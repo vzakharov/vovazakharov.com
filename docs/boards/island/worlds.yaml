@@ -2,7 +2,7 @@ items:
   - id: z-worlds
     type: zone
     updated: [2026-11-07T07:30:00.000Z, agent:lead]
-    box: [4930, 520, 1120, 2000, blue]
+    box: [4930, 520, 1120, 2760, blue]
     text: Infinite worlds — thinking aloud, nothing decided
   - id: worlds-1
     type: sticky
@@ -67,6 +67,21 @@ items:
     updated: [2026-11-07T09:35:00.000Z, agent:lead]
     box: [5480, 2200, 330, yellow]
     text: 'Brainstorm, 7 Nov. "You''re in!" is the line Vova likes: you are in the game, and in world 150. urin.world reads as urine first (Urin is the word in German, Dutch, Swedish); ur.in ($8) loses the "world". youarein.world#150 reads right the first time; yourein.world is free too but can read "you rein". Also free: youarein.games, youreinworld.com. Taken: youarein.com, yourein.com'
+  - id: names-free
+    type: sticky
+    updated: [2026-11-07T09:45:00.000Z, agent:lead]
+    box: [4990, 2620, 330, green]
+    text: 'Free, 7 Nov (~180 checked through unsquatted). .world: youarein, yourein, nowentering, greetingsfrom, postcardfrom, wakeupin, castawayon, strandedon, shipwrecked, arrivein, islandno, worldno, beammeto, setcoursefor, sendmeto, jumpto, chromeplex, myriads, myria, amyriad, googol, numbered, seeded, worldnumber, unmapped, archipela, fallinto, dropinto, fromorbit, drawyour, kidsmade, ourown, pickaworld, sibling, branching. .com: amyriadworlds, myriadofworlds, myriadisles, theinfiniteatlas, libraryofislands, fallintothemap, drawnfromorbit, islandfall, yourworldnumber, everyworldhasanumber, familyofworlds, youreinworld. Also myriadworlds.net / .games / .world, youarein.games'
+  - id: names-taken
+    type: sticky
+    updated: [2026-11-07T09:45:00.000Z, agent:lead]
+    box: [5350, 2620, 300, pink]
+    text: 'Good, but taken. .world: welcometo, welcometothe, thisis, meet, meetthe, hello, hi, visit, enter, arrive, takemeto, nextstop, nowboarding, bonvoyage, wishyouwerehere, lostin, landon, goto, every, any, another, next, other, nth, countless, endless, infinite, number, seed, random, dice, drawn, the, a, one, planet, island, isle, myriad. .com: myriadworlds ($4,395), myriadworld, themyriadworlds, myriadislands, tenthousandworlds, worldseed, worldnumber, libraryofworlds, infiniteatlas, drawnworlds, worldfall, orbitfall, isleverse, chromeplex, amyriad, youarein, yourein. Also myriadworlds.org / .app'
+  - id: names-dropped
+    type: sticky
+    updated: [2026-11-07T09:45:00.000Z, agent:lead]
+    box: [5680, 2620, 300, yellow]
+    text: 'Free, dropped by taste. urin.world: urine first (Urin in German, Dutch, Swedish). ur.in ($8): loses "world". yourein.world: can read "you rein"; youarein reads right the first time. beammeto / setcoursefor: a space game, not this one. byno, nowin, worldno: read badly. mapyoucanfallinto, worldsandtheirchildren: too long to say. papers.world is reserved by the registry'
   - id: worlds-10
     type: sticky
     updated: [2026-11-07T08:40:00.000Z, agent:lead]
