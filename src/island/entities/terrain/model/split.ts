@@ -33,7 +33,7 @@ export const children = ({ level, x, y }: TileKey): TileKey[] => [
  * own height, held within the ground's range: the distance a tile's split is
  * judged by.
  */
-export function viewDistance(eye: Vec3): (x: number, y: number) => number {
+function viewDistance(eye: Vec3): (x: number, y: number) => number {
   const { h } = worldToPlane(eye);
   const level = Math.min(HIGHEST_GROUND, Math.max(LOWEST_GROUND, h));
   return (x, y) => length(sub(eye, planeToWorld(x, y, level)));

@@ -14,7 +14,7 @@ import type { FilledTile, WorkerReply, WorkerRequest } from './tile-protocol';
  * Workers in the pool. Each holds its own coast field (~22 MB), so a few
  * share the fills without a phone paying for one per core.
  */
-export const POOL_SIZE = 2;
+const POOL_SIZE = 2;
 
 /** Fills a worker holds at once: enough to keep it busy, few enough that a newer, nearer tile is not stuck behind a backlog. */
 const IN_FLIGHT = 2;

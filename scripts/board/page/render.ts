@@ -42,7 +42,7 @@ export type RenderOptions = {
 };
 
 /** Who wrote an item, as a reader of the board would name them. */
-export function authorLabel(
+function authorLabel(
   author: string,
   names: Readonly<Record<string, string>>,
 ): string {

@@ -55,7 +55,7 @@ const Evaluated = z.object({
     .optional(),
 });
 
-export type EvaluateOptions = {
+type EvaluateOptions = {
   /** Waits for the promise the expression returns and parses what it resolves to. */
   readonly awaitPromise?: boolean;
 };

@@ -15,19 +15,6 @@ export function signedArea(ring: Ring): number {
   return twice / 2;
 }
 
-/** Even–odd containment of a point in a ring. */
-export function contains(ring: Ring, [x, y]: [number, number]): boolean {
-  let inside = false;
-  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
-    const [xi, yi] = ring[i] ?? [0, 0];
-    const [xj, yj] = ring[j] ?? [0, 0];
-    if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) {
-      inside = !inside;
-    }
-  }
-  return inside;
-}
-
 function distanceToChord(
   [px, py]: [number, number],
   [ax, ay]: [number, number],

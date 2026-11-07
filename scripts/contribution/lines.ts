@@ -5,7 +5,7 @@
  * then one `added<TAB>deleted<TAB>path` line per file it touched.
  */
 
-export type Commit = { sha: string; committedAt: string };
+type Commit = { sha: string; committedAt: string };
 export type FlowRow = Commit & { lines: Record<string, number> };
 
 /** A binary file is `-` in both counts and carries no lines. */

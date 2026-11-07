@@ -3,11 +3,9 @@ export {
   eyeAt,
   type GroundAt,
   IDLE,
-  type Intent,
   MAX_HEIGHT,
-  MIN_HEIGHT,
   step,
   withHeight,
 } from './model/eye';
-export { type Pose, poseOf } from './model/pose';
-export { bindEyeControls, type EyeControls } from './ui/eye-controls';
+export { poseOf } from './model/pose';
+export { bindEyeControls } from './ui/eye-controls';

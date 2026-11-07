@@ -16,7 +16,7 @@ export type EyeControls =
   };
 
 /** Doublings of height per CSS pixel the wheel turns: a 100 px notch is half one. */
-export const WHEEL_DOUBLINGS_PER_PIXEL = 1 / 200;
+const WHEEL_DOUBLINGS_PER_PIXEL = 1 / 200;
 
 /** CSS pixels in a wheel line, for wheels that count in lines. */
 const LINE_PIXELS = 16;
