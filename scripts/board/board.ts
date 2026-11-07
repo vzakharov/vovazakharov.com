@@ -131,6 +131,12 @@ ${TOOLBAR}
 `;
 }
 
+/**
+ * The page's ceiling. One named `import { z }` reaching the page bundles every
+ * zod locale, about 330 KB, and nothing else would notice.
+ */
+const PAGE_BUDGET_KB = 160;
+
 const wrapped = (body: string): string =>
   `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>${body}</body></html>\n`;
 
@@ -141,6 +147,11 @@ async function buildBoard(board: string, out: string): Promise<void> {
     readFile(path.join(PAGE_DIR, 'style.css'), 'utf8'),
   ]);
   const html = page(items, script, css);
+  const kb = Math.round(Buffer.byteLength(html) / 1024);
+  if (kb > PAGE_BUDGET_KB)
+    throw new Error(
+      `the page is ${kb} KB, over its ${PAGE_BUDGET_KB} KB budget: look for a dependency the bundle took whole`,
+    );
   await mkdir(path.join(out, 'images'), { recursive: true });
   await writeFile(path.join(out, 'index.html'), html);
   await writeFile(path.join(out, 'local.html'), wrapped(html));
