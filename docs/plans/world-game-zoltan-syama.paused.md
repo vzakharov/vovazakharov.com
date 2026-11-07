@@ -70,6 +70,16 @@ is in git
   итп, чтобы потом наложить» — every board publish is a timelapse frame, and
   beside it in the release goes `NNNN-slug.json` with the figures to date,
   `python3 .claude/costs/contribution.py --at <time> --json`.
+- «публиковать, когда появляется что-то интересненькое или значимое, неважно,
+  про саму игру или наши обсуждения её … главное чтобы ты вообще не забывал про
+  неё в пылу работы» — the lead republishes whenever something interesting or
+  significant turns up, in the game or in the conversation; what counts is the
+  lead's call. `.claude/hooks/board-notice.py` restates it on every prompt with
+  the operator messages since the last publish.
+- «всё что мы отсюда начинаем должно идти сюда, вне зависимости от его
+  "полезности" для мейна» — every member's PR started from this work targets
+  this branch, never `main`, and the lead merges it here; a PR opened against
+  `main` is retargeted (`gh pr edit <n> --base <this branch>`).
 
 ## Eaten so far
 
@@ -119,6 +129,12 @@ is in git
   stroke is a straight edge. A later bite roughens it below a pixel of the
   drawing (a sub-pixel warp of the coast field), so the drawn shape holds and
   the shore stops being a ruler.
+- **Controls** — #260, merged by fast-forward (1035c167): W/S forward and back
+  along the heading, A/D strafe, ←/→ turn (80°/s, eased), ↑/↓ climb beside
+  PageUp/PageDown and Q/E; right drag and a two-finger twist turn; a key hint
+  bottom-left that fades after first use. Open for the operator: the member's
+  `/five-percent` suggests collapsing the hint to a `?` button rather than
+  hiding it for good.
 
 ## Waiting on the operator
 

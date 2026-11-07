@@ -11,6 +11,8 @@ export type IslandPlayHook = {
   setHeight: (m: number) => Promise<void>;
   /** Puts the eye `m` metres over plane point `(x, y)`, in metres east and north of the island's centre; resolves as `setHeight` does. */
   moveTo: (x: number, y: number, m: number) => Promise<void>;
+  /** Turns the eye so screen-up faces `heading`, radians clockwise from north; resolves as `setHeight` does. */
+  turnTo: (heading: number) => Promise<void>;
   /** Advances the seeded clock by `ms` and draws one frame. */
   step: (ms: number) => void;
   /** The JS time of each frame `step` drew, in ms, oldest first. */
