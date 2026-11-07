@@ -10,7 +10,7 @@
     "costUsd": 4.101165200000001
   },
   "estimate": {
-    "at": "2026-11-07T05:36:40.169Z",
+    "at": "2026-11-07T06:35:41.320Z",
     "parts": [
       {
         "hours": 0.75,
@@ -25,7 +25,8 @@
         "comment": "the seed/layout design for infinite worlds is a world-rules call"
       }
     ],
-    "comment": null
+    "comment": null,
+    "subjectLine": "docs(island): hand member work over by memo, list the review member"
   },
   "orientation": {
     "endedBy": "oriented",
@@ -97,7 +98,11 @@
     "matchedEventUsd": 4.101165200000001,
     "unseen": {}
   },
-  "operatorWords": 347,
+  "operatorWords": {
+    "chat": 347,
+    "review": 0
+  },
+  "reviewPosts": {},
   "branchLines": {
     ".md": 2410,
     ".py": 1140,
