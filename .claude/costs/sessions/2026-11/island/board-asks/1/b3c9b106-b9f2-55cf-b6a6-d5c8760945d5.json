@@ -1,0 +1,118 @@
+{
+  "total": {
+    "inputTokens": 189,
+    "cacheWrite5mTokens": 139396,
+    "cacheWrite1hTokens": 198708,
+    "cacheReadTokens": 17886832,
+    "outputTokens": 63283,
+    "thinkingTokens": 19255,
+    "responses": 99,
+    "costUsd": 7.130426399999999
+  },
+  "estimate": {
+    "at": "2026-11-07T07:40:06.289Z",
+    "subjectLine": "feat(island-board): clickable links, a spiralling line, thread words",
+    "parts": [
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "three small features across a canvas renderer, its YAML codec and a stdlib cost ledger, each needing a browser or pixel check a mid-level dev would likely skip"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "qa",
+        "comment": "pointer behaviour on links (drag, click, double-click) and an unchanged-look snapshot diff need a hands-on pass"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-07T07:27:58.527Z",
+    "contextTokens": 100428,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 34489,
+      "cacheReadTokens": 149550,
+      "outputTokens": 344,
+      "thinkingTokens": 45,
+      "responses": 2,
+      "costUsd": 0.31271800000000005
+    }
+  },
+  "sessionId": "b3c9b106-b9f2-55cf-b6a6-d5c8760945d5",
+  "branch": "island/board-asks",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a member on the island mammoth, branch island/board-asks. Your brief is the lead's first memo note on this branch: `python3 scripts/memo/memo.py show --…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCzCQeyu6VoGQxyXtN",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-07T07:27:50.533Z",
+  "lastResponseAt": "2026-11-07T07:41:30.621Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 159,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 198708,
+    "cacheReadTokens": 16337673,
+    "outputTokens": 55907,
+    "thinkingTokens": 15060,
+    "responses": 83,
+    "costUsd": 5.9759746
+  },
+  "subagents": {
+    "inputTokens": 30,
+    "cacheWrite5mTokens": 139396,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1549159,
+    "outputTokens": 7376,
+    "thinkingTokens": 4195,
+    "responses": 16,
+    "costUsd": 1.1544518
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 189,
+      "cacheWrite5mTokens": 139396,
+      "cacheWrite1hTokens": 198708,
+      "cacheReadTokens": 17886832,
+      "outputTokens": 63283,
+      "thinkingTokens": 19255,
+      "responses": 99,
+      "costUsd": 7.130426399999999
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 99,
+    "matched": 99,
+    "matchedTableUsd": 7.130426399999999,
+    "matchedEventUsd": 7.130426399999999,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    "vzakharov": 1,
+    ".md": 5788,
+    ".py": 2066,
+    ".sh": 4,
+    ".json": 1497,
+    ".staged": 434,
+    ".yaml": 447,
+    ".ts": 9838,
+    ".tsx": 151,
+    ".scss": 503
+  }
+}

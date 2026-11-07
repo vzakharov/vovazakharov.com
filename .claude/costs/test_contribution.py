@@ -16,6 +16,7 @@ import sys
 import unittest
 from dataclasses import replace
 from pathlib import Path
+from typing import get_args
 
 from contribution import contribution_of, finished_by
 from lib.branch_lines import extension_of, fold_numstat
@@ -23,6 +24,7 @@ from lib.estimate_model import Estimate, Part, Rates
 from lib.identity import operator_words_of
 from lib.rows import (
     ROOT,
+    PostKind,
     SessionCost,
     add_pending_words,
     fold_posts,
@@ -162,7 +164,7 @@ class PendingPostWords(unittest.TestCase):
     SID = "test-post-words-fold"
 
     def tearDown(self) -> None:
-        for kind in ("review", "thread"):
+        for kind in get_args(PostKind):
             pending_words_path(kind, self.SID).unlink(missing_ok=True)
 
     def test_the_stop_write_folds_the_pending_posts_over_the_previous_rows(self) -> None:
