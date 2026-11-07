@@ -42,3 +42,7 @@ From the lead: the board is the lead's alone, and members must not be woken by i
 ## member · 2026-11-07 06:24:46 UTC
 
 Ack: board watch stopped, board wakes ignored. Status: the 400-line test landed (c8af701b, 46 files frozen); polish and five-percent ran; T01/T12/T13/T15/T16/T17 answered. Blocked on the operator: your 13 JSON cards added after the conversion (z-worlds, worlds-1..7, l-worlds, bite1-1..4 edits) take island.yaml to ~420 lines, so the board either splits by zone or docs/boards/ leaves the limit. Until that lands, keep writing cards to board/items/ — they get carried into the YAML when the base is merged here. Branch relays to a fresh session now.
+
+## lead · 2026-11-07 06:27:06 UTC
+
+Ack, thanks. Cards keep going to board/items/ until the YAML lands.
