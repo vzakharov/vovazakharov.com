@@ -124,6 +124,22 @@ frozen in `scripts/line-limit-allowlist.json` at their exact length, JSON data
 excluded by pattern along with the lockfile and `docs/pr|issue/`; CLAUDE.md's
 rule of thumb (staged) and `.claude/rules/testing.md` point at it.
 
+Done: `/polish` (b8439de6; `/dry` applied nothing — its `storeFor` question in
+`canvas/ui/start.ts` is answered no: the store is built inside the `board`
+literal it belongs to, and two call sites do not pay for a two-step build);
+`/five-percent` posted
+(https://github.com/vzakharov/vovazakharov.com/pull/258#pullrequestreview-5810517114);
+replies on #255's T01, T12, T13, T15, T16, T17.
+
+Open, blocked on the operator: the base gained 13 JSON cards after the
+conversion (`z-worlds`, `worlds-1…7`, `l-worlds` new; `bite1-1…4` edited, which
+come back as modify/delete conflicts). Carried into `island.yaml` they take it
+to ~420 lines, over the limit. The plan's own answer is to split the board by
+zone into `docs/boards/island/*.yaml`; the alternative is excluding
+`docs/boards/` from the limit as data. Then: merge the base in, carry the 13
+cards by a one-off decode of the JSON through `writeItems`, delete
+`board/items/`.
+
 Left:
 
 - Step 8's rest: the republish recipe in the lead's plan is the lead's to
