@@ -1,0 +1,118 @@
+{
+  "total": {
+    "inputTokens": 97,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 108119,
+    "cacheReadTokens": 6809029,
+    "outputTokens": 26650,
+    "thinkingTokens": 8131,
+    "responses": 48,
+    "costUsd": 2.760145799999999
+  },
+  "estimate": {
+    "at": "2026-11-07T06:32:31.581Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "choosing the flight path and landing so 25 s carry orbit to a beach on the bay takes an eye for framing and the scene's own geometry"
+      },
+      {
+        "hours": 3.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a frame-stepped CDP capture with an ffmpeg encode, sharing the play script's tab plumbing, is routine scripting"
+      },
+      {
+        "hours": 0.5,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "upload, caption and memo hand-off to the lead"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-07T06:15:16.452Z",
+    "contextTokens": 100659,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 39377,
+      "cacheReadTokens": 58193,
+      "outputTokens": 299,
+      "thinkingTokens": 39,
+      "responses": 1,
+      "costUsd": 0.3326426
+    }
+  },
+  "sessionId": "26bb99b2-f78c-52c3-b636-ab60c6a6fa05",
+  "branch": "island/descent-video",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/from-branch island/descent-video the brief is the lead's memo note on this branch — read it with `python3 scripts/memo/memo.py show --branch island/descent-vid…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEzVpgVdUpfbpg4NnQ",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-07T06:15:11.334Z",
+  "lastResponseAt": "2026-11-07T06:34:32.973Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 97,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 108119,
+    "cacheReadTokens": 6809029,
+    "outputTokens": 26650,
+    "thinkingTokens": 8131,
+    "responses": 48,
+    "costUsd": 2.760145799999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 97,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 108119,
+      "cacheReadTokens": 6809029,
+      "outputTokens": 26650,
+      "thinkingTokens": 8131,
+      "responses": 48,
+      "costUsd": 2.760145799999999
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 48,
+    "matched": 48,
+    "matchedTableUsd": 2.760145799999999,
+    "matchedEventUsd": 2.7601457999999988,
+    "unseen": {}
+  },
+  "operatorWords": 0,
+  "branchLines": {
+    "vzakharov": 1,
+    ".md": 4189,
+    ".py": 1176,
+    ".json": 2307,
+    ".webp": 0,
+    ".png": 0,
+    ".ts": 8375,
+    ".css": 413,
+    ".sh": 1,
+    ".tsx": 52,
+    ".scss": 18
+  }
+}
