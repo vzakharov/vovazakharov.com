@@ -1,0 +1,11 @@
+{
+  "kind": "sticky",
+  "id": "worlds-8",
+  "x": 5010,
+  "y": 1175,
+  "w": 330,
+  "color": "blue",
+  "text": "A name for how many worlds fit in a link: Chrome takes ~2 million characters of URL, so ~10^2,000,000 numbers (~830 KB written out). The 'chromeplex'. Funny, if debatable. Its proper name: one hundred sesexagintasescentilliquinsexagintasescentillion.",
+  "updated": "2026-11-07T07:40:00.000Z",
+  "author": "agent:lead"
+}
