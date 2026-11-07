@@ -11,7 +11,6 @@
   },
   "estimate": {
     "at": "2026-11-06T22:22:52.739Z",
-    "subjectLine": null,
     "parts": [
       {
         "hours": 3.0,
@@ -98,13 +97,7 @@
     "matchedEventUsd": 4.851253600000001,
     "unseen": {}
   },
-  "operatorWords": {
-    "chat": 0,
-    "review": 0,
-    "threads": 0
-  },
-  "reviewPosts": {},
-  "threadPosts": {},
+  "operatorWords": 0,
   "branchLines": {
     ".md": 2589,
     ".py": 894,

@@ -11,7 +11,6 @@
   },
   "estimate": {
     "at": "2026-11-06T21:47:02.838Z",
-    "subjectLine": null,
     "parts": [
       {
         "hours": 9.0,
@@ -141,13 +140,7 @@
       }
     }
   },
-  "operatorWords": {
-    "chat": 138,
-    "review": 0,
-    "threads": 0
-  },
-  "reviewPosts": {},
-  "threadPosts": {},
+  "operatorWords": 138,
   "branchLines": {
     ".md": 2376,
     ".py": 894,
