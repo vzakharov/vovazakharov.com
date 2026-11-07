@@ -10,7 +10,7 @@
     "costUsd": 4.359874299999998
   },
   "estimate": {
-    "at": "2026-11-07T06:03:03.038Z",
+    "at": "2026-11-07T06:35:41.320Z",
     "parts": [
       {
         "hours": 0.5,
@@ -25,7 +25,8 @@
         "comment": "numbered worlds, ancestry by digit prefix and determinism as a world rule are design calls a senior designer would reason through with the owner"
       }
     ],
-    "comment": null
+    "comment": null,
+    "subjectLine": "content(island): board notes on the bay, 65-vertex frames, worlds"
   },
   "orientation": {
     "endedBy": "oriented",
@@ -118,7 +119,11 @@
       }
     }
   },
-  "operatorWords": 496,
+  "operatorWords": {
+    "chat": 496,
+    "review": 0
+  },
+  "reviewPosts": {},
   "branchLines": {
     "vzakharov": 1,
     ".md": 4139,
