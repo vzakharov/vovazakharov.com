@@ -1,23 +1,29 @@
 {
   "total": {
-    "inputTokens": 1465,
+    "inputTokens": 1503,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 221319,
-    "cacheReadTokens": 27293421,
-    "outputTokens": 53523,
-    "thinkingTokens": 9219,
-    "responses": 143,
-    "costUsd": 8.2976392
+    "cacheWrite1hTokens": 261732,
+    "cacheReadTokens": 33316309,
+    "outputTokens": 67744,
+    "thinkingTokens": 13051,
+    "responses": 163,
+    "costUsd": 10.1100928
   },
   "estimate": {
-    "at": "2026-11-07T07:43:48.754Z",
-    "subjectLine": null,
+    "at": "2026-11-07T09:30:17.244Z",
+    "subjectLine": "docs: island members merged, board v27–v31, game name brainstorm",
     "parts": [
       {
         "hours": 0.6,
         "grade": "senior",
         "role": "producer",
-        "comment": "merging #258, #263 and board-asks onto the island branch, fixing the plan's board paths and the follow-ups each merge unlocks is a producer's tracking work"
+        "comment": "merging three members' branches with their conflicts, re-pathing the plan and republishing the board is a producer's tracking work"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "copywriter",
+        "comment": "a game's name and domain shortlist across ~180 checked candidates needs a senior ear for how names read and misread"
       }
     ],
     "comment": null
@@ -48,18 +54,18 @@
   "url": "https://claude.ai/code/session_01DaohkCSBpcbq5Nh5ZpFWHC",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-07T07:43:32.862Z",
-  "lastResponseAt": "2026-11-07T09:29:44.407Z",
+  "lastResponseAt": "2026-11-07T09:41:10.334Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 275,
+    "inputTokens": 313,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 221319,
-    "cacheReadTokens": 27293421,
-    "outputTokens": 53355,
-    "thinkingTokens": 9219,
-    "responses": 142,
-    "costUsd": 8.2974362
+    "cacheWrite1hTokens": 261732,
+    "cacheReadTokens": 33316309,
+    "outputTokens": 67576,
+    "thinkingTokens": 13051,
+    "responses": 162,
+    "costUsd": 10.1098898
   },
   "subagents": {
     "inputTokens": 0,
@@ -73,14 +79,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 275,
+      "inputTokens": 313,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 221319,
-      "cacheReadTokens": 27293421,
-      "outputTokens": 53355,
-      "thinkingTokens": 9219,
-      "responses": 142,
-      "costUsd": 8.2974362
+      "cacheWrite1hTokens": 261732,
+      "cacheReadTokens": 33316309,
+      "outputTokens": 67576,
+      "thinkingTokens": 13051,
+      "responses": 162,
+      "costUsd": 10.1098898
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1190,
@@ -96,10 +102,10 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 143,
-    "matched": 142,
-    "matchedTableUsd": 8.2974362,
-    "matchedEventUsd": 8.2974362,
+    "events": 163,
+    "matched": 162,
+    "matchedTableUsd": 10.1098898,
+    "matchedEventUsd": 10.1098898,
     "unseen": {
       "generate_session_title": {
         "inputTokens": 1190,
@@ -114,7 +120,7 @@
     }
   },
   "operatorWords": {
-    "chat": 198,
+    "chat": 292,
     "review": 0,
     "threads": 101
   },
@@ -135,7 +141,7 @@
     ".json": 1507,
     ".staged": 434,
     ".yml": 8,
-    ".yaml": 525,
+    ".yaml": 540,
     ".ts": 10214,
     ".tsx": 151,
     ".scss": 523
