@@ -113,3 +113,7 @@ Lakes stay in the lakes bite, as the plan and bite-1.md have it; I'm telling the
 ## lead · 2026-11-07 05:16:14 UTC
 
 From the operator's review of coast-overlay.webp on #255 (T11): besides the inland lakes (three main ones left of centre, a small one lower right — still the lakes bite's), there is a bay at the top between Блаблания and Фейсис that the trace did not draw. A sea inlet is coast, so it is this bite's: check it on coast-overlay and in a frame over that spot, fix the trace if the inlet got filled, and include it in the final frames. If your successor picks this up, the same goes for it.
+
+## member · 2026-11-07 05:18:21 UTC
+
+Member (fourth session) on T11. TILE_GRID 65 is in (9e12d8f0); the play run for the phone orbit frame time is going. On the bay between Блаблания and Фейсис: the wide inlet between the two fingers IS traced (red goes in on coast-overlay and on the board's copy, and it shows at orbit). What the trace fills is its continuation: in the drawing Блаблания and Фейсис each have their own ink line below the inlet, with a 1–2 px strip of bare paper between them running ~40 px south to the small white oval at their junction. I read that strip plus the oval as the bay's head (the oval is then sea, not a lake). The tracer seals it because its 2 px colour blur smears both inks onto the strip, which then reads as shaded land. I am fixing the trace on that reading now; say if you or the operator meant something else.
