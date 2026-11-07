@@ -6,16 +6,17 @@
  *   pnpm tsx docs/remove-before-merging/island/review-1/import-items.ts \
  *     <items dir> <images dir> <board.yaml>
  *
- * Each `<id>.json` must parse as an `Item`; only a card newer than the board's
- * copy, or absent from it, is written — through `writeBoardFiles`, so it lands
+ * Each `<id>.json` must parse as an `Item`; only a card absent from the board,
+ * or differing from the board's copy and no older than it, is written — through `writeBoardFiles`, so it lands
  * in the file its zone names. An image card's file is copied from
  * `<images dir>` beside the board's other images.
  */
 import { copyFile, readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { isDeepStrictEqual } from 'node:util';
 import { format, resolveConfig } from 'prettier';
 
-import { Item, newerThan } from '@/island-board/entities/item';
+import { Item } from '@/island-board/entities/item';
 
 import {
   boardDir,
@@ -49,7 +50,17 @@ const cards = await Promise.all(
       Item.parse(JSON.parse(await readFile(path.join(itemsDir, name), 'utf8'))),
     ),
 );
-const changed = newerThan(decodeBoardFiles(board, files), cards);
+// Not `newerThan` alone: the lead has moved a card without touching `updated`.
+const onBoard = new Map(
+  decodeBoardFiles(board, files).map((item) => [item.id, item]),
+);
+const changed = cards.filter((card) => {
+  const current = onBoard.get(card.id);
+  return (
+    current === undefined ||
+    (card.updated >= current.updated && !isDeepStrictEqual(card, current))
+  );
+});
 
 await Promise.all(
   changed.map(async (card) => {
@@ -70,6 +81,6 @@ await Promise.all(
   }),
 );
 process.stdout.write(
-  `${cards.length} cards, ${changed.length} newer: ${changed.map((card) => card.id).join(', ') || 'none'}\n` +
+  `${cards.length} cards, ${changed.length} changed: ${changed.map((card) => card.id).join(', ') || 'none'}\n` +
     `${written.size} files written: ${[...written.keys()].map((file) => path.relative(process.cwd(), file)).join(', ') || 'none'}\n`,
 );

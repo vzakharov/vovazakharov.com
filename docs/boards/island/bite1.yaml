@@ -6,24 +6,24 @@ items:
     text: Bite 1 — the thinnest descent
   - id: bite1-1
     type: sticky
-    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    updated: [2026-11-07T06:30:00.000Z, agent:lead]
     box: [2470, -1063, 325, pink]
-    text: /island opens on the island from orbit; scroll, pinch or a key takes the eye down to 2 m over the ground, with no loading screen
+    text: ✓ /island opens on the island from orbit; scroll, pinch or a key takes the eye down to 2 m over the ground, with no loading screen
   - id: bite1-2
     type: sticky
-    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    updated: [2026-11-07T06:30:00.000Z, agent:lead]
     box: [2820, -1063, 325, pink]
-    text: The map traced once into a coastline at real scale; height a pure function of place and seed; tiles by (level, x, y) bent onto the sphere, filled in a worker
+    text: ✓ The map traced once into a coastline at real scale; height a pure function of place and seed; tiles by (level, x, y) bent onto the sphere, filled in a worker
   - id: bite1-3
     type: sticky
-    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    updated: [2026-11-07T06:30:00.000Z, agent:lead]
     box: [2470, -819, 325, pink]
-    text: 'Contract: docs/plans/world-game-zoltan-syama/bite-1.md. Branch island/bite-1-descent, PR #256'
+    text: '✓ Contract: docs/plans/world-game-zoltan-syama/bite-1.md. Branch island/bite-1-descent, merged into the island branch as PR #259'
   - id: bite1-4
     type: sticky
-    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    updated: [2026-11-07T06:30:00.000Z, agent:lead]
     box: [2820, -819, 325, pink]
-    text: 'Done: five heights (orbit, 1,000 km, 10 km, 100 m, 2 m) on a phone and a desktop, looked at beside the drawing'
+    text: '✓ Done: five heights (orbit, 1,000 km, 10 km, 100 m, 2 m) on a phone and a desktop, looked at beside the drawing'
   - id: bite1-5
     type: sticky
     updated: [2026-11-07T05:45:00.000Z, agent:lead]
@@ -71,3 +71,8 @@ items:
     box: [2470, -590, 190]
     src: images/descent-orbit.webp
     text: orbit
+  - id: controls
+    type: sticky
+    updated: [2026-11-07T07:10:00.000Z, agent:lead]
+    box: [3170, -1063, 300, pink]
+    text: "✓ Controls (#260, Vova's layout): W/S forward and back, A/D strafe, ←/→ turn, ↑/↓ climb (Q/E and PageUp/PageDown still work); right drag or a two-finger twist turns. A key hint bottom-left fades after first use. Open: collapse it to a '?' button instead?"

@@ -69,20 +69,17 @@ is in git
   итп, чтобы потом наложить» — every board publish is a timelapse frame, and
   beside it in the release goes `NNNN-slug.json` with the figures to date,
   `python3 .claude/costs/contribution.py --at <time> --json`.
-<<<<<<< HEAD
 - R02, settled in chat after «давай создадим ветку epic/island-part-1» — no epic
   branch: #255's head is the mammoth and reaches `main` through cuts,
   `island/cut-N`, each finalized and squashed while bites keep landing here,
   then `main` merged back. The plan, board and relays are swept from a cut only.
   `.claude/skills/mammoth/notes/gates.md` carries the cycle.
-=======
 - «публиковать, когда появляется что-то интересненькое или значимое, неважно,
   про саму игру или наши обсуждения её … главное чтобы ты вообще не забывал про
   неё в пылу работы» — the lead republishes whenever something interesting or
   significant turns up, in the game or in the conversation; what counts is the
   lead's call. `.claude/hooks/board-notice.py` restates it on every prompt with
   the operator messages since the last publish.
->>>>>>> origin/claude/world-game-zoltan-syama-hodowq
 
 ## Eaten so far
 

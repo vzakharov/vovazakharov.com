@@ -5,11 +5,9 @@
  * turns its own into one, and a rule judging ground or sight reads only this.
  */
 
-<<<<<<< HEAD
-import type { Point } from '@/scene/shared/lib/plane';
-=======
 import type { Gridded } from '@/kernel/shared/typings';
->>>>>>> origin/claude/world-game-zoltan-syama-hodowq
+
+import type { Point } from '@/scene/shared/lib/plane';
 
 import {
   type Box,
