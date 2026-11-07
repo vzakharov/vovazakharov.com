@@ -114,8 +114,11 @@ the object by zod/mini, and announced the relay. (verbatim in Last agent turn)
 includes, а форму объекта целиком проверяем через zod/mini — не, ну зачем нам
 проверять через includes если все равно зод везём. заменить на /mini -- можно»
 
-**Agent:** sent it to the board-asks member by memo as a fourth ask, then this
-relay.
+**Agent:** sent it to the board-asks member by memo as a fourth ask.
+
+**Operator:** «хотя сейчас это все равно не нужно, "на потом"»
+
+**Agent:** withdrew the fourth ask by memo, then this relay.
 
 ## 3. Intent
 
@@ -128,9 +131,9 @@ and the board.
 - World numbers — open fork, lead recommends (2): opaque number hashed whole,
   lineage as a path `150/3/7`, the island a drawn root stored as data. Awaiting
   the operator.
-- zod on the board page — decided: `zod/mini` for the db rows, no `includes`
-  checks beside it, the baked data not re-parsed. Sent to the board-asks member
-  as its fourth ask.
+- zod on the board page — `zod/mini` instead of zod, no `includes` checks
+  beside it: agreed «на потом», not now. Withdrawn from the board-asks member;
+  put it on the board's later-bites zone when next publishing.
 - Domains: recommendation above; nothing bought.
 - Board layout: bite 1 zone at y -1650 h 1420 above the l-way arrow (y ≈ -70);
   z-scale at y 130; z-perf at y 1060 h 470.
