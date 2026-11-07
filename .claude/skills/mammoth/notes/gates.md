@@ -173,7 +173,24 @@
   inside the repo**, so the `Stop` hook reports it untracked on every turn the
   agent runs, and a stale one would sit in `pnpm test`'s glob. Remove each with
   `git worktree remove --force` and its `worktree-agent-*` branch as its report
-  lands.
+  lands. Such a worktree starts from the default branch, not from the session's:
+  the review sub-branch of #255 got a worktree off `main` whose commits then had
+  to be cherry-picked. Brief an agent that needs the branch's code into a
+  `git worktree add tmp/<name> -b <branch> HEAD` made first.
+- **A mammoth reaches `main` through cuts, never directly.** The island's
+  operator weighed an epic branch off `main` for #255 and settled on this cycle
+  instead: cut `<run>/cut-N` from the mammoth's head, `/finalize` the cut and
+  squash it into `main` while members keep merging bites into the mammoth, then
+  `git fetch origin main && git merge origin/main` into the mammoth. The mammoth
+  never waits on vet, polish or review, and `/finalize`'s own commits — the
+  `docs/plans/` and `docs/remove-before-merging/` sweep, polish and vet fixes —
+  land on a branch no bite merges into, so the plan, board and relays stay on
+  the mammoth. Generic tooling reaches `main` every cycle without sorting. The
+  cost: after the squash the mammoth's commits are no ancestors of `main`, so
+  its PR's Commits tab keeps the whole history; restart the mammoth as a fresh
+  branch off `main` at a cut with no bite in flight, and otherwise live with it.
+  The skill should run the cycle whenever a reviewable body of work has landed,
+  and name the restart as a choice at each cut.
 - **A red test can predate the bite's tail and surface only by accident.**
   `ink.test.ts` was red since 9ea434ac (a firefly colour) and came to light when
   an agent ran it for an unrelated change. The skill should run the whole suite

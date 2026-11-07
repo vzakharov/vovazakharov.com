@@ -67,6 +67,11 @@ is in git
   итп, чтобы потом наложить» — every board publish is a timelapse frame, and
   beside it in the release goes `NNNN-slug.json` with the figures to date,
   `python3 .claude/costs/contribution.py --at <time> --json`.
+- R02, settled in chat after «давай создадим ветку epic/island-part-1» — no epic
+  branch: #255's head is the mammoth and reaches `main` through cuts,
+  `island/cut-N`, each finalized and squashed while bites keep landing here,
+  then `main` merged back. The plan, board and relays are swept from a cut only.
+  `.claude/skills/mammoth/notes/gates.md` carries the cycle.
 
 ## Eaten so far
 
