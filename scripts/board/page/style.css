@@ -60,12 +60,22 @@ body {
   cursor: grabbing;
 }
 
+/* The camera's transform sits on a wrapper, not on the `<svg>`: on an SVG root
+   it costs a layout and a repaint every frame of a pan. */
+#camera,
 #world,
 #lines {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+#camera {
   transform-origin: 0 0;
+}
+
+#stage.lifted > #camera {
+  will-change: transform;
 }
 
 #lines {

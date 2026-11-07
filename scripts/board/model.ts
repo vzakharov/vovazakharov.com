@@ -6,7 +6,9 @@
  * A deletion is a tombstone (`deleted: true`), kept through every merge, so an
  * older copy elsewhere never brings the item back.
  */
-import { z } from 'zod';
+// A namespace import, unlike `import { z }`, lets esbuild leave zod's locales
+// out of the board page — about 300 KB of a 130 KB page.
+import * as z from 'zod';
 
 /** The `db` path grammar's segment alphabet, so an item id is its row's doc id. */
 const ID = z.string().regex(/^[\w-]{1,64}$/);
