@@ -1,9 +1,0 @@
-{
-  "kind": "line",
-  "id": "l-map-overlay",
-  "from": "map",
-  "to": "coast-overlay",
-  "label": "traced into",
-  "updated": "2026-11-06T22:20:00.000Z",
-  "author": "agent:lead"
-}

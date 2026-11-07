@@ -1,0 +1,377 @@
+title: Island board
+artifact: https://claude.ai/artifact/5ya2F3bA8kwrmLhEyAib3P
+items:
+  - id: bite0-1
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1166, 207, 325, orange]
+    text: '✓ The board: this page, its sync and snapshot (scripts/board/)'
+  - id: bite0-2
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1500, 207, 326, orange]
+    text: '✓ The case study, written as we go: sites/vova/public/case-studies/island.md, first entry "how it all began", with a board snapshot'
+  - id: bite0-3
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1835, 207, 325, orange]
+    text: '✓ scripts/memo/memo.py: lead/member, one channel per branch'
+  - id: bite0-4
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1195, 451, 323, orange]
+    text: ✓ Rename .claude/skills/megabeast/ → mammoth/
+  - id: bite0-5
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1530, 451, 323, orange]
+    text: "✓ The human contribution: the operator's words across sessions and reviews; lines of code per extension over time (cumflow)"
+  - id: bite0-6
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1864, 451, 324, orange]
+    text: '✓ The first step toward the star and its member: bite 1, the thinnest descent'
+  - id: bite1-1
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [2470, -1063, 325, pink]
+    text: /island opens on the island from orbit; scroll, pinch or a key takes the eye down to 2 m over the ground, with no loading screen
+  - id: bite1-2
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [2820, -1063, 325, pink]
+    text: The map traced once into a coastline at real scale; height a pure function of place and seed; tiles by (level, x, y) bent onto the sphere, filled in a worker
+  - id: bite1-3
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [2470, -819, 325, pink]
+    text: 'Contract: docs/plans/world-game-zoltan-syama/bite-1.md. Branch island/bite-1-descent, PR #256'
+  - id: bite1-4
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [2820, -819, 325, pink]
+    text: 'Done: five heights (orbit, 1,000 km, 10 km, 100 m, 2 m) on a phone and a desktop, looked at beside the drawing'
+  - id: bite1-5
+    type: sticky
+    updated: [2026-11-07T05:45:00.000Z, agent:lead]
+    box: [2470, -400, 325, pink]
+    text: "The bay between Blablania and Feisis (review T11): below its mouth the two coasts run a single pixel of paper apart for ~250 km, and the tracer's blur read that pixel as land. Fixed by authored sea strokes, cut from the finished land mask so nothing else moves — a one-pixel strait is past what any general rule can tell from two coasts touching. Every other ring shifted under 20 m."
+  - id: bite1-inlet-head
+    type: image
+    updated: [2026-11-07T05:45:00.000Z, agent:lead]
+    box: [3160, -390, 300]
+    src: images/bite1-inlet-head.webp
+    text: Its channel from 300 km, ~19 km wide
+  - id: bite1-inlet
+    type: image
+    updated: [2026-11-07T05:45:00.000Z, agent:lead]
+    box: [2830, -400, 300]
+    src: images/bite1-inlet.webp
+    text: The bay, from 1,500 km
+  - id: call-1
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1148, -819, 243, blue]
+    text: 'Real scale: Arc is the DR Congo, the island ~5,000 km across, on an Earth-sized planet. Going far means going up'
+  - id: call-2
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1483, -818, 243, blue]
+    text: A drawn map is the input. Traced once into a vector coastline; the game builds from the vector, never the image
+  - id: call-3
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1818, -818, 242, blue]
+    text: One coastline + one seed fix the world to the last pebble. Nothing stored but the coastline (and, one day, what players change)
+  - id: call-4
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1177, -572, 245, blue]
+    text: 'The coast fractals as you approach: capes, coves and rocks added level by level'
+  - id: call-5
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1512, -573, 244, blue]
+    text: "Two tiers: whole-map things (rivers to the sea, climate) computed once; everything finer a pure function of a tile's key"
+  - id: call-6
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1847, -572, 244, blue]
+    text: 'three.js WebGPURenderer, falling back to WebGL 2 by itself: one code path, tiles filled in workers'
+  - id: call-7
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1147, -327, 244, blue]
+    text: src/island/, served at /island on vovazakharov.com beside /mushrooms
+  - id: coast-overlay
+    type: image
+    updated: [2026-11-07T05:45:00.000Z, agent:lead]
+    box: [150, 480, 600]
+    src: images/coast-overlay.webp
+    text: 'The coast as bite 1 traced it, over the drawing: red the main island, blue the rest; the bay between Blablania and Feisis cut in by hand'
+  - id: descent-1000km
+    type: image
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [2675, -590, 190]
+    src: images/descent-1000km.webp
+    text: 1,000 km
+  - id: descent-100m
+    type: image
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [3085, -590, 190]
+    src: images/descent-100m.webp
+    text: 100 m
+  - id: descent-10km
+    type: image
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [2880, -590, 190]
+    src: images/descent-10km.webp
+    text: 10 km
+  - id: descent-2m
+    type: image
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [3290, -590, 190]
+    src: images/descent-2m.webp
+    text: 2 m
+  - id: descent-orbit
+    type: image
+    updated: [2026-11-07T05:45:00.000Z, agent:lead]
+    box: [2470, -590, 190]
+    src: images/descent-orbit.webp
+    text: orbit
+  - id: forecast
+    type: sticky
+    updated: [2026-11-06T22:20:00.000Z, agent:lead]
+    box: [40, -930, 760, gray]
+    text: |-
+      About 3,120 hours, seven people, the busiest five months:
+      • graphics programmer, senior — 800 h
+      • technical artist, senior — 640 h
+      • environment artist, middle — 480 h
+      • gameplay programmer, senior — 320 h
+      • producer, senior — 320 h
+      • game designer, senior — 240 h
+      • QA, middle — 240 h
+      • audio engineer, senior — 80 h
+      Compared with the ledger at the end.
+  - id: l-map-overlay
+    type: line
+    updated: [2026-11-06T22:20:00.000Z, agent:lead]
+    ends: [map, coast-overlay]
+    text: traced into
+  - id: l-scale
+    type: line
+    updated: [2026-11-06T21:32:00.000Z, agent:lead]
+    ends: [later-2, z-scale]
+    text: seen in
+  - id: l-way
+    type: line
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    ends: [map, z-star]
+    text: done → in hand → next → the north star
+  - id: later-1
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [3820, -730, 300, blue]
+    text: 'The sea bite: the general feel of web-ocean, sea and sky. A sun glint from orbit is optional, not required'
+  - id: later-2
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [3980, -470, 320, yellow]
+    text: "Scale: (a) stays. (a) The map's README: “Arc is the size of the DR Congo”, so all land ≈ 10 M km², Europe-sized; our trace matches (5,000 km across). (b) Vova recalled Zoltan meaning the whole island Congo-sized: half the width, ~2.5 M km². A half-width render lost the snowy highlands — “fewer mountains; back to the original size”"
+  - id: later-3
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [4340, -470, 260, pink]
+    text: '☐ Vova: ask Zoltan whether Congo-sized meant Arc or the whole island'
+  - id: mammoth-1
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1152, 903, 249, yellow]
+    text: A lead session holds the plan and the PR; members are separate cloud sessions, one bite each
+  - id: mammoth-2
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1486, 903, 249, yellow]
+    text: A bite is a branch off this one with a PR based on it; its contract a sticky here
+  - id: mammoth-3
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1821, 903, 250, yellow]
+    text: 'The channel: a memo file on each bite branch (scripts/memo.py). Survives relays'
+  - id: mammoth-4
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1183, 1149, 250, yellow]
+    text: The lead merges a bite once vet is green and it has looked at the frames, then publishes /preview live
+  - id: mammoth-5
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1518, 1150, 250, yellow]
+    text: Several bites at once where their files don't overlap
+  - id: mammoth-6
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1852, 1149, 251, yellow]
+    text: "What works and what doesn't: .claude/skills/mammoth/notes/"
+  - id: map
+    type: image
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [0, -350, 900]
+    src: images/map-zoltan-syama.webp
+    text: The map Zoltan and Syama drew — the first input. White is water, everything else is land.
+  - id: size-full-desktop-1000km
+    type: image
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [2450, 455, 300]
+    src: images/size-full-desktop-1000km.webp
+    text: As drawn (~5,000 km across) — 1,000 km
+  - id: size-full-desktop-100m
+    type: image
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [2450, 705, 300]
+    src: images/size-full-desktop-100m.webp
+    text: As drawn (~5,000 km across) — 100 m
+  - id: size-full-desktop-orbit
+    type: image
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [2450, 205, 300]
+    src: images/size-full-desktop-orbit.webp
+    text: As drawn (~5,000 km across) — orbit
+  - id: size-full-phone-orbit
+    type: image
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [3120, 630, 140]
+    src: images/size-full-phone-orbit.webp
+    text: As drawn
+  - id: size-half-desktop-1000km
+    type: image
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [2780, 455, 300]
+    src: images/size-half-desktop-1000km.webp
+    text: Half width — 1,000 km
+  - id: size-half-desktop-100m
+    type: image
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [2780, 705, 300]
+    src: images/size-half-desktop-100m.webp
+    text: Half width — 100 m
+  - id: size-half-desktop-orbit
+    type: image
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [2780, 205, 300]
+    src: images/size-half-desktop-orbit.webp
+    text: Half width — orbit
+  - id: size-half-phone-orbit
+    type: image
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [3280, 630, 140]
+    src: images/size-half-phone-orbit.webp
+    text: Half width
+  - id: size-operator-drc-vs-island
+    type: image
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [3120, 205, 300]
+    src: images/size-operator-drc-vs-island.webp
+    text: 'Vova on Google Earth: the DR Congo circled, at the same height as the island from orbit'
+  - id: star-1
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [4952, -327, 288, green]
+    text: The whole island from orbit, real enough to pass for a satellite photo, clouds drifting over it
+  - id: star-2
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [5287, -326, 288, green]
+    text: The dive through the cloud layer, and the shift from spirit to bird
+  - id: star-3
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [5622, -327, 288, green]
+    text: 'The land taking shape on the way down: a coast that fractals, hills, rivers, lakes, forests, then single trees, rocks and grass'
+  - id: star-4
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [4983, -83, 290, green]
+    text: A sea that is a sea at every height, from glitter seen from orbit to waves at the shore
+  - id: star-5
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [5318, -83, 290, green]
+    text: 'Three bodies, each read from how it moves: spirit (no bob, fast), bird (glides down, flaps to climb), walker. Go far by climbing'
+  - id: star-6
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [5653, -82, 289, green]
+    text: A phone in a child's hands as much as a laptop
+  - id: star-7
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [4953, 162, 289, green]
+    text: 'Your own map: a drawing loaded in the browser becomes a world the same way'
+  - id: star-8
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [5289, 161, 292, green]
+    text: 'Beyond: towns at the drawn cities, borders, people, animals'
+  - id: star-9
+    type: sticky
+    updated: [2026-11-07T05:55:00.000Z, agent:lead]
+    box: [5630, 168, 290, green]
+    text: 'Infinite worlds: <url>#<seed> makes a whole world, the same for everyone down to a pebble on the beach. Ours is one exact world among them, and maybe the one every other world starts from. Under discussion.'
+  - id: subtitle
+    type: text
+    updated: [2026-11-06T22:20:00.000Z, agent:lead]
+    box: [0, -1180, 900, body]
+    text: "The mammoth's board, in place of its plan. Anyone may add to it: double-click for a sticky, drag to move. The lead session syncs what you add back into the repo."
+  - id: title
+    type: text
+    updated: [2026-11-06T22:20:00.000Z, agent:lead]
+    box: [0, -1300, 2400, h1]
+    text: 'Island: exploring the world Zoltan and Syama drew'
+  - id: web-ocean
+    type: image
+    updated: [2026-11-06T22:20:00.000Z, agent:lead]
+    box: [230, 1040, 440]
+    src: images/web-ocean.webp
+    text: 'Inspiration: Noniv/web-ocean — what a browser can do with sea and sky. Nothing copied.'
+  - id: z-bite0
+    type: zone
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1150, 120, 1060, 600, orange]
+    text: Bite 0 — the lead's own
+  - id: z-bite1
+    type: zone
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [2440, -1150, 1060, 1040, pink]
+    text: Bite 1 — the thinnest descent
+  - id: z-calls
+    type: zone
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1120, -930, 1060, 790, blue]
+    text: The calls everything else stands on
+  - id: z-forecast
+    type: zone
+    updated: [2026-11-06T22:20:00.000Z, agent:lead]
+    box: [-30, -1040, 900, 600, gray]
+    text: 'A stab in the dark: what a studio would spend'
+  - id: z-later
+    type: zone
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [3780, -810, 880, 700, blue]
+    text: Later bites, and what is asked
+  - id: z-mammoth
+    type: zone
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1100, 790, 1100, 680, yellow]
+    text: How the mammoth is eaten
+  - id: z-scale
+    type: zone
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [2420, 130, 1060, 870, yellow]
+    text: 'Scale: the island as drawn vs at half width'
+  - id: z-star
+    type: zone
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [4900, -410, 1060, 820, green]
+    text: The north star — in no order

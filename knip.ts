@@ -14,6 +14,10 @@ export default {
     'steiger.config.mjs',
     // Named by string in `sites/site-next-config.ts`, as `createNextIntlPlugin` wants.
     'src/kernel/shared/i18n/request.ts',
+    // `src/board/scripts/board.ts` bundles the page from an entry it writes
+    // inline and compiles the stylesheet by path.
+    'src/board/pages/board/index.ts',
+    'src/board/app/styles/board.scss',
     // Run by `scripts/vet-test.sh`, which hands node the files rather than a
     // glob a `package.json` script spells.
     '**/*.test.ts',
