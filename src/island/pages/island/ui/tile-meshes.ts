@@ -8,6 +8,8 @@ import {
 
 import type { CanDispose } from '@/kernel/shared/typings';
 
+import type { Centred } from '@/scene/shared/lib/plane';
+
 import type { Vec3 } from '@/island/shared/globe';
 import {
   MIN_LEVEL,
@@ -24,12 +26,12 @@ import { HEIGHT_ATTRIBUTE } from './ground-lighting';
 /** Tiles held before the least recently drawn are let go. */
 const CAPACITY = 900;
 
-type Held = TileKeyed & {
-  readonly meshes: readonly Mesh[];
-  /** World position of the tile's centre, float64. */
-  readonly centre: Vec3;
-  lastDrawn: number;
-};
+/** `centre` is the tile's world position, float64. */
+type Held = TileKeyed &
+  Readonly<Centred<Vec3>> & {
+    readonly meshes: readonly Mesh[];
+    lastDrawn: number;
+  };
 
 export type TileMeshes = CanDispose & {
   readonly has: (id: string) => boolean;

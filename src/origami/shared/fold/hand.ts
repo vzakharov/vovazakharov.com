@@ -3,6 +3,8 @@
  * sprung to where a rigid turn about the crease carries it, so the turn is a
  * force from outside and no crease has to drive it.
  */
+import type { Centred } from '@/scene/shared/lib/plane';
+
 import type { Meshed } from './mesh.ts';
 import type { Pose } from './pose.ts';
 import type { Guide, Spring } from './simulator.ts';
@@ -14,7 +16,7 @@ import type { Moved, Piece } from './state.ts';
 const ROUNDS = 50;
 
 /** A line through `centre` along unit `direction`. */
-export type Axis = { readonly centre: Vec3; readonly direction: Vec3 };
+export type Axis = Readonly<Centred<Vec3>> & { readonly direction: Vec3 };
 
 const scale3 = (a: Vec3, s: number): Vec3 => [a[0] * s, a[1] * s, a[2] * s];
 const unit = (a: Vec3): Vec3 => scale3(a, 1 / Math.hypot(...a));
