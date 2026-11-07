@@ -21,7 +21,7 @@ I wanted a game based on it — just an exploration game for now.
 
 ### The descent
 
-Picture this. First you see the whole island from almost-space. Clouds drift across it here and there, so it isn’t a “Google Maps” view but something close to real.
+First you see the whole island from almost-space. Clouds drift across it here and there, so it isn’t a “Google Maps” view but something close to real.
 
 You go down. Up to a certain point you’re an indefinite, bodiless creature that can move — zoom in — very fast. As you near bird’s-eye height, roughly when you pass through the cloud layer, you become a bird gliding over it all. The land comes closer and closer and starts to take shape. When you’re close, rivers become rivers, hills become hills, trees become trees. No towns, people or animals yet — that comes later. For now it is an untouched world to explore. And right by the ground, you start to walk.
 
@@ -29,7 +29,7 @@ You never see yourself, but you can guess what you are from how you move: no bob
 
 The world can’t be generated all at once, of course, only as you approach: what is visible from a given height, at the moment it becomes visible; where exactly each tree stands, once you’re close enough to see it.
 
-So that nobody (the agent included) thought this was out of reach, I pointed at a small repo, [web-ocean](https://github.com/Noniv/web-ocean) — a browser drawing sea and sky well enough to stop you scrolling. Not to borrow from; just proof that it can be done.
+So that nobody (the agent included) thought this was out of reach, I pointed at a small repo, [web-ocean](https://github.com/Noniv/web-ocean) — sea and sky drawn in a browser, and drawn well. It was there as proof that this can be done, not as code to borrow.
 
 ### What we settled before writing any code
 
