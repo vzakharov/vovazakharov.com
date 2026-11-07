@@ -101,6 +101,35 @@ it.
 The board is republished by the lead only: this work ends with the lead told, by
 memo, that the next publish is from the new source.
 
+## Progress
+
+Done (bf080539): steps 1–6 and the `package.json` half of 8. Where the work
+departed from the shape above:
+
+- `board` hangs off `scene` in `masd.json`, for the plane types.
+- The YAML codec is `src/board/scripts/lib/board-file.ts`, not in the entity:
+  only the script reads the file, and the page bundle stays free of `yaml`.
+- `pages/board` is three sub-slices, `camera/`, `drawing/` (render, hand) and
+  `canvas/` (the rest), because `masd:clusters` found render+hand a cluster.
+- The page's entry is written inline by the script (as the mushroom build does),
+  so knip names `pages/board/index.ts` and `board.scss` as entries.
+- An image item carries `src:` beside `box`; the file's `title` is
+  `Island board`, the page's title as before.
+- Checked: decode of the YAML equals the 69 old item files; the built page's
+  snapshot is pixel-identical to the pre-move one; lint, tsc, knip, Steiger,
+  `check:masd`, cycles, clusters, poison and the board's 28 tests green.
+
+Left:
+
+- Step 7, the line-limit test and its shrink-only allowlist.
+- Step 8's rest: the republish recipe in the lead's plan is the lead's to
+  change, so it goes in the memo (below) rather than an edit here.
+- `/polish`, then `/pr` refresh; replies on #255's T01, T12, T13, T15, T16, T17
+  with the SHAs; a memo to the lead that the board's source moved
+  (`pnpm board build docs/boards/island.yaml`, default out `tmp/board/island`,
+  `sync docs/boards/island.yaml <rows> [<assets>]`) and that new cards go into
+  the YAML, not `board/items/`.
+
 ## DRY notes
 
 - **Reused:** `mergeItems`/`newerThan` keep serving the page's store and `sync`
