@@ -42,6 +42,15 @@ export type MaskOptions = {
   minColouredShare: number;
   /** A piece of land with fewer pixels than this is dropped. */
   islandFloor: number;
+  /** Sea the drawing holds narrower than the rest of the mask resolves — a
+   * strait between two coastlines inked a pixel apart — as polylines in
+   * pixels, every pixel within `radius` of one taken out of the land. */
+  seaStrokes?: readonly SeaStroke[];
+};
+
+type SeaStroke = {
+  readonly path: ReadonlyArray<readonly [number, number]>;
+  readonly radius: number;
 };
 
 type Rgb = [number, number, number];
@@ -179,6 +188,42 @@ function dilate(
   if (radius <= 0) return mask;
   const near = boxMean(mask, width, height, radius);
   return Uint8Array.from(near, (share) => (share > 0 ? 1 : 0));
+}
+
+/** Every pixel whose centre lies within a stroke's radius of its path, set. */
+function stroked(
+  strokes: readonly SeaStroke[],
+  width: number,
+  height: number,
+): Uint8Array {
+  const mask = new Uint8Array(width * height);
+  for (const { path, radius } of strokes) {
+    for (let k = 1; k < path.length; k++) {
+      const [ax, ay] = path[k - 1] ?? [0, 0];
+      const [bx, by] = path[k] ?? [0, 0];
+      const dx = bx - ax;
+      const dy = by - ay;
+      const length2 = dx * dx + dy * dy || 1;
+      const top = Math.max(0, Math.floor(Math.min(ay, by) - radius));
+      const bottom = Math.min(height - 1, Math.ceil(Math.max(ay, by) + radius));
+      const left = Math.max(0, Math.floor(Math.min(ax, bx) - radius));
+      const right = Math.min(width - 1, Math.ceil(Math.max(ax, bx) + radius));
+      for (let y = top; y <= bottom; y++) {
+        for (let x = left; x <= right; x++) {
+          const px = x + 0.5;
+          const py = y + 0.5;
+          const t = Math.max(
+            0,
+            Math.min(1, ((px - ax) * dx + (py - ay) * dy) / length2),
+          );
+          if (Math.hypot(px - ax - t * dx, py - ay - t * dy) <= radius) {
+            mask[y * width + x] = 1;
+          }
+        }
+      }
+    }
+  }
+  return mask;
 }
 
 /** Ink and colour, each per pixel. */
@@ -344,7 +389,10 @@ export function landMask(raster: Raster, options: MaskOptions): Uint8Array {
   const reach = dilate(painted, width, height, options.coastReach);
   const land = keptPieces(sea, painted, raster, options);
   const bare = land.map((set, i) => set & ((reach[i] ?? 0) ^ 1));
-  return peel(land, bare, raster, options.peelDepth);
+  const strait = stroked(options.seaStrokes ?? [], width, height);
+  return peel(land, bare, raster, options.peelDepth).map(
+    (set, i) => set & ((strait[i] ?? 0) ^ 1),
+  );
 }
 
 /** Land with its `bare` pixels removed where they lie within `depth` steps

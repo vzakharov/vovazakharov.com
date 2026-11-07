@@ -124,6 +124,37 @@ describe('traceCoast', () => {
     assert.ok(land && signedArea(land) > 0.9 * Math.PI * 50 ** 2);
   });
 
+  it('opens a strait between two coastlines a pixel apart along a sea stroke', () => {
+    const strait: Painter = (x, y, under) => {
+      if (y < 24 || y > 78) return under;
+      if (Math.abs(x - 80) <= 0.5) return PAPER;
+      return Math.abs(x - 80) <= 1.5 ? INK : under;
+    };
+    const drawing = draw(...inkedDisc(80, 80, 50), strait);
+    const area = (options: TraceOptions) => {
+      const traced = traceCoast(drawing, options);
+      assert.equal(traced.length, 1);
+      const [land] = traced;
+      assert.ok(land);
+      return signedArea(land);
+    };
+    const sealed = area(OPTIONS);
+    const opened = area({
+      ...OPTIONS,
+      seaStrokes: [
+        {
+          path: [
+            [80, 20],
+            [80, 76],
+          ],
+          radius: 1,
+        },
+      ],
+    });
+    assert.ok(sealed > 0.97 * Math.PI * 51.5 ** 2, `${sealed}`);
+    assert.ok(sealed - opened > 2 * 45, `${sealed - opened}`);
+  });
+
   it('reads a tinted gradient across the paper as no land', () => {
     assert.deepEqual(traceCoast(draw(tint), OPTIONS), []);
   });
