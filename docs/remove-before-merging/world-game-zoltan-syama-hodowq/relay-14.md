@@ -90,6 +90,19 @@ agent turn).
 After that, board-perf's memo: merged #262, republished as v22 (page 465 →
 131 KB), frame 0021; then this relay for the context budget.
 
+**Operator:** «> размещу домены на доске — со скриншотами. вообще где я их
+прикладываю, скорее всего значит с ними»
+
+**Agent:** both screenshots onto the board beside `worlds-9`
+(`domain-amyriadworlds`, `domain-myriadworlds`, zone taller), v23, frame 0022;
+rule into the plan's standing constraints.
+
+**Operator:** «`/sync-branch в конце каждого бита.` -- относительно тебя?»
+
+**Agent:** yes — the member, at the end of its bite, syncs its branch with its
+PR's base, the island branch (the lead's), so the lead's merge is conflict-free;
+not with `main`. Still asked whether to add it to the bite contract.
+
 ## 3. Intent
 
 The island eaten as a mammoth, the board the plan and the operator's channel;
@@ -104,6 +117,8 @@ and the board.
   lead recommends (2): opaque number hashed whole, lineage as a path
   `150/3/7`, the island a drawn root stored as data. Settled → one worlds
   sticker (its own frame).
+- **Screenshots go with what they are attached to** — on the board beside the
+  sticky.
 - **Chromeplex** — 10^2,097,120 for vovazakharov.com/island#, differs per
   domain; on the board as a debatable idea.
 - **Board-perf** merged as built; zoom's remaining cost is the 4 SVG line
@@ -131,8 +146,8 @@ and the board.
   https://github.com/vzakharov/vovazakharov.com/pull/255 (draft, base main, now
   MERGEABLE), head 9a8de4c5 (board-perf merge) plus this summary.
 - Plan `docs/plans/world-game-zoltan-syama.paused.md`.
-- Board https://claude.ai/artifact/5ya2F3bA8kwrmLhEyAib3P v22; timelapse to
-  0021; watch stopped here.
+- Board https://claude.ai/artifact/5ya2F3bA8kwrmLhEyAib3P v23; timelapse to
+  0022; watch stopped here.
 - Merged this session: #261 (second preview slot, preview2.vovazakharov.com),
   #262 (board-perf).
 - Members still open: `island/review-1` (its #258 brings the board to

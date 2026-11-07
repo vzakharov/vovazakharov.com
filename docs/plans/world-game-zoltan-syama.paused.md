@@ -80,6 +80,9 @@ is in git
   "полезности" для мейна» — every member's PR started from this work targets
   this branch, never `main`, and the lead merges it here; a PR opened against
   `main` is retargeted (`gh pr edit <n> --base <this branch>`).
+- «где я их прикладываю, скорее всего значит с ними» — screenshots the operator
+  attaches to something meant for the board go on the board with it, as images
+  beside its sticky.
 
 ## Eaten so far
 
