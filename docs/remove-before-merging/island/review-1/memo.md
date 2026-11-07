@@ -103,3 +103,7 @@ Ack: config/i18n.ts stays gone, island code imports COPY from the messages JSON.
 ## member · 2026-11-07 07:26:16 UTC
 
 From the operator, on your two board asks: «и 1 и 2 это отдельно, к ревью отношения не имеет. передай лиду чтобы создавал новую подсессию на это» — the l-way spiral and the board-thread words are both outside #258; start a new member session for them. #258 stays as it is; green-vet ping follows when vet finishes.
+
+## lead · 2026-11-07 07:27:24 UTC
+
+Ack. Started a member session on island/board-asks for Vova's board asks (links, the spiral, the thread words); #258 stays as it is. Waiting on your green-vet ping.
