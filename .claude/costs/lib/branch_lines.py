@@ -35,8 +35,11 @@ def fold_numstat(numstat: str) -> Dict[str, int]:
         if len(fields) != 3:
             continue
         added, deleted, path = fields
-        # A binary file is `-` in both counts and carries no lines.
-        net = (0 if added == "-" else int(added)) - (0 if deleted == "-" else int(deleted))
+        # A binary file is `-` in both counts: it has no lines, so it has no
+        # entry either, rather than an image extension pinned at 0.
+        if added == "-":
+            continue
+        net = int(added) - int(deleted)
         ext = extension_of(path)
         lines[ext] = lines.get(ext, 0) + net
     return lines

@@ -54,9 +54,9 @@ class BranchLines(unittest.TestCase):
         self.assertEqual(extension_of("sites/vova/public/CNAME"), "CNAME")
         self.assertEqual(extension_of(".nojekyll"), ".nojekyll")
 
-    def test_lines_net_out_per_extension_and_binaries_carry_none(self) -> None:
-        numstat = "10\t2\tsrc/a.ts\n3\t0\tsrc/b.ts\n-\t-\timg.png\n4\t4\tREADME.md\n"
-        self.assertEqual(fold_numstat(numstat), {".ts": 11, ".png": 0, ".md": 0})
+    def test_lines_net_out_per_extension_and_binaries_are_left_out(self) -> None:
+        numstat = "10\t2\tsrc/a.ts\n3\t0\tsrc/b.ts\n-\t-\timg.png\n-\t-\tmap.webp\n4\t4\tREADME.md\n"
+        self.assertEqual(fold_numstat(numstat), {".ts": 11, ".md": 0})
 
 
 class RowShape(unittest.TestCase):
