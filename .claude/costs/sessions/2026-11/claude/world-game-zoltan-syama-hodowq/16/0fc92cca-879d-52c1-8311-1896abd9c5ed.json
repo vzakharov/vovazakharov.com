@@ -1,0 +1,107 @@
+{
+  "total": {
+    "inputTokens": 17,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 55627,
+    "cacheReadTokens": 810182,
+    "outputTokens": 2831,
+    "thinkingTokens": 288,
+    "responses": 8,
+    "costUsd": 0.6637404
+  },
+  "estimate": {
+    "at": "2026-11-07T07:43:48.754Z",
+    "parts": [
+      {
+        "hours": 0.6,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "merging #258, #263 and board-asks onto the island branch, fixing the plan's board paths and the follow-ups each merge unlocks is a producer's tracking work"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-07T07:44:04.648Z",
+    "contextTokens": 113821,
+    "spend": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 54785,
+      "cacheReadTokens": 697204,
+      "outputTokens": 1962,
+      "thinkingTokens": 227,
+      "responses": 7,
+      "costUsd": 0.6170248
+    }
+  },
+  "sessionId": "0fc92cca-879d-52c1-8311-1896abd9c5ed",
+  "branch": "claude/world-game-zoltan-syama-hodowq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/world-game-zoltan-syama-hodowq — доска v26 с perf-зоной, #258 ждёт слияния ветки острова, подсессия board-asks работает, развилка номеров мир…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCSBpcbq5Nh5ZpFWHC",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-07T07:43:32.862Z",
+  "lastResponseAt": "2026-11-07T07:44:04.648Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 17,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 55627,
+    "cacheReadTokens": 810182,
+    "outputTokens": 2831,
+    "thinkingTokens": 288,
+    "responses": 8,
+    "costUsd": 0.6637404
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 17,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 55627,
+      "cacheReadTokens": 810182,
+      "outputTokens": 2831,
+      "thinkingTokens": 288,
+      "responses": 8,
+      "costUsd": 0.6637404
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 8,
+    "matched": 8,
+    "matchedTableUsd": 0.6637404,
+    "matchedEventUsd": 0.6637404,
+    "unseen": {}
+  },
+  "operatorWords": 0,
+  "branchLines": {
+    "vzakharov": 1,
+    ".md": 5127,
+    ".py": 1249,
+    ".json": 2424,
+    ".yml": 8,
+    ".webp": 0,
+    ".png": 0,
+    ".ts": 8456,
+    ".css": 423,
+    ".sh": 1,
+    ".tsx": 149,
+    ".scss": 94
+  }
+}
