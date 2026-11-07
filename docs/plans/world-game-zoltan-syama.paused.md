@@ -80,6 +80,18 @@ is in git
   significant turns up, in the game or in the conversation; what counts is the
   lead's call. `.claude/hooks/board-notice.py` restates it on every prompt with
   the operator messages since the last publish.
+- «всё что мы отсюда начинаем должно идти сюда, вне зависимости от его
+  "полезности" для мейна» — every member's PR started from this work targets
+  this branch, never `main`, and the lead merges it here; a PR opened against
+  `main` is retargeted (`gh pr edit <n> --base <this branch>`).
+- «где я их прикладываю, скорее всего значит с ними» — screenshots the operator
+  attaches to something meant for the board go on the board with it, as images
+  beside its sticky.
+- «давай держать сессии лида до последнего (300к), а то слишком много скачков» —
+  a lead session relays at 300k of context and not before: a priced context
+  budget notice under 300k is noted and the work carries on.
+- «треды сам не закрывай, ок? принцип тот же что и с код-ревью» — the lead
+  answers a board comment thread and never resolves it; resolving is Vova's.
 
 ## Eaten so far
 

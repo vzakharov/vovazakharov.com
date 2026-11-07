@@ -1,0 +1,130 @@
+{
+  "total": {
+    "inputTokens": 1336,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 180364,
+    "cacheReadTokens": 12852708,
+    "outputTokens": 31369,
+    "thinkingTokens": 6552,
+    "responses": 75,
+    "costUsd": 4.6410335
+  },
+  "estimate": {
+    "at": "2026-11-07T07:13:39.462Z",
+    "parts": [
+      {
+        "hours": 0.6,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "Merging two members' PRs, retargeting one to the island branch and pinning four board frames with their timelapse sidecars is a producer's tracking work, at senior for judging what reaches the board."
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-07T07:05:04.186Z",
+    "contextTokens": 112847,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 53803,
+      "cacheReadTokens": 583633,
+      "outputTokens": 1749,
+      "thinkingTokens": 211,
+      "responses": 6,
+      "costUsd": 0.5821866
+    }
+  },
+  "sessionId": "dec39d83-bac8-5eea-91c0-5031e2da6840",
+  "branch": "claude/world-game-zoltan-syama-hodowq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/world-game-zoltan-syama-hodowq — управление влито, доска v18, обсуждение номеров миров ждёт реакции",
+  "prs": [
+    255
+  ],
+  "url": "https://claude.ai/code/session_01DaohkFBNQs6UgCatxHjXew",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-07T07:03:11.628Z",
+  "lastResponseAt": "2026-11-07T07:15:09.445Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 147,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 180364,
+    "cacheReadTokens": 12852708,
+    "outputTokens": 31343,
+    "thinkingTokens": 6552,
+    "responses": 74,
+    "costUsd": 4.640901599999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 147,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 180364,
+      "cacheReadTokens": 12852708,
+      "outputTokens": 31343,
+      "thinkingTokens": 6552,
+      "responses": 74,
+      "costUsd": 4.640901599999999
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1189,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 26,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0001319
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 75,
+    "matched": 74,
+    "matchedTableUsd": 4.640901599999999,
+    "matchedEventUsd": 4.640901599999999,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 1189,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 26,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0001319
+      }
+    }
+  },
+  "operatorWords": 193,
+  "branchLines": {
+    "vzakharov": 1,
+    ".md": 4896,
+    ".py": 1249,
+    ".json": 2368,
+    ".yml": 8,
+    ".webp": 0,
+    ".png": 0,
+    ".ts": 8456,
+    ".css": 423,
+    ".sh": 1,
+    ".tsx": 149,
+    ".scss": 94
+  }
+}

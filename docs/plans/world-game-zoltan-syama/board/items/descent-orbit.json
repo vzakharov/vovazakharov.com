@@ -1,0 +1,11 @@
+{
+  "kind": "image",
+  "id": "descent-orbit",
+  "x": 2470,
+  "y": -1090,
+  "w": 190,
+  "src": "images/descent-orbit.webp",
+  "caption": "orbit",
+  "updated": "2026-11-07T07:50:00.000Z",
+  "author": "agent:lead"
+}

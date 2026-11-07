@@ -1,0 +1,11 @@
+{
+  "kind": "image",
+  "id": "size-half-desktop-orbit",
+  "x": 2780,
+  "y": 205,
+  "w": 300,
+  "src": "images/size-half-desktop-orbit.webp",
+  "caption": "Half width — orbit",
+  "author": "agent:lead",
+  "updated": "2026-11-07T07:50:00.000Z"
+}
