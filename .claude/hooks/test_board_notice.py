@@ -23,7 +23,16 @@ URL = "https://claude.ai/artifact/abc123"
 
 
 def use(name: str, **given: Any) -> str:
-    return json.dumps({"message": {"content": [{"type": "tool_use", "name": name, "input": given}]}})
+    return json.dumps({"message": {"role": "assistant", "content": [{"type": "tool_use", "name": name, "input": given}]}})
+
+
+def prompt(text: str) -> str:
+    return json.dumps({"type": "user", "origin": {"kind": "human"}, "message": {"role": "user", "content": text}})
+
+
+def result() -> str:
+    """A turn the operator did not send: a background task's notification."""
+    return json.dumps({"type": "user", "origin": {"kind": "task-notification"}, "message": {"role": "user", "content": "done"}})
 
 
 class BoardNotice(unittest.TestCase):
@@ -73,10 +82,30 @@ class BoardNotice(unittest.TestCase):
         self.assertNotIn("`watch`", text)
         self.assertIn("`open`", text)
 
-    def test_silent_once_watched_and_published(self) -> None:
+    def context(self, lines: List[str]) -> str:
+        return json.loads(self.run_hook(lines))["hookSpecificOutput"]["additionalContext"]
+
+    def test_once_watched_and_opened_names_the_publish_rule(self) -> None:
         self.plan(f"**The plan is the board**: {URL}\n")
-        lines = [use("ArtifactComments", action="watch", url=URL), use("Artifact", url=URL, file_path="x.html")]
-        self.assertEqual(self.run_hook(lines), "")
+        text = self.context([use("ArtifactComments", action="watch", url=URL), use("Artifact", action="open", url=URL)])
+        self.assertNotIn("`watch`", text)
+        self.assertIn("interesting or significant", text)
+        self.assertIn("has not published it yet", text)
+
+    def test_counts_operator_messages_since_the_last_publish(self) -> None:
+        self.plan(f"**The plan is the board**: {URL}\n")
+        lines = [
+            prompt("first"),
+            use("ArtifactComments", action="watch", url=URL),
+            use("Artifact", url=URL, file_path="x.html"),
+            result(),
+            prompt("second"),
+            result(),
+            prompt("third"),
+        ]
+        self.assertIn("2 operator messages ago", self.context(lines))
+        lines.append(use("Artifact", url=URL, file_path="x.html"))
+        self.assertIn("0 operator messages ago", self.context(lines))
 
     def test_silent_after_handing_the_board_on(self) -> None:
         self.plan(f"**The plan is the board**: {URL}\n")
