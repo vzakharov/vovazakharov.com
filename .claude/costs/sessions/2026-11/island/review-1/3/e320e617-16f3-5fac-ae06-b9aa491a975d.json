@@ -1,26 +1,26 @@
 {
   "total": {
-    "inputTokens": 198,
+    "inputTokens": 1444,
     "cacheWrite5mTokens": 268654,
-    "cacheWrite1hTokens": 121074,
-    "cacheReadTokens": 12891167,
-    "outputTokens": 45084,
-    "thinkingTokens": 12901,
-    "responses": 98,
-    "costUsd": 5.792567400000003
+    "cacheWrite1hTokens": 149607,
+    "cacheReadTokens": 17010151,
+    "outputTokens": 54938,
+    "thinkingTokens": 14643,
+    "responses": 120,
+    "costUsd": 7.037971800000002
   },
   "estimate": {
-    "at": "2026-11-07T06:07:20.199Z",
+    "at": "2026-11-07T06:24:26.878Z",
     "parts": [
       {
-        "hours": 2.5,
+        "hours": 2.0,
         "grade": "senior",
         "role": "developer",
-        "comment": "a repo-wide gate with a shrink-only allowlist needs judgement on what counts as generated or data, and six review replies need the context of the whole review"
+        "comment": "a repo-wide gate with a shrink-only allowlist needs judgement on what counts as data, and the review replies need the whole review's context"
       }
     ],
     "comment": null,
-    "subjectLine": "fix(island): line-limit test, polish and #255 replies"
+    "subjectLine": "test(island): 400-line gate, polish, #255 replies"
   },
   "orientation": {
     "endedBy": "oriented",
@@ -48,18 +48,18 @@
   "url": "https://claude.ai/code/session_01DaohkBKMXKuwSRJA6hXtyj",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-07T06:06:58.725Z",
-  "lastResponseAt": "2026-11-07T06:20:56.325Z",
+  "lastResponseAt": "2026-11-07T06:30:38.923Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 109,
+    "inputTokens": 149,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 121074,
-    "cacheReadTokens": 7892980,
-    "outputTokens": 26625,
-    "thinkingTokens": 6329,
-    "responses": 55,
-    "costUsd": 3.0801240000000005
+    "cacheWrite1hTokens": 149607,
+    "cacheReadTokens": 12011964,
+    "outputTokens": 36273,
+    "thinkingTokens": 8071,
+    "responses": 76,
+    "costUsd": 4.3253048
   },
   "subagents": {
     "inputTokens": 89,
@@ -73,32 +73,53 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 198,
+      "inputTokens": 238,
       "cacheWrite5mTokens": 268654,
-      "cacheWrite1hTokens": 121074,
-      "cacheReadTokens": 12891167,
-      "outputTokens": 45084,
-      "thinkingTokens": 12901,
-      "responses": 98,
-      "costUsd": 5.792567400000003
+      "cacheWrite1hTokens": 149607,
+      "cacheReadTokens": 17010151,
+      "outputTokens": 54732,
+      "thinkingTokens": 14643,
+      "responses": 119,
+      "costUsd": 7.037748200000002
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1206,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 206,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.00022360000000000001
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 98,
-    "matched": 98,
-    "matchedTableUsd": 5.792567400000003,
-    "matchedEventUsd": 5.792567400000003,
-    "unseen": {}
+    "events": 120,
+    "matched": 119,
+    "matchedTableUsd": 7.037748200000002,
+    "matchedEventUsd": 7.037748200000002,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 1206,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 206,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.00022360000000000001
+      }
+    }
   },
   "operatorWords": {
-    "chat": 0,
+    "chat": 54,
     "review": 0
   },
   "reviewPosts": {},
   "branchLines": {
-    ".md": 3436,
+    ".md": 3591,
     ".py": 1864,
     ".sh": 4,
     ".json": 59,
