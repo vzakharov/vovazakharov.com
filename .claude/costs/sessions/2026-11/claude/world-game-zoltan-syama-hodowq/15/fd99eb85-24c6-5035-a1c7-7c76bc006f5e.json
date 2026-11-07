@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 40,
+    "inputTokens": 117,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 66045,
-    "cacheReadTokens": 2223281,
-    "outputTokens": 5795,
-    "thinkingTokens": 936,
-    "responses": 20,
-    "costUsd": 1.0890762
+    "cacheWrite1hTokens": 150490,
+    "cacheReadTokens": 8796715,
+    "outputTokens": 26134,
+    "thinkingTokens": 5855,
+    "responses": 60,
+    "costUsd": 3.4864109999999995
   },
   "estimate": {
     "at": "2026-11-07T07:16:18.174Z",
@@ -41,22 +41,24 @@
   "branch": "claude/world-game-zoltan-syama-hodowq",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/world-game-zoltan-syama-hodowq — второй слот превью и ускорение доски влиты, доска v23, развилка номеров миров ждёт решения",
-  "prs": [],
+  "prs": [
+    255
+  ],
   "url": "https://claude.ai/code/session_01DaohkCgRpPGQb2i9CVdiBR",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-07T07:15:50.754Z",
-  "lastResponseAt": "2026-11-07T07:17:19.036Z",
+  "lastResponseAt": "2026-11-07T07:22:05.380Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 40,
+    "inputTokens": 117,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 66045,
-    "cacheReadTokens": 2223281,
-    "outputTokens": 5795,
-    "thinkingTokens": 936,
-    "responses": 20,
-    "costUsd": 1.0890762
+    "cacheWrite1hTokens": 150490,
+    "cacheReadTokens": 8796715,
+    "outputTokens": 26134,
+    "thinkingTokens": 5855,
+    "responses": 60,
+    "costUsd": 3.4864109999999995
   },
   "subagents": {
     "inputTokens": 0,
@@ -70,29 +72,29 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 40,
+      "inputTokens": 117,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 66045,
-      "cacheReadTokens": 2223281,
-      "outputTokens": 5795,
-      "thinkingTokens": 936,
-      "responses": 20,
-      "costUsd": 1.0890762
+      "cacheWrite1hTokens": 150490,
+      "cacheReadTokens": 8796715,
+      "outputTokens": 26134,
+      "thinkingTokens": 5855,
+      "responses": 60,
+      "costUsd": 3.4864109999999995
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 20,
-    "matched": 20,
-    "matchedTableUsd": 1.0890762,
-    "matchedEventUsd": 1.0890762,
+    "events": 60,
+    "matched": 60,
+    "matchedTableUsd": 3.4864109999999995,
+    "matchedEventUsd": 3.486411,
     "unseen": {}
   },
-  "operatorWords": 0,
+  "operatorWords": 39,
   "branchLines": {
     "vzakharov": 1,
-    ".md": 4914,
+    ".md": 4917,
     ".py": 1249,
     ".json": 2390,
     ".yml": 8,
