@@ -1,0 +1,126 @@
+{
+  "total": {
+    "inputTokens": 196,
+    "cacheWrite5mTokens": 232546,
+    "cacheWrite1hTokens": 172515,
+    "cacheReadTokens": 14068305,
+    "outputTokens": 54985,
+    "thinkingTokens": 14537,
+    "responses": 97,
+    "costUsd": 6.456995000000002
+  },
+  "estimate": {
+    "at": "2026-11-07T06:39:57.945Z",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "turning, heading easing that wraps the short way, and remapped keys, right-drag and two-finger twist are camera feel in code"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "choosing the layout, turn rate and drag/twist directions so the controls read naturally"
+      },
+      {
+        "hours": 1.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "the hint overlay, its i18n copy, the play hook's turnTo and the extra play shot are routine UI and tooling"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "checking keys, mouse and touch by hand on desktop and phone, and the turned shot"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-07T06:34:54.063Z",
+    "contextTokens": 125302,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 44460,
+      "cacheReadTokens": 356355,
+      "outputTokens": 940,
+      "thinkingTokens": 85,
+      "responses": 4,
+      "costUsd": 0.44578300000000004
+    }
+  },
+  "sessionId": "2bb23083-039e-5952-8396-7cb67bb86570",
+  "branch": "island/controls",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/from-branch island/controls the brief is the lead's memo note on this branch — read it with `python3 scripts/memo/memo.py show --branch island/controls` and do…",
+  "prs": [
+    260
+  ],
+  "url": "https://claude.ai/code/session_01DaohkF3nmKHi8CHJ3ye7rL",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-07T06:34:39.337Z",
+  "lastResponseAt": "2026-11-07T06:55:36.993Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 120,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 172515,
+    "cacheReadTokens": 10518472,
+    "outputTokens": 36007,
+    "thinkingTokens": 8064,
+    "responses": 60,
+    "costUsd": 4.204434400000002
+  },
+  "subagents": {
+    "inputTokens": 76,
+    "cacheWrite5mTokens": 232546,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 3549833,
+    "outputTokens": 18978,
+    "thinkingTokens": 6473,
+    "responses": 37,
+    "costUsd": 2.2525606
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 196,
+      "cacheWrite5mTokens": 232546,
+      "cacheWrite1hTokens": 172515,
+      "cacheReadTokens": 14068305,
+      "outputTokens": 54985,
+      "thinkingTokens": 14537,
+      "responses": 97,
+      "costUsd": 6.456995000000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 97,
+    "matched": 97,
+    "matchedTableUsd": 6.456995000000002,
+    "matchedEventUsd": 6.456995000000002,
+    "unseen": {}
+  },
+  "operatorWords": 26,
+  "branchLines": {
+    "vzakharov": 1,
+    ".md": 4406,
+    ".py": 1249,
+    ".json": 2324,
+    ".webp": 0,
+    ".png": 0,
+    ".ts": 8325,
+    ".css": 413,
+    ".sh": 1,
+    ".tsx": 149,
+    ".scss": 94
+  }
+}

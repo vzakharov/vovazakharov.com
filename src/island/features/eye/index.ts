@@ -5,6 +5,7 @@ export {
   IDLE,
   MAX_HEIGHT,
   step,
+  withHeading,
   withHeight,
 } from './model/eye';
 export { poseOf } from './model/pose';

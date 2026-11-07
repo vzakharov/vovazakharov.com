@@ -1,3 +1,21 @@
 {
-  "canvas": "The island, seen from above"
+  "canvas": "The island, seen from above",
+  "hint": {
+    "label": "Controls",
+    "close": "Hide the controls",
+    "keys": [
+      { "keys": "W S", "does": "forward, back" },
+      { "keys": "A D", "does": "sideways" },
+      { "keys": "← →", "does": "turn" },
+      { "keys": "↑ ↓", "does": "climb, descend" },
+      { "keys": "Drag", "does": "move" },
+      { "keys": "Right-drag", "does": "turn" },
+      { "keys": "Wheel", "does": "climb, descend" }
+    ],
+    "touch": [
+      { "keys": "Drag", "does": "move" },
+      { "keys": "Pinch", "does": "climb, descend" },
+      { "keys": "Twist", "does": "turn" }
+    ]
+  }
 }

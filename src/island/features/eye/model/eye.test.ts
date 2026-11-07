@@ -12,6 +12,7 @@ import {
   MAX_HEIGHT,
   MIN_HEIGHT,
   step,
+  TURN_RADIANS_PER_SECOND,
   withHeight,
 } from './eye';
 
@@ -126,6 +127,79 @@ describe('moving sideways', () => {
       2,
     );
     assert.ok(Math.abs(eye.x - 300) < 0.01);
+  });
+});
+
+describe('turning', () => {
+  const right: Intent = { ...IDLE, turn: 1 };
+  const forward: Intent = { ...IDLE, steer: [0, 1] };
+  const strafeRight: Intent = { ...IDLE, steer: [1, 0] };
+
+  /** Radians a held turn key turns the eye in one second at `height`, once settled. */
+  const rate = (height: number) => {
+    const settled = hold(eyeAt({ x: 0, y: 0, height }, flat), right, 1);
+    return hold(settled, right, 1).heading - settled.heading;
+  };
+
+  it('turns clockwise at TURN_RADIANS_PER_SECOND while held', () => {
+    assert.ok(Math.abs(rate(100) / TURN_RADIANS_PER_SECOND - 1) < 0.01);
+  });
+
+  it('turns as fast at orbit as at the ground', () => {
+    assert.ok(Math.abs(rate(MAX_HEIGHT) - rate(MIN_HEIGHT)) < 1e-9);
+  });
+
+  it('glides through a twist rather than stepping', () => {
+    const start = eyeAt({ x: 0, y: 0, height: 100 }, flat);
+    const first = step(start, { ...IDLE, twist: 1 }, FRAME, flat);
+    assert.ok(first.heading > 0 && first.heading < 0.2);
+    assert.ok(Math.abs(hold(first, IDLE, 2).heading - 1) < 1e-3);
+  });
+
+  it('keeps the heading within half a turn of north, easing the short way', () => {
+    let eye = eyeAt({ x: 0, y: 0, height: 100, heading: 3 }, flat);
+    eye = step(eye, { ...IDLE, twist: 0.5 }, FRAME, flat);
+    assert.ok(Math.abs(eye.aim.heading - (3.5 - 2 * Math.PI)) < 1e-9);
+    hold(eye, IDLE, 2, flat, (now) => {
+      assert.ok(now.aim.heading - now.heading > -1e-9);
+      assert.ok(now.aim.heading - now.heading < 0.5);
+    });
+  });
+
+  it('moves forward along the heading', () => {
+    const west = hold(
+      eyeAt({ x: 0, y: 0, height: 100, heading: -Math.PI / 2 }, flat),
+      forward,
+      1,
+    );
+    assert.ok(west.x < -50);
+    assert.ok(Math.abs(west.y) < 1e-6);
+  });
+
+  it('strafes square to the heading', () => {
+    const facingEast = eyeAt(
+      { x: 0, y: 0, height: 100, heading: Math.PI / 2 },
+      flat,
+    );
+    const south = hold(facingEast, strafeRight, 1);
+    assert.ok(south.y < -50);
+    assert.ok(Math.abs(south.x) < 1e-6);
+  });
+
+  it('moves forward along the heading it has turned to', () => {
+    const turned = hold(
+      step(
+        eyeAt({ x: 0, y: 0, height: 100 }, flat),
+        { ...IDLE, twist: Math.PI },
+        FRAME,
+        flat,
+      ),
+      IDLE,
+      2,
+    );
+    const moved = hold(turned, forward, 1);
+    assert.ok(moved.y < -50);
+    assert.ok(Math.abs(moved.x) < 1e-3);
   });
 });
 

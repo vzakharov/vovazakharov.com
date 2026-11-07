@@ -16,3 +16,79 @@
     outline: none;
   }
 }
+
+// The controls hint sits over a scene whose sky runs from black space to pale
+// day, so it carries its own dark glass and light text: the island renders on
+// kernel's layout, outside the shell's colour tokens. It takes no pointer but
+// its close button, so a drag starting under it still reaches the scene.
+.hint {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 10px 12px;
+  font:
+    13px / 1.4 system-ui,
+    sans-serif;
+  color: rgb(255 255 255 / 85%);
+  pointer-events: none;
+  user-select: none;
+  background: rgb(10 16 28 / 55%);
+  border-radius: 8px;
+  transition: opacity 1.2s ease;
+  backdrop-filter: blur(6px);
+
+  &[data-fading] {
+    opacity: 0;
+  }
+}
+
+.hintRow {
+  display: flex;
+  gap: 10px;
+
+  dt {
+    min-width: 5.5em;
+    font-weight: 600;
+    color: rgb(255 255 255);
+  }
+
+  dd {
+    margin: 0;
+  }
+}
+
+// A screen whose pointer neither hovers nor aims finely is a touch screen:
+// it shows the gestures, and every other screen the keys and mouse.
+.hintKeys,
+.hintTouch {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+}
+
+.hintTouch {
+  @media (hover: hover), (pointer: fine) {
+    display: none;
+  }
+}
+
+.hintKeys {
+  @media (hover: none) and (pointer: coarse) {
+    display: none;
+  }
+}
+
+.hintClose {
+  padding: 0 4px;
+  font: inherit;
+  font-size: 16px;
+  line-height: 1;
+  color: inherit;
+  pointer-events: auto;
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
