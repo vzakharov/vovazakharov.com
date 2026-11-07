@@ -16,6 +16,7 @@ import re
 from typing import Any, Dict, Optional
 
 from lib.shape import is_number
+from lib.words import count_words
 
 
 def kind_of(record: Any) -> Optional[str]:
@@ -110,9 +111,6 @@ def _prompt_raw(record: Any) -> Optional[str]:
     return None
 
 
-WORD = re.compile(r"\w+")
-
-
 def _typed_text(content: Any) -> str:
     if isinstance(content, str):
         return content
@@ -149,7 +147,7 @@ def operator_words_of(record: Any) -> int:
         content = attachment.get("prompt")
     else:
         return 0
-    return len(WORD.findall(_typed_text(content)))
+    return count_words(_typed_text(content))
 
 
 def prompt_text_of(record: Any) -> Optional[str]:

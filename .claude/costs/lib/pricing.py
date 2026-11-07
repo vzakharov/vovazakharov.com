@@ -32,6 +32,7 @@ from lib.prices import PriceTable, rate_key
 from lib.rows import SessionCost
 from lib.shape import json_lines
 from lib.tally import Tally, billable_tokens, cost_of
+from lib.words import OperatorWords
 from lib.transcript import (
     SYNTHETIC_MODEL,
     Response,
@@ -277,7 +278,7 @@ def summarise_transcript(
         prs=sorted(prs),
         url=url,
         operator=operator,
-        operator_words=operator_words,
+        operator_words=OperatorWords(chat=operator_words, review=0),
         first_response_at=in_order[0] if in_order else None,
         last_response_at=in_order[-1] if in_order else None,
         prices_as_of=prices.as_of,

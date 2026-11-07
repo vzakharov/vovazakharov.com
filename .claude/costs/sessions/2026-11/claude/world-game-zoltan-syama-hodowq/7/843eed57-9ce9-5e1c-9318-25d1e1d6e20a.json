@@ -25,7 +25,8 @@
         "comment": "routing an operator's look at a frame into a member's scope, a later bite and an open question on the board is a producer's call"
       }
     ],
-    "comment": null
+    "comment": null,
+    "subjectLine": null
   },
   "orientation": {
     "endedBy": "end_turn",
@@ -128,7 +129,11 @@
       }
     }
   },
-  "operatorWords": 119,
+  "operatorWords": {
+    "chat": 119,
+    "review": 0
+  },
+  "reviewPosts": {},
   "branchLines": {
     ".md": 1656,
     ".py": 1123,

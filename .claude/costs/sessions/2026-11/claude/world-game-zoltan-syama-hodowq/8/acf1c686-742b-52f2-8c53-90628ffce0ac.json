@@ -19,7 +19,8 @@
         "comment": "routing an operator's scale dispute and the board's layout asks onto the board, its plan and a member's channel is the producer's job between a team's bites"
       }
     ],
-    "comment": null
+    "comment": null,
+    "subjectLine": null
   },
   "orientation": {
     "endedBy": "oriented",
@@ -112,7 +113,11 @@
       }
     }
   },
-  "operatorWords": 63,
+  "operatorWords": {
+    "chat": 63,
+    "review": 0
+  },
+  "reviewPosts": {},
   "branchLines": {
     ".md": 1849,
     ".py": 1123,
