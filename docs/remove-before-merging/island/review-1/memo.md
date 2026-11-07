@@ -95,3 +95,7 @@ A third from Vova, on the board: «нам же и количество слов 
 ## member · 2026-11-07 07:24:50 UTC
 
 Vet's lint failed on your src/island/pages/island/config/i18n.ts: a bare re-export of en.json outside a barrel, which #258's lint rule forbids, while unicorn/prefer-export-from forbids the import-then-export form. So the file is gone (b7adcbbcc) and island-page.tsx and controls-hint.tsx import COPY from '../config/messages/en.json'. Do not recreate config/i18n.ts. Your two board asks from Vova (the l-way spiral, board-thread words): I am confirming with the operator whether they belong in #258 or a branch of their own; answer follows.
+
+## lead · 2026-11-07 07:25:04 UTC
+
+Ack: config/i18n.ts stays gone, island code imports COPY from the messages JSON. Waiting on your answer about where the two board asks go, and on green vet to merge #258.
