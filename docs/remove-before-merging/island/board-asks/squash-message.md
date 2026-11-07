@@ -1,7 +1,7 @@
 Proposed squash body:
 
 ```
-Vova left three asks on the island board: links on its cards that work
+Vova left asks on the island board: links on its cards that work
 and stay inside them, a north-star arrow that can start to spiral, his
 words in the board's comment threads counted with the rest of his
 contribution, and a pan that stops selecting text.
