@@ -1,0 +1,26 @@
+items:
+  - id: z-later
+    type: zone
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [3780, -810, 880, 700, blue]
+    text: Later bites, and what is asked
+  - id: l-scale
+    type: line
+    updated: [2026-11-06T21:32:00.000Z, agent:lead]
+    ends: [later-2, z-scale]
+    text: seen in
+  - id: later-1
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [3820, -730, 300, blue]
+    text: 'The sea bite: the general feel of web-ocean, sea and sky. A sun glint from orbit is optional, not required'
+  - id: later-2
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [3980, -470, 320, yellow]
+    text: "Scale: (a) stays. (a) The map's README: “Arc is the size of the DR Congo”, so all land ≈ 10 M km², Europe-sized; our trace matches (5,000 km across). (b) Vova recalled Zoltan meaning the whole island Congo-sized: half the width, ~2.5 M km². A half-width render lost the snowy highlands — “fewer mountains; back to the original size”"
+  - id: later-3
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [4340, -470, 260, pink]
+    text: '☐ Vova: ask Zoltan whether Congo-sized meant Arc or the whole island'

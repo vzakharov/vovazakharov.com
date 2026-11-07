@@ -1,11 +1,12 @@
 /**
- * The board's tooling. The repo holds the truth, one YAML file per board
- * (`lib/board-file.ts` reads it), its images in the directory of the same name
- * beside it; the published artifact adds live edits in its `db`, which `sync`
- * folds back into that file.
+ * The board's tooling. The repo holds the truth, a YAML file per board and one
+ * per zone in the directory of the same name beside it, with the images
+ * (`lib/board-files.ts` says which item lives where); the published artifact
+ * adds live edits in its `db`, which `sync` folds back into those files.
  *
  *   board build <board.yaml> [<out>]           page into <out> (default tmp/board/<name>)
- *   board sync <board.yaml> <rows> [<assets>]  db rows → the board file
+ *   board sync <board.yaml> <rows> [<assets>]  db rows → the board's files
+ *   board refile <board.yaml>                  each item into the file it belongs in
  *   board snapshot <out> <png>                 the built page, fitted, as a PNG
  *
  * `build` writes `index.html` for the Artifact tool, which wraps it in a
@@ -26,13 +27,18 @@ import {
 } from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { format } from 'prettier';
+import { format, resolveConfig } from 'prettier';
 import { compileAsync } from 'sass';
 import { z } from 'zod';
 
 import { type Item, newerThan, parseDbRow } from '@/island-board/entities/item';
 
-import { decodeBoard, writeItems } from './lib/board-file.ts';
+import {
+  boardDir,
+  type BoardFiles,
+  decodeBoardFiles,
+  writeBoardFiles,
+} from './lib/board-files.ts';
 
 import { findScreenshotChromium } from '@/kernel/scripts/lib/chromium';
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
@@ -56,12 +62,26 @@ async function jsonFiles(dir: string): Promise<string[]> {
   return names.filter((name) => name.endsWith('.json')).toSorted();
 }
 
-const readItems = async (board: string): Promise<Item[]> =>
-  decodeBoard(await readFile(board, 'utf8'));
+const isZoneFile = (name: string): boolean => name.endsWith('.yaml');
 
-/** A board's images: `docs/boards/island.yaml` keeps them in `docs/boards/island/`. */
-const imagesOf = (board: string): string =>
-  path.join(path.dirname(board), path.basename(board, '.yaml'));
+/** The board's own file, then its zones' in name order. */
+async function readBoardFiles(board: string): Promise<BoardFiles> {
+  const zones = (await entries(boardDir(board)))
+    .filter((name) => isZoneFile(name))
+    .toSorted()
+    .map((name) => path.join(boardDir(board), name));
+  const paths = [board, ...zones];
+  const texts = await Promise.all(
+    paths.map(async (file) => readFile(file, 'utf8')),
+  );
+  return new Map(paths.map((file, at) => [file, texts[at] ?? '']));
+}
+
+const readItems = async (board: string): Promise<Item[]> =>
+  decodeBoardFiles(board, await readBoardFiles(board));
+
+const imagesOf = async (board: string): Promise<string[]> =>
+  (await entries(boardDir(board))).filter((name) => !isZoneFile(name));
 
 /** `</` inside inline script or JSON would close its tag early. */
 const inline = (text: string): string => text.replaceAll('</', String.raw`<\/`);
@@ -139,11 +159,11 @@ async function buildBoard(board: string, out: string): Promise<void> {
   await mkdir(path.join(out, 'images'), { recursive: true });
   await writeFile(path.join(out, 'index.html'), html);
   await writeFile(path.join(out, 'local.html'), wrapped(html));
-  const images = await entries(imagesOf(board));
+  const images = await imagesOf(board);
   await Promise.all(
     images.map(async (name) =>
       copyFile(
-        path.join(imagesOf(board), name),
+        path.join(boardDir(board), name),
         path.join(out, 'images', name),
       ),
     ),
@@ -172,8 +192,8 @@ async function localiseImage(
     throw new Error(
       `image ${item.id} is asset ${asset}: fetch it into <assets> as ${asset}.<ext> first`,
     );
-  await mkdir(imagesOf(board), { recursive: true });
-  await copyFile(path.join(assets, found), path.join(imagesOf(board), found));
+  await mkdir(boardDir(board), { recursive: true });
+  await copyFile(path.join(assets, found), path.join(boardDir(board), found));
   return { ...item, src: `images/${found}` };
 }
 
@@ -184,6 +204,26 @@ const RowFile = z.union([
     .transform((row) => row.data),
   z.record(z.string(), z.unknown()),
 ]);
+
+/** Each file `writeBoardFiles` changed, formatted as the repo's prettier config says. */
+async function writeBack(written: BoardFiles): Promise<void> {
+  await Promise.all(
+    [...written].map(async ([file, text]) => {
+      const options = { ...(await resolveConfig(file)), filepath: file };
+      await writeFile(file, await format(text, options), 'utf8');
+    }),
+  );
+}
+
+/** Every item re-derived into its file; how the board is first split, and kept so. */
+async function refile(board: string): Promise<void> {
+  const files = await readBoardFiles(board);
+  const written = writeBoardFiles(board, files, []);
+  await writeBack(written);
+  process.stdout.write(
+    `${written.size} files rewritten: ${[...written.keys()].map((file) => path.relative(REPO_ROOT, file)).join(', ') || 'none'}\n`,
+  );
+}
 
 async function sync(
   board: string,
@@ -199,15 +239,12 @@ async function sync(
       ),
     ),
   );
-  const text = await readFile(board, 'utf8');
-  const changed = newerThan(decodeBoard(text), rows);
+  const files = await readBoardFiles(board);
+  const changed = newerThan(decodeBoardFiles(board, files), rows);
   const localised = await Promise.all(
     changed.map(async (item) => localiseImage(item, board, assets)),
   );
-  await writeFile(
-    board,
-    await format(writeItems(text, localised), { filepath: board }),
-  );
+  await writeBack(writeBoardFiles(board, files, localised));
   process.stdout.write(
     `${rows.length} rows, ${changed.length} newer than the repo: ${changed.map((item) => item.id).join(', ') || 'none'}\n`,
   );
@@ -254,6 +291,10 @@ switch (command ?? '') {
       at(second, '<rows>'),
       third === undefined ? undefined : path.resolve(third),
     );
+    break;
+  }
+  case 'refile': {
+    await refile(at(first, '<board>'));
     break;
   }
   case 'snapshot': {

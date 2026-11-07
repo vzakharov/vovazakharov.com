@@ -41,12 +41,16 @@ const Shape = z.object({
 });
 type Shape = z.infer<typeof Shape>;
 
-const FileItem = Shape.extend({
-  id: z.string(),
-  type: z.enum(['sticky', 'zone', 'image', 'text', 'line']),
-  updated: z.tuple([z.string(), z.string()]),
-  deleted: z.literal(true).optional(),
-});
+// The parsed object's keys follow the schema's, and a written item's follow
+// those: so `id`, `type` and `updated` are declared first.
+const FileItem = z
+  .object({
+    id: z.string(),
+    type: z.enum(['sticky', 'zone', 'image', 'text', 'line']),
+    updated: z.tuple([z.string(), z.string()]),
+  })
+  .extend(Shape.shape)
+  .extend({ deleted: z.literal(true).optional() });
 type FileItem = z.infer<typeof FileItem>;
 
 const BoardFile = z.object({
@@ -54,6 +58,10 @@ const BoardFile = z.object({
   artifact: z.url(),
   items: z.array(FileItem),
 });
+const ZoneFile = BoardFile.pick({ items: true });
+
+/** A board's own file states its title and artifact; a zone's file, its items alone. */
+export type FileKind = 'board' | 'zone';
 
 /** Each type's `box`, the numbers and the trailing word read off it in place. */
 const BOX = {
@@ -177,16 +185,22 @@ export function encodeItem(item: Item): FileItem {
   );
 }
 
-/** Every item in a board file, checked; ids are unique, since an id is its row's doc id. */
-export function decodeBoard(text: string): Item[] {
-  const items = BoardFile.parse(parseDocument(text).toJS()).items.map((item) =>
-    decodeItem(item),
-  );
+/** Throws on an id seen twice, since an id is its row's doc id. */
+export function assertUnique(items: readonly Item[]): void {
   const seen = new Set<string>();
   for (const { id } of items) {
     if (seen.has(id)) throw new Error(`item ${id} appears twice`);
     seen.add(id);
   }
+}
+
+/** Every item in a board file, checked. */
+export function decodeBoard(text: string, kind: FileKind = 'board'): Item[] {
+  const file = (kind === 'board' ? BoardFile : ZoneFile).parse(
+    parseDocument(text).toJS(),
+  );
+  const items = file.items.map((item) => decodeItem(item));
+  assertUnique(items);
   return items;
 }
 
@@ -204,6 +218,27 @@ function setKey(
   node.set(key, created);
 }
 
+/** The items, as a block sequence: a fresh file's `items: []` would make every item flow. */
+function itemsOf(doc: Document): YAMLSeq {
+  const items = doc.get('items');
+  if (!isSeq(items)) throw new Error('board file has no items sequence');
+  items.flow = false;
+  return items;
+}
+
+const print = (doc: Document): string =>
+  doc.toString({ lineWidth: 0, flowCollectionPadding: false });
+
+/** The file's text without the items `ids` names, the rest untouched. */
+export function removeItems(text: string, ids: ReadonlySet<string>): string {
+  const doc = parseDocument(text);
+  const seq = itemsOf(doc);
+  seq.items = seq.items.filter(
+    (node) => !(isMap(node) && ids.has(String(node.get('id')))),
+  );
+  return print(doc);
+}
+
 /**
  * `changed` written into the board file's text: on an item already there only
  * the keys that differ, new items appended, so every comment, key order and
@@ -211,9 +246,7 @@ function setKey(
  */
 export function writeItems(text: string, changed: readonly Item[]): string {
   const doc = parseDocument(text);
-  const items = doc.get('items');
-  if (!isSeq(items)) throw new Error('board file has no items sequence');
-  const seq: YAMLSeq = items;
+  const seq = itemsOf(doc);
   for (const item of changed) {
     const encoded = encodeItem(item);
     const node = seq.items.find(
@@ -233,5 +266,5 @@ export function writeItems(text: string, changed: readonly Item[]): string {
     for (const key of Object.keys(before))
       if (!(key in encoded)) node.delete(key);
   }
-  return doc.toString({ lineWidth: 0, flowCollectionPadding: false });
+  return print(doc);
 }

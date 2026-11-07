@@ -1,0 +1,36 @@
+items:
+  - id: z-mammoth
+    type: zone
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1100, 790, 1100, 680, yellow]
+    text: How the mammoth is eaten
+  - id: mammoth-1
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1152, 903, 249, yellow]
+    text: A lead session holds the plan and the PR; members are separate cloud sessions, one bite each
+  - id: mammoth-2
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1486, 903, 249, yellow]
+    text: A bite is a branch off this one with a PR based on it; its contract a sticky here
+  - id: mammoth-3
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1821, 903, 250, yellow]
+    text: 'The channel: a memo file on each bite branch (scripts/memo.py). Survives relays'
+  - id: mammoth-4
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1183, 1149, 250, yellow]
+    text: The lead merges a bite once vet is green and it has looked at the frames, then publishes /preview live
+  - id: mammoth-5
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1518, 1150, 250, yellow]
+    text: Several bites at once where their files don't overlap
+  - id: mammoth-6
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [1852, 1149, 251, yellow]
+    text: "What works and what doesn't: .claude/skills/mammoth/notes/"

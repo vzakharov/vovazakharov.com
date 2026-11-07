@@ -1,0 +1,60 @@
+items:
+  - id: z-scale
+    type: zone
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [2420, 130, 1060, 870, yellow]
+    text: 'Scale: the island as drawn vs at half width'
+  - id: size-full-desktop-1000km
+    type: image
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [2450, 455, 300]
+    src: images/size-full-desktop-1000km.webp
+    text: As drawn (~5,000 km across) — 1,000 km
+  - id: size-full-desktop-100m
+    type: image
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [2450, 705, 300]
+    src: images/size-full-desktop-100m.webp
+    text: As drawn (~5,000 km across) — 100 m
+  - id: size-full-desktop-orbit
+    type: image
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [2450, 205, 300]
+    src: images/size-full-desktop-orbit.webp
+    text: As drawn (~5,000 km across) — orbit
+  - id: size-full-phone-orbit
+    type: image
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [3120, 630, 140]
+    src: images/size-full-phone-orbit.webp
+    text: As drawn
+  - id: size-half-desktop-1000km
+    type: image
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [2780, 455, 300]
+    src: images/size-half-desktop-1000km.webp
+    text: Half width — 1,000 km
+  - id: size-half-desktop-100m
+    type: image
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [2780, 705, 300]
+    src: images/size-half-desktop-100m.webp
+    text: Half width — 100 m
+  - id: size-half-desktop-orbit
+    type: image
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [2780, 205, 300]
+    src: images/size-half-desktop-orbit.webp
+    text: Half width — orbit
+  - id: size-half-phone-orbit
+    type: image
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [3280, 630, 140]
+    src: images/size-half-phone-orbit.webp
+    text: Half width
+  - id: size-operator-drc-vs-island
+    type: image
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [3120, 205, 300]
+    src: images/size-operator-drc-vs-island.webp
+    text: 'Vova on Google Earth: the DR Congo circled, at the same height as the island from orbit'

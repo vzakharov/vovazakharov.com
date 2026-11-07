@@ -1,0 +1,51 @@
+items:
+  - id: z-star
+    type: zone
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [4900, -410, 1060, 820, green]
+    text: The north star — in no order
+  - id: star-1
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [4952, -327, 288, green]
+    text: The whole island from orbit, real enough to pass for a satellite photo, clouds drifting over it
+  - id: star-2
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [5287, -326, 288, green]
+    text: The dive through the cloud layer, and the shift from spirit to bird
+  - id: star-3
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [5622, -327, 288, green]
+    text: 'The land taking shape on the way down: a coast that fractals, hills, rivers, lakes, forests, then single trees, rocks and grass'
+  - id: star-4
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [4983, -83, 290, green]
+    text: A sea that is a sea at every height, from glitter seen from orbit to waves at the shore
+  - id: star-5
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [5318, -83, 290, green]
+    text: 'Three bodies, each read from how it moves: spirit (no bob, fast), bird (glides down, flaps to climb), walker. Go far by climbing'
+  - id: star-6
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [5653, -82, 289, green]
+    text: A phone in a child's hands as much as a laptop
+  - id: star-7
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [4953, 162, 289, green]
+    text: 'Your own map: a drawing loaded in the browser becomes a world the same way'
+  - id: star-8
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [5289, 161, 292, green]
+    text: 'Beyond: towns at the drawn cities, borders, people, animals'
+  - id: star-9
+    type: sticky
+    updated: [2026-11-07T05:55:00.000Z, agent:lead]
+    box: [5630, 168, 290, green]
+    text: 'Infinite worlds: <url>#<seed> makes a whole world, the same for everyone down to a pebble on the beach. Ours is one exact world among them, and maybe the one every other world starts from. Under discussion.'
