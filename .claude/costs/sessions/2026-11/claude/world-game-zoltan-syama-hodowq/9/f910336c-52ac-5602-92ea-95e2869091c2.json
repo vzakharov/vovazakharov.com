@@ -11,6 +11,7 @@
   },
   "estimate": {
     "at": "2026-11-07T06:35:41.320Z",
+    "subjectLine": "content(island): settle the scale and orient the board to the star",
     "parts": [
       {
         "hours": 0.75,
@@ -25,8 +26,7 @@
         "comment": "a hook fix with its tests is routine but touches every board session"
       }
     ],
-    "comment": null,
-    "subjectLine": "content(island): settle the scale and orient the board to the star"
+    "comment": null
   },
   "orientation": {
     "endedBy": "oriented",
