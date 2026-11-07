@@ -7,7 +7,8 @@
 
 import type * as Phaser from 'phaser';
 
-import { type Point, sample } from '@/mushrooms/shared/lib/geometry';
+import { sample } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import {
   fillShape,
   type Hairlined,

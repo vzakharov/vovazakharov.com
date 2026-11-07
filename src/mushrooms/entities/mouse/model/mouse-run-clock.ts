@@ -6,11 +6,8 @@
  * seconds.
  */
 
-import {
-  distanceBetween,
-  type Point,
-  type Wide,
-} from '@/mushrooms/shared/lib/geometry';
+import { distanceBetween, type Wide } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import { PEEK_DUCK, PEEK_RISE, smooth } from '@/mushrooms/shared/lib/motion';
 import type { Stood } from '@/mushrooms/shared/world';
 

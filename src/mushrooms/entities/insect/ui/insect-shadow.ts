@@ -10,7 +10,7 @@ import type * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Ordinate } from '@/mushrooms/shared/lib/geometry';
+import type { Ordinate } from '@/scene/shared/lib/plane';
 import {
   PALETTE,
   type ShadowLayer,

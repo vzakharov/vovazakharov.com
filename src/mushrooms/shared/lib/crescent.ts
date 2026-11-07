@@ -1,4 +1,5 @@
-import { type Point, segmentCrossing } from './geometry';
+import { segmentCrossing } from './geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 
 /**
  * A crescent along `arc`, its inner edge pulled toward `towards` by up to

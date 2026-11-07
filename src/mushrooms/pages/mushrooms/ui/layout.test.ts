@@ -3,14 +3,8 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import {
-  type Box,
-  boxAround,
-  type Circle,
-  containsPoint,
-  type Point,
-  sample,
-} from '@/mushrooms/shared/lib/geometry';
+import { type Box, boxAround, type Circle, containsPoint, sample } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
 import { TAP_RADIUS, tapReach } from '@/mushrooms/shared/lib/tap-reach';
 import { MUSHROOM_SLOTS, OPENING_EYE, viewAt } from '@/mushrooms/shared/world';

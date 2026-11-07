@@ -5,7 +5,8 @@
 
 import type { WithId } from '@/kernel/shared/typings';
 
-import type { Nudged, Seeded } from '@/mushrooms/shared/lib/random';
+import type { Nudged } from '@/mushrooms/shared/lib/random';
+import type { Seeded } from '@/kernel/shared/typings';
 
 export const INSECT_KINDS = ['butterfly', 'fly', 'bee'] as const;
 export type InsectKind = (typeof INSECT_KINDS)[number];

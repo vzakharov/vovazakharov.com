@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { crescent } from '@/mushrooms/shared/lib/crescent';
-import { type Point, segmentCrossing } from '@/mushrooms/shared/lib/geometry';
+import { segmentCrossing } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 
 import {
   capOnCanvas,

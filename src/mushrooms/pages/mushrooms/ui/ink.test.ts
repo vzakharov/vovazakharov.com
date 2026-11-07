@@ -8,7 +8,8 @@ import {
   nudgeHue,
   toHsv,
 } from '@/mushrooms/shared/lib/colour';
-import { ellipse, type Point } from '@/mushrooms/shared/lib/geometry';
+import { ellipse } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import {
   facingArc,
   inkFor,

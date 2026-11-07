@@ -13,31 +13,8 @@ import {
   viewAt,
 } from '@/mushrooms/shared/world';
 import type { Stand } from '@/mushrooms/entities/flower/index.node-safe';
-import {
-  type Aloft,
-  aloftOfLayout,
-  apartIn,
-  awayDown,
-  centreOf,
-  drawnAloft,
-  entryAloft,
-  entryOf,
-  eyeFrameOf,
-  framedOf,
-  INSECT_KINDS,
-  isShown,
-  leavingAloft,
-  legEnd,
-  mixD,
-  outWay,
-  type Perch,
-  perchDistance,
-  perchName,
-  placeOfAloft,
-  placesSetOff,
-  releasedAway,
-  seenFor,
-} from '@/mushrooms/entities/insect/index.node-safe';
+import { aloftOfLayout, apartIn, awayDown, centreOf, drawnAloft, entryAloft, entryOf, eyeFrameOf, framedOf, INSECT_KINDS, isShown, leavingAloft, legEnd, mixD, outWay, type Perch, perchDistance, perchName, placeOfAloft, placesSetOff, releasedAway, seenFor } from '@/mushrooms/entities/insect/index.node-safe';
+import type { Aloft } from '@/mushrooms/shared/world';
 import {
   nearerSide,
   offAloft,

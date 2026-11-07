@@ -2,14 +2,15 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Circle, Facing, Point } from '@/mushrooms/shared/lib/geometry';
+import type { Circle, Facing } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import {
   emerge,
   EMERGE_DURATION,
   sink,
   SINK_DURATION,
 } from '@/mushrooms/shared/lib/motion';
-import type { Seeded } from '@/mushrooms/shared/lib/random';
+import type { Seeded } from '@/kernel/shared/typings';
 import { BUTTON_INSET } from '@/mushrooms/shared/lib/tap-reach';
 import {
   type AtRatio,

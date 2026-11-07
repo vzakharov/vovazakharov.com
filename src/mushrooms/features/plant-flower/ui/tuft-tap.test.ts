@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 import { FLOWER_SIZE, planeFootOf } from '@/mushrooms/shared/world';
 
 import { TUFT_REACH, tuftAt, tuftReach } from './tuft-tap';
-import type { Sprout } from './tufts';
+import type { Sprout } from '@/mushrooms/entities/landscape/index.node-safe';
 
 const sprout = (x: number, y: number, size: number): Sprout => ({
   foot: planeFootOf({ x, z: 0, size: FLOWER_SIZE }),

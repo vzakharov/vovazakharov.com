@@ -7,7 +7,8 @@ import { z } from 'zod';
 import { useProvided } from '@/kernel/shared/lib/use-provided';
 import type { WithChildren } from '@/kernel/shared/typings';
 
-import { deduped, likeOf, nameOf, withLike } from '../lib/liked';
+import { asTyped } from '../../checker';
+import { deduped, nameOf, withLike } from '../lib/liked';
 
 const KEY = 'unsquatted.liked';
 
@@ -96,7 +97,7 @@ export function LikesProvider({ children }: WithChildren) {
         liked,
         likeFor: (name) => liked.find((each) => nameOf(each) === name),
         like: (name, zone) => {
-          setLiked((current) => withLike(current, likeOf(name, zone)));
+          setLiked((current) => withLike(current, asTyped(name, zone)));
         },
         unlike: (name) => {
           setLiked((current) =>

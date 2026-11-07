@@ -1,11 +1,7 @@
 import * as Phaser from 'phaser';
 
-import {
-  type Circle,
-  placedAt,
-  type Point,
-  type Scaled,
-} from '@/mushrooms/shared/lib/geometry';
+import { type Circle, placedAt, type Scaled } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import { PALETTE } from '@/mushrooms/shared/ui';
 import type { Standing } from '@/mushrooms/shared/world';
 import { type Puffing, toCanvas } from '@/mushrooms/entities/mushroom';

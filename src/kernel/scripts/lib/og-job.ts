@@ -45,7 +45,8 @@ import {
   type StagedPage,
 } from './og-render.ts';
 import { type ManifestRoots, runRenderJob } from './render-manifest.ts';
-import { RENDERED_SITE, REPO_ROOT } from './site-tree.ts';
+import { RENDERED_SITE } from './site-tree.ts';
+import { REPO_ROOT } from './repo-root.ts';
 
 /**
  * Inset between the drawing and the card's edge, in canvas pixels. Load-bearing

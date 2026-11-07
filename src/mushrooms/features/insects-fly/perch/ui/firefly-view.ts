@@ -3,9 +3,10 @@ import * as Phaser from 'phaser';
 import { pick } from '@/kernel/shared/lib/collections';
 import type { WithId, WithWidth } from '@/kernel/shared/typings';
 
-import { lerpPoint, type Point } from '@/mushrooms/shared/lib/geometry';
+import { lerpPoint } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import { smooth, type TapTimed } from '@/mushrooms/shared/lib/motion';
-import type { Seeded } from '@/mushrooms/shared/lib/random';
+import type { Seeded } from '@/kernel/shared/typings';
 import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
 import { type CircleFigure, PALETTE } from '@/mushrooms/shared/ui';
 import { CLUMP_DISTANCE, type MeadowSeen } from '@/mushrooms/shared/world';

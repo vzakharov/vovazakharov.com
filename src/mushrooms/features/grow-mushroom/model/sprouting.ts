@@ -11,11 +11,8 @@ import { pick } from '@/kernel/shared/lib/collections';
 import type { WithId } from '@/kernel/shared/typings';
 
 import type { Timed } from '@/mushrooms/shared/lib/motion';
-import {
-  nextSeed,
-  saltedStream,
-  type Seeded,
-} from '@/mushrooms/shared/lib/random';
+import { nextSeed, saltedStream } from '@/mushrooms/shared/lib/random';
+import type { Seeded } from '@/kernel/shared/typings';
 import {
   darkAt,
   isCrowdedAt,

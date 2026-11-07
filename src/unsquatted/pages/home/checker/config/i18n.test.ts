@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { COPY, ledeParts } from './i18n';
+import { ledeParts } from './i18n';
+import COPY from './messages/en.json';
 
 describe('ledeParts', () => {
   it('drops the star and stops the marked part at the starred word', () => {

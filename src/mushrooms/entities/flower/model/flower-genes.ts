@@ -1,15 +1,8 @@
 import type { WithId } from '@/kernel/shared/typings';
 
 import type { Circle } from '@/mushrooms/shared/lib/geometry';
-import {
-  between,
-  geneFrom,
-  type GeneRanges,
-  mulberry32,
-  pick,
-  type Seeded,
-  type Stalked,
-} from '@/mushrooms/shared/lib/random';
+import { between, geneFrom, type GeneRanges, mulberry32, pick, type Stalked } from '@/mushrooms/shared/lib/random';
+import type { Seeded } from '@/kernel/shared/typings';
 
 /** A petal's outline: a pointed lens, or a rounded paddle. */
 export const PETAL_KINDS = ['pointed', 'round'] as const;

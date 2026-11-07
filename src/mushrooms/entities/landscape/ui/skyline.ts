@@ -4,7 +4,8 @@
  * from any heading without painting.
  */
 
-import { type Point, wrap } from '@/mushrooms/shared/lib/geometry';
+import { wrap } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import type { Light } from '@/mushrooms/shared/lib/light';
 import { between, type Random } from '@/mushrooms/shared/lib/random';
 import {

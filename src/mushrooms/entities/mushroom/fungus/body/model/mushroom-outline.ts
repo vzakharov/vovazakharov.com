@@ -4,12 +4,8 @@
  * frame (units of size, foot at the origin, y up) unless said otherwise.
  */
 
-import {
-  placedAt,
-  type Point,
-  rounded,
-  sample,
-} from '@/mushrooms/shared/lib/geometry';
+import { placedAt, rounded, sample } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import type { ShelterSide } from '@/mushrooms/shared/world';
 
 import { trumpetOutlines } from './chanterelle-outline';

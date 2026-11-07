@@ -5,7 +5,8 @@
  */
 
 import { crescent } from '@/mushrooms/shared/lib/crescent';
-import { type Point, sample } from '@/mushrooms/shared/lib/geometry';
+import { sample } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import {
   fillShape,
   inkedFill,

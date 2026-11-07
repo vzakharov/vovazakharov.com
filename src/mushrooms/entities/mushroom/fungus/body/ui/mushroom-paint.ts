@@ -7,12 +7,8 @@
 import type * as Phaser from 'phaser';
 
 import { crescent } from '@/mushrooms/shared/lib/crescent';
-import {
-  ellipse,
-  type Point,
-  ROUND_STEPS,
-  type Scaled,
-} from '@/mushrooms/shared/lib/geometry';
+import { ellipse, ROUND_STEPS, type Scaled } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import {
   type Brush,
   fillShape,
@@ -34,7 +30,8 @@ import {
   toCanvas,
 } from '../model/mushroom-outline';
 import { stemAt } from '../model/mushroom-pose';
-import { type Chorded, CURVE_STEPS, detailed } from '../model/mushroom-profile';
+import { CURVE_STEPS, detailed } from '../model/mushroom-profile';
+import type { Chorded } from '@/mushrooms/shared/world';
 import {
   type CapLight,
   shadedHalf,

@@ -8,11 +8,8 @@
 
 import type * as Phaser from 'phaser';
 
-import type {
-  Point,
-  Scaled,
-  WithMiddle,
-} from '@/mushrooms/shared/lib/geometry';
+import type { Scaled, WithMiddle } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import { turnedLight } from '@/mushrooms/shared/lib/light';
 import type { Timed } from '@/mushrooms/shared/lib/motion';
 import type { Lighted, Lighting } from '@/mushrooms/shared/ui';

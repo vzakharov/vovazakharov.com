@@ -9,12 +9,8 @@ import { keptIn } from '@/kernel/shared/cache';
 import { pick } from '@/kernel/shared/lib/collections';
 import type { Sized, WithHeight, WithWidth } from '@/kernel/shared/typings';
 
-import {
-  type Abscissa,
-  alongAzimuth,
-  type Point,
-  type Scaled,
-} from '../lib/geometry';
+import { alongAzimuth, type Scaled } from '../lib/geometry';
+import type { Abscissa, Point } from '@/scene/shared/lib/plane';
 
 /** Where a thing stands for its whole life, on the plane. */
 export type Stood = { foot: Point };

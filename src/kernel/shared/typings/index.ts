@@ -22,20 +22,6 @@ export type Titled = { title: string };
 /** A box's width and height: an image's intrinsic pixel size, which reserves its box before it loads, or a drawn part's. */
 export type Sized = WithWidth & WithHeight;
 
-/** Where a thing stands across, in its module's units. */
-export type Abscissa = { x: number };
-
-/** Where a thing stands down or up, in its module's units. */
-export type Ordinate = { y: number };
-
-export type Point = Abscissa & Ordinate;
-
-/** How many times its laid-out size a thing is drawn. */
-export type Zooming = { zoom: number };
-
-/** A point on the screen, and how many times its laid-out size a thing there is drawn. */
-export type Zoomed = Point & Zooming;
-
 /** A box's width alone. */
 export type WithWidth = { width: number };
 

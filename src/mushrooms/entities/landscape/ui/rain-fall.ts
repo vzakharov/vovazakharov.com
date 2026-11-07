@@ -5,7 +5,8 @@
  * the first point of its path a drawn outline stops it at.
  */
 
-import type { Circle, Point } from '@/mushrooms/shared/lib/geometry';
+import type { Circle } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import { between, type Random } from '@/mushrooms/shared/lib/random';
 
 import { cloudBox } from './cloud-puffs';

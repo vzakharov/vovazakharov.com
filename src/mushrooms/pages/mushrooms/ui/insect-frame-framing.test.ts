@@ -22,15 +22,8 @@ import {
   type View,
   viewAt,
 } from '@/mushrooms/shared/world';
-import {
-  type Aloft,
-  centreOf,
-  drawnAloft,
-  eyeFrameOf,
-  flightPoint,
-  framedOf,
-  mixD,
-} from '@/mushrooms/entities/insect/index.node-safe';
+import { centreOf, drawnAloft, eyeFrameOf, flightPoint, framedOf, mixD } from '@/mushrooms/entities/insect/index.node-safe';
+import type { Aloft } from '@/mushrooms/shared/world';
 import {
   aloftFramed,
   FRAME_MARGIN,

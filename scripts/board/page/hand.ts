@@ -4,7 +4,7 @@
  * viewers, and nothing about the look is stored.
  */
 import type { PlacedItem } from '../model.ts';
-import type { Point } from './camera.ts';
+import type { Point } from '@/scene/shared/lib/plane';
 
 /**
  * A stable number in [-1, 1) from `id` and `salt`: FNV-1a, then murmur3's

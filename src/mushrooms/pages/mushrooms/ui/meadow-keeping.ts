@@ -6,7 +6,7 @@
  * to.
  */
 
-import type { Seeded } from '@/mushrooms/shared/lib/random';
+import type { Seeded } from '@/kernel/shared/typings';
 import {
   type MeadowSeen,
   sameAnchor,

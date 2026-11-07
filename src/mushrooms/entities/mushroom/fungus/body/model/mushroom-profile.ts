@@ -41,7 +41,6 @@ export function curveSteps(drawn: number): number {
   return Math.min(CURVE_STEPS, Math.max(LEAST_STEPS, steps));
 }
 
-export type { Chorded } from '@/mushrooms/shared/world';
 
 /**
  * A count a near mushroom is painted with, `full`, for one painted with

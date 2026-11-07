@@ -1,4 +1,4 @@
-import type { Point } from '../lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import { type Stride, tick } from './stride';
 
 export const FRAME = 1 / 60;

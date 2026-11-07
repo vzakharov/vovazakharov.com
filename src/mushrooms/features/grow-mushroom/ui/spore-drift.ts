@@ -10,7 +10,8 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { alongQuadratic, type Point } from '@/mushrooms/shared/lib/geometry';
+import { alongQuadratic } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import { PALETTE } from '@/mushrooms/shared/ui';
 import {
   capFrame,

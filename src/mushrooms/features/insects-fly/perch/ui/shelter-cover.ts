@@ -5,12 +5,8 @@
  * that one, not hiding under its own: such a seat is not offered.
  */
 
-import {
-  boxAround,
-  boxesMeet,
-  containsPoint,
-  type Point,
-} from '@/mushrooms/shared/lib/geometry';
+import { boxAround, boxesMeet, containsPoint } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import type { Cover } from '@/mushrooms/shared/world';
 
 /** How many points round each ring of a disc it is judged at. */

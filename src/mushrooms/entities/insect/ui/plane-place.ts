@@ -4,7 +4,7 @@
  * timed by, so every end a leg is drawn to is timed where it is drawn.
  */
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import {
   type Camera,
   middleOf,
@@ -14,12 +14,8 @@ import {
   type View,
 } from '@/mushrooms/shared/world';
 
-import {
-  type Aloft,
-  framedOf,
-  type Place,
-  placeOf,
-} from '../model/flight-frame';
+import { framedOf, type Place, placeOf } from '../model/flight-frame';
+import type { Aloft } from '@/mushrooms/shared/world';
 import { eyeFrameOf } from './insect-frame';
 
 /**

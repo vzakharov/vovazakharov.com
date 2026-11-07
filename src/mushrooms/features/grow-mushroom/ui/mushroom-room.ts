@@ -18,15 +18,9 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import {
-  type Box,
-  boxAround,
-  type Circle,
-  containsPoint,
-  distanceToEdge,
-  type Point,
-} from '@/mushrooms/shared/lib/geometry';
-import type { Seeded } from '@/mushrooms/shared/lib/random';
+import { type Box, boxAround, type Circle, containsPoint, distanceToEdge } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+import type { Seeded } from '@/kernel/shared/typings';
 import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
 import {
   aboutFoot,

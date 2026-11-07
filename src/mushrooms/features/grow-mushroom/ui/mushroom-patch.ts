@@ -11,14 +11,8 @@
 import { pick } from '@/kernel/shared/lib/collections';
 import type { WithId } from '@/kernel/shared/typings';
 
-import {
-  type Box,
-  boxAround,
-  boxesMeet,
-  placedAt,
-  type Point,
-  type WithMiddle,
-} from '@/mushrooms/shared/lib/geometry';
+import { type Box, boxAround, boxesMeet, placedAt, type WithMiddle } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import {
   type Camera,
   type Ground,

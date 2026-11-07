@@ -61,11 +61,8 @@ import {
   type Renderable,
   runRenderJob,
 } from '@/kernel/scripts/lib/render-manifest';
-import {
-  filesUnder,
-  RENDERED_SITE,
-  REPO_ROOT,
-} from '@/kernel/scripts/lib/site-tree';
+import { filesUnder, RENDERED_SITE } from '@/kernel/scripts/lib/site-tree';
+import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 
 /** A document's PDF, and the route the dev server renders it from. */
 export type Printable = Renderable & Routed;

@@ -1,7 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { alongAzimuth, type Point } from '@/mushrooms/shared/lib/geometry';
+import { alongAzimuth } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+import type { Aloft } from '@/mushrooms/shared/world';
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
 import {
   CLUMP_DISTANCE,
@@ -9,7 +11,7 @@ import {
   pinholeOf,
   V_NEAR,
 } from '@/mushrooms/shared/world';
-import type { Aloft } from '@/mushrooms/entities/insect/index.node-safe';
+
 import {
   SEAT_FADE,
   type SeatEnds,

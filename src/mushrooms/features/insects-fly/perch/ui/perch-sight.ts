@@ -14,13 +14,10 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import {
-  distanceBetween,
-  placedAt,
-  type Point,
-} from '@/mushrooms/shared/lib/geometry';
+import { distanceBetween, placedAt } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import { phaseOf } from '@/mushrooms/shared/lib/motion';
-import type { Seeded } from '@/mushrooms/shared/lib/random';
+import type { Seeded } from '@/kernel/shared/typings';
 import {
   type Cover,
   D_SEE,

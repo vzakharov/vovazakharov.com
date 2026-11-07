@@ -5,7 +5,7 @@
 
 import type { Ramped } from '@/kernel/shared/typings';
 
-import type { Seeded } from './random';
+import type { Seeded } from '@/kernel/shared/typings';
 
 /** A thing's own offset into an idle loop, so no two move in step. */
 export type Phased = { phase: number };

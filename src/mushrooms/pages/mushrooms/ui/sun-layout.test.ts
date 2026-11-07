@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { Circle, Point } from '@/mushrooms/shared/lib/geometry';
+import type { Circle } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
 import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
 import {

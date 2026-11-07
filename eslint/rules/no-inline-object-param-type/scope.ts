@@ -1,7 +1,8 @@
 import type { Rule } from 'eslint';
 import type * as ESTree from 'estree';
 
-import { type AstNode, type FunctionNode, parentOf, tsType } from './ast';
+import { type FunctionNode, parentOf } from './ast';
+import { type AstNode, tsType } from '../estree-mixins';
 
 /** The leftmost identifier of a `typeof X`/`typeof X.y` query's `exprName`. */
 function typeQueryRoot(exprName: AstNode | undefined): string | null {

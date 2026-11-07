@@ -9,12 +9,8 @@
 import type * as Phaser from 'phaser';
 
 import { mix } from '@/mushrooms/shared/lib/colour';
-import {
-  distanceBetween,
-  type Point,
-  type Wide,
-  type WithMiddle,
-} from '@/mushrooms/shared/lib/geometry';
+import { distanceBetween, type Wide, type WithMiddle } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import { smooth } from '@/mushrooms/shared/lib/motion';
 import { between, type Random } from '@/mushrooms/shared/lib/random';
 import {

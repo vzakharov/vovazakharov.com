@@ -2,7 +2,8 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Circle, Point } from '@/mushrooms/shared/lib/geometry';
+import type { Circle } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import {
   blink,
   emerge,

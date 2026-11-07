@@ -9,11 +9,8 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import {
-  distanceBetween,
-  type Lefted,
-  type Point,
-} from '@/mushrooms/shared/lib/geometry';
+import { distanceBetween, type Lefted } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 
 import type { Place } from './flight-frame';
 import {

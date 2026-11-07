@@ -7,7 +7,8 @@
  * is the scene's to judge (`admits`); nothing here knows how it is drawn.
  */
 
-import type { Point, Reach } from '@/mushrooms/shared/lib/geometry';
+import type { Reach } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import { mulberry32, type Random } from '@/mushrooms/shared/lib/random';
 import {
   type Eye,

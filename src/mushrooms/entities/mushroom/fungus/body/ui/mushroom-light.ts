@@ -5,13 +5,8 @@
  * frame (units of size, y up) unless said otherwise.
  */
 
-import {
-  type Circle,
-  placedAt,
-  type Point,
-  sample,
-  type Scaled,
-} from '@/mushrooms/shared/lib/geometry';
+import { type Circle, placedAt, sample, type Scaled } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import { type Light, lightAt, turnedLight } from '@/mushrooms/shared/lib/light';
 import {
   awayAngle,

@@ -6,16 +6,8 @@
 
 import type { Sized } from '@/kernel/shared/typings';
 
-import {
-  arch,
-  boxAround,
-  boxesMeet,
-  type Circle,
-  containsPoint,
-  outside,
-  type Point,
-  sample,
-} from '@/mushrooms/shared/lib/geometry';
+import { arch, boxAround, boxesMeet, type Circle, containsPoint, outside, sample } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 
 import {
   capBase,

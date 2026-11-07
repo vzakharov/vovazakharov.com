@@ -3,9 +3,10 @@
  * one CSS transform, with the screen ↔ world conversions every gesture needs.
  */
 
-import type { Point, Sized, Zoomed } from '@/kernel/shared/typings';
+import type { Sized } from '@/kernel/shared/typings';
+import type { Point, Zoomed } from '@/scene/shared/lib/plane';
 
-export type { Point, Zoomed } from '@/kernel/shared/typings';
+
 
 export type Rect = Point & Sized;
 

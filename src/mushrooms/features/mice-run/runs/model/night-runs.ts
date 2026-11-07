@@ -8,12 +8,8 @@
  */
 
 import type { Stamped } from '@/mushrooms/shared/lib/motion';
-import {
-  between,
-  pick,
-  saltedStream,
-  type Seeded,
-} from '@/mushrooms/shared/lib/random';
+import { between, pick, saltedStream } from '@/mushrooms/shared/lib/random';
+import type { Seeded } from '@/kernel/shared/typings';
 import { type Dusk, dusky } from '@/mushrooms/shared/world';
 
 import {

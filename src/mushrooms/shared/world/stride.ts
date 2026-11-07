@@ -25,7 +25,7 @@ import {
   type Cruising,
   type Direction,
 } from '../lib/cruise';
-import type { Point } from '../lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import {
   blended,
   type Flinging,

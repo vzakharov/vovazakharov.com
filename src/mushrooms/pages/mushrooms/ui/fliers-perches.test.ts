@@ -4,15 +4,10 @@ import { isDeepStrictEqual } from 'node:util';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import { raining, viewAt } from '@/mushrooms/shared/world';
-import {
-  drawnAloft,
-  type Flier,
-  type Flight,
-  perchName,
-  type Zoomed,
-} from '@/mushrooms/entities/insect/index.node-safe';
+import { drawnAloft, type Flier, type Flight, perchName } from '@/mushrooms/entities/insect/index.node-safe';
+import type { Zoomed } from '@/scene/shared/lib/plane';
 import {
   VIEWPORTS,
   VISITS,

@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import { mulberry32, nextSeed } from '@/mushrooms/shared/lib/random';
 import { FLOWER_SIZE, OPENING_EYE } from '@/mushrooms/shared/world';
 import {

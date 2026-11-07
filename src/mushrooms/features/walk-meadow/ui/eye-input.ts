@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
 
 import type { Direction } from '@/mushrooms/shared/lib/cruise';
-import type { Point } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import {
   type Camera,
   type Eye,

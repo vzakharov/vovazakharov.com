@@ -1,11 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import {
-  containsPoint,
-  ellipse,
-  type Point,
-} from '@/mushrooms/shared/lib/geometry';
+import { containsPoint, ellipse } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import { mulberry32, nextSeed } from '@/mushrooms/shared/lib/random';
 import {
   insectGenes,

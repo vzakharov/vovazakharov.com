@@ -1,12 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import {
-  alongQuadratic,
-  clipToConvex,
-  containsPoint,
-  type Point,
-} from './geometry';
+import { alongQuadratic, clipToConvex, containsPoint } from './geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 
 const square = (x: number, y: number, side: number): Point[] => [
   { x, y },

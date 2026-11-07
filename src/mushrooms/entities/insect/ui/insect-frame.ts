@@ -7,11 +7,8 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import {
-  alongAzimuth,
-  distanceBetween,
-  type Point,
-} from '@/mushrooms/shared/lib/geometry';
+import { alongAzimuth, distanceBetween } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import { smooth } from '@/mushrooms/shared/lib/motion';
 import {
   bendAt,
@@ -29,13 +26,8 @@ import {
   type View,
 } from '@/mushrooms/shared/world';
 
-import {
-  type Aloft,
-  azimuthOf,
-  type EyeFrame,
-  type Framed,
-  unframed,
-} from '../model/flight-frame';
+import { azimuthOf, type EyeFrame, type Framed, unframed } from '../model/flight-frame';
+import type { Aloft } from '@/mushrooms/shared/world';
 
 /** `view`'s pinhole as the frame a leg is drawn in (`EyeFrame`), in px of `unit` CSS px: the world px of the opening layout at 1. */
 export function eyeFrameOf(view: View, unit = 1): EyeFrame {

@@ -1,10 +1,7 @@
 import type * as Phaser from 'phaser';
 
-import {
-  clipToConvex,
-  ellipse,
-  type Point,
-} from '@/mushrooms/shared/lib/geometry';
+import { clipToConvex, ellipse } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import type { Looking } from '@/mushrooms/shared/lib/motion';
 import {
   box,

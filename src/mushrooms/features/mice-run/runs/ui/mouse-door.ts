@@ -11,7 +11,7 @@ import {
   peekAfterTap,
   type Tapped,
 } from '@/mushrooms/shared/lib/motion';
-import type { Seeded } from '@/mushrooms/shared/lib/random';
+import type { Seeded } from '@/kernel/shared/typings';
 import {
   type PeekingOut,
   runAt,

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import { sunLight } from '@/mushrooms/shared/lib/light';
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
 import { type Camera, OPENING_EYE, viewAt } from '@/mushrooms/shared/world';

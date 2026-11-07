@@ -6,7 +6,8 @@
  */
 
 import { darken, dimTo, lightenTo, luminance, mix } from '../lib/colour';
-import type { Abscissa, Point, Tall, Wide } from '../lib/geometry';
+import type { Tall, Wide } from '../lib/geometry';
+import type { Abscissa, Point } from '@/scene/shared/lib/plane';
 import type { Light } from '../lib/light';
 import { PALETTE } from './palette';
 

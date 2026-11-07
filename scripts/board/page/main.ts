@@ -6,15 +6,8 @@
 import { z } from 'zod';
 
 import { Item, type PlacedItem, STICKY_COLORS } from '../model.ts';
-import {
-  fitTo,
-  type Point,
-  type Rect,
-  toWorld,
-  union,
-  zoomAt,
-  type Zoomed,
-} from './camera.ts';
+import { fitTo, type Rect, toWorld, union, zoomAt } from './camera.ts';
+import type { Point, Zoomed } from '@/scene/shared/lib/plane';
 import { byId, itemIdAt, newId, required } from './dom.ts';
 import {
   EDITABLE_FIELD,

@@ -7,7 +7,8 @@
 
 import type { WithWidth } from '@/kernel/shared/typings';
 
-import { type Circle, type Point, wrap } from '@/mushrooms/shared/lib/geometry';
+import { type Circle, wrap } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import { smooth } from '@/mushrooms/shared/lib/motion';
 import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
 import { PALETTE } from '@/mushrooms/shared/ui/index.node-safe';

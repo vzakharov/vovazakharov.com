@@ -2,18 +2,8 @@ import { keptIn } from '@/kernel/shared/cache';
 import type { WithId } from '@/kernel/shared/typings';
 
 import type { Bent, Circle, Leaning } from '@/mushrooms/shared/lib/geometry';
-import {
-  between,
-  countFrom,
-  geneFrom,
-  type GeneRanges,
-  mulberry32,
-  nextSeed,
-  pick,
-  type Random,
-  type Seeded,
-  type Stalked,
-} from '@/mushrooms/shared/lib/random';
+import { between, countFrom, geneFrom, type GeneRanges, mulberry32, nextSeed, pick, type Random, type Stalked } from '@/mushrooms/shared/lib/random';
+import type { Seeded } from '@/kernel/shared/typings';
 
 /** The meadow's four species, in the order the picker shows them. */
 export const MUSHROOM_SPECIES = [

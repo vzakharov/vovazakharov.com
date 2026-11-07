@@ -1,6 +1,6 @@
-import type { Point } from '@/kernel/shared/typings';
+import type { Point } from '@/scene/shared/lib/plane';
 
-export type { Abscissa, Ordinate, Point } from '@/kernel/shared/typings';
+
 
 export type Radiused = { r: number };
 export type Circle = Point & Radiused;

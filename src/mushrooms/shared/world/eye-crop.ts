@@ -1,4 +1,4 @@
-import type { Point } from '../lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import { gathered } from './ground';
 import { aloftAt, alongSight, pinholeOf } from './pinhole';
 import { middleOf, rowAt, type View } from './view';

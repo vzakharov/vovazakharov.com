@@ -2,7 +2,8 @@ import type * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Point, Tall } from '@/mushrooms/shared/lib/geometry';
+import type { Tall } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import type { Light } from '@/mushrooms/shared/lib/light';
 import {
   type Lit,
@@ -23,20 +24,8 @@ import {
   UNPLACED,
 } from '@/mushrooms/shared/world';
 
-import {
-  type AreaHit,
-  type Chorded,
-  CURVE_STEPS,
-  curveSteps,
-  drawMushroom,
-  drawMushroomShadow,
-  type HazedGraphics,
-  mushroomGenes,
-  type MushroomLights,
-  type Puffing,
-  type Selected,
-  type Spotted,
-} from '../../fungus';
+import { type AreaHit, CURVE_STEPS, curveSteps, drawMushroom, drawMushroomShadow, type HazedGraphics, mushroomGenes, type MushroomLights, type Puffing, type Selected, type Spotted } from '../../fungus';
+import type { Chorded } from '@/mushrooms/shared/world';
 import type { DoorPlace, Housed } from '../model/house';
 import type { Footed } from '../model/placement';
 import type { Planted, Sprouting } from '../model/planted';

@@ -27,7 +27,8 @@ import {
 } from '@/origami/shared/fold';
 import { DESIGN_IDS, DESIGNS } from '@/origami/entities/design';
 
-import { render, type Shot, type View } from './lib/render.ts';
+import { render, type Shot } from './lib/render.ts';
+import type { View } from './lib/render-page.ts';
 
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 

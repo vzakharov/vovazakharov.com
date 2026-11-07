@@ -6,7 +6,8 @@
  * are in the clump's size.
  */
 
-import { distanceBetween, type Point } from '@/mushrooms/shared/lib/geometry';
+import { distanceBetween } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 
 /**
  * How far a running mouse is drawn behind its middle, to its tail's tip, and

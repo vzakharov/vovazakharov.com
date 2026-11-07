@@ -10,11 +10,9 @@ import { keptIn } from '@/kernel/shared/cache';
 import { pick } from '@/kernel/shared/lib/collections';
 import type { WithId } from '@/kernel/shared/typings';
 
-import {
-  distanceBetween,
-  type Point,
-  wrap,
-} from '@/mushrooms/shared/lib/geometry';
+import { distanceBetween, wrap } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+import type { Aloft } from '@/mushrooms/shared/world';
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
 import {
   anchored,
@@ -26,23 +24,8 @@ import {
   rowAt,
   viewAt,
 } from '@/mushrooms/shared/world';
-import {
-  type Aloft,
-  type AtAloft,
-  azimuthOf,
-  drawnAloft,
-  INSECT_KINDS,
-  type InsectCamera,
-  type InsectKind,
-  type Perch,
-  perchName,
-  type Place,
-  placeOfAloft,
-  type Places,
-  type Sited,
-  widestOn,
-  type Zoomed,
-} from '@/mushrooms/entities/insect/index.node-safe';
+import { type AtAloft, azimuthOf, drawnAloft, INSECT_KINDS, type InsectCamera, type InsectKind, type Perch, perchName, type Place, placeOfAloft, type Places, type Sited, widestOn } from '@/mushrooms/entities/insect/index.node-safe';
+import type { Zoomed } from '@/scene/shared/lib/plane';
 
 import type { Crowding } from '../../route/index.node-safe';
 import { INSECT_LIMITS } from '../../swarm/index.node-safe';

@@ -10,7 +10,7 @@
  * leg off from where it last drew the insect.
  */
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import {
   type Phased,
   roundAt,

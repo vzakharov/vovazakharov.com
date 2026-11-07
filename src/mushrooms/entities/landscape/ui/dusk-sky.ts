@@ -5,7 +5,8 @@
  * meadow's `duskness`.
  */
 
-import type { Circle, Point } from '@/mushrooms/shared/lib/geometry';
+import type { Circle } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import { smooth } from '@/mushrooms/shared/lib/motion';
 import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
 import type { View } from '@/mushrooms/shared/world';

@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { placedAt, type Point } from '@/mushrooms/shared/lib/geometry';
+import { placedAt } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 import {
   everyPlace,
   MUSHROOM_SPECIES,

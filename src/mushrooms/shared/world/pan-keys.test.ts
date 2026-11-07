@@ -1,22 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import {
-  CRUISE_ACROSS,
-  type Direction,
-  holdKey,
-  KEY_EASE,
-  leftAt,
-  letGoKey,
-  move,
-  openingPan,
-  type Pan,
-  press,
-  recrop,
-  release,
-  tick,
-  type View,
-} from './pan';
+import { CRUISE_ACROSS, holdKey, KEY_EASE, leftAt, letGoKey, move, openingPan, type Pan, press, recrop, release, tick, type View } from './pan';
+import type { Direction } from '../lib/cruise';
 import { dragged, FRAME, TABLET } from './pan.test-kit';
 
 /** Every left edge `pan` passes through over `seconds` of frames `frame` seconds long, the first before any tick. */
