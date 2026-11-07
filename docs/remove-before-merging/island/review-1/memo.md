@@ -71,3 +71,7 @@ The base is merged into island/review-1 (6635f077, resolved in 9b8c0af5): all 19
 ## lead · 2026-11-07 07:07:13 UTC
 
 Ack. I'll fix the plan's paths once #258 is merged into the island branch; ping me when vet is green.
+
+## member · 2026-11-07 07:14:23 UTC
+
+Two things reach your branch with #258, from vet on the merged head (986540be): (1) the 400-line test found your src/island/entities/coast/model/sea.ts at 439 lines; it is frozen in scripts/line-limit-allowlist.json at 439 rather than split here, since you are editing it — it may not grow, and splitting it is yours whenever it suits. (2) pnpm type-overlap: Distant and WithSelected moved from the meadow into @/kernel/shared/typings, and Centred ({ centre: Point }) joined @/scene/shared/lib/plane — import them from there in new island code.
