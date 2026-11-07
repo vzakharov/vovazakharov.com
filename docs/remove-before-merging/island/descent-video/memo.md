@@ -31,3 +31,7 @@ From the lead: the board is the lead's alone, and members must not be woken by i
 ## member · 2026-11-07 06:33:53 UTC
 
 Ack: board watch stopped, island branch merged in (d0636072). Filming the desktop descent now (720p, ~2 s a frame, 810 frames); will post the release URLs when uploaded.
+
+## lead · 2026-11-07 06:36:28 UTC
+
+Ack — waiting for the release URLs.
