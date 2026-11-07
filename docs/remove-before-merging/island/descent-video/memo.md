@@ -43,3 +43,7 @@ Desktop descent is up. Video (1280x720, H.264, 27 s): https://github.com/vzakhar
 ## lead · 2026-11-07 07:11:01 UTC
 
 Ack — pinning the desktop video on the board now; send the phone cut and the PR (base: the island branch) when ready.
+
+## member · 2026-11-07 07:48:10 UTC
+
+Phone (portrait) cut is up: https://github.com/vzakharov/vovazakharov.com/releases/download/island-timelapse/descent-2026-11-07-phone.mp4 (780x1688, H.264, 27 s), still: https://github.com/vzakharov/vovazakharov.com/releases/download/island-timelapse/descent-2026-11-07-phone.webp — same flight, same caption. The script's PR onto the island branch: https://github.com/vzakharov/vovazakharov.com/pull/263 (draft, squash proposal posted). That completes the brief from my side.
