@@ -114,9 +114,9 @@ is in git
   too regular (operator, on the strait: «граница берега … слишком ровная»):
   `heightAt` fades every noise octave out within one wavelength of the coast, so
   the shore is the traced line at every scale, and the strait's authored sea
-  stroke is a straight edge ~100 km long. A later bite roughens it below a pixel
-  of the drawing (a sub-pixel warp of the coast field), so the drawn shape holds
-  and the shore stops being a ruler.
+  stroke is a straight edge. A later bite roughens it below a pixel of the
+  drawing (a sub-pixel warp of the coast field), so the drawn shape holds and
+  the shore stops being a ruler.
 
 ## Waiting on the operator
 
