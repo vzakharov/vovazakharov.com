@@ -347,6 +347,10 @@ them. A revision replaces it, so its history is git's.
     for that repository's rows**, since they were booked against it, and the
     report, `check_estimates.py` and the notice each name both rates;
     `role drop` adopts the shared one.
+- **`subjectLine` names what the session did**, as a conventional commit subject
+  of at most 72 characters, so a row reads like a log entry. It is part of the
+  estimate rather than a field beside it, so `set` requires it and a revision
+  replaces it with the parts; a row set before it existed has none.
 - **Of the row's copy and a running session's pending one, the later wins.**
   That is how a `--session` edit to a running session's row survives its next
   `Stop`, and how the session's own later `set` overrides that edit.

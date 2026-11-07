@@ -2,7 +2,7 @@
 """Set or show a session's human-hour estimate.
 
 Usage:
-  python3 .claude/costs/estimate.py set --part <hours> <grade> <role> <why> [--part ...] [--session <id>]
+  python3 .claude/costs/estimate.py set --subject <subject> --part <hours> <grade> <role> <why> [--part ...] [--session <id>]
   python3 .claude/costs/estimate.py show [--session <id>]
   python3 .claude/costs/estimate.py rates
   python3 .claude/costs/estimate.py role set <name> <multiplier> <grade> <work>
@@ -10,7 +10,8 @@ Usage:
 
 Each `--part` is the hours one role at one grade would spend on the task, and
 why that role, at that grade, for those hours; the parts add up to the
-estimate, and `set` replaces the whole of it. `rates` prints the table an
+estimate, and `set` replaces the whole of it. `--subject` is what the session
+did as a conventional commit subject, at most 72 characters, replaced with it. `rates` prints the table an
 estimate is checked against as JSON — `rates.json` plus the roles this
 repository's `rates.repo.json` on the `cost-ledger` branch adds, each at its one
 grade, and a note per role both rate. `role set` adds a role there or re-rates
@@ -57,7 +58,8 @@ def describe(estimate: Optional[Estimate], rates: Rates) -> str:
         return "no estimate yet"
     parts = " + ".join(f"{part.hours:g} h {part.label}" for part in estimate.parts)
     reasons = estimate.comment or "; ".join(f"{part.label}: {part.comment}" for part in estimate.parts)
-    return f"{parts} = {senior_hours(estimate, rates):g} senior-hours — {reasons}"
+    subject = f" `{estimate.subject_line}`:" if estimate.subject_line else ""
+    return f"{subject} {parts} = {senior_hours(estimate, rates):g} senior-hours — {reasons}".lstrip()
 
 
 def parts_of(raw: List[List[str]]) -> List[Part]:
@@ -122,6 +124,11 @@ def main() -> int:
         metavar=("HOURS", "GRADE", "ROLE", "WHY"),
         help="WHY: why this role, at this grade, for these hours; not a summary of the work",
     )
+    setting.add_argument(
+        "--subject",
+        required=True,
+        help="what the session did, as a conventional commit subject of at most 72 characters",
+    )
     showing = commands.add_parser("show")
     for command in (setting, showing):
         command.add_argument("--session", help="another session's id; this one's by default")
@@ -171,6 +178,7 @@ def main() -> int:
                 Estimate(
                     at=datetime.now(timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z"),
                     parts=parts_of(args.part),
+                    subject_line=args.subject.strip(),
                 ),
                 rates,
                 "the estimate",
