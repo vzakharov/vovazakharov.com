@@ -1,0 +1,11 @@
+{
+  "kind": "image",
+  "id": "descent-video",
+  "x": 2470,
+  "y": -140,
+  "w": 340,
+  "src": "images/descent-video.webp",
+  "caption": "From orbit to a beach at the head of the bay between Blablania and Feisis, in one continuous fall (27 s): github.com/vzakharov/vovazakharov.com/releases/download/island-timelapse/descent-2026-11-07.mp4",
+  "updated": "2026-11-07T07:25:00.000Z",
+  "author": "agent:lead"
+}
