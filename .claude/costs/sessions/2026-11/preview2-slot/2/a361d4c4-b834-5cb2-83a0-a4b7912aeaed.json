@@ -1,0 +1,92 @@
+{
+  "total": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 57684,
+    "cacheReadTokens": 666431,
+    "outputTokens": 1622,
+    "thinkingTokens": 276,
+    "responses": 7,
+    "costUsd": 0.6272621999999999
+  },
+  "estimate": {
+    "at": "2026-11-07T06:49:32.165Z",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "the quality passes, the PR and finalize over a small infra diff need someone who can judge a workflow and its docs together"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-07T06:49:31.310Z",
+    "contextTokens": 106965,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 46127,
+      "cacheReadTokens": 455148,
+      "outputTokens": 884,
+      "thinkingTokens": 80,
+      "responses": 5,
+      "costUsd": 0.4777735999999999
+    }
+  },
+  "sessionId": "a361d4c4-b834-5cb2-83a0-a4b7912aeaed",
+  "branch": "preview2-slot",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take preview2-slot — preview2.vovazakharov.com работает по HTTPS, остались проходы качества, PR и finalize",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkC3DSWtmYbnteRJnwM",
+  "operator": null,
+  "firstResponseAt": "2026-11-07T06:49:14.517Z",
+  "lastResponseAt": "2026-11-07T06:49:33.528Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 57684,
+    "cacheReadTokens": 666431,
+    "outputTokens": 1622,
+    "thinkingTokens": 276,
+    "responses": 7,
+    "costUsd": 0.6272621999999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 57684,
+      "cacheReadTokens": 666431,
+      "outputTokens": 1622,
+      "thinkingTokens": 276,
+      "responses": 7,
+      "costUsd": 0.6272621999999999
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 6,
+    "matched": 6,
+    "matchedTableUsd": 0.5288495999999999,
+    "matchedEventUsd": 0.5288495999999999,
+    "unseen": {}
+  }
+}
