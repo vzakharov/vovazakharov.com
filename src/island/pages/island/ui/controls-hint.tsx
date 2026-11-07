@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { PLAY_QUERY } from '@/island/shared/play';
 
-import { COPY } from '../config/i18n';
+import COPY from '../config/messages/en.json';
 import classes from './island.module.scss';
 
 /** How long after the page opens the hint comes in. */
