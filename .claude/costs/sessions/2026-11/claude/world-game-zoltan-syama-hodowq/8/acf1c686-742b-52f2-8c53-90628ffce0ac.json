@@ -10,7 +10,7 @@
     "costUsd": 4.323507500000001
   },
   "estimate": {
-    "at": "2026-11-06T21:08:35.821Z",
+    "at": "2026-11-07T06:35:41.320Z",
     "parts": [
       {
         "hours": 0.75,
@@ -19,7 +19,8 @@
         "comment": "routing an operator's scale dispute and the board's layout asks onto the board, its plan and a member's channel is the producer's job between a team's bites"
       }
     ],
-    "comment": null
+    "comment": null,
+    "subjectLine": "content(island): ring the board's zones round the map, scale dispute"
   },
   "orientation": {
     "endedBy": "oriented",
@@ -112,7 +113,11 @@
       }
     }
   },
-  "operatorWords": 63,
+  "operatorWords": {
+    "chat": 63,
+    "review": 0
+  },
+  "reviewPosts": {},
   "branchLines": {
     ".md": 2027,
     ".py": 1123,
