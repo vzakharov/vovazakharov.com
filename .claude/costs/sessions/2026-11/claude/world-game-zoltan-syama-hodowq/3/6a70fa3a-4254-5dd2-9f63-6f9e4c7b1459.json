@@ -11,6 +11,7 @@
   },
   "estimate": {
     "at": "2026-11-07T06:35:41.320Z",
+    "subjectLine": "feat(island): make the board look drawn on, cut the plan to a page",
     "parts": [
       {
         "hours": 2.0,
@@ -25,8 +26,7 @@
         "comment": "folding a grown plan into a one-page pointer beside its board, with the operator's standing rules, is scoping work"
       }
     ],
-    "comment": null,
-    "subjectLine": "feat(island): make the board look drawn on, cut the plan to a page"
+    "comment": null
   },
   "orientation": {
     "endedBy": "oriented",
