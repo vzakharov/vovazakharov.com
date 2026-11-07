@@ -4,6 +4,7 @@ export {
   type GroundAt,
   IDLE,
   MAX_HEIGHT,
+  MIN_HEIGHT,
   step,
   withHeight,
 } from './model/eye';
