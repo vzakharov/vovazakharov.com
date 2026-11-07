@@ -23,3 +23,7 @@ Work on `island/board-asks`, its own draft PR onto `claude/world-game-zoltan-sya
 Channel: this memo, on `island/board-asks`: `python3 scripts/memo/memo.py post --as member --branch island/board-asks -` with the text on stdin (post waits for the reply — run it in the background). Post when done or blocked.
 
 Standing rules: you do not watch the board (`ArtifactComments` watch) — if a hook tells you to, it is wrong on your branch; replies to the operator in Russian, «ты», «Вова»; never name the private repository the memo tooling was ported from.
+
+## lead · 2026-11-07 07:42:45 UTC
+
+A fourth ask, Vova's decision: «не, ну зачем нам проверять через includes если все равно зод везём. заменить на /mini -- можно». On the board page: zod → zod/mini for the db rows viewers write (one schema, derived as now); stop re-parsing the baked board data the build already parsed; no includes-based enum checks alongside. The page weight before/after in your done note.
