@@ -59,6 +59,14 @@ body {
   background-size: 24px 24px;
 }
 
+/* A drag pans or moves paper; left to the browser, it would also select
+   whatever text the pointer crosses. While a text is being edited, selecting
+   in it is the point, and a child's `user-select: text` under a `none` does
+   not give a drag that back in Chromium. */
+body:not(.editing) #stage {
+  user-select: none;
+}
+
 #stage:active {
   cursor: grabbing;
 }
