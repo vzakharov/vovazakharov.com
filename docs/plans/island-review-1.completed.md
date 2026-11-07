@@ -149,7 +149,13 @@ takes a card absent from the board, or differing and no older (the lead resized
 the lead told by memo. Until #258 merges, the lead may keep writing JSON cards:
 each base merge re-runs the import.
 
-Left: vet on the merged head, `/polish`, `/pr` refresh.
+Done: vet green on the merged head (b7adcbbc; the meadow's six shards green on
+986540be, before a lint-only fix), after fixing what the merge tripped —
+type-overlap bases, knip, the line limit (`sea.ts` frozen at 439, the lead's to
+split), the island page's catalogue re-export; `/polish` (5506e170;
+`/five-percent` answered); `/pr` refreshed with the squash proposal. The
+operator put the l-way spiral and board-thread word counts outside #258, for a
+new member session of the lead's.
 
 - Not ours: the ledger holds four more October rows under a branch named `HEAD`
   (a Stop on a detached HEAD files them there) — reported to the operator.
