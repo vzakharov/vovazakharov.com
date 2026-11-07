@@ -119,9 +119,13 @@ departed from the shape above:
   snapshot is pixel-identical to the pre-move one; lint, tsc, knip, Steiger,
   `check:masd`, cycles, clusters, poison and the board's 28 tests green.
 
+Done (c8af701b, c66c357b): step 7 — `scripts/line-limit.test.ts`, 46 files
+frozen in `scripts/line-limit-allowlist.json` at their exact length, JSON data
+excluded by pattern along with the lockfile and `docs/pr|issue/`; CLAUDE.md's
+rule of thumb (staged) and `.claude/rules/testing.md` point at it.
+
 Left:
 
-- Step 7, the line-limit test and its shrink-only allowlist.
 - Step 8's rest: the republish recipe in the lead's plan is the lead's to
   change, so it goes in the memo (below) rather than an edit here.
 - `/polish`, then `/pr` refresh; replies on #255's T01, T12, T13, T15, T16, T17
