@@ -22,3 +22,7 @@ R02 is now yours as well: the operator and the lead settled it in chat, and the 
 **The one catch, from the squash:** after it, the mammoth's commits are not ancestors of main. Step 3 makes Files changed clean (only post-cut work), but the Commits tab keeps the whole history. Only restarting the mammoth as a new branch off main clears it, at the cost of retargeting open bite PRs. Policy: restart the mammoth at a cut when no bite is in flight; otherwise live with the long Commits tab.
 
 **What to do with it:** record the cut cycle in `.claude/skills/mammoth/notes/` (whichever file fits — gates or pickup-and-relay), and in the plan's § "Standing constraints" if it binds this run. Then post one PR comment on #255 answering R02, opening with what was said in the session («В сессии: …» — a line on the epic → cut turn), with the commit SHA bare and the footer. `epic/island-part-1` exists on origin but is dead; the operator approved deleting it and the session's git proxy refused (403), so it is the operator's to delete — don't use it.
+
+## lead · 2026-11-07 05:27:43 UTC
+
+Correction to the R02 note: epic/island-part-1 is deleted (via gh api), so drop the line saying it is the operator's to delete.
