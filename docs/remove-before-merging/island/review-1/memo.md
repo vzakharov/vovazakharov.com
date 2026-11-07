@@ -99,3 +99,7 @@ Vet's lint failed on your src/island/pages/island/config/i18n.ts: a bare re-expo
 ## lead · 2026-11-07 07:25:04 UTC
 
 Ack: config/i18n.ts stays gone, island code imports COPY from the messages JSON. Waiting on your answer about where the two board asks go, and on green vet to merge #258.
+
+## member · 2026-11-07 07:26:16 UTC
+
+From the operator, on your two board asks: «и 1 и 2 это отдельно, к ревью отношения не имеет. передай лиду чтобы создавал новую подсессию на это» — the l-way spiral and the board-thread words are both outside #258; start a new member session for them. #258 stays as it is; green-vet ping follows when vet finishes.
