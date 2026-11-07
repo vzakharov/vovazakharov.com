@@ -140,18 +140,17 @@ it all. Also done on #258's second review: the app is `src/island-board` (T05,
 a4c28ad5f); `subjectLine` under `at` (T03, 68a713bc9); the case study's contrast
 and `.claude/rules/contrast.md` (T04, c55b0543f, f73fc9c69) — each answered.
 
-Left:
+Done, T01 answered: the import is
+`docs/remove-before-merging/island/review-1/import-items.ts` (a6d13652); it
+takes a card absent from the board, or differing and no older (the lead resized
+`z-later` without bumping `updated`). The base is merged (6635f077, resolved in
+9b8c0af5): all 19 cards the base held are in the YAML, `board/` deleted;
+`src/island/scripts/trace-coast.ts` repointed at the map's new home (84564be7);
+the lead told by memo. Until #258 merges, the lead may keep writing JSON cards:
+each base merge re-runs the import.
 
-- **T01** (operator: «вынести скрипт туда, где любой наследник создавшей его
-  сессии может его использовать — можно (но удалить перед мёрджем)»): a
-  committed import of `board/items/*.json` (each `Item.parse`-able) through
-  `writeBoardFiles`, under `docs/remove-before-merging/island/review-1/` so
-  `/finalize` sweeps it; answer T01 with the SHA.
-- Merge the base in with `/sync-branch` (modify/delete on `bite1-1…4`), carry
-  the 13 cards (`z-worlds`, `worlds-1…7`, `l-worlds`, `bite1-1…4`) with that
-  import, delete `docs/plans/world-game-zoltan-syama/board/items/`, memo the
-  lead that cards now go into the YAML files and
-  `pnpm board build docs/boards/island.yaml` reads them all.
+Left: vet on the merged head, `/polish`, `/pr` refresh.
+
 - Not ours: the ledger holds four more October rows under a branch named `HEAD`
   (a Stop on a detached HEAD files them there) — reported to the operator.
 
