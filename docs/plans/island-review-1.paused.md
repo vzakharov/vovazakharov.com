@@ -162,6 +162,15 @@ container gone:
 Both rows live on the base branch, so the backfill commits land here and reach
 the base with #258. Reply on each thread with the SHA.
 
+Done (98b11a34, both threads answered): 956 is exact — the server transcript
+holds seven operator messages, the last at 17:33. Sessions 1–3's `branchLines`
+come from git, each session's last commit against its merge base with main (the
+method reproduces session 4's row at c6f606ad). `subjectLine` is on the
+mammoth's rows 1–11 and bite 1's 1–5; the lead's running session and
+descent-video's set their own, since their next `Stop` would overwrite an edit.
+Still open: whether the rest of the ledger (≈520 rows on other branches) gets
+one too — asked.
+
 Left:
 
 - Step 8's rest: the republish recipe in the lead's plan is the lead's to
