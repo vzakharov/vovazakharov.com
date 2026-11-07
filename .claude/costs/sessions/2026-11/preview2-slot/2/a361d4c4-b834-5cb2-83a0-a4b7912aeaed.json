@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 137,
+    "inputTokens": 139,
     "cacheWrite5mTokens": 102650,
-    "cacheWrite1hTokens": 118267,
-    "cacheReadTokens": 8819759,
-    "outputTokens": 23971,
+    "cacheWrite1hTokens": 120131,
+    "cacheReadTokens": 8996219,
+    "outputTokens": 24005,
     "thinkingTokens": 4785,
-    "responses": 69,
-    "costUsd": 3.7033058
+    "responses": 70,
+    "costUsd": 3.7541978
   },
   "estimate": {
     "at": "2026-11-07T06:49:32.165Z",
@@ -47,18 +47,18 @@
   "url": "https://claude.ai/code/session_01DaohkC3DSWtmYbnteRJnwM",
   "operator": null,
   "firstResponseAt": "2026-11-07T06:49:14.517Z",
-  "lastResponseAt": "2026-11-07T07:06:06.366Z",
+  "lastResponseAt": "2026-11-07T08:01:10.991Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 96,
+    "inputTokens": 98,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 118267,
-    "cacheReadTokens": 7203312,
-    "outputTokens": 16841,
+    "cacheWrite1hTokens": 120131,
+    "cacheReadTokens": 7379772,
+    "outputTokens": 16875,
     "thinkingTokens": 2444,
-    "responses": 50,
-    "costUsd": 2.7240024
+    "responses": 51,
+    "costUsd": 2.7748944
   },
   "subagents": {
     "inputTokens": 41,
@@ -72,23 +72,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 137,
+      "inputTokens": 139,
       "cacheWrite5mTokens": 102650,
-      "cacheWrite1hTokens": 118267,
-      "cacheReadTokens": 8819759,
-      "outputTokens": 23971,
+      "cacheWrite1hTokens": 120131,
+      "cacheReadTokens": 8996219,
+      "outputTokens": 24005,
       "thinkingTokens": 4785,
-      "responses": 69,
-      "costUsd": 3.7033058
+      "responses": 70,
+      "costUsd": 3.7541978
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 69,
-    "matched": 69,
-    "matchedTableUsd": 3.7033058,
-    "matchedEventUsd": 3.7033058,
+    "events": 70,
+    "matched": 70,
+    "matchedTableUsd": 3.7541978,
+    "matchedEventUsd": 3.7541978,
     "unseen": {}
   }
 }
