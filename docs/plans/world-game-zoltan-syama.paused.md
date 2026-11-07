@@ -85,11 +85,13 @@ is in git
   then `pnpm board build docs/plans/world-game-zoltan-syama/board` and publish
   `tmp/board/world-game-zoltan-syama/index.html` with `files` mapping `images/*`
   to the built copies and `url` the artifact above. Only the lead publishes.
-- **The case study** — `sites/vova/public/case-studies/island.md`,
-  `hidden: true` until the game ships. Each entry is dated and carries a board
-  snapshot, `assets/island-board-<date>.png` (`pnpm board snapshot`, resized to
-  2000 px wide). The first, "how it all began", holds the 3,120 h forecast by
-  role, unchanged, for the comparison at the end.
+- **The case study** — `sites/vova/public/case-studies/island.md`, unlisted
+  while in progress (`hidden: true` keeps it out of listings, not off the site —
+  «я не имею ничего против того чтобы wip был доступен на сайте»). Each entry is
+  dated and carries a board snapshot, `assets/island-board-<date>.png`
+  (`pnpm board snapshot`, resized to 2000 px wide). The first, "how it all
+  began", holds the 3,120 h forecast by role, unchanged, for the comparison at
+  the end.
 - **The channel** — `scripts/memo/memo.py`, `--as lead|member`, `memo.md` in the
   bite branch's working directory; the lead waits on every open bite with one
   `wait --branch A --branch B`. Not built: a forward after a handoff (the
@@ -148,8 +150,15 @@ review. Open:
   https://claude.ai/code/session_01DaohkDZtwxJGQKbNecB8st on `preview2-slot`,
   its PR onto main: preview2.vovazakharov.com and `/preview live` choosing a
   slot.
-- The lead waits on all three:
-  `memo.py wait --as lead --branch island/review-1 --branch island/descent-video --branch preview2-slot`.
+- **Board performance** —
+  https://claude.ai/code/session_01DaohkDwrHtJy2Zb6SucGnx on
+  `island/board-perf`: the page measured and sped up, the look unchanged; the
+  lead republishes from its merged code.
+- **Controls** — https://claude.ai/code/session_01DaohkF3nmKHi8CHJ3ye7rL on
+  `island/controls`: W/S forward and back, A/D strafe, ←/→ turn, ↑/↓ climb,
+  right drag turns, an on-screen key hint (the operator's layout).
+- The lead waits on all five:
+  `memo.py wait --as lead --branch island/review-1 --branch island/descent-video --branch preview2-slot --branch island/board-perf --branch island/controls`.
 
 ## Rest of the elephant
 
