@@ -77,7 +77,7 @@ progress" in the plan; #255's body and squash comment were denied by the
 classifier. **Operator:** the permission line, verbatim, plus «вопрос, а ты
 ветки подсессий мёрджишь по-нормальному или сквошем?» **Agent:** edited both;
 answered: an ordinary merge (19a4366c), squash only at #255 → main — keeps #259
-"merged" and the bite's history readable.
+"merged" and the bite's history readable (verbatim in Last agent turn).
 
 **Operator:** «раскладка управления: a/d как раз стрейф, а вот
 влево-вправо-поворот. ну получается вверх-вниз тоже можно подъём/спуск, а w/s
@@ -85,7 +85,7 @@ answered: an ordinary merge (19a4366c), squash only at #255 → main — keeps #
 
 **Operator (mid-turn):** «ещё мета-вопрос: какие у тебя standing rules на то,
 когда обновлять доску -- if any?» / «(кажется, на это стоит отвечать уже в новой
-сессии)» **Agent:** relayed (verbatim in Last agent turn).
+сессии)» **Agent:** relayed, the question left for the successor.
 
 ## 3. Intent
 
