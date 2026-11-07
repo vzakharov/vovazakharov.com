@@ -11,6 +11,7 @@
   },
   "estimate": {
     "at": "2026-11-07T06:35:41.320Z",
+    "subjectLine": "docs(island): postmortem of bite 1's early merge, board-notice hook",
     "parts": [
       {
         "hours": 1.0,
@@ -25,8 +26,7 @@
         "comment": "routing an operator's look at a frame into a member's scope, a later bite and an open question on the board is a producer's call"
       }
     ],
-    "comment": null,
-    "subjectLine": "docs(island): postmortem of bite 1's early merge, board-notice hook"
+    "comment": null
   },
   "orientation": {
     "endedBy": "end_turn",
