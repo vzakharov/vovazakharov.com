@@ -10,7 +10,7 @@
     "costUsd": 6.861338299999999
   },
   "estimate": {
-    "at": "2026-11-06T18:14:19.118Z",
+    "at": "2026-11-07T06:35:41.320Z",
     "parts": [
       {
         "hours": 1.0,
@@ -25,7 +25,8 @@
         "comment": "per-extension line flow over git history and two new cost-row fields read from transcripts, with tests, touch shared ledger code where a wrong reading silently miscounts"
       }
     ],
-    "comment": null
+    "comment": null,
+    "subjectLine": "feat(vova): begin the island case study; cost rows count words, lines"
   },
   "orientation": {
     "endedBy": "Write",
@@ -140,7 +141,11 @@
       }
     }
   },
-  "operatorWords": 227,
+  "operatorWords": {
+    "chat": 227,
+    "review": 0
+  },
+  "reviewPosts": {},
   "branchLines": {
     ".py": 231,
     ".md": 993,
