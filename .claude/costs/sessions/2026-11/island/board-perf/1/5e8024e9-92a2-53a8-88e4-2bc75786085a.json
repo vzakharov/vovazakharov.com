@@ -11,6 +11,7 @@
   },
   "estimate": {
     "at": "2026-11-07T06:48:57.557Z",
+    "subjectLine": null,
     "parts": [
       {
         "hours": 6.0,
@@ -97,7 +98,11 @@
     "matchedEventUsd": 8.384878000000004,
     "unseen": {}
   },
-  "operatorWords": 0,
+  "operatorWords": {
+    "chat": 0,
+    "review": 0
+  },
+  "reviewPosts": {},
   "branchLines": {
     "vzakharov": 1,
     ".md": 4401,

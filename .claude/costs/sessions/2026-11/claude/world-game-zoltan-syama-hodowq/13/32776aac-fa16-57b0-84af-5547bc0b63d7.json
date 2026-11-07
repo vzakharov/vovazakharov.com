@@ -11,6 +11,7 @@
   },
   "estimate": {
     "at": "2026-11-07T07:02:05.788Z",
+    "subjectLine": null,
     "parts": [
       {
         "hours": 0.75,
@@ -112,7 +113,11 @@
       }
     }
   },
-  "operatorWords": 89,
+  "operatorWords": {
+    "chat": 89,
+    "review": 0
+  },
+  "reviewPosts": {},
   "branchLines": {
     "vzakharov": 1,
     ".md": 4413,
