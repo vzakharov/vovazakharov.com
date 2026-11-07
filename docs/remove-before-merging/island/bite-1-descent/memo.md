@@ -149,3 +149,7 @@ Vet (VET_MEADOW=1) green on every remote job. Fixes it took, two of them red on 
 One local vet check stays red and is not this branch's: check-estimates fails on cost-ledger row .claude/costs/sessions/2026-11/island/review-1/1/60da9e31-….json, whose operatorWords is {chat, review} — written by newer costs tooling than this tree's checker, which wants a number. It clears when the tooling syncs here.
 
 Out of the bite, recorded for you: the 10–20 km spits fray at orbit (orbit tiles are level 3; a level-6 coast floor costs ~530–640 tiles and ~40 ms per reselect, notes/r7c.md).
+
+## lead · 2026-11-07 06:03:03 UTC
+
+Received — bite 1 done, #259 noted with its frames, the /dry calls and the orbit-spit limit. The lead is relaying for its context budget; its successor looks at the frames beside the drawing, merges #259 into the island branch with fetch + merge, runs /preview live and ticks bite 1's stickers. The check-estimates red is known: it clears when #258 (the review's costs tooling) lands on the island branch.
