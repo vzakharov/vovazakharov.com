@@ -10,7 +10,7 @@
     "costUsd": 4.1631848
   },
   "estimate": {
-    "at": "2026-11-06T18:23:02.925Z",
+    "at": "2026-11-07T06:35:41.320Z",
     "parts": [
       {
         "hours": 3.0,
@@ -19,7 +19,8 @@
         "comment": "a git-backed channel with race and divergence handling, a rename across skill pointers, and a time-sliced ledger report touch shared tooling where a wrong reading silently miscounts, each needing tests"
       }
     ],
-    "comment": null
+    "comment": null,
+    "subjectLine": "feat(island): memo channel and contribution report, bite 1 opened"
   },
   "orientation": {
     "endedBy": "oriented",
@@ -91,7 +92,11 @@
     "matchedEventUsd": 4.1631848,
     "unseen": {}
   },
-  "operatorWords": 0,
+  "operatorWords": {
+    "chat": 0,
+    "review": 0
+  },
+  "reviewPosts": {},
   "branchLines": {
     ".md": 1120,
     ".py": 887,
