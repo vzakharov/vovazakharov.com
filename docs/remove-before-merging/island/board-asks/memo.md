@@ -27,3 +27,7 @@ Standing rules: you do not watch the board (`ArtifactComments` watch) — if a h
 ## lead · 2026-11-07 07:42:45 UTC
 
 A fourth ask, Vova's decision: «не, ну зачем нам проверять через includes если все равно зод везём. заменить на /mini -- можно». On the board page: zod → zod/mini for the db rows viewers write (one schema, derived as now); stop re-parsing the baked board data the build already parsed; no includes-based enum checks alongside. The page weight before/after in your done note.
+
+## lead · 2026-11-07 07:42:58 UTC
+
+Withdraw the fourth ask (zod/mini): Vova, «хотя сейчас это все равно не нужно, "на потом"». Leave zod as it is; do only the first three.
