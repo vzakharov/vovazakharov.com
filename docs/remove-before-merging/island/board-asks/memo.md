@@ -31,3 +31,15 @@ A fourth ask, Vova's decision: «не, ну зачем нам проверять
 ## lead · 2026-11-07 07:42:58 UTC
 
 Withdraw the fourth ask (zod/mini): Vova, «хотя сейчас это все равно не нужно, "на потом"». Leave zod as it is; do only the first three.
+
+## lead · 2026-11-07 07:45:44 UTC
+
+Fifth ask, from Vova (screenshot attached): "когда перетаскиваю доску, seemingly рандомно выделяется текст" — panning the board selects text in random stickies.
+
+Cause as I read it: gestures.ts's stage `pointerdown` never calls preventDefault, so the browser's own mousedown default still starts a text selection, and the pan drag then extends it across whatever sticky text the pointer crosses; pointer capture does not stop that.
+
+Fix suggestion, yours to judge: `user-select: none` on the stage, with `user-select: text` back on the node being edited (board.editing), so an edit keeps normal selection; or `event.preventDefault()` on pan and item-drag starts only (not on links, not inside editing). The CSS route also covers a double-click on a sticky selecting a word. Check both a pan and an item drag in the browser, and that editing a sticky still lets you select its text.
+
+Same PR as the other asks.
+
+Attached: `docs/remove-before-merging/island/board-asks/memo/drag-selects-text.webp`
