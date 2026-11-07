@@ -1,0 +1,116 @@
+{
+  "total": {
+    "inputTokens": 403,
+    "cacheWrite5mTokens": 514426,
+    "cacheWrite1hTokens": 200663,
+    "cacheReadTokens": 27199074,
+    "outputTokens": 130302,
+    "thinkingTokens": 41393,
+    "responses": 195,
+    "costUsd": 12.224900799999999
+  },
+  "estimate": {
+    "at": "2026-11-07T05:22:54.710Z",
+    "parts": [
+      {
+        "hours": 8.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "nineteen review threads across the cost ledger, a git hook, lint rules and the PR export; each small but each touching tested tooling a middle would need to learn first"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "moving the board into a MASD app with a one-YAML source is a layering and data-format call that the plan has to get right before anyone builds it"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "editor",
+        "comment": "de-slopping the case study needs an ear for voice, not just rule-following"
+      }
+    ],
+    "comment": null,
+    "subjectLine": "fix(island): handle #255's review on the board, costs and lints"
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-07T05:17:32.556Z",
+    "contextTokens": 101272,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 46125,
+      "cacheReadTokens": 52651,
+      "outputTokens": 443,
+      "thinkingTokens": 149,
+      "responses": 1,
+      "costUsd": 0.38839819999999997
+    }
+  },
+  "sessionId": "60da9e31-77ef-5091-8ac0-30e66680da10",
+  "branch": "island/review-1",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/from-branch",
+  "prs": [
+    258
+  ],
+  "url": "https://claude.ai/code/session_01DaohkBPPsH9jFCtdTa4Qb9",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-07T05:17:28.326Z",
+  "lastResponseAt": "2026-11-07T05:27:38.432Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 157,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 200663,
+    "cacheReadTokens": 14707277,
+    "outputTokens": 46821,
+    "thinkingTokens": 10705,
+    "responses": 79,
+    "costUsd": 5.483807399999998
+  },
+  "subagents": {
+    "inputTokens": 246,
+    "cacheWrite5mTokens": 514426,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 12491797,
+    "outputTokens": 83481,
+    "thinkingTokens": 30688,
+    "responses": 116,
+    "costUsd": 6.741093399999998
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 403,
+      "cacheWrite5mTokens": 514426,
+      "cacheWrite1hTokens": 200663,
+      "cacheReadTokens": 27199074,
+      "outputTokens": 130302,
+      "thinkingTokens": 41393,
+      "responses": 195,
+      "costUsd": 12.224900799999999
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 195,
+    "matched": 195,
+    "matchedTableUsd": 12.224900799999999,
+    "matchedEventUsd": 12.224900799999999,
+    "unseen": {}
+  },
+  "operatorWords": 0,
+  "branchLines": {
+    ".md": 2856,
+    ".py": 1520,
+    ".sh": 1,
+    ".json": 727,
+    ".ts": 2128,
+    ".css": 412
+  }
+}
