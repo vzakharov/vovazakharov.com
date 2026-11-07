@@ -2,7 +2,6 @@ export type Run =
   | { kind: 'text'; text: string }
   | { kind: 'link'; href: string };
 
-/** An http(s) URL up to the next whitespace. */
 const URL = /https?:\/\/\S+/g;
 
 /** Punctuation a sentence puts after a URL rather than the URL's own. */

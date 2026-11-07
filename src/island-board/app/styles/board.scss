@@ -194,8 +194,8 @@ body {
   display: none;
 }
 
-/* A URL in an item's text: the pencil's colour, underlined, and a pointer
-   over it, since a press on it opens it rather than grabbing the paper. */
+/* A press on a link opens it rather than grabbing the paper, so it shows a
+   pointer. */
 [data-edit] a {
   color: inherit;
   text-decoration: underline;

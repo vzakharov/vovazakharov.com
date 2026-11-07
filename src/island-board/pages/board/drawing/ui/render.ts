@@ -60,7 +60,6 @@ function element(tag: string, className: string, text?: string): HTMLElement {
   return node;
 }
 
-/** A URL in the text, as a link that opens in a new tab. */
 function link(href: string): HTMLAnchorElement {
   const node = document.createElement('a');
   node.href = href;
@@ -71,8 +70,8 @@ function link(href: string): HTMLAnchorElement {
 }
 
 /**
- * The item's text field, its URLs as links. Its `textContent` is still the
- * text, which is what an edit of it reads back.
+ * The item's text field, its URLs as links. Its `textContent` is the text
+ * exactly, which is what an edit of it reads back.
  */
 function editableText(
   item: PlacedItem,

@@ -54,11 +54,9 @@ const round = (n: number): number => Math.round(n * 10) / 10;
 export type Bent = WithId & Spiralled;
 
 /**
- * Where along the chord each control point sits, and how far it bows as a
- * share of the line's bow. A plain line bows both alike, to the side its id
- * picks; a spiral bows the second far more than the first, so the curve leaves
- * its start nearly straight and tightens toward the end, a clockwise one
- * bulging to its left (the y axis points down) so that it turns right.
+ * Where along the chord each control point sits, and its share of the line's
+ * bow. A spiral bows the second far more than the first, so the curve leaves its
+ * start nearly straight and tightens toward the end.
  */
 const PLAIN = { at: [0.3, 0.7], share: [1, 1] } as const;
 const SPIRAL = { at: [0.3, 0.78], share: [0.45, 1.15] } as const;
@@ -77,6 +75,7 @@ export function handStroke(a: Point, b: Point, line: Bent, pass = 0): Stroke {
   if (length === 0) return { d: `M${a.x},${a.y}`, mid: a };
   const normal = { x: -dy / length, y: dx / length };
   const randomSide = jitter(id, 'side') < 0 ? -1 : 1;
+  // Clockwise bulges left (y points down), so the line turns right.
   const side = spiral === 'cw' ? -1 : randomSide;
   const { at, share } = spiral === undefined ? PLAIN : SPIRAL;
   const bow = Math.min(length * 0.16, 90) * side;

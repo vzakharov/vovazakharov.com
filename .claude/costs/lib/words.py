@@ -47,7 +47,7 @@ class OperatorWords:
 
 def parse_operator_words(value: Any, where: str) -> Optional[OperatorWords]:
     """A row written before the split carries a bare count, every word of which
-    was typed into the session; one written before threads were counted, none."""
+    was typed into the session; one written before threads were counted, no thread words."""
     if value is None:
         return None
     if isinstance(value, int) and not isinstance(value, bool):

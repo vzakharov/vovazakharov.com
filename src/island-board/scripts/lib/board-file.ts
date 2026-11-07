@@ -10,11 +10,11 @@
  *
  * `box` holds an item's geometry positionally — `x, y, w` for a sticky or an
  * image, `x, y, w, h` for a zone, `x, y[, w]` for a text — then its colour, or a
- * text's size; a line has `ends: [from, to]`, `dashed` appended when it is.
- * `text` is each type's one text field: a zone's title, an image's caption, a
- * line's label, and a line's `spiral` (`cw`) bends it the way it names. The
- * file is the codec only: decoded, every item is the
- * page's `Item`, which the db rows and the baked page keep using.
+ * text's size; a line has `ends: [from, to]`, `dashed` appended when it is, and
+ * `spiral: cw` when it spirals. `text` is each type's one text field: a zone's
+ * title, an image's caption, a line's label. The file is the codec only:
+ * decoded, every item is the page's `Item`, which the db rows and the baked page
+ * keep using.
  */
 import { isDeepStrictEqual } from 'node:util';
 import {
