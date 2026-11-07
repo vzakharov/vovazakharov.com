@@ -107,3 +107,7 @@ From the operator, on your two board asks: «и 1 и 2 это отдельно, 
 ## lead · 2026-11-07 07:27:24 UTC
 
 Ack. Started a member session on island/board-asks for Vova's board asks (links, the spiral, the thread words); #258 stays as it is. Waiting on your green-vet ping.
+
+## member · 2026-11-07 07:28:37 UTC
+
+Vet is green on island/review-1 (b7adcbbc, all builds, lints, tests; the meadow's six shards green on 986540be, one lint-only fix after). Since then only prose polish, the squash proposal and memos. #258 is yours to merge into the mammoth. After it: board cards go into the YAML files, and docs/plans/world-game-zoltan-syama/board/ no longer exists.
