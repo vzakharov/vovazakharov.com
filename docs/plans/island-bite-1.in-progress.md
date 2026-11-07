@@ -117,14 +117,11 @@ the plan's; an agent may move a file inside its own slice and says so.
 
 The third session paused here at its context budget. In order:
 
-1. **The lead's answers, waiting in memo**: (a) 10 km is still soft —
-   `TILE_GRID` 65 (same tiles, ~4× fill; recommended, since reselect time scales
-   with tile count) or `SPLIT_RATIO` 0.5 (~4× tiles), or leave it; (b) the
-   inland lakes the operator asked about (by Нат-Фенха, the long one toward Арк)
-   are land, since `Coast` is outer rings only and the contract puts lakes out
-   of the bite — the member asked whether the lead wants them in this bite
-   anyway (holes in `Coast`, the tracer keeping inner rings, the field signing
-   them, the height below 0 inside). Do whichever the lead picks.
+1. **The lead's answers** (memo, 22:11 and 22:19 on 2026-11-06): (a) 10 km —
+   "TILE_GRID 65, as you recommend … Check the phone orbit frame time after it":
+   done in 9e12d8f0, the frame time from the fourth session's play run; (b) the
+   inland lakes — "Lakes stay in the lakes bite, as the plan and bite-1.md have
+   it": nothing to build here.
 2. **Out of this bite, recorded for the lead**: the 10–20 km spits fray at orbit
    because orbit tiles are level 3; a coast floor at level 6 costs ~530–640
    tiles and ~40 ms per reselect, nearly all in `selectTiles`' per-node
