@@ -39,3 +39,9 @@ items:
     box: [230, 1040, 440]
     src: images/web-ocean.webp
     text: 'Inspiration: Noniv/web-ocean — what a browser can do with sea and sky. Nothing copied.'
+  - id: s-d98ef689229d
+    type: sticky
+    updated: [2026-11-07T07:18:56.245Z, u_L_AriiBLoWLIB4PYEulAJA]
+    box: [2625.720312037562, 105.90156333340494, 200, yellow]
+    text: ''
+    deleted: true

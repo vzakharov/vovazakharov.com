@@ -78,7 +78,7 @@ items:
     text: "✓ Controls (#260, Vova's layout): W/S forward and back, A/D strafe, ←/→ turn, ↑/↓ climb (Q/E and PageUp/PageDown still work); right drag or a two-finger twist turns. A key hint bottom-left fades after first use. Open: collapse it to a '?' button instead?"
   - id: descent-video
     type: image
-    updated: [2026-11-07T07:50:00.000Z, agent:lead]
+    updated: [2026-11-07T08:10:00.000Z, agent:lead]
     box: [2830, -610, 340]
     src: images/descent-video.webp
-    text: From orbit to a beach at the head of the bay between Blablania and Feisis, in one continuous fall (27 s) — descent-2026-11-07.mp4 in the repo's island-timelapse release
+    text: From orbit to a beach at the head of the bay between Blablania and Feisis, in one continuous fall (27 s) — descent-2026-11-07.mp4 in the repo's island-timelapse release, and a phone cut beside it, descent-2026-11-07-phone.mp4 (#263)

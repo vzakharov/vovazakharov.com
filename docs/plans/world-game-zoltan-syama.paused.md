@@ -98,18 +98,19 @@ is in git
 
 ## Eaten so far
 
-- **The board** — `scripts/board/`: `model.ts` (schema, merge), `page/` (the
-  client, bundled into one page; `hand.ts` gives every item its hand-drawn tilt,
-  tape and line curve from its id), `board.ts`
-  (`pnpm board build | sync | snapshot`). Light in every theme; Caveat for zone
-  titles and line labels, Shantell Sans for the notes. Not yet seen: an edit
-  made in the page itself by the operator.
+- **The board** — the app `src/island-board/`, its tooling
+  `src/island-board/scripts/board.ts`
+  (`pnpm board build | sync | refile | snapshot`, usage atop the file); its
+  content `docs/boards/island.yaml` and a YAML per zone with the images in
+  `docs/boards/island/`. Light in every theme; Caveat for zone titles and line
+  labels, Shantell Sans for the notes. Not yet seen: an edit made in the page
+  itself by the operator.
 - **To republish**: sync first — `ArtifactData list items` with
   `out_dir: tmp/board/rows`, then
-  `pnpm board sync docs/plans/world-game-zoltan-syama/board tmp/board/rows` —
-  then `pnpm board build docs/plans/world-game-zoltan-syama/board` and publish
-  `tmp/board/world-game-zoltan-syama/index.html` with `files` mapping `images/*`
-  to the built copies and `url` the artifact above. Only the lead publishes.
+  `pnpm board sync docs/boards/island.yaml tmp/board/rows` — then
+  `pnpm board build docs/boards/island.yaml` and publish
+  `tmp/board/island/index.html` with `files` mapping `images/*` to the built
+  copies and `url` the artifact above. Only the lead publishes.
 - **The case study** — `sites/vova/public/case-studies/island.md`, unlisted
   while in progress (`hidden: true` keeps it out of listings, not off the site —
   «я не имею ничего против того чтобы wip был доступен на сайте»). Each entry is

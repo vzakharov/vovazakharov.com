@@ -6,9 +6,9 @@ items:
     text: Bite 0 — the lead's own
   - id: bite0-1
     type: sticky
-    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    updated: [2026-11-07T08:10:00.000Z, agent:lead]
     box: [1166, 207, 325, orange]
-    text: '✓ The board: this page, its sync and snapshot (scripts/board/)'
+    text: '✓ The board: this page, its sync and snapshot — an app of its own, src/island-board/, its content in YAML (#258)'
   - id: bite0-2
     type: sticky
     updated: [2026-11-06T22:30:00.000Z, agent:lead]
