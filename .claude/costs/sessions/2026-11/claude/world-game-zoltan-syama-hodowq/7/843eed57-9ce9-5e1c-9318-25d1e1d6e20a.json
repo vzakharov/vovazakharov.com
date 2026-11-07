@@ -10,7 +10,7 @@
     "costUsd": 5.335072500000001
   },
   "estimate": {
-    "at": "2026-11-06T20:59:11.881Z",
+    "at": "2026-11-07T06:35:41.320Z",
     "parts": [
       {
         "hours": 1.0,
@@ -25,7 +25,8 @@
         "comment": "routing an operator's look at a frame into a member's scope, a later bite and an open question on the board is a producer's call"
       }
     ],
-    "comment": null
+    "comment": null,
+    "subjectLine": "docs(island): postmortem of bite 1's early merge, board-notice hook"
   },
   "orientation": {
     "endedBy": "end_turn",
@@ -128,7 +129,11 @@
       }
     }
   },
-  "operatorWords": 119,
+  "operatorWords": {
+    "chat": 119,
+    "review": 0
+  },
+  "reviewPosts": {},
   "branchLines": {
     ".md": 1839,
     ".py": 1123,
