@@ -131,14 +131,29 @@ literal it belongs to, and two call sites do not pay for a two-step build);
 (https://github.com/vzakharov/vovazakharov.com/pull/258#pullrequestreview-5810517114);
 replies on #255's T01, T12, T13, T15, T16, T17.
 
-Open, blocked on the operator: the base gained 13 JSON cards after the
-conversion (`z-worlds`, `worlds-1…7`, `l-worlds` new; `bite1-1…4` edited, which
-come back as modify/delete conflicts). Carried into `island.yaml` they take it
-to ~420 lines, over the limit. The plan's own answer is to split the board by
-zone into `docs/boards/island/*.yaml`; the alternative is excluding
-`docs/boards/` from the limit as data. Then: merge the base in, carry the 13
-cards by a one-off decode of the JSON through `writeItems`, delete
-`board/items/`.
+Answered (operator: «не исключать, придумать способ разбиения»), done
+(783e2848f): the board splits by zone — `docs/boards/island.yaml` keeps title,
+artifact and the unzoned items, each zone `docs/boards/island/<zone>.yaml`; the
+file is derived per item on every write
+(`src/island-board/scripts/lib/board-files.ts`), `pnpm board refile` re-derives
+it all. Also done on #258's second review: the app is `src/island-board` (T05,
+a4c28ad5f); `subjectLine` under `at` (T03, 68a713bc9); the case study's contrast
+and `.claude/rules/contrast.md` (T04, c55b0543f, f73fc9c69) — each answered.
+
+Left:
+
+- **T01** (operator: «вынести скрипт туда, где любой наследник создавшей его
+  сессии может его использовать — можно (но удалить перед мёрджем)»): a
+  committed import of `board/items/*.json` (each `Item.parse`-able) through
+  `writeBoardFiles`, under `docs/remove-before-merging/island/review-1/` so
+  `/finalize` sweeps it; answer T01 with the SHA.
+- Merge the base in with `/sync-branch` (modify/delete on `bite1-1…4`), carry
+  the 13 cards (`z-worlds`, `worlds-1…7`, `l-worlds`, `bite1-1…4`) with that
+  import, delete `docs/plans/world-game-zoltan-syama/board/items/`, memo the
+  lead that cards now go into the YAML files and
+  `pnpm board build docs/boards/island.yaml` reads them all.
+- Not ours: the ledger holds four more October rows under a branch named `HEAD`
+  (a Stop on a detached HEAD files them there) — reported to the operator.
 
 Also open, asked by the operator on #255 after this plan was written — both
 backfills of cost rows from session transcripts, which `list_events` /
