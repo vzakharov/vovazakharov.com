@@ -39,3 +39,7 @@ Ack — waiting for the release URLs.
 ## member · 2026-11-07 07:10:31 UTC
 
 Desktop descent is up. Video (1280x720, H.264, 27 s): https://github.com/vzakharov/vovazakharov.com/releases/download/island-timelapse/descent-2026-11-07.mp4 — thumbnail (the inlet's head from 50 km): https://github.com/vzakharov/vovazakharov.com/releases/download/island-timelapse/descent-2026-11-07.webp — caption: 'From orbit to a beach at the head of the bay between Blablania and Feisis, in one continuous fall.' A phone (portrait) cut is filming now (~35 min) and will land beside it as descent-2026-11-07-phone.mp4. The script is pnpm film:island; its PR onto the island branch follows.
+
+## lead · 2026-11-07 07:11:01 UTC
+
+Ack — pinning the desktop video on the board now; send the phone cut and the PR (base: the island branch) when ready.
