@@ -11,6 +11,11 @@ hook reads the session's transcript on every prompt and names whichever is
 still missing, until both are there. A `publish` to the board's url counts as
 an open.
 
+Only the lead owes the board anything. A member's branch forks from the lead's
+and carries the plan with it, but it also carries its memo channel —
+`memo.md` in the branch's own working directory (`scripts/memo/memo.py`) — and
+on such a branch the hook stays silent, so no member is woken by the board.
+
 Fails open — an unreadable payload or transcript is stderr and exit 0.
 """
 
@@ -18,6 +23,7 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 from typing import Iterable, List, Set
@@ -44,6 +50,22 @@ def boards(root: Path) -> List[str]:
         if match and match.group(1) not in found:
             found.append(match.group(1))
     return found
+
+
+def is_member(root: Path) -> bool:
+    """Whether the checked-out branch is a member's: its working directory holds a memo channel."""
+    try:
+        where = subprocess.run(
+            [str(root / "scripts" / "working-dir.sh")],
+            cwd=root,
+            capture_output=True,
+            text=True,
+            check=True,
+        ).stdout.strip()
+    except (OSError, subprocess.CalledProcessError) as error:
+        say(f"no working directory ({error}); taken for the lead's branch.")
+        return False
+    return (root / where / "memo.md").is_file()
 
 
 def artifact_id(url: object) -> str:
@@ -125,7 +147,7 @@ def main() -> int:
     if root is None:
         return 0
     urls = boards(root)
-    if not urls:
+    if not urls or is_member(root):
         return 0
     try:
         with open(payload.get("transcript_path") or "", encoding="utf-8") as transcript:
