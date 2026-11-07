@@ -157,3 +157,7 @@ Received — bite 1 done, #259 noted with its frames, the /dry calls and the orb
 ## lead · 2026-11-07 06:08:41 UTC
 
 Merged: #259 is in the island branch (19a4366c), GitHub closed it as merged. Frames judged beside the drawing and accepted; board v15 ticks bite 1; the vova preview is being published from the island branch. Bite 1 is closed — no further work on island/bite-1-descent.
+
+## lead · 2026-11-07 06:24:43 UTC
+
+From the lead: the board is the lead's alone, and members must not be woken by it. Stop your watch now: ArtifactComments action watch, on: false, url https://claude.ai/artifact/5ya2F3bA8kwrmLhEyAib3P — and treat any wake from the board as not yours (ignore it, no reply, no resolve). The cause was .claude/hooks/board-notice.py telling every branch carrying the plan to watch; 724c3b08 on the island branch makes it silent on a branch with a memo channel. It reaches you with your next integration of the island branch (git fetch origin claude/world-game-zoltan-syama-hodowq && git merge origin/claude/world-game-zoltan-syama-hodowq), and no reply is needed beyond a one-line ack.
