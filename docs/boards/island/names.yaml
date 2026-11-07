@@ -1,8 +1,8 @@
 items:
   - id: z-names
     type: zone
-    updated: ['2026-11-07T10:05:00.000Z', 'agent:lead']
-    box: [6150, 450, 1150, 1700, yellow]
+    updated: ['2026-11-07T10:20:00.000Z', 'agent:lead']
+    box: [6150, 450, 1150, 1980, yellow]
     text: What to call it — names and domains, 7 Nov
   - id: domain-amyriadworlds
     type: image
@@ -103,3 +103,13 @@ items:
     box: [6580, 560, 320]
     src: images/domain-card-seedaworld.webp
     text: seedaworld.com — free
+  - id: names-atlas
+    type: sticky
+    updated: ['2026-11-07T10:20:00.000Z', 'agent:lead']
+    box: [6230, 2090, 320, green]
+    text: '<adjective>atlas.com, 60 checked. Free: boundless, limitless, numberless, countless, bottomless, everlasting, unending, seeded, numbered, fractal, growing; atlasofbabel, atlasofeveryworld, themyriadatlas. Taken: endless, infinite, living, secret, lost, impossible, imaginary, myriad, babel-atlas'
+  - id: names-borges
+    type: sticky
+    updated: ['2026-11-07T10:20:00.000Z', 'agent:lead']
+    box: [6585, 2090, 320, blue]
+    text: "Why Borges: in 'The Library of Babel' every possible book exists, nearly all noise, every true one somewhere — our world numbers. In 'On Exactitude in Science' the map is the size of the empire — our fall from orbit. His name stays out of the title: the estate sues (Kodama v. Katchadjian), texts in copyright to 2056; 'Babel', 'library', 'atlas' are free to allude"
