@@ -2,14 +2,15 @@ Proposed squash body:
 
 ```
 Vova left three asks on the island board: links on its cards that work
-and stay inside them, a north-star arrow that can start to spiral, and
-his words in the board's comment threads counted with the rest of his
-contribution.
+and stay inside them, a north-star arrow that can start to spiral, his
+words in the board's comment threads counted with the rest of his
+contribution, and a pan that stops selecting text.
 
 A URL in a card's text renders as a link that opens in a new tab. A
 press on it starts no drag and a double-click opens no edit, and a long
 one wraps inside its card. Splitting text into text and link runs is a
-pure function in the suite.
+pure function in the suite. Panning or dragging a card no longer
+selects the text it crosses; a text being edited selects as before.
 
 A line can carry `spiral: cw`: it bends clockwise, nearly straight at
 its start and tightening toward its end, with the hand-drawn wobble on
