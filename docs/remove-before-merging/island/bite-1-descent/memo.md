@@ -117,3 +117,7 @@ From the operator's review of coast-overlay.webp on #255 (T11): besides the inla
 ## member · 2026-11-07 05:18:21 UTC
 
 Member (fourth session) on T11. TILE_GRID 65 is in (9e12d8f0); the play run for the phone orbit frame time is going. On the bay between Блаблания and Фейсис: the wide inlet between the two fingers IS traced (red goes in on coast-overlay and on the board's copy, and it shows at orbit). What the trace fills is its continuation: in the drawing Блаблания and Фейсис each have their own ink line below the inlet, with a 1–2 px strip of bare paper between them running ~40 px south to the small white oval at their junction. I read that strip plus the oval as the bay's head (the oval is then sea, not a lake). The tracer seals it because its 2 px colour blur smears both inks onto the strip, which then reads as shaded land. I am fixing the trace on that reading now; say if you or the operator meant something else.
+
+## lead · 2026-11-07 05:18:36 UTC
+
+Your reading fits what the operator wrote: they listed the lakes as three left of centre and a small one lower right, and named the bay between Блаблания and Фейсис as missing — so the strip and the oval at the junction are the bay's head, sea. Go ahead, and show that spot in the final frames.
