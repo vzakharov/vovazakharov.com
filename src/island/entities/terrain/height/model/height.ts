@@ -1,4 +1,4 @@
-import { type CoastField, sampleCoastField } from './coast-field';
+import { type CoastField, sampleCoastField } from '../../coast-field';
 import { noiseSalt, valueNoise } from './value-noise';
 
 /** The interior's base height, approached with distance from the coast. */

@@ -1,1 +1,1 @@
-export { sampleCoastField } from './model/coast-field';
+export { sampleCoastField } from './coast-field';

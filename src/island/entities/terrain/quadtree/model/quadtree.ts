@@ -1,9 +1,9 @@
 import { dot, length, planeToWorld, R, type Vec3 } from '@/island/shared/globe';
 
-import type { CoastField } from './coast-field';
-import { GROUND_SLOPE, HIGHEST_GROUND, LOWEST_GROUND } from './height';
+import type { CoastField } from '../../coast-field';
+import { GROUND_SLOPE, HIGHEST_GROUND, LOWEST_GROUND } from '../../height';
+import { tileId, type TileKey, tileRect, tileSide } from '../../tile';
 import { children, splitRule } from './split';
-import { tileId, type TileKey, tileRect, tileSide } from './tile';
 import { type Frustum, outside } from './view';
 
 export type SelectOptions = {

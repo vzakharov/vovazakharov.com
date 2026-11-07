@@ -1,7 +1,6 @@
 import type { Vec3 } from '@/island/shared/globe';
 
-import type { CoastField } from './coast-field';
-import { splitRule } from './split';
+import type { CoastField } from '../../coast-field';
 import {
   MAX_LEVEL,
   TILE_GRID,
@@ -10,7 +9,8 @@ import {
   type TileKey,
   tileRect,
   tileSide,
-} from './tile';
+} from '../../tile';
+import { splitRule } from './split';
 
 const CELLS = TILE_GRID - 1;
 

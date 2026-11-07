@@ -10,9 +10,9 @@ import {
   unit,
 } from '@/island/shared/globe';
 
-import { buildCoastField } from './coast-field';
+import { buildCoastField } from '../../coast-field';
+import { MAX_LEVEL, tileId, type TileKey, tileRect } from '../../tile';
 import { selectTiles } from './quadtree';
-import { MAX_LEVEL, tileId, type TileKey, tileRect } from './tile';
 import { frustumOf } from './view';
 
 const flat = () => 0;

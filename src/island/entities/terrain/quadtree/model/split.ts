@@ -6,8 +6,8 @@ import {
   worldToPlane,
 } from '@/island/shared/globe';
 
-import { type CoastField, sampleCoastField } from './coast-field';
-import { HIGHEST_GROUND, LOWEST_GROUND } from './height';
+import { type CoastField, sampleCoastField } from '../../coast-field';
+import { HIGHEST_GROUND, LOWEST_GROUND } from '../../height';
 import {
   MAX_LEVEL,
   MIN_LEVEL,
@@ -15,7 +15,7 @@ import {
   type TileKey,
   tileRect,
   tileSide,
-} from './tile';
+} from '../../tile';
 
 /** Levels finer than elsewhere a tile astride the coast splits to. */
 const COAST_FINER = 2;

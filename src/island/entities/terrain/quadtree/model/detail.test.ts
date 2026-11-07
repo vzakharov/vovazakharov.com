@@ -3,19 +3,22 @@ import { describe, it } from 'node:test';
 
 import { type Coast, planeToWorld } from '@/island/shared/globe';
 
-import { buildCoastField } from './coast-field';
-import { detailCut } from './detail';
-import { heightAt } from './height';
-import { selectTiles } from './quadtree';
+import { buildCoastField } from '../../coast-field';
+import { heightAt } from '../../height';
 import {
-  latticeCoordinate,
+  fillTile,
   TILE_GRID,
   tileId,
   type TileKey,
   tileRect,
   tileSide,
-} from './tile';
-import { fillTile, type HeightSample } from './tile-fill';
+} from '../../tile';
+import {
+  type HeightSample,
+  latticeCoordinate,
+} from '../../tile/index.test-only';
+import { detailCut } from './detail';
+import { selectTiles } from './quadtree';
 
 /** A disc of radius 1 000 km around the centre. */
 const DISC: Coast = {

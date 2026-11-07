@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 
 import type { Coast } from '@/island/shared/globe';
 
-import { buildCoastField, sampleCoastField } from './coast-field';
+import { buildCoastField, sampleCoastField } from '../../coast-field';
 import { heightAt } from './height';
 
 const RADIUS_KM = 1000;
