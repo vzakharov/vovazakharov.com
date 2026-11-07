@@ -140,6 +140,28 @@ zone into `docs/boards/island/*.yaml`; the alternative is excluding
 cards by a one-off decode of the JSON through `writeItems`, delete
 `board/items/`.
 
+Also open, asked by the operator on #255 after this plan was written — both
+backfills of cost rows from session transcripts, which `list_events` /
+`get_event` (Claude Code Remote tools) read from the server even with the
+container gone:
+
+- **T05**
+  (https://github.com/vzakharov/vovazakharov.com/pull/255#discussion_r4500334746):
+  session 1's row
+  (`.claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/1/5f10100a-….json`)
+  carries `operatorWords: 956` as a lower bound — its last nine minutes were
+  never counted — and sessions 1–3 have no `branchLines`. The operator: «вроде
+  бы у тебя есть тулы для получения транскриптов сессий». Recount from the
+  server transcripts, with the code that counts them today
+  (`.claude/costs/lib/words.py`, `branch_lines.py`, `transcript.py`).
+- **The `subjectLine` thread**
+  (https://github.com/vzakharov/vovazakharov.com/pull/255#discussion_r4500340353,
+  on session 9's row): «надо добавить задним числом» — every older row lacks
+  `estimate.subjectLine`; write one per row from what that session did.
+
+Both rows live on the base branch, so the backfill commits land here and reach
+the base with #258. Reply on each thread with the SHA.
+
 Left:
 
 - Step 8's rest: the republish recipe in the lead's plan is the lead's to
