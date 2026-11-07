@@ -52,15 +52,22 @@ const OPTIONS: TraceOptions = {
   tolerance: 0.9,
   seaStrokes: [
     // The inlet between Блаблания and Фейсис runs on as a strait between two
-    // coastlines a pixel apart, to where they meet. It stops short of that:
-    // past it Блаблания's pale land touches the ink, and the sea would flood
-    // it.
+    // coastlines a pixel apart, to the round pool where they meet: the
+    // inlet's head, sea rather than a lake.
     {
       path: [
         [698.5, 198],
-        [698.5, 236],
+        [698.5, 240],
+        [696, 248],
       ],
       radius: 1,
+    },
+    {
+      path: [
+        [695.5, 248],
+        [695.5, 250],
+      ],
+      radius: 3,
     },
   ],
 };
