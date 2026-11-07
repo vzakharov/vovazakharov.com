@@ -28,7 +28,7 @@ Exit status is non-zero when any attachment fails to download; the Markdown is
 still written, with the failed attachments still linked remotely.
 
 Run inside a Claude Code session (`CLAUDE_CODE_SESSION_ID` set), a PR export
-also hands its human posts to `.claude/costs/review_words.py`, which counts the
+also hands its human posts to `.claude/costs/post_words.py`, which counts the
 operator's review words into the session's cost row; a failure there exits
 non-zero the same way, after the Markdown is written.
 

@@ -61,6 +61,14 @@ body {
   background-size: 24px 24px;
 }
 
+/* A drag pans or moves paper; left to the browser, it would also select
+   whatever text the pointer crosses. While a text is being edited, selecting
+   in it is the point, and a child's `user-select: text` under a `none` does
+   not give a drag that back in Chromium. */
+body:not(.editing) #stage {
+  user-select: none;
+}
+
 #stage:active {
   cursor: grabbing;
 }
@@ -197,12 +205,27 @@ body {
 
 .image > .caption {
   padding-top: 8px;
+  overflow-wrap: anywhere;
   color: var(--pencil);
   font: 400 15px/1.4 var(--font-note);
 }
 
 .image > .caption:empty {
   display: none;
+}
+
+/* A press on a link opens it rather than grabbing the paper, so it shows a
+   pointer. */
+[data-edit] a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+[data-edit] a:hover {
+  color: var(--accent);
 }
 
 .by {

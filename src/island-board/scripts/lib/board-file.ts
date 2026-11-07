@@ -10,10 +10,11 @@
  *
  * `box` holds an item's geometry positionally — `x, y, w` for a sticky or an
  * image, `x, y, w, h` for a zone, `x, y[, w]` for a text — then its colour, or a
- * text's size; a line has `ends: [from, to]`, `dashed` appended when it is.
- * `text` is each type's one text field: a zone's title, an image's caption, a
- * line's label. The file is the codec only: decoded, every item is the
- * page's `Item`, which the db rows and the baked page keep using.
+ * text's size; a line has `ends: [from, to]`, `dashed` appended when it is, and
+ * `spiral: cw` when it spirals. `text` is each type's one text field: a zone's
+ * title, an image's caption, a line's label. The file is the codec only:
+ * decoded, every item is the page's `Item`, which the db rows and the baked page
+ * keep using.
  */
 import { isDeepStrictEqual } from 'node:util';
 import {
@@ -26,7 +27,12 @@ import {
 } from 'yaml';
 import { z } from 'zod';
 
-import { Item, STICKY_COLORS, TEXT_SIZES } from '@/island-board/entities/item';
+import {
+  Item,
+  SPIRALS,
+  STICKY_COLORS,
+  TEXT_SIZES,
+} from '@/island-board/entities/item';
 
 const Color = z.enum(STICKY_COLORS);
 const Size = z.enum(TEXT_SIZES);
@@ -38,6 +44,7 @@ const Shape = z.object({
   ends: z.array(z.string()).optional(),
   src: z.string().optional(),
   text: z.string().optional(),
+  spiral: z.enum(SPIRALS).optional(),
 });
 type Shape = z.infer<typeof Shape>;
 
@@ -82,6 +89,7 @@ function fields({
   ends,
   src,
   text,
+  spiral,
 }: FileItem): Record<string, unknown> {
   switch (type) {
     case 'sticky': {
@@ -110,6 +118,7 @@ function fields({
         to,
         label: text,
         dashed: dashed === undefined ? undefined : true,
+        spiral,
       };
     }
     default: {
@@ -158,10 +167,11 @@ function shape(item: Item): Shape {
       return { box: w === undefined ? [x, y, size] : [x, y, w, size], text };
     }
     case 'line': {
-      const { from, to, dashed, label } = item;
+      const { from, to, dashed, label, spiral } = item;
       return {
         ends: dashed === true ? [from, to, 'dashed'] : [from, to],
         text: label,
+        spiral,
       };
     }
     default: {

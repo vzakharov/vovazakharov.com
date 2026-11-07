@@ -14,8 +14,9 @@ record" holds the three rules this file keeps.
   and `.prettierrc.json`. A source edit to any of them is read for the idea; the
   file never lands.
 - **The cost rows count the human share, ahead of the source**: `operatorWords`
-  as `{chat, review}` with `reviewPosts`, `branchLines`, `estimate.subjectLine`,
-  `.claude/costs/contribution.py`, and `scripts/gh_export/review_words.py`
+  as `{chat, review, threads}` with `reviewPosts` and `threadPosts`,
+  `branchLines`, `estimate.subjectLine`, `.claude/costs/contribution.py`,
+  `.claude/costs/post_words.py`, and `scripts/gh_export/review_words.py`
   recording review words at PR export. Built for the island case study's
   comparison; a source edit to these files is merged around them, and the lot is
   a candidate to carry upstream.

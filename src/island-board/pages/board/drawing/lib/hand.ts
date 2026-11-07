@@ -3,9 +3,11 @@
  * so a sticky keeps its tilt and a line its bend across renders, reloads and
  * viewers, and nothing about the look is stored.
  */
+import type { WithId } from '@/kernel/shared/typings';
+
 import type { Point } from '@/scene/shared/lib/plane';
 
-import type { PlacedItem } from '@/island-board/entities/item';
+import type { PlacedItem, Spiralled } from '@/island-board/entities/item';
 
 /**
  * A stable number in [-1, 1) from `id` and `salt`: FNV-1a, then murmur3's
@@ -48,30 +50,47 @@ export type Stroke = {
 
 const round = (n: number): number => Math.round(n * 10) / 10;
 
+/** What of a line shapes its stroke: its id seeds the wobble, `spiral` the turn. */
+export type Bent = WithId & Spiralled;
+
+/**
+ * Where along the chord each control point sits, and its share of the line's
+ * bow. A spiral bows the second far more than the first, so the curve leaves its
+ * start nearly straight and tightens toward the end.
+ */
+const PLAIN = { at: [0.3, 0.7], share: [1, 1] } as const;
+const SPIRAL = { at: [0.3, 0.78], share: [0.45, 1.15] } as const;
+
 /**
  * A line from `a` to `b` as a hand would draw it: a cubic bowed to one side,
  * its two control points bowed by different amounts so the curve is never a
  * clean arc. `pass` 1 is a second, fainter stroke beside the first, as a
  * pencil going over a line twice leaves.
  */
-export function handStroke(a: Point, b: Point, id: string, pass = 0): Stroke {
+export function handStroke(a: Point, b: Point, line: Bent, pass = 0): Stroke {
+  const { id, spiral } = line;
   const dx = b.x - a.x;
   const dy = b.y - a.y;
   const length = Math.hypot(dx, dy);
   if (length === 0) return { d: `M${a.x},${a.y}`, mid: a };
   const normal = { x: -dy / length, y: dx / length };
-  const side = jitter(id, 'side') < 0 ? -1 : 1;
+  const randomSide = jitter(id, 'side') < 0 ? -1 : 1;
+  // Clockwise bulges left (y points down), so the line turns right.
+  const side = spiral === 'cw' ? -1 : randomSide;
+  const { at, share } = spiral === undefined ? PLAIN : SPIRAL;
   const bow = Math.min(length * 0.16, 90) * side;
   const slip = pass * 4;
-  const bend1 = bow * (0.7 + 0.5 * Math.abs(jitter(id, 'b1'))) + slip;
-  const bend2 = bow * (0.7 + 0.5 * Math.abs(jitter(id, 'b2'))) + slip / 2;
+  const bend1 =
+    bow * share[0] * (0.7 + 0.5 * Math.abs(jitter(id, 'b1'))) + slip;
+  const bend2 =
+    bow * share[1] * (0.7 + 0.5 * Math.abs(jitter(id, 'b2'))) + slip / 2;
   const c1 = {
-    x: a.x + dx * 0.3 + normal.x * bend1,
-    y: a.y + dy * 0.3 + normal.y * bend1,
+    x: a.x + dx * at[0] + normal.x * bend1,
+    y: a.y + dy * at[0] + normal.y * bend1,
   };
   const c2 = {
-    x: a.x + dx * 0.7 + normal.x * bend2,
-    y: a.y + dy * 0.7 + normal.y * bend2,
+    x: a.x + dx * at[1] + normal.x * bend2,
+    y: a.y + dy * at[1] + normal.y * bend2,
   };
   const mid = {
     x: round((a.x + 3 * c1.x + 3 * c2.x + b.x) / 8),

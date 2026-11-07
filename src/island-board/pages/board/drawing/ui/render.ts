@@ -7,6 +7,7 @@ import type { Item, PlacedItem } from '@/island-board/entities/item';
 
 import { centreOf, edgePoint, type Rect } from '../../camera/index.ts';
 import { handStroke, jitter, tiltOf } from '../lib/hand.ts';
+import { linkRuns } from '../lib/links.ts';
 
 export type LineItem = Extract<Item, { kind: 'line' }>;
 
@@ -59,13 +60,31 @@ function element(tag: string, className: string, text?: string): HTMLElement {
   return node;
 }
 
+function link(href: string): HTMLAnchorElement {
+  const node = document.createElement('a');
+  node.href = href;
+  node.target = '_blank';
+  node.rel = 'noopener noreferrer';
+  node.textContent = href;
+  return node;
+}
+
+/**
+ * The item's text field, its URLs as links. Its `textContent` is the text
+ * exactly, which is what an edit of it reads back.
+ */
 function editableText(
   item: PlacedItem,
   className: string,
   text: string,
 ): HTMLElement {
-  const node = element('div', className, text);
+  const node = element('div', className);
   node.dataset['edit'] = EDITABLE_FIELD[item.kind];
+  node.append(
+    ...linkRuns(text).map((run) =>
+      run.kind === 'link' ? link(run.href) : run.text,
+    ),
+  );
   return node;
 }
 
@@ -178,8 +197,8 @@ export function renderLines(
     if (from === undefined || to === undefined) continue;
     const a = edgePoint(from, centreOf(to));
     const b = edgePoint(to, centreOf(from));
-    const { d, mid } = handStroke(a, b, line.id);
-    const { d: echo } = handStroke(a, b, line.id, 1);
+    const { d, mid } = handStroke(a, b, line);
+    const { d: echo } = handStroke(a, b, line, 1);
     const dashed = line.dashed === true ? ' dashed' : '';
     const group = svg('g', { class: 'line', 'data-id': line.id });
     group.append(

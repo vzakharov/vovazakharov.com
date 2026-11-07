@@ -67,13 +67,19 @@ const Text = Placed.extend({
   w: z.number().positive().optional(),
 });
 
+/** The way a spiralling line turns, its bend growing from its start. */
+export const SPIRALS = ['cw'] as const;
+
+const Spiralled = z.object({ spiral: z.enum(SPIRALS).optional() });
+export type Spiralled = z.infer<typeof Spiralled>;
+
 const Line = Common.extend({
   kind: z.literal('line'),
   from: ID,
   to: ID,
   label: z.string().optional(),
   dashed: z.boolean().optional(),
-});
+}).extend(Spiralled.shape);
 
 export const Item = z.discriminatedUnion('kind', [
   Sticky,

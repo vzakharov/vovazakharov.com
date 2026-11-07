@@ -420,14 +420,14 @@ operator's words and the branch's lines per extension — now, or `--at` a past
 moment off the ledger commit before it, as a timelapse frame reads them. Its
 header says how `--at` reads a row from before `operatorWords` was counted.
 
-**A row's `operatorWords` splits into `chat` and `review`.** `chat` is read off
-the transcript; `review` is the sum of `reviewPosts`, the words per post of a
-person's on the PRs the session exported, since the transcript never sees them.
-`scripts/export-github-item.py` hands those posts — no agent footer, so a person
-wrote them — to `review_words.py`, which counts them without quoted lines and
-fenced blocks into `tmp/costs/review-words/<session-id>.json` for the next row
-write to fold in. The branch sums `review` over the union of its rows' posts, so
-a post two sessions exported counts once.
+**A row's `operatorWords` splits into `chat`, `review` and `threads`.** `chat`
+is read off the transcript; `review` sums `reviewPosts`, a person's posts on the
+PRs the session exported, which `scripts/export-github-item.py` hands to
+`post_words.py`; `threads` sums `threadPosts`, their comments in a board's
+threads, which the session holding the board keeps in
+`docs/boards/<board>/threads.json` (`{comment id: body}`) and pipes to
+`post_words.py --kind thread`. Both are counted without quotes and fenced blocks
+for the next row write to fold in, once per post over the branch's rows.
 
 ## What the totals do not cover
 

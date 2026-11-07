@@ -25,6 +25,7 @@ export function startEditing(board: Board, id: string): void {
     return;
   const field = EDITABLE_FIELD[item.kind];
   board.editing = node;
+  document.body.classList.add('editing');
   node.contentEditable = 'plaintext-only';
   node.focus();
   const range = document.createRange();
@@ -35,6 +36,7 @@ export function startEditing(board: Board, id: string): void {
     'blur',
     () => {
       board.editing = undefined;
+      document.body.classList.remove('editing');
       const text = node.textContent.replace(/\n$/, '');
       const current = find(board, id);
       if (current?.kind === item.kind && Reflect.get(current, field) !== text)
