@@ -1,0 +1,113 @@
+{
+  "total": {
+    "inputTokens": 90,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 121446,
+    "cacheReadTokens": 7110334,
+    "outputTokens": 19829,
+    "thinkingTokens": 3690,
+    "responses": 48,
+    "costUsd": 2.7905748000000004
+  },
+  "estimate": {
+    "at": "2026-11-07T07:31:29.127Z",
+    "subjectLine": "fix(island): merge the base into #258 again, board-perf ported",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a base merge across a moved tree needs someone who knows both the old script and the split app to port a perf change without regressing it"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-07T07:31:24.913Z",
+    "contextTokens": 112705,
+    "spend": {
+      "inputTokens": 15,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 50869,
+      "cacheReadTokens": 691273,
+      "outputTokens": 2213,
+      "thinkingTokens": 747,
+      "responses": 7,
+      "costUsd": 0.5895265999999999
+    }
+  },
+  "sessionId": "9c9b7423-19f5-50cf-823b-065affede7ab",
+  "branch": "island/review-1",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/review-1 — ревью закрыто, vet был зелёным, но база снова ушла вперёд (board-perf и новые карточки), лид просит ещё одно слияние",
+  "prs": [
+    258
+  ],
+  "url": "https://claude.ai/code/session_01DaohkBoqHpsQzG5wJ5YVnj",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-07T07:30:54.879Z",
+  "lastResponseAt": "2026-11-07T07:36:58.288Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 90,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 121446,
+    "cacheReadTokens": 7110334,
+    "outputTokens": 19829,
+    "thinkingTokens": 3690,
+    "responses": 48,
+    "costUsd": 2.7905748000000004
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 90,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 121446,
+      "cacheReadTokens": 7110334,
+      "outputTokens": 19829,
+      "thinkingTokens": 3690,
+      "responses": 48,
+      "costUsd": 2.7905748000000004
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 48,
+    "matched": 48,
+    "matchedTableUsd": 2.7905748000000004,
+    "matchedEventUsd": 2.7905748000000004,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 3,
+    "review": 0
+  },
+  "reviewPosts": {},
+  "branchLines": {
+    "vzakharov": 1,
+    ".md": 6447,
+    ".py": 2002,
+    ".sh": 4,
+    ".json": 1497,
+    ".staged": 434,
+    ".yml": 8,
+    ".yaml": 475,
+    ".ts": 9771,
+    ".tsx": 151,
+    ".scss": 498
+  }
+}
