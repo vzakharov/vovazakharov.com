@@ -2,7 +2,7 @@ items:
   - id: z-worlds
     type: zone
     updated: [2026-11-07T07:30:00.000Z, agent:lead]
-    box: [4930, 520, 1120, 1660, blue]
+    box: [4930, 520, 1120, 2000, blue]
     text: Infinite worlds — thinking aloud, nothing decided
   - id: worlds-1
     type: sticky
@@ -56,6 +56,17 @@ items:
     updated: [2026-11-07T07:20:00.000Z, agent:lead]
     box: [5010, 1175, 330, blue]
     text: "A name for how many worlds fit in a link: Chrome takes 2,097,152 characters of URL (2 × 1024 × 1024), so after 'https://vovazakharov.com/island#' up to 10^2,097,120 numbers (~870 KB written out). The 'chromeplex'. Funny, if debatable. Its proper name: one hundred sesexagintasescentilliquinsexagintasescentillion (that one is 10^2,000,000)."
+  - id: domain-urin-world
+    type: image
+    updated: [2026-11-07T09:35:00.000Z, agent:lead]
+    box: [5000, 2210, 420]
+    src: images/domain-urin-world.webp
+    text: 'Vova, on unsquatted.com: "urin.world — or does it sound like something about urine? :)"'
+  - id: worlds-11
+    type: sticky
+    updated: [2026-11-07T09:35:00.000Z, agent:lead]
+    box: [5480, 2200, 330, yellow]
+    text: 'Brainstorm, 7 Nov. "You''re in!" is the line Vova likes: you are in the game, and in world 150. urin.world reads as urine first (Urin is the word in German, Dutch, Swedish); ur.in ($8) loses the "world". youarein.world#150 reads right the first time; yourein.world is free too but can read "you rein". Also free: youarein.games, youreinworld.com. Taken: youarein.com, yourein.com'
   - id: worlds-10
     type: sticky
     updated: [2026-11-07T08:40:00.000Z, agent:lead]
