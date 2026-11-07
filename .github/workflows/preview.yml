@@ -1,10 +1,8 @@
 name: Publish a preview
 
-# One site from any ref to a preview slot, by hand: slot 1 is
-# preview.vovazakharov.com, slot 2 preview2.vovazakharov.com. Each slot holds
-# whichever site was published to it last; .claude/skills/preview/SKILL.md
-# carries how to use them, scripts/publish-site.sh what a preview writes over
-# the build.
+# One site from any ref to a preview slot, by hand. Each slot holds whichever
+# site was published to it last; .claude/skills/preview/SKILL.md carries how to
+# use them, scripts/publish-site.sh what a preview writes over the build.
 
 on:
   workflow_dispatch:

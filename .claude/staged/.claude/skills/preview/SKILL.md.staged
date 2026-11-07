@@ -215,7 +215,7 @@ done
 Name the slot in the report, so the operator knows which link is theirs.
 
 ```bash
-gh workflow run preview.yml --ref <branch> -f site=<site> -f slot=<1|2>   # slot defaults to 1
+gh workflow run preview.yml --ref <branch> -f site=<site> -f slot=<1|2>
 gh run watch "$(gh run list --workflow=preview.yml --branch=<branch> \
   --limit 1 --json databaseId --jq '.[0].databaseId')"
 ```
