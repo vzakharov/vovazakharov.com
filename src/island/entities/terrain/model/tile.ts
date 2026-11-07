@@ -19,7 +19,7 @@ export type TileKeyed = { readonly key: TileKey };
  */
 export const TILE_SQUARE = 16_384_000;
 
-/** The deepest level: 18 puts a 33-vertex grid's spacing at ~1.95 m. */
+/** The deepest level: 18 puts a 65-vertex grid's spacing at ~0.98 m. */
 export const MAX_LEVEL = 18;
 
 /** The shallowest level drawn: 64 tiles, 64 km cells, so the coast reads from orbit. */
@@ -31,8 +31,12 @@ export const MIN_LEVEL = 3;
  */
 export const SPLIT_RATIO = 1;
 
-/** Vertices along a tile's side; `TILE_GRID - 1` cells, a power of two. */
-export const TILE_GRID = 33;
+/**
+ * Vertices along a tile's side; `TILE_GRID - 1` cells, a power of two. Detail
+ * is bought here rather than by a lower `SPLIT_RATIO`, since reselecting costs
+ * per tile and filling runs in the workers.
+ */
+export const TILE_GRID = 65;
 
 /** A stable string for a key, for maps and caches. */
 export const tileId = ({ level, x, y }: TileKey) => `${level}/${x}/${y}`;

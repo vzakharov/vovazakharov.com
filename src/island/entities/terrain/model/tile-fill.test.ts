@@ -3,10 +3,9 @@ import { describe, it } from 'node:test';
 
 import { R, type Vec3 } from '@/island/shared/globe';
 
-import { tileId, type TileKey, tileSide } from './tile';
+import { TILE_GRID as GRID, tileId, type TileKey, tileSide } from './tile';
 import { borderLoop, fillTile, tileBuffers, type TileMesh } from './tile-fill';
 
-const GRID = 33;
 const FLOAT32 = 2 ** -23;
 
 const hills = (x: number, y: number) =>
@@ -143,10 +142,10 @@ describe('fillTile', () => {
     }
   });
 
-  it('fills the deepest level at metre spacing near the island', () => {
+  it('fills the deepest level at about a metre spacing near the island', () => {
     const deep = fillTile({ level: 18, x: 131_072, y: 131_072 }, hills);
     const spacing = length(sub(world(deep, 1), world(deep, 0)));
-    assert.ok(spacing > 1 && spacing < 2.5, `${spacing}`);
+    assert.ok(spacing > 0.9 && spacing < 1.5, `${spacing}`);
   });
 });
 
