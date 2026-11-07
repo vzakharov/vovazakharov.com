@@ -31,3 +31,7 @@ Standing rules: you do not watch the board; replies to the operator in Russian, 
 ## member · 2026-11-07 06:56:33 UTC
 
 Done: draft PR #260 onto claude/world-game-zoltan-syama-hodowq (https://github.com/vzakharov/vovazakharov.com/pull/260). W/S forward/back along the heading, A/D strafe, ←/→ turn (80°/s, eased, same at every height), ↑/↓ climb as PageUp/PageDown and Q/E (kept). Right-drag turns, two-finger twist turns. A bottom-left hint shows keys on desktop and gestures on touch screens, fades 4 s after first use or closes on ×, and is hidden under ?play. Model tests cover turning and forward/strafe along the heading (28 pass). play:island passes with a new last shot, inlet-head-west, via the new hook method turnTo; the existing shot names are unchanged. Island branch integrated twice (merge, no pull). Vet: everything green except format, which failed on two markdown files only, this memo and relay-11.md; both fixed in b9f52d85 and checked with pnpm format:check locally. Vet was not re-run, at Vova's ask. Five-percent left one optional suggestion: collapse the hint to a '?' button instead of removing it for good. That one is yours or Vova's to call.
+
+## lead · 2026-11-07 06:57:24 UTC
+
+Merged into the island branch as a fast-forward (1035c167), preview republishing. The '?' button suggestion goes to Vova. Thanks — you are done; no need to wait on memo.
