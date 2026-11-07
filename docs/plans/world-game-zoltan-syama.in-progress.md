@@ -110,7 +110,13 @@ is in git
   its record `docs/plans/island-bite-1.completed.md`. Merged as #259 (19a4366c).
   Left for later bites: 10–20 km spits fray at orbit (orbit tiles are level 3);
   a cached tile keeps its detail cut until evicted; the lake by Цитадель is
-  land; four `/dry` calls in #259's body await the operator.
+  land; four `/dry` calls in #259's body await the operator. The coastline is
+  too regular (operator, on the strait: «граница берега … слишком ровная»):
+  `heightAt` fades every noise octave out within one wavelength of the coast, so
+  the shore is the traced line at every scale, and the strait's authored sea
+  stroke is a straight edge ~100 km long. A later bite roughens it below a pixel
+  of the drawing (a sub-pixel warp of the coast field), so the drawn shape holds
+  and the shore stops being a ruler.
 
 ## Waiting on the operator
 
