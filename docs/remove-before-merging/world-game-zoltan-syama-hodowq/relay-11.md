@@ -140,7 +140,6 @@ board publish with its timelapse frame; arm `memo.py wait --as lead --branch
 island/review-1`. Infinite worlds: wait for the operator to continue the
 conversation.
 
-
 ## Last agent turn
 
 The agent's last turn before the relay, verbatim, appended by

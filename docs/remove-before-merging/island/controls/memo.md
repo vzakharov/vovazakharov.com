@@ -11,6 +11,7 @@ The operator, verbatim: «а ещё я не понял как поворачив
 Today (`src/island/features/eye/`): the eye has a `heading` in its model (`model/eye.ts`, `model/pose.ts`) but nothing changes it, so the view always faces north; pitch follows height on its own. `ui/eye-controls.ts` maps arrows and WASD alike to sideways movement and `Q`/`E`, `PageUp`/`PageDown` to climbing. Nothing on screen tells the player any of it.
 
 Done means:
+
 1. The layout, by `KeyboardEvent.code`:
    - `W`/`S` — forward and back, along the heading;
    - `A`/`D` — strafe left and right;
