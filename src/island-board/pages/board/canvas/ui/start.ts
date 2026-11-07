@@ -2,12 +2,14 @@
  * The board page: an infinite canvas of the items baked into it, overlaid live
  * with the artifact's `db` rows.
  */
-import { z } from 'zod';
+// Namespace import: `import { z }` bundles every zod locale (see the item model).
+import * as z from 'zod';
 
 import { Item } from '@/island-board/entities/item';
 
 import { type Capabilities, connect } from '../api/runtime.ts';
 import { byId, required } from '../lib/dom.ts';
+import { createLift } from '../lib/lift.ts';
 import type { Board } from '../model/board.ts';
 import { createStore } from '../model/store.ts';
 import { wireControls } from './controls.ts';
@@ -19,8 +21,11 @@ import { fit } from './viewport.ts';
 function boardOnPage(): Board {
   const status = byId('status');
   const baked = z.array(Item).parse(JSON.parse(byId('board-data').textContent));
+  const stage = byId('stage');
   const board: Board = {
-    stage: byId('stage'),
+    stage,
+    lens: byId('camera'),
+    lift: createLift(stage.classList, () => board.camera.zoom),
     world: byId('world'),
     lines: required(document.querySelector<SVGSVGElement>('#lines'), '#lines'),
     status,
@@ -52,15 +57,19 @@ function boardOnPage(): Board {
   return board;
 }
 
-/** Drawn and fitted once every image has settled; a broken one shows as one. */
+/**
+ * Drawn and fitted once every image has settled, a broken one showing as one,
+ * and the fonts, whose metrics size the items the lines run between.
+ */
 async function drawBaked(board: Board): Promise<void> {
   document.body.classList.toggle('snapshot', location.hash === '#snapshot');
   render(board);
   fit(board);
   showStatus(board.status, { kind: 'read-only', reason: 'Read-only copy.' });
-  await Promise.allSettled(
-    [...document.images].map(async (img) => img.decode()),
-  );
+  await Promise.allSettled([
+    ...[...document.images].map(async (img) => img.decode()),
+    document.fonts.ready,
+  ]);
   render(board);
   fit(board);
 }

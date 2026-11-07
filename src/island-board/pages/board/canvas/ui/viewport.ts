@@ -4,10 +4,12 @@ import { fitTo, toWorld, union, zoomAt } from '../../camera/index.ts';
 import type { Board } from '../model/board.ts';
 import { placed, rectOf } from './view.ts';
 
-export function applyCamera(board: Board): void {
-  const { camera, world, lines } = board;
-  world.style.transform = `translate(${camera.x}px, ${camera.y}px) scale(${camera.zoom})`;
-  lines.style.transform = world.style.transform;
+/** `camera` onto the world; `pan` for a frame that only moves it. */
+export function applyCamera(board: Board, pan = false): void {
+  const { camera, lens, lift } = board;
+  lens.style.transform = `translate(${camera.x}px, ${camera.y}px) scale(${camera.zoom})`;
+  if (pan) lift.pan();
+  else lift.rest();
 }
 
 type ScreenPointEvent = { clientX: number; clientY: number };

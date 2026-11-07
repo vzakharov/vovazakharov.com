@@ -5,6 +5,7 @@ import type { Zoomed } from '@/scene/shared/lib/plane';
 import type { Item } from '@/island-board/entities/item';
 
 import type { Authoring } from '../api/runtime.ts';
+import type { Lift } from '../lib/lift.ts';
 import type { Store } from './store.ts';
 
 /** Where the viewer is looking, and how close. */
@@ -15,6 +16,9 @@ export type Board = WithCamera &
   WithSelected &
   Authoring & {
     readonly stage: HTMLElement;
+    /** The wrapper the camera transforms, holding the world and its lines. */
+    readonly lens: HTMLElement;
+    readonly lift: Lift;
     readonly world: HTMLElement;
     readonly lines: SVGSVGElement;
     readonly status: HTMLElement;

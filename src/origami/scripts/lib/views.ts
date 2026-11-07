@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import type { View } from './render.ts';
+import type { View } from './render-page.ts';
 
 export const DEFAULT_VIEWS =
   'three-quarter=-35,30;side=0,8;head-on=90,12;top=0,90';

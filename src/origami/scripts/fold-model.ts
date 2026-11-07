@@ -28,11 +28,7 @@ import {
 import { DESIGN_IDS, DESIGNS } from '@/origami/entities/design';
 
 import { render, type Shot } from './lib/render.ts';
-<<<<<<< HEAD
-import type { View } from './lib/render-page.ts';
-=======
 import { DEFAULT_VIEWS, parseViews } from './lib/views.ts';
->>>>>>> origin/claude/world-game-zoltan-syama-hodowq
 
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 

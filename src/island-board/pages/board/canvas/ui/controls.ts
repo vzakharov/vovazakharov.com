@@ -11,7 +11,7 @@ import {
   remove,
   setLineTool,
 } from './actions.ts';
-import { select } from './view.ts';
+import { drawLines, select } from './view.ts';
 import { applyCamera, fit, viewCentre, zoomBy } from './viewport.ts';
 
 const onClick = (id: string, handler: () => void): void => {
@@ -93,6 +93,10 @@ export function wireControls(board: Board): void {
     addImage(board, file).catch(reportError);
   });
 
+  // A face arriving late resizes the items it sets, so the lines are re-run to their new edges.
+  document.fonts.addEventListener('loadingdone', () => {
+    drawLines(board);
+  });
   window.addEventListener('resize', () => {
     applyCamera(board);
   });

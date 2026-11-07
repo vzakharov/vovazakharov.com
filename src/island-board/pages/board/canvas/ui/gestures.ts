@@ -49,7 +49,7 @@ function dragged(board: Board, drag: Drag, point: Point): void {
       x: drag.camera.x + dx,
       y: drag.camera.y + dy,
     };
-    applyCamera(board);
+    applyCamera(board, true);
   } else if (drag.kind === 'move') {
     if (Math.hypot(dx, dy) > 3) drag.moved = true;
     drag.node.style.left = `${drag.origin.x + dx / zoom}px`;
@@ -184,7 +184,7 @@ export function wireGestures(board: Board): void {
             Math.exp(-event.deltaY / 200),
           )
         : { ...camera, x: camera.x - event.deltaX, y: camera.y - event.deltaY };
-      applyCamera(board);
+      applyCamera(board, !event.ctrlKey);
     },
     { passive: false },
   );

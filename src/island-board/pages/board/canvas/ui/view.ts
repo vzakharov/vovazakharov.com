@@ -69,11 +69,16 @@ export function render(board: Board): void {
     editable: board.store.write !== undefined,
     ...pick(board, 'names'),
   });
+  drawLines(board);
+  resolveNames(board, items).catch(reportError);
+}
+
+/** The lines alone, re-run to the items' edges as they now stand. */
+export function drawLines(board: Board): void {
   renderLines(
     board.lines,
     visible(board).filter((item): item is LineItem => item.kind === 'line'),
     (id) => rectOf(board, id),
   );
   select(board, board.selected);
-  resolveNames(board, items).catch(reportError);
 }
