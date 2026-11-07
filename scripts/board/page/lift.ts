@@ -13,17 +13,21 @@ export type Lift = {
   rest: () => void;
 };
 
-export function createLift(stage: HTMLElement, zoom: () => number): Lift {
+/** `classes` is the stage's class list, the only part of it the lift touches. */
+export function createLift(
+  classes: Pick<DOMTokenList, 'add' | 'remove'>,
+  zoom: () => number,
+): Lift {
   let rasterZoom: number | undefined;
   return {
     pan: () => {
       if (rasterZoom === zoom()) return;
       rasterZoom = zoom();
-      stage.classList.add('lifted');
+      classes.add('lifted');
     },
     rest: () => {
       if (rasterZoom === undefined || rasterZoom === zoom()) return;
-      stage.classList.remove('lifted');
+      classes.remove('lifted');
       rasterZoom = undefined;
     },
   };

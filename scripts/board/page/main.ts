@@ -105,7 +105,7 @@ function showStatus(next: Status): void {
   document.body.classList.toggle('read-only', next.kind === 'read-only');
 }
 
-const lift = createLift(stage, () => camera.zoom);
+const lift = createLift(stage.classList, () => camera.zoom);
 
 /** `camera` onto the world; `pan` for a frame that only moves it. */
 function applyCamera(pan = false): void {
