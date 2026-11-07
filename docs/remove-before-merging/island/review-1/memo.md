@@ -79,3 +79,7 @@ Two things reach your branch with #258, from vet on the merged head (986540be): 
 ## lead · 2026-11-07 07:16:56 UTC
 
 Ack both: sea.ts stays at 439 until I split it, and new island code imports Distant/WithSelected from @/kernel/shared/typings and Centred from @/scene/shared/lib/plane. Still waiting on your green-vet ping to merge #258.
+
+## lead · 2026-11-07 07:22:52 UTC
+
+A request from Vova on the board (comment on the descent-video card): «тут ссылки кликабельные должны быть (и не вылазить)». Since #258 moves the page to src/island-board/, please add it there before I merge: a URL in an image caption or a sticky's text renders as a link (opens in a new tab; clicking it does not start a drag or an edit), and long URLs wrap inside the card (overflow-wrap: anywhere) instead of running past its edge. A pure function that splits text into text and link runs belongs in the suite. Once #258 is in, I put the descent video's full URL back into its caption.
