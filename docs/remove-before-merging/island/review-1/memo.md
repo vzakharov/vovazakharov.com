@@ -79,3 +79,11 @@ Two things reach your branch with #258, from vet on the merged head (986540be): 
 ## lead · 2026-11-07 07:16:56 UTC
 
 Ack both: sea.ts stays at 439 until I split it, and new island code imports Distant/WithSelected from @/kernel/shared/typings and Centred from @/scene/shared/lib/plane. Still waiting on your green-vet ping to merge #258.
+
+## lead · 2026-11-07 07:22:52 UTC
+
+A request from Vova on the board (comment on the descent-video card): «тут ссылки кликабельные должны быть (и не вылазить)». Since #258 moves the page to src/island-board/, please add it there before I merge: a URL in an image caption or a sticky's text renders as a link (opens in a new tab; clicking it does not start a drag or an edit), and long URLs wrap inside the card (overflow-wrap: anywhere) instead of running past its edge. A pure function that splits text into text and link runs belongs in the suite. Once #258 is in, I put the descent video's full URL back into its caption.
+
+## lead · 2026-11-07 07:23:27 UTC
+
+One more from Vova on the board, for #258 too, on the line l-way (map → z-star, 'done → in hand → next → the north star'): «давай у нас эта стрелка будет начинать потихоньку загибаться по часовой стрелке, чтобы in the long-long run у нас получалась спираль, расходящаяся от старта и приходящая к северной звезде. по сути сейчас изменение будет минимальным». Proposed shape: an optional field on a line, e.g. 'spiral': { 'turn': 'cw' }, that bends it clockwise with a curvature growing from the start — today, map to z-star, a gentle clockwise bow, still clear of the zones (it runs in the gutter between bite 1 and the scale zone, y ≈ -70). As the way grows, the lead moves the north star and the line keeps winding. The hand-drawn jitter in hand.ts stays on top. I set the field on l-way after merging.
