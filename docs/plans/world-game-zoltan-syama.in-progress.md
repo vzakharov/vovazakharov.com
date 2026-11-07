@@ -105,11 +105,12 @@ is in git
   read at upload rather than capture, since all three went up together. The
   `.claude/costs/` change goes upstream to `vzakharov/muthur`.
 
-- **Bite 1 is out** — the thinnest descent from orbit to the ground, its
-  contract `docs/plans/world-game-zoltan-syama/bite-1.md`, built by its member
-  on `island/bite-1-descent` (PR #256 closed as merged when 686f5174 put its
-  head into this branch; the member opens a fresh PR onto this branch at the
-  bite's tail).
+- **Bite 1** — the thinnest descent from orbit to 2 m, `/island` under
+  `src/island/`, its contract `docs/plans/world-game-zoltan-syama/bite-1.md`,
+  its record `docs/plans/island-bite-1.completed.md`. Merged as #259 (19a4366c).
+  Left for later bites: 10–20 km spits fray at orbit (orbit tiles are level 3);
+  a cached tile keeps its detail cut until evicted; the lake by Цитадель is
+  land; four `/dry` calls in #259's body await the operator.
 
 ## Waiting on the operator
 
@@ -130,11 +131,6 @@ review. Open:
 
 ## Open bites
 
-- **Bite 1** — member session
-  https://claude.ai/code/session_01DaohkDTq595n9RkxwUJ8bc, on Opus; the lead
-  waits on it with `memo.py wait --as lead --branch island/bite-1-descent`. When
-  it posts done: look at its frames beside the map, run vet on its head, merge
-  it into this branch, `/preview live`, tick its stickers.
 - **Review of #255** — member session
   https://claude.ai/code/session_01DaohkBPPsH9jFCtdTa4Qb9 on `island/review-1`,
   handling T01–T10, T12–T20 and R02 (the cut cycle that replaced the epic
