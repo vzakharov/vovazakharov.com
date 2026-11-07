@@ -39,7 +39,7 @@ build a diagnostic copy) builds in `$SCRATCH/r7/tree` and plays.
 ## Status
 
 - [x] flare + test pushed (typecheck, eslint, prettier, 66 terrain/island
-  tests green)
+      tests green)
 - [ ] play run with the flare, after frames into `notes/r7/` — not run
-  (context budget)
+      (context budget)
 - [ ] the shader fix above, operator's/orchestrator's call

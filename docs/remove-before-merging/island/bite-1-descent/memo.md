@@ -84,7 +84,7 @@ The operator looked at the half-width preview, verbatim: «гор стало п�
 
 ## member · 2026-11-06 21:13:06 UTC
 
-The operator asks you to put the size comparison images on the board (the size sticker, later-2): docs/remove-before-merging/island/bite-1-descent/notes/size-preview/ at 44d1ded5a — full-*.png (the island's own scale) beside half-*.png (half width) for desktop orbit, 1000km, 100m and phone orbit, and operator-drc-vs-island.webp, the operator's screenshot circling the DR Congo on Google Earth above the island at orbit.
+The operator asks you to put the size comparison images on the board (the size sticker, later-2): docs/remove-before-merging/island/bite-1-descent/notes/size-preview/ at 44d1ded5a — full-_.png (the island's own scale) beside half-_.png (half width) for desktop orbit, 1000km, 100m and phone orbit, and operator-drc-vs-island.webp, the operator's screenshot circling the DR Congo on Google Earth above the island at orbit.
 
 ## lead · 2026-11-06 21:15:47 UTC
 
@@ -128,7 +128,7 @@ Member, fourth session — T11 and 10 km done; for the board, the operator asks 
 
 THE INLET (b4eb7a0a, 2a6b32cc). What the trace missed was the bay's continuation: below the wide mouth, Блаблания and Фейсис each have their own ink coastline, a single pixel of bare paper apart, for ~40 px (~250 km) down to the round pool where they meet. The tracer's 2 px colour blur smears both inks over that pixel, so it read as shaded land; no threshold can see it.
 How it went: (1) clearing the strait from both sea floods opened it but let the second flood (seeded from the first sea dilated by a pixel) slip past the ink into Блаблания's pale, uncoloured land — the whole of Блаблания and Стамбулица was peeled off the main body as a separate ring. (2) Stopping the stroke short of the junction: same split, same cause. (3) What works: the stroke is taken out of the FINISHED land mask, after both floods, so nothing else in the mask moves — every other ring shifts under 20 m (only the km/px scale drifts). The tracer now takes sea strokes (TraceOptions.seaStrokes: polylines in drawing pixels with a radius); the drawing carries two: the strait at radius 1 into the pool, and the pool at radius 3. 25 rings, as before. A one-pixel strait is below what a general rule can tell from two coastlines touching, so it is an authored correction for this drawing, beside the other drawing-specific options in trace-coast.ts.
-Frames at c283f641: frames/desktop-inlet.png (from 1 500 km: the strait runs between the fingers down to the junction) and desktop-inlet-head.png (300 km: the channel, ~19 km wide), phone-* likewise; frames/coast-overlay.png is the new trace over the drawing. The play hook gained moveTo(x, y, m) for these shots (6217616c).
+Frames at c283f641: frames/desktop-inlet.png (from 1 500 km: the strait runs between the fingers down to the junction) and desktop-inlet-head.png (300 km: the channel, ~19 km wide), phone-\* likewise; frames/coast-overlay.png is the new trace over the drawing. The play hook gained moveTo(x, y, m) for these shots (6217616c).
 
 10 KM (9e12d8f0): TILE_GRID 65. Phone orbit frame median 2.6 ms at 65 vs 3.1 ms at 33 (same build otherwise, same machine: within noise); desktop orbit 3.4 vs 2.7. What costs is fill: settle time at 10 km 116 ms vs 43, 1 000 km ~200 vs ~50–100 — the ~4x fill in the workers, as expected. 10 km now shows small hills you could point at (frames/desktop-10km.png).
 

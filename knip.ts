@@ -14,6 +14,8 @@ export default {
     'steiger.config.mjs',
     // Named by string in `sites/site-next-config.ts`, as `createNextIntlPlugin` wants.
     'src/kernel/shared/i18n/request.ts',
+    // The board page's bundle, which `scripts/board/board.ts` hands esbuild by path.
+    'scripts/board/page/main.ts',
     // Run by `scripts/vet-test.sh`, which hands node the files rather than a
     // glob a `package.json` script spells.
     '**/*.test.ts',

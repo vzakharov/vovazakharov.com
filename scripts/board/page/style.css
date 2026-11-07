@@ -21,6 +21,7 @@
   --gray: #e2e6e8;
   --zone-alpha: 38%;
   --font-display: 'Fraunces', georgia, serif;
+
   /* Caveat for what a pen adds — zone titles, line labels; the notes in a
      face just as informal but quiet enough to read in bulk. */
   --font-hand: 'Caveat', 'Segoe Print', cursive;

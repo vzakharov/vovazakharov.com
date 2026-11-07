@@ -20,13 +20,13 @@ Measure: `tmp/r7c/measure.ts` in the worktree (eye over (0,0) via `eyeAt` +
   with coast); cut never finer than any coast-following selected tile's
   2·spacing at 10 km over the disc's shore; R4b's edge-agreement tests pass.
 
-| height | desktop tiles | phone tiles | nadir cut before | after | nadir tile 2·sp |
-|---|---|---|---|---|---|
-| orbit | 60 | 60 | 128 km | 128 km | 128 km (L3) |
-| 1000 km | 42 | 67 | 62.4 km | 32 km | 32 km (L5) |
-| 10 km | 26 | 34 | 489 m | 250 m | 250 m (L12) |
-| 100 m | 104 | 86 | 3.9 m | 3.9 m | 3.9 m (L18) |
-| 2 m | 81 | 71 | 3.9 m | 3.9 m | 3.9 m |
+| height  | desktop tiles | phone tiles | nadir cut before | after  | nadir tile 2·sp |
+| ------- | ------------- | ----------- | ---------------- | ------ | --------------- |
+| orbit   | 60            | 60          | 128 km           | 128 km | 128 km (L3)     |
+| 1000 km | 42            | 67          | 62.4 km          | 32 km  | 32 km (L5)      |
+| 10 km   | 26            | 34          | 489 m            | 250 m  | 250 m (L12)     |
+| 100 m   | 104           | 86          | 3.9 m            | 3.9 m  | 3.9 m (L18)     |
+| 2 m     | 81            | 71          | 3.9 m            | 3.9 m  | 3.9 m           |
 
 ## 2. Coast floor at orbit — measured, not kept (paused at context budget)
 
@@ -35,12 +35,12 @@ Tried in `splitRule`, before the ratio test:
 `|sampleCoastField(centre)| < share·side`. Orbit, real coast (both screens
 alike, frustum culls nothing at orbit):
 
-| COAST_LEVEL | share | orbit tiles | selectTiles |
-|---|---|---|---|
-| none (as pushed) | – | 60 | 2–7 ms |
-| 5 | 1 | 249 | 16–48 ms |
-| 6 | 1 | 636 | 44–54 ms |
-| 6 | √½ (coast crosses the tile) | 528 | 42–43 ms |
+| COAST_LEVEL      | share                       | orbit tiles | selectTiles |
+| ---------------- | --------------------------- | ----------- | ----------- |
+| none (as pushed) | –                           | 60          | 2–7 ms      |
+| 5                | 1                           | 249         | 16–48 ms    |
+| 6                | 1                           | 636         | 44–54 ms    |
+| 6                | √½ (coast crosses the tile) | 528         | 42–43 ms    |
 
 1 000 km and below: counts unchanged at every setting. Level 6 is +470–580
 tiles and a ~40 ms reselect on the main thread, past the "few hundred" bar,

@@ -10,11 +10,11 @@
 
 ## Tile counts (eye over (0,0), heading 0, real coast, `tmp/r4b/measure.ts` in the worktree; orbit / 1000 km / 10 km / 100 m / 2 m)
 
-| | desktop 1440×900 | phone 390×844 |
-|---|---|---|
-| before (R4's table, no frustum) | 60 / 300 / 128 / 159 / 159 | same |
-| `ground` passed, no frustum | 60 / 300 / 128 / 159 / 159 | same |
-| frustum + ground (as wired) | 60 / 45 / 26 / 103 / 86 | 60 / 68 / 32 / 89 / 76 |
+|                                 | desktop 1440×900           | phone 390×844          |
+| ------------------------------- | -------------------------- | ---------------------- |
+| before (R4's table, no frustum) | 60 / 300 / 128 / 159 / 159 | same                   |
+| `ground` passed, no frustum     | 60 / 300 / 128 / 159 / 159 | same                   |
+| frustum + ground (as wired)     | 60 / 45 / 26 / 103 / 86    | 60 / 68 / 32 / 89 / 76 |
 
 `selectTiles` with frustum + ground: 2–6 ms per reselect.
 
