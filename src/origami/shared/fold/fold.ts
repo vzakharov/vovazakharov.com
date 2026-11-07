@@ -16,11 +16,18 @@ import {
   perpendicular,
   reflection,
   scale,
+  type Segment,
   side,
   splitConvex,
   type Vec,
 } from './geometry.ts';
-import { invertRigid, type Mat4, multiply, rotationAbout } from './space.ts';
+import {
+  differ,
+  invertRigid,
+  type Mat4,
+  multiply,
+  rotationAbout,
+} from './space.ts';
 import {
   adjacency,
   cut,
@@ -50,13 +57,20 @@ export type Step = {
   /** A point on the side that moves. */
   readonly moving: Vec;
   readonly select?: Selection;
-  readonly direction?: FoldDirection;
+  /** `tuck` is a flat fold whose flap lands inside the stack: see `into`. */
+  readonly direction?: FoldDirection | 'tuck';
+  /** For a tuck: the pocket the flap slides into — at flat point `at`, under
+   * the top `below` layers of the paper that stays there. */
+  readonly into?: { readonly at: Vec; readonly below: number };
   /** Degrees; 180 folds flat, anything else shapes the model in 3D. */
   readonly angle?: number;
   /** Added to every moving piece. */
   readonly tag?: string;
   /** For reverse folds: pieces carrying this tag form the lower half. */
   readonly lower?: string;
+  /** The share of its fold angle the crease keeps when the model is let go:
+   * 1 is pressed sharp. Overrides the paper's default for the fold's kind. */
+  readonly hold?: number;
 };
 
 /** A step, or a step computed from the state it folds. */
@@ -177,6 +191,58 @@ function extreme(zs: number[], pick: typeof Math.max): number {
   return pick(...zs);
 }
 
+/**
+ * Restacks the reflected flap between two layers of the paper that stayed:
+ * at `into.at`, under the top `into.below` of them. The pocket must hold the
+ * flap where it turns, too: a layer stacked between the flap and the paper it
+ * stays joined to, covering the crease, would be one the flap passes through.
+ */
+function tuck(
+  state: FoldState,
+  moved: Piece[],
+  stationary: Piece[],
+  line: Line,
+  step: Step,
+): void {
+  if (!step.into) throw new Error('fold: a tuck needs `into`');
+  const { at, below } = step.into;
+  const here = stationary
+    .filter((p) => contains(flatPolygon(p), at))
+    .toSorted((a, b) => a.order - b.order);
+  if (below < 0 || below > here.length) {
+    throw new Error(
+      `fold: a tuck under ${String(below)} of the ${String(here.length)} layers at ${at.join(',')}`,
+    );
+  }
+  const under = here[here.length - below - 1];
+  const over = here[here.length - below];
+  const lo = under?.order ?? (over?.order ?? 0) - 1;
+  const hi = over?.order ?? lo + 1;
+  restack(moved, (i, n) => lo + ((hi - lo) * (i + 1)) / (n + 1));
+
+  const movedIds = new Set(moved.map((p) => p.id));
+  const nudge = scale(perpendicular(line.d), 1e-4);
+  for (const hinge of hinges(state, line, movedIds)) {
+    const [a, b] = hinge.ends;
+    const mid: Vec = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+    const low = Math.min(hinge.still.order, hinge.moved.order);
+    const high = Math.max(hinge.still.order, hinge.moved.order);
+    const blocking = stationary.find(
+      (p) =>
+        p !== hinge.still &&
+        p.order > low &&
+        p.order < high &&
+        contains(flatPolygon(p), add(mid, nudge)) &&
+        contains(flatPolygon(p), add(mid, scale(nudge, -1))),
+    );
+    if (blocking) {
+      throw new Error(
+        `fold: the tucked flap would pass through piece ${String(blocking.id)} at ${mid.join(',')}`,
+      );
+    }
+  }
+}
+
 function flatFold(
   state: FoldState,
   moved: Piece[],
@@ -189,7 +255,9 @@ function flatFold(
   const movedIds = new Set(moved.map((p) => p.id));
   const stationary = state.pieces.filter((p) => !movedIds.has(p.id));
 
-  if (direction === 'valley' || direction === 'mountain') {
+  if (direction === 'tuck') {
+    tuck(state, moved, stationary, line, step);
+  } else if (direction === 'valley' || direction === 'mountain') {
     const zs = stationary.map((p) => p.order);
     const base =
       direction === 'valley'
@@ -221,12 +289,6 @@ function flatFold(
   }
 }
 
-/** How far two shapings may differ, entry by entry, and still be one. */
-const SAME_SHAPING = 1e-6;
-const differ = (a: Mat4, b: Mat4): boolean =>
-  a.length !== b.length ||
-  a.some((x, i) => Math.abs(x - (b[i] ?? x)) > SAME_SHAPING);
-
 /** The shaping of the paper the flap stays joined to: where the crease is in
  * space. Throws when the pieces along the crease disagree, since then there is
  * no one crease to turn about. */
@@ -252,6 +314,9 @@ export function fold(state: FoldState, spec: StepSpec): FoldState {
   const angle = step.angle ?? 180;
   const flat = Math.abs(angle - 180) < EPS;
   const direction = step.direction ?? 'valley';
+  if (direction === 'tuck' && !flat) {
+    throw new Error('fold: a tuck folds flat');
+  }
 
   const movedIds = flap(
     state,
@@ -264,6 +329,12 @@ export function fold(state: FoldState, spec: StepSpec): FoldState {
   if (step.tag !== undefined) {
     for (const piece of moved) piece.tags.add(step.tag);
   }
+  const creases = hinges(state, line, movedIds).map(
+    ({ moved: piece, ends }): Segment => {
+      const toPaper = invert(piece.placement);
+      return [apply(toPaper, ends[0]), apply(toPaper, ends[1])];
+    },
+  );
 
   if (flat) flatFold(state, moved, line, step);
   else {
@@ -280,12 +351,16 @@ export function fold(state: FoldState, spec: StepSpec): FoldState {
     for (const piece of moved) piece.shaping = multiply(turn, piece.shaping);
   }
 
+  const { hold, lower } = step;
   state.log.push({
     line,
-    direction,
+    // A tuck creases as a valley does; only the stack differs.
+    direction: direction === 'tuck' ? 'valley' : direction,
     flat,
     moved: movedIds,
-    lowerTag: step.lower,
+    lowerTag: lower,
+    creases,
+    hold,
   });
   return state;
 }

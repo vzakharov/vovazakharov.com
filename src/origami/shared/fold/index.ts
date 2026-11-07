@@ -3,6 +3,8 @@ export { run, type Step, type StepSpec } from './fold.ts';
 export { add, normalize, rotate, side, sub, type Vec } from './geometry.ts';
 export { DEFAULT_PAPER, PAPER_IDS, PAPERS } from './paper.ts';
 export { physics, REVERSE_LAYERS_ERROR, type StepReport } from './physics.ts';
+export { relaxSequence } from './sequence.ts';
 export { type Snapshot, snapshot } from './snapshot.ts';
 export { type Vec3 } from './space.ts';
 export { type FoldDirection, type FoldState, where } from './state.ts';
+export { StepsSchema } from './steps-file.ts';

@@ -11,7 +11,7 @@ import { setTimeout as sleep } from 'node:timers/promises';
 import { pathToFileURL } from 'node:url';
 import { z } from 'zod';
 
-import type { Design } from '@/origami/entities/design';
+import type { Shown } from '@/origami/entities/design';
 
 import type { Framing, RenderInput } from './render-page.ts';
 
@@ -74,7 +74,7 @@ async function page(): Promise<string> {
  * `dir`, and closes it however the run ends.
  */
 export async function render(
-  design: Design,
+  design: Shown,
   dir: string,
   shots: readonly Shot[],
 ): Promise<void> {
