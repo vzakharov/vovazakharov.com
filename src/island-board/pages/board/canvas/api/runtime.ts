@@ -28,7 +28,7 @@ export type Db = {
   };
 };
 
-export type User = {
+type User = {
   id: () => Promise<string | null>;
   can: (capability: string) => Promise<boolean | null>;
   profiles: (
@@ -36,7 +36,7 @@ export type User = {
   ) => Promise<Record<string, { name: string }>>;
 };
 
-export type Assets = {
+type Assets = {
   upload: (blob: Blob) => Promise<{ id: string }>;
 };
 
@@ -56,11 +56,10 @@ const isUser = (value: unknown): value is User =>
 const isAssets = (value: unknown): value is Assets =>
   hasFunctions(value, ['upload']);
 
-export type Capabilities = {
-  db: Db | null;
-  user: User | null;
-  assets: Assets | null;
-};
+/** What lets the viewer author: who they are, and where their uploads go. */
+export type Authoring = { user: User | null; assets: Assets | null };
+
+export type Capabilities = Authoring & { db: Db | null };
 
 /** Every capability this view can run; all `null` outside claude.ai. */
 export async function connect(): Promise<Capabilities> {

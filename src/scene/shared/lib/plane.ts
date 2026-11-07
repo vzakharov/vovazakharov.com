@@ -6,6 +6,9 @@ export type Ordinate = { y: number };
 
 export type Point = Abscissa & Ordinate;
 
+/** Where a thing's middle is. */
+export type Centred = { centre: Point };
+
 /** How many times its laid-out size a thing is drawn. */
 export type Zooming = { zoom: number };
 

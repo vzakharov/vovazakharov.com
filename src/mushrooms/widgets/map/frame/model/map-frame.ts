@@ -1,7 +1,7 @@
 import { pick } from '@/kernel/shared/lib/collections';
 import type { Sized } from '@/kernel/shared/typings';
 
-import type { Point } from '@/scene/shared/lib/plane';
+import type { Centred, Point } from '@/scene/shared/lib/plane';
 
 import type { WithMiddle } from '@/mushrooms/shared/lib/geometry';
 import type { Scaling } from '@/mushrooms/shared/world';
@@ -11,8 +11,7 @@ import type { Scaling } from '@/mushrooms/shared/world';
  * point, shows at `middle`, the sun's azimuth `sunward` points to the
  * screen's top, at `scale` px a clump size.
  */
-export type MapFrame = WithMiddle &
-  Scaling & { centre: Point; sunward: number };
+export type MapFrame = WithMiddle & Scaling & Centred & { sunward: number };
 
 /** The panel the map is drawn into, in screen px. */
 type Panel = WithMiddle & Sized;

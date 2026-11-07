@@ -18,6 +18,8 @@ export default {
     // inline and compiles the stylesheet by path.
     'src/island-board/pages/board/index.ts',
     'src/island-board/app/styles/board.scss',
+    // A branch's one-off scripts, run by hand and swept by `/finalize`.
+    'docs/remove-before-merging/**/*.ts',
     // Run by `scripts/vet-test.sh`, which hands node the files rather than a
     // glob a `package.json` script spells.
     '**/*.test.ts',

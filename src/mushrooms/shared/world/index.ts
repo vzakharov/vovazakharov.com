@@ -154,7 +154,6 @@ export {
   browRow,
   buried,
   cull,
-  type Distant,
   type Following,
   layoutOfPlane,
   middleOf,

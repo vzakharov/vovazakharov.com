@@ -4,12 +4,13 @@
  * it, double-click to add a sticky or edit a text.
  */
 import { pick } from '@/kernel/shared/lib/collections';
+import type { Distant } from '@/kernel/shared/typings';
 
-import type { Point, Zoomed } from '@/scene/shared/lib/plane';
+import type { Centred, Point, Zoomed } from '@/scene/shared/lib/plane';
 
 import { toWorld, zoomAt } from '../../camera/index.ts';
 import { itemIdAt } from '../lib/dom.ts';
-import type { Board } from '../model/board.ts';
+import type { Board, WithCamera } from '../model/board.ts';
 import { addSticky, pickLineEnd, startEditing } from './actions.ts';
 import { find, nodeOf, select } from './view.ts';
 import { applyCamera, screenPoint } from './viewport.ts';
@@ -33,7 +34,7 @@ type Drag =
       node: HTMLElement;
     };
 
-type Pinch = { distance: number; camera: Zoomed; centre: Point };
+type Pinch = Distant & WithCamera & Centred;
 
 const distance = (a: Point, b: Point): number =>
   Math.hypot(a.x - b.x, a.y - b.y);

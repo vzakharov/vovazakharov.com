@@ -34,6 +34,12 @@ export type CanDispose = { readonly dispose: () => void };
 /** A row-major grid's extent: cell `(i, j)` at `j * columns + i`. */
 export type Gridded = { columns: number; rows: number };
 
+/** How far from the eye a thing stands. */
+export type Distant = { distance: number };
+
+/** The item selected, by id; `undefined` while none is. */
+export type WithSelected = { selected: string | undefined };
+
 /** A title that may be absent — a document's is derived, so it exists only once read. */
 export type MaybeTitled = { title?: string };
 

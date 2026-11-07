@@ -1,0 +1,117 @@
+{
+  "total": {
+    "inputTokens": 169,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 174221,
+    "cacheReadTokens": 15125871,
+    "outputTokens": 40028,
+    "thinkingTokens": 9563,
+    "responses": 86,
+    "costUsd": 5.220178200000003
+  },
+  "estimate": {
+    "at": "2026-11-07T07:01:22.274Z",
+    "subjectLine": "fix(island): board import script, base merge with the lead's 13 cards",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a one-off import through the zone-split codec plus a base merge with modify/delete conflicts across a custom board format needs someone who knows the codec's invariants"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "docs/remove-before-merging/island/review-1/import-items.ts",
+    "endedAt": "2026-11-07T07:02:23.267Z",
+    "contextTokens": 154089,
+    "spend": {
+      "inputTokens": 41,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 94085,
+      "cacheReadTokens": 2305821,
+      "outputTokens": 5771,
+      "thinkingTokens": 1320,
+      "responses": 19,
+      "costUsd": 1.3294282
+    }
+  },
+  "sessionId": "374247f4-3a06-5d7d-9547-fbfa40012158",
+  "branch": "island/review-1",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/review-1 — доска разбита по зонам, ответы по #258 даны; осталось вынести скрипт импорта, влить базу с 13 карточками лида и обновить PR",
+  "prs": [
+    258
+  ],
+  "url": "https://claude.ai/code/session_01DaohkDaDnGMyHjrW4DfJkD",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-07T07:01:02.974Z",
+  "lastResponseAt": "2026-11-07T07:13:59.765Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 169,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 174221,
+    "cacheReadTokens": 15125871,
+    "outputTokens": 40028,
+    "thinkingTokens": 9563,
+    "responses": 86,
+    "costUsd": 5.220178200000003
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 169,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 174221,
+      "cacheReadTokens": 15125871,
+      "outputTokens": 40028,
+      "thinkingTokens": 9563,
+      "responses": 86,
+      "costUsd": 5.220178200000003
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 85,
+    "matched": 85,
+    "matchedTableUsd": 5.1434466000000025,
+    "matchedEventUsd": 5.1434466000000025,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 79
+  },
+  "reviewPosts": {
+    "PRRC_kwDOQXZBKM8AAAABDD_rTA": 9,
+    "PRRC_kwDOQXZBKM8AAAABDEBTgA": 34,
+    "PRRC_kwDOQXZBKM8AAAABDEBudw": 20,
+    "PRRC_kwDOQXZBKM8AAAABDECFnQ": 16
+  },
+  "branchLines": {
+    "vzakharov": 1,
+    ".md": 5725,
+    ".py": 2002,
+    ".sh": 4,
+    ".json": 1496,
+    ".staged": 434,
+    ".yaml": 447,
+    ".ts": 9636,
+    ".tsx": 151,
+    ".scss": 488
+  }
+}

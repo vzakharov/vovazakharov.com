@@ -13,6 +13,7 @@ R02 is now yours as well: the operator and the lead settled it in chat, and the 
 **No epic branch.** The operator first proposed `epic/island-part-1` off main, #255 retargeted onto it, parts squashed there. Then they proposed merging the epic into main periodically, and at that point the epic's only remaining role is a frozen snapshot while a merge runs — which can be cut straight from the mammoth. The operator agreed that "epic" is then the wrong word: the long-lived branch is the mammoth itself (#255's head); the snapshot is a **cut**, in git-flow terms a release branch.
 
 **The cut cycle:**
+
 1. Cut `island/cut-N` from the mammoth's head.
 2. Run `/finalize` on the cut and squash it into main. The mammoth keeps growing meanwhile; members keep merging bites into it.
 3. Bring main back into the mammoth: `git fetch origin main && git merge origin/main` (never pull). Clean by content; conflicts only where `/finalize` changed something on the cut.
