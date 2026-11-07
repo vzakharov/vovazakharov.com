@@ -2,10 +2,10 @@
   "kind": "sticky",
   "id": "controls",
   "x": 3170,
-  "y": -1063,
+  "y": -1563,
   "w": 300,
   "color": "pink",
   "text": "✓ Controls (#260, Vova's layout): W/S forward and back, A/D strafe, ←/→ turn, ↑/↓ climb (Q/E and PageUp/PageDown still work); right drag or a two-finger twist turns. A key hint bottom-left fades after first use. Open: collapse it to a '?' button instead?",
-  "updated": "2026-11-07T07:10:00.000Z",
+  "updated": "2026-11-07T07:50:00.000Z",
   "author": "agent:lead"
 }

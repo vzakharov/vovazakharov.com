@@ -2,11 +2,11 @@
   "kind": "zone",
   "id": "z-scale",
   "x": 2420,
-  "y": 390,
+  "y": 130,
   "w": 1060,
   "h": 870,
   "color": "yellow",
   "title": "Scale: the island as drawn vs at half width",
   "author": "agent:lead",
-  "updated": "2026-11-07T07:42:00.000Z"
+  "updated": "2026-11-07T07:50:00.000Z"
 }

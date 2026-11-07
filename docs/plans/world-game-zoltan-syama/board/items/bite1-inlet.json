@@ -2,10 +2,10 @@
   "kind": "image",
   "id": "bite1-inlet",
   "x": 2830,
-  "y": -400,
+  "y": -900,
   "w": 300,
   "src": "images/bite1-inlet.webp",
   "caption": "The bay, from 1,500 km",
-  "updated": "2026-11-07T05:45:00.000Z",
+  "updated": "2026-11-07T07:50:00.000Z",
   "author": "agent:lead"
 }
