@@ -81,6 +81,7 @@ const ONE_OF_EACH: Item[] = [
     to: 'z',
     label: 'go',
     dashed: true,
+    spiral: 'cw',
   },
   { ...STAMP, id: 'gone', kind: 'line', from: 's', to: 'z', deleted: true },
 ];
