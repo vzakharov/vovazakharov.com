@@ -1,8 +1,8 @@
 /**
  * The coastline tracer: RGBA pixels in, the outer rings of the land out, in
  * pixel coordinates (`x` right, `y` down, a pixel's centre at `+0.5`). Pure
- * and platform-free — a script runs it over the drawing today, a browser over
- * the player's own map later.
+ * and platform-free, so a browser can run it over a player's own map as a
+ * script runs it over the drawing.
  */
 import { type Ring, signedArea, type Simplified, simplify } from './ring';
 import { boxMean, landMask, type MaskOptions, type Raster } from './sea';

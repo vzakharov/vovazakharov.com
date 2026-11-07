@@ -41,8 +41,9 @@ export type FillOptions = {
  * One tile's mesh, every array its own buffer so a worker can transfer it.
  * The first `grid²` vertices are the grid, row by row from the south-west
  * corner eastward; the skirt's `4·(grid − 1)` follow, hanging from the border
- * walked counter-clockwise from that corner, each one cell outside it. Triangles wind counter-clockwise
- * seen from outside, the skirt's facing away from the tile.
+ * walked counter-clockwise from that corner, each one cell outside it.
+ * Triangles wind counter-clockwise seen from outside, the skirt's facing away
+ * from the tile.
  */
 export type TileMesh = TileKeyed & {
   readonly grid: number;

@@ -32,7 +32,7 @@ const MAP = path.join(
 );
 const OUT = path.join(REPO_ROOT, 'src/island/entities/coast/model/coast.json');
 
-/** The main body's east–west extent (contract, call 3). */
+/** The main body's east–west extent (contract, call 1). */
 const MAIN_BODY_KM = 5000;
 
 const OPTIONS: TraceOptions = {

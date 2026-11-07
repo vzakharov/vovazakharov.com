@@ -125,11 +125,11 @@ function nodesNear(s: Float64Array, k: number, grid: CoastGrid) {
 }
 
 /**
- * The squared distance from every node to the coast: exact for nodes within a cell
- * of a segment, then carried across the grid by a two-pass 8-neighbour sweep
- * that re-measures each neighbour's nearest segment exactly, so every
- * distance is a true distance to some coast point, at worst slightly more
- * than the least one.
+ * The squared distance from every node to the coast: exact for nodes within a
+ * cell of a segment, then carried across the grid by a two-pass 8-neighbour
+ * sweep that re-measures each neighbour's nearest segment exactly, so every
+ * distance is a true distance to some coast point, at worst slightly more than
+ * the least one.
  */
 function nearestDistances(s: Float64Array, grid: CoastGrid): Float32Array {
   const { originX, originY, cellMetres, columns, rows } = grid;

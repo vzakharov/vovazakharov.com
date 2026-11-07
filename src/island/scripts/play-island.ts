@@ -3,10 +3,9 @@
  * for the scene, then puts the eye at each of five heights — orbit, 1,000 km,
  * 10 km, 100 m, 2 m — and over the coast's narrowest inlet, steps a few frames
  * on the page's seeded clock and shoots `<screen>-<shot>.png`. It fails on any
- * page error or console error, and
- * prints per screen the renderer's backend and the median frame time beside
- * the machine's load average,
- * which is what a slow median has to be read against.
+ * page error or console error, and prints per screen the renderer's backend
+ * and the median frame time beside the machine's load average, which is what a
+ * slow median has to be read against.
  *
  *   pnpm play:island                       # build the vova export, then play it
  *   pnpm play:island --no-build            # play the one already in sites/vova/out
