@@ -1,6 +1,6 @@
 import type { CanDispose } from '@/kernel/shared/typings';
 
-import type { Intent, Vec2 } from '../model/eye';
+import { type Intent, shortest, type Vec2 } from '../model/eye';
 import { groundPerScreen } from '../model/pose';
 
 /** What the scene holds while the controls are bound. */
@@ -57,10 +57,6 @@ const onContextMenu = (event: Event) => {
 };
 
 const clampUnit = (value: number) => Math.min(1, Math.max(-1, value));
-
-/** `angle` brought within half a turn of zero. */
-const shortest = (angle: number) =>
-  angle - 2 * Math.PI * Math.round(angle / (2 * Math.PI));
 
 /**
  * Binds the eye's controls: the wheel, drags, a pinch and a twist on

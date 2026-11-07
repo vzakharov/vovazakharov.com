@@ -80,6 +80,10 @@ export const TURN_RADIANS_PER_SECOND = (80 * Math.PI) / 180;
 
 const FULL_TURN = 2 * Math.PI;
 
+/** `angle` brought within half a turn of zero. */
+export const shortest = (angle: number) =>
+  angle - FULL_TURN * Math.round(angle / FULL_TURN);
+
 /** Time constant of the glide from where the eye is toward its aim. */
 const EASE_SECONDS = 0.15;
 
@@ -201,7 +205,8 @@ export function step(
   const y = eye.y + (aim.y - eye.y) * toward;
   const eased = eye.height * (aim.height / eye.height) ** toward;
   const heading = eye.heading + (aim.heading - eye.heading) * toward;
-  const turns = Math.round(aim.heading / FULL_TURN) * FULL_TURN;
+  const aimHeading = shortest(aim.heading);
+  const turns = aim.heading - aimHeading;
   const surface = surfaceAt(groundAt, x, y);
   const floor = eye.floor + (surface - eye.floor) * easing(dt, FLOOR_SECONDS);
   const height = clamp(
@@ -215,6 +220,6 @@ export function step(
     height,
     floor,
     heading: heading - turns,
-    aim: { ...aim, heading: aim.heading - turns },
+    aim: { ...aim, heading: aimHeading },
   };
 }
