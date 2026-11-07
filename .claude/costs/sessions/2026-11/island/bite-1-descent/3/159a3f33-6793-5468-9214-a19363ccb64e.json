@@ -10,7 +10,7 @@
     "costUsd": 5.271715
   },
   "estimate": {
-    "at": "2026-11-06T22:22:52.739Z",
+    "at": "2026-11-07T06:35:41.320Z",
     "parts": [
       {
         "hours": 3.0,
@@ -25,7 +25,8 @@
         "comment": "three play runs read frame by frame against the earlier ones"
       }
     ],
-    "comment": null
+    "comment": null,
+    "subjectLine": "feat(island): sea coloured by its floor, skirts by their edge"
   },
   "orientation": {
     "endedBy": "oriented",
@@ -97,7 +98,11 @@
     "matchedEventUsd": 5.2717149999999995,
     "unseen": {}
   },
-  "operatorWords": 0,
+  "operatorWords": {
+    "chat": 0,
+    "review": 0
+  },
+  "reviewPosts": {},
   "branchLines": {
     ".md": 2704,
     ".py": 894,
