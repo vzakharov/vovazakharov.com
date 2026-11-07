@@ -154,8 +154,11 @@ review. Open:
   https://claude.ai/code/session_01DaohkDwrHtJy2Zb6SucGnx on
   `island/board-perf`: the page measured and sped up, the look unchanged; the
   lead republishes from its merged code.
-- The lead waits on all four:
-  `memo.py wait --as lead --branch island/review-1 --branch island/descent-video --branch preview2-slot --branch island/board-perf`.
+- **Controls** — https://claude.ai/code/session_01DaohkF3nmKHi8CHJ3ye7rL on
+  `island/controls`: W/S forward and back, A/D strafe, ←/→ turn, ↑/↓ climb,
+  right drag turns, an on-screen key hint (the operator's layout).
+- The lead waits on all five:
+  `memo.py wait --as lead --branch island/review-1 --branch island/descent-video --branch preview2-slot --branch island/board-perf --branch island/controls`.
 
 ## Rest of the elephant
 
