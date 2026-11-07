@@ -230,14 +230,6 @@ Russian rules, `«…»` included, and code spans, fences and identifiers are no
 prose. `pnpm check:typography` fails on a straight quote or apostrophe in the
 collections' documents; the rest is held by reading.
 
-## Contrast as a device
-
-**A sentence says what a thing is, without the thing it is not** — "proof that
-this can be done", never "proof that this can be done, not code to borrow" —
-unless the two genuinely need setting against each other for the point to land.
-A denial added for rhythm puts the denied thing in the reader's head for
-nothing.
-
 ## Traps worth knowing
 
 - **A document's route reserves `.html` and `.txt`, and takes them without a
