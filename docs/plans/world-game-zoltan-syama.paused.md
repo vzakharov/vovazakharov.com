@@ -88,6 +88,9 @@ is in git
   budget notice under 300k is noted and the work carries on.
 - «треды сам не закрывай, ок? принцип тот же что и с код-ревью» — the lead
   answers a board comment thread and never resolves it; resolving is Vova's.
+- «/sync-branch из каждого куска -- ага» — a member ends its bite with
+  `/sync-branch` against its PR's base, this branch, before pinging green, so
+  the lead's merge lands without conflicts.
 
 ## Eaten so far
 
