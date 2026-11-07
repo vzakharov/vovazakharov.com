@@ -1,0 +1,126 @@
+{
+  "total": {
+    "inputTokens": 1715,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 133247,
+    "cacheReadTokens": 9118294,
+    "outputTokens": 29509,
+    "thinkingTokens": 9651,
+    "responses": 63,
+    "costUsd": 3.4800720999999997
+  },
+  "estimate": {
+    "at": "2026-11-07T05:38:12.449Z",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "judging bite 1's final frames, merging its bite and the review's, publishing the preview and the board — the remainder relay 10 handed on"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-07T05:38:10.288Z",
+    "contextTokens": 112440,
+    "spend": {
+      "inputTokens": 10,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 48779,
+      "cacheReadTokens": 365541,
+      "outputTokens": 1011,
+      "thinkingTokens": 108,
+      "responses": 4,
+      "costUsd": 0.48360020000000004
+    }
+  },
+  "sessionId": "a5a35aa9-fc8f-5074-9983-3ae793b2d234",
+  "branch": "claude/world-game-zoltan-syama-hodowq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/world-game-zoltan-syama-hodowq — ревью #255 разбирается в подветке island/review-1, эпик заменён срезами от мамонта, залив дорисован, ответ п…",
+  "prs": [
+    255
+  ],
+  "url": "https://claude.ai/code/session_01DaohkESy1SKjwq6VDaPZPd",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-07T05:37:57.147Z",
+  "lastResponseAt": "2026-11-07T06:02:36.871Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 122,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 133247,
+    "cacheReadTokens": 9118294,
+    "outputTokens": 29489,
+    "thinkingTokens": 9651,
+    "responses": 62,
+    "costUsd": 3.4799027999999996
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 122,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 133247,
+      "cacheReadTokens": 9118294,
+      "outputTokens": 29489,
+      "thinkingTokens": 9651,
+      "responses": 62,
+      "costUsd": 3.4799027999999996
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1593,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 20,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.00016930000000000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 63,
+    "matched": 62,
+    "matchedTableUsd": 3.4799027999999996,
+    "matchedEventUsd": 3.4799027999999996,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 1593,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 20,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.00016930000000000002
+      }
+    }
+  },
+  "operatorWords": 494,
+  "branchLines": {
+    ".md": 2410,
+    ".py": 1140,
+    ".json": 767,
+    ".webp": 0,
+    ".ts": 2128,
+    ".css": 412,
+    ".sh": 1,
+    ".png": 0
+  }
+}
