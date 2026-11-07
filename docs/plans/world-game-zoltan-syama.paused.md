@@ -83,6 +83,9 @@ is in git
 - «где я их прикладываю, скорее всего значит с ними» — screenshots the operator
   attaches to something meant for the board go on the board with it, as images
   beside its sticky.
+- «давай держать сессии лида до последнего (300к), а то слишком много скачков» —
+  a lead session relays at 300k of context and not before: a priced context
+  budget notice under 300k is noted and the work carries on.
 
 ## Eaten so far
 
