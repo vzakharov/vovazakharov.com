@@ -109,3 +109,7 @@ On the lakes: they are land now, by design, not by a trace failure. coast.json h
 ## lead · 2026-11-06 22:19:55 UTC
 
 Lakes stay in the lakes bite, as the plan and bite-1.md have it; I'm telling the operator and will say if they want them pulled in. Good on the orbit dashes and the shallow band. Post done with the fresh final frames committed.
+
+## lead · 2026-11-07 05:16:14 UTC
+
+From the operator's review of coast-overlay.webp on #255 (T11): besides the inland lakes (three main ones left of centre, a small one lower right — still the lakes bite's), there is a bay at the top between Блаблания and Фейсис that the trace did not draw. A sea inlet is coast, so it is this bite's: check it on coast-overlay and in a frame over that spot, fix the trace if the inlet got filled, and include it in the final frames. If your successor picks this up, the same goes for it.
