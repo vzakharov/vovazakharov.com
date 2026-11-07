@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 1396,
+    "inputTokens": 1445,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 172911,
-    "cacheReadTokens": 17923260,
-    "outputTokens": 35824,
-    "thinkingTokens": 6483,
-    "responses": 106,
-    "costUsd": 5.682087000000002
+    "cacheWrite1hTokens": 201877,
+    "cacheReadTokens": 24329344,
+    "outputTokens": 47389,
+    "thinkingTokens": 8326,
+    "responses": 132,
+    "costUsd": 7.4265278
   },
   "estimate": {
     "at": "2026-11-07T07:43:48.754Z",
@@ -48,18 +48,18 @@
   "url": "https://claude.ai/code/session_01DaohkCSBpcbq5Nh5ZpFWHC",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-07T07:43:32.862Z",
-  "lastResponseAt": "2026-11-07T09:19:35.940Z",
+  "lastResponseAt": "2026-11-07T09:27:01.756Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 206,
+    "inputTokens": 255,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 172911,
-    "cacheReadTokens": 17923260,
-    "outputTokens": 35656,
-    "thinkingTokens": 6483,
-    "responses": 105,
-    "costUsd": 5.681884000000002
+    "cacheWrite1hTokens": 201877,
+    "cacheReadTokens": 24329344,
+    "outputTokens": 47221,
+    "thinkingTokens": 8326,
+    "responses": 131,
+    "costUsd": 7.4263248
   },
   "subagents": {
     "inputTokens": 0,
@@ -73,14 +73,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 206,
+      "inputTokens": 255,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 172911,
-      "cacheReadTokens": 17923260,
-      "outputTokens": 35656,
-      "thinkingTokens": 6483,
-      "responses": 105,
-      "costUsd": 5.681884000000002
+      "cacheWrite1hTokens": 201877,
+      "cacheReadTokens": 24329344,
+      "outputTokens": 47221,
+      "thinkingTokens": 8326,
+      "responses": 131,
+      "costUsd": 7.4263248
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1190,
@@ -96,10 +96,10 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 106,
-    "matched": 105,
-    "matchedTableUsd": 5.681884000000002,
-    "matchedEventUsd": 5.681884000000002,
+    "events": 132,
+    "matched": 131,
+    "matchedTableUsd": 7.4263248,
+    "matchedEventUsd": 7.4263248,
     "unseen": {
       "generate_session_title": {
         "inputTokens": 1190,
@@ -114,7 +114,7 @@
     }
   },
   "operatorWords": {
-    "chat": 63,
+    "chat": 121,
     "review": 0,
     "threads": 101
   },
@@ -135,7 +135,7 @@
     ".json": 1507,
     ".staged": 434,
     ".yml": 8,
-    ".yaml": 509,
+    ".yaml": 514,
     ".ts": 10214,
     ".tsx": 151,
     ".scss": 523
