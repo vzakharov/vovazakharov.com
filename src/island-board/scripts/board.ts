@@ -44,12 +44,8 @@ import { findScreenshotChromium } from '@/kernel/scripts/lib/chromium';
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 
 const STYLESHEET = path.join(import.meta.dirname, '../app/styles/board.scss');
-/**
- * The page's entry, bundled from `src/` so the `@/` alias resolves, with the
- * decoded items as `startBoard`'s argument.
- */
-const entry = (items: readonly Item[]): string =>
-  `import { startBoard } from '@/island-board/pages/board';\nawait startBoard(${JSON.stringify(items)});\n`;
+/** The page's entry, bundled from `src/` so the `@/` alias resolves. */
+const ENTRY = `import { startBoard } from '@/island-board/pages/board';\nawait startBoard();\n`;
 const FONTS =
   'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Caveat:wght@500;700&family=Shantell+Sans:wght@400;600&family=Fraunces:opsz,wght@9..144,600&display=swap';
 
@@ -90,10 +86,10 @@ const imagesOf = async (board: string): Promise<string[]> =>
 /** `</` inside inline script or JSON would close its tag early. */
 const inline = (text: string): string => text.replaceAll('</', String.raw`<\/`);
 
-async function bundle(items: readonly Item[]): Promise<string> {
+async function bundle(): Promise<string> {
   const result = await esbuild({
     stdin: {
-      contents: entry(items),
+      contents: ENTRY,
       resolveDir: REPO_ROOT,
       loader: 'ts',
       sourcefile: 'board-entry.ts',
@@ -131,7 +127,7 @@ const TOOLBAR = `
   <input id="image-file" type="file" accept="image/*" hidden>
 </div>`;
 
-function page(script: string, css: string): string {
+function page(items: readonly Item[], script: string, css: string): string {
   return `<title>Island board</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -143,6 +139,7 @@ function page(script: string, css: string): string {
   <div id="world"></div>
 </div>
 ${TOOLBAR}
+<script type="application/json" id="board-data">${inline(JSON.stringify(items))}</script>
 <script type="module">${inline(script)}</script>
 `;
 }
@@ -151,14 +148,14 @@ const wrapped = (body: string): string =>
   `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>${body}</body></html>\n`;
 
 async function buildBoard(board: string, out: string): Promise<void> {
-  const items = await readItems(board);
-  const [script, css] = await Promise.all([
-    bundle(items),
+  const [items, script, css] = await Promise.all([
+    readItems(board),
+    bundle(),
     compileAsync(STYLESHEET, { style: 'compressed' }).then(
       (sheet) => sheet.css,
     ),
   ]);
-  const html = page(script, css);
+  const html = page(items, script, css);
   await mkdir(path.join(out, 'images'), { recursive: true });
   await writeFile(path.join(out, 'index.html'), html);
   await writeFile(path.join(out, 'local.html'), wrapped(html));

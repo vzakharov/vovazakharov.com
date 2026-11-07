@@ -2,7 +2,9 @@
  * The board page: an infinite canvas of the items baked into it, overlaid live
  * with the artifact's `db` rows.
  */
-import type { Item } from '@/island-board/entities/item';
+import { z } from 'zod';
+
+import { Item } from '@/island-board/entities/item';
 
 import { type Capabilities, connect } from '../api/runtime.ts';
 import { byId, required } from '../lib/dom.ts';
@@ -14,8 +16,9 @@ import { showStatus } from './status.ts';
 import { render } from './view.ts';
 import { fit } from './viewport.ts';
 
-function boardOnPage(baked: readonly Item[]): Board {
+function boardOnPage(): Board {
   const status = byId('status');
+  const baked = z.array(Item).parse(JSON.parse(byId('board-data').textContent));
   const board: Board = {
     stage: byId('stage'),
     world: byId('world'),
@@ -101,13 +104,9 @@ function goLive(
   render(board);
 }
 
-/**
- * Draws `baked` read-only, then connects to the artifact's runtime and goes
- * live where it may write. `baked` is the board the build decoded and checked,
- * written into the page's entry as a literal, so the page does not parse it.
- */
-export async function startBoard(baked: readonly Item[]): Promise<void> {
-  const board = boardOnPage(baked);
+/** Draws the baked board read-only, then connects to the artifact's runtime and goes live where it may write. */
+export async function startBoard(): Promise<void> {
+  const board = boardOnPage();
   wireGestures(board);
   wireControls(board);
   await drawBaked(board);
