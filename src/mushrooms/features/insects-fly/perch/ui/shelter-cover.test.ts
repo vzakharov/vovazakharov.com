@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { boxAround } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import { boxAround } from '@/mushrooms/shared/lib/geometry';
 import type { Cover } from '@/mushrooms/shared/world';
 
 import { discCovered, discPoints } from './shelter-cover';

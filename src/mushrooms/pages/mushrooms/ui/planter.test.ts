@@ -15,9 +15,18 @@ import {
   SEEDED_SOUNDS,
   type Sown,
 } from '@/mushrooms/entities/flower/index.node-safe';
-import { LiveLawn } from '@/mushrooms/entities/landscape/index.node-safe';
-import { sightSlack, strayed, takesFlower, Tended, tendedIn, tendTufts } from '@/mushrooms/features/plant-flower/index.node-safe';
-import type { Sprout } from '@/mushrooms/entities/landscape/index.node-safe';
+import {
+  LiveLawn,
+  type Sprout,
+} from '@/mushrooms/entities/landscape/index.node-safe';
+import {
+  sightSlack,
+  strayed,
+  takesFlower,
+  Tended,
+  tendedIn,
+  tendTufts,
+} from '@/mushrooms/features/plant-flower/index.node-safe';
 
 import { type Meadow, reduce } from '../model/game';
 import { Planter } from './planter';

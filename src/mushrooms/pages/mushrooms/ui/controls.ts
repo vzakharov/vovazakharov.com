@@ -1,6 +1,7 @@
 import type * as Phaser from 'phaser';
 
 import type { Point } from '@/scene/shared/lib/plane';
+
 import { drawDisc } from '@/mushrooms/shared/ui';
 import { isFull, standingOn, type Walk } from '@/mushrooms/shared/world';
 import {

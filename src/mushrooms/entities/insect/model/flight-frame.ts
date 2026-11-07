@@ -8,8 +8,13 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { alongAzimuth, distanceBetween, wrap } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import {
+  alongAzimuth,
+  distanceBetween,
+  wrap,
+} from '@/mushrooms/shared/lib/geometry';
 import {
   type Aloft,
   type Eye,
@@ -17,7 +22,6 @@ import {
   type Eyed,
   SPREAD,
 } from '@/mushrooms/shared/world';
-
 
 /**
  * Where a perch stands, in units of a butterfly's size as the layout draws

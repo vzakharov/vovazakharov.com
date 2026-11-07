@@ -4,8 +4,9 @@
  * the cap's own frame (`capFrame`'s, y up), times in seconds.
  */
 
-import { sample } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import { sample } from '@/mushrooms/shared/lib/geometry';
 import { outAndBack } from '@/mushrooms/shared/lib/motion';
 import {
   capBase,

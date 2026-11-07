@@ -1,4 +1,5 @@
 import {
+  type Aloft,
   type Eye,
   OPENING_EYE,
   unanchored,
@@ -8,8 +9,15 @@ import {
   anchoredStand,
   type Stand,
 } from '@/mushrooms/entities/flower/index.node-safe';
-import { aloftOfLayout, type Away, awayPlaces, type Flier, type Perch, perchName, placeOfAloft } from '@/mushrooms/entities/insect/index.node-safe';
-import type { Aloft } from '@/mushrooms/shared/world';
+import {
+  aloftOfLayout,
+  type Away,
+  awayPlaces,
+  type Flier,
+  type Perch,
+  perchName,
+  placeOfAloft,
+} from '@/mushrooms/entities/insect/index.node-safe';
 import type { Planted } from '@/mushrooms/entities/mushroom/index.node-safe';
 
 import { airAloftOf, airAlofts, type Sight } from '../../flight';

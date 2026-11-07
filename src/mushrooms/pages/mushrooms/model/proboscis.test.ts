@@ -3,8 +3,9 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { placedAt } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import { placedAt } from '@/mushrooms/shared/lib/geometry';
 import {
   flowerGenes,
   flowerHead,

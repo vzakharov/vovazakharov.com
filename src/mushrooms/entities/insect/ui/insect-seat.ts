@@ -5,7 +5,9 @@
  */
 
 import type { Point, Zoomed } from '@/scene/shared/lib/plane';
+
 import {
+  type Aloft,
   aloftAt,
   bendAt,
   CLUMP_DISTANCE,
@@ -17,8 +19,6 @@ import {
 } from '@/mushrooms/shared/world';
 
 import { azimuthOf } from '../model/flight-frame';
-import type { Aloft } from '@/mushrooms/shared/world';
-
 import {
   type SeatEnds,
   sinkingAloft,

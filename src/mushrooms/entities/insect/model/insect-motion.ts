@@ -4,8 +4,9 @@
  * the scene measures them; the model never says where a perch stands.
  */
 
-import { wrap } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import { wrap } from '@/mushrooms/shared/lib/geometry';
 import { roundAt, smooth, wave } from '@/mushrooms/shared/lib/motion';
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
 

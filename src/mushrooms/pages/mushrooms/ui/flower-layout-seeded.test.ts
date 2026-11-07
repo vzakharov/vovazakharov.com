@@ -3,8 +3,14 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { type Box, boxAround, type Circle, containsPoint } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import {
+  type Box,
+  boxAround,
+  type Circle,
+  containsPoint,
+} from '@/mushrooms/shared/lib/geometry';
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
 import {
   type Footing,

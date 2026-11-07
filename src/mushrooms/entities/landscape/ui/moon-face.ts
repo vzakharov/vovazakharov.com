@@ -1,5 +1,6 @@
-import { type Circle, sample } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import { type Circle, sample } from '@/mushrooms/shared/lib/geometry';
 
 /** The moon's face, as `moonFace` lays it on the disc: every piece inside it. */
 export type MoonFace = {

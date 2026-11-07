@@ -33,8 +33,8 @@ export {
   tabPath,
   type WithTab,
 } from './music-urls';
-export { musicAlbumSlugs, musicProjectNames, projectBySlug } from './names';
 export type { MusicAlbum, MusicProject } from './name-brands';
+export { musicAlbumSlugs, musicProjectNames, projectBySlug } from './names';
 export {
   artistCard,
   artistCollage,

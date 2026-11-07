@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import type { Point } from '@/scene/shared/lib/plane';
+
 import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
 
 import {

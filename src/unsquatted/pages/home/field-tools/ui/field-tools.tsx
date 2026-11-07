@@ -11,12 +11,12 @@ import type { Labeled, Typed, WithLink } from '@/kernel/shared/typings';
 import { useCopied } from '@/shell/shared/ui';
 
 import {
+  asTyped,
   ledeParts,
   plainByline,
   type TypedName,
   type WithCopy,
 } from '../../checker';
-import { asTyped } from '../../checker';
 import { LikeButton, preferredOf, useLikes } from '../../likes';
 import {
   cardLead,

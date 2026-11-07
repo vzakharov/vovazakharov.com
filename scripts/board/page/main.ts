@@ -5,9 +5,10 @@
  */
 import { z } from 'zod';
 
+import type { Point, Zoomed } from '@/scene/shared/lib/plane';
+
 import { Item, type PlacedItem, STICKY_COLORS } from '../model.ts';
 import { fitTo, type Rect, toWorld, union, zoomAt } from './camera.ts';
-import type { Point, Zoomed } from '@/scene/shared/lib/plane';
 import { byId, itemIdAt, newId, required } from './dom.ts';
 import {
   EDITABLE_FIELD,

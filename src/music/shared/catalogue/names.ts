@@ -5,7 +5,6 @@ import { z } from 'zod';
 import { readSiteCatalogueNames } from './catalogue-names.ts';
 import type { MusicAlbum, MusicProject } from './name-brands.ts';
 
-
 let read: ReturnType<typeof readSiteCatalogueNames> | undefined;
 
 // Read on first use rather than on import: every site's build and render

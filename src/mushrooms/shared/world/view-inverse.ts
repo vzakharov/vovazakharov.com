@@ -7,6 +7,7 @@
  */
 
 import type { Point } from '@/scene/shared/lib/plane';
+
 import { type Camera, type Ground, scaleAt, zAt } from './ground';
 import { planeSeen } from './pinhole';
 import { layoutOfPlane, type View } from './view';

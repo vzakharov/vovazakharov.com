@@ -41,7 +41,6 @@ import {
 import { firstMeadow, type Meadow, reduce } from '../model/game';
 import { type MeadowLayout, meadowLayout } from './layout';
 
-
 /** The meadow as it stands. */
 export type Meadowed = { meadow: Meadow };
 

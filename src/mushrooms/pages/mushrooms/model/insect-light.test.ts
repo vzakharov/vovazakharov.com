@@ -1,8 +1,14 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { ellipse, placedAt, ROUND_STEPS, wrap } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import {
+  ellipse,
+  placedAt,
+  ROUND_STEPS,
+  wrap,
+} from '@/mushrooms/shared/lib/geometry';
 import {
   type Light,
   sunLight,

@@ -17,10 +17,17 @@
  */
 
 import { pick } from '@/kernel/shared/lib/collections';
-
-import { type Box, boxAround, type Circle, containsPoint, distanceToEdge } from '@/mushrooms/shared/lib/geometry';
-import type { Point } from '@/scene/shared/lib/plane';
 import type { Seeded } from '@/kernel/shared/typings';
+
+import type { Point } from '@/scene/shared/lib/plane';
+
+import {
+  type Box,
+  boxAround,
+  type Circle,
+  containsPoint,
+  distanceToEdge,
+} from '@/mushrooms/shared/lib/geometry';
 import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
 import {
   aboutFoot,

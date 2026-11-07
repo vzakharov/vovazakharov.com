@@ -7,9 +7,11 @@
  * (`LiveLawn`).
  */
 
-import type { Point } from '@/scene/shared/lib/plane';
-import { mulberry32, type Random } from '@/mushrooms/shared/lib/random';
 import type { Seeded } from '@/kernel/shared/typings';
+
+import type { Point } from '@/scene/shared/lib/plane';
+
+import { mulberry32, type Random } from '@/mushrooms/shared/lib/random';
 import {
   D_SEE_MOST,
   type Eye,

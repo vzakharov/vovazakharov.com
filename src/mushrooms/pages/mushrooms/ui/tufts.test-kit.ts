@@ -8,14 +8,17 @@ import {
 import {
   type Lawn,
   LiveLawn,
+  type Sprout,
 } from '@/mushrooms/entities/landscape/index.node-safe';
 import {
   FLOOR_HELD,
   type Planted,
   VIEWPORTS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
-import { tendedIn, tendTufts } from '@/mushrooms/features/plant-flower/index.node-safe';
-import type { Sprout } from '@/mushrooms/entities/landscape/index.node-safe';
+import {
+  tendedIn,
+  tendTufts,
+} from '@/mushrooms/features/plant-flower/index.node-safe';
 
 import type { MeadowLayout } from './layout';
 

@@ -3,6 +3,7 @@ import * as Phaser from 'phaser';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Point } from '@/scene/shared/lib/plane';
+
 import { sunLight } from '@/mushrooms/shared/lib/light';
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
 import {

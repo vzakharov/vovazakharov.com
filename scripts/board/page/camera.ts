@@ -4,9 +4,8 @@
  */
 
 import type { Sized } from '@/kernel/shared/typings';
+
 import type { Point, Zoomed } from '@/scene/shared/lib/plane';
-
-
 
 export type Rect = Point & Sized;
 

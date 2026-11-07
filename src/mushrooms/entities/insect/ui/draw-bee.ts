@@ -7,10 +7,11 @@
 
 import type * as Phaser from 'phaser';
 
+import type { Point } from '@/scene/shared/lib/plane';
+
 import { mix, nudgeHue } from '@/mushrooms/shared/lib/colour';
 import { crescent } from '@/mushrooms/shared/lib/crescent';
 import { sample } from '@/mushrooms/shared/lib/geometry';
-import type { Point } from '@/scene/shared/lib/plane';
 import {
   awayAngle,
   fillShape,

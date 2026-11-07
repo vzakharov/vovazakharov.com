@@ -8,8 +8,8 @@ import {
 
 import { messages } from '@/music/shared/i18n';
 
-import { projectSlug } from './names.ts';
 import type { MusicAlbum, MusicProject } from './name-brands.ts';
+import { projectSlug } from './names.ts';
 
 export const ARTISTS_SEGMENT = 'artists';
 

@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Point } from '@/scene/shared/lib/plane';
+
 import { GLIDE_OVER } from '@/mushrooms/shared/lib/glide';
 import {
   type Camera,

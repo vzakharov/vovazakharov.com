@@ -2,9 +2,9 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { pick } from '@/kernel/shared/lib/collections';
+import type { Seeded } from '@/kernel/shared/typings';
 
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
-import type { Seeded } from '@/kernel/shared/typings';
 import {
   darkAt,
   FIELD_MUSHROOMS,

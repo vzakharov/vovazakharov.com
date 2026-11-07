@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { distanceToEdge } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import { distanceToEdge } from '@/mushrooms/shared/lib/geometry';
 
 import { MUSHROOM_SPECIES, mushroomGenes } from './mushroom-genes';
 import { headOutlines, stemOutline } from './mushroom-outline';

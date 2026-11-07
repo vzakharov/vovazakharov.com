@@ -1,5 +1,6 @@
-import type { Scaled } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import type { Scaled } from '@/mushrooms/shared/lib/geometry';
 import { type Light, lightAt } from '@/mushrooms/shared/lib/light';
 import { OPENING_EYE } from '@/mushrooms/shared/world';
 

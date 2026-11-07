@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { wrap } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import { wrap } from '@/mushrooms/shared/lib/geometry';
 import { between, mulberry32 } from '@/mushrooms/shared/lib/random';
 
 import { FLIGHT_HABITS } from './flight-habits';

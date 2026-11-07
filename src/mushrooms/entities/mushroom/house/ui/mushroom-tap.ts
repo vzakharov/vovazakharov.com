@@ -1,5 +1,6 @@
-import { containsPoint, placedAt } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import { containsPoint, placedAt } from '@/mushrooms/shared/lib/geometry';
 
 import {
   type MushroomGenes,

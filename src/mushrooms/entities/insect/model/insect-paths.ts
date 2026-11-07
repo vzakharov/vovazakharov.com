@@ -7,6 +7,7 @@
  */
 
 import type { Point } from '@/scene/shared/lib/plane';
+
 import type { Phased } from '@/mushrooms/shared/lib/motion';
 
 import type { Span } from './flight-timing';

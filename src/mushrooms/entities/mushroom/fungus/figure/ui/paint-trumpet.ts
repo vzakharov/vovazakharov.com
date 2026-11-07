@@ -5,8 +5,9 @@
  * lit as a concave hollow is.
  */
 
-import { crescent } from '@/mushrooms/shared/lib/crescent';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import { crescent } from '@/mushrooms/shared/lib/crescent';
 import {
   fillShape,
   inkFor,

@@ -1,7 +1,8 @@
 import * as Phaser from 'phaser';
 
-import { ellipse, sample } from '../lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import { ellipse, sample } from '../lib/geometry';
 import type { Light } from '../lib/light';
 import {
   castShadow,

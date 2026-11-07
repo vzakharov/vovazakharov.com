@@ -1,7 +1,8 @@
 import type * as Phaser from 'phaser';
 
-import { ellipse, placedAt, sample } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import { ellipse, placedAt, sample } from '@/mushrooms/shared/lib/geometry';
 import type { Light } from '@/mushrooms/shared/lib/light';
 import {
   type Lighting,

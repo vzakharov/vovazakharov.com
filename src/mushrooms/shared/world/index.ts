@@ -148,7 +148,30 @@ export {
   STRIDE_CRUISE,
   STRIDE_FLING_FASTEST,
 } from './stride';
-export { behindHills, browLowest, browRow, buried, cull, type Distant, type Following, layoutOfPlane, middleOf, ofGround, ofLayout, onScreen, type Placed, placedAt, rowAt, SHOWN_LEAST, sunk, sunkAway, sunkOver, V_NEAR, type View, viewAt } from './view';
+export {
+  behindHills,
+  browLowest,
+  browRow,
+  buried,
+  cull,
+  type Distant,
+  type Following,
+  layoutOfPlane,
+  middleOf,
+  ofGround,
+  ofLayout,
+  onScreen,
+  type Placed,
+  placedAt,
+  rowAt,
+  SHOWN_LEAST,
+  sunk,
+  sunkAway,
+  sunkOver,
+  V_NEAR,
+  type View,
+  viewAt,
+} from './view';
 export { layoutUnder } from './view-inverse';
 export {
   crossingOf,

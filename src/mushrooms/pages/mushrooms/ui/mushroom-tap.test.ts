@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { boxAround, placedAt } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import { boxAround, placedAt } from '@/mushrooms/shared/lib/geometry';
 import { between, mulberry32, nextSeed } from '@/mushrooms/shared/lib/random';
 import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
 import {
@@ -22,12 +23,12 @@ import {
   type Species,
   standingAt,
   tappedMushroom,
+  tapTarget,
   VIEWPORTS,
   VISITS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 
 import { opened } from './visit-play';
-import { tapTarget } from '@/mushrooms/entities/mushroom/index.node-safe';
 
 /** Sizes a mushroom may be drawn at, px to its unit: from a speck to past any screen's clump. */
 const SIZES = [3, 5, 8, 12, 16, 20, 25, 30, 40, 50, 60, 70, 80, 100, 130];

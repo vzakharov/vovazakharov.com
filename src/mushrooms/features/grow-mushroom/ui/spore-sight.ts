@@ -7,6 +7,7 @@
  */
 
 import type { Point } from '@/scene/shared/lib/plane';
+
 import {
   bedPlace,
   inSightPast,

@@ -3,7 +3,15 @@ export { beeOutline } from './model/bee-outline';
 export { PICTOGRAM_SEED } from './model/butterfly-genes';
 export { crawl, CRAWL_REACH } from './model/buzz-rest';
 export type { Flier } from './model/flier';
-export { type AtAloft, azimuthOf, centreOf, framedOf, panOf, type Place, type Sited } from './model/flight-frame';
+export {
+  type AtAloft,
+  azimuthOf,
+  centreOf,
+  framedOf,
+  panOf,
+  type Place,
+  type Sited,
+} from './model/flight-frame';
 export { FLIGHT_HABITS, type Habits } from './model/flight-habits';
 export {
   enteringSide,
@@ -87,7 +95,18 @@ export {
   liftOn,
   type SeatZooms,
 } from './ui/flower-lift';
-export { type Away, awayDown, awayPlaces, entryAloft, type InsectAwayLayout, leavingAloft, legEnd, releasedAway, seenFor, wayOutOf } from './ui/insect-away';
+export {
+  type Away,
+  awayDown,
+  awayPlaces,
+  entryAloft,
+  type InsectAwayLayout,
+  leavingAloft,
+  legEnd,
+  releasedAway,
+  seenFor,
+  wayOutOf,
+} from './ui/insect-away';
 export { drawnInsect } from './ui/insect-drawn';
 export { drawnAloft, eyeFrameOf, mixD, SEAT_FADE } from './ui/insect-frame';
 export { type Seat, seatAloft } from './ui/insect-seat';

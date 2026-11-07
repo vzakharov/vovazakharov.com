@@ -6,8 +6,9 @@
  * in seconds.
  */
 
-import { type Circle, distanceBetween } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import { type Circle, distanceBetween } from '@/mushrooms/shared/lib/geometry';
 import {
   lookAbout,
   type Looking,

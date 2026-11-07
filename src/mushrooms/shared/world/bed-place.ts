@@ -11,10 +11,20 @@
 import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Abscissa, Point, Zooming } from '@/scene/shared/lib/plane';
+
 import { DEPTHS } from './backdrop-depths';
 import type { LayeredPoint, Stood } from './ground';
 import type { Ahead } from './pinhole';
-import { behindHills, cull, ofGround, placedAt, type Receding, sunk, sunkAway, type View } from './view';
+import {
+  behindHills,
+  cull,
+  ofGround,
+  placedAt,
+  type Receding,
+  sunk,
+  sunkAway,
+  type View,
+} from './view';
 
 /** Whether a thing is drawn this frame. */
 export type Drawn = { drawn: boolean };

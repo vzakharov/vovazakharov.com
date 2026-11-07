@@ -7,6 +7,7 @@
 import { z } from 'zod';
 
 import type { Seeded } from '@/kernel/shared/typings';
+
 import {
   GAITS,
   SHELTER_SEATS,

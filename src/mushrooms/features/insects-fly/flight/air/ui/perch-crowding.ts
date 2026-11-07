@@ -6,8 +6,14 @@
 
 import { keptIn } from '@/kernel/shared/cache';
 
-import { boxAround, type Circle, distanceBetween, distanceToSegment } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import {
+  boxAround,
+  type Circle,
+  distanceBetween,
+  distanceToSegment,
+} from '@/mushrooms/shared/lib/geometry';
 import {
   INSECT_KINDS,
   type InsectKind,

@@ -13,13 +13,31 @@
  */
 
 import {
+  type Aloft,
   CLUMP_DISTANCE,
   OPENING_EYE,
   type View,
   viewAt,
 } from '@/mushrooms/shared/world';
-import { aloftOfLayout, apartIn, type Away, awayDown, centreOf, entryAloft, eyeFrameOf, framedOf, insectGenes, type InsectKind, leavingAloft, mixD, outOf, outWay, type Perch, perchName, wingspan } from '@/mushrooms/entities/insect/index.node-safe';
-import type { Aloft } from '@/mushrooms/shared/world';
+import {
+  aloftOfLayout,
+  apartIn,
+  type Away,
+  awayDown,
+  centreOf,
+  entryAloft,
+  eyeFrameOf,
+  framedOf,
+  insectGenes,
+  type InsectKind,
+  leavingAloft,
+  mixD,
+  outOf,
+  outWay,
+  type Perch,
+  perchName,
+  wingspan,
+} from '@/mushrooms/entities/insect/index.node-safe';
 import {
   airAlofts,
   footRows,

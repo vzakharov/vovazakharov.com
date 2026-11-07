@@ -6,16 +6,14 @@
  * is timed between the points it is drawn between.
  */
 
-import type { Sized } from '@/kernel/shared/typings';
-import type { Zoomed } from '@/scene/shared/lib/plane';
-import type { Seeded } from '@/kernel/shared/typings';
-import type { Aloft } from '@/mushrooms/shared/world';
+import type { Seeded, Sized } from '@/kernel/shared/typings';
+
+import type { Point, Zoomed } from '@/scene/shared/lib/plane';
 
 import { wrap } from '@/mushrooms/shared/lib/geometry';
-import type { Point } from '@/scene/shared/lib/plane';
 import { phaseOf } from '@/mushrooms/shared/lib/motion';
-
 import {
+  type Aloft,
   aloftAt,
   alongSight,
   browDistance,
@@ -42,8 +40,6 @@ import { drawnAloft } from './insect-frame';
 import type { InsectScaled } from './insect-size';
 import { perchDistance, placeOfAloft } from './plane-place';
 import { WIDEST_SPAN } from './widest-spans';
-
-
 
 export type InsectAwayLayout = Sized & InsectScaled;
 

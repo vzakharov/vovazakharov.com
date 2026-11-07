@@ -13,11 +13,12 @@
  */
 
 import { pick } from '@/kernel/shared/lib/collections';
+import type { Seeded } from '@/kernel/shared/typings';
+
+import type { Point } from '@/scene/shared/lib/plane';
 
 import { distanceBetween, placedAt } from '@/mushrooms/shared/lib/geometry';
-import type { Point } from '@/scene/shared/lib/plane';
 import { phaseOf } from '@/mushrooms/shared/lib/motion';
-import type { Seeded } from '@/kernel/shared/typings';
 import {
   type Cover,
   D_SEE,

@@ -1,15 +1,15 @@
 import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Point } from '@/scene/shared/lib/plane';
+
 import { type Bobbed, phaseOf } from '@/mushrooms/shared/lib/motion';
 import type {
   CircleFigure,
   TappedFigure,
 } from '@/mushrooms/shared/ui/index.node-safe';
-import type { Spanned } from '@/mushrooms/shared/world';
+import type { Aloft, Spanned } from '@/mushrooms/shared/world';
 
 import type { Framed } from '../model/flight-frame';
-import type { Aloft } from '@/mushrooms/shared/world';
 import type { Departing } from '../model/flight-timing';
 import type { CarryingOver } from '../model/insect-paths';
 import {

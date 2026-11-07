@@ -4,9 +4,10 @@
  * exactly there, `covered` hearing every length it moves.
  */
 
+import type { Point } from '@/scene/shared/lib/plane';
+
 import { type Course, type Direction, type Eased, wayOf } from './cruise';
 import type { Facing } from './geometry';
-import type { Point } from '@/scene/shared/lib/plane';
 
 /** A point on a line, `aim` units on from its `origin` (back for less than 0). */
 export type Aimed = { origin: Point; aim: number };

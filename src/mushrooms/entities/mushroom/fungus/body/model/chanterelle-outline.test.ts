@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { containsPoint, distanceToEdge } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import { containsPoint, distanceToEdge } from '@/mushrooms/shared/lib/geometry';
 
 import { mouthEdges, ridgeLines, trumpetOutlines } from './chanterelle-outline';
 import {

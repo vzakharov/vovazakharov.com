@@ -3,8 +3,13 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { type Circle, containsPoint, outside } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import {
+  type Circle,
+  containsPoint,
+  outside,
+} from '@/mushrooms/shared/lib/geometry';
 
 import {
   capBase,

@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Point } from '@/scene/shared/lib/plane';
+
 import { mulberry32 } from '@/mushrooms/shared/lib/random';
 import {
   INSECT_KINDS,

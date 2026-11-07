@@ -6,8 +6,8 @@ import { messages } from '@/music/shared/i18n';
 
 import { albumTracks } from './album-tracks.ts';
 import { albumArtist, albumWip } from './albums.ts';
-import { musicAlbumSlugs, musicProjectNames } from './names.ts';
 import type { MusicAlbum, MusicProject } from './name-brands.ts';
+import { musicAlbumSlugs, musicProjectNames } from './names.ts';
 import { type ReleaseKind, releaseKind } from './release-kind.ts';
 import type { SongDocument } from './song-text.ts';
 

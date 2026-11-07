@@ -1,7 +1,8 @@
 import type * as Phaser from 'phaser';
 
-import { alongQuadratic, lerpPoint } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import { alongQuadratic, lerpPoint } from '@/mushrooms/shared/lib/geometry';
 import {
   drawDisc,
   fillShape,

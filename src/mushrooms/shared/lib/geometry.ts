@@ -1,7 +1,5 @@
 import type { Point } from '@/scene/shared/lib/plane';
 
-
-
 export type Radiused = { r: number };
 export type Circle = Point & Radiused;
 /** Where a thing's top edge stands, in its module's units. */

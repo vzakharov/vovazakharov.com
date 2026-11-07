@@ -11,9 +11,14 @@
 
 import type * as Phaser from 'phaser';
 
-import { mix } from '@/mushrooms/shared/lib/colour';
-import { type Leaning, sample, type Tall } from '@/mushrooms/shared/lib/geometry';
 import type { Abscissa, Point } from '@/scene/shared/lib/plane';
+
+import { mix } from '@/mushrooms/shared/lib/colour';
+import {
+  type Leaning,
+  sample,
+  type Tall,
+} from '@/mushrooms/shared/lib/geometry';
 import {
   between,
   mulberry32,

@@ -2,8 +2,9 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import type { Point } from '@/scene/shared/lib/plane';
-import type { Aloft } from '@/mushrooms/shared/world';
+
 import {
+  type Aloft,
   aloftAt,
   bedPlace,
   CLUMP_DISTANCE,
@@ -18,7 +19,11 @@ import {
   type View,
   viewAt,
 } from '@/mushrooms/shared/world';
-import { aloftOfLayout, drawnAloft, seatAloft } from '@/mushrooms/entities/insect/index.node-safe';
+import {
+  aloftOfLayout,
+  drawnAloft,
+  seatAloft,
+} from '@/mushrooms/entities/insect/index.node-safe';
 import {
   drawnFlier,
   drawnSitter,

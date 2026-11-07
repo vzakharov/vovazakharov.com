@@ -7,4 +7,13 @@ export {
   tendedIn,
   tendTufts,
 } from './ui/tending';
-export { crossesSeam, Grass, type Refusing, SEAM_BAND, seamFaded, seamPatches, shownSeam, shownSprouts } from './ui/tufts';
+export {
+  crossesSeam,
+  Grass,
+  type Refusing,
+  SEAM_BAND,
+  seamFaded,
+  seamPatches,
+  shownSeam,
+  shownSprouts,
+} from './ui/tufts';

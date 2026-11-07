@@ -3,12 +3,53 @@ import * as Phaser from 'phaser';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Point } from '@/scene/shared/lib/plane';
-import type { Aloft } from '@/mushrooms/shared/world';
+
 import { smooth, wobble } from '@/mushrooms/shared/lib/motion';
 import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
 import { containsCircle, type Lighting } from '@/mushrooms/shared/ui';
-import { aloftAt, CLUMP_DISTANCE, type View } from '@/mushrooms/shared/world';
-import { aloft, type Away, carriedFrom, centreOf, dartAt, dartWay, drawLook, drawnInsect, entryAloft, eyeFrameOf, fidget, type Flier, type Folded, framedOf, freshShown, type InsectKind, InsectShadows, landingBob, legEnd, legSetOff, lookOf, mixD, newDrink, outOfView, ownAway, panOf, poseLook, seatAloft, seenFor, type Shown, type Span, startLeg, steer, tappedInsect, wingspan } from '@/mushrooms/entities/insect';
+import {
+  type Aloft,
+  aloftAt,
+  CLUMP_DISTANCE,
+  type View,
+} from '@/mushrooms/shared/world';
+import {
+  aloft,
+  type Away,
+  carriedFrom,
+  centreOf,
+  dartAt,
+  dartWay,
+  drawLook,
+  drawnInsect,
+  entryAloft,
+  eyeFrameOf,
+  fidget,
+  type Flier,
+  type Folded,
+  framedOf,
+  freshShown,
+  type InsectKind,
+  InsectShadows,
+  landingBob,
+  legEnd,
+  legSetOff,
+  lookOf,
+  mixD,
+  newDrink,
+  outOfView,
+  ownAway,
+  panOf,
+  poseLook,
+  seatAloft,
+  seenFor,
+  type Shown,
+  type Span,
+  startLeg,
+  steer,
+  tappedInsect,
+  wingspan,
+} from '@/mushrooms/entities/insect';
 import {
   caughtAloft,
   isSeat,

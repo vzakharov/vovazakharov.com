@@ -3,8 +3,9 @@
  * in the pixels its house's graphics paints in, which at rest are CSS pixels.
  */
 
-import { ellipse, ROUND_STEPS } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import { ellipse, ROUND_STEPS } from '@/mushrooms/shared/lib/geometry';
 import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
 
 import { toCanvas } from '../../fungus/index.node-safe';

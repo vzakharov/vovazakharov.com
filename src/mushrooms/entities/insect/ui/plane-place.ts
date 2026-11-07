@@ -5,7 +5,9 @@
  */
 
 import type { Point } from '@/scene/shared/lib/plane';
+
 import {
+  type Aloft,
   type Camera,
   middleOf,
   rowAt,
@@ -15,7 +17,6 @@ import {
 } from '@/mushrooms/shared/world';
 
 import { framedOf, type Place, placeOf } from '../model/flight-frame';
-import type { Aloft } from '@/mushrooms/shared/world';
 import { eyeFrameOf } from './insect-frame';
 
 /**

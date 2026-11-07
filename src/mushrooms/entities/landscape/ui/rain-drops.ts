@@ -2,8 +2,9 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { type Circle, lerpPoint } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import { type Circle, lerpPoint } from '@/mushrooms/shared/lib/geometry';
 import { between } from '@/mushrooms/shared/lib/random';
 import { type Graphic, PALETTE } from '@/mushrooms/shared/ui';
 import {

@@ -15,6 +15,8 @@
 
 import type { WithWidth } from '@/kernel/shared/typings';
 
+import type { Abscissa } from '@/scene/shared/lib/plane';
+
 import {
   type Course,
   cruise,
@@ -23,7 +25,6 @@ import {
   type Paced,
 } from '../lib/cruise';
 import type { Lefted } from '../lib/geometry';
-import type { Abscissa } from '@/scene/shared/lib/plane';
 import {
   blended,
   type Flinging,
@@ -105,7 +106,6 @@ export type Pan = View &
     held: Held;
     motion: Resting | Gliding | Pressing | Keying;
   };
-
 
 /**
  * How far, in CSS px, a finger moves before its press pans rather than taps:

@@ -25,8 +25,8 @@ import { z } from 'zod';
 
 import type { Labeled } from '@/kernel/shared/typings';
 
-import { filesUnder } from './site-tree.ts';
 import { REPO_ROOT } from './repo-root.ts';
+import { filesUnder } from './site-tree.ts';
 
 /** One render, and the hash of everything it is derived from. */
 export type Renderable = {

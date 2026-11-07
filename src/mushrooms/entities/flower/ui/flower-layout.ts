@@ -10,8 +10,13 @@
  * scene's query (`flower-sight.ts`).
  */
 
-import { type Circle, distanceBetween, distanceToSegment } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import {
+  type Circle,
+  distanceBetween,
+  distanceToSegment,
+} from '@/mushrooms/shared/lib/geometry';
 import {
   between,
   mulberry32,

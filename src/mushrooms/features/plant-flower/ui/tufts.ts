@@ -11,8 +11,9 @@ import type * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { distanceBetween } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import { distanceBetween } from '@/mushrooms/shared/lib/geometry';
 import { smooth } from '@/mushrooms/shared/lib/motion';
 import type { Random } from '@/mushrooms/shared/lib/random';
 import {
@@ -73,7 +74,6 @@ import {
 import { Tended, tendedIn, type TendingLayout } from './tending';
 import { middleOf, tuftAt } from './tuft-tap';
 export type TuftsLayout = LawnLayout & TendingLayout;
-
 
 /** How tall a tuft stands, in units of its size: its middle blade (`grass.ts`). */
 const TUFT_HEIGHT = 2;

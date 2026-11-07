@@ -4,8 +4,9 @@
  * stand at each share of the way.
  */
 
-import { wrap } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import { wrap } from '@/mushrooms/shared/lib/geometry';
 
 /**
  * A closed flower's bud, in shares of its ring's open petal length: how far

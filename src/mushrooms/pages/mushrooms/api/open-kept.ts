@@ -4,7 +4,6 @@
  */
 
 import { pick } from '@/kernel/shared/lib/collections';
-
 import type { Seeded } from '@/kernel/shared/typings';
 
 import { type Kept, readKept } from '../model/kept-record';

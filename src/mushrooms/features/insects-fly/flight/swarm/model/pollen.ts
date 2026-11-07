@@ -5,8 +5,9 @@
  * here knows where a slot stands: the scene fixes each on the ground round
  * its parent, and says which flowers have room, and in which.
  */
-import { nextSeed, pick, saltedStream } from '@/mushrooms/shared/lib/random';
 import type { Seeded } from '@/kernel/shared/typings';
+
+import { nextSeed, pick, saltedStream } from '@/mushrooms/shared/lib/random';
 import {
   type BeeSown,
   plantedId,

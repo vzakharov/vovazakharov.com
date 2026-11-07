@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { distanceBetween } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import { distanceBetween } from '@/mushrooms/shared/lib/geometry';
 import { browRow, D_SEE, OPENING_EYE, viewAt } from '@/mushrooms/shared/world';
 import {
   cellOf,

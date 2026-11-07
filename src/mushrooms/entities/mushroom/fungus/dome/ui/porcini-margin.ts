@@ -1,6 +1,7 @@
+import type { Point } from '@/scene/shared/lib/plane';
+
 import { crescent } from '@/mushrooms/shared/lib/crescent';
 import { sample } from '@/mushrooms/shared/lib/geometry';
-import type { Point } from '@/scene/shared/lib/plane';
 
 import { domeArc, type PorciniGenes } from '../../body/index.node-safe';
 

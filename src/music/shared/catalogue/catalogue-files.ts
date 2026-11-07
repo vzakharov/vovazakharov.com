@@ -12,8 +12,8 @@ import {
   type TitleGloss,
 } from './frontmatter.ts';
 import { ALBUMS_SEGMENT, ARTISTS_SEGMENT } from './music-urls.ts';
-import { projectSlug } from './names.ts';
 import type { MusicAlbum, MusicProject } from './name-brands.ts';
+import { projectSlug } from './names.ts';
 import { spell, type Spelled } from './spelling.ts';
 
 type CatalogueFile<F> = NonNullable<ReturnType<typeof loadProse<F>>>;

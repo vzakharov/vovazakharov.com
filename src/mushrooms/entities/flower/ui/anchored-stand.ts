@@ -6,8 +6,9 @@
  * a rule finds there goes back to the plane through `unanchored`.
  */
 
-import { distanceBetween } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import { distanceBetween } from '@/mushrooms/shared/lib/geometry';
 import {
   anchored,
   anchoredGround,

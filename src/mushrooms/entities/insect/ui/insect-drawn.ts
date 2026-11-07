@@ -8,15 +8,14 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 
+import type { Zoomed, Zooming } from '@/scene/shared/lib/plane';
+
 import { type Turned, wrap } from '@/mushrooms/shared/lib/geometry';
 import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
-import { onHost, type View } from '@/mushrooms/shared/world';
-import type { Zooming } from '@/scene/shared/lib/plane';
+import { type Aloft, onHost, type View } from '@/mushrooms/shared/world';
 
 import type { Forward } from '../model/flight-frame';
-import type { Aloft } from '@/mushrooms/shared/world';
 import { reachesScreen } from './insect-away';
-import type { Zoomed } from '@/scene/shared/lib/plane';
 import { aloftFramed, type SeatEnds } from './insect-frame';
 import type { Sipping } from './insect-look';
 import { drawnFlier, drawnSitter, type Seat } from './insect-seat';

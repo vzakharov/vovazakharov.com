@@ -7,12 +7,12 @@
  * size.
  */
 
-import type { WithId } from '@/kernel/shared/typings';
+import type { Seeded, WithId } from '@/kernel/shared/typings';
+
+import type { Point } from '@/scene/shared/lib/plane';
 
 import { distanceBetween } from '@/mushrooms/shared/lib/geometry';
-import type { Point } from '@/scene/shared/lib/plane';
 import { saltedStream } from '@/mushrooms/shared/lib/random';
-import type { Seeded } from '@/kernel/shared/typings';
 import type { Stood } from '@/mushrooms/shared/world';
 import type { InLeg } from '@/mushrooms/entities/mouse/index.node-safe';
 

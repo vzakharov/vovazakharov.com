@@ -10,7 +10,7 @@
 import * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
-import type { WithId } from '@/kernel/shared/typings';
+import type { Seeded, WithId } from '@/kernel/shared/typings';
 
 import {
   outingOf,
@@ -18,7 +18,6 @@ import {
   type Tapped,
   type TapTimed,
 } from '@/mushrooms/shared/lib/motion';
-import type { Seeded } from '@/kernel/shared/typings';
 import {
   containsCircle,
   type WithCircleHit,

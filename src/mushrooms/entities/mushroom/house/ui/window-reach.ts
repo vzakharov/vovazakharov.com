@@ -3,8 +3,9 @@
  * house's graphics paints in, which its zoom scales onto the screen.
  */
 
-import { type Circle, containsPoint } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import { type Circle, containsPoint } from '@/mushrooms/shared/lib/geometry';
 import { TAP_RADIUS } from '@/mushrooms/shared/lib/tap-reach';
 
 import {

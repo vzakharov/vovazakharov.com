@@ -5,8 +5,15 @@
  * turns its own into one, and a rule judging ground or sight reads only this.
  */
 
-import { type Box, boxesMeet, type Circle, containsPoint, type Cornered } from '../lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import {
+  type Box,
+  boxesMeet,
+  type Circle,
+  containsPoint,
+  type Cornered,
+} from '../lib/geometry';
 import type { MushroomGround } from './anchored-ground';
 import type { Footing, Layered, Rooted } from './ground';
 import type { Distant } from './view';

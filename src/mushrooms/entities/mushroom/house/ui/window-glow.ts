@@ -1,8 +1,9 @@
 import type * as Phaser from 'phaser';
 
+import type { Point } from '@/scene/shared/lib/plane';
+
 import { mix } from '@/mushrooms/shared/lib/colour';
 import { type Box, boxAround } from '@/mushrooms/shared/lib/geometry';
-import type { Point } from '@/scene/shared/lib/plane';
 import { type Brush, DUSK_WASH_DEEPEST, PALETTE } from '@/mushrooms/shared/ui';
 
 import {

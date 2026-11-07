@@ -7,6 +7,7 @@
  */
 
 import type { Seeded } from '@/kernel/shared/typings';
+
 import {
   type MeadowSeen,
   sameAnchor,

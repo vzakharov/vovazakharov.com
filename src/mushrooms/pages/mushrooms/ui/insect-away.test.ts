@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import {
+  type Aloft,
   aloftAt,
   CLUMP_DISTANCE,
   D_SEE,
@@ -13,8 +14,30 @@ import {
   viewAt,
 } from '@/mushrooms/shared/world';
 import type { Stand } from '@/mushrooms/entities/flower/index.node-safe';
-import { aloftOfLayout, apartIn, awayDown, centreOf, drawnAloft, entryAloft, entryOf, eyeFrameOf, framedOf, INSECT_KINDS, isShown, leavingAloft, legEnd, mixD, outWay, type Perch, perchDistance, perchName, placeOfAloft, placesSetOff, releasedAway, seenFor } from '@/mushrooms/entities/insect/index.node-safe';
-import type { Aloft } from '@/mushrooms/shared/world';
+import {
+  aloftOfLayout,
+  apartIn,
+  awayDown,
+  centreOf,
+  drawnAloft,
+  entryAloft,
+  entryOf,
+  eyeFrameOf,
+  framedOf,
+  INSECT_KINDS,
+  isShown,
+  leavingAloft,
+  legEnd,
+  mixD,
+  outWay,
+  type Perch,
+  perchDistance,
+  perchName,
+  placeOfAloft,
+  placesSetOff,
+  releasedAway,
+  seenFor,
+} from '@/mushrooms/entities/insect/index.node-safe';
 import {
   nearerSide,
   offAloft,

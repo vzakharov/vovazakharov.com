@@ -3,8 +3,13 @@
  * step `InsectView` takes each frame, pure so a test flies it the same way.
  */
 
-import { type Scaled, type Turned, wrap } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import {
+  type Scaled,
+  type Turned,
+  wrap,
+} from '@/mushrooms/shared/lib/geometry';
 import { smooth } from '@/mushrooms/shared/lib/motion';
 
 import type { Span } from './flight-timing';

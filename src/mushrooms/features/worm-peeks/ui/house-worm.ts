@@ -1,4 +1,5 @@
 import type { Point } from '@/scene/shared/lib/plane';
+
 import type { Looking, TapTimed } from '@/mushrooms/shared/lib/motion';
 import {
   capOnCanvas,

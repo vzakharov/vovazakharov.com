@@ -1,8 +1,9 @@
 import { pick } from '@/kernel/shared/lib/collections';
 import type { Sized } from '@/kernel/shared/typings';
 
-import type { WithMiddle } from '@/mushrooms/shared/lib/geometry';
 import type { Point } from '@/scene/shared/lib/plane';
+
+import type { WithMiddle } from '@/mushrooms/shared/lib/geometry';
 import type { Scaling } from '@/mushrooms/shared/world';
 
 /**
