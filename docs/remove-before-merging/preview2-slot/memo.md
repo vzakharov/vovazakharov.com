@@ -13,6 +13,7 @@ Goal: two branches can be on preview at once — preview.vovazakharov.com and pr
 What exists: `.github/workflows/preview.yml` publishes one site from a branch into a receiving repository served at preview.vovazakharov.com; `.claude/rules/deployment.md` and `.claude/skills/preview/SKILL.md` § "Published, for someone else to look at" describe it; `.claude/skills/stand-up-site/SKILL.md` is the recipe for a receiving repository, its deploy key, Porkbun DNS (`PORKBUN_API_KEY` / `PORKBUN_SECRET_API_KEY`) and GitHub Pages.
 
 Done means:
+
 1. A receiving repository for preview2, set up as the existing preview receiver is (find which one from preview.yml), with its deploy key and secret wired into this repo, and GitHub Pages serving preview2.vovazakharov.com over HTTPS.
 2. The Porkbun record for preview2. If the Porkbun keys or a secret are not in your environment, or a step needs the operator's hands, say exactly what they must do (in Russian, to the operator) and carry on with everything else.
 3. preview.yml takes the slot as an input, defaulting to today's slot, so nothing that calls it now changes.
