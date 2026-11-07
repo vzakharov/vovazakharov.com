@@ -70,6 +70,12 @@ is in git
   итп, чтобы потом наложить» — every board publish is a timelapse frame, and
   beside it in the release goes `NNNN-slug.json` with the figures to date,
   `python3 .claude/costs/contribution.py --at <time> --json`.
+- «публиковать, когда появляется что-то интересненькое или значимое, неважно,
+  про саму игру или наши обсуждения её … главное чтобы ты вообще не забывал про
+  неё в пылу работы» — the lead republishes whenever something interesting or
+  significant turns up, in the game or in the conversation; what counts is the
+  lead's call. `.claude/hooks/board-notice.py` restates it on every prompt with
+  the operator messages since the last publish.
 
 ## Eaten so far
 
