@@ -11,6 +11,7 @@
   },
   "estimate": {
     "at": "2026-11-07T06:35:41.320Z",
+    "subjectLine": "feat(island): memo channel and contribution report, bite 1 opened",
     "parts": [
       {
         "hours": 3.0,
@@ -19,8 +20,7 @@
         "comment": "a git-backed channel with race and divergence handling, a rename across skill pointers, and a time-sliced ledger report touch shared tooling where a wrong reading silently miscounts, each needing tests"
       }
     ],
-    "comment": null,
-    "subjectLine": "feat(island): memo channel and contribution report, bite 1 opened"
+    "comment": null
   },
   "orientation": {
     "endedBy": "oriented",
