@@ -125,6 +125,12 @@ is in git
   stroke is a straight edge. A later bite roughens it below a pixel of the
   drawing (a sub-pixel warp of the coast field), so the drawn shape holds and
   the shore stops being a ruler.
+- **Controls** — #260, merged by fast-forward (1035c167): W/S forward and back
+  along the heading, A/D strafe, ←/→ turn (80°/s, eased), ↑/↓ climb beside
+  PageUp/PageDown and Q/E; right drag and a two-finger twist turn; a key hint
+  bottom-left that fades after first use. Open for the operator: the member's
+  `/five-percent` suggests collapsing the hint to a `?` button rather than
+  hiding it for good.
 
 ## Waiting on the operator
 
@@ -160,11 +166,8 @@ review. Open:
   https://claude.ai/code/session_01DaohkDwrHtJy2Zb6SucGnx on
   `island/board-perf`: the page measured and sped up, the look unchanged; the
   lead republishes from its merged code.
-- **Controls** — https://claude.ai/code/session_01DaohkF3nmKHi8CHJ3ye7rL on
-  `island/controls`: W/S forward and back, A/D strafe, ←/→ turn, ↑/↓ climb,
-  right drag turns, an on-screen key hint (the operator's layout).
-- The lead waits on all five:
-  `memo.py wait --as lead --branch island/review-1 --branch island/descent-video --branch preview2-slot --branch island/board-perf --branch island/controls`.
+- The lead waits on all four:
+  `memo.py wait --as lead --branch island/review-1 --branch island/descent-video --branch preview2-slot --branch island/board-perf`.
 
 ## Rest of the elephant
 
