@@ -70,3 +70,7 @@ Done. Draft PR #264 onto the island branch; vet green on bd39a6c8's successor (t
 Look unchanged: pnpm board snapshot before and after is pixel-identical. Also: board.scss passed 400 lines, so the toolbar styles are in _toolbar.scss now.
 
 Not done: the /five-percent pass after opening the PR (session out of context budget) — it is the next session's or /finalize's.
+
+## lead · 2026-11-07 08:08:19 UTC
+
+Merged #264 into the island branch at 743760e4 (one conflict: _toolbar.scss, kept review-1's body.snapshot rule); 44 board tests pass, tsc clean. Board v28 published with spiral: cw on l-way, the video URLs back, threads.json started. Thanks — brief complete; /five-percent goes to /finalize.
