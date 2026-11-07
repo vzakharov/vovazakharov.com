@@ -6,10 +6,11 @@
  * A deletion is a tombstone (`deleted: true`), kept through every merge, so an
  * older copy elsewhere never brings the item back.
  */
-import { z } from 'zod';
+import * as z from 'zod/mini';
 
 /** The `db` path grammar's segment alphabet, so an item id is its row's doc id. */
-const ID = z.string().regex(/^[\w-]{1,64}$/);
+const ID = z.string().check(z.regex(/^[\w-]{1,64}$/));
+const Width = z.number().check(z.positive());
 
 export const STICKY_COLORS = [
   'yellow',
@@ -29,55 +30,58 @@ const Common = z.object({
   /** ISO 8601, compared as a string — every writer emits `toISOString()`. */
   updated: z.iso.datetime(),
   /** A `user` capability id (`u_…`) for a person, `agent:<role>` for a session. */
-  author: z.string().min(1),
-  deleted: z.boolean().optional(),
+  author: z.string().check(z.minLength(1)),
+  deleted: z.optional(z.boolean()),
 });
 
-const Placed = Common.extend({ x: z.number(), y: z.number() });
+const Placed = z.extend(Common, { x: z.number(), y: z.number() });
 
-const Sticky = Placed.extend({
+const Sticky = z.extend(Placed, {
   kind: z.literal('sticky'),
   text: z.string(),
   color: Color,
-  w: z.number().positive(),
+  w: Width,
 });
 
-const Zone = Placed.extend({
+const Zone = z.extend(Placed, {
   kind: z.literal('zone'),
   title: z.string(),
-  w: z.number().positive(),
-  h: z.number().positive(),
-  color: Color.optional(),
+  w: Width,
+  h: Width,
+  color: z.optional(Color),
 });
 
-const Image = Placed.extend({
+const Image = z.extend(Placed, {
   kind: z.literal('image'),
   /** `images/<file>` beside the page, or `/_blob/<asset id>` for an upload. */
-  src: z.string().regex(/^(images\/[\w.-]+|\/_blob\/[\da-f]{32})$/),
-  w: z.number().positive(),
-  caption: z.string().optional(),
+  src: z.string().check(z.regex(/^(images\/[\w.-]+|\/_blob\/[\da-f]{32})$/)),
+  w: Width,
+  caption: z.optional(z.string()),
 });
 
-const Text = Placed.extend({
+const Text = z.extend(Placed, {
   kind: z.literal('text'),
   text: z.string(),
   size: z.enum(TEXT_SIZES),
-  w: z.number().positive().optional(),
+  w: z.optional(Width),
 });
 
 /** The way a spiralling line turns, its bend growing from its start. */
 export const SPIRALS = ['cw'] as const;
 
-const Spiralled = z.object({ spiral: z.enum(SPIRALS).optional() });
+const Spiralled = z.object({ spiral: z.optional(z.enum(SPIRALS)) });
 export type Spiralled = z.infer<typeof Spiralled>;
 
-const Line = Common.extend({
-  kind: z.literal('line'),
-  from: ID,
-  to: ID,
-  label: z.string().optional(),
-  dashed: z.boolean().optional(),
-}).extend(Spiralled.shape);
+const Line = z.extend(
+  z.extend(Common, {
+    kind: z.literal('line'),
+    from: ID,
+    to: ID,
+    label: z.optional(z.string()),
+    dashed: z.optional(z.boolean()),
+  }),
+  Spiralled.shape,
+);
 
 export const Item = z.discriminatedUnion('kind', [
   Sticky,
