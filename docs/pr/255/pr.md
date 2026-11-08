@@ -7,7 +7,7 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-11-06T17:15:44Z
-- **Updated:** 2026-11-07T06:36:56Z
+- **Updated:** 2026-11-07T22:22:14Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
@@ -15,9 +15,9 @@
 
 ## Awaiting an answer: 1
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (no export committed on the branch yet). Resolved threads never count; an `(agent)` tail is a reply already given._
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 1340f50). Resolved threads never count; an `(agent)` tail is a reply already given._
 
-- **T03** `sites/vova/public/case-studies/island.md`:49 — unresolved — last: @vzakharov (human) 2026-11-07T06:25:00Z — "а сюда сохранил применимые правила чтобы повторно не наткнут…" → [↓](#t03)
+- **T01** `sites/vova/public/case-studies/island.md`:49 — unresolved — last: @vzakharov (human) 2026-11-07T06:25:00Z — "а сюда сохранил применимые правила чтобы повторно не наткнут…" → [↓](#t01)
 
 ---
 
@@ -187,59 +187,11 @@ rationale: чтобы можно было какой-то весомый объ�
 
 если кажется что я изобретаю велосипед или другие возражения, предложи/возрази.
 
-_17 resolved threads omitted; re-run with `--include-resolved` to export them._
+_19 resolved threads omitted; re-run with `--include-resolved` to export them._
 
-- **T01** `.claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/1/5f10100a-7963-59f3-a5e2-558c4879837e.json`:1 — unresolved — last: @vzakharov (agent) 2026-11-07T06:36:56Z — "Да, достал транскрипт сессии 1 с сервера и пересчитал. 956 —…" → [↓](#t01)
-- **T02** `.claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/9/f910336c-52ac-5602-92ea-95e2869091c2.json`:1 — unresolved — last: @vzakharov (agent) 2026-11-07T06:36:58Z — "Добавил `subjectLine` задним числом всем строкам острова: се…" → [↓](#t02)
-- **T03** `sites/vova/public/case-studies/island.md`:49 — unresolved — last: @vzakharov (human) 2026-11-07T06:25:00Z — "а сюда сохранил применимые правила чтобы повторно не наткнут…" → [↓](#t03)
+- **T01** `sites/vova/public/case-studies/island.md`:49 — unresolved — last: @vzakharov (human) 2026-11-07T06:25:00Z — "а сюда сохранил применимые правила чтобы повторно не наткнут…" → [↓](#t01)
 
 <a id="t01"></a>
-
-### `.claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/1/5f10100a-7963-59f3-a5e2-558c4879837e.json`:1 — unresolved
-
-**@vzakharov (human)** — 2026-11-07T04:01:12Z
-
-а тут где operatorWords и branchLines?
-
-**@vzakharov (agent)** — 2026-11-07T05:26:20Z
-
-Их стёр последний ход самой сессии 1. В 18:19 бэкфилл записал ей `operatorWords: 956`, а в 18:28 её собственный Stop-хук перезаписал строку кодом из своего чекаута, где счётчиков ещё не было (они пришли в 43fb03435). Вернул 956 в леджер и в эту копию — 91e8fedb. Это нижняя граница: последние девять минут той сессии никто не досчитал, её транскрипта в этом контейнере нет. `branchLines` у сессий 1–3 нет по той же причине, и задним числом их честно не восстановить.
-
-**@vzakharov (human)** — 2026-11-07T05:45:44Z
-
-вроде бы у тебя есть тулы для получения транскриптов сессий
-
-**@vzakharov (agent)** — 2026-11-07T06:36:56Z
-
-Да, достал транскрипт сессии 1 с сервера и пересчитал. 956 — это не нижняя граница, а точное число: в транскрипте семь твоих сообщений, последнее в 17:33, а последние девять минут были только припаркованным ходом. `branchLines` у сессий 1–3 я раньше назвал невосстановимыми, и это было неверно: они считаются по git, от merge-base с main до последнего коммита каждой сессии. Метод на сессии 4 воспроизводит её записанную строку до цифры. Записал в леджер и в копии — 98b11a342
-
----
-
-<a id="t02"></a>
-
-### `.claude/costs/sessions/2026-11/claude/world-game-zoltan-syama-hodowq/9/f910336c-52ac-5602-92ea-95e2869091c2.json`:1 — unresolved
-
-**@vzakharov (human)** — 2026-11-07T04:31:59Z
-
-а давай раз уж взялись тут добавлять новые поля, добавим subjectLine -- описание того что сделано до сессии как если бы это было коммитом (conventional), макс. 72 символа
-
-задаётся/правится в том же коле что и estimate
-
-**@vzakharov (agent)** — 2026-11-07T05:26:26Z
-
-Сделал: `estimate.py set --subject "<type>(<scope>): …"` теперь обязателен, формат conventional и ≤72 символа проверяются, в строке это `estimate.subjectLine`. Живёт внутри оценки, а не рядом, чтобы пересмотр оценки всегда заменял и его. У старых строк его просто нет — 619aec72.
-
-**@vzakharov (human)** — 2026-11-07T05:47:04Z
-
-надо добавить задним числом
-
-**@vzakharov (agent)** — 2026-11-07T06:36:58Z
-
-Добавил `subjectLine` задним числом всем строкам острова: сессиям 1–11 мамонта и 1–5 бита 1. Каждый заголовок написан по коммитам этой сессии и прошёл ту же проверку формата, что и `estimate.py set`. Две ещё идущие сессии, лида и descent-video, не трогал: их следующий Stop перезаписал бы правку, так что `subjectLine` они поставят себе сами — 98b11a342
-
----
-
-<a id="t03"></a>
 
 ### `sites/vova/public/case-studies/island.md`:49 — unresolved
 
@@ -274,13 +226,12 @@ _17 resolved threads omitted; re-run with `--include-resolved` to export them._
 
 ## Timeline (status, references, and other events)
 
+- **2026-11-06T17:16:15Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/ad38a632554ffd0ffa6aa728b54933b5c3e60ba5.
 - **2026-11-06T17:20:49Z** @vzakharov renamed from «feat(vova): /world, a descent onto the world Zoltan and Syama drew» to «feat(vova): /island, exploring the world Zoltan and Syama drew».
 - **2026-11-06T18:27:10Z** @vzakharov cross-referenced this pull request from [#256 feat(vova): island bite 1, the thinnest descent from orbit](https://github.com/vzakharov/vovazakharov.com/pull/256).
 - **2026-11-06T18:40:47Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/255#pullrequestreview-5805174087.
+- **2026-11-06T18:42:45Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/690161b777b76959752037c6198487e3310d457c.
 - **2026-11-07T05:13:16Z** @vzakharov reviewed (COMMENTED): https://github.com/vzakharov/vovazakharov.com/pull/255#pullrequestreview-5809945100.
 - **2026-11-07T05:23:49Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/d584581fdcfc971c89f3e37aa6d6f0f339b0409b.
-- **2026-11-07T05:24:35Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/b43a9a66f3357fe899eb66d37b11a25b99df23b0.
-- **2026-11-07T05:26:46Z** @vzakharov cross-referenced this pull request from [#258 fix(island): handle #255's review on the board, costs and lints](https://github.com/vzakharov/vovazakharov.com/pull/258).
-- **2026-11-07T05:28:21Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/9535350cfae9158a41788f28f467d1ac457a7305.
+- **2026-11-07T05:26:46Z** @vzakharov cross-referenced this pull request from [#258 fix(island): #255's review — the board as an app on YAML, costs, lints](https://github.com/vzakharov/vovazakharov.com/pull/258).
 - **2026-11-07T05:57:52Z** @vzakharov cross-referenced this pull request from [#259 feat(vova): island bite 1, the thinnest descent from orbit](https://github.com/vzakharov/vovazakharov.com/pull/259).
-- **2026-11-07T06:10:04Z** @vzakharov referenced this pull request in a commit: https://api.github.com/repos/vzakharov/vovazakharov.com/commits/c8af701bc71745dbebbe3a50c4a2c41e23ef907f.
