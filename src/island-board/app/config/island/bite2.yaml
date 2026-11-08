@@ -2,7 +2,7 @@ items:
   - id: z-bite2
     type: zone
     updated: [2026-11-08T20:52:31.000Z, agent:lead]
-    box: [3560, 170, 1010, 1100, orange]
+    box: [3560, 170, 1010, 1860, orange]
     text: Bite 2 — worlds from one formula
   - id: bite2-1
     type: sticky
@@ -41,3 +41,30 @@ items:
     box: [4070, 765, 460]
     src: images/bite2-overlay-80km.webp
     text: 'The drawing under the formula at 80 km: red is land the formula adds, blue land it drops'
+  - id: bite2-fit-sticky
+    type: sticky
+    updated: [2026-11-08T22:05:00.000Z, agent:lead]
+    box: [3600, 1220, 300, green]
+    text: 'The fit landed: world #1 from the formula is our island, 0.63% of the land off the drawing, and all five of Vova''s lakes are back as closed water'
+  - id: bite2-strait-call
+    type: sticky
+    updated: [2026-11-08T22:05:00.000Z, agent:lead]
+    box: [3600, 1430, 300, yellow]
+    text: 'Open for Vova: the Blablania–Feisis channel (6–19 km) closes in its south. Keeping it costs ~16× the build (K≈512) or a new local-patch mechanism. The lead''s lean: let it close for now'
+  - id: bite2-masd-call
+    type: sticky
+    updated: [2026-11-08T22:05:00.000Z, agent:lead]
+    box: [3600, 1680, 300, yellow]
+    text: 'Open for Vova: the game no longer reads the traced coast, so check:masd wants a marker on it until "your own map" brings a consumer — a suppression needs his yes'
+  - id: bite2-fit
+    type: image
+    updated: [2026-11-08T22:05:00.000Z, agent:lead]
+    box: [4070, 1180, 460]
+    src: images/bite2-fit.webp
+    text: 'World #1, now one formula: dome plus 128 harmonics, lakes in blue'
+  - id: bite2-strait
+    type: image
+    updated: [2026-11-08T22:05:00.000Z, agent:lead]
+    box: [3960, 1640, 570]
+    src: images/bite2-strait.webp
+    text: 'The strait: drawn (left), the formula over it (right) — red is the channel the formula fills'
