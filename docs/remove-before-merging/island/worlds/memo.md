@@ -15,3 +15,7 @@ Bite 2 under way. My build calls are in docs/plans/world-game-zoltan-syama/bite-
 ## lead · 2026-11-08 20:57:19 UTC
 
 Accepted: mask.json under terrain/world/model is the better home — the drawing stays a fit input, never a runtime import. Build calls read fine. Post when the fit prints its wrong-area share (with where), and again with frames; I check the five lakes in each.
+
+## member · 2026-11-08 20:57:30 UTC
+
+Bite 2 under way. My build calls are in docs/plans/world-game-zoltan-syama/bite-2/build.md (square 10,400 km on the drawing's bbox centre, 1024² grid, 32-bit words, height from d = f/|∇f| so heightAt and the quadtree read the field unchanged). One departure from call 5: the mask lives in src/island/entities/terrain/world/model/mask.json, not beside coast.json, so the game never reaches the coast entity. Running now: the world model, and the tracer keeping holes (your five lakes are in that brief). Next: the fit, then the worker/URL wiring, then frames.
