@@ -71,8 +71,8 @@ function segmentDistanceSquared(
 }
 
 /**
- * Whether each node lies inside some ring, by an even-odd scanline per row:
- * the rings are disjoint outer boundaries, so parity is membership.
+ * Whether each node lies on land, by an even-odd scanline per row: the rings
+ * never cross, a lake's ring lying inside its land's, so parity is membership.
  */
 function insideMask(s: Float64Array, grid: CoastGrid) {
   const { originX, originY, cellMetres, columns, rows } = grid;
