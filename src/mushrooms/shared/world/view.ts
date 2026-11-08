@@ -6,9 +6,8 @@
  * rebakes nothing.
  */
 
-import type { Distant } from '@/kernel/shared/typings';
 
-import type { Point, Zooming } from '@/scene/shared/lib/plane';
+import type { Distant, Point, Zooming } from '@/scene/shared/lib/plane';
 
 import { distanceBetween } from '../lib/geometry';
 import { browDistance, type Raised } from './eye-height';

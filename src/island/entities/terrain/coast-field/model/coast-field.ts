@@ -1,4 +1,4 @@
-import type { Gridded } from '@/kernel/shared/typings';
+import type { Gridded } from '@/scene/shared/lib/plane';
 
 import type { Coast } from '@/island/shared/globe';
 

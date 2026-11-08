@@ -14,3 +14,9 @@ export type Zooming = { zoom: number };
 
 /** A point on the screen, and how many times its laid-out size a thing there is drawn. */
 export type Zoomed = Point & Zooming;
+
+/** A row-major grid's extent: cell `(i, j)` at `j * columns + i`. */
+export type Gridded = { columns: number; rows: number };
+
+/** How far from the eye a thing on the plane stands. */
+export type Distant = { distance: number };

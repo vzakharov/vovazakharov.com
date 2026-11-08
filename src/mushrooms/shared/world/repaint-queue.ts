@@ -8,7 +8,7 @@
  * or chords have drifted far enough from their paint to see.
  */
 
-import type { Distant } from '@/kernel/shared/typings';
+import type { Distant } from '@/scene/shared/lib/plane';
 
 import { smooth } from '../lib/motion';
 import type { Dusked } from '../ui/haze-tone';

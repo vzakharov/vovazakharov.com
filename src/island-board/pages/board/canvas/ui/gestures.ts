@@ -5,9 +5,8 @@
  * item's text is the link's alone.
  */
 import { pick } from '@/kernel/shared/lib/collections';
-import type { Distant } from '@/kernel/shared/typings';
 
-import type { Centred, Point, Zoomed } from '@/scene/shared/lib/plane';
+import type { Centred, Distant, Point, Zoomed } from '@/scene/shared/lib/plane';
 
 import { toWorld, zoomAt } from '../../camera/index.ts';
 import { itemIdAt, onLink } from '../lib/dom.ts';

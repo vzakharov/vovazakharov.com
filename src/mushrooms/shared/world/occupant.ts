@@ -5,9 +5,8 @@
  * turns its own into one, and a rule judging ground or sight reads only this.
  */
 
-import type { Distant, Gridded } from '@/kernel/shared/typings';
 
-import type { Point } from '@/scene/shared/lib/plane';
+import type { Distant, Gridded, Point } from '@/scene/shared/lib/plane';
 
 import {
   type Box,
