@@ -10,8 +10,8 @@
     "costUsd": 9.913579700000001
   },
   "estimate": {
-    "at": "2026-11-07T07:00:02.538Z",
-    "subjectLine": "fix(island): board split by zone, cost-row backfills, #258 review",
+    "at": "2026-11-08T09:02:10.267Z",
+    "subjectLine": "fix: board split by zone, cost-row backfills, #258 review",
     "parts": [
       {
         "hours": 3.0,
@@ -121,7 +121,8 @@
   },
   "operatorWords": {
     "chat": 37,
-    "review": 679
+    "review": 679,
+    "threads": 0
   },
   "reviewPosts": {
     "PRR_kwDOQXZBKM8AAAABWky6DA": 89,
@@ -155,6 +156,7 @@
     "PRRC_kwDOQXZBKM8AAAABDEBudw": 20,
     "PRRC_kwDOQXZBKM8AAAABDECFnQ": 16
   },
+  "threadPosts": {},
   "branchLines": {
     ".md": 3702,
     ".py": 1893,
