@@ -12,6 +12,10 @@
  *   pnpm film:island --seconds 30 --fps 30    # the fall's length and rate
  *   pnpm film:island --thumb-at 3000          # the still from 3 km up (default: 50 km)
  *   pnpm film:island --out tmp/descent        # frames and films there
+ *   pnpm film:island --world 2                # world #2's fall, files prefixed world2-
+ *
+ * The landing is a place on our world; on another the fall comes down over
+ * the same plane point, wherever that is on its land or sea.
  */
 
 import { spawnSync } from 'node:child_process';
@@ -28,6 +32,8 @@ import {
   settle,
   shoot,
   VOVA_EXPORT,
+  worldArgument,
+  worldPrefix,
 } from './lib/play-tab';
 
 import { flag } from '@/kernel/scripts/lib/argv';
@@ -43,6 +49,7 @@ const FPS = Number(flag('fps') ?? 30);
 const THUMB_AT = Number(flag('thumb-at') ?? 50_000);
 /** Still frames at orbit before the fall and at the ground after it. */
 const HOLD_SECONDS = 1;
+const WORLD = worldArgument();
 
 /**
  * 720p on the desktop and the phone at twice its density: the software
@@ -108,10 +115,11 @@ async function film(
   screen: Screen,
   errors: string[],
 ): Promise<void> {
-  const frames = path.join(DIR, `${screen.name}-frames`);
+  const name = `${worldPrefix(WORLD)}${screen.name}`;
+  const frames = path.join(DIR, `${name}-frames`);
   fs.rmSync(frames, { recursive: true, force: true });
   fs.mkdirSync(frames, { recursive: true });
-  const tab = await openPlay(browser, origin, screen, errors);
+  const tab = await openPlay(browser, origin, screen, errors, WORLD);
   const ts = timeline();
   const thumb = ts.findIndex((t) => descentAt(t)[2] <= THUMB_AT);
   const started = Date.now();
@@ -143,7 +151,7 @@ async function film(
     });
   }
   if (errors.length > 0) return;
-  const mp4 = path.join(DIR, `${screen.name}.mp4`);
+  const mp4 = path.join(DIR, `${name}.mp4`);
   ffmpeg(
     [
       ['-framerate', String(FPS)],
@@ -159,7 +167,7 @@ async function film(
     [
       ['-i', path.join(frames, `${String(thumb).padStart(5, '0')}.png`)],
       ['-quality', '90'],
-      [path.join(DIR, `${screen.name}-thumb.webp`)],
+      [path.join(DIR, `${name}-thumb.webp`)],
     ].flat(),
   );
   process.stdout.write(

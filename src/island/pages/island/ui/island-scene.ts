@@ -34,8 +34,7 @@ import {
 } from '@/island/features/eye';
 
 import { skyColour } from '../lib/sky-colour';
-import { startTilePool } from '../lib/tile-pool';
-import { SEED } from '../lib/tile-protocol';
+import { startTilePool, type TilePool } from '../lib/tile-pool';
 import { coverOf } from '../model/tile-cover';
 import { groundLighting } from './ground-lighting';
 import { tileMeshes } from './tile-meshes';
@@ -53,6 +52,11 @@ export type IslandScene = CanDispose & {
   readonly turnTo: (heading: number) => Promise<void>;
   /** `'webgpu'` or `'webgl2'`, once ready. */
   readonly backend: () => string;
+  /**
+   * Rebuilds the scene on world `world`: every tile held or in flight is
+   * dropped and refilled from the new field, the eye left where it is.
+   */
+  readonly setWorld: (world: string) => void;
 };
 
 /** Closest the camera sees: the eye is never under two metres up. */
@@ -64,9 +68,9 @@ const FAR = 4 * (R + MAX_HEIGHT);
 const SEA_LEVEL: GroundAt = () => 0;
 
 const groundOf =
-  (field: CoastField): GroundAt =>
+  (field: CoastField, seed: number): GroundAt =>
   (x, y) =>
-    heightAt(field, SEED, x, y);
+    heightAt(field, seed, x, y);
 
 /**
  * The globe outside the tiles, and under them before they load: a sphere
@@ -90,6 +94,8 @@ const ROOTS: TileKey[] = Array.from({ length: 4 ** MIN_LEVEL }, (_, i) => ({
 }));
 
 type MountIslandSceneParams = {
+  /** The world number the scene opens on. */
+  world: string;
   play: boolean;
   onError: (error: Error) => void;
 };
@@ -102,7 +108,7 @@ type MountIslandSceneParams = {
  */
 export function mountIslandScene(
   canvas: HTMLCanvasElement,
-  { play, onError }: MountIslandSceneParams,
+  { world: firstWorld, play, onError }: MountIslandSceneParams,
 ): IslandScene {
   const renderer = new WebGPURenderer({
     canvas,
@@ -146,12 +152,45 @@ export function mountIslandScene(
     onError(error);
   };
 
-  const pool = startTilePool((tile) => {
-    if (disposed) return;
-    held.add(tile);
-    held.evict(new Set(selected().map((key) => tileId(key))));
-    settle();
-  }, fail);
+  let world = firstWorld;
+  /** Counts the pools started, so a disposed one's late reply is told apart. */
+  let generation = 0;
+  /** Resolves once the first world's field is in hand. */
+  const landed = Promise.withResolvers<void>();
+
+  /** A pool on `on`, whose tiles and field are taken only while it is current. */
+  const startPool = (on: string): TilePool => {
+    generation += 1;
+    const mine = generation;
+    const current = () => !disposed && mine === generation;
+    const started = startTilePool(
+      on,
+      (tile) => {
+        if (!current()) return;
+        held.add(tile);
+        held.evict(new Set(selected().map((key) => tileId(key))));
+        settle();
+      },
+      (error) => {
+        if (current()) fail(error);
+      },
+    );
+    started.field.then(
+      ({ field, seed }) => {
+        if (!current()) return;
+        groundAt = groundOf(field, seed);
+        coast = field;
+        selection = null;
+        landed.resolve();
+      },
+      (error: unknown) => {
+        if (!current()) return;
+        fail(error instanceof Error ? error : new Error(String(error)));
+      },
+    );
+    return started;
+  };
+  let pool = startPool(world);
 
   /**
    * The tiles the eye selects now, reselected once it has moved enough or
@@ -234,10 +273,8 @@ export function mountIslandScene(
 
   const live = () => !disposed;
   const ready = (async () => {
-    const [{ field }] = await Promise.all([pool.field, renderer.init()]);
+    await Promise.all([landed.promise, renderer.init()]);
     if (!live()) return;
-    groundAt = groundOf(field);
-    coast = field;
     eye = eyeAt({ x: 0, y: 0, height: MAX_HEIGHT }, groundAt);
     resize();
     render();
@@ -272,6 +309,16 @@ export function mountIslandScene(
       renderer.backend.isWebGPUBackend === true
         ? 'webgpu'
         : 'webgl2',
+    setWorld: (next) => {
+      if (next === world || disposed) return;
+      world = next;
+      pool.dispose();
+      held.clear();
+      selection = null;
+      // The old coast would refine the selection where the new one has none.
+      coast = undefined;
+      pool = startPool(next);
+    },
     dispose: () => {
       disposed = true;
       cancelAnimationFrame(loop);
