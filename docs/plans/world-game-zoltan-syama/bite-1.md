@@ -2,7 +2,7 @@
 
 The contract the lead hands the member who builds bite 1. Its sticker on the
 board points here; the board's north star and calls
-(`docs/boards/island/star.yaml`, `calls.yaml`) are what it stands on, and each
+(`src/island-board/app/config/island/star.yaml`, `calls.yaml`) are what it stands on, and each
 call it settles is written below rather than re-argued in the build.
 
 ## What exists when it is done
@@ -24,7 +24,7 @@ in a script now and in the browser later (star 7), so it imports nothing that
 needs either.
 
 2\. **The traced coastline is committed data**: one script reads
-`docs/boards/island/map-zoltan-syama.webp` (the only copy in the tree,
+`src/island-board/app/config/island/map-zoltan-syama.webp` (the only copy in the tree,
 1400×993), and writes the polygons in kilometres to a JSON the game imports. The
 game never reads the image (call 2). The map's lettering and its legend sit on
 paper and fall out with the mask; any word drawn over the sea that survives is

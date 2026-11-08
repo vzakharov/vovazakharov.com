@@ -94,9 +94,9 @@ is in git
   answers a board comment thread and never resolves it; resolving is Vova's.
   «нам же и количество слов человека в тредах тоже надо считать» — the turn that
   reads a new board comment of Vova's adds it to
-  `docs/boards/island/threads.json` (`<thread id>@<minute>` → body verbatim, his
+  `src/island-board/app/config/island/threads.json` (`<thread id>@<minute>` → body verbatim, his
   only), runs
-  `python3 .claude/costs/post_words.py --kind thread < docs/boards/island/threads.json`
+  `python3 .claude/costs/post_words.py --kind thread < src/island-board/app/config/island/threads.json`
   and commits the file.
 - «/sync-branch из каждого куска -- ага» — a member ends its bite with
   `/sync-branch` against its PR's base, this branch, before pinging green, so
@@ -107,14 +107,14 @@ is in git
 - **The board** — the app `src/island-board/`, its tooling
   `src/island-board/scripts/board.ts`
   (`pnpm board build | sync | refile | snapshot`, usage atop the file); its
-  content `docs/boards/island.yaml` and a YAML per zone with the images in
-  `docs/boards/island/`. Light in every theme; Caveat for zone titles and line
+  content `src/island-board/app/config/island.yaml` and a YAML per zone with the images in
+  `src/island-board/app/config/island/`. Light in every theme; Caveat for zone titles and line
   labels, Shantell Sans for the notes. Not yet seen: an edit made in the page
   itself by the operator.
 - **To republish**: sync first — `ArtifactData list items` with
   `out_dir: tmp/board/rows`, then
-  `pnpm board sync docs/boards/island.yaml tmp/board/rows` — then
-  `pnpm board build docs/boards/island.yaml` and publish
+  `pnpm board sync src/island-board/app/config/island.yaml tmp/board/rows` — then
+  `pnpm board build src/island-board/app/config/island.yaml` and publish
   `tmp/board/island/index.html` with `files` mapping `images/*` to the built
   copies and `url` the artifact above. Only the lead publishes.
 - **The case study** — `sites/vova/public/case-studies/island.md`, unlisted

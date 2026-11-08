@@ -58,7 +58,7 @@ items:
     type: sticky
     updated: ['2026-11-07T21:24:00.000Z', 'agent:lead']
     box: [5710, 1520, 315, pink]
-    text: "Head = drawing, tail = zoom. A hash of any length with random access is hash(n, i), as value-noise already does per lattice point. Mask only the coarse lattice under the island, on the raw bits before noise shapes them: finer octaves and the open sea stay unmasked, so the coast fractalizes and world 1 runs on past the drawing"
+    text: 'Head = drawing, tail = zoom. A hash of any length with random access is hash(n, i), as value-noise already does per lattice point. Mask only the coarse lattice under the island, on the raw bits before noise shapes them: finer octaves and the open sea stay unmasked, so the coast fractalizes and world 1 runs on past the drawing'
   - id: l-seed-shift
     type: line
     updated: ['2026-11-07T21:24:00.000Z', 'agent:lead']

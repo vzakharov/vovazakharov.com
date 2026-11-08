@@ -149,7 +149,7 @@ describe('board file', () => {
 
   it('holds the island board at a fixed point', () => {
     const text = readFileSync(
-      path.join(REPO_ROOT, 'docs/boards/island.yaml'),
+      path.join(REPO_ROOT, 'src/island-board/app/config/island.yaml'),
       'utf8',
     );
     const items = decodeBoard(text);

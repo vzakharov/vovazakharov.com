@@ -430,10 +430,10 @@ header says how `--at` reads a row from before `operatorWords` was counted.
 is read off the transcript; `review` sums `reviewPosts`, a person's posts on the
 PRs the session exported, which `scripts/export-github-item.py` hands to
 `post_words.py`; `threads` sums `threadPosts`, their comments in a board's
-threads, which the session holding the board keeps in
-`docs/boards/<board>/threads.json` (`{comment id: body}`) and pipes to
-`post_words.py --kind thread`. Both are counted without quotes and fenced blocks
-for the next row write to fold in, once per post over the branch's rows.
+threads, which the session holding the board keeps in `threads.json` beside its
+zone files (`{comment id: body}`) and pipes to `post_words.py --kind thread`.
+Both are counted without quotes and fenced blocks for the next row write to fold
+in, once per post over the branch's rows.
 
 ## What the totals do not cover
 
