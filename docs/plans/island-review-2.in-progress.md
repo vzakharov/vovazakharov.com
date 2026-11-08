@@ -19,6 +19,8 @@ Every addressed comment has a reply on GitHub; no thread was resolved.
 - **Sticky `done: true`** replaces a leading ✓ — 3cdcfb54.
 - **`.claude/rules/writing.md`**: the machine-prose tells, scoped to drafts and
   served Markdown; `contrast.md` folded in and removed — 979fd555.
+- **`entering.world`** (#258 T07, the image downloaded on a later try) joins the
+  names zone — a6772db1.
 - **Answered without a change**: board-notice's docstring (the notice text and
   the plan carry the rule), notes files, memo pushing, `coast.json`, `?play`,
   origami, island-board → scene.
@@ -26,6 +28,5 @@ Every addressed comment has a reply on GitHub; no thread was resolved.
 ## Left
 
 1. `/polish` over this session's commits, then `/pr` to refresh #255's body.
-2. Waiting on the operator: #258 T07's domain idea is an image the container
-   gets a 403 on — asked for it as text. #258 T10 offered an illustrated
-   `coast.json` primer for the board, to pin at the next board publish.
+2. Waiting on the operator: #258 T10 offered an illustrated `coast.json` primer
+   for the board, to pin at the next board publish.
