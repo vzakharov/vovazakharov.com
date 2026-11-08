@@ -15,7 +15,7 @@ export type DomeParam = (typeof DOME_PARAMS)[number];
 export const SEED_WORD = DOME_PARAMS.length;
 
 /** Each harmonic's two words, in this order. */
-const HARMONIC_PARTS =['phase', 'factor'] as const;
+const HARMONIC_PARTS = ['phase', 'factor'] as const;
 export type HarmonicPart = (typeof HARMONIC_PARTS)[number];
 
 const FIRST_HARMONIC_WORD = SEED_WORD + 1;

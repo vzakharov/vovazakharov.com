@@ -1,4 +1,5 @@
-import type { CoastField } from '../../coast-field';
+import { type CoastField, signedDistanceField } from '../../coast-field';
+import { contourOf } from './contour';
 import { domeAt, domeOf } from './dome';
 import { ifft2 } from './fft';
 import { coefficientOf } from './harmonic';
@@ -10,7 +11,7 @@ import {
   wavevectorOf,
 } from './layout';
 import { MASK, worldWords } from './mask';
-import { GRID, GRID_NODES, SQUARE } from './square';
+import { GRID, GRID_NODES } from './square';
 
 const N = GRID_NODES;
 
@@ -71,17 +72,11 @@ export const taperAt = (px: number, py: number): number =>
   taperAxis(px) * taperAxis(py);
 
 /**
- * The floor under `|∇f|`, per metre: a quarter of the dome's gentlest slope,
- * which a cone has along its longer axis, `1 / (max(a, b) · side)`.
- */
-const gradientFloor = (radiusA: number, radiusB: number) =>
-  1 / (4 * Math.max(radiusA, radiusB) * SQUARE.side);
-
-/**
  * World `N`'s land as a `CoastField` over its square: `f = dome + taper ·
- * waves` on `GRID`, stored as the pseudo-distance `f / max(|∇f|, floor)` in
- * metres — the true distance to the coast near it, positive on land — with
- * `∇f` by central differences (one-sided on the grid's edge).
+ * waves` on `GRID` decides land (`f > 0`, lakes being water), and each node
+ * stores its signed distance in metres to `f`'s zero line — so a height read
+ * off it rises with the true distance to the coast, never with how steep `f`
+ * happens to be.
  */
 export function buildWorldField(
   world: string,
@@ -90,29 +85,19 @@ export function buildWorldField(
   const words = worldWords(world, mask);
   const dome = domeOf(words);
   const f = wavesOf(words);
+  const inside = new Uint8Array(N * N);
   for (let j = 0; j < N; j += 1) {
     for (let i = 0; i < N; i += 1) {
       const n = j * N + i;
       f[n] = (f[n] ?? 0) * taperAt(i / N, j / N) + domeAt(dome, i / N, j / N);
+      inside[n] = (f[n] ?? 0) > 0 ? 1 : 0;
     }
   }
-  const floor = gradientFloor(dome.radiusA, dome.radiusB);
-  const value = (i: number, j: number) => f[j * N + i] ?? Number.NaN;
-  const slope = (low: number, high: number, a: number, b: number) =>
-    (b - a) / ((high - low) * GRID.cellMetres);
-  const distance = new Float32Array(N * N);
-  for (let j = 0; j < N; j += 1) {
-    const below = Math.max(0, j - 1);
-    const above = Math.min(N - 1, j + 1);
-    for (let i = 0; i < N; i += 1) {
-      const left = Math.max(0, i - 1);
-      const right = Math.min(N - 1, i + 1);
-      const gx = slope(left, right, value(left, j), value(right, j));
-      const gy = slope(below, above, value(i, below), value(i, above));
-      distance[j * N + i] = value(i, j) / Math.max(Math.hypot(gx, gy), floor);
-    }
+  const coast = contourOf(f, GRID);
+  if (coast.length === 0) {
+    throw new Error(`buildWorldField: world ${world} has no coast`);
   }
-  return { ...GRID, distance };
+  return signedDistanceField(coast, inside, GRID);
 }
 
 /** World `N`'s per-tile noise seed: its word 5, raw. */

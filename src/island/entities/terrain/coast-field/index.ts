@@ -3,4 +3,5 @@ export {
   type CoastField,
   type CoastGrid,
   sampleCoastField,
+  signedDistanceField,
 } from './model/coast-field';

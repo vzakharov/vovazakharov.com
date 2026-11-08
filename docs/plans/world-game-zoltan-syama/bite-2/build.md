@@ -43,11 +43,15 @@ with numbers rather than picking another.
   `coast.json` as call 5 says: the game must not reach the coast entity, and the
   world model reads its mask from its own slice. Until the fit lands it is all
   zeros (world 1 is then just `H(1, ·)`).
-- **B7. Height**: the grid stores a pseudo-distance in metres, `d = f / |∇f|`,
-  the gradient floored at a quarter of the dome's own slope so a plateau reads
-  as far inland rather than dividing by zero. `CoastField`'s shape and
+- **B7. Height** (the lead's ruling, memo 22:10): `f` decides land vs water only
+  (`f > 0`, lakes as water), and the grid stores the signed distance in metres
+  to `f`'s zero line — marching squares draw the line (`contour.ts`), and
+  `coast-field`'s own sweep measures every node to it, the pass our island's
+  field uses. The pseudo-distance `f / |∇f|` it replaced spiked on `f`'s saddles
+  between near water (ridges at 1,000 km) and undershot deep inland (snow lost).
+  It costs the worker ~100 ms a world (~600 ms in all). `CoastField`'s shape and
   `sampleCoastField` stay, so `heightAt`, the quadtree's split and the detail
-  cut read it unchanged — call 1's "rising function of `f`" is this one.
+  cut read it unchanged.
 
 - **B9. Edge taper**: the waves are periodic, so land reached the square's edge
   in worlds 2 and 37 and ran past it by extrapolation. The waves are multiplied
@@ -86,15 +90,6 @@ back, the strait closed — its cost is with the lead through memo).
   `index.ts` (the tracer a player's map will run in the browser) or moving it
   under `src/island/scripts/lib/`. Their answer decides; asked again 2026-11-08,
   still open.
-- **Height from the true distance (the lead's ruling, memo 22:10)**: B7's
-  `d = f / max(|∇f|, floor)` (`world-field.ts`) spikes on the saddles of `f`
-  between near water — brown-and-snow ridges at 1,000 km — and undershoots deep
-  inland, where the snow was lost and the land went green. Replace it: an exact
-  Euclidean distance transform of the land mask (`f > 0`, lakes as water) on the
-  world grid, once per world in the worker, signed and stored in the
-  `CoastField` so `heightAt` reads it unchanged; `f` keeps deciding land vs
-  water only. B7 is rewritten to say so. Done when 1,000 km shows no ridges and
-  the snow is back near today's frames.
 - **Re-shoot S5** after it: `pnpm play:island --out tmp/b2-frames` (world 1,
   phone and desktop), then `--no-build --screens desktop --world N` for 2–6;
   contact sheets as `notes/b2-s5-*.webp` (the first round, e7dd5a7f, is the

@@ -1,0 +1,121 @@
+{
+  "total": {
+    "inputTokens": 48,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 102448,
+    "cacheReadTokens": 2999156,
+    "outputTokens": 19184,
+    "thinkingTokens": 5241,
+    "responses": 23,
+    "costUsd": 1.8032872
+  },
+  "estimate": {
+    "at": "2026-11-08T22:13:10.780Z",
+    "subjectLine": "feat: island worlds — height from the exact distance to the coast",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "an exact Euclidean distance transform per world in the worker, inside its time and memory budget, replacing B7's height, needs rendering judgement"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "the re-shot frames at five heights and worlds 2–6 need judging against today's"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "the tail: polish, sync onto the lead's branch, vet, the PR and the memo pings"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-08T22:13:12.944Z",
+    "contextTokens": 113177,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 52961,
+      "cacheReadTokens": 476923,
+      "outputTokens": 1841,
+      "thinkingTokens": 306,
+      "responses": 5,
+      "costUsd": 0.5559406
+    }
+  },
+  "sessionId": "0957081c-6b9b-5c83-bacf-3bfebe5f82c8",
+  "branch": "island/worlds",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/worlds — кадры сняты, ведущий признал гребни на 1000 км багом высоты: её считаем из точного расстояния до берега, затем пересъёмка, хвост про…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDApdFGi6XogenEoKz",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-08T22:12:48.321Z",
+  "lastResponseAt": "2026-11-08T22:17:08.508Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 48,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 102448,
+    "cacheReadTokens": 2999156,
+    "outputTokens": 19184,
+    "thinkingTokens": 5241,
+    "responses": 23,
+    "costUsd": 1.8032872
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 48,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 102448,
+      "cacheReadTokens": 2999156,
+      "outputTokens": 19184,
+      "thinkingTokens": 5241,
+      "responses": 23,
+      "costUsd": 1.8032872
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 22,
+    "matched": 22,
+    "matchedTableUsd": 1.739388,
+    "matchedEventUsd": 1.739388,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 8509,
+    ".txt": 31,
+    ".py": 265,
+    ".ts": 3075,
+    ".json": 110,
+    ".sh": 43,
+    ".tsx": 11
+  }
+}

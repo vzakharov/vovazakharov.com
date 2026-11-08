@@ -45,6 +45,30 @@ function landComponents({ distance, columns, rows }: CoastField) {
 const quantile = (sorted: readonly number[], share: number) =>
   sorted[Math.floor(share * sorted.length)] ?? Number.NaN;
 
+const isLand = (distance: Float32Array, i: number, j: number) =>
+  (distance[j * GRID_NODES + i] ?? 0) > 0;
+
+/** Cells from node `(i, j)` to the nearest node of the other sign, by search. */
+function nearestOther(distance: Float32Array, i: number, j: number) {
+  const n = GRID_NODES;
+  const land = isLand(distance, i, j);
+  let best = Infinity;
+  for (let r = 1; r < n && r <= best + 1; r += 1) {
+    for (let dj = -r; dj <= r; dj += 1) {
+      for (let di = -r; di <= r; di += 1) {
+        if (Math.max(Math.abs(di), Math.abs(dj)) !== r) continue;
+        const x = i + di;
+        const y = j + dj;
+        if (x < 0 || y < 0 || x >= n || y >= n) continue;
+        if (isLand(distance, x, y) !== land) {
+          best = Math.min(best, Math.hypot(di, dj));
+        }
+      }
+    }
+  }
+  return best;
+}
+
 const WORLDS = ['2', '3', '4', '5', '6', '7', '8', '9'];
 const fields = new Map(WORLDS.map((world) => [world, buildWorldField(world)]));
 const field = (world: string) => {
@@ -145,6 +169,28 @@ describe('buildWorldField', () => {
           quantile(gaps, 1 - 1e-9) < 2,
         `world ${world}`,
       );
+    }
+  });
+
+  it('stores the true distance to the coast inland, with no ridge between near waters', () => {
+    for (const world of ['3', '9']) {
+      const { distance, cellMetres } = field(world);
+      const n = GRID_NODES;
+      let checked = 0;
+      for (let j = 7; j < n; j += 37) {
+        for (let i = 11; i < n; i += 41) {
+          if (!isLand(distance, i, j)) continue;
+          const stored = (distance[j * n + i] ?? Number.NaN) / cellMetres;
+          const other = nearestOther(distance, i, j);
+          // The coast lies between a node and its nearest water node.
+          assert.ok(
+            stored <= other + 1e-3 && stored > other - 1.5,
+            `world ${world} (${String(i)}, ${String(j)}): ${String(stored)} vs ${String(other)}`,
+          );
+          checked += 1;
+        }
+      }
+      assert.ok(checked > 20, `world ${world}: ${String(checked)} land nodes`);
     }
   });
 });

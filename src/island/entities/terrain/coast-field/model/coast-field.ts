@@ -229,8 +229,21 @@ export function buildCoastField(
     columns: Math.ceil((maxX - minX + 2 * MARGIN_METRES) / cellMetres) + 1,
     rows: Math.ceil((maxY - minY + 2 * MARGIN_METRES) / cellMetres) + 1,
   };
-  const inside = insideMask(s, grid);
-  const distance = nearestDistances(s, grid);
+  return signedDistanceField(s, insideMask(s, grid), grid);
+}
+
+/**
+ * The signed distance from every node of `grid` to the coast drawn by
+ * `segments` (four numbers each, `ax, ay, bx, by`, plane metres), positive
+ * where `inside` is 1. The segments and the mask must agree on where the
+ * coast is; nothing here checks that they do.
+ */
+export function signedDistanceField(
+  segments: Float64Array,
+  inside: Uint8Array,
+  grid: CoastGrid,
+): CoastField {
+  const distance = nearestDistances(segments, grid);
   for (const [n, isInside] of inside.entries()) {
     const unsigned = Math.sqrt(read(distance, n));
     distance[n] = isInside === 1 ? unsigned : -unsigned;
