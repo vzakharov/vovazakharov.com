@@ -10,7 +10,7 @@
     "costUsd": 6.861338299999999
   },
   "estimate": {
-    "at": "2026-11-07T06:35:41.320Z",
+    "at": "2026-11-08T09:01:26.723Z",
     "subjectLine": "feat(vova): begin the island case study; cost rows count words, lines",
     "parts": [
       {
@@ -143,9 +143,11 @@
   },
   "operatorWords": {
     "chat": 227,
-    "review": 0
+    "review": 0,
+    "threads": 0
   },
   "reviewPosts": {},
+  "threadPosts": {},
   "branchLines": {
     ".py": 231,
     ".md": 993,
