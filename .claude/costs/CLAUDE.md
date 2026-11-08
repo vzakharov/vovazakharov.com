@@ -432,8 +432,8 @@ PRs the session exported, which `scripts/export-github-item.py` hands to
 `post_words.py`; `threads` sums `threadPosts`, their comments in a board's
 threads, which the session holding the board keeps in `threads.json` beside its
 zone files (`{comment id: body}`) and pipes to `post_words.py --kind thread`.
-Both are counted without quotes and fenced blocks for the next row write to fold
-in, once per post over the branch's rows.
+Both are counted without quotes and fenced blocks, for the next row write to
+fold in, and the branch counts a post once however many of its rows hold it.
 
 ## What the totals do not cover
 

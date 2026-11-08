@@ -1,8 +1,8 @@
 /**
  * Driving `/island?play` from a script over CDP: building the export it is
- * served from, opening it on an emulated
- * screen, waiting out its hook, and calling the hook against deadlines, so a
- * call that never resolves fails rather than hanging the run.
+ * served from, opening it on an emulated screen, waiting out its hook, and
+ * calling the hook against deadlines, so a call that never resolves fails
+ * rather than hanging the run.
  */
 
 import { spawnSync } from 'node:child_process';

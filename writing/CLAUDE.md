@@ -4,12 +4,10 @@ Everything that holds for every draft under `writing/`.
 `writing/linkedin/plan.md` is the backlog and the strategy — which posts exist,
 in what order, and what is still unsettled — and does not restate any of this.
 
-**The voice rules are seeded, not finished.** They get written against a
-marked-up draft rather than anticipated, so what follows is what has actually
-come back marked up. A rule here should name the tell it catches, not the
-aesthetic it prefers. What holds for served pages too — the tells that make
-prose read as a machine's — is `.claude/rules/writing.md`; this file is what
-holds for drafts alone.
+**The voice rules are seeded, not finished**, and each is written the way
+`.claude/rules/writing.md` says a rule is. That file holds the tells that make
+prose read as a machine's, served pages included; this one is what holds for
+drafts alone.
 
 ## Layout and frontmatter
 

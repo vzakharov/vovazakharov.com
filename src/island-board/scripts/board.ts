@@ -148,7 +148,7 @@ ${TOOLBAR}
 
 /**
  * The page's ceiling. One named `import { z }` reaching the page bundles every
- * zod locale, about 330 KB, and nothing else would notice.
+ * zod locale (see the item model), and nothing else would notice.
  */
 const PAGE_BUDGET_KB = 160;
 

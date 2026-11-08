@@ -230,8 +230,7 @@ place, and five departures are licensed.
 A reordering or a synonym is none of the five, so it is a rewrite. Note what the
 rule does **not** ask: that the result read well. The recording was loose, so
 the text is loose — smoothness is the tell that a sentence has been improved
-rather than transcribed, which is the same rule `@.claude/rules/writing.md`
-states for drafts.
+rather than transcribed, the rule `@.claude/rules/writing.md` opens with.
 
 The slip and the insertion are the two to be careful with, because both are you
 deciding what was meant. A slip is replaceable only where the intended word is

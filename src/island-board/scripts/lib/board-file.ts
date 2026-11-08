@@ -12,10 +12,9 @@
  * image, `x, y, w, h` for a zone, `x, y[, w]` for a text — then its colour, or a
  * text's size; a line has `ends: [from, to]`, `dashed` appended when it is, and
  * `spiral: cw` when it spirals; a sticky ticked off has `done: true`. `text` is
- * each type's one text field: a zone's
- * title, an image's caption, a line's label. The file is the codec only:
- * decoded, every item is the page's `Item`, which the db rows and the baked page
- * keep using.
+ * each type's one text field: a zone's title, an image's caption, a line's
+ * label. The file is the codec only: decoded, every item is the page's `Item`,
+ * which the db rows and the baked page keep using.
  */
 import { isDeepStrictEqual } from 'node:util';
 import {

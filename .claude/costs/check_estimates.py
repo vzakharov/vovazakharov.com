@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Fail when a session the branch carries has no human-hour estimate, or a row
-short of what the ledger now writes.
+short of what the ledger writes.
 
 Those sessions are the rows under `sessions/` the branch adds against its merge
 base with the default branch, the rows it changes where the session went on
@@ -9,9 +9,10 @@ running session (`CLAUDE_CODE_SESSION_ID`), whose estimate
 counts from its pending file under `tmp/` by `estimate.py show`'s rule. A row
 the trunk already carries is left alone, since many predate estimates.
 
-Short means a key the current writer writes that the row lacks, or a null in
-`FILLED`, the fields a row once could leave empty. `estimate.py set --session`
-rewrites a row in the current shape, so the fix for both is that one command.
+Short means a key the current writer writes that the row lacks, or a null in a
+field `unfilled` names, which an older writer could leave empty.
+`estimate.py set --session` rewrites a row in the current shape, so the fix for
+both is that one command.
 
 Stdlib only — Python 3.9+.
 """
