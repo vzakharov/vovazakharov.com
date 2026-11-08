@@ -8,7 +8,9 @@ import {
   GRID_NODES,
   HARMONIC_COUNT,
   harmonicWord,
+  isLowWavevector,
   SEED_WORD,
+  spectrumBin,
   wavevectorOf,
   WORD_COUNT,
 } from '@/island/entities/terrain';
@@ -34,9 +36,6 @@ export type FittedWords = {
   clipped: Clipped[];
 };
 
-/** `x mod N` into `[0, N)`, for a frequency's bin. */
-const bin = (x: number) => ((x % N) + N) % N;
-
 /**
  * The words that make world 1 `dome + waves`, `waves` real on the world grid:
  * its forward FFT, each harmonic's bin over `N²` encoded (the conjugate
@@ -60,7 +59,7 @@ export function fitWords(
   const clipped: Clipped[] = [];
   for (let h = 0; h < HARMONIC_COUNT; h += 1) {
     const k = wavevectorOf(h);
-    const at = bin(k.ky) * N + bin(k.kx);
+    const at = spectrumBin(k);
     const c = {
       re: (spectrum.re[at] ?? Number.NaN) / (N * N),
       im: h === 0 ? 0 : (spectrum.im[at] ?? Number.NaN) / (N * N),
@@ -70,9 +69,7 @@ export function fitWords(
     words[harmonicWord(h, 'factor')] = factorWord;
     const factor = Math.hypot(c.re, c.im) / envelope(k);
     maxFactor = Math.max(maxFactor, factor);
-    if (k.kx * k.kx + k.ky * k.ky <= 1.5 ** 2) {
-      maxLowFactor = Math.max(maxLowFactor, factor);
-    }
+    if (isLowWavevector(k)) maxLowFactor = Math.max(maxLowFactor, factor);
     if (factor > FACTOR_LIMIT) clipped.push({ ...k, factor });
   }
   return { words, maxFactor, maxLowFactor, clipped };

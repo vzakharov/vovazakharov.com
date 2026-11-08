@@ -63,7 +63,7 @@ describe('buildWorldField', () => {
     assert.equal(cellMetres, SQUARE.side / 1024);
     assert.equal(originX, SQUARE.centreX - 5_200_000);
     assert.equal(originY, SQUARE.centreY - 5_200_000);
-    assert.deepEqual({ originX, originY, cellMetres }, GRID);
+    assert.deepEqual({ originX, originY, cellMetres, columns, rows }, GRID);
   });
 
   it('is a pure function of the world number', () => {

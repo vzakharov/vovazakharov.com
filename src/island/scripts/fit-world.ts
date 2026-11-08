@@ -19,15 +19,18 @@ import {
   buildCoastField,
   buildWorldField,
   type Dome,
+  DOME_PARAMS,
   DOME_RANGES,
+  GRID,
   makeMask,
+  OUR_WORLD,
   SEED_WORD,
   serializeMask,
   TAPER,
 } from '@/island/entities/terrain';
 
 import { encodePng, type NodeKind, paintFrame } from './lib/fit-frame';
-import { landOf, resample, WORLD_GRID } from './lib/fit-grid';
+import { landOf, resample } from './lib/fit-grid';
 import {
   lakesOf,
   largestPatches,
@@ -60,7 +63,7 @@ const FRAME = path.join(
 );
 const DUMP = path.join(REPO_ROOT, 'tmp/fit');
 
-/** Our noise seed, today's `SEED`. */
+/** World 1's per-tile noise seed, the word `worldSeed` reads. */
 const OUR_SEED = 1;
 /** The waves' untapered window. */
 const WINDOW = TAPER.inner;
@@ -69,7 +72,7 @@ const started = performance.now();
 const say = (line: string) => process.stdout.write(`${line}\n`);
 const pct = (share: number) => `${(100 * share).toFixed(2)}%`;
 const km2 = (nodes: number) =>
-  Math.round(nodes * (WORLD_GRID.cellMetres / 1000) ** 2);
+  Math.round(nodes * (GRID.cellMetres / 1000) ** 2);
 
 // B1 and B9: the rings sit inside the waves' untapered window.
 const bounds = ringBounds(coast);
@@ -81,7 +84,7 @@ say(
 );
 
 const coastField = buildCoastField(coast);
-const distance = resample(coastField, WORLD_GRID);
+const distance = resample(coastField, GRID);
 const truth = landOf(distance);
 
 type Trial = { wrong: WrongArea; fit: FittedWords };
@@ -92,7 +95,7 @@ function trial(dome: Dome): Trial {
   const domeValues = domeGrid(dome);
   const waves = target.map((t, n) => t - (domeValues[n] ?? 0));
   const fit = fitWords(waves, dome, OUR_SEED);
-  const land = landOf(buildWorldField('1', makeMask(fit.words)).distance);
+  const land = landOf(buildWorldField(OUR_WORLD, makeMask(fit.words)).distance);
   return { wrong: wrongArea(land, truth), fit };
 }
 
@@ -104,15 +107,8 @@ const scoreLine = (s: number) =>
 
 const boundsDome = domeFromBounds(bounds);
 const boundsScore = score(trial(boundsDome));
-const DOME_KEYS: ReadonlyArray<keyof Dome> = [
-  'centreX',
-  'centreY',
-  'radiusA',
-  'radiusB',
-  'turn',
-];
 const searched = coordinateSearch({
-  keys: DOME_KEYS,
+  keys: DOME_PARAMS,
   start: boundsDome,
   steps: {
     centreX: 0.02,
@@ -133,8 +129,9 @@ say(
 );
 say(
   `fitted dome (${String(searched.evaluations)} trials): ` +
-    `${JSON.stringify(fittedDome)}, unit ${unitKm(fittedDome)} km, ${ 
-    scoreLine(searched.score)}`,
+    `${JSON.stringify(fittedDome)}, unit ${unitKm(fittedDome)} km, ${scoreLine(
+      searched.score,
+    )}`,
 );
 const fitted = searched.score < boundsScore;
 const dome = fitted ? fittedDome : boundsDome;
@@ -151,7 +148,7 @@ if (final.fit.clipped.length > 0) {
 }
 const mask = makeMask(ours);
 await writeFile(MASK_FILE, serializeMask(mask));
-const world = buildWorldField('1', mask);
+const world = buildWorldField(OUR_WORLD, mask);
 const land = landOf(world.distance);
 const wrong = wrongArea(land, truth);
 say(
@@ -175,13 +172,13 @@ const describe = (p: Patch) =>
   `  ${p.kind.padEnd(7)} ${String(Math.round(p.km2)).padStart(7)} km² at ` +
   `(${p.x.toFixed(0)}, ${p.y.toFixed(0)}) km, ${pixelOf(p.x, p.y)}`;
 say('largest wrong patches:');
-for (const patch of largestPatches(land, truth, WORLD_GRID, 12)) {
+for (const patch of largestPatches(land, truth, GRID, 12)) {
   say(describe(patch));
 }
 
 // Lakes: closed sea inside land, drawn and decoded.
-const drawnLakes = lakesOf(distance, WORLD_GRID);
-const worldLakes = lakesOf(world.distance, WORLD_GRID);
+const drawnLakes = lakesOf(distance, GRID);
+const worldLakes = lakesOf(world.distance, GRID);
 say(
   `lakes: ${String(drawnLakes.pieces.length)} drawn on the grid, ` +
     `${String(worldLakes.pieces.length)} in world 1`,
@@ -199,8 +196,8 @@ for (const [id, lake] of drawnLakes.pieces.entries()) {
     (sum, w) => sum + (worldLakes.pieces[w]?.nodes ?? 0),
     0,
   );
-  const x = (WORLD_GRID.originX + lake.i * WORLD_GRID.cellMetres) / 1000;
-  const y = (WORLD_GRID.originY + lake.j * WORLD_GRID.cellMetres) / 1000;
+  const x = (GRID.originX + lake.i * GRID.cellMetres) / 1000;
+  const y = (GRID.originY + lake.j * GRID.cellMetres) / 1000;
   say(
     `  drawn ${String(km2(lake.nodes))} km² at (${x.toFixed(0)}, ` +
       `${y.toFixed(0)}) km, ${pixelOf(x, y)}: ${String(km2(water))} km² of it ` +
@@ -233,8 +230,8 @@ const kindAt = (n: number): NodeKind => {
   return l ? 'land' : 'sea';
 };
 const node = (x: number, y: number) => [
-  Math.floor((x - WORLD_GRID.originX) / WORLD_GRID.cellMetres),
-  Math.floor((y - WORLD_GRID.originY) / WORLD_GRID.cellMetres),
+  Math.floor((x - GRID.originX) / GRID.cellMetres),
+  Math.floor((y - GRID.originY) / GRID.cellMetres),
 ];
 const pad = 150_000;
 const [i0 = 0, j0 = 0] = node(bounds.minX - pad, bounds.minY - pad);
@@ -243,7 +240,7 @@ await writeFile(
   FRAME,
   encodePng(
     paintFrame({
-      grid: WORLD_GRID,
+      grid: GRID,
       window: [i0, i1, j0, j1],
       pixels: 2,
       kindAt,

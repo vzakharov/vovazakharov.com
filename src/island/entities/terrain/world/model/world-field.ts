@@ -6,6 +6,7 @@ import {
   HARMONIC_COUNT,
   harmonicWord,
   SEED_WORD,
+  type Wavevector,
   wavevectorOf,
 } from './layout';
 import { MASK, worldWords } from './mask';
@@ -15,6 +16,10 @@ const N = GRID_NODES;
 
 /** `x mod N` into `[0, N)`, for a frequency's bin. */
 const bin = (x: number) => ((x % N) + N) % N;
+
+/** Wavevector `k`'s bin in the grid's row-major `N²` spectrum. */
+export const spectrumBin = ({ kx, ky }: Wavevector): number =>
+  bin(ky) * N + bin(kx);
 
 /**
  * The waves `Σ c_k e^{2πi k·p}` on the grid, node `(i, j)` at
@@ -33,11 +38,11 @@ export function wavesOf(words: Uint32Array): Float64Array {
       words[harmonicWord(h, 'phase')] ?? Number.NaN,
       words[harmonicWord(h, 'factor')] ?? Number.NaN,
     );
-    const at = bin(k.ky) * N + bin(k.kx);
+    const at = spectrumBin(k);
     re[at] = (re[at] ?? 0) + unscale * c.re;
     im[at] = (im[at] ?? 0) + unscale * c.im;
     if (h === 0) continue;
-    const conjugate = bin(-k.ky) * N + bin(-k.kx);
+    const conjugate = spectrumBin({ kx: -k.kx, ky: -k.ky });
     re[conjugate] = (re[conjugate] ?? 0) + unscale * c.re;
     im[conjugate] = (im[conjugate] ?? 0) - unscale * c.im;
   }
@@ -107,7 +112,7 @@ export function buildWorldField(
       distance[j * N + i] = value(i, j) / Math.max(Math.hypot(gx, gy), floor);
     }
   }
-  return { ...GRID, columns: N, rows: N, distance };
+  return { ...GRID, distance };
 }
 
 /** World `N`'s per-tile noise seed: its word 5, raw. */

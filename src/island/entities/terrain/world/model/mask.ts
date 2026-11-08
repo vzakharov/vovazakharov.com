@@ -4,6 +4,9 @@ import { worldHash } from './hash';
 import { K, WORD_COUNT } from './layout';
 import committed from './mask.json';
 
+/** Our island's world number, the one the committed mask decodes to ours. */
+export const OUR_WORLD = '1';
+
 const BYTES = 4 * WORD_COUNT;
 
 function fromBase64(text: string): Uint32Array {
@@ -58,7 +61,7 @@ export const MASK: Uint32Array = parseMask(committed);
 /** `M(i) = H(1, i) XOR ours(i)`: the mask under which world 1 decodes to `ours`. */
 export function makeMask(ours: Uint32Array): Uint32Array {
   assertWordCount(ours, 'ours');
-  const hash = worldHash('1');
+  const hash = worldHash(OUR_WORLD);
   return ours.map((word, i) => (hash(i) ^ word) >>> 0);
 }
 

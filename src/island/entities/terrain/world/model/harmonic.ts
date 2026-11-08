@@ -23,15 +23,18 @@ export const ENVELOPE_SCALE = 0.440_740_600_901_753_3;
 const LOW_LENGTH = 1.5;
 const LOW_SHARE = 0.1;
 
+/** Whether `|k| ≤ 1.5`, where the envelope takes its tenth. */
+export const isLowWavevector = ({ kx, ky }: Wavevector): boolean =>
+  kx * kx + ky * ky <= LOW_LENGTH ** 2;
+
 /**
  * `e(k) = s · |k|^-2`, but `0.1 · e(1.5)` for every `|k| ≤ 1.5`: harmonic
  * `k`'s amplitude per unit factor.
  */
-export function envelope({ kx, ky }: Wavevector): number {
-  const squared = kx * kx + ky * ky;
-  return squared <= LOW_LENGTH ** 2
+export function envelope(k: Wavevector): number {
+  return isLowWavevector(k)
     ? (LOW_SHARE * ENVELOPE_SCALE) / LOW_LENGTH ** 2
-    : ENVELOPE_SCALE / squared;
+    : ENVELOPE_SCALE / (k.kx * k.kx + k.ky * k.ky);
 }
 
 const TURN = 2 * Math.PI;

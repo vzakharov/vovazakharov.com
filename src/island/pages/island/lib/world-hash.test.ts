@@ -1,7 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { OUR_WORLD, worldOfHash } from './world-hash';
+import { OUR_WORLD } from '@/island/entities/terrain';
+
+import { worldOfHash } from './world-hash';
 
 describe('worldOfHash', () => {
   it('opens the number a hash names', () => {

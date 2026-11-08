@@ -18,7 +18,7 @@ import {
   PLAY_HOOK,
   PLAY_QUERY,
 } from '@/island/shared/play';
-import { assertWorldNumber } from '@/island/entities/terrain';
+import { assertWorldNumber, OUR_WORLD } from '@/island/entities/terrain';
 
 import { flag, given } from '@/kernel/scripts/lib/argv';
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
@@ -40,18 +40,18 @@ export function buildExport(): void {
 
 /** The world the run plays, from `--world <N>`: ours (1) when not given. */
 export function worldArgument(): string {
-  const world = flag('world') ?? '1';
+  const world = flag('world') ?? OUR_WORLD;
   assertWorldNumber(world);
   return world;
 }
 
 /** The prefix a run's files take for `world`: none for ours, so its frames keep their names. */
 export const worldPrefix = (world: string): string =>
-  world === '1' ? '' : `world${world}-`;
+  world === OUR_WORLD ? '' : `world${world}-`;
 
 /** `/island?play`, on `world`'s hash unless it is ours, which needs none. */
 const playPath = (world: string) =>
-  `/island?${PLAY_QUERY}${world === '1' ? '' : `#${world}`}`;
+  `/island?${PLAY_QUERY}${world === OUR_WORLD ? '' : `#${world}`}`;
 
 const POLL_MS = 250;
 /** One frame of the page's seeded clock at 60 fps. */

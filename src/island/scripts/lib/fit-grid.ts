@@ -1,16 +1,4 @@
-import {
-  type CoastField,
-  type CoastGrid,
-  GRID,
-  GRID_NODES,
-} from '@/island/entities/terrain';
-
-/** The world's 1024² grid over its square. */
-export const WORLD_GRID: CoastGrid = {
-  ...GRID,
-  columns: GRID_NODES,
-  rows: GRID_NODES,
-};
+import type { CoastField, CoastGrid } from '@/island/entities/terrain';
 
 /** A square-celled grid over a plane box, `[x0, x1] × [y0, y1]` metres. */
 export const boxGrid = (

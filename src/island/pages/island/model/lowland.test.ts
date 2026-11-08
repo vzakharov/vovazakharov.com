@@ -4,12 +4,11 @@ import { describe, it } from 'node:test';
 import {
   buildWorldField,
   heightAt,
+  OUR_WORLD,
   SQUARE,
   worldSeed,
 } from '@/island/entities/terrain';
 import { sampleCoastField } from '@/island/entities/terrain/index.test-only';
-
-import { OUR_WORLD } from '../lib/world-hash';
 
 /** Plane points across the world's square, `n` by `n`. */
 function across(n: number): Array<readonly [number, number]> {

@@ -1,11 +1,8 @@
-import { isWorldNumber } from '@/island/entities/terrain';
-
-/** Our island's world number, which no hash, `#1` and any invalid hash open. */
-export const OUR_WORLD = '1';
+import { isWorldNumber, OUR_WORLD } from '@/island/entities/terrain';
 
 /**
  * The world a URL hash (`location.hash`, `#` included or not) opens: its
- * `<N>` when that is a world number, else ours. An invalid hash is an
+ * `<N>` when that is a world number, else ours — which no hash opens too. An invalid hash is an
  * expected input with a defined meaning, not a failure.
  */
 export function worldOfHash(hash: string): string {

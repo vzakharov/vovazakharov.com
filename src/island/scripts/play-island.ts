@@ -27,6 +27,8 @@ import os from 'node:os';
 import path from 'node:path';
 import { z } from 'zod';
 
+import { OUR_WORLD } from '@/island/entities/terrain';
+
 import {
   buildExport,
   call,
@@ -82,7 +84,7 @@ const INLET: readonly Shot[] = [
   ['inlet-head-west', call('turnTo', -Math.PI / 2)],
 ];
 
-const SHOTS = WORLD === '1' ? [...HEIGHTS, ...INLET] : HEIGHTS;
+const SHOTS = WORLD === OUR_WORLD ? [...HEIGHTS, ...INLET] : HEIGHTS;
 
 type Played = { readonly frames: number[]; readonly backend: string };
 
