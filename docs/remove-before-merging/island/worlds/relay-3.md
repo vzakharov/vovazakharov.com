@@ -51,7 +51,12 @@ rings, the drawn lakes back as water.
   here — hence greener at 10 km/100 m/2 m and the bottom-left snow at 1,000 km
   gone where the long lake lies. Re-shooting `island/stretch-2` in this
   container reproduced the old "today" frames exactly, so the reference is
-  sound. Put to the lead as their call (lakes out of the height, in the mask).
+  sound. **The lead ruled (memo 22:31)**: "e7aac795 + cc29bcd1 accepted: no
+  ridges, worlds 2–6 clean. Lower ground beside lakes stays — a lake in a
+  lowland is what land does; the operator can overrule in the morning. On to
+  polish, /sync-branch against island/stretch-2, and the PR; ping me green
+  (check:masd the one known red)." Drop the "Lakes in the height" item from
+  `build.md` § "Left" and say so in the PR.
 
 ## 5. Errors and dead ends
 
@@ -64,7 +69,8 @@ rings, the drawn lakes back as water.
 - Branch `island/worlds`, head 330ca396 (pushed). No PR yet.
 - This session's commits: e7aac795 (height fix + tests), cc29bcd1 (frames),
   330ca396 (Left).
-- Memo to the lead posted (fix, frames, lakes question); no reply yet.
+- Memo to the lead posted (fix, frames, lakes question); the lead accepted
+  both commits and kept the lakes in the height (§ 4).
 - Contact sheets were built by a throwaway script, `tmp/sheets.py`, which the
   successor lacks: desktop is two columns (old "today" crop | branch) × five
   heights at 640×400, border 4, gap 8, background (35,35,35); phone eight
@@ -74,7 +80,7 @@ rings, the drawn lakes back as water.
   technical-artist. Remainder handed on:
   `--part 1 senior producer "the tail: polish, sync onto the lead's branch, vet, the PR and the memo pings"`.
 - Open: the operator's answer on the `entities/coast` masd question; the
-  lead's on lakes in the height; call 6 with the lead and the operator; the two
+  operator's possible overrule of lakes in the height; call 6 with the lead and the operator; the two
   `/dry` calls in Left.
 
 ## 7. Pointers
@@ -93,8 +99,7 @@ rings, the drawn lakes back as water.
 The tail from `build.md` § "Left": `/polish` (floor e5165d2a), `/sync-branch`
 against `island/stretch-2`, vet, the PR onto `island/stretch-2` with the frames
 and what each call became, the five-percent review on it, and a green ping to
-the lead through memo. Read the memo first: the lead may have answered the
-lakes question. Ask the operator the masd question again if still unanswered,
+the lead through memo ("ping me green (check:masd the one known red)"). Ask the operator the masd question again if still unanswered,
 and go on past it.
 
 ## Last agent turn
