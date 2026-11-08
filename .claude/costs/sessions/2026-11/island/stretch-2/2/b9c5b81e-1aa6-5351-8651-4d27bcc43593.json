@@ -1,0 +1,110 @@
+{
+  "total": {
+    "inputTokens": 65,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 127406,
+    "cacheReadTokens": 4370795,
+    "outputTokens": 9840,
+    "thinkingTokens": 2150,
+    "responses": 31,
+    "costUsd": 2.0904670000000003
+  },
+  "estimate": {
+    "at": "2026-11-08T20:39:08.738Z",
+    "subjectLine": "feat: rule paths checked to exist; second stretch picked up",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "picking up a relayed mammoth means re-reading the plan, board and deploy state before any bite can be chosen"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a small shell gate over YAML frontmatter plus its vet wiring and a rule-path fix is routine tooling work"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-08T20:37:55.892Z",
+    "contextTokens": 114757,
+    "spend": {
+      "inputTokens": 10,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 50716,
+      "cacheReadTokens": 371354,
+      "outputTokens": 1063,
+      "thinkingTokens": 29,
+      "responses": 4,
+      "costUsd": 0.5012987999999999
+    }
+  },
+  "sessionId": "b9c5b81e-1aa6-5351-8651-4d27bcc43593",
+  "branch": "island/stretch-2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/stretch-2 — бит 1 влит в main, мамонт перезапущен на втором отрезке",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEKNMfkFZHTgEjdyaq",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-08T20:37:39.456Z",
+  "lastResponseAt": "2026-11-08T20:39:39.750Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 65,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 127406,
+    "cacheReadTokens": 4370795,
+    "outputTokens": 9840,
+    "thinkingTokens": 2150,
+    "responses": 31,
+    "costUsd": 2.0904670000000003
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 65,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 127406,
+      "cacheReadTokens": 4370795,
+      "outputTokens": 9840,
+      "thinkingTokens": 2150,
+      "responses": 31,
+      "costUsd": 2.0904670000000003
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 31,
+    "matched": 31,
+    "matchedTableUsd": 2.0904670000000003,
+    "matchedEventUsd": 2.090467,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 20,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 7732,
+    ".ts": 86
+  }
+}

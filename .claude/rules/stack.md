@@ -42,6 +42,7 @@ python3 scripts/memo/test_memo.py # the lead/member channel     │
 scripts/check-squash-message.sh # squash proposal size          │
 scripts/check-skill-catalog.sh  # skill @-references            │
 scripts/check-markdown-tables.sh # no tables, while markdown.md is │
+scripts/check-rule-paths.sh     # rules' literal paths exist    │
 scripts/staged.sh check         # staged always-loaded copies   │
 wc -l .claude/model-capabilities.md # model notes, ≤100 lines │
 scripts/check-claude-md-size.sh # CLAUDE.md + imports size cap  │
@@ -213,7 +214,7 @@ Nineteen things about that list are deliberate:
   notes between two clones of a temporary origin. `answered.py` itself, which
   finds a missing row, reads the PR's threads, so `/finalize` runs it rather
   than vet.
-- **The last eleven read the agent infrastructure itself and write nothing
+- **The last twelve read the agent infrastructure itself and write nothing
   another check reads, which is why they overlap the rest safely.**
   `scripts/check-skill-catalog.sh` asserts that every `@`-reference into
   `.claude/` resolves — the skill pointers and CLAUDE.md's own imports alike —
@@ -222,8 +223,10 @@ Nineteen things about that list are deliberate:
   back on memory, which is where it was when it went unrun.
   `scripts/check-markdown-tables.sh` holds agent-facing Markdown to
   `.claude/rules/markdown.md`, and runs only while that rule exists.
-  `scripts/staged.sh check` holds `.claude/staged/` to
-  `.claude/rules/staging.md`, the model notes check holds
+  `scripts/check-rule-paths.sh` fails a literal path in a rule's `paths:` that
+  names no file, since Claude Code skips such a path without a word and a
+  renamed file would turn its rule off. `scripts/staged.sh check` holds
+  `.claude/staged/` to `.claude/rules/staging.md`, the model notes check holds
   `.claude/model-capabilities.md` to its keeping rule's cap, so a summary
   rewritten every session cannot drift into a log,
   `scripts/check-claude-md-size.sh` caps what `CLAUDE.md` and its imports cost
