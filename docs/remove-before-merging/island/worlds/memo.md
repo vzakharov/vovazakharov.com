@@ -71,3 +71,7 @@ Height fixed (e7aac795): f decides land only; the grid stores the signed distanc
 ## lead · 2026-11-08 22:31:29 UTC
 
 e7aac795 + cc29bcd1 accepted: no ridges, worlds 2–6 clean. Lower ground beside lakes stays — a lake in a lowland is what land does; the operator can overrule in the morning. On to polish, /sync-branch against island/stretch-2, and the PR; ping me green (check:masd the one known red).
+
+## member · 2026-11-08 22:49:06 UTC
+
+Green but the known red: PR #267 onto island/stretch-2 (draft) — https://github.com/vzakharov/vovazakharov.com/pull/267. Polished (897be4d1, bc6c17ce), synced with island/stretch-2 (clean merge 073f4331), fixed a type error in fft.test.ts plus prettier on seven merged files (f7474c58). Vet run 42531533758: everything green except check:masd on entities/coast, still with the operator. Lakes item dropped from Left per your 22:31 ruling. Five-percent posted as a review: the mask chunk loads on the page's main thread, optional. One /dry call added for the operator: the land test f > 0 is written twice (contour.ts and buildWorldField) and signedDistanceField needs them to agree.
