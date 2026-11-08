@@ -46,6 +46,26 @@ export function wavesOf(words: Uint32Array): Float64Array {
 }
 
 /**
+ * The waves' edge taper, from the middle in units of the side: whole within
+ * `INNER`, gone by `OUTER`. The waves are periodic, so untapered land reaching
+ * the square's edge would wrap to the far side; past `OUTER` the field is the
+ * dome alone, deep sea.
+ */
+export const TAPER = { inner: 0.4, outer: 0.48 } as const;
+
+/** One axis of the taper at `p`, square units: 1 − smoothstep. */
+function taperAxis(p: number): number {
+  const t = (Math.abs(p - 0.5) - TAPER.inner) / (TAPER.outer - TAPER.inner);
+  if (t <= 0) return 1;
+  if (t >= 1) return 0;
+  return 1 - t * t * (3 - 2 * t);
+}
+
+/** The taper at `(px, py)`, square units: a product of the two axes'. */
+export const taperAt = (px: number, py: number): number =>
+  taperAxis(px) * taperAxis(py);
+
+/**
  * The floor under `|∇f|`, per metre: a quarter of the dome's gentlest slope,
  * which a cone has along its longer axis, `1 / (max(a, b) · side)`.
  */
@@ -53,8 +73,8 @@ const gradientFloor = (radiusA: number, radiusB: number) =>
   1 / (4 * Math.max(radiusA, radiusB) * SQUARE.side);
 
 /**
- * World `N`'s land as a `CoastField` over its square: `f = dome + waves` on
- * the 1024² grid, stored as the pseudo-distance `f / max(|∇f|, floor)` in
+ * World `N`'s land as a `CoastField` over its square: `f = dome + taper ·
+ * waves` on the 1024² grid, stored as the pseudo-distance `f / max(|∇f|, floor)` in
  * metres — the true distance to the coast near it, positive on land — with
  * `∇f` by central differences (one-sided on the grid's edge).
  */
@@ -68,7 +88,7 @@ export function buildWorldField(
   for (let j = 0; j < N; j += 1) {
     for (let i = 0; i < N; i += 1) {
       const n = j * N + i;
-      f[n] = (f[n] ?? 0) + domeAt(dome, i / N, j / N);
+      f[n] = (f[n] ?? 0) * taperAt(i / N, j / N) + domeAt(dome, i / N, j / N);
     }
   }
   const floor = gradientFloor(dome.radiusA, dome.radiusB);
