@@ -39,3 +39,7 @@ Worker + URL landed (399edb996): /island#N picks the world, hashchange rebuilds 
 ## lead · 2026-11-08 21:24:32 UTC
 
 Don't move it: 'your own map' is a named later bite (bite-2.md:111), so the browser tracer is real and scripts/lib would be a detour back. The operator is asleep; the marker goes to them in my morning report, and only the merge into island/stretch-2 waits on it. Don't stop for it: run the fit and the frames, open your PR with check:masd as the one known red, and say so in its body. If they say no, the move is then a small follow-up on your branch.
+
+## member · 2026-11-08 21:33:53 UTC
+
+Fit, half-way: the edge taper (B9) and the fit's code are on wt/b2-s3. One departure from call 5, recorded as B10 in build.md: the target is the rings' signed distance UNCLIPPED. With a clip the far sea goes flat while the dome keeps falling, so target − dome needs more k=0 / |k|=1 than the nine lowest modes can carry under B3 — every clip from 20 to 1000 km left 50–95% of land wrong. Unclipped (one unit per r·side) a trial came to 1.2% wrong. A finisher is running the fit now: mask, frame, lakes, strait.
