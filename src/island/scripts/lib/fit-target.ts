@@ -63,15 +63,6 @@ export function domeFromBounds({ minX, maxX, minY, maxY }: Bounds): Dome {
   };
 }
 
-/** `dome` clamped into `DOME_RANGES`, parameter by parameter. */
-export const clampDome = (dome: Dome): Dome => ({
-  centreX: clamp(dome.centreX, DOME_RANGES.centreX),
-  centreY: clamp(dome.centreY, DOME_RANGES.centreY),
-  radiusA: clamp(dome.radiusA, DOME_RANGES.radiusA),
-  radiusB: clamp(dome.radiusB, DOME_RANGES.radiusB),
-  turn: clamp(dome.turn, DOME_RANGES.turn),
-});
-
 /**
  * The metres of signed distance one field unit stands for under `dome`:
  * `r · side`, `r` the geometric mean of its radii, so the target's far slope

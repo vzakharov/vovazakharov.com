@@ -1,14 +1,23 @@
 /** A point in a search: named parameters. */
-export type Point<Key extends string> = Record<Key, number>;
+type Point<Key extends string> = Record<Key, number>;
 
 /** Each parameter's closed range. */
-export type Ranges<Key extends string> = Record<Key, readonly [number, number]>;
+type Ranges<Key extends string> = Record<Key, readonly [number, number]>;
 
 /** Where a search ended, and what it spent getting there. */
 export type Found<Key extends string> = {
   best: Point<Key>;
   score: number;
   evaluations: number;
+};
+
+type CoordinateSearchParams<Key extends string> = {
+  keys: readonly Key[];
+  start: Point<Key>;
+  steps: Point<Key>;
+  ranges: Ranges<Key>;
+  score: (point: Point<Key>) => number;
+  rounds: number;
 };
 
 /**
@@ -24,14 +33,7 @@ export function coordinateSearch<Key extends string>({
   ranges,
   score,
   rounds,
-}: {
-  keys: readonly Key[];
-  start: Point<Key>;
-  steps: Point<Key>;
-  ranges: Ranges<Key>;
-  score: (point: Point<Key>) => number;
-  rounds: number;
-}): Found<Key> {
+}: CoordinateSearchParams<Key>): Found<Key> {
   let best = { ...start };
   let bestScore = score(best);
   let evaluations = 1;

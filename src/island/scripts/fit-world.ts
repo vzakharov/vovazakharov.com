@@ -26,14 +26,13 @@ import {
   TAPER,
 } from '@/island/entities/terrain';
 
-import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
-
 import { encodePng, type NodeKind, paintFrame } from './lib/fit-frame';
 import { landOf, resample, WORLD_GRID } from './lib/fit-grid';
 import {
   lakesOf,
   largestPatches,
   type Patch,
+  type WrongArea,
   wrongArea,
 } from './lib/fit-measure';
 import { coordinateSearch } from './lib/fit-search';
@@ -48,6 +47,8 @@ import {
   targetOf,
   unitMetres,
 } from './lib/fit-target';
+
+import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 
 const MASK_FILE = path.join(
   REPO_ROOT,
@@ -83,7 +84,7 @@ const coastField = buildCoastField(coast);
 const distance = resample(coastField, WORLD_GRID);
 const truth = landOf(distance);
 
-type Trial = { share: number; fit: FittedWords; land: Uint8Array };
+type Trial = { wrong: WrongArea; fit: FittedWords };
 
 /** World 1 as `dome` makes it, decoded the way the game does. */
 function trial(dome: Dome): Trial {
@@ -92,18 +93,18 @@ function trial(dome: Dome): Trial {
   const waves = target.map((t, n) => t - (domeValues[n] ?? 0));
   const fit = fitWords(waves, dome, OUR_SEED);
   const land = landOf(buildWorldField('1', makeMask(fit.words)).distance);
-  return { share: wrongArea(land, truth).share, fit, land };
+  return { wrong: wrongArea(land, truth), fit };
 }
 
 /** Wrong share, a clipped word costing a whole island's worth. */
-const score = ({ share, fit }: Trial) =>
-  share + (fit.clipped.length > 0 ? 1 : 0);
+const score = ({ wrong, fit }: Trial) =>
+  wrong.wrongShare + (fit.clipped.length > 0 ? 1 : 0);
 const scoreLine = (s: number) =>
   `wrong ${pct(s % 1)}${s >= 1 ? ', words clipped' : ''}`;
 
 const boundsDome = domeFromBounds(bounds);
 const boundsScore = score(trial(boundsDome));
-const DOME_KEYS: readonly (keyof Dome)[] = [
+const DOME_KEYS: ReadonlyArray<keyof Dome> = [
   'centreX',
   'centreY',
   'radiusA',
@@ -132,8 +133,8 @@ say(
 );
 say(
   `fitted dome (${String(searched.evaluations)} trials): ` +
-    `${JSON.stringify(fittedDome)}, unit ${unitKm(fittedDome)} km, ` +
-    `${scoreLine(searched.score)}`,
+    `${JSON.stringify(fittedDome)}, unit ${unitKm(fittedDome)} km, ${ 
+    scoreLine(searched.score)}`,
 );
 const fitted = searched.score < boundsScore;
 const dome = fitted ? fittedDome : boundsDome;
@@ -161,9 +162,9 @@ say(
     `seed word ${String(ours[SEED_WORD])}`,
 );
 say(
-  `world 1: ${pct(wrong.share)} of the drawn land wrong — ` +
+  `world 1: ${pct(wrong.wrongShare)} of the drawn land wrong — ` +
     `${String(km2(wrong.added))} km² added over sea, ` +
-    `${String(km2(wrong.dropped))} km² dropped, of ${String(km2(wrong.truthLand))} km²`,
+    `${String(km2(wrong.lost))} km² dropped, of ${String(km2(wrong.truthLand))} km²`,
 );
 
 /** Drawing pixel of plane km, the main body's box centre at (616, 430.5). */

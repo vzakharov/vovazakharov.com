@@ -21,7 +21,7 @@ export const FACTOR_LIMIT =
   coefficientOf(MEAN, 0, 0xff_ff_ff_ff).re / envelope(MEAN);
 
 /** One harmonic whose factor the decoder cannot reach. */
-export type Clipped = { kx: number; ky: number; factor: number };
+type Clipped = ReturnType<typeof wavevectorOf> & { factor: number };
 
 /** Ours, as words, and how hard the fit pressed the factors. */
 export type FittedWords = {

@@ -24,9 +24,9 @@ describe('wrongArea', () => {
     const land = Uint8Array.from([1, 1, 0, 1, 1, 0]);
     assert.deepEqual(wrongArea(land, truth), {
       added: 1,
-      dropped: 1,
+      lost: 1,
       truthLand: 4,
-      share: 0.5,
+      wrongShare: 0.5,
     });
   });
 });
@@ -34,9 +34,9 @@ describe('wrongArea', () => {
 describe('piecesOf', () => {
   it('joins 4-neighbours only, and says which touch the border', () => {
     const mask = Uint8Array.from([
-      ...[1, 0, 0, 0],
-      ...[0, 1, 1, 0],
-      ...[0, 0, 0, 0],
+      1, 0, 0, 0,
+      0, 1, 1, 0,
+      0, 0, 0, 0,
     ]);
     const { label, pieces } = piecesOf(mask, { columns: 4, rows: 3 });
     assert.equal(pieces.length, 2);

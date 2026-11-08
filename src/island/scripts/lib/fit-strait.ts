@@ -11,12 +11,14 @@ import type { Bounds } from './fit-target';
  * pixel (698.5, 198) to (698.5, 238), the main body's box centre at pixel
  * (616, 430.5) as `bite-2/overlay.py` finds it, 6.2109 km a pixel.
  */
-export const STRAIT = {
+const STRAIT = {
   head: [512, 1444],
   end: [512, 1196],
   /** The inlet's water between Блаблания's finger and Фейсис. */
   inlet: { x: [350, 600], y: [1100, 1800] },
 } as const;
+
+type Span = readonly [number, number];
 
 /** Whether each probe reaches open sea, and how far south the inlet's does. */
 export type StraitFate = {
@@ -46,8 +48,8 @@ export function straitFate(
   const isOpen = ([x, y]: readonly [number, number]) =>
     open[nodeAt(grid, x * 1000, y * 1000)] === 1;
   let southmostKm: number | null = null;
-  const [x0, x1] = STRAIT.inlet.x;
-  const [y0, y1] = STRAIT.inlet.y;
+  const [x0, x1]: Span = STRAIT.inlet.x;
+  const [y0, y1]: Span = STRAIT.inlet.y;
   for (let y = y0; y <= y1 && southmostKm === null; y += cellMetres / 1000) {
     for (let x = x0; x <= x1; x += cellMetres / 1000) {
       if (open[nodeAt(grid, x * 1000, y * 1000)] === 1) {

@@ -1,11 +1,13 @@
 import { crc32, deflateSync } from 'node:zlib';
 
+import type { Sized } from '@/kernel/shared/typings';
+
 import type { Coast } from '@/island/shared/globe';
 
 import type { PlaneGrid } from './fit-grid';
 
 /** An RGB raster, row 0 at the top. */
-export type Raster = { width: number; height: number; rgb: Uint8Array };
+export type Raster = Sized & { rgb: Uint8Array };
 
 function chunk(type: string, data: Uint8Array): Buffer {
   const head = Buffer.alloc(8);
@@ -47,6 +49,14 @@ const COLOURS = {
 /** What one grid node shows in the fit's frame. */
 export type NodeKind = Exclude<keyof typeof COLOURS, 'ring'>;
 
+type PaintFrameParams = {
+  grid: PlaneGrid;
+  window: readonly [number, number, number, number];
+  pixels: number;
+  kindAt: (node: number) => NodeKind;
+  coast: Coast;
+};
+
 /**
  * A frame of the grid's nodes `[i0, i1) × [j0, j1)`, `pixels` per node, north
  * up, each node painted by `kindAt` and the rings drawn over it in black.
@@ -57,13 +67,7 @@ export function paintFrame({
   pixels,
   kindAt,
   coast,
-}: {
-  grid: PlaneGrid;
-  window: readonly [number, number, number, number];
-  pixels: number;
-  kindAt: (node: number) => NodeKind;
-  coast: Coast;
-}): Raster {
+}: PaintFrameParams): Raster {
   const width = (i1 - i0) * pixels;
   const height = (j1 - j0) * pixels;
   const rgb = new Uint8Array(3 * width * height);

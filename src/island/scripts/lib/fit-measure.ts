@@ -1,3 +1,5 @@
+import type { Gridded, Point } from '@/scene/shared/lib/plane';
+
 import type { PlaneGrid } from './fit-grid';
 
 /** How much of the drawn land the field gets wrong, in nodes. */
@@ -5,23 +7,23 @@ export type WrongArea = {
   /** Field land over drawn sea. */
   added: number;
   /** Drawn land the field leaves sea. */
-  dropped: number;
+  lost: number;
   truthLand: number;
-  /** `(added + dropped) / truthLand`. */
-  share: number;
+  /** `(added + lost) / truthLand`. */
+  wrongShare: number;
 };
 
 export function wrongArea(land: Uint8Array, truth: Uint8Array): WrongArea {
   let added = 0;
-  let dropped = 0;
+  let lost = 0;
   let truthLand = 0;
   for (const [n, t] of truth.entries()) {
     const l = land[n] ?? 0;
     truthLand += t;
     if (l === 1 && t === 0) added += 1;
-    if (l === 0 && t === 1) dropped += 1;
+    if (l === 0 && t === 1) lost += 1;
   }
-  return { added, dropped, truthLand, share: (added + dropped) / truthLand };
+  return { added, lost, truthLand, wrongShare: (added + lost) / truthLand };
 }
 
 /** A 4-connected piece of a mask, in grid nodes. */
@@ -39,7 +41,7 @@ export type Piece = {
  */
 export function piecesOf(
   mask: Uint8Array,
-  { columns, rows }: Pick<PlaneGrid, 'columns' | 'rows'>,
+  { columns, rows }: Gridded,
 ): { label: Int32Array; pieces: Piece[] } {
   const label = new Int32Array(columns * rows).fill(-1);
   const stack = new Int32Array(columns * rows);
@@ -80,13 +82,10 @@ export function piecesOf(
   return { label, pieces };
 }
 
-/** A wrong patch, placed on the plane. */
-export type Patch = {
+/** A wrong patch, placed on the plane at its centroid, kilometres. */
+export type Patch = Point & {
   kind: 'added' | 'dropped';
   km2: number;
-  /** Centroid, plane kilometres. */
-  x: number;
-  y: number;
 };
 
 /** The `count` largest wrong patches of either kind, largest first. */
@@ -119,9 +118,10 @@ export function largestPatches(
  */
 export function openSea(
   values: ArrayLike<number>,
-  grid: Pick<PlaneGrid, 'columns' | 'rows'>,
+  grid: Gridded,
 ): Uint8Array {
-  const sea = Uint8Array.from({ length: values.length }, (_, n) =>
+  const { length } = values;
+  const sea = Uint8Array.from({ length }, (_, n) =>
     (values[n] ?? 0) < 0 ? 1 : 0,
   );
   const { label, pieces } = piecesOf(sea, grid);
@@ -136,10 +136,11 @@ export function openSea(
  */
 export function lakesOf(
   values: ArrayLike<number>,
-  grid: Pick<PlaneGrid, 'columns' | 'rows'>,
+  grid: Gridded,
 ): { label: Int32Array; pieces: Piece[] } {
   const open = openSea(values, grid);
-  const closed = Uint8Array.from({ length: values.length }, (_, n) =>
+  const { length } = values;
+  const closed = Uint8Array.from({ length }, (_, n) =>
     (values[n] ?? 0) < 0 && open[n] === 0 ? 1 : 0,
   );
   return piecesOf(closed, grid);

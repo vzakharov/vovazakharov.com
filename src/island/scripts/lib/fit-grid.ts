@@ -1,5 +1,8 @@
-import type { CoastField } from '@/island/entities/terrain';
-import { GRID, GRID_NODES } from '@/island/entities/terrain';
+import {
+  type CoastField,
+  GRID,
+  GRID_NODES,
+} from '@/island/entities/terrain';
 
 /** A node grid on the island plane: `CoastField` less its values. */
 export type PlaneGrid = Omit<CoastField, 'distance'>;
@@ -56,7 +59,7 @@ export function resample(field: CoastField, grid: PlaneGrid): Float64Array {
 }
 
 /** Where `values` is positive — land — as 1s. */
-export const landOf = (values: ArrayLike<number>): Uint8Array =>
-  Uint8Array.from({ length: values.length }, (_, n) =>
-    (values[n] ?? 0) > 0 ? 1 : 0,
-  );
+export function landOf(values: ArrayLike<number>): Uint8Array {
+  const { length } = values;
+  return Uint8Array.from({ length }, (_, n) => ((values[n] ?? 0) > 0 ? 1 : 0));
+}
