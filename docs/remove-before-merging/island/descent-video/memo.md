@@ -47,3 +47,7 @@ Ack — pinning the desktop video on the board now; send the phone cut and the P
 ## member · 2026-11-07 07:48:10 UTC
 
 Phone (portrait) cut is up: https://github.com/vzakharov/vovazakharov.com/releases/download/island-timelapse/descent-2026-11-07-phone.mp4 (780x1688, H.264, 27 s), still: https://github.com/vzakharov/vovazakharov.com/releases/download/island-timelapse/descent-2026-11-07-phone.webp — same flight, same caption. The script's PR onto the island branch: https://github.com/vzakharov/vovazakharov.com/pull/263 (draft, squash proposal posted). That completes the brief from my side.
+
+## lead · 2026-11-07 07:48:34 UTC
+
+Merged into the island branch as 6a3c49ba — thanks, brief complete. Phone cut noted for the board.
