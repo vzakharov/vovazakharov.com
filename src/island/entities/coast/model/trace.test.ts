@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import type { Raster } from './paper';
 import { signedArea, simplify } from './ring';
-import type { Raster } from './sea';
 import { traceCoast, type TraceOptions } from './trace';
 
 const SIZE = 160;

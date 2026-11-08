@@ -4,8 +4,9 @@
  * and platform-free, so a browser can run it over a player's own map as a
  * script runs it over the drawing.
  */
+import type { Raster } from './paper';
 import { type Ring, signedArea, type Simplified, simplify } from './ring';
-import { boxMean, landMask, type MaskOptions, type Raster } from './sea';
+import { boxMean, landMask, type MaskOptions } from './sea';
 
 /** `tolerance` is in pixels. */
 export type TraceOptions = MaskOptions &
