@@ -7,17 +7,32 @@ import {
 import type { Wavevector } from './layout';
 
 /**
- * The envelope's scale `s`: `0.45 / √(Σ |k|^-4)` over every `k ≠ 0` with
+ * The envelope's scale `s`: `0.45 / √(Σ (e(k)/s)²)` over every `k ≠ 0` with
  * `|kx|, |ky| ≤ K`, which by Parseval makes the waves' expected variance over
  * the square `0.45²` — a harmonic and its conjugate, `2·e·f·cos(2πk·p + φ)`,
  * contribute `2·e(k)²·E[f²]` to it, and `k = 0` none, being the mean. Pinned
  * by a test against that sum.
  */
-export const ENVELOPE_SCALE = 0.183_304_995_087_457_43;
+export const ENVELOPE_SCALE = 0.440_740_600_901_753_3;
 
-/** `e(k) = s · max(|k|, 1)^-2`: harmonic `k`'s amplitude per unit factor. */
-export const envelope = ({ kx, ky }: Wavevector) =>
-  ENVELOPE_SCALE / Math.max(kx * kx + ky * ky, 1);
+/**
+ * Wavevectors up to this length take a tenth of the envelope there: at full
+ * strength the four `|k| = 1` modes tilt and shift the dome rather than carve
+ * coast, yet our fitted island still needs some room in its lowest modes.
+ */
+const LOW_LENGTH = 1.5;
+const LOW_SHARE = 0.1;
+
+/**
+ * `e(k) = s · |k|^-2`, but `0.1 · e(1.5)` for every `|k| ≤ 1.5`: harmonic
+ * `k`'s amplitude per unit factor.
+ */
+export function envelope({ kx, ky }: Wavevector): number {
+  const squared = kx * kx + ky * ky;
+  return squared <= LOW_LENGTH ** 2
+    ? (LOW_SHARE * ENVELOPE_SCALE) / LOW_LENGTH ** 2
+    : ENVELOPE_SCALE / squared;
+}
 
 const TURN = 2 * Math.PI;
 

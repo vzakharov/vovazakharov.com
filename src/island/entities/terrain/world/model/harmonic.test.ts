@@ -41,8 +41,16 @@ describe('envelope', () => {
       }
     }
     assert.ok(Math.abs(ENVELOPE_SCALE - 0.45 / Math.sqrt(sum)) < 1e-15);
-    assert.equal(envelope({ kx: 0, ky: 0 }), ENVELOPE_SCALE);
-    assert.equal(envelope({ kx: 1, ky: 0 }), ENVELOPE_SCALE);
+    const low = (0.1 * ENVELOPE_SCALE) / 2.25;
+    for (const [kx, ky] of [
+      [0, 0],
+      [1, 0],
+      [0, -1],
+      [1, 1],
+      [-1, 1],
+    ] as const)
+      assert.equal(envelope({ kx, ky }), low, `${kx}, ${ky}`);
+    assert.equal(envelope({ kx: 2, ky: 0 }), ENVELOPE_SCALE / 4);
     assert.equal(envelope({ kx: 3, ky: -4 }), ENVELOPE_SCALE / 25);
   });
 
@@ -62,18 +70,17 @@ describe('envelope', () => {
     for (let w = 1; w <= worlds; w += 1)
       sum += parsevalVariance(worldWords(String(w)));
     const spread = Math.sqrt(sum / worlds);
-    // One world's variance spreads ~70% (four modes carry two-thirds of it).
-    assert.ok(Math.abs(spread - 0.45) < 0.45 * 0.1, `spread ${spread}`);
+    assert.ok(Math.abs(spread - 0.45) < 0.45 * 0.05, `spread ${spread}`);
   });
 });
 
 describe('coefficientOf / encodeCoefficient', () => {
   it('round-trips a coefficient through its words', () => {
     for (const [kx, ky, re, im] of [
-      [1, 0, 0.1, -0.05],
+      [1, 0, 0.01, -0.005],
       [-128, 7, -1e-6, 2e-6],
       [3, 4, 0, -0.003],
-      [0, 1, -0.2, 0],
+      [0, 1, -0.02, 0],
     ] as const) {
       const k = { kx, ky };
       const { phaseWord, factorWord } = encodeCoefficient(k, { re, im });
@@ -88,7 +95,7 @@ describe('coefficientOf / encodeCoefficient', () => {
 
   it('keeps k = 0 real, either sign', () => {
     const k = { kx: 0, ky: 0 };
-    for (const re of [0.07, -0.13]) {
+    for (const re of [0.007, -0.013]) {
       const { phaseWord, factorWord } = encodeCoefficient(k, { re, im: 0 });
       const back = coefficientOf(k, phaseWord, factorWord);
       assert.equal(back.im, 0);
