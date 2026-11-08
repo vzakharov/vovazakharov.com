@@ -10,7 +10,8 @@
     "costUsd": 9.920898200000002
   },
   "estimate": {
-    "at": "2026-11-07T06:48:57.557Z",
+    "at": "2026-11-08T09:01:58.969Z",
+    "subjectLine": "perf: the board's SVG stops forcing layout and paint every frame",
     "parts": [
       {
         "hours": 6.0,
@@ -97,7 +98,13 @@
     "matchedEventUsd": 9.920898200000002,
     "unseen": {}
   },
-  "operatorWords": 0,
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
   "branchLines": {
     "vzakharov": 1,
     ".md": 4674,
