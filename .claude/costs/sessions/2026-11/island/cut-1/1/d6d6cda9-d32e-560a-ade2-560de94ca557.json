@@ -1,0 +1,121 @@
+{
+  "total": {
+    "inputTokens": 85,
+    "cacheWrite5mTokens": 147405,
+    "cacheWrite1hTokens": 89359,
+    "cacheReadTokens": 4777128,
+    "outputTokens": 18404,
+    "thinkingTokens": 7474,
+    "responses": 41,
+    "costUsd": 2.7757425999999987
+  },
+  "estimate": {
+    "at": "2026-11-08T19:35:50.827Z",
+    "subjectLine": "feat: first island cut — bite 1 to main, the mammoth restarted off it",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "a release cut off a long-lived branch: what ships beyond the island, the squash record, the restart of the mammoth with its notes"
+      },
+      {
+        "hours": 1.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "vet and polish fixes over a ~640-file diff are routine but numerous"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-08T19:35:47.322Z",
+    "contextTokens": 128368,
+    "spend": {
+      "inputTokens": 15,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 65406,
+      "cacheReadTokens": 693011,
+      "outputTokens": 2368,
+      "thinkingTokens": 492,
+      "responses": 7,
+      "costUsd": 0.7092702000000001
+    }
+  },
+  "sessionId": "d6d6cda9-d32e-560a-ade2-560de94ca557",
+  "branch": "island/cut-1",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/world-game-zoltan-syama-hodowq — бит 1 решено выкатить первым срезом, мамонт перезапускается одним коммитом",
+  "prs": [
+    255,
+    265
+  ],
+  "url": "https://claude.ai/code/session_01DaohkEN173M5c2oHaWfGjy",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-08T19:35:09.630Z",
+  "lastResponseAt": "2026-11-08T19:40:51.877Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 45,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 89359,
+    "cacheReadTokens": 2701063,
+    "outputTokens": 7951,
+    "thinkingTokens": 1804,
+    "responses": 22,
+    "costUsd": 1.4142846
+  },
+  "subagents": {
+    "inputTokens": 40,
+    "cacheWrite5mTokens": 147405,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 2076065,
+    "outputTokens": 10453,
+    "thinkingTokens": 5670,
+    "responses": 19,
+    "costUsd": 1.3614580000000003
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 85,
+      "cacheWrite5mTokens": 147405,
+      "cacheWrite1hTokens": 89359,
+      "cacheReadTokens": 4777128,
+      "outputTokens": 18404,
+      "thinkingTokens": 7474,
+      "responses": 41,
+      "costUsd": 2.7757425999999987
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 41,
+    "matched": 41,
+    "matchedTableUsd": 2.7757425999999987,
+    "matchedEventUsd": 2.7757425999999987,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    "vzakharov": 1,
+    ".md": 8278,
+    ".py": 2336,
+    ".sh": 6,
+    ".json": 1505,
+    ".yml": 8,
+    ".ts": 10254,
+    ".tsx": 151,
+    ".yaml": 645,
+    ".scss": 530
+  }
+}

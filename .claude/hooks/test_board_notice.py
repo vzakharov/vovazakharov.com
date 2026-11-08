@@ -23,6 +23,7 @@ WORKING_DIR = Path(__file__).resolve().parents[2] / "scripts" / "working-dir.sh"
 URL = "https://claude.ai/artifact/abc123"
 ORG = "0a1b2c3d-0000-4000-8000-000000000001"
 OTHER_ORG = "0a1b2c3d-0000-4000-8000-000000000002"
+STRANGER = "0a1b2c3d-0000-4000-8000-000000000003"
 OTHER_URL = "https://claude.ai/artifact/def456"
 
 
@@ -93,9 +94,8 @@ class BoardNotice(unittest.TestCase):
 
     def test_asks_for_a_copy_where_the_organization_has_none(self) -> None:
         self.plan(BOARD)
-        stranger = "0a1b2c3d-0000-4000-8000-000000000003"
-        text = json.loads(self.run_hook([], organization=stranger))["hookSpecificOutput"]["additionalContext"]
-        self.assertIn(f"- `{key(stranger)}`: <artifact url>", text)
+        text = json.loads(self.run_hook([], organization=STRANGER))["hookSpecificOutput"]["additionalContext"]
+        self.assertIn(f"- `{key(STRANGER)}`: <artifact url>", text)
         self.assertNotIn(URL, text)
 
     def test_silent_without_an_organization(self) -> None:
@@ -107,9 +107,8 @@ class BoardNotice(unittest.TestCase):
         self.assertIn(URL, self.run_hook([]))
 
     def test_the_list_ends_at_the_first_line_after_it(self) -> None:
-        stray = "0a1b2c3d-0000-4000-8000-000000000003"
-        self.plan(f"{BOARD}\n- `{key(stray)}`: https://claude.ai/artifact/zzz\n")
-        self.assertIn("no line for", self.run_hook([], organization=stray))
+        self.plan(f"{BOARD}\n- `{key(STRANGER)}`: https://claude.ai/artifact/zzz\n")
+        self.assertIn("no line for", self.run_hook([], organization=STRANGER))
 
     def test_names_both_calls_at_first(self) -> None:
         self.plan(BOARD)
