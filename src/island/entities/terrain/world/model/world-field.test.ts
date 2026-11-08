@@ -141,7 +141,7 @@ describe('buildWorldField', () => {
         const inBand = j < band || j >= GRID_NODES - band;
         for (let i = 0; i < GRID_NODES; i += 1) {
           if (!inBand && i >= band && i < GRID_NODES - band) continue;
-          if ((distance[j * GRID_NODES + i] ?? 0) > 0) edgeLand += 1;
+          if (isLand(distance, i, j)) edgeLand += 1;
         }
       }
       assert.equal(edgeLand, 0, `world ${String(world)}`);
