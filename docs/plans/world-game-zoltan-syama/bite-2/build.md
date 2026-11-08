@@ -55,6 +55,15 @@ with numbers rather than picking another.
   0.48 per axis, so the edge band is the dome alone, deep sea. Ours reaches
   ~0.34 and sits inside it.
 
+- **B10. The fit's target is the rings' signed distance unclipped**, one field
+  unit per `r · side` (`r` our dome's radius), not call 5's clipped one. A clip
+  flattens the far sea while the dome keeps falling, so `target − dome` carries
+  more `k = 0` and `|k| = 1` than the nine lowest modes can hold (at most |c| ≈
+  0.124 under B3): every clip from 20 to 1000 km left 50–95% of the land wrong.
+  Unclipped, the far slope matches the dome's, and a trial came to 1.2% wrong.
+  It stays a smooth target, which is what the clip was for: not the binary
+  mask's step.
+
 ## Code homes
 
 - **B8.** The world model is a sub-slice `src/island/entities/terrain/world/`
