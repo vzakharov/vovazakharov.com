@@ -1,15 +1,45 @@
 {
   "total": {
-    "inputTokens": 29,
+    "inputTokens": 41,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 110228,
-    "cacheReadTokens": 1593576,
-    "outputTokens": 19236,
-    "thinkingTokens": 14175,
-    "responses": 13,
-    "costUsd": 1.5853752
+    "cacheWrite1hTokens": 116180,
+    "cacheReadTokens": 2620039,
+    "outputTokens": 21935,
+    "thinkingTokens": 14495,
+    "responses": 19,
+    "costUsd": 1.8923118000000003
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-08T20:55:40.459Z",
+    "subjectLine": "feat: island worlds from one formula, a dome plus a Fourier series",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "a band-limited field synthesized by inverse FFT in a worker and sampled by every tile is rendering-pipeline work"
+      },
+      {
+        "hours": 8.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "fitting the drawn coast to a spectrum, the lakes back in the tracer and judging the frames beside the drawing"
+      },
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "the URL world number and a rebuild without reload touch the page, pool and scene"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "briefing and merging five agents' steps and talking to the lead"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -34,18 +64,18 @@
   "url": "https://claude.ai/code/session_01DaohkDvf7LpG4KNhwNaPyx",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-08T20:51:49.691Z",
-  "lastResponseAt": "2026-11-08T20:55:17.309Z",
+  "lastResponseAt": "2026-11-08T20:56:15.357Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 29,
+    "inputTokens": 41,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 110228,
-    "cacheReadTokens": 1593576,
-    "outputTokens": 19236,
-    "thinkingTokens": 14175,
-    "responses": 13,
-    "costUsd": 1.5853752
+    "cacheWrite1hTokens": 116180,
+    "cacheReadTokens": 2620039,
+    "outputTokens": 21935,
+    "thinkingTokens": 14495,
+    "responses": 19,
+    "costUsd": 1.8923118000000003
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,23 +89,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 29,
+      "inputTokens": 41,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 110228,
-      "cacheReadTokens": 1593576,
-      "outputTokens": 19236,
-      "thinkingTokens": 14175,
-      "responses": 13,
-      "costUsd": 1.5853752
+      "cacheWrite1hTokens": 116180,
+      "cacheReadTokens": 2620039,
+      "outputTokens": 21935,
+      "thinkingTokens": 14495,
+      "responses": 19,
+      "costUsd": 1.8923118000000003
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 13,
-    "matched": 13,
-    "matchedTableUsd": 1.5853752,
-    "matchedEventUsd": 1.5853752,
+    "events": 18,
+    "matched": 18,
+    "matchedTableUsd": 1.8370114000000004,
+    "matchedEventUsd": 1.8370114000000002,
     "unseen": {}
   },
   "operatorWords": {
@@ -86,7 +116,7 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 7853,
+    ".md": 7924,
     ".py": 199,
     ".ts": 86,
     ".sh": 43
