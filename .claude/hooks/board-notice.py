@@ -45,7 +45,8 @@ from typing import Dict, Iterable, List, Set, Tuple
 from session_state import project_root
 
 HEADER = "**The plan is the board**"
-COPY = re.compile(r"^- `([0-9a-f-]+)`: (https://claude\.ai/artifact/[A-Za-z0-9_-]+)\s*$", re.MULTILINE)
+# Prettier wraps an item past 80 columns, so the url may sit on its continuation line.
+COPY = re.compile(r"- `([0-9a-f-]+)`:\s+(https://claude\.ai/artifact/[A-Za-z0-9_-]+)\s*")
 ARTIFACT_ID = re.compile(r"claude\.ai/(?:code/)?artifact/([A-Za-z0-9_-]+)")
 
 
@@ -58,19 +59,10 @@ def copies(text: str) -> Dict[str, str]:
     at = text.find(HEADER)
     if at < 0:
         return {}
-    found: Dict[str, str] = {}
-    for line in text[at:].splitlines()[1:]:
-        if not line.strip():
-            if found:
-                break
-            continue
-        match = COPY.match(line)
-        if match is None:
-            if found:
-                break
-            continue
-        found[match.group(1)] = match.group(2)
-    return found
+    paragraphs = re.split(r"\n\s*\n", text[at:])
+    listed = next((block for block in paragraphs[1:] if block.lstrip().startswith("- ")), "")
+    items = re.split(r"\n(?=- )", listed.strip())
+    return {match.group(1): match.group(2) for match in map(COPY.fullmatch, items) if match}
 
 
 Boards = Tuple[List[str], List[str]]

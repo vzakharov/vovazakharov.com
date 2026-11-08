@@ -95,6 +95,10 @@ class BoardNotice(unittest.TestCase):
         self.plan(BOARD)
         self.assertEqual(self.run_hook([], organization=""), "")
 
+    def test_reads_an_item_prettier_wrapped(self) -> None:
+        self.plan(f"**The plan is the board**, a copy per account:\n\n- `{ORG}`:\n  {URL}\n\nBuilt from …\n")
+        self.assertIn(URL, self.run_hook([]))
+
     def test_the_list_ends_at_the_first_line_after_it(self) -> None:
         stray = "0a1b2c3d-0000-4000-8000-000000000003"
         self.plan(f"{BOARD}\n- `{stray}`: https://claude.ai/artifact/zzz\n")
