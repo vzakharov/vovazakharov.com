@@ -10,8 +10,8 @@
     "costUsd": 11.232263000000005
   },
   "estimate": {
-    "at": "2026-11-07T07:29:56.398Z",
-    "subjectLine": "fix(island): board import, base merge, the gates it tripped, PR refresh",
+    "at": "2026-11-08T09:02:16.553Z",
+    "subjectLine": "fix: board import, base merge, the gates it tripped, PR refresh",
     "parts": [
       {
         "hours": 2.5,
@@ -115,7 +115,8 @@
   },
   "operatorWords": {
     "chat": 50,
-    "review": 79
+    "review": 79,
+    "threads": 0
   },
   "reviewPosts": {
     "PRRC_kwDOQXZBKM8AAAABDD_rTA": 9,
@@ -123,6 +124,7 @@
     "PRRC_kwDOQXZBKM8AAAABDEBudw": 20,
     "PRRC_kwDOQXZBKM8AAAABDECFnQ": 16
   },
+  "threadPosts": {},
   "branchLines": {
     "vzakharov": 1,
     ".md": 5941,
