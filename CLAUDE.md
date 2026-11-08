@@ -152,9 +152,9 @@ the roster.
 - **Validate at boundaries.** Parse untyped data (external APIs, raw JSON, tool
   results) with a runtime schema rather than casting it; don't re-parse data
   already type-safe inside the program.
-- **Keep production files under ~450 lines** — a rule of thumb: data-dense files
-  and orchestrators may exceed it; a logic-heavy one well past it splits at its
-  natural seams.
+- **No text file passes 400 lines**, code or prose — a file over it splits at
+  its natural seams. `scripts/line-limit.test.ts` holds it, and its allowlist
+  freezes the files already over, which may only shrink.
 - **Read and change files with the `Read`/`Edit`/`Write` tools, in every
   permission mode** — the web UI renders an `Edit` as a skimmable diff, a
   heredoc or `sed -i` as shell to reconstruct. **`Read` is what loads a
