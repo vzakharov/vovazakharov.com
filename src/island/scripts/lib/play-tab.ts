@@ -1,10 +1,13 @@
 /**
- * Driving `/island?play` from a script over CDP: opening it on an emulated
+ * Driving `/island?play` from a script over CDP: building the export it is
+ * served from, opening it on an emulated
  * screen, waiting out its hook, and calling the hook against deadlines, so a
  * call that never resolves fails rather than hanging the run.
  */
 
+import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
+import path from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { z } from 'zod';
 
@@ -14,8 +17,23 @@ import {
   PLAY_QUERY,
 } from '@/island/shared/play';
 
+import { given } from '@/kernel/scripts/lib/argv';
+import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 import { type Browser, openTab, type Tab } from '@/scene/scripts/lib/cdp';
 import { watchPageErrors } from '@/scene/scripts/lib/page-errors';
+
+/** The vova static export `/island` is served from. */
+export const VOVA_EXPORT = path.join(REPO_ROOT, 'sites/vova/out');
+
+/** Builds the vova export into `VOVA_EXPORT`, unless the run was given `--no-build`. */
+export function buildExport(): void {
+  if (given('no-build')) return;
+  const built = spawnSync('pnpm', ['build', 'vova'], {
+    cwd: REPO_ROOT,
+    stdio: 'inherit',
+  });
+  if (built.status !== 0) throw new Error('The vova build failed');
+}
 
 const POLL_MS = 250;
 /** One frame of the page's seeded clock at 60 fps. */

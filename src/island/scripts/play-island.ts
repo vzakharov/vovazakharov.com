@@ -18,28 +18,28 @@
  * that never resolves fails rather than hanging the run.
  */
 
-import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { z } from 'zod';
 
 import {
+  buildExport,
   call,
   hook,
   openPlay,
   type Screen,
   settle,
   shoot,
+  VOVA_EXPORT,
 } from './lib/play-tab';
 
-import { flag, given } from '@/kernel/scripts/lib/argv';
+import { flag } from '@/kernel/scripts/lib/argv';
 import { withPrintOrigin } from '@/kernel/scripts/lib/print-origin';
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 import { launch, type Tab } from '@/scene/scripts/lib/cdp';
 import { median } from '@/scene/scripts/lib/median';
 
-const OUT = path.join(REPO_ROOT, 'sites/vova/out');
 const FRAMES = path.resolve(
   flag('out') ??
     path.join(
@@ -93,13 +93,7 @@ async function play(tab: Tab, screen: Screen): Promise<Played> {
 }
 
 async function main(): Promise<void> {
-  if (!given('no-build')) {
-    const built = spawnSync('pnpm', ['build', 'vova'], {
-      cwd: REPO_ROOT,
-      stdio: 'inherit',
-    });
-    if (built.status !== 0) throw new Error('The vova build failed');
-  }
+  buildExport();
   fs.mkdirSync(FRAMES, { recursive: true });
   const browser = await launch();
   const errors: string[] = [];
@@ -135,11 +129,13 @@ async function main(): Promise<void> {
   };
   try {
     const only = flag('screens')?.split(',');
-    await withPrintOrigin({ serve: 'export', dir: OUT }, async (origin) =>
-      playFrom(
-        origin,
-        SCREENS.filter(({ name }) => only?.includes(name) ?? true),
-      ),
+    await withPrintOrigin(
+      { serve: 'export', dir: VOVA_EXPORT },
+      async (origin) =>
+        playFrom(
+          origin,
+          SCREENS.filter(({ name }) => only?.includes(name) ?? true),
+        ),
     );
   } finally {
     await browser.close();

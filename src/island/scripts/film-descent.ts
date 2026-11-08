@@ -20,14 +20,21 @@ import path from 'node:path';
 
 import { MAX_HEIGHT, MIN_HEIGHT } from '@/island/features/eye';
 
-import { call, openPlay, type Screen, settle, shoot } from './lib/play-tab';
+import {
+  buildExport,
+  call,
+  openPlay,
+  type Screen,
+  settle,
+  shoot,
+  VOVA_EXPORT,
+} from './lib/play-tab';
 
-import { flag, given } from '@/kernel/scripts/lib/argv';
+import { flag } from '@/kernel/scripts/lib/argv';
 import { withPrintOrigin } from '@/kernel/scripts/lib/print-origin';
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 import { launch } from '@/scene/scripts/lib/cdp';
 
-const OUT = path.join(REPO_ROOT, 'sites/vova/out');
 const DIR = path.resolve(
   flag('out') ?? path.join(REPO_ROOT, 'tmp/island-descent'),
 );
@@ -161,13 +168,7 @@ async function film(
 }
 
 async function main(): Promise<void> {
-  if (!given('no-build')) {
-    const built = spawnSync('pnpm', ['build', 'vova'], {
-      cwd: REPO_ROOT,
-      stdio: 'inherit',
-    });
-    if (built.status !== 0) throw new Error('The vova build failed');
-  }
+  buildExport();
   fs.mkdirSync(DIR, { recursive: true });
   const only = new Set((flag('screens') ?? 'desktop').split(','));
   const browser = await launch();
@@ -181,11 +182,13 @@ async function main(): Promise<void> {
     return filmFrom(origin, rest);
   };
   try {
-    await withPrintOrigin({ serve: 'export', dir: OUT }, async (origin) =>
-      filmFrom(
-        origin,
-        SCREENS.filter(({ name }) => only.has(name)),
-      ),
+    await withPrintOrigin(
+      { serve: 'export', dir: VOVA_EXPORT },
+      async (origin) =>
+        filmFrom(
+          origin,
+          SCREENS.filter(({ name }) => only.has(name)),
+        ),
     );
   } finally {
     await browser.close();
