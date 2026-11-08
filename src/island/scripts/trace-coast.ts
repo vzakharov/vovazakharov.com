@@ -26,7 +26,10 @@ import {
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 import { launch, openTab, type Tab } from '@/scene/scripts/lib/cdp';
 
-const MAP = path.join(REPO_ROOT, 'src/island-board/app/config/island/map-zoltan-syama.webp');
+const MAP = path.join(
+  REPO_ROOT,
+  'src/island-board/app/config/island/map-zoltan-syama.webp',
+);
 const OUT = path.join(REPO_ROOT, 'src/island/entities/coast/model/coast.json');
 
 /** The main body's east–west extent (contract, call 1). */

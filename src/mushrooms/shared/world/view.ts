@@ -6,7 +6,6 @@
  * rebakes nothing.
  */
 
-
 import type { Distant, Point, Zooming } from '@/scene/shared/lib/plane';
 
 import { distanceBetween } from '../lib/geometry';
