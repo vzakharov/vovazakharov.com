@@ -84,17 +84,32 @@ back, the strait closed — its cost is with the lead through memo).
 - **`check:masd` fails on `entities/coast`** — only scripts reach it since
   call 10. Asked of the operator: a `masd-disable insignificant` marker in its
   `index.ts` (the tracer a player's map will run in the browser) or moving it
-  under `src/island/scripts/lib/`. Their answer decides.
-- **eslint in `src/island/scripts/lib/fit-grid.ts`**:
-  `Omit<CoastField, 'distance'>` trips `vova/no-pick-omit`; export `CoastGrid`
-  from `terrain/coast-field` through the terrain barrel and build on it.
-- **knip**: unused re-exports in the terrain barrels (`ifft2`, `DOME_PARAMS`,
-  `MASK`, `parseMask`, `worldWords`, `Complex`, …) — trim to what the game, the
-  fit and the tests import.
-- **S5, frames**: `/island` world 1 at the five heights (orbit, 1,000 km, 10 km,
-  100 m, 2 m) on a phone and a desktop beside today's frames
-  (`src/island-board/app/config/island/descent-*.webp`), via `pnpm play:island`
-  / `film:island` (both take `--world`); `/island#2`–`#6` at orbit and 1,000 km,
-  posted to the lead through memo.
-- **The tail**: `/polish`, `/sync-branch` against `island/stretch-2`, vet, and
-  the PR onto `island/stretch-2` with the frames and what each call became.
+  under `src/island/scripts/lib/`. Their answer decides; asked again 2026-11-08,
+  still open.
+- **Height from the true distance (the lead's ruling, memo 22:10)**: B7's
+  `d = f / max(|∇f|, floor)` (`world-field.ts`) spikes on the saddles of `f`
+  between near water — brown-and-snow ridges at 1,000 km — and undershoots deep
+  inland, where the snow was lost and the land went green. Replace it: an exact
+  Euclidean distance transform of the land mask (`f > 0`, lakes as water) on the
+  world grid, once per world in the worker, signed and stored in the
+  `CoastField` so `heightAt` reads it unchanged; `f` keeps deciding land vs
+  water only. B7 is rewritten to say so. Done when 1,000 km shows no ridges and
+  the snow is back near today's frames.
+- **Re-shoot S5** after it: `pnpm play:island --out tmp/b2-frames` (world 1,
+  phone and desktop), then `--no-build --screens desktop --world N` for 2–6;
+  contact sheets as `notes/b2-s5-*.webp` (the first round, e7dd5a7f, is the
+  before), posted to the lead through memo.
+- **The tail**: `/polish` (floor is e5165d2a), `/sync-branch` against
+  `island/stretch-2`, vet, and the PR onto `island/stretch-2` with the frames
+  and what each call became; then post `tmp/five-percent.md`'s alternative (the
+  page downloads world 1's mask on the main thread) as a review on it — that
+  file does not survive the container, so its content is: `mask.ts` reads
+  `mask.json` on import and the page imports the terrain barrel, so
+  `island.html` loads a 366 KB (274 KB gz) chunk only the tile worker needs; put
+  it behind an entry only the worker imports, or have the worker fetch the mask
+  as a static file. Optional.
+- **`/dry` calls for the operator**: the dome sampled on the grid twice
+  (`domeGrid` in `fit-target.ts` and `buildWorldField`; sharing costs the worker
+  8 MB a build), and three 4-connected flood fills (`lakes` in
+  `entities/coast/model/lake.ts`, `piecesOf` in `fit-measure.ts`, `keptPieces`
+  in `sea.ts`).
