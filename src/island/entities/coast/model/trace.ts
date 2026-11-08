@@ -1,5 +1,5 @@
 /**
- * The coastline tracer: RGBA pixels in, the outer rings of the land out, in
+ * The coastline tracer: RGBA pixels in, the rings of the land out, in
  * pixel coordinates (`x` right, `y` down, a pixel's centre at `+0.5`). Pure
  * and platform-free, so a browser can run it over a player's own map as a
  * script runs it over the drawing.
@@ -87,8 +87,10 @@ function contours(field: Float32Array, columns: number, rows: number): Ring[] {
 /**
  * Traces the land in a drawing: the land mask (`landMask`), smoothed and
  * contoured on a grid one sea pixel wider on every side so every ring closes,
- * then Douglas–Peucker. Outer rings only, turning from +x towards +y
- * (clockwise on screen), largest first; land enclosed by land is land.
+ * then Douglas–Peucker. Land rings at least `islandFloor` turn from +x
+ * towards +y (clockwise on screen), and a lake's ring the other way, every
+ * lake kept since the mask already judged it; largest first, so the rings
+ * read even-odd.
  */
 export function traceCoast(raster: Raster, options: TraceOptions): Ring[] {
   const { width, height } = raster;
@@ -105,7 +107,7 @@ export function traceCoast(raster: Raster, options: TraceOptions): Ring[] {
   const field = boxMean(padded, columns, rows, options.blurRadius);
   return contours(field, columns, rows)
     .map((ring) => ({ ring, area: signedArea(ring) }))
-    .filter(({ area }) => area >= options.islandFloor)
-    .toSorted((a, b) => b.area - a.area)
+    .filter(({ area }) => area >= options.islandFloor || area < 0)
+    .toSorted((a, b) => Math.abs(b.area) - Math.abs(a.area))
     .map(({ ring }) => simplify(ring, options.tolerance));
 }

@@ -22,10 +22,14 @@ with numbers rather than picking another.
   each carries its conjugate. Each has two words: a phase (uniform on `[0, 2π)`)
   and an amplitude factor (unit normal). Its amplitude is `e(k) · factor`,
   `e(k) = s · max(|k|, 1)^-2`, `s` fixed (a constant, computed once and pinned
-  by a test) so the waves' expected spread is 0.45 of the dome's height (1). If
-  the worlds 2–9 frame stops reading as one continent each because of the lowest
-  modes, `e` takes a factor under 1 for `|k| ≤ 1.5` (the probe dropped them) and
-  the report says which.
+  by a test) so the waves' expected spread is 0.45 of the dome's height (1). The
+  modes with `|k| ≤ 1.5` take a tenth of `e(1.5)`: at full envelope the four
+  `|k| = 1` modes carried two-thirds of the spread, tilted the dome, ran land
+  share from 3% to 29% and pushed world 5 onto the square's edge; dropping them
+  (the probe's choice: 13–22% land, no edge, `bite-2/notes/b2-s1-worlds-*.png`)
+  would leave our fitted island no way to carry its own lowest modes. A tenth
+  keeps the dropped look for random worlds and leaves ours room within the
+  normal decode's tails.
 - **B4. Parameter layout**: word 0–4 the dome (centre x, centre y, radius a,
   radius b, turn), word 5 the per-tile noise seed (the raw word; ours is 1,
   today's `SEED`), word 6 on the harmonics in a fixed order, phase then factor.

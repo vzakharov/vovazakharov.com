@@ -5,7 +5,8 @@
  * and the rings written in kilometres on the island plane.
  *
  * `pnpm trace:island [--overlay <png>]` — the overlay draws every traced ring
- * over the map, for checking the trace by eye.
+ * over the map (the main body red, islands blue, lakes green), for checking
+ * the trace by eye.
  */
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -15,6 +16,7 @@ import { z } from 'zod';
 
 import type { Coast } from '@/island/shared/globe';
 import {
+  isSpeck,
   type Ring,
   signedArea,
   smoothCoast,
@@ -52,22 +54,15 @@ const OPTIONS: TraceOptions = {
   tolerance: 0.9,
   seaStrokes: [
     // The inlet between Блаблания and Фейсис runs on as a strait between two
-    // coastlines a pixel apart, to the round pool where they meet: the
-    // inlet's head, sea rather than a lake.
+    // coastlines a pixel apart, to where they meet at y 239. The round pool
+    // inked just below is a lake of its own (the operator's lake 1), so the
+    // stroke stops short of the ink between them.
     {
       path: [
         [698.5, 198],
-        [698.5, 240],
-        [696, 248],
+        [698.5, 238],
       ],
       radius: 1,
-    },
-    {
-      path: [
-        [695.5, 248],
-        [695.5, 250],
-      ],
-      radius: 3,
     },
   ],
 };
@@ -162,9 +157,10 @@ async function overlay(
         context.fillStyle = colour;
         for (const [x, y] of ring) context.fillRect(x - 1, y - 1, 2, 2);
       };
-      ${JSON.stringify(rings)}.forEach((ring, i) => {
-        trace(ring, i === 0 ? '#e00000' : '#0040ff');
-      });
+      ${JSON.stringify(rings.map((ring) => ({ ring, lake: signedArea(ring) < 0 })))}
+        .forEach(({ ring, lake }, i) => {
+          trace(ring, i === 0 ? '#e00000' : lake ? '#00a040' : '#0040ff');
+        });
       const png = await canvas.convertToBlob({ type: 'image/png' });
       return base64(new Uint8Array(await png.arrayBuffer()));
     })()`,
@@ -189,7 +185,7 @@ const metres = (km: number) => Math.round(km * 1000) / 1000;
 /**
  * Pixels to the island plane: kilometres from the main body's bounding-box
  * centre, `y` flipped to north, each ring reversed so that land on screen's
- * clockwise becomes the plane's counter-clockwise.
+ * clockwise becomes the plane's counter-clockwise (and a lake clockwise).
  */
 function toPlane(rings: Ring[]): Coast {
   const [main] = rings;
@@ -222,12 +218,11 @@ async function run(): Promise<void> {
     const raster = await decode(tab, base64);
     const traced = traceCoast(raster, OPTIONS);
     for (const ring of traced) {
-      const area = signedArea(ring);
-      if (area < SMOOTHING.minArea) {
+      if (isSpeck(ring, SMOOTHING)) {
         const { left, top } = bounds(ring);
         process.stdout.write(
-          `  dropped: ${area.toFixed(0)} px² at x ${left.toFixed(0)}, ` +
-            `y ${top.toFixed(0)}\n`,
+          `  dropped: ${signedArea(ring).toFixed(0)} px² at x ` +
+            `${left.toFixed(0)}, y ${top.toFixed(0)}\n`,
         );
       }
     }
