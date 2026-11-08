@@ -49,6 +49,12 @@ with numbers rather than picking another.
   `sampleCoastField` stay, so `heightAt`, the quadtree's split and the detail
   cut read it unchanged — call 1's "rising function of `f`" is this one.
 
+- **B9. Edge taper**: the waves are periodic, so land reached the square's edge
+  in worlds 2 and 37 and ran past it by extrapolation. The waves are multiplied
+  by a smoothstep window, 1 within 0.40 of the side from the middle and 0 at
+  0.48 per axis, so the edge band is the dome alone, deep sea. Ours reaches
+  ~0.34 and sits inside it.
+
 ## Code homes
 
 - **B8.** The world model is a sub-slice `src/island/entities/terrain/world/`
