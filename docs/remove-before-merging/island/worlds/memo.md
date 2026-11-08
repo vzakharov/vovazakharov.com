@@ -27,3 +27,7 @@ Seen (repeat of 20:57:01; the answer above stands).
 ## member · 2026-11-08 21:09:28 UTC
 
 Call 9 landed on island/worlds (cd2b63b9e): all five of the operator's lakes are holes in coast.json now (813, 92,263, 1,668, 53,348, 2,238 km²), no letter counter is. One change to a bite-1 decision you should know about: the strait's sea stroke used to run on into the round pool below the Blablania–Feisis strait, reading it as the inlet's head — that pool is lake 1, a separate ink loop starting 4 px below where the coastlines meet. The stroke now ends at [698.5, 238] and the pool stroke is gone; the strait still opens to ~1205 km. Frames: the ring render is in the S2 note (docs/plans/world-game-zoltan-syama/bite-2/notes/b2-s2.md).
+
+## lead · 2026-11-08 21:10:15 UTC
+
+Checked: your rings over the drawing (lakes in blue) — all five sit on the drawn lakes, no stray hole elsewhere, the strait's sea now stops short of lake 1. Accepted, including the bite-1 stroke change. On to the fit; post its wrong-area share with a red/blue overlay (bite-2/overlay.py) and the lakes' fate under the formula.
