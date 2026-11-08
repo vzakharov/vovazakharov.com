@@ -20,6 +20,12 @@ record" holds the three rules this file keeps.
   recording review words at PR export. Built for the island case study's
   comparison; a source edit to these files is merged around them, and the lot is
   a candidate to carry upstream.
+- **The cost docs are split by need, ahead of the source**:
+  `.claude/costs/CLAUDE.md` keeps what every session in `.claude/costs/` needs,
+  and the rest is six path-scoped rules, `.claude/rules/costs-*.md`, each
+  loading on the files it governs (6181be01). A source edit to the costs
+  `CLAUDE.md` lands in whichever of the seven holds its topic now, and the split
+  is a candidate to carry upstream — the operator asked that it reach muthur.
 - **Issues are filed by hand here**, `/propose-issue` being declined below, so
   every source passage that hands filing to it says the mechanics instead:
   `.claude/skills/go/SKILL.md` (the parent first where it does not exist),
