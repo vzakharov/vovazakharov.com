@@ -75,9 +75,12 @@ the bite in hand. The text it held before the board took over is in git
   beside it in the release goes `NNNN-slug.json` with the figures to date,
   `python3 .claude/costs/contribution.py --at <time> --json`.
 - R02, settled in chat after «давай создадим ветку epic/island-part-1» — no epic
-  branch: #255's head is the mammoth and reaches `main` through cuts,
-  `island/cut-N`, each finalized and squashed while bites keep landing here,
-  then `main` merged back. The plan, board and relays are swept from a cut only.
+  branch: the mammoth lives on `island/stretch-N` (#266 for stretch 2; stretch 1
+  was #255) and reaches `main` through cuts, `island/cut-N`, each finalized and
+  squashed while bites keep landing on the stretch. After a squash the next
+  stretch starts off `main`, carrying `docs/plans/` and
+  `docs/remove-before-merging/` in one commit; members branch off and merge into
+  the current stretch. The plan, board and relays are swept from a cut only.
   `.claude/skills/mammoth/notes/gates.md` carries the cycle.
 - «публиковать, когда появляется что-то интересненькое или значимое, неважно,
   про саму игру или наши обсуждения её … главное чтобы ты вообще не забывал про
