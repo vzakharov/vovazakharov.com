@@ -12,7 +12,7 @@ const scramble = (k: number) => Math.imul(rotl(Math.imul(k, C1), 15), C2);
 
 /** One 4-byte block folded into the running hash. */
 const block = (h: number, k: number) =>
-  (Math.imul(rotl(h ^ scramble(k), 13), 5) + 0xe6_54_6b_64) | 0;
+  (Math.imul(rotl(h ^ scramble(k), 13), 5) + 0xe6_54_6b_64) >>> 0;
 
 function finalize(h: number, length: number): number {
   let x = h ^ length;
@@ -28,7 +28,7 @@ function finalize(h: number, length: number): number {
 export function murmur3(bytes: Uint8Array, seed: number): number {
   const byte = (n: number) => bytes[n] ?? 0;
   const whole = bytes.length & ~3;
-  let h = seed | 0;
+  let h = seed >>> 0;
   for (let n = 0; n < whole; n += 4) {
     h = block(
       h,
@@ -59,7 +59,7 @@ export function assertWorldNumber(world: string): void {
 /** `H(N, ·)`: word `i` (an integer in `[0, 2^32)`) of world `N`'s hash. */
 export function worldHash(world: string): (i: number) => number {
   assertWorldNumber(world);
-  const digits = Uint8Array.from(world, (c) => c.charCodeAt(0));
+  const digits = Uint8Array.from(world, (c) => c.codePointAt(0) ?? 0);
   const [k0, k1] = KEY_SEEDS.map((seed) => murmur3(digits, seed));
   const keyed = block(block(0, k0 ?? 0), k1 ?? 0);
   return (i) => finalize(block(keyed, i), 12);

@@ -3,10 +3,11 @@ import { describe, it } from 'node:test';
 
 import { type Complex, fft, fft2, ifft, ifft2 } from './fft';
 
+const value = (j: number, s: number) =>
+  Math.sin(j * 12.9898 + s * 78.233) * 3.5;
+
 /** A deterministic complex signal of `length` values. */
 function signal(length: number, salt: number): Complex {
-  const value = (j: number, s: number) =>
-    Math.sin(j * 12.9898 + s * 78.233) * 3.5;
   return {
     re: Float64Array.from({ length }, (_, j) => value(j, salt)),
     im: Float64Array.from({ length }, (_, j) => value(j, salt + 1)),
