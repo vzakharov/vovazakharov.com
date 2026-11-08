@@ -41,6 +41,10 @@ function landComponents({ distance, columns, rows }: CoastField) {
   return { land, largest };
 }
 
+/** The value at `share` of the way through ascending `sorted`. */
+const quantile = (sorted: readonly number[], share: number) =>
+  sorted[Math.floor(share * sorted.length)] ?? Number.NaN;
+
 const WORLDS = ['2', '3', '4', '5', '6', '7', '8', '9'];
 const fields = new Map(WORLDS.map((world) => [world, buildWorldField(world)]));
 const field = (world: string) => {
@@ -106,10 +110,10 @@ describe('buildWorldField', () => {
       }
       gaps.sort((p, q) => p - q);
       // Two nodes either side of the zero line lie under a cell apart across it.
-      const at = (share: number) =>
-        gaps[Math.floor(share * gaps.length)] ?? Number.NaN;
       assert.ok(
-        at(0.5) < 1 && at(0.95) < 1.2 && at(1 - 1e-9) < 2,
+        quantile(gaps, 0.5) < 1 &&
+          quantile(gaps, 0.95) < 1.2 &&
+          quantile(gaps, 1 - 1e-9) < 2,
         `world ${world}`,
       );
     }

@@ -96,5 +96,9 @@ export function wordOf(meaning: WordMeaning): number {
     case 'harmonic': {
       return harmonicWord(harmonicOf(meaning), meaning.part);
     }
+    default: {
+      const unhandled: never = meaning;
+      throw new Error(`No word for ${JSON.stringify(unhandled)}`);
+    }
   }
 }

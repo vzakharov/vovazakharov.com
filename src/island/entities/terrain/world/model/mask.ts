@@ -12,7 +12,8 @@ function fromBase64(text: string): Uint32Array {
     throw new Error(`mask: ${binary.length} bytes, expected ${BYTES}`);
   }
   const view = new DataView(new ArrayBuffer(BYTES));
-  for (let n = 0; n < BYTES; n += 1) view.setUint8(n, binary.charCodeAt(n));
+  for (let n = 0; n < BYTES; n += 1)
+    view.setUint8(n, binary.codePointAt(n) ?? 0);
   return Uint32Array.from({ length: WORD_COUNT }, (_, i) =>
     view.getUint32(4 * i, true),
   );
@@ -24,7 +25,7 @@ function toBase64(words: Uint32Array): string {
   const chunks: string[] = [];
   for (let n = 0; n < BYTES; n += 0x80_00) {
     const bytes = new Uint8Array(view.buffer, n, Math.min(0x80_00, BYTES - n));
-    chunks.push(String.fromCharCode(...bytes));
+    chunks.push(String.fromCodePoint(...bytes));
   }
   return btoa(chunks.join(''));
 }
