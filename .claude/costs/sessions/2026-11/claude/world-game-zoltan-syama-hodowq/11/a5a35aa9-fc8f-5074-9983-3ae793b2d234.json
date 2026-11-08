@@ -10,7 +10,8 @@
     "costUsd": 4.420052899999998
   },
   "estimate": {
-    "at": "2026-11-07T06:03:03.038Z",
+    "at": "2026-11-08T09:01:06.710Z",
+    "subjectLine": "docs: bite 1's bay story pinned, numbered worlds reasoned through",
     "parts": [
       {
         "hours": 0.5,
@@ -118,7 +119,13 @@
       }
     }
   },
-  "operatorWords": 496,
+  "operatorWords": {
+    "chat": 496,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
   "branchLines": {
     "vzakharov": 1,
     ".md": 4139,
