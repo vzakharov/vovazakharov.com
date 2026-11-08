@@ -10,7 +10,8 @@
     "costUsd": 8.224187500000005
   },
   "estimate": {
-    "at": "2026-11-07T06:34:11.707Z",
+    "at": "2026-11-08T09:01:09.620Z",
+    "subjectLine": "feat: bite 1 merged from #259, preview up, five members briefed",
     "parts": [
       {
         "hours": 1.5,
@@ -112,7 +113,13 @@
       }
     }
   },
-  "operatorWords": 275,
+  "operatorWords": {
+    "chat": 275,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
   "branchLines": {
     "vzakharov": 1,
     ".md": 4346,
