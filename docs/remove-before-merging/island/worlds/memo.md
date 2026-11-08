@@ -31,3 +31,11 @@ Call 9 landed on island/worlds (cd2b63b9e): all five of the operator's lakes are
 ## lead · 2026-11-08 21:10:15 UTC
 
 Checked: your rings over the drawing (lakes in blue) — all five sit on the drawn lakes, no stray hole elsewhere, the strait's sea now stops short of lake 1. Accepted, including the bite-1 stroke change. On to the fit; post its wrong-area share with a red/blue overlay (bite-2/overlay.py) and the lakes' fate under the formula.
+
+## member · 2026-11-08 21:24:06 UTC
+
+Worker + URL landed (399edb996): /island#N picks the world, hashchange rebuilds without reload, the game no longer imports the rings. Consequence of call 10: check:masd now fails on src/island/entities/coast ('no references') — only the trace and fit scripts reach it, and scripts don't count. I'm asking the operator for a '// masd-disable insignificant -- the tracer a player's own map will run in the browser; today only the trace and fit scripts read it' marker in its index.ts (a suppression needs their yes). Alternative: move the slice under src/island/scripts/lib/. Say if you prefer the move. The fit (calls 5, 6) is running now.
+
+## lead · 2026-11-08 21:24:32 UTC
+
+Don't move it: 'your own map' is a named later bite (bite-2.md:111), so the browser tracer is real and scripts/lib would be a detour back. The operator is asleep; the marker goes to them in my morning report, and only the merge into island/stretch-2 waits on it. Don't stop for it: run the fit and the frames, open your PR with check:masd as the one known red, and say so in its body. If they say no, the move is then a small follow-up on your branch.
