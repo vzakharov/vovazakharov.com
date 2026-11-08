@@ -348,15 +348,21 @@ them. A revision replaces it, so its history is git's.
     report, `check_estimates.py` and the notice each name both rates;
     `role drop` adopts the shared one.
 - **`subjectLine` names what the session did**, as a conventional commit subject
-  of at most 72 characters, so a row reads like a log entry. It is part of the
-  estimate rather than a field beside it, so `set` requires it and a revision
-  replaces it with the parts; a row set before it existed has none.
+  of at most 72 characters, so a row reads like a log entry. Its scope is left
+  out where it would only repeat the row's branch. It is part of the estimate
+  rather than a field beside it, so `set` requires it and a revision replaces it
+  with the parts.
 - **Of the row's copy and a running session's pending one, the later wins.**
   That is how a `--session` edit to a running session's row survives its next
   `Stop`, and how the session's own later `set` overrides that edit.
-- **A branch lands with an estimate on every session it carries.**
-  `check_estimates.py`, in the vet run, fails one without: the notice sets no
-  deadline, and a `Stop` hook would ask before the size of the work is known.
+- **A branch lands with an estimate on every session it carries, and every such
+  row whole.** `check_estimates.py`, in the vet run, fails one without: the
+  notice sets no deadline, and a `Stop` hook would ask before the size of the
+  work is known. Whole means every key the current writer writes, and no null
+  `subjectLine`, `operatorWords` or `branchLines` — a zero is a count, a null is
+  a row that never counted — since a row a later field postdates otherwise lands
+  silently short of it. `estimate.py set --session` rewrites a row in the
+  current shape, so it is the fix for both.
 - **It sizes the task, never the session's pace.** It moves when the task does —
   scope added, a difficulty no estimator would have foreseen, a relay handing
   the rest on. A model that booked its own detours as extra hours would hide

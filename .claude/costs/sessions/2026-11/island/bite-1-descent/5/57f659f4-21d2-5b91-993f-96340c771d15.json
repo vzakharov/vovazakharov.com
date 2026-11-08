@@ -1,17 +1,17 @@
 {
   "total": {
-    "inputTokens": 322,
+    "inputTokens": 354,
     "cacheWrite5mTokens": 546332,
-    "cacheWrite1hTokens": 150578,
-    "cacheReadTokens": 21410865,
-    "outputTokens": 80349,
-    "thinkingTokens": 24526,
-    "responses": 165,
-    "costUsd": 9.826724999999996
+    "cacheWrite1hTokens": 171980,
+    "cacheReadTokens": 25150033,
+    "outputTokens": 87364,
+    "thinkingTokens": 24986,
+    "responses": 182,
+    "costUsd": 10.886202599999997
   },
   "estimate": {
-    "at": "2026-11-07T05:49:10.654Z",
-    "subjectLine": null,
+    "at": "2026-11-08T09:01:56.252Z",
+    "subjectLine": "chore: bite 1 polished and vetted, its new PR handed to the lead",
     "parts": [
       {
         "hours": 1.0,
@@ -55,18 +55,18 @@
   "url": "https://claude.ai/code/session_01DaohkEhPvegeaUb8J5MtoG",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-07T05:37:24.940Z",
-  "lastResponseAt": "2026-11-07T06:01:44.887Z",
+  "lastResponseAt": "2026-11-07T07:40:22.509Z",
   "pricesAsOf": "2026-10-06",
-  "claudeCodeTotalUsd": null,
+  "claudeCodeTotalUsd": 10.091666399999994,
   "ownTurns": {
-    "inputTokens": 112,
+    "inputTokens": 144,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 150578,
-    "cacheReadTokens": 8813803,
-    "outputTokens": 26546,
-    "thinkingTokens": 5548,
-    "responses": 56,
-    "costUsd": 3.4987525999999995
+    "cacheWrite1hTokens": 171980,
+    "cacheReadTokens": 12552971,
+    "outputTokens": 33561,
+    "thinkingTokens": 6008,
+    "responses": 73,
+    "costUsd": 4.558230200000001
   },
   "subagents": {
     "inputTokens": 210,
@@ -80,32 +80,34 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 322,
+      "inputTokens": 354,
       "cacheWrite5mTokens": 546332,
-      "cacheWrite1hTokens": 150578,
-      "cacheReadTokens": 21410865,
-      "outputTokens": 80349,
-      "thinkingTokens": 24526,
-      "responses": 165,
-      "costUsd": 9.826724999999996
+      "cacheWrite1hTokens": 171980,
+      "cacheReadTokens": 25150033,
+      "outputTokens": 87364,
+      "thinkingTokens": 24986,
+      "responses": 182,
+      "costUsd": 10.886202599999997
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 164,
-    "matched": 164,
-    "matchedTableUsd": 9.723858599999996,
-    "matchedEventUsd": 9.723858599999996,
+    "events": 182,
+    "matched": 182,
+    "matchedTableUsd": 10.886202599999997,
+    "matchedEventUsd": 10.886202599999997,
     "unseen": {}
   },
   "operatorWords": {
     "chat": 0,
-    "review": 0
+    "review": 0,
+    "threads": 0
   },
   "reviewPosts": {},
+  "threadPosts": {},
   "branchLines": {
-    ".md": 2968,
+    ".md": 3086,
     ".py": 894,
     ".webp": 0,
     ".json": 1898,

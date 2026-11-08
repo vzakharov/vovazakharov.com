@@ -10,8 +10,8 @@
     "costUsd": 6.904235699999999
   },
   "estimate": {
-    "at": "2026-11-07T06:35:41.320Z",
-    "subjectLine": "content(island): settle the scale and orient the board to the star",
+    "at": "2026-11-08T09:01:41.483Z",
+    "subjectLine": "content: settle the scale and orient the board to the star",
     "parts": [
       {
         "hours": 0.75,
@@ -121,9 +121,11 @@
   },
   "operatorWords": {
     "chat": 189,
-    "review": 0
+    "review": 0,
+    "threads": 0
   },
   "reviewPosts": {},
+  "threadPosts": {},
   "branchLines": {
     ".md": 2212,
     ".py": 1140,

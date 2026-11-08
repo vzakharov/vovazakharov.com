@@ -10,8 +10,8 @@
     "costUsd": 4.323507500000001
   },
   "estimate": {
-    "at": "2026-11-07T06:35:41.320Z",
-    "subjectLine": "content(island): ring the board's zones round the map, scale dispute",
+    "at": "2026-11-08T09:01:38.570Z",
+    "subjectLine": "content: ring the board's zones round the map, scale dispute",
     "parts": [
       {
         "hours": 0.75,
@@ -115,9 +115,11 @@
   },
   "operatorWords": {
     "chat": 63,
-    "review": 0
+    "review": 0,
+    "threads": 0
   },
   "reviewPosts": {},
+  "threadPosts": {},
   "branchLines": {
     ".md": 2027,
     ".py": 1123,

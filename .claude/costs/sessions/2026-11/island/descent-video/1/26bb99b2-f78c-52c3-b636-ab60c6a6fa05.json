@@ -1,17 +1,17 @@
 {
   "total": {
-    "inputTokens": 146,
+    "inputTokens": 176,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 145127,
-    "cacheReadTokens": 10970702,
-    "outputTokens": 35528,
-    "thinkingTokens": 9341,
-    "responses": 71,
-    "costUsd": 4.0663003999999985
+    "cacheWrite1hTokens": 163764,
+    "cacheReadTokens": 14119787,
+    "outputTokens": 39437,
+    "thinkingTokens": 9633,
+    "responses": 86,
+    "costUsd": 4.923513399999999
   },
   "estimate": {
-    "at": "2026-11-07T06:32:31.581Z",
-    "subjectLine": null,
+    "at": "2026-11-08T09:02:04.517Z",
+    "subjectLine": "feat: a 25-second descent video from orbit to the bay",
     "parts": [
       {
         "hours": 3.0,
@@ -60,18 +60,18 @@
   "url": "https://claude.ai/code/session_01DaohkEzVpgVdUpfbpg4NnQ",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-07T06:15:11.334Z",
-  "lastResponseAt": "2026-11-07T07:11:44.799Z",
+  "lastResponseAt": "2026-11-07T09:26:49.490Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 146,
+    "inputTokens": 176,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 145127,
-    "cacheReadTokens": 10970702,
-    "outputTokens": 35528,
-    "thinkingTokens": 9341,
-    "responses": 71,
-    "costUsd": 4.0663003999999985
+    "cacheWrite1hTokens": 163764,
+    "cacheReadTokens": 14119787,
+    "outputTokens": 39437,
+    "thinkingTokens": 9633,
+    "responses": 86,
+    "costUsd": 4.923513399999999
   },
   "subagents": {
     "inputTokens": 0,
@@ -85,33 +85,35 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 146,
+      "inputTokens": 176,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 145127,
-      "cacheReadTokens": 10970702,
-      "outputTokens": 35528,
-      "thinkingTokens": 9341,
-      "responses": 71,
-      "costUsd": 4.0663003999999985
+      "cacheWrite1hTokens": 163764,
+      "cacheReadTokens": 14119787,
+      "outputTokens": 39437,
+      "thinkingTokens": 9633,
+      "responses": 86,
+      "costUsd": 4.923513399999999
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 71,
-    "matched": 71,
-    "matchedTableUsd": 4.0663003999999985,
-    "matchedEventUsd": 4.066300399999998,
+    "events": 86,
+    "matched": 86,
+    "matchedTableUsd": 4.923513399999999,
+    "matchedEventUsd": 4.923513399999998,
     "unseen": {}
   },
   "operatorWords": {
     "chat": 0,
-    "review": 0
+    "review": 0,
+    "threads": 0
   },
   "reviewPosts": {},
+  "threadPosts": {},
   "branchLines": {
     "vzakharov": 1,
-    ".md": 4665,
+    ".md": 4701,
     ".py": 1249,
     ".json": 2336,
     ".yml": 8,

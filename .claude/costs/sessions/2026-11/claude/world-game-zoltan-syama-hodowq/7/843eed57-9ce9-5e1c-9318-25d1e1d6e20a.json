@@ -10,8 +10,8 @@
     "costUsd": 5.335072500000001
   },
   "estimate": {
-    "at": "2026-11-07T06:35:41.320Z",
-    "subjectLine": "docs(island): postmortem of bite 1's early merge, board-notice hook",
+    "at": "2026-11-08T09:01:35.308Z",
+    "subjectLine": "docs: postmortem of bite 1's early merge, board-notice hook",
     "parts": [
       {
         "hours": 1.0,
@@ -131,9 +131,11 @@
   },
   "operatorWords": {
     "chat": 119,
-    "review": 0
+    "review": 0,
+    "threads": 0
   },
   "reviewPosts": {},
+  "threadPosts": {},
   "branchLines": {
     ".md": 1839,
     ".py": 1123,

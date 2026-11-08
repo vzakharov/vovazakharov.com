@@ -10,8 +10,8 @@
     "costUsd": 5.700286500000001
   },
   "estimate": {
-    "at": "2026-11-07T06:35:41.320Z",
-    "subjectLine": "feat(island): make the board look drawn on, cut the plan to a page",
+    "at": "2026-11-08T09:01:23.791Z",
+    "subjectLine": "feat: make the board look drawn on, cut the plan to a page",
     "parts": [
       {
         "hours": 2.0,
@@ -121,9 +121,11 @@
   },
   "operatorWords": {
     "chat": 109,
-    "review": 0
+    "review": 0,
+    "threads": 0
   },
   "reviewPosts": {},
+  "threadPosts": {},
   "branchLines": {
     ".css": 412,
     ".json": 422,

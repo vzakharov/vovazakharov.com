@@ -10,8 +10,8 @@
     "costUsd": 7.675698399999998
   },
   "estimate": {
-    "at": "2026-11-07T06:35:41.320Z",
-    "subjectLine": "docs(island): plan the island as a mammoth steered by a north star",
+    "at": "2026-11-08T09:01:00.887Z",
+    "subjectLine": "docs: plan the island as a mammoth steered by a north star",
     "parts": [
       {
         "hours": 3.0,
@@ -137,9 +137,11 @@
   },
   "operatorWords": {
     "chat": 956,
-    "review": 0
+    "review": 0,
+    "threads": 0
   },
   "reviewPosts": {},
+  "threadPosts": {},
   "branchLines": {
     ".md": 410
   }

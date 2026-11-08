@@ -1,17 +1,17 @@
 {
   "total": {
-    "inputTokens": 2005,
+    "inputTokens": 2007,
     "cacheWrite5mTokens": 816173,
-    "cacheWrite1hTokens": 287995,
-    "cacheReadTokens": 70466869,
-    "outputTokens": 243903,
-    "thinkingTokens": 12436,
-    "responses": 390,
-    "costUsd": 26.145116700000006
+    "cacheWrite1hTokens": 290634,
+    "cacheReadTokens": 70807515,
+    "outputTokens": 244089,
+    "thinkingTokens": 12504,
+    "responses": 391,
+    "costUsd": 26.238085900000005
   },
   "estimate": {
-    "at": "2026-11-07T05:51:12.656Z",
-    "subjectLine": "fix(island): handle #255's review on costs, lints, hooks; plan the board",
+    "at": "2026-11-08T09:02:13.513Z",
+    "subjectLine": "fix: handle #255's review on costs, lints, hooks; plan the board",
     "parts": [
       {
         "hours": 7.0,
@@ -51,25 +51,25 @@
     }
   },
   "sessionId": "60da9e31-77ef-5091-8ac0-30e66680da10",
-  "branch": "island/review-1",
+  "branch": "HEAD",
   "cwd": "/home/user",
   "openingPrompt": "/from-branch",
   "prs": [],
   "url": "https://claude.ai/code/session_01DaohkBPPsH9jFCtdTa4Qb9",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-07T05:17:28.326Z",
-  "lastResponseAt": "2026-11-07T06:27:49.111Z",
+  "lastResponseAt": "2026-11-07T07:22:51.379Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 237,
+    "inputTokens": 239,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 287995,
-    "cacheReadTokens": 26470754,
-    "outputTokens": 65600,
-    "thinkingTokens": 12436,
-    "responses": 120,
-    "costUsd": 8.911058799999998
+    "cacheWrite1hTokens": 290634,
+    "cacheReadTokens": 26811400,
+    "outputTokens": 65786,
+    "thinkingTokens": 12504,
+    "responses": 121,
+    "costUsd": 9.004027999999998
   },
   "subagents": {
     "inputTokens": 0,
@@ -83,14 +83,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 786,
+      "inputTokens": 788,
       "cacheWrite5mTokens": 816173,
-      "cacheWrite1hTokens": 287995,
-      "cacheReadTokens": 70466869,
-      "outputTokens": 243561,
-      "thinkingTokens": 12436,
-      "responses": 389,
-      "costUsd": 26.144823800000005
+      "cacheWrite1hTokens": 290634,
+      "cacheReadTokens": 70807515,
+      "outputTokens": 243747,
+      "thinkingTokens": 12504,
+      "responses": 390,
+      "costUsd": 26.237793000000003
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1219,
@@ -155,9 +155,11 @@
   },
   "operatorWords": {
     "chat": 48,
-    "review": 0
+    "review": 0,
+    "threads": 0
   },
   "reviewPosts": {},
+  "threadPosts": {},
   "branchLines": {
     ".md": 3072,
     ".py": 1864,
