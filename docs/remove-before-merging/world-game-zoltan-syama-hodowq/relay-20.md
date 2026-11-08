@@ -68,8 +68,18 @@ The operator stated a working fact that shapes the board tooling: «у меня 
    reading a list item prettier wrapped (b6b6e4e8), synced 5ya2F's `db` (6 rows,
    none newer than the repo), rebuilt and republished 5ya2F as version 35 via a
    subagent, watched and opened it. Raised that the playgram organization uuid
-   now sits in a public repo and offered to swap uuids for hashes. (verbatim in
-   Last agent turn)
+   now sits in a public repo and offered to swap uuids for hashes.
+
+5. **Operator** (after the keepalive parked the session): «2-давай, над
+   остальным пока думаю. И подтяни мне пжст полный статус ветки: какие сессии
+   влиты, какие ещё нет, какие ко мне вопросы ит.п.»
+
+   **Agent**: keyed the copy list by a hash of the organization (8d91c2a7); a
+   subagent collected the branch status — every member PR merged, no member
+   code outside the lead, three of the operator's review comments from today
+   unanswered, and the open questions listed in Next step; reported it and
+   offered `/handle` for the three comments. (verbatim in Last agent turn, up
+   to the report itself, which was written after this summary)
 
 ## Intent
 
@@ -86,7 +96,11 @@ landing on a board its account cannot see.
   employer data in a public repo) and the env label `CLAUDE_ACCOUNT` (set only
   where the operator's environment sets it). An artifact's visibility follows
   the publishing account; the org uuid identifies it whether accounts are
-  separate logins or one login with several orgs.
+  separate logins or one login with several orgs. **The plan writes the key,
+  not the uuid**: the first 12 hex digits of the uuid's SHA-256
+  (`organization_key()` in the hook), at the operator's «2-давай» (8d91c2a7).
+  The raw uuid stays in the history of 1465cdaf and b6b6e4e8; rewriting a PR
+  branch's history was not on the table.
 - **The list lives in the plan only**; `island.yaml`'s `artifact:` field and
   its schema entry went, since nothing read it.
 - **A missing copy is self-registered**: the hook tells the session to find the
@@ -119,11 +133,20 @@ landing on a board its account cannot see.
 
 - **Branch** `claude/world-game-zoltan-syama-hodowq`, PR
   https://github.com/vzakharov/vovazakharov.com/pull/255 (draft, base `main`,
-  mergeable clean at session start). Last pushed b6b6e4e8 before this summary's
+  mergeable clean, 0 behind main). Last pushed 8d91c2a7 before this summary's
   commit. Not vetted, not finalized.
+- **Members**: all seven member PRs into the lead are merged — #259
+  (bite-1-descent), #260 (controls), #261 (preview2-slot), #262 (board-perf),
+  #263 (descent-video), #258 (review-1), #264 (board-asks). Their branches are
+  ahead of the lead only by closing memo/relay notes and cost rows, no code;
+  their sessions are completed. No other `island/*` branch exists.
+- **Plan staleness**: the plan's "Open bites" still lists review-1,
+  descent-video, preview2 and board-perf as running, and "Waiting on the
+  operator" still lists the answered bite-0 five-percent items and the dropped
+  `?` hint button.
 - **Plans**: `docs/plans/world-game-zoltan-syama.paused.md` (now opening with
   the copy list); `docs/plans/island-review-2.completed.md`.
-- **Board copies**: playgram org `fad6efae-68d1-46e4-b660-c540a8c98c17` →
+- **Board copies**: playgram, key `f4b0caba8fa8` →
   https://claude.ai/artifact/5ya2F3bA8kwrmLhEyAib3P, version 35, watched by this
   session (the watch ends with it). PQhuzzaVX541T8pVqEXfio on another account,
   unlisted. Third account: no copy known.
@@ -150,12 +173,35 @@ landing on a board its account cannot see.
 
 ## Next step
 
-Wait for the operator. Pending, asked and unanswered: (1) what he wants to
-avoid about a server — paying, running it, or answering for its content — which
-picks the storage backend; (2) whether to replace the organization uuids in the
-public plan with hashes. Relay 19's five questions are still open as well
-(`buildExport()` move, `writing.md` history, `lsa-voice.md` pointer,
-`writing.md` paths, the `coast.json` primer).
+Wait for the operator: «над остальным пока думаю». Offered and not yet
+accepted: answer his three review comments of 2026-11-08 through `/handle`.
+Open, deduplicated, newest first:
+
+1. Three review comments of his with no reply: #255 4507119519 («согласен. nice
+   catch.» — accepts splitting `sea.ts` before the first cut, an action item);
+   #258 4507183703 («ничего не мешает нам для роутинга миров использовать ? а не
+   #?»); #258 4507188779 («почему island/review-1 понадобилось вмердживать
+   main? … дифф от только нашего мамонта»; #255 is 0 behind main, so its diff
+   is mammoth-only).
+2. Storage backend for player edits: what he wants to avoid about a server —
+   paying, running it, or answering for its content.
+3. Relay 19's five: `buildExport()` move, `writing.md` history, `lsa-voice.md`
+   pointer, `writing.md` paths, the `coast.json` primer.
+4. Dropped by relays 18–19 unanswered (relay 16–17, session
+   https://claude.ai/code/session_01DaohkCSBpcbq5Nh5ZpFWHC): the game's name
+   (shortlist youarein.world, theinfiniteatlas.com, amyriadworlds.com,
+   seedaworld.com; the lead's pick Seed a World), the Borges trademark search,
+   the world-number fork (XOR-mask form), labels on board lines.
+5. Whether to start a muthur session to land muthur#247 (relay 17,
+   https://claude.ai/code/session_01DaohkCSShWuJ2M2ynSvpT3).
+6. Line counting done twice, `scripts/contribution/lines.ts` and
+   `.claude/costs/lib/branch_lines.py` (the plan's "Waiting on the operator").
+7. #259's four `/dry` calls and its unanswered five-percent proposal on the tile
+   cache (thread 4500394314).
+8. Possibly stale: backfilling `subjectLine` on ~520 ledger rows elsewhere; SVG
+   line labels as the board's last per-frame zoom cost; the "ask Zoltan" scale
+   sticker.
+
 
 ## Last agent turn
 
@@ -164,23 +210,9 @@ The agent's last turn before the relay, verbatim, appended by
 unneeded but harmless; the reply proper is usually its last paragraphs.
 
 ```text
-Now the tests: swap the old one-line format for the list and add cases for "another account's copy" and "no copy".
+Ставлю сбор статуса ветки в фон и параллельно меняю идентификатор на хеш.
 
-Хук всё ещё не видит строку для этого аккаунта. Похоже, prettier перенёс её на две строки. Проверяю.
+Хук теперь сравнивает хеш. Обновляю тесты, план и сводку relay-20, где ещё стоит сырой идентификатор.
 
-Хук на настоящем плане теперь указывает доску 5ya2F. Подписываюсь на неё, открываю её и коммичу.
-
-Сделал: теперь у каждого аккаунта своя доска, и сессия сама находит доску своего аккаунта. Новую под этим аккаунтом издавать не пришлось: у playgram доска уже была — та, «старая», https://claude.ai/artifact/5ya2F3bA8kwrmLhEyAib3P. Я её обновил, и она открыта у тебя.
-
-- **Перед обновлением забрал в репо правки, сделанные прямо на доске.** Их там было шесть, и все шесть в репо уже были, так что ничего не потерялось.
-- **Доска собрана из того же YAML, что и остальные копии.** Из нового на ней карточка `entering.world` и галочки, которые доска теперь рисует сама. Комментарии и публикации этой доски будят эту сессию.
-
-**Где это прописано** (1465cdaf, b6b6e4e8):
-- В плане вместо одной ссылки теперь список копий: по строке на аккаунт. Аккаунт определяется по организации claude.ai, которую сессия видит в своём окружении. Пока в списке одна строка — этого аккаунта.
-- Хук `board-notice.py` берёт из списка доску своего аккаунта. Если строки для аккаунта нет, он просит сессию найти уже опубликованную доску в списке артефактов этого аккаунта или издать новую, а потом дописать строку и запушить. Тесты хука проходят (13).
-- Поле `artifact:` из `island.yaml` убрал: его никто не читал, и у ссылок теперь один дом.
-
-Доска PQhuzzaVX541T8pVqEXfio в список не попала. Она на другом аккаунте, и отсюда не узнать его идентификатор организации. Первая сессия на том аккаунте получит от хука просьбу, найдёт её в своём списке артефактов и допишет сама. Третий аккаунт — так же.
-
-Одна деталь: в публичном репо теперь лежит идентификатор организации playgram. Это не секрет и не ключ, но чужое имя он раскрывает чуть больше, чем ничего. Если хочешь, заменю идентификаторы хешами.
+Хеш вместо идентификатора запушен (8d91c2a7). Сводка relay-20 ещё содержит сырой идентификатор. Перепишу её, когда придёт статус ветки: он всё равно её меняет. Жду фонового сборщика.
 ```
