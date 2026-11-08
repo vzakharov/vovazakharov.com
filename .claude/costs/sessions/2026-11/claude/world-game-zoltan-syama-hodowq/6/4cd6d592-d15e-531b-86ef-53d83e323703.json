@@ -10,8 +10,8 @@
     "costUsd": 17.128657399999994
   },
   "estimate": {
-    "at": "2026-11-07T06:35:41.320Z",
-    "subjectLine": "refactor(island): polish memo, board and contribution scripts",
+    "at": "2026-11-08T09:01:32.406Z",
+    "subjectLine": "refactor: polish memo, board and contribution scripts",
     "parts": [
       {
         "hours": 1.0,
@@ -112,9 +112,11 @@
   },
   "operatorWords": {
     "chat": 0,
-    "review": 0
+    "review": 0,
+    "threads": 0
   },
   "reviewPosts": {},
+  "threadPosts": {},
   "branchLines": {
     ".md": 1584,
     ".py": 894,
