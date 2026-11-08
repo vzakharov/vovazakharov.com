@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 29,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 110228,
+    "cacheReadTokens": 1593576,
+    "outputTokens": 19236,
+    "thinkingTokens": 14175,
+    "responses": 13,
+    "costUsd": 1.5853752
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-08T20:52:01.510Z",
+    "contextTokens": 106123,
+    "spend": {
+      "inputTokens": 6,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 44245,
+      "cacheReadTokens": 157752,
+      "outputTokens": 830,
+      "thinkingTokens": 39,
+      "responses": 2,
+      "costUsd": 0.4021344
+    }
+  },
+  "sessionId": "ca982972-6a86-57ea-8dc6-cd7711702033",
+  "branch": "island/worlds",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/go island/worlds — you are the member building bite 2 of the island game. Your contract is docs/plans/world-game-zoltan-syama/bite-2.md (read it first, then th…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDvf7LpG4KNhwNaPyx",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-08T20:51:49.691Z",
+  "lastResponseAt": "2026-11-08T20:55:17.309Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 29,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 110228,
+    "cacheReadTokens": 1593576,
+    "outputTokens": 19236,
+    "thinkingTokens": 14175,
+    "responses": 13,
+    "costUsd": 1.5853752
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 29,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 110228,
+      "cacheReadTokens": 1593576,
+      "outputTokens": 19236,
+      "thinkingTokens": 14175,
+      "responses": 13,
+      "costUsd": 1.5853752
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 13,
+    "matched": 13,
+    "matchedTableUsd": 1.5853752,
+    "matchedEventUsd": 1.5853752,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 7853,
+    ".py": 199,
+    ".ts": 86,
+    ".sh": 43
+  }
+}
