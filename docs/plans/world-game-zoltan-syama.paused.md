@@ -165,43 +165,21 @@ the bite in hand. The text it held before the board took over is in git
   bottom-left that fades after first use. Open for the operator: the member's
   `/five-percent` suggests collapsing the hint to a `?` button rather than
   hiding it for good.
+- **Cut 1** — #265 squashed into `main` as 4e2a4efb: bite 1 and the controls
+  live at `/island`.
 
 ## Waiting on the operator
 
-Bite 0 is done and polished (floor 89eefbc2); the pause is for the operator's
-review. Open:
-
-- `/five-percent`'s two alternatives on #255
-  (https://github.com/vzakharov/vovazakharov.com/pull/255#pullrequestreview-5805174087):
-  the board and the map live under `docs/plans/`, which `/finalize` sweeps
-  (optional); the case study's three misstatements about what is counted
-  (critical).
-- The branch's line count is written twice, `scripts/contribution/lines.ts` and
-  `.claude/costs/lib/branch_lines.py`; the lead recommends the TS calling the
-  Python.
-- Merge 686f51740 brought bite 1's own files early (a polling fetch's
-  `FETCH_HEAD`, fixed in 17337b17); left in place, since they arrive at the
-  bite's merge anyway.
+The open questions are relay 20's list
+(`docs/remove-before-merging/world-game-zoltan-syama-hodowq/relay-20.md` § "Next
+step"), less the world-number fork, which bite 2 settles.
 
 ## Open bites
 
-- **Review of #255** — member session
-  https://claude.ai/code/session_01DaohkBPPsH9jFCtdTa4Qb9 on `island/review-1`,
-  handling T01–T10, T12–T20 and R02 (the cut cycle that replaced the epic
-  branch); its PR goes onto this branch.
-- **Descent video** — https://claude.ai/code/session_01DaohkEzVpgVdUpfbpg4NnQ on
-  `island/descent-video`: a video of the descent and its thumbnail in the
-  `island-timelapse` release; the lead pins them on the board.
-- **Second preview slot** —
-  https://claude.ai/code/session_01DaohkDZtwxJGQKbNecB8st on `preview2-slot`,
-  its PR onto main: preview2.vovazakharov.com and `/preview live` choosing a
-  slot.
-- **Board performance** —
-  https://claude.ai/code/session_01DaohkDwrHtJy2Zb6SucGnx on
-  `island/board-perf`: the page measured and sped up, the look unchanged; the
-  lead republishes from its merged code.
-- The lead waits on all four:
-  `memo.py wait --as lead --branch island/review-1 --branch island/descent-video --branch preview2-slot --branch island/board-perf`.
+- **Bite 2 — worlds from one formula** — contract
+  `docs/plans/world-game-zoltan-syama/bite-2.md`, on `island/worlds`, its PR
+  onto `island/stretch-2`. The lead waits with
+  `memo.py wait --as lead --branch island/worlds`.
 
 ## Rest of the elephant
 
