@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 87,
+    "inputTokens": 139,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 91978,
-    "cacheReadTokens": 5425752,
-    "outputTokens": 13402,
-    "thinkingTokens": 2303,
-    "responses": 43,
-    "costUsd": 2.0893624
+    "cacheWrite1hTokens": 134037,
+    "cacheReadTokens": 10150364,
+    "outputTokens": 24177,
+    "thinkingTokens": 4191,
+    "responses": 70,
+    "costUsd": 3.5864648000000003
   },
   "estimate": {
     "at": "2026-11-08T20:56:34.357Z",
@@ -48,22 +48,24 @@
   "branch": "island/stretch-2",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take island/stretch-2 — бит 2 (миры из одной формулы) отдан участнику, Вова спит",
-  "prs": [],
+  "prs": [
+    266
+  ],
   "url": "https://claude.ai/code/session_01DaohkCLZyBrByscMH2Qvjb",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-08T20:56:14.192Z",
-  "lastResponseAt": "2026-11-08T21:39:20.593Z",
+  "lastResponseAt": "2026-11-08T22:03:45.773Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 87,
+    "inputTokens": 139,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 91978,
-    "cacheReadTokens": 5425752,
-    "outputTokens": 13402,
-    "thinkingTokens": 2303,
-    "responses": 43,
-    "costUsd": 2.0893624
+    "cacheWrite1hTokens": 134037,
+    "cacheReadTokens": 10150364,
+    "outputTokens": 24177,
+    "thinkingTokens": 4191,
+    "responses": 70,
+    "costUsd": 3.5864648000000003
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,23 +79,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 87,
+      "inputTokens": 139,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 91978,
-      "cacheReadTokens": 5425752,
-      "outputTokens": 13402,
-      "thinkingTokens": 2303,
-      "responses": 43,
-      "costUsd": 2.0893624
+      "cacheWrite1hTokens": 134037,
+      "cacheReadTokens": 10150364,
+      "outputTokens": 24177,
+      "thinkingTokens": 4191,
+      "responses": 70,
+      "costUsd": 3.5864648000000003
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 43,
-    "matched": 43,
-    "matchedTableUsd": 2.0893624,
-    "matchedEventUsd": 2.0893624,
+    "events": 70,
+    "matched": 70,
+    "matchedTableUsd": 3.5864648000000003,
+    "matchedEventUsd": 3.5864648000000003,
     "unseen": {}
   },
   "operatorWords": {
@@ -108,6 +110,6 @@
     ".py": 199,
     ".ts": 86,
     ".sh": 43,
-    ".yaml": 50
+    ".yaml": 77
   }
 }
