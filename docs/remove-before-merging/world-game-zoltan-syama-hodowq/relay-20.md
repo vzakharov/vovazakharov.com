@@ -284,7 +284,6 @@ Also open, newest first:
    line labels as the board's last per-frame zoom cost; the "ask Zoltan" scale
    sticker.
 
-
 ## Last agent turn
 
 The agent's last turn before the relay, verbatim, appended by

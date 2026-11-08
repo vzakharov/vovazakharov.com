@@ -13,6 +13,7 @@ Goal: a short video of `/island`'s descent from orbit to 2 m over the ground, up
 What exists: bite 1 is merged into the island branch (19a4366c). `pnpm play:island` builds, serves and shoots five heights on a phone and a desktop with the tree's Chromium (`src/island/scripts/`, `src/scene/scripts/lib/cdp.ts`); the eye reads wheel, `PageUp`/`PageDown`, `Q`/`E`, and moves continuously (`src/island/features/eye/`). Bite 1's contract: `docs/plans/world-game-zoltan-syama/bite-1.md`.
 
 Done means:
+
 1. A desktop video (16:9, ~20–40 s, smooth — capture frames deterministically rather than screen-recording in real time if headless frame rate is poor) of one continuous descent from orbit to 2 m, ideally over an interesting stretch of coast (the bay between Blablania and Feisis is the board's story). An mp4 (H.264) that plays in a browser; a phone (portrait) cut too if cheap.
 2. A thumbnail PNG/WebP from a telling frame.
 3. Both uploaded with `gh release upload island-timelapse <file>`, named `descent-<date>.mp4` and the thumbnail beside it (not numbered — the numbers are the board's frames).

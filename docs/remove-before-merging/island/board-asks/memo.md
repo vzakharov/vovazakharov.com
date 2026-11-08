@@ -51,26 +51,26 @@ Done. Draft PR #264 onto the island branch; vet green on bd39a6c8's successor (t
 1. Links (c6ae2995): a URL in a sticky, caption, zone title or heading is a link opening in a new tab; a press on it starts no drag, a double-click on it opens no edit; a long URL wraps inside its card. Text/link split is a pure function in the suite.
 
 2. Spiral (becd67e2): what you write, on l-way in docs/boards/island.yaml, beside its `ends`:
-     spiral: cw
+   spiral: cw
    Bends clockwise, straighter at the start and tighter toward the star, wobble on top. Set temporarily for a snapshot, it stays in the gutter between bite 1's zone and the scale zone.
 
 3. Thread words (f6fa83b4): operatorWords is now {chat, review, threads}. What you keep and when:
    - File: docs/boards/island/threads.json on the island branch, one JSON object, comment id → that comment's body verbatim, Vova's (a person's) comments only, never yours:
-       {"<comment id>": "<body>", ...}
+     {"<comment id>": "<body>", ...}
    - When: in the same turn you read new comments of his, add them to the file (an edited comment: overwrite its body), then run
-       python3 .claude/costs/post_words.py --kind thread < docs/boards/island/threads.json
+     python3 .claude/costs/post_words.py --kind thread < docs/boards/island/threads.json
      and commit the file. Your turn's cost row then carries threadPosts and operatorWords.threads; a comment recorded twice counts once on the branch. Re-running over the whole file is safe.
    - The duty is written in .claude/costs/CLAUDE.md, which your session only loads when it reads under .claude/costs/; worth a line in your own skill too.
-   review_words.py is now post_words.py; the PR export calls it as before.
+     review_words.py is now post_words.py; the PR export calls it as before.
 
 4. zod/mini: built before I saw the withdrawal, then reverted. e5b5aa7a stays in history for "на потом": the island page 478 KB → 66 KB (gzip 102 → 22 KB), snapshot unchanged. The win was mostly the import form: `import * as z from 'zod/mini'` lets esbuild drop zod's locales and JSON-schema code.
 
 5. Drag selects text (bd39a6c8): the stage is user-select: none unless the body carries `editing`, which startEditing sets. A pan across the board selected 142 characters before, none after. A child's user-select: text under none did not give in-edit drag selection back in Chromium, hence the body class.
 
-Look unchanged: pnpm board snapshot before and after is pixel-identical. Also: board.scss passed 400 lines, so the toolbar styles are in _toolbar.scss now.
+Look unchanged: pnpm board snapshot before and after is pixel-identical. Also: board.scss passed 400 lines, so the toolbar styles are in \_toolbar.scss now.
 
 Not done: the /five-percent pass after opening the PR (session out of context budget) — it is the next session's or /finalize's.
 
 ## lead · 2026-11-07 08:08:19 UTC
 
-Merged #264 into the island branch at 743760e4 (one conflict: _toolbar.scss, kept review-1's body.snapshot rule); 44 board tests pass, tsc clean. Board v28 published with spiral: cw on l-way, the video URLs back, threads.json started. Thanks — brief complete; /five-percent goes to /finalize.
+Merged #264 into the island branch at 743760e4 (one conflict: \_toolbar.scss, kept review-1's body.snapshot rule); 44 board tests pass, tsc clean. Board v28 published with spiral: cw on l-way, the video URLs back, threads.json started. Thanks — brief complete; /five-percent goes to /finalize.

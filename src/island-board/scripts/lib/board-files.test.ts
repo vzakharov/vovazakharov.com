@@ -60,9 +60,7 @@ describe('board files', () => {
     );
   });
 
-  const EMPTY_BOARD: BoardFiles = new Map([
-    [BOARD, 'title: T\nitems: []\n'],
-  ]);
+  const EMPTY_BOARD: BoardFiles = new Map([[BOARD, 'title: T\nitems: []\n']]);
   const files = (): BoardFiles =>
     new Map([
       ...EMPTY_BOARD,
