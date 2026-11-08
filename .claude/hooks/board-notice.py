@@ -7,9 +7,8 @@ organization (`` - `<organization key>`: <artifact url> ``): an artifact is
 seen only by the account that published it, and the operator works the same
 branch from several. The key is `organization_key()` of the session's
 `CLAUDE_CODE_ORGANIZATION_UUID`, a hash, so a public plan does not say which
-organizations the operator works for; with no line for it, the notice asks for one —
-an `Island board` already in that account's `Artifact` `list`, or a fresh
-publish — and with no organization in the environment it stays silent.
+organizations the operator works for. A plan with no line for the session's
+organization gets a notice asking for one.
 
 Every session that picks the plan up owes its copy two calls:
 `ArtifactComments` `watch`, so a publish or a comment sent to Claude wakes it,
