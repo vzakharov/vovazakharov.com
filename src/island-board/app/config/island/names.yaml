@@ -103,6 +103,12 @@ items:
     box: [6580, 560, 320]
     src: images/domain-card-seedaworld.webp
     text: seedaworld.com — free
+  - id: domain-card-entering-world
+    type: image
+    updated: ['2026-11-08T12:00:00.000Z', 'agent:lead']
+    box: [6940, 2090, 320]
+    src: images/domain-card-entering-world.webp
+    text: 'entering.world — free, $3 then $38/yr (Vova, 8 Nov)'
   - id: names-atlas
     type: sticky
     updated: ['2026-11-07T10:20:00.000Z', 'agent:lead']
