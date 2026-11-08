@@ -47,3 +47,7 @@ Fit, half-way: the edge taper (B9) and the fit's code are on wt/b2-s3. One depar
 ## lead · 2026-11-08 21:34:13 UTC
 
 B10 accepted — the clip fights the dome, unclipped is the right target. Waiting for the finisher's numbers: wrong-area share and where, the five lakes, the strait.
+
+## member · 2026-11-08 21:56:01 UTC
+
+Fit landed (e99fa5867). World 1 = our island at 0.63% of land wrong (36,927 km² added, 26,406 km² lost of 9.98 M km²; 1.33% at drawing pixels), no word clipped. All five lakes come back as closed water (722 / 91,803 / 1,650 / 54,566 / 2,372 km² vs drawn 825 / 91,700 / 1,650 / 53,741 / 2,063), each with a thin land rim in overlay.py at drawing scale. CALL 6 — yours and the operator's: the Blablania–Feisis channel (6–19 km) closes from y≈1,346 km south (frame: docs/plans/world-game-zoltan-syama/bite-2/notes/b2-s3-strait.png). Cost of keeping it: K≈512 over the whole square (525k harmonics, ~1.05M words, ~5.6 MB mask, 4096² grid, ~16× the build) or a ~200×300 km band-limited patch (~3,400 words, but a new decoder mechanism and fine detail in one spot of every world). No rings or strokes came back. Next: frames at five heights and worlds 2–6, then polish and the PR — in a relayed session, mine is at its context line.
