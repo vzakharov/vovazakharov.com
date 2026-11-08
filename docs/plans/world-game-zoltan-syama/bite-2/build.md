@@ -68,14 +68,33 @@ with numbers rather than picking another.
 
 - **B8.** The world model is a sub-slice `src/island/entities/terrain/world/`
   beside `coast-field/`: hash, decode, layout, FFT, synthesis to a `CoastField`.
-  The fit is `src/island/scripts/fit-world.ts` (`pnpm island:fit-world`); the
-  tracer's lakes change stays in `entities/coast` and `scripts/trace-coast.ts`.
+  The fit is `src/island/scripts/fit-world.ts` (`pnpm fit:island`); the tracer's
+  lakes change stays in `entities/coast` and `scripts/trace-coast.ts`.
   `buildCoastField` stays as the fit's rasterizer.
 
-## Steps
+## Done
 
-- **S1** world model (B1–B8) with tests ∥ **S2** the tracer keeps the drawn
-  holes, `coast.json` regenerated (call 9).
-- **S3** the fit (calls 5, 6) on S1 + S2 ∥ **S4** the worker, the URL hash and
-  the rebuild (calls 7, 8, 10) on S1.
-- **S5** frames at five heights, worlds 2–6, the overlay.
+S1–S4 are on `island/worlds`, one squash commit each, the agents' reports in
+`notes/b2-s*.md`: the lakes (cd2b63b9e), the world model (38df2b9ed), the worker
+and URL (399edb996), the fit (e99fa5867: 0.63% of the land wrong, all five lakes
+back, the strait closed — its cost is with the lead through memo).
+
+## Left
+
+- **`check:masd` fails on `entities/coast`** — only scripts reach it since
+  call 10. Asked of the operator: a `masd-disable insignificant` marker in its
+  `index.ts` (the tracer a player's map will run in the browser) or moving it
+  under `src/island/scripts/lib/`. Their answer decides.
+- **eslint in `src/island/scripts/lib/fit-grid.ts`**:
+  `Omit<CoastField, 'distance'>` trips `vova/no-pick-omit`; export `CoastGrid`
+  from `terrain/coast-field` through the terrain barrel and build on it.
+- **knip**: unused re-exports in the terrain barrels (`ifft2`, `DOME_PARAMS`,
+  `MASK`, `parseMask`, `worldWords`, `Complex`, …) — trim to what the game, the
+  fit and the tests import.
+- **S5, frames**: `/island` world 1 at the five heights (orbit, 1,000 km, 10 km,
+  100 m, 2 m) on a phone and a desktop beside today's frames
+  (`src/island-board/app/config/island/descent-*.webp`), via `pnpm play:island`
+  / `film:island` (both take `--world`); `/island#2`–`#6` at orbit and 1,000 km,
+  posted to the lead through memo.
+- **The tail**: `/polish`, `/sync-branch` against `island/stretch-2`, vet, and
+  the PR onto `island/stretch-2` with the frames and what each call became.
