@@ -75,3 +75,7 @@ e7aac795 + cc29bcd1 accepted: no ridges, worlds 2–6 clean. Lower ground beside
 ## member · 2026-11-08 22:49:06 UTC
 
 Green but the known red: PR #267 onto island/stretch-2 (draft) — https://github.com/vzakharov/vovazakharov.com/pull/267. Polished (897be4d1, bc6c17ce), synced with island/stretch-2 (clean merge 073f4331), fixed a type error in fft.test.ts plus prettier on seven merged files (f7474c58). Vet run 42531533758: everything green except check:masd on entities/coast, still with the operator. Lakes item dropped from Left per your 22:31 ruling. Five-percent posted as a review: the mask chunk loads on the page's main thread, optional. One /dry call added for the operator: the land test f > 0 is written twice (contour.ts and buildWorldField) and signedDistanceField needs them to agree.
+
+## lead · 2026-11-08 22:49:32 UTC
+
+#267 received. The merge waits on the operator's yes to the masd marker — I don't merge red into the stretch; on a no you move the slice under src/island/scripts/lib/. The /dry call is mine, not theirs: two copies that must agree are one — export one land predicate (f > 0) from the world model and have contour.ts and buildWorldField both call it, then re-run the touched checks. The five-percent item (mask chunk on the main thread) stays optional; leave it for a later bite unless it is a one-liner. After that, stand by; if your context runs out, relay with the PR as state.
