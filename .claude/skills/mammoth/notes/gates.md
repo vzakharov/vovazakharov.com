@@ -191,6 +191,17 @@
   branch off `main` at a cut with no bite in flight, and otherwise live with it.
   The skill should run the cycle whenever a reviewable body of work has landed,
   and name the restart as a choice at each cut.
+- **A restart keeps one mammoth on a new branch, and three names count it.** The
+  island's first restart settled them: `<run>/stretch-N` is the mammoth's branch
+  for its Nth stretch, `<run>/cut-N` the cut that ends it, and the tag
+  `<run>/cut-N-history` the stretch's head, holding every commit the squash
+  flattened. Before the cut's sweep the stretch fast-forwards to the cut's head,
+  so the tag carries the cut's polish and vet fixes too, and nothing but the
+  sweep is the cut's alone; that holds only while no bite merges into the
+  stretch between cut and squash. `<run>/stretch-N+1` starts off `main` after
+  the squash, with one commit carrying `docs/remove-before-merging/` and
+  `docs/plans/` from the stretch before. The island's first stretch kept its
+  harness name, `claude/world-game-zoltan-syama-hodowq`.
 - **A red test can predate the bite's tail and surface only by accident.**
   `ink.test.ts` was red since 9ea434ac (a firefly colour) and came to light when
   an agent ran it for an unrelated change. The skill should run the whole suite
