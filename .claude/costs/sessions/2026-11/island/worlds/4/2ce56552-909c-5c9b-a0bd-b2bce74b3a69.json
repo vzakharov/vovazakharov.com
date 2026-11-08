@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 83,
+    "inputTokens": 113,
     "cacheWrite5mTokens": 136826,
-    "cacheWrite1hTokens": 77694,
-    "cacheReadTokens": 4441514,
-    "outputTokens": 15933,
-    "thinkingTokens": 5082,
-    "responses": 40,
-    "costUsd": 2.5129768
+    "cacheWrite1hTokens": 101749,
+    "cacheReadTokens": 6653502,
+    "outputTokens": 22385,
+    "thinkingTokens": 5653,
+    "responses": 55,
+    "costUsd": 3.2769744
   },
   "estimate": {
     "at": "2026-11-08T22:32:54.614Z",
@@ -42,22 +42,24 @@
   "branch": "island/worlds",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take island/worlds — высота считается от точного расстояния до берега, кадры пересняты, ведущий принял; остались полировка, синхронизация с island/stretc…",
-  "prs": [],
+  "prs": [
+    267
+  ],
   "url": "https://claude.ai/code/session_01DaohkDWa2MwtmNrWpGWvfg",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-08T22:32:32.965Z",
-  "lastResponseAt": "2026-11-08T22:41:33.631Z",
+  "lastResponseAt": "2026-11-08T22:48:34.890Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 45,
+    "inputTokens": 75,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 77694,
-    "cacheReadTokens": 2257588,
-    "outputTokens": 5769,
-    "thinkingTokens": 1058,
-    "responses": 20,
-    "costUsd": 1.1886296
+    "cacheWrite1hTokens": 101749,
+    "cacheReadTokens": 4469576,
+    "outputTokens": 12221,
+    "thinkingTokens": 1629,
+    "responses": 35,
+    "costUsd": 1.9526272
   },
   "subagents": {
     "inputTokens": 38,
@@ -71,23 +73,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 83,
+      "inputTokens": 113,
       "cacheWrite5mTokens": 136826,
-      "cacheWrite1hTokens": 77694,
-      "cacheReadTokens": 4441514,
-      "outputTokens": 15933,
-      "thinkingTokens": 5082,
-      "responses": 40,
-      "costUsd": 2.5129768
+      "cacheWrite1hTokens": 101749,
+      "cacheReadTokens": 6653502,
+      "outputTokens": 22385,
+      "thinkingTokens": 5653,
+      "responses": 55,
+      "costUsd": 3.2769744
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 40,
-    "matched": 40,
-    "matchedTableUsd": 2.5129768,
-    "matchedEventUsd": 2.5129768,
+    "events": 55,
+    "matched": 55,
+    "matchedTableUsd": 3.2769744,
+    "matchedEventUsd": 3.2769744,
     "unseen": {}
   },
   "operatorWords": {
@@ -101,7 +103,7 @@
     ".md": 8800,
     ".txt": 31,
     ".py": 265,
-    ".ts": 3260,
+    ".ts": 3253,
     ".json": 110,
     ".sh": 43,
     ".yaml": 77,
