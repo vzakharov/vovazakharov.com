@@ -46,12 +46,16 @@ export function murmur3(bytes: Uint8Array, seed: number): number {
 const WORLD_NUMBER = /^[1-9]\d*$/;
 
 /**
- * Throws unless `world` is a positive integer's decimal string with no
- * leading zeros, of any length: the number is hashed whole as text, so `"07"`
- * and `"7"` would otherwise be two worlds.
+ * Whether `world` is a positive integer's decimal string with no leading
+ * zeros, of any length: the number is hashed whole as text, so `"07"` and
+ * `"7"` would otherwise be two worlds.
  */
+export const isWorldNumber = (world: string): boolean =>
+  WORLD_NUMBER.test(world);
+
+/** Throws unless `world` passes `isWorldNumber`. */
 export function assertWorldNumber(world: string): void {
-  if (!WORLD_NUMBER.test(world)) {
+  if (!isWorldNumber(world)) {
     throw new Error(`Not a world number: ${JSON.stringify(world)}`);
   }
 }

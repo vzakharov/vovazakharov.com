@@ -5,7 +5,7 @@ import { type CoastField, sampleCoastField } from '../../coast-field';
 import { SEED_WORD } from './layout';
 import { worldWords } from './mask';
 import { GRID, GRID_NODES, SQUARE } from './square';
-import { buildWorldField, worldSeed } from './world-field';
+import { buildWorldField, TAPER, taperAt, worldSeed } from './world-field';
 
 /** Land cells and the largest 4-connected land component's size, in nodes. */
 function landComponents({ distance, columns, rows }: CoastField) {
@@ -92,6 +92,35 @@ describe('buildWorldField', () => {
         const y = centreY + (sy * side) / 2;
         assert.ok(sampleCoastField(field(world), x, y) < 0, `world ${world}`);
       }
+    }
+  });
+
+  it('tapers the waves to nothing between 0.40 and 0.48 of the side out', () => {
+    for (const p of [0.5, 0.1, 0.9, 0.5 - TAPER.inner, 0.5 + TAPER.inner]) {
+      assert.equal(taperAt(p, 0.5), 1);
+      assert.equal(taperAt(0.5, p), 1);
+    }
+    for (const p of [0, 0.02, 0.98, 0.5 - TAPER.outer, 0.5 + TAPER.outer]) {
+      assert.equal(taperAt(p, 0.5), 0);
+      assert.equal(taperAt(0.5, p), 0);
+    }
+    assert.ok(Math.abs(taperAt(0.06, 0.06) - 0.25) < 1e-12);
+  });
+
+  it('keeps worlds 2–40 clear of land within 0.02 of the side from the edge', () => {
+    const band = Math.ceil(0.02 * GRID_NODES);
+    for (let world = 2; world <= 40; world += 1) {
+      const { distance } =
+        fields.get(String(world)) ?? buildWorldField(String(world));
+      let edgeLand = 0;
+      for (let j = 0; j < GRID_NODES; j += 1) {
+        const inBand = j < band || j >= GRID_NODES - band;
+        for (let i = 0; i < GRID_NODES; i += 1) {
+          if (!inBand && i >= band && i < GRID_NODES - band) continue;
+          if ((distance[j * GRID_NODES + i] ?? 0) > 0) edgeLand += 1;
+        }
+      }
+      assert.equal(edgeLand, 0, `world ${String(world)}`);
     }
   });
 

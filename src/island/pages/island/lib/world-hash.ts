@@ -1,4 +1,4 @@
-import { assertWorldNumber } from '@/island/entities/terrain';
+import { isWorldNumber } from '@/island/entities/terrain';
 
 /** Our island's world number, which no hash, `#1` and any invalid hash open. */
 export const OUR_WORLD = '1';
@@ -10,10 +10,5 @@ export const OUR_WORLD = '1';
  */
 export function worldOfHash(hash: string): string {
   const world = hash.startsWith('#') ? hash.slice(1) : hash;
-  try {
-    assertWorldNumber(world);
-  } catch {
-    return OUR_WORLD;
-  }
-  return world;
+  return isWorldNumber(world) ? world : OUR_WORLD;
 }
