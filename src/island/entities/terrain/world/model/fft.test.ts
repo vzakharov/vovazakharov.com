@@ -15,8 +15,8 @@ function signal(length: number, salt: number): Complex {
 }
 
 const copy = ({ re, im }: Complex): Complex => ({
-  re: [...re],
-  im: [...im],
+  re: Float64Array.from(re),
+  im: Float64Array.from(im),
 });
 
 /** The direct `O(n²)` DFT over `points` of an `n`-point grid, either sign. */

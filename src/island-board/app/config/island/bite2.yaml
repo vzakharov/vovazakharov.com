@@ -45,12 +45,12 @@ items:
     type: sticky
     updated: [2026-11-08T22:05:00.000Z, agent:lead]
     box: [3600, 1220, 300, green]
-    text: 'The fit landed: world #1 from the formula is our island, 0.63% of the land off the drawing, and all five of Vova''s lakes are back as closed water'
+    text: "The fit landed: world #1 from the formula is our island, 0.63% of the land off the drawing, and all five of Vova's lakes are back as closed water"
   - id: bite2-strait-call
     type: sticky
     updated: [2026-11-08T22:05:00.000Z, agent:lead]
     box: [3600, 1430, 300, yellow]
-    text: 'Open for Vova: the Blablania–Feisis channel (6–19 km) closes in its south. Keeping it costs ~16× the build (K≈512) or a new local-patch mechanism. The lead''s lean: let it close for now'
+    text: "Open for Vova: the Blablania–Feisis channel (6–19 km) closes in its south. Keeping it costs ~16× the build (K≈512) or a new local-patch mechanism. The lead's lean: let it close for now"
   - id: bite2-masd-call
     type: sticky
     updated: [2026-11-08T22:05:00.000Z, agent:lead]

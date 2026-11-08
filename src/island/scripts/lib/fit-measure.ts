@@ -116,10 +116,7 @@ export function largestPatches(
  * The sea `values < 0` that reaches the grid's border through sea, 4-connected
  * — the open sea, when the grid's border lies in it.
  */
-export function openSea(
-  values: ArrayLike<number>,
-  grid: Gridded,
-): Uint8Array {
+export function openSea(values: ArrayLike<number>, grid: Gridded): Uint8Array {
   const { length } = values;
   const sea = Uint8Array.from({ length }, (_, n) =>
     (values[n] ?? 0) < 0 ? 1 : 0,

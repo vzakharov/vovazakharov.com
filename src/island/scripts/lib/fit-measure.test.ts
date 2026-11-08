@@ -33,11 +33,7 @@ describe('wrongArea', () => {
 
 describe('piecesOf', () => {
   it('joins 4-neighbours only, and says which touch the border', () => {
-    const mask = Uint8Array.from([
-      1, 0, 0, 0,
-      0, 1, 1, 0,
-      0, 0, 0, 0,
-    ]);
+    const mask = Uint8Array.from([1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0]);
     const { label, pieces } = piecesOf(mask, { columns: 4, rows: 3 });
     assert.equal(pieces.length, 2);
     assert.equal(label[0], 0);
