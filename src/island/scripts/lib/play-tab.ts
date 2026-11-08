@@ -11,6 +11,8 @@ import path from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { z } from 'zod';
 
+import type { Named, Sized } from '@/kernel/shared/typings';
+
 import {
   type IslandPlayHook,
   PLAY_HOOK,
@@ -43,10 +45,7 @@ const HOOK_TIMEOUT_MS = 30_000;
 /** How long a hook promise gets: tiles fill and upload under the software rasterizer. */
 const SETTLE_TIMEOUT_MS = 120_000;
 
-export type Screen = {
-  readonly name: string;
-  readonly width: number;
-  readonly height: number;
+export type Screen = Readonly<Named & Sized> & {
   readonly ratio: number;
   readonly mobile: boolean;
 };
