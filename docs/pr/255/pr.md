@@ -7,17 +7,15 @@
 - **Draft:** yes
 - **Merged:** _not merged_
 - **Created:** 2026-11-06T17:15:44Z
-- **Updated:** 2026-11-07T22:22:14Z
+- **Updated:** 2026-11-08T09:12:01Z
 - **Closed:** _not closed_
 - **Labels:** _none_
 
 ---
 
-## Awaiting an answer: 1
+## Awaiting an answer: none
 
-_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 1340f50). Resolved threads never count; an `(agent)` tail is a reply already given._
-
-- **T01** `sites/vova/public/case-studies/island.md`:49 — unresolved — last: @vzakharov (human) 2026-11-07T06:25:00Z — "а сюда сохранил применимые правила чтобы повторно не наткнут…" → [↓](#t01)
+_Unresolved threads whose newest post is a human's, and human reviews and comments that are new since the last export or that no agent post has followed (the export committed at 82bae30). Resolved threads never count; an `(agent)` tail is a reply already given._
 
 ---
 
@@ -189,7 +187,7 @@ rationale: чтобы можно было какой-то весомый объ�
 
 _19 resolved threads omitted; re-run with `--include-resolved` to export them._
 
-- **T01** `sites/vova/public/case-studies/island.md`:49 — unresolved — last: @vzakharov (human) 2026-11-07T06:25:00Z — "а сюда сохранил применимые правила чтобы повторно не наткнут…" → [↓](#t01)
+- **T01** `sites/vova/public/case-studies/island.md`:49 — unresolved — last: @vzakharov (agent) 2026-11-08T09:11:05Z — "Теперь да. Правило из vzakharov/life (полировка, в том числе…" → [↓](#t01)
 
 <a id="t01"></a>
 
@@ -221,6 +219,10 @@ _19 resolved threads omitted; re-run with `--include-resolved` to export them._
 **@vzakharov (human)** — 2026-11-07T06:25:00Z
 
 а сюда сохранил применимые правила чтобы повторно не наткнуться?
+
+**@vzakharov (agent)** — 2026-11-08T09:11:05Z
+
+Теперь да. Правило из vzakharov/life (полировка, в том числе привычный носителю оборот, читается как машинная) записано в `.claude/rules/writing.md` вместе с остальными приметами машинной прозы и привязано к `sites/*/public/**/*.md`, так что следующая страница встретит его раньше ревью — 979fd555.
 
 ---
 
