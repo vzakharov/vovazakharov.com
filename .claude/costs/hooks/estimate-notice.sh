@@ -8,8 +8,8 @@
 # session started or last compacted has one.
 #
 # This text is the agent-facing home of when and how to estimate and to mark;
-# `.claude/costs/CLAUDE.md` § "Human-hour estimates" and § "Orientation" carry
-# what each figure is for and what it cannot tell apart.
+# `.claude/rules/costs-estimates.md` and `costs-orientation.md` carry what each
+# figure is for and what it cannot tell apart.
 
 . "$(dirname "${BASH_SOURCE[0]}")/../../hooks/lib.sh" || exit 0
 need_command jq "skipping the estimate notice."

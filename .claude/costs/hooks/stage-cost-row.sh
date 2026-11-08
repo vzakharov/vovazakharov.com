@@ -3,8 +3,9 @@
 # `git commit` runs, so the branch's display copy rides the agent's own commit.
 #
 # It never blocks the command: every way out is exit 0, and a row it could not
-# price or stage is the `Stop` hook's to report, or to put back.
-# `.claude/costs/CLAUDE.md` § "Where rows live" carries when it stages nothing.
+# price or stage is the `Stop` hook's to report, or to put back. It stages
+# nothing where the row would be wrong in the commit, each such exit below
+# commented with the case.
 
 . "$(dirname "${BASH_SOURCE[0]}")/../../hooks/lib.sh" || exit 0
 read_payload
@@ -52,6 +53,7 @@ for marker in MERGE_HEAD CHERRY_PICK_HEAD REVERT_HEAD rebase-merge rebase-apply;
   [ -e "$(git rev-parse --git-path "$marker")" ] && exit 0
 done
 
+# The trunk and a finalized branch carry no display copy.
 branch="$(git branch --show-current)"
 [ -n "$branch" ] || exit 0
 [ "$(python3 .claude/costs/ledger.py display "$branch" 2>/dev/null)" = display=yes ] || exit 0

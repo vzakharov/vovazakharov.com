@@ -6,8 +6,8 @@ they change with the Claude Code version rather than with the rate table.
 
 Each reader answers "is this record that kind, and what does it say" — `None`
 for a record of another shape, never an error, since most records in the file
-are of some other shape. `.claude/costs/CLAUDE.md` § "What names a session"
-carries why a session needs standing in for at all.
+are of some other shape. `.claude/rules/costs-transcript.md` § "What names a
+session" carries why a session needs standing in for at all.
 """
 
 from __future__ import annotations

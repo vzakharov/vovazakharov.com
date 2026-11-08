@@ -1,8 +1,8 @@
 """Prices a Claude Code transcript at Claude API rates, for the `Stop` hook that
 writes one session's row and the report that sums many.
 
-`.claude/costs/CLAUDE.md` carries the transcript's shape and what the totals
-leave out.
+`.claude/rules/costs-transcript.md` carries the transcript's shape, and
+`.claude/costs/CLAUDE.md` what the totals leave out.
 """
 
 from __future__ import annotations

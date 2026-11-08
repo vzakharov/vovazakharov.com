@@ -233,8 +233,8 @@ Nineteen things about that list are deliberate:
   `.claude/keepalive/` and `.claude/merge-gate/` against temporary transcripts
   and repositories of their own, and `.claude/hooks/`'s feed its hooks payloads
   on stdin. `check_estimates.py` fails a branch carrying a session with no
-  human-hour estimate, `.claude/costs/CLAUDE.md` § "Human-hour estimates" saying
-  why the gate sits here.
+  human-hour estimate, `.claude/rules/costs-estimates.md` saying why the gate
+  sits here.
 - **What makes a check a member is that it measures this repo's own code**,
   which is the test for the whole list — `scripts/gh_export/` is vendored byte
   for byte and edited only at the source, so its suite runs there.

@@ -3,8 +3,8 @@
 #
 # It shares the event with the harness's own `Stop` check, which refuses to end a
 # turn on an unclean or unpushed tree.
-# `.claude/costs/CLAUDE.md` § "Running beside the harness's Stop check" carries
-# why a row left in the tree is put back, and what the closing verdict covers.
+# `.claude/rules/costs-stop-hook.md` carries why a row left in the tree is put
+# back, and what the closing verdict covers.
 
 . "$(dirname "${BASH_SOURCE[0]}")/../../hooks/lib.sh" || exit 0
 read_payload
@@ -65,7 +65,7 @@ wait_out_harness_check() {
   # there was never a check to race.
   [ -f "$launcher_settings" ] || return 0
   harness_check_registered || {
-    say "the harness no longer registers a \`${harness_check}\` Stop hook. The race this hook waits out may be gone, or the check may have been renamed — either way \`.claude/costs/CLAUDE.md\` § \"Running beside the harness's Stop check\" is written on an arrangement that has changed, and wants revisiting."
+    say "the harness no longer registers a \`${harness_check}\` Stop hook. The race this hook waits out may be gone, or the check may have been renamed — either way \`.claude/rules/costs-stop-hook.md\` is written on an arrangement that has changed, and wants revisiting."
     return 0
   }
   command -v pgrep >/dev/null && command -v ps >/dev/null || return 0
