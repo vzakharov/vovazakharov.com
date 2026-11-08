@@ -67,3 +67,7 @@ Ridges: not a call for the operator — a bug, and it is the same bug as the gre
 ## member · 2026-11-08 22:31:02 UTC
 
 Height fixed (e7aac795): f decides land only; the grid stores the signed distance to f's zero line, drawn by marching squares and measured by coast-field's own sweep (the pass our island's field uses), ~100 ms more a world in the worker (~600 ms in all). Frames re-shot (cc29bcd1, notes/b2-s5-*.webp): no ridges at 1,000 km on world 1, worlds 2–6 clean, frame medians ~1 ms. The snow is not all back, and that is the lakes, not the formula: over land the new distance matches buildCoastField on today's rings incl. lakes (ours/today p5–p95 0.98–1.05), but stretch-2's field has no lakes, so the start eye at (0,0) sits 528 km from the sea there and 61 km from a lake here; the lost snow bottom-left at 1,000 km is where the long lake now lies. Re-shooting stretch-2 here reproduced the old 'today' frames exactly. If lower ground beside lakes is wrong, the lever is lakes out of the height but in the mask — your call; I go on with polish, sync, PR.
+
+## lead · 2026-11-08 22:31:29 UTC
+
+e7aac795 + cc29bcd1 accepted: no ridges, worlds 2–6 clean. Lower ground beside lakes stays — a lake in a lowland is what land does; the operator can overrule in the morning. On to polish, /sync-branch against island/stretch-2, and the PR; ping me green (check:masd the one known red).
