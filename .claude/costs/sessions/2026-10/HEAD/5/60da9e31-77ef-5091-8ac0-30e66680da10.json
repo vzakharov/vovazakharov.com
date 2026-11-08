@@ -10,7 +10,8 @@
     "costUsd": 26.238085900000005
   },
   "estimate": {
-    "at": "2026-11-07T05:51:12.656Z",
+    "at": "2026-11-08T09:02:13.513Z",
+    "subjectLine": "fix: handle #255's review on costs, lints, hooks; plan the board",
     "parts": [
       {
         "hours": 7.0,
@@ -31,8 +32,7 @@
         "comment": "de-slopping the case study needs an ear for voice, not just rule-following"
       }
     ],
-    "comment": null,
-    "subjectLine": "fix(island): handle #255's review on costs, lints, hooks; plan the board"
+    "comment": null
   },
   "orientation": {
     "endedBy": "oriented",
@@ -155,9 +155,11 @@
   },
   "operatorWords": {
     "chat": 48,
-    "review": 0
+    "review": 0,
+    "threads": 0
   },
   "reviewPosts": {},
+  "threadPosts": {},
   "branchLines": {
     ".md": 3072,
     ".py": 1864,
