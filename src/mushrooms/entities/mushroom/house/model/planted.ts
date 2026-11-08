@@ -35,9 +35,6 @@ export type WithMushrooms = Occupied<Planted>;
 /** How many mushrooms the meadow has ever grown, so every id is new. */
 export type Grown = { grown: number };
 
-/** The mushroom the child selected, by id; `undefined` while none is. */
-export type WithSelected = { selected: string | undefined };
-
 /** The spores on the ground, in the order they settled. */
 export type WithSpores = { spores: readonly Spore[] };
 

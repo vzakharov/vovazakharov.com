@@ -1,4 +1,5 @@
-import type { Point } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+
 import type { RunEnd } from '@/mushrooms/entities/mouse/index.node-safe';
 import {
   type DoorPlace,

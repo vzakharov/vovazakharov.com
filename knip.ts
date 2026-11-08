@@ -14,6 +14,12 @@ export default {
     'steiger.config.mjs',
     // Named by string in `sites/site-next-config.ts`, as `createNextIntlPlugin` wants.
     'src/kernel/shared/i18n/request.ts',
+    // `src/island-board/scripts/board.ts` bundles the page from an entry it writes
+    // inline and compiles the stylesheet by path.
+    'src/island-board/pages/board/index.ts',
+    'src/island-board/app/styles/board.scss',
+    // A branch's one-off scripts, run by hand and swept by `/finalize`.
+    'docs/remove-before-merging/**/*.ts',
     // Run by `scripts/vet-test.sh`, which hands node the files rather than a
     // glob a `package.json` script spells.
     '**/*.test.ts',

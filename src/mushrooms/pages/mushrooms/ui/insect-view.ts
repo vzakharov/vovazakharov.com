@@ -2,13 +2,18 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+
 import { smooth, wobble } from '@/mushrooms/shared/lib/motion';
 import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
 import { containsCircle, type Lighting } from '@/mushrooms/shared/ui';
-import { aloftAt, CLUMP_DISTANCE, type View } from '@/mushrooms/shared/world';
 import {
   type Aloft,
+  aloftAt,
+  CLUMP_DISTANCE,
+  type View,
+} from '@/mushrooms/shared/world';
+import {
   aloft,
   type Away,
   carriedFrom,

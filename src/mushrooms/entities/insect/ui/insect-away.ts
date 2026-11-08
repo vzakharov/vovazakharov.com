@@ -6,12 +6,14 @@
  * is timed between the points it is drawn between.
  */
 
-import type { Sized } from '@/kernel/shared/typings';
+import type { Seeded, Sized } from '@/kernel/shared/typings';
 
-import { type Point, wrap } from '@/mushrooms/shared/lib/geometry';
+import type { Point, Zoomed } from '@/scene/shared/lib/plane';
+
+import { wrap } from '@/mushrooms/shared/lib/geometry';
 import { phaseOf } from '@/mushrooms/shared/lib/motion';
-import type { Seeded } from '@/mushrooms/shared/lib/random';
 import {
+  type Aloft,
   aloftAt,
   alongSight,
   browDistance,
@@ -21,10 +23,9 @@ import {
   pinholeOf,
   type Spanned,
   type View,
-  type Zooming,
 } from '@/mushrooms/shared/world';
 
-import { type Aloft, azimuthOf } from '../model/flight-frame';
+import { azimuthOf } from '../model/flight-frame';
 import type { WayOut } from '../model/flight-in';
 import type { Kinded } from '../model/insect';
 import { type InsectGenes, insectGenes, wingspan } from '../model/insect-genes';
@@ -80,9 +81,6 @@ export function releasedAway(
   const size = layout.insectSizes[insect.kind];
   return ownAway(view, insectGenes(insect), size, phaseOf(insect));
 }
-
-/** A point on the screen, and how many times its laid-out size a thing there is drawn. */
-export type Zoomed = Point & Zooming;
 
 /**
  * Whether an insect `span` px across at its own size, drawn at `drawn`,

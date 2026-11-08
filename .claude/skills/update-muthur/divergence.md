@@ -13,6 +13,19 @@ record" holds the three rules this file keeps.
   `scripts/vet.sh`, `.claude/rules/stack.md`, `.gitignore`, `.prettierignore`
   and `.prettierrc.json`. A source edit to any of them is read for the idea; the
   file never lands.
+- **The cost rows count the human share, ahead of the source**: `operatorWords`
+  as `{chat, review, threads}` with `reviewPosts` and `threadPosts`,
+  `branchLines`, `estimate.subjectLine`, `.claude/costs/contribution.py`,
+  `.claude/costs/post_words.py`, and `scripts/gh_export/review_words.py`
+  recording review words at PR export. Built for the island case study's
+  comparison; a source edit to these files is merged around them, and the lot is
+  a candidate to carry upstream.
+- **The cost docs are split by need, ahead of the source**:
+  `.claude/costs/CLAUDE.md` keeps what every session in `.claude/costs/` needs,
+  and the rest is six path-scoped rules, `.claude/rules/costs-*.md`, each
+  loading on the files it governs (6181be01). A source edit to the costs
+  `CLAUDE.md` lands in whichever of the seven holds its topic now, and the split
+  is a candidate to carry upstream — the operator asked that it reach muthur.
 - **Issues are filed by hand here**, `/propose-issue` being declined below, so
   every source passage that hands filing to it says the mechanics instead:
   `.claude/skills/go/SKILL.md` (the parent first where it does not exist),
@@ -91,7 +104,7 @@ record" holds the three rules this file keeps.
 - **`.claude/skills/plan/SKILL.md`** — the handoff offers both a fresh session
   and a go-ahead in this one, neither as the rule.
 - **`.claude/skills/plan/elephant.md`** — points unattended runs at
-  `.claude/skills/megabeast/notes/README.md`, this repo's own.
+  `.claude/skills/mammoth/notes/README.md`, this repo's own.
 - **`.claude/skills/preview/SKILL.md`** — hydrated for this stack where the
   source ships a stub.
 - **`.claude/skills/take-issue/SKILL.md`** — two accommodations that make a

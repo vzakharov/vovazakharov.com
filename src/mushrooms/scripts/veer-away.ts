@@ -13,13 +13,13 @@
  */
 
 import {
+  type Aloft,
   CLUMP_DISTANCE,
   OPENING_EYE,
   type View,
   viewAt,
 } from '@/mushrooms/shared/world';
 import {
-  type Aloft,
   aloftOfLayout,
   apartIn,
   type Away,

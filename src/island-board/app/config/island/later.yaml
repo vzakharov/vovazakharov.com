@@ -1,0 +1,48 @@
+items:
+  - id: z-later
+    type: zone
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [3780, -1090, 880, 980, blue]
+    text: Later bites, and what is asked
+  - id: l-scale
+    type: line
+    updated: [2026-11-06T21:32:00.000Z, agent:lead]
+    ends: [later-2, z-scale]
+    text: seen in
+  - id: later-1
+    type: sticky
+    updated: [2026-11-06T22:30:00.000Z, agent:lead]
+    box: [3820, -730, 300, blue]
+    text: 'The sea bite: the general feel of web-ocean, sea and sky. A sun glint from orbit is optional, not required'
+  - id: later-2
+    type: sticky
+    updated: [2026-11-07T06:22:00.000Z, agent:lead]
+    box: [3980, -470, 320, yellow]
+    text: "Scale: (a) stays, confirmed by Zoltan. (a) The map's README: “Arc is the size of the DR Congo”, so all land ≈ 10 M km², Europe-sized; our trace matches (5,000 km across). (b) Vova recalled Zoltan meaning the whole island Congo-sized: half the width, ~2.5 M km². A half-width render lost the snowy highlands — “fewer mountains; back to the original size”"
+  - id: later-3
+    type: sticky
+    updated: [2026-11-08T09:06:48.940Z, agent:lead]
+    box: [4340, -470, 260, pink]
+    text: 'Vova asked Zoltan whether Congo-sized meant Arc or the whole island: “we have it right” — Arc is the Congo, the scale stays'
+    done: true
+  - id: coast-too-straight
+    type: image
+    updated: [2026-11-07T06:20:00.000Z, agent:lead]
+    box: [4190, -1000, 330]
+    src: images/coast-too-straight.webp
+    text: Vova's red line along the strait
+  - id: later-5
+    type: sticky
+    updated: [2026-11-07T08:10:00.000Z, agent:lead]
+    box: [4335, -285, 280, green]
+    text: "For later (Vova): the board page checks viewers' rows with zod/mini instead of full zod, and stops re-checking the data baked in at build"
+  - id: later-6
+    type: sticky
+    updated: [2026-11-07T08:10:00.000Z, agent:lead]
+    box: [4150, -720, 280, pink]
+    text: 'Open fork — world numbers: (1) blocks with named scales; (2) one opaque number hashed whole, kin as a path 150/3/7, the island a drawn root; (3) blocks unnamed. The lead argues for (2)'
+  - id: later-4
+    type: sticky
+    updated: [2026-11-07T06:20:00.000Z, agent:lead]
+    box: [3815, -1010, 300, yellow]
+    text: The shore is too straight (Vova, at the strait). The noise fades out within one wavelength of the coast, so the shore is the traced line at every scale, and the strait's sea stroke is a ruler. A later bite roughens it below one pixel of the drawing, so the drawn shape holds

@@ -1,0 +1,66 @@
+items:
+  - id: z-worlds
+    type: zone
+    updated: ['2026-11-07T07:30:00.000Z', 'agent:lead']
+    box: [4930, 520, 1120, 1480, blue]
+    text: Infinite worlds — thinking aloud, nothing decided
+  - id: worlds-1
+    type: sticky
+    updated: ['2026-11-07T06:10:00.000Z', 'agent:lead']
+    box: [4960, 605, 315, blue]
+    text: "World by number: the link carries a decimal number, 'world number such-and-such' (the operator's whim). A digit is 3.3 bits; a link stays shareable at ~2,000 digits, Chrome takes ~2 million. Domain idea: 18446744073709551616worlds.com"
+  - id: worlds-2
+    type: sticky
+    updated: ['2026-11-07T06:10:00.000Z', 'agent:lead']
+    box: [5320, 612, 315, blue]
+    text: 'Digits read coarse to fine, like a progressive JPEG: the first set the overall shape, later ones peninsulas, bays, pebbles. A cut-off number is a blurrier ancestor of the same world, and all worlds form one tree by their digits.'
+  - id: worlds-3
+    type: sticky
+    updated: ['2026-11-07T06:10:00.000Z', 'agent:lead']
+    box: [5690, 600, 315, blue]
+    text: "Our island has a number too, tens of thousands of digits long: the drawing itself is ~33 KB. Short numbers are wild random worlds; long ones are carefully drawn. Worlds sharing our opening digits are the island's relatives."
+  - id: worlds-4
+    type: sticky
+    updated: ['2026-11-07T06:10:00.000Z', 'agent:lead']
+    box: [4975, 890, 315, blue]
+    text: "Our island at 180913121020, Zoltan's and Syama's birthdays? One fixed shift of every world's first 12 digits makes its number start there, and those 12 digits alone give the island as if drawn from memory. Or an alias registry: DNS for worlds."
+  - id: worlds-5
+    type: sticky
+    updated: ['2026-11-07T06:10:00.000Z', 'agent:lead']
+    box: [5340, 905, 315, blue]
+    text: 'Owning: a token owns a number, or only a region of a world; digging land here and piling it there becomes a layer on top. Far future.'
+  - id: worlds-6
+    type: sticky
+    updated: ['2026-11-07T06:10:00.000Z', 'agent:lead']
+    box: [5700, 880, 315, blue]
+    text: 'Determinism: + − × ÷ √ match on every machine; exp, sin and the GPU do not, and long simulations (erosion, rivers) grow a last-bit difference until a river takes another valley.'
+  - id: worlds-7
+    type: sticky
+    updated: ['2026-11-07T06:10:00.000Z', 'agent:lead']
+    box: [5530, 1160, 380, blue]
+    text: "…or a feature: 'a bug in the fabric of reality', 'beauty is in the eye of the beholder', 'no one steps in the same river twice'. Chaos picked by the number is shared by all; chaos picked by the browser gives each viewer a world of their own."
+  - id: worlds-8
+    type: sticky
+    updated: ['2026-11-07T07:20:00.000Z', 'agent:lead']
+    box: [5010, 1175, 330, blue]
+    text: "A name for how many worlds fit in a link: Chrome takes 2,097,152 characters of URL (2 × 1024 × 1024), so after 'https://vovazakharov.com/island#' up to 10^2,097,120 numbers (~870 KB written out). The 'chromeplex'. Funny, if debatable. Its proper name: one hundred sesexagintasescentilliquinsexagintasescentillion (that one is 10^2,000,000)."
+  - id: seed-1
+    type: sticky
+    updated: ['2026-11-07T21:24:00.000Z', 'agent:lead']
+    box: [4970, 1520, 330, pink]
+    text: "Vova: find the island's numbers inside hash(1), keep the permutation as the 'magic number'. It works, but no key can be smaller than what it names: the main coast at 257 Fourier terms is finer than one pixel of the drawing, ~3,000 bits; ~600 bytes with the islets. Brute-forcing a hash that lands there: 2^3000 tries (all of Bitcoin: ~2^94 a year)"
+  - id: seed-2
+    type: sticky
+    updated: ['2026-11-07T21:24:00.000Z', 'agent:lead']
+    box: [5340, 1520, 330, pink]
+    text: "The XOR mask: D = island ⊕ hash(1), and every world is hash(n) ⊕ D. World 1 is the island exactly; every other world stays as random as before; no special case and no search. 'So our island is the magic number?' Yes, encrypted by hash(1)"
+  - id: seed-3
+    type: sticky
+    updated: ['2026-11-07T21:24:00.000Z', 'agent:lead']
+    box: [5710, 1520, 315, pink]
+    text: 'Head = drawing, tail = zoom. A hash of any length with random access is hash(n, i), as value-noise already does per lattice point. Mask only the coarse lattice under the island, on the raw bits before noise shapes them: finer octaves and the open sea stay unmasked, so the coast fractalizes and world 1 runs on past the drawing'
+  - id: l-seed-shift
+    type: line
+    updated: ['2026-11-07T21:24:00.000Z', 'agent:lead']
+    ends: [seed-2, worlds-4]
+    text: the shift, whole

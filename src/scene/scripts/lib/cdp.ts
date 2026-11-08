@@ -55,23 +55,34 @@ const Evaluated = z.object({
     .optional(),
 });
 
+type EvaluateOptions = {
+  /** Waits for the promise the expression returns and parses what it resolves to. */
+  readonly awaitPromise?: boolean;
+};
+
 /** A page a script can read values out of. */
 export type Evaluating = {
-  /** The expression's value, parsed; a throw in the page rejects. */
+  /** The expression's value, parsed; a throw in the page — or, awaited, a rejection — rejects. */
   evaluate: <Parsed>(
     expression: string,
     schema: z.ZodType<Parsed>,
+    options?: EvaluateOptions,
   ) => Promise<Parsed>;
 };
 
-/** One page, in a browser context of its own so its storage is its own. */
-export type Tab = Evaluating & {
-  readonly contextId: string;
+/** A page a script can send commands to and hear events from. */
+export type Talking = {
   /** Sends a command to this page. */
   send: (method: string, params?: object) => Promise<unknown>;
   /** Listens for an event from this page alone. */
   on: (event: string, listener: (params: unknown) => void) => void;
 };
+
+/** One page, in a browser context of its own so its storage is its own. */
+export type Tab = Evaluating &
+  Talking & {
+    readonly contextId: string;
+  };
 
 /**
  * Opens a blank page with `Runtime` and `Page` enabled, handing the first line
@@ -115,9 +126,13 @@ export async function openTab(
     contextId,
     send,
     on,
-    evaluate: async (expression, schema) => {
+    evaluate: async (expression, schema, { awaitPromise = false } = {}) => {
       const reply = Evaluated.parse(
-        await send('Runtime.evaluate', { expression, returnByValue: true }),
+        await send('Runtime.evaluate', {
+          expression,
+          returnByValue: true,
+          awaitPromise,
+        }),
       );
       if (reply.exceptionDetails) {
         throw new Error(

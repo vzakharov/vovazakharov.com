@@ -62,6 +62,7 @@ import { flag, given } from '@/kernel/scripts/lib/argv';
 import { withPrintOrigin } from '@/kernel/scripts/lib/print-origin';
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 import { type Browser, launch, openTab } from '@/scene/scripts/lib/cdp';
+import { watchPageErrors } from '@/scene/scripts/lib/page-errors';
 
 const OUT = path.join(REPO_ROOT, 'sites/vova/out');
 const FRAMES = path.join(REPO_ROOT, 'tmp/play');
@@ -111,9 +112,12 @@ async function open(
   dark: boolean,
 ): Promise<Page> {
   // A context of its own, its storage in memory, so no play opens another's meadow.
-  const { contextId, send, evaluate } = await openTab(browser, (message) => {
+  const report = (message: string) => {
     errors.push(`${screen.name}: ${message}`);
-  });
+  };
+  const tab = await openTab(browser, report);
+  await watchPageErrors(tab, report);
+  const { contextId, send, evaluate } = tab;
   const { width, height, ratio } = screen;
   await send('Emulation.setDeviceMetricsOverride', {
     width,

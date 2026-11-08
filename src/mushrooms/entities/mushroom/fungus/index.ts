@@ -13,13 +13,7 @@ export {
   toCanvas,
 } from './body';
 export { capFrame, capSeat, splayed } from './body';
-export {
-  capSurface,
-  type Chorded,
-  CURVE_STEPS,
-  curveSteps,
-  stemHalfWidth,
-} from './body';
+export { capSurface, CURVE_STEPS, curveSteps, stemHalfWidth } from './body';
 export { type MushroomLights, mushroomLights } from './body';
 export { type HazedGraphics } from './body';
 export { drawMushroom, drawMushroomShadow } from './figure';

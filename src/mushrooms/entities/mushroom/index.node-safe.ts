@@ -105,6 +105,5 @@ export {
   windowSlots,
   type WithMushrooms,
   type WithOptionalSpan,
-  type WithSelected,
   type WithSpores,
 } from './house/index.node-safe';

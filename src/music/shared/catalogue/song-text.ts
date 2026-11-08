@@ -19,7 +19,7 @@ import {
   withoutNotes,
   type WithStanzas,
 } from './lyric-notes.ts';
-import type { MusicAlbum } from './names.ts';
+import type { MusicAlbum } from './name-brands.ts';
 import { localeProse, splitSections } from './sections.ts';
 import { mostlyNeedsLatin } from './spelling.ts';
 import {

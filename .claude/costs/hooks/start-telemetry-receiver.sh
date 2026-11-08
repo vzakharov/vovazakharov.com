@@ -10,9 +10,9 @@
 # receiver can die mid-session. A listening port makes that firing a probe,
 # plus `confirm` while the receiver is unconfirmed.
 #
-# The events land under the repo's `tmp/telemetry/`; `.claude/costs/CLAUDE.md`
-# § "Telemetry" says why the repo cannot set the variables, and what reads the
-# events.
+# The events land under the repo's `tmp/telemetry/`;
+# `.claude/rules/costs-telemetry.md` says why the repo cannot set the variables,
+# and what reads the events.
 
 . "$(dirname "${BASH_SOURCE[0]}")/../../hooks/lib.sh" || exit 0
 read_payload

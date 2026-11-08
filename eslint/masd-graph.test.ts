@@ -99,6 +99,7 @@ describe('insignificantApps', () => {
           'vova',
           'music',
           'mushrooms',
+          'island',
           'bible',
           'basilisk',
           'maya',

@@ -8,6 +8,7 @@ import {
 import {
   type Lawn,
   LiveLawn,
+  type Sprout,
 } from '@/mushrooms/entities/landscape/index.node-safe';
 import {
   FLOOR_HELD,
@@ -15,7 +16,6 @@ import {
   VIEWPORTS,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 import {
-  type Sprout,
   tendedIn,
   tendTufts,
 } from '@/mushrooms/features/plant-flower/index.node-safe';

@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import type { Direction } from '../lib/cruise';
 import {
   CRUISE_ACROSS,
-  type Direction,
   holdKey,
   KEY_EASE,
   leftAt,

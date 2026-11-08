@@ -32,7 +32,6 @@ export {
   SPROUT_START,
   sproutScale,
   type WithMushrooms,
-  type WithSelected,
   type WithSpores,
 } from './model/planted';
 export {

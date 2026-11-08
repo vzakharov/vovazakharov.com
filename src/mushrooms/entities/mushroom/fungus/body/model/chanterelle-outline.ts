@@ -5,7 +5,9 @@
  * and on down the stem.
  */
 
-import { type Point, rounded, sample } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+
+import { rounded, sample } from '@/mushrooms/shared/lib/geometry';
 
 import type { ChanterelleGenes } from './mushroom-genes';
 import { capFrame, stemAt } from './mushroom-pose';

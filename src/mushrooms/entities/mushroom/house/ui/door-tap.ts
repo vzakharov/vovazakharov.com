@@ -1,4 +1,4 @@
-import type { Point } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 
 /** A door as a tap finds it: its tap area's middle on screen, and whether that area holds a point on screen. */
 export type DoorTarget = Point & { holds: (at: Point) => boolean };

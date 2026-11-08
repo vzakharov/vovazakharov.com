@@ -8,8 +8,8 @@
 # session started or last compacted has one.
 #
 # This text is the agent-facing home of when and how to estimate and to mark;
-# `.claude/costs/CLAUDE.md` § "Human-hour estimates" and § "Orientation" carry
-# what each figure is for and what it cannot tell apart.
+# `.claude/rules/costs-estimates.md` and `costs-orientation.md` carry what each
+# figure is for and what it cannot tell apart.
 
 . "$(dirname "${BASH_SOURCE[0]}")/../../hooks/lib.sh" || exit 0
 need_command jq "skipping the estimate notice."
@@ -39,7 +39,7 @@ shown="$(CLAUDE_CODE_SESSION_ID="$session_id" python3 "$root/$script" show)" || 
 current="${shown#*: }"
 roles="$(jq -r '.roles | keys_unsorted | join(", ")' <<<"$rates")"
 grades="$(jq -r '.grades | keys_unsorted | join(", ")' <<<"$rates")"
-usage="python3 $script set --part <hours> <grade> <role> \"<why, at most 280 characters>\" [--part ...]"
+usage="python3 $script set --subject \"<type>: <what the session did, at most 72 characters, no scope the branch already names>\" --part <hours> <grade> <role> \"<why, at most 280 characters>\" [--part ...]"
 # A repository's own role gets a sentence of its own, naming the work booked
 # under it: listed among the shared roles alone, its work goes to the nearest.
 added="$(jq -r '.added | to_entries | map(" This repository adds a role of its own: `\(.key)`, always `\(.value.grade)` — \(.value.work). Book that work under it, `--part <hours> \(.value.grade) \(.key)`, even where a shared role seems to fit.") | join("")' <<<"$rates")"

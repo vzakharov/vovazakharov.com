@@ -16,5 +16,4 @@ export {
   seamPatches,
   shownSeam,
   shownSprouts,
-  type Sprout,
 } from './ui/tufts';

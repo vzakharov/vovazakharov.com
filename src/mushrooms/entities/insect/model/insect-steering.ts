@@ -3,8 +3,9 @@
  * step `InsectView` takes each frame, pure so a test flies it the same way.
  */
 
+import type { Point } from '@/scene/shared/lib/plane';
+
 import {
-  type Point,
   type Scaled,
   type Turned,
   wrap,

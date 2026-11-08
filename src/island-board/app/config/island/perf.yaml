@@ -1,0 +1,18 @@
+items:
+  - id: z-perf
+    type: zone
+    updated: [2026-11-07T07:40:00.000Z, agent:lead]
+    box: [2420, 1060, 1060, 470, green]
+    text: Side bite — the board got sluggish
+  - id: perf-1
+    type: sticky
+    updated: [2026-11-08T09:06:48.940Z, agent:lead]
+    box: [2460, 1150, 300, green]
+    text: "#262. The cause: the camera's transform sat on the lines' <svg> too, and a transform on an SVG root re-lays-out and repaints the whole board every pan frame. Now one wrapper moves, lifted onto its own layer while panning: a pan moves tiles already drawn. The page shrank 465 → 131 KB, mostly zod's unused locales."
+    done: true
+  - id: perf-chart
+    type: image
+    updated: [2026-11-07T07:41:07.627Z, u_L_AriiBLoWLIB4PYEulAJA]
+    box: [2816, 1170, 640]
+    src: images/board-perf.webp
+    text: 'Measured before and after, Chromium traces; the phone is a Pixel 7 at 4× CPU throttle. Zoom is unchanged: the four line labels still repaint on each zoom frame (the open question to Vova)'

@@ -38,6 +38,7 @@ python3 src/kernel/scripts/lib/test_hearing.py # transcribe.py's word merge │
 python3 src/kernel/scripts/lib/test_ctc.py # forced alignment  │
 python3 src/music/scripts/song-intake/test_song_facts.py # spectrogram facts │
 python3 scripts/five-percent-verdicts/{test_tally,test_answered,tally}.py # verdicts │
+python3 scripts/memo/test_memo.py # the lead/member channel     │
 scripts/check-squash-message.sh # squash proposal size          │
 scripts/check-skill-catalog.sh  # skill @-references            │
 scripts/check-markdown-tables.sh # no tables, while markdown.md is │
@@ -199,7 +200,7 @@ Nineteen things about that list are deliberate:
   hours in one container) sit commented out there while they are cut down,
   `vet.sh`'s `probe` and `play` phases running them by hand. `pnpm test` is the
   run by hand, over only the tests the branch reached
-  (`.claude/rules/testing.md`). Five Python suites sit beside it:
+  (`.claude/rules/testing.md`). Six Python suites sit beside it:
   `src/kernel/scripts/lib/test_hearing.py`, for
   `src/kernel/scripts/transcribe.py`'s pure half, which reads only its fixtures;
   `src/kernel/scripts/lib/test_ctc.py`, for the forced alignment on hand-built
@@ -208,8 +209,10 @@ Nineteen things about that list are deliberate:
   the system Python; and `scripts/five-percent-verdicts/test_tally.py` and
   `test_answered.py`, whose entry also runs `tally.py --check` over the
   committed verdicts, since a malformed row would otherwise surface only when
-  the next article is written from them. `answered.py` itself, which finds a
-  missing row, reads the PR's threads, so `/finalize` runs it rather than vet.
+  the next article is written from them. `scripts/memo/test_memo.py` passes
+  notes between two clones of a temporary origin. `answered.py` itself, which
+  finds a missing row, reads the PR's threads, so `/finalize` runs it rather
+  than vet.
 - **The last eleven read the agent infrastructure itself and write nothing
   another check reads, which is why they overlap the rest safely.**
   `scripts/check-skill-catalog.sh` asserts that every `@`-reference into
@@ -230,8 +233,8 @@ Nineteen things about that list are deliberate:
   `.claude/keepalive/` and `.claude/merge-gate/` against temporary transcripts
   and repositories of their own, and `.claude/hooks/`'s feed its hooks payloads
   on stdin. `check_estimates.py` fails a branch carrying a session with no
-  human-hour estimate, `.claude/costs/CLAUDE.md` § "Human-hour estimates" saying
-  why the gate sits here.
+  human-hour estimate, `.claude/rules/costs-estimates.md` saying why the gate
+  sits here.
 - **What makes a check a member is that it measures this repo's own code**,
   which is the test for the whole list — `scripts/gh_export/` is vendored byte
   for byte and edited only at the source, so its suite runs there.

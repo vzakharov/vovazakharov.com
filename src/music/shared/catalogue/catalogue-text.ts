@@ -5,7 +5,7 @@ import type { Locale } from '@/kernel/shared/i18n';
 import type { ProseSource, ServedMarkdown } from '@/blog/shared/content';
 
 import { albumFile, artistFile } from './catalogue-files.ts';
-import type { MusicAlbum, MusicProject } from './names.ts';
+import type { MusicAlbum, MusicProject } from './name-brands.ts';
 import {
   localePrelude,
   localeProse,

@@ -133,9 +133,10 @@ way in.
 The operator delivers a recording one of two ways, and they are not
 interchangeable:
 
-- **Committed to the branch.** `git pull` — the file is in the tree. When the
-  operator says "pull", this is what they mean; do not go looking through the
-  session's upload directory first.
+- **Committed to the branch.** `git fetch origin <branch>` and
+  `git merge origin/<branch>` — the file is in the tree. When the operator says
+  "pull", this is what they mean; do not go looking through the session's upload
+  directory first.
 - **Attached to a chat message.** It lands in the container's uploads directory
   and **exists nowhere else** — the transcript outlives it, the file does not.
   Copy it under `docs/remove-before-merging/` as the first thing you do with it.
@@ -229,8 +230,7 @@ place, and five departures are licensed.
 A reordering or a synonym is none of the five, so it is a rewrite. Note what the
 rule does **not** ask: that the result read well. The recording was loose, so
 the text is loose — smoothness is the tell that a sentence has been improved
-rather than transcribed, which is the same rule `@writing/CLAUDE.md` § "Voice"
-states for drafts.
+rather than transcribed, the rule `@.claude/rules/writing.md` opens with.
 
 The slip and the insertion are the two to be careful with, because both are you
 deciding what was meant. A slip is replaceable only where the intended word is

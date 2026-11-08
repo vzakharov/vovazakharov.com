@@ -1,4 +1,5 @@
 import {
+  type Aloft,
   type Eye,
   OPENING_EYE,
   unanchored,
@@ -9,7 +10,6 @@ import {
   type Stand,
 } from '@/mushrooms/entities/flower/index.node-safe';
 import {
-  type Aloft,
   aloftOfLayout,
   type Away,
   awayPlaces,

@@ -18,8 +18,6 @@ import type { Framing, RenderInput } from './render-page.ts';
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 import { launch, openTab } from '@/scene/scripts/lib/cdp';
 
-export type { View } from './render-page.ts';
-
 /** One frame's size, not the page's. */
 const WIDTH = 900;
 const HEIGHT = 700;

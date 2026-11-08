@@ -18,7 +18,7 @@ import { PIXELS } from '@/kernel/shared/config/index.node-safe';
 import type { Sized, Titled } from '@/kernel/shared/typings';
 
 import type { Renderable } from './render-manifest.ts';
-import { REPO_ROOT } from './site-tree.ts';
+import { REPO_ROOT } from './repo-root.ts';
 
 /** `globals.css`'s `--background`, so a card's inset extends its own plate. */
 export const CANVAS_BACKGROUND = '#ffffff';

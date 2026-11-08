@@ -1,12 +1,13 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { deduped, likeOf, parseLiked, preferredOf, withLike } from './liked';
+import { asTyped } from '../../checker';
+import { deduped, parseLiked, preferredOf, withLike } from './liked';
 
-describe('likeOf', () => {
+describe('asTyped', () => {
   it('carries the zone typed with the name', () => {
-    assert.equal(likeOf('foxedpage', 'com'), 'foxedpage.com');
-    assert.equal(likeOf('foxedpage', undefined), 'foxedpage');
+    assert.equal(asTyped('foxedpage', 'com'), 'foxedpage.com');
+    assert.equal(asTyped('foxedpage', undefined), 'foxedpage');
   });
 });
 

@@ -6,7 +6,9 @@
  * the things however the map is framed at that zoom.
  */
 
-import type { Box, Point } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+
+import type { Box } from '@/mushrooms/shared/lib/geometry';
 import {
   between,
   mulberry32,

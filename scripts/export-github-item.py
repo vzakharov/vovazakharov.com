@@ -27,6 +27,11 @@ a warning, measured against the context budget's warning line
 Exit status is non-zero when any attachment fails to download; the Markdown is
 still written, with the failed attachments still linked remotely.
 
+Run inside a Claude Code session (`CLAUDE_CODE_SESSION_ID` set), a PR export
+also hands its human posts to `.claude/costs/post_words.py`, which counts the
+operator's review words into the session's cost row; a failure there exits
+non-zero the same way, after the Markdown is written.
+
 Auth: uses $GH_TOKEN (or $GITHUB_TOKEN) if set, otherwise falls back to
 `gh auth token`. A token is required to download GitHub's private user-image
 attachment URLs (private-user-images.githubusercontent.com), which auth-gate
@@ -64,6 +69,7 @@ from gh_export.awaiting import ExportSize, awaiting_section
 from gh_export.index import indexed_section
 from gh_export.markdown import comments_parts, header_section
 from gh_export.previous import previous_export
+from gh_export.review_words import human_posts, record_review_words
 from gh_export.reviews import review_parts
 from gh_export.timeline import timeline_section
 from lib.github import (
@@ -195,6 +201,13 @@ def main() -> None:
     md_path.write_text("\n".join(parts), encoding="utf-8")
 
     print(f"Wrote {md_path}")
+    unrecorded = (
+        record_review_words(human_posts(comments, reviews, review_comments))
+        if is_pr
+        else None
+    )
+    if unrecorded:
+        print(f"Review words went unrecorded: {unrecorded}", file=sys.stderr)
     total = len(url_to_relative) + len(downloads.failures)
     if total:
         print(
@@ -211,6 +224,8 @@ def main() -> None:
             f"{len(downloads.failures)} of {total} attachment(s) failed; "
             f"{md_path} still links to them remotely."
         )
+    if unrecorded:
+        die(f"{md_path} is written; the session's review words are not.")
 
 
 if __name__ == "__main__":

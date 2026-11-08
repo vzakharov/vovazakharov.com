@@ -1,4 +1,4 @@
-import type { Seeded } from '@/mushrooms/shared/lib/random';
+import type { Seeded } from '@/kernel/shared/typings';
 
 import { type BeeGenes, beeGenes } from './bee-genes';
 import { type ButterflyGenes, butterflyGenes } from './butterfly-genes';

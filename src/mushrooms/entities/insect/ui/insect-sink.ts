@@ -9,13 +9,13 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
+import type { Distant, Point } from '@/scene/shared/lib/plane';
+
 import type { Translucent } from '@/mushrooms/shared/ui/index.node-safe';
 import {
   behindHills,
   browPale,
   depthOf,
-  type Distant,
   type Layered,
   sunkAway,
   UNPLACED,

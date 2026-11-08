@@ -1,0 +1,121 @@
+items:
+  - id: z-names
+    type: zone
+    updated: ['2026-11-07T10:20:00.000Z', 'agent:lead']
+    box: [6150, 450, 1150, 1980, yellow]
+    text: What to call it — names and domains, 7 Nov
+  - id: domain-amyriadworlds
+    type: image
+    updated: ['2026-11-07T10:05:00.000Z', 'agent:lead']
+    box: [6250, 820, 300]
+    src: images/domain-amyriadworlds.webp
+    text: 'amyriadworlds.com: free'
+  - id: domain-myriadworlds
+    type: image
+    updated: ['2026-11-07T10:05:00.000Z', 'agent:lead']
+    box: [6600, 830, 300]
+    src: images/domain-myriadworlds.webp
+    text: 'myriadworlds.com: squatted'
+  - id: domain-urin-world
+    type: image
+    updated: ['2026-11-07T10:05:00.000Z', 'agent:lead']
+    box: [6240, 1100, 320]
+    src: images/domain-urin-world.webp
+    text: 'Vova: "urin.world — or does it sound like something about urine? :)"'
+  - id: domain-card-youarein-world
+    type: image
+    updated: ['2026-11-07T10:05:00.000Z', 'agent:lead']
+    box: [6590, 1100, 320]
+    src: images/domain-card-youarein-world.webp
+    text: youarein.world — free
+  - id: domain-card-theinfiniteatlas
+    type: image
+    updated: ['2026-11-07T10:05:00.000Z', 'agent:lead']
+    box: [6940, 1100, 320]
+    src: images/domain-card-theinfiniteatlas.webp
+    text: theinfiniteatlas.com — free
+  - id: domain-card-infiniteatlas
+    type: image
+    updated: ['2026-11-07T10:05:00.000Z', 'agent:lead']
+    box: [6240, 1360, 320]
+    src: images/domain-card-infiniteatlas.webp
+    text: infiniteatlas.com — taken since 2011
+  - id: domain-card-amyriadworlds
+    type: image
+    updated: ['2026-11-07T10:05:00.000Z', 'agent:lead']
+    box: [6590, 1360, 320]
+    src: images/domain-card-amyriadworlds.webp
+    text: amyriadworlds.com — free
+  - id: domain-card-myriadworlds
+    type: image
+    updated: ['2026-11-07T10:05:00.000Z', 'agent:lead']
+    box: [6940, 1360, 320]
+    src: images/domain-card-myriadworlds.webp
+    text: myriadworlds.com — taken since 2018
+  - id: short-youarein
+    type: sticky
+    updated: ['2026-11-07T10:05:00.000Z', 'agent:lead']
+    box: [6230, 1620, 320, yellow]
+    text: 'Shortlist 1 — youarein.world#150. For: "you''re in!", in the game and in world 150. Against (Vova): people will type yourein; unsure it reads as "you are in" at all; and it names no game — "have you played…?" what?'
+  - id: short-atlas
+    type: sticky
+    updated: ['2026-11-07T10:05:00.000Z', 'agent:lead']
+    box: [6585, 1620, 320, yellow]
+    text: 'Shortlist 2 — theinfiniteatlas.com. For: says what the game is, an atlas with every world in it (Borges). Against (Vova): infiniteatlas.com, without "the", is taken since 2011'
+  - id: short-myriad
+    type: sticky
+    updated: ['2026-11-07T10:05:00.000Z', 'agent:lead']
+    box: [6940, 1620, 320, yellow]
+    text: 'Shortlist 3 — amyriadworlds.com, the game named "A Myriad Worlds". For: the address is the name letter for letter. Against: said aloud, people type myriadworlds.com, taken since 2018'
+  - id: short-seed
+    type: sticky
+    updated: ['2026-11-07T10:05:00.000Z', 'agent:lead']
+    box: [6230, 560, 320, yellow]
+    text: 'Shortlist 4 — seedaworld.com (Vova). For: a verb, "seed a world", which is what the number does, and a .com — "nothing beats a com". Free, $12/yr; seeda.world is taken'
+  - id: names-free
+    type: sticky
+    updated: ['2026-11-07T10:05:00.000Z', 'agent:lead']
+    box: [6230, 1880, 320, green]
+    text: 'Free (of ~180 checked): youarein / nowentering / greetingsfrom / wakeupin / castawayon / chromeplex .world; theinfiniteatlas, libraryofislands, fallintothemap, myriadisles .com'
+  - id: names-taken
+    type: sticky
+    updated: ['2026-11-07T10:05:00.000Z', 'agent:lead']
+    box: [6585, 1880, 320, pink]
+    text: 'Good, but taken: welcometo / thisis / meet / hello / another / infinite .world; myriadworlds, infiniteatlas, libraryofworlds, worldseed, chromeplex, youarein .com'
+  - id: names-dropped
+    type: sticky
+    updated: ['2026-11-07T10:05:00.000Z', 'agent:lead']
+    box: [6940, 1880, 320, yellow]
+    text: 'Free, dropped: urin.world (urine), ur.in (no "world"), yourein.world ("you rein"), beammeto.world (a space game), mapyoucanfallinto.com (too long)'
+  - id: worlds-10
+    type: sticky
+    updated: ['2026-11-07T10:05:00.000Z', 'agent:lead']
+    box: [6950, 820, 300, blue]
+    text: 'Vova: a .world name read as a sentence ending in the number — "<greeting>.world#150". welcometo, thisis and meet are taken; youarein and nowentering are free'
+  - id: worlds-9
+    type: sticky
+    updated: ['2026-11-07T10:05:00.000Z', 'agent:lead']
+    box: [6940, 560, 300, blue]
+    text: 'Domains: myriadworlds.com is squatted ($4,395 on HugeDomains); amyriadworlds.com is free, $12/yr (Vova, via unsquatted.com).'
+  - id: domain-card-seedaworld
+    type: image
+    updated: ['2026-11-07T10:05:00.000Z', 'agent:lead']
+    box: [6580, 560, 320]
+    src: images/domain-card-seedaworld.webp
+    text: seedaworld.com — free
+  - id: domain-card-entering-world
+    type: image
+    updated: ['2026-11-08T12:00:00.000Z', 'agent:lead']
+    box: [6940, 2090, 320]
+    src: images/domain-card-entering-world.webp
+    text: 'entering.world — free, $3 then $38/yr (Vova, 8 Nov)'
+  - id: names-atlas
+    type: sticky
+    updated: ['2026-11-07T10:20:00.000Z', 'agent:lead']
+    box: [6230, 2090, 320, green]
+    text: '<adjective>atlas.com, 60 checked. Free: boundless, limitless, numberless, countless, bottomless, everlasting, unending, seeded, numbered, fractal, growing; atlasofbabel, atlasofeveryworld, themyriadatlas. Taken: endless, infinite, living, secret, lost, impossible, imaginary, myriad, babel-atlas'
+  - id: names-borges
+    type: sticky
+    updated: ['2026-11-07T10:20:00.000Z', 'agent:lead']
+    box: [6585, 2090, 320, blue]
+    text: "Why Borges: in 'The Library of Babel' every possible book exists, nearly all noise, every true one somewhere — our world numbers. In 'On Exactitude in Science' the map is the size of the empire — our fall from orbit. His name stays out of the title: the estate sues (Kodama v. Katchadjian), texts in copyright to 2056; 'Babel', 'library', 'atlas' are free to allude"

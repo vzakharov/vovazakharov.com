@@ -3,11 +3,12 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
+import type { Point } from '@/scene/shared/lib/plane';
+
 import {
   type Circle,
   containsPoint,
   outside,
-  type Point,
 } from '@/mushrooms/shared/lib/geometry';
 
 import {

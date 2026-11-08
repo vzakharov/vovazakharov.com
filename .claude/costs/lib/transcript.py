@@ -1,5 +1,5 @@
 """The billed responses in a session's transcripts, read one record at a time.
-`.claude/costs/CLAUDE.md` § "Reading a transcript" carries the file's shape."""
+`.claude/rules/costs-transcript.md` carries the file's shape."""
 
 from __future__ import annotations
 

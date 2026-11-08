@@ -10,11 +10,12 @@
  * scene's query (`flower-sight.ts`).
  */
 
+import type { Point } from '@/scene/shared/lib/plane';
+
 import {
   type Circle,
   distanceBetween,
   distanceToSegment,
-  type Point,
 } from '@/mushrooms/shared/lib/geometry';
 import {
   between,

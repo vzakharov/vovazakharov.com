@@ -193,6 +193,7 @@ source_checks=(
   ctc='python3 src/kernel/scripts/lib/test_ctc.py'
   song-facts='python3 src/music/scripts/song-intake/test_song_facts.py'
   five-percent='python3 scripts/five-percent-verdicts/test_tally.py && python3 scripts/five-percent-verdicts/test_answered.py && python3 scripts/five-percent-verdicts/tally.py --check'
+  memo='python3 scripts/memo/test_memo.py'
   skills='scripts/check-skill-catalog.sh'
   tables='[ ! -f .claude/rules/markdown.md ] || scripts/check-markdown-tables.sh'
   staged='scripts/staged.sh check'

@@ -4,8 +4,8 @@ compaction cost later in reads of things its summary left out.
 
 The measure takes what `summarise_transcript` collects on its one pass over the
 transcript rather than walking the records itself, so the dedup rule for
-`message.id` has one home. `.claude/costs/CLAUDE.md` § "Orientation" carries
-what ends a phase, and what the measure misses.
+`message.id` has one home. `.claude/rules/costs-orientation.md` carries what
+ends a phase, and what the measure misses.
 """
 
 from __future__ import annotations

@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import fields, is_dataclass
-from typing import Any, Callable, Dict, Iterator, Mapping, Optional, Tuple, TypeVar
+from typing import Any, Callable, Dict, Iterator, List, Mapping, Optional, Tuple, TypeVar
 
 
 class ShapeError(ValueError):
@@ -91,11 +91,38 @@ def camel(name: str) -> str:
 
 
 def to_json(value: Any) -> Any:
-    """A dataclass tree as the JSON a row is written as, keys in camelCase."""
+    """A dataclass tree as the JSON a row is written as, keys in camelCase, in
+    the class's `KEY_ORDER` where it has one and its field order otherwise."""
     if is_dataclass(value) and not isinstance(value, type):
-        return {camel(f.name): to_json(getattr(value, f.name)) for f in fields(value)}
+        return {camel(name): to_json(getattr(value, name)) for name in _names(value)}
     if isinstance(value, dict):
         return {key: to_json(item) for key, item in value.items()}
     if isinstance(value, list):
         return [to_json(item) for item in value]
     return value
+
+
+def _names(value: Any) -> Tuple[str, ...]:
+    return getattr(value, "KEY_ORDER", None) or tuple(f.name for f in fields(value))
+
+
+def unwritten(value: Any, raw: Any, where: str = "") -> List[str]:
+    """The keys `to_json(value)` writes that `raw`, the JSON `value` was parsed
+    from, lacks — dotted from the root — which is a field its writer predates.
+    Only dataclass fields are followed: a free-form map's keys are data."""
+    if not (is_dataclass(value) and not isinstance(value, type) and isinstance(raw, dict)):
+        return []
+    missing = []
+    for name in _names(value):
+        key = camel(name)
+        path = f"{where}.{key}" if where else key
+        if key not in raw:
+            missing.append(path)
+            continue
+        item = getattr(value, name)
+        if isinstance(item, list) and isinstance(raw[key], list):
+            for index, (each, each_raw) in enumerate(zip(item, raw[key])):
+                missing.extend(unwritten(each, each_raw, f"{path}[{index}]"))
+        else:
+            missing.extend(unwritten(item, raw[key], path))
+    return missing

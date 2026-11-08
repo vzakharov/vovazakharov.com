@@ -4,6 +4,8 @@
  * knock and the runs that leave or reach it.
  */
 
+import type { Seeded } from '@/kernel/shared/typings';
+
 import {
   type Looking,
   mouseOut,
@@ -11,7 +13,6 @@ import {
   peekAfterTap,
   type Tapped,
 } from '@/mushrooms/shared/lib/motion';
-import type { Seeded } from '@/mushrooms/shared/lib/random';
 import {
   type PeekingOut,
   runAt,

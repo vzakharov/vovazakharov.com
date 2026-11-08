@@ -11,12 +11,13 @@ import type { Labeled, Typed, WithLink } from '@/kernel/shared/typings';
 import { useCopied } from '@/shell/shared/ui';
 
 import {
+  asTyped,
   ledeParts,
   plainByline,
   type TypedName,
   type WithCopy,
 } from '../../checker';
-import { LikeButton, likeOf, preferredOf, useLikes } from '../../likes';
+import { LikeButton, preferredOf, useLikes } from '../../likes';
 import {
   cardLead,
   cardRows,
@@ -346,7 +347,7 @@ export function FieldTools({
   return (
     <>
       <SharePopover
-        typed={likeOf(label, zone)}
+        typed={asTyped(label, zone)}
         drawCard={
           rows === undefined
             ? undefined
