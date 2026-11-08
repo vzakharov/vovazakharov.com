@@ -3,6 +3,7 @@ import { describe, it } from 'node:test';
 
 import { type Ring, signedArea } from './ring';
 import {
+  isSpeck,
   resample,
   ringsCross,
   selfIntersects,
@@ -56,6 +57,16 @@ describe('smoothCoast', () => {
         Math.abs(signedArea(smoothed[1] ?? [])),
     );
     assert.ok(maxX(smoothed[0] ?? []) > 80, 'the main body is first');
+  });
+
+  it('keeps a lake under the minimum area, clockwise inside its land', () => {
+    const lake = square(10, 10, 4).toReversed();
+    const [body = [], kept = [], ...rest] = smoothCoast([lake, BODY], OPTIONS);
+    assert.equal(rest.length, 0);
+    assert.ok(signedArea(kept) < 0);
+    assert.equal(ringsCross(body, kept), false);
+    assert.equal(isSpeck(lake, OPTIONS), false);
+    assert.equal(isSpeck(square(0, 0, 4), OPTIONS), true);
   });
 
   it('keeps every ring counter-clockwise, simple and apart', () => {

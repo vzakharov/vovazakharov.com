@@ -8,7 +8,7 @@ import { type Ring, signedArea, type Simplified, simplify } from './ring';
 
 /** `tolerance` is the Douglas–Peucker pass's after the blur. */
 export type SmoothOptions = Simplified & {
-  /** Rings of a smaller area, in square units, are dropped. */
+  /** Land rings of a smaller area, in square units, are dropped. */
   minArea: number;
   /** The even arc length a ring is resampled at before the blur. */
   resampleStep: number;
@@ -130,15 +130,22 @@ function smoothRing(ring: Ring, others: Ring[], options: SmoothOptions): Ring {
   }
 }
 
+/** Whether `smoothCoast` drops the ring: land under `minArea`. A hole is a
+ * lake the trace already judged, so none is a speck. */
+export const isSpeck = (ring: Ring, { minArea }: SmoothOptions) => {
+  const area = signedArea(ring);
+  return area >= 0 && area < minArea;
+};
+
 /**
- * The coast's rings with specks under `minArea` dropped and each kept ring
- * smoothed, largest first. Every ring keeps its turning, stays simple and
- * crosses no ring smoothed before it.
+ * The coast's rings with specks dropped and each kept ring smoothed, largest
+ * first. Every ring keeps its turning, stays simple and crosses no ring
+ * smoothed before it.
  */
 export function smoothCoast(rings: Ring[], options: SmoothOptions): Ring[] {
   const kept = rings
+    .filter((ring) => !isSpeck(ring, options))
     .map((ring) => ({ ring, area: Math.abs(signedArea(ring)) }))
-    .filter(({ area }) => area >= options.minArea)
     .toSorted((a, b) => b.area - a.area);
   const done: Ring[] = [];
   for (const { ring } of kept) done.push(smoothRing(ring, done, options));

@@ -13,6 +13,7 @@ const CoastSchema = z.object({
 
 /**
  * The coastline Zoltan and Syama drew, traced by `pnpm trace:island` from the
- * board's map: kilometres on the island plane, the main body first.
+ * board's map: kilometres on the island plane, the main body first, read
+ * even-odd — land counter-clockwise, a drawn lake a clockwise ring inside it.
  */
 export const coast: Coast = CoastSchema.parse(traced);

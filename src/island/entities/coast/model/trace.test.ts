@@ -83,14 +83,49 @@ describe('traceCoast', () => {
     assert.ok(Math.abs(area - Math.PI * 51.5 ** 2) / area < 0.05);
   });
 
-  it('fills a lake: land enclosed by land is land', () => {
-    const [land, ...rest] = traceCoast(
+  it('keeps an inked lake of bare paper as a hole turning against the land', () => {
+    const [land, lake, ...rest] = traceCoast(
       draw(...inkedDisc(80, 80, 60), ...inkedDisc(80, 80, 20, PAPER)),
       OPTIONS,
     );
-    assert.ok(land);
+    assert.ok(land && lake);
     assert.equal(rest.length, 0);
     assert.ok(signedArea(land) > Math.PI * 58 ** 2);
+    const area = -signedArea(lake);
+    assert.ok(Math.abs(area - Math.PI * 20 ** 2) / area < 0.1, `${area}`);
+  });
+
+  it('keeps a lake as small as a pool, whatever the island floor', () => {
+    const traced = traceCoast(
+      draw(...inkedDisc(80, 80, 50), ...inkedDisc(80, 80, 4, PAPER)),
+      { ...OPTIONS, islandFloor: 200 },
+    );
+    assert.equal(traced.length, 2);
+    assert.ok(signedArea(traced[1] ?? []) < 0);
+  });
+
+  it('fills bare paper between two strokes: too narrow to clear the ink', () => {
+    // Paper 3 px wide (y 42–44) inside an inked frame, as a border drawn a
+    // few pixels off the coast leaves it.
+    const frame: Painter[] = [
+      (x, y) => (x >= 50 && x <= 100 && y >= 40 && y <= 47 ? PAPER : undefined),
+      stroke(50, 40, 100, 42),
+      stroke(50, 45, 100, 47),
+      stroke(50, 40, 52, 47),
+      stroke(98, 40, 100, 47),
+    ];
+    const drawing = draw(...inkedDisc(80, 80, 60), ...frame);
+    assert.equal(traceCoast(drawing, OPTIONS).length, 1);
+    const looser = traceCoast(drawing, { ...OPTIONS, inkClearance: 1 });
+    assert.equal(looser.length, 2, 'a clearance of 1 reads it as a lake');
+  });
+
+  it('fills an inked ring of crayon: a painted hole is land', () => {
+    const traced = traceCoast(
+      draw(...inkedDisc(80, 80, 60), ...inkedDisc(80, 80, 20, PALE)),
+      OPTIONS,
+    );
+    assert.equal(traced.length, 1);
   });
 
   it('drops a speck under the island floor and keeps the disc', () => {
