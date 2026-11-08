@@ -1,6 +1,6 @@
 import type { Gridded, Point } from '@/scene/shared/lib/plane';
 
-import type { PlaneGrid } from './fit-grid';
+import type { CoastGrid } from '@/island/entities/terrain';
 
 /** How much of the drawn land the field gets wrong, in nodes. */
 export type WrongArea = {
@@ -92,7 +92,7 @@ export type Patch = Point & {
 export function largestPatches(
   land: Uint8Array,
   truth: Uint8Array,
-  grid: PlaneGrid,
+  grid: CoastGrid,
   count: number,
 ): Patch[] {
   const km2 = (grid.cellMetres / 1000) ** 2;
@@ -147,7 +147,7 @@ export function lakesOf(
 }
 
 /** The node of `grid` nearest plane point `(x, y)` metres, or −1 off it. */
-export function nodeAt(grid: PlaneGrid, x: number, y: number): number {
+export function nodeAt(grid: CoastGrid, x: number, y: number): number {
   const i = Math.round((x - grid.originX) / grid.cellMetres);
   const j = Math.round((y - grid.originY) / grid.cellMetres);
   const inside = i >= 0 && j >= 0 && i < grid.columns && j < grid.rows;

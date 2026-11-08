@@ -1,14 +1,12 @@
 import {
   type CoastField,
+  type CoastGrid,
   GRID,
   GRID_NODES,
 } from '@/island/entities/terrain';
 
-/** A node grid on the island plane: `CoastField` less its values. */
-export type PlaneGrid = Omit<CoastField, 'distance'>;
-
 /** The world's 1024² grid over its square. */
-export const WORLD_GRID: PlaneGrid = {
+export const WORLD_GRID: CoastGrid = {
   ...GRID,
   columns: GRID_NODES,
   rows: GRID_NODES,
@@ -19,7 +17,7 @@ export const boxGrid = (
   [x0, x1]: readonly [number, number],
   [y0, y1]: readonly [number, number],
   cellMetres: number,
-): PlaneGrid => ({
+): CoastGrid => ({
   originX: x0,
   originY: y0,
   cellMetres,
@@ -33,7 +31,7 @@ export const boxGrid = (
  * past the edge — a coast field's margin is sea, so that keeps falling away
  * from the land.
  */
-export function resample(field: CoastField, grid: PlaneGrid): Float64Array {
+export function resample(field: CoastField, grid: CoastGrid): Float64Array {
   const { originX, originY, cellMetres, columns, rows, distance } = field;
   const out = new Float64Array(grid.columns * grid.rows);
   const at = (n: number) => distance[n] ?? Number.NaN;

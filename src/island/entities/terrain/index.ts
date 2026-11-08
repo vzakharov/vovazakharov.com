@@ -1,4 +1,8 @@
-export { buildCoastField, type CoastField } from './coast-field';
+export {
+  buildCoastField,
+  type CoastField,
+  type CoastGrid,
+} from './coast-field';
 export { heightAt } from './height';
 export { detailCut, frustumOf, selectTiles } from './quadtree';
 export {
@@ -17,11 +21,9 @@ export {
   assertWorldNumber,
   buildWorldField,
   coefficientOf,
-  type Complex,
   type Dome,
   DOME_RANGES,
   domeAt,
-  domeOf,
   domeWords,
   encodeCoefficient,
   envelope,
@@ -29,11 +31,8 @@ export {
   GRID,
   GRID_NODES,
   HARMONIC_COUNT,
-  harmonicOf,
   harmonicWord,
-  ifft2,
   isWorldNumber,
-  K,
   makeMask,
   SEED_WORD,
   serializeMask,
@@ -42,5 +41,4 @@ export {
   wavevectorOf,
   WORD_COUNT,
   worldSeed,
-  worldWords,
 } from './world';

@@ -3,8 +3,7 @@ import { crc32, deflateSync } from 'node:zlib';
 import type { Sized } from '@/kernel/shared/typings';
 
 import type { Coast } from '@/island/shared/globe';
-
-import type { PlaneGrid } from './fit-grid';
+import type { CoastGrid } from '@/island/entities/terrain';
 
 /** An RGB raster, row 0 at the top. */
 export type Raster = Sized & { rgb: Uint8Array };
@@ -50,7 +49,7 @@ const COLOURS = {
 export type NodeKind = Exclude<keyof typeof COLOURS, 'ring'>;
 
 type PaintFrameParams = {
-  grid: PlaneGrid;
+  grid: CoastGrid;
   window: readonly [number, number, number, number];
   pixels: number;
   kindAt: (node: number) => NodeKind;
