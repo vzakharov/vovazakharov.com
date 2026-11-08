@@ -10,8 +10,8 @@
     "costUsd": 8.798658300000003
   },
   "estimate": {
-    "at": "2026-11-07T06:35:41.320Z",
-    "subjectLine": "feat(island): build the plan board and publish its first items",
+    "at": "2026-11-08T09:01:20.946Z",
+    "subjectLine": "feat: build the plan board and publish its first items",
     "parts": [
       {
         "hours": 5.0,
@@ -125,9 +125,11 @@
   },
   "operatorWords": {
     "chat": 215,
-    "review": 0
+    "review": 0,
+    "threads": 0
   },
   "reviewPosts": {},
+  "threadPosts": {},
   "branchLines": {
     ".css": 342,
     ".json": 422,
