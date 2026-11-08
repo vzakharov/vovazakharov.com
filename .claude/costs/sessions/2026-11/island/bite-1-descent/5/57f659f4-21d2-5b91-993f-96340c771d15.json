@@ -10,7 +10,8 @@
     "costUsd": 10.886202599999997
   },
   "estimate": {
-    "at": "2026-11-07T05:49:10.654Z",
+    "at": "2026-11-08T09:01:56.252Z",
+    "subjectLine": "chore: bite 1 polished and vetted, its new PR handed to the lead",
     "parts": [
       {
         "hours": 1.0,
@@ -98,7 +99,13 @@
     "matchedEventUsd": 10.886202599999997,
     "unseen": {}
   },
-  "operatorWords": 0,
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
   "branchLines": {
     ".md": 3086,
     ".py": 894,
