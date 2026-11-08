@@ -1,13 +1,12 @@
 # Island — exploring the world Zoltan and Syama drew
 
-**The plan is the board**: https://claude.ai/artifact/5ya2F3bA8kwrmLhEyAib3P,
-built from `docs/plans/world-game-zoltan-syama/board/` (one JSON file per item).
-The north star, the calls everything else stands on, how the mammoth is eaten,
-the studio forecast and the open bites are stickers there and nowhere else. This
-file keeps only what `/go` needs to resume: the gate name, the standing rules,
-what is eaten and the bite in hand. The text it held before the board took over
-is in git
-(`git show 2ecc10e8:docs/plans/world-game-zoltan-syama.in-progress.md`).
+**The plan is the board**: https://claude.ai/artifact/PQhuzzaVX541T8pVqEXfio,
+built from `src/island-board/app/config/` (a YAML file per zone). The north
+star, the calls everything else stands on, how the mammoth is eaten, the studio
+forecast and the open bites are stickers there and nowhere else. This file keeps
+only what `/go` needs to resume: the gate name, the standing rules, what is
+eaten and the bite in hand. The text it held before the board took over is in
+git (`git show 2ecc10e8:docs/plans/world-game-zoltan-syama.in-progress.md`).
 
 ## Standing constraints
 
@@ -94,8 +93,8 @@ is in git
   answers a board comment thread and never resolves it; resolving is Vova's.
   «нам же и количество слов человека в тредах тоже надо считать» — the turn that
   reads a new board comment of Vova's adds it to
-  `src/island-board/app/config/island/threads.json` (`<thread id>@<minute>` → body verbatim, his
-  only), runs
+  `src/island-board/app/config/island/threads.json` (`<thread id>@<minute>` →
+  body verbatim, his only), runs
   `python3 .claude/costs/post_words.py --kind thread < src/island-board/app/config/island/threads.json`
   and commits the file.
 - «/sync-branch из каждого куска -- ага» — a member ends its bite with
@@ -107,14 +106,14 @@ is in git
 - **The board** — the app `src/island-board/`, its tooling
   `src/island-board/scripts/board.ts`
   (`pnpm board build | sync | refile | snapshot`, usage atop the file); its
-  content `src/island-board/app/config/island.yaml` and a YAML per zone with the images in
-  `src/island-board/app/config/island/`. Light in every theme; Caveat for zone titles and line
-  labels, Shantell Sans for the notes. Not yet seen: an edit made in the page
-  itself by the operator.
+  content `src/island-board/app/config/island.yaml` and a YAML per zone with the
+  images in `src/island-board/app/config/island/`. Light in every theme; Caveat
+  for zone titles and line labels, Shantell Sans for the notes. Not yet seen: an
+  edit made in the page itself by the operator.
 - **To republish**: sync first — `ArtifactData list items` with
   `out_dir: tmp/board/rows`, then
-  `pnpm board sync src/island-board/app/config/island.yaml tmp/board/rows` — then
-  `pnpm board build src/island-board/app/config/island.yaml` and publish
+  `pnpm board sync src/island-board/app/config/island.yaml tmp/board/rows` —
+  then `pnpm board build src/island-board/app/config/island.yaml` and publish
   `tmp/board/island/index.html` with `files` mapping `images/*` to the built
   copies and `url` the artifact above. Only the lead publishes.
 - **The case study** — `sites/vova/public/case-studies/island.md`, unlisted

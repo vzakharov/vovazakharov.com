@@ -82,7 +82,10 @@ as its own change; (2) keep or cut the case-study history in `writing.md`'s
 "Polish is the tell"; (3) repoint `lsa-voice.md` from `writing/CLAUDE.md` §
 "Voice" to `writing.md`; (4) whether `writing.md`'s paths should cover all of
 `writing/`; (5) #258 T10's illustrated `coast.json` primer, offered by Vova.
-The board publish waits on a session that can see the board's URL.
+The board now lives on this account at
+https://claude.ai/artifact/PQhuzzaVX541T8pVqEXfio (Vova: «что мешает сделать
+и свой здесь?»), its URL in the plan and `island.yaml`; the old one belongs to
+another account.
 
 ## Last agent turn
 
