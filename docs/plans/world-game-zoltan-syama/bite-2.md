@@ -90,14 +90,25 @@ receives the world number, not the field.
 `#1` is ours. Changing it at run time rebuilds the world without a reload.
 Nothing else in the UI changes this bite.
 
-9\. **`coast.json` and the tracer stay**, as the fit's input; the game stops
+9\. **The drawn lakes are land today, and come back as water.** The operator:
+«нету озёр с оригинального рисунка (их не было и при прошлом подходе)». The
+tracer's hole floor (bite 1, call 1) fills them, so `coast.json` has none — the
+white lake by Цитадель, the heart in Нутглена, any other. The fit's target is
+the drawing's water, lakes included: the tracer keeps every drawn hole (its
+floor lowered or dropped for holes; the lettering it was there for is checked
+against the map and named), and a closed `f < 0` inside land is a lake, its
+surface for now at sea level. `bite-2/overlay.py` is the lead's check, the
+drawing under the formula: it compares against the rings, so after this call it
+must show the lakes as red-free water.
+
+10\. **`coast.json` and the tracer stay**, as the fit's input; the game stops
 importing the rings. Anything in the game that reads the rings today moves to
 the field.
 
 ## Out of the bite
 
-Several continents per world, a world picker, coast fractalling past `K`, rivers
-and lakes, naming or sharing a world, your own map.
+Several continents per world, a world picker, coast fractalling past `K`,
+rivers, lakes above sea level, naming or sharing a world, your own map.
 
 ## Done when
 
