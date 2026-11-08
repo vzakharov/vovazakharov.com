@@ -10,8 +10,8 @@
     "costUsd": 4.1631848
   },
   "estimate": {
-    "at": "2026-11-07T06:35:41.320Z",
-    "subjectLine": "feat(island): memo channel and contribution report, bite 1 opened",
+    "at": "2026-11-08T09:01:29.601Z",
+    "subjectLine": "feat: memo channel and contribution report, bite 1 opened",
     "parts": [
       {
         "hours": 3.0,
@@ -94,9 +94,11 @@
   },
   "operatorWords": {
     "chat": 0,
-    "review": 0
+    "review": 0,
+    "threads": 0
   },
   "reviewPosts": {},
+  "threadPosts": {},
   "branchLines": {
     ".md": 1120,
     ".py": 887,
