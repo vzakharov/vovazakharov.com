@@ -172,7 +172,7 @@ describe('buildWorldField', () => {
     }
   });
 
-  it('stores the true distance to the coast inland, with no ridge between near waters', () => {
+  it('stores the true distance to the coast inland', () => {
     for (const world of ['3', '9']) {
       const { distance, cellMetres } = field(world);
       const n = GRID_NODES;

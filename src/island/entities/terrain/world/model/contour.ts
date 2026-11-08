@@ -6,11 +6,9 @@ type Point = readonly [number, number];
 const crossing = (p: number, q: number) => p / (p - q);
 
 /**
- * The zero line of `f`, a field on `grid`'s nodes, land being `f > 0`, as
- * straight segments of four numbers each, `ax, ay, bx, by` in plane metres:
- * marching squares, each crossing placed on its cell edge by linear
- * interpolation. A saddle cell — opposite corners alike, neighbours not —
- * joins the corners its centre's sign matches.
+ * The zero line of `f` (a field on `grid`'s nodes, land where `f > 0`) by
+ * marching squares, as segments of four numbers each, `ax, ay, bx, by` in
+ * plane metres. A saddle cell joins the corners its centre's sign matches.
  */
 export function contourOf(f: Float64Array, grid: CoastGrid): Float64Array {
   const { columns, rows, originX, originY, cellMetres } = grid;

@@ -74,9 +74,8 @@ export const taperAt = (px: number, py: number): number =>
 /**
  * World `N`'s land as a `CoastField` over its square: `f = dome + taper ·
  * waves` on `GRID` decides land (`f > 0`, lakes being water), and each node
- * stores its signed distance in metres to `f`'s zero line — so a height read
- * off it rises with the true distance to the coast, never with how steep `f`
- * happens to be.
+ * stores its signed distance in metres to `f`'s zero line, so a height read
+ * off it rises with the true distance to the coast.
  */
 export function buildWorldField(
   world: string,
