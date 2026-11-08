@@ -10,7 +10,8 @@
     "costUsd": 41.416792600000086
   },
   "estimate": {
-    "at": "2026-11-07T06:35:41.320Z",
+    "at": "2026-11-08T09:01:47.404Z",
+    "subjectLine": "feat: slope light, the detail cut, culling and a smoothed coast",
     "parts": [
       {
         "hours": 9.0,
@@ -37,8 +38,7 @@
         "comment": "briefing four rounds of agents and relaying the operator's and the lead's calls"
       }
     ],
-    "comment": null,
-    "subjectLine": "feat(island): slope light, view culling, smoothed coast, sea shader"
+    "comment": null
   },
   "orientation": {
     "endedBy": "end_turn",
@@ -143,9 +143,11 @@
   },
   "operatorWords": {
     "chat": 138,
-    "review": 0
+    "review": 0,
+    "threads": 0
   },
   "reviewPosts": {},
+  "threadPosts": {},
   "branchLines": {
     ".md": 2568,
     ".py": 894,
