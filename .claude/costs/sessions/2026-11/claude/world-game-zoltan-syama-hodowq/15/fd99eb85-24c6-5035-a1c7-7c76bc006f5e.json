@@ -10,7 +10,8 @@
     "costUsd": 8.337217700000002
   },
   "estimate": {
-    "at": "2026-11-07T07:41:56.905Z",
+    "at": "2026-11-08T09:01:17.969Z",
+    "subjectLine": "chore: second preview slot and board-perf merged, board untangled",
     "parts": [
       {
         "hours": 0.4,
@@ -112,7 +113,13 @@
       }
     }
   },
-  "operatorWords": 141,
+  "operatorWords": {
+    "chat": 141,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
   "branchLines": {
     "vzakharov": 1,
     ".md": 5127,
