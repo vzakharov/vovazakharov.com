@@ -10,8 +10,8 @@
     "costUsd": 4.101165200000001
   },
   "estimate": {
-    "at": "2026-11-07T06:35:41.320Z",
-    "subjectLine": "docs(island): hand member work over by memo, list the review member",
+    "at": "2026-11-08T09:01:03.889Z",
+    "subjectLine": "docs: hand member work over by memo, list the review member",
     "parts": [
       {
         "hours": 0.75,
@@ -100,9 +100,11 @@
   },
   "operatorWords": {
     "chat": 347,
-    "review": 0
+    "review": 0,
+    "threads": 0
   },
   "reviewPosts": {},
+  "threadPosts": {},
   "branchLines": {
     ".md": 2410,
     ".py": 1140,
