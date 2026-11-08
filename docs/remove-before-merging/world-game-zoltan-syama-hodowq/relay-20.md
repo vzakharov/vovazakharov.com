@@ -78,8 +78,63 @@ The operator stated a working fact that shapes the board tooling: «у меня 
    subagent collected the branch status — every member PR merged, no member
    code outside the lead, three of the operator's review comments from today
    unanswered, and the open questions listed in Next step; reported it and
-   offered `/handle` for the three comments. (verbatim in Last agent turn, up
-   to the report itself, which was written after this summary)
+   offered `/handle` for the three comments.
+
+6. **Operator**: «я ещё там продолжил пару веток в #258», then «а, туплю, ты
+   их выше уже упомянул», then «Да, давай».
+
+   **Agent**: split `sea.ts` (5d9ad897: `Raster` and the paper's colour to
+   `paper.ts`, 103 lines; `sea.ts` 354, its allowlist line gone); replied on
+   #255 (sea.ts done) and #258 (`?` vs `#` for world routing; a correction:
+   review-1 did not merge main itself — main entered the mammoth at 07:09 via
+   #261 `preview2-slot`, cut from fresh main, bc7480c4).
+
+7. **Operator** (mid-turn): «Я хочу начать новый пиар который будет «помнить»
+   всё что случилось в этом (то есть доки которые remove-before-merging не будут
+   удалены), но при этом у него все что сделано в этом пиаре будет сосквошено до
+   одного коммита … Какие у нас варианты?» and «Этот Клод тоже бы разбить,
+   оставив в одном тексте только то что нужно всегда (без того что по
+   недоминантным развилкам)» (meaning `.claude/costs/CLAUDE.md`, 452 lines over
+   its 446 allowlist entry, red before this session).
+
+   **Agent**: a subagent split `.claude/costs/CLAUDE.md` (6181be01, below).
+   Options given: (1) a new branch off main with the mammoth squashed into one
+   commit — Files changed stays ~640 files; (2, recommended) the cut cycle from
+   R02 (`docs/remove-before-merging/island/review-1/memo.md`, 07.11 05:27): cut
+   `island/cut-1`, `/finalize` it (sweeps notes on the cut only), squash into
+   main — a deploy of `/island` — then restart the mammoth off main with one
+   commit carrying `docs/remove-before-merging` and the plans; (3) force-push a
+   squash onto #255 — advised against.
+
+8. **Operator**: «В варианте 2 у нас же все с remove-before-merging уйдет? Или
+   типа сделать для мамонтов отдельную папку где сохраняется все …?»
+
+   **Agent**: nothing is lost — the sweep runs on the cut only; the new mammoth
+   gets `git checkout <old> -- docs/remove-before-merging docs/plans` as one
+   commit; notes are swept once, at the last cut. Argued against a permanent
+   mammoth folder on main (public repo, manual cleanup, notes through every
+   vet). Proposed tagging the old branch before the restart.
+
+9. **Operator**: on «ветку второго слота … почему оригами показалось в диффе
+   #258» — «Потому что он в какой-то момент делал sync-branch с мамонтом. Блин,
+   а нам чем-то грозит что лишнее влезло?»
+
+   **Agent**: no threat — main's commits drop out of the mammoth's diff against
+   main, which is all a squash carries; what ships beyond the island is three
+   origami edits (4 lines, type moves) and the preview2 slot
+   (`.github/workflows/preview.yml`, `/preview`), which the cut's squash body
+   must name. Posted that in the #258 thread with the «В сессии:» lead-in.
+
+10. **Operator**: «island-cut-1 может?» (the tag's name); «Ну вроде да, уже
+    даже в первом срезе есть во что поиграться. А у нас «хвостов» не осталось не
+    доехавших до мамонта?»; «Надо где-то запомнить не забыть довести это до
+    muthur «вверх по течению»»; «А что мешало их сделать collocated и вместо
+    правил просто сослаться на них из основного описания?»
+
+    **Agent**: recorded the upstream reminder in
+    `.claude/skills/update-muthur/divergence.md` (d06df108); answered the tag,
+    the tails and the rules question, then relayed for the context budget.
+    (verbatim in Last agent turn)
 
 ## Intent
 
@@ -109,6 +164,25 @@ landing on a board its account cannot see.
   unknown from here; the first session on that account will be told to add it.
 - **No organization in the environment → the hook stays silent** (stderr note),
   rather than naming boards the session may not see.
+- **The cut cycle, option 2, is the way to one-commit PRs**: the operator's
+  «Ну вроде да» ships bite 1 to the site with the first cut. Name: cut branch
+  `island/cut-1`, and the old mammoth's head tagged `island-cut-1` before the
+  restart («island-cut-1 может?» — agreed), so every SHA in relays and replies
+  keeps resolving. The new mammoth is a branch off main after the squash, plus
+  one commit carrying `docs/remove-before-merging/` and `docs/plans/`; #255 is
+  closed in favour of its PR, and the old branch is kept.
+- **No permanent mammoth folder on main**: the mammoth branch is that folder;
+  notes are swept once, at the mammoth's last cut.
+- **`.claude/costs/CLAUDE.md` split by need** (6181be01, a subagent): 120
+  lines kept (what a row is, where rows live and are filed, totals never
+  written, what totals do not cover, a pointer list); six path-scoped rules
+  `.claude/rules/costs-{transcript,orientation,telemetry,stop-hook,estimates,report}.md`
+  take the rest, each loading on the files it governs. Rules beat colocated
+  topic files with pointers because a pointer relies on the agent choosing to
+  read it, while a rule arrives on any read of a covered file, and each topic
+  spans `hooks/`, `lib/` and the top level. Open: the operator asked why not
+  colocated — the agent offered `.claude/rules/costs/` as a subdirectory
+  (Claude Code reads `.claude/rules/` recursively), unverified and unanswered.
 - **Blockchain verdict** (advice, nothing built): event log per world behind a
   storage interface; first backend boring; chain only if ownership becomes a
   game feature. "Event log" = seed plus ordered edits, the world being
@@ -133,8 +207,9 @@ landing on a board its account cannot see.
 
 - **Branch** `claude/world-game-zoltan-syama-hodowq`, PR
   https://github.com/vzakharov/vovazakharov.com/pull/255 (draft, base `main`,
-  mergeable clean, 0 behind main). Last pushed 8d91c2a7 before this summary's
-  commit. Not vetted, not finalized.
+  mergeable clean, 0 behind main). Last pushed d06df108 before this summary's
+  commit. Not vetted, not finalized. The line-limit test, red at session start
+  on `.claude/costs/CLAUDE.md`, passes after 6181be01.
 - **Members**: all seven member PRs into the lead are merged — #259
   (bite-1-descent), #260 (controls), #261 (preview2-slot), #262 (board-perf),
   #263 (descent-video), #258 (review-1), #264 (board-asks). Their branches are
@@ -173,16 +248,23 @@ landing on a board its account cannot see.
 
 ## Next step
 
-Wait for the operator: «над остальным пока думаю». Offered and not yet
-accepted: answer his three review comments of 2026-11-08 through `/handle`.
-Open, deduplicated, newest first:
+Run the first cut, per the operator's «Ну вроде да, уже даже в первом срезе
+есть во что поиграться» (bite 1 ships to the site) and «island-cut-1 может?»:
+cut `island/cut-1` from the mammoth's head, `/finalize` it (vet, polish, the
+notes swept on the cut only; the squash body names the preview2 slot and the
+origami type moves beside the island), squash it into main on the operator's
+merge; then tag the old mammoth's head `island-cut-1`, start the new mammoth
+off main with one commit carrying `docs/remove-before-merging/` and
+`docs/plans/`, open its PR and close #255. Before cutting, the closing notes
+and cost rows on six merged member branches (bite-1-descent, board-asks,
+controls, board-perf, review-1, descent-video — notes only, no code) may be
+merged into the mammoth; no code tails remain.
 
-1. Three review comments of his with no reply: #255 4507119519 («согласен. nice
-   catch.» — accepts splitting `sea.ts` before the first cut, an action item);
-   #258 4507183703 («ничего не мешает нам для роутинга миров использовать ? а не
-   #?»); #258 4507188779 («почему island/review-1 понадобилось вмердживать
-   main? … дифф от только нашего мамонта»; #255 is 0 behind main, so its diff
-   is mammoth-only).
+Also open, newest first:
+
+1. Unanswered: why not colocate the cost rules — the offer of
+   `.claude/rules/costs/` as a subdirectory (verify Claude Code reads
+   `.claude/rules/` recursively before moving them).
 2. Storage backend for player edits: what he wants to avoid about a server —
    paying, running it, or answering for its content.
 3. Relay 19's five: `buildExport()` move, `writing.md` history, `lsa-voice.md`
@@ -210,9 +292,13 @@ The agent's last turn before the relay, verbatim, appended by
 unneeded but harmless; the reply proper is usually its last paragraphs.
 
 ```text
-Ставлю сбор статуса ветки в фон и параллельно меняю идентификатор на хеш.
+Ничем не грозит. Всё, что пришло из `main`, уже лежит в `main`, поэтому из диффа мамонта против `main` оно выпадает. А squash-коммит в `main` несёт только этот дифф: оригами второй раз туда не поедет.
 
-Хук теперь сравнивает хеш. Обновляю тесты, план и сводку relay-20, где ещё стоит сырой идентификатор.
+С мамонтом в `main` поедут только две вещи не про остров, и обе ожидаемые:
+- **Три наши правки в оригами, 4 строки.** Это перенос типов плоскости и `Axis`, которого требовала проверка `type-overlap`.
+- **Слот preview2 (#261).** Он влит в мамонта, а не в `main`, поэтому в срез попадут `.github/workflows/preview.yml` и скилл `/preview`. Squash-сообщение среза должно их назвать, иначе в `main` придёт неподписанное изменение CI.
 
-Хеш вместо идентификатора запушен (8d91c2a7). Сводка relay-20 ещё содержит сырой идентификатор. Перепишу её, когда придёт статус ветки: он всё равно её меняет. Жду фонового сборщика.
+Спасибо за объяснение про `/sync-branch`. Дописал его в тред, вместе с ответом про риск: [#258](https://github.com/vzakharov/vovazakharov.com/pull/258#discussion_r4507497400).
+
+Вопрос остаётся прежним: выкатываем бит 1 срезом (вариант 2) или пока только переносим мамонта в новый PR одним коммитом (вариант 1)?
 ```
