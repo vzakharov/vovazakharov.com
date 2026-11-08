@@ -1,10 +1,10 @@
 /**
  * Fits world 1 to the drawn island and writes the mask that makes it ours
  * (`src/island/entities/terrain/world/model/mask.json`): the rings' signed
- * distance on the world grid, clipped and scaled into the field's units, less
- * our dome, every harmonic of what is left encoded as world 1's words. The
- * clip, the scale and the dome are searched for the least wrong land area
- * with every word inside the decoder's reach. Then it decodes world 1 through
+ * distance on the world grid, unclipped, one field unit per `r · side` (B10),
+ * less our dome, every harmonic of what is left encoded as world 1's words.
+ * The dome, and with its radius the unit, is searched for the least wrong land
+ * area with every word inside the decoder's reach. Then it decodes world 1 through
  * `buildWorldField` and measures it against the rings: wrong area and where,
  * the lakes, bite 1's strait, and a frame.
  *
@@ -23,6 +23,7 @@ import {
   makeMask,
   SEED_WORD,
   serializeMask,
+  TAPER,
 } from '@/island/entities/terrain';
 
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
@@ -35,7 +36,7 @@ import {
   type Patch,
   wrongArea,
 } from './lib/fit-measure';
-import { coordinateSearch, type Point } from './lib/fit-search';
+import { coordinateSearch } from './lib/fit-search';
 import { FACTOR_LIMIT, type FittedWords, fitWords } from './lib/fit-spectrum';
 import { straitFate } from './lib/fit-strait';
 import {
@@ -44,8 +45,8 @@ import {
   domeGrid,
   reachOf,
   ringBounds,
-  type TargetShape,
   targetOf,
+  unitMetres,
 } from './lib/fit-target';
 
 const MASK_FILE = path.join(
@@ -60,12 +61,8 @@ const DUMP = path.join(REPO_ROOT, 'tmp/fit');
 
 /** Our noise seed, today's `SEED`. */
 const OUR_SEED = 1;
-/** The waves' untapered window, `world-field.ts`'s `TAPER.inner`. */
-const WINDOW = 0.4;
-/** The clips the curve measures, km; `Infinity` is the bare distance. */
-const CLIPS_KM = [320, 640, 1000, 1500, 2000, 2500, 3000, 4000, Infinity];
-/** The scale is searched as the km of distance one field unit stands for. */
-const UNIT_KM: readonly [number, number] = [1500, 5000];
+/** The waves' untapered window. */
+const WINDOW = TAPER.inner;
 
 const started = performance.now();
 const say = (line: string) => process.stdout.write(`${line}\n`);
@@ -88,9 +85,9 @@ const truth = landOf(distance);
 
 type Trial = { share: number; fit: FittedWords; land: Uint8Array };
 
-/** World 1 as `dome` and `shape` make it, decoded the way the game does. */
-function trial(dome: Dome, shape: TargetShape): Trial {
-  const target = targetOf(distance, shape);
+/** World 1 as `dome` makes it, decoded the way the game does. */
+function trial(dome: Dome): Trial {
+  const target = targetOf(distance, dome);
   const domeValues = domeGrid(dome);
   const waves = target.map((t, n) => t - (domeValues[n] ?? 0));
   const fit = fitWords(waves, dome, OUR_SEED);
@@ -101,93 +98,52 @@ function trial(dome: Dome, shape: TargetShape): Trial {
 /** Wrong share, a clipped word costing a whole island's worth. */
 const score = ({ share, fit }: Trial) =>
   share + (fit.clipped.length > 0 ? 1 : 0);
-
-const shapeOf = (clipKm: number, unitKm: number): TargetShape => ({
-  clipMetres: clipKm * 1000,
-  scale: 1 / (unitKm * 1000),
-});
-
-/** The best unit for `clipKm` under `dome`, and its trial. */
-function bestUnit(dome: Dome, clipKm: number, startKm: number) {
-  const found = coordinateSearch({
-    keys: ['unitKm'],
-    start: { unitKm: startKm },
-    steps: { unitKm: 400 },
-    ranges: { unitKm: UNIT_KM },
-    score: ({ unitKm }) => score(trial(dome, shapeOf(clipKm, unitKm))),
-    rounds: 5,
-  });
-  return { unitKm: found.best.unitKm, score: found.score };
-}
-
-function curve(dome: Dome, label: string) {
-  say(`\nwrong share against clip, ${label} (best unit per clip):`);
-  const rows = CLIPS_KM.map((clipKm) => {
-    const { unitKm, score: s } = bestUnit(dome, clipKm, 2700);
-    const clipped = s >= 1;
-    say(
-      `  clip ${String(clipKm).padStart(8)} km: unit ${unitKm.toFixed(0)} km, ` +
-        `wrong ${pct(s % 1)}${clipped ? ', words clipped' : ''}`,
-    );
-    return { clipKm, unitKm, score: s };
-  });
-  return rows.reduce((a, b) => (b.score < a.score ? b : a));
-}
+const scoreLine = (s: number) =>
+  `wrong ${pct(s % 1)}${s >= 1 ? ', words clipped' : ''}`;
 
 const boundsDome = domeFromBounds(bounds);
-const boundsBest = curve(boundsDome, 'dome from the bounds');
-
-type DomeKey = keyof Dome | 'unitKm';
-const DOME_KEYS: readonly DomeKey[] = [
+const boundsScore = score(trial(boundsDome));
+const DOME_KEYS: readonly (keyof Dome)[] = [
   'centreX',
   'centreY',
   'radiusA',
   'radiusB',
   'turn',
-  'unitKm',
 ];
-const toDome = (p: Point<DomeKey>): Dome => ({
-  centreX: p.centreX,
-  centreY: p.centreY,
-  radiusA: p.radiusA,
-  radiusB: p.radiusB,
-  turn: p.turn,
-});
 const searched = coordinateSearch({
   keys: DOME_KEYS,
-  start: { ...boundsDome, unitKm: boundsBest.unitKm },
+  start: boundsDome,
   steps: {
     centreX: 0.02,
     centreY: 0.02,
     radiusA: 0.02,
     radiusB: 0.02,
     turn: Math.PI / 8,
-    unitKm: 200,
   },
-  ranges: { ...DOME_RANGES, unitKm: UNIT_KM },
-  score: (p) => score(trial(toDome(p), shapeOf(boundsBest.clipKm, p.unitKm))),
+  ranges: DOME_RANGES,
+  score: (dome) => score(trial(dome)),
   rounds: 4,
 });
-const fittedDome = toDome(searched.best);
+const fittedDome = searched.best;
+const unitKm = (d: Dome) => (unitMetres(d) / 1000).toFixed(0);
 say(
-  `\ndome from the bounds: ${JSON.stringify(boundsDome)}, ` +
-    `wrong ${pct(boundsBest.score % 1)}`,
+  `\ndome from the bounds: ${JSON.stringify(boundsDome)}, unit ` +
+    `${unitKm(boundsDome)} km, ${scoreLine(boundsScore)}`,
 );
 say(
-  `fitted dome (${String(searched.evaluations)} trials at clip ` +
-    `${String(boundsBest.clipKm)} km): ${JSON.stringify(fittedDome)}, ` +
-    `unit ${searched.best.unitKm.toFixed(0)} km, wrong ${pct(searched.score % 1)}`,
+  `fitted dome (${String(searched.evaluations)} trials): ` +
+    `${JSON.stringify(fittedDome)}, unit ${unitKm(fittedDome)} km, ` +
+    `${scoreLine(searched.score)}`,
 );
-const fitted = searched.score < boundsBest.score;
+const fitted = searched.score < boundsScore;
 const dome = fitted ? fittedDome : boundsDome;
 say(
   `keeping the ${fitted ? 'fitted' : 'bounds'} dome, ` +
-    `${pct(Math.abs(boundsBest.score - searched.score) % 1)} of the land apart`,
+    `${pct(Math.abs(boundsScore - searched.score) % 1)} of the land apart`,
 );
-const chosen = fitted ? curve(dome, 'fitted dome') : boundsBest;
 
 // Write the mask, then verify by decoding world 1 through the game's path.
-const final = trial(dome, shapeOf(chosen.clipKm, chosen.unitKm));
+const final = trial(dome);
 const ours = final.fit.words;
 if (final.fit.clipped.length > 0) {
   say(`CLIPPED words: ${JSON.stringify(final.fit.clipped)}`);
@@ -198,7 +154,7 @@ const world = buildWorldField('1', mask);
 const land = landOf(world.distance);
 const wrong = wrongArea(land, truth);
 say(
-  `\nclip ${String(chosen.clipKm)} km, unit ${chosen.unitKm.toFixed(0)} km; ` +
+  `\nunclipped distance, unit ${unitKm(dome)} km; ` +
     `max |factor| ${final.fit.maxFactor.toFixed(3)} ` +
     `(|k| ≤ 1.5: ${final.fit.maxLowFactor.toFixed(3)}), the decoder's reach ` +
     `${FACTOR_LIMIT.toFixed(3)}; ${String(final.fit.clipped.length)} clipped; ` +

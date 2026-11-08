@@ -10,6 +10,7 @@ import {
   reachOf,
   ringBounds,
   targetOf,
+  unitMetres,
 } from './fit-target';
 
 const { centreX, centreY, side } = SQUARE;
@@ -87,14 +88,32 @@ describe('domeFromBounds', () => {
 });
 
 describe('targetOf', () => {
-  it('clips the distance, then scales it', () => {
-    const target = targetOf(Float64Array.from([-5000, -1000, 0, 700, 9000]), {
-      clipMetres: 2000,
-      scale: 1 / 1024,
-    });
+  it('scales the distance, unclipped, by r · side', () => {
+    const dome = {
+      centreX: 0,
+      centreY: 0,
+      radiusA: 0.25,
+      radiusB: 0.25,
+      turn: 0,
+    };
+    const unit = 0.25 * side;
+    assert.equal(unitMetres(dome), unit);
+    const distance = [-9e6, -1000, 0, 700, 9e6];
+    const target = targetOf(Float64Array.from(distance), dome);
     assert.deepEqual(
       [...target],
-      [-2000, -1000, 0, 700, 2000].map((d) => d / 1024),
+      distance.map((d) => d / unit),
     );
+  });
+
+  it('takes the geometric mean of an ellipse’s radii', () => {
+    const dome = {
+      centreX: 0,
+      centreY: 0,
+      radiusA: 0.25,
+      radiusB: 0.16,
+      turn: 0,
+    };
+    assert.ok(Math.abs(unitMetres(dome) - 0.2 * side) < 1e-6);
   });
 });

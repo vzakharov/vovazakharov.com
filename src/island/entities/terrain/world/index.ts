@@ -19,7 +19,7 @@ export {
   envelope,
   ENVELOPE_SCALE,
 } from './model/harmonic';
-export { assertWorldNumber, worldHash } from './model/hash';
+export { assertWorldNumber, isWorldNumber, worldHash } from './model/hash';
 export {
   DOME_PARAMS,
   type DomeParam,
@@ -45,4 +45,4 @@ export {
   worldWords,
 } from './model/mask';
 export { GRID, GRID_NODES, SQUARE } from './model/square';
-export { buildWorldField, worldSeed } from './model/world-field';
+export { buildWorldField, TAPER, worldSeed } from './model/world-field';

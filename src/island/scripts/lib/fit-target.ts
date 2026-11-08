@@ -72,20 +72,22 @@ export const clampDome = (dome: Dome): Dome => ({
   turn: clamp(dome.turn, DOME_RANGES.turn),
 });
 
-/** The target's shape: a clip on the signed distance, then a scale. */
-export type TargetShape = {
-  /** The signed distance is clipped to `±clipMetres`. */
-  clipMetres: number;
-  /** Field units per metre of signed distance. */
-  scale: number;
-};
+/**
+ * The metres of signed distance one field unit stands for under `dome`:
+ * `r · side`, `r` the geometric mean of its radii, so the target's far slope
+ * matches the dome's.
+ */
+export const unitMetres = ({ radiusA, radiusB }: Dome): number =>
+  Math.sqrt(radiusA * radiusB) * SQUARE.side;
 
-/** The field the fit aims at: `scale · clamp(distance, ±clipMetres)`. */
-export const targetOf = (
-  distance: Float64Array,
-  { clipMetres, scale }: TargetShape,
-): Float64Array =>
-  distance.map((d) => scale * Math.min(clipMetres, Math.max(-clipMetres, d)));
+/**
+ * The field the fit aims at (B10): the signed distance, unclipped, one field
+ * unit per `unitMetres(dome)`.
+ */
+export const targetOf = (distance: Float64Array, dome: Dome): Float64Array => {
+  const unit = unitMetres(dome);
+  return distance.map((d) => d / unit);
+};
 
 /** `dome` on the world grid, node `(i, j)` at `(i, j) / N`. */
 export function domeGrid(dome: Dome): Float64Array {

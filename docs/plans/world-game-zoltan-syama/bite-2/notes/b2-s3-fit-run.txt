@@ -1,55 +1,31 @@
 rings reach 0.341 (x), 0.267 (y) of the side from the square's middle; the window holds to 0.4
 
-wrong share against clip, dome from the bounds (best unit per clip):
-  clip      320 km: unit 1500 km, wrong 63.86%, words clipped
-  clip      640 km: unit 3225 km, wrong 82.08%, words clipped
-  clip     1000 km: unit 5000 km, wrong 89.94%, words clipped
-  clip     1500 km: unit 1650 km, wrong 25.36%, words clipped
-  clip     2000 km: unit 1975 km, wrong 20.35%, words clipped
-  clip     2500 km: unit 2225 km, wrong 12.95%, words clipped
-  clip     3000 km: unit 2375 km, wrong 5.79%, words clipped
-  clip     4000 km: unit 2550 km, wrong 0.70%
-  clip Infinity km: unit 2500 km, wrong 0.96%
+dome from the bounds: {"centreX":0,"centreY":0,"radiusA":0.26,"radiusB":0.26,"turn":0}, unit 2704 km, wrong 11.75%, words clipped
+fitted dome (36 trials): {"centreX":-0.009999999999999998,"centreY":0.02,"radiusA":0.26,"radiusB":0.25,"turn":0}, unit 2651 km, wrong 0.63%
+keeping the fitted dome, 11.11% of the land apart
 
-dome from the bounds: {"centreX":0,"centreY":0,"radiusA":0.26,"radiusB":0.26,"turn":0}, wrong 0.70%
-fitted dome (41 trials at clip 4000 km): {"centreX":-0.015,"centreY":0.0175,"radiusA":0.26,"radiusB":0.26,"turn":0}, unit 2550 km, wrong 0.63%
-keeping the fitted dome, 0.07% of the land apart
-
-wrong share against clip, fitted dome (best unit per clip):
-  clip      320 km: unit 1500 km, wrong 64.19%, words clipped
-  clip      640 km: unit 4425 km, wrong 80.84%, words clipped
-  clip     1000 km: unit 5000 km, wrong 87.62%, words clipped
-  clip     1500 km: unit 1625 km, wrong 19.24%, words clipped
-  clip     2000 km: unit 1975 km, wrong 11.66%, words clipped
-  clip     2500 km: unit 2225 km, wrong 2.04%, words clipped
-  clip     3000 km: unit 2375 km, wrong 0.66%
-  clip     4000 km: unit 2700 km, wrong 0.65%
-  clip Infinity km: unit 2500 km, wrong 0.63%
-
-clip Infinity km, unit 2500 km; max |factor| 6.085 (|k| ≤ 1.5: 6.085), the decoder's reach 6.338; 0 clipped; seed word 1
-world 1: 0.63% of the drawn land wrong — 28779 km² added over sea, 34246 km² dropped, of 9981975 km²
+unclipped distance, unit 2651 km; max |factor| 6.091 (|k| ≤ 1.5: 6.091), the decoder's reach 6.338; 0 clipped; seed word 1
+world 1: 0.63% of the drawn land wrong — 36927 km² added over sea, 26406 km² dropped, of 9981975 km²
 largest wrong patches:
-  added      1444 km² at (509, 1296) km, px (698, 222)
+  added      1650 km² at (509, 1300) km, px (698, 221)
   added       928 km² at (-1240, 876) km, px (416, 289)
   added       516 km² at (3320, -99) km, px (1151, 446)
+  added       516 km² at (-935, 1029) km, px (465, 265)
   added       516 km² at (-1179, 1049) km, px (426, 262)
-  dropped     516 km² at (3422, -1612) km, px (1167, 690)
-  dropped     516 km² at (111, 2257) km, px (634, 67)
-  added       413 km² at (-930, 1029) km, px (466, 265)
-  dropped     413 km² at (-62, -2196) km, px (606, 784)
-  dropped     413 km² at (375, -1830) km, px (676, 725)
+  dropped     516 km² at (-2195, 988) km, px (263, 271)
+  added       413 km² at (2299, -1368) km, px (986, 651)
   dropped     413 km² at (-1438, 1008) km, px (384, 268)
-  dropped     413 km² at (1126, 1105) km, px (797, 253)
   added       309 km² at (-62, -2161) km, px (606, 778)
+  added       309 km² at (1228, -1511) km, px (814, 674)
+  added       309 km² at (236, -448) km, px (654, 503)
+  added       309 km² at (3249, -190) km, px (1139, 461)
 lakes: 5 drawn on the grid, 6 in world 1
   drawn 2063 km² at (1178, -1021) km, px (806, 595): 2063 km² of it water in world 1; world lakes over it 1, 2372 km²
-  drawn 53741 km² at (-247, -385) km, px (576, 492): 53019 km² of it water in world 1; world lakes over it 1, 55288 km²
-  drawn 1650 km² at (-627, -124) km, px (515, 450): 1650 km² of it water in world 1; world lakes over it 1, 1754 km²
-  drawn 91700 km² at (-250, 90) km, px (576, 416): 91494 km² of it water in world 1; world lakes over it 1, 92009 km²
-  drawn 825 km² at (498, 1122) km, px (696, 250): 722 km² of it water in world 1; world lakes over it 1, 928 km²
+  drawn 53741 km² at (-247, -385) km, px (576, 492): 52813 km² of it water in world 1; world lakes over it 1, 54566 km²
+  drawn 1650 km² at (-627, -124) km, px (515, 450): 1547 km² of it water in world 1; world lakes over it 1, 1650 km²
+  drawn 91700 km² at (-250, 90) km, px (576, 416): 91390 km² of it water in world 1; world lakes over it 1, 91803 km²
+  drawn 825 km² at (498, 1122) km, px (696, 250): 722 km² of it water in world 1; world lakes over it 1, 722 km²
 strait, rings: inlet head open, channel end closed; open sea reaches south to y 1208 km
-strait, world 1: inlet head open, channel end closed; open sea reaches south to y 1290 km
+strait, world 1: inlet head open, channel end closed; open sea reaches south to y 1346 km
 
-frame docs/plans/world-game-zoltan-syama/bite-2/notes/b2-s3-fit.png; run 227.5 s
-
-[exited with code 0]
+frame docs/plans/world-game-zoltan-syama/bite-2/notes/b2-s3-fit.png; run 35.7 s
