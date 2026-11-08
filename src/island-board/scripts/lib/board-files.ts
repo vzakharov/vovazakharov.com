@@ -1,7 +1,7 @@
 /**
  * A board split by zone, so no file outgrows the repo's line limit: the board's
- * own file (`app/config/island.yaml`) holds its title, its artifact and every
- * item no zone holds, and each zone keeps itself and what lies in it in
+ * own file (`app/config/island.yaml`) holds its title and every item no zone
+ * holds, and each zone keeps itself and what lies in it in
  * `<the board's directory>/<zone id less "z-">.yaml`, beside the images.
  *
  * Which file an item lives in is derived from the board, never chosen: a zone

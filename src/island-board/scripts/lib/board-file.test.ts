@@ -88,7 +88,6 @@ const ONE_OF_EACH: Item[] = [
 ];
 
 const FILE = `title: Test board
-artifact: https://claude.ai/artifact/x
 items:
   # The one sticky.
   - id: s

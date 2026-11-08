@@ -1,5 +1,5 @@
 /**
- * A board's source file: one YAML document, `title`, `artifact` and `items`,
+ * A board's source file: one YAML document, `title` and `items`,
  * each item read the way a person writes it rather than as the page's row —
  *
  *   - id: call-5
@@ -63,12 +63,11 @@ type FileItem = z.infer<typeof FileItem>;
 
 const BoardFile = z.object({
   title: z.string(),
-  artifact: z.url(),
   items: z.array(FileItem),
 });
 const ZoneFile = BoardFile.pick({ items: true });
 
-/** A board's own file states its title and artifact; a zone's file, its items alone. */
+/** A board's own file states its title; a zone's file, its items alone. */
 export type FileKind = 'board' | 'zone';
 
 /** Each type's `box`, the numbers and the trailing word read off it in place. */

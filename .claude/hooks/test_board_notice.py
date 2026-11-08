@@ -20,6 +20,10 @@ from typing import Any, Dict, List
 HOOK = Path(__file__).resolve().parent / "board-notice.py"
 WORKING_DIR = Path(__file__).resolve().parents[2] / "scripts" / "working-dir.sh"
 URL = "https://claude.ai/artifact/abc123"
+ORG = "0a1b2c3d-0000-4000-8000-000000000001"
+OTHER_ORG = "0a1b2c3d-0000-4000-8000-000000000002"
+OTHER_URL = "https://claude.ai/artifact/def456"
+BOARD = f"**The plan is the board**, a copy per account:\n\n- `{ORG}`: {URL}\n- `{OTHER_ORG}`: {OTHER_URL}\n\nBuilt from …\n"
 
 
 def use(name: str, **given: Any) -> str:
@@ -48,20 +52,23 @@ class BoardNotice(unittest.TestCase):
     def plan(self, text: str) -> None:
         (self.root / "docs" / "plans" / "p.paused.md").write_text(text)
 
-    def run_hook(self, lines: List[str]) -> str:
+    def run_hook(self, lines: List[str], organization: str = ORG) -> str:
         self.transcript.write_text("\n".join(lines) + "\n")
         payload: Dict[str, Any] = {
             "hook_event_name": "UserPromptSubmit",
             "cwd": str(self.root),
             "transcript_path": str(self.transcript),
         }
+        env = {"CLAUDE_PROJECT_DIR": str(self.root)}
+        if organization:
+            env["CLAUDE_CODE_ORGANIZATION_UUID"] = organization
         done = subprocess.run(
             [sys.executable, str(HOOK)],
             input=json.dumps(payload),
             capture_output=True,
             text=True,
             check=True,
-            env={"CLAUDE_PROJECT_DIR": str(self.root)},
+            env=env,
         )
         return done.stdout
 
@@ -69,14 +76,38 @@ class BoardNotice(unittest.TestCase):
         self.plan("# A plan\n")
         self.assertEqual(self.run_hook([]), "")
 
+    def test_names_this_organizations_copy_only(self) -> None:
+        self.plan(BOARD)
+        self.assertIn(URL, self.run_hook([]))
+        self.assertNotIn(OTHER_URL, self.run_hook([]))
+        other = self.run_hook([], organization=OTHER_ORG)
+        self.assertIn(OTHER_URL, other)
+        self.assertNotIn(URL, other)
+
+    def test_asks_for_a_copy_where_the_organization_has_none(self) -> None:
+        self.plan(BOARD)
+        stranger = "0a1b2c3d-0000-4000-8000-000000000003"
+        text = json.loads(self.run_hook([], organization=stranger))["hookSpecificOutput"]["additionalContext"]
+        self.assertIn(f"- `{stranger}`: <artifact url>", text)
+        self.assertNotIn(URL, text)
+
+    def test_silent_without_an_organization(self) -> None:
+        self.plan(BOARD)
+        self.assertEqual(self.run_hook([], organization=""), "")
+
+    def test_the_list_ends_at_the_first_line_after_it(self) -> None:
+        stray = "0a1b2c3d-0000-4000-8000-000000000003"
+        self.plan(f"{BOARD}\n- `{stray}`: https://claude.ai/artifact/zzz\n")
+        self.assertIn("no line for", self.run_hook([], organization=stray))
+
     def test_names_both_calls_at_first(self) -> None:
-        self.plan(f"**The plan is the board**: {URL},\nbuilt from …\n")
+        self.plan(BOARD)
         text = json.loads(self.run_hook([]))["hookSpecificOutput"]["additionalContext"]
         self.assertIn("`watch`", text)
         self.assertIn("`open`", text)
 
     def test_names_only_what_is_missing(self) -> None:
-        self.plan(f"**The plan is the board**: {URL}\n")
+        self.plan(BOARD)
         out = self.run_hook([use("ArtifactComments", action="watch", url=URL)])
         text = json.loads(out)["hookSpecificOutput"]["additionalContext"]
         self.assertNotIn("`watch`", text)
@@ -86,14 +117,14 @@ class BoardNotice(unittest.TestCase):
         return json.loads(self.run_hook(lines))["hookSpecificOutput"]["additionalContext"]
 
     def test_once_watched_and_opened_names_the_publish_rule(self) -> None:
-        self.plan(f"**The plan is the board**: {URL}\n")
+        self.plan(BOARD)
         text = self.context([use("ArtifactComments", action="watch", url=URL), use("Artifact", action="open", url=URL)])
         self.assertNotIn("`watch`", text)
         self.assertIn("interesting or significant", text)
         self.assertIn("has not published it yet", text)
 
     def test_counts_operator_messages_since_the_last_publish(self) -> None:
-        self.plan(f"**The plan is the board**: {URL}\n")
+        self.plan(BOARD)
         lines = [
             prompt("first"),
             use("ArtifactComments", action="watch", url=URL),
@@ -108,7 +139,7 @@ class BoardNotice(unittest.TestCase):
         self.assertIn("0 operator messages ago", self.context(lines))
 
     def test_silent_after_handing_the_board_on(self) -> None:
-        self.plan(f"**The plan is the board**: {URL}\n")
+        self.plan(BOARD)
         lines = [
             use("ArtifactComments", action="watch", url=URL),
             use("Artifact", action="open", url=URL),
@@ -117,7 +148,7 @@ class BoardNotice(unittest.TestCase):
         self.assertEqual(self.run_hook(lines), "")
 
     def test_silent_on_a_members_branch(self) -> None:
-        self.plan(f"**The plan is the board**: {URL}\n")
+        self.plan(BOARD)
         scripts = self.root / "scripts"
         scripts.mkdir()
         shutil.copy(WORKING_DIR, scripts / "working-dir.sh")
@@ -129,7 +160,7 @@ class BoardNotice(unittest.TestCase):
         self.assertEqual(self.run_hook([]), "")
 
     def test_a_rewatch_after_a_stop_counts(self) -> None:
-        self.plan(f"**The plan is the board**: {URL}\n")
+        self.plan(BOARD)
         lines = [
             use("ArtifactComments", action="watch", url=URL, on=False),
             use("ArtifactComments", action="watch", url=URL),

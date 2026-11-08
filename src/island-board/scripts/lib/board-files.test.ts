@@ -61,7 +61,7 @@ describe('board files', () => {
   });
 
   const EMPTY_BOARD: BoardFiles = new Map([
-    [BOARD, 'title: T\nartifact: https://claude.ai/artifact/x\nitems: []\n'],
+    [BOARD, 'title: T\nitems: []\n'],
   ]);
   const files = (): BoardFiles =>
     new Map([

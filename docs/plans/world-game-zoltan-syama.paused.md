@@ -1,12 +1,19 @@
 # Island — exploring the world Zoltan and Syama drew
 
-**The plan is the board**: https://claude.ai/artifact/PQhuzzaVX541T8pVqEXfio,
-built from `src/island-board/app/config/` (a YAML file per zone). The north
-star, the calls everything else stands on, how the mammoth is eaten, the studio
-forecast and the open bites are stickers there and nowhere else. This file keeps
-only what `/go` needs to resume: the gate name, the standing rules, what is
-eaten and the bite in hand. The text it held before the board took over is in
-git (`git show 2ecc10e8:docs/plans/world-game-zoltan-syama.in-progress.md`).
+**The plan is the board**, a copy per claude.ai organization the operator works
+from, since an artifact is seen only by the account that published it
+(`.claude/hooks/board-notice.py` names a session's own):
+
+- `fad6efae-68d1-46e4-b660-c540a8c98c17`:
+  https://claude.ai/artifact/5ya2F3bA8kwrmLhEyAib3P
+
+Every copy is built from `src/island-board/app/config/` (a YAML file per zone),
+and each syncs its `db` back there before it is republished. The north star, the
+calls everything else stands on, how the mammoth is eaten, the studio forecast
+and the open bites are stickers there and nowhere else. This file keeps only
+what `/go` needs to resume: the gate name, the standing rules, what is eaten and
+the bite in hand. The text it held before the board took over is in git
+(`git show 2ecc10e8:docs/plans/world-game-zoltan-syama.in-progress.md`).
 
 ## Standing constraints
 

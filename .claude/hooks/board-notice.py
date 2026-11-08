@@ -1,15 +1,22 @@
 #!/usr/bin/env python3
 """Remind a session to watch and open the board a plan on its branch names.
 
-A plan run as a board (`.claude/skills/mammoth/notes/`) starts with
-`**The plan is the board**: <artifact url>`, and every session that picks the
-plan up owes the board two calls: `ArtifactComments` `watch`, so a publish or a
-comment sent to Claude wakes it, and `Artifact` `open`, the only call that puts
-the board in the session's artifact list where the operator finds it. Both were
-forgotten pickup after pickup while they lived only in the plan's prose, so this
-hook reads the session's transcript on every prompt and names whichever is
-still missing, until both are there. A `publish` to the board's url counts as
-an open.
+A plan run as a board (`.claude/skills/mammoth/notes/`) opens with
+`**The plan is the board**` and a list of its copies, one line per claude.ai
+organization (`` - `<organization uuid>`: <artifact url> ``): an artifact is
+seen only by the account that published it, and the operator works the same
+branch from several. The session's own copy is the line for its
+`CLAUDE_CODE_ORGANIZATION_UUID`; with no line for it, the notice asks for one —
+an `Island board` already in that account's `Artifact` `list`, or a fresh
+publish — and with no organization in the environment it stays silent.
+
+Every session that picks the plan up owes its copy two calls:
+`ArtifactComments` `watch`, so a publish or a comment sent to Claude wakes it,
+and `Artifact` `open`, the only call that puts the board in the session's
+artifact list where the operator finds it. Both were forgotten pickup after
+pickup while they lived only in the plan's prose, so this hook reads the
+session's transcript on every prompt and names whichever is still missing,
+until both are there. A `publish` to the board's url counts as an open.
 
 Once both calls are made, the notice turns into the publish rule: the board is
 republished whenever something interesting or significant turns up, in the game
@@ -28,6 +35,7 @@ Fails open — an unreadable payload or transcript is stderr and exit 0.
 from __future__ import annotations
 
 import json
+import os
 import re
 import subprocess
 import sys
@@ -36,7 +44,8 @@ from typing import Dict, Iterable, List, Set, Tuple
 
 from session_state import project_root
 
-BOARD = re.compile(r"\*\*The plan is the board\*\*:\s*(https://claude\.ai/artifact/[A-Za-z0-9_-]+)")
+HEADER = "**The plan is the board**"
+COPY = re.compile(r"^- `([0-9a-f-]+)`: (https://claude\.ai/artifact/[A-Za-z0-9_-]+)\s*$", re.MULTILINE)
 ARTIFACT_ID = re.compile(r"claude\.ai/(?:code/)?artifact/([A-Za-z0-9_-]+)")
 
 
@@ -44,18 +53,49 @@ def say(message: str) -> None:
     print(f"board-notice: {message}", file=sys.stderr)
 
 
-def boards(root: Path) -> List[str]:
-    """The board urls the branch's plans declare, one per plan, in name order."""
-    found = []
+def copies(text: str) -> Dict[str, str]:
+    """A plan's board copies by organization, read from the list after its header; none without the header."""
+    at = text.find(HEADER)
+    if at < 0:
+        return {}
+    found: Dict[str, str] = {}
+    for line in text[at:].splitlines()[1:]:
+        if not line.strip():
+            if found:
+                break
+            continue
+        match = COPY.match(line)
+        if match is None:
+            if found:
+                break
+            continue
+        found[match.group(1)] = match.group(2)
+    return found
+
+
+Boards = Tuple[List[str], List[str]]
+
+
+def boards(root: Path, organization: str) -> Boards:
+    """The urls of this organization's copies of the boards the branch's plans
+    declare, one per plan in name order, and the plans declaring a board with
+    no copy for it."""
+    urls: List[str] = []
+    uncopied: List[str] = []
     for plan in sorted((root / "docs" / "plans").glob("*.md")):
         try:
-            match = BOARD.search(plan.read_text(encoding="utf-8"))
+            text = plan.read_text(encoding="utf-8")
         except OSError as error:
             say(f"cannot read {plan} ({error}).")
             continue
-        if match and match.group(1) not in found:
-            found.append(match.group(1))
-    return found
+        if HEADER not in text:
+            continue
+        url = copies(text).get(organization)
+        if url is None:
+            uncopied.append(str(plan.relative_to(root)))
+        elif url not in urls:
+            urls.append(url)
+    return urls, uncopied
 
 
 def is_member(root: Path) -> bool:
@@ -179,6 +219,18 @@ def notice(urls: List[str], watched: Set[str], released: Set[str], opened: Set[s
     )
 
 
+def uncopied_notice(plans: List[str], organization: str) -> str:
+    return (
+        f"{', '.join(plans)} {'is' if len(plans) == 1 else 'are'} run as a board, and its list of "
+        f"copies has no line for this session's claude.ai organization, `{organization}`: an "
+        "artifact is seen only by the account that published it. If `Artifact` `list` shows "
+        "this board already published here, add it to the list; otherwise build the board as "
+        "the plan says and publish it as a new artifact with the capabilities the page uses, "
+        f"then add it — as `` - `{organization}`: <artifact url> ``, committed and pushed. Then "
+        "watch and open it."
+    )
+
+
 def main() -> int:
     try:
         payload = json.loads(sys.stdin.read())
@@ -190,8 +242,12 @@ def main() -> int:
     root = project_root(payload)
     if root is None:
         return 0
-    urls = boards(root)
-    if not urls or is_member(root):
+    organization = os.environ.get("CLAUDE_CODE_ORGANIZATION_UUID", "")
+    if not organization:
+        say("no CLAUDE_CODE_ORGANIZATION_UUID, so no copy of a board to name.")
+        return 0
+    urls, uncopied = boards(root, organization)
+    if not (urls or uncopied) or is_member(root):
         return 0
     try:
         with open(payload.get("transcript_path") or "", encoding="utf-8") as transcript:
@@ -199,7 +255,10 @@ def main() -> int:
     except OSError as error:
         say(f"cannot read the transcript ({error}); no board notice.")
         return 0
-    text = notice(urls, watched, released, opened, since)
+    parts = [notice(urls, watched, released, opened, since)] if urls else []
+    if uncopied:
+        parts.append(uncopied_notice(uncopied, organization))
+    text = " ".join(part for part in parts if part)
     if text:
         json.dump(
             {"hookSpecificOutput": {"hookEventName": payload["hook_event_name"], "additionalContext": text}},

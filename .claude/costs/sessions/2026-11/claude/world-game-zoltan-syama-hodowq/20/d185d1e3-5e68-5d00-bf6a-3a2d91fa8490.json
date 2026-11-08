@@ -1,0 +1,107 @@
+{
+  "total": {
+    "inputTokens": 84,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 146513,
+    "cacheReadTokens": 6024123,
+    "outputTokens": 25105,
+    "thinkingTokens": 9427,
+    "responses": 42,
+    "costUsd": 2.8793645999999997
+  },
+  "estimate": {
+    "at": "2026-11-08T15:58:50.806Z",
+    "subjectLine": "docs: weigh blockchain storage for player edits in the island world",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "choosing storage for shared, player-edited world state weighs consensus, cost, moderation and ops; a wrong pick shapes the whole game"
+      },
+      {
+        "hours": 0.5,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "whether edits need ownership or trustlessness is a question about the game, not the storage"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-08T15:49:36.309Z",
+    "contextTokens": 119007,
+    "spend": {
+      "inputTokens": 25,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 62855,
+      "cacheReadTokens": 1016838,
+      "outputTokens": 2500,
+      "thinkingTokens": 490,
+      "responses": 12,
+      "costUsd": 0.7563076
+    }
+  },
+  "sessionId": "d185d1e3-5e68-5d00-bf6a-3a2d91fa8490",
+  "branch": "claude/world-game-zoltan-syama-hodowq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/from-branch claude/world-game-zoltan-syama-hodowq",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkFocFL4nxbzEUWSs4d",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-08T15:48:21.890Z",
+  "lastResponseAt": "2026-11-08T16:31:48.795Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 84,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 146513,
+    "cacheReadTokens": 6024123,
+    "outputTokens": 25105,
+    "thinkingTokens": 9427,
+    "responses": 42,
+    "costUsd": 2.8793645999999997
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 84,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 146513,
+      "cacheReadTokens": 6024123,
+      "outputTokens": 25105,
+      "thinkingTokens": 9427,
+      "responses": 42,
+      "costUsd": 2.8793645999999997
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 29,
+    "matched": 29,
+    "matchedTableUsd": 2.0576312,
+    "matchedEventUsd": 2.0576312,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 453,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": null
+}
