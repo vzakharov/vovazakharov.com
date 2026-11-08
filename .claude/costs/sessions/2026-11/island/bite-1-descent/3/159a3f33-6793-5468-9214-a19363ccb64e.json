@@ -10,7 +10,8 @@
     "costUsd": 5.271715
   },
   "estimate": {
-    "at": "2026-11-07T06:35:41.320Z",
+    "at": "2026-11-08T09:01:50.516Z",
+    "subjectLine": "fix: the shallow band and the tile-edge dashes of the descent",
     "parts": [
       {
         "hours": 3.0,
@@ -25,8 +26,7 @@
         "comment": "three play runs read frame by frame against the earlier ones"
       }
     ],
-    "comment": null,
-    "subjectLine": "feat(island): sea coloured by its floor, skirts by their edge"
+    "comment": null
   },
   "orientation": {
     "endedBy": "oriented",
@@ -100,9 +100,11 @@
   },
   "operatorWords": {
     "chat": 0,
-    "review": 0
+    "review": 0,
+    "threads": 0
   },
   "reviewPosts": {},
+  "threadPosts": {},
   "branchLines": {
     ".md": 2704,
     ".py": 894,
