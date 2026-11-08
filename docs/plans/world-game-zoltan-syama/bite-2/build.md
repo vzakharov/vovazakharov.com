@@ -90,10 +90,10 @@ back, the strait closed — its cost is with the lead through memo).
   `index.ts` (the tracer a player's map will run in the browser) or moving it
   under `src/island/scripts/lib/`. Their answer decides; asked again 2026-11-08,
   still open.
-- **Re-shoot S5** after it: `pnpm play:island --out tmp/b2-frames` (world 1,
-  phone and desktop), then `--no-build --screens desktop --world N` for 2–6;
-  contact sheets as `notes/b2-s5-*.webp` (the first round, e7dd5a7f, is the
-  before), posted to the lead through memo.
+- **Lakes in the height** — the lead's call, asked in memo: inland reads greener
+  than today's because the lakes are water in the distance too (the start eye is
+  61 km from a lake here, 528 km from the sea on `island/stretch-2`). If that is
+  wrong, the lever is lakes in the mask but out of the height.
 - **The tail**: `/polish` (floor is e5165d2a), `/sync-branch` against
   `island/stretch-2`, vet, and the PR onto `island/stretch-2` with the frames
   and what each call became; then post `tmp/five-percent.md`'s alternative (the
