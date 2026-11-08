@@ -6,3 +6,4 @@ export {
   PICKS,
   variedPicks,
 } from './model/picks';
+export { linkedPicks } from './model/post-links';

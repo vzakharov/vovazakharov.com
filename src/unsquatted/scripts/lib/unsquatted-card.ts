@@ -1,8 +1,9 @@
 /**
- * unsquatted.com's social card, as a page for `og-render.ts` to screenshot: the
- * mark and the wordmark over the hero's lede, beside a panel of the best
- * listed names, no two on one pattern, an empty name field closing it and a
- * count of the rest.
+ * unsquatted.com's social cards, as pages for `og-render.ts` to screenshot: the
+ * mark and the wordmark over some words, beside a panel of names and a name
+ * field closing it. The site card's words are the hero's lede, its names the
+ * best listed ones, no two on one pattern, its field empty; a post's are its
+ * own, from its widgets.
  *
  * It reads the listed names through the module the home page reads, and its
  * words from the page's catalogue, so adding a name re-flags the card and the
@@ -21,7 +22,13 @@ import { fileURLToPath } from 'node:url';
 
 import { siteConfig, withoutScheme } from '@/kernel/shared/config';
 import { CANVAS, SCALE } from '@/kernel/shared/config/index.node-safe';
+import type { Labeled, Titled } from '@/kernel/shared/typings';
 
+import {
+  ledeSpans,
+  type Listed,
+  type Worded,
+} from '@/unsquatted/shared/content/index.node-safe';
 import {
   COPY,
   DICE_FACE,
@@ -81,18 +88,90 @@ ${DICE_FACES.map(
 ).join('\n')}
         </svg>`;
 
-function lede(): readonly [string, string] {
+function heroLede(): readonly [string, string] {
   return [COPY.lede, plainByline({ copy: COPY })];
 }
 
 const more = (count: number) =>
   count > 0 ? `+ ${count} more &amp; counting` : '&amp; counting';
 
+/** What the template sets: the left column's words and the panel's rows. */
+type CardContent = Listed & {
+  headline: string;
+  subline: string;
+  /** The faint line under the subline: the lede's note, or the occasion. */
+  footnote: string;
+  listHeading: string;
+  /** The field under the rows: a word typed in it, or its placeholder. */
+  field: { typed: boolean; text: string };
+  more: string;
+  /** A post's title, set smaller than the site's lede, which is a slogan. */
+  titled: boolean;
+};
+
+/** The site card: the hero's lede beside the best listed names. */
 export function unsquattedCard(): StagedPage {
-  const [headline, subline] = lede();
-  const rows = variedPicks(SHOWN)
+  const [headline, subline] = heroLede();
+
+  return card({
+    headline: escapeHtml(headline).replace('*', '<sup>*</sup>'),
+    subline: escapeHtml(subline),
+    footnote: escapeHtml(COPY.ledeNote),
+    listHeading: escapeHtml(COPY.listHeading),
+    domains: variedPicks(SHOWN).map(({ domain }) => domain),
+    field: { typed: false, text: 'Your name…' },
+    more: more(LASTING_PICKS.length - SHOWN),
+    titled: false,
+  });
+}
+
+type PostCardParams = Titled &
+  Worded & {
+    lede: string;
+    eyebrow: string;
+    list: Labeled & Listed;
+  };
+
+/**
+ * A post's card: its title and lede under the occasion, beside the first list
+ * its widgets set, and a word typed in the field.
+ */
+export function postCard({
+  title,
+  lede,
+  eyebrow,
+  list,
+  word,
+}: PostCardParams): StagedPage {
+  return card({
+    headline: escapeHtml(title),
+    subline: ledeSpans(lede)
+      .map(({ text, italic }) =>
+        italic ? `<em>${escapeHtml(text)}</em>` : escapeHtml(text),
+      )
+      .join(''),
+    footnote: escapeHtml(eyebrow),
+    listHeading: escapeHtml(list.label),
+    domains: list.domains.slice(0, SHOWN),
+    field: { typed: true, text: escapeHtml(word) },
+    more: 'and more in the post',
+    titled: true,
+  });
+}
+
+function card({
+  headline,
+  subline,
+  footnote,
+  listHeading,
+  domains,
+  field,
+  more: moreLine,
+  titled,
+}: CardContent): StagedPage {
+  const rows = domains
     .map(
-      ({ domain }) => `          <li>
+      (domain) => `          <li>
             <span class="domain">${escapeHtml(domain)}</span>
             <span class="grab">${escapeHtml(COPY.verdict.free)}</span>
           </li>`,
@@ -131,6 +210,7 @@ export function unsquattedCard(): StagedPage {
         line-height: 1;
       }
       .headline { margin: auto 0 0; font-size: 42px; line-height: 1.33; }
+      .headline.title { font-size: 36px; line-height: 1.25; text-wrap: balance; }
       .subline { margin: 20px 0 0; font-size: 32px; color: ${INK_DIM}; text-wrap: balance; }
       .headline sup { font-size: 0.6em; line-height: 0; }
       .note { margin: 16px 0 auto; font-size: 24px; color: ${INK_FAINT}; }
@@ -179,6 +259,7 @@ export function unsquattedCard(): StagedPage {
         font-size: 25px;
         color: ${INK_FAINT};
       }
+      .field.typed { color: ${INK}; }
       .more { margin: 0; font-size: 22px; color: ${INK_DIM}; }
     </style>
   </head>
@@ -188,21 +269,21 @@ export function unsquattedCard(): StagedPage {
       ${MARK}
         <span class="wordmark">${escapeHtml(name)}</span>
       </header>
-      <p class="headline">${escapeHtml(headline).replace('*', '<sup>*</sup>')}</p>
-      <p class="subline">${escapeHtml(subline)}</p>
-      <p class="note">${escapeHtml(COPY.ledeNote)}</p>
+      <p class="headline${titled ? ' title' : ''}">${headline}</p>
+      <p class="subline">${subline}</p>
+      <p class="note">${footnote}</p>
       <span class="url">${escapeHtml(withoutScheme(url))}</span>
     </main>
     <aside>
-      <h2>${escapeHtml(COPY.listHeading)}</h2>
+      <h2>${listHeading}</h2>
       <ul>
 ${rows}
       </ul>
       <div class="checker">
-        <div class="field">Your name…</div>
+        <div class="field${field.typed ? ' typed' : ''}">${field.text}</div>
         <div class="dice">${DICE}</div>
       </div>
-      <p class="more">${more(LASTING_PICKS.length - SHOWN)}</p>
+      <p class="more">${moreLine}</p>
     </aside>
   </body>
 </html>

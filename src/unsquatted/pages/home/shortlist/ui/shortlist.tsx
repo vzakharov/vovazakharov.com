@@ -12,15 +12,23 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useCopied } from '@/shell/shared/ui';
 
+import type { WithCopy } from '@/unsquatted/shared/i18n';
 import {
   type CopiedPrices,
-  useChecker,
+  useVerdicts,
   useWords,
-  type WithCopy,
+  type Verdict,
+  type WithVerdicts,
   zoneOf,
-} from '../../checker';
-import { nameOf, parseLiked, preferredOf, useLikes } from '../../likes';
-import { useVerdicts, type Verdict, type WithVerdicts } from '../../verdict';
+} from '@/unsquatted/entities/domain';
+import {
+  nameOf,
+  parseLiked,
+  preferredOf,
+  useLikes,
+} from '@/unsquatted/features/like';
+
+import { useChecker } from '../../checker';
 import {
   allTaken,
   domainsOf,

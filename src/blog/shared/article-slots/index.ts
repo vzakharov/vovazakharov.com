@@ -1,1 +1,7 @@
-export type { ArticleSlots, HeaderSlots, WithAfterLead } from './article-slots';
+export type {
+  ArticleSlots,
+  HeaderSlots,
+  WidgetComponents,
+  WithAfterLead,
+  WithWidgets,
+} from './article-slots';

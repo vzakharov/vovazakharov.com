@@ -35,6 +35,9 @@ importers:
       lucide-react:
         specifier: ^0.554.0
         version: 0.554.0(react@19.2.0)
+      modern-screenshot:
+        specifier: ^4.7.0
+        version: 4.7.0
       next:
         specifier: 16.4.5
         version: 16.4.5(@babel/core@7.28.5)(@types/node@20.19.25)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.103.1)
@@ -3404,6 +3407,9 @@ packages:
 
   minimist@1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
+
+  modern-screenshot@4.7.0:
+    resolution: {integrity: sha512-9YxN+ddPSMMlhylOv25VHzXrl9u67QRxoh7+SEewGtgUw7t6hHTrjptSDJUSne9oG4Xk/h2cwG15nIt4Hc9ujg==}
 
   module-definition@6.0.2:
     resolution: {integrity: sha512-SvAU3lB0+Yjbq55yHY3wkRZBOh+fhU1SnIF3IFbTewv6mtAh7yUT8ACHAJ2mGIJ7tCes2QuCL/cl6m0JSZ/ArA==}
@@ -8103,6 +8109,8 @@ snapshots:
       brace-expansion: 1.1.12
 
   minimist@1.2.8: {}
+
+  modern-screenshot@4.7.0: {}
 
   module-definition@6.0.2:
     dependencies:

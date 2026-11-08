@@ -4,6 +4,9 @@ import type { Locale } from '@/kernel/shared/i18n';
 import { pick } from '@/kernel/shared/lib/collections';
 
 import {
+  articleCollection,
+  type ArticleFrontmatter,
+  type Collection,
   type CollectionId,
   collectionRoute,
   feedEntries,
@@ -11,11 +14,17 @@ import {
   findFeed,
 } from '@/blog/shared/content';
 
+/**
+ * A collection's RSS route. Named by id, it is read as articles; a collection
+ * whose own schema reshapes the article's fields is passed as itself.
+ */
 export function collectionFeed(
-  collection: CollectionId,
+  of: CollectionId | Collection<ArticleFrontmatter>,
   locale?: Locale,
   source?: FeedSource,
 ) {
+  const reader = typeof of === 'string' ? articleCollection(of) : of;
+  const collection = reader.id;
   const feed = findFeed(SITE_ID, collection, locale);
 
   return {
@@ -23,7 +32,7 @@ export function collectionFeed(
       const language = locale ?? SITE_CONFIG.locale;
       const entries =
         source === undefined
-          ? await feedEntries(collection, locale)
+          ? await feedEntries(reader, locale)
           : await source.entries(language);
       const rss = renderRss({
         ...pick(feed, 'title'),

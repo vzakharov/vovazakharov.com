@@ -3,8 +3,11 @@
  * what their answers make of the chip.
  */
 
-import { rowsFor } from '../../checker';
-import { registrable, type Verdict } from '../../verdict';
+import {
+  registrable,
+  rowsFor,
+  type Verdict,
+} from '@/unsquatted/entities/domain/index.node-safe';
 
 /** How many of a name's first domains the shortlist calls its top ones. */
 export const TOP_DOMAINS = 10;

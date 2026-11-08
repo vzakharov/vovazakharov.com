@@ -1,0 +1,117 @@
+{
+  "total": {
+    "inputTokens": 3357,
+    "cacheWrite5mTokens": 283312,
+    "cacheWrite1hTokens": 214545,
+    "cacheReadTokens": 25953708,
+    "outputTokens": 69440,
+    "thinkingTokens": 15112,
+    "responses": 155,
+    "costUsd": 9.737445600000001
+  },
+  "estimate": {
+    "at": "2026-11-06T16:55:49.980Z",
+    "parts": [
+      {
+        "hours": 0.75,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a PR refresh plus a second mode for a shared popover and an image-only foot are contained client changes"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "designer",
+        "comment": "the hover, the reworked share menu and the copied image each needed a visual check"
+      },
+      {
+        "hours": 0.25,
+        "grade": "senior",
+        "role": "persona",
+        "comment": "the widget heading is a line in the Unnamed's voice"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-06T15:01:50.929Z",
+    "contextTokens": 117144,
+    "spend": {
+      "inputTokens": 23,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 55461,
+      "cacheReadTokens": 1117681,
+      "outputTokens": 2395,
+      "thinkingTokens": 476,
+      "responses": 11,
+      "costUsd": 0.7152162
+    }
+  },
+  "sessionId": "45c8c06b-802b-5023-aba4-607197a344fc",
+  "branch": "claude/unsquatted-blog-oabq4m",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/unsquatted-blog-oabq4m — vet зелёный, ссылки в постах, копирование картинкой проверено, ховер сердечка исправлен, но на превью ещё не провере…",
+  "prs": [
+    249
+  ],
+  "url": "https://claude.ai/code/session_01DaohkBdhq4aehuKmmeU4Nj",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-06T15:01:18.004Z",
+  "lastResponseAt": "2026-11-06T18:07:31.215Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": 7.972279200000006,
+  "ownTurns": {
+    "inputTokens": 218,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 214545,
+    "cacheReadTokens": 20619330,
+    "outputTokens": 52244,
+    "thinkingTokens": 8121,
+    "responses": 110,
+    "costUsd": 6.885978
+  },
+  "subagents": {
+    "inputTokens": 82,
+    "cacheWrite5mTokens": 279460,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 4114433,
+    "outputTokens": 16869,
+    "thinkingTokens": 6991,
+    "responses": 38,
+    "costUsd": 2.5578946
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 3357,
+      "cacheWrite5mTokens": 283312,
+      "cacheWrite1hTokens": 214545,
+      "cacheReadTokens": 25953708,
+      "outputTokens": 69440,
+      "thinkingTokens": 15112,
+      "responses": 155,
+      "costUsd": 9.737445600000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 155,
+    "matched": 148,
+    "matchedTableUsd": 9.4438726,
+    "matchedEventUsd": 9.4438726,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 3057,
+        "cacheWrite5mTokens": 3852,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 1219945,
+        "outputTokens": 327,
+        "thinkingTokens": 0,
+        "responses": 7,
+        "costUsd": 0.29357300000000003
+      }
+    }
+  }
+}

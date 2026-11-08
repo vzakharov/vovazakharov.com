@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { Verdict } from '../../verdict';
+import type { Verdict } from '@/unsquatted/entities/domain/index.node-safe';
+
 import { domainsOf, standingOf, TOP_DOMAINS } from './standing';
 
 const TAKEN: Verdict = { state: 'taken', since: undefined };

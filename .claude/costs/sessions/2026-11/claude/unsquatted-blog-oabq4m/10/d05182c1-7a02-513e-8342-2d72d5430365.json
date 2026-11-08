@@ -1,0 +1,137 @@
+{
+  "total": {
+    "inputTokens": 183046,
+    "cacheWrite5mTokens": 155547,
+    "cacheWrite1hTokens": 173186,
+    "cacheReadTokens": 14529787,
+    "outputTokens": 61967,
+    "thinkingTokens": 12128,
+    "responses": 120,
+    "costUsd": 6.128783800000004
+  },
+  "estimate": {
+    "at": "2026-11-06T14:20:13.418Z",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "the image copy is a contained snapshot of an existing card, needing one helper and a stylesheet frame"
+      },
+      {
+        "hours": 0.75,
+        "grade": "senior",
+        "role": "persona",
+        "comment": "a widget of names in the Unnamed's voice and the post's lines around it needed judgement of tone"
+      },
+      {
+        "hours": 0.25,
+        "grade": "middle",
+        "role": "analyst",
+        "comment": "a naming run over two dozen .si candidates"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-06T14:11:32.943Z",
+    "contextTokens": 108306,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 47287,
+      "cacheReadTokens": 458608,
+      "outputTokens": 875,
+      "thinkingTokens": 96,
+      "responses": 5,
+      "costUsd": 0.4875656000000001
+    }
+  },
+  "sessionId": "d05182c1-7a02-513e-8342-2d72d5430365",
+  "branch": "claude/unsquatted-blog-oabq4m",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/unsquatted-blog-oabq4m — main влит, конфликты разрешены; в посте про .si ждут ранний виджет и ссылки",
+  "prs": [
+    249
+  ],
+  "url": "https://claude.ai/code/session_01DaohkD2xbbCSgVQCsK3HmH",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-06T14:11:17.006Z",
+  "lastResponseAt": "2026-11-06T14:21:07.052Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 123,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 173186,
+    "cacheReadTokens": 9571558,
+    "outputTokens": 34616,
+    "thinkingTokens": 10417,
+    "responses": 59,
+    "costUsd": 3.9926116000000014
+  },
+  "subagents": {
+    "inputTokens": 94,
+    "cacheWrite5mTokens": 155547,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 4958229,
+    "outputTokens": 16126,
+    "thinkingTokens": 1711,
+    "responses": 47,
+    "costUsd": 2.092276800000001
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 217,
+      "cacheWrite5mTokens": 155547,
+      "cacheWrite1hTokens": 173186,
+      "cacheReadTokens": 14529787,
+      "outputTokens": 50742,
+      "thinkingTokens": 12128,
+      "responses": 106,
+      "costUsd": 6.084888400000004
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 182829,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 11225,
+      "thinkingTokens": 0,
+      "responses": 14,
+      "costUsd": 0.0438954
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 120,
+    "matched": 106,
+    "matchedTableUsd": 6.084888400000004,
+    "matchedEventUsd": 6.084888400000005,
+    "unseen": {
+      "web_fetch_apply": {
+        "inputTokens": 155823,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 10100,
+        "thinkingTokens": 0,
+        "responses": 12,
+        "costUsd": 0.0206323
+      },
+      "web_search_tool": {
+        "inputTokens": 27006,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 1125,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.023263100000000002
+      }
+    }
+  }
+}

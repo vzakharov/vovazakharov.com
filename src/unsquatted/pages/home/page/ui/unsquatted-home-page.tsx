@@ -7,12 +7,14 @@ import { constructMetadata } from '@/kernel/shared/seo/index.server-only';
 import { NotedSpan, PageShell, TextLink } from '@/shell/shared/ui';
 import { SiteFooter } from '@/shell/widgets/site-footer';
 
-import { CheckerProvider, COPY, ledeParts, plainByline } from '../../checker';
+import { COPY, ledeParts, plainByline } from '@/unsquatted/shared/i18n';
+import { fetchPrices } from '@/unsquatted/entities/domain/index.node-safe';
+import { LikesProvider } from '@/unsquatted/features/like';
+
+import { CheckerProvider } from '../../checker';
 import { PickDeck } from '../../deck';
-import { LikesProvider } from '../../likes';
-import { PICKS } from '../../picks/index.server-only';
+import { linkedPicks, PICKS } from '../../picks/index.server-only';
 import { Shortlist } from '../../shortlist';
-import { fetchPrices } from '../lib/prices';
 import { NameChecker } from './name-checker';
 import classes from './unsquatted-home.module.scss';
 
@@ -58,7 +60,10 @@ export const unsquattedHomeMetadata = constructMetadata({
 
 /** The site is one page: the checker, then the list the routine grows. */
 export async function UnsquattedHomePage() {
-  const prices = await fetchPrices();
+  const [prices, picks] = await Promise.all([
+    fetchPrices(),
+    linkedPicks(PICKS),
+  ]);
 
   return (
     <PageShell>
@@ -98,9 +103,8 @@ export async function UnsquattedHomePage() {
                     {COPY.listHeading}
                   </h2>
                 }
-                picks={PICKS}
+                {...{ picks, prices }}
                 copy={COPY}
-                {...{ prices }}
               />
             </section>
           </CheckerProvider>

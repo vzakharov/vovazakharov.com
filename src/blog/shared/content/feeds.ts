@@ -21,7 +21,11 @@ import {
   feedRoutes,
 } from './collections';
 import type { RoutedInCollection } from './documents';
-import { articleCollection, filedDate } from './frontmatter';
+import {
+  type ArticleFrontmatter,
+  type Collection,
+  filedDate,
+} from './frontmatter';
 import { renderPrimaryDocuments } from './render';
 
 export type Feed = RoutedInCollection & Titled;
@@ -90,12 +94,10 @@ export function findFeed(
  * music's catalogue reads, so the songs feed is music's own `SONG_FEED`.
  */
 export async function feedEntries(
-  collection: CollectionId,
+  collection: Collection<ArticleFrontmatter>,
   locale?: Locale,
 ): Promise<FeedEntry[]> {
-  return (
-    await renderPrimaryDocuments(articleCollection(collection), locale)
-  ).map(({ document: { route, frontmatter }, rendered: { title, tree } }) => ({
+  return (await renderPrimaryDocuments(collection, locale)).map(({ document: { route, frontmatter }, rendered: { title, tree } }) => ({
     title,
     ...pick(frontmatter, 'description'),
     route,

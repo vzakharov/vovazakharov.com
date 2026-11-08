@@ -141,16 +141,6 @@ $field-own-row: mantine.$breakpoint-sm;
   font-family: var(--mantine-font-family-monospace);
 }
 
-// One line, since a break can split the zone (`.co` / `m`); the span's `title`
-// carries whatever the ellipsis hides.
-.domain {
-  min-width: 0;
-  overflow: hidden;
-  font-family: var(--mantine-font-family-monospace);
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 // Three rows at most until opened, as many columns across as the width allows.
 // The `n + …` cut-offs are those rows times the columns at each width, and the
 // widest, nine, is `CLOSED_ROWS` in `name-checker.tsx`: the rows before it are
@@ -203,15 +193,9 @@ $field-own-row: mantine.$breakpoint-sm;
   @extend %fold-toggle;
 }
 
-.zone {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 4px 8px;
-  padding: 10px 12px;
-  border: 1px solid var(--color-border-hairline);
-  border-radius: var(--radius-default);
-  background: var(--color-surface);
-  font-size: 0.95rem;
+// Under the field, once the dice have been rolled a few times in a visit.
+.diceNudge {
+  margin: 8px 0 0;
+  color: var(--unsquatted-muted);
+  font-size: 0.875rem;
 }

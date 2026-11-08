@@ -1,0 +1,1 @@
+export { postSlots } from './page';

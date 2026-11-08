@@ -9,6 +9,7 @@ export {
   type DocumentRef,
   documentRoute,
   FEATURED_CASE_STUDY_ROUTE,
+  feedRoutes,
   isTranslated,
   localizedRoute,
   resolveAuthoredUrl,
@@ -57,6 +58,7 @@ export {
 export { intrinsicDimensions } from './image-dimensions';
 export { MUSIC_ROUTE } from './music-route';
 export {
+  compileBody,
   type DocumentCard,
   type Headlined,
   renderDocument,
@@ -67,3 +69,8 @@ export {
   type WithReadingMinutes,
 } from './render';
 export { translatedData } from './translations';
+export {
+  elementWidget,
+  type WidgetPlaceholder,
+  widgetPlaceholder,
+} from './widget-element';

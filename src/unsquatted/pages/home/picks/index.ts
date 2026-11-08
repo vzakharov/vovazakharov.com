@@ -1,1 +1,1 @@
-export type { ShownName } from './model/picks';
+export type { LinkedName } from './model/post-links';

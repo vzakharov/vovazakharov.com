@@ -9,14 +9,14 @@ import {
 } from 'react';
 
 import { useProvided } from '@/kernel/shared/lib/use-provided';
-import type {
-  Labeled,
-  Typed,
-  WithChildren,
-  WithText,
-} from '@/kernel/shared/typings';
+import type { Typed, WithChildren, WithText } from '@/kernel/shared/typings';
 
-import { asTyped, cleanLabel, typedZone } from '../lib/rows';
+import {
+  asTyped,
+  cleanLabel,
+  type TypedName,
+  typedZone,
+} from '@/unsquatted/entities/domain';
 
 /** How long typing has to pause before the name is looked up. */
 const SETTLE_MS = 350;
@@ -31,11 +31,6 @@ type Query = WithText & Asked;
 const askedAgain =
   (text: string) =>
   ({ asks }: Query): Query => ({ text, asks: asks + 1 });
-
-export type Zoned = { zone: string | undefined };
-
-/** A name as the field reads it: its label, and the zone typed after it if any. */
-export type TypedName = Labeled & Zoned;
 
 /** `label` is the name being looked up — what was typed once typing paused. */
 type CheckerState = Typed &

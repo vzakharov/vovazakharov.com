@@ -2119,3 +2119,173 @@ thistra.com:
   score: 6
   form: coinage
   added: 2026-11-04
+
+letmeal.one:
+  category: Singles’ Day
+  tagline: “Let me alone,” as people said it before “leave” took over.
+  uses:
+    - solo-travel guide
+    - quiet-hours café
+  score: 7.5
+  form: hack
+  pattern: '*al.one'
+  added: 2026-11-04
+  post: singles-day
+
+monachal.com:
+  category: Singles’ Day
+  tagline: Of monks, from the Greek word for alone.
+  uses:
+    - retreat house
+    - meditation app
+  score: 7
+  form: word
+  added: 2026-11-04
+  post: singles-day
+
+baresticks.com:
+  category: Singles’ Day
+  tagline: The four bare branches of 11.11, Chinese slang for a bachelor.
+  uses:
+    - furniture workshop
+    - dating newsletter
+  score: 7
+  form: compound
+  added: 2026-11-04
+  post: singles-day
+
+onlyones.day:
+  category: Singles’ Day
+  tagline: A day of nothing but ones.
+  uses:
+    - countdown site
+    - self-care box
+  score: 7
+  form: hack
+  pattern: '*.day'
+  added: 2026-11-04
+  post: singles-day
+
+cartforone.com:
+  category: Singles’ Day
+  tagline: A shopping cart, and nobody to share it with.
+  uses:
+    - grocery-delivery service
+    - single-portion meal kit
+  score: 6.5
+  form: phrase
+  added: 2026-11-04
+  post: singles-day
+
+boughtmyself.com:
+  category: Singles’ Day
+  tagline: The gift you got, from the only person who knew what you wanted.
+  uses:
+    - gift shop
+    - self-gifting blog
+  score: 6.5
+  form: phrase
+  added: 2026-11-04
+  post: singles-day
+
+smartish.si:
+  category: AI becomes SI
+  tagline: Super Intelligence, give or take, now that AI is called SI.
+  uses:
+    - chatbot that admits it’s guessing
+    - homework helper
+  score: 7.5
+  form: hack
+  pattern: '*ish.si'
+  added: 2026-11-06
+  post: super-intelligence
+
+kindasuper.si:
+  category: AI becomes SI
+  tagline: Kinda Super Intelligence, as the demo went.
+  uses:
+    - product-launch newsletter
+    - parody tech blog
+  score: 7
+  form: hack
+  pattern: '*super.si'
+  added: 2026-11-06
+  post: super-intelligence
+
+almostsuper.si:
+  category: AI becomes SI
+  tagline: Almost Super Intelligence, which covers most of it.
+  uses:
+    - beta-testing community
+    - startup podcast
+  score: 6.5
+  form: hack
+  pattern: '*super.si'
+  added: 2026-11-06
+  post: super-intelligence
+
+thankyouslovenia.si:
+  category: AI becomes SI
+  tagline: A note to the country whose two letters became the new AI.
+  uses:
+    - Slovenian travel guide
+    - thank-you card shop
+  score: 6.5
+  form: phrase
+  added: 2026-11-06
+  post: super-intelligence
+
+nextanguilla.si:
+  category: AI becomes SI
+  tagline: Anguilla struck it rich on .ai; Slovenia’s .si was told it would be next.
+  uses:
+    - domain-industry newsletter
+    - island-hopping travel blog
+  score: 6
+  form: phrase
+  added: 2026-11-06
+  post: super-intelligence
+
+lolok.si:
+  category: AI becomes SI
+  tagline: Laughed, then said okay, which is most reviews in two words.
+  uses:
+    - meme newsletter
+    - reaction-gif shop
+  score: 7
+  form: phrase
+  added: 2026-11-06
+  post: super-intelligence
+
+slowclap.si:
+  category: AI becomes SI
+  tagline: The applause that starts late on purpose.
+  uses:
+    - satire podcast
+    - awards parody site
+  score: 7
+  form: compound
+  added: 2026-11-06
+  post: super-intelligence
+
+yeahright.si:
+  category: AI becomes SI
+  tagline: Agreement, said in a tone that cancels it.
+  uses:
+    - fact-checking newsletter
+    - skeptics’ forum
+  score: 6.5
+  form: phrase
+  added: 2026-11-06
+  post: super-intelligence
+
+ohnoanyway.si:
+  category: AI becomes SI
+  tagline: Alarm and indifference in one breath, as the meme has it.
+  uses:
+    - news-digest newsletter
+    - sticker shop
+  score: 6.5
+  form: phrase
+  added: 2026-11-06
+  post: super-intelligence
