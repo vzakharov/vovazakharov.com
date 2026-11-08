@@ -38,7 +38,7 @@ export function buildExport(): void {
   if (built.status !== 0) throw new Error('The vova build failed');
 }
 
-/** The world the run plays, from `--world <N>`: ours (1) when not given. */
+/** The world the run plays, from `--world <N>`: ours when not given. */
 export function worldArgument(): string {
   const world = flag('world') ?? OUR_WORLD;
   assertWorldNumber(world);

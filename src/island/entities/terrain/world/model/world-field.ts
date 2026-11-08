@@ -52,8 +52,8 @@ export function wavesOf(words: Uint32Array): Float64Array {
 
 /**
  * The waves' edge taper, from the middle in units of the side: whole within
- * `INNER`, gone by `OUTER`. The waves are periodic, so untapered land reaching
- * the square's edge would wrap to the far side; past `OUTER` the field is the
+ * `inner`, gone by `outer`. The waves are periodic, so untapered land reaching
+ * the square's edge would wrap to the far side; past `outer` the field is the
  * dome alone, deep sea.
  */
 export const TAPER = { inner: 0.4, outer: 0.48 } as const;
@@ -79,7 +79,7 @@ const gradientFloor = (radiusA: number, radiusB: number) =>
 
 /**
  * World `N`'s land as a `CoastField` over its square: `f = dome + taper ·
- * waves` on the 1024² grid, stored as the pseudo-distance `f / max(|∇f|, floor)` in
+ * waves` on `GRID`, stored as the pseudo-distance `f / max(|∇f|, floor)` in
  * metres — the true distance to the coast near it, positive on land — with
  * `∇f` by central differences (one-sided on the grid's edge).
  */
