@@ -4,6 +4,7 @@
  * or colour clearly off the local paper's.
  */
 
+import { lakes } from './lake';
 import {
   brightness,
   chromaDistance,
@@ -40,7 +41,8 @@ export type MaskOptions = {
    * colour, stays, and so does a pale stretch inland of it. */
   peelDepth: number;
   /** The share of a piece of land's pixels that must be coloured for it to be
-   * land rather than lettering. */
+   * land rather than lettering, and of an ink-walled hole's pixels clear of
+   * ink for it to be land rather than a lake. */
   minColouredShare: number;
   /** A piece of land with fewer pixels than this is dropped. */
   islandFloor: number;
@@ -278,8 +280,8 @@ function keptPieces(
 
 /**
  * Land per pixel (1): what the sea does not reach, in pieces painted enough —
- * lettering on the paper is ink alone, so it goes whatever its size, and a
- * lake the sea cannot reach is land — with bare land peeled off its coast.
+ * lettering on the paper is ink alone, so it goes whatever its size — with
+ * bare land peeled off its coast and the drawn lakes (`lakes`) taken out.
  */
 export function landMask(raster: Raster, options: MaskOptions): Uint8Array {
   const { width, height } = raster;
@@ -306,9 +308,15 @@ export function landMask(raster: Raster, options: MaskOptions): Uint8Array {
   const land = keptPieces(sea, painted, raster, options);
   const bare = land.map((set, i) => set & ((reach[i] ?? 0) ^ 1));
   const strait = stroked(options.seaStrokes ?? [], width, height);
-  return peel(land, bare, raster, options.peelDepth).map(
+  const shore = peel(land, bare, raster, options.peelDepth).map(
     (set, i) => set & ((strait[i] ?? 0) ^ 1),
   );
+  const water = lakes(
+    { land: shore, ink, nearInk, painted },
+    raster,
+    options.minColouredShare,
+  );
+  return shore.map((set, i) => set & ((water[i] ?? 0) ^ 1));
 }
 
 /** Land with its `bare` pixels removed where they lie within `depth` steps
