@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 1361,
+    "inputTokens": 1363,
     "cacheWrite5mTokens": 162424,
-    "cacheWrite1hTokens": 138434,
-    "cacheReadTokens": 12348583,
-    "outputTokens": 37768,
-    "thinkingTokens": 13258,
-    "responses": 89,
-    "costUsd": 5.141579399999998
+    "cacheWrite1hTokens": 140294,
+    "cacheReadTokens": 12539668,
+    "outputTokens": 38196,
+    "thinkingTokens": 13407,
+    "responses": 90,
+    "costUsd": 5.203244399999998
   },
   "estimate": {
     "at": "2026-11-08T19:35:50.827Z",
@@ -55,18 +55,18 @@
   "url": "https://claude.ai/code/session_01DaohkEN173M5c2oHaWfGjy",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-08T19:35:09.630Z",
-  "lastResponseAt": "2026-11-08T19:53:58.354Z",
+  "lastResponseAt": "2026-11-08T19:54:16.213Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 95,
+    "inputTokens": 97,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 138434,
-    "cacheReadTokens": 6866406,
-    "outputTokens": 19032,
-    "thinkingTokens": 5443,
-    "responses": 47,
-    "costUsd": 2.8617732
+    "cacheWrite1hTokens": 140294,
+    "cacheReadTokens": 7057491,
+    "outputTokens": 19460,
+    "thinkingTokens": 5592,
+    "responses": 48,
+    "costUsd": 2.9234382
   },
   "subagents": {
     "inputTokens": 83,
@@ -80,14 +80,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 178,
+      "inputTokens": 180,
       "cacheWrite5mTokens": 162424,
-      "cacheWrite1hTokens": 138434,
-      "cacheReadTokens": 12348583,
-      "outputTokens": 37567,
-      "thinkingTokens": 13258,
-      "responses": 88,
-      "costUsd": 5.141360599999998
+      "cacheWrite1hTokens": 140294,
+      "cacheReadTokens": 12539668,
+      "outputTokens": 37995,
+      "thinkingTokens": 13407,
+      "responses": 89,
+      "costUsd": 5.203025599999998
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1183,
@@ -121,7 +121,7 @@
     }
   },
   "operatorWords": {
-    "chat": 148,
+    "chat": 155,
     "review": 0,
     "threads": 0
   },
