@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 72,
-    "cacheWrite5mTokens": 143865,
-    "cacheWrite1hTokens": 124091,
-    "cacheReadTokens": 4129870,
-    "outputTokens": 28798,
-    "thinkingTokens": 14741,
-    "responses": 35,
-    "costUsd": 3.1142750000000006
+    "inputTokens": 287,
+    "cacheWrite5mTokens": 355331,
+    "cacheWrite1hTokens": 137810,
+    "cacheReadTokens": 18342559,
+    "outputTokens": 134051,
+    "thinkingTokens": 53024,
+    "responses": 139,
+    "costUsd": 9.229814800000005
   },
   "estimate": {
     "at": "2026-11-08T20:55:40.459Z",
@@ -57,55 +57,55 @@
     }
   },
   "sessionId": "ca982972-6a86-57ea-8dc6-cd7711702033",
-  "branch": "island/worlds",
+  "branch": "wt/b2-s1",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/go island/worlds — you are the member building bite 2 of the island game. Your contract is docs/plans/world-game-zoltan-syama/bite-2.md (read it first, then th…",
   "prs": [],
   "url": "https://claude.ai/code/session_01DaohkDvf7LpG4KNhwNaPyx",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-08T20:51:49.691Z",
-  "lastResponseAt": "2026-11-08T20:58:43.275Z",
+  "lastResponseAt": "2026-11-08T21:09:32.819Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 50,
+    "inputTokens": 61,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 124091,
-    "cacheReadTokens": 3508488,
-    "outputTokens": 26591,
-    "thinkingTokens": 14678,
-    "responses": 24,
-    "costUsd": 2.2264456000000004
+    "cacheWrite1hTokens": 137810,
+    "cacheReadTokens": 4650026,
+    "outputTokens": 29049,
+    "thinkingTokens": 14921,
+    "responses": 30,
+    "costUsd": 2.6137092
   },
   "subagents": {
-    "inputTokens": 22,
-    "cacheWrite5mTokens": 143865,
+    "inputTokens": 226,
+    "cacheWrite5mTokens": 355331,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 621382,
-    "outputTokens": 2207,
-    "thinkingTokens": 63,
-    "responses": 11,
-    "costUsd": 0.8878294000000002
+    "cacheReadTokens": 13692533,
+    "outputTokens": 105002,
+    "thinkingTokens": 38103,
+    "responses": 109,
+    "costUsd": 6.616105600000003
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 72,
-      "cacheWrite5mTokens": 143865,
-      "cacheWrite1hTokens": 124091,
-      "cacheReadTokens": 4129870,
-      "outputTokens": 28798,
-      "thinkingTokens": 14741,
-      "responses": 35,
-      "costUsd": 3.1142750000000006
+      "inputTokens": 287,
+      "cacheWrite5mTokens": 355331,
+      "cacheWrite1hTokens": 137810,
+      "cacheReadTokens": 18342559,
+      "outputTokens": 134051,
+      "thinkingTokens": 53024,
+      "responses": 139,
+      "costUsd": 9.229814800000005
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 35,
-    "matched": 35,
-    "matchedTableUsd": 3.1142750000000006,
-    "matchedEventUsd": 3.114275,
+    "events": 139,
+    "matched": 139,
+    "matchedTableUsd": 9.229814800000005,
+    "matchedEventUsd": 9.229814800000005,
     "unseen": {}
   },
   "operatorWords": {
@@ -116,9 +116,10 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 7972,
+    ".md": 8046,
     ".py": 199,
-    ".ts": 86,
-    ".sh": 43
+    ".ts": 202,
+    ".sh": 43,
+    ".json": 105
   }
 }
