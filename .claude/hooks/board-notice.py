@@ -3,10 +3,11 @@
 
 A plan run as a board (`.claude/skills/mammoth/notes/`) opens with
 `**The plan is the board**` and a list of its copies, one line per claude.ai
-organization (`` - `<organization uuid>`: <artifact url> ``): an artifact is
+organization (`` - `<organization key>`: <artifact url> ``): an artifact is
 seen only by the account that published it, and the operator works the same
-branch from several. The session's own copy is the line for its
-`CLAUDE_CODE_ORGANIZATION_UUID`; with no line for it, the notice asks for one —
+branch from several. The key is `organization_key()` of the session's
+`CLAUDE_CODE_ORGANIZATION_UUID`, a hash, so a public plan does not say which
+organizations the operator works for; with no line for it, the notice asks for one —
 an `Island board` already in that account's `Artifact` `list`, or a fresh
 publish — and with no organization in the environment it stays silent.
 
@@ -34,6 +35,7 @@ Fails open — an unreadable payload or transcript is stderr and exit 0.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import re
@@ -46,8 +48,13 @@ from session_state import project_root
 
 HEADER = "**The plan is the board**"
 # Prettier wraps an item past 80 columns, so the url may sit on its continuation line.
-COPY = re.compile(r"- `([0-9a-f-]+)`:\s+(https://claude\.ai/artifact/[A-Za-z0-9_-]+)\s*")
+COPY = re.compile(r"- `([0-9a-f]+)`:\s+(https://claude\.ai/artifact/[A-Za-z0-9_-]+)\s*")
 ARTIFACT_ID = re.compile(r"claude\.ai/(?:code/)?artifact/([A-Za-z0-9_-]+)")
+
+
+def organization_key(organization: str) -> str:
+    """The organization as a plan's copy list names it: the head of its uuid's SHA-256."""
+    return hashlib.sha256(organization.encode()).hexdigest()[:12]
 
 
 def say(message: str) -> None:
@@ -68,10 +75,10 @@ def copies(text: str) -> Dict[str, str]:
 Boards = Tuple[List[str], List[str]]
 
 
-def boards(root: Path, organization: str) -> Boards:
-    """The urls of this organization's copies of the boards the branch's plans
-    declare, one per plan in name order, and the plans declaring a board with
-    no copy for it."""
+def boards(root: Path, key: str) -> Boards:
+    """The urls of the copies the organization `key` names, of the boards the
+    branch's plans declare, one per plan in name order, and the plans declaring
+    a board with no copy for it."""
     urls: List[str] = []
     uncopied: List[str] = []
     for plan in sorted((root / "docs" / "plans").glob("*.md")):
@@ -82,7 +89,7 @@ def boards(root: Path, organization: str) -> Boards:
             continue
         if HEADER not in text:
             continue
-        url = copies(text).get(organization)
+        url = copies(text).get(key)
         if url is None:
             uncopied.append(str(plan.relative_to(root)))
         elif url not in urls:
@@ -211,14 +218,14 @@ def notice(urls: List[str], watched: Set[str], released: Set[str], opened: Set[s
     )
 
 
-def uncopied_notice(plans: List[str], organization: str) -> str:
+def uncopied_notice(plans: List[str], key: str) -> str:
     return (
         f"{', '.join(plans)} {'is' if len(plans) == 1 else 'are'} run as a board, and its list of "
-        f"copies has no line for this session's claude.ai organization, `{organization}`: an "
+        f"copies has no line for this session's claude.ai organization, keyed `{key}`: an "
         "artifact is seen only by the account that published it. If `Artifact` `list` shows "
         "this board already published here, add it to the list; otherwise build the board as "
         "the plan says and publish it as a new artifact with the capabilities the page uses, "
-        f"then add it — as `` - `{organization}`: <artifact url> ``, committed and pushed. Then "
+        f"then add it — as `` - `{key}`: <artifact url> ``, committed and pushed. Then "
         "watch and open it."
     )
 
@@ -238,7 +245,8 @@ def main() -> int:
     if not organization:
         say("no CLAUDE_CODE_ORGANIZATION_UUID, so no copy of a board to name.")
         return 0
-    urls, uncopied = boards(root, organization)
+    key = organization_key(organization)
+    urls, uncopied = boards(root, key)
     if not (urls or uncopied) or is_member(root):
         return 0
     try:
@@ -249,7 +257,7 @@ def main() -> int:
         return 0
     parts = [notice(urls, watched, released, opened, since)] if urls else []
     if uncopied:
-        parts.append(uncopied_notice(uncopied, organization))
+        parts.append(uncopied_notice(uncopied, key))
     text = " ".join(part for part in parts if part)
     if text:
         json.dump(

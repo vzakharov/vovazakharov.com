@@ -4,8 +4,7 @@
 from, since an artifact is seen only by the account that published it
 (`.claude/hooks/board-notice.py` names a session's own):
 
-- `fad6efae-68d1-46e4-b660-c540a8c98c17`:
-  https://claude.ai/artifact/5ya2F3bA8kwrmLhEyAib3P
+- `f4b0caba8fa8`: https://claude.ai/artifact/5ya2F3bA8kwrmLhEyAib3P
 
 Every copy is built from `src/island-board/app/config/` (a YAML file per zone),
 and each syncs its `db` back there before it is republished. The north star, the
