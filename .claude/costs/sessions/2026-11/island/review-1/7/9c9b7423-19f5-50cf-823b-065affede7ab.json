@@ -10,8 +10,8 @@
     "costUsd": 4.5181396000000005
   },
   "estimate": {
-    "at": "2026-11-07T07:31:29.127Z",
-    "subjectLine": "fix(island): merge the base into #258 again, board-perf ported",
+    "at": "2026-11-08T09:02:19.436Z",
+    "subjectLine": "fix: merge the base into #258 again, board-perf ported",
     "parts": [
       {
         "hours": 1.0,
@@ -115,9 +115,11 @@
   },
   "operatorWords": {
     "chat": 3,
-    "review": 0
+    "review": 0,
+    "threads": 0
   },
   "reviewPosts": {},
+  "threadPosts": {},
   "branchLines": {
     "vzakharov": 1,
     ".md": 6457,
