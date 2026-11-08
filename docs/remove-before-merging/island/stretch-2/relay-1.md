@@ -114,7 +114,7 @@ The operator's go-ahead for the rest of tonight, verbatim: «хорошо, да�
 17. **Operator**: «хорошо, давай мерджить, потом идти дальше. я иду спать …
     суффиксы, кажется, не нужны. кейс-стади всё ок»
 
-    **Agent**: squash-merged #265 as 6c76a51da, started `island/stretch-2` off
+    **Agent**: squash-merged #265 as 6c76a51da (now 4e2a4efb), started `island/stretch-2` off
     `main` with one commit carrying `docs/plans/` and
     `docs/remove-before-merging/`, opened #266, updated the plan's constraint,
     commented on and closed #255, then relayed for the context budget.
@@ -154,7 +154,8 @@ mammoth, then keep working unattended as far as the weekly limit allows.
 - **Branch** `island/stretch-2`, PR
   https://github.com/vzakharov/vovazakharov.com/pull/266 (draft, base `main`).
   Last pushed 7b8e778b9 before this summary's commit.
-- **`main`** at 6c76a51da, the squash of #265. Deploy run
+- **`main`** at 4e2a4efb, the squash of #265 (6c76a51da reworded after this
+  relay, the tree unchanged). Deploy run
   https://github.com/vzakharov/vovazakharov.com/actions/runs/42520867335 was
   in progress at relay time; nobody has checked `/island` live yet.
 - **#255** closed with a comment; its branch kept. **#265** merged;
