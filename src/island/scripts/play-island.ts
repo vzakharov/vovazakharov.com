@@ -12,6 +12,10 @@
  *   pnpm play:island --no-build            # play the one already in sites/vova/out
  *   pnpm play:island --screens phone       # only those screens
  *   pnpm play:island --out tmp/island      # frames there instead
+ *   pnpm play:island --world 2             # world #2, frames prefixed world2-
+ *
+ * The inlet's shots are places on our world, so another world takes the
+ * heights alone.
  *
  * The page drives itself through the hook `@/island/shared/play` declares; a
  * hook call that returns a promise is awaited against a deadline, so a call
@@ -32,6 +36,8 @@ import {
   settle,
   shoot,
   VOVA_EXPORT,
+  worldArgument,
+  worldPrefix,
 } from './lib/play-tab';
 
 import { flag } from '@/kernel/scripts/lib/argv';
@@ -49,19 +55,25 @@ const FRAMES = path.resolve(
 );
 /** Frames stepped at each place before its shot. */
 const FRAMES_PER_SHOT = 5;
+const WORLD = worldArgument();
 
 const SCREENS: readonly Screen[] = [
   { name: 'phone', width: 390, height: 844, ratio: 3, mobile: true },
   { name: 'desktop', width: 1440, height: 900, ratio: 1, mobile: false },
 ];
 
+type Shot = readonly [name: string, place: string];
+
 /** Each shot by the name its frame is filed under, and the call placing the eye. */
-const SHOTS: ReadonlyArray<readonly [name: string, place: string]> = [
+const HEIGHTS: readonly Shot[] = [
   ['orbit', call('setHeight', 20_000_000)],
   ['1000km', call('setHeight', 1_000_000)],
   ['10km', call('setHeight', 10_000)],
   ['100m', call('setHeight', 100)],
   ['2m', call('setHeight', 2)],
+];
+
+const INLET: readonly Shot[] = [
   // The inlet between Блаблания and Фейсис, the trace's narrowest: its whole
   // length, then the strait and the pool at its head.
   ['inlet', call('moveTo', 515_000, 1_750_000, 1_500_000)],
@@ -70,17 +82,19 @@ const SHOTS: ReadonlyArray<readonly [name: string, place: string]> = [
   ['inlet-head-west', call('turnTo', -Math.PI / 2)],
 ];
 
+const SHOTS = WORLD === '1' ? [...HEIGHTS, ...INLET] : HEIGHTS;
+
 type Played = { readonly frames: number[]; readonly backend: string };
 
 async function play(tab: Tab, screen: Screen): Promise<Played> {
-  const shootAt = async ([shot, ...rest]: typeof SHOTS): Promise<void> => {
+  const shootAt = async ([shot, ...rest]: readonly Shot[]): Promise<void> => {
     if (shot === undefined) return;
     const [name, place] = shot;
     await settle(tab, place, place.slice(hook.length + 1));
     await shoot(
       tab,
       FRAMES_PER_SHOT,
-      path.join(FRAMES, `${screen.name}-${name}.png`),
+      path.join(FRAMES, `${worldPrefix(WORLD)}${screen.name}-${name}.png`),
     );
     process.stdout.write(`${screen.name}: shot ${name}\n`);
     await shootAt(rest);
@@ -104,7 +118,7 @@ async function main(): Promise<void> {
     [screen, ...rest]: readonly Screen[],
   ): Promise<void> => {
     if (screen === undefined) return;
-    const tab = await openPlay(browser, origin, screen, errors);
+    const tab = await openPlay(browser, origin, screen, errors, WORLD);
     try {
       const { frames, backend } = await play(tab, screen);
       const load = os

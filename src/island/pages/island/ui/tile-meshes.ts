@@ -44,6 +44,8 @@ export type TileMeshes = CanDispose & {
   readonly draw: (keys: readonly TileKey[], eye: Vec3) => void;
   /** Lets the least recently drawn go past `CAPACITY`, never one in `keep` nor a root tile. */
   readonly evict: (keep: ReadonlySet<string>) => void;
+  /** Lets every tile go, root tiles included, for a world rebuilt from scratch. */
+  readonly clear: () => void;
   readonly size: () => number;
 };
 
@@ -74,6 +76,10 @@ export function tileMeshes(
       mesh.geometry.dispose();
     }
     held.delete(id);
+  };
+
+  const clear = () => {
+    for (const [id, entry] of held) release(id, entry);
   };
 
   return {
@@ -128,9 +134,8 @@ export function tileMeshes(
         release(id, entry);
       }
     },
+    clear,
     size: () => held.size,
-    dispose: () => {
-      for (const [id, entry] of held) release(id, entry);
-    },
+    dispose: clear,
   };
 }
