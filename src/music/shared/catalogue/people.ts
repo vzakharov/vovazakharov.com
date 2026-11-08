@@ -39,6 +39,7 @@ const CREDITED_PEOPLE = [
   { en: 'Mikhail Tanich', ru: 'Михаил Танич' },
   { en: 'Nikolay Zabolotsky', ru: 'Николай Заболоцкий' },
   { en: 'Nikolay Nekrasov', ru: 'Николай Некрасов' },
+  { en: 'Roman Popov', ru: 'Роман Попов' },
   { en: 'Samuil Marshak', ru: 'Самуил Маршак' },
   { en: 'Sergey Bakanov', ru: 'Сергей Баканов' },
   { en: 'Sergey Isaev', ru: 'Сергей Исаев' },

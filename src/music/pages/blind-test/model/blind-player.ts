@@ -1,4 +1,4 @@
-import { type Variant, VARIANTS } from './blind-test';
+import type { Variant } from './blind-test';
 
 /** Short enough to hear as a cut, long enough not to click. */
 const FADE_S = 0.015;
@@ -33,13 +33,13 @@ export class BlindPlayer {
     }, RESYNC_MS);
   }
 
-  load(urls: Record<Variant, string>) {
+  load(urls: ReadonlyMap<Variant, string>) {
     this.unload();
-    for (const variant of VARIANTS) {
+    for (const [variant, url] of urls) {
       const audio = new Audio();
       audio.crossOrigin = 'anonymous';
       audio.preload = 'auto';
-      audio.src = urls[variant];
+      audio.src = url;
       const gain = this.context.createGain();
       gain.gain.value = variant === this.active ? 1 : 0;
       this.context

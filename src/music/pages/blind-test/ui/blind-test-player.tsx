@@ -23,35 +23,47 @@ import { BlindPlayer } from '../model/blind-player';
 import {
   type BlindTest,
   type Variant,
-  VARIANTS,
+  variants,
   variantUrls,
 } from '../model/blind-test';
 import { verdictStore } from '../model/verdicts';
 
 type BlindTestPlayerProps = { test: BlindTest; copy: Messages['blindTest'] };
 
-// Letters, so a master is never read as a song's number; the files keep 1–3.
-const MASTER_LABELS = { 1: 'A', 2: 'B', 3: 'C' } as const;
+// Letters, so a master is never read as a song's number; the files keep 1, 2…
+const LETTERS = 'ABCDEFGH';
+// The key each letter sits on in the Russian layout, so a switch works in either.
+const RUSSIAN_KEYS = 'фисвуапр';
 
-// Each letter also on the Russian layout's key in its place.
-const KEYS: Record<string, Variant> = {
-  m: 'mix',
-  ь: 'mix',
-  a: '1',
-  ф: '1',
-  b: '2',
-  и: '2',
-  c: '3',
-  с: '3',
-};
+const label = (variant: Variant, mix: string) =>
+  variant === 'mix' ? mix : (LETTERS[Number(variant) - 1] ?? variant);
+
+const keysFor = (list: readonly Variant[]) =>
+  new Map<string, Variant>(
+    list.flatMap((variant): Array<[string, Variant]> => {
+      if (variant === 'mix') {
+        return [
+          ['m', variant],
+          ['ь', variant],
+        ];
+      }
+      const index = Number(variant) - 1;
+      const latin = LETTERS[index]?.toLowerCase();
+      const russian = RUSSIAN_KEYS[index];
+      return latin === undefined || russian === undefined
+        ? []
+        : [
+            [latin, variant],
+            [russian, variant],
+          ];
+    }),
+  );
 const TICK_MS = 200;
 const COPIED_MS = 2000;
 const SKIP_S = 1;
 
 const clock = (seconds: number) =>
   `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
-
-const asVariant = (value: string) => VARIANTS.find((each) => each === value);
 
 export function BlindTestPlayer({ test, copy }: BlindTestPlayerProps) {
   const playerRef = useRef<BlindPlayer>(null);
@@ -71,6 +83,11 @@ export function BlindTestPlayer({ test, copy }: BlindTestPlayerProps) {
   );
   const [copied, setCopied] = useState(false);
   const piece = test.pieces[pieceIndex];
+  const list = useMemo(
+    () => (piece === undefined ? [] : variants(piece)),
+    [piece],
+  );
+  const keys = useMemo(() => keysFor(list), [list]);
 
   const report = (error_: unknown) => {
     setError(String(error_));
@@ -94,7 +111,13 @@ export function BlindTestPlayer({ test, copy }: BlindTestPlayerProps) {
     const current = playerRef.current;
     if (current === null || piece === undefined) return;
     const wasPlaying = current.playing;
-    current.load(variantUrls(test, piece));
+    const urls = variantUrls(test, piece);
+    // A song with fewer masters than the one before has no position to carry over to.
+    if (!urls.has(chosenRef.current)) {
+      chosenRef.current = 'mix';
+      setVariant('mix');
+    }
+    current.load(urls);
     current.select(chosenRef.current);
     if (wasPlaying) current.play().catch(report);
   }, [test, piece]);
@@ -119,7 +142,7 @@ export function BlindTestPlayer({ test, copy }: BlindTestPlayerProps) {
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (event.target instanceof HTMLTextAreaElement) return;
-      const picked = KEYS[event.key];
+      const picked = keys.get(event.key);
       if (picked === undefined) {
         switch (event.key) {
           case ' ': {
@@ -196,12 +219,12 @@ export function BlindTestPlayer({ test, copy }: BlindTestPlayerProps) {
         size="lg"
         value={variant}
         onChange={(value) => {
-          const picked = asVariant(value);
+          const picked = list.find((each) => each === value);
           if (picked !== undefined) choose(picked);
         }}
-        data={VARIANTS.map((each) => ({
+        data={list.map((each) => ({
           value: each,
-          label: each === 'mix' ? copy.mix : MASTER_LABELS[each],
+          label: label(each, copy.mix),
         }))}
       />
       <Group gap="sm" wrap="nowrap">
