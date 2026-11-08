@@ -10,7 +10,8 @@
     "costUsd": 11.933125599999999
   },
   "estimate": {
-    "at": "2026-11-07T06:35:41.320Z",
+    "at": "2026-11-08T09:01:53.438Z",
+    "subjectLine": "fix: 10 km's tile density and the strait the tracer missed",
     "parts": [
       {
         "hours": 1.0,
@@ -31,8 +32,7 @@
         "comment": "taking the lead's answers and briefing the trace story back for the board"
       }
     ],
-    "comment": null,
-    "subjectLine": "perf(island): 65-vertex tiles, and the inlet between two lands"
+    "comment": null
   },
   "orientation": {
     "endedBy": "Edit",
@@ -106,9 +106,11 @@
   },
   "operatorWords": {
     "chat": 58,
-    "review": 0
+    "review": 0,
+    "threads": 0
   },
   "reviewPosts": {},
+  "threadPosts": {},
   "branchLines": {
     ".md": 2930,
     ".py": 894,
