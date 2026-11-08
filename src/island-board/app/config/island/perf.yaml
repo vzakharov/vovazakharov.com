@@ -6,9 +6,10 @@ items:
     text: Side bite — the board got sluggish
   - id: perf-1
     type: sticky
-    updated: [2026-11-07T07:40:00.000Z, agent:lead]
+    updated: [2026-11-08T09:06:48.940Z, agent:lead]
     box: [2460, 1150, 300, green]
-    text: "✓ #262. The cause: the camera's transform sat on the lines' <svg> too, and a transform on an SVG root re-lays-out and repaints the whole board every pan frame. Now one wrapper moves, lifted onto its own layer while panning: a pan moves tiles already drawn. The page shrank 465 → 131 KB, mostly zod's unused locales."
+    text: "#262. The cause: the camera's transform sat on the lines' <svg> too, and a transform on an SVG root re-lays-out and repaints the whole board every pan frame. Now one wrapper moves, lifted onto its own layer while panning: a pan moves tiles already drawn. The page shrank 465 → 131 KB, mostly zod's unused locales."
+    done: true
   - id: perf-chart
     type: image
     updated: [2026-11-07T07:41:07.627Z, u_L_AriiBLoWLIB4PYEulAJA]

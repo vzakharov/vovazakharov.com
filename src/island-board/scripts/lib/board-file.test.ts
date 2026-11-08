@@ -39,6 +39,7 @@ const ZONE: Extract<Item, { kind: 'zone' }> = {
 
 const ONE_OF_EACH: Item[] = [
   STICKY,
+  { ...STICKY, id: 'sd', done: true },
   ZONE,
   {
     ...STAMP,

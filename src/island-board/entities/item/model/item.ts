@@ -42,6 +42,8 @@ const Sticky = Placed.extend({
   text: z.string(),
   color: Color,
   w: z.number().positive(),
+  /** Ticked off. A convenience for a card that is a task; most cards are not, and leave it unset. */
+  done: z.boolean().optional(),
 });
 
 const Zone = Placed.extend({

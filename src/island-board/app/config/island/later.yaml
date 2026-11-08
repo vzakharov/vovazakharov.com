@@ -21,9 +21,10 @@ items:
     text: "Scale: (a) stays, confirmed by Zoltan. (a) The map's README: “Arc is the size of the DR Congo”, so all land ≈ 10 M km², Europe-sized; our trace matches (5,000 km across). (b) Vova recalled Zoltan meaning the whole island Congo-sized: half the width, ~2.5 M km². A half-width render lost the snowy highlands — “fewer mountains; back to the original size”"
   - id: later-3
     type: sticky
-    updated: [2026-11-07T06:22:00.000Z, agent:lead]
+    updated: [2026-11-08T09:06:48.940Z, agent:lead]
     box: [4340, -470, 260, pink]
-    text: '✓ Vova asked Zoltan whether Congo-sized meant Arc or the whole island: “we have it right” — Arc is the Congo, the scale stays'
+    text: 'Vova asked Zoltan whether Congo-sized meant Arc or the whole island: “we have it right” — Arc is the Congo, the scale stays'
+    done: true
   - id: coast-too-straight
     type: image
     updated: [2026-11-07T06:20:00.000Z, agent:lead]

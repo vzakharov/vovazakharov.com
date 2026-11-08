@@ -11,7 +11,8 @@
  * `box` holds an item's geometry positionally — `x, y, w` for a sticky or an
  * image, `x, y, w, h` for a zone, `x, y[, w]` for a text — then its colour, or a
  * text's size; a line has `ends: [from, to]`, `dashed` appended when it is, and
- * `spiral: cw` when it spirals. `text` is each type's one text field: a zone's
+ * `spiral: cw` when it spirals; a sticky ticked off has `done: true`. `text` is
+ * each type's one text field: a zone's
  * title, an image's caption, a line's label. The file is the codec only:
  * decoded, every item is the page's `Item`, which the db rows and the baked page
  * keep using.
@@ -45,6 +46,7 @@ const Shape = z.object({
   src: z.string().optional(),
   text: z.string().optional(),
   spiral: z.enum(SPIRALS).optional(),
+  done: z.literal(true).optional(),
 });
 type Shape = z.infer<typeof Shape>;
 
@@ -90,11 +92,12 @@ function fields({
   src,
   text,
   spiral,
+  done,
 }: FileItem): Record<string, unknown> {
   switch (type) {
     case 'sticky': {
       const [x, y, w, color] = BOX.sticky.parse(box);
-      return { x, y, w, color, text };
+      return { x, y, w, color, text, done };
     }
     case 'zone': {
       const [x, y, w, h, color] = BOX.zone.parse(box);
@@ -148,8 +151,8 @@ export function decodeItem(file: FileItem): Item {
 function shape(item: Item): Shape {
   switch (item.kind) {
     case 'sticky': {
-      const { x, y, w, color, text } = item;
-      return { box: [x, y, w, color], text };
+      const { x, y, w, color, text, done } = item;
+      return { box: [x, y, w, color], text, done: done === true || undefined };
     }
     case 'zone': {
       const { x, y, w, h, color, title } = item;

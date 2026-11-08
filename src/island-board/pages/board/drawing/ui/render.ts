@@ -95,8 +95,12 @@ function itemBody(
   const by = element('span', 'by', authorLabel(item.author, names));
   switch (item.kind) {
     case 'sticky': {
-      const node = element('div', `item sticky c-${item.color}`);
+      const node = element(
+        'div',
+        `item sticky c-${item.color}${item.done === true ? ' done' : ''}`,
+      );
       node.style.width = `${item.w}px`;
+      if (item.done === true) node.append(element('span', 'tick', '✓'));
       node.append(editableText(item, 'body', item.text), by);
       return node;
     }

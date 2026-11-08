@@ -6,24 +6,28 @@ items:
     text: Bite 1 — the thinnest descent
   - id: bite1-1
     type: sticky
-    updated: [2026-11-07T07:50:00.000Z, agent:lead]
+    updated: [2026-11-08T09:06:48.940Z, agent:lead]
     box: [2470, -1563, 325, pink]
-    text: ✓ /island opens on the island from orbit; scroll, pinch or a key takes the eye down to 2 m over the ground, with no loading screen
+    text: /island opens on the island from orbit; scroll, pinch or a key takes the eye down to 2 m over the ground, with no loading screen
+    done: true
   - id: bite1-2
     type: sticky
-    updated: [2026-11-07T07:50:00.000Z, agent:lead]
+    updated: [2026-11-08T09:06:48.940Z, agent:lead]
     box: [2820, -1563, 325, pink]
-    text: ✓ The map traced once into a coastline at real scale; height a pure function of place and seed; tiles by (level, x, y) bent onto the sphere, filled in a worker
+    text: The map traced once into a coastline at real scale; height a pure function of place and seed; tiles by (level, x, y) bent onto the sphere, filled in a worker
+    done: true
   - id: bite1-3
     type: sticky
-    updated: [2026-11-07T07:50:00.000Z, agent:lead]
+    updated: [2026-11-08T09:06:48.940Z, agent:lead]
     box: [2470, -1319, 325, pink]
-    text: '✓ Contract: docs/plans/world-game-zoltan-syama/bite-1.md. Branch island/bite-1-descent, merged into the island branch as PR #259'
+    text: 'Contract: docs/plans/world-game-zoltan-syama/bite-1.md. Branch island/bite-1-descent, merged into the island branch as PR #259'
+    done: true
   - id: bite1-4
     type: sticky
-    updated: [2026-11-07T07:50:00.000Z, agent:lead]
+    updated: [2026-11-08T09:06:48.940Z, agent:lead]
     box: [2820, -1319, 325, pink]
-    text: '✓ Done: five heights (orbit, 1,000 km, 10 km, 100 m, 2 m) on a phone and a desktop, looked at beside the drawing'
+    text: 'Done: five heights (orbit, 1,000 km, 10 km, 100 m, 2 m) on a phone and a desktop, looked at beside the drawing'
+    done: true
   - id: bite1-5
     type: sticky
     updated: [2026-11-07T07:50:00.000Z, agent:lead]
@@ -73,9 +77,10 @@ items:
     text: orbit
   - id: controls
     type: sticky
-    updated: [2026-11-07T07:50:00.000Z, agent:lead]
+    updated: [2026-11-08T09:06:48.940Z, agent:lead]
     box: [3170, -1563, 300, pink]
-    text: "✓ Controls (#260, Vova's layout): W/S forward and back, A/D strafe, ←/→ turn, ↑/↓ climb (Q/E and PageUp/PageDown still work); right drag or a two-finger twist turns. A key hint bottom-left fades after first use. Open: collapse it to a '?' button instead?"
+    text: "Controls (#260, Vova's layout): W/S forward and back, A/D strafe, ←/→ turn, ↑/↓ climb (Q/E and PageUp/PageDown still work); right drag or a two-finger twist turns. A key hint bottom-left fades after first use. Open: collapse it to a '?' button instead?"
+    done: true
   - id: descent-video
     type: image
     updated: [2026-11-07T08:20:00.000Z, agent:lead]
