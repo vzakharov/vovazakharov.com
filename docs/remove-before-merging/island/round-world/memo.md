@@ -357,3 +357,7 @@ B8b taken (c8a3f163); board v57 pins the #2 edge crossing at 10 km, the 1,000 km
 ## lead · 2026-11-09 07:59:08 UTC
 
 From Vova, call 17 grows a bullet (e2b50cc3): «при постоянном нажатии q, подсказка мигает очень быстро, я даже в первый раз не успел её заметить. пусть горит секунды три а потом гаснет сама». A hint stays up three seconds, then fades out by itself, and does not show again until its condition has lapsed and come back — so holding Q through the threshold gives one steady 3 s hint, not a flicker. Slot it in beside B9a (a small change, worth its own short branch), then I republish preview slot 1.
+
+## member · 2026-11-09 07:59:30 UTC
+
+Ack e2b50cc3. B7e is running on its own short branch, wt/b3-b7e, beside B9a: a pure latch so a hint shows 3 s, fades out, and re-arms only after its condition has lapsed. I'll merge it and tell you when to republish slot 1.
