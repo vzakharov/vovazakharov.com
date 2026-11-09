@@ -157,9 +157,20 @@ calls.
   5° above the sea's horizon; E/Q climb; a two-finger vertical drag looks on
   touch. Until B7 the planar game's ↑/↓ do nothing and its hint still says they
   climb; B7 wires the hint and the globe eye's `STILL`.
-- **Next**: B7 (the switch, with S4's light and time keys, S7's hint, S11's
-  where-line and pose hash, B4's two quadtree findings), first flying frame on
-  the sphere to the lead; then B8 (retire the plane, film the seams), B9 (call
-  14), step C (Earth), the tail. Nothing runs at this point. The memo with the
-  lead is current to 05:08 (call 16, #1's neighbours, withdrawn to the next
-  bite).
+- **S17. The sun is at equinox** (the lead, memo 05:49, replacing S15's NW sun):
+  S15's sun stood at ~45° N, so #0's north never got night. Hour 0 is the
+  afternoon hour with the sun 20° up, west of the opening's meridian.
+- **S18. Call 13 is "turn to the horizon a decade higher"** (Vova shelved the
+  H-lock design; the lead wrote it so): `pitchAt` runs from 20 m to 18,000 km
+  (ae41b577); the point below leaves the frame at ~100 km.
+- **B7a, B7a′, B7b landed** (`notes/b3-b7a.md`, `b3-b7at.md`, `b3-b7ap.md`,
+  `b3-b7b.md`): the game flies the sphere; `pnpm play:island` green on #1
+  (frames in `notes/b3-b7-play/`, build ~1.4 s); full-moon light and time keys.
+- **B7c is half landed on `wt/b3-b7c`, not merged** (`notes/b3-b7c.md`): the
+  equinox sun and the pure `place-hash`/`where-line`/`eye-pose` are committed
+  with four lint errors listed in the note; the scene/where/env wiring is
+  `notes/b3-b7c-wip.patch`, never type-checked; the canvas, hint, hook and
+  `world-hash` removal are unwritten.
+- **Next**: finish B7c from its note and patch, merge; then B8 (retire the
+  plane, film the seams; the lead asks whether 10 km straight down is soft by
+  tile level), B9 (call 14), step C (Earth), the tail.
