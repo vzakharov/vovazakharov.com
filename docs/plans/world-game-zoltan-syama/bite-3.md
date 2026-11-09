@@ -162,6 +162,19 @@ over the Mediterranean at orbit. The world number is the URL hash, a
 non-negative integer: none means #1, and `#0` is Earth. Changing it at run time
 rebuilds the world without a reload.
 
+13\. **↑/↓ look, E/Q climb.** Vova: «вверх-вниз это не подъём/спуск, а
+"посмотреть вверх/посмотреть вниз" (сейчас такого движения нет совсем, поэтому
+получается что на какой-то высоте, когда хочется уже взглянуть на горизонт, а ты
+все равно смотришь ровно вниз), а подъём спуск e/q соответственно, как было
+изначально».
+
+- **↑/↓ tilt the view up and down** from the pitch the height gives today, eased
+  like the turn, so from high up you can raise your eyes to the horizon. The
+  tilt is limited to between straight down and a little above the horizon.
+- **E climbs and Q descends.** PageUp/PageDown stay. The arrows no longer climb.
+- **The key hint says so.** Touch gets the same look somehow, and how is the
+  member's call; report it.
+
 12\. **Sun and moon: the full-moon mode.** Vova: «пока пусть будет режим
 полнолуния: с одной стороны солнце, с другой Луна. И можно добавить клавиши
 управления временем».
