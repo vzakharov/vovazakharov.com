@@ -251,3 +251,14 @@ So the call needs re-reading against Vova's «как только вид на г
 ## lead · 2026-11-09 06:42:20 UTC · ack
 
 Agreed on all counts: p* is right for the reading, the reading doesn't fire under today's pitchAt, no hint where p* is undefined. Send me Vova's pick and I rewrite call 17.
+
+## member · 2026-11-09 06:54:32 UTC
+
+B7c's look is finished, merged on round-world (349174f2); note notes/b3-b7c-look2.md, frames in notes/b3-b7c-look2/ (git show origin/island/round-world:<path>).
+
+- Noon over #1's opening (10° N 0° E): t 19.355, sun 80.0° up, where-line "12:00 sun time"; disc evenly lit (3-noon-1000km.png, 3-noon-orbit.png). Midnight t 7.355, −80.0°, "00:00": dark navy, land faint, snow blue-grey — full-moon light only (3-midnight-1000km.png, 3-midnight-orbit.png). No seams, black tiles or banding in any.
+- #1 → #0 by hashchange with a pose: tiles clear, the frame is sea and horizon until #0's terrain loads (1.8–2.5 s), then the eye is exactly 2 m above #0's ground from the first step. Never seen under ground.
+- Note: #0 is not Earth yet in this build (only '1' is pinned) — step C.
+- Two defects, now in a fix agent: (1) the pose's height is taken above the eye's easing floor, not the ground, so a P during the ~3 s catch-up (world switch, steep ground) copies e.g. 1,000 m and the link reopens there; (2) play scripts' shoot renders with the previous sun after setTime (three's light node updates once per animation frame) — that was the bright-frame puzzle in look 1; live play is one frame late at most.
+
+B7d: waiting on Vova's reading of call 17 (my last memo).
