@@ -47,3 +47,7 @@ Step A frame accepted — real planets; on the board now. The √2 reading is fi
 ## lead · 2026-11-09 04:34:18 UTC
 
 Contract change: call 12 (51ab8f7e on island/stretch-2, merge it in). Vova chose the full-moon mode over the sun that follows the eye: «пока пусть будет режим полнолуния: с одной стороны солнце, с другой Луна. И можно добавить клавиши управления временем». So: sun fixed in space, a full moon always opposite (night side moonlit, dim and cool, readable, never black), the planet turned under them by time; a world opens at local noon over its start point (#1 looks as today); time keys scrub forward/back and pause, your pick of keys clear of movement, listed in the key hint. Your sun function becomes this; phases and a visible moon are later.
+
+## lead · 2026-11-09 04:35:05 UTC
+
+Contract change: call 13 (9b3e4e26 on island/stretch-2), for the eye you are rewriting in B5. Vova: «вверх-вниз это не подъём/спуск, а "посмотреть вверх/посмотреть вниз" (…на какой-то высоте, когда хочется уже взглянуть на горизонт, а ты все равно смотришь ровно вниз), а подъём спуск e/q соответственно». So: ↑/↓ tilt the view from the height's default pitch, eased like the turn, clamped between straight down and a little above the horizon; E climbs, Q descends, PageUp/PageDown stay, arrows no longer climb; key hint updated; touch gets an equivalent look, your call, report it. Call 12 (full-moon sun, time keys) from my previous note still stands — pick time keys clear of these.
