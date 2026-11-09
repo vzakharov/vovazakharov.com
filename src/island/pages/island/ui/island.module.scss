@@ -82,8 +82,9 @@
 }
 
 // The where-line's confirmation, on the hint's glass at the top of the screen,
-// clear of the hint; empty, it draws nothing.
-.where {
+// clear of the hint, and the look hint under it; empty, each draws nothing.
+.where,
+.lookHint {
   position: fixed;
   top: 16px;
   left: 50%;
@@ -103,6 +104,10 @@
   &:empty {
     display: none;
   }
+}
+
+.lookHint {
+  top: 64px;
 }
 
 .hintClose {

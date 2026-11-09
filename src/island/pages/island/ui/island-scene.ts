@@ -24,6 +24,8 @@ import {
   type GlobeGroundAt as GroundAt,
   globePoseOf as poseOf,
   headingOf,
+  type LookHint,
+  lookHint,
   MAX_HEIGHT,
   openingOf,
   stepOnGlobe as step,
@@ -109,6 +111,8 @@ type MountIslandSceneParams = {
   pose: Pose | undefined;
   play: boolean;
   onError: (error: Error) => void;
+  /** Told each time the look hint the eye earns changes; never under play. */
+  onLookHint: (hint: LookHint | undefined) => void;
 };
 
 /**
@@ -119,7 +123,13 @@ type MountIslandSceneParams = {
  */
 export function mountIslandScene(
   canvas: HTMLCanvasElement,
-  { world: firstWorld, pose: firstPose, play, onError }: MountIslandSceneParams,
+  {
+    world: firstWorld,
+    pose: firstPose,
+    play,
+    onError,
+    onLookHint,
+  }: MountIslandSceneParams,
 ): IslandScene {
   const renderer = new WebGPURenderer({
     canvas,
@@ -242,6 +252,7 @@ export function mountIslandScene(
   const observer = new ResizeObserver(resize);
   observer.observe(canvas);
 
+  let hint: LookHint | undefined;
   const frame = (dt: number) => {
     if (eye === null) return;
     eye = step(eye, play ? STILL : controls.read(), dt, groundAt);
@@ -251,6 +262,10 @@ export function mountIslandScene(
       clock = advance(clock, keys, dt);
     }
     render();
+    const earned = play ? undefined : lookHint(eye, camera.aspect);
+    if (earned === hint) return;
+    hint = earned;
+    onLookHint(earned);
   };
 
   let loop = 0;
