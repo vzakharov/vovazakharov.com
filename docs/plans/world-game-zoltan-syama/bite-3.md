@@ -217,6 +217,11 @@ step reaches a frame before the next one starts.
 
 ## Out of the bite
 
+- #1's neighbours, the next bite («не, давай в этот бит это не включать, они так
+  большой. возьмём следом»): #1 fitted against a blended target, the drawn
+  island and its sea within about 1,500 km and random world `H(1, ·)` under the
+  measured envelope beyond, so other land may exist in its world («мы можем
+  сказать "должен быть вот этот континент", но не говорить "и никаких других"»).
 - Objects from dice rolls, and open-ended lists with their continuation rolls.
 - Pangaea's fit between continents («правая линия южной америки коррелирует с
   левой африки»).

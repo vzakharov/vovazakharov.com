@@ -47,6 +47,11 @@ items:
     updated: [2026-11-09T02:32:17.000Z, agent:lead]
     box: [4020, -1300, 340, orange]
     text: 'Next bite, agreed with Vova: objects from dice rolls. “Draw the island, roll a die, if lucky draw a lake, roll again” — each lake its own harmonics at its own scale, so it traces true; the strait is two lakes touching each other and the sea. Later rivers and mountains roll the same way'
+  - id: later-neighbours
+    type: sticky
+    updated: [2026-11-09T05:10:00.000Z, agent:lead]
+    box: [4410, -1290, 310, green]
+    text: "Right after bite 3 (Vova): #1 gets neighbours. Its fit keeps the drawn island and ~1,500 km of its sea, and beyond takes a random world's land, so other continents may exist there — “it must have this continent”, never “and no others”"
   - id: later-4
     type: sticky
     updated: [2026-11-08T20:52:31.000Z, agent:lead]
