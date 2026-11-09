@@ -1,0 +1,166 @@
+{
+  "total": {
+    "inputTokens": 9465,
+    "cacheWrite5mTokens": 1491025,
+    "cacheWrite1hTokens": 206945,
+    "cacheReadTokens": 73913796,
+    "outputTokens": 359480,
+    "thinkingTokens": 84831,
+    "responses": 598,
+    "costUsd": 31.13343010000001
+  },
+  "estimate": {
+    "at": "2026-11-09T06:01:56.485Z",
+    "subjectLine": "feat: bite 3 — B7c's hash wiring, B8, B9, Earth and the tail",
+    "parts": [
+      {
+        "hours": 16.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "call 14's seamless levels across faces and B8's seam frames need rendering depth"
+      },
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "Earth's fit from Natural Earth and the envelope measured for random worlds"
+      },
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "B7c's hash wiring and where key in the canvas and hook"
+      },
+      {
+        "hours": 4.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "Earth's pinned row and the Done table's tests"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "orchestrating B8, B9, step C and the tail with the lead"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": ".claude/worktrees/agent-af1d6801526c0442d/src/island/pages/island/lib/day.ts",
+    "endedAt": "2026-11-09T06:03:21.236Z",
+    "contextTokens": 86085,
+    "spend": {
+      "inputTokens": 39,
+      "cacheWrite5mTokens": 73972,
+      "cacheWrite1hTokens": 67435,
+      "cacheReadTokens": 1690118,
+      "outputTokens": 6470,
+      "thinkingTokens": 670,
+      "responses": 19,
+      "costUsd": 1.3769196000000001
+    }
+  },
+  "sessionId": "bae8164f-d2e3-52b4-8795-83d456b64df9",
+  "branch": "island/round-world",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/round-world — B7a, B7b и подъём взгляда влиты, B7c наполовину на wt/b3-b7c (патч и заметка), дальше доводка B7c и B8",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDrvNVfX3bqCuqhX9v",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-09T06:01:22.085Z",
+  "lastResponseAt": "2026-11-09T07:47:49.650Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 147,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 206945,
+    "cacheReadTokens": 13038621,
+    "outputTokens": 39021,
+    "thinkingTokens": 6204,
+    "responses": 74,
+    "costUsd": 5.0442922
+  },
+  "subagents": {
+    "inputTokens": 1060,
+    "cacheWrite5mTokens": 1485213,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 58195569,
+    "outputTokens": 320269,
+    "thinkingTokens": 78627,
+    "responses": 509,
+    "costUsd": 25.474798800000002
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 8291,
+      "cacheWrite5mTokens": 1491025,
+      "cacheWrite1hTokens": 206945,
+      "cacheReadTokens": 73913796,
+      "outputTokens": 359463,
+      "thinkingTokens": 84831,
+      "responses": 597,
+      "costUsd": 31.13330420000001
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1174,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 17,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0001259
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 598,
+    "matched": 583,
+    "matchedTableUsd": 30.51909100000001,
+    "matchedEventUsd": 30.51909100000001,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 7084,
+        "cacheWrite5mTokens": 5812,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 2679606,
+        "outputTokens": 173,
+        "thinkingTokens": 0,
+        "responses": 14,
+        "costUsd": 0.6142132
+      },
+      "generate_session_title": {
+        "inputTokens": 1174,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 17,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0001259
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 12,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".py": 980,
+    ".md": 13095,
+    ".json": 317,
+    ".txt": 560,
+    ".ts": 6008,
+    ".sh": 43,
+    ".yaml": 242,
+    ".tsx": 71,
+    ".scss": 50
+  }
+}

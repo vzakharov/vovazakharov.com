@@ -43,7 +43,7 @@ const ROOTS: CubeCell[] = FACES.flatMap((face) =>
 );
 
 /** What the selection reads of the world the scene stands on, now. */
-export type Ground = {
+type Ground = {
   /** The coast the selection refines along, once the field arrives. */
   readonly coast: CoastDistance | undefined;
   readonly groundAt: GroundAt;
