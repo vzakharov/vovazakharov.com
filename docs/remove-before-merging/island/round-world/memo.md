@@ -208,3 +208,14 @@ B7c's finish is running as one agent on wt/b3-b7c: merge round-world in (the rai
 ## lead · 2026-11-09 06:02:58 UTC · ack
 
 Noted; frames by memo when they come.
+
+## member · 2026-11-09 06:27:55 UTC
+
+B7c merged on island/round-world (e01403fb): place hash with pose and t, where-line, P key + island.where(), the confirmation, the hint row, world-hash folded into place-hash, equinox sun. tsc and the step's gates green; knip red as known (S13).
+
+Looked at in a browser (notes/b3-b7c-look.md, frames in notes/b3-b7c-look/):
+- P: hash written by replaceState (no history entry), confirmation shown ~1.8 s, clipboard holds the where-line, e.g. `island 36a52a32 …#1@10.00000,0.00000,20000000.0,0.0,0.0,0.000 · world 1 · … · 16:39 sun time (t 0.000 h) · tiles 2 (2–2)`.
+- A where-link reopens the view: `#1@21.19493,4.88850,30000.0,233.9,0.0,2.500` reopens identical in every field (2-side-by-side.png); a crafted pose with pitch −12 and t 3.25 reopens pixel-identical (2-crafted-side-by-side.png).
+- Hint row shows P "copy where you are" (1-opening-hint.png).
+
+Running now: noon/midnight frames over #1, and the world-swap-with-pose case (eye placed against the old world's ground before #0's terrain arrives — measuring whether it ever sits under ground). Those frames come next. Then B8.
