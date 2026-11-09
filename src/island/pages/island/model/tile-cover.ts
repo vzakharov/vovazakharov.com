@@ -109,6 +109,34 @@ export function finestCover(
   return [...tops.values()].flatMap((top) => coverOf(top, false).pieces);
 }
 
+/**
+ * Levels above a selected tile its stand-in is held: a tile mesh's lattice is
+ * that many levels finer than the tile, so a stand-in's cells match the
+ * selected tiles it is cut around and its cut drops whole cells.
+ */
+export const STAND_IN_DEPTH = 3;
+
+/**
+ * The tiles held to stand in for `selected` while it loads: each one's
+ * ancestor `STAND_IN_DEPTH` levels up, once each, those above the roots
+ * left out — the roots are always held.
+ */
+export function standInsOf(selected: readonly CubeCell[]): CubeCell[] {
+  const found = new Map<string, CubeCell>();
+  for (const { face, level, x, y } of selected) {
+    const up = level - STAND_IN_DEPTH;
+    if (up <= CUBE_MIN_LEVEL) continue;
+    const key = {
+      face,
+      level: up,
+      x: x >> STAND_IN_DEPTH,
+      y: y >> STAND_IN_DEPTH,
+    };
+    found.set(cubeTileId(key), key);
+  }
+  return [...found.values()];
+}
+
 /** Radians from direction `eye` (any length) to the nearest point of the tile. */
 export const distanceTo = (key: CubeCell, eye: Vec3): number =>
   capGap(tileCap(key), eye);

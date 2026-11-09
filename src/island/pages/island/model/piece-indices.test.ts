@@ -51,4 +51,21 @@ describe('indicesOutside', () => {
     assert.equal(kept.length, lattice.length - 6);
     assert.ok(!cellsOf(kept).has('0,0'));
   });
+
+  it('cuts nothing for a tile finer than a lattice cell, which no triangle lies wholly in', () => {
+    // Two levels below a grandchild: a quarter of lattice cell 0,0 holding its middle.
+    const fine = { face: 'pz', level: 6, x: 16, y: 40 } as const;
+    assert.deepEqual([...indicesOutside(lattice, GRID, tile, [fine])], lattice);
+  });
+
+  it('cuts only cells wholly inside the cut tiles, wherever the triangle middles fall', () => {
+    // Every grandchild along the south row: the whole bottom row of cells.
+    const row = [8, 9, 10, 11].map(
+      (x) => ({ face: 'pz', level: 5, x, y: 20 }) as const,
+    );
+    const kept = cellsOf(indicesOutside(lattice, GRID, tile, row));
+    assert.equal(kept.size, 12);
+    for (const cell of ['0,0', '1,0', '2,0', '3,0'])
+      assert.ok(!kept.has(cell), cell);
+  });
 });

@@ -22,7 +22,7 @@ import { colourHeights } from '../lib/colour-heights';
 import { type FilledTile, orderId } from '../lib/tile-protocol';
 import { indicesOutside } from '../model/piece-indices';
 import type { Cut } from '../model/tile-cover';
-import { HEIGHT_ATTRIBUTE } from './ground-lighting';
+import { HEIGHT_ATTRIBUTE, type StandInMaterials } from './ground-lighting';
 
 /** Tile variants held before the least recently drawn are let go. */
 const CAPACITY = 900;
@@ -36,10 +36,11 @@ type Held = TileKeyed<CubeCell> &
     lastDrawn: number;
   };
 
-/** A surface's mesh and what it was built from, whose arrays it shares. */
+/** A surface's mesh, what it was built from, whose arrays it shares, and its material as a stand-in. */
 type Surface = {
   readonly whole: Mesh;
   readonly built: TileMesh<CubeCell>;
+  readonly standIn: Material;
 };
 
 /** A held variant to draw, all of it but the finer tiles `except`. */
@@ -93,12 +94,10 @@ function geometryOf(
   return geometry;
 }
 
-type TileMeshesMaterials = { readonly land: Material; readonly sea: Material };
-
 /** The tiles in hand as meshes under `group`, land in `land`, sea in `sea`. */
 export function tileMeshes(
   group: Group,
-  materials: TileMeshesMaterials,
+  materials: StandInMaterials,
 ): TileMeshes {
   const held = new Map<string, Held>();
   /** Each held tile's variant ids, in the order they were added. */
@@ -125,7 +124,8 @@ export function tileMeshes(
       .join(' ');
     if (entry.partial?.cut === cut) return entry.partial.meshes;
     dropPartial(entry);
-    const meshes = entry.meshes.map(({ whole, built: { grid, indices } }) => {
+    const meshes = entry.meshes.map(({ whole, built, standIn }) => {
+      const { grid, indices } = built;
       const geometry = new BufferGeometry();
       for (const [name, attribute] of Object.entries(
         whole.geometry.attributes,
@@ -139,7 +139,7 @@ export function tileMeshes(
         ),
       );
       geometry.boundingSphere = whole.geometry.boundingSphere;
-      const cutMesh = new Mesh(geometry, whole.material);
+      const cutMesh = new Mesh(geometry, standIn);
       cutMesh.visible = false;
       group.add(cutMesh);
       return cutMesh;
@@ -181,21 +181,25 @@ export function tileMeshes(
         built: TileMesh<CubeCell>,
         colourBy: Float32Array,
         material: Material,
-      ): Surface => {
-        return {
-          whole: new Mesh(geometryOf(built, colourBy), material),
-          built,
-        };
-      };
+        standIn: Material,
+      ): Surface => ({
+        whole: new Mesh(geometryOf(built, colourBy), material),
+        built,
+        standIn,
+      });
       if (land !== null) {
         const colourBy = colourHeights(land.heights, land.grid);
-        meshes.push(surface(land, colourBy, materials.land));
+        meshes.push(
+          surface(land, colourBy, materials.land, materials.standIn.land),
+        );
       }
       if (sea !== null) {
         if (floor === null)
           throw new Error(`tile ${cubeTileId(key)}: no floor`);
         const colourBy = colourHeights(floor, sea.grid);
-        meshes.push(surface(sea, colourBy, materials.sea));
+        meshes.push(
+          surface(sea, colourBy, materials.sea, materials.standIn.sea),
+        );
       }
       const source = land ?? sea;
       if (source === null)

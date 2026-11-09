@@ -26,10 +26,15 @@ export type TilePool = CanDispose & {
   readonly field: Promise<Built>;
   /**
    * The tiles wanted now from `eye` (world metres), replacing what was wanted
-   * before: queued ones no longer wanted are dropped, the rest go out nearest
-   * the eye first, each filled to the eye's `cubeDetailCut`.
+   * before: queued ones no longer wanted are dropped, the rest go out `first`
+   * before `rest`, each nearest the eye first and filled to the eye's
+   * `cubeDetailCut`.
    */
-  readonly want: (orders: readonly TileOrder[], eye: Vec3) => void;
+  readonly want: (
+    first: readonly TileOrder[],
+    rest: readonly TileOrder[],
+    eye: Vec3,
+  ) => void;
   /** Whether the variant `orderId` names is asked of a worker and not yet back. */
   readonly pending: (id: string) => boolean;
 };
@@ -110,12 +115,14 @@ export function startTilePool(
 
   return {
     field: field.promise,
-    want: (orders, eye) => {
+    want: (first, rest, eye) => {
       from = eye;
-      queue = nearestFirst(
-        orders.filter((order) => !inFlight.has(orderId(order))),
-        eye,
-      );
+      const queued = (orders: readonly TileOrder[]) =>
+        nearestFirst(
+          orders.filter((order) => !inFlight.has(orderId(order))),
+          eye,
+        );
+      queue = [...queued(first), ...queued(rest)];
       pump();
     },
     pending: (id) => inFlight.has(id),

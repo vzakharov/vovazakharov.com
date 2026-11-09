@@ -3,10 +3,10 @@ import { borderLoop } from '@/island/entities/terrain';
 
 /**
  * The triangles of a tile mesh's `indices` (a `grid`-vertex lattice and its
- * skirt, as `TileMesh` lays them out) whose middle lies in none of the finer
- * tiles `except` inside `key`. A triangle wider than an `except` tile is kept
- * unless its middle falls in it, so a cut finer than the lattice overlaps the
- * finer tile by under one lattice cell.
+ * skirt, as `TileMesh` lays them out) not wholly inside the finer tiles
+ * `except` inside `key`. Every triangle lies in one lattice cell, so it goes
+ * when its cell lies in an `except` tile; a tile finer than a cell cuts
+ * nothing, and the stand-in draws behind it instead.
  */
 export function indicesOutside(
   indices: ArrayLike<number>,
@@ -17,31 +17,31 @@ export function indicesOutside(
   const cells = grid - 1;
   const loop = borderLoop(grid);
   const lattice = grid * grid;
-  /** Lattice column and row of vertex `v`, a skirt vertex at its border vertex's. */
-  const spot = (v: number): readonly [number, number] => {
-    const at = v < lattice ? v : (loop[v - lattice] ?? 0);
-    return [at % grid, Math.floor(at / grid)];
-  };
-  const cut = new Set(
-    except.map(({ level, x, y }) => {
-      const depth = level - key.level;
-      return `${depth}/${x - key.x * 2 ** depth}/${y - key.y * 2 ** depth}`;
-    }),
-  );
-  const depths = [...new Set(except.map(({ level }) => level - key.level))];
+  /** Whether each lattice cell, row by row from the south-west, lies in a cut tile. */
+  const cut = new Uint8Array(cells * cells);
+  for (const { level, x, y } of except) {
+    const n = 2 ** (level - key.level);
+    if (cells % n !== 0) continue;
+    const span = cells / n;
+    const i0 = (x - key.x * n) * span;
+    const j0 = (y - key.y * n) * span;
+    for (let j = j0; j < j0 + span; j++)
+      cut.fill(1, j * cells + i0, j * cells + i0 + span);
+  }
+  /** Lattice index of vertex `v`, a skirt vertex at its border vertex's. */
+  const spot = (v: number): number =>
+    v < lattice ? v : (loop[v - lattice] ?? 0);
   const kept: number[] = [];
   for (let t = 0; t + 2 < indices.length; t += 3) {
-    const corners = [indices[t] ?? 0, indices[t + 1] ?? 0, indices[t + 2] ?? 0];
-    const spots = corners.map((v) => spot(v));
-    const u = spots.reduce((sum, [i]) => sum + i, 0) / 3 / cells;
-    const v = spots.reduce((sum, [, j]) => sum + j, 0) / 3 / cells;
-    const inCut = depths.some((depth) => {
-      const n = 2 ** depth;
-      const cx = Math.min(n - 1, Math.floor(u * n));
-      const cy = Math.min(n - 1, Math.floor(v * n));
-      return cut.has(`${depth}/${cx}/${cy}`);
-    });
-    if (!inCut) kept.push(...corners);
+    const a = indices[t] ?? 0;
+    const b = indices[t + 1] ?? 0;
+    const c = indices[t + 2] ?? 0;
+    const corners = [spot(a), spot(b), spot(c)];
+    const u = corners.reduce((sum, at) => sum + (at % grid), 0) / 3;
+    const v = corners.reduce((sum, at) => sum + Math.floor(at / grid), 0) / 3;
+    const ci = Math.min(cells - 1, Math.floor(u));
+    const cj = Math.min(cells - 1, Math.floor(v));
+    if (cut[cj * cells + ci] !== 1) kept.push(a, b, c);
   }
   return Uint32Array.from(kept);
 }

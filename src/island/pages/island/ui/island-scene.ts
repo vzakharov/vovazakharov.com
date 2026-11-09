@@ -148,7 +148,7 @@ export function mountIslandScene(
   const camera = new PerspectiveCamera(50, 1, NEAR, FAR);
 
   const lighting = groundLighting();
-  const { land, sea, ocean, lights } = lighting;
+  const { land, sea, standIn, ocean, lights } = lighting;
   const globe = new Mesh(new SphereGeometry(GLOBE_RADIUS, 256, 128), ocean);
   const tiles = new Group();
   scene.add(globe, tiles, ...lights);
@@ -167,10 +167,10 @@ export function mountIslandScene(
   /** The current world's tile pool, started once `view` exists to take its tiles. */
   let pool: TilePool;
   const view = tileView(tiles, {
-    materials: { land, sea },
+    materials: { land, sea, standIn },
     ground: () => ({ coast, groundAt }),
-    want: (missing, at) => {
-      pool.want(missing, at);
+    want: (first, rest, at) => {
+      pool.want(first, rest, at);
     },
   });
   const waiting: Array<{ resolve: () => void; reject: (e: Error) => void }> =
