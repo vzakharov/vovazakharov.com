@@ -147,20 +147,28 @@ Done = Tuple[Set[str], Set[str], Set[str], Dict[str, int]]
 
 def done(lines: Iterable[str]) -> Done:
     """The artifact ids this transcript watches, as of its last watch call for
-    each; the ids whose last watch call stopped it — the session handed the
-    plan on, so it owes that board nothing more; the ids it has opened or
-    published to; and, per id it has published to, the operator prompts since
-    the last publish."""
+    each; the ids it released — its last watch call stopped it, as a relay
+    does, and no operator prompt has come since, unless a successor was started
+    after the stop, which then holds the board for good; the ids it has opened
+    or published to; and, per id it has published to, the operator prompts
+    since the last publish. An operator back in a parked session makes it the
+    one holding the board again, so its prompt turns a stop into a missing
+    watch."""
     watched: Set[str] = set()
     released: Set[str] = set()
+    handed: Set[str] = set()
     opened: Set[str] = set()
     since: Dict[str, int] = {}
     for event in events(lines):
         if event is PROMPT:
             for ident in since:
                 since[ident] += 1
+            released &= handed
             continue
         assert isinstance(event, dict)
+        if str(event.get("name", "")).endswith("__create_session"):
+            handed |= released
+            continue
         given = event.get("input") or {}
         ident = artifact_id(given.get("url"))
         if not ident:
@@ -170,6 +178,7 @@ def done(lines: Iterable[str]) -> Done:
             stopped = given.get("on") is False
             (released.add if stopped else released.discard)(ident)
             (watched.discard if stopped else watched.add)(ident)
+            handed.discard(ident)
         elif event.get("name") == "Artifact" and action in ("open", "publish"):
             opened.add(ident)
             if action == "publish":
@@ -213,7 +222,8 @@ def notice(urls: List[str], watched: Set[str], released: Set[str], opened: Set[s
         + ". Make them now, before the turn's work: the watch is what wakes the "
         "session on a publish or a comment sent to Claude, and the open is what "
         "puts the board in the session's artifact list for the operator. A "
-        "session handing the plan on stops its watch (`on: false`) first."
+        "session handing the plan on stops its watch (`on: false`) first, and one "
+        "its operator came back to after parking watches it again."
     )
 
 

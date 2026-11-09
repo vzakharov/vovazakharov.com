@@ -1,8 +1,8 @@
 items:
   - id: z-bite2
     type: zone
-    updated: [2026-11-08T20:52:31.000Z, agent:lead]
-    box: [3560, 170, 1010, 1860, orange]
+    updated: [2026-11-09T01:52:07.290Z, u_L_AriiBLoWLIB4PYEulAJA]
+    box: [3523, 147, 1010, 2760, orange]
     text: Bite 2 — worlds from one formula
   - id: bite2-1
     type: sticky
@@ -48,14 +48,20 @@ items:
     text: "The fit landed: world #1 from the formula is our island, 0.63% of the land off the drawing, and all five of Vova's lakes are back as closed water"
   - id: bite2-strait-call
     type: sticky
-    updated: [2026-11-08T22:05:00.000Z, agent:lead]
+    updated: [2026-11-09T02:32:17.000Z, agent:lead]
     box: [3600, 1430, 300, yellow]
+<<<<<<< HEAD
     text: "Open for Vova: the Blablania–Feisis channel (6–19 km) closes in its south. Keeping it costs ~16× the build (K≈512) or a new local-patch mechanism. The lead's lean: let it close for now"
+=======
+    text: "Open for Vova: the Blablania–Feisis channel (6–19 km) closes in its south. Keeping it costs ~16× the build (K≈512) or a new local-patch mechanism. The lead's lean: let it close for now — settled: it closes in bite 2, and Vova's dice rolls are the local patches"
+    done: true
+>>>>>>> origin/island/stretch-2
   - id: bite2-masd-call
     type: sticky
-    updated: [2026-11-08T22:05:00.000Z, agent:lead]
+    updated: [2026-11-09T02:32:17.000Z, agent:lead]
     box: [3600, 1680, 300, yellow]
-    text: 'Open for Vova: the game no longer reads the traced coast, so check:masd wants a marker on it until "your own map" brings a consumer — a suppression needs his yes'
+    text: 'Open for Vova: the game no longer reads the traced coast, so check:masd wants a marker on it until "your own map" brings a consumer — a suppression needs his yes. Settled, no marker: “delete the coast module and leave a tombstone in case it is ever needed; ‘draw your own world’ is not planned any time soon”'
+    done: true
   - id: bite2-fit
     type: image
     updated: [2026-11-08T22:05:00.000Z, agent:lead]
@@ -68,3 +74,20 @@ items:
     box: [3960, 1640, 570]
     src: images/bite2-strait.webp
     text: 'The strait: drawn (left), the formula over it (right) — red is the channel the formula fills'
+  - id: bite2-lakes-1000km
+    type: image
+    updated: [2026-11-08T22:40:00.000Z, agent:lead]
+    box: [3600, 2080, 560]
+    src: images/bite2-lakes-1000km.webp
+    text: 'In the game: today (left) and world #1 from the formula (right), from orbit and at 1,000 km — the lakes are water now, set in lowlands'
+  - id: bite2-ridges
+    type: sticky
+    updated: [2026-11-08T22:40:00.000Z, agent:lead]
+    box: [3600, 2520, 300, green]
+    text: 'Caught in the frames: height as f/|∇f| raised false snowy ridges between lakes and sea. Height is now the true distance to the coast; the formula only says land or water'
+  - id: bite2-worlds-orbit
+    type: image
+    updated: [2026-11-08T22:40:00.000Z, agent:lead]
+    box: [4250, 2080, 260]
+    src: images/bite2-worlds-orbit.webp
+    text: 'Worlds #2–#6 in the game, from orbit: /island#2 … /island#6'
