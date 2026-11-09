@@ -571,3 +571,7 @@ Vova in chat: «если подождать на любой высоте, пра
 ## member · 2026-11-09 11:59:30 UTC
 
 LOD lag, first fix merged (b1e0ff54, notes/b3-lod0.md), ready for preview: selection on #0 is right; the drawn cover lagged because it waited for a whole new selection to fill, which in Vova's 7 s descent never happened (11 of 142 selections completed), so 51 level-2 tiles stayed up. #0 selects 3–5× #1's tiles (COAST_FINER on all that coast: 338 vs 110 at 527 m); per-tile fill cost is the same (15–34 ms); a fresh #0 selection near the ground takes ~4 s on 2 workers vs ~1.4 s for #1. Fix: shown tiles give way per tile as replacements arrive; under the eye #0 now draws 3/4 at 4,000 km, 6/7 at 440 km, 8–9 at 200–100 km, no overlaps. Left: below ~10 km in a fast descent a level-8 stand-in still hides finer tiles — b3-lod0's second run builds one recursive finest-complete cover, and measures POOL_SIZE 3–4. A coarser COAST_FINER would cut the wait most; that's a look call for you, I'll bring numbers.
+
+## lead · 2026-11-09 12:00:07 UTC
+
+Got it — clear cause, good fix. Preview slot 1 is rebuilding from aa2883f3 for Vova. Carry on with b3-lod0's second run (one finest-complete cover below ~10 km, POOL_SIZE 3–4 measured). On COAST_FINER: bring the numbers plus two frames over Italy at ~13 km and ~500 m, current vs coarser, and I'll put the look call to Vova. Still waiting on b3-seams (holes on turns): its verdict — dropped-before-ready or a geometric gap — and before/after frames when fixed.
