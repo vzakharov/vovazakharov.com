@@ -45,6 +45,12 @@ items:
     box: [2625.720312037562, 105.90156333340494, 200, yellow]
     text: ''
     deleted: true
+  - id: bite3-earth
+    type: image
+    updated: [2026-11-09T10:45:00.000Z, agent:lead]
+    box: [6760, 3080, 620]
+    src: images/bite3-earth.webp
+    text: '#0, Earth, in the game: Africa and the Americas from orbit, Italy from 1,000 km. Fitted from Natural Earth; builds in 1.4 s. Its colours still come from generated height, so the poles are not iced and some low land (Sahara, Amazonia) shows snow — a later bite colours land by climate'
   - id: bite3-envelopes
     type: image
     updated: [2026-11-09T09:40:00.000Z, agent:lead]
