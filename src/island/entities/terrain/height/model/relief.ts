@@ -48,8 +48,29 @@ const HILL_METRES = 300;
 const LOWLAND_METRES = 15;
 /** The distance inland over which the least height climbs to ~63% of it. */
 const LOWLAND_REACH_METRES = 5000;
+/**
+ * The shortest wavelength the lowland floor follows: inland ground rests on
+ * the relief of the octaves this long and longer, not on a level sheet.
+ */
+const BROAD_METRES = 400;
+/**
+ * How much wider than the lowland the band over the floor is where ground
+ * under it is squeezed rather than cut: by `reach·(1 − reach)³` of it, widest
+ * (a tenth) ~1.4 km in and gone a dozen kilometres in. The deeper a trough,
+ * the closer to the floor it lies, so a basin keeps its relief, smaller, and
+ * shades.
+ */
+const SQUEEZE_METRES = 200;
 
 const NOISE_REACH_METRES = AMPLITUDES_METRES.reduce((sum, a) => sum + a, 0);
+/**
+ * How far the octaves shorter than `BROAD_METRES` reach together, and so how
+ * far below the broad relief the floor sinks with distance from the coast:
+ * once it is that deep no trough reaches it, and inland relief is the noise's.
+ */
+const FINE_REACH_METRES = AMPLITUDES_METRES.filter(
+  (_, o) => LONGEST_WAVELENGTH_METRES / 2 ** o < BROAD_METRES,
+).reduce((sum, a) => sum + a, 0);
 /** No ground lies higher than this, metres above sea level. */
 export const HIGHEST_GROUND = PLATEAU_METRES + NOISE_REACH_METRES;
 /** No ground lies lower than this, metres above sea level. */
@@ -69,6 +90,7 @@ const humped = (n: number) => n * (0.6 + 0.4 * n);
     readonly wavelength: number;
     readonly regional: boolean;
     readonly hill: boolean;
+    readonly broad: boolean;
   };
 
 export const OCTAVES: readonly Octave[] = AMPLITUDES_METRES.map(
@@ -81,6 +103,7 @@ export const OCTAVES: readonly Octave[] = AMPLITUDES_METRES.map(
       amplitude,
       regional: wavelength >= REGIONAL_METRES,
       hill: wavelength < REGIONAL_METRES && wavelength >= HILL_METRES,
+      broad: wavelength >= BROAD_METRES,
     };
   },
 );
@@ -89,14 +112,15 @@ export const OCTAVES: readonly Octave[] = AMPLITUDES_METRES.map(
  * A bound on the ground's slope, metres of rise per metre run, whatever the
  * detail cut, for octaves each at most `octaveSteepest` times its amplitude
  * over its wavelength: every octave at its steepest, plus the plateau's, the
- * shelf's and the lowland floor's climbs. Loose: real ground stays under a
- * tenth of it.
+ * shelf's, and the lowland floor's climb, sink, rounding and squeeze. Loose: real
+ * ground stays under a tenth of it.
  */
 export const groundSlope = (octaveSteepest: number) =>
   Math.SQRT2 *
     (ABYSS_METRES / SHELF_REACH_METRES +
       PLATEAU_METRES / PLATEAU_REACH_METRES +
-      LOWLAND_METRES / LOWLAND_REACH_METRES) +
+      (3 * LOWLAND_METRES + 2 * FINE_REACH_METRES + SQUEEZE_METRES) /
+        LOWLAND_REACH_METRES) +
   OCTAVES.reduce(
     (sum, { amplitude, wavelength }) =>
       sum + (octaveSteepest * amplitude) / wavelength,
@@ -129,7 +153,7 @@ function smoothMax(a: number, b: number, k: number): number {
  * 6 m, the regional ones growing in amplitude inland, each faded out within
  * one of its own wavelengths of the coastline, so the drawn coast stays where
  * it is at every scale but the finest, where the shore wanders seaward by
- * metres. Inland, the ground never sinks under its lowland floor.
+ * metres. Inland, the ground never sinks under its `lowlandFloor`.
  *
  * Octaves shorter than `finest` metres are left out, and those up to twice
  * it faded in, so a lattice sampling at half `finest` draws no alias of them;
@@ -153,6 +177,7 @@ export function reliefAt<O extends Octave>(
   const away = Math.abs(d);
   let regional = 0;
   let local = 0;
+  let fine = 0;
   for (const octave of octaves) {
     if (octave.wavelength <= finest) break;
     const resolved = finest === 0 ? 1 : ramp(octave.wavelength / finest - 1);
@@ -162,9 +187,45 @@ export function reliefAt<O extends Octave>(
     const value = octave.amplitude * fade * (octave.hill ? humped(n) : n);
     if (octave.regional) regional += value;
     else local += value;
+    if (!octave.broad) fine += value;
   }
   const height = base + roughness * regional + local;
-  if (d <= 0) return height;
-  const lowland = LOWLAND_METRES * approach(d, LOWLAND_REACH_METRES);
-  return smoothMax(height, lowland, lowland);
+  return d <= 0 ? height : restingGround(d, height, height - fine);
+}
+
+/**
+ * Ground `d` metres inland (positive) whose noise reads `height`, `broad` of
+ * it from the octaves of `BROAD_METRES` and longer: `height` where it stands
+ * a band's width over its `lowlandFloor`, and under that squeezed into the
+ * band — `floor + band·e^(over/band − 1)`, which meets `height` at the band's
+ * top with its slope, so it is order-preserving and smooth, never below the
+ * floor nor below `height`, and approaches the floor only as `height` sinks
+ * far under it. The band is the lowland's least height, widened by
+ * `SQUEEZE_METRES` near the coast, so it is never narrower than the
+ * rounding a hard floor would take.
+ */
+export function restingGround(d: number, height: number, broad: number) {
+  const reach = approach(d, LOWLAND_REACH_METRES);
+  const floor = lowlandFloor(d, broad);
+  const band =
+    LOWLAND_METRES * reach + SQUEEZE_METRES * reach * (1 - reach) ** 3;
+  const over = height - floor;
+  return over >= band ? height : floor + band * Math.exp(over / band - 1);
+}
+
+/**
+ * The least height ground `d` metres inland (positive) keeps over `broad`, its
+ * height from the octaves of `BROAD_METRES` and longer: the broad relief, sunk
+ * by up to the fine octaves' reach with distance from the coast and held over
+ * the lowland's least height. Near the coast it is the broad relief itself, so
+ * the fine troughs there bottom out on rolling ground rather than on a level;
+ * a dozen kilometres in it lies below every trough, and the noise is the
+ * ground.
+ * Where the broad relief itself sinks under the lowland, the floor is level,
+ * and the ground over it keeps the relief `restingGround` squeezes in.
+ */
+export function lowlandFloor(d: number, broad: number): number {
+  const reach = approach(d, LOWLAND_REACH_METRES);
+  const lowland = LOWLAND_METRES * reach;
+  return smoothMax(broad - FINE_REACH_METRES * reach * reach, lowland, lowland);
 }
