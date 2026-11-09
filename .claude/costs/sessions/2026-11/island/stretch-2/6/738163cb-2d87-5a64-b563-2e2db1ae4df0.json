@@ -1,0 +1,118 @@
+{
+  "total": {
+    "inputTokens": 121,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 174885,
+    "cacheReadTokens": 10728828,
+    "outputTokens": 36461,
+    "thinkingTokens": 13603,
+    "responses": 62,
+    "costUsd": 4.274549599999999
+  },
+  "estimate": {
+    "at": "2026-11-09T03:54:11.558Z",
+    "subjectLine": "docs: the round-world bite's contract and its member's brief",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "scoping a bite whose maths reshapes the world model and briefing a member on it takes a lead who knows the project's calls"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "choosing a spherical basis, its band limit and runtime cost is rendering judgement, not routine"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-09T03:54:08.828Z",
+    "contextTokens": 133002,
+    "spend": {
+      "inputTokens": 25,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 65088,
+      "cacheReadTokens": 1270221,
+      "outputTokens": 3212,
+      "thinkingTokens": 607,
+      "responses": 12,
+      "costUsd": 0.8390882
+    }
+  },
+  "sessionId": "738163cb-2d87-5a64-b563-2e2db1ae4df0",
+  "branch": "island/stretch-2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/stretch-2 — бит 2 и правка мигания влиты, следующим берём круглый мир с Землёй как #0",
+  "prs": [
+    266
+  ],
+  "url": "https://claude.ai/code/session_01DaohkDyMLav1hB9uoZ1xo6",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-09T03:53:19.408Z",
+  "lastResponseAt": "2026-11-09T04:01:11.196Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 121,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 174885,
+    "cacheReadTokens": 10728828,
+    "outputTokens": 36461,
+    "thinkingTokens": 13603,
+    "responses": 62,
+    "costUsd": 4.274549599999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 121,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 174885,
+      "cacheReadTokens": 10728828,
+      "outputTokens": 36461,
+      "thinkingTokens": 13603,
+      "responses": 62,
+      "costUsd": 4.274549599999999
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 62,
+    "matched": 62,
+    "matchedTableUsd": 4.274549599999999,
+    "matchedEventUsd": 4.274549599999999,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".py": 657,
+    ".md": 9633,
+    ".json": -1402,
+    ".txt": 31,
+    ".ts": 623,
+    ".sh": 43,
+    ".yaml": 191,
+    ".tsx": 11
+  }
+}
