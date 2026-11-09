@@ -1,8 +1,8 @@
 items:
   - id: z-bite3
     type: zone
-    updated: [2026-11-09T04:59:51.614Z, u_L_AriiBLoWLIB4PYEulAJA]
-    box: [4406, 2431, 2290, 1600, green]
+    updated: [2026-11-09T08:00:00.000Z, agent:lead]
+    box: [4406, 2431, 2290, 1950, green]
     text: 'Bite 3 — a round world, and Earth as #0'
   - id: bite3-1
     type: sticky
@@ -51,7 +51,7 @@ items:
     updated: [2026-11-09T07:00:00.000Z, agent:lead]
     box: [6360, 3860, 320]
     src: images/bite3-noon-midnight.webp
-    text: '#1 from 1,000 km at noon and at midnight, the same spot: the sun 80° up, then 80° down. Midnight is the full moon''s, about 7× darker, and snow turns blue-grey'
+    text: "#1 from 1,000 km at noon and at midnight, the same spot: the sun 80° up, then 80° down. Midnight is the full moon's, about 7× darker, and snow turns blue-grey"
   - id: bite3-b2-field
     type: image
     updated: [2026-11-09T04:58:00.000Z, agent:lead]
@@ -86,4 +86,10 @@ items:
     type: sticky
     updated: [2026-11-09T05:48:00.000Z, agent:lead]
     box: [5030, 3290, 300, yellow]
-    text: 'Sun: Vova chose the full-moon mode — the sun fixed in space, a full moon always opposite it, so night is moonlit, not black; [ and ] turn the day, T pauses it. A world opens under today''s low NW sun, time paused'
+    text: "Sun: Vova chose the full-moon mode — the sun fixed in space, a full moon always opposite it, so night is moonlit, not black; [ and ] turn the day, T pauses it. A world opens under today's low NW sun, time paused"
+  - id: bite3-seams
+    type: image
+    updated: [2026-11-09T08:00:00.000Z, agent:lead]
+    box: [5700, 4100, 640]
+    src: images/bite3-seams.webp
+    text: "Seams: crossing a cube-face edge over #2's hills at 10 km, and over the sea at 1,000 km — nothing on the edge. Right: 10 km straight down over #1, soft by design (tiles stop at level 11 there, ~76 m apart). Next, call 14: a finer tile takes its coarser neighbour's border"
