@@ -143,7 +143,10 @@ describe('looking up and down', () => {
   it('raises forward and up together, square and unit', () => {
     for (const height of HEIGHTS) {
       const look = lookWithin(0.3, height);
-      const { forward, up, position } = poseOf(looking(height, look), LANDSCAPE);
+      const { forward, up, position } = poseOf(
+        looking(height, look),
+        LANDSCAPE,
+      );
       assert.ok(Math.abs(dot(forward, forward) - 1) < 1e-12);
       assert.ok(Math.abs(dot(up, up) - 1) < 1e-12);
       assert.ok(Math.abs(dot(forward, up)) < 1e-12);

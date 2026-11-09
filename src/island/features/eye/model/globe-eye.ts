@@ -167,11 +167,7 @@ function aimed(eye: Eye, intent: Intent, dt: number): Eye['aim'] {
   const turn = intent.turn * TURN_RADIANS_PER_SECOND * dt + intent.twist;
   const doublings =
     intent.climb * CLIMB_DOUBLINGS_PER_SECOND * dt + intent.doublings;
-  const height = clamp(
-    eye.aim.height * 2 ** doublings,
-    MIN_HEIGHT,
-    MAX_HEIGHT,
-  );
+  const height = clamp(eye.aim.height * 2 ** doublings, MIN_HEIGHT, MAX_HEIGHT);
   const tilt = intent.tilt * TILT_RADIANS_PER_SECOND * dt + intent.nod;
   return {
     at,
