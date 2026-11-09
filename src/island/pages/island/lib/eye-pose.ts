@@ -1,8 +1,8 @@
 import { unitToLatLon } from '@/island/shared/globe';
 import {
-  type GlobeEye as Eye,
-  globeEyeAt as eyeAt,
-  type GlobeGroundAt as GroundAt,
+  type Eye,
+  eyeAt,
+  type GroundAt,
   headingOf,
   heightOverGround,
 } from '@/island/features/eye';

@@ -2,12 +2,9 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import {
-  CENTRE,
   dot,
-  EAST,
   latLonToUnit,
   length,
-  NORTH,
   northAt,
   sub,
   unitToLatLon,
@@ -16,13 +13,20 @@ import {
 
 const DEGREE = Math.PI / 180;
 
+/** 10° N on Greenwich, where `/island` opens. */
+const TEN_NORTH: Vec3 = [Math.cos(10 * DEGREE), Math.sin(10 * DEGREE), 0];
+
 const close = (p: Vec3, q: Vec3, tolerance: number) =>
   length(sub(p, q)) <= tolerance;
 
 describe('latLonToUnit', () => {
-  it('puts 10° N on Greenwich at the island centre, east toward −Z', () => {
-    assert.ok(close(latLonToUnit({ lat: 10 * DEGREE, lon: 0 }), CENTRE, 1e-15));
-    assert.ok(close(latLonToUnit({ lat: 0, lon: 90 * DEGREE }), EAST, 1e-15));
+  it('puts 10° N on Greenwich on +X tilted up, east toward −Z', () => {
+    assert.ok(
+      close(latLonToUnit({ lat: 10 * DEGREE, lon: 0 }), TEN_NORTH, 1e-15),
+    );
+    assert.ok(
+      close(latLonToUnit({ lat: 0, lon: 90 * DEGREE }), [0, 0, -1], 1e-15),
+    );
     assert.ok(
       close(latLonToUnit({ lat: 90 * DEGREE, lon: 0 }), [0, 1, 0], 1e-15),
     );
@@ -47,8 +51,9 @@ describe('latLonToUnit', () => {
 });
 
 describe('northAt', () => {
-  it('is NORTH at the island centre', () => {
-    assert.ok(close(northAt(CENTRE), NORTH, 1e-15));
+  it('tilts back from +Y by the latitude at 10° N on Greenwich', () => {
+    const north: Vec3 = [-Math.sin(10 * DEGREE), Math.cos(10 * DEGREE), 0];
+    assert.ok(close(northAt(TEN_NORTH), north, 1e-15));
   });
 
   it('is a unit tangent pointing up the meridian', () => {

@@ -9,6 +9,8 @@
 
 import {
   dot,
+  type LatLon,
+  latLonToUnit,
   length,
   R,
   scaled,
@@ -62,6 +64,10 @@ export function unitToDegrees(p: Vec3): { lat: number; lon: number } {
   const { lat, lon } = unitToLatLon(p);
   return { lat: lat / DEGREE, lon: lon / DEGREE };
 }
+
+/** The direction at latitude and longitude in degrees: `unitToDegrees`' inverse. */
+export const degreesToUnit = ({ lat, lon }: LatLon) =>
+  latLonToUnit({ lat: lat * DEGREE, lon: lon * DEGREE });
 
 /** The latitude and longitude, in degrees, of plane point `(x, y)`. */
 export const planeToDegrees = (x: number, y: number) =>

@@ -5,14 +5,11 @@ import {
   R,
   type Vec3,
 } from '@/island/shared/globe';
-import {
-  type CoastField,
-  type RingGrid,
-  sampleCoastField,
-} from '@/island/entities/terrain';
+import type { RingGrid } from '@/island/entities/terrain';
 
 import { ISLAND_CENTRE, worldToPlane } from './azimuthal';
 import type { Ringed } from './coast';
+import { type CoastField, sampleCoastField } from './coast-field';
 
 /**
  * Past this ground distance from `ISLAND_CENTRE` a node takes the clip outright: the

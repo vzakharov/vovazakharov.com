@@ -2,16 +2,14 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import {
-  CENTRE,
   type CubeCell,
   dot,
   faceToSphere,
-  planeToWorld,
   R,
   scaled,
   sub,
   unit,
-  worldToPlane,
+  unitToLatLon,
 } from '@/island/shared/globe';
 
 import {
@@ -26,10 +24,13 @@ import {
   arc,
   assertCubeBalanced,
   assertCubeDisjoint,
+  CENTRE,
+  CENTRE_LAT,
   disc,
   DISC_RADIUS,
   eyeOver,
   holds,
+  northOfCentre,
   PLACES,
 } from './cube-quadtree.test-kit';
 import { frustumOf } from './view';
@@ -137,30 +138,33 @@ describe('selectCubeTiles', () => {
   describe('in a view', () => {
     const eye = eyeOver(CENTRE, 100);
     const up = unit(eye);
-    const ahead = sub(planeToWorld(0, 1000, 100), eye);
+    const ahead = sub(scaled(northOfCentre(1000), R + 100), eye);
     const forward = unit(sub(ahead, scaled(up, dot(ahead, up))));
     const frustum = frustumOf(forward, up, (50 * Math.PI) / 180, 16 / 9);
     const tiles = selectCubeTiles(eye, { frustum, ground: flat });
-    /** The tile's northmost border point's plane `y`. */
+    /** Metres north of the centre's latitude the tile's northmost border point lies. */
     const north = (key: CubeCell) =>
-      Math.max(...tileCap(key).border.map((p) => worldToPlane(scaled(p, R)).y));
-    const at = (x: number, y: number) => unit(planeToWorld(x, y));
+      Math.max(
+        ...tileCap(key).border.map(
+          (p) => (unitToLatLon(p).lat - CENTRE_LAT) * R,
+        ),
+      );
 
     it('drops the tiles behind the eye and keeps those ahead', () => {
       const all = selectCubeTiles(eye, { ground: flat });
       assert.ok(tiles.length < all.length, `${tiles.length} of ${all.length}`);
       assert.ok(all.some((key) => north(key) < -10_000));
       for (const key of tiles) assert.ok(north(key) > -10_000, cubeTileId(key));
-      assert.ok(tiles.some((key) => holds(key, at(0, 5000))));
-      assert.ok(tiles.some((key) => holds(key, at(0, 30_000))));
+      assert.ok(tiles.some((key) => holds(key, northOfCentre(5000))));
+      assert.ok(tiles.some((key) => holds(key, northOfCentre(30_000))));
       assertCubeBalanced(tiles);
       assertCubeDisjoint(tiles);
     });
 
     it('drops a tile ahead past the horizon', () => {
       // From 100 m the highest ground shows over the sea's horizon to ~250 km.
-      assert.ok(!tiles.some((key) => holds(key, at(0, 1_000_000))));
-      assert.ok(tiles.some((key) => holds(key, at(0, 200_000))));
+      assert.ok(!tiles.some((key) => holds(key, northOfCentre(1_000_000))));
+      assert.ok(tiles.some((key) => holds(key, northOfCentre(200_000))));
     });
   });
 

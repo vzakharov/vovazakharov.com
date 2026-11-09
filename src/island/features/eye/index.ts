@@ -2,29 +2,17 @@ export {
   type Eye,
   eyeAt,
   type GroundAt,
-  IDLE,
-  MAX_HEIGHT,
-  MIN_HEIGHT,
-  step,
-  withHeading,
-  withHeight,
-} from './model/eye';
-export {
-  EARTH_OPENING,
-  type Eye as GlobeEye,
-  eyeAt as globeEyeAt,
-  type GroundAt as GlobeGroundAt,
   headingOf,
   heightOverGround,
   ISLAND_OPENING,
-  type Opening,
+  MAX_HEIGHT,
+  MIN_HEIGHT,
   openingOf,
-  step as stepOnGlobe,
+  step,
   STILL,
-  withHeading as withGlobeHeading,
-  withHeight as withGlobeHeight,
-} from './model/globe-eye';
-export { poseOf as globePoseOf } from './model/globe-pose';
+  withHeading,
+  withHeight,
+} from './model/eye';
 export { type LookHint, lookHint } from './model/look-hint';
 export { poseOf } from './model/pose';
 export { bindEyeControls } from './ui/eye-controls';

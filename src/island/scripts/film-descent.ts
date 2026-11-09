@@ -22,10 +22,17 @@ import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { dot, scaled, sum, type Vec3 } from '@/island/shared/globe';
-import { MAX_HEIGHT, MIN_HEIGHT } from '@/island/features/eye';
+import {
+  dot,
+  latLonToUnit,
+  scaled,
+  sum,
+  type Vec3,
+} from '@/island/shared/globe';
+import { ISLAND_OPENING, MAX_HEIGHT, MIN_HEIGHT } from '@/island/features/eye';
 
-import { planeToUnit, unitToDegrees } from './lib/azimuthal';
+import { degreesToUnit, unitToDegrees } from './lib/azimuthal';
+import { INLET_BEACH } from './lib/places';
 import {
   buildExport,
   call,
@@ -64,9 +71,9 @@ const SCREENS: readonly Screen[] = [
 ];
 
 /** Where the eye lands: the beach at the inlet's head, looking north along the water. */
-const LANDING = planeToUnit(499_000, 1_113_200);
-/** Where the eye is at orbit: over the island's centre. */
-const START = planeToUnit(0, 0);
+const LANDING = degreesToUnit(INLET_BEACH);
+/** Where the eye is at orbit: over the island's opening place. */
+const START = latLonToUnit(ISLAND_OPENING);
 /** The great-circle angle from `LANDING` to `START`. */
 const ARC = Math.acos(Math.min(1, dot(LANDING, START)));
 /**

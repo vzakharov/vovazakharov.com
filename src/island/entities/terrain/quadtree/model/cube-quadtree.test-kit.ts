@@ -1,12 +1,12 @@
 import assert from 'node:assert/strict';
 
 import {
-  CENTRE,
   cross,
   type CubeCell,
   DIRECTIONS,
   dot,
   faceToSphere,
+  latLonToUnit,
   length,
   neighbour,
   R,
@@ -18,6 +18,18 @@ import {
 
 import type { CoastDistance } from '../../height';
 import { cubeTileId, tileHolds } from '../../tile';
+
+const DEGREE = Math.PI / 180;
+
+/** The island's latitude on the prime meridian, radians. */
+export const CENTRE_LAT = 10 * DEGREE;
+
+/** The direction `metres` north of the island's centre along its meridian. */
+export const northOfCentre = (metres: number) =>
+  latLonToUnit({ lat: CENTRE_LAT + metres / R, lon: 0 });
+
+/** The island's centre: 10° N on the prime meridian. */
+export const CENTRE = northOfCentre(0);
 
 export const arc = (a: Vec3, b: Vec3) =>
   Math.atan2(length(cross(a, b)), dot(a, b));

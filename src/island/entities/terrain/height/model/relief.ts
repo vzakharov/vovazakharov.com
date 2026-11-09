@@ -1,7 +1,7 @@
 /**
  * The ground's shape as a function of the signed distance to the coast and
- * of noise octaves the caller draws, wherever they are drawn: the plane's
- * `heightAt` and the sphere's `heightAtSphere` share all of it.
+ * of noise octaves the caller draws, wherever they are drawn
+ * (`heightAtSphere` draws them in space).
  */
 
 /** The interior's base height, approached with distance from the coast. */

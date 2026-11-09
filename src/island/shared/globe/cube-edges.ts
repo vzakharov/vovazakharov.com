@@ -12,7 +12,6 @@ import {
   FACES,
   type WithFace,
 } from './cube';
-import type { PlanePoint } from './globe';
 
 export const DIRECTIONS = ['right', 'left', 'up', 'down'] as const;
 
@@ -20,7 +19,7 @@ export const DIRECTIONS = ['right', 'left', 'up', 'down'] as const;
 export type Direction = (typeof DIRECTIONS)[number];
 
 /** The direction leading back to where a step came from. */
-export type WithBack = { readonly back: Direction };
+type WithBack = { readonly back: Direction };
 
 /**
  * Where leaving a face by one of its edges lands: the face beyond, the
@@ -30,7 +29,11 @@ export type WithBack = { readonly back: Direction };
 export type Edge = WithFace & WithBack & { readonly flip: boolean };
 
 /** Cell `(x, y)` of a `2^level × 2^level` grid. */
-export type GridCell = PlanePoint & { readonly level: number };
+export type GridCell = {
+  readonly x: number;
+  readonly y: number;
+  readonly level: number;
+};
 
 /**
  * A cell of `face`'s grid, `x` along `u` and `y` along `v`, both from `0` at

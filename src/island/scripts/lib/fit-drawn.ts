@@ -1,11 +1,7 @@
-import {
-  analyze,
-  buildCoastField,
-  type CoastField,
-  type SphereTransform,
-} from '@/island/entities/terrain';
+import { analyze, type SphereTransform } from '@/island/entities/terrain';
 
 import { coast } from './coast';
+import { buildCoastField, type CoastField } from './coast-field';
 import { coastTarget } from './sphere-fit';
 
 /** Call 6's clip on #1's target, in metres. */

@@ -13,7 +13,6 @@ import {
   type Vec3,
 } from '@/island/shared/globe';
 
-import { GROUND_SLOPE } from './height';
 import {
   type CoastDistance,
   heightAtSphere,
@@ -156,10 +155,6 @@ describe('heightAtSphere', () => {
       assert.ok(largest < SPHERE_GROUND_SLOPE * 0.99, `${name}: ${largest}`);
       assert.ok(span > 0.5, `${name}: relief over 2 km: ${span}`);
     }
-  });
-
-  it('bounds the slope looser than the plane, for its third lattice axis', () => {
-    assert.ok(SPHERE_GROUND_SLOPE > GROUND_SLOPE);
   });
 
   it('has hills at every scale inland: across 10 km, 200 m and 4 m', () => {

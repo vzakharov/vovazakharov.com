@@ -17,11 +17,7 @@ import {
   selectCubeTiles,
   tileHolds,
 } from '@/island/entities/terrain';
-import {
-  type GlobeEye as Eye,
-  type GlobeGroundAt as GroundAt,
-  globePoseOf as poseOf,
-} from '@/island/features/eye';
+import { type Eye, type GroundAt, poseOf } from '@/island/features/eye';
 
 import type { FilledTile } from '../lib/tile-protocol';
 import type { Where } from '../lib/where-line';
