@@ -25,18 +25,29 @@ Branch `wt/b3-b8a`, base 1ae1b7e5. Stopped at the context budget.
   pinned-row + `pinned/1.json`, sphere-contour, sphere-world). `fit-sphere.ts`
   writes the row at its new path. `masd:clusters` green (0 of 119).
 
+- `refactor: retire the planar height and 2D value noise` (item 3, done before
+  item 2 because `height.ts` read `CoastField`, which the entity could not reach
+  once it moved to scripts) — `height.ts` and `valueNoise` gone; the
+  `buildCoastField` cases moved beside `coast-field.ts`; the `GROUND_SLOPE`
+  comparison dropped from `height-sphere.test`.
+- `refactor: move the planar coast field beside the fit` (item 2) —
+  `src/island/scripts/lib/coast-field.ts` (+ test); `signedDistanceField` and
+  `CoastGrid` unexported there. `SignedDistances` now declared in
+  `sphere-field.ts`, exported through the terrain barrel for the script's
+  `CoastField`.
+- After each commit: tsc, eslint, prettier, the touched tests, `check:masd`,
+  `check:cycles`, `masd:clusters` (0 of 119), `type-overlap` green.
+- knip at the end: unused files 3 (the three terrain `index.test-only.ts`
+  barrels), unused exports 23, unused exported types 27, configuration hints 1
+  (`.sass`). All findings are under `src/island`: barrel-only re-exports of
+  world (`pathHash`, `PROBE_ENVELOPE`, `rollWith`, `worldSchema`, `Envelope`,
+  `Harmonic`, `Lookup`, `WordSource`, `World`), `FIELD_RINGS`/`FIELD_COLUMNS`/
+  `landOnGrid` in `sphere-world.ts`, quadtree/tile options types, and the eye's
+  (item 4).
+
 ## Left
 
-1. ~~The clusters call~~ — done above.
-2. `coast-field.ts` (all planar: `buildCoastField`, `sampleCoastField`,
-   `signedDistanceField`, `CoastGrid`) moves to `scripts/lib/` — the fit
-   (`fit-drawn.ts`, `sphere-fit.ts`) reads it; `SignedDistances` stays in the
-   entity for `sphere-field.ts`. `height.test.ts`'s `buildCoastField` cases go
-   with it.
-3. Planar `height.ts` (`heightAt`, `GROUND_SLOPE`) and `valueNoise` (2D) go;
-   `relief.ts` stays. `height-sphere.test` compares against `GROUND_SLOPE` (drop
-   that case). `quadtree`/`cube-split` read `HIGHEST/LOWEST_GROUND` from relief,
-   fine.
+1. ~~The clusters call~~, 2. ~~coast-field~~, 3. ~~planar height~~ — done.
 4. Eye: `eye.ts`/`pose.ts` are planar but `globe-eye`, `look`, `look-hint`,
    `globe-pose`, `eye-controls` import pieces (`clamp`, `MAX/MIN_HEIGHT`,
    `Intent`, `shortest`, `Vec2`, `pitchAt`, `poseFrom`, `fovFor`,
