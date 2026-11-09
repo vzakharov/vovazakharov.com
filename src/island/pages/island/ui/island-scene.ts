@@ -35,7 +35,7 @@ import {
 
 import { skyColour } from '../lib/sky-colour';
 import { startTilePool, type TilePool } from '../lib/tile-pool';
-import { coverOf } from '../model/tile-cover';
+import { coverAround, coverOf } from '../model/tile-cover';
 import { groundLighting } from './ground-lighting';
 import { tileMeshes } from './tile-meshes';
 
@@ -140,6 +140,11 @@ export function mountIslandScene(
     aspect: number;
     keys: TileKey[];
   } | null = null;
+  /**
+   * The last selection wholly in hand, drawn while a newer one loads; `null`
+   * before the first and after a jump, when only `coverOf` has anything.
+   */
+  let shown: TileKey[] | null = null;
   const waiting: Array<{ resolve: () => void; reject: (e: Error) => void }> =
     [];
   let failure: Error | null = null;
@@ -168,7 +173,11 @@ export function mountIslandScene(
       (tile) => {
         if (!current()) return;
         held.add(tile);
-        held.evict(new Set(selected().map((key) => tileId(key))));
+        const keys = selected();
+        held.evict(
+          new Set([...keys, ...(shown ?? [])].map((key) => tileId(key))),
+        );
+        showIfComplete(keys);
         settle();
       },
       (error) => {
@@ -226,11 +235,26 @@ export function mountIslandScene(
     return keys;
   }
 
+  function complete(keys: readonly TileKey[]): boolean {
+    return keys.every((key) => held.has(tileId(key)));
+  }
+
+  function showIfComplete(keys: TileKey[]): void {
+    if (keys.length > 0 && complete(keys)) shown = keys;
+  }
+
   function render(): void {
     if (eye === null) return;
     const pose = poseOf(eye, camera.aspect);
     const [ex, ey, ez] = pose.position;
-    held.draw(coverOf(selected(), held.has), pose.position);
+    const keys = selected();
+    showIfComplete(keys);
+    held.draw(
+      shown === null
+        ? coverOf(keys, held.has)
+        : coverAround(keys, shown, held.has),
+      pose.position,
+    );
     globe.position.set(-ex, -ey, -ez);
     camera.fov = (pose.fov * 180) / Math.PI;
     camera.updateProjectionMatrix();
@@ -244,7 +268,7 @@ export function mountIslandScene(
   /** Draws and lets every placing of the eye go whose tiles are all in hand. */
   function settle(): void {
     if (waiting.length === 0 || eye === null) return;
-    if (!selected().every((key) => held.has(tileId(key)))) return;
+    if (!complete(selected())) return;
     render();
     for (const waiter of waiting.splice(0)) waiter.resolve();
   }
@@ -301,8 +325,13 @@ export function mountIslandScene(
     ready,
     frame,
     setHeight: async (m) => placed((from) => withHeight(from, m)),
-    moveTo: async (x, y, m) =>
-      placed(({ heading }) => eyeAt({ x, y, height: m, heading }, groundAt)),
+    moveTo: async (x, y, m) => {
+      // Tiles shown elsewhere say nothing of the ground under the new eye.
+      shown = null;
+      return placed(({ heading }) =>
+        eyeAt({ x, y, height: m, heading }, groundAt),
+      );
+    },
     turnTo: async (heading) => placed((from) => withHeading(from, heading)),
     backend: () =>
       'isWebGPUBackend' in renderer.backend &&
@@ -315,6 +344,8 @@ export function mountIslandScene(
       pool.dispose();
       held.clear();
       selection = null;
+      // The new world's tiles share no keys with the old one's.
+      shown = null;
       // The old coast would refine the selection where the new one has none.
       coast = undefined;
       pool = startPool(next);

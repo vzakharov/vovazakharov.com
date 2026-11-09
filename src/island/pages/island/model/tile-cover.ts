@@ -45,6 +45,38 @@ export function coverOf(
   return [...outer, ...own];
 }
 
+function ancestorsOf(key: TileKey): TileKey[] {
+  const up = parentOf(key);
+  return up === null ? [] : [up, ...ancestorsOf(up)];
+}
+
+/**
+ * The tiles to draw for `selected` while `shown`, the last selection wholly
+ * in hand, still stands: `shown` draws itself, and `coverOf` fills in only
+ * the selected tiles overlapping none of it, from no stand-in that does. A
+ * missing tile's coarse ancestor would hide the fine ground under the eye,
+ * so a selected tile straddling the edge of `shown` — the frustum's margin —
+ * waits, drawing nothing, until the new selection is all in hand.
+ */
+export function coverAround(
+  selected: readonly TileKey[],
+  shown: readonly TileKey[],
+  has: (id: string) => boolean,
+): TileKey[] {
+  const shownIds = new Set(shown.map((key) => tileId(key)));
+  // Each shown tile and every tile containing one.
+  const blocked = new Set(shownIds);
+  for (const key of shown) {
+    for (const up of ancestorsOf(key)) blocked.add(tileId(up));
+  }
+  const beyond = selected.filter(
+    (key) =>
+      !blocked.has(tileId(key)) &&
+      !ancestorsOf(key).some((up) => shownIds.has(tileId(up))),
+  );
+  return [...shown, ...coverOf(beyond, (id) => has(id) && !blocked.has(id))];
+}
+
 /** Plane metres from `(x, y)` to the nearest point of the tile. */
 export function distanceTo(key: TileKey, x: number, y: number): number {
   const { west, south, east, north } = tileRect(key);
