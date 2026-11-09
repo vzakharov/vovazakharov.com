@@ -40,16 +40,6 @@ export function heavensAt(opening: LatLon, hours: number): Heavens {
   return { sun, moon: scaled(sun, -1) };
 }
 
-/**
- * The sun's time of day at direction `at`, hours past its midnight: 12 where
- * the sun stands on the meridian, later to the east of it.
- */
-export function solarHours(sun: Vec3, at: Vec3): number {
-  const { lon: sunLon } = unitToLatLon(sun);
-  const { lon } = unitToLatLon(at);
-  return dayHours(12 + ((lon - sunLon) * DAY_HOURS) / (2 * Math.PI));
-}
-
 /** The sine of the sun's elevation where night is full. */
 const NIGHT_BELOW = -0.1;
 /** The sine of the sun's elevation where day is full: under the opening's. */
@@ -89,6 +79,16 @@ export type Scrubbing = { readonly scrub: Scrub; readonly fast: boolean };
 /** `hours` wrapped into one day, `[0, DAY_HOURS)`. */
 export const dayHours = (hours: number): number =>
   ((hours % DAY_HOURS) + DAY_HOURS) % DAY_HOURS;
+
+/**
+ * The sun's time of day at direction `at`, hours past its midnight: 12 where
+ * the sun stands on the meridian, later to the east of it.
+ */
+export function solarHours(sun: Vec3, at: Vec3): number {
+  const { lon: sunLon } = unitToLatLon(sun);
+  const { lon } = unitToLatLon(at);
+  return dayHours(12 + ((lon - sunLon) * DAY_HOURS) / (2 * Math.PI));
+}
 
 /**
  * `clock` `dt` seconds on: scrubbed by `scrub` (`fast` six times as fast)

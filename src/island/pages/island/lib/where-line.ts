@@ -27,9 +27,10 @@ const signed = (value: number, places: number) => {
   return text.startsWith('-') ? text : `+${text}`;
 };
 
+const pad = (n: number) => String(n).padStart(2, '0');
+
 const clock = (hours: number) => {
   const minutes = Math.round(hours * 60) % (24 * 60);
-  const pad = (n: number) => String(n).padStart(2, '0');
   return `${pad(Math.floor(minutes / 60))}:${pad(minutes % 60)}`;
 };
 

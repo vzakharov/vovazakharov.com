@@ -14,27 +14,24 @@ const DEGREE = Math.PI / 180;
 export function poseOfEye(eye: Eye, hours: number): Pose {
   const { lat, lon } = unitToLatLon(eye.at);
   const heading = headingOf(eye) / DEGREE;
+  const { height, look } = eye;
   return {
     lat: lat / DEGREE,
     lon: lon / DEGREE,
-    height: eye.height,
+    height,
     heading: ((heading % 360) + 360) % 360,
-    pitch: eye.look / DEGREE,
+    pitch: look / DEGREE,
     hours,
   };
 }
 
 /** An eye at rest in `pose`, its look raised by the pose's pitch. */
 export function eyeOfPose(pose: Pose, groundAt: GroundAt): Eye {
+  const { lat, lon, height, heading, pitch } = pose;
   const eye = eyeAt(
-    {
-      lat: pose.lat * DEGREE,
-      lon: pose.lon * DEGREE,
-      height: pose.height,
-      heading: pose.heading * DEGREE,
-    },
+    { lat: lat * DEGREE, lon: lon * DEGREE, height, heading: heading * DEGREE },
     groundAt,
   );
-  const look = pose.pitch * DEGREE;
+  const look = pitch * DEGREE;
   return { ...eye, look, aim: { ...eye.aim, look } };
 }
