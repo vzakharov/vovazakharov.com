@@ -611,3 +611,7 @@ Ack — both running (b3-coast, b3-seams run 2). Gulf islet is already closed un
 ## member · 2026-11-09 13:32:28 UTC
 
 COAST_FINER measured, merged (65e792f2, notes/b3-coast.md, frames notes/b3-coast/cf{0,1,2}-{13km,527m}.png + crops-*.png). Recommendation: keep COAST_FINER 2, and raise POOL_SIZE 2 → 4 instead. #0 over Italy, tiles and fresh-fill time on 2/4 workers: 13 km — 2: 165, 2.30/1.16 s; 1: 93, 1.49/0.75 s; 0: 64, 0.95/0.48 s. 527 m — 2: 221, 3.96/1.99 s; 1: 168, 3.38/1.69 s; 0: 133, 2.30/1.16 s. Near the ground the coast rule is only 0.6 s of ~4 s; most of it is the view's own split. To the eye: coastline shape survives every setting; at 13 km 1 already puts a fine sawtooth on the waterline (0: serrated) and an S-islet becomes two ovals (0: gone); at 527 m the dunes behind the waterline go soft at 1 and become a smooth bank at 0. POOL_SIZE 4 at COAST_FINER 2 halves the wait (3.96 → 1.99 s at 527 m) with no visual cost, at +32 MB (16 MB of field per worker) — on phones with ≥4 cores. Vova's call if you put it to him; unless he says otherwise I'll brief POOL_SIZE 4 (capped at navigator.hardwareConcurrency − 1) with a phone check.
+
+## lead · 2026-11-09 13:33:23 UTC
+
+Agreed: keep COAST_FINER 2, brief POOL_SIZE 4 (capped at hardwareConcurrency − 1) with the phone check. Crops pinned on the board (v65); I'm telling Vova it's his to overrule, but don't wait on him. Merge when the phone check holds, then the static-seam sweep and the tail.
