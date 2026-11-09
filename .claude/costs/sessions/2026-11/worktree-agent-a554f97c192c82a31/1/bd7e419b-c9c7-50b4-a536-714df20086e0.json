@@ -1,0 +1,129 @@
+{
+  "total": {
+    "inputTokens": 38,
+    "cacheWrite5mTokens": 69341,
+    "cacheWrite1hTokens": 79896,
+    "cacheReadTokens": 1942705,
+    "outputTokens": 7247,
+    "thinkingTokens": 946,
+    "responses": 19,
+    "costUsd": 1.5195060000000002
+  },
+  "estimate": {
+    "at": "2026-11-09T08:18:37.137Z",
+    "subjectLine": "feat: bite 3's seam frames, Earth as world #0 and the tail",
+    "parts": [
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "B9c's seam frames and any skirt or churn fix they find need rendering depth"
+      },
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "Earth's fit from Natural Earth and the envelope measured for random worlds"
+      },
+      {
+        "hours": 4.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "Earth's pinned row and the Done table's tests"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "orchestrating step C and the tail with the lead"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-09T08:19:23.591Z",
+    "contextTokens": 138091,
+    "spend": {
+      "inputTokens": 34,
+      "cacheWrite5mTokens": 68679,
+      "cacheWrite1hTokens": 79559,
+      "cacheReadTokens": 1736274,
+      "outputTokens": 6376,
+      "thinkingTokens": 946,
+      "responses": 17,
+      "costUsd": 1.4547778000000002
+    }
+  },
+  "sessionId": "bd7e419b-c9c7-50b4-a536-714df20086e0",
+  "branch": "worktree-agent-a554f97c192c82a31",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/round-world — B7c–B7e, B8 и сшивка уровней детализации (B9) влиты, knip зелёный, впереди кадры сшивки, Земля и хвост",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBX5UEgj2eV8Vg3Kf1",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-09T08:17:47.904Z",
+  "lastResponseAt": "2026-11-09T08:19:24.083Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 32,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 79896,
+    "cacheReadTokens": 1807414,
+    "outputTokens": 6415,
+    "thinkingTokens": 933,
+    "responses": 16,
+    "costUsd": 1.1290788
+  },
+  "subagents": {
+    "inputTokens": 6,
+    "cacheWrite5mTokens": 69341,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 135291,
+    "outputTokens": 832,
+    "thinkingTokens": 13,
+    "responses": 3,
+    "costUsd": 0.39042720000000003
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 38,
+      "cacheWrite5mTokens": 69341,
+      "cacheWrite1hTokens": 79896,
+      "cacheReadTokens": 1942705,
+      "outputTokens": 7247,
+      "thinkingTokens": 946,
+      "responses": 19,
+      "costUsd": 1.5195060000000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 18,
+    "matched": 18,
+    "matchedTableUsd": 1.4955922000000001,
+    "matchedEventUsd": 1.4955922,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".py": 980,
+    ".md": 13596,
+    ".json": 317,
+    ".txt": 715,
+    ".ts": 7151,
+    ".sh": 43,
+    ".yaml": 242,
+    ".tsx": 85,
+    ".scss": 78
+  }
+}
