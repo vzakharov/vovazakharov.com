@@ -114,7 +114,11 @@ calls.
   shows #1 as the same island at ~10° N on the +X meridian (30 of 6,667 land
   nodes disagree with the drawn rings, all on the coast).
 - **Nothing runs at the relay.**
-- **Next**: S7 (call 13's look) ∥ B4 (height and fill on the sphere, needs B3's
-  key); then B7 (the switch, with S4's light and S7 if not done), B8 (retire the
-  plane, film the seams), step C (Earth), the tail. The memo with the lead is
-  current to 04:35 (calls 12 and 13).
+- **S7 landed** (`notes/b3-s7.md`): ↑/↓ look, clamped between straight down and
+  5° above the sea's horizon; E/Q climb; a two-finger vertical drag looks on
+  touch. Until B7 the planar game's ↑/↓ do nothing and its hint still says they
+  climb; B7 wires the hint and the globe eye's `STILL`.
+- **Next**: B4 (height and fill on the sphere, running); then B7 (the switch,
+  with S4's light and S7 if not done), B8 (retire the plane, film the seams),
+  step C (Earth), the tail. The memo with the lead is current to 04:35 (calls 12
+  and 13).
