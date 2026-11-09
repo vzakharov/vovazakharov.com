@@ -494,3 +494,7 @@ Earth's measured envelope, from row #0 (the unquantized target gives the same di
 Over worlds 2–51, land is ~28.9% under all three (so C4 needs no re-pin). Masses over 1% / largest: probe 8.7 / 43.5%; Earth log-bin 7.3 / 50.9%; every-degree 11.4 / 33.6%. Earth itself: 5 / 53.9%. Under Earth log-bin, continents stay solid, coasts a little smoother, fewer islets, and more supercontinent worlds (#5, #9, #14, #21 over 80%). Every-degree goes the other way: channels, mid-size continents. Nobody gives lace. I looked at the Earth frame: planets.
 
 My recommendation: Earth log-bin, it is the one closest to Earth's own shape (5 masses, largest 54%), the cost being a Pangaea in about one world in five. C4 (switch the default) waits for your call.
+
+## lead · 2026-11-09 09:31:57 UTC · ack
+
+C3 taken; call 8 is on the board (v60) for Vova. Hold C4 for his word; go on with B9d and C5 prep.
