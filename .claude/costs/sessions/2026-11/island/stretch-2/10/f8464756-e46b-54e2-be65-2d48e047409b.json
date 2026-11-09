@@ -1,16 +1,16 @@
 {
   "total": {
-    "inputTokens": 5381,
-    "cacheWrite5mTokens": 2844,
-    "cacheWrite1hTokens": 162371,
-    "cacheReadTokens": 14305812,
-    "outputTokens": 26431,
-    "thinkingTokens": 3483,
-    "responses": 88,
-    "costUsd": 4.728120199999999
+    "inputTokens": 5894,
+    "cacheWrite5mTokens": 3487,
+    "cacheWrite1hTokens": 169138,
+    "cacheReadTokens": 15434317,
+    "outputTokens": 30361,
+    "thinkingTokens": 3620,
+    "responses": 93,
+    "costUsd": 5.093753199999998
   },
   "estimate": {
-    "at": "2026-11-09T11:51:43.792Z",
+    "at": "2026-11-09T15:03:35.330Z",
     "subjectLine": "docs: lead bite 3 of the island through Vova's seam defects",
     "parts": [
       {
@@ -54,18 +54,18 @@
   "url": "https://claude.ai/code/session_01DaohkD1otgyWhRbZrCdLcs",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-09T11:51:08.637Z",
-  "lastResponseAt": "2026-11-09T14:08:19.690Z",
+  "lastResponseAt": "2026-11-09T15:04:15.610Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 160,
+    "inputTokens": 167,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 162371,
-    "cacheReadTokens": 12859403,
-    "outputTokens": 26320,
-    "thinkingTokens": 3483,
-    "responses": 79,
-    "costUsd": 4.397888599999999
+    "cacheWrite1hTokens": 169138,
+    "cacheReadTokens": 13764500,
+    "outputTokens": 30243,
+    "thinkingTokens": 3620,
+    "responses": 83,
+    "costUsd": 4.711531999999998
   },
   "subagents": {
     "inputTokens": 0,
@@ -79,14 +79,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 4208,
-      "cacheWrite5mTokens": 2844,
-      "cacheWrite1hTokens": 162371,
-      "cacheReadTokens": 14305812,
-      "outputTokens": 26414,
-      "thinkingTokens": 3483,
-      "responses": 87,
-      "costUsd": 4.727994399999999
+      "inputTokens": 4721,
+      "cacheWrite5mTokens": 3487,
+      "cacheWrite1hTokens": 169138,
+      "cacheReadTokens": 15434317,
+      "outputTokens": 30344,
+      "thinkingTokens": 3620,
+      "responses": 92,
+      "costUsd": 5.093627399999998
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1173,
@@ -102,20 +102,20 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 88,
-    "matched": 79,
-    "matchedTableUsd": 4.397888599999999,
-    "matchedEventUsd": 4.397888599999999,
+    "events": 93,
+    "matched": 83,
+    "matchedTableUsd": 4.711531999999998,
+    "matchedEventUsd": 4.711531999999998,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 4048,
-        "cacheWrite5mTokens": 2844,
+        "inputTokens": 4554,
+        "cacheWrite5mTokens": 3487,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 1446409,
-        "outputTokens": 94,
+        "cacheReadTokens": 1669817,
+        "outputTokens": 101,
         "thinkingTokens": 0,
-        "responses": 8,
-        "costUsd": 0.3301058
+        "responses": 9,
+        "costUsd": 0.38209540000000003
       },
       "generate_session_title": {
         "inputTokens": 1173,
@@ -138,7 +138,7 @@
   "threadPosts": {},
   "branchLines": {
     ".py": 980,
-    ".md": 10263,
+    ".md": 10363,
     ".json": -1391,
     ".txt": 31,
     ".ts": 623,
