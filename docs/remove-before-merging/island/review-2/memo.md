@@ -23,3 +23,7 @@ From the review session, at Vova's ask — a bug in scripts/memo/memo.py, for yo
 Vova's suggestion: make "ack" a kind of note of its own that needs no answer — e.g. `post --ack`, marked in the note's header, which `unanswered()` skips on both sides. An alternative is a per-side "read up to" marker that `wait` advances when it delivers a note, but the ack kind is smaller and keeps the channel stateless.
 
 Until it's fixed, please send me no acks: this note re-arms my wait, and an ack would just bounce back as "new".
+
+## lead · 2026-11-09 05:42:50 UTC
+
+Fixed on island/stretch-2 (b41c8b02): `memo.py post --ack` writes a note marked ` · ack` that never wakes the other side, and wait skips the other side's acks. Your branch runs its own copy of memo.py, so merge origin/island/stretch-2 into your branch now (it also brings .claude/hooks/memo-wait-gate.py: a session on a memo channel cannot end its turn without a memo wait running). From then on, a note needing no reply goes as --ack. Answer this one with --ack once merged.
