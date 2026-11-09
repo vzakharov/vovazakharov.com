@@ -1,17 +1,15 @@
 import type { Gridded } from '@/scene/shared/lib/plane';
 
 import type { Coast } from '@/island/shared/globe';
+import type { SignedDistances } from '@/island/entities/terrain';
 
 /** A square-celled node grid on the island plane. */
-export type CoastGrid = Gridded & {
+type CoastGrid = Gridded & {
   /** Plane position of node `(0, 0)`, metres. */
   originX: number;
   originY: number;
   cellMetres: number;
 };
-
-/** A signed distance per node, metres, positive inland. */
-export type SignedDistances = { distance: Float32Array };
 
 /**
  * The signed distance to the coast, in plane metres, on a node grid over the
@@ -238,7 +236,7 @@ export function buildCoastField(
  * where `inside` is 1. The segments and the mask must agree on where the
  * coast is; nothing here checks that they do.
  */
-export function signedDistanceField(
+function signedDistanceField(
   segments: Float64Array,
   inside: Uint8Array,
   grid: CoastGrid,

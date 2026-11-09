@@ -1,4 +1,3 @@
-export { sampleCoastField } from './coast-field';
 export {
   analyze,
   fieldDeviation,

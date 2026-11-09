@@ -1,8 +1,6 @@
 export {
-  buildCoastField,
-  type CoastField,
-  sampleCoastField,
   sampleSphereField,
+  type SignedDistances,
   type SphereField,
 } from './coast-field';
 export { type CoastDistance, heightAtSphere } from './height';

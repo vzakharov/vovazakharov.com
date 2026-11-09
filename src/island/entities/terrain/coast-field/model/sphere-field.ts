@@ -1,8 +1,10 @@
 import { R } from '@/island/shared/globe';
 
-import type { SignedDistances } from './coast-field';
 import { colatitudeLongitude, type LatLonGrid, ringAbove } from './lat-lon';
 import { nearestChords } from './sphere-sweep';
+
+/** A signed distance per node, metres, positive inland. */
+export type SignedDistances = { distance: Float32Array };
 
 /**
  * The signed great-circle distance to the coast over the whole sphere, on a
