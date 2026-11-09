@@ -182,9 +182,12 @@ rebuilds the world without a reload.
 - **Fixed in space.** The sun is fixed in space, not turned with the eye. The
   moon is full and stands opposite the sun, so the night side is lit by
   moonlight: dim, cool and readable, never black.
-- **Time turns the planet under them.** A world opens with today's low
-  north-west sun over its start point, so #1 looks as it does today, and time
-  starts paused. Time keys scrub the day forward and back, and may pause it.
+- **Time turns the planet under them.** The sun stands over the equator, an
+  equinox, so every place gets twelve hours of day and twelve of night under the
+  moon. A world opens at the afternoon hour when the sun stands 20° up over its
+  start point, as low as today's, and time starts paused. Today's north-west sun
+  would sit at 45° N and leave Earth's north without a night. Time keys scrub
+  the day forward and back, and may pause it.
 - **The keys are the member's call**, clear of the movement keys, and the key
   hint lists them.
 - **The phase is fixed for now.** A moon that changes phase, and a moon you can
