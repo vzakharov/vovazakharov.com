@@ -1,29 +1,29 @@
 {
   "total": {
-    "inputTokens": 13198,
+    "inputTokens": 13203,
     "cacheWrite5mTokens": 6222,
-    "cacheWrite1hTokens": 251788,
-    "cacheReadTokens": 45975574,
-    "outputTokens": 56245,
+    "cacheWrite1hTokens": 253357,
+    "cacheReadTokens": 46926078,
+    "outputTokens": 60617,
     "thinkingTokens": 7139,
-    "responses": 211,
-    "costUsd": 12.429792699999998
+    "responses": 214,
+    "costUsd": 12.7199055
   },
   "estimate": {
-    "at": "2026-11-09T06:57:30.286Z",
+    "at": "2026-11-09T11:49:57.466Z",
     "subjectLine": "docs: lead bite 3 of the island's second stretch past relay 8",
     "parts": [
       {
-        "hours": 1.5,
+        "hours": 2.5,
         "grade": "senior",
         "role": "producer",
-        "comment": "leading a game team's bite: briefing the member, settling calls with Vova, merging and tracking the member's branch"
+        "comment": "a game team's lead over a long bite: settling calls 8, 17, 18 and the lowland floor with Vova, briefing three successive member sessions, merging and tracking their branches"
       },
       {
-        "hours": 0.5,
+        "hours": 1.0,
         "grade": "middle",
         "role": "developer",
-        "comment": "board republish and timelapse frame plumbing is routine scripted work"
+        "comment": "board republishes, preview dispatches and timelapse uploads are routine scripted work"
       }
     ],
     "comment": null
@@ -46,7 +46,7 @@
   },
   "sessionId": "644ce436-997a-52d4-8750-db02c795fb14",
   "branch": "island/stretch-2",
-  "cwd": "/home/user/vovazakharov.com/tmp/vova-video",
+  "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take island/stretch-2 — бит 3 дошёл до B7d, пункт 17 ждёт прочтения Вовы, кадры полдня и полуночи ждут доски",
   "prs": [
     266
@@ -54,18 +54,18 @@
   "url": "https://claude.ai/code/session_01DaohkEMN9qX6y62bdhQZY3",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-09T06:57:06.830Z",
-  "lastResponseAt": "2026-11-09T11:49:46.748Z",
+  "lastResponseAt": "2026-11-09T11:50:01.181Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 367,
+    "inputTokens": 372,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 251788,
-    "cacheReadTokens": 40488166,
-    "outputTokens": 55860,
+    "cacheWrite1hTokens": 253357,
+    "cacheReadTokens": 41438670,
+    "outputTokens": 60232,
     "thinkingTokens": 7139,
-    "responses": 188,
-    "costUsd": 11.2306052
+    "responses": 191,
+    "costUsd": 11.520718
   },
   "subagents": {
     "inputTokens": 0,
@@ -79,14 +79,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 11499,
+      "inputTokens": 11504,
       "cacheWrite5mTokens": 6222,
-      "cacheWrite1hTokens": 251788,
-      "cacheReadTokens": 45975574,
-      "outputTokens": 56221,
+      "cacheWrite1hTokens": 253357,
+      "cacheReadTokens": 46926078,
+      "outputTokens": 60593,
       "thinkingTokens": 7139,
-      "responses": 210,
-      "costUsd": 12.429610799999999
+      "responses": 213,
+      "costUsd": 12.7197236
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1699,
@@ -102,10 +102,10 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 211,
-    "matched": 188,
-    "matchedTableUsd": 11.2306052,
-    "matchedEventUsd": 11.230605199999998,
+    "events": 213,
+    "matched": 190,
+    "matchedTableUsd": 11.3811474,
+    "matchedEventUsd": 11.381147399999998,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 11132,
