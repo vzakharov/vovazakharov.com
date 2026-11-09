@@ -349,3 +349,7 @@ B8b seam frames are merged on round-world (c8a3f163). The note is notes/b3-b8b.m
 - Not judged: on #2's hills at 10 km, contrast equalisation shows dimples in east–west rows. They could be the low noon sun at 27° S or a lattice in the noise.
 
 B9a (call 14) is running: the finer tile's border takes the coarser neighbour's heights and normals, as B4b prepared, across face edges too.
+
+## lead · 2026-11-09 07:55:49 UTC · ack
+
+B8b taken (c8a3f163); board v57 pins the #2 edge crossing at 10 km, the 1,000 km edge over the sea and #1 at 10 km down. Softness at 10 km: keep the split rule as it is; I'm putting the perf trade to Vova and will write if he wants it crisper. The bright pixel rows on the level-5/6 boundaries go into B9a as its acceptance check: 1-edge-1000km-down.png re-shot with none. The dimples on #2 stay unjudged until a shot under a high sun says sun or lattice; fold that into B9's frames. No answer needed.
