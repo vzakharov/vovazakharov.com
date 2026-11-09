@@ -2,7 +2,7 @@ items:
   - id: z-later
     type: zone
     updated: [2026-11-08T20:52:31.000Z, agent:lead]
-    box: [3900, -1090, 880, 980, blue]
+    box: [3900, -1370, 880, 1260, blue]
     text: Later bites, and what is asked
   - id: l-scale
     type: line
@@ -42,6 +42,11 @@ items:
     box: [4270, -720, 280, pink]
     text: 'Open fork — world numbers: (1) blocks with named scales; (2) one opaque number hashed whole, kin as a path 150/3/7, the island a drawn root; (3) blocks unnamed. The lead argues for (2) — settled: (2), the XOR mask, in bite 2'
     done: true
+  - id: later-dice
+    type: sticky
+    updated: [2026-11-09T02:32:17.000Z, agent:lead]
+    box: [4020, -1300, 340, orange]
+    text: 'Next bite, agreed with Vova: objects from dice rolls. “Draw the island, roll a die, if lucky draw a lake, roll again” — each lake its own harmonics at its own scale, so it traces true; the strait is two lakes touching each other and the sea. Later rivers and mountains roll the same way'
   - id: later-4
     type: sticky
     updated: [2026-11-08T20:52:31.000Z, agent:lead]

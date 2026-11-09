@@ -1,8 +1,8 @@
 items:
   - id: z-bite2
     type: zone
-    updated: [2026-11-08T20:52:31.000Z, agent:lead]
-    box: [3560, 170, 1010, 2760, orange]
+    updated: [2026-11-09T01:52:07.290Z, u_L_AriiBLoWLIB4PYEulAJA]
+    box: [3523, 147, 1010, 2760, orange]
     text: Bite 2 — worlds from one formula
   - id: bite2-1
     type: sticky
@@ -45,17 +45,19 @@ items:
     type: sticky
     updated: [2026-11-08T22:05:00.000Z, agent:lead]
     box: [3600, 1220, 300, green]
-    text: 'The fit landed: world #1 from the formula is our island, 0.63% of the land off the drawing, and all five of Vova''s lakes are back as closed water'
+    text: "The fit landed: world #1 from the formula is our island, 0.63% of the land off the drawing, and all five of Vova's lakes are back as closed water"
   - id: bite2-strait-call
     type: sticky
-    updated: [2026-11-08T22:05:00.000Z, agent:lead]
+    updated: [2026-11-09T02:32:17.000Z, agent:lead]
     box: [3600, 1430, 300, yellow]
-    text: 'Open for Vova: the Blablania–Feisis channel (6–19 km) closes in its south. Keeping it costs ~16× the build (K≈512) or a new local-patch mechanism. The lead''s lean: let it close for now'
+    text: "Open for Vova: the Blablania–Feisis channel (6–19 km) closes in its south. Keeping it costs ~16× the build (K≈512) or a new local-patch mechanism. The lead's lean: let it close for now — settled: it closes in bite 2, and Vova's dice rolls are the local patches"
+    done: true
   - id: bite2-masd-call
     type: sticky
-    updated: [2026-11-08T22:05:00.000Z, agent:lead]
+    updated: [2026-11-09T02:32:17.000Z, agent:lead]
     box: [3600, 1680, 300, yellow]
-    text: 'Open for Vova: the game no longer reads the traced coast, so check:masd wants a marker on it until "your own map" brings a consumer — a suppression needs his yes'
+    text: 'Open for Vova: the game no longer reads the traced coast, so check:masd wants a marker on it until "your own map" brings a consumer — a suppression needs his yes. Settled, no marker: “delete the coast module and leave a tombstone in case it is ever needed; ‘draw your own world’ is not planned any time soon”'
+    done: true
   - id: bite2-fit
     type: image
     updated: [2026-11-08T22:05:00.000Z, agent:lead]
