@@ -20,12 +20,7 @@ const COAST_FINER = 2;
 export type CoastDistance = (direction: Vec3) => number;
 
 /** The four tiles a tile splits into, on its own face. */
-export const cubeChildren = ({
-  face,
-  level,
-  x,
-  y,
-}: CubeCell): CubeCell[] => [
+export const cubeChildren = ({ face, level, x, y }: CubeCell): CubeCell[] => [
   { face, level: level + 1, x: 2 * x, y: 2 * y },
   { face, level: level + 1, x: 2 * x + 1, y: 2 * y },
   { face, level: level + 1, x: 2 * x, y: 2 * y + 1 },

@@ -10,12 +10,7 @@ import {
 } from '@/island/shared/globe';
 
 import { GROUND_SLOPE, HIGHEST_GROUND, LOWEST_GROUND } from '../../height';
-import {
-  capGap,
-  cubeTileId,
-  cubeTileSide,
-  tileCap,
-} from '../../tile';
+import { capGap, cubeTileId, cubeTileSide, tileCap } from '../../tile';
 import { type CoastDistance, cubeChildren, cubeSplitRule } from './cube-split';
 import { type Framed, outside } from './view';
 

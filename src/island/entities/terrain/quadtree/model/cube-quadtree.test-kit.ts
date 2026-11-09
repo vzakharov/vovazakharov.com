@@ -16,7 +16,7 @@ import {
   type Vec3,
 } from '@/island/shared/globe';
 
-import {  cubeTileId, tileHolds } from '../../tile';
+import { cubeTileId, tileHolds } from '../../tile';
 import type { CoastDistance } from './cube-split';
 
 export const arc = (a: Vec3, b: Vec3) =>

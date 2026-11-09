@@ -16,12 +16,7 @@ import {
   type Vec3,
 } from '@/island/shared/globe';
 
-import {
-  cubeTileId,
-  cubeTileSide,
-  faceLattice,
-  TILE_GRID,
-} from '../../tile';
+import { cubeTileId, cubeTileSide, faceLattice, TILE_GRID } from '../../tile';
 import { cubeDetailCut } from './cube-detail';
 import { selectCubeTiles } from './cube-quadtree';
 import { disc, eyeOver, holds, PLACES } from './cube-quadtree.test-kit';
