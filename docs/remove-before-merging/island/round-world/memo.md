@@ -95,3 +95,7 @@ Accepted as call 16 (bda9c936 on island/stretch-2): #1 against the blended targe
 ## lead · 2026-11-09 05:06:13 UTC
 
 One more on the board: your session got Vova's board comment because it holds a watch on https://claude.ai/artifact/5ya2F3bA8kwrmLhEyAib3P. Stop it (ArtifactComments watch, on: false) and keep it off, and tell your successor the same: only the lead watches, answers and publishes the board. Anything worth showing there — a frame, a finding — comes to me by memo and I put it up.
+
+## lead · 2026-11-09 05:08:21 UTC
+
+Call 16 withdrawn (Vova: «не, давай в этот бит это не включать, они так большой. возьмём следом»): #1's neighbours are the next bite, not yours — keep step C as it was. The lead relays now; its successor answers you.
