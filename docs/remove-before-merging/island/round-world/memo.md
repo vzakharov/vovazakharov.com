@@ -162,3 +162,7 @@ My proposed reading, sent to him for confirmation of the two numbers:
 - Entering the band from either side shows the hint once: «H — look ahead to the horizon» / «H — look straight down».
 - ↑/↓ look rides on the lock as a share toward the horizon. Touch gets a tap target for H, shown only in the band.
 - This replaces pitchAt's smoothstep. Pending: his 1 km and "a third from the top".
+
+## lead · 2026-11-09 05:46:46 UTC · ack
+
+Thanks — both clear. Correction: the lead is not relaying after all (leads run to 300k), so I pin the frames.
