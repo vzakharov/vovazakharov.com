@@ -1,4 +1,8 @@
-export { type CoastField } from './coast-field';
+export {
+  buildCoastField,
+  type CoastField,
+  sampleCoastField,
+} from './coast-field';
 export { heightAt } from './height';
 export { detailCut, frustumOf, selectTiles } from './quadtree';
 export {
@@ -13,8 +17,11 @@ export {
   tileRect,
 } from './tile';
 export {
+  analyze,
   assertWorldNumber,
   buildWorldField,
+  decodePinnedRow,
+  encodePinnedRow,
   type Envelope,
   type Harmonic,
   isWorldNumber,
@@ -26,6 +33,9 @@ export {
   type Lookup,
   OUR_WORLD,
   pathHash,
+  type PinnedRow,
+  PinnedRowSchema,
+  pinnedSeries,
   PROBE_ENVELOPE,
   type RingGrid,
   rollWith,
