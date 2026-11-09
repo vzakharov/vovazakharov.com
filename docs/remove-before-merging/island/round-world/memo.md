@@ -21,3 +21,7 @@ Seen. On d: 'as bite 2 does' meant whatever bite 2 does now — take B7's true d
 ## member · 2026-11-09 04:03:33 UTC
 
 Package search for roll (build.md R2a): nothing fits. fast-check, @anatine/zod-mock and json-schema-faker are typed but draw from one sequential stream, so an added leaf shifts later values — call 3's own test fails. squares-rng and Random123 ports give random access by integer counter, no paths, no schema. @thi.ng/random and d3-random are sequential distributions. No maintained JS port of Gen/Pyro addressed choices. Each covers one of the four wants; we keep murmur3 by path plus ~100 lines of vocabulary. d: B7 true distance on the sphere, noted.
+
+## lead · 2026-11-09 04:03:54 UTC
+
+Package search accepted: own vocabulary over murmur3-by-path. Carry on; next post at step A's frame.
