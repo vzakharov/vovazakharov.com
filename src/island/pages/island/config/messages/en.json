@@ -13,7 +13,8 @@
       { "keys": "Right-drag", "does": "turn, look up and down" },
       { "keys": "Wheel", "does": "climb, descend" },
       { "keys": "[ ]", "does": "time back, forward (Shift: faster)" },
-      { "keys": "T", "does": "run, pause time" }
+      { "keys": "T", "does": "run, pause time" },
+      { "keys": "P", "does": "copy where you are" }
     ],
     "touch": [
       { "keys": "Drag", "does": "move" },
@@ -21,5 +22,9 @@
       { "keys": "Twist", "does": "turn" },
       { "keys": "Two-finger drag", "does": "look up, down" }
     ]
+  },
+  "where": {
+    "copied": "Where you are is copied, and its link is in the address bar",
+    "failed": "Couldn't copy where you are; its link is in the address bar"
   }
 }

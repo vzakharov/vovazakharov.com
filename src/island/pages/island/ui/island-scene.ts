@@ -32,9 +32,18 @@ import {
   withGlobeHeight as withHeight,
 } from '@/island/features/eye';
 
-import { advance, dayHours, heavensAt, OPENING_CLOCK } from '../lib/day';
+import {
+  advance,
+  dayHours,
+  heavensAt,
+  OPENING_CLOCK,
+  solarHours,
+} from '../lib/day';
+import { eyeOfPose, poseOfEye } from '../lib/eye-pose';
+import type { Pose } from '../lib/place-hash';
 import { skyColour } from '../lib/sky-colour';
 import { startTilePool, type TilePool } from '../lib/tile-pool';
+import type { Where } from '../lib/where-line';
 import { groundLighting } from './ground-lighting';
 import { tileView } from './tile-view';
 import { bindTimeKeys } from './time-keys';
@@ -61,6 +70,10 @@ export type IslandScene = CanDispose & {
    * dropped and refilled from the new field, the eye left where it is.
    */
   readonly setWorld: (world: string) => void;
+  /** Puts the eye in `pose` and the clock at its hour, the opening's when it names none. */
+  readonly placeAt: (pose: Pose) => void;
+  /** Where the eye stands now, in the world on screen; throws until ready. */
+  readonly where: () => Where;
 };
 
 /** Closest the camera sees: the eye is never under two metres up. */
@@ -92,6 +105,8 @@ const GLOBE_RADIUS = R - 1500;
 type MountIslandSceneParams = {
   /** The world number the scene opens on. */
   world: string;
+  /** Where the eye opens, when not at the world's opening. */
+  pose: Pose | undefined;
   play: boolean;
   onError: (error: Error) => void;
 };
@@ -104,7 +119,7 @@ type MountIslandSceneParams = {
  */
 export function mountIslandScene(
   canvas: HTMLCanvasElement,
-  { world: firstWorld, play, onError }: MountIslandSceneParams,
+  { world: firstWorld, pose: firstPose, play, onError }: MountIslandSceneParams,
 ): IslandScene {
   const renderer = new WebGPURenderer({
     canvas,
@@ -128,6 +143,8 @@ export function mountIslandScene(
   let clock = OPENING_CLOCK;
 
   let eye: Eye | null = null;
+  /** Where the eye opens once the field lands, when not at the world's opening. */
+  let pending: Pose | undefined;
   let groundAt = SEA_LEVEL;
   /** The coast the selection refines along, once the field arrives. */
   let coast: CoastDistance | undefined;
@@ -248,7 +265,10 @@ export function mountIslandScene(
   const ready = (async () => {
     await Promise.all([landed.promise, renderer.init()]);
     if (!live()) return;
-    eye = eyeAt(openingOf(Number(world)), groundAt);
+    eye =
+      pending === undefined
+        ? eyeAt(openingOf(Number(world)), groundAt)
+        : eyeOfPose(pending, groundAt);
     resize();
     render();
     if (!play) {
@@ -269,6 +289,17 @@ export function mountIslandScene(
     settle();
     return done;
   };
+
+  const placeAt = (pose: Pose) => {
+    clock = { ...clock, hours: pose.hours ?? OPENING_CLOCK.hours };
+    if (eye === null) {
+      pending = pose;
+      return;
+    }
+    view.forgetShown();
+    eye = eyeOfPose(pose, groundAt);
+  };
+  if (firstPose !== undefined) placeAt(firstPose);
 
   return {
     ready,
@@ -310,6 +341,18 @@ export function mountIslandScene(
       // The old coast would refine the selection where the new one has none.
       coast = undefined;
       pool = startPool(next);
+    },
+    placeAt,
+    where: () => {
+      if (eye === null) throw new Error('scene not ready');
+      const { sun } = heavensAt(openingOf(Number(world)), clock.hours);
+      return {
+        commit: process.env.NEXT_PUBLIC_COMMIT ?? 'dev',
+        page: `${location.origin}${location.pathname}`,
+        place: { world, pose: poseOfEye(eye, clock.hours) },
+        solarHours: solarHours(sun, eye.at),
+        tiles: view.levels(eye.at),
+      };
     },
     dispose: () => {
       disposed = true;

@@ -81,6 +81,30 @@
   }
 }
 
+// The where-line's confirmation, on the hint's glass at the top of the screen,
+// clear of the hint; empty, it draws nothing.
+.where {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  max-width: calc(100% - 32px);
+  padding: 8px 12px;
+  font:
+    13px / 1.4 system-ui,
+    sans-serif;
+  color: rgb(255 255 255 / 85%);
+  pointer-events: none;
+  user-select: none;
+  background: rgb(10 16 28 / 55%);
+  border-radius: 8px;
+  transform: translateX(-50%);
+  backdrop-filter: blur(6px);
+
+  &:empty {
+    display: none;
+  }
+}
+
 .hintClose {
   padding: 0 4px;
   font: inherit;

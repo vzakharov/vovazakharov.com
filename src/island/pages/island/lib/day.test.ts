@@ -2,47 +2,61 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import {
-  CENTRE,
+  cross,
   dot,
-  EAST,
   latLonToUnit,
   length,
-  NORTH,
   northAt,
   type Vec3,
 } from '@/island/shared/globe';
 import { openingOf } from '@/island/features/eye';
 
-import { advance, DAY_HOURS, daylight, heavensAt, OPENING_CLOCK } from './day';
+import {
+  advance,
+  DAY_HOURS,
+  daylight,
+  heavensAt,
+  OPENING_CLOCK,
+  solarHours,
+} from './day';
 
 const DEGREE = Math.PI / 180;
 
 const near = (a: Vec3, b: Vec3, tolerance = 1e-12) =>
   a.every((v, i) => Math.abs(v - (b[i] ?? Number.NaN)) < tolerance);
 
-/** Today's sun before the planet turned: 20° up from the north-west over the island's centre. */
-const TODAY: Vec3 = (() => {
-  const up = Math.sin(20 * DEGREE);
-  const across = Math.cos(20 * DEGREE);
-  const east = across * Math.sin(315 * DEGREE);
-  const north = across * Math.cos(315 * DEGREE);
-  const axis = (i: 0 | 1 | 2) =>
-    up * CENTRE[i] + east * EAST[i] + north * NORTH[i];
-  return [axis(0), axis(1), axis(2)];
-})();
+/** The sun's elevation over `up`, radians, through one day every `step` hours. */
+const dayOver = (up: Vec3, step = 0.01): number[] =>
+  Array.from({ length: DAY_HOURS / step }, (_, i) =>
+    Math.asin(dot(heavensAt(openingOf(1), i * step).sun, up)),
+  );
 
 describe('heavensAt', () => {
-  it("keeps today's sun over #1's opening at hour 0", () => {
-    assert.ok(near(heavensAt(openingOf(1), 0).sun, TODAY));
+  for (const world of [1, 0]) {
+    it(`stands a 20° afternoon sun over #${String(world)}'s opening at hour 0`, () => {
+      const opening = openingOf(world);
+      const up = latLonToUnit(opening);
+      const { sun } = heavensAt(opening, 0);
+      const east = cross(northAt(up), up);
+      assert.ok(Math.abs(Math.asin(dot(sun, up)) - 20 * DEGREE) < 1e-12);
+      assert.ok(dot(sun, east) < 0, 'west of the meridian');
+    });
+  }
+
+  it('stands the sun over the equator', () => {
+    for (const hours of [0, 5, 13.5]) {
+      assert.ok(Math.abs(heavensAt(openingOf(0), hours).sun[1]) < 1e-12);
+    }
   });
 
-  it("stands the same low north-west sun over #0's opening at hour 0", () => {
-    const opening = openingOf(0);
-    const up = latLonToUnit(opening);
-    const { sun } = heavensAt(opening, 0);
-    assert.ok(Math.abs(Math.asin(dot(sun, up)) - 20 * DEGREE) < 1e-12);
-    assert.ok(dot(sun, northAt(up)) > 0, 'from the north');
-  });
+  for (const lat of [0, 38, 60, 80]) {
+    it(`brings ${String(lat)}° N twelve hours of day and a night`, () => {
+      const day = dayOver(latLonToUnit({ lat: lat * DEGREE, lon: 0.4 }));
+      const lit = day.filter((elevation) => elevation > 0).length;
+      assert.ok(Math.abs(lit / day.length - 0.5) < 0.002, `lit ${String(lit)}`);
+      assert.ok(Math.min(...day) < -6 * DEGREE, 'past twilight at midnight');
+    });
+  }
 
   it('keeps the full moon exactly opposite the sun', () => {
     for (const hours of [0, 3.5, 12, 17.25]) {
@@ -85,6 +99,29 @@ describe('heavensAt', () => {
     const up = latLonToUnit(opening);
     assert.equal(daylight(sun, up), 0);
     assert.ok(dot(moon, up) > 0, 'the moon is up');
+  });
+});
+
+describe('solarHours', () => {
+  it("reads the opening's afternoon at hour 0", () => {
+    const opening = openingOf(0);
+    const { sun } = heavensAt(opening, 0);
+    const afternoon =
+      Math.acos(Math.sin(20 * DEGREE) / Math.cos(opening.lat)) / (15 * DEGREE);
+    const hours = solarHours(sun, latLonToUnit(opening));
+    assert.ok(Math.abs(hours - 12 - afternoon) < 1e-9);
+  });
+
+  it('is noon under the sun and midnight across the planet', () => {
+    const sun: Vec3 = latLonToUnit({ lat: 0, lon: 1 });
+    assert.ok(
+      Math.abs(solarHours(sun, latLonToUnit({ lat: 0.5, lon: 1 })) - 12) < 1e-9,
+    );
+    const midnight = solarHours(
+      sun,
+      latLonToUnit({ lat: -0.3, lon: 1 + Math.PI }),
+    );
+    assert.ok(Math.min(midnight, DAY_HOURS - midnight) < 1e-9);
   });
 });
 

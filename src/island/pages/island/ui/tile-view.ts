@@ -5,6 +5,7 @@ import {
   dot,
   FACES,
   length,
+  sphereToFace,
   sub,
   type Vec3,
 } from '@/island/shared/globe';
@@ -14,6 +15,7 @@ import {
   cubeTileId,
   frustumOf,
   selectCubeTiles,
+  tileHolds,
 } from '@/island/entities/terrain';
 import {
   type GlobeEye as Eye,
@@ -22,6 +24,7 @@ import {
 } from '@/island/features/eye';
 
 import type { FilledTile } from '../lib/tile-protocol';
+import type { Where } from '../lib/where-line';
 import { coverAround, coverOf } from '../model/tile-cover';
 import { type HeldTiles, tileMeshes } from './tile-meshes';
 
@@ -74,6 +77,8 @@ export type TileView = HeldTiles & {
   readonly reselect: () => void;
   /** Forgets what was last shown whole, which says nothing of a new place. */
   readonly forgetShown: () => void;
+  /** Levels of the tiles last drawn over direction `at`, and of every one drawn. */
+  readonly levels: (at: Vec3) => Where['tiles'];
 };
 
 /**
@@ -94,6 +99,7 @@ export function tileView(
   } | null = null;
   /** The last selection wholly in hand, drawn while a newer one loads. */
   let shown: CubeCell[] | null = null;
+  let drawn: readonly CubeCell[] = [];
 
   function selected(eye: Eye, aspect: number): CubeCell[] {
     const { position: at, forward, up, fov } = poseOf(eye, aspect);
@@ -145,12 +151,18 @@ export function tileView(
     draw: (eye, aspect) => {
       const keys = selected(eye, aspect);
       showIfComplete(keys);
-      held.draw(
+      drawn =
         shown === null
           ? coverOf(keys, held.has)
-          : coverAround(keys, shown, held.has),
-        poseOf(eye, aspect).position,
-      );
+          : coverAround(keys, shown, held.has);
+      held.draw(drawn, poseOf(eye, aspect).position);
+    },
+    levels: (at) => {
+      const point = sphereToFace(at);
+      return {
+        under: drawn.filter((key) => tileHolds(key, point)).map((k) => k.level),
+        drawn: drawn.map((key) => key.level),
+      };
     },
     reselect: () => {
       selection = null;
@@ -163,6 +175,7 @@ export function tileView(
       selection = null;
       // Its tiles went with the clear; kept, it would bar their stand-ins.
       shown = null;
+      drawn = [];
     },
     dispose: () => {
       held.dispose();
