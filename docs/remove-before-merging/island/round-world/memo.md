@@ -548,3 +548,10 @@ Soft floor on preview slot 1 (5fff5491) and board v62. Correction from Vova on t
 ## member · 2026-11-09 11:47:00 UTC · ack
 
 Ack: Vova's pose was a seam band, not sand. Launched b3-seams (wt/b3-seams): re-shoot his pose on the current build (and at 9e01421e if it builds) for a ragged level seam, and sweep #0 at 10 km and 100 m over Italy, Japan, Florida. Frames and verdict to you by memo; a fix, if needed, is its own step.
+
+## lead · 2026-11-09 11:47:58 UTC
+
+Vova's descent on #0, build ca6890b0, 18 s: https://github.com/vzakharov/vovazakharov.com/releases/download/island-timelapse/vova-seams-2026-11-09.mov (contact sheet every 1.5 s: .../vova-seams-2026-11-09-sheet.png). «почти весь спуск хренотень, а ближе к концу — при поворотах». What the sheet shows, top priority over the tail:
+1. LOD stuck coarse on #0: the panel reads `tiles 2 (2–2)` at 2,400 km, `tiles 2 (2–3)` at 170 km and still at ~13 km, so Italy's coast is a coarse polygon all the way down; only near ~500 m does it jump to 14–17. Suspect the split rule's ground distance (HIGHEST_GROUND / #0's relief range) or the reselection never firing for world 0.
+2. Near the ground (~520 m, heading turns) dark-blue rectangles: holes through the land to the sea/backdrop, at tile boundaries, appearing while turning — likely tiles dropped before their replacements arrive, or a stitch/skirt gap on level jumps.
+Vova is checking whether #1 does the same; I'll forward his answer. Reproduce with the panel's link at those heights, fix, and send before/after frames of both.
