@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { assertWorldNumber, murmur3, worldHash } from './hash';
+import { assertWorldNumber, murmur3, pathHash, worldHash } from './hash';
 
 const bytes = (text: string) => new TextEncoder().encode(text);
 
@@ -70,12 +70,46 @@ describe('worldHash', () => {
     for (const count of ones) assert.ok(Math.abs(count / samples - 0.5) < 0.02);
   });
 
-  it('takes only positive integers without leading zeros', () => {
-    for (const bad of ['', '0', '07', '-3', '1.5', '1e3', ' 2', '2 ', 'abc']) {
+  it('takes only non-negative integers without leading zeros', () => {
+    for (const bad of ['', '00', '07', '-3', '-0', '1.5', '1e3', ' 2', 'abc']) {
       assert.throws(() => worldHash(bad), /Not a world number/, bad);
+      assert.throws(() => pathHash(bad), /Not a world number/, bad);
     }
     assert.doesNotThrow(() => {
+      assertWorldNumber('0');
       assertWorldNumber('9'.repeat(500));
     });
+  });
+});
+
+/** `H(N, path)`'s message: the key words, little-endian, then the path. */
+function message(world: string, path: string) {
+  const digits = bytes(world);
+  const key = new DataView(new ArrayBuffer(8));
+  key.setUint32(0, murmur3(digits, 0x97_47_b2_8c), true);
+  key.setUint32(4, murmur3(digits, 0x5b_d1_e9_95), true);
+  return new Uint8Array([...new Uint8Array(key.buffer), ...bytes(path)]);
+}
+
+describe('pathHash', () => {
+  it('is MurmurHash3 of the key words and the path’s UTF-8', () => {
+    for (const world of ['0', '1', '42', '9'.repeat(40)]) {
+      const hash = pathHash(world);
+      for (const path of ['', 'a', 'land/sea', 'land/harmonic/37/-12', 'ø/日']) {
+        assert.equal(hash(path), murmur3(message(world, path), 0), path);
+      }
+    }
+  });
+
+  it('gives the pinned words', () => {
+    assert.deepEqual(
+      ['land/sea', 'land/harmonic/1/-1', 'noise/seed'].map(pathHash('0')),
+      [0x23_66_57_87, 0x86_32_47_14, 0x0e_b9_43_65],
+    );
+  });
+
+  it('survives a path longer than its buffer', () => {
+    const path = 'x/'.repeat(500);
+    assert.equal(pathHash('7')(path), murmur3(message('7', path), 0));
   });
 });
