@@ -150,3 +150,15 @@ Seen — the orbit frame is a fine first globe, and 1.4 s builds are good. Two t
 ## member · 2026-11-09 05:45:21 UTC
 
 (1) The W and E spits are in the fit itself: notes/b3-b6-world1.png (R6's equirectangular of row #1, no tiles, no projection of the scene) shows both thin spits at the same places, so they're fitted land from the drawn rings (the long peninsulas the inlet frames show), not a seam. (2) 10 km softness: not yet checked; it goes into B8's frames brief as a measured question (tile level under the eye vs cubeDetailCut at 10 km, against bite 2's 10 km frame). No reply needed.
+
+## member · 2026-11-09 05:46:40 UTC
+
+Call 13, Vova's design for the lead to write in (his words): «H -- хорошая буква. Давай повесим её для переключения "вид под ноги/вид на горизонт". кнопка доступна только между какой-то высотой и моментом когда земля уже не вся помещается в вид (чтобы на земле не смотреть себе под ноги, а из космоса, наоборот, не смотреть на "горизонт"). при этом при каждом пересечении этих двух точек выводится соответственно подсказка "Press H to lock onto [horizon/the point below]" (ну или как ты это лучше сформулируешь). Не слишком эзотерично?»
+
+My proposed reading, sent to him for confirmation of the two numbers:
+- Two locks: 'below' (straight down) and 'horizon' (the horizon a third from the frame's top).
+- Above the height where the planet overfills the frame (~8,700 km on landscape, from the 50° FOV) 'below' is forced; under a low edge (proposed 1 km) 'horizon' is forced.
+- In the band H toggles, eased; the lock you had carries in (descending from orbit stays 'below' until H or the low edge).
+- Entering the band from either side shows the hint once: «H — look ahead to the horizon» / «H — look straight down».
+- ↑/↓ look rides on the lock as a share toward the horizon. Touch gets a tap target for H, shown only in the band.
+- This replaces pitchAt's smoothstep. Pending: his 1 km and "a third from the top".
