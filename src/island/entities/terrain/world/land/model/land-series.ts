@@ -1,4 +1,4 @@
-import { harmonicSlot } from './sphere-series';
+import { harmonicSlot } from '../../series';
 import type { World } from './world-schema';
 
 /** A degree's amplitude per unit normal. */

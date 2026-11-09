@@ -1,5 +1,5 @@
+import { roll, type Rolled, rollWith, type TableIndex } from '../../roll';
 import { pathHash } from './hash';
-import { roll, type Rolled, rollWith, type TableIndex } from './roll';
 
 /** The series' degree `L`: `(L + 1)² = 262,144` coefficients. */
 export const LAND_DEGREE = 511;

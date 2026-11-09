@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { decodeNormal } from './decode';
+import { roll, rollWith } from '../../roll';
+import { decodeNormal, type Roll } from '../../roll/index.test-only';
 import { pathHash } from './hash';
-import { type Roll, roll, rollWith } from './roll';
 import { harmonicIndex, rollWorld, worldSchema } from './world-schema';
 
 /** Every path `schema` reads, with the word `H(world, path)` gives it. */

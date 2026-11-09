@@ -3,7 +3,7 @@ import {
   type LatLonGrid,
   nodeOf,
   nodePosition,
-} from '../../coast-field';
+} from '../../../coast-field';
 
 /**
  * Whether a world field's value `f` is land, lakes being water: the one test

@@ -3,7 +3,11 @@ import { describe, it } from 'node:test';
 
 import { latLonToUnit, R, type Vec3 } from '@/island/shared/globe';
 
-import { gridFrame, nodePosition, sampleSphereField } from '../../coast-field';
+import {
+  gridFrame,
+  nodePosition,
+  sampleSphereField,
+} from '../../../coast-field';
 import { pathHash } from './hash';
 import { sphereContourOf } from './sphere-contour';
 import {

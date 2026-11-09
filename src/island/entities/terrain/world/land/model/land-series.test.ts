@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { harmonicSlot, sphereTransform, synthesize } from '../../series';
 import { landShare } from './land-measure';
 import {
   fieldDeviation,
@@ -10,7 +11,6 @@ import {
   SEA_MEAN,
   SEA_SPREAD,
 } from './land-series';
-import { harmonicSlot, sphereTransform, synthesize } from './sphere-series';
 import { rollWorld } from './world-schema';
 
 describe('landSeries', () => {

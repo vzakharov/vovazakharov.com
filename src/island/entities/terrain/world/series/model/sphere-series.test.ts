@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { decodeNormal } from './decode';
-import { pathHash } from './hash';
-import { legendreTable } from './legendre';
+import { legendreTable } from '../../grid/index.test-only';
+import { pathHash } from '../../land';
+import { decodeNormal } from '../../roll/index.test-only';
 import {
   analyze,
   harmonicSlot,

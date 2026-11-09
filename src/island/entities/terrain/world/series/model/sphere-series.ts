@@ -1,12 +1,14 @@
-import { fft, ifft } from './fft';
 import {
+  cellArea,
   LEGENDRE_00,
   legendreColumn,
   type LegendreRecursion,
   legendreRecursion,
   orderMajorSize,
-} from './legendre';
-import { cellArea, type RingGrid, ringGrid } from './sphere-grid';
+  type RingGrid,
+  ringGrid,
+} from '../../grid';
+import { fft, ifft } from './fft';
 
 /**
  * A real spherical-harmonic series `f = Σ_{l ≤ L} Σ_{|m| ≤ l} c_lm Y_lm` in

@@ -1,6 +1,6 @@
 /**
  * Fits #1 to the drawn island on the sphere and writes its pinned row
- * (`src/island/entities/terrain/world/model/pinned/1.json`): the rings laid on
+ * (`src/island/entities/terrain/world/land/model/pinned/1.json`): the rings laid on
  * the globe through the azimuthal plane, their signed distance clipped (call
  * 6), analysed to `LAND_DEGREE` on A's grid, quantized at the fewest bits per
  * word that keep the wrong-land share. The wrong land is measured on the
@@ -44,7 +44,7 @@ import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 
 const ROW_FILE = path.join(
   REPO_ROOT,
-  'src/island/entities/terrain/world/model/pinned/1.json',
+  'src/island/entities/terrain/world/land/model/pinned/1.json',
 );
 /** How far over the unquantized share a bit depth may go and still keep it. */
 const KEEP_TOLERANCE = 1e-4;

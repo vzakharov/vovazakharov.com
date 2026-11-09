@@ -1,6 +1,5 @@
 /** How many values a 32-bit word takes. */
 const WORDS = 2 ** 32;
-const LAST_WORD = WORDS - 1;
 
 /** A word's place in `(0, 1)`: the middle of its `1 / 2^32` slot, exact. */
 const slotCentre = (word: number) => (word + 0.5) / WORDS;
@@ -72,31 +71,3 @@ export const decodeUniform = (word: number, lo: number, hi: number) =>
 
 /** A word read as a unit normal value, by the inverse CDF of its slot. */
 export const decodeNormal = (word: number) => inverseNormal(slotCentre(word));
-
-/**
- * The word whose decoded value lies nearest `value`, for any decoder rising
- * strictly over the words: a binary search for the last word at or under it,
- * then the closer of that word and the next. Values past either end take the
- * end word.
- */
-function nearestWord(decode: (word: number) => number, value: number) {
-  if (Number.isNaN(value)) throw new Error(`nearestWord: NaN`);
-  let low = 0;
-  let high = LAST_WORD;
-  if (decode(low) >= value) return low;
-  if (decode(high) <= value) return high;
-  // Invariant: decode(low) < value < decode(high).
-  while (high - low > 1) {
-    const middle = low + Math.floor((high - low) / 2);
-    if (decode(middle) <= value) low = middle;
-    else high = middle;
-  }
-  return value - decode(low) <= decode(high) - value ? low : high;
-}
-
-/** The word `decodeUniform` reads nearest `value`. */
-export const encodeUniform = (value: number, lo: number, hi: number) =>
-  nearestWord((word) => decodeUniform(word, lo, hi), value);
-
-/** The word `decodeNormal` reads nearest `value`. */
-export const encodeNormal = (value: number) => nearestWord(decodeNormal, value);

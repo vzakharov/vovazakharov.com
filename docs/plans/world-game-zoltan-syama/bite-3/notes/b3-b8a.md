@@ -16,18 +16,18 @@ Branch `wt/b3-b8a`, base 1ae1b7e5. Stopped at the context budget.
 - tsc, eslint, prettier, the touched tests, `check:masd`, `check:cycles`,
   `type-overlap` green.
 
-## Red: `masd:clusters` (caused by the first commit)
-
-With harmonic/dome gone, `world` holds two clusters: `decode`+`roll`, and
-`fft`+`sphere-series` (legendre, sphere-grid below). Options: merge `decode.ts`
-into `roll.ts` and `fft.ts` into `sphere-series.ts` (local, each under 400
-lines), or cut `world` into sub-slices (every file moves). Design call — not
-taken. Also now unread but by their tests: `fft2`/`ifft2` (planar 2D FFT, delete
-them) and `encodeNormal`/`encodeUniform`.
+- `refactor: cut the world sub-slice into roll, series, grid and land` —
+  deleted `fft2`/`ifft2` (and `transform`'s offset/stride) and
+  `encodeNormal`/`encodeUniform` (read by their tests alone; no fit script reads
+  them). `masd:clusters` stayed red, so `world` holds only sub-slices now:
+  `roll` (roll, decode), `series` (sphere-series, fft), `grid` (legendre,
+  sphere-grid), `land` (the rest: hash, world-schema, land-measure/-series,
+  pinned-row + `pinned/1.json`, sphere-contour, sphere-world). `fit-sphere.ts`
+  writes the row at its new path. `masd:clusters` green (0 of 119).
 
 ## Left
 
-1. The clusters call above.
+1. ~~The clusters call~~ — done above.
 2. `coast-field.ts` (all planar: `buildCoastField`, `sampleCoastField`,
    `signedDistanceField`, `CoastGrid`) moves to `scripts/lib/` — the fit
    (`fit-drawn.ts`, `sphere-fit.ts`) reads it; `SignedDistances` stays in the

@@ -1,13 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import {
-  decodeNormal,
-  decodeUniform,
-  encodeNormal,
-  encodeUniform,
-  inverseNormal,
-} from './decode';
+import { decodeNormal, decodeUniform, inverseNormal } from './decode';
 
 const LAST = 2 ** 32 - 1;
 
@@ -45,35 +39,14 @@ describe('inverseNormal', () => {
   });
 });
 
-describe('decodeUniform / encodeUniform', () => {
+describe('decodeUniform', () => {
   it('reads the middle of each slot', () => {
     assert.equal(decodeUniform(0, 0, 2 ** 32), 0.5);
     assert.equal(decodeUniform(LAST, -1, 1), 1 - 1 / 2 ** 32);
   });
-
-  it('round-trips value → word → value within half a quantum', () => {
-    const [lo, hi] = [0.16, 0.26];
-    const quantum = (hi - lo) / 2 ** 32;
-    for (let k = 0; k < 500; k += 1) {
-      const value = lo + ((k + 0.123) / 500) * (hi - lo);
-      const back = decodeUniform(encodeUniform(value, lo, hi), lo, hi);
-      assert.ok(Math.abs(back - value) <= quantum / 2 + 1e-18, `${value}`);
-    }
-    assert.equal(encodeUniform(-5, lo, hi), 0);
-    assert.equal(encodeUniform(5, lo, hi), LAST);
-  });
-
-  it('decodes its own encoding back to the same word', () => {
-    for (const word of SAMPLED) {
-      assert.equal(
-        encodeUniform(decodeUniform(word, 0, Math.PI), 0, Math.PI),
-        word,
-      );
-    }
-  });
 });
 
-describe('decodeNormal / encodeNormal', () => {
+describe('decodeNormal', () => {
   it('is antisymmetric about the middle word', () => {
     for (const word of SAMPLED) {
       assert.equal(decodeNormal(word), -decodeNormal(LAST - word));
@@ -94,25 +67,5 @@ describe('decodeNormal / encodeNormal', () => {
       }
     }
     assert.ok(decodeNormal(0) < -6.3 && decodeNormal(LAST) > 6.3);
-  });
-
-  it('round-trips value → word → value within half the local quantum', () => {
-    for (let k = 0; k <= 400; k += 1) {
-      const value = -6 + (12 * k) / 400 + 1e-7;
-      const word = encodeNormal(value);
-      const back = decodeNormal(word);
-      const below = word > 0 ? back - decodeNormal(word - 1) : Infinity;
-      const above = word < LAST ? decodeNormal(word + 1) - back : Infinity;
-      assert.ok(
-        Math.abs(back - value) <= Math.max(below, above) / 2,
-        `${value} → ${back}`,
-      );
-    }
-  });
-
-  it('decodes its own encoding back to the same word', () => {
-    for (const word of SAMPLED) {
-      assert.equal(encodeNormal(decodeNormal(word)), word);
-    }
   });
 });

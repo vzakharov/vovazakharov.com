@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { ringGrid } from '../../grid';
 import { landmasses, landShare } from './land-measure';
-import { ringGrid } from './sphere-grid';
 
 const grid = ringGrid(63);
 

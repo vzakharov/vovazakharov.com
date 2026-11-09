@@ -1,4 +1,4 @@
-import { cellArea, type RingGrid } from './sphere-grid';
+import { cellArea, type RingGrid } from '../../grid';
 
 /** The share of the sphere's area where `field > 0`. */
 export function landShare(grid: RingGrid, field: Float64Array): number {

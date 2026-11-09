@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { type Complex, fft, fft2, ifft, ifft2 } from './fft';
+import { type Complex, fft, ifft } from './fft';
 
 const value = (j: number, s: number) =>
   Math.sin(j * 12.9898 + s * 78.233) * 3.5;
@@ -69,31 +69,5 @@ describe('fft', () => {
     assert.throws(() => {
       fft(signal(12, 0));
     });
-  });
-});
-
-describe('fft2', () => {
-  it('matches the naive 2D DFT on 8 × 8', () => {
-    const n = 8;
-    const x = signal(n * n, 5);
-    const expected = naive(x, -1, (a, b) => {
-      const [x0, y0, kx, ky] = [
-        a % n,
-        Math.floor(a / n),
-        b % n,
-        Math.floor(b / n),
-      ];
-      return (kx * x0 + ky * y0) / n;
-    });
-    fft2(x, n);
-    assertClose(x, expected, 1e-9);
-  });
-
-  it('inverts: ifft2(fft2(x)) is x on 64 × 64', () => {
-    const x = signal(64 * 64, 9);
-    const y = copy(x);
-    fft2(y, 64);
-    ifft2(y, 64);
-    assertClose(y, x, 1e-12);
   });
 });
