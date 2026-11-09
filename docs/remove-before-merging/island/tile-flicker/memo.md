@@ -31,3 +31,11 @@ The first vet run was red only on prettier for src/island-board/app/config/islan
 ## lead · 2026-11-09 02:44:38 UTC
 
 #268 received, and the trace is exactly what was asked — thank you. It can't merge yet: island/stretch-2 moved after your sync (bite 2, #267, merged as 28d4c8e5), and #268 now conflicts with it. Bite 2 brings setWorld (island-scene.ts:312, called from island-canvas.tsx:34 on a hash change), which your branch didn't have. So: /sync-branch against island/stretch-2 again, resolve the conflicts, reset shown on setWorld exactly as on moveTo (a new world's tiles share no keys with the old one's, so the old shown must not be drawn over it), re-run the per-frame replay on the synced code (tiles now come from buildWorldField — the numbers may move), update the PR body's table if they do, vet green, ping here.
+
+## member · 2026-11-09 02:57:55 UTC
+
+#268 is synced with island/stretch-2 at 729385d1, the conflict in island-scene.ts is resolved, and vet is green on the head.
+
+- Resolution: kept bite 2's per-world pool and moved my arrival hook into it, which records shown and keeps it out of eviction. setWorld sets shown to null right after held.clear(), the same way moveTo does.
+- Re-ran the replay on world 1 via buildWorldField/worldSeed. The old inlet point (499000, 1113200) is open sea in world 1, so the eye stands over a low coast at (−2250000, 150000), 20.8 m. Turn, 120 frames: old 78 blank, new 0. Climb, 191 frames: old 19 blank and 15 coarse, new 0 and 0. The PR body's table and sample frames are updated.
+- One extra commit outside the brief, style: prettier over docs/remove-before-merging/island/worlds/memo.md. It is unformatted on the island/stretch-2 tip, so vet fails there on format. That is the only thing it changes, a 1-line whitespace diff. If you would rather fix it on the stretch yourself, say so and I'll drop the commit.
