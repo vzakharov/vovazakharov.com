@@ -11,8 +11,9 @@ import {
 import type { CanDispose } from '@/kernel/shared/typings';
 
 import {
+  type CubeCell,
   dot,
-  type GridCell,
+  FACES,
   length,
   R,
   sub,
@@ -20,24 +21,28 @@ import {
   type Vec3,
 } from '@/island/shared/globe';
 import {
-  type CoastField,
+  type CoastDistance,
+  CUBE_MIN_LEVEL,
+  cubeTileId,
   frustumOf,
-  heightAt,
-  MIN_LEVEL,
-  selectTiles,
-  tileId,
+  heightAtSphere,
+  sampleSphereField,
+  selectCubeTiles,
+  type SphereField,
 } from '@/island/entities/terrain';
 import {
   bindEyeControls,
-  type Eye,
-  eyeAt,
-  type GroundAt,
-  IDLE,
+  type GlobeEye as Eye,
+  globeEyeAt as eyeAt,
+  type GlobeGroundAt as GroundAt,
+  globePoseOf as poseOf,
+  headingOf,
   MAX_HEIGHT,
-  poseOf,
-  step,
-  withHeading,
-  withHeight,
+  openingOf,
+  stepOnGlobe as step,
+  STILL,
+  withGlobeHeading as withHeading,
+  withGlobeHeight as withHeight,
 } from '@/island/features/eye';
 
 import { skyColour } from '../lib/sky-colour';
@@ -53,8 +58,8 @@ export type IslandScene = CanDispose & {
   readonly frame: (dt: number) => void;
   /** Puts the eye `m` metres up; resolves once every tile it then selects is drawn. */
   readonly setHeight: (m: number) => Promise<void>;
-  /** Puts the eye `m` metres over plane point `(x, y)`, resolving as `setHeight` does. */
-  readonly moveTo: (x: number, y: number, m: number) => Promise<void>;
+  /** Puts the eye `m` metres over latitude `lat`, longitude `lon` (degrees, east positive), its heading kept, resolving as `setHeight` does. */
+  readonly moveTo: (lat: number, lon: number, m: number) => Promise<void>;
   /** Turns the eye to `heading`, resolving as `setHeight` does. */
   readonly turnTo: (heading: number) => Promise<void>;
   /** `'webgpu'` or `'webgl2'`, once ready. */
@@ -74,10 +79,17 @@ const FAR = 4 * (R + MAX_HEIGHT);
 /** Ground before the field arrives; nothing reads it before then. */
 const SEA_LEVEL: GroundAt = () => 0;
 
+const coastOf =
+  (field: SphereField): CoastDistance =>
+  (p) =>
+    sampleSphereField(field, p);
+
 const groundOf =
-  (field: CoastField, seed: number): GroundAt =>
-  (x, y) =>
-    heightAt(field, seed, x, y);
+  (coast: CoastDistance, seed: number): GroundAt =>
+  (p) =>
+    heightAtSphere(coast, seed, p);
+
+const DEGREE = Math.PI / 180;
 
 /**
  * The globe outside the tiles, and under them before they load: a sphere
@@ -93,12 +105,15 @@ const RESELECT_SHARE = 0.02;
  */
 const RESELECT_TURN = Math.cos(0.05);
 
-/** Every root tile: always held, so a missing tile always has an ancestor to stand in. */
-const ROOTS: GridCell[] = Array.from({ length: 4 ** MIN_LEVEL }, (_, i) => ({
-  level: MIN_LEVEL,
-  x: i % 2 ** MIN_LEVEL,
-  y: Math.floor(i / 2 ** MIN_LEVEL),
-}));
+/** Every root tile, on every face: always held, so a missing tile always has an ancestor to stand in. */
+const ROOTS: CubeCell[] = FACES.flatMap((face) =>
+  Array.from({ length: 4 ** CUBE_MIN_LEVEL }, (_, i) => ({
+    face,
+    level: CUBE_MIN_LEVEL,
+    x: i % 2 ** CUBE_MIN_LEVEL,
+    y: Math.floor(i / 2 ** CUBE_MIN_LEVEL),
+  })),
+);
 
 type MountIslandSceneParams = {
   /** The world number the scene opens on. */
@@ -139,16 +154,16 @@ export function mountIslandScene(
   let eye: Eye | null = null;
   let groundAt = SEA_LEVEL;
   /** The coast the selection refines along, once the field arrives. */
-  let coast: CoastField | undefined;
+  let coast: CoastDistance | undefined;
   let selection: {
     at: Vec3;
     scale: number;
     forward: Vec3;
     aspect: number;
-    keys: GridCell[];
+    keys: CubeCell[];
   } | null = null;
   /** The last selection wholly in hand, drawn while a newer one loads. */
-  let shown: GridCell[] | null = null;
+  let shown: CubeCell[] | null = null;
   const waiting: Array<{ resolve: () => void; reject: (e: Error) => void }> =
     [];
   let failure: Error | null = null;
@@ -179,7 +194,7 @@ export function mountIslandScene(
         held.add(tile);
         const keys = selected();
         held.evict(
-          new Set([...keys, ...(shown ?? [])].map((key) => tileId(key))),
+          new Set([...keys, ...(shown ?? [])].map((key) => cubeTileId(key))),
         );
         showIfComplete(keys);
         settle();
@@ -191,8 +206,8 @@ export function mountIslandScene(
     started.field.then(
       ({ field, seed }) => {
         if (!current()) return;
-        groundAt = groundOf(field, seed);
-        coast = field;
+        coast = coastOf(field);
+        groundAt = groundOf(coast, seed);
         selection = null;
         landed.resolve();
       },
@@ -209,7 +224,7 @@ export function mountIslandScene(
    * The tiles the eye selects now, reselected once it has moved enough or
    * the view has turned toward the edge of the frustum's margin.
    */
-  function selected(): GridCell[] {
+  function selected(): CubeCell[] {
     if (eye === null) return [];
     const { aspect } = camera;
     const { position: at, forward, up, fov } = poseOf(eye, aspect);
@@ -222,7 +237,7 @@ export function mountIslandScene(
     ) {
       return selection.keys;
     }
-    const keys = selectTiles(at, {
+    const keys = selectCubeTiles(at, {
       coast,
       frustum: frustumOf(forward, up, fov, aspect),
       ground: groundAt,
@@ -230,7 +245,7 @@ export function mountIslandScene(
     selection = { at, scale: eye.height, forward, aspect, keys };
     // The selection repeats roots when it reaches up to them.
     const wanted = new Map(
-      [...ROOTS, ...keys].map((key) => [tileId(key), key] as const),
+      [...ROOTS, ...keys].map((key) => [cubeTileId(key), key] as const),
     );
     const missing = [...wanted].flatMap(([id, key]) =>
       held.has(id) ? [] : [key],
@@ -239,11 +254,11 @@ export function mountIslandScene(
     return keys;
   }
 
-  function complete(keys: readonly GridCell[]): boolean {
-    return keys.every((key) => held.has(tileId(key)));
+  function complete(keys: readonly CubeCell[]): boolean {
+    return keys.every((key) => held.has(cubeTileId(key)));
   }
 
-  function showIfComplete(keys: GridCell[]): void {
+  function showIfComplete(keys: CubeCell[]): void {
     if (keys.length > 0 && complete(keys)) shown = keys;
   }
 
@@ -287,7 +302,7 @@ export function mountIslandScene(
 
   const frame = (dt: number) => {
     if (eye === null) return;
-    eye = step(eye, play ? IDLE : controls.read(), dt, groundAt);
+    eye = step(eye, play ? STILL : controls.read(), dt, groundAt);
     render();
   };
 
@@ -303,7 +318,7 @@ export function mountIslandScene(
   const ready = (async () => {
     await Promise.all([landed.promise, renderer.init()]);
     if (!live()) return;
-    eye = eyeAt({ x: 0, y: 0, height: MAX_HEIGHT }, groundAt);
+    eye = eyeAt(openingOf(Number(world)), groundAt);
     resize();
     render();
     if (!play) {
@@ -329,11 +344,19 @@ export function mountIslandScene(
     ready,
     frame,
     setHeight: async (m) => placed((from) => withHeight(from, m)),
-    moveTo: async (x, y, m) => {
+    moveTo: async (lat, lon, m) => {
       // Tiles shown elsewhere say nothing of the ground under the new eye.
       shown = null;
-      return placed(({ heading }) =>
-        eyeAt({ x, y, height: m, heading }, groundAt),
+      return placed((from) =>
+        eyeAt(
+          {
+            lat: lat * DEGREE,
+            lon: lon * DEGREE,
+            height: m,
+            heading: headingOf(from),
+          },
+          groundAt,
+        ),
       );
     },
     turnTo: async (heading) => placed((from) => withHeading(from, heading)),
