@@ -13,106 +13,100 @@ const parentOf = ({ face, level, x, y }: CubeCell): CubeCell | null =>
     ? null
     : { face, level: level - 1, x: Math.floor(x / 2), y: Math.floor(y / 2) };
 
-/** `key`'s parent, its parent's, and so on to its root, nearest first. */
-function ancestorsOf(key: CubeCell): CubeCell[] {
-  const up = parentOf(key);
-  return up === null ? [] : [up, ...ancestorsOf(up)];
-}
+/** The four tiles one level finer inside `key`. */
+const childrenOf = ({ face, level, x, y }: CubeCell): CubeCell[] =>
+  [0, 1, 2, 3].map((i) => ({
+    face,
+    level: level + 1,
+    x: 2 * x + (i % 2),
+    y: 2 * y + Math.floor(i / 2),
+  }));
 
-/** Whether `inner` lies inside `outer`, `outer` itself included. */
-const within = (inner: CubeCell, outer: CubeCell) =>
-  inner.face === outer.face &&
-  inner.level >= outer.level &&
-  Math.floor(inner.x / 2 ** (inner.level - outer.level)) === outer.x &&
-  Math.floor(inner.y / 2 ** (inner.level - outer.level)) === outer.y;
+/** The finer tiles inside a drawn tile that other pieces of the cover draw. */
+export type Cut = { readonly except: readonly CubeCell[] };
 
-/**
- * `coverOf`'s cover, its stand-ins taken only finer than level `above`, and
- * whether every selected tile is drawn or stood in for.
- */
-function standInCover(
-  selected: readonly CubeCell[],
-  has: (id: string) => boolean,
-  above = CUBE_MIN_LEVEL - 1,
-): { readonly cover: CubeCell[]; readonly whole: boolean } {
-  const standIns = new Map<string, CubeCell>();
-  let whole = true;
-  for (const key of selected) {
-    if (has(cubeTileId(key))) continue;
-    const standIn = ancestorsOf(key).find(
-      (up) => up.level > above && has(cubeTileId(up)),
-    );
-    if (standIn === undefined) whole = false;
-    else standIns.set(cubeTileId(standIn), standIn);
-  }
-  // A stand-in inside another is drawn by the outer one.
-  const outer = [...standIns.values()].filter(
-    (key) =>
-      ![...standIns.values()].some(
-        (other) => other !== key && within(key, other),
-      ),
-  );
-  const own = selected.filter(
-    (key) =>
-      has(cubeTileId(key)) && !outer.some((standIn) => within(key, standIn)),
-  );
-  return { cover: [...outer, ...own], whole };
-}
+/** A tile drawn whole, or all of it but its `except`. */
+export type CoverPiece = TileKeyed<CubeCell> & Cut;
+
+/** A subtree's pieces, the outermost tiles they fill, and whether they fill all it needs. */
+type Subcover = {
+  readonly pieces: CoverPiece[];
+  readonly outer: CubeCell[];
+  readonly covered: boolean;
+};
+
+const NOTHING: Subcover = { pieces: [], outer: [], covered: false };
+const whole = (key: CubeCell): Subcover => ({
+  pieces: [{ key, except: [] }],
+  outer: [key],
+  covered: true,
+});
 
 /**
- * The tiles to draw for a selection while some of it is still loading. A
- * selected tile in hand draws itself; one not yet in hand is covered by its
- * nearest ancestor in hand, which then also stands in for every selected
- * tile under it, so no two drawn tiles overlap. A selected tile with no
- * ancestor in hand is left out.
- */
-export const coverOf = (
-  selected: readonly CubeCell[],
-  has: (id: string) => boolean,
-): CubeCell[] => standInCover(selected, has).cover;
-
-/**
- * The tiles to draw for `selected` while `shown`, the last selection wholly
- * in hand, still stands, each overlap settled on its own:
+ * The finest cover of `selected` that the tiles in hand allow, no two pieces
+ * overlapping, over the tree of the selected and `shown` tiles (the last
+ * selection wholly in hand) and their ancestors. Each region draws:
  *
- * - a shown tile gives way to the selected tiles inside it once every one of
- *   them is in hand or stood in for by a held tile finer than it, so the view
- *   refines while the selection loads, never back to a coarser tile;
- * - a selected tile holding shown tiles draws once in hand, the shown ones
- *   until then;
- * - a selected tile beyond every shown one is covered as `coverOf` covers, by
- *   any stand-in but one containing a shown tile, which would hide the finer
- *   ground under the eye.
+ * - a selected tile in hand, or a shown one nothing selected lies inside, as
+ *   itself;
+ * - else its children's covers, when each covers all its children need;
+ * - else, when held, itself but for what its children's covers draw, so finer
+ *   tiles in hand show the moment they land and the rest is stood in for;
+ * - else its children's covers, left for an ancestor to complete.
+ *
+ * The root tiles are always in hand, so no part of the selection is left
+ * undrawn. A selected tile's region needs all of it: children outside the
+ * tree count when held, and a shown tile inside one draws until it arrives.
  */
-export function coverAround(
+export function finestCover(
   selected: readonly CubeCell[],
   shown: readonly CubeCell[],
   has: (id: string) => boolean,
-): CubeCell[] {
+): CoverPiece[] {
+  const selectedIds = new Set(selected.map((key) => cubeTileId(key)));
   const shownIds = new Set(shown.map((key) => cubeTileId(key)));
-  // Each shown tile and every tile containing one.
-  const blocked = new Set(shownIds);
-  for (const key of shown) {
-    for (const up of ancestorsOf(key)) blocked.add(cubeTileId(up));
+  const children = new Map<string, Map<string, CubeCell>>();
+  const tops = new Map<string, CubeCell>();
+  for (const key of [...selected, ...shown]) {
+    let at = key;
+    let up = parentOf(at);
+    while (up !== null) {
+      const known = children.get(cubeTileId(up)) ?? new Map<string, CubeCell>();
+      if (known.has(cubeTileId(at))) break;
+      children.set(cubeTileId(up), known.set(cubeTileId(at), at));
+      at = up;
+      up = parentOf(at);
+    }
+    if (up === null) tops.set(cubeTileId(at), at);
   }
-  const drawn: CubeCell[] = [];
-  for (const key of selected) {
-    if (!blocked.has(cubeTileId(key))) continue;
-    const inside = shown.filter((s) => within(s, key));
-    drawn.push(...(has(cubeTileId(key)) ? [key] : inside));
+
+  function coverOf(key: CubeCell, full: boolean): Subcover {
+    const id = cubeTileId(key);
+    const own = has(id);
+    const kept = children.get(id);
+    if (own && (selectedIds.has(id) || (shownIds.has(id) && !kept))) {
+      return whole(key);
+    }
+    const needsAll = full || selectedIds.has(id);
+    const kids = needsAll
+      ? childrenOf(key).map((child) => {
+          const known = kept?.get(cubeTileId(child));
+          if (known !== undefined) return coverOf(known, true);
+          return has(cubeTileId(child)) ? whole(child) : NOTHING;
+        })
+      : [...(kept?.values() ?? [])].map((child) => coverOf(child, false));
+    const pieces = kids.flatMap((kid) => kid.pieces);
+    const outer = kids.flatMap((kid) => kid.outer);
+    const covered = kids.length > 0 && kids.every((kid) => kid.covered);
+    if (covered || !own) return { pieces, outer, covered };
+    return {
+      pieces: [...pieces, { key, except: outer }],
+      outer: [key],
+      covered: true,
+    };
   }
-  for (const tile of shown) {
-    if (selected.some((key) => within(tile, key))) continue;
-    const finer = selected.filter((key) => within(key, tile));
-    const { cover, whole } = standInCover(finer, has, tile.level);
-    drawn.push(...(finer.length > 0 && whole ? cover : [tile]));
-  }
-  const beyond = selected.filter(
-    (key) =>
-      !blocked.has(cubeTileId(key)) &&
-      !ancestorsOf(key).some((up) => shownIds.has(cubeTileId(up))),
-  );
-  return [...drawn, ...coverOf(beyond, (id) => has(id) && !blocked.has(id))];
+
+  return [...tops.values()].flatMap((top) => coverOf(top, false).pieces);
 }
 
 /** Radians from direction `eye` (any length) to the nearest point of the tile. */
