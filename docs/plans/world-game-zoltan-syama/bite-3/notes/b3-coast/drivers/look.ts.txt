@@ -1,0 +1,62 @@
+// Throwaway: frames over Italy on #0 for one export (DIR), each opened fresh at 20,000 km over the
+// pose and dropped to its height, timing `setHeight` (resolves once every selected tile is drawn),
+// then lit at #0's afternoon over the pose's meridian and shot settled at 1440×900.
+// `DIR=tmp/b3-coast/out-cf2 TAG=cf2 SHOTS='name:lat,lon,h,heading,look;…' pnpm exec tsx tmp/b3-coast/look.ts`
+import fs from 'node:fs';
+import path from 'node:path';
+import { z } from 'zod';
+
+import { openingOf } from '@/island/features/eye';
+import { call, hook, settle, shoot } from '@/island/scripts/lib/play-tab';
+import { withPrintOrigin } from '@/kernel/scripts/lib/print-origin';
+import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
+import { launch, openTab } from '@/scene/scripts/lib/cdp';
+import { watchPageErrors } from '@/scene/scripts/lib/page-errors';
+
+const dir = path.resolve(REPO_ROOT, process.env.DIR ?? 'tmp/b3-coast/out-cf2');
+const tag = process.env.TAG ?? 'cf2';
+const OUT = path.join(REPO_ROOT, 'tmp/b3-coast/frames');
+fs.mkdirSync(OUT, { recursive: true });
+const shots = (process.env.SHOTS ?? 'h13km:41,14,13000,300,0').split(';').map((s) => {
+  const [name, rest] = s.split(':') as [string, string];
+  const [lat, lon, h, heading, look] = rest.split(',').map(Number) as [number, number, number, number, number];
+  return { name, lat, lon, h, heading, look };
+});
+const errors: string[] = [];
+const until = async (tab: Awaited<ReturnType<typeof openTab>>, expr: string) => {
+  for (let i = 0; i < 120; i++) {
+    if (await tab.evaluate(`(() => { try { return Boolean(${expr}); } catch { return false; } })()`, z.boolean())) return;
+    await new Promise((r) => setTimeout(r, 250));
+  }
+  throw new Error(`timeout ${expr}`);
+};
+
+const browser = await launch();
+try {
+  await withPrintOrigin({ serve: 'export', dir }, async (origin) => {
+    for (const s of shots) {
+      const hours = (((openingOf(0).lon * 180) / Math.PI - s.lon) / 15 + 24) % 24;
+      const route = `/island?play#0@${String(s.lat)},${String(s.lon)},20000000,${String(s.heading)},${String(s.look)},${hours.toFixed(3)}`;
+      const tab = await openTab(browser, (m) => errors.push(`${s.name}: ${m}`));
+      await watchPageErrors(tab, (m) => errors.push(`${s.name}: ${m}`));
+      await tab.send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
+      await tab.send('Page.navigate', { url: `${origin}${route}` });
+      await until(tab, `document.readyState === 'complete'`);
+      await until(tab, `typeof ${hook}?.ready === 'function'`);
+      await settle(tab, call('ready'), 'ready()');
+      await settle(tab, call('setHeight', 20_000_000), 'orbit');
+      const t0 = Date.now();
+      await settle(tab, call('setHeight', s.h), `setHeight ${String(s.h)}`);
+      const ms = Date.now() - t0;
+      await tab.evaluate(`${call('setTime', hours)}, true`, z.boolean());
+      const file = path.join(OUT, `${tag}-${s.name}.png`);
+      await shoot(tab, 3, file);
+      const tiles = await tab.evaluate(`(document.body.innerText.match(/tiles[^\\n]*/) ?? [''])[0]`, z.string());
+      process.stdout.write(`${tag}\t${s.name}\tsettle ${String(ms)} ms\thours ${hours.toFixed(2)}\t${tiles}\t${file}\n`);
+      await tab.send('Page.close', {}).catch(() => undefined);
+    }
+  });
+} finally {
+  await browser.close();
+  for (const e of errors) process.stderr.write(`ERR ${e}\n`);
+}
