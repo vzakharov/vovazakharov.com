@@ -108,12 +108,15 @@ calls.
   pinned row #1), each with its note. `tsc` is clean on the merge.
 - **Red on the merge**: `pnpm type-overlap` — `distance` in `CoastField` and
   B2's `SignedDistances` (fix: `CoastField = CoastGrid & SignedDistances`),
-  `distance` in B2's `BuildTimes` against scene's `Distant`, `seed`, and the
-  `ring` pair B6's tail is fixing. B2's frame (`notes/b3-b2-field.png`) is not
-  drawn. One small agent takes both, after B6's tail lands.
-- **Running at the relay**: B6's tail (`wt/b3-b6t`: lint and type-overlap on
-  B6's files, #1's frame). Merge it from its branch and note; if dead, relaunch
-  from `notes/b3-b6.md` § "Left".
+  `distance` in B2's `BuildTimes` against scene's `Distant`, and `seed` in B2's
+  `SphereWorld` against kernel's `Seeded`; knip on the world barrel's exports
+  nothing reads yet (`notes/b3-b6.md` § "Tail" lists them — B7 reads most). B2's
+  frame (`notes/b3-b2-field.png`) is not drawn. One small agent takes the three
+  pairs and the frame.
+- **B6's tail landed**: B6's files pass every gate; `notes/b3-b6-world1.png`
+  shows #1 as the same island at ~10° N on the +X meridian (30 of 6,667 land
+  nodes disagree with the drawn rings, all on the coast).
+- **Nothing runs at the relay.**
 - **Next**: S7 (call 13's look) ∥ B4 (height and fill on the sphere, needs B3's
   key); then B7 (the switch, with S4's light and S7 if not done), B8 (retire the
   plane, film the seams), step C (Earth), the tail. The memo with the lead is
