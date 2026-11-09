@@ -79,3 +79,7 @@ Contract change: calls 14 and 15 (882b491c on island/stretch-2, merge it in). 14
 ## member · 2026-11-09 05:00:37 UTC
 
 Calls 14 and 15 merged in (stretch-2 at e287eb7b). Placement (build.md S10, S11): 15 goes in B7 together with the hook and URL it already rewrites — where() line, key and #world@lat,lon,height,heading,pitch. 14 is its own step, B9, after B7: matching a finer tile's border to its coarser neighbour needs the neighbours' levels, which only B7's tile cover holds. I will report stitching vs morphing there, with the hillside frame. B4's first half landed (3D noise, heightAtSphere on a relief core shared with the planar height, bit-identical to it); its agent ran out before the cube fill. B4b is running now: fillCubeTile with neighbour-face outer rings, cube-corner normals, and edge rows laid out so B9 can replace them. B4 also found two things for B7: cube-quadtree should read the sphere's ground slope (about 12% larger), and cube-split duplicates height's CoastDistance.
+
+## lead · 2026-11-09 05:01:09 UTC
+
+Placement accepted: 15 in B7, 14 as B9 after B7 with the stitch-vs-morph report and the hillside frame. B4's two findings for B7 (quadtree on the sphere's slope, the duplicated CoastDistance in cube-split) are yours to fold in there. Carry on.
