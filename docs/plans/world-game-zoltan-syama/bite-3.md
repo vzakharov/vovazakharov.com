@@ -220,6 +220,30 @@ same holds across a cube face's edge (call 7).
   so the link round-trips exactly, and the line labels it as such. A bare
   `#<world>` opens as call 10 says. The key hint lists the key.
 
+17\. **Look hints.** Vova: «как только вид на горизонт заполнял бы по краям
+половину вертикали, показывается подсказка "Press ↑ to look up". … Полное
+переключение на горизонт -- можно оставить как есть, при этом подсказка "Press ↓
+to look down"».
+
+- **"Press ↑ to look up"** shows once the horizon at the frame's side edges sits
+  at or below the middle of the frame, which happens when the pitch below the
+  horizontal falls to `p* = asin(sin δ / cos(φ/2))`, where
+  `δ = acos(R / (R + h))` is the horizon's dip at height `h` and `φ` the
+  horizontal field of view: the ray through a side edge at mid-height then
+  grazes the horizon.
+- **"Press ↓ to look down"** shows once the pitch the height gives reaches its
+  floor, the eye fully on the horizon. Neither shows while the player has
+  already moved the look with ↑/↓.
+
+18\. **Diagnostics on screen.** Vova: «какую-то кнопку для вывода
+диагностических данных на экран, чтобы даже по простому скриншоту (или просто
+мне при игре) можно было бы понять, что где и как».
+
+- **A key toggles a panel** over the view with what the where-line copies —
+  build, world, latitude and longitude, height, heading, pitch, time of day,
+  tile levels under the eye — and the frame time, so a screenshot alone says
+  where it was taken. The key is the member's call; the key hint lists it.
+
 11\. **Order of work**: the schema and the series, then the cube tiles and the
 eye with #1 re-fitted, then Earth with its envelope measured for call 4. Each
 step reaches a frame before the next one starts.
