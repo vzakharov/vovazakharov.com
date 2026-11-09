@@ -114,6 +114,17 @@ calls.
   shows #1 as the same island at ~10° N on the +X meridian (30 of 6,667 land
   nodes disagree with the drawn rings, all on the coast).
 - **Nothing runs at the relay.**
+- **S10. Call 14 (no seam between levels)** is its own step, B9, after B7: the
+  fix needs the scene's levels of the neighbours, which B7's tile cover holds.
+  B4b's fill leaves room for it (the edge rows written so a coarser neighbour's
+  heights can replace them) and does not build it.
+- **S11. Call 15 (where am I)** goes in B7, with the hook and the URL it already
+  rewrites for `moveTo` and `#0`.
+- **B4 half landed** (`notes/b3-b4.md`): `valueNoise3`, `heightAtSphere` on a
+  relief core shared with the planar `heightAt`, bit-identical to it.
+  `fillCubeTile` is B4b. For B7: `cube-quadtree.ts` should read
+  `SPHERE_GROUND_SLOPE`, and `cube-split.ts` should import height's
+  `CoastDistance`.
 - **S7 landed** (`notes/b3-s7.md`): ↑/↓ look, clamped between straight down and
   5° above the sea's horizon; E/Q climb; a two-finger vertical drag looks on
   touch. Until B7 the planar game's ↑/↓ do nothing and its hint still says they
