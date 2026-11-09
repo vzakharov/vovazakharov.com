@@ -1,29 +1,29 @@
 {
   "total": {
-    "inputTokens": 12686,
-    "cacheWrite5mTokens": 5742,
-    "cacheWrite1hTokens": 249697,
-    "cacheReadTokens": 44716369,
-    "outputTokens": 55311,
-    "thinkingTokens": 7014,
-    "responses": 207,
-    "costUsd": 12.136655699999997
+    "inputTokens": 13212,
+    "cacheWrite5mTokens": 6222,
+    "cacheWrite1hTokens": 262803,
+    "cacheReadTokens": 48539238,
+    "outputTokens": 61891,
+    "thinkingTokens": 7254,
+    "responses": 219,
+    "costUsd": 13.1436215
   },
   "estimate": {
-    "at": "2026-11-09T06:57:30.286Z",
+    "at": "2026-11-09T11:49:57.466Z",
     "subjectLine": "docs: lead bite 3 of the island's second stretch past relay 8",
     "parts": [
       {
-        "hours": 1.5,
+        "hours": 2.5,
         "grade": "senior",
         "role": "producer",
-        "comment": "leading a game team's bite: briefing the member, settling calls with Vova, merging and tracking the member's branch"
+        "comment": "a game team's lead over a long bite: settling calls 8, 17, 18 and the lowland floor with Vova, briefing three successive member sessions, merging and tracking their branches"
       },
       {
-        "hours": 0.5,
+        "hours": 1.0,
         "grade": "middle",
         "role": "developer",
-        "comment": "board republish and timelapse frame plumbing is routine scripted work"
+        "comment": "board republishes, preview dispatches and timelapse uploads are routine scripted work"
       }
     ],
     "comment": null
@@ -46,7 +46,7 @@
   },
   "sessionId": "644ce436-997a-52d4-8750-db02c795fb14",
   "branch": "island/stretch-2",
-  "cwd": "/home/user/vovazakharov.com/tmp/vova-video",
+  "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take island/stretch-2 — бит 3 дошёл до B7d, пункт 17 ждёт прочтения Вовы, кадры полдня и полуночи ждут доски",
   "prs": [
     266
@@ -54,18 +54,18 @@
   "url": "https://claude.ai/code/session_01DaohkEMN9qX6y62bdhQZY3",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-09T06:57:06.830Z",
-  "lastResponseAt": "2026-11-09T11:48:04.822Z",
+  "lastResponseAt": "2026-11-09T11:51:00.585Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 361,
+    "inputTokens": 381,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 249697,
-    "cacheReadTokens": 39542593,
-    "outputTokens": 54940,
-    "thinkingTokens": 7014,
-    "responses": 185,
-    "costUsd": 11.006338599999998
+    "cacheWrite1hTokens": 262803,
+    "cacheReadTokens": 43051830,
+    "outputTokens": 61506,
+    "thinkingTokens": 7254,
+    "responses": 196,
+    "costUsd": 11.944434000000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -79,14 +79,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 10987,
-      "cacheWrite5mTokens": 5742,
-      "cacheWrite1hTokens": 249697,
-      "cacheReadTokens": 44716369,
-      "outputTokens": 55287,
-      "thinkingTokens": 7014,
-      "responses": 206,
-      "costUsd": 12.136473799999997
+      "inputTokens": 11513,
+      "cacheWrite5mTokens": 6222,
+      "cacheWrite1hTokens": 262803,
+      "cacheReadTokens": 48539238,
+      "outputTokens": 61867,
+      "thinkingTokens": 7254,
+      "responses": 218,
+      "costUsd": 13.1434396
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1699,
@@ -102,20 +102,20 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 207,
-    "matched": 185,
-    "matchedTableUsd": 11.006338599999998,
-    "matchedEventUsd": 11.006338599999996,
+    "events": 219,
+    "matched": 196,
+    "matchedTableUsd": 11.944434000000001,
+    "matchedEventUsd": 11.944434,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 10626,
-        "cacheWrite5mTokens": 5742,
+        "inputTokens": 11132,
+        "cacheWrite5mTokens": 6222,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 5173776,
-        "outputTokens": 347,
+        "cacheReadTokens": 5487408,
+        "outputTokens": 361,
         "thinkingTokens": 0,
-        "responses": 21,
-        "costUsd": 1.1301352
+        "responses": 22,
+        "costUsd": 1.1990056
       },
       "generate_session_title": {
         "inputTokens": 1699,
@@ -130,7 +130,7 @@
     }
   },
   "operatorWords": {
-    "chat": 809,
+    "chat": 836,
     "review": 0,
     "threads": 0
   },
@@ -138,7 +138,7 @@
   "threadPosts": {},
   "branchLines": {
     ".py": 980,
-    ".md": 10147,
+    ".md": 10263,
     ".json": -1391,
     ".txt": 31,
     ".ts": 623,
