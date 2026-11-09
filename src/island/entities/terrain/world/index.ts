@@ -2,6 +2,7 @@ export { type RingGrid } from './grid';
 export {
   assertWorldNumber,
   decodePinnedRow,
+  EARTH_ENVELOPE,
   encodePinnedRow,
   fieldGrids,
   fieldOf,
@@ -20,6 +21,7 @@ export {
 } from './land';
 export {
   analyze,
+  harmonicSlot,
   type SphereTransform,
   sphereTransform,
   synthesize,
