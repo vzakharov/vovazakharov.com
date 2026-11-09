@@ -3,6 +3,7 @@ import { describe, it } from 'node:test';
 
 import {
   CENTRE,
+  type CubeCell,
   dot,
   faceToSphere,
   planeToWorld,
@@ -17,7 +18,6 @@ import {
   capGap,
   CUBE_MAX_LEVEL,
   CUBE_MIN_LEVEL,
-  type CubeTileKey,
   cubeTileId,
   tileCap,
 } from '../../tile';
@@ -26,8 +26,8 @@ import {
   arc,
   assertCubeBalanced,
   assertCubeDisjoint,
-  DISC_RADIUS,
   disc,
+  DISC_RADIUS,
   eyeOver,
   holds,
   PLACES,
@@ -69,7 +69,7 @@ describe('selectCubeTiles', () => {
         tiles.filter((key) => key.level > 10).map((key) => key.face),
       );
       // The finest tiles lie on more than one face, so the balance crossed.
-      assert.ok(faces.size >= 2, [...faces].join());
+      assert.ok(faces.size >= 2, [...faces].join(','));
       assert.ok(assertCubeBalanced(tiles) > 0);
     });
   }
@@ -113,7 +113,7 @@ describe('selectCubeTiles', () => {
     assert.ok(tiles.length <= 700, `${tiles.length}`);
     assertCubeBalanced(tiles);
     assertCubeDisjoint(tiles);
-    const shore = (key: CubeTileKey) => {
+    const shore = (key: CubeCell) => {
       const radii = tileCap(key)
         .border.slice(0, 4)
         .map((p) => R * arc(p, CENTRE));
@@ -121,11 +121,11 @@ describe('selectCubeTiles', () => {
         Math.min(...radii) < DISC_RADIUS && Math.max(...radii) > DISC_RADIUS
       );
     };
-    const levels = (keys: CubeTileKey[]) =>
+    const levels = (keys: CubeCell[]) =>
       keys.filter((key) => shore(key)).map((key) => key.level);
     assert.ok(Math.min(...levels(tiles)) > Math.min(...levels(plain)));
     assert.ok(Math.max(...levels(tiles)) > Math.max(...levels(plain)));
-    const inland = (keys: CubeTileKey[]) =>
+    const inland = (keys: CubeCell[]) =>
       keys.filter((key) => {
         const cap = tileCap(key);
         return R * (arc(cap.centre, CENTRE) + cap.radius) < 0.4 * DISC_RADIUS;
@@ -142,10 +142,8 @@ describe('selectCubeTiles', () => {
     const frustum = frustumOf(forward, up, (50 * Math.PI) / 180, 16 / 9);
     const tiles = selectCubeTiles(eye, { frustum, ground: flat });
     /** The tile's northmost border point's plane `y`. */
-    const north = (key: CubeTileKey) =>
-      Math.max(
-        ...tileCap(key).border.map((p) => worldToPlane(scaled(p, R)).y),
-      );
+    const north = (key: CubeCell) =>
+      Math.max(...tileCap(key).border.map((p) => worldToPlane(scaled(p, R)).y));
     const at = (x: number, y: number) => unit(planeToWorld(x, y));
 
     it('drops the tiles behind the eye and keeps those ahead', () => {

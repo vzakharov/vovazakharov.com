@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
   CENTRE,
   cross,
+  type CubeCell,
   DIRECTIONS,
   dot,
   faceToSphere,
@@ -15,7 +16,7 @@ import {
   type Vec3,
 } from '@/island/shared/globe';
 
-import { type CubeTileKey, cubeTileId, tileHolds } from '../../tile';
+import {  cubeTileId, tileHolds } from '../../tile';
 import type { CoastDistance } from './cube-split';
 
 export const arc = (a: Vec3, b: Vec3) =>
@@ -40,10 +41,10 @@ export const PLACES: ReadonlyArray<readonly [string, Vec3]> = [
 ];
 
 /** Whether `key` holds direction `p`. */
-export const holds = (key: CubeTileKey, p: Vec3) =>
+export const holds = (key: CubeCell, p: Vec3) =>
   tileHolds(key, sphereToFace(p));
 
-const ancestors = ({ face, level, x, y }: CubeTileKey) =>
+const ancestors = ({ face, level, x, y }: CubeCell) =>
   Array.from({ length: level + 1 }, (_, shift) => ({
     face,
     level: level - shift,
@@ -56,7 +57,7 @@ const ancestors = ({ face, level, x, y }: CubeTileKey) =>
  * direction, across face edges too: at most one level apart. Returns how many
  * of those pairs straddle a face edge.
  */
-export function assertCubeBalanced(tiles: readonly CubeTileKey[]): number {
+export function assertCubeBalanced(tiles: readonly CubeCell[]): number {
   const ids = new Map(tiles.map((key) => [cubeTileId(key), key]));
   let across = 0;
   for (const key of tiles) {
@@ -76,7 +77,7 @@ export function assertCubeBalanced(tiles: readonly CubeTileKey[]): number {
 }
 
 /** No two tiles overlap: none is an ancestor of another. */
-export function assertCubeDisjoint(tiles: readonly CubeTileKey[]) {
+export function assertCubeDisjoint(tiles: readonly CubeCell[]) {
   const ids = new Set(tiles.map((key) => cubeTileId(key)));
   for (const key of tiles) {
     for (const above of ancestors(key).slice(1)) {

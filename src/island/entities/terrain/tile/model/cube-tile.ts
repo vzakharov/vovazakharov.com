@@ -1,6 +1,6 @@
 import {
-  type CubeCell,
   cross,
+  type CubeCell,
   dot,
   type FacePoint,
   faceToSphere,
@@ -9,12 +9,6 @@ import {
   type Vec3,
 } from '@/island/shared/globe';
 
-/**
- * A tile of the terrain quadtree over the cube laid on the sphere: cell
- * `(x, y)` of its face's `2^level` grid, so level 0 is a whole face.
- */
-export type CubeTileKey = CubeCell;
-
 /** The deepest level: 17 puts a 65-vertex grid's spacing at ≤ ~1.2 m. */
 export const CUBE_MAX_LEVEL = 17;
 
@@ -22,7 +16,7 @@ export const CUBE_MAX_LEVEL = 17;
 export const CUBE_MIN_LEVEL = 2;
 
 /** A stable string for a key, for maps and caches. */
-export const cubeTileId = ({ face, level, x, y }: CubeTileKey) =>
+export const cubeTileId = ({ face, level, x, y }: CubeCell) =>
   `${face}/${level}/${x}/${y}`;
 
 /**
@@ -36,7 +30,7 @@ export const faceLattice = (level: number, cells: number, k: number) =>
   (2 * k) / (2 ** level * cells) - 1;
 
 /** The tile's span of face coordinates, low to high along `u` and along `v`. */
-function faceSpan({ level, x, y }: CubeTileKey) {
+function faceSpan({ level, x, y }: CubeCell) {
   return {
     u: [faceLattice(level, 1, x), faceLattice(level, 1, x + 1)],
     v: [faceLattice(level, 1, y), faceLattice(level, 1, y + 1)],
@@ -44,7 +38,7 @@ function faceSpan({ level, x, y }: CubeTileKey) {
 }
 
 /** Whether the cube point lies in the tile, its edges included. */
-export function tileHolds(key: CubeTileKey, { face, u, v }: FacePoint) {
+export function tileHolds(key: CubeCell, { face, u, v }: FacePoint) {
   const {
     u: [west, east],
     v: [south, north],
@@ -70,7 +64,7 @@ export type TileCap = {
   readonly border: readonly Vec3[];
 };
 
-export function tileCap(key: CubeTileKey): TileCap {
+export function tileCap(key: CubeCell): TileCap {
   const {
     u: [west, east],
     v: [south, north],
@@ -115,7 +109,8 @@ const slope = (c: number) => Math.tan((Math.PI / 4) * c);
 /** The span's largest and smallest `|c|`, the smallest 0 where it holds 0. */
 function magnitudes([low, high]: readonly [number, number]) {
   const most = Math.max(Math.abs(low), Math.abs(high));
-  const least = low <= 0 && high >= 0 ? 0 : Math.min(Math.abs(low), Math.abs(high));
+  const least =
+    low <= 0 && high >= 0 ? 0 : Math.min(Math.abs(low), Math.abs(high));
   return { most, least };
 }
 
@@ -124,7 +119,7 @@ function magnitudes([low, high]: readonly [number, number]) {
  * side, so `cubeTileSide / cells` bounds every cell edge from above. Between
  * `2√2/3` (a face's corner) and 1 times the face-centre `R · π/4 · 2 / 2^level`.
  */
-export function cubeTileSide(key: CubeTileKey): number {
+export function cubeTileSide(key: CubeCell): number {
   const { u, v } = faceSpan(key);
   const across = magnitudes(u);
   const up = magnitudes(v);

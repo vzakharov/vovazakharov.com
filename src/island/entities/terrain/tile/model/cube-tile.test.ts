@@ -3,8 +3,9 @@ import { describe, it } from 'node:test';
 
 import {
   cross,
-  dot,
+  type CubeCell,
   type Direction,
+  dot,
   faceToSphere,
   length,
   neighbour,
@@ -15,7 +16,6 @@ import {
 import {
   capGap,
   CUBE_MAX_LEVEL,
-  type CubeTileKey,
   cubeTileSide,
   faceLattice,
   tileCap,
@@ -26,7 +26,7 @@ const CELLS = TILE_GRID - 1;
 const arc = (a: Vec3, b: Vec3) => Math.atan2(length(cross(a, b)), dot(a, b));
 
 /** The tile's lattice point `(i, j)`, each in `0..CELLS`. */
-const vertex = (key: CubeTileKey, i: number, j: number) =>
+const vertex = (key: CubeCell, i: number, j: number) =>
   faceToSphere(
     key.face,
     faceLattice(key.level, CELLS, key.x * CELLS + i),
@@ -34,25 +34,20 @@ const vertex = (key: CubeTileKey, i: number, j: number) =>
   );
 
 /** The tile's lattice points along the edge `direction` leads through, in order. */
-function edgeVertices(key: CubeTileKey, direction: Direction): Vec3[] {
-  return Array.from({ length: TILE_GRID }, (_, k) => {
-    switch (direction) {
-      case 'right':
-        return vertex(key, CELLS, k);
-      case 'left':
-        return vertex(key, 0, k);
-      case 'up':
-        return vertex(key, k, CELLS);
-      case 'down':
-        return vertex(key, k, 0);
-    }
-  });
+function edgeVertices(key: CubeCell, direction: Direction): Vec3[] {
+  const at: Record<Direction, (k: number) => Vec3> = {
+    right: (k) => vertex(key, CELLS, k),
+    left: (k) => vertex(key, 0, k),
+    up: (k) => vertex(key, k, CELLS),
+    down: (k) => vertex(key, k, 0),
+  };
+  return Array.from({ length: TILE_GRID }, (_, k) => at[direction](k));
 }
 
 const sameBits = (a: Vec3, b: Vec3) => a.every((c, i) => Object.is(c, b[i]));
 
 const last = 2 ** CUBE_MAX_LEVEL - 1;
-const SAMPLES: CubeTileKey[] = [
+const SAMPLES: CubeCell[] = [
   { face: 'px', level: 2, x: 0, y: 0 },
   { face: 'py', level: 2, x: 1, y: 2 },
   { face: 'nz', level: 5, x: 31, y: 7 },
@@ -81,7 +76,10 @@ describe('faceLattice', () => {
         const aligned = sameBits(mine[0] ?? [0, 0, 0], theirs[0] ?? [1, 1, 1]);
         const ordered = aligned ? theirs : theirs.toReversed();
         for (const [k, p] of mine.entries()) {
-          assert.ok(sameBits(p, ordered[k] ?? [0, 0, 0]), `${key.face} ${direction} ${k}`);
+          assert.ok(
+            sameBits(p, ordered[k] ?? [0, 0, 0]),
+            `${key.face} ${direction} ${k}`,
+          );
         }
         checked += 1;
       }
@@ -98,16 +96,24 @@ describe('cubeTileSide', () => {
       for (let j = 0; j <= CELLS; j += 1) {
         for (let i = 0; i <= CELLS; i += 1) {
           const p = vertex(key, i, j);
-          if (i < CELLS) longest = Math.max(longest, arc(p, vertex(key, i + 1, j)));
-          if (j < CELLS) longest = Math.max(longest, arc(p, vertex(key, i, j + 1)));
+          if (i < CELLS)
+            longest = Math.max(longest, arc(p, vertex(key, i + 1, j)));
+          if (j < CELLS)
+            longest = Math.max(longest, arc(p, vertex(key, i, j + 1)));
         }
       }
       const centre = (R * Math.PI) / 2 ** (key.level + 1);
-      assert.ok(longest * R * CELLS <= side * (1 + 1e-9), `${longest * R * CELLS} > ${side}`);
+      assert.ok(
+        longest * R * CELLS <= side * (1 + 1e-9),
+        `${longest * R * CELLS} > ${side}`,
+      );
       assert.ok(side <= centre * (1 + 1e-12));
       assert.ok(side >= ((2 * Math.SQRT2) / 3) * centre * (1 - 1e-12));
       // Conservative, not loose: within 1 % of the longest edge.
-      assert.ok(side <= longest * R * CELLS * 1.01, `${side} vs ${longest * R * CELLS}`);
+      assert.ok(
+        side <= longest * R * CELLS * 1.01,
+        `${side} vs ${longest * R * CELLS}`,
+      );
     });
   }
 });

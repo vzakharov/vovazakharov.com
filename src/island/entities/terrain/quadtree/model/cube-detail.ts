@@ -1,7 +1,8 @@
 import {
+  type CubeCell,
   DIRECTIONS,
-  FACES,
   type FacePoint,
+  FACES,
   neighbour,
   R,
   sphereToFace,
@@ -12,12 +13,11 @@ import {
   capGap,
   capsApart,
   CUBE_MAX_LEVEL,
-  type CubeTileKey,
   cubeTileId,
   cubeTileSide,
+  TILE_GRID,
   type TileCap,
   tileCap,
-  TILE_GRID,
   tileHolds,
 } from '../../tile';
 import { type CoastDistance, cubeSplitRule } from './cube-split';
@@ -25,18 +25,18 @@ import { type CoastDistance, cubeSplitRule } from './cube-split';
 const CELLS = TILE_GRID - 1;
 
 /** Twice the longest vertex spacing of a tile, metres. */
-const twoSpacings = (key: CubeTileKey) => (2 * cubeTileSide(key)) / CELLS;
+const twoSpacings = (key: CubeCell) => (2 * cubeTileSide(key)) / CELLS;
 
 /** A leaf near a point, with what it asks at most and where it lies. */
 type Asking = {
   readonly most: number;
-  readonly side: number;
+  readonly ramp: number;
   readonly cap: TileCap;
 };
 
-const asking = (key: CubeTileKey): Asking => ({
+const asking = (key: CubeCell): Asking => ({
   most: twoSpacings(key),
-  side: cubeTileSide(key),
+  ramp: cubeTileSide(key) / 2,
   cap: tileCap(key),
 });
 
@@ -44,13 +44,13 @@ const asking = (key: CubeTileKey): Asking => ({
  * What a leaf asks of the cut at unit direction `p`: its twice-spacing,
  * ramping to nothing half its side past its cap.
  */
-const reach = ({ most, side, cap }: Asking, p: Vec3) =>
-  most * Math.max(0, 1 - (capGap(cap, p) * R) / (side / 2));
+const reach = ({ most, ramp, cap }: Asking, p: Vec3) =>
+  most * Math.max(0, 1 - (capGap(cap, p) * R) / ramp);
 
 /** The cells two steps or fewer from `key`, `key` included, across faces. */
-function nearby(key: CubeTileKey): CubeTileKey[] {
-  const found = new Map<string, CubeTileKey>([[cubeTileId(key), key]]);
-  let ring: CubeTileKey[] = [key];
+function nearby(key: CubeCell): CubeCell[] {
+  const found = new Map<string, CubeCell>([[cubeTileId(key), key]]);
+  let ring: CubeCell[] = [key];
   for (let step = 0; step < 2; step++) {
     ring = ring.flatMap((cell) =>
       DIRECTIONS.map((direction) => {
@@ -71,7 +71,6 @@ const FLOOR = twoSpacings({
   y: 2 ** (CUBE_MAX_LEVEL - 1),
 });
 
-
 /**
  * The shortest relief, in metres, to draw at unit direction `p` seen from
  * `eye`: over the leaves of `cubeSplitRule(eye, coast)` taken before balancing
@@ -88,7 +87,7 @@ export function cubeDetailCut(
 ): (p: Vec3) => number {
   const rule = cubeSplitRule(eye, coast);
   const decided = new Map<string, boolean>();
-  const splits = (key: CubeTileKey) => {
+  const splits = (key: CubeCell) => {
     const id = cubeTileId(key);
     const known = decided.get(id);
     if (known !== undefined) return known;
@@ -99,7 +98,7 @@ export function cubeDetailCut(
 
   /** The leaf holding the point, straight down its face. */
   const holding = ({ face, u, v }: FacePoint) => {
-    let leaf: CubeTileKey = { face, level: 0, x: 0, y: 0 };
+    let leaf: CubeCell = { face, level: 0, x: 0, y: 0 };
     while (splits(leaf)) {
       const level = leaf.level + 1;
       const last = 2 ** level - 1;
@@ -117,7 +116,7 @@ export function cubeDetailCut(
    * within two steps of `leaf`'s ancestor there, so those are all it takes.
    * Most asking first.
    */
-  const around = (leaf: CubeTileKey): readonly Asking[] => {
+  const around = (leaf: CubeCell): readonly Asking[] => {
     const found: Asking[] = [];
     const own = tileCap(leaf);
     const ownId = cubeTileId(leaf);
@@ -129,14 +128,19 @@ export function cubeDetailCut(
     for (let level = 1; level <= leaf.level; level++) {
       const shift = leaf.level - level;
       const ancestor = {
-        face: leaf.face,
+        ...leaf,
         level,
         x: leaf.x >> shift,
         y: leaf.y >> shift,
       };
       const next = new Set<string>();
       for (const key of nearby(ancestor)) {
-        const parent = { ...key, level: level - 1, x: key.x >> 1, y: key.y >> 1 };
+        const parent = {
+          ...key,
+          level: level - 1,
+          x: key.x >> 1,
+          y: key.y >> 1,
+        };
         if (!open.has(cubeTileId(parent))) continue;
         if (splits(key)) {
           next.add(cubeTileId(key));
@@ -144,7 +148,7 @@ export function cubeDetailCut(
         }
         if (cubeTileId(key) === ownId) continue;
         const near = asking(key);
-        if (capsApart(near.cap, own) * R < near.side / 2) found.push(near);
+        if (capsApart(near.cap, own) * R < near.ramp) found.push(near);
       }
       open = next;
     }
@@ -153,7 +157,7 @@ export function cubeDetailCut(
 
   const neighbourhoods = new Map<string, readonly Asking[]>();
   let last: {
-    leaf: CubeTileKey;
+    leaf: CubeCell;
     own: Asking;
     others: readonly Asking[];
   } | null = null;

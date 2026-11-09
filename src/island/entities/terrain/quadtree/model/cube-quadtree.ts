@@ -1,4 +1,5 @@
 import {
+  type CubeCell,
   DIRECTIONS,
   FACES,
   length,
@@ -11,16 +12,14 @@ import {
 import { GROUND_SLOPE, HIGHEST_GROUND, LOWEST_GROUND } from '../../height';
 import {
   capGap,
-  type CubeTileKey,
   cubeTileId,
   cubeTileSide,
   tileCap,
 } from '../../tile';
 import { type CoastDistance, cubeChildren, cubeSplitRule } from './cube-split';
-import type { SelectOptions } from './quadtree';
-import { outside } from './view';
+import { type Framed, outside } from './view';
 
-export type CubeSelectOptions = Pick<SelectOptions, 'frustum'> & {
+export type CubeSelectOptions = Framed & {
   /** The coast, when the selection should follow it (`cubeSplitRule`). */
   readonly coast?: CoastDistance;
   /**
@@ -34,7 +33,7 @@ export type CubeSelectOptions = Pick<SelectOptions, 'frustum'> & {
 /** The angle over the sea's horizon from which ground `h` metres up shows. */
 const rise = (h: number) => Math.acos(R / (R + Math.max(0, h)));
 
-const faceOrder = (key: CubeTileKey) => FACES.indexOf(key.face);
+const faceOrder = (key: CubeCell) => FACES.indexOf(key.face);
 
 /**
  * The leaf tiles of the cube to draw from `eye` (world metres), ordered by
@@ -46,12 +45,12 @@ const faceOrder = (key: CubeTileKey) => FACES.indexOf(key.face);
 export function selectCubeTiles(
   eye: Vec3,
   options: CubeSelectOptions = {},
-): CubeTileKey[] {
+): CubeCell[] {
   const { coast, frustum, ground } = options;
   const seaHorizon = Math.acos(Math.min(1, R / length(eye)));
 
   /** The tile's lowest and highest ground, bounded by the slope around samples. */
-  const relief = (key: CubeTileKey, samples: readonly Vec3[]) => {
+  const relief = (key: CubeCell, samples: readonly Vec3[]) => {
     const side = cubeTileSide(key);
     if (ground === undefined || GROUND_SLOPE * side >= HIGHEST_GROUND) {
       return [LOWEST_GROUND, HIGHEST_GROUND] as const;
@@ -65,7 +64,7 @@ export function selectCubeTiles(
     ] as const;
   };
 
-  const visible = (key: CubeTileKey) => {
+  const visible = (key: CubeCell) => {
     const cap = tileCap(key);
     const [low, high] = relief(key, [...cap.border.slice(0, 4), cap.centre]);
     if (capGap(cap, eye) > seaHorizon + rise(high)) return false;
@@ -81,8 +80,8 @@ export function selectCubeTiles(
 
   const splits = cubeSplitRule(eye, coast);
 
-  const leaves = new Map<string, CubeTileKey>();
-  const descend = (key: CubeTileKey) => {
+  const leaves = new Map<string, CubeCell>();
+  const descend = (key: CubeCell) => {
     if (!visible(key)) return;
     if (!splits(key)) {
       leaves.set(cubeTileId(key), key);
@@ -109,14 +108,19 @@ export function selectCubeTiles(
  * out.
  */
 function balanceCube(
-  leaves: Map<string, CubeTileKey>,
-  visible: (key: CubeTileKey) => boolean,
+  leaves: Map<string, CubeCell>,
+  visible: (key: CubeCell) => boolean,
 ) {
   /** The leaf holding cell `key` or one of its ancestors, if any. */
-  const covering = ({ face, level, x, y }: CubeTileKey) =>
+  const covering = ({ face, level, x, y }: CubeCell) =>
     Array.from({ length: level + 1 }, (_, shift) =>
       leaves.get(
-        cubeTileId({ face, level: level - shift, x: x >> shift, y: y >> shift }),
+        cubeTileId({
+          face,
+          level: level - shift,
+          x: x >> shift,
+          y: y >> shift,
+        }),
       ),
     ).find((key) => key !== undefined);
   let changed = true;

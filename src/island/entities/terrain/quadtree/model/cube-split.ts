@@ -1,11 +1,10 @@
-import { length, R, type Vec3 } from '@/island/shared/globe';
+import { type CubeCell, length, R, type Vec3 } from '@/island/shared/globe';
 
 import { HIGHEST_GROUND, LOWEST_GROUND } from '../../height';
 import {
   capGap,
   CUBE_MAX_LEVEL,
   CUBE_MIN_LEVEL,
-  type CubeTileKey,
   cubeTileSide,
   SPLIT_RATIO,
   tileCap,
@@ -26,7 +25,7 @@ export const cubeChildren = ({
   level,
   x,
   y,
-}: CubeTileKey): CubeTileKey[] => [
+}: CubeCell): CubeCell[] => [
   { face, level: level + 1, x: 2 * x, y: 2 * y },
   { face, level: level + 1, x: 2 * x + 1, y: 2 * y },
   { face, level: level + 1, x: 2 * x, y: 2 * y + 1 },
@@ -39,10 +38,9 @@ export const cubeChildren = ({
  * tile's split is judged by. The cap holds the tile, so this never exceeds the
  * distance to the tile's own nearest point.
  */
-function viewDistance(eye: Vec3): (key: CubeTileKey) => number {
+function viewDistance(eye: Vec3): (key: CubeCell) => number {
   const out = length(eye);
-  const ground =
-    R + Math.min(HIGHEST_GROUND, Math.max(LOWEST_GROUND, out - R));
+  const ground = R + Math.min(HIGHEST_GROUND, Math.max(LOWEST_GROUND, out - R));
   return (key) => {
     const half = Math.sin(capGap(tileCap(key), eye) / 2);
     // The law of cosines, kept free of cancellation when the eye is near.
@@ -62,9 +60,9 @@ function viewDistance(eye: Vec3): (key: CubeTileKey) => number {
 export function cubeSplitRule(
   eye: Vec3,
   coast?: CoastDistance,
-): (key: CubeTileKey) => boolean {
+): (key: CubeCell) => boolean {
   const distance = viewDistance(eye);
-  const astride = (key: CubeTileKey) =>
+  const astride = (key: CubeCell) =>
     coast !== undefined &&
     Math.abs(coast(tileCap(key).centre)) < cubeTileSide(key);
   return (key) => {
