@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 663,
-    "cacheWrite5mTokens": 220664,
-    "cacheWrite1hTokens": 107002,
-    "cacheReadTokens": 8832017,
-    "outputTokens": 40917,
-    "thinkingTokens": 4519,
-    "responses": 75,
-    "costUsd": 4.547412399999999
+    "inputTokens": 1321,
+    "cacheWrite5mTokens": 474855,
+    "cacheWrite1hTokens": 124276,
+    "cacheReadTokens": 18184846,
+    "outputTokens": 78541,
+    "thinkingTokens": 10290,
+    "responses": 150,
+    "costUsd": 8.5845292
   },
   "estimate": {
     "at": "2026-11-09T05:14:54.791Z",
@@ -63,70 +63,70 @@
     }
   },
   "sessionId": "f45e19e4-c823-5543-bcf7-dfdc62ec04bd",
-  "branch": "island/round-world",
+  "branch": "wt/b3-b7at",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take island/round-world — B4 и S7 влиты (высота и заливка тайла куба, взгляд вверх-вниз), гейты зелёные кроме knip, очередь B7",
   "prs": [],
   "url": "https://claude.ai/code/session_01DaohkBxAb41bAqfSKJNwiM",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-09T05:14:32.560Z",
-  "lastResponseAt": "2026-11-09T05:21:18.595Z",
+  "lastResponseAt": "2026-11-09T05:28:35.251Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 53,
+    "inputTokens": 63,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 107002,
-    "cacheReadTokens": 3583658,
-    "outputTokens": 13766,
-    "thinkingTokens": 2395,
-    "responses": 26,
-    "costUsd": 1.8482796000000004
+    "cacheWrite1hTokens": 124276,
+    "cacheReadTokens": 4456156,
+    "outputTokens": 19340,
+    "thinkingTokens": 4177,
+    "responses": 31,
+    "costUsd": 2.2724912000000006
   },
   "subagents": {
-    "inputTokens": 104,
-    "cacheWrite5mTokens": 220437,
+    "inputTokens": 246,
+    "cacheWrite5mTokens": 473864,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 5096106,
-    "outputTokens": 27140,
-    "thinkingTokens": 2124,
-    "responses": 48,
-    "costUsd": 2.6646222
+    "cacheReadTokens": 13411015,
+    "outputTokens": 59176,
+    "thinkingTokens": 6113,
+    "responses": 117,
+    "costUsd": 6.236026999999999
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 663,
-      "cacheWrite5mTokens": 220664,
-      "cacheWrite1hTokens": 107002,
-      "cacheReadTokens": 8832017,
-      "outputTokens": 40917,
-      "thinkingTokens": 4519,
-      "responses": 75,
-      "costUsd": 4.547412399999999
+      "inputTokens": 1321,
+      "cacheWrite5mTokens": 474855,
+      "cacheWrite1hTokens": 124276,
+      "cacheReadTokens": 18184846,
+      "outputTokens": 78541,
+      "thinkingTokens": 10290,
+      "responses": 150,
+      "costUsd": 8.5845292
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 75,
-    "matched": 74,
-    "matchedTableUsd": 4.512901799999999,
-    "matchedEventUsd": 4.512901799999999,
+    "events": 150,
+    "matched": 148,
+    "matchedTableUsd": 8.5085182,
+    "matchedEventUsd": 8.5085182,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 506,
-        "cacheWrite5mTokens": 227,
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 991,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 152253,
-        "outputTokens": 11,
+        "cacheReadTokens": 317675,
+        "outputTokens": 25,
         "thinkingTokens": 0,
-        "responses": 1,
-        "costUsd": 0.0345106
+        "responses": 2,
+        "costUsd": 0.07601100000000001
       }
     }
   },
   "operatorWords": {
-    "chat": 0,
+    "chat": 58,
     "review": 0,
     "threads": 0
   },
@@ -134,10 +134,10 @@
   "threadPosts": {},
   "branchLines": {
     ".py": 718,
-    ".md": 12012,
+    ".md": 12062,
     ".json": 296,
     ".txt": 31,
-    ".ts": 7329,
+    ".ts": 7426,
     ".sh": 43,
     ".yaml": 236,
     ".tsx": 11
