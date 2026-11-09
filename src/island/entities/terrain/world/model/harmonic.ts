@@ -24,7 +24,7 @@ const LOW_LENGTH = 1.5;
 const LOW_SHARE = 0.1;
 
 /** Whether `|k| ≤ 1.5`, where the envelope takes its tenth. */
-export const isLowWavevector = ({ kx, ky }: Wavevector): boolean =>
+const isLowWavevector = ({ kx, ky }: Wavevector): boolean =>
   kx * kx + ky * ky <= LOW_LENGTH ** 2;
 
 /**

@@ -9,9 +9,7 @@ import { DOME_PARAMS, type DomeParam } from './layout';
 export type Dome = Record<DomeParam, number>;
 
 /** Each parameter's range, decoded uniform from its word. */
-export const DOME_RANGES: Readonly<
-  Record<DomeParam, readonly [number, number]>
-> = {
+const DOME_RANGES: Readonly<Record<DomeParam, readonly [number, number]>> = {
   centreX: [-0.04, 0.04],
   centreY: [-0.04, 0.04],
   radiusA: [0.16, 0.26],

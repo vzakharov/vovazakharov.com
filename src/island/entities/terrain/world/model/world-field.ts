@@ -19,8 +19,7 @@ const N = GRID_NODES;
 const bin = (x: number) => ((x % N) + N) % N;
 
 /** Wavevector `k`'s bin in the grid's row-major `N²` spectrum. */
-export const spectrumBin = ({ kx, ky }: Wavevector): number =>
-  bin(ky) * N + bin(kx);
+const spectrumBin = ({ kx, ky }: Wavevector): number => bin(ky) * N + bin(kx);
 
 /**
  * The waves `Σ c_k e^{2πi k·p}` on the grid, node `(i, j)` at

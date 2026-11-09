@@ -72,9 +72,9 @@ with numbers rather than picking another.
 
 - **B8.** The world model is a sub-slice `src/island/entities/terrain/world/`
   beside `coast-field/`: hash, decode, layout, FFT, synthesis to a `CoastField`.
-  The fit is `src/island/scripts/fit-world.ts` (`pnpm fit:island`); the tracer's
-  lakes change stays in `entities/coast` and `scripts/trace-coast.ts`.
-  `buildCoastField` stays as the fit's rasterizer.
+  The fit, the tracer and `entities/coast` are retired (the operator,
+  2026-11-09: no "draw your own world" soon);
+  `src/island/entities/coast.retired.md` brings them back to re-fit world 1.
 
 ## Done
 
@@ -85,22 +85,8 @@ back, the strait closed — its cost is with the lead through memo).
 
 ## Left
 
-- **`check:masd` fails on `entities/coast`** — only scripts reach it since
-  call 10. Asked of the operator: a `masd-disable insignificant` marker in its
-  `index.ts` (the tracer a player's map will run in the browser) or moving it
-  under `src/island/scripts/lib/`. Their answer decides; asked again 2026-11-08,
-  still open.
-- **The tail**: `/polish` (floor is e5165d2a), `/sync-branch` against
-  `island/stretch-2`, vet, and the PR onto `island/stretch-2` with the frames
-  and what each call became; then post `tmp/five-percent.md`'s alternative (the
-  page downloads world 1's mask on the main thread) as a review on it — that
-  file does not survive the container, so its content is: `mask.ts` reads
-  `mask.json` on import and the page imports the terrain barrel, so
-  `island.html` loads a 366 KB (274 KB gz) chunk only the tile worker needs; put
-  it behind an entry only the worker imports, or have the worker fetch the mask
-  as a static file. Optional.
-- **`/dry` calls for the operator**: the dome sampled on the grid twice
-  (`domeGrid` in `fit-target.ts` and `buildWorldField`; sharing costs the worker
-  8 MB a build), and three 4-connected flood fills (`lakes` in
-  `entities/coast/model/lake.ts`, `piecesOf` in `fit-measure.ts`, `keptPieces`
-  in `sea.ts`).
+- **Vet green, `/sync-branch` against `island/stretch-2`**, then the lead merges
+  #267.
+- **Later bite, optional**: the page downloads world 1's mask on the main thread
+  (#267's five-percent review) — `island.html` loads a 366 KB chunk only the
+  tile worker needs.
