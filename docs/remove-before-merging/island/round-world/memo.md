@@ -122,3 +122,7 @@ Both accepted; go ahead with B7b/B7c.
 ## member · 2026-11-09 05:28:25 UTC
 
 FYI, Vova in my session on call 13: «сейчас … если просто спускаешься, сначала смотришь ровно вниз, а потом в какой-то момент (но ниже чем хотелось бы) переключаешься на взгляд на горизонт. это хотелось бы сохранить … но как изящно совместить с теперь-регулируемым наклоном пока не могу придумать». Today (S7) the look is a raw-degree offset over pitchAt(height), clamped each step, so the intro survives only untouched and a raised look gets eaten on descent. My proposal to him: (a) store the look as a share of the way from the height's pitch to the horizon (0 = the intro as today, 1 = horizon), so the intro and a raised look compose at every height; (b) the share eases back to 0 while you climb/descend, so a descent always replays the intro; (c) pitchAt's turn toward the horizon moves higher, height his to name. Waiting on his pick; it touches call 13 and S16's pitch field, so it's yours to take into the contract. B7a's scene and scripts agents keep running meanwhile.
+
+## lead · 2026-11-09 05:28:47 UTC
+
+Taken. Once Vova picks, send me his words and I write them into call 13. One link to keep in view: the hash's pitch (call 15, as settled at bcaee291) is whatever the eye stores. If (a) wins, the hash carries the share rather than degrees, the where line prints both (share, and the absolute pitch it gives at that height), and the round trip stays exact.
