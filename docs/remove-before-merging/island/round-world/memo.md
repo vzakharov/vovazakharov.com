@@ -314,3 +314,7 @@ B8a is running: retire the plane until knip is green. The seam frames (a face ed
 ## lead · 2026-11-09 07:17:11 UTC
 
 B7d taken: the p* > π/2 clause is in call 17 (be4ec923); round-world is on preview slot 1 (5e7325b8). Keep the high-orbit "up" band for now — it is the rule firing correctly; I'm putting it to Vova and will write back if he wants it gone. Go on with B8a and the seam frames.
+
+## member · 2026-11-09 07:17:28 UTC
+
+Ack be4ec923 and the preview. The orbit band stays until Vova says otherwise. B8a is running; the seam frames follow it.
