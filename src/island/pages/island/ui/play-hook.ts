@@ -13,6 +13,9 @@ export function installPlayHook(scene: IslandScene): () => void {
     setHeight: async (m) => scene.setHeight(m),
     moveTo: async (lat, lon, m) => scene.moveTo(lat, lon, m),
     turnTo: async (heading) => scene.turnTo(heading),
+    setTime: (hours) => {
+      scene.setTime(hours);
+    },
     step: (ms) => {
       const start = performance.now();
       scene.frame(ms / 1000);

@@ -32,10 +32,12 @@ import {
   withGlobeHeight as withHeight,
 } from '@/island/features/eye';
 
+import { advance, dayHours, heavensAt, OPENING_CLOCK } from '../lib/day';
 import { skyColour } from '../lib/sky-colour';
 import { startTilePool, type TilePool } from '../lib/tile-pool';
 import { groundLighting } from './ground-lighting';
 import { tileView } from './tile-view';
+import { bindTimeKeys } from './time-keys';
 
 export type IslandScene = CanDispose & {
   /** Resolves once the first frame is drawn. */
@@ -46,6 +48,8 @@ export type IslandScene = CanDispose & {
   readonly setHeight: (m: number) => Promise<void>;
   /** Puts the eye `m` metres over latitude `lat`, longitude `lon` (degrees, east positive), its heading kept, resolving as `setHeight` does. */
   readonly moveTo: (lat: number, lon: number, m: number) => Promise<void>;
+  /** Sets the clock to `hours` past the opening's sun, as it stands, and draws. */
+  readonly setTime: (hours: number) => void;
   /** Turns the eye to `heading`, resolving as `setHeight` does. */
   readonly turnTo: (heading: number) => Promise<void>;
   /** `'webgpu'` or `'webgl2'`, once ready. */
@@ -108,17 +112,20 @@ export function mountIslandScene(
     logarithmicDepthBuffer: true,
   });
   const scene = new Scene();
-  const background = new Color(skyColour(MAX_HEIGHT));
+  const background = new Color(skyColour(MAX_HEIGHT, 1));
   scene.background = background;
   const camera = new PerspectiveCamera(50, 1, NEAR, FAR);
 
   const lighting = groundLighting();
-  const { land, sea, ocean, sky, lights } = lighting;
+  const { land, sea, ocean, lights } = lighting;
   const globe = new Mesh(new SphereGeometry(GLOBE_RADIUS, 256, 128), ocean);
   const tiles = new Group();
   scene.add(globe, tiles, ...lights);
 
   const controls = bindEyeControls(canvas);
+  // Under play the clock moves only by `setTime`.
+  const timeKeys = play ? null : bindTimeKeys(canvas);
+  let clock = OPENING_CLOCK;
 
   let eye: Eye | null = null;
   let groundAt = SEA_LEVEL;
@@ -196,8 +203,9 @@ export function mountIslandScene(
     camera.updateProjectionMatrix();
     camera.up.set(...pose.up);
     camera.lookAt(...pose.forward);
-    sky.position.set(...unit(pose.position));
-    background.setHex(skyColour(eye.height));
+    const heavens = heavensAt(openingOf(Number(world)), clock.hours);
+    const day = lighting.shine(heavens, unit(pose.position));
+    background.setHex(skyColour(eye.height, day));
     renderer.render(scene, camera);
   }
 
@@ -220,6 +228,11 @@ export function mountIslandScene(
   const frame = (dt: number) => {
     if (eye === null) return;
     eye = step(eye, play ? STILL : controls.read(), dt, groundAt);
+    if (timeKeys !== null) {
+      const keys = timeKeys.read();
+      if (keys.toggled) clock = { ...clock, running: !clock.running };
+      clock = advance(clock, keys, dt);
+    }
     render();
   };
 
@@ -275,6 +288,10 @@ export function mountIslandScene(
         ),
       );
     },
+    setTime: (hours) => {
+      clock = { ...clock, hours: dayHours(hours) };
+      render();
+    },
     turnTo: async (heading) => placed((from) => withHeading(from, heading)),
     backend: () =>
       'isWebGPUBackend' in renderer.backend &&
@@ -299,6 +316,7 @@ export function mountIslandScene(
       cancelAnimationFrame(loop);
       observer.disconnect();
       controls.dispose();
+      timeKeys?.dispose();
       pool.dispose();
       view.dispose();
       globe.geometry.dispose();

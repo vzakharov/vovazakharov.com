@@ -13,6 +13,8 @@ export type IslandPlayHook = {
   moveTo: (lat: number, lon: number, m: number) => Promise<void>;
   /** Turns the eye so screen-up faces `heading`, radians clockwise from north; resolves as `setHeight` does. */
   turnTo: (heading: number) => Promise<void>;
+  /** Sets the time of day to `hours` past the opening's sun (24 a day) and draws; the clock stays stopped. */
+  setTime: (hours: number) => void;
   /** Advances the seeded clock by `ms` and draws one frame. */
   step: (ms: number) => void;
   /** The JS time of each frame `step` drew, in ms, oldest first. */

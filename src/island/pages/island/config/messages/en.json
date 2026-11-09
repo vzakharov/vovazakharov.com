@@ -11,7 +11,9 @@
       { "keys": "E Q", "does": "climb, descend" },
       { "keys": "Drag", "does": "move" },
       { "keys": "Right-drag", "does": "turn, look up and down" },
-      { "keys": "Wheel", "does": "climb, descend" }
+      { "keys": "Wheel", "does": "climb, descend" },
+      { "keys": "[ ]", "does": "time back, forward (Shift: faster)" },
+      { "keys": "T", "does": "run, pause time" }
     ],
     "touch": [
       { "keys": "Drag", "does": "move" },

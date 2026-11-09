@@ -59,7 +59,10 @@ const CLIMBS: Readonly<Record<string, number>> = {
   KeyQ: -1,
 };
 
-const BOUND = [STEERS, TURNS, TILTS, CLIMBS];
+/** Every key the eye holds, by `KeyboardEvent.code`: the scene binds no other key to these. */
+export const EYE_KEYS: ReadonlySet<string> = new Set(
+  [STEERS, TURNS, TILTS, CLIMBS].flatMap((keys) => Object.keys(keys)),
+);
 
 /** The right button turns, so it opens no menu over the scene. */
 const onContextMenu = (event: Event) => {
@@ -130,7 +133,7 @@ export function bindEyeControls(element: HTMLElement): EyeControls {
 
   const onKeyDown = (event: KeyboardEvent) => {
     if (event.ctrlKey || event.metaKey || event.altKey) return;
-    if (!BOUND.some((keys) => event.code in keys)) return;
+    if (!EYE_KEYS.has(event.code)) return;
     event.preventDefault();
     held.add(event.code);
   };
