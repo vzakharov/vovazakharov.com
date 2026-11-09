@@ -19,8 +19,8 @@ import { LAND_DEGREE, worldSchema } from './world-schema';
  * 19.6 km at the equator, twice the series' own grid each way, so the
  * contour, linear between nodes, holds four nodes per finest wave.
  */
-export const FIELD_RINGS = 1024;
-export const FIELD_COLUMNS = 2048;
+const FIELD_RINGS = 1024;
+const FIELD_COLUMNS = 2048;
 
 /** A world's land, built: its coast field and its value noise's seed. */
 export type SphereWorld = Seeded & { field: SphereField };
@@ -48,7 +48,7 @@ export type BuildTimes = {
  * The land `f` of a series up to `degree` on the field grid: synthesised
  * there directly, the series' degree being below the grid's own.
  */
-export function landOnGrid(
+function landOnGrid(
   c: Float64Array,
   degree: number,
   ringGrid: RingGrid,

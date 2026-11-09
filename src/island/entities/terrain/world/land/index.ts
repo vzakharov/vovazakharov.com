@@ -5,12 +5,7 @@ export {
   pathHash,
 } from './model/hash';
 export { landmasses, landShare } from './model/land-measure';
-export {
-  type Envelope,
-  kneeEnvelope,
-  landSeries,
-  PROBE_ENVELOPE,
-} from './model/land-series';
+export { kneeEnvelope, landSeries } from './model/land-series';
 export {
   decodePinnedRow,
   encodePinnedRow,
@@ -19,10 +14,4 @@ export {
   pinnedSeries,
 } from './model/pinned-row';
 export { openSphereWorld } from './model/sphere-world';
-export {
-  type Harmonic,
-  LAND_DEGREE,
-  rollWorld,
-  type World,
-  worldSchema,
-} from './model/world-schema';
+export { LAND_DEGREE, rollWorld } from './model/world-schema';

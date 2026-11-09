@@ -20,7 +20,7 @@ type Slotted = {
 export type TableIndex<K> = Slotted & { slotOf: (key: K) => number };
 
 /** A table decoded: its values in slot order, and a lookup by key. */
-export type Lookup<K> = { values: Float64Array; at: (key: K) => number };
+type Lookup<K> = { values: Float64Array; at: (key: K) => number };
 
 /**
  * A table of one leaf per key. `K` appears only where a key is taken, so a

@@ -1,5 +1,4 @@
 export {
-  type Lookup,
   roll,
   type Rolled,
   rollWith,
