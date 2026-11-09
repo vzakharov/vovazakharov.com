@@ -1,5 +1,5 @@
 import { type CoastField, signedDistanceField } from '../../coast-field';
-import { contourOf } from './contour';
+import { contourOf, isLand } from './contour';
 import { domeAt, domeOf } from './dome';
 import { ifft2 } from './fft';
 import { coefficientOf } from './harmonic';
@@ -73,7 +73,7 @@ export const taperAt = (px: number, py: number): number =>
 
 /**
  * World `N`'s land as a `CoastField` over its square: `f = dome + taper ·
- * waves` on `GRID` decides land (`f > 0`, lakes being water), and each node
+ * waves` on `GRID` decides land (`isLand`), and each node
  * stores its signed distance in metres to `f`'s zero line, so a height read
  * off it rises with the true distance to the coast.
  */
@@ -89,7 +89,7 @@ export function buildWorldField(
     for (let i = 0; i < N; i += 1) {
       const n = j * N + i;
       f[n] = (f[n] ?? 0) * taperAt(i / N, j / N) + domeAt(dome, i / N, j / N);
-      inside[n] = (f[n] ?? 0) > 0 ? 1 : 0;
+      inside[n] = isLand(f[n] ?? 0) ? 1 : 0;
     }
   }
   const coast = contourOf(f, GRID);

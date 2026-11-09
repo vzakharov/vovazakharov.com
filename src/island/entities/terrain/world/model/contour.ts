@@ -2,11 +2,18 @@ import type { CoastGrid } from '../../coast-field';
 
 type Point = readonly [number, number];
 
+/**
+ * Whether a world field's value `f` is land, lakes being water: the one test
+ * the coast's contour and the land mask its distance is signed by both read,
+ * so the two agree on every node.
+ */
+export const isLand = (f: number): boolean => f > 0;
+
 /** Where `f` crosses zero between values `p` and `q`, as a share of the way. */
 const crossing = (p: number, q: number) => p / (p - q);
 
 /**
- * The zero line of `f` (a field on `grid`'s nodes, land where `f > 0`) by
+ * The zero line of `f` (a field on `grid`'s nodes, land where `isLand`) by
  * marching squares, as segments of four numbers each, `ax, ay, bx, by` in
  * plane metres. A saddle cell joins the corners its centre's sign matches.
  */
@@ -21,7 +28,7 @@ export function contourOf(f: Float64Array, grid: CoastGrid): Float64Array {
       const b = value(i + 1, j);
       const c = value(i + 1, j + 1);
       const d = value(i, j + 1);
-      const land = [a > 0, b > 0, c > 0, d > 0] as const;
+      const land = [isLand(a), isLand(b), isLand(c), isLand(d)] as const;
       if (land.every((l) => l === land[0])) continue;
       const at = (u: number, v: number): Point => [
         originX + (i + u) * cellMetres,
@@ -39,7 +46,7 @@ export function contourOf(f: Float64Array, grid: CoastGrid): Float64Array {
       if (p === undefined || q === undefined) continue;
       if (r === undefined || s === undefined) {
         join(p, q);
-      } else if ((a + b + c + d) / 4 > 0 === land[0]) {
+      } else if (isLand((a + b + c + d) / 4) === land[0]) {
         // The centre joins a and c, cutting off b (bottom–right) and d.
         join(p, q);
         join(r, s);

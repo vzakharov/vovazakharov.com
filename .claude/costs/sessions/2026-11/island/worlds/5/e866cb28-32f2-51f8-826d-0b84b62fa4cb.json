@@ -1,0 +1,116 @@
+{
+  "total": {
+    "inputTokens": 27,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 80443,
+    "cacheReadTokens": 1444389,
+    "outputTokens": 6497,
+    "thinkingTokens": 1809,
+    "responses": 13,
+    "costUsd": 1.0624698
+  },
+  "estimate": {
+    "at": "2026-11-09T02:29:44.070Z",
+    "subjectLine": "refactor: retire the coast slice, one land predicate for the world model",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "deleting a slice with its scripts needs tracing every reader and a tombstone that lets the fit be rebuilt"
+      },
+      {
+        "hours": 0.5,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "memo reporting to the lead and PR upkeep"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-09T02:29:38.123Z",
+    "contextTokens": 116457,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 50176,
+      "cacheReadTokens": 476462,
+      "outputTokens": 1572,
+      "thinkingTokens": 125,
+      "responses": 5,
+      "costUsd": 0.5281884
+    }
+  },
+  "sessionId": "e866cb28-32f2-51f8-826d-0b84b62fa4cb",
+  "branch": "island/worlds",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/worlds — бит 2 в PR #267, Вова ответил: модуль берегов удалить с надгробием, ответ в memo",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDMv7HtKkAccaMZCgL",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-09T02:29:12.502Z",
+  "lastResponseAt": "2026-11-09T02:30:31.703Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 27,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 80443,
+    "cacheReadTokens": 1444389,
+    "outputTokens": 6497,
+    "thinkingTokens": 1809,
+    "responses": 13,
+    "costUsd": 1.0624698
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 27,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 80443,
+      "cacheReadTokens": 1444389,
+      "outputTokens": 6497,
+      "thinkingTokens": 1809,
+      "responses": 13,
+      "costUsd": 1.0624698
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 12,
+    "matched": 12,
+    "matchedTableUsd": 1.0111738,
+    "matchedEventUsd": 1.0111738,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 8949,
+    ".txt": 31,
+    ".py": 265,
+    ".ts": 3253,
+    ".json": 110,
+    ".sh": 43,
+    ".yaml": 77,
+    ".tsx": 11
+  }
+}
