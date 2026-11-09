@@ -162,6 +162,21 @@ over the Mediterranean at orbit. The world number is the URL hash, a
 non-negative integer: none means #1, and `#0` is Earth. Changing it at run time
 rebuilds the world without a reload.
 
+12\. **Sun and moon: the full-moon mode.** Vova: «пока пусть будет режим
+полнолуния: с одной стороны солнце, с другой Луна. И можно добавить клавиши
+управления временем».
+
+- **Fixed in space.** The sun is fixed in space, not turned with the eye. The
+  moon is full and stands opposite the sun, so the night side is lit by
+  moonlight: dim, cool and readable, never black.
+- **Time turns the planet under them.** A world opens at local noon over its
+  start point, so #1 looks as it does today. Time keys scrub the day forward and
+  back, and may pause it.
+- **The keys are the member's call**, clear of the movement keys, and the key
+  hint lists them.
+- **The phase is fixed for now.** A moon that changes phase, and a moon you can
+  see in the sky, are for later.
+
 11\. **Order of work**: the schema and the series, then the cube tiles and the
 eye with #1 re-fitted, then Earth with its envelope measured for call 4. Each
 step reaches a frame before the next one starts.
