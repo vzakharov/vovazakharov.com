@@ -210,8 +210,15 @@ None in hand.
   для нас всё же хочу чего-то менее магического»); a mask per pinned world (#0
   Earth, #1 ours); parameters named rather than indexed, «строго типизированный
   интерфейс … чтобы мы … не заблудились в строках». The rationale is on the
-  board's infinite-worlds zone. Its order against objects from dice rolls is
-  open.
+  board's infinite-worlds zone. Comes first, before objects from dice rolls,
+  which then place their objects on the sphere («давай начинать, порядок up to
+  you»). No count is ever fixed: «необходимость каждого следующего континента
+  решается броском кубика после рисования предыдущего -- таким образом что _в
+  среднем_ у нас получается как на Земле (но в бесконечном пространстве миров
+  возможен мир со сколь угодно многими континентами)»; how — and whether
+  continent and island differ, or land just goes largest piece first — is for
+  later. Also for later: «Пангея … правая линия южной америки коррелирует с
+  левой африки» — Earth's land is not independent strokes.
 
 ## Rest of the elephant
 

@@ -2,7 +2,7 @@ items:
   - id: z-worlds
     type: zone
     updated: [2026-11-09T03:40:00.000Z, agent:lead]
-    box: [4930, 520, 1120, 1880, blue]
+    box: [4930, 520, 1120, 1940, blue]
     text: Infinite worlds
   - id: worlds-1
     type: sticky
@@ -74,6 +74,11 @@ items:
     updated: [2026-11-09T03:30:00.000Z, agent:lead]
     box: [5345, 1935, 320, yellow]
     text: "Two pinned worlds need a mask each (one shared mask pins one world); ~265 KB each over the wire. Earth's mask size is the measure of our math: the better the procedure, the fewer bits Earth's corrections take (minimum description length)"
+  - id: earth-4
+    type: sticky
+    updated: [2026-11-09T03:45:00.000Z, agent:lead]
+    box: [5160, 2150, 340, orange]
+    text: "No count is fixed (Vova): after each piece of land a roll decides whether there is a next, so the average matches Earth but a world may hold any number. For later: Pangaea — South America's east coast fits Africa's west, so Earth is not independent strokes. Round land comes first, then the dice rolls"
   - id: earth-3
     type: sticky
     updated: [2026-11-09T03:30:00.000Z, agent:lead]
