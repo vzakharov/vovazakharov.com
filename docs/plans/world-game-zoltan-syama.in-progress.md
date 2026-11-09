@@ -83,7 +83,9 @@ the bite in hand. The text it held before the board took over is in git
   stretch starts off `main`, carrying `docs/plans/` and
   `docs/remove-before-merging/` in one commit; members branch off and merge into
   the current stretch. The plan, board and relays are swept from a cut only.
-  `.claude/skills/mammoth/notes/gates.md` carries the cycle.
+  `.claude/skills/mammoth/notes/gates.md` carries the cycle. A stretch's code
+  review runs beside it on `island/review-N` and merges in at the stretch's end;
+  `world-game-zoltan-syama/review.md` says how.
 - «публиковать, когда появляется что-то интересненькое или значимое, неважно,
   про саму игру или наши обсуждения её … главное чтобы ты вообще не забывал про
   неё в пылу работы» — the lead republishes whenever something interesting or

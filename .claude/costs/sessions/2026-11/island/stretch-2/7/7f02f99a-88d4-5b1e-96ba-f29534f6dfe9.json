@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 4408,
-    "cacheWrite5mTokens": 2601,
-    "cacheWrite1hTokens": 200891,
-    "cacheReadTokens": 19552274,
-    "outputTokens": 35423,
-    "thinkingTokens": 8870,
-    "responses": 104,
-    "costUsd": 6.259408899999999
+    "inputTokens": 4932,
+    "cacheWrite5mTokens": 3051,
+    "cacheWrite1hTokens": 211347,
+    "cacheReadTokens": 22481814,
+    "outputTokens": 41423,
+    "thinkingTokens": 10380,
+    "responses": 115,
+    "costUsd": 7.054660899999997
   },
   "estimate": {
     "at": "2026-11-09T04:39:25.629Z",
@@ -48,18 +48,18 @@
   "url": "https://claude.ai/code/session_01DaohkEZ8LZf6wtY7sJ5gMd",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-09T04:38:51.468Z",
-  "lastResponseAt": "2026-11-09T05:04:07.158Z",
+  "lastResponseAt": "2026-11-09T05:06:23.408Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 191,
+    "inputTokens": 209,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 200891,
-    "cacheReadTokens": 18222421,
-    "outputTokens": 35332,
-    "thinkingTokens": 8870,
-    "responses": 97,
-    "costUsd": 5.959016199999999
+    "cacheWrite1hTokens": 211347,
+    "cacheReadTokens": 20887606,
+    "outputTokens": 41317,
+    "thinkingTokens": 10380,
+    "responses": 107,
+    "costUsd": 6.695473199999998
   },
   "subagents": {
     "inputTokens": 0,
@@ -73,14 +73,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 3227,
-      "cacheWrite5mTokens": 2601,
-      "cacheWrite1hTokens": 200891,
-      "cacheReadTokens": 19552274,
-      "outputTokens": 35399,
-      "thinkingTokens": 8870,
-      "responses": 103,
-      "costUsd": 6.259278799999999
+      "inputTokens": 3751,
+      "cacheWrite5mTokens": 3051,
+      "cacheWrite1hTokens": 211347,
+      "cacheReadTokens": 22481814,
+      "outputTokens": 41399,
+      "thinkingTokens": 10380,
+      "responses": 114,
+      "costUsd": 7.0545307999999975
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1181,
@@ -96,10 +96,10 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 104,
-    "matched": 97,
-    "matchedTableUsd": 5.959016199999999,
-    "matchedEventUsd": 5.9590162,
+    "events": 114,
+    "matched": 106,
+    "matchedTableUsd": 6.615898399999998,
+    "matchedEventUsd": 6.615898399999999,
     "unseen": {
       "generate_session_title": {
         "inputTokens": 1181,
@@ -112,28 +112,45 @@
         "costUsd": 0.0001301
       },
       "prompt_suggestion": {
-        "inputTokens": 3036,
-        "cacheWrite5mTokens": 2601,
+        "inputTokens": 3542,
+        "cacheWrite5mTokens": 3051,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 1329853,
-        "outputTokens": 67,
+        "cacheReadTokens": 1594208,
+        "outputTokens": 82,
         "thinkingTokens": 0,
-        "responses": 6,
-        "costUsd": 0.3002626
+        "responses": 7,
+        "costUsd": 0.3590576
       }
     }
   },
   "operatorWords": {
-    "chat": 201,
+    "chat": 304,
     "review": 0,
-    "threads": 0
+    "threads": 387
   },
   "reviewPosts": {},
-  "threadPosts": {},
+  "threadPosts": {
+    "5e32edf6-0d05-4a95-b2e8-a29a41a42029@2026-11-09T05:03": 87,
+    "19e6ac40-5855-407f-a5d4-c9058815faf5@2026-11-06T20:54": 6,
+    "7149addd-8f0d-4dba-aab1-c1c571db497b@2026-11-07T06:20": 5,
+    "629856ff-9f6b-4682-aca0-99bea09f26ba@2026-11-07T07:16": 21,
+    "50a669be-8e41-4f4d-9ad8-21b72735c06b@2026-11-07T07:19": 8,
+    "cdeca233-def0-4ed5-a11c-1e1196860251@2026-11-07T07:22": 36,
+    "50a669be-8e41-4f4d-9ad8-21b72735c06b@2026-11-07T07:23": 25,
+    "1617f0fc-fcdc-4ab9-aba9-f1ad9e007a2c@2026-11-09T01:56": 16,
+    "1617f0fc-fcdc-4ab9-aba9-f1ad9e007a2c@2026-11-09T02:04": 25,
+    "c99572a3-77e4-4d1a-8a38-9d748674a207@2026-11-09T02:22": 104,
+    "c99572a3-77e4-4d1a-8a38-9d748674a207@2026-11-09T02:25": 2,
+    "cc40d1a1-4c0c-4aef-a0d4-790bb53b945c@2026-11-09T04:31": 4,
+    "3d251a23-91b7-4c5b-88b5-499b27355187@2026-11-09T04:31": 9,
+    "6962196b-cbd9-4037-98b3-5a56d21b3fa6@2026-11-09T04:32": 12,
+    "dc9d7353-879a-4c4a-bc77-ee243f4f22d6@2026-11-09T04:33": 18,
+    "6962196b-cbd9-4037-98b3-5a56d21b3fa6@2026-11-09T04:36": 9
+  },
   "branchLines": {
     ".py": 718,
-    ".md": 9827,
-    ".json": -1397,
+    ".md": 9836,
+    ".json": -1396,
     ".txt": 31,
     ".ts": 623,
     ".sh": 43,
