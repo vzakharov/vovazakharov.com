@@ -67,7 +67,7 @@ describe('lat-lon grid', () => {
         lon: (2 * Math.PI * (n % 32)) / 32,
       });
       for (let a = 0; a < 3; a += 1) {
-        assert.ok(Math.abs((p[a] ?? 0) - expected[a]) < 1e-15);
+        assert.ok(Math.abs((p[a] ?? 0) - (expected[a] ?? Number.NaN)) < 1e-15);
       }
       const { theta, lambda } = colatitudeLongitude([
         p[0] ?? 0,

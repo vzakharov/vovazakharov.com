@@ -10,16 +10,16 @@ export type CoastGrid = Gridded & {
   cellMetres: number;
 };
 
+/** A signed distance per node, metres, positive inland. */
+export type SignedDistances = { distance: Float32Array };
+
 /**
- * The signed distance to the coast, in plane metres, positive inland, on a
- * node grid over the coast's bounding box plus a margin. Plain numbers and
- * one typed array, so it survives `postMessage` and its buffer can be
- * transferred.
+ * The signed distance to the coast, in plane metres, on a node grid over the
+ * coast's bounding box plus a margin, row-major, node `(i, j)` at
+ * `j * columns + i`. Plain numbers and one typed array, so it survives
+ * `postMessage` and its buffer can be transferred.
  */
-export type CoastField = CoastGrid & {
-  /** Row-major, `rows × columns`, node `(i, j)` at `j * columns + i`. */
-  distance: Float32Array;
-};
+export type CoastField = CoastGrid & SignedDistances;
 
 const MARGIN_METRES = 100_000;
 

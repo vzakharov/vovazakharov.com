@@ -1,3 +1,5 @@
+import type { Seeded } from '@/kernel/shared/typings';
+
 import {
   type LatLonGrid,
   sphereDistanceField,
@@ -22,7 +24,7 @@ export const FIELD_RINGS = 1024;
 export const FIELD_COLUMNS = 2048;
 
 /** A world's land, built: its coast field and its value noise's seed. */
-export type SphereWorld = { field: SphereField; seed: number };
+export type SphereWorld = Seeded & { field: SphereField };
 
 /** Gauss–Legendre rings and equal longitudes, as both grids name them. */
 export function fieldGrids(rows: number, columns: number) {
@@ -40,7 +42,7 @@ export type BuildTimes = {
   roll: number;
   synthesis: number;
   contour: number;
-  distance: number;
+  sweep: number;
 };
 
 /**
@@ -72,7 +74,7 @@ export function fieldOf(
   const inside = new Uint8Array(f.length);
   for (const [n, value] of f.entries()) inside[n] = isLand(value) ? 1 : 0;
   const field = sphereDistanceField(coast, inside, grid);
-  if (times) times.distance = performance.now() - start;
+  if (times) times.sweep = performance.now() - start;
   return field;
 }
 

@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import {
   CENTRE,
   dot,
+  type LatLon,
   latLonToUnit,
   length,
   NORTH,
@@ -25,7 +26,7 @@ import { GROUND_PITCH, poseOf as planePoseOf } from './pose';
 
 const LANDSCAPE = 1440 / 900;
 const DEGREE = Math.PI / 180;
-const PLACES = [
+const PLACES: LatLon[] = [
   ISLAND_OPENING,
   EARTH_OPENING,
   { lat: Math.PI / 2, lon: 0 },
@@ -36,7 +37,11 @@ const PLACES = [
 const near = (a: Vec3, b: Vec3, within: number) =>
   a.every((value, i) => Math.abs(value - (b[i] ?? Number.NaN)) < within);
 
-const atHeight = (height: number, place = EARTH_OPENING, heading = 0.7) =>
+const atHeight = (
+  height: number,
+  place: LatLon = EARTH_OPENING,
+  heading = 0.7,
+) =>
   globePoseOf(
     globeEyeAt({ ...place, height, heading }, () => 250),
     LANDSCAPE,

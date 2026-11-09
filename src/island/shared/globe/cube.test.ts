@@ -70,8 +70,9 @@ describe('sphereToFace', () => {
 
   it('inverts to within 1e-12 for scattered directions of any length', () => {
     const values = [...pseudoRandom(3 * 3000)];
+    const at = (i: number) => values[i] ?? Number.NaN;
     for (let i = 0; i < values.length; i += 3) {
-      const raw: Vec3 = [values[i], values[i + 1], values[i + 2]];
+      const raw: Vec3 = [at(i), at(i + 1), at(i + 2)];
       if (length(raw) < 1e-3) continue;
       const scale = 1 + i * 1000;
       const p: Vec3 = [raw[0] * scale, raw[1] * scale, raw[2] * scale];
@@ -101,8 +102,9 @@ describe('the equal-angle grid', () => {
       );
       for (let j = 0; j <= n; j += 1) {
         for (let i = 0; i <= n; i += 1) {
-          const here = rows[j][i];
-          for (const there of [rows[j][i + 1], rows[j + 1]?.[i]]) {
+          const here = rows[j]?.[i];
+          if (here === undefined) continue;
+          for (const there of [rows[j]?.[i + 1], rows[j + 1]?.[i]]) {
             if (there === undefined) continue;
             const edge = length(sub(here, there));
             shortest = Math.min(shortest, edge);

@@ -101,14 +101,14 @@ describe('buildSphereWorld', () => {
       roll: 0,
       synthesis: 0,
       contour: 0,
-      distance: 0,
+      sweep: 0,
     };
     const start = performance.now();
     const { field, seed } = buildSphereWorld('2', undefined, undefined, times);
     const total = performance.now() - start;
     t.diagnostic(
       `world 2, 1024 × 2048: roll ${ms(times.roll)}, synthesis ${ms(times.synthesis)}, ` +
-        `contour ${ms(times.contour)}, distance ${ms(times.distance)}, total ${ms(total)}`,
+        `contour ${ms(times.contour)}, sweep ${ms(times.sweep)}, total ${ms(total)}`,
     );
     assert.equal(seed, rollWorld('2').noise.seed);
     assert.equal(field.distance.length, 1024 * 2048);
