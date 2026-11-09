@@ -2,15 +2,28 @@ export {
   buildCoastField,
   type CoastField,
   sampleCoastField,
+  sampleSphereField,
+  type SphereField,
 } from './coast-field';
-export { heightAt } from './height';
-export { detailCut, frustumOf, selectTiles } from './quadtree';
+export { type CoastDistance, heightAt, heightAtSphere } from './height';
+export {
+  cubeDetailCut,
+  detailCut,
+  frustumOf,
+  selectCubeTiles,
+  selectTiles,
+} from './quadtree';
 export {
   borderLoop,
+  capGap,
+  CUBE_MIN_LEVEL,
+  cubeTileId,
+  fillCubeTile,
   fillTile,
   MIN_LEVEL,
   TILE_GRID,
   tileBuffers,
+  tileCap,
   tileId,
   type TileKeyed,
   type TileMesh,
@@ -31,6 +44,7 @@ export {
   landSeries,
   landShare,
   type Lookup,
+  openSphereWorld,
   OUR_WORLD,
   pathHash,
   type PinnedRow,

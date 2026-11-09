@@ -9,6 +9,7 @@ import {
   type Vec3,
 } from '@/island/shared/globe';
 
+import type { CoastDistance } from '../../height';
 import {
   capGap,
   capsApart,
@@ -20,7 +21,7 @@ import {
   tileCap,
   tileHolds,
 } from '../../tile';
-import { type CoastDistance, cubeSplitRule } from './cube-split';
+import { cubeSplitRule } from './cube-split';
 
 const CELLS = TILE_GRID - 1;
 

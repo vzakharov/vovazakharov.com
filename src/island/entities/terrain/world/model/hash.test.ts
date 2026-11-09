@@ -70,16 +70,13 @@ describe('worldHash', () => {
     for (const count of ones) assert.ok(Math.abs(count / samples - 0.5) < 0.02);
   });
 
-  it('takes only integers without leading zeros, 0 for the path hash alone', () => {
+  it('takes only integers without leading zeros, 0 included', () => {
     for (const bad of ['', '00', '07', '-3', '-0', '1.5', '1e3', ' 2', 'abc']) {
       assert.throws(() => worldHash(bad), /Not a world number/, bad);
       assert.throws(() => pathHash(bad), /Not a world number/, bad);
     }
-    assert.throws(() => worldHash('0'), /Not a world number/);
-    assert.throws(() => {
-      assertWorldNumber('0');
-    }, /Not a world number/);
     assert.doesNotThrow(() => {
+      assertWorldNumber('0');
       pathHash('0');
       pathHash('9'.repeat(500));
       assertWorldNumber('9'.repeat(500));

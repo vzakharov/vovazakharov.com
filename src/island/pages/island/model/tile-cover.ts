@@ -1,19 +1,26 @@
-import type { GridCell } from '@/island/shared/globe';
-import { tileId, tileRect } from '@/island/entities/terrain';
+import type { CubeCell, Vec3 } from '@/island/shared/globe';
+import {
+  capGap,
+  CUBE_MIN_LEVEL,
+  cubeTileId,
+  tileCap,
+} from '@/island/entities/terrain';
 
-const parentOf = ({ level, x, y }: GridCell): GridCell | null =>
-  level === 0
+/** A tile's parent on its face; a root, at `CUBE_MIN_LEVEL`, has none held. */
+const parentOf = ({ face, level, x, y }: CubeCell): CubeCell | null =>
+  level <= CUBE_MIN_LEVEL
     ? null
-    : { level: level - 1, x: Math.floor(x / 2), y: Math.floor(y / 2) };
+    : { face, level: level - 1, x: Math.floor(x / 2), y: Math.floor(y / 2) };
 
-/** `key`'s parent, its parent's, and so on to the root, nearest first. */
-function ancestorsOf(key: GridCell): GridCell[] {
+/** `key`'s parent, its parent's, and so on to its root, nearest first. */
+function ancestorsOf(key: CubeCell): CubeCell[] {
   const up = parentOf(key);
   return up === null ? [] : [up, ...ancestorsOf(up)];
 }
 
 /** Whether `inner` lies inside `outer`, `outer` itself included. */
-const within = (inner: GridCell, outer: GridCell) =>
+const within = (inner: CubeCell, outer: CubeCell) =>
+  inner.face === outer.face &&
   inner.level >= outer.level &&
   Math.floor(inner.x / 2 ** (inner.level - outer.level)) === outer.x &&
   Math.floor(inner.y / 2 ** (inner.level - outer.level)) === outer.y;
@@ -26,14 +33,14 @@ const within = (inner: GridCell, outer: GridCell) =>
  * ancestor in hand is left out.
  */
 export function coverOf(
-  selected: readonly GridCell[],
+  selected: readonly CubeCell[],
   has: (id: string) => boolean,
-): GridCell[] {
-  const standIns = new Map<string, GridCell>();
+): CubeCell[] {
+  const standIns = new Map<string, CubeCell>();
   for (const key of selected) {
-    if (has(tileId(key))) continue;
-    const standIn = ancestorsOf(key).find((up) => has(tileId(up)));
-    if (standIn !== undefined) standIns.set(tileId(standIn), standIn);
+    if (has(cubeTileId(key))) continue;
+    const standIn = ancestorsOf(key).find((up) => has(cubeTileId(up)));
+    if (standIn !== undefined) standIns.set(cubeTileId(standIn), standIn);
   }
   // A stand-in inside another is drawn by the outer one.
   const outer = [...standIns.values()].filter(
@@ -43,7 +50,7 @@ export function coverOf(
       ),
   );
   const own = selected.filter(
-    (key) => has(tileId(key)) && !outer.some((standIn) => within(key, standIn)),
+    (key) => has(cubeTileId(key)) && !outer.some((standIn) => within(key, standIn)),
   );
   return [...outer, ...own];
 }
@@ -56,40 +63,34 @@ export function coverOf(
  * under the eye, so the margin may draw nothing until the selection is in hand.
  */
 export function coverAround(
-  selected: readonly GridCell[],
-  shown: readonly GridCell[],
+  selected: readonly CubeCell[],
+  shown: readonly CubeCell[],
   has: (id: string) => boolean,
-): GridCell[] {
-  const shownIds = new Set(shown.map((key) => tileId(key)));
+): CubeCell[] {
+  const shownIds = new Set(shown.map((key) => cubeTileId(key)));
   // Each shown tile and every tile containing one.
   const blocked = new Set(shownIds);
   for (const key of shown) {
-    for (const up of ancestorsOf(key)) blocked.add(tileId(up));
+    for (const up of ancestorsOf(key)) blocked.add(cubeTileId(up));
   }
   const beyond = selected.filter(
     (key) =>
-      !blocked.has(tileId(key)) &&
-      !ancestorsOf(key).some((up) => shownIds.has(tileId(up))),
+      !blocked.has(cubeTileId(key)) &&
+      !ancestorsOf(key).some((up) => shownIds.has(cubeTileId(up))),
   );
   return [...shown, ...coverOf(beyond, (id) => has(id) && !blocked.has(id))];
 }
 
-/** Plane metres from `(x, y)` to the nearest point of the tile. */
-export function distanceTo(key: GridCell, x: number, y: number): number {
-  const { west, south, east, north } = tileRect(key);
-  return Math.hypot(
-    x - Math.min(east, Math.max(west, x)),
-    y - Math.min(north, Math.max(south, y)),
-  );
-}
+/** Radians from direction `eye` (any length) to the nearest point of the tile. */
+export const distanceTo = (key: CubeCell, eye: Vec3): number =>
+  capGap(tileCap(key), eye);
 
-/** `keys` nearest to plane point `(x, y)` first, the coarser first at a tie. */
+/** `keys` nearest to direction `eye` first, the coarser first at a tie. */
 export const nearestFirst = (
-  keys: readonly GridCell[],
-  x: number,
-  y: number,
-): GridCell[] =>
+  keys: readonly CubeCell[],
+  eye: Vec3,
+): CubeCell[] =>
   keys
-    .map((key) => ({ key, distance: distanceTo(key, x, y) }))
+    .map((key) => ({ key, distance: distanceTo(key, eye) }))
     .toSorted((a, b) => a.distance - b.distance || a.key.level - b.key.level)
     .map(({ key }) => key);

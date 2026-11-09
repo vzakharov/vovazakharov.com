@@ -1,7 +1,7 @@
 import type { CanDispose } from '@/kernel/shared/typings';
 
-import { type GridCell, type Vec3, worldToPlane } from '@/island/shared/globe';
-import { tileId } from '@/island/entities/terrain';
+import type { CubeCell, Vec3 } from '@/island/shared/globe';
+import { cubeTileId } from '@/island/entities/terrain';
 
 import { nearestFirst } from '../model/tile-cover';
 import type {
@@ -12,7 +12,7 @@ import type {
 } from './tile-protocol';
 
 /**
- * Workers in the pool. Each holds its own world field (~4 MB), so a few
+ * Workers in the pool. Each holds its own world field (16 MB), so a few
  * share the fills without a phone paying for one per core.
  */
 const POOL_SIZE = 2;
@@ -26,9 +26,9 @@ export type TilePool = CanDispose & {
   /**
    * The tiles wanted now from `eye` (world metres), replacing what was wanted
    * before: queued ones no longer wanted are dropped, the rest go out nearest
-   * the eye first, each filled to the eye's `detailCut`.
+   * the eye first, each filled to the eye's `cubeDetailCut`.
    */
-  readonly want: (keys: readonly GridCell[], eye: Vec3) => void;
+  readonly want: (keys: readonly CubeCell[], eye: Vec3) => void;
   /** Whether `id` is asked of a worker and not yet back. */
   readonly pending: (id: string) => boolean;
 };
@@ -50,7 +50,7 @@ export function startTilePool(
 ): TilePool {
   const slots: Slot[] = [];
   const inFlight = new Set<string>();
-  let queue: GridCell[] = [];
+  let queue: CubeCell[] = [];
   /** The eye the queue was wanted from. */
   let from: Vec3 = [0, 0, 0];
 
@@ -63,7 +63,7 @@ export function startTilePool(
       while (slot.busy < IN_FLIGHT) {
         const key = queue.shift();
         if (key === undefined) return;
-        inFlight.add(tileId(key));
+        inFlight.add(cubeTileId(key));
         slot.busy += 1;
         send(slot, { kind: 'fill', key, eye: from });
       }
@@ -79,12 +79,18 @@ export function startTilePool(
     const slot: Slot = { worker, busy: 0 };
     worker.addEventListener('message', (event: MessageEvent<WorkerReply>) => {
       const message = event.data;
+      if (message.kind === 'failed') {
+        const error = new Error(`tile worker ${String(index)}: ${message.message}`);
+        field.reject(error);
+        onError(error);
+        return;
+      }
       if (message.kind === 'built') {
         const { field: copy, seed, buildMs } = message;
         if (copy !== null) field.resolve({ field: copy, seed, buildMs });
         return;
       }
-      inFlight.delete(tileId(message.tile.key));
+      inFlight.delete(cubeTileId(message.tile.key));
       slot.busy -= 1;
       onTile(message.tile);
       pump();
@@ -102,12 +108,10 @@ export function startTilePool(
   return {
     field: field.promise,
     want: (keys, eye) => {
-      const { x, y } = worldToPlane(eye);
       from = eye;
       queue = nearestFirst(
-        keys.filter((key) => !inFlight.has(tileId(key))),
-        x,
-        y,
+        keys.filter((key) => !inFlight.has(cubeTileId(key))),
+        eye,
       );
       pump();
     },

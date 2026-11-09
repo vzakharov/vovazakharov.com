@@ -9,9 +9,14 @@ import {
   type Vec3,
 } from '@/island/shared/globe';
 
-import { GROUND_SLOPE, HIGHEST_GROUND, LOWEST_GROUND } from '../../height';
+import {
+  type CoastDistance,
+  HIGHEST_GROUND,
+  LOWEST_GROUND,
+  SPHERE_GROUND_SLOPE,
+} from '../../height';
 import { capGap, cubeTileId, cubeTileSide, tileCap } from '../../tile';
-import { type CoastDistance, cubeChildren, cubeSplitRule } from './cube-split';
+import { cubeChildren, cubeSplitRule } from './cube-split';
 import { type Framed, outside } from './view';
 
 export type CubeSelectOptions = Framed & {
@@ -47,11 +52,11 @@ export function selectCubeTiles(
   /** The tile's lowest and highest ground, bounded by the slope around samples. */
   const relief = (key: CubeCell, samples: readonly Vec3[]) => {
     const side = cubeTileSide(key);
-    if (ground === undefined || GROUND_SLOPE * side >= HIGHEST_GROUND) {
+    if (ground === undefined || SPHERE_GROUND_SLOPE * side >= HIGHEST_GROUND) {
       return [LOWEST_GROUND, HIGHEST_GROUND] as const;
     }
     // Every point of the tile lies within half a side of one sample.
-    const slack = (GROUND_SLOPE * side) / 2;
+    const slack = (SPHERE_GROUND_SLOPE * side) / 2;
     const heights = samples.map((p) => ground(p));
     return [
       Math.max(LOWEST_GROUND, Math.min(...heights) - slack),

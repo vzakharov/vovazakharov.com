@@ -1,11 +1,8 @@
 import { z } from 'zod';
 
-import { worldHash } from './hash';
+import { OUR_WORLD, worldHash } from './hash';
 import { K, WORD_COUNT } from './layout';
 import committed from './mask.json';
-
-/** Our island's world number, the one the committed mask decodes to ours. */
-export const OUR_WORLD = '1';
 
 const BYTES = 4 * WORD_COUNT;
 
