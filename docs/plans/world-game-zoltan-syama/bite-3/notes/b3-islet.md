@@ -56,8 +56,8 @@ grid.
   37.0° N 25.7° E, 60.5° N 1.2° W. None lies more than 39 km out, which matches
   C2's 0.00% "beyond 39 km".
 - **Cut-off pieces** are fit landmasses that are a fragment of a larger true
-  one, like the delta. There are **20**. Eighteen are under 5,000 km². Among
-  them the Mississippi delta, the Alaska Peninsula's tip, Kintyre, Haiti's
+  one, like the delta. There are **20**. Eighteen are under 5,000 km². They
+  include the Mississippi delta, the Alaska Peninsula's tip, Kintyre, Haiti's
   western peninsula, the Palawan and Lombok areas, the Chiloé and Taitao areas,
   Tierra del Fuego (51,947 km², cut from the mainland at the Strait of Magellan,
   as on Earth), and the Antarctic Peninsula's tip.
