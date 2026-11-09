@@ -1,4 +1,9 @@
 export {
+  type CubeFillOptions,
+  type CubeHeightSample,
+  fillCubeTile,
+} from './model/cube-fill';
+export {
   capGap,
   capsApart,
   CUBE_MAX_LEVEL,
@@ -21,9 +26,5 @@ export {
   tileRect,
   tileSide,
 } from './model/tile';
-export {
-  borderLoop,
-  fillTile,
-  tileBuffers,
-  type TileMesh,
-} from './model/tile-fill';
+export { fillTile } from './model/tile-fill';
+export { borderLoop, tileBuffers, type TileMesh } from './model/tile-mesh';
