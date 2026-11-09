@@ -204,6 +204,14 @@ None in hand.
   lakes touching each other and the sea, and later rivers and mountains by the
   same mechanism. World 1's rolls are fitted to the mask as the harmonics are
   today. Bite 2 lands with the strait closed; this bite lays over it.
+- **Earth as world #0, on a round world** — taken on («я хочу чтобы мы и взялись
+  за это же»). Land is defined over the whole sphere, not on the one flat patch
+  `src/island/shared/globe/globe.ts` lays on it («как бы я ни любил Пратчетта,
+  для нас всё же хочу чего-то менее магического»); a mask per pinned world (#0
+  Earth, #1 ours); parameters named rather than indexed, «строго типизированный
+  интерфейс … чтобы мы … не заблудились в строках». The rationale is on the
+  board's infinite-worlds zone. Its order against objects from dice rolls is
+  open.
 
 ## Rest of the elephant
 
