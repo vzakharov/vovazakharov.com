@@ -70,17 +70,27 @@ export type Ringed<T> = {
 export const ringAt = <T>({ ring, points }: Ringed<T>, i: number, j: number) =>
   entry(points, (j + 1) * ring + i + 1);
 
+/** A lattice vertex's normal by central difference over its four neighbours. */
+export const latticeNormal = (
+  east: Vec3,
+  west: Vec3,
+  north: Vec3,
+  south: Vec3,
+) => unit(cross(sub(east, west), sub(north, south)));
+
 /**
  * Builds the mesh from a ringed lattice and the tile's middle: the grid, its
  * normals by central difference over the ring — so they agree across a shared
  * edge as positions do — and a skirt hiding the cracks against a neighbour one
- * level coarser or finer.
+ * level coarser or finer. `normalAt`, by grid vertex, replaces the central
+ * difference where a border vertex must light as a coarser tile lights it.
  */
 export function assembleTile<K extends GridCell>(
   key: K,
   lattice: Ringed<LatticePoint>,
   middle: Vec3,
   skirtDepth: number,
+  normalAt: ReadonlyMap<number, Vec3> = new Map(),
 ): TileMesh<K> {
   const grid = lattice.ring - 2;
   const cells = grid - 1;
@@ -101,14 +111,17 @@ export function assembleTile<K extends GridCell>(
   for (let j = 0; j < grid; j++) {
     for (let i = 0; i < grid; i++) {
       const { world, height } = at(i, j);
-      const normal = unit(
-        cross(
-          sub(at(i + 1, j).world, at(i - 1, j).world),
-          sub(at(i, j + 1).world, at(i, j - 1).world),
-        ),
-      );
+      const v = j * grid + i;
+      const normal =
+        normalAt.get(v) ??
+        latticeNormal(
+          at(i + 1, j).world,
+          at(i - 1, j).world,
+          at(i, j + 1).world,
+          at(i, j - 1).world,
+        );
       gridNormals.push(normal);
-      put(j * grid + i, world, normal, height);
+      put(v, world, normal, height);
     }
   }
 
