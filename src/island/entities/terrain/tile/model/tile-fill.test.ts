@@ -1,51 +1,24 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import {
-  cross,
-  dot,
-  type GridCell,
-  length,
-  R,
-  scaled,
-  sub,
-  unit,
-  type Vec3,
-} from '@/island/shared/globe';
+import { dot, type GridCell, length, R, sub } from '@/island/shared/globe';
 
 import { TILE_GRID as GRID, tileId, tileSide } from './tile';
 import { fillTile } from './tile-fill';
-import { borderLoop, tileBuffers, type TileMesh } from './tile-mesh';
+import { borderLoop, tileBuffers } from './tile-mesh';
+import {
+  assertFlatMesh,
+  horizontal,
+  middleOf,
+  normal,
+  read,
+  world,
+} from './tile-mesh.test-kit';
 
 const FLOAT32 = 2 ** -23;
 
 const hills = (x: number, y: number) =>
   300 * Math.sin(x / 1700) * Math.cos(y / 2300) + 0.01 * x;
-
-function read(array: ArrayLike<number>, index: number): number {
-  const value = array[index];
-  assert.ok(value !== undefined, `index ${index} of ${array.length}`);
-  return value;
-}
-
-const triple = (f: (c: 0 | 1 | 2) => number): Vec3 => [f(0), f(1), f(2)];
-
-const world = (mesh: TileMesh, v: number) =>
-  triple((c) => read(mesh.centre, c) + read(mesh.positions, v * 3 + c));
-
-const normal = (mesh: TileMesh, v: number) =>
-  triple((c) => read(mesh.normals, v * 3 + c));
-
-const triangles = (mesh: TileMesh) =>
-  Array.from({ length: mesh.indices.length / 3 }, (_, t) =>
-    triple((c) => read(mesh.indices, t * 3 + c)),
-  );
-
-/** `d` less its part along `p`'s vertical: the horizontal step there. */
-const level = (d: Vec3, p: Vec3) => {
-  const up = unit(p);
-  return sub(d, scaled(up, dot(d, up)));
-};
 
 describe('fillTile', () => {
   const key: GridCell = { level: 10, x: 512, y: 515 };
@@ -91,7 +64,7 @@ describe('fillTile', () => {
 
   it('hangs its skirt below the border, flared a cell outside the tile', () => {
     const cell = tileSide(key.level) / (GRID - 1);
-    const middle = triple((c) => read(mesh.centre, c));
+    const middle = middleOf(mesh);
     for (const [n, top] of borderLoop(GRID).entries()) {
       const border = world(mesh, top);
       const skirt = world(mesh, GRID * GRID + n);
@@ -102,7 +75,7 @@ describe('fillTile', () => {
       assert.ok(Math.abs(sunk - depth) < 0.1);
       // Diagonally at a corner, so a cell along each axis, √2 cells across.
       const corner = n % (GRID - 1) === 0;
-      const step = level(sub(skirt, border), border);
+      const step = horizontal(sub(skirt, border), border);
       const flare = length(step);
       const expected = corner ? Math.SQRT2 * cell : cell;
       assert.ok(
@@ -110,28 +83,14 @@ describe('fillTile', () => {
         `skirt ${n}: ${flare} m`,
       );
       assert.ok(
-        dot(step, level(sub(border, middle), border)) > 0,
+        dot(step, horizontal(sub(border, middle), border)) > 0,
         `skirt ${n}`,
       );
     }
   });
 
   it('points normals outward on flat ground, and winds every face outward', () => {
-    const flat = fillTile(key, () => 0);
-    for (let v = 0; v < vertices; v++) {
-      const p = world(flat, v);
-      assert.ok(dot(normal(flat, v), unit(p)) > 1 - 1e-6, `vertex ${v}`);
-    }
-    const middle = triple((c) => read(flat.centre, c));
-    for (const [a, b, c] of triangles(flat)) {
-      const [pa, pb, pc] = [world(flat, a), world(flat, b), world(flat, c)];
-      const face = cross(sub(pb, pa), sub(pc, pa));
-      const centroid = triple((i) => (pa[i] + pb[i] + pc[i]) / 3);
-      const skirt = Math.max(a, b, c) >= GRID * GRID;
-      // A grid face faces up; a skirt face faces away from the tile's middle.
-      const toward = skirt ? sub(centroid, middle) : centroid;
-      assert.ok(dot(face, toward) > 0, `triangle ${a} ${b} ${c}`);
-    }
+    assertFlatMesh(fillTile(key, () => 0));
   });
 
   it('keeps vertices on the sphere at their height', () => {

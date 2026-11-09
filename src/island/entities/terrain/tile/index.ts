@@ -1,4 +1,9 @@
 export {
+  type CubeFillOptions,
+  type CubeHeightSample,
+  fillCubeTile,
+} from './model/cube-fill';
+export {
   capGap,
   capsApart,
   CUBE_MAX_LEVEL,

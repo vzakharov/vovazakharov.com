@@ -52,7 +52,7 @@ export const tileBuffers = (mesh: TileMesh): ArrayBuffer[] => [
 /** A lattice vertex in world metres; `height` is above the sea. */
 export type LatticePoint = Elevated & { readonly world: Vec3 };
 
-export function entry<T>(items: readonly T[], index: number): T {
+export function entry<T>(items: ArrayLike<T>, index: number): T {
   const item = items[index];
   if (item === undefined) throw new RangeError(`no entry ${index}`);
   return item;
@@ -62,7 +62,10 @@ export function entry<T>(items: readonly T[], index: number): T {
  * A tile's lattice laid out with one extra ring all round: `(grid + 2)²`
  * entries, row `j` (north) by column `i` (east), each from `−1`.
  */
-export type Ringed<T> = { readonly ring: number; readonly points: readonly T[] };
+export type Ringed<T> = {
+  readonly ring: number;
+  readonly points: readonly T[];
+};
 
 export const ringAt = <T>({ ring, points }: Ringed<T>, i: number, j: number) =>
   entry(points, (j + 1) * ring + i + 1);
