@@ -349,7 +349,7 @@ export function mountIslandScene(
       return {
         commit: process.env.NEXT_PUBLIC_COMMIT ?? 'dev',
         page: `${location.origin}${location.pathname}`,
-        place: { world, pose: poseOfEye(eye, clock.hours) },
+        place: { world, pose: poseOfEye(eye, clock.hours, groundAt) },
         solarHours: solarHours(sun, eye.at),
         tiles: view.levels(eye.at),
       };

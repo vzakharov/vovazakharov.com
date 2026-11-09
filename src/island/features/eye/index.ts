@@ -15,6 +15,7 @@ export {
   eyeAt as globeEyeAt,
   type GroundAt as GlobeGroundAt,
   headingOf,
+  heightOverGround,
   ISLAND_OPENING,
   type Opening,
   openingOf,

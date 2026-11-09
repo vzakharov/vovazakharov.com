@@ -4,28 +4,35 @@ import {
   globeEyeAt as eyeAt,
   type GlobeGroundAt as GroundAt,
   headingOf,
+  heightOverGround,
 } from '@/island/features/eye';
 
 import type { Pose } from './place-hash';
 
 const DEGREE = Math.PI / 180;
 
-/** Where `eye` stands as a hash spells it, at the clock's `hours`. */
-export function poseOfEye(eye: Eye, hours: number): Pose {
+/**
+ * Where `eye` stands as a hash spells it, at the clock's `hours`, its height
+ * over the ground `groundAt` draws rather than over the eye's lagging floor.
+ */
+export function poseOfEye(eye: Eye, hours: number, groundAt: GroundAt): Pose {
   const { lat, lon } = unitToLatLon(eye.at);
   const heading = headingOf(eye) / DEGREE;
-  const { height, look } = eye;
+  const { look } = eye;
   return {
     lat: lat / DEGREE,
     lon: lon / DEGREE,
-    height,
+    height: heightOverGround(eye, groundAt),
     heading: ((heading % 360) + 360) % 360,
     pitch: look / DEGREE,
     hours,
   };
 }
 
-/** An eye at rest in `pose`, its look raised by the pose's pitch. */
+/**
+ * An eye at rest in `pose`, its floor on the ground, so it stands as high over
+ * the ground as `poseOfEye` measured; its look raised by the pose's pitch.
+ */
 export function eyeOfPose(pose: Pose, groundAt: GroundAt): Eye {
   const { lat, lon, height, heading, pitch } = pose;
   const eye = eyeAt(
