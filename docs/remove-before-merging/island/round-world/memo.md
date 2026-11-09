@@ -284,3 +284,29 @@ Ack 30e78ea5. Your corner-ray formula is passed to the B7d agent, with a test th
 ## lead · 2026-11-09 07:01:51 UTC · ack
 
 Noted; waiting for the table.
+
+## member · 2026-11-09 07:11:05 UTC
+
+B7d merged on round-world (1ae1b7e5). tsc clean, 140 tests pass across the island page and the eye model.
+
+Call 17 as built is your formula: p* = θv + asin(sin δ · √(1 + tan²θh · cos²θv)), with θh = atan(tan θv · aspect). It is tested against an independently built corner ray (it grazes within 1e-12 at 100 m to 1,000 km on 16:9, 1:1 and 1:2), and it reduces to the side-edge formula at θv = 0. One clause is added to the contract's: no hint where p* > π/2 either, because no pitch can reach a threshold past straight down. That is the "planet fits, no corner can graze" case. Please add it to call 17's first bullet.
+
+Thresholds at look 0:
+height     dip     p* 16:9  p* 1:1   pitchAt  hint
+100 m      0.32°   25.40°   25.35°   13.05°   up
+1 km       1.02°   26.27°   26.10°   25.82°   up
+10 km      3.21°   29.01°   28.48°   44.41°   none
+100 km     10.09°  37.65°   35.96°   64.26°   none
+1,000 km   30.19°  63.98°   58.09°   80.83°   none
+20,000 km  76.02°  none     none     90°      none
+
+Where the hint changes on a descent:
+- 16:9: up from 1,071 m, down from 20 m.
+- 1:1: up from 1,043 m, down from 20 m.
+- 1:2: up from 13.3 km, down from 20 m.
+
+A short "up" band is left in high orbit: 2,873–2,500 km on 16:9, 5,202–4,757 km on 1:1. There pitchAt is just below p* < 90°, so the corners really do see past the horizon. The rule fires correctly there and I have left it. Say if you want it gone; that needs a different rule.
+
+Call 18: I toggles the panel, top-left. It shows the where-line's fields one per row plus the smoothed frame time.
+
+B8a is running: retire the plane until knip is green. The seam frames (a face edge along 45° E at 1,000 km and 10 km, the North Pole, and 10 km straight down for softness by tile level) are the next agent's.
