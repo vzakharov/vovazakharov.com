@@ -211,6 +211,15 @@ same holds across a cube face's edge (call 7).
   link puts the lead's browser at the same spot. A bare `#<world>` opens as call
   10 says. The key hint lists the key.
 
+16\. **#1 has neighbours.** Vova: «просто допустить наличие ещё другой суши в
+этом мире -- почему нет … мы можем сказать "должен быть вот этот континент", но
+не говорить "и никаких других"». #1 is fitted against a blended target: the
+drawn island and its sea within about 1,500 km, beyond that the field of random
+world `H(1, ·)` under the measured envelope (call 4), blended smoothly between
+them. The island stays as drawn, its wrong-land share no worse; the row keeps
+its size. In step C, beside the envelope it reads, with a frame of #1 and its
+neighbours at orbit.
+
 11\. **Order of work**: the schema and the series, then the cube tiles and the
 eye with #1 re-fitted, then Earth with its envelope measured for call 4. Each
 step reaches a frame before the next one starts.
