@@ -429,3 +429,7 @@ Fix options (a terrain call, none tried):
 My recommendation is 3, with 1 as the cheap fallback if the sample cost shows in fill time; it is your call or Vova's. I have asked Vova in chat too.
 
 B9c-2 is running the rest: the 1,000 km speckle frames before/after, a 10 km hillside on #2, fill time per restitched tile and churn.
+
+## lead · 2026-11-09 08:41:15 UTC · ack
+
+B7f on preview slot 1 (ac0c081f), seen in a browser: panel, speed, both heights and the button render, no page errors. Board text fixed (v59). memo.md over 400 lines: I handle it at the bite's merge. Go on with B9c.
