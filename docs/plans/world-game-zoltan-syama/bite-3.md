@@ -225,12 +225,17 @@ same holds across a cube face's edge (call 7).
 переключение на горизонт -- можно оставить как есть, при этом подсказка "Press ↓
 to look down"».
 
-- **"Press ↑ to look up"** shows once the horizon at the frame's side edges sits
-  at or below the middle of the frame, which happens when the pitch below the
-  horizontal falls to `p* = asin(sin δ / cos(φ/2))`, where
-  `δ = acos(R / (R + h))` is the horizon's dip at height `h` and `φ` the
-  horizontal field of view: the ray through a side edge at mid-height then
-  grazes the horizon.
+- **"Press ↑ to look up"** shows once the horizon enters the frame at its side
+  edges at all — the ray through a top corner grazes it — which happens when the
+  pitch below the horizontal falls to
+  `p* = θv + asin(sin δ · √(1 + tan²θh · cos²θv))`, where
+  `δ = acos(R / (R + h))` is the horizon's dip at height `h` and `θh`, `θv` the
+  horizontal and vertical half-fields of view. Where the asin's argument passes
+  1 the planet fits inside the frame and no hint shows. Vova left the reading to
+  the member («выбери на своё усмотрение пока»), who took this one over a set
+  fraction from the top and over flattening the descent's pitch: the
+  middle-of-the-frame reading never fires, the descent looking far steeper than
+  its threshold at every height.
 - **"Press ↓ to look down"** shows once the pitch the height gives reaches its
   floor, the eye fully on the horizon. Neither shows while the player has
   already moved the look with ↑/↓.

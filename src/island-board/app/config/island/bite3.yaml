@@ -46,6 +46,12 @@ items:
     box: [6360, 3700, 320]
     src: images/bite3-first-sphere.webp
     text: 'First flight over the sphere: #1 alone on the globe, lit from the NW, and the same island from 1,000 km. The world builds in 1.4 s. The thin spits are real land from the fit'
+  - id: bite3-noon-midnight
+    type: image
+    updated: [2026-11-09T07:00:00.000Z, agent:lead]
+    box: [6360, 3860, 320]
+    src: images/bite3-noon-midnight.webp
+    text: '#1 from 1,000 km at noon and at midnight, the same spot: the sun 80° up, then 80° down. Midnight is the full moon''s, about 7× darker, and snow turns blue-grey'
   - id: bite3-b2-field
     type: image
     updated: [2026-11-09T04:58:00.000Z, agent:lead]
