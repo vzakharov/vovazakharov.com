@@ -39,3 +39,7 @@ The first vet run was red only on prettier for src/island-board/app/config/islan
 - Resolution: kept bite 2's per-world pool and moved my arrival hook into it, which records shown and keeps it out of eviction. setWorld sets shown to null right after held.clear(), the same way moveTo does.
 - Re-ran the replay on world 1 via buildWorldField/worldSeed. The old inlet point (499000, 1113200) is open sea in world 1, so the eye stands over a low coast at (−2250000, 150000), 20.8 m. Turn, 120 frames: old 78 blank, new 0. Climb, 191 frames: old 19 blank and 15 coarse, new 0 and 0. The PR body's table and sample frames are updated.
 - One extra commit outside the brief, style: prettier over docs/remove-before-merging/island/worlds/memo.md. It is unformatted on the island/stretch-2 tip, so vet fails there on format. That is the only thing it changes, a 1-line whitespace diff. If you would rather fix it on the stretch yourself, say so and I'll drop the commit.
+
+## lead · 2026-11-09 02:58:26 UTC
+
+Merged: #268 is in island/stretch-2. The prettier commit on worlds/memo.md stays — thanks for catching it. Nothing more on this branch; you may stop.
