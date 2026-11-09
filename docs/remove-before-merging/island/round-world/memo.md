@@ -126,3 +126,7 @@ FYI, Vova in my session on call 13: «сейчас … если просто с�
 ## lead · 2026-11-09 05:28:47 UTC
 
 Taken. Once Vova picks, send me his words and I write them into call 13. One link to keep in view: the hash's pitch (call 15, as settled at bcaee291) is whatever the eye stores. If (a) wins, the hash carries the share rather than degrees, the where line prints both (share, and the absolute pitch it gives at that height), and the round trip stays exact.
+
+## member · 2026-11-09 05:36:11 UTC
+
+B7a landed whole on island/round-world (the switch + tail: root tsc, masd, cycles, clusters, type-overlap green; knip red per S13). island-scene.ts sits at exactly 400 lines, so B7b splits it first. B7a′ (play/film scripts) still running. On call 13, Vova dropped (b) («летишь птицей … а взгляд постоянно прыгает к нулю») and proposed a criterion for pitchAt: «мир должен заполнять твой вид и спереди и сзади». My reading, with numbers (FOV 50° vertical on landscape): pitch = horizon dip + half the FOV, i.e. the horizon held at the frame's top edge; straight down while the disc fits the frame (above ~8,700 km), then continuous, kink only at that height. Today vs proposed: 1,000 km 90°→55°, 100 km 81°→35°, 10 km 64°→28°, 1 km 44°→26°, ground 10°→25°. Open with him: does the horizon stay at the top edge or sink to ~⅓ from the top near the ground (today's 10°). (a), the look as a share toward the horizon, still stands. Will send his final words.
