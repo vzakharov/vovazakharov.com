@@ -350,8 +350,7 @@ lands; B7, then B8, alone.
   bare `(face, level, x, y)`, `latLonToUnit`/`unitToLatLon`, `northAt(p)` with
   its pole fallback. Ends: tests — round trip to 1e-12; shared-edge points
   bit-equal from both faces (all 12 edges, all levels to 17); `neighbour` is an
-  involution across every edge; cell edge ratio ≤ 1.415. ~1 agent, small; first,
-  since B3–B5 stand on it.
+  involution across every edge; cell edge ratio ≤ 1.415.
 - **B2 — the sphere coast field and world build.** Marching squares on the
   lat-lon grid with wrap and pole rules; 3D segments; the true-distance sweep
   with wrap; `sampleSphereField(field, p)`; `buildSphereWorld(world)` =
