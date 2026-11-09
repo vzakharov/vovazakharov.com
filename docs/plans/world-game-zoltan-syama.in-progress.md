@@ -27,7 +27,9 @@ the bite in hand. The text it held before the board took over is in git
 - «и надо на английском, будем же шарить в таймлапсе (то что уже выложил и
   сфоткал отменять не надо, это тоже часть процесса)» — everything on the board
   is in English, the operator's own words translated; a frame already published
-  and captured stays as it was.
+  and captured stays as it was. A reply in a board thread is conversation, not
+  board content, so it is in the language of the comment it answers («ты чего
+  вдруг по-английски в ответах писать начал»).
 - «вмещающие прямоугольники … опять становятся слишком правильными и скучными по
   расположению» — zones are placed off any grid, staggered and unequal in size,
   as the stickies are; a new zone does not line up with its neighbours.
