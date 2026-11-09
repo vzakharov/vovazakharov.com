@@ -1,8 +1,4 @@
-export {
-  type CubeFillOptions,
-  type CubeHeightSample,
-  fillCubeTile,
-} from './model/cube-fill';
+export { fillCubeTile } from './model/cube-fill';
 export {
   capGap,
   capsApart,

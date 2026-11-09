@@ -1,5 +1,4 @@
 export {
-  EARTH_OPENING,
   type Eye,
   eyeAt,
   type GroundAt,
@@ -8,7 +7,6 @@ export {
   ISLAND_OPENING,
   MAX_HEIGHT,
   MIN_HEIGHT,
-  type Opening,
   openingOf,
   step,
   STILL,
