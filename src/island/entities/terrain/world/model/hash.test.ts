@@ -48,13 +48,13 @@ describe('worldHash', () => {
 
   it('is MurmurHash3 of the key words and the counter, little-endian', () => {
     const digits = bytes('42');
-    const message = new DataView(new ArrayBuffer(12));
-    message.setUint32(0, murmur3(digits, 0x97_47_b2_8c), true);
-    message.setUint32(4, murmur3(digits, 0x5b_d1_e9_95), true);
-    message.setUint32(8, 777, true);
+    const framed = new DataView(new ArrayBuffer(12));
+    framed.setUint32(0, murmur3(digits, 0x97_47_b2_8c), true);
+    framed.setUint32(4, murmur3(digits, 0x5b_d1_e9_95), true);
+    framed.setUint32(8, 777, true);
     assert.equal(
       worldHash('42')(777),
-      murmur3(new Uint8Array(message.buffer), 0),
+      murmur3(new Uint8Array(framed.buffer), 0),
     );
   });
 
@@ -70,13 +70,18 @@ describe('worldHash', () => {
     for (const count of ones) assert.ok(Math.abs(count / samples - 0.5) < 0.02);
   });
 
-  it('takes only non-negative integers without leading zeros', () => {
+  it('takes only integers without leading zeros, 0 for the path hash alone', () => {
     for (const bad of ['', '00', '07', '-3', '-0', '1.5', '1e3', ' 2', 'abc']) {
       assert.throws(() => worldHash(bad), /Not a world number/, bad);
       assert.throws(() => pathHash(bad), /Not a world number/, bad);
     }
-    assert.doesNotThrow(() => {
+    assert.throws(() => worldHash('0'), /Not a world number/);
+    assert.throws(() => {
       assertWorldNumber('0');
+    }, /Not a world number/);
+    assert.doesNotThrow(() => {
+      pathHash('0');
+      pathHash('9'.repeat(500));
       assertWorldNumber('9'.repeat(500));
     });
   });

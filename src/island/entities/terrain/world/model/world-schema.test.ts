@@ -22,7 +22,7 @@ describe('harmonicIndex', () => {
   it('spells and finds every (l, m) in slot order', () => {
     const degree = 9;
     const index = harmonicIndex(degree);
-    assert.equal(index.size, 99);
+    assert.equal(index.slots, 99);
     let slot = 0;
     for (let l = 1; l <= degree; l += 1) {
       for (let m = -l; m <= l; m += 1) {

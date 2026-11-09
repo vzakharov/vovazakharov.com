@@ -41,7 +41,7 @@ describe('synthesize', () => {
       const { grid } = transform;
       const c = randomSeries(degree);
       const field = synthesize(transform, c);
-      for (const ring of [0, 3, Math.floor(grid.rings / 2), grid.rings - 1]) {
+      for (const ring of [0, 3, Math.floor(grid.rows / 2), grid.rows - 1]) {
         for (const j of [0, 1, 5, grid.columns - 1]) {
           const phi = (2 * Math.PI * j) / grid.columns;
           const expected = direct(c, degree, grid.x[ring] ?? 0, phi);

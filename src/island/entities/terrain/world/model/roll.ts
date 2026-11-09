@@ -8,15 +8,16 @@ import { decodeNormal, decodeUniform } from './decode';
 export type Leaf = { kind: 'leaf'; decode: (word: number) => number };
 
 /**
- * A table's keys: `size` of them, key `k` at flat slot `slotOf(k)` in
- * `[0, size)`, the key at each slot spelled as path segments (`(l, m)` →
- * `l/m`).
+ * A table's flat slots, `[0, slots)`, the key at each spelled as path segments
+ * (`(l, m)` → `l/m`).
  */
-export type TableIndex<K> = {
-  size: number;
-  slotOf: (key: K) => number;
+type Slotted = {
+  slots: number;
   segmentsAt: (slot: number) => string;
 };
+
+/** A table's keys, key `k` at slot `slotOf(k)`. */
+export type TableIndex<K> = Slotted & { slotOf: (key: K) => number };
 
 /** A table decoded: its values in slot order, and a lookup by key. */
 export type Lookup<K> = { values: Float64Array; at: (key: K) => number };
@@ -25,11 +26,9 @@ export type Lookup<K> = { values: Float64Array; at: (key: K) => number };
  * A table of one leaf per key. `K` appears only where a key is taken, so a
  * table over any key type is a `Table<never>`, which is how `Roll` holds one.
  */
-export type Table<K> = {
+export type Table<K> = Slotted & {
   kind: 'table';
   leaf: Leaf;
-  size: number;
-  segmentsAt: (slot: number) => string;
   lookup: (values: Float64Array) => Lookup<K>;
 };
 
@@ -75,12 +74,12 @@ export const roll = {
   word: (): Leaf => leaf((word) => word),
   /** One `of` per key of `index`, decoded into a flat array. */
   table: <K>(
-    { size, slotOf, segmentsAt }: TableIndex<K>,
+    { slots, slotOf, segmentsAt }: TableIndex<K>,
     of: Leaf,
   ): Table<K> => ({
     kind: 'table',
     leaf: of,
-    size,
+    slots,
     segmentsAt,
     lookup: (values) => ({
       values,
@@ -95,9 +94,9 @@ const childPath = (path: string, name: string) =>
 function rollAt(schema: Roll, path: string, source: WordSource): unknown {
   if (schema.kind === 'leaf') return schema.decode(source(path));
   if (schema.kind === 'table') {
-    const { size, segmentsAt, leaf: of, lookup } = schema;
-    const values = new Float64Array(size);
-    for (let slot = 0; slot < size; slot += 1) {
+    const { slots, segmentsAt, leaf: of, lookup } = schema;
+    const values = new Float64Array(slots);
+    for (let slot = 0; slot < slots; slot += 1) {
       values[slot] = of.decode(source(childPath(path, segmentsAt(slot))));
     }
     return lookup(values);

@@ -1,14 +1,11 @@
+import type { Gridded } from '@/scene/shared/lib/plane';
+
 /**
- * A latitude–longitude grid for a series up to `degree`: `degree + 1` rings
- * at the Gauss–Legendre nodes in `x = cos θ`, north to south, and `columns`
- * equally spaced longitudes from `φ = 0`, the least power of two of at least
- * `2·degree + 2`. The rings make the quadrature exact for every product of
- * two harmonics up to `degree`, and no ring sits on a pole.
+ * A latitude–longitude grid:`rows` rings at the Gauss–Legendre nodes in
+ * `x = cos θ`, north to south, and `columns` equally spaced longitudes from
+ * `φ = 0`.
  */
-export type RingGrid = {
-  degree: number;
-  rings: number;
-  columns: number;
+export type RingGrid = Gridded & {
   /** `cos θ` of each ring, falling. */
   x: Float64Array;
   /** Each ring's Gauss–Legendre weight in `x`; they sum to 2. */
@@ -57,13 +54,18 @@ export function gaussLegendre(n: number) {
 
 const leastPowerOfTwo = (n: number) => 2 ** Math.ceil(Math.log2(n));
 
+/**
+ * The grid for a series up to `degree`: `degree + 1` rings, which make the
+ * quadrature exact for every product of two harmonics up to `degree` and put
+ * none on a pole, and the least power of two of at least `2·degree + 2`
+ * longitudes.
+ */
 export function ringGrid(degree: number): RingGrid {
-  const rings = degree + 1;
+  const rows = degree + 1;
   return {
-    degree,
-    rings,
+    rows,
     columns: leastPowerOfTwo(2 * degree + 2),
-    ...gaussLegendre(rings),
+    ...gaussLegendre(rows),
   };
 }
 

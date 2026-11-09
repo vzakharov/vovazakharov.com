@@ -46,7 +46,7 @@ export const sphereTransform = (degree: number): SphereTransform => ({
  * the equator, where `P_lm(−x) = (−1)^{l+m}·P_lm(x)`, so one recursion serves
  * both. With an odd count the middle ring is its own pair.
  */
-const ringPairs = ({ rings }: RingGrid) => Math.ceil(rings / 2);
+const ringPairs = ({ rows }: RingGrid) => Math.ceil(rows / 2);
 
 /** `c_lm` for `±m`, reordered order-major to match `legendreColumn`. */
 function orderMajor({ degree, start }: LegendreRecursion, c: Float64Array) {
@@ -67,7 +67,8 @@ export function synthesize(
   { grid, recursion }: SphereTransform,
   c: Float64Array,
 ): Float64Array {
-  const { degree, rings, columns } = grid;
+  const { rows: rings, columns } = grid;
+  const { degree, sectoral, start } = recursion;
   const { cosine, sine } = orderMajor(recursion, c);
   const field = new Float64Array(rings * columns);
   const column = new Float64Array(degree + 1);
@@ -82,10 +83,10 @@ export function synthesize(
     spectrum.im.fill(0);
     let pmm = LEGENDRE_00;
     for (let m = 0; m <= degree; m += 1) {
-      if (m > 0) pmm *= -(recursion.sectoral[m] ?? 0) * sineTheta;
+      if (m > 0) pmm *= -(sectoral[m] ?? 0) * sineTheta;
       if (Math.abs(pmm) < NEGLIGIBLE) break;
       legendreColumn(recursion, m, x, pmm, column);
-      const base = recursion.start[m] ?? 0;
+      const base = start[m] ?? 0;
       let cosEven = 0;
       let cosOdd = 0;
       let sinEven = 0;
@@ -129,7 +130,8 @@ export function analyze(
   { grid, recursion }: SphereTransform,
   field: Float64Array,
 ): Float64Array {
-  const { degree, rings, columns } = grid;
+  const { rows: rings, columns } = grid;
+  const { degree, sectoral, start } = recursion;
   const cosine = new Float64Array(orderMajorSize(degree));
   const sine = new Float64Array(orderMajorSize(degree));
   const column = new Float64Array(degree + 1);
@@ -146,7 +148,7 @@ export function analyze(
     const quadrature = cellArea(grid, pair);
     let pmm = LEGENDRE_00;
     for (let m = 0; m <= degree; m += 1) {
-      if (m > 0) pmm *= -(recursion.sectoral[m] ?? 0) * sineTheta;
+      if (m > 0) pmm *= -(sectoral[m] ?? 0) * sineTheta;
       if (Math.abs(pmm) < NEGLIGIBLE) break;
       // Each ring's own transform `F_m = Σ_j f_j e^{−imφ_j}`, unpacked.
       const mirror = (columns - m) % columns;
@@ -160,7 +162,7 @@ export function analyze(
       const cs = ((wi + vi) / 2) * scale;
       const ss = ((wr - vr) / 2) * scale;
       legendreColumn(recursion, m, x, pmm, column);
-      const base = recursion.start[m] ?? 0;
+      const base = start[m] ?? 0;
       for (let k = 0; k <= degree - m; k += 1) {
         const p = column[k] ?? 0;
         const even = k % 2 === 0;
@@ -171,7 +173,7 @@ export function analyze(
   }
   const c = new Float64Array((degree + 1) ** 2);
   for (let m = 0; m <= degree; m += 1) {
-    const base = (recursion.start[m] ?? 0) - m;
+    const base = (start[m] ?? 0) - m;
     for (let l = m; l <= degree; l += 1) {
       c[harmonicSlot(l, m)] = cosine[base + l] ?? 0;
       if (m > 0) c[harmonicSlot(l, -m)] = sine[base + l] ?? 0;

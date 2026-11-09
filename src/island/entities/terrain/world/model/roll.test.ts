@@ -6,7 +6,7 @@ import { roll, rollWith } from './roll';
 
 describe('rollWith', () => {
   const pair = {
-    size: 2,
+    slots: 2,
     slotOf: (key: 'left' | 'right') => (key === 'left' ? 0 : 1),
     segmentsAt: (slot: number) => (slot === 0 ? 'left' : 'right'),
   };

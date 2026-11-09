@@ -2,7 +2,7 @@ import { pathHash } from './hash';
 import { roll, type Rolled, rollWith, type TableIndex } from './roll';
 
 /** The series' degree `L`: `(L + 1)² = 262,144` coefficients. */
-export const DEGREE = 511;
+export const LAND_DEGREE = 511;
 
 /** A harmonic's degree `l` and order `m`, `|m| ≤ l`. */
 export type Harmonic = { l: number; m: number };
@@ -13,7 +13,7 @@ export type Harmonic = { l: number; m: number };
  */
 export function harmonicIndex(degree: number): TableIndex<Harmonic> {
   return {
-    size: (degree + 1) ** 2 - 1,
+    slots: (degree + 1) ** 2 - 1,
     slotOf: ({ l, m }) =>
       l >= 1 && l <= degree && Math.abs(m) <= l ? l * l + l + m - 1 : -1,
     segmentsAt: (slot) => {
@@ -28,7 +28,7 @@ export function harmonicIndex(degree: number): TableIndex<Harmonic> {
  * other coefficient, each a unit normal the land's envelope scales — and the
  * value noise's seed.
  */
-export const worldSchema = (degree = DEGREE) =>
+export const worldSchema = (degree = LAND_DEGREE) =>
   roll.struct({
     land: roll.struct({
       sea: roll.normal(),
@@ -40,5 +40,5 @@ export const worldSchema = (degree = DEGREE) =>
 export type World = Rolled<ReturnType<typeof worldSchema>>;
 
 /** World `N` as `H(N, ·)` rolls it. */
-export const rollWorld = (world: string, degree = DEGREE): World =>
+export const rollWorld = (world: string, degree = LAND_DEGREE): World =>
   rollWith(worldSchema(degree), pathHash(world));

@@ -8,7 +8,7 @@ const grid = ringGrid(63);
 
 /** The grid's values of `f(cos θ, φ)`. */
 const fieldOf = (f: (x: number, phi: number) => number) =>
-  Float64Array.from({ length: grid.rings * grid.columns }, (_, cell) => {
+  Float64Array.from({ length: grid.rows * grid.columns }, (_, cell) => {
     const ring = Math.floor(cell / grid.columns);
     const phi = (2 * Math.PI * (cell % grid.columns)) / grid.columns;
     return f(grid.x[ring] ?? 0, phi);

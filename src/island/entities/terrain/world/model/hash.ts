@@ -55,12 +55,15 @@ function resume(
 export const murmur3 = (bytes: Uint8Array, seed: number): number =>
   resume(seed >>> 0, 0, bytes, bytes.length);
 
-const WORLD_NUMBER = /^(?:0|[1-9]\d*)$/;
+// A number is hashed whole as text, so neither rule admits a leading zero:
+// `"07"` and `"7"` would otherwise be two worlds.
+const WORLD_NUMBER = /^[1-9]\d*$/;
+const HASHED_NUMBER = /^(?:0|[1-9]\d*)$/;
 
 /**
- * Whether `world` is a non-negative integer's decimal string with no leading
- * zeros, of any length: the number is hashed whole as text, so `"07"` and
- * `"7"` would otherwise be two worlds.
+ * Whether `world` is a world the game opens: a positive integer's decimal
+ * string with no leading zeros, of any length. `"0"` is hashed by `pathHash`
+ * but is not yet a world the game opens, so the URL's `#0` falls back.
  */
 export const isWorldNumber = (world: string): boolean =>
   WORLD_NUMBER.test(world);
@@ -74,7 +77,6 @@ export function assertWorldNumber(world: string): void {
 
 /** The hash state after the world's 8-byte key, `key₀, key₁`, under seed 0. */
 function keyedState(world: string): number {
-  assertWorldNumber(world);
   const digits = Uint8Array.from(world, (c) => c.codePointAt(0) ?? 0);
   const [k0, k1] = KEY_SEEDS.map((seed) => murmur3(digits, seed));
   return block(block(0, k0 ?? 0), k1 ?? 0);
@@ -84,6 +86,7 @@ const KEY_BYTES = 8;
 
 /** `H(N, ·)`: word `i` (an integer in `[0, 2^32)`) of world `N`'s hash. */
 export function worldHash(world: string): (i: number) => number {
+  assertWorldNumber(world);
   const keyed = keyedState(world);
   return (i) => finalize(block(keyed, i), KEY_BYTES + 4);
 }
@@ -91,9 +94,13 @@ export function worldHash(world: string): (i: number) => number {
 /**
  * `H(N, path)`: MurmurHash3 under seed 0 of `key₀, key₁` (little-endian) and
  * the UTF-8 bytes of `path`, the key derived from the number's digits as
- * `worldHash`'s is.
+ * `worldHash`'s is. `N` is any non-negative integer's decimal string with no
+ * leading zeros, `"0"` included.
  */
 export function pathHash(world: string): (path: string) => number {
+  if (!HASHED_NUMBER.test(world)) {
+    throw new Error(`Not a world number: ${JSON.stringify(world)}`);
+  }
   const keyed = keyedState(world);
   const encoder = new TextEncoder();
   let buffer = new Uint8Array(64);
