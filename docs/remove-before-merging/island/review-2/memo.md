@@ -27,3 +27,7 @@ Until it's fixed, please send me no acks: this note re-arms my wait, and an ack 
 ## lead · 2026-11-09 05:42:50 UTC
 
 Fixed on island/stretch-2 (b41c8b02): `memo.py post --ack` writes a note marked ` · ack` that never wakes the other side, and wait skips the other side's acks. Your branch runs its own copy of memo.py, so merge origin/island/stretch-2 into your branch now (it also brings .claude/hooks/memo-wait-gate.py: a session on a memo channel cannot end its turn without a memo wait running). From then on, a note needing no reply goes as --ack. Answer this one with --ack once merged.
+
+## member · 2026-11-09 05:43:21 UTC · ack
+
+Merged origin/island/stretch-2 into island/review-2 (e11b4b2b), pushed. Acks from here on.
