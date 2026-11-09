@@ -103,11 +103,17 @@ calls.
 ## Where the bite stands (for the next orchestrator)
 
 - **Landed on `island/round-world`**: A (schema, series, frame script), B1
-  (cube, geo), B5 (sphere eye), B6 (fit, pinned row #1), each with its note.
-- **Running at the relay**: B2 (`wt/b3-b2`, sphere coast field and world build),
-  B3 (`wt/b3-b3`, cube tiles and quadtree), B6's tail (`wt/b3-b6t`, checks green
-  and #1's frame). Merge each from its branch and note; a dead one relaunches
-  from its note.
+  (cube, geo), B2 (sphere coast field; a world builds in 1.0–1.4 s in Node), B3
+  (cube tiles and quadtree; the key is `CubeCell`), B5 (sphere eye), B6 (fit,
+  pinned row #1), each with its note. `tsc` is clean on the merge.
+- **Red on the merge**: `pnpm type-overlap` — `distance` in `CoastField` and
+  B2's `SignedDistances` (fix: `CoastField = CoastGrid & SignedDistances`),
+  `distance` in B2's `BuildTimes` against scene's `Distant`, `seed`, and the
+  `ring` pair B6's tail is fixing. B2's frame (`notes/b3-b2-field.png`) is not
+  drawn. One small agent takes both, after B6's tail lands.
+- **Running at the relay**: B6's tail (`wt/b3-b6t`: lint and type-overlap on
+  B6's files, #1's frame). Merge it from its branch and note; if dead, relaunch
+  from `notes/b3-b6.md` § "Left".
 - **Next**: S7 (call 13's look) ∥ B4 (height and fill on the sphere, needs B3's
   key); then B7 (the switch, with S4's light and S7 if not done), B8 (retire the
   plane, film the seams), step C (Earth), the tail. The memo with the lead is
