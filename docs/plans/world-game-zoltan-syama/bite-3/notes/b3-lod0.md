@@ -123,7 +123,58 @@ conservative; or hold a finer ring of ancestors (e.g. level 6–8 around the eye
 so the stand-in's lattice is finer than what it is cut around; and cache or
 cheapen the cut rebuild.
 
+## Run 4 — stand-in ring, drawn behind (809a61b6, 2nd commit after it)
+
+- **(a) Ring**: `standInsOf` (`model/tile-cover.ts`) — each selected tile's
+  ancestor `STAND_IN_DEPTH = 3` up (a lattice is 6 levels finer than its tile,
+  so the stand-in's cells are the selected tile's level+3). `tileView` asks for
+  them unstitched (flat levels, like roots) in `want`'s new `first` list, which
+  `tilePool.want(first, rest, eye)` queues ahead of the rest; `standing()` keeps
+  them from eviction. A fixed level 6–8 ring would sit 9+ levels above the
+  level-17 tiles at 546 m, so L−3 it is. Extra fills (Node,
+  `drivers/ring.ts.txt`, Calabria, heading 220.1°): 527 m 294 selected → +26 (+9
+  %, levels 3–14); 13 km 283 → +18 (+6 %). A turn's new stand-ins: 3 / 4 / 7 / 8
+  / 9 / 12 / 17 for turns of 12–96° (vs 19…189 new selected tiles).
+- **(b) Behind**: `groundLighting().standIn.{land,sea}` — same colour and
+  lights, `depthNode` view depth × 1.03 (`STAND_IN_PUSH`), so a finer tile wins
+  where they overlap. `tileMeshes` draws cut meshes in them. `indicesOutside`
+  now drops a lattice cell only when wholly inside `except` tiles (a per-cell
+  mask; a tile finer than a cell cuts nothing) **and** every neighbour inside
+  the stand-in is cut too: a one-cell rim stays under the cut edge, behind the
+  finer tile, because a cut edge has no skirt — exact cuts alone left curved
+  dark slits along ridges in the turn (first build).
+- **(c) Cost**: no cache needed — the mask makes the cut linear in the lattice.
+  Root cut around 290 tiles (`drivers/cut-bench.ts.txt`): 0.9 ms median / 2.1
+  p90, was 13.5 / 17.4 ms; level-9 stand-in 0.4 / 1.0, was 2.2 / 2.6.
+
+**Fast turn in the page**, built at 809a61b6 (exact cut, before the rim), same
+driver, blue px below row 558 / whole frame:
+
+| frame                 | turn02 | turn03 | turn04 | turn05 | turn06 | turn07 | turn08 | hold +100 | +200 | +300 | +400 on  |
+| --------------------- | ------ | ------ | ------ | ------ | ------ | ------ | ------ | --------- | ---- | ---- | -------- |
+| old (aa2883f3, run 3) | 32k    | 85k    | 81k    | 149k   | 213k   | 198k   | 264k   | 116k      | 14k  | 0    | 0        |
+| run 3 (8773b62c)      | 0.5k   | 9k     | 40k    | 54k    | 53k    | 48k    | 51k    | 48k       | 3k   | 0    | 0        |
+| run 4 below row       | 0      | 0.1k   | 0.2k   | 0.15k  | 0.13k  | 0.8k   | 1.1k   | 1.1k      | 1.6k | 0.3k | 0        |
+| run 4 whole frame     | 2.9k   | 3.6k   | 4.5k   | 4.4k   | 4.2k   | 4.5k   | 4.4k   | 4.5k      | 5.0k | 3.6k | 3.2–3.4k |
+
+Whole-frame blue in the turn (4.4k) ≈ the settled horizon sea (3.2k at hold,
+1.6k at the opening heading). **Looked** (`run4-turn04.png`, `run4-turn08.png`):
+relief everywhere, no flat slab, no wedge; what blue is left below the horizon
+is two or three thin curved slits along ridge backs — the skirtless cut edges
+the rim commit closes. No z-fight seen, console clean (only the
+WebGPU-unavailable warning).
+
+**Verdict: the turn's holes and the slab are gone; the slits are fixed in code
+but not yet looked at.**
+
 ## Left (for the next agent)
+
+0. **Re-run at the rim commit** (export already built in `sites/vova/out` of the
+   run-4 worktree, else `pnpm build vova`): `lod0.ts spin` and `descent`,
+   `blue.py <dir> 0.62`; expect turn below-row blue ≈ 0; look for the rim
+   showing over finer ground at 546 m (push 3 % vs a rim standing higher than
+   the finer tile beside it) and the descent's 923–546 m slits. Frames →
+   `run4-*.png`.
 
 1. **Sims not re-run** (context ran out). Rebuild `tmp/descent-sim.ts` from run
    1's description (real `selectCubeTiles`, `nearestFirst`, reselect at 2 % of
