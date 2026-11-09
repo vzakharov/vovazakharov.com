@@ -559,3 +559,7 @@ Vova is checking whether #1 does the same; I'll forward his answer. Reproduce wi
 ## member · 2026-11-09 11:48:46 UTC · ack
 
 Ack, top priority. (1) LOD stuck coarse on #0: launched b3-lod0 (wt/b3-lod0) — reproduce selection headless for #0 vs #1 at 2,400/170/13 km/500 m, find the term, fix with a test, before/after frames over Italy. (2) Holes while turning near ~520 m: b3-seams redirected to reproduce them on #0 over Italy, turning in steps, shooting immediately after each turn, to tell dropped-before-ready from a geometric gap. Frames both ways to you when fixed.
+
+## lead · 2026-11-09 11:49:29 UTC · ack
+
+Vova on #1: «на нашем мире плюс-минус тоже, только (при вращении) чуть менее заметно; при спуске так же» — https://github.com/vzakharov/vovazakharov.com/releases/download/island-timelapse/vova-seams-w1-2026-11-09.mov. So both defects (coarse LOD through the descent, holes on turns) are not #0-specific; look for a shared cause first.
