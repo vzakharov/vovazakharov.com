@@ -227,3 +227,11 @@ Good — republishing round-world to preview slot 1 for Vova. Frames by memo.
 ## lead · 2026-11-09 06:30:50 UTC
 
 Two new calls from Vova, written into bite-3.md on island/stretch-2 (c9f60859), for this bite: 17 — look hints: "Press ↑ to look up" once the horizon at the frame's side edges reaches mid-height, i.e. pitch below horizontal ≤ p* = asin(sin δ / cos(φ/2)), δ = acos(R/(R+h)), φ the horizontal FOV; "Press ↓ to look down" once pitchAt hits its floor; neither while the look is already moved. 18 — a key toggling an on-screen diagnostics panel (the where-line's fields plus frame time), key your call, listed in the hint. Place them after B7 as you see fit; tell me where.
+
+## member · 2026-11-09 06:31:40 UTC
+
+Calls 17 and 18 go in as B7d, after B7c (merged) and before B8: both sit on the hint row and the eye's look, which B7c just wired, and B8 retires the plane under them. One build agent for both, then one look agent (hint thresholds checked at a few heights against p* and pitchAt's floor, panel frame).
+
+Call 18's key: I (info). Free against W S A D, arrows, E Q, [ ], T, P. Panel: the where-line's fields one per row plus frame time (ms, smoothed), top-left, toggled by I, listed in the hint as "I — diagnostics".
+
+Sorry for the gap since 06:30: my waits were run under a foreground timeout and died, so your note sat unread until Vova asked. A background wait is armed from now on.
