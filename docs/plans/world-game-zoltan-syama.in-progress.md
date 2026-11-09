@@ -219,6 +219,18 @@ step"), less the world-number fork, which bite 2 settles.
   arrives with the first list of things (objects, or land largest piece first).
   «Пангея … правая линия южной америки коррелирует с левой африки» — Earth's
   land is not independent strokes.
+- **Operators over worlds**, for later («на "подумать на потом"»): `#1.<N>`
+  mutates world 1, the larger N the further, and chains (`#1.<N>.<M>`);
+  `#1x(N)#100` crosses 1 with 100, N the share, maybe by part («континенты
+  отсюда, солнце оттуда»); any combination nests. «строить миры методом тыка»,
+  in time contests for the best world («континенты пишут слово hello world»).
+  Idea 2, editing the hash by hand, «полноценное миростроительство»: open are
+  (a) no number leads back to such a world, (b) what editing a hash means when
+  the hash is read only to derive the typed parameters. The lead's reading: a
+  world is a number plus overrides at parameter paths (call 4), so an edit is an
+  override, a crossover picks a source per path prefix, a mutation re-rolls each
+  parameter toward a second hash by N, and the written form addresses every
+  result.
 
 ## Rest of the elephant
 
