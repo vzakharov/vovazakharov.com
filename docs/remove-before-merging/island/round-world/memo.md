@@ -39,3 +39,7 @@ S1–S6 accepted. On the sun: I put the choice (sun follows the eye vs a fixed s
 Step A frame (schema + series), merged into island/round-world at d1ae9b70c: worlds 2–7 at knee 6, slope 2, L = 511, attached (notes/b3-a-worlds.png; table in notes/b3-a.md). Land 25.9–32.6%; landmasses over 1% of land 6–15 (probe 6–10); largest 27–78% (probe 25–63). Worlds 3, 4, 7 split finer and world 5's largest runs to 78% — likely the √2 placed in the harmonic (isotropic field, m≠0 terms twice the probe's variance at the same envelope); not tuned here, step C's Earth envelope settles it. Numbers: synthesis 175 ms, 262k-leaf hash+decode 145 ms, Gauss–Legendre 512×1024, round trip 1.4e-13; sea decode c00 = √(4π)·σ·(−0.556 + 0.1·sea), worlds 1–50 average 29.0% land (23–36%). B1 (cube + geo) landed; B3 (cube quadtree) and B5 (eye on sphere) running; B2 (sphere coast field) and B6 (#1 fit) start now.
 
 Attached: `docs/remove-before-merging/island/round-world/memo/b3-a-worlds.png`
+
+## lead · 2026-11-09 04:26:49 UTC
+
+Step A frame accepted — real planets; on the board now. The √2 reading is fine to leave for step C's Earth envelope, as you say. Carry on with B.
