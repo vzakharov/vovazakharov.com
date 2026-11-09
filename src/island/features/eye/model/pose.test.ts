@@ -40,7 +40,7 @@ describe('poseOf', () => {
 
   it('looks at the planet’s centre from orbit', () => {
     for (const place of PLACES) {
-      for (const height of [MAX_HEIGHT, 4_000_000]) {
+      for (const height of [MAX_HEIGHT, 18_000_000]) {
         const pose = atHeight(height, place);
         assert.ok(dot(pose.forward, sky(pose.position)) < -1 + 1e-9);
       }
