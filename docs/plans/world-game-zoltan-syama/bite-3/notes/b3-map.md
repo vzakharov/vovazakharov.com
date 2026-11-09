@@ -1,12 +1,9 @@
 # b3-map — step B's map: fact sheet, design, cut
 
-Reader agent, base 6e584e7a4. No source changed. Step A had pushed nothing when
-this was written, so A's interface is assumed below as "a lat-lon grid of `f`
-plus its analysis inverse"; B2 and B6 adapt to what A actually lands.
+Reader agent, base 6e584e7a4, no source changed. Step A had pushed nothing yet,
+so A is assumed to give "a lat-lon grid of `f` and its analysis inverse".
 
-## 1. Fact sheet — what is plane-coupled today
-
-Paths under `src/island/`. "Plane" = the azimuthal island plane around 10° N.
+## 1. Fact sheet — what is plane-coupled today (paths under `src/island/`)
 
 ### `shared/globe`
 
@@ -15,9 +12,7 @@ Paths under `src/island/`. "Plane" = the azimuthal island plane around 10° N.
   `EAST = [0,0,-1]`, `NORTH`, `planeToWorld(x,y,h)`, `worldToPlane(p)`
   (undefined at the centre's antipode). Longitude therefore grows toward `−Z`:
   `p = (cos φ cos λ, sin φ, −cos φ sin λ)`. `Elevated` and `R` are not plane.
-- `coast.ts` — `Coast` (rings in plane km). Read only by `coast-field.ts`; after
-  B it is the fit's alone.
-- `vec3.ts` — plain vectors; unchanged.
+- `coast.ts` — `Coast` (rings in plane km), read by `coast-field.ts` alone.
 - Readers of the plane functions: `tile/model/tile-fill.ts` (lattice →
   `planeToWorld`), `quadtree/model/quadtree.ts` (`visible`, border points),
   `quadtree/model/split.ts` (`worldToPlane(eye)`, `viewDistance`),
@@ -80,7 +75,6 @@ Paths under `src/island/`. "Plane" = the azimuthal island plane around 10° N.
 - `detail.ts` — `detailCut(eye, coast)(x, y)`: leaf holding the point, the
   coarser leaves in the 3×3 around each ancestor, `gap`/`apart` between plane
   rectangles, `reach` ramp. All plane rectangles.
-- `view.ts` — `frustumOf`, `outside`: pure 3D, unchanged.
 
 ### `entities/terrain/world` (bite 2's planar world)
 
@@ -182,12 +176,9 @@ near Nyquist, plus a contour and a sweep that cross 12 seams. The lat-lon grid
 needs only two topology rules, both cheap:
 
 - longitude wraps (column `n` = column 0);
-- across a pole, ring `−1` at longitude `λ` is ring `0` at `λ + π` (with
-  Gauss–Legendre rings, which carry no pole node; with equiangular rings that
-  include the pole, the pole row collapses to one value). Bilinear sampling in
-  `(θ, λ)` with these two rules is continuous everywhere, the pole's cap (inside
-  the first ring, ~10–20 km) included. No pole pinch: the cell is tiny there,
-  not stretched.
+- across a pole, ring `−1` at `λ` is ring `0` at `λ + π` (Gauss–Legendre rings;
+  equiangular ones put one value on the pole row). Bilinear sampling in `(θ, λ)`
+  is then continuous everywhere, the pole's ~20 km cap included.
 
 **Resolution is the open number.** A's minimum, `L+1 = 512` rings ×
 `2L+2 = 1024` longitudes, is 39 km at the equator — four times coarser than bite
@@ -197,8 +188,6 @@ zero-padded FFT per ring); rings cost one Legendre pass each (~L²/2 ≈ 131 k
 multiply-adds), so doubling them doubles A's synthesis. Take A's measured
 per-ring cost: if 1024 rings fit A's ~1.5 s, use them; else synthesise A's rings
 and interpolate the extra ones cubically in θ (f is smooth at that scale).
-Memory per worker: 2 M nodes × (f64 `f` 16 MB transient, f32 distance 8 MB, i32
-nearest 8 MB transient).
 
 **Distance: call 1 and B7 disagree; keep B7's true distance.** Call 1 says
 height derives from `f` "as bite 2's build does on the plane (`d = f/|∇f|`)".
@@ -215,16 +204,6 @@ with 3D segment maths, estimate 300–500 ms. The sweep needs a third pass for t
 wrap (left-to-right cannot carry across column 0 → `n−1`): run the row passes
 twice around, or seed both ends. The lead should confirm B7 over call 1's
 wording in writing before B2 starts.
-
-`f/|∇f|` stays useful in one place: the selection's `astride` test and the
-detail ramp need only "is the coast within a tile side", which the true distance
-already gives.
-
-The field's type:
-`SphereField = { rings: Float64Array (θ per ring), columns, distance: Float32Array }`,
-plain numbers and typed arrays (survives `postMessage`),
-`sampleSphereField(field, p: Vec3)` → metres. `CoastGrid`'s plane origin goes;
-`Gridded` stays.
 
 ### 2.3 Height and noise at a point
 
@@ -269,13 +248,11 @@ plain numbers and typed arrays (survives `postMessage`),
 
 ### 2.5 Precision near R = 6,371 km
 
-- Float64 everywhere in JS: ulp at 6.4e6 m is 9e-10 m; face coordinates at level
-  17 resolve cells of 1.5e-7 face units against an ulp of 2e-16. Fine.
-- Float32 reaches the GPU only as positions relative to the tile's float64
-  centre (largest root tile ~2,500 km: ulp 0.25 m, at a height where a cell is
-  39 km) and as mesh offsets `centre − eye` computed in float64 (tile-meshes
-  already does this). Keep both; no further work.
-- The one new hazard is the face-edge `tan(π/4)` above.
+Float64 in JS (ulp 9e-10 m at R; face units resolve level 17 with 1e9 to spare).
+Float32 reaches the GPU only relative to a tile's float64 centre (root tile
+~2,500 km: ulp 0.25 m where a cell is 39 km) and as `centre − eye` offsets
+already taken in float64 (`tile-meshes.ts`). No new work; the one new hazard is
+`tan(π/4)` (2.1).
 
 ### 2.6 The eye on the sphere
 
@@ -357,27 +334,16 @@ point.
    rotated by the minimal rotation taking `CENTRE` to the eye (smooth everywhere
    but one point, 10° S 180°, open ocean). Recommend (b); (a) if the lead wants
    "north-west" to mean geographic NW everywhere.
-4. **The coast slice's return** — masd marker vs `scripts/lib` (2.8).
-5. **#0 before step C** — a random world `H(0, ·)` in step B's frames.
+4. **The coast slice's return** — masd marker vs `scripts/lib` (2.8); and #0 is
+   the random `H(0, ·)` in step B's frames until step C.
 
 ## 3. The cut — build steps
 
-Additive-then-switch: B1–B6 add modules beside the planar ones (new files, the
-game untouched); B7 switches; B8 deletes and films. Each step ends green on
-`tsc`, eslint, `check:masd`, `check:cycles`, `masd:clusters`, `type-overlap` and
-its tests. A new slice-less module with only test readers until B7 may trip
-`check:masd`; land new code inside existing slices to avoid it.
-
-| step | needs              | parallel with | files (new unless marked)                                                                       |
-| ---- | ------------------ | ------------- | ----------------------------------------------------------------------------------------------- |
-| B1   | —                  | A, B6 prep    | `shared/globe/cube.ts`, `geo.ts` + tests                                                        |
-| B2   | A, B1              | B3, B4, B5    | `coast-field/model/sphere-field.ts`, `sphere-contour.ts`, `world/model/sphere-world.ts` + tests |
-| B3   | B1                 | B2, B4, B5    | `tile/model/cube-tile.ts`, `quadtree/model/cube-*.ts` + tests                                   |
-| B4   | B1, B3's `TileKey` | B2, B5        | `height/model/value-noise-3d.ts`, `height-sphere.ts`, `tile/model/cube-fill.ts` + tests         |
-| B5   | B1                 | B2, B3, B4    | `features/eye/model/sphere-eye.ts`, `sphere-pose.ts` + tests                                    |
-| B6   | A                  | B1–B5         | restore coast slice, `scripts/lib/azimuthal.ts`, `scripts/fit-world.ts`, `world/model/pinned*`  |
-| B7   | all                | —             | worker, protocol, pool, cover, scene, hook, hash (edits)                                        |
-| B8   | B7                 | —             | delete plane modules; scripts; frames                                                           |
+B1–B6 add files beside the planar ones, the game untouched (new code inside
+existing slices, so `check:masd` sees no test-only slice); B7 switches; B8
+deletes and films. Order: B1 first (small); then B2 (needs A), B3, B4 (needs
+B3's `TileKey`) and B5 in parallel on disjoint files; B6 beside them once A
+lands; B7, then B8, alone.
 
 - **B1 — cube and geo primitives.** `faceToSphere(face, a, b)`,
   `sphereToFace(p)`, the 24 edge transforms and `neighbour(key-like, dir)` on
@@ -433,6 +399,3 @@ its tests. A new slice-less module with only test readers until B7 may trip
   constants computed once through `scripts/lib/azimuthal.ts`. Ends: frames — a
   flight across a face edge (e.g. along 45° E at 1,000 km and 10 km) and over
   the North Pole, no seam; vet's checks green.
-
-B7 and B8 can merge into one agent if B7 lands small; B3 must not grow B4's fill
-into it.
