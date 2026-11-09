@@ -19,19 +19,19 @@ import {
 } from '@/island/entities/terrain';
 import {
   bindEyeControls,
-  type GlobeEye as Eye,
-  globeEyeAt as eyeAt,
-  type GlobeGroundAt as GroundAt,
-  globePoseOf as poseOf,
+  type Eye,
+  eyeAt,
+  type GroundAt,
   headingOf,
   type LookHint,
   lookHint,
   MAX_HEIGHT,
   openingOf,
-  stepOnGlobe as step,
+  poseOf,
+  step,
   STILL,
-  withGlobeHeading as withHeading,
-  withGlobeHeight as withHeight,
+  withHeading,
+  withHeight,
 } from '@/island/features/eye';
 
 import {
