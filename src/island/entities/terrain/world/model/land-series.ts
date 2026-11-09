@@ -29,7 +29,8 @@ export const SEA_SPREAD = 0.1;
  */
 export function fieldDeviation(envelope: Envelope, degree: number): number {
   let variance = 0;
-  for (let l = 1; l <= degree; l += 1) variance += (2 * l + 1) * envelope(l) ** 2;
+  for (let l = 1; l <= degree; l += 1)
+    variance += (2 * l + 1) * envelope(l) ** 2;
   return Math.sqrt(variance / (4 * Math.PI));
 }
 

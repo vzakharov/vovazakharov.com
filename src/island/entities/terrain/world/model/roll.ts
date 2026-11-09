@@ -43,14 +43,13 @@ export type Struct<F extends Record<string, Roll>> = {
 };
 
 /** The decoded type of a schema. */
-export type Rolled<S> =
-  S extends Leaf
-    ? number
-    : S extends Table<infer K>
-      ? Lookup<K>
-      : S extends Struct<infer F>
-        ? { [Name in keyof F]: Rolled<F[Name]> }
-        : never;
+export type Rolled<S> = S extends Leaf
+  ? number
+  : S extends Table<infer K>
+    ? Lookup<K>
+    : S extends Struct<infer F>
+      ? { [Name in keyof F]: Rolled<F[Name]> }
+      : never;
 
 /** Where a leaf's word comes from, by its path: `H(N, ·)`, or a pinned row. */
 export type WordSource = (path: string) => number;

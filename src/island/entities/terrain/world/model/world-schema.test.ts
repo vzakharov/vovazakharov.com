@@ -64,7 +64,10 @@ describe('worldSchema', () => {
         ...before.fields.land.fields,
         aaa: roll.normal(),
       }),
-      noise: roll.struct({ ...before.fields.noise.fields, octaves: roll.word() }),
+      noise: roll.struct({
+        ...before.fields.noise.fields,
+        octaves: roll.word(),
+      }),
     });
     for (const world of ['0', '1', '31337']) {
       const old = wordsOf(before, world);

@@ -17,14 +17,20 @@ const fieldOf = (f: (x: number, phi: number) => number) =>
 describe('landShare', () => {
   it('measures a polar cap by its area', () => {
     // The cap `x > 0.5` holds a quarter of the sphere.
-    const share = landShare(grid, fieldOf((x) => x - 0.5));
+    const share = landShare(
+      grid,
+      fieldOf((x) => x - 0.5),
+    );
     assert.ok(Math.abs(share - 0.25) < 0.01, `${share}`);
   });
 });
 
 describe('landmasses', () => {
   it('splits two caps and joins land across the seam and a pole', () => {
-    const caps = landmasses(grid, fieldOf((x) => Math.abs(x) - 0.8));
+    const caps = landmasses(
+      grid,
+      fieldOf((x) => Math.abs(x) - 0.8),
+    );
     assert.equal(caps.length, 2);
     assert.ok(Math.abs((caps[0] ?? 0) - 0.5) < 0.02);
     // A band through φ = 0 over the north pole: one landmass.

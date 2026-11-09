@@ -37,9 +37,7 @@ export function legendreRecursion(degree: number): LegendreRecursion {
     const base = (start[m] ?? 0) - m;
     for (let l = m + 2; l <= degree; l += 1) {
       a[base + l] = Math.sqrt((4 * l * l - 1) / (l * l - m * m));
-      b[base + l] = Math.sqrt(
-        ((l - 1) ** 2 - m * m) / (4 * (l - 1) ** 2 - 1),
-      );
+      b[base + l] = Math.sqrt(((l - 1) ** 2 - m * m) / (4 * (l - 1) ** 2 - 1));
     }
   }
   return { degree, sectoral, a, b, start };

@@ -100,7 +100,13 @@ describe('pathHash', () => {
   it('is MurmurHash3 of the key words and the path’s UTF-8', () => {
     for (const world of ['0', '1', '42', '9'.repeat(40)]) {
       const hash = pathHash(world);
-      for (const path of ['', 'a', 'land/sea', 'land/harmonic/37/-12', 'ø/日']) {
+      for (const path of [
+        '',
+        'a',
+        'land/sea',
+        'land/harmonic/37/-12',
+        'ø/日',
+      ]) {
         assert.equal(hash(path), murmur3(message(world, path), 0), path);
       }
     }

@@ -135,7 +135,10 @@ export function analyze(
   const cosine = new Float64Array(orderMajorSize(degree));
   const sine = new Float64Array(orderMajorSize(degree));
   const column = new Float64Array(degree + 1);
-  const signal = { re: new Float64Array(columns), im: new Float64Array(columns) };
+  const signal = {
+    re: new Float64Array(columns),
+    im: new Float64Array(columns),
+  };
   for (let pair = 0; pair < ringPairs(grid); pair += 1) {
     const south = rings - 1 - pair;
     const x = grid.x[pair] ?? 0;
@@ -166,7 +169,8 @@ export function analyze(
       for (let k = 0; k <= degree - m; k += 1) {
         const p = column[k] ?? 0;
         const even = k % 2 === 0;
-        cosine[base + k] = (cosine[base + k] ?? 0) + p * (even ? cn + cs : cn - cs);
+        cosine[base + k] =
+          (cosine[base + k] ?? 0) + p * (even ? cn + cs : cn - cs);
         sine[base + k] = (sine[base + k] ?? 0) + p * (even ? sn + ss : sn - ss);
       }
     }

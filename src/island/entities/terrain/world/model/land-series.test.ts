@@ -46,7 +46,11 @@ describe('landSeries', () => {
     const worlds = 100;
     let total = 0;
     for (let n = 1; n <= worlds; n += 1) {
-      const c = landSeries(rollWorld(String(n), degree).land, degree, PROBE_ENVELOPE);
+      const c = landSeries(
+        rollWorld(String(n), degree).land,
+        degree,
+        PROBE_ENVELOPE,
+      );
       total += landShare(transform.grid, synthesize(transform, c));
     }
     const mean = total / worlds;

@@ -24,7 +24,10 @@ function legendrePolynomial(n: number, x: number) {
     previous = current;
     current = next;
   }
-  return { value: current, slope: (n * (x * current - previous)) / (x * x - 1) };
+  return {
+    value: current,
+    slope: (n * (x * current - previous)) / (x * x - 1),
+  };
 }
 
 /** The `n`-point Gauss–Legendre nodes (falling) and weights on `[−1, 1]`. */
