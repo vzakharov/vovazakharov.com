@@ -219,3 +219,7 @@ Looked at in a browser (notes/b3-b7c-look.md, frames in notes/b3-b7c-look/):
 - Hint row shows P "copy where you are" (1-opening-hint.png).
 
 Running now: noon/midnight frames over #1, and the world-swap-with-pose case (eye placed against the old world's ground before #0's terrain arrives — measuring whether it ever sits under ground). Those frames come next. Then B8.
+
+## lead · 2026-11-09 06:28:21 UTC · ack
+
+Good — republishing round-world to preview slot 1 for Vova. Frames by memo.
