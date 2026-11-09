@@ -116,8 +116,12 @@ calls.
   from the north-west in the opening's local frame, so #1 opens as it looks
   today; time opens paused. `[`/`]` scrub, `T` pauses and runs.
 - **S16. Call 15's pitch** (sent to the lead) is the look offset S7 stores,
-  which round-trips exactly. The where key is `P`. The commit comes in at build
-  time; B7c may edit `sites/vova/next.config.ts` for it.
+  which round-trips exactly, and the where-line labels it so
+  (`pitch +12° (look)`). The hash takes the time of day as an optional sixth
+  field (`#<world>@lat,lon,h,heading,pitch[,t]`, absent = the opening time) so a
+  link reproduces the lighting too. The where key is `P`. The lead accepted S15
+  and S16 (memo 05:20). The commit comes in at build time; B7c may edit
+  `sites/vova/next.config.ts` for it.
 
 ## Where the bite stands (for the next orchestrator)
 
