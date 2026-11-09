@@ -182,9 +182,9 @@ rebuilds the world without a reload.
 - **Fixed in space.** The sun is fixed in space, not turned with the eye. The
   moon is full and stands opposite the sun, so the night side is lit by
   moonlight: dim, cool and readable, never black.
-- **Time turns the planet under them.** A world opens at local noon over its
-  start point, so #1 looks as it does today. Time keys scrub the day forward and
-  back, and may pause it.
+- **Time turns the planet under them.** A world opens with today's low
+  north-west sun over its start point, so #1 looks as it does today, and time
+  starts paused. Time keys scrub the day forward and back, and may pause it.
 - **The keys are the member's call**, clear of the movement keys, and the key
   hint lists them.
 - **The phase is fixed for now.** A moon that changes phase, and a moon you can
@@ -207,9 +207,11 @@ same holds across a cube face's edge (call 7).
   commit, the world number, latitude and longitude, height, heading, pitch, the
   time of day, and the levels of the tiles under the eye.
 - **The same pose rides in the hash**:
-  `#<world>@<lat>,<lon>,<height>,<heading>,<pitch>` opens there, so a pasted
-  link puts the lead's browser at the same spot. A bare `#<world>` opens as call
-  10 says. The key hint lists the key.
+  `#<world>@<lat>,<lon>,<height>,<heading>,<pitch>[,<time>]` opens there, so a
+  pasted link puts the lead's browser at the same spot under the same light; a
+  missing time is the opening time. The pitch is the look offset the eye stores,
+  so the link round-trips exactly, and the line labels it as such. A bare
+  `#<world>` opens as call 10 says. The key hint lists the key.
 
 11\. **Order of work**: the schema and the series, then the cube tiles and the
 eye with #1 re-fitted, then Earth with its envelope measured for call 4. Each

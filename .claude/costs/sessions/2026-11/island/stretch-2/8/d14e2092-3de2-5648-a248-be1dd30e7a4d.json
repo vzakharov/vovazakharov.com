@@ -1,0 +1,123 @@
+{
+  "total": {
+    "inputTokens": 1056,
+    "cacheWrite5mTokens": 450,
+    "cacheWrite1hTokens": 70044,
+    "cacheReadTokens": 2649064,
+    "outputTokens": 6802,
+    "thinkingTokens": 874,
+    "responses": 23,
+    "costUsd": 1.2340288
+  },
+  "estimate": {
+    "at": "2026-11-09T05:11:05.873Z",
+    "subjectLine": "chore: lead bite 3 of the island's second stretch",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "tracking a member's bite, answering its memos, keeping the board current and merging the bite takes a producer's judgement of scope"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-09T05:10:52.864Z",
+    "contextTokens": 116503,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 55205,
+      "cacheReadTokens": 588359,
+      "outputTokens": 1823,
+      "thinkingTokens": 416,
+      "responses": 6,
+      "costUsd": 0.5958278000000001
+    }
+  },
+  "sessionId": "d14e2092-3de2-5648-a248-be1dd30e7a4d",
+  "branch": "island/stretch-2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/stretch-2 — бит 3 строится у участника с пунктами 14 и 15, ветка ревью #269 открыта и ждёт первого handle",
+  "prs": [
+    266
+  ],
+  "url": "https://claude.ai/code/session_01DaohkCMighcyRoKGu4QHfm",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-09T05:10:22.947Z",
+  "lastResponseAt": "2026-11-09T05:20:47.773Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 44,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 70044,
+    "cacheReadTokens": 2407399,
+    "outputTokens": 6782,
+    "thinkingTokens": 874,
+    "responses": 21,
+    "costUsd": 1.1776478000000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 1056,
+      "cacheWrite5mTokens": 450,
+      "cacheWrite1hTokens": 70044,
+      "cacheReadTokens": 2649064,
+      "outputTokens": 6802,
+      "thinkingTokens": 874,
+      "responses": 23,
+      "costUsd": 1.2340288
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 22,
+    "matched": 20,
+    "matchedTableUsd": 1.1385586,
+    "matchedEventUsd": 1.1385586,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 450,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 241665,
+        "outputTokens": 20,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.056381
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".py": 718,
+    ".md": 9962,
+    ".json": -1395,
+    ".txt": 31,
+    ".ts": 623,
+    ".sh": 43,
+    ".yaml": 236,
+    ".tsx": 11
+  }
+}
