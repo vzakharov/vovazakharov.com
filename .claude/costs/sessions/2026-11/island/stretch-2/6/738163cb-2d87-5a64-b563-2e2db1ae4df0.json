@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 1337,
-    "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 181451,
-    "cacheReadTokens": 10961906,
-    "outputTokens": 37419,
-    "thinkingTokens": 13824,
-    "responses": 64,
-    "costUsd": 4.387639599999999
+    "inputTokens": 4463,
+    "cacheWrite5mTokens": 3139,
+    "cacheWrite1hTokens": 234626,
+    "cacheReadTokens": 24936393,
+    "outputTokens": 57683,
+    "thinkingTokens": 16381,
+    "responses": 117,
+    "costUsd": 8.050832999999999
   },
   "estimate": {
     "at": "2026-11-09T03:54:11.558Z",
@@ -54,18 +54,18 @@
   "url": "https://claude.ai/code/session_01DaohkDyMLav1hB9uoZ1xo6",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-09T03:53:19.408Z",
-  "lastResponseAt": "2026-11-09T04:01:29.322Z",
+  "lastResponseAt": "2026-11-09T04:34:27.943Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 123,
+    "inputTokens": 213,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 181451,
-    "cacheReadTokens": 10961906,
-    "outputTokens": 37145,
-    "thinkingTokens": 13824,
-    "responses": 63,
-    "costUsd": 4.387381199999999
+    "cacheWrite1hTokens": 234626,
+    "cacheReadTokens": 23420424,
+    "outputTokens": 57307,
+    "thinkingTokens": 16381,
+    "responses": 110,
+    "costUsd": 7.7080848
   },
   "subagents": {
     "inputTokens": 0,
@@ -79,14 +79,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 123,
-      "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 181451,
-      "cacheReadTokens": 10961906,
-      "outputTokens": 37145,
-      "thinkingTokens": 13824,
-      "responses": 63,
-      "costUsd": 4.387381199999999
+      "inputTokens": 3249,
+      "cacheWrite5mTokens": 3139,
+      "cacheWrite1hTokens": 234626,
+      "cacheReadTokens": 24936393,
+      "outputTokens": 57409,
+      "thinkingTokens": 16381,
+      "responses": 116,
+      "costUsd": 8.0505746
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1214,
@@ -102,10 +102,10 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 64,
-    "matched": 63,
-    "matchedTableUsd": 4.387381199999999,
-    "matchedEventUsd": 4.387381199999999,
+    "events": 117,
+    "matched": 110,
+    "matchedTableUsd": 7.7080848,
+    "matchedEventUsd": 7.7080848,
     "unseen": {
       "generate_session_title": {
         "inputTokens": 1214,
@@ -116,24 +116,49 @@
         "thinkingTokens": 0,
         "responses": 1,
         "costUsd": 0.0002584
+      },
+      "prompt_suggestion": {
+        "inputTokens": 3036,
+        "cacheWrite5mTokens": 3139,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 1515969,
+        "outputTokens": 102,
+        "thinkingTokens": 0,
+        "responses": 6,
+        "costUsd": 0.3424898
       }
     }
   },
   "operatorWords": {
-    "chat": 14,
+    "chat": 77,
     "review": 0,
-    "threads": 0
+    "threads": 291
   },
   "reviewPosts": {},
-  "threadPosts": {},
+  "threadPosts": {
+    "19e6ac40-5855-407f-a5d4-c9058815faf5@2026-11-06T20:54": 6,
+    "7149addd-8f0d-4dba-aab1-c1c571db497b@2026-11-07T06:20": 5,
+    "629856ff-9f6b-4682-aca0-99bea09f26ba@2026-11-07T07:16": 21,
+    "50a669be-8e41-4f4d-9ad8-21b72735c06b@2026-11-07T07:19": 8,
+    "cdeca233-def0-4ed5-a11c-1e1196860251@2026-11-07T07:22": 36,
+    "50a669be-8e41-4f4d-9ad8-21b72735c06b@2026-11-07T07:23": 25,
+    "1617f0fc-fcdc-4ab9-aba9-f1ad9e007a2c@2026-11-09T01:56": 16,
+    "1617f0fc-fcdc-4ab9-aba9-f1ad9e007a2c@2026-11-09T02:04": 25,
+    "c99572a3-77e4-4d1a-8a38-9d748674a207@2026-11-09T02:22": 104,
+    "c99572a3-77e4-4d1a-8a38-9d748674a207@2026-11-09T02:25": 2,
+    "cc40d1a1-4c0c-4aef-a0d4-790bb53b945c@2026-11-09T04:31": 4,
+    "3d251a23-91b7-4c5b-88b5-499b27355187@2026-11-09T04:31": 9,
+    "6962196b-cbd9-4037-98b3-5a56d21b3fa6@2026-11-09T04:32": 12,
+    "dc9d7353-879a-4c4a-bc77-ee243f4f22d6@2026-11-09T04:33": 18
+  },
   "branchLines": {
-    ".py": 657,
-    ".md": 9633,
-    ".json": -1402,
+    ".py": 718,
+    ".md": 9657,
+    ".json": -1398,
     ".txt": 31,
     ".ts": 623,
     ".sh": 43,
-    ".yaml": 191,
+    ".yaml": 214,
     ".tsx": 11
   }
 }
