@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 4086,
-    "cacheWrite5mTokens": 869369,
-    "cacheWrite1hTokens": 141022,
-    "cacheReadTokens": 33708486,
-    "outputTokens": 178739,
-    "thinkingTokens": 59961,
-    "responses": 272,
-    "costUsd": 15.818249200000018
+    "inputTokens": 5922,
+    "cacheWrite5mTokens": 962494,
+    "cacheWrite1hTokens": 147490,
+    "cacheReadTokens": 39989245,
+    "outputTokens": 204776,
+    "thinkingTokens": 68486,
+    "responses": 327,
+    "costUsd": 18.111239800000003
   },
   "estimate": {
     "at": "2026-11-09T10:21:25.439Z",
@@ -58,63 +58,83 @@
   "url": "https://claude.ai/code/session_01DaohkD74uWSKLC8ZwjGuG7",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-09T10:20:38.288Z",
-  "lastResponseAt": "2026-11-09T11:48:53.110Z",
+  "lastResponseAt": "2026-11-09T11:51:56.058Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 100,
+    "inputTokens": 106,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 141022,
-    "cacheReadTokens": 7661043,
-    "outputTokens": 26260,
-    "thinkingTokens": 2603,
-    "responses": 52,
-    "costUsd": 3.1859846000000007
+    "cacheWrite1hTokens": 147490,
+    "cacheReadTokens": 8277876,
+    "outputTokens": 27997,
+    "thinkingTokens": 2787,
+    "responses": 55,
+    "costUsd": 3.3958592000000007
   },
   "subagents": {
-    "inputTokens": 444,
-    "cacheWrite5mTokens": 865900,
+    "inputTokens": 550,
+    "cacheWrite5mTokens": 958610,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 24881981,
-    "outputTokens": 152373,
-    "thinkingTokens": 57358,
-    "responses": 213,
-    "costUsd": 12.355132200000012
+    "cacheReadTokens": 30343223,
+    "outputTokens": 176397,
+    "thinkingTokens": 65699,
+    "responses": 263,
+    "costUsd": 14.391834600000012
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 4086,
-      "cacheWrite5mTokens": 869369,
-      "cacheWrite1hTokens": 141022,
-      "cacheReadTokens": 33708486,
-      "outputTokens": 178739,
-      "thinkingTokens": 59961,
-      "responses": 272,
-      "costUsd": 15.818249200000018
+      "inputTokens": 4704,
+      "cacheWrite5mTokens": 962494,
+      "cacheWrite1hTokens": 147490,
+      "cacheReadTokens": 39989245,
+      "outputTokens": 204514,
+      "thinkingTokens": 68486,
+      "responses": 326,
+      "costUsd": 18.110987000000005
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1218,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 262,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0002528
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 272,
-    "matched": 265,
-    "matchedTableUsd": 15.541116800000017,
-    "matchedEventUsd": 15.541116800000017,
+    "events": 327,
+    "matched": 318,
+    "matchedTableUsd": 17.787693800000007,
+    "matchedEventUsd": 17.78769380000001,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 3542,
-        "cacheWrite5mTokens": 3469,
+        "inputTokens": 4048,
+        "cacheWrite5mTokens": 3884,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 1165462,
-        "outputTokens": 106,
+        "cacheReadTokens": 1368146,
+        "outputTokens": 120,
         "thinkingTokens": 0,
-        "responses": 7,
-        "costUsd": 0.2771324
+        "responses": 8,
+        "costUsd": 0.3232932
+      },
+      "generate_session_title": {
+        "inputTokens": 1218,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 262,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0002528
       }
     }
   },
   "operatorWords": {
-    "chat": 0,
+    "chat": 22,
     "review": 0,
     "threads": 0
   },
@@ -122,7 +142,7 @@
   "threadPosts": {},
   "branchLines": {
     ".py": 980,
-    ".md": 15154,
+    ".md": 15162,
     ".json": 488,
     ".txt": 1177,
     ".ts": 9090,
