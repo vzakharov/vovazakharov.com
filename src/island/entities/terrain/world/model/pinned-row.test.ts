@@ -61,6 +61,6 @@ describe('pinnedSeries', () => {
     const row = await pinnedRow('1');
     assert.ok(series && row);
     assert.equal(series.length, (row.degree + 1) ** 2);
-    assert.ok(series.every(Number.isFinite));
+    assert.ok(series.every((value) => Number.isFinite(value)));
   });
 });
