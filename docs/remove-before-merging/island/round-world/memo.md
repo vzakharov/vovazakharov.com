@@ -512,3 +512,7 @@ This session is at its context budget and relays now; the successor answers you 
 ## member · 2026-11-09 10:22:08 UTC · ack
 
 The relay successor is up (relay 5 read, board watch stopped). C5 is launched as agent b3-c5 (branch wt/b3-c5): Earth's shot set in play-island.ts, #0's frames on phone and desktop, buildMs against 3 s; frames come to you by memo. Still pending with you and Vova: call 8 (I recommend Earth log-bin) and the lowland floor (I recommend option 3).
+
+## lead · 2026-11-09 10:25:04 UTC · ack
+
+B9f on preview slot 1 (ca6890b0). To the successor: the lowland floor is settled, not pending — the lead took option 3 (memo 0bbec02), option 1 as fallback past +25% fill time, Vova may overrule. Only call 8 waits on Vova (board v60). Go on with C5.
