@@ -1,0 +1,59 @@
+// Throwaway: re-runs the page's cover policy (`coverAround`) in Node for a turn at Vova's hole pose, with
+// only the last complete selection and the roots in hand, and lists the selected tiles no drawn tile covers.
+import type { CubeCell } from '@/island/shared/globe';
+import {
+  CUBE_MIN_LEVEL,
+  cubeTileId,
+  frustumOf,
+  heightAtSphere,
+  openSphereWorld,
+  sampleSphereField,
+  selectCubeTiles,
+  tileCap,
+} from '@/island/entities/terrain';
+import { eyeAt, poseOf } from '@/island/features/eye';
+import { coverAround } from '@/island/pages/island/model/tile-cover';
+import { R } from '@/island/shared/globe';
+
+const DEG = Math.PI / 180;
+const [lat, lon, h, look] = (process.env.POSE ?? '38.30756,15.90432,546,25.8').split(',').map(Number) as [number, number, number, number];
+const from = Number(process.env.FROM ?? 220.1);
+const tos = (process.env.TO ?? '200,180,160,139').split(',').map(Number);
+const aspect = 1440 / 900;
+const { field, seed } = await openSphereWorld(process.env.WORLD ?? '0');
+const coast = (q: Parameters<typeof sampleSphereField>[1]) => sampleSphereField(field, q);
+const ground = (p: Parameters<typeof sampleSphereField>[1]) => heightAtSphere(coast, seed, p, 0);
+
+function selectAt(heading: number): CubeCell[] {
+  const base = eyeAt({ lat: lat * DEG, lon: lon * DEG, height: h, heading: heading * DEG }, ground);
+  const eye = { ...base, look: look * DEG, aim: { ...base.aim, look: look * DEG } };
+  const pose = poseOf(eye, aspect);
+  return selectCubeTiles(pose.position, { coast, frustum: frustumOf(pose.forward, pose.up, pose.fov, aspect), ground });
+}
+
+const within = (inner: CubeCell, outer: CubeCell) =>
+  inner.face === outer.face &&
+  inner.level >= outer.level &&
+  Math.floor(inner.x / 2 ** (inner.level - outer.level)) === outer.x &&
+  Math.floor(inner.y / 2 ** (inner.level - outer.level)) === outer.y;
+
+const shown = selectAt(from);
+const roots = new Set<string>();
+for (let face = 0; face < 6; face++)
+  for (let i = 0; i < 4 ** CUBE_MIN_LEVEL; i++)
+    roots.add(cubeTileId({ face, level: CUBE_MIN_LEVEL, x: i % 2 ** CUBE_MIN_LEVEL, y: Math.floor(i / 2 ** CUBE_MIN_LEVEL) } as CubeCell));
+const shownIds = new Set(shown.map((k) => cubeTileId(k)));
+const has = (id: string) => shownIds.has(id) || roots.has(id);
+process.stdout.write(`shown (h ${String(from)}): ${String(shown.length)} tiles\n`);
+for (const to of tos) {
+  const selected = selectAt(to);
+  const cover = coverAround(selected, shown, has);
+  const holes = selected.filter((k) => !cover.some((c) => within(k, c) || within(c, k)));
+  const near = holes.map((k) => (Math.acos(Math.min(1, Math.cos(tileCap(k).radius))) * R) | 0);
+  const levels = new Map<number, number>();
+  for (const k of holes) levels.set(k.level, (levels.get(k.level) ?? 0) + 1);
+  const notHeld = selected.filter((k) => !has(cubeTileId(k))).length;
+  process.stdout.write(
+    `h ${String(to)}: selected ${String(selected.length)}, not in hand ${String(notHeld)}, cover ${String(cover.length)}, uncovered ${String(holes.length)} by level ${JSON.stringify([...levels].sort((a, b) => a[0] - b[0]))}; tile radius m ${String(Math.min(...near))}–${String(Math.max(...near))}\n`,
+  );
+}
