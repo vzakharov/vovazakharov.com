@@ -66,9 +66,9 @@ so A is assumed to give "a lat-lon grid of `f` and its analysis inverse".
 ### `entities/terrain/quadtree`
 
 - `quadtree.ts` — `selectTiles(eye, {coast, frustum, ground})`: descend from the
-  one root, `visible` (horizon via angle `middle`↔border, frustum hull of border
-  points at low/high, `bulge`), `balance` (neighbours by `x±1, y±1` inside
-  `2^level`, no wrap).
+  one root, `visible` (horizon via angle `middle`↔border, frustum hull of
+  border points at low/high, `bulge`), `balance` (neighbours by `x±1, y±1`
+  inside `2^level`, no wrap).
 - `split.ts` — `children`, `splitRule(eye, coast)`: side over distance from
   `eye` to the tile's plane-clamped nearest point at the eye's height;
   `COAST_FINER 2` levels more where `|sampleCoastField(centre)| < side`.
