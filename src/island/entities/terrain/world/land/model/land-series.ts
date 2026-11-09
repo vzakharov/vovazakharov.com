@@ -14,6 +14,13 @@ export const kneeEnvelope =
 export const PROBE_ENVELOPE = kneeEnvelope(6, 2);
 
 /**
+ * Earth's envelope: #0's amplitude per degree, fitted in `ln A` with bins
+ * equal in `log l` (`pnpm spectrum:island`). Every degree weighed equally, the
+ * tail decides and gives knee 8.9, slope 2.33.
+ */
+export const EARTH_ENVELOPE = kneeEnvelope(5.3, 2.136);
+
+/**
  * The sea's decode, in units of the field's expected deviation `σ` over the
  * sphere: the land's mean is `σ·(SEA_MEAN + SEA_SPREAD·sea)`, so a world's
  * land share is about `Φ(SEA_MEAN + SEA_SPREAD·sea)`. At the probe's envelope

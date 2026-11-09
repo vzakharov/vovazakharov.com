@@ -10,6 +10,7 @@
     "fit:island": "tsx src/island/scripts/fit-sphere.ts",
     "frame:island": "tsx src/island/scripts/frame-worlds.ts",
     "play:island": "tsx src/island/scripts/play-island.ts",
+    "spectrum:island": "tsx src/island/scripts/earth-spectrum.ts",
     "play:mushrooms": "tsx src/mushrooms/scripts/play-mushrooms.ts",
     "sweep:mushrooms": "tsx src/mushrooms/scripts/sweep-mushrooms.ts",
     "typegen": "scripts/site-task.sh --every 'next typegen'",

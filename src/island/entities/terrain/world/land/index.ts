@@ -5,7 +5,11 @@ export {
   pathHash,
 } from './model/hash';
 export { landmasses, landShare } from './model/land-measure';
-export { kneeEnvelope, landSeries } from './model/land-series';
+export {
+  EARTH_ENVELOPE,
+  kneeEnvelope,
+  landSeries,
+} from './model/land-series';
 export {
   decodePinnedRow,
   encodePinnedRow,
