@@ -1,0 +1,230 @@
+// Throwaway look at B7c: where-line, hash reopen, noon/midnight, hashchange across worlds.
+import fs from 'node:fs';
+import path from 'node:path';
+import { setTimeout as sleep } from 'node:timers/promises';
+import { z } from 'zod';
+
+import { ISLAND_OPENING } from '@/island/features/eye';
+import { dot, latLonToUnit } from '@/island/shared/globe';
+import { heavensAt } from '@/island/pages/island/lib/day';
+
+import { planeToDegrees } from '@/island/scripts/lib/azimuthal';
+import { call, hook, settle, shoot, VOVA_EXPORT } from '@/island/scripts/lib/play-tab';
+import { withPrintOrigin } from '@/kernel/scripts/lib/print-origin';
+import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
+import { type Browser, launch, openTab, type Tab } from '@/scene/scripts/lib/cdp';
+import { watchPageErrors } from '@/scene/scripts/lib/page-errors';
+
+const OUT = path.join(REPO_ROOT, 'docs/plans/world-game-zoltan-syama/bite-3/notes/b3-b7c-look');
+fs.mkdirSync(OUT, { recursive: true });
+const only = process.argv[2] ?? 'all';
+const DEG = 180 / Math.PI;
+const log = (s: string) => process.stdout.write(`${s}\n`);
+const errors: string[] = [];
+
+async function poll(tab: Tab, expr: string, ms: number): Promise<void> {
+  const end = Date.now() + ms;
+  for (;;) {
+    if (await tab.evaluate(`(() => { try { return Boolean(${expr}); } catch { return false; } })()`, z.boolean())) return;
+    if (Date.now() > end) throw new Error(`timeout: ${expr}`);
+    await sleep(250);
+  }
+}
+
+async function open(browser: Browser, origin: string, route: string, w = 1440, h = 900): Promise<Tab> {
+  const tab = await openTab(browser, (m) => errors.push(`${route}: ${m}`));
+  await watchPageErrors(tab, (m) => errors.push(`${route}: ${m}`));
+  await tab.send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 1, mobile: false });
+  await tab.send('Emulation.setFocusEmulationEnabled', { enabled: true });
+  await browser.send('Browser.grantPermissions', {
+    origin,
+    permissions: ['clipboardReadWrite', 'clipboardSanitizedWrite'],
+    browserContextId: tab.contextId,
+  });
+  await tab.send('Page.navigate', { url: `${origin}${route}` });
+  await poll(tab, `document.readyState === 'complete'`, 30_000);
+  return tab;
+}
+
+async function png(tab: Tab, name: string): Promise<void> {
+  const { data } = z.object({ data: z.string() }).parse(await tab.send('Page.captureScreenshot', { format: 'png' }));
+  fs.writeFileSync(path.join(OUT, name), Buffer.from(data, 'base64'));
+  log(`frame ${name}`);
+}
+
+async function playOpen(browser: Browser, origin: string, hash: string): Promise<Tab> {
+  const tab = await open(browser, origin, `/island?play${hash}`);
+  await poll(tab, `typeof ${hook}?.ready === 'function'`, 30_000);
+  await settle(tab, call('ready'), 'ready()');
+  return tab;
+}
+
+const whereOf = async (tab: Tab) => tab.evaluate(`${hook}.where()`, z.string());
+const hashOf = async (tab: Tab) => tab.evaluate('location.hash', z.string());
+const consoleWhere = async (tab: Tab) => tab.evaluate('island.where()', z.string());
+const output = async (tab: Tab) => tab.evaluate(`document.querySelector('output')?.textContent ?? '(none)'`, z.string());
+const done = async (browser: Browser, tab: Tab) => browser.send('Target.disposeBrowserContext', { browserContextId: tab.contextId });
+
+async function item1and5(browser: Browser, origin: string): Promise<void> {
+  const tab = await open(browser, origin, '/island');
+  await poll(tab, `typeof island?.where === 'function'`, 30_000);
+  log(`hash on open: '${await hashOf(tab)}'`);
+  await sleep(12_000);
+  log(`hash before P: '${await hashOf(tab)}'`);
+  log(`hint P row: ${await tab.evaluate(`[...document.querySelectorAll('aside dl div')].map(d => d.textContent).filter(t => t.startsWith('P')).join('|') || '(none)'`, z.string())}`);
+  await png(tab, '1-opening-hint.png');
+  await tab.send('Input.dispatchKeyEvent', { type: 'keyDown', code: 'KeyP', key: 'p', windowsVirtualKeyCode: 80 });
+  await tab.send('Input.dispatchKeyEvent', { type: 'keyUp', code: 'KeyP', key: 'p', windowsVirtualKeyCode: 80 });
+  await sleep(400);
+  log(`output after P: ${await output(tab)}`);
+  log(`output box: ${await tab.evaluate(`(() => { const o = document.querySelector('output'); const s = getComputedStyle(o); const r = o.getBoundingClientRect(); return JSON.stringify({ display: s.display, visibility: s.visibility, opacity: s.opacity, z: s.zIndex, cls: o.className, r: [r.x, r.y, r.width, r.height], top: document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2)?.tagName }); })()`, z.string())}`);
+  log(`hash after P: ${await hashOf(tab)}`);
+  log(`history length: ${await tab.evaluate('history.length', z.number())}`);
+  const clip = await tab.evaluate('navigator.clipboard.readText()', z.string(), { awaitPromise: true }).catch((e: unknown) => `(read failed: ${String(e)})`);
+  log(`clipboard: ${clip}`);
+  await sleep(2000);
+  log(`output 2.4 s after P: ${await output(tab)}`);
+  await done(browser, tab);
+  // Under play the loop is off, so a capture is not held behind a slow frame.
+  const p = await playOpen(browser, origin, '');
+  log(`play hash on open: '${await hashOf(p)}'`);
+  await settle(p, call('setHeight', 20_000_000), 'settle');
+  await p.evaluate(`(() => { for (let i = 0; i < 5; i += 1) ${call('step', 1000 / 60)}; return true; })()`, z.boolean());
+  // A capture here takes seconds (software raster), past the 1.8 s confirmation;
+  // the harness holds that one timeout open so the frame can catch it.
+  await p.evaluate(`(() => { const st = window.setTimeout; window.setTimeout = (f, ms, ...a) => st(f, ms === 1800 ? 600000 : ms, ...a); return true; })()`, z.boolean());
+  await p.send('Input.dispatchKeyEvent', { type: 'keyDown', code: 'KeyP', key: 'p', windowsVirtualKeyCode: 80 });
+  await p.send('Input.dispatchKeyEvent', { type: 'keyUp', code: 'KeyP', key: 'p', windowsVirtualKeyCode: 80 });
+  await sleep(200);
+  const t0 = Date.now();
+  await png(p, '1-after-P.png');
+  log(`play: capture took ${Date.now() - t0} ms; output '${await output(p)}'; hash ${await hashOf(p)}`);
+  await done(browser, p);
+}
+
+async function item2(browser: Browser, origin: string): Promise<void> {
+  const a = await playOpen(browser, origin, '');
+  const { lat, lon } = planeToDegrees(510_000, 1_250_000);
+  await settle(a, call('moveTo', lat, lon, 30_000), 'moveTo');
+  await settle(a, call('turnTo', -2.2), 'turnTo');
+  await a.evaluate(`(${hook}.setTime(2.5), true)`, z.boolean());
+  await settle(a, call('setHeight', 30_000), 'settle tiles');
+  await shoot(a, 5, path.join(OUT, '2-original.png'));
+  const lineA = await consoleWhere(a);
+  const hash = await hashOf(a);
+  log(`A where: ${lineA}`);
+  log(`A hash: ${hash}`);
+  const b = await playOpen(browser, origin, hash);
+  await settle(b, call('setHeight', Number(hash.split(',')[2])), 'settle tiles');
+  await shoot(b, 5, path.join(OUT, '2-reopened.png'));
+  log(`B where: ${await whereOf(b)}`);
+  // A hand-written pose with a pitch and an hour, reopened twice.
+  const crafted = '#1@10.20000,0.30000,800.0,45.0,-12.0,3.250';
+  const c = await playOpen(browser, origin, crafted);
+  await settle(c, call('setHeight', 800), 'settle tiles');
+  await shoot(c, 5, path.join(OUT, '2-crafted.png'));
+  const lineC = await consoleWhere(c);
+  log(`C opened ${crafted}\nC where: ${lineC}`);
+  const hashC = await hashOf(c);
+  const d = await playOpen(browser, origin, hashC);
+  await settle(d, call('setHeight', 800), 'settle tiles');
+  await shoot(d, 5, path.join(OUT, '2-crafted-reopened.png'));
+  log(`D where: ${await whereOf(d)}`);
+  for (const t of [a, b, c, d]) await done(browser, t);
+}
+
+async function item3(browser: Browser, origin: string): Promise<void> {
+  const o = { lat: ISLAND_OPENING.lat * DEG, lon: ISLAND_OPENING.lon * DEG };
+  log(`opening ${o.lat.toFixed(5)} ${o.lon.toFixed(5)}`);
+  const up = latLonToUnit(ISLAND_OPENING);
+  const elev = (t: number) => Math.asin(dot(heavensAt(ISLAND_OPENING, t).sun, up)) * DEG;
+  // Solar noon: the hour the sun's elevation peaks; midnight 12 h off.
+  let noon = 0;
+  for (let t = 0; t < 24; t += 0.001) if (elev(t) > elev(noon)) noon = t;
+  const midnight = (noon + 12) % 24;
+  log(`t=0 elev ${elev(0).toFixed(2)}; noon t=${noon.toFixed(3)} elev ${elev(noon).toFixed(2)}; midnight t=${midnight.toFixed(3)} elev ${elev(midnight).toFixed(2)}`);
+  for (const [name, t] of [['opening', 0], ['noon', noon], ['midnight', midnight]] as const) {
+    for (const [hn, h] of [['orbit', 20_000_000], ['1000km', 1_000_000]] as const) {
+      const hash = `#1@${o.lat.toFixed(5)},${o.lon.toFixed(5)},${h},0,0,${t.toFixed(3)}`;
+      const tab = await playOpen(browser, origin, hash);
+      await settle(tab, call('setHeight', h), 'settle');
+      await shoot(tab, 5, path.join(OUT, `3-${name}-${hn}.png`));
+      log(`${name} ${hn} ${hash}: ${await whereOf(tab)}`);
+      await done(browser, tab);
+    }
+  }
+}
+
+const height = async (tab: Tab) => Number(/height ([\d.]+) m/.exec(await whereOf(tab))?.[1]);
+const built = async (tab: Tab) => tab.evaluate(`(() => { try { ${call('buildMs')}; return true; } catch { return false; } })()`, z.boolean());
+
+async function item4(browser: Browser, origin: string): Promise<void> {
+  const spots = (process.env.SPOTS ?? '46.5,9.0;28.0,86.9;32.0,88.0;-15.0,-70.0;39.0,-106.0;43.0,42.5;0.5,37.0').split(';');
+  for (const spot of spots) {
+    const [lat, lon] = spot.split(',').map(Number) as [number, number];
+    const from = `#1@${lat},${lon},2,90,0`;
+    const tab = await playOpen(browser, origin, from);
+    await shoot(tab, 3, path.join(OUT, `4-scratch.png`));
+    log(`--- ${spot}: on #1 ${await whereOf(tab)}`);
+    await tab.evaluate(`(location.hash = '#0@${lat},${lon},2,90,0', true)`, z.boolean());
+    await sleep(50);
+    const trace: string[] = [];
+    let before = 0;
+    while (!(await built(tab))) {
+      await tab.evaluate(`${call('step', 1000 / 60)}, true`, z.boolean());
+      before += 1;
+      if (before === 3) await png(tab, `4-${lat}_${lon}-before-field.png`);
+      await sleep(30);
+    }
+    trace.push(`field landed after ${before} steps; height before step ${await height(tab)}`);
+    await png(tab, `4-${lat}_${lon}-field-landed.png`);
+    for (let i = 1; i <= 120; i += 1) {
+      await tab.evaluate(`${call('step', 1000 / 60)}, true`, z.boolean());
+      if ([1, 2, 3, 5, 10, 20, 40, 60, 90, 120].includes(i)) trace.push(`step ${i}: height ${await height(tab)}`);
+      if (i === 1) await png(tab, `4-${lat}_${lon}-step1.png`);
+    }
+    await png(tab, `4-${lat}_${lon}-step120.png`);
+    log(trace.join('\n'));
+    log(`after: ${await whereOf(tab)}`);
+    await done(browser, tab);
+  }
+}
+
+async function timeProbe(browser: Browser, origin: string): Promise<void> {
+  const place = '#1@21.19493,4.88850,30000.0,233.9,0.0';
+  const shots = async (tab: Tab, name: string) => {
+    await settle(tab, call('setHeight', 30000), 'settle');
+    await shoot(tab, 5, path.join(REPO_ROOT, `tmp/look/${name}.png`));
+    log(`${name}: ${await whereOf(tab)}`);
+  };
+  const a = await playOpen(browser, origin, `${place},0.000`);
+  await shots(a, 'tp-a-t0');
+  await a.evaluate(`(${hook}.setTime(2.5), true)`, z.boolean());
+  await shots(a, 'tp-a-set2.5');
+  await a.evaluate(`(${hook}.setTime(7.355), true)`, z.boolean());
+  await shots(a, 'tp-a-set7.355');
+  const b = await playOpen(browser, origin, `${place},2.500`);
+  await shots(b, 'tp-b-hash2.5');
+  await b.evaluate(`(${hook}.setTime(0), true)`, z.boolean());
+  await shots(b, 'tp-b-set0');
+  for (const t of [a, b]) await done(browser, t);
+}
+
+async function main(): Promise<void> {
+  const browser = await launch();
+  try {
+    await withPrintOrigin({ serve: 'export', dir: VOVA_EXPORT }, async (origin) => {
+      log(`origin ${origin}`);
+      if (only === 'all' || only === '1') await item1and5(browser, origin);
+      if (only === 'all' || only === '2') await item2(browser, origin);
+      if (only === 'all' || only === '3') await item3(browser, origin);
+      if (only === 'all' || only === '4') await item4(browser, origin);
+      if (only === 'tp') await timeProbe(browser, origin);
+    });
+  } finally {
+    await browser.close();
+    for (const e of errors) process.stderr.write(`ERR ${e}\n`);
+  }
+}
+
+await main();
