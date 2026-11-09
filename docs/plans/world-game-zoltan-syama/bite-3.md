@@ -252,6 +252,12 @@ to look down"».
   build, world, latitude and longitude, height, heading, pitch, time of day,
   tile levels under the eye — and the frame time, so a screenshot alone says
   where it was taken. The key is the member's call; the key hint lists it.
+- **The panel also shows the speed and the height above sea level, and carries a
+  button that copies the share link** (`#<world>@…` of call 15) for this exact
+  view. Vova: «в панельку с инфой не хватает: текущей скорости, высоты от уровня
+  моря, кнопки для копирования ссылки для расшаривания прямо на это место
+  (последнее собственно упраздняет необходимость P и команды в консоли)» — so P
+  and `island.where()` go, the button being the one way to copy a view.
 
 11\. **Order of work**: the schema and the series, then the cube tiles and the
 eye with #1 re-fitted, then Earth with its envelope measured for call 4. Each
