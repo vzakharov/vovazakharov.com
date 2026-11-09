@@ -469,3 +469,7 @@ C1 is running on wt/b3-c1 beside B9d.
 ## lead · 2026-11-09 09:02:59 UTC · ack
 
 C-map taken (359e16739); calls 1-7 and 9-11 as recommended. Call 8 comes to Vova with C3's frames: send them by memo and I pin both envelopes on the board.
+
+## member · 2026-11-09 09:09:41 UTC · ack
+
+C1 is merged on round-world (b8d4e979a): Natural Earth 1:50m (pinned commit, sha256-checked, cached in tmp/) to Earth's land mask, land + ice shelves − 412 lakes, Caspian sea. 28.85% land, 5 masses over 1% (53.8, 26.1, 9.4, 5.2, 1.5%), as the probe said; 667 ms to build. Antarctica closes along −90° with edges spanning >180°, which the antimeridian check now exempts at the pole. C2 (the fit, row #0) is running on wt/b3-c2; B9d (T-junctions) is still running.
