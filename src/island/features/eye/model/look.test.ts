@@ -11,7 +11,6 @@ import {
   type Vec3,
 } from '@/island/shared/globe';
 
-import { MAX_HEIGHT, MIN_HEIGHT } from './eye';
 import {
   EARTH_OPENING,
   type Eye,
@@ -19,10 +18,11 @@ import {
   type GroundAt,
   type Intent,
   ISLAND_OPENING,
+  MAX_HEIGHT,
+  MIN_HEIGHT,
   step,
   STILL,
-} from './globe-eye';
-import { poseOf } from './globe-pose';
+} from './eye';
 import {
   ABOVE_HORIZON,
   dipAt,
@@ -30,7 +30,7 @@ import {
   pitchFor,
   TILT_RADIANS_PER_SECOND,
 } from './look';
-import { type Pose, poseFrom } from './pose';
+import { type Pose, poseFrom, poseOf } from './pose';
 
 const FRAME = 1 / 60;
 const DEGREE = Math.PI / 180;

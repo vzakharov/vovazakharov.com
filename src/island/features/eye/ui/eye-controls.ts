@@ -1,8 +1,8 @@
 import type { CanDispose } from '@/kernel/shared/typings';
 
-import { type Intent, shortest, type Vec2 } from '../model/eye';
-import type { Tilting } from '../model/look';
+import type { Intent, Vec2 } from '../model/eye';
 import { groundPerScreen } from '../model/pose';
+import { shortest } from '../model/turns';
 
 /** What the scene holds while the controls are bound. */
 export type EyeControls =
@@ -11,9 +11,9 @@ export type EyeControls =
     /**
      * The intent since the last read: the keys held now, and the wheel, pinch,
      * drags and twist that arrived meanwhile, which the read then clears. One
-     * read a frame. The planar eye reads the `Intent` part alone.
+     * read a frame.
      */
-    readonly read: () => Intent & Tilting;
+    readonly read: () => Intent;
   };
 
 /** Doublings of height per CSS pixel the wheel turns: a 100 px notch is half one. */
@@ -227,7 +227,7 @@ export function bindEyeControls(element: HTMLElement): EyeControls {
         turn += TURNS[code] ?? 0;
         tilted += TILTS[code] ?? 0;
       }
-      const intent: Intent & Tilting = {
+      const intent: Intent = {
         steer: [clampUnit(right), clampUnit(up)],
         climb: clampUnit(climb),
         turn: clampUnit(turn),

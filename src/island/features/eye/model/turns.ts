@@ -15,6 +15,12 @@ import {
   type Vec3,
 } from '@/island/shared/globe';
 
+const FULL_TURN = 2 * Math.PI;
+
+/** `angle` brought within half a turn of zero. */
+export const shortest = (angle: number) =>
+  angle - FULL_TURN * Math.round(angle / FULL_TURN);
+
 /** A rotation by `radians`, right-handed about unit `axis`. */
 export type Turn = { readonly axis: Vec3; readonly radians: number };
 

@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { dipAt } from './look';
+import { dipAt, pitchAt } from './look';
 import { grazingPitch, lookHint, upHintPitch } from './look-hint';
-import { fovFor, pitchAt } from './pose';
+import { fovFor } from './pose';
 
 const LANDSCAPE = 16 / 9;
 const SQUARE = 1;

@@ -6,8 +6,34 @@
 
 import { R } from '@/island/shared/globe';
 
-import { clamp } from './eye';
-import { pitchAt } from './pose';
+import { clamp } from './clamp';
+
+/** How far below the horizon the eye looks near the ground. */
+export const GROUND_PITCH = (10 * Math.PI) / 180;
+
+/** The height up to which the eye keeps `GROUND_PITCH`. */
+const GROUND_PITCH_BELOW = 20;
+
+/**
+ * The height from which the eye looks straight down. With
+ * `GROUND_PITCH_BELOW` it sets where the look turns toward the horizon on the
+ * way down: the point below leaves the frame at about 100 km.
+ */
+const STRAIGHT_DOWN_ABOVE = 18_000_000;
+
+/**
+ * How far below the horizon the eye looks at `height`, radians: from
+ * `GROUND_PITCH` near the ground, smoothly in the logarithm of height to
+ * straight down at `STRAIGHT_DOWN_ABOVE`.
+ */
+export function pitchAt(height: number): number {
+  const share =
+    Math.log(height / GROUND_PITCH_BELOW) /
+    Math.log(STRAIGHT_DOWN_ABOVE / GROUND_PITCH_BELOW);
+  const t = clamp(share, 0, 1);
+  const eased = t * t * (3 - 2 * t);
+  return GROUND_PITCH + (Math.PI / 2 - GROUND_PITCH) * eased;
+}
 
 export type Looked = {
   /** Radians the view is raised above the pitch its height gives; negative lowers it. */

@@ -6,8 +6,8 @@
 
 import type { Elevated } from '@/island/shared/globe';
 
-import { dipAt, type Looked, pitchFor } from './look';
-import { fovFor, GROUND_PITCH, pitchAt } from './pose';
+import { dipAt, GROUND_PITCH, type Looked, pitchAt, pitchFor } from './look';
+import { fovFor } from './pose';
 
 export type LookHint = 'up' | 'down';
 
