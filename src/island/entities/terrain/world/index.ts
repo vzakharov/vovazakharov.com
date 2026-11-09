@@ -7,9 +7,17 @@ export {
   PROBE_ENVELOPE,
 } from './model/land-series';
 export { OUR_WORLD } from './model/mask';
+export {
+  decodePinnedRow,
+  encodePinnedRow,
+  type PinnedRow,
+  pinnedRow,
+  pinnedSeries,
+} from './model/pinned-row';
 export { type Lookup, rollWith, type WordSource } from './model/roll';
 export { type RingGrid } from './model/sphere-grid';
 export {
+  analyze,
   type SphereTransform,
   sphereTransform,
   synthesize,
