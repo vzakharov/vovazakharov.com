@@ -1,41 +1,35 @@
 {
   "total": {
-    "inputTokens": 14048,
-    "cacheWrite5mTokens": 2353608,
-    "cacheWrite1hTokens": 248038,
-    "cacheReadTokens": 112230986,
-    "outputTokens": 538661,
-    "thinkingTokens": 170592,
-    "responses": 850,
-    "costUsd": 47.04349800000002
+    "inputTokens": 14615,
+    "cacheWrite5mTokens": 2483129,
+    "cacheWrite1hTokens": 277745,
+    "cacheReadTokens": 118322633,
+    "outputTokens": 560896,
+    "thinkingTokens": 174654,
+    "responses": 881,
+    "costUsd": 49.59531340000004
   },
   "estimate": {
-    "at": "2026-11-09T11:59:29.643Z",
+    "at": "2026-11-09T14:03:09.984Z",
     "subjectLine": "feat: bite 3's Earth frames, lowland floor and LOD cover lag",
     "parts": [
       {
         "hours": 3.0,
         "grade": "senior",
         "role": "technical-artist",
-        "comment": "C5's Earth shots and the lowland-floor fix need judgement of the terrain's look"
+        "comment": "C5's Earth shots, the soft lowland floor and the coast-rule look trade-off need judgement of the terrain's look"
       },
       {
-        "hours": 4.0,
+        "hours": 5.0,
         "grade": "senior",
         "role": "graphics-programmer",
-        "comment": "the LOD cover lag and the holes while turning are tile-streaming work: cover over a quadtree, worker pools, fill budgets"
-      },
-      {
-        "hours": 3.0,
-        "grade": "middle",
-        "role": "developer",
-        "comment": "C4's envelope switch and the Done table's tests are routine code against a settled contract"
+        "comment": "the drawn cover lagging selection, turn holes, stand-in rings with depth bias and worker-pool sizing are tile-streaming work"
       },
       {
         "hours": 3.0,
         "grade": "senior",
         "role": "producer",
-        "comment": "the tail runs with the lead: briefs, merges, traces relayed from Vova's video, the PR against stretch-2"
+        "comment": "a dozen briefs, merges and look reviews run with the lead, from Vova's video and board notes"
       }
     ],
     "comment": null
@@ -64,39 +58,39 @@
   "url": "https://claude.ai/code/session_01DaohkD74uWSKLC8ZwjGuG7",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-09T10:20:38.288Z",
-  "lastResponseAt": "2026-11-09T13:48:34.340Z",
+  "lastResponseAt": "2026-11-09T14:07:33.285Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 196,
+    "inputTokens": 219,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 248038,
-    "cacheReadTokens": 20830934,
-    "outputTokens": 55074,
-    "thinkingTokens": 4979,
-    "responses": 102,
-    "costUsd": 7.252754800000001
+    "cacheWrite1hTokens": 277745,
+    "cacheReadTokens": 24477307,
+    "outputTokens": 64091,
+    "thinkingTokens": 5595,
+    "responses": 113,
+    "costUsd": 8.400117400000001
   },
   "subagents": {
-    "inputTokens": 1502,
-    "cacheWrite5mTokens": 2345140,
+    "inputTokens": 1540,
+    "cacheWrite5mTokens": 2474242,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 86419786,
-    "outputTokens": 483011,
-    "thinkingTokens": 165613,
-    "responses": 725,
-    "costUsd": 38.67588519999999
+    "cacheReadTokens": 88550361,
+    "outputTokens": 496222,
+    "thinkingTokens": 169059,
+    "responses": 744,
+    "costUsd": 40.011882199999995
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 12830,
-      "cacheWrite5mTokens": 2353608,
-      "cacheWrite1hTokens": 248038,
-      "cacheReadTokens": 112230986,
-      "outputTokens": 538399,
-      "thinkingTokens": 170592,
-      "responses": 849,
-      "costUsd": 47.04324520000002
+      "inputTokens": 13397,
+      "cacheWrite5mTokens": 2483129,
+      "cacheWrite1hTokens": 277745,
+      "cacheReadTokens": 118322633,
+      "outputTokens": 560634,
+      "thinkingTokens": 174654,
+      "responses": 880,
+      "costUsd": 49.59506060000004
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1218,
@@ -112,20 +106,20 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 850,
-    "matched": 827,
-    "matchedTableUsd": 45.928640000000016,
-    "matchedEventUsd": 45.928640000000016,
+    "events": 881,
+    "matched": 857,
+    "matchedTableUsd": 48.41199960000002,
+    "matchedEventUsd": 48.41199960000002,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 11132,
-        "cacheWrite5mTokens": 8468,
+        "inputTokens": 11638,
+        "cacheWrite5mTokens": 8887,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 4980266,
-        "outputTokens": 314,
+        "cacheReadTokens": 5294965,
+        "outputTokens": 321,
         "thinkingTokens": 0,
-        "responses": 22,
-        "costUsd": 1.1146052
+        "responses": 23,
+        "costUsd": 1.183061
       },
       "generate_session_title": {
         "inputTokens": 1218,
@@ -148,7 +142,7 @@
   "threadPosts": {},
   "branchLines": {
     ".py": 980,
-    ".md": 15723,
+    ".md": 15735,
     ".json": 488,
     ".txt": 2188,
     ".ts": 9557,
