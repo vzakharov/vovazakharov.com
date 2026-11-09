@@ -10,6 +10,19 @@ export {
   tileSide,
 } from './model/tile';
 export {
+  capGap,
+  capsApart,
+  CUBE_MAX_LEVEL,
+  CUBE_MIN_LEVEL,
+  type CubeTileKey,
+  cubeTileId,
+  cubeTileSide,
+  faceLattice,
+  type TileCap,
+  tileCap,
+  tileHolds,
+} from './model/cube-tile';
+export {
   borderLoop,
   fillTile,
   tileBuffers,
