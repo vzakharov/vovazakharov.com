@@ -182,6 +182,18 @@ step"), less the world-number fork, which bite 2 settles.
   `docs/plans/world-game-zoltan-syama/bite-2.md`, on `island/worlds`, its PR
   onto `island/stretch-2`. The lead waits with
   `memo.py wait --as lead --branch island/worlds`.
+- **Flicker fix** — on `island/tile-flicker`, its PR onto `island/stretch-2`:
+  render the last fully held selection until the new one is held (brief in that
+  branch's `memo.md`).
+
+## Next bites
+
+- **Objects from dice rolls** — agreed on the board's strait thread («да,
+  согласен»): after the base formula, a chain of seeded rolls, each placing a
+  water object with harmonics at its own scale; lakes first, the strait as two
+  lakes touching each other and the sea, and later rivers and mountains by the
+  same mechanism. World 1's rolls are fitted to the mask as the harmonics are
+  today. Bite 2 lands with the strait closed; this bite lays over it.
 
 ## Rest of the elephant
 

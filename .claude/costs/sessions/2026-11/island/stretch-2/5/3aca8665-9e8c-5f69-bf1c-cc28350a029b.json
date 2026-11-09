@@ -1,0 +1,108 @@
+{
+  "total": {
+    "inputTokens": 36,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 84005,
+    "cacheReadTokens": 1883794,
+    "outputTokens": 5667,
+    "thinkingTokens": 882,
+    "responses": 17,
+    "costUsd": 1.1622827999999998
+  },
+  "estimate": {
+    "at": "2026-11-09T02:30:39.931Z",
+    "subjectLine": "chore: lead the second stretch while two members land their PRs",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "merging two member PRs into the stretch and keeping the board's frame current is coordination, not authoring"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-09T02:31:05.046Z",
+    "contextTokens": 119171,
+    "spend": {
+      "inputTokens": 23,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 58315,
+      "cacheReadTokens": 1150118,
+      "outputTokens": 2875,
+      "thinkingTokens": 443,
+      "responses": 11,
+      "costUsd": 0.7541356
+    }
+  },
+  "sessionId": "3aca8665-9e8c-5f69-bf1c-cc28350a029b",
+  "branch": "island/stretch-2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/stretch-2 — два участника в работе: бит 2 удаляет модуль берегов, второй чинит мигание земли",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBoqYFFHoBSRRrAbm7",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-09T02:30:07.538Z",
+  "lastResponseAt": "2026-11-09T02:31:32.475Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 36,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 84005,
+    "cacheReadTokens": 1883794,
+    "outputTokens": 5667,
+    "thinkingTokens": 882,
+    "responses": 17,
+    "costUsd": 1.1622827999999998
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 36,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 84005,
+      "cacheReadTokens": 1883794,
+      "outputTokens": 5667,
+      "thinkingTokens": 882,
+      "responses": 17,
+      "costUsd": 1.1622827999999998
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 17,
+    "matched": 17,
+    "matchedTableUsd": 1.1622827999999998,
+    "matchedEventUsd": 1.1622827999999998,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".py": 481,
+    ".md": 8299,
+    ".json": 7,
+    ".ts": 86,
+    ".sh": 43,
+    ".yaml": 94
+  }
+}
