@@ -49,11 +49,10 @@ export function coverOf(
 
 /**
  * The tiles to draw for `selected` while `shown`, the last selection wholly
- * in hand, still stands: `shown` draws itself, and `coverOf` fills in only
- * the selected tiles overlapping none of it, from no stand-in that does. A
- * missing tile's coarse ancestor would hide the fine ground under the eye,
- * so a selected tile straddling the edge of `shown` — the frustum's margin —
- * waits, drawing nothing, until the new selection is all in hand.
+ * in hand, still stands. `shown` draws itself; a selected tile overlapping it
+ * waits, and one beyond it is covered as `coverOf` covers, by any stand-in but
+ * one containing a shown tile — that coarse ancestor would hide the fine ground
+ * under the eye, so the margin may draw nothing until the selection is in hand.
  */
 export function coverAround(
   selected: readonly TileKey[],

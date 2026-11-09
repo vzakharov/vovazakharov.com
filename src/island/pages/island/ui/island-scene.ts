@@ -140,10 +140,7 @@ export function mountIslandScene(
     aspect: number;
     keys: TileKey[];
   } | null = null;
-  /**
-   * The last selection wholly in hand, drawn while a newer one loads; `null`
-   * before the first and after a jump, when only `coverOf` has anything.
-   */
+  /** The last selection wholly in hand, drawn while a newer one loads. */
   let shown: TileKey[] | null = null;
   const waiting: Array<{ resolve: () => void; reject: (e: Error) => void }> =
     [];
@@ -344,7 +341,7 @@ export function mountIslandScene(
       pool.dispose();
       held.clear();
       selection = null;
-      // The new world's tiles share no keys with the old one's.
+      // Its tiles went with the clear above; kept, it would bar their stand-ins.
       shown = null;
       // The old coast would refine the selection where the new one has none.
       coast = undefined;
