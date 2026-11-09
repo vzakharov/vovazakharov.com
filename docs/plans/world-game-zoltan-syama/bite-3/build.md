@@ -137,5 +137,6 @@ calls.
 - **Next**: B7 (the switch, with S4's light and time keys, S7's hint, S11's
   where-line and pose hash, B4's two quadtree findings), first flying frame on
   the sphere to the lead; then B8 (retire the plane, film the seams), B9 (call
-  14), step C (Earth, S12), the tail. Nothing runs at this point. The memo with
-  the lead is current through call 16.
+  14), step C (Earth), the tail. Nothing runs at this point. The memo with the
+  lead is current to 05:08 (call 16, #1's neighbours, withdrawn to the next
+  bite).
