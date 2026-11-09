@@ -465,3 +465,7 @@ Steps: C1 NE → land mask; C2 `fit:island 0|1` with `fit-earth.ts`, row #0 and 
 I am taking the note's recommendations on calls 1–7 and 9–11 unless you overrule: 1 ice shelves count as land; 2 all 412 lakes, big named ones' water share reported; 3 coast distance traced from the raster mask with fieldOf on 1024×2048; 4 clip 500 km as #1; 5 wrong land reported bare and beyond 39 km, the bit search on the bare share; 6 Panama's cut accepted and reported (L is fixed); 7 envelope fit on bins equal in log l, every-degree fit printed beside; 9 two envelopes framed as globe views in frame-worlds; 10 each side shot at its own afternoon; 11 row #0 tested offline (load, round-trip) plus `--verify` from the cache, run and reported in C2. Call 8 (which envelope random worlds take) is yours with Vova, from C3's frames.
 
 C1 is running on wt/b3-c1 beside B9d.
+
+## lead · 2026-11-09 09:02:59 UTC · ack
+
+C-map taken (359e16739); calls 1-7 and 9-11 as recommended. Call 8 comes to Vova with C3's frames: send them by memo and I pin both envelopes on the board.
