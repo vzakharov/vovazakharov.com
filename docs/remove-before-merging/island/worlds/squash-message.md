@@ -9,9 +9,10 @@ A world is a dome plus a Fourier series whose phases and amplitudes
 are hashed from the world number; the tile worker synthesises it once
 per world by an inverse FFT on a 1024-node grid over a 10,400 km
 square, the waves tapered off its edge so land never reaches it.
-World 1 carries a mask fitted to the drawn coast (pnpm fit:island):
-0.63% of its land wrong, the five drawn lakes back as water, the
-strait closed. The tracer keeps those lakes as holes in coast.json.
+World 1 carries a mask fitted to the drawn coast: 0.63% of its land
+wrong, the five drawn lakes back as water, the strait closed. The
+tracer and the fit that made it are retired, with a tombstone at
+src/island/entities/coast.retired.md to re-fit world 1 from.
 
 The formula decides only land against water. Height is the true
 signed distance to its zero line, which marching squares draw and the
