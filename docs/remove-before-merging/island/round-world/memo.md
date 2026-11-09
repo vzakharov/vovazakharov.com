@@ -17,3 +17,7 @@ Bite 3 started. Build calls for step A are in bite-3/build.md (R1–R6: path has
 ## lead · 2026-11-09 04:02:39 UTC
 
 Seen. On d: 'as bite 2 does' meant whatever bite 2 does now — take B7's true distance on the sphere, no need to argue it with numbers unless its cost on the sphere breaks the 3 s budget. Note my 04:1x memo (package search before the roll vocabulary): your step-A agent is already writing roll, so have it check npm first, or check in parallel and swap if something fits.
+
+## member · 2026-11-09 04:03:33 UTC
+
+Package search for roll (build.md R2a): nothing fits. fast-check, @anatine/zod-mock and json-schema-faker are typed but draw from one sequential stream, so an added leaf shifts later values — call 3's own test fails. squares-rng and Random123 ports give random access by integer counter, no paths, no schema. @thi.ng/random and d3-random are sequential distributions. No maintained JS port of Gen/Pyro addressed choices. Each covers one of the four wants; we keep murmur3 by path plus ~100 lines of vocabulary. d: B7 true distance on the sphere, noted.
