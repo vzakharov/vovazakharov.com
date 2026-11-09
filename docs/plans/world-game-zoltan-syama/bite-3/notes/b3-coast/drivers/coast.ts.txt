@@ -1,0 +1,92 @@
+// Throwaway: at Italy (41 N 14 E) on a world, for each height, the selected tile count and level
+// range, then every selected tile filled as the worker fills it (stitched to its neighbours, detail
+// cut from the eye), and the time a fresh selection takes on a pool of 2 and 4 workers: each worker
+// takes the next nearest tile when free (list scheduling; IN_FLIGHT only queues, a worker is one
+// thread). COAST_FINER is whatever cube-split.ts holds when this runs. Prints one JSON line a height.
+// `WORLD=0 pnpm exec tsx tmp/b3-coast/coast.ts`
+import {
+  cubeDetailCut,
+  cubeTileId,
+  fillStitchedCubeTile,
+  frustumOf,
+  heightAtSphere,
+  neighbourLevels,
+  openSphereWorld,
+  sampleSphereField,
+  selectCubeTiles,
+} from '@/island/entities/terrain';
+import { eyeAt, poseOf } from '@/island/features/eye';
+import { nearestFirst } from '@/island/pages/island/model/tile-cover';
+
+const DEG = Math.PI / 180;
+const world = process.env.WORLD ?? '0';
+const [lat, lon, heading, look] = (process.env.POSE ?? '41,14,220,25.8').split(',').map(Number) as [number, number, number, number];
+const heights = (process.env.HEIGHTS ?? '2400000,170000,13000,527').split(',').map(Number);
+const aspect = 1440 / 900;
+const { field, seed } = await openSphereWorld(world);
+const coast = (q: Parameters<typeof sampleSphereField>[1]) => sampleSphereField(field, q);
+const ground = (p: Parameters<typeof sampleSphereField>[1]) => heightAtSphere(coast, seed, p, 0);
+
+const makespan = (costs: readonly number[], workers: number) => {
+  const free = Array.from({ length: workers }, () => 0);
+  for (const c of costs) {
+    const i = free.indexOf(Math.min(...free));
+    free[i] = (free[i] ?? 0) + c;
+  }
+  return Math.max(...free);
+};
+
+// Warm the JIT so the first height's fills are not paid at interpreter speed.
+{
+  const base = eyeAt({ lat: lat * DEG, lon: lon * DEG, height: 1e6, heading: heading * DEG }, ground);
+  const pose = poseOf(base, aspect);
+  const sel = selectCubeTiles(pose.position, { coast, frustum: frustumOf(pose.forward, pose.up, pose.fov, aspect), ground });
+  const levels = neighbourLevels(sel);
+  const cut = cubeDetailCut(pose.position, coast);
+  for (const key of sel.slice(0, 30)) {
+    const lv = levels.get(cubeTileId(key));
+    if (lv) fillStitchedCubeTile(key, (p, finest) => heightAtSphere(coast, seed, p, finest), lv, { finest: cut });
+  }
+}
+
+for (const h of heights) {
+  const base = eyeAt({ lat: lat * DEG, lon: lon * DEG, height: h, heading: heading * DEG }, ground);
+  const eye = { ...base, look: look * DEG, aim: { ...base.aim, look: look * DEG } };
+  const pose = poseOf(eye, aspect);
+  const t0 = performance.now();
+  const selected = selectCubeTiles(pose.position, { coast, frustum: frustumOf(pose.forward, pose.up, pose.fov, aspect), ground });
+  const selectMs = performance.now() - t0;
+  const levels = neighbourLevels(selected);
+  const byLevel = new Map<number, number>();
+  for (const k of selected) byLevel.set(k.level, (byLevel.get(k.level) ?? 0) + 1);
+  const cut = cubeDetailCut(pose.position, coast);
+  const orders = nearestFirst(selected.map((key) => ({ key })), pose.position);
+  const costs: number[] = [];
+  for (const { key } of orders) {
+    const lv = levels.get(cubeTileId(key));
+    if (lv === undefined) throw new Error(`no levels for ${cubeTileId(key)}`);
+    const s = performance.now();
+    const g = fillStitchedCubeTile(key, (p, finest) => heightAtSphere(coast, seed, p, finest), lv, { finest: cut });
+    let low = Infinity;
+    for (const v of g.heights) low = Math.min(low, v);
+    if (low <= 0) fillStitchedCubeTile(key, () => 0, lv);
+    costs.push(performance.now() - s);
+  }
+  const sorted = costs.toSorted((a, b) => a - b);
+  const q = (f: number) => sorted[Math.min(sorted.length - 1, Math.floor(f * sorted.length))] ?? 0;
+  process.stdout.write(
+    `${JSON.stringify({
+      world,
+      h,
+      tiles: selected.length,
+      levels: `${String(Math.min(...byLevel.keys()))}–${String(Math.max(...byLevel.keys()))}`,
+      byLevel: Object.fromEntries([...byLevel].sort((a, b) => a[0] - b[0])),
+      selectMs: Math.round(selectMs),
+      fillMedian: Math.round(q(0.5)),
+      fillP90: Math.round(q(0.9)),
+      fillSum: Math.round(costs.reduce((a, b) => a + b, 0)),
+      pool2: Math.round(makespan(costs, 2)),
+      pool4: Math.round(makespan(costs, 4)),
+    })}\n`,
+  );
+}
