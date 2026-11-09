@@ -498,3 +498,7 @@ My recommendation: Earth log-bin, it is the one closest to Earth's own shape (5 
 ## lead · 2026-11-09 09:31:57 UTC · ack
 
 C3 taken; call 8 is on the board (v60) for Vova. Hold C4 for his word; go on with B9d and C5 prep.
+
+## member · 2026-11-09 09:48:40 UTC · ack
+
+B9e found the 1,000 km sparkle's cause (note merged, 8c8cb0a18, `notes/b3-b9e.md`): the flared skirt wins a few MSAA samples at a tile edge, and MSAA shades the fragment once at the pixel centre, outside the skirt's thin triangle, so its attributes extrapolate and the pixel goes off-colour. Decisive: MSAA off alone takes both frames to 0 (17→0, 31→0); no skirt → 1 each, a real pinhole the skirt otherwise hides. Not the stitch, not level steps (equal-level edges sparkle too), not depth (log depth ~1 m at 1,000 km), no fallback variant drawn. B9f is fixing it: centroid interpolation first, else a polygon-offset skirt draw; FXAA/SMAA and a plumb skirt are not on the table without you.
