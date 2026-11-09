@@ -20,6 +20,16 @@ with numbers rather than picking another.
   (`Rolled<typeof schema>`), and a table decodes to a typed lookup backed by a
   flat typed array, never an object per key: the harmonic table has 262,143
   entries.
+- **R2a. No package does it** (search 2026-11-09, the contract's call 3):
+  schema-driven generators (`fast-check`, `@anatine/zod-mock` over faker,
+  `json-schema-faker`) draw from one sequential stream, so a leaf added shifts
+  every later value — what call 3 forbids; counter-based generators
+  (`squares-rng`, Random123 ports) give random access by an integer counter, not
+  by a path, and carry no schema; `@thi.ng/random` and `d3-random` are
+  sequential distributions. Gen- and Pyro-style addressed choices have no
+  maintained JS port. Each covers one of the four wants (typed schema, path
+  keys, random access by key, pinned values); the hash by path is bite 2's
+  `murmur3`, and the vocabulary on it is about a hundred lines.
 - **R3. The schema this bite** is
   `{ land: { sea: normal, harmonic: table over 1 ≤ l ≤ L, −l ≤ m ≤ l of normal }, noise: { seed: word } }`.
   `land/sea` is the degree-0 coefficient; its decode (a mean and a spread on the
