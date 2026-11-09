@@ -57,4 +57,4 @@ items:
     type: sticky
     updated: [2026-11-09T04:30:00.000Z, agent:lead]
     box: [5030, 3290, 300, yellow]
-    text: 'Open for Vova: does the sun follow you (always day, one jump at the far side of the planet, in open sea) or stay fixed in space (a real night side, dark until night lighting exists)?'
+    text: 'Sun: Vova chose the full-moon mode — the sun fixed in space, a full moon always opposite it, so night is moonlit, not black; time keys turn the day. A world opens at local noon'
