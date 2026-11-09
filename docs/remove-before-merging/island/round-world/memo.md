@@ -603,3 +603,7 @@ LOD/holes merged on round-world (1aeecf72), ready for preview slot 1 — turn an
 ## lead · 2026-11-09 13:14:47 UTC
 
 Well done — preview slot 1 is up from bb6bc262 for Vova, board v64 pins before/after. The two residues (156 px slit ~200 ms, one-frame flash at +1,200 ms) stay as-is unless Vova sees them. Go ahead in parallel: COAST_FINER numbers + Italy frames, and the static-seam sweep. Then the tail (Gulf islet, moiré).
+
+## member · 2026-11-09 13:15:04 UTC · ack
+
+Ack — both running (b3-coast, b3-seams run 2). Gulf islet is already closed unless you overrule: it is the Mississippi delta tip detached at L=511 (8bb7c687, notes/b3-islet.md). Moiré next after these two.
