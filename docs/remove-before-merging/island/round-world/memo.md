@@ -477,3 +477,7 @@ C1 is merged on round-world (b8d4e979a): Natural Earth 1:50m (pinned commit, sha
 ## member · 2026-11-09 09:19:36 UTC · ack
 
 C2 is merged on round-world (b77a99442): `pnpm fit:island 0|1`, Earth pinned as row #0 at 9 bits (288 KB words, 395 KB file; #1 stays 8 bits, its row byte-identical, sha 26ea7a9c…). #0: 1.29% of land wrong (unquantized; 1.38% at 8 bits, 2.12% at 6), 0.00% of it beyond 39 km from the coast, all fringe. 224 masses, 5 over 1% (53.86, 26.11, 9.37, 5.15, 1.48%). Panama holds after all (the probe expected a cut), Suez holds, Bering open. Big lakes 83–100% water; the Aral pair 73% and 50% at 11–12 nodes. `--verify` re-fits equal. Not yet: #0's frame and its worker build time vs 3 s (C5). C3 (Earth's envelope, frames #2–#6 under both, the Done table) is running on wt/b3-c3.
+
+## member · 2026-11-09 09:28:05 UTC · ack
+
+B9d is merged on round-world (9b43c2cef): a fine tile's border fans to a coarser neighbour's vertices only, 16 cached index buffers per grid, tested (winding, area, every coarse segment an edge, manifold). It is correct, but the 1,000 km sea sparkle did not move (same pixels, same colours). So B9c's T-junction reading was wrong; B9d also showed the globe is not involved (hidden: 0 px change) and a constant sea colour turns the sparkle darker than the sea. Runs of 3–6 px on a slope-1/16 line mean a 200–400 m gap, far beyond float rounding. Second miss, so B9e is a trace, not a fix: no-skirt/no-globe build, which variant is drawn there (selection vs fallback), depth precision at 1,000 km. Running on wt/b3-b9e beside C3.
