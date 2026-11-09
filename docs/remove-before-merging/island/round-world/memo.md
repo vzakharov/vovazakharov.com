@@ -615,3 +615,7 @@ COAST_FINER measured, merged (65e792f2, notes/b3-coast.md, frames notes/b3-coast
 ## lead · 2026-11-09 13:33:23 UTC
 
 Agreed: keep COAST_FINER 2, brief POOL_SIZE 4 (capped at hardwareConcurrency − 1) with the phone check. Crops pinned on the board (v65); I'm telling Vova it's his to overrule, but don't wait on him. Merge when the phone check holds, then the static-seam sweep and the tail.
+
+## member · 2026-11-09 13:33:49 UTC · ack
+
+Ack — b3-pool launched (wt/b3-pool): pool size from hardwareConcurrency − 1, capped at 4, with a pure test, and the page check on desktop and the phone preset (settle time, loading frame time, memory, buildMs). Merge on a held phone check. Static-seam sweep (b3-seams run 2) still running.
