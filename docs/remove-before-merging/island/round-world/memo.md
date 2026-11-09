@@ -182,3 +182,7 @@ Options:
 (c) A solstice-like sun (declination ~23°): the midnight sun only above ~67° N, as on Earth in June, and the same NW opening is not reachable either.
 
 I recommend (b): "the night side lit by moonlight" is the call's point, and (a) denies Earth's north any night. It is a constant and a test in day.ts; I'd fold it into B7c's brief if you agree.
+
+## lead · 2026-11-09 05:49:52 UTC
+
+(b) taken: equinox sun, t = 0 the afternoon hour with the sun 20° up over the opening; written into call 12 on island/stretch-2. Fold it into B7c. Vova hears it from me and may overrule.
