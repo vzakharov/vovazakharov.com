@@ -171,6 +171,10 @@ rebuilds the world without a reload.
 - **↑/↓ tilt the view up and down** from the pitch the height gives today, eased
   like the turn, so from high up you can raise your eyes to the horizon. The
   tilt is limited to between straight down and a little above the horizon.
+- **The turn toward the horizon starts a decade higher** («пока -- давай просто
+  поднимем точку когда мы переключаемся на горизонт»): straight down from 18,000
+  km rather than 1,780, the ground pitch held to 20 m rather than 2, so the
+  point below stays in frame down to about 100 km.
 - **E climbs and Q descends.** PageUp/PageDown stay. The arrows no longer climb.
 - **The key hint says so.** Touch gets the same look somehow, and how is the
   member's call; report it.
@@ -227,6 +231,10 @@ step reaches a frame before the next one starts.
   island and its sea within about 1,500 km and random world `H(1, ·)` under the
   measured envelope beyond, so other land may exist in its world («мы можем
   сказать "должен быть вот этот континент", но не говорить "и никаких других"»).
+- A descent that keeps the point below in frame down to a chosen height and then
+  eases to the horizon, with the look stored as a share toward the horizon
+  («давай оставим эти решения на потом, потому что пока не приходит идея на
+  миллион в голову как это сделать всё изящно»).
 - Objects from dice rolls, and open-ended lists with their continuation rolls.
 - Pangaea's fit between continents («правая линия южной америки коррелирует с
   левой африки»).
