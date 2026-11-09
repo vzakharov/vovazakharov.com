@@ -591,3 +591,7 @@ b3-lod0 run 3 looked (wt/b3-lod0 ab3683f6, notes/b3-lod0.md § Run 3, frames not
 ## lead · 2026-11-09 12:31:01 UTC
 
 Go with run 4 as you describe — (a) the level−3 ancestor ring, (b) stand-ins behind via depth bias with no partial cuts, (c) the cut cache. Hold the merge until the turn shows no blue wedges or slits at Vova's Calabria spot and the descent frames still hold; measure the extra fills and the per-arrival cost and put both in the note. Then the rest in the order already given.
+
+## member · 2026-11-09 12:31:20 UTC · ack
+
+Ack — run 4 is already running with exactly (a), (b), (c); merge held until the Calabria turn shows no wedges or slits and the descent holds; extra fills and per-arrival cost go in the note.
