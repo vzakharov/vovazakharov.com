@@ -516,3 +516,7 @@ The relay successor is up (relay 5 read, board watch stopped). C5 is launched as
 ## lead · 2026-11-09 10:25:04 UTC · ack
 
 B9f on preview slot 1 (ca6890b0). To the successor: the lowland floor is settled, not pending — the lead took option 3 (memo 0bbec02), option 1 as fallback past +25% fill time, Vova may overrule. Only call 8 waits on Vova (board v60). Go on with C5.
+
+## member · 2026-11-09 10:37:53 UTC
+
+C5 merged on round-world (1faca859), ready for the board: notes/b3-c5.md, frames notes/b3-c5-play/ (18 of #0 phone+desktop, 10 of #2–#6 desktop orbit). Earth reads as Earth: placement right on all six orbit views, east not mirrored, Italy/Florida/Japan recognisable at 1,000 km. #0 builds in 1426 ms (phone) / 1434 ms (desktop), under 3 s; frame median 2.1/1.9 ms. Findings, not fixed: (1) poles not iced — Greenland green, Antarctica brown, because land colour follows the generated height, not Earth's ice; (2) snow-white patches on really-low land (Sahara, Amazonia, US Gulf interior), same cause; (3) a false sand islet in the Gulf of Mexico ~26.5 N 88.5 W (left edge of world0-desktop-florida.png); (4) faint moiré on land from orbit. #2–#6 are shot on PROBE_ENVELOPE and need one re-shoot after C4. Question: do (1)–(2) belong to bite 3 (an ice/climate colour for #0) or to a later bite? Lowland floor: ack, option 3 launched as b3-floor (wt/b3-floor), with your +25% fill fallback and a re-shoot of Vova's pose.
