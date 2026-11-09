@@ -19,7 +19,7 @@ export const DIRECTIONS = ['right', 'left', 'up', 'down'] as const;
 export type Direction = (typeof DIRECTIONS)[number];
 
 /** The direction leading back to where a step came from. */
-export type WithBack = { readonly back: Direction };
+type WithBack = { readonly back: Direction };
 
 /**
  * Where leaving a face by one of its edges lands: the face beyond, the

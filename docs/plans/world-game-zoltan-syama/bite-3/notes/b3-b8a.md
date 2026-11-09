@@ -66,12 +66,22 @@ Branch `wt/b3-b8a`, base 1ae1b7e5. Stopped at the context budget.
   configuration hints 1. The eye's findings are gone but `EARTH_OPENING` (the
   barrel's; only `openingOf` is read outside).
 
+- `refactor: export the eye under its plain names` — the eye barrel's
+  `globe…` aliases gone; `island-scene`, `tile-view`, `eye-pose` import `Eye`,
+  `eyeAt`, `GroundAt`, `poseOf`, `step`, `withHeading`, `withHeight`.
+- Item 7, in three commits: the world, land, roll and terrain barrels stop
+  re-exporting what only the world reads; `Lookup`, `FIELD_RINGS`,
+  `FIELD_COLUMNS`, `landOnGrid` unexported; the three terrain
+  `index.test-only.ts` barrels deleted (no test read them); the quadtree,
+  tile and eye barrels drop `cubeSplitRule`, `CubeSelectOptions`,
+  `CubeFillOptions`, `CubeHeightSample`, `EARTH_OPENING`, `Opening`;
+  `shared/globe` drops `WithFace`, `Edge`, `Neighbour`, `WithBack` (no reader
+  at base 1ae1b7e5 either), `WithBack` unexported in `cube-edges.ts`.
+- knip now: unused exported types 1, configuration hints 1 (`.sass`).
+
 ## Left
 
-7. knip's barrel-only exports: world's `pathHash`, `PROBE_ENVELOPE`,
-   `rollWith`, `worldSchema` and the types `Envelope`, `Harmonic`, `Lookup`,
-   `WordSource`, `World` (through terrain, world and land barrels);
-   `FIELD_RINGS`/`FIELD_COLUMNS`/`landOnGrid` in `sphere-world.ts`;
-   `cubeSplitRule`, `CubeSelectOptions`, `CubeFillOptions`,
-   `CubeHeightSample`; `EARTH_OPENING`; the three terrain `index.test-only.ts`
-   files. Each needs a grep before removal.
+- knip's last finding, `Ground` exported from
+  `pages/island/ui/tile-view.ts` with no reader (also at base): a page file,
+  outside this agent's list. The fix is dropping its `export`.
+- The `.sass` configuration hint is knip's config (`knip.ts`), the operator's.
