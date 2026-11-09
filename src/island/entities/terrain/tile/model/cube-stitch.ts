@@ -171,7 +171,7 @@ export function stitchCubeLattice(
     // Off the coarser lattice only along an edge one level coarser, so both
     // neighbours along that edge are on it.
     const alongJ = i === 0 || i === last;
-    const [before, after]: Spot[] = alongJ
+    const [before, after]: readonly [Spot, Spot] = alongJ
       ? [
           { i, j: j - 1 },
           { i, j: j + 1 },

@@ -16,6 +16,7 @@ import {
   SPHERE_GROUND_SLOPE,
 } from '../../height';
 import { capGap, cubeTileId, cubeTileSide, tileCap } from '../../tile';
+import { covering } from './cube-neighbours';
 import { cubeChildren, cubeSplitRule } from './cube-split';
 import { type Framed, outside } from './view';
 
@@ -111,24 +112,12 @@ function balanceCube(
   leaves: Map<string, CubeCell>,
   visible: (key: CubeCell) => boolean,
 ) {
-  /** The leaf holding cell `key` or one of its ancestors, if any. */
-  const covering = ({ face, level, x, y }: CubeCell) =>
-    Array.from({ length: level + 1 }, (_, shift) =>
-      leaves.get(
-        cubeTileId({
-          face,
-          level: level - shift,
-          x: x >> shift,
-          y: y >> shift,
-        }),
-      ),
-    ).find((key) => key !== undefined);
   let changed = true;
   while (changed) {
     changed = false;
     for (const key of leaves.values()) {
       for (const direction of DIRECTIONS) {
-        const coarse = covering(neighbour(key, direction));
+        const coarse = covering(leaves, neighbour(key, direction));
         if (!coarse || coarse.level >= key.level - 1) continue;
         leaves.delete(cubeTileId(coarse));
         for (const child of cubeChildren(coarse)) {
