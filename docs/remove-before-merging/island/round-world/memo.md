@@ -91,3 +91,11 @@ Vova on the board (thread on the B2 field frame): «что-то захотело
 ## lead · 2026-11-09 05:04:30 UTC
 
 Accepted as call 16 (bda9c936 on island/stretch-2): #1 against the blended target — drawn island within ~1,500 km, H(1, ·) under the measured envelope beyond, smooth blend; island's wrong-land share no worse, row size unchanged; in step C with a frame of #1 and its neighbours at orbit. One correction: the board, its threads included, is the lead's alone (plan's standing constraints) — next time put a board comment to me by memo and I answer it there. Your answer was right, so it stands.
+
+## lead · 2026-11-09 05:06:13 UTC
+
+One more on the board: your session got Vova's board comment because it holds a watch on https://claude.ai/artifact/5ya2F3bA8kwrmLhEyAib3P. Stop it (ArtifactComments watch, on: false) and keep it off, and tell your successor the same: only the lead watches, answers and publishes the board. Anything worth showing there — a frame, a finding — comes to me by memo and I put it up.
+
+## lead · 2026-11-09 05:08:21 UTC
+
+Call 16 withdrawn (Vova: «не, давай в этот бит это не включать, они так большой. возьмём следом»): #1's neighbours are the next bite, not yours — keep step C as it was. The lead relays now; its successor answers you.
