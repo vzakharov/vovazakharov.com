@@ -1,8 +1,8 @@
 items:
   - id: z-bite3
     type: zone
-    updated: [2026-11-09T04:58:00.000Z, agent:lead]
-    box: [4444, 2539, 2290, 1600, green]
+    updated: [2026-11-09T04:59:51.614Z, u_L_AriiBLoWLIB4PYEulAJA]
+    box: [4406, 2431, 2290, 1600, green]
     text: 'Bite 3 — a round world, and Earth as #0'
   - id: bite3-1
     type: sticky
@@ -40,12 +40,18 @@ items:
     updated: [2026-11-09T05:05:00.000Z, agent:lead]
     box: [5190, 3660, 300, yellow]
     text: 'Taken into bite 3: tiles of two levels match along their edge (call 14), and island.where() copies a line — build, world, place, height, view — while #world@lat,lon,height,heading,pitch opens that exact view, so the lead can reproduce what Vova sees (call 15)'
+  - id: bite3-first-sphere
+    type: image
+    updated: [2026-11-09T05:48:00.000Z, agent:lead]
+    box: [6360, 3700, 320]
+    src: images/bite3-first-sphere.webp
+    text: 'First flight over the sphere: #1 alone on the globe, lit from the NW, and the same island from 1,000 km. The world builds in 1.4 s. The thin spits are real land from the fit'
   - id: bite3-b2-field
     type: image
     updated: [2026-11-09T04:58:00.000Z, agent:lead]
     box: [5700, 3660, 640]
     src: images/bite3-b2-field.webp
-    text: 'World #2 on the sphere, flattened: the coast and lines every 500 km out to sea. They close across the map''s seam and ring the small islands evenly — distance is true on the globe. Built in 1.04 s'
+    text: "World #2 on the sphere, flattened: the coast and lines every 500 km out to sea. They close across the map's seam and ring the small islands evenly — distance is true on the globe. Built in 1.04 s"
   - id: bite3-probe
     type: image
     updated: [2026-11-09T04:05:00.000Z, agent:lead]
@@ -72,6 +78,6 @@ items:
     text: '#2–#7 as globes, three sides each'
   - id: bite3-sun
     type: sticky
-    updated: [2026-11-09T04:30:00.000Z, agent:lead]
+    updated: [2026-11-09T05:48:00.000Z, agent:lead]
     box: [5030, 3290, 300, yellow]
-    text: 'Sun: Vova chose the full-moon mode — the sun fixed in space, a full moon always opposite it, so night is moonlit, not black; time keys turn the day. A world opens at local noon'
+    text: 'Sun: Vova chose the full-moon mode — the sun fixed in space, a full moon always opposite it, so night is moonlit, not black; [ and ] turn the day, T pauses it. A world opens under today''s low NW sun, time paused'
