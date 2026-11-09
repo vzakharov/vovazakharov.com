@@ -2,7 +2,8 @@
  * Measures Earth's amplitude per degree and fits it a knee-and-slope envelope
  * (call 4): `A(l)` of #0's series, fitted `(knee² + l²)^(−slope/2)` in `ln A`
  * twice — bins equal in `log l`, and every degree equal (call 7) — and printed
- * beside the probe's envelope, all scaled to the measured `A(1…L)`'s fit.
+ * beside the probe's envelope, its amplitude alone fitted. The two sources agree to
+ * the printed digits.
  *
  * Usage: pnpm spectrum:island [--source row|target]
  *   row     the committed row #0, decoded (default; offline)
@@ -62,8 +63,8 @@ for (const [name, fit] of fits) {
 }
 
 const probe = holdEnvelope(amplitudes, logWeights(LAND_DEGREE), 6, 2);
-const model = ({ knee, slope, scale }: EnvelopeFit, l: number) =>
-  scale * (knee * knee + l * l) ** (-slope / 2);
+const model = ({ knee, slope, amplitude }: EnvelopeFit, l: number) =>
+  amplitude * (knee * knee + l * l) ** (-slope / 2);
 const ratio = (fit: EnvelopeFit, l: number, a: number) =>
   (model(fit, l) / a).toFixed(2);
 say(

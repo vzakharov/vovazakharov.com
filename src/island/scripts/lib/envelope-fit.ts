@@ -46,14 +46,14 @@ export function logWeights(degree: number): Float64Array {
 export type EnvelopeFit = {
   knee: number;
   slope: number;
-  /** `A(l) ≈ scale·(knee² + l²)^(−slope/2)`. */
-  scale: number;
+  /** `A(l) ≈ amplitude·(knee² + l²)^(−slope/2)`. */
+  amplitude: number;
   /** The weighted rms of `ln A` about the fit. */
   residual: number;
 };
 
 /**
- * A given knee and slope held to `amplitudes`: only the scale is fitted, the
+ * A given knee and slope held to `amplitudes`: only the amplitude is fitted, the
  * weighted mean of `ln A` over the envelope's.
  */
 export function holdEnvelope(
@@ -76,7 +76,7 @@ export function holdEnvelope(
   }
   const mean = sum / w;
   const residual = Math.sqrt(Math.max(0, squares / w - mean * mean));
-  return { knee, slope, scale: Math.exp(mean), residual };
+  return { knee, slope, amplitude: Math.exp(mean), residual };
 }
 
 /** Knees tried, 0.1 to 40 in steps of 0.05. */
@@ -122,7 +122,7 @@ export function fitEnvelope(
       Math.max(0, syy / w - (sy / w) ** 2 - b * coVar),
     );
     if (!best || residual < best.residual) {
-      best = { knee, slope: -2 * b, scale: Math.exp(a), residual };
+      best = { knee, slope: -2 * b, amplitude: Math.exp(a), residual };
     }
   }
   if (!best) throw new Error('no knee to fit');

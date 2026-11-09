@@ -45,7 +45,10 @@ describe('fitEnvelope', () => {
       const fit = fitEnvelope(amplitudes, weights);
       assert.ok(Math.abs(fit.knee - 7.3) < 1e-9, `knee ${String(fit.knee)}`);
       assert.ok(Math.abs(fit.slope - 2.4) < 1e-9, `slope ${String(fit.slope)}`);
-      assert.ok(Math.abs(fit.scale - 42) < 1e-6, `scale ${String(fit.scale)}`);
+      assert.ok(
+        Math.abs(fit.amplitude - 42) < 1e-6,
+        `amplitude ${String(fit.amplitude)}`,
+      );
       assert.ok(fit.residual < 1e-6);
     });
   }
