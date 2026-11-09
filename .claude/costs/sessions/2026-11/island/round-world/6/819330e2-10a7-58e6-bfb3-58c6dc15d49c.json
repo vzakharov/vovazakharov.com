@@ -1,0 +1,160 @@
+{
+  "total": {
+    "inputTokens": 14030,
+    "cacheWrite5mTokens": 2351825,
+    "cacheWrite1hTokens": 241893,
+    "cacheReadTokens": 109758787,
+    "outputTokens": 535007,
+    "thinkingTokens": 170203,
+    "responses": 841,
+    "costUsd": 46.417831200000016
+  },
+  "estimate": {
+    "at": "2026-11-09T11:59:29.643Z",
+    "subjectLine": "feat: bite 3's Earth frames, lowland floor and LOD cover lag",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "C5's Earth shots and the lowland-floor fix need judgement of the terrain's look"
+      },
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "the LOD cover lag and the holes while turning are tile-streaming work: cover over a quadtree, worker pools, fill budgets"
+      },
+      {
+        "hours": 3.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "C4's envelope switch and the Done table's tests are routine code against a settled contract"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "the tail runs with the lead: briefs, merges, traces relayed from Vova's video, the PR against stretch-2"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-09T10:22:17.360Z",
+    "contextTokens": 128431,
+    "spend": {
+      "inputTokens": 40,
+      "cacheWrite5mTokens": 69020,
+      "cacheWrite1hTokens": 69963,
+      "cacheReadTokens": 2021694,
+      "outputTokens": 7166,
+      "thinkingTokens": 1295,
+      "responses": 20,
+      "costUsd": 1.4526228
+    }
+  },
+  "sessionId": "819330e2-10a7-58e6-bfb3-58c6dc15d49c",
+  "branch": "island/round-world",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/round-world — искры на стыках тайлов починены, панель I готова, Земля закреплена как #0 и её спектр измерен; впереди кадры Земли (C5), ответы…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkD74uWSKLC8ZwjGuG7",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-09T10:20:38.288Z",
+  "lastResponseAt": "2026-11-09T13:45:34.020Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 182,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 241893,
+    "cacheReadTokens": 18642872,
+    "outputTokens": 52751,
+    "thinkingTokens": 4590,
+    "responses": 95,
+    "costUsd": 6.719466400000001
+  },
+  "subagents": {
+    "inputTokens": 1498,
+    "cacheWrite5mTokens": 2343357,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 86135649,
+    "outputTokens": 481680,
+    "thinkingTokens": 165613,
+    "responses": 723,
+    "costUsd": 38.58350679999999
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 12812,
+      "cacheWrite5mTokens": 2351825,
+      "cacheWrite1hTokens": 241893,
+      "cacheReadTokens": 109758787,
+      "outputTokens": 534745,
+      "thinkingTokens": 170203,
+      "responses": 840,
+      "costUsd": 46.41757840000002
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1218,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 262,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0002528
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 840,
+    "matched": 817,
+    "matchedTableUsd": 45.2442214,
+    "matchedEventUsd": 45.2442214,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 11132,
+        "cacheWrite5mTokens": 8468,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 4980266,
+        "outputTokens": 314,
+        "thinkingTokens": 0,
+        "responses": 22,
+        "costUsd": 1.1146052
+      },
+      "generate_session_title": {
+        "inputTokens": 1218,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 262,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0002528
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 22,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".py": 980,
+    ".md": 15660,
+    ".json": 488,
+    ".txt": 2118,
+    ".ts": 9557,
+    ".sh": 43,
+    ".yaml": 242,
+    ".tsx": 114,
+    ".scss": 96
+  }
+}
