@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 25,
+    "inputTokens": 86,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 60976,
-    "cacheReadTokens": 1266626,
-    "outputTokens": 3406,
-    "thinkingTokens": 443,
-    "responses": 12,
-    "costUsd": 0.8093532
+    "cacheWrite1hTokens": 115866,
+    "cacheReadTokens": 6176091,
+    "outputTokens": 14080,
+    "thinkingTokens": 2311,
+    "responses": 44,
+    "costUsd": 2.444090200000001
   },
   "estimate": {
     "at": "2026-11-09T02:30:39.931Z",
@@ -42,22 +42,24 @@
   "branch": "island/stretch-2",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take island/stretch-2 — два участника в работе: бит 2 удаляет модуль берегов, второй чинит мигание земли",
-  "prs": [],
+  "prs": [
+    266
+  ],
   "url": "https://claude.ai/code/session_01DaohkBoqYFFHoBSRRrAbm7",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-09T02:30:07.538Z",
-  "lastResponseAt": "2026-11-09T02:31:05.046Z",
+  "lastResponseAt": "2026-11-09T02:34:17.185Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 25,
+    "inputTokens": 86,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 60976,
-    "cacheReadTokens": 1266626,
-    "outputTokens": 3406,
-    "thinkingTokens": 443,
-    "responses": 12,
-    "costUsd": 0.8093532
+    "cacheWrite1hTokens": 115866,
+    "cacheReadTokens": 6176091,
+    "outputTokens": 14080,
+    "thinkingTokens": 2311,
+    "responses": 44,
+    "costUsd": 2.444090200000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -71,38 +73,49 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 25,
+      "inputTokens": 86,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 60976,
-      "cacheReadTokens": 1266626,
-      "outputTokens": 3406,
-      "thinkingTokens": 443,
-      "responses": 12,
-      "costUsd": 0.8093532
+      "cacheWrite1hTokens": 115866,
+      "cacheReadTokens": 6176091,
+      "outputTokens": 14080,
+      "thinkingTokens": 2311,
+      "responses": 44,
+      "costUsd": 2.444090200000001
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 12,
-    "matched": 12,
-    "matchedTableUsd": 0.8093532,
-    "matchedEventUsd": 0.8093532,
+    "events": 44,
+    "matched": 44,
+    "matchedTableUsd": 2.444090200000001,
+    "matchedEventUsd": 2.444090200000001,
     "unseen": {}
   },
   "operatorWords": {
     "chat": 0,
     "review": 0,
-    "threads": 0
+    "threads": 248
   },
   "reviewPosts": {},
-  "threadPosts": {},
+  "threadPosts": {
+    "19e6ac40-5855-407f-a5d4-c9058815faf5@2026-11-06T20:54": 6,
+    "7149addd-8f0d-4dba-aab1-c1c571db497b@2026-11-07T06:20": 5,
+    "629856ff-9f6b-4682-aca0-99bea09f26ba@2026-11-07T07:16": 21,
+    "50a669be-8e41-4f4d-9ad8-21b72735c06b@2026-11-07T07:19": 8,
+    "cdeca233-def0-4ed5-a11c-1e1196860251@2026-11-07T07:22": 36,
+    "50a669be-8e41-4f4d-9ad8-21b72735c06b@2026-11-07T07:23": 25,
+    "1617f0fc-fcdc-4ab9-aba9-f1ad9e007a2c@2026-11-09T01:56": 16,
+    "1617f0fc-fcdc-4ab9-aba9-f1ad9e007a2c@2026-11-09T02:04": 25,
+    "c99572a3-77e4-4d1a-8a38-9d748674a207@2026-11-09T02:22": 104,
+    "c99572a3-77e4-4d1a-8a38-9d748674a207@2026-11-09T02:25": 2
+  },
   "branchLines": {
     ".py": 481,
-    ".md": 8299,
-    ".json": 7,
+    ".md": 8311,
+    ".json": 8,
     ".ts": 86,
     ".sh": 43,
-    ".yaml": 94
+    ".yaml": 101
   }
 }
