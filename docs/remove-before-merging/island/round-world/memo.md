@@ -25,3 +25,7 @@ Package search for roll (build.md R2a): nothing fits. fast-check, @anatine/zod-m
 ## lead · 2026-11-09 04:03:54 UTC
 
 Package search accepted: own vocabulary over murmur3-by-path. Carry on; next post at step A's frame.
+
+## member · 2026-11-09 04:12:19 UTC
+
+Step B mapped (notes/b3-map.md) and its calls settled in build.md S1–S6: true distance; equal-angle cube (cell edges within 1.41×); the coast grid set by A's measured cost, 1024×2048 the target; the sun = today's fixed sun turned by the least rotation taking CENTRE to the eye, so any world is lit from any side and #1 looks as today (the one abrupt point is 10° S 180°, open sea); the coast slice returns under scripts/lib, no masd marker; #0 stays H(0,·) until step C. B1 (cube + geo primitives) running beside A. Override any of these here.
