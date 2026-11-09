@@ -5,7 +5,7 @@ import {
   R,
   type Vec3,
 } from '@/island/shared/globe';
-import type { RingGrid } from '@/island/entities/terrain';
+import type { RingGrid, SphereTransform } from '@/island/entities/terrain';
 
 import { ISLAND_CENTRE, worldToPlane } from './azimuthal';
 import type { Ringed } from './coast';
@@ -26,8 +26,36 @@ function nodeLatLon(grid: RingGrid, r: number, j: number): LatLon {
   };
 }
 
-const nodeUnit = (grid: RingGrid, r: number, j: number): Vec3 =>
+export const nodeUnit = (grid: RingGrid, r: number, j: number): Vec3 =>
   latLonToUnit(nodeLatLon(grid, r, j));
+
+/**
+ * Half the finest wave at `LAND_DEGREE` (78 km): wrong land farther than this
+ * from the true coast is misplaced, not the coast's fringe.
+ */
+export const MISPLACED_METRES = 39_000;
+
+/** One pinned world's fit: its target, its truth, and how its report reads. */
+export type FitTarget = {
+  /**
+   * The signed distance to the true coast on the measure grid, metres,
+   * positive on land, unclipped: its sign is the truth `wrongLand` reads.
+   */
+  truth: Float64Array;
+  /** The series before quantizing: the target clipped to `±clip`, analysed. */
+  series: (transform: SphereTransform, clip: number) => Float64Array;
+  /** Where a wrong patch lies, in the world's own terms. */
+  place: (patch: LatLon) => string;
+  /** The world's own checks of the kept field on the measure grid (its lakes, its links), one line each. */
+  report: (kept: Float64Array) => string[];
+};
+
+const share = (part: number, whole: number) =>
+  `${((100 * part) / (whole || 1)).toFixed(2)}%`;
+
+/** A lake's report line: its nodes on the measure grid and the share of them water. */
+export const lakeLine = (label: string, nodes: number, water: number) =>
+  `  ${String(nodes).padStart(5)} nodes ${label}: ${share(water, nodes)} water`;
 
 /**
  * The fit's target on `grid`: the drawn coast's signed distance in metres,
@@ -74,6 +102,8 @@ type WrongPatch = LatLon & {
 export type WrongLand = {
   /** Wrong area over the drawn land's area. */
   wrongShare: number;
+  /** The part of `wrongShare` lying over `MISPLACED_METRES` from the true coast. */
+  misplacedShare: number;
   addedKm2: number;
   droppedKm2: number;
   landKm2: number;
@@ -130,6 +160,8 @@ function patchesOf(grid: RingGrid, kinds: Int8Array, kind: number) {
 /**
  * Where `field`'s land (`> 0`) differs from `truth`'s on `grid`, by area:
  * land added over the drawn sea, land the drawing has and the field drops.
+ * `truth` is a signed distance in metres, so how far a wrong node lies from
+ * the true coast is its magnitude.
  */
 export function wrongLand(
   grid: RingGrid,
@@ -140,6 +172,7 @@ export function wrongLand(
   const kinds = new Int8Array(field.length);
   let addedKm2 = 0;
   let droppedKm2 = 0;
+  let misplacedKm2 = 0;
   let landKm2 = 0;
   for (let r = 0; r < grid.rows; r += 1) {
     const area = cellKm2(grid, r);
@@ -155,6 +188,8 @@ export function wrongLand(
         kinds[n] = 2;
         droppedKm2 += area;
       }
+      if (land !== drawn && Math.abs(truth[n] ?? 0) > MISPLACED_METRES)
+        misplacedKm2 += area;
     }
   }
   const patches = [
@@ -168,6 +203,7 @@ export function wrongLand(
     .slice(0, patchCount);
   return {
     wrongShare: (addedKm2 + droppedKm2) / landKm2,
+    misplacedShare: misplacedKm2 / landKm2,
     addedKm2,
     droppedKm2,
     landKm2,

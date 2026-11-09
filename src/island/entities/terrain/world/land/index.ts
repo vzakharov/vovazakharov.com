@@ -13,5 +13,5 @@ export {
   pinnedRow,
   pinnedSeries,
 } from './model/pinned-row';
-export { openSphereWorld } from './model/sphere-world';
+export { fieldGrids, fieldOf, openSphereWorld } from './model/sphere-world';
 export { LAND_DEGREE, rollWorld } from './model/world-schema';

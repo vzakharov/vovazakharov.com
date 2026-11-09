@@ -113,6 +113,7 @@ export function decodePinnedRow({
  * Every number not here reads `H`.
  */
 const PINNED_ROWS: Partial<Record<string, () => Promise<unknown>>> = {
+  '0': async () => (await import('./pinned/0.json')).default,
   '1': async () => (await import('./pinned/1.json')).default,
 };
 

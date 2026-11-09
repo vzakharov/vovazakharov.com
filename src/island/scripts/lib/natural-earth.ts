@@ -77,11 +77,30 @@ const FeatureCollection = z.object({
 /** One polygon: its exterior ring, then its holes, `[lon, lat]` in degrees. */
 export type GeoPolygon = z.infer<typeof PolygonRings>;
 
+type Feature = z.infer<typeof FeatureCollection>['features'][number];
+
+const featurePolygons = ({ geometry }: Feature): GeoPolygon[] =>
+  geometry.type === 'Polygon' ? [geometry.coordinates] : geometry.coordinates;
+
 /** A layer's polygons, each feature's MultiPolygon flattened. */
 export function layerPolygons(json: unknown): GeoPolygon[] {
-  return FeatureCollection.parse(json).features.flatMap(({ geometry }) =>
-    geometry.type === 'Polygon' ? [geometry.coordinates] : geometry.coordinates,
+  return FeatureCollection.parse(json).features.flatMap((feature) =>
+    featurePolygons(feature),
   );
+}
+
+/** The polygons of each feature whose `name` property is one of `names`, by name. */
+export function namedPolygons(
+  json: unknown,
+  names: readonly string[],
+): Map<string, GeoPolygon[]> {
+  const found = new Map<string, GeoPolygon[]>();
+  for (const feature of FeatureCollection.parse(json).features) {
+    const name = feature.properties?.name;
+    if (typeof name !== 'string' || !names.includes(name)) continue;
+    found.set(name, [...(found.get(name) ?? []), ...featurePolygons(feature)]);
+  }
+  return found;
 }
 
 const sha256 = (bytes: Uint8Array) =>
@@ -119,8 +138,11 @@ async function layerBytes(name: LayerName): Promise<Buffer> {
   return fetched;
 }
 
+/** A Natural Earth layer's GeoJSON at the pinned commit, unparsed. */
+export const naturalEarthJson = async (name: LayerName): Promise<unknown> =>
+  JSON.parse((await layerBytes(name)).toString('utf8'));
+
 /** A Natural Earth layer's polygons at the pinned commit. */
 export async function naturalEarth(name: LayerName): Promise<GeoPolygon[]> {
-  const bytes = await layerBytes(name);
-  return layerPolygons(JSON.parse(bytes.toString('utf8')));
+  return layerPolygons(await naturalEarthJson(name));
 }
