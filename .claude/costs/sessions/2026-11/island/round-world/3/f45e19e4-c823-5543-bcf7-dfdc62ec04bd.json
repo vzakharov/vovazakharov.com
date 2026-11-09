@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 651,
-    "cacheWrite5mTokens": 216935,
-    "cacheWrite1hTokens": 105126,
-    "cacheReadTokens": 8000823,
-    "outputTokens": 36866,
-    "thinkingTokens": 4185,
-    "responses": 69,
-    "costUsd": 4.266452599999999
+    "inputTokens": 8065,
+    "cacheWrite5mTokens": 757072,
+    "cacheWrite1hTokens": 182689,
+    "cacheReadTokens": 45584190,
+    "outputTokens": 187866,
+    "thinkingTokens": 34268,
+    "responses": 340,
+    "costUsd": 18.1644647
   },
   "estimate": {
     "at": "2026-11-09T05:14:54.791Z",
@@ -63,70 +63,90 @@
     }
   },
   "sessionId": "f45e19e4-c823-5543-bcf7-dfdc62ec04bd",
-  "branch": "wt/b3-b7a",
+  "branch": "island/round-world",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take island/round-world — B4 и S7 влиты (высота и заливка тайла куба, взгляд вверх-вниз), гейты зелёные кроме knip, очередь B7",
   "prs": [],
   "url": "https://claude.ai/code/session_01DaohkBxAb41bAqfSKJNwiM",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-09T05:14:32.560Z",
-  "lastResponseAt": "2026-11-09T05:20:55.916Z",
+  "lastResponseAt": "2026-11-09T05:48:19.562Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 47,
+    "inputTokens": 124,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 105126,
-    "cacheReadTokens": 3090815,
-    "outputTokens": 12441,
-    "thinkingTokens": 2234,
-    "responses": 23,
-    "costUsd": 1.7081790000000003
+    "cacheWrite1hTokens": 182689,
+    "cacheReadTokens": 11236052,
+    "outputTokens": 36157,
+    "thinkingTokens": 9613,
+    "responses": 62,
+    "costUsd": 4.432358400000001
   },
   "subagents": {
-    "inputTokens": 98,
-    "cacheWrite5mTokens": 216708,
+    "inputTokens": 552,
+    "cacheWrite5mTokens": 750374,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 4757755,
-    "outputTokens": 24414,
-    "thinkingTokens": 1951,
-    "responses": 45,
-    "costUsd": 2.523763
+    "cacheReadTokens": 31846046,
+    "outputTokens": 151317,
+    "thinkingTokens": 24655,
+    "responses": 265,
+    "costUsd": 13.149627200000005
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 651,
-      "cacheWrite5mTokens": 216935,
-      "cacheWrite1hTokens": 105126,
-      "cacheReadTokens": 8000823,
-      "outputTokens": 36866,
-      "thinkingTokens": 4185,
-      "responses": 69,
-      "costUsd": 4.266452599999999
+      "inputTokens": 6748,
+      "cacheWrite5mTokens": 757072,
+      "cacheWrite1hTokens": 182689,
+      "cacheReadTokens": 45584190,
+      "outputTokens": 187672,
+      "thinkingTokens": 34268,
+      "responses": 339,
+      "costUsd": 18.164236
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1317,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 194,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0002287
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 69,
-    "matched": 68,
-    "matchedTableUsd": 4.231941999999999,
-    "matchedEventUsd": 4.231941999999998,
+    "events": 339,
+    "matched": 326,
+    "matchedTableUsd": 17.480276200000002,
+    "matchedEventUsd": 17.4802762,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 506,
-        "cacheWrite5mTokens": 227,
+        "inputTokens": 6072,
+        "cacheWrite5mTokens": 6698,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 152253,
-        "outputTokens": 11,
+        "cacheReadTokens": 2502092,
+        "outputTokens": 198,
+        "thinkingTokens": 0,
+        "responses": 12,
+        "costUsd": 0.5822504000000001
+      },
+      "generate_session_title": {
+        "inputTokens": 1317,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 194,
         "thinkingTokens": 0,
         "responses": 1,
-        "costUsd": 0.0345106
+        "costUsd": 0.0002287
       }
     }
   },
   "operatorWords": {
-    "chat": 0,
+    "chat": 261,
     "review": 0,
     "threads": 0
   },
@@ -134,10 +154,10 @@
   "threadPosts": {},
   "branchLines": {
     ".py": 718,
-    ".md": 12008,
-    ".json": 296,
+    ".md": 12165,
+    ".json": 298,
     ".txt": 31,
-    ".ts": 7329,
+    ".ts": 7563,
     ".sh": 43,
     ".yaml": 236,
     ".tsx": 11
