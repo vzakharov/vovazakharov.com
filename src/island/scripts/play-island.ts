@@ -1,9 +1,9 @@
 /**
  * Plays `/island` on a phone and a desktop screen: opens `/island?play`, waits
- * for the scene, then puts the eye at each of five heights — orbit, 1,000 km,
- * 10 km, 100 m, 2 m — and over the coast's narrowest inlet, facing north and
- * then west, steps a few frames on the page's seeded clock and shoots
- * `<screen>-<shot>.png`. It fails on any page error or console error, and
+ * for the scene, then puts the eye at each of the world's shots
+ * (`lib/shot-sets.ts`), sets the hour a shot names, steps a few frames on the
+ * page's seeded clock and shoots `<screen>-<shot>.png`. It fails on any page
+ * error or console error, and
  * prints per screen the ms the world's field took to build, the renderer's
  * backend and the median frame time beside
  * the machine's load average, which is what a slow median has to be read
@@ -15,9 +15,7 @@
  *   pnpm play:island --out tmp/island      # frames there instead
  *   pnpm play:island --world 2             # world #2, frames prefixed world2-
  *
- * The inlet's shots are places on our world, so another world takes the
- * heights alone.
- *
+
  * The page drives itself through the hook `@/island/shared/play` declares; a
  * hook call that returns a promise is awaited against a deadline, so a call
  * that never resolves fails rather than hanging the run.
@@ -28,11 +26,6 @@ import os from 'node:os';
 import path from 'node:path';
 import { z } from 'zod';
 
-import type { LatLon } from '@/island/shared/globe';
-import { OUR_WORLD } from '@/island/entities/terrain';
-
-import type { Degrees } from './lib/azimuthal';
-import { INLET, INLET_HEAD } from './lib/places';
 import {
   buildExport,
   call,
@@ -45,6 +38,7 @@ import {
   worldArgument,
   worldPrefix,
 } from './lib/play-tab';
+import { type Shot, shotsFor } from './lib/shot-sets';
 
 import { flag } from '@/kernel/scripts/lib/argv';
 import { withPrintOrigin } from '@/kernel/scripts/lib/print-origin';
@@ -68,36 +62,14 @@ const SCREENS: readonly Screen[] = [
   { name: 'desktop', width: 1440, height: 900, ratio: 1, mobile: false },
 ];
 
-type Shot = readonly [name: string, place: string];
-
-/** Each shot by the name its frame is filed under, and the call placing the eye. */
-const HEIGHTS: readonly Shot[] = [
-  ['orbit', call('setHeight', 20_000_000)],
-  ['1000km', call('setHeight', 1_000_000)],
-  ['10km', call('setHeight', 10_000)],
-  ['100m', call('setHeight', 100)],
-  ['2m', call('setHeight', 2)],
-];
-
-/** `m` metres over `place`, in the hook's degrees. */
-const over = ({ lat, lon }: LatLon, m: number) => call('moveTo', lat, lon, m);
-
-const ALONG_INLET: readonly Shot[] = [
-  // The inlet's whole length, then the strait and the pool at its head.
-  ['inlet', over(INLET, 1_500_000)],
-  ['inlet-head', over(INLET_HEAD, 300_000)],
-  // The same place facing west: last, since every later place keeps the heading.
-  ['inlet-head-west', call('turnTo', -Math.PI / 2)],
-];
-
-const SHOTS = WORLD === OUR_WORLD ? [...HEIGHTS, ...ALONG_INLET] : HEIGHTS;
-
 type Played = { readonly frames: number[]; readonly backend: string };
 
 async function play(tab: Tab, screen: Screen): Promise<Played> {
   const shootAt = async ([shot, ...rest]: readonly Shot[]): Promise<void> => {
     if (shot === undefined) return;
-    const [name, place] = shot;
+    const { name, place, hours } = shot;
+    if (hours !== undefined)
+      await tab.evaluate(`${call('setTime', hours)}, true`, z.boolean());
     await settle(tab, place, place.slice(hook.length + 1));
     await shoot(
       tab,
@@ -107,7 +79,7 @@ async function play(tab: Tab, screen: Screen): Promise<Played> {
     process.stdout.write(`${screen.name}: shot ${name}\n`);
     await shootAt(rest);
   };
-  await shootAt(SHOTS);
+  await shootAt(shotsFor(WORLD));
   return {
     frames: await tab.evaluate(call('frameMs'), z.array(z.number())),
     backend: await tab.evaluate(call('backend'), z.string()),
