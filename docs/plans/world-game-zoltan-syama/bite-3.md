@@ -239,6 +239,10 @@ to look down"».
 - **"Press ↓ to look down"** shows once the pitch the height gives reaches its
   floor, the eye fully on the horizon. Neither shows while the player has
   already moved the look with ↑/↓.
+- **A hint stays up three seconds, then goes out by itself**, and does not come
+  back until its condition has lapsed and returned. Vova: «при постоянном
+  нажатии q, подсказка мигает очень быстро, я даже в первый раз не успел её
+  заметить. пусть горит секунды три а потом гаснет сама».
 
 18\. **Diagnostics on screen.** Vova: «какую-то кнопку для вывода
 диагностических данных на экран, чтобы даже по простому скриншоту (или просто
