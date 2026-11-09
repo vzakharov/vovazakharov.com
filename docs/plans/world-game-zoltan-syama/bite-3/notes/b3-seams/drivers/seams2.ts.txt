@@ -1,0 +1,96 @@
+// Throwaway look at b3-seams run 2: Vova's #1 seam pose settled, and the #0 seam sweep.
+// `pnpm exec tsx tmp/look/seams2.ts vova|<italy|japan|florida> [out-subdir]`; DIR=<export>, TAG=<file prefix>.
+import fs from 'node:fs';
+import path from 'node:path';
+import { setTimeout as sleep } from 'node:timers/promises';
+import { z } from 'zod';
+
+import { call, hook, settle, shoot } from '@/island/scripts/lib/play-tab';
+import { openingOf } from '@/island/features/eye';
+import { withPrintOrigin } from '@/kernel/scripts/lib/print-origin';
+import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
+import { type Browser, launch, openTab, type Tab } from '@/scene/scripts/lib/cdp';
+import { watchPageErrors } from '@/scene/scripts/lib/page-errors';
+
+const OUT = path.join(REPO_ROOT, 'docs/plans/world-game-zoltan-syama/bite-3/notes/b3-seams', process.argv[3] ?? '');
+fs.mkdirSync(OUT, { recursive: true });
+const only = process.argv[2] ?? 'vova';
+const TAG = process.env.TAG ?? '';
+const log = (s: string) => process.stdout.write(`${s}\n`);
+const errors: string[] = [];
+const W = 1440;
+const H = 900;
+
+async function poll(tab: Tab, expr: string, ms: number): Promise<void> {
+  const end = Date.now() + ms;
+  for (;;) {
+    if (await tab.evaluate(`(() => { try { return Boolean(${expr}); } catch { return false; } })()`, z.boolean())) return;
+    if (Date.now() > end) throw new Error(`timeout: ${expr}`);
+    await sleep(250);
+  }
+}
+
+async function playOpen(browser: Browser, origin: string, hash: string): Promise<Tab> {
+  const route = `/island?play${hash}`;
+  const tab = await openTab(browser, (m) => errors.push(`${route}: ${m}`));
+  await watchPageErrors(tab, (m) => errors.push(`${route}: ${m}`));
+  await tab.send('Emulation.setDeviceMetricsOverride', { width: W, height: H, deviceScaleFactor: 1, mobile: false });
+  await tab.send('Page.navigate', { url: `${origin}${route}` });
+  await poll(tab, `document.readyState === 'complete'`, 30_000);
+  await poll(tab, `typeof ${hook}?.ready === 'function'`, 30_000);
+  await settle(tab, call('ready'), 'ready()');
+  return tab;
+}
+
+const done = async (browser: Browser, tab: Tab) => browser.send('Target.disposeBrowserContext', { browserContextId: tab.contextId });
+
+/** Settles at `h`, waits a little more for stragglers, settles again, shoots. */
+async function settledShot(tab: Tab, h: number, file: string, hours?: number) {
+  await settle(tab, call('setHeight', h), `setHeight ${String(h)}`);
+  await sleep(1500);
+  await settle(tab, call('setHeight', h), `setHeight ${String(h)} again`);
+  if (hours !== undefined) await tab.evaluate(`${call('setTime', hours)}, true`, z.boolean());
+  await shoot(tab, 3, file);
+  log(`shot ${path.basename(file)}`);
+}
+
+/** The hook hour at meridian `lon` `earlier` hours before the opening's low afternoon (as shot-sets' `afternoonAt`). */
+function afternoonAt(world: number, lon: number, earlier: number): number {
+  const opening = (openingOf(world).lon * 180) / Math.PI;
+  const hours = (opening - lon) / 15 - earlier;
+  return ((hours % 24) + 24) % 24;
+}
+
+const PLACES = { italy: [41, 14], japan: [36, 138], florida: [27, -81] } as const;
+const LOOKS = { fwd: 80, down: -90 } as const;
+
+async function main(): Promise<void> {
+  const dir = process.env.DIR ?? path.join(REPO_ROOT, 'tmp/out-head');
+  const browser = await launch();
+  try {
+    await withPrintOrigin({ serve: 'export', dir }, async (origin) => {
+      if (only === 'vova') {
+        const tab = await playOpen(browser, origin, '#1@10.35272,-0.47434,121.6,16.1,10.2,0.000');
+        await settledShot(tab, 121.6, path.join(OUT, `${TAG}vova1-121m.png`));
+        await done(browser, tab);
+        return;
+      }
+      const place = PLACES[only as keyof typeof PLACES];
+      const [lat, lon] = place;
+      const hours = afternoonAt(0, lon, 1);
+      for (const [look, pitch] of Object.entries(LOOKS)) {
+        const t0 = Date.now();
+        const tab = await playOpen(browser, origin, `#0@${String(lat)},${String(lon)},10000,0,${String(pitch)},${hours.toFixed(3)}`);
+        await settledShot(tab, 10_000, path.join(OUT, `${TAG}w0-${only}-10km-${look}.png`), hours);
+        await settledShot(tab, 100, path.join(OUT, `${TAG}w0-${only}-100m-${look}.png`), hours);
+        log(`${only} ${look} h=${hours.toFixed(2)} ${((Date.now() - t0) / 1000).toFixed(0)} s`);
+        await done(browser, tab);
+      }
+    });
+  } finally {
+    await browser.close();
+    for (const e of errors) process.stderr.write(`ERR ${e}\n`);
+  }
+}
+
+await main();
