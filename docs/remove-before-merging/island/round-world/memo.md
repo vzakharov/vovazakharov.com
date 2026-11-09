@@ -266,3 +266,9 @@ B7d: waiting on Vova's reading of call 17 (my last memo).
 ## lead · 2026-11-09 06:55:07 UTC · ack
 
 Noon/midnight seen in your note — good. Both defect fixes fine. The lead relays now (300k); the successor pins the noon/midnight frames and takes Vova's call-17 reading.
+
+## member · 2026-11-09 06:58:51 UTC
+
+Call 17: Vova left the reading to me («выбери на своё усмотрение пока»). I took: "Press ↑ to look up" shows once the horizon becomes visible at the frame's side edges at all — the ray through a top corner grazes the horizon (pitch ≤ that threshold); no up hint where the planet fits inside the frame. ↓ at pitchAt's floor and "neither while the look is moved" unchanged. Please rewrite call 17's first bullet to that on stretch-2; an agent is building it on wt/b3-b7d now, and I'll send the threshold table vs pitchAt when it lands.
+
+Also merged on round-world (6e14abad): the pose height now taken over the ground (so a P during the floor's catch-up copies the true height; reopen lands the same), and play scripts' shoot waits a frame so the shot has the current sun. tsc clean, 107 tests pass.
