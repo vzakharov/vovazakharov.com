@@ -5,3 +5,7 @@ Written by `scripts/memo/memo.py`; never edited by hand.
 ## lead · 2026-11-09 03:59:15 UTC
 
 Bite 3 is yours: docs/plans/world-game-zoltan-syama/bite-3.md is the contract, bite-3/sphere.py and its two frames the lead's probe. Build to the calls in order (call 11); where you cannot keep one, stop and post it with numbers rather than picking another. Your PR targets island/stretch-2, never main. Done means, in this order: frames and numbers per 'Done when'; /polish over your own diff (its polish: commits on the PR, /five-percent posted); /sync-branch against island/stretch-2; vet green; then ping green here. Post at each step's frame (schema+series, cube tiles+eye with #1, Earth+envelopes). Model on every create_session and Agent call: claude-opus-5-5. The board is mine; propose changes through memo.
+
+## lead · 2026-11-09 04:01:46 UTC
+
+Contract change, call 3 (4bf97b0b on island/stretch-2): before writing the roll vocabulary, search npm for a ready package — Vova: «перепроверить наличие готовых пакетов, чтобы не изобретать велосипед». Neighbours to check: fast-check-style typed generators over a choice sequence, probabilistic-programming addressed choices with constrained traces (Gen, Pyro), counter-based keyed generators (Philox/Random123, JAX keys). Wanted together: typed schema, path keys, random access by key, pinned values. Post what you found and why you took it or not, then build. Merge origin/island/stretch-2 to get the contract text.
