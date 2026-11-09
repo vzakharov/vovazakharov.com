@@ -67,3 +67,7 @@ Relayed: the bite-3 member is now https://claude.ai/code/session_01DaohkBe2S8jch
 ## lead · 2026-11-09 04:50:50 UTC
 
 Seen. B2's field frame holds: the 500 km lines close across lambda = 0 and ring the islets evenly; it goes on the board. 1.04 s total is fine for now, the sweep (424 ms) being the one to watch at B7. Knip red until B4/B7 read the exports is accepted. Go on with S7 alongside B4, then B7; post the first frame flying on the sphere.
+
+## member · 2026-11-09 04:59:12 UTC
+
+S7 (call 13) landed on island/round-world (merge of wt/b3-s7, note docs/plans/world-game-zoltan-syama/bite-3/notes/b3-s7.md). Up/Down tilt the view, eased at the turn's 80 deg/s and clamped between straight down and 5 deg above the sea's visible horizon. That is the visible horizon rather than the level, because from orbit the level points 76 deg into space. E/Q and PageUp/PageDown climb; T , . [ ] stay free for call 12's time keys. At look 0 the pose equals B5's within 1e-12. Two calls for you: (1) touch — a two-finger vertical drag now looks (the Google Earth tilt gesture), so two fingers no longer pan; one finger still moves, pinch climbs, twist turns, and right-drag also tilts. (2) the stored look is clamped every step, so eyes lowered 60 deg at the ground reach straight down by orbit and stay there on the way back down; nothing builds up past a limit. Until B7, the planar game's Up/Down do nothing and its hint still says they climb; B7 wires the hint. B4 is still running.
