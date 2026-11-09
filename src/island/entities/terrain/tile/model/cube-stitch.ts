@@ -22,6 +22,7 @@ import {
   sampleCubeLattice,
 } from './cube-fill';
 import { faceLattice } from './cube-tile';
+import type { CoarseEdges } from './tile-indices';
 import {
   latticeNormal,
   type LatticePoint,
@@ -206,9 +207,21 @@ function normalOf(
   return normal;
 }
 
+/** The edges along which `levels` names a coarser tile. */
+export const coarseEdges = (
+  { level }: CubeCell,
+  { edges }: NeighbourLevels,
+): CoarseEdges => ({
+  right: edges.right < level,
+  left: edges.left < level,
+  up: edges.up < level,
+  down: edges.down < level,
+});
+
 /**
  * Fills a cube tile as `fillCubeTile` does, its border stitched to each
- * coarser tile `levels` names (`stitchCubeLattice`).
+ * coarser tile `levels` names (`stitchCubeLattice`) and triangulated to that
+ * tile's vertices alone, so no T-junction is left along it.
  */
 export function fillStitchedCubeTile(
   key: CubeCell,
@@ -218,5 +231,11 @@ export function fillStitchedCubeTile(
 ): TileMesh<CubeCell> {
   const lattice = sampleCubeLattice(key, sample, options);
   const normals = stitchCubeLattice(key, lattice, levels, sample, options);
-  return liftCubeLattice(key, lattice, options, normals);
+  return liftCubeLattice(
+    key,
+    lattice,
+    options,
+    normals,
+    coarseEdges(key, levels),
+  );
 }

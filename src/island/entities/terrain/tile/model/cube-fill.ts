@@ -11,6 +11,7 @@ import {
 
 import { faceLattice } from './cube-tile';
 import { TILE_GRID } from './tile';
+import type { CoarseEdges } from './tile-indices';
 import {
   assembleTile,
   entry,
@@ -142,13 +143,14 @@ export function sampleCubeLattice(
 
 /**
  * Lifts a sampled lattice to world metres and assembles the tile's mesh,
- * `normalAt` replacing grid vertices' normals as `assembleTile` takes it.
+ * `normalAt` and `coarse` as `assembleTile` takes them.
  */
 export function liftCubeLattice(
   key: CubeCell,
   lattice: CubeLattice,
   options: MeshOptions = {},
   normalAt?: ReadonlyMap<number, Vec3>,
+  coarse?: CoarseEdges,
 ): TileMesh<CubeCell> {
   const { ring, heights } = lattice;
   const cells = ring - 3;
@@ -167,7 +169,14 @@ export function liftCubeLattice(
   );
   const skirtDepth =
     options.skirtDepth ?? 2 * cubeLevelSpacing(key.level, cells);
-  return assembleTile(key, { ring, points }, middle, skirtDepth, normalAt);
+  return assembleTile(
+    key,
+    { ring, points },
+    middle,
+    skirtDepth,
+    normalAt,
+    coarse,
+  );
 }
 
 /**
