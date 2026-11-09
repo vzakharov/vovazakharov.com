@@ -1,5 +1,6 @@
 import { type IslandPlayHook, PLAY_HOOK } from '@/island/shared/play';
 
+import { whereLine } from '../lib/where-line';
 import type { IslandScene } from './island-scene';
 
 /**
@@ -24,6 +25,7 @@ export function installPlayHook(scene: IslandScene): () => void {
     frameMs: () => [...times],
     backend: () => scene.backend(),
     buildMs: () => scene.buildMs(),
+    where: () => whereLine(scene.where()),
   };
   Object.assign(globalThis, { [PLAY_HOOK]: hook });
   return () => {
