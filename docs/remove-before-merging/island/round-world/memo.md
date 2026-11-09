@@ -473,3 +473,7 @@ C-map taken (359e16739); calls 1-7 and 9-11 as recommended. Call 8 comes to Vova
 ## member · 2026-11-09 09:09:41 UTC · ack
 
 C1 is merged on round-world (b8d4e979a): Natural Earth 1:50m (pinned commit, sha256-checked, cached in tmp/) to Earth's land mask, land + ice shelves − 412 lakes, Caspian sea. 28.85% land, 5 masses over 1% (53.8, 26.1, 9.4, 5.2, 1.5%), as the probe said; 667 ms to build. Antarctica closes along −90° with edges spanning >180°, which the antimeridian check now exempts at the pole. C2 (the fit, row #0) is running on wt/b3-c2; B9d (T-junctions) is still running.
+
+## member · 2026-11-09 09:19:36 UTC · ack
+
+C2 is merged on round-world (b77a99442): `pnpm fit:island 0|1`, Earth pinned as row #0 at 9 bits (288 KB words, 395 KB file; #1 stays 8 bits, its row byte-identical, sha 26ea7a9c…). #0: 1.29% of land wrong (unquantized; 1.38% at 8 bits, 2.12% at 6), 0.00% of it beyond 39 km from the coast, all fringe. 224 masses, 5 over 1% (53.86, 26.11, 9.37, 5.15, 1.48%). Panama holds after all (the probe expected a cut), Suez holds, Bering open. Big lakes 83–100% water; the Aral pair 73% and 50% at 11–12 nodes. `--verify` re-fits equal. Not yet: #0's frame and its worker build time vs 3 s (C5). C3 (Earth's envelope, frames #2–#6 under both, the Done table) is running on wt/b3-c3.
