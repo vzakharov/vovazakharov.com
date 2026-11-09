@@ -1,4 +1,4 @@
-export { buildCoastField, type CoastField } from './coast-field';
+export { type CoastField } from './coast-field';
 export { heightAt } from './height';
 export { detailCut, frustumOf, selectTiles } from './quadtree';
 export {
@@ -13,3 +13,11 @@ export {
   type TileMesh,
   tileRect,
 } from './tile';
+export {
+  assertWorldNumber,
+  buildWorldField,
+  isWorldNumber,
+  OUR_WORLD,
+  SQUARE,
+  worldSeed,
+} from './world';
