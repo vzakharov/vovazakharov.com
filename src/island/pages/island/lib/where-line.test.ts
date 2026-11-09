@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { parsePlace } from './place-hash';
-import { whereLine } from './where-line';
+import { whereFields, whereLine } from './where-line';
 
 const PAGE = 'https://vovazakharov.com/island';
 
@@ -45,5 +45,21 @@ describe('whereLine', () => {
     const link = line.split(' ')[2] ?? '';
     assert.deepEqual(parsePlace(new URL(link).hash), place);
     assert.ok(line.endsWith('00:00 sun time (t 22.125 h) · tiles none drawn'));
+  });
+});
+
+describe('whereFields', () => {
+  it('are the where-line’s fields, a row each', () => {
+    const where = {
+      commit: 'dev',
+      page: PAGE,
+      place: parsePlace('#0@38.00000,15.00000,500.0,270.0,-8.5'),
+      solarHours: 9.5,
+      tiles: { under: [3], drawn: [3, 4] },
+    };
+    const fields = whereFields(where);
+    assert.equal(fields.join(' · '), whereLine(where));
+    assert.equal(fields.length, 8);
+    assert.ok(fields.every((field) => !field.includes(' · ')));
   });
 });

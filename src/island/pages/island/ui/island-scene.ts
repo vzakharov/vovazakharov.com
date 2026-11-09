@@ -24,6 +24,8 @@ import {
   type GlobeGroundAt as GroundAt,
   globePoseOf as poseOf,
   headingOf,
+  type LookHint,
+  lookHint,
   MAX_HEIGHT,
   openingOf,
   stepOnGlobe as step,
@@ -40,6 +42,7 @@ import {
   solarHours,
 } from '../lib/day';
 import { eyeOfPose, poseOfEye } from '../lib/eye-pose';
+import { smoothedFrameMs } from '../lib/frame-time';
 import type { Pose } from '../lib/place-hash';
 import { skyColour } from '../lib/sky-colour';
 import { startTilePool, type TilePool } from '../lib/tile-pool';
@@ -74,6 +77,8 @@ export type IslandScene = CanDispose & {
   readonly placeAt: (pose: Pose) => void;
   /** Where the eye stands now, in the world on screen; throws until ready. */
   readonly where: () => Where;
+  /** Ms between drawn frames, smoothed; none before the first frame, nor under play. */
+  readonly frameMs: () => number | undefined;
 };
 
 /** Closest the camera sees: the eye is never under two metres up. */
@@ -109,6 +114,8 @@ type MountIslandSceneParams = {
   pose: Pose | undefined;
   play: boolean;
   onError: (error: Error) => void;
+  /** Told each time the look hint the eye earns changes; never under play. */
+  onLookHint: (hint: LookHint | undefined) => void;
 };
 
 /**
@@ -119,7 +126,13 @@ type MountIslandSceneParams = {
  */
 export function mountIslandScene(
   canvas: HTMLCanvasElement,
-  { world: firstWorld, pose: firstPose, play, onError }: MountIslandSceneParams,
+  {
+    world: firstWorld,
+    pose: firstPose,
+    play,
+    onError,
+    onLookHint,
+  }: MountIslandSceneParams,
 ): IslandScene {
   const renderer = new WebGPURenderer({
     canvas,
@@ -242,6 +255,7 @@ export function mountIslandScene(
   const observer = new ResizeObserver(resize);
   observer.observe(canvas);
 
+  let hint: LookHint | undefined;
   const frame = (dt: number) => {
     if (eye === null) return;
     eye = step(eye, play ? STILL : controls.read(), dt, groundAt);
@@ -251,11 +265,17 @@ export function mountIslandScene(
       clock = advance(clock, keys, dt);
     }
     render();
+    const earned = play ? undefined : lookHint(eye, camera.aspect);
+    if (earned === hint) return;
+    hint = earned;
+    onLookHint(earned);
   };
 
   let loop = 0;
   let last = 0;
+  let frameMs: number | undefined;
   const tick = (now: number) => {
+    frameMs = smoothedFrameMs(frameMs, now - last);
     frame(Math.min(0.1, (now - last) / 1000));
     last = now;
     loop = requestAnimationFrame(tick);
@@ -354,6 +374,7 @@ export function mountIslandScene(
         tiles: view.levels(eye.at),
       };
     },
+    frameMs: () => frameMs,
     dispose: () => {
       disposed = true;
       cancelAnimationFrame(loop);

@@ -25,5 +25,6 @@ export {
   withHeight as withGlobeHeight,
 } from './model/globe-eye';
 export { poseOf as globePoseOf } from './model/globe-pose';
+export { type LookHint, lookHint } from './model/look-hint';
 export { poseOf } from './model/pose';
 export { bindEyeControls } from './ui/eye-controls';

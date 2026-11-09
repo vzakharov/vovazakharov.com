@@ -32,7 +32,7 @@ const FOV = (50 * Math.PI) / 180;
  * radians: `FOV` on a landscape screen, and on a portrait one as wide as
  * keeps the horizontal field `FOV`, so the globe at orbit fits its width.
  */
-function fovFor(aspect: number): number {
+export function fovFor(aspect: number): number {
   const half = Math.tan(FOV / 2);
   return 2 * Math.atan(half / Math.min(1, Math.max(Number.EPSILON, aspect)));
 }
