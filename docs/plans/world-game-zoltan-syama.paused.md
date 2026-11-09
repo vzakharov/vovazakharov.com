@@ -176,6 +176,10 @@ the bite in hand. The text it held before the board took over is in git
   harmonics; world 1 is fitted to the drawing through `mask.json`. The strait
   closes. The coast tracer and fit are retired
   (`src/island/entities/coast.retired.md` brings them back to re-fit world 1).
+- **Flicker fix** — #268 merged into `island/stretch-2` as 4e4710b7: the scene
+  draws the last selection whose tiles are all held until the new one is, so a
+  turn or climb no longer shows a blank or coarse frame (the frame-by-frame
+  replay is in #268's body).
 
 ## Waiting on the operator
 
@@ -185,9 +189,7 @@ step"), less the world-number fork, which bite 2 settles.
 
 ## Open bites
 
-- **Flicker fix** — on `island/tile-flicker`, its PR onto `island/stretch-2`:
-  render the last fully held selection until the new one is held (brief in that
-  branch's `memo.md`).
+None in hand.
 
 ## Next bites
 
