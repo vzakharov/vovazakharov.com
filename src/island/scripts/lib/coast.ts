@@ -21,8 +21,11 @@ const CoastSchema = z.object({
  */
 export const coast: Coast = CoastSchema.parse(traced);
 
+/** A closed ring of plane points in kilometres. */
+export type Ringed = { ring: Array<[number, number]> };
+
 /** A ring in kilometres, its first point's place for naming it. */
-export type DrawnRing = Point & { ring: Array<[number, number]> };
+export type DrawnRing = Point & Ringed;
 
 /** The shoelace area: positive when the ring turns from +x towards +y. */
 function signedArea(ring: Array<[number, number]>): number {

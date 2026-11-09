@@ -24,6 +24,7 @@ import {
   decodePinnedRow,
   encodePinnedRow,
   LAND_DEGREE,
+  type PinnedRow,
   sphereTransform,
   synthesize,
 } from '@/island/entities/terrain';
@@ -120,8 +121,8 @@ if (options.compare) {
 
 say('\n| Bits | Wrong land | Words | Row (JSON) |');
 say('| ---: | ---------: | ----: | ---------: |');
-let chosen: ReturnType<typeof encodePinnedRow> | undefined;
-for (const bits of [...options.bits].sort((a, b) => b - a)) {
+let chosen: PinnedRow | undefined;
+for (const bits of options.bits.toSorted((a, b) => b - a)) {
   const row = encodePinnedRow('1', series, LAND_DEGREE, bits);
   const wrong = measure(decodePinnedRow(row));
   const wordsBytes = Math.ceil((series.length * bits) / 8);

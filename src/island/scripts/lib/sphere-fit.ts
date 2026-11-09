@@ -11,17 +11,18 @@ import {
   sampleCoastField,
 } from '@/island/entities/terrain';
 
-import { CENTRE, worldToPlane } from './azimuthal';
+import { ISLAND_CENTRE, worldToPlane } from './azimuthal';
+import type { Ringed } from './coast';
 
 /**
- * Past this ground distance from `CENTRE` a node takes the clip outright: the
+ * Past this ground distance from `ISLAND_CENTRE` a node takes the clip outright: the
  * island is nowhere near, and `worldToPlane` loses its direction at the
  * antipode.
  */
 const FAR_METRES = 9_000_000;
 
 /** Ring `r`'s node `j` of `grid` on the unit sphere, `φ = 0` on `+X`. */
-export function nodeLatLon(grid: RingGrid, r: number, j: number): LatLon {
+function nodeLatLon(grid: RingGrid, r: number, j: number): LatLon {
   return {
     lat: Math.asin(grid.x[r] ?? 0),
     lon: (2 * Math.PI * j) / grid.columns,
@@ -48,7 +49,7 @@ export function coastTarget(
     for (let j = 0; j < grid.columns; j += 1) {
       const p = nodeUnit(grid, r, j);
       const n = r * grid.columns + j;
-      if (Number.isFinite(clip) && dot(p, CENTRE) < farCosine) {
+      if (Number.isFinite(clip) && dot(p, ISLAND_CENTRE) < farCosine) {
         target[n] = -clip;
         continue;
       }
@@ -68,7 +69,7 @@ export function padSeries(series: Float64Array, degree: number): Float64Array {
 }
 
 /** A connected run of nodes the fit has wrong. */
-export type WrongPatch = LatLon & {
+type WrongPatch = LatLon & {
   kind: 'added' | 'dropped';
   km2: number;
 };
@@ -166,7 +167,7 @@ export function wrongLand(
       kind: 'dropped' as const,
     })),
   ]
-    .sort((a, b) => b.km2 - a.km2)
+    .toSorted((a, b) => b.km2 - a.km2)
     .slice(0, patchCount);
   return {
     wrongShare: (addedKm2 + droppedKm2) / landKm2,
@@ -188,8 +189,6 @@ function insideRing(ring: Array<[number, number]>, x: number, y: number) {
   return inside;
 }
 
-type LakeWaterParams = { ring: Array<[number, number]> };
-
 /**
  * How many of `grid`'s nodes fall inside `ring` (plane kilometres), and how
  * many of those `field` makes water.
@@ -197,7 +196,7 @@ type LakeWaterParams = { ring: Array<[number, number]> };
 export function lakeWater(
   grid: RingGrid,
   field: Float64Array,
-  { ring }: LakeWaterParams,
+  { ring }: Ringed,
 ): { nodes: number; water: number } {
   const xs = ring.map(([x]) => x);
   const ys = ring.map(([, y]) => y);
@@ -209,7 +208,7 @@ export function lakeWater(
   for (let r = 0; r < grid.rows; r += 1) {
     for (let j = 0; j < grid.columns; j += 1) {
       const p = nodeUnit(grid, r, j);
-      if (dot(p, CENTRE) < farCosine) continue;
+      if (dot(p, ISLAND_CENTRE) < farCosine) continue;
       const plane = worldToPlane(p);
       const x = plane.x / 1000;
       const y = plane.y / 1000;
