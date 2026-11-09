@@ -81,6 +81,12 @@ items:
     updated: [2026-11-08T22:40:00.000Z, agent:lead]
     box: [3600, 2520, 300, green]
     text: 'Caught in the frames: height as f/|∇f| raised false snowy ridges between lakes and sea. Height is now the true distance to the coast; the formula only says land or water'
+  - id: bite2-merged
+    type: sticky
+    updated: [2026-11-09T02:45:00.000Z, agent:lead]
+    box: [3945, 2545, 280, green]
+    text: 'Merged into the stretch (#267). The coast tracer and fit are retired behind a tombstone, and one land test, isLand, serves the contour and the world field'
+    done: true
   - id: bite2-worlds-orbit
     type: image
     updated: [2026-11-08T22:40:00.000Z, agent:lead]

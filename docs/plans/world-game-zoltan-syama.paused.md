@@ -170,6 +170,13 @@ the bite in hand. The text it held before the board took over is in git
 - **Cut 1** — #265 squashed into `main` as 4e2a4efb: bite 1 and the controls
   live at `/island`.
 
+- **Bite 2 — worlds from one formula** — contract
+  `docs/plans/world-game-zoltan-syama/bite-2.md`; #267 merged into
+  `island/stretch-2` as 28d4c8e5. Every world, ours included, is a dome plus 128
+  harmonics; world 1 is fitted to the drawing through `mask.json`. The strait
+  closes. The coast tracer and fit are retired
+  (`src/island/entities/coast.retired.md` brings them back to re-fit world 1).
+
 ## Waiting on the operator
 
 The open questions are relay 20's list
@@ -178,10 +185,6 @@ step"), less the world-number fork, which bite 2 settles.
 
 ## Open bites
 
-- **Bite 2 — worlds from one formula** — contract
-  `docs/plans/world-game-zoltan-syama/bite-2.md`, on `island/worlds`, its PR
-  onto `island/stretch-2`. The lead waits with
-  `memo.py wait --as lead --branch island/worlds`.
 - **Flicker fix** — on `island/tile-flicker`, its PR onto `island/stretch-2`:
   render the last fully held selection until the new one is held (brief in that
   branch's `memo.md`).
