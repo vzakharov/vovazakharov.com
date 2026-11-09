@@ -10,24 +10,11 @@ import {
 
 import type { CanDispose } from '@/kernel/shared/typings';
 
-import {
-  type CubeCell,
-  dot,
-  FACES,
-  length,
-  R,
-  sub,
-  unit,
-  type Vec3,
-} from '@/island/shared/globe';
+import { R, unit } from '@/island/shared/globe';
 import {
   type CoastDistance,
-  CUBE_MIN_LEVEL,
-  cubeTileId,
-  frustumOf,
   heightAtSphere,
   sampleSphereField,
-  selectCubeTiles,
   type SphereField,
 } from '@/island/entities/terrain';
 import {
@@ -47,9 +34,8 @@ import {
 
 import { skyColour } from '../lib/sky-colour';
 import { startTilePool, type TilePool } from '../lib/tile-pool';
-import { coverAround, coverOf } from '../model/tile-cover';
 import { groundLighting } from './ground-lighting';
-import { tileMeshes } from './tile-meshes';
+import { tileView } from './tile-view';
 
 export type IslandScene = CanDispose & {
   /** Resolves once the first frame is drawn. */
@@ -99,24 +85,6 @@ const DEGREE = Math.PI / 180;
  */
 const GLOBE_RADIUS = R - 1500;
 
-/** A move under this share of the height reuses the last tile selection. */
-const RESELECT_SHARE = 0.02;
-/**
- * Cosine of the turn that reselects: half the frustum's margin, so the view
- * never turns past the tiles selected for it.
- */
-const RESELECT_TURN = Math.cos(0.05);
-
-/** Every root tile, on every face: always held, so a missing tile always has an ancestor to stand in. */
-const ROOTS: CubeCell[] = FACES.flatMap((face) =>
-  Array.from({ length: 4 ** CUBE_MIN_LEVEL }, (_, i) => ({
-    face,
-    level: CUBE_MIN_LEVEL,
-    x: i % 2 ** CUBE_MIN_LEVEL,
-    y: Math.floor(i / 2 ** CUBE_MIN_LEVEL),
-  })),
-);
-
 type MountIslandSceneParams = {
   /** The world number the scene opens on. */
   world: string;
@@ -150,22 +118,21 @@ export function mountIslandScene(
   const tiles = new Group();
   scene.add(globe, tiles, ...lights);
 
-  const held = tileMeshes(tiles, { land, sea });
   const controls = bindEyeControls(canvas);
 
   let eye: Eye | null = null;
   let groundAt = SEA_LEVEL;
   /** The coast the selection refines along, once the field arrives. */
   let coast: CoastDistance | undefined;
-  let selection: {
-    at: Vec3;
-    scale: number;
-    forward: Vec3;
-    aspect: number;
-    keys: CubeCell[];
-  } | null = null;
-  /** The last selection wholly in hand, drawn while a newer one loads. */
-  let shown: CubeCell[] | null = null;
+  /** The current world's tile pool, started once `view` exists to take its tiles. */
+  let pool: TilePool;
+  const view = tileView(tiles, {
+    materials: { land, sea },
+    ground: () => ({ coast, groundAt }),
+    want: (missing, at) => {
+      pool.want(missing, at);
+    },
+  });
   const waiting: Array<{ resolve: () => void; reject: (e: Error) => void }> =
     [];
   let failure: Error | null = null;
@@ -194,12 +161,7 @@ export function mountIslandScene(
       on,
       (tile) => {
         if (!current()) return;
-        held.add(tile);
-        const keys = selected();
-        held.evict(
-          new Set([...keys, ...(shown ?? [])].map((key) => cubeTileId(key))),
-        );
-        showIfComplete(keys);
+        view.add(tile, eye, camera.aspect);
         settle();
       },
       (error) => {
@@ -212,7 +174,7 @@ export function mountIslandScene(
         built = { of: mine, ms: buildMs };
         coast = coastOf(field);
         groundAt = groundOf(coast, seed);
-        selection = null;
+        view.reselect();
         landed.resolve();
       },
       (error: unknown) => {
@@ -222,62 +184,13 @@ export function mountIslandScene(
     );
     return started;
   };
-  let pool = startPool(world);
-
-  /**
-   * The tiles the eye selects now, reselected once it has moved enough or
-   * the view has turned toward the edge of the frustum's margin.
-   */
-  function selected(): CubeCell[] {
-    if (eye === null) return [];
-    const { aspect } = camera;
-    const { position: at, forward, up, fov } = poseOf(eye, aspect);
-    if (
-      selection !== null &&
-      length(sub(at, selection.at)) < RESELECT_SHARE * eye.height &&
-      Math.abs(Math.log(eye.height / selection.scale)) < RESELECT_SHARE &&
-      dot(forward, selection.forward) > RESELECT_TURN &&
-      aspect === selection.aspect
-    ) {
-      return selection.keys;
-    }
-    const keys = selectCubeTiles(at, {
-      coast,
-      frustum: frustumOf(forward, up, fov, aspect),
-      ground: groundAt,
-    });
-    selection = { at, scale: eye.height, forward, aspect, keys };
-    // The selection repeats roots when it reaches up to them.
-    const wanted = new Map(
-      [...ROOTS, ...keys].map((key) => [cubeTileId(key), key] as const),
-    );
-    const missing = [...wanted].flatMap(([id, key]) =>
-      held.has(id) ? [] : [key],
-    );
-    pool.want(missing, at);
-    return keys;
-  }
-
-  function complete(keys: readonly CubeCell[]): boolean {
-    return keys.every((key) => held.has(cubeTileId(key)));
-  }
-
-  function showIfComplete(keys: CubeCell[]): void {
-    if (keys.length > 0 && complete(keys)) shown = keys;
-  }
+  pool = startPool(world);
 
   function render(): void {
     if (eye === null) return;
     const pose = poseOf(eye, camera.aspect);
     const [ex, ey, ez] = pose.position;
-    const keys = selected();
-    showIfComplete(keys);
-    held.draw(
-      shown === null
-        ? coverOf(keys, held.has)
-        : coverAround(keys, shown, held.has),
-      pose.position,
-    );
+    view.draw(eye, camera.aspect);
     globe.position.set(-ex, -ey, -ez);
     camera.fov = (pose.fov * 180) / Math.PI;
     camera.updateProjectionMatrix();
@@ -291,7 +204,7 @@ export function mountIslandScene(
   /** Draws and lets every placing of the eye go whose tiles are all in hand. */
   function settle(): void {
     if (waiting.length === 0 || eye === null) return;
-    if (!complete(selected())) return;
+    if (!view.complete(eye, camera.aspect)) return;
     render();
     for (const waiter of waiting.splice(0)) waiter.resolve();
   }
@@ -349,8 +262,7 @@ export function mountIslandScene(
     frame,
     setHeight: async (m) => placed((from) => withHeight(from, m)),
     moveTo: async (lat, lon, m) => {
-      // Tiles shown elsewhere say nothing of the ground under the new eye.
-      shown = null;
+      view.forgetShown();
       return placed((from) =>
         eyeAt(
           {
@@ -377,10 +289,7 @@ export function mountIslandScene(
       if (next === world || disposed) return;
       world = next;
       pool.dispose();
-      held.clear();
-      selection = null;
-      // Its tiles went with the clear above; kept, it would bar their stand-ins.
-      shown = null;
+      view.clear();
       // The old coast would refine the selection where the new one has none.
       coast = undefined;
       pool = startPool(next);
@@ -391,7 +300,7 @@ export function mountIslandScene(
       observer.disconnect();
       controls.dispose();
       pool.dispose();
-      held.dispose();
+      view.dispose();
       globe.geometry.dispose();
       lighting.dispose();
       renderer.dispose().catch(fail);
