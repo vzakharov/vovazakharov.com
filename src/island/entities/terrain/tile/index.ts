@@ -5,7 +5,6 @@ export {
   TILE_GRID,
   TILE_SQUARE,
   tileId,
-  type TileKey,
   type TileKeyed,
   tileRect,
   tileSide,

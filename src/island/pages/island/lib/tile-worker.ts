@@ -4,14 +4,13 @@
  * buffers transferred. Messages are handled in order, so every fill waits for
  * the field.
  */
-import type { Vec3 } from '@/island/shared/globe';
+import type { GridCell, Vec3 } from '@/island/shared/globe';
 import {
   buildWorldField,
   detailCut,
   fillTile,
   heightAt,
   TILE_GRID,
-  type TileKey,
   worldSeed,
 } from '@/island/entities/terrain';
 
@@ -42,7 +41,7 @@ function gridRange(heights: Float32Array): readonly [number, number] {
 
 function fill(
   { field, seed }: WorldField,
-  key: TileKey,
+  key: GridCell,
   eye: Vec3,
 ): FilledTile {
   const start = performance.now();

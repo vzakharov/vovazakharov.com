@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import {
   type Coast,
   dot,
+  type GridCell,
   planeToWorld,
   scaled,
   sub,
@@ -11,12 +12,12 @@ import {
 } from '@/island/shared/globe';
 
 import { buildCoastField } from '../../coast-field';
-import { MAX_LEVEL, tileId, type TileKey, tileRect } from '../../tile';
+import { MAX_LEVEL, tileId, tileRect } from '../../tile';
 import { selectTiles } from './quadtree';
 import { frustumOf } from './view';
 
 const flat = () => 0;
-const holds = (key: TileKey, x: number, y: number) => {
+const holds = (key: GridCell, x: number, y: number) => {
   const { west, south, east, north } = tileRect(key);
   return west <= x && x <= east && south <= y && y <= north;
 };
@@ -34,7 +35,7 @@ const DISC: Coast = {
 };
 
 /** Each tile and every same-level edge neighbour's covering tile. */
-function assertBalanced(tiles: TileKey[]) {
+function assertBalanced(tiles: GridCell[]) {
   const ids = new Map(tiles.map((key) => [tileId(key), key]));
   for (const key of tiles) {
     for (const [dx, dy] of [
@@ -65,7 +66,7 @@ function assertBalanced(tiles: TileKey[]) {
 }
 
 /** No two tiles overlap: none is an ancestor of another. */
-function assertDisjoint(tiles: TileKey[]) {
+function assertDisjoint(tiles: GridCell[]) {
   const ids = new Set(tiles.map((key) => tileId(key)));
   for (const key of tiles) {
     for (let up = key.level - 1; up >= 0; up--) {
@@ -147,7 +148,7 @@ describe('selectTiles', () => {
     assert.ok(tiles.length <= 500, `${tiles.length}`);
     assertBalanced(tiles);
     assertDisjoint(tiles);
-    const shore = (key: TileKey) => {
+    const shore = (key: GridCell) => {
       const { west, south, east, north } = tileRect(key);
       const corners = [
         [west, south],
@@ -160,11 +161,11 @@ describe('selectTiles', () => {
         Math.min(...radii) < DISC_RADIUS && Math.max(...radii) > DISC_RADIUS
       );
     };
-    const levels = (keys: TileKey[]) =>
+    const levels = (keys: GridCell[]) =>
       keys.filter((key) => shore(key)).map((key) => key.level);
     assert.ok(Math.min(...levels(tiles)) > Math.min(...levels(plain)));
     assert.ok(Math.max(...levels(tiles)) > Math.max(...levels(plain)));
-    const inland = (keys: TileKey[]) =>
+    const inland = (keys: GridCell[]) =>
       keys.filter((key) => {
         const { west, east, south, north } = tileRect(key);
         return (

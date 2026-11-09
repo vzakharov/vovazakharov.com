@@ -1,4 +1,5 @@
 import {
+  type GridCell,
   length,
   planeToWorld,
   sub,
@@ -12,7 +13,6 @@ import {
   MAX_LEVEL,
   MIN_LEVEL,
   SPLIT_RATIO,
-  type TileKey,
   tileRect,
   tileSide,
 } from '../../tile';
@@ -21,7 +21,7 @@ import {
 const COAST_FINER = 2;
 
 /** The four tiles a tile splits into. */
-export const children = ({ level, x, y }: TileKey): TileKey[] => [
+export const children = ({ level, x, y }: GridCell): GridCell[] => [
   { level: level + 1, x: 2 * x, y: 2 * y },
   { level: level + 1, x: 2 * x + 1, y: 2 * y },
   { level: level + 1, x: 2 * x, y: 2 * y + 1 },
@@ -51,17 +51,17 @@ function viewDistance(eye: Vec3): (x: number, y: number) => number {
 export function splitRule(
   eye: Vec3,
   coast?: CoastField,
-): (key: TileKey) => boolean {
+): (key: GridCell) => boolean {
   const plane = worldToPlane(eye);
   const distanceTo = viewDistance(eye);
-  const distance = (key: TileKey) => {
+  const distance = (key: GridCell) => {
     const { west, south, east, north } = tileRect(key);
     return distanceTo(
       Math.min(east, Math.max(west, plane.x)),
       Math.min(north, Math.max(south, plane.y)),
     );
   };
-  const astride = (key: TileKey) => {
+  const astride = (key: GridCell) => {
     if (coast === undefined) return false;
     const { west, south, east, north } = tileRect(key);
     const reach = sampleCoastField(

@@ -1,7 +1,7 @@
 import type { CanDispose } from '@/kernel/shared/typings';
 
-import { type Vec3, worldToPlane } from '@/island/shared/globe';
-import { tileId, type TileKey } from '@/island/entities/terrain';
+import { type GridCell, type Vec3, worldToPlane } from '@/island/shared/globe';
+import { tileId } from '@/island/entities/terrain';
 
 import { nearestFirst } from '../model/tile-cover';
 import type {
@@ -28,7 +28,7 @@ export type TilePool = CanDispose & {
    * before: queued ones no longer wanted are dropped, the rest go out nearest
    * the eye first, each filled to the eye's `detailCut`.
    */
-  readonly want: (keys: readonly TileKey[], eye: Vec3) => void;
+  readonly want: (keys: readonly GridCell[], eye: Vec3) => void;
   /** Whether `id` is asked of a worker and not yet back. */
   readonly pending: (id: string) => boolean;
 };
@@ -50,7 +50,7 @@ export function startTilePool(
 ): TilePool {
   const slots: Slot[] = [];
   const inFlight = new Set<string>();
-  let queue: TileKey[] = [];
+  let queue: GridCell[] = [];
   /** The eye the queue was wanted from. */
   let from: Vec3 = [0, 0, 0];
 

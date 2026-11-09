@@ -1,18 +1,11 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { type Coast, planeToWorld } from '@/island/shared/globe';
+import { type Coast, type GridCell, planeToWorld } from '@/island/shared/globe';
 
 import { buildCoastField } from '../../coast-field';
 import { heightAt } from '../../height';
-import {
-  fillTile,
-  TILE_GRID,
-  tileId,
-  type TileKey,
-  tileRect,
-  tileSide,
-} from '../../tile';
+import { fillTile, TILE_GRID, tileId, tileRect, tileSide } from '../../tile';
 import {
   type HeightSample,
   latticeCoordinate,
@@ -37,7 +30,7 @@ const CELLS = TILE_GRID - 1;
 
 /** Each grid vertex's height, by its plane point. */
 function gridHeights(
-  key: TileKey,
+  key: GridCell,
   finest?: (x: number, y: number) => number,
 ): Map<string, number> {
   const mesh = fillTile(key, sample, finest === undefined ? {} : { finest });
@@ -55,7 +48,9 @@ function gridHeights(
 }
 
 /** Leaf pairs, finer first, that share an edge across one level. */
-function steps(tiles: readonly TileKey[]): Array<readonly [TileKey, TileKey]> {
+function steps(
+  tiles: readonly GridCell[],
+): Array<readonly [GridCell, GridCell]> {
   const ids = new Map(tiles.map((key) => [tileId(key), key]));
   return tiles.flatMap((fine) =>
     (

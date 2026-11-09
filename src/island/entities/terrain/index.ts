@@ -8,7 +8,6 @@ export {
   TILE_GRID,
   tileBuffers,
   tileId,
-  type TileKey,
   type TileKeyed,
   type TileMesh,
   tileRect,

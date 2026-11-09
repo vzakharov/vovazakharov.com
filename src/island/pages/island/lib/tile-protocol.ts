@@ -1,8 +1,7 @@
-import type { Vec3 } from '@/island/shared/globe';
+import type { GridCell, Vec3 } from '@/island/shared/globe';
 import {
   type CoastField,
   tileBuffers,
-  type TileKey,
   type TileKeyed,
   type TileMesh,
 } from '@/island/entities/terrain';
@@ -36,7 +35,7 @@ export type WorkerRequest =
     }
   | {
       readonly kind: 'fill';
-      readonly key: TileKey;
+      readonly key: GridCell;
       /** The eye (world metres) whose `detailCut` the tile is filled to. */
       readonly eye: Vec3;
     };

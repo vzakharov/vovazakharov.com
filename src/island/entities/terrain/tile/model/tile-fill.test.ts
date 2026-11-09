@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import {
   cross,
   dot,
+  type GridCell,
   length,
   R,
   scaled,
@@ -12,7 +13,7 @@ import {
   type Vec3,
 } from '@/island/shared/globe';
 
-import { TILE_GRID as GRID, tileId, type TileKey, tileSide } from './tile';
+import { TILE_GRID as GRID, tileId, tileSide } from './tile';
 import { borderLoop, fillTile, tileBuffers, type TileMesh } from './tile-fill';
 
 const FLOAT32 = 2 ** -23;
@@ -46,7 +47,7 @@ const level = (d: Vec3, p: Vec3) => {
 };
 
 describe('fillTile', () => {
-  const key: TileKey = { level: 10, x: 512, y: 515 };
+  const key: GridCell = { level: 10, x: 512, y: 515 };
   const mesh = fillTile(key, hills);
   const vertices = GRID * GRID + 4 * (GRID - 1);
 

@@ -1,4 +1,4 @@
-import type { Vec3 } from '@/island/shared/globe';
+import type { GridCell, Vec3 } from '@/island/shared/globe';
 
 import type { CoastField } from '../../coast-field';
 import {
@@ -6,7 +6,6 @@ import {
   TILE_GRID,
   TILE_SQUARE,
   tileId,
-  type TileKey,
   tileRect,
   tileSide,
 } from '../../tile';
@@ -63,7 +62,7 @@ export function detailCut(
 ): (x: number, y: number) => number {
   const rule = splitRule(eye, coast);
   const decided = new Map<string, boolean>();
-  const splits = (key: TileKey) => {
+  const splits = (key: GridCell) => {
     const id = tileId(key);
     const known = decided.get(id);
     if (known !== undefined) return known;
@@ -74,7 +73,7 @@ export function detailCut(
 
   /** The leaf holding the point, straight down. */
   const holding = (x: number, y: number) => {
-    let leaf: TileKey = { level: 0, x: 0, y: 0 };
+    let leaf: GridCell = { level: 0, x: 0, y: 0 };
     while (splits(leaf)) {
       const level = leaf.level + 1;
       const side = tileSide(level);
@@ -92,7 +91,7 @@ export function detailCut(
    * the eight around `leaf`'s ancestor there, so those are all it takes.
    * Coarsest first.
    */
-  const around = (leaf: TileKey): Coarser => {
+  const around = (leaf: GridCell): Coarser => {
     const found: Array<Coarser[number]> = [];
     const own = tileRect(leaf);
     // The tiles of the level above, around its ancestor, that split and whose
@@ -129,7 +128,7 @@ export function detailCut(
   };
 
   const neighbourhoods = new Map<string, Coarser>();
-  let last: { leaf: TileKey; rect: TileRect; coarser: Coarser } | null = null;
+  let last: { leaf: GridCell; rect: TileRect; coarser: Coarser } | null = null;
   return (x, y) => {
     if (last === null || !inside(last.rect, x, y)) {
       const leaf = holding(x, y);

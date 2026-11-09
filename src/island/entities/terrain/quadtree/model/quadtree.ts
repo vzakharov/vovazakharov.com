@@ -1,8 +1,15 @@
-import { dot, length, planeToWorld, R, type Vec3 } from '@/island/shared/globe';
+import {
+  dot,
+  type GridCell,
+  length,
+  planeToWorld,
+  R,
+  type Vec3,
+} from '@/island/shared/globe';
 
 import type { CoastField } from '../../coast-field';
 import { GROUND_SLOPE, HIGHEST_GROUND, LOWEST_GROUND } from '../../height';
-import { tileId, type TileKey, tileRect, tileSide } from '../../tile';
+import { tileId, tileRect, tileSide } from '../../tile';
 import { children, splitRule } from './split';
 import { type Frustum, outside } from './view';
 
@@ -31,13 +38,16 @@ const rise = (h: number) => Math.acos(R / (R + Math.max(0, h)));
  * tiles sharing an edge differ by at most one level, and each tile's skirt
  * hides the step in between.
  */
-export function selectTiles(eye: Vec3, options: SelectOptions = {}): TileKey[] {
+export function selectTiles(
+  eye: Vec3,
+  options: SelectOptions = {},
+): GridCell[] {
   const { coast, frustum, ground } = options;
   const seaHorizon = Math.acos(Math.min(1, R / length(eye)));
 
   /** The tile's lowest and highest ground, bounded by the slope around samples. */
   const relief = (
-    key: TileKey,
+    key: GridCell,
     samples: ReadonlyArray<readonly [number, number]>,
   ) => {
     const side = tileSide(key.level);
@@ -53,7 +63,7 @@ export function selectTiles(eye: Vec3, options: SelectOptions = {}): TileKey[] {
     ] as const;
   };
 
-  const visible = (key: TileKey) => {
+  const visible = (key: GridCell) => {
     const { west, south, east, north } = tileRect(key);
     const cx = (west + east) / 2;
     const cy = (south + north) / 2;
@@ -87,8 +97,8 @@ export function selectTiles(eye: Vec3, options: SelectOptions = {}): TileKey[] {
 
   const splits = splitRule(eye, coast);
 
-  const leaves = new Map<string, TileKey>();
-  const descend = (key: TileKey) => {
+  const leaves = new Map<string, GridCell>();
+  const descend = (key: GridCell) => {
     if (!visible(key)) return;
     if (!splits(key)) {
       leaves.set(tileId(key), key);
@@ -110,8 +120,8 @@ export function selectTiles(eye: Vec3, options: SelectOptions = {}): TileKey[] {
  * none is. A split's culled children stay out.
  */
 function balance(
-  leaves: Map<string, TileKey>,
-  visible: (key: TileKey) => boolean,
+  leaves: Map<string, GridCell>,
+  visible: (key: GridCell) => boolean,
 ) {
   const covering = (level: number, x: number, y: number) =>
     Array.from({ length: level + 1 }, (_, shift) =>

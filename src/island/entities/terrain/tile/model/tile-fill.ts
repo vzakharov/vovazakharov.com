@@ -1,6 +1,7 @@
 import {
   cross,
   type Elevated,
+  type GridCell,
   length,
   planeToWorld,
   scaled,
@@ -9,13 +10,7 @@ import {
   type Vec3,
 } from '@/island/shared/globe';
 
-import {
-  latticeCoordinate,
-  TILE_GRID,
-  type TileKey,
-  type TileKeyed,
-  tileSide,
-} from './tile';
+import { latticeCoordinate, TILE_GRID, type TileKeyed, tileSide } from './tile';
 
 /**
  * Height above sea level, in metres, at plane point `(x, y)`, holding no
@@ -83,7 +78,7 @@ function entry<T>(items: readonly T[], index: number): T {
  * the tile, so they agree across a shared edge as positions do.
  */
 export function fillTile(
-  key: TileKey,
+  key: GridCell,
   sample: HeightSample,
   options: FillOptions = {},
 ): TileMesh {

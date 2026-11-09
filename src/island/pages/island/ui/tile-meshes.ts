@@ -10,11 +10,10 @@ import type { CanDispose } from '@/kernel/shared/typings';
 
 import type { Centred } from '@/scene/shared/lib/plane';
 
-import type { Vec3 } from '@/island/shared/globe';
+import type { GridCell, Vec3 } from '@/island/shared/globe';
 import {
   MIN_LEVEL,
   tileId,
-  type TileKey,
   type TileKeyed,
   type TileMesh,
 } from '@/island/entities/terrain';
@@ -41,7 +40,7 @@ export type TileMeshes = CanDispose & {
    * sits at the origin, so the subtraction is float64 and only the small
    * remainder reaches the GPU.
    */
-  readonly draw: (keys: readonly TileKey[], eye: Vec3) => void;
+  readonly draw: (keys: readonly GridCell[], eye: Vec3) => void;
   /** Lets the least recently drawn go past `CAPACITY`, never one in `keep` nor a root tile. */
   readonly evict: (keep: ReadonlySet<string>) => void;
   /** Lets every tile go, root tiles included, for a world rebuilt from scratch. */

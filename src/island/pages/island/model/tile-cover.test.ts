@@ -1,14 +1,20 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { tileId, type TileKey } from '@/island/entities/terrain';
+import type { GridCell } from '@/island/shared/globe';
+import { tileId } from '@/island/entities/terrain';
 
 import { coverAround, coverOf, distanceTo, nearestFirst } from './tile-cover';
 
-const key = (level: number, x: number, y: number): TileKey => ({ level, x, y });
-const ids = (keys: readonly TileKey[]) => keys.map((k) => tileId(k)).toSorted();
+const key = (level: number, x: number, y: number): GridCell => ({
+  level,
+  x,
+  y,
+});
+const ids = (keys: readonly GridCell[]) =>
+  keys.map((k) => tileId(k)).toSorted();
 const holding =
-  (...keys: TileKey[]) =>
+  (...keys: GridCell[]) =>
   (id: string) =>
     keys.some((k) => tileId(k) === id);
 

@@ -1,16 +1,13 @@
-import type { PlanePoint } from '@/island/shared/globe';
+import type { GridCell } from '@/island/shared/globe';
 
 /**
- * A tile of the terrain quadtree over the island's square on the plane. Level 0
- * is the whole square, side `TILE_SQUARE` metres centred on the island's
- * centre; each level halves the side, so a level-`l` tile has
- * `0 ≤ x, y < 2^l`, `x` counting east and `y` north from the square's
- * south-west corner.
+ * Whatever is held or sent per tile, addressed by its key: a tile of the
+ * terrain quadtree over the island's square on the plane. Level 0 is the whole
+ * square, side `TILE_SQUARE` metres centred on the island's centre; each level
+ * halves the side, so a level-`l` tile has `0 ≤ x, y < 2^l`, `x` counting east
+ * and `y` north from the square's south-west corner.
  */
-export type TileKey = PlanePoint & { readonly level: number };
-
-/** Whatever is held or sent per tile, addressed by its key. */
-export type TileKeyed = { readonly key: TileKey };
+export type TileKeyed = { readonly key: GridCell };
 
 /**
  * The level-0 square's side: 16 384 km, covering the traced coast's
@@ -39,7 +36,7 @@ export const SPLIT_RATIO = 1;
 export const TILE_GRID = 65;
 
 /** A stable string for a key, for maps and caches. */
-export const tileId = ({ level, x, y }: TileKey) => `${level}/${x}/${y}`;
+export const tileId = ({ level, x, y }: GridCell) => `${level}/${x}/${y}`;
 
 export const tileSide = (level: number) => TILE_SQUARE / 2 ** level;
 
@@ -52,7 +49,7 @@ export const latticeCoordinate = (level: number, cells: number, k: number) =>
   -TILE_SQUARE / 2 + k * (TILE_SQUARE / (2 ** level * cells));
 
 /** The tile's extent on the plane, in metres. */
-export function tileRect(key: TileKey) {
+export function tileRect(key: GridCell) {
   const side = tileSide(key.level);
   const west = -TILE_SQUARE / 2 + key.x * side;
   const south = -TILE_SQUARE / 2 + key.y * side;

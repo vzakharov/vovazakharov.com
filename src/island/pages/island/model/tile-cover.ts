@@ -1,18 +1,19 @@
-import { tileId, type TileKey, tileRect } from '@/island/entities/terrain';
+import type { GridCell } from '@/island/shared/globe';
+import { tileId, tileRect } from '@/island/entities/terrain';
 
-const parentOf = ({ level, x, y }: TileKey): TileKey | null =>
+const parentOf = ({ level, x, y }: GridCell): GridCell | null =>
   level === 0
     ? null
     : { level: level - 1, x: Math.floor(x / 2), y: Math.floor(y / 2) };
 
 /** `key`'s parent, its parent's, and so on to the root, nearest first. */
-function ancestorsOf(key: TileKey): TileKey[] {
+function ancestorsOf(key: GridCell): GridCell[] {
   const up = parentOf(key);
   return up === null ? [] : [up, ...ancestorsOf(up)];
 }
 
 /** Whether `inner` lies inside `outer`, `outer` itself included. */
-const within = (inner: TileKey, outer: TileKey) =>
+const within = (inner: GridCell, outer: GridCell) =>
   inner.level >= outer.level &&
   Math.floor(inner.x / 2 ** (inner.level - outer.level)) === outer.x &&
   Math.floor(inner.y / 2 ** (inner.level - outer.level)) === outer.y;
@@ -25,10 +26,10 @@ const within = (inner: TileKey, outer: TileKey) =>
  * ancestor in hand is left out.
  */
 export function coverOf(
-  selected: readonly TileKey[],
+  selected: readonly GridCell[],
   has: (id: string) => boolean,
-): TileKey[] {
-  const standIns = new Map<string, TileKey>();
+): GridCell[] {
+  const standIns = new Map<string, GridCell>();
   for (const key of selected) {
     if (has(tileId(key))) continue;
     const standIn = ancestorsOf(key).find((up) => has(tileId(up)));
@@ -55,10 +56,10 @@ export function coverOf(
  * under the eye, so the margin may draw nothing until the selection is in hand.
  */
 export function coverAround(
-  selected: readonly TileKey[],
-  shown: readonly TileKey[],
+  selected: readonly GridCell[],
+  shown: readonly GridCell[],
   has: (id: string) => boolean,
-): TileKey[] {
+): GridCell[] {
   const shownIds = new Set(shown.map((key) => tileId(key)));
   // Each shown tile and every tile containing one.
   const blocked = new Set(shownIds);
@@ -74,7 +75,7 @@ export function coverAround(
 }
 
 /** Plane metres from `(x, y)` to the nearest point of the tile. */
-export function distanceTo(key: TileKey, x: number, y: number): number {
+export function distanceTo(key: GridCell, x: number, y: number): number {
   const { west, south, east, north } = tileRect(key);
   return Math.hypot(
     x - Math.min(east, Math.max(west, x)),
@@ -84,10 +85,10 @@ export function distanceTo(key: TileKey, x: number, y: number): number {
 
 /** `keys` nearest to plane point `(x, y)` first, the coarser first at a tie. */
 export const nearestFirst = (
-  keys: readonly TileKey[],
+  keys: readonly GridCell[],
   x: number,
   y: number,
-): TileKey[] =>
+): GridCell[] =>
   keys
     .map((key) => ({ key, distance: distanceTo(key, x, y) }))
     .toSorted((a, b) => a.distance - b.distance || a.key.level - b.key.level)

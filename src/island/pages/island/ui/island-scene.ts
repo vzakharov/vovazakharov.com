@@ -10,7 +10,15 @@ import {
 
 import type { CanDispose } from '@/kernel/shared/typings';
 
-import { dot, length, R, sub, unit, type Vec3 } from '@/island/shared/globe';
+import {
+  dot,
+  type GridCell,
+  length,
+  R,
+  sub,
+  unit,
+  type Vec3,
+} from '@/island/shared/globe';
 import {
   type CoastField,
   frustumOf,
@@ -18,7 +26,6 @@ import {
   MIN_LEVEL,
   selectTiles,
   tileId,
-  type TileKey,
 } from '@/island/entities/terrain';
 import {
   bindEyeControls,
@@ -87,7 +94,7 @@ const RESELECT_SHARE = 0.02;
 const RESELECT_TURN = Math.cos(0.05);
 
 /** Every root tile: always held, so a missing tile always has an ancestor to stand in. */
-const ROOTS: TileKey[] = Array.from({ length: 4 ** MIN_LEVEL }, (_, i) => ({
+const ROOTS: GridCell[] = Array.from({ length: 4 ** MIN_LEVEL }, (_, i) => ({
   level: MIN_LEVEL,
   x: i % 2 ** MIN_LEVEL,
   y: Math.floor(i / 2 ** MIN_LEVEL),
@@ -138,10 +145,10 @@ export function mountIslandScene(
     scale: number;
     forward: Vec3;
     aspect: number;
-    keys: TileKey[];
+    keys: GridCell[];
   } | null = null;
   /** The last selection wholly in hand, drawn while a newer one loads. */
-  let shown: TileKey[] | null = null;
+  let shown: GridCell[] | null = null;
   const waiting: Array<{ resolve: () => void; reject: (e: Error) => void }> =
     [];
   let failure: Error | null = null;
@@ -202,7 +209,7 @@ export function mountIslandScene(
    * The tiles the eye selects now, reselected once it has moved enough or
    * the view has turned toward the edge of the frustum's margin.
    */
-  function selected(): TileKey[] {
+  function selected(): GridCell[] {
     if (eye === null) return [];
     const { aspect } = camera;
     const { position: at, forward, up, fov } = poseOf(eye, aspect);
@@ -232,11 +239,11 @@ export function mountIslandScene(
     return keys;
   }
 
-  function complete(keys: readonly TileKey[]): boolean {
+  function complete(keys: readonly GridCell[]): boolean {
     return keys.every((key) => held.has(tileId(key)));
   }
 
-  function showIfComplete(keys: TileKey[]): void {
+  function showIfComplete(keys: GridCell[]): void {
     if (keys.length > 0 && complete(keys)) shown = keys;
   }
 
