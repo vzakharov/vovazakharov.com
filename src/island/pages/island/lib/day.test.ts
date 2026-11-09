@@ -11,7 +11,14 @@ import {
 } from '@/island/shared/globe';
 import { openingOf } from '@/island/features/eye';
 
-import { advance, DAY_HOURS, daylight, heavensAt, OPENING_CLOCK } from './day';
+import {
+  advance,
+  DAY_HOURS,
+  daylight,
+  heavensAt,
+  OPENING_CLOCK,
+  solarHours,
+} from './day';
 
 const DEGREE = Math.PI / 180;
 
@@ -92,6 +99,29 @@ describe('heavensAt', () => {
     const up = latLonToUnit(opening);
     assert.equal(daylight(sun, up), 0);
     assert.ok(dot(moon, up) > 0, 'the moon is up');
+  });
+});
+
+describe('solarHours', () => {
+  it("reads the opening's afternoon at hour 0", () => {
+    const opening = openingOf(0);
+    const { sun } = heavensAt(opening, 0);
+    const afternoon =
+      Math.acos(Math.sin(20 * DEGREE) / Math.cos(opening.lat)) / (15 * DEGREE);
+    const hours = solarHours(sun, latLonToUnit(opening));
+    assert.ok(Math.abs(hours - 12 - afternoon) < 1e-9);
+  });
+
+  it('is noon under the sun and midnight across the planet', () => {
+    const sun: Vec3 = latLonToUnit({ lat: 0, lon: 1 });
+    assert.ok(
+      Math.abs(solarHours(sun, latLonToUnit({ lat: 0.5, lon: 1 })) - 12) < 1e-9,
+    );
+    const midnight = solarHours(
+      sun,
+      latLonToUnit({ lat: -0.3, lon: 1 + Math.PI }),
+    );
+    assert.ok(Math.min(midnight, DAY_HOURS - midnight) < 1e-9);
   });
 });
 

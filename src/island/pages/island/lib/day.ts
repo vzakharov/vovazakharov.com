@@ -3,6 +3,7 @@ import {
   type LatLon,
   latLonToUnit,
   scaled,
+  unitToLatLon,
   type Vec3,
 } from '@/island/shared/globe';
 
@@ -37,6 +38,16 @@ export function heavensAt(opening: LatLon, hours: number): Heavens {
   const turn = (2 * Math.PI * hours) / DAY_HOURS;
   const sun = latLonToUnit({ lat: 0, lon: opening.lon - afternoon - turn });
   return { sun, moon: scaled(sun, -1) };
+}
+
+/**
+ * The sun's time of day at direction `at`, hours past its midnight: 12 where
+ * the sun stands on the meridian, later to the east of it.
+ */
+export function solarHours(sun: Vec3, at: Vec3): number {
+  const { lon: sunLon } = unitToLatLon(sun);
+  const { lon } = unitToLatLon(at);
+  return dayHours(12 + ((lon - sunLon) * DAY_HOURS) / (2 * Math.PI));
 }
 
 /** The sine of the sun's elevation where night is full. */
