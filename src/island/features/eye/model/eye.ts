@@ -23,17 +23,21 @@ type Headed = {
 /** A place, height and heading: where the eye is, or where it eases to. */
 type Placed = PlanePoint & Elevated & Headed;
 
-/** In plane metres; `height` is above `floor`. */
-export type Eye = Placed & {
+export type Floored = {
   /**
    * The level, in metres above the sea, `height` stands on: the surface
    * under the eye, eased. Eye and surface are never closer than
    * `MIN_HEIGHT`.
    */
   readonly floor: number;
-  /** Where the eye is easing to; `height` there is above the floor too. */
-  readonly aim: Placed;
 };
+
+/** In plane metres; `height` is above `floor`. */
+export type Eye = Placed &
+  Floored & {
+    /** Where the eye is easing to; `height` there is above the floor too. */
+    readonly aim: Placed;
+  };
 
 /**
  * What the player asks of the eye over one frame. `steer`, `climb` and
@@ -86,13 +90,13 @@ export const shortest = (angle: number) =>
   angle - FULL_TURN * Math.round(angle / FULL_TURN);
 
 /** Time constant of the glide from where the eye is toward its aim. */
-const EASE_SECONDS = 0.15;
+export const EASE_SECONDS = 0.15;
 
 /**
  * Time constant of the floor following the surface: long enough that ground
  * the eye crosses at its own height's scale smooths out.
  */
-const FLOOR_SECONDS = 0.6;
+export const FLOOR_SECONDS = 0.6;
 
 /**
  * The furthest the eye goes from the island's centre on the plane, three
@@ -110,7 +114,7 @@ export const IDLE: Intent = {
   twist: 0,
 };
 
-const clamp = (value: number, low: number, high: number) =>
+export const clamp = (value: number, low: number, high: number) =>
   Math.min(high, Math.max(low, value));
 
 /** The sea counts as ground: nothing under the eye is below it. */
@@ -184,7 +188,7 @@ function aimed(eye: Eye, intent: Intent, dt: number): Eye['aim'] {
 }
 
 /** How far toward a target a quantity eases over `dt` with time constant `tau`. */
-const easing = (dt: number, tau: number) => 1 - Math.exp(-dt / tau);
+export const easing = (dt: number, tau: number) => 1 - Math.exp(-dt / tau);
 
 /**
  * The eye `dt` seconds on, moved by `intent`: the aim moves first, then the

@@ -9,5 +9,19 @@ export {
   withHeading,
   withHeight,
 } from './model/eye';
+export {
+  EARTH_OPENING,
+  type Eye as GlobeEye,
+  eyeAt as globeEyeAt,
+  type GroundAt as GlobeGroundAt,
+  headingOf,
+  ISLAND_OPENING,
+  type Opening,
+  openingOf,
+  step as stepOnGlobe,
+  withHeading as withGlobeHeading,
+  withHeight as withGlobeHeight,
+} from './model/globe-eye';
+export { poseOf as globePoseOf } from './model/globe-pose';
 export { poseOf } from './model/pose';
 export { bindEyeControls } from './ui/eye-controls';
