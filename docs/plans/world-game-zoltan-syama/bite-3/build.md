@@ -81,10 +81,34 @@ calls.
   that keeps the world build within the 3 s budget: 1024 × 2048, the series
   synthesised onto it directly (~4× R7's 175 ms), its distance pass measured in
   B2 against the rest of the budget.
-- **S4. The sun** is today's fixed sun turned by the least rotation taking
-  `CENTRE` to the eye (option b): #1 looks as it does today, any world seen from
-  any side is lit, and the one point where it turns abruptly is 10° S 180°, in
-  open sea on #1.
+- **S4. The light is the contract's call 12** (full moon), which replaced the
+  sun turned with the eye: the sun fixed in space, a full moon opposite, the
+  planet turned under them by time, a world opening at local noon over its
+  start, time keys clear of movement and call 13's keys. It goes in B7 with the
+  scene.
 - **S5. The coast slice comes back under `src/island/scripts/lib/`**, beside the
   azimuthal map, so no `masd-disable` marker is needed: only the fit reads it.
 - **S6. #0 is the random world `H(0, ·)`** in step B's frames; step C pins it.
+- **S7. Look up and down is the contract's call 13**, an addition to B5's sphere
+  eye (`notes/b3-b5.md`): ↑/↓ tilt the view, E/Q climb and descend. It is a step
+  of its own on `features/eye/` before B7, or B7's if B7's agent has room;
+  touch's look is that agent's call, reported.
+- **S8. Every world but #0 opens at #1's opening** (B5's `openingOf`): the
+  contract names only #0 and #1.
+- **S9. Row #1** (B6, `notes/b3-b6.md`): clipped target ±500 km, 0.68% of the
+  drawn land wrong (bite 2: 0.63% on its plane), all five lakes water; 8 bits
+  per word with one scale per degree, 256 KB packed, 351 KB as JSON; 7 bits
+  rises to 0.76%.
+
+## Where the bite stands (for the next orchestrator)
+
+- **Landed on `island/round-world`**: A (schema, series, frame script), B1
+  (cube, geo), B5 (sphere eye), B6 (fit, pinned row #1), each with its note.
+- **Running at the relay**: B2 (`wt/b3-b2`, sphere coast field and world build),
+  B3 (`wt/b3-b3`, cube tiles and quadtree), B6's tail (`wt/b3-b6t`, checks green
+  and #1's frame). Merge each from its branch and note; a dead one relaunches
+  from its note.
+- **Next**: S7 (call 13's look) ∥ B4 (height and fill on the sphere, needs B3's
+  key); then B7 (the switch, with S4's light and S7 if not done), B8 (retire the
+  plane, film the seams), step C (Earth), the tail. The memo with the lead is
+  current to 04:35 (calls 12 and 13).
