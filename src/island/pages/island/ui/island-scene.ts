@@ -64,6 +64,8 @@ export type IslandScene = CanDispose & {
   readonly turnTo: (heading: number) => Promise<void>;
   /** `'webgpu'` or `'webgl2'`, once ready. */
   readonly backend: () => string;
+  /** Ms the worker took to build the current world's field; throws until it lands. */
+  readonly buildMs: () => number;
   /**
    * Rebuilds the scene on world `world`: every tile held or in flight is
    * dropped and refilled from the new field, the eye left where it is.
@@ -177,6 +179,7 @@ export function mountIslandScene(
   };
 
   let world = firstWorld;
+  let built: { of: number; ms: number } | null = null;
   /** Counts the pools started, so a disposed one's late reply is told apart. */
   let generation = 0;
   /** Resolves once the first world's field is in hand. */
@@ -204,8 +207,9 @@ export function mountIslandScene(
       },
     );
     started.field.then(
-      ({ field, seed }) => {
+      ({ field, seed, buildMs }) => {
         if (!current()) return;
+        built = { of: mine, ms: buildMs };
         coast = coastOf(field);
         groundAt = groundOf(coast, seed);
         selection = null;
@@ -365,6 +369,10 @@ export function mountIslandScene(
       renderer.backend.isWebGPUBackend === true
         ? 'webgpu'
         : 'webgl2',
+    buildMs: () => {
+      if (built?.of !== generation) throw new Error('field not built');
+      return built.ms;
+    },
     setWorld: (next) => {
       if (next === world || disposed) return;
       world = next;

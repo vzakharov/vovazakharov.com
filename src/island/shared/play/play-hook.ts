@@ -9,8 +9,8 @@ export type IslandPlayHook = {
   ready: () => Promise<void>;
   /** Puts the eye `m` metres above the ground; resolves once every tile the view then selects is uploaded. */
   setHeight: (m: number) => Promise<void>;
-  /** Puts the eye `m` metres over plane point `(x, y)`, in metres east and north of the island's centre; resolves as `setHeight` does. */
-  moveTo: (x: number, y: number, m: number) => Promise<void>;
+  /** Puts the eye `m` metres over latitude `lat`, longitude `lon` (degrees, east positive), its heading kept; resolves as `setHeight` does. */
+  moveTo: (lat: number, lon: number, m: number) => Promise<void>;
   /** Turns the eye so screen-up faces `heading`, radians clockwise from north; resolves as `setHeight` does. */
   turnTo: (heading: number) => Promise<void>;
   /** Advances the seeded clock by `ms` and draws one frame. */
@@ -19,6 +19,8 @@ export type IslandPlayHook = {
   frameMs: () => number[];
   /** The renderer's backend, `'webgpu'` or `'webgl2'`, once `ready` resolves. */
   backend: () => string;
+  /** Ms the tile worker took to build the world's field, once `ready` resolves. */
+  buildMs: () => number;
 };
 
 /** The `window` property the hook sits on. */
