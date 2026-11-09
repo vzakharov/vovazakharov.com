@@ -9,6 +9,7 @@ import type { LookHint } from '@/island/features/eye';
 
 import COPY from '../config/messages/en.json';
 import { parsePlace } from '../lib/place-hash';
+import { installDiagnostics } from './diagnostics';
 import classes from './island.module.scss';
 import { mountIslandScene } from './island-scene';
 import { installPlayHook } from './play-hook';
@@ -24,6 +25,9 @@ export function IslandCanvas({ label }: Labeled) {
   // Each copy is a fresh object, so a second `P` restarts the confirmation.
   const [copied, setCopied] = useState<Copied | null>(null);
   const [hint, setHint] = useState<LookHint | undefined>();
+  const [diagnostics, setDiagnostics] = useState<readonly string[] | null>(
+    null,
+  );
   // Thrown while rendering, so the route's error boundary shows it.
   if (failure !== null) throw failure;
 
@@ -49,10 +53,16 @@ export function IslandCanvas({ label }: Labeled) {
     };
     globalThis.addEventListener('hashchange', onHashChange);
     const uninstallWhere = installWhere(scene, element, setCopied);
+    const uninstallDiagnostics = installDiagnostics(
+      scene,
+      element,
+      setDiagnostics,
+    );
     const uninstallPlay = play ? installPlayHook(scene) : null;
     return () => {
       globalThis.removeEventListener('hashchange', onHashChange);
       uninstallWhere();
+      uninstallDiagnostics();
       uninstallPlay?.();
       scene.dispose();
     };
@@ -93,6 +103,11 @@ export function IslandCanvas({ label }: Labeled) {
           </>
         )}
       </output>
+      {diagnostics === null ? null : (
+        <pre className={classes['diagnostics']} aria-label={COPY.diagnostics}>
+          {diagnostics.join('\n')}
+        </pre>
+      )}
     </>
   );
 }

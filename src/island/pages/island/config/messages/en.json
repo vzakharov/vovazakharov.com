@@ -14,7 +14,8 @@
       { "keys": "Wheel", "does": "climb, descend" },
       { "keys": "[ ]", "does": "time back, forward (Shift: faster)" },
       { "keys": "T", "does": "run, pause time" },
-      { "keys": "P", "does": "copy where you are" }
+      { "keys": "P", "does": "copy where you are" },
+      { "keys": "I", "does": "diagnostics" }
     ],
     "touch": [
       { "keys": "Drag", "does": "move" },
@@ -23,6 +24,7 @@
       { "keys": "Two-finger drag", "does": "look up, down" }
     ]
   },
+  "diagnostics": "Diagnostics",
   "look": {
     "up": {
       "keys": "Press ↑ to look up",

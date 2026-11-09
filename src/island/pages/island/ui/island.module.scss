@@ -110,6 +110,27 @@
   top: 64px;
 }
 
+// The diagnostics panel, top left on the same glass, a field a row, and as the
+// hint, taking no pointer, so a drag starting on it still reaches the scene.
+.diagnostics {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  max-width: calc(100% - 32px);
+  padding: 8px 12px;
+  margin: 0;
+  font:
+    12px / 1.5 ui-monospace,
+    monospace;
+  color: rgb(255 255 255 / 85%);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  pointer-events: none;
+  background: rgb(10 16 28 / 55%);
+  border-radius: 8px;
+  backdrop-filter: blur(6px);
+}
+
 .hintClose {
   padding: 0 4px;
   font: inherit;

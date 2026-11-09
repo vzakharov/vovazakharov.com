@@ -42,6 +42,7 @@ import {
   solarHours,
 } from '../lib/day';
 import { eyeOfPose, poseOfEye } from '../lib/eye-pose';
+import { smoothedFrameMs } from '../lib/frame-time';
 import type { Pose } from '../lib/place-hash';
 import { skyColour } from '../lib/sky-colour';
 import { startTilePool, type TilePool } from '../lib/tile-pool';
@@ -76,6 +77,8 @@ export type IslandScene = CanDispose & {
   readonly placeAt: (pose: Pose) => void;
   /** Where the eye stands now, in the world on screen; throws until ready. */
   readonly where: () => Where;
+  /** Ms between drawn frames, smoothed; none before the first frame, nor under play. */
+  readonly frameMs: () => number | undefined;
 };
 
 /** Closest the camera sees: the eye is never under two metres up. */
@@ -270,7 +273,9 @@ export function mountIslandScene(
 
   let loop = 0;
   let last = 0;
+  let frameMs: number | undefined;
   const tick = (now: number) => {
+    frameMs = smoothedFrameMs(frameMs, now - last);
     frame(Math.min(0.1, (now - last) / 1000));
     last = now;
     loop = requestAnimationFrame(tick);
@@ -369,6 +374,7 @@ export function mountIslandScene(
         tiles: view.levels(eye.at),
       };
     },
+    frameMs: () => frameMs,
     dispose: () => {
       disposed = true;
       cancelAnimationFrame(loop);

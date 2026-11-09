@@ -55,15 +55,22 @@ const poseOf = (pose: Pose, solarHours: number) => [
 ];
 
 /**
- * One line to reproduce a view from: the build, the link that reopens it, and
- * the same pose spelled for a person — the pitch being the look the eye holds
- * above the pitch its height gives, so labelled.
+ * What reproduces a view, a field each: the build, the link that reopens it,
+ * and the same pose spelled for a person — the pitch being the look the eye
+ * holds above the pitch its height gives, so labelled.
  */
-export function whereLine({ commit, page, place, solarHours, tiles }: Where) {
-  return [
-    `island ${commit} ${page}${formatPlace(place)}`,
-    `world ${place.world}`,
-    ...(place.pose === undefined ? [] : poseOf(place.pose, solarHours)),
-    tilesOf(tiles),
-  ].join(' · ');
-}
+export const whereFields = ({
+  commit,
+  page,
+  place,
+  solarHours,
+  tiles,
+}: Where) => [
+  `island ${commit} ${page}${formatPlace(place)}`,
+  `world ${place.world}`,
+  ...(place.pose === undefined ? [] : poseOf(place.pose, solarHours)),
+  tilesOf(tiles),
+];
+
+/** `whereFields` on one line, to paste. */
+export const whereLine = (where: Where) => whereFields(where).join(' · ');
