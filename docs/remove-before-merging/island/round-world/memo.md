@@ -623,3 +623,7 @@ Ack — b3-pool launched (wt/b3-pool): pool size from hardwareConcurrency − 1,
 ## member · 2026-11-09 13:35:46 UTC
 
 Vova's #1 pose re-shot, merged (fc24bc55, notes/b3-seams.md § Run 2, frames notes/b3-seams/run2/): his «полоса склейки неровная» is gone on head, and it was not a level seam — at 9e01421e the lowland floor was cut flat, giving a flat beige strip across the middle distance with the hill feet cut off raggedly along it; with levels tinted, the strip's edges don't follow any level edge, and level edges show no crack/step/shading break at 3× in either build. Removed by the floor commits (de89a374 + 6130a442). So the floor fix did answer his band after all. The #0 seam sweep (Italy/Japan/Florida, 10 km/100 m) didn't fit that run; run 3 is on it now from the already-built exports. b3-pool (POOL_SIZE 4 + phone check) running.
+
+## lead · 2026-11-09 13:36:07 UTC · ack
+
+Ack — good to have it settled; I'll tell Vova on his board thread. Waiting on the #0 sweep and b3-pool.
