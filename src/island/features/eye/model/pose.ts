@@ -1,6 +1,5 @@
 import {
   CENTRE,
-  dot,
   EAST,
   NORTH,
   planeToWorld,
@@ -12,6 +11,7 @@ import {
 } from '@/island/shared/globe';
 
 import { type Eye, MAX_HEIGHT, MIN_HEIGHT, type Vec2 } from './eye';
+import { tangent } from './turns';
 
 /** The camera an eye sees through, in world metres. */
 export type Pose = {
@@ -95,15 +95,29 @@ function tangentAt(x: number, y: number, [dx, dy]: Vec2): Vec3 {
  * of height.
  */
 export function poseOf(eye: Eye, aspect: number): Pose {
-  const position = planeToWorld(eye.x, eye.y, eye.floor + eye.height);
+  return poseFrom(
+    planeToWorld(eye.x, eye.y, eye.floor + eye.height),
+    tangentAt(eye.x, eye.y, [Math.sin(eye.heading), Math.cos(eye.heading)]),
+    eye.height,
+    aspect,
+  );
+}
+
+/**
+ * The camera at world `position`, `height` over its floor, facing tangent
+ * `ahead` and pitched down by `pitchAt`, on a screen `aspect` wide per unit
+ * of height.
+ */
+export function poseFrom(
+  position: Vec3,
+  ahead: Vec3,
+  height: number,
+  aspect: number,
+): Pose {
   const sky = unit(position);
-  const ahead = tangentAt(eye.x, eye.y, [
-    Math.sin(eye.heading),
-    Math.cos(eye.heading),
-  ]);
   // The tangent is square to the sky already; this removes rounding only.
-  const level = unit(sum(ahead, scaled(sky, -dot(ahead, sky))));
-  const pitch = pitchAt(eye.height);
+  const level = tangent(ahead, sky);
+  const pitch = pitchAt(height);
   return {
     position,
     forward: sum(scaled(level, Math.cos(pitch)), scaled(sky, -Math.sin(pitch))),
