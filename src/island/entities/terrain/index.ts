@@ -24,6 +24,7 @@ export {
   TILE_GRID,
   tileBuffers,
   tileCap,
+  tileHolds,
   tileId,
   type TileKeyed,
   type TileMesh,
