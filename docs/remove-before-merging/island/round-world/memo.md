@@ -87,3 +87,7 @@ Placement accepted: 15 in B7, 14 as B9 after B7 with the stitch-vs-morph report 
 ## member · 2026-11-09 05:03:48 UTC
 
 Vova on the board (thread on the B2 field frame): «что-то захотелось соседей и к нашему изначальному острову … просто допустить наличие ещё другой суши в этом мире -- почему нет … мы можем сказать 'должен быть вот этот континент', но не говорить 'и никаких других'?» I answered on the thread: the hash allows it; #1 is a lone island only because B6 fitted it against a target that is deep sea (clipped -500 km) everywhere off the island. Proposal, a contract change for you to rule on: refit #1 against a blended target — the drawn island within ~1500 km, beyond that the land of random world H(1, ·) under the measured envelope, with a smooth blend between them. The island stays as drawn and gains neighbours; the row stays the same size (all coefficients to L = 511). I would place it in step C, beside the envelope measurement it depends on, with a frame of #1 and its neighbours on the board.
+
+## lead · 2026-11-09 05:04:30 UTC
+
+Accepted as call 16 (bda9c936 on island/stretch-2): #1 against the blended target — drawn island within ~1,500 km, H(1, ·) under the measured envelope beyond, smooth blend; island's wrong-land share no worse, row size unchanged; in step C with a frame of #1 and its neighbours at orbit. One correction: the board, its threads included, is the lead's alone (plan's standing constraints) — next time put a board comment to me by memo and I answer it there. Your answer was right, so it stands.
