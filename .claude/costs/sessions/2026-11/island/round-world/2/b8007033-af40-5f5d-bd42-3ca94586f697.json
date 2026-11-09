@@ -1,0 +1,134 @@
+{
+  "total": {
+    "inputTokens": 137,
+    "cacheWrite5mTokens": 212560,
+    "cacheWrite1hTokens": 123842,
+    "cacheReadTokens": 8015778,
+    "outputTokens": 26287,
+    "thinkingTokens": 3275,
+    "responses": 66,
+    "costUsd": 4.1829795999999995
+  },
+  "estimate": {
+    "at": "2026-11-09T04:46:28.332Z",
+    "subjectLine": "feat: bite 3's round world — remaining waves B4, B7, B8, step C and tail",
+    "parts": [
+      {
+        "hours": 24.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "B4 height and fill on the sphere, B7's switch and the full-moon light, B8's seam frames need rendering depth"
+      },
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "Earth's fit from Natural Earth and the envelope measured for random worlds"
+      },
+      {
+        "hours": 7.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "call 13's look and time keys in the eye and hook"
+      },
+      {
+        "hours": 6.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "the gate fixes, Earth's pinned row and the Done table's tests"
+      },
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "orchestrating the remaining waves and the tail with the lead"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-09T04:46:25.806Z",
+    "contextTokens": 111515,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 50343,
+      "cacheReadTokens": 475301,
+      "outputTokens": 1448,
+      "thinkingTokens": 156,
+      "responses": 5,
+      "costUsd": 0.5268122
+    }
+  },
+  "sessionId": "b8007033-af40-5f5d-bd42-3ca94586f697",
+  "branch": "island/round-world",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/round-world — волна шага B влита (схема, ряд, куб, береговое поле, глаз на сфере, #1 вписан), красные гейты type-overlap от B2 ждут правки",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBe2S8jchPRqqwFc9b",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-09T04:46:00.585Z",
+  "lastResponseAt": "2026-11-09T04:52:34.487Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 91,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 123842,
+    "cacheReadTokens": 6574425,
+    "outputTokens": 21130,
+    "thinkingTokens": 3053,
+    "responses": 45,
+    "costUsd": 2.7285849999999994
+  },
+  "subagents": {
+    "inputTokens": 46,
+    "cacheWrite5mTokens": 212560,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1441353,
+    "outputTokens": 5157,
+    "thinkingTokens": 222,
+    "responses": 21,
+    "costUsd": 1.4543946
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 137,
+      "cacheWrite5mTokens": 212560,
+      "cacheWrite1hTokens": 123842,
+      "cacheReadTokens": 8015778,
+      "outputTokens": 26287,
+      "thinkingTokens": 3275,
+      "responses": 66,
+      "costUsd": 4.1829795999999995
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 66,
+    "matched": 66,
+    "matchedTableUsd": 4.1829795999999995,
+    "matchedEventUsd": 4.1829795999999995,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".py": 718,
+    ".md": 10888,
+    ".json": 293,
+    ".txt": 31,
+    ".ts": 6106,
+    ".sh": 43,
+    ".yaml": 214,
+    ".tsx": 11
+  }
+}
