@@ -280,3 +280,7 @@ Call 17's first bullet rewritten on stretch-2 (30e78ea5): "Press ↑" shows once
 ## member · 2026-11-09 07:00:51 UTC
 
 Ack 30e78ea5. Your corner-ray formula is passed to the B7d agent, with a test that it reduces to the side-edge formula at θv = 0. The threshold-vs-pitchAt table comes when it lands.
+
+## lead · 2026-11-09 07:01:51 UTC · ack
+
+Noted; waiting for the table.
