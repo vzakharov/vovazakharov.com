@@ -8,7 +8,8 @@
  *
  * Usage: pnpm frame:island <world…> [--knee 6] [--slope 2]
  *        [--degree 511] [--out tmp/island/worlds.png]
- *   The envelope is `(knee² + l²)^(−slope/2)`.
+ *   The envelope is `(knee² + l²)^(−slope/2)`; a pinned world draws its stored
+ *   series instead, which no envelope shapes.
  */
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -21,12 +22,14 @@ import {
   landmasses,
   landSeries,
   landShare,
+  pinnedSeries,
   rollWorld,
   sphereTransform,
   synthesize,
 } from '@/island/entities/terrain';
 
 import { encodeIndexedPng } from './lib/indexed-png';
+import { padSeries } from './lib/sphere-fit';
 
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 
@@ -73,12 +76,19 @@ const percent = (share: number) => `${(share * 100).toFixed(1)}%`;
 say(`knee ${options.knee}, slope ${options.slope}, degree ${options.degree}`);
 say('| World | Land | Landmasses > 1% | Largest |');
 say('| ----: | ---: | --------------: | ------: |');
+const pinnedSeriesByWorld = await Promise.all(
+  worlds.map(async (world) => pinnedSeries(world)),
+);
 for (const [n, world] of worlds.entries()) {
-  const { land } = rollWorld(world, options.degree);
-  const field = synthesize(
-    transform,
-    landSeries(land, options.degree, envelope),
-  );
+  const pinned = pinnedSeriesByWorld[n];
+  const series = pinned
+    ? padSeries(pinned, options.degree)
+    : landSeries(
+        rollWorld(world, options.degree).land,
+        options.degree,
+        envelope,
+      );
+  const field = synthesize(transform, series);
   const masses = landmasses(transform.grid, field);
   const counted = masses.filter((share) => share > LANDMASS_FLOOR).length;
   say(
