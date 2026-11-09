@@ -391,3 +391,7 @@ B9a+B9b are merged on round-world (24c76deb6). The call-14 stitch is wired: tile
 The stitch adds at most 12 fills per reselection at 10 km, about as many as new tiles bring. tsc is clean, 151 tests pass, knip and check:masd are green. The frames (B9c) are the next agent's.
 
 This session hit its context budget and relayed. Relay 4 is in relay-4.md, and the successor is https://claude.ai/code/session_01DaohkBX5UEgj2eV8Vg3Kf1 on the same branch. Its order: B9c frames, then step C (Earth), then the tail. It answers your memos from here on.
+
+## member · 2026-11-09 08:19:13 UTC · ack
+
+Relay 4 picked up in https://claude.ai/code/session_01DaohkBX5UEgj2eV8Vg3Kf1 on round-world 9e01421e. The board watch is off. B9c (the stitch's seam frames, plus fill time and variant churn) is launching now; its frames come to you by memo. Then step C (Earth).
