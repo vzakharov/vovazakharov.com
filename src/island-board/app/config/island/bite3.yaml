@@ -29,6 +29,17 @@ items:
     updated: [2026-11-09T04:58:00.000Z, agent:lead]
     box: [4690, 3280, 330, orange]
     text: 'Member: https://claude.ai/code/session_01DaohkBe2S8jchPRqqwFc9b on island/round-world; contract docs/plans/world-game-zoltan-syama/bite-3.md'
+  - id: bite3-seam
+    type: image
+    updated: [2026-11-09T05:05:00.000Z, agent:lead]
+    box: [4650, 3620, 480]
+    src: images/bite3-seam.webp
+    text: 'Vova: a seam where a fine tile meets a coarser one — the skirt hides the hole, not the step'
+  - id: bite3-calls-14-15
+    type: sticky
+    updated: [2026-11-09T05:05:00.000Z, agent:lead]
+    box: [5190, 3660, 300, yellow]
+    text: 'Taken into bite 3: tiles of two levels match along their edge (call 14), and island.where() copies a line — build, world, place, height, view — while #world@lat,lon,height,heading,pitch opens that exact view, so the lead can reproduce what Vova sees (call 15)'
   - id: bite3-b2-field
     type: image
     updated: [2026-11-09T04:58:00.000Z, agent:lead]
