@@ -19,14 +19,14 @@ import {
 } from '@/island/entities/terrain';
 
 import { colourHeights } from '../lib/colour-heights';
-import type { FilledTile } from '../lib/tile-protocol';
+import { type FilledTile, orderId } from '../lib/tile-protocol';
 import { HEIGHT_ATTRIBUTE } from './ground-lighting';
 
-/** Tiles held before the least recently drawn are let go. */
+/** Tile variants held before the least recently drawn are let go. */
 const CAPACITY = 900;
 
 /** `centre` is the tile's world position, float64. */
-type Held = TileKeyed &
+type Held = TileKeyed<CubeCell> &
   Readonly<Centred<Vec3>> & {
     readonly meshes: readonly Mesh[];
     lastDrawn: number;
@@ -38,15 +38,29 @@ export type HeldTiles = CanDispose & {
   readonly clear: () => void;
 };
 
+/**
+ * Held tiles by variant, an `orderId`: one cell can be held under several
+ * neighbour levels at once.
+ */
 export type TileMeshes = HeldTiles & {
   readonly has: (id: string) => boolean;
+  /** Whether some variant of the tile `cubeTileId` names is held. */
+  readonly hasTile: (tileId: string) => boolean;
+  /**
+   * The first of `preferred` (variant ids of `key`) held, else the variant of
+   * `key` added last, if any.
+   */
+  readonly variantOf: (
+    key: CubeCell,
+    preferred: readonly string[],
+  ) => string | undefined;
   readonly add: (tile: FilledTile) => void;
   /**
-   * Shows exactly `keys`, each placed at its centre less `eye` — the camera
-   * sits at the origin, so the subtraction is float64 and only the small
-   * remainder reaches the GPU.
+   * Shows exactly the variants `ids`, each placed at its centre less `eye` —
+   * the camera sits at the origin, so the subtraction is float64 and only the
+   * small remainder reaches the GPU.
    */
-  readonly draw: (keys: readonly CubeCell[], eye: Vec3) => void;
+  readonly draw: (ids: readonly string[], eye: Vec3) => void;
   /** Lets the least recently drawn go past `CAPACITY`, never one in `keep` nor a root tile. */
   readonly evict: (keep: ReadonlySet<string>) => void;
   readonly size: () => number;
@@ -74,6 +88,8 @@ export function tileMeshes(
   materials: TileMeshesMaterials,
 ): TileMeshes {
   const held = new Map<string, Held>();
+  /** Each held tile's variant ids, in the order they were added. */
+  const variants = new Map<string, string[]>();
   let frame = 0;
 
   const release = (id: string, entry: Held) => {
@@ -82,6 +98,10 @@ export function tileMeshes(
       mesh.geometry.dispose();
     }
     held.delete(id);
+    const tileId = cubeTileId(entry.key);
+    const left = (variants.get(tileId) ?? []).filter((other) => other !== id);
+    if (left.length === 0) variants.delete(tileId);
+    else variants.set(tileId, left);
   };
 
   const clear = () => {
@@ -90,7 +110,15 @@ export function tileMeshes(
 
   return {
     has: (id) => held.has(id),
-    add: ({ key, land, sea, floor }) => {
+    hasTile: (tileId) => variants.has(tileId),
+    variantOf: (key, preferred) =>
+      preferred.find((id) => held.has(id)) ??
+      variants.get(cubeTileId(key))?.at(-1),
+    add: (tile) => {
+      const { key, land, sea, floor } = tile;
+      const id = orderId(tile);
+      const known = held.get(id);
+      if (known !== undefined) release(id, known);
       const meshes: Mesh[] = [];
       if (land !== null) {
         const colourBy = colourHeights(land.heights, land.grid);
@@ -110,20 +138,19 @@ export function tileMeshes(
         mesh.visible = false;
         group.add(mesh);
       }
-      held.set(cubeTileId(key), {
-        key,
-        meshes,
-        centre: [cx, cy, cz],
-        lastDrawn: -1,
-      });
+      held.set(id, { key, meshes, centre: [cx, cy, cz], lastDrawn: -1 });
+      variants.set(cubeTileId(key), [
+        ...(variants.get(cubeTileId(key)) ?? []),
+        id,
+      ]);
     },
-    draw: (keys, eye) => {
+    draw: (ids, eye) => {
       frame += 1;
       for (const entry of held.values()) {
         for (const mesh of entry.meshes) mesh.visible = false;
       }
-      for (const key of keys) {
-        const entry = held.get(cubeTileId(key));
+      for (const id of ids) {
+        const entry = held.get(id);
         if (entry === undefined) continue;
         entry.lastDrawn = frame;
         const [x, y, z] = entry.centre;

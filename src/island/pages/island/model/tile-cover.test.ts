@@ -104,6 +104,8 @@ describe('coverAround', () => {
   });
 });
 
+const keyed = (keys: readonly CubeCell[]) => keys.map((k) => ({ key: k }));
+
 describe('nearestFirst', () => {
   it('orders by angle to the tile, then coarser first', () => {
     // The eye at the middle of `inside`, a quarter of `around` from `near`.
@@ -115,7 +117,9 @@ describe('nearestFirst', () => {
       key(3, 4, 4),
     ];
     assert.deepEqual(
-      nearestFirst([far, near, inside, around], eye).map((k) => cubeTileId(k)),
+      nearestFirst(keyed([far, near, inside, around]), eye).map((t) =>
+        cubeTileId(t.key),
+      ),
       ['pz/3/4/4', 'pz/4/8/8', 'pz/3/4/3', 'pz/3/7/7'],
     );
     assert.equal(distanceTo(around, eye), 0);
@@ -128,7 +132,9 @@ describe('nearestFirst', () => {
     const sameFace = key(3, 5, 4);
     assert.notEqual(across.face, 'pz');
     assert.deepEqual(
-      nearestFirst([sameFace, across], eye).map((k) => cubeTileId(k)),
+      nearestFirst(keyed([sameFace, across]), eye).map((t) =>
+        cubeTileId(t.key),
+      ),
       [cubeTileId(across), cubeTileId(sameFace)],
     );
     assert.ok(distanceTo(across, eye) < distanceTo(key(3, 6, 4), eye));

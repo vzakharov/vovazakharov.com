@@ -43,6 +43,17 @@ export type CubeFillOptions = MeshOptions & {
 export const cubeLevelSpacing = (level: number, cells: number) =>
   (R * Math.PI) / (2 * 2 ** level * cells);
 
+/** The relief cut a `level` tile samples each direction at. */
+export const cubeCut = (
+  level: number,
+  cells: number,
+  finest: CubeFillOptions['finest'],
+) => {
+  const floor = 2 * cubeLevelSpacing(level, cells);
+  return (p: Vec3) =>
+    finest === undefined ? floor : Math.max(finest(p), floor);
+};
+
 /**
  * A cube tile's lattice before it is lifted to world metres: the unit
  * direction and height of every point, ringed. Lifting reads nothing else, so
@@ -85,7 +96,7 @@ function beyondEdge(
  * row; past two, at a cube corner's outer ring, it is the point both ring
  * neighbours reach, one step along the third face edge.
  */
-function latticeDirection(
+export function latticeDirection(
   face: Face,
   kU: number,
   kV: number,
@@ -112,8 +123,7 @@ export function sampleCubeLattice(
   const cells = grid - 1;
   const lines = 2 ** key.level * cells;
   const index = (k: number) => faceLattice(key.level, cells, k);
-  const cut = 2 * cubeLevelSpacing(key.level, cells);
-  const { finest } = options;
+  const cut = cubeCut(key.level, cells, options.finest);
 
   const ring = grid + 2;
   const points: Vec3[] = [];
@@ -123,21 +133,22 @@ export function sampleCubeLattice(
     for (let a = 0; a < ring; a++) {
       const kU = key.x * cells + a - 1;
       const p = latticeDirection(key.face, kU, kV, index, lines);
-      heights[points.length] = sample(
-        p,
-        finest === undefined ? cut : Math.max(finest(p), cut),
-      );
+      heights[points.length] = sample(p, cut(p));
       points.push(p);
     }
   }
   return { ring, points, heights };
 }
 
-/** Lifts a sampled lattice to world metres and assembles the tile's mesh. */
-function liftCubeLattice(
+/**
+ * Lifts a sampled lattice to world metres and assembles the tile's mesh,
+ * `normalAt` replacing grid vertices' normals as `assembleTile` takes it.
+ */
+export function liftCubeLattice(
   key: CubeCell,
   lattice: CubeLattice,
   options: MeshOptions = {},
+  normalAt?: ReadonlyMap<number, Vec3>,
 ): TileMesh<CubeCell> {
   const { ring, heights } = lattice;
   const cells = ring - 3;
@@ -156,7 +167,7 @@ function liftCubeLattice(
   );
   const skirtDepth =
     options.skirtDepth ?? 2 * cubeLevelSpacing(key.level, cells);
-  return assembleTile(key, { ring, points }, middle, skirtDepth);
+  return assembleTile(key, { ring, points }, middle, skirtDepth, normalAt);
 }
 
 /**

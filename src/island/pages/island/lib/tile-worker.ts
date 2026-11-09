@@ -5,10 +5,10 @@
  * a fill that arrives before it waits for it; fills still go back in the order
  * they came.
  */
-import type { CubeCell, Vec3 } from '@/island/shared/globe';
+import type { Vec3 } from '@/island/shared/globe';
 import {
   cubeDetailCut,
-  fillCubeTile,
+  fillStitchedCubeTile,
   heightAtSphere,
   openSphereWorld,
   sampleSphereField,
@@ -18,6 +18,7 @@ import {
 import {
   filledBuffers,
   type FilledTile,
+  type TileOrder,
   type WorkerReply,
   type WorkerRequest,
   type WorldField,
@@ -42,24 +43,28 @@ function gridRange(heights: Float32Array): readonly [number, number] {
 
 function fill(
   { field, seed }: WorldField,
-  key: CubeCell,
+  { key, levels }: TileOrder,
   eye: Vec3,
 ): FilledTile {
   const start = performance.now();
   const distance = (p: Vec3) => sampleSphereField(field, p);
-  const ground = fillCubeTile(
+  const ground = fillStitchedCubeTile(
     key,
     (p, finest) => heightAtSphere(distance, seed, p, finest),
+    levels,
     { finest: cubeDetailCut(eye, distance) },
   );
   const [low, high] = gridRange(ground.heights);
   const land = high < 0 ? null : ground;
-  const sea = low > 0 ? null : fillCubeTile(key, () => 0);
+  // Stitched too: every level samples the sea at 0, but its vertices between
+  // a coarser neighbour's go onto that neighbour's chord, below the sphere.
+  const sea = low > 0 ? null : fillStitchedCubeTile(key, () => 0, levels);
   // Its own buffer when the land goes too, since a buffer transfers once.
   const floor =
     land === null ? ground.heights : new Float32Array(ground.heights);
   return {
     key,
+    levels,
     land,
     sea,
     floor: sea === null ? null : floor,
@@ -95,7 +100,7 @@ addEventListener('message', (event: MessageEvent<WorkerRequest>) => {
   if (world === null) throw new Error('tile worker: fill before init');
   world
     .then((built) => {
-      const tile = fill(built, request.key, request.eye);
+      const tile = fill(built, request, request.eye);
       reply({ kind: 'tile', tile }, filledBuffers(tile));
     })
     .catch(failed);
