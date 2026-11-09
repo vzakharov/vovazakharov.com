@@ -30,6 +30,8 @@ export {
   assertWorldNumber,
   decodePinnedRow,
   encodePinnedRow,
+  fieldGrids,
+  fieldOf,
   isWorldNumber,
   kneeEnvelope,
   LAND_DEGREE,

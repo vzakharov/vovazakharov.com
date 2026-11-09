@@ -53,14 +53,32 @@ describe('encodePinnedRow / decodePinnedRow', () => {
 describe('pinnedSeries', () => {
   it('reads every unpinned number from the hash', async () => {
     assert.equal(await pinnedSeries('2'), undefined);
-    assert.equal(await pinnedSeries('0'), undefined);
   });
 
-  it('loads #1 as a full series of its row', async () => {
-    const series = await pinnedSeries('1');
-    const row = await pinnedRow('1');
-    assert.ok(series && row);
-    assert.equal(series.length, (row.degree + 1) ** 2);
-    assert.ok(series.every((value) => Number.isFinite(value)));
+  for (const world of ['0', '1']) {
+    it(`loads #${world} as a full series of its row`, async () => {
+      const series = await pinnedSeries(world);
+      const row = await pinnedRow(world);
+      assert.ok(series && row);
+      assert.equal(row.scales.length, row.degree + 1);
+      assert.equal(
+        atob(row.words).length,
+        Math.ceil((series.length * row.bits) / 8),
+      );
+      assert.equal(series.length, (row.degree + 1) ** 2);
+      assert.ok(series.every((value) => Number.isFinite(value)));
+    });
+  }
+
+  it('re-encodes #0, whose data is never committed, to its row exactly', async () => {
+    const row = await pinnedRow('0');
+    assert.ok(row);
+    const again = encodePinnedRow(
+      '0',
+      decodePinnedRow(row),
+      row.degree,
+      row.bits,
+    );
+    assert.deepEqual(again, row);
   });
 });
