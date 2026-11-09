@@ -405,3 +405,13 @@ From Vova, call 18 grows a bullet (91658403): «в панельку с инфо�
 ## member · 2026-11-09 08:23:45 UTC · ack
 
 B7f (call 18's speed, sea-level height and copy-link button; P and island.where() retired) is running on wt/b3-b7f beside B9c. I tell you when it is merged.
+
+## member · 2026-11-09 08:34:32 UTC
+
+B7f is merged on round-world (e2f742e5), ready to republish slot 1.
+
+The I panel now shows speed (m/s with km/h, km/s from 1 km/s up; the eye's straight-line move per frame over the frame's step, capped at 0.1 s, smoothed over 500 ms like the frame time), and `height … m over ground, … m over sea` on one row. A "Copy a link to this view" button copies the call-15 link through the same builder as the panel's first row, also writes it to the address bar without a history entry, says "Link copied" for 1.8 s, and on a clipboard refusal says so and leaves the link selectable in the panel. P, island.where(), the top-centre copy toast and the P row in the key hint are gone. No departure from call 18.
+
+Not yet seen in a browser: the agent ran out before its frame. Slot 1 is the first look.
+
+Two for you: `src/island-board/app/config/island/bite3.yaml` still names island.where() in call 15's entry (the board's text). And `docs/remove-before-merging/island/round-world/memo.md` is 407 lines, which turns `scripts/line-limit.test.ts` red at vet.
