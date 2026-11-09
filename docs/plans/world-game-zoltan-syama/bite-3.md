@@ -190,6 +190,27 @@ rebuilds the world without a reload.
 - **The phase is fixed for now.** A moon that changes phase, and a moon you can
   see in the sky, are for later.
 
+14\. **No seam between levels of detail.** Vova, on a screenshot of a step
+across a hillside: «тут такой шов между вокселями … известный трейдофф до
+будущих битов, или баг?». The skirt closes the hole between a tile and its
+coarser neighbour but leaves the step, and the shading jumps with it. On the
+sphere a shared edge matches: the finer tile's border takes the coarser one's
+heights, or the levels morph into each other — the member's call, reported. The
+same holds across a cube face's edge (call 7).
+
+15\. **Where am I: a line to reproduce from.** Vova: «стоит дать какую-то
+функцию в консоли чтобы записывать диагностическую информацию (типа номер
+версии, координаты, высота, положение камеры), чтобы ты в будущем мог
+воспроизводить то о чём я говорю».
+
+- **A key and `island.where()` in the console** copy one line: the build's
+  commit, the world number, latitude and longitude, height, heading, pitch, the
+  time of day, and the levels of the tiles under the eye.
+- **The same pose rides in the hash**:
+  `#<world>@<lat>,<lon>,<height>,<heading>,<pitch>` opens there, so a pasted
+  link puts the lead's browser at the same spot. A bare `#<world>` opens as call
+  10 says. The key hint lists the key.
+
 11\. **Order of work**: the schema and the series, then the cube tiles and the
 eye with #1 re-fitted, then Earth with its envelope measured for call 4. Each
 step reaches a frame before the next one starts.
@@ -216,7 +237,9 @@ step reaches a frame before the next one starts.
   Beside them is a table: land share, landmasses over 1% of land, and the
   largest's share, for Earth and for 20 random worlds.
 - **A flight across a cube face's edge and over a pole**, in frames, shows no
-  seam.
+  seam, and neither does a hillside where two levels of detail meet (call 14).
+- **A `#<world>@<pose>` link** from `island.where()` reopens the same view (call
+  15).
 - **The pure parts are tested**: the hash by path; schema keys that do not move
   when a leaf is added; the Legendre recursion and a synthesis–analysis round
   trip; the decode maps; and the pinned table, where each row decodes to its
