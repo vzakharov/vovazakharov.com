@@ -3,7 +3,7 @@ import type { Gridded } from '@/scene/shared/lib/plane';
 import type { Coast } from '@/island/shared/globe';
 
 /** A square-celled node grid on the island plane. */
-type CoastGrid = Gridded & {
+export type CoastGrid = Gridded & {
   /** Plane position of node `(0, 0)`, metres. */
   originX: number;
   originY: number;
@@ -71,8 +71,8 @@ function segmentDistanceSquared(
 }
 
 /**
- * Whether each node lies inside some ring, by an even-odd scanline per row:
- * the rings are disjoint outer boundaries, so parity is membership.
+ * Whether each node lies on land, by an even-odd scanline per row: the rings
+ * never cross, a lake's ring lying inside its land's, so parity is membership.
  */
 function insideMask(s: Float64Array, grid: CoastGrid) {
   const { originX, originY, cellMetres, columns, rows } = grid;
@@ -229,8 +229,21 @@ export function buildCoastField(
     columns: Math.ceil((maxX - minX + 2 * MARGIN_METRES) / cellMetres) + 1,
     rows: Math.ceil((maxY - minY + 2 * MARGIN_METRES) / cellMetres) + 1,
   };
-  const inside = insideMask(s, grid);
-  const distance = nearestDistances(s, grid);
+  return signedDistanceField(s, insideMask(s, grid), grid);
+}
+
+/**
+ * The signed distance from every node of `grid` to the coast drawn by
+ * `segments` (four numbers each, `ax, ay, bx, by`, plane metres), positive
+ * where `inside` is 1. The segments and the mask must agree on where the
+ * coast is; nothing here checks that they do.
+ */
+export function signedDistanceField(
+  segments: Float64Array,
+  inside: Uint8Array,
+  grid: CoastGrid,
+): CoastField {
+  const distance = nearestDistances(segments, grid);
   for (const [n, isInside] of inside.entries()) {
     const unsigned = Math.sqrt(read(distance, n));
     distance[n] = isInside === 1 ? unsigned : -unsigned;

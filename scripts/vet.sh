@@ -196,6 +196,7 @@ source_checks=(
   memo='python3 scripts/memo/test_memo.py'
   skills='scripts/check-skill-catalog.sh'
   tables='[ ! -f .claude/rules/markdown.md ] || scripts/check-markdown-tables.sh'
+  rule-paths='scripts/check-rule-paths.sh'
   staged='scripts/staged.sh check'
   model-notes='f=.claude/model-capabilities.md; [ ! -f "$f" ] || [ "$(wc -l < "$f")" -le 100 ] || { echo "$f runs past 100 lines; fold it back into a summary (.claude/skills/go/delegation.md)" >&2; exit 1; }'
   costs='for t in .claude/costs/test_*.py; do python3 "$t" || exit 1; done'

@@ -7,8 +7,11 @@ import {
   type TileMesh,
 } from '@/island/entities/terrain';
 
-/** The terrain's seed, the same in every worker and on the main thread. */
-export const SEED = 1;
+/** A world as a worker builds it: its field and its terrain seed, which the main thread's `heightAt` takes too. */
+export type WorldField = {
+  readonly field: CoastField;
+  readonly seed: number;
+};
 
 /**
  * One tile as a worker sends it: the ground, and the sea at height zero over
@@ -25,7 +28,12 @@ export type FilledTile = TileKeyed & {
 };
 
 export type WorkerRequest =
-  | { readonly kind: 'init'; readonly sendField: boolean }
+  | {
+      readonly kind: 'init';
+      /** The world number, a decimal string: the worker builds the field from it. */
+      readonly world: string;
+      readonly sendField: boolean;
+    }
   | {
       readonly kind: 'fill';
       readonly key: TileKey;
@@ -39,6 +47,7 @@ export type WorkerReply =
       readonly buildMs: number;
       /** A copy of the field, when `init` asked for it. */
       readonly field: CoastField | null;
+      readonly seed: WorldField['seed'];
     }
   | { readonly kind: 'tile'; readonly tile: FilledTile };
 

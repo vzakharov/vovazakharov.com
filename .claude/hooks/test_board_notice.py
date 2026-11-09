@@ -157,6 +157,31 @@ class BoardNotice(unittest.TestCase):
         ]
         self.assertEqual(self.run_hook(lines), "")
 
+    def test_an_operator_back_after_a_park_watches_again(self) -> None:
+        self.plan(BOARD)
+        lines = [
+            use("ArtifactComments", action="watch", url=URL),
+            use("Artifact", action="open", url=URL),
+            use("ArtifactComments", action="watch", url=URL, on=False),
+            result(),
+        ]
+        self.assertEqual(self.run_hook(lines), "")
+        lines.append(prompt("back"))
+        text = json.loads(self.run_hook(lines))["hookSpecificOutput"]["additionalContext"]
+        self.assertIn("`watch`", text)
+        self.assertNotIn("`open`", text)
+
+    def test_silent_after_a_successor_starts_whoever_writes(self) -> None:
+        self.plan(BOARD)
+        lines = [
+            use("ArtifactComments", action="watch", url=URL),
+            use("Artifact", action="open", url=URL),
+            use("ArtifactComments", action="watch", url=URL, on=False),
+            use("mcp__claude-code-remote__create_session", prompt="/relay take b"),
+            prompt("what did you send it?"),
+        ]
+        self.assertEqual(self.run_hook(lines), "")
+
     def test_silent_on_a_members_branch(self) -> None:
         self.plan(BOARD)
         scripts = self.root / "scripts"

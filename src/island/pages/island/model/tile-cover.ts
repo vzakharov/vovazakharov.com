@@ -5,6 +5,12 @@ const parentOf = ({ level, x, y }: TileKey): TileKey | null =>
     ? null
     : { level: level - 1, x: Math.floor(x / 2), y: Math.floor(y / 2) };
 
+/** `key`'s parent, its parent's, and so on to the root, nearest first. */
+function ancestorsOf(key: TileKey): TileKey[] {
+  const up = parentOf(key);
+  return up === null ? [] : [up, ...ancestorsOf(up)];
+}
+
 /** Whether `inner` lies inside `outer`, `outer` itself included. */
 const within = (inner: TileKey, outer: TileKey) =>
   inner.level >= outer.level &&
@@ -25,12 +31,8 @@ export function coverOf(
   const standIns = new Map<string, TileKey>();
   for (const key of selected) {
     if (has(tileId(key))) continue;
-    for (let up = parentOf(key); up !== null; up = parentOf(up)) {
-      if (has(tileId(up))) {
-        standIns.set(tileId(up), up);
-        break;
-      }
-    }
+    const standIn = ancestorsOf(key).find((up) => has(tileId(up)));
+    if (standIn !== undefined) standIns.set(tileId(standIn), standIn);
   }
   // A stand-in inside another is drawn by the outer one.
   const outer = [...standIns.values()].filter(
@@ -43,6 +45,32 @@ export function coverOf(
     (key) => has(tileId(key)) && !outer.some((standIn) => within(key, standIn)),
   );
   return [...outer, ...own];
+}
+
+/**
+ * The tiles to draw for `selected` while `shown`, the last selection wholly
+ * in hand, still stands. `shown` draws itself; a selected tile overlapping it
+ * waits, and one beyond it is covered as `coverOf` covers, by any stand-in but
+ * one containing a shown tile — that coarse ancestor would hide the fine ground
+ * under the eye, so the margin may draw nothing until the selection is in hand.
+ */
+export function coverAround(
+  selected: readonly TileKey[],
+  shown: readonly TileKey[],
+  has: (id: string) => boolean,
+): TileKey[] {
+  const shownIds = new Set(shown.map((key) => tileId(key)));
+  // Each shown tile and every tile containing one.
+  const blocked = new Set(shownIds);
+  for (const key of shown) {
+    for (const up of ancestorsOf(key)) blocked.add(tileId(up));
+  }
+  const beyond = selected.filter(
+    (key) =>
+      !blocked.has(tileId(key)) &&
+      !ancestorsOf(key).some((up) => shownIds.has(tileId(up))),
+  );
+  return [...shown, ...coverOf(beyond, (id) => has(id) && !blocked.has(id))];
 }
 
 /** Plane metres from `(x, y)` to the nearest point of the tile. */

@@ -1,0 +1,95 @@
+items:
+  - id: z-bite2
+    type: zone
+    updated: [2026-11-09T01:52:07.290Z, u_L_AriiBLoWLIB4PYEulAJA]
+    box: [3523, 147, 1010, 2760, orange]
+    text: Bite 2 — worlds from one formula
+  - id: bite2-1
+    type: sticky
+    updated: [2026-11-08T20:52:31.000Z, agent:lead]
+    box: [3600, 260, 300, orange]
+    text: 'The land is one formula: a dome plus a 2D Fourier series; land where it is above zero. No traced rings in the game'
+  - id: bite2-2
+    type: sticky
+    updated: [2026-11-08T20:52:31.000Z, agent:lead]
+    box: [3930, 250, 320, orange]
+    text: 'World numbers: each parameter is an infinite hash of the world number XORed with a mask, so #1 is our island to the last bit and #2, #3… are other continents'
+  - id: bite2-3
+    type: sticky
+    updated: [2026-11-08T20:52:31.000Z, agent:lead]
+    box: [4280, 268, 260, yellow]
+    text: 'Ours needs ~128 harmonics: the finest wave ~80 km, 0.6% of the land area off the drawing. The one-pixel strait between Blablania and Feisis closes — open question'
+  - id: bite2-4
+    type: sticky
+    updated: [2026-11-08T20:52:31.000Z, agent:lead]
+    box: [3615, 520, 290, orange]
+    text: 'Vova: the drawn lakes were lost by the tracer in bite 1 too — they come back as water this bite'
+  - id: bite2-5
+    type: sticky
+    updated: [2026-11-08T20:52:31.000Z, agent:lead]
+    box: [3945, 535, 300, orange]
+    text: 'Member: https://claude.ai/code/session_01DaohkDvf7LpG4KNhwNaPyx on island/worlds; contract docs/plans/world-game-zoltan-syama/bite-2.md'
+  - id: bite2-worlds
+    type: image
+    updated: [2026-11-08T20:52:31.000Z, agent:lead]
+    box: [3600, 730, 420]
+    src: images/bite2-worlds.webp
+    text: 'World #1 (ours) and eight others from the same formula — Vova: #3 is almost South America, or Africa with half its top bitten off'
+  - id: bite2-overlay
+    type: image
+    updated: [2026-11-08T20:52:31.000Z, agent:lead]
+    box: [4070, 765, 460]
+    src: images/bite2-overlay-80km.webp
+    text: 'The drawing under the formula at 80 km: red is land the formula adds, blue land it drops'
+  - id: bite2-fit-sticky
+    type: sticky
+    updated: [2026-11-08T22:05:00.000Z, agent:lead]
+    box: [3600, 1220, 300, green]
+    text: "The fit landed: world #1 from the formula is our island, 0.63% of the land off the drawing, and all five of Vova's lakes are back as closed water"
+  - id: bite2-strait-call
+    type: sticky
+    updated: [2026-11-09T02:32:17.000Z, agent:lead]
+    box: [3600, 1430, 300, yellow]
+    text: "Open for Vova: the Blablania–Feisis channel (6–19 km) closes in its south. Keeping it costs ~16× the build (K≈512) or a new local-patch mechanism. The lead's lean: let it close for now — settled: it closes in bite 2, and Vova's dice rolls are the local patches"
+    done: true
+  - id: bite2-masd-call
+    type: sticky
+    updated: [2026-11-09T02:32:17.000Z, agent:lead]
+    box: [3600, 1680, 300, yellow]
+    text: 'Open for Vova: the game no longer reads the traced coast, so check:masd wants a marker on it until "your own map" brings a consumer — a suppression needs his yes. Settled, no marker: “delete the coast module and leave a tombstone in case it is ever needed; ‘draw your own world’ is not planned any time soon”'
+    done: true
+  - id: bite2-fit
+    type: image
+    updated: [2026-11-08T22:05:00.000Z, agent:lead]
+    box: [4070, 1180, 460]
+    src: images/bite2-fit.webp
+    text: 'World #1, now one formula: dome plus 128 harmonics, lakes in blue'
+  - id: bite2-strait
+    type: image
+    updated: [2026-11-08T22:05:00.000Z, agent:lead]
+    box: [3960, 1640, 570]
+    src: images/bite2-strait.webp
+    text: 'The strait: drawn (left), the formula over it (right) — red is the channel the formula fills'
+  - id: bite2-lakes-1000km
+    type: image
+    updated: [2026-11-08T22:40:00.000Z, agent:lead]
+    box: [3600, 2080, 560]
+    src: images/bite2-lakes-1000km.webp
+    text: 'In the game: today (left) and world #1 from the formula (right), from orbit and at 1,000 km — the lakes are water now, set in lowlands'
+  - id: bite2-ridges
+    type: sticky
+    updated: [2026-11-08T22:40:00.000Z, agent:lead]
+    box: [3600, 2520, 300, green]
+    text: 'Caught in the frames: height as f/|∇f| raised false snowy ridges between lakes and sea. Height is now the true distance to the coast; the formula only says land or water'
+  - id: bite2-merged
+    type: sticky
+    updated: [2026-11-09T02:45:00.000Z, agent:lead]
+    box: [3945, 2545, 280, green]
+    text: 'Merged into the stretch (#267). The coast tracer and fit are retired behind a tombstone, and one land test, isLand, serves the contour and the world field'
+    done: true
+  - id: bite2-worlds-orbit
+    type: image
+    updated: [2026-11-08T22:40:00.000Z, agent:lead]
+    box: [4250, 2080, 260]
+    src: images/bite2-worlds-orbit.webp
+    text: 'Worlds #2–#6 in the game, from orbit: /island#2 … /island#6'

@@ -1,0 +1,112 @@
+{
+  "total": {
+    "inputTokens": 136,
+    "cacheWrite5mTokens": 136826,
+    "cacheWrite1hTokens": 114074,
+    "cacheReadTokens": 8628075,
+    "outputTokens": 28468,
+    "thinkingTokens": 6209,
+    "responses": 67,
+    "costUsd": 3.8922410000000007
+  },
+  "estimate": {
+    "at": "2026-11-08T22:32:54.614Z",
+    "subjectLine": "feat: bite 2 tail — polish, sync onto island/stretch-2, vet, PR",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "the tail: polish, sync onto the lead's branch, vet, the PR and the memo pings"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-08T22:32:51.536Z",
+    "contextTokens": 111061,
+    "spend": {
+      "inputTokens": 10,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 49858,
+      "cacheReadTokens": 368564,
+      "outputTokens": 1175,
+      "thinkingTokens": 83,
+      "responses": 4,
+      "costUsd": 0.4961168
+    }
+  },
+  "sessionId": "2ce56552-909c-5c9b-a0bd-b2bce74b3a69",
+  "branch": "island/worlds",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/worlds — высота считается от точного расстояния до берега, кадры пересняты, ведущий принял; остались полировка, синхронизация с island/stretc…",
+  "prs": [
+    267
+  ],
+  "url": "https://claude.ai/code/session_01DaohkDWa2MwtmNrWpGWvfg",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-08T22:32:32.965Z",
+  "lastResponseAt": "2026-11-08T23:45:24.431Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 98,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 114074,
+    "cacheReadTokens": 6444149,
+    "outputTokens": 18304,
+    "thinkingTokens": 2185,
+    "responses": 47,
+    "costUsd": 2.5678938000000007
+  },
+  "subagents": {
+    "inputTokens": 38,
+    "cacheWrite5mTokens": 136826,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 2183926,
+    "outputTokens": 10164,
+    "thinkingTokens": 4024,
+    "responses": 20,
+    "costUsd": 1.3243472000000003
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 136,
+      "cacheWrite5mTokens": 136826,
+      "cacheWrite1hTokens": 114074,
+      "cacheReadTokens": 8628075,
+      "outputTokens": 28468,
+      "thinkingTokens": 6209,
+      "responses": 67,
+      "costUsd": 3.8922410000000007
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 67,
+    "matched": 67,
+    "matchedTableUsd": 3.8922410000000007,
+    "matchedEventUsd": 3.8922410000000007,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 8836,
+    ".txt": 31,
+    ".py": 265,
+    ".ts": 3253,
+    ".json": 110,
+    ".sh": 43,
+    ".yaml": 77,
+    ".tsx": 11
+  }
+}

@@ -10,7 +10,6 @@
     "play:island": "tsx src/island/scripts/play-island.ts",
     "play:mushrooms": "tsx src/mushrooms/scripts/play-mushrooms.ts",
     "sweep:mushrooms": "tsx src/mushrooms/scripts/sweep-mushrooms.ts",
-    "trace:island": "tsx src/island/scripts/trace-coast.ts",
     "typegen": "scripts/site-task.sh --every 'next typegen'",
     "typecheck": "tsc --noEmit",
     "test": "scripts/test-changed.sh",

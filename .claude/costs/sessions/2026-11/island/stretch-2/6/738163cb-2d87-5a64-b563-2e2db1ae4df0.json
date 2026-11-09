@@ -1,0 +1,165 @@
+{
+  "total": {
+    "inputTokens": 4989,
+    "cacheWrite5mTokens": 3962,
+    "cacheWrite1hTokens": 253661,
+    "cacheReadTokens": 28594468,
+    "outputTokens": 66983,
+    "thinkingTokens": 17538,
+    "responses": 129,
+    "costUsd": 9.129415999999999
+  },
+  "estimate": {
+    "at": "2026-11-09T04:37:48.479Z",
+    "subjectLine": "docs: the round-world bite's contract, probe and its member's brief",
+    "parts": [
+      {
+        "hours": 1.75,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "scoping a bite whose maths reshapes the world model, briefing its member and folding three mid-bite contract changes takes a lead who knows the project's calls"
+      },
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "choosing a spherical basis, its band limit and runtime cost, probed with a numpy prototype, is rendering judgement, not routine"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-09T03:54:08.828Z",
+    "contextTokens": 133002,
+    "spend": {
+      "inputTokens": 25,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 65088,
+      "cacheReadTokens": 1270221,
+      "outputTokens": 3212,
+      "thinkingTokens": 607,
+      "responses": 12,
+      "costUsd": 0.8390882
+    }
+  },
+  "sessionId": "738163cb-2d87-5a64-b563-2e2db1ae4df0",
+  "branch": "island/stretch-2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/stretch-2 — бит 2 и правка мигания влиты, следующим берём круглый мир с Землёй как #0",
+  "prs": [
+    266
+  ],
+  "url": "https://claude.ai/code/session_01DaohkDyMLav1hB9uoZ1xo6",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-09T03:53:19.408Z",
+  "lastResponseAt": "2026-11-09T04:37:51.304Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 233,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 253661,
+    "cacheReadTokens": 26776276,
+    "outputTokens": 66594,
+    "thinkingTokens": 17538,
+    "responses": 121,
+    "costUsd": 8.717355199999998
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 3775,
+      "cacheWrite5mTokens": 3962,
+      "cacheWrite1hTokens": 253661,
+      "cacheReadTokens": 28594468,
+      "outputTokens": 66709,
+      "thinkingTokens": 17538,
+      "responses": 128,
+      "costUsd": 9.1291576
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1214,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 274,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0002584
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 128,
+    "matched": 120,
+    "matchedTableUsd": 8.570903199999998,
+    "matchedEventUsd": 8.570903199999998,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 1214,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 274,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0002584
+      },
+      "prompt_suggestion": {
+        "inputTokens": 3542,
+        "cacheWrite5mTokens": 3962,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 1818192,
+        "outputTokens": 115,
+        "thinkingTokens": 0,
+        "responses": 7,
+        "costUsd": 0.4118024
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 77,
+    "review": 0,
+    "threads": 300
+  },
+  "reviewPosts": {},
+  "threadPosts": {
+    "19e6ac40-5855-407f-a5d4-c9058815faf5@2026-11-06T20:54": 6,
+    "7149addd-8f0d-4dba-aab1-c1c571db497b@2026-11-07T06:20": 5,
+    "629856ff-9f6b-4682-aca0-99bea09f26ba@2026-11-07T07:16": 21,
+    "50a669be-8e41-4f4d-9ad8-21b72735c06b@2026-11-07T07:19": 8,
+    "cdeca233-def0-4ed5-a11c-1e1196860251@2026-11-07T07:22": 36,
+    "50a669be-8e41-4f4d-9ad8-21b72735c06b@2026-11-07T07:23": 25,
+    "1617f0fc-fcdc-4ab9-aba9-f1ad9e007a2c@2026-11-09T01:56": 16,
+    "1617f0fc-fcdc-4ab9-aba9-f1ad9e007a2c@2026-11-09T02:04": 25,
+    "c99572a3-77e4-4d1a-8a38-9d748674a207@2026-11-09T02:22": 104,
+    "c99572a3-77e4-4d1a-8a38-9d748674a207@2026-11-09T02:25": 2,
+    "cc40d1a1-4c0c-4aef-a0d4-790bb53b945c@2026-11-09T04:31": 4,
+    "3d251a23-91b7-4c5b-88b5-499b27355187@2026-11-09T04:31": 9,
+    "6962196b-cbd9-4037-98b3-5a56d21b3fa6@2026-11-09T04:32": 12,
+    "dc9d7353-879a-4c4a-bc77-ee243f4f22d6@2026-11-09T04:33": 18,
+    "6962196b-cbd9-4037-98b3-5a56d21b3fa6@2026-11-09T04:36": 9
+  },
+  "branchLines": {
+    ".py": 718,
+    ".md": 9672,
+    ".json": -1397,
+    ".txt": 31,
+    ".ts": 623,
+    ".sh": 43,
+    ".yaml": 214,
+    ".tsx": 11
+  }
+}

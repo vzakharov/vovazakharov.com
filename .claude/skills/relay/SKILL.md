@@ -52,6 +52,15 @@ estimate down to the work done here, with
 `python3 .claude/costs/estimate.py set`: the rest is the successor's, and two
 sessions each claiming the whole job would count it twice.
 
+**Stop every artifact watch this session holds**: list them with a bare
+`ArtifactComments` `watch` call and stop each with `on: false`. A watch outlives
+the cache, so the next comment sent to Claude would wake this session to answer
+from a cold one, beside a successor, where there is one, already watching the
+same page. The summary's State names each one stopped, for a return to this
+session (§ "When the summary goes stale"). `.claude/hooks/relay-watch-gate.py`
+holds the step: the relay's turn ends only once the watches are listed and
+stopped.
+
 ### Step 2 — Write the summary
 
 Walk the conversation in order first, then write `relay-<N>.md` in the branch's
@@ -202,6 +211,11 @@ none. Its operator may come back to it rather than to a successor, and then the
 summary is theirs to settle, per the next section.
 
 ## When the summary goes stale
+
+**A parked session its operator comes back to watches again**, before the turn's
+work, each artifact its summary's State names as stopped: until another session
+takes the work up, a comment sent to Claude is this one's to answer. Parked
+again, it stops them again, per Step 1.
 
 A parked summary is a claim about what the absent session would do next, and
 `/relay take` acts on it with nobody checking it first. So a parked session its

@@ -1,0 +1,22 @@
+items:
+  - id: z-flicker
+    type: zone
+    updated: [2026-11-09T03:00:00.000Z, agent:lead]
+    box: [2470, 1600, 990, 400, pink]
+    text: Side bite — the land flickered
+  - id: flicker-1
+    type: sticky
+    updated: [2026-11-09T03:00:00.000Z, agent:lead]
+    box: [2510, 1700, 300, pink]
+    text: "Vova's recording, 617 frames: turning near the ground, every other frame drew no land at all; climbing, odd frames showed a coarse faceted coast. There since bite 1, not bite 2"
+  - id: flicker-2
+    type: sticky
+    updated: [2026-11-09T03:00:00.000Z, agent:lead]
+    box: [2850, 1680, 300, yellow]
+    text: "The cause: a tile not yet loaded was stood in for by its coarse ancestor, which hid the fine tiles under it. A turn reselects every 2–3 frames, and that coarse surface sat above a 2 m eye — seen from below, so nothing showed"
+  - id: flicker-3
+    type: sticky
+    updated: [2026-11-09T03:00:00.000Z, agent:lead]
+    box: [3170, 1730, 260, green]
+    text: '#268: keep drawing the last selection whose tiles are all loaded until the new one is complete. Replayed frame by frame on world 1 — turn: 78 of 120 frames blank before, 0 after; climb: 19 blank and 15 coarse before, 0 and 0 after'
+    done: true

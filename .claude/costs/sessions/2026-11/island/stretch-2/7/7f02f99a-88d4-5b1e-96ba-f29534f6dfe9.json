@@ -1,0 +1,162 @@
+{
+  "total": {
+    "inputTokens": 4959,
+    "cacheWrite5mTokens": 3051,
+    "cacheWrite1hTokens": 237237,
+    "cacheReadTokens": 26437339,
+    "outputTokens": 52443,
+    "thinkingTokens": 11448,
+    "responses": 129,
+    "costUsd": 8.273393899999997
+  },
+  "estimate": {
+    "at": "2026-11-09T05:08:48.737Z",
+    "subjectLine": "feat: lead bite 3 of the island's second stretch with its member",
+    "parts": [
+      {
+        "hours": 1.25,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "a game team's lead answers a member's notes, rules on three contract calls, sets up a parallel code-review track and keeps the board current; judgement on scope, not code"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-09T04:41:51.886Z",
+    "contextTokens": 127522,
+    "spend": {
+      "inputTokens": 25,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 68431,
+      "cacheReadTokens": 1300124,
+      "outputTokens": 3430,
+      "thinkingTokens": 559,
+      "responses": 12,
+      "costUsd": 0.8761727999999998
+    }
+  },
+  "sessionId": "7f02f99a-88d4-5b1e-96ba-f29534f6dfe9",
+  "branch": "island/stretch-2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/stretch-2 — бит 3 (круглый мир, Земля как #0) строится у участника, решения про солнце и клавиши переданы",
+  "prs": [
+    266,
+    269
+  ],
+  "url": "https://claude.ai/code/session_01DaohkEZ8LZf6wtY7sJ5gMd",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-09T04:38:51.468Z",
+  "lastResponseAt": "2026-11-09T05:09:35.708Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 236,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 237237,
+    "cacheReadTokens": 24843131,
+    "outputTokens": 52337,
+    "thinkingTokens": 11448,
+    "responses": 121,
+    "costUsd": 7.914206199999998
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 3778,
+      "cacheWrite5mTokens": 3051,
+      "cacheWrite1hTokens": 237237,
+      "cacheReadTokens": 26437339,
+      "outputTokens": 52419,
+      "thinkingTokens": 11448,
+      "responses": 128,
+      "costUsd": 8.273263799999997
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1181,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 24,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0001301
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 128,
+    "matched": 120,
+    "matchedTableUsd": 7.823528199999998,
+    "matchedEventUsd": 7.8235282,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 1181,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 24,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0001301
+      },
+      "prompt_suggestion": {
+        "inputTokens": 3542,
+        "cacheWrite5mTokens": 3051,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 1594208,
+        "outputTokens": 82,
+        "thinkingTokens": 0,
+        "responses": 7,
+        "costUsd": 0.3590576
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 349,
+    "review": 0,
+    "threads": 400
+  },
+  "reviewPosts": {},
+  "threadPosts": {
+    "5e32edf6-0d05-4a95-b2e8-a29a41a42029@2026-11-09T05:03": 87,
+    "19e6ac40-5855-407f-a5d4-c9058815faf5@2026-11-06T20:54": 6,
+    "7149addd-8f0d-4dba-aab1-c1c571db497b@2026-11-07T06:20": 5,
+    "629856ff-9f6b-4682-aca0-99bea09f26ba@2026-11-07T07:16": 21,
+    "50a669be-8e41-4f4d-9ad8-21b72735c06b@2026-11-07T07:19": 8,
+    "cdeca233-def0-4ed5-a11c-1e1196860251@2026-11-07T07:22": 36,
+    "50a669be-8e41-4f4d-9ad8-21b72735c06b@2026-11-07T07:23": 25,
+    "1617f0fc-fcdc-4ab9-aba9-f1ad9e007a2c@2026-11-09T01:56": 16,
+    "1617f0fc-fcdc-4ab9-aba9-f1ad9e007a2c@2026-11-09T02:04": 25,
+    "c99572a3-77e4-4d1a-8a38-9d748674a207@2026-11-09T02:22": 104,
+    "c99572a3-77e4-4d1a-8a38-9d748674a207@2026-11-09T02:25": 2,
+    "cc40d1a1-4c0c-4aef-a0d4-790bb53b945c@2026-11-09T04:31": 4,
+    "3d251a23-91b7-4c5b-88b5-499b27355187@2026-11-09T04:31": 9,
+    "6962196b-cbd9-4037-98b3-5a56d21b3fa6@2026-11-09T04:32": 12,
+    "dc9d7353-879a-4c4a-bc77-ee243f4f22d6@2026-11-09T04:33": 18,
+    "6962196b-cbd9-4037-98b3-5a56d21b3fa6@2026-11-09T04:36": 9,
+    "5e32edf6-0d05-4a95-b2e8-a29a41a42029@2026-11-09T05:07": 13
+  },
+  "branchLines": {
+    ".py": 718,
+    ".md": 9859,
+    ".json": -1395,
+    ".txt": 31,
+    ".ts": 623,
+    ".sh": 43,
+    ".yaml": 236,
+    ".tsx": 11
+  }
+}
