@@ -28,7 +28,7 @@ items:
     type: sticky
     updated: [2026-11-09T04:58:00.000Z, agent:lead]
     box: [4690, 3280, 330, orange]
-    text: 'Member: https://claude.ai/code/session_01DaohkBe2S8jchPRqqwFc9b on island/round-world; contract docs/plans/world-game-zoltan-syama/bite-3.md'
+    text: 'Member: https://claude.ai/code/session_01DaohkBX5UEgj2eV8Vg3Kf1 on island/round-world; contract docs/plans/world-game-zoltan-syama/bite-3.md'
   - id: bite3-seam
     type: image
     updated: [2026-11-09T05:05:00.000Z, agent:lead]
