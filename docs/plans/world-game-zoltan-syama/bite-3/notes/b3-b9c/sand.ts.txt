@@ -1,0 +1,118 @@
+// Throwaway: what lies under Vova's sand band (#1@10.35272,-0.47434,121.6,16.1,10.2): the ground along the
+// screen's rows, the tile each ray hits, its level, and the ground there at full detail and at the drawn cut.
+import { latLonToUnit, R, scaled, sphereToFace, sum, unit, type Vec3 } from '@/island/shared/globe';
+import {
+  cubeDetailCut,
+  cubeTileId,
+  frustumOf,
+  heightAtSphere,
+  neighbourLevels,
+  openSphereWorld,
+  sampleSphereField,
+  selectCubeTiles,
+  tileHolds,
+} from '@/island/entities/terrain';
+import { eyeAt, poseOf } from '@/island/features/eye';
+
+const DEG = Math.PI / 180;
+const [lat, lon, h, heading, look] = (process.env.POSE ?? '10.35272,-0.47434,121.6,16.1,10.2').split(',').map(Number) as [
+  number, number, number, number, number,
+];
+const W = 1440;
+const H = 900;
+const aspect = W / H;
+const { field, seed } = await openSphereWorld(process.env.WORLD ?? '1');
+const coast = (q: Vec3) => sampleSphereField(field, q);
+const ground = (p: Vec3, finest = 0) => heightAtSphere(coast, seed, p, finest);
+const out = (s: string) => process.stdout.write(`${s}\n`);
+
+const base = eyeAt({ lat: lat * DEG, lon: lon * DEG, height: h, heading: heading * DEG }, (p) => ground(p));
+const eye = { ...base, look: look * DEG, aim: { ...base.aim, look: look * DEG } };
+const pose = poseOf(eye, aspect);
+const keys = selectCubeTiles(pose.position, {
+  coast,
+  frustum: frustumOf(pose.forward, pose.up, pose.fov, aspect),
+  ground: (p) => ground(p),
+});
+const levels = neighbourLevels(keys);
+const cut = cubeDetailCut(pose.position, coast);
+out(`eye floor ${eye.floor.toFixed(1)} m, ${keys.length} tiles, levels ${Math.min(...keys.map((k) => k.level))}–${Math.max(...keys.map((k) => k.level))}`);
+
+const right = unit([
+  pose.forward[1] * pose.up[2] - pose.forward[2] * pose.up[1],
+  pose.forward[2] * pose.up[0] - pose.forward[0] * pose.up[2],
+  pose.forward[0] * pose.up[1] - pose.forward[1] * pose.up[0],
+]);
+const tanHalf = Math.tan(pose.fov / 2);
+/** The first ground point along pixel (x, y)'s ray, marching 1 m then growing. */
+function hit(x: number, y: number): Vec3 | null {
+  const sx = ((2 * (x + 0.5)) / W - 1) * tanHalf * aspect;
+  const sy = (1 - (2 * (y + 0.5)) / H) * tanHalf;
+  const d = unit(sum(sum(pose.forward, scaled(right, sx)), scaled(pose.up, sy)));
+  let t = 0;
+  let prev = 0;
+  for (let i = 0; i < 20_000 && t < 60_000; i++) {
+    const p = sum(pose.position, scaled(d, t));
+    const above = Math.hypot(...p) - R - Math.max(0, ground(unit(p)));
+    if (above < 0) {
+      // Bisect between prev and t.
+      let a = prev;
+      let b = t;
+      for (let k = 0; k < 30; k++) {
+        const m = (a + b) / 2;
+        const q = sum(pose.position, scaled(d, m));
+        if (Math.hypot(...q) - R - Math.max(0, ground(unit(q))) < 0) b = m;
+        else a = m;
+      }
+      return unit(sum(pose.position, scaled(d, b)));
+    }
+    prev = t;
+    t += Math.max(0.5, above * 0.5);
+  }
+  return null;
+}
+
+if (process.env.MAP !== undefined) {
+  // Per 4 px: the hit tile's level, its id's hash, and whether the ground there is on the lowland floor.
+  const S = 4;
+  const rows: string[] = [];
+  for (let y = 0; y < H; y += S) {
+    const row: string[] = [];
+    for (let x = 0; x < W; x += S) {
+      const p = hit(x, y);
+      if (p === null) {
+        row.push('-');
+        continue;
+      }
+      const key = keys.find((k) => tileHolds(k, sphereToFace(p)));
+      const d = coast(p);
+      const floor = 15 * (1 - Math.exp(-Math.max(0, d) / 5000));
+      const flat = d > 0 && Math.abs(ground(p) - floor) < 0.05 ? 1 : 0;
+      row.push(key === undefined ? '-' : `${key.level}:${cubeTileId(key)}:${flat}`);
+    }
+    rows.push(row.join(' '));
+  }
+  const fs = await import('node:fs');
+  fs.writeFileSync(process.env.MAP, rows.join('\n'));
+  out(`map written to ${process.env.MAP}`);
+  process.exit(0);
+}
+
+const xs = (process.env.XS ?? '720').split(',').map(Number);
+for (const x of xs) {
+  out(`\ncolumn x=${x}: y, distance m, tile, level, levels(edges r l u d), cut m, full m, drawn m, coast m`);
+  for (let y = Number(process.env.Y0 ?? 400); y < H; y += Number(process.env.DY ?? 10)) {
+    const p = hit(x, y);
+    if (p === null) continue;
+    const fp = sphereToFace(p);
+    const key = keys.find((k) => tileHolds(k, fp));
+    const id = key === undefined ? '-' : cubeTileId(key);
+    const lv = key === undefined ? undefined : levels.get(id);
+    const e = lv?.edges;
+    const c = cut(p);
+    const dist = Math.hypot(...sum(scaled(p, R), scaled(pose.position, -1)));
+    out(
+      `${y} ${dist.toFixed(0)} ${id} ${key?.level ?? '-'} ${e === undefined ? '-' : `${e.right} ${e.left} ${e.up} ${e.down}`} ${c.toFixed(2)} ${ground(p).toFixed(2)} ${ground(p, c).toFixed(2)} ${coast(p).toFixed(0)}`,
+    );
+  }
+}
