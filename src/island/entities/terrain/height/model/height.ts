@@ -1,90 +1,13 @@
 import { type CoastField, sampleCoastField } from '../../coast-field';
+import { groundSlope, OCTAVES, reliefAt } from './relief';
 import { noiseSalt, valueNoise } from './value-noise';
 
-/** The interior's base height, approached with distance from the coast. */
-const PLATEAU_METRES = 1000;
-/** The distance inland over which the plateau climbs to ~63% of its height. */
-const PLATEAU_REACH_METRES = 180_000;
-
-/** The ocean's depth far from the coast. */
-const ABYSS_METRES = 3500;
-/** The distance offshore over which the sea floor falls to ~63% of it. */
-const SHELF_REACH_METRES = 30_000;
-
-/** The longest noise octave; each next one halves the wavelength. */
-const LONGEST_WAVELENGTH_METRES = 400_000;
-/**
- * Each octave's amplitude in metres, longest first (400 km … 6 m). The
- * regional band (400–50 km) falls fast; the hill band (25 km–400 m) slowly,
- * so hills of a hundred metres and more stand over a few kilometres; the
- * fine band halves per halving — a constant slope of ~0.1 per octave — so
- * every scale down to a step's length has relief and none is a cliff.
- */
-const AMPLITUDES_METRES = [
-  600, 380, 260, 200, 240, 220, 190, 150, 110, 75, 45, 20, 10, 5, 2.5, 1.25,
-  0.6,
-] as const;
-/**
- * How much of the regional octaves — wavelengths of `REGIONAL_METRES` and
- * up — survives at the coast and at sea. The shorter octaves keep their full
- * size everywhere, faded only near the coastline, so every lowland has hills.
- */
-const COASTAL_ROUGHNESS = 0.25;
-const REGIONAL_METRES = 50_000;
-/** The distance inland over which the noise grows to ~63% of its full size. */
-const ROUGHNESS_REACH_METRES = 300_000;
-/** The shortest octave of the hill band, whose noise is `humped`. */
-const HILL_METRES = 300;
-
-/**
- * The least height inland ground keeps, approached with distance from the
- * coast and zero on it: where the noise's troughs would sink the land below
- * the sea, it levels out a little above it instead, so no sea shows inland
- * and the coastline stays the field's zero line.
- */
-const LOWLAND_METRES = 15;
-/** The distance inland over which the least height climbs to ~63% of it. */
-const LOWLAND_REACH_METRES = 5000;
-
-const NOISE_REACH_METRES = AMPLITUDES_METRES.reduce((sum, a) => sum + a, 0);
-/** No ground lies higher than this, metres above sea level. */
-export const HIGHEST_GROUND = PLATEAU_METRES + NOISE_REACH_METRES;
-/** No ground lies lower than this, metres above sea level. */
-export const LOWEST_GROUND = -ABYSS_METRES - NOISE_REACH_METRES;
-
-/**
- * Noise in `[-1, 1]` bent onto `[-0.23, 1]` by a parabola, flat at the
- * bottom: hills rise to full height and valleys stay broad and shallow.
- */
-const humped = (n: number) => n * (0.6 + 0.4 * n);
-
-type Octave = {
-  layer: number;
-  cyclesPerMetre: number;
-  amplitude: number;
-  cos: number;
-  sin: number;
-  wavelength: number;
-  regional: boolean;
-  hill: boolean;
-};
-
 /** Each octave turned against the last so their lattices never line up. */
-const OCTAVE_TABLE: readonly Octave[] = AMPLITUDES_METRES.map(
-  (amplitude, o) => {
-    const wavelength = LONGEST_WAVELENGTH_METRES / 2 ** o;
-    return {
-      layer: o,
-      wavelength,
-      cyclesPerMetre: 1 / wavelength,
-      amplitude,
-      regional: wavelength >= REGIONAL_METRES,
-      hill: wavelength < REGIONAL_METRES && wavelength >= HILL_METRES,
-      cos: Math.cos(0.618 * (o + 1)),
-      sin: Math.sin(0.618 * (o + 1)),
-    };
-  },
-);
+const PLANE_OCTAVES = OCTAVES.map((octave) => ({
+  ...octave,
+  cos: Math.cos(0.618 * (octave.index + 1)),
+  sin: Math.sin(0.618 * (octave.index + 1)),
+}));
 
 /**
  * An octave's steepest slope per unit of amplitude over its wavelength: the
@@ -94,52 +17,13 @@ const OCTAVE_TABLE: readonly Octave[] = AMPLITUDES_METRES.map(
  */
 const OCTAVE_STEEPEST = 3.75 * Math.SQRT2 * 1.4 + 1.5 * Math.SQRT2 + 1;
 
-/**
- * A bound on the ground's slope, metres of rise per metre run, whatever the
- * detail cut: every octave at its steepest, plus the plateau's, the shelf's
- * and the lowland floor's climbs. Loose: real ground stays under a tenth of
- * it.
- */
-export const GROUND_SLOPE =
-  Math.SQRT2 *
-    (ABYSS_METRES / SHELF_REACH_METRES +
-      PLATEAU_METRES / PLATEAU_REACH_METRES +
-      LOWLAND_METRES / LOWLAND_REACH_METRES) +
-  OCTAVE_TABLE.reduce(
-    (sum, { amplitude, wavelength }) =>
-      sum + (OCTAVE_STEEPEST * amplitude) / wavelength,
-    0,
-  );
-
-/** The share of its full size a quantity reaches `distance` in: ~63% at `reach`. */
-const approach = (distance: number, reach: number) =>
-  1 - Math.exp(-distance / reach);
-
-/** A smooth 0→1 ramp over `[0, 1]`, flat past it. */
-const ramp = (t: number) => (t >= 1 ? 1 : t * t * (3 - 2 * t));
-
-/**
- * The larger of `a` and `b`, rounded over a band `k` wide where they meet,
- * and exactly the larger outside it; never below either.
- */
-function smoothMax(a: number, b: number, k: number): number {
-  const gap = k - Math.abs(a - b);
-  return gap > 0 ? Math.max(a, b) + (gap * gap) / (4 * k) : Math.max(a, b);
-}
+/** `groundSlope` for the plane's two-axis lattices. */
+export const GROUND_SLOPE = groundSlope(OCTAVE_STEEPEST);
 
 /**
  * Metres above sea level at plane point `(x, y)` metres, negative offshore —
- * a pure function of the field and the seed (read as a 32-bit integer).
- *
- * A plateau climbs with distance from the coast, and the sea floor falls
- * away offshore. Value noise rides on both, its octaves from 400 km down to
- * 6 m, the regional ones growing in amplitude inland, each faded out within
- * one of its own wavelengths of the coastline, so the drawn coast stays where
- * it is at every scale but the finest, where the shore wanders seaward by
- * metres. Inland, the ground never sinks under its lowland floor.
- *
- * Octaves shorter than `finest` metres are left out, and those up to twice
- * it faded in, so a lattice sampling at half `finest` draws no alias of them.
+ * a pure function of the field and the seed (read as a 32-bit integer), the
+ * octaves drawn on the plane (`reliefAt` gives the shape).
  */
 export function heightAt(
   field: CoastField,
@@ -148,35 +32,15 @@ export function heightAt(
   y: number,
   finest = 0,
 ): number {
-  const d = sampleCoastField(field, x, y);
-  const base =
-    d >= 0
-      ? PLATEAU_METRES * approach(d, PLATEAU_REACH_METRES)
-      : -ABYSS_METRES * approach(-d, SHELF_REACH_METRES);
-  const roughness =
-    d > 0
-      ? COASTAL_ROUGHNESS +
-        (1 - COASTAL_ROUGHNESS) * approach(d, ROUGHNESS_REACH_METRES)
-      : COASTAL_ROUGHNESS;
-  const away = Math.abs(d);
-  let regional = 0;
-  let local = 0;
-  for (const octave of OCTAVE_TABLE) {
-    if (octave.wavelength <= finest) break;
-    const resolved = finest === 0 ? 1 : ramp(octave.wavelength / finest - 1);
-    const fade = resolved * ramp(away / octave.wavelength);
-    if (fade === 0) continue;
-    const u = (x * octave.cos - y * octave.sin) * octave.cyclesPerMetre;
-    const v = (x * octave.sin + y * octave.cos) * octave.cyclesPerMetre;
-    const salt = noiseSalt(seed, octave.layer);
-    const noise = valueNoise(salt, u, v);
-    const value =
-      octave.amplitude * fade * (octave.hill ? humped(noise) : noise);
-    if (octave.regional) regional += value;
-    else local += value;
-  }
-  const height = base + roughness * regional + local;
-  if (d <= 0) return height;
-  const lowland = LOWLAND_METRES * approach(d, LOWLAND_REACH_METRES);
-  return smoothMax(height, lowland, lowland);
+  return reliefAt(
+    sampleCoastField(field, x, y),
+    finest,
+    PLANE_OCTAVES,
+    ({ index, cyclesPerMetre, cos, sin }) =>
+      valueNoise(
+        noiseSalt(seed, index),
+        (x * cos - y * sin) * cyclesPerMetre,
+        (x * sin + y * cos) * cyclesPerMetre,
+      ),
+  );
 }
