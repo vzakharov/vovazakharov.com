@@ -1,4 +1,4 @@
-# b3-b9a — call 14, the stitch (pure part)
+# b3-b9a — call 14, the stitch
 
 ## Done
 
@@ -34,35 +34,55 @@ Numbers: the B8b sparkle comes from the sag, `cell²/8R`. A level-5 cell is
 coarse chord, in float64 before the float32 cast. The tests run grid 17 at
 levels 4 (every face edge, both ways, four places along each), 9 and 10.
 
-## Left: the wiring (B9b)
+## Done: the wiring (B9b)
 
-It takes more than one step, because the view caches by tile id. It also draws a
-cover that can differ from the selection.
+1. **Levels from the cover**: `quadtree/model/cube-neighbours.ts`.
+   `neighbourLevels(leaves)` gives each leaf's `NeighbourLevels`; `covering`
+   moved there from `balanceCube` and is shared. `diagonal(key, d1, d2)` turns
+   the second step into the new face's frame when the first crosses a face edge
+   (`EDGES[face][d1].flip`); without that the two-step path lands on the wrong
+   cell. Tested: every level-2 cell's diagonals touch its corner on all six
+   faces; a brute-force reading (nudged points, `tileHolds`) agrees with
+   `selectCubeTiles` output at all six `PLACES`, 10 km and 1 000 km; a
+   hand-built cover over pz's cube corner.
+2. **Protocol and worker**: `TileOrder` = key + levels; `orderId` is the tile id
+   plus the eight levels. `fill` is a `TileOrder`, `FilledTile` carries it back.
+   The worker fills ground and sea through `fillStitchedCubeTile`.
+3. **Refill on change**: `tile-meshes.ts` holds variants by `orderId` (with
+   `hasTile` and `variantOf` over a per-tile list). `tile-view.ts` wants the
+   selection's variants it lacks (roots under flat levels), evicts outside the
+   selection's and the shown's variants. `nearestFirst` takes any keyed tile.
+4. **The drawn cover**: `draw` reads the levels off the cover actually drawn
+   (cached by its ids: 1.5 ms per read of a 182-tile cover) and shows that
+   variant where held, else the shown's, the selection's, the last added. In
+   steady state the cover is the selection, so every tile is exact. A mixed
+   cover's fallback has a border either unstitched or on the coarse chord, so
+   its step is never larger than an unstitched edge, which the 2-cell skirt
+   already hides. Mixed-cover variants are never requested (transient, and
+   possibly unbalanced, which the stitch throws on).
 
-1. **Levels from the cover**: add a pure helper in `quadtree`, beside
-   `balanceCube`'s `covering`. Given the leaves, it returns each key's
-   `NeighbourLevels`. Each edge is `covering(neighbour(key, d))?.level`, or the
-   key's own level when the neighbour is finer (undefined). Each corner is the
-   minimum over both edge neighbours and both two-step diagonals,
-   `neighbour(neighbour(key, d1), d2)` and the other way round. At a cube corner
-   those two-step paths land on edge tiles, which is harmless. Test it against
-   `selectCubeTiles` output.
-2. **Protocol and worker**: `fill` carries `levels`. The worker calls
-   `fillStitchedCubeTile` for the ground. The sea tile (`() => 0`) needs no
-   stitch for heights, because every level samples 0. Its odd vertices still sit
-   on the sphere, not on the coarse chord, so the sea needs the same call with
-   `() => 0`.
-3. **Refill on change**: `tile-view.ts` keys `held` on the id plus the levels'
-   eight numbers, so a tile whose neighbours changed level is missing and gets
-   refilled. Most tiles keep their signature from frame to frame. Only the ring
-   along a level change refills. The ids that `want` and the eviction use must
-   carry the same signature.
-4. **The drawn cover is the risk.** `coverAround` mixes `shown` with new tiles,
-   so the drawn cover can be a set no selection produced. Its neighbours' levels
-   can then differ from the ones each tile was stitched to. The skirts still
-   close any hole there, as they do today. One option is to compute the levels
-   from the drawn cover and pick each tile's stitched variant where one is held.
-   Another is to accept the gap while the cover is mixed.
+Refill cost (`tmp/refill.ts`, Node, flat ground, pitch 30°, fov 1, 16:9; per
+reselection, which happens at most once a frame: 2 % of height, 0.05 rad):
+
+| run (10 km)     | tiles | new tiles mean / max | same tile, new levels mean / max |
+| --------------- | ----- | -------------------- | -------------------------------- |
+| descent 12→8 km | 62    | 0.8 / 16             | 0.0 / 0                          |
+| turn 1 rad      | 66    | 1.6 / 4              | 0.9 / 6                          |
+| glide 4 km      | 65    | 0.8 / 8              | 0.4 / 4                          |
+| over the coast: |       |                      |                                  |
+| descent         | 144   | 3.0 / 12             | 2.4 / 12                         |
+| turn            | 171   | 6.1 / 13             | 3.4 / 7                          |
+| glide           | 125   | 1.4 / 8              | 2.0 / 12                         |
+
+So the stitch adds at most about as many fills as new tiles bring, ≤ 12 per
+reselection.
+
+## Left (B9c)
+
+- The look: the frames. A seam at a level change should be gone in ground and
+  sea; a stand-in moment (mixed cover) may still show the skirt.
+- Not measured: worker fill time per restitched tile, and whether the held
+  variants (capacity 900, now counted per variant) churn.
 
 Caveat that also applies today: the heights depend on the eye through `finest`.
 Two tiles filled from different eyes can differ at a shared vertex, whatever
