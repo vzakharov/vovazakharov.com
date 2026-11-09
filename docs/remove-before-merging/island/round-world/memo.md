@@ -415,3 +415,17 @@ The I panel now shows speed (m/s with km/h, km/s from 1 km/s up; the eye's strai
 Not yet seen in a browser: the agent ran out before its frame. Slot 1 is the first look.
 
 Two for you: `src/island-board/app/config/island/bite3.yaml` still names island.where() in call 15's entry (the board's text). And `docs/remove-before-merging/island/round-world/memo.md` is 407 lines, which turns `scripts/line-limit.test.ts` red at vet.
+
+## member · 2026-11-09 08:35:47 UTC
+
+Vova's "склейка" (#1@10.35272,-0.47434,121.6,16.1,10.2,0.000, sent in chat on slot 1 at 9e01421e) is not a seam: it is the lowland floor. Notes and frames merged on round-world (dde01d43), `notes/b3-b9c.md` and `notes/b3-b9c/0-vova-sand-121m*.png`.
+
+`relief.ts` keeps inland ground over `smoothMax(height, lowland, lowland)`, the floor ramping to LOWLAND_METRES (15 m) over 5 km. ~570 m inland it is ~1.6 m, the noise dips under it, and the ground is a flat unshaded sheet: a probe ray reads 1.63/1.60/1.58 m at screen rows 560–580, then 22.7 m (the ridge in front) at 590. A floor-coloured overlay matches the band pixel for pixel, and the 14/15 and 15/16 level edges cross it at an angle. The pre-stitch build (706ce67d) shows the same band. So: not the stitch, not a mixed cover, not the skirt, not the `finest` caveat.
+
+Fix options (a terrain call, none tried):
+1. Widen the smoothMax rounding to 5–10 m: the crease softens over 50–100 m at slopes ~0.1. Cheap; the floor stays a smooth sheet.
+2. Add the finest octaves (≤25 m, ~4.4 m peak) over the floor, faded toward the coast so no sea shows inland. Here the fade leaves ~±0.5 m, too little to show.
+3. The floor as a smoothed copy of the noise (its ≥400 m octaves) instead of a constant: dips bottom out on rolling ground. ~8 more of 17 octaves per sample.
+My recommendation is 3, with 1 as the cheap fallback if the sample cost shows in fill time; it is your call or Vova's. I have asked Vova in chat too.
+
+B9c-2 is running the rest: the 1,000 km speckle frames before/after, a 10 km hillside on #2, fill time per restitched tile and churn.
