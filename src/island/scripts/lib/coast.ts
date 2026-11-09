@@ -18,3 +18,24 @@ const CoastSchema = z.object({
  * counter-clockwise, a drawn lake a clockwise ring inside it.
  */
 export const coast: Coast = CoastSchema.parse(traced);
+
+/** A ring in kilometres, its first point's place for naming it. */
+export type DrawnRing = { x: number; y: number; ring: Array<[number, number]> };
+
+/** The shoelace area: positive when the ring turns from +x towards +y. */
+function signedArea(ring: Array<[number, number]>): number {
+  let twice = 0;
+  for (const [i, [x0, y0]] of ring.entries()) {
+    const [x1, y1] = ring[(i + 1) % ring.length] ?? [x0, y0];
+    twice += x0 * y1 - x1 * y0;
+  }
+  return twice / 2;
+}
+
+/** The drawn lakes: the clockwise rings. */
+export const drawnLakes: DrawnRing[] = coast.rings
+  .filter((ring) => signedArea(ring) < 0)
+  .map((ring) => {
+    const [x = 0, y = 0] = ring[0] ?? [];
+    return { x, y, ring };
+  });

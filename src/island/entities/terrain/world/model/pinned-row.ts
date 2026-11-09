@@ -115,6 +115,16 @@ const PINNED_ROWS: Partial<Record<string, () => Promise<unknown>>> = {
   '1': async () => (await import('./pinned/1.json')).default,
 };
 
+/** World `world`'s pinned row, or `undefined` when the world is not pinned. */
+export async function pinnedRow(world: string): Promise<PinnedRow | undefined> {
+  const load = PINNED_ROWS[world];
+  if (!load) return undefined;
+  const row = PinnedRowSchema.parse(await load());
+  if (row.world !== world)
+    throw new Error(`pinnedRow: row for #${row.world} filed as #${world}`);
+  return row;
+}
+
 /**
  * World `world`'s pinned land series — the shape `landSeries` gives a rolled
  * world, to be synthesised in its place — or `undefined` when the world is
@@ -123,10 +133,6 @@ const PINNED_ROWS: Partial<Record<string, () => Promise<unknown>>> = {
 export async function pinnedSeries(
   world: string,
 ): Promise<Float64Array | undefined> {
-  const load = PINNED_ROWS[world];
-  if (!load) return undefined;
-  const row = PinnedRowSchema.parse(await load());
-  if (row.world !== world)
-    throw new Error(`pinnedSeries: row for #${row.world} filed as #${world}`);
-  return decodePinnedRow(row);
+  const row = await pinnedRow(world);
+  return row && decodePinnedRow(row);
 }

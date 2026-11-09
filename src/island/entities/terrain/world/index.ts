@@ -11,7 +11,7 @@ export {
   decodePinnedRow,
   encodePinnedRow,
   type PinnedRow,
-  PinnedRowSchema,
+  pinnedRow,
   pinnedSeries,
 } from './model/pinned-row';
 export { type Lookup, rollWith, type WordSource } from './model/roll';

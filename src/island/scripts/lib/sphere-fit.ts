@@ -176,3 +176,46 @@ export function wrongLand(
     patches,
   };
 }
+
+/** Whether plane point `(x, y)` lies inside `ring`, even-odd. */
+function insideRing(ring: Array<[number, number]>, x: number, y: number) {
+  let inside = false;
+  for (const [i, [ax, ay]] of ring.entries()) {
+    const [bx, by] = ring[(i + 1) % ring.length] ?? [ax, ay];
+    if (ay > y !== by > y && x < ax + ((y - ay) * (bx - ax)) / (by - ay))
+      inside = !inside;
+  }
+  return inside;
+}
+
+/**
+ * How many of `grid`'s nodes fall inside `ring` (plane kilometres), and how
+ * many of those `field` makes water.
+ */
+export function lakeWater(
+  grid: RingGrid,
+  field: Float64Array,
+  { ring }: { ring: Array<[number, number]> },
+): { nodes: number; water: number } {
+  const xs = ring.map(([x]) => x);
+  const ys = ring.map(([, y]) => y);
+  const [minX, maxX] = [Math.min(...xs), Math.max(...xs)];
+  const [minY, maxY] = [Math.min(...ys), Math.max(...ys)];
+  const farCosine = Math.cos(FAR_METRES / R);
+  let nodes = 0;
+  let water = 0;
+  for (let r = 0; r < grid.rows; r += 1) {
+    for (let j = 0; j < grid.columns; j += 1) {
+      const p = nodeUnit(grid, r, j);
+      if (dot(p, CENTRE) < farCosine) continue;
+      const plane = worldToPlane(p);
+      const x = plane.x / 1000;
+      const y = plane.y / 1000;
+      if (x < minX || x > maxX || y < minY || y > maxY) continue;
+      if (!insideRing(ring, x, y)) continue;
+      nodes += 1;
+      if ((field[r * grid.columns + j] ?? 0) <= 0) water += 1;
+    }
+  }
+  return { nodes, water };
+}

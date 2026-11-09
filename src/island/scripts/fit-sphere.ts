@@ -16,6 +16,7 @@
 import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
+import { format } from 'prettier';
 import { z } from 'zod';
 
 import {
@@ -27,9 +28,11 @@ import {
 } from '@/island/entities/terrain';
 
 import { worldToPlane } from './lib/azimuthal';
-import { drawnField, drawnSeries } from './lib/fit-drawn';
+import { DRAWN_CLIP_METRES, drawnField, drawnSeries } from './lib/fit-drawn';
+import { drawnLakes } from './lib/coast';
 import {
   coastTarget,
+  lakeWater,
   padSeries,
   type WrongLand,
   wrongLand,
@@ -47,7 +50,7 @@ const KEEP_TOLERANCE = 1e-4;
 
 const { values } = parseArgs({
   options: {
-    clip: { type: 'string', default: '500' },
+    clip: { type: 'string', default: String(DRAWN_CLIP_METRES / 1000) },
     compare: { type: 'boolean', default: false },
     bits: { type: 'string', default: '16,14,12,11,10,9,8,7,6' },
   },
@@ -130,8 +133,28 @@ for (const bits of [...options.bits].sort((a, b) => b - a)) {
   if (wrong.share <= exact.share + KEEP_TOLERANCE) chosen = row;
 }
 if (!chosen) throw new Error('no bit depth tried keeps the wrong-land share');
-await writeFile(ROW_FILE, `${JSON.stringify(chosen)}\n`);
-say(
-  `\nwrote ${path.relative(REPO_ROOT, ROW_FILE)} at ${String(chosen.bits)} bits; ` +
-    `run ${seconds()}`,
+
+const kept = synthesize(
+  fine,
+  padSeries(decodePinnedRow(chosen), fine.recursion.degree),
 );
+say(`\nthe drawn lakes at ${String(chosen.bits)} bits:`);
+for (const lake of drawnLakes) {
+  const { nodes, water } = lakeWater(fine.grid, kept, lake);
+  say(
+    `  ${String(nodes).padStart(4)} nodes at (${lake.x.toFixed(0)}, ` +
+      `${lake.y.toFixed(0)}) km: ${pct(nodes === 0 ? 0 : water / nodes)} water`,
+  );
+}
+
+if (clip === DRAWN_CLIP_METRES) {
+  await writeFile(
+    ROW_FILE,
+    await format(JSON.stringify(chosen), { filepath: ROW_FILE }),
+  );
+  say(
+    `\nwrote ${path.relative(REPO_ROOT, ROW_FILE)} at ${String(chosen.bits)} bits`,
+  );
+} else
+  say('\nthe row is written only at the default clip, which its test fits');
+say(`run ${seconds()}`);

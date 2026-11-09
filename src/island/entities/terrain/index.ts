@@ -34,7 +34,7 @@ export {
   OUR_WORLD,
   pathHash,
   type PinnedRow,
-  PinnedRowSchema,
+  pinnedRow,
   pinnedSeries,
   PROBE_ENVELOPE,
   type RingGrid,
