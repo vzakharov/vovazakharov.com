@@ -57,3 +57,23 @@ with numbers rather than picking another.
   world, the land share, the landmasses over 1% of the land and the largest's
   share. It is the tool the Done table reuses at step C, so it takes the world
   numbers and the envelope as arguments.
+
+## Step B — the cube, the eye and #1
+
+`notes/b3-map.md` is the design and the cut (B1–B8); these settle its open
+calls.
+
+- **S1. The height's distance** is bite 2's B7 true distance on the sphere (the
+  lead, memo 04:02): the contract's "as bite 2 does" means what bite 2 does now.
+- **S2. The cube map** is equal-angle (`b3-map.md` § 2.1: cell edges within
+  1.41×, an exact inverse), a face edge landing on exactly ±1.
+- **S3. The coast field's grid** follows A's measured synthesis cost: the finest
+  that keeps the world build within the 3 s budget, 1024 × 2048 the target.
+  Written here once A reports.
+- **S4. The sun** is today's fixed sun turned by the least rotation taking
+  `CENTRE` to the eye (option b): #1 looks as it does today, any world seen from
+  any side is lit, and the one point where it turns abruptly is 10° S 180°, in
+  open sea on #1.
+- **S5. The coast slice comes back under `src/island/scripts/lib/`**, beside the
+  azimuthal map, so no `masd-disable` marker is needed: only the fit reads it.
+- **S6. #0 is the random world `H(0, ·)`** in step B's frames; step C pins it.
