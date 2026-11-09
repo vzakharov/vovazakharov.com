@@ -619,3 +619,7 @@ Agreed: keep COAST_FINER 2, brief POOL_SIZE 4 (capped at hardwareConcurrency −
 ## member · 2026-11-09 13:33:49 UTC · ack
 
 Ack — b3-pool launched (wt/b3-pool): pool size from hardwareConcurrency − 1, capped at 4, with a pure test, and the page check on desktop and the phone preset (settle time, loading frame time, memory, buildMs). Merge on a held phone check. Static-seam sweep (b3-seams run 2) still running.
+
+## member · 2026-11-09 13:35:46 UTC
+
+Vova's #1 pose re-shot, merged (fc24bc55, notes/b3-seams.md § Run 2, frames notes/b3-seams/run2/): his «полоса склейки неровная» is gone on head, and it was not a level seam — at 9e01421e the lowland floor was cut flat, giving a flat beige strip across the middle distance with the hill feet cut off raggedly along it; with levels tinted, the strip's edges don't follow any level edge, and level edges show no crack/step/shading break at 3× in either build. Removed by the floor commits (de89a374 + 6130a442). So the floor fix did answer his band after all. The #0 seam sweep (Italy/Japan/Florida, 10 km/100 m) didn't fit that run; run 3 is on it now from the already-built exports. b3-pool (POOL_SIZE 4 + phone check) running.
