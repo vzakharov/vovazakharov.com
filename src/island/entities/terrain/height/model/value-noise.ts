@@ -1,5 +1,5 @@
 /**
- * Seeded value noise in `[-1, 1]`, over the plane and over space, with a
+ * Seeded value noise in `[-1, 1]` over space, with a
  * quintic fade so a sum of octaves has continuous slope. Integer arithmetic
  * only on the lattice, so the same `(seed, layer, point)` gives the same value
  * on every engine.
@@ -12,9 +12,6 @@ function scramble(mixed: number): number {
   h ^= h >>> 16;
   return (h >>> 8) / 0x7f_ff_ff - 1;
 }
-
-const hash = (ix: number, iy: number, salt: number) =>
-  scramble(Math.imul(ix, 0x27_d4_eb_2d) ^ Math.imul(iy, 0x16_56_67_b1) ^ salt);
 
 const hash3 = (ix: number, iy: number, iz: number, salt: number) =>
   scramble(
@@ -32,21 +29,6 @@ const fade = (t: number) => t * t * t * (t * (t * 6 - 15) + 10);
  */
 export function noiseSalt(seed: number, layer: number): number {
   return Math.imul(seed, 0x9e_37_79_b1) ^ Math.imul(layer + 1, 0x63_2b_e5_ab);
-}
-
-/** Value noise at lattice coordinates `(u, v)` (one lattice step per unit). */
-export function valueNoise(salt: number, u: number, v: number): number {
-  const fu = Math.floor(u);
-  const fv = Math.floor(v);
-  const tu = fade(u - fu);
-  const tv = fade(v - fv);
-  const a = hash(fu, fv, salt);
-  const b = hash(fu + 1, fv, salt);
-  const c = hash(fu, fv + 1, salt);
-  const d = hash(fu + 1, fv + 1, salt);
-  const bottom = a + (b - a) * tu;
-  const top = c + (d - c) * tu;
-  return bottom + (top - bottom) * tv;
 }
 
 /**

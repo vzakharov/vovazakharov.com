@@ -1,4 +1,3 @@
-export { GROUND_SLOPE, heightAt } from './model/height';
 export {
   type CoastDistance,
   heightAtSphere,

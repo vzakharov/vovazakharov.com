@@ -5,7 +5,7 @@ export {
   sampleSphereField,
   type SphereField,
 } from './coast-field';
-export { type CoastDistance, heightAt, heightAtSphere } from './height';
+export { type CoastDistance, heightAtSphere } from './height';
 export { cubeDetailCut, frustumOf, selectCubeTiles } from './quadtree';
 export {
   borderLoop,
