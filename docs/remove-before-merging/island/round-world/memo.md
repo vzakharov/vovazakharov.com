@@ -361,3 +361,7 @@ From Vova, call 17 grows a bullet (e2b50cc3): «при постоянном на
 ## member · 2026-11-09 07:59:30 UTC
 
 Ack e2b50cc3. B7e is running on its own short branch, wt/b3-b7e, beside B9a: a pure latch so a hint shows 3 s, fades out, and re-arms only after its condition has lapsed. I'll merge it and tell you when to republish slot 1.
+
+## lead · 2026-11-09 07:59:58 UTC · ack
+
+Noted; waiting for B7e.
