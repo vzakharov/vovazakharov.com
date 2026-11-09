@@ -30,42 +30,49 @@ describe('indicesOutside', () => {
     assert.deepEqual([...indicesOutside(lattice, GRID, tile, [])], lattice);
   });
 
-  it('cuts the quarter a child covers, in its corner', () => {
-    // The north-east child: lattice cells 2–3 east and north.
+  it('cuts a child’s quarter but a one-cell rim inside the tile', () => {
+    // The north-east child: lattice cells 2–3 east and north; only 3,3 has
+    // every neighbour inside the tile cut.
     const child = { face: 'pz', level: 4, x: 5, y: 11 } as const;
     const kept = cellsOf(indicesOutside(lattice, GRID, tile, [child]));
-    assert.equal(kept.size, 12);
-    for (const cell of ['2,2', '3,2', '2,3', '3,3']) {
-      assert.ok(!kept.has(cell), cell);
-    }
+    assert.equal(kept.size, 15);
+    assert.ok(!kept.has('3,3'));
   });
 
-  it('cuts one lattice cell for a grandchild, and a skirt under it', () => {
-    // The south-west grandchild: lattice cell 0,0; skirt vertex 0 hangs under
-    // the south-west corner.
-    const grandchild = { face: 'pz', level: 5, x: 8, y: 20 } as const;
+  it('cuts every cell and skirt when the children cover the whole tile', () => {
+    const children = [4, 5].flatMap((x) =>
+      [10, 11].map((y) => ({ face: 'pz', level: 4, x, y }) as const),
+    );
     const skirt = [0, GRID * GRID, 1];
-    const kept = indicesOutside([...lattice, ...skirt], GRID, tile, [
-      grandchild,
+    const kept = indicesOutside([...lattice, ...skirt], GRID, tile, children);
+    assert.equal(kept.length, 0);
+  });
+
+  it('keeps the rim along what is left uncut', () => {
+    // Every child but the north-west: cells 0–1 west, 2–3 north stay, and the
+    // cut cells touching them.
+    const three = [
+      { face: 'pz', level: 4, x: 4, y: 10 },
+      { face: 'pz', level: 4, x: 5, y: 10 },
+      { face: 'pz', level: 4, x: 5, y: 11 },
+    ] as const;
+    const kept = cellsOf(indicesOutside(lattice, GRID, tile, three));
+    assert.deepEqual([...kept].toSorted(), [
+      '0,1',
+      '0,2',
+      '0,3',
+      '1,1',
+      '1,2',
+      '1,3',
+      '2,1',
+      '2,2',
+      '2,3',
     ]);
-    assert.equal(kept.length, lattice.length - 6);
-    assert.ok(!cellsOf(kept).has('0,0'));
   });
 
   it('cuts nothing for a tile finer than a lattice cell, which no triangle lies wholly in', () => {
-    // Two levels below a grandchild: a quarter of lattice cell 0,0 holding its middle.
+    // A quarter of lattice cell 0,0.
     const fine = { face: 'pz', level: 6, x: 16, y: 40 } as const;
     assert.deepEqual([...indicesOutside(lattice, GRID, tile, [fine])], lattice);
-  });
-
-  it('cuts only cells wholly inside the cut tiles, wherever the triangle middles fall', () => {
-    // Every grandchild along the south row: the whole bottom row of cells.
-    const row = [8, 9, 10, 11].map(
-      (x) => ({ face: 'pz', level: 5, x, y: 20 }) as const,
-    );
-    const kept = cellsOf(indicesOutside(lattice, GRID, tile, row));
-    assert.equal(kept.size, 12);
-    for (const cell of ['0,0', '1,0', '2,0', '3,0'])
-      assert.ok(!kept.has(cell), cell);
   });
 });

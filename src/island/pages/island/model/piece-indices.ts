@@ -5,8 +5,10 @@ import { borderLoop } from '@/island/entities/terrain';
  * The triangles of a tile mesh's `indices` (a `grid`-vertex lattice and its
  * skirt, as `TileMesh` lays them out) not wholly inside the finer tiles
  * `except` inside `key`. Every triangle lies in one lattice cell, so it goes
- * when its cell lies in an `except` tile; a tile finer than a cell cuts
- * nothing, and the stand-in draws behind it instead.
+ * when its cell and the cells around it inside `key` lie in `except` tiles: a
+ * rim one cell wide stays under the edge of what is cut, drawn behind the
+ * finer tiles, so no gap opens where the two surfaces part — a cut edge has
+ * no skirt of its own. A tile finer than a cell cuts nothing.
  */
 export function indicesOutside(
   indices: ArrayLike<number>,
@@ -28,6 +30,19 @@ export function indicesOutside(
     for (let j = j0; j < j0 + span; j++)
       cut.fill(1, j * cells + i0, j * cells + i0 + span);
   }
+  const isCut = (i: number, j: number) =>
+    i < 0 || j < 0 || i >= cells || j >= cells || cut[j * cells + i] === 1;
+  /** The cut cells all of whose neighbours inside `key` are cut too. */
+  const gone = new Uint8Array(cells * cells);
+  for (let j = 0; j < cells; j++) {
+    for (let i = 0; i < cells; i++) {
+      let all = true;
+      for (let dj = -1; dj <= 1 && all; dj++) {
+        for (let di = -1; di <= 1 && all; di++) all = isCut(i + di, j + dj);
+      }
+      if (all) gone[j * cells + i] = 1;
+    }
+  }
   /** Lattice index of vertex `v`, a skirt vertex at its border vertex's. */
   const spot = (v: number): number =>
     v < lattice ? v : (loop[v - lattice] ?? 0);
@@ -41,7 +56,7 @@ export function indicesOutside(
     const v = corners.reduce((sum, at) => sum + Math.floor(at / grid), 0) / 3;
     const ci = Math.min(cells - 1, Math.floor(u));
     const cj = Math.min(cells - 1, Math.floor(v));
-    if (cut[cj * cells + ci] !== 1) kept.push(a, b, c);
+    if (gone[cj * cells + ci] !== 1) kept.push(a, b, c);
   }
   return Uint32Array.from(kept);
 }
