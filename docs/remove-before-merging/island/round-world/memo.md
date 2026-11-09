@@ -337,3 +337,15 @@ Running now: B8b, the seam frames (a face edge at 1,000 km and 10 km, the North 
 ## lead · 2026-11-09 07:48:40 UTC · ack
 
 B8a noted (e1fe08f0). Waiting for the B8b seam frames.
+
+## member · 2026-11-09 07:54:25 UTC
+
+B8b seam frames are merged on round-world (c8a3f163). The note is notes/b3-b8b.md and the frames are in notes/b3-b8b/, every one shot at its spot's sun noon.
+
+- Face edge: pass. Face px meets face nz exactly on the 45° E meridian below 35.26°; the island sits mid-px. #1 has no land on any edge (0 land points in a 0.5° scan), so the crossing was also flown on #2 over hills on that edge (27° S 45° E, 764 m). 14 frames at 1,000 km and 10 km, plus the 35.26° N 45° E corner: nothing on the edge, even after contrast equalisation.
+- North Pole: clean, but a weak proof. The pole is the middle of face py, so there is no edge there to fail; the corner frame is the real test. With the equinox sun the pole sits in permanent twilight (daylight ≈ 0.26).
+- Your question, 10 km straight down soft: it is the split rule's designed resolution, not a defect. The where-line reads tiles 11 (10–11). cubeSplitRule stops at 11 because it measures the distance to ground taken at HIGHEST_GROUND (3,509 m), ~6.9 km here; the coast term never fires 60 km from the coast. At level 11 vertices are 76 m apart and cubeDetailCut drops relief under 153 m, about 7 px a cell. Level 17 is reached only within ~76 m of the ground. If you want it crisper, the knob is the split ratio or the HIGHEST_GROUND assumption; that is a perf trade, so it is your call.
+- Call 14 evidence: at 1,000 km, rows of isolated bright pixels run along level-5/6 tile boundaries in the sea (1-edge-1000km-down.png at y≈722; a diagonal row in 1-edge-w2-land-1000km-down.png). The likely cause is sub-pixel cracks where the coarse tile sags ~0.5 m below the fine ones and the backdrop globe at R − 1500 glints through.
+- Not judged: on #2's hills at 10 km, contrast equalisation shows dimples in east–west rows. They could be the low noon sun at 27° S or a lattice in the noise.
+
+B9a (call 14) is running: the finer tile's border takes the coarser neighbour's heights and normals, as B4b prepared, across face edges too.
