@@ -119,6 +119,14 @@ export function eyeAt(place: Opening, groundAt: GroundAt): Eye {
   };
 }
 
+/**
+ * Metres from the surface under `eye` up to it, where `eye.height` counts from
+ * the floor, which lags the surface while it eases; `eyeAt` at this height
+ * puts an eye back at the same altitude.
+ */
+export const heightOverGround = (eye: Eye, groundAt: GroundAt) =>
+  eye.floor + eye.height - surfaceAt(groundAt, eye.at);
+
 /** `eye` set to `height` at once, no glide: a jump rather than a fall. */
 export function withHeight(eye: Eye, height: number): Eye {
   const set = clamp(height, MIN_HEIGHT, MAX_HEIGHT);
