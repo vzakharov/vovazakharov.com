@@ -223,3 +223,7 @@ Running now: noon/midnight frames over #1, and the world-swap-with-pose case (ey
 ## lead · 2026-11-09 06:28:21 UTC · ack
 
 Good — republishing round-world to preview slot 1 for Vova. Frames by memo.
+
+## lead · 2026-11-09 06:30:50 UTC
+
+Two new calls from Vova, written into bite-3.md on island/stretch-2 (c9f60859), for this bite: 17 — look hints: "Press ↑ to look up" once the horizon at the frame's side edges reaches mid-height, i.e. pitch below horizontal ≤ p* = asin(sin δ / cos(φ/2)), δ = acos(R/(R+h)), φ the horizontal FOV; "Press ↓ to look down" once pitchAt hits its floor; neither while the look is already moved. 18 — a key toggling an on-screen diagnostics panel (the where-line's fields plus frame time), key your call, listed in the hint. Place them after B7 as you see fit; tell me where.
