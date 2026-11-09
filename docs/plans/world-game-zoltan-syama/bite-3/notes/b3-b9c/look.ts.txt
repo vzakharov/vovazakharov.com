@@ -1,0 +1,185 @@
+// Throwaway look at B9c: call 14's stitch on film (B8b's driver), and the worker's fills per run.
+// `pnpm exec tsx tmp/look/b9c.ts <group|run:<name>> [out-subdir]`; DIR=<export> serves another build.
+import fs from 'node:fs';
+import path from 'node:path';
+import { setTimeout as sleep } from 'node:timers/promises';
+import { z } from 'zod';
+
+import { call, hook, settle, shoot, VOVA_EXPORT } from '@/island/scripts/lib/play-tab';
+import { withPrintOrigin } from '@/kernel/scripts/lib/print-origin';
+import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
+import { type Browser, launch, openTab, type Tab } from '@/scene/scripts/lib/cdp';
+import { watchPageErrors } from '@/scene/scripts/lib/page-errors';
+
+const OUT = path.join(REPO_ROOT, 'docs/plans/world-game-zoltan-syama/bite-3/notes/b3-b9c', process.argv[3] ?? '');
+const DATA = path.join(REPO_ROOT, 'tmp/look/data');
+fs.mkdirSync(OUT, { recursive: true });
+fs.mkdirSync(DATA, { recursive: true });
+const only = process.argv[2] ?? 'all';
+const log = (s: string) => process.stdout.write(`${s}\n`);
+const errors: string[] = [];
+
+/**
+ * Wraps `Worker` before the page runs: every fill request and every filled tile is logged on
+ * `window.__fills` with its time, its key and levels, and the worker's own `fillMs`.
+ */
+const SPY = `(() => {
+  const Base = window.Worker;
+  const log = (window.__fills = []);
+  const idOf = (o) => !o.levels ? [o.key.face, o.key.level, o.key.x, o.key.y].join('|') : [o.key.face, o.key.level, o.key.x, o.key.y, o.levels.edges.right, o.levels.edges.left, o.levels.edges.up, o.levels.edges.down, o.levels.corners.sw, o.levels.corners.se, o.levels.corners.nw, o.levels.corners.ne].join('|');
+  const stitched = (o) => !!o.levels && [...Object.values(o.levels.edges), ...Object.values(o.levels.corners)].some((l) => l < o.key.level);
+  window.Worker = class extends Base {
+    constructor(...a) {
+      super(...a);
+      this.addEventListener('message', (e) => {
+        const m = e.data;
+        if (m && m.kind === 'tile') {
+          const t = m.tile;
+          log.push({ k: 'got', t: performance.now(), id: idOf(t), level: t.key.level, stitched: stitched(t), land: t.land !== null, sea: t.sea !== null, fillMs: t.fillMs });
+        }
+      });
+    }
+    postMessage(m, tr) {
+      if (m && m.kind === 'fill') log.push({ k: 'ask', t: performance.now(), id: idOf(m), level: m.key.level, stitched: stitched(m) });
+      return super.postMessage(m, tr);
+    }
+  };
+})();`;
+
+async function poll(tab: Tab, expr: string, ms: number): Promise<void> {
+  const end = Date.now() + ms;
+  for (;;) {
+    if (await tab.evaluate(`(() => { try { return Boolean(${expr}); } catch { return false; } })()`, z.boolean())) return;
+    if (Date.now() > end) throw new Error(`timeout: ${expr}`);
+    await sleep(250);
+  }
+}
+
+async function playOpen(browser: Browser, origin: string, hash: string): Promise<Tab> {
+  const route = `/island?play${hash}`;
+  const tab = await openTab(browser, (m) => errors.push(`${route}: ${m}`));
+  await watchPageErrors(tab, (m) => errors.push(`${route}: ${m}`));
+  await tab.send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
+  await tab.send('Page.addScriptToEvaluateOnNewDocument', { source: SPY });
+  await tab.send('Page.navigate', { url: `${origin}${route}` });
+  await poll(tab, `document.readyState === 'complete'`, 30_000);
+  await poll(tab, `typeof ${hook}?.ready === 'function'`, 30_000);
+  await settle(tab, call('ready'), 'ready()');
+  return tab;
+}
+
+const whereOf = async (tab: Tab) => tab.evaluate(`${hook}.where()`, z.string());
+const done = async (browser: Browser, tab: Tab) => browser.send('Target.disposeBrowserContext', { browserContextId: tab.contextId });
+
+/** `[name, world, lat, lon, height, heading, look, hours]`; hours null means the spot's sun noon. */
+type Shot = readonly [string, string, number, number, number, number, number, number | null];
+
+const DOWN = -90;
+
+const SHOTS: Record<string, readonly Shot[]> = {
+  vova: [['0-vova-sand-121m', '1', 10.35272, -0.47434, 121.6, 16.1, 10.2, 0]],
+  speckle: [
+    ['1-edge-1000km-down', '1', 10, 45, 1_000_000, 90, DOWN, 16.35],
+    ['1-edge-w2-land-1000km-down', '2', -27, 45, 1_000_000, 90, DOWN, 16.35],
+  ],
+  hill: [],
+};
+
+const sunTime = (where: string) => {
+  const m = /(\d\d):(\d\d) sun time/.exec(where);
+  if (m === null) throw new Error(`no sun time in: ${where}`);
+  return Number(m[1]) + Number(m[2]) / 60;
+};
+
+async function take(browser: Browser, origin: string, [name, world, lat, lon, h, heading, look, hours]: Shot): Promise<void> {
+  if (process.env.SHOT !== undefined && !name.includes(process.env.SHOT)) return;
+  const t0 = Date.now();
+  let at = hours;
+  if (at === null) {
+    const tab = await playOpen(browser, origin, `#${world}@${lat},${lon},${h},${heading},${look},0`);
+    at = (((12 - sunTime(await whereOf(tab))) % 24) + 24) % 24;
+    await done(browser, tab);
+  }
+  const hash = `#${world}@${lat},${lon},${h},${heading},${look},${at.toFixed(3)}`;
+  const shotTab = await playOpen(browser, origin, hash);
+  await settle(shotTab, call('setHeight', h), 'settle');
+  await shoot(shotTab, 5, path.join(OUT, `${name}.png`));
+  log(`${name} ${hash} (${((Date.now() - t0) / 1000).toFixed(0)} s)\n  ${await whereOf(shotTab)}`);
+  await done(browser, shotTab);
+}
+
+/** A run: the pose it opens on, then hook calls, each settled before the next. */
+type Run = { readonly hash: string; readonly steps: readonly string[] };
+
+const DEG = Math.PI / 180;
+const range = (n: number, f: (i: number) => string) => Array.from({ length: n }, (_, i) => f(i + 1));
+
+/** 2 % of the height per step, the reselection threshold; 0.05 rad per turn step. */
+const RUNS: Record<string, Run> = {};
+function addRuns(name: string, world: string, lat: number, lon: number, heading: number): void {
+  const pose = (h: number) => `#${world}@${lat},${lon},${h},${heading},-30,4.000`;
+  RUNS[`${name}-descent`] = { hash: pose(12_000), steps: range(21, (i) => call('setHeight', 12_000 * 0.98 ** i)) };
+  RUNS[`${name}-turn`] = { hash: pose(10_000), steps: range(20, (i) => call('turnTo', heading * DEG + 0.05 * i)) };
+  // 200 m east per step along the parallel: 4 km in 20.
+  const dLon = 200 / (6_371_000 * Math.cos(lat * DEG)) / DEG;
+  RUNS[`${name}-glide`] = { hash: pose(10_000), steps: range(20, (i) => `${hook}.moveTo(${lat}, ${lon + dLon * i}, 10000)`) };
+}
+
+const FILL = z.array(
+  z.object({
+    k: z.enum(['ask', 'got']),
+    t: z.number(),
+    id: z.string(),
+    level: z.number(),
+    stitched: z.boolean(),
+    land: z.boolean().optional(),
+    sea: z.boolean().optional(),
+    fillMs: z.number().optional(),
+  }),
+);
+
+async function run(browser: Browser, origin: string, name: string, { hash, steps }: Run): Promise<void> {
+  const t0 = Date.now();
+  const tab = await playOpen(browser, origin, hash);
+  await settle(tab, call('setHeight', Number(hash.split(',')[2])), 'open');
+  const opened = (await tab.evaluate('window.__fills.length', z.number()));
+  const marks: number[] = [opened];
+  for (const step of steps) {
+    await settle(tab, step, step);
+    marks.push(await tab.evaluate('window.__fills.length', z.number()));
+  }
+  const fills = FILL.parse(await tab.evaluate('window.__fills', z.unknown()));
+  fs.writeFileSync(path.join(DATA, `${name}.json`), JSON.stringify({ hash, steps, marks, fills, where: await whereOf(tab) }));
+  log(`${name}: ${fills.length} events, ${steps.length} steps (${((Date.now() - t0) / 1000).toFixed(0)} s)`);
+  await done(browser, tab);
+}
+
+async function main(): Promise<void> {
+  addRuns('hill', '2', Number(process.env.HLAT ?? -27), Number(process.env.HLON ?? 45), Number(process.env.HHEAD ?? 90));
+  addRuns('coast', '1', 19.968265, 4.750977, Number(process.env.CHEAD ?? 0));
+  const dir = process.env.DIR ?? VOVA_EXPORT;
+  const browser = await launch();
+  try {
+    await withPrintOrigin({ serve: 'export', dir }, async (origin) => {
+      if (only.startsWith('run:')) {
+        for (const [name, r] of Object.entries(RUNS)) if (`run:${name}`.startsWith(only)) await run(browser, origin, name, r);
+        return;
+      }
+      const extra = process.env.HILL;
+      if (extra !== undefined) {
+        const [n, w, ...rest] = extra.split(',');
+        const [la, lo, h, hd, lk, hr] = rest.map(Number) as [number, number, number, number, number, number];
+        (SHOTS.hill as Shot[]).push([n ?? 'hill', w ?? '2', la, lo, h, hd, lk, Number.isNaN(hr) ? null : hr]);
+      }
+      for (const [group, shots] of Object.entries(SHOTS)) {
+        if (only !== 'all' && only !== group) continue;
+        for (const shot of shots) await take(browser, origin, shot);
+      }
+    });
+  } finally {
+    await browser.close();
+    for (const e of errors) process.stderr.write(`ERR ${e}\n`);
+  }
+}
+
+await main();

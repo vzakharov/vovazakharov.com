@@ -1,0 +1,32 @@
+# Throwaway: Vova's frame with tile edges (red, level-change edges yellow) and the lowland floor (blue) over it,
+# and the before/after pixel difference.
+import sys
+import numpy as np
+from PIL import Image
+
+frame, before, mapfile, outfile = sys.argv[1:5]
+a = np.asarray(Image.open(frame).convert('RGB')).astype(int)
+b = np.asarray(Image.open(before).convert('RGB')).astype(int)
+diff = np.abs(a - b).max(axis=2)
+print('before/after: pixels differing', int((diff > 0).sum()), 'max', int(diff.max()))
+rows = [r.split(' ') for r in open(mapfile).read().split('\n')]
+S = 4
+img = a.copy()
+H, W = len(rows), len(rows[0])
+flat = 0
+for y in range(H):
+    for x in range(W):
+        c = rows[y][x]
+        if c == '-':
+            continue
+        lv, tid, f = c.split(':')
+        if f == '1':
+            flat += 1
+            img[y*S:(y+1)*S, x*S:(x+1)*S] = (img[y*S:(y+1)*S, x*S:(x+1)*S] * 0.5 + np.array([60, 90, 255]) * 0.5).astype(int)
+        for dy, dx in ((0, 1), (1, 0)):
+            if y + dy < H and x + dx < W and rows[y+dy][x+dx] != '-':
+                l2, t2, _ = rows[y+dy][x+dx].split(':')
+                if t2 != tid:
+                    img[y*S:(y+1)*S, x*S:(x+1)*S] = (255, 230, 0) if l2 != lv else (220, 0, 0)
+print('flat samples', flat)
+Image.fromarray(img.clip(0, 255).astype(np.uint8)).save(outfile)
