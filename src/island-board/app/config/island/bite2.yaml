@@ -50,12 +50,8 @@ items:
     type: sticky
     updated: [2026-11-09T02:32:17.000Z, agent:lead]
     box: [3600, 1430, 300, yellow]
-<<<<<<< HEAD
-    text: "Open for Vova: the Blablania–Feisis channel (6–19 km) closes in its south. Keeping it costs ~16× the build (K≈512) or a new local-patch mechanism. The lead's lean: let it close for now"
-=======
     text: "Open for Vova: the Blablania–Feisis channel (6–19 km) closes in its south. Keeping it costs ~16× the build (K≈512) or a new local-patch mechanism. The lead's lean: let it close for now — settled: it closes in bite 2, and Vova's dice rolls are the local patches"
     done: true
->>>>>>> origin/island/stretch-2
   - id: bite2-masd-call
     type: sticky
     updated: [2026-11-09T02:32:17.000Z, agent:lead]

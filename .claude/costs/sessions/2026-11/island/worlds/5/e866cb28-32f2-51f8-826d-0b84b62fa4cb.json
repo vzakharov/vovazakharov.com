@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 63,
+    "inputTokens": 80,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 103589,
-    "cacheReadTokens": 4169980,
-    "outputTokens": 13141,
-    "thinkingTokens": 2700,
-    "responses": 31,
-    "costUsd": 1.92578
+    "cacheWrite1hTokens": 112198,
+    "cacheReadTokens": 5498598,
+    "outputTokens": 15237,
+    "thinkingTokens": 2804,
+    "responses": 39,
+    "costUsd": 2.3023635999999996
   },
   "estimate": {
     "at": "2026-11-09T02:29:44.070Z",
@@ -48,22 +48,24 @@
   "branch": "island/worlds",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take island/worlds — бит 2 в PR #267, Вова ответил: модуль берегов удалить с надгробием, ответ в memo",
-  "prs": [],
+  "prs": [
+    267
+  ],
   "url": "https://claude.ai/code/session_01DaohkDMv7HtKkAccaMZCgL",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-09T02:29:12.502Z",
-  "lastResponseAt": "2026-11-09T02:36:04.480Z",
+  "lastResponseAt": "2026-11-09T02:36:47.763Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 63,
+    "inputTokens": 80,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 103589,
-    "cacheReadTokens": 4169980,
-    "outputTokens": 13141,
-    "thinkingTokens": 2700,
-    "responses": 31,
-    "costUsd": 1.92578
+    "cacheWrite1hTokens": 112198,
+    "cacheReadTokens": 5498598,
+    "outputTokens": 15237,
+    "thinkingTokens": 2804,
+    "responses": 39,
+    "costUsd": 2.3023635999999996
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,23 +79,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 63,
+      "inputTokens": 80,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 103589,
-      "cacheReadTokens": 4169980,
-      "outputTokens": 13141,
-      "thinkingTokens": 2700,
-      "responses": 31,
-      "costUsd": 1.92578
+      "cacheWrite1hTokens": 112198,
+      "cacheReadTokens": 5498598,
+      "outputTokens": 15237,
+      "thinkingTokens": 2804,
+      "responses": 39,
+      "costUsd": 2.3023635999999996
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 31,
-    "matched": 31,
-    "matchedTableUsd": 1.92578,
-    "matchedEventUsd": 1.9257799999999998,
+    "events": 38,
+    "matched": 38,
+    "matchedTableUsd": 2.2568976,
+    "matchedEventUsd": 2.2568976,
     "unseen": {}
   },
   "operatorWords": {
@@ -104,13 +106,13 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 8949,
+    ".py": 547,
+    ".md": 9252,
+    ".json": -1402,
     ".txt": 31,
-    ".py": 265,
-    ".ts": 3260,
-    ".json": 110,
+    ".ts": 530,
     ".sh": 43,
-    ".yaml": 77,
+    ".yaml": 105,
     ".tsx": 11
   }
 }
