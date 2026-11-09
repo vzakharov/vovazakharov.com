@@ -45,6 +45,12 @@ items:
     box: [2625.720312037562, 105.90156333340494, 200, yellow]
     text: ''
     deleted: true
+  - id: bite3-holes
+    type: image
+    updated: [2026-11-09T12:10:00.000Z, agent:lead]
+    box: [6760, 3760, 620]
+    src: images/bite3-holes.webp
+    text: 'Vova''s holes on turns, found: left, his frame at 529 m over Calabria; middle, a fast 8-step turn on the same spot; right, the same view 400 ms after the turn stops. The blue is the ocean globe under the land, showing where tiles for the side turned into are not yet in hand and nothing stands in for them. Fix in progress: the finest tile already in hand stands in. The same cover held #0 on level-2 tiles through the whole descent; that half is fixed'
   - id: bite3-floor
     type: image
     updated: [2026-11-09T11:45:00.000Z, agent:lead]
