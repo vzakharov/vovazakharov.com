@@ -20,6 +20,16 @@ with numbers rather than picking another.
   (`Rolled<typeof schema>`), and a table decodes to a typed lookup backed by a
   flat typed array, never an object per key: the harmonic table has 262,143
   entries.
+- **R2a. No package does it** (search 2026-11-09, the contract's call 3):
+  schema-driven generators (`fast-check`, `@anatine/zod-mock` over faker,
+  `json-schema-faker`) draw from one sequential stream, so a leaf added shifts
+  every later value — what call 3 forbids; counter-based generators
+  (`squares-rng`, Random123 ports) give random access by an integer counter, not
+  by a path, and carry no schema; `@thi.ng/random` and `d3-random` are
+  sequential distributions. Gen- and Pyro-style addressed choices have no
+  maintained JS port. Each covers one of the four wants (typed schema, path
+  keys, random access by key, pinned values); the hash by path is bite 2's
+  `murmur3`, and the vocabulary on it is about a hundred lines.
 - **R3. The schema this bite** is
   `{ land: { sea: normal, harmonic: table over 1 ≤ l ≤ L, −l ≤ m ≤ l of normal }, noise: { seed: word } }`.
   `land/sea` is the degree-0 coefficient; its decode (a mean and a spread on the
@@ -47,3 +57,34 @@ with numbers rather than picking another.
   world, the land share, the landmasses over 1% of the land and the largest's
   share. It is the tool the Done table reuses at step C, so it takes the world
   numbers and the envelope as arguments.
+- **R7. Taken from A's build** (`notes/b3-a.md`): the grid is Gauss–Legendre,
+  512 rings × 1024 longitudes, round trip 1.4e-13; synthesis ~175 ms and the
+  262,144-leaf hash and decode ~145 ms in Node. The `√2` sits in the harmonic,
+  not the coefficient, so the field is isotropic (the probe's `m = 0` terms
+  carry twice the others' variance). `land/sea` decodes as
+  `c₀₀ = √(4π) · σ · (−0.556 + 0.1 · sea)`, `σ` the field's expected spread, so
+  the constants carry to any envelope: worlds 1–50 average 29.0% land (23–36%).
+- **R8. `"0"` is a world number for the hash only until B7.** The game's URL
+  keeps reading `#0` as #1 until the switch, so step A changes nothing the game
+  runs.
+
+## Step B — the cube, the eye and #1
+
+`notes/b3-map.md` is the design and the cut (B1–B8); these settle its open
+calls.
+
+- **S1. The height's distance** is bite 2's B7 true distance on the sphere (the
+  lead, memo 04:02): the contract's "as bite 2 does" means what bite 2 does now.
+- **S2. The cube map** is equal-angle (`b3-map.md` § 2.1: cell edges within
+  1.41×, an exact inverse), a face edge landing on exactly ±1.
+- **S3. The coast field's grid** follows A's measured synthesis cost: the finest
+  that keeps the world build within the 3 s budget: 1024 × 2048, the series
+  synthesised onto it directly (~4× R7's 175 ms), its distance pass measured in
+  B2 against the rest of the budget.
+- **S4. The sun** is today's fixed sun turned by the least rotation taking
+  `CENTRE` to the eye (option b): #1 looks as it does today, any world seen from
+  any side is lit, and the one point where it turns abruptly is 10° S 180°, in
+  open sea on #1.
+- **S5. The coast slice comes back under `src/island/scripts/lib/`**, beside the
+  azimuthal map, so no `masd-disable` marker is needed: only the fit reads it.
+- **S6. #0 is the random world `H(0, ·)`** in step B's frames; step C pins it.

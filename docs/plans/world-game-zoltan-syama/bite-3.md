@@ -93,6 +93,15 @@ raise `L` on your own: every pinned world's size grows with `(L+1)²`.
 - **An open-ended list is the next bite's.** It gets its continuation roll at
   `…/<index>/more`, and its items' keys hold their index, so no list's length
   shifts anyone's bits. Nothing in this bite needs one.
+- **Look for a package before building `roll`.** Vova: «перепроверить наличие
+  готовых пакетов, чтобы не изобретать велосипед». The neighbours are
+  property-based testing's typed generators over a choice sequence (fast-check,
+  Hypothesis), probabilistic programming's addressed choices with constrained
+  traces (Gen, Pyro), and counter-based generators keyed by `(seed, key)`
+  (Philox/Random123, JAX's keys). Check npm for one that gives typed schemas,
+  path keys, random access by key and pinned values together, or a part of that
+  worth building on. Post what you found, and why you took it or did not, before
+  you write the vocabulary yourself.
 - **The schema's leaves replace the word indexing.** `layout.ts`'s indexing and
   the dome go.
 

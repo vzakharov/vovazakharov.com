@@ -83,5 +83,9 @@ items:
     type: sticky
     updated: [2026-11-09T03:30:00.000Z, agent:lead]
     box: [5700, 1910, 310, pink]
-    text: "A world as a program the hash answers: “how many continents?” → a roll, “a river here?” → a roll. Parameters named, not numbered, so adding one never shifts every world — through a typed interface, not strings (Vova). And land on the whole sphere, not one flat patch laid on it"
-
+    text: 'A world as a program the hash answers: “how many continents?” → a roll, “a river here?” → a roll. Parameters named, not numbered, so adding one never shifts every world — through a typed interface, not strings (Vova). And land on the whole sphere, not one flat patch laid on it'
+  - id: l-earth-bite3
+    type: line
+    updated: [2026-11-09T04:05:00.000Z, agent:lead]
+    ends: [earth-3, z-bite3]
+    text: taken up as
