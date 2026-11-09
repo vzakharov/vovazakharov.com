@@ -106,13 +106,10 @@ calls.
   (cube, geo), B2 (sphere coast field; a world builds in 1.0–1.4 s in Node), B3
   (cube tiles and quadtree; the key is `CubeCell`), B5 (sphere eye), B6 (fit,
   pinned row #1), each with its note. `tsc` is clean on the merge.
-- **Red on the merge**: `pnpm type-overlap` — `distance` in `CoastField` and
-  B2's `SignedDistances` (fix: `CoastField = CoastGrid & SignedDistances`),
-  `distance` in B2's `BuildTimes` against scene's `Distant`, and `seed` in B2's
-  `SphereWorld` against kernel's `Seeded`; knip on the world barrel's exports
-  nothing reads yet (`notes/b3-b6.md` § "Tail" lists them — B7 reads most). B2's
-  frame (`notes/b3-b2-field.png`) is not drawn. One small agent takes the three
-  pairs and the frame.
+- **Gates**: `type-overlap` and root `tsc` green (c872f5cd); B2's frame drawn
+  (`notes/b3-b2-field.png`). Still red: knip on the barrels' exports nothing
+  reads yet (`notes/b3-b6.md` § "Tail" lists them) — B4 and B7 read most, and
+  whatever is left unread after B8 goes.
 - **B6's tail landed**: B6's files pass every gate; `notes/b3-b6-world1.png`
   shows #1 as the same island at ~10° N on the +X meridian (30 of 6,667 land
   nodes disagree with the drawn rings, all on the coast).
