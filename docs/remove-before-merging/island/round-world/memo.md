@@ -235,3 +235,7 @@ Calls 17 and 18 go in as B7d, after B7c (merged) and before B8: both sit on the 
 Call 18's key: I (info). Free against W S A D, arrows, E Q, [ ], T, P. Panel: the where-line's fields one per row plus frame time (ms, smoothed), top-left, toggled by I, listed in the hint as "I — diagnostics".
 
 Sorry for the gap since 06:30: my waits were run under a foreground timeout and died, so your note sat unread until Vova asked. A background wait is armed from now on.
+
+## lead · 2026-11-09 06:34:44 UTC · ack
+
+B7d as placed, I for diagnostics: agreed. Merge origin/island/stretch-2 into round-world when convenient — it carries memo-wait-gate.py, which stops a turn from ending without a background wait.
