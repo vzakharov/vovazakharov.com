@@ -1,7 +1,7 @@
 /**
- * When the player is told the look can move: up once the horizon sits at or
- * below the middle of the frame's side edges, down once the height's pitch
- * has reached its floor — neither once the player has moved the look.
+ * When the player is told the look can move: up once the horizon shows at the
+ * frame's top corners, down once the height's pitch has reached its floor —
+ * neither once the player has moved the look.
  */
 
 import type { Elevated } from '@/island/shared/globe';
@@ -12,17 +12,32 @@ import { fovFor, GROUND_PITCH, pitchAt } from './pose';
 export type LookHint = 'up' | 'down';
 
 /**
- * The pitch below the level at or under which the horizon at the side edges
- * of a screen `aspect` wide per unit of height sits at or below their middle,
- * from `height`, radians: the ray through a side edge at mid-height then
- * grazes the horizon, `asin(sin δ / cos(φ/2))` with `δ` the horizon's dip and
- * `φ` the horizontal field of view. High enough that those rays miss the
- * planet at every pitch, it is straight down.
+ * The pitch below the level at or under which the horizon shows at the top
+ * corners of a screen `aspect` wide per unit of height, from `height`,
+ * radians: the ray through a top corner then grazes the horizon.
  */
-export function upHintPitch(height: number, aspect: number): number {
-  const across = 2 * Math.atan(Math.tan(fovFor(aspect) / 2) * aspect);
-  const share = Math.sin(dipAt(height)) / Math.cos(across / 2);
-  return share >= 1 ? Math.PI / 2 : Math.asin(share);
+export function upHintPitch(
+  height: number,
+  aspect: number,
+): number | undefined {
+  const up = fovFor(aspect) / 2;
+  return grazingPitch(dipAt(height), up, Math.atan(Math.tan(up) * aspect));
+}
+
+/**
+ * The pitch below the level at which the ray through a top corner of a frame
+ * with half fields `across` and `up` grazes a horizon `dip` below the level,
+ * radians: `θv + asin(sin δ · √(1 + tan²θh · cos²θv))`. `undefined` where the
+ * asin's argument passes 1: no pitch puts a corner ray on the horizon, the
+ * planet fitting in the frame.
+ */
+export function grazingPitch(
+  dip: number,
+  up: number,
+  across: number,
+): number | undefined {
+  const share = Math.sin(dip) * Math.hypot(1, Math.tan(across) * Math.cos(up));
+  return share > 1 ? undefined : up + Math.asin(share);
 }
 
 /** The hint `eye` earns on a screen `aspect` wide per unit of height, if any. */
@@ -32,6 +47,9 @@ export function lookHint(
 ): LookHint | undefined {
   if (look !== 0) return undefined;
   if (pitchAt(height) <= GROUND_PITCH) return 'down';
-  if (pitchFor(height, look) <= upHintPitch(height, aspect)) return 'up';
+  const threshold = upHintPitch(height, aspect);
+  if (threshold !== undefined && pitchFor(height, look) <= threshold) {
+    return 'up';
+  }
   return undefined;
 }

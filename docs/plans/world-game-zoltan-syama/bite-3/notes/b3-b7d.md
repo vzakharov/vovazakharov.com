@@ -5,36 +5,46 @@ c9f60859. Built and checked; not yet looked at in a browser.
 
 ## Call 17 — look hints
 
-- `features/eye/model/look-hint.ts`: `upHintPitch(height, aspect)` =
-  `asin(sin δ / cos(φ/2))`, `δ = dipAt(height)`, `φ` the horizontal field from
-  `fovFor(aspect)` (now exported from `pose.ts`); `π/2` where `sin δ ≥ cos(φ/2)`
-  (the side edges' mid-height rays miss the planet at every pitch, so the
-  horizon there is below the middle whatever the pitch).
+- `features/eye/model/look-hint.ts`: the up threshold is where the ray through a
+  **top corner** grazes the horizon (Vova's decision, superseding the side-edge
+  mid-height rule): `grazingPitch(δ, θv, θh)` =
+  `θv + asin(sin δ · √(1 + tan²θh · cos²θv))`, the contract's formula (stretch-2
+  30e78ea5), `undefined` where the asin's argument passes 1 (no up hint).
+  `upHintPitch(height, aspect)` feeds it `δ = dipAt(height)`,
+  `θv = fovFor(aspect)/2`, `θh = atan(tan θv · aspect)`.
   `lookHint(eye, aspect)`: `undefined` while `look ≠ 0`; `'down'` once
   `pitchAt(h) ≤ GROUND_PITCH`; `'up'` once `pitchFor(h, look) ≤ p*`.
 - `island-scene.ts` takes `onLookHint`, told only on a change, never under play.
   `island-canvas.tsx` shows it in an `<output class="lookHint">` on the
   where-confirmation's glass, 64 px from the top; keys or touch wording picked
   by the hint's `hintKeys`/`hintTouch` media rules. `en.json` `look.up/down`.
-- Tests: `look-hint.test.ts` (the side-edge ray at `p*` grazes the horizon
-  within 1e-12 at 100 m, 10 km, 1,000 km on 16:9 and 1:2; π/2 at 20,000 km; both
-  hints; moved look), `config/en.test.ts` (wording).
+- Tests: `look-hint.test.ts` (an independently built top-corner ray at `p*`
+  grazes the horizon within 1e-12 from 100 m to 1,000 km on 16:9, 1:1, 1:2;
+  `grazingPitch` with `θv = 0` is `asin(sin δ / cos θh)` within 1e-12; no
+  threshold and no hint at 20,000 km; both hints; moved look),
+  `config/en.test.ts` (wording).
 
 ### Thresholds (look 0)
 
-| height    | dip    | p\* 16:9 | p\* 1:1 and portrait | pitchAt | hint |
-| --------- | ------ | -------- | -------------------- | ------- | ---- |
-| 100 m     | 0.321° | 0.417°   | 0.354°               | 13.05°  | none |
-| 10 km     | 3.208° | 4.169°   | 3.540°               | 44.41°  | none |
-| 1,000 km  | 30.19° | 40.79°   | 33.71°               | 80.83°  | none |
-| 20,000 km | 76.02° | 90°      | 90°                  | 90°     | up   |
+| height    | dip    | p\* 16:9 | p\* 1:1 | pitchAt | hint |
+| --------- | ------ | -------- | ------- | ------- | ---- |
+| 100 m     | 0.32°  | 25.40°   | 25.35°  | 13.05°  | up   |
+| 1 km      | 1.02°  | 26.27°   | 26.10°  | 25.82°  | up   |
+| 10 km     | 3.21°  | 29.01°   | 28.48°  | 44.41°  | none |
+| 100 km    | 10.09° | 37.65°   | 35.96°  | 64.26°  | none |
+| 1,000 km  | 30.19° | 63.98°   | 58.09°  | 80.83°  | none |
+| 20,000 km | 76.02° | none     | none    | 90°     | none |
 
-"Down" shows at and below 20 m (`GROUND_PITCH_BELOW`). **"Up" shows only from
-3,591 km (16:9) or 8,700 km (square or portrait) upward**: `pitchAt` stays
-10–40° over `p*` at every lower height, so on a descent the horizon at the side
-edges never reaches mid-frame and the up hint never shows below orbit. Built to
-the contract as written; whether that is what Vova's «как только вид на горизонт
-заполнял бы по краям половину вертикали» means is the lead's call.
+On a descent (look 0), the hint changes at:
+
+- **16:9** — up 4,235 km → none 2,500 km → **up 1,071 m** → down 20 m.
+- **1:1** — up 9,995 km → none 4,757 km → **up 1,043 m** → down 20 m.
+- **1:2** — up 13,367 km → none 1,738 km → **up 13.3 km** → down 20 m.
+
+The high band is where `p*` exceeds 90° (the corner ray would graze only past
+straight down) while the asin's argument is still under 1: the contract's
+formula shows the hint there, since `pitchAt ≤ 90° < p*`. Vova's wording ("no
+corner ray can graze it") would read as none there; built to the contract.
 
 ## Call 18 — diagnostics panel
 
