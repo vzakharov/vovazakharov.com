@@ -5,13 +5,12 @@ import {
   sphereDistanceField,
   type SphereField,
 } from '../../coast-field';
-import { isLand } from './contour';
 import { pathHash } from './hash';
 import { type Envelope, landSeries, PROBE_ENVELOPE } from './land-series';
 import { legendreRecursion } from './legendre';
 import { pinnedSeries } from './pinned-row';
 import { rollWith, type WordSource } from './roll';
-import { sphereContourOf } from './sphere-contour';
+import { isLand, sphereContourOf } from './sphere-contour';
 import { gaussLegendre, type RingGrid } from './sphere-grid';
 import { synthesize } from './sphere-series';
 import { LAND_DEGREE, worldSchema } from './world-schema';

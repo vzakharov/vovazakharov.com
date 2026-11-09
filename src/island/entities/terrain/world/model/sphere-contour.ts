@@ -4,7 +4,13 @@ import {
   nodeOf,
   nodePosition,
 } from '../../coast-field';
-import { isLand } from './contour';
+
+/**
+ * Whether a world field's value `f` is land, lakes being water: the one test
+ * the coast's contour and the land mask its distance is signed by both read,
+ * so the two agree on every node.
+ */
+export const isLand = (f: number): boolean => f > 0;
 
 /**
  * The zero line of `f` (a field on `grid`'s nodes, land where `isLand`) by

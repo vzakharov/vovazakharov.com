@@ -27,8 +27,6 @@ export {
   synthesize,
 } from './model/sphere-series';
 export { openSphereWorld } from './model/sphere-world';
-export { SQUARE } from './model/square';
-export { buildWorldField, worldSeed } from './model/world-field';
 export {
   type Harmonic,
   LAND_DEGREE,

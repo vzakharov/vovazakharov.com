@@ -33,7 +33,6 @@ export {
 export {
   analyze,
   assertWorldNumber,
-  buildWorldField,
   decodePinnedRow,
   encodePinnedRow,
   type Envelope,
@@ -57,10 +56,8 @@ export {
   rollWorld,
   type SphereTransform,
   sphereTransform,
-  SQUARE,
   synthesize,
   type WordSource,
   type World,
   worldSchema,
-  worldSeed,
 } from './world';
