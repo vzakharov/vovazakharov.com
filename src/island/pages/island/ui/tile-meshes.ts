@@ -32,7 +32,13 @@ type Held = TileKeyed &
     lastDrawn: number;
   };
 
-export type TileMeshes = CanDispose & {
+/** Tiles held until disposed, which can all be let go at once. */
+export type HeldTiles = CanDispose & {
+  /** Lets every tile go, root tiles included, for a world rebuilt from scratch. */
+  readonly clear: () => void;
+};
+
+export type TileMeshes = HeldTiles & {
   readonly has: (id: string) => boolean;
   readonly add: (tile: FilledTile) => void;
   /**
@@ -43,13 +49,14 @@ export type TileMeshes = CanDispose & {
   readonly draw: (keys: readonly CubeCell[], eye: Vec3) => void;
   /** Lets the least recently drawn go past `CAPACITY`, never one in `keep` nor a root tile. */
   readonly evict: (keep: ReadonlySet<string>) => void;
-  /** Lets every tile go, root tiles included, for a world rebuilt from scratch. */
-  readonly clear: () => void;
   readonly size: () => number;
 };
 
 /** A tile's geometry, carrying `colourBy` as the heights its material colours by. */
-function geometryOf(mesh: TileMesh<CubeCell>, colourBy: Float32Array): BufferGeometry {
+function geometryOf(
+  mesh: TileMesh<CubeCell>,
+  colourBy: Float32Array,
+): BufferGeometry {
   const geometry = new BufferGeometry();
   geometry.setAttribute('position', new BufferAttribute(mesh.positions, 3));
   geometry.setAttribute('normal', new BufferAttribute(mesh.normals, 3));
@@ -90,12 +97,14 @@ export function tileMeshes(
         meshes.push(new Mesh(geometryOf(land, colourBy), materials.land));
       }
       if (sea !== null) {
-        if (floor === null) throw new Error(`tile ${cubeTileId(key)}: no floor`);
+        if (floor === null)
+          throw new Error(`tile ${cubeTileId(key)}: no floor`);
         const colourBy = colourHeights(floor, sea.grid);
         meshes.push(new Mesh(geometryOf(sea, colourBy), materials.sea));
       }
       const source = land ?? sea;
-      if (source === null) throw new Error(`tile ${cubeTileId(key)}: no surface`);
+      if (source === null)
+        throw new Error(`tile ${cubeTileId(key)}: no surface`);
       const [cx = 0, cy = 0, cz = 0] = source.centre;
       for (const mesh of meshes) {
         mesh.visible = false;

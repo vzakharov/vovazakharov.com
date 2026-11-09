@@ -80,7 +80,9 @@ export function startTilePool(
     worker.addEventListener('message', (event: MessageEvent<WorkerReply>) => {
       const message = event.data;
       if (message.kind === 'failed') {
-        const error = new Error(`tile worker ${String(index)}: ${message.message}`);
+        const error = new Error(
+          `tile worker ${String(index)}: ${message.message}`,
+        );
         field.reject(error);
         onError(error);
         return;
