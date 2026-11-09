@@ -1,8 +1,22 @@
-import { attribute, clamp, lights, mix, smoothstep, vec3 } from 'three/tsl';
+import {
+  attribute,
+  cameraFar,
+  cameraNear,
+  clamp,
+  lights,
+  mix,
+  positionView,
+  smoothstep,
+  varying,
+  vec3,
+  viewZToLogarithmicDepth,
+} from 'three/tsl';
 import {
   Color,
   DirectionalLight,
   HemisphereLight,
+  InterpolationSamplingMode,
+  InterpolationSamplingType,
   type Light,
   MeshLambertNodeMaterial,
   type Node,
@@ -54,6 +68,23 @@ const WATERLINE_DEPTH = 6;
 export const HEIGHT_ATTRIBUTE = 'height';
 
 const heightNode = () => attribute(HEIGHT_ATTRIBUTE, 'float');
+
+/**
+ * The tiles' logarithmic depth, from a view depth sampled at the centroid of
+ * the covered MSAA samples. A depth the shader writes is one value for every
+ * sample a fragment covers; taken at the pixel centre, a skirt's would be
+ * extrapolated past its thin triangle to above the neighbour's surface it
+ * hangs under, and win samples along the shared edge.
+ */
+const depthNode = () =>
+  viewZToLogarithmicDepth(
+    varying(positionView.z, 'v_tileViewZ').setInterpolation(
+      InterpolationSamplingType.PERSPECTIVE,
+      InterpolationSamplingMode.CENTROID,
+    ),
+    cameraNear,
+    cameraFar,
+  );
 
 /** The ground's colour per fragment, `GROUND_STOPS` blended by its interpolated height. */
 function groundColourNode(height: Node<'float'>) {
@@ -117,9 +148,11 @@ export function groundLighting(): GroundLighting {
 
   const land = new MeshLambertNodeMaterial();
   land.colorNode = groundColourNode(heightNode());
+  land.depthNode = depthNode();
   land.lightsNode = lights([landSun, landMoon, sky]);
   const sea = new MeshLambertNodeMaterial();
   sea.colorNode = seaColourNode(heightNode());
+  sea.depthNode = depthNode();
   sea.lightsNode = lights([seaSun, seaMoon, sky]);
   const ocean = new MeshLambertNodeMaterial({ color: SEA_COLOUR });
   ocean.lightsNode = lights([seaSun, seaMoon, sky]);
