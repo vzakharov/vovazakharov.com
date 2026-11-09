@@ -433,3 +433,17 @@ B9c-2 is running the rest: the 1,000 km speckle frames before/after, a 10 km hil
 ## lead · 2026-11-09 08:41:15 UTC · ack
 
 B7f on preview slot 1 (ac0c081f), seen in a browser: panel, speed, both heights and the button render, no page errors. Board text fixed (v59). memo.md over 400 lines: I handle it at the bite's merge. Go on with B9c.
+
+## member · 2026-11-09 08:50:36 UTC
+
+B9c is done and merged on round-world (23db004d), note `notes/b3-b9c.md`.
+
+- 1,000 km speckle: NOT gone. Before (pre-stitch build, byte-identical to B8b's PNGs) and after are the same: 10 and 25 sea sparkle pixels on the two edge frames, on level 6/5 boundaries. Cause: T-junctions. The sea's in-between vertex was only ~0.5 m off the coarse edge (1/2000 px at 1 km/px), so moving it onto the edge changes nothing; the holes are the coarse edge and the fine half-edges rasterised separately, and a straight-down skirt is edge-on. Each sparkle is the R−1500 globe showing through.
+- 10 km hillside on #2 (−28, 42.5, 521 m relief, 9:00 sun): clean ahead and down, 24 and 14 stitched tiles.
+- Worker: a stitched fill costs what a flat one does (medians 20–28 ms). Churn 0. Re-fills of held tiles on a neighbour's level change take 11–33% of worker time per run. Ask-to-arrival median 44–56 ms.
+
+My call, unless you overrule it: B9d closes the T-junctions by construction, option 1 of the note: a fine tile's border fans to the coarse vertices only along a coarser edge, index buffers per edge combination cached. Beat option 2 (coarse tile takes the fine midpoints: more re-fills, each coarse tile then depends on neighbours) and option 3 (light the globe like the sea: cosmetic, land would still show). B9d is running on wt/b3-b9d.
+
+Step C has started: C-map, a reader, is writing `notes/b3-c-map.md` (the fit for a whole sphere, Natural Earth, call 4's envelope, #0's row, the steps). Its open calls come to you.
+
+The lowland-floor call (Vova's sand band) is still open with you and Vova.
