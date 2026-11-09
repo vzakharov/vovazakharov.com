@@ -194,7 +194,12 @@ step"), less the world-number fork, which bite 2 settles.
 
 ## Open bites
 
-None in hand.
+- **Bite 3 — a round world, and Earth as world #0** — contract
+  `docs/plans/world-game-zoltan-syama/bite-3.md`, the lead's probe beside it in
+  `bite-3/`. Land is a spherical-harmonic series over the whole sphere, tiles a
+  cube of six quadtrees, parameters a typed schema keyed by path, pinned worlds
+  a table (#0 Earth from Natural Earth, #1 ours re-fitted), random worlds on
+  Earth's measured envelope; no count set anywhere. Branch `island/round-world`.
 
 ## Next bites
 
@@ -204,21 +209,12 @@ None in hand.
   lakes touching each other and the sea, and later rivers and mountains by the
   same mechanism. World 1's rolls are fitted to the mask as the harmonics are
   today. Bite 2 lands with the strait closed; this bite lays over it.
-- **Earth as world #0, on a round world** — taken on («я хочу чтобы мы и взялись
-  за это же»). Land is defined over the whole sphere, not on the one flat patch
-  `src/island/shared/globe/globe.ts` lays on it («как бы я ни любил Пратчетта,
-  для нас всё же хочу чего-то менее магического»); a mask per pinned world (#0
-  Earth, #1 ours); parameters named rather than indexed, «строго типизированный
-  интерфейс … чтобы мы … не заблудились в строках». The rationale is on the
-  board's infinite-worlds zone. Comes first, before objects from dice rolls,
-  which then place their objects on the sphere («давай начинать, порядок up to
-  you»). No count is ever fixed: «необходимость каждого следующего континента
-  решается броском кубика после рисования предыдущего -- таким образом что _в
-  среднем_ у нас получается как на Земле (но в бесконечном пространстве миров
-  возможен мир со сколь угодно многими континентами)»; how — and whether
-  continent and island differ, or land just goes largest piece first — is for
-  later. Also for later: «Пангея … правая линия южной америки коррелирует с
-  левой африки» — Earth's land is not independent strokes.
+- **Open-ended lists and Pangaea**, after bite 3: «необходимость каждого
+  следующего континента решается броском кубика после рисования предыдущего» —
+  bite 3 gets free counts from the spectrum alone, so a continuation roll
+  arrives with the first list of things (objects, or land largest piece first).
+  «Пангея … правая линия южной америки коррелирует с левой африки» — Earth's
+  land is not independent strokes.
 
 ## Rest of the elephant
 
