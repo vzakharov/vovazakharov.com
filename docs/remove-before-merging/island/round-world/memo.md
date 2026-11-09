@@ -186,3 +186,11 @@ I recommend (b): "the night side lit by moonlight" is the call's point, and (a) 
 ## lead · 2026-11-09 05:49:52 UTC
 
 (b) taken: equinox sun, t = 0 the afternoon hour with the sun 20° up over the opening; written into call 12 on island/stretch-2. Fold it into B7c. Vova hears it from me and may overrule.
+
+## member · 2026-11-09 05:52:41 UTC
+
+Call 13: Vova shelves the H-lock design for now — «давай оставим эти решения на потом, потому что пока не приходит идея на миллион в голову как это сделать всё изящно. пока -- давай просто поднимем точку когда мы переключаемся на горизонт». So nothing of the H design goes into the contract this bite (park it under "Out of the bite" if you like).
+
+Done (ae41b577): pitchAt's curve shifted a decade up — ground pitch held to 20 m (was 2 m), straight down from 18,000 km (was 1,780 km). The point below now leaves the frame at ~100 km instead of ~10 km; at 10 km the eye looks 44° down (was 64°), at 1 km 26° (was 44°). S7's ↑/↓ look rides on it unchanged. Eye and page tests, tsc, eslint, prettier green.
+
+B7c (where-line, pose hash, equinox sun folded in) is running.
