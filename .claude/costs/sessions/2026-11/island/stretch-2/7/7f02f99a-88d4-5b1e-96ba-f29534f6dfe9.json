@@ -1,0 +1,98 @@
+{
+  "total": {
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 55444,
+    "cacheReadTokens": 587647,
+    "outputTokens": 1892,
+    "thinkingTokens": 425,
+    "responses": 6,
+    "costUsd": 0.5989773999999999
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": null,
+    "endedOn": null,
+    "endedAt": null,
+    "contextTokens": null,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 55444,
+      "cacheReadTokens": 587647,
+      "outputTokens": 1892,
+      "thinkingTokens": 425,
+      "responses": 6,
+      "costUsd": 0.5989773999999999
+    }
+  },
+  "sessionId": "7f02f99a-88d4-5b1e-96ba-f29534f6dfe9",
+  "branch": "island/stretch-2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/stretch-2 — бит 3 (круглый мир, Земля как #0) строится у участника, решения про солнце и клавиши переданы",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEZ8LZf6wtY7sJ5gMd",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-09T04:38:51.468Z",
+  "lastResponseAt": "2026-11-09T04:39:15.940Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 55444,
+    "cacheReadTokens": 587647,
+    "outputTokens": 1892,
+    "thinkingTokens": 425,
+    "responses": 6,
+    "costUsd": 0.5989773999999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 55444,
+      "cacheReadTokens": 587647,
+      "outputTokens": 1892,
+      "thinkingTokens": 425,
+      "responses": 6,
+      "costUsd": 0.5989773999999999
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 6,
+    "matched": 6,
+    "matchedTableUsd": 0.5989773999999999,
+    "matchedEventUsd": 0.5989774,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".py": 718,
+    ".md": 9804,
+    ".json": -1397,
+    ".txt": 31,
+    ".ts": 623,
+    ".sh": 43,
+    ".yaml": 214,
+    ".tsx": 11
+  }
+}
