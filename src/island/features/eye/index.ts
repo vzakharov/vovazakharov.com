@@ -19,6 +19,7 @@ export {
   type Opening,
   openingOf,
   step as stepOnGlobe,
+  STILL,
   withHeading as withGlobeHeading,
   withHeight as withGlobeHeight,
 } from './model/globe-eye';

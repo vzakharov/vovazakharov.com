@@ -3,7 +3,8 @@
  * easing, over a point on the unit sphere and a tangent heading carried
  * along as it moves. No latitude, longitude or heading angle is held, so a
  * pole is an ordinary point; angles appear only where a place is named
- * (`eyeAt`, `withHeading`, `headingOf`).
+ * (`eyeAt`, `withHeading`, `headingOf`). The look up and down is an offset
+ * from the pitch the height gives, eased like the turn (`./look`).
  */
 
 import {
@@ -28,11 +29,19 @@ import {
   FLOOR_SECONDS,
   type Floored,
   HEIGHTS_PER_SECOND,
-  type Intent,
+  IDLE,
+  type Intent as PlaneIntent,
   MAX_HEIGHT,
   MIN_HEIGHT,
   TURN_RADIANS_PER_SECOND,
 } from './eye';
+import {
+  type Looked,
+  lookWithin,
+  TILT_RADIANS_PER_SECOND,
+  type Tilting,
+  UNTILTED,
+} from './look';
 import {
   aheadAt,
   headingAt,
@@ -51,8 +60,8 @@ type Facing = {
   readonly ahead: Vec3;
 };
 
-/** A place, height and facing: where the eye is, or where it eases to. */
-type Poised = Facing & Elevated;
+/** A place, height, facing and look: where the eye is, or where it eases to. */
+type Poised = Facing & Elevated & Looked;
 
 /** `height` is above `floor`. */
 export type Eye = Poised &
@@ -60,6 +69,12 @@ export type Eye = Poised &
     /** Where the eye is easing to; `height` there is above the floor too. */
     readonly aim: Poised;
   };
+
+/** What the player asks of the eye over one frame: the planar eye's, and the look. */
+export type Intent = PlaneIntent & Tilting;
+
+/** No input, the look's included: what a frame with nothing pressed steps by. */
+export const STILL: Intent = { ...IDLE, ...UNTILTED };
 
 /** Ground level, in metres above the sea, under unit vector `p`. */
 export type GroundAt = (p: Vec3) => number;
@@ -98,8 +113,9 @@ export function eyeAt(place: Opening, groundAt: GroundAt): Eye {
     at,
     ahead,
     height,
+    look: 0,
     floor: surfaceAt(groundAt, at),
-    aim: { at, ahead, height },
+    aim: { at, ahead, height, look: 0 },
   };
 }
 
@@ -125,7 +141,9 @@ export const headingOf = (eye: Eye) => headingAt(eye.at, eye.ahead);
  * The aim moved by `intent` over `dt` seconds, at the eye's own height and
  * along the facing the screen shows now, carried to the aim, so a drag
  * follows what is seen. The move is along a great circle, which carries the
- * aim's facing with it; the turn is then about the aim's point.
+ * aim's facing with it; the turn is then about the aim's point. The look is
+ * kept within what the aim's height lets show, so a key held past a limit
+ * banks nothing to unwind.
  */
 function aimed(eye: Eye, intent: Intent, dt: number): Eye['aim'] {
   const reach = eye.height;
@@ -149,10 +167,13 @@ function aimed(eye: Eye, intent: Intent, dt: number): Eye['aim'] {
   const turn = intent.turn * TURN_RADIANS_PER_SECOND * dt + intent.twist;
   const doublings =
     intent.climb * CLIMB_DOUBLINGS_PER_SECOND * dt + intent.doublings;
+  const height = clamp(eye.aim.height * 2 ** doublings, MIN_HEIGHT, MAX_HEIGHT);
+  const tilt = intent.tilt * TILT_RADIANS_PER_SECOND * dt + intent.nod;
   return {
     at,
     ahead: tangent(rotated(carried, { axis: at, radians: -turn }), at),
-    height: clamp(eye.aim.height * 2 ** doublings, MIN_HEIGHT, MAX_HEIGHT),
+    height,
+    look: lookWithin(eye.aim.look + tilt, height),
   };
 }
 
@@ -161,7 +182,7 @@ function aimed(eye: Eye, intent: Intent, dt: number): Eye['aim'] {
  * eye eases toward it — along the great circle to the aim's point, carrying
  * its facing, which then turns the shorter way toward the aim's facing
  * carried to the same point; height in its logarithm, so a climb is as
- * smooth at orbit as at the ground — then the floor eases toward the surface
+ * smooth at orbit as at the ground; the look straight — then the floor eases toward the surface
  * now under the eye, and the eye is lifted if that left it under
  * `MIN_HEIGHT`.
  */
@@ -188,6 +209,7 @@ export function step(
     at,
   );
   const eased = eye.height * (aim.height / eye.height) ** toward;
+  const look = eye.look + (aim.look - eye.look) * toward;
   const surface = surfaceAt(groundAt, at);
   const floor = eye.floor + (surface - eye.floor) * easing(dt, FLOOR_SECONDS);
   const height = clamp(
@@ -195,5 +217,5 @@ export function step(
     MIN_HEIGHT,
     MAX_HEIGHT,
   );
-  return { at, ahead, height, floor, aim };
+  return { at, ahead, height, look, floor, aim };
 }

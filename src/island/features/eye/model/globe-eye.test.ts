@@ -17,8 +17,6 @@ import {
 import {
   CLIMB_DOUBLINGS_PER_SECOND,
   HEIGHTS_PER_SECOND,
-  IDLE,
-  type Intent,
   MAX_HEIGHT,
   MIN_HEIGHT,
   shortest,
@@ -29,8 +27,10 @@ import {
   eyeAt,
   type GroundAt,
   headingOf,
+  type Intent,
   ISLAND_OPENING,
   step,
+  STILL,
   withHeading,
   withHeight,
 } from './globe-eye';
@@ -65,9 +65,9 @@ const between = (a: Vec3, b: Vec3) =>
 const atCentre = (height: number, heading = 0) =>
   eyeAt({ ...ISLAND_OPENING, height, heading }, flat);
 
-const climbing: Intent = { ...IDLE, climb: 1 };
-const falling: Intent = { ...IDLE, climb: -1 };
-const forward: Intent = { ...IDLE, steer: [0, 1] };
+const climbing: Intent = { ...STILL, climb: 1 };
+const falling: Intent = { ...STILL, climb: -1 };
+const forward: Intent = { ...STILL, steer: [0, 1] };
 
 describe('climbing on the sphere', () => {
   it('doubles the height every 1/CLIMB_DOUBLINGS_PER_SECOND seconds while held', () => {
@@ -98,7 +98,7 @@ describe('climbing on the sphere', () => {
   it('jumps to a height at once with withHeight', () => {
     const eye = withHeight(atCentre(1000), 50);
     assert.equal(eye.height, 50);
-    assert.equal(step(eye, IDLE, FRAME, flat).height, 50);
+    assert.equal(step(eye, STILL, FRAME, flat).height, 50);
   });
 });
 
@@ -120,7 +120,7 @@ describe('moving on the sphere', () => {
     assert.ok(Math.abs(dot(east.at, NORTH) * R) < 1e-6);
     const south = hold(
       atCentre(100, Math.PI / 2),
-      { ...IDLE, steer: [1, 0] },
+      { ...STILL, steer: [1, 0] },
       1,
     );
     assert.ok(dot(south.at, NORTH) * R < -50);
@@ -129,8 +129,8 @@ describe('moving on the sphere', () => {
 
   it('moves a drag of one height by one height', () => {
     const eye = hold(
-      step(atCentre(300), { ...IDLE, shift: [1, 0] }, FRAME, flat),
-      IDLE,
+      step(atCentre(300), { ...STILL, shift: [1, 0] }, FRAME, flat),
+      STILL,
       2,
     );
     assert.ok(Math.abs(dot(eye.at, EAST) * R - 300) < 0.01);
@@ -160,8 +160,8 @@ describe('moving on the sphere', () => {
   it('turns at the pole, then steers along the turned heading', () => {
     const pole = eyeAt({ lat: Math.PI / 2, lon: 0, height: 100_000 }, flat);
     const turned = hold(
-      step(pole, { ...IDLE, twist: Math.PI / 2 }, FRAME, flat),
-      IDLE,
+      step(pole, { ...STILL, twist: Math.PI / 2 }, FRAME, flat),
+      STILL,
       2,
     );
     assert.ok(Math.abs(turned.at[1] - 1) < 1e-12);
@@ -174,7 +174,7 @@ describe('moving on the sphere', () => {
 });
 
 describe('turning on the sphere', () => {
-  const right: Intent = { ...IDLE, turn: 1 };
+  const right: Intent = { ...STILL, turn: 1 };
 
   /** Radians a held turn key turns the eye in one second at `height`, once settled. */
   const rate = (height: number) => {
@@ -189,15 +189,15 @@ describe('turning on the sphere', () => {
   });
 
   it('glides through a twist rather than stepping', () => {
-    const first = step(atCentre(100), { ...IDLE, twist: 1 }, FRAME, flat);
+    const first = step(atCentre(100), { ...STILL, twist: 1 }, FRAME, flat);
     assert.ok(headingOf(first) > 0 && headingOf(first) < 0.2);
-    assert.ok(Math.abs(headingOf(hold(first, IDLE, 2)) - 1) < 1e-3);
+    assert.ok(Math.abs(headingOf(hold(first, STILL, 2)) - 1) < 1e-3);
   });
 
   it('moves forward along the heading it has turned to', () => {
     const turned = hold(
-      step(atCentre(100), { ...IDLE, twist: Math.PI }, FRAME, flat),
-      IDLE,
+      step(atCentre(100), { ...STILL, twist: Math.PI }, FRAME, flat),
+      STILL,
       2,
     );
     const moved = hold(turned, forward, 1);
@@ -208,7 +208,7 @@ describe('turning on the sphere', () => {
   it('turns to a heading at once with withHeading', () => {
     const eye = withHeading(atCentre(100), -1);
     assert.ok(Math.abs(headingOf(eye) + 1) < 1e-12);
-    assert.ok(Math.abs(headingOf(step(eye, IDLE, FRAME, flat)) + 1) < 1e-12);
+    assert.ok(Math.abs(headingOf(step(eye, STILL, FRAME, flat)) + 1) < 1e-12);
   });
 });
 
@@ -217,11 +217,11 @@ describe('easing on the sphere', () => {
     const start = eyeAt({ lat: 70 * DEGREE, lon: 2, height: 5000 }, flat);
     const kicked = step(
       start,
-      { ...IDLE, shift: [3, -2], doublings: 2, twist: 2.5 },
+      { ...STILL, shift: [3, -2], doublings: 2, twist: 2.5 },
       FRAME,
       flat,
     );
-    const settled = hold(kicked, IDLE, 4);
+    const settled = hold(kicked, STILL, 4);
     assert.ok(between(settled.at, settled.aim.at) < 1e-12);
     assert.ok(between(settled.ahead, settled.aim.ahead) < 1e-9);
     assert.ok(Math.abs(settled.height / settled.aim.height - 1) < 1e-9);
@@ -238,7 +238,7 @@ describe('easing on the sphere', () => {
   it('keeps its point unit and its facing a unit tangent', () => {
     hold(
       atCentre(MAX_HEIGHT),
-      { ...IDLE, steer: [0.6, 1], turn: 0.4, climb: -0.3 },
+      { ...STILL, steer: [0.6, 1], turn: 0.4, climb: -0.3 },
       6,
       flat,
       (eye) => {
@@ -263,7 +263,7 @@ describe('over the ground on the sphere', () => {
         { ...unitToLatLon(unit([CENTRE[0], CENTRE[1], -100 / R])), height: 10 },
         flat,
       ),
-      IDLE,
+      STILL,
       10,
       cliff,
     );
