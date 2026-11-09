@@ -99,7 +99,8 @@ XOR mask. Multi-continent worlds stay ruled out for now.
   channel: `python3 scripts/memo/memo.py show --branch island/worlds`.
 - **Plan** `docs/plans/world-game-zoltan-syama.paused.md`.
 - **Board** version 38; frames 0035 and 0036 in `island-timelapse`. This
-  session's watch stays registered; the successor watches and opens it anew.
+  session's watch is off, at the operator's «отпишись от артефакта»; the
+  successor watches and opens it anew.
 - **Nothing running**: memo wait and keepalive stopped.
 - **Estimate** this session: 1.5 h senior producer, 1 h senior
   technical-artist. Remainder handed on: 0.5 h senior producer — merging #267
