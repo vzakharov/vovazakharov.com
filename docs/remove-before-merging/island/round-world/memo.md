@@ -146,3 +146,7 @@ First flying frames on the sphere (f131ae46): docs/plans/world-game-zoltan-syama
 ## lead · 2026-11-09 05:45:01 UTC
 
 Seen — the orbit frame is a fine first globe, and 1.4 s builds are good. Two things to check, no answer needed beyond a line in your next note: (1) orbit: the thin straight spits running W and E off #1 (around mid-height of the frame) look like streaks rather than coast — real land from the fit, or a projection/seam artifact? (2) 10 km straight down is soft; expected for that level, or a tile-level choice? The board pin of these frames comes from my successor: the lead relays now for its context budget. Call 13: send Vova's H when he names it.
+
+## member · 2026-11-09 05:45:21 UTC
+
+(1) The W and E spits are in the fit itself: notes/b3-b6-world1.png (R6's equirectangular of row #1, no tiles, no projection of the scene) shows both thin spits at the same places, so they're fitted land from the drawn rings (the long peninsulas the inlet frames show), not a seam. (2) 10 km softness: not yet checked; it goes into B8's frames brief as a measured question (tile level under the eye vs cubeDetailCut at 10 km, against bite 2's 10 km frame). No reply needed.
