@@ -1,14 +1,15 @@
 import type { CanDispose } from '@/kernel/shared/typings';
 
-import type { CubeCell, Vec3 } from '@/island/shared/globe';
-import { cubeTileId } from '@/island/entities/terrain';
+import type { Vec3 } from '@/island/shared/globe';
 
 import { nearestFirst } from '../model/tile-cover';
-import type {
-  FilledTile,
-  WorkerReply,
-  WorkerRequest,
-  WorldField,
+import {
+  type FilledTile,
+  orderId,
+  type TileOrder,
+  type WorkerReply,
+  type WorkerRequest,
+  type WorldField,
 } from './tile-protocol';
 
 /**
@@ -28,8 +29,8 @@ export type TilePool = CanDispose & {
    * before: queued ones no longer wanted are dropped, the rest go out nearest
    * the eye first, each filled to the eye's `cubeDetailCut`.
    */
-  readonly want: (keys: readonly CubeCell[], eye: Vec3) => void;
-  /** Whether `id` is asked of a worker and not yet back. */
+  readonly want: (orders: readonly TileOrder[], eye: Vec3) => void;
+  /** Whether the variant `orderId` names is asked of a worker and not yet back. */
   readonly pending: (id: string) => boolean;
 };
 
@@ -50,7 +51,7 @@ export function startTilePool(
 ): TilePool {
   const slots: Slot[] = [];
   const inFlight = new Set<string>();
-  let queue: CubeCell[] = [];
+  let queue: TileOrder[] = [];
   /** The eye the queue was wanted from. */
   let from: Vec3 = [0, 0, 0];
 
@@ -61,11 +62,11 @@ export function startTilePool(
   const pump = () => {
     for (const slot of slots) {
       while (slot.busy < IN_FLIGHT) {
-        const key = queue.shift();
-        if (key === undefined) return;
-        inFlight.add(cubeTileId(key));
+        const order = queue.shift();
+        if (order === undefined) return;
+        inFlight.add(orderId(order));
         slot.busy += 1;
-        send(slot, { kind: 'fill', key, eye: from });
+        send(slot, { ...order, kind: 'fill', eye: from });
       }
     }
   };
@@ -92,7 +93,7 @@ export function startTilePool(
         if (copy !== null) field.resolve({ field: copy, seed, buildMs });
         return;
       }
-      inFlight.delete(cubeTileId(message.tile.key));
+      inFlight.delete(orderId(message.tile));
       slot.busy -= 1;
       onTile(message.tile);
       pump();
@@ -109,10 +110,10 @@ export function startTilePool(
 
   return {
     field: field.promise,
-    want: (keys, eye) => {
+    want: (orders, eye) => {
       from = eye;
       queue = nearestFirst(
-        keys.filter((key) => !inFlight.has(cubeTileId(key))),
+        orders.filter((order) => !inFlight.has(orderId(order))),
         eye,
       );
       pump();

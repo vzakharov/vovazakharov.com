@@ -1,5 +1,7 @@
 import type { CubeCell, Vec3 } from '@/island/shared/globe';
 import {
+  cubeTileId,
+  type NeighbourLevels,
   type SphereField,
   tileBuffers,
   type TileKeyed,
@@ -13,11 +15,33 @@ export type WorldField = {
 };
 
 /**
+ * A tile to fill, and the levels of the drawn tiles around it that its border
+ * is stitched to: the same cell under other levels is another variant.
+ */
+export type TileOrder = TileKeyed<CubeCell> & {
+  readonly levels: NeighbourLevels;
+};
+
+/** One id per stitched variant: the tile's id and its eight levels. */
+export const orderId = ({ key, levels: { edges, corners } }: TileOrder) =>
+  [
+    cubeTileId(key),
+    edges.right,
+    edges.left,
+    edges.up,
+    edges.down,
+    corners.sw,
+    corners.se,
+    corners.nw,
+    corners.ne,
+  ].join('|');
+
+/**
  * One tile as a worker sends it: the ground, and the sea at height zero over
  * the same lattice. A tile wholly under the sea has no land, since the sea
  * hides it; one wholly above it has no sea.
  */
-export type FilledTile = TileKeyed<CubeCell> & {
+export type FilledTile = TileOrder & {
   readonly land: TileMesh<CubeCell> | null;
   readonly sea: TileMesh<CubeCell> | null;
   /** The ground's heights under the sea's vertices, which the sea is coloured by; null with no sea. */
@@ -33,12 +57,11 @@ export type WorkerRequest =
       readonly world: string;
       readonly sendField: boolean;
     }
-  | {
+  | (TileOrder & {
       readonly kind: 'fill';
-      readonly key: CubeCell;
       /** The eye (world metres) whose `cubeDetailCut` the tile is filled to. */
       readonly eye: Vec3;
-    };
+    });
 
 export type WorkerReply =
   | {

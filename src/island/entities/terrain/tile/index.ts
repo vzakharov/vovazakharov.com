@@ -1,5 +1,9 @@
 export { fillCubeTile } from './model/cube-fill';
-export { type Corner, type NeighbourLevels } from './model/cube-stitch';
+export {
+  type Corner,
+  fillStitchedCubeTile,
+  type NeighbourLevels,
+} from './model/cube-stitch';
 export {
   capGap,
   capsApart,

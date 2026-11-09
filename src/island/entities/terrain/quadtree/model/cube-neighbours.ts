@@ -11,12 +11,19 @@ import { type Corner, cubeTileId, type NeighbourLevels } from '../../tile';
 export const covering = (
   leaves: ReadonlyMap<string, CubeCell>,
   { face, level, x, y }: CubeCell,
-): CubeCell | undefined =>
-  Array.from({ length: level + 1 }, (_, shift) =>
-    leaves.get(
-      cubeTileId({ face, level: level - shift, x: x >> shift, y: y >> shift }),
-    ),
-  ).find((key) => key !== undefined);
+): CubeCell | undefined => {
+  for (let shift = 0; shift <= level; shift++) {
+    const id = cubeTileId({
+      face,
+      level: level - shift,
+      x: x >> shift,
+      y: y >> shift,
+    });
+    const leaf = leaves.get(id);
+    if (leaf !== undefined) return leaf;
+  }
+  return undefined;
+};
 
 /** Each corner as the two edges meeting there, along `u` first. */
 const CORNER_EDGES: Readonly<Record<Corner, readonly [Direction, Direction]>> =

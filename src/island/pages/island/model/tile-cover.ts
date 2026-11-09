@@ -4,6 +4,7 @@ import {
   CUBE_MIN_LEVEL,
   cubeTileId,
   tileCap,
+  type TileKeyed,
 } from '@/island/entities/terrain';
 
 /** A tile's parent on its face; a root, at `CUBE_MIN_LEVEL`, has none held. */
@@ -86,12 +87,14 @@ export function coverAround(
 export const distanceTo = (key: CubeCell, eye: Vec3): number =>
   capGap(tileCap(key), eye);
 
-/** `keys` nearest to direction `eye` first, the coarser first at a tie. */
-export const nearestFirst = (
-  keys: readonly CubeCell[],
+/** `tiles` nearest to direction `eye` first, the coarser first at a tie. */
+export const nearestFirst = <T extends TileKeyed<CubeCell>>(
+  tiles: readonly T[],
   eye: Vec3,
-): CubeCell[] =>
-  keys
-    .map((key) => ({ key, distance: distanceTo(key, eye) }))
-    .toSorted((a, b) => a.distance - b.distance || a.key.level - b.key.level)
-    .map(({ key }) => key);
+): T[] =>
+  tiles
+    .map((tile) => ({ tile, distance: distanceTo(tile.key, eye) }))
+    .toSorted(
+      (a, b) => a.distance - b.distance || a.tile.key.level - b.tile.key.level,
+    )
+    .map(({ tile }) => tile);
