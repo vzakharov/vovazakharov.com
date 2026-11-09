@@ -208,3 +208,67 @@ B7c's finish is running as one agent on wt/b3-b7c: merge round-world in (the rai
 ## lead · 2026-11-09 06:02:58 UTC · ack
 
 Noted; frames by memo when they come.
+
+## member · 2026-11-09 06:27:55 UTC
+
+B7c merged on island/round-world (e01403fb): place hash with pose and t, where-line, P key + island.where(), the confirmation, the hint row, world-hash folded into place-hash, equinox sun. tsc and the step's gates green; knip red as known (S13).
+
+Looked at in a browser (notes/b3-b7c-look.md, frames in notes/b3-b7c-look/):
+- P: hash written by replaceState (no history entry), confirmation shown ~1.8 s, clipboard holds the where-line, e.g. `island 36a52a32 …#1@10.00000,0.00000,20000000.0,0.0,0.0,0.000 · world 1 · … · 16:39 sun time (t 0.000 h) · tiles 2 (2–2)`.
+- A where-link reopens the view: `#1@21.19493,4.88850,30000.0,233.9,0.0,2.500` reopens identical in every field (2-side-by-side.png); a crafted pose with pitch −12 and t 3.25 reopens pixel-identical (2-crafted-side-by-side.png).
+- Hint row shows P "copy where you are" (1-opening-hint.png).
+
+Running now: noon/midnight frames over #1, and the world-swap-with-pose case (eye placed against the old world's ground before #0's terrain arrives — measuring whether it ever sits under ground). Those frames come next. Then B8.
+
+## lead · 2026-11-09 06:28:21 UTC · ack
+
+Good — republishing round-world to preview slot 1 for Vova. Frames by memo.
+
+## lead · 2026-11-09 06:30:50 UTC
+
+Two new calls from Vova, written into bite-3.md on island/stretch-2 (c9f60859), for this bite: 17 — look hints: "Press ↑ to look up" once the horizon at the frame's side edges reaches mid-height, i.e. pitch below horizontal ≤ p* = asin(sin δ / cos(φ/2)), δ = acos(R/(R+h)), φ the horizontal FOV; "Press ↓ to look down" once pitchAt hits its floor; neither while the look is already moved. 18 — a key toggling an on-screen diagnostics panel (the where-line's fields plus frame time), key your call, listed in the hint. Place them after B7 as you see fit; tell me where.
+
+## member · 2026-11-09 06:31:40 UTC
+
+Calls 17 and 18 go in as B7d, after B7c (merged) and before B8: both sit on the hint row and the eye's look, which B7c just wired, and B8 retires the plane under them. One build agent for both, then one look agent (hint thresholds checked at a few heights against p* and pitchAt's floor, panel frame).
+
+Call 18's key: I (info). Free against W S A D, arrows, E Q, [ ], T, P. Panel: the where-line's fields one per row plus frame time (ms, smoothed), top-left, toggled by I, listed in the hint as "I — diagnostics".
+
+Sorry for the gap since 06:30: my waits were run under a foreground timeout and died, so your note sat unread until Vova asked. A background wait is armed from now on.
+
+## lead · 2026-11-09 06:34:44 UTC · ack
+
+B7d as placed, I for diagnostics: agreed. Merge origin/island/stretch-2 into round-world when convenient — it carries memo-wait-gate.py, which stops a turn from ending without a background wait.
+
+## member · 2026-11-09 06:41:49 UTC
+
+B7d built on wt/b3-b7d (31bbf02f call 17, af10e059 call 18; all gates green bar knip). Not merged yet: call 17 as written never fires during a descent.
+
+At look 0, pitchAt stays far steeper than p* at every height below ~3,600 km (16:9) / ~8,700 km (square): 100 m pitchAt 13.05° vs p* 0.42°; 10 km 44.4° vs 4.2°; 1,000 km 80.8° vs 40.8°. So the horizon at the side edges never reaches mid-height on the way down; it sits in the upper part of the frame all the way to the 20 m floor. Above ~8,700 km p* is undefined (the side-edge rays miss the planet at any pitch); the agent set p* = 90° there, which makes "Press ↑" show from orbit — wrong, I'd make it no hint there whatever we pick.
+
+So the call needs re-reading against Vova's «как только вид на горизонт заполнял бы по краям половину вертикали». I'm asking Vova in chat now; options I'm putting to him: (a) the hint shows once the horizon enters the frame at the side edges at all (top corners), (b) once it reaches a set fraction from the top (say a quarter), (c) keep p* and lower pitchAt so it is met. I'll tell you his answer. Call 18 (I, the panel) is fine as built and merges with it.
+
+## lead · 2026-11-09 06:42:20 UTC · ack
+
+Agreed on all counts: p* is right for the reading, the reading doesn't fire under today's pitchAt, no hint where p* is undefined. Send me Vova's pick and I rewrite call 17.
+
+## member · 2026-11-09 06:54:32 UTC
+
+B7c's look is finished, merged on round-world (349174f2); note notes/b3-b7c-look2.md, frames in notes/b3-b7c-look2/ (git show origin/island/round-world:<path>).
+
+- Noon over #1's opening (10° N 0° E): t 19.355, sun 80.0° up, where-line "12:00 sun time"; disc evenly lit (3-noon-1000km.png, 3-noon-orbit.png). Midnight t 7.355, −80.0°, "00:00": dark navy, land faint, snow blue-grey — full-moon light only (3-midnight-1000km.png, 3-midnight-orbit.png). No seams, black tiles or banding in any.
+- #1 → #0 by hashchange with a pose: tiles clear, the frame is sea and horizon until #0's terrain loads (1.8–2.5 s), then the eye is exactly 2 m above #0's ground from the first step. Never seen under ground.
+- Note: #0 is not Earth yet in this build (only '1' is pinned) — step C.
+- Two defects, now in a fix agent: (1) the pose's height is taken above the eye's easing floor, not the ground, so a P during the ~3 s catch-up (world switch, steep ground) copies e.g. 1,000 m and the link reopens there; (2) play scripts' shoot renders with the previous sun after setTime (three's light node updates once per animation frame) — that was the bright-frame puzzle in look 1; live play is one frame late at most.
+
+B7d: waiting on Vova's reading of call 17 (my last memo).
+
+## lead · 2026-11-09 06:55:07 UTC · ack
+
+Noon/midnight seen in your note — good. Both defect fixes fine. The lead relays now (300k); the successor pins the noon/midnight frames and takes Vova's call-17 reading.
+
+## member · 2026-11-09 06:58:51 UTC
+
+Call 17: Vova left the reading to me («выбери на своё усмотрение пока»). I took: "Press ↑ to look up" shows once the horizon becomes visible at the frame's side edges at all — the ray through a top corner grazes the horizon (pitch ≤ that threshold); no up hint where the planet fits inside the frame. ↓ at pitchAt's floor and "neither while the look is moved" unchanged. Please rewrite call 17's first bullet to that on stretch-2; an agent is building it on wt/b3-b7d now, and I'll send the threshold table vs pitchAt when it lands.
+
+Also merged on round-world (6e14abad): the pose height now taken over the ground (so a P during the floor's catch-up copies the true height; reopen lands the same), and play scripts' shoot waits a frame so the shot has the current sun. tsc clean, 107 tests pass.

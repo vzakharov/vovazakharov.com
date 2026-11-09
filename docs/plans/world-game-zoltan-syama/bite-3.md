@@ -171,6 +171,10 @@ rebuilds the world without a reload.
 - **↑/↓ tilt the view up and down** from the pitch the height gives today, eased
   like the turn, so from high up you can raise your eyes to the horizon. The
   tilt is limited to between straight down and a little above the horizon.
+- **The turn toward the horizon starts a decade higher** («пока -- давай просто
+  поднимем точку когда мы переключаемся на горизонт»): straight down from 18,000
+  km rather than 1,780, the ground pitch held to 20 m rather than 2, so the
+  point below stays in frame down to about 100 km.
 - **E climbs and Q descends.** PageUp/PageDown stay. The arrows no longer climb.
 - **The key hint says so.** Touch gets the same look somehow, and how is the
   member's call; report it.
@@ -182,9 +186,12 @@ rebuilds the world without a reload.
 - **Fixed in space.** The sun is fixed in space, not turned with the eye. The
   moon is full and stands opposite the sun, so the night side is lit by
   moonlight: dim, cool and readable, never black.
-- **Time turns the planet under them.** A world opens at local noon over its
-  start point, so #1 looks as it does today. Time keys scrub the day forward and
-  back, and may pause it.
+- **Time turns the planet under them.** The sun stands over the equator, an
+  equinox, so every place gets twelve hours of day and twelve of night under the
+  moon. A world opens at the afternoon hour when the sun stands 20° up over its
+  start point, as low as today's, and time starts paused. Today's north-west sun
+  would sit at 45° N and leave Earth's north without a night. Time keys scrub
+  the day forward and back, and may pause it.
 - **The keys are the member's call**, clear of the movement keys, and the key
   hint lists them.
 - **The phase is fixed for now.** A moon that changes phase, and a moon you can
@@ -207,9 +214,35 @@ same holds across a cube face's edge (call 7).
   commit, the world number, latitude and longitude, height, heading, pitch, the
   time of day, and the levels of the tiles under the eye.
 - **The same pose rides in the hash**:
-  `#<world>@<lat>,<lon>,<height>,<heading>,<pitch>` opens there, so a pasted
-  link puts the lead's browser at the same spot. A bare `#<world>` opens as call
-  10 says. The key hint lists the key.
+  `#<world>@<lat>,<lon>,<height>,<heading>,<pitch>[,<time>]` opens there, so a
+  pasted link puts the lead's browser at the same spot under the same light; a
+  missing time is the opening time. The pitch is the look offset the eye stores,
+  so the link round-trips exactly, and the line labels it as such. A bare
+  `#<world>` opens as call 10 says. The key hint lists the key.
+
+17\. **Look hints.** Vova: «как только вид на горизонт заполнял бы по краям
+половину вертикали, показывается подсказка "Press ↑ to look up". … Полное
+переключение на горизонт -- можно оставить как есть, при этом подсказка "Press ↓
+to look down"».
+
+- **"Press ↑ to look up"** shows once the horizon at the frame's side edges sits
+  at or below the middle of the frame, which happens when the pitch below the
+  horizontal falls to `p* = asin(sin δ / cos(φ/2))`, where
+  `δ = acos(R / (R + h))` is the horizon's dip at height `h` and `φ` the
+  horizontal field of view: the ray through a side edge at mid-height then
+  grazes the horizon.
+- **"Press ↓ to look down"** shows once the pitch the height gives reaches its
+  floor, the eye fully on the horizon. Neither shows while the player has
+  already moved the look with ↑/↓.
+
+18\. **Diagnostics on screen.** Vova: «какую-то кнопку для вывода
+диагностических данных на экран, чтобы даже по простому скриншоту (или просто
+мне при игре) можно было бы понять, что где и как».
+
+- **A key toggles a panel** over the view with what the where-line copies —
+  build, world, latitude and longitude, height, heading, pitch, time of day,
+  tile levels under the eye — and the frame time, so a screenshot alone says
+  where it was taken. The key is the member's call; the key hint lists it.
 
 11\. **Order of work**: the schema and the series, then the cube tiles and the
 eye with #1 re-fitted, then Earth with its envelope measured for call 4. Each
@@ -222,6 +255,10 @@ step reaches a frame before the next one starts.
   island and its sea within about 1,500 km and random world `H(1, ·)` under the
   measured envelope beyond, so other land may exist in its world («мы можем
   сказать "должен быть вот этот континент", но не говорить "и никаких других"»).
+- A descent that keeps the point below in frame down to a chosen height and then
+  eases to the horizon, with the look stored as a share toward the horizon
+  («давай оставим эти решения на потом, потому что пока не приходит идея на
+  миллион в голову как это сделать всё изящно»).
 - Objects from dice rolls, and open-ended lists with their continuation rolls.
 - Pangaea's fit between continents («правая линия южной америки коррелирует с
   левой африки»).
