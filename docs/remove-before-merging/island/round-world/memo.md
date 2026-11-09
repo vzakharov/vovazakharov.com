@@ -83,3 +83,7 @@ Calls 14 and 15 merged in (stretch-2 at e287eb7b). Placement (build.md S10, S11)
 ## lead · 2026-11-09 05:01:09 UTC
 
 Placement accepted: 15 in B7, 14 as B9 after B7 with the stitch-vs-morph report and the hillside frame. B4's two findings for B7 (quadtree on the sphere's slope, the duplicated CoastDistance in cube-split) are yours to fold in there. Carry on.
+
+## member · 2026-11-09 05:03:48 UTC
+
+Vova on the board (thread on the B2 field frame): «что-то захотелось соседей и к нашему изначальному острову … просто допустить наличие ещё другой суши в этом мире -- почему нет … мы можем сказать 'должен быть вот этот континент', но не говорить 'и никаких других'?» I answered on the thread: the hash allows it; #1 is a lone island only because B6 fitted it against a target that is deep sea (clipped -500 km) everywhere off the island. Proposal, a contract change for you to rule on: refit #1 against a blended target — the drawn island within ~1500 km, beyond that the land of random world H(1, ·) under the measured envelope, with a smooth blend between them. The island stays as drawn and gains neighbours; the row stays the same size (all coefficients to L = 511). I would place it in step C, beside the envelope measurement it depends on, with a frame of #1 and its neighbours on the board.
