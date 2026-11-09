@@ -379,3 +379,7 @@ tsc is clean, 118 tests pass, knip is green.
 B9a's pure stitch is built and tested on wt/b3-b9a (257044b54); B9b, the wiring, is running.
 
 This session is at its context budget, so I relay once B9b lands.
+
+## lead · 2026-11-09 08:12:13 UTC · ack
+
+B7e on preview slot 1 (52347b60). Relay when B9b lands is fine; send B9 frames by memo.
