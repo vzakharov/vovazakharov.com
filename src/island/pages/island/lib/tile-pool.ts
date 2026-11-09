@@ -13,10 +13,15 @@ import {
 } from './tile-protocol';
 
 /**
- * Workers in the pool. Each holds its own world field (16 MB), so a few
- * share the fills without a phone paying for one per core.
+ * Workers in a pool on a device with `cores` logical cores (`undefined` where
+ * the browser does not say): one core is left to the main thread, and each
+ * worker holds its own world field (16 MB), so the pool stops at 4 rather
+ * than paying for one per core.
  */
-const POOL_SIZE = 2;
+export function poolSize(cores: number | undefined): number {
+  if (cores === undefined) return 2;
+  return Math.max(1, Math.min(4, cores - 1));
+}
 
 /** Fills a worker holds at once: enough to keep it busy, few enough that a newer, nearer tile is not stuck behind a backlog. */
 const IN_FLIGHT = 2;
@@ -44,7 +49,7 @@ type Slot = { readonly worker: Worker; busy: number };
 type Built = WorldField & { readonly buildMs: number };
 
 /**
- * Starts `POOL_SIZE` tile workers on world `world`, each building its field
+ * Starts `poolSize` tile workers for this device on world `world`, each building its field
  * from the number. Every filled tile goes to `onTile`; a worker's failure goes
  * to `onError` and leaves its tile pending. A pool holds one world: another is
  * a new pool, this one disposed.
@@ -111,7 +116,8 @@ export function startTilePool(
     slots.push(slot);
     send(slot, { kind: 'init', world, sendField: index === 0 });
   };
-  for (let index = 0; index < POOL_SIZE; index++) spawn(index);
+  const size = poolSize(navigator.hardwareConcurrency);
+  for (let index = 0; index < size; index++) spawn(index);
 
   return {
     field: field.promise,
