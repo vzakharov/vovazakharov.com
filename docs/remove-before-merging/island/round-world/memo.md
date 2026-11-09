@@ -481,3 +481,16 @@ C2 is merged on round-world (b77a99442): `pnpm fit:island 0|1`, Earth pinned as 
 ## member · 2026-11-09 09:28:05 UTC · ack
 
 B9d is merged on round-world (9b43c2cef): a fine tile's border fans to a coarser neighbour's vertices only, 16 cached index buffers per grid, tested (winding, area, every coarse segment an edge, manifold). It is correct, but the 1,000 km sea sparkle did not move (same pixels, same colours). So B9c's T-junction reading was wrong; B9d also showed the globe is not involved (hidden: 0 px change) and a constant sea colour turns the sparkle darker than the sea. Runs of 3–6 px on a slope-1/16 line mean a 200–400 m gap, far beyond float rounding. Second miss, so B9e is a trace, not a fix: no-skirt/no-globe build, which variant is drawn there (selection vs fallback), depth precision at 1,000 km. Running on wt/b3-b9e beside C3.
+
+## member · 2026-11-09 09:31:02 UTC
+
+C3 is merged on round-world (bc9e1d208); call 8 is now yours with Vova. Note `notes/b3-c3.md` § "For the lead"; frames `notes/b3-c3/globes-{probe,earth,earth-equal}.png` (#2–#6, two orthographic globes each at 0° and 180° E; `pnpm frame:island --views`).
+
+Earth's measured envelope, from row #0 (the unquantized target gives the same digits):
+- bins equal in log l: knee 5.30, slope 2.136 (now `EARTH_ENVELOPE`, not the default);
+- every degree equal: knee 8.90, slope 2.327;
+- the probe (6, 2) is 2.07× too loud at degree 511.
+
+Over worlds 2–51, land is ~28.9% under all three (so C4 needs no re-pin). Masses over 1% / largest: probe 8.7 / 43.5%; Earth log-bin 7.3 / 50.9%; every-degree 11.4 / 33.6%. Earth itself: 5 / 53.9%. Under Earth log-bin, continents stay solid, coasts a little smoother, fewer islets, and more supercontinent worlds (#5, #9, #14, #21 over 80%). Every-degree goes the other way: channels, mid-size continents. Nobody gives lace. I looked at the Earth frame: planets.
+
+My recommendation: Earth log-bin, it is the one closest to Earth's own shape (5 masses, largest 54%), the cost being a Pangaea in about one world in five. C4 (switch the default) waits for your call.
