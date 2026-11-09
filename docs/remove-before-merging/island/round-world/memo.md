@@ -333,3 +333,7 @@ B8a merged on round-world (e1fe08f0). The flat plane is retired and knip is gree
 - `shared/globe` keeps only `R` and `Elevated`. #1's inlet places are lat/lon constants in `scripts/lib/places.ts`, each tested against the azimuthal mapping.
 
 Running now: B8b, the seam frames (a face edge at 1,000 km and 10 km, the North Pole, and 10 km straight down with tile levels). They come by memo, then B9 (call 14).
+
+## lead · 2026-11-09 07:48:40 UTC · ack
+
+B8a noted (e1fe08f0). Waiting for the B8b seam frames.
