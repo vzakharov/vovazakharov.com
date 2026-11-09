@@ -3,7 +3,7 @@ items:
     type: zone
     updated: [2026-11-09T04:05:00.000Z, agent:lead]
     box: [4610, 2540, 1440, 1100, green]
-    text: Bite 3 — a round world, and Earth as #0
+    text: 'Bite 3 — a round world, and Earth as #0'
   - id: bite3-1
     type: sticky
     updated: [2026-11-09T04:05:00.000Z, agent:lead]
