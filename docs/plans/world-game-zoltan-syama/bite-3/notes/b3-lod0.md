@@ -167,14 +167,63 @@ WebGPU-unavailable warning).
 **Verdict: the turn's holes and the slab are gone; the slits are fixed in code
 but not yet looked at.**
 
+## Run 5 — the rim commit looked at in the page (78f66f80, no code change)
+
+**Verdict: merge.** Turn clean (no blue below the horizon in any turn frame),
+descent holds (no slit at any height), rim invisible (no stand-in over finer
+ground once settled). Built at 8ed2b507 (= 78f66f80 + this note), same drivers.
+
+**Fast turn**, blue px whole frame / below row 558:
+
+| frame | settled | turn01 | 02   | 03   | 04   | 05   | 06   | 07   | 08   | hold +100 | +200 | +300 | +400 | +500…1500 |
+| ----- | ------- | ------ | ---- | ---- | ---- | ---- | ---- | ---- | ---- | --------- | ---- | ---- | ---- | --------- |
+| run 4 | —       | —      | 2.9k | 3.6k | 4.5k | 4.4k | 4.2k | 4.5k | 4.4k | 4.5k      | 5.0k | 3.6k | 3.2k | 3.2–3.4k  |
+| whole | 1.6k    | 2.2k   | 2.9k | 3.5k | 4.3k | 4.3k | 4.1k | 3.7k | 3.4k | 3.5k      | 3.5k | 3.4k | 3.4k | 3.2–3.4k  |
+| below | 0       | 0      | 0    | 0    | 0    | 0    | 0    | 0    | 0    | 156       | 156  | 0    | 0    | 0         |
+
+(+500…1500 whole frame: 3.2–3.4k.)
+
+Whole-frame blue is the horizon sea (≈ settled 3.2k). The one remainder is a
+short slit for two hold frames (`run5-turn-hold-slit.png`, 4× crop of turn08 /
++100 / +200 / +300): where a finer tile has just landed beside a stand-in, gone
+at +300. Run 4 had 0.8–1.6k below the row through the same span.
+`run5-turn04.png`, `run5-turn08.png`: relief everywhere, no slit.
+
+**Fast descent** (40 frames 20,000 km → 546 m, 960×600): **0 blue px below the
+row in every frame and the 3 s hold** (run 3: 18–133 px slits at 923–546 m).
+`run5-descent-923m.png`, `run5-descent-546m.png`.
+
+**Rim: looked at with the stand-ins tinted** (a throwaway build, stand-in colour
+× (2.2, 0.35, 0.35), not committed; counter: r > 40, r > 1.35 g, b < 0.5 r — 0
+px on every untinted frame). Stand-in px below row 558:
+
+| run  | turn02 | 04   | 06   | 08   | hold +100 | +200 | +300 | +400 | +500 on |
+| ---- | ------ | ---- | ---- | ---- | --------- | ---- | ---- | ---- | ------- |
+| turn | 51k    | 194k | 342k | 438k | 437k      | 181k | 34k  | 0    | 0 ¹     |
+
+| descent | 2.6 km | 1.6 km | 923 m | 546 m | hold 250 ms | 500 ms on |
+| ------- | ------ | ------ | ----- | ----- | ----------- | --------- |
+|         | 40k    | 27k    | 88k   | 133k  | 110k        | 0         |
+
+¹ one exception in a 4 s hold: at +1,200 ms a single frame shows a 3.9k px band
+of stand-in over ground that was fine the frame before and after
+(`run5-tint-flash-hold1200.png`) — a one-frame swap flash, not the rim (a band
+800 px long, not a cell-wide lip). Not chased.
+
+While loading, stand-ins cover large regions — that is their job — and they are
+relief, not slabs (`run5-tint-turn08.png`). Where they meet fine ground the edge
+is a terrain silhouette; **no thin stand-in sliver or lip shows inside fine
+ground** at 923 or 546 m (`run5-tint-descent-546-923.png`, 2× crops), and once a
+view settles none shows at all. The faint straight steps visible in the untinted
+descent frames at 1.6 km–546 m are those region edges (coarse ground beside
+fine), not the rim. So `STAND_IN_PUSH = 0.03` holds: no change made.
+
+**Console**: clean in all five runs (two plain, three tinted) (only three's
+WebGPU-unavailable warning).
+
 ## Left (for the next agent)
 
-0. **Re-run at the rim commit** (export already built in `sites/vova/out` of the
-   run-4 worktree, else `pnpm build vova`): `lod0.ts spin` and `descent`,
-   `blue.py <dir> 0.62`; expect turn below-row blue ≈ 0; look for the rim
-   showing over finer ground at 546 m (push 3 % vs a rim standing higher than
-   the finer tile beside it) and the descent's 923–546 m slits. Frames →
-   `run4-*.png`.
+0. ~~Re-run at the rim commit~~: run 5 above.
 
 1. **Sims not re-run** (context ran out). Rebuild `tmp/descent-sim.ts` from run
    1's description (real `selectCubeTiles`, `nearestFirst`, reselect at 2 % of
