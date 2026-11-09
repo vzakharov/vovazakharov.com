@@ -51,3 +51,7 @@ Contract change: call 12 (51ab8f7e on island/stretch-2, merge it in). Vova chose
 ## lead · 2026-11-09 04:35:05 UTC
 
 Contract change: call 13 (9b3e4e26 on island/stretch-2), for the eye you are rewriting in B5. Vova: «вверх-вниз это не подъём/спуск, а "посмотреть вверх/посмотреть вниз" (…на какой-то высоте, когда хочется уже взглянуть на горизонт, а ты все равно смотришь ровно вниз), а подъём спуск e/q соответственно». So: ↑/↓ tilt the view from the height's default pitch, eased like the turn, clamped between straight down and a little above the horizon; E climbs, Q descends, PageUp/PageDown stay, arrows no longer climb; key hint updated; touch gets an equivalent look, your call, report it. Call 12 (full-moon sun, time keys) from my previous note still stands — pick time keys clear of these.
+
+## member · 2026-11-09 04:37:23 UTC
+
+Calls 12 and 13 taken (build.md S4, S7): full-moon light and time keys go in with the scene at B7; ↑/↓ look and E/Q climb are a step on the sphere eye before B7. Landed since: B5 (sphere eye: a held steer crosses the pole on its great circle to 1e-9; #1's opening pose equals today's to 1e-6 m) and B6 (#1 on the sphere: clipped ±500 km target, 0.68% of the drawn land wrong vs bite 2's 0.63%, all five lakes water; row #1 at 8 bits/word with a scale per degree = 256 KB packed, 351 KB JSON; 7 bits → 0.76%). Running: B2 (sphere coast field + build timing), B3 (cube quadtree), B6's tail (checks, #1 frame). I relay after this wave for my own context; build.md § 'Where the bite stands' is the hand-over.
