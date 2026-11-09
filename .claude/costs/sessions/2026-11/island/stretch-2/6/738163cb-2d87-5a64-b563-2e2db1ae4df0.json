@@ -1,0 +1,98 @@
+{
+  "total": {
+    "inputTokens": 23,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 64515,
+    "cacheReadTokens": 1147513,
+    "outputTokens": 3045,
+    "thinkingTokens": 607,
+    "responses": 11,
+    "costUsd": 0.8066146
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": null,
+    "endedOn": null,
+    "endedAt": null,
+    "contextTokens": null,
+    "spend": {
+      "inputTokens": 23,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 64515,
+      "cacheReadTokens": 1147513,
+      "outputTokens": 3045,
+      "thinkingTokens": 607,
+      "responses": 11,
+      "costUsd": 0.8066146
+    }
+  },
+  "sessionId": "738163cb-2d87-5a64-b563-2e2db1ae4df0",
+  "branch": "island/stretch-2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/stretch-2 — бит 2 и правка мигания влиты, следующим берём круглый мир с Землёй как #0",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDyMLav1hB9uoZ1xo6",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-09T03:53:19.408Z",
+  "lastResponseAt": "2026-11-09T03:54:00.656Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 23,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 64515,
+    "cacheReadTokens": 1147513,
+    "outputTokens": 3045,
+    "thinkingTokens": 607,
+    "responses": 11,
+    "costUsd": 0.8066146
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 23,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 64515,
+      "cacheReadTokens": 1147513,
+      "outputTokens": 3045,
+      "thinkingTokens": 607,
+      "responses": 11,
+      "costUsd": 0.8066146
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 10,
+    "matched": 10,
+    "matchedTableUsd": 0.7701659999999999,
+    "matchedEventUsd": 0.7701659999999999,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".py": 547,
+    ".md": 9431,
+    ".json": -1402,
+    ".txt": 31,
+    ".ts": 623,
+    ".sh": 43,
+    ".yaml": 150,
+    ".tsx": 11
+  }
+}
