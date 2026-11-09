@@ -28,9 +28,11 @@ import os from 'node:os';
 import path from 'node:path';
 import { z } from 'zod';
 
+import type { LatLon } from '@/island/shared/globe';
 import { OUR_WORLD } from '@/island/entities/terrain';
 
-import { planeToDegrees } from './lib/azimuthal';
+import type { Degrees } from './lib/azimuthal';
+import { INLET, INLET_HEAD } from './lib/places';
 import {
   buildExport,
   call,
@@ -77,22 +79,18 @@ const HEIGHTS: readonly Shot[] = [
   ['2m', call('setHeight', 2)],
 ];
 
-/** A place named by its point on the trace's plane, as the hook's degrees. */
-const over = (x: number, y: number, m: number) => {
-  const { lat, lon } = planeToDegrees(x, y);
-  return call('moveTo', lat, lon, m);
-};
+/** `m` metres over `place`, in the hook's degrees. */
+const over = ({ lat, lon }: LatLon, m: number) => call('moveTo', lat, lon, m);
 
-const INLET: readonly Shot[] = [
-  // The inlet between Блаблания and Фейсис, the trace's narrowest: its whole
-  // length, then the strait and the pool at its head.
-  ['inlet', over(515_000, 1_750_000, 1_500_000)],
-  ['inlet-head', over(510_000, 1_250_000, 300_000)],
+const ALONG_INLET: readonly Shot[] = [
+  // The inlet's whole length, then the strait and the pool at its head.
+  ['inlet', over(INLET, 1_500_000)],
+  ['inlet-head', over(INLET_HEAD, 300_000)],
   // The same place facing west: last, since every later place keeps the heading.
   ['inlet-head-west', call('turnTo', -Math.PI / 2)],
 ];
 
-const SHOTS = WORLD === OUR_WORLD ? [...HEIGHTS, ...INLET] : HEIGHTS;
+const SHOTS = WORLD === OUR_WORLD ? [...HEIGHTS, ...ALONG_INLET] : HEIGHTS;
 
 type Played = { readonly frames: number[]; readonly backend: string };
 

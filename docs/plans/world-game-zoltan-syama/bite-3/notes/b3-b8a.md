@@ -45,21 +45,33 @@ Branch `wt/b3-b8a`, base 1ae1b7e5. Stopped at the context budget.
   `landOnGrid` in `sphere-world.ts`, quadtree/tile options types, and the eye's
   (item 4).
 
+- `refactor: retire the planar eye` (item 4) — the sphere eye is `eye.ts`
+  (was `globe-eye.ts`) and holds `Intent`, `Vec2`, `STILL`, the rates, the
+  height limits and the easing; `pitchAt`/`GROUND_PITCH` moved to `look.ts`;
+  `pose.ts` holds `Pose`, `fovFor`, `groundPerScreen`, `poseFrom` and the
+  sphere `poseOf` (`globe-pose.ts` merged in); `shortest` in `turns.ts`;
+  `clamp` in `clamp.ts`. `ISLAND_OPENING` = 10° N, 0° E (checked: the old
+  expression gave lat 9.999999999999998°, lon −0). Tests renamed to `eye`,
+  `look`, `pose`; the planar pose tests that hold on the sphere carried over.
+  The barrel keeps its `globe…` aliases (pages read them).
+- `refactor: drop the island plane from shared/globe` (item 5) — `globe.ts`
+  is `R` + `Elevated`; `globe.test` deleted; `GridCell` has its own `x`, `y`;
+  fixtures: geo literal vectors, eye test's `CENTRE`/`EAST`/`NORTH` from
+  `ISLAND_OPENING`, quadtree kit's `CENTRE`/`CENTRE_LAT`/`northOfCentre`.
+- `refactor: name #1's inlet places by latitude and longitude` (item 6) —
+  `scripts/lib/places.ts` (`INLET`, `INLET_HEAD`, `INLET_BEACH`, degrees to 6
+  decimals) + `places.test` against `planeToDegrees`; `azimuthal` gains
+  `degreesToUnit`; film-descent's `START` is `ISLAND_OPENING`.
+- knip now: unused files 3, unused exports 15, unused exported types 25,
+  configuration hints 1. The eye's findings are gone but `EARTH_OPENING` (the
+  barrel's; only `openingOf` is read outside).
+
 ## Left
 
-1. ~~The clusters call~~, 2. ~~coast-field~~, 3. ~~planar height~~ — done.
-4. Eye: `eye.ts`/`pose.ts` are planar but `globe-eye`, `look`, `look-hint`,
-   `globe-pose`, `eye-controls` import pieces (`clamp`, `MAX/MIN_HEIGHT`,
-   `Intent`, `shortest`, `Vec2`, `pitchAt`, `poseFrom`, `fovFor`,
-   `GROUND_PITCH`, `groundPerScreen`) — those must move before the planar parts
-   go. `globe-eye.ts` opens `ISLAND_OPENING` at `planeToWorld(0, 0)`: becomes
-   lat 10° N, lon 0.
-5. `shared/globe/globe.ts`: drop `PlanePoint`, `planeToWorld`, `worldToPlane`,
-   `EAST`, `NORTH`, `CENTRE` (the fit has its own in
-   `scripts/lib/azimuthal.ts`). `GridCell` in `cube-edges.ts` is
-   `PlanePoint & {level}` — needs its own `{x, y}`. Many sphere tests (geo,
-   globe-pose, globe-eye, cube-quadtree(+kit), cube-detail) use
-   `CENTRE`/`EAST`/`NORTH`/`planeToWorld` as fixtures.
-6. `play-island`'s `INLET`, `film-descent`'s `LANDING` → lat/lon via
-   `scripts/lib/azimuthal.ts`.
-7. knip's remaining barrel-only exports (see the base run in the report).
+7. knip's barrel-only exports: world's `pathHash`, `PROBE_ENVELOPE`,
+   `rollWith`, `worldSchema` and the types `Envelope`, `Harmonic`, `Lookup`,
+   `WordSource`, `World` (through terrain, world and land barrels);
+   `FIELD_RINGS`/`FIELD_COLUMNS`/`landOnGrid` in `sphere-world.ts`;
+   `cubeSplitRule`, `CubeSelectOptions`, `CubeFillOptions`,
+   `CubeHeightSample`; `EARTH_OPENING`; the three terrain `index.test-only.ts`
+   files. Each needs a grep before removal.
