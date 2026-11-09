@@ -2,12 +2,10 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import {
-  CENTRE,
   cross,
   dot,
-  EAST,
   latLonToUnit,
-  NORTH,
+  northAt,
   R,
   unit,
   unitToLatLon,
@@ -35,6 +33,10 @@ import { shortest } from './turns';
 
 const FRAME = 1 / 60;
 const DEGREE = Math.PI / 180;
+/** The island's opening place, and east and north there. */
+const CENTRE = latLonToUnit(ISLAND_OPENING);
+const EAST: Vec3 = [0, 0, -1];
+const NORTH = northAt(CENTRE);
 const flat: GroundAt = () => 0;
 /** Raised ground more than 50 m east of the island's centre. */
 const cliff: GroundAt = (p) => (dot(p, EAST) * R > 50 ? 500 : 0);

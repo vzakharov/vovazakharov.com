@@ -2,7 +2,6 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import {
-  CENTRE,
   type CubeCell,
   type Face,
   faceToSphere,
@@ -19,7 +18,7 @@ import {
 import { cubeTileId, cubeTileSide, faceLattice, TILE_GRID } from '../../tile';
 import { cubeDetailCut } from './cube-detail';
 import { selectCubeTiles } from './cube-quadtree';
-import { disc, eyeOver, holds, PLACES } from './cube-quadtree.test-kit';
+import { CENTRE, disc, eyeOver, holds, PLACES } from './cube-quadtree.test-kit';
 
 const CELLS = TILE_GRID - 1;
 const twoSpacings = (key: CubeCell) => (2 * cubeTileSide(key)) / CELLS;

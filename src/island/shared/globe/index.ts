@@ -21,14 +21,5 @@ export {
   type WithBack,
 } from './cube-edges';
 export { type LatLon, latLonToUnit, northAt, unitToLatLon } from './geo';
-export {
-  CENTRE,
-  EAST,
-  type Elevated,
-  NORTH,
-  type PlanePoint,
-  planeToWorld,
-  R,
-  worldToPlane,
-} from './globe';
+export { type Elevated, R } from './globe';
 export { cross, dot, length, scaled, sub, sum, unit, type Vec3 } from './vec3';
