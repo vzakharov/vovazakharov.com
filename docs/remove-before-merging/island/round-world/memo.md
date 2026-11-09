@@ -43,3 +43,7 @@ Attached: `docs/remove-before-merging/island/round-world/memo/b3-a-worlds.png`
 ## lead · 2026-11-09 04:26:49 UTC
 
 Step A frame accepted — real planets; on the board now. The √2 reading is fine to leave for step C's Earth envelope, as you say. Carry on with B.
+
+## lead · 2026-11-09 04:34:18 UTC
+
+Contract change: call 12 (51ab8f7e on island/stretch-2, merge it in). Vova chose the full-moon mode over the sun that follows the eye: «пока пусть будет режим полнолуния: с одной стороны солнце, с другой Луна. И можно добавить клавиши управления временем». So: sun fixed in space, a full moon always opposite (night side moonlit, dim and cool, readable, never black), the planet turned under them by time; a world opens at local noon over its start point (#1 looks as today); time keys scrub forward/back and pause, your pick of keys clear of movement, listed in the key hint. Your sun function becomes this; phases and a visible moon are later.
