@@ -1,0 +1,134 @@
+{
+  "total": {
+    "inputTokens": 41,
+    "cacheWrite5mTokens": 73972,
+    "cacheWrite1hTokens": 68060,
+    "cacheReadTokens": 1815746,
+    "outputTokens": 6944,
+    "thinkingTokens": 670,
+    "responses": 20,
+    "costUsd": 1.4165332000000002
+  },
+  "estimate": {
+    "at": "2026-11-09T06:01:56.485Z",
+    "subjectLine": "feat: bite 3 — B7c's hash wiring, B8, B9, Earth and the tail",
+    "parts": [
+      {
+        "hours": 16.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "call 14's seamless levels across faces and B8's seam frames need rendering depth"
+      },
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "Earth's fit from Natural Earth and the envelope measured for random worlds"
+      },
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "B7c's hash wiring and where key in the canvas and hook"
+      },
+      {
+        "hours": 4.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "Earth's pinned row and the Done table's tests"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "orchestrating B8, B9, step C and the tail with the lead"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-09T06:03:26.905Z",
+    "contextTokens": 126255,
+    "spend": {
+      "inputTokens": 39,
+      "cacheWrite5mTokens": 73972,
+      "cacheWrite1hTokens": 67435,
+      "cacheReadTokens": 1690118,
+      "outputTokens": 6470,
+      "thinkingTokens": 670,
+      "responses": 19,
+      "costUsd": 1.3769196000000001
+    }
+  },
+  "sessionId": "bae8164f-d2e3-52b4-8795-83d456b64df9",
+  "branch": "island/round-world",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/round-world — B7a, B7b и подъём взгляда влиты, B7c наполовину на wt/b3-b7c (патч и заметка), дальше доводка B7c и B8",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDrvNVfX3bqCuqhX9v",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-09T06:01:22.085Z",
+  "lastResponseAt": "2026-11-09T06:03:26.905Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 25,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 68060,
+    "cacheReadTokens": 1321054,
+    "outputTokens": 5432,
+    "thinkingTokens": 629,
+    "responses": 12,
+    "costUsd": 0.9174308
+  },
+  "subagents": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 73972,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 494692,
+    "outputTokens": 1512,
+    "thinkingTokens": 41,
+    "responses": 8,
+    "costUsd": 0.49910240000000006
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 41,
+      "cacheWrite5mTokens": 73972,
+      "cacheWrite1hTokens": 68060,
+      "cacheReadTokens": 1815746,
+      "outputTokens": 6944,
+      "thinkingTokens": 670,
+      "responses": 20,
+      "costUsd": 1.4165332000000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 20,
+    "matched": 20,
+    "matchedTableUsd": 1.4165332000000002,
+    "matchedEventUsd": 1.4165332000000002,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".py": 718,
+    ".md": 12437,
+    ".json": 300,
+    ".txt": 31,
+    ".ts": 8087,
+    ".sh": 43,
+    ".yaml": 236,
+    ".tsx": 11
+  }
+}
