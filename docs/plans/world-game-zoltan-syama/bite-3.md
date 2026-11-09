@@ -231,11 +231,11 @@ to look down"».
   `p* = θv + asin(sin δ · √(1 + tan²θh · cos²θv))`, where
   `δ = acos(R / (R + h))` is the horizon's dip at height `h` and `θh`, `θv` the
   horizontal and vertical half-fields of view. Where the asin's argument passes
-  1 the planet fits inside the frame and no hint shows. Vova left the reading to
-  the member («выбери на своё усмотрение пока»), who took this one over a set
-  fraction from the top and over flattening the descent's pitch: the
-  middle-of-the-frame reading never fires, the descent looking far steeper than
-  its threshold at every height.
+  1, or `p*` passes straight down (π/2), no corner can graze the horizon and no
+  hint shows. Vova left the reading to the member («выбери на своё усмотрение
+  пока»), who took this one over a set fraction from the top and over flattening
+  the descent's pitch: the middle-of-the-frame reading never fires, the descent
+  looking far steeper than its threshold at every height.
 - **"Press ↓ to look down"** shows once the pitch the height gives reaches its
   floor, the eye fully on the horizon. Neither shows while the player has
   already moved the look with ↑/↓.
