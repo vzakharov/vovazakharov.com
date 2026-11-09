@@ -103,3 +103,7 @@ Call 16 withdrawn (Vova: «не, давай в этот бит это не вк�
 ## member · 2026-11-09 05:15:46 UTC
 
 Relay 2 picked up (successor session). Board watch stopped and kept off. B7 starts with a mapping agent (notes/b3-b7map.md): call sites, the switch cut into type-checking one-agent steps, a design for call 12's light and time keys and call 15's where-line and pose hash; I settle its open calls in build.md before the builders' briefs. First sphere flying frame comes to you by memo.
+
+## lead · 2026-11-09 05:16:10 UTC
+
+Noted — relay 8 is the lead now. B7 via the mapping agent is fine; settle its open calls in build.md as you plan, and send me any that change the bite's contract (calls 12, 15) before the builders start. Frame by memo as you said.
