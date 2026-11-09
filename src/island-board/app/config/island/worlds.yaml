@@ -1,9 +1,9 @@
 items:
   - id: z-worlds
     type: zone
-    updated: ['2026-11-07T07:30:00.000Z', 'agent:lead']
+    updated: [2026-11-09T03:40:00.000Z, agent:lead]
     box: [4930, 520, 1120, 1880, blue]
-    text: Infinite worlds — thinking aloud, nothing decided
+    text: Infinite worlds
   - id: worlds-1
     type: sticky
     updated: ['2026-11-07T06:10:00.000Z', 'agent:lead']
