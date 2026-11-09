@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 5466,
-    "cacheWrite5mTokens": 728451,
-    "cacheWrite1hTokens": 164307,
-    "cacheReadTokens": 37893834,
-    "outputTokens": 164159,
-    "thinkingTokens": 29757,
-    "responses": 301,
-    "costUsd": 15.845318500000001
+    "inputTokens": 5995,
+    "cacheWrite5mTokens": 737991,
+    "cacheWrite1hTokens": 168093,
+    "cacheReadTokens": 40099288,
+    "outputTokens": 173272,
+    "thinkingTokens": 31544,
+    "responses": 313,
+    "costUsd": 16.550045299999997
   },
   "estimate": {
     "at": "2026-11-09T05:14:54.791Z",
@@ -70,39 +70,39 @@
   "url": "https://claude.ai/code/session_01DaohkBxAb41bAqfSKJNwiM",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-09T05:14:32.560Z",
-  "lastResponseAt": "2026-11-09T05:44:10.109Z",
+  "lastResponseAt": "2026-11-09T05:45:25.683Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 97,
+    "inputTokens": 104,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 164307,
-    "cacheReadTokens": 7928770,
-    "outputTokens": 29613,
-    "thinkingTokens": 7677,
-    "responses": 48,
-    "costUsd": 3.4928580000000005
+    "cacheWrite1hTokens": 168093,
+    "cacheReadTokens": 8845788,
+    "outputTokens": 30755,
+    "thinkingTokens": 7913,
+    "responses": 52,
+    "costUsd": 3.729417600000001
   },
   "subagents": {
-    "inputTokens": 510,
-    "cacheWrite5mTokens": 723879,
+    "inputTokens": 526,
+    "cacheWrite5mTokens": 732995,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 28642491,
-    "outputTokens": 134239,
-    "thinkingTokens": 22080,
-    "responses": 245,
-    "costUsd": 12.034713199999999
+    "cacheReadTokens": 29703855,
+    "outputTokens": 142190,
+    "thinkingTokens": 23631,
+    "responses": 252,
+    "costUsd": 12.45165
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 4149,
-      "cacheWrite5mTokens": 728451,
-      "cacheWrite1hTokens": 164307,
-      "cacheReadTokens": 37893834,
-      "outputTokens": 163965,
-      "thinkingTokens": 29757,
-      "responses": 300,
-      "costUsd": 15.845089800000002
+      "inputTokens": 4678,
+      "cacheWrite5mTokens": 737991,
+      "cacheWrite1hTokens": 168093,
+      "cacheReadTokens": 40099288,
+      "outputTokens": 173078,
+      "thinkingTokens": 31544,
+      "responses": 312,
+      "costUsd": 16.549816599999996
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1317,
@@ -118,20 +118,20 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 301,
-    "matched": 293,
-    "matchedTableUsd": 15.5275712,
-    "matchedEventUsd": 15.527571199999997,
+    "events": 313,
+    "matched": 304,
+    "matchedTableUsd": 16.181067599999995,
+    "matchedEventUsd": 16.18106759999999,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 3542,
-        "cacheWrite5mTokens": 4572,
+        "inputTokens": 4048,
+        "cacheWrite5mTokens": 4996,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 1322573,
-        "outputTokens": 113,
+        "cacheReadTokens": 1549645,
+        "outputTokens": 133,
         "thinkingTokens": 0,
-        "responses": 7,
-        "costUsd": 0.31751860000000004
+        "responses": 8,
+        "costUsd": 0.36874900000000005
       },
       "generate_session_title": {
         "inputTokens": 1317,
@@ -154,7 +154,7 @@
   "threadPosts": {},
   "branchLines": {
     ".py": 718,
-    ".md": 12141,
+    ".md": 12149,
     ".json": 298,
     ".txt": 31,
     ".ts": 7563,
