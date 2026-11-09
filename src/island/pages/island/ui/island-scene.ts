@@ -34,14 +34,8 @@ import {
 } from '@/island/features/eye';
 
 import { skyColour } from '../lib/sky-colour';
-<<<<<<< HEAD
-import { startTilePool } from '../lib/tile-pool';
-import { SEED } from '../lib/tile-protocol';
-import { coverAround, coverOf } from '../model/tile-cover';
-=======
 import { startTilePool, type TilePool } from '../lib/tile-pool';
-import { coverOf } from '../model/tile-cover';
->>>>>>> origin/island/stretch-2
+import { coverAround, coverOf } from '../model/tile-cover';
 import { groundLighting } from './ground-lighting';
 import { tileMeshes } from './tile-meshes';
 
@@ -163,16 +157,6 @@ export function mountIslandScene(
     onError(error);
   };
 
-<<<<<<< HEAD
-  const pool = startTilePool((tile) => {
-    if (disposed) return;
-    held.add(tile);
-    const keys = selected();
-    held.evict(new Set([...keys, ...(shown ?? [])].map((key) => tileId(key))));
-    showIfComplete(keys);
-    settle();
-  }, fail);
-=======
   let world = firstWorld;
   /** Counts the pools started, so a disposed one's late reply is told apart. */
   let generation = 0;
@@ -189,7 +173,11 @@ export function mountIslandScene(
       (tile) => {
         if (!current()) return;
         held.add(tile);
-        held.evict(new Set(selected().map((key) => tileId(key))));
+        const keys = selected();
+        held.evict(
+          new Set([...keys, ...(shown ?? [])].map((key) => tileId(key))),
+        );
+        showIfComplete(keys);
         settle();
       },
       (error) => {
@@ -212,7 +200,6 @@ export function mountIslandScene(
     return started;
   };
   let pool = startPool(world);
->>>>>>> origin/island/stretch-2
 
   /**
    * The tiles the eye selects now, reselected once it has moved enough or
@@ -357,6 +344,8 @@ export function mountIslandScene(
       pool.dispose();
       held.clear();
       selection = null;
+      // The new world's tiles share no keys with the old one's.
+      shown = null;
       // The old coast would refine the selection where the new one has none.
       coast = undefined;
       pool = startPool(next);
