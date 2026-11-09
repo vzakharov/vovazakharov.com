@@ -15,8 +15,9 @@ import {
 /**
  * Workers in a pool on a device with `cores` logical cores (`undefined` where
  * the browser does not say): one core is left to the main thread, and each
- * worker holds its own world field (16 MB), so the pool stops at 4 rather
- * than paying for one per core.
+ * worker builds and holds its own world field (16 MB, in an isolate that adds
+ * ~130 MB to the page), so the pool stops at 4 rather than paying for one per
+ * core.
  */
 export function poolSize(cores: number | undefined): number {
   if (cores === undefined) return 2;

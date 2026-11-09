@@ -1,0 +1,145 @@
+// Throwaway: the tile pool by emulated hardwareConcurrency, #0 over Italy.
+// Each run a fresh browser: hc overridden before any script, opened at 20,000 km over the pose,
+// then setHeight(h) timed while a rAF probe and a longtask observer watch the main thread.
+// `SCREEN=desktop HCS=3,4,8 HEIGHTS=13000,527 REPS=1 pnpm exec tsx tmp/b3-pool/pool.ts`
+import { execSync } from 'node:child_process';
+import os from 'node:os';
+import path from 'node:path';
+import { z } from 'zod';
+
+import { openingOf } from '@/island/features/eye';
+import { call, hook, settle, type Screen } from '@/island/scripts/lib/play-tab';
+import { withPrintOrigin } from '@/kernel/scripts/lib/print-origin';
+import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
+import { launch, openTab, type Tab } from '@/scene/scripts/lib/cdp';
+import { watchPageErrors } from '@/scene/scripts/lib/page-errors';
+
+const SCREENS: Record<string, Screen> = {
+  phone: { name: 'phone', width: 390, height: 844, ratio: 3, mobile: true },
+  desktop: { name: 'desktop', width: 1440, height: 900, ratio: 1, mobile: false },
+};
+const screen = SCREENS[process.env.SCREEN ?? 'desktop']!;
+const hcs = (process.env.HCS ?? '3,4,8').split(',').map(Number);
+const heights = (process.env.HEIGHTS ?? '13000,527').split(',').map(Number);
+const reps = Number(process.env.REPS ?? '1');
+const dir = path.join(REPO_ROOT, 'sites/vova/out');
+const POSE: Record<number, [number, number]> = { 13000: [41, 14], 527: [41, 13.96] };
+
+const until = async (tab: Tab, expr: string) => {
+  for (let i = 0; i < 240; i++) {
+    if (await tab.evaluate(`(() => { try { return Boolean(${expr}); } catch { return false; } })()`, z.boolean())) return;
+    await new Promise((r) => setTimeout(r, 250));
+  }
+  throw new Error(`timeout ${expr}`);
+};
+const q = (xs: number[], p: number) => {
+  const s = [...xs].sort((a, b) => a - b);
+  return s.length === 0 ? NaN : s[Math.min(s.length - 1, Math.floor(p * s.length))]!;
+};
+const rssMb = () => {
+  const out = execSync(`ps -eo rss,args | grep -- '--user-data-dir=/tmp/cdp-' | grep -v grep || true`).toString();
+  let all = 0;
+  let renderer = 0;
+  for (const line of out.trim().split('\n').filter(Boolean)) {
+    const kb = Number(line.trim().split(/\s+/)[0]);
+    all += kb;
+    if (line.includes('--type=renderer')) renderer += kb;
+  }
+  const profiles = new Set(out.match(/user-data-dir=\S+/g) ?? []).size;
+  return { all: all / 1024, renderer: renderer / 1024, profiles };
+};
+
+const errors: string[] = [];
+await withPrintOrigin({ serve: 'export', dir }, async (origin) => {
+  for (let rep = 0; rep < reps; rep++) {
+    for (const h of heights) {
+      for (const hc of hcs) {
+        const [lat, lon] = POSE[h]!;
+        const tag = `${screen.name} h=${String(h)} hc=${String(hc)} rep=${String(rep)}`;
+        const browser = await launch();
+        try {
+          const hours = (((openingOf(0).lon * 180) / Math.PI - lon) / 15 + 24) % 24;
+          const route = `/island?play#0@${String(lat)},${String(lon)},20000000,300,0,${hours.toFixed(3)}`;
+          const tab = await openTab(browser, (m) => errors.push(`${tag}: ${m}`));
+          await watchPageErrors(tab, (m) => errors.push(`${tag}: ${m}`));
+          await tab.send('Page.addScriptToEvaluateOnNewDocument', {
+            source: `Object.defineProperty(Navigator.prototype, 'hardwareConcurrency', { get: () => ${String(hc)} });
+              window.__workers = 0; const W = window.Worker;
+              window.Worker = class extends W { constructor(...a) { super(...a); window.__workers += 1; } };`,
+          });
+          const { width, height, ratio, mobile } = screen;
+          await tab.send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: ratio, mobile });
+          if (mobile) await tab.send('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 5 });
+          const t0 = Date.now();
+          await tab.send('Page.navigate', { url: `${origin}${route}` });
+          await until(tab, `document.readyState === 'complete'`);
+          await until(tab, `typeof ${hook}?.ready === 'function'`);
+          await settle(tab, call('ready'), 'ready()');
+          const readyMs = Date.now() - t0;
+          const buildMs = await tab.evaluate(call('buildMs'), z.number());
+          const workers = await tab.evaluate(`window.__workers`, z.number());
+          const seenHc = await tab.evaluate(`navigator.hardwareConcurrency`, z.number());
+          await tab.evaluate(
+            `(() => { window.__gaps = []; window.__long = []; window.__probe = true; let last = performance.now();
+              const tick = (t) => { if (!window.__probe) return; window.__gaps.push(t - last); last = t; requestAnimationFrame(tick); };
+              requestAnimationFrame(tick);
+              new PerformanceObserver((l) => { for (const e of l.getEntries()) window.__long.push(e.duration); }).observe({ type: 'longtask' });
+              return true; })()`,
+            z.boolean(),
+          );
+          process.stderr.write(`${tag}: ready, descending\n`);
+          const t1 = Date.now();
+          await settle(tab, call('setHeight', h), `setHeight ${String(h)}`);
+          const settleMs = Date.now() - t1;
+          const probe = await tab.evaluate(
+            `(() => { window.__probe = false; return { gaps: window.__gaps, long: window.__long, heap: performance.memory ? performance.memory.usedJSHeapSize : -1 }; })()`,
+            z.object({ gaps: z.array(z.number()), long: z.array(z.number()), heap: z.number() }),
+          );
+          process.stderr.write(`${tag}: settled\n`);
+          const rss = rssMb();
+          const { targetInfos } = z
+            .object({ targetInfos: z.array(z.object({ targetId: z.string(), type: z.string() })) })
+            .parse(await browser.send('Target.getTargets', {}));
+          const workerHeaps: number[] = [];
+          const within = <T,>(p: Promise<T>, what: string) =>
+            Promise.race([p, new Promise<never>((_, no) => setTimeout(() => no(new Error(`${what} timed out`)), 5000))]);
+          process.stderr.write(`${tag}: targets ${targetInfos.map((t) => t.type).join(',')}\n`);
+          for (const t of targetInfos.filter((t) => t.type === 'worker' && process.env.HEAPS === '1')) {
+            try {
+              const { sessionId } = z
+                .object({ sessionId: z.string() })
+                .parse(await within(browser.send('Target.attachToTarget', { targetId: t.targetId, flatten: true }), 'attach'));
+              const used = z
+                .object({ usedSize: z.number() })
+                .parse(await within(browser.send('Runtime.getHeapUsage', {}, sessionId), 'heap'));
+              workerHeaps.push(used.usedSize / 2 ** 20);
+            } catch (error) {
+              process.stderr.write(`${tag}: ${String(error)}\n`);
+            }
+          }
+          const longSum = probe.long.reduce((a, b) => a + b, 0);
+          process.stdout.write(
+            [
+              tag,
+              `hc_seen ${String(seenHc)}`,
+              `workers ${String(workers)}`,
+              `ready ${String(readyMs)} ms`,
+              `buildMs ${buildMs.toFixed(0)}`,
+              `settle ${String(settleMs)} ms`,
+              `rAF n ${String(probe.gaps.length)} med ${q(probe.gaps, 0.5).toFixed(1)} p90 ${q(probe.gaps, 0.9).toFixed(1)} max ${Math.max(...probe.gaps).toFixed(0)}`,
+              `longtasks ${String(probe.long.length)} sum ${longSum.toFixed(0)} ms`,
+              `heap ${(probe.heap / 2 ** 20).toFixed(0)} MB`,
+              `rss ${rss.all.toFixed(0)} MB renderer ${rss.renderer.toFixed(0)} MB`,
+              `browsers ${String(rss.profiles)} load ${os.loadavg()[0]!.toFixed(2)}`,
+              `fps ${((probe.gaps.length * 1000) / settleMs).toFixed(0)}`,
+              `worker heaps ${workerHeaps.map((m) => m.toFixed(0)).join('+')} MB`,
+            ].join('\t') + '\n',
+          );
+        } finally {
+          await browser.close();
+        }
+      }
+    }
+  }
+});
+for (const e of errors) process.stderr.write(`ERR ${e}\n`);
