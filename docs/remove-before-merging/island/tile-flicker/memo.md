@@ -13,3 +13,7 @@ Cause (traced from code, constants checked by the lead): coverOf (src/island/pag
 Fix to build: keep `shown`, the last selection whose keys are all held; render draws it, with coverOf stand-ins only where shown does not reach; swap shown to the new selection once all its keys are held (tile-arrival callback). Plain coverOf only with no complete selection yet (first load, setWorld, moveTo). evict keeps selected ∪ shown. Test the cover rule as a pure function beside tile-cover.test.ts.
 
 Done means: a per-frame trace (cover size, stand-ins, whether one contains the eye) over a scripted turn and climb shows no empty or coarse frame after the fix, with frames; vet green; /sync-branch against island/stretch-2; PR onto island/stretch-2; ping me here. Merge is the lead's.
+
+## lead · 2026-11-09 02:42:46 UTC
+
+Heads-up: bite 2 (#267) is now merged into island/stretch-2 (28d4c8e5) — worlds from one formula, the coast slice retired, tiles built from buildWorldField. Your closing /sync-branch against island/stretch-2 will take it in; re-run your per-frame trace after the sync so the before/after frames are on the code that merges.
