@@ -51,6 +51,78 @@ edges have no skirt of their own; the finer neighbours' skirts hide the step. A
 root stand-in's cut is rebuilt whenever its `except` changes (each tile arrival
 while loading) — cost not yet measured.
 
+## Run 3 — looked at in the page (no code change)
+
+**Verdict: the descent works; the turn is better but still has holes, and what
+fills them is a flat plane.** Not merged-ready as a fix for the turn holes.
+Frames in `b3-lod0/`, drivers `b3-lod0/drivers/*.txt` (run from `tmp/look/`;
+exports built at aa2883f3 = before, 8773b62c = after).
+
+**Why holes remain: the stand-in near the eye is a root tile, and its cut drops
+whole coarse triangles.** On a turn only the shown tiles and the roots are in
+hand, so the stand-in is the level-2 root `px/2/2/3`, cut around ~290 shown
+tiles of levels 6–17. Its 64-cell lattice is level-8 fine (~40 km triangles);
+`indicesOutside` drops a triangle when its middle falls in any `except` tile, so
+a 40 km triangle goes for a 100 m shown tile, and the globe shows through the
+rest of it — the straight-edged blue wedges below. Where the middle falls
+outside, the triangle stays drawn over the finer tiles (overlap). Tile-level
+accounting cannot see this, which is why the unit tests and the plain replay
+both read 0.
+
+**Holes replay** (Node, `holes.ts.txt`, turn from 220.1° at
+`#0@38.30756,15.90432,546`, shown + roots in hand; old = d2592e12 `coverAround`,
+new = `finestCover`; "mesh" = new cover with the root's real cut lattice):
+
+| turn to | not in hand | old uncovered | new uncovered | new mesh: tiles with a hole / cells drawn twice |
+| ------- | ----------- | ------------- | ------------- | ----------------------------------------------- |
+| 200°    | 38          | 38            | 0             | 8 / 3,152                                       |
+| 180°    | 82          | 82            | 0             | 14 / 2,384                                      |
+| 160°    | 115         | 115           | 0             | 16 / 1,808                                      |
+| 139°    | 157         | 157           | 0             | 16 / 1,196                                      |
+
+(Old counts equal b3-seams'. Cells are level+3 of each selected tile.)
+
+**Fast turn in the page** (8 × −12°, one frame each, 1440×900; hole pixels
+(7,41,78) ±4 below row 558): before → after.
+
+| frame | turn02 | turn03 | turn04 | turn05 | turn06 | turn07 | turn08 | hold +100 | +200 | +300 on |
+| ----- | ------ | ------ | ------ | ------ | ------ | ------ | ------ | --------- | ---- | ------- |
+| old   | 32k    | 85k    | 81k    | 149k   | 213k   | 198k   | 264k   | 116k      | 14k  | 0       |
+| new   | 0.5k   | 9k     | 40k    | 54k    | 53k    | 48k    | 51k    | 48k       | 3k   | 0       |
+
+3–5× fewer hole pixels, not none. `turn-pairs-old-new.png`, `turn08-*.png`: the
+blue the root does fill shows as a flat, unshaded olive plane at the root's
+coarse height with the fine ground standing up out of it — a big, visible
+stand-in, not ground a player would mistake for terrain.
+
+**Fast descent** (#0 over Calabria, 40 frames 20,000 km → 546 m, geometric,
+960×600; `descent-old.png` / `descent-new.png`, frames at 1,446 / 104 / 22 / 7.6
+/ 2.6 / 1.2 km / 546 m, then held): after keeps fine relief under the eye all
+the way down; before shows coarse flat slabs in the foreground at 2.6 km, 1.2 km
+and 546 m until the hold. After has one defect: dark-blue slits along a cut edge
+at 923–546 m (18–133 px, gone 500 ms into the hold,
+`descent-new-546m-crack.png`) — cut edges have no skirt.
+
+**No console errors** in any run (only three's WebGPU-unavailable warning), so
+the shared-attribute dispose holds. No z-fight flicker seen in the frames. The
+panel's `tiles` line is not in `innerText` under `?play`, so levels were read
+from the frames, not the panel.
+
+**Cost** (Node, per change of a stand-in's `except`, one surface; land+sea
+doubles it): `finestCover` 1–3.5 ms; `indicesOutside` for the root stand-in
+13–19 ms at 527/546 m, 9–13 ms at 13 km. While loading, every arriving tile
+changes `except`, so that rebuild (plus an index upload) lands on most frames —
+over a 16 ms frame on its own.
+
+**Not fixed, because no small fix is safe.** Dropping only triangles wholly
+inside `except` closes the wedges but draws the 40 km root triangles over the
+fine ground near the eye — the hiding `coverAround` was built to avoid. The real
+options are the lead's: draw stand-ins behind finer pieces (depth offset or
+stencil of the finer pieces, b3-seams' first option) so the cut can be
+conservative; or hold a finer ring of ancestors (e.g. level 6–8 around the eye)
+so the stand-in's lattice is finer than what it is cut around; and cache or
+cheapen the cut rebuild.
+
 ## Left (for the next agent)
 
 1. **Sims not re-run** (context ran out). Rebuild `tmp/descent-sim.ts` from run
@@ -60,11 +132,7 @@ while loading) — cost not yet measured.
    record level under the eye vs time before (d2592e12) / after. For drawn level
    under the eye use pieces whose key holds the point and no `except` does (as
    `tileView.levels` now does).
-2. b3-seams' `holes.ts.txt` replay: its `roots` set uses numeric faces, so it
-   holds no root — use `FACES`. Count a selected tile uncovered if any of its
-   level+3 cells is drawn by 0 pieces. Expect 0 after.
-3. Measure `indicesOutside` + cut rebuilds per frame on #0 at 13 km / 527 m.
+2. ~~Holes replay~~, ~~cut cost~~, ~~look in the page~~: run 3 above.
+3. The turn's remaining holes and the flat stand-in: a lead's call (run 3).
 4. `POOL_SIZE` 3–4 trial and what a coarser coast (`COAST_FINER`) would save —
    not started; `COAST_FINER` is the lead's look call.
-5. Look at it in the page (`/preview`): cut stand-ins near the eye on a fast
-   descent and a turn at `#0@38.30756,15.90432,546,220.1,25.8`.
