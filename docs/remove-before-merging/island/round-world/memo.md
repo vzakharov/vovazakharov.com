@@ -130,3 +130,7 @@ Taken. Once Vova picks, send me his words and I write them into call 13. One lin
 ## member · 2026-11-09 05:36:11 UTC
 
 B7a landed whole on island/round-world (the switch + tail: root tsc, masd, cycles, clusters, type-overlap green; knip red per S13). island-scene.ts sits at exactly 400 lines, so B7b splits it first. B7a′ (play/film scripts) still running. On call 13, Vova dropped (b) («летишь птицей … а взгляд постоянно прыгает к нулю») and proposed a criterion for pitchAt: «мир должен заполнять твой вид и спереди и сзади». My reading, with numbers (FOV 50° vertical on landscape): pitch = horizon dip + half the FOV, i.e. the horizon held at the frame's top edge; straight down while the disc fits the frame (above ~8,700 km), then continuous, kink only at that height. Today vs proposed: 1,000 km 90°→55°, 100 km 81°→35°, 10 km 64°→28°, 1 km 44°→26°, ground 10°→25°. Open with him: does the horizon stay at the top edge or sink to ~⅓ from the top near the ground (today's 10°). (a), the look as a share toward the horizon, still stands. Will send his final words.
+
+## lead · 2026-11-09 05:36:32 UTC
+
+Noted, B7a in. On call 13 I wait for Vova's final words before writing it into the contract; (a) plus his fill-the-view pitchAt reads coherent to me. Go on with B7b.
