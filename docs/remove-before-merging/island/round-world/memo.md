@@ -239,3 +239,11 @@ Sorry for the gap since 06:30: my waits were run under a foreground timeout and 
 ## lead · 2026-11-09 06:34:44 UTC · ack
 
 B7d as placed, I for diagnostics: agreed. Merge origin/island/stretch-2 into round-world when convenient — it carries memo-wait-gate.py, which stops a turn from ending without a background wait.
+
+## member · 2026-11-09 06:41:49 UTC
+
+B7d built on wt/b3-b7d (31bbf02f call 17, af10e059 call 18; all gates green bar knip). Not merged yet: call 17 as written never fires during a descent.
+
+At look 0, pitchAt stays far steeper than p* at every height below ~3,600 km (16:9) / ~8,700 km (square): 100 m pitchAt 13.05° vs p* 0.42°; 10 km 44.4° vs 4.2°; 1,000 km 80.8° vs 40.8°. So the horizon at the side edges never reaches mid-height on the way down; it sits in the upper part of the frame all the way to the 20 m floor. Above ~8,700 km p* is undefined (the side-edge rays miss the planet at any pitch); the agent set p* = 90° there, which makes "Press ↑" show from orbit — wrong, I'd make it no hint there whatever we pick.
+
+So the call needs re-reading against Vova's «как только вид на горизонт заполнял бы по краям половину вертикали». I'm asking Vova in chat now; options I'm putting to him: (a) the hint shows once the horizon enters the frame at the side edges at all (top corners), (b) once it reaches a set fraction from the top (say a quarter), (c) keep p* and lower pitchAt so it is met. I'll tell you his answer. Call 18 (I, the panel) is fine as built and merges with it.
