@@ -81,6 +81,17 @@
   }
 }
 
+@mixin glass {
+  padding: 8px 12px;
+  font:
+    13px / 1.4 system-ui,
+    sans-serif;
+  color: rgb(255 255 255 / 85%);
+  background: rgb(10 16 28 / 55%);
+  border-radius: 8px;
+  backdrop-filter: blur(6px);
+}
+
 // The where-line's confirmation, on the hint's glass at the top of the screen,
 // clear of the hint, and the look hint under it; empty, each draws nothing.
 .where,
@@ -89,17 +100,13 @@
   top: 16px;
   left: 50%;
   max-width: calc(100% - 32px);
-  padding: 8px 12px;
-  font:
-    13px / 1.4 system-ui,
-    sans-serif;
-  color: rgb(255 255 255 / 85%);
   pointer-events: none;
   user-select: none;
-  background: rgb(10 16 28 / 55%);
-  border-radius: 8px;
   transform: translateX(-50%);
-  backdrop-filter: blur(6px);
+}
+
+.where {
+  @include glass;
 
   &:empty {
     display: none;
@@ -108,6 +115,27 @@
 
 .lookHint {
   top: 64px;
+}
+
+// One showing of a look hint, on its own glass so the glass fades with it; the
+// page sets the delay and duration from the latch's lit and fade spans.
+.lookHintShown {
+  @include glass;
+
+  display: block;
+  animation-name: look-hint-fade;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation-timing-function: step-end;
+  }
+}
+
+@keyframes look-hint-fade {
+  to {
+    opacity: 0;
+  }
 }
 
 // The diagnostics panel, top left on the same glass, a field a row, and as the

@@ -5,7 +5,11 @@ import { useEffect, useRef, useState } from 'react';
 import type { Labeled } from '@/kernel/shared/typings';
 
 import { PLAY_QUERY } from '@/island/shared/play';
-import type { LookHint } from '@/island/features/eye';
+import {
+  type HintShowing,
+  LOOK_HINT_FADE_SECONDS,
+  LOOK_HINT_LIT_SECONDS,
+} from '@/island/features/eye';
 
 import COPY from '../config/messages/en.json';
 import { parsePlace } from '../lib/place-hash';
@@ -24,7 +28,7 @@ export function IslandCanvas({ label }: Labeled) {
   const [failure, setFailure] = useState<Error | null>(null);
   // Each copy is a fresh object, so a second `P` restarts the confirmation.
   const [copied, setCopied] = useState<Copied | null>(null);
-  const [hint, setHint] = useState<LookHint | undefined>();
+  const [hint, setHint] = useState<HintShowing | undefined>();
   const [diagnostics, setDiagnostics] = useState<readonly string[] | null>(
     null,
   );
@@ -95,12 +99,22 @@ export function IslandCanvas({ label }: Labeled) {
       </output>
       <output className={classes['lookHint']} aria-live="polite">
         {hint === undefined ? null : (
-          <>
-            <span className={classes['hintKeys']}>{COPY.look[hint].keys}</span>
-            <span className={classes['hintTouch']}>
-              {COPY.look[hint].touch}
+          // Keyed by the showing, so each one starts its fade afresh.
+          <span
+            key={hint.since}
+            className={classes['lookHintShown']}
+            style={{
+              animationDelay: `${String(LOOK_HINT_LIT_SECONDS)}s`,
+              animationDuration: `${String(LOOK_HINT_FADE_SECONDS)}s`,
+            }}
+          >
+            <span className={classes['hintKeys']}>
+              {COPY.look[hint.hint].keys}
             </span>
-          </>
+            <span className={classes['hintTouch']}>
+              {COPY.look[hint.hint].touch}
+            </span>
+          </span>
         )}
       </output>
       {diagnostics === null ? null : (

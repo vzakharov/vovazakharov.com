@@ -23,9 +23,11 @@ import {
   eyeAt,
   type GroundAt,
   headingOf,
-  type LookHint,
+  type HintShowing,
+  latchHint,
   lookHint,
   MAX_HEIGHT,
+  NO_HINT,
   openingOf,
   poseOf,
   step,
@@ -114,8 +116,8 @@ type MountIslandSceneParams = {
   pose: Pose | undefined;
   play: boolean;
   onError: (error: Error) => void;
-  /** Told each time the look hint the eye earns changes; never under play. */
-  onLookHint: (hint: LookHint | undefined) => void;
+  /** Told each time a look hint is shown or goes; never under play. */
+  onLookHint: (showing: HintShowing | undefined) => void;
 };
 
 /**
@@ -255,9 +257,12 @@ export function mountIslandScene(
   const observer = new ResizeObserver(resize);
   observer.observe(canvas);
 
-  let hint: LookHint | undefined;
+  let hint = NO_HINT;
+  /** Seconds the frames have stepped, the clock the look hint's latch reads. */
+  let stepped = 0;
   const frame = (dt: number) => {
     if (eye === null) return;
+    stepped += dt;
     eye = step(eye, play ? STILL : controls.read(), dt, groundAt);
     if (timeKeys !== null) {
       const keys = timeKeys.read();
@@ -266,9 +271,9 @@ export function mountIslandScene(
     }
     render();
     const earned = play ? undefined : lookHint(eye, camera.aspect);
-    if (earned === hint) return;
-    hint = earned;
-    onLookHint(earned);
+    const latched = latchHint(hint, earned, stepped);
+    if (latched.showing !== hint.showing) onLookHint(latched.showing);
+    hint = latched;
   };
 
   let loop = 0;
