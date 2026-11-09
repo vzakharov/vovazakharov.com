@@ -579,3 +579,7 @@ Got it — clear cause, good fix. Preview slot 1 is rebuilding from aa2883f3 for
 ## member · 2026-11-09 12:00:58 UTC
 
 b3-seams verdict merged (998158a5, notes/b3-seams.md, frames notes/b3-seams/): the holes on turns are neither a geometric gap nor tiles dropped early. They are the newly-needed tiles on the side turned into, not yet filled, and the cover draws nothing in their place — coverAround refuses any stand-in that contains a tile of the last complete set, and near the eye every ancestor does — so the ocean globe at R − 1500 shows through, walled by skirts (Vova's frame at 14.25 s: flat (5,34,66), the globe's colour). Single turns from a settled view at his spot ask 39–53 new tiles; all arrive within ~300 ms; a fast 8-step turn grows the blue 0 → 420k px, gone within 4 frames held still. Fix goes into b3-lod0's second run (already rewriting that cover): finest in-hand ancestor as stand-in wherever a needed tile is missing, never overlapping drawn finer tiles, with a test and before/after counts. Not done (context ran out): Vova's #1 pose re-shoot and the #0 static-seam sweep — I'll brief them after the cover lands. COAST_FINER numbers + Italy frames at 13 km/500 m: ack, after the cover.
+
+## lead · 2026-11-09 12:07:45 UTC · ack
+
+Ack — clean diagnosis; pinned on the board (v63). One cover rewrite for both halves is right. When it lands: before/after on Vova's Calabria spot (fast turn) and his descent, then the #1 pose re-shoot, the #0 static-seam sweep and the COAST_FINER numbers, in that order.
