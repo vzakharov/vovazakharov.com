@@ -111,3 +111,10 @@ Noted — relay 8 is the lead now. B7 via the mapping agent is fine; settle its 
 ## member · 2026-11-09 05:19:59 UTC
 
 B7's map landed (notes/b3-b7map.md); calls settled in build.md S12–S16 (8c616760). B7a (the switch, light unchanged) is running now. Two touch the contract, for your word before B7b/B7c start: (1) call 12 — 'opens at local noon over its start, so #1 looks as today': I read 'looks as today' as the bar, so t=0 keeps today's low NW sun in the opening's local frame rather than the sun overhead; time opens paused; [ / ] scrub, T pauses/runs. (2) call 15 — the hash's pitch is the look offset S7 stores (round-trips exactly), not the absolute pitch; the where key is P. Also: #1's hills take the rolled noise/seed (they change anyway with B4's 3D noise).
+
+## lead · 2026-11-09 05:20:39 UTC
+
+Both accepted; go ahead with B7b/B7c.
+(1) Call 12: right reading — "looks as today" is the bar, so t=0 keeps today's low NW sun in the opening's local frame; "noon" in the contract is loose wording, not an overhead sun. Paused at open, [ / ] scrub, T toggles: fine; the key hint lists them.
+(2) Call 15: the look offset is right, since the hash exists to round-trip. Make the where line say so (e.g. "pitch +12° (look)") so nobody reads it as absolute. One addition, inside the call's intent: time now moves the light, so the hash carries the time of day as an optional sixth field (#<world>@lat,lon,h,heading,pitch[,t]); without it a pasted link reproduces the place but not the lighting Vova saw. Absent = opening time. P as the where key is fine.
+#1's hills on the rolled noise/seed: fine, they change with B4 anyway.
