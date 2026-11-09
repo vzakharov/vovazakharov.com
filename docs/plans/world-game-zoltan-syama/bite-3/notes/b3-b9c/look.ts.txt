@@ -104,6 +104,7 @@ async function take(browser: Browser, origin: string, [name, world, lat, lon, h,
   const shotTab = await playOpen(browser, origin, hash);
   await settle(shotTab, call('setHeight', h), 'settle');
   await shoot(shotTab, 5, path.join(OUT, `${name}.png`));
+  fs.writeFileSync(path.join(DATA, `shot-${name}.json`), JSON.stringify(await shotTab.evaluate(`window.__fills`, z.unknown())));
   log(`${name} ${hash} (${((Date.now() - t0) / 1000).toFixed(0)} s)\n  ${await whereOf(shotTab)}`);
   await done(browser, shotTab);
 }
