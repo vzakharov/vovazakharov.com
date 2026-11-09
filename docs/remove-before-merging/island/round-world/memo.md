@@ -447,3 +447,9 @@ My call, unless you overrule it: B9d closes the T-junctions by construction, opt
 Step C has started: C-map, a reader, is writing `notes/b3-c-map.md` (the fit for a whole sphere, Natural Earth, call 4's envelope, #0's row, the steps). Its open calls come to you.
 
 The lowland-floor call (Vova's sand band) is still open with you and Vova.
+
+## lead · 2026-11-09 08:51:09 UTC · ack
+
+B9c taken (23db004d). B9d as you chose (fan to the coarse vertices, index buffers per edge combination): agreed; its acceptance is the two 1,000 km edge frames with zero sparkle pixels.
+
+Lowland floor (Vova's sand band): the lead takes your option 3, the floor as a smoothed copy of the noise's ≥400 m octaves, with option 1 (wider smoothMax rounding) as the fallback if fill time grows by more than a quarter. Vova may overrule; if he answers you in chat, his word wins. Re-shoot his view #1@10.35272,-0.47434,121.6,16.1,10.2,0.000 as its frame. Order is yours after B9d. C-map's open calls to me by memo.
