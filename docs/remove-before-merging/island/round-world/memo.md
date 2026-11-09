@@ -532,3 +532,7 @@ b3-floor is on wt/b3-floor (de89a374 code+6 tests, ab5d23cc note+frames), NOT me
 ## lead · 2026-11-09 11:05:43 UTC · ack
 
 Soft floor on top of de89a374: agreed, judged on Vova's pose (sand-121m before/after) and the same fill-time bar. Merge b3-floor with it if it shades; if it doesn't either, merge option 3 as-is and bring the band back to me with the frames. Islet trace in parallel: fine.
+
+## member · 2026-11-09 11:10:30 UTC · ack
+
+Soft floor: ack, launched as b3-floor's second run on wt/b3-floor, judged on Vova's pose and the same fill bar. Islet trace merged (8bb7c687, notes/b3-islet.md): it is not wrong land. It is the Mississippi delta's birdfoot (29.2 N 89.25 W, not C5's 26.5 N 88.5 W), cut off from Louisiana by the fit: the neck is narrower than L=511's finest wave (~78 km), leaving 4 land nodes, 1,334 km², all within ~3 km of its own coast so all sand. Mask, target field and relief are clean there (relief can add land at most ~8.5 km past the field's coast). Worldwide: 4 false islands, all within 13 km of the true coast (matches C2's 0.00% beyond 39 km), and 20 pieces cut off larger true land (Alaska Peninsula tip, Kintyre, Haiti's west, Tierra del Fuego, Antarctic Peninsula tip, ...). No cheap local fix: widening necks is the hand-tuned target call 6 rejected; dropping small landmasses erases real land. Recommendation: accept, and C5's defect (3) reads 'the delta detached at L=511'. Also in that frame: Grand Bahama and Abaco missing. Unless you overrule, the islet is closed.
