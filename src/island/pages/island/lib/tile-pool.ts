@@ -1,17 +1,18 @@
 import type { CanDispose } from '@/kernel/shared/typings';
 
 import { type Vec3, worldToPlane } from '@/island/shared/globe';
-import {
-  type CoastField,
-  tileId,
-  type TileKey,
-} from '@/island/entities/terrain';
+import { tileId, type TileKey } from '@/island/entities/terrain';
 
 import { nearestFirst } from '../model/tile-cover';
-import type { FilledTile, WorkerReply, WorkerRequest } from './tile-protocol';
+import type {
+  FilledTile,
+  WorkerReply,
+  WorkerRequest,
+  WorldField,
+} from './tile-protocol';
 
 /**
- * Workers in the pool. Each holds its own coast field (~22 MB), so a few
+ * Workers in the pool. Each holds its own world field (~4 MB), so a few
  * share the fills without a phone paying for one per core.
  */
 const POOL_SIZE = 2;
@@ -20,7 +21,7 @@ const POOL_SIZE = 2;
 const IN_FLIGHT = 2;
 
 export type TilePool = CanDispose & {
-  /** The field the first worker built, copied out, and its build time. */
+  /** The field the first worker built, copied out, its seed and its build time. */
   readonly field: Promise<Built>;
   /**
    * The tiles wanted now from `eye` (world metres), replacing what was wanted
@@ -34,13 +35,16 @@ export type TilePool = CanDispose & {
 
 type Slot = { readonly worker: Worker; busy: number };
 
-type Built = { readonly field: CoastField; readonly buildMs: number };
+type Built = WorldField & { readonly buildMs: number };
 
 /**
- * Starts `POOL_SIZE` tile workers. Every filled tile goes to `onTile`; a
- * worker's failure goes to `onError` and leaves its tile pending.
+ * Starts `POOL_SIZE` tile workers on world `world`, each building its field
+ * from the number. Every filled tile goes to `onTile`; a worker's failure goes
+ * to `onError` and leaves its tile pending. A pool holds one world: another is
+ * a new pool, this one disposed.
  */
 export function startTilePool(
+  world: string,
   onTile: (tile: FilledTile) => void,
   onError: (error: Error) => void,
 ): TilePool {
@@ -76,8 +80,8 @@ export function startTilePool(
     worker.addEventListener('message', (event: MessageEvent<WorkerReply>) => {
       const message = event.data;
       if (message.kind === 'built') {
-        const { field: copy, buildMs } = message;
-        if (copy !== null) field.resolve({ field: copy, buildMs });
+        const { field: copy, seed, buildMs } = message;
+        if (copy !== null) field.resolve({ field: copy, seed, buildMs });
         return;
       }
       inFlight.delete(tileId(message.tile.key));
@@ -91,7 +95,7 @@ export function startTilePool(
       onError(error);
     });
     slots.push(slot);
-    send(slot, { kind: 'init', sendField: index === 0 });
+    send(slot, { kind: 'init', world, sendField: index === 0 });
   };
   for (let index = 0; index < POOL_SIZE; index++) spawn(index);
 

@@ -6,6 +6,7 @@ import type { Labeled } from '@/kernel/shared/typings';
 
 import { PLAY_QUERY } from '@/island/shared/play';
 
+import { worldOfHash } from '../lib/world-hash';
 import classes from './island.module.scss';
 import { mountIslandScene } from './island-scene';
 import { installPlayHook } from './play-hook';
@@ -23,9 +24,19 @@ export function IslandCanvas({ label }: Labeled) {
     const play = new URLSearchParams(globalThis.location.search).has(
       PLAY_QUERY,
     );
-    const scene = mountIslandScene(element, { play, onError: setFailure });
+    const hashWorld = () => worldOfHash(globalThis.location.hash);
+    const scene = mountIslandScene(element, {
+      world: hashWorld(),
+      play,
+      onError: setFailure,
+    });
+    const onHashChange = () => {
+      scene.setWorld(hashWorld());
+    };
+    globalThis.addEventListener('hashchange', onHashChange);
     const uninstall = play ? installPlayHook(scene) : null;
     return () => {
+      globalThis.removeEventListener('hashchange', onHashChange);
       uninstall?.();
       scene.dispose();
     };

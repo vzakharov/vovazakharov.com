@@ -1,0 +1,127 @@
+{
+  "total": {
+    "inputTokens": 781,
+    "cacheWrite5mTokens": 1000054,
+    "cacheWrite1hTokens": 221607,
+    "cacheReadTokens": 52603312,
+    "outputTokens": 317437,
+    "thinkingTokens": 104621,
+    "responses": 377,
+    "costUsd": 23.645652399999996
+  },
+  "estimate": {
+    "at": "2026-11-08T21:56:34.247Z",
+    "subjectLine": "feat: island worlds from one formula, a dome plus a Fourier series",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "a band-limited field synthesized by inverse FFT in a worker and sampled by every tile is rendering-pipeline work"
+      },
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "fitting the drawn coast to a spectrum and the lakes back in the tracer need judgement of the drawing"
+      },
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "the URL world number and a rebuild without reload touch the page, pool and scene"
+      },
+      {
+        "hours": 2.5,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "briefing, reviewing and merging six agent runs and settling their forks with the lead"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-08T20:52:01.510Z",
+    "contextTokens": 106123,
+    "spend": {
+      "inputTokens": 6,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 44245,
+      "cacheReadTokens": 157752,
+      "outputTokens": 830,
+      "thinkingTokens": 39,
+      "responses": 2,
+      "costUsd": 0.4021344
+    }
+  },
+  "sessionId": "ca982972-6a86-57ea-8dc6-cd7711702033",
+  "branch": "island/worlds",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/go island/worlds — you are the member building bite 2 of the island game. Your contract is docs/plans/world-game-zoltan-syama/bite-2.md (read it first, then th…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDvf7LpG4KNhwNaPyx",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-08T20:51:49.691Z",
+  "lastResponseAt": "2026-11-08T21:57:01.122Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 145,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 221607,
+    "cacheReadTokens": 14861220,
+    "outputTokens": 55091,
+    "thinkingTokens": 19330,
+    "responses": 73,
+    "costUsd": 5.8475
+  },
+  "subagents": {
+    "inputTokens": 636,
+    "cacheWrite5mTokens": 1000054,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 37742092,
+    "outputTokens": 262346,
+    "thinkingTokens": 85291,
+    "responses": 304,
+    "costUsd": 17.798152400000006
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 781,
+      "cacheWrite5mTokens": 1000054,
+      "cacheWrite1hTokens": 221607,
+      "cacheReadTokens": 52603312,
+      "outputTokens": 317437,
+      "thinkingTokens": 104621,
+      "responses": 377,
+      "costUsd": 23.645652399999996
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 377,
+    "matched": 377,
+    "matchedTableUsd": 23.645652399999996,
+    "matchedEventUsd": 23.645652399999996,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 8240,
+    ".txt": 31,
+    ".py": 265,
+    ".ts": 3103,
+    ".json": 110,
+    ".sh": 43,
+    ".tsx": 11
+  }
+}
