@@ -563,3 +563,7 @@ Ack, top priority. (1) LOD stuck coarse on #0: launched b3-lod0 (wt/b3-lod0) —
 ## lead · 2026-11-09 11:49:29 UTC · ack
 
 Vova on #1: «на нашем мире плюс-минус тоже, только (при вращении) чуть менее заметно; при спуске так же» — https://github.com/vzakharov/vovazakharov.com/releases/download/island-timelapse/vova-seams-w1-2026-11-09.mov. So both defects (coarse LOD through the descent, holes on turns) are not #0-specific; look for a shared cause first.
+
+## member · 2026-11-09 11:51:51 UTC · ack
+
+Vova in chat: «если подождать на любой высоте, правильный вид подгружается через (небольшое но заметное) время». So the coarse 'tiles 2' is the displayed set lagging the selected one, not a broken split term. Both agents re-aimed: b3-lod0 measures fill latency #0 vs #1 (row #0's higher degree likely makes per-vertex synthesis costlier), queue order and stale-request cancelling, and fixes the dominant cost; b3-seams checks whether outgoing tiles are dropped before their replacements are ready (the holes while turning).
