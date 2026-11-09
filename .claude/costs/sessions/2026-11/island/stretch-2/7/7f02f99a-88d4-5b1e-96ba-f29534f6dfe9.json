@@ -1,51 +1,65 @@
 {
   "total": {
-    "inputTokens": 14,
+    "inputTokens": 1258,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 55444,
-    "cacheReadTokens": 587647,
-    "outputTokens": 1892,
-    "thinkingTokens": 425,
-    "responses": 6,
-    "costUsd": 0.5989773999999999
+    "cacheWrite1hTokens": 116642,
+    "cacheReadTokens": 5339754,
+    "outputTokens": 11612,
+    "thinkingTokens": 3231,
+    "responses": 39,
+    "costUsd": 2.2332848999999992
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-09T04:39:25.629Z",
+    "subjectLine": "feat: lead bite 3 of the island's second stretch with its member",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "a game team's lead reviews a member's frames, answers notes and merges their branch; judgement on scope, not code"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
-    "endedBy": null,
+    "endedBy": "end_turn",
     "endedOn": null,
-    "endedAt": null,
-    "contextTokens": null,
+    "endedAt": "2026-11-09T04:41:51.886Z",
+    "contextTokens": 127522,
     "spend": {
-      "inputTokens": 14,
+      "inputTokens": 25,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 55444,
-      "cacheReadTokens": 587647,
-      "outputTokens": 1892,
-      "thinkingTokens": 425,
-      "responses": 6,
-      "costUsd": 0.5989773999999999
+      "cacheWrite1hTokens": 68431,
+      "cacheReadTokens": 1300124,
+      "outputTokens": 3430,
+      "thinkingTokens": 559,
+      "responses": 12,
+      "costUsd": 0.8761727999999998
     }
   },
   "sessionId": "7f02f99a-88d4-5b1e-96ba-f29534f6dfe9",
   "branch": "island/stretch-2",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take island/stretch-2 — бит 3 (круглый мир, Земля как #0) строится у участника, решения про солнце и клавиши переданы",
-  "prs": [],
+  "prs": [
+    266
+  ],
   "url": "https://claude.ai/code/session_01DaohkEZ8LZf6wtY7sJ5gMd",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-09T04:38:51.468Z",
-  "lastResponseAt": "2026-11-09T04:39:15.940Z",
+  "lastResponseAt": "2026-11-09T04:43:59.070Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 14,
+    "inputTokens": 77,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 55444,
-    "cacheReadTokens": 587647,
-    "outputTokens": 1892,
-    "thinkingTokens": 425,
-    "responses": 6,
-    "costUsd": 0.5989773999999999
+    "cacheWrite1hTokens": 116642,
+    "cacheReadTokens": 5339754,
+    "outputTokens": 11588,
+    "thinkingTokens": 3231,
+    "responses": 38,
+    "costUsd": 2.2331547999999994
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,27 +73,48 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 14,
+      "inputTokens": 77,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 55444,
-      "cacheReadTokens": 587647,
-      "outputTokens": 1892,
-      "thinkingTokens": 425,
-      "responses": 6,
-      "costUsd": 0.5989773999999999
+      "cacheWrite1hTokens": 116642,
+      "cacheReadTokens": 5339754,
+      "outputTokens": 11588,
+      "thinkingTokens": 3231,
+      "responses": 38,
+      "costUsd": 2.2331547999999994
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1181,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 24,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0001301
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 6,
-    "matched": 6,
-    "matchedTableUsd": 0.5989773999999999,
-    "matchedEventUsd": 0.5989774,
-    "unseen": {}
+    "events": 39,
+    "matched": 38,
+    "matchedTableUsd": 2.2331547999999994,
+    "matchedEventUsd": 2.2331548,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 1181,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 24,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0001301
+      }
+    }
   },
   "operatorWords": {
-    "chat": 0,
+    "chat": 7,
     "review": 0,
     "threads": 0
   },

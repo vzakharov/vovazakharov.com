@@ -1,8 +1,8 @@
 items:
   - id: z-bite3
     type: zone
-    updated: [2026-11-09T04:05:00.000Z, agent:lead]
-    box: [4610, 2540, 2090, 1100, green]
+    updated: [2026-11-09T04:34:58.460Z, u_L_AriiBLoWLIB4PYEulAJA]
+    box: [4444, 2539, 2090, 1100, green]
     text: 'Bite 3 — a round world, and Earth as #0'
   - id: bite3-1
     type: sticky
@@ -40,7 +40,7 @@ items:
     updated: [2026-11-09T04:30:00.000Z, agent:lead]
     box: [6010, 2600, 300]
     src: images/bite3-worlds-a.webp
-    text: 'The game''s first round worlds, #2–#7 at degree 511: land 26–33%, 6–15 landmasses over 1% of the land, the largest 27–78%. Built in 175 ms'
+    text: "The game's first round worlds, #2–#7 at degree 511: land 26–33%, 6–15 landmasses over 1% of the land, the largest 27–78%. Built in 175 ms"
   - id: bite3-globes-probe
     type: image
     updated: [2026-11-09T04:40:00.000Z, agent:lead]
