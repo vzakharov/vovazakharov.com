@@ -1,0 +1,145 @@
+{
+  "total": {
+    "inputTokens": 612,
+    "cacheWrite5mTokens": 145646,
+    "cacheWrite1hTokens": 97231,
+    "cacheReadTokens": 6102846,
+    "outputTokens": 29305,
+    "thinkingTokens": 3410,
+    "responses": 51,
+    "costUsd": 3.3158762000000004
+  },
+  "estimate": {
+    "at": "2026-11-09T05:14:54.791Z",
+    "subjectLine": "feat: bite 3 — sphere switch, seamless levels, Earth and the tail",
+    "parts": [
+      {
+        "hours": 24.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "B7's switch and full-moon light, call 14's seamless levels across faces and B8's seam frames need rendering depth"
+      },
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "Earth's fit from Natural Earth and the envelope measured for random worlds"
+      },
+      {
+        "hours": 7.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "call 12's time keys and call 15's pose line and hash round trip in the eye and hook"
+      },
+      {
+        "hours": 4.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "Earth's pinned row and the Done table's tests"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "orchestrating B7–B9, step C and the tail with the lead"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-09T05:15:08.332Z",
+    "contextTokens": 135088,
+    "spend": {
+      "inputTokens": 17,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 69500,
+      "cacheReadTokens": 849411,
+      "outputTokens": 2717,
+      "thinkingTokens": 389,
+      "responses": 8,
+      "costUsd": 0.7802902
+    }
+  },
+  "sessionId": "f45e19e4-c823-5543-bcf7-dfdc62ec04bd",
+  "branch": "wt/b3-b7map",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/round-world — B4 и S7 влиты (высота и заливка тайла куба, взгляд вверх-вниз), гейты зелёные кроме knip, очередь B7",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBxAb41bAqfSKJNwiM",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-09T05:14:32.560Z",
+  "lastResponseAt": "2026-11-09T05:19:29.852Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 38,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 97231,
+    "cacheReadTokens": 2290861,
+    "outputTokens": 8492,
+    "thinkingTokens": 2054,
+    "responses": 18,
+    "costUsd": 1.4060122000000002
+  },
+  "subagents": {
+    "inputTokens": 68,
+    "cacheWrite5mTokens": 145419,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 3659732,
+    "outputTokens": 20802,
+    "thinkingTokens": 1356,
+    "responses": 32,
+    "costUsd": 1.8753533999999998
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 612,
+      "cacheWrite5mTokens": 145646,
+      "cacheWrite1hTokens": 97231,
+      "cacheReadTokens": 6102846,
+      "outputTokens": 29305,
+      "thinkingTokens": 3410,
+      "responses": 51,
+      "costUsd": 3.3158762000000004
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 51,
+    "matched": 50,
+    "matchedTableUsd": 3.2813656000000004,
+    "matchedEventUsd": 3.2813656,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 227,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 152253,
+        "outputTokens": 11,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0345106
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".py": 718,
+    ".md": 11978,
+    ".json": 296,
+    ".txt": 31,
+    ".ts": 7329,
+    ".sh": 43,
+    ".yaml": 236,
+    ".tsx": 11
+  }
+}

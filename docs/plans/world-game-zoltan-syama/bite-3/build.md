@@ -100,6 +100,25 @@ calls.
   per word with one scale per degree, 256 KB packed, 351 KB as JSON; 7 bits
   rises to 0.76%.
 
+## B7 — the switch (`notes/b3-b7map.md` is the map and the cut)
+
+- **S12. Cut**: B7a the switch (B7a′ the play and film scripts if B7a does not
+  fit one agent), then B7b call 12, then B7c call 15, in sequence: B7b and B7c
+  both edit `island-scene.ts`, `en.json` and the play hook.
+- **S13. The plane leaves the page in B7a**, no shim; the planar terrain code
+  stays unread until B8 deletes it, so knip stays red until B8.
+- **S14. Pinned row #1 reaches the worker as a ready series**: B7a adds a way
+  into `buildSphereWorld` for a series in place of rolled words; the noise seed
+  is the roll's `noise/seed` for every world, #1 included (its hills change
+  anyway with B4's 3D noise). Tile requests that arrive before the build queue
+  until it ends; none throws.
+- **S15. Call 12's opening** (sent to the lead): t = 0 keeps today's low sun
+  from the north-west in the opening's local frame, so #1 opens as it looks
+  today; time opens paused. `[`/`]` scrub, `T` pauses and runs.
+- **S16. Call 15's pitch** (sent to the lead) is the look offset S7 stores,
+  which round-trips exactly. The where key is `P`. The commit comes in at build
+  time; B7c may edit `sites/vova/next.config.ts` for it.
+
 ## Where the bite stands (for the next orchestrator)
 
 - **Landed on `island/round-world`**: A (schema, series, frame script), B1
