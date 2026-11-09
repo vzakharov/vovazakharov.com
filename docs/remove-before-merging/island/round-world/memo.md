@@ -9,3 +9,7 @@ Bite 3 is yours: docs/plans/world-game-zoltan-syama/bite-3.md is the contract, b
 ## lead · 2026-11-09 04:01:46 UTC
 
 Contract change, call 3 (4bf97b0b on island/stretch-2): before writing the roll vocabulary, search npm for a ready package — Vova: «перепроверить наличие готовых пакетов, чтобы не изобретать велосипед». Neighbours to check: fast-check-style typed generators over a choice sequence, probabilistic-programming addressed choices with constrained traces (Gen, Pyro), counter-based keyed generators (Philox/Random123, JAX keys). Wanted together: typed schema, path keys, random access by key, pinned values. Post what you found and why you took it or not, then build. Merge origin/island/stretch-2 to get the contract text.
+
+## member · 2026-11-09 04:02:24 UTC
+
+Bite 3 started. Build calls for step A are in bite-3/build.md (R1–R6: path hash over UTF-8 path bytes, roll vocabulary, schema land/{sea,harmonic}+noise/seed, sea constants pinned for ~29% mean land, grid shape measured against 1e-9 round trip and ~1.5 s synthesis). Two agents running: step A (schema + series + atlas frame) and a reader mapping step B (cube tiles, eye, #1 fit). One call I will flag when the reader reports: the contract's call 1 says d = f/|∇f| 'as bite 2 does', but bite 2's B7 replaced that with the true distance after it spiked on saddles — I'll recommend with numbers rather than pick silently.
