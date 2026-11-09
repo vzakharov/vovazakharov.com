@@ -1,17 +1,18 @@
 /**
  * The tile worker: builds the world's field once, on `init`, from the world
- * number alone, then fills each tile it is sent and posts it back with its
- * buffers transferred. Messages are handled in order, so every fill waits for
- * the field.
+ * number alone (its pinned row, if it has one), then fills each tile it is
+ * sent and posts it back with its buffers transferred. The build is async, so
+ * a fill that arrives before it waits for it; fills still go back in the order
+ * they came.
  */
-import type { GridCell, Vec3 } from '@/island/shared/globe';
+import type { CubeCell, Vec3 } from '@/island/shared/globe';
 import {
-  buildWorldField,
-  detailCut,
-  fillTile,
-  heightAt,
+  cubeDetailCut,
+  fillCubeTile,
+  heightAtSphere,
+  openSphereWorld,
+  sampleSphereField,
   TILE_GRID,
-  worldSeed,
 } from '@/island/entities/terrain';
 
 import {
@@ -22,7 +23,7 @@ import {
   type WorldField,
 } from './tile-protocol';
 
-let world: WorldField | null = null;
+let world: Promise<WorldField> | null = null;
 
 const reply = (message: WorkerReply, transfer: Transferable[] = []) => {
   postMessage(message, { transfer });
@@ -41,18 +42,19 @@ function gridRange(heights: Float32Array): readonly [number, number] {
 
 function fill(
   { field, seed }: WorldField,
-  key: GridCell,
+  key: CubeCell,
   eye: Vec3,
 ): FilledTile {
   const start = performance.now();
-  const ground = fillTile(
+  const distance = (p: Vec3) => sampleSphereField(field, p);
+  const ground = fillCubeTile(
     key,
-    (x, y, finest) => heightAt(field, seed, x, y, finest),
-    { finest: detailCut(eye, field) },
+    (p, finest) => heightAtSphere(distance, seed, p, finest),
+    { finest: cubeDetailCut(eye, distance) },
   );
   const [low, high] = gridRange(ground.heights);
   const land = high < 0 ? null : ground;
-  const sea = low > 0 ? null : fillTile(key, () => 0);
+  const sea = low > 0 ? null : fillCubeTile(key, () => 0);
   // Its own buffer when the land goes too, since a buffer transfers once.
   const floor =
     land === null ? ground.heights : new Float32Array(ground.heights);
@@ -65,23 +67,36 @@ function fill(
   };
 }
 
+/** Posts a failure the pool can see: a rejection in a worker reaches no `error` listener. */
+const failed = (error: unknown) => {
+  reply({
+    kind: 'failed',
+    message: error instanceof Error ? error.message : String(error),
+  });
+};
+
 addEventListener('message', (event: MessageEvent<WorkerRequest>) => {
   const request = event.data;
   if (request.kind === 'init') {
     const start = performance.now();
-    const field = buildWorldField(request.world);
-    const seed = worldSeed(request.world);
-    world = { field, seed };
-    // A copy, not a transfer: this worker keeps filling from its own.
-    reply({
-      kind: 'built',
-      buildMs: performance.now() - start,
-      field: request.sendField ? field : null,
-      seed,
+    world = openSphereWorld(request.world).then(({ field, seed }) => {
+      // A copy, not a transfer: this worker keeps filling from its own.
+      reply({
+        kind: 'built',
+        buildMs: performance.now() - start,
+        field: request.sendField ? field : null,
+        seed,
+      });
+      return { field, seed };
     });
+    world.catch(failed);
     return;
   }
   if (world === null) throw new Error('tile worker: fill before init');
-  const tile = fill(world, request.key, request.eye);
-  reply({ kind: 'tile', tile }, filledBuffers(tile));
+  world
+    .then((built) => {
+      const tile = fill(built, request.key, request.eye);
+      reply({ kind: 'tile', tile }, filledBuffers(tile));
+    })
+    .catch(failed);
 });

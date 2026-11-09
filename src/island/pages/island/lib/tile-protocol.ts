@@ -1,14 +1,14 @@
-import type { GridCell, Vec3 } from '@/island/shared/globe';
+import type { CubeCell, Vec3 } from '@/island/shared/globe';
 import {
-  type CoastField,
+  type SphereField,
   tileBuffers,
   type TileKeyed,
   type TileMesh,
 } from '@/island/entities/terrain';
 
-/** A world as a worker builds it: its field and its terrain seed, which the main thread's `heightAt` takes too. */
+/** A world as a worker builds it: its field and its terrain seed, which the main thread's `heightAtSphere` takes too. */
 export type WorldField = {
-  readonly field: CoastField;
+  readonly field: SphereField;
   readonly seed: number;
 };
 
@@ -17,9 +17,9 @@ export type WorldField = {
  * the same lattice. A tile wholly under the sea has no land, since the sea
  * hides it; one wholly above it has no sea.
  */
-export type FilledTile = TileKeyed & {
-  readonly land: TileMesh | null;
-  readonly sea: TileMesh | null;
+export type FilledTile = TileKeyed<CubeCell> & {
+  readonly land: TileMesh<CubeCell> | null;
+  readonly sea: TileMesh<CubeCell> | null;
   /** The ground's heights under the sea's vertices, which the sea is coloured by; null with no sea. */
   readonly floor: Float32Array<ArrayBuffer> | null;
   /** The worker's time filling it, ms. */
@@ -29,14 +29,14 @@ export type FilledTile = TileKeyed & {
 export type WorkerRequest =
   | {
       readonly kind: 'init';
-      /** The world number, a decimal string: the worker builds the field from it. */
+      /** The world number, a decimal string: the worker builds the field from it (its pinned row, if any). */
       readonly world: string;
       readonly sendField: boolean;
     }
   | {
       readonly kind: 'fill';
-      readonly key: GridCell;
-      /** The eye (world metres) whose `detailCut` the tile is filled to. */
+      readonly key: CubeCell;
+      /** The eye (world metres) whose `cubeDetailCut` the tile is filled to. */
       readonly eye: Vec3;
     };
 
@@ -44,11 +44,13 @@ export type WorkerReply =
   | {
       readonly kind: 'built';
       readonly buildMs: number;
-      /** A copy of the field, when `init` asked for it. */
-      readonly field: CoastField | null;
+      /** A copy of the field (1024 × 2048 doubles, 16 MB), when `init` asked for it. */
+      readonly field: SphereField | null;
       readonly seed: WorldField['seed'];
     }
-  | { readonly kind: 'tile'; readonly tile: FilledTile };
+  | { readonly kind: 'tile'; readonly tile: FilledTile }
+  /** The build or a fill threw; the worker fills nothing more of what failed. */
+  | { readonly kind: 'failed'; readonly message: string };
 
 /** The buffers of a filled tile, for `postMessage`'s transfer list. */
 export const filledBuffers = ({

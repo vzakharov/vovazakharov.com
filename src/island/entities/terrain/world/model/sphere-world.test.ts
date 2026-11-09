@@ -11,6 +11,7 @@ import {
   type BuildTimes,
   fieldGrids,
   fieldOf,
+  openSphereWorld,
 } from './sphere-world';
 import { rollWorld } from './world-schema';
 
@@ -104,7 +105,7 @@ describe('buildSphereWorld', () => {
       sweep: 0,
     };
     const start = performance.now();
-    const { field, seed } = buildSphereWorld('2', undefined, undefined, times);
+    const { field, seed } = buildSphereWorld('2', { times });
     const total = performance.now() - start;
     t.diagnostic(
       `world 2, 1024 × 2048: roll ${ms(times.roll)}, synthesis ${ms(times.synthesis)}, ` +
@@ -117,9 +118,21 @@ describe('buildSphereWorld', () => {
     assert.ok(land > 0.15 && land < 0.45, `land ${land}`);
   });
 
+  it("opens #1 from its pinned row, the seed still rolled", async () => {
+    const one = await openSphereWorld('1');
+    assert.equal(one.seed, rollWorld('1').noise.seed);
+    const land =
+      one.field.distance.filter((d) => d > 0).length / one.field.distance.length;
+    // One island on a sea world, where #1's rolled series is a third land.
+    assert.ok(land > 0.005 && land < 0.03, `land ${land}`);
+    // The island's middle, 10° N on the +X meridian, lies inland.
+    const middle = latLonToUnit({ lat: (10 * Math.PI) / 180, lon: 0 });
+    assert.ok(sampleSphereField(one.field, middle) > 20_000);
+  });
+
   it('rolls from the source it is given', () => {
     const five = buildSphereWorld('5');
-    const asFive = buildSphereWorld('2', pathHash('5'));
+    const asFive = buildSphereWorld('2', { source: pathHash('5') });
     assert.equal(asFive.seed, five.seed);
     assert.deepEqual(asFive.field.poles, five.field.poles);
     assert.ok(

@@ -9,6 +9,7 @@ import { isLand } from './contour';
 import { pathHash } from './hash';
 import { type Envelope, landSeries, PROBE_ENVELOPE } from './land-series';
 import { legendreRecursion } from './legendre';
+import { pinnedSeries } from './pinned-row';
 import { rollWith, type WordSource } from './roll';
 import { sphereContourOf } from './sphere-contour';
 import { gaussLegendre, type RingGrid } from './sphere-grid';
@@ -78,29 +79,50 @@ export function fieldOf(
   return field;
 }
 
+/** How a world is built when not wholly from its own hash. */
+export type BuildOptions = {
+  /** Where the words are rolled from; the hash by path by default. */
+  source?: WordSource;
+  /** A ready land series up to `LAND_DEGREE` (a pinned row's) in place of the rolled one; the seed is still rolled. */
+  series?: Float64Array;
+  envelope?: Envelope;
+  /** Filled with each stage's cost when given. */
+  times?: BuildTimes;
+};
+
 /**
- * World `N` built for the ground: its parameters rolled from `source` (the
- * hash by path unless a pinned table stands in for it), the land series
- * synthesised onto the 1024 × 2048 field grid, and its signed great-circle
- * distance to the coast. `times`, when given, is filled with each stage's
- * cost.
+ * World `N` built for the ground: its parameters rolled from `source`, the
+ * land series (rolled, or `series`) synthesised onto the 1024 × 2048 field
+ * grid, and its signed great-circle distance to the coast.
  */
 export function buildSphereWorld(
   world: string,
-  source: WordSource = pathHash(world),
-  envelope: Envelope = PROBE_ENVELOPE,
-  times?: BuildTimes,
+  {
+    source = pathHash(world),
+    series,
+    envelope = PROBE_ENVELOPE,
+    times,
+  }: BuildOptions = {},
 ): SphereWorld {
   let start = performance.now();
   const {
     land,
     noise: { seed },
   } = rollWith(worldSchema(LAND_DEGREE), source);
-  const c = landSeries(land, LAND_DEGREE, envelope);
+  const c = series ?? landSeries(land, LAND_DEGREE, envelope);
   if (times) times.roll = performance.now() - start;
   start = performance.now();
   const { ringGrid, latLonGrid } = fieldGrids(FIELD_RINGS, FIELD_COLUMNS);
   const f = landOnGrid(c, LAND_DEGREE, ringGrid);
   if (times) times.synthesis = performance.now() - start;
   return { field: fieldOf(f, latLonGrid, times), seed };
+}
+
+/** World `N` as the game opens it: its pinned row's series when it has one, else rolled. */
+export async function openSphereWorld(
+  world: string,
+  times?: BuildTimes,
+): Promise<SphereWorld> {
+  const series = await pinnedSeries(world);
+  return buildSphereWorld(world, { series, times });
 }

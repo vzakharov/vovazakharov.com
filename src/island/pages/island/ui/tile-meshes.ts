@@ -10,10 +10,10 @@ import type { CanDispose } from '@/kernel/shared/typings';
 
 import type { Centred } from '@/scene/shared/lib/plane';
 
-import type { GridCell, Vec3 } from '@/island/shared/globe';
+import type { CubeCell, Vec3 } from '@/island/shared/globe';
 import {
-  MIN_LEVEL,
-  tileId,
+  CUBE_MIN_LEVEL,
+  cubeTileId,
   type TileKeyed,
   type TileMesh,
 } from '@/island/entities/terrain';
@@ -40,7 +40,7 @@ export type TileMeshes = CanDispose & {
    * sits at the origin, so the subtraction is float64 and only the small
    * remainder reaches the GPU.
    */
-  readonly draw: (keys: readonly GridCell[], eye: Vec3) => void;
+  readonly draw: (keys: readonly CubeCell[], eye: Vec3) => void;
   /** Lets the least recently drawn go past `CAPACITY`, never one in `keep` nor a root tile. */
   readonly evict: (keep: ReadonlySet<string>) => void;
   /** Lets every tile go, root tiles included, for a world rebuilt from scratch. */
@@ -49,7 +49,7 @@ export type TileMeshes = CanDispose & {
 };
 
 /** A tile's geometry, carrying `colourBy` as the heights its material colours by. */
-function geometryOf(mesh: TileMesh, colourBy: Float32Array): BufferGeometry {
+function geometryOf(mesh: TileMesh<CubeCell>, colourBy: Float32Array): BufferGeometry {
   const geometry = new BufferGeometry();
   geometry.setAttribute('position', new BufferAttribute(mesh.positions, 3));
   geometry.setAttribute('normal', new BufferAttribute(mesh.normals, 3));
@@ -90,18 +90,18 @@ export function tileMeshes(
         meshes.push(new Mesh(geometryOf(land, colourBy), materials.land));
       }
       if (sea !== null) {
-        if (floor === null) throw new Error(`tile ${tileId(key)}: no floor`);
+        if (floor === null) throw new Error(`tile ${cubeTileId(key)}: no floor`);
         const colourBy = colourHeights(floor, sea.grid);
         meshes.push(new Mesh(geometryOf(sea, colourBy), materials.sea));
       }
       const source = land ?? sea;
-      if (source === null) throw new Error(`tile ${tileId(key)}: no surface`);
+      if (source === null) throw new Error(`tile ${cubeTileId(key)}: no surface`);
       const [cx = 0, cy = 0, cz = 0] = source.centre;
       for (const mesh of meshes) {
         mesh.visible = false;
         group.add(mesh);
       }
-      held.set(tileId(key), {
+      held.set(cubeTileId(key), {
         key,
         meshes,
         centre: [cx, cy, cz],
@@ -114,7 +114,7 @@ export function tileMeshes(
         for (const mesh of entry.meshes) mesh.visible = false;
       }
       for (const key of keys) {
-        const entry = held.get(tileId(key));
+        const entry = held.get(cubeTileId(key));
         if (entry === undefined) continue;
         entry.lastDrawn = frame;
         const [x, y, z] = entry.centre;
@@ -127,7 +127,7 @@ export function tileMeshes(
     evict: (keep) => {
       if (held.size <= CAPACITY) return;
       const candidates = [...held.entries()]
-        .filter(([id, { key }]) => !keep.has(id) && key.level > MIN_LEVEL)
+        .filter(([id, { key }]) => !keep.has(id) && key.level > CUBE_MIN_LEVEL)
         .toSorted(([, a], [, b]) => a.lastDrawn - b.lastDrawn);
       for (const [id, entry] of candidates.slice(0, held.size - CAPACITY)) {
         release(id, entry);

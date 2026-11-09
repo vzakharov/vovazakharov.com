@@ -55,15 +55,16 @@ function resume(
 export const murmur3 = (bytes: Uint8Array, seed: number): number =>
   resume(seed >>> 0, 0, bytes, bytes.length);
 
-// A number is hashed whole as text, so neither rule admits a leading zero:
-// `"07"` and `"7"` would otherwise be two worlds.
-const WORLD_NUMBER = /^[1-9]\d*$/;
-const HASHED_NUMBER = /^(?:0|[1-9]\d*)$/;
+// A number is hashed whole as text, so no leading zero: `"07"` and `"7"`
+// would otherwise be two worlds.
+const WORLD_NUMBER = /^(?:0|[1-9]\d*)$/;
+
+/** Our island's world number, the one the pinned row and the opening are #1's. */
+export const OUR_WORLD = '1';
 
 /**
- * Whether `world` is a world the game opens: a positive integer's decimal
- * string with no leading zeros, of any length. `"0"` is hashed by `pathHash`
- * but is not yet a world the game opens, so the URL's `#0` falls back.
+ * Whether `world` is a world the game opens: a non-negative integer's decimal
+ * string with no leading zeros, of any length, `"0"` (Earth) included.
  */
 export const isWorldNumber = (world: string): boolean =>
   WORLD_NUMBER.test(world);
@@ -98,9 +99,7 @@ export function worldHash(world: string): (i: number) => number {
  * leading zeros, `"0"` included.
  */
 export function pathHash(world: string): (path: string) => number {
-  if (!HASHED_NUMBER.test(world)) {
-    throw new Error(`Not a world number: ${JSON.stringify(world)}`);
-  }
+  assertWorldNumber(world);
   const keyed = keyedState(world);
   const encoder = new TextEncoder();
   let buffer = new Uint8Array(64);

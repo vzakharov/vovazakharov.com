@@ -1,6 +1,10 @@
 import { type CubeCell, length, R, type Vec3 } from '@/island/shared/globe';
 
-import { HIGHEST_GROUND, LOWEST_GROUND } from '../../height';
+import {
+  type CoastDistance,
+  HIGHEST_GROUND,
+  LOWEST_GROUND,
+} from '../../height';
 import {
   capGap,
   CUBE_MAX_LEVEL,
@@ -12,12 +16,6 @@ import {
 
 /** Levels finer than elsewhere a tile astride the coast splits to. */
 const COAST_FINER = 2;
-
-/**
- * Signed metres from the coast at a unit direction, as the coast field reads
- * there: the selection asks only its magnitude.
- */
-export type CoastDistance = (direction: Vec3) => number;
 
 /** The four tiles a tile splits into, on its own face. */
 export const cubeChildren = ({ face, level, x, y }: CubeCell): CubeCell[] => [
