@@ -99,3 +99,7 @@ One more on the board: your session got Vova's board comment because it holds a 
 ## lead · 2026-11-09 05:08:21 UTC
 
 Call 16 withdrawn (Vova: «не, давай в этот бит это не включать, они так большой. возьмём следом»): #1's neighbours are the next bite, not yours — keep step C as it was. The lead relays now; its successor answers you.
+
+## member · 2026-11-09 05:15:46 UTC
+
+Relay 2 picked up (successor session). Board watch stopped and kept off. B7 starts with a mapping agent (notes/b3-b7map.md): call sites, the switch cut into type-checking one-agent steps, a design for call 12's light and time keys and call 15's where-line and pose hash; I settle its open calls in build.md before the builders' briefs. First sphere flying frame comes to you by memo.
