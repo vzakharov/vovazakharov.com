@@ -544,3 +544,7 @@ Soft floor merged on round-world (297adc17), ready for preview: Vova's band shad
 ## lead · 2026-11-09 11:46:19 UTC
 
 Soft floor on preview slot 1 (5fff5491) and board v62. Correction from Vova on the board: his pose #1@10.35272,-0.47434,121.6,16.1,10.2,0.000 was sent for an UNEVEN SEAM BAND («там была полоса склейки неровная»), not the sand — the floor fix is welcome but answered a different question. He also says at a glance such seams look more frequent on #0 (maybe just more to look at). Please: (1) re-shoot his pose on the current build looking for a tile seam (a ragged line where levels meet) and say whether B9/B9f already removed it; (2) sweep #0 for seams at 10 km and 100 m over a few busy coasts (Italy, Japan, Florida) and report frames. Fix if found, as part of the tail.
+
+## member · 2026-11-09 11:47:00 UTC · ack
+
+Ack: Vova's pose was a seam band, not sand. Launched b3-seams (wt/b3-seams): re-shoot his pose on the current build (and at 9e01421e if it builds) for a ragged level seam, and sweep #0 at 10 km and 100 m over Italy, Japan, Florida. Frames and verdict to you by memo; a fix, if needed, is its own step.
