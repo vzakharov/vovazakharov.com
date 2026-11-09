@@ -45,6 +45,12 @@ items:
     box: [2625.720312037562, 105.90156333340494, 200, yellow]
     text: ''
     deleted: true
+  - id: bite3-floor
+    type: image
+    updated: [2026-11-09T11:45:00.000Z, agent:lead]
+    box: [6760, 3420, 620]
+    src: images/bite3-floor.webp
+    text: 'Vova''s sand band at 121 m, before and after: ground that dipped under the lowland floor was clamped flat; now it is squeezed up, keeping its order, so it still rolls and shades. Level ground near the coast 34% → 4%; fill time unchanged'
   - id: bite3-earth
     type: image
     updated: [2026-11-09T10:45:00.000Z, agent:lead]
