@@ -55,7 +55,7 @@ const STRAIGHT_DOWN_FROM = 0.85;
  * `GROUND_PITCH` at the ground, smoothly to straight down at
  * `STRAIGHT_DOWN_FROM`.
  */
-function pitchAt(height: number): number {
+export function pitchAt(height: number): number {
   const share =
     Math.log(height / MIN_HEIGHT) / Math.log(MAX_HEIGHT / MIN_HEIGHT);
   const t = Math.min(1, Math.max(0, share / STRAIGHT_DOWN_FROM));
