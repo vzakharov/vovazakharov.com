@@ -1,0 +1,118 @@
+{
+  "total": {
+    "inputTokens": 114,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 126630,
+    "cacheReadTokens": 8765941,
+    "outputTokens": 33592,
+    "thinkingTokens": 9618,
+    "responses": 59,
+    "costUsd": 3.438524200000001
+  },
+  "estimate": {
+    "at": "2026-11-09T02:31:28.220Z",
+    "subjectLine": "fix: terrain no longer flickers on turn and climb",
+    "parts": [
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "an LOD stand-in rule seen from below needs someone who reasons about tile cover, eviction and worker latency together, and a per-frame trace to prove it"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "qa",
+        "comment": "a scripted turn and climb traced frame by frame against the old rule, with the counts read off"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-09T02:27:46.127Z",
+    "contextTokens": 93188,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 33458,
+      "cacheReadTokens": 58193,
+      "outputTokens": 391,
+      "thinkingTokens": 20,
+      "responses": 1,
+      "costUsd": 0.2871306
+    }
+  },
+  "sessionId": "f3fe850c-4948-5c87-bbc4-030868d3caab",
+  "branch": "island/tile-flicker",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a member on island/tile-flicker, a bugfix bite of the island game whose lead runs island/stretch-2. Your brief is the lead's note in the memo channel: `…",
+  "prs": [
+    268
+  ],
+  "url": "https://claude.ai/code/session_01DaohkDUXEdJ3uCUa1RoqrJ",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-09T02:27:38.968Z",
+  "lastResponseAt": "2026-11-09T02:51:34.157Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 114,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 126630,
+    "cacheReadTokens": 8765941,
+    "outputTokens": 33592,
+    "thinkingTokens": 9618,
+    "responses": 59,
+    "costUsd": 3.438524200000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 114,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 126630,
+      "cacheReadTokens": 8765941,
+      "outputTokens": 33592,
+      "thinkingTokens": 9618,
+      "responses": 59,
+      "costUsd": 3.438524200000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 58,
+    "matched": 58,
+    "matchedTableUsd": 3.383111400000001,
+    "matchedEventUsd": 3.383111400000001,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".py": 547,
+    ".md": 9293,
+    ".json": -1402,
+    ".txt": 31,
+    ".ts": 630,
+    ".sh": 43,
+    ".yaml": 107,
+    ".tsx": 11
+  }
+}

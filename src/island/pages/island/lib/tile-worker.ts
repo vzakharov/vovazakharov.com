@@ -1,29 +1,29 @@
 /**
- * The tile worker: builds the coast field once, on `init`, then fills each
- * tile it is sent and posts it back with its buffers transferred. Messages
- * are handled in order, so every fill waits for the field.
+ * The tile worker: builds the world's field once, on `init`, from the world
+ * number alone, then fills each tile it is sent and posts it back with its
+ * buffers transferred. Messages are handled in order, so every fill waits for
+ * the field.
  */
 import type { Vec3 } from '@/island/shared/globe';
-import { coast } from '@/island/entities/coast';
 import {
-  buildCoastField,
-  type CoastField,
+  buildWorldField,
   detailCut,
   fillTile,
   heightAt,
   TILE_GRID,
   type TileKey,
+  worldSeed,
 } from '@/island/entities/terrain';
 
 import {
   filledBuffers,
   type FilledTile,
-  SEED,
   type WorkerReply,
   type WorkerRequest,
+  type WorldField,
 } from './tile-protocol';
 
-let field: CoastField | null = null;
+let world: WorldField | null = null;
 
 const reply = (message: WorkerReply, transfer: Transferable[] = []) => {
   postMessage(message, { transfer });
@@ -40,12 +40,16 @@ function gridRange(heights: Float32Array): readonly [number, number] {
   return [low, high];
 }
 
-function fill(built: CoastField, key: TileKey, eye: Vec3): FilledTile {
+function fill(
+  { field, seed }: WorldField,
+  key: TileKey,
+  eye: Vec3,
+): FilledTile {
   const start = performance.now();
   const ground = fillTile(
     key,
-    (x, y, finest) => heightAt(built, SEED, x, y, finest),
-    { finest: detailCut(eye, built) },
+    (x, y, finest) => heightAt(field, seed, x, y, finest),
+    { finest: detailCut(eye, field) },
   );
   const [low, high] = gridRange(ground.heights);
   const land = high < 0 ? null : ground;
@@ -66,16 +70,19 @@ addEventListener('message', (event: MessageEvent<WorkerRequest>) => {
   const request = event.data;
   if (request.kind === 'init') {
     const start = performance.now();
-    field = buildCoastField(coast);
+    const field = buildWorldField(request.world);
+    const seed = worldSeed(request.world);
+    world = { field, seed };
     // A copy, not a transfer: this worker keeps filling from its own.
     reply({
       kind: 'built',
       buildMs: performance.now() - start,
       field: request.sendField ? field : null,
+      seed,
     });
     return;
   }
-  if (field === null) throw new Error('tile worker: fill before init');
-  const tile = fill(field, request.key, request.eye);
+  if (world === null) throw new Error('tile worker: fill before init');
+  const tile = fill(world, request.key, request.eye);
   reply({ kind: 'tile', tile }, filledBuffers(tile));
 });

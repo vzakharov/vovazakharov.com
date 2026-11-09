@@ -1,0 +1,142 @@
+{
+  "total": {
+    "inputTokens": 1453,
+    "cacheWrite5mTokens": 200748,
+    "cacheWrite1hTokens": 228227,
+    "cacheReadTokens": 25267004,
+    "outputTokens": 67410,
+    "thinkingTokens": 15403,
+    "responses": 140,
+    "costUsd": 9.232144499999995
+  },
+  "estimate": {
+    "at": "2026-11-08T20:51:42.593Z",
+    "subjectLine": "docs: bite 2 scoped from a Fourier probe; rule paths checked to exist",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "picking up a relayed mammoth, re-cutting main's squash, scoping a bite with a member brief and the board's republish is a producer's evening"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "proving a Fourier-series world fits the drawing and yields continents takes spectral probes and judgement of what reads as land"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a shell gate over rule frontmatter with its vet wiring is routine tooling"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-08T20:37:55.892Z",
+    "contextTokens": 114757,
+    "spend": {
+      "inputTokens": 10,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 50716,
+      "cacheReadTokens": 371354,
+      "outputTokens": 1063,
+      "thinkingTokens": 29,
+      "responses": 4,
+      "costUsd": 0.5012987999999999
+    }
+  },
+  "sessionId": "b9c5b81e-1aa6-5351-8651-4d27bcc43593",
+  "branch": "island/stretch-2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/stretch-2 — бит 1 влит в main, мамонт перезапущен на втором отрезке",
+  "prs": [
+    266
+  ],
+  "url": "https://claude.ai/code/session_01DaohkEKNMfkFZHTgEjdyaq",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-08T20:37:39.456Z",
+  "lastResponseAt": "2026-11-08T20:55:10.863Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 201,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 228227,
+    "cacheReadTokens": 20677323,
+    "outputTokens": 53351,
+    "thinkingTokens": 12762,
+    "responses": 101,
+    "costUsd": 7.029104600000001
+  },
+  "subagents": {
+    "inputTokens": 80,
+    "cacheWrite5mTokens": 200748,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 4589681,
+    "outputTokens": 14046,
+    "thinkingTokens": 2641,
+    "responses": 38,
+    "costUsd": 2.2029162
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 281,
+      "cacheWrite5mTokens": 200748,
+      "cacheWrite1hTokens": 228227,
+      "cacheReadTokens": 25267004,
+      "outputTokens": 67397,
+      "thinkingTokens": 15403,
+      "responses": 139,
+      "costUsd": 9.232020799999995
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1172,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 13,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.00012370000000000003
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 140,
+    "matched": 139,
+    "matchedTableUsd": 9.232020799999995,
+    "matchedEventUsd": 9.232020799999997,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 1172,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 13,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.00012370000000000003
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 270,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 7853,
+    ".py": 199,
+    ".ts": 86,
+    ".sh": 43,
+    ".yaml": 50
+  }
+}

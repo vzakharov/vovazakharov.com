@@ -2,7 +2,7 @@
 """A two-sided channel on a branch: append a note, then wait for the reply.
 
 Usage:
-  python3 scripts/memo/memo.py post --as SIDE [--branch B] [--attach PATH]... TEXT|-
+  python3 scripts/memo/memo.py post --as SIDE [--branch B] [--attach PATH]... [--ack] TEXT|-
   python3 scripts/memo/memo.py wait --as SIDE [--branch B]...
   python3 scripts/memo/memo.py show [--branch B] [-n N]
 
@@ -18,7 +18,9 @@ as a background Bash task, so its exit is the wake. Waiting fetches each branch
 every `POLL` seconds and exits printing whatever the other side wrote after this
 side's last note, on every branch that has some — at once, when that is already
 there, so a session opened after the note was written finds it. A note the other
-side has not answered yet is therefore printed again by a fresh `wait`. The lead
+side has not answered yet is therefore printed again by a fresh `wait`; one that
+needs no answer is put down with `post --ack`, a note marked ` · ack` in its
+header that never wakes the other side, so two acks cannot bounce. The lead
 waits on every open bite with one `wait`, a `--branch` each. `show` prints the
 last notes and waits for nothing.
 
@@ -69,6 +71,7 @@ ROOT = Path(__file__).resolve().parents[2]
 WORKING_DIR = Path(__file__).resolve().parents[1] / "working-dir.sh"
 SIDES = ("lead", "member")
 HEADER = re.compile(r"^## (lead|member) · ", re.MULTILINE)
+ACK = " · ack"
 POLL = 20.0
 LIFETIME = 7200 - 300
 RETRIES = 5
@@ -133,22 +136,32 @@ def notes(text: str) -> List[Tuple[str, str]]:
     ]
 
 
+def is_ack(section: str) -> bool:
+    return section.split("\n", 1)[0].endswith(ACK)
+
+
 def unanswered(text: str, me: str) -> List[str]:
-    """What the other side wrote after `me` last did.
+    """What the other side wrote after `me` last did, its acks left out: an
+    ack asks for no answer, so it never wakes the reader.
 
     >>> t = TITLE + "\\n## lead · 1\\n\\na\\n\\n## member · 2\\n\\nb\\n\\n## member · 3\\n\\nc\\n"
     >>> [n.split()[-1] for n in unanswered(t, "lead")]
     ['b', 'c']
     >>> unanswered(t, "member")
     []
+    >>> unanswered(t + "\\n## lead · 4 · ack\\n\\nok\\n", "member")
+    []
     """
     found: List[str] = []
     for who, section in notes(text):
-        found = [] if who == me else found + [section]
+        if who == me:
+            found = []
+        elif not is_ack(section):
+            found.append(section)
     return found
 
 
-def note(me: str, body: str, attached: List[str]) -> str:
+def note(me: str, body: str, attached: List[str], ack: bool = False) -> str:
     """One note, ready to append.
 
     >>> print(note("lead", "ask", ["docs/x"]).split("\\n", 2)[2], end="")
@@ -158,7 +171,7 @@ def note(me: str, body: str, attached: List[str]) -> str:
     """
     stamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
     tail = "\n\nAttached: " + ", ".join(f"`{p}`" for p in attached) if attached else ""
-    return f"## {me} · {stamp}\n\n{body.strip()}{tail}\n"
+    return f"## {me} · {stamp}{ACK if ack else ''}\n\n{body.strip()}{tail}\n"
 
 
 # --- Git ------------------------------------------------------------------------
@@ -233,7 +246,7 @@ def commit_note(branch: str, parent: str, text: str, attach: List[Path], me: str
     return git("commit-tree", tree, "-p", parent, "-m", f"chore: memo from the {me}")
 
 
-def post(branch: str, me: str, body: str, attach: List[Path]) -> None:
+def post(branch: str, me: str, body: str, attach: List[Path], ack: bool = False) -> None:
     if HEADER.search(body):
         raise SystemExit("memo: a line of the note starts like a note header (`## lead · `/`## member · `); reword it")
     for path in attach:
@@ -242,7 +255,7 @@ def post(branch: str, me: str, body: str, attach: List[Path]) -> None:
     for _ in range(RETRIES):
         parent = base(branch, fetch(branch))
         named = [f"{attachments(branch)}/{p.name}" for p in attach]
-        text = channel_at(branch, parent).rstrip("\n") + "\n\n" + note(me, body, named)
+        text = channel_at(branch, parent).rstrip("\n") + "\n\n" + note(me, body, named, ack)
         commit = commit_note(branch, parent, text, attach, me)
         try:
             git("push", "-q", "origin", f"{commit}:refs/heads/{branch}")
@@ -320,6 +333,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     post_cmd.add_argument("text", help="the note, or - to read it from stdin")
     post_cmd.add_argument("--attach", action="append", type=Path, default=[])
     post_cmd.add_argument("--branch")
+    post_cmd.add_argument("--ack", action="store_true", help="a note that asks for no answer")
     wait_cmd = commands.add_parser("wait")
     wait_cmd.add_argument("--branch", action="append", default=[], help="repeat to wait on several branches")
     for sub in (post_cmd, wait_cmd):
@@ -338,7 +352,7 @@ def main(argv: Optional[List[str]] = None) -> int:
             if not body.strip():
                 raise SystemExit("memo: the note is empty")
             branch = args.branch or checked_out()
-            post(branch, args.side, body, args.attach)
+            post(branch, args.side, body, args.attach, args.ack)
             wait([branch], args.side)
         else:
             wait(args.branch or [checked_out()], args.side)

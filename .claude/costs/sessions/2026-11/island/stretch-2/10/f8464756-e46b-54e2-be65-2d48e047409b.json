@@ -1,0 +1,149 @@
+{
+  "total": {
+    "inputTokens": 5892,
+    "cacheWrite5mTokens": 3487,
+    "cacheWrite1hTokens": 166157,
+    "cacheReadTokens": 15206480,
+    "outputTokens": 30049,
+    "thinkingTokens": 3620,
+    "responses": 92,
+    "costUsd": 5.0180897999999985
+  },
+  "estimate": {
+    "at": "2026-11-09T15:03:35.330Z",
+    "subjectLine": "docs: lead bite 3 of the island through Vova's seam defects",
+    "parts": [
+      {
+        "hours": 2.5,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "a game team's lead: briefing the member on two rendering defects, checking frames against the operator's videos, merging and tracking"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "republishing preview slots and the board, the git and release plumbing around them"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-09T11:51:37.563Z",
+    "contextTokens": 114046,
+    "spend": {
+      "inputTokens": 15,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 51625,
+      "cacheReadTokens": 694685,
+      "outputTokens": 2056,
+      "thinkingTokens": 465,
+      "responses": 7,
+      "costUsd": 0.593117
+    }
+  },
+  "sessionId": "f8464756-e46b-54e2-be65-2d48e047409b",
+  "branch": "island/stretch-2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/stretch-2 — бит 3: Земля в игре, мягкий пол влит, по двум видео Вовы участник чинит грубые плитки при спуске и дыры при поворотах",
+  "prs": [
+    266
+  ],
+  "url": "https://claude.ai/code/session_01DaohkD1otgyWhRbZrCdLcs",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-09T11:51:08.637Z",
+  "lastResponseAt": "2026-11-09T15:04:05.070Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 165,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 166157,
+    "cacheReadTokens": 13536663,
+    "outputTokens": 29931,
+    "thinkingTokens": 3620,
+    "responses": 82,
+    "costUsd": 4.6358685999999985
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 4719,
+      "cacheWrite5mTokens": 3487,
+      "cacheWrite1hTokens": 166157,
+      "cacheReadTokens": 15206480,
+      "outputTokens": 30032,
+      "thinkingTokens": 3620,
+      "responses": 91,
+      "costUsd": 5.017963999999998
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1173,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 17,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0001258
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 91,
+    "matched": 81,
+    "matchedTableUsd": 4.533941399999999,
+    "matchedEventUsd": 4.533941399999999,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 4554,
+        "cacheWrite5mTokens": 3487,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 1669817,
+        "outputTokens": 101,
+        "thinkingTokens": 0,
+        "responses": 9,
+        "costUsd": 0.38209540000000003
+      },
+      "generate_session_title": {
+        "inputTokens": 1173,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 17,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0001258
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 4,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".py": 980,
+    ".md": 10263,
+    ".json": -1391,
+    ".txt": 31,
+    ".ts": 623,
+    ".sh": 43,
+    ".yaml": 295,
+    ".tsx": 11
+  }
+}

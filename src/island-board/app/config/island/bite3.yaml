@@ -1,0 +1,95 @@
+items:
+  - id: z-bite3
+    type: zone
+    updated: [2026-11-09T08:00:00.000Z, agent:lead]
+    box: [4406, 2431, 2290, 1950, green]
+    text: 'Bite 3 — a round world, and Earth as #0'
+  - id: bite3-1
+    type: sticky
+    updated: [2026-11-09T04:05:00.000Z, agent:lead]
+    box: [4660, 2640, 320, green]
+    text: 'Land becomes one formula over the whole sphere: spherical harmonics up to degree 511 (~78 km waves, as in bite 2). Tiles cover the planet as a cube of six quadtrees, so you can fly anywhere, over a pole too'
+  - id: bite3-2
+    type: sticky
+    updated: [2026-11-09T04:05:00.000Z, agent:lead]
+    box: [5010, 2655, 300, yellow]
+    text: "The lead's probe: random harmonics, flat up to degree ~6 and falling as l^-2 past it, the top 29% made land. Six seeds: 6–10 continents over 1% of the land, the largest 25–63% (Earth: Afro-Eurasia ~57%). No count set anywhere — it falls out of the spectrum"
+  - id: bite3-3
+    type: sticky
+    updated: [2026-11-09T04:05:00.000Z, agent:lead]
+    box: [4675, 2960, 310, green]
+    text: "#0 Earth from Natural Earth's coastlines, #1 ours re-fitted in the same place on the globe — one fit script, two inputs. Earth's measured spectrum then sets every random world's envelope: Earth tuning the dice. Each pinned world's size in bits is the generator's score"
+  - id: bite3-4
+    type: sticky
+    updated: [2026-11-09T04:05:00.000Z, agent:lead]
+    box: [5000, 3010, 300, orange]
+    text: 'Parameters named by their path in a typed schema (world.land.harmonic[37][-12]), never by index: adding one never moves another world'
+  - id: bite3-5
+    type: sticky
+    updated: [2026-11-09T04:58:00.000Z, agent:lead]
+    box: [4690, 3280, 330, orange]
+    text: 'Member: https://claude.ai/code/session_01DaohkBX5UEgj2eV8Vg3Kf1 on island/round-world; contract docs/plans/world-game-zoltan-syama/bite-3.md'
+  - id: bite3-seam
+    type: image
+    updated: [2026-11-09T05:05:00.000Z, agent:lead]
+    box: [4650, 3620, 480]
+    src: images/bite3-seam.webp
+    text: 'Vova: a seam where a fine tile meets a coarser one — the skirt hides the hole, not the step'
+  - id: bite3-calls-14-15
+    type: sticky
+    updated: [2026-11-09T05:05:00.000Z, agent:lead]
+    box: [5190, 3660, 300, yellow]
+    text: 'Taken into bite 3: tiles of two levels match along their edge (call 14), and a button in the I panel copies a link, #world@lat,lon,height,heading,pitch, that opens that exact view, so the lead can reproduce what Vova sees (call 15)'
+  - id: bite3-first-sphere
+    type: image
+    updated: [2026-11-09T05:48:00.000Z, agent:lead]
+    box: [6360, 3700, 320]
+    src: images/bite3-first-sphere.webp
+    text: 'First flight over the sphere: #1 alone on the globe, lit from the NW, and the same island from 1,000 km. The world builds in 1.4 s. The thin spits are real land from the fit'
+  - id: bite3-noon-midnight
+    type: image
+    updated: [2026-11-09T07:00:00.000Z, agent:lead]
+    box: [6360, 3860, 320]
+    src: images/bite3-noon-midnight.webp
+    text: "#1 from 1,000 km at noon and at midnight, the same spot: the sun 80° up, then 80° down. Midnight is the full moon's, about 7× darker, and snow turns blue-grey"
+  - id: bite3-b2-field
+    type: image
+    updated: [2026-11-09T04:58:00.000Z, agent:lead]
+    box: [5700, 3660, 640]
+    src: images/bite3-b2-field.webp
+    text: "World #2 on the sphere, flattened: the coast and lines every 500 km out to sea. They close across the map's seam and ring the small islands evenly — distance is true on the globe. Built in 1.04 s"
+  - id: bite3-probe
+    type: image
+    updated: [2026-11-09T04:05:00.000Z, agent:lead]
+    box: [5360, 2620, 290]
+    src: images/bite3-probe-worlds.webp
+    text: 'Six random round worlds from the probe, flattened onto a map'
+  - id: bite3-worlds-a
+    type: image
+    updated: [2026-11-09T04:30:00.000Z, agent:lead]
+    box: [6010, 2600, 300]
+    src: images/bite3-worlds-a.webp
+    text: "The game's first round worlds, #2–#7 at degree 511: land 26–33%, 6–15 landmasses over 1% of the land, the largest 27–78%. Built in 175 ms"
+  - id: bite3-globes-probe
+    type: image
+    updated: [2026-11-09T04:40:00.000Z, agent:lead]
+    box: [5680, 2650, 290]
+    src: images/bite3-globes-probe.webp
+    text: 'The same six as globes, each from three sides 120° apart (Vova: on globes, side by side)'
+  - id: bite3-globes-a
+    type: image
+    updated: [2026-11-09T04:40:00.000Z, agent:lead]
+    box: [6345, 2630, 300]
+    src: images/bite3-globes-a.webp
+    text: '#2–#7 as globes, three sides each'
+  - id: bite3-sun
+    type: sticky
+    updated: [2026-11-09T05:48:00.000Z, agent:lead]
+    box: [5030, 3290, 300, yellow]
+    text: "Sun: Vova chose the full-moon mode — the sun fixed in space, a full moon always opposite it, so night is moonlit, not black; [ and ] turn the day, T pauses it. A world opens under today's low NW sun, time paused"
+  - id: bite3-seams
+    type: image
+    updated: [2026-11-09T08:00:00.000Z, agent:lead]
+    box: [5700, 4100, 640]
+    src: images/bite3-seams.webp
+    text: "Seams: crossing a cube-face edge over #2's hills at 10 km, and over the sea at 1,000 km — nothing on the edge. Right: 10 km straight down over #1, soft by design (tiles stop at level 11 there, ~76 m apart). Next, call 14: a finer tile takes its coarser neighbour's border"
