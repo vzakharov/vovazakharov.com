@@ -1,0 +1,77 @@
+diff --git a/src/island/pages/island/ui/ground-lighting.ts b/src/island/pages/island/ui/ground-lighting.ts
+index 850e4114e..01f20066c 100644
+--- a/src/island/pages/island/ui/ground-lighting.ts
++++ b/src/island/pages/island/ui/ground-lighting.ts
+@@ -1,8 +1,24 @@
+-import { attribute, clamp, lights, mix, smoothstep, vec3 } from 'three/tsl';
++import {
++  attribute,
++  clamp,
++  lights,
++  cameraFar,
++  cameraNear,
++  mix,
++  normalLocal,
++  positionView,
++  smoothstep,
++  transformNormalToView,
++  varying,
++  vec3,
++  viewZToLogarithmicDepth,
++} from 'three/tsl';
+ import {
+   Color,
+   DirectionalLight,
+   HemisphereLight,
++  InterpolationSamplingMode,
++  InterpolationSamplingType,
+   type Light,
+   MeshLambertNodeMaterial,
+   type Node,
+@@ -53,7 +69,31 @@ const WATERLINE_DEPTH = 6;
+ /** The tile vertex attribute the ground's colour is read from. */
+ export const HEIGHT_ATTRIBUTE = 'height';
+ 
+-const heightNode = () => attribute(HEIGHT_ATTRIBUTE, 'float');
++/**
++ * A tile varying sampled at the centroid of the covered MSAA samples, never
++ * extrapolated past its triangle: a skirt taking one sample at a tile's edge
++ * shades a whole pixel, and at the pixel centre its height and normal would
++ * lie outside the thin skirt and off its border's colour.
++ */
++const centroid = <T extends string>(node: Node<T>, name: string) =>
++  varying(node, name).setInterpolation(
++    InterpolationSamplingType.PERSPECTIVE,
++    InterpolationSamplingMode.CENTROID,
++  );
++
++const heightNode = () =>
++  centroid(attribute(HEIGHT_ATTRIBUTE, 'float'), 'v_tileHeight');
++
++/** The tile's view-space normal, interpolated at the centroid. */
++const normalNode = () =>
++  centroid(transformNormalToView(normalLocal), 'v_tileNormal').normalize();
++
++const depthNode = () =>
++  viewZToLogarithmicDepth(
++    centroid(positionView.z, 'v_tileViewZ'),
++    cameraNear,
++    cameraFar,
++  );
+ 
+ /** The ground's colour per fragment, `GROUND_STOPS` blended by its interpolated height. */
+ function groundColourNode(height: Node<'float'>) {
+@@ -117,9 +157,13 @@ export function groundLighting(): GroundLighting {
+ 
+   const land = new MeshLambertNodeMaterial();
+   land.colorNode = groundColourNode(heightNode());
++  land.normalNode = normalNode();
++  land.depthNode = depthNode();
+   land.lightsNode = lights([landSun, landMoon, sky]);
+   const sea = new MeshLambertNodeMaterial();
+   sea.colorNode = seaColourNode(heightNode());
++  sea.normalNode = normalNode();
++  sea.depthNode = depthNode();
+   sea.lightsNode = lights([seaSun, seaMoon, sky]);
+   const ocean = new MeshLambertNodeMaterial({ color: SEA_COLOUR });
+   ocean.lightsNode = lights([seaSun, seaMoon, sky]);
