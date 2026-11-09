@@ -50,7 +50,8 @@ export function coverOf(
       ),
   );
   const own = selected.filter(
-    (key) => has(cubeTileId(key)) && !outer.some((standIn) => within(key, standIn)),
+    (key) =>
+      has(cubeTileId(key)) && !outer.some((standIn) => within(key, standIn)),
   );
   return [...outer, ...own];
 }
