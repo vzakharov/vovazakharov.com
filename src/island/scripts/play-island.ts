@@ -4,7 +4,8 @@
  * 10 km, 100 m, 2 m — and over the coast's narrowest inlet, facing north and
  * then west, steps a few frames on the page's seeded clock and shoots
  * `<screen>-<shot>.png`. It fails on any page error or console error, and
- * prints per screen the renderer's backend and the median frame time beside
+ * prints per screen the ms the world's field took to build, the renderer's
+ * backend and the median frame time beside
  * the machine's load average, which is what a slow median has to be read
  * against.
  *
@@ -29,6 +30,7 @@ import { z } from 'zod';
 
 import { OUR_WORLD } from '@/island/entities/terrain';
 
+import { planeToDegrees } from './lib/azimuthal';
 import {
   buildExport,
   call,
@@ -75,11 +77,17 @@ const HEIGHTS: readonly Shot[] = [
   ['2m', call('setHeight', 2)],
 ];
 
+/** A place named by its point on the trace's plane, as the hook's degrees. */
+const over = (x: number, y: number, m: number) => {
+  const { lat, lon } = planeToDegrees(x, y);
+  return call('moveTo', lat, lon, m);
+};
+
 const INLET: readonly Shot[] = [
   // The inlet between Блаблания and Фейсис, the trace's narrowest: its whole
   // length, then the strait and the pool at its head.
-  ['inlet', call('moveTo', 515_000, 1_750_000, 1_500_000)],
-  ['inlet-head', call('moveTo', 510_000, 1_250_000, 300_000)],
+  ['inlet', over(515_000, 1_750_000, 1_500_000)],
+  ['inlet-head', over(510_000, 1_250_000, 300_000)],
   // The same place facing west: last, since every later place keeps the heading.
   ['inlet-head-west', call('turnTo', -Math.PI / 2)],
 ];
@@ -122,6 +130,10 @@ async function main(): Promise<void> {
     if (screen === undefined) return;
     const tab = await openPlay(browser, origin, screen, errors, WORLD);
     try {
+      const built = await tab.evaluate(call('buildMs'), z.number());
+      process.stdout.write(
+        `${screen.name}: world #${WORLD} built in ${built.toFixed(0)} ms\n`,
+      );
       const { frames, backend } = await play(tab, screen);
       const load = os
         .loadavg()
