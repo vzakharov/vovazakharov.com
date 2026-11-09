@@ -120,6 +120,11 @@ calls.
   heights can replace them) and does not build it.
 - **S11. Call 15 (where am I)** goes in B7, with the hook and the URL it already
   rewrites for `moveTo` and `#0`.
+- **B4b landed** (`notes/b3-b4b.md`): `fillCubeTile`, edges and corners
+  bit-equal, the planar fill bit-identical through the shared `tile-mesh.ts`.
+  B7's worker calls
+  `fillCubeTile(key, (p, f) => heightAtSphere(distance, seed, p, f), { finest: cubeDetailCut(...) })`.
+  The note's § on call 14 is B9's starting design.
 - **B4 half landed** (`notes/b3-b4.md`): `valueNoise3`, `heightAtSphere` on a
   relief core shared with the planar `heightAt`, bit-identical to it.
   `fillCubeTile` is B4b. For B7: `cube-quadtree.ts` should read
@@ -129,7 +134,8 @@ calls.
   5° above the sea's horizon; E/Q climb; a two-finger vertical drag looks on
   touch. Until B7 the planar game's ↑/↓ do nothing and its hint still says they
   climb; B7 wires the hint and the globe eye's `STILL`.
-- **Next**: B4 (height and fill on the sphere, running); then B7 (the switch,
-  with S4's light and S7 if not done), B8 (retire the plane, film the seams),
-  step C (Earth), the tail. The memo with the lead is current to 04:35 (calls 12
-  and 13).
+- **Next**: B7 (the switch, with S4's light and time keys, S7's hint, S11's
+  where-line and pose hash, B4's two quadtree findings), first flying frame on
+  the sphere to the lead; then B8 (retire the plane, film the seams), B9 (call
+  14), step C (Earth, S12), the tail. Nothing runs at this point. The memo with
+  the lead is current through call 16.
