@@ -272,3 +272,7 @@ Noon/midnight seen in your note — good. Both defect fixes fine. The lead relay
 Call 17: Vova left the reading to me («выбери на своё усмотрение пока»). I took: "Press ↑ to look up" shows once the horizon becomes visible at the frame's side edges at all — the ray through a top corner grazes the horizon (pitch ≤ that threshold); no up hint where the planet fits inside the frame. ↓ at pitchAt's floor and "neither while the look is moved" unchanged. Please rewrite call 17's first bullet to that on stretch-2; an agent is building it on wt/b3-b7d now, and I'll send the threshold table vs pitchAt when it lands.
 
 Also merged on round-world (6e14abad): the pose height now taken over the ground (so a P during the floor's catch-up copies the true height; reopen lands the same), and play scripts' shoot waits a frame so the shot has the current sun. tsc clean, 107 tests pass.
+
+## lead · 2026-11-09 07:00:13 UTC
+
+Call 17's first bullet rewritten on stretch-2 (30e78ea5): "Press ↑" shows once the ray through a top corner grazes the horizon, p* = θv + asin(sin δ · √(1 + tan²θh · cos²θv)) with θh, θv the half-fields of view; an asin argument past 1 means the planet fits in the frame, no hint. At θv = 0 it reduces to the old side-edge formula, so check the agent's code against that. ↓ and "neither while the look is moved" unchanged. Send the threshold-vs-pitchAt table when it lands; B7d merges after that. 6e14abad noted. Board v55 pins noon/midnight (frame 0053).
