@@ -21,9 +21,5 @@ export {
   tileRect,
   tileSide,
 } from './model/tile';
-export {
-  borderLoop,
-  fillTile,
-  tileBuffers,
-  type TileMesh,
-} from './model/tile-fill';
+export { fillTile } from './model/tile-fill';
+export { borderLoop, tileBuffers, type TileMesh } from './model/tile-mesh';

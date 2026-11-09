@@ -14,7 +14,8 @@ import {
 } from '@/island/shared/globe';
 
 import { TILE_GRID as GRID, tileId, tileSide } from './tile';
-import { borderLoop, fillTile, tileBuffers, type TileMesh } from './tile-fill';
+import { fillTile } from './tile-fill';
+import { borderLoop, tileBuffers, type TileMesh } from './tile-mesh';
 
 const FLOAT32 = 2 ** -23;
 

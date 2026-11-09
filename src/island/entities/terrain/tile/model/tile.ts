@@ -5,9 +5,10 @@ import type { GridCell } from '@/island/shared/globe';
  * terrain quadtree over the island's square on the plane. Level 0 is the whole
  * square, side `TILE_SQUARE` metres centred on the island's centre; each level
  * halves the side, so a level-`l` tile has `0 ≤ x, y < 2^l`, `x` counting east
- * and `y` north from the square's south-west corner.
+ * and `y` north from the square's south-west corner. A cube tile's key is a
+ * `CubeCell`, the same grid on one of the six faces.
  */
-export type TileKeyed = { readonly key: GridCell };
+export type TileKeyed<K extends GridCell = GridCell> = { readonly key: K };
 
 /**
  * The level-0 square's side: 16 384 km, covering the traced coast's
