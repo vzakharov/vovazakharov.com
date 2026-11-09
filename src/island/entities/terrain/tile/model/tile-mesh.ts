@@ -10,6 +10,7 @@ import {
 } from '@/island/shared/globe';
 
 import type { TileKeyed } from './tile';
+import { type CoarseEdges, NO_COARSE_EDGES, tileIndices } from './tile-indices';
 
 /** What a fill takes however its lattice is laid. */
 export type MeshOptions = {
@@ -83,7 +84,9 @@ export const latticeNormal = (
  * normals by central difference over the ring — so they agree across a shared
  * edge as positions do — and a skirt hiding the cracks against a neighbour one
  * level coarser or finer. `normalAt`, by grid vertex, replaces the central
- * difference where a border vertex must light as a coarser tile lights it.
+ * difference where a border vertex must light as a coarser tile lights it;
+ * along each `coarse` edge the grid meets the coarser tile's vertices only
+ * (`gridTriangles`).
  */
 export function assembleTile<K extends GridCell>(
   key: K,
@@ -91,6 +94,7 @@ export function assembleTile<K extends GridCell>(
   middle: Vec3,
   skirtDepth: number,
   normalAt: ReadonlyMap<number, Vec3> = new Map(),
+  coarse: CoarseEdges = NO_COARSE_EDGES,
 ): TileMesh<K> {
   const grid = lattice.ring - 2;
   const cells = grid - 1;
@@ -150,7 +154,7 @@ export function assembleTile<K extends GridCell>(
     positions,
     normals,
     heights,
-    indices: triangulate(grid, loop, vertexCount),
+    indices: tileIndices(grid, loop, coarse),
   };
 }
 
@@ -166,32 +170,4 @@ export function borderLoop(grid: number): number[] {
   for (let i = last; i > 0; i--) loop.push(last * grid + i);
   for (let j = last; j > 0; j--) loop.push(j * grid);
   return loop;
-}
-
-function triangulate(grid: number, loop: number[], vertexCount: number) {
-  const cells = grid - 1;
-  const triangles: number[] = [];
-  for (let j = 0; j < cells; j++) {
-    for (let i = 0; i < cells; i++) {
-      const sw = j * grid + i;
-      const nw = sw + grid;
-      triangles.push(sw, sw + 1, nw + 1, sw, nw + 1, nw);
-    }
-  }
-  const skirt = grid * grid;
-  for (const [k, top] of loop.entries()) {
-    const next = (k + 1) % loop.length;
-    const following = entry(loop, next);
-    triangles.push(
-      top,
-      skirt + k,
-      following,
-      following,
-      skirt + k,
-      skirt + next,
-    );
-  }
-  return vertexCount <= 0xff_ff
-    ? new Uint16Array(triangles)
-    : new Uint32Array(triangles);
 }
