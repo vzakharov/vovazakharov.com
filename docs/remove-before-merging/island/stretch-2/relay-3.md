@@ -53,6 +53,17 @@ and a run of memo wakes from the member, each answered:
    it; the five-percent item (mask chunk on the main thread) optional, later.
    (verbatim in Last agent turn)
 
+9. **Operator, after the park** — a board comment on the `bite2-ridges`
+   sticker (thread 1617f0fc-fcdc-4ab9-aba9-f1ad9e007a2c): «тут я не на 100%
+   уверен: горные озёра are a thing, и это могло выглядеть симпатично»
+
+   **Agent**: replied in the thread (not resolved): the ridges were one-line
+   snow walls along saddles, an artefact, not mountains round a lake; real
+   mountain lakes need water above sea level, the named later bite; the nearer
+   lever (lakes out of the height) leaves water at zero in a pit, so the lean
+   is to wait for that bite — asked if they want the lever now. Recorded the
+   comment in `threads.json` and counted its words.
+
 ## Intent
 
 Bite 2 as relay 2 states it: every world one formula, `#1` our island via the
@@ -108,7 +119,8 @@ Wait for the operator. When they answer: (1) the masd marker on
 `src/island/entities/coast/index.ts` — on yes, pass it to the member by memo
 (text `// masd-disable insignificant -- the tracer a player's own map will run in the browser; today only the trace and fit scripts read it`);
 on no, the member moves the slice under `src/island/scripts/lib/`; (2) the
-strait; (3) lowlands by lakes. Then, with vet green on #267, merge it into
+strait; (3) lowlands by lakes — the board thread 1617f0fc is where they
+weighed it, with the lead's answer awaiting theirs. Then, with vet green on #267, merge it into
 `island/stretch-2` and republish the board with a frame. Read the member's
 channel first for its reply on the land-predicate extraction.
 
