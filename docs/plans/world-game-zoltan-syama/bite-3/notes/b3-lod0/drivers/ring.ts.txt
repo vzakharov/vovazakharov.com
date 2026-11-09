@@ -1,0 +1,48 @@
+// Counts the stand-in ring (level-3 ancestors) against the selection at #0 over Calabria, and the new
+// fills a turn asks for: selection vs stand-ins not already held from the settled pose.
+import type { CubeCell } from '@/island/shared/globe';
+import {
+  cubeTileId,
+  frustumOf,
+  heightAtSphere,
+  openSphereWorld,
+  sampleSphereField,
+  selectCubeTiles,
+} from '@/island/entities/terrain';
+import { eyeAt, poseOf } from '@/island/features/eye';
+import { standInsOf } from '@/island/pages/island/model/tile-cover';
+
+const DEG = Math.PI / 180;
+const aspect = 1440 / 900;
+const { field, seed } = await openSphereWorld('0');
+const coast = (q: Parameters<typeof sampleSphereField>[1]) => sampleSphereField(field, q);
+const ground = (p: Parameters<typeof sampleSphereField>[1]) => heightAtSphere(coast, seed, p, 0);
+
+function selectAt(h: number, heading: number): CubeCell[] {
+  const base = eyeAt({ lat: 38.30756 * DEG, lon: 15.90432 * DEG, height: h, heading: heading * DEG }, ground);
+  const eye = { ...base, look: 25.8 * DEG, aim: { ...base.aim, look: 25.8 * DEG } };
+  const pose = poseOf(eye, aspect);
+  return selectCubeTiles(pose.position, { coast, frustum: frustumOf(pose.forward, pose.up, pose.fov, aspect), ground });
+}
+const ids = (keys: readonly CubeCell[]) => new Set(keys.map((k) => cubeTileId(k)));
+const range = (keys: readonly CubeCell[]) => {
+  const ls = keys.map((k) => k.level);
+  return `${String(Math.min(...ls))}–${String(Math.max(...ls))}`;
+};
+
+for (const h of [527, 546, 13_000]) {
+  const sel = selectAt(h, 220.1);
+  const ring = standInsOf(sel);
+  const selIds = ids(sel);
+  const extra = ring.filter((k) => !selIds.has(cubeTileId(k)));
+  console.log(`h ${String(h)} m: selected ${String(sel.length)} (${range(sel)}), stand-ins ${String(ring.length)} (${range(ring)}), extra fills ${String(extra.length)} (+${String(Math.round((100 * extra.length) / sel.length))} %)`);
+  if (h !== 546) continue;
+  const held = new Set([...selIds, ...ids(ring)]);
+  for (const to of [208.1, 196.1, 184.1, 172.1, 160.1, 148.1, 124.1]) {
+    const turned = selectAt(h, to);
+    const tRing = standInsOf(turned);
+    const newSel = turned.filter((k) => !held.has(cubeTileId(k))).length;
+    const newRing = tRing.filter((k) => !held.has(cubeTileId(k))).length;
+    console.log(`  turn to ${String(to)}: new selected ${String(newSel)} of ${String(turned.length)}, new stand-ins ${String(newRing)} of ${String(tRing.length)}`);
+  }
+}

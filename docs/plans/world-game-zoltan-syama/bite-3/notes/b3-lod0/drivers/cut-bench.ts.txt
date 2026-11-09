@@ -1,0 +1,36 @@
+// Times indicesOutside on a 65-vertex lattice with skirt against 290 random finer tiles.
+import { borderLoop } from '@/island/entities/terrain';
+import { indicesOutside } from '@/island/pages/island/model/piece-indices';
+
+const GRID = 65;
+const lattice: number[] = [];
+for (let j = 0; j < GRID - 1; j++) {
+  for (let i = 0; i < GRID - 1; i++) {
+    const v = j * GRID + i;
+    lattice.push(v, v + 1, v + GRID + 1, v, v + GRID + 1, v + GRID);
+  }
+}
+const loop = borderLoop(GRID);
+for (let k = 0; k < loop.length; k++) {
+  const next = (k + 1) % loop.length;
+  lattice.push(loop[k] ?? 0, GRID * GRID + k, loop[next] ?? 0);
+}
+for (const [rootLevel, levels] of [
+  [2, [6, 17]],
+  [9, [12, 14]],
+] as const) {
+  const key = { face: 'pz', level: rootLevel, x: 1, y: 2 } as const;
+  const except = Array.from({ length: 290 }, () => {
+    const level = levels[0] + Math.floor(Math.random() * (levels[1] - levels[0] + 1));
+    const n = 2 ** (level - rootLevel);
+    return { face: 'pz', level, x: key.x * n + Math.floor(Math.random() * n), y: key.y * n + Math.floor(Math.random() * n) } as const;
+  });
+  const times: number[] = [];
+  for (let r = 0; r < 50; r++) {
+    const t0 = performance.now();
+    indicesOutside(lattice, GRID, key, except);
+    times.push(performance.now() - t0);
+  }
+  times.sort((a, b) => a - b);
+  console.log(`stand-in level ${rootLevel}, except levels ${levels.join('–')}: median ${times[25]?.toFixed(2)} ms, p90 ${times[45]?.toFixed(2)} ms`);
+}

@@ -1,4 +1,4 @@
-import type { Group, Material } from 'three/webgpu';
+import type { Group } from 'three/webgpu';
 
 import {
   type CubeCell,
@@ -23,8 +23,9 @@ import { type Eye, type GroundAt, poseOf } from '@/island/features/eye';
 
 import { type FilledTile, orderId, type TileOrder } from '../lib/tile-protocol';
 import type { Where } from '../lib/where-line';
-import { coverAround, coverOf } from '../model/tile-cover';
-import { type HeldTiles, tileMeshes } from './tile-meshes';
+import { type CoverPiece, finestCover, standInsOf } from '../model/tile-cover';
+import type { StandInMaterials } from './ground-lighting';
+import { type DrawnPiece, type HeldTiles, tileMeshes } from './tile-meshes';
 
 /** A move under this share of the height reuses the last tile selection. */
 const RESELECT_SHARE = 0.02;
@@ -50,6 +51,18 @@ const flatLevels = (level: number): NeighbourLevels => ({
   corners: { sw: level, se: level, nw: level, ne: level },
 });
 
+/**
+ * Each of `cells` meeting only its own level, by variant id: roots and
+ * stand-ins, drawn cut and behind finer tiles, so held unstitched.
+ */
+const unstitched = (cells: readonly CubeCell[]): Map<string, TileOrder> =>
+  new Map(
+    cells.map((key) => {
+      const order = { key, levels: flatLevels(key.level) };
+      return [orderId(order), order] as const;
+    }),
+  );
+
 /** Each tile of `cover` with the levels it meets there, by tile id. */
 function ordersOf(cover: readonly CubeCell[]): Map<string, TileOrder> {
   const levels = neighbourLevels(cover);
@@ -69,10 +82,13 @@ type Ground = {
 };
 
 type TileViewParams = {
-  readonly materials: { readonly land: Material; readonly sea: Material };
+  readonly materials: StandInMaterials;
   readonly ground: () => Ground;
-  /** Asks for the `missing` tile variants, nearest `at` first. */
-  readonly want: (missing: TileOrder[], at: Vec3) => void;
+  /**
+   * Asks for the missing tile variants, the stand-ins `first` before the
+   * `rest`, each nearest `at` first.
+   */
+  readonly want: (first: TileOrder[], rest: TileOrder[], at: Vec3) => void;
 };
 
 export type TileView = HeldTiles & {
@@ -113,13 +129,15 @@ export function tileView(
     keys: CubeCell[];
     /** Each selected tile stitched to the selection, by tile id. */
     orders: Map<string, TileOrder>;
+    /** The tiles held to stand in for the selection while it loads, by variant id. */
+    standIns: Map<string, TileOrder>;
   } | null = null;
   /** The last selection wholly in hand, drawn while a newer one loads. */
   let shown: {
     keys: CubeCell[];
     orders: ReadonlyMap<string, TileOrder>;
   } | null = null;
-  let drawn: readonly CubeCell[] = [];
+  let drawn: readonly CoverPiece[] = [];
   /** The last cover drawn, by its ids in order, and its tiles' levels. */
   let coverLevels: {
     ids: string;
@@ -127,11 +145,16 @@ export function tileView(
   } = { ids: '', orders: new Map() };
 
   /** The variant ids `selection` and `shown` stand on. */
-  const standing = () =>
-    [
+  const standing = () => [
+    ...[
       ...(selection?.orders.values() ?? []),
       ...(shown?.orders.values() ?? []),
-    ].map((order) => orderId(order));
+    ].map((order) => orderId(order)),
+    ...(selection?.standIns.keys() ?? []),
+  ];
+
+  const missing = (wanted: ReadonlyMap<string, TileOrder>) =>
+    [...wanted].flatMap(([id, order]) => (held.has(id) ? [] : [order]));
 
   function select(eye: Eye, aspect: number) {
     const { position: at, forward, up, fov } = poseOf(eye, aspect);
@@ -151,19 +174,24 @@ export function tileView(
       ground: groundAt,
     });
     const orders = ordersOf(keys);
-    selection = { at, scale: eye.height, forward, aspect, keys, orders };
-    // Roots meet nothing coarser; the selection repeats them when it reaches
-    // up to them, under the same levels.
-    const wanted = new Map(
-      [
-        ...ROOTS.map((key) => ({ key, levels: flatLevels(key.level) })),
-        ...orders.values(),
-      ].map((order) => [orderId(order), order] as const),
-    );
-    want(
-      [...wanted].flatMap(([id, order]) => (held.has(id) ? [] : [order])),
+    // The selection repeats a root when it reaches up to one, under the same
+    // levels.
+    const standIns = unstitched(standInsOf(keys));
+    selection = {
       at,
-    );
+      scale: eye.height,
+      forward,
+      aspect,
+      keys,
+      orders,
+      standIns,
+    };
+    const rest = new Map([
+      ...unstitched(ROOTS),
+      ...[...orders.values()].map((order) => [orderId(order), order] as const),
+    ]);
+    for (const id of standIns.keys()) rest.delete(id);
+    want(missing(standIns), missing(rest), at);
     return selection;
   }
 
@@ -177,19 +205,19 @@ export function tileView(
   };
 
   /**
-   * The variant to draw of each tile of `cover`: the one stitched to `cover`
+   * The variant to draw of each piece of `cover`: the one stitched to `cover`
    * itself where held, else the one the shown or the current selection
    * stands on, else the one held last. In hand, the selection is its own
    * cover; a cover mixing the shown with new tiles falls back, and the skirt
    * hides the step as it does unstitched.
    */
-  const variantsFor = (cover: readonly CubeCell[]) => {
-    const ids = cover.map((key) => cubeTileId(key)).join(' ');
+  const variantsFor = (cover: readonly CoverPiece[]): DrawnPiece[] => {
+    const ids = cover.map(({ key }) => cubeTileId(key)).join(' ');
     if (ids !== coverLevels.ids) {
-      coverLevels = { ids, orders: ordersOf(cover) };
+      coverLevels = { ids, orders: ordersOf(cover.map(({ key }) => key)) };
     }
     const own = coverLevels.orders;
-    return cover.flatMap((key) => {
+    return cover.flatMap(({ key, except }) => {
       const tileId = cubeTileId(key);
       const preferred = [own, shown?.orders, selection?.orders].flatMap(
         (orders) => {
@@ -198,7 +226,7 @@ export function tileView(
         },
       );
       const id = held.variantOf(key, preferred);
-      return id === undefined ? [] : [id];
+      return id === undefined ? [] : [{ id, except }];
     });
   };
 
@@ -212,17 +240,20 @@ export function tileView(
     },
     draw: (eye, aspect) => {
       const keys = showIfComplete(eye, aspect);
-      drawn =
-        shown === null
-          ? coverOf(keys, held.hasTile)
-          : coverAround(keys, shown.keys, held.hasTile);
+      drawn = finestCover(keys, shown?.keys ?? [], held.hasTile);
       held.draw(variantsFor(drawn), poseOf(eye, aspect).position);
     },
     levels: (at) => {
       const point = sphereToFace(at);
       return {
-        under: drawn.filter((key) => tileHolds(key, point)).map((k) => k.level),
-        drawn: drawn.map((key) => key.level),
+        under: drawn
+          .filter(
+            ({ key, except }) =>
+              tileHolds(key, point) &&
+              !except.some((cut) => tileHolds(cut, point)),
+          )
+          .map(({ key }) => key.level),
+        drawn: drawn.map(({ key }) => key.level),
       };
     },
     reselect: () => {

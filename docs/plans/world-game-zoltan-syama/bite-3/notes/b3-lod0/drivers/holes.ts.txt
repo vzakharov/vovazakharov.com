@@ -1,0 +1,174 @@
+// Throwaway: replays a turn at Vova's hole pose in Node with only the last complete selection and the
+// roots in hand, and counts selected tiles any of whose level+3 cells no drawn piece touches — under
+// d2592e12's `coverAround` (old) and `finestCover` (new). Also counts cells two pieces both draw.
+import { type CubeCell, FACES } from '@/island/shared/globe';
+import {
+  CUBE_MIN_LEVEL,
+  cubeTileId,
+  frustumOf,
+  heightAtSphere,
+  openSphereWorld,
+  sampleSphereField,
+  selectCubeTiles,
+} from '@/island/entities/terrain';
+import { eyeAt, poseOf } from '@/island/features/eye';
+import { finestCover } from '@/island/pages/island/model/tile-cover';
+import { indicesOutside } from '@/island/pages/island/model/piece-indices';
+import { borderLoop, TILE_GRID } from '@/island/entities/terrain';
+import { NO_COARSE_EDGES, tileIndices } from '@/island/entities/terrain/tile/model/tile-indices';
+
+import { coverAround } from './old-cover';
+
+const DEG = Math.PI / 180;
+const [lat, lon, h, look] = (process.env.POSE ?? '38.30756,15.90432,546,25.8').split(',').map(Number) as [number, number, number, number];
+const from = Number(process.env.FROM ?? 220.1);
+const tos = (process.env.TO ?? '200,180,160,139').split(',').map(Number);
+const aspect = 1440 / 900;
+const { field, seed } = await openSphereWorld(process.env.WORLD ?? '0');
+const coast = (q: Parameters<typeof sampleSphereField>[1]) => sampleSphereField(field, q);
+const ground = (p: Parameters<typeof sampleSphereField>[1]) => heightAtSphere(coast, seed, p, 0);
+
+function selectAt(heading: number): CubeCell[] {
+  const base = eyeAt({ lat: lat * DEG, lon: lon * DEG, height: h, heading: heading * DEG }, ground);
+  const eye = { ...base, look: look * DEG, aim: { ...base.aim, look: look * DEG } };
+  const pose = poseOf(eye, aspect);
+  return selectCubeTiles(pose.position, { coast, frustum: frustumOf(pose.forward, pose.up, pose.fov, aspect), ground });
+}
+
+const within = (inner: CubeCell, outer: CubeCell) =>
+  inner.face === outer.face &&
+  inner.level >= outer.level &&
+  Math.floor(inner.x / 2 ** (inner.level - outer.level)) === outer.x &&
+  Math.floor(inner.y / 2 ** (inner.level - outer.level)) === outer.y;
+
+type Piece = { key: CubeCell; except: readonly CubeCell[] };
+const cellsOf = (k: CubeCell, d: number): CubeCell[] => {
+  const n = 2 ** d;
+  const out: CubeCell[] = [];
+  for (let i = 0; i < n * n; i++) out.push({ face: k.face, level: k.level + d, x: k.x * n + (i % n), y: k.y * n + Math.floor(i / n) });
+  return out;
+};
+/** Pieces drawing any of `c`, and pieces drawing all of it. */
+const touch = (c: CubeCell, pieces: readonly Piece[]) => {
+  let any = 0;
+  let full = 0;
+  for (const p of pieces) {
+    if (within(c, p.key)) {
+      if (p.except.some((e) => within(c, e))) continue;
+      any++;
+      if (!p.except.some((e) => within(e, c))) full++;
+    } else if (within(p.key, c)) any++;
+  }
+  return { any, full };
+};
+
+function score(selected: readonly CubeCell[], pieces: readonly Piece[]) {
+  let holes = 0;
+  let holeCells = 0;
+  let doubled = 0;
+  const levels = new Map<number, number>();
+  for (const k of selected) {
+    let hole = false;
+    for (const c of cellsOf(k, 3)) {
+      const t = touch(c, pieces);
+      if (t.any === 0) {
+        hole = true;
+        holeCells++;
+      }
+      if (t.full > 1) doubled++;
+    }
+    if (hole) {
+      holes++;
+      levels.set(k.level, (levels.get(k.level) ?? 0) + 1);
+    }
+  }
+  return `uncovered ${String(holes)} (cells ${String(holeCells)}) by level ${JSON.stringify([...levels].sort((a, b) => a[0] - b[0]))}, doubled cells ${String(doubled)}, pieces ${String(pieces.length)}`;
+}
+
+/**
+ * The cut stand-ins as the page draws them: a level+3 cell's centre outside every `except` tile that
+ * no kept lattice triangle holds is a hole; one inside an `except` tile that a kept triangle holds
+ * is drawn twice (the stand-in over the finer tile).
+ */
+const GRID = TILE_GRID;
+const CELLS = GRID - 1;
+const LOOP = borderLoop(GRID);
+const ALL = tileIndices(GRID, LOOP, NO_COARSE_EDGES);
+function triangles(p: Piece): Map<number, number[][]> {
+  const kept = indicesOutside(ALL, GRID, p.key, p.except);
+  const byCell = new Map<number, number[][]>();
+  for (let t = 0; t + 2 < kept.length; t += 3) {
+    const vs = [kept[t] ?? 0, kept[t + 1] ?? 0, kept[t + 2] ?? 0];
+    if (vs.some((v) => v >= GRID * GRID)) continue;
+    const pts = vs.flatMap((v) => [v % GRID, Math.floor(v / GRID)]);
+    const ci = Math.floor((pts[0]! + pts[2]! + pts[4]!) / 3);
+    const cj = Math.floor((pts[1]! + pts[3]! + pts[5]!) / 3);
+    const list = byCell.get(cj * CELLS + ci) ?? [];
+    list.push(pts);
+    byCell.set(cj * CELLS + ci, list);
+  }
+  return byCell;
+}
+const inTri = (px: number, py: number, t: number[]) => {
+  const [ax, ay, bx, by, cx, cy] = t as [number, number, number, number, number, number];
+  const d1 = (px - bx) * (ay - by) - (ax - bx) * (py - by);
+  const d2 = (px - cx) * (by - cy) - (bx - cx) * (py - cy);
+  const d3 = (px - ax) * (cy - ay) - (cx - ax) * (py - ay);
+  return !((d1 < 0 || d2 < 0 || d3 < 0) && (d1 > 0 || d2 > 0 || d3 > 0));
+};
+function meshScore(selected: readonly CubeCell[], pieces: readonly Piece[]) {
+  const cut = pieces.filter((p) => p.except.length > 0).map((p) => ({ p, tris: triangles(p) }));
+  let holes = 0;
+  let twice = 0;
+  let tiles = 0;
+  for (const k of selected) {
+    let hole = false;
+    for (const c of cellsOf(k, 3)) {
+      const t = touch(c, pieces);
+      if (t.any === 0) {
+        holes++;
+        hole = true;
+        continue;
+      }
+      for (const { p, tris } of cut) {
+        if (!within(c, p.key)) continue;
+        const n = 2 ** (c.level - p.key.level);
+        const lx = ((c.x + 0.5) / n - p.key.x) * CELLS;
+        const ly = ((c.y + 0.5) / n - p.key.y) * CELLS;
+        const cell = Math.min(CELLS - 1, Math.floor(ly)) * CELLS + Math.min(CELLS - 1, Math.floor(lx));
+        const drawnHere = (tris.get(cell) ?? []).some((tri) => inTri(lx, ly, tri));
+        const excepted = p.except.some((e) => within(c, e));
+        const elsewhere = pieces.some((q) => q !== p && within(c, q.key) && !q.except.some((e) => within(c, e)));
+        if (!drawnHere && !excepted && !elsewhere) {
+          holes++;
+          hole = true;
+        }
+        if (drawnHere && excepted) twice++;
+      }
+    }
+    if (hole) tiles++;
+  }
+  return `mesh: tiles with a hole ${String(tiles)}, hole cells ${String(holes)}, cells drawn twice ${String(twice)}`;
+}
+
+const shown = selectAt(from);
+const roots = new Set<string>();
+const side = 2 ** CUBE_MIN_LEVEL;
+for (const face of FACES) for (let i = 0; i < side * side; i++) roots.add(cubeTileId({ face, level: CUBE_MIN_LEVEL, x: i % side, y: Math.floor(i / side) }));
+const shownIds = new Set(shown.map((k) => cubeTileId(k)));
+const has = (id: string) => shownIds.has(id) || roots.has(id);
+process.stdout.write(`shown (h ${String(from)}): ${String(shown.length)} tiles, roots ${String(roots.size)}\n`);
+for (const to of tos) {
+  const selected = selectAt(to);
+  const notHeld = selected.filter((k) => !has(cubeTileId(k))).length;
+  const old = coverAround(selected, shown, has).map((key) => ({ key, except: [] }));
+  const t0 = performance.now();
+  const fresh = finestCover(selected, shown, has);
+  const ms = performance.now() - t0;
+  const t1 = performance.now();
+  for (const p of fresh) if (p.except.length > 0) indicesOutside(ALL, GRID, p.key, p.except);
+  const cutMs = performance.now() - t1;
+  process.stdout.write(`  timing: finestCover ${ms.toFixed(2)} ms, cut index rebuild (one surface, all stand-ins) ${cutMs.toFixed(2)} ms\n`);
+  const standIns = fresh.filter((p) => p.except.length > 0).map((p) => `${cubeTileId(p.key)} cut ${String(p.except.length)}`);
+  process.stdout.write(`h ${String(to)}: selected ${String(selected.length)}, not in hand ${String(notHeld)}\n  old: ${score(selected, old)}\n  new: ${score(selected, fresh)} (${ms.toFixed(1)} ms) stand-ins ${standIns.join(', ')}\n  new ${meshScore(selected, fresh)}\n`);
+}

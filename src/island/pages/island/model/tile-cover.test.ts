@@ -4,7 +4,12 @@ import { describe, it } from 'node:test';
 import { type CubeCell, type Face, neighbour } from '@/island/shared/globe';
 import { cubeTileId, tileCap } from '@/island/entities/terrain';
 
-import { coverAround, coverOf, distanceTo, nearestFirst } from './tile-cover';
+import {
+  type CoverPiece,
+  distanceTo,
+  finestCover,
+  nearestFirst,
+} from './tile-cover';
 
 const key = (
   level: number,
@@ -24,113 +29,158 @@ const holding =
   (id: string) =>
     keys.some((k) => cubeTileId(k) === id);
 
-describe('coverOf', () => {
-  const selected = [key(4, 0, 0), key(4, 1, 0), key(4, 0, 1), key(4, 1, 1)];
+/** Whether `inner` lies inside `outer`, `outer` itself included. */
+const within = (inner: CubeCell, outer: CubeCell) =>
+  inner.face === outer.face &&
+  inner.level >= outer.level &&
+  Math.floor(inner.x / 2 ** (inner.level - outer.level)) === outer.x &&
+  Math.floor(inner.y / 2 ** (inner.level - outer.level)) === outer.y;
 
-  it('draws a selection fully in hand as it is', () => {
-    assert.deepEqual(
-      ids(coverOf(selected, holding(...selected))),
-      ids(selected),
-    );
+/** Every tile at `level` inside `outer`. */
+const cellsOf = (outer: CubeCell, level: number): CubeCell[] => {
+  const n = 2 ** (level - outer.level);
+  return Array.from({ length: n * n }, (_, i) =>
+    key(
+      level,
+      outer.x * n + (i % n),
+      outer.y * n + Math.floor(i / n),
+      outer.face,
+    ),
+  );
+};
+
+/** How many pieces draw `cell`, which is no coarser than any cut. */
+const drawsOf = (pieces: readonly CoverPiece[], cell: CubeCell) =>
+  pieces.filter(
+    ({ key: drawn, except }) =>
+      within(cell, drawn) && !except.some((cut) => within(cell, cut)),
+  ).length;
+
+/** Asserts no two pieces overlap and every `needed` tile is drawn, at `level`. */
+function assertTiles(
+  pieces: readonly CoverPiece[],
+  needed: readonly CubeCell[],
+  level: number,
+) {
+  for (const { key: drawn } of pieces) {
+    for (const cell of cellsOf(drawn, level)) {
+      assert.ok(drawsOf(pieces, cell) <= 1, `${cubeTileId(cell)} overlaps`);
+    }
+  }
+  for (const tile of needed) {
+    for (const cell of cellsOf(tile, level)) {
+      assert.equal(drawsOf(pieces, cell), 1, `${cubeTileId(cell)} is a hole`);
+    }
+  }
+}
+
+/** The pieces as `id` or `id−cut,cut`, sorted. */
+const shapes = (pieces: readonly CoverPiece[]) =>
+  pieces
+    .map(({ key: drawn, except }) =>
+      except.length === 0
+        ? cubeTileId(drawn)
+        : `${cubeTileId(drawn)}−${ids(except).join(',')}`,
+    )
+    .toSorted();
+
+const root = key(2, 0, 0);
+
+/** `tile`, split on to level 6 with odds 0.6 a split: a selection tiling it. */
+const split = (tile: CubeCell, random: () => number): CubeCell[] =>
+  tile.level < 6 && random() < 0.6
+    ? cellsOf(tile, tile.level + 1).flatMap((t) => split(t, random))
+    : [tile];
+
+/** `tile` and its ancestors up to level 3. */
+const ancestors = (tile: CubeCell): CubeCell[] =>
+  tile.level <= 3
+    ? [tile]
+    : [tile, ...ancestors(key(tile.level - 1, tile.x >> 1, tile.y >> 1))];
+
+describe('finestCover', () => {
+  const quad = [key(4, 0, 0), key(4, 1, 0), key(4, 0, 1), key(4, 1, 1)];
+
+  it('draws a selection wholly in hand as it is', () => {
+    const pieces = finestCover(quad, [], holding(root, ...quad));
+    assert.deepEqual(shapes(pieces), ids(quad));
   });
 
-  it('covers missing children by their parent, which hides the loaded ones', () => {
-    const has = holding(key(3, 0, 0), key(4, 0, 0), key(4, 1, 0));
-    assert.deepEqual(ids(coverOf(selected, has)), ['pz/3/0/0']);
-  });
-
-  it('reaches past a missing parent to the nearest ancestor in hand', () => {
-    const deep = [key(6, 5, 5), key(4, 2, 2)];
-    assert.deepEqual(ids(coverOf(deep, holding(key(3, 0, 0), key(3, 1, 1)))), [
-      'pz/3/0/0',
-      'pz/3/1/1',
+  it('draws the finer tiles in hand and stands the parent in for the rest only', () => {
+    const has = holding(root, key(3, 0, 0), key(4, 0, 0), key(4, 1, 0));
+    const pieces = finestCover(quad, [], has);
+    assert.deepEqual(shapes(pieces), [
+      'pz/3/0/0−pz/4/0/0,pz/4/1/0',
+      'pz/4/0/0',
+      'pz/4/1/0',
     ]);
+    assertTiles(pieces, quad, 4);
   });
 
-  it('keeps one stand-in when two nest', () => {
-    const has = holding(key(3, 0, 0), key(5, 0, 0));
-    assert.deepEqual(ids(coverOf([key(6, 0, 0), key(6, 3, 3)], has)), [
-      'pz/3/0/0',
-    ]);
-  });
-
-  it('leaves out a tile with nothing above it in hand', () => {
-    assert.deepEqual(coverOf([key(4, 0, 0)], holding()), []);
+  it('takes the finest stand-in for each region, cut around what is finer', () => {
+    const selected = [key(6, 0, 0), key(6, 3, 3)];
+    const pieces = finestCover(selected, [], holding(root, key(5, 0, 0)));
+    assert.deepEqual(shapes(pieces), ['pz/2/0/0−pz/5/0/0', 'pz/5/0/0']);
+    assertTiles(pieces, selected, 6);
   });
 
   it('takes no stand-in from another face at the same place', () => {
-    assert.deepEqual(coverOf([key(4, 0, 0)], holding(key(3, 0, 0, 'px'))), []);
-  });
-
-  it('climbs no higher than a root', () => {
-    assert.deepEqual(coverOf([key(2, 0, 0)], holding(key(1, 0, 0))), []);
-  });
-});
-
-describe('coverAround', () => {
-  const shown = [key(4, 0, 0), key(4, 1, 0), key(4, 0, 1), key(4, 1, 1)];
-  const margin = [key(4, 2, 0), key(4, 2, 1)];
-
-  it('draws the shown selection, not the coarse ancestor of a missing margin tile', () => {
-    // The turn's case: new margin tiles, unheld, under a held root.
-    const has = holding(key(3, 0, 0), ...shown);
-    assert.deepEqual(
-      ids(coverAround([...shown, ...margin], shown, has)),
-      ids(shown),
-    );
-  });
-
-  it('keeps the finer shown tiles while their coarser parent loads', () => {
-    // The climb's case: the selection coarsens, its parents not yet held.
-    const has = holding(key(2, 0, 0), ...shown);
-    assert.deepEqual(ids(coverAround([key(3, 0, 0)], shown, has)), ids(shown));
-  });
-
-  it('adds held selected tiles beyond the shown ones', () => {
-    const has = holding(...shown, ...margin);
-    assert.deepEqual(
-      ids(coverAround([...shown, ...margin], shown, has)),
-      ids([...shown, ...margin]),
-    );
-  });
-
-  it('refines a shown tile once every selected tile inside it is in hand', () => {
-    // The descent's case: the shown tile is the opening's, coarse.
-    const has = holding(key(2, 0, 0), ...shown);
-    assert.deepEqual(ids(coverAround(shown, [key(2, 0, 0)], has)), ids(shown));
-  });
-
-  it('refines a shown tile through held stand-ins finer than it', () => {
-    const deep = [key(6, 0, 0), key(6, 1, 0), key(5, 1, 1), key(4, 1, 1)];
-    const has = holding(key(2, 0, 0), key(4, 0, 0), key(4, 1, 1));
-    assert.deepEqual(ids(coverAround(deep, [key(2, 0, 0)], has)), [
-      'pz/4/0/0',
-      'pz/4/1/1',
+    const has = holding(root, key(3, 0, 0, 'px'));
+    assert.deepEqual(shapes(finestCover([key(4, 0, 0)], [], has)), [
+      'pz/2/0/0',
     ]);
   });
 
-  it('keeps a shown tile while a selected tile inside it has no finer stand-in', () => {
-    const has = holding(key(2, 0, 0), key(4, 0, 0));
-    assert.deepEqual(
-      ids(coverAround([key(4, 0, 0), key(4, 1, 1)], [key(2, 0, 0)], has)),
-      ['pz/2/0/0'],
-    );
+  it('draws a selected tile from its four children when it is missing', () => {
+    const pieces = finestCover([key(3, 0, 0)], [], holding(root, ...quad));
+    assert.deepEqual(shapes(pieces), ids(quad));
+  });
+
+  it('keeps the finer shown tiles while their coarser parent loads', () => {
+    const has = holding(root, ...quad);
+    assert.deepEqual(shapes(finestCover([key(3, 0, 0)], quad, has)), ids(quad));
   });
 
   it('draws a selected tile holding shown ones once it is in hand', () => {
-    const has = holding(key(3, 0, 0), ...shown);
-    assert.deepEqual(ids(coverAround([key(3, 0, 0)], shown, has)), [
+    const has = holding(root, key(3, 0, 0), ...quad);
+    assert.deepEqual(shapes(finestCover([key(3, 0, 0)], quad, has)), [
       'pz/3/0/0',
     ]);
   });
 
-  it('stands an ancestor in beyond the shown tiles when it overlaps none', () => {
-    const far = [key(5, 12, 0), key(5, 13, 0)];
-    const has = holding(...shown, key(4, 6, 0), key(3, 0, 0));
-    assert.deepEqual(ids(coverAround([...shown, ...far], shown, has)), [
-      ...ids(shown),
-      'pz/4/6/0',
+  it('keeps a shown tile beyond the selection', () => {
+    const has = holding(root, ...quad);
+    assert.deepEqual(
+      shapes(finestCover(quad.slice(0, 2), quad, has)),
+      ids(quad),
+    );
+  });
+
+  it('leaves no hole where a turn selects tiles not in hand', () => {
+    // The old view in hand; the turned one adds tiles nothing finer holds.
+    const turned = [...quad.slice(1), key(4, 2, 0), key(4, 2, 1), key(5, 6, 6)];
+    const pieces = finestCover(turned, quad, holding(root, ...quad));
+    assertTiles(pieces, [...turned, ...quad], 5);
+    assert.deepEqual(shapes(pieces), [
+      `pz/2/0/0−${ids(quad).join(',')}`,
+      ...ids(quad),
     ]);
+  });
+
+  it('never overlaps nor leaves a hole, whatever is in hand', () => {
+    let seed = 7;
+    const random = () => {
+      seed = (seed * 1_103_515_245 + 12_345) % 2 ** 31;
+      return seed / 2 ** 31;
+    };
+    for (let run = 0; run < 200; run++) {
+      const selected = cellsOf(root, 3).flatMap((t) => split(t, random));
+      const shown = cellsOf(root, 3).flatMap((t) => split(t, random));
+      const candidates = [...selected, ...shown].flatMap((t) => ancestors(t));
+      const held = [root, ...candidates.filter(() => random() < 0.3)];
+      const pieces = finestCover(selected, shown, holding(...held));
+      assertTiles(pieces, selected, 6);
+    }
   });
 });
 
