@@ -29,6 +29,7 @@ import { z } from 'zod';
 
 import { OUR_WORLD } from '@/island/entities/terrain';
 
+import { planeToDegrees } from './lib/azimuthal';
 import {
   buildExport,
   call,
@@ -75,11 +76,17 @@ const HEIGHTS: readonly Shot[] = [
   ['2m', call('setHeight', 2)],
 ];
 
+/** A place named by its point on the trace's plane, as the hook's degrees. */
+const over = (x: number, y: number, m: number) => {
+  const { lat, lon } = planeToDegrees(x, y);
+  return call('moveTo', lat, lon, m);
+};
+
 const INLET: readonly Shot[] = [
   // The inlet between Блаблания and Фейсис, the trace's narrowest: its whole
   // length, then the strait and the pool at its head.
-  ['inlet', call('moveTo', 515_000, 1_750_000, 1_500_000)],
-  ['inlet-head', call('moveTo', 510_000, 1_250_000, 300_000)],
+  ['inlet', over(515_000, 1_750_000, 1_500_000)],
+  ['inlet-head', over(510_000, 1_250_000, 300_000)],
   // The same place facing west: last, since every later place keeps the heading.
   ['inlet-head-west', call('turnTo', -Math.PI / 2)],
 ];

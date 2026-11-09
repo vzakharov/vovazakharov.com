@@ -15,15 +15,17 @@
  *   pnpm film:island --world 2                # world #2's fall, files prefixed world2-
  *
  * The landing is a place on our world; on another the fall comes down over
- * the same plane point, wherever that is on its land or sea.
+ * the same latitude and longitude, wherever that is on its land or sea.
  */
 
 import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 
+import { dot, scaled, sum, type Vec3 } from '@/island/shared/globe';
 import { MAX_HEIGHT, MIN_HEIGHT } from '@/island/features/eye';
 
+import { planeToUnit, unitToDegrees } from './lib/azimuthal';
 import {
   buildExport,
   call,
@@ -61,12 +63,14 @@ const SCREENS: readonly Screen[] = [
   { name: 'phone', width: 390, height: 844, ratio: 2, mobile: true },
 ];
 
-/** The plane point the eye lands over: the beach at the inlet's head, looking north along the water. */
-const LANDING = [499_000, 1_113_200] as const;
-/** The plane point under the eye at orbit: the island's centre. */
-const START = [0, 0] as const;
+/** Where the eye lands: the beach at the inlet's head, looking north along the water. */
+const LANDING = planeToUnit(499_000, 1_113_200);
+/** Where the eye is at orbit: over the island's centre. */
+const START = planeToUnit(0, 0);
+/** The great-circle angle from `LANDING` to `START`. */
+const ARC = Math.acos(Math.min(1, dot(LANDING, START)));
 /**
- * How fast the eye closes on `LANDING` as it falls: the plane offset shrinks
+ * How fast the eye closes on `LANDING` as it falls: the arc left to it shrinks
  * as height to this power, so above 1 the landing drifts to the screen's
  * middle rather than holding still off it.
  */
@@ -75,16 +79,24 @@ const DRIFT_POWER = 1.4;
 /** Smoothstep's quintic: still at both ends, so the fall starts and stops gently. */
 const ease = (t: number) => t * t * t * (t * (t * 6 - 15) + 10);
 
-/** The eye `t` of the way through the fall, as plane `x`, `y` and height. */
+/** The point `share` of the way from `LANDING` to `START` along the great circle. */
+function towardStart(share: number): Vec3 {
+  if (ARC === 0) return LANDING;
+  const sin = Math.sin(ARC);
+  return sum(
+    scaled(LANDING, Math.sin((1 - share) * ARC) / sin),
+    scaled(START, Math.sin(share * ARC) / sin),
+  );
+}
+
+/** The eye `t` of the way through the fall, as latitude and longitude in degrees and height. */
 function descentAt(t: number): readonly [number, number, number] {
   const span = Math.log(MAX_HEIGHT / MIN_HEIGHT);
   const height = MAX_HEIGHT * Math.exp(-span * ease(t));
-  const drift = (height / MAX_HEIGHT) ** DRIFT_POWER;
-  return [
-    LANDING[0] + (START[0] - LANDING[0]) * drift,
-    LANDING[1] + (START[1] - LANDING[1]) * drift,
-    height,
-  ];
+  const { lat, lon } = unitToDegrees(
+    towardStart((height / MAX_HEIGHT) ** DRIFT_POWER),
+  );
+  return [lat, lon, height];
 }
 
 /** Each frame's `t`: a hold at 0, the fall, a hold at 1. */
@@ -127,8 +139,8 @@ async function film(
     const shootFrom = async (i: number): Promise<void> => {
       const t = ts[i];
       if (t === undefined) return;
-      const [x, y, m] = descentAt(t);
-      await settle(tab, call('moveTo', x, y, m), `frame ${String(i)}`);
+      const [lat, lon, m] = descentAt(t);
+      await settle(tab, call('moveTo', lat, lon, m), `frame ${String(i)}`);
       // One drawn frame per video frame, the clock advanced by the video's.
       await shoot(
         tab,
