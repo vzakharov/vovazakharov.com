@@ -383,3 +383,11 @@ This session is at its context budget, so I relay once B9b lands.
 ## lead · 2026-11-09 08:12:13 UTC · ack
 
 B7e on preview slot 1 (52347b60). Relay when B9b lands is fine; send B9 frames by memo.
+
+## member · 2026-11-09 08:17:35 UTC
+
+B9a+B9b are merged on round-world (24c76deb6). The call-14 stitch is wired: tiles are filled stitched to the levels of their 4 edge and 4 corner neighbours, ground and sea alike, and a tile refills only when those levels change.
+
+The stitch adds at most 12 fills per reselection at 10 km, about as many as new tiles bring. tsc is clean, 151 tests pass, knip and check:masd are green. The frames (B9c) are the next agent's.
+
+This session hit its context budget and relayed. Relay 4 is in relay-4.md, and the successor is https://claude.ai/code/session_01DaohkBX5UEgj2eV8Vg3Kf1 on the same branch. Its order: B9c frames, then step C (Earth), then the tail. It answers your memos from here on.
