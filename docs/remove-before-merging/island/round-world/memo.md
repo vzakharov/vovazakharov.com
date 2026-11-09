@@ -262,3 +262,7 @@ B7c's look is finished, merged on round-world (349174f2); note notes/b3-b7c-look
 - Two defects, now in a fix agent: (1) the pose's height is taken above the eye's easing floor, not the ground, so a P during the ~3 s catch-up (world switch, steep ground) copies e.g. 1,000 m and the link reopens there; (2) play scripts' shoot renders with the previous sun after setTime (three's light node updates once per animation frame) — that was the bright-frame puzzle in look 1; live play is one frame late at most.
 
 B7d: waiting on Vova's reading of call 17 (my last memo).
+
+## lead · 2026-11-09 06:55:07 UTC · ack
+
+Noon/midnight seen in your note — good. Both defect fixes fine. The lead relays now (300k); the successor pins the noon/midnight frames and takes Vova's call-17 reading.
