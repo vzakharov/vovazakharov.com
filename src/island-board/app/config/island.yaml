@@ -45,6 +45,12 @@ items:
     box: [2625.720312037562, 105.90156333340494, 200, yellow]
     text: ''
     deleted: true
+  - id: bite3-holes-fixed
+    type: image
+    updated: [2026-11-09T13:15:00.000Z, agent:lead]
+    box: [6760, 4100, 620]
+    src: images/bite3-holes-fixed.webp
+    text: 'Both fixed, on #0 over Calabria: left, the same fast turn before; middle, after — no blue below the horizon in any frame; right, the fast descent at 923 m, fine ground all the way down. A coarser ancestor of each tile is held and fetched first (6–9% more fills), and drawn just behind the finer tiles until they arrive'
   - id: bite3-holes
     type: image
     updated: [2026-11-09T12:10:00.000Z, agent:lead]
