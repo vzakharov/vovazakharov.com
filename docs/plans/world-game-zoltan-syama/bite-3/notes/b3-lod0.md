@@ -1,19 +1,10 @@
-# b3-lod0 — #0 stays on level-2 tiles all the way down
+# b3-lod0 — #0 stays coarse while the view loads
 
-## Cause
+## Cause (run 1)
 
-The selection is right; the **drawn** cover is stuck. `tileView` draws the last
-selection wholly in hand (`shown`) and, through `coverAround`, lets no selected
-tile inside a shown tile draw until the whole current selection is in hand.
-Vova's descent (the .mov, read at 1 fps) goes 20,000 km → 530 m in about 7 s, so
-a new selection is made nearly every frame (2 % of height) and none is ever
-wholly in hand before the next replaces it. `shown` stays the opening's 51
-level-2 tiles, which contain the whole view, so the panel reads `tiles 2 (2–2)`
-until the eye stops and one selection completes.
-
-#0 shows it and #1 does not because #0 selects 3–5× as many tiles (Earth's
-coast-rich view, `COAST_FINER` refining every tile astride the coast), so a
-selection takes 3–5× as long to fill. Per-tile fill cost is the same:
+Selection is right; the **drawn** cover lags. #0 selects 3–5× the tiles of #1
+(`COAST_FINER` refines every tile astride the coast), so a selection takes 3–5×
+as long to fill at the same ~25 ms a tile:
 
 | world | pose (sheet) | selected (levels) | fill ms median / p90 (Node) |
 | ----- | ------------ | ----------------- | --------------------------- |
@@ -26,52 +17,54 @@ selection takes 3–5× as long to fill. Per-tile fill cost is the same:
 | #0    | 527 m        | 338 (7–17)        | —                           |
 | #1    | 527 m        | 110 (6–15)        | —                           |
 
-At 2 workers × 2 in flight and ~25 ms a fill, a fresh #0 selection near the
-ground takes ~4 s to fill (#1: ~1.4 s): Vova's "small but noticeable" wait.
+At `POOL_SIZE = 2` × 2 in flight, a fresh #0 selection near the ground takes ~4
+s to fill (#1: ~1.4 s). Run 1 (d2592e12) let shown tiles give way per tile.
 
-## Reproduction (headless)
+## Run 2 — finest cover, stand-ins cut (0ffc6b53)
 
-`tmp/descent-sim.ts` (throwaway, not committed): the real `selectCubeTiles`,
-`neighbourLevels`, `nearestFirst` and `coverAround`, tile-view's reselect rule,
-the pool's queue (nearest first, stale queued dropped, in-flight kept), a fixed
-25 ms fill, the eye settled at the 20,000 km opening for 4 s, then Vova's path
-at 1.5 e-folds of height a second.
-`RATE=1.5 HOLD=8 node --import tsx tmp/descent-sim.ts <world> 25 2`.
+**The note's recursive "finest whole cover" alone would not have helped**: drawn
+whole, a stand-in still hides every finer tile under it, and a recursion that
+picks the finest whole subtree draws exactly what `coverOf` drew (the outermost
+needed stand-in). So the stand-in is drawn **cut**:
 
-Before (base ecd9ceca), drawn levels over the descent:
+- `finestCover` (`model/tile-cover.ts`) replaces `coverOf` and `coverAround`.
+  Over the tree of selected and shown tiles: a selected tile in hand (or a shown
+  leaf) draws itself; else its children's covers when each is complete; else,
+  when held, itself minus the outermost finer pieces under it (`except`); else
+  its children's partial covers for an ancestor to finish. Roots are always
+  held, so **no part of the selection is ever undrawn** — this also answers
+  b3-seams' turn holes (`coverAround` refused any stand-in containing a shown
+  tile; now the root or finest held ancestor draws, cut around the shown tiles).
+  Outgoing shown tiles stay drawn until replaced, as before.
+- `model/piece-indices.ts` `indicesOutside`: the held mesh's triangles whose
+  middle lies in no `except` tile (vertex → lattice spot via `borderLoop`).
+  `tile-meshes.ts` builds a cut mesh per (variant, cut) as a second geometry
+  sharing the whole mesh's attributes; disposing it deletes the shared
+  attributes from it first, so only its index buffer is freed.
+- Tests: 10 for `finestCover` (incl. a 200-run random property test: no overlap,
+  no hole; and the turn case: old set in hand, turned selection not → covered),
+  3 for `indicesOutside`.
 
-- #0: `2–2` from 20,000 km to 528 m; whole selection (7–17) drawn 3.6 s after
-  the eye stopped. Only 11 of 142 selections ever completed.
-- #1: a selection completes near 200 km, `3–6` thereafter; 6–15 drawn 0.8 s
-  after stopping.
+Known limits: an `except` tile finer than the stand-in's lattice cell is cut by
+triangle middles, so the stand-in overlaps it by under one lattice cell. Cut
+edges have no skirt of their own; the finer neighbours' skirts hide the step. A
+root stand-in's cut is rebuilt whenever its `except` changes (each tile arrival
+while loading) — cost not yet measured.
 
-## Fix (committed)
+## Left (for the next agent)
 
-`coverAround` settles each overlap on its own instead of all-or-nothing: a shown
-tile gives way to the selected tiles inside it once each is in hand or stood in
-for by a held tile finer than the shown one; a selected tile holding shown ones
-draws once in hand. Beyond the shown tiles, as before. Four tests beside it.
-
-After, same sim: under the eye, #0 draws 3/4 at 4,000 km, 6/7 at 440 km, 8 at
-200 km, 9 at 100 km (max drawn level tracks the selection's to 12), against 2
-before. No overlapping tiles drawn (checked every 0.5 s). `coverAround` costs
-0.87 ms median, 4.4 ms p99 a frame on #0 (0.31 / 1.7 on #1).
-
-## Left
-
-- **Below ~10 km the fills still cannot keep up** with that descent (queue
-  300+), so under the eye stays at the level-8 stand-in until the eye stops. The
-  stand-in hides finer tiles already held under it, because `coverOf` draws a
-  stand-in whole. Next step, designed but not written: one recursive "finest
-  whole cover" over the quadtree of selected and shown tiles — a region draws
-  its children's covers when all are whole, else its own held tile, else its
-  children's partial covers — which subsumes `coverOf` and `coverAround`
-  (stand-ins never a strict ancestor of a shown tile). Then the tiles nearest
-  the eye, filled first, show as they land.
-- The tile count itself: `COAST_FINER = 2` costs #0 3–5× the tiles of #1. More
-  workers (`POOL_SIZE = 2`) or a coarser coast rule cut the 4 s settle; neither
-  tried.
-- Frames step (shots at 170 km / 13 km over Italy, fill-time budgets) not done.
-- `b3-seams`: the fix changes what draws while loading, not the stitched
-  variants; mixed covers fall back to unstitched variants (skirts) more often
-  now, so seams _while loading_ may be seen more, not fewer.
+1. **Sims not re-run** (context ran out). Rebuild `tmp/descent-sim.ts` from run
+   1's description (real `selectCubeTiles`, `nearestFirst`, reselect at 2 % of
+   height, nearest-first pool queue dropping stale queued, 25 ms fill, 4 s at
+   20,000 km then 1.5 e-folds/s; `RATE=1.5 HOLD=8`), swap in `finestCover`, and
+   record level under the eye vs time before (d2592e12) / after. For drawn level
+   under the eye use pieces whose key holds the point and no `except` does (as
+   `tileView.levels` now does).
+2. b3-seams' `holes.ts.txt` replay: its `roots` set uses numeric faces, so it
+   holds no root — use `FACES`. Count a selected tile uncovered if any of its
+   level+3 cells is drawn by 0 pieces. Expect 0 after.
+3. Measure `indicesOutside` + cut rebuilds per frame on #0 at 13 km / 527 m.
+4. `POOL_SIZE` 3–4 trial and what a coarser coast (`COAST_FINER`) would save —
+   not started; `COAST_FINER` is the lead's look call.
+5. Look at it in the page (`/preview`): cut stand-ins near the eye on a fast
+   descent and a turn at `#0@38.30756,15.90432,546,220.1,25.8`.
