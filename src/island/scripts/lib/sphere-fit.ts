@@ -1,15 +1,15 @@
 import {
+  dot,
+  type LatLon,
+  latLonToUnit,
+  R,
+  type Vec3,
+} from '@/island/shared/globe';
+import {
   type CoastField,
   type RingGrid,
   sampleCoastField,
 } from '@/island/entities/terrain';
-import {
-  dot,
-  latLonToUnit,
-  type LatLon,
-  R,
-  type Vec3,
-} from '@/island/shared/globe';
 
 import { CENTRE, worldToPlane } from './azimuthal';
 
@@ -75,7 +75,7 @@ export type WrongPatch = LatLon & {
 
 export type WrongLand = {
   /** Wrong area over the drawn land's area. */
-  share: number;
+  wrongShare: number;
   addedKm2: number;
   droppedKm2: number;
   landKm2: number;
@@ -169,7 +169,7 @@ export function wrongLand(
     .sort((a, b) => b.km2 - a.km2)
     .slice(0, patchCount);
   return {
-    share: (addedKm2 + droppedKm2) / landKm2,
+    wrongShare: (addedKm2 + droppedKm2) / landKm2,
     addedKm2,
     droppedKm2,
     landKm2,
@@ -188,6 +188,8 @@ function insideRing(ring: Array<[number, number]>, x: number, y: number) {
   return inside;
 }
 
+type LakeWaterParams = { ring: Array<[number, number]> };
+
 /**
  * How many of `grid`'s nodes fall inside `ring` (plane kilometres), and how
  * many of those `field` makes water.
@@ -195,7 +197,7 @@ function insideRing(ring: Array<[number, number]>, x: number, y: number) {
 export function lakeWater(
   grid: RingGrid,
   field: Float64Array,
-  { ring }: { ring: Array<[number, number]> },
+  { ring }: LakeWaterParams,
 ): { nodes: number; water: number } {
   const xs = ring.map(([x]) => x);
   const ys = ring.map(([, y]) => y);

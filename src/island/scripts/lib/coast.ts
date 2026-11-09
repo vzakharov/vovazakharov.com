@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import type { Point } from '@/scene/shared/lib/plane';
+
 import type { Coast } from '@/island/shared/globe';
 
 import traced from './coast.json';
@@ -20,7 +22,7 @@ const CoastSchema = z.object({
 export const coast: Coast = CoastSchema.parse(traced);
 
 /** A ring in kilometres, its first point's place for naming it. */
-export type DrawnRing = { x: number; y: number; ring: Array<[number, number]> };
+export type DrawnRing = Point & { ring: Array<[number, number]> };
 
 /** The shoelace area: positive when the ring turns from +x towards +y. */
 function signedArea(ring: Array<[number, number]>): number {

@@ -19,6 +19,7 @@ import { parseArgs } from 'node:util';
 import { format } from 'prettier';
 import { z } from 'zod';
 
+import { latLonToUnit } from '@/island/shared/globe';
 import {
   decodePinnedRow,
   encodePinnedRow,
@@ -28,8 +29,8 @@ import {
 } from '@/island/entities/terrain';
 
 import { worldToPlane } from './lib/azimuthal';
-import { DRAWN_CLIP_METRES, drawnField, drawnSeries } from './lib/fit-drawn';
 import { drawnLakes } from './lib/coast';
+import { DRAWN_CLIP_METRES, drawnField, drawnSeries } from './lib/fit-drawn';
 import {
   coastTarget,
   lakeWater,
@@ -39,7 +40,6 @@ import {
 } from './lib/sphere-fit';
 
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
-import { latLonToUnit } from '@/island/shared/globe';
 
 const ROW_FILE = path.join(
   REPO_ROOT,
@@ -90,7 +90,7 @@ const measure = (series: Float64Array): WrongLand =>
 
 function report(label: string, wrong: WrongLand) {
   say(
-    `${label}: ${pct(wrong.share)} of the drawn land wrong — ` +
+    `${label}: ${pct(wrong.wrongShare)} of the drawn land wrong — ` +
       `${Math.round(wrong.addedKm2).toLocaleString('en')} km² added over sea, ` +
       `${Math.round(wrong.droppedKm2).toLocaleString('en')} km² dropped, of ` +
       `${Math.round(wrong.landKm2).toLocaleString('en')} km²`,
@@ -127,10 +127,10 @@ for (const bits of [...options.bits].sort((a, b) => b - a)) {
   const wordsBytes = Math.ceil((series.length * bits) / 8);
   const json = JSON.stringify(row);
   say(
-    `| ${String(bits)} | ${pct(wrong.share)} | ${(wordsBytes / 1024).toFixed(0)} KB | ` +
+    `| ${String(bits)} | ${pct(wrong.wrongShare)} | ${(wordsBytes / 1024).toFixed(0)} KB | ` +
       `${(json.length / 1024).toFixed(0)} KB |`,
   );
-  if (wrong.share <= exact.share + KEEP_TOLERANCE) chosen = row;
+  if (wrong.wrongShare <= exact.wrongShare + KEEP_TOLERANCE) chosen = row;
 }
 if (!chosen) throw new Error('no bit depth tried keeps the wrong-land share');
 
