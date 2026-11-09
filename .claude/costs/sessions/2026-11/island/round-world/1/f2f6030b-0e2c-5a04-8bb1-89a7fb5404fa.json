@@ -1,0 +1,134 @@
+{
+  "total": {
+    "inputTokens": 101,
+    "cacheWrite5mTokens": 183226,
+    "cacheWrite1hTokens": 107190,
+    "cacheReadTokens": 5258393,
+    "outputTokens": 27822,
+    "thinkingTokens": 8780,
+    "responses": 50,
+    "costUsd": 3.382172600000001
+  },
+  "estimate": {
+    "at": "2026-11-09T04:00:56.907Z",
+    "subjectLine": "feat: a round world of spherical harmonics, Earth as world #0",
+    "parts": [
+      {
+        "hours": 40.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "spherical-harmonic synthesis at L=511 on a worker budget and seamless cube-sphere tiles need rendering depth"
+      },
+      {
+        "hours": 16.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "fitting two coastlines and tuning the random worlds' envelope against Earth is procedural-look work"
+      },
+      {
+        "hours": 12.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "the eye moving on a sphere over poles with unchanged feel is camera and control work"
+      },
+      {
+        "hours": 16.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "the typed roll schema, path hashing, pinned table and their tests are routine model code"
+      },
+      {
+        "hours": 8.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "orchestrating a dozen build agents and reporting to the lead through memo"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-09T04:00:06.953Z",
+    "contextTokens": 103799,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 40198,
+      "cacheReadTokens": 155867,
+      "outputTokens": 775,
+      "thinkingTokens": 50,
+      "responses": 2,
+      "costUsd": 0.3682734
+    }
+  },
+  "sessionId": "f2f6030b-0e2c-5a04-8bb1-89a7fb5404fa",
+  "branch": "island/round-world",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/from-branch island/round-world You are the member building bite 3 of the island mammoth. Read the lead's brief in this branch's memo (`python3 scripts/memo/mem…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBg4xmo4kUboLzwnL1",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-09T03:59:56.614Z",
+  "lastResponseAt": "2026-11-09T04:04:23.450Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 41,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 107190,
+    "cacheReadTokens": 3011555,
+    "outputTokens": 16955,
+    "thinkingTokens": 5545,
+    "responses": 22,
+    "costUsd": 1.7990950000000003
+  },
+  "subagents": {
+    "inputTokens": 60,
+    "cacheWrite5mTokens": 183226,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 2246838,
+    "outputTokens": 10867,
+    "thinkingTokens": 3235,
+    "responses": 28,
+    "costUsd": 1.5830776
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 101,
+      "cacheWrite5mTokens": 183226,
+      "cacheWrite1hTokens": 107190,
+      "cacheReadTokens": 5258393,
+      "outputTokens": 27822,
+      "thinkingTokens": 8780,
+      "responses": 50,
+      "costUsd": 3.382172600000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 50,
+    "matched": 50,
+    "matchedTableUsd": 3.382172600000001,
+    "matchedEventUsd": 3.382172600000001,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".py": 657,
+    ".md": 9762,
+    ".json": -1402,
+    ".txt": 31,
+    ".ts": 623,
+    ".sh": 43,
+    ".yaml": 191,
+    ".tsx": 11
+  }
+}
