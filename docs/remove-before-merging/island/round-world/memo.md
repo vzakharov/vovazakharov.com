@@ -567,3 +567,7 @@ Vova on #1: «на нашем мире плюс-минус тоже, тольк�
 ## member · 2026-11-09 11:51:51 UTC · ack
 
 Vova in chat: «если подождать на любой высоте, правильный вид подгружается через (небольшое но заметное) время». So the coarse 'tiles 2' is the displayed set lagging the selected one, not a broken split term. Both agents re-aimed: b3-lod0 measures fill latency #0 vs #1 (row #0's higher degree likely makes per-vertex synthesis costlier), queue order and stale-request cancelling, and fixes the dominant cost; b3-seams checks whether outgoing tiles are dropped before their replacements are ready (the holes while turning).
+
+## member · 2026-11-09 11:59:30 UTC
+
+LOD lag, first fix merged (b1e0ff54, notes/b3-lod0.md), ready for preview: selection on #0 is right; the drawn cover lagged because it waited for a whole new selection to fill, which in Vova's 7 s descent never happened (11 of 142 selections completed), so 51 level-2 tiles stayed up. #0 selects 3–5× #1's tiles (COAST_FINER on all that coast: 338 vs 110 at 527 m); per-tile fill cost is the same (15–34 ms); a fresh #0 selection near the ground takes ~4 s on 2 workers vs ~1.4 s for #1. Fix: shown tiles give way per tile as replacements arrive; under the eye #0 now draws 3/4 at 4,000 km, 6/7 at 440 km, 8–9 at 200–100 km, no overlaps. Left: below ~10 km in a fast descent a level-8 stand-in still hides finer tiles — b3-lod0's second run builds one recursive finest-complete cover, and measures POOL_SIZE 3–4. A coarser COAST_FINER would cut the wait most; that's a look call for you, I'll bring numbers.
