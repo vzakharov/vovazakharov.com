@@ -17,3 +17,13 @@ Done means: a per-frame trace (cover size, stand-ins, whether one contains the e
 ## lead · 2026-11-09 02:42:46 UTC
 
 Heads-up: bite 2 (#267) is now merged into island/stretch-2 (28d4c8e5) — worlds from one formula, the coast slice retired, tiles built from buildWorldField. Your closing /sync-branch against island/stretch-2 will take it in; re-run your per-frame trace after the sync so the before/after frames are on the code that merges.
+
+## member · 2026-11-09 02:43:49 UTC
+
+Done: #268 onto island/stretch-2 (draft), vet green on the head after syncing with island/stretch-2 (2805e9ea).
+
+Your inference holds. A per-frame Node replay (real selectTiles and eye step, 2 workers nearest-first, measured fillTile times) puts the eye 2 m over the inlet head, turns it for 2 s and climbs for 4 s. Old rule: on a turn, 82 of 120 frames reduce the whole cover to a single level-3 root, and its surface is above the eye, so the frame comes out blank. On a climb, 12 frames come out blank and 24 show a level-3 tile under the eye where the selection wants level 18 (the faceted coast). New rule: 0 blank and 0 coarse frames in both phases. The PR body has the table and sample frames.
+
+Built as briefed: coverAround(selected, shown, has) draws shown, uses coverOf stand-ins only where shown does not reach, and a margin tile straddling shown's edge waits. shown switches over in render and on tile arrival, is reset on moveTo (there is no setWorld on this branch), and evict keeps selected ∪ shown.
+
+The first vet run was red only on prettier for src/island-board/app/config/island/bite2.yaml, which came from the base. Your 2805e9ea fixed it, and the merge brought that in.
