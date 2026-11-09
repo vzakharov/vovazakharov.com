@@ -11,13 +11,11 @@ import type { CoastField } from '../../coast-field';
 import { GROUND_SLOPE, HIGHEST_GROUND, LOWEST_GROUND } from '../../height';
 import { tileId, tileRect, tileSide } from '../../tile';
 import { children, splitRule } from './split';
-import { type Frustum, outside } from './view';
+import { type Framed, outside } from './view';
 
-export type SelectOptions = {
+export type SelectOptions = Framed & {
   /** The coast, when the selection should follow it (`splitRule`). */
   readonly coast?: CoastField;
-  /** The camera's view, when tiles out of it should be dropped. */
-  readonly frustum?: Frustum;
   /**
    * The ground's height at a plane point, metres, which bounds each tile's
    * relief for the horizon and the frustum; the ground's whole range bounds

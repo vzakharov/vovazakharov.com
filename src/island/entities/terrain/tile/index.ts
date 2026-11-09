@@ -1,4 +1,16 @@
 export {
+  capGap,
+  capsApart,
+  CUBE_MAX_LEVEL,
+  CUBE_MIN_LEVEL,
+  cubeTileId,
+  cubeTileSide,
+  faceLattice,
+  type TileCap,
+  tileCap,
+  tileHolds,
+} from './model/cube-tile';
+export {
   MAX_LEVEL,
   MIN_LEVEL,
   SPLIT_RATIO,
