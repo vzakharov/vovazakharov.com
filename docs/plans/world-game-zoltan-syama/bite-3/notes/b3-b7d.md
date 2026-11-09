@@ -9,8 +9,8 @@ c9f60859. Built and checked; not yet looked at in a browser.
   **top corner** grazes the horizon (Vova's decision, superseding the side-edge
   mid-height rule): `grazingPitch(δ, θv, θh)` =
   `θv + asin(sin δ · √(1 + tan²θh · cos²θv))`, the contract's formula (stretch-2
-  30e78ea5), `undefined` where the asin's argument passes 1 (no up hint).
-  `upHintPitch(height, aspect)` feeds it `δ = dipAt(height)`,
+  30e78ea5), `undefined` where the asin's argument passes 1 or `p*` passes 90°
+  (no up hint). `upHintPitch(height, aspect)` feeds it `δ = dipAt(height)`,
   `θv = fovFor(aspect)/2`, `θh = atan(tan θv · aspect)`.
   `lookHint(eye, aspect)`: `undefined` while `look ≠ 0`; `'down'` once
   `pitchAt(h) ≤ GROUND_PITCH`; `'up'` once `pitchFor(h, look) ≤ p*`.
@@ -21,8 +21,8 @@ c9f60859. Built and checked; not yet looked at in a browser.
 - Tests: `look-hint.test.ts` (an independently built top-corner ray at `p*`
   grazes the horizon within 1e-12 from 100 m to 1,000 km on 16:9, 1:1, 1:2;
   `grazingPitch` with `θv = 0` is `asin(sin δ / cos θh)` within 1e-12; no
-  threshold and no hint at 20,000 km; both hints; moved look),
-  `config/en.test.ts` (wording).
+  threshold and no hint at 20,000 km, nor at 3,000 km on 16:9 and 6,000 km on
+  1:1; both hints; moved look), `config/en.test.ts` (wording).
 
 ### Thresholds (look 0)
 
@@ -37,14 +37,14 @@ c9f60859. Built and checked; not yet looked at in a browser.
 
 On a descent (look 0), the hint changes at:
 
-- **16:9** — up 4,235 km → none 2,500 km → **up 1,071 m** → down 20 m.
-- **1:1** — up 9,995 km → none 4,757 km → **up 1,043 m** → down 20 m.
-- **1:2** — up 13,367 km → none 1,738 km → **up 13.3 km** → down 20 m.
+- **16:9** — up 2,873 km → none 2,500 km → **up 1,071 m** → down 20 m.
+- **1:1** — up 5,202 km → none 4,757 km → **up 1,043 m** → down 20 m.
+- **1:2** — up 2,456 km → none 1,738 km → **up 13.3 km** → down 20 m.
 
-The high band is where `p*` exceeds 90° (the corner ray would graze only past
-straight down) while the asin's argument is still under 1: the contract's
-formula shows the hint there, since `pitchAt ≤ 90° < p*`. Vova's wording ("no
-corner ray can graze it") would read as none there; built to the contract.
+`grazingPitch` is also `undefined` where `p*` passes 90° (the coordinator's
+call: a corner ray would graze only past straight down), a clause the contract's
+bullet lacks. The high band left is genuine under the rule: there `p* ≤ 90°` and
+`pitchAt` lies below it, so the corners show the horizon.
 
 ## Call 18 — diagnostics panel
 

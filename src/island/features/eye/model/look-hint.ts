@@ -27,9 +27,9 @@ export function upHintPitch(
 /**
  * The pitch below the level at which the ray through a top corner of a frame
  * with half fields `across` and `up` grazes a horizon `dip` below the level,
- * radians: `θv + asin(sin δ · √(1 + tan²θh · cos²θv))`. `undefined` where the
- * asin's argument passes 1: no pitch puts a corner ray on the horizon, the
- * planet fitting in the frame.
+ * radians: `θv + asin(sin δ · √(1 + tan²θh · cos²θv))`. `undefined` where no
+ * pitch up to straight down puts a corner ray on the horizon — the asin's
+ * argument past 1, or the pitch past `π/2` — the planet fitting in the frame.
  */
 export function grazingPitch(
   dip: number,
@@ -37,7 +37,9 @@ export function grazingPitch(
   across: number,
 ): number | undefined {
   const share = Math.sin(dip) * Math.hypot(1, Math.tan(across) * Math.cos(up));
-  return share > 1 ? undefined : up + Math.asin(share);
+  if (share > 1) return undefined;
+  const pitch = up + Math.asin(share);
+  return pitch > Math.PI / 2 ? undefined : pitch;
 }
 
 /** The hint `eye` earns on a screen `aspect` wide per unit of height, if any. */

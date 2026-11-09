@@ -94,6 +94,16 @@ describe('lookHint', () => {
     }
   });
 
+  it('says nothing where a corner ray would graze only past straight down', () => {
+    for (const [height, aspect] of [
+      [3_000_000, LANDSCAPE],
+      [6_000_000, SQUARE],
+    ] as const) {
+      assert.equal(upHintPitch(height, aspect), undefined);
+      assert.equal(lookHint({ height, look: 0 }, aspect), undefined);
+    }
+  });
+
   it('says nothing once the look is moved', () => {
     assert.equal(lookHint({ height: 2, look: 0.1 }, LANDSCAPE), undefined);
     assert.equal(lookHint({ height: 100, look: -0.1 }, LANDSCAPE), undefined);
