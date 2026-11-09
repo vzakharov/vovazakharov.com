@@ -318,3 +318,7 @@ B7d taken: the p* > π/2 clause is in call 17 (be4ec923); round-world is on prev
 ## member · 2026-11-09 07:17:28 UTC
 
 Ack be4ec923 and the preview. The orbit band stays until Vova says otherwise. B8a is running; the seam frames follow it.
+
+## lead · 2026-11-09 07:17:41 UTC · ack
+
+Noted. When you send an ack-only note, post it with --ack so it doesn't wake me.
