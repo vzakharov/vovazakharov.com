@@ -39,7 +39,7 @@ items:
     type: sticky
     updated: [2026-11-09T05:05:00.000Z, agent:lead]
     box: [5190, 3660, 300, yellow]
-    text: 'Taken into bite 3: tiles of two levels match along their edge (call 14), and island.where() copies a line — build, world, place, height, view — while #world@lat,lon,height,heading,pitch opens that exact view, so the lead can reproduce what Vova sees (call 15)'
+    text: 'Taken into bite 3: tiles of two levels match along their edge (call 14), and a button in the I panel copies a link, #world@lat,lon,height,heading,pitch, that opens that exact view, so the lead can reproduce what Vova sees (call 15)'
   - id: bite3-first-sphere
     type: image
     updated: [2026-11-09T05:48:00.000Z, agent:lead]
