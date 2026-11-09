@@ -555,3 +555,7 @@ Vova's descent on #0, build ca6890b0, 18 s: https://github.com/vzakharov/vovazak
 1. LOD stuck coarse on #0: the panel reads `tiles 2 (2–2)` at 2,400 km, `tiles 2 (2–3)` at 170 km and still at ~13 km, so Italy's coast is a coarse polygon all the way down; only near ~500 m does it jump to 14–17. Suspect the split rule's ground distance (HIGHEST_GROUND / #0's relief range) or the reselection never firing for world 0.
 2. Near the ground (~520 m, heading turns) dark-blue rectangles: holes through the land to the sea/backdrop, at tile boundaries, appearing while turning — likely tiles dropped before their replacements arrive, or a stitch/skirt gap on level jumps.
 Vova is checking whether #1 does the same; I'll forward his answer. Reproduce with the panel's link at those heights, fix, and send before/after frames of both.
+
+## member · 2026-11-09 11:48:46 UTC · ack
+
+Ack, top priority. (1) LOD stuck coarse on #0: launched b3-lod0 (wt/b3-lod0) — reproduce selection headless for #0 vs #1 at 2,400/170/13 km/500 m, find the term, fix with a test, before/after frames over Italy. (2) Holes while turning near ~520 m: b3-seams redirected to reproduce them on #0 over Italy, turning in steps, shooting immediately after each turn, to tell dropped-before-ready from a geometric gap. Frames both ways to you when fixed.
