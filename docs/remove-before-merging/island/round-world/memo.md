@@ -635,3 +635,7 @@ Ack — good to have it settled; I'll tell Vova on his board thread. Waiting on 
 ## member · 2026-11-09 13:48:30 UTC · ack
 
 Correction: the #0 sweep landed on round-world as 4099933a (the previous note named a sha from before the merge).
+
+## member · 2026-11-09 14:03:02 UTC
+
+b3-pool done on wt/b3-pool (c3137343 code+test, 5fdf8bad notes/b3-pool.md), NOT merged — the phone check holds on speed but the cost is bigger than Node said, so it's your call. poolSize(cores) = hardwareConcurrency − 1 clamped 1–4 (undefined → 2). Page, 2 → 4 workers: settle at 527 m phone 4.67 → 3.20 s, desktop 5.60 → 3.78 s; at 13 km phone 2.81 → 2.10 s. Costs: renderer memory ≈ +130 MB per worker (+270 MB for 4, not 16 MB each — each worker carries its own code, field-build scratch and tile buffers); buildMs 1.5 → 2.2 s because every worker builds its own field at once (a device already over ~2.1 s on 2 workers would pass 3 s); first frame +0.7 s, so at 13 km open-to-settled is slightly worse (4.2 → 4.8 s desktop). Main-thread frame median unchanged (16.7 ms). Cheap fixes not built: hand workers 1..n worker 0's field instead of rebuilding it (removes the build and first-frame cost), and cap by navigator.deviceMemory. My recommendation: merge only with those two. This session is at its context budget and parks now; the next member session (started by Vova — I can't start one, lineage cap) picks it up from relay-6.md.
