@@ -6,16 +6,13 @@ import {
   type Vec3,
 } from '@/island/shared/globe';
 
-import { sunToward } from './sun';
+const DEGREE = Math.PI / 180;
 
 /**
  * The opening's sun stands low, so a gentle slope turned toward it is lit
- * several times brighter than one turned away; and it comes from the
- * north-west — the top left of a screen looking north — where light reads as
- * raised relief rather than sunken.
+ * several times brighter than one turned away.
  */
 export const SUN_ELEVATION = 20;
-const SUN_AZIMUTH = 315;
 
 /** Hours in the game's day: one turn of the planet under the sun. */
 export const DAY_HOURS = 24;
@@ -24,23 +21,21 @@ export const DAY_HOURS = 24;
 export type Heavens = { readonly sun: Vec3; readonly moon: Vec3 };
 
 /**
- * The sun and moon `hours` into a world that opens over `opening`. Both are
- * fixed in space and the planet turns under them, eastward about its `+Y`
- * axis, once a `DAY_HOURS` day; the scene turns them instead, the same thing on
- * screen with no tile moved. At hour 0 the sun stands at `SUN_ELEVATION` from
- * the north-west over the opening: its chosen low sun, not one overhead.
+ * The sun and moon `hours` into a world that opens over `opening`. The sun
+ * stands over the equator, as at an equinox, so every place has twelve hours
+ * of day and twelve of night; both are fixed in space and the planet turns
+ * under them, eastward about its `+Y` axis, once a `DAY_HOURS` day — the scene
+ * turns them instead, the same thing on screen with no tile moved. At hour 0
+ * it is afternoon over the opening, the sun `SUN_ELEVATION` up west of its
+ * meridian; an opening nearer a pole than 90° − `SUN_ELEVATION` never sees it
+ * that high and takes its highest, noon.
  */
 export function heavensAt(opening: LatLon, hours: number): Heavens {
-  const [x, y, z] = sunToward(
-    SUN_ELEVATION,
-    SUN_AZIMUTH,
-    latLonToUnit(opening),
-  );
+  const reach = Math.sin(SUN_ELEVATION * DEGREE) / Math.cos(opening.lat);
+  const afternoon = Math.acos(Math.min(1, reach));
   // The planet turning east carries the sun west: its longitude falls.
   const turn = (2 * Math.PI * hours) / DAY_HOURS;
-  const c = Math.cos(turn);
-  const s = Math.sin(turn);
-  const sun: Vec3 = [x * c - z * s, y, z * c + x * s];
+  const sun = latLonToUnit({ lat: 0, lon: opening.lon - afternoon - turn });
   return { sun, moon: scaled(sun, -1) };
 }
 
