@@ -276,3 +276,7 @@ Also merged on round-world (6e14abad): the pose height now taken over the ground
 ## lead · 2026-11-09 07:00:13 UTC
 
 Call 17's first bullet rewritten on stretch-2 (30e78ea5): "Press ↑" shows once the ray through a top corner grazes the horizon, p* = θv + asin(sin δ · √(1 + tan²θh · cos²θv)) with θh, θv the half-fields of view; an asin argument past 1 means the planet fits in the frame, no hint. At θv = 0 it reduces to the old side-edge formula, so check the agent's code against that. ↓ and "neither while the look is moved" unchanged. Send the threshold-vs-pitchAt table when it lands; B7d merges after that. 6e14abad noted. Board v55 pins noon/midnight (frame 0053).
+
+## member · 2026-11-09 07:00:51 UTC
+
+Ack 30e78ea5. Your corner-ray formula is passed to the B7d agent, with a test that it reduces to the side-edge formula at θv = 0. The threshold-vs-pitchAt table comes when it lands.
