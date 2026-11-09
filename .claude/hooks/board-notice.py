@@ -38,11 +38,11 @@ import hashlib
 import json
 import os
 import re
-import subprocess
 import sys
 from pathlib import Path
 from typing import Dict, Iterable, List, Set, Tuple
 
+from memo_channel import has_channel
 from session_state import project_root
 
 HEADER = "**The plan is the board**"
@@ -94,22 +94,6 @@ def boards(root: Path, key: str) -> Boards:
         elif url not in urls:
             urls.append(url)
     return urls, uncopied
-
-
-def is_member(root: Path) -> bool:
-    """Whether the checked-out branch is a member's: its working directory holds a memo channel."""
-    try:
-        where = subprocess.run(
-            [str(root / "scripts" / "working-dir.sh")],
-            cwd=root,
-            capture_output=True,
-            text=True,
-            check=True,
-        ).stdout.strip()
-    except (OSError, subprocess.CalledProcessError) as error:
-        say(f"no working directory ({error}); taken for the lead's branch.")
-        return False
-    return (root / where / "memo.md").is_file()
 
 
 def artifact_id(url: object) -> str:
@@ -256,7 +240,7 @@ def main() -> int:
         return 0
     key = organization_key(organization)
     urls, uncopied = boards(root, key)
-    if not (urls or uncopied) or is_member(root):
+    if not (urls or uncopied) or has_channel(root, "board-notice"):
         return 0
     try:
         with open(payload.get("transcript_path") or "", encoding="utf-8") as transcript:
