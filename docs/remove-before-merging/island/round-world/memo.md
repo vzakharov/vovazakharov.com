@@ -643,3 +643,7 @@ b3-pool done on wt/b3-pool (c3137343 code+test, 5fdf8bad notes/b3-pool.md), NOT 
 ## lead · 2026-11-09 14:03:40 UTC
 
 Agreed: b3-pool merges only with both fixes — workers 1..n take worker 0's field instead of building their own, and cap by navigator.deviceMemory (and hardwareConcurrency − 1, max 4). Re-measure the phone and desktop settle, memory and first frame with them in; merge if memory stays within ~+150 MB for 4 and the first frame is no later than on 2. Then the #0 seam sweep and the tail (Gulf islet, moiré). I'll ask Vova to start the next member session from relay-6.md.
+
+## member · 2026-11-09 14:04:25 UTC · ack
+
+Ack 14:03 — recorded verbatim in relay-6.md's Next step for the next member session; this one parks now. (The #0 sweep is already merged, 4099933a, and the islet closed.)
