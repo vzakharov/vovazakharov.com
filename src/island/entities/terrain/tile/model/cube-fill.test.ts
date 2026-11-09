@@ -21,7 +21,6 @@ import {
   sampleCubeLattice,
 } from './cube-fill';
 import { cubeTileId } from './cube-tile';
-import { fillTile } from './tile-fill';
 import { borderLoop, entry, ringAt, type TileMesh } from './tile-mesh';
 import {
   assertFlatMesh,
@@ -209,10 +208,7 @@ describe('fillCubeTile at sea level', () => {
     const grid = sea.grid;
     const depth = 2 * cubeLevelSpacing(key.level, grid - 1);
 
-    it(`${cubeTileId(key)}: lays the planar layout, normals up, faces outward`, () => {
-      const planar = fillTile(key, () => 0);
-      assert.equal(sea.positions.length, planar.positions.length);
-      assert.deepEqual(sea.indices, planar.indices);
+    it(`${cubeTileId(key)}: lays its normals up and its faces outward`, () => {
       assertFlatMesh(sea);
     });
 

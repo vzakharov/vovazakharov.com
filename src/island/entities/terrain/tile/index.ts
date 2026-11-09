@@ -15,16 +15,5 @@ export {
   tileCap,
   tileHolds,
 } from './model/cube-tile';
-export {
-  MAX_LEVEL,
-  MIN_LEVEL,
-  SPLIT_RATIO,
-  TILE_GRID,
-  TILE_SQUARE,
-  tileId,
-  type TileKeyed,
-  tileRect,
-  tileSide,
-} from './model/tile';
-export { fillTile } from './model/tile-fill';
+export { SPLIT_RATIO, TILE_GRID, type TileKeyed } from './model/tile';
 export { borderLoop, tileBuffers, type TileMesh } from './model/tile-mesh';

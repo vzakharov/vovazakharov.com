@@ -6,29 +6,19 @@ export {
   type SphereField,
 } from './coast-field';
 export { type CoastDistance, heightAt, heightAtSphere } from './height';
-export {
-  cubeDetailCut,
-  detailCut,
-  frustumOf,
-  selectCubeTiles,
-  selectTiles,
-} from './quadtree';
+export { cubeDetailCut, frustumOf, selectCubeTiles } from './quadtree';
 export {
   borderLoop,
   capGap,
   CUBE_MIN_LEVEL,
   cubeTileId,
   fillCubeTile,
-  fillTile,
-  MIN_LEVEL,
   TILE_GRID,
   tileBuffers,
   tileCap,
   tileHolds,
-  tileId,
   type TileKeyed,
   type TileMesh,
-  tileRect,
 } from './tile';
 export {
   analyze,
