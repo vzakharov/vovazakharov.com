@@ -94,6 +94,36 @@ describe('coverAround', () => {
     );
   });
 
+  it('refines a shown tile once every selected tile inside it is in hand', () => {
+    // The descent's case: the shown tile is the opening's, coarse.
+    const has = holding(key(2, 0, 0), ...shown);
+    assert.deepEqual(ids(coverAround(shown, [key(2, 0, 0)], has)), ids(shown));
+  });
+
+  it('refines a shown tile through held stand-ins finer than it', () => {
+    const deep = [key(6, 0, 0), key(6, 1, 0), key(5, 1, 1), key(4, 1, 1)];
+    const has = holding(key(2, 0, 0), key(4, 0, 0), key(4, 1, 1));
+    assert.deepEqual(ids(coverAround(deep, [key(2, 0, 0)], has)), [
+      'pz/4/0/0',
+      'pz/4/1/1',
+    ]);
+  });
+
+  it('keeps a shown tile while a selected tile inside it has no finer stand-in', () => {
+    const has = holding(key(2, 0, 0), key(4, 0, 0));
+    assert.deepEqual(
+      ids(coverAround([key(4, 0, 0), key(4, 1, 1)], [key(2, 0, 0)], has)),
+      ['pz/2/0/0'],
+    );
+  });
+
+  it('draws a selected tile holding shown ones once it is in hand', () => {
+    const has = holding(key(3, 0, 0), ...shown);
+    assert.deepEqual(ids(coverAround([key(3, 0, 0)], shown, has)), [
+      'pz/3/0/0',
+    ]);
+  });
+
   it('stands an ancestor in beyond the shown tiles when it overlaps none', () => {
     const far = [key(5, 12, 0), key(5, 13, 0)];
     const has = holding(...shown, key(4, 6, 0), key(3, 0, 0));
