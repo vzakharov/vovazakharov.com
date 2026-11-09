@@ -5,9 +5,11 @@ import {
   type GroundAt,
   headingOf,
   heightOverGround,
+  seaHeightOf,
 } from '@/island/features/eye';
 
 import type { Pose } from './place-hash';
+import type { Placed } from './where-line';
 
 const DEGREE = Math.PI / 180;
 
@@ -28,6 +30,17 @@ export function poseOfEye(eye: Eye, hours: number, groundAt: GroundAt): Pose {
     hours,
   };
 }
+
+/** Where `eye` stands in `world` as a `Where` spells it: its place, and its height over the sea. */
+export const placeOfEye = (
+  world: string,
+  eye: Eye,
+  hours: number,
+  groundAt: GroundAt,
+): Placed => ({
+  place: { world, pose: poseOfEye(eye, hours, groundAt) },
+  seaHeight: seaHeightOf(eye),
+});
 
 /**
  * An eye at rest in `pose`, its floor on the ground, so it stands as high over

@@ -23,8 +23,6 @@ export type IslandPlayHook = {
   backend: () => string;
   /** Ms the tile worker took to build the world's field, once `ready` resolves. */
   buildMs: () => number;
-  /** The where-line for the view on screen, as `P` copies it, once `ready` resolves. */
-  where: () => string;
 };
 
 /** The `window` property the hook sits on. */

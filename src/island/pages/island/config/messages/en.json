@@ -14,8 +14,7 @@
       { "keys": "Wheel", "does": "climb, descend" },
       { "keys": "[ ]", "does": "time back, forward (Shift: faster)" },
       { "keys": "T", "does": "run, pause time" },
-      { "keys": "P", "does": "copy where you are" },
-      { "keys": "I", "does": "diagnostics" }
+      { "keys": "I", "does": "diagnostics, and a link to this view" }
     ],
     "touch": [
       { "keys": "Drag", "does": "move" },
@@ -24,7 +23,12 @@
       { "keys": "Two-finger drag", "does": "look up, down" }
     ]
   },
-  "diagnostics": "Diagnostics",
+  "diagnostics": {
+    "label": "Diagnostics",
+    "copy": "Copy a link to this view",
+    "copied": "Link copied",
+    "failed": "Couldn't copy the link; here it is to copy by hand:"
+  },
   "look": {
     "up": {
       "keys": "Press ↑ to look up",
@@ -34,9 +38,5 @@
       "keys": "Press ↓ to look down",
       "touch": "Drag two fingers down to look down"
     }
-  },
-  "where": {
-    "copied": "Where you are is copied, and its link is in the address bar",
-    "failed": "Couldn't copy where you are; its link is in the address bar"
   }
 }

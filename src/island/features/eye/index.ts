@@ -8,6 +8,8 @@ export {
   MAX_HEIGHT,
   MIN_HEIGHT,
   openingOf,
+  pointOf,
+  seaHeightOf,
   step,
   STILL,
   withHeading,

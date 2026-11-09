@@ -6,13 +6,19 @@ import {
   type Pose,
 } from './place-hash';
 
-/** What the where-line says: the build, the place, the hour and the tiles drawn. */
-export type Where = {
+/** Where the eye stands: its place, and its height over the sea. */
+export type Placed = {
+  readonly place: Place;
+  /** Metres from the sea's level up to the eye, where the pose's height counts from the ground. */
+  readonly seaHeight: number;
+};
+
+/** What reproduces a view: the build, the place, the hour and the tiles drawn. */
+export type Where = Placed & {
   /** The build's commit. */
   readonly commit: string;
   /** The page's address before the hash. */
   readonly page: string;
-  readonly place: Place;
   /** The sun's time of day under the eye, hours past its midnight. */
   readonly solarHours: number;
   /** Levels of the drawn tiles under the eye, and of every tile drawn. */
@@ -44,15 +50,19 @@ function tilesOf({ under, drawn }: Where['tiles']): string {
   return `tiles ${here} (${String(all[0])}–${String(all.at(-1))})`;
 }
 
-const poseOf = (pose: Pose, solarHours: number) => [
+const poseOf = (pose: Pose, seaHeight: number, solarHours: number) => [
   `lat ${fixed(pose.lat, PLACES.lat)}° lon ${fixed(pose.lon, PLACES.lon)}°`,
-  `height ${fixed(pose.height, PLACES.height)} m`,
+  `height ${fixed(pose.height, PLACES.height)} m over ground, ${fixed(seaHeight, PLACES.height)} m over sea`,
   `heading ${fixed(pose.heading, PLACES.heading)}°`,
   `pitch ${signed(pose.pitch, PLACES.pitch)}° (look)`,
   pose.hours === undefined
     ? `${clock(solarHours)} sun time`
     : `${clock(solarHours)} sun time (t ${fixed(pose.hours, PLACES.hours)} h)`,
 ];
+
+/** The link that reopens the view: the page, its world and pose in the hash. */
+export const shareLink = (page: string, place: Place) =>
+  `${page}${formatPlace(place)}`;
 
 /**
  * What reproduces a view, a field each: the build, the link that reopens it,
@@ -63,14 +73,16 @@ export const whereFields = ({
   commit,
   page,
   place,
+  seaHeight,
   solarHours,
   tiles,
-}: Where) => [
-  `island ${commit} ${page}${formatPlace(place)}`,
-  `world ${place.world}`,
-  ...(place.pose === undefined ? [] : poseOf(place.pose, solarHours)),
-  tilesOf(tiles),
-];
-
-/** `whereFields` on one line, to paste. */
-export const whereLine = (where: Where) => whereFields(where).join(' · ');
+}: Where) => {
+  return [
+    `island ${commit} ${shareLink(page, place)}`,
+    `world ${place.world}`,
+    ...(place.pose === undefined
+      ? []
+      : poseOf(place.pose, seaHeight, solarHours)),
+    tilesOf(tiles),
+  ];
+};

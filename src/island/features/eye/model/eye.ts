@@ -184,13 +184,19 @@ export function eyeAt(place: Opening, groundAt: GroundAt): Eye {
   };
 }
 
+/** Metres from the sea's level up to `eye`. */
+export const seaHeightOf = (eye: Eye) => eye.floor + eye.height;
+
+/** Where `eye` is in space, in world metres from the planet's centre. */
+export const pointOf = (eye: Eye) => scaled(eye.at, R + seaHeightOf(eye));
+
 /**
  * Metres from the surface under `eye` up to it, where `eye.height` counts from
  * the floor, which lags the surface while it eases; `eyeAt` at this height
  * puts an eye back at the same altitude.
  */
 export const heightOverGround = (eye: Eye, groundAt: GroundAt) =>
-  eye.floor + eye.height - surfaceAt(groundAt, eye.at);
+  seaHeightOf(eye) - surfaceAt(groundAt, eye.at);
 
 /** `eye` set to `height` at once, no glide: a jump rather than a fall. */
 export function withHeight(eye: Eye, height: number): Eye {

@@ -1,6 +1,6 @@
-import { R, scaled, sum, unit, type Vec3 } from '@/island/shared/globe';
+import { scaled, sum, unit, type Vec3 } from '@/island/shared/globe';
 
-import type { Eye } from './eye';
+import { type Eye, pointOf } from './eye';
 import { pitchAt, pitchFor } from './look';
 import { tangent } from './turns';
 
@@ -62,12 +62,7 @@ export function poseFrom(
  * by its look, within the limits `pitchFor` sets.
  */
 export function poseOf(eye: Eye, aspect: number): Pose {
-  const pose = poseFrom(
-    scaled(eye.at, R + eye.floor + eye.height),
-    eye.ahead,
-    eye.height,
-    aspect,
-  );
+  const pose = poseFrom(pointOf(eye), eye.ahead, eye.height, aspect);
   const raise = pitchAt(eye.height) - pitchFor(eye.height, eye.look);
   const cos = Math.cos(raise);
   const sin = Math.sin(raise);

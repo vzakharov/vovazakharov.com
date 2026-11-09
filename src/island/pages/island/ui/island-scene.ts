@@ -10,7 +10,7 @@ import {
 
 import type { CanDispose } from '@/kernel/shared/typings';
 
-import { R, unit } from '@/island/shared/globe';
+import { length, R, sub, unit } from '@/island/shared/globe';
 import {
   type CoastDistance,
   heightAtSphere,
@@ -29,6 +29,7 @@ import {
   MAX_HEIGHT,
   NO_HINT,
   openingOf,
+  pointOf,
   poseOf,
   step,
   STILL,
@@ -43,8 +44,8 @@ import {
   OPENING_CLOCK,
   solarHours,
 } from '../lib/day';
-import { eyeOfPose, poseOfEye } from '../lib/eye-pose';
-import { smoothedFrameMs } from '../lib/frame-time';
+import { eyeOfPose, placeOfEye } from '../lib/eye-pose';
+import { type Pace, paced } from '../lib/pace';
 import type { Pose } from '../lib/place-hash';
 import { skyColour } from '../lib/sky-colour';
 import { startTilePool, type TilePool } from '../lib/tile-pool';
@@ -56,8 +57,8 @@ import { bindTimeKeys } from './time-keys';
 export type IslandScene = CanDispose & {
   /** Resolves once the first frame is drawn. */
   readonly ready: Promise<void>;
-  /** Steps the eye `dt` seconds by the player's input (none under play) and draws. */
-  readonly frame: (dt: number) => void;
+  /** Steps the eye `dt` seconds by the player's input (none under play) and draws; returns the metres it moved. */
+  readonly frame: (dt: number) => number;
   /** Puts the eye `m` metres up; resolves once every tile it then selects is drawn. */
   readonly setHeight: (m: number) => Promise<void>;
   /** Puts the eye `m` metres over latitude `lat`, longitude `lon` (degrees, east positive), its heading kept, resolving as `setHeight` does. */
@@ -79,8 +80,8 @@ export type IslandScene = CanDispose & {
   readonly placeAt: (pose: Pose) => void;
   /** Where the eye stands now, in the world on screen; throws until ready. */
   readonly where: () => Where;
-  /** Ms between drawn frames, smoothed; none before the first frame, nor under play. */
-  readonly frameMs: () => number | undefined;
+  /** The drawn frames' pace, smoothed; none before the first frame, nor under play. */
+  readonly pace: () => Pace | undefined;
 };
 
 /** Closest the camera sees: the eye is never under two metres up. */
@@ -261,8 +262,9 @@ export function mountIslandScene(
   /** Seconds the frames have stepped, the clock the look hint's latch reads. */
   let stepped = 0;
   const frame = (dt: number) => {
-    if (eye === null) return;
+    if (eye === null) return 0;
     stepped += dt;
+    const from = eye;
     eye = step(eye, play ? STILL : controls.read(), dt, groundAt);
     if (timeKeys !== null) {
       const keys = timeKeys.read();
@@ -274,14 +276,15 @@ export function mountIslandScene(
     const latched = latchHint(hint, earned, stepped);
     if (latched.showing !== hint.showing) onLookHint(latched.showing);
     hint = latched;
+    return length(sub(pointOf(eye), pointOf(from)));
   };
 
   let loop = 0;
   let last = 0;
-  let frameMs: number | undefined;
+  let pace: Pace | undefined;
   const tick = (now: number) => {
-    frameMs = smoothedFrameMs(frameMs, now - last);
-    frame(Math.min(0.1, (now - last) / 1000));
+    const seconds = Math.min(0.1, (now - last) / 1000);
+    pace = paced(pace, { ms: now - last, metres: frame(seconds), seconds });
     last = now;
     loop = requestAnimationFrame(tick);
   };
@@ -374,12 +377,12 @@ export function mountIslandScene(
       return {
         commit: process.env.NEXT_PUBLIC_COMMIT ?? 'dev',
         page: `${location.origin}${location.pathname}`,
-        place: { world, pose: poseOfEye(eye, clock.hours, groundAt) },
+        ...placeOfEye(world, eye, clock.hours, groundAt),
         solarHours: solarHours(sun, eye.at),
         tiles: view.levels(eye.at),
       };
     },
-    frameMs: () => frameMs,
+    pace: () => pace,
     dispose: () => {
       disposed = true;
       cancelAnimationFrame(loop);

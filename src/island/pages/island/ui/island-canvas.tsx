@@ -13,25 +13,18 @@ import {
 
 import COPY from '../config/messages/en.json';
 import { parsePlace } from '../lib/place-hash';
-import { installDiagnostics } from './diagnostics';
+import { installDiagnostics, type Panel } from './diagnostics';
+import { DiagnosticsPanel } from './diagnostics-panel';
 import classes from './island.module.scss';
 import { mountIslandScene } from './island-scene';
 import { installPlayHook } from './play-hook';
-import { type Copied, installWhere } from './where';
-
-/** How long the where-line's confirmation stays up. */
-const CONFIRM_MS = 1800;
 
 /** The canvas the island's scene draws into, filling the viewport. */
 export function IslandCanvas({ label }: Labeled) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [failure, setFailure] = useState<Error | null>(null);
-  // Each copy is a fresh object, so a second `P` restarts the confirmation.
-  const [copied, setCopied] = useState<Copied | null>(null);
   const [hint, setHint] = useState<HintShowing | undefined>();
-  const [diagnostics, setDiagnostics] = useState<readonly string[] | null>(
-    null,
-  );
+  const [panel, setPanel] = useState<Panel | null>(null);
   // Thrown while rendering, so the route's error boundary shows it.
   if (failure !== null) throw failure;
 
@@ -56,31 +49,15 @@ export function IslandCanvas({ label }: Labeled) {
       if (next.pose !== undefined) scene.placeAt(next.pose);
     };
     globalThis.addEventListener('hashchange', onHashChange);
-    const uninstallWhere = installWhere(scene, element, setCopied);
-    const uninstallDiagnostics = installDiagnostics(
-      scene,
-      element,
-      setDiagnostics,
-    );
+    const uninstallDiagnostics = installDiagnostics(scene, element, setPanel);
     const uninstallPlay = play ? installPlayHook(scene) : null;
     return () => {
       globalThis.removeEventListener('hashchange', onHashChange);
-      uninstallWhere();
       uninstallDiagnostics();
       uninstallPlay?.();
       scene.dispose();
     };
   }, []);
-
-  useEffect(() => {
-    if (copied === null) return;
-    const hide = setTimeout(() => {
-      setCopied(null);
-    }, CONFIRM_MS);
-    return () => {
-      clearTimeout(hide);
-    };
-  }, [copied]);
 
   return (
     <>
@@ -90,13 +67,6 @@ export function IslandCanvas({ label }: Labeled) {
         aria-label={label}
         tabIndex={0}
       />
-      <output className={classes['where']} aria-live="polite">
-        {copied === null
-          ? null
-          : copied.ok
-            ? COPY.where.copied
-            : `${COPY.where.failed} (${copied.error.message})`}
-      </output>
       <output className={classes['lookHint']} aria-live="polite">
         {hint === undefined ? null : (
           // Keyed by the showing, so each one starts its fade afresh.
@@ -117,11 +87,7 @@ export function IslandCanvas({ label }: Labeled) {
           </span>
         )}
       </output>
-      {diagnostics === null ? null : (
-        <pre className={classes['diagnostics']} aria-label={COPY.diagnostics}>
-          {diagnostics.join('\n')}
-        </pre>
-      )}
+      {panel === null ? null : <DiagnosticsPanel {...panel} />}
     </>
   );
 }
