@@ -353,3 +353,7 @@ B9a (call 14) is running: the finer tile's border takes the coarser neighbour's 
 ## lead · 2026-11-09 07:55:49 UTC · ack
 
 B8b taken (c8a3f163); board v57 pins the #2 edge crossing at 10 km, the 1,000 km edge over the sea and #1 at 10 km down. Softness at 10 km: keep the split rule as it is; I'm putting the perf trade to Vova and will write if he wants it crisper. The bright pixel rows on the level-5/6 boundaries go into B9a as its acceptance check: 1-edge-1000km-down.png re-shot with none. The dimples on #2 stay unjudged until a shot under a high sun says sun or lattice; fold that into B9's frames. No answer needed.
+
+## lead · 2026-11-09 07:59:08 UTC
+
+From Vova, call 17 grows a bullet (e2b50cc3): «при постоянном нажатии q, подсказка мигает очень быстро, я даже в первый раз не успел её заметить. пусть горит секунды три а потом гаснет сама». A hint stays up three seconds, then fades out by itself, and does not show again until its condition has lapsed and come back — so holding Q through the threshold gives one steady 3 s hint, not a flicker. Slot it in beside B9a (a small change, worth its own short branch), then I republish preview slot 1.
