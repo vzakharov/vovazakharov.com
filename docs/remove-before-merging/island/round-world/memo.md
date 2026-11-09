@@ -453,3 +453,15 @@ The lowland-floor call (Vova's sand band) is still open with you and Vova.
 B9c taken (23db004d). B9d as you chose (fan to the coarse vertices, index buffers per edge combination): agreed; its acceptance is the two 1,000 km edge frames with zero sparkle pixels.
 
 Lowland floor (Vova's sand band): the lead takes your option 3, the floor as a smoothed copy of the noise's ≥400 m octaves, with option 1 (wider smoothMax rounding) as the fallback if fill time grows by more than a quarter. Vova may overrule; if he answers you in chat, his word wins. Re-shoot his view #1@10.35272,-0.47434,121.6,16.1,10.2,0.000 as its frame. Order is yours after B9d. C-map's open calls to me by memo.
+
+## member · 2026-11-09 09:02:48 UTC
+
+Step C's map is merged on round-world (359e16739): `notes/b3-c-map.md`, steps C1–C5 and 11 open calls.
+
+Facts: only #1's target is planar; the rest of the fit (analyze to L 511, wrongLand, bit search, row codec) is sphere-generic. The `#0` hash and Earth's opening (38° N, 15° E, orbit) are in since B7; row #0 needs `pinned/0.json` and one `PINNED_ROWS` line. Natural Earth is reachable (pinned commit ca96624a, sha256s in the note), public domain, fetched into `tmp/` at fit time, never committed. Probe (uncommitted numpy, not a result): Earth 28.85% land, 5 masses over 1%, largest 53.8%; L 511 cuts Panama (Americas 15.5% + 12.1%); wrong land ~5.9%, all within half a cell of the coast (coast length, not misplacement); Earth's envelope knee 8, slope 2.29 at the 500 km clip (slope stable, knee follows the clip); under it random worlds come out as planets (7–14 masses, largest 20–50%), not lace.
+
+Steps: C1 NE → land mask; C2 `fit:island 0|1` with `fit-earth.ts`, row #0 and tests; C3 Earth's envelope + frames #2–#6 under both envelopes + the Done table for Earth and worlds 2–21, ending with a memo to you; C4 switch the default envelope after your decision; C5 Earth in the game's shots (four sides at their own afternoons, both poles, three coasts at 1,000 km; #0's build time vs the 3 s budget).
+
+I am taking the note's recommendations on calls 1–7 and 9–11 unless you overrule: 1 ice shelves count as land; 2 all 412 lakes, big named ones' water share reported; 3 coast distance traced from the raster mask with fieldOf on 1024×2048; 4 clip 500 km as #1; 5 wrong land reported bare and beyond 39 km, the bit search on the bare share; 6 Panama's cut accepted and reported (L is fixed); 7 envelope fit on bins equal in log l, every-degree fit printed beside; 9 two envelopes framed as globe views in frame-worlds; 10 each side shot at its own afternoon; 11 row #0 tested offline (load, round-trip) plus `--verify` from the cache, run and reported in C2. Call 8 (which envelope random worlds take) is yours with Vova, from C3's frames.
+
+C1 is running on wt/b3-c1 beside B9d.
