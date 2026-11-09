@@ -45,6 +45,12 @@ items:
     box: [2625.720312037562, 105.90156333340494, 200, yellow]
     text: ''
     deleted: true
+  - id: bite3-coast-finer
+    type: image
+    updated: [2026-11-09T13:40:00.000Z, agent:lead]
+    box: [6760, 4420, 620]
+    src: images/bite3-coast-finer.webp
+    text: 'How much finer the coast is cut, on #0 over Italy (columns: as now, one step coarser, two). Top two rows 13 km: coarser saws the waterline and turns the S-islet into two ovals, then into nothing. Bottom rows 527 m: the dunes go soft, then smooth. Coarser would cut the wait by 15–40%; more workers (2 → 4) halve it at no cost to the look, so the coast stays and the workers grow'
   - id: bite3-holes-fixed
     type: image
     updated: [2026-11-09T13:15:00.000Z, agent:lead]
