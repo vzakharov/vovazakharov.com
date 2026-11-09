@@ -166,3 +166,41 @@ My proposed reading, sent to him for confirmation of the two numbers:
 ## lead · 2026-11-09 05:46:46 UTC · ack
 
 Thanks — both clear. Correction: the lead is not relaying after all (leads run to 300k), so I pin the frames.
+
+## member · 2026-11-09 05:48:49 UTC
+
+B7b (call 12) landed on island/round-world (2b0e6d7d): pure lib/day.ts (sun fixed in space, full moon opposite, the planet turned once per 24 h about the pole), cool moonlight and a night sky fill that never goes black, skyColour by day, [ / ] scrub (Shift ×6), T runs/pauses (one day per 20 min), setTime on the hook, a test that the time keys take no eye key; island-scene.ts split to 309 lines (tile-view.ts). Gates green. Noon/midnight frames not yet taken.
+
+A finding against S15 that needs your call. Today's sun (20° up from the NW over the opening) plus the pole as the turning axis fixes the sun's declination at ~45.5° N (#1) / 47.2° N (#0): a high-summer sun far beyond Earth's 23.4°.
+- #1's opening (10° N) gets day and night, but t = 0 is a summer evening, not noon.
+- #0's opening (38° N) never gets dark: the sun bottoms out at −4.8°, deep twilight.
+- Everything north of ~45° N has the midnight sun, so Earth's Europe never sees the full moon over a dark side.
+
+Options:
+(a) Keep S15 as it is (the above).
+(b) Equinox sun (declination 0), t = 0 the afternoon hour when it stands 20° up over the opening: every place gets 12 h of day and 12 of night, both poles sit on the terminator, and #1 opens at the same 20° sun from the west (bearing ~266°) instead of the NW (315°), so relief shading turns ~50° and the slope is unchanged.
+(c) A solstice-like sun (declination ~23°): the midnight sun only above ~67° N, as on Earth in June, and the same NW opening is not reachable either.
+
+I recommend (b): "the night side lit by moonlight" is the call's point, and (a) denies Earth's north any night. It is a constant and a test in day.ts; I'd fold it into B7c's brief if you agree.
+
+## lead · 2026-11-09 05:49:52 UTC
+
+(b) taken: equinox sun, t = 0 the afternoon hour with the sun 20° up over the opening; written into call 12 on island/stretch-2. Fold it into B7c. Vova hears it from me and may overrule.
+
+## member · 2026-11-09 05:52:41 UTC
+
+Call 13: Vova shelves the H-lock design for now — «давай оставим эти решения на потом, потому что пока не приходит идея на миллион в голову как это сделать всё изящно. пока -- давай просто поднимем точку когда мы переключаемся на горизонт». So nothing of the H design goes into the contract this bite (park it under "Out of the bite" if you like).
+
+Done (ae41b577): pitchAt's curve shifted a decade up — ground pitch held to 20 m (was 2 m), straight down from 18,000 km (was 1,780 km). The point below now leaves the frame at ~100 km instead of ~10 km; at 10 km the eye looks 44° down (was 64°), at 1 km 26° (was 44°). S7's ↑/↓ look rides on it unchanged. Eye and page tests, tsc, eslint, prettier green.
+
+B7c (where-line, pose hash, equinox sun folded in) is running.
+
+## lead · 2026-11-09 05:53:23 UTC · ack
+
+Written into call 13 (raise a decade) and Out of the bite (held-nadir descent, share look).
+
+## member · 2026-11-09 06:02:36 UTC
+
+Relay 4 of the member took over (relay-3.md). The board watch the start hook set is stopped again, per your 05:06 memo.
+
+B7c's finish is running as one agent on wt/b3-b7c: merge round-world in (the raised pitch), fix the four lint errors, apply the WIP patch, write the canvas/hint/hook wiring, drop world-hash, gates. The dev-server look (a reopened where-link, noon/midnight frames) is a separate agent after it; the frames come to you by memo. Then B8.

@@ -10,7 +10,7 @@ import {
   type Vec3,
 } from '@/island/shared/globe';
 
-import { type Eye, MAX_HEIGHT, MIN_HEIGHT, type Vec2 } from './eye';
+import type { Eye, Vec2 } from './eye';
 import { tangent } from './turns';
 
 /** The camera an eye sees through, in world metres. */
@@ -41,24 +41,29 @@ function fovFor(aspect: number): number {
 export const groundPerScreen = (aspect: number) =>
   2 * Math.tan(fovFor(aspect) / 2);
 
-/** How far below the horizon the eye looks at `MIN_HEIGHT`. */
+/** How far below the horizon the eye looks near the ground. */
 export const GROUND_PITCH = (10 * Math.PI) / 180;
 
+/** The height up to which the eye keeps `GROUND_PITCH`. */
+const GROUND_PITCH_BELOW = 20;
+
 /**
- * The share of the way up, in the logarithm of height, from which the eye
- * looks straight down: about 3,000 km and above.
+ * The height from which the eye looks straight down. With
+ * `GROUND_PITCH_BELOW` it sets where the look turns toward the horizon on the
+ * way down: the point below leaves the frame at about 100 km.
  */
-const STRAIGHT_DOWN_FROM = 0.85;
+const STRAIGHT_DOWN_ABOVE = 18_000_000;
 
 /**
  * How far below the horizon the eye looks at `height`, radians: from
- * `GROUND_PITCH` at the ground, smoothly to straight down at
- * `STRAIGHT_DOWN_FROM`.
+ * `GROUND_PITCH` near the ground, smoothly in the logarithm of height to
+ * straight down at `STRAIGHT_DOWN_ABOVE`.
  */
 export function pitchAt(height: number): number {
   const share =
-    Math.log(height / MIN_HEIGHT) / Math.log(MAX_HEIGHT / MIN_HEIGHT);
-  const t = Math.min(1, Math.max(0, share / STRAIGHT_DOWN_FROM));
+    Math.log(height / GROUND_PITCH_BELOW) /
+    Math.log(STRAIGHT_DOWN_ABOVE / GROUND_PITCH_BELOW);
+  const t = Math.min(1, Math.max(0, share));
   const eased = t * t * (3 - 2 * t);
   return GROUND_PITCH + (Math.PI / 2 - GROUND_PITCH) * eased;
 }
