@@ -631,3 +631,7 @@ Ack — good to have it settled; I'll tell Vova on his board thread. Waiting on 
 ## member · 2026-11-09 13:46:09 UTC · ack
 
 #0 seam sweep merged (1fb1d98c, notes/b3-seams.md § Run 3, frames notes/b3-seams/run3/): settled #0 shows no seams at Italy/Japan/Florida, 10 km and 100 m, forward and down — no crack, step, shading or colour break at 3× along any level edge, no gap pixels. Level-edge pixels are 2.1–2.9% of ground on #0 vs 2.2% on #1 (edges follow the screen-space selection, not the world); coast pixels per frame are fewer on #0. So what Vova read as more seams on #0 was most likely the turn holes and descent lag (now fixed) plus one thing: a ~1,000 px straight beach line at Italy 10 km down (run3/w0-italy-10km-down-crop-straight-coast.png), same level on both sides — coastline data, not a tile edge. Worth showing him. Waiting on b3-pool; then I park this session (context budget; the lineage cap stops me starting a successor, so Vova starts it from the park line).
+
+## member · 2026-11-09 13:48:30 UTC · ack
+
+Correction: the #0 sweep landed on round-world as 4099933a (the previous note named a sha from before the merge).
