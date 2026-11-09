@@ -1,0 +1,123 @@
+{
+  "total": {
+    "inputTokens": 46,
+    "cacheWrite5mTokens": 70099,
+    "cacheWrite1hTokens": 70236,
+    "cacheReadTokens": 2288228,
+    "outputTokens": 8414,
+    "thinkingTokens": 1334,
+    "responses": 23,
+    "costUsd": 1.5384926
+  },
+  "estimate": {
+    "at": "2026-11-09T10:21:25.439Z",
+    "subjectLine": "feat: bite 3's Earth frames, envelope switch and lowland floor",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "C5's Earth shots and the lowland-floor fix need judgement of the terrain's look"
+      },
+      {
+        "hours": 4.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "C4's envelope switch and the Done table's tests are routine code against a settled contract"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "the tail runs with the lead: briefs, merges, the PR against stretch-2"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-09T10:22:17.360Z",
+    "contextTokens": 128431,
+    "spend": {
+      "inputTokens": 40,
+      "cacheWrite5mTokens": 69020,
+      "cacheWrite1hTokens": 69963,
+      "cacheReadTokens": 2021694,
+      "outputTokens": 7166,
+      "thinkingTokens": 1295,
+      "responses": 20,
+      "costUsd": 1.4526228
+    }
+  },
+  "sessionId": "819330e2-10a7-58e6-bfb3-58c6dc15d49c",
+  "branch": "worktree-agent-a99a1f61d267065f2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/round-world — искры на стыках тайлов починены, панель I готова, Земля закреплена как #0 и её спектр измерен; впереди кадры Земли (C5), ответы…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkD74uWSKLC8ZwjGuG7",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-09T10:20:38.288Z",
+  "lastResponseAt": "2026-11-09T10:22:21.653Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 36,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 70236,
+    "cacheReadTokens": 2014457,
+    "outputTokens": 7417,
+    "thinkingTokens": 1295,
+    "responses": 18,
+    "costUsd": 1.1132634000000001
+  },
+  "subagents": {
+    "inputTokens": 10,
+    "cacheWrite5mTokens": 70099,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 273771,
+    "outputTokens": 997,
+    "thinkingTokens": 39,
+    "responses": 5,
+    "costUsd": 0.42522920000000003
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 46,
+      "cacheWrite5mTokens": 70099,
+      "cacheWrite1hTokens": 70236,
+      "cacheReadTokens": 2288228,
+      "outputTokens": 8414,
+      "thinkingTokens": 1334,
+      "responses": 23,
+      "costUsd": 1.5384926
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 22,
+    "matched": 22,
+    "matchedTableUsd": 1.5155880000000002,
+    "matchedEventUsd": 1.5155880000000002,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".py": 980,
+    ".md": 14843,
+    ".json": 488,
+    ".txt": 1177,
+    ".ts": 8759,
+    ".sh": 43,
+    ".yaml": 242,
+    ".tsx": 114,
+    ".scss": 96
+  }
+}
