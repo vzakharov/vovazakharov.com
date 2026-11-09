@@ -111,6 +111,11 @@ the bite in hand. The text it held before the board took over is in git
 - «/sync-branch из каждого куска -- ага» — a member ends its bite with
   `/sync-branch` against its PR's base, this branch, before pinging green, so
   the lead's merge lands without conflicts.
+- «кажется, никто из агентов не прогоняет свой polish? не дело … на будущее
+  пусть озадачиваются этим сами» — a member runs `/polish` over its own diff
+  (its commits, and `/five-percent`'s review on its PR) before `/sync-branch`
+  and the green ping, and every brief says so in its "done means". The lead
+  merges no member PR without `polish:` commits on it.
 
 ## Eaten so far
 
