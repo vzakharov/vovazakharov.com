@@ -1,0 +1,143 @@
+{
+  "total": {
+    "inputTokens": 4284,
+    "cacheWrite5mTokens": 1853,
+    "cacheWrite1hTokens": 84996,
+    "cacheReadTokens": 5075273,
+    "outputTokens": 11340,
+    "thinkingTokens": 1339,
+    "responses": 44,
+    "costUsd": 1.9488569000000002
+  },
+  "estimate": {
+    "at": "2026-11-09T06:38:41.929Z",
+    "subjectLine": "chore: attach the stretch-2 review session and settle its memo channel",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "wiring a review member into the lead's memo channel, tracing why acks looped and routing the fix is team coordination, needing judgement of who owns the tool"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-09T05:07:53.186Z",
+    "contextTokens": 102538,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 43929,
+      "cacheReadTokens": 256770,
+      "outputTokens": 1191,
+      "thinkingTokens": 76,
+      "responses": 3,
+      "costUsd": 0.426638
+    }
+  },
+  "sessionId": "17d45494-377a-5b5a-b908-e57a04002e6a",
+  "branch": "island/review-2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/from-branch island/review-2 — read docs/plans/world-game-zoltan-syama/review.md, which says how this session runs: it is stretch 2's code review (PR #269, neve…",
+  "prs": [
+    269
+  ],
+  "url": "https://claude.ai/code/session_01DaohkCKMYsFjXamNHjgfHK",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-09T05:07:30.064Z",
+  "lastResponseAt": "2026-11-09T06:39:03.632Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 75,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 84996,
+    "cacheReadTokens": 4357903,
+    "outputTokens": 11290,
+    "thinkingTokens": 1339,
+    "responses": 37,
+    "costUsd": 1.7776486000000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 3111,
+      "cacheWrite5mTokens": 1853,
+      "cacheWrite1hTokens": 84996,
+      "cacheReadTokens": 5075273,
+      "outputTokens": 11322,
+      "thinkingTokens": 1339,
+      "responses": 43,
+      "costUsd": 1.9487306000000002
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1173,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 18,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0001263
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 44,
+    "matched": 37,
+    "matchedTableUsd": 1.7776486000000002,
+    "matchedEventUsd": 1.7776486000000005,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 3036,
+        "cacheWrite5mTokens": 1853,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 717370,
+        "outputTokens": 32,
+        "thinkingTokens": 0,
+        "responses": 6,
+        "costUsd": 0.171082
+      },
+      "generate_session_title": {
+        "inputTokens": 1173,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 18,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0001263
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 40,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".py": 980,
+    ".md": 9997,
+    ".json": -1391,
+    ".txt": 31,
+    ".ts": 623,
+    ".sh": 43,
+    ".yaml": 236,
+    ".tsx": 11
+  }
+}
