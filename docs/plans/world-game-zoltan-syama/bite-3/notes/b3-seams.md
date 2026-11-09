@@ -60,10 +60,45 @@ and the roots in hand): after a turn to 200 / 180 / 160 / 139°, 38 / 82 / 115 /
 cover is the 290 shown tiles and no stand-in. Levels 6–17; the level-11 band
 holds the most (14–64).
 
+## Run 2 — Vova's #1 seam band, settled (look only)
+
+Built at 1aeecf72 (head; bb6bc262 adds only a memo) and at Vova's 9e01421e
+(`git archive` into `tmp/old9e`, `node_modules` hard-linked). Frames in
+`b3-seams/run2/`, 1440×900, settled (`setHeight` twice with 1.5 s between,
+then 3 frames); drivers `drivers/seams2.ts.txt` (run from `tmp/look/`) and
+`drivers/edges.py.txt`. Tint: a throwaway build of each tree with every tile's
+land drawn flat in a colour per level (`level % 12`; sea at 0.3 of it), never
+committed, `src/` reverted.
+
+**Verdict: gone on the current build — and it was never a level seam.** The
+ragged band in Vova's view is the flat lowland floor: at 9e01421e a flat beige
+strip crosses the middle distance (rows ~520–630) with the feet of the hills
+cut off raggedly along it (`9e01421e-vova1-121m.png`). On head the same ground
+rolls and the strip is gone (`vova1-121m.png`). The floor's two commits are
+what removed it — de89a374 (floor rolls with the broad relief) and 6130a442
+(ground under the floor squeezed, not cut); which of the two did it alone was
+not split (no build of de89a374 by itself).
+
+- **Not where levels meet.** Level edges drawn red over the plain frames
+  (`*-level-edges.png`): the band's edges do not follow them, and the levels
+  (17 at the feet to 12 at the horizon) lie identically in both builds.
+- **The level edges themselves show nothing**, in either build: no crack, step,
+  shading or colour break along them at 3× (`vova1-121m-crop-stair.png`, the
+  stepped 14/15 edge: old, old with edges, head; `vova1-121m-crop-edges.png`,
+  the 15/16 and 14/15 edges right of centre: old, head, head with edges).
+- No hole or stand-in in either settled frame.
+
+**Not done: the #0 sweep** (Italy / Japan / Florida at 10 km and 100 m,
+forward and down). The driver has it (`seams2.ts <italy|japan|florida>`, look
++80° forward, −90° down, hour = shot-sets' afternoon less 1 h); the plain and
+tinted head exports were built but the context ran out before it was run. So
+"seams more frequent on #0" is unanswered.
+
 ## Left (not done)
 
-- Vova's #1 pose re-shoot and the #0 seam sweep (Italy / Japan / Florida) of the
-  original brief: not started.
+- The #0 seam sweep (run 2 above): run `seams2.ts` on the plain and tinted
+  exports, then count level-boundary px per frame from the tinted ones
+  (`edges.py`'s mask summed) against coast px, #0 vs #1.
 - Fix options for the lead (none tried): admit a stand-in that contains a shown
   tile but draw it only outside the shown tiles' footprint (a stencil or depth
   pre-pass of `shown`, or the stand-in pushed slightly below so shown wins);

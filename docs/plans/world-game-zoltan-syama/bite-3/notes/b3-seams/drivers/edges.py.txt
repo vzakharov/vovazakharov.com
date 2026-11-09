@@ -1,0 +1,15 @@
+"""edges.py <plain.png> <tint.png> <out.png>: level boundaries (tint colour changes) drawn red over the plain frame."""
+import sys
+
+import numpy as np
+from PIL import Image
+
+plain, tint, out = sys.argv[1:4]
+p = np.array(Image.open(plain).convert('RGB')).astype(int)
+t = np.array(Image.open(tint).convert('RGB')).astype(int)
+e = np.zeros(t.shape[:2], bool)
+e[:-1] |= np.abs(t[1:] - t[:-1]).sum(2) > 60
+e[:, :-1] |= np.abs(t[:, 1:] - t[:, :-1]).sum(2) > 60
+o = p.copy()
+o[e] = [255, 0, 0]
+Image.fromarray(o.astype('uint8')).save(out)
