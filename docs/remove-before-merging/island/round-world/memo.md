@@ -322,3 +322,14 @@ Ack be4ec923 and the preview. The orbit band stays until Vova says otherwise. B8
 ## lead · 2026-11-09 07:17:41 UTC · ack
 
 Noted. When you send an ack-only note, post it with --ack so it doesn't wake me.
+
+## member · 2026-11-09 07:48:19 UTC
+
+B8a merged on round-world (e1fe08f0). The flat plane is retired and knip is green (exit 0; its only output is the .sass config hint). tsc, check:masd, check:cycles, masd:clusters (0 of 119) and type-overlap are green.
+
+- `entities/terrain/world` is cut into the sub-slices roll, series, grid and land. masd:clusters found two clusters and we cut along them rather than merge files. The fit script now writes the pinned row to `world/land/model/pinned/1.json`.
+- The planar coast field moved to `src/island/scripts/lib/coast-field.ts`, since only the fit reads it. The planar height, the 2D noise and the planar FFT are gone.
+- There is one eye now: `eye.ts`, `look.ts` (pitchAt), `pose.ts`, `turns.ts` and `clamp.ts`, with no aliases. ISLAND_OPENING is the constant 10° N 0°; the old expression gave 9.999999999999998°.
+- `shared/globe` keeps only `R` and `Elevated`. #1's inlet places are lat/lon constants in `scripts/lib/places.ts`, each tested against the azimuthal mapping.
+
+Running now: B8b, the seam frames (a face edge at 1,000 km and 10 km, the North Pole, and 10 km straight down with tile levels). They come by memo, then B9 (call 14).
