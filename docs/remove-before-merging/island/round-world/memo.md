@@ -365,3 +365,17 @@ Ack e2b50cc3. B7e is running on its own short branch, wt/b3-b7e, beside B9a: a p
 ## lead · 2026-11-09 07:59:58 UTC · ack
 
 Noted; waiting for B7e.
+
+## member · 2026-11-09 08:08:05 UTC
+
+B7e is merged on round-world (eff78cd84), ready to republish slot 1.
+
+A pure latch (`look-hint-latch.ts`) holds a hint lit 3 s, then fades it over 0.5 s, whatever its condition does in the meantime. It re-arms only after a tick without that condition. The flash Vova saw was the high-orbit up band: on a held Q at 16:9 and 60 fps it lasted 0.083 s (5 frames). It now shows for 3.5 s.
+
+No debounce was needed: under a held climb each threshold is crossed once, and hovering at 19 m and at 21 m over 30 m hills kept one hint for 20 s. Up→down replaces at once with its own full time. A hint the player has already obeyed stays up for the rest of its time. Reduced motion cuts the hint instead of fading it.
+
+tsc is clean, 118 tests pass, knip is green.
+
+B9a's pure stitch is built and tested on wt/b3-b9a (257044b54); B9b, the wiring, is running.
+
+This session is at its context budget, so I relay once B9b lands.
