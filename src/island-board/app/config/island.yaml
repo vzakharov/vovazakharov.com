@@ -45,3 +45,9 @@ items:
     box: [2625.720312037562, 105.90156333340494, 200, yellow]
     text: ''
     deleted: true
+  - id: bite3-envelopes
+    type: image
+    updated: [2026-11-09T09:40:00.000Z, agent:lead]
+    box: [6760, 2431, 620]
+    src: images/bite3-envelopes.webp
+    text: 'Call 8, for Vova: worlds #2–#6 (rows; two sides each) under three envelopes. Left: the probe, 8.7 landmasses, the largest 44%. Middle: Earth measured (log bins), 7.3, the largest 51%, a Pangaea in one world of five; the member and the lead take it (Earth: 5, 54%). Right: Earth per degree, 11.4, 34%, more channels'
