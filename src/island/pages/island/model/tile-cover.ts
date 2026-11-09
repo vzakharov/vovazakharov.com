@@ -5,6 +5,12 @@ const parentOf = ({ level, x, y }: TileKey): TileKey | null =>
     ? null
     : { level: level - 1, x: Math.floor(x / 2), y: Math.floor(y / 2) };
 
+/** `key`'s parent, its parent's, and so on to the root, nearest first. */
+function ancestorsOf(key: TileKey): TileKey[] {
+  const up = parentOf(key);
+  return up === null ? [] : [up, ...ancestorsOf(up)];
+}
+
 /** Whether `inner` lies inside `outer`, `outer` itself included. */
 const within = (inner: TileKey, outer: TileKey) =>
   inner.level >= outer.level &&
@@ -25,12 +31,8 @@ export function coverOf(
   const standIns = new Map<string, TileKey>();
   for (const key of selected) {
     if (has(tileId(key))) continue;
-    for (let up = parentOf(key); up !== null; up = parentOf(up)) {
-      if (has(tileId(up))) {
-        standIns.set(tileId(up), up);
-        break;
-      }
-    }
+    const standIn = ancestorsOf(key).find((up) => has(tileId(up)));
+    if (standIn !== undefined) standIns.set(tileId(standIn), standIn);
   }
   // A stand-in inside another is drawn by the outer one.
   const outer = [...standIns.values()].filter(
@@ -43,11 +45,6 @@ export function coverOf(
     (key) => has(tileId(key)) && !outer.some((standIn) => within(key, standIn)),
   );
   return [...outer, ...own];
-}
-
-function ancestorsOf(key: TileKey): TileKey[] {
-  const up = parentOf(key);
-  return up === null ? [] : [up, ...ancestorsOf(up)];
 }
 
 /**
