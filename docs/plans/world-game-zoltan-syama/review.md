@@ -18,8 +18,8 @@ The code review of `island/stretch-2` runs on a branch of its own,
   merges it before the cut. Until then the stretch takes none of its commits:
   «если он его всегда догоняет, то можно лишний раз не перегружать стретч
   коммитами».
-- **A finding that touches a bite in flight**, or a pattern new code should
-  follow too, goes to the lead by memo on `island/review-2`, and the lead
-  forwards it to the member.
+- **The review branch settles each problem as it comes**, a bite in flight
+  included, with no forwarding through the lead: «не надо этих усложнений; ветка
+  ревью решает проблемы по мере поступления».
 - **The board and the plan are the lead's**: the review session neither watches
   nor publishes the board, and edits nothing under `docs/plans/`.
