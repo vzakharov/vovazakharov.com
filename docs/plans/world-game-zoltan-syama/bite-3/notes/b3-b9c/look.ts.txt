@@ -68,7 +68,18 @@ async function playOpen(browser: Browser, origin: string, hash: string): Promise
   return tab;
 }
 
-const whereOf = async (tab: Tab) => tab.evaluate(`${hook}.where()`, z.string());
+/**
+ * Call 18 retired `where()`, and the diagnostics panel shows nothing under play, so the
+ * summary is the spy's: tiles got, their level range, how many stitched.
+ */
+const whereOf = async (tab: Tab) =>
+  tab.evaluate(
+    `(() => { const g = window.__fills.filter((f) => f.k === 'got'); const l = g.map((f) => f.level);
+      return 'got ' + g.length + ' (levels ' + Math.min(...l) + '–' + Math.max(...l) + '), stitched ' + g.filter((f) => f.stitched).length; })()`,
+    z.string(),
+  );
+/** Sun noon at `lon`: B8b's frames put the opening's sun time at 16.65 h + lon/15 at t 0. */
+const noonAt = (lon: number) => (((12 - 16.65 - lon / 15) % 24) + 24) % 24;
 const done = async (browser: Browser, tab: Tab) => browser.send('Target.disposeBrowserContext', { browserContextId: tab.contextId });
 
 /** `[name, world, lat, lon, height, heading, look, hours]`; hours null means the spot's sun noon. */
@@ -85,21 +96,10 @@ const SHOTS: Record<string, readonly Shot[]> = {
   hill: [],
 };
 
-const sunTime = (where: string) => {
-  const m = /(\d\d):(\d\d) sun time/.exec(where);
-  if (m === null) throw new Error(`no sun time in: ${where}`);
-  return Number(m[1]) + Number(m[2]) / 60;
-};
-
 async function take(browser: Browser, origin: string, [name, world, lat, lon, h, heading, look, hours]: Shot): Promise<void> {
   if (process.env.SHOT !== undefined && !name.includes(process.env.SHOT)) return;
   const t0 = Date.now();
-  let at = hours;
-  if (at === null) {
-    const tab = await playOpen(browser, origin, `#${world}@${lat},${lon},${h},${heading},${look},0`);
-    at = (((12 - sunTime(await whereOf(tab))) % 24) + 24) % 24;
-    await done(browser, tab);
-  }
+  const at = hours ?? noonAt(lon);
   const hash = `#${world}@${lat},${lon},${h},${heading},${look},${at.toFixed(3)}`;
   const shotTab = await playOpen(browser, origin, hash);
   await settle(shotTab, call('setHeight', h), 'settle');
@@ -117,7 +117,7 @@ const range = (n: number, f: (i: number) => string) => Array.from({ length: n },
 /** 2 % of the height per step, the reselection threshold; 0.05 rad per turn step. */
 const RUNS: Record<string, Run> = {};
 function addRuns(name: string, world: string, lat: number, lon: number, heading: number): void {
-  const pose = (h: number) => `#${world}@${lat},${lon},${h},${heading},-30,4.000`;
+  const pose = (h: number) => `#${world}@${lat},${lon},${h},${heading},${process.env.LOOK ?? 14},4.000`;
   RUNS[`${name}-descent`] = { hash: pose(12_000), steps: range(21, (i) => call('setHeight', 12_000 * 0.98 ** i)) };
   RUNS[`${name}-turn`] = { hash: pose(10_000), steps: range(20, (i) => call('turnTo', heading * DEG + 0.05 * i)) };
   // 200 m east per step along the parallel: 4 km in 20.
