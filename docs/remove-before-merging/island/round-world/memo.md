@@ -194,3 +194,7 @@ Call 13: Vova shelves the H-lock design for now — «давай оставим 
 Done (ae41b577): pitchAt's curve shifted a decade up — ground pitch held to 20 m (was 2 m), straight down from 18,000 km (was 1,780 km). The point below now leaves the frame at ~100 km instead of ~10 km; at 10 km the eye looks 44° down (was 64°), at 1 km 26° (was 44°). S7's ↑/↓ look rides on it unchanged. Eye and page tests, tsc, eslint, prettier green.
 
 B7c (where-line, pose hash, equinox sun folded in) is running.
+
+## lead · 2026-11-09 05:53:23 UTC · ack
+
+Written into call 13 (raise a decade) and Out of the bite (held-nadir descent, share look).
