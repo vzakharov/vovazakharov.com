@@ -1,35 +1,35 @@
 {
   "total": {
-    "inputTokens": 43321,
-    "cacheWrite5mTokens": 7014,
-    "cacheWrite1hTokens": 81447,
-    "cacheReadTokens": 1587005,
-    "outputTokens": 29361,
-    "thinkingTokens": 11880,
-    "responses": 18,
-    "costUsd": 1.6023488000000001
+    "inputTokens": 43840,
+    "cacheWrite5mTokens": 7705,
+    "cacheWrite1hTokens": 104090,
+    "cacheReadTokens": 2809593,
+    "outputTokens": 47848,
+    "thinkingTokens": 19415,
+    "responses": 26,
+    "costUsd": 2.4053544
   },
   "estimate": {
-    "at": "2026-11-10T20:34:23.779Z",
+    "at": "2026-11-10T20:45:56.734Z",
     "subjectLine": "docs: answer whether a seeded maze can be as hard as bitcoin PoW",
     "parts": [
       {
-        "hours": 1.5,
+        "hours": 2.0,
         "grade": "senior",
         "role": "analyst",
-        "comment": "needs a cryptographer's judgement: local generation vs. leaking the answer, planted vs. parity-guaranteed solvability"
+        "comment": "needs a cryptographer's judgement: local generation vs. leaking the answer, planted vs. parity-guaranteed solvability, hierarchical connectivity"
       },
       {
-        "hours": 2.0,
+        "hours": 4.0,
         "grade": "middle",
         "role": "developer",
-        "comment": "an interactive explainer page with a deterministic hashed maze is routine front-end work"
+        "comment": "two interactive explainer pages with deterministic hashed mazes, a real SHA-256 search and path finding are routine front-end work"
       },
       {
-        "hours": 1.0,
+        "hours": 1.5,
         "grade": "middle",
         "role": "designer",
-        "comment": "two side-by-side diagrams must make a scale argument legible at a glance"
+        "comment": "the diagrams must make a scale argument and a two-part guarantee legible at a glance"
       }
     ],
     "comment": null
@@ -58,18 +58,18 @@
   "url": "https://claude.ai/code/session_01DaohkDCogveyAeHibT7HoB",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-10T20:04:25.886Z",
-  "lastResponseAt": "2026-11-10T20:36:22.756Z",
+  "lastResponseAt": "2026-11-10T20:47:32.276Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 24,
+    "inputTokens": 37,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 81447,
-    "cacheReadTokens": 1162962,
-    "outputTokens": 26501,
-    "thinkingTokens": 11880,
-    "responses": 11,
-    "costUsd": 1.4142843999999999
+    "cacheWrite1hTokens": 104090,
+    "cacheReadTokens": 2244287,
+    "outputTokens": 44976,
+    "thinkingTokens": 19415,
+    "responses": 18,
+    "costUsd": 2.1812454000000003
   },
   "subagents": {
     "inputTokens": 0,
@@ -83,14 +83,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 2048,
-      "cacheWrite5mTokens": 7014,
-      "cacheWrite1hTokens": 81447,
-      "cacheReadTokens": 1587005,
-      "outputTokens": 26680,
-      "thinkingTokens": 11880,
-      "responses": 15,
-      "costUsd": 1.566881
+      "inputTokens": 2567,
+      "cacheWrite5mTokens": 7705,
+      "cacheWrite1hTokens": 104090,
+      "cacheReadTokens": 2809593,
+      "outputTokens": 45167,
+      "thinkingTokens": 19415,
+      "responses": 23,
+      "costUsd": 2.3698866000000005
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 41273,
@@ -106,20 +106,20 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 18,
-    "matched": 11,
-    "matchedTableUsd": 1.4142843999999999,
-    "matchedEventUsd": 1.4142844,
+    "events": 26,
+    "matched": 18,
+    "matchedTableUsd": 2.1812454000000003,
+    "matchedEventUsd": 2.1812454000000003,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 2024,
-        "cacheWrite5mTokens": 7014,
+        "inputTokens": 2530,
+        "cacheWrite5mTokens": 7705,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 424043,
-        "outputTokens": 179,
+        "cacheReadTokens": 565306,
+        "outputTokens": 191,
         "thinkingTokens": 0,
-        "responses": 4,
-        "costUsd": 0.1525966
+        "responses": 5,
+        "costUsd": 0.1886412
       },
       "web_search_tool": {
         "inputTokens": 41273,
@@ -134,7 +134,7 @@
     }
   },
   "operatorWords": {
-    "chat": 101,
+    "chat": 132,
     "review": 0,
     "threads": 0
   },
