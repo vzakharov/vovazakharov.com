@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 54569,
-    "cacheWrite5mTokens": 37522,
-    "cacheWrite1hTokens": 228400,
-    "cacheReadTokens": 20518051,
-    "outputTokens": 144981,
-    "thinkingTokens": 61956,
-    "responses": 100,
-    "costUsd": 9.165638000000003
+    "inputTokens": 55094,
+    "cacheWrite5mTokens": 37598,
+    "cacheWrite1hTokens": 250385,
+    "cacheReadTokens": 23818363,
+    "outputTokens": 153682,
+    "thinkingTokens": 62580,
+    "responses": 110,
+    "costUsd": 10.178308400000002
   },
   "estimate": {
     "at": "2026-11-10T21:33:33.947Z",
@@ -57,25 +57,25 @@
     }
   },
   "sessionId": "27564429-90e0-532c-9282-d226a1104543",
-  "branch": "claude/kind-galileo-m6wq80",
+  "branch": "claude/hash-maze-cube-m6wq80",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "Можно ли построить лабиринт, дефинитивно проходимый, но пройти который по сложности соразмерно с «подобрать хеш биткоина»? Допустимо делать его произвольно боль…",
   "prs": [],
   "url": "https://claude.ai/code/session_01DaohkDCogveyAeHibT7HoB",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-10T20:04:25.886Z",
-  "lastResponseAt": "2026-11-10T22:01:38.976Z",
+  "lastResponseAt": "2026-11-10T22:58:19.790Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 140,
+    "inputTokens": 159,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 228400,
-    "cacheReadTokens": 15178369,
-    "outputTokens": 141701,
-    "thinkingTokens": 61956,
-    "responses": 71,
-    "costUsd": 7.6974538000000035
+    "cacheWrite1hTokens": 250385,
+    "cacheReadTokens": 18159957,
+    "outputTokens": 150386,
+    "thinkingTokens": 62580,
+    "responses": 80,
+    "costUsd": 8.6434274
   },
   "subagents": {
     "inputTokens": 0,
@@ -89,14 +89,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 13296,
-      "cacheWrite5mTokens": 37522,
-      "cacheWrite1hTokens": 228400,
-      "cacheReadTokens": 20518051,
-      "outputTokens": 142300,
-      "thinkingTokens": 61956,
-      "responses": 97,
-      "costUsd": 9.130170200000002
+      "inputTokens": 13821,
+      "cacheWrite5mTokens": 37598,
+      "cacheWrite1hTokens": 250385,
+      "cacheReadTokens": 23818363,
+      "outputTokens": 151001,
+      "thinkingTokens": 62580,
+      "responses": 107,
+      "costUsd": 10.142840600000001
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 41273,
@@ -112,20 +112,20 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 100,
-    "matched": 71,
-    "matchedTableUsd": 7.6974538000000035,
-    "matchedEventUsd": 7.6974538000000035,
+    "events": 110,
+    "matched": 80,
+    "matchedTableUsd": 8.6434274,
+    "matchedEventUsd": 8.6434274,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 13156,
-        "cacheWrite5mTokens": 37522,
+        "inputTokens": 13662,
+        "cacheWrite5mTokens": 37598,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 5339682,
-        "outputTokens": 599,
+        "cacheReadTokens": 5658406,
+        "outputTokens": 615,
         "thinkingTokens": 0,
-        "responses": 26,
-        "costUsd": 1.4327164
+        "responses": 27,
+        "costUsd": 1.4994131999999998
       },
       "web_search_tool": {
         "inputTokens": 41273,
@@ -146,5 +146,7 @@
   },
   "reviewPosts": {},
   "threadPosts": {},
-  "branchLines": {}
+  "branchLines": {
+    ".md": 241
+  }
 }
