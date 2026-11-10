@@ -1,0 +1,150 @@
+{
+  "total": {
+    "inputTokens": 55090,
+    "cacheWrite5mTokens": 37598,
+    "cacheWrite1hTokens": 249054,
+    "cacheReadTokens": 23138684,
+    "outputTokens": 152685,
+    "thinkingTokens": 62521,
+    "responses": 108,
+    "costUsd": 10.011768600000003
+  },
+  "estimate": {
+    "at": "2026-11-10T21:33:33.947Z",
+    "subjectLine": "docs: answer whether a seeded maze can be as hard as bitcoin PoW",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "analyst",
+        "comment": "needs a cryptographer's judgement: local generation vs. leaking the answer, planted vs. guaranteed solvability, connectivity, additive vs. multiplicative chaining, depth calibration"
+      },
+      {
+        "hours": 6.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "four interactive explainer pages with hashed mazes, a real SHA-256 search, a playable lock and a numeric solver are routine front-end work"
+      },
+      {
+        "hours": 2.5,
+        "grade": "middle",
+        "role": "designer",
+        "comment": "the diagrams must make scale, a two-part guarantee, sum-vs-product and a shrink curve legible at a glance"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "the pyramid-to-cube discussion is a game's core loop: where suspense comes from and what each floor asks of the player"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-10T20:04:37.956Z",
+    "contextTokens": 97511,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 38972,
+      "cacheReadTokens": 52802,
+      "outputTokens": 5380,
+      "thinkingTokens": 4917,
+      "responses": 1,
+      "costUsd": 0.4299444
+    }
+  },
+  "sessionId": "27564429-90e0-532c-9282-d226a1104543",
+  "branch": "claude/hash-maze-cube-m6wq80",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "Можно ли построить лабиринт, дефинитивно проходимый, но пройти который по сложности соразмерно с «подобрать хеш биткоина»? Допустимо делать его произвольно боль…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDCogveyAeHibT7HoB",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-10T20:04:25.886Z",
+  "lastResponseAt": "2026-11-10T22:58:00.582Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 155,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 249054,
+    "cacheReadTokens": 17480278,
+    "outputTokens": 149389,
+    "thinkingTokens": 62521,
+    "responses": 78,
+    "costUsd": 8.476887600000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 13817,
+      "cacheWrite5mTokens": 37598,
+      "cacheWrite1hTokens": 249054,
+      "cacheReadTokens": 23138684,
+      "outputTokens": 150004,
+      "thinkingTokens": 62521,
+      "responses": 105,
+      "costUsd": 9.976300800000002
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 41273,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 2681,
+      "thinkingTokens": 0,
+      "responses": 3,
+      "costUsd": 0.03546780000000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 108,
+    "matched": 78,
+    "matchedTableUsd": 8.476887600000001,
+    "matchedEventUsd": 8.476887600000001,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 13662,
+        "cacheWrite5mTokens": 37598,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 5658406,
+        "outputTokens": 615,
+        "thinkingTokens": 0,
+        "responses": 27,
+        "costUsd": 1.4994131999999998
+      },
+      "web_search_tool": {
+        "inputTokens": 41273,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 2681,
+        "thinkingTokens": 0,
+        "responses": 3,
+        "costUsd": 0.03546780000000001
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 622,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {}
+}
