@@ -3,11 +3,7 @@
  * the artifact's `db` collection `items` — one document per item, written whole
  * — through the same merge the repo's sync uses.
  */
-import {
-  type Item,
-  mergeItems,
-  parseDbRow,
-} from '@/board/entities/item';
+import { type Item, mergeItems, parseDbRow } from '@/board/entities/item';
 
 import { type Db, errorCode } from '../api/runtime.ts';
 

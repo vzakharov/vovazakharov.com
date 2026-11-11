@@ -86,24 +86,13 @@ function modular(slice: string, edges: readonly Edge[]): boolean {
   return cutGain(part, edges) > 0;
 }
 
-/**
- * Apps kept with one child on the operator's yes, each beside the second child
- * that earns it. An app has no file of its own to carry a marker, so the list
- * is here; an entry leaves when that child lands.
- */
-const WAITING_APPS: Readonly<Record<string, string>> = {
-  dice: "island, whose terrain rolls its world on dice's roll (branch island/round-world)",
-};
-
 function graphProblems(graph: MasdGraph, mounted: ReadonlySet<string>) {
   return [
     ...directoryMismatches(graph, subdirectories('src')),
-    ...insignificantApps(graph, mounted)
-      .filter((app) => !Object.hasOwn(WAITING_APPS, app))
-      .map(
-        (app) =>
-          `masd: ${app} has one child and nothing a router mounts; fold it into its child`,
-      ),
+    ...insignificantApps(graph, mounted).map(
+      (app) =>
+        `masd: ${app} has one child and nothing a router mounts; fold it into its child`,
+    ),
   ];
 }
 
