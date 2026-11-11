@@ -123,6 +123,17 @@ fn themeLight(s: Surf, m: Material) -> vec3f {
   return haze(vec3f(heat), s, vec3f(0.27), 60.0);
 }
 
+/// The iron palette of a thermal camera: black through indigo, magenta,
+/// orange and yellow to white as \`heat\` goes 0 to 1.
+fn iron(heat: f32) -> vec3f {
+  let t = clamp(heat, 0.0, 1.0);
+  var colour = mix(vec3f(0.0, 0.0, 0.03), vec3f(0.12, 0.0, 0.42), smoothstep(0.0, 0.22, t));
+  colour = mix(colour, vec3f(0.7, 0.05, 0.45), smoothstep(0.22, 0.45, t));
+  colour = mix(colour, vec3f(1.0, 0.5, 0.04), smoothstep(0.45, 0.68, t));
+  colour = mix(colour, vec3f(1.0, 0.92, 0.3), smoothstep(0.68, 0.88, t));
+  return mix(colour, vec3f(1.0), smoothstep(0.88, 1.0, t));
+}
+
 /// The frame as a thermal camera shows it: few pixels, heat as the iron
 /// palette, a crosshair, and the palette down the side as the key.
 fn themeLens(l: Lens) -> vec3f {

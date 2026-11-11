@@ -2,8 +2,7 @@ import { HASH, wgsl } from '../../kit';
 
 /**
  * What the laboratory's floors share once the rooms are made of what the
- * small world is made of: packed spheres, and the false colours instruments
- * give what has none.
+ * small world is made of: packed spheres, and cells grown until they meet.
  */
 export const SMALL_WORLD = wgsl(
   'laboratory/small-world',
@@ -58,17 +57,6 @@ fn shards(p: vec2f, salt: u32) -> vec3f {
     }
   }
   return vec3f(second - first, unitOf(mix32(nearest ^ 0xa5a5a5a5u)), unitOf(mix32(nearest ^ 0x3c3c3c3cu)));
-}
-
-/// The iron palette of a thermal camera: black through violet, orange and
-/// yellow to white as \`heat\` goes 0 to 1.
-fn iron(heat: f32) -> vec3f {
-  let t = clamp(heat, 0.0, 1.0);
-  return clamp(vec3f(
-    1.6 * t + 0.25 * sin(t * 9.0) * (1.0 - t),
-    1.9 * t * t - 0.25 * t,
-    0.75 * sin(t * 3.4) * (1.0 - t * 0.9) + 2.5 * max(t - 0.78, 0.0),
-  ), vec3f(0.0), vec3f(1.0));
 }
 `,
   HASH,
