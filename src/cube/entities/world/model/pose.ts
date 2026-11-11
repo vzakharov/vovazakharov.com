@@ -5,14 +5,13 @@ import type { Room } from './room';
 /** A point in some room's frame, in room sides: `u` east, `v` south. */
 export type InRoom = { u: number; v: number };
 
-<<<<<<< HEAD
 /** A thing mounted in a room: its foot, in the room's frame, and the way it faces. */
 export type WallMounted = {
   at: InRoom;
   /** The unit direction it faces, into the room. */
   facing: InRoom;
 };
-=======
+
 /** An eye's room, its spot in the room and its gaze, whatever its height. */
 export type Standing = Room &
   InRoom & {
@@ -21,7 +20,6 @@ export type Standing = Room &
     /** Radians above the horizon, clamped to ±89°. */
     elevation: number;
   };
->>>>>>> origin/claude/hash-maze-cube-m6wq80
 
 /**
  * Where an eye is in the cube, in the units of the floor it stands on, `u` and

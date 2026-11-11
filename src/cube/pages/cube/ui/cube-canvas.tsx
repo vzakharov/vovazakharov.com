@@ -5,16 +5,6 @@ import { useEffect, useRef, useState } from 'react';
 import { fillSlots } from '@/kernel/shared/i18n';
 
 import {
-<<<<<<< HEAD
-  floorsOf,
-  planted,
-  type Pose,
-  type Room,
-  roomKey,
-  type Signed,
-  type SignKind,
-  type WallMounted,
-=======
   type Address,
   decodeAddress,
   encodeAddress,
@@ -22,7 +12,11 @@ import {
   planted,
   type Pose,
   type Posed,
->>>>>>> origin/claude/hash-maze-cube-m6wq80
+  type Room,
+  roomKey,
+  type Signed,
+  type SignKind,
+  type WallMounted,
 } from '@/cube/entities/world';
 import {
   bindInput,
@@ -36,14 +30,15 @@ import {
   STILL,
 } from '@/cube/features/player';
 
-<<<<<<< HEAD
-import type COPY from '../config/messages/en.json';
-=======
 import { type Follow, followAddress } from '../lib/fragment';
->>>>>>> origin/claude/hash-maze-cube-m6wq80
 import { type CubePlayHook, PLAY_HOOK, PLAY_QUERY } from '../lib/play';
 import classes from './cube.module.scss';
-import { type CubeScene, mountCube, type SignOf } from './cube-scene';
+import {
+  type CubeScene,
+  mountCube,
+  type Selling,
+  type SignOf,
+} from './cube-scene';
 import { SaleOffer } from './sale-offer';
 
 /** The query naming the floor a walk starts on; floor 1 without it. */
@@ -109,22 +104,27 @@ const writeFragment = (fragment: string): void => {
   globalThis.history.replaceState(null, '', `#${fragment}`);
 };
 
+/** `open` hears a press on a sign in reach; `offering` whether one is open. */
 type Hooks = {
   setFloor: (n: number) => void;
   setFailure: (error: Error) => void;
   setMissing: (missing: boolean) => void;
+  setInReach: (kind: SignKind | null) => void;
+  open: (offer: Signed) => void;
+  offering: () => boolean;
 };
 
 /**
  * Draws the cube into `canvas` from `start`, walked by the keyboard and
- * pointer, or by the play hook under `?play`; returns its teardown.
+ * pointer, or by the play hook under `?play`; its `dispose` ends the walk.
  */
 function walk(
   canvas: HTMLCanvasElement,
   { pose: start, hatch, resumable }: Start,
   play: boolean,
-  { setFloor, setFailure, setMissing }: Hooks,
-): () => void {
+  selling: Selling,
+  { setFloor, setFailure, setMissing, setInReach, open, offering }: Hooks,
+): CubeScene {
   const input = play ? null : bindInput(canvas, setFailure);
   const holedHere = plantedHoled(setFailure);
   const follow: Follow | null =
@@ -139,24 +139,47 @@ function walk(
         );
   // The pose is the scene's; the rest of the player rides along with it.
   let player: Player = { pose: start, shrinking: null };
+  /** A press the play hook asked for, resolved once a frame reads it. */
+  let pressed: PromiseWithResolvers<void> | null = null;
+
+  /** Shows the hint by a sign in reach, and opens its offer on a press. */
+  const reach = (pose: Pose, signOf: SignOf, press: boolean): void => {
+    const sign = signOf(pose);
+    const can = sign !== null && canPress(pose, sign);
+    setFloor(pose.n);
+    setInReach(can ? sign.kind : null);
+    if (!can || !press) return;
+    const { n, x, y } = pose;
+    const room: Room = { n, x, y };
+    open({ room, sign });
+    // The offer takes the pointer, so the mouse can reach its buttons.
+    if (document.pointerLockElement === canvas) document.exitPointerLock();
+  };
+
   const scene = mountCube(canvas, {
     start,
+    ...selling,
     onFrame:
       input === null
-        ? (pose) => {
-            setFloor(pose.n);
+        ? (pose, _seconds, signOf) => {
+            reach(pose, signOf, pressed !== null);
+            pressed?.resolve();
+            pressed = null;
             return { pose, pulled: null };
           }
-        : (pose, seconds) => {
+        : (pose, seconds, signOf) => {
+            // An open offer holds the body still, its keys read and dropped.
+            const read = input.read();
+            const controls = offering() ? STILL : read;
             player = playFrame(
               { ...player, pose },
-              input.read(),
+              controls,
               seconds,
               plantedWalls,
               holedHere(pose),
             );
             const { pose: moved, shrinking } = player;
-            setFloor(moved.n);
+            reach(moved, signOf, controls.pull && shrinking === null);
             follow?.(moved, shrinking === null, seconds);
             return { pose: moved, pulled: pulledOf(player) };
           },
@@ -167,12 +190,23 @@ function walk(
   });
   if (play) {
     const { ready, setPose, adapter } = scene;
-    const hook: CubePlayHook = { ready, setPose, adapter };
+    const hook: CubePlayHook = {
+      ready,
+      setPose,
+      adapter,
+      press: async () => {
+        pressed ??= Promise.withResolvers();
+        return pressed.promise;
+      },
+    };
     Object.assign(globalThis, { [PLAY_HOOK]: hook });
   }
-  return () => {
-    input?.dispose();
-    scene.dispose();
+  return {
+    ...scene,
+    dispose: () => {
+      input?.dispose();
+      scene.dispose();
+    },
   };
 }
 
@@ -183,13 +217,10 @@ type CubeCanvasProps = {
   unsupported: string;
   /** The floor the eye stands on, `{floor}` its number. */
   floor: string;
-<<<<<<< HEAD
-  /** A for-sale room's sign, hint and offer. */
-  offer: (typeof COPY)['offer'];
-=======
   /** The one line shown when the URL's fragment leads nowhere. */
   nowhere: string;
->>>>>>> origin/claude/hash-maze-cube-m6wq80
+  /** A for-sale room's sign, hint and offer. */
+  offer: Selling['copy'];
 };
 
 /** The canvas the cube draws into, filling the viewport. */
@@ -197,23 +228,15 @@ export function CubeCanvas({
   canvas: label,
   unsupported,
   floor: floorLine,
-<<<<<<< HEAD
-  offer: offerCopy,
-=======
   nowhere,
->>>>>>> origin/claude/hash-maze-cube-m6wq80
+  offer: offerCopy,
 }: CubeCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [failure, setFailure] = useState<Error | null>(null);
   const [missing, setMissing] = useState(false);
-<<<<<<< HEAD
+  const [lost, setLost] = useState(false);
   // Set every frame, which re-renders only on a new floor or reach: React
   // drops a set to the value the state already holds.
-=======
-  const [lost, setLost] = useState(false);
-  // Set every frame, which re-renders only on a new floor: React drops a set
-  // to the value the state already holds.
->>>>>>> origin/claude/hash-maze-cube-m6wq80
   const [floor, setFloor] = useState<number | null>(null);
   /** The kind of the sign in reach, if one is. */
   const [inReach, setInReach] = useState<SignKind | null>(null);
@@ -247,85 +270,7 @@ export function CubeCanvas({
     const canvas = canvasRef.current;
     if (canvas === null) return;
     const query = new URLSearchParams(globalThis.location.search);
-<<<<<<< HEAD
-    const play = query.has(PLAY_QUERY);
-    // Thrown from the effect, which the route's error boundary catches too.
-    const start = startOf(query);
-    const input = play ? null : bindInput(canvas, setFailure);
-    const holedHere = plantedHoled(setFailure);
-    // The pose is the scene's; the rest of the player rides along with it.
-    let player: Player = { pose: start, shrinking: null };
-    /** A press the play hook asked for, resolved once a frame reads it. */
-    let pressed: PromiseWithResolvers<void> | null = null;
-
-    /** Shows the hint by a sign in reach, and opens its offer on a press. */
-    const reach = (pose: Pose, signOf: SignOf, press: boolean): void => {
-      const sign = signOf(pose);
-      const can = sign !== null && canPress(pose, sign);
-      setFloor(pose.n);
-      setInReach(can ? sign.kind : null);
-      if (!can || !press) return;
-      const { n, x, y } = pose;
-      const room: Room = { n, x, y };
-      offeringRef.current = true;
-      setOffer({ room, sign });
-      // The offer takes the pointer, so the mouse can reach its buttons.
-      if (document.pointerLockElement === canvas) document.exitPointerLock();
-    };
-
-    const scene = mountCube(canvas, {
-      start,
-      copy: offerCopy,
-      bought: () => holdingsRef.current,
-      onFrame:
-        input === null
-          ? (pose, _seconds, signOf) => {
-              reach(pose, signOf, pressed !== null);
-              pressed?.resolve();
-              pressed = null;
-              return { pose, pulled: null };
-            }
-          : (pose, seconds, signOf) => {
-              // An open offer holds the body still, its keys read and dropped.
-              const read = input.read();
-              const controls = offeringRef.current ? STILL : read;
-              player = playFrame(
-                { ...player, pose },
-                controls,
-                seconds,
-                plantedWalls,
-                holedHere(pose),
-              );
-              const { pose: moved, shrinking } = player;
-              reach(moved, signOf, controls.pull && shrinking === null);
-              return { pose: moved, pulled: pulledOf(player) };
-            },
-      onError: setFailure,
-      onUnsupported: () => {
-        setMissing(true);
-      },
-    });
-    sceneRef.current = scene;
-    if (play) {
-      const { ready, setPose, adapter } = scene;
-      const hook: CubePlayHook = {
-        ready,
-        setPose,
-        adapter,
-        press: async () => {
-          pressed ??= Promise.withResolvers();
-          return pressed.promise;
-        },
-      };
-      Object.assign(globalThis, { [PLAY_HOOK]: hook });
-    }
-    return () => {
-      sceneRef.current = null;
-      input?.dispose();
-      scene.dispose();
-=======
     let live = true;
-    let teardown: (() => void) | null = null;
     startOf(query, globalThis.location.hash.slice(1))
       .then((start) => {
         if (!live) return;
@@ -333,17 +278,29 @@ export function CubeCanvas({
           setLost(true);
           return;
         }
-        teardown = walk(canvas, start, query.has(PLAY_QUERY), {
-          setFloor,
-          setFailure,
-          setMissing,
-        });
+        sceneRef.current = walk(
+          canvas,
+          start,
+          query.has(PLAY_QUERY),
+          { copy: offerCopy, bought: () => holdingsRef.current },
+          {
+            setFloor,
+            setFailure,
+            setMissing,
+            setInReach,
+            open: (signed) => {
+              offeringRef.current = true;
+              setOffer(signed);
+            },
+            offering: () => offeringRef.current,
+          },
+        );
       })
       .catch(setFailure);
     return () => {
       live = false;
-      teardown?.();
->>>>>>> origin/claude/hash-maze-cube-m6wq80
+      sceneRef.current?.dispose();
+      sceneRef.current = null;
     };
   }, [offerCopy]);
 

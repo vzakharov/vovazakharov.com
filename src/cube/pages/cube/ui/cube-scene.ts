@@ -62,16 +62,21 @@ type Mesh = {
 /** The offer's copy, which holds what each kind of sign says. */
 type SignCopy = (typeof COPY)['offer'];
 
-/** `onError` hears a device lost or a build that threw. */
-export type CubeOptions = WithOnError & {
-  start: Pose;
+/** What the signs say, and which rooms they mark as the viewer's. */
+export type Selling = {
   copy: SignCopy;
   /** The rooms the viewer bought, read on every mesh build. */
   bought: () => Holdings;
-  onFrame: FrameHook;
-  /** Hears that the browser has no WebGPU; nothing is drawn then. */
-  onUnsupported: () => void;
 };
+
+/** `onError` hears a device lost or a build that threw. */
+export type CubeOptions = WithOnError &
+  Selling & {
+    start: Pose;
+    onFrame: FrameHook;
+    /** Hears that the browser has no WebGPU; nothing is drawn then. */
+    onUnsupported: () => void;
+  };
 
 /**
  * The play hook's calls, which the page also drives itself; `refresh`, which

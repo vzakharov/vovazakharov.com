@@ -33,7 +33,6 @@
   user-select: none;
 }
 
-<<<<<<< HEAD
 // The sign's hint, under the crosshair's place, letting pointers through.
 .hint {
   position: fixed;
@@ -50,11 +49,8 @@
   user-select: none;
 }
 
-.unsupported {
-=======
 // The one line shown in the cube's place when it cannot be drawn.
 .notice {
->>>>>>> origin/claude/hash-maze-cube-m6wq80
   margin: 0;
   padding: 16px;
   font:
