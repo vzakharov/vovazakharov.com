@@ -1,7 +1,7 @@
 /**
  * The cube's one pipeline: a vertex is position, normal and colour; the
  * uniforms are the view-projection and the ambient light. Lambert from a
- * fixed light over the ambient, the same at any distance.
+ * fixed light over the ambient.
  */
 export const SHADER = /* wgsl */ `
 struct Uniforms {
