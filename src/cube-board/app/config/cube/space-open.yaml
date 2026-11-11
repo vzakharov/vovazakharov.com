@@ -1,0 +1,19 @@
+items:
+  - id: z-space-open
+    type: zone
+    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    box: [1500, 2740, 720, 600, gray]
+    icon: ❓
+    text: Open and ruled out
+  - id: graf-open
+    type: sticky
+    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    box: [1528, 2850, 244, gray]
+    icon: ❓
+    text: 'Open: one shared world, so a found answer leaks, and that is fine: knowing the answer is what reaching a floor means. What a painting becomes in the game is a gift, not a promise. Not a blockchain: nothing on a chain can be taken down. Painting for hire happens off-site whatever we rule; we issue nothing a player can hand on'
+  - id: graf-ruled-out
+    type: sticky
+    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    box: [1863, 2850, 244, gray]
+    icon: ⛔
+    text: 'Ruled out: a constant per floor or a cut-off at floor 3 (arbitrary); a one-off auction (sold for $10 in month one, hands tied); overpaint at ×2 (takes a paid wall away); payouts, transferable credit, gifts (a market in money); measuring who passes a wall; a Worker checking holes at walking pace (the cube stays static)'
