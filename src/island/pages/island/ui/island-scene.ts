@@ -8,7 +8,7 @@ import {
   WebGPURenderer,
 } from 'three/webgpu';
 
-import type { CanDispose } from '@/kernel/shared/typings';
+import type { CanDispose, WithOnError } from '@/kernel/shared/typings';
 
 import { dot, length, R, sub, unit, type Vec3 } from '@/island/shared/globe';
 import {
@@ -89,10 +89,7 @@ const ROOTS: TileKey[] = Array.from({ length: 4 ** MIN_LEVEL }, (_, i) => ({
   y: Math.floor(i / 2 ** MIN_LEVEL),
 }));
 
-type MountIslandSceneParams = {
-  play: boolean;
-  onError: (error: Error) => void;
-};
+type MountIslandSceneParams = WithOnError & { play: boolean };
 
 /**
  * The island's scene on `canvas`: three's WebGPU renderer, which falls back

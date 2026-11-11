@@ -164,10 +164,21 @@ async function endpoint(chrome: ChildProcess): Promise<string> {
 }
 
 /**
- * Starts Chromium with WebGL on the software rasterizer, which is what a
- * container without a GPU can draw a canvas game with.
+ * Chromium's switches for WebGPU on SwiftShader's Vulkan, which is the adapter
+ * a container without a GPU has; `launch(WEBGPU_FLAGS)` passes them.
  */
-export async function launch(): Promise<Browser> {
+export const WEBGPU_FLAGS: readonly string[] = [
+  '--enable-unsafe-webgpu',
+  '--enable-features=Vulkan',
+  '--use-vulkan=swiftshader',
+  '--use-webgpu-adapter=swiftshader',
+];
+
+/**
+ * Starts Chromium with WebGL on the software rasterizer, which is what a
+ * container without a GPU can draw a canvas game with, plus any `flags`.
+ */
+export async function launch(flags: readonly string[] = []): Promise<Browser> {
   const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'cdp-'));
   const chrome = spawn(
     findChromium(),
@@ -179,6 +190,7 @@ export async function launch(): Promise<Browser> {
       '--enable-unsafe-swiftshader',
       '--hide-scrollbars',
       `--user-data-dir=${profile}`,
+      ...flags,
       'about:blank',
     ],
     { stdio: ['ignore', 'ignore', 'pipe'] },
