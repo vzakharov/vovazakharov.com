@@ -93,6 +93,11 @@ when done; the lead reviews and merges.
 | Descent               | `session_01DaohkEv5QzP5HRqvoP2WgS` | `claude/cube-descent`    |
 | Decor                 | `session_01DaohkCozV972W1BLmTzXwA` | `claude/cube-decor`      |
 | Happenings            | `session_01DaohkE68cpjBn2aT8RoyZv` | `claude/cube-happenings` |
+| Workplace 4–8         | `session_01DaohkFE4tn3iw7qZBGoodk` | `claude/cube-workplace`  |
+| Dwelling 9–20         | `session_01DaohkDiYMM81V4SNZcJemR` | `claude/cube-dwelling`   |
+| Leisure 21–35         | `session_01DaohkBMVGXdEuW3E2ayjQi` | `claude/cube-leisure`    |
+| Laboratory 36–52      | `session_01DaohkEULbbnPnqNmdjyPte` | `claude/cube-laboratory` |
+| Edge 53–67            | `session_01DaohkB98NDbXs6XjN5h4KC` | `claude/cube-edge`       |
 
 The voice stream was told, after the operator found a formant voice too robotic
 for the protagonist: the visitor makes wordless vocal sounds only; the words are
@@ -100,9 +105,8 @@ the building's public-address voice, which the robot timbre suits.
 
 ## Next
 
-1. Launch the five theme bands (`claude/cube-<band>`), now that light is
-   continuous: a point takes the lamps of its room and the eight around it
-   through what is open (`kit/lib/light.ts`, `pages/cube/lib/room-state.ts`).
+1. The first six streams were cut before the light became continuous
+   (`kit/lib/light.ts`, `pages/cube/lib/room-state.ts`); the bands after.
 2. Merge every stream here as it reports.
 3. The lead's wiring: a per-frame 'moving' vertex layer for hands and
    happenings; sound and voice cues; posters; decor; happenings; the sale signs
