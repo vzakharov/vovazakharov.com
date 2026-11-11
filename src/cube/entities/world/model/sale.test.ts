@@ -23,9 +23,13 @@ describe('priceOf', () => {
     assert.equal(priceOf(3), 1_250_000);
     assert.ok(Math.abs(priceOf(8) - 38.147) < 0.001);
     const perCube = (n: number) => priceOf(n) / (5 / 2 ** (n - 1)) ** 3;
-    for (const n of [5, 30]) {
+    for (const n of [5, 8]) {
       assert.ok(Math.abs(perCube(n) / perCube(2) - 1) < 1e-12);
     }
+  });
+
+  it('sells floor 9 and every floor below at $4.99', () => {
+    for (const n of [9, 10, 30]) assert.equal(priceOf(n), 4.99);
   });
 });
 

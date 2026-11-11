@@ -25,22 +25,12 @@ describe('formatPrice', () => {
   it('ends cents under $10 in the nearest .99', () => {
     assert.equal(formatPrice(4.768_371_582), '$4.99');
     assert.equal(formatPrice(5), '$4.99');
+    assert.equal(formatPrice(4.99), '$4.99');
     assert.equal(formatPrice(1.2), '$0.99');
   });
 
-  it('tags under a dollar one cent under', () => {
-    assert.equal(formatPrice(0.6), '$0.59');
-  });
-
-  it('tags anything from a cent down a hundredth under in scientific form', () => {
-    assert.equal(formatPrice(0.009_313_225_746), '$9.31 × 10⁻³');
-    assert.equal(formatPrice(1.578e-51), '$1.57 × 10⁻⁵¹');
-    assert.equal(formatPrice(0.002), '$1.99 × 10⁻³');
-    assert.equal(formatPrice(0.01), '$9.99 × 10⁻³');
-  });
-
   it('refuses what is no price', () => {
-    for (const bad of [0, -1, Number.NaN, Number.POSITIVE_INFINITY]) {
+    for (const bad of [0, 0.6, -1, Number.NaN, Number.POSITIVE_INFINITY]) {
       assert.throws(() => formatPrice(bad), RangeError);
     }
   });
