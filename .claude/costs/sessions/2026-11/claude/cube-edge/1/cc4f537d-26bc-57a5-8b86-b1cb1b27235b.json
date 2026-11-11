@@ -1,0 +1,112 @@
+{
+  "total": {
+    "inputTokens": 75,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 238038,
+    "cacheReadTokens": 8527219,
+    "outputTokens": 76742,
+    "thinkingTokens": 28178,
+    "responses": 42,
+    "costUsd": 8.584331799999998
+  },
+  "estimate": {
+    "at": "2026-11-11T22:59:59.187Z",
+    "subjectLine": "feat: the cube's edge band, fifteen designed floors 53–67",
+    "parts": [
+      {
+        "hours": 48.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "fifteen distinct procedural floor looks, each designed, shot and iterated to a picture, is look-development work at about three hours a floor"
+      },
+      {
+        "hours": 12.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "six floors replace the light or the lens with screen-space passes (depth outlines, ordered dither, palette quantising, a tube) that need shader engineering"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-11T22:41:27.201Z",
+    "contextTokens": 117445,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 55032,
+      "cacheReadTokens": 155432,
+      "outputTokens": 793,
+      "thinkingTokens": 60,
+      "responses": 2,
+      "costUsd": 0.9433504
+    }
+  },
+  "sessionId": "cc4f537d-26bc-57a5-8b86-b1cb1b27235b",
+  "branch": "claude/cube-edge",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/go",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkB98NDbXs6XjN5h4KC",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-11T22:41:14.563Z",
+  "lastResponseAt": "2026-11-11T23:08:38.820Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 75,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 238038,
+    "cacheReadTokens": 8527219,
+    "outputTokens": 76742,
+    "thinkingTokens": 28178,
+    "responses": 42,
+    "costUsd": 8.584331799999998
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 75,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 238038,
+      "cacheReadTokens": 8527219,
+      "outputTokens": 76742,
+      "thinkingTokens": 28178,
+      "responses": 42,
+      "costUsd": 8.584331799999998
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 41,
+    "matched": 41,
+    "matchedTableUsd": 8.479909199999998,
+    "matchedEventUsd": 8.479909199999998,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".json": 19,
+    ".md": 358,
+    ".ts": 3182,
+    ".tsx": 12
+  }
+}
