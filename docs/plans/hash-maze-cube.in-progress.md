@@ -295,23 +295,20 @@ the half they sit in. The cube board's graffiti zone holds the economy
 discussion: start price, path pricing, paid-wall terms open, a ruled-out list,
 and brute force as a feature against Argon2.
 
-## This bite
-
-Bite 3: walking through floors — the WebGPU renderer, movement and collision,
-`/cube` routed, holes visible both ways, per-floor hue, frames. Implementation
-goes to subsessions on branches off this one, both cut from fbaaa503, which
-gives them `Pose` (`entities/world/model/pose.ts`) as the one position type:
-
-- **`cube/bite3-render`** (session_01DaohkFkq55kYzL3nVNjgAw): geometry,
-  `pages/cube`'s WebGPU renderer with a stand-in fly camera, `/cube` routed,
-  `play-cube.ts` frames.
-- **`cube/bite3-player`** (session_01DaohkDNbJ4PaxREAirP3iQ): `features/player`,
-  a pure `step(pose, input, dt, walls)` with circle collision, and its input
-  binding, tested.
-- **Here**: merge both, swap the fly camera for `step`, frames on the board.
-
-- **Card icons on the cube board**, by a subagent: an emoji on every card, so
-  the board reads at a glance, and a hand-drawn SVG where no emoji fits.
+**Bite 3 — walking through floors.** Built by two subsessions on branches off
+this one, merged here. `entities/world` gained geometry (`faces`, slab rooms,
+`view`), `Room` (`model/room.ts`, its one home) and `Pose` = `Room & InRoom` +
+`eyeAbove`, `yaw`, `elevation` — named so the type-overlap gate holds against
+mushrooms. `pages/cube` is a plain-WebGPU renderer, reversed-Z with a floating
+origin, each floor its own golden-angle hue, holes seen from both sides; `/cube`
+is routed and unlinked. `features/player` walks it: `step` with circle collision
+against `plantedWalls`, re-basing per substep, and `bindInput` on pointer lock,
+a refused lock going to the error boundary. `?floor=N` starts on floor N, since
+the fall between floors is bite 4. `pnpm play:cube` shoots frames 0005–0006.
+Open: on SwiftShader a slab corner on the camera plane leaks floor-2 wall tops
+as a line (the shot sits 0.24 back); check on a real GPU before nudging slab
+faces or tessellating. The board's cards carry icons, an emoji each or one of
+four hand-drawn SVGs in `cube/icons/`.
 
 ## Coordination
 
