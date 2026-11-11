@@ -88,4 +88,4 @@ items:
     updated: [2026-11-11T13:40:00.000Z, agent:cube]
     box: [3188, 360, 244, yellow]
     icon: 🏜️
-    text: "Bug or feature, undecided: a mirage. On floor 3 the lever on the far side of a wall flickers through it while walking, half-drawn when still. A lever you want and cannot reach, with no known way round. Kept only if it does not flatten the search: it shows the hole room from its four neighbours too, a constant ×5, not a shortcut"
+    text: "Bug or feature, undecided: a mirage. On floor 3 the lever on the far side of a wall flickers through it while walking, half-drawn when still. Today a depth tie, not a mirage: walls have no thickness and the plate's back lies in the wall's plane, so the two win by turns. As a feature it would be drawn on purpose. A lever you want and cannot reach, with no known way round. Kept only if it does not flatten the search: it shows the hole room from its four neighbours too, a constant ×5, not a shortcut"
