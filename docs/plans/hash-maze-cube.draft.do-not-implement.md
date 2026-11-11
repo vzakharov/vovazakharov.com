@@ -79,26 +79,31 @@ longer than 2^32 rooms take two words.
 `round-world` built as `roll`:
 
 ```ts
+const blockKey = roll.key({ n: roll.int, level: roll.int, x: roll.big, y: roll.big });
+const edgeKey = roll.key(['north', 'east', 'south', 'west']); // a block's inner walls
 const Maze = roll.struct({
-  block: roll.family(blockKey, roll.struct({
+  block: roll.over(blockKey, roll.struct({
     omit: roll.pick(4),
-    door: roll.family(edgeKey, roll.wide()),
+    door: roll.over(edgeKey, roll.wide()),
   })),
 });
-// maze.block.at({ n, level, x, y }).door.at(edge) — typed, read on demand
+// maze.block.at({ n, level, x, y }).door.at('east') — typed, read on demand
 ```
 
-A leaf's path is still its place in the tree (`block/<n>/<level>/<x>/<y>/omit`),
-derived from the schema and hashed by `dice`'s `pathHash` (MurmurHash3; the maze
-is scenery, so it needs speed and spread, not cryptography). What
-`round-world`'s `roll` lacks is laziness: `rollWith` decodes the whole tree and
-a `table` fills a flat array, and a floor of 2^126 rooms has no whole. So `dice`
-adds, beside the verbatim vocabulary, **`roll.family(index, of)`** — a table
-with no slot count, whose keys may be BigInt, decoded one key at a time by
-`.at(key)` and never materialized; **`roll.pick(k)`**, an integer leaf on
-`[0, k)`; and **`roll.wide()`**, a door position on an edge longer than 2^32
-rooms, read from two words at `…/0` and `…/1`. `Rolled<S>` maps a family to its
-`.at` lookup, so the cube's code never sees a path or a raw word.
+A leaf's path is still its place in the tree followed by its keys
+(`block/<n>/<level>/<x>/<y>/door/east`), derived from the schema and hashed by
+`dice`'s `pathHash` (MurmurHash3; the maze is scenery, so it needs speed and
+spread, not cryptography). What `round-world`'s `roll` lacks is a rule over keys
+it cannot list: `rollWith` decodes the whole tree and a `table` fills a flat
+array, and a floor of 2^126 rooms has no whole. So `dice` adds, beside the
+verbatim vocabulary, **`roll.over(key, of)`** — one `of` over every value of
+`key`, never enumerated, decoded by `.at(key)` when asked, of which `table` is
+the finite case laid out in advance; **`roll.key`**, a key's type and how it
+spells its path segments, as a record of typed parts or a closed list;
+**`roll.pick(k)`**, an integer leaf on `[0, k)`; and **`roll.wide()`**, a door
+position on an edge longer than 2^32 rooms, read from two words at `…/0` and
+`…/1`. `Rolled<S>` maps an `over` to its `.at` lookup, so the cube's code never
+sees a path or a raw word.
 
 ### The hole: one per floor, a SHA-256 commitment
 
@@ -164,9 +169,9 @@ one per floor.
   vocabulary (typed schemas, a leaf's word keyed by its path), its decoders
   (uniform, normal by AS 241) and `pathHash`, taken verbatim with their tests
   from `island/round-world`
-  (`src/island/entities/terrain/world/{roll,land/model/hash.ts}`), plus the lazy
-  `family`, `pick` and `wide` the maze needs (§ "The maze"), additive beside
-  them. `cube` consumes the vocabulary; `island` switches to it when
+  (`src/island/entities/terrain/world/{roll,land/model/hash.ts}`), plus the
+  `over`, `key`, `pick` and `wide` the maze needs (§ "The maze"), additive
+  beside them. `cube` consumes the vocabulary; `island` switches to it when
   `round-world` lands (see Coordination).
 - **`board`** (parent `scene`): the board's mechanisms, out of `island-board`:
   `entities/item`, `pages/board`, `app/styles`, `scripts/` (`board.ts` and its
