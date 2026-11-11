@@ -1,0 +1,161 @@
+{
+  "total": {
+    "inputTokens": 2236,
+    "cacheWrite5mTokens": 112405,
+    "cacheWrite1hTokens": 386651,
+    "cacheReadTokens": 14715684,
+    "outputTokens": 157230,
+    "thinkingTokens": 56723,
+    "responses": 80,
+    "costUsd": 16.560690800000003
+  },
+  "estimate": {
+    "at": "2026-11-11T22:30:50.930Z",
+    "subjectLine": "feat: the cube's stroke lettering, decaying scripts, life-size posters",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "a stroke font, a rolled glyph grammar and forty-odd subjects drawn as polylines are procedural look work"
+      },
+      {
+        "hours": 8.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "the layout, clipping, ruler maths, painters and their tests are routine pure code"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "copywriter",
+        "comment": "honest captions across 67 floors of scale need judgement of fact and tone"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-11T22:26:02.421Z",
+    "contextTokens": 117142,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 55158,
+      "cacheReadTokens": 155919,
+      "outputTokens": 687,
+      "thinkingTokens": 0,
+      "responses": 2,
+      "costUsd": 0.9412237999999999
+    }
+  },
+  "sessionId": "02be033e-bba5-528b-acea-f97c1cc6ae73",
+  "branch": "claude/cube-lettering",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/go Build the cube's \"Lettering and posters\" stream on branch claude/cube-lettering (cut from claude/cube-liminal-332pmv, already checked out as the base): read…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCp3iTMNfzGeXLrg5o",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-11T22:25:52.427Z",
+  "lastResponseAt": "2026-11-11T23:02:28.597Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 137,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 386651,
+    "cacheReadTokens": 13587514,
+    "outputTokens": 139938,
+    "thinkingTokens": 52926,
+    "responses": 71,
+    "costUsd": 14.5025348
+  },
+  "subagents": {
+    "inputTokens": 13,
+    "cacheWrite5mTokens": 112236,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 827007,
+    "outputTokens": 7856,
+    "thinkingTokens": 3797,
+    "responses": 8,
+    "costUsd": 1.6021054000000001
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 2236,
+      "cacheWrite5mTokens": 112405,
+      "cacheWrite1hTokens": 386651,
+      "cacheReadTokens": 14715684,
+      "outputTokens": 157230,
+      "thinkingTokens": 56723,
+      "responses": 80,
+      "costUsd": 16.560690800000003
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-11T22:48:46.648Z",
+      "trigger": "auto",
+      "compactedFrom": 305647,
+      "summaryChars": 21293,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/cube/shared/lettering/invented.ts",
+        "endedAt": "2026-11-11T22:50:08.404Z",
+        "contextTokens": 135472,
+        "spend": {
+          "inputTokens": 10,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 74047,
+          "cacheReadTokens": 560360,
+          "outputTokens": 5204,
+          "thinkingTokens": 340,
+          "responses": 5,
+          "costUsd": 1.5050640000000002
+        }
+      },
+      "rereads": {
+        "calls": 2,
+        "byTool": {
+          "Read": 2
+        },
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.45605060000000003
+    }
+  ],
+  "telemetry": {
+    "events": 80,
+    "matched": 79,
+    "matchedTableUsd": 16.104640200000002,
+    "matchedEventUsd": 16.104640200000002,
+    "unseen": {
+      "compact": {
+        "inputTokens": 2086,
+        "cacheWrite5mTokens": 169,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 301163,
+        "outputTokens": 9436,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.45605060000000003
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 2,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".json": 19,
+    ".md": 343,
+    ".ts": 5978,
+    ".tsx": 12
+  }
+}
