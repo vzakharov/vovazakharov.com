@@ -279,35 +279,30 @@ screenshots of the four artifacts' English copies — is published at
 https://claude.ai/artifact/WbvwDqVtJzN8EBeuUffho3 with `db`, `user` and
 `assets`, its `db` empty until someone edits it.
 
+**Bite 2 — `dice` and the world model.** `src/dice/shared/roll/` holds `roll`
+and `decode` from `round-world`, plus `over`, `key` (with `int` and `big`
+parts), `pick` and `wide`; a door on an edge of `2^k` rooms sits at
+`wide · 2^k >> 64`, exact to `k = 64`, so the maze refuses floor 67 whole. Its
+`seal.ts` gives `sealWith(world, keys)`: each named key's `.at(key)` is the
+SHA-256 of `<world>/<name>/<segments>`, addressed as `roll` addresses a struct.
+The cube keeps only its schema, `seals(seed).hole.at({ n, x, y })`, whose
+preimage `<seed>/hole/<n>/<x>/<y>` the planted `world.json` holds byte for byte.
+`entities/world` has `isOpen(floor, wall)` and `holeQuarter`; `scripts/plant.ts`
+plants with `crypto.getRandomValues` and keeps no answers. The floor count is
+the commitment list's length + 1. Geometry waits for its first reader in bite 3.
+Conventions: x grows east, y grows south; a block's inner edges are named for
+the half they sit in. The cube board's graffiti zone holds the economy
+discussion: start price, path pricing, paid-wall terms open, a ruled-out list,
+and brute force as a feature against Argon2.
+
 ## This bite
 
-Bite 2: `dice` and the world model, tested, nothing drawn.
+Bite 3: walking through floors — the WebGPU renderer, movement and collision,
+`/cube` routed, holes visible both ways, per-floor hue, frames. Implementation
+goes to subsessions on branches off this one.
 
-- **`src/dice/shared/roll/`**: `roll.ts` and `decode.ts` from `round-world`,
-  with their tests, and its `hash.ts` beside them as `model/hash.ts`. `roll`
-  gains `over`, `key` (with `int` and `big` parts), `pick` and `wide`. `wide`
-  decodes to a `bigint` in `[0, 2^64)`. A door position on an edge of `2^k`
-  rooms is `wide · 2^k >> 64`, exact up to `k = 64`. Floor `n`'s longest
-  half-edge is `2^(n−2)` rooms, so floor 66 is the deepest placed exactly, and
-  the cube's maze refuses floor 67 whole rather than wall it coarsely. No floor
-  count is wired into `dice`.
-- **`src/cube/entities/world/`**:
-  - `maze`: the `Maze` schema and `isOpen(floor, wall)`.
-  - `hole`: `holeQuarter(world, n, x, y)` through `crypto.subtle`.
-  - `plant`: `plant(floors, random)`, which returns the world and its answers.
-  - `config/world.json`: the planted world.
-- **Floor count is the commitment list's length + 1**, so no `67` constant: the
-  planted list ends at floor 67 and the maze's own bound agrees with it. The
-  commitments cannot be derived from the seed: the answer would then be
-  computable.
-- **`src/cube/scripts/plant.ts`** writes `world.json` and keeps no answers.
-- `src/masd.json` gains `dice` and `cube` (`cube`'s parent is `dice` alone until
-  bite 3 brings `scene` and the route).
-- **Geometry waits for bite 3**, its first reader: a module of ratios no code
-  reads would be dead code for knip, and the numbers are in § "Geometry".
-- Conventions: x grows east, y grows south. A block's inner edges are named for
-  the half they sit in. `north` and `south` are the halves of the vertical
-  midline, and `west` and `east` the halves of the horizontal one.
+- **Card icons on the cube board**, by a subagent: an emoji on every card, so
+  the board reads at a glance, and a hand-drawn SVG where no emoji fits.
 
 ## Coordination
 
