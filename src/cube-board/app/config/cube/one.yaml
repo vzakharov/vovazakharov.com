@@ -2,7 +2,7 @@ items:
   - id: z-one
     type: zone
     updated: [2026-11-11T14:40:00.000Z, agent:cube]
-    box: [3640, 0, 1060, 900, blue]
+    box: [3640, 0, 1395, 900, blue]
     icon: 🧗
     text: Iteration one, after zero went live
   - id: one-1
@@ -29,6 +29,18 @@ items:
     box: [3668, 450, 244, blue]
     icon: ➕
     text: "Buy more: once a room is bought, its neighbour through the one opening is a dead end in turn if every other side is a wall or a bought room, and its sign reads «buy more» to the owner. A neighbour with another opening stays unsold, no sign. Tried now with purchases kept only while the page is open, a bought room marked a little apart"
+  - id: one-5
+    type: sticky
+    updated: [2026-11-11T16:40:00.000Z, agent:cube]
+    box: [4673, 110, 244, blue]
+    icon: 🏷️
+    text: "Prices tagged like a shop: from $5 up, the largest price not above the real one ending in 99, whole dollars while that stays $100 or more, else cents. $10M reads $9,999,999, $19,531 reads $19,499, $38.15 reads $37.99"
+  - id: one-6
+    type: sticky
+    updated: [2026-11-11T16:40:00.000Z, agent:cube]
+    box: [4673, 450, 244, yellow]
+    icon: 💳
+    text: "Paying, open: Stripe takes $0.50 to $999,999.99 a charge, so floors 2 and 3 go for bitcoin, an address and a sum on a static page. In between, one payment link per floor, quantity left to the buyer, no server. Under $5, a $4.99 lot; floors 26 down together are $4.77, so «all below 25» is one. Floors 9 to 25 undecided"
   - id: img-floor-three
     type: image
     updated: [2026-11-11T14:50:00.000Z, agent:cube]
