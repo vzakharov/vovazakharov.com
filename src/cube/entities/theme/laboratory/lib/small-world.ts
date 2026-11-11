@@ -34,9 +34,9 @@ fn dome(off: vec2f, radius: f32) -> f32 {
 }
 
 /// Cells of a unit lattice grown until they meet: x is how far the point is
-/// inside its cell, 0 on the line where two meet, and y and z are the cell's
-/// own two random numbers in [0, 1).
-fn shards(p: vec2f, salt: u32) -> vec3f {
+/// inside its cell, 0 on the line where two meet, y and z are the cell's own
+/// two random numbers in [0, 1), and w is the distance to the cell's middle.
+fn shards(p: vec2f, salt: u32) -> vec4f {
   let cell = vec2i(floor(p));
   var first = 8.0;
   var second = 8.0;
@@ -56,7 +56,7 @@ fn shards(p: vec2f, salt: u32) -> vec3f {
       }
     }
   }
-  return vec3f(second - first, unitOf(mix32(nearest ^ 0xa5a5a5a5u)), unitOf(mix32(nearest ^ 0x3c3c3c3cu)));
+  return vec4f(second - first, unitOf(mix32(nearest ^ 0xa5a5a5a5u)), unitOf(mix32(nearest ^ 0x3c3c3c3cu)), first);
 }
 `,
   HASH,

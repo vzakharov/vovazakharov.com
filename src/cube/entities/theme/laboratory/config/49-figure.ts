@@ -29,14 +29,13 @@ export const FIGURE: FloorTheme = {
 /// with its nucleolus, stacks of flattened sacs, dots.
 fn organelles(s: Surf) -> Material {
   let site = shards(s.uv * 0.55, 491u);
-  let middle = worley(s.uv * 0.55, 491u);
   let cytoplasm = vec3f(0.62, 0.72, 0.5);
   var albedo = cytoplasm;
   let kind = site.y;
   let turn = site.z * 6.2832;
   let lay = vec2f(cos(turn), sin(turn));
   let along = dot(s.uv, lay);
-  let squash = middle.x * (1.0 + 0.8 * abs(sin(atan2(lay.y, lay.x) * 2.0 + site.z)));
+  let squash = site.w * (1.0 + 0.8 * abs(sin(atan2(lay.y, lay.x) * 2.0 + site.z)));
   if (kind < 0.4) {
     // A mitochondrion: orange, its inner folds drawn as a zigzag.
     let bean = 1.0 - smoothstep(0.26, 0.262, squash);
@@ -44,16 +43,16 @@ fn organelles(s: Surf) -> Material {
     albedo = mix(albedo, mix(vec3f(0.78, 0.42, 0.14), vec3f(0.45, 0.16, 0.06), fold), bean);
   } else if (kind < 0.6) {
     // A nucleus: violet, with one dark spot.
-    let ball = 1.0 - smoothstep(0.36, 0.362, middle.x);
-    let spot = 1.0 - smoothstep(0.1, 0.102, middle.x);
+    let ball = 1.0 - smoothstep(0.36, 0.362, site.w);
+    let spot = 1.0 - smoothstep(0.1, 0.102, site.w);
     albedo = mix(albedo, mix(vec3f(0.5, 0.4, 0.72), vec3f(0.22, 0.14, 0.4), spot), ball);
   } else if (kind < 0.82) {
     // Stacked sacs: blue bars, shorter toward the edges of the stack.
-    let stack = (1.0 - smoothstep(0.3, 0.302, middle.x)) * step(abs(fract(along * 9.0) - 0.5), 0.2);
+    let stack = (1.0 - smoothstep(0.3, 0.302, site.w)) * step(abs(fract(along * 9.0) - 0.5), 0.2);
     albedo = mix(albedo, vec3f(0.3, 0.48, 0.72), stack);
   }
   let dotted = worley(s.uv * 9.0, 492u);
-  let ribosome = step(0.75, dotted.y) * (1.0 - smoothstep(0.1, 0.11, dotted.x)) * step(0.4, middle.x);
+  let ribosome = step(0.75, dotted.y) * (1.0 - smoothstep(0.1, 0.11, dotted.x)) * step(0.4, site.w);
   albedo = mix(albedo, vec3f(0.3, 0.2, 0.15), ribosome);
   return matte(albedo);
 }

@@ -50,13 +50,12 @@ fn muscle(s: Surf) -> Material {
 /// cells with one dark nucleus each.
 fn glands(s: Surf) -> Material {
   let cell = shards(s.uv * 7.0, 424u);
-  let nucleus = worley(s.uv * 7.0, 424u);
   let gland = worley(s.uv * 0.9, 425u);
   let ring = (1.0 - smoothstep(0.34, 0.37, gland.x)) * smoothstep(0.18, 0.21, gland.x);
   let lumen = 1.0 - smoothstep(0.18, 0.21, gland.x);
   let border = 1.0 - smoothstep(0.0, 0.07, cell.x);
   let cytoplasm = EOSIN * (0.75 + 0.5 * cell.y) * mix(1.0, 0.75, ring);
-  let dyed = (1.0 - smoothstep(0.1 + 0.08 * ring, 0.17 + 0.08 * ring, nucleus.x));
+  let dyed = (1.0 - smoothstep(0.1 + 0.08 * ring, 0.17 + 0.08 * ring, cell.w));
   var albedo = mix(cytoplasm, GLASS_WHITE, 0.7 * border);
   albedo = mix(albedo, HAEMATOXYLIN * (0.8 + 0.6 * cell.z), dyed);
   // Secretion left in the lumen takes the pink weakly.
@@ -69,8 +68,7 @@ fn glands(s: Surf) -> Material {
 fn fat(s: Surf) -> Material {
   let cell = shards(s.uv * 2.2, 427u);
   let wall = 1.0 - smoothstep(0.02, 0.06, cell.x);
-  let squeezed = worley(s.uv * 2.2, 427u);
-  let dyed = wall * step(0.75, cell.y) * (1.0 - smoothstep(0.0, 0.5, abs(squeezed.x - 0.45) * 8.0));
+  let dyed = wall * step(0.75, cell.y) * (1.0 - smoothstep(0.0, 0.5, abs(cell.w - 0.45) * 8.0));
   let albedo = mix(mix(GLASS_WHITE, EOSIN, wall), HAEMATOXYLIN, dyed);
   return embossed(s, glowing(albedo, lampGlow(s, lamps())), wall, 0.004);
 }
