@@ -8,6 +8,7 @@ import {
   oval,
   path,
   polygon,
+  TURN,
   wave,
 } from './shapes';
 
@@ -73,7 +74,7 @@ const HALF_WIDE = 1 / 3.4;
 /** Where a strand `phase` of a turn round the helix is, `x` along it. */
 const strandAt = (x: number, phase: number): Point => [
   x,
-  HALF_WIDE * (1 + Math.cos((x + phase) * 2 * Math.PI)),
+  HALF_WIDE * (1 + Math.cos((x + phase) * TURN)),
 ];
 
 /** Four turns of the double helix, lying on its side; the unit is one turn. */

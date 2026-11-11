@@ -111,16 +111,19 @@ const DRAW: Record<Sort, (stance: Stance) => Polyline> = {
     ];
     return round ? smooth(corner) : corner;
   },
-  bar: ({ footCell, headCell, wide, part }) =>
-    part.lean === 0
-      ? [
-          [0, footCell + (part.reach * (headCell - footCell)) / 2],
-          [wide, footCell + (part.reach * (headCell - footCell)) / 2],
-        ]
-      : [
-          [0, footCell],
-          [wide, headCell],
-        ],
+  bar({ footCell, headCell, wide, part }) {
+    if (part.lean !== 0) {
+      return [
+        [0, footCell],
+        [wide, headCell],
+      ];
+    }
+    const y = footCell + (part.reach * (headCell - footCell)) / 2;
+    return [
+      [0, y],
+      [wide, y],
+    ];
+  },
   dot: ({ leanCell, part }) => [
     [leanCell, 1.5 + part.low * 3],
     [leanCell, 2.5 + part.low * 3],

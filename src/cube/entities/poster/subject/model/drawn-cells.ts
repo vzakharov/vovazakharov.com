@@ -11,6 +11,7 @@ import {
   rays,
   scatter,
   speck,
+  TURN,
   wave,
 } from './shapes';
 
@@ -24,7 +25,7 @@ const lumpy = (
 ): Polyline =>
   Array.from({ length: 73 }, (_, step) => {
     const at = step / 72;
-    const out = radius * (1 + swell * Math.sin(at * lumps * 2 * Math.PI));
+    const out = radius * (1 + swell * Math.sin(at * lumps * TURN));
     return around(cx, cy, out, at);
   });
 

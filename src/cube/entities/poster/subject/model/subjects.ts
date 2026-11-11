@@ -86,9 +86,11 @@ export type Subject = Named & {
   body: Point;
 };
 
-/** `subject`'s strokes on floor `n`. */
+const sketchedOn = (sketch: Sketch, n: number): readonly Polyline[] =>
+  typeof sketch === 'function' ? sketch(n) : sketch;
+
 export const sketchOf = (subject: Subject, n: number): readonly Polyline[] =>
-  typeof subject.sketch === 'function' ? subject.sketch(n) : subject.sketch;
+  sketchedOn(subject.sketch, n);
 
 const MIDDLE: Point = [0.5, 0.5];
 
@@ -100,9 +102,7 @@ const DOME: Point = [0.5, 0.7];
 
 /** The box a sketch's own strokes fill, when the thing is all of them. */
 function whole(sketch: Sketch): Point {
-  const [left, bottom, right, top] = bounds(
-    typeof sketch === 'function' ? sketch(1) : sketch,
-  );
+  const [left, bottom, right, top] = bounds(sketchedOn(sketch, 1));
   return [right - left, top - bottom];
 }
 

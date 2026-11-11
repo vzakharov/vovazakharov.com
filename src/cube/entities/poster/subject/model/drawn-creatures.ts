@@ -1,4 +1,4 @@
-import type { Polyline } from '@/cube/shared/lettering';
+import type { Point, Polyline } from '@/cube/shared/lettering';
 
 import { arc, around, blob, curve, oval, path, rays, speck } from './shapes';
 
@@ -84,8 +84,7 @@ const spiral = (
   Array.from({ length: Math.ceil(turns * 24) + 1 }, (_, step) => {
     const along = step / (turns * 24);
     const radius = outer + (inner - outer) * along;
-    const angle = (0.6 - along * turns) * 2 * Math.PI;
-    return [cx + radius * Math.cos(angle), cy + radius * Math.sin(angle)];
+    return around(cx, cy, radius, 0.6 - along * turns);
   });
 
 export const SNAIL: Polyline[] = [
@@ -127,11 +126,8 @@ export const BEE: Polyline[] = [
 ];
 
 /** A jointed leg from `hip` through `knee` to `foot`. */
-const leg = (
-  hip: readonly [number, number],
-  knee: readonly [number, number],
-  foot: readonly [number, number],
-): Polyline => path(hip, knee, foot);
+const leg = (hip: Point, knee: Point, foot: Point): Polyline =>
+  path(hip, knee, foot);
 
 export const ANT: Polyline[] = [
   oval(0.2, 0.27, 0.18, 0.12),

@@ -21,20 +21,24 @@ const between = (a: Point, b: Point, t: number): Point => [
   a[1] + (b[1] - a[1]) * t,
 ];
 
+/** The two points corner cutting leaves of the side from `a` to `b`. */
+const quarters = (a: Point, b: Point): Point[] => [
+  between(a, b, 0.25),
+  between(a, b, 0.75),
+];
+
 /** One round of corner cutting over the corners `ring` goes round. */
 function cutRing(ring: Polyline): Point[] {
-  return ring.flatMap((point, at) => {
-    const next = ring[(at + 1) % ring.length] ?? point;
-    return [between(point, next, 0.25), between(point, next, 0.75)];
-  });
+  return ring.flatMap((point, at) =>
+    quarters(point, ring[(at + 1) % ring.length] ?? point),
+  );
 }
 
 /** One round of corner cutting that keeps an open line's two ends. */
 function cutOpen(line: Polyline): Point[] {
-  const cut = line.slice(0, -1).flatMap((point, at) => {
-    const next = line[at + 1] ?? point;
-    return [between(point, next, 0.25), between(point, next, 0.75)];
-  });
+  const cut = line
+    .slice(0, -1)
+    .flatMap((point, at) => quarters(point, line[at + 1] ?? point));
   const first = line[0];
   const last = line.at(-1);
   if (first === undefined || last === undefined) return [];

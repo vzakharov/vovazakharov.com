@@ -8,7 +8,8 @@ import {
   strokes,
 } from '@/cube/shared/lettering';
 
-const TURN = 2 * Math.PI;
+/** A whole turn, in radians. */
+export const TURN = 2 * Math.PI;
 
 /** A straight-sided stroke through `points`. */
 export const path = (...points: Point[]): Polyline => points;
