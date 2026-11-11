@@ -5,18 +5,24 @@ items:
     box: [0, 1000, 3540, 720, orange]
     icon: 📛
     text: What to call it
-  - id: img-64levels
+  - id: img-67levels
     type: image
-    updated: [2026-11-11T04:56:00.000Z, agent:cube]
+    updated: [2026-11-11T07:30:00.000Z, agent:cube]
     box: [28, 1110, 600]
-    src: images/unsquatted-64levels.webp
-    text: "Vova's near-pick: 64levels.com, free at $12/yr"
+    src: images/unsquatted-67levels.webp
+    text: "Vova's near-pick, now that there are 67 levels: 67levels.com, free at $12/yr"
+  - id: img-level67
+    type: image
+    updated: [2026-11-11T07:30:00.000Z, agent:cube]
+    box: [1705, 1400, 380]
+    src: images/unsquatted-level67.webp
+    text: 'The one that sounds better: level67.com, taken since 2015; .net and .org are free'
   - id: names-count
     type: sticky
-    updated: [2026-11-11T06:38:01.000Z, agent:cube]
+    updated: [2026-11-11T07:30:00.000Z, agent:cube]
     box: [700, 1110, 244, orange]
     icon: 🔢
-    text: 'The count: 64levels, 64floors, Floor 64, Sixty-Four Down. Says how deep it goes and reads as a game; hides that you shrink'
+    text: 'The count: 67levels, Level 67, Floor 67, Sixty-Seven Down. Says how deep it goes and reads as a game; hides that you shrink'
   - id: names-half
     type: sticky
     updated: [2026-11-11T06:38:01.000Z, agent:cube]
@@ -73,7 +79,7 @@ items:
     text: 'The pitch Vova picked: «get to floor 67, piece of cake». SIX SEVEN. Nobody ever will, and whoever does gets the most anticlimactic ending in video games: floor 67 really crashes'
   - id: names-note
     type: sticky
-    updated: [2026-11-11T06:38:01.000Z, agent:cube]
+    updated: [2026-11-11T07:30:00.000Z, agent:cube]
     box: [700, 1400, 244, gray]
     icon: 📝
-    text: Only 64levels is checked for domains; the rest go through Unsquatted before any of them counts
+    text: Only 67levels and level67 are checked for domains; the rest go through Unsquatted before any of them counts
