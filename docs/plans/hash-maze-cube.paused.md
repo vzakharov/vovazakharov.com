@@ -302,13 +302,19 @@ this one, merged here. `entities/world` gained geometry (`faces`, slab rooms,
 mushrooms. `pages/cube` is a plain-WebGPU renderer, reversed-Z with a floating
 origin, each floor its own golden-angle hue, holes seen from both sides; `/cube`
 is routed and unlinked. `features/player` walks it: `step` with circle collision
-against `plantedWalls`, re-basing per substep, and `bindInput` on pointer lock,
-a refused lock going to the error boundary. `?floor=N` starts on floor N, since
-the fall between floors is bite 4. `pnpm play:cube` shoots frames 0005–0006.
-Open: on SwiftShader a slab corner on the camera plane leaks floor-2 wall tops
-as a line (the shot sits 0.24 back); check on a real GPU before nudging slab
-faces or tessellating. The board's cards carry icons, an emoji each or one of
-four hand-drawn SVGs in `cube/icons/`.
+against `plantedWalls`, re-basing per substep, and `bindInput`: W/S walk, A/D
+strafe and the arrows turn and tilt with no lock needed, the mouse looking
+behind click-to-lock. The floor below is drawn only under a holed room, so floor
+66 loads and the maze refuses floor 67 once 66's hole comes into reach.
+`?floor=N` starts on floor N, since the fall between floors is bite 4.
+`pnpm play:cube` shoots frames 0005–0006. Open: on SwiftShader a slab corner on
+the camera plane leaks floor-2 wall tops as a line (the shot sits 0.24 back);
+check on a real GPU before nudging slab faces or tessellating. `/cube` has no
+error boundary of its own, so a thrown error (floor 67's `RangeError`, a bad
+`?floor=`) shows Next's generic page and its text reaches only the console;
+whether the game's end gets a page of its own Vova has deferred. The board's
+cards carry icons, an emoji each or one of four hand-drawn SVGs in
+`cube/icons/`.
 
 ## Coordination
 
