@@ -61,12 +61,13 @@ const PULL_SHOTS: ReadonlyArray<
   readonly [string, (player: Player, t: number) => boolean]
 > = [
   ['pull-1-shrinking.png', (_, t) => t >= 1],
-  ['pull-2-hands.png', (_, t) => t >= 2.4],
-  ['pull-3-around.png', (_, t) => t >= 4.6],
-  ['pull-4-small.png', isStanding],
-  ['pull-5-hop.png', fallingFor(0.2)],
-  ['pull-6-falling.png', fallingFor(1)],
-  ['pull-7-landed.png', (player) => player.pose.n === 2 && isStanding(player)],
+  ['pull-2-palms.png', (_, t) => t >= 1.7],
+  ['pull-3-backs.png', (_, t) => t >= 2.9],
+  ['pull-4-around.png', (_, t) => t >= 4.6],
+  ['pull-5-small.png', isStanding],
+  ['pull-6-hop.png', fallingFor(0.2)],
+  ['pull-7-falling.png', fallingFor(1)],
+  ['pull-8-landed.png', (player) => player.pose.n === 2 && isStanding(player)],
 ];
 
 /** A frame to shoot: its file name, the eye's pose and the hands before it. */

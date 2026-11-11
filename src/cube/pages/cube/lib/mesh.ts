@@ -63,7 +63,7 @@ export function pack(
   const words = new Uint32Array(data);
   const ranges: FloorRange[] = [];
   let at = 0;
-  for (const { corners, normal, room, surface, paint } of sorted) {
+  for (const { corners, normal, normals, room, surface, paint } of sorted) {
     const { origin, roomSide: side, seed, flags, cell } = lookOf(room);
     const kind = SURFACES.indexOf(surface);
     const range = ranges.at(-1);
@@ -73,7 +73,7 @@ export function pack(
     for (const corner of FAN) {
       const [x, y, z] = corners[corner];
       floats.set([x, y, z], at + AT.position);
-      floats.set(normal, at + AT.normal);
+      floats.set(normals?.[corner] ?? normal, at + AT.normal);
       floats.set(
         [
           (x - origin[0]) / side,

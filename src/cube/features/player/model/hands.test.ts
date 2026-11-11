@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { Quad, Vec3 } from '@/cube/entities/world';
+import { cross, dot, type Quad, type Vec3 } from '@/cube/entities/world';
 
 import { handsOf } from './hands';
 import { FIRST_LOOK } from './look';
@@ -13,8 +13,6 @@ const minus = (a: Vec3, b: Vec3): Vec3 => [
   a[1] - b[1],
   a[2] - b[2],
 ];
-const dot = (a: Vec3, b: Vec3): number =>
-  a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 
 const eyeOf = ({ pose }: Player): Vec3 => [pose.u, pose.eyeAbove, pose.v];
 
@@ -24,19 +22,20 @@ const aheadOf = ({ pose: { yaw, elevation } }: Player): Vec3 => [
   Math.cos(elevation) * Math.sin(yaw),
 ];
 
-const middle = (quads: readonly Quad[]): Vec3 => {
-  const corners = quads.flatMap((quad) => quad.corners);
-  const mean = (axis: 0 | 1 | 2): number => {
-    let sum = 0;
-    for (const corner of corners) sum += corner[axis];
-    return sum / corners.length;
-  };
-  return [mean(0), mean(1), mean(2)];
-};
+/** A nail is the one painted part of a hand. */
+const isNail = ({ paint }: Quad): boolean => paint !== undefined;
 
 /** The frames of floor 1's look in which the hands are up. */
 const seen = (): Player[] =>
   shrunk().filter((player) => handsOf(player).length > 0);
+
+/** How far the nails face the way the eye looks. */
+const away = (player: Player): number => {
+  const nails = handsOf(player).filter((quad) => isNail(quad));
+  let sum = 0;
+  for (const { normal } of nails) sum += dot(normal, aheadOf(player));
+  return sum / nails.length;
+};
 
 describe('handsOf', () => {
   it('is empty at rest, small, and through a look with no hands in it', () => {
@@ -52,12 +51,17 @@ describe('handsOf', () => {
     assert.ok(up.length > 60, 'for more than a second');
     for (const player of up) {
       const quads = handsOf(player);
-      // Eleven boxes a hand: a sleeve, a palm, four fingers, their nails, a thumb.
-      assert.equal(quads.length, 2 * 11 * 6);
-      assert.equal(quads.filter((q) => q.surface === 'fabric').length, 12);
-      assert.equal(quads.filter((q) => q.surface === 'skin').length, 120);
-      assert.equal(quads.filter((q) => q.paint !== undefined).length, 48);
-      for (const quad of quads) assert.deepEqual(quad.room, room);
+      const sleeves = quads.filter((q) => q.surface === 'fabric');
+      const skin = quads.filter((q) => q.surface === 'skin');
+      assert.equal(sleeves.length + skin.length, quads.length);
+      assert.ok(sleeves.length > 0 && sleeves.length % 2 === 0);
+      assert.ok(skin.length > sleeves.length);
+      // Five nails a hand, each three quads across and two along.
+      assert.equal(quads.filter((quad) => isNail(quad)).length, 2 * 5 * 6);
+      for (const quad of quads) {
+        assert.deepEqual(quad.room, room);
+        assert.ok(quad.normals, 'lit as a curve');
+      }
     }
   });
 
@@ -77,34 +81,24 @@ describe('handsOf', () => {
     }
   });
 
-  it('faces every quad out of its box', () => {
+  it('winds every quad the way its normal faces', () => {
     for (const player of [seen()[20], seen().at(-20)]) {
       assert.ok(player);
-      const quads = handsOf(player);
-      for (let at = 0; at < quads.length; at += 6) {
-        const part = quads.slice(at, at + 6);
-        const centre = middle(part);
-        for (const quad of part) {
-          const out = minus(middle([quad]), centre);
-          assert.ok(dot(out, quad.normal) > 0);
-        }
+      for (const { corners, normal } of handsOf(player)) {
+        const [a, b, c, d] = corners;
+        const turn = cross(minus(c, a), minus(d, b));
+        assert.ok(dot(turn, normal) >= 0);
       }
     }
   });
 
-  it('turns the palms over: up to the eye first, away by the end', () => {
+  it('turns the hands over: the nails away from the eye first, to it by the end', () => {
     const up = seen();
-    /** How squarely the first hand's palm, its second box, faces the eye. */
-    const facing = (player: Player): number => {
-      const palm = handsOf(player).slice(6, 12);
-      // The palm's two broad faces are its largest; take the one facing the thumb-up side.
-      const broad = palm[1];
-      assert.ok(broad);
-      return dot(broad.normal, aheadOf(player));
-    };
     const [early, late] = [up[10], up.at(-10)];
     assert.ok(early && late);
-    assert.ok(facing(early) * facing(late) < 0, 'the other side shows');
+    assert.ok(away(early) > 0.5, 'the palms show');
+    // The fingers point away from the eye, so their nails never face it square.
+    assert.ok(away(late) < away(early) - 0.4, 'the backs show');
   });
 
   it('is the same for the same player', () => {

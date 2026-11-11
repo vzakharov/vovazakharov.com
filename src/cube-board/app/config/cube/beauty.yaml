@@ -59,6 +59,12 @@ items:
     box: [4128, 2010, 430]
     src: images/beauty-07-small.webp
     text: '9. Mouse-sized on floor 1, looking up at the lever that did it. The hole is a walk away, and a hop'
+  - id: img-beauty-08-hands
+    type: image
+    updated: [2026-11-12T00:10:00.000Z, agent:cube]
+    box: [4588, 2010, 430]
+    src: images/beauty-08-hands.webp
+    text: '10. Hands again, an hour on: surfaces lofted through rings and lit by their own normals, fingers of three bones with a curl at rest, nails, a cuff'
   - id: beauty-streams
     type: sticky
     updated: [2026-11-11T22:45:00.000Z, agent:cube]

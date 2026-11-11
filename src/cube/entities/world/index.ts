@@ -17,16 +17,22 @@ export {
   type Quarter,
 } from './model/hole';
 export { type Lever, leverOf, type Pulled } from './model/lever';
+export { loft, type Ring } from './model/loft';
 export { DEEPEST_FLOOR, maze } from './model/maze';
 export { plant } from './model/plant';
 export { planted } from './model/planted';
 export type { InRoom, Pose, Posed, Standing, WallMounted } from './model/pose';
 export {
   box,
+  cross,
+  dot,
   face,
   type Facet,
   facet,
+  plus,
   type Quad,
+  times,
+  unit,
   type Vec3,
 } from './model/quad';
 export {

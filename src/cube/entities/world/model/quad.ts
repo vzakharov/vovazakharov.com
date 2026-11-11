@@ -4,13 +4,18 @@ import type { InRoomOf, Room } from './room';
 
 export type Vec3 = readonly [number, number, number];
 
+type Four<T> = readonly [T, T, T, T];
+
 /**
  * One flat face, its corners counter-clockwise seen from the side `normal`
- * points to, and the room it faces into, whose light falls on it.
+ * points to, and the room it faces into, whose light falls on it. A face that
+ * is a patch of a curved surface carries that surface's normal at each corner
+ * in `normals`, and is lit as the curve.
  */
 export type Facet = InRoomOf & {
-  corners: readonly [Vec3, Vec3, Vec3, Vec3];
+  corners: Four<Vec3>;
   normal: Vec3;
+  normals?: Four<Vec3>;
 };
 
 /**
@@ -19,18 +24,21 @@ export type Facet = InRoomOf & {
  */
 export type Quad = Facet & { surface: Surface; paint?: number };
 
-const cross = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
+export const cross = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
   ay * bz - az * by,
   az * bx - ax * bz,
   ax * by - ay * bx,
 ];
 
-const unit = ([x, y, z]: Vec3): Vec3 => {
+export const dot = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): number =>
+  ax * bx + ay * by + az * bz;
+
+export const unit = ([x, y, z]: Vec3): Vec3 => {
   const length = Math.hypot(x, y, z);
   return [x / length, y / length, z / length];
 };
 
-const plus = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
+export const plus = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
   ax + bx,
   ay + by,
   az + bz,
