@@ -99,8 +99,8 @@ rooms, read from two words at `…/0` and `…/1`. `Rolled<S>` maps a family to 
 **Exactly one room per floor has a hole.** The world is one world: a second hole
 would drop the player onto the same floor below, so it would be a second key to
 the same door, and the lock would open at the first one found. So "every hole
-shrinks you" (point 2) reads as: the hole itself is the shrinking, with no
-bottle; there is one per floor.
+shrinks you" (point 2) reads as: the hole itself is the shrinking, and there is
+one per floor.
 
 - **The world file holds 63 commitments**,
   `c_n = SHA-256("<seed>/hole/<n>/<x>/<y>")`, where `(x, y)` is the room on
