@@ -52,16 +52,16 @@ items:
     text: "Vova's idea: join the cube with /island. Every island world holds one cube, which still has to be found"
   - id: graf-price-a
     type: sticky
-    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    updated: [2026-11-11T13:04:25.000Z, agent:cube]
     box: [28, 2180, 244, pink]
     icon: 💵
-    text: "1. Space is priced by volume: $160,000 a m³ on every floor, so $1 buys 6.25 cm³, a die ¾ in a side. A room halves on each axis a floor down, so it is ×8 cheaper: $10M for floor 1's one room, $4.77 on floor 8, ~$2·10⁻⁵² on 66. A whole floor halves, so the cube sums to just under $20M. Table and chart: https://claude.ai/artifact/8fawFUo5gSRn18X2qcxihj"
+    text: "1. Only rooms off the path are for sale: a room is bought once it is a dead end, every side but one a wall or a bought room, and never the landing or the hole room. So everything but the landing→hole path sells, nothing on it. Planting keeps floor 2 at one room of 4 for sale; floor 1 has none"
   - id: graf-price-b
     type: sticky
-    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    updated: [2026-11-11T13:04:25.000Z, agent:cube]
     box: [363, 2180, 244, pink]
     icon: 📉
-    text: '2. In theory, not to build: the price follows the path, not the floor number. The room above a hole and the room below it are seen by the same people, so they cost the same; the ×⅓ is spent walking from the landing to the next hole, and a dead end off the path is cheaper still'
+    text: "2. Priced by volume, the same $/m³ on every floor, set so the topmost floor with anything for sale totals $10M: floor 2's one room. That is $1.28M a m³, $1 buying a 9 mm die; floor 3 sums $15M, a floor-8 room is $38, the cube ≈ $40.7M. No discount away from the landing: the market prices it, near rooms selling first. Table and chart: https://claude.ai/artifact/8fawFUo5gSRn18X2qcxihj"
   - id: graf-price-c
     type: sticky
     updated: [2026-11-11T12:20:14.000Z, agent:cube]
