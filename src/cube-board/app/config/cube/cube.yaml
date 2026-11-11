@@ -44,3 +44,15 @@ items:
     updated: [2026-11-11T04:30:00.000Z, agent:cube]
     ends: [cube-7, z-zero]
     text: r = 2, N = 64
+  - id: img-shrinking-cube
+    type: image
+    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    box: [1100, 110, 560]
+    src: images/shrinking-cube.webp
+    text: 64 floors, ×2 per floor
+  - id: img-milestones
+    type: image
+    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    box: [1100, 460, 300]
+    src: images/shrinking-cube-milestones.webp
+    text: Who reaches which floor

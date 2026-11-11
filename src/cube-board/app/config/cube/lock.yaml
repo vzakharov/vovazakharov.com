@@ -39,3 +39,15 @@ items:
     updated: [2026-11-11T04:30:00.000Z, agent:cube]
     ends: [z-lock, z-never]
     text: how many bits is never?
+  - id: img-wall-or-field
+    type: image
+    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    box: [1140, -890, 480]
+    src: images/wall-or-field.webp
+    text: The same 2^80 places, as a wall or as a field
+  - id: img-two-promises
+    type: image
+    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    box: [1140, -500, 480]
+    src: images/two-promises.webp
+    text: A planted hatch, found by brute force; one road to it

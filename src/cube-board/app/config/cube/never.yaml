@@ -29,3 +29,15 @@ items:
     updated: [2026-11-11T04:30:00.000Z, agent:cube]
     ends: [never-3, cube-1]
     text: pyramid → cube
+  - id: img-silent-lock
+    type: image
+    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    box: [2920, -890, 560]
+    src: images/silent-lock.webp
+    text: Bits per floor, silent lock against clicking
+  - id: img-silent-lock-math
+    type: image
+    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    box: [2920, -480, 560]
+    src: images/silent-lock-math.webp
+    text: Adding against multiplying
