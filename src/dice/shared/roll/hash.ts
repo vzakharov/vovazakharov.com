@@ -61,7 +61,7 @@ const WORLD_NUMBER = /^(?:0|[1-9]\d*)$/;
 
 /**
  * Whether `world` is a world the game opens: a non-negative integer's decimal
- * string with no leading zeros, of any length, `"0"` (Earth) included.
+ * string with no leading zeros, of any length, `"0"` included.
  */
 export const isWorldNumber = (world: string): boolean =>
   WORLD_NUMBER.test(world);

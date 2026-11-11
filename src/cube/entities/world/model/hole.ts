@@ -1,13 +1,11 @@
 import { z } from 'zod';
 
-import { big } from './big';
+import { isWorldNumber } from '@/dice/shared/roll';
+
 import { commitment } from './commitment';
 
-/** A world number: decimal digits, no leading zero (`dice`'s rule). */
-const SEED = /^(?:0|[1-9]\d*)$/;
-
 const worldSchema = z.object({
-  seed: z.string().regex(SEED),
+  seed: z.string().refine(isWorldNumber, 'Not a world number'),
   holes: z.array(z.string().regex(/^[\da-f]{64}$/)).readonly(),
 });
 
@@ -38,10 +36,9 @@ export async function holeQuarter(
 ): Promise<Quarter | null> {
   const committed = world.holes[n - 1];
   if (committed === undefined) return null;
-  const two = big(2);
   const hashes = await Promise.all(
     QUARTERS.map(async ({ qx, qy }) =>
-      commitment(world.seed, n, x * two + big(qx), y * two + big(qy)),
+      commitment(world.seed, n, 2n * x + BigInt(qx), 2n * y + BigInt(qy)),
     ),
   );
   return QUARTERS[hashes.indexOf(committed)] ?? null;

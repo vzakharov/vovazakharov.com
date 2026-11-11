@@ -1,4 +1,3 @@
-import { big, ONE, ZERO } from './big';
 import { commitment } from './commitment';
 import type { World } from './hole';
 
@@ -11,10 +10,10 @@ function bits(random: (bytes: Uint8Array) => void, count: number): bigint {
   const bytes = new Uint8Array(Math.ceil(count / BYTE_BITS));
   random(bytes);
   const all = bytes.reduce(
-    (acc, byte) => (acc << big(BYTE_BITS)) | big(byte),
-    ZERO,
+    (acc, byte) => (acc << BigInt(BYTE_BITS)) | BigInt(byte),
+    0n,
   );
-  return all & ((ONE << big(count)) - ONE);
+  return all & ((1n << BigInt(count)) - 1n);
 }
 
 const SEED_BITS = 64;

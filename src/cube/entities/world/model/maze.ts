@@ -1,7 +1,5 @@
 import { pathHash, roll, type Rolled, rollWith } from '@/dice/shared/roll';
 
-import { big, ONE, ZERO } from './big';
-
 const blockKey = roll.key({
   n: roll.int,
   level: roll.int,
@@ -31,27 +29,26 @@ export type RolledMaze = Rolled<typeof Maze>;
 export const maze = (seed: string): RolledMaze =>
   rollWith(Maze, pathHash(seed));
 
-const WORD_BITS = big(64);
+/** How many bits a `roll.wide()` door draw spans. */
+const WIDE_BITS = 64n;
 
 type Block = Parameters<RolledMaze['block']['at']>[0];
 
 /** A door's position along a half-edge of `2^(level-1)` rooms. */
-const doorOffset = (word: bigint, level: number): bigint =>
-  (word * (ONE << BigInt(level - 1))) >> WORD_BITS;
+const doorOffset = (wide: bigint, level: number): bigint =>
+  (wide * (1n << BigInt(level - 1))) >> WIDE_BITS;
 
 /** One more than the run of one-bits at the bottom of `value`. */
 function levelOf(value: bigint): number {
   let level = 1;
-  while (((value >> BigInt(level - 1)) & ONE) === ONE) level += 1;
+  while (((value >> BigInt(level - 1)) & 1n) === 1n) level += 1;
   return level;
 }
 
 function side(n: number, x: bigint, y: bigint): bigint {
-  const rooms = ONE << BigInt(n - 1);
-  if (!Number.isInteger(n) || n < 1 || x < ZERO || y < ZERO) {
-    throw new Error(`Not a room of floor ${n}: (${x}, ${y})`);
-  }
-  if (x >= rooms || y >= rooms) {
+  if (!Number.isInteger(n) || n < 1) throw new Error(`Not a floor: ${n}`);
+  const rooms = 1n << BigInt(n - 1);
+  if (x < 0n || y < 0n || x >= rooms || y >= rooms) {
     throw new Error(`Not a room of floor ${n}: (${x}, ${y})`);
   }
   return rooms;
@@ -69,7 +66,7 @@ export function isOpenEast(
   x: bigint,
   y: bigint,
 ): boolean {
-  if (x + ONE >= side(n, x, y)) throw new Error(`No wall east of (${x}, ${y})`);
+  if (x + 1n >= side(n, x, y)) throw new Error(`No wall east of (${x}, ${y})`);
   const level = levelOf(x);
   const block = { n, level, x: x >> BigInt(level), y: y >> BigInt(level) };
   return isOpenAt(rolled, block, y, 'north', 'south');
@@ -82,7 +79,7 @@ export function isOpenSouth(
   x: bigint,
   y: bigint,
 ): boolean {
-  if (y + ONE >= side(n, x, y)) {
+  if (y + 1n >= side(n, x, y)) {
     throw new Error(`No wall south of (${x}, ${y})`);
   }
   const level = levelOf(y);
@@ -99,8 +96,8 @@ function isOpenAt(
   first: Edge,
   second: Edge,
 ): boolean {
-  const half = ONE << BigInt(block.level - 1);
-  const inBlock = along & ((half << ONE) - ONE);
+  const half = 1n << BigInt(block.level - 1);
+  const inBlock = along & ((half << 1n) - 1n);
   const inFirst = inBlock < half;
   const { omit, door } = rolled.block.at(block);
   const edge = inFirst ? first : second;

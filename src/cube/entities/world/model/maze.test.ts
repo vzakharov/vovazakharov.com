@@ -1,12 +1,11 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { big, ONE, ZERO } from './big';
 import { isOpenEast, isOpenSouth, maze, type RolledMaze } from './maze';
 
 const SEEDS = ['1', '8675309'];
 
-const sideOf = (n: number) => Number(ONE << big(n - 1));
+const sideOf = (n: number) => Number(1n << BigInt(n - 1));
 
 /** Every open wall of floor `n`, spelled `E x y` / `S x y`, by the predicates. */
 function openWalls(rolled: RolledMaze, n: number): Set<string> {
@@ -14,10 +13,10 @@ function openWalls(rolled: RolledMaze, n: number): Set<string> {
   const open = new Set<string>();
   for (let y = 0; y < side; y += 1) {
     for (let x = 0; x < side; x += 1) {
-      if (x + 1 < side && isOpenEast(rolled, n, big(x), big(y))) {
+      if (x + 1 < side && isOpenEast(rolled, n, BigInt(x), BigInt(y))) {
         open.add(`E ${x} ${y}`);
       }
-      if (y + 1 < side && isOpenSouth(rolled, n, big(x), big(y))) {
+      if (y + 1 < side && isOpenSouth(rolled, n, BigInt(x), BigInt(y))) {
         open.add(`S ${x} ${y}`);
       }
     }
@@ -68,24 +67,24 @@ function divide(rolled: RolledMaze, n: number): Set<string> {
   const open = new Set<string>();
   const visit = (level: number, bx: bigint, by: bigint) => {
     if (level < 1) return;
-    const h = ONE << big(level - 1);
-    const x0 = bx << big(level);
-    const y0 = by << big(level);
+    const h = 1n << BigInt(level - 1);
+    const x0 = bx << BigInt(level);
+    const y0 = by << BigInt(level);
     const { omit, door } = rolled.block.at({ n, level, x: bx, y: by });
     const offset = (edge: 'north' | 'east' | 'south' | 'west') =>
-      (door.at(edge) * h) >> big(64);
+      (door.at(edge) * h) >> 64n;
     // The edge order is north, east, south, west: indices 0, 1, 2, 3.
-    if (omit !== 0) open.add(`E ${x0 + h - ONE} ${y0 + offset('north')}`);
-    if (omit !== 2) open.add(`E ${x0 + h - ONE} ${y0 + h + offset('south')}`);
-    if (omit !== 3) open.add(`S ${x0 + offset('west')} ${y0 + h - ONE}`);
-    if (omit !== 1) open.add(`S ${x0 + h + offset('east')} ${y0 + h - ONE}`);
-    for (const dx of [ZERO, ONE]) {
-      for (const dy of [ZERO, ONE]) {
-        visit(level - 1, bx * big(2) + dx, by * big(2) + dy);
+    if (omit !== 0) open.add(`E ${x0 + h - 1n} ${y0 + offset('north')}`);
+    if (omit !== 2) open.add(`E ${x0 + h - 1n} ${y0 + h + offset('south')}`);
+    if (omit !== 3) open.add(`S ${x0 + offset('west')} ${y0 + h - 1n}`);
+    if (omit !== 1) open.add(`S ${x0 + h + offset('east')} ${y0 + h - 1n}`);
+    for (const dx of [0n, 1n]) {
+      for (const dy of [0n, 1n]) {
+        visit(level - 1, bx * 2n + dx, by * 2n + dy);
       }
     }
   };
-  visit(n - 1, ZERO, ZERO);
+  visit(n - 1, 0n, 0n);
   return open;
 }
 
@@ -104,10 +103,10 @@ describe('the wall predicate', () => {
 
   it('throws on a wall outside the floor', () => {
     const rolled = maze('1');
-    assert.throws(() => isOpenEast(rolled, 3, big(3), ZERO));
-    assert.throws(() => isOpenSouth(rolled, 3, ZERO, big(3)));
-    assert.throws(() => isOpenEast(rolled, 1, ZERO, ZERO));
-    assert.throws(() => isOpenEast(rolled, 3, big(-1), ZERO));
+    assert.throws(() => isOpenEast(rolled, 3, 3n, 0n));
+    assert.throws(() => isOpenSouth(rolled, 3, 0n, 3n));
+    assert.throws(() => isOpenEast(rolled, 1, 0n, 0n));
+    assert.throws(() => isOpenEast(rolled, 3, -1n, 0n));
   });
 });
 
@@ -117,16 +116,16 @@ const stub = (omit: number, word: bigint): RolledMaze => ({
 
 describe('a door on an edge longer than 2^32 rooms', () => {
   const level = 39;
-  const h = ONE << big(level - 1);
-  const x = h - ONE;
+  const h = 1n << BigInt(level - 1);
+  const x = h - 1n;
   // Word 2^63 puts the door halfway along the half-edge, 2^37 rooms in, which
   // only the high word can say: the low word is zero.
-  const word = ONE << big(63);
-  const mid = h >> ONE;
+  const word = 1n << 63n;
+  const mid = h >> 1n;
 
   it('sits at (word · h) >> 64 on floor 40', () => {
     assert.ok(isOpenEast(stub(0, word), 40, x, h + mid));
-    assert.ok(!isOpenEast(stub(0, word), 40, x, h + mid + ONE));
+    assert.ok(!isOpenEast(stub(0, word), 40, x, h + mid + 1n));
     assert.ok(isOpenEast(stub(2, word), 40, x, mid));
   });
 
@@ -137,10 +136,10 @@ describe('a door on an edge longer than 2^32 rooms', () => {
 
   it('runs on floor 64 beside 2^63', () => {
     const rolled = maze('1');
-    const east = (ONE << big(63)) - big(2);
-    const middle = (ONE << big(62)) - ONE;
-    assert.equal(typeof isOpenEast(rolled, 64, east, ZERO), 'boolean');
+    const east = (1n << 63n) - 2n;
+    const middle = (1n << 62n) - 1n;
+    assert.equal(typeof isOpenEast(rolled, 64, east, 0n), 'boolean');
     assert.equal(typeof isOpenEast(rolled, 64, middle, middle), 'boolean');
-    assert.equal(typeof isOpenSouth(rolled, 64, east + ONE, east), 'boolean');
+    assert.equal(typeof isOpenSouth(rolled, 64, east + 1n, east), 'boolean');
   });
 });

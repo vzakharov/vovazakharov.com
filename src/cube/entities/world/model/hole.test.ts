@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { big, ONE, ZERO } from './big';
 import { holeQuarter, parseWorld, type World } from './hole';
 import { plant } from './plant';
 import { planted } from './planted';
@@ -27,7 +26,7 @@ async function scan(world: World, n: number) {
     y: Math.floor(i / side),
   }));
   const quarters = await Promise.all(
-    rooms.map(async ({ x, y }) => holeQuarter(world, n, big(x), big(y))),
+    rooms.map(async ({ x, y }) => holeQuarter(world, n, BigInt(x), BigInt(y))),
   );
   return rooms.flatMap(({ x, y }, i) => {
     const quarter = quarters[i];
@@ -46,7 +45,7 @@ describe('plant', () => {
     assert.deepEqual(
       found,
       answers.map(({ x, y }) => [
-        [Number(x >> ONE), Number(y >> ONE), Number(x & ONE), Number(y & ONE)],
+        [Number(x >> 1n), Number(y >> 1n), Number(x & 1n), Number(y & 1n)],
       ]),
     );
   });
@@ -60,8 +59,8 @@ describe('plant', () => {
     const { world, answers } = await plant(20, counterRandom());
     assert.match(world.seed, /^(?:0|[1-9]\d*)$/);
     for (const [index, { x, y }] of answers.entries()) {
-      const side = big(2) ** big(index + 1);
-      assert.ok(x >= ZERO && x < side && y >= ZERO && y < side);
+      const side = 2n ** BigInt(index + 1);
+      assert.ok(x >= 0n && x < side && y >= 0n && y < side);
     }
   });
 });
