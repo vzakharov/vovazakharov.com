@@ -339,6 +339,12 @@ branch, merged here; § "The player" is its spec.
   through the hole all the way down.
 - **On floor 66** the fall lands on floor 67, which the maze refuses: the throw
   stays as bite 3 left it (the error page is deferred).
+- **What the eye sees on its floor** (a second subsession, `cube/sight`): the 7
+  × 7 square and the fog that hid its edge give way to 2D portal visibility —
+  from the eye's room through open walls only, each opening narrowing the
+  angular window, out to the far plane — so a long corridor is seen to its end
+  and rooms behind solid walls are not built. No fog: «туман в закрытом
+  пространстве -- вообще такая себе идея».
 - **Frames**: `play-cube.ts` gains three frames mid-shrink and one mid-fall,
   uploaded as the next `cube-timelapse` frames; preview2 republished.
 
