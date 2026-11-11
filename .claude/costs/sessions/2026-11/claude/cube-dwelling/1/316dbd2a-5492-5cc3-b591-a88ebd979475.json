@@ -1,0 +1,112 @@
+{
+  "total": {
+    "inputTokens": 78,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 241078,
+    "cacheReadTokens": 8881557,
+    "outputTokens": 98601,
+    "thinkingTokens": 33187,
+    "responses": 41,
+    "costUsd": 9.578223400000002
+  },
+  "estimate": {
+    "at": "2026-11-11T23:11:30.189Z",
+    "subjectLine": "feat: the cube's dwelling band, floors 9 to 20, each a designed place",
+    "parts": [
+      {
+        "hours": 14.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "twelve procedural floor looks, each with its own walls, floor, ceiling and lamp drawn in WGSL and tuned from frames"
+      },
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "four floors break the frame: a projected light summed over nine rooms and three screen-space lenses"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-11T22:41:15.072Z",
+    "contextTokens": 103139,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 48869,
+      "cacheReadTokens": 52984,
+      "outputTokens": 468,
+      "thinkingTokens": 31,
+      "responses": 1,
+      "costUsd": 0.8112368
+    }
+  },
+  "sessionId": "316dbd2a-5492-5cc3-b591-a88ebd979475",
+  "branch": "claude/cube-dwelling",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/go",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDiYMM81V4SNZcJemR",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-11T22:41:08.924Z",
+  "lastResponseAt": "2026-11-11T23:13:48.989Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 78,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 241078,
+    "cacheReadTokens": 8881557,
+    "outputTokens": 98601,
+    "thinkingTokens": 33187,
+    "responses": 41,
+    "costUsd": 9.578223400000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 78,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 241078,
+      "cacheReadTokens": 8881557,
+      "outputTokens": 98601,
+      "thinkingTokens": 33187,
+      "responses": 41,
+      "costUsd": 9.578223400000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 41,
+    "matched": 41,
+    "matchedTableUsd": 9.578223400000002,
+    "matchedEventUsd": 9.5782234,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 2,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".json": 19,
+    ".md": 358,
+    ".ts": 5172,
+    ".tsx": 12
+  }
+}
