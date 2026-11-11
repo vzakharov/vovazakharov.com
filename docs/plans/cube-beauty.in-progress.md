@@ -1,9 +1,11 @@
 # Make the cube beautiful — working state
 
 Session `session_01DaohkEZGmfg7XD5wRftBnA`, branch `claude/cube-liminal-332pmv`
-(no PR yet). Planless `/go`; this file is the lead session's memory across
-compactions, kept current at every milestone. One-shot run: no questions to the
-operator, never merge to `main`, preview slot only, no external services.
+(no PR yet), published at https://preview.vovazakharov.com/cube (slot 1,
+republished after every visible push). Planless `/go`; this file is the lead
+session's memory across compactions, kept current at every milestone. One-shot
+run: no questions to the operator, never merge to `main`, preview slot only, no
+external services.
 
 ## The ask (operator, verbatim essentials)
 
@@ -44,51 +46,52 @@ operator, never merge to `main`, preview slot only, no external services.
   layout, the WGSL structs and the offsets): position, normal, room-local
   position, face uv, surface kind, the room's seed, flags, paint, cell.
 - **World** (`entities/world`): every face names the room it faces into
-  (`Quad.room`); walls are two faces, one per room; ceilings belong to the child
-  rooms; `pillars`; `traits(seed)` rolls a room's `grain` and `lamp`.
-- **Theme entity** (`entities/theme`):
-  `FloorTheme { name, air, pillar, dark, shader, sound }`, `themeOf(n)`
-  (designed floor or `generic(n)`), bands in `config/bands/*.ts` (offices 1–8,
-  homes 9–20, breaks 21–35, labs 36–52, edges 53–66), a floor per file in
-  `config/floors/`. A theme's WGSL defines `themeMaterial(s: Surf) -> Material`,
-  `themeLight(s, m) -> vec3f` (scene light) and `themeLens(l: Lens) -> vec3f`
-  (the frame's pixel, a screen-space pass: style breaks go here).
+  (`Quad.room`); walls are two faces `WALL_HALF` either side of the room's edge;
+  a slab is `SLAB_THICK` of the rooms under it, their ceilings at
+  `CEILING_HEIGHT` (`shared/lib/room-shape.ts`, which the shader's `ROOM` reads
+  too), a hole going down a shaft; `pillars`; `traits(seed)` rolls a room's
+  `grain` and `lamp`; `Setting`, `settingOf`, `inPlace` for whatever is set in a
+  room.
+- **Theme entity** (`entities/theme`), cut into sub-slices: `kit/` (the WGSL
+  every floor is written over — `core`, `hash`, `light`, `finish`, `stuff`,
+  `grade`, `ordinary` — and `FloorTheme`, `roomFlags`), one per band
+  (`workplace/`, `dwelling/`, `leisure/`, `laboratory/`, `edge/`, each a
+  `config/NN-name.ts` per floor) and `catalogue/` (`themeOf(n)`: a designed
+  floor or `generic(n)`). A theme's WGSL defines
+  `themeMaterial(s: Surf) -> Material`, `themeLight(s, m) -> vec3f` and
+  `themeLens(l: Lens) -> vec3f` (a screen-space pass: style breaks go here);
   `ordinary(id, look)` writes the last two for a plain lit room.
-- **Kit** (`entities/theme/lib/kit`): `core` (Surf, Material, `matte`,
-  `polished`, `glowing`, `embossed`, Lens), `hash`, `light` (per-room lamp grid,
-  highlights, mirrored panels, corner shade, stutter on the shared clock),
-  `finish` (plaster, tiling, carpet, damp, band), `stuff` (prop materials by
-  kind, `ownedMark`), `grade` (haze, tonemap, `through`, grain, vignette).
 - **Frame**: scene pass into `rgba16float` (rgb scene light, `a` metres away) →
   bloom (`pages/cube/ui/bloom.ts`) → the eye floor's lens to the canvas.
-- **Clock**: `shared/lib/clock.ts`; the play hook freezes it (`setClock`,
-  `PLAY_INSTANT`).
-- `shared/lib/colour.ts`, `shared/lib/surface.ts` (kinds, shared by mesh and
-  shader).
+- **Clock**: `shared/lib/clock.ts`; the play hook freezes it.
+- **Player**: typing `idclip` stands the body on the floor below (`Input.clip`),
+  the operator's way to see every floor.
+- **Scripts**: `pnpm shaders:cube [--floor N]` compiles every floor's WGSL in
+  seconds and prints errors with their source;
+  `pnpm gallery:cube --floors 1,2,3 --out <absolute dir>` shoots an eye-level
+  frame a floor; `pnpm play:cube` plays the pull.
 
-## State at this commit
+## State
 
-- Type-check clean; unit tests green before the HDR/lens change (re-run).
-- The first version (lit in the surface shader, no post pass) rendered. **The
-  HDR + bloom + lens version has not rendered yet**: `pnpm play:cube` hung for
-  ten minutes — find out why first (most likely a shader or pipeline error that
-  leaves `ready()` unresolved; make such an error fail fast).
-- Not yet run: `pnpm lint`, `lint:fsd`, `check:masd`, `masd:clusters`,
-  `check:cycles`, `type-overlap`, `format:check`.
-- `src/cube/scripts/lib/cube-page.ts` holds the browser session; a
-  `gallery-cube.ts` script (one eye-level frame per floor, eye in a mid-floor
-  room looking down its longest open run) is still to write.
+- Floors 1–3 are designed (reception, open plan, school corridor); the rest are
+  `generic(n)`. Every gate was green at `5985ed03`; re-run before `/polish`.
+- Timeline frames, for the board (`src/cube-board/app/config/cube.yaml`, webp)
+  and not yet on it: `tmp/cube-timeline/` (container-local) — first compile,
+  HDR + bloom, eye level, pillars + door light, thick walls.
+- Streams (`docs/plans/cube-beauty.streams.md`): see § "Streams launched".
 
 ## Next
 
-1. Get the HDR frame rendering; calibrate exposure and materials on floors 1–3
-   from eye-level shots; send frames to the operator and the board.
-2. Run every checker; commit; publish to the preview slot.
-3. Launch the parallel streams as remote sessions on their own branches off this
-   one (each `/go <task>, no PR`, reporting back by message), merge them here:
-   sound effects; voice; lettering and scale posters; the shrink sequence, hands
-   and the jump (ask 6); decor kit; timed happenings. They deliver pure
-   functions with tests (`=> Quad[]`, sound buffers); the page wiring is the
-   lead's.
-4. Second wave: the five theme bands, sale-sign restyle, style-break floors.
-5. `/polish`, `/pr` (draft), `/five-percent`.
+1. **Continuous light.** The operator saw the floor's brightness jump at room
+   edges and a hard edge where a lit room meets a dark one: each room is lit by
+   its own lamps alone. `roomLight` is to sum the lamps of the eight rooms
+   around too — each lamp windowed to nothing a room side away, a neighbour's
+   counted only through open sides (the flags gain the diagonal routes) — in
+   place of `doorLight`, so light is the same from both sides of an open edge
+   and spills through doorways into dark rooms.
+2. Launch the five theme bands once the light holds; merge every stream here.
+3. The lead's wiring: a per-frame 'moving' vertex layer for hands and
+   happenings; sound and voice cues; posters; decor; happenings; the sale signs
+   restyled so they sit with the floor's signage.
+4. Calibration toward the AAA bar: exposure, materials, lamp panel detail.
+5. The board; `/polish`, `/pr` (draft), `/five-percent`.
