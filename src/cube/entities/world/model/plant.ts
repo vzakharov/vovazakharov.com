@@ -1,5 +1,5 @@
-import { commitment } from './commitment';
 import type { World } from './hole';
+import { seals } from './seals';
 
 export type Room = { x: bigint; y: bigint };
 
@@ -33,8 +33,9 @@ export async function plant(
     x: bits(random, index + 1),
     y: bits(random, index + 1),
   }));
+  const { hole } = seals(seed);
   const holes = await Promise.all(
-    answers.map(async ({ x, y }, index) => commitment(seed, index + 1, x, y)),
+    answers.map(async ({ x, y }, index) => hole.at({ n: index + 1, x, y })),
   );
   return { world: { seed, holes }, answers };
 }

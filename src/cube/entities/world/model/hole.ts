@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { isWorldNumber } from '@/dice/shared/roll';
 
-import { commitment } from './commitment';
+import { seals } from './seals';
 
 const worldSchema = z.object({
   seed: z.string().refine(isWorldNumber, 'Not a world number'),
@@ -36,9 +36,10 @@ export async function holeQuarter(
 ): Promise<Quarter | null> {
   const committed = world.holes[n - 1];
   if (committed === undefined) return null;
+  const { hole } = seals(world.seed);
   const hashes = await Promise.all(
     QUARTERS.map(async ({ qx, qy }) =>
-      commitment(world.seed, n, 2n * x + BigInt(qx), 2n * y + BigInt(qy)),
+      hole.at({ n, x: 2n * x + BigInt(qx), y: 2n * y + BigInt(qy) }),
     ),
   );
   return QUARTERS[hashes.indexOf(committed)] ?? null;
