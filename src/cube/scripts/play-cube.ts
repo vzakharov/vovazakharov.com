@@ -1,8 +1,10 @@
 /**
  * Shoots `/cube` through floor 1's hole from both sides, on the dev server:
  * from floor 1 looking down into it, and from the floor-2 room beneath looking
- * up. Chromium runs WebGPU on SwiftShader, so the frames say what the scene
- * draws, not how fast. It fails on any page error, and prints the adapter.
+ * up; then a body pulling floor 1's lever, three frames as it shrinks over the
+ * hole and one as it falls through. Chromium runs WebGPU on SwiftShader, so the
+ * frames say what the scene draws, not how fast. It fails on any page error,
+ * and prints the adapter.
  *
  *   pnpm play:cube                   # frames to tmp/cube/
  *   pnpm play:cube --out <dir>       # frames there instead
@@ -13,8 +15,21 @@ import path from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { z } from 'zod';
 
-import { holeQuarter, planted, type Pose } from '@/cube/entities/world';
-import { EYE_HEIGHT } from '@/cube/features/player';
+import {
+  holeQuarter,
+  leverOf,
+  maze,
+  planted,
+  type Pose,
+  type Quarter,
+} from '@/cube/entities/world';
+import {
+  EYE_HEIGHT,
+  type Holed,
+  plantedWalls,
+  play,
+  type Player,
+} from '@/cube/features/player';
 import {
   type CubePlayHook,
   PLAY_HOOK,
@@ -45,8 +60,76 @@ const call = (method: keyof CubePlayHook, ...args: string[]): string =>
   `${hook}.${method}(${args.join(', ')})`;
 
 /** Page source for `pose`, its rooms as BigInt literals. */
-const source = ({ n, x, y, u, v, eyeAbove, yaw, elevation }: Pose): string =>
-  `{ n: ${String(n)}, x: ${String(x)}n, y: ${String(y)}n, u: ${String(u)}, v: ${String(v)}, eyeAbove: ${String(eyeAbove)}, yaw: ${String(yaw)}, elevation: ${String(elevation)} }`;
+const source = (pose: Pose): string => {
+  const { n, x, y, u, v, eyeAbove, scale, yaw, elevation } = pose;
+  return `{ n: ${String(n)}, x: ${String(x)}n, y: ${String(y)}n, u: ${String(u)}, v: ${String(v)}, eyeAbove: ${String(eyeAbove)}, scale: ${String(scale)}, yaw: ${String(yaw)}, elevation: ${String(elevation)} }`;
+};
+
+/** Seconds per simulated frame of the pull. */
+const FRAME = 1 / 60;
+/**
+ * Seconds after the pull each shrink frame is shot at: three before the body
+ * drops through, at 1.755 s, and one in the shaft under floor 1's slab.
+ */
+const PULL_SHOTS = [
+  ['pull-1-shrinking.png', 0.6],
+  ['pull-2-shrinking.png', 1.2],
+  ['pull-3-shrinking.png', 1.7],
+  ['pull-4-falling.png', 2.95],
+] as const;
+
+/**
+ * The poses `play` gives a body pulling the lever from the middle of floor 1's
+ * hole, standing still and looking down past it, at each of `PULL_SHOTS`.
+ */
+function pulled(quarter: Quarter): ReadonlyArray<readonly [string, Pose]> {
+  const room = { n: 1, x: 0n, y: 0n };
+  const here: Holed = {
+    quarter,
+    lever: leverOf(maze(planted.seed), room, quarter),
+  };
+  const still = {
+    walk: 0,
+    strafe: 0,
+    turnKeys: 0,
+    tiltKeys: 0,
+    yawBy: 0,
+    elevationBy: 0,
+  };
+  const start: Player = {
+    pose: {
+      ...room,
+      u: (quarter.qx + 0.5) / 2,
+      v: (quarter.qy + 0.5) / 2,
+      eyeAbove: EYE_HEIGHT,
+      scale: 1,
+      yaw: 0,
+      elevation: -0.7,
+    },
+    shrinking: null,
+  };
+  const first = play(
+    start,
+    { ...still, pull: true },
+    FRAME,
+    plantedWalls,
+    here,
+  );
+  if (first.shrinking === null)
+    throw new Error('Floor 1’s lever is out of reach');
+  const frames = [first];
+  const end = Math.max(...PULL_SHOTS.map(([, at]) => at));
+  while (frames.length * FRAME < end) {
+    const last = frames.at(-1) ?? start;
+    frames.push(
+      play(last, { ...still, pull: false }, FRAME, plantedWalls, here),
+    );
+  }
+  return PULL_SHOTS.map(([name, at]) => {
+    const frame = frames[Math.round(at / FRAME) - 1] ?? start;
+    return [name, frame.pose] as const;
+  });
+}
 
 async function until(tab: Tab, expression: string, deadline: number) {
   if (await tab.evaluate(`Boolean(${expression})`, z.boolean())) return;
@@ -57,7 +140,7 @@ async function until(tab: Tab, expression: string, deadline: number) {
   await until(tab, expression, deadline);
 }
 
-/** The two shots by file name, around the hole floor 1's room (0, 0) holds. */
+/** The shots by file name, around the hole floor 1's room (0, 0) holds. */
 async function shots(): Promise<ReadonlyArray<readonly [string, Pose]>> {
   const quarter = await holeQuarter(planted, 1, 0n, 0n);
   if (quarter === null) throw new Error('Floor 1 has no hole');
@@ -76,6 +159,7 @@ async function shots(): Promise<ReadonlyArray<readonly [string, Pose]>> {
     u: u - back,
     v,
     eyeAbove: EYE_HEIGHT,
+    scale: 1,
     yaw: 0,
     elevation: -Math.atan2(EYE_HEIGHT, back),
   };
@@ -88,12 +172,14 @@ async function shots(): Promise<ReadonlyArray<readonly [string, Pose]>> {
     u: 0.5 - reach,
     v: 0.5,
     eyeAbove: 0.16,
+    scale: 1,
     yaw: 0,
     elevation: Math.atan2(0.5 - 0.16, reach),
   };
   return [
     ['floor-1-down.png', down],
     ['floor-2-up.png', up],
+    ...pulled(quarter),
   ];
 }
 

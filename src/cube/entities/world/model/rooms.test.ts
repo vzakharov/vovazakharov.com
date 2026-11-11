@@ -13,6 +13,7 @@ const pose: Pose = {
   u: 0.5,
   v: 0.5,
   eyeAbove: 0.32,
+  scale: 1,
   yaw: 0,
   elevation: 0,
 };

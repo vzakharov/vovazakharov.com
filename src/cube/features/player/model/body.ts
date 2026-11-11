@@ -2,14 +2,11 @@ import type { InRoom, Pose } from '@/cube/entities/world';
 
 import type { Walls } from './walls';
 
-/** The body's collision circle, in room sides: 0.6 m on floor 1. */
-export const BODY_RADIUS = 0.06;
-
 /**
- * The longest move resolved at once. Under the radius, a centre that starts
- * clear of a zero-thickness wall cannot reach its far side in one sub-step.
+ * The radius of a whole body's collision circle, in room sides: 0.6 m across
+ * on floor 1. A body's own is this times its `scale`.
  */
-const MAX_SUBSTEP = BODY_RADIUS / 2;
+export const BODY_RADIUS = 0.06;
 
 /** Push-out passes per sub-step; a corner needs two, a wall end three. */
 const PASSES = 4;
@@ -47,15 +44,15 @@ function closestOn({ a, b }: Segment, p: InRoom): InRoom {
 }
 
 /** `p` pushed straight out of every segment it overlaps, which slides it. */
-function pushOut(p: InRoom, segments: Segment[]): InRoom {
+function pushOut(p: InRoom, segments: Segment[], radius: number): InRoom {
   let { u, v } = p;
   for (let pass = 0; pass < PASSES; pass += 1) {
     let moved = false;
     for (const segment of segments) {
       const q = closestOn(segment, { u, v });
       const distance = Math.hypot(u - q.u, v - q.v);
-      if (distance < BODY_RADIUS && distance > 0) {
-        const scale = BODY_RADIUS / distance;
+      if (distance < radius && distance > 0) {
+        const scale = radius / distance;
         u = q.u + (u - q.u) * scale;
         v = q.v + (v - q.v) * scale;
         moved = true;
@@ -78,18 +75,27 @@ function rebase(w: number): [number, bigint] {
   return up < 1 ? [up, -1n] : [0, 0n];
 }
 
-/** `pose` moved by `(du, dv)` room sides, colliding and changing rooms. */
+/**
+ * `pose` moved by `(du, dv)` room sides, colliding as a body of its scale and
+ * changing rooms. Each sub-step moves under half the radius, so a centre that
+ * starts clear of a zero-thickness wall cannot reach its far side in one.
+ */
 export function walk<P extends Pose>(
   pose: P,
   du: number,
   dv: number,
   walls: Walls,
 ): P {
-  const steps = Math.max(1, Math.ceil(Math.hypot(du, dv) / MAX_SUBSTEP));
+  const radius = BODY_RADIUS * pose.scale;
+  const steps = Math.max(1, Math.ceil(Math.hypot(du, dv) / (radius / 2)));
   let { x, y, u, v } = pose;
   let segments = closedWalls(pose, walls);
   for (let index = 0; index < steps; index += 1) {
-    ({ u, v } = pushOut({ u: u + du / steps, v: v + dv / steps }, segments));
+    ({ u, v } = pushOut(
+      { u: u + du / steps, v: v + dv / steps },
+      segments,
+      radius,
+    ));
     const [nu, sx] = rebase(u);
     const [nv, sy] = rebase(v);
     u = nu;

@@ -1,7 +1,9 @@
 import type { HoleOf, Quarter } from './hole';
+import { leverFaces, leverOf } from './lever';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
 import type { Pose } from './pose';
-import { type Floored, type Room, roomKey, roomsAcross } from './room';
+import { face, type Quad, type Vec3 } from './quad';
+import { type Room, roomKey, roomsAcross } from './room';
 import type { View } from './rooms';
 
 /** A room's height, in its own side. */
@@ -9,61 +11,8 @@ const ROOM_HEIGHT = 0.5;
 /** A hole's side, in its room's side; it sits in the middle of its quarter. */
 export const HOLE_SIDE = 0.08;
 
-export type Vec3 = readonly [number, number, number];
-
-const SURFACES = ['wall', 'floor', 'ceiling'] as const;
-export type Surface = (typeof SURFACES)[number];
-
-/**
- * One flat face, its corners counter-clockwise seen from the side `normal`
- * points to, and the room it faces into: on floor `n`, as `surface`.
- */
-export type Quad = Floored & {
-  corners: readonly [Vec3, Vec3, Vec3, Vec3];
-  normal: Vec3;
-  surface: Surface;
-};
-
 /** A room's footprint in the eye's frame: its north-west corner and side. */
 type Footprint = { east: number; south: number; roomSide: number };
-
-const cross = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
-  ay * bz - az * by,
-  az * bx - ax * bz,
-  ax * by - ay * bx,
-];
-
-const unit = ([x, y, z]: Vec3): Vec3 => {
-  const length = Math.hypot(x, y, z);
-  return [x / length, y / length, z / length];
-};
-
-const plus = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
-  ax + bx,
-  ay + by,
-  az + bz,
-];
-
-/** The parallelogram from `corner` along `a`, then `b`, facing `a × b`. */
-function face(
-  corner: Vec3,
-  a: Vec3,
-  b: Vec3,
-  n: number,
-  surface: Surface,
-): Quad {
-  return {
-    corners: [
-      corner,
-      plus(corner, a),
-      plus(plus(corner, a), b),
-      plus(corner, b),
-    ],
-    normal: unit(cross(a, b)),
-    n,
-    surface,
-  };
-}
 
 /**
  * The eye's frame: floor `n`'s room sides, origin at the north-west corner of
@@ -93,6 +42,48 @@ function footprint(eye: Room, room: Room): Footprint {
 /** Floor `m`'s slab height in the frame of an eye on floor `n`. */
 const slabHeight = (n: number, m: number): number =>
   ROOM_HEIGHT * (2 ** (n - m) - 1);
+
+/** How far floor `n + 1`'s slab lies under floor `n`'s, in floor `n`'s units. */
+export const DROP = -slabHeight(1, 2);
+
+/**
+ * `pose` in the units of the floor below: the room of floor `n + 1` under its
+ * eye, with every length doubled. The eye's place, gaze and size in the cube
+ * are unchanged, so a frame drawn from either is the same frame.
+ */
+export function descend(pose: Pose): Pose {
+  const qx = pose.u < 0.5 ? 0 : 1;
+  const qy = pose.v < 0.5 ? 0 : 1;
+  return {
+    ...pose,
+    n: pose.n + 1,
+    x: 2n * pose.x + BigInt(qx),
+    y: 2n * pose.y + BigInt(qy),
+    u: 2 * pose.u - qx,
+    v: 2 * pose.v - qy,
+    eyeAbove: 2 * (pose.eyeAbove + DROP),
+    scale: 2 * pose.scale,
+  };
+}
+
+/**
+ * The eye of `pose` in the frame of `frame` (see `footprint`), on any floor,
+ * and `side`, the length of one of `pose`'s room sides there.
+ */
+export function eyeInFrame(
+  frame: Room,
+  pose: Pose,
+): { eye: Vec3; side: number } {
+  const { east, south, roomSide: side } = footprint(frame, pose);
+  return {
+    eye: [
+      east + pose.u * side,
+      slabHeight(frame.n, pose.n) + pose.eyeAbove * side,
+      south + pose.v * side,
+    ],
+    side,
+  };
+}
 
 /** The rects a slab of `side` covers once a hole in `quarter` is cut from it. */
 function cut(
@@ -187,12 +178,30 @@ function roomWalls(
 /** The lid's footprint: floor 1's one room, which is the whole cube. */
 const CUBE: Room = { n: 1, x: 0n, y: 0n };
 
+/** The lever of `room` in the eye's frame, if `room` has a hole. */
+function lever(
+  rolled: RolledMaze,
+  eye: Room,
+  room: Room,
+  quarter: Quarter | null,
+): Quad[] {
+  if (quarter === null) return [];
+  const { east, south, roomSide } = footprint(eye, room);
+  return leverFaces(
+    leverOf(rolled, room, quarter),
+    room.n,
+    [east, slabHeight(eye.n, room.n), south],
+    roomSide,
+  );
+}
+
 /**
  * Every face the eye at `pose` sees of `view`: the walls of its floor's rooms,
  * of the rooms below them and of the room overhead; the slabs of all of them,
- * holes cut; and the ceiling over the topmost room it sees, which on floors
- * 1 and 2 is the lid. Slabs come first, so a depth test that keeps the first
- * of two equal depths draws a slab, not the wall tops meeting it from below.
+ * holes cut; the levers of the holed rooms among those; and the ceiling over
+ * the topmost room it sees, which on floors 1 and 2 is the lid. Slabs come
+ * first, so a depth test that keeps the first of two equal depths draws a
+ * slab, not the wall tops meeting it from below.
  */
 export function faces(
   rolled: RolledMaze,
@@ -206,6 +215,11 @@ export function faces(
     view.topmost === null
       ? slab(pose, 0, footprint(pose, CUBE), null)
       : slabOf(view.topmost);
+  const walled = [
+    ...view.near,
+    ...view.below,
+    ...(view.overhead === null ? [] : [view.overhead]),
+  ];
   return [
     ...[...view.near, ...view.below, ...view.above].flatMap((room) =>
       slabOf(room),
@@ -214,5 +228,6 @@ export function faces(
     ...walls(rolled, pose, view.near),
     ...walls(rolled, pose, view.below),
     ...(view.overhead === null ? [] : walls(rolled, pose, [view.overhead])),
+    ...walled.flatMap((room) => lever(rolled, pose, room, holeOf(room))),
   ];
 }

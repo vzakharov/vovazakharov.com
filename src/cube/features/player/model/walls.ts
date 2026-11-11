@@ -56,5 +56,8 @@ function mazeWalls(rolled: RolledMaze): Walls {
   };
 }
 
+/** The planted world's maze. */
+export const plantedMaze = maze(planted.seed);
+
 /** The planted world's walls. */
-export const plantedWalls: Walls = mazeWalls(maze(planted.seed));
+export const plantedWalls: Walls = mazeWalls(plantedMaze);

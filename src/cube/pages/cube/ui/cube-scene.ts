@@ -2,6 +2,8 @@ import { asError } from '@/kernel/shared/lib/error-class';
 import type { CanDispose, WithOnError } from '@/kernel/shared/typings';
 
 import {
+  descend,
+  eyeInFrame,
   faces,
   type HoleOf,
   holesOf,
@@ -11,13 +13,12 @@ import {
   roomKey,
   sight,
   slabRooms,
-  type Vec3,
   withBelow,
 } from '@/cube/entities/world';
 
 import { viewProjection } from '../lib/camera';
 import { pack } from '../lib/mesh';
-import { airOf, ambientOf } from '../lib/palette';
+import { airOf, ambientOf, between } from '../lib/palette';
 import type { CubePlayHook } from '../lib/play';
 import { createRenderer, type Renderer } from './renderer';
 
@@ -61,12 +62,12 @@ async function build(pose: Pose): Promise<Float32Array<ArrayBuffer>> {
   return pack(faces(rolled, pose, full, holeOf));
 }
 
-/** The eye in the frame of the mesh built for `built`, on the same floor. */
-const eyeIn = (built: Pose, pose: Pose): Vec3 => [
-  Number(pose.x - built.x) + pose.u,
-  pose.eyeAbove,
-  Number(pose.y - built.y) + pose.v,
-];
+/**
+ * `pose` on the floor whose room holds its eye: the floor below once a
+ * falling eye has passed under its slab, so the mesh is that room's.
+ */
+const inEyeRoom = (pose: Pose): Pose =>
+  pose.eyeAbove < 0 ? descend(pose) : pose;
 
 /**
  * Draws the cube into `canvas` every animation frame from `options.start`,
@@ -104,19 +105,22 @@ export function mountCube(
     return building;
   };
 
+  // Until the eye's room has its own mesh, it is drawn in a neighbouring
+  // floor's: one being left by a fall shows the floor below through its hole.
   const render = (): void => {
     if (renderer === null) return;
-    if (built?.n !== pose.n || roomKey(built) !== roomKey(pose)) {
-      rebuild(pose);
-    }
-    if (built?.n !== pose.n) return;
+    const at = inEyeRoom(pose);
+    if (built === null || roomKey(built) !== roomKey(at)) rebuild(at);
+    if (built === null || Math.abs(built.n - at.n) > 1) return;
     const { width, height } = canvas;
-    const eye = eyeIn(built, pose);
-    renderer.draw(viewProjection(pose, eye, width / height), {
+    const { eye, side } = eyeInFrame(built, at);
+    const unit = side * at.scale;
+    const depth = at.n - Math.log2(at.scale);
+    renderer.draw(viewProjection(at, eye, width / height, unit), {
       eye,
-      density: FOG_DENSITY,
-      fog: airOf(pose.n),
-      ambient: ambientOf(pose.n),
+      density: FOG_DENSITY / unit,
+      fog: between(airOf, depth),
+      ambient: between(ambientOf, depth),
     });
     firstFrame.resolve();
   };
@@ -161,7 +165,7 @@ export function mountCube(
     setPose: async (next) => {
       await firstFrame.promise;
       pose = next;
-      await rebuild(next).done;
+      await rebuild(inEyeRoom(next)).done;
       resize();
       render();
       await renderer?.drawn();

@@ -1,10 +1,11 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { faces, HOLE_SIDE, type Quad } from './geometry';
+import { descend, eyeInFrame, faces, HOLE_SIDE } from './geometry';
 import type { HoleOf } from './hole';
 import { isOpenEast, maze } from './maze';
 import type { Pose } from './pose';
+import type { Quad } from './quad';
 import { sight, withBelow } from './rooms';
 
 const rolled = maze('8675309');
@@ -16,6 +17,7 @@ const at = (pose: Partial<Pose>): Pose => ({
   u: 0.5,
   v: 0.5,
   eyeAbove: 0.32,
+  scale: 1,
   yaw: 0,
   elevation: 0,
   ...pose,
@@ -109,5 +111,57 @@ describe('faces', () => {
     const ceiling = quads.filter((q) => q.surface === 'ceiling' && q.n === 1);
     assert.deepEqual(heights(ceiling), [0.5]);
     assert.ok(!quads.some((q) => q.n === 0));
+  });
+
+  it('draws a lever in each holed room it walls, and only there', () => {
+    const quads = facesAt(at({ n: 2, x: 1n, y: 0n }), 1, holedTo(3));
+    const floors = new Set(
+      quads.filter((q) => q.surface === 'handle').map((q) => q.n),
+    );
+    // Floor 2's rooms and the one overhead are holed; floor 3's are not.
+    assert.deepEqual(
+      [...floors].toSorted((a, b) => a - b),
+      [1, 2],
+    );
+    assert.ok(!facesAt(at({}), 1, noHoles).some((q) => q.surface === 'plate'));
+  });
+});
+
+const near = (a: readonly number[], b: readonly number[]) => {
+  for (const [i, value] of a.entries()) {
+    assert.ok(
+      Math.abs(value - (b[i] ?? Number.NaN)) < 1e-9,
+      `${a.join(',')} vs ${b.join(',')}`,
+    );
+  }
+};
+
+/** The room the descent tests measure from, on the floor fallen from. */
+const frame = { n: 4, x: 5n, y: 2n };
+
+/** How big a body at `pose` stands, in `frame`'s room sides. */
+const size = (pose: Pose) => eyeInFrame(frame, pose).side * pose.scale;
+
+describe('descend', () => {
+  it('leaves the eye where it was, its gaze and its size in the cube', () => {
+    for (const pose of [
+      at({ n: 4, x: 5n, y: 2n, u: 0.31, v: 0.77, eyeAbove: -0.09, scale: 0.5 }),
+      at({ n: 4, x: 6n, y: 1n, u: 0.6, v: 0.2, eyeAbove: 0.1, yaw: 2 }),
+    ]) {
+      const below = descend(pose);
+      assert.equal(below.n, 5);
+      near(eyeInFrame(frame, below).eye, eyeInFrame(frame, pose).eye);
+      near([size(below)], [size(pose)]);
+      assert.deepEqual(
+        [below.yaw, below.elevation],
+        [pose.yaw, pose.elevation],
+      );
+      assert.ok(below.u >= 0 && below.u < 1 && below.v >= 0 && below.v < 1);
+    }
+  });
+
+  it('turns a half-size eye on the slab below into a whole one on its floor', () => {
+    const landed = descend(at({ eyeAbove: -0.25 + 0.16, scale: 0.5 }));
+    near([landed.eyeAbove, landed.scale], [0.32, 1]);
   });
 });

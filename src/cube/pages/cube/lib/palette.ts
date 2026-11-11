@@ -24,6 +24,8 @@ const TONE: Record<Surface, readonly [number, number]> = {
   wall: [0.5, 0.62],
   floor: [0.2, 0.4],
   ceiling: [0.08, 0.86],
+  plate: [0.45, 0.3],
+  handle: [0.6, 0.18],
 };
 
 /** The colour of `surface` in a room of floor `n`. */
@@ -46,4 +48,20 @@ const tinted = (channel: number): number =>
 export function ambientOf(n: number): Rgb {
   const [r, g, b] = colourOf(n, 'wall');
   return [tinted(r), tinted(g), tinted(b)];
+}
+
+/**
+ * `of` at a depth between floors: `depth` is a floor number plus how many
+ * halvings an eye has shrunk past it, so a body shrinking from floor `n` to a
+ * person of `n + 1` passes from `of(n)` to `of(n + 1)` and arrives exactly.
+ */
+export function between(of: (n: number) => Rgb, depth: number): Rgb {
+  const n = Math.floor(depth);
+  const along = depth - n;
+  const [from, to] = [of(n), of(n + 1)];
+  return [
+    from[0] + (to[0] - from[0]) * along,
+    from[1] + (to[1] - from[1]) * along,
+    from[2] + (to[2] - from[2]) * along,
+  ];
 }
