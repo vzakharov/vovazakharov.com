@@ -21,7 +21,8 @@ import {
   sight,
   type Sign,
   type Signed,
-  signFacet,
+  signFacets,
+  signPost,
   signsSeen,
   slabRooms,
   withBelow,
@@ -114,7 +115,9 @@ function boardsOf(
         id,
         image: () => drawBoard(n, isSold, signs[kind], line),
         vertices: packSigns(
-          rooms.map(({ room, sign }) => signFacet(sign, n, placed(pose, room))),
+          rooms.flatMap(({ room, sign }) =>
+            signFacets(sign, n, placed(pose, room)),
+          ),
         ),
       },
     ];
@@ -146,8 +149,12 @@ async function build(
       .map(({ room, sign }) => [roomKey(room), sign]),
   );
   const owns = (room: Room) => bought.has(roomKey(room));
+  const posts = signed.flatMap(({ room, sign }) =>
+    signPost(sign, room.n, placed(pose, room)),
+  );
   return {
-    faces: (pulled) => pack(faces(rolled, pose, full, holeOf, pulled, owns)),
+    faces: (pulled) =>
+      pack([...faces(rolled, pose, full, holeOf, pulled, owns), ...posts]),
     boards: boardsOf(pose, signed, copy),
     signOf: (room) => onFloor.get(roomKey(room)) ?? null,
   };

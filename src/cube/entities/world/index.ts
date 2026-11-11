@@ -29,8 +29,10 @@ export {
   priceOf,
   type Sign,
   type Signed,
-  signFacet,
+  signFacets,
   type SignKind,
+  type SignMount,
+  signPost,
   signsSeen,
 } from './model/sale';
 export { mazeWalls, type Walls } from './model/walls';

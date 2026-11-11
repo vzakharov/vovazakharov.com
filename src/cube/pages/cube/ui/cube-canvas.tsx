@@ -16,7 +16,7 @@ import {
   roomKey,
   type Signed,
   type SignKind,
-  type WallMounted,
+  type SignMount,
 } from '@/cube/entities/world';
 import {
   bindInput,
@@ -247,7 +247,7 @@ export function CubeCanvas({
    * The rooms bought on this page, each where its sign hung: held for the
    * page's life alone, the purchase being a demo that charges nothing.
    */
-  const holdingsRef = useRef(new Map<string, WallMounted>());
+  const holdingsRef = useRef(new Map<string, SignMount>());
   const sceneRef = useRef<CubeScene | null>(null);
   // Thrown while rendering, so the route's error boundary shows it.
   if (failure !== null) throw failure;
@@ -260,8 +260,8 @@ export function CubeCanvas({
   const buy = () => {
     if (offer === null) return;
     const { room, sign } = offer;
-    const { at, facing } = sign;
-    holdingsRef.current.set(roomKey(room), { at, facing });
+    const { at, facing, onPost } = sign;
+    holdingsRef.current.set(roomKey(room), { at, facing, onPost });
     sceneRef.current?.refresh();
     setOffer({ room, sign: { ...sign, kind: 'yours' } });
   };
