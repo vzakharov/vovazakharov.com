@@ -277,9 +277,32 @@ screenshots of the four artifacts' English copies — is published at
 https://claude.ai/artifact/WbvwDqVtJzN8EBeuUffho3 with `db`, `user` and
 `assets`, its `db` empty until someone edits it.
 
-## Rest of the bite
+## This bite
 
-Bite 2, as item 2 above, once Vova has looked at the cube board.
+Bite 2: `dice` and the world model, tested, nothing drawn.
+
+- **`src/dice/shared/roll/`**: `roll.ts` and `decode.ts` from `round-world`,
+  with their tests, and its `hash.ts` beside them as `model/hash.ts`. `roll`
+  gains `over`, `key` (with `int` and `big` parts), `pick` and `wide`. `wide`
+  decodes to a `bigint` in `[0, 2^64)`. A door position on an edge of `2^k`
+  rooms is `wide · 2^k >> 64`, exact up to `k = 64` and coarse beyond it, and
+  any position keeps the maze perfect. So no floor count is wired into `dice`.
+- **`src/cube/entities/world/`**:
+  - `maze`: the `Maze` schema and `isOpen(floor, wall)`.
+  - `hole`: `holeQuarter(world, n, x, y)` through `crypto.subtle`.
+  - `plant`: `plant(floors, random)`, which returns the world and its answers.
+  - `config/world.json`: the planted world.
+- **Floor count is the commitment list's length + 1**, so no `64` constant.
+  "Infinite" means planting a longer list, at 32 bytes a floor. The commitments
+  cannot be derived from the seed: the answer would then be computable.
+- **`src/cube/scripts/plant.ts`** writes `world.json` and keeps no answers.
+- `src/masd.json` gains `dice` and `cube` (`cube`'s parent is `dice` alone until
+  bite 3 brings `scene` and the route).
+- **Geometry waits for bite 3**, its first reader: a module of ratios no code
+  reads would be dead code for knip, and the numbers are in § "Geometry".
+- Conventions: x grows east, y grows south. A block's inner edges are named for
+  the half they sit in. `north` and `south` are the halves of the vertical
+  midline, and `west` and `east` the halves of the horizontal one.
 
 ## Coordination
 
