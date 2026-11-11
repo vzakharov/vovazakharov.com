@@ -44,6 +44,13 @@ fn copper(uv: vec2f, salt: u32) -> vec3f {
   return vec3f(max(trace, ring), ring, hole);
 }
 
+const GOLD = vec3f(0.7, 0.5, 0.14);
+
+/// The green mask, paler where \`copper\` runs under it.
+fn solderMask(copper: f32) -> vec3f {
+  return mix(vec3f(0.012, 0.085, 0.04), vec3f(0.03, 0.2, 0.09), copper);
+}
+
 fn streets(s: Surf) -> Material {
   let metal = copper(s.uv, 441u);
   // Silkscreen: the outline of a part never fitted, one to a cell.
@@ -51,11 +58,12 @@ fn streets(s: Surf) -> Material {
   let word = cellHash(vec2i(floor(cell)), 442u);
   let size = vec2f(0.12 + 0.2 * unitOf(word), 0.1 + 0.16 * unitOf(mix32(word)));
   let box = abs(fract(cell) - 0.5) - size;
-  let outline = step(0.6, unitOf(mix32(word ^ 0x44u))) * (1.0 - smoothstep(0.0, 0.012, abs(max(box.x, box.y))));
-  let pad = step(0.6, unitOf(mix32(word ^ 0x44u))) * step(box.y, -0.02) * step(abs(box.x + 0.03), 0.02) * step(0.3, fract(cell.y * 12.0));
+  let fitted = step(0.6, unitOf(mix32(word ^ 0x44u)));
+  let outline = fitted * (1.0 - smoothstep(0.0, 0.012, abs(max(box.x, box.y))));
+  let pad = fitted * step(box.y, -0.02) * step(abs(box.x + 0.03), 0.02) * step(0.3, fract(cell.y * 12.0));
   let weave = valueNoise(s.uv * 220.0, 443u);
-  let mask = mix(vec3f(0.012, 0.085, 0.04), vec3f(0.03, 0.2, 0.09), metal.x) * (0.9 + 0.15 * weave);
-  var albedo = mix(mask, vec3f(0.7, 0.5, 0.14), metal.y);
+  let mask = solderMask(metal.x) * (0.9 + 0.15 * weave);
+  var albedo = mix(mask, GOLD, metal.y);
   albedo = mix(albedo, vec3f(0.62, 0.64, 0.6), max(outline * (1.0 - metal.y), pad));
   albedo = mix(albedo, vec3f(0.003), metal.z);
   let m = polished(albedo, mix(0.72, 0.85, max(metal.y, pad)) * (1.0 - metal.z) * (1.0 - 0.6 * outline));
@@ -65,7 +73,7 @@ fn streets(s: Surf) -> Material {
 fn towers(s: Surf) -> Material {
   let h = s.p.y;
   let metal = copper(vec2f(s.uv.x, h), 444u);
-  let mask = mix(vec3f(0.012, 0.085, 0.04), vec3f(0.03, 0.2, 0.09), metal.x);
+  let mask = solderMask(metal.x);
   // Gold fingers for a skirting.
   let finger = (1.0 - smoothstep(0.3, 0.304, h)) * step(0.03, h) * step(0.25, fract(s.uv.x / 0.09));
   // A chip to each bay, its legs along its foot and its head.
@@ -84,7 +92,7 @@ fn towers(s: Surf) -> Material {
   let on = glass * step(0.86, unitOf(lit));
   let mould = valueNoise(s.uv * 150.0, 445u);
   let notch = body * (1.0 - smoothstep(0.03, 0.035, length(vec2f(across - 0.625 + half - 0.08, h - top + 0.08))));
-  var albedo = mix(mask, vec3f(0.7, 0.5, 0.14), max(metal.y * (1.0 - body), finger));
+  var albedo = mix(mask, GOLD, max(metal.y * (1.0 - body), finger));
   albedo = mix(albedo, vec3f(0.022, 0.022, 0.025) * (0.8 + 0.4 * mould), body);
   albedo = mix(albedo, vec3f(0.5, 0.52, 0.5), max(leg, 0.3 * notch));
   albedo = mix(albedo, vec3f(0.004), glass);
