@@ -4,14 +4,14 @@ import { describe, it } from 'node:test';
 import { visitorMetres } from '../../frame';
 import { sketchOf, subjectOf } from './subjects';
 
-const FLOORS = Array.from({ length: 67 }, (_, at) => at + 1);
+const FLOORS = Array.from({ length: 66 }, (_, at) => at + 1);
 
 describe('the thing a floor’s visitor is the size of', () => {
   it('starts with a grown-up and ends on a question', () => {
     assert.equal(subjectOf(1).name, 'A GROWN-UP');
     assert.equal(subjectOf(5).name, 'A MOUSE');
-    assert.equal(subjectOf(67).measured, undefined);
-    assert.notEqual(subjectOf(67).unsizedNote ?? '', '');
+    assert.equal(subjectOf(66).measured, undefined);
+    assert.notEqual(subjectOf(66).unsizedNote ?? '', '');
   });
 
   it('shows thirty drawings or more on the way down', () => {

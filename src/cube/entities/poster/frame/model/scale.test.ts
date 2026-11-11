@@ -17,7 +17,7 @@ describe('the poster’s scale', () => {
   });
 
   it('keeps the visitor the same share of a room side on every floor', () => {
-    for (const n of [1, 9, 40, 67]) {
+    for (const n of [1, 9, 40, 66]) {
       assert.ok(Math.abs(visitorMetres(n) * sidesPerMetre(n) - 0.32) < 1e-12);
     }
   });

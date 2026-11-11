@@ -18,7 +18,7 @@ const FIRST_INVENTED = 40;
 /** The last floor whose strokes hold together. */
 const LAST_WHOLE = 53;
 /** The floor by which the strokes are as loose as they get. */
-const LOOSEST = 67;
+const LOOSEST = 66;
 
 const ramp = (n: number, from: number, to: number): number =>
   Math.min(Math.max((n - from) / (to - from), 0), 1);

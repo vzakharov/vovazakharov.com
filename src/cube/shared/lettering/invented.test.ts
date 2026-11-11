@@ -35,14 +35,14 @@ describe('a floor’s invented alphabet', () => {
   });
 
   it('gives a floor’s letters glyphs of their own, nearly all', () => {
-    for (let n = 9; n <= 67; n += 1) {
+    for (let n = 9; n <= 66; n += 1) {
       const distinct = new Set(LETTERS.map((char) => drawing(n, char)));
       assert.ok(distinct.size >= 33, `floor ${n}: ${distinct.size} distinct`);
     }
   });
 
   it('draws within the cap height and its own advance', () => {
-    for (const n of [9, 24, 45, 67]) {
+    for (const n of [9, 24, 45, 66]) {
       for (const [char, { lines, advance }] of alphabetOf(n)) {
         const [left, bottom, right, top] = bounds(lines);
         const where = `floor ${n}, ${char}`;

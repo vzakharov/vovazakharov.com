@@ -7,7 +7,7 @@ import { DRAWING_FRAME, POSTER_TALL, POSTER_WIDE } from '../../frame';
 import { subjectOf } from '../../subject';
 import { captionOf, type Inked, posterOf } from './poster';
 
-const FLOORS = Array.from({ length: 67 }, (_, at) => at + 1);
+const FLOORS = Array.from({ length: 66 }, (_, at) => at + 1);
 const EPSILON = 1e-9;
 
 const inked = (n: number): Inked[] =>
@@ -79,7 +79,7 @@ describe('a floor’s poster', () => {
 
   it('writes the title in plain capitals on every floor', () => {
     const plain = strokes('ACTUAL SIZE', LATIN).length;
-    for (const n of [1, 30, 67]) {
+    for (const n of [1, 30, 66]) {
       assert.ok(part(n, 'title').strokes.length > plain);
     }
     assert.deepEqual(
@@ -109,8 +109,8 @@ describe('a floor’s poster', () => {
   });
 
   it('captions a thing with no size by its note', () => {
-    const subject = subjectOf(67);
-    assert.deepEqual(captionOf(subject, 67), [
+    const subject = subjectOf(66);
+    assert.deepEqual(captionOf(subject, 66), [
       subject.name,
       subject.unsizedNote,
     ]);

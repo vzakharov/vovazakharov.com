@@ -45,7 +45,7 @@ describe('a floor’s script', () => {
   });
 
   it('writes a letter as one glyph all over a floor', () => {
-    for (const n of [20, 45, 60, 67]) {
+    for (const n of [20, 45, 60, 66]) {
       assert.deepEqual(glyphIn('m', scriptOf(n)), glyphIn('M', scriptOf(n)));
       assert.deepEqual(glyphIn('M', scriptOf(n)), glyphIn('M', scriptOf(n)));
     }
@@ -53,7 +53,7 @@ describe('a floor’s script', () => {
 
   it('holds its strokes together to floor 53 and loosens them after', () => {
     assert.equal(scriptOf(53).looseness, 0);
-    assert.equal(scriptOf(67).looseness, 1);
+    assert.equal(scriptOf(66).looseness, 1);
     const whole = alphabetOf(60).get('A');
     const loose = glyphIn('A', scriptOf(60));
     assert.notDeepEqual(loose.lines, whole?.lines);
@@ -66,7 +66,7 @@ describe('a floor’s script', () => {
   });
 
   it('breaks strokes into more pieces the looser it gets', () => {
-    assert.ok(pieces(67) > pieces(61));
+    assert.ok(pieces(66) > pieces(61));
     assert.ok(pieces(61) >= pieces(54));
   });
 });

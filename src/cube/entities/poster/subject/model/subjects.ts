@@ -271,7 +271,7 @@ function mismatch(subject: Subject, n: number): number {
 }
 
 /** The deepest floor a poster is drawn for. */
-const FLOORS = 67;
+const FLOORS = 66;
 
 /**
  * How much worse it is to show a floor the thing the floor above showed than
