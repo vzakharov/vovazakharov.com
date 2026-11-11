@@ -2,6 +2,7 @@ import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { FINISH, type FloorTheme, GRADE, STUFF, wgsl } from '../../kit';
 import { lit } from '../lib/lit';
+import { PATTERN } from '../lib/pattern';
 import { SCREEN } from '../lib/screen';
 
 const AIR = linear(hex(0x02_02_0a));
@@ -38,11 +39,8 @@ const CARD = array<vec3f, 16>(
 /// Dressed stone in courses: x the block's own number, y 1 on its face
 /// and 0 in the joint.
 fn ashlar(s: Surf) -> vec2f {
-  let row = floor(s.uv.y / 0.46);
-  let at = vec2f(s.uv.x / 0.92 + 0.5 * (row - 2.0 * floor(row * 0.5)), s.uv.y / 0.46);
-  let f = fract(at);
-  let edge = min(min(f.x, 1.0 - f.x) * 0.92, min(f.y, 1.0 - f.y) * 0.46);
-  return vec2f(unitOf(cellHash(vec2i(floor(at)), 81u)), smoothstep(0.012, 0.03, edge));
+  let block = bonded(s.uv, vec2f(0.92, 0.46), 81u);
+  return vec2f(block.x, smoothstep(0.012, 0.03, block.y));
 }
 
 fn themeMaterial(s: Surf) -> Material {
@@ -94,6 +92,7 @@ fn themeLens(l: Lens) -> vec3f {
   return best;
 }
 `,
+    PATTERN,
     SCREEN,
     FINISH,
     STUFF,

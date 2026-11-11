@@ -41,7 +41,7 @@ fn returned(s: Surf, dense: f32) -> f32 {
 /// 1 on the rings the scanner in the room's middle swept over a floor or
 /// ceiling, 0.25 between them.
 fn swept(s: Surf) -> f32 {
-  let out = length(s.p.xz - ROOM.xz * 0.5);
+  let out = fromMiddle(s);
   let ring = abs(fract(out * 3.0 + 0.4 * log(1.0 + out)) - 0.5);
   return mix(0.25, 1.0, 1.0 - smoothstep(0.16, 0.3, ring));
 }

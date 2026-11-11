@@ -1,6 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, GRADE, HASH, STUFF, wgsl } from '../../kit';
+import { PATTERN } from '../lib/pattern';
 import { SCREEN } from '../lib/screen';
 
 const AIR = linear(hex(0xee_e3_c8));
@@ -51,7 +52,7 @@ fn themeMaterial(s: Surf) -> Material {
     }
     case FLOOR, OWNED: { return matte(paperOf(s, 0u)); }
     case CEILING: {
-      let disc = 1.0 - smoothstep(0.78, 0.8, length(s.p.xz - ROOM.xz * 0.5));
+      let disc = 1.0 - smoothstep(0.78, 0.8, fromMiddle(s));
       return matte(mix(paperOf(s, 1u), vec3f(0.97, 0.93, 0.8), disc));
     }
     case TRIM: { return matte(vec3f(0.012)); }
@@ -69,6 +70,7 @@ fn themeLens(l: Lens) -> vec3f {
   return shown(page) * vignette(l, 0.12) + grain(l) * 0.012;
 }
 `,
+    PATTERN,
     SCREEN,
     STUFF,
     HASH,

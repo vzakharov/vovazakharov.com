@@ -125,7 +125,7 @@ fn themeMaterial(s: Surf) -> Material {
     case FLOOR, OWNED: { return parquet(s); }
     case CEILING: {
       // A plaster rose round the lamp.
-      let out = length(s.p.xz - ROOM.xz * 0.5);
+      let out = fromMiddle(s);
       let rose = (1.0 - smoothstep(0.5, 0.56, out)) * (0.6 + 0.4 * cos(out * 70.0));
       let white = plaster(s, vec3f(0.5, 0.46, 0.38));
       return embossed(s, glowing(white, lampGlow(s, lamps())), rose, 0.02);

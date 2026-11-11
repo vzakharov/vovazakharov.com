@@ -82,7 +82,7 @@ fn themeMaterial(s: Surf) -> Material {
     case WALL: { return tube(bars(s), 0.3); }
     case FLOOR, OWNED: { return tube(steps(s), 0.55); }
     case CEILING: {
-      let out = length(s.p.xz - ROOM.xz * 0.5);
+      let out = fromMiddle(s);
       let circle = 1.0 - smoothstep(0.015, 0.03, abs(out - 2.2));
       let lines = max(ruled(s.uv, 0.3125, 0.008), circle);
       let card = tube(mix(vec3f(0.035), vec3f(0.6), lines), 0.0);

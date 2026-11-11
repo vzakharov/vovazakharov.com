@@ -33,12 +33,8 @@ fn lamps() -> Lamps {
 /// How high a brick course stands at a wall point: 1 on a brick's face, 0
 /// in the mortar, the faces rough.
 fn coursed(s: Surf) -> f32 {
-  let row = floor(s.uv.y / 0.15);
-  let at = vec2f(s.uv.x / 0.42 + 0.5 * (row - 2.0 * floor(row * 0.5)), s.uv.y / 0.15);
-  let f = fract(at);
-  let edge = min(min(f.x, 1.0 - f.x) * 0.42, min(f.y, 1.0 - f.y) * 0.15);
-  let brick = unitOf(cellHash(vec2i(floor(at)), 61u));
-  return smoothstep(0.004, 0.02, edge) * (0.8 + 0.4 * brick) + 0.5 * fbm(s.uv * 9.0, 62u, 3);
+  let brick = bonded(s.uv, vec2f(0.42, 0.15), 61u);
+  return smoothstep(0.004, 0.02, brick.y) * (0.8 + 0.4 * brick.x) + 0.5 * fbm(s.uv * 9.0, 62u, 3);
 }
 
 /// Paving stones, each a shallow pillow.

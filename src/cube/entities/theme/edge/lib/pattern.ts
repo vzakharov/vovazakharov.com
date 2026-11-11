@@ -1,4 +1,4 @@
-import { CORE, wgsl } from '../../kit';
+import { CORE, HASH, wgsl } from '../../kit';
 
 /**
  * What the edge's floors are drawn in once textures give out: ruled lines,
@@ -53,10 +53,27 @@ fn chequer(uv: vec2f, size: f32) -> f32 {
   return 0.5 + 0.5 * square.x * square.y * fade;
 }
 
+/// Blocks \`size\` metres laid in running bond, every other course half a
+/// block along: x the block's own number, 0 to 1, y the metres to its
+/// nearest joint.
+fn bonded(uv: vec2f, size: vec2f, salt: u32) -> vec2f {
+  let row = floor(uv.y / size.y);
+  let at = vec2f(uv.x / size.x + 0.5 * (row - 2.0 * floor(row * 0.5)), uv.y / size.y);
+  let f = fract(at);
+  let edge = min(f, 1.0 - f) * size;
+  return vec2f(unitOf(cellHash(vec2i(floor(at)), salt)), min(edge.x, edge.y));
+}
+
 /// Metres along the room's own wall a wall point is, 0 to the room's side.
 fn alongWall(s: Surf) -> f32 {
   return select(s.p.x, s.p.z, abs(s.normal.x) > abs(s.normal.z));
 }
+
+/// Metres across the floor a point is from the middle of its room.
+fn fromMiddle(s: Surf) -> f32 {
+  return length(s.p.xz - ROOM.xz * 0.5);
+}
 `,
   CORE,
+  HASH,
 );

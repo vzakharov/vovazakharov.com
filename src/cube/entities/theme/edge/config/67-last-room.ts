@@ -1,4 +1,5 @@
 import { FINISH, type FloorTheme, ordinary, STUFF, wgsl } from '../../kit';
+import { PATTERN } from '../lib/pattern';
 
 /**
  * The last room there is, and not all of it: boards under one bulb, plaster
@@ -22,7 +23,7 @@ export const LAST_ROOM: FloorTheme = {
 /// lamp, less with every step away and every hand's breadth up, in dots a
 /// centimetre and a half across, each there or not.
 fn remains(s: Surf) -> f32 {
-  let out = length(s.p.xz - ROOM.xz * 0.5) / (ROOM.x * 0.5);
+  let out = fromMiddle(s) / (ROOM.x * 0.5);
   let up = s.p.y / ROOM.y;
   let left = 1.0 - smoothstep(0.3, 1.3, 0.45 * out + 1.1 * up);
   let speck = unitOf(cellHash(vec2i(floor(s.uv * 64.0)), 111u));
@@ -57,6 +58,7 @@ fn themeMaterial(s: Surf) -> Material {
   }
 }
 `,
+    PATTERN,
     FINISH,
     STUFF,
     ordinary('last-room', {
