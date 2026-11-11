@@ -41,15 +41,6 @@ fn lamps() -> Lamps {
   return Lamps(vec3f(4.6, 3.3, 2.0), vec3f(0.012, 0.009, 0.007), 1, vec2f(0.4), 0.0);
 }
 
-/// A point of a half-drop repeat \`size\` across: xy from its cell's middle,
-/// z the cell's own number.
-fn halfDrop(uv: vec2f, size: vec2f, salt: u32) -> vec3f {
-  let column = floor(uv.x / size.x);
-  let v = uv.y / size.y + 0.5 * (column - 2.0 * floor(column * 0.5));
-  let q = vec2f(fract(uv.x / size.x) - 0.5, fract(v) - 0.5) * size;
-  return vec3f(q, unitOf(cellHash(vec2i(i32(column), i32(floor(v))), salt)));
-}
-
 fn rosePaper(s: Surf) -> Material {
   let y = s.p.y;
   let cell = halfDrop(s.uv, vec2f(0.4, 0.5), 0xa0u);

@@ -2,7 +2,7 @@ import { CORE, HASH, LIGHT, wgsl } from '../../kit';
 
 /**
  * What the homes of this band share: where a point is along its wall and
- * which wall that is, shapes to cut patterns from, a lamp drawn as something
+ * which wall that is, shapes and repeats to cut patterns from, a lamp drawn as something
  * other than a panel, and boards.
  */
 export const HOME = wgsl(
@@ -51,6 +51,15 @@ fn fromLamp(s: Surf, grid: i32) -> vec2f {
 /// How brightly the room's own lamps burn right now, 0 to 1.
 fn burning(s: Surf, lamps: Lamps) -> f32 {
   return lampLevel(s, vec2i(0), litOf(s), lamps.stutter);
+}
+
+/// A point of a half-drop repeat \`size\` across: xy from its cell's middle,
+/// z the cell's own number.
+fn halfDrop(uv: vec2f, size: vec2f, salt: u32) -> vec3f {
+  let column = floor(uv.x / size.x);
+  let v = uv.y / size.y + 0.5 * (column - 2.0 * floor(column * 0.5));
+  let q = vec2f(fract(uv.x / size.x) - 0.5, fract(v) - 0.5) * size;
+  return vec3f(q, unitOf(cellHash(vec2i(i32(column), i32(floor(v))), salt)));
 }
 
 /// A point on one board of a boarded face.
