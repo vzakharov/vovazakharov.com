@@ -7,6 +7,6 @@ items:
     text: The shrinking cube
   - id: subtitle
     type: text
-    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    updated: [2026-11-11T05:32:00.000Z, agent:cube]
     box: [0, -1180, 1720, body]
-    text: "A maze you can always finish and never will: 64 floors in one cube, the player half as big on each floor down, every floor's hole a SHA-256 commitment. How the idea got here, and what iteration zero builds."
+    text: "A maze you can always finish and never will: 67 floors in one cube, the player half as big on each floor down, every floor's hole a SHA-256 commitment, and a real crash on the last. How the idea got here, and what iteration zero builds."

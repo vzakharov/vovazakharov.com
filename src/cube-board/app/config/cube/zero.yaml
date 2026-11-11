@@ -39,3 +39,13 @@ items:
     updated: [2026-11-11T04:30:00.000Z, agent:cube]
     box: [1848, 610, 244, purple]
     text: 'Four bites: this board; dice and the world model; walking through the floors; the lever'
+  - id: zero-8
+    type: sticky
+    updated: [2026-11-11T05:32:00.000Z, agent:cube]
+    box: [2183, 610, 244, purple]
+    text: 'Bite 2 eaten: dice (roll.over, key, pick, wide) and the world model, tested, nothing drawn. A wall is open or not from that wall alone, O(level) hashes. The world is planted: 66 commitments, answers kept nowhere'
+  - id: zero-9
+    type: sticky
+    updated: [2026-11-11T05:32:00.000Z, agent:cube]
+    box: [2518, 610, 244, purple]
+    text: 'From bite 3, each bite is built by a subsession on its own branch; the lead session reviews, merges and talks about the big picture'

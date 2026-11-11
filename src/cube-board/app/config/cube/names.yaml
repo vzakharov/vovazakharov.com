@@ -55,6 +55,11 @@ items:
     updated: [2026-11-11T04:58:00.000Z, agent:cube]
     box: [1035, 1400, 244, orange]
     text: 'Endless: Endless Down, No Bottom, Infinite Floors. Floor heights halve, so infinitely many still fit in one cube; past 64 is the same never, only longer'
+  - id: names-67
+    type: sticky
+    updated: [2026-11-11T05:32:00.000Z, agent:cube]
+    box: [1370, 1400, 244, orange]
+    text: 'The pitch Vova picked: «get to floor 67, piece of cake». SIX SEVEN. Nobody ever will, and whoever does gets the most anticlimactic ending in video games: floor 67 really crashes'
   - id: names-note
     type: sticky
     updated: [2026-11-11T04:56:00.000Z, agent:cube]

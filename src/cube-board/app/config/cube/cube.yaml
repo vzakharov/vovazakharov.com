@@ -36,14 +36,19 @@ items:
     text: A quantum computer halves the bits, but Grover's steps run one after another, each a fault-tolerant SHA-256. Holding against it means 2^256, and a bottom smaller than the Planck length
   - id: cube-7
     type: sticky
-    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    updated: [2026-11-11T05:32:00.000Z, agent:cube]
     box: [28, 610, 244, green]
-    text: 'Iteration zero takes r = 2 and N = 64: floor 1 is one room, floor n is 2^(n−1) rooms a side. From floor 53 a room is smaller than a proton'
+    text: 'Iteration zero takes r = 2 and 67 floors: floor 1 is one room, floor n is 2^(n−1) rooms a side. From floor 53 a room is smaller than a proton'
+  - id: cube-8
+    type: sticky
+    updated: [2026-11-11T05:32:00.000Z, agent:cube]
+    box: [363, 610, 244, green]
+    text: "Why 67: a door's place on floor n's longest wall takes n−2 random bits, and the draw has 64. Floor 66 is the last placed exactly; floor 67 is refused whole with a RangeError, not walled coarsely. The game ends because the maths does"
   - id: l-cube-zero
     type: line
-    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    updated: [2026-11-11T05:32:00.000Z, agent:cube]
     ends: [cube-7, z-zero]
-    text: r = 2, N = 64
+    text: r = 2, 67 floors
   - id: img-shrinking-cube
     type: image
     updated: [2026-11-11T04:30:00.000Z, agent:cube]

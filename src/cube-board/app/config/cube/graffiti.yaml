@@ -1,0 +1,51 @@
+items:
+  - id: z-graffiti
+    type: zone
+    updated: [2026-11-11T05:32:00.000Z, agent:cube]
+    box: [0, 1820, 3540, 900, pink]
+    text: Graffiti economy
+  - id: graf-idea
+    type: sticky
+    updated: [2026-11-11T05:32:00.000Z, agent:cube]
+    box: [28, 1930, 244, pink]
+    text: "Vova's idea: pay to paint any wall, checked by a neural net. Paint changes the game: a spider becomes a monster, a jackhammer a findable artifact. What a painting becomes is never promised; we look and decide"
+  - id: graf-time
+    type: sticky
+    updated: [2026-11-11T05:32:00.000Z, agent:cube]
+    box: [363, 1930, 244, pink]
+    text: 'Time to cross floor n: ~5 s a room × 4^(n−1). Floor 6 ≈ 1.5 h (casual), 8 ≈ a day, 10 ≈ 360 h'
+  - id: graf-price-a
+    type: sticky
+    updated: [2026-11-11T05:32:00.000Z, agent:cube]
+    box: [698, 1930, 244, pink]
+    text: 'Price A: ×¼ a floor down. Every floor has the same wall area, so this is one price per square metre'
+  - id: graf-price-b
+    type: sticky
+    updated: [2026-11-11T05:32:00.000Z, agent:cube]
+    box: [1033, 1930, 244, pink]
+    text: 'Price B: ×1/10 a floor down, priced by who gets there: $1M on floor 1 down to $10 on floor 6, $1 the floor price'
+  - id: graf-price-c
+    type: sticky
+    updated: [2026-11-11T05:32:00.000Z, agent:cube]
+    box: [1368, 1930, 244, pink]
+    text: 'Price C, the pick: an auction or a Harberger tax on floors 1–3, where the brands are; ladder B below'
+  - id: graf-rule
+    type: sticky
+    updated: [2026-11-11T05:32:00.000Z, agent:cube]
+    box: [28, 2180, 244, pink]
+    text: 'The rule: a painting changes the constant, never the exponent. The jackhammer breaks walls, never floors, so the lock still holds'
+  - id: graf-depth
+    type: sticky
+    updated: [2026-11-11T05:32:00.000Z, agent:cube]
+    box: [363, 2180, 244, pink]
+    text: "Proof of depth: to paint floor n, show its hole's answer. Only who got there paints there"
+  - id: graf-instant
+    type: sticky
+    updated: [2026-11-11T05:32:00.000Z, agent:cube]
+    box: [698, 2180, 244, pink]
+    text: 'Shown at once, after moderation: Stripe → a Worker → the net → R2, and the game reads R2. Not a git branch: raw GitHub caches ~5 min, and the push needs a server anyway'
+  - id: graf-open
+    type: sticky
+    updated: [2026-11-11T05:32:00.000Z, agent:cube]
+    box: [1033, 2180, 244, gray]
+    text: 'Open: one shared world, so a found answer leaks; the terms must call a mechanic a gift, not a promise. Not a blockchain: nothing on a chain can be taken down'
