@@ -225,6 +225,14 @@ artifact with its `db`, as the island's is, and updated the same way: after
 every turn that settles something worth pinning, and at each bite's end, with
 `board vN pins …` commits.
 
+Every board publish, and from bite 3 every significant variant of the game, is a
+timelapse frame, as the island's are: `NNNN-slug.png` (`pnpm board snapshot` for
+the board) with `NNNN-slug.json` beside it from
+`python3 .claude/costs/contribution.py --at <time> --json`, uploaded to the
+`cube-timelapse` prerelease (`gh release upload cube-timelapse <files>`),
+numbered on from the highest there
+(`gh release view cube-timelapse --json assets -q '.assets[].name'`).
+
 ## Testing
 
 - **Pure, in the suite**: the maze is perfect on floors 1–7 (BFS over the wall
