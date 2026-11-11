@@ -5,67 +5,147 @@ import {
   descend,
   eyeInFrame,
   faces,
+  type Holdings,
   type HoleOf,
   holesOf,
   maze,
   mazeWalls,
+  placed,
   planted,
   type Pose,
   type Posed,
+  priceOf,
   type Pulled,
+  type Room,
   roomKey,
   sight,
+  type Sign,
+  type Signed,
+  signFacet,
+  signsSeen,
   slabRooms,
   withBelow,
 } from '@/cube/entities/world';
 
+import type COPY from '../config/messages/en.json';
 import { FAR, viewProjection } from '../lib/camera';
-import { pack } from '../lib/mesh';
+import { formatPrice } from '../lib/figures';
+import { pack, packSigns } from '../lib/mesh';
 import { airOf, ambientOf, between } from '../lib/palette';
-import type { CubePlayHook } from '../lib/play';
-import { createRenderer, type Renderer } from './renderer';
+import type { ScenePlay } from '../lib/play';
+import { type Boards, createRenderer, type Renderer } from './renderer';
+import { drawBoard } from './sign-board';
 
 /** What one frame draws: the eye's pose and the lever pulled, if any. */
 type Frame = Posed & { pulled: Pulled | null };
 
 /**
- * Moves the eye one frame on: the pose it was at and the seconds since the
- * last frame in, the frame to draw out. Whatever moves the eye — input,
- * collision, a fall — is one of these.
+ * The sign of a for-sale room on the eye's floor, null where the room sells
+ * nothing or the scene has not resolved it yet.
  */
-type FrameHook = (pose: Pose, seconds: number) => Frame;
+export type SignOf = (room: Room) => Sign | null;
 
-/** The vertex buffer of one room's view, the lever pulled drawn as such. */
-type Mesh = (pulled: Pulled | null) => Float32Array<ArrayBuffer>;
+/**
+ * Moves the eye one frame on: the pose it was at, the seconds since the last
+ * frame and the signs around it in, the frame to draw out. Whatever moves the
+ * eye — input, collision, a fall — is one of these.
+ */
+type FrameHook = (pose: Pose, seconds: number, signOf: SignOf) => Frame;
+
+/** One room's view: its vertex buffer, the lever pulled drawn as such, and its signs. */
+type Mesh = {
+  faces: (pulled: Pulled | null) => Float32Array<ArrayBuffer>;
+  boards: readonly Boards[];
+  signOf: SignOf;
+};
+
+/** The offer's copy, which holds what each kind of sign says. */
+type SignCopy = (typeof COPY)['offer'];
 
 /** `onError` hears a device lost or a build that threw. */
 export type CubeOptions = WithOnError & {
   start: Pose;
+  copy: SignCopy;
+  /** The rooms the viewer bought, read on every mesh build. */
+  bought: () => Holdings;
   onFrame: FrameHook;
   /** Hears that the browser has no WebGPU; nothing is drawn then. */
   onUnsupported: () => void;
 };
 
-/** The play hook's calls, which the page also drives itself, and its end. */
-export type CubeScene = CubePlayHook & CanDispose;
+/**
+ * The play hook's calls, which the page also drives itself; `refresh`, which
+ * rebuilds the mesh once a purchase changes what it draws; and its end.
+ */
+export type CubeScene = ScenePlay & CanDispose & { refresh: () => void };
 
 const rolled = maze(planted.seed);
 const walls = mazeWalls(rolled);
 
+const noSign: SignOf = () => null;
+
+/**
+ * The boards of `signed` in the eye's frame at `pose`, one texture per floor
+ * and kind of sign, since a floor's rooms share a price.
+ */
+function boardsOf(
+  pose: Pose,
+  signed: readonly Signed[],
+  { signs, sold }: SignCopy,
+): Boards[] {
+  const byBoard = Map.groupBy(
+    signed,
+    ({ room, sign }) => `${sign.kind}/${String(room.n)}`,
+  );
+  return [...byBoard].flatMap(([id, rooms]) => {
+    const [first] = rooms;
+    if (first === undefined) return [];
+    const { n } = first.room;
+    const { kind } = first.sign;
+    const isSold = kind === 'yours';
+    const line = isSold ? sold : formatPrice(priceOf(n));
+    return [
+      {
+        id,
+        image: () => drawBoard(n, isSold, signs[kind], line),
+        vertices: packSigns(
+          rooms.map(({ room, sign }) => signFacet(sign, n, placed(pose, room))),
+        ),
+      },
+    ];
+  });
+}
+
 /**
  * The mesh for an eye at `pose`. Its floor's holes are resolved first, since
  * they decide which rooms of the floor below it sees, and only then those
- * rooms' own. What it awaits is resolved once per room, so a swinging lever
- * re-packs the faces without resolving the holes again.
+ * rooms' own; which rooms sell is read off the same answers. What it awaits
+ * is resolved once per room, so a swinging lever re-packs the faces without
+ * resolving the holes again.
  */
-async function build(pose: Pose): Promise<Mesh> {
+async function build(
+  pose: Pose,
+  copy: SignCopy,
+  bought: Holdings,
+): Promise<Mesh> {
   const seen = sight(pose, FAR, walls);
   const holeAbove = await holesOf(planted, slabRooms(seen));
   const full = withBelow(seen, holeAbove);
   const holeBelow = await holesOf(planted, full.below);
   const holeOf: HoleOf = (room) =>
     room.n > pose.n ? holeBelow(room) : holeAbove(room);
-  return (pulled) => pack(faces(rolled, pose, full, holeOf, pulled));
+  const signed = signsSeen(walls, bought, full, holeOf);
+  const onFloor = new Map(
+    signed
+      .filter(({ room }) => room.n === pose.n)
+      .map(({ room, sign }) => [roomKey(room), sign]),
+  );
+  const owns = (room: Room) => bought.has(roomKey(room));
+  return {
+    faces: (pulled) => pack(faces(rolled, pose, full, holeOf, pulled, owns)),
+    boards: boardsOf(pose, signed, copy),
+    signOf: (room) => onFloor.get(roomKey(room)) ?? null,
+  };
 }
 
 /**
@@ -78,16 +158,21 @@ const inEyeRoom = (pose: Pose): Pose =>
 /**
  * Draws the cube into `canvas` every animation frame from `options.start`,
  * moving the eye by `options.onFrame` and rebuilding the mesh whenever the
- * eye's room changes.
+ * eye's room changes or `refresh` says a purchase has.
  */
 export function mountCube(
   canvas: HTMLCanvasElement,
-  { start, onFrame, onError, onUnsupported }: CubeOptions,
+  { start, copy, bought, onFrame, onError, onUnsupported }: CubeOptions,
 ): CubeScene {
   let pose = start;
   let pulled: Pulled | null = null;
   let renderer: Renderer | null = null;
-  let built: { pose: Pose; mesh: Mesh } | null = null;
+  /** Counts purchases, so a mesh built before one is rebuilt. */
+  let generation = 0;
+  /** What a mesh is built for: the eye's room, as of `generation`. */
+  const meshKey = (target: Pose): string =>
+    `${roomKey(target)}#${String(generation)}`;
+  let built: { key: string; pose: Pose; mesh: Mesh } | null = null;
   /** The lever pulled as the mesh last uploaded draws it. */
   let uploadedPull = '';
   let building: { key: string; done: Promise<void> } | null = null;
@@ -99,19 +184,20 @@ export function mountCube(
   const pullKey = (): string =>
     pulled === null ? '' : `${roomKey(pulled.room)} ${pulled.swung}`;
 
-  const upload = async (target: Pose): Promise<void> => {
-    const mesh = await build(target);
+  const upload = async (target: Pose, key: string): Promise<void> => {
+    const mesh = await build(target, copy, bought());
     if (disposed || renderer === null) return;
-    renderer.upload(mesh(pulled));
+    renderer.upload(mesh.faces(pulled));
+    renderer.uploadBoards(mesh.boards);
     uploadedPull = pullKey();
-    built = { pose: target, mesh };
+    built = { key, pose: target, mesh };
   };
 
   /** The mesh build for `target`'s room: the one under way, or a new one. */
   const rebuild = (target: Pose): { done: Promise<void> } => {
-    const key = roomKey(target);
+    const key = meshKey(target);
     if (building?.key !== key) {
-      const done = upload(target);
+      const done = upload(target, key);
       done.catch(onError);
       building = { key, done };
     }
@@ -123,10 +209,10 @@ export function mountCube(
   const render = (): void => {
     if (renderer === null) return;
     const at = inEyeRoom(pose);
-    if (built === null || roomKey(built.pose) !== roomKey(at)) rebuild(at);
+    if (built?.key !== meshKey(at)) rebuild(at);
     if (built === null || Math.abs(built.pose.n - at.n) > 1) return;
     if (pullKey() !== uploadedPull) {
-      renderer.upload(built.mesh(pulled));
+      renderer.upload(built.mesh.faces(pulled));
       uploadedPull = pullKey();
     }
     const { width, height } = canvas;
@@ -152,7 +238,7 @@ export function mountCube(
   const tick = (now: number): void => {
     const seconds = Math.min((now - last) / 1000, 0.1);
     last = now;
-    ({ pose, pulled } = onFrame(pose, seconds));
+    ({ pose, pulled } = onFrame(pose, seconds, built?.mesh.signOf ?? noSign));
     resize();
     render();
     frame = requestAnimationFrame(tick);
@@ -186,6 +272,9 @@ export function mountCube(
       await renderer?.drawn();
     },
     adapter: () => renderer?.adapter ?? 'none',
+    refresh: () => {
+      generation += 1;
+    },
     dispose: () => {
       disposed = true;
       cancelAnimationFrame(frame);

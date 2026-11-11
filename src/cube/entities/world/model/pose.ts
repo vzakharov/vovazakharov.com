@@ -5,6 +5,13 @@ import type { Room } from './room';
 /** A point in some room's frame, in room sides: `u` east, `v` south. */
 export type InRoom = { u: number; v: number };
 
+/** A thing mounted in a room: its foot, in the room's frame, and the way it faces. */
+export type WallMounted = {
+  at: InRoom;
+  /** The unit direction it faces, into the room. */
+  facing: InRoom;
+};
+
 /**
  * Where an eye is in the cube, in the units of the floor it stands on, `u` and
  * `v` each in `[0, 1)`. Every renderer and collision reads positions this way,

@@ -1,8 +1,8 @@
 import { holeMiddle, type Quarter } from './hole';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
-import type { InRoom } from './pose';
+import type { WallMounted } from './pose';
 import { box, type Quad, times, type Vec3 } from './quad';
-import { type Room, roomKey, roomsAcross } from './room';
+import { type InRoomOf, type Room, roomKey, roomsAcross } from './room';
 
 /**
  * Where a holed room's lever is mounted: on the hole quarter's outer wall
@@ -11,19 +11,14 @@ import { type Room, roomKey, roomsAcross } from './room';
  */
 type Mount = 'x-wall' | 'y-wall' | 'post';
 
-export type Lever = {
-  mount: Mount;
-  /** The plate's foot on the wall or the post's face, in the room's frame. */
-  at: InRoom;
-  /** The unit direction the plate faces, into the room. */
-  facing: InRoom;
-};
+/** `at` is the plate's foot on the wall or the post's face. */
+export type Lever = WallMounted & { mount: Mount };
 
 /**
  * The one lever pulled, if any: its room, and how far its handle has swung,
  * from 0 (up, at rest) to 1 (down).
  */
-export type Pulled = { room: Room; swung: number };
+export type Pulled = InRoomOf & { swung: number };
 
 /** How far `room`'s lever has swung, given the one `pulled`. */
 export const swungIn = (pulled: Pulled | null, room: Room): number =>

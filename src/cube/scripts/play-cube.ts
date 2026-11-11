@@ -30,6 +30,7 @@ import {
   plantedWalls,
   play,
   type Player,
+  STILL,
 } from '@/cube/features/player';
 import {
   type CubePlayHook,
@@ -89,15 +90,6 @@ function pulled(quarter: Quarter): ReadonlyArray<readonly [string, Pose]> {
     quarter,
     lever: leverOf(maze(planted.seed), room, quarter),
   };
-  const still = {
-    walk: 0,
-    strafe: 0,
-    turnKeys: 0,
-    tiltKeys: 0,
-    yawBy: 0,
-    elevationBy: 0,
-    walking: false,
-  };
   const start: Player = {
     pose: {
       ...room,
@@ -111,7 +103,7 @@ function pulled(quarter: Quarter): ReadonlyArray<readonly [string, Pose]> {
   };
   const first = play(
     start,
-    { ...still, pull: true },
+    { ...STILL, pull: true },
     FRAME,
     plantedWalls,
     here,
@@ -122,9 +114,7 @@ function pulled(quarter: Quarter): ReadonlyArray<readonly [string, Pose]> {
   const end = Math.max(...PULL_SHOTS.map(([, at]) => at));
   while (frames.length * FRAME < end) {
     const last = frames.at(-1) ?? start;
-    frames.push(
-      play(last, { ...still, pull: false }, FRAME, plantedWalls, here),
-    );
+    frames.push(play(last, STILL, FRAME, plantedWalls, here));
   }
   return PULL_SHOTS.map(([name, at]) => {
     const frame = frames[Math.round(at / FRAME) - 1] ?? start;
