@@ -6,7 +6,7 @@ import { STUFF } from '../../lib/kit/stuff';
 import { wgsl } from '../../lib/wgsl';
 import type { FloorTheme } from '../../model/theme';
 
-const AIR = linear(hex(0x0b1012));
+const AIR = linear(hex(0x0b_10_12));
 
 /**
  * A school after the last bell of the last year: gloss paint to shoulder
@@ -15,9 +15,18 @@ const AIR = linear(hex(0x0b1012));
 export const SCHOOL_CORRIDOR: FloorTheme = {
   name: 'School corridor',
   air: AIR,
-  pillar: 0,
+  pillar: 0.025,
   dark: 0.12,
   sound: { footing: 'tile', hum: 100, air: 0.1, ring: 2.2 },
+  decor: [
+    { thing: 'locker', share: 1.5 },
+    { thing: 'bench', share: 0.4 },
+    { thing: 'radiator', share: 0.5 },
+    { thing: 'notice-board', share: 0.4 },
+    { thing: 'door', share: 0.5 },
+    { thing: 'wet-floor-sign', share: 0.1 },
+    { thing: 'exit-sign', share: 0.15 },
+  ],
   shader: wgsl(
     'school-corridor',
     /* wgsl */ `
@@ -75,7 +84,7 @@ fn themeMaterial(s: Surf) -> Material {
       stutter: 0.3,
       reach: 38,
       exposure: 1,
-      glow: 0.6,
+      glow: 0.16,
       fringe: 0.006,
       vignette: 0.4,
       grain: 0.02,

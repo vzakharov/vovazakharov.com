@@ -3,24 +3,29 @@ import { describe, it } from 'node:test';
 
 import { roomFlags } from './flags';
 
+const NONE = [false, false, false, false] as const;
+const ALL = [true, true, true, true] as const;
+const only = (side: number) =>
+  [side === 0, side === 1, side === 2, side === 3] as const;
+
 describe('roomFlags', () => {
   it('gives each closed side its own bit, east first', () => {
-    const only = (side: number) =>
-      roomFlags({
-        closed: [side === 0, side === 1, side === 2, side === 3],
-        lit: false,
-        litBeside: 0,
-      });
-    assert.deepEqual([0, 1, 2, 3].map(only), [1, 2, 4, 8]);
+    const closed = (side: number) =>
+      roomFlags({ closed: only(side), lit: false, litBeside: NONE });
+    assert.deepEqual([0, 1, 2, 3].map(closed), [1, 2, 4, 8]);
   });
 
-  it('keeps the lamp and the lit neighbours clear of the walls', () => {
-    const open = [false, false, false, false] as const;
-    assert.equal(roomFlags({ closed: open, lit: true, litBeside: 0 }), 16);
-    assert.equal(roomFlags({ closed: open, lit: false, litBeside: 4 }), 128);
+  it('gives each lit neighbour its side’s bit, past the walls and the lamp', () => {
+    const beside = (side: number) =>
+      roomFlags({ closed: NONE, lit: false, litBeside: only(side) });
+    assert.deepEqual([0, 1, 2, 3].map(beside), [32, 64, 128, 256]);
+  });
+
+  it('keeps the lamp clear of both', () => {
+    assert.equal(roomFlags({ closed: NONE, lit: true, litBeside: NONE }), 16);
     assert.equal(
-      roomFlags({ closed: [true, true, true, true], lit: true, litBeside: 3 }),
-      15 + 16 + 96,
+      roomFlags({ closed: ALL, lit: true, litBeside: ALL }),
+      15 + 16 + 480,
     );
   });
 });

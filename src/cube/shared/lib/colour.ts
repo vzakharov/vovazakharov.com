@@ -26,10 +26,12 @@ export const hex = (rgb: number): Rgb => [
 
 /** A colour as `0xRRGGBB`, each channel rounded to its nearest step. */
 export const toHex = ([r, g, b]: Rgb): number =>
-  (Math.round(r * 255) << 16) | (Math.round(g * 255) << 8) | Math.round(b * 255);
+  (Math.round(r * 255) << 16) |
+  (Math.round(g * 255) << 8) |
+  Math.round(b * 255);
 
 const linearChannel = (value: number): number =>
-  value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+  value <= 0.040_45 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
 
 /**
  * A colour as a screen shows it (sRGB) as the light it stands for, which is

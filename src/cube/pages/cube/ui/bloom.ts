@@ -11,7 +11,9 @@ const LEVELS = 5;
 /**
  * Three passes over one texture: `bright` halves the scene and keeps what is
  * brighter than white, `down` halves again, and `up` doubles a level back
- * onto the one above it, where the pipeline adds it.
+ * onto the one above it, where the pipeline adds it. `bright` keeps one
+ * level's share, so the levels add up to their mean: the spread of the
+ * bright parts, as bright as they were.
  */
 const SHADER = /* wgsl */ `
 @group(0) @binding(0) var source: texture_2d<f32>;
@@ -47,7 +49,8 @@ fn spread(uv: vec2f, reach: f32) -> vec3f {
 fn bright(in: Varying) -> @location(0) vec4f {
   let colour = spread(in.uv, 1.0);
   let level = max(colour.r, max(colour.g, colour.b));
-  return vec4f(colour * (max(level - 1.0, 0.0) / max(level, 1e-4)), 1.0);
+  let kept = max(level - 1.0, 0.0) / max(level, 1e-4);
+  return vec4f(colour * (kept / ${LEVELS.toFixed(1)}), 1.0);
 }
 
 @fragment

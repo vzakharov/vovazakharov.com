@@ -102,6 +102,27 @@ fn cornerShade(s: Surf) -> f32 {
   return 1.0 - 0.45 * dim * dim;
 }
 
+/// The light that comes in through the room's doorways from lit rooms
+/// beside it, as a share of a lamp's: strongest at the doorway and on what
+/// faces it.
+fn doorLight(s: Surf, normal: vec3f) -> f32 {
+  let toSide = vec4f(ROOM.x - s.p.x, ROOM.z - s.p.z, s.p.x, s.p.z);
+  let out = array<vec3f, 4>(
+    vec3f(1.0, 0.0, 0.0), vec3f(0.0, 0.0, 1.0),
+    vec3f(-1.0, 0.0, 0.0), vec3f(0.0, 0.0, -1.0),
+  );
+  var sum = 0.0;
+  for (var side = 0u; side < 4u; side++) {
+    if (litBeside(s, side)) {
+      // It comes in from the neighbour's ceiling, so a little downward.
+      let incoming = normalize(out[side] + vec3f(0.0, 0.6, 0.0));
+      let facing = 0.25 + 0.75 * max(dot(normal, incoming), 0.0);
+      sum += facing / (1.0 + 0.4 * toSide[side] * toSide[side]);
+    }
+  }
+  return sum;
+}
+
 /// How much brighter a panel is to look at than the room it lights.
 const GLARE = 8.0;
 
@@ -112,7 +133,7 @@ fn lampGlow(s: Surf, lamps: Lamps) -> vec3f {
 }
 
 /// The point lit by its room: the lamps' direct light and what bounces off
-/// the room, the spill through its doorways from lit neighbours, the ambient,
+/// the room, what comes in through its doorways from lit neighbours, the ambient,
 /// the lamps' highlights on anything polished, and on a polished floor the
 /// panels themselves mirrored in it.
 fn roomLight(s: Surf, m: Material, lamps: Lamps) -> vec3f {
@@ -121,7 +142,7 @@ fn roomLight(s: Surf, m: Material, lamps: Lamps) -> vec3f {
   let reach = lampReach(s, normal, m.gloss, lamps.grid);
   let shade = cornerShade(s);
   let light = lamps.ambient
-    + lamps.colour * (level * (reach.x + 0.2) + 0.1 * spillOf(s));
+    + lamps.colour * (level * (reach.x + 0.2) + 0.3 * doorLight(s, normal));
   // A polished thing mirrors more the more it is looked along.
   let along = pow(1.0 - max(dot(normal, -s.view), 0.0), 5.0);
   let mirror = m.gloss * (0.04 + 0.96 * along);

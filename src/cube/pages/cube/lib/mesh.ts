@@ -1,5 +1,5 @@
-import type { Quad, Room, Vec3 } from '@/cube/entities/world';
 import { SURFACES } from '@/cube/shared/lib/surface';
+import type { Quad, Room, Vec3 } from '@/cube/entities/world';
 
 import { offsetOf, VERTEX_WORDS } from './vertex';
 
@@ -76,7 +76,11 @@ export function pack(
       floats.set([x, y, z], at + AT.position);
       floats.set(normal, at + AT.normal);
       floats.set(
-        [(x - origin[0]) / side, (y - origin[1]) / side, (z - origin[2]) / side],
+        [
+          (x - origin[0]) / side,
+          (y - origin[1]) / side,
+          (z - origin[2]) / side,
+        ],
         at + AT.local,
       );
       floats.set(TEX[corner], at + AT.tex);

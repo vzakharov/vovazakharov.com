@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { Quad, Room } from '@/cube/entities/world';
 import { SURFACES } from '@/cube/shared/lib/surface';
+import type { Quad, Room } from '@/cube/entities/world';
 
 import { pack, type RoomLook } from './mesh';
 import { offsetOf, VERTEX_WORDS } from './vertex';
@@ -23,14 +23,14 @@ const quad = (n: number, surface: Quad['surface'], paint?: number): Quad => ({
 const lookOf = ({ n }: Room): RoomLook => ({
   origin: [2, 0, 4],
   side: 2,
-  seed: 0xdeadbeef,
+  seed: 0xde_ad_be_ef,
   flags: n,
-  cell: 0x0103,
+  cell: 0x01_03,
 });
 
 describe('pack', () => {
   const { data, ranges } = pack(
-    [quad(3, 'floor'), quad(2, 'wall', 0xff8000), quad(3, 'ceiling')],
+    [quad(3, 'floor'), quad(2, 'wall', 0xff_80_00), quad(3, 'ceiling')],
     lookOf,
   );
   const floats = new Float32Array(data);
@@ -75,11 +75,11 @@ describe('pack', () => {
   });
 
   it('carries the room’s word, flags and cell, and the face’s paint', () => {
-    assert.equal(word(0, 'seed'), 0xdeadbeef);
+    assert.equal(word(0, 'seed'), 0xde_ad_be_ef);
     assert.equal(word(0, 'flags'), 2);
     assert.equal(word(6, 'flags'), 3);
-    assert.equal(word(0, 'cell'), 0x0103);
-    assert.equal(word(0, 'paint'), 0xff8000);
+    assert.equal(word(0, 'cell'), 0x01_03);
+    assert.equal(word(0, 'paint'), 0xff_80_00);
     assert.equal(word(6, 'paint'), 0);
   });
 });

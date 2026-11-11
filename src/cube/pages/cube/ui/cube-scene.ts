@@ -1,6 +1,7 @@
 import { asError } from '@/kernel/shared/lib/error-class';
 import type { CanDispose, WithOnError } from '@/kernel/shared/typings';
 
+import { clockAt } from '@/cube/shared/lib/clock';
 import { themeOf } from '@/cube/entities/theme';
 import {
   descend,
@@ -29,7 +30,6 @@ import {
   traits,
   withBelow,
 } from '@/cube/entities/world';
-import { clockAt } from '@/cube/shared/lib/clock';
 
 import type COPY from '../config/messages/en.json';
 import { FAR, viewProjection } from '../lib/camera';

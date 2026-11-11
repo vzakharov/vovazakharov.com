@@ -3,8 +3,8 @@
 import { asError } from '@/kernel/shared/lib/error-class';
 import type { CanDispose, WithId } from '@/kernel/shared/typings';
 
-import type { Vec3 } from '@/cube/entities/world';
 import type { Rgb } from '@/cube/shared/lib/colour';
+import type { Vec3 } from '@/cube/entities/world';
 
 import type { FloorRange, Scenery } from '../lib/mesh';
 import { UNIFORM_FLOATS } from '../lib/shader';

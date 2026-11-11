@@ -17,9 +17,14 @@ export function generic(n: number): FloorTheme {
   return {
     name: `Floor ${String(n)}`,
     air,
-    pillar: 0,
+    pillar: 0.024,
     dark: 0.08,
     sound: { footing: 'carpet', hum: 100, air: 0.2, ring: 0.8 },
+    decor: [
+      { thing: 'vent', share: 0.3 },
+      { thing: 'exit-sign', share: 0.1 },
+      { thing: 'cardboard-box', share: 0.1 },
+    ],
     shader: wgsl(
       id,
       /* wgsl */ `
@@ -56,7 +61,7 @@ fn themeMaterial(s: Surf) -> Material {
         stutter: 0.1,
         reach: 50,
         exposure: 1,
-        glow: 0.5,
+        glow: 0.12,
         fringe: 0.005,
         vignette: 0.35,
         grain: 0.015,

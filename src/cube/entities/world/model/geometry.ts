@@ -1,10 +1,4 @@
-import {
-  holeMiddle,
-  type HoleOf,
-  type Quarter,
-  QUARTERS,
-  under,
-} from './hole';
+import { holeMiddle, type HoleOf, type Quarter, QUARTERS, under } from './hole';
 import { leverFaces, leverOf, type Pulled, swungIn } from './lever';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
 import type { InRoom, Pose } from './pose';
@@ -240,10 +234,22 @@ function roomWalls(
     (absent({ n, x, y: y - 1n }) && !isOpenSouth(rolled, n, x, y - 1n));
   return [
     x === last || !isOpenEast(rolled, n, x, y)
-      ? wall([east + side, floorY, south], runSouth, height, room, beside(1n, 0n))
+      ? wall(
+          [east + side, floorY, south],
+          runSouth,
+          height,
+          room,
+          beside(1n, 0n),
+        )
       : [],
     y === last || !isOpenSouth(rolled, n, x, y)
-      ? wall([east, floorY, south + side], runEast, height, beside(0n, 1n), room)
+      ? wall(
+          [east, floorY, south + side],
+          runEast,
+          height,
+          beside(0n, 1n),
+          room,
+        )
       : [],
     westClosed
       ? wall([east, floorY, south], runSouth, height, beside(-1n, 0n), room)
@@ -348,7 +354,13 @@ export function faces(
     slab(pose, room, footprint(pose, room), holeOf(room), owns(room));
   const lid =
     view.topmost === null
-      ? level(footprint(pose, CUBE), slabHeight(pose.n, 0), null, CUBE, 'ceiling')
+      ? level(
+          footprint(pose, CUBE),
+          slabHeight(pose.n, 0),
+          null,
+          CUBE,
+          'ceiling',
+        )
       : slabOf(view.topmost);
   const walled = walledRooms(view);
   return [

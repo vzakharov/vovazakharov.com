@@ -1,6 +1,6 @@
 import { roomFlags, themeOf } from '@/cube/entities/theme';
 import {
-  opens,
+  closedSides,
   placed,
   type RolledTraits,
   type Room,
@@ -28,8 +28,8 @@ export const cellOf = ({ x, y }: Room): number =>
 /**
  * Each room's look for an eye in room `eye`, resolved once per room: where it
  * stands, its own word, and its flags — which walls are closed, whether its
- * lamps are among its floor's failed ones, and how many lit rooms it opens
- * onto.
+ * lamps are among its floor's failed ones, and which sides open onto a lit
+ * room.
  */
 export function roomLooks(
   eye: Room,
@@ -41,18 +41,23 @@ export function roomLooks(
     rolled.room.at(room).lamp >= themeOf(room.n).dark;
   const look = (room: Room): RoomLook => {
     const { origin, roomSide: side } = placed(eye, room);
-    const closed = (step: Step): boolean => !opens(walls, room, step);
+    const closed = closedSides(walls, room);
+    const litBeside = (step: Step, side: number): boolean =>
+      closed[side] === false && lit(stepped(room, step));
     const [east, south, west, north] = STEPS;
     return {
       origin,
       side,
       seed: rolled.room.at(room).grain,
       flags: roomFlags({
-        closed: [closed(east), closed(south), closed(west), closed(north)],
+        closed,
         lit: lit(room),
-        litBeside: STEPS.filter(
-          (step) => !closed(step) && lit(stepped(room, step)),
-        ).length,
+        litBeside: [
+          litBeside(east, 0),
+          litBeside(south, 1),
+          litBeside(west, 2),
+          litBeside(north, 3),
+        ],
       }),
       cell: cellOf(room),
     };

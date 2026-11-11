@@ -6,7 +6,7 @@ import { STUFF } from '../../lib/kit/stuff';
 import { wgsl } from '../../lib/wgsl';
 import type { FloorTheme } from '../../model/theme';
 
-const AIR = linear(hex(0x17140f));
+const AIR = linear(hex(0x17_14_0f));
 
 /**
  * The whole cube as one room: a reception nobody staffs. Terrazzo, a green
@@ -15,9 +15,16 @@ const AIR = linear(hex(0x17140f));
 export const RECEPTION: FloorTheme = {
   name: 'Reception',
   air: AIR,
-  pillar: 0,
+  pillar: 0.03,
   dark: 0,
   sound: { footing: 'tile', hum: 100, air: 0.15, ring: 1.6 },
+  decor: [
+    { thing: 'potted-plant', share: 2 },
+    { thing: 'bench', share: 1 },
+    { thing: 'wall-clock', share: 1 },
+    { thing: 'notice-board', share: 1 },
+    { thing: 'door', share: 1 },
+  ],
   shader: wgsl(
     'reception',
     /* wgsl */ `
@@ -77,7 +84,7 @@ fn themeMaterial(s: Surf) -> Material {
       stutter: 0,
       reach: 70,
       exposure: 1,
-      glow: 0.5,
+      glow: 0.1,
       fringe: 0.004,
       vignette: 0.3,
       grain: 0.012,

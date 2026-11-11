@@ -30,11 +30,11 @@ import {
   STILL,
 } from '@/cube/features/player';
 
+import { withCubePage } from './lib/cube-page';
+
 import { flag } from '@/kernel/scripts/lib/argv';
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 import { inTurn } from '@/scene/scripts/lib/in-turn';
-
-import { withCubePage } from './lib/cube-page';
 
 const FRAMES = path.resolve(flag('out') ?? path.join(REPO_ROOT, 'tmp/cube'));
 

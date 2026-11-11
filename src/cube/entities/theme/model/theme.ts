@@ -1,4 +1,5 @@
 import type { Rgb } from '@/cube/shared/lib/colour';
+import type { Thing } from '@/cube/shared/lib/thing';
 
 import { CORE } from '../lib/kit/core';
 import { STUFF } from '../lib/kit/stuff';
@@ -28,6 +29,13 @@ export type Sound = {
   ring: number;
 };
 
+/** One kind of thing a floor's rooms hold. */
+export type Furnishing = {
+  thing: Thing;
+  /** How many of it a room holds on average: 0.2 is one room in five. */
+  share: number;
+};
+
 /**
  * One floor's look and sound. Its `shader` is WGSL over the kit defining the
  * three functions every floor answers with:
@@ -48,6 +56,7 @@ export type FloorTheme = {
   dark: number;
   shader: Wgsl;
   sound: Sound;
+  decor: readonly Furnishing[];
 };
 
 /**

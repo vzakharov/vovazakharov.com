@@ -6,7 +6,7 @@ import { STUFF } from '../../lib/kit/stuff';
 import { wgsl } from '../../lib/wgsl';
 import type { FloorTheme } from '../../model/theme';
 
-const AIR = linear(hex(0x10130f));
+const AIR = linear(hex(0x10_13_0f));
 
 /**
  * An office cleared for a tenant who never came: carpet tiles laid
@@ -18,6 +18,16 @@ export const OPEN_PLAN: FloorTheme = {
   pillar: 0.03,
   dark: 0,
   sound: { footing: 'carpet', hum: 120, air: 0.3, ring: 0.5 },
+  decor: [
+    { thing: 'desk', share: 1.2 },
+    { thing: 'office-chair', share: 1.5 },
+    { thing: 'cubicle-screen', share: 0.8 },
+    { thing: 'filing-cabinet', share: 0.5 },
+    { thing: 'water-cooler', share: 0.25 },
+    { thing: 'copier', share: 0.25 },
+    { thing: 'bin', share: 0.5 },
+    { thing: 'vent', share: 0.5 },
+  ],
   shader: wgsl(
     'open-plan',
     /* wgsl */ `
@@ -71,7 +81,7 @@ fn themeMaterial(s: Surf) -> Material {
       stutter: 0,
       reach: 45,
       exposure: 1,
-      glow: 0.55,
+      glow: 0.12,
       fringe: 0.005,
       vignette: 0.35,
       grain: 0.016,

@@ -204,7 +204,7 @@ export function dragMoves(
   });
 }
 
-export { inTurn };
+
 
 /** `frames` frames stepped one by one, each drawn; returns each one's update in ms. */
 export async function timedSteps(
@@ -243,3 +243,5 @@ export async function tapSun(
   await page.tap(sun);
   return sun;
 }
+
+export {inTurn} from '@/scene/scripts/lib/in-turn';

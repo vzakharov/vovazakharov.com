@@ -57,7 +57,11 @@ describe('roomLooks', () => {
     const whole = roomLooks({ n: 1, x: 0n, y: 0n }, walls, rolled);
     assert.equal(
       whole({ n: 1, x: 0n, y: 0n }).flags,
-      roomFlags({ closed: [true, true, true, true], lit: true, litBeside: 0 }),
+      roomFlags({
+        closed: [true, true, true, true],
+        lit: true,
+        litBeside: [false, false, false, false],
+      }),
     );
   });
 });

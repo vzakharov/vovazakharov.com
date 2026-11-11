@@ -27,13 +27,13 @@ describe('colour', () => {
   });
 
   it('reads a hex colour and writes it back', () => {
-    close(hex(0xff8000), [1, 128 / 255, 0]);
-    assert.equal(toHex(hex(0x12ab9f)), 0x12ab9f);
-    assert.equal(cssRgb(hex(0x00ab9f)), '#00ab9f');
+    close(hex(0xff_80_00), [1, 128 / 255, 0]);
+    assert.equal(toHex(hex(0x12_ab_9f)), 0x12_ab_9f);
+    assert.equal(cssRgb(hex(0x00_ab_9f)), '#00ab9f');
   });
 
   it('takes sRGB to linear light at both ends and the knee', () => {
-    close(linear([0, 1, 0.04045]), [0, 1, 0.04045 / 12.92]);
-    assert.ok(Math.abs(linear([0.5, 0, 0])[0] - 0.2140411) < 1e-6);
+    close(linear([0, 1, 0.040_45]), [0, 1, 0.040_45 / 12.92]);
+    assert.ok(Math.abs(linear([0.5, 0, 0])[0] - 0.214_041_1) < 1e-6);
   });
 });

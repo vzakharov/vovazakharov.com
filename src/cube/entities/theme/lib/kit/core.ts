@@ -32,7 +32,7 @@ struct Surf {
   normal: vec3f,
   /// The room's own word: what its stains, wear and timing grow from.
   seed: u32,
-  /// Read with closedAt, litOf and spillOf.
+  /// Read with closedAt, litOf and litBeside.
   flags: u32,
   /// The face's tint, linear; black where it has none.
   paint: vec3f,
@@ -70,7 +70,8 @@ fn glowing(albedo: vec3f, emission: vec3f) -> Material {
 }
 
 /// \`m\` with relief: \`height\` is the surface's height at the point in any
-/// unit, and \`depth\` how many metres one unit of it stands proud.
+/// unit, and \`depth\` how many metres one unit of it stands proud. It
+/// flattens with distance, where its grain is finer than a pixel.
 fn embossed(s: Surf, m: Material, height: f32, depth: f32) -> Material {
   let dpx = dpdx(s.p);
   let dpy = dpdy(s.p);
@@ -78,7 +79,8 @@ fn embossed(s: Surf, m: Material, height: f32, depth: f32) -> Material {
   let r2 = cross(s.normal, dpx);
   let det = dot(dpx, r1);
   let slope = (dpdx(height) * r1 + dpdy(height) * r2) * depth;
-  let relief = -slope * sign(det) / max(abs(det), 1e-9);
+  let near = 1.0 / (1.0 + s.far * s.far / 150.0);
+  let relief = -slope * sign(det) * near / max(abs(det), 1e-9);
   return Material(m.albedo, m.emission, m.gloss, m.relief + clamp(relief, vec3f(-2.0), vec3f(2.0)));
 }
 

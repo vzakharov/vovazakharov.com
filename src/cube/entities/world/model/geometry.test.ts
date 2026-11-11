@@ -134,7 +134,9 @@ describe('faces', () => {
     );
     const eastward = new Set(
       quads
-        .filter((q) => q.room.n === 3 && q.surface === 'wall' && q.normal[0] > 0)
+        .filter(
+          (q) => q.room.n === 3 && q.surface === 'wall' && q.normal[0] > 0,
+        )
         .map(({ corners: [[east, , south]] }) => `${east} ${south}`),
     );
     for (let y = 0n; y < 4n; y += 1n) {
@@ -157,7 +159,9 @@ describe('faces', () => {
   it('closes floor 1 with the lid', () => {
     const pose = at({});
     const quads = facesAt(pose, noHoles);
-    const ceiling = quads.filter((q) => q.surface === 'ceiling' && q.room.n === 1);
+    const ceiling = quads.filter(
+      (q) => q.surface === 'ceiling' && q.room.n === 1,
+    );
     assert.deepEqual(heights(ceiling), [0.5]);
     assert.ok(!quads.some((q) => q.room.n === 0));
   });
