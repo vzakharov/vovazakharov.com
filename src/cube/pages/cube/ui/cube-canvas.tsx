@@ -22,11 +22,13 @@ import {
   bindInput,
   canPress,
   EYE_HEIGHT,
+  isStanding,
   plantedHoled,
   plantedWalls,
   play as playFrame,
   type Player,
   pulledOf,
+  standingAt,
   STILL,
 } from '@/cube/features/player';
 
@@ -143,7 +145,7 @@ function walk(
           setFailure,
         );
   // The pose is the scene's; the rest of the player rides along with it.
-  let player: Player = { pose: start, shrinking: null };
+  let player: Player = standingAt(start);
   /** A press the play hook asked for, resolved once a frame reads it. */
   let pressed: PromiseWithResolvers<void> | null = null;
   /** The instant a script's clock is stopped at; a walk's clock runs. */
@@ -185,9 +187,10 @@ function walk(
               plantedWalls,
               holedHere(pose),
             );
-            const { pose: moved, shrinking } = player;
-            reach(moved, signOf, controls.pull && shrinking === null);
-            follow?.(moved, shrinking === null, seconds);
+            const { pose: moved } = player;
+            const standing = isStanding(player);
+            reach(moved, signOf, controls.pull && standing);
+            follow?.(moved, standing, seconds);
             return { pose: moved, pulled: pulledOf(player) };
           },
     now: () => frozen ?? Date.now(),

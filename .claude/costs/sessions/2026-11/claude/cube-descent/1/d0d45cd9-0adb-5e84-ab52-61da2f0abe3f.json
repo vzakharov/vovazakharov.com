@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 96,
+    "cacheWrite5mTokens": 147378,
+    "cacheWrite1hTokens": 210195,
+    "cacheReadTokens": 8824795,
+    "outputTokens": 78756,
+    "thinkingTokens": 25483,
+    "responses": 48,
+    "costUsd": 9.752867000000002
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-11T22:25:59.080Z",
+    "contextTokens": 117379,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 55395,
+      "cacheReadTokens": 155954,
+      "outputTokens": 771,
+      "thinkingTokens": 31,
+      "responses": 2,
+      "costUsd": 0.9483828
+    }
+  },
+  "sessionId": "d0d45cd9-0adb-5e84-ab52-61da2f0abe3f",
+  "branch": "claude/cube-descent",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/go Build the cube's Descent stream on branch claude/cube-descent (cut from claude/cube-liminal-332pmv, already checked out as the base): read docs/plans/cube-b…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEv5QzP5HRqvoP2WgS",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-11T22:25:46.008Z",
+  "lastResponseAt": "2026-11-11T22:46:26.594Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 76,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 210195,
+    "cacheReadTokens": 7746216,
+    "outputTokens": 70080,
+    "thinkingTokens": 22502,
+    "responses": 38,
+    "costUsd": 7.7161712
+  },
+  "subagents": {
+    "inputTokens": 20,
+    "cacheWrite5mTokens": 147378,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1078579,
+    "outputTokens": 8676,
+    "thinkingTokens": 2981,
+    "responses": 10,
+    "costUsd": 2.0366958000000004
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 96,
+      "cacheWrite5mTokens": 147378,
+      "cacheWrite1hTokens": 210195,
+      "cacheReadTokens": 8824795,
+      "outputTokens": 78756,
+      "thinkingTokens": 25483,
+      "responses": 48,
+      "costUsd": 9.752867000000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 47,
+    "matched": 47,
+    "matchedTableUsd": 9.676302600000001,
+    "matchedEventUsd": 9.676302600000001,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".json": 19,
+    ".md": 343,
+    ".ts": 3933,
+    ".tsx": 15
+  }
+}
