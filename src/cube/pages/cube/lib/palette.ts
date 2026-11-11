@@ -6,7 +6,7 @@ export type Rgb = readonly [number, number, number];
 /** The golden angle, in degrees: floors a turn apart never share a hue. */
 const GOLDEN_ANGLE = 137.508;
 
-/** Floor `n`'s hue in degrees: `n × 137.508° mod 360`. */
+/** Floor `n`'s hue, in degrees. */
 export const hueOf = (n: number): number => (n * GOLDEN_ANGLE) % 360;
 
 /** HSL to RGB, `hue` in degrees and the rest in `[0, 1]`. */

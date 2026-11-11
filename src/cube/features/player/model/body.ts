@@ -17,11 +17,9 @@ const PASSES = 4;
 type Segment = { a: InRoom; b: InRoom };
 
 /**
- * The closed walls a body in `pose`'s room can touch, in that room's frame: the room
- * spans `[0, 1]²`, so the walls are the unit segments on the lines `u = 0`,
- * `u = 1`, `v = 0` and `v = 1` bordering it and its eight neighbours. An open
- * wall is no segment at all, which leaves the closed walls' ends as the door
- * jambs.
+ * The closed walls a body in `pose`'s room can touch, as unit segments on the
+ * lines `u = 0`, `u = 1`, `v = 0` and `v = 1` of that room's frame. The closed
+ * walls' ends are the door jambs.
  */
 export function closedWalls({ n, x, y }: Pose, walls: Walls): Segment[] {
   const segments: Segment[] = [];
