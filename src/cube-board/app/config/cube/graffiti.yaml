@@ -41,9 +41,9 @@ items:
     text: 'The rule: a painting changes the constant, never the exponent. The jackhammer breaks walls, never floors, so the lock still holds'
   - id: graf-depth
     type: sticky
-    updated: [2026-11-11T06:19:00.000Z, agent:cube]
+    updated: [2026-11-11T06:21:00.000Z, agent:cube]
     box: [363, 2180, 244, pink]
-    text: "Proof of depth: to paint floor n, show its hole's answer. Only who got there paints there. Leaning to Argon2 over SHA-256 for the seals: a GPU's head start goes, the exponent stays. The difficulty calculator follows when it lands"
+    text: "Proof of depth: to paint floor n, show its hole's answer. Only who got there paints there. Idea: Argon2 over SHA-256 for the seals takes a GPU's head start away, the exponent untouched; the difficulty calculator would follow"
   - id: graf-instant
     type: sticky
     updated: [2026-11-11T05:32:00.000Z, agent:cube]
