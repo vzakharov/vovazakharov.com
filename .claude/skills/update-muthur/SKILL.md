@@ -259,19 +259,17 @@ them individually.
 
 ### Step 4a — New skills get offered, not taken
 
-A commit that adds a skill neither here nor mentioned in the record is an open
-question, and the answer belongs in the tree or the record so it is asked
-exactly once.
+A skill neither here nor in the record is an open question, answered in the tree
+or the record so it is asked once.
 
 Read the new skill's entry in the source's catalog:
 `.claude/skills/update-muthur/catalog.md` and its parts under `catalog/` are the
-source's inventory, read from the clone and never vendored, so it is current by
-construction. The entry is found with
-``grep -n '^- `/<name>`' catalog.md catalog/*.md`` run in that directory, and an
-opt-in path is looked up the same way. Surface the decision **with its criteria
-attached** rather than as a bare "the source added `/foo`, want it?". Where the
-record carries the operator's standing answer to `opt-in: ask` rows and it says
-take, such a row is taken and reported with those criteria rather than asked.
+source's inventory, read from the clone and never vendored. The entry is found
+with ``grep -n '^- `/<name>`' catalog.md catalog/*.md`` run in that directory,
+and an opt-in path is looked up the same way. Surface the decision **with its
+criteria attached**, never as a bare "want `/foo`?". Where the record carries
+the operator's standing answer to `opt-in: ask` rows and it says take, such a
+row is taken and reported with those criteria rather than asked.
 
 - **Taken** → the path lands in the tree, which is the record of a verbatim
   take; anything other than a verbatim copy also gets its difference written
@@ -279,6 +277,8 @@ take, such a row is taken and reported with those criteria rather than asked.
   `@`-reference a sibling this repo declined.
   `bash scripts/check-skill-catalog.sh` is that check where it was adopted.
 - **Declined** → the record declines the path, with the reason.
+- **Marked `never` in the catalog** → not offered: the entry answers for every
+  adopter, and nothing goes in the record.
 
 Either way the question does not come back.
 
