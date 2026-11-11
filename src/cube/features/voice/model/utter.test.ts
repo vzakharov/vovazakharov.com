@@ -9,7 +9,14 @@ import { chime, piped } from './speaker';
 import { powerIn } from './spectrum.test-kit';
 import { FRAME_SECONDS, trackOf } from './track';
 import { utter } from './utter';
-import { HUMAN_TO, SOURCES, SPEAKERS, type Voice, voiceOf } from './voice';
+import {
+  HUMAN_TO,
+  SOURCES,
+  SPEAKERS,
+  THROATS,
+  type Voice,
+  voiceOf,
+} from './voice';
 import { wavOf } from './wav';
 
 const RATE = 16_000;
@@ -172,6 +179,22 @@ describe('voiceOf', () => {
       voiceOf('somewhere', 5).hertz,
       voiceOf('building', 5).hertz,
     );
+  });
+
+  it('makes most of them children and women, each many times over', () => {
+    const counts = { child: 0, woman: 0, man: 0 };
+    for (let n = 1; n <= HUMAN_TO; n += 1) {
+      const { hertz, tract } = voiceOf('somewhere', n);
+      const kind = hertz >= 265 ? 'child' : hertz >= 185 ? 'woman' : 'man';
+      const [low, top] = THROATS[kind].hertz;
+      const [small, large] = THROATS[kind].tract;
+      assert.ok(hertz >= low && hertz <= top, `floor ${n}`);
+      assert.ok(tract >= small && tract <= large, `floor ${n}`);
+      counts[kind] += 1;
+    }
+    assert.ok(counts.child >= 10);
+    assert.ok(counts.woman >= 10);
+    assert.ok(counts.man >= 5);
   });
 
   it('is no living throat past floor 49', () => {

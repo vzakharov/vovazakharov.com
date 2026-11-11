@@ -93,12 +93,26 @@ const building = (dice: Dice): Timbre => {
 /** Below this floor nobody elsewhere in the building whispers. */
 const WHISPERS_FROM = 24;
 
+/**
+ * The throats heard elsewhere, as the hertz they speak between and the sizes
+ * their resonances scale between: a child, a woman, a man. Two in three are
+ * not a man.
+ */
+export const THROATS = {
+  child: { hertz: [265, 340], tract: [1.3, 1.45] },
+  woman: { hertz: [185, 245], tract: [1.13, 1.22] },
+  man: { hertz: [88, 135], tract: [0.92, 1.02] },
+} as const;
+
+const KINDS: Some<keyof typeof THROATS> = ['child', 'woman', 'man'];
+
 const someone = (n: number, dice: Dice): Timbre => {
+  const { hertz, tract } = THROATS[among(KINDS, dice('throat'))];
   const high = dice('pitch');
   return {
     source: n >= WHISPERS_FROM && dice('whisper') < 0.25 ? 'whisper' : 'throat',
-    hertz: span(88, 255, high),
-    tract: span(0.92, 1.22, high),
+    hertz: span(hertz[0], hertz[1], high),
+    tract: span(tract[0], tract[1], high),
     tempo: span(0.78, 1.05, dice('pace')),
     airy: span(0.1, 0.5, dice('breath')),
     lilt: span(0.5, 1, dice('lilt')),
