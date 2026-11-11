@@ -1,4 +1,4 @@
-import { cssRgb, signOf } from '../lib/palette';
+import { cssRgb, type Rgb, signOf } from '../lib/palette';
 
 /** The board texture's size in pixels, the sign's own 2:1. */
 const WIDTH = 512;
@@ -27,19 +27,23 @@ export function drawBoard(
   context.fillRect(BORDER, BORDER, WIDTH - 2 * BORDER, HEIGHT - 2 * BORDER);
   context.textAlign = 'center';
   context.textBaseline = 'middle';
-  const fit = (text: string, size: number, weight: number) => {
-    context.font = `${String(weight)} ${String(size)}px ${FONT}`;
+  /** `text` centred at `height` of the board, shrunk from `size` px to fit. */
+  const write = (
+    text: string,
+    size: number,
+    weight: number,
+    colour: Rgb,
+    height: number,
+  ) => {
+    const font = (px: number) => `${String(weight)} ${String(px)}px ${FONT}`;
+    context.font = font(size);
     const room = WIDTH - 6 * BORDER;
     const wide = context.measureText(text).width;
-    if (wide > room) {
-      context.font = `${String(weight)} ${String(Math.floor((size * room) / wide))}px ${FONT}`;
-    }
+    if (wide > room) context.font = font(Math.floor((size * room) / wide));
+    context.fillStyle = cssRgb(colour);
+    context.fillText(text, WIDTH / 2, HEIGHT * height);
   };
-  fit(title.toUpperCase(), 76, 800);
-  context.fillStyle = cssRgb(ink);
-  context.fillText(title.toUpperCase(), WIDTH / 2, HEIGHT * 0.36);
-  fit(line, 64, 700);
-  context.fillStyle = cssRgb(lineInk);
-  context.fillText(line, WIDTH / 2, HEIGHT * 0.7);
+  write(title.toUpperCase(), 76, 800, ink, 0.36);
+  write(line, 64, 700, lineInk, 0.7);
   return canvas;
 }

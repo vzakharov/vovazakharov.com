@@ -1,6 +1,6 @@
 import { type Placed, walledRooms } from './geometry';
 import type { HoleOf } from './hole';
-import type { WallMounted } from './pose';
+import type { InRoom, WallMounted } from './pose';
 import { box, type Facet, facet, type Quad, times, type Vec3 } from './quad';
 import { type InRoomOf, type Room, roomKey } from './room';
 import { opens, parent, type Step, stepped, STEPS, type View } from './rooms';
@@ -50,6 +50,9 @@ type Side = { step: Step; is: 'wall' | 'bought' | 'open' };
  */
 const POST_IN = 0.2;
 
+/** The way facing back along `(u, v)`: `0 - d`, not `-d`, so no negative zero. */
+const against = (u: number, v: number): InRoom => ({ u: 0 - u, v: 0 - v });
+
 /**
  * The sign of `room` on the side across `step`, facing into the room: on that
  * side's wall, or on a post standing `POST_IN` in from it.
@@ -58,8 +61,7 @@ function mountedOn([dx, dy]: Step, onPost: boolean): SignMount {
   const into = onPost ? POST_IN : 0;
   return {
     at: { u: (1 + dx) / 2 - dx * into, v: (1 + dy) / 2 - dy * into },
-    // `0 - d`, not `-d`, so a facing has no negative zero.
-    facing: { u: 0 - dx, v: 0 - dy },
+    facing: against(dx, dy),
     onPost,
   };
 }
@@ -200,9 +202,10 @@ export function signFacets(
 ): Facet[] {
   if (!onPost) return [board(at, facing, SIGN_OFF, n, place)];
   const off = POST_HALF + SIGN_OFF;
-  // `0 - f`, not `-f`, so a facing has no negative zero.
-  const back = { u: 0 - facing.u, v: 0 - facing.v };
-  return [board(at, facing, off, n, place), board(at, back, off, n, place)];
+  return [
+    board(at, facing, off, n, place),
+    board(at, against(facing.u, facing.v), off, n, place),
+  ];
 }
 
 /**
