@@ -31,9 +31,9 @@ items:
     text: '3. Open: what a paid wall is. Forever at a high fixed price, as on the Million Dollar Homepage, or honest rent for a term at the price of its day. Not painted over: someone who paid $1000 is not told to find another wall'
   - id: graf-ruled-out
     type: sticky
-    updated: [2026-11-11T06:15:00.000Z, agent:cube]
+    updated: [2026-11-11T06:25:00.000Z, agent:cube]
     box: [1368, 2180, 244, gray]
-    text: 'Ruled out: a constant per floor or a cut-off at floor 3 (arbitrary); a one-off auction (sold for $10 in month one, hands tied); overpaint at ×2 (takes a paid wall away); payouts, transferable credit, gifts (a market in money); measuring who passes a wall'
+    text: 'Ruled out: a constant per floor or a cut-off at floor 3 (arbitrary); a one-off auction (sold for $10 in month one, hands tied); overpaint at ×2 (takes a paid wall away); payouts, transferable credit, gifts (a market in money); measuring who passes a wall; a Worker checking holes at walking pace (the cube stays static)'
   - id: graf-rule
     type: sticky
     updated: [2026-11-11T05:32:00.000Z, agent:cube]
@@ -41,9 +41,14 @@ items:
     text: 'The rule: a painting changes the constant, never the exponent. The jackhammer breaks walls, never floors, so the lock still holds'
   - id: graf-depth
     type: sticky
-    updated: [2026-11-11T06:23:00.000Z, agent:cube]
+    updated: [2026-11-11T06:25:00.000Z, agent:cube]
     box: [363, 2180, 244, pink]
-    text: "Proof of depth: to paint floor n, show its hole's answer. Only who got there paints there. Idea: Argon2 over SHA-256 for the seals takes a GPU's head start away, the exponent untouched; the difficulty calculator would follow. Idea: a Worker answers \"is there a hole here\" at walking pace per account, the seals salted until the floor is found; costs a server per step and accounts that cost something"
+    text: "Proof of depth: to paint floor n, show its hole's answer. Only who got there paints there, by legs or by silicon. Idea: Argon2 over SHA-256 for the seals takes a GPU's head start away, the exponent untouched; the difficulty calculator would follow"
+  - id: graf-silicon
+    type: sticky
+    updated: [2026-11-11T06:25:00.000Z, agent:cube]
+    box: [1703, 2180, 244, pink]
+    text: 'Idea, brute force as a feature: legs go down to ~floor 10, below that only silicon. Floor n takes ~4^n hashes, so floor 30 is a hundred GPUs for a fortnight and floor 40, the same hundred for ~40,000 years. Each hole is a public bounty; a crack is news ("floor 27 fell"), and the deepest floor found reads as the world''s hashing power. A tab left open can dig too, the crowd as one farm, and the finder paints'
   - id: graf-instant
     type: sticky
     updated: [2026-11-11T05:32:00.000Z, agent:cube]
