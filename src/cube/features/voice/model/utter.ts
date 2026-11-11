@@ -54,13 +54,8 @@ function hissing({ sampling: sampleRate, random }: Setting) {
 
 /** A source through five resonances in a row, a band of hiss beside them. */
 function resonant(source: keyof typeof EXCITERS, setting: Setting): Mouth {
-  const { voice, sampling: sampleRate, random } = setting;
-  const excite = EXCITERS[source]({
-    voice,
-    sampling: sampleRate,
-    random,
-    hush: hushOf(sampleRate),
-  });
+  const { voice, sampling: sampleRate } = setting;
+  const excite = EXCITERS[source]({ ...setting, hush: hushOf(sampleRate) });
   const lower = WIDTHS.map(() => resonator(sampleRate));
   const upper = UPPER.map(([hertz, width]) => {
     const fixed = resonator(sampleRate);

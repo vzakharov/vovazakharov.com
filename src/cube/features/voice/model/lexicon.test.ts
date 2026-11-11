@@ -37,7 +37,7 @@ describe('worded', () => {
     for (const word of words) assert.ok(word in LEXICON, word);
   });
 
-  it('says the two lines that matter as written', () => {
+  it('says an initialism letter by letter and a phrase word by word', () => {
     assert.equal(phonesOf('wtf'), 'w ah t dh ax f ah k');
     assert.equal(
       ['here', 'we', 'go', 'again'].map((word) => phonesOf(word)).join(' | '),
