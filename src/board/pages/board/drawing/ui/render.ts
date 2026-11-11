@@ -3,7 +3,7 @@
  * from the merged items, which at a board's size (dozens of items) costs less
  * than keeping a diff, and leaves no stale node behind a remote edit.
  */
-import type { Item, PlacedItem } from '@/island-board/entities/item';
+import type { Item, PlacedItem } from '@/board/entities/item';
 
 import { centreOf, edgePoint, type Rect } from '../../camera/index.ts';
 import { handStroke, jitter, tiltOf } from '../lib/hand.ts';

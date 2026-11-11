@@ -12,7 +12,7 @@
  */
 import path from 'node:path';
 
-import type { Item } from '@/island-board/entities/item';
+import type { Item } from '@/board/entities/item';
 
 import {
   assertUnique,

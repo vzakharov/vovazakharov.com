@@ -1,6 +1,6 @@
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Item, PlacedItem } from '@/island-board/entities/item';
+import type { Item, PlacedItem } from '@/board/entities/item';
 
 import type { Rect } from '../../camera/index.ts';
 import {

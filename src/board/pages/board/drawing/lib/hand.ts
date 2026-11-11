@@ -7,7 +7,7 @@ import type { WithId } from '@/kernel/shared/typings';
 
 import type { Point } from '@/scene/shared/lib/plane';
 
-import type { PlacedItem, Spiralled } from '@/island-board/entities/item';
+import type { PlacedItem, Spiralled } from '@/board/entities/item';
 
 /**
  * A stable number in [-1, 1) from `id` and `salt`: FNV-1a, then murmur3's

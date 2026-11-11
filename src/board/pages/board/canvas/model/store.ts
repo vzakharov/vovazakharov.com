@@ -7,7 +7,7 @@ import {
   type Item,
   mergeItems,
   parseDbRow,
-} from '@/island-board/entities/item';
+} from '@/board/entities/item';
 
 import { type Db, errorCode } from '../api/runtime.ts';
 

@@ -1,6 +1,6 @@
 import type { Point } from '@/scene/shared/lib/plane';
 
-import type { Item, STICKY_COLORS } from '@/island-board/entities/item';
+import type { Item, STICKY_COLORS } from '@/board/entities/item';
 
 import { EDITABLE_FIELD } from '../../drawing/index.ts';
 import { errorCode } from '../api/runtime.ts';

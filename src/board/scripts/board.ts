@@ -31,8 +31,9 @@ import { format, resolveConfig } from 'prettier';
 import { compileAsync } from 'sass';
 import { z } from 'zod';
 
-import { type Item, newerThan, parseDbRow } from '@/island-board/entities/item';
+import { type Item, newerThan, parseDbRow } from '@/board/entities/item';
 
+import { decodeTitle } from './lib/board-file.ts';
 import {
   boardDir,
   type BoardFiles,
@@ -45,7 +46,7 @@ import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 
 const STYLESHEET = path.join(import.meta.dirname, '../app/styles/board.scss');
 /** The page's entry, bundled from `src/` so the `@/` alias resolves. */
-const ENTRY = `import { startBoard } from '@/island-board/pages/board';\nawait startBoard();\n`;
+const ENTRY = `import { startBoard } from '@/board/pages/board';\nawait startBoard();\n`;
 const FONTS =
   'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Caveat:wght@500;700&family=Shantell+Sans:wght@400;600&family=Fraunces:opsz,wght@9..144,600&display=swap';
 
@@ -127,8 +128,17 @@ const TOOLBAR = `
   <input id="image-file" type="file" accept="image/*" hidden>
 </div>`;
 
-function page(items: readonly Item[], script: string, css: string): string {
-  return `<title>Island board</title>
+/** Text safe inside an element; the title is the only author text the page writes outside its JSON. */
+const escaped = (text: string): string =>
+  text.replaceAll('&', '&amp;').replaceAll('<', '&lt;');
+
+function page(
+  title: string,
+  items: readonly Item[],
+  script: string,
+  css: string,
+): string {
+  return `<title>${escaped(title)}</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -156,14 +166,15 @@ const wrapped = (body: string): string =>
   `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>${body}</body></html>\n`;
 
 async function buildBoard(board: string, out: string): Promise<void> {
-  const [items, script, css] = await Promise.all([
+  const [title, items, script, css] = await Promise.all([
+    readFile(board, 'utf8').then((text) => decodeTitle(text)),
     readItems(board),
     bundle(),
     compileAsync(STYLESHEET, { style: 'compressed' }).then(
       (sheet) => sheet.css,
     ),
   ]);
-  const html = page(items, script, css);
+  const html = page(title, items, script, css);
   const kb = Math.round(Buffer.byteLength(html) / 1024);
   if (kb > PAGE_BUDGET_KB)
     throw new Error(

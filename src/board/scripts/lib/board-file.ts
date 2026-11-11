@@ -32,7 +32,7 @@ import {
   SPIRALS,
   STICKY_COLORS,
   TEXT_SIZES,
-} from '@/island-board/entities/item';
+} from '@/board/entities/item';
 
 const Color = z.enum(STICKY_COLORS);
 const Size = z.enum(TEXT_SIZES);
@@ -214,6 +214,10 @@ export function decodeBoard(text: string, kind: FileKind = 'board'): Item[] {
   assertUnique(items);
   return items;
 }
+
+/** The board's title, from its own file. */
+export const decodeTitle = (text: string): string =>
+  BoardFile.pick({ title: true }).parse(parseDocument(text).toJS()).title;
 
 /** Keys whose value is a short tuple, written inline (`[x, y, w, blue]`). */
 const FLOW_KEYS = new Set(['updated', 'box', 'ends']);

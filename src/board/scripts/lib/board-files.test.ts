@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { Item } from '@/island-board/entities/item';
+import type { Item } from '@/board/entities/item';
 
 import {
   type BoardFiles,

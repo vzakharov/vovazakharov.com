@@ -5,7 +5,7 @@
 // Namespace import: `import { z }` bundles every zod locale (see the item model).
 import * as z from 'zod';
 
-import { Item } from '@/island-board/entities/item';
+import { Item } from '@/board/entities/item';
 
 import { type Capabilities, connect } from '../api/runtime.ts';
 import { byId, required } from '../lib/dom.ts';

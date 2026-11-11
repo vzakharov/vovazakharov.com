@@ -2,7 +2,7 @@ import type { WithSelected } from '@/kernel/shared/typings';
 
 import type { Zoomed } from '@/scene/shared/lib/plane';
 
-import type { Item } from '@/island-board/entities/item';
+import type { Item } from '@/board/entities/item';
 
 import type { Authoring } from '../api/runtime.ts';
 import type { Lift } from '../lib/lift.ts';
