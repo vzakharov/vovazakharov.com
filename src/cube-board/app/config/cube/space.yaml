@@ -1,0 +1,133 @@
+items:
+  - id: z-space
+    type: zone
+    updated: [2026-11-11T12:13:32.000Z, agent:cube]
+    box: [0, 1820, 3540, 1060, pink]
+    icon: 🏗️
+    text: 'Space for sale: paint, models, rooms'
+  - id: graf-idea
+    type: sticky
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
+    box: [28, 1930, 244, pink]
+    icon: 💡
+    text: "Vova's idea: pay to paint any wall, checked by a neural net. Paint changes the game: a spider becomes a monster, a jackhammer a findable artifact. What a painting becomes is never promised; we look and decide"
+  - id: graf-time
+    type: sticky
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
+    box: [363, 1930, 244, pink]
+    icon: ⏳
+    text: 'Time to cross floor n: ~5 s a room × 4^(n−1). Floor 6 ≈ 1.5 h (casual), 7 ≈ an evening, 8 ≈ a day, 10 ≈ 360 h. Reaching floor 7 takes ~2 h, the six above it summed'
+  - id: graf-price-a
+    type: sticky
+    updated: [2026-11-11T12:13:32.000Z, agent:cube]
+    box: [698, 1930, 244, pink]
+    icon: 💵
+    text: "1. Space is priced by volume: $160,000 a m³ on every floor, so $1 buys 6.25 cm³, a die ¾ in a side. A room halves on each axis a floor down, so it is ×8 cheaper: $10M for floor 1's one room, $4.77 on floor 8, ~$2·10⁻⁵² on 66. A whole floor halves, so the cube sums to just under $20M. Table and chart: https://claude.ai/artifact/8fawFUo5gSRn18X2qcxihj"
+  - id: graf-price-b
+    type: sticky
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
+    box: [1033, 1930, 244, pink]
+    icon: 📉
+    text: '2. In theory, not to build: the price follows the path, not the floor number. The room above a hole and the room below it are seen by the same people, so they cost the same; the ×⅓ is spent walking from the landing to the next hole, and a dead end off the path is cheaper still'
+  - id: graf-price-c
+    type: sticky
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
+    box: [1368, 1930, 244, pink]
+    icon: 🏷️
+    text: '3. Open: what a paid wall is. Forever at a high fixed price, as on the Million Dollar Homepage, or honest rent for a term at the price of its day. Not painted over: someone who paid $1000 is not told to find another wall'
+  - id: graf-ruled-out
+    type: sticky
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
+    box: [1368, 2180, 244, gray]
+    icon: ⛔
+    text: 'Ruled out: a constant per floor or a cut-off at floor 3 (arbitrary); a one-off auction (sold for $10 in month one, hands tied); overpaint at ×2 (takes a paid wall away); payouts, transferable credit, gifts (a market in money); measuring who passes a wall; a Worker checking holes at walking pace (the cube stays static)'
+  - id: graf-rule
+    type: sticky
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
+    box: [28, 2180, 244, pink]
+    icon: 📜
+    text: 'The rule: a painting changes the constant, never the exponent. The jackhammer breaks walls, never floors, so the lock still holds'
+  - id: graf-depth
+    type: sticky
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
+    box: [363, 2180, 244, pink]
+    icon: 🧗
+    text: "Proof of depth: to paint floor n, show its hole's answer. Only who got there paints there, by legs or by silicon. Idea: Argon2 over SHA-256 for the seals takes a GPU's head start away, the exponent untouched; the difficulty calculator would follow"
+  - id: graf-silicon
+    type: sticky
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
+    box: [1703, 2180, 244, pink]
+    icon: 🖥️
+    text: 'Idea, brute force as a feature: legs go down to ~floor 10, below that only silicon. Floor n takes ~4^n hashes, so floor 30 is a hundred GPUs for a fortnight and floor 40, the same hundred for ~40,000 years. Each hole is a public bounty; a crack is news ("floor 27 fell"), and the deepest floor found reads as the world''s hashing power. A tab left open can dig too, the crowd as one farm, and the finder paints'
+  - id: graf-instant
+    type: sticky
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
+    box: [698, 2180, 244, pink]
+    icon: ⚡
+    text: 'Shown at once, after moderation: Stripe → a Worker → the net → R2, and the game reads R2. Not a git branch: raw GitHub caches ~5 min, and the push needs a server anyway'
+  - id: graf-open
+    type: sticky
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
+    box: [1033, 2180, 244, gray]
+    icon: ❓
+    text: 'Open: one shared world, so a found answer leaks, and that is fine: knowing the answer is what reaching a floor means. What a painting becomes in the game is a gift, not a promise. Not a blockchain: nothing on a chain can be taken down. Painting for hire happens off-site whatever we rule; we issue nothing a player can hand on'
+  - id: space-models
+    type: sticky
+    updated: [2026-11-11T12:13:32.000Z, agent:cube]
+    box: [1703, 1930, 244, pink]
+    icon: 🗿
+    text: "Vova's idea: not only paint. Buy a box for a 3D model of your own, made in Blender or whatever, uploaded to the game, and pay for the box's volume. Coca-Cola puts up a monument to the bottle instead of a graffiti"
+  - id: space-room
+    type: sticky
+    updated: [2026-11-11T12:13:32.000Z, agent:cube]
+    box: [2038, 1930, 244, pink]
+    icon: 🔑
+    text: 'Or buy the whole room and furnish it as you like, models and walls, with a guarantee no one else moves in. Same $/m³, no premium for exclusivity. Sold whole only while empty; boxes in one room never overlap'
+  - id: space-audience
+    type: sticky
+    updated: [2026-11-11T12:13:32.000Z, agent:cube]
+    box: [2373, 1930, 244, pink]
+    icon: 👀
+    text: "Why ×8 is fair: the player shrinks with the rooms, so a bottle on floor 8 looks as big as one on floor 1. What differs is who sees it: every player passes floor 1's one room, few reach floor 8's 16,384"
+  - id: space-moderation
+    type: sticky
+    updated: [2026-11-11T12:13:32.000Z, agent:cube]
+    box: [2708, 1930, 244, pink]
+    icon: 🔎
+    text: "Moderation by a vision model: render the room from where a player stands (each door, the middle, eye height), plus the texture sheets, where small print hides. It cannot tell Coca-Cola from someone posing as it: a brand's logo needs the brand's consent"
+  - id: space-island
+    type: sticky
+    updated: [2026-11-11T12:13:32.000Z, agent:cube]
+    box: [3043, 1930, 244, pink]
+    icon: 🏝️
+    text: "Vova's idea: join the cube with /island. Every island world holds one cube, which still has to be found"
+  - id: space-storage
+    type: sticky
+    updated: [2026-11-11T12:13:32.000Z, agent:cube]
+    box: [2038, 2180, 244, pink]
+    icon: 🪣
+    text: "Models in R2, named by the room's coordinates, a folder per room for versions; no record in the repo. The client fetches the rooms it sees; the misses are 404s, cached at Cloudflare. Not GitHub releases: they send no CORS header, so three.js's fetch is refused (checked)"
+  - id: space-owner
+    type: sticky
+    updated: [2026-11-11T12:13:32.000Z, agent:cube]
+    box: [2373, 2180, 244, pink]
+    icon: 🔐
+    text: "Stripe's webhook → a ~50-line Worker, which writes R2 and hands the owner a password, keeping only its hash. With it the owner later uploads .glb and paints walls; each upload waits for moderation before it shows"
+  - id: space-reach
+    type: sticky
+    updated: [2026-11-11T12:13:32.000Z, agent:cube]
+    box: [2708, 2180, 244, pink]
+    icon: 🧭
+    text: 'Buying asks no proof of reaching the room: whoever stands at the end of a shared path counts as having got there, so any room is bought by its coordinates'
+  - id: space-url
+    type: sticky
+    updated: [2026-11-11T12:13:32.000Z, agent:cube]
+    box: [28, 2430, 244, pink]
+    icon: 🔗
+    text: 'Idea: the URL is the path walked. The holes of the floors passed (2n bits each, ~553 bytes for all 66), the current room, and a short checksum. Holes prove themselves against the commitments; the checksum makes a one-letter edit fall back to the landing room instead of teleporting. It proves knowing the way, not walking it'
+  - id: space-maze-stats
+    type: sticky
+    updated: [2026-11-11T12:13:32.000Z, agent:cube]
+    box: [363, 2430, 244, pink]
+    icon: 📏
+    text: 'Measured: floor n has (2^(n−1)+1)² wall squares, exact for any perfect maze. The mean path between two rooms grows ~2.5–3× a floor (floor 10: ~2,700 steps); extrapolated, ~10²⁶ on floor 66, so the shortest record of a path is its endpoints'
