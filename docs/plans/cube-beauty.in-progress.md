@@ -111,6 +111,13 @@ The voice stream was told, after the operator found a formant voice too robotic
 for the protagonist: the visitor makes wordless vocal sounds only; the words are
 the building's public-address voice, which the robot timbre suits.
 
+The operator, in the voice session, asked for the voice on the board. The voice
+stream adds `pnpm voice:cube --out <dir>` (WAVs plus `manifest.json`: the
+visitor's lines on floor 1, "here we go again" down the floors, the voice from
+somewhere). On merging it: render them, publish a small artifact page of audio
+players, and link it from a sticky in the board's "Making it beautiful" zone, as
+the board already links the pricing chart.
+
 ## Next
 
 1. The first six streams were cut before the light became continuous
