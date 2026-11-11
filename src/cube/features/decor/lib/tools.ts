@@ -1,6 +1,12 @@
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import type { Surface } from '@/cube/shared/lib/surface';
-import type { Quad, Room, Vec3 } from '@/cube/entities/world';
+import {
+  box,
+  face,
+  type Quad,
+  type Room,
+  type Vec3,
+} from '@/cube/entities/world';
 
 /** A flat four-cornered piece, counter-clockwise seen from its face, in metres. */
 type Sheet = readonly [Vec3, Vec3, Vec3, Vec3];
@@ -40,23 +46,9 @@ const cross = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
 
 const unit = (v: Vec3): Vec3 => scaled(v, 1 / Math.hypot(...v));
 
+const inRoom = (metres: Vec3): Vec3 => scaled(metres, 1 / ROOM_METRES);
+
 const UP: Vec3 = [0, 1, 0];
-
-const sheet = (corner: Vec3, a: Vec3, b: Vec3): Sheet => [
-  corner,
-  plus(corner, a),
-  plus(plus(corner, a), b),
-  plus(corner, b),
-];
-
-const boxSheets = (corner: Vec3, [p, q, r]: Edges): Sheet[] => [
-  sheet(corner, q, p),
-  sheet(plus(corner, r), p, q),
-  sheet(corner, r, q),
-  sheet(plus(corner, p), q, r),
-  sheet(corner, p, r),
-  sheet(plus(corner, q), r, p),
-];
 
 /**
  * An upright prism's sides and far end. Its sides are flat towards each
@@ -112,17 +104,27 @@ export function toolsFor(room: Room) {
     paint?: number,
   ): Quad[] =>
     sheets.map(([a, b, c, d]) => ({
-      corners: [
-        scaled(a, 1 / ROOM_METRES),
-        scaled(b, 1 / ROOM_METRES),
-        scaled(c, 1 / ROOM_METRES),
-        scaled(d, 1 / ROOM_METRES),
-      ],
+      corners: [inRoom(a), inRoom(b), inRoom(c), inRoom(d)],
       normal: unit(cross(minus(b, a), minus(d, a))),
       room,
       surface,
       ...(paint === undefined ? {} : { paint }),
     }));
+
+  /** The box from `corner` along `edges`, which need not be square to each other. */
+  const slab = (
+    corner: Vec3,
+    [p, q, r]: Edges,
+    surface: Surface,
+    paint?: number,
+  ): Quad[] =>
+    box(
+      inRoom(corner),
+      [inRoom(p), inRoom(q), inRoom(r)],
+      room,
+      surface,
+      paint,
+    );
 
   const prismOf = (
     turned: (sheets: readonly Sheet[]) => readonly Sheet[],
@@ -150,15 +152,11 @@ export function toolsFor(room: Room) {
       b: Vec3,
       surface: Surface,
       paint?: number,
-    ): Quad[] => made([sheet(corner, a, b)], surface, paint),
+    ): Quad[] => [
+      face(inRoom(corner), inRoom(a), inRoom(b), room, surface, paint),
+    ],
 
-    /** The box from `corner` along `edges`, which need not be square to each other. */
-    slab: (
-      corner: Vec3,
-      edges: Edges,
-      surface: Surface,
-      paint?: number,
-    ): Quad[] => made(boxSheets(corner, edges), surface, paint),
+    slab,
 
     /** The upright box `[wide, tall, deep]`, its back's foot middle at `at`. */
     block: (
@@ -167,15 +165,13 @@ export function toolsFor(room: Room) {
       surface: Surface,
       paint?: number,
     ): Quad[] =>
-      made(
-        boxSheets(
-          [x - wide / 2, y, z],
-          [
-            [wide, 0, 0],
-            [0, tall, 0],
-            [0, 0, deep],
-          ],
-        ),
+      slab(
+        [x - wide / 2, y, z],
+        [
+          [wide, 0, 0],
+          [0, tall, 0],
+          [0, 0, deep],
+        ],
         surface,
         paint,
       ),
@@ -193,8 +189,9 @@ export function toolsFor(room: Room) {
       const p = Math.hypot(...flat) < 1e-9 ? ([1, 0, 0] as const) : unit(flat);
       const q = cross(unit(along), p);
       const corner = minus(from, scaled(plus(p, q), thick / 2));
-      return made(
-        boxSheets(corner, [scaled(p, thick), scaled(q, thick), along]),
+      return slab(
+        corner,
+        [scaled(p, thick), scaled(q, thick), along],
         surface,
         paint,
       );

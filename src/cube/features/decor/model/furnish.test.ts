@@ -20,7 +20,13 @@ import { furnish, furnished, MOST_QUADS } from './furnish';
 
 const room: Room = { n: 4, x: 3n, y: 5n };
 
-const SHUT: Sides = [true, true, true, true];
+/** A room of four walls and no hole, under `grain`. */
+const shut = (grain: number): Setting => ({
+  room,
+  closed: [true, true, true, true],
+  hole: null,
+  grain,
+});
 
 /** Every way a room's four sides can be open or closed. */
 const WALLINGS: readonly Sides[] = Array.from({ length: 16 }, (_, bits) => [
@@ -81,9 +87,7 @@ describe('every thing', () => {
 
     it(`${thing} stands in a room of four walls`, () => {
       const stands = [1, 2, 3, 4, 5, 6].some(
-        (grain) =>
-          furnish({ room, closed: SHUT, hole: null, grain }, one(thing))
-            .length > 0,
+        (grain) => furnish(shut(grain), one(thing)).length > 0,
       );
       assert.ok(stands);
     });
@@ -98,9 +102,7 @@ describe('furnish', () => {
   });
 
   it('differs between grains', () => {
-    const [first, second] = [7, 8].map((grain) =>
-      furnish({ room, closed: SHUT, hole: null, grain }, CROWD),
-    );
+    const [first, second] = [7, 8].map((grain) => furnish(shut(grain), CROWD));
     assert.notDeepEqual(first, second);
   });
 
@@ -152,9 +154,7 @@ describe('furnish', () => {
     const held = Array.from(
       { length: rooms },
       (_, grain) =>
-        furnished({ room, closed: SHUT, hole: null, grain }, [
-          { thing: 'bin', perRoom: 1.3 },
-        ]).length,
+        furnished(shut(grain), [{ thing: 'bin', perRoom: 1.3 }]).length,
     ).reduce((sum, count) => sum + count, 0);
     assert.ok(Math.abs(held / rooms - 1.3) < 0.1, String(held / rooms));
   });

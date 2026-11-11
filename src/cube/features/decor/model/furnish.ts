@@ -147,8 +147,8 @@ function stood(
   if (side === undefined) return null;
   // Along the east wall southwards, the north side is behind and the south
   // ahead; every other wall is that one turned.
-  const margin = (neighbour: number) =>
-    closed[(side + neighbour) % 4] === true ? CORNER : WALKWAY;
+  const shut = (neighbour: number) => closed[(side + neighbour) % 4] === true;
+  const margin = (neighbour: number) => (shut(neighbour) ? CORNER : WALKWAY);
   const own = boundsOf(quads);
   const wide = own.most[0] - own.least[0];
   const [from, to] = [margin(3), 1 - margin(1) - wide];
@@ -157,24 +157,24 @@ function stood(
     const { least, most } = boundsOf([quad]);
     return most[1] > HUNG.from + 1e-9 && least[1] < HUNG.to - 1e-9;
   });
-  const [low, top] =
-    high.length === 0
-      ? [0, 0]
-      : [
-          boundsOf(high).least[0] - own.least[0],
-          boundsOf(high).most[0] - own.least[0],
-        ];
+  const hung = high.length === 0 ? null : boundsOf(high);
   const runs = (
-    high.length === 0
+    hung === null
       ? [[from, to] as const]
       : [
-          [from, Math.min(to, HUNG.least - top)] as const,
-          [Math.max(from, HUNG.most - low), to] as const,
+          [
+            from,
+            Math.min(to, HUNG.least - (hung.most[0] - own.least[0])),
+          ] as const,
+          [
+            Math.max(from, HUNG.most - (hung.least[0] - own.least[0])),
+            to,
+          ] as const,
         ]
   ).filter(([first, last]) => first <= last);
   const ends = [
-    ...(closed[(side + 3) % 4] === true ? [runs.at(0)?.[0]] : []),
-    ...(closed[(side + 1) % 4] === true ? [runs.at(-1)?.[1]] : []),
+    ...(shut(3) ? [runs.at(0)?.[0]] : []),
+    ...(shut(1) ? [runs.at(-1)?.[1]] : []),
   ];
   const corner = ends[Math.floor(spot.end * ends.length)];
   const start =

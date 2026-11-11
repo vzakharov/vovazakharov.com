@@ -156,27 +156,17 @@ export const HOME = {
       const wood = oneOf([0x4a_30_1c, 0x6a_4a_2a, 0x2a_22_1c], vary(0));
       const ajar = vary(1) < 0.4;
       const swing = 0.45;
+      const doorway = (x: number, surface: 'wood' | 'rubber', paint: number) =>
+        panel([x, 0.08, 0.601], [0.57, 0, 0], [0, 1.86, 0], surface, paint);
       return [
         block([0, 0, 0], [1.2, 2, 0.6], 'wood', wood),
         block([0, 2, 0], [1.26, 0.05, 0.63], 'wood', wood),
-        panel(
-          [0.01, 0.08, 0.601],
-          [0.57, 0, 0],
-          [0, 1.86, 0],
-          'wood',
-          lighter(wood),
-        ),
+        doorway(0.01, 'wood', lighter(wood)),
         block([0.07, 1, 0.6], [0.02, 0.14, 0.03], 'metal', 0xb0_9a_60),
         // The other door, shut or stood a little open on the dark inside.
         ...(ajar
           ? [
-              panel(
-                [-0.58, 0.08, 0.601],
-                [0.57, 0, 0],
-                [0, 1.86, 0],
-                'rubber',
-                0x05_05_06,
-              ),
+              doorway(-0.58, 'rubber', 0x05_05_06),
               slab(
                 [-0.58, 0.08, 0.6],
                 [
@@ -189,13 +179,7 @@ export const HOME = {
               ),
             ]
           : [
-              panel(
-                [-0.58, 0.08, 0.601],
-                [0.57, 0, 0],
-                [0, 1.86, 0],
-                'wood',
-                lighter(wood),
-              ),
+              doorway(-0.58, 'wood', lighter(wood)),
               block([-0.07, 1, 0.6], [0.02, 0.14, 0.03], 'metal', 0xb0_9a_60),
             ]),
       ].flat();
