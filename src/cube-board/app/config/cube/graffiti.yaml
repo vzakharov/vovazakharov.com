@@ -11,9 +11,9 @@ items:
     text: "Vova's idea: pay to paint any wall, checked by a neural net. Paint changes the game: a spider becomes a monster, a jackhammer a findable artifact. What a painting becomes is never promised; we look and decide"
   - id: graf-time
     type: sticky
-    updated: [2026-11-11T06:02:00.000Z, agent:cube]
+    updated: [2026-11-11T06:08:00.000Z, agent:cube]
     box: [363, 1930, 244, pink]
-    text: 'Time to cross floor n: ~5 s a room × 4^(n−1). Floor 6 ≈ 1.5 h (casual), 7 ≈ an evening, 8 ≈ a day, 10 ≈ 360 h'
+    text: 'Time to cross floor n: ~5 s a room × 4^(n−1). Floor 6 ≈ 1.5 h (casual), 7 ≈ an evening, 8 ≈ a day, 10 ≈ 360 h. Reaching floor 7 takes ~2 h, the six above it summed'
   - id: graf-price-a
     type: sticky
     updated: [2026-11-11T05:32:00.000Z, agent:cube]
@@ -21,9 +21,9 @@ items:
     text: 'Price A: ×¼ a floor down. Every floor has the same wall area, so this is one price per square metre'
   - id: graf-price-b
     type: sticky
-    updated: [2026-11-11T06:05:00.000Z, agent:cube]
+    updated: [2026-11-11T06:08:00.000Z, agent:cube]
     box: [1033, 1930, 244, pink]
-    text: 'Price, the pick: a blank wall starts at what its eyeballs are worth — the players who reached its floor last month × the wall''s share of what they see × CPM — and never below what it costs us (the payment fee and the net''s check). So ~$10k on floor 1 at a million players, falling to cost deep down. Paint over a painting by paying double its price; its painter gets the whole price back as credit for another wall, never cash, and it stays forever as a layer beneath'
+    text: 'Price, the pick: a blank wall on floor n starts at $10k × 3^−(n−1) × the share of the floor''s players who pass it, never below what it costs us (the payment fee and the net''s check). The room under the hole above is passed by all, so ~$14 on floor 7; a corner an hour''s walk away, near cost. Paint over a painting by paying double its price; its painter gets the whole price back as credit for another wall, never cash, and it stays forever as a layer beneath'
   - id: graf-price-c
     type: sticky
     updated: [2026-11-11T06:02:00.000Z, agent:cube]
