@@ -123,7 +123,8 @@ one per floor.
 
 ### The player
 
-- **Body diameter `0.15 ×` room side, eye at `0.4 ×`; walk, mouse look with
+- **Body diameter `0.15 ×` room side, eye at `0.4 ×`** (0.6 m and 1.6 m on floor
+  1); **walk at `0.35 ×` room side a second** (1.4 m/s), **mouse look with
   pointer lock (pitch to ±89°), collision as a circle against present walls.**
   Desktop only in iteration zero.
 - **The lever** sits on whichever of the hole quarter's two outer walls is
@@ -132,9 +133,10 @@ one per floor.
   `0.2 ×` room side (0.8 m, an arm's reach and a step).
 - **Shrinking is continuous**: scale `s(t) = 2^(−t/3 s)` from 1 to ½. The body
   stops resting on the slab once its diameter is under the hole's side (at
-  `s ≈ 0.67`); it falls under gravity, still shrinking, and lands on floor `n+1`
-  at `s = ½`, which is a full-size player of that floor. Then the frame is
-  rebased to floor `n+1`'s units, an exact change of units the eye cannot see.
+  `s ≈ 0.67`: on floor 1 a body of 0.4 m, eye at 1.07 m, over a 0.4 m hole); it
+  falls under gravity, still shrinking, and lands on floor `n+1` at `s = ½`,
+  which is a full-size player of that floor. Then the frame is rebased to floor
+  `n+1`'s units, an exact change of units the eye cannot see.
 - **Wall hue per floor** by the golden angle: `hue_n = n × 137.508° mod 360`.
 
 ## The renderer: plain WebGPU
