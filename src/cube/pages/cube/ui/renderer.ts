@@ -1,6 +1,7 @@
 /// <reference types="@webgpu/types" />
 
 import { asError } from '@/kernel/shared/lib/error-class';
+import type { CanDispose } from '@/kernel/shared/typings';
 
 import type { Vec3 } from '@/cube/entities/world';
 
@@ -9,7 +10,7 @@ import type { Rgb } from '../lib/palette';
 import { SHADER } from './shader';
 
 /** What one frame is lit and fogged with, besides the camera. */
-export type Air = {
+type Air = {
   eye: Vec3;
   /** Fog density per room side of the eye's floor. */
   density: number;
@@ -17,7 +18,7 @@ export type Air = {
   ambient: Rgb;
 };
 
-export type Renderer = {
+export type Renderer = CanDispose & {
   /** Replaces the vertex buffer with `vertices` (`pack`'s layout). */
   upload: (vertices: Float32Array<ArrayBuffer>) => void;
   /** Draws a frame, `viewProjection` column-major. */
@@ -26,11 +27,11 @@ export type Renderer = {
   drawn: () => Promise<void>;
   /** The adapter's vendor and architecture. */
   readonly adapter: string;
-  dispose: () => void;
 };
 
 const UNIFORM_FLOATS = 16 + 4 * 3;
-const DEPTH_FORMAT: GPUTextureFormat = 'depth24plus';
+/** Float depth, cleared to 0 and kept where greater: `viewProjection` reverses it. */
+const DEPTH_FORMAT: GPUTextureFormat = 'depth32float';
 
 const float3 = (location: number, offset: number): GPUVertexAttribute => ({
   shaderLocation: location,
@@ -91,7 +92,7 @@ export async function createRenderer(
     depthStencil: {
       format: DEPTH_FORMAT,
       depthWriteEnabled: true,
-      depthCompare: 'less',
+      depthCompare: 'greater',
     },
   });
   const uniforms = device.createBuffer({
@@ -148,7 +149,7 @@ export async function createRenderer(
         ],
         depthStencilAttachment: {
           view: depthView(),
-          depthClearValue: 1,
+          depthClearValue: 0,
           depthLoadOp: 'clear',
           depthStoreOp: 'discard',
         },

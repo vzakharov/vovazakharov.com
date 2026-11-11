@@ -14,7 +14,7 @@ const QUAD: Quad = {
     [1, 0, 0],
   ],
   normal: [0, 1, 0],
-  floor: 2,
+  n: 2,
   surface: 'floor',
 };
 

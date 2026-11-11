@@ -37,7 +37,7 @@ describe('faces', () => {
   it('cuts the hole out of its slab, in the middle of its quarter', () => {
     const pose = at({});
     const floor = faces(rolled, pose, view(pose, 1, 3), oneHole).filter(
-      (quad) => quad.floor === 1 && quad.surface === 'floor',
+      (quad) => quad.n === 1 && quad.surface === 'floor',
     );
     assert.equal(floor.length, 4);
     const total = floor.reduce((sum, quad) => sum + area(quad), 0);
@@ -60,7 +60,7 @@ describe('faces', () => {
     const pose = at({ n: 2, x: 1n, y: 0n });
     const quads = faces(rolled, pose, view(pose, 1, 3), noHoles);
     const of = (floor: number, surface: Quad['surface']) =>
-      heights(quads.filter((q) => q.floor === floor && q.surface === surface));
+      heights(quads.filter((q) => q.n === floor && q.surface === surface));
     assert.deepEqual(of(3, 'floor'), [-0.25]);
     assert.deepEqual(of(2, 'floor'), [0]);
     assert.deepEqual(of(2, 'ceiling'), [0.5]);
@@ -73,9 +73,7 @@ describe('faces', () => {
     const quads = faces(rolled, pose, view(pose, 3, 3), noHoles);
     const eastward = new Set(
       quads
-        .filter(
-          (q) => q.floor === 3 && q.surface === 'wall' && q.normal[0] !== 0,
-        )
+        .filter((q) => q.n === 3 && q.surface === 'wall' && q.normal[0] !== 0)
         .map(({ corners: [[east, , south]] }) => `${east} ${south}`),
     );
     for (let y = 0n; y < 4n; y += 1n) {
@@ -92,16 +90,14 @@ describe('faces', () => {
     const quads = faces(rolled, pose, view(pose, 2, 66), noHoles);
     const coordinates = quads.flatMap(({ corners }) => corners.flat());
     assert.ok(coordinates.every((c) => Math.abs(c) <= 4));
-    assert.ok(quads.some((q) => q.floor === 61 && q.surface === 'floor'));
+    assert.ok(quads.some((q) => q.n === 61 && q.surface === 'floor'));
   });
 
   it('closes floor 1 with the lid', () => {
     const pose = at({});
     const quads = faces(rolled, pose, view(pose, 2, 3), noHoles);
-    const ceiling = quads.filter(
-      (q) => q.surface === 'ceiling' && q.floor === 1,
-    );
+    const ceiling = quads.filter((q) => q.surface === 'ceiling' && q.n === 1);
     assert.deepEqual(heights(ceiling), [0.5]);
-    assert.ok(!quads.some((q) => q.floor === 0));
+    assert.ok(!quads.some((q) => q.n === 0));
   });
 });

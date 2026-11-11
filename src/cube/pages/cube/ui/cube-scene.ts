@@ -1,3 +1,5 @@
+import type { CanDispose, WithOnError } from '@/kernel/shared/typings';
+
 import {
   faces,
   floorsOf,
@@ -14,6 +16,7 @@ import {
 import { viewProjection } from '../lib/camera';
 import { pack } from '../lib/mesh';
 import { airOf, ambientOf } from '../lib/palette';
+import type { CubePlayHook } from '../lib/play';
 import { createRenderer, type Renderer } from './renderer';
 
 /**
@@ -23,23 +26,16 @@ import { createRenderer, type Renderer } from './renderer';
  */
 export type FrameHook = (pose: Pose, seconds: number) => Pose;
 
-export type CubeOptions = {
+/** `onError` hears a device lost or a build that threw. */
+export type CubeOptions = WithOnError & {
   start: Pose;
   onFrame: FrameHook;
-  /** Hears a failure past mounting: a device lost, a build that threw. */
-  onError: (error: Error) => void;
   /** Hears that the browser has no WebGPU; nothing is drawn then. */
   onUnsupported: () => void;
 };
 
-export type CubeScene = {
-  /** Resolves once the first frame is on screen. */
-  ready: () => Promise<void>;
-  /** Puts the eye at `pose`, resolving once a frame of it is on screen. */
-  setPose: (pose: Pose) => Promise<void>;
-  adapter: () => string;
-  dispose: () => void;
-};
+/** The play hook's calls, which the page also drives itself, and its end. */
+export type CubeScene = CubePlayHook & CanDispose;
 
 /** Rooms of the eye's floor drawn on each side of its own. */
 const RADIUS = 3;

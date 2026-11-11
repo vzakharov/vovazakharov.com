@@ -1,7 +1,6 @@
 import type { World } from './hole';
+import type { Cell } from './room';
 import { seals } from './seals';
-
-export type Room = { x: bigint; y: bigint };
 
 const BYTE_BITS = 8;
 
@@ -27,7 +26,7 @@ const SEED_BITS = 64;
 export async function plant(
   floors: number,
   random: (bytes: Uint8Array) => void,
-): Promise<{ world: World; answers: Room[] }> {
+): Promise<{ world: World; answers: Cell[] }> {
   const seed = bits(random, SEED_BITS).toString();
   const answers = Array.from({ length: floors - 1 }, (_, index) => ({
     x: bits(random, index + 1),

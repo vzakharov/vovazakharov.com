@@ -1,7 +1,7 @@
 import type { HoleOf, Quarter } from './hole';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
 import type { Pose } from './pose';
-import { type Room, roomKey } from './room';
+import { type Floored, type Room, roomKey } from './room';
 import type { View } from './rooms';
 
 /** A room's height, in its own side. */
@@ -11,22 +11,21 @@ export const HOLE_SIDE = 0.08;
 
 export type Vec3 = readonly [number, number, number];
 
-export const SURFACES = ['wall', 'floor', 'ceiling'] as const;
+const SURFACES = ['wall', 'floor', 'ceiling'] as const;
 export type Surface = (typeof SURFACES)[number];
 
 /**
  * One flat face, its corners counter-clockwise seen from the side `normal`
- * points to, and the room it faces into: on floor `floor`, as `surface`.
+ * points to, and the room it faces into: on floor `n`, as `surface`.
  */
-export type Quad = {
+export type Quad = Floored & {
   corners: readonly [Vec3, Vec3, Vec3, Vec3];
   normal: Vec3;
-  floor: number;
   surface: Surface;
 };
 
 /** A room's footprint in the eye's frame: its north-west corner and side. */
-type Footprint = { east: number; south: number; side: number };
+type Footprint = { east: number; south: number; roomSide: number };
 
 const cross = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
   ay * bz - az * by,
@@ -50,7 +49,7 @@ function face(
   corner: Vec3,
   a: Vec3,
   b: Vec3,
-  floor: number,
+  n: number,
   surface: Surface,
 ): Quad {
   return {
@@ -61,7 +60,7 @@ function face(
       plus(corner, b),
     ],
     normal: unit(cross(a, b)),
-    floor,
+    n,
     surface,
   };
 }
@@ -76,18 +75,18 @@ function footprint(eye: Room, room: Room): Footprint {
   const depth = room.n - eye.n;
   if (depth >= 0) {
     const k = 1n << BigInt(depth);
-    const side = 1 / Number(k);
+    const roomSide = 1 / Number(k);
     return {
-      east: Number(room.x - eye.x * k) * side,
-      south: Number(room.y - eye.y * k) * side,
-      side,
+      east: Number(room.x - eye.x * k) * roomSide,
+      south: Number(room.y - eye.y * k) * roomSide,
+      roomSide,
     };
   }
   const k = 1n << BigInt(-depth);
   return {
     east: Number(room.x * k - eye.x),
     south: Number(room.y * k - eye.y),
-    side: Number(k),
+    roomSide: Number(k),
   };
 }
 
@@ -97,7 +96,7 @@ const slabHeight = (n: number, m: number): number =>
 
 /** The rects a slab of `side` covers once a hole in `quarter` is cut from it. */
 function cut(
-  { east, south, side }: Footprint,
+  { east, south, roomSide: side }: Footprint,
   quarter: Quarter | null,
 ): Array<[east: number, south: number, width: number, depth: number]> {
   if (quarter === null) return [[east, south, side, side]];
@@ -162,7 +161,7 @@ function roomWalls(
 ): Quad[] {
   const { n, x, y } = room;
   const last = (1n << BigInt(n - 1)) - 1n;
-  const { east, south, side } = footprint(eye, room);
+  const { east, south, roomSide: side } = footprint(eye, room);
   const floorY = slabHeight(eye.n, n);
   const height = side * ROOM_HEIGHT;
   const runSouth: Vec3 = [0, 0, side];
@@ -192,7 +191,8 @@ const CUBE: Room = { n: 1, x: 0n, y: 0n };
  * Every face the eye at `pose` sees of `view`: the walls of its floor's rooms,
  * of the rooms below them and of the room overhead; the slabs of all of them,
  * holes cut; and the ceiling over the topmost room it sees, which on floors
- * 1 and 2 is the lid.
+ * 1 and 2 is the lid. Slabs come first, so a depth test that keeps the first
+ * of two equal depths draws a slab, not the wall tops meeting it from below.
  */
 export function faces(
   rolled: RolledMaze,
@@ -207,12 +207,12 @@ export function faces(
       ? slab(pose, 0, footprint(pose, CUBE), null)
       : slabOf(view.topmost);
   return [
-    ...walls(rolled, pose, view.near),
-    ...walls(rolled, pose, view.below),
-    ...(view.overhead === null ? [] : walls(rolled, pose, [view.overhead])),
     ...[...view.near, ...view.below, ...view.above].flatMap((room) =>
       slabOf(room),
     ),
     ...lid,
+    ...walls(rolled, pose, view.near),
+    ...walls(rolled, pose, view.below),
+    ...(view.overhead === null ? [] : walls(rolled, pose, [view.overhead])),
   ];
 }

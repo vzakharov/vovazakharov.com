@@ -65,10 +65,14 @@ function lookAlong(eye: Vec3, ahead: Vec3): Float32Array {
   );
 }
 
-/** A perspective onto WebGPU's clip depth of `[0, 1]`. */
+/**
+ * A perspective onto WebGPU's clip depth reversed, near at 1 and far at 0: a
+ * float depth buffer then keeps its precision where a floor's slab meets the
+ * tops of the walls beneath it, rooms away.
+ */
 function perspective(aspect: number): Float32Array {
   const f = 1 / Math.tan(FOV_Y / 2);
-  const range = NEAR - FAR;
+  const range = FAR - NEAR;
   return Float32Array.of(
     f / aspect,
     0,
@@ -80,7 +84,7 @@ function perspective(aspect: number): Float32Array {
     0,
     0,
     0,
-    FAR / range,
+    NEAR / range,
     -1,
     0,
     0,

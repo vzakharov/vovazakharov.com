@@ -7,6 +7,7 @@
     "dev": "scripts/site-task.sh 'next dev'",
     "build": "scripts/site-task.sh --every 'next build'",
     "film:island": "tsx src/island/scripts/film-descent.ts",
+    "play:cube": "scripts/in-site.sh vova tsx src/cube/scripts/play-cube.ts",
     "play:island": "tsx src/island/scripts/play-island.ts",
     "play:mushrooms": "tsx src/mushrooms/scripts/play-mushrooms.ts",
     "sweep:mushrooms": "tsx src/mushrooms/scripts/sweep-mushrooms.ts",

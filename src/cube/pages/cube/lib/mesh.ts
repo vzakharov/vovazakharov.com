@@ -16,8 +16,8 @@ const FAN = [0, 1, 2, 0, 2, 3] as const;
 export function pack(quads: readonly Quad[]): Float32Array<ArrayBuffer> {
   const out = new Float32Array(quads.length * FAN.length * VERTEX_FLOATS);
   let at = 0;
-  for (const { corners, normal, floor, surface } of quads) {
-    const colour = colourOf(floor, surface);
+  for (const { corners, normal, n, surface } of quads) {
+    const colour = colourOf(n, surface);
     for (const corner of FAN) {
       out.set(corners[corner], at);
       out.set(normal, at + 3);

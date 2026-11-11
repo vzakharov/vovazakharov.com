@@ -45,6 +45,15 @@ describe('the camera', () => {
     assert.ok(right > 0);
   });
 
+  it('reverses depth: nearer is greater, the near plane 1 and the far 0', () => {
+    const eye: Vec3 = [0, 0, 0];
+    const matrix = viewProjection(pose(0, 0), eye, 1);
+    const depth = (ahead: number) => project(matrix, [ahead, 0, 0])[2];
+    assert.ok(Math.abs(depth(0.004) - 1) < 1e-6);
+    assert.ok(Math.abs(depth(24)) < 1e-6);
+    assert.ok(depth(1) > depth(2));
+  });
+
   it('sees the floor low on the screen when pitched down', () => {
     const eye: Vec3 = [0.5, 0.32, 0.5];
     const matrix = viewProjection(pose(0, -0.3), eye, 1);
