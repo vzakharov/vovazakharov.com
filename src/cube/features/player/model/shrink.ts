@@ -16,7 +16,7 @@ import { EYE_HEIGHT, type Input, step } from './step';
 export const HALVING = 3;
 
 /** The scale at which the body is as wide as the hole, and drops through it. */
-export const FALL_SCALE = HOLE_SIDE / (2 * BODY_RADIUS);
+const FALL_SCALE = HOLE_SIDE / (2 * BODY_RADIUS);
 
 /** Seconds from the pull to the drop. */
 export const FALL_AT = -HALVING * Math.log2(FALL_SCALE);
@@ -66,7 +66,7 @@ export type Player = { pose: Pose; shrinking: Shrinking | null };
 const HALF_HOLE = HOLE_SIDE / 2;
 
 /** Whether a body at `pose` stands on the hole and reaches its lever. */
-export function canPull(pose: Pose, { quarter, lever }: Holed): boolean {
+function canPull(pose: Pose, { quarter, lever }: Holed): boolean {
   const middle = holeMiddle(quarter);
   return (
     Math.abs(pose.u - middle.u) < PULL_STRAY &&

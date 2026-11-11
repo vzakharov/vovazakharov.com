@@ -26,7 +26,7 @@ const unit = ([x, y, z]: Vec3): Vec3 => {
   return [x / length, y / length, z / length];
 };
 
-export const plus = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
+const plus = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
   ax + bx,
   ay + by,
   az + bz,

@@ -13,6 +13,6 @@ export { plant } from './model/plant';
 export { planted } from './model/planted';
 export type { InRoom, Pose } from './model/pose';
 export type { Quad, Surface, Vec3 } from './model/quad';
-export { roomKey, roomsAcross } from './model/room';
+export { roomKey } from './model/room';
 export { sight, slabRooms, withBelow } from './model/rooms';
 export { mazeWalls, type Walls } from './model/walls';
