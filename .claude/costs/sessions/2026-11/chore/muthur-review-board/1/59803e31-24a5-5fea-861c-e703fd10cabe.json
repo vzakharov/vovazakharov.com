@@ -1,0 +1,89 @@
+{
+  "total": {
+    "inputTokens": 117,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 167955,
+    "cacheReadTokens": 9628941,
+    "outputTokens": 28341,
+    "thinkingTokens": 12067,
+    "responses": 59,
+    "costUsd": 3.8367161999999997
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-11T03:02:06.631Z",
+    "contextTokens": 110680,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 53081,
+      "cacheReadTokens": 249539,
+      "outputTokens": 1009,
+      "thinkingTokens": 69,
+      "responses": 3,
+      "costUsd": 0.4947678
+    }
+  },
+  "sessionId": "59803e31-24a5-5fea-861c-e703fd10cabe",
+  "branch": "chore/muthur-review-board",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/update-muthur claimed",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEW8ztM12x1ZpiLTN3",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-11T03:01:52.836Z",
+  "lastResponseAt": "2026-11-11T03:11:29.389Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 117,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 167955,
+    "cacheReadTokens": 9628941,
+    "outputTokens": 28341,
+    "thinkingTokens": 12067,
+    "responses": 59,
+    "costUsd": 3.8367161999999997
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 117,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 167955,
+      "cacheReadTokens": 9628941,
+      "outputTokens": 28341,
+      "thinkingTokens": 12067,
+      "responses": 59,
+      "costUsd": 3.8367161999999997
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 58,
+    "matched": 58,
+    "matchedTableUsd": 3.7747151999999997,
+    "matchedEventUsd": 3.7747151999999993,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {}
+}
