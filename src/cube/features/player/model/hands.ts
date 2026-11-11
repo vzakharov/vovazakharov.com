@@ -133,13 +133,11 @@ function hand(wrist: Vec3, axes: Axes, scale: number, room: Room): Quad[] {
   const out = unit(plus(along, across));
   const back = unit(plus(across, scaled(along, -1)));
   const root = Math.SQRT1_2 * (0.002 + PALM[1][1]);
+  const outer = Math.SQRT1_2 * (PALM[1][1] - 0.002);
   const thumb = block(
     [
       [root, root + THUMB_LONG],
-      [
-        Math.SQRT1_2 * (PALM[1][1] - 0.002) - THUMB_WIDE,
-        Math.SQRT1_2 * (PALM[1][1] - 0.002),
-      ],
+      [outer - THUMB_WIDE, outer],
       [-FINGER_THICK, FINGER_THICK],
     ],
     'skin',

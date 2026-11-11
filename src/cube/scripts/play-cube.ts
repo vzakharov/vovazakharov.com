@@ -45,11 +45,15 @@ const FRAMES = path.resolve(flag('out') ?? path.join(REPO_ROOT, 'tmp/cube'));
 /** Seconds per simulated frame of the pull. */
 const FRAME = 1 / 60;
 
+/** Whether a body has been falling for `seconds`. */
+const fallingFor =
+  (seconds: number) =>
+  ({ act }: Player): boolean =>
+    act?.act === 'falling' && act.actFor >= seconds;
+
 /**
  * The pull's shots in the order they come, each taken on the first frame its
- * test passes, `t` being the seconds since the pull: the body shrinking, its
- * gaze on its hands and then around, the small body let go, its hop, its fall
- * down the shaft, and the whole body it lands as.
+ * test passes, `t` being the seconds since the pull.
  */
 const PULL_SHOTS: ReadonlyArray<
   readonly [string, (player: Player, t: number) => boolean]
@@ -58,11 +62,8 @@ const PULL_SHOTS: ReadonlyArray<
   ['pull-2-hands.png', (_, t) => t >= 2.4],
   ['pull-3-around.png', (_, t) => t >= 4.6],
   ['pull-4-small.png', isStanding],
-  ['pull-5-hop.png', ({ act }) => act?.act === 'falling' && act.actFor >= 0.2],
-  [
-    'pull-6-falling.png',
-    ({ act }) => act?.act === 'falling' && act.actFor >= 1,
-  ],
+  ['pull-5-hop.png', fallingFor(0.2)],
+  ['pull-6-falling.png', fallingFor(1)],
   ['pull-7-landed.png', (player) => player.pose.n === 2 && isStanding(player)],
 ];
 

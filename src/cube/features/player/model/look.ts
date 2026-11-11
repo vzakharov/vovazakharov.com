@@ -114,6 +114,7 @@ export function glimpse(
   const from = LEAD;
   const to = LEAD + hands;
   const looking = hands > 0;
+  const turnAt = from + hands * 0.45;
   return {
     aside:
       glance > 0
@@ -125,10 +126,7 @@ export function glimpse(
     handsUp: looking
       ? hump(t, [from + 0.25, from + 0.85, to - 0.75, to - 0.15])
       : 0,
-    turned:
-      looking && turn
-        ? ramp(t, from + hands * 0.45, from + hands * 0.45 + TURN_OVER)
-        : 0,
+    turned: looking && turn ? ramp(t, turnAt, turnAt + TURN_OVER) : 0,
   };
 }
 
