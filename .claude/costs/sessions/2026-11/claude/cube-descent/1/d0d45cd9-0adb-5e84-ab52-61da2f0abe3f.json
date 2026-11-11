@@ -1,15 +1,39 @@
 {
   "total": {
-    "inputTokens": 96,
-    "cacheWrite5mTokens": 147378,
-    "cacheWrite1hTokens": 210195,
-    "cacheReadTokens": 8824795,
-    "outputTokens": 78756,
-    "thinkingTokens": 25483,
-    "responses": 48,
-    "costUsd": 9.752867000000002
+    "inputTokens": 610,
+    "cacheWrite5mTokens": 148562,
+    "cacheWrite1hTokens": 215167,
+    "cacheReadTokens": 10030546,
+    "outputTokens": 82006,
+    "thinkingTokens": 26866,
+    "responses": 53,
+    "costUsd": 10.219767200000001
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-11T22:46:38.428Z",
+    "subjectLine": "feat: the cube's descent — shrink in place, hands, small roam, hop",
+    "parts": [
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "a movement state machine with a scripted gaze, a ballistic hop and landing, footfall cues, all pure and tested per transition"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "timings of the look, the hop and the dip decide whether the shrink reads as surprise or as a cutscene"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "first-person hands built from boxes that must read as palms and backs at any gaze"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -34,49 +58,60 @@
   "url": "https://claude.ai/code/session_01DaohkEv5QzP5HRqvoP2WgS",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-11T22:25:46.008Z",
-  "lastResponseAt": "2026-11-11T22:46:26.594Z",
+  "lastResponseAt": "2026-11-11T22:47:08.291Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 76,
+    "inputTokens": 82,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 210195,
-    "cacheReadTokens": 7746216,
-    "outputTokens": 70080,
-    "thinkingTokens": 22502,
-    "responses": 38,
-    "costUsd": 7.7161712
+    "cacheWrite1hTokens": 215167,
+    "cacheReadTokens": 8539328,
+    "outputTokens": 70810,
+    "thinkingTokens": 22577,
+    "responses": 41,
+    "costUsd": 7.9835936
   },
   "subagents": {
-    "inputTokens": 20,
-    "cacheWrite5mTokens": 147378,
+    "inputTokens": 22,
+    "cacheWrite5mTokens": 148521,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 1078579,
-    "outputTokens": 8676,
-    "thinkingTokens": 2981,
-    "responses": 10,
-    "costUsd": 2.0366958000000004
+    "cacheReadTokens": 1225957,
+    "outputTokens": 11190,
+    "thinkingTokens": 4289,
+    "responses": 11,
+    "costUsd": 2.1781774000000005
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 96,
-      "cacheWrite5mTokens": 147378,
-      "cacheWrite1hTokens": 210195,
-      "cacheReadTokens": 8824795,
-      "outputTokens": 78756,
-      "thinkingTokens": 25483,
-      "responses": 48,
-      "costUsd": 9.752867000000002
+      "inputTokens": 610,
+      "cacheWrite5mTokens": 148562,
+      "cacheWrite1hTokens": 215167,
+      "cacheReadTokens": 10030546,
+      "outputTokens": 82006,
+      "thinkingTokens": 26866,
+      "responses": 53,
+      "costUsd": 10.219767200000001
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 47,
-    "matched": 47,
-    "matchedTableUsd": 9.676302600000001,
-    "matchedEventUsd": 9.676302600000001,
-    "unseen": {}
+    "events": 53,
+    "matched": 52,
+    "matchedTableUsd": 10.161771000000002,
+    "matchedEventUsd": 10.161771000000003,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 41,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 265261,
+        "outputTokens": 6,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.057996200000000005
+      }
+    }
   },
   "operatorWords": {
     "chat": 0,
