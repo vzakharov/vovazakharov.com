@@ -6,7 +6,6 @@ const STEEL = 0x8a_8f_86;
 const DARK = 0x1c_1d_20;
 const PALE = 0xd8_d8_d0;
 
-/** What an office is furnished with. */
 export const OFFICE = {
   desk: {
     build: ({ block, panel }, vary) => {

@@ -45,7 +45,6 @@ const seat =
     ].flat();
   };
 
-/** What a home is furnished with. */
 export const HOME = {
   sofa: { build: seat(1.9, 2) },
 

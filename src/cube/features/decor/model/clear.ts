@@ -25,7 +25,6 @@ export const HUNG = { from: 0.18, to: 0.42, least: 1 / 3, most: 2 / 3 };
 /** How far out from a wall something still stands in front of what hangs on it. */
 const IN_FRONT = 0.1;
 
-/** The box bounding every corner of `quads`. */
 export function boundsOf(quads: readonly Quad[]): Bounds {
   const corners = quads.flatMap((quad) => quad.corners);
   const along = (axis: 0 | 1 | 2) => corners.map((corner) => corner[axis]);

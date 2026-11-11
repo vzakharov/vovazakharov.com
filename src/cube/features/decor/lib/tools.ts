@@ -226,7 +226,7 @@ export type Tools = ReturnType<typeof toolsFor>;
 /** A draw on [0, 1) for each number asked, the same for the same number. */
 export type Vary = (k: number) => number;
 
-/** `vary`'s draw `k` as one of `options`. */
+/** One of `options`, by a draw `at` on [0, 1). */
 export const oneOf = <T>(options: readonly [T, ...T[]], at: number): T =>
   options[Math.floor(at * options.length)] ?? options[0];
 
