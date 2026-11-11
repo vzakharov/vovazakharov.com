@@ -22,3 +22,6 @@ export type Pose = Room &
     /** Radians above the horizon, clamped to ±89°. */
     elevation: number;
   };
+
+/** Something carrying an eye's pose. */
+export type Posed = { pose: Pose };
