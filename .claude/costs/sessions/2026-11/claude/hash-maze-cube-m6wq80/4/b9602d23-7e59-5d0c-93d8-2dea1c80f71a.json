@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 29387,
-    "cacheWrite5mTokens": 217276,
-    "cacheWrite1hTokens": 794748,
-    "cacheReadTokens": 57580176,
-    "outputTokens": 240058,
-    "thinkingTokens": 66404,
-    "responses": 359,
-    "costUsd": 22.997433600000026
+    "inputTokens": 29945,
+    "cacheWrite5mTokens": 355280,
+    "cacheWrite1hTokens": 802981,
+    "cacheReadTokens": 61219798,
+    "outputTokens": 251529,
+    "thinkingTokens": 70627,
+    "responses": 385,
+    "costUsd": 24.71325100000002
   },
   "estimate": {
     "at": "2026-11-11T04:59:21.542Z",
@@ -54,39 +54,39 @@
   "url": "https://claude.ai/code/session_01DaohkDfcyitjBSjSN9yNWA",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-11T04:58:07.793Z",
-  "lastResponseAt": "2026-11-11T06:24:17.730Z",
+  "lastResponseAt": "2026-11-11T06:29:44.417Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 562,
+    "inputTokens": 580,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 794748,
-    "cacheReadTokens": 47850633,
-    "outputTokens": 174093,
-    "thinkingTokens": 60229,
-    "responses": 287,
-    "costUsd": 19.41221860000001
+    "cacheWrite1hTokens": 802981,
+    "cacheReadTokens": 49503818,
+    "outputTokens": 177392,
+    "thinkingTokens": 60808,
+    "responses": 295,
+    "costUsd": 19.874771600000013
   },
   "subagents": {
-    "inputTokens": 86,
-    "cacheWrite5mTokens": 206135,
+    "inputTokens": 120,
+    "cacheWrite5mTokens": 344020,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 4326151,
-    "outputTokens": 37824,
-    "thinkingTokens": 6175,
-    "responses": 40,
-    "costUsd": 1.7589796999999996
+    "cacheReadTokens": 6110292,
+    "outputTokens": 45986,
+    "thinkingTokens": 9819,
+    "responses": 57,
+    "costUsd": 2.9686089000000004
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 28097,
-      "cacheWrite5mTokens": 11141,
-      "cacheWrite1hTokens": 794748,
-      "cacheReadTokens": 53254025,
-      "outputTokens": 201993,
-      "thinkingTokens": 60229,
-      "responses": 318,
-      "costUsd": 21.238213000000012
+      "inputTokens": 28655,
+      "cacheWrite5mTokens": 149145,
+      "cacheWrite1hTokens": 802981,
+      "cacheReadTokens": 56893647,
+      "outputTokens": 213464,
+      "thinkingTokens": 64452,
+      "responses": 344,
+      "costUsd": 22.954030400000015
     },
     "claude-sonnet-5-5/standard": {
       "inputTokens": 86,
@@ -110,7 +110,7 @@
     }
   },
   "warnings": [
-    "prices.json priced the 327 responses the events also priced at $21.1712, against the events' $20.7386: a rate in the table is likely out of date"
+    "prices.json priced the 352 responses the events also priced at $22.8434, against the events' $22.4108: a rate in the table is likely out of date"
   ],
   "compactions": [
     {
@@ -233,20 +233,20 @@
     }
   ],
   "telemetry": {
-    "events": 359,
-    "matched": 327,
-    "matchedTableUsd": 21.171198300000018,
-    "matchedEventUsd": 20.7385832,
+    "events": 385,
+    "matched": 352,
+    "matchedTableUsd": 22.843380500000016,
+    "matchedEventUsd": 22.4107654,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 13662,
-        "cacheWrite5mTokens": 7157,
+        "inputTokens": 14168,
+        "cacheWrite5mTokens": 7276,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 4520012,
-        "outputTokens": 556,
+        "cacheReadTokens": 4722308,
+        "outputTokens": 566,
         "thinkingTokens": 0,
-        "responses": 27,
-        "costUsd": 1.0270264
+        "responses": 28,
+        "costUsd": 1.0706616
       },
       "generate_session_title": {
         "inputTokens": 1204,
@@ -271,17 +271,17 @@
     }
   },
   "operatorWords": {
-    "chat": 17542,
+    "chat": 17570,
     "review": 0,
     "threads": 0
   },
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 972,
+    ".md": 967,
     ".staged": 356,
     ".json": 119,
-    ".ts": 1358,
+    ".ts": 1359,
     ".scss": 0,
     ".yaml": 350
   }
