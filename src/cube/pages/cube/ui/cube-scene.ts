@@ -22,6 +22,7 @@ import {
   type Quad,
   type Room,
   roomKey,
+  settingOf,
   sight,
   type Sign,
   type Signed,
@@ -32,6 +33,7 @@ import {
   traits,
   withBelow,
 } from '@/cube/entities/world';
+import { furnish } from '@/cube/features/decor';
 
 import type COPY from '../config/messages/en.json';
 import { FAR, viewProjection } from '../lib/camera';
@@ -183,12 +185,22 @@ async function build(
     signPost(sign, room, placed(pose, room)),
   );
   const lookOf = roomLooks(pose, walls, rolledTraits);
+  const things = [...full.near, ...full.below].flatMap((room) =>
+    inPlace(
+      furnish(
+        settingOf(walls, rolledTraits, room, holeOf(room)),
+        themeOf(room.n).decor,
+      ),
+      placed(pose, room),
+    ),
+  );
   return {
     faces: (pulled) =>
       pack(
         [
           ...faces(rolled, pose, full, holeOf, pulled, owns, pillarOf),
           ...posts,
+          ...things,
         ],
         lookOf,
       ),
