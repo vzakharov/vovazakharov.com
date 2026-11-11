@@ -29,11 +29,20 @@ export const FALL_AT = -HALVING * Math.log2(FALL_SCALE);
 const GRAVITY = (2 * DROP) / (HALVING - FALL_AT) ** 2;
 
 /**
- * How far from the body's middle the lever can be pulled, in room sides: 1.8
- * m on floor 1. A hole's middle is a quarter side from a wall lever and
- * under 0.33 from a post's, so a body over the hole reaches it.
+ * How far the body's middle may be from the hole's, along each axis, to pull:
+ * as far as the body still covers some of the hole, 50 cm on floor 1. The hole
+ * is narrower than the body, so "dead over it" would be a 40 cm square the
+ * player cannot see under their own feet.
  */
-export const LEVER_REACH = 0.36;
+const PULL_STRAY = HOLE_SIDE / 2 + BODY_RADIUS;
+
+/**
+ * How far from the body's middle the lever can be pulled, in room sides: 2.4
+ * m on floor 1. A hole's middle is a quarter side from a wall lever and under
+ * 0.33 from a post's, and the body may stand `PULL_STRAY` off it on each axis,
+ * so a body touching the hole reaches its lever.
+ */
+export const LEVER_REACH = 0.48;
 
 /** The body's scale `t` seconds after the pull. */
 export const scaleAt = (t: number): number =>
@@ -61,12 +70,12 @@ const holeMiddle = ({ qx, qy }: Quarter): InRoom => ({
   v: (qy + 0.5) / 2,
 });
 
-/** Whether a body at `pose` stands over the hole and reaches its lever. */
+/** Whether a body at `pose` stands on the hole and reaches its lever. */
 export function canPull(pose: Pose, { quarter, lever }: Holed): boolean {
   const middle = holeMiddle(quarter);
   return (
-    Math.abs(pose.u - middle.u) < HALF_HOLE &&
-    Math.abs(pose.v - middle.v) < HALF_HOLE &&
+    Math.abs(pose.u - middle.u) < PULL_STRAY &&
+    Math.abs(pose.v - middle.v) < PULL_STRAY &&
     Math.hypot(pose.u - lever.at.u, pose.v - lever.at.v) <= LEVER_REACH
   );
 }
@@ -74,13 +83,14 @@ export function canPull(pose: Pose, { quarter, lever }: Holed): boolean {
 /**
  * How far the body's middle may stray from the hole's along each axis, `t`
  * seconds after the pull. On the slab, the rim draws a body sinking into it to
- * its middle, from anywhere over the hole at the pull to dead centre at
+ * its middle, from anywhere on the hole at the pull to dead centre at
  * `FALL_AT`, so it drops exactly when as wide as the hole; falling, the shaft
  * holds it in.
  */
 function strayAt(t: number): number {
   const scale = scaleAt(t);
-  if (t < FALL_AT) return (HALF_HOLE * (scale - FALL_SCALE)) / (1 - FALL_SCALE);
+  if (t < FALL_AT)
+    return (PULL_STRAY * (scale - FALL_SCALE)) / (1 - FALL_SCALE);
   return HALF_HOLE - BODY_RADIUS * scale;
 }
 

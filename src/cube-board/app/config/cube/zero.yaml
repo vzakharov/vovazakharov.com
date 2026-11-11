@@ -67,10 +67,10 @@ items:
     text: 'Bite 3 eaten: walking through the floors. A WebGPU renderer with reversed-Z and a floating origin, so floor 66 draws as floor 1; collision by a circle against the walls; holes seen both ways'
   - id: zero-11
     type: sticky
-    updated: [2026-11-11T09:35:23.000Z, agent:cube]
+    updated: [2026-11-11T09:43:45.000Z, agent:cube]
     box: [2853, 360, 244, purple]
     icon: 🕹️
-    text: "Bite 4: the lever's place is a pure function of its room. Reach is 0.36 room sides, not 0.16: the hole's middle is 0.25 from a wall lever, 0.32 from a post's. You halve every 3 s, fall at ⅔ when as wide as the hole, land at ½"
+    text: "Bite 4: the lever's place is a pure function of its room. E pulls while the body covers any of the hole, which is narrower than the body; reach is 0.48 room sides, since the lever stands up to 0.33 from the hole. You halve every 3 s, fall at ⅔ when as wide as the hole, land at ½"
   - id: zero-12
     type: sticky
     updated: [2026-11-11T09:35:23.000Z, agent:cube]

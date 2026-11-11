@@ -131,8 +131,10 @@ one per floor.
   Desktop only in iteration zero.
 - **The lever** sits on whichever of the hole quarter's two outer walls is
   present (the x-wall first); where both are doors, on a post at that corner.
-  `E` pulls it when the player stands over the hole and the lever is within
-  `0.16 ×` room side (0.8 m, an arm's reach and a step).
+  `E` pulls it when the player's body covers some of the hole (its middle within
+  50 cm of the hole's on each axis) and the lever is within `0.48 ×` room side
+  (2.4 m): the hole is narrower than the body, and the lever stands up to 0.33
+  from the hole's middle.
 - **Shrinking is continuous**: scale `s(t) = 2^(−t/3 s)` from 1 to ½. The body
   stops resting on the slab once its diameter is under the hole's side (at
   `s ≈ 0.67`: on floor 1 a body of 0.4 m, eye at 1.07 m, over a 0.4 m hole); it
@@ -322,9 +324,8 @@ branch, merged here; § "The player" is its spec.
 - **Placement, pure in `entities/world`**: `leverOf(room)` for the holed room —
   on the hole quarter's outer x-wall when present, else its y-wall, else a post
   at that corner — tested against the wall predicate on planted test worlds.
-- **Pulling, in `features/player`**: `E` pulls when the body's centre is over
-  the hole and the lever is within `0.16 ×` room side; elsewhere it does
-  nothing.
+- **Pulling, in `features/player`**: `E` pulls when the body covers some of the
+  hole and the lever is within `0.48 ×` room side; elsewhere it does nothing.
 - **The shrink and the fall** as a pure state step beside `step`: scale
   `s(t) = 2^(−t/3 s)` from 1 to ½; the body leaves the slab once its diameter is
   under the hole's side (`s ≈ 0.67`), falls under gravity still shrinking, lands

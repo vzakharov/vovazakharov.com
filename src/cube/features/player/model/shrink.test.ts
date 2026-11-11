@@ -59,6 +59,10 @@ const still: Input = {
 };
 const pull: Input = { ...still, pull: true };
 
+/** What a pull at (`u`, `v`) of the holed room sets going. */
+const from = (u: number, v: number) =>
+  play(standing({ u, v }), pull, FRAME, allOpen, holed).shrinking;
+
 /** Every frame from a pull at `start` until the body lands, `input` held. */
 function frames(start: Player, input: Input = still): Player[] {
   const out = [play(start, pull, FRAME, allOpen, holed)];
@@ -150,6 +154,13 @@ describe('the shrink', () => {
     const first = played[0]?.pose;
     assert.ok(first && second);
     assert.ok(second.u - first.u > 0, 'walks while shrinking');
+  });
+
+  it('pulls from wherever the body covers some of the hole', () => {
+    const edge = HOLE_SIDE / 2 + BODY_RADIUS;
+    assert.notEqual(from(0.25 + edge - 0.001, 0.25 - edge + 0.001), null);
+    assert.equal(from(0.25 + edge + 0.001, 0.25), null);
+    assert.equal(from(0.25, 0.25 - edge - 0.001), null);
   });
 
   it('pulls nothing away from the hole or out of reach', () => {
