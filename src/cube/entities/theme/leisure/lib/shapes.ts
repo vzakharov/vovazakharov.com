@@ -1,0 +1,99 @@
+import { CORE, HASH, wgsl } from '../../kit';
+
+/**
+ * What the leisure floors draw their patterns with: shapes as signed
+ * distances in metres, lattices to repeat them over, and the point seen
+ * through a wall of glass.
+ */
+export const SHAPES = wgsl(
+  'leisure/shapes',
+  /* wgsl */ `
+/// 1 where the signed distance \`d\` is negative, softened across a pixel.
+fn inside(d: f32) -> f32 {
+  let soft = max(fwidth(d), 0.0015);
+  return 1.0 - smoothstep(-soft, soft, d);
+}
+
+/// 1 within a line \`width\` metres wide along the zero of \`d\`.
+fn stroke(d: f32, width: f32) -> f32 {
+  return inside(abs(d) - width * 0.5);
+}
+
+/// The distance to a box of half-size \`half\` whose corners round by \`r\`.
+fn roundBox(p: vec2f, half: vec2f, r: f32) -> f32 {
+  let q = abs(p) - half + r;
+  return length(max(q, vec2f(0.0))) + min(max(q.x, q.y), 0.0) - r;
+}
+
+fn spun(p: vec2f, angle: f32) -> vec2f {
+  let c = cos(angle);
+  let n = sin(angle);
+  return vec2f(c * p.x - n * p.y, n * p.x + c * p.y);
+}
+
+/// \`uv\` within its cell of a lattice of \`size\`, from the cell's middle.
+fn repeated(uv: vec2f, size: vec2f) -> vec2f {
+  return (fract(uv / size) - 0.5) * size;
+}
+
+/// Oblong slabs laid in courses, each course \`shift\` of a slab along from
+/// the one under it: x is 1 on a slab and 0 in a joint, y the slab's own
+/// random number in [0, 1).
+fn slabs(uv: vec2f, size: vec2f, joint: f32, salt: u32, shift: f32) -> vec2f {
+  let course = floor(uv.y / size.y);
+  let at = vec2f(uv.x / size.x + fract(course * shift), uv.y / size.y);
+  let f = fract(at);
+  let edge = min(min(f.x, 1.0 - f.x) * size.x, min(f.y, 1.0 - f.y) * size.y);
+  let soft = max(fwidth(edge), 0.002);
+  return vec2f(
+    smoothstep(joint * 0.5, joint * 0.5 + soft, edge),
+    unitOf(cellHash(vec2i(floor(at)), salt)),
+  );
+}
+
+/// How far \`p\` is from the border between the two nearest points of a unit
+/// lattice's cells: 0 on the web of borders, rising into each cell.
+fn veins(p: vec2f, salt: u32) -> f32 {
+  let cell = vec2i(floor(p));
+  var first = 8.0;
+  var second = 8.0;
+  for (var dy = -1; dy <= 1; dy++) {
+    for (var dx = -1; dx <= 1; dx++) {
+      let other = cell + vec2i(dx, dy);
+      let word = cellHash(other, salt);
+      let distance = length(vec2f(other) + vec2f(unitOf(word), unitOf(mix32(word))) - p);
+      if (distance < first) {
+        second = first;
+        first = distance;
+      } else if (distance < second) {
+        second = distance;
+      }
+    }
+  }
+  return second - first;
+}
+
+/// One of four colours by a number in [0, 1).
+fn oneOf(u: f32, a: vec3f, b: vec3f, c: vec3f, d: vec3f) -> vec3f {
+  return select(select(d, c, u < 0.75), select(b, a, u < 0.25), u < 0.5);
+}
+
+/// Metres along a wall from the end of it at its room's north or west side.
+fn alongWall(s: Surf) -> f32 {
+  return select(s.p.z, s.p.x, abs(s.normal.z) > 0.5);
+}
+
+/// The point \`depth\` metres behind a wall that the eye sees through it:
+/// x metres along the wall, running on from room to room, and y metres up.
+fn behind(s: Surf, depth: f32) -> vec2f {
+  let world = vec2f(s.cell) * ROOM.xz + s.p.xz;
+  let eastward = abs(s.normal.z) > 0.5;
+  let along = select(world.y, world.x, eastward);
+  let slide = select(s.view.z, s.view.x, eastward);
+  let into = max(-dot(s.view, s.normal), 0.05);
+  return vec2f(along + slide / into * depth, s.p.y + s.view.y / into * depth);
+}
+`,
+  CORE,
+  HASH,
+);
