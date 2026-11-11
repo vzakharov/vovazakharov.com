@@ -15,5 +15,7 @@
   "cube-board": ["board"],
   "island": ["scene"],
   "unsquatted": ["shell"],
+  "dice": [],
+  "cube": ["dice"],
   "vova": ["blog", "music", "mushrooms", "island"]
 }
