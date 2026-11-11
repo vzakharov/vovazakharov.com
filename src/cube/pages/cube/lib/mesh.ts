@@ -9,7 +9,7 @@ export const VERTEX_FLOATS = 9;
 export const SIGN_VERTEX_FLOATS = 8;
 
 /**
- * Each sign corner's texture coordinate: `signFacet` gives the bottom left
+ * Each sign corner's texture coordinate: `signFacets` gives the bottom left
  * first, and a texture's rows run top down.
  */
 const SIGN_UV = [
@@ -24,8 +24,8 @@ const FAN = [0, 1, 2, 0, 2, 3] as const;
 
 /**
  * The vertex buffer for `quads`: two triangles each, every vertex its
- * position, normal and its room's colour, as float32 — the one place the
- * world's doubles narrow.
+ * position, normal and its room's colour, as float32 — with `packSigns`, the
+ * one place the world's doubles narrow.
  */
 export function pack(quads: readonly Quad[]): Float32Array<ArrayBuffer> {
   const out = new Float32Array(quads.length * FAN.length * VERTEX_FLOATS);

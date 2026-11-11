@@ -59,9 +59,9 @@ function keepsFloorTwo(seed: string, answers: Cell[]): boolean {
 /**
  * Plants a world of `floors` floors: a random 64-bit seed, and for each floor
  * but the last a landing room on the next floor, committed to. The draw is
- * uniform among the worlds that keep `FLOOR_TWO_PATH`, redrawn whole until
- * one does. The answers are the landing rooms (`answers[n - 1]` on floor
- * `n + 1`); the world alone cannot yield them.
+ * uniform among the worlds that keep `FLOOR_TWO_PATH`. The answers are the
+ * landing rooms (`answers[n - 1]` on floor `n + 1`); the world alone cannot
+ * yield them.
  */
 export async function plant(
   floors: number,

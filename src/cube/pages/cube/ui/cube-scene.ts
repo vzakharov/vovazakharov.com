@@ -41,8 +41,8 @@ import { drawBoard } from './sign-board';
 type Frame = Posed & { pulled: Pulled | null };
 
 /**
- * The sign of a for-sale room on the eye's floor, null where the room sells
- * nothing or the scene has not resolved it yet.
+ * The sign of a room on the eye's floor, null where the room has none or the
+ * scene has not resolved it yet.
  */
 export type SignOf = (room: Room) => Sign | null;
 
