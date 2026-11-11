@@ -4,7 +4,15 @@ import { describe, it } from 'node:test';
 import type { Pose } from '@/cube/entities/world';
 
 import { BODY_RADIUS, closedWalls } from './body';
-import { EYE_HEIGHT, type Input, MAX_PITCH, step, WALK_SPEED } from './step';
+import {
+  EYE_HEIGHT,
+  type Input,
+  MAX_PITCH,
+  step,
+  TILT_RATE,
+  TURN_RATE,
+  WALK_SPEED,
+} from './step';
 import { plantedWalls, type Walls } from './walls';
 
 const FRAME = 1 / 60;
@@ -22,7 +30,14 @@ const pose = (over: Partial<Pose> = {}): Pose => ({
   ...over,
 });
 
-const still: Input = { walk: 0, strafe: 0, yawBy: 0, elevationBy: 0 };
+const still: Input = {
+  walk: 0,
+  strafe: 0,
+  turnKeys: 0,
+  tiltKeys: 0,
+  yawBy: 0,
+  elevationBy: 0,
+};
 const ahead: Input = { ...still, walk: 1 };
 
 /** Walls of a 4 × 4 floor, open exactly where `open` lists `E x y` / `S x y`. */
@@ -128,6 +143,33 @@ describe('step controls', () => {
     );
   });
 
+  it('turns and tilts at their rates over the frame', () => {
+    const start = pose({ yaw: 1, elevation: 0.1 });
+    for (const dt of [FRAME, 0.1]) {
+      const turned = step(
+        start,
+        { ...still, turnKeys: 1, tiltKeys: -1 },
+        dt,
+        allOpen,
+      );
+      assert.ok(Math.abs(turned.yaw - (1 + TURN_RATE * dt)) < NEAR);
+      assert.ok(Math.abs(turned.elevation - (0.1 - TILT_RATE * dt)) < NEAR);
+    }
+    const back = step(start, { ...still, turnKeys: -1 }, 0.1, allOpen);
+    assert.ok(Math.abs(back.yaw - (1 - TURN_RATE * 0.1)) < NEAR);
+  });
+
+  it('clamps a held tilt to ±89°', () => {
+    assert.equal(
+      step(pose(), { ...still, tiltKeys: 1 }, 10, allOpen).elevation,
+      MAX_PITCH,
+    );
+    assert.equal(
+      step(pose(), { ...still, tiltKeys: -1 }, 10, allOpen).elevation,
+      -MAX_PITCH,
+    );
+  });
+
   it('walks a diagonal at walking speed', () => {
     const dt = 0.1;
     const end = step(pose(), { ...still, walk: 1, strafe: 1 }, dt, allOpen);
@@ -158,10 +200,10 @@ describe('a long random walk on floor 3', () => {
     for (let frame = 0; frame < 20_000; frame += 1) {
       if (frame % 20 === 0) {
         input = {
+          ...still,
           walk: Math.round(next() * 2 - 0.3),
           strafe: Math.round(next() * 2 - 1),
           yawBy: (next() - 0.5) * 0.6,
-          elevationBy: 0,
         };
       }
       const after = step(current, input, FRAME, plantedWalls);

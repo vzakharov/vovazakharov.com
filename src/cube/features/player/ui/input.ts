@@ -5,17 +5,34 @@ import type { Input } from '../model/step';
 /** Radians of look per pixel of mouse travel. */
 const LOOK_PER_PIXEL = 0.0025;
 
+type Axis = 'walk' | 'strafe' | 'turnKeys' | 'tiltKeys';
+
 /** Keys by physical position (`KeyboardEvent.code`), so any layout walks. */
 const AXES = {
   KeyW: { axis: 'walk', sign: 1 },
   KeyS: { axis: 'walk', sign: -1 },
   KeyD: { axis: 'strafe', sign: 1 },
   KeyA: { axis: 'strafe', sign: -1 },
-} as const satisfies Record<string, { axis: 'walk' | 'strafe'; sign: 1 | -1 }>;
+  ArrowRight: { axis: 'turnKeys', sign: 1 },
+  ArrowLeft: { axis: 'turnKeys', sign: -1 },
+  ArrowUp: { axis: 'tiltKeys', sign: 1 },
+  ArrowDown: { axis: 'tiltKeys', sign: -1 },
+} as const satisfies Record<string, { axis: Axis; sign: 1 | -1 }>;
 
 type Code = keyof typeof AXES;
 
 const isCode = (code: string): code is Code => Object.hasOwn(AXES, code);
+
+/** Whether keys typed at `target` are text, not a move. */
+const isTextField = (target: EventTarget | null): boolean =>
+  target instanceof HTMLElement &&
+  (target.isContentEditable ||
+    target instanceof HTMLTextAreaElement ||
+    target instanceof HTMLSelectElement ||
+    (target instanceof HTMLInputElement &&
+      !['button', 'checkbox', 'radio', 'range', 'reset', 'submit'].includes(
+        target.type,
+      )));
 
 export type InputBinding = {
   /** This frame's input; the look deltas accumulated since the last read. */
@@ -24,10 +41,10 @@ export type InputBinding = {
 };
 
 /**
- * Keyboard and pointer-lock mouse bound to `target`: a click on it takes the
- * pointer lock, and only while the lock is held do keys walk and the mouse
- * look, so typing elsewhere on the page moves nobody. A refused lock goes to
- * `onError`.
+ * Keyboard and pointer-lock mouse bound to `target`. Keys move whenever the
+ * page has focus, except while typing into a text field; a click on `target`
+ * takes the pointer lock, and only while it is held does the mouse look. A
+ * refused lock goes to `onError`.
  */
 export function bindInput(
   target: HTMLElement,
@@ -52,24 +69,24 @@ export function bindInput(
     tilt -= event.movementY * LOOK_PER_PIXEL;
   };
   const onKey = (event: KeyboardEvent) => {
-    const { code } = event;
-    if (!isCode(code) || !locked()) return;
+    const { code, type, ctrlKey, metaKey } = event;
+    if (!isCode(code)) return;
+    if (type === 'keyup') {
+      held.delete(code);
+      return;
+    }
+    if (isTextField(event.target) || ctrlKey || metaKey) return;
     event.preventDefault();
-    if (event.type === 'keydown') held.add(code);
-    else held.delete(code);
+    held.add(code);
   };
-  const release = () => {
-    if (!locked()) held.clear();
+  const onBlur = () => {
+    held.clear();
   };
 
   target.addEventListener('click', onClick);
   document.addEventListener('mousemove', onMove);
-  document.addEventListener('pointerlockchange', release);
   globalThis.addEventListener('keydown', onKey);
   globalThis.addEventListener('keyup', onKey);
-  const onBlur = () => {
-    held.clear();
-  };
   globalThis.addEventListener('blur', onBlur);
 
   return {
@@ -77,6 +94,8 @@ export function bindInput(
       const input: Input = {
         walk: 0,
         strafe: 0,
+        turnKeys: 0,
+        tiltKeys: 0,
         yawBy: turn,
         elevationBy: tilt,
       };
@@ -91,7 +110,6 @@ export function bindInput(
     dispose() {
       target.removeEventListener('click', onClick);
       document.removeEventListener('mousemove', onMove);
-      document.removeEventListener('pointerlockchange', release);
       globalThis.removeEventListener('keydown', onKey);
       globalThis.removeEventListener('keyup', onKey);
       globalThis.removeEventListener('blur', onBlur);
