@@ -89,3 +89,9 @@ items:
     box: [3188, 360, 244, yellow]
     icon: 🏜️
     text: "Idea, for later: a mirage, the lever seen through a wall, wanted and out of reach, with no known way round. Fair, since it shows the hole room from its four neighbours too, a constant ×5, not a shortcut. Seen once by accident on floor 3: the plate's back lies in a wall with no thickness, a depth tie that walls with thickness end"
+  - id: zero-15
+    type: sticky
+    updated: [2026-11-11T14:20:00.000Z, agent:cube]
+    box: [3188, 610, 244, yellow]
+    icon: 🏚️
+    text: "Our floor 3 is a joke: you land in room (3,1) and the hole is in (3,2), right behind the south wall, three steps round by the maze. Four rooms are the whole walk; the other 12 of 16 stand idle, every one for sale"
