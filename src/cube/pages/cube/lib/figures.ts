@@ -1,5 +1,7 @@
-const MILLION = 1_000_000;
+const HUNDRED = 100;
 const CENT = 0.01;
+/** Absorbs float noise in `price / unit`, so an exact $0.60 stays 60 cents. */
+const EPSILON = 1e-9;
 /** Lengths under a millimetre are spelt in scientific form. */
 const MILLIMETRE = 0.001;
 
@@ -15,10 +17,24 @@ const superscript = (exponent: number): string =>
 const significant = (value: number): string =>
   String(Number(value.toPrecision(3)));
 
-/** A positive `value` to three significant figures as `9.31 × 10⁻³`. */
-function scientific(value: number): string {
+/** Whole `unit`s strictly below `value`: the charm price's count of them. */
+const justBelow = (value: number, unit: number): number =>
+  Math.ceil(value / unit - EPSILON) - 1;
+
+/**
+ * A positive `value` to three significant figures as `9.31 × 10⁻³`; with
+ * `charm`, the mantissa is the hundredth just below it, `1.99 × 10⁻³` for 2.
+ */
+function scientific(value: number, charm = false): string {
   const exponent = Math.floor(Math.log10(value));
-  const mantissa = Number((value / 10 ** exponent).toPrecision(3));
+  const scaled = value / 10 ** exponent;
+  if (charm && justBelow(scaled, CENT) < HUNDRED) {
+    // A mantissa of exactly 1 has its step below in the power under it.
+    return `9.99 × 10${superscript(exponent - 1)}`;
+  }
+  const mantissa = charm
+    ? justBelow(scaled, CENT) / HUNDRED
+    : Number(scaled.toPrecision(3));
   // Rounding can carry 9.995 up to 10, which reads as one more power.
   const [shown, power] =
     mantissa >= 10 ? [mantissa / 10, exponent + 1] : [mantissa, exponent];
@@ -43,20 +59,16 @@ const WHOLE = dollars(0);
 const CENTS = dollars(2);
 
 /**
- * A price in dollars as a person reads it: millions as `$10M` or `$1.25M`,
- * whole dollars as `$156,250`, cents as `$38.15`, and anything under a cent
- * in three significant figures of scientific form, `$9.31 × 10⁻³`, since the
- * deepest floors' prices have no other honest spelling.
+ * A price as a shop would tag it, one step under its last shown digit: whole
+ * dollars from $100 (`$9,999,999` for $10M), cents below it (`$0.59` for
+ * $0.60), and under a cent the scientific form's last hundredth
+ * (`$9.31 × 10⁻³`), since the deepest floors' prices have no other spelling.
  */
 export function formatPrice(price: number): string {
   assertPositive(price, 'price');
-  if (price >= MILLION) {
-    return `$${String(Number((price / MILLION).toFixed(2)))}M`;
-  }
-  if (price >= CENT) {
-    return Number.isInteger(price) ? WHOLE.format(price) : CENTS.format(price);
-  }
-  return `$${scientific(price)}`;
+  if (price > HUNDRED) return WHOLE.format(justBelow(price, 1));
+  if (price > CENT) return CENTS.format(justBelow(price, CENT) * CENT);
+  return `$${scientific(price, true)}`;
 }
 
 /**

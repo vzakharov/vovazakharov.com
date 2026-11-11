@@ -4,27 +4,24 @@ import { describe, it } from 'node:test';
 import { formatLength, formatPrice } from './figures';
 
 describe('formatPrice', () => {
-  it('spells millions short', () => {
-    assert.equal(formatPrice(10_000_000), '$10M');
-    assert.equal(formatPrice(1_250_000), '$1.25M');
+  it('tags whole dollars one dollar under, from $100 up', () => {
+    assert.equal(formatPrice(10_000_000), '$9,999,999');
+    assert.equal(formatPrice(1_250_000), '$1,249,999');
+    assert.equal(formatPrice(156_250), '$156,249');
+    assert.equal(formatPrice(19_531.25), '$19,531');
   });
 
-  it('spells whole dollars with separators and cents to two places', () => {
-    assert.equal(formatPrice(156_250), '$156,250');
-    assert.equal(formatPrice(19_531.25), '$19,531.25');
-    assert.equal(formatPrice(38.146_972_656_25), '$38.15');
-    assert.equal(formatPrice(0.6), '$0.60');
-    assert.equal(formatPrice(0.01), '$0.01');
+  it('tags cents one cent under, below $100', () => {
+    assert.equal(formatPrice(100), '$99.99');
+    assert.equal(formatPrice(38.146_972_656_25), '$38.14');
+    assert.equal(formatPrice(0.6), '$0.59');
   });
 
-  it('spells anything under a cent in scientific form', () => {
+  it('tags anything from a cent down a hundredth under in scientific form', () => {
     assert.equal(formatPrice(0.009_313_225_746), '$9.31 × 10⁻³');
-    assert.equal(formatPrice(1.578e-51), '$1.58 × 10⁻⁵¹');
-    assert.equal(formatPrice(0.002), '$2 × 10⁻³');
-  });
-
-  it('carries a mantissa rounded up to 10 into the power', () => {
-    assert.equal(formatPrice(0.000_999_9), '$1 × 10⁻³');
+    assert.equal(formatPrice(1.578e-51), '$1.57 × 10⁻⁵¹');
+    assert.equal(formatPrice(0.002), '$1.99 × 10⁻³');
+    assert.equal(formatPrice(0.01), '$9.99 × 10⁻³');
   });
 
   it('refuses what is no price', () => {
