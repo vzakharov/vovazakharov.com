@@ -1,0 +1,157 @@
+{
+  "total": {
+    "inputTokens": 2929,
+    "cacheWrite5mTokens": 180,
+    "cacheWrite1hTokens": 241524,
+    "cacheReadTokens": 11405652,
+    "outputTokens": 67752,
+    "thinkingTokens": 24560,
+    "responses": 67,
+    "costUsd": 5.5809784
+  },
+  "estimate": {
+    "at": "2026-11-11T09:08:42.258Z",
+    "subjectLine": "feat: cube sees through openings, without fog",
+    "parts": [
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "region-to-region portal visibility over a BigInt maze is a rendering-culling problem with a conservative-correctness proof to get right"
+      },
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "qa",
+        "comment": "the no-pop and frame-time checks need walking real floors in a WebGPU browser"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-11T08:57:37.279Z",
+    "contextTokens": 103235,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 48539,
+      "cacheReadTokens": 52859,
+      "outputTokens": 437,
+      "thinkingTokens": 16,
+      "responses": 1,
+      "costUsd": 0.40763180000000004
+    }
+  },
+  "sessionId": "583a9235-e103-5e3a-97dd-a6a9806bc805",
+  "branch": "cube/sight",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/go Replace the shrinking cube's \"what the eye sees on its floor\" on branch `cube/sight` (already checked out; a branch off `claude/hash-maze-cube-m6wq80`, PR #…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDkhakSEsAdhUki6a1",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-11T08:57:30.643Z",
+  "lastResponseAt": "2026-11-11T09:14:33.991Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 126,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 241524,
+    "cacheReadTokens": 11183326,
+    "outputTokens": 61367,
+    "thinkingTokens": 24560,
+    "responses": 66,
+    "costUsd": 5.3967012
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 2929,
+      "cacheWrite5mTokens": 180,
+      "cacheWrite1hTokens": 241524,
+      "cacheReadTokens": 11405652,
+      "outputTokens": 67752,
+      "thinkingTokens": 24560,
+      "responses": 67,
+      "costUsd": 5.5809784
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-11T09:12:59.237Z",
+      "trigger": "auto",
+      "compactedFrom": 224533,
+      "summaryChars": 15589,
+      "reorientation": {
+        "endedBy": "end_turn",
+        "endedOn": null,
+        "endedAt": "2026-11-11T09:14:09.962Z",
+        "contextTokens": 127634,
+        "spend": {
+          "inputTokens": 10,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 68335,
+          "cacheReadTokens": 553203,
+          "outputTokens": 1466,
+          "thinkingTokens": 222,
+          "responses": 5,
+          "costUsd": 0.6866806
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.18427720000000003
+    }
+  ],
+  "telemetry": {
+    "events": 67,
+    "matched": 66,
+    "matchedTableUsd": 5.3967012,
+    "matchedEventUsd": 5.3967012,
+    "unseen": {
+      "compact": {
+        "inputTokens": 2803,
+        "cacheWrite5mTokens": 180,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 222326,
+        "outputTokens": 6385,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.18427720000000003
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1365,
+    ".staged": 356,
+    ".json": 138,
+    ".ts": 3848,
+    ".tsx": 108,
+    ".scss": 52,
+    ".yaml": 411,
+    ".svg": 4
+  }
+}
