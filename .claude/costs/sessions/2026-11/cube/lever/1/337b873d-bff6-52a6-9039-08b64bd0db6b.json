@@ -1,0 +1,165 @@
+{
+  "total": {
+    "inputTokens": 2507,
+    "cacheWrite5mTokens": 2273,
+    "cacheWrite1hTokens": 295088,
+    "cacheReadTokens": 13827154,
+    "outputTokens": 90223,
+    "thinkingTokens": 34115,
+    "responses": 85,
+    "costUsd": 6.9519877999999995
+  },
+  "estimate": {
+    "at": "2026-11-11T08:52:50.017Z",
+    "subjectLine": "feat: the cube's lever, shrink and fall between floors",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "a continuous shrink-and-fall state machine with collision in a shaft and an exact unit rebase is game-feel code that needs a specialist"
+      },
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "drawing across a floor change without a jump means re-deriving the camera frame, clip planes and fog per eye scale"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "the lever's reach as specced cannot reach its wall, so the rule needs a designer's call"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-11T08:49:23.458Z",
+    "contextTokens": 110744,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 48702,
+      "cacheReadTokens": 153525,
+      "outputTokens": 483,
+      "thinkingTokens": 16,
+      "responses": 2,
+      "costUsd": 0.4299970000000001
+    }
+  },
+  "sessionId": "337b873d-bff6-52a6-9039-08b64bd0db6b",
+  "branch": "cube/lever",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/go Build bite 4 of the shrinking cube on branch `cube/lever` (already checked out; it is a branch off `claude/hash-maze-cube-m6wq80`, PR #270). You are a subse…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEM929F8JFnLL8n6cV",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-11T08:49:15.452Z",
+  "lastResponseAt": "2026-11-11T09:15:20.282Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 153,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 295088,
+    "cacheReadTokens": 13607182,
+    "outputTokens": 85176,
+    "thinkingTokens": 34115,
+    "responses": 84,
+    "costUsd": 6.7862724
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 2507,
+      "cacheWrite5mTokens": 2273,
+      "cacheWrite1hTokens": 295088,
+      "cacheReadTokens": 13827154,
+      "outputTokens": 90223,
+      "thinkingTokens": 34115,
+      "responses": 85,
+      "costUsd": 6.9519877999999995
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-11T08:59:30.803Z",
+      "trigger": "auto",
+      "compactedFrom": 224512,
+      "summaryChars": 11015,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/cube/entities/world/model/rooms.test.ts",
+        "endedAt": "2026-11-11T09:00:02.924Z",
+        "contextTokens": 120846,
+        "spend": {
+          "inputTokens": 4,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 60587,
+          "cacheReadTokens": 169315,
+          "outputTokens": 371,
+          "thinkingTokens": 94,
+          "responses": 2,
+          "costUsd": 0.525995
+        }
+      },
+      "rereads": {
+        "calls": 1,
+        "byTool": {
+          "Read": 1
+        },
+        "estimatedTokens": 3065,
+        "estimatedUsd": 0.04904
+      },
+      "billedUsd": 0.1657154
+    }
+  ],
+  "telemetry": {
+    "events": 85,
+    "matched": 84,
+    "matchedTableUsd": 6.7862724,
+    "matchedEventUsd": 6.786272399999999,
+    "unseen": {
+      "compact": {
+        "inputTokens": 2354,
+        "cacheWrite5mTokens": 2273,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 219972,
+        "outputTokens": 5047,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.1657154
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1359,
+    ".staged": 356,
+    ".json": 138,
+    ".ts": 4398,
+    ".tsx": 123,
+    ".scss": 52,
+    ".yaml": 411,
+    ".svg": 4
+  }
+}
