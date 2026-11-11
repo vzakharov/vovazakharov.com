@@ -19,6 +19,7 @@ import {
   type SignMount,
 } from '@/cube/entities/world';
 import {
+  arrivedOn,
   bindInput,
   canPress,
   EYE_HEIGHT,
@@ -58,19 +59,6 @@ const FLOOR_QUERY = 'floor';
  */
 type Start = Posed & { hatch: Address['hatch']; resumable: boolean };
 
-/** The north-west room of floor `n`, the eye at a person's height in its middle. */
-const northWest = (n: number): Pose => ({
-  n,
-  x: 0n,
-  y: 0n,
-  u: 0.5,
-  v: 0.5,
-  eyeAbove: EYE_HEIGHT,
-  scale: 1,
-  yaw: 0,
-  elevation: 0,
-});
-
 /**
  * Where the page starts. `?floor=`, a developer's entry, wins over the
  * fragment and starts on that floor with no earned hatch, so nothing is
@@ -92,10 +80,10 @@ async function startOf(
         `?${FLOOR_QUERY}= takes a floor from 1 to ${floors}`,
       );
     }
-    return { pose: northWest(n), hatch: null, resumable: false };
+    return { pose: arrivedOn(n), hatch: null, resumable: false };
   }
   if (fragment === '') {
-    return { pose: northWest(1), hatch: null, resumable: true };
+    return { pose: arrivedOn(1), hatch: null, resumable: true };
   }
   const address = await decodeAddress(planted, fragment);
   if (address === null) return null;
@@ -110,6 +98,15 @@ async function startOf(
 /** Replaces the URL's fragment without adding a history entry. */
 const writeFragment = (fragment: string): void => {
   globalThis.history.replaceState(null, '', `#${fragment}`);
+};
+
+/**
+ * Makes the URL the developer's entry to floor `n`, its fragment dropped: an
+ * address is of a floor reached through its holes, which a floor gone to by
+ * its number is not.
+ */
+const writeFloor = (n: number): void => {
+  globalThis.history.replaceState(null, '', `?${FLOOR_QUERY}=${String(n)}`);
 };
 
 /** `open` hears a press on a sign in reach; `offering` whether one is open. */
@@ -135,7 +132,7 @@ function walk(
 ): CubeScene {
   const input = play ? null : bindInput(canvas, setFailure);
   const holedHere = plantedHoled(setFailure);
-  const follow: Follow | null =
+  let follow: Follow | null =
     input === null || !resumable
       ? null
       : followAddress(
@@ -190,6 +187,10 @@ function walk(
             );
             const { pose: moved } = player;
             const standing = isStanding(player);
+            if (controls.goTo === moved.n && moved.n !== pose.n) {
+              follow = null;
+              writeFloor(moved.n);
+            }
             reach(moved, signOf, controls.pull && standing);
             follow?.(moved, standing, seconds);
             return {

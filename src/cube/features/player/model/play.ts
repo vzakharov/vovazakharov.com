@@ -103,6 +103,22 @@ function swinging({ lever, sincePull }: Player, dt: number) {
   return { lever: lever && { ...lever, swung: swungAt(t) }, sincePull: t };
 }
 
+/**
+ * A whole body arriving on floor `n` by no hole: in the middle of its
+ * north-west room, looking east.
+ */
+export const arrivedOn = (n: number): Pose => ({
+  n,
+  x: 0n,
+  y: 0n,
+  u: 0.5,
+  v: 0.5,
+  eyeAbove: EYE_HEIGHT,
+  scale: 1,
+  yaw: 0,
+  elevation: 0,
+});
+
 /** How far a body walks between footfalls, in its own room sides: 75 cm. */
 const STRIDE = 0.15;
 
@@ -248,8 +264,8 @@ const canPull = (pose: Pose, { at }: Lever): boolean =>
  * lasts. Shrunk, it walks its floor at its own size; walking onto any hole it
  * hops in, falls `DROP` and lands a whole body of the floor below, its knees
  * giving for `LANDING_TIME`. A whole body walks over a hole. A standing body
- * that asks to clip is on the floor below that same frame, hole or none, down
- * to the deepest floor.
+ * that asks to go to a floor the cube has arrives on it that same frame, as
+ * `arrivedOn` has it, keeping its gaze.
  */
 export function play(
   player: Player,
@@ -263,8 +279,16 @@ export function play(
     return shrink({ ...player, act }, input, dt, walls);
   }
   if (act?.act === 'falling') return fall({ ...player, act }, input, dt, walls);
-  if (act === null && input.clip && pose.n < DEEPEST_FLOOR) {
-    return standingAt(below(pose));
+  if (
+    act === null &&
+    input.goTo !== null &&
+    input.goTo >= 1 &&
+    input.goTo <= DEEPEST_FLOOR
+  ) {
+    return standingAt({
+      ...arrivedOn(input.goTo),
+      ...pick(pose, 'yaw', 'elevation'),
+    });
   }
   if (act === null && input.pull && here && canPull(pose, here.lever)) {
     const { n, x, y, yaw, elevation } = pose;

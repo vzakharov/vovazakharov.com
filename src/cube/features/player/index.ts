@@ -2,6 +2,7 @@ export { handsOf } from './model/hands';
 export { plantedHoled } from './model/holed';
 export { FIRST_LOOK } from './model/look';
 export {
+  arrivedOn,
   type Cue,
   type Holed,
   isStanding,

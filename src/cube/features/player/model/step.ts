@@ -26,7 +26,7 @@ export const TILT_RATE = Math.PI / 3;
  * their rates over the frame; `yawBy` and `elevationBy` are radians to add to
  * the pose's this frame, whatever its length; `walking` slows the run to a
  * walk; `pull` is whether the lever was asked for since the last frame, and
- * `clip` whether the way straight through the floor was.
+ * `goTo` the floor asked for by its number, null when none was.
  */
 export type Input = {
   walk: number;
@@ -37,7 +37,7 @@ export type Input = {
   elevationBy: number;
   walking: boolean;
   pull: boolean;
-  clip: boolean;
+  goTo: number | null;
 };
 
 /** A frame of no controls at all. */
@@ -50,7 +50,7 @@ export const STILL: Input = {
   elevationBy: 0,
   walking: false,
   pull: false,
-  clip: false,
+  goTo: null,
 };
 
 const TAU = 2 * Math.PI;

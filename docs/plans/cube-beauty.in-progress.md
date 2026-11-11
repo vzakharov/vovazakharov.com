@@ -64,8 +64,8 @@ external services.
 - **Frame**: scene pass into `rgba16float` (rgb scene light, `a` metres away) →
   bloom (`pages/cube/ui/bloom.ts`) → the eye floor's lens to the canvas.
 - **Clock**: `shared/lib/clock.ts`; the play hook freezes it.
-- **Player**: typing `idclip` stands the body on the floor below (`Input.clip`),
-  the operator's way to see every floor.
+- **Player**: typing `goto05` stands the body on floor 5 (`Input.goTo`, any two
+  digits) and makes the URL `?floor=5`, the operator's way to see every floor.
 - **Scripts**: `pnpm shaders:cube [--floor N]` compiles every floor's WGSL in
   seconds and prints errors with their source;
   `pnpm gallery:cube --floors 1,2,3 --out <absolute dir>` shoots an eye-level

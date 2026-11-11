@@ -11,7 +11,14 @@ import {
 import { BODY_RADIUS } from './body';
 import { LAND_AT, LAND_SPEED, LANDING_TIME } from './fall';
 import { FIRST_LOOK, type Look, spanOf } from './look';
-import { type Cue, isStanding, play, type Player, pulledOf } from './play';
+import {
+  arrivedOn,
+  type Cue,
+  isStanding,
+  play,
+  type Player,
+  pulledOf,
+} from './play';
 import {
   ahead,
   allOpen,
@@ -278,40 +285,45 @@ describe('play, the hole', () => {
   });
 });
 
-describe('play, clipping', () => {
-  const clip: Input = { ...STILL, clip: true };
+/** A frame asking for floor `floor`. */
+const goTo = (floor: number): Input => ({ ...STILL, goTo: floor });
 
-  it('stands the body on the floor straight below, a person of that floor', () => {
-    const start = beside({ u: 0.75, v: 0.3 });
-    const clipped = play(start, clip, FRAME, allOpen, null);
-    assert.equal(clipped.act, null);
-    // 2 × 0.75 − 1 and 2 × 0.3 are exact in doubles.
-    assert.deepEqual(clipped.pose, {
-      ...start.pose,
-      n: 4,
-      x: 3n,
-      y: 4n,
-      u: 0.5,
-      v: 0.6,
+describe('play, going to a floor', () => {
+  it('stands the body in the floor’s north-west room, keeping its gaze', () => {
+    const start = beside({ yaw: 1, elevation: -0.25 });
+    const gone = play(start, goTo(40), FRAME, allOpen, null);
+    assert.equal(gone.act, null);
+    assert.deepEqual(gone.pose, {
+      ...arrivedOn(40),
+      yaw: 1,
+      elevation: -0.25,
     });
   });
 
-  it('makes a small body whole on the floor below, its lever let go', () => {
-    const clipped = play(small(), clip, FRAME, allOpen, holed);
-    assert.equal(clipped.pose.n, room.n + 1);
-    assert.equal(clipped.pose.scale, 1);
-    assert.equal(clipped.pose.eyeAbove, EYE_HEIGHT);
-    assert.equal(pulledOf(clipped), null);
+  it('makes a small body whole there, its lever let go', () => {
+    const gone = play(small(), goTo(1), FRAME, allOpen, holed);
+    assert.equal(gone.pose.n, 1);
+    assert.equal(gone.pose.scale, 1);
+    assert.equal(gone.pose.eyeAbove, EYE_HEIGHT);
+    assert.equal(pulledOf(gone), null);
   });
 
-  it('holds the body on the deepest floor', () => {
-    const deepest = beside({ n: DEEPEST_FLOOR });
-    assert.equal(play(deepest, clip, 0, allOpen, null).pose.n, DEEPEST_FLOOR);
+  it('goes to no floor the cube lacks', () => {
+    for (const floor of [0, DEEPEST_FLOOR + 1]) {
+      assert.equal(
+        play(beside(), goTo(floor), 0, allOpen, null).pose.n,
+        room.n,
+      );
+    }
+    assert.equal(
+      play(beside(), goTo(DEEPEST_FLOOR), 0, allOpen, null).pose.n,
+      DEEPEST_FLOOR,
+    );
   });
 
   it('leaves a shrinking body to its shrink', () => {
     const first = play(beside(), pull, FRAME, allOpen, holed);
-    const next = play(first, clip, FRAME, allOpen, holed);
+    const next = play(first, goTo(9), FRAME, allOpen, holed);
     assert.equal(next.pose.n, room.n);
     assert.equal(next.act?.act, 'shrinking');
   });

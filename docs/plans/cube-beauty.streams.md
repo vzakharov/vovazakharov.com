@@ -142,7 +142,7 @@ hatch you simply jump, with no pulling-up or lowering-down". The first time "you
 may look at your hands and around and say wtf; the second, here we go again;
 you'll get creative".
 
-- `Input.clip` (the typed `idclip`, which stands the body on the floor below at
+- `Input.goTo` (the typed `goto05`, which stands the body on that floor at
   once) stays as it is, whatever else the descent becomes.
 - Owns `src/cube/features/player/**`, `src/cube/scripts/play-cube.ts` (its pull
   shots), and may touch `entities/world/model/{lever,hole}.ts` and the call of
