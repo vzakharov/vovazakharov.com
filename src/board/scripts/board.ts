@@ -229,13 +229,21 @@ const RowFile = z.union([
   z.record(z.string(), z.unknown()),
 ]);
 
-/** Each file `writeBoardFiles` changed, formatted as the repo's prettier config says. */
+/**
+ * Each file `writeBoardFiles` changed, formatted as the repo's prettier config
+ * says. Every text is formatted and every directory made before the first
+ * write, so a failure leaves no file half-split.
+ */
 async function writeBack(written: BoardFiles): Promise<void> {
-  await Promise.all(
+  const formatted = await Promise.all(
     [...written].map(async ([file, text]) => {
       const options = { ...(await resolveConfig(file)), filepath: file };
-      await writeFile(file, await format(text, options), 'utf8');
+      await mkdir(path.dirname(file), { recursive: true });
+      return [file, await format(text, options)] as const;
     }),
+  );
+  await Promise.all(
+    formatted.map(([file, text]) => writeFile(file, text, 'utf8')),
   );
 }
 

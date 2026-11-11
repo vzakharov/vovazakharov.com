@@ -1,0 +1,31 @@
+items:
+  - id: z-never
+    type: zone
+    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    box: [1820, -1000, 1720, 900, yellow]
+    text: How far is never
+  - id: never-1
+    type: sticky
+    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    box: [1848, -890, 244, yellow]
+    text: 'The ladder: 2^64 (SHAttered), 2^79 (the bitcoin network for 10 minutes), 2^95 (the network for a year), 2^128 never (~10^10 years), 2^256 never even for a quantum computer'
+  - id: never-2
+    type: sticky
+    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    box: [2183, -890, 244, yellow]
+    text: 'Clicking lock: each floor confirms its hatch, so the work adds, 4 + 9 + 16. Silent lock: only the bottom checks the whole path, so it multiplies, 4 × 9 × 16. Clicking won: the suspense is in the click'
+  - id: never-3
+    type: sticky
+    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    box: [2518, -890, 244, yellow]
+    text: 'A pyramid one corridor wider per floor, with clicking hatches, needs ~8·10^12 floors to reach never: the work grows only as n³'
+  - id: never-4
+    type: sticky
+    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    box: [1848, -640, 244, gray]
+    text: 'Ruled out: collecting a code and trying it (just guessing a cipher); a parallel world under every hatch; showing the odds you are on the right path, which kills the suspense it promises'
+  - id: l-never-cube
+    type: line
+    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    ends: [never-3, cube-1]
+    text: pyramid → cube
