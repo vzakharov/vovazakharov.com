@@ -5,6 +5,8 @@ import {
   holeMiddle,
   type Lever,
   type Pose,
+  type Posed,
+  type Pulled,
   type Quarter,
   type Walls,
 } from '@/cube/entities/world';
@@ -61,9 +63,29 @@ type Shrinking = Holed & {
 };
 
 /** The body and what its lever set going; `shrinking` is null at rest. */
-export type Player = { pose: Pose; shrinking: Shrinking | null };
+export type Player = Posed & { shrinking: Shrinking | null };
 
 const HALF_HOLE = HOLE_SIDE / 2;
+
+/** Seconds the lever's handle takes to swing down once pulled. */
+export const PULL_SWING = 0.25;
+
+/**
+ * The lever `player` has pulled and how far its handle has swung, eased in and
+ * out; null at rest. The body stays in the pulled lever's room until it lands,
+ * so the room is the pose's own, and the swing ends with the shrink.
+ */
+export function pulledOf({
+  pose: { n, x, y },
+  shrinking,
+}: Player): Pulled | null {
+  if (shrinking === null) return null;
+  const t = Math.min(shrinking.sincePull / PULL_SWING, 1);
+  return {
+    room: { n, x, y },
+    swung: t * t * (3 - 2 * t),
+  };
+}
 
 /** Whether a body at `pose` stands on the hole and reaches its lever. */
 function canPull(pose: Pose, { quarter, lever }: Holed): boolean {
