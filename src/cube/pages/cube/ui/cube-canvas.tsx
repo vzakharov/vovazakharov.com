@@ -50,8 +50,11 @@ import {
 } from './cube-scene';
 import { SaleOffer } from './sale-offer';
 
-/** The query naming the floor a walk starts on; floor 1 without it. */
-const FLOOR_QUERY = 'floor';
+/**
+ * The query naming a floor the walk went to by its number rather than through
+ * the holes above it, and starts on.
+ */
+const CHEAT_QUERY = 'cheated_to';
 
 /**
  * Where a walk starts, the hatch it landed on its floor through, and whether
@@ -60,9 +63,8 @@ const FLOOR_QUERY = 'floor';
 type Start = Posed & { hatch: Address['hatch']; resumable: boolean };
 
 /**
- * Where the page starts. `?floor=`, a developer's entry, wins over the
- * fragment and starts on that floor with no earned hatch, so nothing is
- * written back; a floor the planted world lacks throws, so the route's error
+ * Where the page starts. `?cheated_to=` wins over the fragment and starts on
+ * that floor with no earned hatch, so nothing is written back; a floor the planted world lacks throws, so the route's error
  * boundary names it. Otherwise a fragment resumes the address it spells,
  * standing at a person's height, or yields null when it leads nowhere; with
  * neither, the walk starts on floor 1.
@@ -71,13 +73,13 @@ async function startOf(
   query: URLSearchParams,
   fragment: string,
 ): Promise<Start | null> {
-  const asked = query.get(FLOOR_QUERY);
+  const asked = query.get(CHEAT_QUERY);
   if (asked !== null) {
     const n = Number(asked);
     const floors = floorsOf(planted);
     if (!Number.isInteger(n) || n < 1 || n > floors) {
       throw new RangeError(
-        `?${FLOOR_QUERY}= takes a floor from 1 to ${floors}`,
+        `?${CHEAT_QUERY}= takes a floor from 1 to ${floors}`,
       );
     }
     return { pose: arrivedOn(n), hatch: null, resumable: false };
@@ -101,12 +103,11 @@ const writeFragment = (fragment: string): void => {
 };
 
 /**
- * Makes the URL the developer's entry to floor `n`, its fragment dropped: an
- * address is of a floor reached through its holes, which a floor gone to by
- * its number is not.
+ * Makes the URL say the walk cheated its way to floor `n`, its fragment
+ * dropped: an address is of a floor reached through its holes.
  */
-const writeFloor = (n: number): void => {
-  globalThis.history.replaceState(null, '', `?${FLOOR_QUERY}=${String(n)}`);
+const writeCheat = (n: number): void => {
+  globalThis.history.replaceState(null, '', `?${CHEAT_QUERY}=${String(n)}`);
 };
 
 /** `open` hears a press on a sign in reach; `offering` whether one is open. */
@@ -189,7 +190,7 @@ function walk(
             const standing = isStanding(player);
             if (controls.goTo === moved.n && moved.n !== pose.n) {
               follow = null;
-              writeFloor(moved.n);
+              writeCheat(moved.n);
             }
             reach(moved, signOf, controls.pull && standing);
             follow?.(moved, standing, seconds);

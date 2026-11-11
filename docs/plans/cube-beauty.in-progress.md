@@ -65,7 +65,8 @@ external services.
   bloom (`pages/cube/ui/bloom.ts`) → the eye floor's lens to the canvas.
 - **Clock**: `shared/lib/clock.ts`; the play hook freezes it.
 - **Player**: typing `goto05` stands the body on floor 5 (`Input.goTo`, any two
-  digits) and makes the URL `?floor=5`, the operator's way to see every floor.
+  digits) and makes the URL `?cheated_to=5`, the operator's way to see every
+  floor.
 - **Scripts**: `pnpm shaders:cube [--floor N]` compiles every floor's WGSL in
   seconds and prints errors with their source;
   `pnpm gallery:cube --floors 1,2,3 --out <absolute dir>` shoots an eye-level
@@ -73,20 +74,45 @@ external services.
 
 ## State
 
-- Floors 1–3 are designed (reception, open plan, school corridor); the rest are
-  `generic(n)`. Every gate was green at `5985ed03`; re-run before `/polish`.
-- The board (`src/cube-board/app/config/cube/beauty.yaml`, zone "Making it
-  beautiful") holds the timelapse to frame 7 and is built
-  (`pnpm board build src/cube-board/app/config/cube.yaml` → `tmp/board/cube/`)
-  but **not yet published**: read
-  https://claude.ai/artifact/WbvwDqVtJzN8EBeuUffho3 with the Artifact tool, then
-  publish `tmp/board/cube/index.html` to that `url` with its `images/` and
-  `icons/` as `files`. Its `items` collection was empty on 11 Nov, so there was
-  nothing to `board sync`. Later frames go in as `beauty-NN-*.webp` beside it,
-  from `tmp/cube-timeline/` (container-local).
-- The preview was last dispatched for the continuous-light commit; republish
-  after each visible push (`preview.yml`, inputs `site: vova`, `slot: 1`).
-- Streams (`docs/plans/cube-beauty.streams.md`): see § "Streams launched".
+As of 11 Nov, 23:50 UTC, head "go to any cube floor by typing goto…" plus the
+`?cheated_to=` rename.
+
+- **Merged here**: the descent (complete: the lever shrinks the body where it
+  stands, small it hops into a hole), and the five floor bands as they stood at
+  23:25 — workplace 4–8, dwelling 9–20, leisure 21–31 (32–35 still `generic`),
+  laboratory 36–52, edge 53–67. All 67 shaders compile; every gate was green
+  after the merges.
+- **Not merged yet**: `claude/cube-sound`, `-voice`, `-lettering`, `-decor`,
+  `-happenings`, and whatever the bands pushed after 23:25 (leisure 32–35 at
+  least). `git fetch origin` and compare each with this branch; a stream is done
+  when its last commits are `polish:` ones or its session reports.
+- **Moving layer**: a frame hands the scene `moving` quads (each in its own
+  room's frame); `Mesh.stood` places them, `renderer.uploadMoving` draws them.
+  The hands are its first user; happenings go the same way. The play hook's
+  `setPose(pose, moving)` stages them for a script.
+- **Smooth surfaces**: a `Facet` may carry `normals` per corner, and
+  `loft(rings, room, {surface, sides, paint?, arc?})` (world) builds such a
+  surface. The hands are lofts; decor's round things can be.
+- **Hands**: second take, after the operator's "not AAA hands" on the boxes.
+  `handsOf` costs ~5 ms a frame while they are up; a cache of the hand in its
+  own axes would cut that if it shows.
+- **Cheat**: `goto05` (any two digits, 01–66) replaces `idclip`; the URL then
+  reads `?cheated_to=5`, which also starts the page on that floor.
+- **Board**: published, version 39, at
+  https://claude.ai/artifact/WbvwDqVtJzN8EBeuUffho3 — ten frames in the zone
+  "Making it beautiful". To add one: a `beauty-NN-*.webp` beside
+  `src/cube-board/app/config/cube/beauty.yaml` and an item in it,
+  `pnpm board build src/cube-board/app/config/cube.yaml`, then publish
+  `tmp/board/cube/index.html` to that `url` with `root: tmp/board/cube` and the
+  new image in `files`. Frames live in `tmp/cube-timeline/` (container-local).
+- **Gallery**: `pnpm gallery:cube --floors … --out <absolute dir>` died once on
+  a list of seventeen floors and ran on two; unexplained, rerun in smaller lists
+  and read the error if it recurs. No frame of the merged bands has been looked
+  at yet — do that before calling them done.
+- **Preview**: republish after each visible push (`preview.yml`, inputs
+  `site: vova`, `slot: 1`); last dispatched for the `?cheated_to=` commit.
+- Sub-sessions hit the account's five-hour limit around 22:50 UTC and resumed on
+  their own; a stream that looks stalled may only be waiting for it.
 
 ## Streams launched
 
@@ -120,12 +146,14 @@ the board already links the pricing chart.
 
 ## Next
 
-1. The first six streams were cut before the light became continuous
-   (`kit/lib/light.ts`, `pages/cube/lib/room-state.ts`); the bands after.
-2. Merge every stream here as it reports.
-3. The lead's wiring: a per-frame 'moving' vertex layer for hands and
-   happenings; sound and voice cues; posters; decor; happenings; the sale signs
-   restyled so they sit with the floor's signage.
+1. Look at a gallery of the merged bands; note what falls short of the bar.
+2. Merge the remaining streams as they finish: decor and happenings (wire decor
+   into `faces`' callers in `cube-scene.ts`, happenings into the frame's
+   `moving`), lettering and posters (as boards), sound and voice (cues from
+   `Player.cues`, see `features/player/model/play.ts`), the voice samples page
+   for the board.
+3. The sale signs restyled so they sit with the floor's signage.
 4. Calibration toward the AAA bar: exposure, materials, lamp panel detail, the
-   broken mirror of floor 3's lamps in its tiles.
-5. The board; `/polish`, `/pr` (draft), `/five-percent`.
+   broken mirror of floor 3's lamps in its tiles, the sleeve's fabric (its weave
+   is drawn in a face's `uv`, which a curved surface has no steady one).
+5. `/polish`, `/pr` (draft), `/five-percent`.
