@@ -58,28 +58,38 @@ const dollars = (fractionDigits: number) =>
 const WHOLE = dollars(0);
 const CENTS = dollars(2);
 
-/** A tag ends in 99 from this price up; below it, the step under is all. */
-const NINETY_NINE_FROM = 5;
-
-/** The largest count of `unit`s not above `value` whose last two digits are 99. */
-const ninetyNine = (value: number, unit: number): number =>
-  HUNDRED * Math.floor((Math.floor(value / unit + EPSILON) + 1) / HUNDRED) - 1;
+/** A tag ends in nines from a dollar up; below it, the step under is all. */
+const NINES_FROM = 1;
+/** Cents end in 9.99 rather than .99 from here up. */
+const TEN = 10;
+const THOUSAND = 1000;
 
 /**
- * A price as a shop would tag it. From $5 up, the largest price not above it
- * whose last two shown digits are 99: whole dollars while that stays at $100
- * or more (`$9,999,999` for $10M, `$19,499` for $19,531.25), cents otherwise
- * (`$37.99` for $38.15). Below $5, one cent under (`$0.59` for $0.60), and
- * under a cent the scientific form's last hundredth (`$9.31 × 10⁻³`), since
- * the deepest floors' prices have no other spelling.
+ * The positive count of `unit`s nearest `value` that leaves `step - 1` over a
+ * multiple of `step`: the 99 or 999 a tag ends in.
+ */
+function nearestNines(value: number, unit: number, step: number): number {
+  const nines = step - 1;
+  const steps = Math.round((value / unit - nines) / step);
+  return Math.max(steps, 0) * step + nines;
+}
+
+/**
+ * A price as a shop would tag it: the nearest price ending in nines, above or
+ * below. Whole dollars ending in 99 while that stays at $100 or more
+ * (`$9,999,999` for $10M, `$19,499` for $19,531.25); else cents ending in 9.99
+ * from $10 up (`$39.99` for $38.15) and in .99 below (`$4.99` for $4.77).
+ * Under a dollar, one cent under (`$0.59` for $0.60), and under a cent the
+ * scientific form's last hundredth (`$9.31 × 10⁻³`), since the deepest
+ * floors' prices have no other spelling.
  */
 export function formatPrice(price: number): string {
   assertPositive(price, 'price');
-  if (price >= NINETY_NINE_FROM) {
-    const whole = ninetyNine(price, 1);
-    return whole >= HUNDRED
-      ? WHOLE.format(whole)
-      : CENTS.format(ninetyNine(price, CENT) * CENT);
+  if (price >= NINES_FROM) {
+    const whole = nearestNines(price, 1, HUNDRED);
+    if (whole >= HUNDRED) return WHOLE.format(whole);
+    const step = price >= TEN ? THOUSAND : HUNDRED;
+    return CENTS.format(nearestNines(price, CENT, step) * CENT);
   }
   if (price > CENT) return CENTS.format(justBelow(price, CENT) * CENT);
   return `$${scientific(price, true)}`;
