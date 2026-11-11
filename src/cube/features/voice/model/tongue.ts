@@ -105,6 +105,8 @@ const kept = (phones: readonly Phone[], dice: Dice, count: number): Phone[] =>
 
 const LEANS = ['first', 'last', 'penult'] as const;
 
+const GLIDES: ReadonlySet<Phone> = new Set(['w', 'y', 'r', 'l']);
+
 /**
  * A floor's own language: which sounds it has, how it builds a syllable from
  * them, and which syllable a word leans on.
@@ -114,19 +116,32 @@ function coinageOf(dice: Dice): (word: Word) => Word {
   const vowels = kept(VOWELS, dice, between(3, 6, dice('vowels')));
   const onset = 0.55 + 0.4 * dice('onset');
   const coda = 0.1 + 0.5 * dice('coda');
-  const cluster = 0.25 * dice('cluster');
+  const cluster = 0.4 * dice('cluster');
   const lean = among(LEANS, dice('lean'));
   const one = (phones: readonly Phone[], draw: number): Phone =>
     phones[Math.floor(draw * phones.length)] ?? 'ax';
 
-  const syllable = (rolls: Dice, vowel: Uttered): Uttered[] => [
-    ...(rolls('onset') < onset ? [{ phone: one(consonants, rolls('c')) }] : []),
-    ...(rolls('cluster') < cluster
-      ? [{ phone: one(consonants, rolls('cc')) }]
-      : []),
-    vowel,
-    ...(rolls('coda') < coda ? [{ phone: one(consonants, rolls('k')) }] : []),
-  ];
+  const glides = consonants.filter((phone) => GLIDES.has(phone));
+
+  // A second consonant only after a first, and only one that glides into the
+  // vowel: any other pair is two syllables' worth of mouth.
+  const syllable = (rolls: Dice, vowel: Uttered): Uttered[] => {
+    const first =
+      rolls('onset') < onset ? one(consonants, rolls('c')) : undefined;
+    const second =
+      first &&
+      !GLIDES.has(first) &&
+      glides.length > 0 &&
+      rolls('cluster') < cluster
+        ? one(glides, rolls('cc'))
+        : undefined;
+    return [
+      ...(first ? [{ phone: first }] : []),
+      ...(second ? [{ phone: second }] : []),
+      vowel,
+      ...(rolls('coda') < coda ? [{ phone: one(consonants, rolls('k')) }] : []),
+    ];
+  };
 
   return (word) => {
     const nuclei = word.sounds.filter(({ phone }) => isVowel(phone));

@@ -15,7 +15,7 @@ const UPPER = [
 ] as const;
 
 /** How loud a consonant's hiss at level 1 is against the voice. */
-const HISS = 0.55;
+const HISS = 1.25;
 
 /** The sample rate noise is as loud at as it is written. */
 const HUSHED_AT = 16_000;
@@ -41,30 +41,44 @@ type Setting = { voice: Voice; sampleRate: number; random: () => number };
 
 const hushOf = (sampleRate: number) => Math.sqrt(sampleRate / HUSHED_AT);
 
-/** A source through five resonances in a row, a band of hiss beside them. */
-function resonant(
-  source: keyof typeof EXCITERS,
-  { voice, sampleRate, random }: Setting,
-): Mouth {
+/** A consonant's hiss: noise through its band. */
+function hissing({ sampleRate, random }: Setting) {
   const hush = hushOf(sampleRate);
-  const excite = EXCITERS[source]({ voice, sampleRate, random, hush });
+  const band = bandpass(sampleRate);
+  return {
+    tune: (now: (curve: Curve) => number) => {
+      band.tune(now('hissCentre'), now('hissWidth'));
+    },
+    run: (hiss: number): number => band.run(random() * hush * hiss) * HISS,
+  };
+}
+
+/** A source through five resonances in a row, a band of hiss beside them. */
+function resonant(source: keyof typeof EXCITERS, setting: Setting): Mouth {
+  const { voice, sampleRate, random } = setting;
+  const excite = EXCITERS[source]({
+    voice,
+    sampleRate,
+    random,
+    hush: hushOf(sampleRate),
+  });
   const lower = WIDTHS.map(() => resonator(sampleRate));
   const upper = UPPER.map(([hertz, width]) => {
     const fixed = resonator(sampleRate);
     fixed.tune(hertz * voice.tract, width);
     return fixed;
   });
-  const hisser = bandpass(sampleRate);
+  const hisser = hissing(setting);
   let hertz = voice.pitch;
   return {
     shape: (now, seconds) => {
       const formants = [now('f1'), now('f2'), now('f3')];
       const leak = 1 + 2 * now('breath');
       for (const [n, filter] of lower.entries()) {
-        const width = (WIDTHS[n] ?? 100) * now('damp') * (n === 0 ? leak : 1);
+        const width = (WIDTHS[n] ?? 100) * (n === 0 ? leak : now('damp'));
         filter.tune(formants[n] ?? 0, width);
       }
-      hisser.tune(now('hissCentre'), now('hissWidth'));
+      hisser.tune(now);
       const flutter = FLUTTER.reduce(
         (sum, wobble) => sum + Math.sin(2 * Math.PI * wobble * seconds),
         0,
@@ -78,7 +92,7 @@ function resonant(
       let sample = excite(hertz, voicing, breath);
       for (const filter of lower) sample = filter.run(sample);
       for (const filter of upper) sample = filter.run(sample);
-      return sample + hisser.run(random() * hush * hiss) * HISS * 8;
+      return sample + hisser.run(hiss);
     },
   };
 }
@@ -87,9 +101,9 @@ function resonant(
 const TONES = [1, 0.6, 0.35] as const;
 
 /** No throat: a pure tone on each resonance, and the hiss as it is. */
-function whistling({ sampleRate, random }: Setting): Mouth {
-  const hush = hushOf(sampleRate);
-  const hisser = bandpass(sampleRate);
+function whistling(setting: Setting): Mouth {
+  const { sampleRate } = setting;
+  const hisser = hissing(setting);
   const phases = [0, 0, 0];
   let steps = [0, 0, 0];
   return {
@@ -97,7 +111,7 @@ function whistling({ sampleRate, random }: Setting): Mouth {
       steps = [now('f1'), now('f2'), now('f3')].map(
         (hertz) => (2 * Math.PI * Math.min(hertz, sampleRate / 2)) / sampleRate,
       );
-      hisser.tune(now('hissCentre'), now('hissWidth'));
+      hisser.tune(now);
     },
     sound: (voicing, breath, hiss) => {
       let sample = 0;
@@ -106,10 +120,7 @@ function whistling({ sampleRate, random }: Setting): Mouth {
         phases[n] = phase;
         sample += tone * Math.sin(phase);
       }
-      return (
-        sample * 0.5 * (voicing + 0.6 * breath) +
-        hisser.run(random() * hush * hiss) * HISS * 8
-      );
+      return sample * 0.5 * (voicing + 0.6 * breath) + hisser.run(hiss);
     },
   };
 }

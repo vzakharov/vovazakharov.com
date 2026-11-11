@@ -5,3 +5,4 @@ export type { Phone } from './model/phone';
 export { type Moment, MOMENTS } from './model/script';
 export { utter } from './model/utter';
 export { type Source, type Voice, voiceOf } from './model/voice';
+export { wavOf } from './model/wav';

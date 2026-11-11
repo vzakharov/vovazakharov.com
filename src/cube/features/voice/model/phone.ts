@@ -106,7 +106,7 @@ const voicedAs = (manner: Manner, voiced: boolean) => ({ manner, voiced });
 const HISS = {
   lip: { centre: 4000, width: 5000 },
   teeth: { centre: 4500, width: 4500 },
-  ridge: { centre: 5200, width: 2200 },
+  ridge: { centre: 6000, width: 2600 },
   palate: { centre: 2700, width: 1300 },
   lipBurst: { centre: 1100, width: 2200 },
   ridgeBurst: { centre: 4300, width: 2600 },
@@ -134,9 +134,9 @@ export const SPECS: Record<Phone, PhoneSpec> = {
   y: { ...voicedAs('approximant', true), formants: [260, 2070, 3020], ms: 60 },
   r: { ...voicedAs('approximant', true), formants: [310, 1060, 1380], ms: 70 },
   l: { ...voicedAs('approximant', true), formants: [310, 1050, 2880], ms: 65 },
-  m: { ...voicedAs('nasal', true), formants: [280, 900, 2200], ms: 75 },
-  n: { ...voicedAs('nasal', true), formants: [280, 1700, 2700], ms: 70 },
-  ng: { ...voicedAs('nasal', true), formants: [280, 2200, 2450], ms: 80 },
+  m: { ...voicedAs('nasal', true), formants: [250, 900, 2200], ms: 75 },
+  n: { ...voicedAs('nasal', true), formants: [250, 1700, 2700], ms: 70 },
+  ng: { ...voicedAs('nasal', true), formants: [250, 2200, 2450], ms: 80 },
   f: {
     ...voicedAs('fricative', false),
     formants: LABIAL,

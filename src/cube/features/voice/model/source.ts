@@ -34,7 +34,7 @@ const JITTER = 0.012;
 const SHIMMER = 0.06;
 
 /** How loud let-out air is against the voice. */
-const AIR = 0.11;
+const AIR = 0.18;
 
 /** The hertz above which a clear voice's pulses are dulled. */
 const BRIGHT = 5000;

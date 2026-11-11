@@ -32,7 +32,10 @@ export type Track = { frames: number; curves: Record<Curve, Float32Array> };
 
 type Key = readonly [at: number, value: number];
 
-/** How loud each source is, and how far the resonances are damped. */
+/**
+ * How loud each source is, and how many times wider than a vowel's the
+ * resonances over the first ring: a murmur's are wide, so only the first sounds.
+ */
 type Level = { voicing: number; breath: number; hiss: number; damp: number };
 
 /** A stretch of a phone over which its levels hold. */
@@ -107,12 +110,12 @@ const PIECES: Record<
 > = {
   vowel: held({ voicing: 1 }, 0.012),
   approximant: held({ voicing: 0.8 }, 0.012),
-  nasal: held({ voicing: 0.6, damp: 3.5 }, 0.01),
+  nasal: held({ voicing: 0.8, damp: 14 }, 0.006),
   breath: held({ breath: 0.8, damp: 1.6 }, 0.015),
   pause: held({}, 0.01),
   fricative: (spec, seconds, around) => [
     {
-      ...hissed(spec, around, seconds, 0.012, 0.5),
+      ...hissed(spec, around, seconds, 0.012, 0.4),
       damp: spec.voiced ? 1.5 : 1,
     },
   ],
@@ -141,8 +144,19 @@ type Placed = {
 const lasting = (pieces: readonly Piece[]): number =>
   pieces.reduce((sum, { seconds }) => sum + seconds, 0);
 
-function secondsOf(sound: Uttered, spec: PhoneSpec, last: boolean): number {
-  if (spec.manner !== 'vowel') return (spec.ms / 1000) * (last ? 1.15 : 1);
+/** How much longer an `l` or an `r` lasts with no vowel after it. */
+const CODA = 1.6;
+
+function secondsOf(
+  sound: Uttered,
+  spec: PhoneSpec,
+  last: boolean,
+  after?: PhoneSpec,
+): number {
+  if (spec.manner !== 'vowel') {
+    const coda = spec.manner === 'approximant' && !voices(after);
+    return (spec.ms / 1000) * (last ? 1.15 : 1) * (coda ? CODA : 1);
+  }
   if (sound.beats !== undefined) return sound.beats * BEAT;
   return (spec.ms / 1000) * (sound.stress ? 1.2 : 0.85) * (last ? 1.35 : 1);
 }
@@ -158,7 +172,8 @@ function placed(line: Line, pace: number): Placed[] {
   return line.phones.map((sound, n) => {
     const spec = specs[n] ?? SPECS.pau;
     const seconds =
-      secondsOf(sound, spec, lastVowel >= 0 && n >= lastVowel) / pace;
+      secondsOf(sound, spec, lastVowel >= 0 && n >= lastVowel, specs[n + 1]) /
+      pace;
     const pieces = PIECES[spec.manner](spec, seconds, {
       before: specs[n - 1],
       after: specs[n + 1],
@@ -169,6 +184,12 @@ function placed(line: Line, pace: number): Placed[] {
   });
 }
 
+/** An `l` with no vowel after it, said with the tongue drawn back: "still". */
+const DARK_L: Formants = [430, 800, 2700];
+
+/** An `r` with no vowel after it, held like a vowel: "door". */
+const VOWEL_R: Formants = [470, 1270, 1600];
+
 /** How far a consonant's resonances lean from its locus to the vowel beside it. */
 const LEAN = 0.4;
 
@@ -178,8 +199,10 @@ function aimOf(phones: readonly Placed[], n: number): Formants | undefined {
   if (!spec || spec.manner === 'breath' || spec.manner === 'pause') {
     return undefined;
   }
-  if (voices(spec)) return spec.formants;
   const after = phones[n + 1]?.spec;
+  if (spec === SPECS.l && !voices(after)) return DARK_L;
+  if (spec === SPECS.r && !voices(after)) return VOWEL_R;
+  if (voices(spec)) return spec.formants;
   const before = phones[n - 1]?.spec;
   const beside = voices(after)
     ? after?.formants
@@ -191,10 +214,29 @@ function aimOf(phones: readonly Placed[], n: number): Formants | undefined {
   return [f1, f2 + LEAN * (beside[1] - f2), f3 + LEAN * (beside[2] - f3)];
 }
 
-/** The part of a phone, as shares of its length, its resonances hold still over. */
-function plateau({ spec, pieces }: Placed): readonly [number, number] {
-  if (spec.manner === 'vowel') return [0.3, 0.75];
-  if (spec.manner === 'approximant') return [0.3, 0.7];
+const nasal = (phone?: Placed): boolean => phone?.spec.manner === 'nasal';
+
+/**
+ * The part of a phone, as shares of its length, resonance `band` holds still
+ * over. Beside a nasal the first resonance crosses at once, as it does when
+ * the nose shuts: a slow crossing is heard as an `l`.
+ */
+function plateau(
+  phones: readonly Placed[],
+  n: number,
+  band: number,
+): readonly [number, number] {
+  const phone = phones[n];
+  if (!phone) return [0, 1];
+  const { spec, pieces } = phone;
+  const first = band === 0;
+  if (voices(spec)) {
+    return [
+      first && nasal(phones[n - 1]) ? 0.08 : 0.3,
+      first && nasal(phones[n + 1]) ? 0.92 : 0.72,
+    ];
+  }
+  if (spec.manner === 'nasal' && first) return [0.03, 0.97];
   const [shut, burst] = pieces;
   if (spec.manner === 'stop' && shut && burst) {
     const whole = lasting(pieces);
@@ -212,15 +254,15 @@ function formantKeys(phones: readonly Placed[], band: 0 | 1 | 2): Key[] {
     if (!aim) return [];
     const whole = lasting(phone.pieces);
     const at = (share: number) => phone.from + share * whole;
+    const [from, to] = plateau(phones, n, band);
     const { glide } = phone.spec;
     if (glide) {
       return [
-        [at(0.2), aim[band]],
+        [at(Math.min(from, 0.2)), aim[band]],
         [at(0.45), aim[band]],
-        [at(0.9), glide[band]],
+        [at(Math.max(to, 0.9)), glide[band]],
       ];
     }
-    const [from, to] = plateau(phone);
     return [
       [at(from), aim[band]],
       [at(to), aim[band]],

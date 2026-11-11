@@ -49,12 +49,11 @@ export function bandpass(sampleRate: number): Filter {
   let out2 = 0;
   return {
     tune: (hertz, width) => {
-      const centre = Math.min(hertz, 0.42 * sampleRate);
-      const turn = (2 * Math.PI * centre) / sampleRate;
-      const alpha = (Math.sin(turn) * width) / (2 * centre);
-      gain = alpha / (1 + alpha);
-      b = (2 * Math.cos(turn)) / (1 + alpha);
-      c = (alpha - 1) / (1 + alpha);
+      const centre = Math.min(hertz, REACH * sampleRate);
+      const radius = Math.exp((-Math.PI * width) / sampleRate);
+      gain = (1 - radius * radius) / 2;
+      b = 2 * radius * Math.cos((2 * Math.PI * centre) / sampleRate);
+      c = -radius * radius;
     },
     run: (sample) => {
       const out = gain * (sample - in2) + b * out1 + c * out2;
