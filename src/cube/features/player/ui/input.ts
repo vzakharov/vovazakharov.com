@@ -23,6 +23,9 @@ type Code = keyof typeof AXES;
 
 const isCode = (code: string): code is Code => Object.hasOwn(AXES, code);
 
+/** The key that pulls a lever, by position as the axes are. */
+const PULL = 'KeyE';
+
 /** Whether keys typed at `target` are text, not a move. */
 const isTextField = (target: EventTarget | null): boolean =>
   target instanceof HTMLElement &&
@@ -53,6 +56,7 @@ export function bindInput(
   const held = new Set<Code>();
   let turn = 0;
   let tilt = 0;
+  let pull = false;
   const locked = () => document.pointerLockElement === target;
 
   // Older engines return nothing rather than a promise, hence the `resolve`.
@@ -69,13 +73,19 @@ export function bindInput(
     tilt -= event.movementY * LOOK_PER_PIXEL;
   };
   const onKey = (event: KeyboardEvent) => {
-    const { code, type, ctrlKey, metaKey } = event;
+    const { code, type, ctrlKey, metaKey, repeat, target: on } = event;
+    if (code === PULL && type === 'keydown' && !repeat) {
+      if (isTextField(on) || ctrlKey || metaKey) return;
+      event.preventDefault();
+      pull = true;
+      return;
+    }
     if (!isCode(code)) return;
     if (type === 'keyup') {
       held.delete(code);
       return;
     }
-    if (isTextField(event.target) || ctrlKey || metaKey) return;
+    if (isTextField(on) || ctrlKey || metaKey) return;
     event.preventDefault();
     held.add(code);
   };
@@ -98,6 +108,7 @@ export function bindInput(
         tiltKeys: 0,
         yawBy: turn,
         elevationBy: tilt,
+        pull,
       };
       for (const code of held) {
         const { axis, sign } = AXES[code];
@@ -105,6 +116,7 @@ export function bindInput(
       }
       turn = 0;
       tilt = 0;
+      pull = false;
       return input;
     },
     dispose() {

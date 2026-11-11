@@ -2,7 +2,10 @@ import type { Pose, Vec3 } from '@/cube/entities/world';
 
 /** Vertical field of view, in radians. */
 const FOV_Y = (70 * Math.PI) / 180;
-/** Clip planes in the eye floor's room sides: under a hole's side, past the fog. */
+/**
+ * Clip planes in room sides of a whole person's floor: under a hole's side,
+ * past the fog. A smaller eye's shrink with it.
+ */
 const NEAR = 0.004;
 const FAR = 24;
 
@@ -21,7 +24,7 @@ const cross = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
   ax * by - ay * bx,
 ];
 
-const unit = (v: Vec3): Vec3 => {
+const normalized = (v: Vec3): Vec3 => {
   const length = Math.hypot(...v);
   return [v[0] / length, v[1] / length, v[2] / length];
 };
@@ -42,8 +45,8 @@ function multiply(a: Float32Array, b: Float32Array): Float32Array {
 
 /** A right-handed view from `eye` along `ahead`, y up. */
 function lookAlong(eye: Vec3, ahead: Vec3): Float32Array {
-  const back = unit([-ahead[0], -ahead[1], -ahead[2]]);
-  const right = unit(cross([0, 1, 0], back));
+  const back = normalized([-ahead[0], -ahead[1], -ahead[2]]);
+  const right = normalized(cross([0, 1, 0], back));
   const up = cross(back, right);
   return Float32Array.of(
     right[0],
@@ -70,9 +73,11 @@ function lookAlong(eye: Vec3, ahead: Vec3): Float32Array {
  * float depth buffer then keeps its precision where a floor's slab meets the
  * tops of the walls beneath it, rooms away.
  */
-function perspective(aspect: number): Float32Array {
+function perspective(aspect: number, unit: number): Float32Array {
   const f = 1 / Math.tan(FOV_Y / 2);
-  const range = FAR - NEAR;
+  const near = NEAR * unit;
+  const far = FAR * unit;
+  const range = far - near;
   return Float32Array.of(
     f / aspect,
     0,
@@ -84,21 +89,24 @@ function perspective(aspect: number): Float32Array {
     0,
     0,
     0,
-    NEAR / range,
+    near / range,
     -1,
     0,
     0,
-    (NEAR * FAR) / range,
+    (near * far) / range,
     0,
   );
 }
 
 /**
  * The view-projection of an eye at `eye` in the frame the mesh was built in,
- * looking where `pose` looks, onto a screen `aspect` wide per unit of height.
+ * looking where `pose` looks, onto a screen `aspect` wide per unit of height;
+ * `unit` is a whole person's room side in that frame times the eye's scale.
  */
 export const viewProjection = (
   pose: Pose,
   eye: Vec3,
   aspect: number,
-): Float32Array => multiply(perspective(aspect), lookAlong(eye, forward(pose)));
+  unit: number,
+): Float32Array =>
+  multiply(perspective(aspect, unit), lookAlong(eye, forward(pose)));

@@ -25,6 +25,7 @@ const pose = (over: Partial<Pose> = {}): Pose => ({
   u: 0.5,
   v: 0.5,
   eyeAbove: EYE_HEIGHT,
+  scale: 1,
   yaw: 0,
   elevation: 0,
   ...over,
@@ -37,6 +38,7 @@ const still: Input = {
   tiltKeys: 0,
   yawBy: 0,
   elevationBy: 0,
+  pull: false,
 };
 const ahead: Input = { ...still, walk: 1 };
 

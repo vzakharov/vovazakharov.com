@@ -12,6 +12,7 @@ const pose = (yaw: number, pitch: number): Pose => ({
   u: 0.5,
   v: 0.5,
   eyeAbove: 0.32,
+  scale: 1,
   yaw,
   elevation: pitch,
 });
@@ -37,7 +38,7 @@ describe('the camera', () => {
 
   it('puts what is ahead in the middle, and south on the right facing east', () => {
     const eye: Vec3 = [0.5, 0.32, 0.5];
-    const matrix = viewProjection(pose(0, 0), eye, 16 / 9);
+    const matrix = viewProjection(pose(0, 0), eye, 16 / 9, 1);
     const [x, y, depth] = project(matrix, [1.5, 0.32, 0.5]);
     assert.ok(Math.abs(x) < 1e-6 && Math.abs(y) < 1e-6);
     assert.ok(depth > 0 && depth < 1);
@@ -47,16 +48,23 @@ describe('the camera', () => {
 
   it('reverses depth: nearer is greater, the near plane 1 and the far 0', () => {
     const eye: Vec3 = [0, 0, 0];
-    const matrix = viewProjection(pose(0, 0), eye, 1);
+    const matrix = viewProjection(pose(0, 0), eye, 1, 1);
     const depth = (ahead: number) => project(matrix, [ahead, 0, 0])[2];
     assert.ok(Math.abs(depth(0.004) - 1) < 1e-6);
     assert.ok(Math.abs(depth(24)) < 1e-6);
     assert.ok(depth(1) > depth(2));
   });
 
+  it('brings both planes in with a smaller eye', () => {
+    const matrix = viewProjection(pose(0, 0), [0, 0, 0], 1, 0.5);
+    const depth = (ahead: number) => project(matrix, [ahead, 0, 0])[2];
+    assert.ok(Math.abs(depth(0.002) - 1) < 1e-6);
+    assert.ok(Math.abs(depth(12)) < 1e-6);
+  });
+
   it('sees the floor low on the screen when pitched down', () => {
     const eye: Vec3 = [0.5, 0.32, 0.5];
-    const matrix = viewProjection(pose(0, -0.3), eye, 1);
+    const matrix = viewProjection(pose(0, -0.3), eye, 1, 1);
     const [, y] = project(matrix, [1, 0.32, 0.5]);
     assert.ok(y > 0);
   });

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { colourOf, hsl, hueOf } from './palette';
+import { airOf, between, colourOf, hsl, hueOf } from './palette';
 
 const close = (actual: readonly number[], expected: readonly number[]) => {
   for (const [i, value] of expected.entries()) {
@@ -28,5 +28,15 @@ describe('the palette', () => {
 
   it('paints neighbouring floors different walls', () => {
     assert.notDeepEqual(colourOf(1, 'wall'), colourOf(2, 'wall'));
+  });
+
+  it('passes from one floor’s air to the next’s as an eye halves', () => {
+    close(between(airOf, 3), airOf(3));
+    close(between(airOf, 4 - 1e-12), airOf(4));
+    const [from, to] = [airOf(3), airOf(4)];
+    close(
+      between(airOf, 3.5),
+      from.map((value, i) => (value + (to[i] ?? Number.NaN)) / 2),
+    );
   });
 });

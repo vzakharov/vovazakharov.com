@@ -22,7 +22,8 @@ export const TILT_RATE = Math.PI / 3;
  * (rightward) and `tiltKeys` (upward) are in `[-1, 1]` — keys give -1, 0 or
  * 1, a walking diagonal is normalized to walking speed, and the turn and tilt
  * go at their rates over the frame; `yawBy` and `elevationBy` are radians to
- * add to the pose's this frame, whatever its length.
+ * add to the pose's this frame, whatever its length; `pull` is whether the
+ * lever was asked for since the last frame.
  */
 export type Input = {
   walk: number;
@@ -31,6 +32,7 @@ export type Input = {
   tiltKeys: number;
   yawBy: number;
   elevationBy: number;
+  pull: boolean;
 };
 
 const TAU = 2 * Math.PI;
@@ -40,7 +42,10 @@ const wrap = (angle: number): number => ((angle % TAU) + TAU) % TAU;
 const clamp = (value: number, bound: number): number =>
   Math.min(bound, Math.max(-bound, value));
 
-/** `pose` after `dt` seconds of `input` among `walls`. */
+/**
+ * `pose` after `dt` seconds of `input` among `walls`, standing on its slab:
+ * walking, colliding and eye height go by its scale, turning does not.
+ */
 export function step(pose: Pose, input: Input, dt: number, walls: Walls): Pose {
   if (!(dt >= 0) || !Number.isFinite(dt)) {
     throw new RangeError(`Not a frame time: ${dt}`);
@@ -51,13 +56,13 @@ export function step(pose: Pose, input: Input, dt: number, walls: Walls): Pose {
     MAX_PITCH,
   );
   const length = Math.hypot(input.walk, input.strafe);
-  const scale = (WALK_SPEED * dt) / Math.max(1, length);
-  const forward = input.walk * scale;
-  const right = input.strafe * scale;
+  const stride = (WALK_SPEED * pose.scale * dt) / Math.max(1, length);
+  const forward = input.walk * stride;
+  const right = input.strafe * stride;
   const cos = Math.cos(yaw);
   const sin = Math.sin(yaw);
   return walk(
-    { ...pose, yaw, elevation, eyeAbove: EYE_HEIGHT },
+    { ...pose, yaw, elevation, eyeAbove: EYE_HEIGHT * pose.scale },
     forward * cos - right * sin,
     forward * sin + right * cos,
     walls,

@@ -6,8 +6,10 @@ import { floorsOf, planted, type Pose } from '@/cube/entities/world';
 import {
   bindInput,
   EYE_HEIGHT,
+  plantedHoled,
   plantedWalls,
-  step,
+  play as playFrame,
+  type Player,
 } from '@/cube/features/player';
 
 import { type CubePlayHook, PLAY_HOOK, PLAY_QUERY } from '../lib/play';
@@ -36,6 +38,7 @@ function startOf(query: URLSearchParams): Pose {
     u: 0.5,
     v: 0.5,
     eyeAbove: EYE_HEIGHT,
+    scale: 1,
     yaw: 0,
     elevation: 0,
   };
@@ -64,12 +67,24 @@ export function CubeCanvas({ canvas: label, unsupported }: CubeCanvasProps) {
     // Thrown from the effect, which the route's error boundary catches too.
     const start = startOf(query);
     const input = play ? null : bindInput(canvas, setFailure);
+    const holedHere = plantedHoled(setFailure);
+    // The pose is the scene's; the rest of the player rides along with it.
+    let player: Player = { pose: start, shrinking: null };
     const scene = mountCube(canvas, {
       start,
       onFrame:
         input === null
           ? (pose) => pose
-          : (pose, seconds) => step(pose, input.read(), seconds, plantedWalls),
+          : (pose, seconds) => {
+              player = playFrame(
+                { ...player, pose },
+                input.read(),
+                seconds,
+                plantedWalls,
+                holedHere(pose),
+              );
+              return player.pose;
+            },
       onError: setFailure,
       onUnsupported: () => {
         setMissing(true);
