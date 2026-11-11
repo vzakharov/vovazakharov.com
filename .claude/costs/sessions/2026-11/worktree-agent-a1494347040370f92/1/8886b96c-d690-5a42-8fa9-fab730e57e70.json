@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 56780,
-    "cacheWrite5mTokens": 312622,
-    "cacheWrite1hTokens": 1198891,
-    "cacheReadTokens": 82361854,
-    "outputTokens": 308387,
-    "thinkingTokens": 77007,
-    "responses": 479,
-    "costUsd": 34.1238576
+    "inputTokens": 57327,
+    "cacheWrite5mTokens": 414831,
+    "cacheWrite1hTokens": 1214176,
+    "cacheReadTokens": 84755616,
+    "outputTokens": 320952,
+    "thinkingTokens": 82710,
+    "responses": 500,
+    "costUsd": 35.489678
   },
   "estimate": {
     "at": "2026-11-11T08:47:48.208Z",
@@ -51,7 +51,7 @@
     }
   },
   "sessionId": "8886b96c-d690-5a42-8fa9-fab730e57e70",
-  "branch": "claude/hash-maze-cube-m6wq80",
+  "branch": "worktree-agent-a1494347040370f92",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/hash-maze-cube-m6wq80 — третий кусок готов, ходьба по этажам на превью, впереди рубильник и падение",
   "prs": [
@@ -60,39 +60,39 @@
   "url": "https://claude.ai/code/session_01DaohkDPxeBiwmr4W9k25Bu",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-11T08:47:05.679Z",
-  "lastResponseAt": "2026-11-11T13:10:35.355Z",
+  "lastResponseAt": "2026-11-11T13:25:30.317Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": 18.994157800000004,
   "ownTurns": {
-    "inputTokens": 754,
+    "inputTokens": 771,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 1198891,
-    "cacheReadTokens": 64769768,
-    "outputTokens": 235356,
-    "thinkingTokens": 67319,
-    "responses": 377,
-    "costUsd": 27.25521760000001
+    "cacheWrite1hTokens": 1214176,
+    "cacheReadTokens": 66212204,
+    "outputTokens": 243188,
+    "thinkingTokens": 70841,
+    "responses": 386,
+    "costUsd": 27.82269280000001
   },
   "subagents": {
-    "inputTokens": 76,
-    "cacheWrite5mTokens": 272274,
+    "inputTokens": 100,
+    "cacheWrite5mTokens": 374398,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 6505629,
-    "outputTokens": 23671,
-    "thinkingTokens": 9688,
-    "responses": 40,
-    "costUsd": 3.1362198
+    "cacheReadTokens": 7304961,
+    "outputTokens": 28391,
+    "thinkingTokens": 11869,
+    "responses": 51,
+    "costUsd": 3.9012021999999997
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 54612,
-      "cacheWrite5mTokens": 312622,
-      "cacheWrite1hTokens": 1198891,
-      "cacheReadTokens": 82361854,
-      "outputTokens": 308367,
-      "thinkingTokens": 77007,
-      "responses": 478,
-      "costUsd": 34.1236308
+      "inputTokens": 55159,
+      "cacheWrite5mTokens": 414831,
+      "cacheWrite1hTokens": 1214176,
+      "cacheReadTokens": 84755616,
+      "outputTokens": 320932,
+      "thinkingTokens": 82710,
+      "responses": 499,
+      "costUsd": 35.4894512
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 2168,
@@ -325,20 +325,20 @@
     }
   ],
   "telemetry": {
-    "events": 479,
-    "matched": 417,
-    "matchedTableUsd": 30.391437400000008,
-    "matchedEventUsd": 30.391437400000008,
+    "events": 499,
+    "matched": 436,
+    "matchedTableUsd": 31.68135100000001,
+    "matchedEventUsd": 31.68135100000001,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 26818,
-        "cacheWrite5mTokens": 37078,
+        "inputTokens": 27324,
+        "cacheWrite5mTokens": 37163,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 9326985,
-        "outputTokens": 745,
+        "cacheReadTokens": 9478979,
+        "outputTokens": 758,
         "thinkingTokens": 0,
-        "responses": 53,
-        "costUsd": 2.284193
+        "responses": 54,
+        "costUsd": 2.3175558
       },
       "generate_session_title": {
         "inputTokens": 2168,
@@ -363,7 +363,7 @@
     }
   },
   "operatorWords": {
-    "chat": 12877,
+    "chat": 13003,
     "review": 0,
     "threads": 0
   },
@@ -375,7 +375,7 @@
     ".json": 80,
     ".tsx": 123,
     ".scss": 52,
-    ".yaml": 531,
+    ".yaml": 537,
     ".svg": 4
   }
 }
