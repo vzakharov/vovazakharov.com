@@ -5,6 +5,7 @@ import { type Footing, FOOTINGS } from '@/cube/entities/theme';
 
 import { footstep, stepSeconds } from './footstep';
 import {
+  assertAllDiffer,
   assertAudible,
   brightness,
   loudness,
@@ -45,12 +46,7 @@ describe('footstep', () => {
   });
 
   it('differs between any two footings', () => {
-    const steps = FOOTINGS.map((footing) => footstep(footing, 0.6, 7, RATE));
-    for (const [index, step] of steps.entries()) {
-      for (const other of steps.slice(index + 1)) {
-        assert.notDeepEqual(step, other);
-      }
-    }
+    assertAllDiffer(FOOTINGS.map((footing) => footstep(footing, 0.6, 7, RATE)));
   });
 
   it('is louder the harder the step', () => {

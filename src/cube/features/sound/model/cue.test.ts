@@ -10,7 +10,7 @@ import {
   voicedOf,
 } from './cue';
 import { footstep } from './footstep';
-import { assertAudible, RATE } from './sound.test-kit';
+import { assertAllDiffer, assertAudible, RATE } from './sound.test-kit';
 
 const HERE = { rightward: 0, roomsAway: 0 };
 
@@ -40,12 +40,7 @@ describe('samplesOf', () => {
   });
 
   it('gives no two cues the same sound', () => {
-    const sounds = CUES.map((cue) => samplesOf(cue, 'tile', 3, RATE));
-    for (const [index, sound] of sounds.entries()) {
-      for (const other of sounds.slice(index + 1)) {
-        assert.notDeepEqual(sound, other);
-      }
-    }
+    assertAllDiffer(CUES.map((cue) => samplesOf(cue, 'tile', 3, RATE)));
   });
 
   it('steps on the footing the step names, lands on the floor’s', () => {

@@ -17,6 +17,15 @@ export function assertAudible(samples: Float32Array): void {
   assert.ok(peak(samples) > 0.01, `too quiet: ${peak(samples)}`);
 }
 
+/** Fails if any two of `sounds` are the same samples. */
+export function assertAllDiffer(sounds: readonly Float32Array[]): void {
+  for (const [index, sound] of sounds.entries()) {
+    for (const other of sounds.slice(index + 1)) {
+      assert.notDeepEqual(sound, other);
+    }
+  }
+}
+
 /** The root mean square of `samples`. */
 export const loudness = (samples: Float32Array): number =>
   Math.sqrt(

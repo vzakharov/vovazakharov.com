@@ -1,4 +1,4 @@
-import { chance, CYCLE, filterOf, noiseOf, samplesIn } from '../lib/dsp';
+import { chance, CYCLE, dying, filterOf, noiseOf, samplesIn } from '../lib/dsp';
 
 /** Seconds a room's hum and its air each loop over. */
 const HUM_SECONDS = 2;
@@ -120,7 +120,7 @@ export function impulse(
     const x = i / length;
     // The filter retunes a block at a time: tuning it is most of a sample's cost.
     if (i % RETUNE_EVERY === 0) corner = 800 + 9000 * Math.exp(-3 * x);
-    const sample = dark(noise(), corner, 0.7) * Math.exp(-6.9 * x);
+    const sample = dark(noise(), corner, 0.7) * dying(x, 1);
     samples[i] = sample;
     energy += sample * sample;
   }
