@@ -1,5 +1,3 @@
-/** What every sound here is computed from: seeded noise, a filter, envelopes. */
-
 export const CYCLE = 2 * Math.PI;
 
 /** A draw in `[-1, 1)`; the same seed gives the same run of them. */
