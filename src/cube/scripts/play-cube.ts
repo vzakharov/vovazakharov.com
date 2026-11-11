@@ -20,11 +20,13 @@ import {
   maze,
   planted,
   type Pose,
+  type Quad,
   type Quarter,
 } from '@/cube/entities/world';
 import {
   EYE_HEIGHT,
   FIRST_LOOK,
+  handsOf,
   type Holed,
   isStanding,
   plantedWalls,
@@ -67,6 +69,9 @@ const PULL_SHOTS: ReadonlyArray<
   ['pull-7-landed.png', (player) => player.pose.n === 2 && isStanding(player)],
 ];
 
+/** A frame to shoot: its file name, the eye's pose and the hands before it. */
+type Shot = readonly [name: string, pose: Pose, hands: readonly Quad[]];
+
 /** Seconds a pull may take to play out before the script gives up on it. */
 const PULL_LIMIT = 30;
 
@@ -75,7 +80,7 @@ const PULL_LIMIT = 30;
  * it and the hole, facing it, then, once small and let go, turning to the hole
  * and walking in, at each of `PULL_SHOTS`.
  */
-function pulled(quarter: Quarter): ReadonlyArray<readonly [string, Pose]> {
+function pulled(quarter: Quarter): Shot[] {
   const room = { n: 1, x: 0n, y: 0n };
   const lever = leverOf(maze(planted.seed), room, quarter);
   const here: Holed = { quarter, lever, shrinkLook: FIRST_LOOK };
@@ -99,14 +104,14 @@ function pulled(quarter: Quarter): ReadonlyArray<readonly [string, Pose]> {
     here,
   );
   if (isStanding(player)) throw new Error('Floor 1’s lever is out of reach');
-  const taken: Array<readonly [string, Pose]> = [];
+  const taken: Shot[] = [];
   let turned = false;
   for (let t = FRAME; taken.length < PULL_SHOTS.length; t += FRAME) {
     if (t > PULL_LIMIT) throw new Error('The pull never played out');
     const shot = PULL_SHOTS[taken.length];
     if (shot === undefined) break;
     const [name, due] = shot;
-    if (due(player, t)) taken.push([name, player.pose]);
+    if (due(player, t)) taken.push([name, player.pose, handsOf(player)]);
     const free = isStanding(player) && player.pose.n === 1;
     player = play(
       player,
@@ -123,7 +128,7 @@ function pulled(quarter: Quarter): ReadonlyArray<readonly [string, Pose]> {
 }
 
 /** The shots by file name, around the hole floor 1's room (0, 0) holds. */
-async function shots(): Promise<ReadonlyArray<readonly [string, Pose]>> {
+async function shots(): Promise<Shot[]> {
   const quarter = await holeQuarter(planted, 1, 0n, 0n);
   if (quarter === null) throw new Error('Floor 1 has no hole');
   const { qx, qy } = quarter;
@@ -159,8 +164,8 @@ async function shots(): Promise<ReadonlyArray<readonly [string, Pose]>> {
     elevation: Math.atan2(0.5 - 0.16, reach),
   };
   return [
-    ['floor-1-down.png', down],
-    ['floor-2-up.png', up],
+    ['floor-1-down.png', down, []],
+    ['floor-2-up.png', up, []],
     ...pulled(quarter),
   ];
 }
@@ -168,8 +173,8 @@ async function shots(): Promise<ReadonlyArray<readonly [string, Pose]>> {
 async function main(): Promise<void> {
   const planned = await shots();
   await withCubePage(async ({ shoot }) =>
-    inTurn(planned, async ([name, pose]) =>
-      shoot(path.join(FRAMES, name), pose),
+    inTurn(planned, async ([name, pose, hands]) =>
+      shoot(path.join(FRAMES, name), pose, hands),
     ),
   );
 }

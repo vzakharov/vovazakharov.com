@@ -22,6 +22,7 @@ import {
   bindInput,
   canPress,
   EYE_HEIGHT,
+  handsOf,
   isStanding,
   plantedHoled,
   plantedWalls,
@@ -174,7 +175,7 @@ function walk(
             reach(pose, signOf, pressed !== null);
             pressed?.resolve();
             pressed = null;
-            return { pose, pulled: null };
+            return { pose, pulled: null, moving: [] };
           }
         : (pose, seconds, signOf) => {
             // An open offer holds the body still, its keys read and dropped.
@@ -191,7 +192,11 @@ function walk(
             const standing = isStanding(player);
             reach(moved, signOf, controls.pull && standing);
             follow?.(moved, standing, seconds);
-            return { pose: moved, pulled: pulledOf(player) };
+            return {
+              pose: moved,
+              pulled: pulledOf(player),
+              moving: handsOf(player),
+            };
           },
     now: () => frozen ?? Date.now(),
     onError: setFailure,

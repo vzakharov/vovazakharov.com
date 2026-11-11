@@ -9,8 +9,8 @@ import type { Vec3 } from '@/cube/entities/world';
 
 import type { FloorRange, Scenery } from '../lib/mesh';
 import { UNIFORM_FLOATS } from '../lib/shader';
-import { VERTEX_LAYOUT } from '../lib/vertex';
 import { createBloom, SCENE_FORMAT } from './bloom';
+import { createPrograms, DEPTH_FORMAT } from './programs';
 
 /** What one frame is seen from and when, and what shows where nothing is. */
 export type Shot = Clock & {
@@ -42,6 +42,11 @@ export type Renderer = CanDispose & {
   prepare: (floors: readonly number[]) => Promise<void>;
   /** Replaces the rooms drawn. */
   upload: (scenery: Scenery) => void;
+  /**
+   * Replaces what moves among the rooms, drawn with them; its floors must be
+   * prepared, as an uploaded room's are.
+   */
+  uploadMoving: (scenery: Scenery) => void;
   /** Replaces the boards, drawn after the rooms. */
   uploadBoards: (boards: readonly Boards[]) => void;
   draw: (shot: Shot) => void;
@@ -51,21 +56,8 @@ export type Renderer = CanDispose & {
   readonly adapter: string;
 };
 
-/** Float depth, cleared to 0 and kept where greater: `viewProjection` reverses it. */
-const DEPTH_FORMAT: GPUTextureFormat = 'depth32float';
-
 /** How far off the scene's `a` says the air is, where no face is drawn. */
 const NOWHERE = 1e4;
-
-/**
- * A floor's pipelines: its rooms' faces and the boards hung in them, drawn
- * as scene light, and the lens that makes the frame of that.
- */
-type Program = {
-  faces: GPURenderPipeline;
-  boards: GPURenderPipeline;
-  lens: GPURenderPipeline;
-};
 
 /** What a frame is drawn through, remade when the canvas changes size. */
 type Targets = Sized & {
@@ -88,19 +80,6 @@ async function watchLoss(
   if (lost.reason !== 'destroyed') {
     onLost(new Error(`WebGPU device lost: ${lost.message}`));
   }
-}
-
-/** `shader`'s compile errors on one line, or null where it compiled. */
-async function compileErrors(shader: GPUShaderModule): Promise<string | null> {
-  const { messages } = await shader.getCompilationInfo();
-  const errors = messages.filter(({ type }) => type === 'error');
-  if (errors.length === 0) return null;
-  return errors
-    .map(
-      ({ lineNum, linePos, message }) =>
-        `${String(lineNum)}:${String(linePos)} ${message}`,
-    )
-    .join('; ');
 }
 
 /**
@@ -126,108 +105,24 @@ export async function createRenderer(
   const format = navigator.gpu.getPreferredCanvasFormat();
   context.configure({ device, format, alphaMode: 'opaque' });
 
-  const uniformLayout = device.createBindGroupLayout({
-    entries: [
-      {
-        binding: 0,
-        visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
-        buffer: {},
-      },
-    ],
-  });
-  const boardLayout = device.createBindGroupLayout({
-    entries: [
-      { binding: 0, visibility: GPUShaderStage.FRAGMENT, texture: {} },
-      { binding: 1, visibility: GPUShaderStage.FRAGMENT, sampler: {} },
-    ],
-  });
-  const lensLayout = device.createBindGroupLayout({
-    entries: [
-      { binding: 2, visibility: GPUShaderStage.FRAGMENT, texture: {} },
-      { binding: 3, visibility: GPUShaderStage.FRAGMENT, texture: {} },
-      { binding: 4, visibility: GPUShaderStage.FRAGMENT, sampler: {} },
-    ],
-  });
-  const lensPipelineLayout = device.createPipelineLayout({
-    bindGroupLayouts: [uniformLayout, lensLayout],
-  });
-  const facesLayout = device.createPipelineLayout({
-    bindGroupLayouts: [uniformLayout],
-  });
-  const boardsLayout = device.createPipelineLayout({
-    bindGroupLayouts: [uniformLayout, boardLayout],
-  });
+  const {
+    layouts,
+    prepare,
+    of: programOf,
+  } = createPrograms(device, format, sourceOf);
 
   const uniforms = device.createBuffer({
     size: UNIFORM_FLOATS * 4,
     usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
   });
   const uniformGroup = device.createBindGroup({
-    layout: uniformLayout,
+    layout: layouts.uniform,
     entries: [{ binding: 0, resource: { buffer: uniforms } }],
   });
   const sampler = device.createSampler({
     magFilter: 'linear',
     minFilter: 'linear',
   });
-
-  const programs = new Map<number, Promise<Program>>();
-  const ready = new Map<number, Program>();
-
-  const compile = async (n: number): Promise<Program> => {
-    const shader = device.createShaderModule({ code: sourceOf(n) });
-    const errors = await compileErrors(shader);
-    if (errors !== null) {
-      throw new Error(`Floor ${String(n)}'s shader: ${errors}`);
-    }
-    const pipeline = async (
-      layout: GPUPipelineLayout,
-      fragment: string,
-    ): Promise<GPURenderPipeline> =>
-      device.createRenderPipelineAsync({
-        layout,
-        vertex: {
-          module: shader,
-          entryPoint: 'vertexMain',
-          buffers: [VERTEX_LAYOUT],
-        },
-        fragment: {
-          module: shader,
-          entryPoint: fragment,
-          targets: [{ format: SCENE_FORMAT }],
-        },
-        primitive: { topology: 'triangle-list', cullMode: 'back' },
-        depthStencil: {
-          format: DEPTH_FORMAT,
-          depthWriteEnabled: true,
-          depthCompare: 'greater',
-        },
-      });
-    const [faces, boards, lens] = await Promise.all([
-      pipeline(facesLayout, 'fragmentMain'),
-      pipeline(boardsLayout, 'boardFragment'),
-      device.createRenderPipelineAsync({
-        layout: lensPipelineLayout,
-        vertex: { module: shader, entryPoint: 'lensVertex' },
-        fragment: {
-          module: shader,
-          entryPoint: 'lensFragment',
-          targets: [{ format }],
-        },
-      }),
-    ]);
-    const program = { faces, boards, lens };
-    ready.set(n, program);
-    return program;
-  };
-
-  const programOf = (n: number): Program => {
-    const program = ready.get(n);
-    if (program === undefined) {
-      throw new Error(`Floor ${String(n)} is drawn before it was prepared`);
-    }
-    return program;
-  };
 
   const drawnOf = (
     { data, ranges }: Scenery,
@@ -249,6 +144,7 @@ export async function createRenderer(
   };
 
   let rooms: Drawn | null = null;
+  let moving: Drawn | null = null;
   let boards: Array<Drawn & { group: GPUBindGroup }> = [];
   let targets: Targets | null = null;
   const bloom = createBloom(device);
@@ -275,7 +171,7 @@ export async function createRenderer(
       source.height,
     ]);
     const group = device.createBindGroup({
-      layout: boardLayout,
+      layout: layouts.board,
       entries: [
         { binding: 0, resource: texture.createView() },
         { binding: 1, resource: sampler },
@@ -320,19 +216,16 @@ export async function createRenderer(
 
   return {
     adapter: `${adapter.info.vendor} ${adapter.info.architecture}`.trim(),
-    prepare: async (floors) => {
-      await Promise.all(
-        floors.map(async (n) => {
-          const compiling = programs.get(n) ?? compile(n);
-          programs.set(n, compiling);
-          return compiling;
-        }),
-      );
-    },
+    prepare,
     upload: (scenery) => {
       const next = drawnOf(scenery, 'faces');
       rooms?.buffer.destroy();
       rooms = next;
+    },
+    uploadMoving: (scenery) => {
+      const next = drawnOf(scenery, 'faces');
+      moving?.buffer.destroy();
+      moving = next;
     },
     uploadBoards: (next) => {
       const made = next.flatMap((board) => {
@@ -368,6 +261,7 @@ export async function createRenderer(
       });
       pass.setBindGroup(0, uniformGroup);
       if (rooms !== null) drawRuns(pass, rooms);
+      if (moving !== null) drawRuns(pass, moving);
       for (const board of boards) {
         pass.setBindGroup(1, board.group);
         drawRuns(pass, board);
@@ -388,7 +282,7 @@ export async function createRenderer(
       framed.setBindGroup(
         1,
         device.createBindGroup({
-          layout: lensLayout,
+          layout: layouts.lens,
           entries: [
             { binding: 2, resource: sceneView },
             { binding: 3, resource: glow },
@@ -403,6 +297,7 @@ export async function createRenderer(
     drawn: async () => device.queue.onSubmittedWorkDone(),
     dispose: () => {
       rooms?.buffer.destroy();
+      moving?.buffer.destroy();
       targets?.scene.destroy();
       targets?.depth.destroy();
       bloom.dispose();

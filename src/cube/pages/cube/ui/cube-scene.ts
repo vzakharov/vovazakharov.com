@@ -10,6 +10,7 @@ import {
   type Holdings,
   type HoleOf,
   holesOf,
+  inPlace,
   maze,
   mazeWalls,
   placed,
@@ -18,6 +19,7 @@ import {
   type Posed,
   priceOf,
   type Pulled,
+  type Quad,
   type Room,
   roomKey,
   sight,
@@ -42,8 +44,12 @@ import { shaderOf } from '../lib/shader';
 import { type Boards, createRenderer, type Renderer } from './renderer';
 import { drawBoard } from './sign-board';
 
-/** What one frame draws: the eye's pose and the lever pulled, if any. */
-type Frame = Posed & { pulled: Pulled | null };
+/**
+ * What one frame draws: the eye's pose, the lever pulled, if any, and
+ * `moving`, what is in the rooms for this frame alone, each quad in its own
+ * room's frame.
+ */
+type Frame = Posed & { pulled: Pulled | null; moving: readonly Quad[] };
 
 type LookOf = (room: Room) => RoomLook;
 
@@ -60,9 +66,13 @@ export type SignOf = (room: Room) => Sign | null;
  */
 type FrameHook = (pose: Pose, seconds: number, signOf: SignOf) => Frame;
 
-/** One room's view: its faces, the lever pulled drawn as such, and its signs. */
+/**
+ * One room's view: its faces, the lever pulled drawn as such, its signs, and
+ * `stood`, a frame's moving quads where the view has their rooms.
+ */
 type Mesh = {
   faces: (pulled: Pulled | null) => Scenery;
+  stood: (moving: readonly Quad[]) => Scenery;
   boards: readonly Boards[];
   signOf: SignOf;
 };
@@ -182,6 +192,16 @@ async function build(
         ],
         lookOf,
       ),
+    stood: (moving) =>
+      pack(
+        [...Map.groupBy(moving, ({ room }) => roomKey(room)).values()].flatMap(
+          (inRoom) =>
+            inRoom[0] === undefined
+              ? []
+              : inPlace(inRoom, placed(pose, inRoom[0].room)),
+        ),
+        lookOf,
+      ),
     boards: boardsOf(pose, signed, copy, lookOf),
     signOf: (room) => onFloor.get(roomKey(room)) ?? null,
   };
@@ -210,6 +230,11 @@ export function mountCube(
 ): CubeScene {
   let pose = start;
   let pulled: Pulled | null = null;
+  let moving: readonly Quad[] = [];
+  /** What the play hook's last call put in the rooms. */
+  let staged: readonly Quad[] = [];
+  /** Whether the renderer holds moving quads, to drop once a frame has none. */
+  let movingDrawn = false;
   let renderer: Renderer | null = null;
   /** Counts purchases, so a mesh built before one is rebuilt. */
   let generation = 0;
@@ -272,6 +297,14 @@ export function mountCube(
       renderer.upload(built.mesh.faces(pulled));
       uploadedPull = pullKey();
     }
+    const { lenses, mesh } = built;
+    const seen = [...moving, ...staged].filter(({ room }) =>
+      lenses.has(room.n),
+    );
+    if (seen.length > 0 || movingDrawn) {
+      renderer.uploadMoving(mesh.stood(seen));
+      movingDrawn = seen.length > 0;
+    }
     const { width, height } = canvas;
     const { eye, side } = eyeInFrame(built.pose, at);
     const unit = side * at.scale;
@@ -280,7 +313,7 @@ export function mountCube(
       viewProjection: viewProjection(at, eye, width / height, unit),
       eye,
       clear: airAt(depth),
-      lens: built.lenses.has(at.n) ? at.n : built.pose.n,
+      lens: lenses.has(at.n) ? at.n : built.pose.n,
       ...clockAt(now()),
     });
     firstFrame.resolve();
@@ -298,7 +331,11 @@ export function mountCube(
   const tick = (time: number): void => {
     const seconds = Math.min((time - last) / 1000, 0.1);
     last = time;
-    ({ pose, pulled } = onFrame(pose, seconds, built?.mesh.signOf ?? noSign));
+    ({ pose, pulled, moving } = onFrame(
+      pose,
+      seconds,
+      built?.mesh.signOf ?? noSign,
+    ));
     resize();
     render();
     frame = requestAnimationFrame(tick);
@@ -323,9 +360,10 @@ export function mountCube(
 
   return {
     ready: async () => firstFrame.promise,
-    setPose: async (next) => {
+    setPose: async (next, among = []) => {
       await firstFrame.promise;
       pose = next;
+      staged = among;
       await rebuild(inEyeRoom(next)).done;
       resize();
       render();

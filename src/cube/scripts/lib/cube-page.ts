@@ -3,7 +3,7 @@ import path from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { z } from 'zod';
 
-import type { Pose } from '@/cube/entities/world';
+import type { Pose, Quad } from '@/cube/entities/world';
 import {
   type CubePlayHook,
   PLAY_HOOK,
@@ -31,11 +31,19 @@ const hook = `window.${PLAY_HOOK}`;
 const call = (method: keyof CubePlayHook, ...args: string[]): string =>
   `${hook}.${method}(${args.join(', ')})`;
 
-/** Page source for `pose`, its rooms as BigInt literals. */
-const source = (pose: Pose): string => {
-  const { n, x, y, u, v, eyeAbove, scale, yaw, elevation } = pose;
-  return `{ n: ${String(n)}, x: ${String(x)}n, y: ${String(y)}n, u: ${String(u)}, v: ${String(v)}, eyeAbove: ${String(eyeAbove)}, scale: ${String(scale)}, yaw: ${String(yaw)}, elevation: ${String(elevation)} }`;
-};
+/** Page source for `value`: its JSON, with every bigint a BigInt literal. */
+function source(value: unknown): string {
+  if (typeof value === 'bigint') return `${String(value)}n`;
+  if (Array.isArray(value))
+    return `[${value.map((item) => source(item)).join(', ')}]`;
+  if (typeof value === 'object' && value !== null) {
+    const members = Object.entries(value).map(
+      ([key, member]) => `${JSON.stringify(key)}: ${source(member)}`,
+    );
+    return `{ ${members.join(', ')} }`;
+  }
+  return JSON.stringify(value);
+}
 
 async function until(tab: Tab, expression: string, deadline: number) {
   if (await tab.evaluate(`Boolean(${expression})`, z.boolean())) return;
@@ -48,8 +56,11 @@ async function until(tab: Tab, expression: string, deadline: number) {
 
 /** What a script does with `/cube` once its hook is up. */
 export type CubePage = {
-  /** Puts the eye at `pose` and saves the frame as `file`. */
-  shoot: (file: string, pose: Pose) => Promise<void>;
+  /**
+   * Puts the eye at `pose`, `moving` in the rooms around it, and saves the
+   * frame as `file`.
+   */
+  shoot: (file: string, pose: Pose, moving?: readonly Quad[]) => Promise<void>;
   /** Stops the page's clock at `ms` since the epoch. */
   setClock: (ms: number) => Promise<void>;
 };
@@ -77,10 +88,12 @@ export async function withCubePage(
     const adapter = await tab.evaluate(call('adapter'), z.string());
     process.stdout.write(`adapter: ${adapter}\n`);
     await script({
-      shoot: async (file, pose) => {
-        await tab.evaluate(call('setPose', source(pose)), z.unknown(), {
-          awaitPromise: true,
-        });
+      shoot: async (file, pose, moving = []) => {
+        await tab.evaluate(
+          call('setPose', source(pose), source(moving)),
+          z.unknown(),
+          { awaitPromise: true },
+        );
         const { data } = z
           .object({ data: z.string() })
           .parse(await tab.send('Page.captureScreenshot', { format: 'png' }));
