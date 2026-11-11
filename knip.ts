@@ -37,6 +37,9 @@ export default {
   // SCSS is in: knip follows `@use` and `@forward`, so a stylesheet nothing reaches
   // is reported like any other file.
   project: ['**/*.{ts,tsx,mjs,scss}'],
+  // The artifact apps are a project of their own, with their own `package.json`,
+  // vendored from vzakharov/muthur and checked there.
+  ignore: ['.claude/artifacts/**'],
   // knip expands a `pnpm <script> <args>` spawned from a source file and resolves
   // the script's local binary against that file's directory, ignoring the spawn's
   // `cwd`; pnpm runs it from the repository root, where this one exists.

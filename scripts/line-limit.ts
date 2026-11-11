@@ -7,9 +7,14 @@ import { readFileSync } from 'node:fs';
 
 export const LIMIT = 400;
 
-/** Machine-written data and exported threads, which nobody splits by hand. */
+/**
+ * Machine-written data, exported threads and vendored projects, which nobody
+ * splits by hand here.
+ */
 const EXCLUDED = [
   /(^|\/)pnpm-lock\.yaml$/u,
+  // Vendored from vzakharov/muthur, edited only there.
+  /^\.claude\/artifacts\//u,
   /^docs\/(pr|issue)\//u,
   /\.jsonl?$/u,
 ];

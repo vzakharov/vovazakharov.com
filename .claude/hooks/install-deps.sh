@@ -22,3 +22,7 @@ cd "${CLAUDE_PROJECT_DIR:-$(pwd)}"
 
 corepack enable pnpm >/dev/null 2>&1 || true
 pnpm install --frozen-lockfile
+
+# The artifact apps' scoped toolchain, keyed on its directory so a repo that
+# declined it has nothing to install.
+[ ! -d .claude/artifacts ] || pnpm --dir .claude/artifacts install --frozen-lockfile >/dev/null

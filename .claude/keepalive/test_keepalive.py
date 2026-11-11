@@ -192,7 +192,7 @@ class WhenTheWatcherWakesTheSession(HookCase):
         self.wake()
         out, _ = self.prompt(self.notice())
         self.assertIn("last wake (0 renewals spent)", out)
-        self.assertIn("Run `/relay park`", out)
+        self.assertIn("so run `/relay park`", out)
         self.assertIn("Do not start the watcher again", out)
 
     def test_a_renewal_asks_for_one_line_with_the_way_out_and_a_new_watcher(self) -> None:
@@ -286,6 +286,22 @@ class TheDeadline(HookCase):
 
     def test_a_session_with_no_transcript_yet_is_left_alone(self) -> None:
         self.assertIsNone(keepalive.deadline(self.transcript, 300))
+
+    def test_a_response_written_after_the_watcher_starts_replaces_its_deadline(self) -> None:
+        # A lead of an hour less two seconds makes the first response due in
+        # two; the five-minute one written next leaves nothing due, so a
+        # watcher alive past the first deadline read the second.
+        self.session(ago=0)
+        due = time.time() + 2
+        watcher = self.start_watcher({"MUTHUR_CACHE_KEEPALIVE_LEAD": "3598"})
+        try:
+            self.await_lock(due)
+            self.session(ago=0, ttl="5m")
+            time.sleep(max(0.0, due - time.time()) + 1.5)
+            self.assertIsNone(watcher.poll())
+        finally:
+            watcher.kill()
+            watcher.communicate()
 
 
 class TheSwitches(HookCase):

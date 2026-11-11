@@ -166,11 +166,11 @@ the roster.
   better, like one substitution across dozens of files; a file piped into
   another command or read inside a `$(…)` is data being processed, not read.
 - **An auto-mode denial is routine, and the reply that meets it carries the way
-  past it.** In that same reply, hand the operator a fenced message to send back
-  that names the denied action exactly — command, file, target — unsoftened, in
-  their language: the classifier lets through what the operator's own message
-  names. A Stop hook (`.claude/hooks/permission-denied-phrase.sh`) catches a
-  reply that forgot, too late to stand in for it.
+  past it**: a narrow script in `.claude/settings.json` `permissions.allow` that
+  does the action, run as its rule spells it; else a fenced message to send
+  back, naming the action exactly — command, file, target — in the operator's
+  language, which the classifier lets through. A reply that forgot is caught by
+  `.claude/hooks/permission-denied-phrase.sh`, too late to stand in for it.
 - **Reddit is read through Arctic Shift, a link the operator pastes included** —
   reddit.com answers this container with a 403, so that 403 never means the
   thread is out of reach. `.claude/skills/file-basilisk-case/SKILL.md` § "Step 2

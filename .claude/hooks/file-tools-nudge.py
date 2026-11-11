@@ -24,7 +24,6 @@ refuse the retry too.
 
 from __future__ import annotations
 
-import hashlib
 import json
 import os
 import sys
@@ -32,7 +31,7 @@ from itertools import takewhile
 from pathlib import Path
 from typing import Callable, Optional
 
-from session_state import project_root, state_file
+from session_state import first_sighting, project_root, state_file
 from shell_words import ASSIGNMENT, WRAPPERS, program, simple_commands, tokens, unwrap
 
 NOT_FILES = ("/dev/", "/proc/", "/sys/")
@@ -241,18 +240,7 @@ def main() -> int:
         found = detect(command, within(root.resolve(), base.resolve()))
     except (ValueError, OSError, RuntimeError):
         return 0
-    if found is None:
-        return 0
-
-    digest = hashlib.sha256(command.encode()).hexdigest()
-    try:
-        if state.is_file() and digest in state.read_text().split():
-            return 0
-        state.parent.mkdir(parents=True, exist_ok=True)
-        with state.open("a") as f:
-            f.write(digest + "\n")
-    except OSError as error:
-        say(f"cannot record the refusal in {state} ({error}); command allowed.")
+    if found is None or not first_sighting(state, command):
         return 0
 
     kind, via = found
