@@ -92,8 +92,8 @@ export const standingAt = (pose: Pose): Player => ({
 export const isStanding = ({ act }: Player): boolean => act === null;
 
 /**
- * The lever `player` pulled and how far its handle has swung; null once it
- * has landed on the floor below, where the lever is up again.
+ * The lever `player` pulled and how far its handle has swung; null from the
+ * floor below on, as before any pull.
  */
 export const pulledOf = ({ lever }: Player): Pulled | null => lever;
 

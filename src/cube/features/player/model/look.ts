@@ -34,7 +34,7 @@ const DROP_GAZE = 0.6;
 const TURN_OVER = 0.7;
 /** Where the eyes rest on the hands, in radians under the horizon. */
 const HANDS_ELEVATION = -1;
-/** How far to each side a glance glance goes, in radians. */
+/** How far to each side a glance goes, in radians. */
 const AROUND = 0.8;
 
 /** Floor 1's look, the same for everyone: the hands, turned over, then glance. */
@@ -61,7 +61,7 @@ const Looks = roll.struct({
   ),
 });
 
-/** Of ten later shrinks, how many look at the hands, and how many glance. */
+/** The share of deeper rooms whose look takes in the hands, and that glance. */
 const HANDS_CHANCE = 0.5;
 const GLANCE_CHANCE = 0.5;
 
@@ -130,7 +130,7 @@ export function glimpse(
   };
 }
 
-/** The gaze `seen` leaves of one resting at `yaw` and `elevation`. */
+/** The gaze a glimpse leaves of one resting at `yaw` and `elevation`. */
 export const gazeOf = (
   { aside, toHands }: Glimpse,
   yaw: number,
