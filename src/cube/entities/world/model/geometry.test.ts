@@ -1,13 +1,15 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { CEILING_HEIGHT, SLAB_THICK } from '@/cube/shared/lib/room-shape';
+
 import { descend, eyeInFrame, faces, HOLE_SIDE } from './geometry';
 import type { HoleOf } from './hole';
 import type { Pulled } from './lever';
 import { isOpenEast, maze } from './maze';
 import type { Pose } from './pose';
 import type { Quad } from './quad';
-import { type Room, roomKey } from './room';
+import { type Room, roomKey, WALL_HALF } from './room';
 import { sight, withBelow } from './rooms';
 import { mazeWalls } from './walls';
 
@@ -112,9 +114,11 @@ describe('faces', () => {
       heights(quads.filter((q) => q.room.n === floor && q.surface === surface));
     assert.deepEqual(of(3, 'floor'), [-0.25]);
     assert.deepEqual(of(2, 'floor'), [0]);
-    assert.deepEqual(of(2, 'ceiling'), [0.5]);
+    // A ceiling hangs a slab's thickness under the floor over it.
+    assert.deepEqual(of(3, 'ceiling'), [-SLAB_THICK / 2]);
+    assert.deepEqual(of(2, 'ceiling'), [CEILING_HEIGHT]);
     assert.deepEqual(of(1, 'floor'), [0.5]);
-    assert.deepEqual(of(1, 'ceiling'), [1.5]);
+    assert.deepEqual(of(1, 'ceiling'), [0.5 + 2 * CEILING_HEIGHT]);
   });
 
   it('draws a wall where the maze closes one and none where it opens', () => {
@@ -137,7 +141,11 @@ describe('faces', () => {
         .filter(
           (q) => q.room.n === 3 && q.surface === 'wall' && q.normal[0] > 0,
         )
-        .map(({ corners: [[east, , south]] }) => `${east} ${south}`),
+        .map(({ corners: [[east, , south]] }) => {
+          // Each face stands half the wall's thickness into its room.
+          assert.ok(Math.abs(east - Math.round(east) - WALL_HALF) < 1e-9);
+          return `${Math.round(east)} ${south}`;
+        }),
     );
     for (let y = 0n; y < 4n; y += 1n) {
       for (let x = 0n; x < 3n; x += 1n) {
@@ -162,7 +170,7 @@ describe('faces', () => {
     const ceiling = quads.filter(
       (q) => q.surface === 'ceiling' && q.room.n === 1,
     );
-    assert.deepEqual(heights(ceiling), [0.5]);
+    assert.deepEqual(heights(ceiling), [CEILING_HEIGHT]);
     assert.ok(!quads.some((q) => q.room.n === 0));
   });
 

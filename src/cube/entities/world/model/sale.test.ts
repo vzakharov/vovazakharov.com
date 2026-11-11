@@ -5,7 +5,7 @@ import { placed } from './geometry';
 import { holesOf } from './hole';
 import { maze } from './maze';
 import { planted } from './planted';
-import { type Room, roomKey } from './room';
+import { type Room, roomKey, WALL_HALF } from './room';
 import {
   endsOf,
   type Holdings,
@@ -248,9 +248,9 @@ describe('signFacets', () => {
       const middle = (axis: 0 | 2) =>
         corners.reduce((sum, corner) => sum + corner[axis], 0) / 4;
       const [mu, mv] = [middle(0), middle(2)];
-      assert.ok(Math.abs(mu - sign.at.u) <= 0.01);
-      assert.ok(Math.abs(mv - sign.at.v) <= 0.01);
-      // Off the wall, into the room.
+      assert.ok(Math.abs(mu - sign.at.u) <= WALL_HALF + 0.01);
+      assert.ok(Math.abs(mv - sign.at.v) <= WALL_HALF + 0.01);
+      // Off the wall's face, into the room.
       assert.ok((mu - sign.at.u) * du + (mv - sign.at.v) * dv > 0);
       // Bottom edge first, top edge last.
       assert.ok(corners[0][1] < corners[3][1]);

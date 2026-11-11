@@ -14,7 +14,7 @@ import type { Walls } from './walls';
  * the hole in its floor, which stays clear too; and its own word.
  *
  * Things are set in the room's own frame — its side 1, x east, y up, z south
- * from the north-west corner of its floor, the ceiling at `ROOM_HEIGHT` — and
+ * from the north-west corner of its floor, the ceiling at `CEILING_HEIGHT` — and
  * `inPlace` stands them in the eye's.
  */
 export type Setting = InRoomOf &

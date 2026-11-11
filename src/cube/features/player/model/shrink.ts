@@ -1,4 +1,5 @@
 import {
+  DEEPEST_FLOOR,
   descend,
   DROP,
   HOLE_SIDE,
@@ -137,11 +138,20 @@ function shrink(
   return { pose: descend(moved), shrinking: null };
 }
 
+/** `pose` standing on the floor below, straight under where it stood, as a body of that floor. */
+const clipped = (pose: Pose): Pose => ({
+  ...descend(pose),
+  scale: 1,
+  eyeAbove: EYE_HEIGHT,
+});
+
 /**
  * `player` after `dt` seconds of `input` among `walls`, `here` being its
  * room's hole and lever (null where it has none, or none known yet). A pull
  * over the hole within reach shrinks the body from that frame on; it drops
  * through at `FALL_AT` and lands at `HALVING`, rebased onto the floor below.
+ * A body at rest that asks to clip is on the floor below that same frame,
+ * hole or none, down to the deepest floor.
  */
 export function play(
   player: Player,
@@ -152,6 +162,9 @@ export function play(
 ): Player {
   const { pose, shrinking } = player;
   if (shrinking !== null) return shrink({ pose, shrinking }, input, dt, walls);
+  if (input.clip && pose.n < DEEPEST_FLOOR) {
+    return { pose: clipped(pose), shrinking: null };
+  }
   if (input.pull && here !== null && canPull(pose, here)) {
     return shrink(
       { pose, shrinking: { ...here, sincePull: 0 } },

@@ -41,10 +41,12 @@ rules every stream shares and each stream's contract.
   The overlap gate compares member names repo-wide: a member that only shares a
   name with another app's type gets a more exact name.
 - **Units.** A room's own frame: its side is 1 (five metres), x east, y up, z
-  south from the north-west corner of its floor; the ceiling is at `ROOM_HEIGHT`
-  (0.5), the visitor's eye at `EYE_HEIGHT` (0.32). Geometry is `Quad`s (`face`,
-  `box`, `facet` from `@/cube/entities/world`), each made of a `Surface`
-  (`@/cube/shared/lib/surface`) and an optional `paint` (`0xRRGGBB`);
+  south from the north-west corner of its floor; the ceiling is at
+  `CEILING_HEIGHT` (0.46, `@/cube/shared/lib/room-shape`), a closed side's wall
+  face stands `WALL_HALF` (0.012, `@/cube/entities/world`) in from the room's
+  edge, the visitor's eye is at `EYE_HEIGHT` (0.32). Geometry is `Quad`s
+  (`face`, `box`, `facet` from `@/cube/entities/world`), each made of a
+  `Surface` (`@/cube/shared/lib/surface`) and an optional `paint` (`0xRRGGBB`);
   `kit/lib/stuff.ts` says how each surface is shaded.
 - **The final message** goes to the lead with
   `mcp__claude-code-remote__send_message` (session
@@ -140,6 +142,8 @@ hatch you simply jump, with no pulling-up or lowering-down". The first time "you
 may look at your hands and around and say wtf; the second, here we go again;
 you'll get creative".
 
+- `Input.clip` (the typed `idclip`, which stands the body on the floor below at
+  once) stays as it is, whatever else the descent becomes.
 - Owns `src/cube/features/player/**`, `src/cube/scripts/play-cube.ts` (its pull
   shots), and may touch `entities/world/model/{lever,hole}.ts` and the call of
   `play` in `pages/cube/ui/cube-canvas.tsx` where the change forces it.
@@ -171,7 +175,7 @@ chair's seat at 0.09), `perRoom` of each on average.
   every open side stays clear, so do 0.15 around the hole and the lever
   (`leverOf`), and the middle third of every closed wall between 0.18 and 0.42
   up, where signs and posters hang. Things do not overlap. Wall things sit 0.002
-  off the wall.
+  off the wall's face, which is `WALL_HALF` in from the room's edge.
 - At most 60 quads a thing and 250 a room.
 - Tested: every thing builds, stays inside the room, keeps the clear zones, is
   the same for the same setting.

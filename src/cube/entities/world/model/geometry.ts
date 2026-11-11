@@ -1,13 +1,17 @@
+import {
+  CEILING_HEIGHT,
+  ROOM_HEIGHT,
+  SLAB_THICK,
+} from '@/cube/shared/lib/room-shape';
+
 import { holeMiddle, type HoleOf, type Quarter, QUARTERS, under } from './hole';
 import { leverFaces, leverOf, type Pulled, swungIn } from './lever';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
 import type { InRoom, Pose } from './pose';
 import { face, type Quad, type Vec3 } from './quad';
-import { isRoom, type Room, roomKey, roomsAcross } from './room';
+import { isRoom, type Room, roomKey, roomsAcross, WALL_HALF } from './room';
 import type { View } from './rooms';
 
-/** A room's height, in its own side. */
-export const ROOM_HEIGHT = 0.5;
 /** A hole's side, in its room's side; it sits in the middle of its quarter. */
 export const HOLE_SIDE = 0.08;
 
@@ -141,11 +145,35 @@ function level(
   });
 }
 
+/** The four faces of the shaft a hole cuts through `room`'s slab, `deep` down from `y`. */
+function shaft(
+  { east, south, roomSide: side }: Footprint,
+  { u, v, gapSide }: Gap,
+  y: number,
+  deep: number,
+  room: Room,
+): Quad[] {
+  const wide = side * gapSide;
+  const west = east + side * u - wide / 2;
+  const north = south + side * v - wide / 2;
+  const down: Vec3 = [0, -deep, 0];
+  const runEast: Vec3 = [wide, 0, 0];
+  const runSouth: Vec3 = [0, 0, wide];
+  return [
+    // Each faces into the shaft: `runSouth × down` points east, `down ×
+    // runEast` south.
+    face([west, y, north], runSouth, down, room, 'trim'),
+    face([west + wide, y, north], down, runSouth, room, 'trim'),
+    face([west, y, north], down, runEast, room, 'trim'),
+    face([west, y, north + wide], runEast, down, room, 'trim'),
+  ];
+}
+
 /**
  * `room`'s slab over `area`, at its height in the eye's frame: its top is the
- * room's floor, `owned` where the viewer bought it, and its underside the
- * ceilings of the four rooms beneath, the hole coming out in the middle of
- * one of them.
+ * room's floor, `owned` where the viewer bought it, and its underside,
+ * `SLAB_THICK` of their sides lower, the ceilings of the four rooms beneath,
+ * the hole coming out in the middle of one of them down a shaft.
  */
 function slab(
   eye: Room,
@@ -156,14 +184,11 @@ function slab(
 ): Quad[] {
   const y = slabHeight(eye.n, room.n);
   const half = area.roomSide / 2;
+  const deep = SLAB_THICK * half;
+  const gap = quarter === null ? null : holeGap(quarter);
   return [
-    ...level(
-      area,
-      y,
-      quarter === null ? null : holeGap(quarter),
-      room,
-      owned ? 'owned' : 'floor',
-    ),
+    ...level(area, y, gap, room, owned ? 'owned' : 'floor'),
+    ...(gap === null ? [] : shaft(area, gap, y, deep, room)),
     ...QUARTERS.flatMap((q) =>
       level(
         {
@@ -171,7 +196,7 @@ function slab(
           south: area.south + q.qy * half,
           roomSide: half,
         },
-        y,
+        y - deep,
         q.qx === quarter?.qx && q.qy === quarter.qy ? HATCH_GAP : null,
         under(room, q),
         'ceiling',
@@ -181,21 +206,29 @@ function slab(
 }
 
 /**
- * A wall as the faces of one rect: one into `front`, the room `run × up`
- * points into, and one into `back`. A side outside the floor is null, and
- * has no face.
+ * A wall along `run` from `corner`, `half` thick either side of that line,
+ * as its two faces: one into `front`, the room `run × up` points into, and
+ * one into `back`. A side outside the floor is null, and has no face; the
+ * wall's ends are left to the pillars on its corners.
  */
 function wall(
   corner: Vec3,
   run: Vec3,
   height: number,
+  half: number,
   front: Room | null,
   back: Room | null,
 ): Quad[] {
   const up: Vec3 = [0, height, 0];
+  const length = Math.hypot(run[0], run[2]);
+  const shift = (by: number): Vec3 => [
+    corner[0] - (run[2] / length) * by,
+    corner[1],
+    corner[2] + (run[0] / length) * by,
+  ];
   return [
-    ...(front === null ? [] : [face(corner, run, up, front, 'wall')]),
-    ...(back === null ? [] : [face(corner, up, run, back, 'wall')]),
+    ...(front === null ? [] : [face(shift(half), run, up, front, 'wall')]),
+    ...(back === null ? [] : [face(shift(-half), up, run, back, 'wall')]),
   ];
 }
 
@@ -221,7 +254,8 @@ function roomWalls(
   const last = roomsAcross(n) - 1n;
   const { east, south, roomSide: side } = footprint(eye, room);
   const floorY = slabHeight(eye.n, n);
-  const height = side * ROOM_HEIGHT;
+  const height = side * CEILING_HEIGHT;
+  const half = side * WALL_HALF;
   const runSouth: Vec3 = [0, 0, side];
   const runEast: Vec3 = [side, 0, 0];
   const beside = (dx: bigint, dy: bigint): Room | null =>
@@ -238,6 +272,7 @@ function roomWalls(
           [east + side, floorY, south],
           runSouth,
           height,
+          half,
           room,
           beside(1n, 0n),
         )
@@ -247,15 +282,30 @@ function roomWalls(
           [east, floorY, south + side],
           runEast,
           height,
+          half,
           beside(0n, 1n),
           room,
         )
       : [],
     westClosed
-      ? wall([east, floorY, south], runSouth, height, beside(-1n, 0n), room)
+      ? wall(
+          [east, floorY, south],
+          runSouth,
+          height,
+          half,
+          beside(-1n, 0n),
+          room,
+        )
       : [],
     northClosed
-      ? wall([east, floorY, south], runEast, height, room, beside(0n, -1n))
+      ? wall(
+          [east, floorY, south],
+          runEast,
+          height,
+          half,
+          room,
+          beside(0n, -1n),
+        )
       : [],
   ].flat();
 }
@@ -269,7 +319,7 @@ function pillars(eye: Room, room: Room, half: number): Quad[] {
   if (half <= 0) return [];
   const { east, south, roomSide: side } = footprint(eye, room);
   const floorY = slabHeight(eye.n, room.n);
-  const up: Vec3 = [0, side * ROOM_HEIGHT, 0];
+  const up: Vec3 = [0, side * CEILING_HEIGHT, 0];
   const thick = half * side;
   return QUARTERS.flatMap(({ qx, qy }) => {
     const inX = 1 - 2 * qx;
@@ -352,11 +402,12 @@ export function faces(
 ): Quad[] {
   const slabOf = (room: Room) =>
     slab(pose, room, footprint(pose, room), holeOf(room), owns(room));
+  const cube = footprint(pose, CUBE);
   const lid =
     view.topmost === null
       ? level(
-          footprint(pose, CUBE),
-          slabHeight(pose.n, 0),
+          cube,
+          slabHeight(pose.n, 0) - SLAB_THICK * cube.roomSide,
           null,
           CUBE,
           'ceiling',

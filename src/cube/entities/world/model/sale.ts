@@ -2,7 +2,7 @@ import { type Placed, walledRooms } from './geometry';
 import { type HoleOf, under } from './hole';
 import type { InRoom, WallMounted } from './pose';
 import { box, type Facet, facet, type Quad, times, type Vec3 } from './quad';
-import { type InRoomOf, type Room, roomKey } from './room';
+import { type InRoomOf, type Room, roomKey, WALL_HALF } from './room';
 import { opens, parent, type Step, stepped, STEPS, type View } from './rooms';
 import type { Walls } from './walls';
 
@@ -149,8 +149,8 @@ const SIGN_HEIGHT = 0.3;
 const SIGN_WIDTH = 0.3;
 const SIGN_TALL = 0.15;
 /**
- * How far the board stands off its wall, in room sides: 1 cm on floor 1. A
- * wall has no thickness, so a board on it would tie with it in depth.
+ * How far the board stands off its wall's face or its post, in room sides:
+ * 1 cm on floor 1, so the two do not tie in depth.
  */
 const SIGN_OFF = 0.002;
 /** Half a post's side, in room sides: 5 cm on floor 1. */
@@ -196,7 +196,9 @@ export function signFacets(
   room: Room,
   place: Placed,
 ): Facet[] {
-  if (!onPost) return [board(at, facing, SIGN_OFF, room, place)];
+  if (!onPost) {
+    return [board(at, facing, WALL_HALF + SIGN_OFF, room, place)];
+  }
   const off = POST_HALF + SIGN_OFF;
   return [
     board(at, facing, off, room, place),

@@ -25,7 +25,8 @@ export const TILT_RATE = Math.PI / 3;
  * 1, a diagonal is normalized to the body's pace, and the turn and tilt go at
  * their rates over the frame; `yawBy` and `elevationBy` are radians to add to
  * the pose's this frame, whatever its length; `walking` slows the run to a
- * walk; `pull` is whether the lever was asked for since the last frame.
+ * walk; `pull` is whether the lever was asked for since the last frame, and
+ * `clip` whether the way straight through the floor was.
  */
 export type Input = {
   walk: number;
@@ -36,6 +37,7 @@ export type Input = {
   elevationBy: number;
   walking: boolean;
   pull: boolean;
+  clip: boolean;
 };
 
 /** A frame of no controls at all. */
@@ -48,6 +50,7 @@ export const STILL: Input = {
   elevationBy: 0,
   walking: false,
   pull: false,
+  clip: false,
 };
 
 const TAU = 2 * Math.PI;

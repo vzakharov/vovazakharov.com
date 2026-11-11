@@ -7,7 +7,6 @@ export {
   HOLE_SIDE,
   type Placed,
   placed,
-  ROOM_HEIGHT,
 } from './model/geometry';
 export {
   floorsOf,
@@ -18,7 +17,7 @@ export {
   type Quarter,
 } from './model/hole';
 export { type Lever, leverOf, type Pulled } from './model/lever';
-export { maze } from './model/maze';
+export { DEEPEST_FLOOR, maze } from './model/maze';
 export { plant } from './model/plant';
 export { planted } from './model/planted';
 export type { InRoom, Pose, Posed, Standing, WallMounted } from './model/pose';
@@ -30,7 +29,7 @@ export {
   type Quad,
   type Vec3,
 } from './model/quad';
-export { type Floored, type Room, roomKey } from './model/room';
+export { type Floored, type Room, roomKey, WALL_HALF } from './model/room';
 export {
   opens,
   sight,

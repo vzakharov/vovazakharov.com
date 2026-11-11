@@ -2,7 +2,13 @@ import { holeMiddle, type Quarter } from './hole';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
 import type { WallMounted } from './pose';
 import { box, type Quad, times, type Vec3 } from './quad';
-import { type InRoomOf, type Room, roomKey, roomsAcross } from './room';
+import {
+  type InRoomOf,
+  type Room,
+  roomKey,
+  roomsAcross,
+  WALL_HALF,
+} from './room';
 
 /**
  * Where a holed room's lever is mounted: on the hole quarter's outer wall
@@ -129,11 +135,15 @@ export function leverFaces(
           'trim',
         )
       : [];
-  const foot = local(at.u, PLATE_HEIGHT, at.v);
+  // A wall's face stands in from the room's edge; a post's is where it is.
+  const proud = mount === 'post' ? 0 : WALL_HALF;
+  const footU = at.u + out[0] * proud;
+  const footV = at.v + out[2] * proud;
+  const foot = local(footU, PLATE_HEIGHT, footV);
   const plateCorner = local(
-    at.u - (along[0] * PLATE_WIDTH) / 2,
+    footU - (along[0] * PLATE_WIDTH) / 2,
     PLATE_HEIGHT - PLATE_TALL / 2,
-    at.v - (along[2] * PLATE_WIDTH) / 2,
+    footV - (along[2] * PLATE_WIDTH) / 2,
   );
   const plate = box(
     plateCorner,

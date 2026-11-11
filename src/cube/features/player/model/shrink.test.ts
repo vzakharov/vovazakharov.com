@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import {
+  DEEPEST_FLOOR,
   DROP,
   eyeInFrame,
   HOLE_SIDE,
@@ -59,6 +60,7 @@ const still: Input = {
   elevationBy: 0,
   walking: false,
   pull: false,
+  clip: false,
 };
 const pull: Input = { ...still, pull: true };
 
@@ -196,5 +198,42 @@ describe('the shrink', () => {
       else assert.ok(swung < 1);
     }
     assert.equal(swings.at(-1), null);
+  });
+});
+
+describe('play, clipping', () => {
+  const clip: Input = { ...still, clip: true };
+
+  it('stands the body on the floor straight below, a person of that floor', () => {
+    const { pose, shrinking } = play(
+      standing({ u: 0.75, v: 0.3 }),
+      clip,
+      FRAME,
+      allOpen,
+      null,
+    );
+    assert.equal(shrinking, null);
+    // 2 × 0.75 − 1 and 2 × 0.3 are exact in doubles.
+    assert.deepEqual(pose, {
+      ...standing().pose,
+      n: 4,
+      x: 3n,
+      y: 4n,
+      u: 0.5,
+      v: 0.6,
+    });
+  });
+
+  it('holds the body on the deepest floor', () => {
+    const deepest = standing({ n: DEEPEST_FLOOR });
+    assert.equal(play(deepest, clip, 0, allOpen, null).pose.n, DEEPEST_FLOOR);
+  });
+
+  it('leaves a shrinking body to its shrink', () => {
+    const [first] = frames(standing());
+    assert.ok(first);
+    const next = play(first, clip, FRAME, allOpen, holed);
+    assert.equal(next.pose.n, room.n);
+    assert.notEqual(next.shrinking, null);
   });
 });

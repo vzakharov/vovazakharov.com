@@ -1,3 +1,4 @@
+import { CEILING_HEIGHT, ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import { SURFACES } from '@/cube/shared/lib/surface';
 
 import { FLAGS_WGSL } from '../model/flags';
@@ -16,8 +17,8 @@ export const CORE = wgsl(
   /* wgsl */ `
 ${KINDS}
 
-/// A room, in metres: x east, y up, z south.
-const ROOM = vec3f(5.0, 2.5, 5.0);
+/// A room from its floor to its ceiling, in metres: x east, y up, z south.
+const ROOM = vec3f(${ROOM_METRES.toFixed(1)}, ${(ROOM_METRES * CEILING_HEIGHT).toFixed(3)}, ${ROOM_METRES.toFixed(1)});
 
 /// The point being shaded, in its own room's terms.
 struct Surf {
