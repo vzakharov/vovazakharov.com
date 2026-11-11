@@ -258,32 +258,20 @@ unlinked.
 
 ## Eaten so far
 
-Nothing built: the go-ahead is recorded (75c5b0a8), and the session that took it
-paused for its context budget before bite 1 started.
+**Bite 1 — `board` and the cube board v1.** `src/board/` holds the board's
+mechanisms, moved out of `island-board`, which keeps only its data; `check:masd`
+accepted the data-only `*-board` apps, so § "Apps"'s fallback was not needed.
+The page's `<title>` comes from the board file. The island's page builds
+byte-identical to before. `refile` makes a new board's zone directory and
+formats every file before writing any, since a first refile otherwise truncated
+the board file. The cube board — four zones of cards in English and six
+screenshots of the four artifacts' English copies — is published at
+https://claude.ai/artifact/WbvwDqVtJzN8EBeuUffho3 with `db`, `user` and
+`assets`, its `db` empty until someone edits it.
 
 ## Rest of the bite
 
-Bite 1, as item 1 above:
-
-- **`src/board/`** (parent `scene`), by `git mv` out of `src/island-board/`:
-  `entities/item`, `pages/board`, `app/styles`, `scripts/` with their tests.
-  Imports `@/island-board/…` become `@/board/…`; `scripts/board.ts`'s `ENTRY`
-  and `STYLESHEET` follow. The page `<title>` (a literal `Island board` in
-  `board.ts`) comes from the board file's `title`. `board-file.test.ts` pins
-  `src/island-board/app/config/island.yaml` by path, which stays valid.
-- **`package.json`**: `board` points at `src/board/scripts/board.ts`, arguments
-  unchanged. **`src/masd.json`**: `"board": ["scene"]` above
-  `"island-board": ["board"]` and `"cube-board": ["board"]`.
-- **`src/cube-board/app/config/cube.yaml`** and `cube/` (images, as the island's
-  `island/`), the cards § "The board" lists, in English. Screenshots: `Artifact`
-  `read` each of the four (7RX47GAjLRVhErajvah2nJ wall-or-field,
-  JXdhg7RbpJ8fBe3cSCdHv2 two-promises, 89qXsENibaGv1gzFRnm6kp silent-lock,
-  Lvjd86P1ArE5HvhJ6frvNk shrinking-cube), translate a local copy under `tmp/`,
-  shoot it with Playwright, convert to webp.
-- **Run** `pnpm check:masd`, `pnpm lint:fsd`, the board's tests,
-  `pnpm board build` on both yamls (the island's page must come out as before),
-  then publish the cube board as an artifact with `db`, as the island's is.
-- If `check:masd` refuses the data-only `*-board` apps, § "Apps"'s fallback.
+Bite 2, as item 2 above, once Vova has looked at the cube board.
 
 ## Coordination
 

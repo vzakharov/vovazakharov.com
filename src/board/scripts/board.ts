@@ -243,7 +243,7 @@ async function writeBack(written: BoardFiles): Promise<void> {
     }),
   );
   await Promise.all(
-    formatted.map(([file, text]) => writeFile(file, text, 'utf8')),
+    formatted.map(async ([file, text]) => writeFile(file, text, 'utf8')),
   );
 }
 
