@@ -133,27 +133,53 @@ export function descendants(
   );
 }
 
+/** A second child on its way, and when the operator said yes to waiting for it. */
+export type Wait = { child: string; since: string };
+
 /**
  * Apps kept with one child on the operator's yes, each beside the second child
  * that earns it. An app has no file of its own to carry a marker, so the list
- * is here; an entry leaves when that child lands.
+ * is here; an entry leaves when that child lands. A yes lasts `WAIT_LIMIT_MS`
+ * from `since`, then `check:masd` fails the app again until it is renewed.
  */
-const WAITING_APPS: Readonly<Record<string, string>> = {
-  dice: "island, whose terrain rolls its world on dice's roll (branch island/round-world)",
+const WAITING_APPS: Readonly<Record<string, Wait>> = {
+  dice: {
+    child:
+      "island, whose terrain rolls its world on dice's roll (branch island/round-world)",
+    since: '2026-11-11T09:07:00Z',
+  },
 };
+
+const WAIT_LIMIT_MS = 7 * 24 * 60 * 60 * 1000;
+
+/** The waits whose yes is older than `WAIT_LIMIT_MS` at `now`. */
+export function overdueWaits(
+  now: Date,
+  waiting: Readonly<Record<string, Wait>> = WAITING_APPS,
+): ReadonlyMap<string, Wait> {
+  return new Map(
+    Object.entries(waiting).filter(
+      ([, { since }]) => now.getTime() - Date.parse(since) > WAIT_LIMIT_MS,
+    ),
+  );
+}
 
 /**
  * Apps earned no better than an insignificant slice: exactly one child,
- * nothing of their own mounted by a router, and no second child on its way.
+ * nothing of their own mounted by a router, and no second child on its way
+ * under a yes still in force at `now`.
  */
 export function insignificantApps(
   graph: MasdGraph,
   mounted: ReadonlySet<string>,
+  now: Date,
+  waiting: Readonly<Record<string, Wait>> = WAITING_APPS,
 ): string[] {
+  const overdue = overdueWaits(now, waiting);
   return [...graph.keys()].filter(
     (app) =>
       !mounted.has(app) &&
-      !Object.hasOwn(WAITING_APPS, app) &&
+      (!Object.hasOwn(waiting, app) || overdue.has(app)) &&
       [...graph.values()].filter((parents) => parents.includes(app)).length ===
         1,
   );
