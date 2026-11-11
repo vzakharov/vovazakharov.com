@@ -316,38 +316,19 @@ whether the game's end gets a page of its own Vova has deferred. The board's
 cards carry icons, an emoji each or one of four hand-drawn SVGs in
 `cube/icons/`.
 
-## This bite
-
-**Bite 4 — the lever.** Built by one subsession on `cube/lever`, off this
-branch, merged here; § "The player" is its spec.
-
-- **Placement, pure in `entities/world`**: `leverOf(room)` for the holed room —
-  on the hole quarter's outer x-wall when present, else its y-wall, else a post
-  at that corner — tested against the wall predicate on planted test worlds.
-- **Pulling, in `features/player`**: `E` pulls when the body covers some of the
-  hole and the lever is within `0.48 ×` room side; elsewhere it does nothing.
-- **The shrink and the fall** as a pure state step beside `step`: scale
-  `s(t) = 2^(−t/3 s)` from 1 to ½; the body leaves the slab once its diameter is
-  under the hole's side (`s ≈ 0.67`), falls under gravity still shrinking, lands
-  on floor `n+1` at `s = ½`, and rebases to floor `n+1`'s units. Movement keeps
-  working, scaled, while shrinking on the slab; collision against the hole's
-  shaft while falling keeps the body inside it.
-- **Tests** per § "Testing": the fall starts where diameter equals hole side,
-  landing scale is ½, rebasing leaves the eye's world position and view
-  direction unchanged to 1e-9.
-- **Rendering**: the lever drawn (a plate and a handle, the floor's hue darker),
-  the eye scale applied every frame with no jump at the rebase; floor `n+1` seen
-  through the hole all the way down.
-- **On floor 66** the fall lands on floor 67, which the maze refuses: the throw
-  stays as bite 3 left it (the error page is deferred).
-- **What the eye sees on its floor** (a second subsession, `cube/sight`): the 7
-  × 7 square and the fog that hid its edge give way to 2D portal visibility —
-  from the eye's room through open walls only, each opening narrowing the
-  angular window, out to the far plane — so a long corridor is seen to its end
-  and rooms behind solid walls are not built. No fog: «туман в закрытом
-  пространстве -- вообще такая себе идея».
-- **Frames**: `play-cube.ts` gains three frames mid-shrink and one mid-fall,
-  uploaded as the next `cube-timelapse` frames; preview2 republished.
+**Bite 4 — the lever, the shrink and the fall.** Built by two subsessions,
+`cube/lever` and `cube/sight`, merged here. `leverOf(room)` in `entities/world`
+places the lever on the hole quarter's outer x-wall, else its y-wall, else a
+post at its corner. `features/player`'s `play` is the pure step: `E` pulls while
+the body covers some of the hole (the hole is narrower than the body, so dead
+over it was a square no one could find) and the lever is within 0.48 room sides;
+the body halves every 3 s, the rim draws it to the hole's middle, it drops at
+scale ⅔ when as wide as the hole and lands at ½, where `descend` rebases it onto
+floor `n+1` with the eye unmoved. `holed.ts` looks a room's hole up in the
+background. The body runs at 3.5 m/s, walking at 1.4 with Shift held. Fog is
+gone: `sight` builds every room a straight line from the eye reaches through
+open walls, out to the far plane. Frames 0008–0012 are the board and the pull.
+On floor 66 the fall still throws, as bite 3 left it.
 
 ## Coordination
 
