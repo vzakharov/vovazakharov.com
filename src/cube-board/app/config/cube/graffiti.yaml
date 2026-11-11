@@ -21,9 +21,9 @@ items:
     text: 'Price A: ×¼ a floor down. Every floor has the same wall area, so this is one price per square metre'
   - id: graf-price-b
     type: sticky
-    updated: [2026-11-11T06:02:00.000Z, agent:cube]
+    updated: [2026-11-11T06:05:00.000Z, agent:cube]
     box: [1033, 1930, 244, pink]
-    text: 'Price, the pick: a blank wall costs what it costs us (the payment fee and the net''s check), on every floor. Paint over a painting by paying double its price; its painter gets the whole price back as credit for another wall, never cash, and it stays forever as a layer beneath'
+    text: 'Price, the pick: a blank wall starts at what its eyeballs are worth — the players who reached its floor last month × the wall''s share of what they see × CPM — and never below what it costs us (the payment fee and the net''s check). So ~$10k on floor 1 at a million players, falling to cost deep down. Paint over a painting by paying double its price; its painter gets the whole price back as credit for another wall, never cash, and it stays forever as a layer beneath'
   - id: graf-price-c
     type: sticky
     updated: [2026-11-11T06:02:00.000Z, agent:cube]
