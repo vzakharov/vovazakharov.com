@@ -1,0 +1,116 @@
+{
+  "total": {
+    "inputTokens": 99,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 111906,
+    "cacheReadTokens": 7180246,
+    "outputTokens": 31494,
+    "thinkingTokens": 6686,
+    "responses": 51,
+    "costUsd": 2.9615732
+  },
+  "estimate": {
+    "at": "2026-11-11T08:22:17.030Z",
+    "subjectLine": "fix: cube floor-66 crash and plain WASD/arrow controls",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "deciding what the floor below shows needs the slab/hole render model and an async build order"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "focus-safe key handling, rate-based look and in-browser direction checks of each control"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-11T08:11:15.279Z",
+    "contextTokens": 92283,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 32571,
+      "cacheReadTokens": 58520,
+      "outputTokens": 529,
+      "thinkingTokens": 156,
+      "responses": 1,
+      "costUsd": 0.28286
+    }
+  },
+  "sessionId": "aed1aac2-b941-5205-abcc-aea1bf80e2fb",
+  "branch": "cube/walk-fixes",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a subsession implementing two fixes on the `/cube` WebGPU maze game (vovazakharov.com, `src/cube/`). Branch off `claude/hash-maze-cube-m6wq80` (your ses…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDvukDAqeMNp743TTM",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-11T08:11:09.776Z",
+  "lastResponseAt": "2026-11-11T08:22:51.068Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 99,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 111906,
+    "cacheReadTokens": 7180246,
+    "outputTokens": 31494,
+    "thinkingTokens": 6686,
+    "responses": 51,
+    "costUsd": 2.9615732
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 99,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 111906,
+      "cacheReadTokens": 7180246,
+      "outputTokens": 31494,
+      "thinkingTokens": 6686,
+      "responses": 51,
+      "costUsd": 2.9615732
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 51,
+    "matched": 51,
+    "matchedTableUsd": 2.9615732,
+    "matchedEventUsd": 2.9615732,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1141,
+    ".staged": 356,
+    ".json": 124,
+    ".ts": 3481,
+    ".tsx": 108,
+    ".scss": 52,
+    ".yaml": 411,
+    ".svg": 4
+  }
+}
