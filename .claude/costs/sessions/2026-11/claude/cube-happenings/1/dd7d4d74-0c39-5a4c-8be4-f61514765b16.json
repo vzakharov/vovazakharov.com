@@ -1,0 +1,118 @@
+{
+  "total": {
+    "inputTokens": 84,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 225131,
+    "cacheReadTokens": 9182818,
+    "outputTokens": 97475,
+    "thinkingTokens": 43717,
+    "responses": 43,
+    "costUsd": 9.338331600000002
+  },
+  "estimate": {
+    "at": "2026-11-11T22:28:27.168Z",
+    "subjectLine": "feat: the cube's happenings, timed events and scares from room and clock",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "fifteen clock-driven events as box geometry, each with its own motion and timing, pure and deterministic"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "what happens, how rarely and how it drifts with depth is a feel call, not a spec"
+      },
+      {
+        "hours": 3.0,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "determinism, in-room bounds and a statistical rate check need a suite of their own"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-11T22:26:00.127Z",
+    "contextTokens": 117214,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 55230,
+      "cacheReadTokens": 155886,
+      "outputTokens": 724,
+      "thinkingTokens": 27,
+      "responses": 2,
+      "costUsd": 0.9438491999999999
+    }
+  },
+  "sessionId": "dd7d4d74-0c39-5a4c-8be4-f61514765b16",
+  "branch": "claude/cube-happenings",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/go Build the cube's Happenings stream on branch claude/cube-happenings (cut from claude/cube-liminal-332pmv, already checked out as the base): read docs/plans/…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkE68cpjBn2aT8RoyZv",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-11T22:25:49.562Z",
+  "lastResponseAt": "2026-11-11T22:56:50.352Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 84,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 225131,
+    "cacheReadTokens": 9182818,
+    "outputTokens": 97475,
+    "thinkingTokens": 43717,
+    "responses": 43,
+    "costUsd": 9.338331600000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 84,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 225131,
+      "cacheReadTokens": 9182818,
+      "outputTokens": 97475,
+      "thinkingTokens": 43717,
+      "responses": 43,
+      "costUsd": 9.338331600000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 43,
+    "matched": 43,
+    "matchedTableUsd": 9.338331600000002,
+    "matchedEventUsd": 9.338331600000002,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 5,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".json": 19,
+    ".md": 343,
+    ".ts": 2880,
+    ".tsx": 12
+  }
+}
