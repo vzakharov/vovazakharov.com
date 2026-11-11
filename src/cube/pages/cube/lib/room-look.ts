@@ -40,18 +40,16 @@ export function roomLooks(
   const lit = (room: Room): boolean =>
     rolled.room.at(room).lamp >= themeOf(room.n).dark;
   const look = (room: Room): RoomLook => {
-    const { origin, roomSide: side } = placed(eye, room);
     const closed = closedSides(walls, room);
-    const litBeside = (step: Step, side: number): boolean =>
-      closed[side] === false && lit(stepped(room, step));
+    const litBeside = (step: Step, at: number): boolean =>
+      closed[at] === false && lit(stepped(room, step));
     const [east, south, west, north] = STEPS;
     return {
-      origin,
-      side,
+      ...placed(eye, room),
       seed: rolled.room.at(room).grain,
       flags: roomFlags({
         closed,
-        lit: lit(room),
+        lampsOn: lit(room),
         litBeside: [
           litBeside(east, 0),
           litBeside(south, 1),

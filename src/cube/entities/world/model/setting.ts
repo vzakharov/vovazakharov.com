@@ -41,12 +41,10 @@ export const settingOf = (
   rolled: RolledTraits,
   room: Room,
   hole: Quarter | null,
-): Setting => ({
-  room,
-  closed: closedSides(walls, room),
-  hole,
-  grain: rolled.room.at(room).grain,
-});
+): Setting => {
+  const { grain } = rolled.room.at(room);
+  return { room, closed: closedSides(walls, room), hole, grain };
+};
 
 /** `quads`, set in a room's own frame, standing where the eye's frame has it. */
 export function inPlace(

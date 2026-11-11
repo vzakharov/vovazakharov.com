@@ -15,9 +15,11 @@ import {
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 
 import { Box, type Controls, Point, State } from './mushroom-probe-answers.ts';
-import { type Expect, inTurn, type Page } from './mushroom-probe-drive.ts';
+import type { Expect, Page } from './mushroom-probe-drive.ts';
 import { bandGaps } from './play-band.ts';
 import { fliersOn, REST_LOOK } from './play-fliers.ts';
+
+import { inTurn } from '@/scene/scripts/lib/in-turn';
 
 /** How much room a close-up leaves round its mushroom, in the mushroom's own height, and its least side, in CSS px. */
 const MARGIN = 0.25;

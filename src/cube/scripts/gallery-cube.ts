@@ -64,9 +64,8 @@ function viewOf(n: number): Pose {
   const views = middleRooms(n).flatMap((room) =>
     STEPS.map((step) => ({ room, step, length: run(room, step) })),
   );
-  const best = views.reduce((kept, view) =>
-    view.length > kept.length ? view : kept,
-  );
+  const [best] = views.toSorted((a, b) => b.length - a.length);
+  if (best === undefined) throw new Error(`Floor ${String(n)} has no rooms`);
   const [dx, dy] = best.step;
   return {
     ...best.room,

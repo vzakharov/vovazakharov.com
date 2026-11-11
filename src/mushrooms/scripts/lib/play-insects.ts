@@ -22,13 +22,7 @@ import {
   Insects,
   Point,
 } from './mushroom-probe-answers.ts';
-import {
-  type Expect,
-  FPS,
-  grow,
-  inTurn,
-  type Page,
-} from './mushroom-probe-drive.ts';
+import { type Expect, FPS, grow, type Page } from './mushroom-probe-drive.ts';
 import {
   fliersOn,
   landed,
@@ -36,6 +30,8 @@ import {
   MOST_LOOKS,
   REST_LOOK,
 } from './play-fliers.ts';
+
+import { inTurn } from '@/scene/scripts/lib/in-turn';
 
 /** How many butterflies are released: one past their limit, so the oldest leaves. */
 const RELEASES = INSECT_LIMITS.butterfly + 1;

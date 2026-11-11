@@ -1,3 +1,5 @@
+import type { Timed } from '@/kernel/shared/typings';
+
 /**
  * An instant as everything timed in the cube reads it: which hour since the
  * epoch, and the seconds into it. What happens where is a function of the
@@ -5,7 +7,7 @@
  * The hour keeps the seconds small enough for a shader's float32 to count
  * frames by.
  */
-export type Clock = { hour: number; seconds: number };
+export type Clock = Timed & { hour: number };
 
 const HOUR_MS = 3_600_000;
 

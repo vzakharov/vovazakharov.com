@@ -43,9 +43,10 @@ import {
   type Expect,
   FRAME_MS,
   grow,
-  inTurn,
   type Page,
 } from './mushroom-probe-drive.ts';
+
+import { inTurn } from '@/scene/scripts/lib/in-turn';
 
 const DOOR = FURNISHINGS.indexOf('door');
 /** Frames for a pop to settle. */

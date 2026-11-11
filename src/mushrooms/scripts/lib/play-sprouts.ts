@@ -26,11 +26,12 @@ import {
 import {
   type Expect,
   FRAME_MS,
-  inTurn,
   type Page,
   tapCloud,
   timedSteps,
 } from './mushroom-probe-drive.ts';
+
+import { inTurn } from '@/scene/scripts/lib/in-turn';
 
 /** How many spores the play sows. */
 const SPORES_SOWN = 3;

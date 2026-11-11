@@ -88,17 +88,17 @@ export function eyeInFrame(
   };
 }
 
-/** A square gap in a footprint: its middle and side, in the footprint's sides. */
-type Gap = InRoom & { side: number };
+/** A square gap in a footprint: its middle and its side, in the footprint's sides. */
+type Gap = InRoom & { gapSide: number };
 
 /** The gap a hole in `quarter` leaves in its room's floor. */
 const holeGap = (quarter: Quarter): Gap => ({
   ...holeMiddle(quarter),
-  side: HOLE_SIDE,
+  gapSide: HOLE_SIDE,
 });
 
 /** That hole as the room under it sees it: the middle of its ceiling. */
-const HATCH_GAP: Gap = { u: 0.5, v: 0.5, side: 2 * HOLE_SIDE };
+const HATCH_GAP: Gap = { u: 0.5, v: 0.5, gapSide: 2 * HOLE_SIDE };
 
 type Rect = [east: number, south: number, width: number, depth: number];
 
@@ -108,7 +108,7 @@ function cut(
   gap: Gap | null,
 ): Rect[] {
   if (gap === null) return [[east, south, side, side]];
-  const half = (side * gap.side) / 2;
+  const half = (side * gap.gapSide) / 2;
   const west = east + side * gap.u - half;
   const north = south + side * gap.v - half;
   const hole = 2 * half;

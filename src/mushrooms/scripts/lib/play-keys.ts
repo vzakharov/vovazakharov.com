@@ -23,7 +23,6 @@ import {
 import { type Controls, Flower, Point } from './mushroom-probe-answers.ts';
 import {
   type Expect,
-  inTurn,
   type Letter,
   type Page,
   press,
@@ -37,6 +36,8 @@ import {
   Newest,
   TUFTS,
 } from './play-tufts.ts';
+
+import { inTurn } from '@/scene/scripts/lib/in-turn';
 
 /** The flower picker and the newest planting, as the page holds them. */
 const Keyed = z.object({

@@ -30,12 +30,12 @@ describe('roomLooks', () => {
 
   it('stands a room where the eye’s frame has it', () => {
     assert.deepEqual(lookOf(eye).origin, [0, 0, 0]);
-    assert.equal(lookOf(eye).side, 1);
+    assert.equal(lookOf(eye).roomSide, 1);
     const east = lookOf({ n: 4, x: 3n, y: 5n });
     assert.deepEqual(east.origin, [1, 0, 0]);
     const below = lookOf({ n: 5, x: 5n, y: 10n });
     assert.deepEqual(below.origin, [0.5, -0.25, 0]);
-    assert.equal(below.side, 0.5);
+    assert.equal(below.roomSide, 0.5);
   });
 
   it('gives a room its own word, the same on every asking', () => {
@@ -59,7 +59,7 @@ describe('roomLooks', () => {
       whole({ n: 1, x: 0n, y: 0n }).flags,
       roomFlags({
         closed: [true, true, true, true],
-        lit: true,
+        lampsOn: true,
         litBeside: [false, false, false, false],
       }),
     );

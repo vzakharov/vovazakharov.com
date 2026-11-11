@@ -1,5 +1,7 @@
+import type { Seeded } from '@/kernel/shared/typings';
+
 import { SURFACES } from '@/cube/shared/lib/surface';
-import type { Quad, Room, Vec3 } from '@/cube/entities/world';
+import type { Floored, Placed, Quad, Room } from '@/cube/entities/world';
 
 import { offsetOf, VERTEX_WORDS } from './vertex';
 
@@ -8,16 +10,14 @@ import { offsetOf, VERTEX_WORDS } from './vertex';
  * the eye's frame, and the room's own word, flags and place on its floor as
  * the shader reads them.
  */
-export type RoomLook = {
-  origin: Vec3;
-  side: number;
-  seed: number;
-  flags: number;
-  cell: number;
-};
+export type RoomLook = Placed &
+  Seeded & {
+    flags: number;
+    cell: number;
+  };
 
-/** One floor's run of vertices in a buffer: `count` of them from `first`. */
-export type FloorRange = { n: number; first: number; count: number };
+/** One floor's run of vertices in a buffer: `count` of them from `firstVertex`. */
+export type FloorRange = Floored & { firstVertex: number; count: number };
 
 /** A vertex buffer, and which run of it belongs to which floor. */
 export type Scenery = { data: ArrayBuffer; ranges: readonly FloorRange[] };
@@ -64,13 +64,12 @@ export function pack(
   const ranges: FloorRange[] = [];
   let at = 0;
   for (const { corners, normal, room, surface, paint } of sorted) {
-    const { origin, side, seed, flags, cell } = lookOf(room);
+    const { origin, roomSide: side, seed, flags, cell } = lookOf(room);
     const kind = SURFACES.indexOf(surface);
     const range = ranges.at(-1);
-    if (range?.n === room.n) range.count += FAN.length;
-    else {
-      ranges.push({ n: room.n, first: at / VERTEX_WORDS, count: FAN.length });
-    }
+    const { n } = room;
+    if (range?.n === n) range.count += FAN.length;
+    else ranges.push({ n, firstVertex: at / VERTEX_WORDS, count: FAN.length });
     for (const corner of FAN) {
       const [x, y, z] = corners[corner];
       floats.set([x, y, z], at + AT.position);

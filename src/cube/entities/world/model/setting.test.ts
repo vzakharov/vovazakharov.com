@@ -35,11 +35,12 @@ describe('closedSides', () => {
 describe('settingOf', () => {
   it('gives the room its walls, its hole and its own word', () => {
     const hole = { qx: 1, qy: 0 } as const;
+    const { grain } = rolled.room.at(room);
     assert.deepEqual(settingOf(walls, rolled, room, hole), {
       room,
       closed: closedSides(walls, room),
       hole,
-      grain: rolled.room.at(room).grain,
+      grain,
     });
   });
 });
@@ -48,13 +49,14 @@ describe('inPlace', () => {
   it('stands a quad of the room’s frame at the room’s place and size', () => {
     const quad = face([0, 0, 0], [1, 0, 0], [0, 0.5, 0], room, 'wood');
     const [stood] = inPlace([quad], { origin: [2, -0.25, 1], roomSide: 0.5 });
-    assert.deepEqual(stood?.corners, [
+    assert.ok(stood);
+    assert.deepEqual(stood.corners, [
       [2, -0.25, 1],
       [2.5, -0.25, 1],
       [2.5, 0, 1],
       [2, 0, 1],
     ]);
-    assert.deepEqual(stood?.normal, quad.normal);
-    assert.equal(stood?.surface, 'wood');
+    assert.deepEqual(stood.normal, quad.normal);
+    assert.equal(stood.surface, 'wood');
   });
 });

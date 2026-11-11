@@ -80,7 +80,7 @@ export type Bloom = CanDispose & {
 };
 
 export function createBloom(device: GPUDevice): Bloom {
-  const module = device.createShaderModule({ code: SHADER });
+  const shader = device.createShaderModule({ code: SHADER });
   const layout = device.createBindGroupLayout({
     entries: [
       { binding: 0, visibility: GPUShaderStage.FRAGMENT, texture: {} },
@@ -94,9 +94,9 @@ export function createBloom(device: GPUDevice): Bloom {
   const pipeline = (fragment: string, adds: boolean): GPURenderPipeline =>
     device.createRenderPipeline({
       layout: device.createPipelineLayout({ bindGroupLayouts: [layout] }),
-      vertex: { module, entryPoint: 'vertexMain' },
+      vertex: { module: shader, entryPoint: 'vertexMain' },
       fragment: {
-        module,
+        module: shader,
         entryPoint: fragment,
         targets: [
           {

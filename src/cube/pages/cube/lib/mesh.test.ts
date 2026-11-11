@@ -22,7 +22,7 @@ const quad = (n: number, surface: Quad['surface'], paint?: number): Quad => ({
 
 const lookOf = ({ n }: Room): RoomLook => ({
   origin: [2, 0, 4],
-  side: 2,
+  roomSide: 2,
   seed: 0xde_ad_be_ef,
   flags: n,
   cell: 0x01_03,
@@ -55,8 +55,8 @@ describe('pack', () => {
 
   it('runs the floors from the top, each floor’s quads in the order given', () => {
     assert.deepEqual(ranges, [
-      { n: 2, first: 0, count: 6 },
-      { n: 3, first: 6, count: 12 },
+      { n: 2, firstVertex: 0, count: 6 },
+      { n: 3, firstVertex: 6, count: 12 },
     ]);
     assert.equal(word(0, 'kind'), SURFACES.indexOf('wall'));
     assert.equal(word(6, 'kind'), SURFACES.indexOf('floor'));

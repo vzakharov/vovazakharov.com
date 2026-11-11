@@ -1,8 +1,9 @@
 /// <reference types="@webgpu/types" />
 
 import { asError } from '@/kernel/shared/lib/error-class';
-import type { CanDispose, WithId } from '@/kernel/shared/typings';
+import type { CanDispose, Sized, WithId } from '@/kernel/shared/typings';
 
+import type { Clock } from '@/cube/shared/lib/clock';
 import type { Rgb } from '@/cube/shared/lib/colour';
 import type { Vec3 } from '@/cube/entities/world';
 
@@ -12,7 +13,7 @@ import { VERTEX_LAYOUT } from '../lib/vertex';
 import { createBloom, SCENE_FORMAT } from './bloom';
 
 /** What one frame is seen from and when, and what shows where nothing is. */
-export type Shot = {
+export type Shot = Clock & {
   /** Column-major. */
   viewProjection: Float32Array;
   /** The eye, in its own frame. */
@@ -21,9 +22,6 @@ export type Shot = {
   clear: Rgb;
   /** The floor whose lens the frame is seen through; it must be prepared. */
   lens: number;
-  /** Seconds into the shared clock's hour, and which hour that is. */
-  seconds: number;
-  hour: number;
 };
 
 /**
@@ -70,9 +68,7 @@ type Program = {
 };
 
 /** What a frame is drawn through, remade when the canvas changes size. */
-type Targets = {
-  width: number;
-  height: number;
+type Targets = Sized & {
   scene: GPUTexture;
   sceneView: GPUTextureView;
   depth: GPUTexture;
@@ -94,9 +90,9 @@ async function watchLoss(
   }
 }
 
-/** `module`'s compile errors on one line, or null where it compiled. */
-async function compileErrors(module: GPUShaderModule): Promise<string | null> {
-  const { messages } = await module.getCompilationInfo();
+/** `shader`'s compile errors on one line, or null where it compiled. */
+async function compileErrors(shader: GPUShaderModule): Promise<string | null> {
+  const { messages } = await shader.getCompilationInfo();
   const errors = messages.filter(({ type }) => type === 'error');
   if (errors.length === 0) return null;
   return errors
@@ -179,8 +175,8 @@ export async function createRenderer(
   const ready = new Map<number, Program>();
 
   const compile = async (n: number): Promise<Program> => {
-    const module = device.createShaderModule({ code: sourceOf(n) });
-    const errors = await compileErrors(module);
+    const shader = device.createShaderModule({ code: sourceOf(n) });
+    const errors = await compileErrors(shader);
     if (errors !== null) {
       throw new Error(`Floor ${String(n)}'s shader: ${errors}`);
     }
@@ -191,12 +187,12 @@ export async function createRenderer(
       device.createRenderPipelineAsync({
         layout,
         vertex: {
-          module,
+          module: shader,
           entryPoint: 'vertexMain',
           buffers: [VERTEX_LAYOUT],
         },
         fragment: {
-          module,
+          module: shader,
           entryPoint: fragment,
           targets: [{ format: SCENE_FORMAT }],
         },
@@ -212,8 +208,12 @@ export async function createRenderer(
       pipeline(boardsLayout, 'boardFragment'),
       device.createRenderPipelineAsync({
         layout: lensPipelineLayout,
-        vertex: { module, entryPoint: 'lensVertex' },
-        fragment: { module, entryPoint: 'lensFragment', targets: [{ format }] },
+        vertex: { module: shader, entryPoint: 'lensVertex' },
+        fragment: {
+          module: shader,
+          entryPoint: 'lensFragment',
+          targets: [{ format }],
+        },
       }),
     ]);
     const program = { faces, boards, lens };
@@ -312,9 +312,9 @@ export async function createRenderer(
 
   const drawRuns = (pass: GPURenderPassEncoder, { buffer, runs }: Drawn) => {
     pass.setVertexBuffer(0, buffer);
-    for (const { pipeline, first, count } of runs) {
+    for (const { pipeline, firstVertex, count } of runs) {
       pass.setPipeline(pipeline);
-      pass.draw(count, 1, first);
+      pass.draw(count, 1, firstVertex);
     }
   };
 

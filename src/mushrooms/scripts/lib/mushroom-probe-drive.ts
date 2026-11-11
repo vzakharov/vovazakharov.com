@@ -204,8 +204,6 @@ export function dragMoves(
   });
 }
 
-
-
 /** `frames` frames stepped one by one, each drawn; returns each one's update in ms. */
 export async function timedSteps(
   page: Page,
@@ -243,5 +241,3 @@ export async function tapSun(
   await page.tap(sun);
   return sun;
 }
-
-export {inTurn} from '@/scene/scripts/lib/in-turn';

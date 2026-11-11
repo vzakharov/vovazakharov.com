@@ -24,8 +24,10 @@ import {
   Watch,
 } from './flier-watch.ts';
 import { type Controls, Point, Top } from './mushroom-probe-answers.ts';
-import { type Expect, inTurn, type Page } from './mushroom-probe-drive.ts';
+import type { Expect, Page } from './mushroom-probe-drive.ts';
 import { fliersOn, type Insect, landed } from './play-fliers.ts';
+
+import { inTurn } from '@/scene/scripts/lib/in-turn';
 
 /** How many taps are aimed at a fly in flight, and how many must reach it. */
 const FLYING_TAPS = 10;

@@ -100,6 +100,8 @@ const rolledTraits = traits(planted.seed);
 
 const noSign: SignOf = () => null;
 
+const pillarOf = (n: number): number => themeOf(n).pillar;
+
 /** What shows where no face is drawn, for an eye `depth` floors down. */
 const airAt = (depth: number) => between((n) => themeOf(n).air, depth);
 
@@ -171,7 +173,6 @@ async function build(
     signPost(sign, room, placed(pose, room)),
   );
   const lookOf = roomLooks(pose, walls, rolledTraits);
-  const pillarOf = (n: number) => themeOf(n).pillar;
   return {
     faces: (pulled) =>
       pack(
@@ -294,9 +295,9 @@ export function mountCube(
     if (canvas.height !== height) canvas.height = height;
   };
 
-  const tick = (now: number): void => {
-    const seconds = Math.min((now - last) / 1000, 0.1);
-    last = now;
+  const tick = (time: number): void => {
+    const seconds = Math.min((time - last) / 1000, 0.1);
+    last = time;
     ({ pose, pulled } = onFrame(pose, seconds, built?.mesh.signOf ?? noSign));
     resize();
     render();

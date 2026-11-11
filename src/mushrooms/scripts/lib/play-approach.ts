@@ -32,11 +32,11 @@ import {
   type Arrow,
   type Expect,
   FPS,
-  inTurn,
   type Page,
 } from './mushroom-probe-drive.ts';
 import { paintedCap, Painting, painting } from './painted-cap.ts';
 
+import { inTurn } from '@/scene/scripts/lib/in-turn';
 import { median } from '@/scene/scripts/lib/median';
 
 /**
