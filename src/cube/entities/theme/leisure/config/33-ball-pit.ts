@@ -39,11 +39,12 @@ fn balls(s: Surf) -> Material {
   let under = worley(s.uv * scale + 0.5, 331u);
   let reach = clamp(top.x / 0.5, 0.0, 1.0);
   let dome = sqrt(1.0 - reach * reach);
-  let low = sqrt(1.0 - clamp(under.x / 0.5, 0.0, 1.0) * clamp(under.x / 0.5, 0.0, 1.0));
+  let sunk = clamp(under.x / 0.5, 0.0, 1.0);
+  let low = sqrt(1.0 - sunk * sunk);
   let upper = primary(top.y) * (0.45 + 0.55 * dome);
   let lower = primary(under.y) * (0.2 + 0.35 * low);
   let on = smoothstep(0.0, 0.15, dome);
-  let near = 1.0 / (1.0 + s.far * s.far / 30.0);
+  let near = fading(s, 30.0);
   let heap = polished(mix(lower, upper, on), 0.45 * near * on);
   return embossed(s, heap, mix(0.3 * low, dome, on), 0.07 * mix(0.25, 1.0, near));
 }

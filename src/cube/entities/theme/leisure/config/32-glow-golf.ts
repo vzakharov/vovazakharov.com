@@ -36,6 +36,9 @@ export const GLOW_GOLF: FloorTheme = {
   shader: wgsl(
     'glow-golf',
     /* wgsl */ `
+const KERB_ORANGE = vec3f(1.0, 0.3, 0.02);
+const UNLIT_BLACK = vec3f(0.006, 0.005, 0.012);
+
 fn lamps() -> Lamps {
   return Lamps(vec3f(0.34, 0.1, 1.1), vec3f(0.004, 0.002, 0.012), 2, vec2f(0.1, 1.2), 0.05);
 }
@@ -55,7 +58,7 @@ fn turf(s: Surf) -> Material {
   let cup = inside(spot.x / 0.45 - 0.054) * fairway;
   let ring = stroke(spot.x / 0.45 - 0.16, 0.02) * fairway;
   var colour = mix(vec3f(0.012, 0.016, 0.03), vec3f(0.07, 0.5, 0.08), fairway) * (0.6 + 0.6 * blade);
-  colour = mix(colour, vec3f(1.0, 0.3, 0.02), kerb);
+  colour = mix(colour, KERB_ORANGE, kerb);
   colour = mix(colour, vec3f(0.6, 0.62, 0.7), ring);
   colour = mix(colour, vec3f(0.0), cup);
   return embossed(s, matte(colour), blade + 6.0 * kerb - 8.0 * cup, 0.002);
@@ -95,8 +98,7 @@ fn cosmos(s: Surf) -> Material {
   let brush = 0.75 + 0.35 * valueNoise(vec2f(s.uv.x, s.p.y) * 60.0, 326u);
   let paint = dayglo(unitOf(mix32(word ^ 0x11u))) * shape * brush + dayglo(star.y * 3.0 - 2.0) * spatter * (1.0 - shape);
   let kerb = band(s.p.y, 0.06, 0.12);
-  let black = vec3f(0.006, 0.005, 0.012);
-  return polished(mix(black + 0.6 * paint, vec3f(1.0, 0.3, 0.02), kerb), 0.1);
+  return polished(mix(UNLIT_BLACK + 0.6 * paint, KERB_ORANGE, kerb), 0.1);
 }
 
 fn themeMaterial(s: Surf) -> Material {
@@ -106,11 +108,11 @@ fn themeMaterial(s: Surf) -> Material {
     case CEILING: {
       let star = worley(s.uv * 10.0, 327u);
       let spatter = inside(star.x / 10.0 - 0.004 - 0.008 * star.y * star.y) * step(0.8, star.y);
-      return glowing(vec3f(0.006, 0.005, 0.012) + 0.6 * dayglo(star.y * 4.0 - 3.0) * spatter, lampGlow(s, lamps()));
+      return glowing(UNLIT_BLACK + 0.6 * dayglo(star.y * 4.0 - 3.0) * spatter, lampGlow(s, lamps()));
     }
     case TRIM: {
       let stripe = step(0.5, fract(s.p.y / 0.3));
-      return polished(mix(vec3f(0.01), vec3f(1.0, 0.3, 0.02), stripe), 0.3);
+      return polished(mix(vec3f(0.01), KERB_ORANGE, stripe), 0.3);
     }
     default: { return stuff(s); }
   }

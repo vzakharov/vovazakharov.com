@@ -65,7 +65,7 @@ fn bulbs(along: f32, up: f32, way: i32, time: f32, salt: u32) -> f32 {
 /// the head of the wall and at the waist, chasing opposite ways.
 fn gilded(s: Surf) -> Material {
   let h = s.p.y;
-  let bay = repeated(vec2f(s.uv.x, 0.0), vec2f(1.25, 1.0)).x;
+  let bay = spaced(s.uv.x, 1.25);
   let upper = vec2f(bay, h - 1.52);
   let lower = vec2f(bay, h - 0.5);
   let frame = max(stroke(roundBox(upper, vec2f(0.5, 0.42), 0.06), 0.03), stroke(roundBox(lower, vec2f(0.5, 0.3), 0.0), 0.025));

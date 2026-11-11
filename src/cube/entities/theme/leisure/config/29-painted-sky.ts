@@ -41,7 +41,7 @@ fn lamps() -> Lamps {
 }
 
 /// A painter's clouds over \`at\`, 0 (sky) to 1 (the thick of one).
-fn painted_cloud(at: vec2f, salt: u32) -> f32 {
+fn paintedCloud(at: vec2f, salt: u32) -> f32 {
   return smoothstep(0.58, 0.64, fbm(at, salt, 4));
 }
 
@@ -76,7 +76,7 @@ fn sunned(s: Surf) -> Material {
   let disc = inside(r - 0.42);
   let wave = 0.06 * sin(atan2(p.y, p.x) * 3.0 + f32(s.seed & 7u));
   let ray = step(0.5, fract(atan2(p.y, p.x) * 14.0 / 6.2832)) * inside(r - 0.98 - wave) * (1.0 - inside(r - 0.5));
-  let cloud = painted_cloud(s.uv * 0.7, 294u);
+  let cloud = paintedCloud(s.uv * 0.7, 294u);
   let sky = mix(vec3f(0.07, 0.22, 0.55), vec3f(0.7, 0.7, 0.68), 0.9 * cloud);
   let brush = valueNoise(s.uv * vec2f(120.0, 14.0), 295u);
   let paint = mix(sky, vec3f(0.72, 0.52, 0.04), ray) * (0.9 + 0.14 * brush);
