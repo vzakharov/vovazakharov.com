@@ -69,13 +69,13 @@ fn tarmac(s: Surf) -> Material {
   let oil = dripping * smoothstep(1.2, 0.2, length(dripAt) + 0.9 * fbm(s.uv * 2.5, 95u, 3));
   let tyres = smoothstep(0.55, 0.75, fbm(vec2f(s.uv.x * 0.35, s.uv.y * 9.0), 96u, 3))
     * smoothstep(depth - 0.2, depth + 0.4, s.p.z);
-  let wet = smoothstep(0.56, 0.62, fbm(s.uv * 0.38, 97u, 4));
+  let wet = smoothstep(0.56, 0.62, fbm(s.uv * 0.38, 97u, 2));
 
   var albedo = mix(ground, vec3f(0.5, 0.49, 0.45), 0.8 * white);
   albedo = mix(albedo, vec3f(0.55, 0.36, 0.03), 0.8 * yellow);
   albedo *= (1.0 - 0.7 * oil) * (1.0 - 0.5 * tyres) * (1.0 - 0.45 * wet);
-  let gloss = max(max(0.18 + 0.2 * patchy, 0.7 * oil), 0.93 * wet);
-  return embossed(s, polished(albedo, gloss), (stones + 0.5 * patchy) * (1.0 - wet), 0.003);
+  let gloss = max(max(0.1 + 0.15 * patchy, 0.6 * oil), 0.93 * wet);
+  return embossed(s, polished(albedo, gloss), (0.4 * stones + 0.6 * patchy) * (1.0 - oil) * (1.0 - smoothstep(0.46, 0.58, fbm(s.uv * 0.38, 97u, 2))), 0.0015);
 }
 
 fn levelWall(s: Surf) -> Material {
@@ -116,20 +116,20 @@ fn ribbedDeck(s: Surf) -> Material {
   let rib = abs(fract(s.p.x / 1.25) - 0.5) * 1.25;
   let web = 1.0 - smoothstep(0.06, 0.2, rib);
   let mottle = fbm(s.uv * 1.6, 0xa6u, 4);
-  let concrete = vec3f(0.27, 0.26, 0.235) * (0.6 + 0.5 * mottle) * (0.7 + 0.3 * web) * (1.0 - 0.6 * damp(s));
+  let concrete = vec3f(0.27, 0.26, 0.235) * (0.6 + 0.5 * mottle) * (0.4 + 0.6 * web) * (1.0 - 0.6 * damp(s));
   // A sprinkler main under the ribs, and the conduit that feeds the tubes.
-  let main = (s.p.z - 2.5) / 0.055;
+  let main = (s.p.z - 2.5) / 0.04;
   let pipe = 1.0 - smoothstep(0.9, 1.0, abs(main));
   let round = sqrt(max(1.0 - main * main, 0.0));
   let coupling = band(fract(s.uv.x / 2.5) * 2.5, 1.25, 0.1);
-  let red = vec3f(0.4, 0.035, 0.025) * (0.35 + 0.65 * round) * (1.0 - 0.3 * coupling);
+  let red = vec3f(0.13, 0.014, 0.011) * (0.25 + 0.75 * round) * (1.0 - 0.3 * coupling);
   let feed = (s.p.z - 1.25) / 0.016;
   let conduit = (1.0 - smoothstep(0.8, 1.0, abs(feed))) * (1.0 - web);
   let glow = lampGlow(s, lamps());
   var albedo = mix(concrete, vec3f(0.3, 0.31, 0.32) * (0.4 + 0.6 * sqrt(max(1.0 - feed * feed, 0.0))), conduit);
   albedo = mix(albedo, red, pipe);
   let deck = Material(albedo, glow, 0.35 * pipe, vec3f(0.0));
-  return embossed(s, deck, web * (1.0 - pipe) + 0.04 * mottle, 0.32);
+  return embossed(s, deck, web * (1.0 - pipe) + 0.04 * mottle, 0.5);
 }
 
 fn themeMaterial(s: Surf) -> Material {

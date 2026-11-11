@@ -55,7 +55,7 @@ fn fromSconce(s: Surf) -> vec2f {
 fn woven(s: Surf) -> Material {
   // Tufts blur every edge of the pattern by a tuft.
   let tuft = valueNoise(s.uv * 110.0, 141u);
-  let q = s.uv / 1.25;
+  let q = s.uv / 0.9;
   let c = fract(q) - 0.5;
   let r = length(c) + 0.012 * (tuft - 0.5);
   let a = atan2(c.y, c.x);
@@ -72,24 +72,18 @@ fn woven(s: Surf) -> Material {
   let knot = 1.0 - smoothstep(-soft, soft, rk - 0.09 - 0.05 * cos(ak * 4.0));
   let trellis = 1.0 - smoothstep(0.012 - soft, 0.012 + soft, abs(abs(k.x) + abs(k.y) - 0.27));
 
-  let wine = vec3f(0.17, 0.016, 0.03);
-  let navy = vec3f(0.022, 0.03, 0.1);
-  let gold = vec3f(0.5, 0.31, 0.07);
-  let teal = vec3f(0.015, 0.15, 0.14);
-  let cream = vec3f(0.5, 0.41, 0.26);
+  let wine = vec3f(0.1, 0.012, 0.022);
+  let navy = vec3f(0.016, 0.02, 0.06);
+  let gold = vec3f(0.3, 0.19, 0.055);
+  let teal = vec3f(0.012, 0.075, 0.075);
+  let cream = vec3f(0.33, 0.27, 0.17);
   var yarn = mix(wine, navy, scroll);
   yarn = mix(yarn, cream, max(ring, trellis));
   yarn = mix(yarn, gold, max(rosette, knot));
   yarn = mix(yarn, teal, heart);
 
   // Along every wall there is, a border: navy between two gold lines.
-  let toSide = vec4f(ROOM.x - s.p.x, ROOM.z - s.p.z, s.p.x, s.p.z);
-  var inset = 9.0;
-  for (var side = 0u; side < 4u; side++) {
-    if (closedAt(s, side)) {
-      inset = min(inset, toSide[side]);
-    }
-  }
+  let inset = wallInset(s);
   let border = 1.0 - smoothstep(0.42, 0.43, inset);
   let lines = clamp(band(inset, 0.42, 0.035) + band(inset, 0.3, 0.02), 0.0, 1.0);
   yarn = mix(mix(yarn, navy, border), gold, lines);
@@ -176,7 +170,7 @@ fn coffered(s: Surf) -> Material {
   let trim = band(r, 0.125, 0.035);
   let level = lampLevel(s, vec2i(0), litOf(s), lamps().stutter);
   let glow = lamps().colour * (GLARE * can * level);
-  var albedo = mix(cream, vec3f(0.5, 0.31, 0.07), 0.8 * gilt) * (1.0 - 0.5 * damp(s));
+  var albedo = mix(cream, vec3f(0.42, 0.3, 0.12), 0.6 * gilt) * (1.0 - 0.5 * damp(s));
   albedo = mix(albedo, vec3f(0.5, 0.48, 0.42), trim);
   let height = -(0.55 * step1 + 0.45 * beam) + 0.06 * rose + 0.03 * age;
   return embossed(s, Material(albedo, glow, 0.25 * gilt + 0.4 * trim, vec3f(0.0)), height, 0.3);

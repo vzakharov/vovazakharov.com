@@ -39,7 +39,7 @@ export const SERVER_FLOOR: FloorTheme = {
     'server-floor',
     /* wgsl */ `
 fn lamps() -> Lamps {
-  return Lamps(vec3f(0.5, 0.72, 1.1), vec3f(0.003, 0.005, 0.01), 2, vec2f(0.08, 1.5), 0.1);
+  return Lamps(vec3f(0.3, 0.45, 0.72), vec3f(0.003, 0.005, 0.01), 2, vec2f(0.08, 1.5), 0.1);
 }
 
 /// The cold air under the floor, breathing: what its light is times.
@@ -100,7 +100,7 @@ fn accessFloor(s: Surf) -> Material {
   let tile = tiling(s.uv, 0.625, 0.007, 132u);
   let chips = worley(s.uv * 60.0, 133u);
   let scratch = smoothstep(0.7, 0.85, fbm(vec2f(s.uv.x * 3.0 + s.uv.y * 2.0, s.uv.y * 60.0 - s.uv.x * 40.0), 134u, 3));
-  let laminate = vec3f(0.3, 0.31, 0.32) * (0.8 + 0.1 * tile.y + 0.25 * step(0.3, chips.x) * chips.y)
+  let laminate = vec3f(0.17, 0.175, 0.185) * (0.8 + 0.1 * tile.y + 0.25 * step(0.3, chips.x) * chips.y)
     * (1.0 - 0.25 * scratch);
   let cold = underfloor(s);
   // One tile in seven is a grille; one in a hundred was lifted and never put back.
@@ -111,7 +111,7 @@ fn accessFloor(s: Surf) -> Material {
   let open = max(grille * mix(0.35, hole, near), lifted) * tile.x;
   let albedo = mix(vec3f(0.01), laminate, tile.x) * (1.0 - open);
   let depth = fbm(s.uv * 3.0, 135u, 3);
-  let glow = cold * open * mix(1.6, 0.25 + 0.5 * depth, lifted) + cold * (0.5 * (1.0 - tile.x));
+  let glow = cold * open * mix(0.9, 0.25 + 0.5 * depth, lifted) + cold * (0.5 * (1.0 - tile.x));
   let floorTile = Material(albedo, glow, 0.62 * tile.x * (1.0 - open), vec3f(0.0));
   return embossed(s, floorTile, tile.x * (1.0 + 0.3 * tile.y) - open - 0.2 * scratch, 0.003);
 }
@@ -122,16 +122,16 @@ fn cableTrays(s: Surf) -> Material {
   var height = 0.0;
   // A ladder tray down the middle, and what lies in it.
   let across = s.p.x - 2.5;
-  let within = 1.0 - smoothstep(0.3, 0.304, abs(across));
+  let within = 1.0 - smoothstep(0.2, 0.204, abs(across));
   let strand = floor(across / 0.024);
   let word = cellHash(vec2i(i32(strand), i32(s.cell.x)), 137u);
   let sag = 0.012 * sin(s.uv.y * 2.3 + unitOf(word) * 6.0);
   let core = abs(fract((across + sag) / 0.024) - 0.5) * 2.0;
   let kind = unitOf(mix32(word));
-  let jacket = select(select(vec3f(0.02, 0.07, 0.3), vec3f(0.5, 0.38, 0.02), kind > 0.55), vec3f(0.13, 0.13, 0.14), kind > 0.75);
-  let cable = jacket * (0.25 + 0.75 * sqrt(max(1.0 - core * core, 0.0)));
+  let jacket = select(select(vec3f(0.02, 0.02, 0.024), vec3f(0.02, 0.06, 0.22), kind > 0.6), vec3f(0.4, 0.3, 0.02), kind > 0.85);
+  let cable = jacket * 0.5 * (0.25 + 0.75 * sqrt(max(1.0 - core * core, 0.0)));
   let rung = band(fract(s.uv.y / 0.3) * 0.3, 0.15, 0.03);
-  let rail = band(abs(across), 0.3, 0.03);
+  let rail = band(abs(across), 0.2, 0.025);
   let steel = vec3f(0.22, 0.23, 0.24);
   let ladder = clamp(rail + rung * within, 0.0, 1.0);
   albedo = mix(mix(albedo, cable, within), steel * (0.7 + 0.5 * dust), ladder);
@@ -171,7 +171,7 @@ fn themeLight(s: Surf, m: Material) -> vec3f {
 }
 
 fn themeLens(l: Lens) -> vec3f {
-  let seen = through(l, 0.34, 0.008) * 1.5;
+  let seen = through(l, 0.34, 0.008) * 1.35;
   // The shutter rolls against the lamps' flicker: a dim bar climbs the frame.
   let bar = 0.93 + 0.07 * sin((l.uv.y * 2.5 + l.time * 0.6) * 6.2832);
   let graded = tonemap(seen * bar) * vec3f(0.92, 1.0, 1.1);

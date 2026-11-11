@@ -1,6 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { FINISH, type FloorTheme, ordinary, STUFF, wgsl } from '../../kit';
+import { MARKS } from '../lib/marks';
 
 const AIR = linear(hex(0x10_12_12));
 
@@ -39,7 +40,7 @@ fn blockwork(s: Surf) -> Material {
   let mortar = 1.0 - smoothstep(0.003, 0.013, joint);
   let block = unitOf(cellHash(vec2i(floor(at)), 101u));
   let pores = valueNoise(s.uv * 130.0, 102u);
-  let pits = smoothstep(0.72, 0.8, valueNoise(s.uv * 45.0, 103u));
+  let pits = smoothstep(0.78, 0.86, valueNoise(s.uv * 90.0, 103u));
   let grime = fbm(s.uv * 0.9, s.seed ^ 0x68u, 4);
 
   let low = 1.0 - smoothstep(0.98, 0.984, h);
@@ -72,23 +73,17 @@ fn epoxy(s: Surf) -> Material {
   let fleck = valueNoise(s.uv * 170.0, 112u);
   let red = vec3f(0.27, 0.045, 0.03) * (0.75 + 0.4 * flow);
   // Worn down to the slab where everything turns.
-  let bared = smoothstep(0.6, 0.66, fbm(s.uv * 0.45, 113u, 4) + 0.06 * fleck);
-  let slab = vec3f(0.2, 0.2, 0.19) * (0.75 + 0.35 * fleck);
+  let bared = smoothstep(0.7, 0.74, fbm(s.uv * 0.45, 113u, 4) + 0.08 * fbm(s.uv * 9.0, 117u, 3));
+  let slab = vec3f(0.17, 0.17, 0.16) * (0.85 + 0.2 * fleck) * (0.8 + 0.4 * flow);
   // Wheels leave rubber both ways.
   let east = smoothstep(0.62, 0.8, fbm(vec2f(s.uv.x * 0.25, s.uv.y * 16.0), 114u, 3));
   let south = smoothstep(0.66, 0.82, fbm(vec2f(s.uv.x * 16.0, s.uv.y * 0.25), 115u, 3));
   let tracked = 1.0 - 0.55 * max(east, south);
 
   // A yellow line keeps trolleys off every wall there is.
-  let toSide = vec4f(ROOM.x - s.p.x, ROOM.z - s.p.z, s.p.x, s.p.z);
-  var line = 0.0;
-  for (var side = 0u; side < 4u; side++) {
-    if (closedAt(s, side)) {
-      line = max(line, band(toSide[side], 0.4, 0.09));
-    }
-  }
-  line *= smoothstep(0.3, 0.5, fbm(s.uv * 3.0, 116u, 3) + 0.2 * fleck);
-  let edge = min(min(toSide.x, toSide.y), min(toSide.z, toSide.w));
+  let line = band(wallInset(s), 0.4, 0.09)
+    * smoothstep(0.3, 0.5, fbm(s.uv * 3.0, 116u, 3) + 0.2 * fleck);
+  let edge = min(min(s.p.x, ROOM.x - s.p.x), min(s.p.z, ROOM.z - s.p.z));
   let cut = 1.0 - smoothstep(0.004, 0.012, edge);
 
   var albedo = mix(mix(red, slab, bared), vec3f(0.55, 0.4, 0.03), line * (1.0 - bared));
@@ -108,9 +103,9 @@ fn openDeck(s: Surf) -> Material {
   // The air duct, galvanised, down the middle; its seams and hangers.
   let across = s.p.z - 2.5;
   let duct = 1.0 - smoothstep(0.36, 0.365, abs(across));
-  let spangle = worley(s.uv * 9.0, 122u);
+  let spangle = worley(s.uv * 45.0, 122u);
   let seam = band(fract(s.uv.x / 1.25) * 1.25, 0.625, 0.03);
-  let zinc = vec3f(0.3, 0.32, 0.33) * (0.7 + 0.35 * spangle.y) * (1.0 - 0.5 * seam);
+  let zinc = vec3f(0.3, 0.32, 0.33) * (0.85 + 0.15 * spangle.y) * (1.0 - 0.5 * seam);
   albedo = mix(albedo, zinc, duct);
   gloss = mix(gloss, 0.5, duct);
   height = mix(height, 1.0 + 0.15 * seam + 0.05 * spangle.y, 1.0 - smoothstep(0.3, 0.37, abs(across)));
@@ -153,6 +148,7 @@ fn themeMaterial(s: Surf) -> Material {
 `,
     FINISH,
     STUFF,
+    MARKS,
     ordinary('service-corridor', {
       air: AIR,
       lamp: [1.25, 1.45, 1.3],

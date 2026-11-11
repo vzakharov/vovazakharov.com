@@ -34,16 +34,16 @@ fn studded(s: Surf) -> Material {
   let fine = 1.0 - smoothstep(0.3, 1.1, fwidth(at.x) + fwidth(at.y));
   let stud = (1.0 - smoothstep(0.24, 0.33, length(fract(at) - 0.5))) * fine;
   let grime = fbm(s.uv * 0.9, 61u, 4);
-  let dust = smoothstep(0.42, 0.75, fbm(s.uv * 2.3, 62u, 3));
-  let rubber = vec3f(0.03, 0.042, 0.04) * (0.7 + 0.6 * grime) * (1.0 + 0.5 * stud);
-  let trodden = mix(rubber, vec3f(0.12, 0.115, 0.1), 0.45 * dust * (1.0 - 0.6 * stud));
+  let dust = smoothstep(0.35, 0.8, fbm(s.uv * 3.1, 62u, 4));
+  let rubber = vec3f(0.03, 0.042, 0.04) * (0.7 + 0.6 * grime) * (1.0 + 0.9 * stud);
+  let trodden = mix(rubber, vec3f(0.12, 0.115, 0.1), 0.3 * dust * (1.0 - 0.6 * stud));
   // Every room's edge is a step's edge: a ribbed yellow nosing, worn through.
   let edge = min(min(s.p.x, ROOM.x - s.p.x), min(s.p.z, ROOM.z - s.p.z));
   let worn = smoothstep(0.38, 0.5, fbm(s.uv * 5.0, 63u, 3));
   let rib = 0.5 + 0.5 * cos(edge * 6.2832 / 0.014);
   let nosing = band(edge, 0.085, 0.09) * worn;
   let yellow = vec3f(0.5, 0.36, 0.03) * (0.55 + 0.45 * rib);
-  let floor = polished(mix(trodden, yellow, nosing), mix(0.4, 0.1, dust));
+  let floor = polished(mix(trodden, yellow, nosing), mix(0.28, 0.08, dust));
   return embossed(s, floor, stud + 0.4 * nosing * rib + 0.6 * grime, 0.004);
 }
 
@@ -57,7 +57,7 @@ fn boardMarked(s: Surf) -> Material {
   let grain = fbm(vec2f(s.uv.x * 2.5 + tone * 9.0, h * 80.0), 72u, 3);
   let seam = smoothstep(0.0, 0.07, min(fract(board), 1.0 - fract(board)));
   let pour = fbm(s.uv * 0.7, s.seed ^ 0x73u, 4);
-  let raw = vec3f(0.33, 0.325, 0.3) * (0.62 + 0.16 * tone + 0.2 * grain + 0.3 * pour) * (0.7 + 0.3 * seam);
+  let raw = vec3f(0.2, 0.2, 0.185) * (0.6 + 0.2 * tone + 0.22 * grain + 0.4 * pour) * (0.82 + 0.18 * seam);
   // The formwork's tie holes, plugged and stained below.
   let tie = vec2f((fract(s.uv.x / 1.2) - 0.5) * 1.2, (fract((h - 0.3) / 0.7) - 0.5) * 0.7);
   let hole = 1.0 - smoothstep(0.016, 0.026, length(tie));
@@ -94,9 +94,9 @@ fn soffit(s: Surf) -> Material {
   let off = s.p.xz - ROOM.xz * 0.5;
   let r = length(off);
   // The lamp sits on a flat pad cast into the flight.
-  let pad = smoothstep(0.26, 0.42, max(abs(off.x), abs(off.y)));
+  let pad = smoothstep(0.24, 0.4, r);
   let mottle = fbm(s.uv * 3.0, 81u, 4);
-  let concrete = vec3f(0.3, 0.3, 0.275) * (0.7 + 0.45 * mottle)
+  let concrete = vec3f(0.21, 0.21, 0.195) * (0.65 + 0.5 * mottle)
     * (1.0 - 0.4 * riser * pad) * (1.0 - 0.55 * damp(s));
   let glass = 1.0 - smoothstep(0.15, 0.165, r);
   let bezel = band(r, 0.19, 0.045);
@@ -126,7 +126,7 @@ fn themeMaterial(s: Surf) -> Material {
     MARKS,
     ordinary('stairwell', {
       air: AIR,
-      lamp: [2.9, 3.3, 2.6],
+      lamp: [2.1, 2.4, 1.9],
       ambient: [0.006, 0.008, 0.006],
       grid: 1,
       panel: [0.3, 0.3],

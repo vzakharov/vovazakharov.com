@@ -14,6 +14,19 @@ fn wallAlong(s: Surf) -> f32 {
   return dot(s.p.xz, right) + select(0.0, ROOM.x, right.x + right.y < 0.0);
 }
 
+/// Metres from a floor's point to the nearest closed wall of its room; 9
+/// in a room with none.
+fn wallInset(s: Surf) -> f32 {
+  let toSide = vec4f(ROOM.x - s.p.x, ROOM.z - s.p.z, s.p.x, s.p.z);
+  var inset = 9.0;
+  for (var side = 0u; side < 4u; side++) {
+    if (closedAt(s, side)) {
+      inset = min(inset, toSide[side]);
+    }
+  }
+  return inset;
+}
+
 /// How far \`p\` is from the stroke between \`a\` and \`b\`.
 fn strokeTo(p: vec2f, a: vec2f, b: vec2f) -> f32 {
   let along = clamp(dot(p - a, b - a) / dot(b - a, b - a), 0.0, 1.0);
