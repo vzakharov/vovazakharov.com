@@ -1,0 +1,176 @@
+import type { Seeded } from '@/kernel/shared/typings';
+
+import type { Footing } from '@/cube/entities/theme';
+import type { InRoom } from '@/cube/entities/world';
+
+import { clamp01 } from '../lib/dsp';
+import { breath, grunt, jump, landing } from './body';
+import { knock, lever, ring, shrinking, stepsAway, thud } from './fixture';
+import { footstep } from './footstep';
+
+/** Where a sound is for an ear: how far to its right, and how far off. */
+export type Bearing = {
+  /** −1 dead left to 1 dead right; 0 ahead, behind or at the ear. */
+  rightward: number;
+  /** Room sides off. */
+  roomsAway: number;
+};
+
+/**
+ * Where `source` is for an ear at `ear` looking along `yaw` (radians, 0 east,
+ * π/2 south, as a pose's). Both are in one room's frame; a source in a room
+ * beside it is a point past that frame's edge.
+ */
+export function bearingOf(ear: InRoom, yaw: number, source: InRoom): Bearing {
+  const du = source.u - ear.u;
+  const dv = source.v - ear.v;
+  const roomsAway = Math.hypot(du, dv);
+  if (roomsAway === 0) return { rightward: 0, roomsAway };
+  return {
+    rightward: (dv * Math.cos(yaw) - du * Math.sin(yaw)) / roomsAway,
+    roomsAway,
+  };
+}
+
+/**
+ * A sound a room makes on its own: where it is for the ear, how loud, and the
+ * seed whatever raised it rolled from the room and the moment, so everyone
+ * there hears the same knock.
+ */
+type Roomed = Seeded & {
+  from: Bearing;
+  /** 0 to 1, as loud as it would be beside the ear. */
+  loud: number;
+};
+
+/** The sounds a room makes on its own. */
+export const ROOM_SOUNDS = ['ring', 'knock', 'thud', 'steps-away'] as const;
+export type RoomSound = (typeof ROOM_SOUNDS)[number];
+
+/** Something to be heard once, now. */
+export type SoundCue =
+  | { kind: 'step'; strength: number; footing: Footing }
+  | { kind: 'jump' }
+  | { kind: 'landing'; speed: number }
+  | { kind: 'lever' }
+  | { kind: 'breath'; effort: number }
+  | { kind: 'grunt' }
+  | { kind: 'shrink' }
+  | (Roomed & { kind: RoomSound });
+
+/** Seconds the shrink is heard for. */
+export const SHRINK_SECONDS = 3;
+
+/**
+ * The samples of `cue` at `rate`, on a floor that is `footing` underfoot. A
+ * step names its own footing; a landing and steps going away take the
+ * floor's.
+ */
+export function samplesOf(
+  cue: SoundCue,
+  footing: Footing,
+  seed: number,
+  rate: number,
+): Float32Array<ArrayBuffer> {
+  switch (cue.kind) {
+    case 'step': {
+      return footstep(cue.footing, cue.strength, seed, rate);
+    }
+    case 'jump': {
+      return jump(seed, rate);
+    }
+    case 'landing': {
+      return landing(cue.speed, footing, seed, rate);
+    }
+    case 'lever': {
+      return lever(seed, rate);
+    }
+    case 'breath': {
+      return breath(cue.effort, seed, rate);
+    }
+    case 'grunt': {
+      return grunt(seed, rate);
+    }
+    case 'shrink': {
+      return shrinking(SHRINK_SECONDS, seed, rate);
+    }
+    case 'ring': {
+      return ring(seed, rate);
+    }
+    case 'knock': {
+      return knock(seed, rate);
+    }
+    case 'thud': {
+      return thud(seed, rate);
+    }
+    case 'steps-away': {
+      return stepsAway(footing, seed, rate);
+    }
+    default: {
+      throw new TypeError(`Not a cue: ${String(cue satisfies never)}`);
+    }
+  }
+}
+
+/** How a sound sits in the mix. */
+export type Mix = {
+  loudness: number;
+  /** −1 left to 1 right. */
+  balance: number;
+  /** The share of it sent through the room's reverb, 0 to 1. */
+  reverb: number;
+};
+
+/** A mix and the speed its samples play at, 1 as they were made. */
+export type Voiced = Mix & { playbackRate: number };
+
+/** The cues that are the body's own: they shrink with it. */
+const BODILY: ReadonlySet<SoundCue['kind']> = new Set([
+  'step',
+  'jump',
+  'landing',
+  'breath',
+  'grunt',
+]);
+
+const GAINS: Record<Exclude<SoundCue['kind'], RoomSound>, number> = {
+  step: 0.55,
+  jump: 0.4,
+  landing: 0.8,
+  lever: 0.7,
+  breath: 0.35,
+  grunt: 0.5,
+  shrink: 0.6,
+};
+
+/** Room sides at which a room's sound has lost half its level. */
+const HALF_AWAY = 0.6;
+
+const isRoomed = (cue: SoundCue): cue is Roomed & { kind: RoomSound } =>
+  'from' in cue;
+
+/**
+ * How `cue` is played to a body of `scale` (1 a whole person of the floor, ½
+ * one about to be the next floor's). The body's own sounds get lighter and
+ * higher as it shrinks, the room's stay the room's; a room's sound fades,
+ * moves aside and takes on more of the room with distance.
+ */
+export function voicedOf(cue: SoundCue, scale: number): Voiced {
+  if (isRoomed(cue)) {
+    const { rightward, roomsAway } = cue.from;
+    return {
+      loudness: clamp01(cue.loud) / (1 + (roomsAway / HALF_AWAY) ** 2),
+      // A source at the ear is in neither one: it moves aside as it moves off.
+      balance: rightward * clamp01(roomsAway / 0.3),
+      reverb: clamp01(0.35 + 0.5 * roomsAway),
+      playbackRate: 1,
+    };
+  }
+  const size = BODILY.has(cue.kind) ? Math.min(1, Math.max(0.25, scale)) : 1;
+  return {
+    loudness: GAINS[cue.kind] * Math.sqrt(size),
+    balance: 0,
+    reverb: 0.3,
+    playbackRate: size ** -0.35,
+  };
+}

@@ -1,0 +1,106 @@
+import type { Footing } from '@/cube/entities/theme';
+
+import { clamp01, filterOf, hump, noiseOf, ringing, sampled } from '../lib/dsp';
+import { footstep, stepSeconds } from './footstep';
+
+/**
+ * One breath, in and then out, as noise through the mouth's band. `effort`
+ * runs from 0 (at rest: slow, barely there) to 1 (winded: quick, loud, the
+ * mouth open).
+ */
+export function breath(
+  effort: number,
+  seed: number,
+  rate: number,
+): Float32Array<ArrayBuffer> {
+  const hard = clamp01(effort);
+  const noise = noiseOf(seed);
+  const seconds = (2.6 - 1.4 * hard) * (1 + 0.08 * noise());
+  const level = 0.12 + 0.5 * hard;
+  const mouth = filterOf('band', rate);
+  return sampled(seconds, rate, (t) => {
+    const x = t / seconds;
+    // In over the first 42%, a held moment, out over the rest.
+    const drawn = hump(x / 0.42);
+    const released = hump((x - 0.48) / 0.52);
+    const hz = drawn > 0 ? 2300 - 500 * hard : 1400 - 400 * hard;
+    return level * (0.7 * drawn + released) * 3 * mouth(noise(), hz, 1.1);
+  });
+}
+
+/** The throat's two resonances for an "uh". */
+const THROAT = [620, 1080] as const;
+
+/** A grunt of effort: a short voiced push, falling, with breath on it. */
+export function grunt(seed: number, rate: number): Float32Array<ArrayBuffer> {
+  const noise = noiseOf(seed);
+  const pitch = 105 * (1 + 0.12 * noise());
+  const seconds = 0.26 * (1 + 0.15 * noise());
+  const formants = THROAT.map(() => filterOf('band', rate));
+  let phase = 0;
+  return sampled(seconds, rate, (t) => {
+    const x = t / seconds;
+    phase += (pitch * (1 - 0.3 * x)) / rate;
+    // A glottal pulse: a sawtooth with breath through it.
+    const source = 2 * (phase % 1) - 1 + 0.3 * noise();
+    const voiced = formants.reduce(
+      (sum, formant, index) => sum + formant(source, THROAT[index] ?? 0, 5),
+      0,
+    );
+    return 1.6 * hump(0.08 + 0.92 * x) ** 0.6 * voiced;
+  });
+}
+
+/** A jump leaving the floor: a quick push of breath and the clothes' swish. */
+export function jump(seed: number, rate: number): Float32Array<ArrayBuffer> {
+  const noise = noiseOf(seed);
+  const seconds = 0.22;
+  const mouth = filterOf('band', rate);
+  const cloth = filterOf('band', rate);
+  return sampled(seconds, rate, (t) => {
+    const x = t / seconds;
+    const puff = mouth(noise(), 1700 - 800 * x, 1.4) * hump(x / 0.6);
+    const swish = cloth(noise(), 500 + 900 * x, 0.8) * hump(x);
+    return 1.2 * puff + 0.8 * swish;
+  });
+}
+
+/** Seconds between a landing's two feet. */
+const FEET_APART = 0.028;
+
+/** A landing speed, in room sides a second, that is as hard as a step gets. */
+const HARD_LANDING = 1;
+
+/** The body's own weight arriving. */
+const WEIGHT = { hz: 48, dies: 0.18, force: 0.9 };
+
+/**
+ * Landing on `footing` at `speed` room sides a second: both feet a moment
+ * apart, the body's weight under them, and the breath knocked out by a hard
+ * one.
+ */
+export function landing(
+  speed: number,
+  footing: Footing,
+  seed: number,
+  rate: number,
+): Float32Array<ArrayBuffer> {
+  const strength = clamp01(speed / HARD_LANDING);
+  const feet = [
+    footstep(footing, strength, seed, rate),
+    footstep(footing, 0.85 * strength, seed + 1, rate),
+  ];
+  const noise = noiseOf(seed + 2);
+  const mouth = filterOf('band', rate);
+  const apart = Math.round(FEET_APART * rate);
+  const seconds = Math.max(stepSeconds(footing) + FEET_APART, 0.3);
+  return sampled(seconds, rate, (t, i) => {
+    const stepped = feet.reduce(
+      (sum, foot, index) => sum + (foot[i - index * apart] ?? 0),
+      0,
+    );
+    const puff =
+      strength * strength * mouth(noise(), 1200, 1) * hump((t - 0.03) / 0.22);
+    return stepped + strength * ringing(WEIGHT, t) + puff;
+  });
+}
