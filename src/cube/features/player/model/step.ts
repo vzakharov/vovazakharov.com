@@ -1,7 +1,6 @@
-import type { Pose } from '@/cube/entities/world';
+import type { Pose, Walls } from '@/cube/entities/world';
 
 import { walk } from './body';
-import type { Walls } from './walls';
 
 /** Walking speed in room sides a second: 1.4 m/s on floor 1. */
 export const WALK_SPEED = 0.28;

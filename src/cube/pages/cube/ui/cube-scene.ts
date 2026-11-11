@@ -6,6 +6,7 @@ import {
   type HoleOf,
   holesOf,
   maze,
+  mazeWalls,
   planted,
   type Pose,
   roomKey,
@@ -15,7 +16,7 @@ import {
   withBelow,
 } from '@/cube/entities/world';
 
-import { viewProjection } from '../lib/camera';
+import { FAR, viewProjection } from '../lib/camera';
 import { pack } from '../lib/mesh';
 import { airOf, ambientOf } from '../lib/palette';
 import type { CubePlayHook } from '../lib/play';
@@ -39,12 +40,8 @@ export type CubeOptions = WithOnError & {
 /** The play hook's calls, which the page also drives itself, and its end. */
 export type CubeScene = CubePlayHook & CanDispose;
 
-/** Rooms of the eye's floor drawn on each side of its own. */
-const RADIUS = 3;
-/** Fog density per room side of the eye's floor. */
-const FOG_DENSITY = 0.32;
-
 const rolled = maze(planted.seed);
+const walls = mazeWalls(rolled);
 
 /**
  * The vertex buffer for an eye at `pose`. Its floor's holes are resolved
@@ -52,7 +49,7 @@ const rolled = maze(planted.seed);
  * then those rooms' own.
  */
 async function build(pose: Pose): Promise<Float32Array<ArrayBuffer>> {
-  const seen = sight(pose, RADIUS);
+  const seen = sight(pose, FAR, walls);
   const holeAbove = await holesOf(planted, slabRooms(seen));
   const full = withBelow(seen, holeAbove);
   const holeBelow = await holesOf(planted, full.below);
@@ -113,9 +110,7 @@ export function mountCube(
     const { width, height } = canvas;
     const eye = eyeIn(built, pose);
     renderer.draw(viewProjection(pose, eye, width / height), {
-      eye,
-      density: FOG_DENSITY,
-      fog: airOf(pose.n),
+      clear: airOf(pose.n),
       ambient: ambientOf(pose.n),
     });
     firstFrame.resolve();
