@@ -3,10 +3,11 @@ import { describe, it } from 'node:test';
 
 import { descend, eyeInFrame, faces, HOLE_SIDE } from './geometry';
 import type { HoleOf } from './hole';
+import type { Pulled } from './lever';
 import { isOpenEast, maze } from './maze';
 import type { Pose } from './pose';
 import type { Quad } from './quad';
-import type { Room } from './room';
+import { type Room, roomKey } from './room';
 import { sight, withBelow } from './rooms';
 import { mazeWalls } from './walls';
 
@@ -34,9 +35,24 @@ const holedTo =
   ({ n }) =>
     n < last ? { qx: 0, qy: 0 } : null;
 
+const nobody = (): boolean => false;
+const mine = (room: Room): boolean => roomKey(room) === '2/1/0';
+
 /** The faces of what an eye at `pose` sees, holes by `holeOf`. */
-const facesAt = (pose: Pose, holeOf: HoleOf): Quad[] =>
-  faces(rolled, pose, withBelow(sight(pose, 24, walls), holeOf), holeOf);
+const facesAt = (
+  pose: Pose,
+  holeOf: HoleOf,
+  pulled: Pulled | null = null,
+  owns: (room: Room) => boolean = nobody,
+): Quad[] =>
+  faces(
+    rolled,
+    pose,
+    withBelow(sight(pose, 24, walls), holeOf),
+    holeOf,
+    pulled,
+    owns,
+  );
 
 /** The hole in the east-north quarter of floor 1's room, and nowhere else. */
 const oneHole: HoleOf = ({ n }) => (n === 1 ? { qx: 1, qy: 0 } : null);
@@ -71,6 +87,22 @@ describe('faces', () => {
     assert.ok(floor.some((quad) => covers(quad, 0.25, 0.25)));
   });
 
+  it('draws a bought room’s floor owned, and only its floor', () => {
+    const pose = at({ n: 2, x: 1n, y: 0n });
+    const owned = facesAt(pose, holedTo(3), null, mine).filter(
+      (quad) => quad.surface === 'owned',
+    );
+    assert.ok(owned.length > 0);
+    for (const { n, normal, corners } of owned) {
+      assert.equal(n, 2);
+      assert.deepEqual(
+        normal.map((c) => c + 0),
+        [0, 1, 0],
+      );
+      assert.ok(corners.every(([east]) => east >= 0 && east <= 1));
+    }
+  });
+
   it('stacks the floors at the heights their rooms make', () => {
     const pose = at({ n: 2, x: 1n, y: 0n });
     const quads = facesAt(pose, holedTo(3));
@@ -89,7 +121,14 @@ describe('faces', () => {
       [0n, 1n, 2n, 3n].map((x) => ({ n: 3, x, y })),
     );
     const view = { near: floor, above: [], overhead: null, topmost: null };
-    const quads = faces(rolled, pose, withBelow(view, noHoles), noHoles);
+    const quads = faces(
+      rolled,
+      pose,
+      withBelow(view, noHoles),
+      noHoles,
+      null,
+      nobody,
+    );
     const eastward = new Set(
       quads
         .filter((q) => q.n === 3 && q.surface === 'wall' && q.normal[0] !== 0)
@@ -131,6 +170,37 @@ describe('faces', () => {
       [1, 2],
     );
     assert.ok(!facesAt(at({}), noHoles).some((q) => q.surface === 'plate'));
+  });
+
+  it('swings the pulled lever’s handle down, and no other', () => {
+    const pose = at({ n: 2, x: 1n, y: 0n });
+    const handles = (pulled: Pulled | null) =>
+      facesAt(pose, holedTo(3), pulled).filter((q) => q.surface === 'handle');
+    const rest = handles(null);
+    const half = handles({ room: pose, swung: 0.5 });
+    const down = handles({ room: pose, swung: 1 });
+    const moved = down
+      .map((quad, index) => ({ quad, index }))
+      .filter(({ quad, index }) =>
+        quad.corners.some((corner, c) =>
+          corner.some(
+            (value, axis) => value !== rest[index]?.corners[c]?.[axis],
+          ),
+        ),
+      )
+      .map(({ index }) => index);
+    // One handle is a box of six faces, all the pulled room's.
+    assert.equal(moved.length, 6);
+    /** The highest corner, among the moved faces, of `quads`. */
+    const top = (quads: readonly Quad[]) =>
+      Math.max(
+        ...moved.flatMap(
+          (index) => quads[index]?.corners.map((c) => c[1]) ?? [],
+        ),
+      );
+    assert.ok(moved.every((index) => rest[index]?.n === 2));
+    assert.ok(top(half) < top(rest));
+    assert.ok(top(down) < top(half));
   });
 });
 

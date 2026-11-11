@@ -1,5 +1,5 @@
 import { holeMiddle, type HoleOf, type Quarter } from './hole';
-import { leverFaces, leverOf } from './lever';
+import { leverFaces, leverOf, type Pulled, swungIn } from './lever';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
 import type { Pose } from './pose';
 import { face, type Quad, type Vec3 } from './quad';
@@ -7,12 +7,15 @@ import { type Room, roomKey, roomsAcross } from './room';
 import type { View } from './rooms';
 
 /** A room's height, in its own side. */
-const ROOM_HEIGHT = 0.5;
+export const ROOM_HEIGHT = 0.5;
 /** A hole's side, in its room's side; it sits in the middle of its quarter. */
 export const HOLE_SIDE = 0.08;
 
+/** A room's side in the eye's frame, in the eye room's sides. */
+type Sided = { roomSide: number };
+
 /** A room's footprint in the eye's frame: its north-west corner and side. */
-type Footprint = { east: number; south: number; roomSide: number };
+type Footprint = Sided & { east: number; south: number };
 
 /**
  * The eye's frame: floor `n`'s room sides, origin at the north-west corner of
@@ -106,21 +109,24 @@ function cut(
 
 /**
  * Floor `m`'s slab over `area`, at its height in the eye's frame: its top is
- * floor `m`'s floor, its underside floor `m + 1`'s ceiling. Floor 0 is the lid.
+ * floor `m`'s floor, `owned` where the viewer bought the room, its underside
+ * floor `m + 1`'s ceiling. Floor 0 is the lid.
  */
 function slab(
   eye: Room,
   m: number,
   area: Footprint,
   quarter: Quarter | null,
+  owned: boolean,
 ): Quad[] {
   const y = slabHeight(eye.n, m);
+  const top = owned ? 'owned' : 'floor';
   return cut(area, quarter).flatMap(([east, south, width, depth]) => {
     const corner: Vec3 = [east, y, south];
     const across: Vec3 = [width, 0, 0];
     const along: Vec3 = [0, 0, depth];
     const under = face(corner, across, along, m + 1, 'ceiling');
-    return m === 0 ? [under] : [face(corner, along, across, m, 'floor'), under];
+    return m === 0 ? [under] : [face(corner, along, across, m, top), under];
   });
 }
 
@@ -179,20 +185,37 @@ function roomWalls(
 /** The lid's footprint: floor 1's one room, which is the whole cube. */
 const CUBE: Room = { n: 1, x: 0n, y: 0n };
 
+/** Where `room` sits in the eye's frame: its north-west slab corner and side. */
+export type Placed = Sided & { origin: Vec3 };
+
+export function placed(eye: Room, room: Room): Placed {
+  const { east, south, roomSide } = footprint(eye, room);
+  return { origin: [east, slabHeight(eye.n, room.n), south], roomSide };
+}
+
+/** The rooms of `view` whose walls the eye sees: near, below and overhead. */
+export const walledRooms = (view: View): Room[] => [
+  ...view.near,
+  ...view.below,
+  ...(view.overhead === null ? [] : [view.overhead]),
+];
+
 /** The lever of `room` in the eye's frame, if `room` has a hole. */
 function lever(
   rolled: RolledMaze,
   eye: Room,
   room: Room,
   quarter: Quarter | null,
+  pulled: Pulled | null,
 ): Quad[] {
   if (quarter === null) return [];
-  const { east, south, roomSide } = footprint(eye, room);
+  const { origin, roomSide: side } = placed(eye, room);
   return leverFaces(
     leverOf(rolled, room, quarter),
     room.n,
-    [east, slabHeight(eye.n, room.n), south],
-    roomSide,
+    origin,
+    side,
+    swungIn(pulled, room),
   );
 }
 
@@ -200,27 +223,25 @@ function lever(
  * Every face the eye at `pose` sees of `view`: the walls of its floor's rooms,
  * of the rooms below them and of the room overhead; the slabs of all of them,
  * holes cut; the levers of the holed rooms among those; and the ceiling over
- * the topmost room it sees, which on floors 1 and 2 is the lid. Slabs come
- * first, so a depth test that keeps the first of two equal depths draws a
- * slab, not the wall tops meeting it from below.
+ * the topmost room it sees, which on floors 1 and 2 is the lid. Every lever
+ * is drawn at rest but the one `pulled`. Slabs come first, so a depth test
+ * that keeps the first of two equal depths draws a slab, not the wall tops
+ * meeting it from below. A room `owns` names has its floor drawn `owned`.
  */
 export function faces(
   rolled: RolledMaze,
   pose: Pose,
   view: View,
   holeOf: HoleOf,
+  pulled: Pulled | null,
+  owns: (room: Room) => boolean,
 ): Quad[] {
   const slabOf = (room: Room) =>
-    slab(pose, room.n, footprint(pose, room), holeOf(room));
+    slab(pose, room.n, footprint(pose, room), holeOf(room), owns(room));
   const lid =
     view.topmost === null
-      ? slab(pose, 0, footprint(pose, CUBE), null)
+      ? slab(pose, 0, footprint(pose, CUBE), null, false)
       : slabOf(view.topmost);
-  const walled = [
-    ...view.near,
-    ...view.below,
-    ...(view.overhead === null ? [] : [view.overhead]),
-  ];
   return [
     ...[...view.near, ...view.below, ...view.above].flatMap((room) =>
       slabOf(room),
@@ -229,6 +250,8 @@ export function faces(
     ...walls(rolled, pose, view.near),
     ...walls(rolled, pose, view.below),
     ...(view.overhead === null ? [] : walls(rolled, pose, [view.overhead])),
-    ...walled.flatMap((room) => lever(rolled, pose, room, holeOf(room))),
+    ...walledRooms(view).flatMap((room) =>
+      lever(rolled, pose, room, holeOf(room), pulled),
+    ),
   ];
 }

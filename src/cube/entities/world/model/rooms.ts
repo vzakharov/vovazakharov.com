@@ -25,7 +25,8 @@ const unique = (rooms: readonly Room[]): Room[] => [
   ...new Map(rooms.map((room) => [roomKey(room), room])).values(),
 ];
 
-const parent = ({ n, x, y }: Room): Room => ({
+/** The room of floor `n − 1` over `room`. */
+export const parent = ({ n, x, y }: Room): Room => ({
   n: n - 1,
   x: x >> 1n,
   y: y >> 1n,
@@ -53,13 +54,14 @@ const GRAZE = 1e-9;
 
 const minus = ([ax, ay]: Point, [bx, by]: Point): Point => [ax - bx, ay - by];
 
-const STEPS = [
+/** The four steps to a neighbour, clockwise seen from above: east first. */
+export const STEPS = [
   [1, 0],
   [0, 1],
   [-1, 0],
   [0, -1],
 ] as const;
-type Step = (typeof STEPS)[number];
+export type Step = (typeof STEPS)[number];
 
 /**
  * The arc whose normals `n` keep `n · w ≥ 0`, within `arc`; null once none do.
@@ -117,14 +119,18 @@ function opening(east: number, south: number, [dx, dy]: Step): [Point, Point] {
 }
 
 /** The room one step from `room` towards `[dx, dy]`. */
-const stepped = ({ n, x, y }: Room, [dx, dy]: Step): Room => ({
+export const stepped = ({ n, x, y }: Room, [dx, dy]: Step): Room => ({
   n,
   x: x + BigInt(dx),
   y: y + BigInt(dy),
 });
 
 /** Whether the wall from `room` towards `[dx, dy]` is open. */
-function opens(walls: Walls, { n, x, y }: Room, [dx, dy]: Step): boolean {
+export function opens(
+  walls: Walls,
+  { n, x, y }: Room,
+  [dx, dy]: Step,
+): boolean {
   if (dx === 1) return walls.isOpenEast(n, x, y);
   if (dx === -1) return walls.isOpenEast(n, x - 1n, y);
   if (dy === 1) return walls.isOpenSouth(n, x, y);
@@ -183,7 +189,7 @@ export function seenFrom(seat: Room, far: number, walls: Walls): Room[] {
 }
 
 /** The rooms `room` opens into on its floor. */
-const openNeighbours = (walls: Walls, room: Room): Room[] =>
+export const openNeighbours = (walls: Walls, room: Room): Room[] =>
   STEPS.filter((step) => opens(walls, room, step)).map((step) =>
     stepped(room, step),
   );

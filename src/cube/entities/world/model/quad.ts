@@ -2,18 +2,28 @@ import type { Floored } from './room';
 
 export type Vec3 = readonly [number, number, number];
 
-const SURFACES = ['wall', 'floor', 'ceiling', 'plate', 'handle'] as const;
+/** `owned` is the floor of a room the viewer bought. */
+const SURFACES = [
+  'wall',
+  'floor',
+  'owned',
+  'ceiling',
+  'plate',
+  'handle',
+] as const;
 export type Surface = (typeof SURFACES)[number];
 
 /**
  * One flat face, its corners counter-clockwise seen from the side `normal`
- * points to, and the room it faces into: on floor `n`, as `surface`.
+ * points to, and the floor of the room it faces into.
  */
-export type Quad = Floored & {
+export type Facet = Floored & {
   corners: readonly [Vec3, Vec3, Vec3, Vec3];
   normal: Vec3;
-  surface: Surface;
 };
+
+/** A facet coloured as `surface`. */
+export type Quad = Facet & { surface: Surface };
 
 const cross = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
   ay * bz - az * by,
@@ -39,13 +49,7 @@ export const times = ([x, y, z]: Vec3, by: number): Vec3 => [
 ];
 
 /** The parallelogram from `corner` along `a`, then `b`, facing `a × b`. */
-export function face(
-  corner: Vec3,
-  a: Vec3,
-  b: Vec3,
-  n: number,
-  surface: Surface,
-): Quad {
+export function facet(corner: Vec3, a: Vec3, b: Vec3, n: number): Facet {
   return {
     corners: [
       corner,
@@ -55,9 +59,17 @@ export function face(
     ],
     normal: unit(cross(a, b)),
     n,
-    surface,
   };
 }
+
+/** `facet`'s parallelogram as `surface`. */
+export const face = (
+  corner: Vec3,
+  a: Vec3,
+  b: Vec3,
+  n: number,
+  surface: Surface,
+): Quad => ({ ...facet(corner, a, b, n), surface });
 
 /**
  * The six outward faces of the box from `corner` along `p`, `q` and `r`, which

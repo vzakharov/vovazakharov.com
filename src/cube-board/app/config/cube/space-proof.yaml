@@ -1,0 +1,43 @@
+items:
+  - id: z-space-proof
+    type: zone
+    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    box: [1820, 1820, 1060, 820, pink]
+    icon: 🧗
+    text: 'Getting there: who may paint, and how deep'
+  - id: graf-rule
+    type: sticky
+    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    box: [1848, 1930, 244, pink]
+    icon: 📜
+    text: 'The rule: a painting changes the constant, never the exponent. The jackhammer breaks walls, never floors, so the lock still holds'
+  - id: graf-depth
+    type: sticky
+    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    box: [2183, 1930, 244, pink]
+    icon: 🧗
+    text: "Proof of depth: to paint floor n, show its hole's answer. Only who got there paints there, by legs or by silicon. Idea: Argon2 over SHA-256 for the seals takes a GPU's head start away, the exponent untouched; the difficulty calculator would follow"
+  - id: graf-silicon
+    type: sticky
+    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    box: [2518, 1930, 244, pink]
+    icon: 🖥️
+    text: 'Idea, brute force as a feature: legs go down to ~floor 10, below that only silicon. Floor n takes ~4^n hashes, so floor 30 is a hundred GPUs for a fortnight and floor 40, the same hundred for ~40,000 years. Each hole is a public bounty; a crack is news ("floor 27 fell"), and the deepest floor found reads as the world''s hashing power. A tab left open can dig too, the crowd as one farm, and the finder paints'
+  - id: space-reach
+    type: sticky
+    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    box: [1848, 2180, 244, pink]
+    icon: 🧭
+    text: 'Buying asks no proof of reaching the room: whoever stands at the end of a shared path counts as having got there, so any room is bought by its coordinates'
+  - id: space-url
+    type: sticky
+    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    box: [2183, 2180, 244, pink]
+    icon: 🔗
+    text: 'Idea: the URL is the path walked. The holes of the floors passed (2n bits each, ~553 bytes for all 66), the current room, and a short checksum. Holes prove themselves against the commitments; the checksum makes a one-letter edit fall back to the landing room instead of teleporting. It proves knowing the way, not walking it'
+  - id: space-maze-stats
+    type: sticky
+    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    box: [2518, 2180, 244, pink]
+    icon: 📏
+    text: 'Measured: floor n has (2^(n−1)+1)² wall squares, exact for any perfect maze. The mean path between two rooms grows ~2.5–3× a floor (floor 10: ~2,700 steps); extrapolated, ~10²⁶ on floor 66, so the shortest record of a path is its endpoints'

@@ -2,14 +2,19 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { holeQuarter, holesOf, parseWorld, type World } from './hole';
-import { plant } from './plant';
+import { maze } from './maze';
+import { FLOOR_TWO_PATH, plant, steps } from './plant';
 import { counterRandom } from './plant.test-kit';
 import { planted } from './planted';
+import { mazeWalls } from './walls';
 
 const FLOORS = 6;
 
 /** Every room of floor `n` with its hole quarter, if it has one. */
-async function scan(world: World, n: number) {
+async function scan(
+  world: World,
+  n: number,
+): Promise<Array<readonly [number, number, number, number]>> {
   const side = 2 ** (n - 1);
   const rooms = Array.from({ length: side * side }, (_, i) => ({
     x: i % side,
@@ -20,7 +25,7 @@ async function scan(world: World, n: number) {
   );
   return rooms.flatMap(({ x, y }, i) => {
     const quarter = quarters[i];
-    return quarter ? [[x, y, quarter.qx, quarter.qy]] : [];
+    return quarter ? [[x, y, quarter.qx, quarter.qy] as const] : [];
   });
 }
 
@@ -52,6 +57,36 @@ describe('plant', () => {
       const side = 2n ** BigInt(index + 1);
       assert.ok(x >= 0n && x < side && y >= 0n && y < side);
     }
+  });
+});
+
+/** Floor 2's steps from its landing room to its hole room, read off the holes. */
+async function floorTwoPath(world: World): Promise<number> {
+  const [lid] = await scan(world, 1);
+  const [hole] = await scan(world, 2);
+  assert.ok(lid && hole);
+  return steps(
+    mazeWalls(maze(world.seed)),
+    { n: 2, x: BigInt(lid[2]), y: BigInt(lid[3]) },
+    { n: 2, x: BigInt(hole[0]), y: BigInt(hole[1]) },
+  );
+}
+
+describe('the floor-two rule', () => {
+  it('holds in every world plant draws', async () => {
+    const random = counterRandom();
+    // plant draws all its randomness before its first await, so the draws
+    // stay sequential however the calls interleave.
+    const paths = await Promise.all(
+      Array.from({ length: 8 }, async () =>
+        floorTwoPath((await plant(FLOORS, random)).world),
+      ),
+    );
+    for (const path of paths) assert.equal(path, FLOOR_TWO_PATH);
+  });
+
+  it('holds in the planted world', async () => {
+    assert.equal(await floorTwoPath(planted), FLOOR_TWO_PATH);
   });
 });
 

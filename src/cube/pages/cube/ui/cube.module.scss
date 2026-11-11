@@ -16,7 +16,41 @@
   }
 }
 
-.unsupported {
+// A quiet corner over the canvas, letting every pointer through to it.
+.floor {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  margin: 0;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgb(0 0 0 / 35%);
+  color: rgb(255 255 255 / 85%);
+  font:
+    13px / 1.4 system-ui,
+    sans-serif;
+  pointer-events: none;
+  user-select: none;
+}
+
+// The sign's hint, under the crosshair's place, letting pointers through.
+.hint {
+  position: fixed;
+  bottom: 18%;
+  left: 50%;
+  margin: 0;
+  transform: translateX(-50%);
+  color: rgb(255 255 255 / 92%);
+  font:
+    600 15px / 1.4 system-ui,
+    sans-serif;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 80%);
+  pointer-events: none;
+  user-select: none;
+}
+
+// The one line shown in the cube's place when it cannot be drawn.
+.notice {
   margin: 0;
   padding: 16px;
   font:

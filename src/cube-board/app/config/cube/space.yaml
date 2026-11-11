@@ -1,0 +1,76 @@
+items:
+  - id: z-space
+    type: zone
+    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    box: [0, 1820, 1720, 820, pink]
+    icon: 🏗️
+    text: 'Space for sale: paint, models, rooms'
+  - id: l-space-proof
+    type: line
+    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    ends: [z-space, z-space-proof]
+    text: who may buy where
+  - id: l-space-infra
+    type: line
+    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    ends: [z-space, z-space-infra]
+    text: how a sale lands
+  - id: l-space-open
+    type: line
+    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    ends: [z-space, z-space-open]
+    text: not settled
+  - id: graf-idea
+    type: sticky
+    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    box: [28, 1930, 244, pink]
+    icon: 💡
+    text: "Vova's idea: pay to paint any wall, checked by a neural net. Paint changes the game: a spider becomes a monster, a jackhammer a findable artifact. What a painting becomes is never promised; we look and decide"
+  - id: space-models
+    type: sticky
+    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    box: [363, 1930, 244, pink]
+    icon: 🗿
+    text: "Vova's idea: not only paint. Buy a box for a 3D model of your own, made in Blender or whatever, uploaded to the game, and pay for the box's volume. Coca-Cola puts up a monument to the bottle instead of a graffiti"
+  - id: space-room
+    type: sticky
+    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    box: [698, 1930, 244, pink]
+    icon: 🔑
+    text: 'Or buy the whole room and furnish it as you like, models and walls, with a guarantee no one else moves in. Same $/m³, no premium for exclusivity. Sold whole only while empty; boxes in one room never overlap'
+  - id: space-audience
+    type: sticky
+    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    box: [1033, 1930, 244, pink]
+    icon: 👀
+    text: "Why ×8 is fair: the player shrinks with the rooms, so a bottle on floor 8 looks as big as one on floor 1. What differs is who sees it: every player passes floor 1's one room, few reach floor 8's 16,384"
+  - id: space-island
+    type: sticky
+    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    box: [1368, 1930, 244, pink]
+    icon: 🏝️
+    text: "Vova's idea: join the cube with /island. Every island world holds one cube, which still has to be found"
+  - id: graf-price-a
+    type: sticky
+    updated: [2026-11-11T13:04:25.000Z, agent:cube]
+    box: [28, 2180, 244, pink]
+    icon: 💵
+    text: '1. Only rooms off the path are for sale: a room is bought once it is a dead end, every side but one a wall or a bought room, and never the landing or the hole room. So everything but the landing→hole path sells, nothing on it. Planting keeps floor 2 at one room of 4 for sale; floor 1 has none'
+  - id: graf-price-b
+    type: sticky
+    updated: [2026-11-11T13:04:25.000Z, agent:cube]
+    box: [363, 2180, 244, pink]
+    icon: 📉
+    text: "2. Priced by volume, the same $/m³ on every floor, set so the topmost floor with anything for sale totals $10M: floor 2's one room. That is $1.28M a m³, $1 buying a 9 mm die; floor 3 sums $15M, a floor-8 room is $38, the cube ≈ $40.7M. No discount away from the landing: the market prices it, near rooms selling first. Table and chart: https://claude.ai/artifact/8fawFUo5gSRn18X2qcxihj"
+  - id: graf-price-c
+    type: sticky
+    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    box: [698, 2180, 244, pink]
+    icon: 🏷️
+    text: '3. Open: what a paid wall is. Forever at a high fixed price, as on the Million Dollar Homepage, or honest rent for a term at the price of its day. Not painted over: someone who paid $1000 is not told to find another wall'
+  - id: graf-time
+    type: sticky
+    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    box: [1033, 2180, 244, pink]
+    icon: ⏳
+    text: 'Time to cross floor n: ~5 s a room × 4^(n−1). Floor 6 ≈ 1.5 h (casual), 7 ≈ an evening, 8 ≈ a day, 10 ≈ 360 h. Reaching floor 7 takes ~2 h, the six above it summed'

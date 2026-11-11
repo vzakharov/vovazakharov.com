@@ -1,8 +1,8 @@
 import { holeMiddle, type Quarter } from './hole';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
-import type { InRoom } from './pose';
+import type { WallMounted } from './pose';
 import { box, type Quad, times, type Vec3 } from './quad';
-import { type Room, roomsAcross } from './room';
+import { type InRoomOf, type Room, roomKey, roomsAcross } from './room';
 
 /**
  * Where a holed room's lever is mounted: on the hole quarter's outer wall
@@ -11,13 +11,18 @@ import { type Room, roomsAcross } from './room';
  */
 type Mount = 'x-wall' | 'y-wall' | 'post';
 
-export type Lever = {
-  mount: Mount;
-  /** The plate's foot on the wall or the post's face, in the room's frame. */
-  at: InRoom;
-  /** The unit direction the plate faces, into the room. */
-  facing: InRoom;
-};
+/** `at` is the plate's foot on the wall or the post's face. */
+export type Lever = WallMounted & { mount: Mount };
+
+/**
+ * The one lever pulled, if any: its room, and how far its handle has swung,
+ * from 0 (up, at rest) to 1 (down).
+ */
+export type Pulled = InRoomOf & { swung: number };
+
+/** How far `room`'s lever has swung, given the one `pulled`. */
+export const swungIn = (pulled: Pulled | null, room: Room): number =>
+  pulled !== null && roomKey(pulled.room) === roomKey(room) ? pulled.swung : 0;
 
 /** The post's side, in room sides: 15 cm on floor 1. */
 const POST_SIDE = 0.03;
@@ -80,7 +85,7 @@ const PLATE_TALL = 0.07;
 const PLATE_DEPTH = 0.006;
 const HANDLE_LENGTH = 0.045;
 const HANDLE_THICK = 0.01;
-/** The handle's tilt up from the plate's normal. */
+/** The handle's tilt up from the plate's normal at rest, and down once pulled. */
 const HANDLE_TILT = (35 * Math.PI) / 180;
 /** The post's height: the room's. */
 const POST_HEIGHT = 0.5;
@@ -88,13 +93,15 @@ const POST_HEIGHT = 0.5;
 /**
  * `lever`'s faces in a room of floor `n` whose north-west slab corner sits at
  * `origin` of the eye's frame, `side` its room side there: the post where
- * there is one, the plate, and the handle tilted up out of it.
+ * there is one, the plate, and the handle out of it, `swung` of the way from
+ * tilted up to tilted as far down.
  */
 export function leverFaces(
   { mount, at, facing }: Lever,
   n: number,
   origin: Vec3,
   side: number,
+  swung: number,
 ): Quad[] {
   const local = (u: number, up: number, v: number): Vec3 => [
     origin[0] + u * side,
@@ -138,8 +145,9 @@ export function leverFaces(
     n,
     'plate',
   );
-  const cos = Math.cos(HANDLE_TILT);
-  const sin = Math.sin(HANDLE_TILT);
+  const tilt = HANDLE_TILT * (1 - 2 * swung);
+  const cos = Math.cos(tilt);
+  const sin = Math.sin(tilt);
   const lift: Vec3 = [-out[0] * sin, cos, -out[2] * sin];
   const reach: Vec3 = [out[0] * cos, sin, out[2] * cos];
   const half = (HANDLE_THICK * side) / 2;
