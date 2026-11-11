@@ -1,0 +1,189 @@
+{
+  "total": {
+    "inputTokens": 4659,
+    "cacheWrite5mTokens": 133850,
+    "cacheWrite1hTokens": 422490,
+    "cacheReadTokens": 23673114,
+    "outputTokens": 181306,
+    "thinkingTokens": 65371,
+    "responses": 125,
+    "costUsd": 20.10949699999999
+  },
+  "estimate": {
+    "at": "2026-11-11T22:28:33.574Z",
+    "subjectLine": "feat: the cube's voice, a formant synthesizer and its decaying language",
+    "parts": [
+      {
+        "hours": 14.0,
+        "grade": "senior",
+        "role": "audio-engineer",
+        "comment": "a formant speech synthesizer from first principles, tuned for intelligibility without assets, is hands-on DSP work"
+      },
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "the lexicon, floor languages through dice, tests and the repo's gates are careful but ordinary code"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "copywriter",
+        "comment": "the lines per moment and how they weary need a voice"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-11T22:25:59.829Z",
+    "contextTokens": 117259,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 55275,
+      "cacheReadTokens": 155929,
+      "outputTokens": 722,
+      "thinkingTokens": 28,
+      "responses": 2,
+      "costUsd": 0.9444977999999999
+    }
+  },
+  "sessionId": "5dcb7e25-253c-58e2-aa60-c99e3814da74",
+  "branch": "claude/cube-voice",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/go Build the cube's Voice stream on branch claude/cube-voice (cut from claude/cube-liminal-332pmv, already checked out as the base): read docs/plans/cube-beaut…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEDinAS3N4MKmhDZME",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-11T22:25:47.542Z",
+  "lastResponseAt": "2026-11-11T23:33:36.108Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 216,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 422490,
+    "cacheReadTokens": 21405075,
+    "outputTokens": 162548,
+    "thinkingTokens": 63132,
+    "responses": 108,
+    "costUsd": 17.54450299999999
+  },
+  "subagents": {
+    "inputTokens": 22,
+    "cacheWrite5mTokens": 131107,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1522622,
+    "outputTokens": 9803,
+    "thinkingTokens": 2239,
+    "responses": 13,
+    "costUsd": 2.0078904
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 3472,
+      "cacheWrite5mTokens": 133850,
+      "cacheWrite1hTokens": 422490,
+      "cacheReadTokens": 23673114,
+      "outputTokens": 181083,
+      "thinkingTokens": 65371,
+      "responses": 124,
+      "costUsd": 20.10926679999999
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1187,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 223,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0002302
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-11T22:56:56.694Z",
+      "trigger": "auto",
+      "compactedFrom": 308119,
+      "summaryChars": 16860,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/cube/features/voice/model/utter.ts",
+        "endedAt": "2026-11-11T22:57:08.684Z",
+        "contextTokens": 133432,
+        "spend": {
+          "inputTokens": 2,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 57126,
+          "cacheReadTokens": 60334,
+          "outputTokens": 267,
+          "thinkingTokens": 38,
+          "responses": 1,
+          "costUsd": 0.9367788000000001
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.44448560000000004
+    }
+  ],
+  "telemetry": {
+    "events": 125,
+    "matched": 121,
+    "matchedTableUsd": 19.55239339999999,
+    "matchedEventUsd": 19.55239339999999,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 1187,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 223,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0002302
+      },
+      "compact": {
+        "inputTokens": 2222,
+        "cacheWrite5mTokens": 1875,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 300598,
+        "outputTokens": 8696,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.44448560000000004
+      },
+      "prompt_suggestion": {
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 868,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 444819,
+        "outputTokens": 36,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.11238780000000001
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 38,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".json": 20,
+    ".md": 343,
+    ".ts": 5969,
+    ".tsx": 12
+  }
+}
