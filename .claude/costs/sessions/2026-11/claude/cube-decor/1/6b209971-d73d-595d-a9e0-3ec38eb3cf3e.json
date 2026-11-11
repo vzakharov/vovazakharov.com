@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 73,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 225772,
+    "cacheReadTokens": 7722234,
+    "outputTokens": 98358,
+    "thinkingTokens": 42802,
+    "responses": 37,
+    "costUsd": 9.091702799999998
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-11T22:25:59.994Z",
+    "contextTokens": 125734,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 54960,
+      "cacheReadTokens": 156069,
+      "outputTokens": 779,
+      "thinkingTokens": 20,
+      "responses": 2,
+      "costUsd": 0.9417658
+    }
+  },
+  "sessionId": "6b209971-d73d-595d-a9e0-3ec38eb3cf3e",
+  "branch": "claude/cube-decor",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/go",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCozV972W1BLmTzXwA",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-11T22:25:47.606Z",
+  "lastResponseAt": "2026-11-11T22:45:17.232Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 73,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 225772,
+    "cacheReadTokens": 7722234,
+    "outputTokens": 98358,
+    "thinkingTokens": 42802,
+    "responses": 37,
+    "costUsd": 9.091702799999998
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 73,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 225772,
+      "cacheReadTokens": 7722234,
+      "outputTokens": 98358,
+      "thinkingTokens": 42802,
+      "responses": 37,
+      "costUsd": 9.091702799999998
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 37,
+    "matched": 37,
+    "matchedTableUsd": 9.091702799999998,
+    "matchedEventUsd": 9.0917028,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".json": 19,
+    ".md": 343,
+    ".ts": 2880,
+    ".tsx": 12
+  }
+}
