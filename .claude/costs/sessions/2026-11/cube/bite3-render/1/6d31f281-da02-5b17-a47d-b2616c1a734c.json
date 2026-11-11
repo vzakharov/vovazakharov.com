@@ -1,0 +1,181 @@
+{
+  "total": {
+    "inputTokens": 5380,
+    "cacheWrite5mTokens": 527,
+    "cacheWrite1hTokens": 398944,
+    "cacheReadTokens": 20706246,
+    "outputTokens": 127265,
+    "thinkingTokens": 40723,
+    "responses": 125,
+    "costUsd": 9.9022562
+  },
+  "estimate": {
+    "at": "2026-11-11T06:44:08.624Z",
+    "subjectLine": "feat: the cube's floors drawn in plain WebGPU, holes seen both ways",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "a hand-written WebGPU pipeline, floating-origin geometry over BigInt rooms and headless frames need a renderer specialist"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-11T06:38:31.632Z",
+    "contextTokens": 127307,
+    "spend": {
+      "inputTokens": 15,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 71190,
+      "cacheReadTokens": 683933,
+      "outputTokens": 2328,
+      "thinkingTokens": 127,
+      "responses": 7,
+      "costUsd": 0.7529265999999999
+    }
+  },
+  "sessionId": "6d31f281-da02-5b17-a47d-b2616c1a734c",
+  "branch": "cube/bite3-render",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a subsession of a producer session (session_01DaohkDF47nEL2dtQZcooZU) that owns the PR branch `claude/hash-maze-cube-m6wq80` (PR #270). Your branch is `…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkFkq55kYzL3nVNjgAw",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-11T06:38:05.949Z",
+  "lastResponseAt": "2026-11-11T07:11:51.979Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 231,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 398944,
+    "cacheReadTokens": 20259754,
+    "outputTokens": 114762,
+    "thinkingTokens": 40723,
+    "responses": 123,
+    "costUsd": 9.5396668
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 5380,
+      "cacheWrite5mTokens": 527,
+      "cacheWrite1hTokens": 398944,
+      "cacheReadTokens": 20706246,
+      "outputTokens": 127265,
+      "thinkingTokens": 40723,
+      "responses": 125,
+      "costUsd": 9.9022562
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-11T06:51:35.145Z",
+      "trigger": "auto",
+      "compactedFrom": 224585,
+      "summaryChars": 15090,
+      "reorientation": {
+        "endedBy": "Write",
+        "endedOn": "src/cube/scripts/play-cube.ts",
+        "endedAt": "2026-11-11T06:52:36.567Z",
+        "contextTokens": 132119,
+        "spend": {
+          "inputTokens": 17,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 72331,
+          "cacheReadTokens": 990700,
+          "outputTokens": 3130,
+          "thinkingTokens": 788,
+          "responses": 9,
+          "costUsd": 0.839456
+        }
+      },
+      "rereads": {
+        "calls": 1,
+        "byTool": {
+          "Read": 1
+        },
+        "estimatedTokens": 2513,
+        "estimatedUsd": 0.0467418
+      },
+      "billedUsd": 0.1932662
+    },
+    {
+      "at": "2026-11-11T07:11:03.663Z",
+      "trigger": "auto",
+      "compactedFrom": 224396,
+      "summaryChars": 12055,
+      "reorientation": {
+        "endedBy": "end_turn",
+        "endedOn": null,
+        "endedAt": "2026-11-11T07:11:38.025Z",
+        "contextTokens": 120031,
+        "spend": {
+          "inputTokens": 10,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 59698,
+          "cacheReadTokens": 399725,
+          "outputTokens": 2399,
+          "thinkingTokens": 15,
+          "responses": 4,
+          "costUsd": 0.605549
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.1693232
+    }
+  ],
+  "telemetry": {
+    "events": 125,
+    "matched": 123,
+    "matchedTableUsd": 9.5396668,
+    "matchedEventUsd": 9.5396668,
+    "unseen": {
+      "compact": {
+        "inputTokens": 5149,
+        "cacheWrite5mTokens": 527,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 446492,
+        "outputTokens": 12503,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.3625894
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".staged": 356,
+    ".md": 1128,
+    ".json": 124,
+    ".ts": 2892,
+    ".tsx": 84,
+    ".scss": 25,
+    ".yaml": 350
+  }
+}
