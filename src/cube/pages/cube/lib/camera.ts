@@ -3,11 +3,12 @@ import type { Pose, Vec3 } from '@/cube/entities/world';
 /** Vertical field of view, in radians. */
 const FOV_Y = (70 * Math.PI) / 180;
 /**
- * Clip planes in room sides of a whole person's floor: under a hole's side,
- * past the fog. A smaller eye's shrink with it.
+ * Clip planes in room sides of a whole person's floor: nearer than a hole's
+ * side, and as far as the eye's sight reaches, which builds no room past
+ * `FAR`. A smaller eye's shrink with it.
  */
 const NEAR = 0.004;
-const FAR = 24;
+export const FAR = 24;
 
 /** Where the eye looks: yaw from east towards south, pitch up. */
 export function forward({ yaw, elevation: pitch }: Pose): Vec3 {

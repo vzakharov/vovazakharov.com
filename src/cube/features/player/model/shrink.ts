@@ -6,11 +6,11 @@ import {
   type Lever,
   type Pose,
   type Quarter,
+  type Walls,
 } from '@/cube/entities/world';
 
 import { BODY_RADIUS } from './body';
 import { EYE_HEIGHT, type Input, step } from './step';
-import type { Walls } from './walls';
 
 /** Seconds the body takes to halve: its scale is `2^(−t / HALVING)`. */
 export const HALVING = 3;

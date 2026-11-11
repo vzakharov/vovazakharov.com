@@ -1,6 +1,4 @@
-import type { InRoom, Pose } from '@/cube/entities/world';
-
-import type { Walls } from './walls';
+import type { InRoom, Pose, Walls } from '@/cube/entities/world';
 
 /**
  * The radius of a whole body's collision circle, in room sides: 0.6 m across

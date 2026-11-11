@@ -3,18 +3,13 @@
 import { asError } from '@/kernel/shared/lib/error-class';
 import type { CanDispose } from '@/kernel/shared/typings';
 
-import type { Vec3 } from '@/cube/entities/world';
-
 import { VERTEX_FLOATS } from '../lib/mesh';
 import type { Rgb } from '../lib/palette';
 import { SHADER } from './shader';
 
-/** What one frame is lit and fogged with, besides the camera. */
+/** What one frame is lit with and cleared to, besides the camera. */
 type Air = {
-  eye: Vec3;
-  /** Fog density per room side of the eye's floor. */
-  density: number;
-  fog: Rgb;
+  clear: Rgb;
   ambient: Rgb;
 };
 
@@ -29,7 +24,7 @@ export type Renderer = CanDispose & {
   readonly adapter: string;
 };
 
-const UNIFORM_FLOATS = 16 + 4 * 3;
+const UNIFORM_FLOATS = 16 + 4;
 /** Float depth, cleared to 0 and kept where greater: `viewProjection` reverses it. */
 const DEPTH_FORMAT: GPUTextureFormat = 'depth32float';
 
@@ -132,17 +127,17 @@ export async function createRenderer(
       });
       device.queue.writeBuffer(vertices, 0, data);
     },
-    draw: (viewProjection, { eye, density, fog, ambient }) => {
+    draw: (viewProjection, { clear, ambient }) => {
       const data = new Float32Array(UNIFORM_FLOATS);
       data.set(viewProjection, 0);
-      data.set([...eye, density, ...fog, 1, ...ambient, 1], 16);
+      data.set([...ambient, 1], 16);
       device.queue.writeBuffer(uniforms, 0, data);
       const encoder = device.createCommandEncoder();
       const pass = encoder.beginRenderPass({
         colorAttachments: [
           {
             view: context.getCurrentTexture().createView(),
-            clearValue: { r: fog[0], g: fog[1], b: fog[2], a: 1 },
+            clearValue: { r: clear[0], g: clear[1], b: clear[2], a: 1 },
             loadOp: 'clear',
             storeOp: 'store',
           },

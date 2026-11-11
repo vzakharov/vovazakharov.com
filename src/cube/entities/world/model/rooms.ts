@@ -1,10 +1,11 @@
 import type { HoleOf } from './hole';
 import type { Pose } from './pose';
 import { type Room, roomKey, roomsAcross } from './room';
+import type { Walls } from './walls';
 
 /** What an eye sees on its own floor and up, which no hole decides. */
 export type Sight = {
-  /** Floor `n`'s rooms within the radius, the eye's own included. */
+  /** Floor `n`'s rooms in sight, the eye's own first. */
   near: readonly Room[];
   /** Floor `n − 1`'s rooms over `near`, whose slab is `near`'s ceiling. */
   above: readonly Room[];
@@ -35,25 +36,174 @@ const children = ({ n, x, y }: Room): Room[] =>
     [0n, 1n].map((i) => ({ n: n + 1, x: 2n * x + i, y: 2n * y + j })),
   );
 
+/** A point of the seat's frame: room sides from its north-west corner, x east, y south. */
+type Point = readonly [number, number];
+
 /**
- * What an eye at `pose` sees on its floor and up: floor `n`'s rooms within
- * `radius` rooms of its own (a square, clipped to the cube) and the floors
- * above them that its holes open onto.
+ * The left normals still open to a straight line through every opening walked
+ * so far, as an arc of angles `lo..hi`, no wider than half a turn. `'any'`
+ * before the first opening.
  */
-export function sight(pose: Pose, radius: number): Sight {
-  const rooms = roomsAcross(pose.n);
-  const reach = BigInt(radius);
-  const span = (at: bigint): bigint[] => {
-    const from = at - reach < 0n ? 0n : at - reach;
-    const to = at + reach >= rooms ? rooms - 1n : at + reach;
-    return Array.from(
-      { length: Number(to - from) + 1 },
-      (_, i) => from + BigInt(i),
-    );
+type Arc = { lo: number; hi: number } | 'any';
+
+const TURN = 2 * Math.PI;
+const QUARTER = Math.PI / 2;
+/** How far a line may miss an opening's edge and still count as through it. */
+const GRAZE = 1e-9;
+
+const minus = ([ax, ay]: Point, [bx, by]: Point): Point => [ax - bx, ay - by];
+
+const STEPS = [
+  [1, 0],
+  [0, 1],
+  [-1, 0],
+  [0, -1],
+] as const;
+type Step = (typeof STEPS)[number];
+
+/**
+ * The arc whose normals `n` keep `n · w ≥ 0`, within `arc`; null once none do.
+ * A half-turn arc meeting a half-plane is one arc, so `lo..hi` stays whole.
+ */
+function narrowed(arc: Arc, [wx, wy]: Point): Arc | null {
+  if (Math.hypot(wx, wy) < GRAZE) return arc;
+  const facing = Math.atan2(wy, wx);
+  if (arc === 'any') return { lo: facing - QUARTER, hi: facing + QUARTER };
+  const centre =
+    facing + TURN * Math.round((arc.lo + arc.hi) / 2 / TURN - facing / TURN);
+  const lo = Math.max(arc.lo, centre - QUARTER);
+  const hi = Math.min(arc.hi, centre + QUARTER);
+  return lo <= hi + GRAZE ? { lo, hi: Math.max(lo, hi) } : null;
+}
+
+/** `arc` narrowed by each of `ws` in turn; null once it closes. */
+function narrowedAll(arc: Arc, ws: readonly Point[]): Arc | null {
+  let open = arc;
+  for (const w of ws) {
+    const next = narrowed(open, w);
+    if (next === null) return null;
+    open = next;
+  }
+  return open;
+}
+
+/**
+ * The wall crossed stepping by `[dx, dy]` from the room whose north-west
+ * corner is `(east, south)`, as its two ends: the one left of the step first.
+ */
+function opening(east: number, south: number, [dx, dy]: Step): [Point, Point] {
+  if (dx === 0) {
+    const y = south + (dy > 0 ? 1 : 0);
+    return dy > 0
+      ? [
+          [east, y],
+          [east + 1, y],
+        ]
+      : [
+          [east + 1, y],
+          [east, y],
+        ];
+  }
+  const x = east + (dx > 0 ? 1 : 0);
+  return dx > 0
+    ? [
+        [x, south + 1],
+        [x, south],
+      ]
+    : [
+        [x, south],
+        [x, south + 1],
+      ];
+}
+
+/** Whether the wall from `room` towards `[dx, dy]` is open. */
+function opens(walls: Walls, { n, x, y }: Room, [dx, dy]: Step): boolean {
+  if (dx === 1) return walls.isOpenEast(n, x, y);
+  if (dx === -1) return walls.isOpenEast(n, x - 1n, y);
+  if (dy === 1) return walls.isOpenSouth(n, x, y);
+  return walls.isOpenSouth(n, x, y - 1n);
+}
+
+/** How far the room at `(east, south)` lies from the seat, at its nearest. */
+const gap = (east: number, south: number): number =>
+  Math.hypot(Math.max(0, Math.abs(east) - 1), Math.max(0, Math.abs(south) - 1));
+
+/**
+ * The rooms of `seat`'s floor some straight line from inside `seat` reaches
+ * through open walls alone, none farther than `far` room sides from it.
+ *
+ * A line through a chain of openings, crossing each in the direction the walk
+ * stepped, has each opening's left end on its left and right end on its
+ * right, so its left normal `n` keeps `n · (left_i − right_j) ≥ 0` for every
+ * pair of openings: each opening narrows the arc of normals by a half-plane
+ * per opening before it, and a room whose arc closes is out of sight along
+ * with everything past it. Every such line crosses the seat's own wall, so it
+ * starts inside the seat; the set is what some eye anywhere in the seat sees.
+ *
+ * The maze is a tree, so each room has one walk from the seat and none is
+ * expanded twice; the far bound and the closing arcs bound the walk.
+ */
+export function seenFrom(seat: Room, far: number, walls: Walls): Room[] {
+  const { n } = seat;
+  const rooms = roomsAcross(n);
+  const seen = new Map<string, Room>();
+  const walk = (
+    room: Room,
+    [east, south]: Point,
+    arc: Arc,
+    lefts: readonly Point[],
+    rights: readonly Point[],
+  ): void => {
+    seen.set(roomKey(room), room);
+    for (const step of STEPS) {
+      const next = {
+        n,
+        x: room.x + BigInt(step[0]),
+        y: room.y + BigInt(step[1]),
+      };
+      const at: Point = [east + step[0], south + step[1]];
+      const inside =
+        next.x >= 0n && next.y >= 0n && next.x < rooms && next.y < rooms;
+      if (!inside || seen.has(roomKey(next)) || gap(...at) > far) continue;
+      if (!opens(walls, room, step)) continue;
+      const [left, right] = opening(east, south, step);
+      const open = narrowedAll(arc, [
+        minus(left, right),
+        ...lefts.map((before) => minus(before, right)),
+        ...rights.map((before) => minus(left, before)),
+      ]);
+      if (open !== null) {
+        walk(next, at, open, [...lefts, left], [...rights, right]);
+      }
+    }
   };
-  const { n, x: eastOf, y: southOf } = pose;
-  const near = span(southOf).flatMap((y) =>
-    span(eastOf).map((x) => ({ n, x, y })),
+  walk(seat, [0, 0], 'any', [], []);
+  return [...seen.values()];
+}
+
+/** The rooms `room` opens into on its floor. */
+const openNeighbours = (walls: Walls, { n, x, y }: Room): Room[] =>
+  [
+    walls.isOpenEast(n, x, y) && { n, x: x + 1n, y },
+    walls.isOpenSouth(n, x, y) && { n, x, y: y + 1n },
+    walls.isOpenEast(n, x - 1n, y) && { n, x: x - 1n, y },
+    walls.isOpenSouth(n, x, y - 1n) && { n, x, y: y - 1n },
+  ].filter((room) => room !== false);
+
+/**
+ * What an eye at `pose` sees on its floor and up: floor `n`'s rooms some line
+ * of sight reaches through open walls, within `far` room sides, and the floors
+ * above them that its holes open onto. Lines are taken from anywhere in the
+ * eye's room or a room it opens into, so a mesh built on entering a room holds
+ * wherever the eye goes until the next room's mesh replaces it.
+ */
+export function sight(pose: Pose, far: number, walls: Walls): Sight {
+  const { n, x, y } = pose;
+  const own: Room = { n, x, y };
+  const near = unique(
+    [own, ...openNeighbours(walls, own)].flatMap((seat) =>
+      seenFrom(seat, far, walls),
+    ),
   );
   const overhead = n > 1 ? parent(pose) : null;
   return {

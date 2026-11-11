@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { Pose } from '@/cube/entities/world';
+import type { Pose, Walls } from '@/cube/entities/world';
 
 import { BODY_RADIUS, closedWalls } from './body';
 import {
@@ -13,7 +13,7 @@ import {
   TURN_RATE,
   WALK_SPEED,
 } from './step';
-import { plantedWalls, type Walls } from './walls';
+import { plantedWalls } from './walls';
 
 const FRAME = 1 / 60;
 const NEAR = 1e-9;

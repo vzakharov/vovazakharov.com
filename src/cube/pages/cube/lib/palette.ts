@@ -34,7 +34,7 @@ export function colourOf(n: number, surface: Surface): Rgb {
   return hsl(hueOf(n), saturation, lightness);
 }
 
-/** The air of floor `n`: what fog fades into and the screen clears to. */
+/** The air of floor `n`: what the screen clears to, seen only past `FAR`. */
 export const airOf = (n: number): Rgb => hsl(hueOf(n), 0.25, 0.07);
 
 /** How bright the ambient light is, and how much of the walls' colour it takes. */

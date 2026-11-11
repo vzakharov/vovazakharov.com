@@ -1,7 +1,13 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { DROP, eyeInFrame, HOLE_SIDE, type Pose } from '@/cube/entities/world';
+import {
+  DROP,
+  eyeInFrame,
+  HOLE_SIDE,
+  type Pose,
+  type Walls,
+} from '@/cube/entities/world';
 
 import { BODY_RADIUS } from './body';
 import {
@@ -15,7 +21,6 @@ import {
   scaleAt,
 } from './shrink';
 import { EYE_HEIGHT, type Input } from './step';
-import type { Walls } from './walls';
 
 const FRAME = 1 / 60;
 const NEAR = 1e-9;
