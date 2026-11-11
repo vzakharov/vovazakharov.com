@@ -18,6 +18,8 @@ import {
   LEVER_REACH,
   play,
   type Player,
+  PULL_SWING,
+  pulledOf,
   scaleAt,
 } from './shrink';
 import { EYE_HEIGHT, type Input } from './step';
@@ -177,5 +179,22 @@ describe('the shrink', () => {
       play(standing(), pull, FRAME, allOpen, holed).shrinking,
       null,
     );
+  });
+
+  it('swings the lever down from the pull, holds it, and lets go on landing', () => {
+    assert.equal(pulledOf(standing()), null);
+    const played = frames(standing());
+    const swings = played.map((player) => pulledOf(player)?.swung ?? null);
+    for (const player of played.slice(0, -1)) {
+      assert.deepEqual(pulledOf(player)?.room, room);
+    }
+    const swinging = swings.slice(0, -1);
+    for (const [index, swung] of swinging.entries()) {
+      assert.ok(swung !== null && swung > 0 && swung <= 1);
+      assert.ok(swung >= (swinging[index - 1] ?? 0), 'never swings back');
+      if ((index + 1) * FRAME >= PULL_SWING) assert.equal(swung, 1);
+      else assert.ok(swung < 1);
+    }
+    assert.equal(swings.at(-1), null);
   });
 });
