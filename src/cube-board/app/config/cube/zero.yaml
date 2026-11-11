@@ -83,3 +83,9 @@ items:
     box: [3188, 110, 244, yellow]
     icon: 🧹
     text: "Next PR: leverOf takes Walls instead of the rolled maze, so whether a quarter's wall is closed is answered once, by the walls, not again by the lever and a third time by its test"
+  - id: zero-14
+    type: sticky
+    updated: [2026-11-11T13:40:00.000Z, agent:cube]
+    box: [3188, 360, 244, yellow]
+    icon: 🏜️
+    text: "Bug or feature, undecided: a mirage. On floor 3 the lever on the far side of a wall flickers through it while walking, half-drawn when still. A lever you want and cannot reach, with no known way round. Kept only if it does not flatten the search: it shows the hole room from its four neighbours too, a constant ×5, not a shortcut"
