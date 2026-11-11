@@ -31,11 +31,16 @@ export type Holdings = ReadonlyMap<string, SignMount>;
 /** Floor 2's one room for sale, in dollars: the rate every floor's is set by. */
 const FLOOR_TWO_PRICE = 10_000_000;
 
+/** No room sells for less, however small: floor 9's and every one below. */
+const LOWEST_PRICE = 4.99;
+
 /**
  * A room of floor `n`'s price, in dollars. Every floor's room is an eighth of
- * the volume of the floor above's, so this is one price per cubic metre.
+ * the volume of the floor above's, so down to the lowest price this is one
+ * price per cubic metre.
  */
-export const priceOf = (n: number): number => FLOOR_TWO_PRICE / 8 ** (n - 2);
+export const priceOf = (n: number): number =>
+  Math.max(FLOOR_TWO_PRICE / 8 ** (n - 2), LOWEST_PRICE);
 
 type Side = { step: Step; is: 'wall' | 'bought' | 'open' };
 
