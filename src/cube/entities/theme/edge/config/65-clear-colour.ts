@@ -4,7 +4,6 @@ import { type FloorTheme, GRADE, LIGHT, STUFF, vec3f, wgsl } from '../../kit';
 import { PATTERN } from '../lib/pattern';
 import { SCREEN } from '../lib/screen';
 
-/** The blue a frame is wiped to before anything is drawn in it. */
 const CLEAR = linear(hex(0x64_95_ed));
 
 /**
