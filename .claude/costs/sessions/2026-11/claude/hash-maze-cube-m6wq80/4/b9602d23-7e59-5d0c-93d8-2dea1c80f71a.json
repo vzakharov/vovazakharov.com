@@ -1,0 +1,95 @@
+{
+  "total": {
+    "inputTokens": 17,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 83680,
+    "cacheReadTokens": 810987,
+    "outputTokens": 4126,
+    "thinkingTokens": 2162,
+    "responses": 8,
+    "costUsd": 0.9142254000000001
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-11T04:58:56.598Z",
+    "contextTokens": 137822,
+    "spend": {
+      "inputTokens": 15,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 73747,
+      "cacheReadTokens": 683100,
+      "outputTokens": 1830,
+      "thinkingTokens": 238,
+      "responses": 7,
+      "costUsd": 0.763256
+    }
+  },
+  "sessionId": "b9602d23-7e59-5d0c-93d8-2dea1c80f71a",
+  "branch": "claude/hash-maze-cube-m6wq80",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/hash-maze-cube-m6wq80 — первый кусок готов, доска с названиями опубликована, второй кусок впереди",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDfcyitjBSjSN9yNWA",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-11T04:58:07.793Z",
+  "lastResponseAt": "2026-11-11T04:58:56.598Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 17,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 83680,
+    "cacheReadTokens": 810987,
+    "outputTokens": 4126,
+    "thinkingTokens": 2162,
+    "responses": 8,
+    "costUsd": 0.9142254000000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 17,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 83680,
+      "cacheReadTokens": 810987,
+      "outputTokens": 4126,
+      "thinkingTokens": 2162,
+      "responses": 8,
+      "costUsd": 0.9142254000000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 7,
+    "matched": 7,
+    "matchedTableUsd": 0.763256,
+    "matchedEventUsd": 0.763256,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 60,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 942,
+    ".json": 24,
+    ".ts": 23,
+    ".scss": 0,
+    ".yaml": 269
+  }
+}
