@@ -39,7 +39,7 @@ fn growth(uv: vec2f, colony: vec2f) -> vec2f {
 }
 
 fn plate(s: Surf) -> Material {
-  // x the distance to the colony's seed point, y the colony's own number.
+  // x the distance to the colony's own point, y the colony's own number.
   let colony = worley(s.uv * 1.3, 401u);
   let grown = growth(s.uv, colony);
   let depth = fbm(s.uv * 0.5, 405u, 3);

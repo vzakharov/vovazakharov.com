@@ -35,7 +35,7 @@ fn dome(off: vec2f, radius: f32) -> f32 {
 
 /// Cells of a unit lattice grown until they meet: x is how far the point is
 /// inside its cell, 0 on the line where two meet, y and z are the cell's own
-/// two random numbers in [0, 1), and w is the distance to the cell's middle.
+/// two random numbers in [0, 1), and w is the distance to the cell's own point.
 fn shards(p: vec2f, salt: u32) -> vec4f {
   let cell = vec2i(floor(p));
   var first = 8.0;

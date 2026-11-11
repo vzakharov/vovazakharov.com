@@ -43,7 +43,8 @@ fn lattice(uv: vec2f, pitch: f32, salt: u32) -> vec2f {
   return vec2f(dome(comb.xy, 0.58), odd);
 }
 
-/// Terraces: how many atoms high the surface stands, 0 to 1, in steps.
+/// Terraces: the level the surface stands at, in flat steps from -0.5 to
+/// about 1.3.
 fn terraces(uv: vec2f, salt: u32) -> f32 {
   return floor(fbm(uv * 0.22, salt, 3) * 9.0) / 9.0 * 2.0 - 0.5;
 }
