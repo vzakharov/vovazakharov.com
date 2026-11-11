@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 11431,
+    "inputTokens": 11433,
     "cacheWrite5mTokens": 5076,
-    "cacheWrite1hTokens": 355394,
-    "cacheReadTokens": 22196107,
-    "outputTokens": 84386,
-    "thinkingTokens": 30238,
-    "responses": 119,
-    "costUsd": 9.0558344
+    "cacheWrite1hTokens": 357735,
+    "cacheReadTokens": 22416999,
+    "outputTokens": 85135,
+    "thinkingTokens": 30460,
+    "responses": 120,
+    "costUsd": 9.133728800000002
   },
   "estimate": {
     "at": "2026-11-11T02:59:41.792Z",
@@ -54,18 +54,18 @@
   "url": "https://claude.ai/code/session_01DaohkFDZ8YAMzKq7mxBRzY",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-11T02:37:12.146Z",
-  "lastResponseAt": "2026-11-11T04:09:54.995Z",
+  "lastResponseAt": "2026-11-11T04:10:13.083Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 217,
+    "inputTokens": 219,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 355394,
-    "cacheReadTokens": 19646750,
-    "outputTokens": 71646,
-    "thinkingTokens": 30238,
-    "responses": 107,
-    "costUsd": 8.206290000000001
+    "cacheWrite1hTokens": 357735,
+    "cacheReadTokens": 19867642,
+    "outputTokens": 72395,
+    "thinkingTokens": 30460,
+    "responses": 108,
+    "costUsd": 8.284184400000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -79,14 +79,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 11431,
+      "inputTokens": 11433,
       "cacheWrite5mTokens": 5076,
-      "cacheWrite1hTokens": 355394,
-      "cacheReadTokens": 22196107,
-      "outputTokens": 84386,
-      "thinkingTokens": 30238,
-      "responses": 119,
-      "costUsd": 9.0558344
+      "cacheWrite1hTokens": 357735,
+      "cacheReadTokens": 22416999,
+      "outputTokens": 85135,
+      "thinkingTokens": 30460,
+      "responses": 120,
+      "costUsd": 9.133728800000002
     }
   },
   "warnings": [
@@ -152,7 +152,7 @@
     }
   },
   "operatorWords": {
-    "chat": 4310,
+    "chat": 4316,
     "review": 0,
     "threads": 0
   },
