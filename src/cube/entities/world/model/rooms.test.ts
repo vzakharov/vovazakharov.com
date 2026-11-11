@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 import type { HoleOf } from './hole';
 import { maze } from './maze';
 import type { Pose } from './pose';
-import { type Room, roomKey, roomsAcross } from './room';
+import { isRoom, type Room, roomKey, roomsAcross } from './room';
 import { seenFrom, sight, withBelow } from './rooms';
 import { mazeWalls, type Walls } from './walls';
 
@@ -92,9 +92,6 @@ const at = (east: number, south: number): Room => ({
   x: X + BigInt(east),
   y: Y + BigInt(south),
 });
-
-const isRoom = (n: number, x: bigint, y: bigint): boolean =>
-  x >= 0n && y >= 0n && x < roomsAcross(n) && y < roomsAcross(n);
 
 /**
  * Walls closed everywhere but between the listed rooms' neighbours: each pair

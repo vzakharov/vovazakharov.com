@@ -16,6 +16,7 @@ import { setTimeout as sleep } from 'node:timers/promises';
 import { z } from 'zod';
 
 import {
+  holeMiddle,
   holeQuarter,
   leverOf,
   maze,
@@ -100,8 +101,7 @@ function pulled(quarter: Quarter): ReadonlyArray<readonly [string, Pose]> {
   const start: Player = {
     pose: {
       ...room,
-      u: (quarter.qx + 0.5) / 2,
-      v: (quarter.qy + 0.5) / 2,
+      ...holeMiddle(quarter),
       eyeAbove: EYE_HEIGHT,
       scale: 1,
       yaw: 0,

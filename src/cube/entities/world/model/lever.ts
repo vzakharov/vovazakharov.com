@@ -1,4 +1,4 @@
-import type { Quarter } from './hole';
+import { holeMiddle, type Quarter } from './hole';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
 import type { InRoom } from './pose';
 import { box, type Quad, times, type Vec3 } from './quad';
@@ -46,10 +46,10 @@ function yWallClosed(
 export function leverOf(
   rolled: RolledMaze,
   room: Room,
-  { qx, qy }: Quarter,
+  quarter: Quarter,
 ): Lever {
-  const holeU = (qx + 0.5) / 2;
-  const holeV = (qy + 0.5) / 2;
+  const { qx, qy } = quarter;
+  const { u: holeU, v: holeV } = holeMiddle(quarter);
   const intoU = 1 - 2 * qx;
   const intoV = 1 - 2 * qy;
   if (xWallClosed(rolled, room, qx)) {

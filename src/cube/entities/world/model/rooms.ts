@@ -1,6 +1,6 @@
 import type { HoleOf } from './hole';
 import type { Pose } from './pose';
-import { type Room, roomKey, roomsAcross } from './room';
+import { isRoom, type Room, roomKey } from './room';
 import type { Walls } from './walls';
 
 /** What an eye sees on its own floor and up, which no hole decides. */
@@ -116,6 +116,13 @@ function opening(east: number, south: number, [dx, dy]: Step): [Point, Point] {
       ];
 }
 
+/** The room one step from `room` towards `[dx, dy]`. */
+const stepped = ({ n, x, y }: Room, [dx, dy]: Step): Room => ({
+  n,
+  x: x + BigInt(dx),
+  y: y + BigInt(dy),
+});
+
 /** Whether the wall from `room` towards `[dx, dy]` is open. */
 function opens(walls: Walls, { n, x, y }: Room, [dx, dy]: Step): boolean {
   if (dx === 1) return walls.isOpenEast(n, x, y);
@@ -145,7 +152,6 @@ const gap = (east: number, south: number): number =>
  */
 export function seenFrom(seat: Room, far: number, walls: Walls): Room[] {
   const { n } = seat;
-  const rooms = roomsAcross(n);
   const seen = new Map<string, Room>();
   const walk = (
     room: Room,
@@ -156,14 +162,9 @@ export function seenFrom(seat: Room, far: number, walls: Walls): Room[] {
   ): void => {
     seen.set(roomKey(room), room);
     for (const step of STEPS) {
-      const next = {
-        n,
-        x: room.x + BigInt(step[0]),
-        y: room.y + BigInt(step[1]),
-      };
+      const next = stepped(room, step);
       const at: Point = [east + step[0], south + step[1]];
-      const inside =
-        next.x >= 0n && next.y >= 0n && next.x < rooms && next.y < rooms;
+      const inside = isRoom(n, next.x, next.y);
       if (!inside || seen.has(roomKey(next)) || gap(...at) > far) continue;
       if (!opens(walls, room, step)) continue;
       const [left, right] = opening(east, south, step);
@@ -182,13 +183,10 @@ export function seenFrom(seat: Room, far: number, walls: Walls): Room[] {
 }
 
 /** The rooms `room` opens into on its floor. */
-const openNeighbours = (walls: Walls, { n, x, y }: Room): Room[] =>
-  [
-    walls.isOpenEast(n, x, y) && { n, x: x + 1n, y },
-    walls.isOpenSouth(n, x, y) && { n, x, y: y + 1n },
-    walls.isOpenEast(n, x - 1n, y) && { n, x: x - 1n, y },
-    walls.isOpenSouth(n, x, y - 1n) && { n, x, y: y - 1n },
-  ].filter((room) => room !== false);
+const openNeighbours = (walls: Walls, room: Room): Room[] =>
+  STEPS.filter((step) => opens(walls, room, step)).map((step) =>
+    stepped(room, step),
+  );
 
 /**
  * What an eye at `pose` sees on its floor and up: floor `n`'s rooms some line

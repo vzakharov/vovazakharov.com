@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 import { isWorldNumber } from '@/dice/shared/roll';
 
+import type { InRoom } from './pose';
 import { type Room, roomKey } from './room';
 import { seals } from './seals';
 
@@ -17,6 +18,12 @@ export type World = z.infer<typeof worldSchema>;
 export const parseWorld = (json: unknown): World => worldSchema.parse(json);
 
 export type Quarter = { qx: 0 | 1; qy: 0 | 1 };
+
+/** The middle of a hole in `quarter`, in its room's frame. */
+export const holeMiddle = ({ qx, qy }: Quarter): InRoom => ({
+  u: (qx + 0.5) / 2,
+  v: (qy + 0.5) / 2,
+});
 
 const QUARTERS: readonly Quarter[] = [
   { qx: 0, qy: 0 },

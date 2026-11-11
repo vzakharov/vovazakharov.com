@@ -1,5 +1,5 @@
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
-import { roomKey, roomsAcross } from './room';
+import { isRoom, roomKey } from './room';
 
 /**
  * A floor's walls, asked one wall at a time. A wall touching a room outside
@@ -31,11 +31,6 @@ function cached(rolled: RolledMaze, predicate: Predicate): Wall {
     return open;
   };
 }
-
-const isRoom = (n: number, x: bigint, y: bigint): boolean => {
-  const rooms = roomsAcross(n);
-  return x >= 0n && y >= 0n && x < rooms && y < rooms;
-};
 
 /** `rolled`'s walls, each hashed once while it stays in the cache. */
 export function mazeWalls(rolled: RolledMaze): Walls {

@@ -78,8 +78,9 @@ export function bindInput(
   };
   const onKey = (event: KeyboardEvent) => {
     const { code, type, ctrlKey, metaKey, repeat, target: on } = event;
+    const notAMove = isTextField(on) || ctrlKey || metaKey;
     if (code === PULL && type === 'keydown' && !repeat) {
-      if (isTextField(on) || ctrlKey || metaKey) return;
+      if (notAMove) return;
       event.preventDefault();
       pull = true;
       return;
@@ -94,7 +95,7 @@ export function bindInput(
       held.delete(code);
       return;
     }
-    if (isTextField(on) || ctrlKey || metaKey) return;
+    if (notAMove) return;
     event.preventDefault();
     held.add(code);
   };

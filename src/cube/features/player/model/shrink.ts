@@ -2,7 +2,7 @@ import {
   descend,
   DROP,
   HOLE_SIDE,
-  type InRoom,
+  holeMiddle,
   type Lever,
   type Pose,
   type Quarter,
@@ -64,11 +64,6 @@ type Shrinking = Holed & {
 export type Player = { pose: Pose; shrinking: Shrinking | null };
 
 const HALF_HOLE = HOLE_SIDE / 2;
-
-const holeMiddle = ({ qx, qy }: Quarter): InRoom => ({
-  u: (qx + 0.5) / 2,
-  v: (qy + 0.5) / 2,
-});
 
 /** Whether a body at `pose` stands on the hole and reaches its lever. */
 export function canPull(pose: Pose, { quarter, lever }: Holed): boolean {

@@ -1,6 +1,7 @@
 export { descend, DROP, eyeInFrame, faces, HOLE_SIDE } from './model/geometry';
 export {
   floorsOf,
+  holeMiddle,
   type HoleOf,
   holeQuarter,
   holesOf,

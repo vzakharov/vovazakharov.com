@@ -1,4 +1,4 @@
-import type { HoleOf, Quarter } from './hole';
+import { holeMiddle, type HoleOf, type Quarter } from './hole';
 import { leverFaces, leverOf } from './lever';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
 import type { Pose } from './pose';
@@ -92,8 +92,9 @@ function cut(
 ): Array<[east: number, south: number, width: number, depth: number]> {
   if (quarter === null) return [[east, south, side, side]];
   const half = (side * HOLE_SIDE) / 2;
-  const west = east + (side * (quarter.qx + 0.5)) / 2 - half;
-  const north = south + (side * (quarter.qy + 0.5)) / 2 - half;
+  const middle = holeMiddle(quarter);
+  const west = east + side * middle.u - half;
+  const north = south + side * middle.v - half;
   const hole = 2 * half;
   return [
     [east, south, west - east, side],
