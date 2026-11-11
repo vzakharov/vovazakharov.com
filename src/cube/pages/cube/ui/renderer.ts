@@ -10,7 +10,7 @@ import type { Vec3 } from '@/cube/entities/world';
 import type { FloorRange, Scenery } from '../lib/mesh';
 import { UNIFORM_FLOATS } from '../lib/shader';
 import { createBloom, SCENE_FORMAT } from './bloom';
-import { createPrograms, DEPTH_FORMAT } from './programs';
+import { createPrograms, DEPTH_FORMAT, type Preparing } from './programs';
 
 /** What one frame is seen from and when, and what shows where nothing is. */
 export type Shot = Clock & {
@@ -33,28 +33,23 @@ export type Boards = WithId & {
   scenery: Scenery;
 };
 
-export type Renderer = CanDispose & {
-  /**
-   * Resolves once the shaders of `floors` are compiled; a floor's faces are
-   * uploaded only after that. Rejects with the compiler's words on a shader
-   * that does not compile.
-   */
-  prepare: (floors: readonly number[]) => Promise<void>;
-  /** Replaces the rooms drawn. */
-  upload: (scenery: Scenery) => void;
-  /**
-   * Replaces what moves among the rooms, drawn with them; its floors must be
-   * prepared, as an uploaded room's are.
-   */
-  uploadMoving: (scenery: Scenery) => void;
-  /** Replaces the boards, drawn after the rooms. */
-  uploadBoards: (boards: readonly Boards[]) => void;
-  draw: (shot: Shot) => void;
-  /** Resolves once the GPU has finished every frame submitted so far. */
-  drawn: () => Promise<void>;
-  /** The adapter's vendor and architecture. */
-  readonly adapter: string;
-};
+export type Renderer = CanDispose &
+  Preparing & {
+    /** Replaces the rooms drawn. */
+    upload: (scenery: Scenery) => void;
+    /**
+     * Replaces what moves among the rooms, drawn with them; its floors must be
+     * prepared, as an uploaded room's are.
+     */
+    uploadMoving: (scenery: Scenery) => void;
+    /** Replaces the boards, drawn after the rooms. */
+    uploadBoards: (boards: readonly Boards[]) => void;
+    draw: (shot: Shot) => void;
+    /** Resolves once the GPU has finished every frame submitted so far. */
+    drawn: () => Promise<void>;
+    /** The adapter's vendor and architecture. */
+    readonly adapter: string;
+  };
 
 /** How far off the scene's `a` says the air is, where no face is drawn. */
 const NOWHERE = 1e4;

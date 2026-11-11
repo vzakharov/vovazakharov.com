@@ -26,13 +26,18 @@ type Layouts = {
   lens: GPUBindGroupLayout;
 };
 
-export type Programs = {
-  layouts: Layouts;
+/** Compiles floors' shaders ahead of their being drawn. */
+export type Preparing = {
   /**
-   * Resolves once the shaders of `floors` are compiled. Rejects with the
-   * compiler's words on a shader that does not compile.
+   * Resolves once the shaders of `floors` are compiled; a floor's faces are
+   * uploaded only after that. Rejects with the compiler's words on a shader
+   * that does not compile.
    */
   prepare: (floors: readonly number[]) => Promise<void>;
+};
+
+export type Programs = Preparing & {
+  layouts: Layouts;
   /** Floor `n`'s program; throws where the floor was not prepared. */
   of: (n: number) => Program;
 };
