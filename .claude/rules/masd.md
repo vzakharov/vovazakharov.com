@@ -68,7 +68,10 @@ not import it.
 
 **An abstract app is earned the way a slice is.** An app with exactly one child
 and nothing of its own a router mounts is insignificant, and `check:masd` says
-so: a `game` between `kernel` and `mushrooms` waits for a second game.
+so: a `game` between `kernel` and `mushrooms` waits for a second game. One whose
+second child is on its way stays on the operator's yes, as an entry in
+`WAITING_APPS` (`eslint/masd-graph.ts`) naming that child and when the yes was
+given; a week later `check:masd` fails it again until the yes is renewed.
 
 **Every app under `src/` has an entry and every entry a directory**, which
 `check:masd` holds both ways.
