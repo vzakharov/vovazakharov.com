@@ -1,0 +1,62 @@
+items:
+  - id: z-names
+    type: zone
+    updated: [2026-11-11T04:56:00.000Z, agent:cube]
+    box: [0, 1000, 3540, 720, orange]
+    text: What to call it
+  - id: img-64levels
+    type: image
+    updated: [2026-11-11T04:56:00.000Z, agent:cube]
+    box: [28, 1110, 600]
+    src: images/unsquatted-64levels.webp
+    text: "Vova's near-pick: 64levels.com, free at $12/yr"
+  - id: names-count
+    type: sticky
+    updated: [2026-11-11T04:56:00.000Z, agent:cube]
+    box: [700, 1110, 244, orange]
+    text: 'The count: 64levels, 64floors, Floor 64, Sixty-Four Down. Says how deep it goes and reads as a game; hides that you shrink'
+  - id: names-half
+    type: sticky
+    updated: [2026-11-11T04:56:00.000Z, agent:cube]
+    box: [1035, 1110, 244, orange]
+    text: 'The halving: Half Again, Halfway Down, Ever Smaller, Halfsize. Names the one mechanic nobody else has'
+  - id: names-zeno
+    type: sticky
+    updated: [2026-11-11T04:56:00.000Z, agent:cube]
+    box: [1370, 1110, 244, orange]
+    text: "Zeno: Zeno's Cube, Dichotomy. The paradox of halving forever and never arriving is the whole game in two words"
+  - id: names-never
+    type: sticky
+    updated: [2026-11-11T04:56:00.000Z, agent:cube]
+    box: [1705, 1110, 244, orange]
+    text: 'The lock: Nevermaze, Always Never, The Patient Door, Unfinishable. Sells the promise: finishable, and never finished'
+  - id: names-hash
+    type: sticky
+    updated: [2026-11-11T04:56:00.000Z, agent:cube]
+    box: [2040, 1110, 244, orange]
+    text: 'The hash: Hashmaze, Preimage, Golden Nonce, Proof of Walk. For readers who know bitcoin; opaque to the rest'
+  - id: names-hole
+    type: sticky
+    updated: [2026-11-11T04:56:00.000Z, agent:cube]
+    box: [2375, 1110, 244, orange]
+    text: 'The hole: The Hatch, One Hole Down, Downhatch. What the player hunts on every floor'
+  - id: names-nest
+    type: sticky
+    updated: [2026-11-11T04:56:00.000Z, agent:cube]
+    box: [2710, 1110, 244, orange]
+    text: 'Nesting: Matryoshka Cube, The Cube Within, Innermost, Smaller Inside. The same cube from outside, ever deeper'
+  - id: names-planck
+    type: sticky
+    updated: [2026-11-11T04:56:00.000Z, agent:cube]
+    box: [3045, 1110, 244, orange]
+    text: 'Scale: Toward Planck, Planck Floor, Proton Room. Floor 53 is smaller than a proton; the bottom, past Planck'
+  - id: names-endless
+    type: sticky
+    updated: [2026-11-11T04:58:00.000Z, agent:cube]
+    box: [1035, 1400, 244, orange]
+    text: 'Endless: Endless Down, No Bottom, Infinite Floors. Floor heights halve, so infinitely many still fit in one cube; past 64 is the same never, only longer'
+  - id: names-note
+    type: sticky
+    updated: [2026-11-11T04:56:00.000Z, agent:cube]
+    box: [700, 1400, 244, gray]
+    text: Only 64levels is checked for domains; the rest go through Unsquatted before any of them counts
