@@ -23,6 +23,12 @@ items:
     box: [4338, 110, 244, yellow]
     icon: 🏚️
     text: "Our floor 3 is a joke: you land in room (3,1) and the hole is in (3,2), right behind the south wall, three steps round by the maze. Four rooms are the whole walk; the other 12 of 16 stand idle, every one for sale"
+  - id: one-4
+    type: sticky
+    updated: [2026-11-11T15:10:00.000Z, agent:cube]
+    box: [3668, 450, 244, yellow]
+    icon: ➕
+    text: "Buy more: once a room is bought, its neighbour through the one opening is a dead end in turn if every other side is a wall or a bought room, and its sign reads «buy more» to the owner. A neighbour with another opening stays unsold, no sign. Waits on purchases being real"
   - id: img-floor-three
     type: image
     updated: [2026-11-11T14:50:00.000Z, agent:cube]
