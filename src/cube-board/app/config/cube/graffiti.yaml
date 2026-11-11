@@ -11,9 +11,9 @@ items:
     text: "Vova's idea: pay to paint any wall, checked by a neural net. Paint changes the game: a spider becomes a monster, a jackhammer a findable artifact. What a painting becomes is never promised; we look and decide"
   - id: graf-time
     type: sticky
-    updated: [2026-11-11T05:32:00.000Z, agent:cube]
+    updated: [2026-11-11T06:02:00.000Z, agent:cube]
     box: [363, 1930, 244, pink]
-    text: 'Time to cross floor n: ~5 s a room × 4^(n−1). Floor 6 ≈ 1.5 h (casual), 8 ≈ a day, 10 ≈ 360 h'
+    text: 'Time to cross floor n: ~5 s a room × 4^(n−1). Floor 6 ≈ 1.5 h (casual), 7 ≈ an evening, 8 ≈ a day, 10 ≈ 360 h'
   - id: graf-price-a
     type: sticky
     updated: [2026-11-11T05:32:00.000Z, agent:cube]
@@ -21,14 +21,14 @@ items:
     text: 'Price A: ×¼ a floor down. Every floor has the same wall area, so this is one price per square metre'
   - id: graf-price-b
     type: sticky
-    updated: [2026-11-11T05:32:00.000Z, agent:cube]
+    updated: [2026-11-11T06:02:00.000Z, agent:cube]
     box: [1033, 1930, 244, pink]
-    text: 'Price B: ×1/10 a floor down, priced by who gets there: $1M on floor 1 down to $10 on floor 6, $1 the floor price'
+    text: 'Price, the pick: a blank wall costs what it costs us (the payment fee and the net''s check), on every floor. Paint over a painting by paying double its price; its painter gets the whole price back as credit for another wall, never cash, and it stays forever as a layer beneath'
   - id: graf-price-c
     type: sticky
-    updated: [2026-11-11T05:32:00.000Z, agent:cube]
+    updated: [2026-11-11T06:02:00.000Z, agent:cube]
     box: [1368, 1930, 244, pink]
-    text: 'Price C, the pick: an auction or a Harberger tax on floors 1–3, where the brands are; ladder B below'
+    text: 'Why: doubling catches a wall up with the market, so a floor-1 wall sold for $10 in month one is not sold forever. No constant per floor, no auction; no payouts, so no marketplace and nothing to speculate on. Deep down no one paints over, so a painting there is forever in practice'
   - id: graf-rule
     type: sticky
     updated: [2026-11-11T05:32:00.000Z, agent:cube]
