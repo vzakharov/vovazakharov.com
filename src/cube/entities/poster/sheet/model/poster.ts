@@ -35,9 +35,9 @@ import {
 } from '../../frame';
 import { sketchOf, type Subject, subjectOf } from '../../subject';
 
-/** The sheet itself: the first thing drawn, under everything inked on it. */
 type Tinted = { tint: Rgb };
 
+/** The sheet itself: the first thing drawn, under everything inked on it. */
 export type Sheet = Tinted & {
   part: 'paper';
   sheetWide: number;

@@ -9,7 +9,7 @@ import {
 } from '@/cube/shared/lettering';
 
 /** A whole turn, in radians. */
-export const TURN = 2 * Math.PI;
+export const WHOLE_TURN = 2 * Math.PI;
 
 /** A straight-sided stroke through `points`. */
 export const path = (...points: Point[]): Polyline => points;
@@ -37,7 +37,7 @@ export function arc(
 ): Polyline {
   const steps = Math.max(4, Math.ceil(Math.abs(to - from) * 28));
   return Array.from({ length: steps + 1 }, (_, step): Point => {
-    const angle = (from + ((to - from) * step) / steps) * TURN;
+    const angle = (from + ((to - from) * step) / steps) * WHOLE_TURN;
     return [cx + rx * Math.cos(angle), cy + ry * Math.sin(angle)];
   });
 }
@@ -64,8 +64,8 @@ export const around = (
   radius: number,
   at: number,
 ): Point => [
-  cx + radius * Math.cos(at * TURN),
-  cy + radius * Math.sin(at * TURN),
+  cx + radius * Math.cos(at * WHOLE_TURN),
+  cy + radius * Math.sin(at * WHOLE_TURN),
 ];
 
 /** `count` strokes pointing outward from `inner` to `outer` round a centre. */
@@ -115,7 +115,7 @@ export function wave(
   const steps = Math.ceil(cycles * 16);
   return Array.from({ length: steps + 1 }, (_, step): Point => {
     const along = step / steps;
-    const off = height * Math.sin(along * cycles * TURN);
+    const off = height * Math.sin(along * cycles * WHOLE_TURN);
     return [
       from[0] + dx * along - (dy / long) * off,
       from[1] + dy * along + (dx / long) * off,

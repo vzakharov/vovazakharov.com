@@ -193,12 +193,10 @@ export const LETTERS: readonly string[] = LATIN_CHARS.filter((char) =>
 const alphabets = new Map<number, ReadonlyMap<string, Glyph>>();
 
 /**
- * Floor `n`'s invented alphabet, a glyph per character of `LETTERS`: strokes
- * of a grammar rolled for the floor — stems, bowls, hooks, bars, dots, in a
- * hand that is round or angular and leans its own way. It is drawn whole and
- * in one order, so a character is the same glyph wherever and whenever it is
- * read on the floor, and one that comes out like an earlier character's is
- * drawn again, up to `ATTEMPTS` times.
+ * Floor `n`'s invented alphabet, a glyph per character of `LETTERS`. It is
+ * drawn whole and in one order, so a character is the same glyph wherever and
+ * whenever it is read on the floor, and one that comes out like an earlier
+ * character's is drawn again, up to `ATTEMPTS` times.
  */
 export function alphabetOf(n: number): ReadonlyMap<string, Glyph> {
   const known = alphabets.get(n);

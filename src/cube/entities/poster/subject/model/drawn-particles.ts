@@ -49,7 +49,7 @@ export const SHORT_WAVE: Polyline[] = [
   path([1, 0.6], [1, 0.72]),
 ];
 
-/** `count` nucleons packed into a ball, every other one marked as a proton. */
+/** `count` nucleons in a ball, about `protons` of them crossed as protons. */
 const nucleus = (count: number, protons: number): Polyline[] => {
   const size = 0.5 / Math.sqrt(count) / 1.05;
   return scatter(0.5, 0.5, 0.5 - size, count).flatMap(([x, y], at) => {

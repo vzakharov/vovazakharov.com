@@ -11,8 +11,8 @@ import {
   rays,
   scatter,
   speck,
-  TURN,
   wave,
+  WHOLE_TURN,
 } from './shapes';
 
 /** A closed outline round a centre whose radius swells `lumps` times a turn. */
@@ -25,7 +25,7 @@ const lumpy = (
 ): Polyline =>
   Array.from({ length: 73 }, (_, step) => {
     const at = step / 72;
-    const out = radius * (1 + swell * Math.sin(at * lumps * TURN));
+    const out = radius * (1 + swell * Math.sin(at * lumps * WHOLE_TURN));
     return around(cx, cy, out, at);
   });
 
@@ -57,7 +57,7 @@ export const POLLEN: Polyline[] = [
   oval(0.64, 0.42, 0.04, 0.06),
 ];
 
-/** A dendrite from `root` to `tip`, forking once on the way. */
+/** A dendrite leaving the cell at `at` turns, `long` to its tip, forking twice. */
 const dendrite = (at: number, long: number): Polyline[] => [
   path(around(0.5, 0.5, 0.46, at), around(0.5, 0.5, long, at + 0.01)),
   path(

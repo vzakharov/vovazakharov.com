@@ -24,9 +24,9 @@ const ramp = (n: number, from: number, to: number): number =>
   Math.min(Math.max((n - from) / (to - from), 0), 1);
 
 /**
- * Floor `n`'s script: Latin to floor 8; then each letter is, with a chance
- * rising floor by floor, a glyph of the alphabet invented for that floor,
- * every letter by floor 40; past floor 53 the strokes drift apart.
+ * Floor `n`'s script: Latin on the top floors; then each letter is, with a
+ * chance rising floor by floor, a glyph of the alphabet invented for that
+ * floor; and on the deepest the strokes drift apart.
  */
 export const scriptOf = (n: number): Script => ({
   storey: n,

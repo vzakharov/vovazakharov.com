@@ -2,9 +2,6 @@ import type { Point, Polyline } from '@/cube/shared/lettering';
 
 import { arc, around, blob, curve, oval, path, rays, speck } from './shapes';
 
-// Each drawing is strokes in units of the thing's own stated size, x rightward
-// and y upward from the thing's lower left: a thing 9 cm long spans 0 to 1.
-
 /** A figure standing, as a door sign draws one. */
 const standing = (head: number, hip: number): Polyline[] => {
   const neck = 1 - 2 * head - 0.02;

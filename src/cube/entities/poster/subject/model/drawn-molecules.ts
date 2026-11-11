@@ -8,8 +8,8 @@ import {
   oval,
   path,
   polygon,
-  TURN,
   wave,
+  WHOLE_TURN,
 } from './shapes';
 
 export const RIBOSOME: Polyline[] = [
@@ -74,7 +74,7 @@ const HALF_WIDE = 1 / 3.4;
 /** Where a strand `phase` of a turn round the helix is, `x` along it. */
 const strandAt = (x: number, phase: number): Point => [
   x,
-  HALF_WIDE * (1 + Math.cos((x + phase) * TURN)),
+  HALF_WIDE * (1 + Math.cos((x + phase) * WHOLE_TURN)),
 ];
 
 /** Four turns of the double helix, lying on its side; the unit is one turn. */

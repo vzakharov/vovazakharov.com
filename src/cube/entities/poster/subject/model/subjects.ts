@@ -279,12 +279,6 @@ const FLOORS = 67;
  */
 const REPEATING = 0.6;
 
-/**
- * The ladder's rung for every floor, floor 1 first: the walk down the ladder,
- * never back up it, that matches the floors best over all, a rung shown again
- * counting against it — so two floors share a thing only where nothing else
- * comes near either.
- */
 type Walk = { cost: number; path: readonly number[] };
 
 function cheapest(walks: readonly Walk[]): Walk {
@@ -293,6 +287,12 @@ function cheapest(walks: readonly Walk[]): Walk {
   return best;
 }
 
+/**
+ * The ladder's rung for every floor, floor 1 first: the walk down the ladder,
+ * never back up it, that matches the floors best over all, a rung shown again
+ * counting against it — so two floors share a thing only where nothing else
+ * comes near either.
+ */
 function descent(): readonly number[] {
   const rungs = LADDER.map((_, rung) => rung);
   // The cheapest walk ending on each rung, as its cost and its rungs so far.
