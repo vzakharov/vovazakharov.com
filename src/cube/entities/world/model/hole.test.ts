@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { holeQuarter, parseWorld, type World } from './hole';
+import { holeQuarter, holesOf, parseWorld, type World } from './hole';
 import { plant } from './plant';
 import { planted } from './planted';
 
@@ -62,6 +62,21 @@ describe('plant', () => {
       const side = 2n ** BigInt(index + 1);
       assert.ok(x >= 0n && x < side && y >= 0n && y < side);
     }
+  });
+});
+
+describe('holesOf', () => {
+  it('answers as holeQuarter for the rooms it resolved, and only them', async () => {
+    const { world, answers } = await plant(FLOORS, counterRandom());
+    const landing = answers[1];
+    assert.ok(landing);
+    const room = { n: 2, x: landing.x >> 1n, y: landing.y >> 1n };
+    const holeOf = await holesOf(world, [room, { n: 2, x: 0n, y: 0n }]);
+    assert.deepEqual(holeOf(room), {
+      qx: Number(landing.x & 1n),
+      qy: Number(landing.y & 1n),
+    });
+    assert.throws(() => holeOf({ n: 3, x: 0n, y: 0n }));
   });
 });
 
