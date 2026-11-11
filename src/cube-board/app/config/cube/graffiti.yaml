@@ -16,19 +16,19 @@ items:
     text: 'Time to cross floor n: ~5 s a room × 4^(n−1). Floor 6 ≈ 1.5 h (casual), 7 ≈ an evening, 8 ≈ a day, 10 ≈ 360 h. Reaching floor 7 takes ~2 h, the six above it summed'
   - id: graf-price-a
     type: sticky
-    updated: [2026-11-11T05:32:00.000Z, agent:cube]
+    updated: [2026-11-11T06:13:00.000Z, agent:cube]
     box: [698, 1930, 244, pink]
-    text: 'Price A: ×¼ a floor down. Every floor has the same wall area, so this is one price per square metre'
+    text: '1. A blank wall''s start price: $10k at the start room of floor 1, and from there it falls the way the crowd thins, about ×⅓ a floor. Never below what it costs us (the payment fee and the net''s check). Floor 5 ≈ $120, floor 7 ≈ $14'
   - id: graf-price-b
     type: sticky
-    updated: [2026-11-11T06:08:00.000Z, agent:cube]
+    updated: [2026-11-11T06:13:00.000Z, agent:cube]
     box: [1033, 1930, 244, pink]
-    text: 'Price, the pick: a blank wall on floor n starts at $10k × 3^−(n−1) × the share of the floor''s players who pass it, never below what it costs us (the payment fee and the net''s check). The room under the hole above is passed by all, so ~$14 on floor 7; a corner an hour''s walk away, near cost. Paint over a painting by paying double its price; its painter gets the whole price back as credit for another wall, never cash, and it stays forever as a layer beneath'
+    text: '2. In theory, not to build: the price follows the path, not the floor number. The room above a hole and the room below it are seen by the same people, so they cost the same; the ×⅓ is spent walking from the landing to the next hole, and a dead end off the path is cheaper still'
   - id: graf-price-c
     type: sticky
-    updated: [2026-11-11T06:02:00.000Z, agent:cube]
+    updated: [2026-11-11T06:13:00.000Z, agent:cube]
     box: [1368, 1930, 244, pink]
-    text: 'Why: doubling catches a wall up with the market, so a floor-1 wall sold for $10 in month one is not sold forever. No constant per floor, no auction; no payouts, so no marketplace and nothing to speculate on. Deep down no one paints over, so a painting there is forever in practice'
+    text: '3. Paint over a painting by paying double its price. Its painter gets the whole price back as credit for another wall: never cash, never handed on. The old painting stays forever as a layer beneath. A wall sold for little in month one catches up with the market; deep down no one paints over, so a painting there is forever in practice'
   - id: graf-rule
     type: sticky
     updated: [2026-11-11T05:32:00.000Z, agent:cube]
