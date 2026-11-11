@@ -2,6 +2,7 @@
   "canvas": "The shrinking cube: a maze of floors, each half the size of the one above",
   "unsupported": "This browser has no WebGPU, so the cube cannot be drawn.",
   "floor": "Floor {floor}",
+<<<<<<< HEAD
   "offer": {
     "signs": {
       "for-sale": "For sale",
@@ -20,4 +21,7 @@
     "demo": "A demo: nothing is charged, and the room is yours only until the page reloads.",
     "close": "Close"
   }
+=======
+  "nowhere": "This address leads nowhere in the cube."
+>>>>>>> origin/claude/hash-maze-cube-m6wq80
 }
