@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 3619,
-    "cacheWrite5mTokens": 129910,
+    "inputTokens": 3620,
+    "cacheWrite5mTokens": 131664,
     "cacheWrite1hTokens": 407138,
-    "cacheReadTokens": 19938498,
-    "outputTokens": 171279,
+    "cacheReadTokens": 20113409,
+    "outputTokens": 172262,
     "thinkingTokens": 64342,
-    "responses": 108,
-    "costUsd": 18.662933799999998
+    "responses": 109,
+    "costUsd": 18.754783999999997
   },
   "estimate": {
     "at": "2026-11-11T22:28:33.574Z",
@@ -58,7 +58,7 @@
   "url": "https://claude.ai/code/session_01DaohkEDinAS3N4MKmhDZME",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-11T22:25:47.542Z",
-  "lastResponseAt": "2026-11-11T23:17:09.672Z",
+  "lastResponseAt": "2026-11-11T23:17:31.440Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
@@ -72,25 +72,25 @@
     "costUsd": 16.4204668
   },
   "subagents": {
-    "inputTokens": 19,
-    "cacheWrite5mTokens": 128035,
+    "inputTokens": 20,
+    "cacheWrite5mTokens": 129789,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 1171046,
-    "outputTokens": 7076,
+    "cacheReadTokens": 1345957,
+    "outputTokens": 8059,
     "thinkingTokens": 2239,
-    "responses": 11,
-    "costUsd": 1.7977512
+    "responses": 12,
+    "costUsd": 1.8896014
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 2432,
-      "cacheWrite5mTokens": 129910,
+      "inputTokens": 2433,
+      "cacheWrite5mTokens": 131664,
       "cacheWrite1hTokens": 407138,
-      "cacheReadTokens": 19938498,
-      "outputTokens": 171056,
+      "cacheReadTokens": 20113409,
+      "outputTokens": 172039,
       "thinkingTokens": 64342,
-      "responses": 107,
-      "costUsd": 18.662703599999997
+      "responses": 108,
+      "costUsd": 18.754553799999996
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1187,
@@ -173,7 +173,7 @@
   "branchLines": {
     ".json": 20,
     ".md": 343,
-    ".ts": 5976,
+    ".ts": 5974,
     ".tsx": 12
   }
 }

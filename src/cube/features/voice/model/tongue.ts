@@ -69,7 +69,7 @@ const BENT_SHARE = 0.45;
 
 /**
  * A floor's accent: the same sound becomes the same other sound all over the
- * floor, `drift` of the vowels and rollsUnder half as many of the consonants.
+ * floor, `drift` of the vowels and under half as many of the consonants.
  */
 function accentOf(dice: Dice, drift: number): (phone: Phone) => Phone {
   const turned = (phone: Phone): Phone => {
