@@ -43,15 +43,16 @@ then: «island-board тоже переиспользуем и выносим о�
 ### Geometry
 
 - **The cube is the unit.** Floor `n` (1…64) is a `2^(n−1)` × `2^(n−1)` grid of
-  rooms, room side `2^−(n−1)`, room height `0.6 ×` side. Floors stack directly:
-  floor `n`'s ceiling is floor `n−1`'s floor slab, so the cube's height is a
-  Zeno sum, under 1.2. Floor 1 has a lid.
-- **In metres, floor 1's room is 4 × 4 m and 2.4 m high**, and the player on
-  every floor is a person to that floor's room: eye at 1.6 m, a 0.6 m collision
-  circle. Every proportion below is that room taken as 1. Floor 64's room is ~4
-  · 10⁻¹⁹ m; from floor 53 on a room is smaller than a proton.
+  rooms, room side `2^−(n−1)`, room height `0.5 ×` side. Floors stack directly:
+  floor `n`'s ceiling is floor `n−1`'s floor slab, so the stack's height is the
+  Zeno sum `0.5 + 0.25 + …`, which closes the cube at 1. Floor 1 has a lid.
+- **In metres, floor 1's room is 5 × 5 m and 2.5 m high**, so the cube is 5 m on
+  every side, and the player on every floor is a person to that floor's room:
+  eye at 1.6 m, a 0.6 m collision circle. Every proportion below is that room
+  taken as 1. Floor 64's room is ~5 · 10⁻¹⁹ m; from floor 53 on a room is
+  smaller than a proton.
 - **Under every room lie exactly four rooms of the floor below**, one per
-  quarter. A hole is a square in the middle of one quarter, side `0.1 ×` room
+  quarter. A hole is a square in the middle of one quarter, side `0.08 ×` room
   side (0.4 m on floor 1), so it opens onto the middle of the room below it
   (point 3).
 - **Rooms are addressed `(n, x, y)` with `x, y` BigInt** (`< 2^63` on floor 64);
@@ -123,14 +124,14 @@ one per floor.
 
 ### The player
 
-- **Body diameter `0.15 ×` room side, eye at `0.4 ×`** (0.6 m and 1.6 m on floor
-  1); **walk at `0.35 ×` room side a second** (1.4 m/s), **mouse look with
+- **Body diameter `0.12 ×` room side, eye at `0.32 ×`** (0.6 m and 1.6 m on
+  floor 1); **walk at `0.28 ×` room side a second** (1.4 m/s), **mouse look with
   pointer lock (pitch to ±89°), collision as a circle against present walls.**
   Desktop only in iteration zero.
 - **The lever** sits on whichever of the hole quarter's two outer walls is
   present (the x-wall first); where both are doors, on a post at that corner.
   `E` pulls it when the player stands over the hole and the lever is within
-  `0.2 ×` room side (0.8 m, an arm's reach and a step).
+  `0.16 ×` room side (0.8 m, an arm's reach and a step).
 - **Shrinking is continuous**: scale `s(t) = 2^(−t/3 s)` from 1 to ½. The body
   stops resting on the slab once its diameter is under the hole's side (at
   `s ≈ 0.67`: on floor 1 a body of 0.4 m, eye at 1.07 m, over a 0.4 m hole); it
