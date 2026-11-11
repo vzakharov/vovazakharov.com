@@ -13,6 +13,8 @@ import {
 
 import { cellOf, roomLooks } from './room-look';
 
+const NONE = [false, false, false, false] as const;
+
 const SEED = '8675309';
 const walls = mazeWalls(maze(SEED));
 const rolled = traits(SEED);
@@ -60,7 +62,10 @@ describe('roomLooks', () => {
       roomFlags({
         closed: [true, true, true, true],
         lampsOn: true,
-        litBeside: [false, false, false, false],
+        litBeside: NONE,
+        litAcross: NONE,
+        waysAcross: [NONE, NONE],
+        wallsBeside: [NONE, NONE],
       }),
     );
   });

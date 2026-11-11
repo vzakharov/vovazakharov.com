@@ -1,3 +1,4 @@
+import type { Sides } from '@/cube/shared/lib/sides';
 import { roomFlags, themeOf } from '@/cube/entities/theme';
 import {
   closedSides,
@@ -5,13 +6,11 @@ import {
   type RolledTraits,
   type Room,
   roomKey,
-  type Step,
-  stepped,
-  STEPS,
   type Walls,
 } from '@/cube/entities/world';
 
 import type { RoomLook } from './mesh';
+import { roomStateOf } from './room-state';
 
 /** How many low bits of a room's place a vertex carries on each axis. */
 const CELL_BITS = 6n;
@@ -27,9 +26,8 @@ export const cellOf = ({ x, y }: Room): number =>
 
 /**
  * Each room's look for an eye in room `eye`, resolved once per room: where it
- * stands, its own word, and its flags — which walls are closed, whether its
- * lamps are among its floor's failed ones, and which sides open onto a lit
- * room.
+ * stands, its own word, and its flags — what `roomStateOf` says of it, its
+ * lamps working unless they are among its floor's failed ones.
  */
 export function roomLooks(
   eye: Room,
@@ -39,27 +37,19 @@ export function roomLooks(
   const known = new Map<string, RoomLook>();
   const lit = (room: Room): boolean =>
     rolled.room.at(room).lamp >= themeOf(room.n).dark;
-  const look = (room: Room): RoomLook => {
-    const closed = closedSides(walls, room);
-    const litBeside = (step: Step, at: number): boolean =>
-      closed[at] === false && lit(stepped(room, step));
-    const [east, south, west, north] = STEPS;
-    return {
-      ...placed(eye, room),
-      seed: rolled.room.at(room).grain,
-      flags: roomFlags({
-        closed,
-        lampsOn: lit(room),
-        litBeside: [
-          litBeside(east, 0),
-          litBeside(south, 1),
-          litBeside(west, 2),
-          litBeside(north, 3),
-        ],
-      }),
-      cell: cellOf(room),
-    };
+  const closures = new Map<string, Sides>();
+  const closedOf = (room: Room): Sides => {
+    const key = roomKey(room);
+    const found = closures.get(key) ?? closedSides(walls, room);
+    closures.set(key, found);
+    return found;
   };
+  const look = (room: Room): RoomLook => ({
+    ...placed(eye, room),
+    seed: rolled.room.at(room).grain,
+    flags: roomFlags(roomStateOf(room, closedOf, lit)),
+    cell: cellOf(room),
+  });
   return (room) => {
     const key = roomKey(room);
     const found = known.get(key) ?? look(room);

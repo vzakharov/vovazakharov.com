@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { roomFlags } from './flags';
+import { roomFlags, type RoomState } from './flags';
 
 const NONE = [false, false, false, false] as const;
 const ALL = [true, true, true, true] as const;
@@ -10,33 +10,59 @@ const only = (side: number) =>
 
 const SIDES = [0, 1, 2, 3];
 
+const DARK_AND_OPEN: RoomState = {
+  closed: NONE,
+  lampsOn: false,
+  litBeside: NONE,
+  litAcross: NONE,
+  waysAcross: [NONE, NONE],
+  wallsBeside: [NONE, NONE],
+};
+
+/** The flags of a room that differs from a dark, open one by `over`. */
+const flagsOf = (over: Partial<RoomState>): number =>
+  roomFlags({ ...DARK_AND_OPEN, ...over });
+
 describe('roomFlags', () => {
   it('gives each closed side its own bit, east first', () => {
     assert.deepEqual(
-      SIDES.map((side) =>
-        roomFlags({ closed: only(side), lampsOn: false, litBeside: NONE }),
-      ),
+      SIDES.map((side) => flagsOf({ closed: only(side) })),
       [1, 2, 4, 8],
     );
   });
 
-  it('gives each lit neighbour its side’s bit, past the walls and the lamp', () => {
+  it('keeps the lamp clear of the walls', () => {
+    assert.equal(flagsOf({ lampsOn: true }), 16);
+  });
+
+  it('gives every answer about the rooms around a bit of its own', () => {
+    const fields: Array<(sides: RoomState['closed']) => Partial<RoomState>> = [
+      (litBeside) => ({ litBeside }),
+      (litAcross) => ({ litAcross }),
+      (way) => ({ waysAcross: [way, NONE] }),
+      (way) => ({ waysAcross: [NONE, way] }),
+      (wall) => ({ wallsBeside: [wall, NONE] }),
+      (wall) => ({ wallsBeside: [NONE, wall] }),
+    ];
     assert.deepEqual(
-      SIDES.map((side) =>
-        roomFlags({ closed: NONE, lampsOn: false, litBeside: only(side) }),
+      fields.flatMap((field) =>
+        SIDES.map((side) => flagsOf(field(only(side)))),
       ),
-      [32, 64, 128, 256],
+      Array.from({ length: 24 }, (_, bit) => 2 ** (bit + 5)),
     );
   });
 
-  it('keeps the lamp clear of both', () => {
+  it('packs a room with everything set into 29 bits, unsigned', () => {
     assert.equal(
-      roomFlags({ closed: NONE, lampsOn: true, litBeside: NONE }),
-      16,
-    );
-    assert.equal(
-      roomFlags({ closed: ALL, lampsOn: true, litBeside: ALL }),
-      15 + 16 + 480,
+      roomFlags({
+        closed: ALL,
+        lampsOn: true,
+        litBeside: ALL,
+        litAcross: ALL,
+        waysAcross: [ALL, ALL],
+        wallsBeside: [ALL, ALL],
+      }),
+      2 ** 29 - 1,
     );
   });
 });

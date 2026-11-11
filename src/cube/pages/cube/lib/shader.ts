@@ -45,8 +45,8 @@ fn surfOf(in: Varying) -> Surf {
   s.kind = in.kind;
   s.normal = normalize(in.normal);
   s.p = in.local * ROOM.x;
-  let cell = vec2f(f32(in.cell & 63u), f32((in.cell >> 8u) & 63u));
-  let wide = cell * ROOM.xz + s.p.xz;
+  s.cell = vec2u(in.cell, in.cell >> 8u) & vec2u(63u);
+  let wide = vec2f(s.cell) * ROOM.xz + s.p.xz;
   if (abs(s.normal.y) > 0.5) {
     s.uv = wide;
   } else if (abs(s.normal.x) > abs(s.normal.z)) {

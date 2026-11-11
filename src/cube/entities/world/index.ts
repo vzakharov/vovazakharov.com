@@ -29,7 +29,13 @@ export {
   type Quad,
   type Vec3,
 } from './model/quad';
-export { type Floored, type Room, roomKey, WALL_HALF } from './model/room';
+export {
+  type Floored,
+  isRoom,
+  type Room,
+  roomKey,
+  WALL_HALF,
+} from './model/room';
 export {
   opens,
   sight,

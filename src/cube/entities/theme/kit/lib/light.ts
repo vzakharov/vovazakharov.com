@@ -3,9 +3,10 @@ import { HASH } from './hash';
 import { wgsl } from './wgsl';
 
 /**
- * A room lit by its own ceiling lamps and nothing else: no ray leaves the
- * room, so the cost is the same on floor 66 as on floor 1, and a room whose
- * lamps failed is dark up to its doorways.
+ * A point lit by the ceiling lamps of its room and of the eight around it,
+ * through what the room's flags say is open: the cost is the same on floor
+ * 66 as on floor 1, light is the same from either side of an open edge, and
+ * a room whose lamps failed takes its neighbours' through its doorways.
  */
 export const LIGHT = wgsl(
   'light',
@@ -24,19 +25,66 @@ struct Lamps {
   stutter: f32,
 };
 
-/// The room's lamps right now, 0 to 1. A stuttering room's fits come in
-/// four-second spells on the shared clock, so two viewers see the same flash.
-fn lampLevel(s: Surf, stutter: f32) -> f32 {
-  let steady = litOf(s);
-  if (unitOf(hashOf(s.seed, 0x1au)) >= stutter) {
-    return steady;
+/// The lamps of the room \`by\` rooms east and south of the point's right
+/// now, 0 to 1, \`lit\` being whether they work. A stuttering room's fits
+/// come in four-second spells on the shared clock, so two viewers see the
+/// same flash, and are rolled from its place on the floor, so every room
+/// around it sees them too.
+fn lampLevel(s: Surf, by: vec2i, lit: f32, stutter: f32) -> f32 {
+  let place = vec2u(vec2i(s.cell) + by) & vec2u(63u);
+  let word = hashOf(place.x | (place.y << 8u), 0x1au);
+  if (unitOf(word) >= stutter) {
+    return lit;
   }
   let tick = u32(s.time * 12.0) + s.hour * 43200u;
-  if (unitOf(hashOf(s.seed ^ 0x77u, tick / 48u)) >= 0.35) {
-    return steady;
+  if (unitOf(hashOf(word ^ 0x77u, tick / 48u)) >= 0.35) {
+    return lit;
   }
-  let fit = unitOf(hashOf(s.seed, tick));
-  return select(steady, 0.75 - 0.6 * steady, fit < 0.3);
+  let fit = unitOf(hashOf(word, tick));
+  return select(lit, 0.75 - 0.6 * lit, fit < 0.3);
+}
+
+/// The side a room one step away lies through: 0 east, 1 south, 2 west, 3 north.
+fn sideOf(by: vec2i) -> u32 {
+  return select(select(3u, 1u, by.y > 0), select(2u, 0u, by.x > 0), by.x != 0);
+}
+
+/// The corner a room one step each way lies across: 0 south-east, 1
+/// south-west, 2 north-west, 3 north-east.
+fn cornerOf(by: vec2i) -> u32 {
+  return select(select(2u, 3u, by.x > 0), select(1u, 0u, by.x > 0), by.y > 0);
+}
+
+/// The lamps of the room \`by\` rooms away, no farther than one each way,
+/// as far as any of their light can enter the point's room: nothing through
+/// a closed side or across a corner with no way round it.
+fn lampsBeside(s: Surf, by: vec2i, stutter: f32) -> f32 {
+  var lit = litOf(s);
+  if (by.x != 0 && by.y != 0) {
+    let corner = cornerOf(by);
+    if (!(wayAcross(s, corner, true) || wayAcross(s, corner, false))) {
+      return 0.0;
+    }
+    lit = f32(litAcross(s, corner));
+  } else if (by.x != 0 || by.y != 0) {
+    let side = sideOf(by);
+    if (closedAt(s, side)) {
+      return 0.0;
+    }
+    lit = f32(litBeside(s, side));
+  }
+  return lampLevel(s, by, lit, stutter);
+}
+
+/// Whether light from a lamp across a corner, \`to\` away from the point,
+/// gets to it: it leaves the point's room by one of the corner's two sides,
+/// and that way round has to be open.
+fn reachesAcross(s: Surf, by: vec2i, to: vec3f) -> bool {
+  let edge = vec2f(max(by, vec2i(0))) * ROOM.xz;
+  let leaves = (edge - s.p.xz) / to.xz;
+  let corner = cornerOf(by);
+  // Even corners' first way is through an east or west side.
+  return wayAcross(s, corner, (leaves.x < leaves.y) == ((corner & 1u) == 0u));
 }
 
 /// 1 inside a lamp panel at ceiling point \`at\` (metres east and south in the
@@ -48,35 +96,61 @@ fn lampMask(at: vec2f, grid: i32, size: vec2f) -> f32 {
   return 1.0 - smoothstep(0.0, 0.03, max(edge.x, edge.y));
 }
 
-/// How much of the lamps' light a point takes: x what it scatters, y what it
-/// throws back at the eye as a highlight.
-fn lampReach(s: Surf, normal: vec3f, gloss: f32, grid: i32) -> vec2f {
-  let pitch = ROOM.xz / f32(grid);
+/// How much light a point takes from the lamps of its room and of the
+/// eight around it: x what it scatters, y what it throws back at the eye as
+/// a highlight, z what hangs in the air about it whichever way it faces and
+/// however high it is. A lamp's light dies out a room's side away, so a point on an open edge
+/// takes the same from the rooms either side of it.
+fn lampReach(s: Surf, normal: vec3f, gloss: f32, lamps: Lamps) -> vec3f {
+  let pitch = ROOM.xz / f32(lamps.grid);
   let power = mix(6.0, 600.0, gloss * gloss);
-  var sum = vec2f(0.0);
-  for (var i = 0; i < grid; i++) {
-    for (var j = 0; j < grid; j++) {
-      let lamp = vec3f(
-        (f32(i) + 0.5) * pitch.x,
-        ROOM.y - 0.05,
-        (f32(j) + 0.5) * pitch.y,
-      );
-      let to = lamp - s.p;
-      let d2 = dot(to, to);
-      let l = to / sqrt(d2);
-      // A panel shines mostly down, and less with distance.
-      let falloff = (0.3 + 0.7 * max(l.y, 0.0)) / (1.0 + 0.35 * d2);
-      let facing = max(dot(normal, l), 0.0);
-      let half = normalize(l - s.view);
-      let glint = pow(max(dot(normal, half), 0.0), power) * (power + 8.0) / 25.0;
-      sum += vec2f(facing, facing * glint) * falloff;
+  // A polished floor mirrors the panels themselves, which is its highlight.
+  let glinting = gloss > 0.0 && s.normal.y <= 0.9;
+  var sum = vec3f(0.0);
+  for (var south = -1; south <= 1; south++) {
+    for (var east = -1; east <= 1; east++) {
+      let by = vec2i(east, south);
+      let level = lampsBeside(s, by, lamps.stutter);
+      if (level <= 0.0) {
+        continue;
+      }
+      let across = east != 0 && south != 0;
+      for (var i = 0; i < lamps.grid; i++) {
+        for (var j = 0; j < lamps.grid; j++) {
+          let lamp = vec3f(
+            (f32(east * lamps.grid + i) + 0.5) * pitch.x,
+            ROOM.y - 0.05,
+            (f32(south * lamps.grid + j) + 0.5) * pitch.y,
+          );
+          let to = lamp - s.p;
+          let h2 = dot(to.xz, to.xz);
+          let span = 1.0 - h2 * h2 / (ROOM.x * ROOM.x * ROOM.x * ROOM.x);
+          if (span <= 0.0 || (across && !reachesAcross(s, by, to))) {
+            continue;
+          }
+          let shine = level * span * span;
+          let d2 = dot(to, to);
+          let l = to / sqrt(d2);
+          // A panel shines mostly down, and less with distance.
+          let falloff = shine * (0.3 + 0.7 * max(l.y, 0.0)) / (1.0 + 0.35 * d2);
+          let facing = max(dot(normal, l), 0.0);
+          var glint = 0.0;
+          if (glinting) {
+            let half = normalize(l - s.view);
+            glint = pow(max(dot(normal, half), 0.0), power) * (power + 8.0) / 25.0;
+          }
+          sum += vec3f(facing * falloff, facing * glint * falloff, shine / (1.0 + 0.35 * h2));
+        }
+      }
     }
   }
   return sum;
 }
 
-/// The dimming where surfaces meet: a floor or ceiling toward its closed
-/// walls, a wall toward the floor, the ceiling and the walls it joins.
+/// The dimming where surfaces meet: a floor or ceiling toward the walls
+/// that stand on it — its room's own, and those that end on its corners from
+/// the rooms beside, so the dimming runs on across an open edge — and a wall
+/// toward the floor, the ceiling and the walls it joins.
 fn cornerShade(s: Surf) -> f32 {
   let reach = 0.7;
   // Metres to the room's east, south, west and north sides.
@@ -86,6 +160,13 @@ fn cornerShade(s: Surf) -> f32 {
     for (var side = 0u; side < 4u; side++) {
       if (closedAt(s, side)) {
         near = min(near, toSide[side]);
+        continue;
+      }
+      for (var turn = 1u; turn < 4u; turn += 2u) {
+        let end = (side + turn) & 3u;
+        if (!closedAt(s, end) && wallBeside(s, side, turn == 1u)) {
+          near = min(near, length(vec2f(toSide[side], toSide[end])));
+        }
       }
     }
   } else {
@@ -102,65 +183,38 @@ fn cornerShade(s: Surf) -> f32 {
   return 1.0 - 0.45 * dim * dim;
 }
 
-/// The light that comes in through the room's doorways from lit rooms
-/// beside it, as a share of a lamp's: strongest at the doorway and on what
-/// faces it.
-fn doorLight(s: Surf, normal: vec3f) -> f32 {
-  let toSide = vec4f(ROOM.x - s.p.x, ROOM.z - s.p.z, s.p.x, s.p.z);
-  let out = array<vec3f, 4>(
-    vec3f(1.0, 0.0, 0.0), vec3f(0.0, 0.0, 1.0),
-    vec3f(-1.0, 0.0, 0.0), vec3f(0.0, 0.0, -1.0),
-  );
-  var sum = 0.0;
-  for (var side = 0u; side < 4u; side++) {
-    if (litBeside(s, side)) {
-      // It comes in from the neighbour's ceiling, so a little downward.
-      let incoming = normalize(out[side] + vec3f(0.0, 0.6, 0.0));
-      let facing = 0.25 + 0.75 * max(dot(normal, incoming), 0.0);
-      sum += facing / (1.0 + 0.4 * toSide[side] * toSide[side]);
-    }
-  }
-  return sum;
-}
-
 /// How much brighter a panel is to look at than the room it lights.
 const GLARE = 8.0;
 
 /// What a ceiling gives off at the point: the lamps' glare inside a panel.
 fn lampGlow(s: Surf, lamps: Lamps) -> vec3f {
   return lamps.colour * (GLARE * lampMask(s.p.xz, lamps.grid, lamps.size)
-    * lampLevel(s, lamps.stutter));
+    * lampLevel(s, vec2i(0), litOf(s), lamps.stutter));
 }
 
-/// The point lit by its room: the lamps' direct light and what bounces off
-/// the room, what comes in through its doorways from lit neighbours, the ambient,
-/// the lamps' highlights on anything polished, and on a polished floor the
-/// panels themselves mirrored in it.
+/// How much of the lamps' light the air about a point passes on to it.
+const FILL = 0.16;
+
+/// The point lit by the lamps around it: their direct light and what the
+/// air passes on, the ambient, their highlights on anything polished, and on
+/// a polished floor the panels themselves mirrored in it.
 fn roomLight(s: Surf, m: Material, lamps: Lamps) -> vec3f {
-  let level = lampLevel(s, lamps.stutter);
   let normal = normalize(s.normal + m.relief);
-  let reach = lampReach(s, normal, m.gloss, lamps.grid);
+  let reach = lampReach(s, normal, m.gloss, lamps);
   let shade = cornerShade(s);
-  let light = lamps.ambient
-    + lamps.colour * (level * (reach.x + 0.2) + 0.3 * doorLight(s, normal));
+  let light = lamps.ambient + lamps.colour * (reach.x + FILL * reach.z);
   // A polished thing mirrors more the more it is looked along.
   let along = pow(1.0 - max(dot(normal, -s.view), 0.0), 5.0);
   let mirror = m.gloss * (0.04 + 0.96 * along);
   var colour = m.albedo * light * shade + m.emission
-    + lamps.colour * (level * reach.y * mirror * shade);
+    + lamps.colour * (reach.y * mirror * shade);
   if (m.gloss > 0.0 && s.normal.y > 0.9) {
     let mirrored = reflect(s.view, normal);
     if (mirrored.y > 0.001) {
       let hit = s.p + mirrored * ((ROOM.y - s.p.y) / mirrored.y);
-      // Past a closed wall there is that wall to mirror, not more ceiling.
-      let past = vec4f(hit.x - ROOM.x, hit.z - ROOM.z, -hit.x, -hit.z);
-      var open = 1.0;
-      for (var side = 0u; side < 4u; side++) {
-        if (past[side] > 0.0 && closedAt(s, side)) {
-          open = 0.0;
-        }
-      }
-      colour += lamps.colour * (GLARE * level * mirror * open)
+      // Past the rooms around, the ceiling mirrored is taken for theirs.
+      let by = clamp(vec2i(floor(hit.xz / ROOM.xz)), vec2i(-1), vec2i(1));
+      colour += lamps.colour * (GLARE * mirror * lampsBeside(s, by, lamps.stutter))
         * lampMask(hit.xz, lamps.grid, lamps.size);
     }
   }

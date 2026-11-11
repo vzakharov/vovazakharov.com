@@ -33,8 +33,10 @@ struct Surf {
   normal: vec3f,
   /// The room's own word: what its stains, wear and timing grow from.
   seed: u32,
-  /// Read with closedAt, litOf and litBeside.
+  /// Read with the flag readers: closedAt, litOf and the rest.
   flags: u32,
+  /// The room's column and row on its floor, each modulo 64.
+  cell: vec2u,
   /// The face's tint, linear; black where it has none.
   paint: vec3f,
   /// From the eye to the point, unit length, and how far that is in metres.

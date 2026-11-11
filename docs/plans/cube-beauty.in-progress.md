@@ -80,18 +80,33 @@ external services.
   HDR + bloom, eye level, pillars + door light, thick walls.
 - Streams (`docs/plans/cube-beauty.streams.md`): see § "Streams launched".
 
+## Streams launched
+
+Each a remote session on its own branch off this one, reporting back by message
+when done; the lead reviews and merges.
+
+| Stream                | Session                            | Branch                   |
+| --------------------- | ---------------------------------- | ------------------------ |
+| Sound                 | `session_01DaohkCMHPHHGXcrztjJDt5` | `claude/cube-sound`      |
+| Voice                 | `session_01DaohkEDinAS3N4MKmhDZME` | `claude/cube-voice`      |
+| Lettering and posters | `session_01DaohkCp3iTMNfzGeXLrg5o` | `claude/cube-lettering`  |
+| Descent               | `session_01DaohkEv5QzP5HRqvoP2WgS` | `claude/cube-descent`    |
+| Decor                 | `session_01DaohkCozV972W1BLmTzXwA` | `claude/cube-decor`      |
+| Happenings            | `session_01DaohkE68cpjBn2aT8RoyZv` | `claude/cube-happenings` |
+
+The voice stream was told, after the operator found a formant voice too robotic
+for the protagonist: the visitor makes wordless vocal sounds only; the words are
+the building's public-address voice, which the robot timbre suits.
+
 ## Next
 
-1. **Continuous light.** The operator saw the floor's brightness jump at room
-   edges and a hard edge where a lit room meets a dark one: each room is lit by
-   its own lamps alone. `roomLight` is to sum the lamps of the eight rooms
-   around too — each lamp windowed to nothing a room side away, a neighbour's
-   counted only through open sides (the flags gain the diagonal routes) — in
-   place of `doorLight`, so light is the same from both sides of an open edge
-   and spills through doorways into dark rooms.
-2. Launch the five theme bands once the light holds; merge every stream here.
+1. Launch the five theme bands (`claude/cube-<band>`), now that light is
+   continuous: a point takes the lamps of its room and the eight around it
+   through what is open (`kit/lib/light.ts`, `pages/cube/lib/room-state.ts`).
+2. Merge every stream here as it reports.
 3. The lead's wiring: a per-frame 'moving' vertex layer for hands and
    happenings; sound and voice cues; posters; decor; happenings; the sale signs
    restyled so they sit with the floor's signage.
-4. Calibration toward the AAA bar: exposure, materials, lamp panel detail.
+4. Calibration toward the AAA bar: exposure, materials, lamp panel detail, the
+   broken mirror of floor 3's lamps in its tiles.
 5. The board; `/polish`, `/pr` (draft), `/five-percent`.
