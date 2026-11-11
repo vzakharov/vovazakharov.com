@@ -16,6 +16,23 @@
   }
 }
 
+// A quiet corner over the canvas, letting every pointer through to it.
+.floor {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  margin: 0;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgb(0 0 0 / 35%);
+  color: rgb(255 255 255 / 85%);
+  font:
+    13px / 1.4 system-ui,
+    sans-serif;
+  pointer-events: none;
+  user-select: none;
+}
+
 .unsupported {
   margin: 0;
   padding: 16px;

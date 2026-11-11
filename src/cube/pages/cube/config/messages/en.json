@@ -1,4 +1,5 @@
 {
   "canvas": "The shrinking cube: a maze of floors, each half the size of the one above",
-  "unsupported": "This browser has no WebGPU, so the cube cannot be drawn."
+  "unsupported": "This browser has no WebGPU, so the cube cannot be drawn.",
+  "floor": "Floor {floor}"
 }
