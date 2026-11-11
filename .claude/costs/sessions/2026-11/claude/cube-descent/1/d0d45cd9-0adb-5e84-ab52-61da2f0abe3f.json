@@ -72,10 +72,10 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 36,
-    "matched": 36,
-    "matchedTableUsd": 7.5273886,
-    "matchedEventUsd": 7.527388600000001,
+    "events": 37,
+    "matched": 37,
+    "matchedTableUsd": 7.6246976,
+    "matchedEventUsd": 7.624697600000001,
     "unseen": {}
   },
   "operatorWords": {
@@ -88,7 +88,7 @@
   "branchLines": {
     ".json": 19,
     ".md": 343,
-    ".ts": 3909,
+    ".ts": 3936,
     ".tsx": 15
   }
 }

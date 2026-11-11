@@ -64,7 +64,7 @@ const FINGER_THICK = 0.0025;
 /** A nail's length, how far it stops short of the fingertip, and its thickness. */
 const NAIL = [0.0035, 0.0005, 0.0004] as const;
 /** A nail's paint: paler than the skin around it. */
-const NAIL_PAINT = 0xe9cfc6;
+const NAIL_PAINT = 0xe9_cf_c6;
 const THUMB_LONG = 0.014;
 const THUMB_WIDE = 0.0045;
 
