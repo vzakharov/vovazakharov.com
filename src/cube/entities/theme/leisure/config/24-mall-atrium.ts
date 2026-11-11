@@ -49,7 +49,7 @@ fn marbled(s: Surf) -> Material {
   let red = vec3f(0.22, 0.06, 0.04) * (0.6 + 0.8 * worley(s.uv * 60.0, 250u).x);
   let laid = mix(mix(stone(s.uv, tile.y), green, diamond), red, border);
   let wear = fbm(s.uv * 0.8, 244u, 3);
-  let floor = polished(laid * mix(0.45, 1.0, tile.x), 0.4 - 0.2 * wear);
+  let floor = polished(laid * mix(0.45, 1.0, tile.x), 0.07 - 0.03 * wear);
   return embossed(s, floor, 2.0 * fbm(s.uv * 2.2, 243u, 3) + 0.4 * tile.y, 0.003);
 }
 
@@ -105,8 +105,8 @@ fn skylit(s: Surf) -> Material {
   let white = plaster(s, vec3f(0.56, 0.55, 0.5)) * (0.72 + 0.14 * step1 + 0.14 * step2) * (1.0 - 0.3 * damp(s));
   let bar = repeated(s.p.xz - ROOM.xz * 0.5, vec2f(0.65));
   let bars = max(stroke(bar.x, 0.035), stroke(bar.y, 0.035));
-  let sky = 0.85 + 0.15 * fbm(s.uv * 1.2, 252u, 3);
-  let ceiling = glowing(mix(white, vec3f(0.3), bars * (1.0 - step1)), lampGlow(s, lamps()) * (0.13 * sky * (1.0 - 0.9 * bars)));
+  let sky = 0.55 + 0.6 * fbm(s.uv * 0.7, 252u, 4);
+  let ceiling = glowing(mix(white, vec3f(0.3), bars * (1.0 - step1)), lampGlow(s, lamps()) * vec3f(0.8, 0.92, 1.08) * (0.028 * sky * (1.0 - 0.9 * bars)));
   return embossed(s, ceiling, step1 + step2, 0.04);
 }
 
@@ -125,7 +125,7 @@ fn themeMaterial(s: Surf) -> Material {
     SHAPES,
     ordinary('mall-atrium', {
       air: AIR,
-      lamp: [2.5, 2.6, 2.75],
+      lamp: [2.1, 2.2, 2.35],
       ambient: [0.014, 0.014, 0.015],
       grid: 1,
       panel: [2.6, 2.6],
