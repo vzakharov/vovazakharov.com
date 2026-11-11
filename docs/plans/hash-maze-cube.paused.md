@@ -215,9 +215,11 @@ with one door, ~2^80 ≈ a bitcoin block), field vs wall, the two promises
 (passable / never), clicking vs silent locks, pyramid → cube, the shrink factor
 `r ≈ 2^(64/N)` and why iteration zero takes `r = 2, N = 64`, the milestones
 (stubborn human 100 / 1 000 / 10 000 h, laptop, GPU, ASIC, the bitcoin network,
-quantum, never), first person changing nothing for the lock, and this plan's six
-points. Screenshots come from the four artifacts, each rendered from a local
-copy translated to English (the published artifacts stay as they are):
+quantum, never), first person changing nothing for the lock, this plan's six
+points, and what its review settled: the 5 m cube of 5 × 5 × 2.5 m rooms with a
+person in each, and the maze's randomness as a typed schema whose keyed node is
+`roll.over`. Screenshots come from the four artifacts, each rendered from a
+local copy translated to English (the published artifacts stay as they are):
 wall-or-field, two-promises, silent-lock, shrinking-cube. It is published as an
 artifact with its `db`, as the island's is, and updated the same way: after
 every turn that settles something worth pinning, and at each bite's end, with
@@ -254,9 +256,34 @@ An elephant in one PR, a bite per session:
 The last squash is `feat(vova):`, which publishes vovazakharov.com with `/cube`
 unlinked.
 
-## This bite
+## Eaten so far
 
-Bite 1, as item 1 above.
+Nothing built: the go-ahead is recorded (75c5b0a8), and the session that took it
+paused for its context budget before bite 1 started.
+
+## Rest of the bite
+
+Bite 1, as item 1 above:
+
+- **`src/board/`** (parent `scene`), by `git mv` out of `src/island-board/`:
+  `entities/item`, `pages/board`, `app/styles`, `scripts/` with their tests.
+  Imports `@/island-board/…` become `@/board/…`; `scripts/board.ts`'s `ENTRY`
+  and `STYLESHEET` follow. The page `<title>` (a literal `Island board` in
+  `board.ts`) comes from the board file's `title`. `board-file.test.ts` pins
+  `src/island-board/app/config/island.yaml` by path, which stays valid.
+- **`package.json`**: `board` points at `src/board/scripts/board.ts`, arguments
+  unchanged. **`src/masd.json`**: `"board": ["scene"]` above
+  `"island-board": ["board"]` and `"cube-board": ["board"]`.
+- **`src/cube-board/app/config/cube.yaml`** and `cube/` (images, as the island's
+  `island/`), the cards § "The board" lists, in English. Screenshots: `Artifact`
+  `read` each of the four (7RX47GAjLRVhErajvah2nJ wall-or-field,
+  JXdhg7RbpJ8fBe3cSCdHv2 two-promises, 89qXsENibaGv1gzFRnm6kp silent-lock,
+  Lvjd86P1ArE5HvhJ6frvNk shrinking-cube), translate a local copy under `tmp/`,
+  shoot it with Playwright, convert to webp.
+- **Run** `pnpm check:masd`, `pnpm lint:fsd`, the board's tests,
+  `pnpm board build` on both yamls (the island's page must come out as before),
+  then publish the cube board as an artifact with `db`, as the island's is.
+- If `check:masd` refuses the data-only `*-board` apps, § "Apps"'s fallback.
 
 ## Coordination
 
