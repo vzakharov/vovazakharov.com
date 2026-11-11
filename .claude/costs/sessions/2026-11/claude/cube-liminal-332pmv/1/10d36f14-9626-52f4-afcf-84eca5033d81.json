@@ -1,0 +1,272 @@
+{
+  "total": {
+    "inputTokens": 32191,
+    "cacheWrite5mTokens": 1762,
+    "cacheWrite1hTokens": 1254409,
+    "cacheReadTokens": 56504267,
+    "outputTokens": 442246,
+    "thinkingTokens": 173945,
+    "responses": 243,
+    "costUsd": 49.33742939999999
+  },
+  "estimate": {
+    "at": "2026-11-11T20:39:45.457Z",
+    "subjectLine": "feat: lead the cube's liminal rebuild — foundation, briefs, merges",
+    "parts": [
+      {
+        "hours": 40.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "a dozen parallel streams need contracts written, briefs, reviews and merges, with a viewable milestone kept on preview throughout"
+      },
+      {
+        "hours": 60.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "the renderer is rebuilt around per-floor shader programs, per-room lighting and a wider vertex format every stream builds on"
+      },
+      {
+        "hours": 30.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "the material kit and the first floors set the look the other sixty are held to"
+      },
+      {
+        "hours": 16.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "sixty-six floors need an arc of atmosphere, and the gags and scares a rule: same place, same time, same sight"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-11T19:32:26.977Z",
+    "contextTokens": 95850,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 39836,
+      "cacheReadTokens": 54208,
+      "outputTokens": 732,
+      "thinkingTokens": 273,
+      "responses": 1,
+      "costUsd": 0.6775136
+    }
+  },
+  "sessionId": "10d36f14-9626-52f4-afcf-84eca5033d81",
+  "branch": "claude/cube-liminal-332pmv",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "ну что, давай делать из куба красоту. Насмотрелся чудес про Fable, поэтому включаю. Привет, Фейбл :) Какие изменения относительно нашего обычного flow: 1- всё д…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEZGmfg7XD5wRftBnA",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-11T19:32:19.389Z",
+  "lastResponseAt": "2026-11-11T22:43:46.548Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 459,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 1254409,
+    "cacheReadTokens": 55113066,
+    "outputTokens": 381986,
+    "thinkingTokens": 173945,
+    "responses": 238,
+    "costUsd": 46.37626919999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 32191,
+      "cacheWrite5mTokens": 1762,
+      "cacheWrite1hTokens": 1254409,
+      "cacheReadTokens": 56504267,
+      "outputTokens": 442246,
+      "thinkingTokens": 173945,
+      "responses": 243,
+      "costUsd": 49.33742939999999
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-11T20:34:16.597Z",
+      "trigger": "auto",
+      "compactedFrom": 263119,
+      "summaryChars": 38807,
+      "reorientation": {
+        "endedBy": "Write",
+        "endedOn": "src/cube/shared/lib/surface.ts",
+        "endedAt": "2026-11-11T20:41:29.808Z",
+        "contextTokens": 224822,
+        "spend": {
+          "inputTokens": 10,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 151528,
+          "cacheReadTokens": 904906,
+          "outputTokens": 34906,
+          "thinkingTokens": 31691,
+          "responses": 6,
+          "costUsd": 4.0017492
+        }
+      },
+      "rereads": {
+        "calls": 9,
+        "byTool": {
+          "Read": 9
+        },
+        "estimatedTokens": 32888,
+        "estimatedUsd": 0.5865484
+      },
+      "billedUsd": 0.9311952
+    },
+    {
+      "at": "2026-11-11T20:51:11.961Z",
+      "trigger": "auto",
+      "compactedFrom": 265282,
+      "summaryChars": 27455,
+      "reorientation": {
+        "endedBy": "Write",
+        "endedOn": "src/cube/shared/lib/colour.ts",
+        "endedAt": "2026-11-11T20:56:05.423Z",
+        "contextTokens": 210125,
+        "spend": {
+          "inputTokens": 29,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 142426,
+          "cacheReadTokens": 2285868,
+          "outputTokens": 22771,
+          "thinkingTokens": 17958,
+          "responses": 15,
+          "costUsd": 3.6470615999999993
+        }
+      },
+      "rereads": {
+        "calls": 10,
+        "byTool": {
+          "Bash": 1,
+          "Read": 9
+        },
+        "estimatedTokens": 23388,
+        "estimatedUsd": 0.5597974
+      },
+      "billedUsd": 0.6516438
+    },
+    {
+      "at": "2026-11-11T21:25:26.235Z",
+      "trigger": "auto",
+      "compactedFrom": 353446,
+      "summaryChars": 27535,
+      "reorientation": {
+        "endedBy": "Write",
+        "endedOn": "src/scene/scripts/lib/in-turn.ts",
+        "endedAt": "2026-11-11T21:26:23.403Z",
+        "contextTokens": 158327,
+        "spend": {
+          "inputTokens": 15,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 95210,
+          "cacheReadTokens": 951022,
+          "outputTokens": 2906,
+          "thinkingTokens": 1170,
+          "responses": 7,
+          "costUsd": 1.8299244000000001
+        }
+      },
+      "rereads": {
+        "calls": 10,
+        "byTool": {
+          "Read": 10
+        },
+        "estimatedTokens": 16625,
+        "estimatedUsd": 0.4846482000000001
+      },
+      "billedUsd": 0.6946402
+    },
+    {
+      "at": "2026-11-11T22:06:24.840Z",
+      "trigger": "auto",
+      "compactedFrom": 350254,
+      "summaryChars": 23410,
+      "reorientation": {
+        "endedBy": "Write",
+        "endedOn": "src/cube/shared/lib/room-shape.ts",
+        "endedAt": "2026-11-11T22:09:12.613Z",
+        "contextTokens": 185136,
+        "spend": {
+          "inputTokens": 17,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 122594,
+          "cacheReadTokens": 1320231,
+          "outputTokens": 12451,
+          "thinkingTokens": 10256,
+          "responses": 9,
+          "costUsd": 2.7237261999999998
+        }
+      },
+      "rereads": {
+        "calls": 5,
+        "byTool": {
+          "Read": 5
+        },
+        "estimatedTokens": 12597,
+        "estimatedUsd": 0.3494274
+      },
+      "billedUsd": 0.6359255999999999
+    }
+  ],
+  "telemetry": {
+    "events": 243,
+    "matched": 238,
+    "matchedTableUsd": 46.37626919999999,
+    "matchedEventUsd": 46.37626919999999,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 174,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 201817,
+        "outputTokens": 14,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0477554
+      },
+      "compact": {
+        "inputTokens": 31226,
+        "cacheWrite5mTokens": 1588,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 1189384,
+        "outputTokens": 60246,
+        "thinkingTokens": 0,
+        "responses": 4,
+        "costUsd": 2.9134048
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 1431,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".json": 19,
+    ".md": 370,
+    ".yaml": 55,
+    ".ts": 3182,
+    ".tsx": 12
+  }
+}
