@@ -1,7 +1,6 @@
 import type { World } from './hole';
+import type { Room } from './pose';
 import { seals } from './seals';
-
-export type Room = { x: bigint; y: bigint };
 
 const BYTE_BITS = 8;
 

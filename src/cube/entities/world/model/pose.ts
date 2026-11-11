@@ -1,3 +1,6 @@
+/** A room of some floor, by its BigInt index: `x` east, `y` south. */
+export type Room = { x: bigint; y: bigint };
+
 /** A point in some room's frame, in room sides: `u` east, `v` south. */
 export type InRoom = { u: number; v: number };
 
@@ -8,14 +11,13 @@ export type InRoom = { u: number; v: number };
  * room sides. Every renderer and collision reads positions this way, so no
  * float ever carries a floor-67 coordinate.
  */
-export type Pose = InRoom & {
-  n: number;
-  x: bigint;
-  y: bigint;
-  /** Eye height over the slab, in room sides. */
-  h: number;
-  /** Radians; 0 looks east (+u), π/2 looks south (+v). */
-  yaw: number;
-  /** Radians, positive up, clamped to ±89°. */
-  pitch: number;
-};
+export type Pose = Room &
+  InRoom & {
+    n: number;
+    /** Eye height over the slab, in room sides. */
+    eyeAbove: number;
+    /** Radians; 0 looks east (+u), π/2 looks south (+v). */
+    yaw: number;
+    /** Radians above the horizon, clamped to ±89°. */
+    elevation: number;
+  };

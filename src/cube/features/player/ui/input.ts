@@ -67,7 +67,12 @@ export function bindInput(target: HTMLElement): InputBinding {
 
   return {
     read() {
-      const input: Input = { walk: 0, strafe: 0, yawBy: turn, pitchBy: tilt };
+      const input: Input = {
+        walk: 0,
+        strafe: 0,
+        yawBy: turn,
+        elevationBy: tilt,
+      };
       for (const code of held) {
         const { axis, sign } = AXES[code];
         input[axis] += sign;

@@ -14,13 +14,13 @@ export const MAX_PITCH = (89 * Math.PI) / 180;
 /**
  * One frame's controls. `walk` (forward) and `strafe` (rightward) are in
  * `[-1, 1]` — keys give -1, 0 or 1, and a diagonal is normalized to walking
- * speed; `yawBy` and `pitchBy` are radians to add to the pose's this frame.
+ * speed; `yawBy` and `elevationBy` are radians to add to the pose's this frame.
  */
 export type Input = {
   walk: number;
   strafe: number;
   yawBy: number;
-  pitchBy: number;
+  elevationBy: number;
 };
 
 const TAU = 2 * Math.PI;
@@ -36,7 +36,7 @@ export function step(pose: Pose, input: Input, dt: number, walls: Walls): Pose {
     throw new RangeError(`Not a frame time: ${dt}`);
   }
   const yaw = wrap(pose.yaw + input.yawBy);
-  const pitch = clamp(pose.pitch + input.pitchBy, MAX_PITCH);
+  const elevation = clamp(pose.elevation + input.elevationBy, MAX_PITCH);
   const length = Math.hypot(input.walk, input.strafe);
   const scale = (WALK_SPEED * dt) / Math.max(1, length);
   const forward = input.walk * scale;
@@ -44,7 +44,7 @@ export function step(pose: Pose, input: Input, dt: number, walls: Walls): Pose {
   const cos = Math.cos(yaw);
   const sin = Math.sin(yaw);
   return walk(
-    { ...pose, yaw, pitch, h: EYE_HEIGHT },
+    { ...pose, yaw, elevation, eyeAbove: EYE_HEIGHT },
     forward * cos - right * sin,
     forward * sin + right * cos,
     walls,

@@ -16,13 +16,13 @@ const pose = (over: Partial<Pose> = {}): Pose => ({
   y: 0n,
   u: 0.5,
   v: 0.5,
-  h: EYE_HEIGHT,
+  eyeAbove: EYE_HEIGHT,
   yaw: 0,
-  pitch: 0,
+  elevation: 0,
   ...over,
 });
 
-const still: Input = { walk: 0, strafe: 0, yawBy: 0, pitchBy: 0 };
+const still: Input = { walk: 0, strafe: 0, yawBy: 0, elevationBy: 0 };
 const ahead: Input = { ...still, walk: 1 };
 
 /** Walls of a 4 × 4 floor, open exactly where `open` lists `E x y` / `S x y`. */
@@ -117,13 +117,13 @@ describe('step against walls', () => {
 });
 
 describe('step controls', () => {
-  it('clamps pitch to ±89°', () => {
+  it('clamps elevation to ±89°', () => {
     assert.equal(
-      step(pose(), { ...still, pitchBy: 10 }, FRAME, allOpen).pitch,
+      step(pose(), { ...still, elevationBy: 10 }, FRAME, allOpen).elevation,
       MAX_PITCH,
     );
     assert.equal(
-      step(pose(), { ...still, pitchBy: -10 }, FRAME, allOpen).pitch,
+      step(pose(), { ...still, elevationBy: -10 }, FRAME, allOpen).elevation,
       -MAX_PITCH,
     );
   });
@@ -161,7 +161,7 @@ describe('a long random walk on floor 3', () => {
           walk: Math.round(next() * 2 - 0.3),
           strafe: Math.round(next() * 2 - 1),
           yawBy: (next() - 0.5) * 0.6,
-          pitchBy: 0,
+          elevationBy: 0,
         };
       }
       const after = step(current, input, FRAME, plantedWalls);
