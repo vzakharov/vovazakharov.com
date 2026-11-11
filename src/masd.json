@@ -16,6 +16,6 @@
   "island": ["scene"],
   "unsquatted": ["shell"],
   "dice": [],
-  "cube": ["dice"],
-  "vova": ["blog", "music", "mushrooms", "island"]
+  "cube": ["scene", "dice"],
+  "vova": ["blog", "music", "mushrooms", "island", "cube"]
 }
