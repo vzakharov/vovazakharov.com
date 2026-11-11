@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+import { fillSlots } from '@/kernel/shared/i18n';
+
 import { floorsOf, planted, type Pose } from '@/cube/entities/world';
 import {
   bindInput,
@@ -50,13 +52,22 @@ type CubeCanvasProps = {
   canvas: string;
   /** The one line shown where the browser has no WebGPU. */
   unsupported: string;
+  /** The floor the eye stands on, `{floor}` its number. */
+  floor: string;
 };
 
 /** The canvas the cube draws into, filling the viewport. */
-export function CubeCanvas({ canvas: label, unsupported }: CubeCanvasProps) {
+export function CubeCanvas({
+  canvas: label,
+  unsupported,
+  floor: floorLine,
+}: CubeCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [failure, setFailure] = useState<Error | null>(null);
   const [missing, setMissing] = useState(false);
+  // Set every frame, which re-renders only on a new floor: React drops a set
+  // to the value the state already holds.
+  const [floor, setFloor] = useState<number | null>(null);
   // Thrown while rendering, so the route's error boundary shows it.
   if (failure !== null) throw failure;
 
@@ -75,7 +86,10 @@ export function CubeCanvas({ canvas: label, unsupported }: CubeCanvasProps) {
       start,
       onFrame:
         input === null
-          ? (pose) => ({ pose, pulled: null })
+          ? (pose) => {
+              setFloor(pose.n);
+              return { pose, pulled: null };
+            }
           : (pose, seconds) => {
               player = playFrame(
                 { ...player, pose },
@@ -85,6 +99,7 @@ export function CubeCanvas({ canvas: label, unsupported }: CubeCanvasProps) {
                 holedHere(pose),
               );
               const { pose: moved } = player;
+              setFloor(moved.n);
               return { pose: moved, pulled: pulledOf(player) };
             },
       onError: setFailure,
@@ -105,11 +120,18 @@ export function CubeCanvas({ canvas: label, unsupported }: CubeCanvasProps) {
 
   if (missing) return <p className={classes['unsupported']}>{unsupported}</p>;
   return (
-    <canvas
-      ref={canvasRef}
-      className={classes['cube']}
-      aria-label={label}
-      tabIndex={0}
-    />
+    <>
+      <canvas
+        ref={canvasRef}
+        className={classes['cube']}
+        aria-label={label}
+        tabIndex={0}
+      />
+      {floor !== null && (
+        <p className={classes['floor']} aria-live="polite">
+          {fillSlots(floorLine, { floor })}
+        </p>
+      )}
+    </>
   );
 }
