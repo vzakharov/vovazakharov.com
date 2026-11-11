@@ -1,0 +1,25 @@
+items:
+  - id: z-one
+    type: zone
+    updated: [2026-11-11T14:40:00.000Z, agent:cube]
+    box: [3640, 0, 1060, 900, blue]
+    icon: 🧗
+    text: Iteration one, after zero went live
+  - id: one-1
+    type: sticky
+    updated: [2026-11-11T14:40:00.000Z, agent:cube]
+    box: [3668, 110, 244, blue]
+    icon: ✅
+    text: "Built: floor 2's hole two steps from its landing, so exactly one room there is for sale; the lever swings down when pulled; the floor you stand on shown in a corner. Next: the URL carries the hatches down to your floor and, lightly hidden, where you stand on it"
+  - id: one-2
+    type: sticky
+    updated: [2026-11-11T13:40:00.000Z, agent:cube]
+    box: [4003, 110, 244, yellow]
+    icon: 🏜️
+    text: "Idea, for later: a mirage, the lever seen through a wall, wanted and out of reach, with no known way round. Fair, since it shows the hole room from its four neighbours too, a constant ×5, not a shortcut. Seen once by accident on floor 3: the plate's back lies in a wall with no thickness, a depth tie that walls with thickness end"
+  - id: one-3
+    type: sticky
+    updated: [2026-11-11T14:20:00.000Z, agent:cube]
+    box: [4338, 110, 244, yellow]
+    icon: 🏚️
+    text: "Our floor 3 is a joke: you land in room (3,1) and the hole is in (3,2), right behind the south wall, three steps round by the maze. Four rooms are the whole walk; the other 12 of 16 stand idle, every one for sale"
