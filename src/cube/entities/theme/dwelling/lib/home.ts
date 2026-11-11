@@ -2,8 +2,8 @@ import { CORE, HASH, LIGHT, wgsl } from '../../kit';
 
 /**
  * What the homes of this band share: where a point is along its wall and
- * which wall that is, shapes and repeats to cut patterns from, a lamp drawn as something
- * other than a panel, and boards.
+ * which wall that is, shapes and repeats to cut patterns from, a lamp drawn
+ * as something other than a panel, and boards.
  */
 export const HOME = wgsl(
   'dwelling/home',
