@@ -55,7 +55,7 @@ items:
     updated: [2026-11-11T13:04:25.000Z, agent:cube]
     box: [28, 2180, 244, pink]
     icon: 💵
-    text: "1. Only rooms off the path are for sale: a room is bought once it is a dead end, every side but one a wall or a bought room, and never the landing or the hole room. So everything but the landing→hole path sells, nothing on it. Planting keeps floor 2 at one room of 4 for sale; floor 1 has none"
+    text: '1. Only rooms off the path are for sale: a room is bought once it is a dead end, every side but one a wall or a bought room, and never the landing or the hole room. So everything but the landing→hole path sells, nothing on it. Planting keeps floor 2 at one room of 4 for sale; floor 1 has none'
   - id: graf-price-b
     type: sticky
     updated: [2026-11-11T13:04:25.000Z, agent:cube]

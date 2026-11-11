@@ -10,7 +10,7 @@ import type { Walls } from './walls';
  * What a sign says: a room for sale, one for sale because it adjoins a room
  * the viewer bought, or a room the viewer bought.
  */
-export const SIGN_KINDS = ['for-sale', 'buy-more', 'yours'] as const;
+const SIGN_KINDS = ['for-sale', 'buy-more', 'yours'] as const;
 export type SignKind = (typeof SIGN_KINDS)[number];
 
 /**

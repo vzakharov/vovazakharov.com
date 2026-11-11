@@ -22,25 +22,25 @@ items:
     updated: [2026-11-11T14:20:00.000Z, agent:cube]
     box: [4338, 110, 244, yellow]
     icon: 🏚️
-    text: "Our floor 3 is a joke: you land in room (3,1) and the hole is in (3,2), right behind the south wall, three steps round by the maze. Four rooms are the whole walk; the other 12 of 16 stand idle, every one for sale"
+    text: 'Our floor 3 is a joke: you land in room (3,1) and the hole is in (3,2), right behind the south wall, three steps round by the maze. Four rooms are the whole walk; the other 12 of 16 stand idle, every one for sale'
   - id: one-4
     type: sticky
     updated: [2026-11-11T15:40:00.000Z, agent:cube]
     box: [3668, 450, 244, blue]
     icon: ➕
-    text: "Buy more: once a room is bought, its neighbour through the one opening is a dead end in turn if every other side is a wall or a bought room, and its sign reads «buy more» to the owner. A neighbour with another opening stays unsold, no sign. Tried now with purchases kept only while the page is open, a bought room marked a little apart"
+    text: 'Buy more: once a room is bought, its neighbour through the one opening is a dead end in turn if every other side is a wall or a bought room, and its sign reads «buy more» to the owner. A neighbour with another opening stays unsold, no sign. Tried now with purchases kept only while the page is open, a bought room marked a little apart'
   - id: one-5
     type: sticky
     updated: [2026-11-11T17:00:00.000Z, agent:cube]
     box: [4673, 110, 244, blue]
     icon: 🏷️
-    text: "Prices tagged like a shop: from $1 up, the nearest price ending in nines, above or below. Whole dollars end in 99 while that stays $100 or more, cents in 9.99 from $10 and in .99 under it. $10M reads $9,999,999, $19,531 reads $19,499, $38.15 reads $39.99, $4.77 reads $4.99"
+    text: 'Prices tagged like a shop: from $1 up, the nearest price ending in nines, above or below. Whole dollars end in 99 while that stays $100 or more, cents in 9.99 from $10 and in .99 under it. $10M reads $9,999,999, $19,531 reads $19,499, $38.15 reads $39.99, $4.77 reads $4.99'
   - id: one-6
     type: sticky
     updated: [2026-11-11T18:30:00.000Z, agent:cube]
     box: [4673, 450, 244, yellow]
     icon: 💳
-    text: "Paying, open, and nobody knows how yet: Stripe takes $0.50 to $999,999.99 a charge, so floors 2 and 3 would go for bitcoin, an address and a sum on a static page. Below them, one payment link per floor, quantity left to the buyer, no server. No room sells under $4.99: a room on floor 9 or any deeper costs that, however small. Vova likes the whole sale idea less the further it goes; kept as it stands for now"
+    text: 'Paying, open, and nobody knows how yet: Stripe takes $0.50 to $999,999.99 a charge, so floors 2 and 3 would go for bitcoin, an address and a sum on a static page. Below them, one payment link per floor, quantity left to the buyer, no server. No room sells under $4.99: a room on floor 9 or any deeper costs that, however small. Vova likes the whole sale idea less the further it goes; kept as it stands for now'
   - id: img-floor-three
     type: image
     updated: [2026-11-11T14:50:00.000Z, agent:cube]

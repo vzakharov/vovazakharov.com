@@ -2,19 +2,22 @@
 
 // The cube's route has no Mantine root of its own, so the offer brings its
 // provider and the sheets of what it renders, in Mantine's own order
-// (`.claude/rules/styling.md`).
-import '@mantine/core/styles/baseline.layer.css';
-import '@mantine/core/styles/default-css-variables.layer.css';
-import '@mantine/core/styles/global.layer.css';
-import '@mantine/core/styles/UnstyledButton.layer.css';
-import '@mantine/core/styles/Paper.layer.css';
-import '@mantine/core/styles/Overlay.layer.css';
-import '@mantine/core/styles/CloseButton.layer.css';
-import '@mantine/core/styles/ModalBase.layer.css';
-import '@mantine/core/styles/Text.layer.css';
-import '@mantine/core/styles/Button.layer.css';
-import '@mantine/core/styles/Modal.layer.css';
-import '@mantine/core/styles/Stack.layer.css';
+// (`.claude/rules/styling.md`). They are the unlayered halves on purpose: a
+// module the shell's theme provider also imports becomes a CSS chunk Next
+// shares between the two, linked on every shell page after the shell's own,
+// which loads `Button` after `Title` there.
+import '@mantine/core/styles/baseline.css';
+import '@mantine/core/styles/default-css-variables.css';
+import '@mantine/core/styles/global.css';
+import '@mantine/core/styles/UnstyledButton.css';
+import '@mantine/core/styles/Paper.css';
+import '@mantine/core/styles/Overlay.css';
+import '@mantine/core/styles/CloseButton.css';
+import '@mantine/core/styles/ModalBase.css';
+import '@mantine/core/styles/Text.css';
+import '@mantine/core/styles/Button.css';
+import '@mantine/core/styles/Modal.css';
+import '@mantine/core/styles/Stack.css';
 
 import { Button, MantineProvider, Modal, Stack, Text } from '@mantine/core';
 
