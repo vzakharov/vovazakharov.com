@@ -36,7 +36,14 @@ export type Table<K> = Slotted & {
 export type Key<K> = { segments: (key: K) => string };
 
 /** One part of a record key, spelled as one segment. */
-type Part<V> = (value: V) => string;
+declare const takes: unique symbol;
+
+/**
+ * One part of a record key. It checks the value it is handed at run time, so
+ * a key can be spelled from a plain record, and `takes` carries the value's
+ * type for the key the parts infer.
+ */
+type Part<V> = ((value: unknown) => string) & { readonly [takes]?: V };
 
 /**
  * One `of` per value of `key`, decoded by `.at` when asked and never
@@ -85,20 +92,37 @@ const MAX_PICK = 2 ** 21;
 
 /** The key type a record of parts spells. */
 type Parted<P> = {
-  [Name in keyof P]: P[Name] extends Part<infer V> ? V : never;
+  [Name in keyof P]: P[Name] extends { readonly [takes]?: infer V } ? V : never;
 };
 
-function key<const Names extends readonly string[]>(
+type Parts = Record<string, Part<unknown>>;
+
+const int: Part<number> = (value) => {
+  if (typeof value !== 'number' || !Number.isSafeInteger(value)) {
+    throw new TypeError(`Not a safe integer: ${String(value)}`);
+  }
+  return String(value);
+};
+
+const big: Part<bigint> = (value) => {
+  if (typeof value !== 'bigint') {
+    throw new TypeError(`Not a bigint: ${String(value)}`);
+  }
+  return value.toString();
+};
+
+const isNames = (spec: readonly string[] | Parts): spec is readonly string[] =>
+  Array.isArray(spec);
+
+function keyFor<const Names extends readonly string[]>(
   names: Names,
 ): Key<Names[number]>;
-function key<P extends Record<string, Part<never>>>(parts: P): Key<Parted<P>>;
+function keyFor<P extends Parts>(parts: P): Key<Parted<P>>;
 
 // A closed list spells a key as itself; a record spells each part in turn.
-function key(
-  spec: readonly string[] | Record<string, Part<never>>,
-): Key<never> {
-  if (Array.isArray(spec)) {
-    const names: readonly string[] = spec;
+function keyFor(spec: readonly string[] | Parts): Key<never> {
+  if (isNames(spec)) {
+    const names = spec;
     return {
       segments: (name: string) => {
         if (!names.includes(name)) {
@@ -110,7 +134,7 @@ function key(
   }
   const parts = Object.entries(spec);
   return {
-    segments: (value: Record<string, never>) =>
+    segments: (value: Readonly<Record<string, unknown>>) =>
       parts.map(([name, part]) => part(value[name])).join('/'),
   };
 }
@@ -156,19 +180,14 @@ export const roll = {
     key: keyed,
     of,
   }),
-  key,
+  key: keyFor,
   /** A key part that is a safe integer. */
-  int: (value: number): string => {
-    if (!Number.isSafeInteger(value)) {
-      throw new Error(`Not a safe integer: ${value}`);
-    }
-    return String(value);
-  },
+  int,
   /** A key part that is a `bigint`. */
-  big: (value: bigint): string => value.toString(),
+  big,
 };
 
-const WORD_BITS = BigInt(32);
+const WORD_BITS = 32n;
 
 const childPath = (path: string, name: string) =>
   path === '' ? name : `${path}/${name}`;

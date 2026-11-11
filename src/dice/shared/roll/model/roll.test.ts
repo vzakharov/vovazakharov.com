@@ -31,9 +31,6 @@ describe('rollWith', () => {
   });
 });
 
-// The TS target predates bigint literals.
-const big = BigInt;
-
 const pickAt = (k: number, word: number) =>
   rollWith(roll.struct({ p: roll.pick(k) }), () => word).p;
 
@@ -63,20 +60,28 @@ describe('over and key', () => {
 
     // A struct under an `over` reads its own leaves when entered; a nested
     // `over` stays lazy until asked.
-    const block = rolled.block.at({ n: 3, x: big(5) });
+    const block = rolled.block.at({ n: 3, x: 5n });
     const omit: number = block.omit;
     assert.equal(omit, 2);
     assert.deepEqual(asked, ['block/3/5/omit']);
 
     asked.length = 0;
     const door: bigint = block.door.at('east');
-    assert.equal(door, (big(7) << big(32)) | big(9));
+    assert.equal(door, (7n << 32n) | 9n);
     assert.deepEqual(asked, ['block/3/5/door/east/0', 'block/3/5/door/east/1']);
+  });
+
+  it('types a record key by its parts and checks them at run time', () => {
+    const rolled = rollWith(schema, () => 0);
+    assert.throws(() => {
+      // @ts-expect-error `x` is a bigint part
+      rolled.block.at({ n: 0, x: 0 });
+    }, /Not a bigint: 0/);
   });
 
   it('rejects a name outside a closed list', () => {
     const rolled = rollWith(schema, () => 0);
-    const door = rolled.block.at({ n: 0, x: big(0) }).door;
+    const door = rolled.block.at({ n: 0, x: 0n }).door;
     assert.throws(() => {
       // @ts-expect-error 'south' is not one of the list's names
       door.at('south');
@@ -90,8 +95,8 @@ describe('over and key', () => {
   });
 
   it('spells a bigint part in decimal, sign and size intact', () => {
-    assert.equal(roll.big(big(-12)), '-12');
-    const huge = big(2) ** big(100);
+    assert.equal(roll.big(-12n), '-12');
+    const huge = 2n ** 100n;
     assert.equal(roll.big(huge), '1267650600228229401496703205376');
     assert.equal(roll.big(-huge), '-1267650600228229401496703205376');
   });
@@ -103,13 +108,13 @@ describe('wide', () => {
     rollWith(schema, (path) => (path === 'w/0' ? high : low)).w;
 
   it('reads the high word at `/0` and the low word at `/1`', () => {
-    assert.equal(compose(1, 2), (big(1) << big(32)) | big(2));
+    assert.equal(compose(1, 2), (1n << 32n) | 2n);
   });
 
   it('spans [0, 2^64) with max words', () => {
     const max = 2 ** 32 - 1;
-    assert.equal(compose(max, max), big(2) ** big(64) - big(1));
-    assert.equal(compose(0, 0), big(0));
+    assert.equal(compose(max, max), 2n ** 64n - 1n);
+    assert.equal(compose(0, 0), 0n);
   });
 });
 
