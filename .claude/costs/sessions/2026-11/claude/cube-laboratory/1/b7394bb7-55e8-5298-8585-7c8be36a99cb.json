@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 43,
+    "inputTokens": 70,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 154059,
-    "cacheReadTokens": 3410249,
-    "outputTokens": 44689,
-    "thinkingTokens": 14929,
-    "responses": 22,
-    "costUsd": 4.934897800000001
+    "cacheWrite1hTokens": 216149,
+    "cacheReadTokens": 6994162,
+    "outputTokens": 87031,
+    "thinkingTokens": 25307,
+    "responses": 37,
+    "costUsd": 8.3390164
   },
   "estimate": null,
   "orientation": {
@@ -28,24 +28,24 @@
   },
   "sessionId": "b7394bb7-55e8-5298-8585-7c8be36a99cb",
   "branch": "claude/cube-laboratory",
-  "cwd": "/home/user/vovazakharov.com/src/cube/entities/theme/laboratory/config",
+  "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/go",
   "prs": [],
   "url": "https://claude.ai/code/session_01DaohkEULbbnPnqNmdjyPte",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-11T22:41:14.061Z",
-  "lastResponseAt": "2026-11-11T22:54:26.732Z",
+  "lastResponseAt": "2026-11-11T23:12:45.383Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 43,
+    "inputTokens": 70,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 154059,
-    "cacheReadTokens": 3410249,
-    "outputTokens": 44689,
-    "thinkingTokens": 14929,
-    "responses": 22,
-    "costUsd": 4.934897800000001
+    "cacheWrite1hTokens": 216149,
+    "cacheReadTokens": 6994162,
+    "outputTokens": 87031,
+    "thinkingTokens": 25307,
+    "responses": 37,
+    "costUsd": 8.3390164
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,23 +59,23 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 43,
+      "inputTokens": 70,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 154059,
-      "cacheReadTokens": 3410249,
-      "outputTokens": 44689,
-      "thinkingTokens": 14929,
-      "responses": 22,
-      "costUsd": 4.934897800000001
+      "cacheWrite1hTokens": 216149,
+      "cacheReadTokens": 6994162,
+      "outputTokens": 87031,
+      "thinkingTokens": 25307,
+      "responses": 37,
+      "costUsd": 8.3390164
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 22,
-    "matched": 22,
-    "matchedTableUsd": 4.934897800000001,
-    "matchedEventUsd": 4.934897800000001,
+    "events": 36,
+    "matched": 36,
+    "matchedTableUsd": 8.2435744,
+    "matchedEventUsd": 8.2435744,
     "unseen": {}
   },
   "operatorWords": {
@@ -88,7 +88,7 @@
   "branchLines": {
     ".json": 19,
     ".md": 358,
-    ".ts": 3182,
+    ".ts": 4171,
     ".tsx": 12
   }
 }

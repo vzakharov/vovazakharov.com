@@ -88,7 +88,7 @@ fn themeMaterial(s: Surf) -> Material {
     STUFF,
     ordinary('crystal', {
       air: AIR,
-      lamp: [1.0, 1.06, 1.35],
+      lamp: [1, 1.06, 1.35],
       ambient: [0.008, 0.01, 0.02],
       grid: 3,
       panel: [0.16, 0.16],

@@ -101,7 +101,7 @@ fn themeMaterial(s: Surf) -> Material {
       lamp: [1.5, 1.3, 1.45],
       ambient: [0.012, 0.004, 0.008],
       grid: 2,
-      panel: [1.0, 1.0],
+      panel: [1, 1],
       stutter: 0,
       visibility: 30,
       exposure: 1.1,
