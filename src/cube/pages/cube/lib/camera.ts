@@ -6,10 +6,10 @@ const FOV_Y = (70 * Math.PI) / 180;
 const NEAR = 0.004;
 const FAR = 24;
 
-/** Where the eye looks: yaw from east towards south, pitch up. */
-export function forward({ yaw, pitch }: Pose): Vec3 {
-  const flat = Math.cos(pitch);
-  return [flat * Math.cos(yaw), Math.sin(pitch), flat * Math.sin(yaw)];
+/** Where the eye looks: yaw from east towards south, elevation up. */
+export function forward({ yaw, elevation }: Pose): Vec3 {
+  const flat = Math.cos(elevation);
+  return [flat * Math.cos(yaw), Math.sin(elevation), flat * Math.sin(yaw)];
 }
 
 const dot = (a: Vec3, b: Vec3): number =>

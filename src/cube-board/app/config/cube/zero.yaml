@@ -1,51 +1,61 @@
 items:
   - id: z-zero
     type: zone
-    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
     box: [1820, 0, 1720, 900, purple]
+    icon: 🕹️
     text: Iteration zero, at /cube
   - id: zero-1
     type: sticky
-    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
     box: [1848, 110, 244, purple]
+    icon: 👀
     text: 'Plain WebGPU, Wolfenstein-simple, but true 3D: you look down through the hole into the room below, and up through it from there'
   - id: zero-2
     type: sticky
-    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
     box: [2183, 110, 244, purple]
+    icon: 🍾
     text: 'No bottle: the hole is the shrinking. One hole per floor, since a second one would be a second key to the same door'
   - id: zero-3
     type: sticky
-    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
     box: [2518, 110, 244, purple]
+    icon: 🚪
     text: The hole is in the floor, in one quarter of its room, right over a room of the floor below. A door is just a missing wall
   - id: zero-4
     type: sticky
-    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
     box: [1848, 360, 244, purple]
+    icon: icons/hole-lever.svg
     text: 'Stand on the hole and pull the lever on the wall: you shrink smoothly, fall once you are small enough, and land at half size, a full-size person on the next floor. No jump for the eye'
   - id: zero-5
     type: sticky
-    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
     box: [2183, 360, 244, purple]
+    icon: 📏
     text: 'A 5 m cube: floor 1 is one room of 5 × 5 × 2.5 m with a person in it, eye at 1.6 m, 0.6 m across, walking 1.4 m/s. Every floor down, the same person in the same room. Each floor its own wall hue'
   - id: zero-6
     type: sticky
-    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
     box: [2518, 360, 244, purple]
+    icon: 🎰
     text: "The maze's randomness is a typed schema, never a path spelled by hand: roll.over(blockKey, …) is one rule over every block, never enumerated, read with .at(). Shared with /island through a dice app"
   - id: zero-7
     type: sticky
-    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
     box: [1848, 610, 244, purple]
+    icon: 🍰
     text: 'Four bites: this board; dice and the world model; walking through the floors; the lever'
   - id: zero-8
     type: sticky
-    updated: [2026-11-11T05:32:00.000Z, agent:cube]
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
     box: [2183, 610, 244, purple]
+    icon: ✅
     text: 'Bite 2 eaten: dice (roll.over, key, pick, wide) and the world model, tested, nothing drawn. A wall is open or not from that wall alone, O(level) hashes. The world is planted: 66 commitments, answers kept nowhere'
   - id: zero-9
     type: sticky
-    updated: [2026-11-11T05:32:00.000Z, agent:cube]
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
     box: [2518, 610, 244, purple]
+    icon: 🤖
     text: 'From bite 3, each bite is built by a subsession on its own branch; the lead session reviews, merges and talks about the big picture'

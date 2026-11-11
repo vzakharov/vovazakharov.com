@@ -44,8 +44,8 @@ const call = (method: keyof CubePlayHook, ...args: string[]): string =>
   `${hook}.${method}(${args.join(', ')})`;
 
 /** Page source for `pose`, its rooms as BigInt literals. */
-const source = ({ n, x, y, u, v, h, yaw, pitch }: Pose): string =>
-  `{ n: ${String(n)}, x: ${String(x)}n, y: ${String(y)}n, u: ${String(u)}, v: ${String(v)}, h: ${String(h)}, yaw: ${String(yaw)}, pitch: ${String(pitch)} }`;
+const source = ({ n, x, y, u, v, eyeAbove, yaw, elevation }: Pose): string =>
+  `{ n: ${String(n)}, x: ${String(x)}n, y: ${String(y)}n, u: ${String(u)}, v: ${String(v)}, eyeAbove: ${String(eyeAbove)}, yaw: ${String(yaw)}, elevation: ${String(elevation)} }`;
 
 async function until(tab: Tab, expression: string, deadline: number) {
   if (await tab.evaluate(`Boolean(${expression})`, z.boolean())) return;
@@ -74,9 +74,9 @@ async function shots(): Promise<ReadonlyArray<readonly [string, Pose]>> {
     y: 0n,
     u: u - back,
     v,
-    h: 0.32,
+    eyeAbove: 0.32,
     yaw: 0,
-    pitch: -Math.atan2(0.32, back),
+    elevation: -Math.atan2(0.32, back),
   };
   // Floor 2's room under that quarter, its own hole-side ceiling half a side up.
   const reach = 0.24;
@@ -86,9 +86,9 @@ async function shots(): Promise<ReadonlyArray<readonly [string, Pose]>> {
     y: BigInt(qy),
     u: 0.5 - reach,
     v: 0.5,
-    h: 0.16,
+    eyeAbove: 0.16,
     yaw: 0,
-    pitch: Math.atan2(0.5 - 0.16, reach),
+    elevation: Math.atan2(0.5 - 0.16, reach),
   };
   return [
     ['floor-1-down.png', down],

@@ -1,11 +1,11 @@
 import type { HoleOf, Quarter } from './hole';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
 import type { Pose } from './pose';
-import { type Floored, type Room, roomKey } from './room';
+import { type Floored, type FloorRoom, roomKey } from './room';
 import type { View } from './rooms';
 
 /** A room's height, in its own side. */
-export const ROOM_HEIGHT = 0.5;
+const ROOM_HEIGHT = 0.5;
 /** A hole's side, in its room's side; it sits in the middle of its quarter. */
 export const HOLE_SIDE = 0.08;
 
@@ -71,7 +71,7 @@ function face(
  * as a BigInt difference before it becomes a double, so every coordinate is a
  * few rooms wide on floor 66 as on floor 1.
  */
-function footprint(eye: Room, room: Room): Footprint {
+function footprint(eye: FloorRoom, room: FloorRoom): Footprint {
   const depth = room.n - eye.n;
   if (depth >= 0) {
     const k = 1n << BigInt(depth);
@@ -117,7 +117,7 @@ function cut(
  * floor `m`'s floor, its underside floor `m + 1`'s ceiling. Floor 0 is the lid.
  */
 function slab(
-  eye: Room,
+  eye: FloorRoom,
   m: number,
   area: Footprint,
   quarter: Quarter | null,
@@ -146,18 +146,22 @@ function wall(corner: Vec3, run: Vec3, height: number, floor: number): Quad[] {
  * and its west and north ones where no room of the set stands beyond them.
  * The cube's outer walls are always closed; an open wall is drawn as nothing.
  */
-function walls(rolled: RolledMaze, eye: Room, rooms: readonly Room[]): Quad[] {
+function walls(
+  rolled: RolledMaze,
+  eye: FloorRoom,
+  rooms: readonly FloorRoom[],
+): Quad[] {
   const keys = new Set(rooms.map((room) => roomKey(room)));
-  const absent = (room: Room) => !keys.has(roomKey(room));
+  const absent = (room: FloorRoom) => !keys.has(roomKey(room));
   return rooms.flatMap((room) => roomWalls(rolled, eye, room, absent));
 }
 
 /** One room's share of `walls`, `absent` naming the rooms outside the set. */
 function roomWalls(
   rolled: RolledMaze,
-  eye: Room,
-  room: Room,
-  absent: (room: Room) => boolean,
+  eye: FloorRoom,
+  room: FloorRoom,
+  absent: (room: FloorRoom) => boolean,
 ): Quad[] {
   const { n, x, y } = room;
   const last = (1n << BigInt(n - 1)) - 1n;
@@ -185,7 +189,7 @@ function roomWalls(
 }
 
 /** The lid's footprint: floor 1's one room, which is the whole cube. */
-const CUBE: Room = { n: 1, x: 0n, y: 0n };
+const CUBE: FloorRoom = { n: 1, x: 0n, y: 0n };
 
 /**
  * Every face the eye at `pose` sees of `view`: the walls of its floor's rooms,
@@ -200,7 +204,7 @@ export function faces(
   view: View,
   holeOf: HoleOf,
 ): Quad[] {
-  const slabOf = (room: Room) =>
+  const slabOf = (room: FloorRoom) =>
     slab(pose, room.n, footprint(pose, room), holeOf(room));
   const lid =
     view.topmost === null

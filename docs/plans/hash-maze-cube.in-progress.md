@@ -299,7 +299,16 @@ and brute force as a feature against Argon2.
 
 Bite 3: walking through floors — the WebGPU renderer, movement and collision,
 `/cube` routed, holes visible both ways, per-floor hue, frames. Implementation
-goes to subsessions on branches off this one.
+goes to subsessions on branches off this one, both cut from fbaaa503, which
+gives them `Pose` (`entities/world/model/pose.ts`) as the one position type:
+
+- **`cube/bite3-render`** (session_01DaohkFkq55kYzL3nVNjgAw): geometry,
+  `pages/cube`'s WebGPU renderer with a stand-in fly camera, `/cube` routed,
+  `play-cube.ts` frames.
+- **`cube/bite3-player`** (session_01DaohkDNbJ4PaxREAirP3iQ): `features/player`,
+  a pure `step(pose, input, dt, walls)` with circle collision, and its input
+  binding, tested.
+- **Here**: merge both, swap the fly camera for `step`, frames on the board.
 
 - **Card icons on the cube board**, by a subagent: an emoji on every card, so
   the board reads at a glance, and a hand-drawn SVG where no emoji fits.

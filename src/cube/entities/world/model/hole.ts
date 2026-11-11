@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { isWorldNumber } from '@/dice/shared/roll';
 
-import { type Room, roomKey } from './room';
+import { type FloorRoom, roomKey } from './room';
 import { seals } from './seals';
 
 const worldSchema = z.object({
@@ -47,7 +47,7 @@ export async function holeQuarter(
 }
 
 /** A hole lookup over the rooms it was resolved for; any other room throws. */
-export type HoleOf = (room: Room) => Quarter | null;
+export type HoleOf = (room: FloorRoom) => Quarter | null;
 
 /** How many floors `world` has: one more than it has holes. */
 export const floorsOf = (world: World): number => world.holes.length + 1;
@@ -55,7 +55,7 @@ export const floorsOf = (world: World): number => world.holes.length + 1;
 /** Resolves the hole quarter of every room in `rooms` at once. */
 export async function holesOf(
   world: World,
-  rooms: readonly Room[],
+  rooms: readonly FloorRoom[],
 ): Promise<HoleOf> {
   const quarters = new Map(
     await Promise.all(

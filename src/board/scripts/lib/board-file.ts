@@ -13,8 +13,10 @@
  * text's size; a line has `ends: [from, to]`, `dashed` appended when it is, and
  * `spiral: cw` when it spirals; a sticky ticked off has `done: true`. `text` is
  * each type's one text field: a zone's title, an image's caption, a line's
- * label. The file is the codec only: decoded, every item is the page's `Item`,
- * which the db rows and the baked page keep using.
+ * label. A sticky or zone may carry `icon:`, an emoji or `icons/<name>.svg`
+ * from the board's `icons/` directory. The file is the codec only: decoded,
+ * every item is the page's `Item`, which the db rows and the baked page keep
+ * using.
  */
 import { isDeepStrictEqual } from 'node:util';
 import {
@@ -43,6 +45,7 @@ const Shape = z.object({
   box: z.array(z.union([N, z.string()])).optional(),
   ends: z.array(z.string()).optional(),
   src: z.string().optional(),
+  icon: z.string().optional(),
   text: z.string().optional(),
   spiral: z.enum(SPIRALS).optional(),
   done: z.literal(true).optional(),
@@ -88,6 +91,7 @@ function fields({
   box,
   ends,
   src,
+  icon,
   text,
   spiral,
   done,
@@ -95,11 +99,11 @@ function fields({
   switch (type) {
     case 'sticky': {
       const [x, y, w, color] = BOX.sticky.parse(box);
-      return { x, y, w, color, text, done };
+      return { x, y, w, color, text, done, icon };
     }
     case 'zone': {
       const [x, y, w, h, color] = BOX.zone.parse(box);
-      return { x, y, w, h, color, title: text };
+      return { x, y, w, h, color, title: text, icon };
     }
     case 'image': {
       const [x, y, w] = BOX.image.parse(box);
@@ -149,13 +153,19 @@ export function decodeItem(file: FileItem): Item {
 function shape(item: Item): Shape {
   switch (item.kind) {
     case 'sticky': {
-      const { x, y, w, color, text, done } = item;
-      return { box: [x, y, w, color], text, done: done === true || undefined };
+      const { x, y, w, color, text, done, icon } = item;
+      return {
+        box: [x, y, w, color],
+        icon,
+        text,
+        done: done === true || undefined,
+      };
     }
     case 'zone': {
-      const { x, y, w, h, color, title } = item;
+      const { x, y, w, h, color, title, icon } = item;
       return {
         box: color === undefined ? [x, y, w, h] : [x, y, w, h, color],
+        icon,
         text: title,
       };
     }

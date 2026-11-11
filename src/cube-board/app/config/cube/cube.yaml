@@ -1,48 +1,57 @@
 items:
   - id: z-cube
     type: zone
-    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
     box: [0, 0, 1720, 900, green]
+    icon: 🧊
     text: The cube that shrinks you
   - id: cube-1
     type: sticky
-    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
     box: [28, 110, 244, green]
+    icon: icons/shrinking-cube.svg
     text: 'Not a pyramid but a cube, with a catch: every floor down, you shrink by half. Each floor is the same size outside and four times the rooms to you: geometric growth with a physical excuse'
   - id: cube-2
     type: sticky
-    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
     box: [363, 110, 244, green]
+    icon: icons/zeno-stack.svg
     text: 'The height halves too: floors stack as ½ + ¼ + …, and the sum closes the cube'
   - id: cube-3
     type: sticky
-    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
     box: [698, 110, 244, green]
+    icon: 🎯
     text: 'The shrink factor picks the floor where never falls: r ≈ 2^(64/N). 64 floors → ×2, 50 → ×2.4, 40 → ×3.1, 30 → ×4.5, 20 → ×10, 10 → ×128'
   - id: cube-4
     type: sticky
-    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
     box: [28, 360, 244, green]
+    icon: 🔬
     text: Whatever r is, the bottom floor is ~2^64 rooms a side and you are ~10^-19 m tall there, at the resolution of a collider. r only sets how many steps it takes to get there
   - id: cube-5
     type: sticky
-    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
     box: [363, 360, 244, green]
+    icon: ⏱️
     text: 'Milestones sit at the same fractions of depth for any cube. On 40 floors: an evening → floor 4, 100 h → 6, 1,000 h → 7, 10,000 h (the poor soul) → 8, a laptop for a day → 12'
   - id: cube-6
     type: sticky
-    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
     box: [698, 360, 244, green]
+    icon: ⚛️
     text: A quantum computer halves the bits, but Grover's steps run one after another, each a fault-tolerant SHA-256. Holding against it means 2^256, and a bottom smaller than the Planck length
   - id: cube-7
     type: sticky
-    updated: [2026-11-11T05:32:00.000Z, agent:cube]
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
     box: [28, 610, 244, green]
+    icon: 🧱
     text: 'Iteration zero takes r = 2 and 67 floors: floor 1 is one room, floor n is 2^(n−1) rooms a side. From floor 53 a room is smaller than a proton'
   - id: cube-8
     type: sticky
-    updated: [2026-11-11T05:32:00.000Z, agent:cube]
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
     box: [363, 610, 244, green]
+    icon: 🎲
     text: "Why 67: a door's place on floor n's longest wall takes n−2 random bits, and the draw has 64. Floor 66 is the last placed exactly; floor 67 is refused whole with a RangeError, not walled coarsely. The game ends because the maths does"
   - id: l-cube-zero
     type: line

@@ -24,7 +24,7 @@ import { createRenderer, type Renderer } from './renderer';
  * last frame in, the pose to draw out. Whatever moves the eye — input,
  * collision, a fall — is one of these.
  */
-export type FrameHook = (pose: Pose, seconds: number) => Pose;
+type FrameHook = (pose: Pose, seconds: number) => Pose;
 
 /** `onError` hears a device lost or a build that threw. */
 export type CubeOptions = WithOnError & {
@@ -55,7 +55,7 @@ async function build(pose: Pose): Promise<Float32Array<ArrayBuffer>> {
 /** The eye in the frame of the mesh built for `built`, on the same floor. */
 const eyeIn = (built: Pose, pose: Pose): Vec3 => [
   Number(pose.x - built.x) + pose.u,
-  pose.h,
+  pose.eyeAbove,
   Number(pose.y - built.y) + pose.v,
 ];
 

@@ -63,6 +63,9 @@ async function jsonFiles(dir: string): Promise<string[]> {
   return names.filter((name) => name.endsWith('.json')).toSorted();
 }
 
+/** The board's hand-drawn SVG icons, shipped beside the page as `icons/<name>.svg`. */
+const ICONS = 'icons';
+
 const isZoneFile = (name: string): boolean => name.endsWith('.yaml');
 
 /** The board's own file, then its zones' in name order. */
@@ -81,8 +84,14 @@ async function readBoardFiles(board: string): Promise<BoardFiles> {
 const readItems = async (board: string): Promise<Item[]> =>
   decodeBoardFiles(board, await readBoardFiles(board));
 
+/** Image files sit beside the zone files; `icons/` is a directory of its own. */
 const imagesOf = async (board: string): Promise<string[]> =>
-  (await entries(boardDir(board))).filter((name) => !isZoneFile(name));
+  (await entries(boardDir(board))).filter(
+    (name) => !isZoneFile(name) && name !== ICONS,
+  );
+
+const iconsOf = async (board: string): Promise<string[]> =>
+  entries(path.join(boardDir(board), ICONS));
 
 /** `</` inside inline script or JSON would close its tag early. */
 const inline = (text: string): string => text.replaceAll('</', String.raw`<\/`);
@@ -192,8 +201,18 @@ async function buildBoard(board: string, out: string): Promise<void> {
       ),
     ),
   );
+  const icons = await iconsOf(board);
+  if (icons.length > 0) await mkdir(path.join(out, ICONS), { recursive: true });
+  await Promise.all(
+    icons.map(async (name) =>
+      copyFile(
+        path.join(boardDir(board), ICONS, name),
+        path.join(out, ICONS, name),
+      ),
+    ),
+  );
   process.stdout.write(
-    `wrote ${path.relative(REPO_ROOT, out)}/index.html (${items.length} items, ${Math.round(html.length / 1024)} KB, ${images.length} images)\n`,
+    `wrote ${path.relative(REPO_ROOT, out)}/index.html (${items.length} items, ${Math.round(html.length / 1024)} KB, ${images.length} images, ${icons.length} icons)\n`,
   );
 }
 

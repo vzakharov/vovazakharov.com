@@ -62,6 +62,9 @@ const ONE_OF_EACH: Item[] = [
     src: 'images/a.webp',
     caption: 'c',
   },
+  { ...STICKY, id: 'se', icon: '🧊' },
+  { ...STICKY, id: 'ss', icon: 'icons/lock.svg' },
+  { ...ZONE, id: 'ze', icon: '🧊' },
   { ...STAMP, id: 't', kind: 'text', x: 5, y: 6, text: 'H', size: 'h1' },
   {
     ...STAMP,
@@ -105,6 +108,17 @@ describe('board file', () => {
 
   it('reads the box positionally, a trailing word for colour or size', () => {
     assert.deepEqual(decodeBoard(FILE), [STICKY]);
+  });
+
+  it('reads an icon key, an emoji or an icons/ path', () => {
+    const emoji = FILE.replace('    text: a', '    icon: 🧊\n    text: a');
+    assert.deepEqual(decodeBoard(emoji), [{ ...STICKY, icon: '🧊' }]);
+    assert.match(writeItems(FILE, [{ ...STICKY, icon: '🧊' }]), /icon: 🧊/);
+  });
+
+  it('refuses an icon that is neither an emoji nor an icons/ path', () => {
+    for (const icon of ['word', 'images/a.svg', '🧊🧊🧊🧊🧊🧊🧊🧊🧊'])
+      assert.throws(() => decodeItem(encodeItem({ ...STICKY, icon })));
   });
 
   it('refuses an id twice', () => {

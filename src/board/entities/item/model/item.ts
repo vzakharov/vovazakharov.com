@@ -37,6 +37,22 @@ const Common = z.object({
 
 const Placed = Common.extend({ x: z.number(), y: z.number() });
 
+/**
+ * A card's mark: one emoji (short, and no ASCII letter, so a word is not one),
+ * or `icons/<name>.svg` beside the page. An SVG loads as an `<img>`, so it
+ * cannot inherit the theme: its strokes carry the sticky ink's colour.
+ */
+const Icon = z.union([
+  z
+    .string()
+    .min(1)
+    .max(8)
+    .regex(/^[^A-Za-z]+$/),
+  z.string().regex(/^icons\/[\w-]+\.svg$/),
+]);
+
+const Marked = z.object({ icon: Icon.optional() });
+
 const Sticky = Placed.extend({
   kind: z.literal('sticky'),
   text: z.string(),
@@ -44,7 +60,7 @@ const Sticky = Placed.extend({
   w: z.number().positive(),
   /** Ticked off, on a card that is a task. */
   done: z.boolean().optional(),
-});
+}).extend(Marked.shape);
 
 const Zone = Placed.extend({
   kind: z.literal('zone'),
@@ -52,7 +68,7 @@ const Zone = Placed.extend({
   w: z.number().positive(),
   h: z.number().positive(),
   color: Color.optional(),
-});
+}).extend(Marked.shape);
 
 const Image = Placed.extend({
   kind: z.literal('image'),

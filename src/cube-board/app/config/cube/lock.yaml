@@ -1,38 +1,45 @@
 items:
   - id: z-lock
     type: zone
-    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
     box: [0, -1000, 1720, 900, blue]
+    icon: 🗝️
     text: A lock made of a maze
   - id: lock-1
     type: sticky
-    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
     box: [28, -890, 244, blue]
+    icon: icons/lock-maze.svg
     text: 'A wall with one door: a door at i iff SHA-256(seed‖i) = c. The author plants c = SHA-256(seed‖i*) and forgets i*; the generator only checks, it never knows where the door is'
   - id: lock-2
     type: sticky
-    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
     box: [363, -890, 244, blue]
+    icon: 🪙
     text: About 80 bits is one bitcoin block (~2^79 hashes). The way through is brute force; "never" is only its length, like a combination lock with 39 digits
   - id: lock-3
     type: sticky
-    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
     box: [698, -890, 244, blue]
+    icon: 🏞️
     text: 'Wall or field: the same 2^80 places for the exit, in a line 10^25 long (past int64) or across a square 10·2^40 a side. Equally hard; the field fits int64 and fills every view with candidates'
   - id: lock-4
     type: sticky
-    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
     box: [28, -640, 244, blue]
+    icon: 🌳
     text: 'Two promises, kept apart: the exit exists because it was planted; a road reaches it because the walls are a tree of trees, a perfect maze of perfect mazes'
   - id: lock-5
     type: sticky
-    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
     box: [363, -640, 244, blue]
+    icon: 🔓
     text: Keeping the seed secret buys nothing, so it is public and the client generates the world. The one thing the client must not hold is the answer, and the answer exists nowhere
   - id: lock-6
     type: sticky
-    updated: [2026-11-11T04:30:00.000Z, agent:cube]
+    updated: [2026-11-11T06:38:01.000Z, agent:cube]
     box: [698, -640, 244, blue]
+    icon: 👁️
     text: 'Free panning or first person changes nothing for the lock: what you see is a function of world coordinates. Only a zoomed-out view could leak the door, and none is drawn'
   - id: l-lock-never
     type: line

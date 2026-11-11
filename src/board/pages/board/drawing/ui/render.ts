@@ -88,6 +88,18 @@ function editableText(
   return node;
 }
 
+/** An `icons/…svg` path is an image beside the page; anything else is an emoji, as text. */
+function iconNode(icon: string): HTMLElement {
+  if (!icon.startsWith('icons/')) return element('span', 'icon', icon);
+  const node = element('span', 'icon');
+  const img = document.createElement('img');
+  img.src = icon;
+  img.alt = '';
+  img.draggable = false;
+  node.append(img);
+  return node;
+}
+
 function itemBody(
   item: PlacedItem,
   names: RenderOptions['names'],
@@ -101,6 +113,7 @@ function itemBody(
       );
       node.style.width = `${item.w}px`;
       if (item.done === true) node.append(element('span', 'tick', '✓'));
+      if (item.icon !== undefined) node.append(iconNode(item.icon));
       node.append(editableText(item, 'body', item.text), by);
       return node;
     }
@@ -115,6 +128,7 @@ function itemBody(
       node.style.width = `${item.w}px`;
       node.style.height = `${item.h}px`;
       const title = editableText(item, 'title', item.title);
+      if (item.icon !== undefined) node.append(iconNode(item.icon));
       node.append(title, by);
       return node;
     }

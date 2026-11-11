@@ -1,0 +1,152 @@
+{
+  "total": {
+    "inputTokens": 1209,
+    "cacheWrite5mTokens": 147044,
+    "cacheWrite1hTokens": 160631,
+    "cacheReadTokens": 13850159,
+    "outputTokens": 48222,
+    "thinkingTokens": 9286,
+    "responses": 94,
+    "costUsd": 5.186031800000001
+  },
+  "estimate": {
+    "at": "2026-11-11T06:34:46.197Z",
+    "subjectLine": "feat: walk the cube's floors and give the cube board's cards icons",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "a WebGPU renderer with see-through holes and per-floor hues is specialist rendering work"
+      },
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "first-person movement, collision against a hashed maze and camera feel need gameplay judgement"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "the bite runs as briefed subsessions whose branches are merged and tracked here"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "card icons are a schema field plus emoji and a few hand-drawn SVGs"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "src/cube/entities/world/model/pose.ts",
+    "endedAt": "2026-11-11T06:36:01.382Z",
+    "contextTokens": 155204,
+    "spend": {
+      "inputTokens": 52,
+      "cacheWrite5mTokens": 94191,
+      "cacheWrite1hTokens": 100798,
+      "cacheReadTokens": 2358536,
+      "outputTokens": 9348,
+      "thinkingTokens": 2403,
+      "responses": 23,
+      "costUsd": 1.6849047000000004
+    }
+  },
+  "sessionId": "e63c2aa0-db80-56de-aaf3-d2d231407228",
+  "branch": "claude/hash-maze-cube-m6wq80",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/hash-maze-cube-m6wq80 — второй кусок готов, мир куба протестирован, впереди ходьба по этажам и значки на карточках доски",
+  "prs": [
+    270
+  ],
+  "url": "https://claude.ai/code/session_01DaohkDF47nEL2dtQZcooZU",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-11T06:34:26.657Z",
+  "lastResponseAt": "2026-11-11T06:47:40.933Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 119,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 160631,
+    "cacheReadTokens": 9497428,
+    "outputTokens": 27275,
+    "thinkingTokens": 5283,
+    "responses": 57,
+    "costUsd": 3.730509600000001
+  },
+  "subagents": {
+    "inputTokens": 78,
+    "cacheWrite5mTokens": 146460,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 3983535,
+    "outputTokens": 20899,
+    "thinkingTokens": 4003,
+    "responses": 35,
+    "costUsd": 1.372003
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 1131,
+      "cacheWrite5mTokens": 584,
+      "cacheWrite1hTokens": 160631,
+      "cacheReadTokens": 9866624,
+      "outputTokens": 27323,
+      "thinkingTokens": 5283,
+      "responses": 59,
+      "costUsd": 3.814028800000001
+    },
+    "claude-sonnet-5-5/standard": {
+      "inputTokens": 78,
+      "cacheWrite5mTokens": 146460,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 3983535,
+      "outputTokens": 20899,
+      "thinkingTokens": 4003,
+      "responses": 35,
+      "costUsd": 1.372003
+    }
+  },
+  "warnings": [
+    "prices.json priced the 91 responses the events also priced at $5.0383, against the events' $4.6399: a rate in the table is likely out of date"
+  ],
+  "compactions": [],
+  "telemetry": {
+    "events": 93,
+    "matched": 91,
+    "matchedTableUsd": 5.0382722000000015,
+    "matchedEventUsd": 4.639918699999999,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 584,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 369196,
+        "outputTokens": 48,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.0835192
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1144,
+    ".staged": 356,
+    ".json": 119,
+    ".ts": 1969,
+    ".scss": 27,
+    ".yaml": 405,
+    ".svg": 4
+  }
+}

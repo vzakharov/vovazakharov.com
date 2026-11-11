@@ -1,31 +1,31 @@
 import type { Pose } from './pose';
-import { type Room, roomKey } from './room';
+import { type FloorRoom, roomKey } from './room';
 
 /** The rooms an eye can see, by the part each plays in its picture. */
 export type View = {
   /** Floor `n`'s rooms within the radius, the eye's own included. */
-  near: readonly Room[];
+  near: readonly FloorRoom[];
   /** Floor `n + 1`'s rooms under `near`, seen through the floor's hole. */
-  below: readonly Room[];
+  below: readonly FloorRoom[];
   /** Floor `n − 1`'s rooms over `near`, whose slab is `near`'s ceiling. */
-  above: readonly Room[];
+  above: readonly FloorRoom[];
   /** The room over the eye's, seen through the ceiling's hole. */
-  overhead: Room | null;
+  overhead: FloorRoom | null;
   /** The room whose slab is `overhead`'s ceiling; null where that is the lid. */
-  topmost: Room | null;
+  topmost: FloorRoom | null;
 };
 
-const unique = (rooms: readonly Room[]): Room[] => [
+const unique = (rooms: readonly FloorRoom[]): FloorRoom[] => [
   ...new Map(rooms.map((room) => [roomKey(room), room])).values(),
 ];
 
-const parent = ({ n, x, y }: Room): Room => ({
+const parent = ({ n, x, y }: FloorRoom): FloorRoom => ({
   n: n - 1,
   x: x >> 1n,
   y: y >> 1n,
 });
 
-const children = ({ n, x, y }: Room): Room[] =>
+const children = ({ n, x, y }: FloorRoom): FloorRoom[] =>
   [0n, 1n].flatMap((j) =>
     [0n, 1n].map((i) => ({ n: n + 1, x: 2n * x + i, y: 2n * y + j })),
   );
@@ -61,7 +61,12 @@ export function view(pose: Pose, radius: number, floors: number): View {
 }
 
 /** Every room whose slab the view draws, so whose hole it has to know. */
-export const slabRooms = ({ near, below, above, topmost }: View): Room[] => [
+export const slabRooms = ({
+  near,
+  below,
+  above,
+  topmost,
+}: View): FloorRoom[] => [
   ...near,
   ...below,
   ...above,

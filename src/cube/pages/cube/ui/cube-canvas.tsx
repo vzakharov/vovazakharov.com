@@ -3,11 +3,11 @@
 import { useEffect, useRef, useState } from 'react';
 
 import type { Pose } from '@/cube/entities/world';
+import { bindInput, plantedWalls, step } from '@/cube/features/player';
 
 import { type CubePlayHook, PLAY_HOOK, PLAY_QUERY } from '../lib/play';
 import classes from './cube.module.scss';
 import { mountCube } from './cube-scene';
-import { installFly } from './fly';
 
 /** Floor 1's one room, the eye at a person's height in its middle. */
 const START: Pose = {
@@ -16,9 +16,9 @@ const START: Pose = {
   y: 0n,
   u: 0.5,
   v: 0.5,
-  h: 0.32,
+  eyeAbove: 0.32,
   yaw: 0,
-  pitch: 0,
+  elevation: 0,
 };
 
 type CubeCanvasProps = {
@@ -42,10 +42,13 @@ export function CubeCanvas({ canvas: label, unsupported }: CubeCanvasProps) {
     const play = new URLSearchParams(globalThis.location.search).has(
       PLAY_QUERY,
     );
-    const fly = play ? null : installFly(canvas, setFailure);
+    const input = play ? null : bindInput(canvas);
     const scene = mountCube(canvas, {
       start: START,
-      onFrame: fly?.onFrame ?? ((pose) => pose),
+      onFrame:
+        input === null
+          ? (pose) => pose
+          : (pose, seconds) => step(pose, input.read(), seconds, plantedWalls),
       onError: setFailure,
       onUnsupported: () => {
         setMissing(true);
@@ -57,7 +60,7 @@ export function CubeCanvas({ canvas: label, unsupported }: CubeCanvasProps) {
       Object.assign(globalThis, { [PLAY_HOOK]: hook });
     }
     return () => {
-      fly?.dispose();
+      input?.dispose();
       scene.dispose();
     };
   }, []);

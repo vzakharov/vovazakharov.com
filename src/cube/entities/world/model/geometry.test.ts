@@ -15,9 +15,9 @@ const at = (pose: Partial<Pose>): Pose => ({
   y: 0n,
   u: 0.5,
   v: 0.5,
-  h: 0.32,
+  eyeAbove: 0.32,
   yaw: 0,
-  pitch: 0,
+  elevation: 0,
   ...pose,
 });
 

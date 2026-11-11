@@ -5,15 +5,15 @@ import type { Pose, Vec3 } from '@/cube/entities/world';
 
 import { forward, viewProjection } from './camera';
 
-const pose = (yaw: number, pitch: number): Pose => ({
+const pose = (yaw: number, elevation: number): Pose => ({
   n: 1,
   x: 0n,
   y: 0n,
   u: 0.5,
   v: 0.5,
-  h: 0.32,
+  eyeAbove: 0.32,
   yaw,
-  pitch,
+  elevation,
 });
 
 /** `point` through `matrix`, divided by w. */
