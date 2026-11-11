@@ -1,3 +1,4 @@
+import { asError } from '@/kernel/shared/lib/error-class';
 import type { CanDispose, WithOnError } from '@/kernel/shared/typings';
 
 import {
@@ -144,7 +145,7 @@ export function mountCube(
     frame = requestAnimationFrame(tick);
   };
   begin().catch((error: unknown) => {
-    onError(error instanceof Error ? error : new Error(String(error)));
+    onError(asError(error));
   });
 
   return {

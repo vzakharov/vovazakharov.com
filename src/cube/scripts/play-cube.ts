@@ -14,6 +14,7 @@ import { setTimeout as sleep } from 'node:timers/promises';
 import { z } from 'zod';
 
 import { holeQuarter, planted, type Pose } from '@/cube/entities/world';
+import { EYE_HEIGHT } from '@/cube/features/player';
 import {
   type CubePlayHook,
   PLAY_HOOK,
@@ -74,9 +75,9 @@ async function shots(): Promise<ReadonlyArray<readonly [string, Pose]>> {
     y: 0n,
     u: u - back,
     v,
-    eyeAbove: 0.32,
+    eyeAbove: EYE_HEIGHT,
     yaw: 0,
-    elevation: -Math.atan2(0.32, back),
+    elevation: -Math.atan2(EYE_HEIGHT, back),
   };
   // Floor 2's room under that quarter, its own hole-side ceiling half a side up.
   const reach = 0.24;

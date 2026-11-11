@@ -4,6 +4,8 @@ import {
   maze,
   planted,
   type RolledMaze,
+  roomKey,
+  roomsAcross,
 } from '@/cube/entities/world';
 
 /**
@@ -27,7 +29,7 @@ type Wall = Walls['isOpenEast'];
 function cached(rolled: RolledMaze, predicate: Predicate): Wall {
   const memo = new Map<string, boolean>();
   return (n, x, y) => {
-    const key = `${n}/${x}/${y}`;
+    const key = roomKey({ n, x, y });
     const hit = memo.get(key);
     if (hit !== undefined) return hit;
     const open = predicate(rolled, n, x, y);
@@ -38,7 +40,7 @@ function cached(rolled: RolledMaze, predicate: Predicate): Wall {
 }
 
 const isRoom = (n: number, x: bigint, y: bigint): boolean => {
-  const rooms = 1n << BigInt(n - 1);
+  const rooms = roomsAcross(n);
   return x >= 0n && y >= 0n && x < rooms && y < rooms;
 };
 

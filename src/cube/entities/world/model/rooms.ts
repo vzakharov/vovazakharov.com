@@ -1,5 +1,5 @@
 import type { Pose } from './pose';
-import { type Room, roomKey } from './room';
+import { type Room, roomKey, roomsAcross } from './room';
 
 /** The rooms an eye can see, by the part each plays in its picture. */
 export type View = {
@@ -36,7 +36,7 @@ const children = ({ n, x, y }: Room): Room[] =>
  * above and below them that its holes open onto.
  */
 export function view(pose: Pose, radius: number, floors: number): View {
-  const rooms = 1n << BigInt(pose.n - 1);
+  const rooms = roomsAcross(pose.n);
   const reach = BigInt(radius);
   const span = (at: bigint): bigint[] => {
     const from = at - reach < 0n ? 0n : at - reach;

@@ -1,7 +1,7 @@
 import type { HoleOf, Quarter } from './hole';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
 import type { Pose } from './pose';
-import { type Floored, type Room, roomKey } from './room';
+import { type Floored, type Room, roomKey, roomsAcross } from './room';
 import type { View } from './rooms';
 
 /** A room's height, in its own side. */
@@ -160,7 +160,7 @@ function roomWalls(
   absent: (room: Room) => boolean,
 ): Quad[] {
   const { n, x, y } = room;
-  const last = (1n << BigInt(n - 1)) - 1n;
+  const last = roomsAcross(n) - 1n;
   const { east, south, roomSide: side } = footprint(eye, room);
   const floorY = slabHeight(eye.n, n);
   const height = side * ROOM_HEIGHT;

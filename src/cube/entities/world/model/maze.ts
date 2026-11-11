@@ -1,5 +1,7 @@
 import { pathHash, roll, type Rolled, rollWith } from '@/dice/shared/roll';
 
+import { roomsAcross } from './room';
+
 const blockKey = roll.key({
   n: roll.int,
   level: roll.int,
@@ -59,7 +61,7 @@ function side(n: number, x: bigint, y: bigint): bigint {
       `Floor ${n}'s doors need ${n - 2} bits; roll.wide() has ${WIDE_BITS}`,
     );
   }
-  const rooms = 1n << BigInt(n - 1);
+  const rooms = roomsAcross(n);
   if (x < 0n || y < 0n || x >= rooms || y >= rooms) {
     throw new Error(`Not a room of floor ${n}: (${x}, ${y})`);
   }
