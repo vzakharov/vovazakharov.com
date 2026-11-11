@@ -32,6 +32,13 @@ export const maze = (seed: string): RolledMaze =>
 /** How many bits a `roll.wide()` door draw spans. */
 const WIDE_BITS = 64n;
 
+/**
+ * The deepest floor whose every door the draw places exactly: floor `n`'s
+ * longest half-edge is `2^(n-2)` rooms. Floor 67 is the first past it, and is
+ * refused whole rather than walled coarsely; the game ends there by design.
+ */
+const DEEPEST = Number(WIDE_BITS) + 2;
+
 type Block = Parameters<RolledMaze['block']['at']>[0];
 
 /** A door's position along a half-edge of `2^(level-1)` rooms. */
@@ -47,6 +54,11 @@ function levelOf(value: bigint): number {
 
 function side(n: number, x: bigint, y: bigint): bigint {
   if (!Number.isInteger(n) || n < 1) throw new Error(`Not a floor: ${n}`);
+  if (n > DEEPEST) {
+    throw new RangeError(
+      `Floor ${n}'s doors need ${n - 2} bits; roll.wide() has ${WIDE_BITS}`,
+    );
+  }
   const rooms = 1n << BigInt(n - 1);
   if (x < 0n || y < 0n || x >= rooms || y >= rooms) {
     throw new Error(`Not a room of floor ${n}: (${x}, ${y})`);

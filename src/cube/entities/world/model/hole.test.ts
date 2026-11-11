@@ -66,8 +66,8 @@ describe('plant', () => {
 });
 
 describe('the planted world', () => {
-  it('parses and has 63 commitments', () => {
-    assert.equal(planted.holes.length, 63);
+  it('parses and has 66 commitments', () => {
+    assert.equal(planted.holes.length, 66);
   });
 
   it('is rejected when malformed', () => {

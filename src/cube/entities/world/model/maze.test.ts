@@ -142,4 +142,14 @@ describe('a door on an edge longer than 2^32 rooms', () => {
     assert.equal(typeof isOpenEast(rolled, 64, middle, middle), 'boolean');
     assert.equal(typeof isOpenSouth(rolled, 64, east + 1n, east), 'boolean');
   });
+
+  it('places floor 66’s doors and refuses floor 67 whole', () => {
+    const rolled = maze('1');
+    const middle = (1n << 64n) - 1n;
+    assert.equal(typeof isOpenEast(rolled, 66, middle, middle), 'boolean');
+    assert.throws(
+      () => isOpenEast(rolled, 67, 0n, 0n),
+      new RangeError("Floor 67's doors need 65 bits; roll.wide() has 64"),
+    );
+  });
 });

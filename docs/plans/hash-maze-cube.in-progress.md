@@ -1,12 +1,14 @@
 # The shrinking cube, iteration zero
 
-A first-person maze game at `/cube` on vovazakharov.com: 64 floors stacked
+A first-person maze game at `/cube` on vovazakharov.com: 67 floors stacked
 inside one cube, each floor a perfect maze of rooms, the player half as big on
 each floor down. Every floor has exactly one hole, and finding the hole on floor
 _n_ is a search over `4^(n−1)` rooms that no client can shortcut, because the
-hole is a SHA-256 commitment. Floor 64 is "never" (~2^126 rooms). The design
-discussion behind it is
-`docs/remove-before-merging/hash-maze-cube-m6wq80/relay-1.md`.
+hole is a SHA-256 commitment. Floor 64 is "never" (~2^126 rooms), and floor 67
+is the end: its longest walls need 65 bits to place a door and the draw has 64,
+so the maze refuses the floor with a `RangeError` and the game crashes there,
+truly. The pitch is «дойди до 67-го уровня, делов-то». The design discussion
+behind it is `docs/remove-before-merging/hash-maze-cube-m6wq80/relay-1.md`.
 
 Vova's ask, verbatim (the go-ahead this plan answers to):
 
@@ -36,20 +38,20 @@ then: «island-board тоже переиспользуем и выносим о�
 
 ### Geometry
 
-- **The cube is the unit.** Floor `n` (1…64) is a `2^(n−1)` × `2^(n−1)` grid of
+- **The cube is the unit.** Floor `n` (1…67) is a `2^(n−1)` × `2^(n−1)` grid of
   rooms, room side `2^−(n−1)`, room height `0.5 ×` side. Floors stack directly:
   floor `n`'s ceiling is floor `n−1`'s floor slab, so the stack's height is the
   Zeno sum `0.5 + 0.25 + …`, which closes the cube at 1. Floor 1 has a lid.
 - **In metres, floor 1's room is 5 × 5 m and 2.5 m high**, so the cube is 5 m on
   every side, and the player on every floor is a person to that floor's room:
   eye at 1.6 m, a 0.6 m collision circle. Every proportion below is that room
-  taken as 1. Floor 64's room is ~5 · 10⁻¹⁹ m; from floor 53 on a room is
+  taken as 1. Floor 67's room is ~7 · 10⁻²⁰ m; from floor 53 on a room is
   smaller than a proton.
 - **Under every room lie exactly four rooms of the floor below**, one per
   quarter. A hole is a square in the middle of one quarter, side `0.08 ×` room
   side (0.4 m on floor 1), so it opens onto the middle of the room below it
   (point 3).
-- **Rooms are addressed `(n, x, y)` with `x, y` BigInt** (`< 2^63` on floor 64);
+- **Rooms are addressed `(n, x, y)` with `x, y` BigInt** (`< 2^66` on floor 67);
   every number the renderer sees is relative to the player (below).
 
 ### The maze: recursive division, computed locally
@@ -107,7 +109,7 @@ the same door, and the lock would open at the first one found. So "every hole
 shrinks you" (point 2) reads as: the hole itself is the shrinking, and there is
 one per floor.
 
-- **The world file holds 63 commitments**,
+- **The world file holds 66 commitments**,
   `c_n = SHA-256("<seed>/hole/<n>/<x>/<y>")`, where `(x, y)` is the room on
   floor `n+1` that the hole of floor `n` drops into. A room on floor `n` has the
   hole iff one of its four children hashes to `c_n`: four digests per room,
@@ -146,7 +148,7 @@ one per floor.
   light plus a floor-tinted ambient, distance fog. `@webgpu/types` is already a
   dev dependency.
 - **Floating origin.** Geometry is built in doubles relative to the player's
-  room and divided by the player's scale before it becomes float32, so floor 64
+  room and divided by the player's scale before it becomes float32, so floor 66
   renders like floor 1.
 - **What is drawn**: floor `n`'s rooms within a radius of the player (walls with
   their door gaps, the floor slab with its hole cut as four rects), floor
@@ -285,16 +287,19 @@ Bite 2: `dice` and the world model, tested, nothing drawn.
   with their tests, and its `hash.ts` beside them as `model/hash.ts`. `roll`
   gains `over`, `key` (with `int` and `big` parts), `pick` and `wide`. `wide`
   decodes to a `bigint` in `[0, 2^64)`. A door position on an edge of `2^k`
-  rooms is `wide · 2^k >> 64`, exact up to `k = 64` and coarse beyond it, and
-  any position keeps the maze perfect. So no floor count is wired into `dice`.
+  rooms is `wide · 2^k >> 64`, exact up to `k = 64`. Floor `n`'s longest
+  half-edge is `2^(n−2)` rooms, so floor 66 is the deepest placed exactly, and
+  the cube's maze refuses floor 67 whole rather than wall it coarsely. No floor
+  count is wired into `dice`.
 - **`src/cube/entities/world/`**:
   - `maze`: the `Maze` schema and `isOpen(floor, wall)`.
   - `hole`: `holeQuarter(world, n, x, y)` through `crypto.subtle`.
   - `plant`: `plant(floors, random)`, which returns the world and its answers.
   - `config/world.json`: the planted world.
-- **Floor count is the commitment list's length + 1**, so no `64` constant.
-  "Infinite" means planting a longer list, at 32 bytes a floor. The commitments
-  cannot be derived from the seed: the answer would then be computable.
+- **Floor count is the commitment list's length + 1**, so no `67` constant: the
+  planted list ends at floor 67 and the maze's own bound agrees with it. The
+  commitments cannot be derived from the seed: the answer would then be
+  computable.
 - **`src/cube/scripts/plant.ts`** writes `world.json` and keeps no answers.
 - `src/masd.json` gains `dice` and `cube` (`cube`'s parent is `dice` alone until
   bite 3 brings `scene` and the route).
