@@ -1,4 +1,11 @@
-import { among, between, type Dice, diceOf, type Some, under } from './chance';
+import {
+  among,
+  between,
+  type Dice,
+  diceOf,
+  rollsUnder,
+  type Some,
+} from './chance';
 import { spelt } from './letters';
 import type { Uttered, Word } from './line';
 import { CONSONANTS, isVowel, type Phone, VOWELS } from './phone';
@@ -62,7 +69,7 @@ const BENT_SHARE = 0.45;
 
 /**
  * A floor's accent: the same sound becomes the same other sound all over the
- * floor, `drift` of the vowels and under half as many of the consonants.
+ * floor, `drift` of the vowels and rollsUnder half as many of the consonants.
  */
 function accentOf(dice: Dice, drift: number): (phone: Phone) => Phone {
   const turned = (phone: Phone): Phone => {
@@ -105,6 +112,9 @@ const kept = (phones: readonly Phone[], dice: Dice, count: number): Phone[] =>
 
 const LEANS = ['first', 'last', 'penult'] as const;
 
+const one = (phones: readonly Phone[], draw: number): Phone =>
+  phones[Math.floor(draw * phones.length)] ?? 'ax';
+
 const GLIDES: ReadonlySet<Phone> = new Set(['w', 'y', 'r', 'l']);
 
 /**
@@ -118,8 +128,6 @@ function coinageOf(dice: Dice): (word: Word) => Word {
   const coda = 0.1 + 0.5 * dice('coda');
   const cluster = 0.4 * dice('cluster');
   const lean = among(LEANS, dice('lean'));
-  const one = (phones: readonly Phone[], draw: number): Phone =>
-    phones[Math.floor(draw * phones.length)] ?? 'ax';
 
   const glides = consonants.filter((phone) => GLIDES.has(phone));
 
@@ -147,10 +155,10 @@ function coinageOf(dice: Dice): (word: Word) => Word {
     const nuclei = word.sounds.filter(({ phone }) => isVowel(phone));
     const count = Math.max(1, nuclei.length);
     const leant = { first: 0, last: count - 1, penult: Math.max(0, count - 2) };
-    const rolls = under(dice, `coin/${word.spelling.toLowerCase()}`);
+    const rolls = rollsUnder(dice, `coin/${word.spelling.toLowerCase()}`);
     const sounds = Array.from({ length: count }, (_, n) => {
       const { note, beats } = nuclei[n] ?? {};
-      return syllable(under(rolls, String(n)), {
+      return syllable(rollsUnder(rolls, String(n)), {
         phone: one(vowels, rolls(`${n}/v`)),
         ...(n === leant[lean] && { stress: true }),
         ...(note !== undefined && { note }),

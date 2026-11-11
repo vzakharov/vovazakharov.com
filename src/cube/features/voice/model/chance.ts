@@ -11,8 +11,8 @@ export function diceOf(seed: number): Dice {
   return (path) => UNIT.decode(hash(`voice/${path}`));
 }
 
-/** The draws of `dice` under `prefix`. */
-export const under =
+/** `dice` with every path under `prefix`. */
+export const rollsUnder =
   (dice: Dice, prefix: string): Dice =>
   (path) =>
     dice(`${prefix}/${path}`);

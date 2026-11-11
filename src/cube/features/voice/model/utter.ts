@@ -1,8 +1,9 @@
 import { diceOf } from './chance';
 import { bandpass, noise, resonator } from './filter';
 import type { Line } from './line';
-import { EXCITERS } from './source';
-import { type Curve, FRAME, type Track, trackOf } from './track';
+import { EXCITERS, type Setting } from './source';
+import { chime, piped } from './speaker';
+import { type Curve, FRAME_SECONDS, type Track, trackOf } from './track';
 import type { Voice } from './voice';
 
 /** How wide the first three resonances ring, in hertz, undamped. */
@@ -37,12 +38,10 @@ type Mouth = {
   sound: (voicing: number, breath: number, hiss: number) => number;
 };
 
-type Setting = { voice: Voice; sampleRate: number; random: () => number };
-
 const hushOf = (sampleRate: number) => Math.sqrt(sampleRate / HUSHED_AT);
 
 /** A consonant's hiss: noise through its band. */
-function hissing({ sampleRate, random }: Setting) {
+function hissing({ sampling: sampleRate, random }: Setting) {
   const hush = hushOf(sampleRate);
   const band = bandpass(sampleRate);
   return {
@@ -55,10 +54,10 @@ function hissing({ sampleRate, random }: Setting) {
 
 /** A source through five resonances in a row, a band of hiss beside them. */
 function resonant(source: keyof typeof EXCITERS, setting: Setting): Mouth {
-  const { voice, sampleRate, random } = setting;
+  const { voice, sampling: sampleRate, random } = setting;
   const excite = EXCITERS[source]({
     voice,
-    sampleRate,
+    sampling: sampleRate,
     random,
     hush: hushOf(sampleRate),
   });
@@ -69,7 +68,7 @@ function resonant(source: keyof typeof EXCITERS, setting: Setting): Mouth {
     return fixed;
   });
   const hisser = hissing(setting);
-  let hertz = voice.pitch;
+  let hertz = voice.hertz;
   return {
     shape: (now, seconds) => {
       const formants = [now('f1'), now('f2'), now('f3')];
@@ -84,9 +83,9 @@ function resonant(source: keyof typeof EXCITERS, setting: Setting): Mouth {
         0,
       );
       hertz =
-        voice.pitch *
+        voice.hertz *
         2 ** (now('semitones') / 12) *
-        (1 + (FLUTTER_DEPTH * voice.waver * flutter) / FLUTTER.length);
+        (1 + (FLUTTER_DEPTH * voice.unsteady * flutter) / FLUTTER.length);
     },
     sound: (voicing, breath, hiss) => {
       let sample = excite(hertz, voicing, breath);
@@ -102,7 +101,7 @@ const TONES = [1, 0.6, 0.35] as const;
 
 /** No throat: a pure tone on each resonance, and the hiss as it is. */
 function whistling(setting: Setting): Mouth {
-  const { sampleRate } = setting;
+  const { sampling: sampleRate } = setting;
   const hisser = hissing(setting);
   const phases = [0, 0, 0];
   let steps = [0, 0, 0];
@@ -148,37 +147,30 @@ function levelled(samples: Float32Array, sampleRate: number): Float32Array {
 const reader =
   (track: Track) =>
   (curve: Curve, at: number): number => {
-    const frame = Math.min(track.frames - 1, Math.floor(at));
+    const frame = Math.min(track.ticks - 1, Math.floor(at));
     const values = track.curves[curve];
     const low = values[frame] ?? 0;
     return low + ((values[frame + 1] ?? low) - low) * (at - frame);
   };
 
-/**
- * `line` said by `voice`, as samples within ±1 at `sampleRate`: the same
- * samples for the same line, voice and rate.
- */
-export function utter(
-  line: Line,
-  voice: Voice,
-  sampleRate: number,
-): Float32Array {
+/** `line` as it leaves the mouth, before any loudspeaker or levelling. */
+function mouthed(line: Line, voice: Voice, sampleRate: number): Float32Array {
   const track = trackOf(line, voice);
   const read = reader(track);
   const samples = new Float32Array(
-    Math.round(track.frames * FRAME * sampleRate),
+    Math.round(track.ticks * FRAME_SECONDS * sampleRate),
   );
   const random = noise(
     Math.floor(diceOf(voice.seed)(`utter/${line.text}`) * 2 ** 32),
   );
-  const mouth = mouthOf({ voice, sampleRate, random });
-  const perFrame = FRAME * sampleRate;
+  const mouth = mouthOf({ voice, sampling: sampleRate, random });
+  const perFrame = FRAME_SECONDS * sampleRate;
   let shaped = -1;
   for (let n = 0; n < samples.length; n += 1) {
     const at = n / perFrame;
     const frame = Math.floor(at);
     if (frame !== shaped) {
-      mouth.shape((curve) => read(curve, frame), frame * FRAME);
+      mouth.shape((curve) => read(curve, frame), frame * FRAME_SECONDS);
       shaped = frame;
     }
     samples[n] = mouth.sound(
@@ -188,4 +180,29 @@ export function utter(
     );
   }
   return levelled(samples, sampleRate);
+}
+
+/** How loud the chime is against the announcement after it. */
+const CHIME = 0.5;
+
+/**
+ * `line` said by `voice`, as samples within ±1 at `sampleRate`: the same
+ * samples for the same line, voice and rate. A line with a chime has it
+ * first, and a piped voice comes through its loudspeaker, chime and all.
+ */
+export function utter(
+  line: Line,
+  voice: Voice,
+  sampleRate: number,
+): Float32Array {
+  const said = mouthed(line, voice, sampleRate);
+  const rung =
+    line.chime === true ? chime(voice.hertz, sampleRate) : new Float32Array(0);
+  const whole = new Float32Array(rung.length + said.length);
+  whole.set(
+    rung.map((sample) => sample * CHIME),
+    0,
+  );
+  whole.set(said, rung.length);
+  return voice.piped ? levelled(piped(whole, sampleRate), sampleRate) : whole;
 }

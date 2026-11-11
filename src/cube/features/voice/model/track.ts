@@ -1,11 +1,6 @@
 import type { Line, Uttered } from './line';
-import {
-  type Band,
-  type Formants,
-  type Manner,
-  type PhoneSpec,
-  SPECS,
-} from './phone';
+import { type Band, type Formants, type PhoneSpec, SPECS } from './phone';
+import { lasting, type Piece, PIECES, quiet, voices } from './pieces';
 import type { Voice } from './voice';
 
 /** What the synthesizer is steered by, each a curve over the line. */
@@ -25,110 +20,12 @@ export const CURVES = [
 export type Curve = (typeof CURVES)[number];
 
 /** Seconds between two frames of a track. */
-export const FRAME = 0.001;
+export const FRAME_SECONDS = 0.001;
 
 /** A line laid out in time: every curve's value at every frame. */
-export type Track = { frames: number; curves: Record<Curve, Float32Array> };
+export type Track = { ticks: number; curves: Record<Curve, Float32Array> };
 
 type Key = readonly [at: number, value: number];
-
-/**
- * How loud each source is, and how many times wider than a vowel's the
- * resonances over the first ring: a murmur's are wide, so only the first sounds.
- */
-type Level = { voicing: number; breath: number; hiss: number; damp: number };
-
-/** A stretch of a phone over which its levels hold. */
-type Piece = Level & { seconds: number; ramp: number; band?: Band };
-
-const QUIET: Level = { voicing: 0, breath: 0, hiss: 0, damp: 1 };
-
-type Around = { before?: PhoneSpec; after?: PhoneSpec };
-
-const voices = (spec?: PhoneSpec): boolean =>
-  spec?.manner === 'vowel' || spec?.manner === 'approximant';
-
-const VELARS: ReadonlySet<PhoneSpec> = new Set([SPECS.k, SPECS.g]);
-
-/** A velar's burst sits just over the second resonance of what follows. */
-const bandOf = (spec: PhoneSpec, { after }: Around): Band | undefined =>
-  VELARS.has(spec) && after && voices(after)
-    ? {
-        centre: Math.min(2800, Math.max(1300, after.formants[1] * 1.1)),
-        width: 900,
-      }
-    : spec.hiss;
-
-const held =
-  (level: Partial<Level>, ramp: number) =>
-  (_: PhoneSpec, seconds: number): Piece[] => [
-    { ...QUIET, ...level, seconds, ramp },
-  ];
-
-const closure = (spec: PhoneSpec, seconds: number): Piece => ({
-  ...QUIET,
-  voicing: spec.voiced ? 0.18 : 0,
-  damp: 4,
-  seconds,
-  ramp: 0.008,
-});
-
-const hissed = (
-  spec: PhoneSpec,
-  around: Around,
-  seconds: number,
-  ramp: number,
-  voicing: number,
-): Piece => {
-  const band = bandOf(spec, around);
-  return {
-    ...QUIET,
-    hiss: spec.hiss?.level ?? 0,
-    voicing: spec.voiced ? voicing : 0,
-    seconds,
-    ramp,
-    ...(band && { band }),
-  };
-};
-
-/** The air let go after a voiceless stop, longest before a vowel. */
-const puff = ({ before, after }: Around): Piece => {
-  const open = voices(after);
-  const brief = before === SPECS.s;
-  return {
-    ...QUIET,
-    breath: open ? 0.7 : 0.35,
-    damp: 1.6,
-    seconds: open && !brief ? 0.04 : 0.02,
-    ramp: 0.006,
-  };
-};
-
-const PIECES: Record<
-  Manner,
-  (spec: PhoneSpec, seconds: number, around: Around) => Piece[]
-> = {
-  vowel: held({ voicing: 1 }, 0.012),
-  approximant: held({ voicing: 0.8 }, 0.012),
-  nasal: held({ voicing: 0.8, damp: 14 }, 0.006),
-  breath: held({ breath: 0.8, damp: 1.6 }, 0.015),
-  pause: held({}, 0.01),
-  fricative: (spec, seconds, around) => [
-    {
-      ...hissed(spec, around, seconds, 0.012, 0.4),
-      damp: spec.voiced ? 1.5 : 1,
-    },
-  ],
-  stop: (spec, seconds, around) => [
-    closure(spec, seconds),
-    hissed(spec, around, spec.voiced ? 0.008 : 0.012, 0.002, 0.3),
-    ...(spec.voiced ? [] : [puff(around)]),
-  ],
-  affricate: (spec, seconds, around) => [
-    closure(spec, seconds),
-    hissed(spec, around, spec.voiced ? 0.055 : 0.075, 0.004, 0.3),
-  ],
-};
 
 /** Seconds a beat of a sung vowel lasts at an unhurried pace. */
 const BEAT = 0.45;
@@ -137,12 +34,9 @@ const BEAT = 0.45;
 type Placed = {
   sound: Uttered;
   spec: PhoneSpec;
-  from: number;
+  starts: number;
   pieces: readonly Piece[];
 };
-
-const lasting = (pieces: readonly Piece[]): number =>
-  pieces.reduce((sum, { seconds }) => sum + seconds, 0);
 
 /** How much longer an `l` or an `r` lasts with no vowel after it. */
 const CODA = 1.6;
@@ -153,12 +47,13 @@ function secondsOf(
   last: boolean,
   after?: PhoneSpec,
 ): number {
+  if (sound.beats !== undefined) return sound.beats * BEAT;
   if (spec.manner !== 'vowel') {
     const coda = spec.manner === 'approximant' && !voices(after);
-    return (spec.ms / 1000) * (last ? 1.15 : 1) * (coda ? CODA : 1);
+    return (spec.millis / 1000) * (last ? 1.15 : 1) * (coda ? CODA : 1);
   }
-  if (sound.beats !== undefined) return sound.beats * BEAT;
-  return (spec.ms / 1000) * (sound.stress ? 1.2 : 0.85) * (last ? 1.35 : 1);
+  const leant = sound.stress === true ? 1.2 : 0.85;
+  return (spec.millis / 1000) * leant * (last ? 1.35 : 1);
 }
 
 /** Silence before the first phone and after the last, where the throat rings out. */
@@ -172,15 +67,22 @@ function placed(line: Line, pace: number): Placed[] {
   return line.phones.map((sound, n) => {
     const spec = specs[n] ?? SPECS.pau;
     const seconds =
-      secondsOf(sound, spec, lastVowel >= 0 && n >= lastVowel, specs[n + 1]) /
+      secondsOf(sound, spec, lastVowel !== -1 && n >= lastVowel, specs[n + 1]) /
       pace;
+    const { loud = 1, ease = 0 } = sound;
     const pieces = PIECES[spec.manner](spec, seconds, {
       before: specs[n - 1],
       after: specs[n + 1],
-    });
+    }).map((piece) => ({
+      ...piece,
+      voicing: piece.voicing * loud,
+      breath: piece.breath * loud,
+      hiss: piece.hiss * loud,
+      melt: ease,
+    }));
     const at = from;
     from += lasting(pieces);
-    return { sound, spec, from: at, pieces };
+    return { sound, spec, starts: at, pieces };
   });
 }
 
@@ -253,7 +155,7 @@ function formantKeys(phones: readonly Placed[], band: 0 | 1 | 2): Key[] {
     const aim = aimOf(phones, n);
     if (!aim) return [];
     const whole = lasting(phone.pieces);
-    const at = (share: number) => phone.from + share * whole;
+    const at = (share: number) => phone.starts + share * whole;
     const [from, to] = plateau(phones, n, band);
     const { glide } = phone.spec;
     if (glide) {
@@ -283,17 +185,17 @@ function pitchKeys(
 ): Key[] {
   const sway = line.tune === 'flat' ? 0 : lilt;
   const last = phones.findLastIndex(({ spec }) => spec.manner === 'vowel');
-  return phones.flatMap(({ sound, spec, from, pieces }, n): Key[] => {
-    if (spec.manner !== 'vowel') return [];
+  return phones.flatMap(({ sound, spec, starts: from, pieces }, n): Key[] => {
     const seconds = lasting(pieces);
     if (sound.note !== undefined) {
       return [
         [from, sound.note],
-        [from + seconds, sound.note],
+        [from + seconds, sound.slide ?? sound.note],
       ];
     }
+    if (spec.manner !== 'vowel') return [];
     const drift = TOP + (BOTTOM - TOP) * (from / whole);
-    const level = sway * (drift + (sound.stress ? ACCENT : 0));
+    const level = sway * (drift + (sound.stress === true ? ACCENT : 0));
     if (n !== last) return [[from + seconds / 2, level]];
     return line.tune === 'rise'
       ? [
@@ -318,9 +220,8 @@ function levelKeys(
     const before = pieces[n - 1];
     if (before) {
       const edge = Math.min(
-        piece.ramp,
+        Math.max(Math.min(piece.ramp, before.ramp), piece.melt, before.melt),
         piece.seconds / 2,
-        before.ramp,
         before.seconds / 2,
       );
       keys.push([at - edge, level(before)], [at + edge, level(piece)]);
@@ -352,7 +253,7 @@ function sampled(
   const curve = new Float32Array(frames).fill(keys[0]?.[1] ?? fallback);
   let next = 0;
   for (let frame = 0; frame < frames; frame += 1) {
-    const at = frame * FRAME;
+    const at = frame * FRAME_SECONDS;
     while (next < keys.length && (keys[next]?.[0] ?? 0) <= at) next += 1;
     const [from, low] = keys[next - 1] ?? keys[0] ?? [0, fallback];
     const [to, high] = keys[next] ?? [from, low];
@@ -370,15 +271,15 @@ const BANDS = { f1: 0, f2: 1, f3: 2 } as const;
  * and the pitch the line's tune and the voice's lilt give it.
  */
 export function trackOf(line: Line, voice: Voice): Track {
-  const phones = placed(line, voice.pace);
-  const quiet = (seconds: number): Piece => ({ ...QUIET, seconds, ramp: 0.01 });
+  const phones = placed(line, voice.tempo);
+  const said = phones.flatMap((phone) => phone.pieces);
   const pieces = [
     quiet(LEAD),
-    ...phones.flatMap((phone) => phone.pieces),
-    quiet(TAIL),
+    ...said,
+    quiet(Math.max(TAIL, 2 * (said.at(-1)?.melt ?? 0))),
   ];
   const whole = lasting(pieces);
-  const frames = Math.ceil(whole / FRAME);
+  const frames = Math.ceil(whole / FRAME_SECONDS);
   const formant = (curve: keyof typeof BANDS, fallback: number) =>
     sampled(
       formantKeys(phones, BANDS[curve]).map(
@@ -390,7 +291,7 @@ export function trackOf(line: Line, voice: Voice): Track {
   const level = (pick: (piece: Piece) => number, fallback: number) =>
     sampled(levelKeys(pieces, pick), frames, fallback);
   return {
-    frames,
+    ticks: frames,
     curves: {
       f1: formant('f1', 500),
       f2: formant('f2', 1500),
@@ -400,7 +301,7 @@ export function trackOf(line: Line, voice: Voice): Track {
       breath: level((piece) => piece.breath, 0),
       hiss: level((piece) => piece.hiss, 0),
       hissCentre: sampled(
-        bandKeys(pieces, (band) => band.centre),
+        bandKeys(pieces, (band) => band.core),
         frames,
         3000,
       ),

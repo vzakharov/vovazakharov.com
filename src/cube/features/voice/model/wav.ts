@@ -8,8 +8,8 @@ export function wavOf(samples: Float32Array, sampleRate: number): Uint8Array {
   const bytes = new Uint8Array(HEADER + samples.length * 2);
   const view = new DataView(bytes.buffer);
   const tag = (at: number, text: string) => {
-    for (const [n, letter] of [...text].entries()) {
-      view.setUint8(at + n, letter.codePointAt(0) ?? 0);
+    for (let n = 0; n < text.length; n += 1) {
+      view.setUint8(at + n, text.codePointAt(n) ?? 0);
     }
   };
   tag(0, 'RIFF');

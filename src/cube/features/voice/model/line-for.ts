@@ -1,14 +1,29 @@
-import { among, between, type Dice, diceOf, type Some, under } from './chance';
+import {
+  among,
+  between,
+  type Dice,
+  diceOf,
+  rollsUnder,
+  type Some,
+} from './chance';
 import { worded } from './lexicon';
 import { type Line, PAUSE, type Tune, type Uttered, type Word } from './line';
 import { isVowel } from './phone';
 import { DIGITS, type Moment, SCRIPT, type Scripted } from './script';
 import { tongueOf } from './tongue';
+import {
+  firstShrink,
+  landing,
+  mutter,
+  secondShrink,
+  SHRINKS,
+  vocal,
+} from './vocal';
 
 /** A word of a line, the punctuation after it, and whether a pause follows. */
 type Token = { word: Word; mark: string; rest: boolean };
 
-const TOKEN = /^(?<letters>[^?,.!]*)(?<mark>[?,.!]*)$/;
+const TOKEN = /^(?<letters>[^!,.?]*)(?<mark>[!,.?]*)$/;
 
 const tokens = (text: string): Token[] =>
   text
@@ -40,18 +55,18 @@ const inTongue = (said: readonly Token[], n: number): Token[] => {
 export const spoken = (text: string, n = 1, tune?: Tune): Line =>
   assembled(inTongue(tokens(text), n), tune);
 
-/** How many of a list's lines a floor draws among. */
-const WINDOW = 5;
+/** How many of a list a floor draws among. */
+const WINDOW = 4;
 
-/** The floor by which the visitor is as worn out as the lines get. */
+/** The floor by which the visitor is as worn out as they get. */
 const WORN_OUT_BY = 33;
 
-/** One of `lines`, from further along the list the deeper the floor. */
-function wearied(lines: Some<string>, n: number, draw: number): string {
-  const span = Math.min(WINDOW, lines.length);
+/** One of `items`, from further along the list the deeper the floor. */
+function wearied<T>(items: Some<T>, n: number, draw: number): T {
+  const span = Math.min(WINDOW, items.length);
   const worn = Math.min(1, Math.max(0, (n - 3) / (WORN_OUT_BY - 3)));
-  const from = Math.round(worn * (lines.length - span));
-  return lines[from + Math.floor(draw * span)] ?? lines[0];
+  const from = Math.round(worn * (items.length - span));
+  return items[from + Math.floor(draw * span)] ?? items[0];
 }
 
 const scripted =
@@ -99,14 +114,14 @@ const SCALE = [0, 2, 4, 7, 9, 12, 14] as const;
 /** How a bar of three beats may be cut. */
 const BARS: Some<readonly number[]> = [[2, 1], [1, 1, 1], [1, 2], [3]];
 
-const STEPS: Some<number> = [-2, -1, -1, 0, 1, 1, 2];
+const LULLABY_STEPS: Some<number> = [-2, -1, -1, 0, 1, 1, 2];
 
 /** Two bars in three, sung on the floor's own nonsense syllables. */
 function lullaby(n: number, dice: Dice): Line {
   const beats = [0, 1].flatMap((bar) => among(BARS, dice(`bar/${bar}`)));
   let degree = between(2, 4, dice('from'));
   const said = beats.map((length, at) => {
-    const step = among(STEPS, dice(`step/${at}`));
+    const step = among(LULLABY_STEPS, dice(`step/${at}`));
     degree = Math.min(SCALE.length - 1, Math.max(0, degree + step));
     const syllable = dice(`syllable/${at}`) < 0.6 ? 'la' : 'loo';
     return {
@@ -119,20 +134,25 @@ function lullaby(n: number, dice: Dice): Line {
 }
 
 const LINES: Record<Moment, (n: number, dice: Dice) => Line> = {
-  'first-shrink': scripted('first-shrink'),
-  'second-shrink': scripted('second-shrink'),
-  shrink: (n, dice) => spoken(wearied(SCRIPT.shrink, n, dice('line')), n),
-  landing: scripted('landing'),
-  mutter: scripted('mutter'),
-  hello: scripted('hello'),
+  'first-shrink': (_, dice) => firstShrink(dice),
+  'second-shrink': (_, dice) => secondShrink(dice),
+  shrink: (n, dice) => vocal(wearied(SHRINKS, n, dice('which')), dice),
+  landing: (_, dice) => landing(dice),
+  mutter: (_, dice) => mutter(dice),
+  announcement: (n, dice) => ({
+    ...scripted('announcement')(n, dice),
+    chime: true,
+  }),
   numbers,
+  hello: scripted('hello'),
   laugh,
   lullaby,
 };
 
 /**
- * What is said at `moment` on floor `n`, in the floor's tongue; `grain` — a
- * room's, or any other word two viewers share — picks among the variants.
+ * What is heard at `moment` on floor `n`: the visitor's own moments as sounds
+ * without words, the rest in the floor's tongue. `grain` — a room's, or any
+ * other word two viewers share — picks among the variants.
  */
 export const lineFor = (moment: Moment, n: number, grain: number): Line =>
-  LINES[moment](n, under(diceOf(grain), `${n}/${moment}`));
+  LINES[moment](n, rollsUnder(diceOf(grain), `${n}/${moment}`));

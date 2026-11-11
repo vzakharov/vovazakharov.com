@@ -39,24 +39,26 @@ const AIR = 0.18;
 /** The hertz above which a clear voice's pulses are dulled. */
 const BRIGHT = 5000;
 
+/** Whose sound is made, at how many samples a second, from which noise. */
+export type Setting = {
+  voice: Voice;
+  sampling: number;
+  random: () => number;
+};
+
 /**
  * What a source is made from. `hush` scales noise so that a band of it is as
  * loud at any sample rate: `random` is white, and white noise spreads over
  * however many hertz the rate holds.
  */
-type Making = {
-  voice: Voice;
-  sampleRate: number;
-  random: () => number;
-  hush: number;
-};
+type Making = Setting & { hush: number };
 
 /** A cycle counted in `[0, 1)` at whatever pitch each sample asks for. */
-function cycle(sampleRate: number, turned: () => number) {
+function cycle(sampling: number, turned: () => number) {
   let phase = 0;
   let stray = 1;
   return (hertz: number): number => {
-    phase += (hertz * stray) / sampleRate;
+    phase += (hertz * stray) / sampling;
     if (phase >= 1) {
       phase -= Math.floor(phase);
       stray = turned();
@@ -65,20 +67,19 @@ function cycle(sampleRate: number, turned: () => number) {
   };
 }
 
-function throat({ voice, sampleRate, random, hush }: Making): Exciter {
+function throat({ voice, sampling, random, hush }: Making): Exciter {
   let loud = 1;
   let dulled = 0;
-  const turn = cycle(sampleRate, () => {
-    loud = 1 + SHIMMER * voice.waver * random();
-    return 1 + JITTER * voice.waver * random();
+  const turn = cycle(sampling, () => {
+    loud = 1 + SHIMMER * voice.unsteady * random();
+    return 1 + JITTER * voice.unsteady * random();
   });
   const dull =
-    1 -
-    Math.exp((-2 * Math.PI * BRIGHT * (1 - 0.7 * voice.breath)) / sampleRate);
+    1 - Math.exp((-2 * Math.PI * BRIGHT * (1 - 0.7 * voice.airy)) / sampling);
   return (hertz, voicing, breath) => {
     const phase = turn(hertz);
     dulled += dull * (glottal(phase) * loud - dulled);
-    const leak = phase < OPENING + CLOSING ? voice.breath : 0.3 * voice.breath;
+    const leak = phase < OPENING + CLOSING ? voice.airy : 0.3 * voice.airy;
     return dulled * voicing + random() * hush * AIR * (breath + leak * voicing);
   };
 }
@@ -91,8 +92,8 @@ const whisper =
 /** The share of a buzzer's cycle its pulse lasts. */
 const DUTY = 0.1;
 
-function buzz({ sampleRate, random, hush }: Making): Exciter {
-  const turn = cycle(sampleRate, () => 1);
+function buzz({ sampling, random, hush }: Making): Exciter {
+  const turn = cycle(sampling, () => 1);
   return (hertz, voicing, breath) =>
     (turn(hertz) < DUTY ? 1 : -DUTY / (1 - DUTY)) * 0.5 * voicing +
     random() * hush * AIR * breath;

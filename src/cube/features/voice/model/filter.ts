@@ -8,7 +8,7 @@ export type Filter = {
 const REACH = 0.47;
 
 /**
- * One resonance of the throat: a two-pole filter passing what is far under
+ * One resonance of the throat: a two-pole filter passing what is far rollsUnder
  * `hertz` as it came and ringing at `hertz`, the more the narrower `width`.
  * Tuned out of the sample rate's reach, it passes everything as it came.
  */

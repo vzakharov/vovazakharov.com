@@ -5,7 +5,7 @@ import { isVowel, type Phone } from './phone';
  * Spellings and what they say, the longer before the shorter they begin with:
  * a word is read by the first that matches where the reading stands.
  */
-const READINGS: readonly (readonly [string, readonly Phone[]])[] = [
+const READINGS: ReadonlyArray<readonly [string, readonly Phone[]]> = [
   ['tion', ['sh', 'ax', 'n']],
   ['ough', ['ow']],
   ['igh', ['ay']],
@@ -76,14 +76,15 @@ const LONG: Readonly<Record<string, Phone>> = {
 /** A vowel letter, one consonant letter and a final `e`: "same", "fine". */
 const SILENT_E = /^(?<head>[a-z]*)(?<vowel>[aeiou])(?<last>[^aeiouwy])e$/;
 
+const readingAt = (letters: string, at: number) =>
+  READINGS.find(([spelling]) => letters.startsWith(spelling, at));
+
 function phonesOf(letters: string): Phone[] {
   const phones: Phone[] = [];
   let at = letters.startsWith('y') ? 1 : 0;
   if (at === 1) phones.push('y');
   while (at < letters.length) {
-    const reading = READINGS.find(([spelling]) =>
-      letters.startsWith(spelling, at),
-    );
+    const reading = readingAt(letters, at);
     if (reading) phones.push(...reading[1]);
     at += reading ? reading[0].length : 1;
   }
@@ -104,7 +105,7 @@ function read(letters: string): Phone[] {
  */
 export function sounded(word: string): Uttered[] {
   const phones = read(word.toLowerCase().replaceAll(/[^a-z]/g, ''));
-  const stressed = phones.findIndex(isVowel);
+  const stressed = phones.findIndex((phone) => isVowel(phone));
   return phones.map((phone, n) =>
     n === stressed ? { phone, stress: true } : { phone },
   );

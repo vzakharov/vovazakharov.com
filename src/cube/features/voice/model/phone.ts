@@ -1,3 +1,5 @@
+import type { WithWidth } from '@/kernel/shared/typings';
+
 /** The sounds the voice is made of, named as ARPAbet names them. */
 export const PHONES = [
   'iy',
@@ -62,10 +64,10 @@ export type Manner = (typeof MANNERS)[number];
 export type Formants = readonly [number, number, number];
 
 /** A band of noise, in hertz. */
-export type Band = { centre: number; width: number };
+export type Band = WithWidth & { core: number };
 
 /** The band a consonant hisses in, and how loud against a vowel. */
-export type Hiss = Band & { level: number };
+export type Hiss = Band & { loudness: number };
 
 export type PhoneSpec = {
   manner: Manner;
@@ -78,21 +80,21 @@ export type PhoneSpec = {
   /** Where a diphthong ends up. */
   glide?: Formants;
   /** How long it lasts unhurried; a stop's is its closure. */
-  ms: number;
-  hiss?: Hiss;
+  millis: number;
+  hissing?: Hiss;
 };
 
 const vowel = (
   f1: number,
   f2: number,
   f3: number,
-  ms: number,
+  millis: number,
   glide?: Formants,
 ): PhoneSpec => ({
   manner: 'vowel',
   voiced: true,
   formants: [f1, f2, f3],
-  ms,
+  millis,
   ...(glide && { glide }),
 });
 
@@ -104,13 +106,13 @@ const VELAR: Formants = [240, 2200, 2450];
 const voicedAs = (manner: Manner, voiced: boolean) => ({ manner, voiced });
 
 const HISS = {
-  lip: { centre: 4000, width: 5000 },
-  teeth: { centre: 4500, width: 4500 },
-  ridge: { centre: 6000, width: 2600 },
-  palate: { centre: 2700, width: 1300 },
-  lipBurst: { centre: 1100, width: 2200 },
-  ridgeBurst: { centre: 4300, width: 2600 },
-  velumBurst: { centre: 2100, width: 1000 },
+  lip: { core: 4000, width: 5000 },
+  teeth: { core: 4500, width: 4500 },
+  ridge: { core: 6000, width: 2600 },
+  palate: { core: 2700, width: 1300 },
+  lipBurst: { core: 1100, width: 2200 },
+  ridgeBurst: { core: 4300, width: 2600 },
+  velumBurst: { core: 2100, width: 1000 },
 };
 
 export const SPECS: Record<Phone, PhoneSpec> = {
@@ -130,111 +132,131 @@ export const SPECS: Record<Phone, PhoneSpec> = {
   ow: vowel(540, 1000, 2400, 170, [380, 800, 2300]),
   aw: vowel(730, 1250, 2500, 180, [430, 900, 2300]),
   oy: vowel(550, 850, 2400, 180, [380, 2000, 2600]),
-  w: { ...voicedAs('approximant', true), formants: [290, 610, 2150], ms: 65 },
-  y: { ...voicedAs('approximant', true), formants: [260, 2070, 3020], ms: 60 },
-  r: { ...voicedAs('approximant', true), formants: [310, 1060, 1380], ms: 70 },
-  l: { ...voicedAs('approximant', true), formants: [310, 1050, 2880], ms: 65 },
-  m: { ...voicedAs('nasal', true), formants: [250, 900, 2200], ms: 75 },
-  n: { ...voicedAs('nasal', true), formants: [250, 1700, 2700], ms: 70 },
-  ng: { ...voicedAs('nasal', true), formants: [250, 2200, 2450], ms: 80 },
+  w: {
+    ...voicedAs('approximant', true),
+    formants: [290, 610, 2150],
+    millis: 65,
+  },
+  y: {
+    ...voicedAs('approximant', true),
+    formants: [260, 2070, 3020],
+    millis: 60,
+  },
+  r: {
+    ...voicedAs('approximant', true),
+    formants: [310, 1060, 1380],
+    millis: 70,
+  },
+  l: {
+    ...voicedAs('approximant', true),
+    formants: [310, 1050, 2880],
+    millis: 65,
+  },
+  m: { ...voicedAs('nasal', true), formants: [250, 900, 2200], millis: 75 },
+  n: { ...voicedAs('nasal', true), formants: [250, 1700, 2700], millis: 70 },
+  ng: { ...voicedAs('nasal', true), formants: [250, 2200, 2450], millis: 80 },
   f: {
     ...voicedAs('fricative', false),
     formants: LABIAL,
-    ms: 95,
-    hiss: { ...HISS.lip, level: 0.22 },
+    millis: 95,
+    hissing: { ...HISS.lip, loudness: 0.22 },
   },
   v: {
     ...voicedAs('fricative', true),
     formants: LABIAL,
-    ms: 65,
-    hiss: { ...HISS.lip, level: 0.12 },
+    millis: 65,
+    hissing: { ...HISS.lip, loudness: 0.12 },
   },
   th: {
     ...voicedAs('fricative', false),
     formants: ALVEOLAR,
-    ms: 90,
-    hiss: { ...HISS.teeth, level: 0.18 },
+    millis: 90,
+    hissing: { ...HISS.teeth, loudness: 0.18 },
   },
   dh: {
     ...voicedAs('fricative', true),
     formants: ALVEOLAR,
-    ms: 50,
-    hiss: { ...HISS.teeth, level: 0.08 },
+    millis: 50,
+    hissing: { ...HISS.teeth, loudness: 0.08 },
   },
   s: {
     ...voicedAs('fricative', false),
     formants: ALVEOLAR,
-    ms: 110,
-    hiss: { ...HISS.ridge, level: 1 },
+    millis: 110,
+    hissing: { ...HISS.ridge, loudness: 1 },
   },
   z: {
     ...voicedAs('fricative', true),
     formants: ALVEOLAR,
-    ms: 80,
-    hiss: { ...HISS.ridge, level: 0.6 },
+    millis: 80,
+    hissing: { ...HISS.ridge, loudness: 0.6 },
   },
   sh: {
     ...voicedAs('fricative', false),
     formants: PALATAL,
-    ms: 115,
-    hiss: { ...HISS.palate, level: 0.9 },
+    millis: 115,
+    hissing: { ...HISS.palate, loudness: 0.9 },
   },
   zh: {
     ...voicedAs('fricative', true),
     formants: PALATAL,
-    ms: 80,
-    hiss: { ...HISS.palate, level: 0.5 },
+    millis: 80,
+    hissing: { ...HISS.palate, loudness: 0.5 },
   },
-  hh: { ...voicedAs('breath', false), formants: [500, 1500, 2500], ms: 70 },
+  hh: { ...voicedAs('breath', false), formants: [500, 1500, 2500], millis: 70 },
   p: {
     ...voicedAs('stop', false),
     formants: LABIAL,
-    ms: 60,
-    hiss: { ...HISS.lipBurst, level: 0.5 },
+    millis: 60,
+    hissing: { ...HISS.lipBurst, loudness: 0.5 },
   },
   b: {
     ...voicedAs('stop', true),
     formants: LABIAL,
-    ms: 55,
-    hiss: { ...HISS.lipBurst, level: 0.35 },
+    millis: 55,
+    hissing: { ...HISS.lipBurst, loudness: 0.35 },
   },
   t: {
     ...voicedAs('stop', false),
     formants: ALVEOLAR,
-    ms: 50,
-    hiss: { ...HISS.ridgeBurst, level: 0.9 },
+    millis: 50,
+    hissing: { ...HISS.ridgeBurst, loudness: 0.9 },
   },
   d: {
     ...voicedAs('stop', true),
     formants: ALVEOLAR,
-    ms: 45,
-    hiss: { ...HISS.ridgeBurst, level: 0.6 },
+    millis: 45,
+    hissing: { ...HISS.ridgeBurst, loudness: 0.6 },
   },
   k: {
     ...voicedAs('stop', false),
     formants: VELAR,
-    ms: 55,
-    hiss: { ...HISS.velumBurst, level: 0.9 },
+    millis: 55,
+    hissing: { ...HISS.velumBurst, loudness: 0.9 },
   },
   g: {
     ...voicedAs('stop', true),
     formants: VELAR,
-    ms: 50,
-    hiss: { ...HISS.velumBurst, level: 0.6 },
+    millis: 50,
+    hissing: { ...HISS.velumBurst, loudness: 0.6 },
   },
   ch: {
     ...voicedAs('affricate', false),
     formants: PALATAL,
-    ms: 40,
-    hiss: { ...HISS.palate, level: 0.9 },
+    millis: 40,
+    hissing: { ...HISS.palate, loudness: 0.9 },
   },
   jh: {
     ...voicedAs('affricate', true),
     formants: PALATAL,
-    ms: 35,
-    hiss: { ...HISS.palate, level: 0.55 },
+    millis: 35,
+    hissing: { ...HISS.palate, loudness: 0.55 },
   },
-  pau: { ...voicedAs('pause', false), formants: [500, 1500, 2500], ms: 180 },
+  pau: {
+    ...voicedAs('pause', false),
+    formants: [500, 1500, 2500],
+    millis: 180,
+  },
 };
 
 export const isPhone = (name: string): name is Phone =>
@@ -243,7 +265,9 @@ export const isPhone = (name: string): name is Phone =>
 export const isVowel = (phone: Phone): boolean =>
   SPECS[phone].manner === 'vowel';
 
-export const VOWELS: readonly Phone[] = PHONES.filter(isVowel);
+export const VOWELS: readonly Phone[] = PHONES.filter((phone) =>
+  isVowel(phone),
+);
 
 /** Every consonant, the pause left out. */
 export const CONSONANTS: readonly Phone[] = PHONES.filter(

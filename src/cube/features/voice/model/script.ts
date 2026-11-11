@@ -1,14 +1,19 @@
 import type { Some } from './chance';
 
-/** When something is said: by the visitor, or from somewhere in the building. */
+/**
+ * When something is heard. The visitor's five are sounds without words; the
+ * rest are said in words, by the building over its speakers or by someone
+ * somewhere in it.
+ */
 export const MOMENTS = [
   'first-shrink',
   'second-shrink',
   'shrink',
   'landing',
   'mutter',
-  'hello',
+  'announcement',
   'numbers',
+  'hello',
   'laugh',
   'lullaby',
 ] as const;
@@ -16,52 +21,35 @@ export const MOMENTS = [
 export type Moment = (typeof MOMENTS)[number];
 
 /** The moments whose line is one of a list of written ones. */
-export type Scripted = Exclude<Moment, 'numbers' | 'laugh' | 'lullaby'>;
+export type Scripted = Extract<Moment, 'announcement' | 'hello'>;
 
-/**
- * What is said, in plain English. A later shrink's lines run from indignant
- * to worn out, in that order: the floor picks how far along the list to draw.
- */
+/** What is said in words, in plain English. */
 export const SCRIPT: Record<Scripted, Some<string>> = {
-  'first-shrink': ['wtf?'],
-  'second-shrink': ['here we go again'],
-  shrink: [
-    'oh come on',
-    'not again',
-    'seriously?',
-    'and again',
-    'okay, smaller',
-    'how deep does it go?',
-    'of course',
-    'sure, why not',
-    'still going',
-    'fine',
-    'smaller',
-    'again',
-    'okay',
-    'yeah',
-    'mm',
+  announcement: [
+    'attention please',
+    'this floor is now closed',
+    'please go down to the next floor',
+    'you are now smaller',
+    'visitors please stay the same size',
+    'this lift is out of order',
+    'thank you for waiting',
+    'will the owner of a small body please come back for it',
+    'cleaning in progress',
+    'all staff please come to the front desk',
+    'there is no floor below this one',
+    'the doors are closing',
+    'have a nice way down',
+    'please do not feed the chairs',
+    'the building thanks you',
   ],
-  landing: ['oof', 'ow', 'okay', 'huh', 'hup', 'ah', 'there'],
-  mutter: [
+  hello: [
     'hello?',
-    'anyone?',
-    'so quiet',
+    'hello? anyone?',
+    'is someone there?',
+    'hello, hello?',
     'where is everyone?',
-    'who built this?',
-    'same room again',
-    'left or right',
-    'i was here before',
-    'nice carpet',
-    'it goes on',
-    'is it me or the room?',
-    'no way back',
-    'i am fine',
-    'what was that?',
-    'one more door',
     'who left the light on?',
   ],
-  hello: ['hello?', 'hello? anyone?', 'is someone there?', 'hello, hello?'],
 };
 
 export const DIGITS: Some<string> = [
