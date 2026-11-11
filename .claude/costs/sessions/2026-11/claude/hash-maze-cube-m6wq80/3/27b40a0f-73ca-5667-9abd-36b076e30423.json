@@ -1,0 +1,92 @@
+{
+  "total": {
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 63160,
+    "cacheReadTokens": 583040,
+    "outputTokens": 1453,
+    "thinkingTokens": 52,
+    "responses": 6,
+    "costUsd": 0.651004
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": null,
+    "endedOn": null,
+    "endedAt": null,
+    "contextTokens": null,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 63160,
+      "cacheReadTokens": 583040,
+      "outputTokens": 1453,
+      "thinkingTokens": 52,
+      "responses": 6,
+      "costUsd": 0.651004
+    }
+  },
+  "sessionId": "27b40a0f-73ca-5667-9abd-36b076e30423",
+  "branch": "claude/hash-maze-cube-m6wq80",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/hash-maze-cube-m6wq80 — план одобрен и на паузе перед первым куском",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkC4nhEspHU2B9N6AX7",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-11T04:20:48.037Z",
+  "lastResponseAt": "2026-11-11T04:21:02.143Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 63160,
+    "cacheReadTokens": 583040,
+    "outputTokens": 1453,
+    "thinkingTokens": 52,
+    "responses": 6,
+    "costUsd": 0.651004
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 63160,
+      "cacheReadTokens": 583040,
+      "outputTokens": 1453,
+      "thinkingTokens": 52,
+      "responses": 6,
+      "costUsd": 0.651004
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 5,
+    "matched": 5,
+    "matchedTableUsd": 0.5376882000000001,
+    "matchedEventUsd": 0.5376882000000001,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 780,
+    ".json": 12
+  }
+}
