@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 5077,
-    "cacheWrite5mTokens": 355992,
-    "cacheWrite1hTokens": 401821,
-    "cacheReadTokens": 19967411,
-    "outputTokens": 125488,
-    "thinkingTokens": 28858,
-    "responses": 133,
-    "costUsd": 10.270773200000006
+    "inputTokens": 6757,
+    "cacheWrite5mTokens": 356743,
+    "cacheWrite1hTokens": 404589,
+    "cacheReadTokens": 20268330,
+    "outputTokens": 125694,
+    "thinkingTokens": 28910,
+    "responses": 136,
+    "costUsd": 10.365085700000007
   },
   "estimate": {
     "at": "2026-11-11T04:21:21.178Z",
@@ -60,18 +60,18 @@
   "url": "https://claude.ai/code/session_01DaohkC4nhEspHU2B9N6AX7",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-11T04:20:48.037Z",
-  "lastResponseAt": "2026-11-11T04:37:15.171Z",
+  "lastResponseAt": "2026-11-11T04:44:43.539Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 184,
+    "inputTokens": 186,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 401821,
-    "cacheReadTokens": 14316401,
-    "outputTokens": 36225,
-    "thinkingTokens": 8103,
-    "responses": 90,
-    "costUsd": 6.8030842000000025
+    "cacheWrite1hTokens": 404589,
+    "cacheReadTokens": 14467236,
+    "outputTokens": 36408,
+    "thinkingTokens": 8155,
+    "responses": 91,
+    "costUsd": 6.859063200000002
   },
   "subagents": {
     "inputTokens": 87,
@@ -85,14 +85,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 5041,
-      "cacheWrite5mTokens": 143864,
-      "cacheWrite1hTokens": 401821,
-      "cacheReadTokens": 17708935,
-      "outputTokens": 53653,
-      "thinkingTokens": 11806,
-      "responses": 118,
-      "costUsd": 8.570336000000003
+      "inputTokens": 5549,
+      "cacheWrite5mTokens": 144615,
+      "cacheWrite1hTokens": 404589,
+      "cacheReadTokens": 18009854,
+      "outputTokens": 53844,
+      "thinkingTokens": 11858,
+      "responses": 120,
+      "costUsd": 8.664523800000003
     },
     "claude-sonnet-5-5/standard": {
       "inputTokens": 36,
@@ -103,10 +103,20 @@
       "thinkingTokens": 17052,
       "responses": 15,
       "costUsd": 1.7004372
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1172,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 15,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.00012470000000000002
     }
   },
   "warnings": [
-    "prices.json priced the 130 responses the events also priced at $9.9653, against the events' $9.7394: a rate in the table is likely out of date"
+    "prices.json priced the 131 responses the events also priced at $10.0212, against the events' $9.7954: a rate in the table is likely out of date"
   ],
   "compactions": [
     {
@@ -169,10 +179,10 @@
     }
   ],
   "telemetry": {
-    "events": 133,
-    "matched": 130,
-    "matchedTableUsd": 9.965270200000006,
-    "matchedEventUsd": 9.739422600000003,
+    "events": 136,
+    "matched": 131,
+    "matchedTableUsd": 10.021249200000007,
+    "matchedEventUsd": 9.795401600000003,
     "unseen": {
       "compact": {
         "inputTokens": 4300,
@@ -185,19 +195,29 @@
         "costUsd": 0.272544
       },
       "prompt_suggestion": {
-        "inputTokens": 506,
-        "cacheWrite5mTokens": 479,
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 1230,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 134315,
-        "outputTokens": 12,
+        "cacheReadTokens": 284399,
+        "outputTokens": 20,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.0711678
+      },
+      "generate_session_title": {
+        "inputTokens": 1172,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 15,
         "thinkingTokens": 0,
         "responses": 1,
-        "costUsd": 0.032959
+        "costUsd": 0.00012470000000000002
       }
     }
   },
   "operatorWords": {
-    "chat": 0,
+    "chat": 4,
     "review": 0,
     "threads": 0
   },
