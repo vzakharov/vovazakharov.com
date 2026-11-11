@@ -1,23 +1,23 @@
 {
   "total": {
-    "inputTokens": 113,
-    "cacheWrite5mTokens": 112812,
-    "cacheWrite1hTokens": 249566,
-    "cacheReadTokens": 11984319,
-    "outputTokens": 91961,
-    "thinkingTokens": 33404,
-    "responses": 60,
-    "costUsd": 11.197383799999997
+    "inputTokens": 2698,
+    "cacheWrite5mTokens": 115895,
+    "cacheWrite1hTokens": 360138,
+    "cacheReadTokens": 15017310,
+    "outputTokens": 125152,
+    "thinkingTokens": 43779,
+    "responses": 78,
+    "costUsd": 14.952997999999997
   },
   "estimate": {
-    "at": "2026-11-11T22:59:59.187Z",
+    "at": "2026-11-11T23:30:55.058Z",
     "subjectLine": "feat: the cube's edge band, fifteen designed floors 53–67",
     "parts": [
       {
-        "hours": 48.0,
+        "hours": 51.0,
         "grade": "senior",
         "role": "technical-artist",
-        "comment": "fifteen distinct procedural floor looks, each designed, shot and iterated to a picture, is look-development work at about three hours a floor"
+        "comment": "fifteen distinct procedural floor looks, each designed, shot and iterated to a picture, is look-development at about three hours a floor, plus rolled carpets and portraits for Home"
       },
       {
         "hours": 12.0,
@@ -52,52 +52,103 @@
   "url": "https://claude.ai/code/session_01DaohkB98NDbXs6XjN5h4KC",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-11T22:41:14.563Z",
-  "lastResponseAt": "2026-11-11T23:12:42.708Z",
+  "lastResponseAt": "2026-11-11T23:31:14.769Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 96,
+    "inputTokens": 120,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 249566,
-    "cacheReadTokens": 10901304,
-    "outputTokens": 79766,
-    "thinkingTokens": 28552,
-    "responses": 50,
-    "costUsd": 9.364724799999998
+    "cacheWrite1hTokens": 360138,
+    "cacheReadTokens": 12686237,
+    "outputTokens": 104634,
+    "thinkingTokens": 38565,
+    "responses": 62,
+    "costUsd": 12.4857754
   },
   "subagents": {
-    "inputTokens": 17,
-    "cacheWrite5mTokens": 112812,
+    "inputTokens": 25,
+    "cacheWrite5mTokens": 115725,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 1083015,
-    "outputTokens": 12195,
-    "thinkingTokens": 4852,
-    "responses": 10,
-    "costUsd": 1.8326589999999998
+    "cacheReadTokens": 1726074,
+    "outputTokens": 14703,
+    "thinkingTokens": 5214,
+    "responses": 14,
+    "costUsd": 2.0907847999999998
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 113,
-      "cacheWrite5mTokens": 112812,
-      "cacheWrite1hTokens": 249566,
-      "cacheReadTokens": 11984319,
-      "outputTokens": 91961,
-      "thinkingTokens": 33404,
-      "responses": 60,
-      "costUsd": 11.197383799999997
+      "inputTokens": 2698,
+      "cacheWrite5mTokens": 115895,
+      "cacheWrite1hTokens": 360138,
+      "cacheReadTokens": 15017310,
+      "outputTokens": 125152,
+      "thinkingTokens": 43779,
+      "responses": 78,
+      "costUsd": 14.952997999999997
     }
   },
   "warnings": [],
-  "compactions": [],
+  "compactions": [
+    {
+      "at": "2026-11-11T23:14:37.739Z",
+      "trigger": "auto",
+      "compactedFrom": 304891,
+      "summaryChars": 13335,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/cube/entities/theme/edge/config/66-home.ts",
+        "endedAt": "2026-11-11T23:19:57.374Z",
+        "contextTokens": 146842,
+        "spend": {
+          "inputTokens": 4,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 75098,
+          "cacheReadTokens": 179650,
+          "outputTokens": 8073,
+          "thinkingTokens": 7373,
+          "responses": 2,
+          "costUsd": 1.5604500000000001
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.3098958
+    }
+  ],
   "telemetry": {
-    "events": 60,
-    "matched": 60,
-    "matchedTableUsd": 11.197383799999997,
-    "matchedEventUsd": 11.197383799999997,
-    "unseen": {}
+    "events": 78,
+    "matched": 76,
+    "matchedTableUsd": 14.576560199999998,
+    "matchedEventUsd": 14.576560199999998,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 119,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 302550,
+        "outputTokens": 2,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.066542
+      },
+      "compact": {
+        "inputTokens": 2047,
+        "cacheWrite5mTokens": 51,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 302449,
+        "outputTokens": 5813,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.3098958
+      }
+    }
   },
   "operatorWords": {
-    "chat": 0,
+    "chat": 56,
     "review": 0,
     "threads": 0
   },
@@ -106,7 +157,7 @@
   "branchLines": {
     ".json": 19,
     ".md": 358,
-    ".ts": 4767,
+    ".ts": 4976,
     ".tsx": 12
   }
 }
