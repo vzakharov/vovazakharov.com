@@ -38,7 +38,6 @@ fn thread(field: f32, width: f32) -> f32 {
 /// pulled taut across each cell its own way, engines crowding the nucleus.
 fn monolayer(s: Surf) -> Material {
   let cell = shards(s.uv * 0.9, 471u);
-  let middle = worley(s.uv * 0.9, 471u);
   let turn = cell.y * 6.2832;
   let lay = dot(s.uv, vec2f(cos(turn), sin(turn)));
   let near = 1.0 / (1.0 + s.far * s.far / 80.0);
@@ -46,8 +45,8 @@ fn monolayer(s: Surf) -> Material {
     + 0.15 * (1.0 - near);
   let edge = 1.0 - smoothstep(0.0, 0.05, cell.x);
   let chromatin = fbm(s.uv * 16.0, 473u, 3);
-  let nucleus = (1.0 - smoothstep(0.13, 0.16, middle.x)) * (0.35 + 1.3 * chromatin * chromatin);
-  let around = smoothstep(0.14, 0.2, middle.x) * (1.0 - smoothstep(0.3, 0.5, middle.x));
+  let nucleus = (1.0 - smoothstep(0.13, 0.16, cell.w)) * (0.35 + 1.3 * chromatin * chromatin);
+  let around = smoothstep(0.14, 0.2, cell.w) * (1.0 - smoothstep(0.3, 0.5, cell.w));
   let worm = thread(fbm(s.uv * 5.0, 474u, 3), 0.02) * around;
   let glow = DAPI * 1.6 * nucleus + ACTIN * (0.9 * edge + 0.35 * fibre * (1.0 - nucleus)) + MITO * 1.4 * worm;
   return Material(vec3f(0.004), glow, 0.55, vec3f(0.0));

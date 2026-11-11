@@ -43,9 +43,17 @@ fn lattice(uv: vec2f, pitch: f32, salt: u32) -> vec2f {
   return vec2f(dome(comb.xy, 0.58), odd);
 }
 
-/// Terraces: how many atoms high the surface stands, 0 to 1, in steps.
+/// Terraces: the level the surface stands at, in flat steps from -0.5 to
+/// about 1.3.
 fn terraces(uv: vec2f, salt: u32) -> f32 {
   return floor(fbm(uv * 0.22, salt, 3) * 9.0) / 9.0 * 2.0 - 0.5;
+}
+
+/// What the atom at a point adds to the height: \`swell\` for one in its
+/// place, nothing for a missing one, more for a stray on top.
+fn atomHeight(atom: vec2f, swell: f32) -> f32 {
+  let vacancy = step(0.5, atom.y) * step(atom.y, 1.5);
+  return swell * atom.x * (1.0 - vacancy) + 0.3 * step(1.5, atom.y) * atom.x;
 }
 
 fn scanned(s: Surf, height: f32, depth: f32) -> Material {
@@ -62,10 +70,7 @@ fn corral(s: Surf) -> Material {
   let post = fract(atan2(off.y, off.x) * 48.0 / 6.2832) - 0.5;
   let fence = fenced * (1.0 - smoothstep(0.03, 0.09, length(vec2f(post * 0.2, r - 1.55))));
   let ripple = fenced * step(r, 1.5) * 0.16 * cos(r * 21.0) * (0.4 + 0.6 * exp(-r));
-  let vacancy = step(0.5, atom.y) * step(atom.y, 1.5);
-  let stray = step(1.5, atom.y);
-  let height = 0.28 + 0.4 * level * (1.0 - fenced * step(r, 1.75)) + 0.14 * atom.x * (1.0 - vacancy) + 0.3 * stray * atom.x
-    + ripple + 0.55 * fence;
+  let height = 0.28 + 0.4 * level * (1.0 - fenced * step(r, 1.75)) + atomHeight(atom, 0.14) + ripple + 0.55 * fence;
   return scanned(s, height, 0.06);
 }
 
@@ -73,10 +78,10 @@ fn stepEdges(s: Surf) -> Material {
   let atom = lattice(s.uv, 0.11, 513u);
   let level = terraces(s.uv * vec2f(1.0, 2.2), 514u);
   // Each scan line is read a little high or low of the last.
-  let line = (unitOf(hashOf(bitcast<u32>(i32(floor(s.p.y / 0.018))), 0x52u)) - 0.5) * 0.05;
-  let streak = step(0.97, unitOf(hashOf(bitcast<u32>(i32(floor(s.p.y / 0.018))), s.seed))) * 0.25;
-  let vacancy = step(0.5, atom.y) * step(atom.y, 1.5);
-  let height = 0.3 + 0.45 * level + 0.16 * atom.x * (1.0 - vacancy) + 0.3 * step(1.5, atom.y) * atom.x + line + streak;
+  let row = bitcast<u32>(i32(floor(s.p.y / 0.018)));
+  let line = (unitOf(hashOf(row, 0x52u)) - 0.5) * 0.05;
+  let streak = step(0.97, unitOf(hashOf(row, s.seed))) * 0.25;
+  let height = 0.3 + 0.45 * level + atomHeight(atom, 0.16) + line + streak;
   return scanned(s, height, 0.05);
 }
 

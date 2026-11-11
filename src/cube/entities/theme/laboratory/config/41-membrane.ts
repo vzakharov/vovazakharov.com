@@ -44,14 +44,18 @@ fn protein(uv: vec2f, salt: u32) -> vec2f {
   return vec2f(body, pore);
 }
 
+/// A protein's violet, mottled by \`lobe\`.
+fn proteinViolet(lobe: f32) -> vec3f {
+  return vec3f(0.2, 0.12, 0.5) * (0.5 + lobe);
+}
+
 fn leaflet(s: Surf) -> Material {
   let head = heads(s, 0.11, 411u);
   let embedded = protein(s.uv, 412u);
   let lobe = fbm(s.uv * 7.0, 413u, 3);
   let swell = 0.5 + 0.5 * sin(s.uv.x * 1.1 + s.uv.y * 0.7 + s.time * 0.35);
   let lipid = mix(vec3f(0.5, 0.13, 0.16), vec3f(0.72, 0.36, 0.2), head.y) * (0.25 + 0.75 * head.x);
-  let violet = vec3f(0.2, 0.12, 0.5) * (0.5 + lobe);
-  let albedo = mix(mix(lipid, violet, embedded.x), vec3f(0.01, 0.0, 0.02), embedded.y);
+  let albedo = mix(mix(lipid, proteinViolet(lobe), embedded.x), vec3f(0.01, 0.0, 0.02), embedded.y);
   let glow = vec3f(0.5, 0.75, 1.0) * 0.5 * embedded.y * (0.6 + 0.4 * sin(s.time * 1.7 + s.uv.x));
   let wall = Material(albedo, glow, 0.6, vec3f(0.0));
   let height = mix(head.x + 0.8 * swell, 1.6 + 1.2 * lobe - 3.0 * embedded.y, embedded.x);
@@ -76,7 +80,7 @@ fn channels(s: Surf) -> Material {
   let r = length(off);
   let pore = 1.0 - smoothstep(0.42, 0.5, r);
   let collar = (1.0 - smoothstep(0.7, 0.78, r)) * (1.0 - pore);
-  let albedo = mix(pale, vec3f(0.2, 0.12, 0.5) * (0.5 + fbm(s.uv * 7.0, 416u, 3)), collar);
+  let albedo = mix(pale, proteinViolet(fbm(s.uv * 7.0, 416u, 3)), collar);
   let m = Material(albedo, lampGlow(s, lamps()) * pore, 0.5, vec3f(0.0));
   return embossed(s, m, tail * (1.0 - collar) + 4.0 * collar, 0.012);
 }
@@ -88,7 +92,7 @@ fn themeMaterial(s: Surf) -> Material {
     case CEILING: { return channels(s); }
     case TRIM: {
       let lobe = fbm(s.uv * 7.0, 417u, 3);
-      return embossed(s, polished(vec3f(0.2, 0.12, 0.5) * (0.5 + lobe), 0.6), lobe, 0.03);
+      return embossed(s, polished(proteinViolet(lobe), 0.6), lobe, 0.03);
     }
     default: { return stuff(s); }
   }

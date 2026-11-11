@@ -23,10 +23,11 @@ export const AGAR: FloorTheme = {
   shader: wgsl(
     'agar',
     /* wgsl */ `
-/// What has grown at a point of the plate: x how thick it stands, 0 to 1,
-/// y the colony's own number, z how far into the colony the point is.
-fn growth(uv: vec2f) -> vec3f {
-  let colony = worley(uv * 1.3, 401u);
+const GEL = vec3f(0.62, 0.3, 0.035);
+
+/// What has grown at a point of the plate, given its \`colony\` cell: x how
+/// thick it stands, 0 to 1, y how far into the colony the point is.
+fn growth(uv: vec2f, colony: vec2f) -> vec2f {
   let reach = 0.1 + 0.34 * colony.y * colony.y;
   let lobed = colony.x + 0.07 * fbm(uv * 11.0, 402u, 3);
   let big = 1.0 - smoothstep(reach - 0.035, reach, lobed);
@@ -34,24 +35,25 @@ fn growth(uv: vec2f) -> vec3f {
   // Pinpoint colonies along the streaks the loop drew.
   let streak = smoothstep(0.55, 0.7, fbm(uv * vec2f(0.5, 2.6), 404u, 2));
   let small = streak * (1.0 - smoothstep(0.16, 0.24, dot.x)) * step(0.3, dot.y);
-  return vec3f(max(big, 0.8 * small), colony.y, clamp(1.0 - lobed / reach, 0.0, 1.0));
+  return vec2f(max(big, 0.8 * small), clamp(1.0 - lobed / reach, 0.0, 1.0));
 }
 
 fn plate(s: Surf) -> Material {
-  let grown = growth(s.uv);
-  let depth = fbm(s.uv * 0.5, 405u, 3);
-  let gel = vec3f(0.62, 0.3, 0.035) * (0.55 + 0.8 * depth);
-  // Some colonies clear the gel around them, and the lightbox shows through.
+  // x the distance to the colony's own point, y the colony's own number.
   let colony = worley(s.uv * 1.3, 401u);
+  let grown = growth(s.uv, colony);
+  let depth = fbm(s.uv * 0.5, 405u, 3);
+  let gel = GEL * (0.55 + 0.8 * depth);
+  // Some colonies clear the gel around them, and the lightbox shows through.
   let halo = step(0.7, colony.y) * (1.0 - smoothstep(0.3, 0.52, colony.x));
-  let ring = 0.8 + 0.2 * sin(grown.z * 34.0);
-  let kind = grown.y;
+  let ring = 0.8 + 0.2 * sin(grown.y * 34.0);
+  let kind = colony.y;
   let cream = mix(mix(vec3f(0.6, 0.55, 0.36), vec3f(0.52, 0.07, 0.05), step(0.55, kind)),
     vec3f(0.16, 0.3, 0.12), step(0.85, kind)) * ring;
   let albedo = mix(gel * 0.25, cream, grown.x);
   let lightbox = gel * (0.75 + 0.9 * halo) * (1.0 - 0.96 * grown.x);
   let m = Material(albedo, lightbox, mix(0.45, 0.25, grown.x), vec3f(0.0));
-  return embossed(s, m, grown.x * (0.5 + 0.5 * grown.z) + 0.05 * ring, 0.03);
+  return embossed(s, m, grown.x * (0.5 + 0.5 * grown.y) + 0.05 * ring, 0.03);
 }
 
 /// Condensation, 0 to 1 a drop's height: beads thicker where \`much\` is high.
@@ -71,7 +73,7 @@ fn dishWall(s: Surf) -> Material {
   let fuzz = climb * (0.6 + 0.4 * valueNoise(s.uv * 140.0, 408u));
   let plastic = vec3f(0.46, 0.44, 0.38) * (0.75 + 0.35 * fogged) * (1.0 - 0.35 * run);
   let albedo = mix(plastic, vec3f(0.5, 0.52, 0.4), fuzz);
-  let uplit = vec3f(0.62, 0.3, 0.035) * 0.9 * exp(-h * 1.5) * (1.0 - 0.7 * fuzz);
+  let uplit = GEL * 0.9 * exp(-h * 1.5) * (1.0 - 0.7 * fuzz);
   let wall = Material(albedo, uplit, mix(0.75, 0.1, max(fuzz, 0.6 * fogged * (1.0 - bead))), vec3f(0.0));
   return embossed(s, wall, bead + 0.6 * fuzz - 0.3 * run, 0.005);
 }
