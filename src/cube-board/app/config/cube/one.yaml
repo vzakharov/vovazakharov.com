@@ -7,10 +7,10 @@ items:
     text: Iteration one, after zero went live
   - id: one-1
     type: sticky
-    updated: [2026-11-11T15:40:00.000Z, agent:cube]
+    updated: [2026-11-11T16:10:00.000Z, agent:cube]
     box: [3668, 110, 244, blue]
     icon: ✅
-    text: "Built: floor 2's hole two steps from its landing, so exactly one room there is for sale; the lever swings down when pulled; the floor in a corner; the URL keeps the last hatch and, lightly hidden, where you stand. A room for sale shows «For sale, $X» on its far wall; E opens a stub offer, and a bought room reads «Sold / Yours», its floor a shade lighter"
+    text: "Built: floor 2's hole two steps from its landing, so exactly one room there is for sale; the lever swings down when pulled; the floor in a corner; the URL keeps the last hatch and, lightly hidden, where you stand. A room for sale shows «For sale, $9,999,999» on its far wall, or on a post where no wall is left; E opens a stub offer, and a bought room reads «Sold / Yours», its floor a shade lighter"
   - id: one-2
     type: sticky
     updated: [2026-11-11T13:40:00.000Z, agent:cube]
