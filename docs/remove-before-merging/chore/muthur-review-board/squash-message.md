@@ -18,7 +18,9 @@ installs its toolchain.
 
 A PreToolUse hook now denies, once, a hand-rolled write of a sticky PR
 comment (squash proposal, attestation, board link) and names the
-scripts/pr-comment.sh line to run instead. The keepalive watcher starts
+scripts/pr-comment.sh line to run instead, and CLAUDE.md sends any
+auto-mode denial to a narrow allowed script before asking the operator
+for a phrase. The keepalive watcher starts
 as a turn's first action, so replies are no longer written twice; the
 context-budget hook goes quiet under an auto-compact window below 350k;
 and the /finalize bash gate drops its by-hand check mode.
