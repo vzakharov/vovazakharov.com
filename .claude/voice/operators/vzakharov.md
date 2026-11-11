@@ -15,6 +15,10 @@ waited on: «не нужно было (и не нужно в будущем) о�
 продолжать из-за затыков во, в-принципе, параллелизуемых вопросах». Ask it and
 keep going on everything it does not block.
 
+Every board a branch keeps — the review board, a project's own board — is
+republished after each merge or push that changes what it shows, unasked, its
+link in that same reply: «можно я не буду каждый раз напоминать?»
+
 Stop-words, in anything written for me to read — chat, plans, boards, PRs —
 because each marks slop, text produced rather than meant: "load-bearing" (say
 what the thing holds up), "quietly" (say what happened and who did not notice).
