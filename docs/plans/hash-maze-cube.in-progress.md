@@ -260,8 +260,6 @@ An elephant in one PR, a bite per session:
    the planted world; all of it tested, nothing drawn.
 3. **Walking through floors** — the WebGPU renderer, movement and collision,
    `/cube` routed, holes visible both ways, per-floor hue, frames.
-4. **The lever** — lever placement, `E`, continuous shrink, the fall and the
-   rebase, frames mid-shrink.
 
 The last squash is `feat(vova):`, which publishes vovazakharov.com with `/cube`
 unlinked.
@@ -315,6 +313,34 @@ error boundary of its own, so a thrown error (floor 67's `RangeError`, a bad
 whether the game's end gets a page of its own Vova has deferred. The board's
 cards carry icons, an emoji each or one of four hand-drawn SVGs in
 `cube/icons/`.
+
+## This bite
+
+**Bite 4 — the lever.** Built by one subsession on `cube/lever`, off this
+branch, merged here; § "The player" is its spec.
+
+- **Placement, pure in `entities/world`**: `leverOf(room)` for the holed room —
+  on the hole quarter's outer x-wall when present, else its y-wall, else a post
+  at that corner — tested against the wall predicate on planted test worlds.
+- **Pulling, in `features/player`**: `E` pulls when the body's centre is over
+  the hole and the lever is within `0.16 ×` room side; elsewhere it does
+  nothing.
+- **The shrink and the fall** as a pure state step beside `step`: scale
+  `s(t) = 2^(−t/3 s)` from 1 to ½; the body leaves the slab once its diameter is
+  under the hole's side (`s ≈ 0.67`), falls under gravity still shrinking, lands
+  on floor `n+1` at `s = ½`, and rebases to floor `n+1`'s units. Movement keeps
+  working, scaled, while shrinking on the slab; collision against the hole's
+  shaft while falling keeps the body inside it.
+- **Tests** per § "Testing": the fall starts where diameter equals hole side,
+  landing scale is ½, rebasing leaves the eye's world position and view
+  direction unchanged to 1e-9.
+- **Rendering**: the lever drawn (a plate and a handle, the floor's hue darker),
+  the eye scale applied every frame with no jump at the rebase; floor `n+1` seen
+  through the hole all the way down.
+- **On floor 66** the fall lands on floor 67, which the maze refuses: the throw
+  stays as bite 3 left it (the error page is deferred).
+- **Frames**: `play-cube.ts` gains three frames mid-shrink and one mid-fall,
+  uploaded as the next `cube-timelapse` frames; preview2 republished.
 
 ## Coordination
 
