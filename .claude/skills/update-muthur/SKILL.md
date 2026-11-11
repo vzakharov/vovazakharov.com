@@ -280,7 +280,7 @@ row is taken and reported with those criteria rather than asked.
 - **Marked `never` in the catalog** → not offered: the entry answers for every
   adopter, and nothing goes in the record.
 
-Either way the question does not come back.
+Whichever way, the question does not come back.
 
 ### Step 5 — Apply by intent, not by patch
 
