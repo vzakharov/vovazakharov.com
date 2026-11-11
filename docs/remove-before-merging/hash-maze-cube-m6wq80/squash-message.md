@@ -12,16 +12,18 @@ draw has 64, so the maze refuses it and the game truly crashes there.
 The maze is a recursive division over a quadtree, and whether a wall is
 open is computed from that wall alone, so a floor of 2^126 rooms costs
 what a floor of four does. The game draws in plain WebGPU, first person
-and true 3D: the next floor shows through the hole, the one above
-through the ceiling, and pulling the lever by the hole shrinks the
-player continuously until they drop through and land on the floor below
-at full size of its rooms. Each floor's walls take their own hue.
+and true 3D, with no fog: the eye sees every room a straight line
+reaches through open doors, the next floor through the hole and the one
+above through the ceiling. Pulling the lever while standing on the hole
+shrinks the player continuously until they drop through and land on the
+floor below at the full size of its rooms. The player runs, and walks
+with Shift held. Each floor's walls take their own hue.
 
 Seeded randomness lives in a new dice app, keyed by typed paths that a
 lazy node reads without enumerating, with SHA-256 seals over a path;
-the cube is its first child and the island its second. The board's
-mechanisms move out of island-board into a board app; island-board
-keeps its cards and cube-board holds the cube's.
+the cube is its first child, the island's terrain its second once that
+branch lands. The board's mechanisms move out of island-board into a
+board app; island-board keeps its cards and cube-board holds the cube's.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
