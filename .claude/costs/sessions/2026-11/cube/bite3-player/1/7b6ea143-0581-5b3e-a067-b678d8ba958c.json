@@ -1,0 +1,108 @@
+{
+  "total": {
+    "inputTokens": 79,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 108346,
+    "cacheReadTokens": 4971540,
+    "outputTokens": 33477,
+    "thinkingTokens": 11220,
+    "responses": 38,
+    "costUsd": 2.5309320000000013
+  },
+  "estimate": {
+    "at": "2026-11-11T06:39:05.594Z",
+    "subjectLine": "feat: cube player movement, wall collision and input binding",
+    "parts": [
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "circle-vs-segment collision with door gaps, exact room re-basing over BigInt rooms and pointer-lock input are movement feel in code, and the random-walk invariants need someone who has shipped a character controller"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-11T06:38:15.587Z",
+    "contextTokens": 93705,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 40006,
+      "cacheReadTokens": 52859,
+      "outputTokens": 411,
+      "thinkingTokens": 46,
+      "responses": 1,
+      "costUsd": 0.33884780000000003
+    }
+  },
+  "sessionId": "7b6ea143-0581-5b3e-a067-b678d8ba958c",
+  "branch": "cube/bite3-player",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a subsession of a producer session (session_01DaohkDF47nEL2dtQZcooZU) that owns the PR branch `claude/hash-maze-cube-m6wq80` (PR #270). Your branch is `…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDNbJ4PaxREAirP3iQ",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-11T06:38:05.837Z",
+  "lastResponseAt": "2026-11-11T06:46:55.827Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 79,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 108346,
+    "cacheReadTokens": 4971540,
+    "outputTokens": 33477,
+    "thinkingTokens": 11220,
+    "responses": 38,
+    "costUsd": 2.5309320000000013
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 79,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 108346,
+      "cacheReadTokens": 4971540,
+      "outputTokens": 33477,
+      "thinkingTokens": 11220,
+      "responses": 38,
+      "costUsd": 2.5309320000000013
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 38,
+    "matched": 38,
+    "matchedTableUsd": 2.5309320000000013,
+    "matchedEventUsd": 2.5309320000000013,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".staged": 356,
+    ".md": 1128,
+    ".json": 119,
+    ".ts": 1896,
+    ".scss": 0,
+    ".yaml": 350
+  }
+}
