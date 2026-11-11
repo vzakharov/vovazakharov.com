@@ -108,7 +108,7 @@ fn themeMaterial(s: Surf) -> Material {
     HOME,
     ordinary('guest-room', {
       air: AIR,
-      lamp: [4.3, 3.0, 2.5],
+      lamp: [4.3, 3, 2.5],
       ambient: [0.011, 0.008, 0.008],
       grid: 1,
       panel: [0.4, 0.4],

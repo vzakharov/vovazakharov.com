@@ -40,7 +40,7 @@ fn blockwork(s: Surf) -> Material {
   let pit = worley(s.uv * 130.0, 0xe1u);
   let pore = within(pit.x - 0.25, 0.1) * step(0.5, pit.y);
   let low = within(y - 1.1, 0.004);
-  let coat = mix(vec3f(0.48, 0.44, 0.33), vec3f(0.1, 0.22, 0.3), low) * (0.92 + 0.12 * word);
+  let coat = mix(vec3f(0.48, 0.44, 0.33), vec3f(0.07, 0.15, 0.2), low) * (0.92 + 0.12 * word);
   let salt = (1.0 - smoothstep(0.0, 0.45, y)) * smoothstep(0.45, 0.75, fbm(s.uv * vec2f(3.0, 6.0), s.seed ^ 0xe2u, 4));
   let weep = smoothstep(0.66, 0.74, fbm(vec2f(s.uv.x * 9.0, y * 0.5), s.seed ^ 0xe3u, 3))
     * smoothstep(ROOM.y, 0.3, y) * step(0.5, unitOf(wallWord(s)));
@@ -53,9 +53,9 @@ fn blockwork(s: Surf) -> Material {
 
 fn floorPaint(s: Surf) -> Material {
   let wear = fbm(s.uv * 0.45, 0xe4u, 4) + 0.12 * fbm(s.uv * 9.0, 0xe5u, 3);
-  let bare = smoothstep(0.58, 0.64, wear);
+  let bare = smoothstep(0.66, 0.72, wear);
   let grit = worley(s.uv * 60.0, 0xe6u);
-  let slab = vec3f(0.26, 0.25, 0.22) * (0.8 + 0.25 * grit.y) * (0.85 + 0.2 * fbm(s.uv * 2.0, 0xe7u, 3));
+  let slab = vec3f(0.17, 0.165, 0.15) * (0.8 + 0.25 * grit.y) * (0.85 + 0.2 * fbm(s.uv * 2.0, 0xe7u, 3));
   let red = vec3f(0.2, 0.04, 0.026) * (0.85 + 0.2 * fbm(s.uv * 30.0, 0xe8u, 2));
   let vein = abs(fbm(s.uv * 0.7, 0xe9u, 4) - 0.5);
   let crack = within(vein - 0.0015, 0.002) * smoothstep(0.45, 0.6, fbm(s.uv * 0.25, 0xe9u + 9u, 2));
@@ -96,7 +96,7 @@ fn themeMaterial(s: Surf) -> Material {
     case WALL: { return blockwork(s); }
     case FLOOR, OWNED: { return floorPaint(s); }
     case CEILING: { return joisted(s); }
-    case TRIM: { return polished(vec3f(0.1, 0.22, 0.3) * (0.85 + 0.2 * fbm(s.uv * 12.0, 0xe1u, 2)), 0.4); }
+    case TRIM: { return polished(vec3f(0.07, 0.15, 0.2) * (0.85 + 0.2 * fbm(s.uv * 12.0, 0xe1u, 2)), 0.4); }
     default: { return stuff(s); }
   }
 }

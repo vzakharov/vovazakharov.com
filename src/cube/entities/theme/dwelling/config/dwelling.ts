@@ -7,6 +7,10 @@ import { DEN } from './13-den';
 import { LAUNDRY } from './14-laundry';
 import { NURSERY } from './15-nursery';
 import { GUEST_ROOM } from './16-guest-room';
+import { GARAGE } from './17-garage';
+import { ATTIC } from './18-attic';
+import { DRAWING } from './19-drawing';
+import { REMEMBERED } from './20-remembered';
 
 /** Floors 9 to 20: places somebody lived in, remembered slightly wrong. */
 export const DWELLING_FLOORS: Floors = {
@@ -18,4 +22,8 @@ export const DWELLING_FLOORS: Floors = {
   14: LAUNDRY,
   15: NURSERY,
   16: GUEST_ROOM,
+  17: GARAGE,
+  18: ATTIC,
+  19: DRAWING,
+  20: REMEMBERED,
 };
