@@ -1,16 +1,13 @@
-Proposed squash title/body:
-
-```
-feat(vova): /cube, the shrinking cube's iteration zero (#270)
-```
+Proposed squash body:
 
 ```
 A maze game whose last floor is out of reach of any computer: /cube
-stacks 64 floors inside one cube, each a perfect maze of rooms, and the
+stacks 67 floors inside one cube, each a perfect maze of rooms, and the
 player shrinks by half on every floor down. Each floor has one hole,
 committed with SHA-256 to the room it drops into and planted with no
 answer kept, so reaching floor n is a search over 4^(n-1) rooms that no
-client can shortcut; floor 64 is about 2^126.
+client can shortcut. Floor 67 is the end: its doors need 65 bits and a
+draw has 64, so the maze refuses it and the game truly crashes there.
 
 The maze is a recursive division over a quadtree, and whether a wall is
 open is computed from that wall alone, so a floor of 2^126 rooms costs
@@ -20,10 +17,11 @@ through the ceiling, and pulling the lever by the hole shrinks the
 player continuously until they drop through and land on the floor below
 at full size of its rooms. Each floor's walls take their own hue.
 
-Seeded randomness the island built (the typed roll vocabulary, the
-path hash and its decoders) lives in a new dice app both games share,
-and the board's mechanisms move out of island-board into a board app;
-island-board keeps its cards and cube-board holds the cube's.
+Seeded randomness lives in a new dice app, keyed by typed paths that a
+lazy node reads without enumerating, with SHA-256 seals over a path;
+the cube is its first child and the island its second. The board's
+mechanisms move out of island-board into a board app; island-board
+keeps its cards and cube-board holds the cube's.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
