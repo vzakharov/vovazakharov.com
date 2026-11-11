@@ -77,3 +77,9 @@ items:
     box: [2853, 610, 244, purple]
     icon: 🔦
     text: 'No fog: fog in a closed space was a poor idea. The eye sees every room a straight line reaches through open walls, out to the far plane, so a long corridor shows to its end'
+  - id: zero-13
+    type: sticky
+    updated: [2026-11-11T10:40:00.000Z, agent:cube]
+    box: [3188, 110, 244, yellow]
+    icon: 🧹
+    text: "Next PR: leverOf takes Walls instead of the rolled maze, so whether a quarter's wall is closed is answered once, by the walls, not again by the lever and a third time by its test"
