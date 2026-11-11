@@ -11,34 +11,38 @@ import {
 } from '@/cube/shared/lettering';
 import { hsl, hueOf, type Rgb } from '@/cube/shared/lib/colour';
 
-import { clipped } from './clip';
 import {
   CAPTION_BASE,
   CAPTION_CAP,
+  clipped,
   DRAWING_FRAME,
   FRAME_TALL,
   FRAME_WIDE,
   LEADING,
+  lengthLabel,
   MARGIN,
   POSTER_TALL,
   POSTER_WIDE,
+  rounded,
+  roundLength,
   RULE_UNDER,
   RULER_BASE,
   RULER_CAP,
+  sidesPerMetre,
   TITLE_BASE,
   TITLE_CAP,
-} from './layout';
-import {
-  lengthLabel,
-  rounded,
-  roundLength,
-  sidesPerMetre,
   visitorMetres,
-} from './scale';
-import { sketchOf, type Subject, subjectOf } from './subjects';
+} from '../../frame';
+import { sketchOf, type Subject, subjectOf } from '../../subject';
 
 /** The sheet itself: the first thing drawn, under everything inked on it. */
-export type Sheet = { part: 'paper'; wide: number; tall: number; tint: Rgb };
+type Tinted = { tint: Rgb };
+
+export type Sheet = Tinted & {
+  part: 'paper';
+  sheetWide: number;
+  sheetTall: number;
+};
 
 const INKED = ['title', 'drawing', 'ruler', 'caption'] as const;
 
@@ -46,11 +50,10 @@ const INKED = ['title', 'drawing', 'ruler', 'caption'] as const;
  * Strokes inked on the sheet, in room sides from its lower left corner, y
  * upward, with a nib `nibWide` across.
  */
-export type Inked = {
+export type Inked = Tinted & {
   part: (typeof INKED)[number];
   strokes: readonly Polyline[];
   nibWide: number;
-  tint: Rgb;
 };
 
 /** One thing to draw of a poster; they are drawn in the order given. */
@@ -66,6 +69,11 @@ const FILL = 0.8;
 /** The longest a ruler may be, in room sides. */
 const RULER_LONG = 0.12;
 const TICK = 0.005;
+
+const paperOf = (n: number): Rgb => hsl(hueOf(n), 0.16, 0.9);
+const inkOf = (n: number): Rgb => hsl(hueOf(n), 0.3, 0.17);
+/** The title's and the ruler's ink: quieter than the drawing's. */
+const quietOf = (n: number): Rgb => hsl(hueOf(n), 0.14, 0.46);
 
 const TEXT_WIDE = POSTER_WIDE - 2 * MARGIN;
 
@@ -96,8 +104,8 @@ function standing(times: number): string {
 
 /** A caption's two lines: what the thing is, then how big, and against you. */
 export function captionOf(subject: Subject, n: number): readonly string[] {
-  const { name, metres, measured, note } = subject;
-  if (measured === undefined) return [name, note ?? ''];
+  const { name, metres, measured, unsizedNote } = subject;
+  if (measured === undefined) return [name, unsizedNote ?? ''];
   return [
     name,
     `${lengthLabel(metres)} ${measured}. ${standing(metres / visitorMetres(n))}.`,
@@ -189,11 +197,6 @@ function ruler(n: number): Polyline[] {
   ];
 }
 
-const paperOf = (n: number): Rgb => hsl(hueOf(n), 0.16, 0.9);
-const inkOf = (n: number): Rgb => hsl(hueOf(n), 0.3, 0.17);
-/** The title's and the ruler's ink: quieter than the drawing's. */
-const quietOf = (n: number): Rgb => hsl(hueOf(n), 0.14, 0.46);
-
 /**
  * Floor `n`'s poster as the things to draw, in order: the paper; a quiet
  * title, with how tall the visitor now is; the thing they are now the size
@@ -209,7 +212,12 @@ export function posterOf(n: number): PosterPart[] {
     [POSTER_WIDE - MARGIN, TITLE_BASE - RULE_UNDER],
   ];
   return [
-    { part: 'paper', wide: POSTER_WIDE, tall: POSTER_TALL, tint: paperOf(n) },
+    {
+      part: 'paper',
+      sheetWide: POSTER_WIDE,
+      sheetTall: POSTER_TALL,
+      tint: paperOf(n),
+    },
     {
       part: 'title',
       strokes: [

@@ -5,12 +5,12 @@ import {
   around,
   blob,
   curve,
-  dot,
   oval,
   path,
   polygon,
   rays,
   scatter,
+  speck,
   wave,
 } from './shapes';
 
@@ -45,7 +45,7 @@ export const EGG_CELL: Polyline[] = [
   oval(0.5, 0.5, 0.43),
   ...rays(0.5, 0.5, 0.45, 0.5, 44),
   oval(0.56, 0.55, 0.1),
-  dot(0.58, 0.56),
+  speck(0.58, 0.56),
 ];
 
 export const POLLEN: Polyline[] = [
@@ -72,7 +72,7 @@ const dendrite = (at: number, long: number): Polyline[] => [
 export const NEURON: Polyline[] = [
   lumpy(0.5, 0.5, 0.46, 5, 0.1),
   oval(0.5, 0.52, 0.17),
-  dot(0.52, 0.54),
+  speck(0.52, 0.54),
   ...[0.14, 0.3, 0.47, 0.62, 0.8].flatMap((at, branch) =>
     dendrite(at, 1.1 + 0.25 * (branch % 3)),
   ),
@@ -86,7 +86,7 @@ export const WHITE_CELL: Polyline[] = [
   oval(0.64, 0.42, 0.11, 0.12),
   path([0.46, 0.6], [0.48, 0.62]),
   path([0.62, 0.53], [0.63, 0.55]),
-  ...scatter(0.5, 0.5, 0.4, 16).map(([x, y]) => dot(x, y, 0.008)),
+  ...scatter(0.5, 0.5, 0.4, 16).map(([x, y]) => speck(x, y, 0.008)),
 ];
 
 export const RED_CELL: Polyline[] = [

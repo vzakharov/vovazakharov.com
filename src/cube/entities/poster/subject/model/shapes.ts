@@ -94,7 +94,7 @@ export const polygon = (
   );
 
 /** A dot the nib makes: a stroke as short as it is wide. */
-export const dot = (x: number, y: number, size = 0.012): Polyline => [
+export const speck = (x: number, y: number, size = 0.012): Polyline => [
   [x, y],
   [x, y + size],
 ];
@@ -144,7 +144,7 @@ export const scatter = (
  * `text` in capitals `size` tall, its baseline's left end at `(x, y)`: plain
  * ones unless a `script` is named.
  */
-export const label = (
+export const lettered = (
   text: string,
   x: number,
   y: number,

@@ -41,27 +41,27 @@ const along = (a: Point, b: Point, t: number): Point => [
  * frame ends at its edge, and one that comes back starts a new stroke there.
  */
 export function clipped(lines: readonly Polyline[], frame: Frame): Polyline[] {
-  const kept: Point[][] = [];
+  // Every stroke's runs inside the frame; an empty run is one waiting to start.
+  const runs: Point[][] = [];
   for (const line of lines) {
     let run: Point[] = [];
-    const close = () => {
-      if (run.length > 1) kept.push(run);
-      run = [];
-    };
+    runs.push(run);
     for (const [at, a] of line.slice(0, -1).entries()) {
       const b = line[at + 1] ?? a;
-      const span = inside(a, b, frame);
-      if (span === null) {
-        close();
-      } else {
-        const [enter, leave] = span;
-        if (enter > 0) close();
+      const [enter, leave] = inside(a, b, frame) ?? [1, 0];
+      if ((enter > 0 || enter > leave) && run.length > 0) {
+        run = [];
+        runs.push(run);
+      }
+      if (enter <= leave) {
         if (run.length === 0) run.push(along(a, b, enter));
         run.push(along(a, b, leave));
-        if (leave < 1) close();
+        if (leave < 1) {
+          run = [];
+          runs.push(run);
+        }
       }
     }
-    close();
   }
-  return kept;
+  return runs.filter((run) => run.length > 1);
 }

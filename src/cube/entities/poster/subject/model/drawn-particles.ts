@@ -3,11 +3,11 @@ import { type Point, type Polyline, scriptOf } from '@/cube/shared/lettering';
 import {
   around,
   dashes,
-  dot,
-  label,
+  lettered,
   oval,
   path,
   scatter,
+  speck,
   wave,
 } from './shapes';
 
@@ -31,13 +31,13 @@ export const HELIUM_ATOM: Polyline[] = shells([2]);
 
 /** A cloud: where the one electron is likely to be, thickest at the middle. */
 export const HYDROGEN_ATOM: Polyline[] = [
-  ...scatter(0.5, 0.5, 0.5, 260, 2.6).map(([x, y]) => dot(x, y, 0.006)),
+  ...scatter(0.5, 0.5, 0.5, 260, 2.6).map(([x, y]) => speck(x, y, 0.006)),
   oval(0.5, 0.5, 0.012),
 ];
 
 /** Next to nothing: a few specks of the cloud, far apart. */
 export const ATOM_VOID: Polyline[] = scatter(0.5, 0.5, 0.5, 14).map(([x, y]) =>
-  dot(x, y, 0.006),
+  speck(x, y, 0.006),
 );
 
 /** A shorter wave than light's: more of them to the wavelength measured off. */
@@ -85,9 +85,9 @@ export const PROTON: Polyline[] = [
     const next = QUARKS[(at + 1) % 3] ?? quark;
     return [oval(...quark, 0.07), wave(quark, next, 5, 0.03).slice(14, -14)];
   }),
-  ...label('U', 0.47, 0.71, 0.06),
-  ...label('U', 0.265, 0.35, 0.06),
-  ...label('D', 0.68, 0.35, 0.06),
+  ...lettered('U', 0.47, 0.71, 0.06),
+  ...lettered('U', 0.265, 0.35, 0.06),
+  ...lettered('D', 0.68, 0.35, 0.06),
 ];
 
 /** The floor the proton's inside is first seen from; it thins out below. */
@@ -111,10 +111,10 @@ export const quarkSea = (n: number): Polyline[] =>
 
 /** A point, inside the ring nobody has yet seen it smaller than. */
 export const QUARK: Polyline[] = [
-  dot(0.5, 0.5, 0.01),
+  speck(0.5, 0.5, 0.01),
   ...dashes(0.5, 0.5, 0.5, 24),
 ];
 
 /** A question mark, coming apart as the floor's script does. */
 export const question = (n: number): Polyline[] =>
-  label('?', 0.25, 0, 1, scriptOf(n));
+  lettered('?', 0.25, 0, 1, scriptOf(n));

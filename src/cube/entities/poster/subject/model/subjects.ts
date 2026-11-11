@@ -1,6 +1,13 @@
-import { bounds, type Point, type Polyline } from '@/cube/shared/lettering';
 import type { Named } from '@/kernel/shared/typings';
 
+import { bounds, type Point, type Polyline } from '@/cube/shared/lettering';
+
+import {
+  FRAME_TALL,
+  FRAME_WIDE,
+  sidesPerMetre,
+  visitorMetres,
+} from '../../frame';
 import {
   BACTERIUM,
   EGG_CELL,
@@ -54,8 +61,6 @@ import {
   SHORT_WAVE,
   URANIUM_NUCLEUS,
 } from './drawn-particles';
-import { FRAME_TALL, FRAME_WIDE } from './layout';
-import { sidesPerMetre, visitorMetres } from './scale';
 
 /** A thing's strokes: the same on every floor, or drawn for the floor asked. */
 type Sketch = readonly Polyline[] | ((n: number) => readonly Polyline[]);
@@ -64,12 +69,13 @@ type Sketch = readonly Polyline[] | ((n: number) => readonly Polyline[]);
  * A thing a poster shows. `metres` is how big it really is, and the unit its
  * `sketch` is drawn in; `measured` says which way that length runs. A thing
  * with no `measured` has no size to be drawn at — an emptiness, a guess — and
- * `metres` only places it on the ladder; its caption's second line is `note`.
+ * `metres` only places it on the ladder; its caption's second line is
+ * `unsizedNote`.
  */
 export type Subject = Named & {
   metres: number;
   measured?: string;
-  note?: string;
+  unsizedNote?: string;
   sketch: Sketch;
   /** What a poster too small for the whole thing centres on. */
   focus: Point;
@@ -112,9 +118,16 @@ const thing = (
 const unsized = (
   name: string,
   metres: number,
-  note: string,
+  unsizedNote: string,
   sketch: Sketch,
-): Subject => ({ name, metres, note, sketch, focus: MIDDLE, body: MIDDLE });
+): Subject => ({
+  name,
+  metres,
+  unsizedNote,
+  sketch,
+  focus: MIDDLE,
+  body: MIDDLE,
+});
 
 /** A wave's posters centre on the wavelength marked off, and count it whole. */
 const WAVE_FOCUS: Point = [0.5, 0.4];
@@ -272,23 +285,30 @@ const REPEATING = 0.6;
  * counting against it — so two floors share a thing only where nothing else
  * comes near either.
  */
+type Walk = { cost: number; path: readonly number[] };
+
+function cheapest(walks: readonly Walk[]): Walk {
+  let best: Walk = { cost: Infinity, path: [] };
+  for (const walk of walks) if (walk.cost < best.cost) best = walk;
+  return best;
+}
+
 function descent(): readonly number[] {
   const rungs = LADDER.map((_, rung) => rung);
   // The cheapest walk ending on each rung, as its cost and its rungs so far.
-  let walks = rungs.map((rung) => ({
+  let walks: Walk[] = rungs.map((rung) => ({
     cost: mismatch(LADDER[rung] ?? unsized('', 1, '', []), 1),
     path: [rung],
   }));
   for (let n = 2; n <= FLOORS; n += 1) {
     const before = walks;
     walks = rungs.map((rung) => {
-      const best = before
-        .slice(0, rung + 1)
-        .map((walk, from) => ({
+      const best = cheapest(
+        before.slice(0, rung + 1).map((walk, from) => ({
+          ...walk,
           cost: walk.cost + (from === rung ? REPEATING : 0),
-          path: walk.path,
-        }))
-        .reduce((a, b) => (b.cost < a.cost ? b : a));
+        })),
+      );
       const here = LADDER[rung];
       return {
         cost: best.cost + (here === undefined ? 0 : mismatch(here, n)),
@@ -296,7 +316,7 @@ function descent(): readonly number[] {
       };
     });
   }
-  return walks.reduce((a, b) => (b.cost < a.cost ? b : a)).path;
+  return cheapest(walks).path;
 }
 
 const RUNGS = descent();

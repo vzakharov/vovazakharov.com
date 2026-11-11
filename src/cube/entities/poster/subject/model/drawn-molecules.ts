@@ -4,7 +4,7 @@ import {
   around,
   blob,
   curve,
-  label,
+  lettered,
   oval,
   path,
   polygon,
@@ -113,7 +113,7 @@ export const GLUCOSE: Polyline[] = [
       ...(corner === 1 ? [] : [bond(atom, out, 0.045), oval(...out, 0.04)]),
     ];
   }),
-  ...label('O', 0.6, 0.78, 0.07),
+  ...lettered('O', 0.6, 0.78, 0.07),
 ];
 
 export const BUCKYBALL: Polyline[] = [
@@ -138,7 +138,7 @@ export const WATER: Polyline[] = [
   oval(0.5, 0.42, 0.3),
   oval(0.2, 0.68, 0.19),
   oval(0.8, 0.68, 0.19),
-  ...label('O', 0.45, 0.36, 0.12),
-  ...label('H', 0.16, 0.63, 0.1),
-  ...label('H', 0.76, 0.63, 0.1),
+  ...lettered('O', 0.45, 0.36, 0.12),
+  ...lettered('H', 0.16, 0.63, 0.1),
+  ...lettered('H', 0.76, 0.63, 0.1),
 ];

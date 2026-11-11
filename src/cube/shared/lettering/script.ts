@@ -78,12 +78,13 @@ function broken(line: Polyline, count: number): Polyline[] {
 }
 
 function middle(line: Polyline): Point {
-  const sum = line.reduce<Point>(
-    ([x, y], [px, py]) => [x + px, y + py],
-    [0, 0],
-  );
+  let [sumX, sumY] = [0, 0];
+  for (const [x, y] of line) {
+    sumX += x;
+    sumY += y;
+  }
   const count = Math.max(line.length, 1);
-  return [sum[0] / count, sum[1] / count];
+  return [sumX / count, sumY / count];
 }
 
 /** `glyph` with each stroke strayed and turned as far as `script` is loose. */
@@ -112,7 +113,7 @@ function loosened(glyph: Glyph, code: number, script: Script): Glyph {
       ];
     });
   });
-  return { lines, advance: glyph.advance };
+  return { ...glyph, lines };
 }
 
 /**

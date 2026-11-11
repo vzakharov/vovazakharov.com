@@ -108,7 +108,7 @@ export const glyphOf = (lines: readonly Polyline[]): Glyph => ({
   advance: bounds(lines)[2] + GAP / GRID,
 });
 
-const LATIN = new Map(
+const DRAWN_GLYPHS = new Map(
   Object.entries(DRAWN).map(([char, drawn]) => [
     char,
     glyphOf(drawn.map((each) => stroke(each))),
@@ -120,7 +120,7 @@ const BOX = glyphOf(MISSING.map((each) => stroke(each)));
 const BLANK: Glyph = { lines: [], advance: SPACE };
 
 /** Every character the font draws a glyph of its own for. */
-export const LATIN_CHARS: readonly string[] = [...LATIN.keys()];
+export const LATIN_CHARS: readonly string[] = [...DRAWN_GLYPHS.keys()];
 
 /**
  * The Latin glyph of `char`: a capital for either case, a blank for white
@@ -128,5 +128,5 @@ export const LATIN_CHARS: readonly string[] = [...LATIN.keys()];
  */
 export function latinGlyph(char: string): Glyph {
   if (char.trim() === '') return BLANK;
-  return LATIN.get(char) ?? LATIN.get(char.toUpperCase()) ?? BOX;
+  return DRAWN_GLYPHS.get(char) ?? DRAWN_GLYPHS.get(char.toUpperCase()) ?? BOX;
 }

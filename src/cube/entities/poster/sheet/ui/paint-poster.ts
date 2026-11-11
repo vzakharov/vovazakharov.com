@@ -9,8 +9,8 @@ export type Brush = Pen &
 
 /**
  * Paints `parts`, in order, on `brush` at `scale` pixels to a room side, the
- * sheet's upper left corner at the canvas's: a canvas `wide · scale` by
- * `tall · scale` pixels holds the poster exactly.
+ * sheet's upper left corner at the canvas's: a canvas `sheetWide · scale` by
+ * `sheetTall · scale` pixels holds the poster exactly.
  */
 export function paintPoster(
   brush: Brush,
@@ -20,16 +20,16 @@ export function paintPoster(
   let tall = 0;
   for (const each of parts) {
     if (each.part === 'paper') {
-      tall = each.tall;
+      tall = each.sheetTall;
       brush.fillStyle = cssRgb(each.tint);
-      brush.fillRect(0, 0, each.wide * scale, each.tall * scale);
+      brush.fillRect(0, 0, each.sheetWide * scale, each.sheetTall * scale);
     } else {
       paintStrokes(brush, each.strokes, {
-        left: 0,
+        leftPixel: 0,
         baseline: tall * scale,
-        unit: scale,
-        nib: each.nibWide * scale,
-        ink: cssRgb(each.tint),
+        pixelsPerUnit: scale,
+        nibPixels: each.nibWide * scale,
+        inkColour: cssRgb(each.tint),
       });
     }
   }

@@ -1,6 +1,6 @@
 import type { Polyline } from '@/cube/shared/lettering';
 
-import { arc, around, blob, curve, dot, oval, path, rays } from './shapes';
+import { arc, around, blob, curve, oval, path, rays, speck } from './shapes';
 
 // Each drawing is strokes in units of the thing's own stated size, x rightward
 // and y upward from the thing's lower left: a thing 9 cm long spans 0 to 1.
@@ -39,7 +39,7 @@ export const CAT: Polyline[] = [
   path([0.36, 0.22], [0.36, 0.02], [0.41, 0.02]),
   path([0.58, 0.22], [0.58, 0.02], [0.63, 0.02]),
   path([0.67, 0.25], [0.68, 0.02], [0.73, 0.02]),
-  dot(0.83, 0.44),
+  speck(0.83, 0.44),
   path([0.88, 0.4], [0.98, 0.43]),
   path([0.88, 0.39], [0.98, 0.37]),
 ];
@@ -50,7 +50,7 @@ export const HEDGEHOG: Polyline[] = [
   path([0.06, 0.06], [0.84, 0.06]),
   ...rays(0.42, 0.1, 0.24, 0.36, 15, 0.04).slice(0, 7),
   ...rays(0.42, 0.1, 0.33, 0.46, 19, 0.03).slice(0, 9),
-  dot(0.86, 0.17),
+  speck(0.86, 0.17),
   path([0.25, 0.06], [0.25, 0.01], [0.3, 0.01]),
   path([0.65, 0.06], [0.65, 0.01], [0.7, 0.01]),
 ];
@@ -65,7 +65,7 @@ export const MOUSE: Polyline[] = [
     [0.2, 0.04],
   ),
   oval(0.72, 0.43, 0.09, 0.1),
-  dot(0.86, 0.25),
+  speck(0.86, 0.25),
   curve([0.12, 0.16], [-0.2, 0.08], [-0.4, 0.3], [-0.7, 0.2]),
   path([0.95, 0.17], [1.08, 0.24]),
   path([0.95, 0.15], [1.09, 0.13]),
@@ -176,7 +176,7 @@ export const FLEA: Polyline[] = [
   path([0.5, 0.03], [0.62, 0]),
   leg([0.6, 0.24], [0.56, 0.12], [0.7, 0.04]),
   leg([0.74, 0.25], [0.78, 0.14], [0.9, 0.08]),
-  dot(0.82, 0.44),
+  speck(0.82, 0.44),
   path([0.9, 0.4], [1, 0.36]),
 ];
 
@@ -200,7 +200,7 @@ export const TARDIGRADE: Polyline[] = [
     path([x + 0.06, 0.05], [x + 0.08, 0]),
   ]),
   oval(0.975, 0.35, 0.025, 0.04),
-  dot(0.9, 0.42),
+  speck(0.9, 0.42),
 ];
 
 export const MITE: Polyline[] = [

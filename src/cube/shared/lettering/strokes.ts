@@ -7,15 +7,19 @@ import { glyphIn, type Script } from './script';
  * capitals.
  */
 export function strokes(text: string, script: Script): Polyline[] {
+  const set: Polyline[] = [];
   let pen = 0;
-  return [...text].flatMap((char) => {
+  for (const char of text) {
     const { lines, advance } = glyphIn(char, script);
-    const set = placedAt(lines, 1, pen);
+    set.push(...placedAt(lines, 1, pen));
     pen += advance;
-    return set;
-  });
+  }
+  return set;
 }
 
 /** How far `text` advances the pen in `script`, in em: its line's width. */
-export const measure = (text: string, script: Script): number =>
-  [...text].reduce((pen, char) => pen + glyphIn(char, script).advance, 0);
+export function measure(text: string, script: Script): number {
+  let pen = 0;
+  for (const char of text) pen += glyphIn(char, script).advance;
+  return pen;
+}
