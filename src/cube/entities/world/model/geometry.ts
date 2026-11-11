@@ -1,5 +1,5 @@
 import { holeMiddle, type HoleOf, type Quarter } from './hole';
-import { leverFaces, leverOf } from './lever';
+import { leverFaces, leverOf, type Pulled, swungIn } from './lever';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
 import type { Pose } from './pose';
 import { face, type Quad, type Vec3 } from './quad';
@@ -185,6 +185,7 @@ function lever(
   eye: Room,
   room: Room,
   quarter: Quarter | null,
+  pulled: Pulled | null,
 ): Quad[] {
   if (quarter === null) return [];
   const { east, south, roomSide } = footprint(eye, room);
@@ -193,6 +194,7 @@ function lever(
     room.n,
     [east, slabHeight(eye.n, room.n), south],
     roomSide,
+    swungIn(pulled, room),
   );
 }
 
@@ -200,15 +202,17 @@ function lever(
  * Every face the eye at `pose` sees of `view`: the walls of its floor's rooms,
  * of the rooms below them and of the room overhead; the slabs of all of them,
  * holes cut; the levers of the holed rooms among those; and the ceiling over
- * the topmost room it sees, which on floors 1 and 2 is the lid. Slabs come
- * first, so a depth test that keeps the first of two equal depths draws a
- * slab, not the wall tops meeting it from below.
+ * the topmost room it sees, which on floors 1 and 2 is the lid. Every lever
+ * is drawn at rest but the one `pulled`. Slabs come first, so a depth test
+ * that keeps the first of two equal depths draws a slab, not the wall tops
+ * meeting it from below.
  */
 export function faces(
   rolled: RolledMaze,
   pose: Pose,
   view: View,
   holeOf: HoleOf,
+  pulled: Pulled | null,
 ): Quad[] {
   const slabOf = (room: Room) =>
     slab(pose, room.n, footprint(pose, room), holeOf(room));
@@ -229,6 +233,8 @@ export function faces(
     ...walls(rolled, pose, view.near),
     ...walls(rolled, pose, view.below),
     ...(view.overhead === null ? [] : walls(rolled, pose, [view.overhead])),
-    ...walled.flatMap((room) => lever(rolled, pose, room, holeOf(room))),
+    ...walled.flatMap((room) =>
+      lever(rolled, pose, room, holeOf(room), pulled),
+    ),
   ];
 }

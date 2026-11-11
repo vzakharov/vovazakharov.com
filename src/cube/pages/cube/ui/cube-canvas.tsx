@@ -10,6 +10,7 @@ import {
   plantedWalls,
   play as playFrame,
   type Player,
+  pulledOf,
 } from '@/cube/features/player';
 
 import { type CubePlayHook, PLAY_HOOK, PLAY_QUERY } from '../lib/play';
@@ -74,7 +75,7 @@ export function CubeCanvas({ canvas: label, unsupported }: CubeCanvasProps) {
       start,
       onFrame:
         input === null
-          ? (pose) => pose
+          ? (pose) => ({ pose, pulled: null })
           : (pose, seconds) => {
               player = playFrame(
                 { ...player, pose },
@@ -83,7 +84,8 @@ export function CubeCanvas({ canvas: label, unsupported }: CubeCanvasProps) {
                 plantedWalls,
                 holedHere(pose),
               );
-              return player.pose;
+              const { pose: moved } = player;
+              return { pose: moved, pulled: pulledOf(player) };
             },
       onError: setFailure,
       onUnsupported: () => {
