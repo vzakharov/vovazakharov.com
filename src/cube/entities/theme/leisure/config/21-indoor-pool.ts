@@ -45,15 +45,6 @@ fn ripple(p: vec2f, t: f32) -> f32 {
     + 0.5 * fbm(p * 4.3 - vec2f(t * 0.3, -t * 0.17), 215u, 2);
 }
 
-/// The web of light moving water throws, 0 to 1.
-fn caustics(p: vec2f, t: f32) -> f32 {
-  let warp = vec2f(valueNoise(p * 0.9 + t * 0.15, 221u), valueNoise(p * 0.9 - t * 0.12 + 7.3, 222u));
-  let a = veins(p * 2.4 + warp * 0.9, 223u);
-  let b = veins(p * 3.3 - warp * 0.7 + vec2f(t * 0.08, 3.1), 224u);
-  let web = pow(1.0 - smoothstep(0.0, 0.34, a), 2.0) + pow(1.0 - smoothstep(0.0, 0.3, b), 2.0);
-  return 0.5 * web;
-}
-
 /// The pool's floor seen through a hand's depth of moving water.
 fn water(s: Surf) -> Material {
   let depth = 0.3;

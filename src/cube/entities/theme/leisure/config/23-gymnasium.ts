@@ -51,7 +51,7 @@ fn court(s: Surf) -> Material {
   let scuff = smoothstep(0.55, 0.8, fbm(s.uv * 1.7, 234u, 3));
   // Joints and grain finer than a pixel would shimmer: they fade with distance.
   let joint = mix(1.0, board.x, near);
-  let floor = polished(colour * mix(0.45, 1.0, joint), 0.32 - 0.2 * scuff);
+  let floor = polished(colour * mix(0.45, 1.0, joint), 0.06 - 0.03 * scuff);
   return embossed(s, floor, 2.0 * fbm(s.uv * 2.4, 235u, 3) + 0.3 * fbm(s.uv * 11.0, 230u, 2), 0.003);
 }
 

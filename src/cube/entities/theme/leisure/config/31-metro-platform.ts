@@ -46,7 +46,7 @@ fn edged(s: Surf) -> Material {
   var colour = mix(granite * mix(0.45, 1.0, flag.x), vec3f(0.58, 0.42, 0.03) * (0.8 + 0.25 * blister), strip * worn);
   colour = mix(colour, vec3f(0.55, 0.55, 0.52), line * worn);
   colour = mix(colour, vec3f(0.03), 0.8 * gum);
-  let floor = polished(colour, 0.26 - 0.16 * strip);
+  let floor = polished(colour, 0.05 - 0.03 * strip);
   return embossed(s, floor, flag.x + 2.0 * blister + 1.5 * fbm(s.uv * 2.0, 316u, 3), 0.002);
 }
 
@@ -133,7 +133,7 @@ fn themeMaterial(s: Surf) -> Material {
     ordinary('metro-platform', {
       air: AIR,
       lamp: [1.25, 1.42, 1.15],
-      ambient: [0.007, 0.008, 0.006],
+      ambient: [0.02, 0.023, 0.018],
       grid: 2,
       panel: [1.5, 0.12],
       stutter: 0.1,

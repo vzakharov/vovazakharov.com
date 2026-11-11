@@ -10,6 +10,10 @@ import { UNDERPASS } from './28-underpass';
 import { PAINTED_SKY } from './29-painted-sky';
 import { ICE_RINK } from './30-ice-rink';
 import { METRO_PLATFORM } from './31-metro-platform';
+import { GLOW_GOLF } from './32-glow-golf';
+import { BALL_PIT } from './33-ball-pit';
+import { CASINO } from './34-casino';
+import { AQUARIUM_TUNNEL } from './35-aquarium-tunnel';
 
 /** Floors 21 to 35: places to wait and to play, with nobody waiting or playing. */
 export const LEISURE_FLOORS: Floors = {
@@ -24,4 +28,8 @@ export const LEISURE_FLOORS: Floors = {
   29: PAINTED_SKY,
   30: ICE_RINK,
   31: METRO_PLATFORM,
+  32: GLOW_GOLF,
+  33: BALL_PIT,
+  34: CASINO,
+  35: AQUARIUM_TUNNEL,
 };
