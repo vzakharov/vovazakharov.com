@@ -5,12 +5,12 @@ import { worded } from './lexicon';
 import type { Uttered } from './line';
 import { lineFor, spoken } from './line-for';
 import { isVowel } from './phone';
-import { MOMENTS, SCRIPT } from './script';
+import { type Moment, MOMENTS, SCRIPT } from './script';
 import { COINED_FROM, PLAIN_TO, tongueOf } from './tongue';
 
 const FLOORS = Array.from({ length: 67 }, (_, n) => n + 1);
 
-const texts = (moment: (typeof MOMENTS)[number], n: number): Set<string> =>
+const texts = (moment: Moment, n: number): Set<string> =>
   new Set(
     Array.from({ length: 60 }, (_, grain) => lineFor(moment, n, grain).text),
   );

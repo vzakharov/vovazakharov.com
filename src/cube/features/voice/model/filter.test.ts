@@ -1,14 +1,12 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { bandpass, noise, resonator } from './filter';
+import { bandpass, type Filter, noise, resonator } from './filter';
 import { powerIn } from './spectrum.test-kit';
 
 const RATE = 16_000;
 
-type ThroughFilter = { run: (sample: number) => number };
-
-const through = (filter: ThroughFilter, seed: number): Float32Array => {
+const through = (filter: Filter, seed: number): Float32Array => {
   const random = noise(seed);
   return Float32Array.from({ length: RATE }, () => filter.run(random()));
 };
