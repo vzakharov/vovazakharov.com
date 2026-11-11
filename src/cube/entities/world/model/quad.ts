@@ -18,11 +18,11 @@ export type Facet = InRoomOf & {
   normals?: Four<Vec3>;
 };
 
-/**
- * A facet made of `surface`, tinted `paint` (`0xRRGGBB`) where its surface
- * takes a tint.
- */
-export type Quad = Facet & { surface: Surface; paint?: number };
+/** What a face is made of: `surface`, tinted `paint` (`0xRRGGBB`) where that takes a tint. */
+export type Stuff = { surface: Surface; paint?: number };
+
+/** A facet and what it is made of. */
+export type Quad = Facet & Stuff;
 
 export const cross = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
   ay * bz - az * by,

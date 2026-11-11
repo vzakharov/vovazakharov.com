@@ -1,6 +1,13 @@
-import type { Surface } from '@/cube/shared/lib/surface';
-
-import { cross, dot, plus, type Quad, times, unit, type Vec3 } from './quad';
+import {
+  cross,
+  dot,
+  plus,
+  type Quad,
+  type Stuff,
+  times,
+  unit,
+  type Vec3,
+} from './quad';
 import type { Room } from './room';
 
 /**
@@ -10,9 +17,7 @@ import type { Room } from './room';
 export type Ring = { centre: Vec3; wide: Vec3; thick: Vec3 };
 
 /** What a loft is made of, and how much of the way round it goes. */
-export type Lofted = {
-  surface: Surface;
-  paint?: number;
+export type Lofted = Stuff & {
   /** How many quads go round between two rings. */
   sides: number;
   /**
