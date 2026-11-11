@@ -73,7 +73,7 @@ export const turned =
  */
 export const heading = (yaw: number): Turn => about(UP, -yaw);
 
-/** The unitOf direction `yaw` looks along. */
+/** The direction `yaw` looks along, of length 1. */
 export const forward = (yaw: number): Vec3 => [Math.cos(yaw), 0, Math.sin(yaw)];
 
 /** The yaw looking from `from` towards `to`, both on one level. */
@@ -100,7 +100,7 @@ export function block(
 
 const AXES: readonly Vec3[] = [UP, [1, 0, 0], [0, 0, 1]];
 
-/** `v` with its part along `axis`, of length 1 taken out. */
+/** `v` with its part along `axis` taken out; `axis` is of length 1. */
 const across = (v: Vec3, axis: Vec3): Vec3 =>
   less(v, scaled(axis, dot(v, axis)));
 
