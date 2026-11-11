@@ -183,7 +183,7 @@ export function seenFrom(seat: Room, far: number, walls: Walls): Room[] {
 }
 
 /** The rooms `room` opens into on its floor. */
-const openNeighbours = (walls: Walls, room: Room): Room[] =>
+export const openNeighbours = (walls: Walls, room: Room): Room[] =>
   STEPS.filter((step) => opens(walls, room, step)).map((step) =>
     stepped(room, step),
   );

@@ -2,9 +2,11 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { holeQuarter, holesOf, parseWorld, type World } from './hole';
-import { plant } from './plant';
+import { maze } from './maze';
+import { FLOOR_TWO_PATH, plant, steps } from './plant';
 import { counterRandom } from './plant.test-kit';
 import { planted } from './planted';
+import { mazeWalls } from './walls';
 
 const FLOORS = 6;
 
@@ -52,6 +54,31 @@ describe('plant', () => {
       const side = 2n ** BigInt(index + 1);
       assert.ok(x >= 0n && x < side && y >= 0n && y < side);
     }
+  });
+});
+
+/** Floor 2's steps from its landing room to its hole room, read off the holes. */
+async function floorTwoPath(world: World): Promise<number> {
+  const [[, , lx, ly]] = await scan(world, 1);
+  const [[hx, hy]] = await scan(world, 2);
+  return steps(
+    mazeWalls(maze(world.seed)),
+    { n: 2, x: BigInt(lx), y: BigInt(ly) },
+    { n: 2, x: BigInt(hx), y: BigInt(hy) },
+  );
+}
+
+describe('the floor-two rule', () => {
+  it('holds in every world plant draws', async () => {
+    const random = counterRandom();
+    for (let draw = 0; draw < 8; draw += 1) {
+      const { world } = await plant(FLOORS, random);
+      assert.equal(await floorTwoPath(world), FLOOR_TWO_PATH);
+    }
+  });
+
+  it('holds in the planted world', async () => {
+    assert.equal(await floorTwoPath(planted), FLOOR_TWO_PATH);
   });
 });
 
