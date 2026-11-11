@@ -35,7 +35,6 @@ export type Table<K> = Slotted & {
 /** A key spelled as path segments, `/`-joined when it has several parts. */
 export type Key<K> = { segments: (key: K) => string };
 
-/** One part of a record key, spelled as one segment. */
 declare const takes: unique symbol;
 
 /**
@@ -118,8 +117,6 @@ function keyFor<const Names extends readonly string[]>(
   names: Names,
 ): Key<Names[number]>;
 function keyFor<P extends Parts>(parts: P): Key<Parted<P>>;
-
-// A closed list spells a key as itself; a record spells each part in turn.
 function keyFor(spec: readonly string[] | Parts): Key<never> {
   if (isNames(spec)) {
     const names = spec;
