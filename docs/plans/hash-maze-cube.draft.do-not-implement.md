@@ -67,9 +67,32 @@ keeps that edge and its door sits at this row. That is O(level) hashes, so a
 floor of 2^126 rooms costs what a floor of four does. Door positions on edges
 longer than 2^32 rooms take two words.
 
-Hash: `pathHash(seed)` (MurmurHash3 by path, from `dice`, below) at
-`maze/<n>/<level>/<blockX>/<blockY>/omit` and `…/door/<edge>[/hi]`. The maze is
-scenery, so it needs speed and spread, not cryptography.
+**The maze's randomness is a typed `roll` schema, never a path spelled by hand**
+— the interface Vova asked for on the island («по continent/2/river/1/length --
+надо сразу думать о каком-то строго типизированном интерфейсе»), which
+`round-world` built as `roll`:
+
+```ts
+const Maze = roll.struct({
+  block: roll.family(blockKey, roll.struct({
+    omit: roll.pick(4),
+    door: roll.family(edgeKey, roll.wide()),
+  })),
+});
+// maze.block.at({ n, level, x, y }).door.at(edge) — typed, read on demand
+```
+
+A leaf's path is still its place in the tree (`block/<n>/<level>/<x>/<y>/omit`),
+derived from the schema and hashed by `dice`'s `pathHash` (MurmurHash3; the maze
+is scenery, so it needs speed and spread, not cryptography). What
+`round-world`'s `roll` lacks is laziness: `rollWith` decodes the whole tree and
+a `table` fills a flat array, and a floor of 2^126 rooms has no whole. So `dice`
+adds, beside the verbatim vocabulary, **`roll.family(index, of)`** — a table
+with no slot count, whose keys may be BigInt, decoded one key at a time by
+`.at(key)` and never materialized; **`roll.pick(k)`**, an integer leaf on
+`[0, k)`; and **`roll.wide()`**, a door position on an edge longer than 2^32
+rooms, read from two words at `…/0` and `…/1`. `Rolled<S>` maps a family to its
+`.at` lookup, so the cube's code never sees a path or a raw word.
 
 ### The hole: one per floor, a SHA-256 commitment
 
@@ -133,8 +156,9 @@ bottle; there is one per floor.
   vocabulary (typed schemas, a leaf's word keyed by its path), its decoders
   (uniform, normal by AS 241) and `pathHash`, taken verbatim with their tests
   from `island/round-world`
-  (`src/island/entities/terrain/world/{roll,land/model/hash.ts}`). `cube`
-  consumes `pathHash` and the decoders; `island` switches to it when
+  (`src/island/entities/terrain/world/{roll,land/model/hash.ts}`), plus the lazy
+  `family`, `pick` and `wide` the maze needs (§ "The maze"), additive beside
+  them. `cube` consumes the vocabulary; `island` switches to it when
   `round-world` lands (see Coordination).
 - **`board`** (parent `scene`): the board's mechanisms, out of `island-board`:
   `entities/item`, `pages/board`, `app/styles`, `scripts/` (`board.ts` and its
@@ -163,7 +187,8 @@ low, entry per leaf) and `pnpm board:<name>` runs it.
 - **`dice` duplicates `round-world` until that branch lands**, the one
   duplication this plan creates: the code is taken verbatim, and the island lead
   deletes theirs and imports `dice` at their merge. Moving it on `round-world`
-  first would block this work on a branch another team holds.
+  first would block this work on a branch another team holds. The lazy nodes are
+  new code in `dice` alone, so they add nothing to that merge but an import.
 - **Not moved**: `island`'s `value-noise.ts`. It is seeded randomness too, but
   `round-world` rewrites it (57 lines changed), so moving it now is a guaranteed
   conflict for no gain to the cube, which uses no noise. It joins `dice` in the
