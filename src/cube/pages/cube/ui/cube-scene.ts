@@ -3,15 +3,16 @@ import type { CanDispose, WithOnError } from '@/kernel/shared/typings';
 
 import {
   faces,
-  floorsOf,
+  type HoleOf,
   holesOf,
   maze,
   planted,
   type Pose,
   roomKey,
+  sight,
   slabRooms,
   type Vec3,
-  view,
+  withBelow,
 } from '@/cube/entities/world';
 
 import { viewProjection } from '../lib/camera';
@@ -44,13 +45,20 @@ const RADIUS = 3;
 const FOG_DENSITY = 0.32;
 
 const rolled = maze(planted.seed);
-const floors = floorsOf(planted);
 
-/** The vertex buffer for an eye at `pose`, holes resolved first. */
+/**
+ * The vertex buffer for an eye at `pose`. Its floor's holes are resolved
+ * first, since they decide which rooms of the floor below it sees, and only
+ * then those rooms' own.
+ */
 async function build(pose: Pose): Promise<Float32Array<ArrayBuffer>> {
-  const seen = view(pose, RADIUS, floors);
-  const holeOf = await holesOf(planted, slabRooms(seen));
-  return pack(faces(rolled, pose, seen, holeOf));
+  const seen = sight(pose, RADIUS);
+  const holeAbove = await holesOf(planted, slabRooms(seen));
+  const full = withBelow(seen, holeAbove);
+  const holeBelow = await holesOf(planted, full.below);
+  const holeOf: HoleOf = (room) =>
+    room.n > pose.n ? holeBelow(room) : holeAbove(room);
+  return pack(faces(rolled, pose, full, holeOf));
 }
 
 /** The eye in the frame of the mesh built for `built`, on the same floor. */

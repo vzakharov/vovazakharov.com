@@ -1,18 +1,23 @@
+import type { HoleOf } from './hole';
 import type { Pose } from './pose';
 import { type Room, roomKey, roomsAcross } from './room';
 
-/** The rooms an eye can see, by the part each plays in its picture. */
-export type View = {
+/** What an eye sees on its own floor and up, which no hole decides. */
+export type Sight = {
   /** Floor `n`'s rooms within the radius, the eye's own included. */
   near: readonly Room[];
-  /** Floor `n + 1`'s rooms under `near`, seen through the floor's hole. */
-  below: readonly Room[];
   /** Floor `n − 1`'s rooms over `near`, whose slab is `near`'s ceiling. */
   above: readonly Room[];
   /** The room over the eye's, seen through the ceiling's hole. */
   overhead: Room | null;
   /** The room whose slab is `overhead`'s ceiling; null where that is the lid. */
   topmost: Room | null;
+};
+
+/** The rooms an eye can see, by the part each plays in its picture. */
+export type View = Sight & {
+  /** Floor `n + 1`'s rooms under `near`'s holes, the only way down the eye sees. */
+  below: readonly Room[];
 };
 
 const unique = (rooms: readonly Room[]): Room[] => [
@@ -31,11 +36,11 @@ const children = ({ n, x, y }: Room): Room[] =>
   );
 
 /**
- * What an eye at `pose` sees of a cube of `floors` floors: floor `n`'s rooms
- * within `radius` rooms of its own (a square, clipped to the cube), the floors
- * above and below them that its holes open onto.
+ * What an eye at `pose` sees on its floor and up: floor `n`'s rooms within
+ * `radius` rooms of its own (a square, clipped to the cube) and the floors
+ * above them that its holes open onto.
  */
-export function view(pose: Pose, radius: number, floors: number): View {
+export function sight(pose: Pose, radius: number): Sight {
   const rooms = roomsAcross(pose.n);
   const reach = BigInt(radius);
   const span = (at: bigint): bigint[] => {
@@ -53,17 +58,27 @@ export function view(pose: Pose, radius: number, floors: number): View {
   const overhead = n > 1 ? parent(pose) : null;
   return {
     near,
-    below: n < floors ? near.flatMap((room) => children(room)) : [],
     above: overhead === null ? [] : unique(near.map((room) => parent(room))),
     overhead,
     topmost: overhead !== null && overhead.n > 1 ? parent(overhead) : null,
   };
 }
 
-/** Every room whose slab the view draws, so whose hole it has to know. */
-export const slabRooms = ({ near, below, above, topmost }: View): Room[] => [
+/**
+ * `seen` and the floor under it, which shows only through a hole: the children
+ * of each near room that has one. A room `holeOf` gives none — the last floor's
+ * every room — adds nothing, so a floor past the last is never asked for.
+ */
+export const withBelow = (seen: Sight, holeOf: HoleOf): View => ({
+  ...seen,
+  below: seen.near
+    .filter((room) => holeOf(room) !== null)
+    .flatMap((room) => children(room)),
+});
+
+/** Every room whose slab `seen` draws, so whose hole it has to know. */
+export const slabRooms = ({ near, above, topmost }: Sight): Room[] => [
   ...near,
-  ...below,
   ...above,
   ...(topmost === null ? [] : [topmost]),
 ];

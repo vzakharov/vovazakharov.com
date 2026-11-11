@@ -5,7 +5,7 @@ import { faces, HOLE_SIDE, type Quad } from './geometry';
 import type { HoleOf } from './hole';
 import { isOpenEast, maze } from './maze';
 import type { Pose } from './pose';
-import { view } from './rooms';
+import { sight, withBelow } from './rooms';
 
 const rolled = maze('8675309');
 
@@ -23,6 +23,16 @@ const at = (pose: Partial<Pose>): Pose => ({
 
 const noHoles: HoleOf = () => null;
 
+/** A hole in the north-west quarter of every room above floor `last`. */
+const holedTo =
+  (last: number): HoleOf =>
+  ({ n }) =>
+    n < last ? { qx: 0, qy: 0 } : null;
+
+/** The faces of what an eye at `pose` sees within `radius`, holes by `holeOf`. */
+const facesAt = (pose: Pose, radius: number, holeOf: HoleOf): Quad[] =>
+  faces(rolled, pose, withBelow(sight(pose, radius), holeOf), holeOf);
+
 /** The hole in the east-north quarter of floor 1's room, and nowhere else. */
 const oneHole: HoleOf = ({ n }) => (n === 1 ? { qx: 1, qy: 0 } : null);
 
@@ -36,7 +46,7 @@ const heights = (quads: readonly Quad[]): number[] => [
 describe('faces', () => {
   it('cuts the hole out of its slab, in the middle of its quarter', () => {
     const pose = at({});
-    const floor = faces(rolled, pose, view(pose, 1, 3), oneHole).filter(
+    const floor = facesAt(pose, 1, oneHole).filter(
       (quad) => quad.n === 1 && quad.surface === 'floor',
     );
     assert.equal(floor.length, 4);
@@ -58,7 +68,7 @@ describe('faces', () => {
 
   it('stacks the floors at the heights their rooms make', () => {
     const pose = at({ n: 2, x: 1n, y: 0n });
-    const quads = faces(rolled, pose, view(pose, 1, 3), noHoles);
+    const quads = facesAt(pose, 1, holedTo(3));
     const of = (floor: number, surface: Quad['surface']) =>
       heights(quads.filter((q) => q.n === floor && q.surface === surface));
     assert.deepEqual(of(3, 'floor'), [-0.25]);
@@ -70,7 +80,7 @@ describe('faces', () => {
 
   it('draws a wall where the maze closes one and none where it opens', () => {
     const pose = at({ n: 3, x: 1n, y: 1n });
-    const quads = faces(rolled, pose, view(pose, 3, 3), noHoles);
+    const quads = facesAt(pose, 3, noHoles);
     const eastward = new Set(
       quads
         .filter((q) => q.n === 3 && q.surface === 'wall' && q.normal[0] !== 0)
@@ -87,7 +97,7 @@ describe('faces', () => {
 
   it('keeps a deep floor as close to the eye as floor 1', () => {
     const pose = at({ n: 60, x: (1n << 59n) - 2n, y: 1n << 58n });
-    const quads = faces(rolled, pose, view(pose, 2, 66), noHoles);
+    const quads = facesAt(pose, 2, holedTo(66));
     const coordinates = quads.flatMap(({ corners }) => corners.flat());
     assert.ok(coordinates.every((c) => Math.abs(c) <= 4));
     assert.ok(quads.some((q) => q.n === 61 && q.surface === 'floor'));
@@ -95,7 +105,7 @@ describe('faces', () => {
 
   it('closes floor 1 with the lid', () => {
     const pose = at({});
-    const quads = faces(rolled, pose, view(pose, 2, 3), noHoles);
+    const quads = facesAt(pose, 2, noHoles);
     const ceiling = quads.filter((q) => q.surface === 'ceiling' && q.n === 1);
     assert.deepEqual(heights(ceiling), [0.5]);
     assert.ok(!quads.some((q) => q.n === 0));
