@@ -1,0 +1,159 @@
+{
+  "total": {
+    "inputTokens": 8629,
+    "cacheWrite5mTokens": 171485,
+    "cacheWrite1hTokens": 350242,
+    "cacheReadTokens": 13367564,
+    "outputTokens": 127475,
+    "thinkingTokens": 50830,
+    "responses": 69,
+    "costUsd": 15.160266800000002
+  },
+  "estimate": {
+    "at": "2026-11-11T23:04:47.616Z",
+    "subjectLine": "feat: furnish cube rooms with 54 low-poly things rolled from grain",
+    "parts": [
+      {
+        "hours": 30.0,
+        "grade": "senior",
+        "role": "environment-artist",
+        "comment": "54 distinct props each have to read at a glance from under 60 quads, with rolled variants; about half an hour apiece plus review of rendered frames"
+      },
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "procedural placement: quad tools, wall frames, clear zones, deterministic dice, quad budgets"
+      },
+      {
+        "hours": 5.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "tests for bounds, zones, overlap and determinism, and getting the slice through ten repo gates"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-11T22:25:59.994Z",
+    "contextTokens": 125734,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 54960,
+      "cacheReadTokens": 156069,
+      "outputTokens": 779,
+      "thinkingTokens": 20,
+      "responses": 2,
+      "costUsd": 0.9417658
+    }
+  },
+  "sessionId": "6b209971-d73d-595d-a9e0-3ec38eb3cf3e",
+  "branch": "claude/cube-decor",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/go",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCozV972W1BLmTzXwA",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-11T22:25:47.606Z",
+  "lastResponseAt": "2026-11-11T23:04:49.929Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 113,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 350242,
+    "cacheReadTokens": 11935460,
+    "outputTokens": 108825,
+    "thinkingTokens": 46687,
+    "responses": 58,
+    "costUsd": 12.344868000000004
+  },
+  "subagents": {
+    "inputTokens": 17,
+    "cacheWrite5mTokens": 171164,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1136301,
+    "outputTokens": 12204,
+    "thinkingTokens": 4143,
+    "responses": 10,
+    "costUsd": 2.4271962000000005
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 8629,
+      "cacheWrite5mTokens": 171485,
+      "cacheWrite1hTokens": 350242,
+      "cacheReadTokens": 13367564,
+      "outputTokens": 127475,
+      "thinkingTokens": 50830,
+      "responses": 69,
+      "costUsd": 15.160266800000002
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-11T22:51:27.206Z",
+      "trigger": "auto",
+      "compactedFrom": 307287,
+      "summaryChars": 15234,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/cube/features/decor/lib/tools.ts",
+        "endedAt": "2026-11-11T23:03:59.648Z",
+        "contextTokens": 163932,
+        "spend": {
+          "inputTokens": 36,
+          "cacheWrite5mTokens": 161645,
+          "cacheWrite1hTokens": 99155,
+          "cacheReadTokens": 2392160,
+          "outputTokens": 10372,
+          "thinkingTokens": 4293,
+          "responses": 19,
+          "costUsd": 4.09653
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.3882026
+    }
+  ],
+  "telemetry": {
+    "events": 69,
+    "matched": 68,
+    "matchedTableUsd": 14.772064200000003,
+    "matchedEventUsd": 14.772064200000004,
+    "unseen": {
+      "compact": {
+        "inputTokens": 8499,
+        "cacheWrite5mTokens": 321,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 295803,
+        "outputTokens": 6446,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.3882026
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".json": 19,
+    ".md": 343,
+    ".ts": 5392,
+    ".tsx": 12
+  }
+}
