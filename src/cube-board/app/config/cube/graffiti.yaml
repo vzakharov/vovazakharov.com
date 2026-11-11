@@ -26,9 +26,14 @@ items:
     text: '2. In theory, not to build: the price follows the path, not the floor number. The room above a hole and the room below it are seen by the same people, so they cost the same; the ×⅓ is spent walking from the landing to the next hole, and a dead end off the path is cheaper still'
   - id: graf-price-c
     type: sticky
-    updated: [2026-11-11T06:13:00.000Z, agent:cube]
+    updated: [2026-11-11T06:15:00.000Z, agent:cube]
     box: [1368, 1930, 244, pink]
-    text: '3. Paint over a painting by paying double its price. Its painter gets the whole price back as credit for another wall: never cash, never handed on. The old painting stays forever as a layer beneath. A wall sold for little in month one catches up with the market; deep down no one paints over, so a painting there is forever in practice'
+    text: '3. Open: what a paid wall is. Forever at a high fixed price, as on the Million Dollar Homepage, or honest rent for a term at the price of its day. Not painted over: someone who paid $1000 is not told to find another wall'
+  - id: graf-ruled-out
+    type: sticky
+    updated: [2026-11-11T06:15:00.000Z, agent:cube]
+    box: [1368, 2180, 244, gray]
+    text: 'Ruled out: a constant per floor or a cut-off at floor 3 (arbitrary); a one-off auction (sold for $10 in month one, hands tied); overpaint at ×2 (takes a paid wall away); payouts, transferable credit, gifts (a market in money); measuring who passes a wall'
   - id: graf-rule
     type: sticky
     updated: [2026-11-11T05:32:00.000Z, agent:cube]
@@ -46,6 +51,6 @@ items:
     text: 'Shown at once, after moderation: Stripe → a Worker → the net → R2, and the game reads R2. Not a git branch: raw GitHub caches ~5 min, and the push needs a server anyway'
   - id: graf-open
     type: sticky
-    updated: [2026-11-11T06:10:00.000Z, agent:cube]
+    updated: [2026-11-11T06:15:00.000Z, agent:cube]
     box: [1033, 2180, 244, gray]
-    text: 'Open: one shared world, so a found answer leaks; the terms must call a mechanic a gift, not a promise. Not a blockchain: nothing on a chain can be taken down. Painting for hire happens off-site whatever we rule; we issue nothing a player can hand on, and a chargeback takes back the credit'
+    text: 'Open: one shared world, so a found answer leaks; the terms must call a mechanic a gift, not a promise. Not a blockchain: nothing on a chain can be taken down. Painting for hire happens off-site whatever we rule; we issue nothing a player can hand on'
