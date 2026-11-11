@@ -32,21 +32,67 @@ fn primary(u: f32) -> vec3f {
   return oneOf(u, vec3f(0.55, 0.03, 0.03), vec3f(0.03, 0.14, 0.5), vec3f(0.62, 0.45, 0.03), vec3f(0.04, 0.36, 0.08));
 }
 
-/// Plastic balls a hand across lying on more of the same.
+/// A ball's width and its radius, metres.
+const BALL = 0.075;
+const BALL_RADIUS = 0.039;
+
+/// How far under the floor's plane the heap's top lies at a point, metres:
+/// slow dunes, the same for everyone standing there.
+fn dune(p: vec2f) -> f32 {
+  return 0.04 * (2.0 + sin(p.x * 1.7 + 1.9 * sin(p.y * 0.8)) + sin(p.y * 2.3 + 1.3 * sin(p.x * 1.1)));
+}
+
+/// The ball of one cell of one layer of the heap: its centre under the
+/// floor's plane, and in \`w\` its own number, 0 to 1. The lower layer sits
+/// in the gaps of the upper.
+fn ballOf(cell: vec2i, layer: u32) -> vec4f {
+  let word = cellHash(cell, 330u + layer);
+  let shift = vec2f(f32(word & 0xffffu), f32(word >> 16u)) / 65535.0 - 0.5;
+  let at = (vec2f(cell) + 0.5 + 0.5 * f32(layer) + 0.34 * shift) * BALL;
+  let down = BALL_RADIUS + dune(at) + 0.035 * unitOf(mix32(word)) + 0.05 * f32(layer);
+  return vec4f(at.x, -down, at.y, unitOf(word));
+}
+
+struct Nearest {
+  gap: f32,
+  ball: vec4f,
+};
+
+/// The ball nearest a point of the heap, and the gap to its skin.
+fn nearest(p: vec3f) -> Nearest {
+  var best = Nearest(1.0, vec4f(0.0));
+  for (var layer = 0u; layer < 2u; layer++) {
+    let first = vec2i(floor(p.xz / BALL - 0.5 * f32(layer) - 0.5));
+    for (var k = 0; k < 4; k++) {
+      let ball = ballOf(first + vec2i(k & 1, k >> 1), layer);
+      let gap = length(p - ball.xyz) - BALL_RADIUS;
+      if (gap < best.gap) {
+        best = Nearest(gap, ball);
+      }
+    }
+  }
+  return best;
+}
+
+/// Plastic balls a hand across, heaped: the eye's ray is followed under
+/// the floor's plane to the ball it lands on, so each is round, hides the
+/// ones behind it and lies at its own height.
 fn balls(s: Surf) -> Material {
-  let scale = 7.0;
-  let top = worley(s.uv * scale, 330u);
-  let under = worley(s.uv * scale + 0.5, 331u);
-  let reach = clamp(top.x / 0.5, 0.0, 1.0);
-  let dome = sqrt(1.0 - reach * reach);
-  let sunk = clamp(under.x / 0.5, 0.0, 1.0);
-  let low = sqrt(1.0 - sunk * sunk);
-  let upper = primary(top.y) * (0.45 + 0.55 * dome);
-  let lower = primary(under.y) * (0.2 + 0.35 * low);
-  let on = smoothstep(0.0, 0.15, dome);
-  let near = fading(s, 30.0);
-  let heap = polished(mix(lower, upper, on), 0.45 * near * on);
-  return embossed(s, heap, mix(0.3 * low, dome, on), 0.07 * mix(0.25, 1.0, near));
+  var p = vec3f(s.uv.x, 0.0, s.uv.y);
+  var found = nearest(p);
+  for (var i = 0; i < 12; i++) {
+    if (found.gap < 0.002 || p.y < -0.3) { break; }
+    p += s.view * found.gap;
+    found = nearest(p);
+  }
+  let round = normalize(p - found.ball.xyz);
+  let near = fading(s, 120.0);
+  let pit = mix(0.22, 1.0, smoothstep(-0.26, -0.03, p.y)) * (0.62 + 0.38 * clamp(round.y, 0.0, 1.0));
+  let landed = 1.0 - smoothstep(0.004, 0.03, found.gap);
+  let plastic = primary(found.ball.w) * pit * mix(0.3, 1.0, landed);
+  let heap = mix(vec3f(0.3, 0.24, 0.15) * pit, plastic, mix(0.45, 1.0, near));
+  let normal = normalize(mix(s.normal, round, landed * mix(0.35, 1.0, near)));
+  return Material(heap, vec3f(0.0), 0.3 * near * landed, normal - s.normal);
 }
 
 /// Vinyl pads to the waist, each quilted and its own colour; above them a
