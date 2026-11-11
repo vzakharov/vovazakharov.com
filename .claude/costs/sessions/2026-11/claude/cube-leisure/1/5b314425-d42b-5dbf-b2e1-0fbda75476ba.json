@@ -1,0 +1,159 @@
+{
+  "total": {
+    "inputTokens": 2299,
+    "cacheWrite5mTokens": 196589,
+    "cacheWrite1hTokens": 377825,
+    "cacheReadTokens": 10802614,
+    "outputTokens": 147728,
+    "thinkingTokens": 49309,
+    "responses": 64,
+    "costUsd": 16.099124800000002
+  },
+  "estimate": {
+    "at": "2026-11-11T23:27:09.281Z",
+    "subjectLine": "feat: the cube's leisure floors 21 to 35",
+    "parts": [
+      {
+        "hours": 34.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "fifteen procedural places, each a floor, wall, ceiling and post designed and tuned by eye against rendered frames"
+      },
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "three floors carry their own light or lens (caustics, black light, CRT, ink outline) built on the kit's lamp reach, plus shared SDF and parallax pieces"
+      },
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "environment-artist",
+        "comment": "palettes, lamp colours and exposure per place so no surface sits flat or blown out"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-11T22:41:20.517Z",
+    "contextTokens": 107359,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 48874,
+      "cacheReadTokens": 52984,
+      "outputTokens": 582,
+      "thinkingTokens": 20,
+      "responses": 1,
+      "costUsd": 0.8158768
+    }
+  },
+  "sessionId": "5b314425-d42b-5dbf-b2e1-0fbda75476ba",
+  "branch": "claude/cube-leisure",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/go",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBMVGXdEuW3E2ayjQi",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-11T22:41:13.498Z",
+  "lastResponseAt": "2026-11-11T23:31:52.257Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 98,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 377825,
+    "cacheReadTokens": 9457966,
+    "outputTokens": 123590,
+    "thinkingTokens": 44679,
+    "responses": 52,
+    "costUsd": 12.8811772
+  },
+  "subagents": {
+    "inputTokens": 19,
+    "cacheWrite5mTokens": 196038,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1065718,
+    "outputTokens": 17475,
+    "thinkingTokens": 4630,
+    "responses": 11,
+    "costUsd": 2.8726755999999996
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 2299,
+      "cacheWrite5mTokens": 196589,
+      "cacheWrite1hTokens": 377825,
+      "cacheReadTokens": 10802614,
+      "outputTokens": 147728,
+      "thinkingTokens": 49309,
+      "responses": 64,
+      "costUsd": 16.099124800000002
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-11T23:08:53.087Z",
+      "trigger": "auto",
+      "compactedFrom": 302803,
+      "summaryChars": 15448,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/cube/entities/theme/leisure/config/leisure.ts",
+        "endedAt": "2026-11-11T23:09:01.247Z",
+        "contextTokens": 143870,
+        "spend": {
+          "inputTokens": 2,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 74864,
+          "cacheReadTokens": 60335,
+          "outputTokens": 106,
+          "thinkingTokens": 21,
+          "responses": 1,
+          "costUsd": 1.214147
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.345272
+    }
+  ],
+  "telemetry": {
+    "events": 64,
+    "matched": 63,
+    "matchedTableUsd": 15.753852800000002,
+    "matchedEventUsd": 15.753852800000002,
+    "unseen": {
+      "compact": {
+        "inputTokens": 2182,
+        "cacheWrite5mTokens": 551,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 278930,
+        "outputTokens": 6663,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.345272
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 13,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".json": 19,
+    ".md": 358,
+    ".ts": 5334,
+    ".tsx": 12
+  }
+}
