@@ -55,6 +55,7 @@ const still: Input = {
   tiltKeys: 0,
   yawBy: 0,
   elevationBy: 0,
+  walking: false,
   pull: false,
 };
 const pull: Input = { ...still, pull: true };

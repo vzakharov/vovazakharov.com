@@ -8,6 +8,7 @@ import {
   EYE_HEIGHT,
   type Input,
   MAX_PITCH,
+  RUN_SPEED,
   step,
   TILT_RATE,
   TURN_RATE,
@@ -38,6 +39,7 @@ const still: Input = {
   tiltKeys: 0,
   yawBy: 0,
   elevationBy: 0,
+  walking: true,
   pull: false,
 };
 const ahead: Input = { ...still, walk: 1 };
@@ -178,6 +180,12 @@ describe('step controls', () => {
     const moved = Math.hypot(end.u - 0.5, end.v - 0.5);
     assert.ok(Math.abs(moved - WALK_SPEED * dt) < NEAR);
     assert.ok(end.v > 0.5, 'right of east is south');
+  });
+
+  it('runs unless it walks', () => {
+    const dt = 0.1;
+    const end = step(pose(), { ...ahead, walking: false }, dt, allOpen);
+    assert.ok(Math.abs(end.u - 0.5 - RUN_SPEED * dt) < NEAR);
   });
 });
 

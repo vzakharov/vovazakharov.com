@@ -5,6 +5,9 @@ import { walk } from './body';
 /** Walking speed in room sides a second: 1.4 m/s on floor 1. */
 export const WALK_SPEED = 0.28;
 
+/** Running speed, the body's pace unless it walks: 3.5 m/s on floor 1. */
+export const RUN_SPEED = 0.7;
+
 /** Eye height over the slab, in room sides: 1.6 m on floor 1. */
 export const EYE_HEIGHT = 0.32;
 
@@ -19,10 +22,10 @@ export const TILT_RATE = Math.PI / 3;
 /**
  * One frame's controls. `walk` (forward), `strafe` (rightward), `turnKeys`
  * (rightward) and `tiltKeys` (upward) are in `[-1, 1]` — keys give -1, 0 or
- * 1, a walking diagonal is normalized to walking speed, and the turn and tilt
- * go at their rates over the frame; `yawBy` and `elevationBy` are radians to
- * add to the pose's this frame, whatever its length; `pull` is whether the
- * lever was asked for since the last frame.
+ * 1, a diagonal is normalized to the body's pace, and the turn and tilt go at
+ * their rates over the frame; `yawBy` and `elevationBy` are radians to add to
+ * the pose's this frame, whatever its length; `walking` slows the run to a
+ * walk; `pull` is whether the lever was asked for since the last frame.
  */
 export type Input = {
   walk: number;
@@ -31,6 +34,7 @@ export type Input = {
   tiltKeys: number;
   yawBy: number;
   elevationBy: number;
+  walking: boolean;
   pull: boolean;
 };
 
@@ -55,7 +59,8 @@ export function step(pose: Pose, input: Input, dt: number, walls: Walls): Pose {
     MAX_PITCH,
   );
   const length = Math.hypot(input.walk, input.strafe);
-  const stride = (WALK_SPEED * pose.scale * dt) / Math.max(1, length);
+  const speed = input.walking ? WALK_SPEED : RUN_SPEED;
+  const stride = (speed * pose.scale * dt) / Math.max(1, length);
   const forward = input.walk * stride;
   const right = input.strafe * stride;
   const cos = Math.cos(yaw);

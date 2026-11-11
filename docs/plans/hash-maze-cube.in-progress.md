@@ -126,9 +126,9 @@ one per floor.
 ### The player
 
 - **Body diameter `0.12 ×` room side, eye at `0.32 ×`** (0.6 m and 1.6 m on
-  floor 1); **walk at `0.28 ×` room side a second** (1.4 m/s), **mouse look with
-  pointer lock (pitch to ±89°), collision as a circle against present walls.**
-  Desktop only in iteration zero.
+  floor 1); **run at `0.7 ×` room side a second** (3.5 m/s), walking at `0.28 ×`
+  (1.4 m/s) while Shift is held, **mouse look with pointer lock (pitch to ±89°),
+  collision as a circle against present walls.** Desktop only in iteration zero.
 - **The lever** sits on whichever of the hole quarter's two outer walls is
   present (the x-wall first); where both are doors, on a post at that corner.
   `E` pulls it when the player's body covers some of the hole (its middle within

@@ -31,10 +31,10 @@ items:
     text: 'Stand on the hole and pull the lever on the wall: you shrink smoothly, fall once you are small enough, and land at half size, a full-size person on the next floor. No jump for the eye'
   - id: zero-5
     type: sticky
-    updated: [2026-11-11T06:38:01.000Z, agent:cube]
+    updated: [2026-11-11T10:00:28.000Z, agent:cube]
     box: [2183, 360, 244, purple]
     icon: 📏
-    text: 'A 5 m cube: floor 1 is one room of 5 × 5 × 2.5 m with a person in it, eye at 1.6 m, 0.6 m across, walking 1.4 m/s. Every floor down, the same person in the same room. Each floor its own wall hue'
+    text: 'A 5 m cube: floor 1 is one room of 5 × 5 × 2.5 m with a person in it, eye at 1.6 m, 0.6 m across, running 3.5 m/s, walking 1.4 m/s with Shift. Every floor down, the same person in the same room. Each floor its own wall hue'
   - id: zero-6
     type: sticky
     updated: [2026-11-11T06:38:01.000Z, agent:cube]

@@ -95,6 +95,7 @@ function pulled(quarter: Quarter): ReadonlyArray<readonly [string, Pose]> {
     tiltKeys: 0,
     yawBy: 0,
     elevationBy: 0,
+    walking: false,
   };
   const start: Player = {
     pose: {

@@ -26,6 +26,9 @@ const isCode = (code: string): code is Code => Object.hasOwn(AXES, code);
 /** The key that pulls a lever, by position as the axes are. */
 const PULL = 'KeyE';
 
+/** The keys that, held, slow the run to a walk. */
+const WALKING = new Set(['ShiftLeft', 'ShiftRight']);
+
 /** Whether keys typed at `target` are text, not a move. */
 const isTextField = (target: EventTarget | null): boolean =>
   target instanceof HTMLElement &&
@@ -54,6 +57,7 @@ export function bindInput(
   onError: (error: Error) => void,
 ): InputBinding {
   const held = new Set<Code>();
+  const shifts = new Set<string>();
   let turn = 0;
   let tilt = 0;
   let pull = false;
@@ -80,6 +84,11 @@ export function bindInput(
       pull = true;
       return;
     }
+    if (WALKING.has(code)) {
+      if (type === 'keyup') shifts.delete(code);
+      else shifts.add(code);
+      return;
+    }
     if (!isCode(code)) return;
     if (type === 'keyup') {
       held.delete(code);
@@ -91,6 +100,7 @@ export function bindInput(
   };
   const onBlur = () => {
     held.clear();
+    shifts.clear();
   };
 
   target.addEventListener('click', onClick);
@@ -108,6 +118,7 @@ export function bindInput(
         tiltKeys: 0,
         yawBy: turn,
         elevationBy: tilt,
+        walking: shifts.size > 0,
         pull,
       };
       for (const code of held) {
