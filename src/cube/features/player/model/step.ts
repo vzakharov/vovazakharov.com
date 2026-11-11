@@ -38,6 +38,18 @@ export type Input = {
   pull: boolean;
 };
 
+/** A frame of no controls at all. */
+export const STILL: Input = {
+  walk: 0,
+  strafe: 0,
+  turnKeys: 0,
+  tiltKeys: 0,
+  yawBy: 0,
+  elevationBy: 0,
+  walking: false,
+  pull: false,
+};
+
 const TAU = 2 * Math.PI;
 
 const wrap = (angle: number): number => ((angle % TAU) + TAU) % TAU;

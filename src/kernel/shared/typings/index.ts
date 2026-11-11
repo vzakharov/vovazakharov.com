@@ -78,6 +78,9 @@ export type WithFilePath = { filePath: string };
 /** Hears a failure that happens past the call that set the holder up. */
 export type WithOnError = { onError: (error: Error) => void };
 
+/** Hears that whoever is looking at the holder — a dialog — asked to close it. */
+export type WithOnClose = { onClose: () => void };
+
 /** A scene a script waits on: resolves once its first frame is drawn. */
 export type Readying = { ready: () => Promise<void> };
 

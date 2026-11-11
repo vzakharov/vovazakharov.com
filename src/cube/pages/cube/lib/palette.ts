@@ -23,6 +23,8 @@ export function hsl(hue: number, saturation: number, lightness: number): Rgb {
 const TONE: Record<Surface, readonly [number, number]> = {
   wall: [0.5, 0.62],
   floor: [0.2, 0.4],
+  // A bought room's floor: the same hue, a little richer and lighter.
+  owned: [0.34, 0.47],
   ceiling: [0.08, 0.86],
   plate: [0.45, 0.3],
   handle: [0.6, 0.18],
@@ -33,6 +35,23 @@ export function colourOf(n: number, surface: Surface): Rgb {
   const [saturation, lightness] = TONE[surface];
   return hsl(hueOf(n), saturation, lightness);
 }
+
+/**
+ * A sign's board on floor `n`, its ink and its second line's ink: an estate
+ * agent's red while the room sells, green once it is the viewer's.
+ */
+export const signOf = (
+  n: number,
+  sold: boolean,
+): { board: Rgb; ink: Rgb; price: Rgb } => ({
+  board: hsl(hueOf(n), 0.12, 0.95),
+  ink: sold ? hsl(150, 0.6, 0.3) : hsl(355, 0.7, 0.42),
+  price: colourOf(n, 'handle'),
+});
+
+/** `rgb` as a CSS colour, for a canvas drawn into a texture. */
+export const cssRgb = ([r, g, b]: Rgb): string =>
+  `rgb(${String(Math.round(r * 255))} ${String(Math.round(g * 255))} ${String(Math.round(b * 255))})`;
 
 /** The air of floor `n`: what the screen clears to, seen only past `FAR`. */
 export const airOf = (n: number): Rgb => hsl(hueOf(n), 0.25, 0.07);
