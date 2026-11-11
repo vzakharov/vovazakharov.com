@@ -1,0 +1,151 @@
+{
+  "total": {
+    "inputTokens": 665,
+    "cacheWrite5mTokens": 146527,
+    "cacheWrite1hTokens": 136923,
+    "cacheReadTokens": 9816318,
+    "outputTokens": 40462,
+    "thinkingTokens": 7324,
+    "responses": 74,
+    "costUsd": 4.0280876
+  },
+  "estimate": {
+    "at": "2026-11-11T06:34:46.197Z",
+    "subjectLine": "feat: walk the cube's floors and give the cube board's cards icons",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "a WebGPU renderer with see-through holes and per-floor hues is specialist rendering work"
+      },
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "first-person movement, collision against a hashed maze and camera feel need gameplay judgement"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "the bite runs as briefed subsessions whose branches are merged and tracked here"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "card icons are a schema field plus emoji and a few hand-drawn SVGs"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "src/cube/entities/world/model/pose.ts",
+    "endedAt": "2026-11-11T06:36:01.382Z",
+    "contextTokens": 155204,
+    "spend": {
+      "inputTokens": 52,
+      "cacheWrite5mTokens": 94191,
+      "cacheWrite1hTokens": 100798,
+      "cacheReadTokens": 2358536,
+      "outputTokens": 9348,
+      "thinkingTokens": 2403,
+      "responses": 23,
+      "costUsd": 1.6849047000000004
+    }
+  },
+  "sessionId": "e63c2aa0-db80-56de-aaf3-d2d231407228",
+  "branch": "claude/hash-maze-cube-m6wq80",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/hash-maze-cube-m6wq80 — второй кусок готов, мир куба протестирован, впереди ходьба по этажам и значки на карточках доски",
+  "prs": [
+    270
+  ],
+  "url": "https://claude.ai/code/session_01DaohkDF47nEL2dtQZcooZU",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-11T06:34:26.657Z",
+  "lastResponseAt": "2026-11-11T06:40:44.380Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 81,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 136923,
+    "cacheReadTokens": 5665284,
+    "outputTokens": 19545,
+    "thinkingTokens": 3321,
+    "responses": 38,
+    "costUsd": 2.6196648000000007
+  },
+  "subagents": {
+    "inputTokens": 78,
+    "cacheWrite5mTokens": 146460,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 3983535,
+    "outputTokens": 20899,
+    "thinkingTokens": 4003,
+    "responses": 35,
+    "costUsd": 1.372003
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 587,
+      "cacheWrite5mTokens": 67,
+      "cacheWrite1hTokens": 136923,
+      "cacheReadTokens": 5832783,
+      "outputTokens": 19563,
+      "thinkingTokens": 3321,
+      "responses": 39,
+      "costUsd": 2.6560846000000007
+    },
+    "claude-sonnet-5-5/standard": {
+      "inputTokens": 78,
+      "cacheWrite5mTokens": 146460,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 3983535,
+      "outputTokens": 20899,
+      "thinkingTokens": 4003,
+      "responses": 35,
+      "costUsd": 1.372003
+    }
+  },
+  "warnings": [
+    "prices.json priced the 72 responses the events also priced at $3.9274, against the events' $3.5290: a rate in the table is likely out of date"
+  ],
+  "compactions": [],
+  "telemetry": {
+    "events": 73,
+    "matched": 72,
+    "matchedTableUsd": 3.9273628,
+    "matchedEventUsd": 3.5290093000000016,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 67,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 167499,
+        "outputTokens": 18,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0364198
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".staged": 356,
+    ".md": 1137,
+    ".json": 119,
+    ".ts": 1388,
+    ".scss": 0,
+    ".yaml": 350
+  }
+}

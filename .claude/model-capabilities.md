@@ -70,6 +70,13 @@ model come first.
   enough; ask for "anything that surprised you" — it reports useful edges.
 - **Cost, by eye:** that suite, a few hundred lines, cost about twice as much
   delegated as written in-session; the rework ran to about 137k subagent tokens.
+  A schema field carried through a codec, a renderer and some fifty data items
+  with judgement per item cost about what twelve in-session turns would (~148k
+  subagent tokens), and saved two thirds of each later turn's re-read. Its
+  misses there: a docstring still promising the theming an obstacle had made it
+  drop, and a visual sized to the letter of the brief rather than to the purpose
+  the brief quoted — ask it to check the result against that purpose, not only
+  that it renders.
 
 ## haiku
 
