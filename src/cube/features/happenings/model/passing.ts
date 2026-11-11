@@ -9,6 +9,7 @@ import {
   openSides,
   type Side,
   SIDE_FRAMES,
+  sideAt,
   SIDES,
 } from '../lib/side';
 import {
@@ -60,7 +61,7 @@ function crossingFrom({ setting, chance }: Staging): Side {
     Number(!setting.closed[side]) + Number(!setting.closed[facing(side)]);
   const most = Math.max(...SIDES.map((side) => ways(side)));
   const best = SIDES.filter((side) => ways(side) === most);
-  return best[Math.floor(chance('side') * best.length)] ?? 0;
+  return sideAt(best, chance('side')) ?? 0;
 }
 
 /**
@@ -198,9 +199,8 @@ function catAt(
 /** Where a cat comes in or leaves by: an open side's middle where there is one. */
 function catDoor(staging: Staging, draw: 'side' | 'way'): Vec3 {
   const { setting, chance } = staging;
-  const open = openSides(setting);
-  const sides = open.length > 0 ? open : SIDES;
-  const side = sides[Math.floor(chance(draw) * sides.length)] ?? 0;
+  const side =
+    sideAt(openSides(setting), chance(draw)) ?? pick(SIDES, chance(draw));
   return onSide(setting, side, inLane(chance(draw, 1)), 0, CAT_CLEAR);
 }
 

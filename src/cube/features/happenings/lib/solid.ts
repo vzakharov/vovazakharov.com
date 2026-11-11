@@ -40,6 +40,10 @@ export const distance = (a: Vec3, b: Vec3): number => lengthOf(less(b, a));
 export const between = (a: Vec3, b: Vec3, share: number): Vec3 =>
   added(a, scaled(less(b, a), share));
 
+/** `from` turned by `angle` towards `towards`: both of length 1, square to each other. */
+export const tilted = (from: Vec3, towards: Vec3, angle: number): Vec3 =>
+  added(scaled(from, Math.cos(angle)), scaled(towards, Math.sin(angle)));
+
 /** A rotation about the origin. */
 export type Turn = (v: Vec3) => Vec3;
 

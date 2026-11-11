@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 
 import type { Quad, Room, Vec3 } from '@/cube/entities/world';
 
-import { SIDE_FRAMES, SIDES } from './side';
+import { next, SIDE_FRAMES, SIDES } from './side';
 import {
   about,
   bar,
@@ -88,7 +88,7 @@ describe('the side frames', () => {
     for (const side of SIDES) {
       const { base, along, into } = SIDE_FRAMES[side];
       close(crossed(along, UP), into);
-      const after = SIDE_FRAMES[SIDES[(side + 1) % 4] ?? 0];
+      const after = SIDE_FRAMES[next(side)];
       close([base[0] + along[0], 0, base[2] + along[2]], after.base);
     }
   });

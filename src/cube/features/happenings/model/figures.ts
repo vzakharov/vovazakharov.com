@@ -1,12 +1,13 @@
 import { face, type Quad, type Room, type Vec3 } from '@/cube/entities/world';
 
-import { lerp } from '../lib/ease';
+import { lerp, pick } from '../lib/ease';
 import {
   inLane,
   onSide,
   shutSides,
   type Side,
   SIDE_FRAMES,
+  sideAt,
   SIDES,
 } from '../lib/side';
 import {
@@ -17,6 +18,7 @@ import {
   heading,
   type Made,
   scaled,
+  tilted,
   UP,
 } from '../lib/solid';
 import { type Act, shown } from './staging';
@@ -63,10 +65,7 @@ export function figureAt(
   const right = forward(yaw + Math.PI / 2);
   const down = scaled(UP, -1);
   const hips = added(feet, scaled(UP, 0.48 * tall));
-  const spine = added(
-    scaled(UP, Math.cos(bowed)),
-    scaled(ahead, Math.sin(bowed)),
-  );
+  const spine = tilted(UP, ahead, bowed);
   const neck = added(hips, scaled(spine, 0.34 * tall));
   const limb = 0.1 * tall;
   const legs = [-1, 1].flatMap((side) => {
@@ -88,14 +87,7 @@ export function figureAt(
   );
   const held = arms.flatMap(({ armSwing: swung, splayed }, index) => {
     const out = scaled(right, index === 0 ? -1 : 1);
-    const lifted = added(
-      scaled(down, Math.cos(swung)),
-      scaled(ahead, Math.sin(swung)),
-    );
-    const along = added(
-      scaled(lifted, Math.cos(splayed)),
-      scaled(out, Math.sin(splayed)),
-    );
+    const along = tilted(tilted(down, ahead, swung), out, splayed);
     const shoulder = added(
       added(neck, scaled(spine, -0.04 * tall)),
       scaled(out, 0.19 * tall),
@@ -134,9 +126,8 @@ const yawOut = (side: Side): number => {
  * and then not. In a room with no wall it faces an open side from the lane.
  */
 export const figure: Act = ({ setting, age, chance }) => {
-  const shut = shutSides(setting);
-  const sides = shut.length > 0 ? shut : SIDES;
-  const side = sides[Math.floor(chance('side') * sides.length)] ?? 0;
+  const side =
+    sideAt(shutSides(setting), chance('side')) ?? pick(SIDES, chance('side'));
   const tall = GROWN * (0.94 + 0.12 * chance('spot'));
   const feet = onSide(setting, side, inLane(chance('u')), 0, 0.09);
   return shown(

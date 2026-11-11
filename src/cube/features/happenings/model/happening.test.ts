@@ -2,12 +2,14 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { clockAt } from '@/cube/shared/lib/clock';
+import type { Setting } from '@/cube/entities/world';
 
 import { happening, secondsAt } from './happening';
 import {
   assertInRoom,
   BEGAN,
   MIXED,
+  OPEN,
   settingOf,
   SHUT,
 } from './happenings.test-kit';
@@ -15,6 +17,7 @@ import {
   HAPPENING_KINDS,
   type HappeningKind,
   KIND_NAMES,
+  kindsOf,
   type Pace,
   PACES,
   scareShare,
@@ -29,23 +32,38 @@ const ROOMS = 400;
  * beats, found by looking in more often than the shortest act lasts.
  */
 function begun(pace: Pace, n: number, beats: number): HappeningKind[] {
-  const { every } = PACES[pace];
   const shortest = Math.min(
-    ...KIND_NAMES.filter((kind) => HAPPENING_KINDS[kind].pace === pace).map(
-      (kind) => HAPPENING_KINDS[kind].lastsFor[0],
-    ),
+    ...kindsOf(pace).map((kind) => HAPPENING_KINDS[kind].lastsFor[0]),
   );
-  const step = shortest / 2;
+  return Array.from({ length: ROOMS }, (_, room) =>
+    begunIn(
+      settingOf(1000 * n + room),
+      n,
+      pace,
+      beats * PACES[pace].every,
+      shortest / 2,
+    ),
+  ).flat();
+}
+
+/**
+ * The kinds of `pace`'s acts that begin in `setting`'s room on floor `n` over
+ * `seconds`, looked in on every `step`.
+ */
+function begunIn(
+  setting: Setting,
+  n: number,
+  pace: Pace,
+  seconds: number,
+  step: number,
+): HappeningKind[] {
   const kinds: HappeningKind[] = [];
-  for (let room = 0; room < ROOMS; room += 1) {
-    const setting = settingOf(1000 * n + room);
-    let last = Number.NaN;
-    for (let now = BEGAN; now < BEGAN + beats * every; now += step) {
-      const plan = playing(setting, n, pace, now);
-      if (plan !== null && plan.sinceEpoch !== last) {
-        last = plan.sinceEpoch;
-        kinds.push(plan.kind);
-      }
+  let last = Number.NaN;
+  for (let now = BEGAN; now < BEGAN + seconds; now += step) {
+    const plan = playing(setting, n, pace, now);
+    if (plan !== null && plan.sinceEpoch !== last) {
+      last = plan.sinceEpoch;
+      kinds.push(plan.kind);
     }
   }
   return kinds;
@@ -117,25 +135,11 @@ describe('happening', () => {
   });
 
   it('answers differently for a room’s walls, not only its word', () => {
-    const kinds = (closed: typeof MIXED) =>
-      begunIn(settingOf(4242, closed)).join(',');
-    assert.notEqual(kinds(MIXED), kinds([false, false, false, false]));
+    const overADay = (closed: typeof MIXED) =>
+      begunIn(settingOf(4242, closed), 50, 'brief', 86_400, 2.5).join(',');
+    assert.notEqual(overADay(MIXED), overADay(OPEN));
   });
 });
-
-/** The kinds of brief act that begin in one room of floor 50 over a day. */
-function begunIn(setting: ReturnType<typeof settingOf>): HappeningKind[] {
-  const kinds: HappeningKind[] = [];
-  let last = Number.NaN;
-  for (let now = BEGAN; now < BEGAN + 86_400; now += 2.5) {
-    const plan = playing(setting, 50, 'brief', now);
-    if (plan !== null && plan.sinceEpoch !== last) {
-      last = plan.sinceEpoch;
-      kinds.push(plan.kind);
-    }
-  }
-  return kinds;
-}
 
 describe('the rate', () => {
   const BEATS = { brief: 200, lingering: 60 } as const;

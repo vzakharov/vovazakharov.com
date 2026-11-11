@@ -1,7 +1,14 @@
 import { box, face, type Quad } from '@/cube/entities/world';
 
 import { lerp, pick, ramp, smooth } from '../lib/ease';
-import { inLane, openSides, SIDE_FRAMES, SIDES, spot } from '../lib/side';
+import {
+  inLane,
+  openSides,
+  SIDE_FRAMES,
+  sideAt,
+  SIDES,
+  spot,
+} from '../lib/side';
 import { scaled } from '../lib/solid';
 import { type Act, NOTHING, shown, sounding, type Staging } from './staging';
 
@@ -14,7 +21,7 @@ const SHADE = 0x01_01_01;
  * raising an arm halfway.
  */
 export const shadow: Act = ({ setting, age, lastsFor, chance }) => {
-  const side = SIDES[Math.floor(chance('side') * SIDES.length)] ?? 0;
+  const side = pick(SIDES, chance('side'));
   const { along, into } = SIDE_FRAMES[side];
   const middle = inLane(chance('spot'));
   const foot = 0.15 + (0.3 * age) / lastsFor;
@@ -60,10 +67,8 @@ const WRONG_HAND = 30;
  */
 export const hand: Act = (staging: Staging) => {
   const { setting, n, age, lastsFor, chance } = staging;
-  const open = openSides(setting);
-  const [first] = open;
-  if (first === undefined) return NOTHING;
-  const side = pick([first, ...open.slice(1)], chance('side'));
+  const side = sideAt(openSides(setting), chance('side'));
+  if (side === null) return NOTHING;
   const { along, into } = SIDE_FRAMES[side];
   const wrong = n >= WRONG_HAND;
   const fingers = wrong ? 6 : 4;

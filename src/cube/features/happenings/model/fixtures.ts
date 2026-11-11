@@ -15,6 +15,7 @@ import {
   shutSides,
   type Side,
   SIDE_FRAMES,
+  sideAt,
   spot,
 } from '../lib/side';
 import {
@@ -26,6 +27,7 @@ import {
   forward,
   less,
   scaled,
+  tilted,
   unitOf,
   UP,
 } from '../lib/solid';
@@ -58,9 +60,8 @@ function doorAlong({ setting, chance }: Staging, side: Side): number {
  */
 export const door: Act = (staging) => {
   const { setting, age, chance } = staging;
-  const [first, ...rest] = shutSides(setting);
-  if (first === undefined) return NOTHING;
-  const side = pick([first, ...rest], chance('side'));
+  const side = sideAt(shutSides(setting), chance('side'));
+  if (side === null) return NOTHING;
   const { along, into } = SIDE_FRAMES[side];
   const { room } = setting;
   const left = doorAlong(staging, side) - DOOR.wide / 2;
@@ -70,10 +71,7 @@ export const door: Act = (staging) => {
     AJAR *
     (smooth(ramp(age, 4, 6)) - ramp(age, 12, 12.4)) *
     (1 + 0.04 * Math.sin(age * 9));
-  const leaf = added(
-    scaled(along, Math.cos(swung)),
-    scaled(into, Math.sin(swung)),
-  );
+  const leaf = tilted(along, into, swung);
   const thick = crossed(leaf, UP);
   const hinge = at(0, 0, 0.003);
   const paint = pick(DOOR_PAINTS, chance('paint'));
@@ -156,10 +154,7 @@ export const unfolding: Act = (staging) => {
     0.3 + 0.4 * chance('v'),
   ];
   const reach = (angle: number, long: number) =>
-    added(
-      scaled(down, long * Math.cos(angle)),
-      scaled(plane, long * Math.sin(angle)),
-    );
+    scaled(tilted(down, plane, angle), long);
   const joints = [anchor];
   for (let index = 0; index < JOINTS; index += 1) {
     const open = smooth(ramp(out * JOINTS, index, index + 1));
@@ -212,9 +207,8 @@ const SEAM = 0.0008;
  */
 export const corner: Act = (staging) => {
   const { setting, age, chance } = staging;
-  const [first, ...rest] = shutCorners(setting);
-  if (first === undefined) return NOTHING;
-  const side = pick([first, ...rest], chance('side'));
+  const side = sideAt(shutCorners(setting), chance('side'));
+  if (side === null) return NOTHING;
   const beside = next(side);
   const loose = smooth(ramp(age, 2, 10)) - ramp(age, 17, 17.5);
   if (loose <= 0) return NOTHING;

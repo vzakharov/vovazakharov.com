@@ -59,6 +59,12 @@ export function assertInRoom(
 /** A second since the epoch for an act under test to have begun at. */
 export const BEGAN = 1_700_000_000;
 
+/** The chances `kind` draws in `beat`, and how long they make it last. */
+function runOf(kind: HappeningKind, setting: Setting, n: number, beat: number) {
+  const chance = chancesOf(setting, n, HAPPENING_KINDS[kind].pace, beat);
+  return { chance, lastsFor: lastsOf(kind, chance('lasts')) };
+}
+
 /**
  * `kind` played in `setting`'s room on floor `n` with the chances of `beat`,
  * `seconds` into its run — or, under zero, that long before its end.
@@ -70,8 +76,7 @@ export function playedAt(
   seconds: number,
   beat = 0,
 ): Happening {
-  const chance = chancesOf(setting, n, HAPPENING_KINDS[kind].pace, beat);
-  const lastsFor = lastsOf(kind, chance('lasts'));
+  const { chance, lastsFor } = runOf(kind, setting, n, beat);
   return ACTS[kind]({
     setting,
     n,
@@ -90,9 +95,6 @@ export function played(
   share: number,
   beat = 0,
 ): Happening {
-  const lastsFor = lastsOf(
-    kind,
-    chancesOf(setting, n, HAPPENING_KINDS[kind].pace, beat)('lasts'),
-  );
+  const { lastsFor } = runOf(kind, setting, n, beat);
   return playedAt(kind, setting, n, share * lastsFor, beat);
 }

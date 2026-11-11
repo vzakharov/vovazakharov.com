@@ -1,7 +1,7 @@
 import type { Vec3 } from '@/cube/entities/world';
 
 import { pick } from '../lib/ease';
-import { inLane, onSide, openSides, shutSides } from '../lib/side';
+import { inLane, onSide, openSides, shutSides, sideAt } from '../lib/side';
 import { added, block, heading, type Made } from '../lib/solid';
 import { type Act, heard, NOTHING, shown, sounding } from './staging';
 
@@ -56,15 +56,9 @@ const INSISTENT = 20;
 /** Knocking from inside a wall. */
 export const knock: Act = (staging) => {
   const { setting, n, chance } = staging;
-  const [first, ...rest] = shutSides(setting);
-  if (first === undefined) return NOTHING;
-  const source = onSide(
-    setting,
-    pick([first, ...rest], chance('side')),
-    0.15 + 0.7 * chance('spot'),
-    0.22,
-    0,
-  );
+  const side = sideAt(shutSides(setting), chance('side'));
+  if (side === null) return NOTHING;
+  const source = onSide(setting, side, 0.15 + 0.7 * chance('spot'), 0.22, 0);
   const knocks = n >= INSISTENT ? 7 : 3;
   return heard(
     Array.from({ length: knocks }, (_, index) =>
@@ -76,15 +70,12 @@ export const knock: Act = (staging) => {
 /** Steps going away through a doorway, nobody making them. */
 export const footsteps: Act = (staging) => {
   const { setting, lastsFor, chance } = staging;
-  const [first, ...rest] = openSides(setting);
-  if (first === undefined) return NOTHING;
+  const side = sideAt(openSides(setting), chance('side'));
+  if (side === null) return NOTHING;
   return heard(
-    sounding(
-      staging,
-      'steps',
-      onSide(setting, pick([first, ...rest], chance('side')), 0.5, 0, 0.05),
-      0.5,
-      [0, lastsFor],
-    ),
+    sounding(staging, 'steps', onSide(setting, side, 0.5, 0, 0.05), 0.5, [
+      0,
+      lastsFor,
+    ]),
   );
 };

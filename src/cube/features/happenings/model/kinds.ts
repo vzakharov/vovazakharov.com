@@ -116,6 +116,9 @@ export const KIND_NAMES = Object.keys(HAPPENING_KINDS).filter(
   (name): name is HappeningKind => name in HAPPENING_KINDS,
 );
 
+export const kindsOf = (pace: Pace): HappeningKind[] =>
+  KIND_NAMES.filter((kind) => HAPPENING_KINDS[kind].pace === pace);
+
 /** How heavily `kind` weighs among its pace's kinds on floor `n`. */
 export function weightOf(kind: HappeningKind, n: number): number {
   const { weight, since = 1 } = traitsOf(kind);
@@ -140,9 +143,9 @@ export function kindAt(
   n: number,
   chance: number,
 ): HappeningKind | null {
-  const weighed = KIND_NAMES.filter(
-    (kind) => HAPPENING_KINDS[kind].pace === pace && fitsIn(kind, setting),
-  ).map((kind) => ({ kind, weight: weightOf(kind, n) }));
+  const weighed = kindsOf(pace)
+    .filter((kind) => fitsIn(kind, setting))
+    .map((kind) => ({ kind, weight: weightOf(kind, n) }));
   const total = weighed.reduce((sum, { weight }) => sum + weight, 0);
   let left = chance * total;
   for (const { kind, weight } of weighed) {
@@ -163,9 +166,7 @@ export function lastsOf(kind: HappeningKind, chance: number): number {
  * every kind: about an eighth on floor 1, two fifths on the deepest.
  */
 export function scareShare(n: number): number {
-  const brief = KIND_NAMES.filter(
-    (kind) => HAPPENING_KINDS[kind].pace === 'brief',
-  );
+  const brief = kindsOf('brief');
   const total = (kinds: readonly HappeningKind[]) =>
     kinds.reduce((sum, kind) => sum + weightOf(kind, n), 0);
   return (

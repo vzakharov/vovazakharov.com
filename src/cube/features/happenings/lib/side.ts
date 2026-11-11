@@ -62,6 +62,10 @@ export const shutSides = ({ closed }: Setting): Side[] =>
 export const openSides = ({ closed }: Setting): Side[] =>
   SIDES.filter((side) => !closed[side]);
 
+/** The side of `sides` that `chance` of `[0, 1)` falls on; null where there is none. */
+export const sideAt = (sides: readonly Side[], chance: number): Side | null =>
+  sides[Math.floor(chance * sides.length)] ?? null;
+
 /** The sides that close a corner with the side after them. */
 export const shutCorners = ({ closed }: Setting): Side[] =>
   SIDES.filter((side) => closed[side] && closed[next(side)]);
