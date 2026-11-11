@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 35432,
+    "inputTokens": 35445,
     "cacheWrite5mTokens": 3680,
-    "cacheWrite1hTokens": 1412675,
-    "cacheReadTokens": 64329827,
-    "outputTokens": 477758,
-    "thinkingTokens": 180839,
-    "responses": 281,
-    "costUsd": 54.90275539999998
+    "cacheWrite1hTokens": 1443587,
+    "cacheReadTokens": 65849816,
+    "outputTokens": 480951,
+    "thinkingTokens": 181814,
+    "responses": 288,
+    "costUsd": 55.82916919999998
   },
   "estimate": {
     "at": "2026-11-11T20:39:45.457Z",
@@ -58,24 +58,24 @@
   },
   "sessionId": "10d36f14-9626-52f4-afcf-84eca5033d81",
   "branch": "claude/cube-liminal-332pmv",
-  "cwd": "/home/user/vovazakharov.com",
+  "cwd": "/home/user/vovazakharov.com/tmp/board/cube",
   "openingPrompt": "ну что, давай делать из куба красоту. Насмотрелся чудес про Fable, поэтому включаю. Привет, Фейбл :) Какие изменения относительно нашего обычного flow: 1- всё д…",
   "prs": [],
   "url": "https://claude.ai/code/session_01DaohkEZGmfg7XD5wRftBnA",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-11T19:32:19.389Z",
-  "lastResponseAt": "2026-11-11T23:02:26.730Z",
+  "lastResponseAt": "2026-11-11T23:03:36.042Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 525,
+    "inputTokens": 538,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 1412675,
-    "cacheReadTokens": 61899278,
-    "outputTokens": 405726,
-    "thinkingTokens": 180839,
-    "responses": 273,
-    "costUsd": 51.21589559999998
+    "cacheWrite1hTokens": 1443587,
+    "cacheReadTokens": 63419267,
+    "outputTokens": 408919,
+    "thinkingTokens": 181814,
+    "responses": 280,
+    "costUsd": 52.14230939999998
   },
   "subagents": {
     "inputTokens": 0,
@@ -89,14 +89,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 35432,
+      "inputTokens": 35445,
       "cacheWrite5mTokens": 3680,
-      "cacheWrite1hTokens": 1412675,
-      "cacheReadTokens": 64329827,
-      "outputTokens": 477758,
-      "thinkingTokens": 180839,
-      "responses": 281,
-      "costUsd": 54.90275539999998
+      "cacheWrite1hTokens": 1443587,
+      "cacheReadTokens": 65849816,
+      "outputTokens": 480951,
+      "thinkingTokens": 181814,
+      "responses": 288,
+      "costUsd": 55.82916919999998
     }
   },
   "warnings": [],
@@ -253,16 +253,16 @@
           "Bash": 1
         },
         "estimatedTokens": 896,
-        "estimatedUsd": 0.0195328
+        "estimatedUsd": 0.020787200000000002
       },
       "billedUsd": 0.5718211999999999
     }
   ],
   "telemetry": {
-    "events": 281,
-    "matched": 273,
-    "matchedTableUsd": 51.21589559999998,
-    "matchedEventUsd": 51.21589559999998,
+    "events": 288,
+    "matched": 280,
+    "matchedTableUsd": 52.14230939999998,
+    "matchedEventUsd": 52.14230939999998,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 1518,

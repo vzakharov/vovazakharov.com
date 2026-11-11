@@ -2,7 +2,7 @@ items:
   - id: z-beauty
     type: zone
     updated: [2026-11-11T22:45:00.000Z, agent:cube]
-    box: [3640, 1000, 1880, 1100, green]
+    box: [3640, 1000, 1880, 1560, green]
     icon: 🎞️
     text: 'Making it beautiful: the timelapse, failures included'
   - id: img-beauty-01-first-compile
@@ -47,6 +47,18 @@ items:
     box: [4588, 1560, 430]
     src: images/beauty-06-light-2.webp
     text: '7. Floor 2 under the same light. Floors 4 to 67 are in five parallel sessions now'
+  - id: img-beauty-07-box-hands
+    type: image
+    updated: [2026-11-11T23:20:00.000Z, agent:cube]
+    box: [3668, 2010, 430]
+    src: images/beauty-07-box-hands.webp
+    text: '8. The descent stream merged: the lever shrinks you where you stand, and the first time you look at your hands. Vova: "funny, but these are not AAA hands"'
+  - id: img-beauty-07-small
+    type: image
+    updated: [2026-11-11T23:20:00.000Z, agent:cube]
+    box: [4128, 2010, 430]
+    src: images/beauty-07-small.webp
+    text: '9. Mouse-sized on floor 1, looking up at the lever that did it. The hole is a walk away, and a hop'
   - id: beauty-streams
     type: sticky
     updated: [2026-11-11T22:45:00.000Z, agent:cube]
