@@ -2,10 +2,11 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import type { HoleOf } from './hole';
+import { maze } from './maze';
 import type { Pose } from './pose';
 import { type Room, roomKey, roomsAcross } from './room';
 import { seenFrom, sight, withBelow } from './rooms';
-import type { Walls } from './walls';
+import { mazeWalls, type Walls } from './walls';
 
 const pose: Pose = {
   n: 66,
@@ -187,5 +188,91 @@ describe('seenFrom', () => {
     const down = run({ n: 3, x: 3n, y: 0n }, { n: 3, x: 3n, y: 3n });
     const seen = seenFrom(corner, 24, pathWalls(corridor, down));
     assert.ok(keySet(seen).has('3/3/1'));
+  });
+});
+
+/**
+ * The rooms a ray from `(u, v)` in `start` reaches along `angle` before a
+ * closed wall or `far` room sides: a grid walk, one wall crossed at a time.
+ */
+function rayRooms(
+  walls: Walls,
+  { n, x, y }: Room,
+  [u, v]: readonly [number, number],
+  angle: number,
+  far: number,
+): Room[] {
+  const [dx, dy] = [Math.cos(angle), Math.sin(angle)];
+  const stepX = dx > 0 ? 1n : -1n;
+  const stepY = dy > 0 ? 1n : -1n;
+  let nextX = Math.abs((dx > 0 ? 1 - u : u) / dx);
+  let nextY = Math.abs((dy > 0 ? 1 - v : v) / dy);
+  const reached: Room[] = [];
+  let [cx, cy] = [x, y];
+  for (;;) {
+    const alongX = nextX < nextY;
+    if (Math.min(nextX, nextY) > far) return reached;
+    const open = alongX
+      ? walls.isOpenEast(n, stepX > 0n ? cx : cx - 1n, cy)
+      : walls.isOpenSouth(n, cx, stepY > 0n ? cy : cy - 1n);
+    if (!open) return reached;
+    if (alongX) {
+      cx += stepX;
+      nextX += Math.abs(1 / dx);
+    } else {
+      cy += stepY;
+      nextY += Math.abs(1 / dy);
+    }
+    reached.push({ n, x: cx, y: cy });
+  }
+}
+
+describe('sight on a rolled maze', () => {
+  it('holds every room a ray reaches from the eye’s room or one it opens into', () => {
+    const walls = mazeWalls(maze('8675309'));
+    let seed = 1;
+    const random = () => {
+      seed = (seed * 48_271) % 2_147_483_647;
+      return seed / 2_147_483_647;
+    };
+    const far = 12;
+    for (const n of [4, 10, 60]) {
+      for (let trial = 0; trial < 12; trial += 1) {
+        const side = Number(roomsAcross(n) < 1024n ? roomsAcross(n) : 1024n);
+        const eye: Pose = {
+          ...pose,
+          n,
+          x: BigInt(Math.floor(random() * side)),
+          y: BigInt(Math.floor(random() * side)),
+        };
+        const { near } = sight(eye, far, walls);
+        const seen = new Set(near.map((room) => roomKey(room)));
+        const { x, y } = eye;
+        const starts = [
+          { n, x, y },
+          ...(walls.isOpenEast(n, x, y) ? [{ n, x: x + 1n, y }] : []),
+          ...(walls.isOpenEast(n, x - 1n, y) ? [{ n, x: x - 1n, y }] : []),
+          ...(walls.isOpenSouth(n, x, y) ? [{ n, x, y: y + 1n }] : []),
+          ...(walls.isOpenSouth(n, x, y - 1n) ? [{ n, x, y: y - 1n }] : []),
+        ];
+        for (const start of starts) {
+          for (let ray = 0; ray < 64; ray += 1) {
+            const reached = rayRooms(
+              walls,
+              start,
+              [random(), random()],
+              random() * 2 * Math.PI,
+              far,
+            );
+            for (const room of reached) {
+              assert.ok(
+                seen.has(roomKey(room)),
+                `${roomKey(eye)} → ${roomKey(room)}`,
+              );
+            }
+          }
+        }
+      }
+    }
   });
 });
