@@ -8,4 +8,4 @@ export {
 export { isOpenEast, isOpenSouth, maze, type RolledMaze } from './model/maze';
 export { plant } from './model/plant';
 export { planted } from './model/planted';
-export type { Pose } from './model/pose';
+export type { InRoom, Pose } from './model/pose';
