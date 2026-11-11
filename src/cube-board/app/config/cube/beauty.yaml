@@ -1,0 +1,55 @@
+items:
+  - id: z-beauty
+    type: zone
+    updated: [2026-11-11T22:45:00.000Z, agent:cube]
+    box: [3640, 1000, 1880, 1100, green]
+    icon: 🎞️
+    text: 'Making it beautiful: the timelapse, failures included'
+  - id: img-beauty-01-first-compile
+    type: image
+    updated: [2026-11-11T22:45:00.000Z, agent:cube]
+    box: [3668, 1110, 430]
+    src: images/beauty-01-first-compile.webp
+    text: "1. First frame that compiled: a shader per floor, lit in the surface pass. Flat, and from a bird's eye"
+  - id: img-beauty-02-hdr-bloom
+    type: image
+    updated: [2026-11-11T22:45:00.000Z, agent:cube]
+    box: [4128, 1110, 430]
+    src: images/beauty-02-hdr-bloom.webp
+    text: '2. HDR and bloom, first try: every lamp a white cloud. The bloom levels added up instead of averaging'
+  - id: img-beauty-03-eye-level
+    type: image
+    updated: [2026-11-11T22:45:00.000Z, agent:cube]
+    box: [4588, 1110, 430]
+    src: images/beauty-03-eye-level.webp
+    text: '3. Shot from eye height at last, bloom tamed. Vova: "orders of magnitude better, but not AAA". Walls are paper'
+  - id: img-beauty-04-pillars
+    type: image
+    updated: [2026-11-11T22:45:00.000Z, agent:cube]
+    box: [5048, 1110, 430]
+    src: images/beauty-04-pillars.webp
+    text: '4. Pillars on every corner, and light through doorways as a hack. Vova: the lever shows through the wall, and the light jumps at room edges'
+  - id: img-beauty-05-thick
+    type: image
+    updated: [2026-11-11T22:45:00.000Z, agent:cube]
+    box: [3668, 1560, 430]
+    src: images/beauty-05-thick.webp
+    text: '5. Walls 12 cm thick, slabs 20 cm, a shaft through each hole; idclip to fall a floor'
+  - id: img-beauty-06-light-5
+    type: image
+    updated: [2026-11-11T22:45:00.000Z, agent:cube]
+    box: [4128, 1560, 430]
+    src: images/beauty-06-light-5.webp
+    text: '6. A point lit by the lamps of nine rooms through what is open: no seams on the generic floor 5'
+  - id: img-beauty-06-light-2
+    type: image
+    updated: [2026-11-11T22:45:00.000Z, agent:cube]
+    box: [4588, 1560, 430]
+    src: images/beauty-06-light-2.webp
+    text: '7. Floor 2 under the same light. Floors 4 to 67 are in five parallel sessions now'
+  - id: beauty-streams
+    type: sticky
+    updated: [2026-11-11T22:45:00.000Z, agent:cube]
+    box: [5048, 1560, 244, green]
+    icon: 🧵
+    text: 'Eleven sessions run beside the lead: sound, voice, lettering and posters, the descent, decor, happenings, and five bands of floors. The lead merges'

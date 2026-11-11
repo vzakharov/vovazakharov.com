@@ -75,9 +75,17 @@ external services.
 
 - Floors 1–3 are designed (reception, open plan, school corridor); the rest are
   `generic(n)`. Every gate was green at `5985ed03`; re-run before `/polish`.
-- Timeline frames, for the board (`src/cube-board/app/config/cube.yaml`, webp)
-  and not yet on it: `tmp/cube-timeline/` (container-local) — first compile,
-  HDR + bloom, eye level, pillars + door light, thick walls.
+- The board (`src/cube-board/app/config/cube/beauty.yaml`, zone "Making it
+  beautiful") holds the timelapse to frame 7 and is built
+  (`pnpm board build src/cube-board/app/config/cube.yaml` → `tmp/board/cube/`)
+  but **not yet published**: read
+  https://claude.ai/artifact/WbvwDqVtJzN8EBeuUffho3 with the Artifact tool, then
+  publish `tmp/board/cube/index.html` to that `url` with its `images/` and
+  `icons/` as `files`. Its `items` collection was empty on 11 Nov, so there was
+  nothing to `board sync`. Later frames go in as `beauty-NN-*.webp` beside it,
+  from `tmp/cube-timeline/` (container-local).
+- The preview was last dispatched for the continuous-light commit; republish
+  after each visible push (`preview.yml`, inputs `site: vova`, `slot: 1`).
 - Streams (`docs/plans/cube-beauty.streams.md`): see § "Streams launched".
 
 ## Streams launched
