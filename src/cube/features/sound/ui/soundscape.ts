@@ -236,15 +236,12 @@ export function createSoundscape(): Soundscape {
     },
     cue(cue) {
       if (rig?.context.state !== 'running' || here === undefined) return;
-      cues += 1;
+      // A room's sound comes with its seed; the body's own are numbered.
+      const seed =
+        'seed' in cue ? cue.seed : word(`${cue.kind}/${(cues += 1)}`);
       const rate = rig.context.sampleRate;
       const { playbackRate, ...mix } = voicedOf(cue, size);
-      emit(
-        samplesOf(cue, here.footing, word(`${cue.kind}/${cues}`), rate),
-        rate,
-        mix,
-        playbackRate,
-      );
+      emit(samplesOf(cue, here.footing, seed, rate), rate, mix, playbackRate);
     },
     play(samples, sampleRate, how = {}) {
       emit(samples, sampleRate, how);

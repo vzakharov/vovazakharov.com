@@ -1,3 +1,5 @@
+import type { Seeded } from '@/kernel/shared/typings';
+
 import type { Footing } from '@/cube/entities/theme';
 import type { InRoom } from '@/cube/entities/world';
 
@@ -30,8 +32,12 @@ export function bearingOf(ear: InRoom, yaw: number, source: InRoom): Bearing {
   };
 }
 
-/** A sound a room makes on its own: where it is for the ear, and how loud. */
-type Roomed = {
+/**
+ * A sound a room makes on its own: where it is for the ear, how loud, and the
+ * seed whatever raised it rolled from the room and the moment, so everyone
+ * there hears the same knock.
+ */
+type Roomed = Seeded & {
   from: Bearing;
   /** 0 to 1, as loud as it would be beside the ear. */
   loud: number;

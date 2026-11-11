@@ -8,6 +8,9 @@ const AIR_SECONDS = 4;
 const HUM_TOP = 5000;
 const HUM_PARTIALS = 40;
 
+/** Points one period of the hum is drawn with: a hundred to its highest partial's turn. */
+const HUM_TABLE = 4096;
+
 /** Where a ballast's buzz sits, in hertz, and how wide. */
 const BUZZ = 2800;
 const BUZZ_WIDTH = 900;
@@ -42,15 +45,24 @@ export function hum(
     };
   });
   const total = partials.reduce((sum, { level }) => sum + level, 0);
+  // One period, summed once; the loop reads along it, so a change of place
+  // costs a table rather than every partial at every sample.
+  const period = Float64Array.from({ length: HUM_TABLE }, (_, at) =>
+    partials.reduce(
+      (sounding, { k, level, phase }) =>
+        sounding + level * Math.sin((k * CYCLE * at) / HUM_TABLE + phase),
+      0,
+    ),
+  );
   const samples = new Float32Array(length);
   for (let i = 0; i < length; i += 1) {
-    const turn = (CYCLE * i) / length;
-    const sum = partials.reduce(
-      (sounding, { k, level, phase }) =>
-        sounding + level * Math.sin(k * periods * turn + phase),
-      0,
-    );
-    samples[i] = (HUM_PEAK / total) * (1 + 0.06 * Math.sin(3 * turn)) * sum;
+    const along = (((periods * i) / length) % 1) * HUM_TABLE;
+    const at = Math.floor(along);
+    const here = period[at] ?? 0;
+    const sum =
+      here + (along - at) * ((period[(at + 1) % HUM_TABLE] ?? 0) - here);
+    const waver = 1 + 0.06 * Math.sin((3 * CYCLE * i) / length);
+    samples[i] = (HUM_PEAK / total) * waver * sum;
   }
   return samples;
 }

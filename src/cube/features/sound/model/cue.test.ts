@@ -22,7 +22,7 @@ const CUES: readonly SoundCue[] = [
   { kind: 'breath', effort: 0.5 },
   { kind: 'grunt' },
   { kind: 'shrink' },
-  ...ROOM_SOUNDS.map((kind) => ({ kind, from: HERE, loud: 1 })),
+  ...ROOM_SOUNDS.map((kind) => ({ kind, from: HERE, loud: 1, seed: 5 })),
 ];
 
 const near = (actual: number, expected: number) => {
@@ -91,7 +91,7 @@ describe('bearingOf', () => {
 });
 
 const at = (rightward: number, roomsAway: number, loud = 1) =>
-  voicedOf({ kind: 'ring', from: { rightward, roomsAway }, loud }, 1);
+  voicedOf({ kind: 'ring', from: { rightward, roomsAway }, loud, seed: 5 }, 1);
 
 describe('voicedOf', () => {
   it('keeps every cue’s mix in range at any scale', () => {
@@ -119,7 +119,7 @@ describe('voicedOf', () => {
     for (const cue of [
       { kind: 'lever' },
       { kind: 'shrink' },
-      { kind: 'knock', from: HERE, loud: 1 },
+      { kind: 'knock', from: HERE, loud: 1, seed: 5 },
     ] as const) {
       assert.deepEqual(voicedOf(cue, 0.5), voicedOf(cue, 1));
     }
