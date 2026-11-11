@@ -43,7 +43,7 @@ const isRoom = (n: number, x: bigint, y: bigint): boolean => {
 };
 
 /** `rolled`'s walls, each hashed once while it stays in the cache. */
-export function mazeWalls(rolled: RolledMaze): Walls {
+function mazeWalls(rolled: RolledMaze): Walls {
   const east = cached(rolled, isOpenEast);
   const south = cached(rolled, isOpenSouth);
   return {

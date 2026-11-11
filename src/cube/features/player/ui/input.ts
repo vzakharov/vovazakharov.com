@@ -1,3 +1,5 @@
+import { asError } from '@/kernel/shared/lib/error-class';
+
 import type { Input } from '../model/step';
 
 /** Radians of look per pixel of mouse travel. */
@@ -24,19 +26,24 @@ export type InputBinding = {
 /**
  * Keyboard and pointer-lock mouse bound to `target`: a click on it takes the
  * pointer lock, and only while the lock is held do keys walk and the mouse
- * look, so typing elsewhere on the page moves nobody.
+ * look, so typing elsewhere on the page moves nobody. A refused lock goes to
+ * `onError`.
  */
-export function bindInput(target: HTMLElement): InputBinding {
+export function bindInput(
+  target: HTMLElement,
+  onError: (error: Error) => void,
+): InputBinding {
   const held = new Set<Code>();
   let turn = 0;
   let tilt = 0;
   const locked = () => document.pointerLockElement === target;
 
-  // Older engines return nothing rather than a promise, hence the `resolve`;
-  // a refused lock reaches the page's error reporting like any uncaught one.
+  // Older engines return nothing rather than a promise, hence the `resolve`.
   const onClick = () => {
     if (!locked()) {
-      Promise.resolve(target.requestPointerLock()).catch(reportError);
+      Promise.resolve(target.requestPointerLock()).catch((error: unknown) => {
+        onError(asError(error));
+      });
     }
   };
   const onMove = (event: MouseEvent) => {

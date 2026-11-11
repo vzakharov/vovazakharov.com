@@ -5,7 +5,7 @@ import { type Floored, type Room, roomKey } from './room';
 import type { View } from './rooms';
 
 /** A room's height, in its own side. */
-export const ROOM_HEIGHT = 0.5;
+const ROOM_HEIGHT = 0.5;
 /** A hole's side, in its room's side; it sits in the middle of its quarter. */
 export const HOLE_SIDE = 0.08;
 

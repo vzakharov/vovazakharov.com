@@ -2,24 +2,44 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import type { Pose } from '@/cube/entities/world';
+import { floorsOf, planted, type Pose } from '@/cube/entities/world';
+import {
+  bindInput,
+  EYE_HEIGHT,
+  plantedWalls,
+  step,
+} from '@/cube/features/player';
 
 import { type CubePlayHook, PLAY_HOOK, PLAY_QUERY } from '../lib/play';
 import classes from './cube.module.scss';
 import { mountCube } from './cube-scene';
-import { installFly } from './fly';
 
-/** Floor 1's one room, the eye at a person's height in its middle. */
-const START: Pose = {
-  n: 1,
-  x: 0n,
-  y: 0n,
-  u: 0.5,
-  v: 0.5,
-  eyeAbove: 0.32,
-  yaw: 0,
-  elevation: 0,
-};
+/** The query naming the floor a walk starts on; floor 1 without it. */
+const FLOOR_QUERY = 'floor';
+
+/**
+ * The north-west room of the floor `?floor=` names, the eye at a person's
+ * height in its middle. A floor the planted world lacks throws, so the route's
+ * error boundary names it.
+ */
+function startOf(query: URLSearchParams): Pose {
+  const asked = query.get(FLOOR_QUERY);
+  const n = asked === null ? 1 : Number(asked);
+  const floors = floorsOf(planted);
+  if (!Number.isInteger(n) || n < 1 || n > floors) {
+    throw new RangeError(`?${FLOOR_QUERY}= takes a floor from 1 to ${floors}`);
+  }
+  return {
+    n,
+    x: 0n,
+    y: 0n,
+    u: 0.5,
+    v: 0.5,
+    eyeAbove: EYE_HEIGHT,
+    yaw: 0,
+    elevation: 0,
+  };
+}
 
 type CubeCanvasProps = {
   /** The canvas's accessible name. */
@@ -39,13 +59,17 @@ export function CubeCanvas({ canvas: label, unsupported }: CubeCanvasProps) {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (canvas === null) return;
-    const play = new URLSearchParams(globalThis.location.search).has(
-      PLAY_QUERY,
-    );
-    const fly = play ? null : installFly(canvas, setFailure);
+    const query = new URLSearchParams(globalThis.location.search);
+    const play = query.has(PLAY_QUERY);
+    // Thrown from the effect, which the route's error boundary catches too.
+    const start = startOf(query);
+    const input = play ? null : bindInput(canvas, setFailure);
     const scene = mountCube(canvas, {
-      start: START,
-      onFrame: fly?.onFrame ?? ((pose) => pose),
+      start,
+      onFrame:
+        input === null
+          ? (pose) => pose
+          : (pose, seconds) => step(pose, input.read(), seconds, plantedWalls),
       onError: setFailure,
       onUnsupported: () => {
         setMissing(true);
@@ -57,7 +81,7 @@ export function CubeCanvas({ canvas: label, unsupported }: CubeCanvasProps) {
       Object.assign(globalThis, { [PLAY_HOOK]: hook });
     }
     return () => {
-      fly?.dispose();
+      input?.dispose();
       scene.dispose();
     };
   }, []);
