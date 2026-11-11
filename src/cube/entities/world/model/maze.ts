@@ -66,6 +66,14 @@ function side(n: number, x: bigint, y: bigint): bigint {
   return rooms;
 }
 
+/** The block at `level` that holds room `(x, y)` of floor `n`. */
+const blockAt = (n: number, level: number, x: bigint, y: bigint): Block => ({
+  n,
+  level,
+  x: x >> BigInt(level),
+  y: y >> BigInt(level),
+});
+
 /**
  * Whether the wall between `(x, y)` and `(x + 1, y)` is open on floor `n`,
  * decided from that wall alone: its block is at the level where `x` and `x + 1`
@@ -79,9 +87,7 @@ export function isOpenEast(
   y: bigint,
 ): boolean {
   if (x + 1n >= side(n, x, y)) throw new Error(`No wall east of (${x}, ${y})`);
-  const level = levelOf(x);
-  const block = { n, level, x: x >> BigInt(level), y: y >> BigInt(level) };
-  return isOpenAt(rolled, block, y, 'north', 'south');
+  return isOpenAt(rolled, blockAt(n, levelOf(x), x, y), y, 'north', 'south');
 }
 
 /** Whether the wall between `(x, y)` and `(x, y + 1)` is open on floor `n`. */
@@ -94,9 +100,7 @@ export function isOpenSouth(
   if (y + 1n >= side(n, x, y)) {
     throw new Error(`No wall south of (${x}, ${y})`);
   }
-  const level = levelOf(y);
-  const block = { n, level, x: x >> BigInt(level), y: y >> BigInt(level) };
-  return isOpenAt(rolled, block, x, 'west', 'east');
+  return isOpenAt(rolled, blockAt(n, levelOf(y), x, y), x, 'west', 'east');
 }
 
 // `along` is the coordinate running along the wall: it picks the half of the
