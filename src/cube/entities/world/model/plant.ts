@@ -67,17 +67,25 @@ export async function plant(
   floors: number,
   random: (bytes: Uint8Array) => void,
 ): Promise<{ world: World; answers: Cell[] }> {
+  const { seed, answers } = draw(floors, random);
+  const { hole } = seals(seed);
+  const holes = await Promise.all(
+    answers.map(async ({ x, y }, index) => hole.at({ n: index + 1, x, y })),
+  );
+  return { world: { seed, holes }, answers };
+}
+
+/** A seed and landing rooms, redrawn whole until they keep `FLOOR_TWO_PATH`. */
+function draw(
+  floors: number,
+  random: (bytes: Uint8Array) => void,
+): { seed: string; answers: Cell[] } {
   for (;;) {
     const seed = bits(random, SEED_BITS).toString();
     const answers = Array.from({ length: floors - 1 }, (_, index) => ({
       x: bits(random, index + 1),
       y: bits(random, index + 1),
     }));
-    if (!keepsFloorTwo(seed, answers)) continue;
-    const { hole } = seals(seed);
-    const holes = await Promise.all(
-      answers.map(async ({ x, y }, index) => hole.at({ n: index + 1, x, y })),
-    );
-    return { world: { seed, holes }, answers };
+    if (keepsFloorTwo(seed, answers)) return { seed, answers };
   }
 }
