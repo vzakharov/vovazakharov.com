@@ -3,18 +3,8 @@ import { describe, it } from 'node:test';
 
 import { holeQuarter, holesOf, parseWorld, type World } from './hole';
 import { plant } from './plant';
+import { counterRandom } from './plant.test-kit';
 import { planted } from './planted';
-
-/** A deterministic byte source: a counter, run through a multiplicative mix. */
-function counterRandom(): (bytes: Uint8Array) => void {
-  let counter = 0;
-  return (bytes) => {
-    for (let i = 0; i < bytes.length; i += 1) {
-      counter += 1;
-      bytes[i] = (Math.imul(counter, 2_654_435_761) >>> 24) & 0xff;
-    }
-  };
-}
 
 const FLOORS = 6;
 
