@@ -193,19 +193,19 @@ describe('signPost', () => {
   const place = placed(eye, eye);
 
   it('stands no post under a wall sign', () => {
-    assert.deepEqual(signPost(on(1, 0.5, -1, 0), 2, place), []);
+    assert.deepEqual(signPost(on(1, 0.5, -1, 0), eye, place), []);
   });
 
   it('stands a closed box from the slab up to the board under a post sign', () => {
     const sign = on(0.8, 0.5, -1, 0, true);
-    const quads = signPost(sign, 2, place);
+    const quads = signPost(sign, eye, place);
     assert.equal(quads.length, 6);
     const corners = quads.flatMap((q) => q.corners);
     const ys = corners.map((c) => c[1]);
     assert.equal(Math.min(...ys), place.origin[1]);
     const us = corners.map((c) => (c[0] - place.origin[0]) / place.roomSide);
     assert.ok(Math.min(...us) < 0.8 && Math.max(...us) > 0.8);
-    assert.ok(quads.every((q) => q.surface === 'wall'));
+    assert.ok(quads.every((q) => q.surface === 'trim'));
   });
 });
 
@@ -215,7 +215,7 @@ describe('signFacets', () => {
   it('reads a post sign from both faces, either side of the post', () => {
     const sign = on(0.8, 0.5, -1, 0, true);
     const place = placed(eye, eye);
-    const facets = signFacets(sign, 2, place);
+    const facets = signFacets(sign, eye, place);
     assert.equal(facets.length, 2);
     const normals = facets.map(({ normal }) => Math.round(normal[0]) + 0);
     assert.deepEqual(normals, [-1, 1]);
@@ -235,12 +235,12 @@ describe('signFacets', () => {
   ] as const) {
     it(`faces into the room off its wall, facing (${du}, ${dv})`, () => {
       const sign = on((1 - du) / 2, (1 - dv) / 2, du, dv);
-      const facets = signFacets(sign, 2, placed(eye, eye));
+      const facets = signFacets(sign, eye, placed(eye, eye));
       assert.equal(facets.length, 1);
       const [only] = facets;
       assert.ok(only !== undefined);
-      const { corners, normal, n } = only;
-      assert.equal(n, 2);
+      const { corners, normal, room: lot } = only;
+      assert.equal(lot, eye);
       assert.deepEqual(
         normal.map((c) => Math.round(c) + 0),
         [du, 0, dv],

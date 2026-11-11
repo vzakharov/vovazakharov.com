@@ -31,7 +31,12 @@ import {
 } from '@/cube/features/player';
 
 import { type Follow, followAddress } from '../lib/fragment';
-import { type CubePlayHook, PLAY_HOOK, PLAY_QUERY } from '../lib/play';
+import {
+  type CubePlayHook,
+  PLAY_HOOK,
+  PLAY_INSTANT,
+  PLAY_QUERY,
+} from '../lib/play';
 import classes from './cube.module.scss';
 import {
   type CubeScene,
@@ -141,6 +146,8 @@ function walk(
   let player: Player = { pose: start, shrinking: null };
   /** A press the play hook asked for, resolved once a frame reads it. */
   let pressed: PromiseWithResolvers<void> | null = null;
+  /** The instant a script's clock is stopped at; a walk's clock runs. */
+  let frozen: number | null = play ? PLAY_INSTANT : null;
 
   /** Shows the hint by a sign in reach, and opens its offer on a press. */
   const reach = (pose: Pose, signOf: SignOf, press: boolean): void => {
@@ -183,6 +190,7 @@ function walk(
             follow?.(moved, shrinking === null, seconds);
             return { pose: moved, pulled: pulledOf(player) };
           },
+    now: () => frozen ?? Date.now(),
     onError: setFailure,
     onUnsupported: () => {
       setMissing(true);
@@ -194,6 +202,9 @@ function walk(
       ready,
       setPose,
       adapter,
+      setClock: (ms) => {
+        frozen = ms;
+      },
       press: async () => {
         pressed ??= Promise.withResolvers();
         return pressed.promise;

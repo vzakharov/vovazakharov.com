@@ -1,6 +1,7 @@
 import { asError } from '@/kernel/shared/lib/error-class';
 import type { CanDispose, WithOnError } from '@/kernel/shared/typings';
 
+import { themeOf } from '@/cube/entities/theme';
 import {
   descend,
   eyeInFrame,
@@ -25,20 +26,26 @@ import {
   signPost,
   signsSeen,
   slabRooms,
+  traits,
   withBelow,
 } from '@/cube/entities/world';
+import { clockAt } from '@/cube/shared/lib/clock';
 
 import type COPY from '../config/messages/en.json';
 import { FAR, viewProjection } from '../lib/camera';
 import { formatPrice } from '../lib/figures';
-import { pack, packSigns } from '../lib/mesh';
-import { airOf, ambientOf, between } from '../lib/palette';
+import { pack, type RoomLook, type Scenery } from '../lib/mesh';
+import { between } from '../lib/palette';
 import type { ScenePlay } from '../lib/play';
+import { roomLooks } from '../lib/room-look';
+import { shaderOf } from '../lib/shader';
 import { type Boards, createRenderer, type Renderer } from './renderer';
 import { drawBoard } from './sign-board';
 
 /** What one frame draws: the eye's pose and the lever pulled, if any. */
 type Frame = Posed & { pulled: Pulled | null };
+
+type LookOf = (room: Room) => RoomLook;
 
 /**
  * The sign of a room on the eye's floor, null where the room has none or the
@@ -53,9 +60,9 @@ export type SignOf = (room: Room) => Sign | null;
  */
 type FrameHook = (pose: Pose, seconds: number, signOf: SignOf) => Frame;
 
-/** One room's view: its vertex buffer, the lever pulled drawn as such, and its signs. */
+/** One room's view: its faces, the lever pulled drawn as such, and its signs. */
 type Mesh = {
-  faces: (pulled: Pulled | null) => Float32Array<ArrayBuffer>;
+  faces: (pulled: Pulled | null) => Scenery;
   boards: readonly Boards[];
   signOf: SignOf;
 };
@@ -75,6 +82,8 @@ export type CubeOptions = WithOnError &
   Selling & {
     start: Pose;
     onFrame: FrameHook;
+    /** The instant a frame is drawn at, in milliseconds since the epoch. */
+    now: () => number;
     /** Hears that the browser has no WebGPU; nothing is drawn then. */
     onUnsupported: () => void;
   };
@@ -87,8 +96,12 @@ export type CubeScene = ScenePlay & CanDispose & { refresh: () => void };
 
 const rolled = maze(planted.seed);
 const walls = mazeWalls(rolled);
+const rolledTraits = traits(planted.seed);
 
 const noSign: SignOf = () => null;
+
+/** What shows where no face is drawn, for an eye `depth` floors down. */
+const airAt = (depth: number) => between((n) => themeOf(n).air, depth);
 
 /**
  * The boards of `signed` in the eye's frame at `pose`, one texture per floor
@@ -98,6 +111,7 @@ function boardsOf(
   pose: Pose,
   signed: readonly Signed[],
   { signs, sold }: SignCopy,
+  lookOf: LookOf,
 ): Boards[] {
   const byBoard = Map.groupBy(
     signed,
@@ -114,10 +128,14 @@ function boardsOf(
       {
         id,
         image: () => drawBoard(n, isSold, signs[kind], line),
-        vertices: packSigns(
+        scenery: pack(
           rooms.flatMap(({ room, sign }) =>
-            signFacets(sign, n, placed(pose, room)),
+            signFacets(sign, room, placed(pose, room)).map((facet) => ({
+              ...facet,
+              surface: 'paper' as const,
+            })),
           ),
+          lookOf,
         ),
       },
     ];
@@ -150,15 +168,28 @@ async function build(
   );
   const owns = (room: Room) => bought.has(roomKey(room));
   const posts = signed.flatMap(({ room, sign }) =>
-    signPost(sign, room.n, placed(pose, room)),
+    signPost(sign, room, placed(pose, room)),
   );
+  const lookOf = roomLooks(pose, walls, rolledTraits);
+  const pillarOf = (n: number) => themeOf(n).pillar;
   return {
     faces: (pulled) =>
-      pack([...faces(rolled, pose, full, holeOf, pulled, owns), ...posts]),
-    boards: boardsOf(pose, signed, copy),
+      pack(
+        [
+          ...faces(rolled, pose, full, holeOf, pulled, owns, pillarOf),
+          ...posts,
+        ],
+        lookOf,
+      ),
+    boards: boardsOf(pose, signed, copy, lookOf),
     signOf: (room) => onFloor.get(roomKey(room)) ?? null,
   };
 }
+
+/** The floors any of `sceneries` has a face on. */
+const floorsIn = (sceneries: readonly Scenery[]): number[] => [
+  ...new Set(sceneries.flatMap(({ ranges }) => ranges.map(({ n }) => n))),
+];
 
 /**
  * `pose` on the floor whose room holds its eye: the floor below once a
@@ -174,7 +205,7 @@ const inEyeRoom = (pose: Pose): Pose =>
  */
 export function mountCube(
   canvas: HTMLCanvasElement,
-  { start, copy, bought, onFrame, onError, onUnsupported }: CubeOptions,
+  { start, copy, bought, onFrame, now, onError, onUnsupported }: CubeOptions,
 ): CubeScene {
   let pose = start;
   let pulled: Pulled | null = null;
@@ -184,7 +215,13 @@ export function mountCube(
   /** What a mesh is built for: the eye's room, as of `generation`. */
   const meshKey = (target: Pose): string =>
     `${roomKey(target)}#${String(generation)}`;
-  let built: { key: string; pose: Pose; mesh: Mesh } | null = null;
+  /** The mesh drawn, and `lenses`, the floors whose shaders it prepared. */
+  let built: {
+    key: string;
+    pose: Pose;
+    mesh: Mesh;
+    lenses: ReadonlySet<number>;
+  } | null = null;
   /** The lever pulled as the mesh last uploaded draws it. */
   let uploadedPull = '';
   let building: { key: string; done: Promise<void> } | null = null;
@@ -198,11 +235,18 @@ export function mountCube(
 
   const upload = async (target: Pose, key: string): Promise<void> => {
     const mesh = await build(target, copy, bought());
+    const pull = pullKey();
+    const scenery = mesh.faces(pulled);
+    const floors = [
+      ...floorsIn([scenery, ...mesh.boards.map((board) => board.scenery)]),
+      target.n,
+    ];
+    await renderer?.prepare(floors);
     if (disposed || renderer === null) return;
-    renderer.upload(mesh.faces(pulled));
+    renderer.upload(scenery);
     renderer.uploadBoards(mesh.boards);
-    uploadedPull = pullKey();
-    built = { key, pose: target, mesh };
+    uploadedPull = pull;
+    built = { key, pose: target, mesh, lenses: new Set(floors) };
   };
 
   /** The mesh build for `target`'s room: the one under way, or a new one. */
@@ -231,9 +275,12 @@ export function mountCube(
     const { eye, side } = eyeInFrame(built.pose, at);
     const unit = side * at.scale;
     const depth = at.n - Math.log2(at.scale);
-    renderer.draw(viewProjection(at, eye, width / height, unit), {
-      clear: between(airOf, depth),
-      ambient: between(ambientOf, depth),
+    renderer.draw({
+      viewProjection: viewProjection(at, eye, width / height, unit),
+      eye,
+      clear: airAt(depth),
+      lens: built.lenses.has(at.n) ? at.n : built.pose.n,
+      ...clockAt(now()),
     });
     firstFrame.resolve();
   };
@@ -257,7 +304,7 @@ export function mountCube(
   };
 
   const begin = async (): Promise<void> => {
-    const created = await createRenderer(canvas, onError);
+    const created = await createRenderer(canvas, shaderOf, onError);
     if (disposed) {
       created?.dispose();
       return;

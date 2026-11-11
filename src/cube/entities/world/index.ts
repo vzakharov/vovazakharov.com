@@ -21,9 +21,17 @@ export { maze } from './model/maze';
 export { plant } from './model/plant';
 export { planted } from './model/planted';
 export type { InRoom, Pose, Posed, Standing, WallMounted } from './model/pose';
-export type { Facet, Quad, Surface, Vec3 } from './model/quad';
+export type { Facet, Quad, Vec3 } from './model/quad';
 export { type Room, roomKey } from './model/room';
-export { sight, slabRooms, withBelow } from './model/rooms';
+export {
+  opens,
+  sight,
+  slabRooms,
+  type Step,
+  stepped,
+  STEPS,
+  withBelow,
+} from './model/rooms';
 export {
   type Holdings,
   priceOf,
@@ -35,4 +43,5 @@ export {
   signPost,
   signsSeen,
 } from './model/sale';
+export { type RolledTraits, traits } from './model/traits';
 export { mazeWalls, type Walls } from './model/walls';

@@ -1,29 +1,23 @@
-import type { Floored } from './room';
+import type { Surface } from '@/cube/shared/lib/surface';
+
+import type { InRoomOf, Room } from './room';
 
 export type Vec3 = readonly [number, number, number];
 
-/** `owned` is the floor of a room the viewer bought. */
-const SURFACES = [
-  'wall',
-  'floor',
-  'owned',
-  'ceiling',
-  'plate',
-  'handle',
-] as const;
-export type Surface = (typeof SURFACES)[number];
-
 /**
  * One flat face, its corners counter-clockwise seen from the side `normal`
- * points to, and the floor of the room it faces into.
+ * points to, and the room it faces into, whose light falls on it.
  */
-export type Facet = Floored & {
+export type Facet = InRoomOf & {
   corners: readonly [Vec3, Vec3, Vec3, Vec3];
   normal: Vec3;
 };
 
-/** A facet coloured as `surface`. */
-export type Quad = Facet & { surface: Surface };
+/**
+ * A facet made of `surface`, tinted `paint` (`0xRRGGBB`) where its surface
+ * takes a tint.
+ */
+export type Quad = Facet & { surface: Surface; paint?: number };
 
 const cross = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
   ay * bz - az * by,
@@ -49,7 +43,7 @@ export const times = ([x, y, z]: Vec3, by: number): Vec3 => [
 ];
 
 /** The parallelogram from `corner` along `a`, then `b`, facing `a × b`. */
-export function facet(corner: Vec3, a: Vec3, b: Vec3, n: number): Facet {
+export function facet(corner: Vec3, a: Vec3, b: Vec3, room: Room): Facet {
   return {
     corners: [
       corner,
@@ -58,7 +52,7 @@ export function facet(corner: Vec3, a: Vec3, b: Vec3, n: number): Facet {
       plus(corner, b),
     ],
     normal: unit(cross(a, b)),
-    n,
+    room,
   };
 }
 
@@ -67,9 +61,14 @@ export const face = (
   corner: Vec3,
   a: Vec3,
   b: Vec3,
-  n: number,
+  room: Room,
   surface: Surface,
-): Quad => ({ ...facet(corner, a, b, n), surface });
+  paint?: number,
+): Quad => ({
+  ...facet(corner, a, b, room),
+  surface,
+  ...(paint === undefined ? {} : { paint }),
+});
 
 /**
  * The six outward faces of the box from `corner` along `p`, `q` and `r`, which
@@ -78,15 +77,18 @@ export const face = (
 export function box(
   corner: Vec3,
   [p, q, r]: readonly [Vec3, Vec3, Vec3],
-  n: number,
+  room: Room,
   surface: Surface,
+  paint?: number,
 ): Quad[] {
+  const side = (from: Vec3, a: Vec3, b: Vec3) =>
+    face(from, a, b, room, surface, paint);
   return [
-    face(corner, q, p, n, surface),
-    face(plus(corner, r), p, q, n, surface),
-    face(corner, r, q, n, surface),
-    face(plus(corner, p), q, r, n, surface),
-    face(corner, p, r, n, surface),
-    face(plus(corner, q), r, p, n, surface),
+    side(corner, q, p),
+    side(plus(corner, r), p, q),
+    side(corner, r, q),
+    side(plus(corner, p), q, r),
+    side(corner, p, r),
+    side(plus(corner, q), r, p),
   ];
 }

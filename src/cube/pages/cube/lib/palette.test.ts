@@ -1,42 +1,22 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { airOf, between, colourOf, hsl, hueOf } from './palette';
+import type { Rgb } from '@/cube/shared/lib/colour';
 
-const close = (actual: readonly number[], expected: readonly number[]) => {
+import { between } from './palette';
+
+const shade = (n: number): Rgb => [n / 10, 0, 1 - n / 10];
+
+const close = (actual: Rgb, expected: Rgb) => {
   for (const [i, value] of expected.entries()) {
-    assert.ok(
-      Math.abs((actual[i] ?? Number.NaN) - value) < 1e-9,
-      actual.join(', '),
-    );
+    assert.ok(Math.abs((actual[i] ?? Number.NaN) - value) < 1e-9);
   }
 };
 
-describe('the palette', () => {
-  it('turns each floor by the golden angle', () => {
-    assert.equal(hueOf(0), 0);
-    assert.ok(Math.abs(hueOf(1) - 137.508) < 1e-9);
-    assert.ok(Math.abs(hueOf(3) - ((3 * 137.508) % 360)) < 1e-9);
-  });
-
-  it('converts HSL as CSS does', () => {
-    close(hsl(0, 1, 0.5), [1, 0, 0]);
-    close(hsl(120, 1, 0.5), [0, 1, 0]);
-    close(hsl(240, 1, 0.25), [0, 0, 0.5]);
-    close(hsl(77, 0, 0.3), [0.3, 0.3, 0.3]);
-  });
-
-  it('paints neighbouring floors different walls', () => {
-    assert.notDeepEqual(colourOf(1, 'wall'), colourOf(2, 'wall'));
-  });
-
-  it('passes from one floor’s air to the next’s as an eye halves', () => {
-    close(between(airOf, 3), airOf(3));
-    close(between(airOf, 4 - 1e-12), airOf(4));
-    const [from, to] = [airOf(3), airOf(4)];
-    close(
-      between(airOf, 3.5),
-      from.map((value, i) => (value + (to[i] ?? Number.NaN)) / 2),
-    );
+describe('between', () => {
+  it('passes from one floor’s colour to the next’s as an eye halves', () => {
+    close(between(shade, 3), shade(3));
+    close(between(shade, 4 - 1e-12), shade(4));
+    close(between(shade, 3.5), [0.35, 0, 0.65]);
   });
 });

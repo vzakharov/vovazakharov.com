@@ -1,4 +1,6 @@
-import { cssRgb, type Rgb, signOf } from '../lib/palette';
+import { cssRgb, type Rgb } from '@/cube/shared/lib/colour';
+
+import { signOf } from '../lib/palette';
 
 /** The board texture's size in pixels, the sign's own 2:1. */
 const WIDTH = 512;

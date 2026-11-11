@@ -36,6 +36,7 @@ const holedTo =
     n < last ? { qx: 0, qy: 0 } : null;
 
 const nobody = (): boolean => false;
+const noPillars = (): number => 0;
 const mine = (room: Room): boolean => roomKey(room) === '2/1/0';
 
 /** The faces of what an eye at `pose` sees, holes by `holeOf`. */
@@ -52,6 +53,7 @@ const facesAt = (
     holeOf,
     pulled,
     owns,
+    noPillars,
   );
 
 /** The hole in the east-north quarter of floor 1's room, and nowhere else. */
@@ -68,7 +70,7 @@ describe('faces', () => {
   it('cuts the hole out of its slab, in the middle of its quarter', () => {
     const pose = at({});
     const floor = facesAt(pose, oneHole).filter(
-      (quad) => quad.n === 1 && quad.surface === 'floor',
+      (quad) => quad.room.n === 1 && quad.surface === 'floor',
     );
     assert.equal(floor.length, 4);
     const total = floor.reduce((sum, quad) => sum + area(quad), 0);
@@ -93,8 +95,8 @@ describe('faces', () => {
       (quad) => quad.surface === 'owned',
     );
     assert.ok(owned.length > 0);
-    for (const { n, normal, corners } of owned) {
-      assert.equal(n, 2);
+    for (const { room, normal, corners } of owned) {
+      assert.equal(room.n, 2);
       assert.deepEqual(
         normal.map((c) => c + 0),
         [0, 1, 0],
@@ -107,7 +109,7 @@ describe('faces', () => {
     const pose = at({ n: 2, x: 1n, y: 0n });
     const quads = facesAt(pose, holedTo(3));
     const of = (floor: number, surface: Quad['surface']) =>
-      heights(quads.filter((q) => q.n === floor && q.surface === surface));
+      heights(quads.filter((q) => q.room.n === floor && q.surface === surface));
     assert.deepEqual(of(3, 'floor'), [-0.25]);
     assert.deepEqual(of(2, 'floor'), [0]);
     assert.deepEqual(of(2, 'ceiling'), [0.5]);
@@ -128,10 +130,11 @@ describe('faces', () => {
       noHoles,
       null,
       nobody,
+      noPillars,
     );
     const eastward = new Set(
       quads
-        .filter((q) => q.n === 3 && q.surface === 'wall' && q.normal[0] !== 0)
+        .filter((q) => q.room.n === 3 && q.surface === 'wall' && q.normal[0] > 0)
         .map(({ corners: [[east, , south]] }) => `${east} ${south}`),
     );
     for (let y = 0n; y < 4n; y += 1n) {
@@ -148,21 +151,21 @@ describe('faces', () => {
     const quads = facesAt(pose, holedTo(66));
     const coordinates = quads.flatMap(({ corners }) => corners.flat());
     assert.ok(coordinates.every((c) => Math.abs(c) <= 28));
-    assert.ok(quads.some((q) => q.n === 61 && q.surface === 'floor'));
+    assert.ok(quads.some((q) => q.room.n === 61 && q.surface === 'floor'));
   });
 
   it('closes floor 1 with the lid', () => {
     const pose = at({});
     const quads = facesAt(pose, noHoles);
-    const ceiling = quads.filter((q) => q.surface === 'ceiling' && q.n === 1);
+    const ceiling = quads.filter((q) => q.surface === 'ceiling' && q.room.n === 1);
     assert.deepEqual(heights(ceiling), [0.5]);
-    assert.ok(!quads.some((q) => q.n === 0));
+    assert.ok(!quads.some((q) => q.room.n === 0));
   });
 
   it('draws a lever in each holed room it walls, and only there', () => {
     const quads = facesAt(at({ n: 2, x: 1n, y: 0n }), holedTo(3));
     const floors = new Set(
-      quads.filter((q) => q.surface === 'handle').map((q) => q.n),
+      quads.filter((q) => q.surface === 'handle').map((q) => q.room.n),
     );
     // Floor 2's rooms and the one overhead are holed; floor 3's are not.
     assert.deepEqual(
@@ -198,7 +201,7 @@ describe('faces', () => {
           (index) => quads[index]?.corners.map((c) => c[1]) ?? [],
         ),
       );
-    assert.ok(moved.every((index) => rest[index]?.n === 2));
+    assert.ok(moved.every((index) => rest[index]?.room.n === 2));
     assert.ok(top(half) < top(rest));
     assert.ok(top(down) < top(half));
   });

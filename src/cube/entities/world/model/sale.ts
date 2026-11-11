@@ -1,5 +1,5 @@
 import { type Placed, walledRooms } from './geometry';
-import type { HoleOf } from './hole';
+import { type HoleOf, under } from './hole';
 import type { InRoom, WallMounted } from './pose';
 import { box, type Facet, facet, type Quad, times, type Vec3 } from './quad';
 import { type InRoomOf, type Room, roomKey } from './room';
@@ -121,11 +121,7 @@ export function lotSign(
 function isLanding(room: Room, holeOf: HoleOf): boolean {
   const over = parent(room);
   const quarter = holeOf(over);
-  return (
-    quarter !== null &&
-    room.x === 2n * over.x + BigInt(quarter.qx) &&
-    room.y === 2n * over.y + BigInt(quarter.qy)
-  );
+  return quarter !== null && roomKey(under(over, quarter)) === roomKey(room);
 }
 
 /** `lotSign`'s ends read off `holeOf`, which must know a room and the one over it. */
@@ -168,7 +164,7 @@ function board(
   at: WallMounted['at'],
   facing: WallMounted['facing'],
   off: number,
-  n: number,
+  room: Room,
   { origin, roomSide: side }: Placed,
 ): Facet {
   // Rightward for a reader facing the board, so (along, up) faces them.
@@ -184,12 +180,12 @@ function board(
     corner,
     times(along, SIGN_WIDTH * side),
     [0, SIGN_TALL * side, 0],
-    n,
+    room,
   );
 }
 
 /**
- * The board of `sign` in a room of floor `n` placed at `place` in the eye's
+ * The board of `sign` in `room`, placed at `place` in the eye's
  * frame: one facet facing into the room off a wall, or, on a post, two back
  * to back either side of it, so it reads from every opening. Each facet's
  * first corner is the bottom left as a reader facing it sees it, then bottom
@@ -197,25 +193,25 @@ function board(
  */
 export function signFacets(
   { at, facing, onPost }: SignMount,
-  n: number,
+  room: Room,
   place: Placed,
 ): Facet[] {
-  if (!onPost) return [board(at, facing, SIGN_OFF, n, place)];
+  if (!onPost) return [board(at, facing, SIGN_OFF, room, place)];
   const off = POST_HALF + SIGN_OFF;
   return [
-    board(at, facing, off, n, place),
-    board(at, against(facing.u, facing.v), off, n, place),
+    board(at, facing, off, room, place),
+    board(at, against(facing.u, facing.v), off, room, place),
   ];
 }
 
 /**
- * The post under `sign`, if it stands on one: a thin box in the walls' hue
- * from the slab up to the board's middle, in a room of floor `n` placed at
- * `place` in the eye's frame.
+ * The post under `sign`, if it stands on one: a thin box of trim from the
+ * slab up to the board's middle, in `room` placed at `place` in the eye's
+ * frame.
  */
 export function signPost(
   { at, onPost }: SignMount,
-  n: number,
+  room: Room,
   { origin, roomSide: side }: Placed,
 ): Quad[] {
   if (!onPost) return [];
@@ -231,7 +227,7 @@ export function signPost(
       [0, SIGN_HEIGHT * side, 0],
       [0, 0, width],
     ],
-    n,
-    'wall',
+    room,
+    'trim',
   );
 }

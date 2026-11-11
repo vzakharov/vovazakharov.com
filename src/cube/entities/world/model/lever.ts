@@ -91,14 +91,14 @@ const HANDLE_TILT = (35 * Math.PI) / 180;
 const POST_HEIGHT = 0.5;
 
 /**
- * `lever`'s faces in a room of floor `n` whose north-west slab corner sits at
+ * `lever`'s faces in `room`, whose north-west slab corner sits at
  * `origin` of the eye's frame, `side` its room side there: the post where
  * there is one, the plate, and the handle out of it, `swung` of the way from
  * tilted up to tilted as far down.
  */
 export function leverFaces(
   { mount, at, facing }: Lever,
-  n: number,
+  room: Room,
   origin: Vec3,
   side: number,
   swung: number,
@@ -125,8 +125,8 @@ export function leverFaces(
             [0, POST_HEIGHT * side, 0],
             [0, 0, POST_SIDE * side],
           ],
-          n,
-          'wall',
+          room,
+          'trim',
         )
       : [];
   const foot = local(at.u, PLATE_HEIGHT, at.v);
@@ -142,7 +142,7 @@ export function leverFaces(
       times(up, PLATE_TALL * side),
       times(out, PLATE_DEPTH * side),
     ],
-    n,
+    room,
     'plate',
   );
   const tilt = HANDLE_TILT * (1 - 2 * swung);
@@ -163,7 +163,7 @@ export function leverFaces(
       times(lift, HANDLE_THICK * side),
       times(reach, HANDLE_LENGTH * side),
     ],
-    n,
+    room,
     'handle',
   );
   return [...post, ...plate, ...handle];

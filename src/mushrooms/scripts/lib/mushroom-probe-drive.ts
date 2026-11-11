@@ -14,6 +14,7 @@ import {
 } from './mushroom-probe-answers.ts';
 
 import type { Evaluating } from '@/scene/scripts/lib/cdp';
+import { inTurn } from '@/scene/scripts/lib/in-turn';
 
 /** The arrow keys, by their DOM `key`, and the key code each goes down with. */
 const ARROWS = {
@@ -203,16 +204,7 @@ export function dragMoves(
   });
 }
 
-/** Runs `each` over `items` one after another, as taps on one page must. */
-export async function inTurn<Item>(
-  items: readonly Item[],
-  each: (item: Item) => Promise<void>,
-): Promise<void> {
-  const [first, ...rest] = items;
-  if (first === undefined) return;
-  await each(first);
-  return inTurn(rest, each);
-}
+export { inTurn };
 
 /** `frames` frames stepped one by one, each drawn; returns each one's update in ms. */
 export async function timedSteps(
