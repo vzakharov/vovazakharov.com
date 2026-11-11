@@ -4,16 +4,25 @@ import { describe, it } from 'node:test';
 import { formatLength, formatPrice } from './figures';
 
 describe('formatPrice', () => {
-  it('tags whole dollars one dollar under, from $100 up', () => {
+  it('ends whole dollars in 99, never above the price', () => {
     assert.equal(formatPrice(10_000_000), '$9,999,999');
     assert.equal(formatPrice(1_250_000), '$1,249,999');
-    assert.equal(formatPrice(156_250), '$156,249');
-    assert.equal(formatPrice(19_531.25), '$19,531');
+    assert.equal(formatPrice(156_250), '$156,199');
+    assert.equal(formatPrice(19_531.25), '$19,499');
+    assert.equal(formatPrice(2441.406_25), '$2,399');
+    assert.equal(formatPrice(305.175_781_25), '$299');
+    assert.equal(formatPrice(199), '$199');
   });
 
-  it('tags cents one cent under, below $100', () => {
+  it('ends cents in .99 where whole dollars would fall under $100', () => {
+    assert.equal(formatPrice(150), '$149.99');
     assert.equal(formatPrice(100), '$99.99');
-    assert.equal(formatPrice(38.146_972_656_25), '$38.14');
+    assert.equal(formatPrice(38.146_972_656_25), '$37.99');
+    assert.equal(formatPrice(5), '$4.99');
+  });
+
+  it('tags under $5 one cent under', () => {
+    assert.equal(formatPrice(4.768_371_582), '$4.76');
     assert.equal(formatPrice(0.6), '$0.59');
   });
 

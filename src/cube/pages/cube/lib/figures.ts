@@ -58,15 +58,29 @@ const dollars = (fractionDigits: number) =>
 const WHOLE = dollars(0);
 const CENTS = dollars(2);
 
+/** A tag ends in 99 from this price up; below it, the step under is all. */
+const NINETY_NINE_FROM = 5;
+
+/** The largest count of `unit`s not above `value` whose last two digits are 99. */
+const ninetyNine = (value: number, unit: number): number =>
+  HUNDRED * Math.floor((Math.floor(value / unit + EPSILON) + 1) / HUNDRED) - 1;
+
 /**
- * A price as a shop would tag it, one step under its last shown digit: whole
- * dollars from $100 (`$9,999,999` for $10M), cents below it (`$0.59` for
- * $0.60), and under a cent the scientific form's last hundredth
- * (`$9.31 × 10⁻³`), since the deepest floors' prices have no other spelling.
+ * A price as a shop would tag it. From $5 up, the largest price not above it
+ * whose last two shown digits are 99: whole dollars while that stays at $100
+ * or more (`$9,999,999` for $10M, `$19,499` for $19,531.25), cents otherwise
+ * (`$37.99` for $38.15). Below $5, one cent under (`$0.59` for $0.60), and
+ * under a cent the scientific form's last hundredth (`$9.31 × 10⁻³`), since
+ * the deepest floors' prices have no other spelling.
  */
 export function formatPrice(price: number): string {
   assertPositive(price, 'price');
-  if (price > HUNDRED) return WHOLE.format(justBelow(price, 1));
+  if (price >= NINETY_NINE_FROM) {
+    const whole = ninetyNine(price, 1);
+    return whole >= HUNDRED
+      ? WHOLE.format(whole)
+      : CENTS.format(ninetyNine(price, CENT) * CENT);
+  }
   if (price > CENT) return CENTS.format(justBelow(price, CENT) * CENT);
   return `$${scientific(price, true)}`;
 }
