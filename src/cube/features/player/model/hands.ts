@@ -43,7 +43,7 @@ type Span = readonly [from: number, to: number];
 /**
  * The lengths below are a whole body's, in room sides, a centimetre being
  * 0.002: a sleeve to the wrist, a palm 10 cm long and 9 wide, four fingers
- * and a thumb.
+ * with their nails and a thumb.
  */
 const SLEEVE: readonly [Span, Span, Span] = [
   [-0.06, -0.004],
@@ -61,6 +61,10 @@ const FINGER_WIDE = 0.004;
 const FINGER_PITCH = 0.0046;
 const FINGER_FROM = 0.0205;
 const FINGER_THICK = 0.0025;
+/** A nail's length, how far it stops short of the fingertip, and its thickness. */
+const NAIL = [0.0035, 0.0005, 0.0004] as const;
+/** A nail's paint: paler than the skin around it. */
+const NAIL_PAINT = 0xe9cfc6;
 const THUMB_LONG = 0.014;
 const THUMB_WIDE = 0.0045;
 
@@ -78,6 +82,7 @@ function hand(wrist: Vec3, axes: Axes, scale: number, room: Room): Quad[] {
     [a, b, c]: readonly [Span, Span, Span],
     surface: Surface,
     [p, q]: readonly [Vec3, Vec3] = [along, across],
+    paint?: number,
   ): Quad[] => {
     const corner = plus(
       wrist,
@@ -91,17 +96,37 @@ function hand(wrist: Vec3, axes: Axes, scale: number, room: Room): Quad[] {
       righted ? [edgeP, edgeQ, edgeR] : [edgeQ, edgeP, edgeR],
       room,
       surface,
+      paint,
     );
   };
-  const fingers = FINGERS.flatMap((long, index) => {
+  const fingerAcross = (index: number): Span => {
     const outer = PALM[1][1] - index * FINGER_PITCH;
-    return block(
+    return [outer - FINGER_WIDE, outer];
+  };
+  const fingers = FINGERS.flatMap((long, index) =>
+    block(
       [
         [FINGER_FROM, FINGER_FROM + long],
-        [outer - FINGER_WIDE, outer],
+        fingerAcross(index),
         [-FINGER_THICK, FINGER_THICK],
       ],
       'skin',
+    ),
+  );
+  // The nails lie on the backs of the fingers, so only a turned hand shows them.
+  const [nailLong, nailShort, nailThick] = NAIL;
+  const nails = FINGERS.flatMap((long, index) => {
+    const tip = FINGER_FROM + long - nailShort;
+    const [inner, outer] = fingerAcross(index);
+    return block(
+      [
+        [tip - nailLong, tip],
+        [inner + nailShort, outer - nailShort],
+        [-FINGER_THICK - nailThick, -FINGER_THICK],
+      ],
+      'skin',
+      [along, across],
+      NAIL_PAINT,
     );
   });
   // The thumb leaves the palm's side at 45°, in the palm's own plane.
@@ -124,6 +149,7 @@ function hand(wrist: Vec3, axes: Axes, scale: number, room: Room): Quad[] {
     ...block(SLEEVE, 'fabric'),
     ...block(PALM, 'skin'),
     ...fingers,
+    ...nails,
     ...thumb,
   ];
 }

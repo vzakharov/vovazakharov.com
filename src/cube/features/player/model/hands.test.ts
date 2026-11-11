@@ -52,10 +52,11 @@ describe('handsOf', () => {
     assert.ok(up.length > 60, 'for more than a second');
     for (const player of up) {
       const quads = handsOf(player);
-      // Seven boxes a hand: a sleeve, a palm, four fingers, a thumb.
-      assert.equal(quads.length, 2 * 7 * 6);
+      // Eleven boxes a hand: a sleeve, a palm, four fingers, their nails, a thumb.
+      assert.equal(quads.length, 2 * 11 * 6);
       assert.equal(quads.filter((q) => q.surface === 'fabric').length, 12);
-      assert.equal(quads.filter((q) => q.surface === 'skin').length, 72);
+      assert.equal(quads.filter((q) => q.surface === 'skin').length, 120);
+      assert.equal(quads.filter((q) => q.paint !== undefined).length, 48);
       for (const quad of quads) assert.deepEqual(quad.room, room);
     }
   });
