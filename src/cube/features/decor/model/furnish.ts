@@ -1,8 +1,7 @@
 import { pathHash, roll, type Rolled, rollWith } from '@/dice/shared/roll';
 
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
-import { THINGS } from '@/cube/shared/lib/thing';
-import type { Furnishing } from '@/cube/entities/theme';
+import { type Thing, THINGS } from '@/cube/shared/lib/thing';
 import {
   type Quad,
   type Setting,
@@ -102,7 +101,7 @@ const seen = (quads: readonly Quad[], flush: boolean): Quad[] =>
   });
 
 /** One thing made in its own frame, and how far off its wall it stands. */
-type Made = { quads: Quad[]; gap: number };
+type Made = { quads: Quad[]; off: number };
 
 type Draw = ReturnType<
   ReturnType<Rolled<typeof Decor>['thing']['at']>['item']['at']
@@ -117,7 +116,7 @@ function make(setting: Setting, recipe: Recipe, draw: Draw): Made {
   const [least, most] = recipe.gap ?? [0, 0];
   return {
     quads: mapped(seen(built, flush), turn, turn),
-    gap: OFF_WALL + (least + draw.gap * (most - least)) / ROOM_METRES,
+    off: OFF_WALL + (least + draw.gap * (most - least)) / ROOM_METRES,
   };
 }
 
@@ -138,7 +137,7 @@ function along(
 /** `made` stood in the room where try `t` puts it, or null where it cannot go. */
 function stood(
   { closed }: Setting,
-  { quads, gap }: Made,
+  { quads, off }: Made,
   cornered: boolean,
   spot: ReturnType<Draw['spot']['at']>,
   t: number,
@@ -188,7 +187,7 @@ function stood(
     quads,
     ([x, y, z]) =>
       about([
-        1 - WALL_HALF - gap - (z - own.least[2]),
+        1 - WALL_HALF - off - (z - own.least[2]),
         y,
         start + (x - own.least[0]),
       ]),
@@ -203,13 +202,13 @@ function stood(
  */
 export const furnish = (
   setting: Setting,
-  decor: readonly Furnishing[],
+  decor: Parameters<typeof furnished>[1],
 ): Quad[] => furnished(setting, decor).flat();
 
 /** `furnish`'s room, thing by thing. */
 export function furnished(
   setting: Setting,
-  decor: readonly Furnishing[],
+  decor: ReadonlyArray<Readonly<{ thing: Thing; perRoom: number }>>,
 ): Quad[][] {
   const rolled = rollWith(Decor, pathHash(String(setting.grain)));
   const zones = clearZones(setting);
