@@ -35,7 +35,7 @@
   "src/mushrooms/scripts/lib/play-insects.ts": 423,
   "src/mushrooms/scripts/lib/play-runs.ts": 414,
   "src/mushrooms/scripts/lib/play-walk.ts": 430,
-  "src/mushrooms/shared/world/ground.ts": 445,
+  "src/mushrooms/shared/world/ground.ts": 442,
   "src/mushrooms/shared/world/pan.ts": 409,
   "src/mushrooms/shared/world/stride.ts": 442,
   "src/mushrooms/shared/world/walk.ts": 452,

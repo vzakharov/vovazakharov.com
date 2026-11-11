@@ -75,6 +75,12 @@ export type WithLanguage = { language: string };
 /** A repo-relative path to the file a thing was read from. */
 export type WithFilePath = { filePath: string };
 
+/** Hears a failure that happens past the call that set the holder up. */
+export type WithOnError = { onError: (error: Error) => void };
+
+/** A scene a script waits on: resolves once its first frame is drawn. */
+export type Readying = { ready: () => Promise<void> };
+
 /** What can be stopped — a voice, a player's decks, a download. */
 export type Hushing = { stop: () => void };
 

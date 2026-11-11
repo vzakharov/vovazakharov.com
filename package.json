@@ -7,6 +7,7 @@
     "dev": "scripts/site-task.sh 'next dev'",
     "build": "scripts/site-task.sh --every 'next build'",
     "film:island": "tsx src/island/scripts/film-descent.ts",
+    "play:cube": "scripts/in-site.sh vova tsx src/cube/scripts/play-cube.ts",
     "play:island": "tsx src/island/scripts/play-island.ts",
     "play:mushrooms": "tsx src/mushrooms/scripts/play-mushrooms.ts",
     "sweep:mushrooms": "tsx src/mushrooms/scripts/sweep-mushrooms.ts",
@@ -50,7 +51,7 @@
     "styles:codegen": "tsx src/shell/scripts/generate-styles.ts",
     "costs": "python3 .claude/costs/report.py",
     "artifact:mushrooms": "tsx src/mushrooms/scripts/build-mushroom-artifact.ts",
-    "board": "tsx src/island-board/scripts/board.ts",
+    "board": "tsx src/board/scripts/board.ts",
     "contribution": "tsx scripts/contribution/contribution.ts",
     "origami": "tsx src/origami/scripts/fold-model.ts",
     "origami:steps": "tsx src/origami/scripts/fold-steps.ts"

@@ -27,6 +27,7 @@ import {
   insignificantApps,
   loadGraph,
   type MasdGraph,
+  overdueWaits,
   SLICED_LAYERS,
   TEST_FILE,
 } from '../eslint/masd-graph.ts';
@@ -87,12 +88,16 @@ function modular(slice: string, edges: readonly Edge[]): boolean {
 }
 
 function graphProblems(graph: MasdGraph, mounted: ReadonlySet<string>) {
+  const now = new Date();
+  const overdue = overdueWaits(now);
   return [
     ...directoryMismatches(graph, subdirectories('src')),
-    ...insignificantApps(graph, mounted).map(
-      (app) =>
-        `masd: ${app} has one child and nothing a router mounts; fold it into its child`,
-    ),
+    ...insignificantApps(graph, mounted, now).map((app) => {
+      const wait = overdue.get(app);
+      return wait === undefined
+        ? `masd: ${app} has one child and nothing a router mounts; fold it into its child`
+        : `masd: ${app} has waited for ${wait.child} since ${wait.since}, over a week; land that child, fold ${app} into its one child, or ask the operator to renew the wait in WAITING_APPS (eslint/masd-graph.ts)`;
+    }),
   ];
 }
 
