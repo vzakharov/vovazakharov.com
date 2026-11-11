@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 57963,
-    "cacheWrite5mTokens": 490988,
-    "cacheWrite1hTokens": 1221187,
-    "cacheReadTokens": 93983488,
-    "outputTokens": 352081,
-    "thinkingTokens": 89999,
-    "responses": 563,
-    "costUsd": 38.40710439999999
+    "inputTokens": 58499,
+    "cacheWrite5mTokens": 494091,
+    "cacheWrite1hTokens": 1237307,
+    "cacheReadTokens": 97078495,
+    "outputTokens": 362559,
+    "thinkingTokens": 92444,
+    "responses": 580,
+    "costUsd": 39.384780799999994
   },
   "estimate": {
     "at": "2026-11-11T08:47:48.208Z",
@@ -51,7 +51,7 @@
     }
   },
   "sessionId": "8886b96c-d690-5a42-8fa9-fab730e57e70",
-  "branch": "worktree-agent-a1494347040370f92",
+  "branch": "claude/hash-maze-cube-m6wq80",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/hash-maze-cube-m6wq80 — третий кусок готов, ходьба по этажам на превью, впереди рубильник и падение",
   "prs": [
@@ -60,39 +60,39 @@
   "url": "https://claude.ai/code/session_01DaohkDPxeBiwmr4W9k25Bu",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-11T08:47:05.679Z",
-  "lastResponseAt": "2026-11-11T13:33:53.599Z",
+  "lastResponseAt": "2026-11-11T13:36:38.427Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": 18.994157800000004,
   "ownTurns": {
-    "inputTokens": 781,
+    "inputTokens": 799,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 1221187,
-    "cacheReadTokens": 67076992,
-    "outputTokens": 245878,
-    "thinkingTokens": 72841,
-    "responses": 391,
-    "costUsd": 28.10557840000001
+    "cacheWrite1hTokens": 1237307,
+    "cacheReadTokens": 68935266,
+    "outputTokens": 253156,
+    "thinkingTokens": 75131,
+    "responses": 401,
+    "costUsd": 28.751825200000006
   },
   "subagents": {
-    "inputTokens": 220,
-    "cacheWrite5mTokens": 447270,
+    "inputTokens": 232,
+    "cacheWrite5mTokens": 449541,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 15500681,
-    "outputTokens": 56817,
-    "thinkingTokens": 17158,
-    "responses": 108,
-    "costUsd": 6.473706200000002
+    "cacheReadTokens": 16556913,
+    "outputTokens": 60004,
+    "thinkingTokens": 17313,
+    "responses": 114,
+    "costUsd": 6.760095600000003
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 55795,
-      "cacheWrite5mTokens": 490988,
-      "cacheWrite1hTokens": 1221187,
-      "cacheReadTokens": 93983488,
-      "outputTokens": 352061,
-      "thinkingTokens": 89999,
-      "responses": 562,
-      "costUsd": 38.40687759999999
+      "inputTokens": 56331,
+      "cacheWrite5mTokens": 494091,
+      "cacheWrite1hTokens": 1237307,
+      "cacheReadTokens": 97078495,
+      "outputTokens": 362539,
+      "thinkingTokens": 92444,
+      "responses": 579,
+      "costUsd": 39.384553999999994
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 2168,
@@ -325,20 +325,20 @@
     }
   ],
   "telemetry": {
-    "events": 563,
-    "matched": 499,
-    "matchedTableUsd": 34.579284599999994,
-    "matchedEventUsd": 34.579284599999994,
+    "events": 579,
+    "matched": 514,
+    "matchedTableUsd": 35.4383188,
+    "matchedEventUsd": 35.43831879999999,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 27830,
-        "cacheWrite5mTokens": 40448,
+        "inputTokens": 28336,
+        "cacheWrite5mTokens": 41280,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 9646343,
-        "outputTokens": 771,
+        "cacheReadTokens": 9826844,
+        "outputTokens": 784,
         "thinkingTokens": 0,
-        "responses": 55,
-        "costUsd": 2.3795926
+        "responses": 56,
+        "costUsd": 2.4246328
       },
       "generate_session_title": {
         "inputTokens": 2168,
@@ -363,7 +363,7 @@
     }
   },
   "operatorWords": {
-    "chat": 13043,
+    "chat": 13163,
     "review": 0,
     "threads": 0
   },
@@ -371,10 +371,10 @@
   "threadPosts": {},
   "branchLines": {
     ".md": 13,
-    ".ts": 4946,
-    ".json": 80,
-    ".tsx": 123,
-    ".scss": 52,
+    ".ts": 5071,
+    ".json": 81,
+    ".tsx": 147,
+    ".scss": 69,
     ".yaml": 537,
     ".svg": 4
   }
