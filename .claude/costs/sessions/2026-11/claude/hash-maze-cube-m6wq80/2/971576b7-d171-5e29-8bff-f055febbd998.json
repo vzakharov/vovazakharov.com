@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 598,
-    "cacheWrite5mTokens": 2763,
-    "cacheWrite1hTokens": 179809,
-    "cacheReadTokens": 7440448,
-    "outputTokens": 41491,
-    "thinkingTokens": 22875,
-    "responses": 44,
-    "costUsd": 3.7808776000000015
+    "inputTokens": 8813,
+    "cacheWrite5mTokens": 3968,
+    "cacheWrite1hTokens": 285167,
+    "cacheReadTokens": 12952584,
+    "outputTokens": 61175,
+    "thinkingTokens": 24516,
+    "responses": 69,
+    "costUsd": 6.161757800000001
   },
   "estimate": {
     "at": "2026-11-11T02:59:41.792Z",
@@ -54,18 +54,18 @@
   "url": "https://claude.ai/code/session_01DaohkFDZ8YAMzKq7mxBRzY",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-11T02:37:12.146Z",
-  "lastResponseAt": "2026-11-11T03:00:36.623Z",
+  "lastResponseAt": "2026-11-11T03:59:33.247Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 92,
+    "inputTokens": 129,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 179809,
-    "cacheReadTokens": 7323319,
-    "outputTokens": 41482,
-    "thinkingTokens": 22875,
-    "responses": 43,
-    "costUsd": 3.7331438000000015
+    "cacheWrite1hTokens": 285167,
+    "cacheReadTokens": 11353597,
+    "outputTokens": 48479,
+    "thinkingTokens": 24516,
+    "responses": 62,
+    "costUsd": 5.522151400000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -79,44 +79,86 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 598,
-      "cacheWrite5mTokens": 2763,
-      "cacheWrite1hTokens": 179809,
-      "cacheReadTokens": 7440448,
-      "outputTokens": 41491,
-      "thinkingTokens": 22875,
-      "responses": 44,
-      "costUsd": 3.7808776000000015
+      "inputTokens": 8813,
+      "cacheWrite5mTokens": 3968,
+      "cacheWrite1hTokens": 285167,
+      "cacheReadTokens": 12952584,
+      "outputTokens": 61175,
+      "thinkingTokens": 24516,
+      "responses": 69,
+      "costUsd": 6.161757800000001
     }
   },
-  "warnings": [],
-  "compactions": [],
+  "warnings": [
+    "1 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
+  ],
+  "compactions": [
+    {
+      "at": "2026-11-11T03:59:09.218Z",
+      "trigger": "auto",
+      "compactedFrom": 258355,
+      "summaryChars": 14061,
+      "reorientation": {
+        "endedBy": "Write",
+        "endedOn": "docs/remove-before-merging/review-focus.json",
+        "endedAt": "2026-11-11T03:59:33.247Z",
+        "contextTokens": 149559,
+        "spend": {
+          "inputTokens": 8,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 88325,
+          "cacheReadTokens": 476781,
+          "outputTokens": 1189,
+          "thinkingTokens": 333,
+          "responses": 4,
+          "costUsd": 0.8257681999999998
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.3773826
+    }
+  ],
   "telemetry": {
-    "events": 44,
-    "matched": 43,
-    "matchedTableUsd": 3.7331438000000015,
-    "matchedEventUsd": 3.733143800000001,
+    "events": 67,
+    "matched": 60,
+    "matchedTableUsd": 5.405601200000002,
+    "matchedEventUsd": 5.4056012,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 506,
-        "cacheWrite5mTokens": 2763,
+        "inputTokens": 2530,
+        "cacheWrite5mTokens": 3771,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 117129,
-        "outputTokens": 9,
+        "cacheReadTokens": 1105579,
+        "outputTokens": 41,
         "thinkingTokens": 0,
-        "responses": 1,
-        "costUsd": 0.0477338
+        "responses": 5,
+        "costUsd": 0.2622238
+      },
+      "compact": {
+        "inputTokens": 6154,
+        "cacheWrite5mTokens": 197,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 493408,
+        "outputTokens": 12655,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.3773826
       }
     }
   },
   "operatorWords": {
-    "chat": 319,
+    "chat": 356,
     "review": 0,
     "threads": 0
   },
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 477
+    ".md": 510
   }
 }
