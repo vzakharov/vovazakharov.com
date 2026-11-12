@@ -9,9 +9,9 @@ import {
   type InRoomOf,
   type Pose,
   type Posed,
-  type Pulled,
   type Quad,
   roomKey,
+  type Taken,
 } from '@/cube/entities/world';
 import { happening, type RoomSound } from '@/cube/features/happenings';
 
@@ -24,11 +24,11 @@ import { build, type Mesh, type Selling, type SignOf } from './cube-mesh';
 import { createRenderer, type Drawing, type Renderer } from './renderer';
 
 /**
- * What one frame draws: the eye's pose, the lever pulled, if any, and
+ * What one frame draws: the eye's pose, the pill taken, if any, and
  * `moving`, what is in the rooms for this frame alone, each quad in its own
  * room's frame.
  */
-type Frame = Posed & { pulled: Pulled | null; moving: readonly Quad[] };
+type Frame = Posed & { taken: Taken | null; moving: readonly Quad[] };
 
 /**
  * Moves the eye one frame on: the pose it was at, the seconds since the last
@@ -115,10 +115,12 @@ export function mountCube(
   }: CubeOptions,
 ): CubeScene {
   let pose = start;
-  let pulled: Pulled | null = null;
+  let taken: Taken | null = null;
   let moving: readonly Quad[] = [];
   /** What the play hook's last call put in the rooms. */
   let staged: readonly Quad[] = [];
+  /** The pill the play hook's last call took off its shelf. */
+  let stagedTaken: Taken | null = null;
   /** Whether the renderer holds moving quads, to drop once a frame has none. */
   let movingDrawn = false;
   let renderer: Renderer | null = null;
@@ -134,21 +136,21 @@ export function mountCube(
     mesh: Mesh;
     lenses: ReadonlySet<number>;
   } | null = null;
-  /** The lever pulled as the mesh last uploaded draws it. */
-  let uploadedPull = '';
+  /** The pill taken as the mesh last uploaded draws it. */
+  let uploadedTaken = '';
   let building: { key: string; done: Promise<void> } | null = null;
   let frame = 0;
   let last = performance.now();
   let disposed = false;
   const firstFrame = Promise.withResolvers<void>();
 
-  const pullKey = (): string =>
-    pulled === null ? '' : `${roomKey(pulled.room)} ${pulled.swung}`;
+  const takenKey = (): string =>
+    taken === null ? '' : roomKey(taken.room);
 
   const upload = async (target: Pose, key: string): Promise<void> => {
     const mesh = await build(target, copy, bought());
-    const pull = pullKey();
-    const scenery = mesh.faces(pulled);
+    const off = takenKey();
+    const scenery = mesh.faces(taken);
     const floors = [
       ...floorsIn([scenery, ...mesh.boards.map((board) => board.scenery)]),
       target.n,
@@ -157,7 +159,7 @@ export function mountCube(
     if (disposed || renderer === null) return;
     renderer.upload(scenery);
     renderer.uploadBoards(mesh.boards);
-    uploadedPull = pull;
+    uploadedTaken = off;
     built = { key, pose: target, mesh, lenses: new Set(floors) };
   };
 
@@ -179,9 +181,9 @@ export function mountCube(
     const at = inEyeRoom(pose);
     if (built?.key !== meshKey(at)) rebuild(at);
     if (built === null || Math.abs(built.pose.n - at.n) > 1) return;
-    if (pullKey() !== uploadedPull) {
-      renderer.upload(built.mesh.faces(pulled));
-      uploadedPull = pullKey();
+    if (takenKey() !== uploadedTaken) {
+      renderer.upload(built.mesh.faces(taken));
+      uploadedTaken = takenKey();
     }
     const { lenses, mesh } = built;
     const clock = clockAt(now());
@@ -220,11 +222,12 @@ export function mountCube(
   const tick = (time: number): void => {
     const seconds = Math.min((time - last) / 1000, 0.1);
     last = time;
-    ({ pose, pulled, moving } = onFrame(
+    ({ pose, taken, moving } = onFrame(
       pose,
       seconds,
       built?.mesh.signOf ?? noSign,
     ));
+    taken ??= stagedTaken;
     resize();
     render();
     frame = requestAnimationFrame(tick);
@@ -249,10 +252,12 @@ export function mountCube(
 
   return {
     ready: async () => firstFrame.promise,
-    setPose: async (next, among = []) => {
+    setPose: async (next, among = [], off = null) => {
       await firstFrame.promise;
       pose = next;
       staged = among;
+      stagedTaken = off;
+      taken = off;
       await rebuild(inEyeRoom(next)).done;
       resize();
       render();

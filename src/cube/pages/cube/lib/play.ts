@@ -1,6 +1,6 @@
 import type { Readying } from '@/kernel/shared/typings';
 
-import type { Pose, Quad } from '@/cube/entities/world';
+import type { Pose, Quad, Taken } from '@/cube/entities/world';
 
 /** The query that opens `/cube` for a script: no input, the hook installed. */
 export const PLAY_QUERY = 'play';
@@ -18,10 +18,14 @@ export const PLAY_INSTANT = Date.UTC(2026, 10, 1, 12);
 export type ScenePlay = Readying & {
   /**
    * Puts the eye at `pose`, with `moving` in the rooms until the next call,
-   * each quad in its own room's frame; resolves once a frame of it is on
-   * screen.
+   * each quad in its own room's frame, and the pill `taken` off its shelf;
+   * resolves once a frame of it is on screen.
    */
-  setPose: (pose: Pose, moving?: readonly Quad[]) => Promise<void>;
+  setPose: (
+    pose: Pose,
+    moving?: readonly Quad[],
+    taken?: Taken | null,
+  ) => Promise<void>;
   /** The adapter's vendor and architecture, as WebGPU reports them. */
   adapter: () => string;
 };

@@ -3,7 +3,7 @@ import path from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { z } from 'zod';
 
-import type { Pose, Quad } from '@/cube/entities/world';
+import type { Pose, Quad, Taken } from '@/cube/entities/world';
 import {
   type CubePlayHook,
   PLAY_HOOK,
@@ -57,10 +57,15 @@ async function until(tab: Tab, expression: string, deadline: number) {
 /** What a script does with `/cube` once its hook is up. */
 export type CubePage = {
   /**
-   * Puts the eye at `pose`, `moving` in the rooms around it, and saves the
-   * frame as `file`.
+   * Puts the eye at `pose`, `moving` in the rooms around it and the pill
+   * `taken` off its shelf, and saves the frame as `file`.
    */
-  shoot: (file: string, pose: Pose, moving?: readonly Quad[]) => Promise<void>;
+  shoot: (
+    file: string,
+    pose: Pose,
+    moving?: readonly Quad[],
+    taken?: Taken | null,
+  ) => Promise<void>;
   /** Stops the page's clock at `ms` since the epoch. */
   setClock: (ms: number) => Promise<void>;
 };

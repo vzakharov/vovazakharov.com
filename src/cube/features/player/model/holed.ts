@@ -1,19 +1,19 @@
 import {
   holeQuarter,
-  leverOf,
   planted,
   type Pose,
   roomKey,
+  shelfOf,
 } from '@/cube/entities/world';
 
 import { looks } from './look';
-import type { Holed } from './play';
+import type { Holed } from './player';
 import { plantedMaze } from './walls';
 
 const plantedLook = looks(planted.seed);
 
 /**
- * The planted world's hole, lever and look of the room a pose stands in, for
+ * The planted world's hole, shelf and look of the room a pose stands in, for
  * `play`'s `here`. A room is looked up once, in the background, the first
  * time it is asked for, and reads as unholed until its answer is in; a lookup
  * that fails goes to `onError`.
@@ -36,7 +36,7 @@ export function plantedHoled(
             key,
             quarter && {
               quarter,
-              lever: leverOf(plantedMaze, { n, x, y }, quarter),
+              shelf: shelfOf(plantedMaze, { n, x, y }, quarter),
               shrinkLook: plantedLook({ n, x, y }),
             },
           );

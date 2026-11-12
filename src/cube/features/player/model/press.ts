@@ -1,9 +1,10 @@
 import type { Pose, WallMounted } from '@/cube/entities/world';
 
-import { LEVER_REACH } from './shrink';
-
-/** How far from the body's middle a sign can be pressed: a lever's reach. */
-const SIGN_REACH = LEVER_REACH;
+/**
+ * How far from the body's middle a sign can be pressed, in room sides: 2.4 m
+ * on floor 1.
+ */
+const SIGN_REACH = 0.48;
 
 /** How far off the gaze, in radians, a sign may be and still be pressed: 50°. */
 const SIGN_GAZE = (50 * Math.PI) / 180;

@@ -1,0 +1,126 @@
+{
+  "total": {
+    "inputTokens": 55,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 207752,
+    "cacheReadTokens": 5507833,
+    "outputTokens": 62251,
+    "thinkingTokens": 24015,
+    "responses": 28,
+    "costUsd": 6.916078600000001
+  },
+  "estimate": {
+    "at": "2026-11-12T22:34:35.799Z",
+    "subjectLine": "feat: the cube's lever becomes a pill on a shelf, taken by a hand",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "a new act in the player's state machine with a yes/no branch, new inputs, and the tests that pin the old pull rewritten"
+      },
+      {
+        "hours": 8.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "articulated procedural hands: a pinch, a rung grip, an arm that reaches, posed by eye from frames"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "timing and staging of take, inspect, swallow; reach and prompt rules"
+      },
+      {
+        "hours": 2.0,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "frame strips of both branches on three floors"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-12T22:30:29.167Z",
+    "contextTokens": 114588,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 40130,
+      "cacheReadTokens": 145071,
+      "outputTokens": 880,
+      "thinkingTokens": 26,
+      "responses": 2,
+      "costUsd": 0.7063262
+    }
+  },
+  "sessionId": "5febcb4e-5c79-5d1d-a577-d42018b133a1",
+  "branch": "claude/cube-intro-pill",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a larger build run under this repo's `/carte-blanche` mode. Read first, in this order: `.claude/skills/carte-blanche/SKILL.md` (§ \"Th…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDoQ3zoiqrQVjXomhV",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-12T22:30:14.842Z",
+  "lastResponseAt": "2026-11-12T22:41:10.295Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 55,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 207752,
+    "cacheReadTokens": 5507833,
+    "outputTokens": 62251,
+    "thinkingTokens": 24015,
+    "responses": 28,
+    "costUsd": 6.916078600000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 55,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 207752,
+      "cacheReadTokens": 5507833,
+      "outputTokens": 62251,
+      "thinkingTokens": 24015,
+      "responses": 28,
+      "costUsd": 6.916078600000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 27,
+    "matched": 27,
+    "matchedTableUsd": 6.816297200000001,
+    "matchedEventUsd": 6.816297200000001,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1585,
+    ".json": 30,
+    ".yaml": 48,
+    ".ts": 208,
+    ".tsx": 86,
+    ".scss": 15
+  }
+}

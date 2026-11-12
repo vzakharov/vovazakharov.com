@@ -1,17 +1,19 @@
 export { handsOf } from './model/hands';
 export { plantedHoled } from './model/holed';
 export { FIRST_LOOK } from './model/look';
+export { GRIP, type HandPose, LOOSE } from './model/hand-shape';
+export { type Axes, hand, padOf } from './model/hand';
+export { arrivedOn, play } from './model/play';
 export {
-  arrivedOn,
   type Cue,
   type Holed,
   isStanding,
-  play,
   type Player,
-  pulledOf,
   standingAt,
-} from './model/play';
+  takenOf,
+} from './model/player';
 export { canPress } from './model/press';
 export { EYE_HEIGHT, STILL } from './model/step';
+export { canTake, isAsking } from './model/take';
 export { plantedWalls } from './model/walls';
 export { bindInput } from './ui/input';
