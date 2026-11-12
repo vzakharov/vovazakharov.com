@@ -111,6 +111,8 @@ from another account: `/go claude/cube-liminal-332pmv`.
   scene crashes once 66's hole would show it — the operator's intended end. A
   slab's underside is drawn only over the eye's floor and under a hole, so
   nothing else on 66 asks for 67.
+- **Floors 9 and 66 trade themes** (`TRADED` in the theme catalogue): Home on 9,
+  Hallway on 66, until the operator re-ranks the floors as a whole.
 - **Known breaks**: Decor has no collision; the operator wants passability of
   every room to hold by construction (a clear region joining walkways, hole and
   lever, or a flood fill at furnish time), not by a sampled test. `build()`
