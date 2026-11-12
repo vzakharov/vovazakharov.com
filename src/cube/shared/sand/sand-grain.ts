@@ -128,6 +128,10 @@ fn sandStrewn(xz: vec2f, h: f32) -> vec2f {
 /// along the wrack line.
 fn sandLitter(xz: vec2f, h: f32, px: f32, sun: vec3f) -> Litter {
   var litter = Litter(0.0, vec3f(0.0), vec2f(0.0), 0.0, 1.0);
+  // Past this nothing strewn on the beach is as wide as a pixel.
+  if (px > 0.03) {
+    return litter;
+  }
   let lines = sandStrewn(xz, h);
   let strewn = lines.y;
   let edge = max(px, 0.0004);
