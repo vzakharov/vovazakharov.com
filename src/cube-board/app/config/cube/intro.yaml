@@ -1,8 +1,8 @@
 items:
   - id: z-intro
     type: zone
-    updated: [2026-11-12T22:25:00.000Z, agent:cube-intro]
-    box: [5720, -1000, 1880, 1700, orange]
+    updated: [2026-11-12T22:35:00.000Z, agent:cube-intro]
+    box: [5720, -1000, 1880, 2100, orange]
     icon: 🏝️
     text: 'The intro: an island, the cube from outside, the way in'
   - id: intro-h-premise
@@ -53,36 +53,54 @@ items:
     text: Staging decisions, and where the sea comes from
   - id: intro-d1
     type: sticky
-    updated: [2026-11-12T22:25:00.000Z, agent:cube-intro]
+    updated: [2026-11-12T22:35:00.000Z, agent:cube-intro]
     box: [5748, -330, 280, blue]
     icon: ☀️
-    text: 'The doorway faces the sun, and you wake between them: first the low sun on the water, then, turning, the cube lit head-on in gold. The sun stands ~9° up on the doorway wall’s normal, so through a 2 m doorway the beam crosses the whole 5 m room and ends on the far wall'
+    text: 'The doorway faces the sun, and you wake on the cube’s far side, ~30 m south-west, the sun behind it: turning, you see the cube against the sunset, door and ladder out of sight. Vova: «иначе ты сразу видишь дверь и лестницу in your face, это не так интересно». Waking in front of the doorway lost to this'
   - id: intro-d2
     type: sticky
-    updated: [2026-11-12T22:25:00.000Z, agent:cube-intro]
+    updated: [2026-11-12T22:35:00.000Z, agent:cube-intro]
     box: [6054, -330, 280, blue]
     icon: 🕴️
-    text: 'The cube hovers about 1 m over the sand. At 9° its shadow starts some 6 m behind it, so the look under shows sand in full sun, the horizon beyond, and a shadow lying apart'
+    text: 'The cube hovers 1.1 m over the sand. With the sun 9° up its shadow starts ~7 m behind it and runs some 38 m, beside your way to the cube. So the look under, from the shadow side, shows sand in full sun and the sea’s glare through the gap'
   - id: intro-d3
     type: sticky
     updated: [2026-11-12T22:25:00.000Z, agent:cube-intro]
     box: [6360, -330, 280, blue]
     icon: 🌇
     text: 'Eternal golden hour: the sun never moves. Waves, clouds and surf do, as functions of the clock, so a frame is a function of where you stand and when'
+  - id: intro-d4
+    type: sticky
+    updated: [2026-11-12T22:35:00.000Z, agent:cube-intro]
+    box: [6666, -330, 280, blue]
+    icon: 🪴
+    text: 'The doorway is where floor 1’s decor door stood: the east wall by the north-east corner, 0.97 m wide, 2.1 m tall. The potted plant stands half across it and stays. The beam through it crosses the room and ends low on the west wall'
+  - id: intro-d5
+    type: sticky
+    updated: [2026-11-12T22:35:00.000Z, agent:cube-intro]
+    box: [6972, -330, 280, blue]
+    icon: 💧
+    text: 'One function says where the water is: waterLevel(xz, t), the sea’s slow surface with surge and swash. The sea, the sand’s wet band, the surf’s sound and the waves on your feet all read it, which is what keeps them in step'
+  - id: intro-d6
+    type: sticky
+    updated: [2026-11-12T22:35:00.000Z, agent:cube-intro]
+    box: [7278, -330, 280, blue]
+    icon: 🙌
+    text: 'The stylised hands stay as they are. Vova: «контраст между ослепительным реализмом предзакатного острова и недореализмом остального -- будем считать творческим выбором»'
   - id: intro-img-web-ocean
     type: image
-    updated: [2026-11-12T22:25:00.000Z, agent:cube-intro]
-    box: [6666, -330, 440]
+    updated: [2026-11-12T22:35:00.000Z, agent:cube-intro]
+    box: [5748, 40, 440]
     src: images/intro-web-ocean.webp
     text: 'From the Island board (item web-ocean): “Inspiration: Noniv/web-ocean — what a browser can do with sea and sky. Nothing copied.” The same goes here'
   - id: intro-world
     type: sticky
-    updated: [2026-11-12T22:25:00.000Z, agent:cube-intro]
-    box: [7132, -330, 280, green]
+    updated: [2026-11-12T22:35:00.000Z, agent:cube-intro]
+    box: [6214, 40, 280, green]
     icon: 🗺️
     text: 'One ocean, one day. Vova: «это всё станет частью одного мира: наш остров посреди океана в том же мире, где остров Золтана и Сямы. Если поплывёшь -- через сотни километров доплывёшь до берега. А может и взлетишь. Но это потом :)»'
   - id: intro-h-frames
     type: text
-    updated: [2026-11-12T22:25:00.000Z, agent:cube-intro]
-    box: [5748, 110, 1820, h2]
+    updated: [2026-11-12T22:35:00.000Z, agent:cube-intro]
+    box: [5748, 480, 1820, h2]
     text: 'The timelapse: frames as they come, failures included'
