@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 10273,
-    "cacheWrite5mTokens": 7738,
-    "cacheWrite1hTokens": 378120,
-    "cacheReadTokens": 24553644,
-    "outputTokens": 71407,
-    "thinkingTokens": 17239,
-    "responses": 128,
-    "costUsd": 9.451389800000005
+    "inputTokens": 11300,
+    "cacheWrite5mTokens": 9689,
+    "cacheWrite1hTokens": 385865,
+    "cacheReadTokens": 26542853,
+    "outputTokens": 76263,
+    "thinkingTokens": 18527,
+    "responses": 138,
+    "costUsd": 10.028027600000005
   },
   "estimate": {
     "at": "2026-11-12T19:56:41.546Z",
@@ -52,7 +52,7 @@
   },
   "sessionId": "89b245e4-c40b-58b7-8505-3bc160ae0a60",
   "branch": "claude/cube-review-perf",
-  "cwd": "/home/user/vovazakharov.com/tmp/board/cube",
+  "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/cube-review-perf — замер GPU по стадиям на превью 1, эталон на превью 2, ждём цифр; проба WESL идёт в подсессии",
   "prs": [
     275
@@ -60,18 +60,18 @@
   "url": "https://claude.ai/code/session_01DaohkFooQx3YpuSjFHqR59",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-12T19:04:53.387Z",
-  "lastResponseAt": "2026-11-12T20:52:31.755Z",
+  "lastResponseAt": "2026-11-12T21:13:20.703Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 226,
+    "inputTokens": 241,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 378120,
-    "cacheReadTokens": 21748122,
-    "outputTokens": 67083,
-    "thinkingTokens": 17239,
-    "responses": 113,
-    "costUsd": 8.717148400000001
+    "cacheWrite1hTokens": 385865,
+    "cacheReadTokens": 23342166,
+    "outputTokens": 71905,
+    "thinkingTokens": 18527,
+    "responses": 121,
+    "costUsd": 9.194417200000002
   },
   "subagents": {
     "inputTokens": 0,
@@ -85,14 +85,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 9078,
-      "cacheWrite5mTokens": 7738,
-      "cacheWrite1hTokens": 378120,
-      "cacheReadTokens": 24553644,
-      "outputTokens": 71104,
-      "thinkingTokens": 17239,
-      "responses": 127,
-      "costUsd": 9.451118800000005
+      "inputTokens": 10105,
+      "cacheWrite5mTokens": 9689,
+      "cacheWrite1hTokens": 385865,
+      "cacheReadTokens": 26542853,
+      "outputTokens": 75960,
+      "thinkingTokens": 18527,
+      "responses": 137,
+      "costUsd": 10.027756600000005
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1195,
@@ -129,29 +129,31 @@
         }
       },
       "rereads": {
-        "calls": 0,
-        "byTool": {},
-        "estimatedTokens": 0,
-        "estimatedUsd": 0.0
+        "calls": 1,
+        "byTool": {
+          "Bash": 1
+        },
+        "estimatedTokens": 492,
+        "estimatedUsd": 0.0043296
       },
       "billedUsd": 0.1530514
     }
   ],
   "telemetry": {
-    "events": 128,
-    "matched": 113,
-    "matchedTableUsd": 8.717148400000001,
-    "matchedEventUsd": 8.717148400000001,
+    "events": 138,
+    "matched": 121,
+    "matchedTableUsd": 9.194417200000002,
+    "matchedEventUsd": 9.194417200000004,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 6578,
-        "cacheWrite5mTokens": 6116,
+        "inputTokens": 7590,
+        "cacheWrite5mTokens": 8067,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 2501595,
-        "outputTokens": 268,
+        "cacheReadTokens": 2896760,
+        "outputTokens": 302,
         "thinkingTokens": 0,
-        "responses": 13,
-        "costUsd": 0.5809190000000001
+        "responses": 15,
+        "costUsd": 0.6802880000000001
       },
       "generate_session_title": {
         "inputTokens": 1195,
@@ -176,7 +178,7 @@
     }
   },
   "operatorWords": {
-    "chat": 3210,
+    "chat": 3218,
     "review": 0,
     "threads": 0
   },
@@ -185,6 +187,7 @@
   "branchLines": {
     ".md": 367,
     ".json": 30,
+    ".yaml": 6,
     ".ts": 208,
     ".tsx": 86,
     ".scss": 15

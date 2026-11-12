@@ -79,4 +79,4 @@ items:
     updated: [2026-11-12T21:00:00.000Z, agent:cube]
     box: [1368, 2180, 244, yellow]
     icon: ⌛
-    text: "Vova's idea: price a room by how long a player takes to reach it, not by its floor. $1M / (t − t0 + 1)^q + $5, t the mean time to walk there searching blind on the real mazes, t0 floor 2's landing. Fitting q so floors 2…9 total $10M gives q = 1.40: 87,380 rooms, median $31.49. Tool: https://claude.ai/artifact/LXqmTnBBegpvnTQmM4sGGm"
+    text: "Vova's idea: price a room by how long a player takes to reach it, not by its floor. $1M / (t − t0 + 1)^q + $5, t the time to walk there by the shortest path on the real mazes, t0 floor 2's landing. so a leaked answer changes nothing. Fitting q so floors 2…9 total $10M gives q = 1.40: 87,380 rooms, median $31.49. Tool: https://claude.ai/artifact/LXqmTnBBegpvnTQmM4sGGm"
