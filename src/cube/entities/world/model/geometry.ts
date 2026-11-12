@@ -1,6 +1,7 @@
 import { CEILING_HEIGHT, SLAB_THICK } from '@/cube/shared/lib/room-shape';
 import type { Vec3 } from '@/cube/shared/lib/vec';
 
+import { doorwayWall } from './doorway';
 import { type Footprint, footprint, placed, slabHeight } from './frame';
 import { holeMiddle, type HoleOf, type Quarter, QUARTERS, under } from './hole';
 import { leverFaces, leverOf, type Pulled, swungIn } from './lever';
@@ -192,16 +193,18 @@ function roomWalls(
     y === 0n ||
     (absent({ n, x, y: y - 1n }) && !isOpenSouth(rolled, n, x, y - 1n));
   return [
-    x === last || !isOpenEast(rolled, n, x, y)
-      ? wall(
-          [east + side, floorY, south],
-          runSouth,
-          height,
-          half,
-          room,
-          beside(1n, 0n),
-        )
-      : [],
+    n === 1
+      ? doorwayWall([east + side, floorY, south], side, room)
+      : x === last || !isOpenEast(rolled, n, x, y)
+        ? wall(
+            [east + side, floorY, south],
+            runSouth,
+            height,
+            half,
+            room,
+            beside(1n, 0n),
+          )
+        : [],
     y === last || !isOpenSouth(rolled, n, x, y)
       ? wall(
           [east, floorY, south + side],
