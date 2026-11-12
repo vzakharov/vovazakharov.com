@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 81,
+    "inputTokens": 148,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 151639,
-    "cacheReadTokens": 7087875,
-    "outputTokens": 45696,
-    "thinkingTokens": 20680,
-    "responses": 42,
-    "costUsd": 3.5449310000000005
+    "cacheWrite1hTokens": 295547,
+    "cacheReadTokens": 13182228,
+    "outputTokens": 79834,
+    "thinkingTokens": 41312,
+    "responses": 78,
+    "costUsd": 6.598093600000001
   },
   "estimate": {
     "at": "2026-11-12T01:21:11.010Z",
@@ -46,18 +46,18 @@
   "url": "https://claude.ai/code/session_016Z4TKpEWpjBRDrVBTHSavi",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-12T01:18:36.263Z",
-  "lastResponseAt": "2026-11-12T01:28:15.433Z",
+  "lastResponseAt": "2026-11-12T01:45:37.116Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 81,
+    "inputTokens": 148,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 151639,
-    "cacheReadTokens": 7087875,
-    "outputTokens": 45696,
-    "thinkingTokens": 20680,
-    "responses": 42,
-    "costUsd": 3.5449310000000005
+    "cacheWrite1hTokens": 295547,
+    "cacheReadTokens": 13182228,
+    "outputTokens": 79834,
+    "thinkingTokens": 41312,
+    "responses": 78,
+    "costUsd": 6.598093600000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -71,18 +71,50 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 81,
+      "inputTokens": 148,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 151639,
-      "cacheReadTokens": 7087875,
-      "outputTokens": 45696,
-      "thinkingTokens": 20680,
-      "responses": 42,
-      "costUsd": 3.5449310000000005
+      "cacheWrite1hTokens": 295547,
+      "cacheReadTokens": 13182228,
+      "outputTokens": 79834,
+      "thinkingTokens": 41312,
+      "responses": 78,
+      "costUsd": 6.598093600000001
     }
   },
   "warnings": [],
-  "compactions": [],
+  "compactions": [
+    {
+      "at": "2026-11-12T01:33:55.013Z",
+      "trigger": "auto",
+      "compactedFrom": 225329,
+      "summaryChars": 14869,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/cube/pages/cube/ui/reflection-shader.ts",
+        "endedAt": "2026-11-12T01:34:22.822Z",
+        "contextTokens": 120399,
+        "spend": {
+          "inputTokens": 0,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 0,
+          "cacheReadTokens": 0,
+          "outputTokens": 0,
+          "thinkingTokens": 0,
+          "responses": 0,
+          "costUsd": 0.0
+        }
+      },
+      "rereads": {
+        "calls": 2,
+        "byTool": {
+          "Read": 2
+        },
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": null
+    }
+  ],
   "telemetry": null,
   "operatorWords": {
     "chat": 0,
@@ -95,7 +127,7 @@
     ".json": 20,
     ".md": 429,
     ".yaml": 85,
-    ".ts": 27223,
+    ".ts": 27727,
     ".tsx": 26
   }
 }

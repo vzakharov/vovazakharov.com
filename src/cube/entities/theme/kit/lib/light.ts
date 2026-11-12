@@ -93,12 +93,14 @@ fn lampMask(at: vec2f, grid: i32, size: vec2f) -> f32 {
   return 1.0 - smoothstep(0.0, 0.03, panelEdge(at, grid, size));
 }
 
-/// \`lampMask\` with its edge blurred \`soft\` metres across, as a floor short
-/// of glass mirrors it: wider than a panel, the panel spreads into a dimmer
-/// glow of about the light it had.
+/// \`lampMask\` blurred \`soft\` metres across, as a floor short of glass
+/// mirrors it: the panel spreads into a dimmer glow holding the light it
+/// had, as the frame's own blur of a panel it shows does, so the two agree
+/// where one gives way to the other.
 fn lampBlur(at: vec2f, grid: i32, size: vec2f, soft: f32) -> f32 {
   let half = 0.5 * max(soft, 0.03);
-  return 1.0 - smoothstep(-half, half, panelEdge(at, grid, size));
+  let spread = size / (size + vec2f(soft));
+  return (1.0 - smoothstep(-half, half, panelEdge(at, grid, size))) * spread.x * spread.y;
 }
 
 /// How far ceiling point \`at\` lies outside the nearest of \`grid\` panels a
@@ -211,7 +213,7 @@ const RIPPLE = 0.15;
 
 /// How many metres a mirrored panel's edge blurs per metre the mirrored ray
 /// runs, on a floor of no gloss at all.
-const BLUR = 0.3;
+const BLUR = 0.15;
 
 /// How much of the lamps' light the air about a point passes on to it.
 const FILL = 0.16;
