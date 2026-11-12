@@ -12,11 +12,10 @@ through bloom and a per-floor lens. A point is lit from the nine rooms
 around it, so dark rooms take light from their doorways; polished
 floors mirror what the frame shows, walls and lamps alike, by a ray
 walked through the screen, falling back to the lamps' own light where
-it leaves it. Rooms are furnished, stage
-happenings from their seed and the clock, and carry life-size posters
-in landing rooms and sale signs lettered in a script that decays into
-invented alphabets with depth. Floors 9 and 66 trade themes until the
-floors are re-ranked.
+it leaves it. Rooms are furnished, stage happenings from their seed and
+the clock, and carry life-size posters in landing rooms and sale signs
+lettered in a script that decays into invented alphabets with depth.
+Floors 9 and 66 trade themes until the floors are re-ranked.
 
 The lever shrinks the body where it stands; lofted hands show it, the
 visitor reacts, and a small body hops into the hatch. Floor 66 ends the
