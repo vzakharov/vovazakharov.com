@@ -23,6 +23,8 @@ const ABSORB = ${vecf(ABSORB)};
 const BACKSCATTER = ${vecf(BACKSCATTER)};
 /// What water returns of light meeting it head on.
 const HEAD_ON = 0.0204;
+/// The least cosine between a facet's normal and the eye's line it is lit at.
+const TURNED = 0.02;
 /// The sun's disc, as the spread of slopes that mirror some part of it.
 const SUN_SPREAD = 6e-6;
 
@@ -66,9 +68,12 @@ fn mirrored(waves: Waves, toEye: vec3f) -> Mirrored {
   for (var i = -1; i <= 1; i++) {
     // Gauss–Hermite: the mean and one point 1.732 deviations either side.
     let lean = waves.slope - 1.7320508 * f32(i) * along * ahead;
-    let normal = normalize(vec3f(-lean.x, 1.0, -lean.y));
+    let leant = normalize(vec3f(-lean.x, 1.0, -lean.y));
+    // A facet the eye could only see from behind is one the mesh drew too
+    // smooth to hide: it shows as the nearest facet that does face the eye.
+    let normal = normalize(leant + toEye * max(TURNED - dot(leant, toEye), 0.0));
     let facing = dot(normal, toEye);
-    let area = select(1.0, 4.0, i == 0) / 6.0 * max(facing, 0.0) / normal.y;
+    let area = select(1.0, 4.0, i == 0) / 6.0 * facing / normal.y;
     var bounce = reflect(-toEye, normal);
     bounce.y = abs(bounce.y);
     let share = fresnel(facing);

@@ -91,7 +91,7 @@ struct Stage {
 }
 
 @group(0) @binding(0) var<uniform> now: Stage;
-@group(0) @binding(1) var from: texture_2d_array<f32>;
+@group(0) @binding(1) var source: texture_2d_array<f32>;
 @group(0) @binding(2) var to: texture_storage_2d_array<rgba32float, write>;
 
 fn reversed(i: u32) -> u32 {
@@ -116,8 +116,8 @@ fn transform(@builtin(global_invocation_id) id: vec3u) {
     first = reversed(first);
     second = reversed(second);
   }
-  let a = textureLoad(from, along(id.xy, first), id.z, 0);
-  let b = textureLoad(from, along(id.xy, second), id.z, 0);
+  let a = textureLoad(source, along(id.xy, first), id.z, 0);
+  let b = textureLoad(source, along(id.xy, second), id.z, 0);
   let angle = TAU * f32(step) / f32(span);
   let twist = vec2f(cos(angle), sin(angle));
   let turned = vec4f(times(b.xy, twist), times(b.zw, twist));
@@ -151,16 +151,16 @@ fn lay(@builtin(global_invocation_id) id: vec3u) {
 
 /** A map's next mip: each texel the mean of the four under it. */
 export const HALVE_SHADER = /* wgsl */ `
-@group(0) @binding(0) var from: texture_2d_array<f32>;
+@group(0) @binding(0) var source: texture_2d_array<f32>;
 @group(0) @binding(1) var to: texture_storage_2d_array<rgba16float, write>;
 
 @compute @workgroup_size(8, 8)
 fn halve(@builtin(global_invocation_id) id: vec3u) {
   let at = vec2i(id.xy) * 2;
-  let sum = textureLoad(from, at, id.z, 0)
-    + textureLoad(from, at + vec2i(1, 0), id.z, 0)
-    + textureLoad(from, at + vec2i(0, 1), id.z, 0)
-    + textureLoad(from, at + vec2i(1, 1), id.z, 0);
+  let sum = textureLoad(source, at, id.z, 0)
+    + textureLoad(source, at + vec2i(1, 0), id.z, 0)
+    + textureLoad(source, at + vec2i(0, 1), id.z, 0)
+    + textureLoad(source, at + vec2i(1, 1), id.z, 0);
   textureStore(to, vec2i(id.xy), id.z, sum * 0.25);
 }
 `;
