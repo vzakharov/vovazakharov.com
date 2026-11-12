@@ -168,6 +168,14 @@ compaction before deciding anything about what is being built.
   A todo on the board, sent to the board session: letters drawn in the shader,
   so their decay down the floors can be a procedure. Not part of this run.
 
+- **~23:08Z, on the board's pill card**: «swallow а не drink наверное» — the
+  prompt is "Press Y to swallow, N to put down". Pill is not told yet.
+- **~23:10Z, on the price rule's card**, a musing and no decision: «навеяло: мы
+  призраки? мы умерли? это "по ту сторону"?»
+- **~23:10Z, to the lead**: «лимит кончается; пусть все приостановятся, я сожму
+  контекст чтобы завтра продолжить». Every child was told to push `wip:`, report
+  one line and wait for the word "resume"; the lead's check-in was deleted.
+
 ## Facts established
 
 - **The seam (core step 1, 1a311efa, merged into this branch at faedd71d)**: the
@@ -350,35 +358,43 @@ seven sections; a reader's brief is three sections at most.
 
 ## Progress
 
-State at 2026-11-12 23:05Z; update this block, do not append a log.
+State at 2026-11-12 23:15Z, **paused on the operator's word** (limit running
+out; he compacts and continues tomorrow); update this block, do not append.
 
-- **On this branch**: the skill; core's step 1 (the seam, `shared/outside`);
-  sand (island body, material, layer, in `OUTDOOR_SHADERS`); shell's first pass
-  (doorway cut, floor 1 sunlit, ladder facts, real `cubeShadow`); the lead's own
-  `sun.ts` edit (−31°, 9°, `SKY_FILL` [0.65, 0.87, 1.2]); `src/cube/CLAUDE.md`
-  with the four world rules; #275's branch merged twice. Typecheck, shaders (68
-  of 68) and the shared/world/theme tests were green at 5f761cfb.
-- **Known red**: `pnpm lint:files src/cube/shared/outside` — four errors in
-  shell's files (`dot`/`cross` namesakes, `f32` passed to `.map`, `LADDER`
-  namesake); shell was told to fix before its next merge.
-- **Nothing outside is drawn by the page yet.** Core's step 2 (renderer calls
-  layers, the outside eye, `?play` setting one) is what every package waits on;
-  core was pressed for it at 23:03Z, with the sky map's removal, a ladder-stands
-  field in `OutdoorFrame`, and the `Pose` → `Outside` switch going out through
-  the doorway.
-- **In flight**: sky (atmosphere, no sky map now), sea (analytic sum, closed
-  form `waterLevel`, the WGSL-in-Node kit for `shared/lib`), sand (cost, second
-  frames with the real sun), shell (re-shoot with the real sun, lint, exterior
-  mesh and material, ladder flag), walk (controller, waking and climb, exit by
-  the sill at either height, ladder flag), pill, sound, board (version 53).
-- **Next, in order**: (1) when core's step 2 lands, merge it, tell every
-  package, shoot the six standard eyes; (2) merge each branch as it reports
-  green and lints, look at its frames, send the good and the bad to the board
-  session with verdicts; (3) a fix round on what the seams show; (4) publish to
-  preview slot 2 and check the deployed commit before telling the operator; (5)
+- **On this branch**: all of the above plus core's step 2 (0e1081af, merged at
+  420476f1): the page draws the outside — layers sky, sand, shell, rooms, sea,
+  an outside eye with roll, a lens of its own (`OUTSIDE_LENS`: exposure 0.3,
+  eyelids), `pnpm outside:cube --out <absolute>` shooting six named eyes
+  (`wake-sea`, `wake-cube`, `under`, `ladder-foot`, `doorway-out`,
+  `room-doorway`) or `--at x,y,z --yaw --pitch`, ~2 min for all six. Sand's
+  layer and shader are the real ones; sky, shell and sea are core's stand-ins
+  (`pages/cube/ui/<name>-layer.ts`, `pages/cube/lib/<name>-shader.ts`).
+  Typecheck, 72 of 72 shaders and the seam's tests green; lint still red on
+  shell's four errors in `shared/outside`.
+- **First assembled frame** (`wake-cube`, in gitignored `tmp/cube-outside/`, so
+  re-shoot): a believable low sun in a pale sky, wet sand mirroring it with
+  glints, the island's back in blue shade. The cube reads as a small box sitting
+  on the dune: the 1.1 m gap does not show from the waking spot, and the
+  stand-in shell has no bands. Nothing was sent to the board from it.
+- **Pushed heads at the pause** (none merged past the list above): core 6de69066
+  (sky map out, ladder flag in the frame; its steps 3 and 4 at 2ac8a67d reported
+  green), sky 85105b1c (pure functions: fitted clear sky, marched clouds), sea
+  218db0f0 (still the FFT sea; **`claude/cube-intro-sea-fft` was not pushed** —
+  ask for it first), sand 420476f1, shell 480f5650 (says lint clean), walk
+  4385dc60 (waking plays end to end; still has a look-under scene and "E by the
+  doorway goes back down", both cut — tell it), pill 1b31ed7d (plain swallow
+  plays; prompt must say "swallow"), sound d3fed484, board 9fd5e233 (v57).
+- **To resume**: send each child "resume" with what it owes (my last message to
+  each before the pause is its list); read each one's pause report in the
+  notifications first. Walk asks: core's `setEye` to take `moving` quads;
+  shell's `LADDER` (rename pending) is on the lead for it to merge.
+- **Next, in order**: (1) merge core, shell, sky as they report green and lint;
+  re-shoot the six eyes after each; (2) sea's analytic sum beside its FFT frame,
+  to the operator; (3) walk and pill in, the intro played end to end; (4) a fix
+  round on what the frames show (the cube's size and gap from the shore first);
+  (5) preview slot 2, checking the deployed commit before saying so; (6)
   `/polish`, `/pr` (base `claude/cube-review-perf`), then vet.
-- A check-in is scheduled for 23:11Z (`send_later`); each child's report wakes
-  the lead. On each check-in schedule the next.
+- No check-in is scheduled; schedule one on resuming.
 - The context notices: at 330k start nothing big; at 350k bring this file
   current. The session compacts on its own near 370k; never `/relay`. This file
   is capped at 400 lines like any other: when "Steering since" grows, move its
