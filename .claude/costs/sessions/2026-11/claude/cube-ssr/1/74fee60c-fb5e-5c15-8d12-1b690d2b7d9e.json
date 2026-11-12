@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 164,
+    "inputTokens": 177,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 306834,
-    "cacheReadTokens": 14906998,
-    "outputTokens": 84506,
-    "thinkingTokens": 41875,
-    "responses": 87,
-    "costUsd": 7.126847600000001
+    "cacheWrite1hTokens": 318027,
+    "cacheReadTokens": 16123993,
+    "outputTokens": 89511,
+    "thinkingTokens": 42319,
+    "responses": 93,
+    "costUsd": 7.559942600000001
   },
   "estimate": {
     "at": "2026-11-12T01:21:11.010Z",
@@ -46,18 +46,18 @@
   "url": "https://claude.ai/code/session_016Z4TKpEWpjBRDrVBTHSavi",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-12T01:18:36.263Z",
-  "lastResponseAt": "2026-11-12T01:47:56.538Z",
+  "lastResponseAt": "2026-11-12T02:44:20.795Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 164,
+    "inputTokens": 177,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 306834,
-    "cacheReadTokens": 14906998,
-    "outputTokens": 84506,
-    "thinkingTokens": 41875,
-    "responses": 87,
-    "costUsd": 7.126847600000001
+    "cacheWrite1hTokens": 318027,
+    "cacheReadTokens": 16123993,
+    "outputTokens": 89511,
+    "thinkingTokens": 42319,
+    "responses": 93,
+    "costUsd": 7.559942600000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -71,14 +71,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 164,
+      "inputTokens": 177,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 306834,
-      "cacheReadTokens": 14906998,
-      "outputTokens": 84506,
-      "thinkingTokens": 41875,
-      "responses": 87,
-      "costUsd": 7.126847600000001
+      "cacheWrite1hTokens": 318027,
+      "cacheReadTokens": 16123993,
+      "outputTokens": 89511,
+      "thinkingTokens": 42319,
+      "responses": 93,
+      "costUsd": 7.559942600000001
     }
   },
   "warnings": [],
@@ -127,7 +127,7 @@
     ".json": 20,
     ".md": 429,
     ".yaml": 85,
-    ".ts": 27792,
+    ".ts": 27788,
     ".tsx": 26
   }
 }
