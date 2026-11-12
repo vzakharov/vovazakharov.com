@@ -5,25 +5,21 @@ import type { CanDispose, Sized, WithId } from '@/kernel/shared/typings';
 
 import type { Clock } from '@/cube/shared/lib/clock';
 import type { Rgb } from '@/cube/shared/lib/colour';
-import type { Vec3 } from '@/cube/entities/world';
 
 import type { FloorRange, Scenery } from '../lib/mesh';
 import { UNIFORM_FLOATS } from '../lib/shader';
 import { createBloom } from './bloom';
 import { createPrograms, DEPTH_FORMAT, type Preparing } from './programs';
-import { createReflection } from './reflection';
+import { createReflection, type Seen } from './reflection';
 
 /** What one frame is seen from and when, and what shows where nothing is. */
-export type Shot = Clock & {
-  /** Column-major. */
-  viewProjection: Float32Array;
-  /** The eye, in its own frame. */
-  eye: Vec3;
-  /** Scene light, as the faces are lit. */
-  clear: Rgb;
-  /** The floor whose lens the frame is seen through; it must be prepared. */
-  lens: number;
-};
+export type Shot = Clock &
+  Seen & {
+    /** Scene light, as the faces are lit. */
+    clear: Rgb;
+    /** The floor whose lens the frame is seen through; it must be prepared. */
+    lens: number;
+  };
 
 /**
  * Faces of one floor sharing one texture: `scenery` holds them, and `image`

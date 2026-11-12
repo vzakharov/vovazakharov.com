@@ -1,6 +1,6 @@
 /// <reference types="@webgpu/types" />
 
-import type { CanDispose } from '@/kernel/shared/typings';
+import type { CanDispose, Sized } from '@/kernel/shared/typings';
 
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import type { Vec3 } from '@/cube/entities/world';
@@ -25,7 +25,12 @@ export const MIRROR_FORMATS: readonly GPUTextureFormat[] = [
 ];
 
 /** Where the scene is seen from, as the reflections need it. */
-export type Seen = { viewProjection: Float32Array; eye: Vec3 };
+export type Seen = {
+  /** Column-major. */
+  viewProjection: Float32Array;
+  /** The eye, in its own frame. */
+  eye: Vec3;
+};
 
 export type Reflection = CanDispose & {
   /**
@@ -45,10 +50,7 @@ export type Reflection = CanDispose & {
   run: (encoder: GPUCommandEncoder, seen: Seen) => GPUTextureView;
 };
 
-type Frame = {
-  key: string;
-  width: number;
-  height: number;
+type Frame = Sized & {
   textures: GPUTexture[];
   /** The scene's levels, each viewed alone; the first is what is drawn into. */
   levels: GPUTextureView[];
@@ -123,8 +125,7 @@ export function createReflection(device: GPUDevice): Reflection {
     });
 
   const fit = (width: number, height: number): Frame => {
-    const key = `${String(width)}x${String(height)}`;
-    if (frame?.key === key) return frame;
+    if (frame?.width === width && frame.height === height) return frame;
     for (const texture of frame?.textures ?? []) texture.destroy();
     const count = Math.min(
       BLUR_LEVELS,
@@ -152,7 +153,6 @@ export function createReflection(device: GPUDevice): Reflection {
     const mirrorView = mirror.createView();
     const planeView = plane.createView();
     frame = {
-      key,
       width,
       height,
       textures: [scene, mirror, plane, lit],
