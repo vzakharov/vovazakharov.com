@@ -91,6 +91,21 @@ test("highlighted lines line up with the diff's lines and keep their text", () =
   }
 });
 
+test("WGSL and WESL get the shader grammar", () => {
+  assert.equal(languageOf("src/kit/lib/hash.wgsl"), "wgsl");
+  assert.equal(languageOf("src/kit/lib/hash.wesl"), "wgsl");
+  const [line = []] = highlightLines(
+    "fn tiling(p: vec2f) -> f32 { return 0.5; }",
+    "wgsl",
+  );
+  const scoped = (text: string) =>
+    line.find((token) => token.text === text)?.scope;
+  assert.equal(scoped("fn"), "hljs-keyword");
+  assert.equal(scoped("tiling"), "hljs-title function_");
+  assert.equal(scoped("vec2f"), "hljs-type");
+  assert.equal(scoped("0.5"), "hljs-number");
+});
+
 test("a block comment's every line carries the comment scope", () => {
   const lines = highlightLines("/* a\nb\nc */\nx;", "typescript");
   for (const line of lines.slice(0, 3))
