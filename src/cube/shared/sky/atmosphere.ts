@@ -1,4 +1,4 @@
-import type { Rgb } from '@/cube/shared/lib/colour';
+import type { Rgb } from '../lib/colour';
 
 /**
  * The air over the island, in kilometres and per-kilometre coefficients for
@@ -23,9 +23,9 @@ export const AIR = {
   albedo: [0.04, 0.05, 0.065],
 } as const satisfies Record<string, unknown>;
 
-/** Sizes of the two tables the GPU reads: transmittance, then multiple scattering. */
-export const TRANSMITTANCE_SIZE = { width: 128, height: 64 } as const;
-export const SCATTER_SIZE = { width: 8, height: 24 } as const;
+/** Sizes of the two tables the model keeps: transmittance, then multiple scattering. */
+const TRANSMITTANCE_SIZE = { width: 128, height: 64 } as const;
+const SCATTER_SIZE = { width: 8, height: 24 } as const;
 
 const { ground: RG, top: RT } = AIR;
 const REACH = Math.sqrt(RT * RT - RG * RG);

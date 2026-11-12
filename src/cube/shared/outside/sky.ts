@@ -2,6 +2,7 @@ import type { Sized } from '@/kernel/shared/typings';
 
 import type { Vec2, Vec3 } from '../lib/vec';
 import { f32, wgsl } from '../lib/wgsl';
+import { CLOUDS_WGSL } from '../sky/clouds';
 
 /**
  * The sky map: the whole sky's radiance as an equirectangular `rgba16float`
@@ -51,18 +52,24 @@ fn skyDir(uv: vec2f) -> vec3f {
 );
 
 /**
- * `skyRadiance(dir: vec3f, lod: f32) -> vec3f`: the sky map along unit `dir`,
- * `lod` mips down, for a reflection or the light a rough face gathers.
+ * `skyRadiance(dir: vec3f, lod: f32) -> vec3f`: the sky's light along unit
+ * `dir` at this instant, without the sun's own disc and glare. At `lod` 0 it
+ * is the sky the backdrop draws, clouds marched in full, which costs what a
+ * backdrop pixel does; from 1 up the clouds are a few samples of where they
+ * stand, for a reflection or the light a rough face gathers.
  */
 export const SKY = wgsl(
   'outside/sky',
   /* wgsl */ `
-@group(0) @binding(1) var skyMap: texture_2d<f32>;
-@group(0) @binding(2) var skySampler: sampler;
-
 fn skyRadiance(dir: vec3f, lod: f32) -> vec3f {
-  return textureSampleLevel(skyMap, skySampler, skyUv(dir), lod).rgb;
+  var clouds: vec4f;
+  if (lod < 0.5) {
+    clouds = cloudsAlong(dir, 0.5);
+  } else {
+    clouds = cloudVeil(dir, lod);
+  }
+  return clearSky(dir) * clouds.a + clouds.rgb;
 }
 `,
-  SKY_MAPPING,
+  CLOUDS_WGSL,
 );

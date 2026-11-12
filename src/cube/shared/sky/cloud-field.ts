@@ -1,4 +1,4 @@
-import { SUN_DIR } from './sun';
+import { SUN_DIR } from '../outside/sun';
 
 /**
  * The cumulus field, in kilometres. The wind blows along the sun's bearing,
@@ -9,20 +9,30 @@ import { SUN_DIR } from './sun';
 export const CLOUDS = {
   /** The slab clouds live in, over the sea. */
   base: 1.1,
-  top: 6.6,
-  /** The weather repeats this far along the wind and across it. */
+  top: 5.6,
+  /** The field repeats this far along the wind. */
   tile: 36,
-  /** How many of their own tiles the billows and their grain span in one of the weather's. */
-  shapeTiles: 5,
-  grainTiles: 40,
   /** Whole tiles the field drifts down the wind in an hour. */
   tilesPerHour: 1,
-  /** Whole tiles of its own the grain rises through the billows in an hour. */
-  grainRise: 6,
+  /**
+   * Lattice cells to a tile for each noise, coarsest first: where clouds
+   * stand, how they billow, and the grain that wears their edge. Whole
+   * numbers, so each repeats with the tile.
+   */
+  cover: [5, 12, 30],
+  billow: [20, 48],
+  grain: 120,
+  /**
+   * The grain repeats over this many of its cells upward, and rises through
+   * that many in an hour.
+   */
+  grainRise: 16,
+  /** How high the thin ice cloud lies. */
+  cirrus: 9.5,
   /** Across the wind: clear inside `clear`, the field's own cover past `full`. */
   lane: { clear: 5.5, full: 9 },
   /** No cloud is drawn farther off than this. */
-  reach: 220,
+  reach: 160,
   /** What a kilometre of the densest cloud takes out of a beam. */
   extinction: 40,
 } as const;
@@ -37,7 +47,7 @@ export const WIND_AXIS = [-SUN_DIR[0] / flat, -SUN_DIR[2] / flat] as const;
 export const driftAt = (seconds: number): number =>
   (CLOUDS.tile * CLOUDS.tilesPerHour * seconds) / SECONDS_IN_HOUR;
 
-/** Tiles of its own the grain has risen, `seconds` into the hour. */
+/** Cells of its own the grain has risen, `seconds` into the hour. */
 export const grainRiseAt = (seconds: number): number =>
   (CLOUDS.grainRise * seconds) / SECONDS_IN_HOUR;
 

@@ -22,5 +22,13 @@ export {
 } from './outdoor-frame';
 export { SKY, SKY_MAP, SKY_MAPPING, skyDir, skyUv } from './sky';
 export { OUTDOOR_STAGE, SKY_METRES } from './stage';
-export { SKY_FILL, SUN, SUN_DIR, SUN_LIGHT } from './sun';
+export {
+  GROUND_FILL,
+  HORIZON_FILL,
+  SKY_FILL,
+  SUN,
+  SUN_DIR,
+  SUN_LIGHT,
+  SUN_WHITE,
+} from './sun';
 export { WATER_LEVEL, waterLevel } from './water-level';

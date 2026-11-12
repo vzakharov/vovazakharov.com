@@ -1,4 +1,5 @@
-import type { Rgb } from '@/cube/shared/lib/colour';
+import type { Rgb } from '../lib/colour';
+import type { Vec3 } from '../lib/vec';
 
 import {
   AIR,
@@ -11,8 +12,6 @@ import {
   scatterUv,
   sunTransmittance,
 } from './atmosphere';
-
-type Vec3 = readonly [number, number, number];
 
 const rgb = (of: (channel: 0 | 1 | 2) => number): Rgb => [of(0), of(1), of(2)];
 const dot = (a: Vec3, b: Vec3): number => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
@@ -32,33 +31,61 @@ export const miePhase = (c: number, g: number): number =>
 const SKY_STEPS = 32;
 
 /**
- * The clear sky's radiance along `dir` from the eye, under a sun toward `sun`
- * of unit irradiance: single scattering by both phases, every further order
- * from the table, and the sea's own glow where the ray lands. The GPU's sky
- * view is this integral, texel by texel.
+ * The clear sky along a ray, split by what turns with the angle to the sun:
+ * its radiance is `rayleigh` and `mie`, each times its phase function, plus
+ * `many`, which has none.
  */
-export const clearSky = (dir: Vec3, sun: Vec3): Rgb => {
+export type SkyParts = Record<'rayleigh' | 'mie' | 'many', Rgb>;
+
+/**
+ * The clear sky along `dir` from the eye, under a sun toward `sun` of unit
+ * irradiance: single scattering by each kind of air, and in `many` every
+ * further order and the sea's own glow where the ray lands.
+ */
+export const skyParts = (dir: Vec3, sun: Vec3): SkyParts => {
   const between = dot(dir, sun);
-  const rayleigh = rayleighPhase(between);
-  const mie = miePhase(between, AIR.mie.g);
   const { reach, lands } = rayEnd(EYE_RADIUS, dir[1]);
   const ray = { r: EYE_RADIUS, mu: dir[1], sun: sun[1], between };
-  const { light, through } = march(ray, reach, SKY_STEPS, (radius, cosine) => {
-    const s = scatteringAt(radius - AIR.ground);
-    const direct = sunTransmittance(radius, cosine);
-    const many = sampleTable(scatterTable(), ...scatterUv(radius, cosine));
-    return rgb(
-      (c) =>
-        (s.rayleigh[c] * rayleigh + s.mie[c] * mie) * direct[c] +
-        (s.rayleigh[c] + s.mie[c]) * many[c],
-    );
-  });
-  if (!lands) return light;
-  const glow = groundGlow(
-    (EYE_RADIUS * sun[1] + reach * between) / AIR.ground,
+  const rayleigh = [0, 0, 0];
+  const mie = [0, 0, 0];
+  const { light, through } = march(
+    ray,
+    reach,
+    SKY_STEPS,
+    (radius, cosine, weigh) => {
+      const s = scatteringAt(radius - AIR.ground);
+      const direct = sunTransmittance(radius, cosine);
+      const many = sampleTable(scatterTable(), ...scatterUv(radius, cosine));
+      for (const c of [0, 1, 2] as const) {
+        rayleigh[c] = (rayleigh[c] ?? 0) + weigh[c] * s.rayleigh[c] * direct[c];
+        mie[c] = (mie[c] ?? 0) + weigh[c] * s.mie[c] * direct[c];
+      }
+      return rgb((c) => (s.rayleigh[c] + s.mie[c]) * many[c]);
+    },
   );
-  return rgb((c) => light[c] + through[c] * glow[c]);
+  const glow = lands
+    ? groundGlow((EYE_RADIUS * sun[1] + reach * between) / AIR.ground)
+    : ([0, 0, 0] as const);
+  return {
+    rayleigh: rgb((c) => rayleigh[c] ?? 0),
+    mie: rgb((c) => mie[c] ?? 0),
+    many: rgb((c) => light[c] + through[c] * glow[c]),
+  };
 };
+
+/** `parts` as one radiance, seen at cosine `between` to the sun. */
+export const skyOf = (parts: SkyParts, between: number): Rgb => {
+  const rayleigh = rayleighPhase(between);
+  const mie = miePhase(between, AIR.mie.g);
+  return rgb(
+    (c) =>
+      parts.rayleigh[c] * rayleigh + parts.mie[c] * mie + parts.many[c],
+  );
+};
+
+/** The clear sky's radiance along `dir` from the eye, under that sun. */
+export const clearSky = (dir: Vec3, sun: Vec3): Rgb =>
+  skyOf(skyParts(dir, sun), dot(dir, sun));
 
 const RINGS = 8;
 const SPOKES = 8;
