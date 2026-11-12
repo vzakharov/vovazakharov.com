@@ -1,8 +1,8 @@
 items:
   - id: z-intro
     type: zone
-    updated: [2026-11-12T22:35:00.000Z, agent:cube-intro]
-    box: [5720, -1000, 1880, 2100, orange]
+    updated: [2026-11-12T23:40:00.000Z, agent:cube-intro]
+    box: [5720, -1000, 1880, 2900, orange]
     icon: 🏝️
     text: 'The intro: an island, the cube from outside, the way in'
   - id: intro-h-premise
@@ -128,3 +128,21 @@ items:
     box: [6208, 550, 280, gray]
     icon: 📐
     text: 'Direction from the sketch: the beam crosses the floor on a diagonal, 31° off the doorway’s normal, the line from the doorway to the pill’s shelf. Height is the lead’s pick, 9°: the light lies along the whole diagonal of the floor and stands on the far wall up to about 1.2 m, so the beam ends on the pill. (For half an hour it was 17°, from reading a steepness into the sketch that Vova never drew)'
+  - id: intro-img-01-sand-down
+    type: image
+    updated: [2026-11-12T23:40:00.000Z, agent:cube-intro]
+    box: [6668, 550, 430]
+    src: images/intro-01-sand-down.webp
+    text: '1. Sand, first pass, looking down, in the sand’s own harness: a stand-in sky, a flat stand-in sea, a black box for the cube. Wind ripples with their own shadows at a 9° sun, pebbles throwing long ones. The lead: this one already reads as a photograph'
+  - id: intro-img-02-sand-stand
+    type: image
+    updated: [2026-11-12T23:40:00.000Z, agent:cube-intro]
+    box: [7128, 550, 430]
+    src: images/intro-02-sand-stand.webp
+    text: '2. The same sand from standing height, the cube as a black box. The lead: not there. At 5–40 m the ripples read as corduroy, one wavelength, one direction, everywhere, and the colour is beige with nothing of a low sun in it. The white speckle on the right is glints turning to noise'
+  - id: intro-img-03-sand-shadow
+    type: image
+    updated: [2026-11-12T23:40:00.000Z, agent:cube-intro]
+    box: [5748, 1000, 430]
+    src: images/intro-03-sand-shadow.webp
+    text: '3. The cube’s shadow across the ripples, lit by the sky alone. The lead: the blue of it is right; the combed stripes are not. Also the frame that showed the sky was set twice too bright against the sun: on flat ground at 9° their shares are about equal'
