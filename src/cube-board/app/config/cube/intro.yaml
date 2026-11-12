@@ -30,10 +30,10 @@ items:
     text: 'In the top band, a doorway with a room showing through it. And, “which does not fit with any of this at all”, a perfectly ordinary ladder leaning to its sill. From here you walk: round the island, or out to sea, which has no edge yet'
   - id: intro-4
     type: sticky
-    updated: [2026-11-12T22:45:00.000Z, agent:cube-intro]
-    box: [6666, -820, 280, yellow]
-    icon: 👀
-    text: 'Come near the cube and you stoop to look under it: nothing there, nothing holds it. Vova: “this is to make it clear that our whole maze really is inside one cube”'
+    updated: [2026-11-13T00:05:00.000Z, agent:cube-intro]
+    box: [6666, -820, 280, gray]
+    icon: ✂️
+    text: 'Cut: nearing the cube, you were to stoop and look under it, to show nothing holds it. Vova, seeing the first frames: “judging by the pictures, no look-under cutscene is needed, it is plain enough that it hovers”'
   - id: intro-5
     type: sticky
     updated: [2026-11-12T22:45:00.000Z, agent:cube-intro]
@@ -59,10 +59,10 @@ items:
     text: 'The doorway faces the sun, and you wake on the cube’s far side, ~30 m south-west, the sun behind it: turning, you see the cube against the sunset, door and ladder out of sight. Vova: “otherwise you see the door and the ladder at once, in your face, and that is less interesting”. Waking in front of the doorway lost to this'
   - id: intro-d2
     type: sticky
-    updated: [2026-11-12T23:15:00.000Z, agent:cube-intro]
+    updated: [2026-11-13T00:05:00.000Z, agent:cube-intro]
     box: [6054, -330, 280, blue]
     icon: 🕴️
-    text: 'The cube hovers 1.1 m over the sand. With the sun 9° up its shadow starts ~7 m behind it and runs some 38 m, west-south-west, beside your way to the cube. So the look under, from the shadow side, shows sand in full sun and the sea’s glare through the gap'
+    text: 'The cube hovers 1.1 m over the sand. With the sun 9° up its shadow starts ~7 m behind it and runs some 38 m, west-south-west, beside your way to the cube. So the sand under it lies in full sun and the sea’s glare shows through the gap: no cutscene needed to see that it floats'
   - id: intro-d3
     type: sticky
     updated: [2026-11-12T22:25:00.000Z, agent:cube-intro]
@@ -158,3 +158,9 @@ items:
     box: [6668, 1000, 430]
     src: images/intro-05-inside-beam.webp
     text: '5. The same room from the far corner: readable from bounce alone, the hole in the floor and the lever on the far wall visible. After Vova’s sketch the beam will cross this floor on the diagonal and end on that lever’s place, where the pill will be. The lead: the floor at the sill burns white where it should glare gold'
+  - id: intro-ladder
+    type: sticky
+    updated: [2026-11-13T00:05:00.000Z, agent:cube-intro]
+    box: [7132, 40, 280, blue]
+    icon: 🪜
+    text: 'The ladder is there until it has been climbed, and then it is not: no animation, no effect, no sound. You turn round and it is gone. You can leave by jumping from the doorway, unhurt, at half height too if you took the pill and did not go down. There is no climbing back'

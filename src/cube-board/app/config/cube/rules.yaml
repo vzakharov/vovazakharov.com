@@ -7,13 +7,13 @@ items:
     text: The rules of the world
   - id: rules-price
     type: text
-    updated: [2026-11-12T23:25:00.000Z, agent:cube-intro]
-    box: [1848, -1530, 1660, h1]
+    updated: [2026-11-13T00:05:00.000Z, agent:cube-intro]
+    box: [1848, -1530, 1300, h1]
     text: INTERACTIONS COME AT A PRICE
   - id: rules-price-body
     type: text
-    updated: [2026-11-12T23:25:00.000Z, agent:cube-intro]
-    box: [1848, -1450, 1660, body]
+    updated: [2026-11-13T00:05:00.000Z, agent:cube-intro]
+    box: [1848, -1450, 1300, body]
     text: 'Figuratively and literally: anything by which one player changes the state of the world, down to kicking a ball across the floor, is only by purchase. The lineage Vova names: the explorers’ first commandment, leave no trace; Bradbury’s “A Sound of Thunder”; the butterfly effect.'
   - id: rules-same
     type: sticky
@@ -45,3 +45,9 @@ items:
     box: [3188, -1350, 244, yellow]
     icon: 💊
     text: 'Oops: the pill you do take. Vova’s reading, for now: “there is no pill. It is your own imagination, picturing the need to decide as a physical, external object, and so taking the responsibility off itself”. So the shelf still holds one for whoever comes next'
+  - id: rules-todo-lettering
+    type: sticky
+    updated: [2026-11-13T00:05:00.000Z, agent:cube-intro]
+    box: [3240, -1620, 272, orange]
+    icon: ✍️
+    text: 'To do, outside the intro’s run: letter the signs and posters in the shader, glyphs as strokes the fragment shader draws, no canvas. They are the cube’s one drawn texture today. Then their decay down the floors can be a procedure too'
