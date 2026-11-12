@@ -106,7 +106,7 @@ fn sandLight(point: SandPoint, sun: vec3f) -> vec3f {
   let acrossSun = abs(dot(normalize(sun.xz), vec2f(${WIND[0]}, ${WIND[1]})));
   rippleSun = mix(1.0 - 0.42 * stand * acrossSun, rippleSun, drawn);
 
-  let damp = smoothstep(0.3, 0.62, point.wet.x + 0.3 * (noised(xz / 0.11, 0x9bu).x - 0.5));
+  let damp = smoothstep(0.22, 0.7, point.wet.x + 0.35 * (fbmd(xz / 0.35, 0x9bu, 3).x - 0.5));
   let film = point.wet.y;
   let grains = sandGrains(xz, point.px);
   let litter = sandLitter(xz, point.h, point.px, sun);
@@ -141,13 +141,13 @@ fn sandLight(point: SandPoint, sun: vec3f) -> vec3f {
     let lying = normalize(mix(normal, flat, 0.55 + 0.45 * film));
     let facing = max(dot(lying, point.view), 0.0);
     let fresnel = 0.02 + 0.98 * pow(1.0 - facing, 5.0);
-    let rough = mix(0.32, 0.05, film);
+    let rough = mix(0.2, 0.04, film);
     let mirrored = skyRadiance(reflect(-point.view, lying), 6.0 * rough);
     let a2 = rough * rough * rough * rough;
     let nh = max(dot(lying, half), 0.0);
     let lobe = a2 / (${Math.PI} * pow(nh * nh * (a2 - 1.0) + 1.0, 2.0));
     let glare = min(direct * ${Math.PI / 4} * lobe / max(facing, 0.05), vec3f(60.0));
-    let sheen = fresnel * mix(0.35 * damp, 1.0, film);
+    let sheen = fresnel * mix(0.7 * damp * damp, 1.0, film);
     light = mix(light, mirrored, sheen) + sheen * glare * max(dot(lying, sun), 0.0);
   }
   return light;

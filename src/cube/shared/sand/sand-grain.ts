@@ -114,21 +114,22 @@ struct Litter {
   sun: f32,
 }
 
-/// How thickly the sea has strewn a point \`h\` metres over it: thickest along
-/// the wrack line the last high water left, thin above and below.
-fn sandStrewn(xz: vec2f, h: f32) -> f32 {
+/// How thickly the sea has strewn a point \`h\` metres over it: x along the
+/// wrack lines high water left, y that and the thin scatter of the foreshore.
+fn sandStrewn(xz: vec2f, h: f32) -> vec2f {
   let line = ${WRACK} + 0.12 * (noised(xz / 7.0, 0x83u).x - 0.5);
   let wrack = exp(-pow((h - line) / 0.035, 2.0));
   let older = 0.35 * exp(-pow((h - line - 0.33) / 0.03, 2.0));
   let shore = 0.12 * (1.0 - smoothstep(0.5, 1.1, h));
-  return clamp(wrack + older + shore, 0.0, 1.0);
+  return clamp(vec2f(wrack + older, wrack + older + shore), vec2f(0.0), vec2f(1.0));
 }
 
 /// Shell fragments, a few pebbles and dried weed: sparse everywhere, gathered
 /// along the wrack line.
 fn sandLitter(xz: vec2f, h: f32, px: f32, sun: vec3f) -> Litter {
   var litter = Litter(0.0, vec3f(0.0), vec2f(0.0), 0.0, 1.0);
-  let strewn = sandStrewn(xz, h);
+  let lines = sandStrewn(xz, h);
+  let strewn = lines.y;
   let edge = max(px, 0.0004);
 
   // Shell fragments: pale angular flakes a few millimetres across.
@@ -171,14 +172,21 @@ fn sandLitter(xz: vec2f, h: f32, px: f32, sun: vec3f) -> Litter {
     litter.sun = mix(smoothstep(-edge, edge + 0.004 * t, off), 1.0, smoothstep(0.4, 1.0, px / radius));
   }
 
-  // Dried weed: dark threads, in clumps, where the water left them.
-  if (px < 0.012 && strewn > 0.05) {
-    let clump = smoothstep(0.52, 0.7, noised(xz / 0.9, 0x8bu).x) * strewn;
-    if (clump > 0.0) {
-      let thread = noised(xz / 0.035, 0x8du);
-      let d = abs(thread.x - 0.5) / max(length(thread.yz), 0.2) * 0.035;
-      let cover = clump * (1.0 - smoothstep(0.0006, 0.0006 + edge, d)) * (1.0 - smoothstep(0.005, 0.012, px));
-      litter.albedo = mix(litter.albedo, vec3f(0.035, 0.028, 0.016), cover);
+  // Dried weed: dark curled strands, in clumps, along the wrack lines.
+  if (px < 0.012 && lines.x > 0.03) {
+    let clump = smoothstep(0.4, 0.62, noised(xz / 0.7, 0x8bu).x) * lines.x;
+    let strand = nearestSpeck(xz / 0.03, 0x8du);
+    if (strand.z < 1.3 * clump) {
+      let turn = ${2 * Math.PI} * strand.w;
+      let along = vec2f(cos(turn), sin(turn));
+      let to = -strand.xy * 0.03;
+      let reach = 0.012 + 0.02 * fract(strand.w * 41.3);
+      let u = clamp(dot(to, along), -reach, reach);
+      let curl = (fract(strand.w * 17.9) - 0.5) * 60.0;
+      let v = dot(to, vec2f(-along.y, along.x)) - curl * (u * u - reach * reach * 0.3);
+      let d = length(vec2f(dot(to, along) - u, v));
+      let cover = (1.0 - smoothstep(0.0005, 0.0005 + edge, d)) * (1.0 - smoothstep(0.004, 0.012, px));
+      litter.albedo = mix(litter.albedo, vec3f(0.05, 0.036, 0.02), cover);
       litter.gloss = mix(litter.gloss, 0.0, cover);
       litter.cover = max(litter.cover, cover);
     }

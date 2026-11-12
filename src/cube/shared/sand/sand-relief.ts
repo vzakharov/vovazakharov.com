@@ -96,8 +96,8 @@ fn rippleTrain(xz: vec2f, dir: vec2f, wavelength: f32, salt: u32) -> vec3f {
   let waver = noised(xz / 0.23, salt + 1u);
   // Where crests of two neighbouring runs do not meet, one forks or ends: a
   // step of half a wave across a wandering line.
-  let seam = noised(xz / vec2f(0.5, 0.9), salt + 2u);
-  let fork = smoothstep(0.47, 0.53, seam.x);
+  let seam = noised(xz / vec2f(0.9, 1.7), salt + 2u);
+  let fork = smoothstep(0.46, 0.54, seam.x);
   return vec3f(
     k * dot(xz, dir) + 5.0 * wander.x + 1.2 * waver.x + 3.1 * fork,
     k * dir + 5.0 * wander.yz / 0.8 + 1.2 * waver.yz / 0.23,
