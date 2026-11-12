@@ -8,6 +8,7 @@ import { floorSource, themeOf } from '.';
 import {
   FINISH,
   type FloorTheme,
+  GRADE,
   HONEYCOMB,
   LUMA,
   MATH,
@@ -208,8 +209,10 @@ function aired(source: string, air: Rgb): string {
  * text each stood before.
  */
 const UNCALLED: Readonly<Record<number, readonly [Wgsl, string]>> = {
+  29: [FINISH, "/// The face's paint, or `fallback` where it carries none."],
   40: [FINISH, "/// The face's paint, or `fallback` where it carries none."],
   50: [SPECIMEN, 'const WALL: u32 = 0u;'],
+  65: [GRADE, 'const CLEAR = AIR;'],
 };
 
 function uncalled(source: string, n: number): string {
@@ -222,7 +225,7 @@ function uncalled(source: string, n: number): string {
 const asBefore = (n: number, theme: FloorTheme): string => {
   const moved = calling[n];
   const named = undoAll(tokens(floorSource(theme, '')), NAMED);
-  const source = uncalled(aired(named, theme.air), n);
+  const source = aired(uncalled(named, n), theme.air);
   if (n === 12) return bathroom(source);
   return moved === undefined ? source : laboratory(source, moved);
 };
