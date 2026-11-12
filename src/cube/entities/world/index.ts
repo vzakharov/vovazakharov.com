@@ -14,9 +14,9 @@ export { type Lever, leverOf, type Pulled } from './model/lever';
 export { loft, type Ring } from './model/loft';
 export { DEEPEST_FLOOR, maze } from './model/maze';
 export {
-  type BoardShape,
   boardFacets,
   boardPost,
+  type BoardShape,
   type SignMount,
 } from './model/mount';
 export { plant } from './model/plant';
@@ -39,6 +39,7 @@ export {
 } from './model/quad';
 export {
   type Floored,
+  type InRoomOf,
   isRoom,
   type Room,
   roomKey,

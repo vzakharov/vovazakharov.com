@@ -63,6 +63,10 @@ export function scrape(seed: number, rate: number): Float32Array<ArrayBuffer> {
 const RUSTLE_SECONDS = 1.2;
 const CRINKLES = 26;
 
+/** A draw in `[0, 1)` bunched toward the middle. */
+const swellPick = (draw: number): number =>
+  0.5 + (Math.asin(2 * draw - 1) / Math.PI) * 0.9;
+
 /** Paper moving: a run of crinkles, bright and brief, thickest midway. */
 export function rustle(seed: number, rate: number): Float32Array<ArrayBuffer> {
   const noise = noiseOf(seed);
@@ -79,10 +83,6 @@ export function rustle(seed: number, rate: number): Float32Array<ArrayBuffer> {
     return 1.6 * bright(noise() * crinkled, 2800, 0.8);
   });
 }
-
-/** A draw in `[0, 1)` bunched toward the middle. */
-const swellPick = (draw: number): number =>
-  0.5 + (Math.asin(2 * draw - 1) / Math.PI) * 0.9;
 
 /** A balloon bursting: a crack of air over the thump of its skin letting go. */
 export function pop(seed: number, rate: number): Float32Array<ArrayBuffer> {

@@ -1,4 +1,3 @@
-// masd-disable insignificant -- the cube page reads it once the lead merges this stream
 export type { Line, Tune, Uttered } from './model/line';
 export { lineFor, spoken } from './model/line-for';
 export type { Phone } from './model/phone';

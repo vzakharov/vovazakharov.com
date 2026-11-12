@@ -3,9 +3,9 @@ import { walledRooms } from './geometry';
 import type { HoleOf } from './hole';
 import { isLanding } from './landing';
 import {
-  type BoardShape,
   boardFacets,
   boardPost,
+  type BoardShape,
   farSide,
   type Side,
   type SignMount,
@@ -100,7 +100,7 @@ export function signsSeen(
 }
 
 /** A sale sign: 1.5 m wide and 75 cm tall on floor 1, its middle 1.5 m up. */
-const SIGN: BoardShape = { wide: 0.3, tall: 0.15, middle: 0.3 };
+const SIGN: BoardShape = { width: 0.3, height: 0.15, hungAt: 0.3 };
 
 /** The board of `sign` in `room`, placed at `place` in the eye's frame. */
 export const signFacets = (
@@ -110,8 +110,5 @@ export const signFacets = (
 ): Facet[] => boardFacets(mount, SIGN, room, place);
 
 /** The post under `sign`, if it stands on one. */
-export const signPost = (
-  mount: SignMount,
-  room: Room,
-  place: Placed,
-): Quad[] => boardPost(mount, SIGN, room, place);
+export const signPost = (mount: SignMount, room: Room, place: Placed): Quad[] =>
+  boardPost(mount, SIGN, room, place);

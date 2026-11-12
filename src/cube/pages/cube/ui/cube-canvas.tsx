@@ -42,12 +42,9 @@ import {
   PLAY_QUERY,
 } from '../lib/play';
 import classes from './cube.module.scss';
-import {
-  type CubeScene,
-  mountCube,
-  type Selling,
-  type SignOf,
-} from './cube-scene';
+import type { Selling, SignOf } from './cube-mesh';
+import { type CubeScene, mountCube } from './cube-scene';
+import { hear } from './hearing';
 import { SaleOffer } from './sale-offer';
 
 /**
@@ -132,6 +129,8 @@ function walk(
   { setFloor, setFailure, setMissing, setInReach, open, offering }: Hooks,
 ): CubeScene {
   const input = play ? null : bindInput(canvas, setFailure);
+  // A script's walk is looked at, not listened to.
+  const hearing = input === null ? null : hear(canvas);
   const holedHere = plantedHoled(setFailure);
   let follow: Follow | null =
     input === null || !resumable
@@ -186,7 +185,8 @@ function walk(
               plantedWalls,
               holedHere(pose),
             );
-            const { pose: moved } = player;
+            const { pose: moved, cues } = player;
+            hearing?.body(cues, moved);
             const standing = isStanding(player);
             if (controls.goTo === moved.n && moved.n !== pose.n) {
               follow = null;
@@ -200,6 +200,9 @@ function walk(
               moving: handsOf(player),
             };
           },
+    onHeard: (heard) => {
+      hearing?.rooms(heard, player.pose, frozen ?? Date.now());
+    },
     now: () => frozen ?? Date.now(),
     onError: setFailure,
     onUnsupported: () => {
@@ -226,6 +229,7 @@ function walk(
     ...scene,
     dispose: () => {
       input?.dispose();
+      hearing?.dispose();
       scene.dispose();
     },
   };

@@ -26,7 +26,8 @@ export type Shot = Clock & {
 
 /**
  * Faces of one floor sharing one texture: `scenery` holds them, and `image`
- * is drawn once per `id`, the first time the id is uploaded.
+ * is drawn once per `id`, the first time the id is uploaded since an upload
+ * without it.
  */
 export type Boards = WithId & {
   image: () => GPUCopyExternalImageSource & { width: number; height: number };
@@ -229,6 +230,14 @@ export async function createRenderer(
       });
       for (const { buffer } of boards) buffer.destroy();
       boards = made;
+      // A texture the boards no longer show goes, so a long walk holds only
+      // the floors in view; one back in view is painted again.
+      const kept = new Set(next.map(({ id }) => id));
+      for (const [id, { texture }] of textures) {
+        if (kept.has(id)) continue;
+        texture.destroy();
+        textures.delete(id);
+      }
     },
     draw: ({ viewProjection, eye, clear, lens, seconds, hour }) => {
       const { width, height, sceneView, depth } = targetsOf();

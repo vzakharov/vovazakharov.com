@@ -1,3 +1,5 @@
+import type { Sized } from '@/kernel/shared/typings';
+
 import type { Placed } from './frame';
 import type { InRoom, WallMounted } from './pose';
 import { box, type Facet, facet, type Quad, times, type Vec3 } from './quad';
@@ -12,10 +14,10 @@ import type { Walls } from './walls';
 export type SignMount = WallMounted & { onPost: boolean };
 
 /**
- * A board's size and height, in room sides: `wide` by `tall`, its middle
- * `middle` over the slab, which is also how tall a post under it stands.
+ * A board's size and height, in room sides: its middle `hungAt` over the
+ * slab, which is also how tall a post under it stands.
  */
-export type BoardShape = { wide: number; tall: number; middle: number };
+export type BoardShape = Sized & { hungAt: number };
 
 /** One side of a room: a wall, an opening onto a bought room, or open. */
 export type Side = { step: Step; is: 'wall' | 'bought' | 'open' };
@@ -86,20 +88,20 @@ function board(
   at: WallMounted['at'],
   facing: WallMounted['facing'],
   off: number,
-  { wide, tall, middle }: BoardShape,
+  { width, height, hungAt }: BoardShape,
   room: Room,
   { origin, roomSide: side }: Placed,
 ): Facet {
   // Rightward for a reader facing the board, so (along, up) faces them.
   const along: Vec3 = [facing.v, 0, -facing.u];
   const offset = (axis: 0 | 2, foot: number, out: number): number =>
-    origin[axis] + (foot + out * off - (along[axis] * wide) / 2) * side;
+    origin[axis] + (foot + out * off - (along[axis] * width) / 2) * side;
   const corner: Vec3 = [
     offset(0, at.u, facing.u),
-    origin[1] + (middle - tall / 2) * side,
+    origin[1] + (hungAt - height / 2) * side,
     offset(2, at.v, facing.v),
   ];
-  return facet(corner, times(along, wide * side), [0, tall * side, 0], room);
+  return facet(corner, times(along, width * side), [0, height * side, 0], room);
 }
 
 /**
@@ -132,7 +134,7 @@ export function boardFacets(
  */
 export function boardPost(
   { at, onPost }: SignMount,
-  { middle }: BoardShape,
+  { hungAt }: BoardShape,
   room: Room,
   { origin, roomSide: side }: Placed,
 ): Quad[] {
@@ -146,7 +148,7 @@ export function boardPost(
     ],
     [
       [width, 0, 0],
-      [0, middle * side, 0],
+      [0, hungAt * side, 0],
       [0, 0, width],
     ],
     room,

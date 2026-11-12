@@ -1,3 +1,9 @@
+import {
+  measure,
+  paintStrokes,
+  scriptOf,
+  strokes,
+} from '@/cube/shared/lettering';
 import { cssRgb, type Rgb } from '@/cube/shared/lib/colour';
 
 import { signOf } from '../lib/palette';
@@ -6,12 +12,14 @@ import { signOf } from '../lib/palette';
 const WIDTH = 512;
 const HEIGHT = 256;
 const BORDER = 14;
-const FONT = 'system-ui, sans-serif';
+/** The nib's width, as a share of the capitals' height. */
+const NIB = 0.15;
 
 /**
  * A sign board on floor `n` as a canvas to upload: `title` over `line`, in a
- * border, on the floor's board colour, inked as `sold` says. WebGPU draws no
- * text, so the browser's canvas does it once per floor and kind of sign.
+ * border, on the floor's board colour, inked as `sold` says, both lettered in
+ * the floor's script. WebGPU draws no text, so a canvas does it once per floor
+ * and kind of sign.
  */
 export function drawBoard(
   n: number,
@@ -27,25 +35,20 @@ export function drawBoard(
   context.fillRect(0, 0, WIDTH, HEIGHT);
   context.fillStyle = cssRgb(board);
   context.fillRect(BORDER, BORDER, WIDTH - 2 * BORDER, HEIGHT - 2 * BORDER);
-  context.textAlign = 'center';
-  context.textBaseline = 'middle';
-  /** `text` centred at `height` of the board, shrunk from `size` px to fit. */
-  const write = (
-    text: string,
-    size: number,
-    weight: number,
-    colour: Rgb,
-    height: number,
-  ) => {
-    const font = (px: number) => `${String(weight)} ${String(px)}px ${FONT}`;
-    context.font = font(size);
-    const room = WIDTH - 6 * BORDER;
-    const wide = context.measureText(text).width;
-    if (wide > room) context.font = font(Math.floor((size * room) / wide));
-    context.fillStyle = cssRgb(colour);
-    context.fillText(text, WIDTH / 2, HEIGHT * height);
+  const script = scriptOf(n);
+  /** `text` centred on `height` of the board, its capitals `cap` px or narrower. */
+  const write = (text: string, cap: number, colour: Rgb, height: number) => {
+    const wide = measure(text, script);
+    const fit = Math.min(cap, (WIDTH - 6 * BORDER) / wide);
+    paintStrokes(context, strokes(text, script), {
+      leftPixel: (WIDTH - wide * fit) / 2,
+      baseline: HEIGHT * height + fit / 2,
+      pixelsPerUnit: fit,
+      nibPixels: fit * NIB,
+      inkColour: cssRgb(colour),
+    });
   };
-  write(title.toUpperCase(), 76, 800, ink, 0.36);
-  write(line, 64, 700, lineInk, 0.7);
+  write(title.toUpperCase(), 60, ink, 0.36);
+  write(line, 50, lineInk, 0.7);
   return canvas;
 }
