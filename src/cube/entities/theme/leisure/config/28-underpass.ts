@@ -35,8 +35,9 @@ fn puddled(s: Surf) -> Material {
   let grit = valueNoise(s.uv * 130.0, 271u);
   let stain = fbm(s.uv * 0.9, 272u, 4);
   let concrete = vec3f(0.2, 0.19, 0.17) * (0.7 + 0.25 * flag.y + 0.2 * grit) * (0.65 + 0.6 * stain);
-  let pool = smoothstep(0.5, 0.58, fbm(s.uv * 0.5, 273u, 4) + 0.06 * flag.y);
-  let soaked = smoothstep(0.38, 0.5, fbm(s.uv * 0.5, 273u, 4));
+  let sunk = fbm(s.uv * 0.5, 273u, 4);
+  let pool = smoothstep(0.5, 0.58, sunk + 0.06 * flag.y);
+  let soaked = smoothstep(0.38, 0.5, sunk);
   let laid = concrete * mix(0.35, 1.0, flag.x) * (1.0 - 0.45 * soaked);
   let floor = polished(mix(laid, laid * 0.35, pool), mix(0.1 + 0.25 * soaked, 0.96, pool));
   let ripple = fbm(s.uv * 3.0 + s.time * 0.05, 274u, 2);
@@ -59,7 +60,8 @@ fn grimed(s: Surf) -> Material {
   let run = fbm(vec2f(s.uv.x * 3.0, h * 0.35), s.seed ^ 0x76u, 4);
   let grime = clamp(smoothstep(0.35, 0.8, run) * smoothstep(0.4, 2.3, h) + 0.5 * exp(-h / 0.25), 0.0, 1.0);
   let gone = step(0.86, tile.y) * smoothstep(0.5, 0.6, fbm(s.uv * 0.8, s.seed ^ 0x77u, 3));
-  let mortar = vec3f(0.17, 0.16, 0.14) * (0.7 + 0.5 * valueNoise(s.uv * 90.0, 276u));
+  let sand = valueNoise(s.uv * 90.0, 276u);
+  let mortar = vec3f(0.17, 0.16, 0.14) * (0.7 + 0.5 * sand);
   let spot = vec2f(s.uv.x, h);
   let area = smoothstep(0.5, 0.62, fbm(spot * 0.45, s.seed ^ 0x78u, 2)) * band(h, 1.2, 1.3);
   let tag = max(sprayed(spot * 1.5, s.seed ^ 0x79u), sprayed(spot * 3.4 + 9.0, s.seed ^ 0x7au)) * area;
@@ -67,7 +69,7 @@ fn grimed(s: Surf) -> Material {
   let dirty = mix(glaze, glaze * vec3f(0.3, 0.22, 0.12), grime);
   let faced = mix(mix(mortar, dirty, tile.x), mortar, gone);
   let wall = polished(mix(faced, can, 0.85 * tag), 0.75 * tile.x * (1.0 - gone) * (1.0 - 0.8 * grime) * (1.0 - tag));
-  return embossed(s, wall, tile.x * (1.0 - gone) + 0.2 * valueNoise(s.uv * 90.0, 276u) * gone, 0.004);
+  return embossed(s, wall, tile.x * (1.0 - gone) + 0.2 * sand * gone, 0.004);
 }
 
 /// Concrete that still shows the boards it was poured against, rust under

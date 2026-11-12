@@ -36,6 +36,11 @@ fn repeated(uv: vec2f, size: vec2f) -> vec2f {
   return (fract(uv / size) - 0.5) * size;
 }
 
+/// \`x\` within its interval of a row of them \`size\` long, from the middle.
+fn spaced(x: f32, size: f32) -> f32 {
+  return (fract(x / size) - 0.5) * size;
+}
+
 /// Oblong slabs laid in courses, each course \`shift\` of a slab along from
 /// the one under it: x is 1 on a slab and 0 in a joint, y the slab's own
 /// random number in [0, 1).
@@ -85,6 +90,12 @@ fn caustics(p: vec2f, t: f32) -> f32 {
 /// One of four colours by a number in [0, 1).
 fn oneOf(u: f32, a: vec3f, b: vec3f, c: vec3f, d: vec3f) -> vec3f {
   return select(select(d, c, u < 0.75), select(b, a, u < 0.25), u < 0.5);
+}
+
+/// How much of a surface's fine detail survives its distance from the eye:
+/// 1 up close, falling off sooner the smaller \`reach\` is.
+fn fading(s: Surf, reach: f32) -> f32 {
+  return 1.0 / (1.0 + s.far * s.far / reach);
 }
 
 /// Metres along a wall from the end of it at its room's north or west side.

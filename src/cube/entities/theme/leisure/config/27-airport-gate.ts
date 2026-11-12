@@ -59,7 +59,7 @@ fn apron(view: vec3f, stand: vec2f, t: f32) -> vec3f {
 /// Glass from the sill to the head in aluminium frames, the night outside.
 fn glazed(s: Surf) -> Material {
   let h = s.p.y;
-  let bay = repeated(vec2f(s.uv.x, 0.0), vec2f(1.25, 1.0)).x;
+  let bay = spaced(s.uv.x, 1.25);
   let upright = 1.0 - stroke(bay, 1.25 - 0.06);
   let rails = max(band(h, 0.48, 0.05), band(h, 2.1, 0.06));
   let sill = 1.0 - smoothstep(0.1, 0.104, h);

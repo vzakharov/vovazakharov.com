@@ -32,14 +32,16 @@ export const AQUARIUM_TUNNEL: FloorTheme = {
 /// The fish of one layer of a shoal over \`at\` in the water: 0 clear, 1 a
 /// fish. Each row swims its own way at its own pace, \`size\` metres long.
 fn shoal(at: vec2f, size: f32, t: f32, salt: u32) -> f32 {
-  let lane = floor(at.y / (size * 2.2));
+  let depth = size * 2.2;
+  let berth = size * 4.5;
+  let lane = floor(at.y / depth);
   let word = hashOf(bitcast<u32>(i32(lane)), salt);
   let way = select(-1.0, 1.0, unitOf(word) < 0.5);
   let swum = at.x - way * t * size * (0.5 + 1.2 * unitOf(mix32(word)));
-  let slot = swum / (size * 4.5);
+  let slot = swum / berth;
   let fish = hashOf(bitcast<u32>(i32(floor(slot))), word);
   let bob = 0.25 * size * sin(t * 1.3 + unitOf(fish) * 40.0);
-  var p = vec2f((fract(slot) - 0.5) * size * 4.5, (fract(at.y / (size * 2.2)) - 0.5) * size * 2.2 + bob);
+  var p = vec2f(spaced(swum, berth), spaced(at.y, depth) + bob);
   p.x *= way;
   let trunk = inside(length(vec2f(p.x, p.y * 2.5)) - size * 0.5);
   let fin = step(-size * 0.95, p.x) * step(p.x, -size * 0.4) * inside(abs(p.y) - (-size * 0.38 - p.x) * 0.75);
@@ -76,7 +78,7 @@ fn windowed(s: Surf) -> Material {
   let h = s.p.y;
   let plinth = 1.0 - smoothstep(0.34, 0.344, h);
   let head = smoothstep(2.16, 2.164, h);
-  let joint = stroke(repeated(vec2f(s.uv.x, 0.0), vec2f(2.5, 1.0)).x, 0.012);
+  let joint = stroke(spaced(s.uv.x, 2.5), 0.012);
   if (max(plinth, head) > 0.5) {
     let rock = fbm(vec2f(s.uv.x, h) * 9.0, 354u, 4);
     return embossed(s, polished(vec3f(0.012, 0.014, 0.018) * (0.5 + rock), 0.2), rock, 0.01);

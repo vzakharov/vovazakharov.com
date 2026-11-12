@@ -39,9 +39,10 @@ fn cut(uv: vec2f, scale: f32, salt: u32) -> f32 {
 fn ice(s: Surf) -> Material {
   let q = fract(s.uv / ROOM.xz) * ROOM.xz;
   let mid = q - ROOM.xz * 0.5;
-  let red = max(max(stroke(mid.x, 0.3), stroke(length(mid) - 1.5, 0.06)), stroke(min(length(q - vec2f(2.5, 0.0)), length(q - vec2f(2.5, 5.0))) - 0.95, 0.05));
+  let goalmouth = min(length(q - vec2f(2.5, 0.0)), length(q - vec2f(2.5, 5.0))) - 0.95;
+  let red = max(max(stroke(mid.x, 0.3), stroke(length(mid) - 1.5, 0.06)), stroke(goalmouth, 0.05));
   let blue = max(stroke(q.y - 4.1, 0.3), inside(length(mid) - 0.16));
-  let crease = inside(min(length(q - vec2f(2.5, 0.0)), length(q - vec2f(2.5, 5.0))) - 0.95);
+  let crease = inside(goalmouth);
   let frost = fbm(s.uv * 1.3, 303u, 4);
   let clear = vec3f(0.5, 0.58, 0.62) * (0.8 + 0.35 * frost);
   var colour = mix(clear, vec3f(0.3, 0.5, 0.66), 0.5 * crease);
@@ -72,7 +73,7 @@ fn boards(s: Surf) -> Material {
   let along = fract(s.uv.x / bay) * bay;
   let word = hashOf(bitcast<u32>(i32(floor(s.uv.x / bay))), 309u);
   if (h > 1.13) {
-    let post = 1.0 - stroke(repeated(vec2f(s.uv.x, 0.0), vec2f(1.25, 1.0)).x, 1.21);
+    let post = 1.0 - stroke(spaced(s.uv.x, 1.25), 1.21);
     let haze = 0.012 + 0.03 * smoothstep(0.5, 0.8, fbm(vec2f(s.uv.x, h) * 2.0, s.seed ^ 0x31u, 4));
     let pane = Material(vec3f(haze), seats(behind(s, 3.0)) * 2.0, 0.94, vec3f(0.0));
     let metal = polished(vec3f(0.3, 0.31, 0.32), 0.5);

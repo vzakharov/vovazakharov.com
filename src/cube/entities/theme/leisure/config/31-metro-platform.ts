@@ -77,7 +77,7 @@ fn enamelled(s: Surf) -> Material {
   var gloss = 0.7 * tile.x * (1.0 - 0.7 * soot);
   var height = tile.x;
   let frieze = smoothstep(2.06, 2.064, h);
-  let plate = inside(roundBox(vec2f(repeated(vec2f(s.uv.x, 0.0), vec2f(2.5, 1.0)).x, h - 2.18), vec2f(0.7, 0.075), 0.075));
+  let plate = inside(roundBox(vec2f(spaced(s.uv.x, 2.5), h - 2.18), vec2f(0.7, 0.075), 0.075));
   if (frieze > 0.5) {
     colour = mix(vec3f(0.42, 0.02, 0.025), vec3f(0.6, 0.59, 0.54), plate) * (1.0 - 0.5 * soot);
     gloss = 0.75;

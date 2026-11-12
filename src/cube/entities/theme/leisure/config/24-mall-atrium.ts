@@ -74,7 +74,8 @@ fn shuttered(s: Surf) -> Material {
   let trying = step(0.4, unitOf(hashOf(word, u32(s.time * 11.0))));
   let live = select(select(1.0, trying, luck < 0.22), 0.0, luck < 0.1);
   let tint = oneOf(unitOf(mix32(word ^ 0x9u)), vec3f(1.0, 0.82, 0.74), vec3f(0.7, 0.95, 1.0), vec3f(1.0, 0.95, 0.6), vec3f(0.78, 1.0, 0.8));
-  let frame = max(stroke(roundBox(vec2f(along - bay * 0.5, h - 2.1), vec2f(1.0, 0.13), 0.0), 0.025), 1.0 - inside(roundBox(vec2f(along - bay * 0.5, h - 2.1), vec2f(1.0, 0.13), 0.0)));
+  let signBox = roundBox(vec2f(along - bay * 0.5, h - 2.1), vec2f(1.0, 0.13), 0.0);
+  let frame = max(stroke(signBox, 0.025), 1.0 - inside(signBox));
   let tubes = 0.75 + 0.25 * cos((along - bay * 0.5) * 9.0);
   let sign = tint * (1.5 * tubes * live * (1.0 - frame));
   var albedo = mix(mix(steel, vec3f(0.12, 0.125, 0.13), foot), vec3f(0.01), punched);

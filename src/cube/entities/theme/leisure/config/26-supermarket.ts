@@ -39,7 +39,7 @@ fn waxed(s: Surf) -> Material {
   let line = stroke(fract(s.uv.y / ROOM.z) * ROOM.z - 2.5, 0.1);
   let wheels = smoothstep(0.45, 0.75, fbm(vec2f(s.uv.x * 0.3, s.uv.y * 5.0), 257u, 3));
   let laid = mix(pale, vec3f(0.42, 0.03, 0.025), line * (0.6 + 0.4 * speck)) * (1.0 - 0.3 * wheels);
-  let near = 1.0 / (1.0 + s.far * s.far / 80.0);
+  let near = fading(s, 80.0);
   let floor = polished(laid * (0.72 * mix(1.0, mix(0.6, 1.0, tile.x), near)), 0.08 - 0.05 * wheels);
   return embossed(s, floor, 2.0 * fbm(s.uv * 2.6, 258u, 3) + 0.3 * tile.y, 0.003);
 }

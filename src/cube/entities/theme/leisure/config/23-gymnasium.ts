@@ -33,7 +33,7 @@ export const GYMNASIUM: FloorTheme = {
 fn court(s: Surf) -> Material {
   let board = slabs(s.uv.yx, vec2f(1.4, 0.057), 0.0012, 231u, 0.37);
   let grain = fbm(vec2f(s.uv.y * 3.0, s.uv.x * 90.0) + board.y * 30.0, 232u, 3);
-  let near = 1.0 / (1.0 + s.far * s.far / 50.0);
+  let near = fading(s, 50.0);
   let maple = vec3f(0.5, 0.32, 0.15) * (0.82 + 0.22 * board.y) * (0.8 + 0.3 * mix(0.5, grain, near));
   let q = fract(s.uv / ROOM.xz) * ROOM.xz;
   let white = max(stroke(q.x - 0.5, 0.05), stroke(length(q - vec2f(2.5, 2.5)) - 0.9, 0.05));
