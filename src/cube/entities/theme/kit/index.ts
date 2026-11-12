@@ -1,6 +1,6 @@
 export { CORE } from './lib/core';
 export { FINISH } from './lib/finish';
-export { GRADE } from './lib/grade';
+export { type Exposed, GRADE } from './lib/grade';
 export { LIGHT } from './lib/light';
 export { ordinary } from './lib/ordinary';
 export { STUFF } from './lib/stuff';

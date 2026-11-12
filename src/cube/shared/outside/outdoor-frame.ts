@@ -61,7 +61,7 @@ export function packOutdoorFrame({
   hour,
   width,
   height,
-}: OutdoorFrame): Float32Array {
+}: OutdoorFrame): Float32Array<ArrayBuffer> {
   const values: Record<FieldName, ArrayLike<number>> = {
     viewProjection,
     inverse,
