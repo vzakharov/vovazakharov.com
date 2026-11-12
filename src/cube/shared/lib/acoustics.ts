@@ -14,6 +14,23 @@ export const FOOTINGS = [
 ] as const;
 export type Footing = (typeof FOOTINGS)[number];
 
+/** What the island is underfoot, from the dry beach to ankle-deep water. */
+export const GROUNDS = ['sand', 'wet-sand', 'shallows'] as const;
+export type Ground = (typeof GROUNDS)[number];
+
+/** Anything a foot can come down on. */
+export type Underfoot = Footing | Ground;
+
+/** What the ladder to the doorway is made of, which is how a rung answers. */
+export const LADDERS = ['aluminium', 'wood'] as const;
+export type Ladder = (typeof LADDERS)[number];
+
+/** The ladder's own material. */
+export const LADDER_MATERIAL: Ladder = 'aluminium';
+
+/** What takes hold of a rung, or stands on it. */
+export type Limb = 'hand' | 'foot';
+
 /** What a room can be heard doing by itself, with nobody in it doing it. */
 export const ROOM_CUES = [
   'ring',
