@@ -5,6 +5,7 @@ export { HASH } from './lib/hash';
 export { LIGHT } from './lib/light';
 export { ordinary } from './lib/ordinary';
 export { STUFF } from './lib/stuff';
+export { type Shrub, sunlit } from './lib/sun';
 export { vec3f, type Wgsl, wgsl } from './lib/wgsl';
 export { roomFlags, type RoomState } from './model/flags';
 export { type Floors, floorSource, type FloorTheme } from './model/theme';

@@ -1,0 +1,96 @@
+{
+  "total": {
+    "inputTokens": 57,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 210221,
+    "cacheReadTokens": 5613137,
+    "outputTokens": 56095,
+    "thinkingTokens": 32157,
+    "responses": 29,
+    "costUsd": 6.7304194000000015
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-12T22:29:07.070Z",
+    "contextTokens": 118258,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 40250,
+      "cacheReadTokens": 145565,
+      "outputTokens": 894,
+      "thinkingTokens": 25,
+      "responses": 2,
+      "costUsd": 0.7089050000000001
+    }
+  },
+  "sessionId": "4e442949-a17f-5559-b9e6-77e333f5a4c3",
+  "branch": "claude/cube-intro-shell",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a larger build run under this repo's `/carte-blanche` mode. Read first, in this order: `.claude/skills/carte-blanche/SKILL.md` (§ \"Th…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkD4VsAVvL4tdwWWFoS",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-12T22:28:54.746Z",
+  "lastResponseAt": "2026-11-12T22:45:26.756Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 57,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 210221,
+    "cacheReadTokens": 5613137,
+    "outputTokens": 56095,
+    "thinkingTokens": 32157,
+    "responses": 29,
+    "costUsd": 6.7304194000000015
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 57,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 210221,
+      "cacheReadTokens": 5613137,
+      "outputTokens": 56095,
+      "thinkingTokens": 32157,
+      "responses": 29,
+      "costUsd": 6.7304194000000015
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 28,
+    "matched": 28,
+    "matchedTableUsd": 6.5965196000000015,
+    "matchedEventUsd": 6.596519600000001,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1585,
+    ".json": 30,
+    ".yaml": 48,
+    ".ts": 208,
+    ".tsx": 86,
+    ".scss": 15
+  }
+}
