@@ -1,4 +1,4 @@
-import type { Gaze, Vec3 } from '@/cube/entities/world';
+import type { Gazing, Vec3 } from '@/cube/entities/world';
 
 import type { Cue } from './play';
 import { EYE_OVER_SAND, type Footprint, type Land } from './roam';
@@ -60,7 +60,7 @@ export const shotOf = ({
   eye: [x, y, z],
   yaw,
   elevation,
-}: Gaze & { eye: Vec3 }): Shot => ({ x, y, z, yaw, elevation, ...OPEN });
+}: Gazing & { eye: Vec3 }): Shot => ({ x, y, z, yaw, elevation, ...OPEN });
 
 /**
  * Waking: dark; the lids part on a world lying on its side, close, and part

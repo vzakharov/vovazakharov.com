@@ -1,6 +1,6 @@
 import type { Ground } from '@/cube/shared/lib/acoustics';
 import { lerp, ramp, smooth } from '@/cube/shared/lib/ease';
-import type { Gaze, Vec3 } from '@/cube/entities/world';
+import type { Gazing, Vec3 } from '@/cube/entities/world';
 
 import type { Cue } from './play';
 import {
@@ -37,7 +37,7 @@ export type Land = {
  * strokes it has made, in turns; `cues` what happened in the frame that made
  * it.
  */
-export type Roamer = Gaze & {
+export type Roamer = Gazing & {
   eye: Vec3;
   strode: number;
   stroke: number;
@@ -81,7 +81,7 @@ const NO_CUES: readonly Cue[] = [];
 export const roamingAt = (
   land: Land,
   [x, z]: readonly [number, number],
-  gaze: Gaze,
+  gaze: Gazing,
   seconds: number,
 ): Roamer => ({
   ...gaze,

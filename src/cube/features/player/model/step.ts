@@ -1,4 +1,4 @@
-import type { Gaze, Pose, Walls } from '@/cube/entities/world';
+import type { Gazing, Pose, Walls } from '@/cube/entities/world';
 
 import { walk } from './body';
 
@@ -61,7 +61,7 @@ const clamp = (value: number, bound: number): number =>
   Math.min(bound, Math.max(-bound, value));
 
 /** `gaze` after `dt` seconds of `input`'s turning and tilting. */
-export function turned(gaze: Gaze, input: Input, dt: number): Gaze {
+export function turned(gaze: Gazing, input: Input, dt: number): Gazing {
   if (!(dt >= 0) || !Number.isFinite(dt)) {
     throw new RangeError(`Not a frame time: ${dt}`);
   }

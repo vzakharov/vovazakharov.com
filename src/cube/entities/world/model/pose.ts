@@ -12,8 +12,8 @@ export type WallMounted = {
   facing: InRoom;
 };
 
-/** The way an eye looks, wherever it is. */
-export type Gaze = {
+/** Where an eye looks. */
+export type Gazing = {
   /** Radians; 0 looks east (+u), π/2 looks south (+v). */
   yaw: number;
   /** Radians above the horizon, clamped to ±89°. */
@@ -21,7 +21,7 @@ export type Gaze = {
 };
 
 /** An eye's room, its spot in the room and its gaze, whatever its height. */
-export type Standing = Room & InRoom & Gaze;
+export type Standing = Room & InRoom & Gazing;
 
 /**
  * Where an eye is in the cube, in the units of the floor it stands on, `u` and

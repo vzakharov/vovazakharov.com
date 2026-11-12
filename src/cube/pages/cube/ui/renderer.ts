@@ -3,7 +3,7 @@
 import { asError } from '@/kernel/shared/lib/error-class';
 import type { CanDispose, Sized, WithId } from '@/kernel/shared/typings';
 
-import type { Clock } from '@/cube/shared/lib/clock';
+import type { SeenAt } from '@/cube/shared/lib/clock';
 import type { Rgb } from '@/cube/shared/lib/colour';
 
 import type { FloorRange, Scenery } from '../lib/mesh';
@@ -11,16 +11,15 @@ import { UNIFORM_FLOATS } from '../lib/shader';
 import { createBloom } from './bloom';
 import { createPassTimer, type Timed } from './pass-timer';
 import { createPrograms, DEPTH_FORMAT, type Preparing } from './programs';
-import { createReflection, type Seen } from './reflection';
+import { createReflection } from './reflection';
 
 /** What one frame is seen from and when, and what shows where nothing is. */
-type Shot = Clock &
-  Seen & {
-    /** Scene light, as the faces are lit. */
-    clear: Rgb;
-    /** The floor whose lens the frame is seen through; it must be prepared. */
-    lens: number;
-  };
+type Shot = SeenAt & {
+  /** Scene light, as the faces are lit. */
+  clear: Rgb;
+  /** The floor whose lens the frame is seen through; it must be prepared. */
+  lens: number;
+};
 
 /**
  * Faces of one floor sharing one texture: `scenery` holds them, and `image`
