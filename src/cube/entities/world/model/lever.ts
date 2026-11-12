@@ -1,16 +1,11 @@
+import { WALL_HALF } from '@/cube/shared/lib/room-shape';
 import type { Vec3 } from '@/cube/shared/lib/vec';
 
 import { holeMiddle, type Quarter } from './hole';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
 import type { WallMounted } from './pose';
 import { box, type Quad, times } from './quad';
-import {
-  type InRoomOf,
-  type Room,
-  roomKey,
-  roomsAcross,
-  WALL_HALF,
-} from './room';
+import { type InRoomOf, type Room, roomKey, roomsAcross } from './room';
 
 /**
  * Where a holed room's lever is mounted: on the hole quarter's outer wall

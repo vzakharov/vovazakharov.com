@@ -43,7 +43,6 @@ export {
   isRoom,
   type Room,
   roomKey,
-  WALL_HALF,
 } from './model/room';
 export {
   opens,
@@ -68,4 +67,5 @@ export { closedSides, inPlace, type Setting, settingOf } from './model/setting';
 export { type RolledTraits, traits } from './model/traits';
 export { mazeWalls, type Walls } from './model/walls';
 export { isOutside, type Outside, type Whereabouts } from './model/whereabouts';
+export { WALL_HALF } from '@/cube/shared/lib/room-shape';
 export type { Vec3 } from '@/cube/shared/lib/vec';

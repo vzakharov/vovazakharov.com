@@ -1,4 +1,5 @@
 export { AERIAL } from './aerial';
+export { beamPatches, DOOR_INNER, type SunPatch } from './beam';
 export { CUBE_SHADOW, cubeShadow } from './cube-shadow';
 export {
   type Box,
@@ -15,7 +16,7 @@ export {
 } from './frame';
 export { ISLAND_HEIGHT, islandHeight } from './island-height';
 export {
-  LADDER,
+  DOOR_LADDER,
   LADDER_ACROSS,
   LADDER_OUT,
   LADDER_UP,

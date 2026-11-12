@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { CEILING_HEIGHT, ROOM_METRES } from '@/cube/shared/lib/room-shape';
-import { DOORWAY, SUN_DIR } from '@/cube/shared/outside';
-
+import { CEILING_HEIGHT, ROOM_METRES } from '../lib/room-shape';
 import { beamPatches } from './beam';
+import { DOORWAY } from './frame';
+import { SUN_DIR } from './sun';
 
 describe('beamPatches', () => {
   const patches = beamPatches(SUN_DIR);
@@ -17,7 +17,7 @@ describe('beamPatches', () => {
 
   it('lands every patch on a face of the room, looking into it', () => {
     const size = [ROOM_METRES, ROOM_METRES * CEILING_HEIGHT, ROOM_METRES];
-    for (const { at, facing } of patches) {
+    for (const { middle: at, facing } of patches) {
       for (const [axis, value] of at.entries()) {
         assert.ok(value >= -1e-9 && value <= (size[axis] ?? 0) + 1e-9);
       }
@@ -28,7 +28,7 @@ describe('beamPatches', () => {
   });
 
   it('puts an evening sun on the floor and the north wall', () => {
-    const faces = new Set(patches.map(({ facing }) => facing.join()));
+    const faces = new Set(patches.map(({ facing }) => facing.join(',')));
     assert.ok(faces.has('0,1,0'));
     assert.ok(faces.has('0,0,1'));
     assert.ok(!faces.has('0,-1,0'));
@@ -36,6 +36,6 @@ describe('beamPatches', () => {
 
   it('sends a level sun straight to the west wall', () => {
     const level = beamPatches([1, 0, 0]);
-    assert.ok(level.every(({ facing }) => facing.join() === '1,0,0'));
+    assert.ok(level.every(({ facing }) => facing.join(',') === '1,0,0'));
   });
 });

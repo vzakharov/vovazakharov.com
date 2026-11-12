@@ -1,7 +1,7 @@
 /// <reference types="@webgpu/types" />
 
-import { SHELL_SHADER } from '../lib/shell-shader';
 import { SHELL_VERTEX_FLOATS, shellVertices } from '../lib/shell-mesh';
+import { SHELL_SHADER } from '../lib/shell-shader';
 import type { LayerMaker } from './outdoor-layer';
 
 /** A shell vertex's attributes, in buffer order, as floats each. */

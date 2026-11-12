@@ -3,8 +3,16 @@ import { HASH } from '@/cube/shared/lib/wgsl-hash';
 import { OUTDOOR_STAGE, SKY, SUN } from '@/cube/shared/outside';
 
 /** What the shell is made of where a floor's band is near-black, and where it is grey. */
-const BLACK = { albedo: [0.008, 0.009, 0.011], mirror: 0.03, blur: 0.4 } as const;
-const GREY = { albedo: [0.022, 0.023, 0.026], mirror: 0.012, blur: 4.2 } as const;
+const BLACK = {
+  albedo: [0.008, 0.009, 0.011],
+  mirror: 0.03,
+  blur: 0.4,
+} as const;
+const GREY = {
+  albedo: [0.022, 0.023, 0.026],
+  mirror: 0.012,
+  blur: 4.2,
+} as const;
 
 /** The line between two bands: its colour, its light, and its width in metres. */
 const LINE = {

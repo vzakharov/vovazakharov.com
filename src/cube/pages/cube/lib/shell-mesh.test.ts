@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { assemble } from '@/cube/shared/lib/wgsl';
-import { CUBE_BOX, DOORWAY_BOX, LADDER } from '@/cube/shared/outside';
+import { CUBE_BOX, DOOR_LADDER, DOORWAY_BOX } from '@/cube/shared/outside';
 
 import { SHELL_KINDS, SHELL_VERTEX_FLOATS, shellVertices } from './shell-mesh';
 import { SHELL_SHADER } from './shell-shader';
@@ -26,6 +26,9 @@ const corners = (): Corner[] => {
     },
   );
 };
+
+const count = (kind: string): number =>
+  corners().filter((corner) => corner.kind === kind).length;
 
 const MIDDLE = CUBE_BOX.min.map((low, axis) => (low + CUBE_BOX.max[axis]) / 2);
 
@@ -60,9 +63,8 @@ describe('the shell mesh', () => {
     let area = 0;
     for (let first = 0; first < east.length; first += 6) {
       const rect = east.slice(first, first + 6);
-      const [ys, zs] = [1, 2].map((axis) =>
-        rect.map(({ at }) => at[axis] ?? 0),
-      ) as [number[], number[]];
+      const ys = rect.map(({ at }) => at[1] ?? 0);
+      const zs = rect.map(({ at }) => at[2] ?? 0);
       const [low, high, north, south] = [
         Math.min(...ys),
         Math.max(...ys),
@@ -103,10 +105,8 @@ describe('the shell mesh', () => {
   });
 
   it('builds the ladder as two stiles and a box a rung', () => {
-    const count = (kind: string): number =>
-      corners().filter((corner) => corner.kind === kind).length;
     assert.equal(count('stile'), 2 * 36);
-    assert.equal(count('rung'), LADDER.rungs.length * 36);
+    assert.equal(count('rung'), DOOR_LADDER.rungs.length * 36);
   });
 });
 

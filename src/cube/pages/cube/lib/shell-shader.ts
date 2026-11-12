@@ -10,12 +10,11 @@ import {
 } from '@/cube/shared/outside';
 
 import { SHELL_MATERIAL } from './shell-material';
-import { SHELL_KINDS } from './shell-mesh';
+import { SHELL_KINDS, type ShellKind } from './shell-mesh';
 
-/** The least `kind` a vertex of each kind and of those after it carries, as WGSL. */
-const KIND = Object.fromEntries(
-  SHELL_KINDS.map((kind, code) => [kind, (code - 0.5).toFixed(1)]),
-) as Record<(typeof SHELL_KINDS)[number], string>;
+/** The least `kind` a vertex of `kind` and of the kinds after it carries, as WGSL. */
+const least = (kind: ShellKind): string =>
+  (SHELL_KINDS.indexOf(kind) - 0.5).toFixed(1);
 
 /**
  * The shell's scene-pass shader, over \`shellVertices\`' buffer: the cube's
@@ -81,7 +80,7 @@ fn fragmentMain(s: ShellSeen) -> Scene {
   let sun = cubeShadow(s.world + normal * 0.004);
   var light: vec3f;
 
-  if (s.kind > ${KIND.stile}) {
+  if (s.kind > ${least('stile')}) {
     // The ladder: its grain runs up a stile and along a rung.
     let off = s.world - LADDER_FOOT;
     let up = dot(off, LADDER_UP);
@@ -89,7 +88,7 @@ fn fragmentMain(s: ShellSeen) -> Scene {
     let round = dot(off, LADDER_OUT) * 1.7 + dot(abs(normal), vec3f(0.0, 3.1, 7.3));
     let stile = vec2f(up, across + round);
     let rung = vec2f(across + 9.0 * floor(up / LADDER_SIZE.w), up + round);
-    let colour = wood(select(stile, rung, s.kind > ${KIND.rung}));
+    let colour = wood(select(stile, rung, s.kind > ${least('rung')}));
     let fill = SKY_FILL * (0.5 + 0.5 * normal.y) + SAND_LIGHT * (0.5 - 0.5 * normal.y);
     light = colour * (SUN_LIGHT * max(dot(normal, SUN_DIR), 0.0) * sun + fill);
   } else {
@@ -100,12 +99,12 @@ fn fragmentMain(s: ShellSeen) -> Scene {
     );
     var band: Band;
     var depth = 2;
-    if (s.kind > ${KIND.reveal}) {
+    if (s.kind > ${least('reveal')}) {
       // The reveal: the grey all the way through the wall.
       band = Band(0.0, 0.0, 1.0, 1.0, 0.0);
       face.along = vec3f(0.0, 0.0, 1.0);
       face.down = vec3f(-1.0, 0.0, 0.0);
-    } else if (s.kind > ${KIND.underside}) {
+    } else if (s.kind > ${least('underside')}) {
       // The underside: the floors go on outward from its middle, over a
       // well of lights.
       let pixelShare = pixel / (0.5 * CUBE_METRES);
@@ -114,7 +113,7 @@ fn fragmentMain(s: ShellSeen) -> Scene {
       face.along = vec3f(1.0, 0.0, 0.0);
       face.down = vec3f(0.0, 0.0, 1.0);
       depth = 5;
-    } else if (s.kind > ${KIND.top}) {
+    } else if (s.kind > ${least('top')}) {
       // The top: the first floor's black folds over the edge, and the rest
       // halve inward to the middle.
       band = bandAt(outward(s.on), pixel / (0.5 * CUBE_METRES));
