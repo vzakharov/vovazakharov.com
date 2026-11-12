@@ -198,6 +198,22 @@ the operator's own word for the potted plant in floor 1's room.
   board session translates every quote; the lead sends verdicts in whatever
   language they were said.
 
+- **2026-11-12 ~22:50Z, randomness and the goal behind it**:
+
+  > все же исполнители понимают, что всё что касается случайности должно
+  > использовать наш `rolled`?
+
+  > цель -- любая вещь, любое явление должно выглядеть абсолютно идентично в
+  > один и тот же момент времени для двух игроков на разных машинах в одной
+  > точке
+
+  The contract named `src/dice` but not `roll` / `rollWith`; now it does, and
+  every build session was told. Sand's pushed shape already rolled. The second
+  sentence was the contract's first rule; it now also rules out anything that
+  remembers earlier frames (accumulated foam, reprojected clouds, a stepped
+  simulation), told to core, sky, sea and sand. Footprints are per-player
+  history, so they are out unless the operator asks for them.
+
 ## Facts established
 
 - **The island (sand, `claude/cube-intro-sand` @ 04a800ac)**: the cube's centre
