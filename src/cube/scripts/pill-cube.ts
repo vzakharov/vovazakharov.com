@@ -116,11 +116,8 @@ function acted(
   }
   const shots: SheetFrame[] = [];
   const shoot = (player: Player) => {
-    const { pose } = player;
     shots.push({
-      pose,
-      moving: handsOf(player),
-      taken: takenOf(player),
+      staged: [player.pose, handsOf(player), takenOf(player)],
       prompt: isAsking(player) ? 'ask' : isStanding(player) ? 'take' : null,
     });
   };
@@ -169,13 +166,7 @@ async function main(): Promise<void> {
         await inTurn(WHOLE, async (index) => {
           const frame = frames[index];
           if (frame === undefined) return;
-          const { pose, moving, taken } = frame;
-          await shoot(
-            name(`${what}-${String(index)}`, 'png'),
-            pose,
-            moving,
-            taken,
-          );
+          await shoot(name(`${what}-${String(index)}`, 'png'), ...frame.staged);
         });
       });
     }),

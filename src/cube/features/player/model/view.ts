@@ -1,7 +1,8 @@
+import type { WithEye } from '@/cube/shared/lib/vec';
 import { cross, type Pose, type Vec3 } from '@/cube/entities/world';
 
 /** An eye in its room's frame, and its gaze's own axes there. */
-export type View = { eye: Vec3; ahead: Vec3; right: Vec3; up: Vec3 };
+export type View = WithEye & { ahead: Vec3; right: Vec3; up: Vec3 };
 
 export function viewOf({ u, v, eyeAbove, yaw, elevation }: Pose): View {
   const flat = Math.cos(elevation);

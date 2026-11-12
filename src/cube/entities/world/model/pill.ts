@@ -1,5 +1,7 @@
+import type { Vec3 } from '@/cube/shared/lib/vec';
+
 import { loft, type Ring } from './loft';
-import { cross, plus, type Quad, times, unit, UP, type Vec3 } from './quad';
+import { cross, plus, type Quad, times, unit, UP } from './quad';
 import type { Room } from './room';
 
 /**
@@ -49,10 +51,14 @@ export function pillQuads(
         radius * Math.max(Math.cos(angle), 0.02),
       );
     });
-    return loft([...cap, ringAt(end * straight, radius), ringAt(0, radius)], room, {
-      surface: 'plastic',
-      paint: PILL_PAINTS[index] ?? PILL_PAINTS[0],
-      sides: PILL_SIDES,
-    });
+    return loft(
+      [...cap, ringAt(end * straight, radius), ringAt(0, radius)],
+      room,
+      {
+        surface: 'plastic',
+        paint: PILL_PAINTS[index] ?? PILL_PAINTS[0],
+        sides: PILL_SIDES,
+      },
+    );
   });
 }

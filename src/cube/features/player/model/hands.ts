@@ -1,8 +1,8 @@
 import {
   cross,
   dot,
-  type Pose,
   plus,
+  type Pose,
   type Quad,
   times,
   unit,

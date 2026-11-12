@@ -1,8 +1,10 @@
+import type { Vec3 } from '@/cube/shared/lib/vec';
+
 import { holeMiddle, type Quarter } from './hole';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
-import type { WallMounted } from './pose';
 import { PILL_RADIUS, pillQuads } from './pill';
-import { box, type Quad, times, unit, type Vec3 } from './quad';
+import type { WallMounted } from './pose';
+import { box, type Quad, times, unit } from './quad';
 import {
   type InRoomOf,
   type Room,

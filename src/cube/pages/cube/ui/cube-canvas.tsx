@@ -369,13 +369,13 @@ export function CubeCanvas({
       )}
       <FrameRate {...{ passTimes }} />
       <p className={classes['hint']} aria-live="polite">
-        {pill !== null
-          ? pillCopy[pill]
-          : inReach === null || offer !== null
+        {pill === null
+          ? inReach === null || offer !== null
             ? ''
             : inReach === 'yours'
               ? offerCopy.hintYours
-              : offerCopy.hint}
+              : offerCopy.hint
+          : pillCopy[pill]}
       </p>
       <SaleOffer
         {...{ offer }}

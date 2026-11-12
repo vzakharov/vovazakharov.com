@@ -144,8 +144,7 @@ export function mountCube(
   let disposed = false;
   const firstFrame = Promise.withResolvers<void>();
 
-  const takenKey = (): string =>
-    taken === null ? '' : roomKey(taken.room);
+  const takenKey = (): string => (taken === null ? '' : roomKey(taken.room));
 
   const upload = async (target: Pose, key: string): Promise<void> => {
     const mesh = await build(target, copy, bought());

@@ -4,8 +4,8 @@ import {
   minus,
   pillOn,
   pillQuads,
-  type Pose,
   plus,
+  type Pose,
   type Quad,
   times,
   unit,
@@ -39,12 +39,21 @@ const PINCH_AT = times(plus(FOREFINGER, THUMB), 0.5);
 /** The way a pinched pill's length runs: square to the pinch, in the palm's plane. */
 const PINCH_AXIS = unit(cross(minus(THUMB, FOREFINGER), [0, 0, 1]));
 
-const lerp = (a: Vec3, b: Vec3, share: number): Vec3 =>
+/** Each station's pill, null on the shelf, which has its own, and whether its arm is raised. */
+const STATIONS: Record<Station, { pill: Vec3 | null; raised: boolean }> = {
+  down: { pill: HANGING, raised: false },
+  shelf: { pill: null, raised: false },
+  eyes: { pill: BEFORE_EYES, raised: true },
+  mouth: { pill: AT_MOUTH, raised: true },
+};
+
+const partWay = (a: Vec3, b: Vec3, share: number): Vec3 =>
   plus(a, times(minus(b, a), share));
 
 /**
  * A station's hand in the room's frame: where the pill is, where its arm
- * comes from, and the way its palm faces.
+ * comes from, and the way its palm faces — down from a lowered arm, at the
+ * eye from a raised one.
  */
 function stationed(
   station: Station,
@@ -54,21 +63,12 @@ function stationed(
 ): { pill: Vec3; arm: Vec3; palm: Vec3 } {
   const view = [ahead, right, up] as const;
   const from = (at: Vec3): Vec3 => plus(eye, times(mix(view, at), scale));
-  const toEye = times(ahead, -1);
-  switch (station) {
-    case 'down': {
-      return { pill: from(HANGING), arm: from(SHOULDER), palm: [0, -1, 0] };
-    }
-    case 'shelf': {
-      return { pill: shelfAt, arm: from(SHOULDER), palm: [0, -1, 0] };
-    }
-    case 'eyes': {
-      return { pill: from(BEFORE_EYES), arm: from(ELBOW), palm: toEye };
-    }
-    case 'mouth': {
-      return { pill: from(AT_MOUTH), arm: from(ELBOW), palm: toEye };
-    }
-  }
+  const { pill, raised } = STATIONS[station];
+  return {
+    pill: pill === null ? shelfAt : from(pill),
+    arm: from(raised ? ELBOW : SHOULDER),
+    palm: raised ? times(ahead, -1) : [0, -1, 0],
+  };
 }
 
 /** `way` turned `angle` about `axis`, a unit vector square to it. */
@@ -85,21 +85,21 @@ export function takingHand(
 ): Quad[] {
   const { n, x, y, scale } = pose;
   const room = { n, x, y };
-  const { from, to, share, pinch, twist, holds } = graspOf(act);
+  const { from, to, gone, pinch, wristTurn, holds } = graspOf(act);
   const onShelf = pillOn(act.shelf);
   const view = viewOf(pose);
   const [a, b] = [
     stationed(from, view, onShelf.centre, scale),
     stationed(to, view, onShelf.centre, scale),
   ];
-  const pill = lerp(a.pill, b.pill, share);
-  const along = unit(minus(pill, lerp(a.arm, b.arm, share)));
-  const facing = lerp(a.palm, b.palm, share);
+  const pill = partWay(a.pill, b.pill, gone);
+  const arm = partWay(a.arm, b.arm, gone);
+  const along = unit(minus(pill, arm));
+  const facing = partWay(a.palm, b.palm, gone);
   const palm = unit(minus(facing, times(along, dot(facing, along))));
-  const through = about(palm, along, twist);
+  const through = about(palm, along, wristTurn);
   const axes: Axes = [along, cross(along, through), through];
   const wrist = minus(pill, times(mix(axes, PINCH_AT), scale * CM));
-  const arm = lerp(a.arm, b.arm, share);
   const sleeve = Math.hypot(...minus(wrist, arm)) / (scale * CM);
   const quads = hand(wrist, axes, scale, room, {
     ...between(LOOSE, PINCH, pinch),
@@ -112,12 +112,12 @@ export function takingHand(
   const lying = times(onShelf.axis, dot(onShelf.axis, inHand) < 0 ? -1 : 1);
   const settled =
     from === 'shelf'
-      ? rise(share, 0, 0.35)
+      ? rise(gone, 0, 0.35)
       : to === 'shelf'
-        ? 1 - rise(share, 0.65, 1)
+        ? 1 - rise(gone, 0.65, 1)
         : 1;
   return [
     ...quads,
-    ...pillQuads(pill, unit(lerp(lying, inHand, settled)), 1, room),
+    ...pillQuads(pill, unit(partWay(lying, inHand, settled)), 1, room),
   ];
 }

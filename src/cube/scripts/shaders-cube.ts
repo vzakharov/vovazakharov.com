@@ -1,5 +1,6 @@
 /**
- * Compiles every floor's shader in a headless Chromium's WebGPU and prints
+ * Compiles every floor's shader and every outdoor one in a headless Chromium's
+ * WebGPU and prints
  * what the compiler says of each that fails — seconds, where finding the same
  * error on the page takes a dev server and a walk to the floor.
  *
@@ -11,7 +12,7 @@ import http from 'node:http';
 import { z } from 'zod';
 
 import { DEEPEST_FLOOR } from '@/cube/entities/world';
-import { shaderOf } from '@/cube/pages/cube/index.node-safe';
+import { outdoorSources, shaderOf } from '@/cube/pages/cube/index.node-safe';
 
 import { flag } from '@/kernel/scripts/lib/argv';
 import { launch, openTab, WEBGPU_FLAGS } from '@/scene/scripts/lib/cdp';
@@ -41,12 +42,25 @@ function around(source: string, at: number): string {
     .join('\n');
 }
 
+const floorOf = (n: number) => ({
+  name: `floor ${String(n)}`,
+  source: shaderOf(n),
+});
+
 async function main(): Promise<void> {
   const only = flag('floor');
-  const floors =
+  const shaders =
     only === undefined
-      ? Array.from({ length: DEEPEST_FLOOR }, (_, index) => index + 1)
-      : [Number(only)];
+      ? [
+          ...Array.from({ length: DEEPEST_FLOOR }, (_, index) =>
+            floorOf(index + 1),
+          ),
+          ...outdoorSources().map(({ name, source }) => ({
+            name: `outdoor ${name}`,
+            source,
+          })),
+        ]
+      : [floorOf(Number(only))];
   // WebGPU is there only in a secure context, which localhost is.
   const server = http.createServer((_, response) => {
     response.setHeader('content-type', 'text/html');
@@ -70,24 +84,23 @@ async function main(): Promise<void> {
       { awaitPromise: true },
     );
     const verdicts = await Promise.all(
-      floors.map(async (n) => {
-        const source = shaderOf(n);
+      shaders.map(async ({ name, source }) => {
         const errors = await tab.evaluate(compiling(source), Verdict, {
           awaitPromise: true,
         });
-        return { n, source, errors };
+        return { name, source, errors };
       }),
     );
     const failed = verdicts.filter(({ errors }) => errors.length > 0);
-    for (const { n, source, errors } of failed) {
-      process.stdout.write(`floor ${String(n)}\n`);
+    for (const { name, source, errors } of failed) {
+      process.stdout.write(`${name}\n`);
       for (const error of errors) {
         const line = Number(error.split(':')[0]);
         process.stdout.write(`  ${error}\n${around(source, line)}\n`);
       }
     }
     process.stdout.write(
-      `${String(verdicts.length - failed.length)} of ${String(verdicts.length)} floors compile\n`,
+      `${String(verdicts.length - failed.length)} of ${String(verdicts.length)} shaders compile\n`,
     );
     if (failed.length > 0) process.exitCode = 1;
   } finally {

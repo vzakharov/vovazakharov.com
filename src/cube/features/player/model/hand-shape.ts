@@ -1,4 +1,11 @@
-import { cross, dot, plus, times, unit, type Vec3 } from '@/cube/entities/world';
+import {
+  cross,
+  dot,
+  plus,
+  times,
+  unit,
+  type Vec3,
+} from '@/cube/entities/world';
 
 // The hand's shape down to `NAIL` is in centimetres of a whole body, in the
 // hand's own axes — along the fingers, across the palm towards the thumb,
@@ -117,7 +124,7 @@ export const PINCH: HandPose = {
 };
 
 /** A hand closed round a rung: the fingers over it, the thumb under. */
-export const GRIP: HandPose = {
+export const RUNG_GRIP: HandPose = {
   curls: [
     [1.15, 1.35, 0.75],
     [1.15, 1.4, 0.8],
@@ -131,7 +138,7 @@ export const GRIP: HandPose = {
 
 /** The pose `share` of the way from `from` to `to`. */
 export function between(from: HandPose, to: HandPose, share: number): HandPose {
-  const mixed = (a: number, b: number): number => a + (b - a) * share;
+  const mixed = (a: number, b: number): number => a * (1 - share) + b * share;
   const curl = (index: 0 | 1 | 2 | 3 | 4): Curl =>
     from.curls[index].map((bend, joint) =>
       mixed(bend, to.curls[index][joint] ?? bend),

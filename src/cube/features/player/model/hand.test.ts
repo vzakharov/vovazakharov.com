@@ -10,7 +10,7 @@ import {
 } from '@/cube/entities/world';
 
 import { type Axes, CM, hand, padOf } from './hand';
-import { between, GRIP, LOOSE, PINCH } from './hand-shape';
+import { between, LOOSE, PINCH, RUNG_GRIP } from './hand-shape';
 
 const ROOM = { n: 1, x: 0n, y: 0n };
 const RIGHT: Axes = [
@@ -36,7 +36,9 @@ describe('padOf', () => {
   });
 
   it('brings a grip’s four fingers round in a row, a rung’s width off the palm', () => {
-    const pads = ([0, 1, 2, 3] as const).map((index) => padOf(GRIP, index));
+    const pads = ([0, 1, 2, 3] as const).map((index) =>
+      padOf(RUNG_GRIP, index),
+    );
     for (const [along, , through] of pads) {
       assert.ok(Math.abs(along - 8) < 0.6, 'in a row along the hand');
       assert.ok(through > 2.5, 'off the palm');
@@ -48,9 +50,9 @@ describe('between', () => {
   it('is its ends at 0 and 1 and halfway at a half', () => {
     assert.deepEqual(between(LOOSE, PINCH, 0), LOOSE);
     assert.deepEqual(between(LOOSE, PINCH, 1), PINCH);
-    const half = between(LOOSE, GRIP, 0.5);
-    assert.equal(half.oppose, (LOOSE.oppose + GRIP.oppose) / 2);
-    const [loose, grip] = [LOOSE.curls[2][1], GRIP.curls[2][1]];
+    const half = between(LOOSE, RUNG_GRIP, 0.5);
+    assert.equal(half.oppose, (LOOSE.oppose + RUNG_GRIP.oppose) / 2);
+    const [loose, grip] = [LOOSE.curls[2][1], RUNG_GRIP.curls[2][1]];
     assert.ok(loose !== undefined && grip !== undefined);
     assert.equal(half.curls[2][1], (loose + grip) / 2);
   });
@@ -59,7 +61,7 @@ describe('between', () => {
 describe('hand', () => {
   it('draws each pose with the same quads, wound the way they face', () => {
     const loose = hand([0, 0, 0], RIGHT, 1, ROOM, LOOSE);
-    for (const pose of [PINCH, GRIP, between(LOOSE, PINCH, 0.4)]) {
+    for (const pose of [PINCH, RUNG_GRIP, between(LOOSE, PINCH, 0.4)]) {
       const quads = hand([0, 0, 0], RIGHT, 1, ROOM, pose);
       assert.equal(quads.length, loose.length);
       for (const { corners, normal } of quads) {

@@ -1,5 +1,6 @@
 import type { Ground, Limb } from '@/cube/shared/lib/acoustics';
 import type {
+  Gazing,
   InRoom,
   Pose,
   Posed,
@@ -35,28 +36,27 @@ export type Cue =
   | { cue: 'landing'; speed: number }
   | { cue: 'say'; moment: ShrinkMoment | 'landing' | 'waking' };
 
-/** Where a gaze rests while something else has the eyes. */
-export type Gaze = { yaw: number; elevation: number };
-
 /** Where a taking hand is, or is on its way to or from. */
 export type Station = 'down' | 'shelf' | 'eyes' | 'mouth';
 
+/** A hand on its way `from` a station, the wrist turned `wristTurn` radians about its length. */
+export type Carrying = { from: Station; wristTurn: number };
+
 /**
- * A body taking its room's pill: `reaching` for it on the `shelf`;
- * `inspecting` it before the eyes, in passing unless it `asks` what to do
- * with it, and then until answered; `drinking` it, or `returning` it to the
- * shelf, the hand coming `from` the shelf or the eyes with the `twist` it had
- * there. `aim` is the gaze that looks at the pill on its shelf.
+ * A body taking the pill of its room, holed as it is: `reaching` for it on
+ * the shelf; `inspecting` it before the eyes, in passing unless it `asks`
+ * what to do with it, and then until answered; `drinking` it, or `returning`
+ * it to the shelf, the hand `Carrying` it from where it last was. Its own
+ * gaze is where the eyes rested before; `aim` is the gaze that looks at the
+ * pill on its shelf.
  */
-export type Taking = Looking &
-  Gaze & {
+export type Taking = Holed &
+  Gazing &
+  Carrying & {
     act: 'taking';
     stage: 'reaching' | 'inspecting' | 'drinking' | 'returning';
     asks: boolean;
-    shelf: Shelf;
-    aim: Gaze;
-    from: Station;
-    twist: number;
+    aim: Gazing;
   };
 
 /**
@@ -68,7 +68,7 @@ export type Taking = Looking &
  */
 export type Act = { actFor: number } & (
   | Taking
-  | (Looking & Gaze & { act: 'shrinking' })
+  | (Looking & Gazing & { act: 'shrinking' })
   | { act: 'falling'; from: InRoom; to: InRoom }
   | { act: 'landing' }
 );
@@ -76,7 +76,7 @@ export type Act = { actFor: number } & (
 /**
  * The body and what it is up to. `act` is null while it stands or walks,
  * whole or shrunk, which its pose's scale tells apart; `pill` is the one off
- * its shelf, in the hand or swallowed, until the body lands; `strode` is how
+ * its shelf, in the hand or swallowed and not yet out of sight; `strode` is how
  * far it has walked since its last footfall, in its own room sides; `cues` is
  * what happened in the frame that made this player.
  */
@@ -105,7 +105,7 @@ export const standingAt = (pose: Pose): Player => ({
 /** Whether `player` stands or walks, rather than takes, shrinks, falls or lands. */
 export const isStanding = ({ act }: Player): boolean => act === null;
 
-/** The pill `player` has off its shelf; null from the floor below on. */
+/** The pill `player` sees gone from its shelf, if any. */
 export const takenOf = ({ pill }: Player): Taken | null => pill;
 
 export const noWalk = (input: Input): Input => ({

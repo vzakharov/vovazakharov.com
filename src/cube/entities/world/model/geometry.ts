@@ -1,10 +1,12 @@
 import { CEILING_HEIGHT, SLAB_THICK } from '@/cube/shared/lib/room-shape';
+import type { Vec3 } from '@/cube/shared/lib/vec';
 
+import { doorwayWall } from './doorway';
 import { type Footprint, footprint, placed, slabHeight } from './frame';
 import { holeMiddle, type HoleOf, type Quarter, QUARTERS, under } from './hole';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
 import type { InRoom, Pose } from './pose';
-import { face, type Quad, type Vec3 } from './quad';
+import { face, type Quad } from './quad';
 import { isRoom, type Room, roomKey, roomsAcross, WALL_HALF } from './room';
 import type { View } from './rooms';
 import { shelfFaces, shelfOf, type Taken, takenIn } from './shelf';
@@ -191,16 +193,18 @@ function roomWalls(
     y === 0n ||
     (absent({ n, x, y: y - 1n }) && !isOpenSouth(rolled, n, x, y - 1n));
   return [
-    x === last || !isOpenEast(rolled, n, x, y)
-      ? wall(
-          [east + side, floorY, south],
-          runSouth,
-          height,
-          half,
-          room,
-          beside(1n, 0n),
-        )
-      : [],
+    n === 1
+      ? doorwayWall([east + side, floorY, south], side, room)
+      : x === last || !isOpenEast(rolled, n, x, y)
+        ? wall(
+            [east + side, floorY, south],
+            runSouth,
+            height,
+            half,
+            room,
+            beside(1n, 0n),
+          )
+        : [],
     y === last || !isOpenSouth(rolled, n, x, y)
       ? wall(
           [east, floorY, south + side],
@@ -339,8 +343,6 @@ export function faces(
     ...walls(rolled, pose, view.below),
     ...(view.overhead === null ? [] : walls(rolled, pose, [view.overhead])),
     ...walled.flatMap((room) => pillars(pose, room, pillarOf(room.n))),
-    ...walled.flatMap((room) =>
-      shelf(rolled, pose, room, holeOf(room), taken),
-    ),
+    ...walled.flatMap((room) => shelf(rolled, pose, room, holeOf(room), taken)),
   ];
 }

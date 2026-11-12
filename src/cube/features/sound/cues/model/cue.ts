@@ -12,14 +12,7 @@ import { clamp01 } from '@/cube/shared/lib/ease';
 import type { InRoom } from '@/cube/entities/world';
 
 import { breath, grunt, jump, landing, swallow } from './body';
-import {
-  knock,
-  pill,
-  ring,
-  shrinking,
-  stepsAway,
-  thud,
-} from './fixture';
+import { knock, pill, ring, shrinking, stepsAway, thud } from './fixture';
 import { footstep } from './footstep';
 import { rung } from './ladder';
 import { splash } from './splash';

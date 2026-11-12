@@ -20,13 +20,15 @@ import {
   type HandPose,
   NAIL,
   PALM,
-  type Slice,
   sleeveOf,
+  type Slice,
 } from './hand-shape';
 
 /** `a·x + b·y + c·z`. */
-export const mix = ([x, y, z]: readonly [Vec3, Vec3, Vec3], [a, b, c]: Vec3): Vec3 =>
-  plus(plus(times(x, a), times(y, b)), times(z, c));
+export const mix = (
+  [x, y, z]: readonly [Vec3, Vec3, Vec3],
+  [a, b, c]: Vec3,
+): Vec3 => plus(plus(times(x, a), times(y, b)), times(z, c));
 
 /**
  * A hand's own axes, unit and square to each other: `along` the fingers,
@@ -51,6 +53,9 @@ const sliced = ([along, across, wide, thick]: Slice): Ring => ({
 /** `way` turned `angle` about `axis`, a unit vector square to it. */
 const turnedAbout = (way: Vec3, axis: Vec3, angle: number): Vec3 =>
   plus(times(way, Math.cos(angle)), times(cross(axis, way), Math.sin(angle)));
+
+/** Where the thumb comes among a hand's digits. */
+const THUMB_INDEX = 4;
 
 /** The axis the thumb swings about to come across the palm: the hand's length. */
 const SWING: Vec3 = [1, 0, 0];
@@ -163,10 +168,11 @@ function digitRings(
 
 /** The digits of a hand held as `pose` has it, each with its curl. */
 const digitsOf = ({ curls, oppose }: HandPose): Array<[Digit, Curl]> =>
-  HAND_DIGITS.map((digit, index) => [
-    index === 4 ? opposed(digit, oppose) : digit,
-    curls[index as 0 | 1 | 2 | 3 | 4],
-  ]);
+  curls.map((curl, index) => {
+    const digit = HAND_DIGITS[index];
+    if (digit === undefined) throw new RangeError('A hand has five digits');
+    return [index === THUMB_INDEX ? opposed(digit, oppose) : digit, curl];
+  });
 
 /**
  * Where digit `index` of a hand held as `pose` touches what it holds, in

@@ -58,15 +58,9 @@ async function until(tab: Tab, expression: string, deadline: number) {
 /** What a script does with `/cube` once its hook is up. */
 export type CubePage = {
   /**
-   * Puts the eye at `pose`, `moving` in the rooms around it and the pill
-   * `taken` off its shelf, and saves the frame as `file`.
+   * Stages a frame and saves it as `file`.
    */
-  shoot: (
-    file: string,
-    pose: Pose,
-    moving?: readonly Quad[],
-    taken?: Taken | null,
-  ) => Promise<void>;
+  shoot: (file: string, ...staged: Staged) => Promise<void>;
   /** Stops the page's clock at `ms` since the epoch. */
   setClock: (ms: number) => Promise<void>;
   /**
@@ -80,11 +74,16 @@ export type CubePage = {
   ) => Promise<void>;
 };
 
-/** One frame of a sheet: what `shoot` takes, and the pill's line shown over it. */
+/** What a frame is staged with: the eye's pose, what moves before it, the pill off its shelf. */
+export type Staged = readonly [
+  pose: Pose,
+  moving?: readonly Quad[],
+  taken?: Taken | null,
+];
+
+/** One frame of a sheet: what it is staged with, and the pill's line shown over it. */
 export type SheetFrame = {
-  pose: Pose;
-  moving: readonly Quad[];
-  taken: Taken | null;
+  staged: Staged;
   prompt: Parameters<CubePlayHook['setPill']>[0];
 };
 
@@ -138,9 +137,7 @@ export async function withCubePage(
     const adapter = await tab.evaluate(call('adapter'), z.string());
     process.stdout.write(`adapter: ${adapter}\n`);
     const stage = async (
-      pose: Pose,
-      moving: readonly Quad[],
-      taken: Taken | null,
+      ...[pose, moving = [], taken = null]: Staged
     ): Promise<void> => {
       await tab.evaluate(
         call('setPose', source(pose), source(moving), source(taken)),
@@ -155,8 +152,8 @@ export async function withCubePage(
     };
     const shot = z.object({ data: z.string() });
     await script({
-      shoot: async (file, pose, moving = [], taken = null) => {
-        await stage(pose, moving, taken);
+      shoot: async (file, ...staged) => {
+        await stage(...staged);
         const { data } = shot.parse(
           await tab.send('Page.captureScreenshot', { format: 'png' }),
         );
@@ -164,8 +161,8 @@ export async function withCubePage(
       },
       sheet: async (file, frames, columns) => {
         const images: string[] = [];
-        await inTurn(frames, async ({ pose, moving, taken, prompt }) => {
-          await stage(pose, moving, taken);
+        await inTurn(frames, async ({ staged, prompt }) => {
+          await stage(...staged);
           await tab.evaluate(call('setPill', source(prompt)), z.unknown(), {
             awaitPromise: true,
           });
@@ -173,7 +170,13 @@ export async function withCubePage(
             await tab.send('Page.captureScreenshot', {
               format: 'webp',
               quality: 90,
-              clip: { x: 0, y: 0, width: WIDTH, height: HEIGHT, scale: SHEET_SCALE },
+              clip: {
+                x: 0,
+                y: 0,
+                width: WIDTH,
+                height: HEIGHT,
+                scale: SHEET_SCALE,
+              },
             }),
           );
           images.push(data);

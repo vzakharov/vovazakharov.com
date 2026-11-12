@@ -28,6 +28,7 @@ import {
 import { type Cue, isStanding, type Player, takenOf } from './player';
 import { SHRINK_TIME, SMALL } from './shrink';
 import { EYE_HEIGHT, type Input, STILL } from './step';
+import { isInSight } from './take';
 
 const cuesOf = (played: readonly Player[]): Array<Cue['cue']> =>
   played.flatMap(({ cues }) => cues.map(({ cue }) => cue));
@@ -110,13 +111,47 @@ describe('play, swallowing the pill', () => {
     );
   });
 
-  it('keeps the pill off its shelf while the body is small', () => {
+  it('has the pill back on its shelf the first frame the shelf is out of sight', () => {
     assert.equal(takenOf(beside()), null);
-    const played = [...shrunk(), ...frames(small(), STILL, STILL, () => true)];
-    for (const player of shrinking(played)) {
-      assert.deepEqual(takenOf(player), { room });
+    const played = shrunk();
+    const pinched = played.findIndex((player) => takenOf(player) !== null);
+    const back = played.findIndex(
+      (player, index) => index > pinched && takenOf(player) === null,
+    );
+    assert.ok(pinched > 0 && back > pinched, 'by the end of the look');
+    assert.equal(played[back]?.act?.act, 'shrinking');
+    for (const [index, player] of played.entries()) {
+      const { pose } = player;
+      if (index < pinched) {
+        assert.equal(takenOf(player), null);
+      } else if (index < back) {
+        assert.deepEqual(takenOf(player), { room });
+        const swallowed = player.act?.act === 'shrinking';
+        if (swallowed) assert.ok(isInSight(pose, holed.shelf));
+      } else {
+        assert.equal(takenOf(player), null);
+      }
     }
-    assert.deepEqual(takenOf(played.at(-1) ?? beside()), { room });
+    const lookedAway = played[back];
+    assert.ok(lookedAway && !isInSight(lookedAway.pose, holed.shelf));
+  });
+
+  it('keeps the shelf bare for as long as a swallower stares at it', () => {
+    const stared = shrunk(noLook);
+    const last = stared.at(-1);
+    assert.ok(last);
+    assert.deepEqual(takenOf(last), { room });
+    const still = play(last, STILL, FRAME, allOpen, holed);
+    assert.deepEqual(takenOf(still), { room });
+    const away = play(
+      last,
+      { ...STILL, yawBy: Math.PI },
+      FRAME,
+      allOpen,
+      holed,
+    );
+    assert.equal(takenOf(away), null);
+    assert.equal(takenOf(play(last, STILL, FRAME, allOpen, null)), null);
   });
 
   it('cues the pill, the swallow and the shrink in turn, then the first words', () => {

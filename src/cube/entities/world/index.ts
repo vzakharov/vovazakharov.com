@@ -16,7 +16,14 @@ export { boardFacets, type BoardShape, type SignMount } from './model/mount';
 export { PILL_LENGTH, PILL_RADIUS, pillQuads } from './model/pill';
 export { plant } from './model/plant';
 export { planted } from './model/planted';
-export type { InRoom, Pose, Posed, Standing, WallMounted } from './model/pose';
+export type {
+  Gazing,
+  InRoom,
+  Pose,
+  Posed,
+  Standing,
+  WallMounted,
+} from './model/pose';
 export {
   box,
   cross,
@@ -29,7 +36,6 @@ export {
   times,
   unit,
   UP,
-  type Vec3,
 } from './model/quad';
 export {
   type Floored,
@@ -62,3 +68,5 @@ export { closedSides, inPlace, type Setting, settingOf } from './model/setting';
 export { pillOn, type Shelf, shelfOf, type Taken } from './model/shelf';
 export { type RolledTraits, traits } from './model/traits';
 export { mazeWalls, type Walls } from './model/walls';
+export { isOutside, type Outside, type Whereabouts } from './model/whereabouts';
+export type { Vec3 } from '@/cube/shared/lib/vec';

@@ -1,10 +1,18 @@
-import { pillOn, type Pose, type Shelf } from '@/cube/entities/world';
+import {
+  dot,
+  type Gazing,
+  minus,
+  pillOn,
+  type Pose,
+  type Shelf,
+  unit,
+} from '@/cube/entities/world';
 
 import { hump, rise } from './ease';
 import {
   type Acting,
+  type Carrying,
   type Cue,
-  type Gaze,
   type Holed,
   NO_CUES,
   type Player,
@@ -12,6 +20,7 @@ import {
   type Taking,
 } from './player';
 import type { Input } from './step';
+import { viewOf } from './view';
 
 /**
  * How far from the body's middle its pill can be taken, in room sides: an
@@ -46,6 +55,19 @@ export function canTake(pose: Pose, shelf: Shelf): boolean {
   );
 }
 
+/**
+ * How far off the gaze, in radians, a shelf must be to be out of the eye's
+ * sight, wherever in the frame it would fall: past the frame's corner.
+ */
+const OUT_OF_SIGHT = 1.25;
+
+/** Whether an eye at `pose` can have `shelf`'s pill anywhere in its frame. */
+export function isInSight(pose: Pose, shelf: Shelf): boolean {
+  const { eye, ahead } = viewOf(pose);
+  const to = unit(minus(pillOn(shelf).centre, eye));
+  return dot(ahead, to) > Math.cos(OUT_OF_SIGHT);
+}
+
 /** The floor whose pill is looked at before it is swallowed. */
 const INSPECTED_FLOOR = 1;
 
@@ -75,16 +97,14 @@ const raiseOf = ({ asks }: Taking): number =>
   asks ? RAISE_TIME.asked : RAISE_TIME.passing;
 
 /**
- * A taking hand at an instant: `share` of the way from one station to the
- * next, its thumb and forefinger `pinch` of the way shut, turned `twist`
- * radians about its own length, and whether the pill is in it.
+ * A taking hand at an instant: `gone` of the way to the station it is headed
+ * `to`, its thumb and forefinger `pinch` of the way shut, and whether the
+ * pill is in it.
  */
-export type Grasp = {
-  from: Station;
+export type Grasp = Carrying & {
   to: Station;
-  share: number;
+  gone: number;
   pinch: number;
-  twist: number;
   holds: boolean;
 };
 
@@ -94,14 +114,14 @@ const twistAt = (held: number): number =>
 
 /** What the hand of a body `taking` is doing. */
 export function graspOf(act: Taking & { actFor: number }): Grasp {
-  const { stage, actFor: t, from, twist } = act;
+  const { stage, actFor: t, from, wristTurn } = act;
   if (stage === 'reaching') {
     return {
       from: 'down',
       to: 'shelf',
-      share: rise(t, 0, REACH_TIME * 0.8),
+      gone: rise(t, 0, REACH_TIME * 0.8),
       pinch: rise(t, REACH_TIME * 0.6, REACH_TIME),
-      twist: 0,
+      wristTurn: 0,
       holds: false,
     };
   }
@@ -109,9 +129,9 @@ export function graspOf(act: Taking & { actFor: number }): Grasp {
     return {
       from: 'shelf',
       to: 'eyes',
-      share: rise(t, 0, raiseOf(act)),
+      gone: rise(t, 0, raiseOf(act)),
       pinch: 1,
-      twist: twistAt(t - raiseOf(act)),
+      wristTurn: twistAt(t - raiseOf(act)),
       holds: true,
     };
   }
@@ -121,40 +141,44 @@ export function graspOf(act: Taking & { actFor: number }): Grasp {
     return {
       from,
       to,
-      share: rise(t, 0, leaves),
+      gone: rise(t, 0, leaves),
       pinch: 1,
-      twist: twist * (1 - rise(t, 0, leaves * 0.6)),
+      wristTurn: wristTurn * (1 - rise(t, 0, leaves * 0.6)),
       holds: true,
     };
   }
   return {
     from: to,
     to: 'down',
-    share: rise(t, leaves + 0.05, leaves + COME_AWAY),
+    gone: rise(t, leaves + 0.05, leaves + COME_AWAY),
     pinch: 1 - rise(t, leaves, leaves + 0.15),
-    twist: 0,
+    wristTurn: 0,
     holds: false,
   };
 }
 
-const mixed = (a: Gaze, b: Gaze, share: number): Gaze => ({
+const mixed = (a: Gazing, b: Gazing, share: number): Gazing => ({
   yaw: a.yaw + (b.yaw - a.yaw) * share,
   elevation: a.elevation + (b.elevation - a.elevation) * share,
 });
 
 /** Where a body `taking` looks: at the pill, wherever it is, then back. */
-export function gazeOfTaking(act: Taking & { actFor: number }): Gaze {
+export function gazeOfTaking(act: Taking & { actFor: number }): Gazing {
   const { stage, actFor: t, aim, yaw, elevation } = act;
   const resting = { yaw, elevation };
-  const eyes = { yaw: aim.yaw, elevation: EYES_ELEVATION };
+  const eyes = { ...aim, elevation: EYES_ELEVATION };
   if (stage === 'reaching') return mixed(resting, aim, rise(t, 0, 0.4));
   if (stage === 'inspecting') {
     return mixed(aim, eyes, rise(t, 0.05, raiseOf(act)));
   }
   if (stage === 'drinking') {
-    const at = TO_MOUTH;
-    const back = mixed(eyes, resting, rise(t, 0, at));
-    const tilt = hump(t, [at - 0.2, at + 0.05, at + 0.25, at + GULP_TIME]);
+    const back = mixed(eyes, resting, rise(t, 0, TO_MOUTH));
+    const tilt = hump(t, [
+      TO_MOUTH - 0.2,
+      TO_MOUTH + 0.05,
+      TO_MOUTH + 0.25,
+      TO_MOUTH + GULP_TIME,
+    ]);
     return { ...back, elevation: back.elevation + HEAD_BACK * tilt };
   }
   return t < PUT_BACK
@@ -170,31 +194,27 @@ export const isAsking = ({ act }: Player): boolean =>
   act.actFor >= RAISE_TIME.asked;
 
 /** The `player` reaching for the pill of `here`, its room, from a standstill. */
-export function reachFor(
-  player: Player,
-  { shelf, shrinkLook }: Holed,
-): Acting<'taking'> {
+export function reachFor(player: Player, here: Holed): Acting<'taking'> {
   const { pose } = player;
-  const { yaw, elevation } = pose;
-  const { centre } = pillOn(shelf);
-  const to = bearing(pose, shelf);
+  const { n, yaw, elevation, eyeAbove } = pose;
+  const [, pillAbove] = pillOn(here.shelf).centre;
+  const to = bearing(pose, here.shelf);
   return {
     ...player,
     act: {
       act: 'taking',
       stage: 'reaching',
       actFor: 0,
-      asks: pose.n === INSPECTED_FLOOR,
-      shelf,
-      shrinkLook,
+      asks: n === INSPECTED_FLOOR,
+      ...here,
       yaw,
       elevation,
       aim: {
         yaw: yaw + turnOf(to.yaw - yaw),
-        elevation: Math.atan2(centre[1] - pose.eyeAbove, to.away),
+        elevation: Math.atan2(pillAbove - eyeAbove, to.away),
       },
       from: 'down',
-      twist: 0,
+      wristTurn: 0,
     },
     cues: NO_CUES,
   };
@@ -205,20 +225,17 @@ const staged = (
   act: Acting<'taking'>['act'],
   stage: Taking['stage'],
   from: Station,
-): Acting<'taking'>['act'] => ({
-  ...act,
-  stage,
-  from,
-  actFor: 0,
-  twist: graspOf(act).twist,
-});
+): Acting<'taking'>['act'] => {
+  const { wristTurn } = graspOf(act);
+  return { ...act, stage, from, actFor: 0, wristTurn };
+};
 
 /**
  * A body taking its pill, `dt` seconds on, its feet rooted and its gaze the
  * act's. The hand closes on the pill at `REACH_TIME` and brings it before the
  * eyes; on floor 1 it holds it there until `input` answers, anywhere else it
- * goes on to the mouth. A swallowed pill starts the shrink; one put down leaves the body
- * standing as it stood.
+ * goes on to the mouth. A swallowed pill starts the shrink; one put down
+ * leaves the body standing as it stood.
  */
 export function taking(
   player: Acting<'taking'>,
@@ -227,8 +244,8 @@ export function taking(
 ): Player {
   const { pose, act } = player;
   const { n, x, y } = pose;
-  const t = act.actFor + dt;
-  const { stage, shrinkLook, yaw, elevation } = act;
+  const { stage, asks, actFor: before, shrinkLook, yaw, elevation } = act;
+  const t = before + dt;
   const resting = { yaw, elevation };
   let next: Acting<'taking'>['act'] = { ...act, actFor: t };
   let { pill } = player;
@@ -238,7 +255,7 @@ export function taking(
     pill = { room: { n, x, y } };
     cues = [{ cue: 'pill' }];
   } else if (stage === 'inspecting' && t >= raiseOf(act)) {
-    const answer = act.asks ? input.answer : 'yes';
+    const answer = asks ? input.answer : 'yes';
     if (answer !== null) {
       next = staged(
         { ...act, actFor: t },
@@ -247,9 +264,8 @@ export function taking(
       );
     }
   } else if (stage === 'drinking') {
-    const at = TO_MOUTH;
-    if (act.actFor < at && t >= at) cues = [{ cue: 'swallow' }];
-    if (t >= at + GULP_TIME) {
+    if (before < TO_MOUTH && t >= TO_MOUTH) cues = [{ cue: 'swallow' }];
+    if (t >= TO_MOUTH + GULP_TIME) {
       return {
         ...player,
         pose: { ...pose, ...resting },
@@ -258,12 +274,18 @@ export function taking(
       };
     }
   } else if (stage === 'returning') {
-    if (act.actFor < PUT_BACK && t >= PUT_BACK) {
+    if (before < PUT_BACK && t >= PUT_BACK) {
       pill = null;
       cues = [{ cue: 'pill' }];
     }
     if (t >= PUT_BACK + COME_AWAY) {
-      return { ...player, pose: { ...pose, ...resting }, act: null, pill, cues };
+      return {
+        ...player,
+        pose: { ...pose, ...resting },
+        act: null,
+        pill,
+        cues,
+      };
     }
   }
   return {

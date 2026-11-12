@@ -65,10 +65,16 @@ const ACT_SHOTS: ReadonlyArray<readonly [string, (player: Player) => boolean]> =
     ['pill-2-palms.png', actingFor('shrinking', 1.7)],
     ['pill-3-backs.png', actingFor('shrinking', 2.9)],
     ['pill-4-around.png', actingFor('shrinking', 4.6)],
-    ['pill-5-small.png', (player) => isStanding(player) && takenOf(player) !== null],
+    [
+      'pill-5-small.png',
+      (player) => isStanding(player) && takenOf(player) !== null,
+    ],
     ['pill-6-hop.png', actingFor('falling', 0.2)],
     ['pill-7-falling.png', actingFor('falling', 1)],
-    ['pill-8-landed.png', (player) => player.pose.n === 2 && isStanding(player)],
+    [
+      'pill-8-landed.png',
+      (player) => player.pose.n === 2 && isStanding(player),
+    ],
   ];
 
 /** A frame to shoot: its file name, the eye's pose, the hands before it and the pill off its shelf. */

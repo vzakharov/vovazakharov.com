@@ -88,7 +88,13 @@ describe('play, taking the pill', () => {
     assert.deepEqual(takenOf(held), { room: { n: 1, x: 0n, y: 0n } });
     let player = held;
     for (let frame = 0; frame < 600; frame += 1) {
-      player = play(player, { ...STILL, use: true, walk: 1 }, FRAME, allOpen, holed);
+      player = play(
+        player,
+        { ...STILL, use: true, walk: 1 },
+        FRAME,
+        allOpen,
+        holed,
+      );
       assert.ok(isAsking(player));
       assert.equal(player.pose.u, held.pose.u);
       assert.equal(player.pose.scale, 1);
@@ -109,9 +115,10 @@ describe('play, taking the pill', () => {
   it('swallows on yes and shrinks as on any floor', () => {
     const played = frames(last(asked()), yes, STILL, ({ act }) => act === null);
     assert.deepEqual(cuesOf(played).slice(0, 2), ['swallow', 'shrink']);
-    const small = last(played);
-    assert.equal(small.pose.scale, 0.5);
-    assert.deepEqual(takenOf(small), { room: { n: 1, x: 0n, y: 0n } });
+    assert.equal(last(played).pose.scale, 0.5);
+    const gulped = played.find(({ act }) => act?.act === 'shrinking');
+    assert.ok(gulped);
+    assert.deepEqual(takenOf(gulped), { room: { n: 1, x: 0n, y: 0n } });
   });
 
   it('puts it back on no, the body as it stood, and asks again the next time', () => {

@@ -34,13 +34,16 @@ const USE = 'KeyE';
 const ANSWERS = { y: 'yes', n: 'no' } as const;
 const ANSWER_CODES = { KeyY: 'yes', KeyN: 'no' } as const;
 
-const isIn = <T extends object>(table: T, key: string): key is string & keyof T =>
-  Object.hasOwn(table, key);
+const isIn = <T extends object>(
+  table: T,
+  key: string,
+): key is string & keyof T => Object.hasOwn(table, key);
 
 /** What pressing the key typing `key` at position `code` answers, if anything. */
 export function answerOf(key: string, code: string): Input['answer'] {
   const letter = key.toLowerCase();
-  if (/^[a-z]$/u.test(letter)) return isIn(ANSWERS, letter) ? ANSWERS[letter] : null;
+  if (/^[a-z]$/u.test(letter))
+    return isIn(ANSWERS, letter) ? ANSWERS[letter] : null;
   return isIn(ANSWER_CODES, code) ? ANSWER_CODES[code] : null;
 }
 

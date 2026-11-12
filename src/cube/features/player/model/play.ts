@@ -29,7 +29,7 @@ import {
 } from './player';
 import { scaleAt, SHRINK_TIME, SMALL } from './shrink';
 import { EYE_HEIGHT, type Input, RUN_SPEED, step } from './step';
-import { canTake, reachFor, taking } from './take';
+import { canTake, isInSight, reachFor, taking } from './take';
 
 /**
  * A whole body arriving on floor `n` by no hole: in the middle of its
@@ -174,20 +174,7 @@ function walk(
   return { ...walking, act: null, cues: steps };
 }
 
-/**
- * `player` after `dt` seconds of `input` among `walls`, `here` being its
- * room's hole and shelf (null where it has none, or none known yet).
- *
- * A whole body using a pill it can take reaches for it, and what follows is
- * `taking`'s; the pill swallowed, it shrinks where it stands, to `SMALL` over
- * `SHRINK_TIME`, its feet rooted and its gaze the look's while that lasts.
- * Shrunk, it walks its floor at its own size; walking onto any hole it hops
- * in, falls `DROP` and lands a whole body of the floor below, its knees
- * giving for `LANDING_TIME`. A whole body walks over a hole. A standing body
- * that asks to go to a floor the cube has arrives on it that same frame, as
- * `arrivedOn` has it, keeping its gaze.
- */
-export function play(
+function played(
   player: Player,
   input: Input,
   dt: number,
@@ -216,3 +203,38 @@ export function play(
   }
   return walk(player, input, dt, walls, here);
 }
+
+/**
+ * `player` with its pill back on its shelf once it has swallowed it and the
+ * shelf, `here`'s, is out of its sight: the world keeps a pill for whoever
+ * comes next, and it never appears before an eye that is looking.
+ */
+function restocked(player: Player, here: Holed | null): Player {
+  const { pose, act, pill } = player;
+  if (pill === null || act?.act === 'taking') return player;
+  return here !== null && isInSight(pose, here.shelf)
+    ? player
+    : { ...player, pill: null };
+}
+
+/**
+ * `player` after `dt` seconds of `input` among `walls`, `here` being its
+ * room's hole and shelf (null where it has none, or none known yet).
+ *
+ * A whole body using a pill it can take reaches for it, and what follows is
+ * `taking`'s; the pill swallowed, it shrinks where it stands, to `SMALL` over
+ * `SHRINK_TIME`, its feet rooted and its gaze the look's while that lasts.
+ * Its shelf has a pill again as soon as it looks away from it.
+ * Shrunk, it walks its floor at its own size; walking onto any hole it hops
+ * in, falls `DROP` and lands a whole body of the floor below, its knees
+ * giving for `LANDING_TIME`. A whole body walks over a hole. A standing body
+ * that asks to go to a floor the cube has arrives on it that same frame, as
+ * `arrivedOn` has it, keeping its gaze.
+ */
+export const play = (
+  player: Player,
+  input: Input,
+  dt: number,
+  walls: Walls,
+  here: Holed | null,
+): Player => restocked(played(player, input, dt, walls, here), here);
