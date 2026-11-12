@@ -1,15 +1,39 @@
 {
   "total": {
-    "inputTokens": 2353,
+    "inputTokens": 2374,
     "cacheWrite5mTokens": 1522,
-    "cacheWrite1hTokens": 387256,
-    "cacheReadTokens": 15894821,
-    "outputTokens": 142588,
-    "thinkingTokens": 39543,
-    "responses": 84,
-    "costUsd": 15.112624199999997
+    "cacheWrite1hTokens": 418148,
+    "cacheReadTokens": 18028379,
+    "outputTokens": 153173,
+    "thinkingTokens": 40730,
+    "responses": 94,
+    "costUsd": 16.457175799999995
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-12T23:07:43.854Z",
+    "subjectLine": "feat: the seam between the cube's renderer and the island outside",
+    "parts": [
+      {
+        "hours": 14.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "A render seam others build on: world frame, layer contract, far plane, outdoor uniforms, a lens with exposure and eyelids, shader assembly shared with its TS twins"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "Stand-in sky, sea, sand and shell must read as a lit place so three other people can judge their layers against them"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "The play hook's outside eye and a frame-shooting script with named eyes that others run unaided"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -34,18 +58,18 @@
   "url": "https://claude.ai/code/session_01DaohkBKqYztUdZYGkvzgus",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-12T22:27:18.869Z",
-  "lastResponseAt": "2026-11-12T23:05:33.494Z",
+  "lastResponseAt": "2026-11-12T23:10:34.211Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 161,
+    "inputTokens": 182,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 387256,
-    "cacheReadTokens": 15596922,
-    "outputTokens": 133051,
-    "thinkingTokens": 39543,
-    "responses": 83,
-    "costUsd": 14.638808399999997
+    "cacheWrite1hTokens": 418148,
+    "cacheReadTokens": 17730480,
+    "outputTokens": 143636,
+    "thinkingTokens": 40730,
+    "responses": 93,
+    "costUsd": 15.983359999999994
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,14 +83,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 2353,
+      "inputTokens": 2374,
       "cacheWrite5mTokens": 1522,
-      "cacheWrite1hTokens": 387256,
-      "cacheReadTokens": 15894821,
-      "outputTokens": 142588,
-      "thinkingTokens": 39543,
-      "responses": 84,
-      "costUsd": 15.112624199999997
+      "cacheWrite1hTokens": 418148,
+      "cacheReadTokens": 18028379,
+      "outputTokens": 153173,
+      "thinkingTokens": 40730,
+      "responses": 94,
+      "costUsd": 16.457175799999995
     }
   },
   "warnings": [],
@@ -98,16 +122,16 @@
           "Read": 2
         },
         "estimatedTokens": 11077,
-        "estimatedUsd": 0.26124060000000005
+        "estimatedUsd": 0.28339460000000005
       },
       "billedUsd": 0.47381580000000006
     }
   ],
   "telemetry": {
-    "events": 83,
-    "matched": 82,
-    "matchedTableUsd": 14.551137599999997,
-    "matchedEventUsd": 14.551137599999997,
+    "events": 94,
+    "matched": 93,
+    "matchedTableUsd": 15.983359999999994,
+    "matchedEventUsd": 15.983359999999994,
     "unseen": {
       "compact": {
         "inputTokens": 2192,
@@ -129,10 +153,10 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 1585,
+    ".md": 1911,
     ".json": 31,
     ".yaml": 48,
-    ".ts": 2216,
+    ".ts": 4076,
     ".tsx": 87,
     ".scss": 15
   }

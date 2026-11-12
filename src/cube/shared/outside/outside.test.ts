@@ -21,7 +21,7 @@ import {
   OUTDOOR_FRAME_FLOATS,
   packOutdoorFrame,
 } from './outdoor-frame';
-import { SKY, skyDir, skyUv } from './sky';
+import { SKY } from './sky';
 import { SUN, SUN_DIR } from './sun';
 import { WATER_LEVEL, waterLevel } from './water-level';
 
@@ -148,21 +148,11 @@ describe('cubeShadow', () => {
   });
 });
 
-describe('the sky map', () => {
-  it('finds a direction where it put it', () => {
-    for (const dir of [SUN_DIR, [0, 1, 0], [-0.6, -0.48, 0.64]] as const) {
-      for (const [axis, value] of skyDir(skyUv(dir)).entries()) {
-        close(value, dir[axis] ?? Number.NaN, 1e-12);
-      }
-    }
-    assert.deepEqual(skyUv([1, 0, 0]), [0.5, 0.5]);
-  });
-
-  it('binds the map beside the frame', () => {
-    const source = assemble([SKY, OUTDOOR_FRAME]);
-    for (const binding of [0, 1, 2]) {
-      assert.ok(source.includes(`@group(0) @binding(${String(binding)})`));
-    }
+describe('the sky', () => {
+  it('binds nothing but the frame', () => {
+    const source = assemble([SKY]);
+    assert.ok(source.includes('@group(0) @binding(0)'));
+    assert.equal(source.match(/@binding\(/g)?.length, 1);
   });
 });
 
@@ -173,6 +163,7 @@ describe('packOutdoorFrame', () => {
       inverse: new Float32Array(16).fill(2),
       eye: [3, 4, 5],
       sun: [6, 7, 8],
+      ladder: true,
       seconds: 9,
       hour: 10,
       width: 11,
@@ -181,7 +172,7 @@ describe('packOutdoorFrame', () => {
     assert.equal(data.length, OUTDOOR_FRAME_FLOATS);
     assert.deepEqual(
       [...data.subarray(32)],
-      [3, 4, 5, 1, 6, 7, 8, 0, 9, 10, 11, 12],
+      [3, 4, 5, 1, 6, 7, 8, 0, 9, 10, 11, 12, 1, 0, 0, 0],
     );
     assert.deepEqual([data[0], data[15], data[16], data[31]], [1, 1, 2, 2]);
     const members = [...OUTDOOR_FRAME.listing.matchAll(/^ {2}(\w+): /gm)].map(
@@ -193,6 +184,7 @@ describe('packOutdoorFrame', () => {
       'eye',
       'sun',
       'clock',
+      'state',
     ]);
   });
 });

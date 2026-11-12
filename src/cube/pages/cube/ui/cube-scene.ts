@@ -2,7 +2,7 @@ import { asError } from '@/kernel/shared/lib/error-class';
 import type { WithOnError } from '@/kernel/shared/typings';
 
 import { type Clock, clockAt } from '@/cube/shared/lib/clock';
-import { toCube } from '@/cube/shared/outside';
+import { type Laddered, toCube } from '@/cube/shared/outside';
 import { themeOf } from '@/cube/entities/theme';
 import {
   descend,
@@ -31,9 +31,13 @@ import { createRenderer, type Drawing, type Renderer } from './renderer';
  * `moving`, what is in the rooms for this frame alone, each quad in its own
  * room's frame. An eye outside the cube is `outside`, its pose then kept for
  * its return, and sees through `lens`, `OUTSIDE_LENS` where none is given.
+ * The ladder stands at the doorway unless `ladder` is false.
  */
 type Frame = Posed &
-  Partial<OutsideEye> & { pulled: Pulled | null; moving: readonly Quad[] };
+  Partial<OutsideEye & Laddered> & {
+    pulled: Pulled | null;
+    moving: readonly Quad[];
+  };
 
 /**
  * The room an outside eye's frame is built in: floor 1's, whose sides are the
@@ -146,6 +150,8 @@ export function mountCube(
   /** The outside eye the frame hook gave, and the one the play hook holds. */
   let hooked: OutsideEye | null = null;
   let stagedEye: OutsideEye | null = null;
+  /** Whether the ladder stands, as the frame hook last said. */
+  let ladder = true;
   /** Whether the renderer holds moving quads, to drop once a frame has none. */
   let movingDrawn = false;
   let renderer: Renderer | null = null;
@@ -250,7 +256,7 @@ export function mountCube(
       ...seen,
       clear: airAt(depth),
       lens: outdoor?.lens ?? (lenses.has(at.n) ? at.n : built.pose.n),
-      outdoors: showsOutside ? seenInWorld(seen) : null,
+      outdoors: showsOutside ? { ...seenInWorld(seen), ladder } : null,
       ...clock,
     });
     firstFrame.resolve();
@@ -271,9 +277,11 @@ export function mountCube(
     const {
       outside,
       lens = OUTSIDE_LENS,
+      ladder: stands = true,
       ...next
     } = onFrame(pose, seconds, built?.mesh.signOf ?? noSign);
     ({ pose, pulled, moving } = next);
+    ladder = stands;
     hooked = outside === undefined ? null : { outside, lens };
     resize();
     render();

@@ -6,12 +6,9 @@ import {
   OUTDOOR_FRAME_FLOATS,
   type OutdoorFrame,
   packOutdoorFrame,
-  SKY_MAP,
 } from '@/cube/shared/outside';
 
 import { outdoorSource } from '../lib/outdoor-shaders';
-import { SCENE_FORMAT } from './bloom';
-import { createHalver } from './mips';
 import {
   type LayerMaker,
   type LayerName,
@@ -55,12 +52,6 @@ export async function createOutdoors(device: GPUDevice): Promise<Outdoors> {
     size: OUTDOOR_FRAME_FLOATS * 4,
     usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
   });
-  const skyMap = device.createTexture({
-    size: [SKY_MAP.width, SKY_MAP.height],
-    format: SCENE_FORMAT,
-    mipLevelCount: Math.floor(Math.log2(SKY_MAP.width)) + 1,
-    usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING,
-  });
   const layout = device.createBindGroupLayout({
     entries: [
       {
@@ -68,34 +59,17 @@ export async function createOutdoors(device: GPUDevice): Promise<Outdoors> {
         visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
         buffer: {},
       },
-      { binding: 1, visibility: GPUShaderStage.FRAGMENT, texture: {} },
-      { binding: 2, visibility: GPUShaderStage.FRAGMENT, sampler: {} },
     ],
   });
   const group = device.createBindGroup({
     layout,
-    entries: [
-      { binding: 0, resource: { buffer: frame } },
-      { binding: 1, resource: skyMap.createView() },
-      {
-        binding: 2,
-        // Round the horizon the map meets itself; at the poles it does not.
-        resource: device.createSampler({
-          magFilter: 'linear',
-          minFilter: 'linear',
-          mipmapFilter: 'linear',
-          addressModeU: 'repeat',
-        }),
-      },
-    ],
+    entries: [{ binding: 0, resource: { buffer: frame } }],
   });
 
   const kit: OutdoorKit = {
     device,
     layout,
     frame,
-    skyMap,
-    mips: createHalver(device, SCENE_FORMAT),
     shader: async (label, roots) =>
       compiled(device, `The outdoor ${label} shader`, outdoorSource(roots)),
     pipeline: async ({
@@ -146,7 +120,6 @@ export async function createOutdoors(device: GPUDevice): Promise<Outdoors> {
     },
     dispose: () => {
       for (const layer of layers.values()) layer.dispose();
-      skyMap.destroy();
       frame.destroy();
     },
   };
