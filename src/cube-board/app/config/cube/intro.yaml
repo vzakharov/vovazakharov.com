@@ -59,10 +59,10 @@ items:
     text: 'The doorway faces the sun, and you wake on the cube’s far side, ~30 m south-west, the sun behind it: turning, you see the cube against the sunset, door and ladder out of sight. Vova: “otherwise you see the door and the ladder at once, in your face, and that is less interesting”. Waking in front of the doorway lost to this'
   - id: intro-d2
     type: sticky
-    updated: [2026-11-12T22:55:00.000Z, agent:cube-intro]
+    updated: [2026-11-12T23:15:00.000Z, agent:cube-intro]
     box: [6054, -330, 280, blue]
     icon: 🕴️
-    text: 'The cube hovers 1.1 m over the sand. With the sun 17° up its shadow starts ~3.5 m behind it and runs some 20 m, beside your way to the cube. So the look under, from the shadow side, shows sand in full sun and the sea’s glare through the gap'
+    text: 'The cube hovers 1.1 m over the sand. With the sun 9° up its shadow starts ~7 m behind it and runs some 38 m, west-south-west, beside your way to the cube. So the look under, from the shadow side, shows sand in full sun and the sea’s glare through the gap'
   - id: intro-d3
     type: sticky
     updated: [2026-11-12T22:25:00.000Z, agent:cube-intro]
@@ -71,10 +71,10 @@ items:
     text: 'Eternal golden hour: the sun never moves. Waves, clouds and surf do, as functions of the clock, so a frame is a function of where you stand and when'
   - id: intro-d4
     type: sticky
-    updated: [2026-11-12T22:55:00.000Z, agent:cube-intro]
+    updated: [2026-11-12T23:15:00.000Z, agent:cube-intro]
     box: [6666, -330, 280, blue]
     icon: 🪴
-    text: 'The doorway is where floor 1’s decor door stood: the east wall by the north-east corner, 0.97 m wide, 2.1 m tall. The potted plant stands half across it and stays. The sun is 31° off the doorway’s normal, so the beam crosses the floor on a diagonal and ends at the foot of the wall under the pill’s shelf'
+    text: 'The doorway is where floor 1’s decor door stood: the east wall by the north-east corner, 0.97 m wide, 2.1 m tall. The potted plant stands half across it and stays. The sun is 31° off the doorway’s normal, so the beam crosses the floor on a diagonal and ends on the wall at the pill’s shelf'
   - id: intro-d5
     type: sticky
     updated: [2026-11-12T22:35:00.000Z, agent:cube-intro]
@@ -112,7 +112,7 @@ items:
     text: 'Before any frame of ours: Vova’s own sketch over floor 1’s room, rays from the top of the door down onto the floor round the hole. “The sunlight’s direction should probably be something like this”'
   - id: intro-sun-note
     type: sticky
-    updated: [2026-11-12T23:05:00.000Z, agent:cube-intro]
+    updated: [2026-11-12T23:15:00.000Z, agent:cube-intro]
     box: [6208, 550, 280, gray]
     icon: 📐
-    text: 'What the sketch changed (the lead): the first design had the sun shining almost square through the doorway and ending low on the far wall. The sketch gives the direction across the floor, so the sun now stands 31° off the doorway’s normal. Vova measured no height in it: the 17° the sun stands up is the lead’s own pick, low enough to keep sea and sky gold'
+    text: 'Direction from the sketch: the beam crosses the floor on a diagonal, 31° off the doorway’s normal, the line from the doorway to the pill’s shelf. Height is the lead’s pick, 9°: the light lies along the whole diagonal of the floor and stands on the far wall up to about 1.2 m, so the beam ends on the pill. (For half an hour it was 17°, from reading a steepness into the sketch that Vova never drew)'
