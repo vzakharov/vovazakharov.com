@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 import { describe, it } from 'node:test';
 
 import { floorSource, themeOf } from '.';
-import { HONEYCOMB, LUMA } from './kit';
+import { HONEYCOMB, LUMA, type Wgsl } from './kit';
 
 /**
  * Each floor's theme source as `assemble()` wrote it before its pieces moved
@@ -79,9 +79,7 @@ const BEFORE = [
   'e59a8124cdf6d584',
 ];
 
-type PieceParams = { listing: string };
-
-const piece = ({ listing }: PieceParams): string => `${listing.trim()}\n\n`;
+const piece = ({ listing }: Wgsl): string => `${listing.trim()}\n\n`;
 
 /** `source` with `now`, found exactly once, put back to `then`. */
 function undo(source: string, now: string, then: string): string {
@@ -118,7 +116,7 @@ function bathroom(source: string): string {
  * kit, placed after what its floor needs first, where the floor calls it.
  */
 const SPECIMEN_HEAD = '/// The word of the honeycomb cell';
-const calling: Readonly<Record<number, ReadonlyArray<{ listing: string }>>> = {
+const calling: Readonly<Record<number, readonly Wgsl[]>> = {
   41: [HONEYCOMB],
   42: [],
   43: [],
@@ -129,7 +127,7 @@ const calling: Readonly<Record<number, ReadonlyArray<{ listing: string }>>> = {
   51: [HONEYCOMB],
 };
 
-function laboratory(source: string, moved: ReadonlyArray<{ listing: string }>) {
+function laboratory(source: string, moved: readonly Wgsl[]) {
   let then = source;
   for (const kit of moved) then = undo(then, piece(kit), '');
   const head = piece(LUMA) + piece(HONEYCOMB);

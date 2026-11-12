@@ -11,7 +11,7 @@ import * as prettier from 'prettier';
 
 import type { MasdGraph } from '../../../eslint/masd-graph.ts';
 import { type Linked, type Named, throughBarrel } from './checks.ts';
-import { exportName } from './link.ts';
+import { exportName, generatedOf } from './link.ts';
 import { placeImport } from './placement.ts';
 
 /** What every generated module builds its piece with. */
@@ -84,6 +84,6 @@ ${escaped(module.shipped)}
 `;
   return prettier.format(source, {
     ...(await prettier.resolveConfig(import.meta.filename)),
-    filepath: file.replace(/\.wgsl$/, '.shader.ts'),
+    filepath: generatedOf(file),
   });
 }
