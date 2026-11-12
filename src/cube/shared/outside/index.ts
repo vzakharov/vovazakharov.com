@@ -15,6 +15,13 @@ export {
 } from './frame';
 export { ISLAND_HEIGHT, islandHeight } from './island-height';
 export {
+  LADDER,
+  LADDER_ACROSS,
+  LADDER_OUT,
+  LADDER_UP,
+  LADDER_WGSL,
+} from './ladder';
+export {
   OUTDOOR_FRAME,
   OUTDOOR_FRAME_FLOATS,
   type OutdoorFrame,
