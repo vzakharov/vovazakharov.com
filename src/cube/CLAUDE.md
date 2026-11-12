@@ -1,7 +1,12 @@
 # The cube's world
 
-Three rules hold for everything drawn, heard or simulated here, and no checker
+Four rules hold for everything drawn, heard or simulated here, and no checker
 catches a breach of any of them:
+
+- **No textures.** Every surface is a procedure evaluated in the shader from
+  place and clock; nothing drawn is looked up from a stored image, baked or
+  computed — no map, no lookup table, no noise texture. The only textures are
+  the frame's own screen-space targets.
 
 - **The same thing looks and sounds identical to two players at one point at one
   moment, on any machine.** A frame is a pure function of where the eye is and

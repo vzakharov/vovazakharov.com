@@ -231,6 +231,18 @@ the operator's own word for the potted plant in floor 1's room.
   a pill for whoever comes next, the one taken being the taker's own. That
   reading was told to the operator in passing.
 
+- **2026-11-12 ~22:55Z, on sea dropping its baked texture — a rule**:
+
+  > это наверное стоило тоже обозначить: никаких текстур. все стены, полы,
+  > потолки этажей куба отрисованы процедурно, здесь мы делаем то же
+
+  Read as: nothing drawn is looked up from a stored image, baked or computed —
+  no FFT maps, no sky map, no noise texture, no lookup table; the frame's own
+  screen-space targets (scene, reflection, bloom, a layer's reduced-resolution
+  pass) are what the renderer already has and stay. In `src/cube/CLAUDE.md` and
+  the contract; core, sky and sea re-briefed. The reading of screen-space
+  targets was told to the operator in passing.
+
 ## Facts established
 
 - **The seam (core step 1, 1a311efa, merged into this branch at faedd71d)**: the
@@ -322,9 +334,17 @@ Each with its reason; a later decision that overrides one rewrites it here.
   outside is its own thing.
 - **Sky, sea and sand join the cube's one scene pass** as layers into the same
   HDR target (alpha there is metres from the eye, so nothing blends), with a 20
-  km far plane outside and a lens of their own. The sea is a displaced mesh from
-  an FFT spectrum; clouds and atmosphere feed a sky map the sea reflects. The
-  contract is `docs/remove-before-merging/cube-intro-j2wt34/contract.md`.
+  km far plane outside and a lens of their own. The contract is
+  `docs/remove-before-merging/cube-intro-j2wt34/contract.md`.
+- **No textures: every surface is a procedure in the shader** — the operator's
+  rule (§ "Steering since"). The sea is a displaced mesh whose waves are a
+  rolled spectrum summed analytically (trochoids in the vertex stage, finer ones
+  in the normal, each faded before it aliases); the sky is
+  `skyRadiance(dir, lod)`, a pure function the backdrop, the sea's reflections
+  and the fill light all call. Only the frame's own screen-space targets are
+  textures. Lost to it: an FFT ocean with displacement maps and an
+  equirectangular sky map the sea sampled — the lead's first design, which
+  core's step 1 had already bound in group 0.
 - **Every motion is periodic in the hour**, since the shared clock is seconds
   into the hour: wave frequencies are multiples of 2π/3600, clouds drift whole
   tiles.
