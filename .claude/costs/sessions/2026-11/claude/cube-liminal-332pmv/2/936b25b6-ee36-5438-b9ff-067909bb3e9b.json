@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 926,
+    "inputTokens": 930,
     "cacheWrite5mTokens": 450027,
-    "cacheWrite1hTokens": 963551,
-    "cacheReadTokens": 85666870,
-    "outputTokens": 260296,
+    "cacheWrite1hTokens": 966054,
+    "cacheReadTokens": 86136188,
+    "outputTokens": 260618,
     "thinkingTokens": 90644,
-    "responses": 480,
-    "costUsd": 32.301541000000014
+    "responses": 482,
+    "costUsd": 32.42188460000002
   },
   "estimate": {
     "at": "2026-11-12T01:52:47.929Z",
@@ -72,18 +72,18 @@
   "url": "https://claude.ai/code/session_016Z4TKqBdiPUwyUDMrs26WP",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-12T00:34:04.933Z",
-  "lastResponseAt": "2026-11-12T02:03:38.093Z",
+  "lastResponseAt": "2026-11-12T02:30:58.976Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 679,
+    "inputTokens": 683,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 963551,
-    "cacheReadTokens": 66272065,
-    "outputTokens": 198796,
+    "cacheWrite1hTokens": 966054,
+    "cacheReadTokens": 66741383,
+    "outputTokens": 199118,
     "thinkingTokens": 63738,
-    "responses": 352,
-    "costUsd": 24.94145700000001
+    "responses": 354,
+    "costUsd": 25.06180060000001
   },
   "subagents": {
     "inputTokens": 247,
@@ -97,14 +97,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 926,
+      "inputTokens": 930,
       "cacheWrite5mTokens": 450027,
-      "cacheWrite1hTokens": 963551,
-      "cacheReadTokens": 85666870,
-      "outputTokens": 260296,
+      "cacheWrite1hTokens": 966054,
+      "cacheReadTokens": 86136188,
+      "outputTokens": 260618,
       "thinkingTokens": 90644,
-      "responses": 480,
-      "costUsd": 32.301541000000014
+      "responses": 482,
+      "costUsd": 32.42188460000002
     }
   },
   "warnings": [],
@@ -224,13 +224,13 @@
         }
       },
       "rereads": {
-        "calls": 3,
+        "calls": 4,
         "byTool": {
           "Read": 2,
-          "Bash": 1
+          "Bash": 2
         },
-        "estimatedTokens": 6305,
-        "estimatedUsd": 0.1269696
+        "estimatedTokens": 6666,
+        "estimatedUsd": 0.1323796
       },
       "billedUsd": null
     }
