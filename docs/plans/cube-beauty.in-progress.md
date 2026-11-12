@@ -107,10 +107,10 @@ from another account: `/go claude/cube-liminal-332pmv`.
   - Voice: `lineFor(moment, n, grain)` → `utter(line, voiceOf(who, n), rate)` →
     the soundscape's `play`, on the player's `say` cues;
     `pnpm voice:cube --out <dir>` renders the WAVs for the board's page.
-- **Floor 67**: the maze places doors down to 66 only, so `mazeWalls` closes
-  every wall past it — each room of 67 is the closed last room its theme draws.
-  `play`'s go-to still stops at `DEEPEST_FLOOR`; 67 is reached by falling
-  through 66's hole.
+- **Floor 67**: the maze places doors down to 66 only and refuses 67, so the
+  scene crashes once 66's hole would show it — the operator's intended end. A
+  slab's underside is drawn only over the eye's floor and under a hole, so
+  nothing else on 66 asks for 67.
 - **Known breaks**: Decor has no collision; the operator wants passability of
   every room to hold by construction (a clear region joining walkways, hole and
   lever, or a flood fill at furnish time), not by a sampled test. `build()`
