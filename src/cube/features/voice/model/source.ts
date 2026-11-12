@@ -19,7 +19,7 @@ const CLOSING = 0.16;
  * `[0, 1)`: a slow rise as they open, a fall to -1 as they snap shut — the snap
  * is what rings the throat — and nothing while they stay shut.
  */
-export function glottal(phase: number): number {
+function glottal(phase: number): number {
   if (phase < OPENING) {
     return (CLOSING / OPENING) * Math.sin((Math.PI * phase) / OPENING);
   }

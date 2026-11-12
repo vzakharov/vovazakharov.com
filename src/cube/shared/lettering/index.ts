@@ -1,7 +1,6 @@
-export { type Inking, paintStrokes, type Pen } from './paint-strokes';
+export { paintStrokes, type Pen } from './paint-strokes';
 export {
   bounds,
-  mapped,
   placedAt,
   type Point,
   type Polyline,

@@ -13,12 +13,7 @@ export { type Landing, landingsSeen } from './model/landing';
 export { type Lever, leverOf, type Pulled } from './model/lever';
 export { loft, type Ring } from './model/loft';
 export { DEEPEST_FLOOR, maze } from './model/maze';
-export {
-  boardFacets,
-  boardPost,
-  type BoardShape,
-  type SignMount,
-} from './model/mount';
+export { boardFacets, type BoardShape, type SignMount } from './model/mount';
 export { plant } from './model/plant';
 export { planted } from './model/planted';
 export type { InRoom, Pose, Posed, Standing, WallMounted } from './model/pose';
@@ -28,7 +23,6 @@ export {
   dot,
   face,
   type Facet,
-  facet,
   minus,
   plus,
   type Quad,

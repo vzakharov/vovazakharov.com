@@ -79,7 +79,7 @@ export const shutCorners = ({ closed }: Setting): Side[] =>
  * The strip of floor things go across the room on: clear of the hole in every
  * quarter, whichever way they go.
  */
-export const LANE = { from: 0.42, wide: 0.16 } as const;
+const LANE = { from: 0.42, wide: 0.16 } as const;
 
 /** A place across the lane, `chance` of `[0, 1)` of the way over it. */
 export const inLane = (chance: number): number =>

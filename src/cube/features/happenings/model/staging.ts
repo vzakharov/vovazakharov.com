@@ -49,7 +49,7 @@ export const DRAWS = [
   'head',
   'lean',
 ] as const;
-export type Draw = (typeof DRAWS)[number];
+type Draw = (typeof DRAWS)[number];
 
 /**
  * An act's run: the second since the epoch it began at, how many seconds it

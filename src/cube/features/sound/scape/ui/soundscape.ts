@@ -9,10 +9,10 @@ import { type Mix, samplesOf, type SoundCue, voicedOf } from '../../cues';
 import { air, hum, impulse } from '../model/tone';
 
 /** How `play` places its samples; what is left out is full, centred and dry. */
-export type Played = Partial<Mix>;
+type Played = Partial<Mix>;
 
 /** Everything heard in the cube but speech. */
-export type Soundscape = CanDispose & {
+type Soundscape = CanDispose & {
   /** From a user gesture: makes the audio context, or resumes it. */
   unlock: () => void;
   /**

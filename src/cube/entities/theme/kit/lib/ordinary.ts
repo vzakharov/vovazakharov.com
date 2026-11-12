@@ -6,7 +6,7 @@ import { LIGHT } from './light';
 import { vec3f, type Wgsl, wgsl } from './wgsl';
 
 /** An ordinary floor's light, air and lens, as numbers. */
-export type Ordinary = Aired & {
+type Ordinary = Aired & {
   /** The lamps' colour times their strength, and the light left without them. */
   lamp: Rgb;
   ambient: Rgb;

@@ -14,7 +14,7 @@ export type Pen = Pick<
 >;
 
 /** Where strokes land on a canvas, and what they are inked with. */
-export type Inking = {
+type Inking = {
   /** The canvas pixel the strokes' origin lands on. */
   leftPixel: number;
   /** The canvas row of the strokes' y = 0: their baseline. */

@@ -12,7 +12,6 @@ import {
 import { hsl, hueOf, type Rgb } from '@/cube/shared/lib/colour';
 
 import {
-  CAPTION_BASE,
   CAPTION_CAP,
   clipped,
   DRAWING_FRAME,
@@ -38,7 +37,7 @@ import { sketchOf, type Subject, subjectOf } from '../../subject';
 type Tinted = { tint: Rgb };
 
 /** The sheet itself: the first thing drawn, under everything inked on it. */
-export type Sheet = Tinted & {
+type Sheet = Tinted & {
   part: 'paper';
   sheetWide: number;
   sheetTall: number;
@@ -244,13 +243,8 @@ export function posterOf(n: number): PosterPart[] {
     {
       part: 'caption',
       strokes: [
-        ...written(
-          name,
-          script,
-          CAPTION_CAP,
-          CAPTION_BASE + CAPTION_CAP * LEADING,
-        ),
-        ...written(detail, script, CAPTION_CAP, CAPTION_BASE),
+        ...written(name, script, CAPTION_CAP, MARGIN + CAPTION_CAP * LEADING),
+        ...written(detail, script, CAPTION_CAP, MARGIN),
       ],
       nibWide: CAPTION_CAP * NIB,
       tint: inkOf(n),

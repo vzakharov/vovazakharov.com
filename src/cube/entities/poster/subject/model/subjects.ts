@@ -134,7 +134,7 @@ const WAVE_FOCUS: Point = [0.5, 0.4];
 const WAVE_BODY: Point = [1, 0.6];
 
 /** Everything the posters show, largest first. */
-export const LADDER: readonly Subject[] = [
+const LADDER: readonly Subject[] = [
   thing('A GROWN-UP', 1.7, 'TALL', PERSON, [0.2, 0.86]),
   thing('A TODDLER', 0.85, 'TALL', CHILD, [0.2, 0.8]),
   thing('A CAT', 0.46, 'LONG', CAT, [0.7, 0.36]),

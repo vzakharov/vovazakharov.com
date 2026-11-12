@@ -12,7 +12,7 @@ export const DEPTH_FORMAT: GPUTextureFormat = 'depth32float';
  * as scene light and the mirrors it leaves, and the lens that makes the
  * frame of that.
  */
-export type Program = {
+type Program = {
   faces: GPURenderPipeline;
   boards: GPURenderPipeline;
   lens: GPURenderPipeline;

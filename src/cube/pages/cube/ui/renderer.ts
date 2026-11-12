@@ -13,7 +13,7 @@ import { createPrograms, DEPTH_FORMAT, type Preparing } from './programs';
 import { createReflection, type Seen } from './reflection';
 
 /** What one frame is seen from and when, and what shows where nothing is. */
-export type Shot = Clock &
+type Shot = Clock &
   Seen & {
     /** Scene light, as the faces are lit. */
     clear: Rgb;

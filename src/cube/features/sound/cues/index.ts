@@ -1,5 +1,4 @@
 export {
-  type Bearing,
   bearingOf,
   type Mix,
   samplesOf,

@@ -1,6 +1,5 @@
-export { clipped, type Frame } from './model/clip';
+export { clipped } from './model/clip';
 export {
-  CAPTION_BASE,
   CAPTION_CAP,
   DRAWING_FRAME,
   FRAME_TALL,

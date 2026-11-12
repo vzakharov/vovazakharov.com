@@ -10,7 +10,7 @@ import { footstep } from './footstep';
 import { creak, mew, pop, rustle, scrape } from './stirs';
 
 /** Where a sound is for an ear: how far to its right, and how far off. */
-export type Bearing = {
+type Bearing = {
   /** −1 dead left to 1 dead right; 0 ahead, behind or at the ear. */
   rightward: number;
   /** Room sides off. */

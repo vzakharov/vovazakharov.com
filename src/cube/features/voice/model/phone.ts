@@ -69,7 +69,7 @@ export type Formants = readonly [number, number, number];
 export type Band = WithWidth & { core: number };
 
 /** The band a consonant hisses in, and how loud against a vowel. */
-export type Hiss = Band & Loud;
+type Hiss = Band & Loud;
 
 export type PhoneSpec = {
   manner: Manner;

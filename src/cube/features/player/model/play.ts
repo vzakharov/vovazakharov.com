@@ -55,7 +55,7 @@ export type Cue =
  * whatever the look does with it; `falling` from `from` into the shaft at
  * `to`; or `landing`, its knees giving, on the floor below.
  */
-export type Act = { actFor: number } & (
+type Act = { actFor: number } & (
   | (Looking & { act: 'shrinking'; yaw: number; elevation: number })
   | { act: 'falling'; from: InRoom; to: InRoom }
   | { act: 'landing' }

@@ -1,7 +1,7 @@
 export const CYCLE = 2 * Math.PI;
 
 /** A draw in `[-1, 1)`; the same seed gives the same run of them. */
-export type Noise = () => number;
+type Noise = () => number;
 
 /** White noise from `seed`, a 32-bit word (mulberry32). */
 export function noiseOf(seed: number): Noise {
@@ -19,7 +19,7 @@ export function noiseOf(seed: number): Noise {
 export const chance = (noise: Noise): number => (noise() + 1) / 2;
 
 /** One sample through the filter, tuned to `hz` with resonance `q`. */
-export type Filter = (sample: number, hz: number, q: number) => number;
+type Filter = (sample: number, hz: number, q: number) => number;
 
 /**
  * A two-pole filter at `rate` (a state-variable one, stable while its tuning

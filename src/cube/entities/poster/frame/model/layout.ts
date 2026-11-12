@@ -11,9 +11,11 @@ export const RULER_CAP = 0.007;
 /** A line of capitals' height to the next line's, baseline to baseline. */
 export const LEADING = 1.75;
 
-/** The baselines, up from the sheet's foot: the caption's last line, the ruler, the title. */
-export const CAPTION_BASE = MARGIN;
-export const RULER_BASE = CAPTION_BASE + CAPTION_CAP * (LEADING + 1) + 0.01;
+/**
+ * The baselines, up from the sheet's foot: the caption's last line sits on the
+ * margin, then the ruler, then the title.
+ */
+export const RULER_BASE = MARGIN + CAPTION_CAP * (LEADING + 1) + 0.01;
 export const TITLE_BASE = POSTER_TALL - MARGIN - TITLE_CAP;
 /** How far under the title's baseline its rule runs. */
 export const RULE_UNDER = 0.007;

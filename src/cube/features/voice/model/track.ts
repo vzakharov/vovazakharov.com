@@ -4,7 +4,7 @@ import { lasting, type Piece, PIECES, quiet, voices } from './pieces';
 import type { Voice } from './voice';
 
 /** What the synthesizer is steered by, each a curve over the line. */
-export const CURVES = [
+const CURVES = [
   'f1',
   'f2',
   'f3',

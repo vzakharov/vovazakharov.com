@@ -1,5 +1,1 @@
-export {
-  createSoundscape,
-  type Played,
-  type Soundscape,
-} from './ui/soundscape';
+export { createSoundscape } from './ui/soundscape';

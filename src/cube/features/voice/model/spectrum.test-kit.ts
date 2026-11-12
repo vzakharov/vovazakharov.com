@@ -1,5 +1,5 @@
 /** How much of `samples` sounds at `hertz`: the Goertzel sum, per sample. */
-export function powerAt(
+function powerAt(
   samples: Float32Array,
   sampleRate: number,
   hertz: number,
