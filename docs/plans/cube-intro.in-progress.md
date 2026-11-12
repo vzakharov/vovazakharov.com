@@ -266,9 +266,51 @@ fact sheets land and step 0 is in.
 
 ## The team
 
-- Transcript digest of the first cube run (`session_01DaohkEZGmfg7XD5wRftBnA`) —
-  background agent, report pending.
-- Readers for the three fact sheets — background agents, reports pending.
+Child sessions, all on `claude-fable-5-2`, cut from this branch at 2026-11-12
+22:18–22:30Z, each on `claude/cube-intro-<name>`, briefed from the contract.
+Each reports by `send_message` to this session; a brief's full text is the
+session's first event (`list_events`).
+
+- **board** — `session_01DaohkDnTF1C1pccu6TcupR`. Coordinates the Cube design
+  board (https://claude.ai/artifact/WbvwDqVtJzN8EBeuUffho3) with #275's session
+  (`session_01DaohkFooQx3YpuSjFHqR59`, the live one of two). Takes "add this"
+  from the lead: frames go to it through
+  `docs/remove-before-merging/cube-intro-j2wt34/frames/` on this branch plus a
+  message naming files and captions.
+- **core** — `session_01DaohkBKqYztUdZYGkvzgus`. The seam; owns `renderer.ts`,
+  `cube-scene.ts`, `programs.ts`, `lib/camera.ts`, `lib/shader.ts`,
+  `lib/play.ts`. Steps: names in code, layers and the outside eye, the frame
+  script, the outside lens. Stays on for integration asks.
+- **sky** — `session_01DaohkCV3DtK2zJnjgNqmMD`. Also owns `aerial(…)`,
+  `SUN_LIGHT`, `SKY_FILL`.
+- **sea** — `session_01DaohkFaRFVjmDtAdAJo43m`. Owns `waterLevel`. Needs the
+  name of sand's bed-colour function once sand reports.
+- **sand** — `session_01DaohkFCm1Bfsbsruai7cEV`. Owns `islandHeight`; tells the
+  lead the moment the walked-on shape is settled.
+- **shell** — `session_01DaohkD4VsAVvL4tdwWWFoS`. Exterior, doorway, ladder,
+  `cubeShadow`, the sunbeam in floor 1; may tune `SUN_DIR`'s azimuth; exports
+  the ladder's facts for walk.
+- **sound** — `session_01DaohkCEXbY3wSQqxH73yHK`. Owns `features/sound/**` and
+  the cue names (`pill`, `swallow`, `rung`, `splash`, a ground on `step`, voice
+  moment `waking`), pushed first for walk and pill.
+- **walk** — `session_01DaohkCA5T6M6PFv7zXNegi`. Start routing, outside
+  controller, the scene engine and four tracks, the legs; splits
+  `cube-canvas.tsx`.
+- **pill** — `session_01DaohkDoQ3zoiqrQVjXomhV`. Pill and shelf, articulated
+  hands (owns `hands.ts`; exports a rung grip for walk), the floor-1 Y/N beat.
+
+To pass on when they come in: sand's bed-colour function → sea; sound's cue
+names → walk, pill (they merge sound's branch themselves); shell's ladder facts
+→ walk; core's "how to shoot a frame" → everyone (they merge core themselves).
+
+The preview is slot 2 (`preview.yml`, site `vova`, slot 2). #275's session was
+told slot 1 is theirs.
+
+Reader agents (done): the first run's transcript digest, and the fact sheets
+`facts-render.md`, `facts-play.md`, `facts-island-board.md`,
+`facts-sound-floor1.md`; `facts-frames-gates.md` still running when the children
+were launched. Each reader filled its ~200k context before finishing a brief of
+seven sections; a reader's brief is three sections at most.
 
 ## DRY notes
 
@@ -283,5 +325,18 @@ fact sheets land and step 0 is in.
 
 ## Progress
 
-- 2026-11-12: skill saved (`.claude/skills/carte-blanche/SKILL.md`), branch
-  renamed, readers launched, questions asked.
+- 2026-11-12 22:10Z: skill saved (`.claude/skills/carte-blanche/SKILL.md`),
+  branch renamed, readers launched, questions asked.
+- 22:30Z: answers in; #275's branch merged in (34f30eac); contract written; nine
+  child sessions running. Nothing built on this branch yet. A check-in is
+  scheduled for 23:11Z (`send_later`), and each child's report wakes the lead.
+- **Next, in order**: (1) when core's first push lands, confirm the others
+  merged it; (2) pass on the owed facts listed under "The team"; (3) merge each
+  branch as it reports green, look at its frames, send the good and the bad to
+  the board session with captions; (4) when sky, sea, sand and shell are in,
+  shoot the six standard eyes on the merged tree and run a fix round on what the
+  seams show; (5) publish to preview slot 2 and check the deployed commit before
+  telling the operator; (6) `/polish`, `/pr` (base `claude/cube-review-perf`),
+  then vet. The session's human-hour estimate is set (300 senior-hours).
+- The context notices: at 330k start nothing big; at 350k bring this file
+  current. The session compacts on its own near 370k; never `/relay`.
