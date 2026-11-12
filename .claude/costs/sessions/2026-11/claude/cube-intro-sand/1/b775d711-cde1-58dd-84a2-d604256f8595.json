@@ -1,0 +1,155 @@
+{
+  "total": {
+    "inputTokens": 2146,
+    "cacheWrite5mTokens": 2284,
+    "cacheWrite1hTokens": 313846,
+    "cacheReadTokens": 12536496,
+    "outputTokens": 115320,
+    "thinkingTokens": 49297,
+    "responses": 61,
+    "costUsd": 12.181643199999998
+  },
+  "estimate": {
+    "at": "2026-11-12T22:30:25.911Z",
+    "subjectLine": "feat: the cube intro's sand island — shape, mesh, material, wet bands",
+    "parts": [
+      {
+        "hours": 40.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "a photoreal sand material at a 9-degree sun inside a 2 ms budget: displaced clip mesh, ripple self-shadowing, sparkle, wet sheen, shadows"
+      },
+      {
+        "hours": 20.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "the island's procedural shape, berm, dunes, wrack line and beach litter have to read as a real beach from 20 cm and from 3.7 m"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-12T22:29:05.139Z",
+    "contextTokens": 97545,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 38836,
+      "cacheReadTokens": 53066,
+      "outputTokens": 869,
+      "thinkingTokens": 372,
+      "responses": 1,
+      "costUsd": 0.6667652000000001
+    }
+  },
+  "sessionId": "b775d711-cde1-58dd-84a2-d604256f8595",
+  "branch": "claude/cube-intro-sand",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a larger build run under this repo's `/carte-blanche` mode. Read first, in this order: `.claude/skills/carte-blanche/SKILL.md` (§ \"Th…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkFCm1Bfsbsruai7cEV",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-12T22:28:56.743Z",
+  "lastResponseAt": "2026-11-12T22:52:43.410Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 116,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 313846,
+    "cacheReadTokens": 12238370,
+    "outputTokens": 107449,
+    "thinkingTokens": 49297,
+    "responses": 60,
+    "costUsd": 11.768097999999998
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 2146,
+      "cacheWrite5mTokens": 2284,
+      "cacheWrite1hTokens": 313846,
+      "cacheReadTokens": 12536496,
+      "outputTokens": 115320,
+      "thinkingTokens": 49297,
+      "responses": 61,
+      "costUsd": 12.181643199999998
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-12T22:52:09.905Z",
+      "trigger": "auto",
+      "compactedFrom": 304643,
+      "summaryChars": 17291,
+      "reorientation": {
+        "endedBy": null,
+        "endedOn": null,
+        "endedAt": null,
+        "contextTokens": null,
+        "spend": {
+          "inputTokens": 10,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 66470,
+          "cacheReadTokens": 409541,
+          "outputTokens": 1370,
+          "thinkingTokens": 304,
+          "responses": 4,
+          "costUsd": 1.2003081999999998
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.41354519999999995
+    }
+  ],
+  "telemetry": {
+    "events": 61,
+    "matched": 60,
+    "matchedTableUsd": 11.768097999999998,
+    "matchedEventUsd": 11.768097999999998,
+    "unseen": {
+      "compact": {
+        "inputTokens": 2030,
+        "cacheWrite5mTokens": 2284,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 298126,
+        "outputTokens": 7871,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.41354519999999995
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1585,
+    ".json": 30,
+    ".yaml": 48,
+    ".ts": 2181,
+    ".tsx": 86,
+    ".scss": 15
+  }
+}
