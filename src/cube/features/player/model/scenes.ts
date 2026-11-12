@@ -1,7 +1,8 @@
-import type { Gazing, Vec3 } from '@/cube/entities/world';
+import type { Box } from '@/cube/shared/outside';
+import type { Outside, Vec3 } from '@/cube/entities/world';
 
 import type { Cue } from './play';
-import { EYE_OVER_SAND, type Footprint, type Land } from './roam';
+import { EYE_OVER_SAND, type Land } from './roam';
 import {
   type Beat,
   joined,
@@ -25,7 +26,7 @@ import {
 export type Stage = {
   land: Land;
   wake: { at: readonly [x: number, z: number]; seaward: number };
-  cube: Footprint & { underside: number };
+  cube: Box;
   ladder: { foot: Vec3; top: Vec3; rungs: readonly number[] };
   arrival: Vec3;
   indoors: number;
@@ -53,14 +54,25 @@ const wayTo = (
 });
 
 /** An open, level eye with the lens's own exposure. */
-const OPEN = { roll: 0, lids: 1, exposure: 1 };
+const OPEN = { lids: 1, exposure: 1 };
 
 /** A free body's camera: where a scene that takes over starts from. */
 export const shotOf = ({
   eye: [x, y, z],
   yaw,
   elevation,
-}: Gazing & { eye: Vec3 }): Shot => ({ x, y, z, yaw, elevation, ...OPEN });
+  roll,
+}: Outside): Shot => ({ x, y, z, yaw, elevation, roll, ...OPEN });
+
+/** Where a scene's camera puts the eye out of doors. */
+export const outsideOf = ({
+  x,
+  y,
+  z,
+  yaw,
+  elevation,
+  roll,
+}: Shot): Outside => ({ eye: [x, y, z], yaw, elevation, roll });
 
 /**
  * Waking: dark; the lids part on a world lying on its side, close, and part
@@ -81,20 +93,20 @@ export function waking({ land, wake, cube }: Stage): Track<Cue> {
     at[1] + 0.2 * sin,
   ];
   const middle: readonly [number, number] = [
-    (cube.west + cube.east) / 2,
-    (cube.north + cube.south) / 2,
+    (cube.min[0] + cube.max[0]) / 2,
+    (cube.min[2] + cube.max[2]) / 2,
   ];
   const toCube = wayTo(stood, middle);
   const round = nearest(toCube.yaw, seaward);
   const side = Math.sign(round - seaward) || 1;
   const cubeHigh = Math.atan2(
-    cube.underside + 2.5 - (land.height(...stood) + EYE_OVER_SAND),
+    cube.min[1] + 2.5 - (land.height(...stood) + EYE_OVER_SAND),
     toCube.far,
   );
   const beats: Beat[] = [
     // Lying on its side, the head inland of the hips, looking down its legs.
     {
-      at: 0,
+      mark: 0,
       ...eyeAt(-0.8, 0.13),
       yaw: seaward + 0.45 * side,
       elevation: 0.04,
@@ -102,43 +114,43 @@ export function waking({ land, wake, cube }: Stage): Track<Cue> {
       lids: 0,
       exposure: 2.6,
     },
-    { at: 0.7, lids: 0 },
-    { at: 1.7, lids: 0.4 },
-    { at: 2.3, lids: 0, ease: 'in' },
-    { at: 3.1, lids: 0 },
-    { at: 4.3, lids: 0.85, exposure: 1.7 },
-    { at: 4.6, ...eyeAt(-0.8, 0.13), roll: 1.3 * side, elevation: 0.04 },
-    { at: 4.7, yaw: seaward + 0.45 * side },
-    { at: 5.4, lids: 1 },
+    { mark: 0.7, lids: 0 },
+    { mark: 1.7, lids: 0.4 },
+    { mark: 2.3, lids: 0, ease: 'in' },
+    { mark: 3.1, lids: 0 },
+    { mark: 4.3, lids: 0.85, exposure: 1.7 },
+    { mark: 4.6, ...eyeAt(-0.8, 0.13), roll: 1.3 * side, elevation: 0.04 },
+    { mark: 4.7, yaw: seaward + 0.45 * side },
+    { mark: 5.4, lids: 1 },
     // Up on an elbow.
     {
-      at: 6.4,
+      mark: 6.4,
       ...eyeAt(-0.62, 0.44),
       yaw: seaward + 0.2 * side,
       elevation: -0.22,
       roll: 0.4 * side,
       exposure: 1.2,
     },
-    { at: 7 },
+    { mark: 7 },
     // Sitting, the legs and the swash below.
     {
-      at: 8.7,
+      mark: 8.7,
       ...eyeAt(-0.12, 0.8),
       yaw: seaward,
       elevation: -0.42,
       roll: 0,
       exposure: 1,
     },
-    { at: 9.6, ...eyeAt(-0.12, 0.8), elevation: -0.42 },
+    { mark: 9.6, ...eyeAt(-0.12, 0.8), elevation: -0.42 },
     // Onto the feet: forward over the knees, then up.
-    { at: 10.7, ...eyeAt(0.3, 1.02), elevation: -0.6, ease: 'in' },
-    { at: 12.3, ...eyeAt(0.2, EYE_OVER_SAND), elevation: -0.02, ease: 'out' },
+    { mark: 10.7, ...eyeAt(0.3, 1.02), elevation: -0.6, ease: 'in' },
+    { mark: 12.3, ...eyeAt(0.2, EYE_OVER_SAND), elevation: -0.02, ease: 'out' },
     // Nothing but sea.
-    { at: 13.8, yaw: seaward, elevation: -0.02, roll: 0 },
+    { mark: 13.8, yaw: seaward, elevation: -0.02, roll: 0 },
     // Over the shoulder: the head leads, the body follows.
-    { at: 15.4, roll: 0.05 * side },
-    { at: 17.6, yaw: round, elevation: cubeHigh * 0.55, roll: 0 },
-    { at: 19.2 },
+    { mark: 15.4, roll: 0.05 * side },
+    { mark: 17.6, yaw: round, elevation: cubeHigh * 0.55, roll: 0 },
+    { mark: 19.2 },
   ];
   const cues: Marks = [
     [2, { cue: 'say', moment: 'waking' }],
@@ -161,7 +173,7 @@ const PACE = 0.75;
 
 /** The point of `box` nearest `x`, `z`. */
 const nearestOn = (
-  { west, east, north, south }: Footprint,
+  { min: [west, , north], max: [east, , south] }: Box,
   [x, z]: readonly [number, number],
 ): readonly [number, number] => [
   Math.min(east, Math.max(west, x)),
@@ -169,10 +181,8 @@ const nearestOn = (
 ];
 
 /** How far `x`, `z` is from `box`: 0 on it. */
-export const farFrom = (
-  box: Footprint,
-  at: readonly [number, number],
-): number => wayTo(at, nearestOn(box, at)).far;
+export const farFrom = (box: Box, at: readonly [number, number]): number =>
+  wayTo(at, nearestOn(box, at)).far;
 
 /**
  * A walk at a stroll from `from` to `to` over `land`, from `start` seconds:
@@ -191,7 +201,7 @@ function strolling(
     const x = from[0] + (to[0] - from[0]) * share;
     const z = from[1] + (to[1] - from[1]) * share;
     return {
-      at: start + (far * share) / STROLL,
+      mark: start + (far * share) / STROLL,
       x,
       y: land.height(x, z) + EYE_OVER_SAND,
       z,
@@ -200,8 +210,8 @@ function strolling(
   });
   return {
     beats,
-    cues: beats.map(({ at }) => [
-      at,
+    cues: beats.map(({ mark }) => [
+      mark,
       { cue: 'step', strength: 0.4, ground: 'sand' },
     ]),
     arrives: start + far / STROLL,
@@ -231,29 +241,29 @@ export function lookUnder(from: Shot, { land, cube }: Stage): Track<Cue> {
     there[1] + lean * Math.sin(bearing),
   ];
   const ground = land.height(...there);
-  const low = Math.min(ground + 0.62, cube.underside - 0.4);
+  const low = Math.min(ground + 0.62, cube.min[1] - 0.4);
   // Through, to the far side's sand: under the middle, half way down the gap.
   const through = Math.atan2(
-    cube.underside - 0.55 - low,
-    BEND_AT - lean + (cube.east - cube.west) / 2,
+    cube.min[1] - 0.55 - low,
+    BEND_AT - lean + (cube.max[0] - cube.min[0]) / 2,
   );
   const bent = { x, y: low, z, elevation: through, roll: 0.16 };
   const beats: Beat[] = [
-    { at: 0, ...from },
-    { at: 0.9, yaw, elevation: 0, roll: 0 },
+    { mark: 0, ...from },
+    { mark: 0.9, yaw, elevation: 0, roll: 0 },
     ...walk.beats,
     {
-      at: down,
+      mark: down,
       x: there[0],
       y: ground + EYE_OVER_SAND,
       z: there[1],
       elevation: 0,
       roll: 0,
     },
-    { at: down + 1.5, ...bent },
-    { at: down + 3.4, ...bent },
+    { mark: down + 1.5, ...bent },
+    { mark: down + 3.4, ...bent },
     {
-      at: down + 4.8,
+      mark: down + 4.8,
       x: there[0],
       y: ground + EYE_OVER_SAND,
       z: there[1],
@@ -300,7 +310,7 @@ function ascent({ land, ladder, arrival, indoors }: Stage): Track<Cue> {
     const [x, z] = onLadder(rung);
     const side = index % 2 === 0 ? 1 : -1;
     return {
-      at: begins + RUNG_TIME * (index + 1),
+      mark: begins + RUNG_TIME * (index + 1),
       x: x - OFF_LADDER * cos - side * SWAY * sin,
       y: rung + EYE_ON_LADDER,
       z: z - OFF_LADDER * sin + side * SWAY * cos,
@@ -311,20 +321,21 @@ function ascent({ land, ladder, arrival, indoors }: Stage): Track<Cue> {
   const [inX, inY, inZ] = arrival;
   const beats: Beat[] = [
     {
-      at: 0,
+      mark: 0,
       x: stance[0],
       y: land.height(...stance) + EYE_OVER_SAND,
       z: stance[1],
       yaw,
       elevation: 0,
+      roll: 0,
       ...OPEN,
     },
-    { at: begins, elevation: 0.5, exposure: 1 },
+    { mark: begins, elevation: 0.5, exposure: 1 },
     ...climbed,
-    { at: over - RUNG_TIME * 2, elevation: 0.35 },
+    { mark: over - RUNG_TIME * 2, elevation: 0.35 },
     // A hand on the jamb, a foot on the sill.
     {
-      at: over,
+      mark: over,
       x: top[0] - 0.1 * cos,
       y: top[1] + EYE_OVER_SAND - 0.12,
       z: top[2] - 0.1 * sin,
@@ -332,8 +343,8 @@ function ascent({ land, ladder, arrival, indoors }: Stage): Track<Cue> {
       roll: 0,
       exposure: 1,
     },
-    { at: over + 1.5, x: inX, y: inY, z: inZ, yaw: nearest(Math.PI, yaw) },
-    { at: over + 2.1, exposure: indoors },
+    { mark: over + 1.5, x: inX, y: inY, z: inZ, yaw: nearest(Math.PI, yaw) },
+    { mark: over + 2.1, exposure: indoors },
   ];
   const cues: Marks = [
     ...rungs.flatMap((_, index): Array<Marked<Cue>> => {
@@ -358,8 +369,8 @@ const entered = (from: Shot, track: Track<Cue>): Track<Cue> => {
   const yaw = nearest(from.yaw, opening.yaw);
   return joined(
     trackOf([
-      { at: 0, ...from, yaw },
-      { at: SETTLE, ...opening },
+      { mark: 0, ...from, yaw },
+      { mark: SETTLE, ...opening },
     ]),
     track,
   );

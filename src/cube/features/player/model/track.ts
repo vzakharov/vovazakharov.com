@@ -61,11 +61,11 @@ export type Shot = Record<ShotChannel, number>;
 export type Marked<C> = readonly [at: number, cue: C];
 
 /**
- * A scene: every channel of its camera over `span` seconds, and the cues it
+ * A scene: every channel of its camera over `runs` seconds, and the cues it
  * sets off on the way, in order of their moments.
  */
 export type Track<C> = Record<ShotChannel, Channel> & {
-  span: number;
+  runs: number;
   cues: ReadonlyArray<Marked<C>>;
 };
 
@@ -93,19 +93,19 @@ export const shotAt = <C>(track: Track<C>, t: number): Shot =>
  * frame that ends the track takes whatever is left.
  */
 export const cuesBetween = <C>(
-  { cues, span }: Track<C>,
+  { cues, runs }: Track<C>,
   from: number,
   to: number,
 ): C[] =>
   cues
-    .filter(([at]) => at >= from && (at < to || to >= span))
+    .filter(([at]) => at >= from && (at < to || to >= runs))
     .map(([, cue]) => cue);
 
 /**
  * A moment a scene is written at: the channels it pins there, each arrived
  * at by `ease`. A channel a moment leaves out moves straight through it.
  */
-export type Beat = Partial<Shot> & { at: number; ease?: Ease };
+export type Beat = Partial<Shot> & { mark: number; ease?: Ease };
 
 /**
  * The track through `beats` in order, lasting to the last of them: the
@@ -123,10 +123,14 @@ export function trackOf<C>(
     return beats.flatMap((beat): Key[] => {
       const value = beat[name];
       if (value === undefined) return [];
-      return [beat.ease ? [beat.at, value, beat.ease] : [beat.at, value]];
+      return [beat.ease ? [beat.mark, value, beat.ease] : [beat.mark, value]];
     });
   });
-  return { ...channels, span: Math.max(...beats.map(({ at }) => at)), cues };
+  return {
+    ...channels,
+    runs: Math.max(...beats.map(({ mark }) => mark)),
+    cues,
+  };
 }
 
 const BACKWARDS: Record<Ease, Ease> = {
@@ -136,13 +140,13 @@ const BACKWARDS: Record<Ease, Ease> = {
   out: 'in',
 };
 
-/** `channel` of a scene `span` long, played from its end to its start. */
-const backwards = (channel: Channel, span: number): Channel =>
+/** `channel` of a scene `runs` seconds long, played from its end to its start. */
+const backwards = (channel: Channel, runs: number): Channel =>
   channel
     .map(([at, value], index): Key => {
       // The stretch arrived at here, backwards, is the one left from here.
       const ease = channel[index + 1]?.[2];
-      return ease ? [span - at, value, BACKWARDS[ease]] : [span - at, value];
+      return ease ? [runs - at, value, BACKWARDS[ease]] : [runs - at, value];
     })
     .toReversed();
 
@@ -158,12 +162,12 @@ export const reversed = <C>(
   track: Track<C>,
   swapped: (cue: C) => C = (cue) => cue,
 ): Track<C> => {
-  const { span, cues } = track;
+  const { runs, cues } = track;
   return {
-    ...perChannel((name) => backwards(track[name], span)),
-    span,
+    ...perChannel((name) => backwards(track[name], runs)),
+    runs,
     cues: cues
-      .map(([at, cue]): Marked<C> => [span - at, swapped(cue)])
+      .map(([at, cue]): Marked<C> => [runs - at, swapped(cue)])
       .toReversed(),
   };
 };
@@ -173,12 +177,12 @@ export const reversed = <C>(
  * two disagree on there jumps.
  */
 export const joined = <C>(first: Track<C>, second: Track<C>): Track<C> => {
-  const by = first.span;
+  const by = first.runs;
   return {
     ...perChannel(
       (name): Channel => [...first[name], ...delayed(second[name], by)],
     ),
-    span: by + second.span,
+    runs: by + second.runs,
     cues: [
       ...first.cues,
       ...second.cues.map(([at, cue]): Marked<C> => [at + by, cue]),

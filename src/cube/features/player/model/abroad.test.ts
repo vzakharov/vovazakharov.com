@@ -126,6 +126,7 @@ describe('abroad', () => {
         eye: [arrival[0], arrival[1], arrival[2] + 0.3],
         yaw: 0.1,
         elevation: 0,
+        roll: 0,
       }),
       exposure: indoors,
     };

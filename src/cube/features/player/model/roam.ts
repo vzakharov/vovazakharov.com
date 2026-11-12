@@ -1,9 +1,10 @@
 import type { Ground } from '@/cube/shared/lib/acoustics';
 import { lerp, ramp, smooth } from '@/cube/shared/lib/ease';
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
-import type { Gazing, Vec3 } from '@/cube/entities/world';
+import type { Box } from '@/cube/shared/outside';
+import type { Gazing, Outside, Vec3 } from '@/cube/entities/world';
 
-import type { Cue } from './play';
+import type { Cue, Striding } from './play';
 import {
   EYE_HEIGHT,
   type Input,
@@ -13,23 +14,16 @@ import {
   WALK_SPEED,
 } from './step';
 
-/** Something solid standing on the island, as the rectangle a body walks round. */
-export type Footprint = {
-  west: number;
-  east: number;
-  north: number;
-  south: number;
-};
-
 /**
  * The island as a body meets it, in metres east (`x`) and south (`z`):
  * `height` of the sand over still sea level, the sea's slow `level` there
- * `seconds` into the hour, and what stands in the way.
+ * `seconds` into the hour, and what stands in the way, each solid walked
+ * round on the ground plan whatever its height.
  */
 export type Land = {
   height: (x: number, z: number) => number;
   level: (x: number, z: number, seconds: number) => number;
-  solids: readonly Footprint[];
+  solids: readonly Box[];
 };
 
 /**
@@ -39,13 +33,11 @@ export type Land = {
  * strokes it has made, in turns; `cues` what happened in the frame that made
  * it.
  */
-export type Roamer = Gazing & {
-  eye: Vec3;
-  strode: number;
-  paces: number;
-  stroke: number;
-  cues: readonly Cue[];
-};
+export type Roamer = Outside &
+  Striding & {
+    paces: number;
+    stroke: number;
+  };
 
 /** The eye over the soles, and over the water once the body floats. */
 export const EYE_OVER_SAND = EYE_HEIGHT * ROOM_METRES;
@@ -85,6 +77,7 @@ export const roamingAt = (
   seconds: number,
 ): Roamer => ({
   ...gaze,
+  roll: 0,
   eye: [x, restingEye(land, x, z, seconds, 0), z],
   strode: 0,
   paces: 0,
@@ -129,12 +122,15 @@ export const isAfloat = (
 function clear(
   x: number,
   z: number,
-  solids: readonly Footprint[],
+  solids: readonly Box[],
 ): readonly [number, number] {
   let at: readonly [number, number] = [x, z];
   // Twice, so a push out of one solid into another is undone.
   for (const _ of [0, 1]) {
-    for (const { west, east, north, south } of solids) {
+    for (const {
+      min: [west, , north],
+      max: [east, , south],
+    } of solids) {
       const [px, pz] = at;
       const nearX = Math.min(east, Math.max(west, px));
       const nearZ = Math.min(south, Math.max(north, pz));
@@ -153,7 +149,9 @@ function clear(
         [pz - north, [px, north - GIRTH]],
         [south - pz, [px, south + GIRTH]],
       ] as const;
-      at = sides.toSorted(([a], [b]) => a - b)[0][1];
+      let nearest: (typeof sides)[number] = sides[0];
+      for (const side of sides) if (side[0] < nearest[0]) nearest = side;
+      [, at] = nearest;
     }
   }
   return at;
@@ -209,6 +207,7 @@ export function roam(
       : { cue: 'step', strength, ground: groundAt(depth) };
   return {
     ...gaze,
+    roll: 0,
     eye: [x, y, z],
     strode: fell ? strode % reach : strode,
     paces: roamer.paces + (fell ? 1 : 0),

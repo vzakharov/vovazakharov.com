@@ -20,6 +20,8 @@ const feetOf = (quads: readonly Quad[]): Vec3[] =>
 const standing = (x: number, z: number, yaw: number): Bearing => ({
   eye: [x, land.height(x, z) + EYE_OVER_SAND, z],
   yaw,
+  elevation: 0,
+  roll: 0,
   seat: null,
   swing: 0,
   afloat: false,
@@ -57,7 +59,7 @@ describe('legsOf', () => {
   });
 
   it('lies the legs out from the seat while the eye is down', () => {
-    const seat = { at: [-20, 20] as const, heading: Math.PI / 2 };
+    const seat = { at: [-20, 20] as const, lies: Math.PI / 2 };
     const eye: Vec3 = [-20, land.height(-20, 19.2) + 0.13, 19.2];
     const quads = legsOf({ eye, yaw: 2, seat, swing: 0, afloat: false }, land);
     const all = cornersOf(quads);

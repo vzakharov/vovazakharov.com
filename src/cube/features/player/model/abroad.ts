@@ -2,8 +2,8 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Quad } from '@/cube/entities/world';
 
-import { legsOf, type Seat } from './legs';
-import type { Cue } from './play';
+import { legsOf, type Seated } from './legs';
+import type { Cue, Cued } from './play';
 import { isAfloat, roam, type Roamer, roamingAt, swingOf } from './roam';
 import {
   climb,
@@ -12,6 +12,7 @@ import {
   LADDER_REACH,
   LOOK_FROM,
   lookUnder,
+  outsideOf,
   shotOf,
   type Stage,
   waking,
@@ -20,10 +21,8 @@ import type { Input } from './step';
 import { cuesBetween, type Shot, shotAt, type Track } from './track';
 
 /** A scene being played, `playedFor` seconds in, and where it leaves the body. */
-type Playing = {
+type Playing = Seated & {
   track: Track<Cue>;
-  /** Where the body sits or lies while it plays, if it does. */
-  seat: Seat | null;
   playedFor: number;
   into: 'island' | 'cube';
 };
@@ -39,13 +38,13 @@ type Mind = { asleep: boolean; lookedUnder: boolean };
  * `entered` in the one frame a scene has put the body inside the cube, where
  * `shot` is where it stands.
  */
-export type Abroad = Mind & {
-  roamer: Roamer;
-  scene: Playing | null;
-  shot: Shot;
-  cues: readonly Cue[];
-  entered: boolean;
-};
+export type Abroad = Mind &
+  Cued & {
+    roamer: Roamer;
+    scene: Playing | null;
+    shot: Shot;
+    entered: boolean;
+  };
 
 const NO_CUES: readonly Cue[] = [];
 
@@ -72,7 +71,7 @@ export function asleepOn(stage: Stage, seconds: number): Abroad {
     roamer,
     {
       track: waking(stage),
-      seat: { ...pick(wake, 'at'), heading: wake.seaward },
+      seat: { ...pick(wake, 'at'), lies: wake.seaward },
       playedFor: 0,
       into: 'island',
     },
@@ -145,14 +144,11 @@ export function abroad(
     const t = playedFor + dt;
     const shot = shotAt(track, t);
     const cues = cuesBetween(track, playedFor, t);
-    const done = t >= track.span;
-    const { x, y, z, yaw, elevation } = shot;
+    const done = t >= track.runs;
     return {
       roamer: done
         ? {
-            eye: [x, y, z],
-            yaw,
-            elevation,
+            ...outsideOf(shot),
             strode: 0,
             paces: 0,
             stroke: 0,
@@ -213,13 +209,11 @@ export function bodyOf(
   { land }: Stage,
   seconds: number,
 ): Quad[] {
-  const { x, y, z, yaw, lids } = shot;
-  if (lids <= 0) return [];
+  if (shot.lids <= 0) return [];
   const free = scene === null;
   return legsOf(
     {
-      eye: [x, y, z],
-      yaw,
+      ...outsideOf(shot),
       seat: scene?.seat ?? null,
       swing: free ? swingOf(roamer) : 0,
       afloat: free && isAfloat(land, roamer.eye, seconds),

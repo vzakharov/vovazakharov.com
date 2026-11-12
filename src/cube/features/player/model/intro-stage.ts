@@ -10,17 +10,8 @@ import {
 } from '@/cube/shared/outside';
 import type { Vec3 } from '@/cube/entities/world';
 
-import type { Footprint } from './roam';
 import type { Stage } from './scenes';
 import { EYE_HEIGHT } from './step';
-
-/** The cube on the ground plan. */
-const CUBE: Footprint = {
-  west: CUBE_BOX.min[0],
-  east: CUBE_BOX.max[0],
-  north: CUBE_BOX.min[2],
-  south: CUBE_BOX.max[2],
-};
 
 /** How steeply the ladder leans, from the sand, and its rungs' spacing and width. */
 const LEAN = (75 * Math.PI) / 180;
@@ -31,7 +22,11 @@ const LADDER_WIDE = 0.45;
 const DOOR_MIDDLE = (DOORWAY.from + DOORWAY.to) / 2;
 
 /** The ladder's top, on the sill under the doorway's middle. */
-const LADDER_TOP: Vec3 = [CUBE.east, CUBE_AT[1], CUBE_AT[2] + DOOR_MIDDLE];
+const LADDER_TOP: Vec3 = [
+  CUBE_BOX.max[0],
+  CUBE_AT[1],
+  CUBE_AT[2] + DOOR_MIDDLE,
+];
 
 /**
  * The ladder's foot: east of its top on the sand, where a ladder leaning at
@@ -79,12 +74,10 @@ export const INTRO_STAGE: Stage = {
     height: (x, z) => islandHeight([x, z]),
     level: (x, z, seconds) => waterLevel([x, z], seconds),
     solids: [
-      CUBE,
+      CUBE_BOX,
       {
-        west: LADDER_TOP[0],
-        east: LADDER_FOOT[0],
-        north: LADDER_TOP[2] - LADDER_WIDE / 2,
-        south: LADDER_TOP[2] + LADDER_WIDE / 2,
+        min: [LADDER_TOP[0], LADDER_FOOT[1], LADDER_TOP[2] - LADDER_WIDE / 2],
+        max: [LADDER_FOOT[0], LADDER_TOP[1], LADDER_TOP[2] + LADDER_WIDE / 2],
       },
     ],
   },
@@ -92,11 +85,11 @@ export const INTRO_STAGE: Stage = {
     at: [WAKE_AT[0], WAKE_AT[2]],
     seaward:
       Math.atan2(
-        WAKE_AT[2] - (CUBE.north + CUBE.south) / 2,
-        WAKE_AT[0] - (CUBE.west + CUBE.east) / 2,
+        WAKE_AT[2] - (CUBE_BOX.min[2] + CUBE_BOX.max[2]) / 2,
+        WAKE_AT[0] - (CUBE_BOX.min[0] + CUBE_BOX.max[0]) / 2,
       ) + ASKEW,
   },
-  cube: { ...CUBE, underside: CUBE_BOX.min[1] },
+  cube: CUBE_BOX,
   ladder: { foot: LADDER_FOOT, top: LADDER_TOP, rungs: RUNGS },
   arrival: toWorld([
     1 - ARRIVES_IN / CUBE_METRES,

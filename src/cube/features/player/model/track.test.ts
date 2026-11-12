@@ -23,7 +23,7 @@ const track = (over: Partial<Track<string>>): Track<string> => ({
   roll: HELD,
   lids: HELD,
   exposure: HELD,
-  span: 4,
+  runs: 4,
   cues: [],
   ...over,
 });
@@ -104,15 +104,15 @@ describe('trackOf', () => {
   const REST = { x: 0, y: 0, z: 0, yaw: 0, elevation: 0, roll: 0, lids: 1 };
   const scene = trackOf<string>(
     [
-      { at: 0, ...REST, exposure: 1 },
-      { at: 2, y: 4 },
-      { at: 4, x: 8, ease: 'linear' },
+      { mark: 0, ...REST, exposure: 1 },
+      { mark: 2, y: 4 },
+      { mark: 4, x: 8, ease: 'linear' },
     ],
     [[1, 'step']],
   );
 
   it('lasts to its last beat and keeps its cues', () => {
-    assert.equal(scene.span, 4);
+    assert.equal(scene.runs, 4);
     assert.deepEqual(scene.cues, [[1, 'step']]);
   });
 
@@ -124,7 +124,7 @@ describe('trackOf', () => {
   });
 
   it('refuses a first beat that leaves a channel unpinned', () => {
-    assert.throws(() => trackOf([{ at: 0, ...REST }]), /exposure/);
+    assert.throws(() => trackOf([{ mark: 0, ...REST }]), /exposure/);
   });
 
   it('plays backwards as the same camera at the mirrored moment', () => {
@@ -139,8 +139,8 @@ describe('trackOf', () => {
 
   it('mirrors an eased stretch when played backwards', () => {
     const eased = trackOf<string>([
-      { at: 0, ...REST, exposure: 1 },
-      { at: 2, x: 1, ease: 'in' },
+      { mark: 0, ...REST, exposure: 1 },
+      { mark: 2, x: 1, ease: 'in' },
     ]);
     const back = reversed(eased);
     assert.equal(shotAt(back, 0.5).x, shotAt(eased, 1.5).x);
@@ -149,13 +149,13 @@ describe('trackOf', () => {
   it('joins two tracks end to start', () => {
     const after = trackOf<string>(
       [
-        { at: 0, ...REST, x: 8, y: 4, exposure: 1 },
-        { at: 1, x: 10 },
+        { mark: 0, ...REST, x: 8, y: 4, exposure: 1 },
+        { mark: 1, x: 10 },
       ],
       [[0.5, 'rung']],
     );
     const both = joined(scene, after);
-    assert.equal(both.span, 5);
+    assert.equal(both.runs, 5);
     assert.equal(shotAt(both, 3).x, 6);
     assert.equal(shotAt(both, 4).x, 8);
     assert.equal(shotAt(both, 5).x, 10);
@@ -185,7 +185,7 @@ describe('cuesBetween', () => {
   it('sets each cue off once however the frames fall', () => {
     for (const dt of [0.016, 0.1, 0.37, 1.5, 9]) {
       const heard: string[] = [];
-      for (let t = 0; t < scene.span; t += dt) {
+      for (let t = 0; t < scene.runs; t += dt) {
         heard.push(...cuesBetween(scene, t, t + dt));
       }
       assert.deepEqual(heard, ['groan', 'step', 'splash', 'last'], `${dt}`);

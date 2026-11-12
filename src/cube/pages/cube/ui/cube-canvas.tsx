@@ -18,7 +18,7 @@ import type { Selling } from './cube-mesh';
 import type { CubeScene } from './cube-scene';
 import { FrameRate } from './frame-rate';
 import { SaleOffer } from './sale-offer';
-import { walk } from './walk';
+import { walk, type Way } from './walk';
 
 type CubeCanvasProps = {
   /** The canvas's accessible name. */
@@ -29,6 +29,8 @@ type CubeCanvasProps = {
   floor: string;
   /** The one line shown when the URL's fragment leads nowhere. */
   nowhere: string;
+  /** The hint for what a press does where the body stands, by its way. */
+  ways: Record<Way, string>;
   /** A for-sale room's sign, hint and offer. */
   offer: Selling['copy'];
 };
@@ -39,6 +41,7 @@ export function CubeCanvas({
   unsupported,
   floor: floorLine,
   nowhere,
+  ways,
   offer: offerCopy,
 }: CubeCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -50,6 +53,8 @@ export function CubeCanvas({
   const [floor, setFloor] = useState<number | null>(null);
   /** The kind of the sign in reach, if one is. */
   const [inReach, setInReach] = useState<SignKind | null>(null);
+  /** What a press does where the body stands, a sign in reach aside. */
+  const [way, setWay] = useState<Way | null>(null);
   /** Whether an offer is open, read by every frame. */
   const offeringRef = useRef(false);
   const [offer, setOffer] = useState<Signed | null>(null);
@@ -103,6 +108,7 @@ export function CubeCanvas({
             setFailure,
             setMissing,
             setInReach,
+            setWay,
             open: (signed) => {
               offeringRef.current = true;
               setOffer(signed);
@@ -136,11 +142,15 @@ export function CubeCanvas({
       )}
       <FrameRate {...{ passTimes }} />
       <p className={classes['hint']} aria-live="polite">
-        {inReach === null || offer !== null
-          ? ''
-          : inReach === 'yours'
+        {offer === null
+          ? inReach === 'yours'
             ? offerCopy.hintYours
-            : offerCopy.hint}
+            : inReach === null
+              ? way === null
+                ? ''
+                : ways[way]
+              : offerCopy.hint
+          : ''}
       </p>
       <SaleOffer
         {...{ offer }}

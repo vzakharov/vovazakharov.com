@@ -115,7 +115,7 @@ describe('roam', () => {
   it('is turned aside by a solid, and slides along it', () => {
     const walled: Land = {
       ...beach,
-      solids: [{ west: -20, east: -15, north: -2, south: 3 }],
+      solids: [{ min: [-20, 0, -2], max: [-15, 5, 3] }],
     };
     const head = going(roamingAt(walled, [-25, 0], EAST, 0), ahead, 3, walled);
     assert.ok(Math.abs(head.roamer.eye[0] - -20.3) < 1e-9);
@@ -131,7 +131,7 @@ describe('roam', () => {
   it('puts a body found inside a solid out through its nearest side', () => {
     const walled: Land = {
       ...beach,
-      solids: [{ west: -20, east: -15, north: -2, south: 3 }],
+      solids: [{ min: [-20, 0, -2], max: [-15, 5, 3] }],
     };
     const { eye } = roam(
       roamingAt(walled, [-19, 0], EAST, 0),

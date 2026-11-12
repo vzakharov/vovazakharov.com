@@ -25,8 +25,8 @@ describe('the threshold', () => {
   it('reads a pose in the room as a camera and back', () => {
     const pose = { ...arrivedOn(1), u: 0.8, v: 0.2, yaw: 0.4, elevation: -0.1 };
     const shot = shotWithin(pose, INTRO_STAGE);
-    assert.ok(shot.x > cube.west && shot.x < cube.east);
-    assert.ok(Math.abs(shot.y - (cube.underside + 2.5 + 1.6)) < 1e-9);
+    assert.ok(shot.x > cube.min[0] && shot.x < cube.max[0]);
+    assert.ok(Math.abs(shot.y - (cube.min[1] + 2.5 + 1.6)) < 1e-9);
     const back = poseWithin(shot);
     assert.ok(Math.abs(back.u - 0.8) < 1e-12 && Math.abs(back.v - 0.2) < 1e-12);
     assert.ok(Math.abs(back.yaw - 0.4) < 1e-12);
@@ -38,7 +38,7 @@ describe('the threshold', () => {
   it('arrives inside the room, past the doorway, facing in', () => {
     const [x, y, z] = arrival;
     const pose = poseWithin({
-      ...shotOf({ eye: [x, y, z], yaw: -Math.PI, elevation: 0 }),
+      ...shotOf({ eye: [x, y, z], yaw: -Math.PI, elevation: 0, roll: 0 }),
     });
     assert.ok(pose.u > 0.7 && pose.u < 0.9);
     assert.ok(pose.v > 0.1 && pose.v < 0.25);
@@ -48,7 +48,7 @@ describe('the threshold', () => {
 
   it('lets a whole body on floor 1 leave by the doorway, looking out', () => {
     const by = {
-      ...poseWithin(shotOf({ eye: arrival, yaw: 0, elevation: 0 })),
+      ...poseWithin(shotOf({ eye: arrival, yaw: 0, elevation: 0, roll: 0 })),
     };
     assert.ok(canLeave(by, INTRO_STAGE));
     assert.ok(!canLeave({ ...by, yaw: Math.PI }, INTRO_STAGE));

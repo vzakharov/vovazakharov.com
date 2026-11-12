@@ -17,7 +17,12 @@ const close = (a: number, b: number, within = 1e-9): boolean =>
 
 /** A free eye standing at `x`, `z`, looking along `yaw`. */
 const standing = (x: number, z: number, yaw: number): Shot =>
-  shotOf({ eye: [x, land.height(x, z) + EYE_OVER_SAND, z], yaw, elevation: 0 });
+  shotOf({
+    eye: [x, land.height(x, z) + EYE_OVER_SAND, z],
+    yaw,
+    elevation: 0,
+    roll: 0,
+  });
 
 describe('waking', () => {
   const track = waking(STAGE);
@@ -53,7 +58,7 @@ describe('waking', () => {
   });
 
   it('ends on the cube, upright, having turned the short way', () => {
-    const last = shotAt(track, track.span);
+    const last = shotAt(track, track.runs);
     const toCube = Math.atan2(-last.z, -last.x);
     assert.ok(close(Math.cos(last.yaw - toCube), 1, 1e-3));
     assert.ok(Math.abs(last.yaw - wake.seaward) < Math.PI);
@@ -75,7 +80,7 @@ describe('lookUnder', () => {
 
   it('starts where the body stands and ends on its feet', () => {
     assert.deepEqual(shotAt(track, 0), from);
-    const last = shotAt(track, track.span);
+    const last = shotAt(track, track.runs);
     assert.ok(close(overSand(last), EYE_OVER_SAND, 1e-6));
     assert.equal(last.roll, 0);
   });
@@ -83,26 +88,26 @@ describe('lookUnder', () => {
   it('walks nearer, footfall by footfall, and stays clear of the cube', () => {
     assert.ok(track.cues.length >= 3);
     assert.ok(shots.every(({ x, z }) => farFrom(cube, [x, z]) > 2.5));
-    const { x, z } = shotAt(track, track.span);
+    const { x, z } = shotAt(track, track.runs);
     assert.ok(farFrom(cube, [x, z]) < 3.5);
   });
 
   it('bends until the eye is under the cube and sees through to the far side', () => {
     const [lowest] = shots.toSorted((a, b) => a.y - b.y);
     assert.ok(lowest);
-    assert.ok(lowest.y < cube.underside - 0.3);
+    assert.ok(lowest.y < cube.min[1] - 0.3);
     assert.ok(overSand(lowest) > 0.4);
     // The line of sight at the far edge is still under the cube and over the sand.
     const reach = farFrom(cube, [lowest.x, lowest.z]) + 5;
     const there = lowest.y + reach * Math.tan(lowest.elevation);
-    assert.ok(there < cube.underside && there > 1.6, `${there}`);
+    assert.ok(there < cube.min[1] && there > 1.6, `${there}`);
     assert.ok(Math.abs(lowest.roll) > 0.1);
   });
 
   it('bends where it stands when already near', () => {
     const near = lookUnder(standing(-4, 0, 0), STAGE);
     assert.equal(near.cues.length, 0);
-    assert.ok(near.span < track.span);
+    assert.ok(near.runs < track.runs);
   });
 });
 
@@ -114,7 +119,7 @@ describe('climb and descent', () => {
   it('goes from the sand to the room, facing in, exposed for indoors', () => {
     const first = shotAt(up, 0);
     assert.deepEqual({ ...first, ...pick(from, 'yaw') }, from);
-    const last = shotAt(up, up.span);
+    const last = shotAt(up, up.runs);
     assert.deepEqual([last.x, last.y, last.z], arrival);
     assert.ok(close(Math.cos(last.yaw), -1));
     assert.equal(last.exposure, indoors);
@@ -139,7 +144,7 @@ describe('climb and descent', () => {
   it('keeps the eye outside the wall until it is over the sill', () => {
     assert.ok(
       shots.every(
-        ({ x, y }) => x > cube.east + 0.05 || y > ladder.top[1] + 1.3,
+        ({ x, y }) => x > cube.max[0] + 0.05 || y > ladder.top[1] + 1.3,
       ),
     );
   });
@@ -156,13 +161,13 @@ describe('climb and descent', () => {
       exposure: indoors,
     };
     const down = descent(inside, STAGE);
-    const last = shotAt(down, down.span);
+    const last = shotAt(down, down.runs);
     assert.ok(close(overSand(last), EYE_OVER_SAND, 1e-6));
     assert.ok(
       Math.hypot(last.x - ladder.foot[0], last.z - ladder.foot[2]) < 0.6,
     );
     assert.equal(last.exposure, 1);
-    const [upMid, downMid] = [shotAt(up, up.span - 3), shotAt(down, 0.8 + 3)];
+    const [upMid, downMid] = [shotAt(up, up.runs - 3), shotAt(down, 0.8 + 3)];
     assert.ok(close(upMid.y, downMid.y, 1e-9));
   });
 });
