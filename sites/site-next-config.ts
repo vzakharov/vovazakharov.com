@@ -1,5 +1,6 @@
 import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
+import { createRequire } from 'node:module';
 import path from 'node:path';
 
 import type { SiteId } from '@/kernel/shared/config';
@@ -10,6 +11,10 @@ import type { SiteId } from '@/kernel/shared/config';
  * being two levels above a site.
  */
 export function siteNextConfig(site: SiteId, siteDir: string): NextConfig {
+  // Turbopack hands a loader's options to Babel as data, so each package in
+  // them is resolved to its path here, from the repository's own install.
+  const require = createRequire(import.meta.url);
+
   // Found by string rather than by import, and relative to the site directory —
   // which is where Turbopack resolves it from and where every build is entered.
   const withNextIntl = createNextIntlPlugin(
@@ -43,12 +48,12 @@ export function siteNextConfig(site: SiteId, siteDir: string): NextConfig {
           condition: { content: /["']use gpu["']/ },
           loaders: [
             {
-              loader: 'babel-loader',
+              loader: require.resolve('babel-loader'),
               options: {
                 babelrc: false,
                 configFile: false,
                 parserOpts: { plugins: ['typescript'] },
-                plugins: ['unplugin-typegpu/babel'],
+                plugins: [require.resolve('unplugin-typegpu/babel')],
               },
             },
           ],
