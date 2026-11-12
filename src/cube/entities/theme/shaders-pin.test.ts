@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 import { describe, it } from 'node:test';
 
 import { floorSource, themeOf } from '.';
-import { HONEYCOMB, LUMA, type Wgsl } from './kit';
+import { HONEYCOMB, LUMA, MATH, type Wgsl } from './kit';
 
 /**
  * Each floor's theme source as `assemble()` wrote it before its pieces moved
@@ -87,6 +87,43 @@ function undo(source: string, now: string, then: string): string {
   return source.replace(now, () => then);
 }
 
+/** `source` with each of `pairs`' first, where it occurs, put back to its second. */
+function undoAll(
+  source: string,
+  pairs: ReadonlyArray<readonly [string, string]>,
+): string {
+  let then = source;
+  for (const [now, before] of pairs) {
+    if (then.includes(now)) then = undo(then, now, before);
+  }
+  return then;
+}
+
+/** Numbers that took names, each name's declaration going with it. */
+const NAMED: ReadonlyArray<readonly [string, string]> = [
+  [
+    "/// The shared clock's ticks in a second, in an hour, and in a stuttering\n/// room's four-second spell.\nconst TICK_RATE = 12u;\nconst HOUR_TICKS = TICK_RATE * 3600u;\nconst SPELL_TICKS = TICK_RATE * 4u;\n\n",
+    '',
+  ],
+  [
+    's.time * f32(TICK_RATE)) + s.hour * HOUR_TICKS',
+    's.time * 12.0) + s.hour * 43200u',
+  ],
+  ['tick / SPELL_TICKS', 'tick / 48u'],
+  [
+    "/// How far apart a unit-wide honeycomb's rows lie: √3/2.\nconst HEX_ROW = 0.8660254;\n\n",
+    '',
+  ],
+  ['vec2f(1.0, 2.0 * HEX_ROW)', 'vec2f(1.0, 1.7320508)'],
+  ['vec2f(0.5, HEX_ROW)', 'vec2f(0.5, 0.8660254)'],
+  ['hex.w / HEX_ROW', 'hex.w / 0.8660254'],
+  [piece(MATH), ''],
+  ['l.pixel.y * PI', 'l.pixel.y * 3.14159'],
+];
+
+/** A kit piece's text as it stood before its numbers took names. */
+const pieceThen = (kit: Wgsl): string => undoAll(piece(kit), NAMED);
+
 /** The bathroom's own lattice, which the kit's honeycomb replaced. */
 const HEXAGON = `/// The hexagon of a unit-wide honeycomb a point is in: xy from its middle,
 /// zw its column and row.
@@ -103,7 +140,7 @@ fn hexagon(p: vec2f) -> vec4f {
 `;
 
 function bathroom(source: string): string {
-  let then = undo(source, piece(HONEYCOMB), '');
+  let then = undo(source, pieceThen(HONEYCOMB), '');
   then = undo(then, 'fn mosaic(', `${HEXAGON}fn mosaic(`);
   then = undo(then, 'honeycomb(s.uv / 0.05)', 'hexagon(s.uv / 0.05)');
   then = undo(then, 'i32(round(hex.z * 2.0))', 'i32(hex.z)');
@@ -129,8 +166,8 @@ const calling: Readonly<Record<number, readonly Wgsl[]>> = {
 
 function laboratory(source: string, moved: readonly Wgsl[]) {
   let then = source;
-  for (const kit of moved) then = undo(then, piece(kit), '');
-  const head = piece(LUMA) + piece(HONEYCOMB);
+  for (const kit of moved) then = undo(then, pieceThen(kit), '');
+  const head = pieceThen(LUMA) + pieceThen(HONEYCOMB);
   return undo(then, SPECIMEN_HEAD, head + SPECIMEN_HEAD);
 }
 
@@ -142,8 +179,9 @@ function micrograph(source: string): string {
   return undo(then, 's, AIR, 32.0)', `s, ${MICROGRAPH_AIR}, 32.0)`);
 }
 
-const asBefore = (n: number, source: string): string => {
+const asBefore = (n: number, named: string): string => {
   const moved = calling[n];
+  const source = undoAll(named, NAMED);
   if (n === 12) return bathroom(source);
   if (n === 46) return laboratory(micrograph(source), moved ?? []);
   return moved === undefined ? source : laboratory(source, moved);

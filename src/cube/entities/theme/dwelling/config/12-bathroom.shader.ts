@@ -38,10 +38,10 @@ fn glazed(s: Surf) -> Material {
 
 fn mosaic(s: Surf) -> Material {
   let hex = honeycomb(s.uv / 0.05);
-  let reach = max(dot(abs(hex.xy), vec2f(0.5, 0.8660254)), abs(hex.x));
+  let reach = max(dot(abs(hex.xy), vec2f(0.5, HEX_ROW)), abs(hex.x));
   let joint = smoothstep(0.0, 0.07, 0.5 - reach);
   let column = i32(round(hex.z * 2.0));
-  let row = i32(round(hex.w / 0.8660254));
+  let row = i32(round(hex.w / HEX_ROW));
   let dot6 = wrapped(column + 3 * (wrapped(row, 4) / 2), 6) == 0 && wrapped(row, 2) == 0;
   let word = unitOf(cellHash(vec2i(column, row), 0xc4u));
   let china = select(vec3f(0.5, 0.5, 0.46), vec3f(0.02, 0.025, 0.03), dot6) * (0.9 + 0.14 * word);

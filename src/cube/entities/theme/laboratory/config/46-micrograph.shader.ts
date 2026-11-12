@@ -8,6 +8,7 @@ import {
   HONEYCOMB,
   LIGHT,
   LUMA,
+  MATH,
   STUFF,
   wgsl,
 } from '../../kit';
@@ -99,7 +100,7 @@ fn themeLens(l: Lens) -> vec3f {
   let slip = (unitOf(hashOf(row, u32(l.time * 8.0))) - 0.5) * 0.0025;
   let scanned = Lens(l.uv + vec2f(slip, 0.0), l.pixel, l.size, l.time, l.hour);
   let seen = luma(tonemap(through(scanned, 0.35, 0.0) * 1.25));
-  let scan = 0.94 + 0.06 * sin(l.pixel.y * 3.14159);
+  let scan = 0.94 + 0.06 * sin(l.pixel.y * PI);
   let shot = grain(l) * 0.07 * (0.4 + seen);
   var grey = seen * scan * vignette(l, 0.25) + shot;
   let bar = step(0.925, l.uv.y);
@@ -123,6 +124,7 @@ fn themeLens(l: Lens) -> vec3f {
   GRADE,
   HONEYCOMB,
   LUMA,
+  MATH,
   CORE,
   HASH,
 );

@@ -5,7 +5,7 @@ export { HASH } from './lib/hash.shader';
 export { HONEYCOMB } from './lib/honeycomb.shader';
 export { LIGHT } from './lib/light.shader';
 export { LUMA } from './lib/luma.shader';
-export { ordinary } from './lib/ordinary';
+export { MATH } from './lib/math.shader';export { ordinary } from './lib/ordinary';
 export { STUFF } from './lib/stuff.shader';
 export { vec3f, type Wgsl, wgsl } from './lib/wgsl';
 export { roomFlags, type RoomState } from './model/flags';

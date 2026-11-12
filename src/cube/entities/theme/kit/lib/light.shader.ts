@@ -22,6 +22,12 @@ struct Lamps {
   stutter: f32,
 };
 
+/// The shared clock's ticks in a second, in an hour, and in a stuttering
+/// room's four-second spell.
+const TICK_RATE = 12u;
+const HOUR_TICKS = TICK_RATE * 3600u;
+const SPELL_TICKS = TICK_RATE * 4u;
+
 /// The lamps of the room \`by\` rooms east and south of the point's right
 /// now, 0 to 1, \`lit\` being whether they work. A stuttering room's fits
 /// come in four-second spells on the shared clock, so two viewers see the
@@ -33,8 +39,8 @@ fn lampLevel(s: Surf, by: vec2i, lit: f32, stutter: f32) -> f32 {
   if (unitOf(word) >= stutter) {
     return lit;
   }
-  let tick = u32(s.time * 12.0) + s.hour * 43200u;
-  if (unitOf(hashOf(word ^ 0x77u, tick / 48u)) >= 0.35) {
+  let tick = u32(s.time * f32(TICK_RATE)) + s.hour * HOUR_TICKS;
+  if (unitOf(hashOf(word ^ 0x77u, tick / SPELL_TICKS)) >= 0.35) {
     return lit;
   }
   let fit = unitOf(hashOf(word, tick));
