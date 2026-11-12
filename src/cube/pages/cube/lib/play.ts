@@ -38,6 +38,11 @@ export type CubePlayHook = ScenePlay & {
    */
   press: () => Promise<void>;
   /**
+   * Shows the pill's line `prompt` in the page's hint, or none; resolves once
+   * the page has drawn it.
+   */
+  setPill: (prompt: 'take' | 'ask' | null) => Promise<void>;
+  /**
    * Stops the clock at `ms` since the epoch, so every frame from the next is
    * of that instant. A script's page opens stopped at `PLAY_INSTANT`.
    */

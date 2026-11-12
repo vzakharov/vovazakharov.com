@@ -1,5 +1,5 @@
 export { handsOf } from './model/hands';
-export { plantedHoled } from './model/holed';
+export { plantedHoled, plantedHoledOf } from './model/holed';
 export { FIRST_LOOK } from './model/look';
 export { GRIP, type HandPose, LOOSE } from './model/hand-shape';
 export { type Axes, hand, padOf } from './model/hand';

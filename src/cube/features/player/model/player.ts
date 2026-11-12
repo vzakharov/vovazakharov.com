@@ -42,16 +42,17 @@ export type Gaze = { yaw: number; elevation: number };
 export type Station = 'down' | 'shelf' | 'eyes' | 'mouth';
 
 /**
- * A body taking its room's pill: `reaching` for it on the `shelf`; on floor 1
- * `inspecting` it before the eyes until answered; `drinking` it, or
- * `returning` it to the shelf, the hand coming `from` the shelf or the eyes
- * with the `twist` it had there. `aim` is the gaze that looks at the pill on
- * its shelf.
+ * A body taking its room's pill: `reaching` for it on the `shelf`;
+ * `inspecting` it before the eyes, in passing unless it `asks` what to do
+ * with it, and then until answered; `drinking` it, or `returning` it to the
+ * shelf, the hand coming `from` the shelf or the eyes with the `twist` it had
+ * there. `aim` is the gaze that looks at the pill on its shelf.
  */
 export type Taking = Looking &
   Gaze & {
     act: 'taking';
     stage: 'reaching' | 'inspecting' | 'drinking' | 'returning';
+    asks: boolean;
     shelf: Shelf;
     aim: Gaze;
     from: Station;

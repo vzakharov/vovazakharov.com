@@ -2,6 +2,8 @@ import {
   holeQuarter,
   planted,
   type Pose,
+  type Quarter,
+  type Room,
   roomKey,
   shelfOf,
 } from '@/cube/entities/world';
@@ -11,6 +13,13 @@ import type { Holed } from './player';
 import { plantedMaze } from './walls';
 
 const plantedLook = looks(planted.seed);
+
+/** The planted world's shelf and look for `room`, whose hole is in `quarter`. */
+export const plantedHoledOf = (room: Room, quarter: Quarter): Holed => ({
+  quarter,
+  shelf: shelfOf(plantedMaze, room, quarter),
+  shrinkLook: plantedLook(room),
+});
 
 /**
  * The planted world's hole, shelf and look of the room a pose stands in, for
@@ -32,14 +41,7 @@ export function plantedHoled(
       const { n, x, y } = pose;
       holeQuarter(planted, n, x, y)
         .then((quarter) => {
-          known.set(
-            key,
-            quarter && {
-              quarter,
-              shelf: shelfOf(plantedMaze, { n, x, y }, quarter),
-              shrinkLook: plantedLook({ n, x, y }),
-            },
-          );
+          known.set(key, quarter && plantedHoledOf({ n, x, y }, quarter));
         })
         .catch(onError);
     }

@@ -3,14 +3,17 @@ import { cross, plus, type Quad, times, unit, UP, type Vec3 } from './quad';
 import type { Room } from './room';
 
 /**
- * The pill, a two-part capsule, in room sides of the floor it lies on: 5 cm
- * long and 2 cm through on floor 1, a size nobody swallows gladly.
+ * The pill, a two-part capsule, in room sides of the floor it lies on: 6 cm
+ * long and 2.4 cm through on floor 1, a size nobody swallows gladly.
  */
-export const PILL_LENGTH = 0.01;
-export const PILL_RADIUS = 0.002;
+export const PILL_LENGTH = 0.012;
+export const PILL_RADIUS = 0.0024;
 
-/** The capsule's halves: one the red of a warning, one the ivory of a tooth. */
-const PILL_PAINTS = [0xc2_1f_2b, 0xf1_e8_d2] as const;
+/**
+ * The capsule's halves, a blue and a yellow no shelf or paper under them is,
+ * so the pill shows on every floor.
+ */
+const PILL_PAINTS = [0x1c_5f_c4, 0xf4_c2_1a] as const;
 
 /** How many rings round off an end, and how many quads go round the capsule. */
 const CAP_RINGS = 4;
@@ -18,7 +21,7 @@ const PILL_SIDES = 8;
 
 /**
  * A pill's quads in a frame where a room side is `side` long: its middle at
- * `centre`, its length along `axis`, a unit vector, the red half that way.
+ * `centre`, its length along `axis`, a unit vector, the blue half that way.
  */
 export function pillQuads(
   centre: Vec3,

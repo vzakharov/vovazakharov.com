@@ -5,7 +5,7 @@ import { cross, dot, minus, type Quad, type Vec3 } from '@/cube/entities/world';
 
 import { handsOf } from './hands';
 import { FIRST_LOOK } from './look';
-import type { Player } from './play';
+import type { Player } from './player';
 import { beside, holed, room, shrunk } from './play.test-kit';
 
 const eyeOf = ({ pose }: Player): Vec3 => [pose.u, pose.eyeAbove, pose.v];

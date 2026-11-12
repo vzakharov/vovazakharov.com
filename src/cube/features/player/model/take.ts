@@ -51,10 +51,10 @@ const INSPECTED_FLOOR = 1;
 
 /** Seconds the hand takes to reach the shelf and close on the pill. */
 export const REACH_TIME = 0.5;
-/** Seconds the hand takes to bring the pill before the eyes. */
-export const RAISE_TIME = 0.7;
-/** Seconds the pill takes to the mouth, from before the eyes and from the shelf. */
-const TO_MOUTH = { eyes: 0.55, shelf: 0.75 };
+/** Seconds the hand takes to bring the pill before the eyes, to look at and in passing. */
+const RAISE_TIME = { asked: 0.7, passing: 0.45 };
+/** Seconds the pill takes from before the eyes to the mouth. */
+const TO_MOUTH = 0.5;
 /** Seconds after the swallow before the shrink sets in. */
 const GULP_TIME = 0.6;
 /** Seconds the pill takes back to its shelf, and the hand to come away. */
@@ -70,9 +70,9 @@ const EYES_ELEVATION = -0.1;
 /** How far the head goes back to swallow. */
 const HEAD_BACK = 0.28;
 
-/** When a `drinking` hand that came `from` there has the pill at the mouth. */
-const swallowAt = (from: Station): number =>
-  from === 'eyes' ? TO_MOUTH.eyes : TO_MOUTH.shelf;
+/** Seconds a taking body's hand takes to bring the pill before its eyes. */
+const raiseOf = ({ asks }: Taking): number =>
+  asks ? RAISE_TIME.asked : RAISE_TIME.passing;
 
 /**
  * A taking hand at an instant: `share` of the way from one station to the
@@ -88,14 +88,13 @@ export type Grasp = {
   holds: boolean;
 };
 
-/** How far the pill before the eyes is turned, `t` seconds into `inspecting`. */
-const twistAt = (t: number): number =>
-  TWIST * Math.sin((2 * Math.PI * Math.max(t - RAISE_TIME, 0)) / TWIST_PERIOD);
+/** How far a pill is turned, `held` seconds after it came before the eyes. */
+const twistAt = (held: number): number =>
+  TWIST * Math.sin((2 * Math.PI * Math.max(held, 0)) / TWIST_PERIOD);
 
 /** What the hand of a body `taking` is doing. */
-export function graspOf({ stage, actFor: t, from, twist }: Taking & {
-  actFor: number;
-}): Grasp {
+export function graspOf(act: Taking & { actFor: number }): Grasp {
+  const { stage, actFor: t, from, twist } = act;
   if (stage === 'reaching') {
     return {
       from: 'down',
@@ -110,13 +109,13 @@ export function graspOf({ stage, actFor: t, from, twist }: Taking & {
     return {
       from: 'shelf',
       to: 'eyes',
-      share: rise(t, 0, RAISE_TIME),
+      share: rise(t, 0, raiseOf(act)),
       pinch: 1,
-      twist: twistAt(t),
+      twist: twistAt(t - raiseOf(act)),
       holds: true,
     };
   }
-  const leaves = stage === 'drinking' ? swallowAt(from) : PUT_BACK;
+  const leaves = stage === 'drinking' ? TO_MOUTH : PUT_BACK;
   const to = stage === 'drinking' ? 'mouth' : 'shelf';
   if (t < leaves) {
     return {
@@ -145,14 +144,16 @@ const mixed = (a: Gaze, b: Gaze, share: number): Gaze => ({
 
 /** Where a body `taking` looks: at the pill, wherever it is, then back. */
 export function gazeOfTaking(act: Taking & { actFor: number }): Gaze {
-  const { stage, actFor: t, aim, from, yaw, elevation } = act;
+  const { stage, actFor: t, aim, yaw, elevation } = act;
   const resting = { yaw, elevation };
   const eyes = { yaw: aim.yaw, elevation: EYES_ELEVATION };
   if (stage === 'reaching') return mixed(resting, aim, rise(t, 0, 0.4));
-  if (stage === 'inspecting') return mixed(aim, eyes, rise(t, 0.05, RAISE_TIME));
+  if (stage === 'inspecting') {
+    return mixed(aim, eyes, rise(t, 0.05, raiseOf(act)));
+  }
   if (stage === 'drinking') {
-    const at = swallowAt(from);
-    const back = mixed(from === 'eyes' ? eyes : aim, resting, rise(t, 0, at));
+    const at = TO_MOUTH;
+    const back = mixed(eyes, resting, rise(t, 0, at));
     const tilt = hump(t, [at - 0.2, at + 0.05, at + 0.25, at + GULP_TIME]);
     return { ...back, elevation: back.elevation + HEAD_BACK * tilt };
   }
@@ -164,8 +165,9 @@ export function gazeOfTaking(act: Taking & { actFor: number }): Gaze {
 /** Whether `player` holds its pill before its eyes, waiting to be told what to do with it. */
 export const isAsking = ({ act }: Player): boolean =>
   act?.act === 'taking' &&
+  act.asks &&
   act.stage === 'inspecting' &&
-  act.actFor >= RAISE_TIME;
+  act.actFor >= RAISE_TIME.asked;
 
 /** The `player` reaching for the pill of `here`, its room, from a standstill. */
 export function reachFor(
@@ -182,6 +184,7 @@ export function reachFor(
       act: 'taking',
       stage: 'reaching',
       actFor: 0,
+      asks: pose.n === INSPECTED_FLOOR,
       shelf,
       shrinkLook,
       yaw,
@@ -212,9 +215,9 @@ const staged = (
 
 /**
  * A body taking its pill, `dt` seconds on, its feet rooted and its gaze the
- * act's. The hand closes on the pill at `REACH_TIME`; on floor 1 it then holds
- * it before the eyes until `input` answers, anywhere else it goes straight to
- * the mouth. A swallowed pill starts the shrink; one put down leaves the body
+ * act's. The hand closes on the pill at `REACH_TIME` and brings it before the
+ * eyes; on floor 1 it holds it there until `input` answers, anywhere else it
+ * goes on to the mouth. A swallowed pill starts the shrink; one put down leaves the body
  * standing as it stood.
  */
 export function taking(
@@ -225,26 +228,26 @@ export function taking(
   const { pose, act } = player;
   const { n, x, y } = pose;
   const t = act.actFor + dt;
-  const { stage, from, shrinkLook, yaw, elevation } = act;
+  const { stage, shrinkLook, yaw, elevation } = act;
   const resting = { yaw, elevation };
   let next: Acting<'taking'>['act'] = { ...act, actFor: t };
   let { pill } = player;
   let cues: readonly Cue[] = NO_CUES;
   if (stage === 'reaching' && t >= REACH_TIME) {
-    next =
-      n === INSPECTED_FLOOR
-        ? staged(act, 'inspecting', 'shelf')
-        : staged(act, 'drinking', 'shelf');
+    next = staged(act, 'inspecting', 'shelf');
     pill = { room: { n, x, y } };
     cues = [{ cue: 'pill' }];
-  } else if (stage === 'inspecting' && t >= RAISE_TIME && input.answer) {
-    next = staged(
-      { ...act, actFor: t },
-      input.answer === 'yes' ? 'drinking' : 'returning',
-      'eyes',
-    );
+  } else if (stage === 'inspecting' && t >= raiseOf(act)) {
+    const answer = act.asks ? input.answer : 'yes';
+    if (answer !== null) {
+      next = staged(
+        { ...act, actFor: t },
+        answer === 'yes' ? 'drinking' : 'returning',
+        'eyes',
+      );
+    }
   } else if (stage === 'drinking') {
-    const at = swallowAt(from);
+    const at = TO_MOUTH;
     if (act.actFor < at && t >= at) cues = [{ cue: 'swallow' }];
     if (t >= at + GULP_TIME) {
       return {

@@ -106,13 +106,13 @@ export const LOOSE: HandPose = {
 /** Thumb and forefinger closed on a pill, the other fingers folded out of the way. */
 export const PINCH: HandPose = {
   curls: [
-    [0.62, 0.78, 0.42],
+    [0.75, 0.86, 0.44],
     [0.95, 1.15, 0.6],
     [1.1, 1.25, 0.65],
     [1.2, 1.3, 0.7],
-    [0.1, 0.3, 0.35],
+    [0.48, 0.5, 0.33],
   ],
-  oppose: 0.9,
+  oppose: 0.6,
   sleeve: FOREARM,
 };
 

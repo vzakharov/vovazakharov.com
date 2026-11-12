@@ -11,6 +11,7 @@ import type { Pose } from './pose';
 import type { Quad } from './quad';
 import { type Room, roomKey, WALL_HALF } from './room';
 import { sight, withBelow } from './rooms';
+import type { Taken } from './shelf';
 import { mazeWalls } from './walls';
 
 const rolled = maze('8675309');

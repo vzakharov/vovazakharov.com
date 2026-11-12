@@ -40,7 +40,8 @@ const still: Input = {
   yawBy: 0,
   elevationBy: 0,
   walking: true,
-  pull: false,
+  use: false,
+  answer: null,
   goTo: null,
 };
 const ahead: Input = { ...still, walk: 1 };
