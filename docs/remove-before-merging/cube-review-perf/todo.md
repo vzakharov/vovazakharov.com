@@ -8,6 +8,24 @@ the review is done its base switches to `main` and only the fixes land.
 The operator's review comments — on the board and on this PR — come first. The
 items below are what land prep of #273 found and deferred here, in order.
 
+## 0. Shaders out of strings — a TypeGPU trial
+
+From the board thread on `dwelling/lib/home.ts` (2026-11-12): the operator
+asked how to stop writing whole programs in strings. On the table: `.wgsl` files
+with WESL imports and `@if` (the source stays byte-comparable, so the look is
+provably unchanged), or TypeGPU (shaders as TypeScript, typed bindings and
+uniforms; the look can only be checked by eye). The operator chose to try
+TypeGPU on the reflection pass first, judged by floor 28's puddles side by side
+with `cube-liminal`.
+
+- Done in a child session on `claude/cube-typegpu-trial`, branched off this one,
+  no PR of its own: kept, it merges here and shows on this PR's board; dropped,
+  the branch goes.
+- It ports before item 1 touches the same pass, so a difference in the picture
+  has one suspect.
+- Still open whatever the trial says: `themeMaterial`'s per-floor `switch` as
+  data, salts derived rather than hand-picked, and `pnpm shaders:cube` in vet.
+
 ## 1. Performance of what exists
 
 The floor reflections already stutter (operator, 2026-11-12).
