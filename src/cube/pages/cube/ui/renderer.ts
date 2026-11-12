@@ -9,6 +9,7 @@ import type { Rgb } from '@/cube/shared/lib/colour';
 import type { FloorRange, Scenery } from '../lib/mesh';
 import { UNIFORM_FLOATS } from '../lib/shader';
 import { createBloom } from './bloom';
+import { createPassTimer, type Timed } from './pass-timer';
 import { createPrograms, DEPTH_FORMAT, type Preparing } from './programs';
 import { createReflection, type Seen } from './reflection';
 
@@ -31,7 +32,10 @@ export type Boards = WithId & {
   scenery: Scenery;
 };
 
-export type Renderer = CanDispose &
+/** What draws frames until it is disposed, timing them where the GPU can. */
+export type Drawing = CanDispose & Timed;
+
+export type Renderer = Drawing &
   Preparing & {
     /** Replaces the rooms drawn. */
     upload: (scenery: Scenery) => void;
@@ -85,10 +89,14 @@ export async function createRenderer(
   if (!('gpu' in navigator)) return null;
   const adapter = await navigator.gpu.requestAdapter();
   if (adapter === null) return null;
-  const device = await adapter.requestDevice();
+  const timed = adapter.features.has('timestamp-query');
+  const device = await adapter.requestDevice({
+    requiredFeatures: timed ? ['timestamp-query'] : [],
+  });
   watchLoss(device, onLost).catch((error: unknown) => {
     onLost(asError(error));
   });
+  const timer = timed ? createPassTimer(device, onLost) : null;
   const context = canvas.getContext('webgpu');
   if (context === null) return null;
   const format = navigator.gpu.getPreferredCanvasFormat();
@@ -245,6 +253,7 @@ export async function createRenderer(
           depthLoadOp: 'clear',
           depthStoreOp: 'discard',
         },
+        ...(timer === null ? {} : { timestampWrites: timer.scene }),
       });
       pass.setBindGroup(0, uniformGroup);
       if (rooms !== null) drawRuns(pass, rooms);
@@ -254,7 +263,11 @@ export async function createRenderer(
         drawRuns(pass, board);
       }
       pass.end();
-      const sceneView = reflection.run(encoder, { viewProjection, eye });
+      const sceneView = reflection.run(
+        encoder,
+        { viewProjection, eye },
+        timer?.mirrors,
+      );
       const glow = bloom.run(encoder, sceneView, width, height);
       const framed = encoder.beginRenderPass({
         colorAttachments: [
@@ -264,6 +277,7 @@ export async function createRenderer(
             storeOp: 'store',
           },
         ],
+        ...(timer === null ? {} : { timestampWrites: timer.lens }),
       });
       framed.setPipeline(programOf(lens).lens);
       framed.setBindGroup(0, uniformGroup);
@@ -280,10 +294,14 @@ export async function createRenderer(
       );
       framed.draw(3);
       framed.end();
+      timer?.resolve(encoder);
       device.queue.submit([encoder.finish()]);
+      timer?.read();
     },
     drawn: async () => device.queue.onSubmittedWorkDone(),
+    passTimes: () => timer?.take() ?? null,
     dispose: () => {
+      timer?.dispose();
       rooms?.buffer.destroy();
       moving?.buffer.destroy();
       targets?.depth.destroy();
