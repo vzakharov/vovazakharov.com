@@ -24,3 +24,5 @@ export const SUN_LIGHT = LIGHT.sun;
 export const SKY_FILL = LIGHT.sky;
 /** A white face turned down to the open sea. */
 export const GROUND_FILL = LIGHT.ground;
+/** The sky's mean light just over the horizon, away from the sun's glare. */
+export const HORIZON_FILL = LIGHT.horizon;

@@ -88,6 +88,33 @@ export const hemisphereFill = (sun: Vec3, up: 1 | -1): Rgb => {
   return rgb((c) => ((sum[c] ?? 0) * Math.PI * Math.PI) / (RINGS * SPOKES));
 };
 
+const RING_LIFT = (4 * Math.PI) / 180;
+/** The ring's spokes start this far round from the sun, whose own glare a phase function carries. */
+const RING_FROM = Math.PI / 4;
+
+/**
+ * The mean radiance of the sky just over the horizon, away from the sun's
+ * own glare: what a cloud's flank is lit by from the side, per unit of sun
+ * irradiance over π.
+ */
+export const horizonFill = (sun: Vec3): Rgb => {
+  const lift = Math.hypot(sun[0], sun[2]);
+  const sum = [0, 0, 0];
+  for (let j = 0; j < SPOKES; j++) {
+    const turn = RING_FROM + ((Math.PI - RING_FROM) * (j + 0.5)) / SPOKES;
+    const sky = clearSky(
+      [
+        Math.cos(RING_LIFT) * Math.cos(turn),
+        Math.sin(RING_LIFT),
+        Math.cos(RING_LIFT) * Math.sin(turn),
+      ],
+      [lift, sun[1], 0],
+    );
+    for (const c of [0, 1, 2] as const) sum[c] = (sum[c] ?? 0) + sky[c];
+  }
+  return rgb((c) => ((sum[c] ?? 0) * Math.PI) / SPOKES);
+};
+
 /** The contract's scale: what the brightest channel of a face square to the sun shows. */
 const SUN_PEAK = 8;
 
@@ -97,17 +124,15 @@ const SUN_PEAK = 8;
  */
 export const lightUnder = (
   sun: Vec3,
-): Record<'sun' | 'sky' | 'ground', Rgb> & { white: number } => {
+): Record<'sun' | 'sky' | 'ground' | 'horizon', Rgb> & { white: number } => {
   const reaching = sunTransmittance(EYE_RADIUS, sun[1]);
   const white = SUN_PEAK / Math.max(...reaching);
-  const fill = (up: 1 | -1): Rgb => {
-    const light = hemisphereFill(sun, up);
-    return rgb((c) => light[c] * white);
-  };
+  const scaled = (light: Rgb): Rgb => rgb((c) => light[c] * white);
   return {
     white,
-    sun: rgb((c) => reaching[c] * white),
-    sky: fill(1),
-    ground: fill(-1),
+    sun: scaled(reaching),
+    sky: scaled(hemisphereFill(sun, 1)),
+    ground: scaled(hemisphereFill(sun, -1)),
+    horizon: scaled(horizonFill(sun)),
   };
 };

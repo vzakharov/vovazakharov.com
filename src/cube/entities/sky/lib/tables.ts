@@ -88,3 +88,23 @@ export async function compiled(
   }
   return shader;
 }
+
+/** What a fragment shader's binding is, in the order a group lists them. */
+export type Bound = 'texture' | 'volume' | 'sampler' | 'uniform';
+
+/** A fragment stage's bind group layout: `bound[i]` at binding `i`. */
+export const layoutOf = (
+  device: GPUDevice,
+  bound: readonly Bound[],
+): GPUBindGroupLayout =>
+  device.createBindGroupLayout({
+    entries: bound.map((kind, binding) => ({
+      binding,
+      visibility: GPUShaderStage.FRAGMENT,
+      ...(kind === 'sampler'
+        ? { sampler: {} }
+        : kind === 'uniform'
+          ? { buffer: {} }
+          : { texture: kind === 'volume' ? { viewDimension: '3d' } : {} }),
+    })),
+  });
