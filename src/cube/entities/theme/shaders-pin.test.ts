@@ -6,6 +6,7 @@ import type { Rgb } from '@/cube/shared/lib/colour';
 
 import { floorSource, themeOf } from '.';
 import {
+  FINISH,
   type FloorTheme,
   HONEYCOMB,
   LUMA,
@@ -13,6 +14,7 @@ import {
   vec3f,
   type Wgsl,
 } from './kit';
+import { SPECIMEN } from './laboratory/index.test-only';
 
 /**
  * Each floor's theme source as `assemble()` wrote it before its pieces moved
@@ -201,12 +203,26 @@ function aired(source: string, air: Rgb): string {
   return then.replaceAll(/(?<!\w)AIR(?!\w)/g, () => tokens(vec3f(air)));
 }
 
+/**
+ * Pieces a floor listed and never called, which no import can name, and the
+ * text each stood before.
+ */
+const UNCALLED: Readonly<Record<number, readonly [Wgsl, string]>> = {
+  40: [FINISH, "/// The face's paint, or `fallback` where it carries none."],
+  50: [SPECIMEN, 'const WALL: u32 = 0u;'],
+};
+
+function uncalled(source: string, n: number): string {
+  const left = UNCALLED[n];
+  if (left === undefined) return source;
+  const [dropped, before] = left;
+  return undo(source, before, piece(dropped) + before);
+}
+
 const asBefore = (n: number, theme: FloorTheme): string => {
   const moved = calling[n];
-  const source = aired(
-    undoAll(tokens(floorSource(theme, '')), NAMED),
-    theme.air,
-  );
+  const named = undoAll(tokens(floorSource(theme, '')), NAMED);
+  const source = uncalled(aired(named, theme.air), n);
   if (n === 12) return bathroom(source);
   return moved === undefined ? source : laboratory(source, moved);
 };
