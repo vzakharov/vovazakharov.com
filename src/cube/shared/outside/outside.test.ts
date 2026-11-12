@@ -23,7 +23,6 @@ import {
 } from './outdoor-frame';
 import { SKY, skyDir, skyUv } from './sky';
 import { SUN, SUN_DIR } from './sun';
-import { WATER_LEVEL, waterLevel } from './water-level';
 
 const close = (a: number, b: number, within = 1e-9): void => {
   assert.ok(Math.abs(a - b) <= within, `${String(a)} is not ${String(b)}`);
@@ -99,28 +98,6 @@ describe('islandHeight', () => {
     for (const value of [1.6, 20, 70, 25, -40]) {
       assert.ok(numbers.includes(value), String(value));
     }
-  });
-});
-
-describe('waterLevel', () => {
-  it('returns to itself on the hour', () => {
-    for (const xz of [
-      [0, 0],
-      [-23, 31],
-      [400, -90],
-    ] as const) {
-      close(waterLevel(xz, 0), waterLevel(xz, 3600), 1e-9);
-      close(waterLevel(xz, 1234.5), waterLevel(xz, 1234.5 + 12), 1e-9);
-    }
-  });
-
-  it('stays a slow surge about the still level', () => {
-    let highest = 0;
-    for (let t = 0; t < 12; t += 0.25) {
-      highest = Math.max(highest, Math.abs(waterLevel([3, 4], t)));
-    }
-    close(highest, 0.12, 1e-3);
-    assert.ok(literals(WATER_LEVEL.listing).includes(300));
   });
 });
 

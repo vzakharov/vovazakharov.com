@@ -1,0 +1,145 @@
+import { f32, wgsl } from '../lib/wgsl';
+
+/**
+ * The swell as it meets the island: one train of waves from the south-west,
+ * 420 an hour, each a little early or late and taller or lower than the last,
+ * so the beach gets sets and lulls and a wave every 7 to 10 seconds. Every
+ * function here is a scalar closed form, written twice — TypeScript below,
+ * WGSL in `SWELL` — and `swell.test.ts` runs the WGSL listing itself against
+ * the TypeScript.
+ */
+
+const GRAVITY = 9.81;
+const HOUR = 3600;
+const TAU = 2 * Math.PI;
+
+/** Waves the swell lands in an hour. */
+export const WAVES = 420;
+/** Seconds from one crest to the next, on average. */
+export const PERIOD = HOUR / WAVES;
+/** The speed the swell's crests travel over deep water, m/s. */
+export const DEEP_SPEED = (GRAVITY * PERIOD) / TAU;
+/** Crest to trough of a middling wave before the bottom is felt, metres. */
+export const HEIGHT = 0.4;
+
+/**
+ * The slow wander of the crests' timing, in turns: three sines, each a whole
+ * number of cycles an hour — [cycles, size, where it starts].
+ */
+const DRIFT = [
+  [37, 0.088, 0.13],
+  [61, 0.064, 0.71],
+  [97, 0.04, 0.37],
+] as const;
+
+/** The slow swelling and sinking of the waves' height, likewise, about 1. */
+const SETS = [
+  [23, 0.22, 0.52],
+  [41, 0.16, 0.05],
+  [67, 0.1, 0.84],
+] as const;
+
+type Sines = readonly (readonly [number, number, number])[];
+
+const sum = (sines: Sines, tau: number): number =>
+  sines.reduce(
+    (total, [cycles, size, start]) =>
+      total + size * Math.sin(TAU * ((cycles * tau) / HOUR + start)),
+    0,
+  );
+
+const sumWgsl = (sines: Sines): string =>
+  sines
+    .map(
+      ([cycles, size, start]) =>
+        `${f32(size)} * sin(${f32(TAU)} * fract(${f32(cycles)} * tau / ${f32(HOUR)} + ${f32(start)}))`,
+    )
+    .join('\n    + ');
+
+/** How many crests have passed a point whose own time is `tau` seconds. */
+export const turnsAt = (tau: number): number =>
+  (WAVES * tau) / HOUR + sum(DRIFT, tau);
+
+/** How tall the waves run at `tau`, as a multiple of `HEIGHT`. */
+export const setsAt = (tau: number): number => 1 + sum(SETS, tau);
+
+/** The moment, in a point's own time, that crest `n` passes it. */
+export function crestOf(n: number): number {
+  let tau = n * PERIOD;
+  for (let round = 0; round < 5; round += 1) {
+    tau = (n - sum(DRIFT, tau)) * PERIOD;
+  }
+  return tau;
+}
+
+/**
+ * A wave that has felt the bottom, at `phase` turns after its crest: crests
+ * sharpened and troughs flattened by `sharp` in [0, 1), the height from crest
+ * to trough staying 2 (Abreu et al. 2010, skewed with no asymmetry).
+ */
+export function peaked(phase: number, sharp: number): number {
+  const blunt = Math.sqrt(1 - sharp * sharp);
+  const swing = Math.cos(TAU * phase);
+  return (blunt * (swing - sharp / (1 + blunt))) / (1 - sharp * swing);
+}
+
+/** How late in the turn a bore's face begins to rise. */
+const FACE = 0.955;
+/** How fast the water behind a bore's crest falls away, per turn. */
+const FALL = 3;
+/** The mean of the bore's shape, taken off so it rides the still level. */
+const BORE_MEAN = (1 - Math.exp(-FALL)) / FALL;
+
+/**
+ * A broken wave at `phase` turns after its front passed: highest just behind
+ * the front, falling away, then the next front's steep face.
+ */
+export function bore(phase: number): number {
+  const face = Math.min(Math.max((phase - FACE) / (1 - FACE), 0), 1);
+  const rise = face * face * (3 - 2 * face);
+  const fall = Math.exp(-FALL * phase);
+  return 2.1 * (fall + (1 - fall) * rise - BORE_MEAN);
+}
+
+/**
+ * `turnsAt`, `setsAt`, `crestOf`, `peaked` and `bore` in WGSL, each the twin
+ * of the function of its name above.
+ */
+export const SWELL = wgsl(
+  'outside/swell',
+  /* wgsl */ `
+fn turnsAt(tau: f32) -> f32 {
+  return ${f32(WAVES)} * tau / ${f32(HOUR)} + swellDrift(tau);
+}
+
+fn swellDrift(tau: f32) -> f32 {
+  return ${sumWgsl(DRIFT)};
+}
+
+fn setsAt(tau: f32) -> f32 {
+  return 1.0
+    + ${sumWgsl(SETS)};
+}
+
+fn crestOf(n: f32) -> f32 {
+  var tau = n * ${f32(PERIOD)};
+  for (var i = 0; i < 5; i++) {
+    tau = (n - swellDrift(tau)) * ${f32(PERIOD)};
+  }
+  return tau;
+}
+
+fn peaked(phase: f32, sharp: f32) -> f32 {
+  let blunt = sqrt(1.0 - sharp * sharp);
+  let swing = cos(${f32(TAU)} * phase);
+  return blunt * (swing - sharp / (1.0 + blunt)) / (1.0 - sharp * swing);
+}
+
+fn bore(phase: f32) -> f32 {
+  let face = clamp((phase - ${f32(FACE)}) / ${f32(1 - FACE)}, 0.0, 1.0);
+  let rise = face * face * (3.0 - 2.0 * face);
+  let fall = exp(${f32(-FALL)} * phase);
+  return 2.1 * (fall + (1.0 - fall) * rise - ${f32(BORE_MEAN)});
+}
+`,
+);
