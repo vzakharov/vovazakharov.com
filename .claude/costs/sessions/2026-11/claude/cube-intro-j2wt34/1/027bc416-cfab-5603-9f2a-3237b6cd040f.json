@@ -179,10 +179,10 @@
     }
   ],
   "telemetry": {
-    "events": 295,
-    "matched": 284,
-    "matchedTableUsd": 45.352716000000036,
-    "matchedEventUsd": 45.35271600000003,
+    "events": 296,
+    "matched": 285,
+    "matchedTableUsd": 45.50629880000004,
+    "matchedEventUsd": 45.506298800000025,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 4554,
@@ -214,7 +214,7 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 1892,
+    ".md": 1908,
     ".json": 31,
     ".yaml": 48,
     ".ts": 4075,

@@ -394,7 +394,6 @@ out; he compacts and continues tomorrow); update this block, do not append.
   round on what the frames show (the cube's size and gap from the shore first);
   (5) preview slot 2, checking the deployed commit before saying so; (6)
   `/polish`, `/pr` (base `claude/cube-review-perf`), then vet.
-- No check-in is scheduled; schedule one on resuming.
 - The context notices: at 330k start nothing big; at 350k bring this file
   current. The session compacts on its own near 370k; never `/relay`. This file
   is capped at 400 lines like any other: when "Steering since" grows, move its
