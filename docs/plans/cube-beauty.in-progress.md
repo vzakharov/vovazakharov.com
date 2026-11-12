@@ -107,12 +107,14 @@ from another account: `/go claude/cube-liminal-332pmv`.
   - Voice: `lineFor(moment, n, grain)` → `utter(line, voiceOf(who, n), rate)` →
     the soundscape's `play`, on the player's `say` cues;
     `pnpm voice:cube --out <dir>` renders the WAVs for the board's page.
-- **Known breaks**: standing on floor 66 throws ("Floor 67's doors need 65
-  bits": the scene asks the maze for the floor below the deepest), so Home is
-  unreachable and floor 67 never drawn. Decor has no collision; the operator
-  wants passability of every room to hold by construction (a clear region
-  joining walkways, hole and lever, or a flood fill at furnish time), not by a
-  sampled test. `build()` re-furnishes every room per mesh build.
+- **Floor 67**: the maze places doors down to 66 only, so `mazeWalls` closes
+  every wall past it — each room of 67 is the closed last room its theme draws.
+  `play`'s go-to still stops at `DEEPEST_FLOOR`; 67 is reached by falling
+  through 66's hole.
+- **Known breaks**: Decor has no collision; the operator wants passability of
+  every room to hold by construction (a clear region joining walkways, hole and
+  lever, or a flood fill at furnish time), not by a sampled test. `build()`
+  re-furnishes every room per mesh build.
 - **Moving layer**: a frame hands the scene `moving` quads (each in its own
   room's frame); `Mesh.stood` places them, `renderer.uploadMoving` draws them.
   The play hook's `setPose(pose, moving)` stages them for a script.
@@ -176,15 +178,15 @@ the board already links the pricing chart.
 1. Wire what is merged: happenings into `moving`, posters and restyled sale
    signs as boards, sound and voice on the player's cues; drop each slice's
    `masd-disable` line as the page starts reading it.
-2. Fix floor 66 (no floor below the deepest), then look at a gallery of every
-   band and of decor; note what falls short of the bar.
+2. Look at a gallery of every band and of decor; note what falls short of the
+   bar. (Floor 66 loads; the mirrored lamps no longer sparkle — 3, 9, 11, 17 and
+   66 looked at.)
 3. The operator's asks from the run, not yet done: the hands move the lever at
    the pull; room passability by construction once decor collides; the voice
    samples page linked from the board.
-4. Calibration toward the AAA bar: exposure, materials, lamp panel detail,
-   mirrored lamps sparkling on glossy floors (3, 9, 11, 17 — a smoothed normal
-   for the mirror term), the sleeve's fabric. Kit wishes from the bands:
-   `ordinary` split into its light and its lens, a round `lampMask`, a
-   distance-fade helper, a glowing surface without TV snow, a matte "shade"
-   surface.
+4. Calibration toward the AAA bar: exposure, materials, lamp panel detail, floor
+   3's grout still glinting inside the mirrored panels, the sleeve's fabric. Kit
+   wishes from the bands: `ordinary` split into its light and its lens, a round
+   `lampMask`, a distance-fade helper, a glowing surface without TV snow, a
+   matte "shade" surface.
 5. `/polish`, `/pr` (draft), `/five-percent`. Never `/finalize`, never merge.

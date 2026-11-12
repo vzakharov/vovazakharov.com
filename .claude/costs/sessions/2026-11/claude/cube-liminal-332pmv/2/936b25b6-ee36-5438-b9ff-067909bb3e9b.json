@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 166,
+    "inputTokens": 169,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 322779,
-    "cacheReadTokens": 15201469,
-    "outputTokens": 53175,
-    "thinkingTokens": 19108,
-    "responses": 90,
-    "costUsd": 6.6866898
+    "cacheWrite1hTokens": 324084,
+    "cacheReadTokens": 15561799,
+    "outputTokens": 54710,
+    "thinkingTokens": 19296,
+    "responses": 92,
+    "costUsd": 6.7999078
   },
   "estimate": {
     "at": "2026-11-12T00:35:07.059Z",
@@ -64,18 +64,18 @@
   "url": "https://claude.ai/code/session_016Z4TKqBdiPUwyUDMrs26WP",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-12T00:34:04.933Z",
-  "lastResponseAt": "2026-11-12T00:49:26.126Z",
+  "lastResponseAt": "2026-11-12T00:49:41.759Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 166,
+    "inputTokens": 169,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 322779,
-    "cacheReadTokens": 15201469,
-    "outputTokens": 53175,
-    "thinkingTokens": 19108,
-    "responses": 90,
-    "costUsd": 6.6866898
+    "cacheWrite1hTokens": 324084,
+    "cacheReadTokens": 15561799,
+    "outputTokens": 54710,
+    "thinkingTokens": 19296,
+    "responses": 92,
+    "costUsd": 6.7999078
   },
   "subagents": {
     "inputTokens": 0,
@@ -89,14 +89,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 166,
+      "inputTokens": 169,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 322779,
-      "cacheReadTokens": 15201469,
-      "outputTokens": 53175,
-      "thinkingTokens": 19108,
-      "responses": 90,
-      "costUsd": 6.6866898
+      "cacheWrite1hTokens": 324084,
+      "cacheReadTokens": 15561799,
+      "outputTokens": 54710,
+      "thinkingTokens": 19296,
+      "responses": 92,
+      "costUsd": 6.7999078
     }
   },
   "warnings": [],
@@ -143,7 +143,7 @@
     ".json": 20,
     ".md": 436,
     ".yaml": 85,
-    ".ts": 26925,
+    ".ts": 26950,
     ".tsx": 22
   }
 }
