@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 1586,
-    "cacheWrite5mTokens": 4939,
-    "cacheWrite1hTokens": 130533,
-    "cacheReadTokens": 5016599,
-    "outputTokens": 28934,
-    "thinkingTokens": 7888,
-    "responses": 38,
-    "costUsd": 2.6721197999999995
+    "inputTokens": 2121,
+    "cacheWrite5mTokens": 5645,
+    "cacheWrite1hTokens": 149637,
+    "cacheReadTokens": 7820923,
+    "outputTokens": 35453,
+    "thinkingTokens": 9037,
+    "responses": 52,
+    "costUsd": 3.5239846
   },
   "estimate": {
     "at": "2026-11-12T08:54:44.310Z",
@@ -45,25 +45,25 @@
     }
   },
   "sessionId": "90f88c0d-b2cc-5b3b-865d-099cdc84469c",
-  "branch": "claude/fervent-maxwell-0lux89",
+  "branch": "claude/clone-detection-0lux89",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "а можно как-то написать скрипт который меряет DRY языко-агностично, исключительно по кросс-энтропии/сжимаемости, ну или как там это называется? Грубо говоря, ес…",
   "prs": [],
   "url": "https://claude.ai/code/session_01DaohkFcpceAgNMk2wFcqLT",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-12T08:36:50.479Z",
-  "lastResponseAt": "2026-11-12T08:54:51.905Z",
+  "lastResponseAt": "2026-11-12T09:51:11.897Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 68,
+    "inputTokens": 97,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 130533,
-    "cacheReadTokens": 4673907,
-    "outputTokens": 28868,
-    "thinkingTokens": 7888,
-    "responses": 35,
-    "costUsd": 2.5566774
+    "cacheWrite1hTokens": 149637,
+    "cacheReadTokens": 7288676,
+    "outputTokens": 35378,
+    "thinkingTokens": 9037,
+    "responses": 48,
+    "costUsd": 3.3627792
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,33 +77,33 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 1586,
-      "cacheWrite5mTokens": 4939,
-      "cacheWrite1hTokens": 130533,
-      "cacheReadTokens": 5016599,
-      "outputTokens": 28934,
-      "thinkingTokens": 7888,
-      "responses": 38,
-      "costUsd": 2.6721197999999995
+      "inputTokens": 2121,
+      "cacheWrite5mTokens": 5645,
+      "cacheWrite1hTokens": 149637,
+      "cacheReadTokens": 7820923,
+      "outputTokens": 35453,
+      "thinkingTokens": 9037,
+      "responses": 52,
+      "costUsd": 3.5239846
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 38,
-    "matched": 35,
-    "matchedTableUsd": 2.5566774,
-    "matchedEventUsd": 2.5566774,
+    "events": 52,
+    "matched": 48,
+    "matchedTableUsd": 3.3627792,
+    "matchedEventUsd": 3.3627792000000003,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 1518,
-        "cacheWrite5mTokens": 4939,
+        "inputTokens": 2024,
+        "cacheWrite5mTokens": 5645,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 342692,
-        "outputTokens": 66,
+        "cacheReadTokens": 532247,
+        "outputTokens": 75,
         "thinkingTokens": 0,
-        "responses": 3,
-        "costUsd": 0.1154424
+        "responses": 4,
+        "costUsd": 0.1612054
       }
     }
   },
@@ -114,5 +114,7 @@
   },
   "reviewPosts": {},
   "threadPosts": {},
-  "branchLines": {}
+  "branchLines": {
+    ".md": 191
+  }
 }
