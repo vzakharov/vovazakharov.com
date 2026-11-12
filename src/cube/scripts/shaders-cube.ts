@@ -42,12 +42,13 @@ function around(source: string, at: number): string {
     .join('\n');
 }
 
+const floorOf = (n: number) => ({
+  name: `floor ${String(n)}`,
+  source: shaderOf(n),
+});
+
 async function main(): Promise<void> {
   const only = flag('floor');
-  const floorOf = (n: number) => ({
-    name: `floor ${String(n)}`,
-    source: shaderOf(n),
-  });
   const shaders =
     only === undefined
       ? [
