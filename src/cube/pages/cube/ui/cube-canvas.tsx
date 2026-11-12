@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { fillSlots } from '@/kernel/shared/i18n';
 
@@ -275,6 +275,11 @@ export function CubeCanvas({
    */
   const holdingsRef = useRef(new Map<string, SignMount>());
   const sceneRef = useRef<CubeScene | null>(null);
+  // Stable, so the meter's window does not restart on every render here.
+  const passTimes = useCallback(
+    () => sceneRef.current?.passTimes() ?? null,
+    [],
+  );
   // Thrown while rendering, so the route's error boundary shows it.
   if (failure !== null) throw failure;
 
@@ -345,7 +350,7 @@ export function CubeCanvas({
           {fillSlots(floorLine, { floor })}
         </p>
       )}
-      <FrameRate />
+      <FrameRate {...{ passTimes }} />
       <p className={classes['hint']} aria-live="polite">
         {inReach === null || offer !== null
           ? ''

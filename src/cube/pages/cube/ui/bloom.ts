@@ -64,21 +64,26 @@ fn up(in: Varying) -> @location(0) vec4f {
 }
 `;
 
-/**
- * Records one pass of `pipeline`, reading `group`, over the whole of `into`:
- * cleared first, unless `keeps` leaves what it holds for the pass to add to.
- */
+type Covering = {
+  /** Leaves what `into` holds for the pass to add to, rather than clearing. */
+  keeps?: boolean;
+  /** Where the GPU stamps the pass's start or end. */
+  stamp?: GPURenderPassTimestampWrites;
+};
+
+/** Records one pass of `pipeline`, reading `group`, over the whole of `into`. */
 export function cover(
   encoder: GPUCommandEncoder,
   pipeline: GPURenderPipeline,
   group: GPUBindGroup,
   into: GPUTextureView,
-  keeps = false,
+  { keeps = false, stamp }: Covering = {},
 ): void {
   const pass = encoder.beginRenderPass({
     colorAttachments: [
       { view: into, loadOp: keeps ? 'load' : 'clear', storeOp: 'store' },
     ],
+    ...(stamp === undefined ? {} : { timestampWrites: stamp }),
   });
   pass.setPipeline(pipeline);
   pass.setBindGroup(0, group);
@@ -186,7 +191,7 @@ export function createBloom(device: GPUDevice): Bloom {
         above = level;
       }
       for (const level of levels.toReversed().slice(1)) {
-        cover(encoder, up, above.read, level.view, true);
+        cover(encoder, up, above.read, level.view, { keeps: true });
         above = level;
       }
       return first.view;
