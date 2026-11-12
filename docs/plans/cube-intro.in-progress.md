@@ -174,6 +174,21 @@ The stylised hands and body stay as they are — the contrast with the island is
 the operator's creative choice («кривые руки -- украшать не надо»). "Дерево" was
 the operator's own word for the potted plant in floor 1's room.
 
+## Steering since
+
+- **2026-11-12 22:32Z, the sun's direction**, with a sketch over floor 1's room
+  (`docs/remove-before-merging/cube-intro-j2wt34/frames/operator/sun-direction.webp`):
+  two dashed rays from the top of the door running diagonally into the room and
+  down to the floor near its middle, a parallelogram of light round the hole.
+
+  > направление света солнца какое-то вот такое, наверное, должно быть
+
+  Read as: the beam comes in on a diagonal and lies on the floor, where the
+  first design sent it flat across to the west wall. The direction is taken; the
+  sketch's steepness (some 30°) is not, since a sun that high is mid-afternoon
+  and the sea and sky lose the gold — told to the operator, one constant to
+  change if they want it steeper.
+
 ## Facts established
 
 - Floor 1 is one room: `roomsAcross(1) = 1`, side 5 m, height 2.5 m
@@ -205,20 +220,27 @@ Each with its reason; a later decision that overrides one rewrites it here.
   stands in that corner, 0.07–0.9 m in from the wall, half across the doorway,
   and stays there. The decor door is dropped from floor 1's theme alone (15
   other floors list it).
-- **The doorway faces the sun; the player wakes on the far side.** The sun's
-  azimuth is the east wall's outward normal turned a few degrees south, its
-  elevation 9°, so the beam through the doorway crosses the room and ends low on
-  the west wall. The player wakes about 30 m to the cube's south-west, facing
-  the sea with the sun behind them, turns, and sees the cube against the sunset,
-  its sunlit side, door and ladder hidden — the operator's steer («солнце …
-  лучше всё-таки сзади или сбоку от куба … иначе ты сразу видишь дверь и
-  лестницу in your face»). The cube's shadow, some 38 m long, lies on the sand
-  beside the path to it. The first choice, waking in front of the doorway, lost
-  to this.
-- **The cube hovers 1.1 m over the sand.** At 9° its shadow starts about 7 m
-  behind it, so the sand right under the cube is in full sun: the look-under
-  beat, coming from the shadow side, shows lit sand and the sea's glare through
-  the gap.
+- **The sun looks in through the doorway on a diagonal; the player wakes on the
+  far side.** The sun stands 17° up, its azimuth the east wall's outward normal
+  (+x) turned 31° toward −z, which is the line from the pill's shelf (west wall,
+  z = 3.75 m) back through the doorway's middle. So the doorway's light lies on
+  the floor as one long parallelogram from the sill across the room to the foot
+  of the west wall under the pill, lapping some 0.3 m up it — the operator's
+  sketch (§ "Steering since"). `SUN_DIR` ≈ (0.820, 0.292, −0.492). The first
+  design, 9° and 8° toward +z, sent the beam flat across to the west wall and
+  lost to the sketch; 30°, the sketch's own steepness, lost to the gold of a low
+  sun.
+- **The player wakes about 30 m to the cube's south-west**, facing the sea with
+  the sun behind them, turns, and sees the cube against the sun — which stands
+  just above and right of it — its sunlit east and north faces, door and ladder
+  hidden: the operator's steer («солнце … лучше всё-таки сзади или сбоку от куба
+  … иначе ты сразу видишь дверь и лестницу in your face»). The cube's shadow,
+  some 20 m long, runs west-south-west, toward the player. The first choice,
+  waking in front of the doorway, lost to this.
+- **The cube hovers 1.1 m over the sand.** At 17° its shadow starts 3.6 m behind
+  it, so the sand right under the cube is in full sun: the look-under beat,
+  coming from the shadow side, shows lit sand and the sea's glare through the
+  gap.
 - **Outside is the same frame as inside, the eye is not a pose**:
   `W = CUBE_AT + 5 · C` in metres, the page holds "inside (a `Pose`) or outside
   (an eye in W)", and the scene draws an outside eye with floor 1's room as its
@@ -266,9 +288,51 @@ fact sheets land and step 0 is in.
 
 ## The team
 
-- Transcript digest of the first cube run (`session_01DaohkEZGmfg7XD5wRftBnA`) —
-  background agent, report pending.
-- Readers for the three fact sheets — background agents, reports pending.
+Child sessions, all on `claude-fable-5-2`, cut from this branch at 2026-11-12
+22:18–22:30Z, each on `claude/cube-intro-<name>`, briefed from the contract.
+Each reports by `send_message` to this session; a brief's full text is the
+session's first event (`list_events`).
+
+- **board** — `session_01DaohkDnTF1C1pccu6TcupR`. Coordinates the Cube design
+  board (https://claude.ai/artifact/WbvwDqVtJzN8EBeuUffho3) with #275's session
+  (`session_01DaohkFooQx3YpuSjFHqR59`, the live one of two). Takes "add this"
+  from the lead: frames go to it through
+  `docs/remove-before-merging/cube-intro-j2wt34/frames/` on this branch plus a
+  message naming files and captions.
+- **core** — `session_01DaohkBKqYztUdZYGkvzgus`. The seam; owns `renderer.ts`,
+  `cube-scene.ts`, `programs.ts`, `lib/camera.ts`, `lib/shader.ts`,
+  `lib/play.ts`. Steps: names in code, layers and the outside eye, the frame
+  script, the outside lens. Stays on for integration asks.
+- **sky** — `session_01DaohkCV3DtK2zJnjgNqmMD`. Also owns `aerial(…)`,
+  `SUN_LIGHT`, `SKY_FILL`.
+- **sea** — `session_01DaohkFaRFVjmDtAdAJo43m`. Owns `waterLevel`. Needs the
+  name of sand's bed-colour function once sand reports.
+- **sand** — `session_01DaohkFCm1Bfsbsruai7cEV`. Owns `islandHeight`; tells the
+  lead the moment the walked-on shape is settled.
+- **shell** — `session_01DaohkD4VsAVvL4tdwWWFoS`. Exterior, doorway, ladder,
+  `cubeShadow`, the sunbeam in floor 1; may tune `SUN_DIR`'s azimuth; exports
+  the ladder's facts for walk.
+- **sound** — `session_01DaohkCEXbY3wSQqxH73yHK`. Owns `features/sound/**` and
+  the cue names (`pill`, `swallow`, `rung`, `splash`, a ground on `step`, voice
+  moment `waking`), pushed first for walk and pill.
+- **walk** — `session_01DaohkCA5T6M6PFv7zXNegi`. Start routing, outside
+  controller, the scene engine and four tracks, the legs; splits
+  `cube-canvas.tsx`.
+- **pill** — `session_01DaohkDoQ3zoiqrQVjXomhV`. Pill and shelf, articulated
+  hands (owns `hands.ts`; exports a rung grip for walk), the floor-1 Y/N beat.
+
+To pass on when they come in: sand's bed-colour function → sea; sound's cue
+names → walk, pill (they merge sound's branch themselves); shell's ladder facts
+→ walk; core's "how to shoot a frame" → everyone (they merge core themselves).
+
+The preview is slot 2 (`preview.yml`, site `vova`, slot 2). #275's session was
+told slot 1 is theirs.
+
+Reader agents (done): the first run's transcript digest, and the fact sheets
+`facts-render.md`, `facts-play.md`, `facts-island-board.md`,
+`facts-sound-floor1.md`; `facts-frames-gates.md` still running when the children
+were launched. Each reader filled its ~200k context before finishing a brief of
+seven sections; a reader's brief is three sections at most.
 
 ## DRY notes
 
@@ -283,5 +347,18 @@ fact sheets land and step 0 is in.
 
 ## Progress
 
-- 2026-11-12: skill saved (`.claude/skills/carte-blanche/SKILL.md`), branch
-  renamed, readers launched, questions asked.
+- 2026-11-12 22:10Z: skill saved (`.claude/skills/carte-blanche/SKILL.md`),
+  branch renamed, readers launched, questions asked.
+- 22:30Z: answers in; #275's branch merged in (34f30eac); contract written; nine
+  child sessions running. Nothing built on this branch yet. A check-in is
+  scheduled for 23:11Z (`send_later`), and each child's report wakes the lead.
+- **Next, in order**: (1) when core's first push lands, confirm the others
+  merged it; (2) pass on the owed facts listed under "The team"; (3) merge each
+  branch as it reports green, look at its frames, send the good and the bad to
+  the board session with captions; (4) when sky, sea, sand and shell are in,
+  shoot the six standard eyes on the merged tree and run a fix round on what the
+  seams show; (5) publish to preview slot 2 and check the deployed commit before
+  telling the operator; (6) `/polish`, `/pr` (base `claude/cube-review-perf`),
+  then vet. The session's human-hour estimate is set (300 senior-hours).
+- The context notices: at 330k start nothing big; at 350k bring this file
+  current. The session compacts on its own near 370k; never `/relay`.
