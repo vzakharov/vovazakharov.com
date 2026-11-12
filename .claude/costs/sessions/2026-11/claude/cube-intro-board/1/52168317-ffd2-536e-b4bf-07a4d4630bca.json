@@ -1,0 +1,92 @@
+{
+  "total": {
+    "inputTokens": 28,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 97218,
+    "cacheReadTokens": 1583558,
+    "outputTokens": 10590,
+    "thinkingTokens": 3169,
+    "responses": 13,
+    "costUsd": 2.2960236
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-12T22:19:31.642Z",
+    "contextTokens": 100072,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 40713,
+      "cacheReadTokens": 52984,
+      "outputTokens": 914,
+      "thinkingTokens": 333,
+      "responses": 1,
+      "costUsd": 0.6985808
+    }
+  },
+  "sessionId": "52168317-ffd2-536e-b4bf-07a4d4630bca",
+  "branch": "claude/cube-intro-board",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are the board coordinator of a larger build, and the board is your whole job. This is an autonomous run under the repo's `/carte-blanche` mode (`.claude/ski…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDnTF1C1pccu6TcupR",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-12T22:19:20.231Z",
+  "lastResponseAt": "2026-11-12T22:21:39.984Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 28,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 97218,
+    "cacheReadTokens": 1583558,
+    "outputTokens": 10590,
+    "thinkingTokens": 3169,
+    "responses": 13,
+    "costUsd": 2.2960236
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 28,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 97218,
+      "cacheReadTokens": 1583558,
+      "outputTokens": 10590,
+      "thinkingTokens": 3169,
+      "responses": 13,
+      "costUsd": 2.2960236
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 13,
+    "matched": 13,
+    "matchedTableUsd": 2.2960236,
+    "matchedEventUsd": 2.2960236,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 346,
+    ".yaml": 48
+  }
+}
