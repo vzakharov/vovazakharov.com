@@ -39,3 +39,9 @@ items:
     box: [2853, -1350, 244, gray]
     icon: 🧍
     text: 'What your body does is yours alone: your pose, your hands, what you swallowed. The world is as it was for whoever comes next'
+  - id: rules-pill
+    type: sticky
+    updated: [2026-11-12T23:45:00.000Z, agent:cube-intro]
+    box: [3188, -1350, 244, yellow]
+    icon: 💊
+    text: 'Oops: the pill you do take. Vova’s reading, for now: “there is no pill. It is your own imagination, picturing the need to decide as a physical, external object, and so taking the responsibility off itself”. So the shelf still holds one for whoever comes next'
