@@ -2,30 +2,29 @@ import type { Rgb } from '@/cube/shared/lib/colour';
 import { vec3f, type Wgsl, wgsl } from '@/cube/shared/lib/wgsl';
 
 import type { Aired } from '../model/theme';
-import { GRADE } from './grade';
+import { type Exposed, GRADE } from './grade';
 import { LIGHT } from './light';
 
 /** An ordinary floor's light, air and lens, as numbers. */
-type Ordinary = Aired & {
-  /** The lamps' colour times their strength, and the light left without them. */
-  lamp: Rgb;
-  ambient: Rgb;
-  /** Panels along each side of a room's ceiling, and one's size in metres. */
-  grid: number;
-  panel: readonly [east: number, south: number];
-  /** The share of rooms whose lamps stutter. */
-  stutter: number;
-  /** Metres at which the air has swallowed about two thirds of a thing. */
-  visibility: number;
-  /** How much light the lens lets in: 1 as lit, 2 a stop brighter. */
-  exposure: number;
-  /** How far bright things bleed, and how far colours part in the corners. */
-  glow: number;
-  fringe: number;
-  /** How far the screen's corners darken, and how strong the grain is. */
-  vignette: number;
-  noise: number;
-};
+type Ordinary = Aired &
+  Exposed & {
+    /** The lamps' colour times their strength, and the light left without them. */
+    lamp: Rgb;
+    ambient: Rgb;
+    /** Panels along each side of a room's ceiling, and one's size in metres. */
+    grid: number;
+    panel: readonly [east: number, south: number];
+    /** The share of rooms whose lamps stutter. */
+    stutter: number;
+    /** Metres at which the air has swallowed about two thirds of a thing. */
+    visibility: number;
+    /** How far bright things bleed, and how far colours part in the corners. */
+    glow: number;
+    fringe: number;
+    /** How far the screen's corners darken, and how strong the grain is. */
+    vignette: number;
+    noise: number;
+  };
 
 /**
  * The light and the lens of a floor that is a lit room and nothing stranger:

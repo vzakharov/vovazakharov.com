@@ -1,5 +1,6 @@
 /// <reference types="@webgpu/types" />
 
+import { outsideLensSource } from '../lib/outside-lens';
 import { VERTEX_LAYOUT } from '../lib/vertex';
 import { SCENE_FORMAT } from './bloom';
 import { MIRROR_FORMATS } from './reflection';
@@ -40,12 +41,19 @@ export type Preparing = {
 
 export type Programs = Preparing & {
   layouts: Layouts;
+  /**
+   * The lens of an eye outdoors, compiled the first time it is asked for;
+   * rejects with the compiler's words where it does not compile.
+   */
+  outsideLens: () => Promise<GPURenderPipeline>;
   /** Floor `n`'s program; throws where the floor was not prepared. */
   of: (n: number) => Program;
 };
 
 /** `shader`'s compile errors on one line, or null where it compiled. */
-async function compileErrors(shader: GPUShaderModule): Promise<string | null> {
+export async function compileErrors(
+  shader: GPUShaderModule,
+): Promise<string | null> {
   const { messages } = await shader.getCompilationInfo();
   const errors = messages.filter(({ type }) => type === 'error');
   if (errors.length === 0) return null;
@@ -100,6 +108,28 @@ export function createPrograms(
     bindGroupLayouts: [layouts.uniform, layouts.board],
   });
 
+  /** The lens pipeline of `shader`, a module built on the lens stage. */
+  const lensOf = async (shader: GPUShaderModule): Promise<GPURenderPipeline> =>
+    device.createRenderPipelineAsync({
+      layout: lensLayout,
+      vertex: { module: shader, entryPoint: 'lensVertex' },
+      fragment: {
+        module: shader,
+        entryPoint: 'lensFragment',
+        targets: [{ format }],
+      },
+    });
+
+  const compileOutsideLens = async (): Promise<GPURenderPipeline> => {
+    const shader = device.createShaderModule({ code: outsideLensSource() });
+    const errors = await compileErrors(shader);
+    if (errors !== null) {
+      throw new Error(`The outside lens's shader: ${errors}`);
+    }
+    return lensOf(shader);
+  };
+  let outsideLens: Promise<GPURenderPipeline> | null = null;
+
   const compiling = new Map<number, Promise<Program>>();
   const ready = new Map<number, Program>();
 
@@ -137,15 +167,7 @@ export function createPrograms(
     const [faces, boards, lens] = await Promise.all([
       pipeline(facesLayout, 'fragmentMain'),
       pipeline(boardsLayout, 'boardFragment'),
-      device.createRenderPipelineAsync({
-        layout: lensLayout,
-        vertex: { module: shader, entryPoint: 'lensVertex' },
-        fragment: {
-          module: shader,
-          entryPoint: 'lensFragment',
-          targets: [{ format }],
-        },
-      }),
+      lensOf(shader),
     ]);
     const program = { faces, boards, lens };
     ready.set(n, program);
@@ -154,6 +176,10 @@ export function createPrograms(
 
   return {
     layouts,
+    outsideLens: async () => {
+      outsideLens ??= compileOutsideLens();
+      return outsideLens;
+    },
     prepare: async (floors) => {
       await Promise.all(
         floors.map(async (n) => {

@@ -2,8 +2,56 @@ import { floorSource, themeOf } from '@/cube/entities/theme';
 
 import { PASS_WGSL, VERTEX_WGSL } from './vertex';
 
-/** The floats of `Uniforms` below: a matrix and two vectors. */
-export const UNIFORM_FLOATS = 16 + 4 + 4;
+/** The floats of `Uniforms` below: a matrix and three vectors. */
+export const UNIFORM_FLOATS = 16 + 4 + 4 + 4;
+
+/**
+ * What every lens stands on, a floor's or the outside's: the frame's
+ * uniforms, the scene and its glow to look at, one triangle over the screen,
+ * and `lensOf`, the `Lens` of a pixel. A lens adds `lensFragment`.
+ */
+export const LENS_STAGE = /* wgsl */ `
+struct Uniforms {
+  viewProjection: mat4x4f,
+  /// The eye, in its own frame.
+  eye: vec4f,
+  /// Seconds into the shared clock's hour, which hour, and the screen's size.
+  clock: vec4f,
+  /// What the outside's lens is set to: its exposure, and how far the
+  /// eyelids are open, 0 shut to 1.
+  lens: vec4f,
+};
+
+@group(0) @binding(0) var<uniform> uniforms: Uniforms;
+@group(1) @binding(2) var sceneTexture: texture_2d<f32>;
+@group(1) @binding(3) var glowTexture: texture_2d<f32>;
+@group(1) @binding(4) var lensSampler: sampler;
+
+fn sceneAt(uv: vec2f) -> vec4f {
+  return textureSampleLevel(sceneTexture, lensSampler, uv, 0.0);
+}
+
+fn glowAt(uv: vec2f) -> vec3f {
+  return textureSampleLevel(glowTexture, lensSampler, uv, 0.0).rgb;
+}
+
+/// One triangle that covers the screen.
+@vertex
+fn lensVertex(@builtin(vertex_index) index: u32) -> @builtin(position) vec4f {
+  let corner = vec2f(f32((index << 1u) & 2u), f32(index & 2u));
+  return vec4f(corner * 2.0 - 1.0, 0.0, 1.0);
+}
+
+fn lensOf(at: vec4f) -> Lens {
+  var l: Lens;
+  l.pixel = at.xy;
+  l.size = uniforms.clock.zw;
+  l.uv = at.xy / l.size;
+  l.time = uniforms.clock.x;
+  l.hour = u32(uniforms.clock.y);
+  return l;
+}
+`;
 
 /**
  * The entry points every floor shares, in two passes. The scene: the vertex
@@ -12,24 +60,13 @@ export const UNIFORM_FLOATS = 16 + 4 + 4;
  * its light — a room's face from what it is made of, a board's from the
  * texture drawn on it — writing scene light, how far off the point is, and
  * the mirror the light left, which the frame fills before the lens.
- * The lens: one triangle over the screen, each pixel what the theme's lens
- * makes of that scene.
+ * The lens: each pixel what the theme's lens makes of that scene.
  */
 const STAGE = /* wgsl */ `
-struct Uniforms {
-  viewProjection: mat4x4f,
-  /// The eye, in its own frame.
-  eye: vec4f,
-  /// Seconds into the shared clock's hour, which hour, and the screen's size.
-  clock: vec4f,
-};
+${LENS_STAGE}
 
-@group(0) @binding(0) var<uniform> uniforms: Uniforms;
 @group(1) @binding(0) var board: texture_2d<f32>;
 @group(1) @binding(1) var boardSampler: sampler;
-@group(1) @binding(2) var sceneTexture: texture_2d<f32>;
-@group(1) @binding(3) var glowTexture: texture_2d<f32>;
-@group(1) @binding(4) var lensSampler: sampler;
 
 ${VERTEX_WGSL}
 
@@ -105,30 +142,9 @@ fn boardFragment(in: Varying) -> Scene {
   return sceneOf(s, themeLight(s, m));
 }
 
-fn sceneAt(uv: vec2f) -> vec4f {
-  return textureSampleLevel(sceneTexture, lensSampler, uv, 0.0);
-}
-
-fn glowAt(uv: vec2f) -> vec3f {
-  return textureSampleLevel(glowTexture, lensSampler, uv, 0.0).rgb;
-}
-
-/// One triangle that covers the screen.
-@vertex
-fn lensVertex(@builtin(vertex_index) index: u32) -> @builtin(position) vec4f {
-  let corner = vec2f(f32((index << 1u) & 2u), f32(index & 2u));
-  return vec4f(corner * 2.0 - 1.0, 0.0, 1.0);
-}
-
 @fragment
 fn lensFragment(@builtin(position) at: vec4f) -> @location(0) vec4f {
-  var l: Lens;
-  l.pixel = at.xy;
-  l.size = uniforms.clock.zw;
-  l.uv = at.xy / l.size;
-  l.time = uniforms.clock.x;
-  l.hour = u32(uniforms.clock.y);
-  return vec4f(themeLens(l), 1.0);
+  return vec4f(themeLens(lensOf(at)), 1.0);
 }
 `;
 

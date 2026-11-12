@@ -31,16 +31,24 @@ import {
   poseWithin,
   pulledOf,
   shotWithin,
+  type Stage,
   standingAt,
   STILL,
 } from '@/cube/features/player';
 
 import { type Follow, followAddress } from '../lib/fragment';
+import { OUTSIDE_LENS } from '../lib/outside-lens';
 import { type CubePlayHook, PLAY_HOOK, PLAY_INSTANT } from '../lib/play';
 import { type Start, writeCheat, writeFragment } from '../lib/start';
 import type { Selling, SignOf } from './cube-mesh';
 import { type CubeScene, mountCube } from './cube-scene';
 import { hear } from './hearing';
+
+/**
+ * The intro's stage as this page's lenses expose it: a scene's exposure is a
+ * multiple of the outdoor lens's, and floor 1's lens holds 1.
+ */
+const STAGE: Stage = { ...INTRO_STAGE, indoors: 1 / OUTSIDE_LENS.exposure };
 
 /** What a press of the hand does where the body stands, a sign aside. */
 export type Way = 'wake' | 'climb' | 'descend';
@@ -100,7 +108,7 @@ export function walk(
   /** The body while it is out of doors, and what its eye shows there. */
   let out: Abroad | null =
     ashore && input !== null
-      ? asleepOn(INTRO_STAGE, clockAt(Date.now()).seconds)
+      ? asleepOn(STAGE, clockAt(Date.now()).seconds)
       : null;
   /** The body's own quads out of doors, in the frame of floor 1's room. */
   let body: readonly Quad[] = [];
@@ -142,7 +150,7 @@ export function walk(
    */
   const outdoors = (was: Abroad, controls: Input, dt: number): Pose | null => {
     const { seconds } = clockAt(now());
-    const next = abroad(was, controls, dt, seconds, INTRO_STAGE, woken);
+    const next = abroad(was, controls, dt, seconds, STAGE, woken);
     const { cues, shot, entered, asleep } = next;
     hearing?.body(cues, player.pose);
     if (entered) {
@@ -152,13 +160,11 @@ export function walk(
       return poseWithin(shot);
     }
     out = next;
-    const bearing = bearingOf(next, INTRO_STAGE, seconds);
-    body = bearing === null ? [] : legsOf(bearing, INTRO_STAGE.land);
+    const bearing = bearingOf(next, STAGE, seconds);
+    body = bearing === null ? [] : legsOf(bearing, STAGE.land);
     setFloor(null);
     setInReach(null);
-    setWay(
-      asleep ? 'wake' : canClimb(next, INTRO_STAGE, seconds) ? 'climb' : null,
-    );
+    setWay(asleep ? 'wake' : canClimb(next, STAGE, seconds) ? 'climb' : null);
     return null;
   };
 
@@ -180,7 +186,17 @@ export function walk(
             if (out !== null) {
               const inside = outdoors(out, controls, seconds);
               if (inside === null) {
-                return { pose, pulled: null, moving: body };
+                const { shot } = out;
+                return {
+                  pose,
+                  pulled: null,
+                  moving: body,
+                  outside: outsideOf(shot),
+                  lens: {
+                    exposure: OUTSIDE_LENS.exposure * shot.exposure,
+                    eyelids: shot.lids,
+                  },
+                };
               }
               player = standingAt(inside);
               return { pose: inside, pulled: null, moving: [] };
@@ -202,11 +218,11 @@ export function walk(
             }
             const press = controls.pull && standing;
             const atSign = reach(moved, signOf, press);
-            const leaves = standing && !atSign && canLeave(moved, INTRO_STAGE);
+            const leaves = standing && !atSign && canLeave(moved, STAGE);
             setWay(leaves ? 'descend' : null);
             if (leaves && press) {
               out = leaving(
-                shotWithin(moved, INTRO_STAGE),
+                shotWithin(moved, STAGE),
                 INTRO_STAGE,
                 clockAt(now()).seconds,
               );
@@ -231,10 +247,11 @@ export function walk(
     },
   });
   if (play) {
-    const { ready, setPose, adapter } = scene;
+    const { ready, setPose, setEye, adapter } = scene;
     const hook: CubePlayHook = {
       ready,
       setPose,
+      setEye,
       adapter,
       setClock: (ms) => {
         frozen = ms;

@@ -1,5 +1,6 @@
 export { AERIAL } from './aerial';
 export { CUBE_SHADOW, cubeShadow } from './cube-shadow';
+export { DAYLIGHT } from './daylight';
 export {
   type Box,
   CUBE_AT,

@@ -22,7 +22,7 @@ export {
   standingAt,
 } from './model/play';
 export { canPress } from './model/press';
-export { outsideOf } from './model/scenes';
+export { outsideOf, type Stage } from './model/scenes';
 export { EYE_HEIGHT, type Input, STILL } from './model/step';
 export { canLeave, poseWithin, shotWithin } from './model/threshold';
 export { plantedWalls } from './model/walls';
