@@ -30,6 +30,10 @@ From the parent session's brief, which opened this session (as delivered, bindin
    - on `light.wgsl` R34: «не сейчас, но на подумать: не требовать ли чтобы все численные значения задавались константами?» — Agent: name a number when it repeats, derives from another or is a unit (12.0 / 43200u / 48u there); not salts or art knobs; no lint rule.
 7. **Operator:** «эй эй мэйт», quoting the agent's line that the denied formatter run was not checked — Agent: admitted it owed a permission line at the denial (CLAUDE.md § "Key principles") and gave it (below).
 8. **Operator:** «то есть по твоему легче самому написать форматтер чем дать мне строку для разрешения?» — Agent: no formatter was written; the board's syntax highlighting answered a separate comment; the permission line is in chat.
+9. **Board, `46-micrograph.wgsl`:** «тайпгенить необходимые константы и импортить?» / «тьфу, кодгенить» — Agent: the mechanism exists (a TS piece imported from `.wgsl`, as CORE); asked whether to do AIR now. **Operator: «ага»** — Agent: `laboratory/config/micrograph-air.ts` (`MICROGRAPH_AIR`, `MICROGRAPH_AIR_WGSL`); the linker maps `_` in a WESL path to the kebab-case file's `-` (9c2b6b71).
+10. **Board, `shaders-pin.test.ts`:** «тока это надо удалить после того как все перенесём и убедимся» — Agent: agreed, noted in #275's todo § 0 (527efc58).
+11. **Board, `light.wgsl` R34:** questioned the three naming criteria («разные вещи с одним значением?», «выводится из другого — это как?», «как проверять?») — Agent: they are one rule, "name it when changing it means changing something else", a review call no checker makes. Then «а сколько … соотношение» — Agent: ~3–5 % of 686 literals in the 11 moved files. Then **«нет, давай уже править как предложил. а подход тогда в привязанных к .wgsl .rules-ах написать»** — Agent: `TICK_RATE`/`HOUR_TICKS`/`SPELL_TICKS` in `light.wgsl`, `HEX_ROW` in `honeycomb.wgsl` (imported by the bathroom), `kit/lib/math.wgsl` with `PI`; rule `.claude/rules/wgsl.md` scoped to `**/*.wgsl` (7f96e47f).
+12. **Board, `12-bathroom.wgsl` (formatter):** «какие-то пляски с бубнами. а для wesl ничего нет?» — Agent: no WESL formatter exists on npm; found wgsl-linter 0.5.0; the operator authorized a trial run; it mangles `::` in imports, never wraps lines, and its lint flags every imported name. **Operator: «ок пусть будет только prettier»**, then in chat **«а, про форматтер в divergence.md (с muthur) записать надо»** — Agent: `scripts/prettier-wesl.ts`, a local Prettier plugin over prettier-plugin-wgsl that keeps the import head as written; all `.wgsl` formatted; divergence.md records it (130b3825).
 
 ## Intent
 
@@ -42,7 +46,8 @@ From the parent session's brief, which opened this session (as delivered, bindin
 - **Export names**: UPPER_SNAKE of the stem; a numbered floor file gets `_SHADER` (`BATHROOM_SHADER`) to dodge `vova/no-export-namesake`. `home.wgsl` was renamed `dwelling.wgsl`/`DWELLING` because `HOME` collides with floor 66.
 - **CORE stays TS** (`kit/lib/core.ts`): it interpolates constants; `.wgsl` files import it, the linker loading the TS piece dynamically to read its declarations.
 - **`masd:clusters` gate change**: `foldTwins` in `scripts/masd-clusters.ts` folds a generated `x.shader.ts` with a sibling `x.ts` into that file. Alternative: a `// masd-disable cluster` marker per floor, needing the operator's yes. Flagged to the operator as a call to overrule; no answer yet.
-- **Micrograph's `${vec3f(AIR)}`** became the literal `vec3f(0.0015, 0.0015, 0.0015)` — duplicates the TS constant; reported as a drift risk.
+- **Micrograph's air** lives in the TS piece `micrograph-air.ts`, read by the theme and imported by the shader as `AIR`.
+- **The pin test compares tokens, not bytes**: layout belongs to Prettier, so `tokens()` drops whitespace, trailing commas and a struct's `};`. The `BEFORE` hashes were retaken from f763b784 (the commit before the move) under that normalization. Every named difference (kit moves, AIR, named numbers) is undone by text first. It is scaffolding, to be deleted once all files have moved.
 - **Type-overlap fixes**: `Named = WithFile & kernel Named & {module}`, `Declaring` in `module.ts`, `Entered` in `placement.ts`, `Module.body` renamed `shipped` (collided with blog's `ProseSource.body`).
 
 ## Errors and dead ends
@@ -53,7 +58,7 @@ From the parent session's brief, which opened this session (as delivered, bindin
 
 ## State
 
-- Branch `claude/cube-wesl-trial`, clean, pushed; head `7de078cb docs: keep the review focus to what the trial changes` (plus this summary's commit).
+- Branch `claude/cube-wesl-trial`, pushed; head `130b3825 chore: format .wgsl with Prettier through a WESL-aware plugin` (plus this summary's commit). Vet not yet re-run since 7de078cb.
 - PR #276, draft, base `claude/cube-review-perf` (head of #275): https://github.com/vzakharov/vovazakharov.com/pull/276 — squash proposal posted as a comment, tracked at `docs/remove-before-merging/cube-wesl-trial/squash-message.md`; the review board's sticky comment posted on it.
 - `docs/remove-before-merging/review-focus.json` now holds trial items only (the collector refuses files unchanged against the PR base); #275's own items (`reflection.ts`, `reflection-shader.ts`, `core.ts`) are gone from it on this branch — the parent restores them when it merges #276.
 - `.claude/artifacts/vet.sh`'s prettier step calls `../../scripts/prettier.sh`, which does not exist; pre-existing, not touched.
@@ -80,9 +85,8 @@ https://claude.ai/artifact/PSHRvqMjUtVGe8v3UcN5gU
 
 ## Next step
 
-Wait for the operator. Pending his answer:
+Run `./scripts/vet.sh` on the pushed head, then wait for the operator. Open:
 
-- «Ставить?» on prettier-plugin-wgsl (board thread on `12-bathroom.wgsl`, formatter/linter). The operator authorized a trial run and it ran: the plugin fails on WESL `import` lines ("expecting EOF but found: import") and formats the body without them cleanly (comments kept, 80-column breaks like prettier's TS). Proposed: a format step that hands the plugin the body only and reattaches the head — a new dependency, so a toolchain change (CLAUDE.md § "Vetting", four sites);
 - the twin fold in `masd-clusters.ts`: the operator rejected folding by the generated header («не, это хуже»), so the `.shader.ts` suffix stays; the agent asked whether he wanted the wide `\.\w+\.` fold instead — open (board thread on `masd-clusters.ts`);
 - review of #276; the `masd:clusters` fold vs markers; the three five-percent alternatives (pin test lifetime, MASD checked twice, committed generated files).
 
