@@ -18,16 +18,17 @@
  * writes nothing and names each one.
  */
 
-/* eslint-disable no-console -- stderr is how this script reports: each broken
-   import, and each module it rewrote, which the vet run's non-zero exit refers
-   to. The rule stays `error` in the app, where a stray log ships to a user. */
-
 import fs from 'node:fs';
 import path from 'node:path';
 
 import { loadGraph } from '../eslint/masd-graph.ts';
 import { generatedOf, linkAll } from './lib/wesl/link.ts';
 import { render } from './lib/wesl/render.ts';
+
+/** One line of this script's report, on stderr. */
+const report = (line: string): void => {
+  process.stderr.write(`${line}\n`);
+};
 
 const filesEnding = (suffix: string): string[] =>
   fs
@@ -39,10 +40,8 @@ const filesEnding = (suffix: string): string[] =>
 const graph = loadGraph();
 const { linked, errors } = await linkAll(graph, filesEnding('.wgsl'));
 if (errors.length > 0) {
-  for (const error of errors) console.error(error);
-  console.error(
-    `${String(errors.length)} shader import problems; nothing written.`,
-  );
+  for (const error of errors) report(error);
+  report(`${String(errors.length)} shader import problems; nothing written.`);
   process.exit(1);
 }
 
@@ -58,16 +57,16 @@ for (const { output, source, expected } of rendered) {
   const found = fs.existsSync(output) ? fs.readFileSync(output, 'utf8') : '';
   if (found === expected) continue;
   fs.writeFileSync(output, expected);
-  console.error(`regenerated ${output} from ${source}`);
+  report(`regenerated ${output} from ${source}`);
   rewrote = true;
 }
 for (const output of filesEnding('.shader.ts')) {
   if (fs.existsSync(output.replace(/\.shader\.ts$/, '.wgsl'))) continue;
   fs.rmSync(output);
-  console.error(`removed ${output}, whose .wgsl is gone`);
+  report(`removed ${output}, whose .wgsl is gone`);
   rewrote = true;
 }
 if (rewrote) {
-  console.error('A generated shader module was stale and has been rewritten.');
+  report('A generated shader module was stale and has been rewritten.');
   process.exit(1);
 }
