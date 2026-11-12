@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 43,
+    "inputTokens": 47,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 132972,
-    "cacheReadTokens": 2799500,
-    "outputTokens": 14526,
+    "cacheWrite1hTokens": 136109,
+    "cacheReadTokens": 3173365,
+    "outputTokens": 14657,
     "thinkingTokens": 3735,
-    "responses": 20,
-    "costUsd": 3.268836
+    "responses": 22,
+    "costUsd": 3.399073
   },
   "estimate": {
     "at": "2026-11-12T22:22:30.125Z",
@@ -52,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkDnTF1C1pccu6TcupR",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-12T22:19:20.231Z",
-  "lastResponseAt": "2026-11-12T22:22:55.934Z",
+  "lastResponseAt": "2026-11-12T22:23:11.690Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 43,
+    "inputTokens": 47,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 132972,
-    "cacheReadTokens": 2799500,
-    "outputTokens": 14526,
+    "cacheWrite1hTokens": 136109,
+    "cacheReadTokens": 3173365,
+    "outputTokens": 14657,
     "thinkingTokens": 3735,
-    "responses": 20,
-    "costUsd": 3.268836
+    "responses": 22,
+    "costUsd": 3.399073
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,23 +77,23 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 43,
+      "inputTokens": 47,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 132972,
-      "cacheReadTokens": 2799500,
-      "outputTokens": 14526,
+      "cacheWrite1hTokens": 136109,
+      "cacheReadTokens": 3173365,
+      "outputTokens": 14657,
       "thinkingTokens": 3735,
-      "responses": 20,
-      "costUsd": 3.268836
+      "responses": 22,
+      "costUsd": 3.399073
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 20,
-    "matched": 20,
-    "matchedTableUsd": 3.268836,
-    "matchedEventUsd": 3.268836,
+    "events": 22,
+    "matched": 22,
+    "matchedTableUsd": 3.399073,
+    "matchedEventUsd": 3.399073,
     "unseen": {}
   },
   "operatorWords": {
