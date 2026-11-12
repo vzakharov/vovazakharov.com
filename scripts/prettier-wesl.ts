@@ -10,7 +10,7 @@ import wgsl from 'prettier-plugin-wgsl';
 
 const { hardline, join } = doc.builders;
 
-type Wesl = { head: string[]; body: string };
+type Wesl = { head: string[]; shader: string };
 
 const LAST_IMPORT = /^import [^\n]*;$/gm;
 
@@ -21,7 +21,7 @@ const parse = (text: string): Wesl => {
   const cut = ends.at(-1) ?? 0;
   return {
     head: cut === 0 ? [] : text.slice(0, cut).split('\n'),
-    body: text.slice(cut),
+    shader: text.slice(cut),
   };
 };
 
@@ -34,16 +34,19 @@ const parser: Parser<Wesl> = {
 
 /** Prettier hands `embed` an untyped path; its node is the one `parse` made. */
 const isWesl = (node: unknown): node is Wesl =>
-  typeof node === 'object' && node !== null && 'head' in node && 'body' in node;
+  typeof node === 'object' &&
+  node !== null &&
+  'head' in node &&
+  'shader' in node;
 
 const printer: Printer<Wesl> = {
   print: () => '',
   embed: (path) => {
     const node: unknown = path.node;
     if (!isWesl(node)) return null;
-    const { head, body } = node;
+    const { head, shader } = node;
     return async (textToDoc) => {
-      const formatted = await textToDoc(body, { parser: 'wgsl' });
+      const formatted = await textToDoc(shader, { parser: 'wgsl' });
       if (head.length === 0) return [formatted, hardline];
       return [join(hardline, head), hardline, hardline, formatted, hardline];
     };
