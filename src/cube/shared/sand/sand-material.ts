@@ -107,7 +107,10 @@ fn sandLight(point: SandPoint, sun: vec3f) -> vec3f {
   let acrossSun = abs(dot(normalize(sun.xz), vec2f(${WIND[0]}, ${WIND[1]})));
   rippleSun = mix(1.0 - 0.42 * stand * acrossSun, rippleSun, drawn);
 
-  let damp = smoothstep(0.22, 0.7, point.wet.x + 0.35 * (fbmd(xz / 0.35, SAND_SALT + 0x9bu, 3).x - 0.5));
+  var damp = 0.0;
+  if (point.wet.x > 0.0) {
+    damp = smoothstep(0.22, 0.7, point.wet.x + 0.35 * (fbmd(xz / 0.35, SAND_SALT + 0x9bu, 3).x - 0.5));
+  }
   let film = point.wet.y;
   let grains = sandGrains(xz, point.px);
   let litter = sandLitter(xz, point.h, point.px, sun);
@@ -134,8 +137,10 @@ fn sandLight(point: SandPoint, sun: vec3f) -> vec3f {
   light += direct * dry * max(dot(normal, sun), 0.0) * (0.04 + 0.96 * grazing) * sheenLobe * 0.6;
   // Glints are a thing of the sand at one's feet: further off they are noise.
   let glints = 1.0 - smoothstep(0.003, 0.012, point.px);
-  light += direct * (0.2 + 0.8 * dry) * 3.0 * glints * sandGlint(xz, normal, half, point.px)
-    + direct * litter.cover * litter.gloss * pow(max(dot(normal, half), 0.0), 60.0);
+  if (glints > 0.0) {
+    light += direct * (0.2 + 0.8 * dry) * 3.0 * glints * sandGlint(xz, normal, half, point.px);
+  }
+  light += direct * litter.cover * litter.gloss * pow(max(dot(normal, half), 0.0), 60.0);
 
   // Wet sand: a sheen where it is soaked, the sky's mirror where water stands.
   if (damp > 0.0) {
