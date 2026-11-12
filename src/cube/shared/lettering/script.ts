@@ -1,5 +1,7 @@
 import { pathHash, roll, rollWith } from '@/dice/shared/roll';
 
+import { ramp } from '@/cube/shared/lib/ease';
+
 import { alphabetOf } from './invented';
 import { type Glyph, latinGlyph } from './latin';
 import { mapped, type Point, type Polyline } from './polyline';
@@ -19,9 +21,6 @@ const FIRST_INVENTED = 40;
 const LAST_WHOLE = 53;
 /** The floor by which the strokes are as loose as they get. */
 const LOOSEST = 66;
-
-const ramp = (n: number, from: number, to: number): number =>
-  Math.min(Math.max((n - from) / (to - from), 0), 1);
 
 /**
  * Floor `n`'s script: Latin on the top floors; then each letter is, with a

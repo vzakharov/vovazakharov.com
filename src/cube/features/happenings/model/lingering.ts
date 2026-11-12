@@ -1,16 +1,21 @@
+import { lerp, ramp, smooth } from '@/cube/shared/lib/ease';
 import { CEILING_HEIGHT } from '@/cube/shared/lib/room-shape';
-import type { Quad, Room, Vec3 } from '@/cube/entities/world';
+import {
+  plus,
+  type Quad,
+  type Room,
+  UP,
+  type Vec3,
+} from '@/cube/entities/world';
 
-import { lerp, pick, ramp, smooth } from '../lib/ease';
+import { pick } from '../lib/pick';
 import {
   about,
-  added,
   bar,
   block,
   heading,
   type Made,
   turned,
-  UP,
   yawTo,
 } from '../lib/solid';
 import { type Act, shown, sounding } from './staging';
@@ -42,7 +47,7 @@ export const balloon: Act = (staging) => {
     CEILING_HEIGHT - 0.042 - 0.003 * (1 + Math.sin(age * 0.9)),
     0.25 + 0.5 * chance('v') + 0.03 * Math.cos(age * 0.07),
   ];
-  const knot = added(at, [0, -0.03, 0]);
+  const knot = plus(at, [0, -0.03, 0]);
   const burst = age - (lastsFor - BURST);
   if (burst >= 0) {
     const fallen = Math.max(0.003, knot[1] - 2.5 * burst * burst);
@@ -69,7 +74,7 @@ export const balloon: Act = (staging) => {
     ].flatMap((turn) => block(room, at, BALLOON, turn, made)),
     ...bar(
       room,
-      [knot, added(knot, [sway, -STRING, sway / 2])],
+      [knot, plus(knot, [sway, -STRING, sway / 2])],
       [0.002, 0.002],
       [1, 0, 0],
       THREAD,
@@ -85,7 +90,7 @@ const LEG: Made = { stuff: 'metal' };
 function chairAt(room: Room, at: Vec3, yaw: number): Quad[] {
   const turn = heading(yaw);
   const part = (offset: Vec3, size: Vec3, made: Made) =>
-    block(room, added(at, turn(offset)), size, turn, made);
+    block(room, plus(at, turn(offset)), size, turn, made);
   return [
     ...part([0, 0.086, 0], [0.09, 0.008, 0.09], SEAT),
     ...part([-0.041, 0.135, 0], [0.008, 0.09, 0.09], SEAT),

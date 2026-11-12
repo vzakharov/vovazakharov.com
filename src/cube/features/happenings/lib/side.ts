@@ -1,6 +1,11 @@
-import { type Setting, type Vec3, WALL_HALF } from '@/cube/entities/world';
-
-import { added, scaled, UP } from './solid';
+import {
+  plus,
+  type Setting,
+  times,
+  UP,
+  type Vec3,
+  WALL_HALF,
+} from '@/cube/entities/world';
 
 /** A room's sides by their place in the world's step order. */
 export const SIDES = [0, 1, 2, 3] as const;
@@ -38,9 +43,9 @@ export const spot = (
   into: number,
 ): Vec3 => {
   const frame = SIDE_FRAMES[side];
-  return added(
-    added(added(frame.base, scaled(frame.along, along)), scaled(UP, up)),
-    scaled(frame.into, into),
+  return plus(
+    plus(plus(frame.base, times(frame.along, along)), times(UP, up)),
+    times(frame.into, into),
   );
 };
 

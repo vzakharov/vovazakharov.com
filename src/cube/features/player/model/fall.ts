@@ -7,7 +7,7 @@ import {
 } from '@/cube/entities/world';
 
 import { BODY_RADIUS } from './body';
-import { ramp } from './ease';
+import { rise } from './ease';
 import { SMALL } from './shrink';
 
 /** The speed a hop leaves the slab at, upward, in room sides a second. */
@@ -61,7 +61,7 @@ export function intoShaft(at: InRoom, quarter: Quarter): InRoom {
 
 /** Where a hop from `from` into the shaft at `to` is, `t` seconds in. */
 export function hopAt(from: InRoom, to: InRoom, t: number): InRoom {
-  const k = ramp(t, 0, HOP_TIME);
+  const k = rise(t, 0, HOP_TIME);
   return {
     u: from.u + (to.u - from.u) * k,
     v: from.v + (to.v - from.v) * k,

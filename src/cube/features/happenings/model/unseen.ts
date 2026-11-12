@@ -1,8 +1,8 @@
-import type { Vec3 } from '@/cube/entities/world';
+import { plus, type Vec3 } from '@/cube/entities/world';
 
-import { pick } from '../lib/ease';
+import { pick } from '../lib/pick';
 import { inLane, onSide, openSides, shutSides, sideAt } from '../lib/side';
-import { added, block, heading, type Made } from '../lib/solid';
+import { block, heading, type Made } from '../lib/solid';
 import { type Act, heard, NOTHING, shown, sounding } from './staging';
 
 const PHONE_PAINTS = [0x8a_1f_1a, 0xc8_c0_a8, 0x12_12_14] as const;
@@ -31,14 +31,14 @@ export const phone: Act = (staging) => {
     [
       ...block(
         setting.room,
-        added(at, [0, 0.006, 0]),
+        plus(at, [0, 0.006, 0]),
         [0.04, 0.012, 0.03],
         turn,
         made,
       ),
       ...block(
         setting.room,
-        added(at, [jolt, 0.017 + Math.abs(jolt), 0]),
+        plus(at, [jolt, 0.017 + Math.abs(jolt), 0]),
         [0.012, 0.008, 0.045],
         turn,
         made,

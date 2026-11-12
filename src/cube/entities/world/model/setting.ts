@@ -1,6 +1,6 @@
 import type { Sides, Walled } from '@/cube/shared/lib/sides';
 
-import type { Placed } from './geometry';
+import type { Placed } from './frame';
 import type { Quarter } from './hole';
 import type { Quad, Vec3 } from './quad';
 import type { InRoomOf, Room } from './room';

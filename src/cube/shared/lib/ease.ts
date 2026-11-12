@@ -12,8 +12,3 @@ export const smooth = (t: number): number => {
 
 export const lerp = (a: number, b: number, share: number): number =>
   a + (b - a) * share;
-
-/** The item of `items` that `chance` of `[0, 1)` falls on. */
-export function pick<T>(items: readonly [T, ...T[]], chance: number): T {
-  return items[Math.floor(chance * items.length)] ?? items[0];
-}

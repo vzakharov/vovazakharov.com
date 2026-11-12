@@ -1,9 +1,9 @@
 import type { Seeded } from '@/kernel/shared/typings';
 
-import type { Footing } from '@/cube/entities/theme';
+import type { Footing, Loud } from '@/cube/shared/lib/acoustics';
+import { clamp01 } from '@/cube/shared/lib/ease';
 import type { InRoom } from '@/cube/entities/world';
 
-import { clamp01 } from '../lib/dsp';
 import { breath, grunt, jump, landing } from './body';
 import { knock, lever, ring, shrinking, stepsAway, thud } from './fixture';
 import { footstep } from './footstep';
@@ -113,8 +113,7 @@ export function samplesOf(
 }
 
 /** How a sound sits in the mix. */
-export type Mix = {
-  loudness: number;
+export type Mix = Loud & {
   /** −1 left to 1 right. */
   balance: number;
   /** The share of it sent through the room's reverb, 0 to 1. */

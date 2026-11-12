@@ -1,6 +1,7 @@
 import {
   cross,
   dot,
+  minus,
   plus,
   type Quad,
   type Stuff,
@@ -26,8 +27,6 @@ export type Lofted = Stuff & {
    */
   arc?: readonly [from: number, to: number];
 };
-
-const minus = (a: Vec3, b: Vec3): Vec3 => plus(a, times(b, -1));
 
 const lengthOf = (a: Vec3): number => Math.hypot(...a);
 

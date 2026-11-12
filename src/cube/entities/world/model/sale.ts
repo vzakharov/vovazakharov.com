@@ -1,4 +1,5 @@
-import { type Placed, walledRooms } from './geometry';
+import type { Placed } from './frame';
+import { walledRooms } from './geometry';
 import { type HoleOf, under } from './hole';
 import type { InRoom, WallMounted } from './pose';
 import { box, type Facet, facet, type Quad, times, type Vec3 } from './quad';

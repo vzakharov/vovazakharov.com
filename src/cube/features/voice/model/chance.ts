@@ -24,5 +24,5 @@ export const among = <T>(items: Some<T>, draw: number): T =>
   items[Math.floor(draw * items.length)] ?? items[0];
 
 /** An integer in `[lo, hi]` from a draw. */
-export const between = (lo: number, hi: number, draw: number): number =>
+export const wholeBetween = (lo: number, hi: number, draw: number): number =>
   lo + Math.floor(draw * (hi - lo + 1));

@@ -1,21 +1,17 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { Quad, Room, Vec3 } from '@/cube/entities/world';
+import {
+  cross,
+  minus,
+  type Quad,
+  type Room,
+  UP,
+  type Vec3,
+} from '@/cube/entities/world';
 
 import { next, SIDE_FRAMES, SIDES } from './side';
-import {
-  about,
-  bar,
-  block,
-  crossed,
-  forward,
-  heading,
-  less,
-  turned,
-  UP,
-  yawTo,
-} from './solid';
+import { about, bar, block, forward, heading, turned, yawTo } from './solid';
 
 const ROOM: Room = { n: 3, x: 1n, y: 2n };
 const WOOD = { stuff: 'wood' } as const;
@@ -30,7 +26,7 @@ const close = (a: Vec3, b: Vec3) => {
 /** Fails unless every face of `quads` looks away from `centre`. */
 function assertOutward(quads: readonly Quad[], centre: Vec3): void {
   for (const { corners, normal } of quads) {
-    const [x, y, z] = less(corners[0], centre);
+    const [x, y, z] = minus(corners[0], centre);
     assert.ok(x * normal[0] + y * normal[1] + z * normal[2] > 0);
   }
 }
@@ -87,7 +83,7 @@ describe('the side frames', () => {
   it('are right-handed, each starting where the one before ends', () => {
     for (const side of SIDES) {
       const { base, along, into } = SIDE_FRAMES[side];
-      close(crossed(along, UP), into);
+      close(cross(along, UP), into);
       const after = SIDE_FRAMES[next(side)];
       close([base[0] + along[0], 0, base[2] + along[2]], after.base);
     }

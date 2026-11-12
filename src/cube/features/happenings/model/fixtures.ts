@@ -1,13 +1,20 @@
+import { ramp, smooth } from '@/cube/shared/lib/ease';
 import { CEILING_HEIGHT } from '@/cube/shared/lib/room-shape';
 import {
   box,
+  cross,
   face,
   holeMiddle,
+  minus,
+  plus,
+  times,
+  unit,
+  UP,
   type Vec3,
   WALL_HALF,
 } from '@/cube/entities/world';
 
-import { pick, ramp, smooth } from '../lib/ease';
+import { pick } from '../lib/pick';
 import {
   next,
   onSide,
@@ -18,19 +25,7 @@ import {
   sideAt,
   spot,
 } from '../lib/side';
-import {
-  about,
-  added,
-  bar,
-  block,
-  crossed,
-  forward,
-  less,
-  scaled,
-  tilted,
-  unitOf,
-  UP,
-} from '../lib/solid';
+import { about, bar, block, forward, tilted } from '../lib/solid';
 import { type Act, NOTHING, shown, sounding, type Staging } from './staging';
 
 const DOOR_PAINTS = [0x5a_3a_22, 0x7a_7c_78, 0x2e_4a_3a, 0xc8_c2_b0] as const;
@@ -72,16 +67,16 @@ export const door: Act = (staging) => {
     (smooth(ramp(age, 4, 6)) - ramp(age, 12, 12.4)) *
     (1 + 0.04 * Math.sin(age * 9));
   const leaf = tilted(along, into, swung);
-  const thick = crossed(leaf, UP);
+  const thick = cross(leaf, UP);
   const hinge = at(0, 0, 0.003);
   const paint = pick(DOOR_PAINTS, chance('paint'));
   const post = (a: number) =>
     box(
       at(a, 0, 0),
       [
-        scaled(along, DOOR.jamb),
+        times(along, DOOR.jamb),
         [0, DOOR.tall + DOOR.jamb, 0],
-        scaled(into, DOOR.proud),
+        times(into, DOOR.proud),
       ],
       room,
       'trim',
@@ -90,7 +85,7 @@ export const door: Act = (staging) => {
     [
       face(
         at(0, 0, 0.0008),
-        scaled(along, DOOR.wide),
+        times(along, DOOR.wide),
         [0, DOOR.tall, 0],
         room,
         'fabric',
@@ -100,27 +95,27 @@ export const door: Act = (staging) => {
       ...post(DOOR.wide),
       ...box(
         at(0, DOOR.tall, 0),
-        [scaled(along, DOOR.wide), [0, DOOR.jamb, 0], scaled(into, DOOR.proud)],
+        [times(along, DOOR.wide), [0, DOOR.jamb, 0], times(into, DOOR.proud)],
         room,
         'trim',
       ),
       ...box(
         hinge,
         [
-          scaled(leaf, DOOR.wide),
+          times(leaf, DOOR.wide),
           [0, DOOR.tall - 0.004, 0],
-          scaled(thick, 0.006),
+          times(thick, 0.006),
         ],
         room,
         'wood',
         paint,
       ),
       ...box(
-        added(
-          added(hinge, scaled(leaf, 0.82 * DOOR.wide)),
-          added([0, 0.2, 0], scaled(thick, 0.006)),
+        plus(
+          plus(hinge, times(leaf, 0.82 * DOOR.wide)),
+          plus([0, 0.2, 0], times(thick, 0.006)),
         ),
-        [scaled(leaf, 0.02), [0, 0.006, 0], scaled(thick, 0.008)],
+        [times(leaf, 0.02), [0, 0.006, 0], times(thick, 0.008)],
         room,
         'metal',
       ),
@@ -145,7 +140,7 @@ const LIMB = { stuff: 'skin', tint: 0x4a_42_46 } as const;
 export const unfolding: Act = (staging) => {
   const { setting, age, chance } = staging;
   const plane = forward(2 * Math.PI * chance('yaw'));
-  const down = scaled(UP, -1);
+  const down = times(UP, -1);
   const out = smooth(ramp(age, 0, 6)) - ramp(age, 12, 13);
   const sway = 0.06 * Math.sin(age * 0.8);
   const anchor: Vec3 = [
@@ -154,15 +149,15 @@ export const unfolding: Act = (staging) => {
     0.3 + 0.4 * chance('v'),
   ];
   const reach = (angle: number, long: number) =>
-    scaled(tilted(down, plane, angle), long);
+    times(tilted(down, plane, angle), long);
   const joints = [anchor];
   for (let index = 0; index < JOINTS; index += 1) {
     const open = smooth(ramp(out * JOINTS, index, index + 1));
     const fold = (index % 2 === 0 ? 1 : -1) * FOLDED;
     const from = joints.at(-1) ?? anchor;
-    joints.push(added(from, reach(fold * (1 - open) + sway * open, SEGMENT)));
+    joints.push(plus(from, reach(fold * (1 - open) + sway * open, SEGMENT)));
   }
-  const across = crossed(plane, UP);
+  const across = cross(plane, UP);
   const tip = joints.at(-1) ?? anchor;
   const grasp = smooth(ramp(out, 0.9, 1)) * (0.5 + 0.2 * Math.sin(age * 1.3));
   return shown(
@@ -182,7 +177,7 @@ export const unfolding: Act = (staging) => {
         ? [-1, 0, 1].flatMap((finger) =>
             bar(
               setting.room,
-              [tip, added(tip, reach(sway + finger * grasp, 0.03))],
+              [tip, plus(tip, reach(sway + finger * grasp, 0.03))],
               [0.004, 0.004],
               across,
               LIMB,
@@ -216,12 +211,12 @@ export const corner: Act = (staging) => {
   const inward = SIDE_FRAMES[side].into;
   const sideways = SIDE_FRAMES[beside].into;
   const top = CEILING_HEIGHT - SEAM;
-  const nook = added(
+  const nook = plus(
     spot(side, 1, top, WALL_HALF + SEAM),
-    scaled(sideways, WALL_HALF + SEAM),
+    times(sideways, WALL_HALF + SEAM),
   );
-  const drift = added(added(inward, sideways), [0, -1, 0]);
-  const home = added(nook, scaled(drift, CHUNK / 2));
+  const drift = plus(plus(inward, sideways), [0, -1, 0]);
+  const home = plus(nook, times(drift, CHUNK / 2));
   const tremble = 1 + 0.03 * Math.sin(age * 11);
   const dark = (from: Vec3, a: Vec3, b: Vec3) =>
     face(from, a, b, room, 'fabric', DARK);
@@ -230,24 +225,24 @@ export const corner: Act = (staging) => {
     [
       dark(
         onSide(setting, side, 1 - WALL_HALF - CHUNK, top - CHUNK, SEAM / 2),
-        scaled(SIDE_FRAMES[side].along, CHUNK),
+        times(SIDE_FRAMES[side].along, CHUNK),
         rise,
       ),
       dark(
         onSide(setting, beside, WALL_HALF, top - CHUNK, SEAM / 2),
-        scaled(SIDE_FRAMES[beside].along, CHUNK),
+        times(SIDE_FRAMES[beside].along, CHUNK),
         rise,
       ),
       dark(
-        less(nook, scaled(added(inward, sideways), SEAM / 2)),
-        scaled(inward, CHUNK),
-        scaled(sideways, CHUNK),
+        minus(nook, times(plus(inward, sideways), SEAM / 2)),
+        times(inward, CHUNK),
+        times(sideways, CHUNK),
       ),
       ...block(
         room,
-        added(home, scaled(drift, 0.05 * loose * tremble)),
+        plus(home, times(drift, 0.05 * loose * tremble)),
         [CHUNK, CHUNK, CHUNK],
-        about(unitOf(less(inward, sideways)), 0.2 * loose),
+        about(unit(minus(inward, sideways)), 0.2 * loose),
         { stuff: 'wall' },
       ),
     ],

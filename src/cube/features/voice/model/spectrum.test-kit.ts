@@ -17,7 +17,7 @@ export function powerAt(
   );
 }
 
-/** The power of `samples` between `from` and `to` hertz, read every 50. */
+/** The power of `samples` wholeBetween `from` and `to` hertz, read every 50. */
 export function powerIn(
   samples: Float32Array,
   sampleRate: number,

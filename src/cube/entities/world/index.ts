@@ -1,13 +1,6 @@
 export { type Address, decodeAddress, encodeAddress } from './model/address';
-export {
-  descend,
-  DROP,
-  eyeInFrame,
-  faces,
-  HOLE_SIDE,
-  type Placed,
-  placed,
-} from './model/geometry';
+export { descend, DROP, eyeInFrame, type Placed, placed } from './model/frame';
+export { faces, HOLE_SIDE } from './model/geometry';
 export {
   floorsOf,
   holeMiddle,
@@ -29,10 +22,12 @@ export {
   face,
   type Facet,
   facet,
+  minus,
   plus,
   type Quad,
   times,
   unit,
+  UP,
   type Vec3,
 } from './model/quad';
 export {

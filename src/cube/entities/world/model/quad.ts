@@ -24,6 +24,8 @@ export type Stuff = { surface: Surface; paint?: number };
 /** A facet and what it is made of. */
 export type Quad = Facet & Stuff;
 
+export const UP: Vec3 = [0, 1, 0];
+
 export const cross = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
   ay * bz - az * by,
   az * bx - ax * bz,
@@ -42,6 +44,12 @@ export const plus = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
   ax + bx,
   ay + by,
   az + bz,
+];
+
+export const minus = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
+  ax - bx,
+  ay - by,
+  az - bz,
 ];
 
 export const times = ([x, y, z]: Vec3, by: number): Vec3 => [

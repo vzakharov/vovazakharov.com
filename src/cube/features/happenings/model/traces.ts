@@ -1,6 +1,7 @@
-import { box, face, type Quad } from '@/cube/entities/world';
+import { lerp, ramp, smooth } from '@/cube/shared/lib/ease';
+import { box, face, type Quad, times } from '@/cube/entities/world';
 
-import { lerp, pick, ramp, smooth } from '../lib/ease';
+import { pick } from '../lib/pick';
 import {
   inLane,
   openSides,
@@ -9,7 +10,6 @@ import {
   SIDES,
   spot,
 } from '../lib/side';
-import { scaled } from '../lib/solid';
 import { type Act, NOTHING, shown, sounding, type Staging } from './staging';
 
 /** How far over the floor a shadow lies: clear of the floor's own face. */
@@ -33,8 +33,8 @@ export const shadow: Act = ({ setting, age, lastsFor, chance }) => {
   ): Quad =>
     face(
       spot(side, middle + left, SHADE_LIFT, foot + near),
-      scaled(into, far - near),
-      scaled(along, right - left),
+      times(into, far - near),
+      times(along, right - left),
       setting.room,
       'fabric',
       SHADE,
@@ -87,7 +87,7 @@ export const hand: Act = (staging: Staging) => {
     return reach > 0.0005
       ? box(
           spot(side, from, high + index * (FINGER + KNUCKLE), 0),
-          [scaled(along, far - near), [0, FINGER, 0], scaled(into, reach)],
+          [times(along, far - near), [0, FINGER, 0], times(into, reach)],
           setting.room,
           'skin',
           FLESH,

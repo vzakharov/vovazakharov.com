@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { placed } from './geometry';
+import { placed } from './frame';
 import { holesOf } from './hole';
 import { maze } from './maze';
 import { planted } from './planted';

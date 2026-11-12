@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 
-export const RATE = 48_000;
+export const TEST_RATE = 48_000;
 
 /** The loudest sample of `samples`. */
 export function peak(samples: Float32Array): number {
@@ -37,7 +37,7 @@ export const loudness = (samples: Float32Array): number =>
  * tell a bright sound from a dull one.
  */
 export function brightness(samples: Float32Array, hz: number): number {
-  const keep = Math.exp((-2 * Math.PI * hz) / RATE);
+  const keep = Math.exp((-2 * Math.PI * hz) / TEST_RATE);
   let low = 0;
   let high = 0;
   let all = 0;

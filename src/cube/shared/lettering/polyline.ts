@@ -16,15 +16,15 @@ export const isLoop = (line: Polyline): boolean => {
     : false;
 };
 
-const between = (a: Point, b: Point, t: number): Point => [
+const partWay = (a: Point, b: Point, t: number): Point => [
   a[0] + (b[0] - a[0]) * t,
   a[1] + (b[1] - a[1]) * t,
 ];
 
 /** The two points corner cutting leaves of the side from `a` to `b`. */
 const quarters = (a: Point, b: Point): Point[] => [
-  between(a, b, 0.25),
-  between(a, b, 0.75),
+  partWay(a, b, 0.25),
+  partWay(a, b, 0.75),
 ];
 
 /** One round of corner cutting over the corners `ring` goes round. */

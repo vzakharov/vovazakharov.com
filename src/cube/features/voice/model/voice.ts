@@ -94,7 +94,7 @@ const building = (dice: Dice): Timbre => {
 const WHISPERS_FROM = 24;
 
 /**
- * The throats heard elsewhere, as the hertz they speak between and the sizes
+ * The throats heard elsewhere, as the hertz they speak wholeBetween and the sizes
  * their resonances scale between: a child, a woman, a man. Two in three are
  * not a man.
  */

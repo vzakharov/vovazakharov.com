@@ -1,16 +1,16 @@
-import type { Footing } from '@/cube/entities/theme';
+import type { Footing } from '@/cube/shared/lib/acoustics';
 
 import {
   chance,
   CYCLE,
   dying,
   filterOf,
-  hump,
   noiseOf,
   ringing,
   sampled,
   type Struck,
-} from '../lib/dsp';
+  swell,
+} from '../../dsp';
 import { footstep, stepSeconds } from './footstep';
 
 /** Seconds the lever's handle creaks before it stops: its swing. */
@@ -34,7 +34,7 @@ export function lever(seed: number, rate: number): Float32Array<ArrayBuffer> {
   return sampled(LEVER_SWING + 0.4, rate, (t) => {
     const x = t / LEVER_SWING;
     phase += (240 - 70 * Math.min(1, x)) / rate;
-    const creak = hinge(2 * (phase % 1) - 1, 900 * tune, 3) * hump(x);
+    const creak = hinge(2 * (phase % 1) - 1, 900 * tune, 3) * swell(x);
     const struck = t - LEVER_SWING;
     const clank = CLANK.reduce(
       (sum, partial) => sum + ringing(partial, struck, tune),
@@ -72,7 +72,7 @@ export function shrinking(
     const climbing = hiss(noise(), 400 * 8 ** x, 4) * x;
     const weight = Math.sin(CYCLE * 41 * t);
     return (
-      hump(x) ** 0.6 * (0.3 * shudder * voices + 0.9 * climbing + 0.3 * weight)
+      swell(x) ** 0.6 * (0.3 * shudder * voices + 0.9 * climbing + 0.3 * weight)
     );
   });
 }

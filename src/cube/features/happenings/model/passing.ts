@@ -1,6 +1,15 @@
-import type { Quad, Room, Vec3 } from '@/cube/entities/world';
+import { lerp, ramp, smooth } from '@/cube/shared/lib/ease';
+import {
+  cross,
+  plus,
+  type Quad,
+  type Room,
+  times,
+  UP,
+  type Vec3,
+} from '@/cube/entities/world';
 
-import { lerp, pick, ramp, smooth } from '../lib/ease';
+import { pick } from '../lib/pick';
 import {
   facing,
   inLane,
@@ -14,19 +23,15 @@ import {
 } from '../lib/side';
 import {
   about,
-  added,
   bar,
   between,
   block,
-  crossed,
   distance,
   forward,
   heading,
   type Made,
-  scaled,
   type Turn,
   turned,
-  UP,
   yawTo,
 } from '../lib/solid';
 import { type Act, shown, sounding, type Staging } from './staging';
@@ -84,13 +89,13 @@ export const ball: Act = (staging) => {
   return shown(
     ballAt(
       setting.room,
-      added(start, scaled(into, rolled)),
+      plus(start, times(into, rolled)),
       BALL,
-      about(crossed(UP, into), rolled / BALL),
+      about(cross(UP, into), rolled / BALL),
       { stuff: 'rubber', tint: pick(BALL_PAINTS, chance('paint')) },
     ),
     stopped
-      ? sounding(staging, 'thud', added(start, scaled(into, run)), 0.35, [
+      ? sounding(staging, 'thud', plus(start, times(into, run)), 0.35, [
           arrives,
           0.4,
         ])
@@ -111,7 +116,7 @@ export const paper: Act = (staging) => {
   const from: Vec3 = [inLane(chance('u')), 0, 0.2 + 0.6 * chance('v')];
   const to: Vec3 = [inLane(chance('spot')), 0, 0.2 + 0.6 * chance('way')];
   const lift = 0.002 + 0.008 * Math.sin(Math.PI * blown);
-  const at = added(between(from, to, slid), scaled(UP, lift));
+  const at = plus(between(from, to, slid), times(UP, lift));
   const yaw = 2 * Math.PI * chance('yaw') + 2.5 * slid;
   return shown(
     block(setting.room, at, SHEET, heading(yaw), { stuff: 'paper' }),
@@ -142,20 +147,20 @@ function catAt(
 ): Quad[] {
   const ahead = forward(yaw);
   const right = forward(yaw + Math.PI / 2);
-  const rear = added(
-    added(at, scaled(ahead, lerp(-0.035, -0.018, sat))),
-    scaled(UP, lerp(0.04, 0.022, sat)),
+  const rear = plus(
+    plus(at, times(ahead, lerp(-0.035, -0.018, sat))),
+    times(UP, lerp(0.04, 0.022, sat)),
   );
-  const chest = added(
-    added(at, scaled(ahead, lerp(0.035, 0.015, sat))),
-    scaled(UP, lerp(0.04, 0.062, sat)),
+  const chest = plus(
+    plus(at, times(ahead, lerp(0.035, 0.015, sat))),
+    times(UP, lerp(0.04, 0.062, sat)),
   );
   const turn = heading(yaw + look * sat);
-  const skull = added(chest, added(scaled(ahead, 0.012), scaled(UP, 0.018)));
+  const skull = plus(chest, plus(times(ahead, 0.012), times(UP, 0.018)));
   const ears = [-1, 1].flatMap((side) =>
     block(
       room,
-      added(skull, turn([0, 0.016, side * 0.009])),
+      plus(skull, turn([0, 0.016, side * 0.009])),
       [0.006, 0.01, 0.006],
       turn,
       made,
@@ -164,7 +169,7 @@ function catAt(
   const stride = 0.012 * (1 - sat) * Math.sin(walked * 90);
   const legs = [chest, rear].flatMap((joint, pair) =>
     [-1, 1].flatMap((side) => {
-      const top = added(joint, scaled(right, side * 0.01));
+      const top = plus(joint, times(right, side * 0.01));
       const swing = stride * side * (pair === 0 ? 1 : -1);
       const foot: Vec3 = [
         top[0] + ahead[0] * swing,
@@ -176,9 +181,9 @@ function catAt(
   );
   const sway = 0.012 * Math.sin(walked * 40);
   const tip = between(
-    added(
+    plus(
       rear,
-      added(added(scaled(ahead, -0.02), scaled(UP, 0.05)), scaled(right, sway)),
+      plus(plus(times(ahead, -0.02), times(UP, 0.05)), times(right, sway)),
     ),
     [
       rear[0] - ahead[0] * 0.05 + right[0] * 0.02,

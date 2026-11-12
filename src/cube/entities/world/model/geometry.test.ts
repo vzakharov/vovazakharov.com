@@ -3,7 +3,8 @@ import { describe, it } from 'node:test';
 
 import { CEILING_HEIGHT, SLAB_THICK } from '@/cube/shared/lib/room-shape';
 
-import { descend, eyeInFrame, faces, HOLE_SIDE } from './geometry';
+import { descend, eyeInFrame } from './frame';
+import { faces, HOLE_SIDE } from './geometry';
 import type { HoleOf } from './hole';
 import type { Pulled } from './lever';
 import { isOpenEast, maze } from './maze';

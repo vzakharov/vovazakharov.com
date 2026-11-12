@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { FINISH, type FloorTheme, ordinary, STUFF, wgsl } from '../../kit';
-import { HOME } from '../lib/home';
+import { DWELLING } from '../lib/home';
 
 const AIR = linear(hex(0x12_12_08));
 
@@ -126,7 +126,7 @@ fn themeMaterial(s: Surf) -> Material {
 `,
     FINISH,
     STUFF,
-    HOME,
+    DWELLING,
     ordinary('kitchen', {
       air: AIR,
       lamp: [1.3, 1.5, 1.12],

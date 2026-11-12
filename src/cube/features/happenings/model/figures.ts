@@ -1,6 +1,15 @@
-import { face, type Quad, type Room, type Vec3 } from '@/cube/entities/world';
+import { lerp } from '@/cube/shared/lib/ease';
+import {
+  face,
+  plus,
+  type Quad,
+  type Room,
+  times,
+  UP,
+  type Vec3,
+} from '@/cube/entities/world';
 
-import { lerp, pick } from '../lib/ease';
+import { pick } from '../lib/pick';
 import {
   inLane,
   onSide,
@@ -10,17 +19,7 @@ import {
   sideAt,
   SIDES,
 } from '../lib/side';
-import {
-  added,
-  bar,
-  block,
-  forward,
-  heading,
-  type Made,
-  scaled,
-  tilted,
-  UP,
-} from '../lib/solid';
+import { bar, block, forward, heading, type Made, tilted } from '../lib/solid';
 import { type Act, shown } from './staging';
 
 /** An arm: swung forward from hanging and spread out from the body, radians. */
@@ -63,16 +62,16 @@ export function figureAt(
 ): Quad[] {
   const ahead = forward(yaw);
   const right = forward(yaw + Math.PI / 2);
-  const down = scaled(UP, -1);
-  const hips = added(feet, scaled(UP, 0.48 * tall));
+  const down = times(UP, -1);
+  const hips = plus(feet, times(UP, 0.48 * tall));
   const spine = tilted(UP, ahead, bowed);
-  const neck = added(hips, scaled(spine, 0.34 * tall));
+  const neck = plus(hips, times(spine, 0.34 * tall));
   const limb = 0.1 * tall;
   const legs = [-1, 1].flatMap((side) => {
-    const out = scaled(right, side * 0.075 * tall);
+    const out = times(right, side * 0.075 * tall);
     return bar(
       room,
-      [added(feet, out), added(hips, out)],
+      [plus(feet, out), plus(hips, out)],
       [limb, limb],
       right,
       clothes,
@@ -86,15 +85,15 @@ export function figureAt(
     clothes,
   );
   const held = arms.flatMap(({ armSwing: swung, splayed }, index) => {
-    const out = scaled(right, index === 0 ? -1 : 1);
+    const out = times(right, index === 0 ? -1 : 1);
     const along = tilted(tilted(down, ahead, swung), out, splayed);
-    const shoulder = added(
-      added(neck, scaled(spine, -0.04 * tall)),
-      scaled(out, 0.19 * tall),
+    const shoulder = plus(
+      plus(neck, times(spine, -0.04 * tall)),
+      times(out, 0.19 * tall),
     );
     return bar(
       room,
-      [shoulder, added(shoulder, scaled(along, 0.36 * tall))],
+      [shoulder, plus(shoulder, times(along, 0.36 * tall))],
       [0.08 * tall, 0.08 * tall],
       ahead,
       clothes,
@@ -102,7 +101,7 @@ export function figureAt(
   });
   const skull = block(
     room,
-    added(neck, scaled(spine, 0.1 * tall)),
+    plus(neck, times(spine, 0.1 * tall)),
     [0.13 * tall, 0.14 * tall, 0.12 * tall],
     heading(yaw + headTurn),
     flesh,

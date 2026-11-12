@@ -88,7 +88,7 @@ const THUMB: Digit = {
 };
 
 /** The fingers from the thumb's side, index to little, then the thumb. */
-const DIGITS: readonly Digit[] = [
+const HAND_DIGITS: readonly Digit[] = [
   finger([9.7, 3.05], 7, 7.4, [0.92, 0.72], [0.14, 0.3, 0.2]),
   finger([10, 1], 2, 8.2, [0.95, 0.74], [0.17, 0.33, 0.22]),
   finger([9.7, -1.05], -4, 7.6, [0.9, 0.7], [0.2, 0.36, 0.24]),
@@ -258,7 +258,7 @@ function hand(wrist: Vec3, axes: Axes, scale: number, room: Room): Quad[] {
       wide: turned(wide),
       thick: turned(thick),
     }));
-  const digits = DIGITS.flatMap((digit) => {
+  const digits = HAND_DIGITS.flatMap((digit) => {
     const { rings, nail } = digitRings(digit);
     return [
       ...loft(stood(rings), room, { surface: 'skin', sides: DIGIT_SIDES }),

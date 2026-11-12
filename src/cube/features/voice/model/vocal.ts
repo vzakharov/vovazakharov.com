@@ -1,4 +1,4 @@
-import { among, between, type Dice, type Some } from './chance';
+import { among, type Dice, type Some, wholeBetween } from './chance';
 import type { Line, Uttered } from './line';
 
 /**
@@ -90,7 +90,7 @@ const tsk: Vocal = (dice) => ({
 
 /** A laugh too short to mean it. */
 const heh: Vocal = (dice) => {
-  const count = between(1, 2, dice('count'));
+  const count = wholeBetween(1, 2, dice('count'));
   return {
     text: Array.from({ length: count }, () => 'heh').join(' '),
     phones: Array.from({ length: count }, (_, n) => [
@@ -128,12 +128,12 @@ const ah: Vocal = () => ({
 
 /** Something hummed under the breath with a phrase's ups and downs. */
 const hummed: Vocal = (dice) => {
-  const count = between(2, 5, dice('count'));
+  const count = wholeBetween(2, 5, dice('count'));
   const up = dice('asks') < 0.3;
-  let pitch = between(0, 3, dice('from'));
+  let pitch = wholeBetween(0, 3, dice('from'));
   const phones = Array.from({ length: count }, (_, n): Uttered[] => {
     const last = n === count - 1;
-    const turn = last ? (up ? 6 : -5) : between(-2, 2, dice(`turn/${n}`));
+    const turn = last ? (up ? 6 : -5) : wholeBetween(-2, 2, dice(`turn/${n}`));
     const from = pitch;
     pitch += last ? turn : Math.round(turn / 2);
     return [

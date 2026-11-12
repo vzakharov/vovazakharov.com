@@ -1,42 +1,12 @@
 import type { Named } from '@/kernel/shared/typings';
 
+import type { Sound } from '@/cube/shared/lib/acoustics';
 import type { Rgb } from '@/cube/shared/lib/colour';
-import type { Thing } from '@/cube/shared/lib/thing';
+import type { Furnishing } from '@/cube/shared/lib/thing';
 
 import { CORE } from '../lib/core';
 import { STUFF } from '../lib/stuff';
 import { assemble, type Wgsl, wgsl } from '../lib/wgsl';
-
-/** What a floor is underfoot, which is how a step on it sounds. */
-export const FOOTINGS = [
-  'carpet',
-  'tile',
-  'concrete',
-  'wood',
-  'metal',
-  'wet',
-  'soft',
-  'hollow',
-] as const;
-export type Footing = (typeof FOOTINGS)[number];
-
-/** How a floor sounds with nobody on it. */
-export type Sound = {
-  footing: Footing;
-  /** The lamps' hum, in hertz; 0 where they make none. */
-  hum: number;
-  /** Moving air, 0 (still) to 1 (a duct beside the ear). */
-  air: number;
-  /** How long a clap rings, in seconds. */
-  echo: number;
-};
-
-/** One kind of thing a floor's rooms hold. */
-export type Furnishing = {
-  thing: Thing;
-  /** How many of it a room holds on average: 0.2 is one room in five. */
-  perRoom: number;
-};
 
 /** A place with air of a colour: what shows where no face is drawn. */
 export type Aired = { air: Rgb };

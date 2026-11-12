@@ -1,16 +1,16 @@
 import type { Timed } from '@/kernel/shared/typings';
 
-import type { Footing } from '@/cube/entities/theme';
+import type { Footing } from '@/cube/shared/lib/acoustics';
+import { clamp01 } from '@/cube/shared/lib/ease';
 
 import {
-  clamp01,
   dying,
   filterOf,
   noiseOf,
   ringing,
   sampled,
   type Struck,
-} from '../lib/dsp';
+} from '../../dsp';
 
 /** The sole's scrape: noise through a band that may slide as it dies. */
 type Scuff = Struck & {

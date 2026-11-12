@@ -9,7 +9,7 @@ import {
   vec3f,
   wgsl,
 } from '../../kit';
-import { HOME } from '../lib/home';
+import { DWELLING } from '../lib/home';
 
 const AIR = linear(hex(0x1c_12_0a));
 
@@ -161,7 +161,7 @@ fn themeLens(l: Lens) -> vec3f {
 `,
     FINISH,
     STUFF,
-    HOME,
+    DWELLING,
     LIGHT,
     GRADE,
   ),

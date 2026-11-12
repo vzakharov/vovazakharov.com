@@ -19,7 +19,7 @@ export const CURVES = [
 
 export type Curve = (typeof CURVES)[number];
 
-/** Seconds between two frames of a track. */
+/** Seconds wholeBetween two frames of a track. */
 export const FRAME_SECONDS = 0.001;
 
 /** A line laid out in time: every curve's value at every frame. */
@@ -244,7 +244,7 @@ function bandKeys(
   return keys;
 }
 
-/** `keys` read at every frame: straight lines between them, level beyond. */
+/** `keys` read at every frame: straight lines wholeBetween them, level beyond. */
 function sampled(
   keys: readonly Key[],
   frames: number,
@@ -267,7 +267,7 @@ const BANDS = { f1: 0, f2: 1, f3: 2 } as const;
 
 /**
  * `line` as `voice` says it, laid out in time: each phone's length at the
- * voice's pace, the resonances gliding between phones, each source's level,
+ * voice's pace, the resonances gliding wholeBetween phones, each source's level,
  * and the pitch the line's tune and the voice's lilt give it.
  */
 export function trackOf(line: Line, voice: Voice): Track {

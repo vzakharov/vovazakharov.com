@@ -2,6 +2,11 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import {
+  assertAllDiffer,
+  assertAudible,
+  TEST_RATE,
+} from '../../dsp/index.test-only';
+import {
   bearingOf,
   ROOM_SOUNDS,
   samplesOf,
@@ -10,7 +15,6 @@ import {
   voicedOf,
 } from './cue';
 import { footstep } from './footstep';
-import { assertAllDiffer, assertAudible, RATE } from './sound.test-kit';
 
 const HERE = { rightward: 0, roomsAway: 0 };
 
@@ -32,15 +36,19 @@ const near = (actual: number, expected: number) => {
 describe('samplesOf', () => {
   it('renders every cue finite and inside ±1, the same from the same seed', () => {
     for (const cue of CUES) {
-      const samples = samplesOf(cue, 'tile', 3, RATE);
+      const samples = samplesOf(cue, 'tile', 3, TEST_RATE);
       assertAudible(samples);
-      assert.deepEqual(samples, samplesOf(cue, 'tile', 3, RATE), cue.kind);
-      assert.notDeepEqual(samples, samplesOf(cue, 'tile', 4, RATE), cue.kind);
+      assert.deepEqual(samples, samplesOf(cue, 'tile', 3, TEST_RATE), cue.kind);
+      assert.notDeepEqual(
+        samples,
+        samplesOf(cue, 'tile', 4, TEST_RATE),
+        cue.kind,
+      );
     }
   });
 
   it('gives no two cues the same sound', () => {
-    assertAllDiffer(CUES.map((cue) => samplesOf(cue, 'tile', 3, RATE)));
+    assertAllDiffer(CUES.map((cue) => samplesOf(cue, 'tile', 3, TEST_RATE)));
   });
 
   it('steps on the footing the step names, lands on the floor’s', () => {
@@ -49,21 +57,21 @@ describe('samplesOf', () => {
         { kind: 'step', strength: 0.6, footing: 'wood' },
         'tile',
         3,
-        RATE,
+        TEST_RATE,
       ),
-      footstep('wood', 0.6, 3, RATE),
+      footstep('wood', 0.6, 3, TEST_RATE),
     );
     const landed = { kind: 'landing', speed: 1 } as const;
     assert.notDeepEqual(
-      samplesOf(landed, 'tile', 3, RATE),
-      samplesOf(landed, 'carpet', 3, RATE),
+      samplesOf(landed, 'tile', 3, TEST_RATE),
+      samplesOf(landed, 'carpet', 3, TEST_RATE),
     );
   });
 
   it('shrinks for the seconds it says', () => {
     assert.equal(
-      samplesOf({ kind: 'shrink' }, 'tile', 3, RATE).length,
-      SHRINK_SECONDS * RATE,
+      samplesOf({ kind: 'shrink' }, 'tile', 3, TEST_RATE).length,
+      SHRINK_SECONDS * TEST_RATE,
     );
   });
 });

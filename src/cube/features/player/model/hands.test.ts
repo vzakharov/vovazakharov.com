@@ -1,18 +1,12 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { cross, dot, type Quad, type Vec3 } from '@/cube/entities/world';
+import { cross, dot, minus, type Quad, type Vec3 } from '@/cube/entities/world';
 
 import { handsOf } from './hands';
 import { FIRST_LOOK } from './look';
 import type { Player } from './play';
 import { beside, holed, room, shrunk } from './play.test-kit';
-
-const minus = (a: Vec3, b: Vec3): Vec3 => [
-  a[0] - b[0],
-  a[1] - b[1],
-  a[2] - b[2],
-];
 
 const eyeOf = ({ pose }: Player): Vec3 => [pose.u, pose.eyeAbove, pose.v];
 

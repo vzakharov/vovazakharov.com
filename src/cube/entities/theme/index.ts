@@ -1,11 +1,2 @@
 export { themeOf } from './catalogue';
-export {
-  floorSource,
-  type FloorTheme,
-  type Footing,
-  FOOTINGS,
-  type Furnishing,
-  roomFlags,
-  type RoomState,
-  type Sound,
-} from './kit';
+export { floorSource, type FloorTheme, roomFlags, type RoomState } from './kit';

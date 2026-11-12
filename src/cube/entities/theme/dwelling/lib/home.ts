@@ -5,7 +5,7 @@ import { CORE, HASH, LIGHT, wgsl } from '../../kit';
  * which wall that is, shapes and repeats to cut patterns from, a lamp drawn
  * as something other than a panel, and boards.
  */
-export const HOME = wgsl(
+export const DWELLING = wgsl(
   'dwelling/home',
   /* wgsl */ `
 /// Metres along an upright face from its room's west or north end.

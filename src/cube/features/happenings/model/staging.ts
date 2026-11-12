@@ -1,3 +1,4 @@
+import type { Loud } from '@/cube/shared/lib/acoustics';
 import type { Floored, Quad, Setting, Vec3 } from '@/cube/entities/world';
 
 /** What a room can be heard doing by itself. */
@@ -23,11 +24,11 @@ type Begun = { sinceEpoch: number };
  * the same on every frame it sounds, so a listener plays it once and knows
  * how far into it the room already is.
  */
-export type RoomSound = Begun & {
-  cue: RoomCue;
-  source: Vec3;
-  loudness: number;
-};
+export type RoomSound = Begun &
+  Loud & {
+    cue: RoomCue;
+    source: Vec3;
+  };
 
 /** What a room shows and sounds like at one instant, in its own frame. */
 export type Happening = {

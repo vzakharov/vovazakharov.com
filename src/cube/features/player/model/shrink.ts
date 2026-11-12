@@ -1,4 +1,4 @@
-import { ramp } from './ease';
+import { rise } from './ease';
 
 /** Seconds a pulled lever's shrink takes. */
 export const SHRINK_TIME = 2;
@@ -7,7 +7,7 @@ export const SHRINK_TIME = 2;
 export const SMALL = 0.5;
 
 /** The body's scale `t` seconds after the pull, easing from 1 to `SMALL`. */
-export const scaleAt = (t: number): number => 2 ** -ramp(t, 0, SHRINK_TIME);
+export const scaleAt = (t: number): number => 2 ** -rise(t, 0, SHRINK_TIME);
 
 /**
  * How far from the body's middle the lever can be pulled, in room sides: 2.4
@@ -19,4 +19,4 @@ export const LEVER_REACH = 0.48;
 export const PULL_SWING = 0.25;
 
 /** How far the handle has swung `t` seconds after the pull, from 0 to 1. */
-export const swungAt = (t: number): number => ramp(t, 0, PULL_SWING);
+export const swungAt = (t: number): number => rise(t, 0, PULL_SWING);

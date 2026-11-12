@@ -1,5 +1,7 @@
 import type { WithWidth } from '@/kernel/shared/typings';
 
+import type { Loud } from '@/cube/shared/lib/acoustics';
+
 /** The sounds the voice is made of, named as ARPAbet names them. */
 export const PHONES = [
   'iy',
@@ -67,7 +69,7 @@ export type Formants = readonly [number, number, number];
 export type Band = WithWidth & { core: number };
 
 /** The band a consonant hisses in, and how loud against a vowel. */
-export type Hiss = Band & { loudness: number };
+export type Hiss = Band & Loud;
 
 export type PhoneSpec = {
   manner: Manner;

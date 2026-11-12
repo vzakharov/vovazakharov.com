@@ -2,11 +2,9 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { loft, type Ring } from './loft';
-import { cross, dot, plus, times, type Vec3 } from './quad';
+import { cross, dot, minus, type Vec3 } from './quad';
 
 const room = { n: 1, x: 0n, y: 0n };
-
-const minus = (a: Vec3, b: Vec3): Vec3 => plus(a, times(b, -1));
 
 /** A ring of `radius` round the y axis at height `y`. */
 const ringAt = (y: number, radius: number): Ring => ({

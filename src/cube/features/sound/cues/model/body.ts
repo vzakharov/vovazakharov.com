@@ -1,6 +1,7 @@
-import type { Footing } from '@/cube/entities/theme';
+import type { Footing } from '@/cube/shared/lib/acoustics';
+import { clamp01 } from '@/cube/shared/lib/ease';
 
-import { clamp01, filterOf, hump, noiseOf, ringing, sampled } from '../lib/dsp';
+import { filterOf, noiseOf, ringing, sampled, swell } from '../../dsp';
 import { footstep, stepSeconds } from './footstep';
 
 /**
@@ -21,8 +22,8 @@ export function breath(
   return sampled(seconds, rate, (t) => {
     const x = t / seconds;
     // In over the first 42%, a held moment, out over the rest.
-    const drawn = hump(x / 0.42);
-    const released = hump((x - 0.48) / 0.52);
+    const drawn = swell(x / 0.42);
+    const released = swell((x - 0.48) / 0.52);
     const hz = drawn > 0 ? 2300 - 500 * hard : 1400 - 400 * hard;
     return level * (0.7 * drawn + released) * 3 * mouth(noise(), hz, 1.1);
   });
@@ -47,7 +48,7 @@ export function grunt(seed: number, rate: number): Float32Array<ArrayBuffer> {
       (sum, formant, index) => sum + formant(source, THROAT[index] ?? 0, 5),
       0,
     );
-    return 1.6 * hump(0.08 + 0.92 * x) ** 0.6 * voiced;
+    return 1.6 * swell(0.08 + 0.92 * x) ** 0.6 * voiced;
   });
 }
 
@@ -59,8 +60,8 @@ export function jump(seed: number, rate: number): Float32Array<ArrayBuffer> {
   const cloth = filterOf('band', rate);
   return sampled(seconds, rate, (t) => {
     const x = t / seconds;
-    const puff = mouth(noise(), 1700 - 800 * x, 1.4) * hump(x / 0.6);
-    const swish = cloth(noise(), 500 + 900 * x, 0.8) * hump(x);
+    const puff = mouth(noise(), 1700 - 800 * x, 1.4) * swell(x / 0.6);
+    const swish = cloth(noise(), 500 + 900 * x, 0.8) * swell(x);
     return 1.2 * puff + 0.8 * swish;
   });
 }
@@ -100,7 +101,7 @@ export function landing(
       0,
     );
     const puff =
-      strength * strength * mouth(noise(), 1200, 1) * hump((t - 0.03) / 0.22);
+      strength * strength * mouth(noise(), 1200, 1) * swell((t - 0.03) / 0.22);
     return stepped + strength * ringing(WEIGHT, t) + puff;
   });
 }

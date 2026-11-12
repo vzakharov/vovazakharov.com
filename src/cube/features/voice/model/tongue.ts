@@ -1,10 +1,10 @@
 import {
   among,
-  between,
   type Dice,
   diceOf,
   rollsUnder,
   type Some,
+  wholeBetween,
 } from './chance';
 import { spelt } from './letters';
 import type { Uttered, Word } from './line';
@@ -122,8 +122,12 @@ const GLIDES: ReadonlySet<Phone> = new Set(['w', 'y', 'r', 'l']);
  * them, and which syllable a word leans on.
  */
 function coinageOf(dice: Dice): (word: Word) => Word {
-  const consonants = kept(CONSONANTS, dice, between(6, 11, dice('consonants')));
-  const vowels = kept(VOWELS, dice, between(3, 6, dice('vowels')));
+  const consonants = kept(
+    CONSONANTS,
+    dice,
+    wholeBetween(6, 11, dice('consonants')),
+  );
+  const vowels = kept(VOWELS, dice, wholeBetween(3, 6, dice('vowels')));
   const onset = 0.55 + 0.4 * dice('onset');
   const coda = 0.1 + 0.5 * dice('coda');
   const cluster = 0.4 * dice('cluster');

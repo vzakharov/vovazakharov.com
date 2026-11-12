@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { FINISH, type FloorTheme, GRADE, LIGHT, STUFF, wgsl } from '../../kit';
-import { HOME } from '../lib/home';
+import { DWELLING } from '../lib/home';
 
 const AIR = linear(hex(0xd8_cf_b8));
 
@@ -164,7 +164,7 @@ fn themeLens(l: Lens) -> vec3f {
 `,
     FINISH,
     STUFF,
-    HOME,
+    DWELLING,
     LIGHT,
     GRADE,
   ),

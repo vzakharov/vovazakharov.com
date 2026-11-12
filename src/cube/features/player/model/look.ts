@@ -2,7 +2,7 @@ import { pathHash, roll, rollWith } from '@/dice/shared/roll';
 
 import type { Room } from '@/cube/entities/world';
 
-import { hump, ramp } from './ease';
+import { hump, rise } from './ease';
 
 /** What the body has to say about a shrink: its first, or one more. */
 export type ShrinkMoment = 'first-shrink' | 'shrink';
@@ -118,7 +118,7 @@ export function glimpse(
   return {
     aside:
       glance > 0
-        ? side * AROUND * Math.sin(2 * Math.PI * ramp(t, to, to + glance))
+        ? side * AROUND * Math.sin(2 * Math.PI * rise(t, to, to + glance))
         : 0,
     toHands: looking
       ? hump(t, [from, from + DROP_GAZE, to - DROP_GAZE, to])
@@ -126,7 +126,7 @@ export function glimpse(
     handsUp: looking
       ? hump(t, [from + 0.25, from + 0.85, to - 0.75, to - 0.15])
       : 0,
-    turned: looking && turn ? ramp(t, turnAt, turnAt + TURN_OVER) : 0,
+    turned: looking && turn ? rise(t, turnAt, turnAt + TURN_OVER) : 0,
   };
 }
 

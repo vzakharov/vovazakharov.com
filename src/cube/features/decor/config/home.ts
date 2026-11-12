@@ -45,7 +45,7 @@ const seat =
     ].flat();
   };
 
-export const HOME = {
+export const DOMESTIC = {
   sofa: { build: seat(1.9, 2) },
 
   armchair: { build: seat(0.95, 1), cornered: true },

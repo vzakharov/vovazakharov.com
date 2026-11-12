@@ -64,3 +64,10 @@ export const THINGS = [
   'staircase',
 ] as const;
 export type Thing = (typeof THINGS)[number];
+
+/** One kind of thing a floor's rooms hold. */
+export type Furnishing = {
+  thing: Thing;
+  /** How many of it a room holds on average: 0.2 is one room in five. */
+  perRoom: number;
+};

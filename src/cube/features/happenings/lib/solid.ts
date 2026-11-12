@@ -1,48 +1,29 @@
 import type { Surface } from '@/cube/shared/lib/surface';
-import { box, type Quad, type Room, type Vec3 } from '@/cube/entities/world';
-
-export const UP: Vec3 = [0, 1, 0];
-
-export const added = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
-  ax + bx,
-  ay + by,
-  az + bz,
-];
-
-export const less = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
-  ax - bx,
-  ay - by,
-  az - bz,
-];
-
-export const scaled = ([x, y, z]: Vec3, by: number): Vec3 => [
-  x * by,
-  y * by,
-  z * by,
-];
-
-const dot = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): number =>
-  ax * bx + ay * by + az * bz;
-
-export const crossed = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
-  ay * bz - az * by,
-  az * bx - ax * bz,
-  ax * by - ay * bx,
-];
+import {
+  box,
+  cross,
+  dot,
+  minus,
+  plus,
+  type Quad,
+  type Room,
+  times,
+  unit,
+  UP,
+  type Vec3,
+} from '@/cube/entities/world';
 
 const lengthOf = ([x, y, z]: Vec3): number => Math.hypot(x, y, z);
 
-export const unitOf = (v: Vec3): Vec3 => scaled(v, 1 / lengthOf(v));
-
-export const distance = (a: Vec3, b: Vec3): number => lengthOf(less(b, a));
+export const distance = (a: Vec3, b: Vec3): number => lengthOf(minus(b, a));
 
 /** The point `share` of the way from `a` to `b`. */
 export const between = (a: Vec3, b: Vec3, share: number): Vec3 =>
-  added(a, scaled(less(b, a), share));
+  plus(a, times(minus(b, a), share));
 
 /** `from` turned by `angle` towards `towards`: both of length 1, square to each other. */
 export const tilted = (from: Vec3, towards: Vec3, angle: number): Vec3 =>
-  added(scaled(from, Math.cos(angle)), scaled(towards, Math.sin(angle)));
+  plus(times(from, Math.cos(angle)), times(towards, Math.sin(angle)));
 
 /** A rotation about the origin. */
 export type Turn = (v: Vec3) => Vec3;
@@ -52,9 +33,9 @@ export function about(axis: Vec3, angle: number): Turn {
   const cos = Math.cos(angle);
   const sin = Math.sin(angle);
   return (v) =>
-    added(
-      added(scaled(v, cos), scaled(crossed(axis, v), sin)),
-      scaled(axis, dot(axis, v) * (1 - cos)),
+    plus(
+      plus(times(v, cos), times(cross(axis, v), sin)),
+      times(axis, dot(axis, v) * (1 - cos)),
     );
 }
 
@@ -94,7 +75,7 @@ export function block(
   const p = turn([wide, 0, 0]);
   const q = turn([0, tall, 0]);
   const r = turn([0, 0, deep]);
-  const corner = less(centre, scaled(added(added(p, q), r), 0.5));
+  const corner = minus(centre, times(plus(plus(p, q), r), 0.5));
   return box(corner, [p, q, r], room, stuff, tint);
 }
 
@@ -102,7 +83,7 @@ const AXES: readonly Vec3[] = [UP, [1, 0, 0], [0, 0, 1]];
 
 /** `v` with its part along `axis` taken out; `axis` is of length 1. */
 const across = (v: Vec3, axis: Vec3): Vec3 =>
-  less(v, scaled(axis, dot(v, axis)));
+  minus(v, times(axis, dot(v, axis)));
 
 /**
  * A bar from `from` to `to`, `wide` towards `side` — as near to it as a
@@ -115,20 +96,14 @@ export function bar(
   side: Vec3,
   { stuff, tint }: Made,
 ): Quad[] {
-  const run = less(to, from);
-  const axis = unitOf(run);
+  const run = minus(to, from);
+  const axis = unit(run);
   const flat = [side, ...AXES]
     .map((hint) => across(hint, axis))
     .find((hint) => lengthOf(hint) > 1e-3);
   if (flat === undefined) return [];
-  const p = unitOf(flat);
-  const r = crossed(p, axis);
-  const corner = less(from, added(scaled(p, wide / 2), scaled(r, deep / 2)));
-  return box(
-    corner,
-    [scaled(p, wide), run, scaled(r, deep)],
-    room,
-    stuff,
-    tint,
-  );
+  const p = unit(flat);
+  const r = cross(p, axis);
+  const corner = minus(from, plus(times(p, wide / 2), times(r, deep / 2)));
+  return box(corner, [times(p, wide), run, times(r, deep)], room, stuff, tint);
 }

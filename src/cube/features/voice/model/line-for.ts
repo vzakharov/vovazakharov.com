@@ -1,10 +1,10 @@
 import {
   among,
-  between,
   type Dice,
   diceOf,
   rollsUnder,
   type Some,
+  wholeBetween,
 } from './chance';
 import { worded } from './lexicon';
 import { type Line, PAUSE, type Tune, type Uttered, type Word } from './line';
@@ -95,11 +95,11 @@ function numbers(n: number, dice: Dice): Line {
 
 /** A few syllables stepping down, in no language: a laugh is a laugh. */
 function laugh(_: number, dice: Dice): Line {
-  const count = between(3, 6, dice('count'));
+  const count = wholeBetween(3, 6, dice('count'));
   const said = Array.from({ length: count }, (__, at) => ({
     word: sung(
       worded('ha'),
-      8 - 2 * at + between(-1, 1, dice(`step/${at}`)),
+      8 - 2 * at + wholeBetween(-1, 1, dice(`step/${at}`)),
       0.35,
     ),
     mark: '',
@@ -119,7 +119,7 @@ const LULLABY_STEPS: Some<number> = [-2, -1, -1, 0, 1, 1, 2];
 /** Two bars in three, sung on the floor's own nonsense syllables. */
 function lullaby(n: number, dice: Dice): Line {
   const beats = [0, 1].flatMap((bar) => among(BARS, dice(`bar/${bar}`)));
-  let degree = between(2, 4, dice('from'));
+  let degree = wholeBetween(2, 4, dice('from'));
   const said = beats.map((length, at) => {
     const step = among(LULLABY_STEPS, dice(`step/${at}`));
     degree = Math.min(SCALE.length - 1, Math.max(0, degree + step));

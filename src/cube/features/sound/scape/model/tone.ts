@@ -1,4 +1,4 @@
-import { chance, CYCLE, dying, filterOf, noiseOf, samplesIn } from '../lib/dsp';
+import { chance, CYCLE, dying, filterOf, noiseOf, samplesIn } from '../../dsp';
 
 /** Seconds a room's hum and its air each loop over. */
 const HUM_SECONDS = 2;

@@ -18,9 +18,6 @@ export function noiseOf(seed: number): Noise {
 /** The next draw of `noise`, moved to `[0, 1)`. */
 export const chance = (noise: Noise): number => (noise() + 1) / 2;
 
-export const clamp01 = (value: number): number =>
-  Math.min(1, Math.max(0, value));
-
 /** One sample through the filter, tuned to `hz` with resonance `q`. */
 export type Filter = (sample: number, hz: number, q: number) => number;
 
@@ -56,7 +53,7 @@ export const dying = (t: number, dies: number): number =>
   t < 0 ? 0 : Math.exp((-6.9 * t) / dies);
 
 /** A rise and fall, 0 outside `x` in `[0, 1]` and 1 at the middle. */
-export const hump = (x: number): number =>
+export const swell = (x: number): number =>
   x <= 0 || x >= 1 ? 0 : Math.sin(Math.PI * x) ** 2;
 
 /** How many samples `seconds` are at `rate`, at least one. */

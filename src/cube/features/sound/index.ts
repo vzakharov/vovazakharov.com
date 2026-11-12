@@ -5,10 +5,5 @@ export {
   ROOM_SOUNDS,
   type RoomSound,
   type SoundCue,
-} from './model/cue';
-export { pace, type Paced } from './model/pace';
-export {
-  createSoundscape,
-  type Played,
-  type Soundscape,
-} from './ui/soundscape';
+} from './cues';
+export { createSoundscape, type Played, type Soundscape } from './scape';

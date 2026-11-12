@@ -2,9 +2,15 @@ import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import type { Surface } from '@/cube/shared/lib/surface';
 import {
   box,
+  cross,
   face,
+  minus,
+  plus,
   type Quad,
   type Room,
+  times,
+  unit,
+  UP,
   type Vec3,
 } from '@/cube/entities/world';
 
@@ -24,31 +30,7 @@ type PrismShape = {
   lid?: number | null;
 };
 
-const plus = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
-  ax + bx,
-  ay + by,
-  az + bz,
-];
-
-const minus = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
-  ax - bx,
-  ay - by,
-  az - bz,
-];
-
-const scaled = ([x, y, z]: Vec3, by: number): Vec3 => [x * by, y * by, z * by];
-
-const cross = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
-  ay * bz - az * by,
-  az * bx - ax * bz,
-  ax * by - ay * bx,
-];
-
-const unit = (v: Vec3): Vec3 => scaled(v, 1 / Math.hypot(...v));
-
-const inRoom = (metres: Vec3): Vec3 => scaled(metres, 1 / ROOM_METRES);
-
-const UP: Vec3 = [0, 1, 0];
+const inRoom = (metres: Vec3): Vec3 => times(metres, 1 / ROOM_METRES);
 
 /**
  * An upright prism's sides and far end. Its sides are flat towards each
@@ -188,10 +170,10 @@ export function toolsFor(room: Room) {
       const flat = cross(UP, along);
       const p = Math.hypot(...flat) < 1e-9 ? ([1, 0, 0] as const) : unit(flat);
       const q = cross(unit(along), p);
-      const corner = minus(from, scaled(plus(p, q), thick / 2));
+      const corner = minus(from, times(plus(p, q), thick / 2));
       return slab(
         corner,
-        [scaled(p, thick), scaled(q, thick), along],
+        [times(p, thick), times(q, thick), along],
         surface,
         paint,
       );

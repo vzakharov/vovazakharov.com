@@ -1,7 +1,7 @@
 import { pathHash, roll, type Rolled, rollWith } from '@/dice/shared/roll';
 
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
-import { type Thing, THINGS } from '@/cube/shared/lib/thing';
+import { type Furnishing, THINGS } from '@/cube/shared/lib/thing';
 import {
   type Quad,
   type Setting,
@@ -69,7 +69,7 @@ const Decor = roll.struct({
 
 type Mapping = (at: Vec3) => Vec3;
 
-const mapped = (
+const carried = (
   quads: readonly Quad[],
   point: Mapping,
   direction: Mapping,
@@ -115,7 +115,7 @@ function make(setting: Setting, recipe: Recipe, draw: Draw): Made {
   const turn = yawed((recipe.turn ?? 0) * draw.turn);
   const [least, most] = recipe.gap ?? [0, 0];
   return {
-    quads: mapped(seen(built, flush), turn, turn),
+    quads: carried(seen(built, flush), turn, turn),
     off: OFF_WALL + (least + draw.gap * (most - least)) / ROOM_METRES,
   };
 }
@@ -183,7 +183,7 @@ function stood(
       : along(runs, spot.along);
   if (start === null) return null;
   const about = spun(side, 0.5);
-  return mapped(
+  return carried(
     quads,
     ([x, y, z]) =>
       about([
@@ -208,7 +208,7 @@ export const furnish = (
 /** `furnish`'s room, thing by thing. */
 export function furnished(
   setting: Setting,
-  decor: ReadonlyArray<Readonly<{ thing: Thing; perRoom: number }>>,
+  decor: readonly Furnishing[],
 ): Quad[][] {
   const rolled = rollWith(Decor, pathHash(String(setting.grain)));
   const zones = clearZones(setting);

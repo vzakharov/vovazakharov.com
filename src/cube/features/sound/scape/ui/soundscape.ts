@@ -3,9 +3,9 @@ import type { CanDispose } from '@/kernel/shared/typings';
 
 import { pathHash } from '@/dice/shared/roll';
 
-import type { Sound } from '@/cube/entities/theme';
+import type { Sound } from '@/cube/shared/lib/acoustics';
 
-import { type Mix, samplesOf, type SoundCue, voicedOf } from '../model/cue';
+import { type Mix, samplesOf, type SoundCue, voicedOf } from '../../cues';
 import { air, hum, impulse } from '../model/tone';
 
 /** How `play` places its samples; what is left out is full, centred and dry. */
