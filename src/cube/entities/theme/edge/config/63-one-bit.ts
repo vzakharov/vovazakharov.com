@@ -2,8 +2,8 @@ import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { FINISH, type FloorTheme, GRADE, STUFF, wgsl } from '../../kit';
 import { lit } from '../lib/lit';
-import { PATTERN } from '../lib/pattern';
-import { SCREEN } from '../lib/screen';
+import { PATTERN } from '../lib/pattern.shader';
+import { SCREEN } from '../lib/screen.shader';
 
 const AIR = linear(hex(0x04_04_06));
 

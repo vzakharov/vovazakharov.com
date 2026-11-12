@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { FINISH, type FloorTheme, GRADE, LIGHT, STUFF, wgsl } from '../../kit';
-import { MARKS } from '../lib/marks';
+import { MARKS } from '../lib/marks.shader';
 
 const AIR = linear(hex(0x03_07_10));
 

@@ -1,5 +1,5 @@
 import { type FloorTheme, GRADE, STUFF, wgsl } from '../../kit';
-import { PATTERN } from '../lib/pattern';
+import { PATTERN } from '../lib/pattern.shader';
 
 /**
  * Only how far away things are is left, and that is what is shown: white

@@ -1,11 +1,10 @@
+// Generated from marks.wgsl by `pnpm shaders:codegen`. Edit the
+// source, not here — the vet run regenerates this file and fails when it had to.
+
 import { CORE, wgsl } from '../../kit';
 
-/**
- * What gets painted on a working building: stencilled digits, and where
- * along a wall a mark goes so it reads the right way round from inside.
- */
 export const MARKS = wgsl(
-  'workplace/marks',
+  'cube/entities/theme/workplace/lib/marks',
   /* wgsl */ `
 /// Metres along a wall from its left end, as someone in its room facing it
 /// reads it: unlike \`s.uv.x\` it is never mirrored and starts at the corner.
@@ -40,15 +39,39 @@ fn stencilDigit(p: vec2f, n: u32) -> f32 {
     return 0.0;
   }
   // Strokes lit per digit: top, the right pair, bottom, the left pair, middle.
-  var lit = array<u32, 10>(0x3fu, 0x06u, 0x5bu, 0x4fu, 0x66u, 0x6du, 0x7du, 0x07u, 0x7fu, 0x6fu);
-  var starts = array<vec2f, 7>(
-    vec2f(0.0, 2.0), vec2f(1.0, 2.0), vec2f(1.0, 1.0), vec2f(0.0, 0.0),
-    vec2f(0.0, 0.0), vec2f(0.0, 1.0), vec2f(0.0, 1.0),
-  );
-  var ends = array<vec2f, 7>(
-    vec2f(1.0, 2.0), vec2f(1.0, 1.0), vec2f(1.0, 0.0), vec2f(1.0, 0.0),
-    vec2f(0.0, 1.0), vec2f(0.0, 2.0), vec2f(1.0, 1.0),
-  );
+  var lit =
+    array<u32, 10>(
+      0x3fu,
+      0x06u,
+      0x5bu,
+      0x4fu,
+      0x66u,
+      0x6du,
+      0x7du,
+      0x07u,
+      0x7fu,
+      0x6fu,
+    );
+  var starts =
+    array<vec2f, 7>(
+      vec2f(0.0, 2.0),
+      vec2f(1.0, 2.0),
+      vec2f(1.0, 1.0),
+      vec2f(0.0, 0.0),
+      vec2f(0.0, 0.0),
+      vec2f(0.0, 1.0),
+      vec2f(0.0, 1.0),
+    );
+  var ends =
+    array<vec2f, 7>(
+      vec2f(1.0, 2.0),
+      vec2f(1.0, 1.0),
+      vec2f(1.0, 0.0),
+      vec2f(1.0, 0.0),
+      vec2f(0.0, 1.0),
+      vec2f(0.0, 2.0),
+      vec2f(1.0, 1.0),
+    );
   let strokes = lit[n % 10u];
   var near = 9.0;
   for (var i = 0u; i < 7u; i++) {
@@ -66,7 +89,12 @@ fn stencilDigit(p: vec2f, n: u32) -> f32 {
 fn hazard(at: vec2f, pitch: f32) -> f32 {
   let stripe = fract((at.x + at.y) / pitch);
   let soft = clamp(fwidth(at.x + at.y) / pitch, 0.002, 0.5);
-  return smoothstep(0.5 - soft, 0.5 + soft, stripe) * (1.0 - smoothstep(1.0 - soft, 1.0, stripe));
+  return
+    smoothstep(0.5 - soft, 0.5 + soft, stripe) * (1.0 - smoothstep(
+      1.0 - soft,
+      1.0,
+      stripe,
+    ));
 }
 `,
   CORE,

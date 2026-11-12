@@ -1,6 +1,6 @@
 import { type FloorTheme, GRADE, HASH, STUFF, wgsl } from '../../kit';
-import { PATTERN } from '../lib/pattern';
-import { SCREEN } from '../lib/screen';
+import { PATTERN } from '../lib/pattern.shader';
+import { SCREEN } from '../lib/screen.shader';
 
 /**
  * The building as a surveyor's scan of it: no surfaces, only the points

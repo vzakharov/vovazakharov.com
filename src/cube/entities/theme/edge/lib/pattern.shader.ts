@@ -1,12 +1,10 @@
+// Generated from pattern.wgsl by `pnpm shaders:codegen`. Edit the
+// source, not here — the vet run regenerates this file and fails when it had to.
+
 import { CORE, HASH, wgsl } from '../../kit';
 
-/**
- * What the edge's floors are drawn in once textures give out: ruled lines,
- * squares and plain spectra, each softened to what a pixel can hold so a
- * grid running to the horizon does not shimmer.
- */
 export const PATTERN = wgsl(
-  'edge/pattern',
+  'cube/entities/theme/edge/lib/pattern',
   /* wgsl */ `
 /// A colour's brightness as an eye weighs it.
 fn luma(colour: vec3f) -> f32 {
@@ -15,7 +13,12 @@ fn luma(colour: vec3f) -> f32 {
 
 /// The pure colour at \`hue\` turns round the wheel: 0 red, a third green.
 fn spectrum(hue: f32) -> vec3f {
-  return clamp(abs(fract(hue + vec3f(0.0, 2.0 / 3.0, 1.0 / 3.0)) * 6.0 - 3.0) - 1.0, vec3f(0.0), vec3f(1.0));
+  return
+    clamp(
+      abs(fract(hue + vec3f(0.0, 2.0 / 3.0, 1.0 / 3.0)) * 6.0 - 3.0) - 1.0,
+      vec3f(0.0),
+      vec3f(1.0),
+    );
 }
 
 /// 1 on the lines of a square grid \`pitch\` metres apart, each \`width\`
@@ -58,7 +61,8 @@ fn chequer(uv: vec2f, size: f32) -> f32 {
 /// nearest joint.
 fn bonded(uv: vec2f, size: vec2f, salt: u32) -> vec2f {
   let row = floor(uv.y / size.y);
-  let at = vec2f(uv.x / size.x + 0.5 * (row - 2.0 * floor(row * 0.5)), uv.y / size.y);
+  let at =
+    vec2f(uv.x / size.x + 0.5 * (row - 2.0 * floor(row * 0.5)), uv.y / size.y);
   let f = fract(at);
   let edge = min(f, 1.0 - f) * size;
   return vec2f(unitOf(cellHash(vec2i(floor(at)), salt)), min(edge.x, edge.y));

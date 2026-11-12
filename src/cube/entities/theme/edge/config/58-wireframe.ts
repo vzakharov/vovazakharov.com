@@ -1,6 +1,6 @@
 import { type FloorTheme, GRADE, LIGHT, STUFF, wgsl } from '../../kit';
-import { PATTERN } from '../lib/pattern';
-import { SCREEN } from '../lib/screen';
+import { PATTERN } from '../lib/pattern.shader';
+import { SCREEN } from '../lib/screen.shader';
 
 /**
  * The surfaces are gone and the mesh under them is left: every face two
