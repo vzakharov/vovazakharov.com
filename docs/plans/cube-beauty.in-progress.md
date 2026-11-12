@@ -88,25 +88,13 @@ from another account: `/go claude/cube-liminal-332pmv`.
 - **On the page already**: the floors, the descent and hands, `goto05` with
   `?cheated_to=5`, and decor — `furnish(setting, decor)` is called in
   `cube-scene.ts` `build()`. Decor has not been looked at on this branch.
-- **Merged but not wired** (each slice's `index.ts` still carries its
-  `masd-disable insignificant` line, to drop once the page reads it):
-  - Happenings: `happening(setting, n, clock) → { quads, sounds }` from
-    `@/cube/features/happenings`; ask each near room per frame, `inPlace` the
-    quads into the frame's `moving`, play each sound once keyed room + cue +
-    `sinceEpoch`.
-  - Posters and signs: `posterOf(n)`, `paintPoster(ctx, parts, scale)`,
-    `POSTER_WIDE`/`POSTER_TALL` from `@/cube/entities/poster`;
-    `strokes(text, scriptOf(n))` and `paintStrokes` from
-    `@/cube/shared/lettering` for the sale signs. They go up as boards
-    (`renderer.uploadBoards`).
-  - Sound: `createSoundscape()` from `@/cube/features/sound` — `unlock()` on a
-    gesture, `setPlace(theme.sound, pose.scale)` each frame, `cue(...)` for each
-    of `Player.cues` (the player already paces its own steps) and for a
-    happening's sounds with `bearingOf`. `SHRINK_SECONDS` in
-    `sound/cues/model/cue.ts` is 3; the shrink takes 2 s.
-  - Voice: `lineFor(moment, n, grain)` → `utter(line, voiceOf(who, n), rate)` →
-    the soundscape's `play`, on the player's `say` cues;
-    `pnpm voice:cube --out <dir>` renders the WAVs for the board's page.
+- **Wired**: `cube-mesh.ts` builds the mesh and the settings whose happenings
+  `cube-scene.ts` stages each frame; landing rooms carry their floor's poster
+  and sale signs are lettered in the floor's script, both as boards;
+  `hearing.ts` plays the body's cues, the visitor's voice and each room sound on
+  the eye's floor once (keyed room + cue + `sinceEpoch`), unlocked by the first
+  press or key. No `masd-disable` line is left in the cube. Sound and voice have
+  not been listened to in a browser yet.
 - **Floor 67**: the maze places doors down to 66 only and refuses 67, so the
   scene crashes once 66's hole would show it — the operator's intended end. A
   slab's underside is drawn only over the eye's floor and under a hole, so
@@ -177,12 +165,13 @@ the board already links the pricing chart.
 
 ## Next
 
-1. Wire what is merged: happenings into `moving`, posters and restyled sale
-   signs as boards, sound and voice on the player's cues; drop each slice's
-   `masd-disable` line as the page starts reading it.
+1. Mirrored lamps end at a room's edge where the mirrored ray reaches past the
+   3×3 rooms the shader knows (`light.ts`, the clamped `by`): the operator asks
+   for reflections "wherever visible" — screen-space reflections, a second pass
+   over the frame's own colour, offered and awaiting a yes.
 2. Look at a gallery of every band and of decor; note what falls short of the
    bar. (Floor 66 loads; the mirrored lamps no longer sparkle — 3, 9, 11, 17 and
-   66 looked at.)
+   66 looked at; posters and signs close up on 2, 9 and 22.)
 3. The operator's asks from the run, not yet done: the hands move the lever at
    the pull; room passability by construction once decor collides; the voice
    samples page linked from the board.
