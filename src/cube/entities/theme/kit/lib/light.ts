@@ -90,10 +90,24 @@ fn reachesAcross(s: Surf, by: vec2i, to: vec3f) -> bool {
 /// 1 inside a lamp panel at ceiling point \`at\` (metres east and south in the
 /// room), 0 outside, for \`grid\` panels a side, each \`size\` metres.
 fn lampMask(at: vec2f, grid: i32, size: vec2f) -> f32 {
+  return 1.0 - smoothstep(0.0, 0.03, panelEdge(at, grid, size));
+}
+
+/// \`lampMask\` with its edge blurred \`soft\` metres across, as a floor short
+/// of glass mirrors it: wider than a panel, the panel spreads into a dimmer
+/// glow of about the light it had.
+fn lampBlur(at: vec2f, grid: i32, size: vec2f, soft: f32) -> f32 {
+  let half = 0.5 * max(soft, 0.03);
+  return 1.0 - smoothstep(-half, half, panelEdge(at, grid, size));
+}
+
+/// How far ceiling point \`at\` lies outside the nearest of \`grid\` panels a
+/// side, each \`size\` metres: negative inside one.
+fn panelEdge(at: vec2f, grid: i32, size: vec2f) -> f32 {
   let pitch = ROOM.xz / f32(grid);
   let off = (fract(at / pitch) - 0.5) * pitch;
   let edge = abs(off) - size * 0.5;
-  return 1.0 - smoothstep(0.0, 0.03, max(edge.x, edge.y));
+  return max(edge.x, edge.y);
 }
 
 /// How much light a point takes from the lamps of its room and of the
@@ -192,6 +206,13 @@ fn lampGlow(s: Surf, lamps: Lamps) -> vec3f {
     * lampLevel(s, vec2i(0), litOf(s), lamps.stutter));
 }
 
+/// How much of a polished floor's relief bends what it mirrors.
+const RIPPLE = 0.15;
+
+/// How many metres a mirrored panel's edge blurs per metre the mirrored ray
+/// runs, on a floor of no gloss at all.
+const BLUR = 0.3;
+
 /// How much of the lamps' light the air about a point passes on to it.
 const FILL = 0.16;
 
@@ -209,13 +230,17 @@ fn roomLight(s: Surf, m: Material, lamps: Lamps) -> vec3f {
   var colour = m.albedo * light * shade + m.emission
     + lamps.colour * (reach.y * mirror * shade);
   if (m.gloss > 0.0 && s.normal.y > 0.9) {
-    let mirrored = reflect(s.view, normal);
+    // The panels mirror off the floor's plane, its relief only rippling them:
+    // relief steep at every joint between boards would throw single pixels'
+    // rays onto a panel, and the floor would sparkle.
+    let mirrored = reflect(s.view, normalize(s.normal + RIPPLE * m.relief));
     if (mirrored.y > 0.001) {
       let hit = s.p + mirrored * ((ROOM.y - s.p.y) / mirrored.y);
       // Past the rooms around, the ceiling mirrored is taken for theirs.
       let by = clamp(vec2i(floor(hit.xz / ROOM.xz)), vec2i(-1), vec2i(1));
+      let soft = BLUR * (1.0 - m.gloss) * length(hit - s.p);
       colour += lamps.colour * (GLARE * mirror * lampsBeside(s, by, lamps.stutter))
-        * lampMask(hit.xz, lamps.grid, lamps.size);
+        * lampBlur(hit.xz, lamps.grid, lamps.size, soft);
     }
   }
   return colour;
