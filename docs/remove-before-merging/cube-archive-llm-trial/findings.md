@@ -57,7 +57,27 @@ WASM reference's tokens, so flips are counted on a shared context.
 
 ## Fine-tuning
 
-FINE_TUNE_RESULTS
+A CPU-only proof of the path, not of the quality: TinyStories-8M (19.7M
+parameters, 12.9M of them the 50k-token embedding) fine-tuned on 2.7M tokens
+of grammar-made documents (`scripts/corpus_gen.py`, a stand-in for an
+LLM-written corpus), 300 steps × 2048 tokens, AdamW 5e-4, 4 threads.
+
+- **Throughput:** ~1,240 training tokens/s on this CPU; the run took ~9 minutes
+  and saw 0.23 of an epoch. Loss 9.6 → 0.75 (the grammar corpus is
+  low-entropy, so the figure flatters it).
+- **Result:** the format is learned — fields, names, numbered
+  HEARD/RESOLVED items, the end-of-document token. The document type in the
+  header is not yet honoured (a land survey turns into a copyright claim), and
+  the text replays the grammar's phrase banks: the corpus, not the model, is
+  the ceiling.
+- **A real run:** 20–50M tokens written by a large LLM across ~50 document
+  types and the full date range, 3 epochs. ~60–150M training tokens: 14–35 h
+  on this CPU, well under an hour on one consumer GPU.
+- **Expected result:** ~20 MB int8 as is (the embedding dominates);
+  ~8–10 MB with a 4–8k-token tokenizer trained on the corpus. Speed between
+  TinyStories-3M (147 tok/s) and -33M (30 tok/s), so roughly 80–100 tok/s per
+  core here (an estimate, not measured: the fine-tuned model was not exported
+  to ONNX).
 
 ## Scripts
 
