@@ -183,13 +183,85 @@ the operator's own word for the potted plant in floor 1's room.
 
   > направление света солнца какое-то вот такое, наверное, должно быть
 
-  Read as: the beam comes in on a diagonal and lies on the floor, where the
-  first design sent it flat across to the west wall. The direction is taken; the
-  sketch's steepness (some 30°) is not, since a sun that high is mid-afternoon
-  and the sea and sky lose the gold — told to the operator, one constant to
-  change if they want it steeper.
+  Read at first as direction and steepness both, and the sun was raised to 17°;
+  then, as a comment on the board's note about it (relayed by the board
+  session):
+
+  > я тут в основном про направление в двумерной плоскости говорил, 30 градусов
+  > я там специально не отсчитывал :)
+
+  So the sketch fixes the beam's direction across the floor and nothing else;
+  the elevation went back to 9°.
+
+- **2026-11-12 ~22:34Z, a comment on the board itself** (on the "one ocean"
+  card, relayed by the board session): "no Russian in the board whatsoever". The
+  board session translates every quote; the lead sends verdicts in whatever
+  language they were said.
+
+- **2026-11-12 ~22:50Z, randomness and the goal behind it**:
+
+  > все же исполнители понимают, что всё что касается случайности должно
+  > использовать наш `rolled`?
+
+  > цель -- любая вещь, любое явление должно выглядеть абсолютно идентично в
+  > один и тот же момент времени для двух игроков на разных машинах в одной
+  > точке
+
+  The contract named `src/dice` but not `roll` / `rollWith`; now it does, and
+  every build session was told. Sand's pushed shape already rolled. The second
+  sentence was the contract's first rule; it now also rules out anything that
+  remembers earlier frames (accumulated foam, reprojected clouds, a stepped
+  simulation), told to core, sky, sea and sand. Footprints are per-player
+  history, so they are out unless the operator asks for them.
+
+- **2026-11-12 ~22:50Z, on the footprints being dropped — a principle**:
+
+  > да, где-то на борду большими буквами: Interactions come at a price. Это и в
+  > фигуральном и в буквальном смысле: любое, что меняет состояние мира силами
+  > одного игрока (вплоть до "пнуть мячик на полу") -- только покупкой.
+  >
+  > в более философском смысле, можно вспомнить про всяких
+  > исследователей-первооткрывателей, у которых это первая заповедь; про sound
+  > of thunder у бредберри, про эффект бабочки итдитп
+
+  Written into `src/cube/CLAUDE.md` with the two rules it stands beside, into
+  the contract, and sent to the board session for the board, in English, large.
+  What it decides here: no footprints, no wake or ripples from the player's
+  body, no sand disturbed; and the lead's reading for the pill — the shelf holds
+  a pill for whoever comes next, the one taken being the taker's own. That
+  reading was told to the operator in passing.
 
 ## Facts established
+
+- **The seam (core step 1, 1a311efa, merged into this branch at faedd71d)**: the
+  outside is the shared segment `src/cube/shared/outside/` (barrel
+  `@/cube/shared/outside`), one file per name, each package replacing its own:
+  `island-height.ts` (sand), `water-level.ts` (sea), `cube-shadow.ts` (shell),
+  `sky.ts` + `aerial.ts` (sky), `frame.ts`, `sun.ts`, `outdoor-frame.ts`,
+  `stage.ts` (core). WGSL pieces moved to `@/cube/shared/lib/wgsl`, the hash to
+  `@/cube/shared/lib/wgsl-hash`. The eye is `Whereabouts = Pose | Outside` in
+  `@/cube/entities/world`. A layer is `pages/cube/ui/<name>-layer.ts`, a
+  `LayerMaker` from `outdoor-layer.ts`, its shader roots in
+  `pages/cube/lib/outdoor-shaders.ts`. Every package was told to merge it.
+  Core's steps 2–4 (renderer takes layers and an outside eye, the frame script,
+  the outside lens) are in flight; `sun.ts` still held 8° toward +z at that
+  head.
+- **The island (sand, `claude/cube-intro-sand` @ 04a800ac)**: the cube's centre
+  is over W xz = (0, 0), the crest, sand 1.6 m; `CUBE_AT = (−2.5, 5.2, −2.5)`,
+  underside y = 2.7, the doorway at x = 2.5, z −2.226…−1.256, sill y = 5.2.
+  Shore from the crest: east 23.7 m, west 64.4, north 27.5, south 22.4. The
+  waking spot is the still waterline at (−20.98, 20.98). `islandHeight(x, z)`
+  and `ISLAND_HEIGHT_WGSL` live in `src/cube/shared/sand/island-shape.ts` until
+  core names the slice; the bed's colour is `sandBed(xz, depth) -> vec3f`.
+- **The sea's design (sea)**: `waterLevel` is a swell train of 420 waves an hour
+  arriving by a baked arrival-time field (one `r32float` texture, so the shared
+  outdoor bind group carries piece-owned bindings — asked of core); it also
+  exports `shoreWetness(xz, t)` for sand and TS `seaHeightAt` for walk. One
+  WGSL-in-Node test kit, sea's, lands in `src/cube/shared/lib/`; sand switches
+  to it.
+- **Cue names (sound, `claude/cube-intro-sound` @ b836c3ae)**: `step` with
+  `ground`, `pill`, `swallow`, `rung`, `splash`, `say: 'waking'`;
+  `LADDER_MATERIAL` in `shared/lib/acoustics.ts`. Passed to walk, pill, shell.
 
 - Floor 1 is one room: `roomsAcross(1) = 1`, side 5 m, height 2.5 m
   (`ROOM_HEIGHT` 0.5 of a side), and it is the cube's top slab. Each floor down
@@ -221,26 +293,27 @@ Each with its reason; a later decision that overrides one rewrites it here.
   and stays there. The decor door is dropped from floor 1's theme alone (15
   other floors list it).
 - **The sun looks in through the doorway on a diagonal; the player wakes on the
-  far side.** The sun stands 17° up, its azimuth the east wall's outward normal
-  (+x) turned 31° toward −z, which is the line from the pill's shelf (west wall,
-  z = 3.75 m) back through the doorway's middle. So the doorway's light lies on
-  the floor as one long parallelogram from the sill across the room to the foot
-  of the west wall under the pill, lapping some 0.3 m up it — the operator's
-  sketch (§ "Steering since"). `SUN_DIR` ≈ (0.820, 0.292, −0.492). The first
-  design, 9° and 8° toward +z, sent the beam flat across to the west wall and
-  lost to the sketch; 30°, the sketch's own steepness, lost to the gold of a low
-  sun.
-- **The player wakes about 30 m to the cube's south-west**, facing the sea with
-  the sun behind them, turns, and sees the cube against the sun — which stands
-  just above and right of it — its sunlit east and north faces, door and ladder
-  hidden: the operator's steer («солнце … лучше всё-таки сзади или сбоку от куба
-  … иначе ты сразу видишь дверь и лестницу in your face»). The cube's shadow,
-  some 20 m long, runs west-south-west, toward the player. The first choice,
-  waking in front of the doorway, lost to this.
-- **The cube hovers 1.1 m over the sand.** At 17° its shadow starts 3.6 m behind
-  it, so the sand right under the cube is in full sun: the look-under beat,
-  coming from the shadow side, shows lit sand and the sea's glare through the
-  gap.
+  far side.** The azimuth is the operator's sketch (§ "Steering since"): the
+  east wall's outward normal (+x) turned 31° toward −z, the line from the pill's
+  shelf (west wall, z = 3.75 m, 1 m up) back through the doorway's middle. The
+  elevation is 9°, the lead's: the doorway's light lies along the whole diagonal
+  of the floor and stands on the west wall up to about 1.18 m, so the beam ends
+  on the pill, and outside it is a true golden hour. `SUN_DIR` ≈ (0.847, 0.156,
+  −0.509). Lost to it: 8° toward +z (the first design, before the sketch), and
+  17° up (a half-hour detour that read a steepness into the sketch the operator
+  never drew).
+- **The player wakes about 30 m to the cube's south-west**, at W (−20.98,
+  20.98), facing the sea with the sun behind them, turns, and sees the cube with
+  the sun low to its right, level with its upper half, its sunlit east and north
+  faces, door and ladder hidden: the operator's steer («солнце … лучше всё-таки
+  сзади или сбоку от куба … иначе ты сразу видишь дверь и лестницу in your
+  face»). The cube's shadow, some 38 m long, runs west-south-west and lies on
+  the beach a few metres north of the waking spot, its tip near the water. The
+  first choice, waking in front of the doorway, lost to this.
+- **The cube hovers 1.1 m over the sand.** At 9° its shadow starts about 7 m
+  behind it, so the sand right under the cube is in full sun: the look-under
+  beat, coming from the shadow side, shows lit sand and the sea's glare through
+  the gap.
 - **Outside is the same frame as inside, the eye is not a pose**:
   `W = CUBE_AT + 5 · C` in metres, the page holds "inside (a `Pose`) or outside
   (an eye in W)", and the scene draws an outside eye with floor 1's room as its
