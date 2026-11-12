@@ -1,4 +1,9 @@
-import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
+import {
+  DEEPEST_FLOOR,
+  isOpenEast,
+  isOpenSouth,
+  type RolledMaze,
+} from './maze';
 import { isRoom, roomKey } from './room';
 
 /**
@@ -32,14 +37,19 @@ function cached(rolled: RolledMaze, predicate: Predicate): Wall {
   };
 }
 
-/** `rolled`'s walls, each hashed once while it stays in the cache. */
+/**
+ * `rolled`'s walls, each hashed once while it stays in the cache. A floor past
+ * the deepest the maze places is the last room: every wall of it closed, so
+ * each of its rooms stands alone and no door of it is asked of the maze.
+ */
 export function mazeWalls(rolled: RolledMaze): Walls {
   const east = cached(rolled, isOpenEast);
   const south = cached(rolled, isOpenSouth);
+  const mazed = (n: number) => n <= DEEPEST_FLOOR;
   return {
     isOpenEast: (n, x, y) =>
-      isRoom(n, x, y) && isRoom(n, x + 1n, y) && east(n, x, y),
+      mazed(n) && isRoom(n, x, y) && isRoom(n, x + 1n, y) && east(n, x, y),
     isOpenSouth: (n, x, y) =>
-      isRoom(n, x, y) && isRoom(n, x, y + 1n) && south(n, x, y),
+      mazed(n) && isRoom(n, x, y) && isRoom(n, x, y + 1n) && south(n, x, y),
   };
 }
