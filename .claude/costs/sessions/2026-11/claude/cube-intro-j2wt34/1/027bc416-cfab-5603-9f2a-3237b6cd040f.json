@@ -1,0 +1,89 @@
+{
+  "total": {
+    "inputTokens": 78,
+    "cacheWrite5mTokens": 97900,
+    "cacheWrite1hTokens": 128769,
+    "cacheReadTokens": 3625442,
+    "outputTokens": 25179,
+    "thinkingTokens": 9753,
+    "responses": 37,
+    "costUsd": 4.772176400000002
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-12T22:09:19.474Z",
+    "contextTokens": 121863,
+    "spend": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 70193,
+      "cacheWrite1hTokens": 61519,
+      "cacheReadTokens": 498085,
+      "outputTokens": 3626,
+      "thinkingTokens": 1007,
+      "responses": 7,
+      "costUsd": 1.931019
+    }
+  },
+  "sessionId": "027bc416-cfab-5603-9f2a-3237b6cd040f",
+  "branch": "claude/cube-intro-j2wt34",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "привет, Файбл (Фая?:-), а у меня тут для тебя ох какая интересная работка 🙂 хочу intro sequence для кубика -- который ты так круто построил в прошлый заход. пре…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEr63nSs6fbnbbEpGd",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-12T22:08:37.999Z",
+  "lastResponseAt": "2026-11-12T22:11:54.319Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 30,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 128769,
+    "cacheReadTokens": 1730006,
+    "outputTokens": 15372,
+    "thinkingTokens": 8925,
+    "responses": 13,
+    "costUsd": 3.0214252
+  },
+  "subagents": {
+    "inputTokens": 48,
+    "cacheWrite5mTokens": 97900,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1895436,
+    "outputTokens": 9807,
+    "thinkingTokens": 828,
+    "responses": 24,
+    "costUsd": 1.7507512000000007
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 78,
+      "cacheWrite5mTokens": 97900,
+      "cacheWrite1hTokens": 128769,
+      "cacheReadTokens": 3625442,
+      "outputTokens": 25179,
+      "thinkingTokens": 9753,
+      "responses": 37,
+      "costUsd": 4.772176400000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 37,
+    "matched": 37,
+    "matchedTableUsd": 4.772176400000002,
+    "matchedEventUsd": 4.772176400000002,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 859,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {}
+}
