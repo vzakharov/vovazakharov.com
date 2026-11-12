@@ -88,15 +88,7 @@ export const ISLAND = {
   crestOver: 7,
 } as const;
 
-type Dune = {
-  x: number;
-  z: number;
-  height: number;
-  along: number;
-  across: number;
-};
-
-const DUNES: readonly Dune[] = Object.values(rolled.dunes).map((dune) => {
+const DUNES = Object.values(rolled.dunes).map((dune) => {
   const { reach, bearing, height, along, across } = dune;
   const cos = Math.cos(bearing);
   const sin = Math.sin(bearing);
@@ -175,7 +167,13 @@ export const islandHeight = ([x, z]: Vec2): number =>
   bareHeight(x, z) +
   CREST_DUNE * Math.exp(-(sq(x) + sq(z)) / sq(ISLAND.crestOver));
 
-const duneLine = ({ x, z, height, along, across }: Dune): string =>
+const duneLine = ({
+  x,
+  z,
+  height,
+  along,
+  across,
+}: (typeof DUNES)[number]): string =>
   `  h += ${f32(height)} * exp(-(sq((x - ${f32(x)}) / ${f32(along)}) + sq((z - ${f32(z)}) / ${f32(across)})));`;
 
 /**
