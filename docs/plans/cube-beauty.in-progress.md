@@ -63,8 +63,11 @@ operator, never merge to `main`, preview slot only, no external services.
   `themeLens(l: Lens) -> vec3f` (a screen-space pass: style breaks go here);
   `ordinary(id, look)` writes the last two for a plain lit room; `core`'s
   `repeated`/`spaced` are every pattern's centred lattice.
-- **Frame**: scene pass into `rgba16float` (rgb scene light, `a` metres away) →
-  bloom (`pages/cube/ui/bloom.ts`) → the eye floor's lens to the canvas.
+- **Frame**: scene pass into three `rgba16float` targets (rgb scene light with
+  `a` metres away; the mirror; its plane) → reflections (`ui/reflection.ts`: a
+  ray walked through the frame's mips, the analytic lamp panels only where it
+  leaves the screen) → bloom (`pages/cube/ui/bloom.ts`) → the eye floor's lens
+  to the canvas.
 - **Clock**: `shared/lib/clock.ts`; the play hook freezes it.
 - **Player**: typing `goto05` stands the body on floor 5 (`Input.goTo`, any two
   digits) and makes the URL `?cheated_to=5`, the operator's way to see every
@@ -82,7 +85,8 @@ from another account: `/go claude/cube-liminal-332pmv`.
 
 - **Every stream is merged here**: descent, the five floor bands in full (4–8,
   9–20, 21–35, 36–52, 53–66), decor, happenings, lettering and posters, sound,
-  voice. Their sessions are done; nothing is left on their branches.
+  voice, and screen-space reflections. Their sessions are done; nothing is left
+  on their branches.
 - **Gates**: typecheck, eslint, prettier, `check:masd`, `masd:clusters`,
   `check:cycles`, `type-overlap`, `lint:fsd`, `shaders:cube` (66 of 66) and the
   tests the branch reaches are green; vet has not run.
@@ -153,6 +157,7 @@ when done; the lead reviews and merges.
 | Leisure 21–35         | `session_01DaohkBMVGXdEuW3E2ayjQi` | `claude/cube-leisure`    |
 | Laboratory 36–52      | `session_01DaohkEULbbnPnqNmdjyPte` | `claude/cube-laboratory` |
 | Edge 53–66            | `session_01DaohkB98NDbXs6XjN5h4KC` | `claude/cube-edge`       |
+| Reflections           | `session_016Z4TKpEWpjBRDrVBTHSavi` | `claude/cube-ssr`        |
 
 The voice stream was told, after the operator found a formant voice too robotic
 for the protagonist: the visitor makes wordless vocal sounds only; the words are
@@ -167,12 +172,11 @@ the board already links the pricing chart.
 
 ## Next
 
-1. Mirrored lamps end at a room's edge where the mirrored ray reaches past the
-   3×3 rooms the shader knows (`light.ts`, the clamped `by`): the operator asks
-   for reflections "wherever visible". Screen-space reflections are a stream of
-   their own, `session_016Z4TKpEWpjBRDrVBTHSavi` on `claude/cube-ssr`, with no
-   PR; it messages this session when done, and its branch is merged here, the
-   conflicts resolved here.
+1. Floors 9, 11, 17 and 66 lost the bright square shine of their old mirror: it
+   reflected panel lamps those themes do not draw, and the floor now shows their
+   real, smaller fixtures. Bringing it back is the fixtures' brightness or the
+   floor's gloss, never the analytic panels, which made the seam. The
+   reflections' cost is unmeasured (estimated 1–2 ms on an iGPU at 1080p).
 2. Look at a gallery of every band and of decor; note what falls short of the
    bar. (Floor 66 loads; the mirrored lamps no longer sparkle — 3, 9, 11, 17 and
    66 looked at; posters and signs close up on 2, 9 and 22.)
