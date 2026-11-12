@@ -1,14 +1,6 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
-import {
-  FINISH,
-  type FloorTheme,
-  GRADE,
-  LIGHT,
-  STUFF,
-  vec3f,
-  wgsl,
-} from '../../kit';
+import { FINISH, type FloorTheme, GRADE, LIGHT, STUFF, wgsl } from '../../kit';
 import { SHAPES } from '../lib/shapes';
 
 const AIR = linear(hex(0x08_04_12));
@@ -112,7 +104,7 @@ fn themeMaterial(s: Surf) -> Material {
 }
 
 fn themeLight(s: Surf, m: Material) -> vec3f {
-  return haze(roomLight(s, m, lamps()), s, ${vec3f(AIR)}, 30.0);
+  return haze(roomLight(s, m, lamps()), s, AIR, 30.0);
 }
 
 /// The frame on a picture tube: its glass bowed, its lines and its triads

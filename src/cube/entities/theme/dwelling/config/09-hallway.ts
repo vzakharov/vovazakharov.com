@@ -166,7 +166,6 @@ fn themeMaterial(s: Surf) -> Material {
     STUFF,
     DWELLING,
     ordinary('hallway', {
-      air: AIR,
       lamp: [4.4, 3.2, 1.8],
       ambient: [0.01, 0.008, 0.006],
       grid: 1,

@@ -88,7 +88,6 @@ fn themeMaterial(s: Surf) -> Material {
     FINISH,
     STUFF,
     ordinary('cold-room', {
-      air: AIR,
       lamp: [1.5, 2, 2.4],
       ambient: [0.012, 0.02, 0.028],
       grid: 2,

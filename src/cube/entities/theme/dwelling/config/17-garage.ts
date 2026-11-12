@@ -137,7 +137,6 @@ fn themeMaterial(s: Surf) -> Material {
     STUFF,
     DWELLING,
     ordinary('garage', {
-      air: AIR,
       lamp: [4.3, 4.9, 4.9],
       ambient: [0.005, 0.006, 0.007],
       grid: 1,

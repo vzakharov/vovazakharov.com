@@ -88,7 +88,6 @@ fn themeMaterial(s: Surf) -> Material {
     SPECIMEN,
     STUFF,
     ordinary('crystal', {
-      air: AIR,
       lamp: [1, 1.06, 1.35],
       ambient: [0.008, 0.01, 0.02],
       grid: 3,

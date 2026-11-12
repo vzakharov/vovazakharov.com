@@ -1,14 +1,6 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
-import {
-  type FloorTheme,
-  GRADE,
-  LIGHT,
-  LUMA,
-  STUFF,
-  vec3f,
-  wgsl,
-} from '../../kit';
+import { type FloorTheme, GRADE, LIGHT, LUMA, STUFF, wgsl } from '../../kit';
 import { SPECIMEN } from '../lib/specimen.shader';
 
 const AIR = linear(hex(0xe9_e2_cf));
@@ -118,7 +110,7 @@ fn lamps() -> Lamps {
 }
 
 fn themeLight(s: Surf, m: Material) -> vec3f {
-  return haze(roomLight(s, m, lamps()), s, ${vec3f(AIR)}, 90.0);
+  return haze(roomLight(s, m, lamps()), s, AIR, 90.0);
 }
 
 /// The ink where the picture at \`uv\` has an edge: where what is seen

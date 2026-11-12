@@ -99,7 +99,6 @@ fn themeMaterial(s: Surf) -> Material {
     FINISH,
     STUFF,
     ordinary('wafer', {
-      air: AIR,
       lamp: [1.7, 1.25, 0.22],
       ambient: [0.012, 0.008, 0.0005],
       grid: 2,

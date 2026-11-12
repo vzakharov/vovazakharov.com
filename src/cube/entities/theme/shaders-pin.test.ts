@@ -2,8 +2,17 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { describe, it } from 'node:test';
 
+import type { Rgb } from '@/cube/shared/lib/colour';
+
 import { floorSource, themeOf } from '.';
-import { HONEYCOMB, LUMA, MATH, type Wgsl } from './kit';
+import {
+  type FloorTheme,
+  HONEYCOMB,
+  LUMA,
+  MATH,
+  vec3f,
+  type Wgsl,
+} from './kit';
 
 /**
  * Each floor's theme source as `assemble()` wrote it before its pieces moved
@@ -183,19 +192,22 @@ function laboratory(source: string, moved: readonly Wgsl[]) {
   return undo(then, SPECIMEN_HEAD, head + SPECIMEN_HEAD);
 }
 
-/** The micrograph's haze, a literal before its air became a piece of its own. */
-const MICROGRAPH_AIR = 'vec3f(0.0015, 0.0015, 0.0015)';
-
-function micrograph(source: string): string {
-  const then = undo(source, `const AIR = ${MICROGRAPH_AIR};\n\n`, '');
-  return undo(then, 's, AIR, 32.0)', `s, ${MICROGRAPH_AIR}, 32.0)`);
+/**
+ * `source` with the theme's air written out where its shader names `AIR`, as
+ * each floor spelled it before the assembly declared it once.
+ */
+function aired(source: string, air: Rgb): string {
+  const then = undo(source, `const AIR = ${vec3f(air)};\n\n`, '');
+  return then.replaceAll(/(?<!\w)AIR(?!\w)/g, () => tokens(vec3f(air)));
 }
 
-const asBefore = (n: number, named: string): string => {
+const asBefore = (n: number, theme: FloorTheme): string => {
   const moved = calling[n];
-  const source = undoAll(tokens(named), NAMED);
+  const source = aired(
+    undoAll(tokens(floorSource(theme, '')), NAMED),
+    theme.air,
+  );
   if (n === 12) return bathroom(source);
-  if (n === 46) return laboratory(micrograph(source), moved ?? []);
   return moved === undefined ? source : laboratory(source, moved);
 };
 
@@ -203,7 +215,7 @@ describe("every floor's shader source", () => {
   it('is what it was before the move, but for the differences named', () => {
     for (const [index, pinned] of BEFORE.entries()) {
       const n = index + 1;
-      const source = asBefore(n, floorSource(themeOf(n), ''));
+      const source = asBefore(n, themeOf(n));
       const hash = createHash('sha256').update(source).digest('hex');
       assert.equal(hash.slice(0, 16), pinned, `floor ${String(n)}`);
     }

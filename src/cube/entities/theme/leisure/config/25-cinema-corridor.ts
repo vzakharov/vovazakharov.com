@@ -102,7 +102,6 @@ fn themeMaterial(s: Surf) -> Material {
     STUFF,
     SHAPES,
     ordinary('cinema-corridor', {
-      air: AIR,
       lamp: [0.55, 0.32, 0.15],
       ambient: [0.006, 0.003, 0.002],
       grid: 3,

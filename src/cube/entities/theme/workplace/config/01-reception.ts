@@ -72,7 +72,6 @@ fn themeMaterial(s: Surf) -> Material {
     FINISH,
     STUFF,
     ordinary('reception', {
-      air: AIR,
       lamp: [1.5, 1.38, 1.14],
       ambient: [0.012, 0.011, 0.01],
       grid: 2,

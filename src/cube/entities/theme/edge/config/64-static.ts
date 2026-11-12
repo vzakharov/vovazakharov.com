@@ -79,7 +79,6 @@ fn themeLens(l: Lens) -> vec3f {
     lit(
       'static',
       'Lamps(vec3f(1.5, 1.6, 1.8), vec3f(0.02), 2, vec2f(0.4, 0.4), 0.7)',
-      AIR,
       22,
     ),
     GRADE,

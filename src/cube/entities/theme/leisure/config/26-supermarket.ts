@@ -125,7 +125,6 @@ fn themeMaterial(s: Surf) -> Material {
     STUFF,
     SHAPES,
     ordinary('supermarket', {
-      air: AIR,
       lamp: [1.02, 1.15, 1.25],
       ambient: [0.012, 0.014, 0.016],
       grid: 2,

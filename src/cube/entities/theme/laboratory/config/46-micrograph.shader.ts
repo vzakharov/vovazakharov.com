@@ -13,7 +13,6 @@ import {
   wgsl,
 } from '../../kit';
 import { SPECIMEN } from '../lib/specimen.shader';
-import { MICROGRAPH_AIR_WGSL } from './micrograph-air';
 
 export const MICROGRAPH_SHADER = wgsl(
   'cube/entities/theme/laboratory/config/46-micrograph',
@@ -151,7 +150,6 @@ fn themeLens(l: Lens) -> vec3f {
 }
 `,
   SPECIMEN,
-  MICROGRAPH_AIR_WGSL,
   STUFF,
   LIGHT,
   GRADE,

@@ -1,6 +1,6 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
-import { type FloorTheme, GRADE, LIGHT, STUFF, vec3f, wgsl } from '../../kit';
+import { type FloorTheme, GRADE, LIGHT, STUFF, wgsl } from '../../kit';
 import { PATTERN } from '../lib/pattern';
 import { SCREEN } from '../lib/screen';
 
@@ -26,7 +26,7 @@ export const CLEAR_COLOUR: FloorTheme = {
   shader: wgsl(
     'clear-colour',
     /* wgsl */ `
-const CLEAR = ${vec3f(CLEAR)};
+const CLEAR = AIR;
 
 fn lamps() -> Lamps {
   return Lamps(vec3f(1.0), vec3f(0.06), 1, vec2f(0.8, 0.8), 0.0);

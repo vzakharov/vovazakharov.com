@@ -125,7 +125,6 @@ fn themeMaterial(s: Surf) -> Material {
     STUFF,
     SHAPES,
     ordinary('mall-atrium', {
-      air: AIR,
       lamp: [2.1, 2.2, 2.35],
       ambient: [0.014, 0.014, 0.015],
       grid: 1,

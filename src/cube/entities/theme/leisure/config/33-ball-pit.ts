@@ -155,7 +155,6 @@ fn themeMaterial(s: Surf) -> Material {
     STUFF,
     SHAPES,
     ordinary('ball-pit', {
-      air: AIR,
       lamp: [1.15, 1.08, 0.94],
       ambient: [0.014, 0.013, 0.011],
       grid: 2,

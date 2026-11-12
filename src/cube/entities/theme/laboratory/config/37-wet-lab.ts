@@ -88,7 +88,6 @@ fn themeMaterial(s: Surf) -> Material {
     FINISH,
     STUFF,
     ordinary('wet-lab', {
-      air: AIR,
       lamp: [1.25, 1.5, 1.3],
       ambient: [0.006, 0.01, 0.008],
       grid: 2,

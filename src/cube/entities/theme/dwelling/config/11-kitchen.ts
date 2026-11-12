@@ -128,7 +128,6 @@ fn themeMaterial(s: Surf) -> Material {
     STUFF,
     DWELLING,
     ordinary('kitchen', {
-      air: AIR,
       lamp: [1.3, 1.5, 1.12],
       ambient: [0.008, 0.01, 0.007],
       grid: 2,

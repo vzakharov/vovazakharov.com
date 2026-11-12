@@ -67,7 +67,6 @@ fn themeMaterial(s: Surf) -> Material {
     FINISH,
     STUFF,
     ordinary('greybox', {
-      air: AIR,
       lamp: [1.35, 1.35, 1.35],
       ambient: [0.02, 0.02, 0.02],
       grid: 2,

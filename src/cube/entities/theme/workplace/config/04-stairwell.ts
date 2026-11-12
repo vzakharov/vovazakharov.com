@@ -125,7 +125,6 @@ fn themeMaterial(s: Surf) -> Material {
     STUFF,
     MARKS,
     ordinary('stairwell', {
-      air: AIR,
       lamp: [2.1, 2.4, 1.9],
       ambient: [0.006, 0.008, 0.006],
       grid: 1,

@@ -102,7 +102,6 @@ fn themeMaterial(s: Surf) -> Material {
     STUFF,
     HONEYCOMB,
     ordinary('membrane', {
-      air: AIR,
       lamp: [1.5, 1.3, 1.45],
       ambient: [0.012, 0.004, 0.008],
       grid: 2,

@@ -121,7 +121,6 @@ fn themeMaterial(s: Surf) -> Material {
     STUFF,
     SHAPES,
     ordinary('aquarium-tunnel', {
-      air: AIR,
       lamp: [0.5, 1.5, 1.9],
       ambient: [0.004, 0.012, 0.018],
       grid: 1,

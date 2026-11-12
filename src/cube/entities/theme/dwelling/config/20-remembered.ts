@@ -132,7 +132,6 @@ fn themeMaterial(s: Surf) -> Material {
     STUFF,
     DWELLING,
     ordinary('remembered', {
-      air: AIR,
       lamp: [4.2, 3.5, 2.7],
       ambient: [0.014, 0.012, 0.01],
       grid: 1,

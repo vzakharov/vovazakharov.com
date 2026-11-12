@@ -67,7 +67,6 @@ fn themeMaterial(s: Surf) -> Material {
     PATTERN,
     STUFF,
     ordinary('texture-test', {
-      air: AIR,
       lamp: [1.3, 1.32, 1.4],
       ambient: [0.015, 0.015, 0.018],
       grid: 2,

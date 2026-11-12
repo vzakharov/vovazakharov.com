@@ -113,7 +113,6 @@ fn themeLens(l: Lens) -> vec3f {
     lit(
       'test-card',
       'Lamps(vec3f(1.1, 1.15, 1.3), vec3f(0.01), 2, vec2f(0.5, 0.5), 0.15)',
-      AIR,
       40,
     ),
     GRADE,

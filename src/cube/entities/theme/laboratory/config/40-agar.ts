@@ -99,7 +99,6 @@ fn themeMaterial(s: Surf) -> Material {
     FINISH,
     STUFF,
     ordinary('agar', {
-      air: AIR,
       lamp: [0.75, 0.66, 0.46],
       ambient: [0.02, 0.011, 0.002],
       grid: 2,

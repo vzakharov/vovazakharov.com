@@ -1,14 +1,6 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
-import {
-  FINISH,
-  type FloorTheme,
-  GRADE,
-  LIGHT,
-  STUFF,
-  vec3f,
-  wgsl,
-} from '../../kit';
+import { FINISH, type FloorTheme, GRADE, LIGHT, STUFF, wgsl } from '../../kit';
 import { DWELLING } from '../lib/dwelling.shader';
 
 const AIR = linear(hex(0x02_04_0b));
@@ -210,7 +202,7 @@ fn themeMaterial(s: Surf) -> Material {
 fn themeLight(s: Surf, m: Material) -> vec3f {
   let normal = normalize(s.normal + m.relief);
   let lit = roomLight(s, m, lamps()) + m.albedo * nightLight(s, normal) * 1.5;
-  return haze(lit, s, ${vec3f(AIR)}, 30.0);
+  return haze(lit, s, AIR, 30.0);
 }
 
 fn themeLens(l: Lens) -> vec3f {

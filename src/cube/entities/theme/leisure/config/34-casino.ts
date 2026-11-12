@@ -110,7 +110,6 @@ fn themeMaterial(s: Surf) -> Material {
     STUFF,
     SHAPES,
     ordinary('casino', {
-      air: AIR,
       lamp: [0.75, 0.5, 0.26],
       ambient: [0.008, 0.004, 0.004],
       grid: 3,

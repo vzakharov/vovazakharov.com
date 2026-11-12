@@ -68,7 +68,6 @@ fn themeMaterial(s: Surf) -> Material {
     FINISH,
     STUFF,
     ordinary('missing-texture', {
-      air: AIR,
       lamp: [1.25, 1.05, 1.3],
       ambient: [0.012, 0.004, 0.012],
       grid: 2,

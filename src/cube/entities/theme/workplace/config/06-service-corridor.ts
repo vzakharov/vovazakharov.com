@@ -149,7 +149,6 @@ fn themeMaterial(s: Surf) -> Material {
     STUFF,
     MARKS,
     ordinary('service-corridor', {
-      air: AIR,
       lamp: [1.25, 1.45, 1.3],
       ambient: [0.007, 0.009, 0.008],
       grid: 2,

@@ -1,6 +1,6 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
-import { type FloorTheme, GRADE, LIGHT, STUFF, vec3f, wgsl } from '../../kit';
+import { type FloorTheme, GRADE, LIGHT, STUFF, wgsl } from '../../kit';
 import { PATTERN } from '../lib/pattern';
 import { SCREEN } from '../lib/screen';
 
@@ -71,7 +71,7 @@ fn themeLight(s: Surf, m: Material) -> vec3f {
   let drawn = 0.3 + 1.4 * luma(m.albedo);
   let shade = mix(1.0, cornerShade(s), 0.6);
   let colour = pow(facing, vec3f(2.2)) * min(drawn, 1.15) * shade + m.emission;
-  return haze(colour, s, ${vec3f(AIR)}, 70.0);
+  return haze(colour, s, AIR, 70.0);
 }
 
 fn themeLens(l: Lens) -> vec3f {

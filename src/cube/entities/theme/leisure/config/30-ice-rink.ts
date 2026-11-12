@@ -126,7 +126,6 @@ fn themeMaterial(s: Surf) -> Material {
     STUFF,
     SHAPES,
     ordinary('ice-rink', {
-      air: AIR,
       lamp: [1.2, 1.33, 1.46],
       ambient: [0.012, 0.015, 0.018],
       grid: 2,

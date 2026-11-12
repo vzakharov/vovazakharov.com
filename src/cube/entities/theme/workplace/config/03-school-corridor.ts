@@ -72,7 +72,6 @@ fn themeMaterial(s: Surf) -> Material {
     FINISH,
     STUFF,
     ordinary('school-corridor', {
-      air: AIR,
       lamp: [1.3, 1.44, 1.52],
       ambient: [0.006, 0.008, 0.01],
       grid: 2,

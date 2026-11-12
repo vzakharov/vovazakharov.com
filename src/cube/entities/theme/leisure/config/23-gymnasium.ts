@@ -111,7 +111,6 @@ fn themeMaterial(s: Surf) -> Material {
     STUFF,
     SHAPES,
     ordinary('gymnasium', {
-      air: AIR,
       lamp: [1.55, 1.42, 1.15],
       ambient: [0.012, 0.011, 0.009],
       grid: 2,

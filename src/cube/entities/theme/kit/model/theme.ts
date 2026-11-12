@@ -6,7 +6,7 @@ import type { Furnishing } from '@/cube/shared/lib/thing';
 
 import { CORE } from '../lib/core';
 import { STUFF } from '../lib/stuff.shader';
-import { assemble, type Wgsl, wgsl } from '../lib/wgsl';
+import { assemble, vec3f, type Wgsl, wgsl } from '../lib/wgsl';
 
 /** A place with air of a colour: what shows where no face is drawn. */
 export type Aired = { air: Rgb };
@@ -45,8 +45,17 @@ export type Floors = Readonly<Partial<Record<number, FloorTheme>>>;
 
 /**
  * A floor's whole shader: its theme's three functions, everything they call,
- * and `stage` — the entry points, which may call the theme's three, the core
- * kit and `ownedMark`.
+ * `AIR` — the theme's air, which its WGSL names without importing — and
+ * `stage`, the entry points, which may call the theme's three, the core kit
+ * and `ownedMark`.
  */
-export const floorSource = ({ shader }: FloorTheme, stage: string): string =>
-  `${DIRECTIVES}\n\n${assemble([shader, STUFF, wgsl('stage', stage, CORE)])}`;
+export const floorSource = (
+  { shader, air }: FloorTheme,
+  stage: string,
+): string =>
+  `${DIRECTIVES}\n\n${assemble([
+    wgsl('air', `const AIR = ${vec3f(air)};`),
+    shader,
+    STUFF,
+    wgsl('stage', stage, CORE),
+  ])}`;

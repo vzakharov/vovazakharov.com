@@ -1,14 +1,6 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
-import {
-  FINISH,
-  type FloorTheme,
-  GRADE,
-  LIGHT,
-  STUFF,
-  vec3f,
-  wgsl,
-} from '../../kit';
+import { FINISH, type FloorTheme, GRADE, LIGHT, STUFF, wgsl } from '../../kit';
 import { SHAPES } from '../lib/shapes';
 
 const AIR = linear(hex(0x1c_24_30));
@@ -115,7 +107,7 @@ fn themeMaterial(s: Surf) -> Material {
 }
 
 fn themeLight(s: Surf, m: Material) -> vec3f {
-  return haze(roomLight(s, m, lamps()), s, ${vec3f(AIR)}, 70.0);
+  return haze(roomLight(s, m, lamps()), s, AIR, 70.0);
 }
 
 /// How sharply the scene's depth breaks at \`uv\`: 0 across a flat face, 1

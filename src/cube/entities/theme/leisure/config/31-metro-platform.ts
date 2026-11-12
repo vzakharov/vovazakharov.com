@@ -131,7 +131,6 @@ fn themeMaterial(s: Surf) -> Material {
     STUFF,
     SHAPES,
     ordinary('metro-platform', {
-      air: AIR,
       lamp: [1.25, 1.42, 1.15],
       ambient: [0.02, 0.023, 0.018],
       grid: 2,

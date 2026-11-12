@@ -15,9 +15,9 @@ so it is a review call:
 - **The same quantity in two places** — one name. Two values that merely
   coincide stay apart: one name over both turns an edit to either into a bug in
   the other.
-- **A value TypeScript holds too** (a theme's colour) — a TS piece exporting it,
-  imported from the `.wgsl` (`laboratory/config/micrograph-air.ts`), never a
-  literal copy.
+- **A value TypeScript holds too** — a TS piece exporting it, imported from the
+  `.wgsl`, never a literal copy. The theme's air is `AIR`, which `floorSource`
+  declares in every floor's shader.
 - **Mathematics WGSL lacks** — the kit's (`kit/lib/math.wgsl`: `PI`).
 
 A threshold, scale or weight tuned by eye stays a literal beside the code it

@@ -333,7 +333,6 @@ fn themeMaterial(s: Surf) -> Material {
     FINISH,
     STUFF,
     ordinary('home', {
-      air: AIR,
       lamp: [2.5, 1.7, 0.85],
       ambient: [0.014, 0.008, 0.004],
       grid: 1,

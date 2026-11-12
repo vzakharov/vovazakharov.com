@@ -85,7 +85,6 @@ fn themeMaterial(s: Surf) -> Material {
     FINISH,
     STUFF,
     ordinary('gel', {
-      air: AIR,
       lamp: [0.35, 0.12, 1.1],
       ambient: [0.004, 0.001, 0.012],
       grid: 2,

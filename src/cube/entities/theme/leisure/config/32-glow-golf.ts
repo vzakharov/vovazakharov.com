@@ -1,14 +1,6 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
-import {
-  FINISH,
-  type FloorTheme,
-  GRADE,
-  LIGHT,
-  STUFF,
-  vec3f,
-  wgsl,
-} from '../../kit';
+import { FINISH, type FloorTheme, GRADE, LIGHT, STUFF, wgsl } from '../../kit';
 import { SHAPES } from '../lib/shapes';
 
 const AIR = linear(hex(0x05_02_0e));
@@ -126,7 +118,7 @@ fn themeLight(s: Surf, m: Material) -> vec3f {
   let top = max(m.albedo.r, max(m.albedo.g, m.albedo.b));
   let vivid = (top - min(m.albedo.r, min(m.albedo.g, m.albedo.b))) / max(top, 0.001);
   let shine = m.albedo * (vivid * vivid * (reach.x + 0.5 * reach.z) * 2.6 * cornerShade(s));
-  return haze(lit + shine, s, ${vec3f(AIR)}, 45.0);
+  return haze(lit + shine, s, AIR, 45.0);
 }
 
 fn themeLens(l: Lens) -> vec3f {

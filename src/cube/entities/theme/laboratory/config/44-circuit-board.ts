@@ -129,7 +129,6 @@ fn themeMaterial(s: Surf) -> Material {
     FINISH,
     STUFF,
     ordinary('circuit-board', {
-      air: AIR,
       lamp: [1.3, 1.5, 1.2],
       ambient: [0.003, 0.008, 0.005],
       grid: 3,

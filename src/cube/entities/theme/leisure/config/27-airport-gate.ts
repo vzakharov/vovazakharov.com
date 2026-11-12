@@ -125,7 +125,6 @@ fn themeMaterial(s: Surf) -> Material {
     STUFF,
     SHAPES,
     ordinary('airport-gate', {
-      air: AIR,
       lamp: [1.2, 1.25, 1.3],
       ambient: [0.008, 0.01, 0.014],
       grid: 2,

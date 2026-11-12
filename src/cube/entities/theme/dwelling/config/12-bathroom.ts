@@ -30,7 +30,6 @@ export const BATHROOM: FloorTheme = {
     needs: [
       ...BATHROOM_SHADER.needs,
       ordinary('bathroom', {
-        air: AIR,
         lamp: [1.25, 1.45, 1.5],
         ambient: [0.012, 0.015, 0.015],
         grid: 2,

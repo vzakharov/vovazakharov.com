@@ -1,14 +1,6 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
-import {
-  FINISH,
-  type FloorTheme,
-  GRADE,
-  LIGHT,
-  STUFF,
-  vec3f,
-  wgsl,
-} from '../../kit';
+import { FINISH, type FloorTheme, GRADE, LIGHT, STUFF, wgsl } from '../../kit';
 import { DWELLING } from '../lib/dwelling.shader';
 
 const AIR = linear(hex(0x0c_06_03));
@@ -102,7 +94,7 @@ fn themeMaterial(s: Surf) -> Material {
 }
 
 fn themeLight(s: Surf, m: Material) -> vec3f {
-  return haze(roomLight(s, m, lamps()), s, ${vec3f(AIR)}, 34.0);
+  return haze(roomLight(s, m, lamps()), s, AIR, 34.0);
 }
 
 /// The frame off a worn home-video tape. Brightness keeps most of its

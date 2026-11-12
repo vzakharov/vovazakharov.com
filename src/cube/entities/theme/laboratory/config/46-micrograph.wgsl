@@ -2,7 +2,6 @@
 // the instrument's frame. `46-micrograph.ts` holds the rest of the floor.
 
 import super::super::lib::specimen::{dome, shards};
-import super::micrograph_air::AIR;
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::kit::lib::light::{Lamps, lampGlow, lampReach, cornerShade};
 import package::cube::entities::theme::kit::lib::grade::{haze, tonemap, through, grain, vignette};

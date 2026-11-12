@@ -104,7 +104,6 @@ fn themeMaterial(s: Surf) -> Material {
     FINISH,
     STUFF,
     ordinary('clean-room', {
-      air: AIR,
       lamp: [1.25, 1.36, 1.42],
       ambient: [0.03, 0.034, 0.036],
       grid: 3,

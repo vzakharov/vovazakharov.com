@@ -112,7 +112,6 @@ fn themeMaterial(s: Surf) -> Material {
     STUFF,
     HONEYCOMB,
     ordinary('tunnelling-scan', {
-      air: AIR,
       lamp: [2.1, 1.75, 1.3],
       ambient: [0.012, 0.006, 0.002],
       grid: 1,

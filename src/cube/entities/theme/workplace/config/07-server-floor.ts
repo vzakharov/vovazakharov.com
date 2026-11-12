@@ -1,14 +1,6 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
-import {
-  FINISH,
-  type FloorTheme,
-  GRADE,
-  LIGHT,
-  STUFF,
-  vec3f,
-  wgsl,
-} from '../../kit';
+import { FINISH, type FloorTheme, GRADE, LIGHT, STUFF, wgsl } from '../../kit';
 import { MARKS } from '../lib/marks';
 
 const AIR = linear(hex(0x03_07_10));
@@ -167,7 +159,7 @@ fn themeLight(s: Surf, m: Material) -> vec3f {
     let flicker = 0.75 + 0.25 * valueNoise(vec2f(s.time * 3.0, f32(s.seed & 255u)), 139u);
     colour += m.albedo * vec3f(0.02, 0.11, 0.05) * (wash * flicker);
   }
-  return haze(colour, s, ${vec3f(AIR)}, 24.0);
+  return haze(colour, s, AIR, 24.0);
 }
 
 fn themeLens(l: Lens) -> vec3f {

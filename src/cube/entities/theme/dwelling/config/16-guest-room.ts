@@ -106,7 +106,6 @@ fn themeMaterial(s: Surf) -> Material {
     STUFF,
     DWELLING,
     ordinary('guest-room', {
-      air: AIR,
       lamp: [4.3, 3, 2.5],
       ambient: [0.011, 0.008, 0.008],
       grid: 1,

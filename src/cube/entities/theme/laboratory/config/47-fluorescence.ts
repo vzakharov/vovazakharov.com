@@ -94,7 +94,6 @@ fn themeMaterial(s: Surf) -> Material {
     STUFF,
     LUMA,
     ordinary('fluorescence', {
-      air: AIR,
       lamp: [0.22, 0.1, 0.9],
       ambient: [0, 0, 0.002],
       grid: 2,

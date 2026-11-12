@@ -99,7 +99,6 @@ fn themeMaterial(s: Surf) -> Material {
     STUFF,
     DWELLING,
     ordinary('attic', {
-      air: AIR,
       lamp: [3.6, 2.3, 1.05],
       ambient: [0.006, 0.004, 0.003],
       grid: 1,

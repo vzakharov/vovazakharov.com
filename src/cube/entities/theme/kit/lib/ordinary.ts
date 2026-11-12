@@ -1,12 +1,11 @@
 import type { Rgb } from '@/cube/shared/lib/colour';
 
-import type { Aired } from '../model/theme';
 import { GRADE } from './grade.shader';
 import { LIGHT } from './light.shader';
 import { vec3f, type Wgsl, wgsl } from './wgsl';
 
-/** An ordinary floor's light, air and lens, as numbers. */
-type Ordinary = Aired & {
+/** An ordinary floor's light and lens, as numbers. */
+type Ordinary = {
   /** The lamps' colour times their strength, and the light left without them. */
   lamp: Rgb;
   ambient: Rgb;
@@ -47,7 +46,7 @@ fn lamps() -> Lamps {
 }
 
 fn themeLight(s: Surf, m: Material) -> vec3f {
-  return haze(roomLight(s, m, lamps()), s, ${vec3f(look.air)}, ${look.visibility.toFixed(1)});
+  return haze(roomLight(s, m, lamps()), s, AIR, ${look.visibility.toFixed(1)});
 }
 
 fn themeLens(l: Lens) -> vec3f {

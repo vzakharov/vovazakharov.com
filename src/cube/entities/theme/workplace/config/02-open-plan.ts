@@ -69,7 +69,6 @@ fn themeMaterial(s: Surf) -> Material {
     FINISH,
     STUFF,
     ordinary('open-plan', {
-      air: AIR,
       lamp: [1.2, 1.34, 1.22],
       ambient: [0.009, 0.011, 0.01],
       grid: 2,

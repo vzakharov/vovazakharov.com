@@ -98,7 +98,6 @@ fn themeMaterial(s: Surf) -> Material {
     FINISH,
     STUFF,
     ordinary('bubble-chamber', {
-      air: AIR,
       lamp: [0.75, 0.95, 1.1],
       ambient: [0.001, 0.004, 0.005],
       grid: 2,

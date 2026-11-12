@@ -1,6 +1,6 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
-import { type FloorTheme, GRADE, LIGHT, STUFF, vec3f, wgsl } from '../../kit';
+import { type FloorTheme, GRADE, LIGHT, STUFF, wgsl } from '../../kit';
 import { SPECIMEN } from '../lib/specimen.shader';
 
 const AIR = linear(hex(0xf4_ea_ee));
@@ -95,7 +95,7 @@ fn lamps() -> Lamps {
 /// the corners a lamp would leave dark.
 fn themeLight(s: Surf, m: Material) -> vec3f {
   let lit = roomLight(s, m, lamps());
-  return haze(mix(lit, m.albedo * 0.9, 0.35), s, ${vec3f(AIR)}, 70.0);
+  return haze(mix(lit, m.albedo * 0.9, 0.35), s, AIR, 70.0);
 }
 
 /// The frame as an eyepiece gives it: a round field with a hard stop,

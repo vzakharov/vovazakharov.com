@@ -94,7 +94,6 @@ fn themeMaterial(s: Surf) -> Material {
     FINISH,
     STUFF,
     ordinary('darkroom', {
-      air: AIR,
       lamp: [2.6, 0.1, 0.03],
       ambient: [0.004, 0.0005, 0.0003],
       grid: 2,

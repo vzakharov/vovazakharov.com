@@ -102,7 +102,6 @@ fn themeMaterial(s: Surf) -> Material {
     STUFF,
     SHAPES,
     ordinary('underpass', {
-      air: AIR,
       lamp: [3.4, 1.75, 0.42],
       ambient: [0.008, 0.004, 0.001],
       grid: 1,

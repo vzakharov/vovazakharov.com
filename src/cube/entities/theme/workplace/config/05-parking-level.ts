@@ -155,7 +155,6 @@ fn themeMaterial(s: Surf) -> Material {
     STUFF,
     MARKS,
     ordinary('parking-level', {
-      air: AIR,
       lamp: [1.75, 1.1, 0.48],
       ambient: [0.012, 0.008, 0.004],
       grid: 2,
