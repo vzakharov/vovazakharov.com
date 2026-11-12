@@ -4,12 +4,20 @@ import type { CanDispose } from '@/kernel/shared/typings';
 import { pathHash } from '@/dice/shared/roll';
 
 import { LADDER_MATERIAL } from '@/cube/shared/lib/acoustics';
+import { clockAt } from '@/cube/shared/lib/clock';
 import { themeOf } from '@/cube/entities/theme';
-import { planted, type Pose, roomKey } from '@/cube/entities/world';
+import {
+  planted,
+  type Pose,
+  roomKey,
+  type Whereabouts,
+} from '@/cube/entities/world';
 import type { Cue } from '@/cube/features/player';
 import {
   bearingOf,
   createSoundscape,
+  heardFrom,
+  ISLAND,
   type SoundCue,
 } from '@/cube/features/sound';
 import { lineFor, type Moment, utter, voiceOf } from '@/cube/features/voice';
@@ -21,6 +29,8 @@ import type { Heard } from './cube-scene';
 export type Hearing = CanDispose & {
   /** A frame's cues, of the body now at `pose`. */
   body: (cues: readonly Cue[], pose: Pose) => void;
+  /** A frame's share of the outside, for an eye at `at` at `nowMs` since the epoch. */
+  outside: (at: Whereabouts, nowMs: number) => void;
   /** A frame's room sounds, for an ear at `pose` at `nowMs` since the epoch. */
   rooms: (heard: readonly Heard[], pose: Pose, nowMs: number) => void;
 };
@@ -90,6 +100,10 @@ export function hear(canvas: HTMLCanvasElement): Hearing {
           afterFirst = moment === 'first-shrink';
         }
       }
+    },
+    outside: (at, nowMs) => {
+      const { seconds } = clockAt(nowMs);
+      scape.setOutside(heardFrom(ISLAND, at, seconds), seconds);
     },
     rooms: (heard, pose, nowMs) => {
       const now = nowMs / 1000;

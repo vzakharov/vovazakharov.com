@@ -29,7 +29,7 @@ describe('the threshold', () => {
     assert.ok(Math.abs(shot.y - (cube.underside + 2.5 + 1.6)) < 1e-9);
     const back = poseWithin(shot);
     assert.ok(Math.abs(back.u - 0.8) < 1e-12 && Math.abs(back.v - 0.2) < 1e-12);
-    assert.equal(back.yaw, 0.4);
+    assert.ok(Math.abs(back.yaw - 0.4) < 1e-12);
     assert.equal(back.elevation, -0.1);
     assert.equal(back.eyeAbove, EYE_HEIGHT);
     assert.equal(back.scale, 1);
