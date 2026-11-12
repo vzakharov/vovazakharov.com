@@ -41,6 +41,7 @@ const still: Input = {
   elevationBy: 0,
   walking: true,
   pull: false,
+  goTo: null,
 };
 const ahead: Input = { ...still, walk: 1 };
 

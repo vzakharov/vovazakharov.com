@@ -24,7 +24,8 @@ import { Button, MantineProvider, Modal, Stack, Text } from '@mantine/core';
 import { fillSlots } from '@/kernel/shared/i18n';
 import type { WithOnClose } from '@/kernel/shared/typings';
 
-import { priceOf, ROOM_HEIGHT, type Signed } from '@/cube/entities/world';
+import { ROOM_HEIGHT } from '@/cube/shared/lib/room-shape';
+import { priceOf, type Signed } from '@/cube/entities/world';
 
 import type COPY from '../config/messages/en.json';
 import { formatLength, formatPrice } from '../lib/figures';

@@ -1,7 +1,7 @@
 {
-  "as_of": "2026-10-06",
+  "as_of": "2026-11-03",
   "unit": "USD per million tokens",
-  "source": "Claude API pricing as carried by the bundled claude-api skill (model table cached 2026-10-06) and its prompt-caching reference for the cache multipliers.",
+  "source": "Claude API pricing as carried by the bundled claude-api skill (model table cached 2026-11-03) and its prompt-caching reference for the cache multipliers.",
   "derivation": "Cache rates are the input rate times 1.25 (5-minute TTL), 2 (1-hour TTL) and 0.1 (reads), except where a model documents its own read rate. They are written out rather than computed so a model that breaks the pattern is one number, not an exception in code.",
   "rates": {
     "claude-opus-5-5/standard": {
@@ -68,7 +68,8 @@
       "output": 10.0,
       "cache_write_5m": 2.5,
       "cache_write_1h": 4.0,
-      "cache_read": 0.2
+      "cache_read": 0.1,
+      "confidence": "Reads are 0.05x rather than 0.1x on this model, which is documented."
     },
     "claude-sonnet-5/standard": {
       "input": 2.0,
@@ -121,6 +122,22 @@
       "cache_write_1h": 20.0,
       "cache_read": 0.25,
       "confidence": "Reads are 0.025x rather than 0.1x on this model, which is documented and deliberate."
+    },
+    "claude-fable-5-2/standard": {
+      "input": 8.0,
+      "output": 40.0,
+      "cache_write_5m": 10.0,
+      "cache_write_1h": 16.0,
+      "cache_read": 0.2,
+      "confidence": "Reads are 0.025x rather than 0.1x on this model, as on claude-fable-5-1."
+    },
+    "claude-fable-5-2/fast": {
+      "input": 16.0,
+      "output": 80.0,
+      "cache_write_5m": 20.0,
+      "cache_write_1h": 32.0,
+      "cache_read": 0.4,
+      "confidence": "Input and output are the documented fast-mode rates. The cache rates double the standard ones, which the pricing docs do not state explicitly — correct them if a bill ever disagrees."
     }
   }
 }

@@ -1,4 +1,12 @@
-import type { Pose, Vec3 } from '@/cube/entities/world';
+import {
+  cross,
+  dot,
+  type Pose,
+  unit as normalized,
+  type Vec3,
+} from '@/cube/entities/world';
+
+import { multiply } from './matrix';
 
 /** Vertical field of view, in radians. */
 const FOV_Y = (70 * Math.PI) / 180;
@@ -14,34 +22,6 @@ export const FAR = 24;
 export function forward({ yaw, elevation: pitch }: Pose): Vec3 {
   const flat = Math.cos(pitch);
   return [flat * Math.cos(yaw), Math.sin(pitch), flat * Math.sin(yaw)];
-}
-
-const dot = (a: Vec3, b: Vec3): number =>
-  a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-
-const cross = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
-  ay * bz - az * by,
-  az * bx - ax * bz,
-  ax * by - ay * bx,
-];
-
-const normalized = (v: Vec3): Vec3 => {
-  const length = Math.hypot(...v);
-  return [v[0] / length, v[1] / length, v[2] / length];
-};
-
-function multiply(a: Float32Array, b: Float32Array): Float32Array {
-  const out = new Float32Array(16);
-  for (let column = 0; column < 4; column += 1) {
-    for (let row = 0; row < 4; row += 1) {
-      let sum = 0;
-      for (let k = 0; k < 4; k += 1) {
-        sum += (a[k * 4 + row] ?? 0) * (b[column * 4 + k] ?? 0);
-      }
-      out[column * 4 + row] = sum;
-    }
-  }
-  return out;
 }
 
 /** A right-handed view from `eye` along `ahead`, y up. */

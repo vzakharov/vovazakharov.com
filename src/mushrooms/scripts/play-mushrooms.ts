@@ -36,7 +36,6 @@ import {
   dragMoves,
   type Expect,
   FRAME_MS,
-  inTurn,
   KEY_CODES,
   type Page,
 } from './lib/mushroom-probe-drive.ts';
@@ -62,6 +61,7 @@ import { flag, given } from '@/kernel/scripts/lib/argv';
 import { withPrintOrigin } from '@/kernel/scripts/lib/print-origin';
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 import { type Browser, launch, openTab } from '@/scene/scripts/lib/cdp';
+import { inTurn } from '@/scene/scripts/lib/in-turn';
 import { watchPageErrors } from '@/scene/scripts/lib/page-errors';
 
 const OUT = path.join(REPO_ROOT, 'sites/vova/out');

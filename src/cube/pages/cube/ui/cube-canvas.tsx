@@ -19,30 +19,39 @@ import {
   type SignMount,
 } from '@/cube/entities/world';
 import {
+  arrivedOn,
   bindInput,
   canPress,
   EYE_HEIGHT,
+  handsOf,
+  isStanding,
   plantedHoled,
   plantedWalls,
   play as playFrame,
   type Player,
   pulledOf,
+  standingAt,
   STILL,
 } from '@/cube/features/player';
 
 import { type Follow, followAddress } from '../lib/fragment';
-import { type CubePlayHook, PLAY_HOOK, PLAY_QUERY } from '../lib/play';
-import classes from './cube.module.scss';
 import {
-  type CubeScene,
-  mountCube,
-  type Selling,
-  type SignOf,
-} from './cube-scene';
+  type CubePlayHook,
+  PLAY_HOOK,
+  PLAY_INSTANT,
+  PLAY_QUERY,
+} from '../lib/play';
+import classes from './cube.module.scss';
+import type { Selling, SignOf } from './cube-mesh';
+import { type CubeScene, mountCube } from './cube-scene';
+import { hear } from './hearing';
 import { SaleOffer } from './sale-offer';
 
-/** The query naming the floor a walk starts on; floor 1 without it. */
-const FLOOR_QUERY = 'floor';
+/**
+ * The query naming a floor the walk went to by its number rather than through
+ * the holes above it, and starts on.
+ */
+const CHEAT_QUERY = 'cheated_to';
 
 /**
  * Where a walk starts, the hatch it landed on its floor through, and whether
@@ -50,23 +59,9 @@ const FLOOR_QUERY = 'floor';
  */
 type Start = Posed & { hatch: Address['hatch']; resumable: boolean };
 
-/** The north-west room of floor `n`, the eye at a person's height in its middle. */
-const northWest = (n: number): Pose => ({
-  n,
-  x: 0n,
-  y: 0n,
-  u: 0.5,
-  v: 0.5,
-  eyeAbove: EYE_HEIGHT,
-  scale: 1,
-  yaw: 0,
-  elevation: 0,
-});
-
 /**
- * Where the page starts. `?floor=`, a developer's entry, wins over the
- * fragment and starts on that floor with no earned hatch, so nothing is
- * written back; a floor the planted world lacks throws, so the route's error
+ * Where the page starts. `?cheated_to=` wins over the fragment and starts on
+ * that floor with no earned hatch, so nothing is written back; a floor the planted world lacks throws, so the route's error
  * boundary names it. Otherwise a fragment resumes the address it spells,
  * standing at a person's height, or yields null when it leads nowhere; with
  * neither, the walk starts on floor 1.
@@ -75,19 +70,19 @@ async function startOf(
   query: URLSearchParams,
   fragment: string,
 ): Promise<Start | null> {
-  const asked = query.get(FLOOR_QUERY);
+  const asked = query.get(CHEAT_QUERY);
   if (asked !== null) {
     const n = Number(asked);
     const floors = floorsOf(planted);
     if (!Number.isInteger(n) || n < 1 || n > floors) {
       throw new RangeError(
-        `?${FLOOR_QUERY}= takes a floor from 1 to ${floors}`,
+        `?${CHEAT_QUERY}= takes a floor from 1 to ${floors}`,
       );
     }
-    return { pose: northWest(n), hatch: null, resumable: false };
+    return { pose: arrivedOn(n), hatch: null, resumable: false };
   }
   if (fragment === '') {
-    return { pose: northWest(1), hatch: null, resumable: true };
+    return { pose: arrivedOn(1), hatch: null, resumable: true };
   }
   const address = await decodeAddress(planted, fragment);
   if (address === null) return null;
@@ -102,6 +97,14 @@ async function startOf(
 /** Replaces the URL's fragment without adding a history entry. */
 const writeFragment = (fragment: string): void => {
   globalThis.history.replaceState(null, '', `#${fragment}`);
+};
+
+/**
+ * Makes the URL say the walk cheated its way to floor `n`, its fragment
+ * dropped: an address is of a floor reached through its holes.
+ */
+const writeCheat = (n: number): void => {
+  globalThis.history.replaceState(null, '', `?${CHEAT_QUERY}=${String(n)}`);
 };
 
 /** `open` hears a press on a sign in reach; `offering` whether one is open. */
@@ -126,8 +129,10 @@ function walk(
   { setFloor, setFailure, setMissing, setInReach, open, offering }: Hooks,
 ): CubeScene {
   const input = play ? null : bindInput(canvas, setFailure);
+  // A script's walk is looked at, not listened to.
+  const hearing = input === null ? null : hear(canvas);
   const holedHere = plantedHoled(setFailure);
-  const follow: Follow | null =
+  let follow: Follow | null =
     input === null || !resumable
       ? null
       : followAddress(
@@ -138,9 +143,11 @@ function walk(
           setFailure,
         );
   // The pose is the scene's; the rest of the player rides along with it.
-  let player: Player = { pose: start, shrinking: null };
+  let player: Player = standingAt(start);
   /** A press the play hook asked for, resolved once a frame reads it. */
   let pressed: PromiseWithResolvers<void> | null = null;
+  /** The instant a script's clock is stopped at; a walk's clock runs. */
+  let frozen: number | null = play ? PLAY_INSTANT : null;
 
   /** Shows the hint by a sign in reach, and opens its offer on a press. */
   const reach = (pose: Pose, signOf: SignOf, press: boolean): void => {
@@ -165,7 +172,7 @@ function walk(
             reach(pose, signOf, pressed !== null);
             pressed?.resolve();
             pressed = null;
-            return { pose, pulled: null };
+            return { pose, pulled: null, moving: [] };
           }
         : (pose, seconds, signOf) => {
             // An open offer holds the body still, its keys read and dropped.
@@ -178,11 +185,25 @@ function walk(
               plantedWalls,
               holedHere(pose),
             );
-            const { pose: moved, shrinking } = player;
-            reach(moved, signOf, controls.pull && shrinking === null);
-            follow?.(moved, shrinking === null, seconds);
-            return { pose: moved, pulled: pulledOf(player) };
+            const { pose: moved, cues } = player;
+            hearing?.body(cues, moved);
+            const standing = isStanding(player);
+            if (controls.goTo === moved.n && moved.n !== pose.n) {
+              follow = null;
+              writeCheat(moved.n);
+            }
+            reach(moved, signOf, controls.pull && standing);
+            follow?.(moved, standing, seconds);
+            return {
+              pose: moved,
+              pulled: pulledOf(player),
+              moving: handsOf(player),
+            };
           },
+    onHeard: (heard) => {
+      hearing?.rooms(heard, player.pose, frozen ?? Date.now());
+    },
+    now: () => frozen ?? Date.now(),
     onError: setFailure,
     onUnsupported: () => {
       setMissing(true);
@@ -194,6 +215,9 @@ function walk(
       ready,
       setPose,
       adapter,
+      setClock: (ms) => {
+        frozen = ms;
+      },
       press: async () => {
         pressed ??= Promise.withResolvers();
         return pressed.promise;
@@ -205,6 +229,7 @@ function walk(
     ...scene,
     dispose: () => {
       input?.dispose();
+      hearing?.dispose();
       scene.dispose();
     },
   };
