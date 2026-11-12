@@ -44,6 +44,7 @@ import {
 import classes from './cube.module.scss';
 import type { Selling, SignOf } from './cube-mesh';
 import { type CubeScene, mountCube } from './cube-scene';
+import { FrameRate } from './frame-rate';
 import { hear } from './hearing';
 import { SaleOffer } from './sale-offer';
 
@@ -344,6 +345,7 @@ export function CubeCanvas({
           {fillSlots(floorLine, { floor })}
         </p>
       )}
+      <FrameRate />
       <p className={classes['hint']} aria-live="polite">
         {inReach === null || offer !== null
           ? ''
