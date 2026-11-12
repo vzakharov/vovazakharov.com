@@ -1,5 +1,5 @@
 import { asError } from '@/kernel/shared/lib/error-class';
-import type { CanDispose, WithOnError } from '@/kernel/shared/typings';
+import type { WithOnError } from '@/kernel/shared/typings';
 
 import { type Clock, clockAt } from '@/cube/shared/lib/clock';
 import { themeOf } from '@/cube/entities/theme';
@@ -21,7 +21,7 @@ import { between } from '../lib/palette';
 import type { ScenePlay } from '../lib/play';
 import { shaderOf } from '../lib/shader';
 import { build, type Mesh, type Selling, type SignOf } from './cube-mesh';
-import { createRenderer, type Renderer } from './renderer';
+import { createRenderer, type Drawing, type Renderer } from './renderer';
 
 /**
  * What one frame draws: the eye's pose, the lever pulled, if any, and
@@ -55,9 +55,10 @@ export type CubeOptions = WithOnError &
 
 /**
  * The play hook's calls, which the page also drives itself; `refresh`, which
- * rebuilds the mesh once a purchase changes what it draws; and its end.
+ * rebuilds the mesh once a purchase changes what it draws; the GPU's time per
+ * stage, as the renderer gives it; and its end.
  */
-export type CubeScene = ScenePlay & CanDispose & { refresh: () => void };
+export type CubeScene = ScenePlay & Drawing & { refresh: () => void };
 
 const noSign: SignOf = () => null;
 
@@ -258,6 +259,7 @@ export function mountCube(
       await renderer?.drawn();
     },
     adapter: () => renderer?.adapter ?? 'none',
+    passTimes: () => renderer?.passTimes() ?? null,
     refresh: () => {
       generation += 1;
     },

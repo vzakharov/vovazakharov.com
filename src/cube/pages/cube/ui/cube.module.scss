@@ -17,10 +17,9 @@
 }
 
 // A quiet corner over the canvas, letting every pointer through to it.
-.floor {
+%corner {
   position: fixed;
   top: 12px;
-  left: 12px;
   margin: 0;
   padding: 2px 8px;
   border-radius: 4px;
@@ -31,6 +30,22 @@
     sans-serif;
   pointer-events: none;
   user-select: none;
+}
+
+.floor {
+  @extend %corner;
+
+  left: 12px;
+}
+
+// The frame-rate meter, in the corner across from the floor.
+.frameRate {
+  @extend %corner;
+
+  right: 12px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: pre-line;
 }
 
 // The sign's hint, under the crosshair's place, letting pointers through.

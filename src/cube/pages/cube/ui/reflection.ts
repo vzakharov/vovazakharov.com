@@ -45,8 +45,13 @@ export type Reflection = CanDispose & {
    * Records the passes that fill the mirrors of the scene last drawn into
    * `attachments`, seen as `seen`, and gives back the view of the frame they
    * end in: the scene's light, mirrors filled, and its depth as the scene had.
+   * `stamp` is written by the last of them.
    */
-  run: (encoder: GPUCommandEncoder, seen: Seen) => GPUTextureView;
+  run: (
+    encoder: GPUCommandEncoder,
+    seen: Seen,
+    stamp?: GPURenderPassTimestampWrites,
+  ) => GPUTextureView;
 };
 
 type Frame = Sized & {
@@ -175,7 +180,7 @@ export function createReflection(device: GPUDevice): Reflection {
         }),
       );
     },
-    run: (encoder, { viewProjection, eye }) => {
+    run: (encoder, { viewProjection, eye }, stamp) => {
       if (frame === null) throw new Error('No scene was drawn to reflect');
       const { width, height, halving, levels, reflecting, lit } = frame;
       // The focal length is the length of the projection's second row.
@@ -191,7 +196,7 @@ export function createReflection(device: GPUDevice): Reflection {
       data.set([width, height, focal, levels.length - 1], 36);
       device.queue.writeBuffer(view, 0, data);
       for (const { into, read } of halving) cover(encoder, halve, read, into);
-      cover(encoder, reflect, reflecting, lit);
+      cover(encoder, reflect, reflecting, lit, { stamp });
       return lit;
     },
     dispose: () => {

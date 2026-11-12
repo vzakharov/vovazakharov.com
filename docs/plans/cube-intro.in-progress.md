@@ -108,22 +108,71 @@ ocean-at-sunset inspiration ("Noniv/web-ocean … Nothing copied").
 
 ## The one batch of questions
 
-Asked in the first reply; answers go here verbatim when they come. Until then
-each default below is what gets built.
+What was asked (1 lamps on floor 1 off, sun the only light; 2 branch from `main`
+or stack on #275; 3 when the intro plays, skipping, the ladder both ways; 4 the
+pill everywhere, "first time" per browser, the prompt's language; 5 the machine
+and the frame rate; 6 preview slot and a ceiling on spend) and the answers,
+verbatim, 2026-11-12:
 
-1. Floor 1's ceiling lamps — default: off in floor 1's room only, the sun
-   through the doorway the only light there.
-2. Base — default: branch from `main`, merge `claude/cube-review-perf` in as it
-   moves, one PR of its own.
-3. When the intro plays — default: a bare `/cube` wakes on the beach; a URL with
-   an address fragment or `?cheated_to=` starts inside as today; the wake-up is
-   skippable once seen (remembered in `localStorage`); the ladder works both
-   ways.
-4. The pill — default: replaces every lever on every floor; "first time" is once
-   per browser (`localStorage`); the prompt follows the page's locale.
-5. The bar and the machine — default: 60 fps on an M-series MacBook with a
-   render scale that adapts, full detail on a stronger GPU.
-6. Preview slot and ceiling on spend — default: slot 1, no ceiling.
+> карт-бланш -- супер
+>
+> поясню, кривые руки -- украшать не надо; контраст между ослепительным
+> реализмом предазкатного острова и недореализмом остального -- будем считать
+> творческим выбором. вопросы:
+>
+> 1- да; конечно желательно чтобы при этом в комнате было хоть что-то видно
+>
+> 2- давай так, к слову возможно так будет проще и борду править поверх
+>
+> 3- урл сменяется на наш стандартный "запоминающий при обновлении страницы хеш"
+> (честный, не cheated) при переходе дверного проёма. то есть если обновишь до
+> этого -- сцена с начала, если после -- уже сразу внутри.
+>
+> 4- "первый раз" -- только на самом первом этаже. подсказка и вся игра только
+> на английском
+>
+> 5- окей. пока у меня вся остальная игра где-то на 111 fps. У меня M2 Pro 16 GB
+>
+> 6- давай на 2, на 1м может быть #275, сообщи той сессии о разделении. потолка
+> нет, лимиты остановят 🙂 ориентируйся на 500-1000 долларов по API cost-ам
+> (затраты можешь посмотреть по cost ledger-у той сессии). ну или просто
+> посмотри сколько было там и сколько нужно тебе чтобы сделать так же хорошо:
+> кучи уровней нет, зато есть зверские требования к реализму.
+>
+> по твоим решениям: солнце наверное лучше всё-таки сзади или сбоку от куба,
+> если смотреть на него с места "просыпания", потому что иначе ты сразу видишь
+> дверь и лестницу in your face, это не так интересно
+>
+> > Солнце стоит
+>
+> ну ок, пусть пока так
+>
+> > Дерево остаётся
+>
+> не понял какое дерево, но пусть остаётся :)
+
+How each is read:
+
+1. Lamps off on floor 1, and the room must still be readable: the sun's patch
+   lights the rest by bounce, tuned until the bench, the walls and the hole can
+   be made out.
+2. Read as "stack on #275" («править поверх»): `claude/cube-review-perf` is
+   merged into this branch (34f30eac) and merged again as it moves; the PR's
+   base is that branch. The reading was told to the operator; reverse it if they
+   say so.
+3. No `localStorage`, no skip key. The honest address fragment is first written
+   when the body crosses the doorway inward; a refresh before that plays the
+   intro from the start, after it starts inside. `?cheated_to=` as today.
+4. The inspect-and-ask beat happens on floor 1 only, every game; every other
+   floor's pill is taken and swallowed at once. English only.
+5. The machine is an M2 Pro, 16 GB, where the game runs near 111 fps; the
+   outside holds 60 there.
+6. Preview slot 2; #275's session is told slot 1 is theirs. Spend to aim for:
+   $500–1000 at API rates.
+
+The stylised hands and body stay as they are — the contrast with the island is
+the operator's creative choice («кривые руки -- украшать не надо»). "Дерево" was
+the operator's own word for the potted plant in floor 1's room.
 
 ## Facts established
 
@@ -150,19 +199,42 @@ each default below is what gets built.
 
 Each with its reason; a later decision that overrides one rewrites it here.
 
-- **The doorway faces the sun, and the player wakes between them.** The player
-  wakes on the shore looking out to sea at the low sun on the water (the board's
-  inspiration frame), turns round, and sees the cube lit head-on in gold, the
-  doorway and the room behind it lit by the same sun. The sun's azimuth is the
-  doorway wall's outward normal, its elevation about 9°, so through a 2 m
-  doorway the beam crosses the whole 5 m room and ends on the far wall.
-- **The cube hovers about 1 m over the sand.** At 9° the cube's shadow starts
-  some 6 m behind it, so the sand right under the cube is in full sun: the
-  look-under beat shows lit sand, the horizon beyond and a shadow lying apart.
-- **Outside is the same frame as inside**: metres are floor 1's room sides times
-  5, the outdoor eye is a pose of floor 1 whose `u`, `v` leave `[0, 1]`, so the
-  real room shows through the doorway with no second copy of it. To be confirmed
-  against `facts-render.md`.
+- **The doorway is where floor 1's decor door stands**: the east wall, z from
+  0.274 to 1.244 m (by the north-east corner), 0.97 m wide, 2.1 m tall — read
+  off the planted world by running the decor's own placement. The potted plant
+  stands in that corner, 0.07–0.9 m in from the wall, half across the doorway,
+  and stays there. The decor door is dropped from floor 1's theme alone (15
+  other floors list it).
+- **The doorway faces the sun; the player wakes on the far side.** The sun's
+  azimuth is the east wall's outward normal turned a few degrees south, its
+  elevation 9°, so the beam through the doorway crosses the room and ends low on
+  the west wall. The player wakes about 30 m to the cube's south-west, facing
+  the sea with the sun behind them, turns, and sees the cube against the sunset,
+  its sunlit side, door and ladder hidden — the operator's steer («солнце …
+  лучше всё-таки сзади или сбоку от куба … иначе ты сразу видишь дверь и
+  лестницу in your face»). The cube's shadow, some 38 m long, lies on the sand
+  beside the path to it. The first choice, waking in front of the doorway, lost
+  to this.
+- **The cube hovers 1.1 m over the sand.** At 9° its shadow starts about 7 m
+  behind it, so the sand right under the cube is in full sun: the look-under
+  beat, coming from the shadow side, shows lit sand and the sea's glare through
+  the gap.
+- **Outside is the same frame as inside, the eye is not a pose**:
+  `W = CUBE_AT + 5 · C` in metres, the page holds "inside (a `Pose`) or outside
+  (an eye in W)", and the scene draws an outside eye with floor 1's room as its
+  fixed mesh frame, so the real room shows through the doorway. A pose with
+  `eyeAbove < 0` is re-read as the floor below today, which is why the eye
+  outside is its own thing.
+- **Sky, sea and sand join the cube's one scene pass** as layers into the same
+  HDR target (alpha there is metres from the eye, so nothing blends), with a 20
+  km far plane outside and a lens of their own. The sea is a displaced mesh from
+  an FFT spectrum; clouds and atmosphere feed a sky map the sea reflects. The
+  contract is `docs/remove-before-merging/cube-intro-j2wt34/contract.md`.
+- **Every motion is periodic in the hour**, since the shared clock is seconds
+  into the hour: wave frequencies are multiples of 2π/3600, clouds drift whole
+  tiles.
+- **One function says where the water is**: `waterLevel(xz, t)`, read by the
+  sea, the sand's wetness, the surf's sound and the waves on the player's feet.
 - **Eternal golden hour**: the sun does not move; waves, clouds and surf do, as
   functions of the clock, so a frame is a function of pose and time.
 - **Ocean, sky and sand are written to be lifted into `scene` for the island
