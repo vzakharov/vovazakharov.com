@@ -90,6 +90,43 @@ export function bandOver(
   });
 }
 
+/** Hertz an ear hears as one band low down: what masks a tone is what is in it. */
+const CRITICAL_BAND = 100;
+
+/**
+ * How far the clearest partial of `tone` stands over what `masker` puts in
+ * the ear's band around it, in decibels, column by column, looking between
+ * `low` and `high` hertz. An ear picks a steady tone out of noise from about
+ * −4; at +10 nobody misses it.
+ */
+export function standingOut(
+  tone: Spectrogram,
+  masker: Spectrogram,
+  low: number,
+  high: number,
+): number[] {
+  const { hzPerBand, columns } = tone;
+  const half = Math.round(CRITICAL_BAND / 2 / hzPerBand);
+  const from = Math.max(half + 1, Math.round(low / hzPerBand));
+  const to = Math.round(high / hzPerBand);
+  return columns.map((column, at) => {
+    const noise = masker.columns[at];
+    let best = -120;
+    for (let band = from; band < to; band += 1) {
+      let partial = 0;
+      for (let near = band - 1; near <= band + 1; near += 1) {
+        partial += column[near] ?? 0;
+      }
+      let masking = 0;
+      for (let near = band - half; near <= band + half; near += 1) {
+        masking += noise?.[near] ?? 0;
+      }
+      best = Math.max(best, decibels(partial) - decibels(masking));
+    }
+    return best;
+  });
+}
+
 export const mean = (values: readonly number[]): number =>
   values.reduce((sum, value) => sum + value, 0) / Math.max(1, values.length);
 

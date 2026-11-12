@@ -10,7 +10,7 @@ import { isOutside, type Whereabouts } from '@/cube/entities/world';
 
 import { bearingOf } from '../../cues';
 import { type OutsideMix, outsideMix, type Scene, throughDoorway } from './mix';
-import { shoreOf } from './shore';
+import { coastOf } from './shore';
 
 const CUBE_MIDDLE: Vec2 = [
   (CUBE_BOX.min[0] + CUBE_BOX.max[0]) / 2,
@@ -20,12 +20,9 @@ const CUBE_MIDDLE: Vec2 = [
 /** How many stretches the island's shore is heard as. */
 const STRETCHES = 32;
 
-const SEA = { islandHeight, waterLevel };
-
 /** The island the cube hangs over, as the ear has it. */
 export const ISLAND: Scene = {
-  sea: SEA,
-  shore: shoreOf(SEA, CUBE_MIDDLE, STRETCHES),
+  coast: coastOf({ islandHeight, waterLevel }, CUBE_MIDDLE, STRETCHES),
   cube: CUBE_MIDDLE,
 };
 

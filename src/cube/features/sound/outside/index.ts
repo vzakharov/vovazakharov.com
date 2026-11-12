@@ -8,9 +8,10 @@ export {
   OPEN_AIR,
   type OutsideMix,
   outsideMix,
+  perLayer,
   type Scene,
   SOUND_LAYERS,
   throughDoorway,
 } from './model/mix';
-export { type Sea, shoreOf, type Stretch, surfAt } from './model/shore';
+export { type Coast, coastOf, type Sea, surfAt } from './model/shore';
 export { gustAt, SECONDS_AN_HOUR } from './model/weather';

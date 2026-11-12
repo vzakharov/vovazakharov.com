@@ -15,6 +15,8 @@ type Told = {
   from: number;
   seconds: number;
   mixAt: (seconds: number) => OutsideMix;
+  /** Where on the island the ear is, or the opening it hears through. */
+  earAt: (seconds: number) => Vec2;
   told: string;
 };
 
@@ -41,8 +43,10 @@ function hardestGust(): number {
 /** The bench's scenes on `scene`, between `places`. */
 export function scenesOf(scene: Scene, places: Places): Scenes {
   const { cube, waking, ladder } = places;
-  const heard = (listener: (t: number) => Listener) => (seconds: number) =>
-    outsideMix(scene, listener(seconds), seconds);
+  const heard = (listener: (t: number) => Listener) => ({
+    mixAt: (seconds: number) => outsideMix(scene, listener(seconds), seconds),
+    earAt: (seconds: number) => listener(seconds).at,
+  });
   const seaward = toward(cube, waking);
   const doorway: Vec2 = [cube[0] + 2.5, ladder[1]];
   const gust = hardestGust();
@@ -51,13 +55,13 @@ export function scenesOf(scene: Scene, places: Places): Scenes {
       from: 0,
       seconds: 60,
       told: 'lying at the waterline, 30 m from the cube, facing out to sea',
-      mixAt: heard(() => ({ at: waking, yaw: seaward })),
+      ...heard(() => ({ at: waking, yaw: seaward })),
     },
     turning: {
       from: 60,
       seconds: 24,
       told: 'the same spot, turning once round to the right',
-      mixAt: heard((t) => ({
+      ...heard((t) => ({
         at: waking,
         yaw: seaward + (2 * Math.PI * (t - 60)) / 24,
       })),
@@ -66,7 +70,7 @@ export function scenesOf(scene: Scene, places: Places): Scenes {
       from: 100,
       seconds: 40,
       told: 'walking from the waking spot to the foot of the ladder',
-      mixAt: heard((t) => ({
+      ...heard((t) => ({
         at: partWay(waking, ladder, (t - 100) / 40),
         yaw: toward(waking, ladder),
       })),
@@ -75,18 +79,19 @@ export function scenesOf(scene: Scene, places: Places): Scenes {
       from: 140,
       seconds: 30,
       told: 'standing at the foot of the ladder, facing the cube',
-      mixAt: heard(() => ({ at: ladder, yaw: toward(ladder, cube) })),
+      ...heard(() => ({ at: ladder, yaw: toward(ladder, cube) })),
     },
     under: {
       from: 170,
       seconds: 30,
       told: 'under the middle of the cube',
-      mixAt: heard(() => ({ at: cube, yaw: 0 })),
+      ...heard(() => ({ at: cube, yaw: 0 })),
     },
     inside: {
       from: 200,
       seconds: 30,
       told: 'from the doorway 4 m into floor 1 over 20 s, then on floor 2',
+      earAt: () => doorway,
       mixAt: (t) =>
         throughDoorway(outsideMix(scene, { at: doorway, yaw: Math.PI }, t), {
           away: Math.min(4, (t - 200) / 5),
@@ -98,7 +103,7 @@ export function scenesOf(scene: Scene, places: Places): Scenes {
       from: gust - 20,
       seconds: 40,
       told: `the hour's hardest gust, at ${String(gust)} s, from the waking spot`,
-      mixAt: heard(() => ({ at: waking, yaw: seaward })),
+      ...heard(() => ({ at: waking, yaw: seaward })),
     },
   };
 }

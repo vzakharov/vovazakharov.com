@@ -4,7 +4,7 @@ import { CUBE_METRES } from '@/cube/shared/outside';
 
 import { bearingOf } from '../../cues';
 import { CYCLE } from '../../dsp';
-import { type Sea, type Stretch, type Surf, surfAt } from './shore';
+import { type Coast, type Surf, surfAt } from './shore';
 import { gustAt, SECONDS_AN_HOUR, UPWIND } from './weather';
 
 /**
@@ -25,6 +25,18 @@ export const SOUND_LAYERS = [
 ] as const;
 export type Layer = (typeof SOUND_LAYERS)[number];
 
+/** Something for every layer, each made by `of`. */
+export const perLayer = <T>(of: (layer: Layer) => T): Record<Layer, T> => ({
+  roar: of('roar'),
+  hiss: of('hiss'),
+  fizz: of('fizz'),
+  wash: of('wash'),
+  wind: of('wind'),
+  buffet: of('buffet'),
+  hum: of('hum'),
+  under: of('under'),
+});
+
 /** A layer's level in each ear. */
 export type Ears = { left: number; right: number };
 
@@ -41,19 +53,19 @@ export const OPEN_AIR = 20_000;
 /** Where an ear is on the island, and the way it faces (0 east, π/2 south). */
 export type Listener = { at: Vec2; yaw: number };
 
-/** What there is to hear: the sea, its shore, and the middle of the cube. */
-export type Scene = { sea: Sea; shore: readonly Stretch[]; cube: Vec2 };
+/** What there is to hear: the sea on its shore, and the middle of the cube. */
+export type Scene = { coast: Coast; cube: Vec2 };
 
 /** A layer's level beside the ear at its fullest. */
 const LEVELS: Record<Layer, number> = {
-  roar: 0.55,
+  roar: 0.42,
   hiss: 0.42,
   fizz: 0.4,
-  wash: 0.11,
-  wind: 0.16,
+  wash: 0.08,
+  wind: 0.12,
   buffet: 0.3,
-  hum: 0.55,
-  under: 0.45,
+  hum: 0.62,
+  under: 0.35,
 };
 
 /**
@@ -61,7 +73,7 @@ const LEVELS: Record<Layer, number> = {
  * roar carries, the fizz is gone a few steps off.
  */
 const REACH: Record<keyof Surf, number> = {
-  breaking: 16,
+  breaking: 11,
   running: 7,
   draining: 4,
 };
@@ -71,7 +83,7 @@ const LAPPING = 0.02;
 
 /** Half the cube's side, and the metres at which its hum has half its power. */
 const CUBE_HALF = CUBE_METRES / 2;
-const HUM_REACH = 4;
+const HUM_REACH = 3.5;
 
 /** Metres in from the cube's edge by which an ear is wholly under it. */
 const UNDER_WITHIN = 1.2;
@@ -94,7 +106,7 @@ const both = (level: number): Ears => ({ left: level, right: level });
 
 /** The surf's three layers for `listener`: every stretch of shore, summed. */
 function surfHeard(
-  { sea, shore }: Scene,
+  { coast }: Scene,
   { at, yaw }: Listener,
   seconds: number,
 ): Record<keyof Surf, Heard> {
@@ -104,8 +116,8 @@ function surfHeard(
     draining: { left: 0, right: 0 },
   };
   const ear = { u: at[0], v: at[1] };
-  for (const stretch of shore) {
-    const surf = surfAt(sea, stretch, seconds);
+  for (const stretch of coast.shore) {
+    const surf = surfAt(coast, stretch, seconds);
     for (const part of ['breaking', 'running', 'draining'] as const) {
       const [x, z] = part === 'breaking' ? stretch.breaks : stretch.shore;
       const { rightward, roomsAway: metres } = bearingOf(ear, yaw, {
@@ -203,7 +215,7 @@ const DOOR_REACH = 2.5;
 const THROUGH_SLAB = 0.3;
 
 /** The hum inside the cube, against the hum at its wall outside. */
-const HUM_WITHIN = 0.45;
+const HUM_WITHIN = 0.25;
 
 /**
  * `mix` — what an ear standing in the doorway would hear — as an ear inside

@@ -19,7 +19,7 @@ export function wind(seed: number, rate: number): Loop {
       0.45 * Math.sin(x + turns[0]) + 0.25 * Math.sin(3 * x + turns[1]);
     return (
       1.2 * stream(white, 480 * 2 ** drift, 1.3) +
-      0.6 * push(white, 170, 0.6) +
+      0.35 * push(white, 170, 0.6) +
       0.05 * breath(white, 3200, 0.7)
     );
   });

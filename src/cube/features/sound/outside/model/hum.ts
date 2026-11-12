@@ -12,7 +12,7 @@ const DEEPEST = 22;
 const OCTAVES = 6;
 
 /** How much quieter a voice is for each octave it stands up the stack. */
-const TILT = 0.55;
+const TILT = 0.4;
 const WINDOW_SIN = Array.from({ length: OCTAVES }, (_, voice) =>
   Math.sin((Math.PI * voice) / OCTAVES),
 );
