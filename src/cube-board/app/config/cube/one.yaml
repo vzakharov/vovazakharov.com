@@ -1,10 +1,16 @@
 items:
   - id: z-one
     type: zone
-    updated: [2026-11-11T14:40:00.000Z, agent:cube]
-    box: [3640, 0, 1395, 900, blue]
+    updated: [2026-11-12T21:40:00.000Z, agent:cube]
+    box: [3640, 0, 1880, 900, blue]
     icon: 🧗
     text: Iteration one, after zero went live
+  - id: one-7
+    type: sticky
+    updated: [2026-11-12T21:40:00.000Z, agent:cube]
+    box: [5008, 110, 244, yellow]
+    icon: 🕳️
+    text: "Idea, for the next replanting: plant every hole in a dead end, so the street from the landing ends in a cul-de-sac and a blind search has to turn off for it. Dead ends are ~28% of a floor's rooms, so the lock loses ~1.8 bits a floor of its 2(n−1). Costs every stored URL, and floor 3's joke, which Vova likes: kept as it is for now"
   - id: one-1
     type: sticky
     updated: [2026-11-11T16:10:00.000Z, agent:cube]
