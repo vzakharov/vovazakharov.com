@@ -185,7 +185,9 @@ fn sandLitter(xz: vec2f, h: f32, px: f32, sun: vec3f) -> Litter {
       let curl = (fract(strand.w * 17.9) - 0.5) * 60.0;
       let v = dot(to, vec2f(-along.y, along.x)) - curl * (u * u - reach * reach * 0.3);
       let d = length(vec2f(dot(to, along) - u, v));
-      let cover = (1.0 - smoothstep(0.0005, 0.0005 + edge, d)) * (1.0 - smoothstep(0.004, 0.012, px));
+      // A strand thinner than a pixel covers only its share of it.
+      let cover = (1.0 - smoothstep(0.0005, 0.0005 + edge, d)) * min(1.0, 0.0014 / edge)
+        * (1.0 - smoothstep(0.004, 0.012, px));
       litter.albedo = mix(litter.albedo, vec3f(0.05, 0.036, 0.02), cover);
       litter.gloss = mix(litter.gloss, 0.0, cover);
       litter.cover = max(litter.cover, cover);
