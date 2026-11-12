@@ -146,3 +146,15 @@ items:
     box: [5748, 1000, 430]
     src: images/intro-03-sand-shadow.webp
     text: '3. The cube’s shadow across the ripples, lit by the sky alone. The lead: the blue of it is right; the combed stripes are not. Also the frame that showed the sky was set twice too bright against the sun: on flat ground at 9° their shares are about equal'
+  - id: intro-img-04-inside-door
+    type: image
+    updated: [2026-11-12T23:55:00.000Z, agent:cube-intro]
+    box: [6208, 1000, 430]
+    src: images/intro-04-inside-door.webp
+    text: '4. Floor 1 on the real page, the door gone, the lamps off; the doorway is black because nothing draws the outside yet. One beam through it and its bounce light the whole room, and the plant throws its shadow on the wall. First pass, with the old sun: the beam lands on the north wall and the bench. The lead: this is the look, the direction is wrong'
+  - id: intro-img-05-inside-beam
+    type: image
+    updated: [2026-11-12T23:55:00.000Z, agent:cube-intro]
+    box: [6668, 1000, 430]
+    src: images/intro-05-inside-beam.webp
+    text: '5. The same room from the far corner: readable from bounce alone, the hole in the floor and the lever on the far wall visible. After Vova’s sketch the beam will cross this floor on the diagonal and end on that lever’s place, where the pill will be. The lead: the floor at the sill burns white where it should glare gold'
