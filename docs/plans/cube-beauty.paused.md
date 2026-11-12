@@ -79,9 +79,11 @@ operator, never merge to `main`, preview slot only, no external services.
 
 ## State
 
-As of 12 Nov, 00:15 UTC, head "one home for what the cube's streams each wrote
-for themselves". Paused at the operator's ask (account limit), to be taken up
-from another account: `/go claude/cube-liminal-332pmv`.
+As of 12 Nov, about 02:30 UTC, the reflections stream merged and the
+five-percent answers done. Parked by the cache keepalive with nothing pending
+but the operator's look at the preview; `relay-1.md` in
+`docs/remove-before-merging/cube-liminal-332pmv/` is the session summary, picked
+up with `/relay take claude/cube-liminal-332pmv`.
 
 - **Every stream is merged here**: descent, the five floor bands in full (4–8,
   9–20, 21–35, 36–52, 53–66), decor, happenings, lettering and posters, sound,
@@ -137,7 +139,8 @@ from another account: `/go claude/cube-liminal-332pmv`.
   floors were looked at as the board's two sheets, decor in them included; the
   other fifty-odd have not been.
 - **Preview**: republish after each visible push (`preview.yml`, inputs
-  `site: vova`, `slot: 1`); last dispatched for this head.
+  `site: vova`, `slot: 1`); last deployed from the reflections merge (ac6f2b6e),
+  the commits since being docs only.
 
 ## Streams launched
 
