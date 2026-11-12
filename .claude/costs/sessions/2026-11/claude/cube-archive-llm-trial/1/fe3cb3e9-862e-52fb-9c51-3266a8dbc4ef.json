@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 3968,
+    "inputTokens": 3992,
     "cacheWrite5mTokens": 191,
-    "cacheWrite1hTokens": 190556,
-    "cacheReadTokens": 15300951,
-    "outputTokens": 52147,
-    "thinkingTokens": 16029,
-    "responses": 91,
-    "costUsd": 5.636117400000001
+    "cacheWrite1hTokens": 227855,
+    "cacheReadTokens": 18786990,
+    "outputTokens": 69115,
+    "thinkingTokens": 18911,
+    "responses": 104,
+    "costUsd": 6.971173200000001
   },
   "estimate": {
     "at": "2026-11-12T19:34:53.394Z",
@@ -52,24 +52,24 @@
   },
   "sessionId": "fe3cb3e9-862e-52fb-9c51-3266a8dbc4ef",
   "branch": "claude/cube-archive-llm-trial",
-  "cwd": "/home/user/vovazakharov.com/tmp/llm",
+  "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "Research trial for the cube (vovazakharov.com, `src/cube/`): can a tiny in-browser LLM fill the cube's folders with generated bureaucratic documents that read t…",
   "prs": [],
   "url": "https://claude.ai/code/session_01DaohkBfaSYdKUyWEJW2L8T",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-12T19:33:12.970Z",
-  "lastResponseAt": "2026-11-12T19:54:19.769Z",
+  "lastResponseAt": "2026-11-12T19:57:49.412Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 161,
+    "inputTokens": 185,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 190556,
-    "cacheReadTokens": 14316930,
-    "outputTokens": 51841,
-    "thinkingTokens": 16029,
-    "responses": 85,
-    "costUsd": 5.425298000000001
+    "cacheWrite1hTokens": 227855,
+    "cacheReadTokens": 17802969,
+    "outputTokens": 68809,
+    "thinkingTokens": 18911,
+    "responses": 98,
+    "costUsd": 6.760353800000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -83,14 +83,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 2691,
+      "inputTokens": 2715,
       "cacheWrite5mTokens": 191,
-      "cacheWrite1hTokens": 190556,
-      "cacheReadTokens": 15300951,
-      "outputTokens": 51948,
-      "thinkingTokens": 16029,
-      "responses": 90,
-      "costUsd": 5.6358902
+      "cacheWrite1hTokens": 227855,
+      "cacheReadTokens": 18786990,
+      "outputTokens": 68916,
+      "thinkingTokens": 18911,
+      "responses": 103,
+      "costUsd": 6.9709460000000005
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1277,
@@ -106,10 +106,10 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 91,
-    "matched": 85,
-    "matchedTableUsd": 5.425298000000001,
-    "matchedEventUsd": 5.4252980000000015,
+    "events": 104,
+    "matched": 98,
+    "matchedTableUsd": 6.760353800000001,
+    "matchedEventUsd": 6.760353800000002,
     "unseen": {
       "generate_session_title": {
         "inputTokens": 1277,
@@ -134,7 +134,7 @@
     }
   },
   "operatorWords": {
-    "chat": 83,
+    "chat": 107,
     "review": 0,
     "threads": 0
   },
