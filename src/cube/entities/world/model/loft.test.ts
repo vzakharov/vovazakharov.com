@@ -1,8 +1,10 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import type { Vec3 } from '@/cube/shared/lib/vec';
+
 import { loft, type Ring } from './loft';
-import { cross, dot, minus, type Vec3 } from './quad';
+import { cross, dot, minus } from './quad';
 
 const room = { n: 1, x: 0n, y: 0n };
 

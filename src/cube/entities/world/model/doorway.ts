@@ -1,11 +1,12 @@
-import { DOORWAY } from '@/cube/shared/lib/doorway';
 import {
   CEILING_HEIGHT,
   ROOM_METRES,
   WALL_HALF,
 } from '@/cube/shared/lib/room-shape';
+import type { Vec3 } from '@/cube/shared/lib/vec';
+import { DOORWAY } from '@/cube/shared/outside';
 
-import { face, type Quad, type Vec3 } from './quad';
+import { face, type Quad } from './quad';
 import type { Room } from './room';
 
 /** A rect of a wall: along it from its north end, then up from the slab. */
@@ -23,9 +24,9 @@ export function doorwayWall(corner: Vec3, side: number, room: Room): Quad[] {
   const metre = side / ROOM_METRES;
   const top = side * CEILING_HEIGHT;
   const [north, south, head] = [
-    DOORWAY.north * metre,
-    DOORWAY.south * metre,
-    DOORWAY.head * metre,
+    DOORWAY.from * metre,
+    DOORWAY.to * metre,
+    DOORWAY.height * metre,
   ];
   const panes: Pane[] = [
     [0, north, 0, top],

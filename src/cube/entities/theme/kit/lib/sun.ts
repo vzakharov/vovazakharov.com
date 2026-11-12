@@ -1,16 +1,16 @@
 import type { Rgb } from '@/cube/shared/lib/colour';
-import { DOORWAY } from '@/cube/shared/lib/doorway';
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import { SHRUB } from '@/cube/shared/lib/shrub';
-import { SUN_DIR, SUN_LIGHT, SUN_SPREAD } from '@/cube/shared/lib/sun';
+import { SUN_SPREAD } from '@/cube/shared/lib/sun-disc';
+import { vec3f, type Wgsl, wgsl } from '@/cube/shared/lib/wgsl';
+import { HASH } from '@/cube/shared/lib/wgsl-hash';
+import { DOORWAY, SUN, SUN_DIR, SUN_LIGHT } from '@/cube/shared/outside';
 
 import { beamPatches, DOOR_INNER } from './beam';
 import { CORE } from './core';
 import { GRADE } from './grade';
-import { HASH } from './hash';
-import { hazed, lensListing, type Seen } from './lens';
+import { hazed, lensListing, type Graded } from './lens';
 import { LIGHT } from './light';
-import { vec3f, type Wgsl, wgsl } from './wgsl';
 
 const f = (value: number): string => value.toFixed(4);
 
@@ -51,19 +51,16 @@ ${SHRUB.foliage
  *   fn sunBounce(p: vec3f, normal: vec3f) -> vec3f   the light the beam's
  *                                               landing places throw on \`p\`
  */
-const SUN = wgsl(
-  'sun',
+const DOORWAY_SUN = wgsl(
+  'doorway-sun',
   /* wgsl */ `
-/// Toward the sun, and its light on a white face square to it.
-const SUN_TO = ${vec3f(SUN_DIR)};
-const SUN_LIGHT = ${vec3f(SUN_LIGHT)};
 /// The tangent of the sun's radius in the sky.
 const SUN_SPREAD = ${SUN_SPREAD.toFixed(5)};
 
 /// The doorway in the east wall: its north and south jambs, metres south of
 /// the room's north end, and its head over the floor; then the wall's inner
 /// and outer faces, metres east.
-const DOOR = vec3f(${f(DOORWAY.north)}, ${f(DOORWAY.south)}, ${f(DOORWAY.head)});
+const DOOR = vec3f(${f(DOORWAY.from)}, ${f(DOORWAY.to)}, ${f(DOORWAY.height)});
 const DOOR_FACES = vec2f(${f(DOOR_INNER)}, ${f(ROOM_METRES)});
 
 /// What the doorway shows of the evening outside, as light: sky by the sun,
@@ -133,7 +130,7 @@ fn shrubShade(p: vec3f, dir: vec3f, shrub: vec3f) -> f32 {
 /// How much of the sun reaches \`p\`: through the doorway, past what stands
 /// in the beam.
 fn sunAt(p: vec3f) -> f32 {
-  return throughDoor(p, SUN_TO, SUN_SPREAD) * sunShade(p, SUN_TO);
+  return throughDoor(p, SUN_DIR, SUN_SPREAD) * sunShade(p, SUN_DIR);
 }
 
 /// How much of a small patch's light reaches \`p\`, per square metre of the
@@ -190,7 +187,7 @@ fn sunShaft(s: Surf) -> vec3f {
     lit += sunAt(eye + s.view * (first + span * (f32(i) + start) / f32(SHAFT_STEPS)));
   }
   let g = DUST_FORWARD;
-  let forward = (1.0 - g * g) / pow(1.0 + g * g - 2.0 * g * dot(s.view, SUN_TO), 1.5);
+  let forward = (1.0 - g * g) / pow(1.0 + g * g - 2.0 * g * dot(s.view, SUN_DIR), 1.5);
   return SUN_LIGHT * (DUST * 0.25 * forward * lit * span / f32(SHAFT_STEPS));
 }
 
@@ -200,9 +197,9 @@ fn sunShaft(s: Surf) -> vec3f {
 /// anything polished. A polished floor is left a mirror showing the doorway.
 fn sunlitRoom(s: Surf, m: Material, ambient: vec3f) -> vec3f {
   let normal = normalize(s.normal + m.relief);
-  let door = throughDoor(s.p, SUN_TO, SUN_SPREAD);
-  let sun = door * sunShade(s.p, SUN_TO);
-  let facing = max(dot(normal, SUN_TO), 0.0);
+  let door = throughDoor(s.p, SUN_DIR, SUN_SPREAD);
+  let sun = door * sunShade(s.p, SUN_DIR);
+  let facing = max(dot(normal, SUN_DIR), 0.0);
   var direct = SUN_LIGHT * (facing * sun);
   if (s.kind == FOLIAGE) {
     direct += SUN_LIGHT * LEAF_THROUGH * (mix(sun, door, 0.5) * (1.0 - facing));
@@ -213,7 +210,7 @@ fn sunlitRoom(s: Surf, m: Material, ambient: vec3f) -> vec3f {
   let along = pow(1.0 - max(dot(normal, -s.view), 0.0), 5.0);
   let mirror = m.gloss * (0.04 + 0.96 * along);
   let power = mix(6.0, 600.0, m.gloss * m.gloss);
-  let half = normalize(SUN_TO - s.view);
+  let half = normalize(SUN_DIR - s.view);
   let glint = pow(max(dot(normal, half), 0.0), power) * (power + 8.0) / 25.0;
   let colour = m.albedo * (fill * shade + direct) + m.emission
     + SUN_LIGHT * (facing * sun * glint * mirror);
@@ -231,13 +228,14 @@ fn sunlitRoom(s: Surf, m: Material, ambient: vec3f) -> vec3f {
   CORE,
   HASH,
   LIGHT,
+  SUN,
 );
 
 /** A potted plant standing in the beam: its axis in metres east and south, and its draw of height. */
 export type Shrub = { at: readonly [east: number, south: number]; tall: number };
 
 /** A room lit by the sun through floor 1's doorway, as numbers. */
-type Sunlit = Seen & {
+type Sunlit = Graded & {
   /** The potted plants that shade the beam. */
   shrubs: readonly Shrub[];
   /** What the floor and the walls throw back of the beam, on average. */
@@ -301,7 +299,7 @@ fn themeLight(s: Surf, m: Material) -> vec3f {
 }
 ${lensListing(look)}
 `,
-    SUN,
+    DOORWAY_SUN,
     GRADE,
   );
 };

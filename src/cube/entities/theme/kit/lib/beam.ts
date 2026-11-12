@@ -1,11 +1,10 @@
-import { DOORWAY } from '@/cube/shared/lib/doorway';
 import {
   CEILING_HEIGHT,
   ROOM_METRES,
   WALL_HALF,
 } from '@/cube/shared/lib/room-shape';
-
-type Vec3 = readonly [number, number, number];
+import type { Vec3 } from '@/cube/shared/lib/vec';
+import { DOORWAY } from '@/cube/shared/outside';
 
 /**
  * A patch of the room the doorway's beam lands on, in metres of the room:
@@ -41,15 +40,15 @@ const ENDS = [
  * metres long. Their flux adds up to the doorway's area seen from the sun.
  */
 export function beamPatches(sun: Vec3, cell = 1.25): SunPatch[] {
-  const wide = DOORWAY.south - DOORWAY.north;
-  const each = (wide * DOORWAY.head * sun[0]) / (RAYS.along * RAYS.up);
+  const wide = DOORWAY.to - DOORWAY.from;
+  const each = (wide * DOORWAY.height * sun[0]) / (RAYS.along * RAYS.up);
   const patches = new Map<string, { sum: [number, number, number]; n: number; facing: Vec3 }>();
   for (let i = 0; i < RAYS.along; i += 1) {
     for (let j = 0; j < RAYS.up; j += 1) {
       const from: Vec3 = [
         DOOR_INNER,
-        (DOORWAY.head * (j + 0.5)) / RAYS.up,
-        DOORWAY.north + (wide * (i + 0.5)) / RAYS.along,
+        (DOORWAY.height * (j + 0.5)) / RAYS.up,
+        DOORWAY.from + (wide * (i + 0.5)) / RAYS.along,
       ];
       // The nearest face the ray, running against `sun`, comes to.
       const [end, run] = ENDS.map(

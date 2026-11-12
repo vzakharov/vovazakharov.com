@@ -1,6 +1,7 @@
+import { wgsl } from '@/cube/shared/lib/wgsl';
+import { HASH } from '@/cube/shared/lib/wgsl-hash';
+
 import { CORE } from './core';
-import { HASH } from './hash';
-import { wgsl } from './wgsl';
 
 /**
  * A point lit by the ceiling lamps of its room and of the eight around it,

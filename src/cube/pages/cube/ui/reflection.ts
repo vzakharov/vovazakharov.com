@@ -3,7 +3,7 @@
 import type { CanDispose, Sized } from '@/kernel/shared/typings';
 
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
-import type { Vec3 } from '@/cube/entities/world';
+import type { Seen } from '@/cube/shared/lib/vec';
 
 import { inverse } from '../lib/matrix';
 import { cover, SCENE_FORMAT } from './bloom';
@@ -22,14 +22,6 @@ export const MIRROR_FORMATS = [
   'rgba16float',
   'rgba16float',
 ] as const satisfies readonly GPUTextureFormat[];
-
-/** Where the scene is seen from, as the reflections need it. */
-export type Seen = {
-  /** Column-major. */
-  viewProjection: Float32Array;
-  /** The eye, in its own frame. */
-  eye: Vec3;
-};
 
 export type Reflection = CanDispose & {
   /**

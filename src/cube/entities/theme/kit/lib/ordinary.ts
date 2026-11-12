@@ -1,12 +1,12 @@
 import type { Rgb } from '@/cube/shared/lib/colour';
+import { vec3f, type Wgsl, wgsl } from '@/cube/shared/lib/wgsl';
 
 import { GRADE } from './grade';
-import { hazed, lensListing, type Seen } from './lens';
+import { hazed, lensListing, type Graded } from './lens';
 import { LIGHT } from './light';
-import { vec3f, type Wgsl, wgsl } from './wgsl';
 
 /** An ordinary floor's light, air and lens, as numbers. */
-type Ordinary = Seen & {
+type Ordinary = Graded & {
   /** The lamps' colour times their strength. */
   lamp: Rgb;
   /** Panels along each side of a room's ceiling, and one's size in metres. */
