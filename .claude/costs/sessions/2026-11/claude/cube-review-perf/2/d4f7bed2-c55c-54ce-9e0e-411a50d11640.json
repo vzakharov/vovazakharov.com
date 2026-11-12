@@ -1,0 +1,106 @@
+{
+  "total": {
+    "inputTokens": 17,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 57565,
+    "cacheReadTokens": 787342,
+    "outputTokens": 2697,
+    "thinkingTokens": 248,
+    "responses": 8,
+    "costUsd": 0.6719964
+  },
+  "estimate": {
+    "at": "2026-11-12T17:12:06.477Z",
+    "subjectLine": "refactor: review and speed up the liminal cube",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "qa",
+        "comment": "the every-band gallery look on the cube needs a tester's eye across all bands, handed on from earlier sessions"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-12T17:12:21.463Z",
+    "contextTokens": 111650,
+    "spend": {
+      "inputTokens": 15,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 57331,
+      "cacheReadTokens": 675928,
+      "outputTokens": 2004,
+      "thinkingTokens": 248,
+      "responses": 7,
+      "costUsd": 0.6339736
+    }
+  },
+  "sessionId": "d4f7bed2-c55c-54ce-9e0e-411a50d11640",
+  "branch": "claude/cube-review-perf",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cube-review-perf — #273 слит и задеплоен, ревью-PR #275 с доской ждёт комментариев",
+  "prs": [
+    275
+  ],
+  "url": "https://claude.ai/code/session_01DaohkCiN9dqvTbQitKLW6y",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-12T17:11:41.609Z",
+  "lastResponseAt": "2026-11-12T17:12:21.463Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 17,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 57565,
+    "cacheReadTokens": 787342,
+    "outputTokens": 2697,
+    "thinkingTokens": 248,
+    "responses": 8,
+    "costUsd": 0.6719964
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 17,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 57565,
+      "cacheReadTokens": 787342,
+      "outputTokens": 2697,
+      "thinkingTokens": 248,
+      "responses": 8,
+      "costUsd": 0.6719964
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 8,
+    "matched": 8,
+    "matchedTableUsd": 0.6719964,
+    "matchedEventUsd": 0.6719964,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 30,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 164,
+    ".json": 23
+  }
+}
