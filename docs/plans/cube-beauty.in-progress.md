@@ -84,8 +84,10 @@ from another account: `/go claude/cube-liminal-332pmv`.
   voice. Their sessions are done; nothing is left on their branches.
 - **Gates**: typecheck, eslint, prettier, `check:masd`, `masd:clusters`,
   `check:cycles`, `type-overlap`, `lint:fsd`, `shaders:cube` (67 of 67) are
-  green. `pnpm test:all` fails one test only: the line limit, on three
-  `src/mushrooms/scripts/lib/play-*.ts` files this branch does not touch.
+  green. `pnpm test:all` fails one test only: the line limit, on
+  `src/mushrooms/scripts/lib/play-*.ts` files that moving `inTurn` into scene
+  (5985ed03) pushed past their allowlist entries — the PR's `/five-percent`
+  review proposes a way out.
 - **On the page already**: the floors, the descent and hands, `goto05` with
   `?cheated_to=5`, and decor — `furnish(setting, decor)` is called in
   `cube-scene.ts` `build()`. Decor has not been looked at on this branch.
