@@ -62,7 +62,7 @@ const LEVELS: Record<Layer, number> = {
   hiss: 0.42,
   fizz: 0.4,
   wash: 0.08,
-  wind: 0.12,
+  wind: 0.16,
   buffet: 0.3,
   hum: 0.62,
   under: 0.35,

@@ -128,7 +128,10 @@ export const stepSeconds = (footing: Underfoot): number =>
 /** Seconds the first contact's click lasts. */
 const CLICK_DIES = 0.004;
 
-/** Seconds the click takes to arrive: the step's first sample is silence. */
+/**
+ * Seconds the click and the scuff take to arrive: the step's first sample is
+ * silence.
+ */
 const CLICK_RISES = 0.0005;
 
 /**
@@ -155,6 +158,7 @@ export function footstep(
         scuff.hz * tune * 2 ** ((scuff.sweep * t) / scuff.dies),
         scuff.resonance,
       ) *
+      Math.min(1, t / CLICK_RISES) *
       dying(t, scuff.dies) *
       scuff.force;
     const rung = modes.reduce(
