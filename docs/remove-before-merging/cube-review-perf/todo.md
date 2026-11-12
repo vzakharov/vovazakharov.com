@@ -18,13 +18,17 @@ uniforms; the look can only be checked by eye). The operator chose to try
 TypeGPU on the reflection pass first, judged by floor 28's puddles side by side
 with `cube-liminal`.
 
-- Done in a child session on `claude/cube-typegpu-trial`, branched off this one,
-  no PR of its own: kept, it merges here and shows on this PR's board; dropped,
-  the branch goes.
-- It ports before item 1 touches the same pass, so a difference in the picture
-  has one suspect.
-- Still open whatever the trial says: `themeMaterial`'s per-floor `switch` as
-  data, salts derived rather than hand-picked, and `pnpm shaders:cube` in vet.
+**Verdict: no** (operator, 2026-11-12, «ну ок, ладно, убедил»). The port kept
+floor 28 pixel-identical, but cost +82 KB gzipped on `/cube` for the runtime
+that writes the WGSL, turned vector maths into `.mul().sub()` chains, named the
+generated functions `item_1…`, and needed babel-loader under Turbopack. Of the
+trial only the frame-rate meter (F) stays here; the port lives on in
+`claude/cube-typegpu-trial` at 3cdb5134 until that branch is deleted.
+
+Next for shaders out of strings: `.wgsl` files with WESL imports, the assembled
+source of every floor pinned byte-for-byte before and after. With it:
+`themeMaterial`'s per-floor `switch` as data, salts derived rather than
+hand-picked, and `pnpm shaders:cube` in vet.
 
 ## 1. Performance of what exists
 
