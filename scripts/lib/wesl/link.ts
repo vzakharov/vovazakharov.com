@@ -74,11 +74,15 @@ async function targetOf(
   };
 }
 
-/** The file an import names: `package` is `src/`, each `super` a step up. */
+/**
+ * The file an import names: `package` is `src/`, each `super` a step up, and
+ * `_` in a name the `-` of a kebab-case file, which no WGSL name can hold.
+ */
 function resolveFile(from: string, found: Import): string {
   const up = Array.from({ length: (found.supers ?? 1) - 1 }, () => '..');
   const base = found.supers === undefined ? 'src' : path.dirname(from);
-  const stem = path.join(base, ...up, ...found.path);
+  const names = found.path.map((name) => name.replaceAll('_', '-'));
+  const stem = path.join(base, ...up, ...names);
   const file = ['.wgsl', '.ts']
     .map((extension) => stem + extension)
     .find((candidate) => fs.existsSync(candidate));

@@ -1,9 +1,6 @@
-import { hex, linear } from '@/cube/shared/lib/colour';
-
 import type { FloorTheme } from '../../kit';
 import { MICROGRAPH_SHADER } from './46-micrograph.shader';
-
-const AIR = linear(hex(0x05_05_05));
+import { MICROGRAPH_AIR } from './micrograph-air';
 
 /**
  * An electron micrograph with the visitor inside the specimen chamber: a
@@ -13,7 +10,7 @@ const AIR = linear(hex(0x05_05_05));
  */
 export const MICROGRAPH: FloorTheme = {
   name: 'Micrograph',
-  air: AIR,
+  air: MICROGRAPH_AIR,
   pillar: 0.028,
   dark: 0.1,
   sound: { footing: 'hollow', hum: 220, air: 0.02, echo: 0.15 },

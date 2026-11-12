@@ -2,6 +2,7 @@
 // the instrument's frame. `46-micrograph.ts` holds the rest of the floor.
 
 import super::super::lib::specimen::{dome, shards};
+import super::micrograph_air::AIR;
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::kit::lib::light::{Lamps, lampGlow, lampReach, cornerShade};
 import package::cube::entities::theme::kit::lib::grade::{haze, tonemap, through, grain, vignette};
@@ -81,7 +82,7 @@ fn themeLight(s: Surf, m: Material) -> vec3f {
   let reach = lampReach(s, s.normal, 0.0, lamps());
   let gain = 0.3 + 0.7 * clamp(reach.z * 0.9, 0.0, 1.0);
   let signal = luma(m.albedo) * (0.14 + 1.2 * edge * edge + 0.4 * detector) * gain * cornerShade(s);
-  return haze(vec3f(signal) + m.emission, s, vec3f(0.0015, 0.0015, 0.0015), 32.0);
+  return haze(vec3f(signal) + m.emission, s, AIR, 32.0);
 }
 
 /// The frame as the instrument prints it: grey, scanned line by line with

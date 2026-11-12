@@ -134,9 +134,18 @@ function laboratory(source: string, moved: readonly Wgsl[]) {
   return undo(then, SPECIMEN_HEAD, head + SPECIMEN_HEAD);
 }
 
+/** The micrograph's haze, a literal before its air became a piece of its own. */
+const MICROGRAPH_AIR = 'vec3f(0.0015, 0.0015, 0.0015)';
+
+function micrograph(source: string): string {
+  const then = undo(source, `const AIR = ${MICROGRAPH_AIR};\n\n`, '');
+  return undo(then, 's, AIR, 32.0)', `s, ${MICROGRAPH_AIR}, 32.0)`);
+}
+
 const asBefore = (n: number, source: string): string => {
   const moved = calling[n];
   if (n === 12) return bathroom(source);
+  if (n === 46) return laboratory(micrograph(source), moved ?? []);
   return moved === undefined ? source : laboratory(source, moved);
 };
 
