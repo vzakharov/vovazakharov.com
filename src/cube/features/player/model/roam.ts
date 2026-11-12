@@ -34,13 +34,15 @@ export type Land = {
 
 /**
  * A body out of doors: its eye in metres (east, up, south) and its gaze;
- * `strode` the metres walked since its last footfall, `stroke` the swimming
+ * `strode` the metres walked since its last footfall and `paces` how many
+ * footfalls it has made, `stroke` the swimming
  * strokes it has made, in turns; `cues` what happened in the frame that made
  * it.
  */
 export type Roamer = Gazing & {
   eye: Vec3;
   strode: number;
+  paces: number;
   stroke: number;
   cues: readonly Cue[];
 };
@@ -85,6 +87,7 @@ export const roamingAt = (
   ...gaze,
   eye: [x, restingEye(land, x, z, seconds, 0), z],
   strode: 0,
+  paces: 0,
   stroke: 0,
   cues: NO_CUES,
 });
@@ -105,6 +108,13 @@ function restingEye(
     land.level(x, z, seconds) + EYE_OVER_WATER + bob,
   );
 }
+
+/**
+ * How far apart `roamer`'s feet are in their stride, from -1 to 1: each
+ * footfall brings them together and sends the other foot ahead.
+ */
+export const swingOf = ({ strode, paces }: Roamer): number =>
+  (paces % 2 === 0 ? 1 : -1) * Math.sin((Math.PI * strode) / STRIDE);
 
 /** Whether a body with its eye at `eye` floats rather than stands. */
 export const isAfloat = (
@@ -201,6 +211,7 @@ export function roam(
     ...gaze,
     eye: [x, y, z],
     strode: fell ? strode % reach : strode,
+    paces: roamer.paces + (fell ? 1 : 0),
     stroke,
     cues: fell ? [cue] : NO_CUES,
   };

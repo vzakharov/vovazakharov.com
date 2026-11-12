@@ -1,5 +1,10 @@
+import { pick } from '@/kernel/shared/lib/collections';
+
+import type { Quad } from '@/cube/entities/world';
+
+import { legsOf, type Seat } from './legs';
 import type { Cue } from './play';
-import { isAfloat, roam, type Roamer, roamingAt } from './roam';
+import { isAfloat, roam, type Roamer, roamingAt, swingOf } from './roam';
 import {
   climb,
   descent,
@@ -17,6 +22,8 @@ import { cuesBetween, type Shot, shotAt, type Track } from './track';
 /** A scene being played, `playedFor` seconds in, and where it leaves the body. */
 type Playing = {
   track: Track<Cue>;
+  /** Where the body sits or lies while it plays, if it does. */
+  seat: Seat | null;
   playedFor: number;
   into: 'island' | 'cube';
 };
@@ -63,7 +70,12 @@ export function asleepOn(stage: Stage, seconds: number): Abroad {
   );
   return playing(
     roamer,
-    { track: waking(stage), playedFor: 0, into: 'island' },
+    {
+      track: waking(stage),
+      seat: { ...pick(wake, 'at'), heading: wake.seaward },
+      playedFor: 0,
+      into: 'island',
+    },
     { asleep: true, lookedUnder: false },
   );
 }
@@ -80,7 +92,7 @@ export const leaving = (from: Shot, stage: Stage, seconds: number): Abroad =>
       from,
       seconds,
     ),
-    { track: descent(from, stage), playedFor: 0, into: 'island' },
+    { track: descent(from, stage), seat: null, playedFor: 0, into: 'island' },
     { asleep: false, lookedUnder: true },
   );
 
@@ -137,7 +149,15 @@ export function abroad(
     const { x, y, z, yaw, elevation } = shot;
     return {
       roamer: done
-        ? { eye: [x, y, z], yaw, elevation, strode: 0, stroke: 0, cues }
+        ? {
+            eye: [x, y, z],
+            yaw,
+            elevation,
+            strode: 0,
+            paces: 0,
+            stroke: 0,
+            cues,
+          }
         : roamer,
       scene: done ? null : { ...scene, playedFor: t },
       ...rest,
@@ -150,7 +170,12 @@ export function abroad(
   if (input.pull && canClimb(free, stage, seconds)) {
     return playing(
       roamer,
-      { track: climb(shotOf(roamer), stage), playedFor: 0, into: 'cube' },
+      {
+        track: climb(shotOf(roamer), stage),
+        seat: null,
+        playedFor: 0,
+        into: 'cube',
+      },
       rest,
     );
   }
@@ -167,6 +192,7 @@ export function abroad(
         moved,
         {
           track: lookUnder(shotOf(moved), stage),
+          seat: null,
           playedFor: 0,
           into: 'island',
         },
@@ -176,4 +202,28 @@ export function abroad(
     };
   }
   return { ...free, roamer: moved, shot: shotOf(moved), cues };
+}
+
+/**
+ * `abroad`'s own body as its eye sees it, in the frame of floor 1's room:
+ * nothing while its lids are shut.
+ */
+export function bodyOf(
+  { shot, scene, roamer }: Abroad,
+  { land }: Stage,
+  seconds: number,
+): Quad[] {
+  const { x, y, z, yaw, lids } = shot;
+  if (lids <= 0) return [];
+  const free = scene === null;
+  return legsOf(
+    {
+      eye: [x, y, z],
+      yaw,
+      seat: scene?.seat ?? null,
+      swing: free ? swingOf(roamer) : 0,
+      afloat: free && isAfloat(land, roamer.eye, seconds),
+    },
+    land,
+  );
 }
