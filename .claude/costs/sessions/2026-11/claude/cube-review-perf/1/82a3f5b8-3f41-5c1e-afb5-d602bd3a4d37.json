@@ -1,0 +1,129 @@
+{
+  "total": {
+    "inputTokens": 3880,
+    "cacheWrite5mTokens": 449632,
+    "cacheWrite1hTokens": 161930,
+    "cacheReadTokens": 25171433,
+    "outputTokens": 91751,
+    "thinkingTokens": 33902,
+    "responses": 177,
+    "costUsd": 10.440933600000005
+  },
+  "estimate": {
+    "at": "2026-11-12T08:58:14.520Z",
+    "subjectLine": "feat: land the liminal cube and set up its reference snapshot",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "qa",
+        "comment": "the every-band gallery look on the cube needs a tester's eye across all 66 floors"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "freezing the pre-merge state for comparisons and splitting the code review into its own PR is release planning"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "fifty unused exports across the cube's slices each need a judgement on the slice's public API, plus land prep of a large diff"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-12T08:20:32.098Z",
+    "contextTokens": 118741,
+    "spend": {
+      "inputTokens": 19,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 64122,
+      "cacheReadTokens": 1049562,
+      "outputTokens": 4727,
+      "thinkingTokens": 2295,
+      "responses": 10,
+      "costUsd": 0.8175044000000001
+    }
+  },
+  "sessionId": "82a3f5b8-3f41-5c1e-afb5-d602bd3a4d37",
+  "branch": "claude/cube-review-perf",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cube-liminal-332pmv — PR открыт, отражения вмержены, ждём взгляда на превью так, превью шикарен. есть нарекания, но они не стоят того чтобы с…",
+  "prs": [
+    273
+  ],
+  "url": "https://claude.ai/code/session_01DaohkBvLD2WSYPkUSXi9Di",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-12T08:19:22.604Z",
+  "lastResponseAt": "2026-11-12T09:57:11.916Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 156,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 161930,
+    "cacheReadTokens": 12763828,
+    "outputTokens": 35765,
+    "thinkingTokens": 13148,
+    "responses": 79,
+    "costUsd": 4.5641296
+  },
+  "subagents": {
+    "inputTokens": 182,
+    "cacheWrite5mTokens": 445463,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 11380815,
+    "outputTokens": 55874,
+    "thinkingTokens": 20754,
+    "responses": 91,
+    "costUsd": 5.621686000000003
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 3880,
+      "cacheWrite5mTokens": 449632,
+      "cacheWrite1hTokens": 161930,
+      "cacheReadTokens": 25171433,
+      "outputTokens": 91751,
+      "thinkingTokens": 33902,
+      "responses": 177,
+      "costUsd": 10.440933600000005
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 176,
+    "matched": 169,
+    "matchedTableUsd": 10.054226400000003,
+    "matchedEventUsd": 10.054226400000003,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 3542,
+        "cacheWrite5mTokens": 4169,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 1026790,
+        "outputTokens": 112,
+        "thinkingTokens": 0,
+        "responses": 7,
+        "costUsd": 0.25511799999999996
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 319,
+    "review": 16,
+    "threads": 0
+  },
+  "reviewPosts": {
+    "IC_kwDOQXZBKM8AAAABlgGUXA": 7,
+    "PRR_kwDOQXZBKM8AAAABXfe6qg": 9
+  },
+  "threadPosts": {},
+  "branchLines": {}
+}
