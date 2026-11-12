@@ -1,16 +1,20 @@
+/// <reference types="@webgpu/types" />
+
 import type { CanDispose, Seeded, Timed } from '@/kernel/shared/typings';
 
 import {
+  amplitudesOf,
+  CASCADES,
   EVOLVE_SHADER,
   FIELD_LAYERS,
   HALVE_SHADER,
   LAY_SHADER,
+  type Sea,
+  TILE,
   TRANSFORM_SHADER,
-} from '../lib/wave-field-wgsl';
-import { amplitudesOf, CASCADES, TILE } from '../model/cascade';
-import type { Sea } from '../model/spectrum';
+} from '@/cube/shared/sea';
 
-/** The maps a wave field keeps current; `lib/wave-field-wgsl` says what each holds. */
+/** The maps a wave field keeps current; `LAY_SHADER` says what each holds. */
 const MAPS = ['shift', 'slope', 'moment'] as const;
 type MapName = (typeof MAPS)[number];
 

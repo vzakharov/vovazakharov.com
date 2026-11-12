@@ -1,3 +1,7 @@
+import { vecf, wgsl } from '../lib/wgsl';
+import { OUTDOOR_STAGE, SKY, SUN } from '../outside';
+import { SEA_SURFACE } from './sea-surface-wgsl';
+
 /**
  * Pure sea water's absorption and backscatter per metre, red to blue, with a
  * little of the green a coast's water carries (Pope & Fry 1997 for the water
@@ -6,16 +10,17 @@
 const ABSORB = [0.42, 0.063, 0.022] as const;
 const BACKSCATTER = [0.0035, 0.0048, 0.0062] as const;
 
-const vec3 = (values: readonly number[]): string =>
-  `vec3f(${values.map((value) => value.toFixed(4)).join(', ')})`;
-
 /**
- * How light leaves the sea toward the eye. Leans on the scene's pieces:
- * \`frame\`, \`SUN_LIGHT\`, \`skyRadiance(dir, lod)\` and \`Waves\`.
+ * How light leaves the sea toward the eye: the sky mirrored in waves, the
+ * sun's glitter, and what the water's own body sends back up. Light is in the
+ * scene's units throughout, where `SUN_LIGHT` is what a white matte face
+ * square to the sun shows — π times less than the sun's irradiance.
  */
-export const SEA_LIGHT = /* wgsl */ `
-const ABSORB = ${vec3(ABSORB)};
-const BACKSCATTER = ${vec3(BACKSCATTER)};
+export const SEA_LIGHT = wgsl(
+  'sea/light',
+  /* wgsl */ `
+const ABSORB = ${vecf(ABSORB)};
+const BACKSCATTER = ${vecf(BACKSCATTER)};
 /// What water returns of light meeting it head on.
 const HEAD_ON = 0.0204;
 /// The sun's disc, as the spread of slopes that mirror some part of it.
@@ -92,7 +97,7 @@ fn glitter(waves: Waves, toEye: vec3f, shown: f32) -> vec3f {
   let density = exp(-0.5 * fit) / (6.2831853 * sqrt(det));
   let lifted = half.y * half.y;
   let light = fresnel(dot(toEye, half)) * density / (4.0 * shown * lifted * lifted);
-  return SUN_LIGHT * min(light, 400.0);
+  return SUN_LIGHT * min(3.14159 * light, 1200.0);
 }
 
 /// What water \`depth\` metres deep keeps of light crossing it.
@@ -100,14 +105,20 @@ fn kept(depth: f32) -> vec3f {
   return exp(-ABSORB * max(depth, 0.0));
 }
 
-/// The light deep water sends back up from \`falling\` on it: what its own
-/// scattering returns before absorption takes the rest (Gordon et al. 1975).
+/// What deep water shows of \`falling\`, the light a white face would show
+/// under the same sky: what its own scattering returns before absorption
+/// takes the rest (Gordon et al. 1975).
 fn upwelling(falling: vec3f) -> vec3f {
-  return falling * 0.33 * BACKSCATTER / (ABSORB + BACKSCATTER) / 3.14159;
+  return falling * 0.33 * BACKSCATTER / (ABSORB + BACKSCATTER);
 }
 
 /// The sun's light let into the water, per unit of level surface.
 fn sunEntering() -> vec3f {
   return SUN_LIGHT * frame.sun.y * (1.0 - fresnel(frame.sun.y));
 }
-`;
+`,
+  OUTDOOR_STAGE,
+  SKY,
+  SUN,
+  SEA_SURFACE,
+);

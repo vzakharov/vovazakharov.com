@@ -1,4 +1,7 @@
-import { CASCADES, TILE } from '../model/cascade';
+import { f32, wgsl } from '../lib/wgsl';
+import { OUTDOOR_STAGE } from '../outside';
+import { CASCADES, TILE } from './cascade';
+import { SEA_SHORE } from './sea-shore-wgsl';
 
 /**
  * The sea's mesh: rings about the point under the eye, each a little wider
@@ -12,15 +15,17 @@ const CORE = 0.5;
 const REACH = 20_000;
 const GROWTH = Math.log(REACH / CORE + 1) / (RINGS - 1);
 
-const SIDES = CASCADES.map(({ side }) => side.toFixed(1)).join(', ');
+/** How far apart the slow surface is read for its own slope, metres. */
+const SWELL_STEP = 0.4;
 
 /**
- * The sea's own bindings (group 1) and the surface read from the wave maps:
- * where a still point is carried to, and the slope statistics under a pixel.
- * It leans on the scene's piece for \`frame\` and on the shore's for
- * \`calm(xz)\`, how much of each cascade's waves the depth lets through.
+ * The sea's own bindings (group 1), its mesh, and the surface read from the
+ * wave maps: where a still point is carried to, and the slope statistics
+ * under a pixel.
  */
-export const SEA_SURFACE = /* wgsl */ `
+export const SEA_SURFACE = wgsl(
+  'sea/surface',
+  /* wgsl */ `
 struct SeaGrid {
   /// Which way the laid sector's middle spoke points, and its whole angle.
   yaw: f32,
@@ -34,44 +39,63 @@ struct SeaGrid {
 @group(1) @binding(4) var momentMap: texture_2d_array<f32>;
 
 const CASCADES = ${String(CASCADES.length)}u;
-const SIDES = array<f32, ${String(CASCADES.length)}>(${SIDES});
+const SIDES = array<f32, ${String(CASCADES.length)}>(${CASCADES.map(({ side }) => f32(side)).join(', ')});
 const SPOKES = ${String(SPOKES)}u;
 
-/// Where the still surface's point \`still\` is now, for a mesh whose cells
-/// are \`cell\` metres wide there: waves a cell cannot draw are left out.
+/// How far the wind's waves carry the still surface's point \`still\`, for a
+/// mesh whose cells are \`cell\` metres wide there: waves a cell cannot draw
+/// are left out.
 fn carried(still: vec2f, cell: f32) -> vec3f {
   let quiet = calm(still);
   var shift = vec3f(0.0);
   for (var i = 0u; i < CASCADES; i++) {
-    let texel = SIDES[i] / ${String(TILE)}.0;
+    let texel = SIDES[i] / ${f32(TILE)};
     let lod = max(log2(2.0 * cell / texel), 0.0);
     shift += quiet[i]
       * textureSampleLevel(shiftMap, waveSampler, still / SIDES[i], i, lod).xyz;
   }
-  return vec3f(still.x, level(still), still.y) + shift;
+  return shift;
 }
 
 struct SeaVarying {
   @builtin(position) clip: vec4f,
+  /// The point of the still sea this one was carried from.
   @location(0) still: vec2f,
   @location(1) world: vec3f,
+  /// The slow surface's own slope, along x and z.
+  @location(2) swell: vec2f,
+  /// Clip z and w of the point brought a little toward the eye, which is the
+  /// depth a thin sheet of water is drawn at so it lies over the sand's mesh.
+  @location(3) lifted: vec2f,
 }
 
 @vertex
 fn seaVertex(@builtin(vertex_index) index: u32) -> SeaVarying {
   let ring = f32(index / (SPOKES + 1u));
   let spoke = f32(index % (SPOKES + 1u));
-  let radius = ${CORE.toFixed(2)} * (exp(${GROWTH.toFixed(6)} * ring) - 1.0);
+  let radius = ${f32(CORE)} * (exp(${f32(GROWTH)} * ring) - 1.0);
   let angle = grid.yaw + (spoke / f32(SPOKES) - 0.5) * grid.sector;
   let still = frame.eye.xz + radius * vec2f(cos(angle), sin(angle));
   let cell = max(
-    ${GROWTH.toFixed(6)} * (radius + ${CORE.toFixed(2)}),
+    ${f32(GROWTH)} * (radius + ${f32(CORE)}),
     radius * grid.sector / f32(SPOKES),
   );
   var out: SeaVarying;
+  let slow = level(still);
+  if (offshore(still) < 1.0) {
+    let step = ${f32(SWELL_STEP)};
+    out.swell = vec2f(
+      level(still + vec2f(step, 0.0)) - slow,
+      level(still + vec2f(0.0, step)) - slow,
+    ) / step;
+  }
   out.still = still;
-  out.world = carried(still, cell);
-  out.clip = frame.viewProjection * vec4f(out.world, 1.0);
+  out.world = vec3f(still.x, slow, still.y) + carried(still, cell);
+  out.clip = clipOf(out.world);
+  let toEye = frame.eye.xyz - out.world;
+  let far = length(toEye);
+  let lift = (0.01 + 0.001 * far) / max(toEye.y / far, 0.05);
+  out.lifted = clipOf(out.world + toEye / far * min(lift, 0.5 * far)).zw;
   return out;
 }
 
@@ -86,8 +110,8 @@ struct Waves {
   squeeze: f32,
 }
 
-/// The waves about \`still\`, filtered over the pixel's footprint \`across\`
-/// and \`down\` the screen.
+/// The wind's waves about \`still\`, filtered over the pixel's footprint
+/// \`across\` and \`down\` the screen.
 fn wavesAt(still: vec2f, across: vec2f, down: vec2f) -> Waves {
   let quiet = calm(still);
   var waves: Waves;
@@ -107,4 +131,7 @@ fn wavesAt(still: vec2f, across: vec2f, down: vec2f) -> Waves {
   }
   return waves;
 }
-`;
+`,
+  OUTDOOR_STAGE,
+  SEA_SHORE,
+);

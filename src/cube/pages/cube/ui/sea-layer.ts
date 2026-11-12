@@ -1,39 +1,17 @@
-import type { CanDispose, Timed } from '@/kernel/shared/typings';
+/// <reference types="@webgpu/types" />
 
-import { RINGS, SPOKES } from '../lib/sea-surface-wgsl';
-import { seaShader } from '../lib/sea-wgsl';
-import { SEA_SEED, SEAS } from '../model/sea-state';
-import { createWaveField } from './wave-field';
+import type { Vec3 } from '@/cube/shared/lib/vec';
+import type { OutdoorFrame } from '@/cube/shared/outside';
+import { RINGS, SEA, SEA_SEED, SEAS, SPOKES } from '@/cube/shared/sea';
 
-/** What the scene pass gives the sea to draw into and with. */
-export type SeaScene = {
-  /** WGSL declaring `frame` (group 0) and the scene's shared functions. */
-  listing: string;
-  frame: GPUBindGroupLayout;
-  targets: readonly GPUTextureFormat[];
-  depth: GPUTextureFormat;
-};
-
-/** Where the eye is and which way it faces, for laying the mesh under it. */
-export type SeaView = Timed & {
-  /** Radians from +x toward +z. */
-  yaw: number;
-  /** Radians above the horizon. */
-  elevation: number;
-};
-
-export type SeaLayer = CanDispose & {
-  /** Encodes the wave field's passes for this frame. */
-  prepare: (encoder: GPUCommandEncoder, view: SeaView) => void;
-  /** Draws the sea into the scene pass, group 0 already set. */
-  draw: (pass: GPURenderPassEncoder) => void;
-};
+import type { LayerMaker } from './outdoor-layer';
+import { createWaveField } from './sea-wave-field';
 
 /** The sector of rings laid ahead of a level eye, and round one looking down. */
 const AHEAD = (150 * Math.PI) / 180;
 const AROUND = 2 * Math.PI;
-/** Below this elevation the eye sees water behind its own feet. */
-const LOOKING_DOWN = -0.6;
+/** Below this, the sine of its elevation, the eye sees water behind its feet. */
+const LOOKING_DOWN = -0.55;
 
 /** The mesh's triangles: two per cell between neighbouring rings and spokes. */
 function cells(): Uint32Array {
@@ -43,32 +21,39 @@ function cells(): Uint32Array {
   for (let ring = 0; ring < RINGS - 1; ring += 1) {
     for (let spoke = 0; spoke < SPOKES; spoke += 1) {
       const corner = ring * row + spoke;
-      indices.set(
-        [corner, corner + row, corner + 1, corner + 1, corner + row, corner + row + 1],
-        at,
-      );
+      const out = corner + row;
+      indices.set([corner, out, corner + 1, corner + 1, out, out + 1], at);
       at += 6;
     }
   }
   return indices;
 }
 
-export function createSeaLayer(
-  device: GPUDevice,
-  scene: SeaScene,
-  shore: string,
-): SeaLayer {
+/** The unit direction `frame`'s eye looks along, through the screen's middle. */
+function ahead({ inverse, eye }: OutdoorFrame): Vec3 {
+  // Clip (0, 0, ½, 1) back in the world: a point straight ahead of the eye.
+  const at = [0, 1, 2, 3].map(
+    (row) => 0.5 * (inverse[8 + row] ?? 0) + (inverse[12 + row] ?? 0),
+  );
+  const [x = 0, y = 0, z = 0, w = 1] = at;
+  const way = [x / w - eye[0], y / w - eye[1], z / w - eye[2]] as const;
+  const length = Math.hypot(...way);
+  return [way[0] / length, way[1] / length, way[2] / length];
+}
+
+/**
+ * The sea: the wave field brought to the frame's moment, then the mesh of
+ * rings under the eye drawn with it into the scene pass.
+ */
+export const createSeaLayer: LayerMaker = async ({
+  device,
+  shader,
+  pipeline: scenePipeline,
+}) => {
   const field = createWaveField(device, SEAS, SEA_SEED);
-  const module = device.createShaderModule({
-    code: seaShader(scene.listing, shore),
-  });
   const own = device.createBindGroupLayout({
     entries: [
-      {
-        binding: 0,
-        visibility: GPUShaderStage.VERTEX,
-        buffer: {},
-      },
+      { binding: 0, visibility: GPUShaderStage.VERTEX, buffer: {} },
       {
         binding: 1,
         visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
@@ -81,22 +66,14 @@ export function createSeaLayer(
       })),
     ],
   });
-  const pipeline = device.createRenderPipeline({
-    layout: device.createPipelineLayout({
-      bindGroupLayouts: [scene.frame, own],
-    }),
-    vertex: { module, entryPoint: 'seaVertex' },
-    fragment: {
-      module,
-      entryPoint: 'seaFragment',
-      targets: scene.targets.map((format) => ({ format })),
-    },
-    primitive: { topology: 'triangle-list', cullMode: 'none' },
-    depthStencil: {
-      format: scene.depth,
-      depthCompare: 'greater',
-      depthWriteEnabled: true,
-    },
+  const pipeline = await scenePipeline({
+    label: 'sea',
+    module: await shader('sea', [SEA]),
+    depth: 'solid',
+    vertex: 'seaVertex',
+    fragment: 'seaFragment',
+    groups: [own],
+    cullMode: 'none',
   });
 
   const grid = new Float32Array(4);
@@ -132,12 +109,13 @@ export function createSeaLayer(
   });
 
   return {
-    prepare: (encoder, { seconds, yaw, elevation }) => {
-      field.run(encoder, { seconds });
-      const sector = elevation < LOOKING_DOWN ? AROUND : AHEAD;
+    prepare: (encoder, frame) => {
+      field.run(encoder, frame);
+      const [x, y, z] = ahead(frame);
+      const sector = y < LOOKING_DOWN ? AROUND : AHEAD;
       // Whole spokes only: the mesh turns in steps it cannot be seen to take.
       const step = sector / SPOKES;
-      grid.set([Math.round(yaw / step) * step, sector]);
+      grid.set([Math.round(Math.atan2(z, x) / step) * step, sector]);
       device.queue.writeBuffer(gridBuffer, 0, grid);
     },
     draw: (pass) => {
@@ -152,4 +130,4 @@ export function createSeaLayer(
       indexBuffer.destroy();
     },
   };
-}
+};

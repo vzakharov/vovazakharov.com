@@ -1,5 +1,5 @@
-import { CASCADES, TILE } from '../model/cascade';
-import { HOUR } from '../model/spectrum';
+import { CASCADES, TILE } from './cascade';
+import { HOUR } from './spectrum';
 
 /** Complex pairs a cascade's transform carries: two textures' worth. */
 export const FIELD_LAYERS = CASCADES.length * 2;

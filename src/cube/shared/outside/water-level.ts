@@ -216,6 +216,8 @@ export const WATER_LEVEL = wgsl(
   'outside/water-level',
   /* wgsl */ `
 const SWELL_RUNS = ${vecf(SWELL_RUNS)};
+/// Seconds the open swell takes over a metre.
+const SWELL_PACE = ${f32(1 / DEEP_SPEED)};
 
 fn shoreOver(a: f32, b: f32) -> f32 {
   return 0.5 * (a + b + sqrt((a - b) * (a - b) + ${f32(ROUND * ROUND)}));
@@ -237,7 +239,7 @@ fn shoreSlowing(depth: f32) -> f32 {
 
 fn shoreFacing(along: f32, steep: f32, bed: f32) -> f32 {
   let slow = shoreSlowing(shoreDepth(bed));
-  let pace = ${f32(1 / DEEP_SPEED)};
+  let pace = SWELL_PACE;
   let ahead = pace + slow * along;
   return ahead / sqrt(pace * pace + 2.0 * pace * slow * along + slow * slow * steep * steep);
 }
@@ -282,7 +284,7 @@ fn sheetDepth(n: f32, tau: f32, bed: f32, shelter: f32) -> f32 {
 }
 
 fn swellLevel(run: f32, bed: f32, facing: f32, seconds: f32) -> f32 {
-  let tau = seconds - run / ${f32(DEEP_SPEED)} - shoreDelay(shoreDepth(bed));
+  let tau = seconds - run * SWELL_PACE - shoreDelay(shoreDepth(bed));
   let shelter = sheltered(facing);
   let n = floor(turnsAt(tau));
   let sheet = max(sheetDepth(n, tau, bed, shelter), sheetDepth(n - 1.0, tau, bed, shelter));
