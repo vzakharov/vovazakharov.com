@@ -1,0 +1,107 @@
+{
+  "total": {
+    "inputTokens": 19,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 59304,
+    "cacheReadTokens": 805571,
+    "outputTokens": 2386,
+    "thinkingTokens": 263,
+    "responses": 8,
+    "costUsd": 0.6833422000000001
+  },
+  "estimate": {
+    "at": "2026-11-12T19:05:10.848Z",
+    "subjectLine": "perf: wait on the cube's GPU stage numbers, then optimize",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "qa",
+        "comment": "checking the every-band gallery look on the cube needs an eye for the approved shaders, inherited from relay-1"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-12T19:05:33.198Z",
+    "contextTokens": 116436,
+    "spend": {
+      "inputTokens": 17,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 58854,
+      "cacheReadTokens": 689587,
+      "outputTokens": 1689,
+      "thinkingTokens": 246,
+      "responses": 7,
+      "costUsd": 0.6425974000000001
+    }
+  },
+  "sessionId": "89b245e4-c40b-58b7-8505-3bc160ae0a60",
+  "branch": "claude/cube-review-perf",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cube-review-perf — замер GPU по стадиям на превью 1, эталон на превью 2, ждём цифр; проба WESL идёт в подсессии",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkFooQx3YpuSjFHqR59",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-12T19:04:53.387Z",
+  "lastResponseAt": "2026-11-12T19:05:33.198Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 19,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 59304,
+    "cacheReadTokens": 805571,
+    "outputTokens": 2386,
+    "thinkingTokens": 263,
+    "responses": 8,
+    "costUsd": 0.6833422000000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 19,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 59304,
+      "cacheReadTokens": 805571,
+      "outputTokens": 2386,
+      "thinkingTokens": 263,
+      "responses": 8,
+      "costUsd": 0.6833422000000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 8,
+    "matched": 8,
+    "matchedTableUsd": 0.6833422000000001,
+    "matchedEventUsd": 0.6833422000000001,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 367,
+    ".json": 30,
+    ".ts": 208,
+    ".tsx": 86,
+    ".scss": 15
+  }
+}
