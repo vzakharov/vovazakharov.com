@@ -3,6 +3,5 @@ export { happening } from './model/happening';
 export {
   type Happening,
   NOTHING,
-  type RoomCue,
   type RoomSound,
 } from './model/staging';

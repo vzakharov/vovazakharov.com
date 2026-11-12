@@ -1,12 +1,13 @@
 import type { Seeded } from '@/kernel/shared/typings';
 
-import type { Footing, Loud } from '@/cube/shared/lib/acoustics';
+import type { Footing, Loud, RoomCue } from '@/cube/shared/lib/acoustics';
 import { clamp01 } from '@/cube/shared/lib/ease';
 import type { InRoom } from '@/cube/entities/world';
 
 import { breath, grunt, jump, landing } from './body';
 import { knock, lever, ring, shrinking, stepsAway, thud } from './fixture';
 import { footstep } from './footstep';
+import { creak, mew, pop, rustle, scrape } from './stirs';
 
 /** Where a sound is for an ear: how far to its right, and how far off. */
 export type Bearing = {
@@ -43,10 +44,6 @@ type Roomed = Seeded & {
   loud: number;
 };
 
-/** The sounds a room makes on its own. */
-export const ROOM_SOUNDS = ['ring', 'knock', 'thud', 'steps-away'] as const;
-export type RoomSound = (typeof ROOM_SOUNDS)[number];
-
 /** Something to be heard once, now. */
 export type SoundCue =
   | { kind: 'step'; strength: number; footing: Footing }
@@ -56,7 +53,7 @@ export type SoundCue =
   | { kind: 'breath'; effort: number }
   | { kind: 'grunt' }
   | { kind: 'shrink' }
-  | (Roomed & { kind: RoomSound });
+  | (Roomed & { kind: RoomCue });
 
 /** Seconds the shrink is heard for. */
 export const SHRINK_SECONDS = 3;
@@ -103,8 +100,23 @@ export function samplesOf(
     case 'thud': {
       return thud(seed, rate);
     }
-    case 'steps-away': {
+    case 'steps': {
       return stepsAway(footing, seed, rate);
+    }
+    case 'creak': {
+      return creak(seed, rate);
+    }
+    case 'rustle': {
+      return rustle(seed, rate);
+    }
+    case 'pop': {
+      return pop(seed, rate);
+    }
+    case 'mew': {
+      return mew(seed, rate);
+    }
+    case 'scrape': {
+      return scrape(seed, rate);
     }
     default: {
       throw new TypeError(`Not a cue: ${String(cue satisfies never)}`);
@@ -132,7 +144,7 @@ const BODILY: ReadonlySet<SoundCue['kind']> = new Set([
   'grunt',
 ]);
 
-const GAINS: Record<Exclude<SoundCue['kind'], RoomSound>, number> = {
+const GAINS: Record<Exclude<SoundCue['kind'], RoomCue>, number> = {
   step: 0.55,
   jump: 0.4,
   landing: 0.8,
@@ -145,7 +157,7 @@ const GAINS: Record<Exclude<SoundCue['kind'], RoomSound>, number> = {
 /** Room sides at which a room's sound has lost half its level. */
 const HALF_AWAY = 0.6;
 
-const isRoomed = (cue: SoundCue): cue is Roomed & { kind: RoomSound } =>
+const isRoomed = (cue: SoundCue): cue is Roomed & { kind: RoomCue } =>
   'from' in cue;
 
 /**

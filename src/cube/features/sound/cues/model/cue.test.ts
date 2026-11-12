@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { ROOM_CUES } from '@/cube/shared/lib/acoustics';
+
 import {
   assertAllDiffer,
   assertAudible,
@@ -8,7 +10,6 @@ import {
 } from '../../dsp/index.test-only';
 import {
   bearingOf,
-  ROOM_SOUNDS,
   samplesOf,
   SHRINK_SECONDS,
   type SoundCue,
@@ -26,7 +27,7 @@ const CUES: readonly SoundCue[] = [
   { kind: 'breath', effort: 0.5 },
   { kind: 'grunt' },
   { kind: 'shrink' },
-  ...ROOM_SOUNDS.map((kind) => ({ kind, from: HERE, loud: 1, seed: 5 })),
+  ...ROOM_CUES.map((kind) => ({ kind, from: HERE, loud: 1, seed: 5 })),
 ];
 
 const near = (actual: number, expected: number) => {

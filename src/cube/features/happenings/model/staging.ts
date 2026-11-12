@@ -1,19 +1,5 @@
-import type { Loud } from '@/cube/shared/lib/acoustics';
+import type { Loud, RoomCue } from '@/cube/shared/lib/acoustics';
 import type { Floored, Quad, Setting, Vec3 } from '@/cube/entities/world';
-
-/** What a room can be heard doing by itself. */
-export const ROOM_CUES = [
-  'ring',
-  'knock',
-  'thud',
-  'steps',
-  'creak',
-  'rustle',
-  'pop',
-  'mew',
-  'scrape',
-] as const;
-export type RoomCue = (typeof ROOM_CUES)[number];
 
 /** A thing that began at a second since the epoch. */
 type Begun = { sinceEpoch: number };

@@ -21,8 +21,11 @@ export type Soundscape = CanDispose & {
    * free, so a frame may call this.
    */
   setPlace: (sound: Sound, scale: number) => void;
-  /** Heard only once unlocked: a cue belongs to its moment and is not kept. */
-  cue: (cue: SoundCue) => void;
+  /**
+   * Heard only once unlocked: a cue belongs to its moment and is not kept.
+   * `into` is how many seconds of it went by before the ear came.
+   */
+  cue: (cue: SoundCue, into?: number) => void;
   /** Samples made elsewhere — the voice's — through this room. */
   play: (samples: Float32Array, sampleRate: number, how?: Played) => void;
 };
@@ -186,6 +189,7 @@ export function createSoundscape(): Soundscape {
     rate: number,
     { loudness = 1, balance = 0, reverb = 0 }: Played,
     playbackRate = 1,
+    into = 0,
   ): void {
     if (rig?.context.state !== 'running') return;
     const { context, master, place } = rig;
@@ -202,7 +206,7 @@ export function createSoundscape(): Soundscape {
       dry.disconnect();
       wet.disconnect();
     });
-    source.start();
+    source.start(0, into * playbackRate);
   }
 
   return {
@@ -234,14 +238,15 @@ export function createSoundscape(): Soundscape {
       here = sound;
       if (moved) settle();
     },
-    cue(cue) {
+    cue(cue, into = 0) {
       if (rig?.context.state !== 'running' || here === undefined) return;
       // A room's sound comes with its seed; the body's own are numbered.
       const seed =
         'seed' in cue ? cue.seed : word(`${cue.kind}/${(cues += 1)}`);
       const rate = rig.context.sampleRate;
       const { playbackRate, ...mix } = voicedOf(cue, size);
-      emit(samplesOf(cue, here.footing, seed, rate), rate, mix, playbackRate);
+      const samples = samplesOf(cue, here.footing, seed, rate);
+      emit(samples, rate, mix, playbackRate, into);
     },
     play(samples, sampleRate, how = {}) {
       emit(samples, sampleRate, how);

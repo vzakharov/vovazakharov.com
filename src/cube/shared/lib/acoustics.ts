@@ -14,6 +14,20 @@ export const FOOTINGS = [
 ] as const;
 export type Footing = (typeof FOOTINGS)[number];
 
+/** What a room can be heard doing by itself, with nobody in it doing it. */
+export const ROOM_CUES = [
+  'ring',
+  'knock',
+  'thud',
+  'steps',
+  'creak',
+  'rustle',
+  'pop',
+  'mew',
+  'scrape',
+] as const;
+export type RoomCue = (typeof ROOM_CUES)[number];
+
 /** How a floor sounds with nobody on it. */
 export type Sound = {
   footing: Footing;
