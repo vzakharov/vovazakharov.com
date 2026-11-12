@@ -216,6 +216,19 @@ the operator's own word for the potted plant in floor 1's room.
 
 ## Facts established
 
+- **The seam (core step 1, 1a311efa, merged into this branch at faedd71d)**: the
+  outside is the shared segment `src/cube/shared/outside/` (barrel
+  `@/cube/shared/outside`), one file per name, each package replacing its own:
+  `island-height.ts` (sand), `water-level.ts` (sea), `cube-shadow.ts` (shell),
+  `sky.ts` + `aerial.ts` (sky), `frame.ts`, `sun.ts`, `outdoor-frame.ts`,
+  `stage.ts` (core). WGSL pieces moved to `@/cube/shared/lib/wgsl`, the hash to
+  `@/cube/shared/lib/wgsl-hash`. The eye is `Whereabouts = Pose | Outside` in
+  `@/cube/entities/world`. A layer is `pages/cube/ui/<name>-layer.ts`, a
+  `LayerMaker` from `outdoor-layer.ts`, its shader roots in
+  `pages/cube/lib/outdoor-shaders.ts`. Every package was told to merge it.
+  Core's steps 2–4 (renderer takes layers and an outside eye, the frame script,
+  the outside lens) are in flight; `sun.ts` still held 8° toward +z at that
+  head.
 - **The island (sand, `claude/cube-intro-sand` @ 04a800ac)**: the cube's centre
   is over W xz = (0, 0), the crest, sand 1.6 m; `CUBE_AT = (−2.5, 5.2, −2.5)`,
   underside y = 2.7, the doorway at x = 2.5, z −2.226…−1.256, sill y = 5.2.
