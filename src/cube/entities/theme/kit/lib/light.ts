@@ -210,7 +210,7 @@ fn lampGlow(s: Surf, lamps: Lamps) -> vec3f {
 /// How much of a polished floor's relief bends what it mirrors.
 const RIPPLE = 0.15;
 
-/// How many metres a mirrored panel's edge blurs per metre the mirrored ray
+/// How many metres a floor's reflection blurs per metre the mirrored ray
 /// runs, on a floor of no gloss at all.
 const BLUR = 0.15;
 

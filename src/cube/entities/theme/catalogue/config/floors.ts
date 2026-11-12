@@ -29,7 +29,7 @@ const DESIGNED: Floors = {
   ),
 };
 
-/** Floor `n`'s theme; a floor the building does not have has none, and throws. */
+/** Floor `n`'s theme; throws on a floor the building does not have. */
 export function themeOf(n: number): FloorTheme {
   const theme = DESIGNED[n];
   if (theme === undefined)

@@ -15,9 +15,8 @@ import {
 } from './reflection-shader';
 
 /**
- * The formats the scene pass writes after its light: a point's mirror —
- * the lamps' light standing in for its reflection, and the share it shows —
- * then the plane it reflects off and how fast the reflection blurs.
+ * The formats the scene pass writes after its light, in the order of the
+ * `Scene` its fragment stages return (`../lib/shader.ts`): mirror, then plane.
  */
 export const MIRROR_FORMATS = [
   'rgba16float',
