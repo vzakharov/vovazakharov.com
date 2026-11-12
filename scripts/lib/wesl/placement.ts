@@ -27,7 +27,7 @@ function unitChain(file: string): string[] {
 }
 
 /** How an allowed import enters its target. */
-export type Entry = {
+type Entry = {
   /**
    * The unit whose barrel it goes through, or `undefined` when the target
    * shares the importer's unit and is reached directly.
