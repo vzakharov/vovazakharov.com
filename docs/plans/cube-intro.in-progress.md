@@ -263,6 +263,29 @@ the operator's own word for the potted plant in floor 1's room.
   The look-under scene is cut; walk was told. The scenes left are waking, the
   climb and the climb back down.
 
+- **2026-11-12 ~23:02Z, the ladder vanishes**:
+
+  > давай лестница исчезает после того как ты забрался. без каких бы то там
+  > анимаций, эффектов, звуков. просто поворачиваешься -- и нет. выбраться
+  > можно, спрыгнув (и не пострадав), но забраться обратно уже нет. выбраться
+  > можно и половинного роста, кстати, если выпьешь таблетку и не спустишься на
+  > уровень ниже
+
+  Decided: the ladder and its shadow are drawn until the body first crosses the
+  doorway inward and never after; a game that starts inside has none. Stepping
+  off the sill drops the body 3.6 m to the sand unhurt, at full or half height;
+  no way back in. The climb-down scene is gone. Told to walk, shell, core,
+  sound.
+
+- **2026-11-12 ~23:03Z, lettering** (after learning the signs and posters are
+  lettered on a canvas because WebGPU draws no text):
+
+  > запишите на доску в todo, чтоб рисовал. так будет интереснее и их "распад"
+  > по мере спуска на нижние этажи делать
+
+  A todo on the board, sent to the board session: letters drawn in the shader,
+  so their decay down the floors can be a procedure. Not part of this run.
+
 ## Facts established
 
 - **The seam (core step 1, 1a311efa, merged into this branch at faedd71d)**: the
