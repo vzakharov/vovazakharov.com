@@ -1,0 +1,157 @@
+{
+  "total": {
+    "inputTokens": 8537,
+    "cacheWrite5mTokens": 1012,
+    "cacheWrite1hTokens": 413201,
+    "cacheReadTokens": 16268016,
+    "outputTokens": 196880,
+    "thinkingTokens": 95521,
+    "responses": 82,
+    "costUsd": 17.818435200000003
+  },
+  "estimate": {
+    "at": "2026-11-12T23:12:03.902Z",
+    "subjectLine": "feat: the island's sky — atmosphere, clouds, sun and the light they give",
+    "parts": [
+      {
+        "hours": 60.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "a physically based atmosphere fitted to a closed form, and volumetric clouds marched every frame with no texture, inside a 3 ms budget"
+      },
+      {
+        "hours": 24.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "cloud shapes, lighting and the sunset look need an eye, frame after frame"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-12T22:29:07.964Z",
+    "contextTokens": 117478,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 39837,
+      "cacheReadTokens": 144806,
+      "outputTokens": 1052,
+      "thinkingTokens": 303,
+      "responses": 2,
+      "costUsd": 0.7084652
+    }
+  },
+  "sessionId": "6b8034ba-c4b8-59d8-8cc5-6a3f2ce5d94f",
+  "branch": "claude/cube-intro-sky",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a larger build run under this repo's `/carte-blanche` mode. Read first, in this order: `.claude/skills/carte-blanche/SKILL.md` (§ \"Th…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCV3DtK2zJnjgNqmMD",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-12T22:28:53.640Z",
+  "lastResponseAt": "2026-11-12T23:12:25.966Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 159,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 413201,
+    "cacheReadTokens": 15971809,
+    "outputTokens": 188730,
+    "thinkingTokens": 95521,
+    "responses": 81,
+    "costUsd": 17.356049800000005
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 8537,
+      "cacheWrite5mTokens": 1012,
+      "cacheWrite1hTokens": 413201,
+      "cacheReadTokens": 16268016,
+      "outputTokens": 196880,
+      "thinkingTokens": 95521,
+      "responses": 82,
+      "costUsd": 17.818435200000003
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-12T23:01:02.829Z",
+      "trigger": "auto",
+      "compactedFrom": 306025,
+      "summaryChars": 18069,
+      "reorientation": {
+        "endedBy": "Write",
+        "endedOn": "src/cube/shared/sky/sky-fit.ts",
+        "endedAt": "2026-11-12T23:06:38.811Z",
+        "contextTokens": 170331,
+        "spend": {
+          "inputTokens": 31,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 109528,
+          "cacheReadTokens": 1919589,
+          "outputTokens": 25107,
+          "thinkingTokens": 19639,
+          "responses": 15,
+          "costUsd": 3.1408937999999997
+        }
+      },
+      "rereads": {
+        "calls": 2,
+        "byTool": {
+          "Read": 2
+        },
+        "estimatedTokens": 1818,
+        "estimatedUsd": 0.03816839999999999
+      },
+      "billedUsd": 0.46238539999999995
+    }
+  ],
+  "telemetry": {
+    "events": 82,
+    "matched": 81,
+    "matchedTableUsd": 17.356049800000005,
+    "matchedEventUsd": 17.356049800000005,
+    "unseen": {
+      "compact": {
+        "inputTokens": 8378,
+        "cacheWrite5mTokens": 1012,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 296207,
+        "outputTokens": 8150,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.46238539999999995
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1888,
+    ".json": 30,
+    ".yaml": 48,
+    ".ts": 4574,
+    ".tsx": 86,
+    ".scss": 15
+  }
+}
