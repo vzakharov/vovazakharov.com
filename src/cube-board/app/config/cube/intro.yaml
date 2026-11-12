@@ -112,7 +112,7 @@ items:
     text: 'Before any frame of ours: Vova’s own sketch over floor 1’s room, rays from the top of the door down onto the floor round the hole. “The sunlight’s direction should probably be something like this”'
   - id: intro-sun-note
     type: sticky
-    updated: [2026-11-12T22:55:00.000Z, agent:cube-intro]
+    updated: [2026-11-12T23:05:00.000Z, agent:cube-intro]
     box: [6208, 550, 280, gray]
     icon: 📐
-    text: 'What the sketch changed (the lead): the first design had the sun 9° up, shining almost square through the doorway and ending low on the far wall. Now it stands 17° up and 31° off the doorway’s normal. The sketch’s own ~30° was not taken: a sun that high is mid-afternoon, and sea and sky lose their gold'
+    text: 'What the sketch changed (the lead): the first design had the sun shining almost square through the doorway and ending low on the far wall. The sketch gives the direction across the floor, so the sun now stands 31° off the doorway’s normal. Vova measured no height in it: the 17° the sun stands up is the lead’s own pick, low enough to keep sea and sky gold'
