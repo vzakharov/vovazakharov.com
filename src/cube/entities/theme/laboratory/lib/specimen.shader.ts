@@ -40,7 +40,13 @@ fn shards(p: vec2f, salt: u32) -> vec4f {
       }
     }
   }
-  return vec4f(second - first, unitOf(mix32(nearest ^ 0xa5a5a5a5u)), unitOf(mix32(nearest ^ 0x3c3c3c3cu)), first);
+  return
+    vec4f(
+      second - first,
+      unitOf(mix32(nearest ^ 0xa5a5a5a5u)),
+      unitOf(mix32(nearest ^ 0x3c3c3c3cu)),
+      first,
+    );
 }
 `,
   HASH,

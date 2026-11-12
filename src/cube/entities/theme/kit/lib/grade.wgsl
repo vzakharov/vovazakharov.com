@@ -25,11 +25,8 @@ fn tonemap(colour: vec3f) -> vec3f {
 /// the corners.
 fn through(l: Lens, glow: f32, fringe: f32) -> vec3f {
   let off = (l.uv - 0.5) * fringe * dot(l.uv - 0.5, l.uv - 0.5) * 4.0;
-  let scene = vec3f(
-    sceneAt(l.uv + off).r,
-    sceneAt(l.uv).g,
-    sceneAt(l.uv - off).b,
-  );
+  let scene =
+    vec3f(sceneAt(l.uv + off).r, sceneAt(l.uv).g, sceneAt(l.uv - off).b);
   return scene + glowAt(l.uv) * glow;
 }
 

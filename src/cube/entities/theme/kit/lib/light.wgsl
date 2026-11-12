@@ -18,7 +18,7 @@ struct Lamps {
   /// The share of rooms whose lamps stutter: lit ones dip, failed ones try
   /// to start.
   stutter: f32,
-};
+}
 
 /// The shared clock's ticks in a second, in an hour, and in a stuttering
 /// room's four-second spell.
@@ -101,7 +101,10 @@ fn lampMask(at: vec2f, grid: i32, size: vec2f) -> f32 {
 fn lampBlur(at: vec2f, grid: i32, size: vec2f, soft: f32) -> f32 {
   let half = 0.5 * max(soft, 0.03);
   let spread = size / (size + vec2f(soft));
-  return (1.0 - smoothstep(-half, half, panelEdge(at, grid, size))) * spread.x * spread.y;
+  return
+    (1.0 - smoothstep(-half, half, panelEdge(at, grid, size)))
+      * spread.x
+      * spread.y;
 }
 
 /// How far ceiling point `at` lies outside the nearest of `grid` panels a
@@ -134,11 +137,12 @@ fn lampReach(s: Surf, normal: vec3f, gloss: f32, lamps: Lamps) -> vec3f {
       let across = east != 0 && south != 0;
       for (var i = 0; i < lamps.grid; i++) {
         for (var j = 0; j < lamps.grid; j++) {
-          let lamp = vec3f(
-            (f32(east * lamps.grid + i) + 0.5) * pitch.x,
-            ROOM.y - 0.05,
-            (f32(south * lamps.grid + j) + 0.5) * pitch.y,
-          );
+          let lamp =
+            vec3f(
+              (f32(east * lamps.grid + i) + 0.5) * pitch.x,
+              ROOM.y - 0.05,
+              (f32(south * lamps.grid + j) + 0.5) * pitch.y,
+            );
           let to = lamp - s.p;
           let h2 = dot(to.xz, to.xz);
           let span = 1.0 - h2 * h2 / (ROOM.x * ROOM.x * ROOM.x * ROOM.x);
@@ -154,9 +158,15 @@ fn lampReach(s: Surf, normal: vec3f, gloss: f32, lamps: Lamps) -> vec3f {
           var glint = 0.0;
           if (glinting) {
             let half = normalize(l - s.view);
-            glint = pow(max(dot(normal, half), 0.0), power) * (power + 8.0) / 25.0;
+            glint =
+              pow(max(dot(normal, half), 0.0), power) * (power + 8.0) / 25.0;
           }
-          sum += vec3f(facing * falloff, facing * glint * falloff, shine / (1.0 + 0.35 * h2));
+          sum +=
+            vec3f(
+              facing * falloff,
+              facing * glint * falloff,
+              shine / (1.0 + 0.35 * h2),
+            );
         }
       }
     }
@@ -204,8 +214,10 @@ const GLARE = 8.0;
 
 /// What a ceiling gives off at the point: the lamps' glare inside a panel.
 fn lampGlow(s: Surf, lamps: Lamps) -> vec3f {
-  return lamps.colour * (GLARE * lampMask(s.p.xz, lamps.grid, lamps.size)
-    * lampLevel(s, vec2i(0), litOf(s), lamps.stutter));
+  return
+    lamps.colour * (GLARE
+      * lampMask(s.p.xz, lamps.grid, lamps.size)
+      * lampLevel(s, vec2i(0), litOf(s), lamps.stutter));
 }
 
 /// How much of a polished floor's relief bends what it mirrors.
@@ -231,8 +243,10 @@ fn roomLight(s: Surf, m: Material, lamps: Lamps) -> vec3f {
   // A polished thing mirrors more the more it is looked along.
   let along = pow(1.0 - max(dot(normal, -s.view), 0.0), 5.0);
   let mirror = m.gloss * (0.04 + 0.96 * along);
-  let colour = m.albedo * light * shade + m.emission
-    + lamps.colour * (reach.y * mirror * shade);
+  let colour =
+    m.albedo * light * shade
+      + m.emission
+      + lamps.colour * (reach.y * mirror * shade);
   if (m.gloss > 0.0 && s.normal.y > 0.9) {
     // The floor mirrors off its plane, its relief only rippling what it
     // shows: relief steep at every joint between boards would throw single
@@ -246,8 +260,10 @@ fn roomLight(s: Surf, m: Material, lamps: Lamps) -> vec3f {
       // Past the rooms around, the ceiling mirrored is taken for theirs.
       let by = clamp(vec2i(floor(hit.xz / ROOM.xz)), vec2i(-1), vec2i(1));
       let soft = blur * length(hit - s.p);
-      fallback = lamps.colour * (GLARE * lampsBeside(s, by, lamps.stutter))
-        * lampBlur(hit.xz, lamps.grid, lamps.size, soft);
+      fallback =
+        lamps.colour
+          * (GLARE * lampsBeside(s, by, lamps.stutter))
+          * lampBlur(hit.xz, lamps.grid, lamps.size, soft);
     }
     mirroring = Mirror(mirror, plane, blur, fallback);
   }

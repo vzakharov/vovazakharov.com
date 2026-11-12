@@ -12,15 +12,28 @@ fn painted(s: Surf, fallback: vec3f) -> vec3f {
 /// A floor the viewer bought: `m` with a brass line inlaid round the room.
 fn ownedMark(s: Surf, m: Material) -> Material {
   let line = 1.0 - smoothstep(0.02, 0.024, abs(toNearestSide(s) - 0.3));
-  let brass = vec3f(0.62, 0.43, 0.14) * (0.85 + 0.3 * valueNoise(s.uv * 200.0, 36u));
-  return Material(mix(m.albedo, brass, line), m.emission, mix(m.gloss, 0.7, line), m.relief);
+  let brass =
+    vec3f(0.62, 0.43, 0.14) * (0.85 + 0.3 * valueNoise(s.uv * 200.0, 36u));
+  return
+    Material(
+      mix(m.albedo, brass, line),
+      m.emission,
+      mix(m.gloss, 0.7, line),
+      m.relief,
+    );
 }
 
 fn stuff(s: Surf) -> Material {
   let fine = valueNoise(s.uv * 90.0, 31u);
   switch s.kind {
     case PLATE: {
-      return embossed(s, polished(vec3f(0.07, 0.08, 0.09) * (0.85 + 0.3 * fine), 0.45), fine, 0.0006);
+      return
+        embossed(
+          s,
+          polished(vec3f(0.07, 0.08, 0.09) * (0.85 + 0.3 * fine), 0.45),
+          fine,
+          0.0006,
+        );
     }
     case HANDLE: {
       return polished(painted(s, vec3f(0.5, 0.03, 0.025)), 0.6);
@@ -44,7 +57,8 @@ fn stuff(s: Surf) -> Material {
     }
     case SCREEN: {
       let frame = u32(s.time * 24.0);
-      let snow = unitOf(hashOf(cellHash(vec2i(floor(s.uv * 160.0)), s.seed), frame));
+      let snow =
+        unitOf(hashOf(cellHash(vec2i(floor(s.uv * 160.0)), s.seed), frame));
       let lit = painted(s, vec3f(0.7, 0.75, 0.8)) * (0.25 + 0.75 * snow);
       return Material(vec3f(0.01), lit, 0.8, vec3f(0.0));
     }
@@ -59,7 +73,8 @@ fn stuff(s: Surf) -> Material {
       return polished(painted(s, vec3f(0.02, 0.02, 0.02)), 0.15);
     }
     case SKIN: {
-      return polished(painted(s, vec3f(0.6, 0.4, 0.3)) * (0.95 + 0.08 * fine), 0.2);
+      return
+        polished(painted(s, vec3f(0.6, 0.4, 0.3)) * (0.95 + 0.08 * fine), 0.2);
     }
     default: {
       return matte(painted(s, vec3f(0.5, 0.5, 0.48)) * (0.92 + 0.1 * fine));

@@ -15,7 +15,11 @@ fn sideWord(s: Surf, side: u32) -> u32 {
 fn wallWord(s: Surf) -> u32 {
   let eastWest = select(0u, 2u, s.normal.x > 0.0);
   let northSouth = select(1u, 3u, s.normal.z > 0.0);
-  return sideWord(s, select(northSouth, eastWest, abs(s.normal.x) > abs(s.normal.z)));
+  return
+    sideWord(
+      s,
+      select(northSouth, eastWest, abs(s.normal.x) > abs(s.normal.z)),
+    );
 }
 
 /// How far \`p\` is outside a box \`half\` each way from the origin; negative inside.
@@ -63,7 +67,7 @@ struct Board {
   word: f32,
   /// Metres along and across the board, from a start of its own.
   at: vec2f,
-};
+}
 
 /// Boards \`width\` across and \`length\` long, laid along x, each row's joints
 /// where its own roll puts them.
@@ -90,7 +94,8 @@ fn herringbone(uv: vec2f, width: f32, ratio: i32, salt: u32) -> Board {
     id = vec2i(i, j - up);
   }
   let word = unitOf(cellHash(id, salt + select(0u, 1u, turn >= ratio)));
-  let edge = min(min(local.x, f32(ratio) - local.x), min(local.y, 1.0 - local.y));
+  let edge =
+    min(min(local.x, f32(ratio) - local.x), min(local.y, 1.0 - local.y));
   return Board(edge * width, word, local * width + word * 37.0);
 }
 

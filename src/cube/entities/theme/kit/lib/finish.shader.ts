@@ -26,10 +26,11 @@ fn tiling(uv: vec2f, size: f32, joint: f32, salt: u32) -> vec2f {
   let at = uv / size;
   let f = fract(at);
   let edge = min(min(f.x, 1.0 - f.x), min(f.y, 1.0 - f.y)) * size;
-  return vec2f(
-    smoothstep(joint * 0.5, joint * 0.5 + 0.003, edge),
-    unitOf(cellHash(vec2i(floor(at)), salt)),
-  );
+  return
+    vec2f(
+      smoothstep(joint * 0.5, joint * 0.5 + 0.003, edge),
+      unitOf(cellHash(vec2i(floor(at)), salt)),
+    );
 }
 
 /// Carpet: pile too fine to count, worn in paths that cross rooms.

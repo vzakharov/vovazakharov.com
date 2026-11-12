@@ -123,6 +123,7 @@
     "mdast-util-directive": "^3.1.0",
     "node-taglib-sharp": "^6.0.3",
     "prettier": "^3.6.2",
+    "prettier-plugin-wgsl": "0.1.14",
     "sass": "^1.103.1",
     "steiger": "^0.6.0",
     "stylelint": "^17.14.1",

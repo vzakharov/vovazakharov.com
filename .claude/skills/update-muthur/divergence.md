@@ -13,6 +13,12 @@ record" holds the three rules this file keeps.
   `scripts/vet.sh`, `.claude/rules/stack.md`, `.gitignore`, `.prettierignore`
   and `.prettierrc.json`. A source edit to any of them is read for the idea; the
   file never lands.
+- **Prettier formats `.wgsl` here, through a local plugin**:
+  `scripts/prettier-wesl.ts`, named in `.prettierrc.json`'s `plugins`, hands the
+  body to `prettier-plugin-wgsl` and keeps the WESL `import` head as written,
+  which that plugin cannot parse. The source has no shaders; a source change to
+  Prettier's setup is merged around the plugin, and `pnpm format` then covers
+  the shaders with everything else.
 - **The cost rows count the human share, ahead of the source**: `operatorWords`
   as `{chat, review, threads}` with `reviewPosts` and `threadPosts`,
   `branchLines`, `estimate.subjectLine`, `.claude/costs/contribution.py`,

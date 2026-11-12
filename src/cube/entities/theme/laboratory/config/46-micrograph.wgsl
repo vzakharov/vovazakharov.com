@@ -38,7 +38,8 @@ fn scales(s: Surf) -> Material {
   let near = 1.0 / (1.0 + s.far * s.far / 6.0);
   let ridge = 0.5 + 0.5 * near * sin((at.x + 0.02 * unitOf(word)) * 75.0);
   let torn = step(0.93, unitOf(word));
-  let height = mix((1.0 - 0.7 * tip + 0.12 * ridge) * (1.0 - 0.8 * torn), 0.2, under);
+  let height =
+    mix((1.0 - 0.7 * tip + 0.12 * ridge) * (1.0 - 0.8 * torn), 0.2, under);
   let m = matte(vec3f(0.16 + 0.3 * height + 0.1 * ridge * (1.0 - under)));
   return embossed(s, m, height, 0.06);
 }
@@ -48,15 +49,25 @@ fn grains(s: Surf) -> Material {
   let piece = shards(s.uv * 2.8, 462u);
   let crack = 1.0 - smoothstep(0.0, 0.05, piece.x);
   let etched = fbm(s.uv * 30.0 + piece.y * 20.0, 463u, 3);
-  let m = glowing(vec3f(0.25 + 0.3 * piece.y + 0.1 * etched) * (1.0 - 0.7 * crack), lampGlow(s, lamps()));
+  let m =
+    glowing(
+      vec3f(0.25 + 0.3 * piece.y + 0.1 * etched) * (1.0 - 0.7 * crack),
+      lampGlow(s, lamps()),
+    );
   return embossed(s, m, piece.z + 0.1 * etched - crack, 0.04);
 }
 
 fn themeMaterial(s: Surf) -> Material {
   switch s.kind {
-    case WALL: { return scales(s); }
-    case FLOOR, OWNED: { return sieve(s); }
-    case CEILING: { return grains(s); }
+    case WALL: {
+      return scales(s);
+    }
+    case FLOOR, OWNED: {
+      return sieve(s);
+    }
+    case CEILING: {
+      return grains(s);
+    }
     case TRIM: {
       // A bundle of fibres, twisted.
       let fibre = 0.5 + 0.5 * sin((s.uv.x + 0.12 * s.uv.y) * 260.0);
@@ -64,7 +75,13 @@ fn themeMaterial(s: Surf) -> Material {
     }
     default: {
       let m = stuff(s);
-      return Material(vec3f(luma(m.albedo) + 0.15), vec3f(luma(m.emission)), 0.0, m.relief);
+      return
+        Material(
+          vec3f(luma(m.albedo) + 0.15),
+          vec3f(luma(m.emission)),
+          0.0,
+          m.relief,
+        );
     }
   }
 }
@@ -82,7 +99,11 @@ fn themeLight(s: Surf, m: Material) -> vec3f {
   let detector = max(dot(normal, normalize(vec3f(0.35, 0.8, 0.45))), 0.0);
   let reach = lampReach(s, s.normal, 0.0, lamps());
   let gain = 0.3 + 0.7 * clamp(reach.z * 0.9, 0.0, 1.0);
-  let signal = luma(m.albedo) * (0.14 + 1.2 * edge * edge + 0.4 * detector) * gain * cornerShade(s);
+  let signal =
+    luma(m.albedo)
+      * (0.14 + 1.2 * edge * edge + 0.4 * detector)
+      * gain
+      * cornerShade(s);
   return haze(vec3f(signal) + m.emission, s, AIR, 32.0);
 }
 
@@ -98,15 +119,27 @@ fn themeLens(l: Lens) -> vec3f {
   let shot = grain(l) * 0.07 * (0.4 + seen);
   var grey = seen * scan * vignette(l, 0.25) + shot;
   let bar = step(0.925, l.uv.y);
-  let rule = step(abs(l.uv.x - 0.82), 0.09) * step(abs(l.uv.y - 0.965), 0.004)
-    + step(abs(abs(l.uv.x - 0.82) - 0.09), 0.0012) * step(abs(l.uv.y - 0.965), 0.012);
+  let rule =
+    step(abs(l.uv.x - 0.82), 0.09) * step(abs(l.uv.y - 0.965), 0.004) + step(
+      abs(abs(l.uv.x - 0.82) - 0.09),
+      0.0012,
+    ) * step(abs(l.uv.y - 0.965), 0.012);
   // Where the readings are printed: blocks the size of letters, in words.
-  let glyph = vec2f(l.uv.x * l.size.x / (l.size.y * 0.011), (l.uv.y - 0.95) / 0.03);
+  let glyph =
+    vec2f(l.uv.x * l.size.x / (l.size.y * 0.011), (l.uv.y - 0.95) / 0.03);
   let word = floor(glyph.x / 7.0);
-  let inked = step(0.03, l.uv.x) * step(l.uv.x, 0.62) * step(0.0, glyph.y) * step(glyph.y, 1.0)
-    * step(0.25, fract(glyph.x)) * step(fract(glyph.x / 7.0), 0.8)
-    * step(0.3, unitOf(hashOf(u32(glyph.x), u32(word) + u32(floor(glyph.y * 5.0)))))
-    * step(unitOf(hashOf(u32(word), 46u)), 0.75);
+  let inked =
+    step(0.03, l.uv.x)
+      * step(l.uv.x, 0.62)
+      * step(0.0, glyph.y)
+      * step(glyph.y, 1.0)
+      * step(0.25, fract(glyph.x))
+      * step(fract(glyph.x / 7.0), 0.8)
+      * step(
+        0.3,
+        unitOf(hashOf(u32(glyph.x), u32(word) + u32(floor(glyph.y * 5.0)))),
+      )
+      * step(unitOf(hashOf(u32(word), 46u)), 0.75);
   grey = mix(grey, 0.02 + 0.85 * clamp(rule + inked, 0.0, 1.0), bar);
   return vec3f(grey);
 }

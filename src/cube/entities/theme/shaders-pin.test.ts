@@ -7,84 +7,96 @@ import { HONEYCOMB, LUMA, MATH, type Wgsl } from './kit';
 
 /**
  * Each floor's theme source as `assemble()` wrote it before its pieces moved
- * into `.wgsl` files, hashed: the move is pinned byte for byte, and every
- * difference it was allowed is undone below by name before the hash is taken.
+ * into `.wgsl` files, hashed as `tokens()` reads it: the move is pinned token
+ * for token, and every difference it was allowed is undone below by name
+ * before the hash is taken.
  */
 const BEFORE = [
-  '6865ab8650f0fb65',
-  '4521dfaee3ffd613',
-  '208e8df65862cb0e',
-  '28a826cfee1ce77b',
-  '41150e5faf3bbc39',
-  'c79cb82068faeca5',
-  'ec270d3bd671199f',
-  'b4d2636b02c487a9',
-  '89716d81e20e7f5a',
-  'e87200ccf7bd17ac',
-  '7ffc7476cacb9854',
-  '5cf0dd899c5d7746',
-  'ff4fc56301bee03e',
-  '23233b55beae2370',
-  'c2d20c497e77c688',
-  '9f99fe4a803613aa',
-  '4f32754fde8e7def',
-  '81489e7e4c086f98',
-  'bc918f4f6e894a4d',
-  'd7045222663730ca',
-  'c6b5bd33dea88a86',
-  '45c8a004fcb9ac87',
-  '5242298426861816',
-  'beddd11b8ef7fdb6',
-  'f47d50ab05c0ecd7',
-  '7d5c73fce9b7528f',
-  'f037b6db03f8fd7a',
-  'b5f4b10bc892a672',
-  '246787f4e9153d00',
-  'a0329fb7bd338259',
-  'b9472c2d7f2ba88f',
-  '06040a1e6dbe443e',
-  '605bc4cdb2c5999a',
-  'ac17bf1d39b21d55',
-  'ddc6a37fd0c5a6bd',
-  '2881a4577449688c',
-  'ca359383f7f536c1',
-  'd908f94908bfe445',
-  '9750671e98e3e84b',
-  '81309e545a42521b',
-  '4cdc42ea9a8d5fef',
-  '6086f2a7b4754c70',
-  'a064f689bf413447',
-  '695a124e9f2191de',
-  'a11906683b5084c8',
-  'f6e2a2b6b0aa6b8e',
-  '118ed099413120a8',
-  '1d00212554420097',
-  '0227f48f45622d32',
-  '59c74e034ec235fb',
-  '821b6871c8146739',
-  '4429d674ed4344f6',
-  '3779efd4537ba503',
-  '18578027a5fc24a5',
-  '50b9a31f7688caa0',
-  '54168e31c5a92815',
-  'aea07feb41a9140d',
-  '201190bc12ac83b7',
-  '494fcaa2df2c3190',
-  '85a098d0d958d42b',
-  'efd9301b821a3c09',
-  '2fb5532dd41b9f77',
-  'ce6bacb97bc61b88',
-  '863441e521b3b9ea',
-  '4fa27981297f2c39',
-  'e59a8124cdf6d584',
+  '11734e33ae22ae91',
+  '0f9fb9af67413ce8',
+  '012f51e1483ea820',
+  'e59120d75f3291c3',
+  '7430ccca27886128',
+  '189caf38c5b446fe',
+  'da3972c33ab3ab7f',
+  'ec574229855fc012',
+  'a6ed1a9aa5cdeafa',
+  'fae96d1686ccc20e',
+  '21f39e9b748fbd53',
+  '896d92645d777f58',
+  '4948ba173bf2e188',
+  '052dbd6d68ab93c1',
+  'eea2a0964be98e8b',
+  'd2a199b81d5acb35',
+  'c0ecd6813d4fa24b',
+  '32e0db67e15444a1',
+  'cb6f91d074688f55',
+  '3124ead42cc9d2bc',
+  '3f1379c8a6e22c2d',
+  'b9c4bce2cc576b58',
+  '093d9cc1eb3f9d15',
+  'a71eda0149a50967',
+  '65d94f1ec72956f2',
+  '7539ebe62645698f',
+  '480f3bb8dc68a36e',
+  '5ae0ebcd56cfa9f7',
+  '9cef64e54db419c0',
+  '933cb53ebce7aa0a',
+  '1a2964f68f49c241',
+  '6e393c3ca46b99be',
+  'e5d486f49ba3e4b3',
+  'c80b4c701dc421d2',
+  '5a0bf239eba5c437',
+  '2ec4bd4c77af550c',
+  'f657825636a2bf45',
+  '081f334e42a99b7a',
+  '1be917a6cae38121',
+  '68d1638600d3025a',
+  '8b144e5481c212bb',
+  '44a1fac55d329b1c',
+  '441b6ff01a267cf5',
+  '233a4da9f5d28c82',
+  '8636b929e82eb532',
+  'bf14a24ea7102263',
+  '2fddee1d1bbdc50d',
+  '20f348f7cbf3521b',
+  '77d55ba74d410499',
+  '05e845bbbbd2f431',
+  'b717320e4b9238d4',
+  '774580ebeb856b6e',
+  'e32bc018a92e54d2',
+  'b968fa778751c0be',
+  'a2fd982ccbd94eab',
+  'b8b9f19fed0a2621',
+  'b9ee687943aca8e8',
+  'cc0802ce06941178',
+  'ec322cc4a55cf7c1',
+  '034a1987232ccd99',
+  '87cac382427f8fe1',
+  '28c24d9cc031a58e',
+  'e7247790010a1a36',
+  '0dafcd6b5333c733',
+  'f8f9ad22c528eb10',
+  'bb301383b35429be',
 ];
 
 const piece = ({ listing }: Wgsl): string => `${listing.trim()}\n\n`;
 
-/** `source` with `now`, found exactly once, put back to `then`. */
+/**
+ * `text` without its layout, which Prettier owns: no whitespace, no trailing
+ * comma, and no `;` after a struct's closing brace.
+ */
+const tokens = (text: string): string =>
+  text
+    .replaceAll(/\s+/g, '')
+    .replaceAll(/,(?=[)}])/g, '')
+    .replaceAll('};', '}');
+
+/** `source`, as `tokens()` reads it, with `now`, found exactly once, put back to `then`. */
 function undo(source: string, now: string, then: string): string {
-  assert.equal(source.split(now).length, 2, `not found once: ${now}`);
-  return source.replace(now, () => then);
+  const was = tokens(now);
+  assert.equal(source.split(was).length, 2, `not found once: ${now}`);
+  return source.replace(was, () => tokens(then));
 }
 
 /** `source` with each of `pairs`' first, where it occurs, put back to its second. */
@@ -94,7 +106,7 @@ function undoAll(
 ): string {
   let then = source;
   for (const [now, before] of pairs) {
-    if (then.includes(now)) then = undo(then, now, before);
+    if (then.includes(tokens(now))) then = undo(then, now, before);
   }
   return then;
 }
@@ -122,7 +134,7 @@ const NAMED: ReadonlyArray<readonly [string, string]> = [
 ];
 
 /** A kit piece's text as it stood before its numbers took names. */
-const pieceThen = (kit: Wgsl): string => undoAll(piece(kit), NAMED);
+const pieceThen = (kit: Wgsl): string => undoAll(tokens(piece(kit)), NAMED);
 
 /** The bathroom's own lattice, which the kit's honeycomb replaced. */
 const HEXAGON = `/// The hexagon of a unit-wide honeycomb a point is in: xy from its middle,
@@ -181,7 +193,7 @@ function micrograph(source: string): string {
 
 const asBefore = (n: number, named: string): string => {
   const moved = calling[n];
-  const source = undoAll(named, NAMED);
+  const source = undoAll(tokens(named), NAMED);
   if (n === 12) return bathroom(source);
   if (n === 46) return laboratory(micrograph(source), moved ?? []);
   return moved === undefined ? source : laboratory(source, moved);
