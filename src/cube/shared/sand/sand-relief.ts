@@ -1,3 +1,5 @@
+import { pathHash, roll, rollWith } from '@/dice/shared/roll';
+
 import { wgsl } from '../lib/wgsl';
 import { HASH } from '../lib/wgsl-hash';
 
@@ -28,9 +30,19 @@ const HUMMOCKS = 0.05;
 
 const TURN = 2 * Math.PI;
 
+const hash = pathHash('0');
+
+/** What every per-pixel hash of the sand is salted with. */
+const { salt: SALT } = rollWith(
+  roll.struct({ salt: roll.uniform(0, 2 ** 31) }),
+  (path) => hash(`island/sand/${path}`),
+);
+
 export const SAND_RELIEF = wgsl(
   'sand-relief',
   /* wgsl */ `
+const SAND_SALT = ${Math.floor(SALT)}u;
+
 /// Smooth noise in [0, 1) with its slope: x the value, yz its gradient in \`p\`.
 fn noised(p: vec2f, salt: u32) -> vec3f {
   let cell = vec2i(floor(p));
@@ -80,8 +92,8 @@ fn sandDryness(h: f32) -> f32 {
 
 /// The hummocks: what feet, rain and wind leave between the dunes.
 fn sandHummocks(xz: vec2f, h: f32) -> Relief {
-  let broad = fbmd(xz / 2.6, 0x51u, 2);
-  let close = fbmd(xz / 0.55, 0x57u, 3);
+  let broad = fbmd(xz / 2.6, SAND_SALT + 0x51u, 2);
+  let close = fbmd(xz / 0.55, SAND_SALT + 0x57u, 3);
   let stand = ${HUMMOCKS} * (0.25 + 0.75 * sandDryness(h));
   return Relief(
     stand * (0.7 * broad.x + 0.3 * close.x - 0.5),
@@ -97,10 +109,12 @@ fn rippleTrain(xz: vec2f, dir: vec2f, wavelength: f32, salt: u32) -> vec3f {
   // Where crests of two neighbouring runs do not meet, one forks or ends: a
   // step of half a wave across a wandering line.
   let seam = noised(xz / vec2f(0.9, 1.7), salt + 2u);
-  let fork = smoothstep(0.46, 0.54, seam.x);
+  // Over metres the crests swing round by tens of degrees and draw apart.
+  let bend = noised(xz / 3.1, salt + 3u);
+  let fork =smoothstep(0.46, 0.54, seam.x);
   return vec3f(
-    k * dot(xz, dir) + 5.0 * wander.x + 1.2 * waver.x + 3.1 * fork,
-    k * dir + 5.0 * wander.yz / 0.8 + 1.2 * waver.yz / 0.23,
+    k * dot(xz, dir) + 42.0 * bend.x + 5.0 * wander.x + 1.2 * waver.x + 3.1 * fork,
+    k * dir + 42.0 * bend.yz / 3.1 + 5.0 * wander.yz / 0.8 + 1.2 * waver.yz / 0.23,
   );
 }
 
@@ -140,14 +154,21 @@ struct Ripples {
   sun: f32,
 }
 
+/// The share of their full height the ripples stand to at \`xz\`: fields of
+/// them between stretches the wind has swept smooth.
+fn rippleSwathe(xz: vec2f) -> f32 {
+  let field = fbmd(xz / 7.0, SAND_SALT + 0x6du, 2).x;
+  let within = noised(xz / 2.3, SAND_SALT + 0x6eu).x;
+  return smoothstep(0.33, 0.5, field) * (0.6 + 0.4 * within) + 0.08;
+}
+
 fn sandRipples(xz: vec2f, h: f32, sun: vec3f) -> Ripples {
   let wind = vec2f(${WIND[0]}, ${WIND[1]});
   let veer = vec2f(wind.x * 0.9928 - wind.y * 0.1197, wind.x * 0.1197 + wind.y * 0.9928);
-  let one = rippleTrain(xz, wind, ${RIPPLES.wavelength}, 0x61u);
-  let other = rippleTrain(xz, veer, ${RIPPLES.wavelength * 1.17}, 0x67u);
-  let which = smoothstep(0.42, 0.58, noised(xz / 1.3, 0x6bu).x);
-  let swathe = 0.35 + 0.65 * smoothstep(0.25, 0.7, noised(xz / 3.7, 0x6du).x);
-  let stand = ${RIPPLES.height} * sandDryness(h) * swathe;
+  let one = rippleTrain(xz, wind, ${RIPPLES.wavelength}, SAND_SALT + 0x61u);
+  let other = rippleTrain(xz, veer, ${RIPPLES.wavelength * 1.17}, SAND_SALT + 0x67u);
+  let which = smoothstep(0.42, 0.58, noised(xz / 1.3, SAND_SALT + 0x6bu).x);
+  let stand = ${RIPPLES.height} * sandDryness(h) * rippleSwathe(xz);
   let a = rippleSection(one.x);
   let b = rippleSection(other.x);
   return Ripples(

@@ -11,3 +11,4 @@ grey.
 - `down.webp` — looking down at dry rippled sand from standing height.
 - `shadow.webp` — the cube's shadow across the ripples, lit by the sky alone.
 - `door.webp` — from the doorway, 3.7 m up, looking east into the sun.
+- `edge.webp` — the edge of the cube's shadow from 2 m.

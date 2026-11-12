@@ -9,6 +9,7 @@ import {
   SKY,
   WATER_LEVEL,
 } from '@/cube/shared/outside';
+import { SAND_SHADER } from '@/cube/shared/sand';
 
 /**
  * Every outdoor shader by name, as the roots it is assembled from: a layer
@@ -17,6 +18,7 @@ import {
  */
 export const OUTDOOR_SHADERS = {
   seam: [OUTDOOR_STAGE, SKY, AERIAL, ISLAND_HEIGHT, WATER_LEVEL, CUBE_SHADOW],
+  sand: [SAND_SHADER],
 } as const satisfies Record<string, readonly Wgsl[]>;
 
 export type OutdoorShader = keyof typeof OUTDOOR_SHADERS;

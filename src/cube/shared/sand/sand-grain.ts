@@ -50,7 +50,7 @@ fn sandGrains(xz: vec2f, px: f32) -> Grains {
   var slope = vec2f(0.0);
   let near = 1.0 - smoothstep(0.35, 1.1, px / ${GRAIN});
   if (near > 0.0) {
-    let grain = nearestSpeck(xz / ${GRAIN}, 0x71u);
+    let grain = nearestSpeck(xz / ${GRAIN}, SAND_SALT + 0x71u);
     let kind = grain.z;
     var own = vec3f(0.86 + 0.28 * grain.w);
     if (kind < 0.035) {
@@ -71,8 +71,8 @@ fn sandGrains(xz: vec2f, px: f32) -> Grains {
   let fine = ${GRAIN} * exp2(lower);
   let blend = level - lower;
   let speckle = mix(
-    noised(xz / fine, 0x73u + u32(lower)),
-    noised(xz / (2.0 * fine), 0x74u + u32(lower)),
+    noised(xz / fine, SAND_SALT + 0x73u + u32(lower)),
+    noised(xz / (2.0 * fine), SAND_SALT + 0x74u + u32(lower)),
     blend,
   );
   let far = (1.0 - near) / (1.0 + 0.6 * level);
@@ -92,8 +92,8 @@ fn sandGlint(xz: vec2f, normal: vec3f, half: vec3f, px: f32) -> f32 {
   for (var step = 0; step < 2; step++) {
     let scale = exp2(lower + f32(step));
     let at = xz / scale;
-    let word = cellHash(vec2i(floor(at)), 0x79u + u32(i32(lower) + step + 64));
-    let lean = 1.5 * (vec2f(unitOf(word), unitOf(mix32(word))) - 0.5);
+    let word = cellHash(vec2i(floor(at)), SAND_SALT + 0x79u + u32(i32(lower) + step + 64));
+    let lean = 0.9 * (vec2f(unitOf(word), unitOf(mix32(word))) - 0.5);
     let facet = normalize(normal + vec3f(lean.x, 0.0, lean.y));
     let lit = smoothstep(0.992, 0.9992, dot(facet, half));
     let dot_ = 1.0 - smoothstep(0.12, 0.42, length(fract(at) - 0.5));
@@ -117,7 +117,7 @@ struct Litter {
 /// How thickly the sea has strewn a point \`h\` metres over it: x along the
 /// wrack lines high water left, y that and the thin scatter of the foreshore.
 fn sandStrewn(xz: vec2f, h: f32) -> vec2f {
-  let line = ${WRACK} + 0.12 * (noised(xz / 7.0, 0x83u).x - 0.5);
+  let line = ${WRACK} + 0.12 * (noised(xz / 7.0, SAND_SALT + 0x83u).x - 0.5);
   let wrack = exp(-pow((h - line) / 0.035, 2.0));
   let older = 0.35 * exp(-pow((h - line - 0.33) / 0.03, 2.0));
   let shore = 0.12 * (1.0 - smoothstep(0.5, 1.1, h));
@@ -134,7 +134,7 @@ fn sandLitter(xz: vec2f, h: f32, px: f32, sun: vec3f) -> Litter {
 
   // Shell fragments: pale angular flakes a few millimetres across.
   if (px < 0.02) {
-    let shell = nearestSpeck(xz / 0.045, 0x85u);
+    let shell = nearestSpeck(xz / 0.045, SAND_SALT + 0x85u);
     if (shell.z < 0.1 + 0.85 * strewn) {
       let turn = ${2 * Math.PI} * shell.w;
       let to = shell.xy * 0.045;
@@ -151,7 +151,7 @@ fn sandLitter(xz: vec2f, h: f32, px: f32, sun: vec3f) -> Litter {
   }
 
   // Pebbles: a rounded stone and the long shadow a low sun gives it.
-  let pebble = nearestSpeck(xz / 0.8, 0x89u);
+  let pebble = nearestSpeck(xz / 0.8, SAND_SALT + 0x89u);
   if (pebble.z < 0.03 + 0.3 * strewn) {
     let to = -pebble.xy * 0.8;
     let radius = 0.007 + 0.018 * fract(pebble.w * 13.1);
@@ -174,8 +174,8 @@ fn sandLitter(xz: vec2f, h: f32, px: f32, sun: vec3f) -> Litter {
 
   // Dried weed: dark curled strands, in clumps, along the wrack lines.
   if (px < 0.012 && lines.x > 0.03) {
-    let clump = smoothstep(0.4, 0.62, noised(xz / 0.7, 0x8bu).x) * lines.x;
-    let strand = nearestSpeck(xz / 0.03, 0x8du);
+    let clump = smoothstep(0.4, 0.62, noised(xz / 0.7, SAND_SALT + 0x8bu).x) * lines.x;
+    let strand = nearestSpeck(xz / 0.03, SAND_SALT + 0x8du);
     if (strand.z < 1.3 * clump) {
       let turn = ${2 * Math.PI} * strand.w;
       let along = vec2f(cos(turn), sin(turn));
@@ -185,7 +185,9 @@ fn sandLitter(xz: vec2f, h: f32, px: f32, sun: vec3f) -> Litter {
       let curl = (fract(strand.w * 17.9) - 0.5) * 60.0;
       let v = dot(to, vec2f(-along.y, along.x)) - curl * (u * u - reach * reach * 0.3);
       let d = length(vec2f(dot(to, along) - u, v));
-      let cover = (1.0 - smoothstep(0.0005, 0.0005 + edge, d)) * (1.0 - smoothstep(0.004, 0.012, px));
+      // A strand thinner than a pixel covers only its share of it.
+      let cover = (1.0 - smoothstep(0.0005, 0.0005 + edge, d)) * min(1.0, 0.0014 / edge)
+        * (1.0 - smoothstep(0.004, 0.012, px));
       litter.albedo = mix(litter.albedo, vec3f(0.05, 0.036, 0.02), cover);
       litter.gloss = mix(litter.gloss, 0.0, cover);
       litter.cover = max(litter.cover, cover);

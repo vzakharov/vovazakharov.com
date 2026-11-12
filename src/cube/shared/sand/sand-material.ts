@@ -61,9 +61,10 @@ fn sandDiffuse(normal: vec3f, sun: vec3f, view: vec3f) -> f32 {
 /// The sky's light on a face of the sand.
 fn sandFill(normal: vec3f, sun: vec3f) -> vec3f {
   // The sky is brightest and warmest round the sun, so a face turned that way
-  // stays the lighter one in shadow too.
+  // stays the lighter one in shadow too; the rest of it, overhead, is bluer
+  // than its mean.
   let sunward = max(dot(normal, normalize(vec3f(sun.x, 0.35, sun.z))), 0.0);
-  return SKY_FILL * (0.42 + 0.3 * normal.y + 0.55 * vec3f(1.3, 0.95, 0.62) * sunward);
+  return SKY_FILL * ((0.42 + 0.3 * normal.y) * vec3f(0.9, 0.96, 1.2) + 0.4 * vec3f(1.3, 0.95, 0.62) * sunward);
 }
 
 /// What one pixel of sand has to be lit with.
@@ -94,7 +95,7 @@ fn sandLight(point: SandPoint, sun: vec3f) -> vec3f {
   let drawn = 1.0 - smoothstep(0.2, 0.55, point.alongWind / ${RIPPLES.wavelength});
   let dryness = sandDryness(point.h);
   var crest = 0.5;
-  var stand = 0.65 * dryness;
+  var stand = dryness * rippleSwathe(xz);
   var rippleSun = 1.0;
   if (drawn > 0.0) {
     let ripples = sandRipples(xz, point.h, sun);
@@ -106,7 +107,7 @@ fn sandLight(point: SandPoint, sun: vec3f) -> vec3f {
   let acrossSun = abs(dot(normalize(sun.xz), vec2f(${WIND[0]}, ${WIND[1]})));
   rippleSun = mix(1.0 - 0.42 * stand * acrossSun, rippleSun, drawn);
 
-  let damp = smoothstep(0.22, 0.7, point.wet.x + 0.35 * (fbmd(xz / 0.35, 0x9bu, 3).x - 0.5));
+  let damp = smoothstep(0.22, 0.7, point.wet.x + 0.35 * (fbmd(xz / 0.35, SAND_SALT + 0x9bu, 3).x - 0.5));
   let film = point.wet.y;
   let grains = sandGrains(xz, point.px);
   let litter = sandLitter(xz, point.h, point.px, sun);
@@ -131,7 +132,9 @@ fn sandLight(point: SandPoint, sun: vec3f) -> vec3f {
   let sheenLobe = 0.09 / (${Math.PI} * pow(toHalf * toHalf * (0.09 - 1.0) + 1.0, 2.0));
   let grazing = pow(1.0 - max(dot(point.view, half), 0.0), 5.0);
   light += direct * dry * max(dot(normal, sun), 0.0) * (0.04 + 0.96 * grazing) * sheenLobe * 0.6;
-  light += direct * (0.2 + 0.8 * dry) * 4.0 * sandGlint(xz, normal, half, point.px)
+  // Glints are a thing of the sand at one's feet: further off they are noise.
+  let glints = 1.0 - smoothstep(0.003, 0.012, point.px);
+  light += direct * (0.2 + 0.8 * dry) * 3.0 * glints * sandGlint(xz, normal, half, point.px)
     + direct * litter.cover * litter.gloss * pow(max(dot(normal, half), 0.0), 60.0);
 
   // Wet sand: a sheen where it is soaked, the sky's mirror where water stands.

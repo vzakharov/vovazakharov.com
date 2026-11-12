@@ -243,6 +243,49 @@ the operator's own word for the potted plant in floor 1's room.
   the contract; core, sky and sea re-briefed. The reading of screen-space
   targets was told to the operator in passing.
 
+- **2026-11-12 ~22:56Z, a comment on the board's rules zone, on the pill**
+  (relayed by the board session):
+
+  > упс, а таблетку ведь мы действительно берём. ну ладно, пока придумаем для
+  > этого какой-то философский смысл ("таблетки на самом деле нет, это твоё
+  > собственное воображение, представляющее необходимость принять решение как
+  > физический, экстернальный объект и таким образом снимающее с себя
+  > ответственность"
+
+  So the taking is explained, not changed: the shelf keeps its pill for the next
+  player, nothing stores "taken". Passed to pill.
+
+- **2026-11-12 ~22:58Z, on the first frames**:
+
+  > судя по картинкам, катсцены "заглянуть под куб" не надо, и так отчётливо
+  > видно что он парит
+
+  The look-under scene is cut; walk was told. The scenes left are waking, the
+  climb and the climb back down.
+
+- **2026-11-12 ~23:02Z, the ladder vanishes**:
+
+  > давай лестница исчезает после того как ты забрался. без каких бы то там
+  > анимаций, эффектов, звуков. просто поворачиваешься -- и нет. выбраться
+  > можно, спрыгнув (и не пострадав), но забраться обратно уже нет. выбраться
+  > можно и половинного роста, кстати, если выпьешь таблетку и не спустишься на
+  > уровень ниже
+
+  Decided: the ladder and its shadow are drawn until the body first crosses the
+  doorway inward and never after; a game that starts inside has none. Stepping
+  off the sill drops the body 3.6 m to the sand unhurt, at full or half height;
+  no way back in. The climb-down scene is gone. Told to walk, shell, core,
+  sound.
+
+- **2026-11-12 ~23:03Z, lettering** (after learning the signs and posters are
+  lettered on a canvas because WebGPU draws no text):
+
+  > запишите на доску в todo, чтоб рисовал. так будет интереснее и их "распад"
+  > по мере спуска на нижние этажи делать
+
+  A todo on the board, sent to the board session: letters drawn in the shader,
+  so their decay down the floors can be a procedure. Not part of this run.
+
 ## Facts established
 
 - **The seam (core step 1, 1a311efa, merged into this branch at faedd71d)**: the
@@ -330,10 +373,10 @@ Each with its reason; a later decision that overrides one rewrites it here.
   face»). The cube's shadow, some 38 m long, runs west-south-west and lies on
   the beach a few metres north of the waking spot, its tip near the water. The
   first choice, waking in front of the doorway, lost to this.
-- **The cube hovers 1.1 m over the sand.** At 9° its shadow starts about 7 m
-  behind it, so the sand right under the cube is in full sun: the look-under
-  beat, coming from the shadow side, shows lit sand and the sea's glare through
-  the gap.
+- **The cube hovers 1.1 m over the sand, and no scene shows it.** At 9° its
+  shadow starts about 7 m behind it, so the sand right under the cube is in full
+  sun and the gap reads from anywhere on the beach. The look-under cut scene of
+  the brief is cut on the operator's word (§ "Steering since").
 - **Outside is the same frame as inside, the eye is not a pose**:
   `W = CUBE_AT + 5 · C` in metres, the page holds "inside (a `Pose`) or outside
   (an eye in W)", and the scene draws an outside eye with floor 1's room as its

@@ -75,10 +75,10 @@ describe('the world frame', () => {
 });
 
 describe('the sun', () => {
-  it('stands 9° up, 8° south of east', () => {
+  it('stands 9° up, 31° north of east', () => {
     close(Math.hypot(...SUN_DIR), 1);
     close(Math.asin(SUN_DIR[1]), (9 * Math.PI) / 180);
-    close(Math.atan2(SUN_DIR[2], SUN_DIR[0]), (8 * Math.PI) / 180);
+    close(Math.atan2(SUN_DIR[2], SUN_DIR[0]), (-31 * Math.PI) / 180);
     for (const value of SUN_DIR) {
       assert.ok(literals(SUN.listing).includes(value));
     }
