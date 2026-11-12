@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, GRADE, LIGHT, STUFF, vec3f, wgsl } from '../../kit';
-import { SMALL_WORLD } from '../lib/small-world';
+import { SPECIMEN } from '../lib/specimen.shader';
 
 const AIR = linear(hex(0xf4_ea_ee));
 
@@ -113,7 +113,7 @@ fn themeLens(l: Lens) -> vec3f {
   return field * stop + grain(l) * 0.01;
 }
 `,
-    SMALL_WORLD,
+    SPECIMEN,
     STUFF,
     LIGHT,
     GRADE,

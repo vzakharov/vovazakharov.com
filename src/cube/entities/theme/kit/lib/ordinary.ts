@@ -1,8 +1,8 @@
 import type { Rgb } from '@/cube/shared/lib/colour';
 
 import type { Aired } from '../model/theme';
-import { GRADE } from './grade';
-import { LIGHT } from './light';
+import { GRADE } from './grade.shader';
+import { LIGHT } from './light.shader';
 import { vec3f, type Wgsl, wgsl } from './wgsl';
 
 /** An ordinary floor's light, air and lens, as numbers. */

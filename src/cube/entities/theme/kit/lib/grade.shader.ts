@@ -1,13 +1,12 @@
+// Generated from grade.wgsl by `pnpm shaders:codegen`. Edit the
+// source, not here — the vet run regenerates this file and fails when it had to.
+
 import { CORE } from './core';
-import { HASH } from './hash';
+import { HASH } from './hash.shader';
 import { wgsl } from './wgsl';
 
-/**
- * From the lit scene to the pixel: the air between, and what a floor's lens
- * does to the frame.
- */
 export const GRADE = wgsl(
-  'grade',
+  'cube/entities/theme/kit/lib/grade',
   /* wgsl */ `
 /// The colour seen through air of colour \`air\` that swallows a thing
 /// \`reach\` metres off by about two thirds, and the point's mirror dimmed

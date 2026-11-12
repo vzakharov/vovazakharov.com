@@ -1,12 +1,10 @@
+// Generated from dwelling.wgsl by `pnpm shaders:codegen`. Edit the
+// source, not here — the vet run regenerates this file and fails when it had to.
+
 import { CORE, HASH, LIGHT, wgsl } from '../../kit';
 
-/**
- * What the homes of this band share: which wall a point is on, shapes and
- * repeats to cut patterns from, a lamp drawn as something other than a
- * panel, and boards.
- */
 export const DWELLING = wgsl(
-  'dwelling/home',
+  'cube/entities/theme/dwelling/lib/dwelling',
   /* wgsl */ `
 /// The word of the room's side \`side\` (0 east, 1 south, 2 west, 3 north).
 fn sideWord(s: Surf, side: u32) -> u32 {

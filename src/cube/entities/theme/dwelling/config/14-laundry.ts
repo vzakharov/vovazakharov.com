@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { FINISH, type FloorTheme, ordinary, STUFF, wgsl } from '../../kit';
-import { DWELLING } from '../lib/home';
+import { DWELLING } from '../lib/dwelling.shader';
 
 const AIR = linear(hex(0x0d_10_10));
 

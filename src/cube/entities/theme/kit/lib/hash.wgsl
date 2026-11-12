@@ -1,12 +1,6 @@
-import { wgsl } from './wgsl';
+// Integer hashing and the noise built on it. Every lattice value is an integer
+// hash, so two GPUs draw the same grain from the same word.
 
-/**
- * Integer hashing and the noise built on it. Every lattice value is an integer
- * hash, so two GPUs draw the same grain from the same word.
- */
-export const HASH = wgsl(
-  'hash',
-  /* wgsl */ `
 fn mix32(x: u32) -> u32 {
   var h = x;
   h ^= h >> 16u;
@@ -17,7 +11,7 @@ fn mix32(x: u32) -> u32 {
   return h;
 }
 
-/// \`a\` and \`b\` hashed into one word.
+/// `a` and `b` hashed into one word.
 fn hashOf(a: u32, b: u32) -> u32 {
   return mix32(a ^ mix32(b + 0x9e3779b9u));
 }
@@ -27,12 +21,12 @@ fn unitOf(h: u32) -> f32 {
   return f32(h >> 8u) / 16777216.0;
 }
 
-/// The word of lattice cell \`cell\` under \`salt\`.
+/// The word of lattice cell `cell` under `salt`.
 fn cellHash(cell: vec2i, salt: u32) -> u32 {
   return hashOf(hashOf(bitcast<u32>(cell.x), bitcast<u32>(cell.y)), salt);
 }
 
-/// Smooth noise in [0, 1), one lattice cell per unit of \`p\`.
+/// Smooth noise in [0, 1), one lattice cell per unit of `p`.
 fn valueNoise(p: vec2f, salt: u32) -> f32 {
   let cell = vec2i(floor(p));
   let f = fract(p);
@@ -44,7 +38,7 @@ fn valueNoise(p: vec2f, salt: u32) -> f32 {
   return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
 }
 
-/// \`octaves\` of valueNoise, each twice as fine and half as strong, in [0, 1).
+/// `octaves` of valueNoise, each twice as fine and half as strong, in [0, 1).
 fn fbm(p: vec2f, salt: u32, octaves: i32) -> f32 {
   var sum = 0.0;
   var weight = 0.5;
@@ -75,5 +69,3 @@ fn worley(p: vec2f, salt: u32) -> vec2f {
   }
   return nearest;
 }
-`,
-);

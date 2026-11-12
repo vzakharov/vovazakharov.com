@@ -5,7 +5,7 @@ import type { Rgb } from '@/cube/shared/lib/colour';
 import type { Furnishing } from '@/cube/shared/lib/thing';
 
 import { CORE } from '../lib/core';
-import { STUFF } from '../lib/stuff';
+import { STUFF } from '../lib/stuff.shader';
 import { assemble, type Wgsl, wgsl } from '../lib/wgsl';
 
 /** A place with air of a colour: what shows where no face is drawn. */

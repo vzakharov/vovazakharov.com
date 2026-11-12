@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
-import { type FloorTheme, ordinary, STUFF, wgsl } from '../../kit';
-import { SMALL_WORLD } from '../lib/small-world';
+import { type FloorTheme, LUMA, ordinary, STUFF, wgsl } from '../../kit';
+import { SPECIMEN } from '../lib/specimen.shader';
 
 const AIR = linear(hex(0x00_00_02));
 
@@ -90,8 +90,9 @@ fn themeMaterial(s: Surf) -> Material {
   }
 }
 `,
-    SMALL_WORLD,
+    SPECIMEN,
     STUFF,
+    LUMA,
     ordinary('fluorescence', {
       air: AIR,
       lamp: [0.22, 0.1, 0.9],

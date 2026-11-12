@@ -1,10 +1,12 @@
 export { CORE } from './lib/core';
-export { FINISH } from './lib/finish';
-export { GRADE } from './lib/grade';
-export { HASH } from './lib/hash';
-export { LIGHT } from './lib/light';
+export { FINISH } from './lib/finish.shader';
+export { GRADE } from './lib/grade.shader';
+export { HASH } from './lib/hash.shader';
+export { HONEYCOMB } from './lib/honeycomb.shader';
+export { LIGHT } from './lib/light.shader';
+export { LUMA } from './lib/luma.shader';
 export { ordinary } from './lib/ordinary';
-export { STUFF } from './lib/stuff';
+export { STUFF } from './lib/stuff.shader';
 export { vec3f, type Wgsl, wgsl } from './lib/wgsl';
 export { roomFlags, type RoomState } from './model/flags';
 export { type Floors, floorSource, type FloorTheme } from './model/theme';

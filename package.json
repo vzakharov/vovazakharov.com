@@ -52,6 +52,7 @@
     "random-words": "node personas/tools/random-words.ts",
     "whisper-lexicon": "node personas/tools/whisper-lexicon.ts",
     "styles:codegen": "tsx src/shell/scripts/generate-styles.ts",
+    "shaders:codegen": "tsx scripts/shaders-codegen.ts",
     "costs": "python3 .claude/costs/report.py",
     "artifact:mushrooms": "tsx src/mushrooms/scripts/build-mushroom-artifact.ts",
     "board": "tsx src/board/scripts/board.ts",

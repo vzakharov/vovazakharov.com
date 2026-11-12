@@ -1,20 +1,15 @@
-import { CORE } from './core';
-import { HASH } from './hash';
-import { wgsl } from './wgsl';
+// The stuffs things in a room are made of, the same on every floor: a theme
+// draws its own walls, floor and ceiling and hands every other kind here.
 
-/**
- * The stuffs things in a room are made of, the same on every floor: a theme
- * draws its own walls, floor and ceiling and hands every other kind here.
- */
-export const STUFF = wgsl(
-  'stuff',
-  /* wgsl */ `
-/// The face's paint, or \`fallback\` where it carries none.
+import super::core::{Surf, Material, toNearestSide, embossed, polished, matte, PLATE, HANDLE, METAL, WOOD, FABRIC, GLASS, SCREEN, PAPER, FOLIAGE, RUBBER, SKIN};
+import super::hash::{valueNoise, fbm, unitOf, hashOf, cellHash};
+
+/// The face's paint, or `fallback` where it carries none.
 fn painted(s: Surf, fallback: vec3f) -> vec3f {
   return select(fallback, s.paint, dot(s.paint, vec3f(1.0)) > 0.0);
 }
 
-/// A floor the viewer bought: \`m\` with a brass line inlaid round the room.
+/// A floor the viewer bought: `m` with a brass line inlaid round the room.
 fn ownedMark(s: Surf, m: Material) -> Material {
   let line = 1.0 - smoothstep(0.02, 0.024, abs(toNearestSide(s) - 0.3));
   let brass = vec3f(0.62, 0.43, 0.14) * (0.85 + 0.3 * valueNoise(s.uv * 200.0, 36u));
@@ -71,7 +66,3 @@ fn stuff(s: Surf) -> Material {
     }
   }
 }
-`,
-  CORE,
-  HASH,
-);

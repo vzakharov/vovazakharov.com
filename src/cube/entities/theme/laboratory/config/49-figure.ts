@@ -1,7 +1,15 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
-import { type FloorTheme, GRADE, LIGHT, STUFF, vec3f, wgsl } from '../../kit';
-import { SMALL_WORLD } from '../lib/small-world';
+import {
+  type FloorTheme,
+  GRADE,
+  LIGHT,
+  LUMA,
+  STUFF,
+  vec3f,
+  wgsl,
+} from '../../kit';
+import { SPECIMEN } from '../lib/specimen.shader';
 
 const AIR = linear(hex(0xe9_e2_cf));
 
@@ -142,9 +150,10 @@ fn themeLens(l: Lens) -> vec3f {
   return mix(printed, vec3f(0.07, 0.06, 0.1), ink * 0.92) * vignette(l, 0.12);
 }
 `,
-    SMALL_WORLD,
+    SPECIMEN,
     STUFF,
     LIGHT,
     GRADE,
+    LUMA,
   ),
 };

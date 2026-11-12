@@ -1,15 +1,12 @@
+// Generated from finish.wgsl by `pnpm shaders:codegen`. Edit the
+// source, not here — the vet run regenerates this file and fails when it had to.
+
 import { CORE } from './core';
-import { HASH } from './hash';
+import { HASH } from './hash.shader';
 import { wgsl } from './wgsl';
 
-/**
- * What walls, floors and ceilings are finished in. Each takes the point and
- * a colour and gives the colour back as that finish wears it; lengths are
- * metres. A finish over `s.uv` under a fixed salt runs on through doorways; one
- * salted with `s.seed` is the room's own.
- */
 export const FINISH = wgsl(
-  'finish',
+  'cube/entities/theme/kit/lib/finish',
   /* wgsl */ `
 /// 1 within \`width\` metres centred on \`at\`, 0 outside.
 fn band(x: f32, at: f32, width: f32) -> f32 {

@@ -1,16 +1,11 @@
-import { CORE } from './core';
-import { HASH } from './hash';
-import { wgsl } from './wgsl';
+// A point lit by the ceiling lamps of its room and of the eight around it,
+// through what the room's flags say is open: the cost is the same on floor 66
+// as on floor 1, light is the same from either side of an open edge, and a
+// room whose lamps failed takes its neighbours' through its doorways.
 
-/**
- * A point lit by the ceiling lamps of its room and of the eight around it,
- * through what the room's flags say is open: the cost is the same on floor
- * 66 as on floor 1, light is the same from either side of an open edge, and
- * a room whose lamps failed takes its neighbours' through its doorways.
- */
-export const LIGHT = wgsl(
-  'light',
-  /* wgsl */ `
+import super::core::{Surf, Material, Mirror, mirroring, ROOM, repeated, toSides, litOf, closedAt, litBeside, litAcross, wayAcross, wallBeside};
+import super::hash::{hashOf, unitOf};
+
 /// A floor's lamps: a square grid of panels in each room's ceiling.
 struct Lamps {
   /// Their colour times their strength.
@@ -25,8 +20,8 @@ struct Lamps {
   stutter: f32,
 };
 
-/// The lamps of the room \`by\` rooms east and south of the point's right
-/// now, 0 to 1, \`lit\` being whether they work. A stuttering room's fits
+/// The lamps of the room `by` rooms east and south of the point's right
+/// now, 0 to 1, `lit` being whether they work. A stuttering room's fits
 /// come in four-second spells on the shared clock, so two viewers see the
 /// same flash, and are rolled from its place on the floor, so every room
 /// around it sees them too.
@@ -55,7 +50,7 @@ fn cornerOf(by: vec2i) -> u32 {
   return select(select(2u, 3u, by.x > 0), select(1u, 0u, by.x > 0), by.y > 0);
 }
 
-/// The lamps of the room \`by\` rooms away, no farther than one each way,
+/// The lamps of the room `by` rooms away, no farther than one each way,
 /// as far as any of their light can enter the point's room: nothing through
 /// a closed side or across a corner with no way round it.
 fn lampsBeside(s: Surf, by: vec2i, stutter: f32) -> f32 {
@@ -76,7 +71,7 @@ fn lampsBeside(s: Surf, by: vec2i, stutter: f32) -> f32 {
   return lampLevel(s, by, lit, stutter);
 }
 
-/// Whether light from a lamp across a corner, \`to\` away from the point,
+/// Whether light from a lamp across a corner, `to` away from the point,
 /// gets to it: it leaves the point's room by one of the corner's two sides,
 /// and that way round has to be open.
 fn reachesAcross(s: Surf, by: vec2i, to: vec3f) -> bool {
@@ -87,13 +82,13 @@ fn reachesAcross(s: Surf, by: vec2i, to: vec3f) -> bool {
   return wayAcross(s, corner, (leaves.x < leaves.y) == ((corner & 1u) == 0u));
 }
 
-/// 1 inside a lamp panel at ceiling point \`at\` (metres east and south in the
-/// room), 0 outside, for \`grid\` panels a side, each \`size\` metres.
+/// 1 inside a lamp panel at ceiling point `at` (metres east and south in the
+/// room), 0 outside, for `grid` panels a side, each `size` metres.
 fn lampMask(at: vec2f, grid: i32, size: vec2f) -> f32 {
   return 1.0 - smoothstep(0.0, 0.03, panelEdge(at, grid, size));
 }
 
-/// \`lampMask\` blurred \`soft\` metres across, as a floor short of glass
+/// `lampMask` blurred `soft` metres across, as a floor short of glass
 /// mirrors it: the panel spreads into a dimmer glow holding the light it
 /// had, as the frame's own blur of a panel it shows does, so the two agree
 /// where one gives way to the other.
@@ -103,8 +98,8 @@ fn lampBlur(at: vec2f, grid: i32, size: vec2f, soft: f32) -> f32 {
   return (1.0 - smoothstep(-half, half, panelEdge(at, grid, size))) * spread.x * spread.y;
 }
 
-/// How far ceiling point \`at\` lies outside the nearest of \`grid\` panels a
-/// side, each \`size\` metres: negative inside one.
+/// How far ceiling point `at` lies outside the nearest of `grid` panels a
+/// side, each `size` metres: negative inside one.
 fn panelEdge(at: vec2f, grid: i32, size: vec2f) -> f32 {
   let pitch = ROOM.xz / f32(grid);
   let off = repeated(at, pitch);
@@ -252,7 +247,3 @@ fn roomLight(s: Surf, m: Material, lamps: Lamps) -> vec3f {
   }
   return colour;
 }
-`,
-  CORE,
-  HASH,
-);

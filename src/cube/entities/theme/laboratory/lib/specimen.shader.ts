@@ -1,27 +1,11 @@
+// Generated from specimen.wgsl by `pnpm shaders:codegen`. Edit the
+// source, not here — the vet run regenerates this file and fails when it had to.
+
 import { HASH, wgsl } from '../../kit';
 
-/**
- * What the laboratory's floors share once the rooms are made of what the
- * small world is made of: packed spheres, and cells grown until they meet.
- */
-export const SMALL_WORLD = wgsl(
-  'laboratory/small-world',
+export const SPECIMEN = wgsl(
+  'cube/entities/theme/laboratory/lib/specimen',
   /* wgsl */ `
-fn luma(colour: vec3f) -> f32 {
-  return dot(colour, vec3f(0.2126, 0.7152, 0.0722));
-}
-
-/// A honeycomb of cells one unit apart: xy is the point's offset from the
-/// nearest cell's middle, zw that middle.
-fn honeycomb(p: vec2f) -> vec4f {
-  let pitch = vec2f(1.0, 1.7320508);
-  let a = repeated(p, pitch);
-  let shifted = p - pitch * 0.5;
-  let b = repeated(shifted, pitch);
-  let off = select(b, a, dot(a, a) < dot(b, b));
-  return vec4f(off, p - off);
-}
-
 /// The word of the honeycomb cell whose middle is \`middle\`.
 fn combHash(middle: vec2f, salt: u32) -> u32 {
   return cellHash(vec2i(round(middle * vec2f(2.0, 1.1547005))), salt);

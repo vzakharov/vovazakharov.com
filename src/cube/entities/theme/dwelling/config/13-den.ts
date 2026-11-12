@@ -9,7 +9,7 @@ import {
   vec3f,
   wgsl,
 } from '../../kit';
-import { DWELLING } from '../lib/home';
+import { DWELLING } from '../lib/dwelling.shader';
 
 const AIR = linear(hex(0x0c_06_03));
 

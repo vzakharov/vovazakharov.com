@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
-import { type FloorTheme, ordinary, STUFF, wgsl } from '../../kit';
-import { SMALL_WORLD } from '../lib/small-world';
+import { type FloorTheme, HONEYCOMB, ordinary, STUFF, wgsl } from '../../kit';
+import { SPECIMEN } from '../lib/specimen.shader';
 
 const AIR = linear(hex(0x0a_03_00));
 
@@ -108,8 +108,9 @@ fn themeMaterial(s: Surf) -> Material {
   }
 }
 `,
-    SMALL_WORLD,
+    SPECIMEN,
     STUFF,
+    HONEYCOMB,
     ordinary('tunnelling-scan', {
       air: AIR,
       lamp: [2.1, 1.75, 1.3],
