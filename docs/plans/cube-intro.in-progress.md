@@ -189,7 +189,29 @@ the operator's own word for the potted plant in floor 1's room.
   and the sea and sky lose the gold — told to the operator, one constant to
   change if they want it steeper.
 
+- **2026-11-12 ~22:34Z, a comment on the board itself** (on the "one ocean"
+  card, relayed by the board session): "no Russian in the board whatsoever". The
+  board session translates every quote; the lead sends verdicts in whatever
+  language they were said.
+
 ## Facts established
+
+- **The island (sand, `claude/cube-intro-sand` @ 04a800ac)**: the cube's centre
+  is over W xz = (0, 0), the crest, sand 1.6 m; `CUBE_AT = (−2.5, 5.2, −2.5)`,
+  underside y = 2.7, the doorway at x = 2.5, z −2.226…−1.256, sill y = 5.2.
+  Shore from the crest: east 23.7 m, west 64.4, north 27.5, south 22.4. The
+  waking spot is the still waterline at (−20.98, 20.98). `islandHeight(x, z)`
+  and `ISLAND_HEIGHT_WGSL` live in `src/cube/shared/sand/island-shape.ts` until
+  core names the slice; the bed's colour is `sandBed(xz, depth) -> vec3f`.
+- **The sea's design (sea)**: `waterLevel` is a swell train of 420 waves an hour
+  arriving by a baked arrival-time field (one `r32float` texture, so the shared
+  outdoor bind group carries piece-owned bindings — asked of core); it also
+  exports `shoreWetness(xz, t)` for sand and TS `seaHeightAt` for walk. One
+  WGSL-in-Node test kit, sea's, lands in `src/cube/shared/lib/`; sand switches
+  to it.
+- **Cue names (sound, `claude/cube-intro-sound` @ b836c3ae)**: `step` with
+  `ground`, `pill`, `swallow`, `rung`, `splash`, `say: 'waking'`;
+  `LADDER_MATERIAL` in `shared/lib/acoustics.ts`. Passed to walk, pill, shell.
 
 - Floor 1 is one room: `roomsAcross(1) = 1`, side 5 m, height 2.5 m
   (`ROOM_HEIGHT` 0.5 of a side), and it is the cube's top slab. Each floor down
