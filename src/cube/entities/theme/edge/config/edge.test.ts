@@ -6,7 +6,7 @@ import { THINGS } from '@/cube/shared/lib/thing';
 import { floorSource } from '../../kit';
 import { EDGE_FLOORS } from './edge';
 
-const BAND = Array.from({ length: 15 }, (_, index) => 53 + index);
+const BAND = Array.from({ length: 14 }, (_, index) => 53 + index);
 
 const themes = BAND.map((n) => {
   const theme = EDGE_FLOORS[n];
@@ -15,7 +15,7 @@ const themes = BAND.map((n) => {
 });
 
 describe('the edge band', () => {
-  it('the band is floors 53 to 67 and nothing else', () => {
+  it('the band is floors 53 to 66 and nothing else', () => {
     assert.deepEqual(Object.keys(EDGE_FLOORS).map(Number), BAND);
   });
 

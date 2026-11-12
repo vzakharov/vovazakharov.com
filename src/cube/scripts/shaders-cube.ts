@@ -10,13 +10,11 @@
 import http from 'node:http';
 import { z } from 'zod';
 
+import { DEEPEST_FLOOR } from '@/cube/entities/world';
 import { shaderOf } from '@/cube/pages/cube/index.node-safe';
 
 import { flag } from '@/kernel/scripts/lib/argv';
 import { launch, openTab, WEBGPU_FLAGS } from '@/scene/scripts/lib/cdp';
-
-/** The floors there are: the last is the one the maze stops at. */
-const FLOORS = 67;
 
 /** What the page answers for one shader: its errors, each on a line. */
 const Verdict = z.array(z.string());
@@ -47,7 +45,7 @@ async function main(): Promise<void> {
   const only = flag('floor');
   const floors =
     only === undefined
-      ? Array.from({ length: FLOORS }, (_, index) => index + 1)
+      ? Array.from({ length: DEEPEST_FLOOR }, (_, index) => index + 1)
       : [Number(only)];
   // WebGPU is there only in a secure context, which localhost is.
   const server = http.createServer((_, response) => {

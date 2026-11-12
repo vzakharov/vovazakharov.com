@@ -19,4 +19,12 @@ describe('between', () => {
     close(between(shade, 4 - 1e-12), shade(4));
     close(between(shade, 3.5), [0.35, 0, 0.65]);
   });
+
+  it('asks nothing of the floor below one an eye stands on', () => {
+    const deepest = (n: number): Rgb => {
+      if (n > 3) throw new RangeError(`no floor ${String(n)}`);
+      return shade(n);
+    };
+    close(between(deepest, 3), shade(3));
+  });
 });

@@ -17,11 +17,15 @@ export const signOf = (
  * `of` at a depth between floors: `depth` is a floor number plus how many
  * halvings an eye has shrunk past it, so a body shrinking from floor `n` to a
  * person of `n + 1` passes from `of(n)` to `of(n + 1)` and arrives exactly.
+ * A depth on a floor asks `of` for that floor alone, so the deepest floor
+ * needs none below it.
  */
 export function between(of: (n: number) => Rgb, depth: number): Rgb {
   const n = Math.floor(depth);
   const along = depth - n;
-  const [from, to] = [of(n), of(n + 1)];
+  const from = of(n);
+  if (along === 0) return from;
+  const to = of(n + 1);
   return [
     from[0] + (to[0] - from[0]) * along,
     from[1] + (to[1] - from[1]) * along,

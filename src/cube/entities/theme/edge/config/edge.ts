@@ -13,10 +13,9 @@ import { ONE_BIT } from './63-one-bit';
 import { STATIC } from './64-static';
 import { CLEAR_COLOUR } from './65-clear-colour';
 import { HOME } from './66-home';
-import { LAST_ROOM } from './67-last-room';
 
 /**
- * Floors 53 to 67: where there is less and less left to build a room from —
+ * Floors 53 to 66: where there is less and less left to build a room from —
  * first the textures go, then the light, then the surfaces, then the signal.
  */
 export const EDGE_FLOORS: Floors = {
@@ -34,5 +33,4 @@ export const EDGE_FLOORS: Floors = {
   64: STATIC,
   65: CLEAR_COLOUR,
   66: HOME,
-  67: LAST_ROOM,
 };

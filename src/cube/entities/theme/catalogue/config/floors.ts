@@ -4,7 +4,6 @@ import type { Floors, FloorTheme } from '../../kit';
 import { LABORATORY_FLOORS } from '../../laboratory';
 import { LEISURE_FLOORS } from '../../leisure';
 import { WORKPLACE_FLOORS } from '../../workplace';
-import { generic } from './generic';
 
 const BANDS: Floors = {
   ...WORKPLACE_FLOORS,
@@ -30,15 +29,10 @@ const DESIGNED: Floors = {
   ),
 };
 
-const undesigned = new Map<number, FloorTheme>();
-
-/** Floor `n`'s theme, the same object on every call: its own, or `generic`'s. */
+/** Floor `n`'s theme; a floor the building does not have has none, and throws. */
 export function themeOf(n: number): FloorTheme {
-  const designed = DESIGNED[n];
-  if (designed !== undefined) return designed;
-  const known = undesigned.get(n);
-  if (known !== undefined) return known;
-  const made = generic(n);
-  undesigned.set(n, made);
-  return made;
+  const theme = DESIGNED[n];
+  if (theme === undefined)
+    throw new RangeError(`floor ${String(n)} has no theme`);
+  return theme;
 }
