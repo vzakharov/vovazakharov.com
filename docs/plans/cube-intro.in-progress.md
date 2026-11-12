@@ -214,6 +214,23 @@ the operator's own word for the potted plant in floor 1's room.
   simulation), told to core, sky, sea and sand. Footprints are per-player
   history, so they are out unless the operator asks for them.
 
+- **2026-11-12 ~22:50Z, on the footprints being dropped — a principle**:
+
+  > да, где-то на борду большими буквами: Interactions come at a price. Это и в
+  > фигуральном и в буквальном смысле: любое, что меняет состояние мира силами
+  > одного игрока (вплоть до "пнуть мячик на полу") -- только покупкой.
+  >
+  > в более философском смысле, можно вспомнить про всяких
+  > исследователей-первооткрывателей, у которых это первая заповедь; про sound
+  > of thunder у бредберри, про эффект бабочки итдитп
+
+  Written into `src/cube/CLAUDE.md` with the two rules it stands beside, into
+  the contract, and sent to the board session for the board, in English, large.
+  What it decides here: no footprints, no wake or ripples from the player's
+  body, no sand disturbed; and the lead's reading for the pill — the shelf holds
+  a pill for whoever comes next, the one taken being the taker's own. That
+  reading was told to the operator in passing.
+
 ## Facts established
 
 - **The seam (core step 1, 1a311efa, merged into this branch at faedd71d)**: the
