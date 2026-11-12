@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 3334,
-    "cacheWrite5mTokens": 448568,
-    "cacheWrite1hTokens": 132957,
-    "cacheReadTokens": 20982458,
-    "outputTokens": 82415,
-    "thinkingTokens": 30796,
-    "responses": 156,
-    "costUsd": 9.173938600000001
+    "inputTokens": 3900,
+    "cacheWrite5mTokens": 449632,
+    "cacheWrite1hTokens": 167545,
+    "cacheReadTokens": 27624282,
+    "outputTokens": 94903,
+    "thinkingTokens": 34137,
+    "responses": 188,
+    "costUsd": 11.039543400000003
   },
   "estimate": {
     "at": "2026-11-12T08:58:14.520Z",
@@ -51,27 +51,28 @@
     }
   },
   "sessionId": "82a3f5b8-3f41-5c1e-afb5-d602bd3a4d37",
-  "branch": "claude/cube-liminal-332pmv",
+  "branch": "claude/cube-review-perf",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/cube-liminal-332pmv — PR открыт, отражения вмержены, ждём взгляда на превью так, превью шикарен. есть нарекания, но они не стоят того чтобы с…",
   "prs": [
-    273
+    273,
+    275
   ],
   "url": "https://claude.ai/code/session_01DaohkBvLD2WSYPkUSXi9Di",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-12T08:19:22.604Z",
-  "lastResponseAt": "2026-11-12T09:05:34.396Z",
+  "lastResponseAt": "2026-11-12T09:58:20.453Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 116,
+    "inputTokens": 176,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 132957,
-    "cacheReadTokens": 8764998,
-    "outputTokens": 26446,
-    "thinkingTokens": 10042,
-    "responses": 59,
-    "costUsd": 3.3460396
+    "cacheWrite1hTokens": 167545,
+    "cacheReadTokens": 15216677,
+    "outputTokens": 38917,
+    "thinkingTokens": 13383,
+    "responses": 90,
+    "costUsd": 5.1627393999999995
   },
   "subagents": {
     "inputTokens": 182,
@@ -85,47 +86,48 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 3334,
-      "cacheWrite5mTokens": 448568,
-      "cacheWrite1hTokens": 132957,
-      "cacheReadTokens": 20982458,
-      "outputTokens": 82415,
-      "thinkingTokens": 30796,
-      "responses": 156,
-      "costUsd": 9.173938600000001
+      "inputTokens": 3900,
+      "cacheWrite5mTokens": 449632,
+      "cacheWrite1hTokens": 167545,
+      "cacheReadTokens": 27624282,
+      "outputTokens": 94903,
+      "thinkingTokens": 34137,
+      "responses": 188,
+      "costUsd": 11.039543400000003
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 156,
-    "matched": 150,
-    "matchedTableUsd": 8.9677256,
-    "matchedEventUsd": 8.9677256,
+    "events": 188,
+    "matched": 181,
+    "matchedTableUsd": 10.784425400000002,
+    "matchedEventUsd": 10.784425400000002,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 3036,
-        "cacheWrite5mTokens": 3105,
+        "inputTokens": 3542,
+        "cacheWrite5mTokens": 4169,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 836645,
-        "outputTokens": 95,
+        "cacheReadTokens": 1026790,
+        "outputTokens": 112,
         "thinkingTokens": 0,
-        "responses": 6,
-        "costUsd": 0.20621299999999998
+        "responses": 7,
+        "costUsd": 0.25511799999999996
       }
     }
   },
   "operatorWords": {
-    "chat": 287,
-    "review": 0,
+    "chat": 319,
+    "review": 16,
     "threads": 0
   },
-  "reviewPosts": {},
+  "reviewPosts": {
+    "IC_kwDOQXZBKM8AAAABlgGUXA": 7,
+    "PRR_kwDOQXZBKM8AAAABXfe6qg": 9
+  },
   "threadPosts": {},
   "branchLines": {
-    ".json": 18,
-    ".yaml": 85,
-    ".ts": 27589,
-    ".tsx": 26
+    ".md": 60,
+    ".json": 23
   }
 }
