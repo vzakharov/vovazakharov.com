@@ -1,7 +1,16 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { type Channel, cuesBetween, shotAt, type Track, valueAt } from './track';
+import {
+  type Channel,
+  cuesBetween,
+  joined,
+  reversed,
+  shotAt,
+  type Track,
+  trackOf,
+  valueAt,
+} from './track';
 
 const HELD: Channel = [[0, 0]];
 
@@ -88,6 +97,72 @@ describe('shotAt', () => {
       lids: 0.5,
       exposure: 1,
     });
+  });
+});
+
+describe('trackOf', () => {
+  const REST = { x: 0, y: 0, z: 0, yaw: 0, elevation: 0, roll: 0, lids: 1 };
+  const scene = trackOf<string>(
+    [
+      { at: 0, ...REST, exposure: 1 },
+      { at: 2, y: 4 },
+      { at: 4, x: 8, ease: 'linear' },
+    ],
+    [[1, 'step']],
+  );
+
+  it('lasts to its last beat and keeps its cues', () => {
+    assert.equal(scene.span, 4);
+    assert.deepEqual(scene.cues, [[1, 'step']]);
+  });
+
+  it('runs a channel straight through a beat that leaves it out', () => {
+    assert.equal(shotAt(scene, 2).x, 4);
+    assert.equal(shotAt(scene, 2).y, 4);
+    assert.equal(shotAt(scene, 3).y, 4);
+    assert.equal(shotAt(scene, 3).exposure, 1);
+  });
+
+  it('refuses a first beat that leaves a channel unpinned', () => {
+    assert.throws(() => trackOf([{ at: 0, ...REST }]), /exposure/);
+  });
+
+  it('plays backwards as the same camera at the mirrored moment', () => {
+    const back = reversed(scene, (cue) => `un${cue}`);
+    for (const t of [0, 0.3, 1, 2, 2.7, 3.9, 4]) {
+      const [there, here] = [shotAt(scene, 4 - t), shotAt(back, t)];
+      assert.ok(Math.abs(there.x - here.x) < 1e-12, `x at ${t}`);
+      assert.ok(Math.abs(there.y - here.y) < 1e-12, `y at ${t}`);
+    }
+    assert.deepEqual(back.cues, [[3, 'unstep']]);
+  });
+
+  it('mirrors an eased stretch when played backwards', () => {
+    const eased = trackOf<string>([
+      { at: 0, ...REST, exposure: 1 },
+      { at: 2, x: 1, ease: 'in' },
+    ]);
+    const back = reversed(eased);
+    assert.equal(shotAt(back, 0.5).x, shotAt(eased, 1.5).x);
+  });
+
+  it('joins two tracks end to start', () => {
+    const after = trackOf<string>(
+      [
+        { at: 0, ...REST, x: 8, y: 4, exposure: 1 },
+        { at: 1, x: 10 },
+      ],
+      [[0.5, 'rung']],
+    );
+    const both = joined(scene, after);
+    assert.equal(both.span, 5);
+    assert.equal(shotAt(both, 3).x, 4);
+    assert.equal(shotAt(both, 4).x, 8);
+    assert.equal(shotAt(both, 5).x, 10);
+    assert.deepEqual(both.cues, [
+      [1, 'step'],
+      [4.5, 'rung'],
+    ]);
   });
 });
 
