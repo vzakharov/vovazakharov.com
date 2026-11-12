@@ -194,8 +194,8 @@ fn daub(at: vec2f, middle: vec2f, radii: vec2f) -> f32 {
 }
 
 /// The official portrait that hung where a carpet did not, of a Leader
-/// nobody can name: the paint at \`at\` of the Leader rolled by \`roll\`: x from -0.76 to
-/// 0.76 across the canvas, y from -1 at its foot to 1 at its head.
+/// nobody can name: the paint at \`at\` of the Leader \`roll\` draws, x from
+/// -0.76 to 0.76 across the canvas, y from -1 at its foot to 1 at its head.
 fn portrayed(at: vec2f, roll: u32) -> vec3f {
   let side = abs(at.x);
   let bald = (roll & 1u) == 1u;

@@ -95,7 +95,7 @@ describe('utter', () => {
     assert.deepEqual(utter(line, ME, RATE), utter(line, ME, RATE));
   });
 
-  it('differs wholeBetween lines, voices and sources', () => {
+  it('differs between lines, voices and sources', () => {
     const line = spoken('who built this?');
     const base = utter(line, ME, RATE);
     assert.notDeepEqual(base, utter(spoken('who left this?'), ME, RATE));

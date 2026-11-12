@@ -58,7 +58,7 @@ export function piped(samples: Float32Array, sampleRate: number): Float32Array {
 const NOTES = [659.3, 523.3] as const;
 const CHIME_AT = 150;
 
-/** Seconds wholeBetween the chime's notes, each note's ring, and the hush after. */
+/** Seconds between the chime's notes, each note's ring, and the hush after. */
 const APART = 0.42;
 const DECAY = 0.38;
 const HUSH = 0.35;

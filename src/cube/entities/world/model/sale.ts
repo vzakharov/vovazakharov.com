@@ -102,13 +102,13 @@ export function signsSeen(
 /** A sale sign: 1.5 m wide and 75 cm tall on floor 1, its middle 1.5 m up. */
 const SIGN: BoardShape = { width: 0.3, height: 0.15, hungAt: 0.3 };
 
-/** The board of `sign` in `room`, placed at `place` in the eye's frame. */
+/** The board of the sign at `mount` in `room`, at `place` in the eye's frame. */
 export const signFacets = (
   mount: SignMount,
   room: Room,
   place: Placed,
 ): Facet[] => boardFacets(mount, SIGN, room, place);
 
-/** The post under `sign`, if it stands on one. */
+/** The post under the sign hung at `mount`, if it stands on one. */
 export const signPost = (mount: SignMount, room: Room, place: Placed): Quad[] =>
   boardPost(mount, SIGN, room, place);

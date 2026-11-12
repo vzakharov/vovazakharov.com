@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 519,
-    "cacheWrite5mTokens": 252277,
+    "inputTokens": 555,
+    "cacheWrite5mTokens": 335818,
     "cacheWrite1hTokens": 674812,
-    "cacheReadTokens": 50702719,
-    "outputTokens": 156976,
-    "thinkingTokens": 56883,
-    "responses": 275,
-    "costUsd": 19.942020800000016
+    "cacheReadTokens": 53025686,
+    "outputTokens": 164011,
+    "thinkingTokens": 59022,
+    "responses": 294,
+    "costUsd": 20.965163200000013
   },
   "estimate": {
     "at": "2026-11-12T01:18:04.630Z",
@@ -70,7 +70,7 @@
   "url": "https://claude.ai/code/session_016Z4TKqBdiPUwyUDMrs26WP",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-12T00:34:04.933Z",
-  "lastResponseAt": "2026-11-12T01:20:00.329Z",
+  "lastResponseAt": "2026-11-12T01:22:51.159Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
@@ -84,25 +84,25 @@
     "costUsd": 15.931046800000011
   },
   "subagents": {
-    "inputTokens": 114,
-    "cacheWrite5mTokens": 252277,
+    "inputTokens": 150,
+    "cacheWrite5mTokens": 335818,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 10886265,
-    "outputTokens": 28594,
-    "thinkingTokens": 11266,
-    "responses": 60,
-    "costUsd": 4.010973999999998
+    "cacheReadTokens": 13209232,
+    "outputTokens": 35629,
+    "thinkingTokens": 13405,
+    "responses": 79,
+    "costUsd": 5.034116399999999
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 519,
-      "cacheWrite5mTokens": 252277,
+      "inputTokens": 555,
+      "cacheWrite5mTokens": 335818,
       "cacheWrite1hTokens": 674812,
-      "cacheReadTokens": 50702719,
-      "outputTokens": 156976,
-      "thinkingTokens": 56883,
-      "responses": 275,
-      "costUsd": 19.942020800000016
+      "cacheReadTokens": 53025686,
+      "outputTokens": 164011,
+      "thinkingTokens": 59022,
+      "responses": 294,
+      "costUsd": 20.965163200000013
     }
   },
   "warnings": [],
@@ -211,7 +211,7 @@
     ".json": 20,
     ".md": 429,
     ".yaml": 85,
-    ".ts": 27223,
+    ".ts": 27221,
     ".tsx": 26
   }
 }

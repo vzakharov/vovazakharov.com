@@ -22,7 +22,7 @@ describe('noise', () => {
     }
   });
 
-  it('differs wholeBetween seeds, zero included', () => {
+  it('differs between seeds, zero included', () => {
     assert.notEqual(noise(1)(), noise(2)());
     assert.notEqual(noise(0)(), 0);
   });

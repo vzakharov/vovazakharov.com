@@ -16,11 +16,8 @@ import {
 import { glimpse } from './look';
 import type { Player } from './play';
 
-/**
- * A hand's shape, in centimetres of a whole body and in the hand's own axes:
- * along the fingers from the wrist, across the palm towards the thumb, and
- * through the palm, out of it.
- */
+// The hand's shape down to `NAIL` is in centimetres of a whole body (`CM`),
+// in the hand's own axes (`Axes`), from the wrist.
 
 /**
  * One finger or the thumb: where it leaves the palm, the way it points there
