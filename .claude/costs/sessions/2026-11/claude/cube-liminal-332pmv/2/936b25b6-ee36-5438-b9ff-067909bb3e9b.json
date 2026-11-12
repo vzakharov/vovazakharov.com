@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 720,
+    "inputTokens": 755,
     "cacheWrite5mTokens": 450027,
-    "cacheWrite1hTokens": 730253,
-    "cacheReadTokens": 64551512,
-    "outputTokens": 203503,
-    "thinkingTokens": 74702,
-    "responses": 374,
-    "costUsd": 25.075401400000015
+    "cacheWrite1hTokens": 760373,
+    "cacheReadTokens": 68088700,
+    "outputTokens": 211988,
+    "thinkingTokens": 78122,
+    "responses": 391,
+    "costUsd": 26.193639000000015
   },
   "estimate": {
     "at": "2026-11-12T01:18:04.630Z",
@@ -72,18 +72,18 @@
   "url": "https://claude.ai/code/session_016Z4TKqBdiPUwyUDMrs26WP",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-12T00:34:04.933Z",
-  "lastResponseAt": "2026-11-12T01:29:30.272Z",
+  "lastResponseAt": "2026-11-12T01:41:50.745Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 473,
+    "inputTokens": 508,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 730253,
-    "cacheReadTokens": 45156707,
-    "outputTokens": 142003,
-    "thinkingTokens": 47796,
-    "responses": 246,
-    "costUsd": 17.715317400000014
+    "cacheWrite1hTokens": 760373,
+    "cacheReadTokens": 48693895,
+    "outputTokens": 150488,
+    "thinkingTokens": 51216,
+    "responses": 263,
+    "costUsd": 18.833555000000015
   },
   "subagents": {
     "inputTokens": 247,
@@ -97,14 +97,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 720,
+      "inputTokens": 755,
       "cacheWrite5mTokens": 450027,
-      "cacheWrite1hTokens": 730253,
-      "cacheReadTokens": 64551512,
-      "outputTokens": 203503,
-      "thinkingTokens": 74702,
-      "responses": 374,
-      "costUsd": 25.075401400000015
+      "cacheWrite1hTokens": 760373,
+      "cacheReadTokens": 68088700,
+      "outputTokens": 211988,
+      "thinkingTokens": 78122,
+      "responses": 391,
+      "costUsd": 26.193639000000015
     }
   },
   "warnings": [],
@@ -203,7 +203,7 @@
   ],
   "telemetry": null,
   "operatorWords": {
-    "chat": 213,
+    "chat": 235,
     "review": 0,
     "threads": 0
   },
