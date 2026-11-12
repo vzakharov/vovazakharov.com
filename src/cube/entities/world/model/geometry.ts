@@ -1,11 +1,12 @@
 import { CEILING_HEIGHT, SLAB_THICK } from '@/cube/shared/lib/room-shape';
+import type { Vec3 } from '@/cube/shared/lib/vec';
 
 import { type Footprint, footprint, placed, slabHeight } from './frame';
 import { holeMiddle, type HoleOf, type Quarter, QUARTERS, under } from './hole';
 import { leverFaces, leverOf, type Pulled, swungIn } from './lever';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
 import type { InRoom, Pose } from './pose';
-import { face, type Quad, type Vec3 } from './quad';
+import { face, type Quad } from './quad';
 import { isRoom, type Room, roomKey, roomsAcross, WALL_HALF } from './room';
 import type { View } from './rooms';
 
