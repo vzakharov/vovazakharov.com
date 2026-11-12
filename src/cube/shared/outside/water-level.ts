@@ -48,6 +48,15 @@ const RUNUP = 0.55;
 const THICK = 1.5;
 /** Seconds a sheet takes to gather at the still shoreline. */
 const GATHERS = 0.5;
+/** The depth of still water, metres, past which no sheet lifts the surface. */
+const SHEET_REACHES = 0.6;
+/**
+ * How far under the still sea a spent sheet's top is said to lie, and the
+ * sheet depth under which it sinks there: a sheet draining off the sand
+ * hands the surface back to the surf without a step.
+ */
+const SINKS = 0.1;
+const SINKS_UNDER = 0.01;
 /** How far under dry sand the level is said to lie. */
 const DRY = 0.03;
 /** The width, metres, the level's joins are rounded over. */
@@ -174,7 +183,12 @@ export function swellLevel(
   );
   const floor =
     bed < 0 ? surfLevel(tau, bed, shelter) : bed - DRY * smoothstep(0, 0.05, bed);
-  return sheet > 0 ? over(floor, Math.max(bed, 0) + sheet) : floor;
+  if (sheet <= 0) return floor;
+  const top =
+    Math.max(bed, 0) +
+    sheet -
+    (bed < 0 ? SINKS * (1 - smoothstep(0, SINKS_UNDER, sheet)) : 0);
+  return mix(floor, over(floor, top), smoothstep(-SHEET_REACHES, -0.1, bed));
 }
 
 /** The bed's rise per metre at `xz`, along x and z, read `FACING_REACH` either side. */
@@ -292,10 +306,14 @@ fn swellLevel(run: f32, bed: f32, facing: f32, seconds: f32) -> f32 {
   if (bed < 0.0) {
     low = surfLevel(tau, bed, shelter);
   }
-  if (sheet > 0.0) {
-    return shoreOver(low, max(bed, 0.0) + sheet);
+  if (sheet <= 0.0) {
+    return low;
   }
-  return low;
+  var top = max(bed, 0.0) + sheet;
+  if (bed < 0.0) {
+    top -= ${f32(SINKS)} * (1.0 - smoothstep(0.0, ${f32(SINKS_UNDER)}, sheet));
+  }
+  return mix(low, shoreOver(low, top), smoothstep(${f32(-SHEET_REACHES)}, -0.1, bed));
 }
 
 /// The bed's rise per metre at \`xz\`, along x and z.

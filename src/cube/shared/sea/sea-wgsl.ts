@@ -1,5 +1,6 @@
 import { f32, wgsl } from '../lib/wgsl';
 import { AERIAL, CUBE_SHADOW } from '../outside';
+import { TILE } from './cascade';
 import { SEA_FOAM } from './sea-foam-wgsl';
 import { SEA_LIGHT } from './sea-light-wgsl';
 import { UNSEEN_SPREAD } from './sea-state';
@@ -9,6 +10,13 @@ import { SEA_SURFACE } from './sea-surface-wgsl';
 const BED_SHOWS = 24;
 /** The cosine of the sun's rays to the vertical once they are in the water. */
 const SUN_SINKS = 0.67;
+
+/** How strongly a ripple's curve brightens the bed under it. */
+const CAUSTIC = 4;
+/** The depth, metres, over which the bed's light pattern fades by 1/e. */
+const CAUSTIC_FADES = 3;
+/** The width a ray is blurred over on the bed, per metre of water above. */
+const CAUSTIC_BLUR = 0.12;
 
 /**
  * The sea's fragment: one pixel of water, lit. It writes the scene pass's
@@ -30,6 +38,8 @@ struct SeaOut {
 const FOAM = 0.8;
 /// What water full of bubbles returns, of the light a white face would show.
 const AERATED = vec3f(0.1, 0.24, 0.22);
+/// What the water's body shows an eye inside it, of the light falling on it.
+const DROWNED = vec3f(0.035, 0.13, 0.15);
 /// What a crest a metre thick lets through of the sun behind it.
 const CREST_GLOW = vec3f(0.01, 0.1, 0.085);
 
@@ -47,8 +57,23 @@ fn bedUnder(start: vec3f, ray: vec3f, column: f32) -> vec3f {
   return start + ray * reach;
 }
 
+/// How the ripples over \`xz\` gather the sun on a bed \`over\` metres under
+/// them, about 1: a crest is a lens, and the deeper the bed the wider the
+/// ripples whose light comes to a line on it, until they all blur together.
+fn gathered(xz: vec2f, over: f32) -> f32 {
+  let quiet = calm(xz);
+  var bent = 0.0;
+  for (var i = 2u; i < CASCADES; i++) {
+    let lod = max(log2(over * ${f32(TILE * CAUSTIC_BLUR)} / SIDES[i]), 0.0);
+    let curve = textureSampleLevel(slopeMap, waveSampler, xz / SIDES[i], i, lod).zw;
+    bent -= quiet[i] * (curve.x + curve.y);
+  }
+  let strength = ${f32(CAUSTIC)} * smoothstep(0.0, 0.3, over) * exp(-over / ${f32(CAUSTIC_FADES)});
+  return exp(clamp(strength * bent, -1.0, 1.4));
+}
+
 @fragment
-fn seaFragment(in: SeaVarying) -> SeaOut {
+fn seaFragment(in: SeaVarying, @builtin(front_facing) above: bool) -> SeaOut {
   let across = dpdx(in.still);
   let down = dpdy(in.still);
   let reach = in.world - frame.eye.xyz;
@@ -78,9 +103,12 @@ fn seaFragment(in: SeaVarying) -> SeaOut {
     let bed = bedUnder(in.world, refract(-toEye, normal, 0.75), column);
     let through = length(bed - in.world);
     let over = max(shore.level - bed.y, 0.0);
+    // The sky is too wide a lamp to come to a line, but its brighter half
+    // still gathers a little.
+    let gather = gathered(bed.xz, over);
     let lit = SEA_BED * (
-      sunEntering() * cubeShadow(bed) * kept(over / ${f32(SUN_SINKS)})
-        + SKY_FILL * kept(over)
+      sunEntering() * cubeShadow(bed) * kept(over / ${f32(SUN_SINKS)}) * gather
+        + SKY_FILL * kept(over) * mix(1.0, gather, 0.3)
     );
     let shows = smoothstep(${f32(BED_SHOWS)}, ${f32(0.5 * BED_SHOWS)}, column);
     under = mix(
@@ -96,6 +124,20 @@ fn seaFragment(in: SeaVarying) -> SeaOut {
   under += sunlit * SUN_LIGHT * CREST_GLOW
     * smoothstep(0.05, 0.5, in.world.y) * against * against * against;
 
+  if (!above && frame.eye.y < in.world.y) {
+    // The surface from under it: the sky through the window overhead, and
+    // round that the water's own body mirrored back down.
+    var body = DROWNED * falling;
+    let out = refract(-toEye, -normal, 1.333);
+    if (dot(out, out) > 0.0) {
+      body = mix(body, skyRadiance(out, 2.0), 1.0 - fresnel(dot(toEye, -normal)));
+    }
+    var drowned: SeaOut;
+    drowned.light = vec4f(body, far);
+    drowned.depth = in.clip.z;
+    return drowned;
+  }
+
   let water = seen.sky
     + (1.0 - seen.share) * under
     + sunlit * glitter(waves, toEye, seen.shown);
@@ -103,8 +145,11 @@ fn seaFragment(in: SeaVarying) -> SeaOut {
     SUN_LIGHT * sunlit * (0.3 + 0.7 * max(dot(normal, frame.sun.xyz), 0.0))
       + SKY_FILL
   );
-  let foam = lace(in.still, foamThickness(shore, waves.squeeze));
-  let colour = mix(water, white, foam);
+  let thick = foamThickness(in.still, shore, waves.squeeze);
+  let foam = lace(in.still, thick);
+  // Thin foam is a film the water shows through; churning foam is white.
+  let froth = 0.78 + 0.3 * fbm(in.still * 6.0, 41u, 3);
+  let colour = mix(water, white * froth * mix(0.8, 1.0, min(thick, 1.0)), foam);
 
   var out: SeaOut;
   out.light = vec4f(aerial(colour, -toEye, far), far);

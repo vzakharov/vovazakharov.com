@@ -18,7 +18,10 @@ const EDGE_POINTS = 9;
  */
 const RISES = 0.05;
 
-/** The mesh's triangles: two per cell between neighbouring rings and spokes. */
+/**
+ * The mesh's triangles: two per cell between neighbouring rings and spokes,
+ * wound so the side that faces up is the front.
+ */
 function cells(): Uint32Array {
   const indices = new Uint32Array((RINGS - 1) * SPOKES * 6);
   const row = SPOKES + 1;
@@ -27,7 +30,7 @@ function cells(): Uint32Array {
     for (let spoke = 0; spoke < SPOKES; spoke += 1) {
       const corner = ring * row + spoke;
       const out = corner + row;
-      indices.set([corner, out, corner + 1, corner + 1, out, out + 1], at);
+      indices.set([corner, corner + 1, out, corner + 1, out + 1, out], at);
       at += 6;
     }
   }
