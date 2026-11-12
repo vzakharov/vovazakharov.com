@@ -9,8 +9,10 @@ and time.
 Every floor now has its own WGSL shader over a shared kit, in five
 bands (workplace, dwelling, leisure, laboratory, edge), lit in HDR
 through bloom and a per-floor lens. A point is lit from the nine rooms
-around it, so dark rooms take light from their doorways and polished
-floors mirror the lamps as a soft sheen. Rooms are furnished, stage
+around it, so dark rooms take light from their doorways; polished
+floors mirror what the frame shows, walls and lamps alike, by a ray
+walked through the screen, falling back to the lamps' own light where
+it leaves it. Rooms are furnished, stage
 happenings from their seed and the clock, and carry life-size posters
 in landing rooms and sale signs lettered in a script that decays into
 invented alphabets with depth. Floors 9 and 66 trade themes until the
