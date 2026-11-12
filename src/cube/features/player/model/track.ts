@@ -66,7 +66,7 @@ export type Marked<C> = readonly [at: number, cue: C];
  */
 export type Track<C> = Record<ShotChannel, Channel> & {
   span: number;
-  cues: readonly Marked<C>[];
+  cues: ReadonlyArray<Marked<C>>;
 };
 
 /** One value for each channel, as `of` gives it. */
@@ -114,7 +114,7 @@ export type Beat = Partial<Shot> & { at: number; ease?: Ease };
  */
 export function trackOf<C>(
   beats: readonly Beat[],
-  cues: readonly Marked<C>[] = [],
+  cues: ReadonlyArray<Marked<C>> = [],
 ): Track<C> {
   const channels = perChannel((name): Channel => {
     if (beats[0]?.[name] === undefined) {
@@ -175,10 +175,9 @@ export const reversed = <C>(
 export const joined = <C>(first: Track<C>, second: Track<C>): Track<C> => {
   const by = first.span;
   return {
-    ...perChannel((name): Channel => [
-      ...first[name],
-      ...delayed(second[name], by),
-    ]),
+    ...perChannel(
+      (name): Channel => [...first[name], ...delayed(second[name], by)],
+    ),
     span: by + second.span,
     cues: [
       ...first.cues,

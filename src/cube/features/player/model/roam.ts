@@ -1,11 +1,10 @@
 import type { Ground } from '@/cube/shared/lib/acoustics';
 import { lerp, ramp, smooth } from '@/cube/shared/lib/ease';
-import type { Vec3 } from '@/cube/entities/world';
+import type { Gaze, Vec3 } from '@/cube/entities/world';
 
 import type { Cue } from './play';
 import {
   EYE_HEIGHT,
-  type Gaze,
   type Input,
   RUN_SPEED,
   strideOf,
@@ -56,7 +55,8 @@ export const EYE_OVER_WATER = 0.14;
 const SWIM_DEPTH = 1.3;
 const SWIM_SHARE = 0.32;
 
-const BODY_RADIUS = 0.3;
+/** How near a solid the body's middle comes. */
+const GIRTH = 0.3;
 
 /** Metres between footfalls, and between a swimmer's strokes. */
 const STRIDE = 0.75;
@@ -109,8 +109,13 @@ function restingEye(
 }
 
 /** Whether a body with its eye at `eye` floats rather than stands. */
-export const isAfloat = (land: Land, [x, , z]: Vec3, seconds: number): boolean =>
-  land.level(x, z, seconds) + EYE_OVER_WATER > land.height(x, z) + EYE_OVER_SAND;
+export const isAfloat = (
+  land: Land,
+  [x, , z]: Vec3,
+  seconds: number,
+): boolean =>
+  land.level(x, z, seconds) + EYE_OVER_WATER >
+  land.height(x, z) + EYE_OVER_SAND;
 
 /** `x`, `z` pushed out of every solid a body's width away. */
 function clear(
@@ -127,20 +132,20 @@ function clear(
       const nearZ = Math.min(south, Math.max(north, pz));
       const [dx, dz] = [px - nearX, pz - nearZ];
       const away = Math.hypot(dx, dz);
-      if (away >= BODY_RADIUS) continue;
+      if (away >= GIRTH) continue;
       if (away > 0) {
-        const push = BODY_RADIUS / away;
+        const push = GIRTH / away;
         at = [nearX + dx * push, nearZ + dz * push];
         continue;
       }
       // Inside: out through the nearest side.
       const sides = [
-        [px - west, [west - BODY_RADIUS, pz]],
-        [east - px, [east + BODY_RADIUS, pz]],
-        [pz - north, [px, north - BODY_RADIUS]],
-        [south - pz, [px, south + BODY_RADIUS]],
+        [px - west, [west - GIRTH, pz]],
+        [east - px, [east + GIRTH, pz]],
+        [pz - north, [px, north - GIRTH]],
+        [south - pz, [px, south + GIRTH]],
       ] as const;
-      at = sides.reduce((best, side) => (side[0] < best[0] ? side : best))[1];
+      at = sides.toSorted(([a], [b]) => a - b)[0][1];
     }
   }
   return at;

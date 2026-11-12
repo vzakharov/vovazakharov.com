@@ -16,7 +16,7 @@ export { DEEPEST_FLOOR, maze } from './model/maze';
 export { boardFacets, type BoardShape, type SignMount } from './model/mount';
 export { plant } from './model/plant';
 export { planted } from './model/planted';
-export type { InRoom, Pose, Posed, Standing, WallMounted } from './model/pose';
+export type { Gaze, InRoom, Pose, Posed, Standing, WallMounted } from './model/pose';
 export {
   box,
   cross,

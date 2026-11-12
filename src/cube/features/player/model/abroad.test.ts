@@ -17,7 +17,7 @@ import { type Input, STILL } from './step';
 
 const DT = 1 / 30;
 const ahead: Input = { ...STILL, walk: 1 };
-const { land, arrival, ladder } = STAGE;
+const { land, arrival, ladder, wake, indoors } = STAGE;
 
 /** `state` after `seconds` of `input`, awake, and every cue on the way. */
 function run(
@@ -36,13 +36,18 @@ function run(
 }
 
 /** A free body standing at `x`, `z`, looking along `yaw`. */
-const freeAt = (x: number, z: number, yaw: number, looked = true): Abroad => {
+const freeAt = (
+  x: number,
+  z: number,
+  yaw: number,
+  unlooked = false,
+): Abroad => {
   const roamer = roamingAt(land, [x, z], { yaw, elevation: 0 }, 0);
   return {
     roamer,
     scene: null,
     asleep: false,
-    lookedUnder: looked,
+    lookedUnder: !unlooked,
     shot: shotOf(roamer),
     cues: [],
     entered: false,
@@ -61,18 +66,24 @@ describe('abroad', () => {
   });
 
   it('wakes, groans once and is handed back facing the cube, on its feet', () => {
-    const { state, cues } = run(asleepOn(STAGE, 0), ahead, 60, (now) => now.scene === null);
-    assert.equal(state.scene, null);
+    const { state, cues } = run(
+      asleepOn(STAGE, 0),
+      ahead,
+      60,
+      (now) => now.scene === null,
+    );
+    const { scene, roamer } = state;
+    assert.equal(scene, null);
     assert.equal(cues.filter((cue) => cue.cue === 'say').length, 1);
-    const [x, y, z] = state.roamer.eye;
+    const [x, y, z] = roamer.eye;
     assert.ok(Math.abs(y - land.height(x, z) - EYE_OVER_SAND) < 1e-6);
     // The keys held all through the scene moved nothing.
-    assert.ok(Math.hypot(x - STAGE.wake.at[0], z - STAGE.wake.at[1]) < 0.5);
-    assert.ok(Math.cos(state.roamer.yaw - Math.atan2(-z, -x)) > 0.99);
+    assert.ok(Math.hypot(x - wake.at[0], z - wake.at[1]) < 0.5);
+    assert.ok(Math.cos(roamer.yaw - Math.atan2(-z, -x)) > 0.99);
   });
 
   it('looks under the cube the first time it comes near, and only then', () => {
-    const start = freeAt(-14, 0, 0, false);
+    const start = freeAt(-14, 0, 0, true);
     const near = run(start, ahead, 10, (now) => now.scene !== null).state;
     assert.ok(near.scene !== null && near.lookedUnder);
     assert.ok(near.roamer.eye[0] < -10.4 && near.roamer.eye[0] > -10.7);
@@ -84,7 +95,7 @@ describe('abroad', () => {
   });
 
   it('does not look under the cube from the water', () => {
-    const state = run(freeAt(-60, 0, 0, false), STILL, 1).state;
+    const state = run(freeAt(-60, 0, 0, true), STILL, 1).state;
     assert.equal(state.scene, null);
   });
 
@@ -92,7 +103,14 @@ describe('abroad', () => {
     const by = freeAt(4.8, -1.2, Math.PI);
     assert.ok(canClimb(by, STAGE, 0));
     assert.ok(!canClimb(freeAt(8, -1.2, Math.PI), STAGE, 0));
-    const far = abroad(freeAt(8, -1.2, Math.PI), { ...STILL, pull: true }, DT, 0, STAGE, true);
+    const far = abroad(
+      freeAt(8, -1.2, Math.PI),
+      { ...STILL, pull: true },
+      DT,
+      0,
+      STAGE,
+      true,
+    );
     assert.equal(far.scene, null);
     const started = abroad(by, { ...STILL, pull: true }, DT, 0, STAGE, true);
     assert.equal(started.scene?.into, 'cube');
@@ -104,13 +122,22 @@ describe('abroad', () => {
 
   it('comes back down from the doorway to the ladder foot', () => {
     const inside = {
-      ...shotOf({ eye: [arrival[0], arrival[1], arrival[2] + 0.3], yaw: 0.1, elevation: 0 }),
-      exposure: STAGE.indoors,
+      ...shotOf({
+        eye: [arrival[0], arrival[1], arrival[2] + 0.3],
+        yaw: 0.1,
+        elevation: 0,
+      }),
+      exposure: indoors,
     };
     assert.ok(byDoorway(inside, STAGE));
     assert.ok(!byDoorway({ ...inside, yaw: Math.PI }, STAGE));
     assert.ok(!byDoorway({ ...inside, x: arrival[0] - 2 }, STAGE));
-    const { state } = run(leaving(inside, STAGE, 0), ahead, 60, (now) => now.scene === null);
+    const { state } = run(
+      leaving(inside, STAGE, 0),
+      ahead,
+      60,
+      (now) => now.scene === null,
+    );
     const [x, , z] = state.roamer.eye;
     assert.ok(Math.hypot(x - ladder.foot[0], z - ladder.foot[2]) < 0.6);
     assert.ok(state.lookedUnder);

@@ -21,6 +21,9 @@ type Playing = {
   into: 'island' | 'cube';
 };
 
+/** What a body out of doors carries from scene to scene. */
+type Mind = { asleep: boolean; lookedUnder: boolean };
+
 /**
  * A body out of doors and what the eye shows of it this frame. `scene` is
  * the one that holds its controls, null while it roams free; `asleep` until
@@ -29,11 +32,9 @@ type Playing = {
  * `entered` in the one frame a scene has put the body inside the cube, where
  * `shot` is where it stands.
  */
-export type Abroad = {
+export type Abroad = Mind & {
   roamer: Roamer;
   scene: Playing | null;
-  asleep: boolean;
-  lookedUnder: boolean;
   shot: Shot;
   cues: readonly Cue[];
   entered: boolean;
@@ -42,11 +43,7 @@ export type Abroad = {
 const NO_CUES: readonly Cue[] = [];
 
 /** `scene` taking over a body last seen as `roamer`. */
-const playing = (
-  roamer: Roamer,
-  scene: Playing,
-  rest: Pick<Abroad, 'asleep' | 'lookedUnder'>,
-): Abroad => ({
+const playing = (roamer: Roamer, scene: Playing, rest: Mind): Abroad => ({
   roamer,
   scene,
   ...rest,
@@ -128,8 +125,8 @@ export function abroad(
   stage: Stage,
   woken: boolean,
 ): Abroad {
-  const { scene, roamer, lookedUnder } = state;
-  if (state.asleep && !woken) return { ...state, cues: NO_CUES };
+  const { scene, roamer, lookedUnder, asleep } = state;
+  if (asleep && !woken) return { ...state, cues: NO_CUES };
   const rest = { asleep: false, lookedUnder };
   if (scene !== null) {
     const { track, playedFor, into } = scene;
@@ -158,20 +155,25 @@ export function abroad(
     );
   }
   const moved = roam(roamer, input, dt, seconds, stage.land);
-  const [x, , z] = moved.eye;
+  const { eye, cues } = moved;
+  const [x, , z] = eye;
   if (
     !lookedUnder &&
     farFrom(stage.cube, [x, z]) <= LOOK_FROM &&
-    !isAfloat(stage.land, moved.eye, seconds)
+    !isAfloat(stage.land, eye, seconds)
   ) {
     return {
       ...playing(
         moved,
-        { track: lookUnder(shotOf(moved), stage), playedFor: 0, into: 'island' },
+        {
+          track: lookUnder(shotOf(moved), stage),
+          playedFor: 0,
+          into: 'island',
+        },
         { asleep: false, lookedUnder: true },
       ),
-      cues: moved.cues,
+      cues,
     };
   }
-  return { ...free, roamer: moved, shot: shotOf(moved), cues: moved.cues };
+  return { ...free, roamer: moved, shot: shotOf(moved), cues };
 }

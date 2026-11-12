@@ -3,8 +3,7 @@ import type { Stage } from './scenes';
 import { type Shot, shotAt, type Track } from './track';
 
 /** A cone of sand 1.6 m high round the origin, a still sea at 0. */
-const height = (x: number, z: number): number =>
-  1.6 - 0.055 * Math.hypot(x, z);
+const height = (x: number, z: number): number => 1.6 - 0.055 * Math.hypot(x, z);
 
 /**
  * A stage like the intro's: the cube over the crest with its underside 1.1 m
@@ -29,7 +28,9 @@ export const STAGE: Stage = {
 };
 
 /** `track`'s camera every `every` seconds from its start to its end. */
-export const sampled = (track: Track<Cue>, every = 0.05): Shot[] =>
-  Array.from({ length: Math.floor(track.span / every) + 1 }, (_, index) =>
+export const sampled = (track: Track<Cue>, every = 0.05): Shot[] => [
+  ...Array.from({ length: Math.floor(track.span / every) + 1 }, (_, index) =>
     shotAt(track, index * every),
-  ).concat(shotAt(track, track.span));
+  ),
+  shotAt(track, track.span),
+];

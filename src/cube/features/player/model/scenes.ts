@@ -1,8 +1,7 @@
-import type { Vec3 } from '@/cube/entities/world';
+import type { Gaze, Vec3 } from '@/cube/entities/world';
 
 import type { Cue } from './play';
 import { EYE_OVER_SAND, type Footprint, type Land } from './roam';
-import type { Gaze } from './step';
 import {
   type Beat,
   joined,
@@ -32,8 +31,11 @@ export type Stage = {
   indoors: number;
 };
 
+/** Where an eye is, as a shot's own channels. */
+type Spot = Record<'x' | 'y' | 'z', number>;
+
 /** A scene's cues, each at its moment. */
-type Marks = readonly Marked<Cue>[];
+type Marks = ReadonlyArray<Marked<Cue>>;
 
 const TAU = 2 * Math.PI;
 
@@ -70,11 +72,14 @@ export function waking({ land, wake, cube }: Stage): Track<Cue> {
   const { at, seaward } = wake;
   const [cos, sin] = [Math.cos(seaward), Math.sin(seaward)];
   /** The eye `out` metres seaward of the hips and `over` the sand there. */
-  const eyeAt = (out: number, over: number): Pick<Shot, 'x' | 'y' | 'z'> => {
+  const eyeAt = (out: number, over: number): Spot => {
     const [x, z] = [at[0] + out * cos, at[1] + out * sin];
     return { x, y: land.height(x, z) + over, z };
   };
-  const stood: readonly [number, number] = [at[0] + 0.2 * cos, at[1] + 0.2 * sin];
+  const stood: readonly [number, number] = [
+    at[0] + 0.2 * cos,
+    at[1] + 0.2 * sin,
+  ];
   const middle: readonly [number, number] = [
     (cube.west + cube.east) / 2,
     (cube.north + cube.south) / 2,
@@ -195,7 +200,10 @@ function strolling(
   });
   return {
     beats,
-    cues: beats.map(({ at }) => [at, { cue: 'step', strength: 0.4, ground: 'sand' }]),
+    cues: beats.map(({ at }) => [
+      at,
+      { cue: 'step', strength: 0.4, ground: 'sand' },
+    ]),
     arrives: start + far / STROLL,
   };
 }
@@ -234,7 +242,14 @@ export function lookUnder(from: Shot, { land, cube }: Stage): Track<Cue> {
     { at: 0, ...from },
     { at: 0.9, yaw, elevation: 0, roll: 0 },
     ...walk.beats,
-    { at: down, x: there[0], y: ground + EYE_OVER_SAND, z: there[1], elevation: 0, roll: 0 },
+    {
+      at: down,
+      x: there[0],
+      y: ground + EYE_OVER_SAND,
+      z: there[1],
+      elevation: 0,
+      roll: 0,
+    },
     { at: down + 1.5, ...bent },
     { at: down + 3.4, ...bent },
     {
@@ -321,7 +336,7 @@ function ascent({ land, ladder, arrival, indoors }: Stage): Track<Cue> {
     { at: over + 2.1, exposure: indoors },
   ];
   const cues: Marks = [
-    ...rungs.flatMap((_, index): Marked<Cue>[] => {
+    ...rungs.flatMap((_, index): Array<Marked<Cue>> => {
       const at = begins + RUNG_TIME * index;
       return [
         [at + RUNG_TIME * 0.35, { cue: 'rung', limb: 'hand' }],

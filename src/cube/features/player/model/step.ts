@@ -1,4 +1,4 @@
-import type { Pose, Standing, Walls } from '@/cube/entities/world';
+import type { Gaze, Pose, Walls } from '@/cube/entities/world';
 
 import { walk } from './body';
 
@@ -59,9 +59,6 @@ const wrap = (angle: number): number => ((angle % TAU) + TAU) % TAU;
 
 const clamp = (value: number, bound: number): number =>
   Math.min(bound, Math.max(-bound, value));
-
-/** The way an eye looks, wherever it is. */
-export type Gaze = Pick<Standing, 'yaw' | 'elevation'>;
 
 /** `gaze` after `dt` seconds of `input`'s turning and tilting. */
 export function turned(gaze: Gaze, input: Input, dt: number): Gaze {

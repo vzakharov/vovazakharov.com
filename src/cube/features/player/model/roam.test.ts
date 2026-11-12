@@ -40,6 +40,10 @@ function going(
   return { roamer: now, cues };
 }
 
+/** How far a frame of walking east carries a body from `x`. */
+const paceFrom = (x: number): number =>
+  roam(roamingAt(beach, [x, 0], EAST, 0), ahead, DT, 0, beach).eye[0] - x;
+
 describe('roam', () => {
   it('stands a body with its eye a person over the sand', () => {
     const { eye } = roamingAt(beach, [-20, 3], EAST, 0);
@@ -47,12 +51,14 @@ describe('roam', () => {
   });
 
   it('runs dry sand at the inside pace, footfalls on sand', () => {
-    const { roamer, cues } = going(roamingAt(beach, [-30, 0], EAST, 0), ahead, 2);
+    const { roamer, cues } = going(
+      roamingAt(beach, [-30, 0], EAST, 0),
+      ahead,
+      2,
+    );
     assert.ok(Math.abs(roamer.eye[0] - -23) < 0.1, `${roamer.eye[0]}`);
     assert.equal(cues.length, 9);
-    assert.ok(
-      cues.every((cue) => cue.cue === 'step' && cue.ground === 'sand'),
-    );
+    assert.ok(cues.every((cue) => cue.cue === 'step' && cue.ground === 'sand'));
   });
 
   it('follows the sand down, the eye settling over it', () => {
@@ -63,9 +69,11 @@ describe('roam', () => {
   });
 
   it('names wet sand by the water and shallows in it', () => {
-    const grounds = going(roamingAt(beach, [-2, 0], EAST, 0), ahead, 3).cues.map(
-      (cue) => (cue.cue === 'step' ? cue.ground : cue.cue),
-    );
+    const grounds = going(
+      roamingAt(beach, [-2, 0], EAST, 0),
+      ahead,
+      3,
+    ).cues.map((cue) => (cue.cue === 'step' ? cue.ground : cue.cue));
     assert.deepEqual(
       [...new Set(grounds)],
       ['sand', 'wet-sand', 'shallows', 'splash'],
@@ -73,15 +81,17 @@ describe('roam', () => {
   });
 
   it('slows as the water deepens', () => {
-    const paceFrom = (x: number): number =>
-      roam(roamingAt(beach, [x, 0], EAST, 0), ahead, DT, 0, beach).eye[0] - x;
     assert.ok(paceFrom(5) < paceFrom(0));
     assert.ok(paceFrom(10) < paceFrom(5));
     assert.ok(Math.abs(paceFrom(30) / paceFrom(-5) - 0.32) < 1e-9);
   });
 
   it('floats once the water would cover its eyes, and has no edge', () => {
-    const { roamer, cues } = going(roamingAt(beach, [10, 0], EAST, 0), ahead, 60);
+    const { roamer, cues } = going(
+      roamingAt(beach, [10, 0], EAST, 0),
+      ahead,
+      60,
+    );
     const [x, y] = roamer.eye;
     assert.ok(x > 60, `${x}`);
     assert.ok(isAfloat(beach, roamer.eye, 0));
@@ -115,7 +125,7 @@ describe('roam', () => {
       4,
       walled,
     ).roamer.eye;
-    assert.ok(slide[0] > -15 && slide[2] > 3.29, `${slide.join(',')}`);
+    assert.ok(slide[0] > -15 && slide[2] > 3.29, slide.join(','));
   });
 
   it('puts a body found inside a solid out through its nearest side', () => {
