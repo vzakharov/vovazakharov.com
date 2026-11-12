@@ -12,34 +12,34 @@ items:
     text: The premise, beat by beat
   - id: intro-1
     type: sticky
-    updated: [2026-11-12T22:25:00.000Z, agent:cube-intro]
+    updated: [2026-11-12T22:45:00.000Z, agent:cube-intro]
     box: [5748, -820, 280, yellow]
     icon: 🌊
-    text: 'You open your eyes, groan a little, sit up: a tiny sand island, nobody on it. «О твои ноги хлещут волны». Standing, you see only the sea at first'
+    text: 'You open your eyes, groan a little, sit up: a tiny sand island, nobody on it, waves lashing at your feet. Standing, you see only the sea at first'
   - id: intro-2
     type: sticky
-    updated: [2026-11-12T22:25:00.000Z, agent:cube-intro]
+    updated: [2026-11-12T22:45:00.000Z, agent:cube-intro]
     box: [6054, -820, 280, yellow]
     icon: ⬛
-    text: 'You turn round. A few dozen metres off a cube hangs in the air, 5×5×5 m: black, with grey bands, each half the height that is left. «Материалы otherworldly, издают какой-то звук и не привычным глазу образом играют в предзакатном солнце»'
+    text: 'You turn round. A few dozen metres off a cube hangs in the air, 5×5×5 m: black, with grey bands, each half the height that is left. Vova: “otherworldly materials that give off some sound and play in the pre-sunset sun in a way the eye is not used to”'
   - id: intro-3
     type: sticky
-    updated: [2026-11-12T22:25:00.000Z, agent:cube-intro]
+    updated: [2026-11-12T22:45:00.000Z, agent:cube-intro]
     box: [6360, -820, 280, yellow]
     icon: 🪜
-    text: 'In the top band, a doorway with a room showing through it. And, «что совершенно не вяжется со всем этим», a perfectly ordinary ladder leaning to its sill. From here you walk: round the island, or out to sea, which has no edge yet'
+    text: 'In the top band, a doorway with a room showing through it. And, “which does not fit with any of this at all”, a perfectly ordinary ladder leaning to its sill. From here you walk: round the island, or out to sea, which has no edge yet'
   - id: intro-4
     type: sticky
-    updated: [2026-11-12T22:25:00.000Z, agent:cube-intro]
+    updated: [2026-11-12T22:45:00.000Z, agent:cube-intro]
     box: [6666, -820, 280, yellow]
     icon: 👀
-    text: 'Come near the cube and you stoop to look under it: nothing there, nothing holds it. «Это нужно чтобы дать понять, что весь наш лабиринт действительно находится в одном кубе»'
+    text: 'Come near the cube and you stoop to look under it: nothing there, nothing holds it. Vova: “this is to make it clear that our whole maze really is inside one cube”'
   - id: intro-5
     type: sticky
-    updated: [2026-11-12T22:25:00.000Z, agent:cube-intro]
+    updated: [2026-11-12T22:45:00.000Z, agent:cube-intro]
     box: [6972, -820, 280, yellow]
     icon: 🚪
-    text: 'E at the ladder: you climb, and through the doorway you are in floor 1’s room. Where the door was is the opening; no lamps, only the low sun through it. The office stays as it was, plant included: «Пусть будет, тем комичнее. Солнце должно играть "об него"»'
+    text: 'E at the ladder: you climb, and through the doorway you are in floor 1’s room. Where the door was is the opening; no lamps, only the low sun through it. The office stays as it was, plant included. Vova: “let it be, all the funnier. The sun should play off it”'
   - id: intro-6
     type: sticky
     updated: [2026-11-12T22:25:00.000Z, agent:cube-intro]
@@ -53,10 +53,10 @@ items:
     text: Staging decisions, and where the sea comes from
   - id: intro-d1
     type: sticky
-    updated: [2026-11-12T22:35:00.000Z, agent:cube-intro]
+    updated: [2026-11-12T22:45:00.000Z, agent:cube-intro]
     box: [5748, -330, 280, blue]
     icon: ☀️
-    text: 'The doorway faces the sun, and you wake on the cube’s far side, ~30 m south-west, the sun behind it: turning, you see the cube against the sunset, door and ladder out of sight. Vova: «иначе ты сразу видишь дверь и лестницу in your face, это не так интересно». Waking in front of the doorway lost to this'
+    text: 'The doorway faces the sun, and you wake on the cube’s far side, ~30 m south-west, the sun behind it: turning, you see the cube against the sunset, door and ladder out of sight. Vova: “otherwise you see the door and the ladder at once, in your face, and that is less interesting”. Waking in front of the doorway lost to this'
   - id: intro-d2
     type: sticky
     updated: [2026-11-12T22:35:00.000Z, agent:cube-intro]
@@ -83,10 +83,10 @@ items:
     text: 'One function says where the water is: waterLevel(xz, t), the sea’s slow surface with surge and swash. The sea, the sand’s wet band, the surf’s sound and the waves on your feet all read it, which is what keeps them in step'
   - id: intro-d6
     type: sticky
-    updated: [2026-11-12T22:35:00.000Z, agent:cube-intro]
+    updated: [2026-11-12T22:45:00.000Z, agent:cube-intro]
     box: [7278, -330, 280, blue]
     icon: 🙌
-    text: 'The stylised hands stay as they are. Vova: «контраст между ослепительным реализмом предзакатного острова и недореализмом остального -- будем считать творческим выбором»'
+    text: 'The stylised hands stay as they are. Vova: “the contrast between the dazzling realism of the pre-sunset island and the under-realism of the rest, let us call it a creative choice”'
   - id: intro-img-web-ocean
     type: image
     updated: [2026-11-12T22:35:00.000Z, agent:cube-intro]
@@ -95,10 +95,10 @@ items:
     text: 'From the Island board (item web-ocean): “Inspiration: Noniv/web-ocean — what a browser can do with sea and sky. Nothing copied.” The same goes here'
   - id: intro-world
     type: sticky
-    updated: [2026-11-12T22:35:00.000Z, agent:cube-intro]
+    updated: [2026-11-12T22:45:00.000Z, agent:cube-intro]
     box: [6214, 40, 280, green]
     icon: 🗺️
-    text: 'One ocean, one day. Vova: «это всё станет частью одного мира: наш остров посреди океана в том же мире, где остров Золтана и Сямы. Если поплывёшь -- через сотни километров доплывёшь до берега. А может и взлетишь. Но это потом :)»'
+    text: 'One ocean, one day. Vova: “all this will become part of one world: our island in the middle of the ocean, in the same world as Zoltan and Syama’s island. Swim, and hundreds of kilometres on you reach a shore. Or maybe you take off and fly. But that is for later :)”'
   - id: intro-h-frames
     type: text
     updated: [2026-11-12T22:35:00.000Z, agent:cube-intro]
