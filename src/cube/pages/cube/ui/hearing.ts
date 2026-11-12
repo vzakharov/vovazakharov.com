@@ -1,7 +1,9 @@
+import { pick } from '@/kernel/shared/lib/collections';
 import type { CanDispose } from '@/kernel/shared/typings';
 
 import { pathHash } from '@/dice/shared/roll';
 
+import { LADDER_MATERIAL } from '@/cube/shared/lib/acoustics';
 import { themeOf } from '@/cube/entities/theme';
 import { planted, type Pose, roomKey } from '@/cube/entities/world';
 import type { Cue } from '@/cube/features/player';
@@ -35,10 +37,14 @@ const word = pathHash(planted.seed);
 function soundOf(cue: Cue, pose: Pose): SoundCue | null {
   if (cue.cue === 'say') return null;
   if (cue.cue === 'step') {
-    const { strength } = cue;
-    const { footing } = themeOf(pose.n).sound;
+    const { strength, ground } = cue;
+    const footing = ground ?? themeOf(pose.n).sound.footing;
     return { kind: 'step', strength, footing };
   }
+  if (cue.cue === 'rung') {
+    return { kind: 'rung', ...pick(cue, 'limb'), ladder: LADDER_MATERIAL };
+  }
+  if (cue.cue === 'splash') return { kind: 'splash', ...pick(cue, 'strength') };
   if (cue.cue === 'landing') {
     const { speed } = cue;
     return { kind: 'landing', speed };
@@ -80,7 +86,9 @@ export function hear(canvas: HTMLCanvasElement): Hearing {
         const { moment } = cue;
         // The shrink right after the first is said as the second.
         say(moment === 'shrink' && afterFirst ? 'second-shrink' : moment, pose);
-        if (moment !== 'landing') afterFirst = moment === 'first-shrink';
+        if (moment === 'first-shrink' || moment === 'shrink') {
+          afterFirst = moment === 'first-shrink';
+        }
       }
     },
     rooms: (heard, pose, nowMs) => {
