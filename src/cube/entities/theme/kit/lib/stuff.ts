@@ -1,6 +1,7 @@
+import { wgsl } from '@/cube/shared/lib/wgsl';
+import { HASH } from '@/cube/shared/lib/wgsl-hash';
+
 import { CORE } from './core';
-import { HASH } from './hash';
-import { wgsl } from './wgsl';
 
 /**
  * The stuffs things in a room are made of, the same on every floor: a theme

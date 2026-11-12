@@ -1,8 +1,9 @@
 import type { Sides, Walled } from '@/cube/shared/lib/sides';
+import type { Vec3 } from '@/cube/shared/lib/vec';
 
 import type { Placed } from './frame';
 import type { Quarter } from './hole';
-import type { Quad, Vec3 } from './quad';
+import type { Quad } from './quad';
 import type { InRoomOf, Room } from './room';
 import { opens, STEPS } from './rooms';
 import type { RolledTraits } from './traits';
