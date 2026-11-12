@@ -122,6 +122,14 @@ describe('faces', () => {
     assert.deepEqual(of(1, 'ceiling'), [0.5 + 2 * CEILING_HEIGHT]);
   });
 
+  it('reaches the floor below only through a hole', () => {
+    const pose = at({ n: 3, x: 1n, y: 1n });
+    assert.ok(!facesAt(pose, noHoles).some((q) => q.room.n === 4));
+    const under = facesAt(pose, holedTo(4)).filter((q) => q.room.n === 4);
+    assert.ok(under.some((q) => q.surface === 'ceiling'));
+    assert.ok(!facesAt(pose, holedTo(5)).some((q) => q.room.n === 5));
+  });
+
   it('draws a wall where the maze closes one and none where it opens', () => {
     const pose = at({ n: 3, x: 1n, y: 1n });
     const floor: Room[] = [0n, 1n, 2n, 3n].flatMap((y) =>

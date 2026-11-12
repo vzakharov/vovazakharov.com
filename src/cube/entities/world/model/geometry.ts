@@ -93,7 +93,10 @@ function shaft(
  * `room`'s slab over `area`, at its height in the eye's frame: its top is the
  * room's floor, `owned` where the viewer bought it, and its underside,
  * `SLAB_THICK` of their sides lower, the ceilings of the four rooms beneath,
- * the hole coming out in the middle of one of them down a shaft.
+ * the hole coming out in the middle of one of them down a shaft. The
+ * underside is drawn only where the eye can get under it: over its floor, or
+ * through a hole in it — so the floor below is asked about only once a hole
+ * shows it.
  */
 function slab(
   eye: Room,
@@ -106,10 +109,11 @@ function slab(
   const half = area.roomSide / 2;
   const deep = SLAB_THICK * half;
   const gap = quarter === null ? null : holeGap(quarter);
+  const underneath = room.n < eye.n || (room.n === eye.n && gap !== null);
   return [
     ...level(area, y, gap, room, owned ? 'owned' : 'floor'),
     ...(gap === null ? [] : shaft(area, gap, y, deep, room)),
-    ...QUARTERS.flatMap((q) =>
+    ...(underneath ? QUARTERS : []).flatMap((q) =>
       level(
         {
           east: area.east + q.qx * half,
