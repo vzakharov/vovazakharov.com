@@ -10,7 +10,8 @@ export const UNIFORM_FLOATS = 16 + 4 + 4;
  * stage places a vertex and hands the rest on, and the fragment stages make
  * the `Surf` a theme reads and ask the theme for the point's material and
  * its light — a room's face from what it is made of, a board's from the
- * texture drawn on it — writing scene light, and how far off the point is.
+ * texture drawn on it — writing scene light, how far off the point is, and
+ * the mirror the light left, which the frame fills before the lens.
  * The lens: one triangle over the screen, each pixel what the theme's lens
  * makes of that scene.
  */
@@ -68,22 +69,40 @@ fn surfOf(in: Varying) -> Surf {
   return s;
 }
 
+/// A point as the scene pass writes it: its light and how far off it is,
+/// and its mirror, the share it shows and what the lamps would put there,
+/// then the plane it reflects off and how fast the reflection blurs.
+struct Scene {
+  @location(0) light: vec4f,
+  @location(1) mirror: vec4f,
+  @location(2) plane: vec4f,
+};
+
+/// \`light\`, the theme's for \`s\`, with the mirror it left.
+fn sceneOf(s: Surf, light: vec3f) -> Scene {
+  return Scene(
+    vec4f(light, s.far),
+    vec4f(mirroring.fallback, mirroring.strength),
+    vec4f(mirroring.normal, mirroring.blur),
+  );
+}
+
 @fragment
-fn fragmentMain(in: Varying) -> @location(0) vec4f {
+fn fragmentMain(in: Varying) -> Scene {
   let s = surfOf(in);
   var m = themeMaterial(s);
   if (s.kind == OWNED) {
     m = ownedMark(s, m);
   }
-  return vec4f(themeLight(s, m), s.far);
+  return sceneOf(s, themeLight(s, m));
 }
 
 @fragment
-fn boardFragment(in: Varying) -> @location(0) vec4f {
+fn boardFragment(in: Varying) -> Scene {
   let drawn = textureSample(board, boardSampler, in.tex).rgb;
   let s = surfOf(in);
   let m = matte(pow(drawn, vec3f(2.2)));
-  return vec4f(themeLight(s, m), s.far);
+  return sceneOf(s, themeLight(s, m));
 }
 
 fn sceneAt(uv: vec2f) -> vec4f {

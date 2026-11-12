@@ -93,12 +93,14 @@ fn lampMask(at: vec2f, grid: i32, size: vec2f) -> f32 {
   return 1.0 - smoothstep(0.0, 0.03, panelEdge(at, grid, size));
 }
 
-/// \`lampMask\` with its edge blurred \`soft\` metres across, as a floor short
-/// of glass mirrors it: wider than a panel, the panel spreads into a dimmer
-/// glow of about the light it had.
+/// \`lampMask\` blurred \`soft\` metres across, as a floor short of glass
+/// mirrors it: the panel spreads into a dimmer glow holding the light it
+/// had, as the frame's own blur of a panel it shows does, so the two agree
+/// where one gives way to the other.
 fn lampBlur(at: vec2f, grid: i32, size: vec2f, soft: f32) -> f32 {
   let half = 0.5 * max(soft, 0.03);
-  return 1.0 - smoothstep(-half, half, panelEdge(at, grid, size));
+  let spread = size / (size + vec2f(soft));
+  return (1.0 - smoothstep(-half, half, panelEdge(at, grid, size))) * spread.x * spread.y;
 }
 
 /// How far ceiling point \`at\` lies outside the nearest of \`grid\` panels a
@@ -210,14 +212,16 @@ const RIPPLE = 0.15;
 
 /// How many metres a mirrored panel's edge blurs per metre the mirrored ray
 /// runs, on a floor of no gloss at all.
-const BLUR = 0.3;
+const BLUR = 0.15;
 
 /// How much of the lamps' light the air about a point passes on to it.
 const FILL = 0.16;
 
 /// The point lit by the lamps around it: their direct light and what the
-/// air passes on, the ambient, their highlights on anything polished, and on
-/// a polished floor the panels themselves mirrored in it.
+/// air passes on, the ambient and their highlights on anything polished. A
+/// polished floor is left a mirror, which the frame fills with what it shows
+/// along the reflection, or, where it shows nothing there, with the panels
+/// of the rooms around mirrored in it.
 fn roomLight(s: Surf, m: Material, lamps: Lamps) -> vec3f {
   let normal = normalize(s.normal + m.relief);
   let reach = lampReach(s, normal, m.gloss, lamps);
@@ -226,21 +230,25 @@ fn roomLight(s: Surf, m: Material, lamps: Lamps) -> vec3f {
   // A polished thing mirrors more the more it is looked along.
   let along = pow(1.0 - max(dot(normal, -s.view), 0.0), 5.0);
   let mirror = m.gloss * (0.04 + 0.96 * along);
-  var colour = m.albedo * light * shade + m.emission
+  let colour = m.albedo * light * shade + m.emission
     + lamps.colour * (reach.y * mirror * shade);
   if (m.gloss > 0.0 && s.normal.y > 0.9) {
-    // The panels mirror off the floor's plane, its relief only rippling them:
-    // relief steep at every joint between boards would throw single pixels'
-    // rays onto a panel, and the floor would sparkle.
-    let mirrored = reflect(s.view, normalize(s.normal + RIPPLE * m.relief));
-    if (mirrored.y > 0.001) {
-      let hit = s.p + mirrored * ((ROOM.y - s.p.y) / mirrored.y);
+    // The floor mirrors off its plane, its relief only rippling what it
+    // shows: relief steep at every joint between boards would throw single
+    // pixels' rays onto a panel, and the floor would sparkle.
+    let plane = normalize(s.normal + RIPPLE * m.relief);
+    let blur = BLUR * (1.0 - m.gloss);
+    var fallback = vec3f(0.0);
+    let ray = reflect(s.view, plane);
+    if (ray.y > 0.001) {
+      let hit = s.p + ray * ((ROOM.y - s.p.y) / ray.y);
       // Past the rooms around, the ceiling mirrored is taken for theirs.
       let by = clamp(vec2i(floor(hit.xz / ROOM.xz)), vec2i(-1), vec2i(1));
-      let soft = BLUR * (1.0 - m.gloss) * length(hit - s.p);
-      colour += lamps.colour * (GLARE * mirror * lampsBeside(s, by, lamps.stutter))
+      let soft = blur * length(hit - s.p);
+      fallback = lamps.colour * (GLARE * lampsBeside(s, by, lamps.stutter))
         * lampBlur(hit.xz, lamps.grid, lamps.size, soft);
     }
+    mirroring = Mirror(mirror, plane, blur, fallback);
   }
   return colour;
 }

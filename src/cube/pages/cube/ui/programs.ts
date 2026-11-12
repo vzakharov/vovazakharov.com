@@ -2,13 +2,15 @@
 
 import { VERTEX_LAYOUT } from '../lib/vertex';
 import { SCENE_FORMAT } from './bloom';
+import { MIRROR_FORMATS } from './reflection';
 
 /** Float depth, cleared to 0 and kept where greater: `viewProjection` reverses it. */
 export const DEPTH_FORMAT: GPUTextureFormat = 'depth32float';
 
 /**
  * A floor's pipelines: its rooms' faces and the boards hung in them, drawn
- * as scene light, and the lens that makes the frame of that.
+ * as scene light and the mirrors it leaves, and the lens that makes the
+ * frame of that.
  */
 export type Program = {
   faces: GPURenderPipeline;
@@ -121,7 +123,9 @@ export function createPrograms(
         fragment: {
           module: shader,
           entryPoint: fragment,
-          targets: [{ format: SCENE_FORMAT }],
+          targets: [SCENE_FORMAT, ...MIRROR_FORMATS].map((written) => ({
+            format: written,
+          })),
         },
         primitive: { topology: 'triangle-list', cullMode: 'back' },
         depthStencil: {

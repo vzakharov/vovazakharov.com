@@ -10,9 +10,12 @@ export const GRADE = wgsl(
   'grade',
   /* wgsl */ `
 /// The colour seen through air of colour \`air\` that swallows a thing
-/// \`reach\` metres off by about two thirds.
+/// \`reach\` metres off by about two thirds, and the point's mirror dimmed
+/// as its light is.
 fn haze(colour: vec3f, s: Surf, air: vec3f, reach: f32) -> vec3f {
-  return mix(air, colour, exp(-s.far / reach));
+  let through = exp(-s.far / reach);
+  mirroring.strength *= through;
+  return mix(air, colour, through);
 }
 
 /// Scene light to display colour: a filmic shoulder, then the display's gamma.
