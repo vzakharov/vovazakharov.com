@@ -19,8 +19,7 @@ import {
   type OutdoorKit,
   type OutdoorLayer,
 } from './outdoor-layer';
-import { compileErrors, DEPTH_FORMAT } from './programs';
-import { MIRROR_FORMATS } from './reflection';
+import { compiled, DEPTH_FORMAT, SCENE_TARGETS } from './programs';
 import { sandLayer } from './sand-layer';
 import { seaLayer } from './sea-layer';
 import { shellLayer } from './shell-layer';
@@ -90,9 +89,6 @@ export async function createOutdoors(device: GPUDevice): Promise<Outdoors> {
       },
     ],
   });
-  const targets = [SCENE_FORMAT, ...MIRROR_FORMATS].map((format) => ({
-    format,
-  }));
 
   const kit: OutdoorKit = {
     device,
@@ -100,17 +96,8 @@ export async function createOutdoors(device: GPUDevice): Promise<Outdoors> {
     frame,
     skyMap,
     mips: createHalver(device, SCENE_FORMAT),
-    shader: async (label, roots) => {
-      const compiled = device.createShaderModule({
-        label,
-        code: outdoorSource(roots),
-      });
-      const errors = await compileErrors(compiled);
-      if (errors !== null) {
-        throw new Error(`The outdoor ${label} shader: ${errors}`);
-      }
-      return compiled;
-    },
+    shader: async (label, roots) =>
+      compiled(device, `The outdoor ${label} shader`, outdoorSource(roots)),
     pipeline: async ({
       label,
       module,
@@ -127,7 +114,7 @@ export async function createOutdoors(device: GPUDevice): Promise<Outdoors> {
           bindGroupLayouts: [layout, ...groups],
         }),
         vertex: { module, entryPoint: vertex, buffers },
-        fragment: { module, entryPoint: fragment, targets },
+        fragment: { module, entryPoint: fragment, targets: SCENE_TARGETS },
         primitive: { topology: 'triangle-list', cullMode },
         depthStencil: {
           format: DEPTH_FORMAT,
