@@ -42,10 +42,10 @@ items:
     text: 'E at the ladder: you climb, and through the doorway you are in floor 1’s room. Where the door was is the opening; no lamps, only the low sun through it. The office stays as it was, plant included. Vova: “let it be, all the funnier. The sun should play off it”'
   - id: intro-6
     type: sticky
-    updated: [2026-11-12T22:25:00.000Z, agent:cube-intro]
+    updated: [2026-11-13T00:30:00.000Z, agent:cube-intro]
     box: [7278, -820, 280, yellow]
     icon: 💊
-    text: 'The lever becomes a pill on a small shelf at the same height: pick up, to the mouth, a swallow, and you shrink as before. The first time you turn it over in your hand first, and a prompt asks: “Press Y to drink, N to put down”'
+    text: 'The lever becomes a pill on a small shelf at the same height: pick up, to the mouth, a swallow, and you shrink as before. The first time you turn it over in your hand first, and a prompt asks: “Press Y to swallow, N to put down”'
   - id: intro-h-staging
     type: text
     updated: [2026-11-12T22:25:00.000Z, agent:cube-intro]
