@@ -13,6 +13,12 @@ const OCTAVES = 6;
 
 /** How much quieter a voice is for each octave it stands up the stack. */
 const TILT = 0.55;
+const WINDOW_SIN = Array.from({ length: OCTAVES }, (_, voice) =>
+  Math.sin((Math.PI * voice) / OCTAVES),
+);
+const WINDOW_COS = Array.from({ length: OCTAVES }, (_, voice) =>
+  Math.cos((Math.PI * voice) / OCTAVES),
+);
 const TILTS = Array.from(
   { length: OCTAVES },
   (_, voice) => 2 ** (-TILT * voice),
@@ -50,17 +56,22 @@ function slid(
     ((rising ? 1 : -1) * CYCLE * seconds * DEEPEST * ratio * 2 ** way) /
     Math.LN2;
   const tilt = 2 ** (-TILT * way);
-  const twin = CYCLE * beat * x * seconds;
+  // A voice and its twin, `beat` hertz apart, are one voice swelling.
+  const twin = Math.PI * beat * x * seconds;
+  const swelling = 2 * Math.cos(twin) * tilt;
+  const sin = Math.sin((Math.PI * way) / OCTAVES);
+  const cos = Math.cos((Math.PI * way) / OCTAVES);
   let sum = 0;
   for (let voice = 0; voice < OCTAVES; voice += 1) {
-    const loud =
-      Math.sin((Math.PI * (voice + way)) / OCTAVES) ** 2 *
-      tilt *
-      (TILTS[voice] ?? 0);
-    const phase = wound * 2 ** voice;
-    sum += loud * (Math.sin(phase) + Math.sin(phase + twin));
+    const window =
+      (WINDOW_SIN[voice] ?? 0) * cos + (WINDOW_COS[voice] ?? 0) * sin;
+    sum +=
+      window *
+      window *
+      (TILTS[voice] ?? 0) *
+      Math.sin(wound * 2 ** voice + twin);
   }
-  return level * sum;
+  return level * swelling * sum;
 }
 
 /**
