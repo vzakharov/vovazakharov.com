@@ -87,6 +87,23 @@ fn embossed(s: Surf, m: Material, height: f32, depth: f32) -> Material {
   return Material(m.albedo, m.emission, m.gloss, m.relief + clamp(relief, vec3f(-2.0), vec3f(2.0)));
 }
 
+/// What a point mirroring its surroundings leaves for the frame to finish:
+/// the share of what lies along its reflection it shows, the plane it
+/// reflects off, how many metres the reflection blurs per metre it runs, and
+/// \`fallback\`, the lamps' light it shows where the frame cannot see along
+/// the reflection.
+struct Mirror {
+  strength: f32,
+  normal: vec3f,
+  blur: f32,
+  fallback: vec3f,
+};
+
+/// The mirror of the point being shaded, none until its light says so; the
+/// stage hands it on beside the point's light, and what dims that light on
+/// its way to the eye dims \`strength\` with it.
+var<private> mirroring: Mirror;
+
 /// The pixel a floor's lens is asked for.
 struct Lens {
   /// Its place on the screen, 0 to 1 from the top left, and in pixels.

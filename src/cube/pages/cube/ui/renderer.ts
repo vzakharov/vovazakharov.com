@@ -9,8 +9,9 @@ import type { Vec3 } from '@/cube/entities/world';
 
 import type { FloorRange, Scenery } from '../lib/mesh';
 import { UNIFORM_FLOATS } from '../lib/shader';
-import { createBloom, SCENE_FORMAT } from './bloom';
+import { createBloom } from './bloom';
 import { createPrograms, DEPTH_FORMAT, type Preparing } from './programs';
+import { createReflection } from './reflection';
 
 /** What one frame is seen from and when, and what shows where nothing is. */
 export type Shot = Clock & {
@@ -55,12 +56,8 @@ export type Renderer = CanDispose &
 /** How far off the scene's `a` says the air is, where no face is drawn. */
 const NOWHERE = 1e4;
 
-/** What a frame is drawn through, remade when the canvas changes size. */
-type Targets = Sized & {
-  scene: GPUTexture;
-  sceneView: GPUTextureView;
-  depth: GPUTexture;
-};
+/** The depth a frame is drawn through, remade when the canvas changes size. */
+type Targets = Sized & { depth: GPUTexture };
 
 /** A run of a vertex buffer and the pipeline that draws it. */
 type Run = FloorRange & { pipeline: GPURenderPipeline };
@@ -144,6 +141,7 @@ export async function createRenderer(
   let boards: Array<Drawn & { group: GPUBindGroup }> = [];
   let targets: Targets | null = null;
   const bloom = createBloom(device);
+  const reflection = createReflection(device);
   /** Each board texture by its id, and the bind group sampling it. */
   const textures = new Map<
     string,
@@ -180,19 +178,10 @@ export async function createRenderer(
   const targetsOf = (): Targets => {
     const { width, height } = canvas;
     if (targets?.width === width && targets.height === height) return targets;
-    targets?.scene.destroy();
     targets?.depth.destroy();
-    const scene = device.createTexture({
-      size: [width, height],
-      format: SCENE_FORMAT,
-      usage:
-        GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING,
-    });
     targets = {
       width,
       height,
-      scene,
-      sceneView: scene.createView(),
       depth: device.createTexture({
         size: [width, height],
         format: DEPTH_FORMAT,
@@ -240,7 +229,7 @@ export async function createRenderer(
       }
     },
     draw: ({ viewProjection, eye, clear, lens, seconds, hour }) => {
-      const { width, height, sceneView, depth } = targetsOf();
+      const { width, height, depth } = targetsOf();
       const data = new Float32Array(UNIFORM_FLOATS);
       data.set(viewProjection, 0);
       data.set([...eye, 1], 16);
@@ -248,14 +237,12 @@ export async function createRenderer(
       device.queue.writeBuffer(uniforms, 0, data);
       const encoder = device.createCommandEncoder();
       const pass = encoder.beginRenderPass({
-        colorAttachments: [
-          {
-            view: sceneView,
-            clearValue: { r: clear[0], g: clear[1], b: clear[2], a: NOWHERE },
-            loadOp: 'clear',
-            storeOp: 'store',
-          },
-        ],
+        colorAttachments: reflection.attachments(width, height, {
+          r: clear[0],
+          g: clear[1],
+          b: clear[2],
+          a: NOWHERE,
+        }),
         depthStencilAttachment: {
           view: depth.createView(),
           depthClearValue: 0,
@@ -271,6 +258,7 @@ export async function createRenderer(
         drawRuns(pass, board);
       }
       pass.end();
+      const sceneView = reflection.run(encoder, { viewProjection, eye });
       const glow = bloom.run(encoder, sceneView, width, height);
       const framed = encoder.beginRenderPass({
         colorAttachments: [
@@ -302,8 +290,8 @@ export async function createRenderer(
     dispose: () => {
       rooms?.buffer.destroy();
       moving?.buffer.destroy();
-      targets?.scene.destroy();
       targets?.depth.destroy();
+      reflection.dispose();
       bloom.dispose();
       for (const { buffer } of boards) buffer.destroy();
       for (const { texture } of textures.values()) texture.destroy();
