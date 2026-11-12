@@ -206,3 +206,9 @@ items:
     box: [6208, 1450, 430]
     src: images/intro-08-sand-down-2.webp
     text: '8. Sand, second pass, under the final sun, looking down: the cube’s shadow edge across the ripples, gold in sun, blue in shade'
+  - id: intro-ghosts
+    type: sticky
+    updated: [2026-11-13T00:40:00.000Z, agent:cube-intro]
+    box: [6400, -1240, 280, purple]
+    icon: 👻
+    text: 'No footprints, no ripples, nothing you touch stays touched. Vova, reading that card: “it makes me think: are we ghosts? Did we die? Is this the other side?” An open reading, not a decision; nothing in the game says so'
