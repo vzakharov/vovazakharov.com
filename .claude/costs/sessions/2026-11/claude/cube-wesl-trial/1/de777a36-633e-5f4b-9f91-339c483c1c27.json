@@ -1,0 +1,157 @@
+{
+  "total": {
+    "inputTokens": 3978,
+    "cacheWrite5mTokens": 744,
+    "cacheWrite1hTokens": 337100,
+    "cacheReadTokens": 22712120,
+    "outputTokens": 124506,
+    "thinkingTokens": 47620,
+    "responses": 112,
+    "costUsd": 9.748976000000003
+  },
+  "estimate": {
+    "at": "2026-11-12T18:55:18.477Z",
+    "subjectLine": "feat: trial .wgsl files with WESL imports for two cube floors",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "a shader linker over WESL import syntax with MASD rules, and a byte-exact port of two floors and the kit pieces under them, needs someone fluent in WGSL and the theme's assembly"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "where shared lattice and luma land, and which MASD rules a linker can enforce, is a layering call"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-12T18:55:10.938Z",
+    "contextTokens": 168844,
+    "spend": {
+      "inputTokens": 35,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 111357,
+      "cacheReadTokens": 2137905,
+      "outputTokens": 13341,
+      "thinkingTokens": 8679,
+      "responses": 17,
+      "costUsd": 1.5853970000000002
+    }
+  },
+  "sessionId": "de777a36-633e-5f4b-9f91-339c483c1c27",
+  "branch": "claude/cube-wesl-trial",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "No plan. Work on the existing branch `claude/cube-wesl-trial` (already pushed, branched off `claude/cube-review-perf`, the head of review PR https://github.com/…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkFq25hfQsRjURtiG1H",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-12T18:52:55.362Z",
+  "lastResponseAt": "2026-11-12T19:28:33.766Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 211,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 337100,
+    "cacheReadTokens": 22412714,
+    "outputTokens": 114809,
+    "thinkingTokens": 47620,
+    "responses": 111,
+    "costUsd": 9.476366800000003
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 3978,
+      "cacheWrite5mTokens": 744,
+      "cacheWrite1hTokens": 337100,
+      "cacheReadTokens": 22712120,
+      "outputTokens": 124506,
+      "thinkingTokens": 47620,
+      "responses": 112,
+      "costUsd": 9.748976000000003
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-12T19:13:24.101Z",
+      "trigger": "auto",
+      "compactedFrom": 303758,
+      "summaryChars": 22564,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "scripts/lib/wesl/checks.ts",
+        "endedAt": "2026-11-12T19:13:44.237Z",
+        "contextTokens": 128400,
+        "spend": {
+          "inputTokens": 6,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 65749,
+          "cacheReadTokens": 291250,
+          "outputTokens": 1427,
+          "thinkingTokens": 511,
+          "responses": 3,
+          "costUsd": 0.612806
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.2726092
+    }
+  ],
+  "telemetry": {
+    "events": 112,
+    "matched": 111,
+    "matchedTableUsd": 9.476366800000003,
+    "matchedEventUsd": 9.476366800000003,
+    "unseen": {
+      "compact": {
+        "inputTokens": 3767,
+        "cacheWrite5mTokens": 744,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 299406,
+        "outputTokens": 9697,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.2726092
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 368,
+    ".json": 31,
+    ".ts": 1225,
+    ".sh": 1,
+    ".wgsl": 846,
+    ".tsx": 86,
+    ".scss": 15,
+    ".toml": 6
+  }
+}
