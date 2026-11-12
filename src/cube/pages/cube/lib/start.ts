@@ -27,8 +27,8 @@ export type Start = Posed & {
 
 /**
  * Where the page starts. `?cheated_to=` wins over the fragment and starts on
- * that floor with no earned hatch, so nothing is written back; a floor the planted world lacks throws, so the route's error
- * boundary names it. Otherwise a fragment resumes the address it spells,
+ * that floor with no earned hatch, so nothing is written back; a floor the
+ * planted world lacks throws, so the route's error boundary names it. Otherwise a fragment resumes the address it spells,
  * standing at a person's height, or yields null when it leads nowhere; with
  * neither, the walk starts asleep outside the cube, floor 1 ahead of it.
  */
