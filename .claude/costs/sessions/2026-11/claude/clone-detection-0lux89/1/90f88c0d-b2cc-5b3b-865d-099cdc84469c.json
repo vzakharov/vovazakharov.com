@@ -1,0 +1,118 @@
+{
+  "total": {
+    "inputTokens": 2117,
+    "cacheWrite5mTokens": 5645,
+    "cacheWrite1hTokens": 148614,
+    "cacheReadTokens": 7403711,
+    "outputTokens": 34447,
+    "thinkingTokens": 8958,
+    "responses": 50,
+    "costUsd": 3.4122222
+  },
+  "estimate": {
+    "at": "2026-11-12T08:54:44.310Z",
+    "subjectLine": "docs: compare AST clone detectors on src, publish the pair list",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "choosing between compression distance and token- or AST-clone detectors takes someone who knows each family's false-positive profile"
+      },
+      {
+        "hours": 3.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a routine compiler-API walk and scoring loop, a run of an off-the-shelf detector, and a static page listing both tools' pairs"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-12T08:36:50.479Z",
+    "contextTokens": 90130,
+    "spend": {
+      "inputTokens": 0,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 0,
+      "thinkingTokens": 0,
+      "responses": 0,
+      "costUsd": 0.0
+    }
+  },
+  "sessionId": "90f88c0d-b2cc-5b3b-865d-099cdc84469c",
+  "branch": "claude/clone-detection-0lux89",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "а можно как-то написать скрипт который меряет DRY языко-агностично, исключительно по кросс-энтропии/сжимаемости, ну или как там это называется? Грубо говоря, ес…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkFcpceAgNMk2wFcqLT",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-12T08:36:50.479Z",
+  "lastResponseAt": "2026-11-12T09:50:56.132Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 93,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 148614,
+    "cacheReadTokens": 6871464,
+    "outputTokens": 34372,
+    "thinkingTokens": 8958,
+    "responses": 46,
+    "costUsd": 3.2510168
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 2117,
+      "cacheWrite5mTokens": 5645,
+      "cacheWrite1hTokens": 148614,
+      "cacheReadTokens": 7403711,
+      "outputTokens": 34447,
+      "thinkingTokens": 8958,
+      "responses": 50,
+      "costUsd": 3.4122222
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 50,
+    "matched": 46,
+    "matchedTableUsd": 3.2510168,
+    "matchedEventUsd": 3.2510168000000004,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 2024,
+        "cacheWrite5mTokens": 5645,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 532247,
+        "outputTokens": 75,
+        "thinkingTokens": 0,
+        "responses": 4,
+        "costUsd": 0.1612054
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 163,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {}
+}
