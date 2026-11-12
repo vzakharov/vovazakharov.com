@@ -8,9 +8,6 @@ import { CORE } from '../lib/core';
 import { STUFF } from '../lib/stuff.shader';
 import { assemble, vec3f, type Wgsl, wgsl } from '../lib/wgsl';
 
-/** A place with air of a colour: what shows where no face is drawn. */
-export type Aired = { air: Rgb };
-
 /**
  * One floor's look and sound, `name` the place in a word or three, as a
  * caption would have it. Its `shader` is WGSL over the kit defining the
@@ -21,16 +18,17 @@ export type Aired = { air: Rgb };
  *   fn themeLens(l: Lens) -> vec3f                 a pixel of the frame an eye
  *                                                  on this floor sees
  */
-export type FloorTheme = Named &
-  Aired & {
-    /** Half a corner pillar's thickness, in room sides; 0 for none. */
-    pillar: number;
-    /** The share of rooms whose lamps have failed. */
-    dark: number;
-    shader: Wgsl;
-    sound: Sound;
-    decor: readonly Furnishing[];
-  };
+export type FloorTheme = Named & {
+  /** The air's colour: what shows where no face is drawn. */
+  air: Rgb;
+  /** Half a corner pillar's thickness, in room sides; 0 for none. */
+  pillar: number;
+  /** The share of rooms whose lamps have failed. */
+  dark: number;
+  shader: Wgsl;
+  sound: Sound;
+  decor: readonly Furnishing[];
+};
 
 /**
  * What stands at the head of a floor's shader. A material is chosen by the

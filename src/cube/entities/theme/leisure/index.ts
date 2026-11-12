@@ -1,1 +1,15 @@
-export { LEISURE_FLOORS } from './config/leisure';
+export { AIRPORT_GATE } from './airport-gate';
+export { AQUARIUM_TUNNEL } from './aquarium-tunnel';
+export { ARCADE } from './arcade';
+export { BALL_PIT } from './ball-pit';
+export { CASINO } from './casino';
+export { CINEMA_CORRIDOR } from './cinema-corridor';
+export { GLOW_GOLF } from './glow-golf';
+export { GYMNASIUM } from './gymnasium';
+export { ICE_RINK } from './ice-rink';
+export { INDOOR_POOL } from './indoor-pool';
+export { MALL_ATRIUM } from './mall-atrium';
+export { METRO_PLATFORM } from './metro-platform';
+export { PAINTED_SKY } from './painted-sky';
+export { SUPERMARKET } from './supermarket';
+export { UNDERPASS } from './underpass';

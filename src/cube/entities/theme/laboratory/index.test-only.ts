@@ -1,1 +1,1 @@
-export { SPECIMEN } from './lib/specimen.shader';
+export { SMALL_WORLD } from './small-world';

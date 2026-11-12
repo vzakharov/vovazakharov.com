@@ -1,1 +1,14 @@
-export { EDGE_FLOORS } from './config/edge';
+export { CLEAR_COLOUR } from './clear-colour';
+export { CUT_PAPER } from './cut-paper';
+export { DEPTH_BUFFER } from './depth-buffer';
+export { GREYBOX } from './greybox';
+export { HOME } from './home';
+export { MISSING_TEXTURE } from './missing-texture';
+export { NORMAL_MAP } from './normal-map';
+export { ONE_BIT } from './one-bit';
+export { POINT_CLOUD } from './point-cloud';
+export { SIXTEEN_COLOUR } from './sixteen-colour';
+export { STATIC } from './static';
+export { TEST_CARD } from './test-card';
+export { TEXTURE_TEST } from './texture-test';
+export { WIREFRAME } from './wireframe';

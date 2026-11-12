@@ -5,6 +5,7 @@ import { describe, it } from 'node:test';
 import type { Rgb } from '@/cube/shared/lib/colour';
 
 import { floorSource, themeOf } from '.';
+import { CARPET } from './edge/index.test-only';
 import {
   FINISH,
   type FloorTheme,
@@ -15,7 +16,7 @@ import {
   vec3f,
   type Wgsl,
 } from './kit';
-import { SPECIMEN } from './laboratory/index.test-only';
+import { SMALL_WORLD } from './laboratory/index.test-only';
 
 /**
  * Each floor's theme source as `assemble()` wrote it before its pieces moved
@@ -176,7 +177,7 @@ function bathroom(source: string): string {
  * band's shared piece, before its first function; each now comes from the
  * kit, placed after what its floor needs first, where the floor calls it.
  */
-const SPECIMEN_HEAD = '/// The word of the honeycomb cell';
+const SMALL_WORLD_HEAD = '/// The word of the honeycomb cell';
 const calling: Readonly<Record<number, readonly Wgsl[]>> = {
   41: [HONEYCOMB],
   42: [],
@@ -192,7 +193,7 @@ function laboratory(source: string, moved: readonly Wgsl[]) {
   let then = source;
   for (const kit of moved) then = undo(then, pieceThen(kit), '');
   const head = pieceThen(LUMA) + pieceThen(HONEYCOMB);
-  return undo(then, SPECIMEN_HEAD, head + SPECIMEN_HEAD);
+  return undo(then, SMALL_WORLD_HEAD, head + SMALL_WORLD_HEAD);
 }
 
 /**
@@ -211,7 +212,7 @@ function aired(source: string, air: Rgb): string {
 const UNCALLED: Readonly<Record<number, readonly [Wgsl, string]>> = {
   29: [FINISH, "/// The face's paint, or `fallback` where it carries none."],
   40: [FINISH, "/// The face's paint, or `fallback` where it carries none."],
-  50: [SPECIMEN, 'const WALL: u32 = 0u;'],
+  50: [SMALL_WORLD, 'const WALL: u32 = 0u;'],
   65: [GRADE, 'const CLEAR = AIR;'],
 };
 
@@ -222,11 +223,23 @@ function uncalled(source: string, n: number): string {
   return undo(source, before, piece(dropped) + before);
 }
 
+/**
+ * The home's carpets, a piece of their own since the floor outgrew a file:
+ * they stood in the floor's own text, around its lime.
+ */
+function home(source: string): string {
+  const carpet = tokens(piece(CARPET));
+  const [head = '', tail = ''] = carpet.split(/(?=\/\/Whatacarpet)/);
+  const lime = 'const LIME = vec3f(0.5, 0.46, 0.38);';
+  return undo(undo(source, carpet, ''), lime, head + tokens(lime) + tail);
+}
+
 const asBefore = (n: number, theme: FloorTheme): string => {
   const moved = calling[n];
   const named = undoAll(tokens(floorSource(theme, '')), NAMED);
   const source = aired(uncalled(named, n), theme.air);
   if (n === 12) return bathroom(source);
+  if (n === 9) return home(source);
   return moved === undefined ? source : laboratory(source, moved);
 };
 

@@ -28,14 +28,15 @@ const isPiece = (value: unknown): value is { listing: string } =>
   'needs' in value;
 
 /**
- * A module's export: `hash` → `HASH`; a floor's, whose file carries its
- * number, `12-bathroom` → `BATHROOM_SHADER`, the bare name being its theme's.
+ * A module's export: `lib/hash` → `HASH`; a floor's, in its `config`
+ * segment, `config/bathroom` → `BATHROOM_SHADER`, the bare name being its
+ * theme's.
  */
 export function exportName(file: string): string {
   const stem = path.basename(file, path.extname(file));
-  const floor = /^\d+-/;
-  const name = stem.replace(floor, '').replaceAll('-', '_').toUpperCase();
-  return floor.test(stem) ? `${name}_SHADER` : name;
+  const name = stem.replaceAll('-', '_').toUpperCase();
+  const floor = path.basename(path.dirname(file)) === 'config';
+  return floor ? `${name}_SHADER` : name;
 }
 
 /** The generated TypeScript module beside a `.wgsl` file. */

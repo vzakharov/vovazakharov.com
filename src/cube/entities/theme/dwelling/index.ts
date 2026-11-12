@@ -1,1 +1,12 @@
-export { DWELLING_FLOORS } from './config/dwelling';
+export { ATTIC } from './attic';
+export { BATHROOM } from './bathroom';
+export { DEN } from './den';
+export { DRAWING } from './drawing';
+export { GARAGE } from './garage';
+export { GRANDMOTHER } from './grandmother';
+export { GUEST_ROOM } from './guest-room';
+export { HALLWAY } from './hallway';
+export { KITCHEN } from './kitchen';
+export { LAUNDRY } from './laundry';
+export { NURSERY } from './nursery';
+export { REMEMBERED } from './remembered';
