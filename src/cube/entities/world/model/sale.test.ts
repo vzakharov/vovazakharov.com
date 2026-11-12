@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import { placed } from './frame';
 import { holesOf } from './hole';
 import { maze } from './maze';
+import type { SignMount } from './mount';
 import { planted } from './planted';
 import { type Room, roomKey, WALL_HALF } from './room';
 import {
@@ -12,7 +13,6 @@ import {
   lotSign,
   priceOf,
   signFacets,
-  type SignMount,
   signPost,
 } from './sale';
 import { mazeWalls, type Walls } from './walls';
