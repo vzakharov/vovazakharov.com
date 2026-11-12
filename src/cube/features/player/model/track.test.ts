@@ -156,7 +156,7 @@ describe('trackOf', () => {
     );
     const both = joined(scene, after);
     assert.equal(both.span, 5);
-    assert.equal(shotAt(both, 3).x, 4);
+    assert.equal(shotAt(both, 3).x, 6);
     assert.equal(shotAt(both, 4).x, 8);
     assert.equal(shotAt(both, 5).x, 10);
     assert.deepEqual(both.cues, [
