@@ -1,0 +1,48 @@
+import { assemble, wgsl } from '@/cube/shared/lib/wgsl';
+import { type Exposed, GRADE } from '@/cube/entities/theme';
+
+import { LENS_STAGE } from './shader';
+
+/** What the outside's lens is set to for one frame. */
+export type OutsideLens = Exposed & {
+  /** How far the eyelids are open: 0 shut, 1 wide. */
+  eyelids: number;
+};
+
+/**
+ * The lens of an eye that has been outdoors a while: it puts sunlit sand in
+ * the film's upper middle and leaves the sun's disc and its path on the
+ * water to burn out.
+ */
+export const OUTSIDE_LENS: OutsideLens = { exposure: 0.3, eyelids: 1 };
+
+/**
+ * The lens an eye outdoors sees through: the scene and a little of its glow,
+ * exposed, through the film's curve, between eyelids — two soft-edged arcs
+ * closing from above and below, the gap between them widest in the middle.
+ */
+const LENS = wgsl(
+  'outside/lens',
+  /* wgsl */ `
+${LENS_STAGE}
+
+/// How much of the pixel at \`uv\` shows between eyelids \`open\` of the way open.
+fn betweenLids(uv: vec2f, open: f32) -> f32 {
+  let across = uv.x - 0.5;
+  let gap = open * (0.76 - 0.9 * across * across);
+  let soft = 0.02 + 0.14 * (1.0 - open);
+  return 1.0 - smoothstep(gap - soft, gap + soft * 0.25, abs(uv.y - 0.5));
+}
+
+@fragment
+fn lensFragment(@builtin(position) at: vec4f) -> @location(0) vec4f {
+  let l = lensOf(at);
+  let seen = tonemap(through(l, 0.03, 0.002) * uniforms.lens.x);
+  return vec4f(seen * betweenLids(l.uv, uniforms.lens.y), 1.0);
+}
+`,
+  GRADE,
+);
+
+/** The whole shader of the outside's lens. */
+export const outsideLensSource = (): string => assemble([LENS]);

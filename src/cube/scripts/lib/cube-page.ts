@@ -3,9 +3,10 @@ import path from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { z } from 'zod';
 
-import type { Pose, Quad } from '@/cube/entities/world';
+import type { Outside, Pose, Quad } from '@/cube/entities/world';
 import {
   type CubePlayHook,
+  type OutsideLens,
   PLAY_HOOK,
   PLAY_QUERY,
 } from '@/cube/pages/cube/index.node-safe';
@@ -61,6 +62,15 @@ export type CubePage = {
    * frame as `file`.
    */
   shoot: (file: string, pose: Pose, moving?: readonly Quad[]) => Promise<void>;
+  /**
+   * Puts the eye outside the cube at `eye`, seeing through `lens` — the
+   * page's own where none is given — and saves the frame as `file`.
+   */
+  shootOutside: (
+    file: string,
+    eye: Outside,
+    lens?: OutsideLens,
+  ) => Promise<void>;
   /** Stops the page's clock at `ms` since the epoch. */
   setClock: (ms: number) => Promise<void>;
 };
@@ -87,20 +97,24 @@ export async function withCubePage(
     await tab.evaluate(call('ready'), z.unknown(), { awaitPromise: true });
     const adapter = await tab.evaluate(call('adapter'), z.string());
     process.stdout.write(`adapter: ${adapter}\n`);
+    /** Saves what `set`, a hook call as page source, puts on screen as `file`. */
+    const shot = async (file: string, set: string): Promise<void> => {
+      await tab.evaluate(set, z.unknown(), { awaitPromise: true });
+      const { data } = z
+        .object({ data: z.string() })
+        .parse(await tab.send('Page.captureScreenshot', { format: 'png' }));
+      fs.mkdirSync(path.dirname(file), { recursive: true });
+      fs.writeFileSync(file, Buffer.from(data, 'base64'));
+      process.stdout.write(`shot ${path.relative(REPO_ROOT, file)}\n`);
+    };
     await script({
-      shoot: async (file, pose, moving = []) => {
-        await tab.evaluate(
-          call('setPose', source(pose), source(moving)),
-          z.unknown(),
-          { awaitPromise: true },
-        );
-        const { data } = z
-          .object({ data: z.string() })
-          .parse(await tab.send('Page.captureScreenshot', { format: 'png' }));
-        fs.mkdirSync(path.dirname(file), { recursive: true });
-        fs.writeFileSync(file, Buffer.from(data, 'base64'));
-        process.stdout.write(`shot ${path.relative(REPO_ROOT, file)}\n`);
-      },
+      shoot: async (file, pose, moving = []) =>
+        shot(file, call('setPose', source(pose), source(moving))),
+      shootOutside: async (file, eye, lens) =>
+        shot(
+          file,
+          call('setEye', source(eye), ...(lens ? [source(lens)] : [])),
+        ),
       setClock: async (ms) => {
         await tab.evaluate(call('setClock', String(ms)), z.unknown());
       },

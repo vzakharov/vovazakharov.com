@@ -3,6 +3,12 @@ import { HASH } from '@/cube/shared/lib/wgsl-hash';
 
 import { CORE } from './core';
 
+/** A lens that lets in a share of the scene's light. */
+export type Exposed = {
+  /** What scene light is multiplied by before the film's curve. */
+  exposure: number;
+};
+
 /**
  * From the lit scene to the pixel: the air between, and what a floor's lens
  * does to the frame.

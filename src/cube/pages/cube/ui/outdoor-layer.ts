@@ -5,6 +5,8 @@ import type { CanDispose, Labeled } from '@/kernel/shared/typings';
 import type { Wgsl } from '@/cube/shared/lib/wgsl';
 import type { OutdoorFrame } from '@/cube/shared/outside';
 
+import type { Halver } from './mips';
+
 /**
  * The outdoor layers in the order the scene pass draws them; the rooms and
  * what moves in them are drawn between the shell and the sea.
@@ -58,6 +60,8 @@ export type OutdoorKit = {
    * its `prepare`, and no pass that writes it may bind `layout`'s group.
    */
   skyMap: GPUTexture;
+  /** The mip chain of a texture of the scene's format, and the passes filling it. */
+  mips: Halver;
   /**
    * `roots` and what they need, assembled and compiled; rejects with the
    * compiler's words where it does not compile.
@@ -69,3 +73,22 @@ export type OutdoorKit = {
 
 /** Makes one layer; the renderer calls each once, before the first frame. */
 export type LayerMaker = (kit: OutdoorKit) => Promise<OutdoorLayer>;
+
+/**
+ * A layer that is one pipeline drawing `vertices` vertices, from `buffer`
+ * where it reads one; the buffer is the layer's to destroy.
+ */
+export const drawing = (
+  pipeline: GPURenderPipeline,
+  vertices: number,
+  buffer?: GPUBuffer,
+): OutdoorLayer => ({
+  draw: (pass) => {
+    pass.setPipeline(pipeline);
+    if (buffer !== undefined) pass.setVertexBuffer(0, buffer);
+    pass.draw(vertices);
+  },
+  dispose: () => {
+    buffer?.destroy();
+  },
+});
