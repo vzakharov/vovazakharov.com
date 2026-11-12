@@ -3,9 +3,9 @@
 Session `session_01DaohkEZGmfg7XD5wRftBnA`, branch `claude/cube-liminal-332pmv`
 (no PR yet), published at https://preview.vovazakharov.com/cube (slot 1,
 republished after every visible push). Planless `/go`; this file is the lead
-session's memory across compactions, kept current at every milestone. One-shot
-run: no questions to the operator, never merge to `main`, preview slot only, no
-external services.
+session's memory across compactions and sessions, kept current at every
+milestone. One-shot run: no questions to the operator, never merge to `main`,
+preview slot only, no external services.
 
 ## The ask (operator, verbatim essentials)
 
@@ -74,45 +74,70 @@ external services.
 
 ## State
 
-As of 11 Nov, 23:50 UTC, head "go to any cube floor by typing goto…" plus the
-`?cheated_to=` rename.
+As of 12 Nov, 00:15 UTC, head "one home for what the cube's streams each wrote
+for themselves". Paused at the operator's ask (account limit), to be taken up
+from another account: `/go claude/cube-liminal-332pmv`.
 
-- **Merged here**: the descent (complete: the lever shrinks the body where it
-  stands, small it hops into a hole), and the five floor bands as they stood at
-  23:25 — workplace 4–8, dwelling 9–20, leisure 21–31 (32–35 still `generic`),
-  laboratory 36–52, edge 53–67. All 67 shaders compile; every gate was green
-  after the merges.
-- **Not merged yet**: `claude/cube-sound`, `-voice`, `-lettering`, `-decor`,
-  `-happenings`, and whatever the bands pushed after 23:25 (leisure 32–35 at
-  least). `git fetch origin` and compare each with this branch; a stream is done
-  when its last commits are `polish:` ones or its session reports.
+- **Every stream is merged here**: descent, the five floor bands in full (4–8,
+  9–20, 21–35, 36–52, 53–67), decor, happenings, lettering and posters, sound,
+  voice. Their sessions are done; nothing is left on their branches.
+- **Gates**: typecheck, eslint, prettier, `check:masd`, `masd:clusters`,
+  `check:cycles`, `type-overlap`, `lint:fsd`, `shaders:cube` (67 of 67) are
+  green. `pnpm test:all` fails one test only: the line limit, on three
+  `src/mushrooms/scripts/lib/play-*.ts` files this branch does not touch.
+- **On the page already**: the floors, the descent and hands, `goto05` with
+  `?cheated_to=5`, and decor — `furnish(setting, decor)` is called in
+  `cube-scene.ts` `build()`. Decor has not been looked at on this branch.
+- **Merged but not wired** (each slice's `index.ts` still carries its
+  `masd-disable insignificant` line, to drop once the page reads it):
+  - Happenings: `happening(setting, n, clock) → { quads, sounds }` from
+    `@/cube/features/happenings`; ask each near room per frame, `inPlace` the
+    quads into the frame's `moving`, play each sound once keyed room + cue +
+    `sinceEpoch`.
+  - Posters and signs: `posterOf(n)`, `paintPoster(ctx, parts, scale)`,
+    `POSTER_WIDE`/`POSTER_TALL` from `@/cube/entities/poster`;
+    `strokes(text, scriptOf(n))` and `paintStrokes` from
+    `@/cube/shared/lettering` for the sale signs. They go up as boards
+    (`renderer.uploadBoards`).
+  - Sound: `createSoundscape()` from `@/cube/features/sound` — `unlock()` on a
+    gesture, `setPlace(theme.sound, pose.scale)` each frame, `cue(...)` for each
+    of `Player.cues` (the player already paces its own steps) and for a
+    happening's sounds with `bearingOf`. `SHRINK_SECONDS` in
+    `sound/cues/model/cue.ts` is 3; the shrink takes 2 s.
+  - Voice: `lineFor(moment, n, grain)` → `utter(line, voiceOf(who, n), rate)` →
+    the soundscape's `play`, on the player's `say` cues;
+    `pnpm voice:cube --out <dir>` renders the WAVs for the board's page.
+- **Known breaks**: standing on floor 66 throws ("Floor 67's doors need 65
+  bits": the scene asks the maze for the floor below the deepest), so Home is
+  unreachable and floor 67 never drawn. Decor has no collision; the operator
+  wants passability of every room to hold by construction (a clear region
+  joining walkways, hole and lever, or a flood fill at furnish time), not by a
+  sampled test. `build()` re-furnishes every room per mesh build.
 - **Moving layer**: a frame hands the scene `moving` quads (each in its own
   room's frame); `Mesh.stood` places them, `renderer.uploadMoving` draws them.
-  The hands are its first user; happenings go the same way. The play hook's
-  `setPose(pose, moving)` stages them for a script.
+  The play hook's `setPose(pose, moving)` stages them for a script.
 - **Smooth surfaces**: a `Facet` may carry `normals` per corner, and
   `loft(rings, room, {surface, sides, paint?, arc?})` (world) builds such a
-  surface. The hands are lofts; decor's round things can be.
-- **Hands**: second take, after the operator's "not AAA hands" on the boxes.
-  `handsOf` costs ~5 ms a frame while they are up; a cache of the hand in its
-  own axes would cut that if it shows.
-- **Cheat**: `goto05` (any two digits, 01–66) replaces `idclip`; the URL then
-  reads `?cheated_to=5`, which also starts the page on that floor.
+  surface. The hands are lofts; decor's and happenings' round things can be —
+  the operator found the happenings' boxy figures "not scary".
+- **Shared homes**: vector helpers are the world's (`plus`, `minus`, `times`,
+  `cross`, `dot`, `unit`, `UP`); `clamp01`, `ramp`, `smooth`, `lerp` are
+  `shared/lib/ease`; `Footing`, `Sound`, `Loud` are `shared/lib/acoustics`;
+  `Furnishing` sits beside `THINGS`.
 - **Board**: published, version 39, at
   https://claude.ai/artifact/WbvwDqVtJzN8EBeuUffho3 — ten frames in the zone
-  "Making it beautiful". To add one: a `beauty-NN-*.webp` beside
-  `src/cube-board/app/config/cube/beauty.yaml` and an item in it,
+  "Making it beautiful"; nothing added since the hands. To add one: a
+  `beauty-NN-*.webp` beside `src/cube-board/app/config/cube/beauty.yaml` and an
+  item in it (next free slot `[5048, 2010, 430]`),
   `pnpm board build src/cube-board/app/config/cube.yaml`, then publish
   `tmp/board/cube/index.html` to that `url` with `root: tmp/board/cube` and the
-  new image in `files`. Frames live in `tmp/cube-timeline/` (container-local).
+  new image in `files`. A session on another account must read the artifact
+  before publishing to it, and may not have access to it at all.
 - **Gallery**: `pnpm gallery:cube --floors … --out <absolute dir>` died once on
-  a list of seventeen floors and ran on two; unexplained, rerun in smaller lists
-  and read the error if it recurs. No frame of the merged bands has been looked
-  at yet — do that before calling them done.
+  a list of seventeen floors and ran on two; rerun in smaller lists. No frame of
+  the merged bands or of decor has been looked at by the lead.
 - **Preview**: republish after each visible push (`preview.yml`, inputs
-  `site: vova`, `slot: 1`); last dispatched for the `?cheated_to=` commit.
-- Sub-sessions hit the account's five-hour limit around 22:50 UTC and resumed on
-  their own; a stream that looks stalled may only be waiting for it.
+  `site: vova`, `slot: 1`); last dispatched for this head.
 
 ## Streams launched
 
@@ -146,14 +171,18 @@ the board already links the pricing chart.
 
 ## Next
 
-1. Look at a gallery of the merged bands; note what falls short of the bar.
-2. Merge the remaining streams as they finish: decor and happenings (wire decor
-   into `faces`' callers in `cube-scene.ts`, happenings into the frame's
-   `moving`), lettering and posters (as boards), sound and voice (cues from
-   `Player.cues`, see `features/player/model/play.ts`), the voice samples page
-   for the board.
-3. The sale signs restyled so they sit with the floor's signage.
-4. Calibration toward the AAA bar: exposure, materials, lamp panel detail, the
-   broken mirror of floor 3's lamps in its tiles, the sleeve's fabric (its weave
-   is drawn in a face's `uv`, which a curved surface has no steady one).
-5. `/polish`, `/pr` (draft), `/five-percent`.
+1. Wire what is merged: happenings into `moving`, posters and restyled sale
+   signs as boards, sound and voice on the player's cues; drop each slice's
+   `masd-disable` line as the page starts reading it.
+2. Fix floor 66 (no floor below the deepest), then look at a gallery of every
+   band and of decor; note what falls short of the bar.
+3. The operator's asks from the run, not yet done: the hands move the lever at
+   the pull; room passability by construction once decor collides; the voice
+   samples page linked from the board.
+4. Calibration toward the AAA bar: exposure, materials, lamp panel detail,
+   mirrored lamps sparkling on glossy floors (3, 9, 11, 17 — a smoothed normal
+   for the mirror term), the sleeve's fabric. Kit wishes from the bands:
+   `ordinary` split into its light and its lens, a round `lampMask`, a
+   distance-fade helper, a glowing surface without TV snow, a matte "shade"
+   surface.
+5. `/polish`, `/pr` (draft), `/five-percent`. Never `/finalize`, never merge.

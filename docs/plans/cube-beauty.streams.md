@@ -2,7 +2,7 @@
 
 The lead session (`session_01DaohkEZGmfg7XD5wRftBnA`, branch
 `claude/cube-liminal-332pmv`) hands each part of
-`docs/plans/cube-beauty.in-progress.md` to a session of its own. Read that file
+`docs/plans/cube-beauty.paused.md` to a session of its own. Read that file
 first: it holds the operator's ask and the architecture. This one holds the
 rules every stream shares and each stream's contract.
 
@@ -142,8 +142,8 @@ hatch you simply jump, with no pulling-up or lowering-down". The first time "you
 may look at your hands and around and say wtf; the second, here we go again;
 you'll get creative".
 
-- `Input.goTo` (the typed `goto05`, which stands the body on that floor at
-  once) stays as it is, whatever else the descent becomes.
+- `Input.goTo` (the typed `goto05`, which stands the body on that floor at once)
+  stays as it is, whatever else the descent becomes.
 - Owns `src/cube/features/player/**`, `src/cube/scripts/play-cube.ts` (its pull
   shots), and may touch `entities/world/model/{lever,hole}.ts` and the call of
   `play` in `pages/cube/ui/cube-canvas.tsx` where the change forces it.
