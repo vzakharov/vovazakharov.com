@@ -167,8 +167,7 @@ fn lampReach(s: Surf, normal: vec3f, gloss: f32, lamps: Lamps) -> vec3f {
 /// toward the floor, the ceiling and the walls it joins.
 fn cornerShade(s: Surf) -> f32 {
   let reach = 0.7;
-  // Metres to the room's east, south, west and north sides.
-  let toSide = vec4f(ROOM.x - s.p.x, ROOM.z - s.p.z, s.p.x, s.p.z);
+  let toSide = toSides(s);
   var near = reach;
   if (abs(s.normal.y) > 0.5) {
     for (var side = 0u; side < 4u; side++) {

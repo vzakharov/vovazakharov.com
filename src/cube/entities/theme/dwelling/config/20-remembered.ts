@@ -49,7 +49,7 @@ fn recalled(seed: u32) -> vec3f {
 
 fn unsure(s: Surf) -> Material {
   let y = s.p.y;
-  let along = alongOf(s);
+  let along = alongWall(s);
   let wall = wallWord(s);
   let slid = s.uv + drift(s.uv, s.time);
   let ground = recalled(s.seed);

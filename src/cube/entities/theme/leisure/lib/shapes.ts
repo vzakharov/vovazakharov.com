@@ -98,11 +98,6 @@ fn fading(s: Surf, reach: f32) -> f32 {
   return 1.0 / (1.0 + s.far * s.far / reach);
 }
 
-/// Metres along a wall from the end of it at its room's north or west side.
-fn alongWall(s: Surf) -> f32 {
-  return select(s.p.z, s.p.x, abs(s.normal.z) > 0.5);
-}
-
 /// The point \`depth\` metres behind a wall that the eye sees through it:
 /// x metres along the wall, running on from room to room, and y metres up.
 fn behind(s: Surf, depth: f32) -> vec2f {

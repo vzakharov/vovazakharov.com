@@ -169,6 +169,9 @@ function digitRings({ root, aim, hinge, bones, girth, curl }: Digit): {
   nail: Ring[];
 } {
   const inward = cross(aim, hinge);
+  /** The way a bone runs, bent `bend` from `aim` towards the palm. */
+  const wayAt = (bend: number): Vec3 =>
+    plus(times(aim, Math.cos(bend)), times(inward, Math.sin(bend)));
   /** Each bone's start, how far along the digit that is, and its bend. */
   const joints: Array<{ from: Vec3; before: number; bend: number }> = [];
   let from = root;
@@ -177,8 +180,7 @@ function digitRings({ root, aim, hinge, bones, girth, curl }: Digit): {
   for (const [index, bone] of bones.entries()) {
     bend += curl[index] ?? 0;
     joints.push({ from, before, bend });
-    const way = plus(times(aim, Math.cos(bend)), times(inward, Math.sin(bend)));
-    from = plus(from, times(way, bone));
+    from = plus(from, times(wayAt(bend), bone));
     before += bone;
   }
   const total = before;
@@ -197,15 +199,11 @@ function digitRings({ root, aim, hinge, bones, girth, curl }: Digit): {
     if (joint === undefined || bone === undefined) {
       throw new RangeError(`A digit has no bone ${String(index)}`);
     }
-    const way = plus(
-      times(aim, Math.cos(joint.bend)),
-      times(inward, Math.sin(joint.bend)),
-    );
     const angle = tilt ?? joint.bend;
     const done = (joint.before + bone * share) / total;
     const half = (girth[0] + (girth[1] - girth[0]) * done) * grown;
     return {
-      centre: plus(joint.from, times(way, bone * share)),
+      centre: plus(joint.from, times(wayAt(joint.bend), bone * share)),
       wide: times(hinge, half),
       thick: times(
         plus(times(aim, -Math.sin(angle)), times(inward, Math.cos(angle))),

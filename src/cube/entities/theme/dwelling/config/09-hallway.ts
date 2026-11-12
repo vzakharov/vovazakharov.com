@@ -46,7 +46,7 @@ fn underDoor(wall: u32, slot: f32, time: f32) -> vec3f {
 }
 
 fn doored(s: Surf) -> Material {
-  let along = alongOf(s);
+  let along = alongWall(s);
   let slot = floor(along / DOOR_PITCH);
   let x = along - (slot + 0.5) * DOOR_PITCH;
   let y = s.p.y;
@@ -103,7 +103,7 @@ fn doored(s: Surf) -> Material {
 
 /// Light from under the doors of the room's closed sides, as the floor takes it.
 fn spilled(s: Surf) -> vec3f {
-  let toSide = vec4f(ROOM.x - s.p.x, ROOM.z - s.p.z, s.p.x, s.p.z);
+  let toSide = toSides(s);
   var sum = vec3f(0.0);
   for (var side = 0u; side < 4u; side++) {
     if (!closedAt(s, side) || toSide[side] > 1.2) {
@@ -141,8 +141,7 @@ fn rosed(s: Surf) -> Material {
   let petals = 0.5 + 0.5 * cos(turn * 12.0);
   let rose = within(r - 0.42 - 0.04 * petals, 0.01);
   let rings = rose * (0.5 + 0.5 * cos(r * 75.0)) + rose * 0.6 * petals * smoothstep(0.2, 0.4, r);
-  let toWall = min(min(s.p.x, ROOM.x - s.p.x), min(s.p.z, ROOM.z - s.p.z));
-  let coving = within(toWall - 0.1, 0.08);
+  let coving = within(toNearestSide(s) - 0.1, 0.08);
   let white = plaster(s, vec3f(0.5, 0.47, 0.4)) * (1.0 - 0.45 * damp(s));
   let dome = within(r - 0.17, 0.006);
   let frosted = 0.75 + 0.25 * sqrt(max(1.0 - r * r / 0.03, 0.0));

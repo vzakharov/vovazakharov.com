@@ -157,7 +157,7 @@ fn themeLight(s: Surf, m: Material) -> vec3f {
   let rising = (0.35 + 0.65 * max(-normal.y, 0.0)) * exp(-s.p.y / 0.55) * step(normal.y, 0.5);
   colour += m.albedo * underfloor(s) * (1.2 * rising);
   if (s.normal.y > 0.5) {
-    let toSide = vec4f(ROOM.x - s.p.x, ROOM.z - s.p.z, s.p.x, s.p.z);
+    let toSide = toSides(s);
     var wash = 0.0;
     for (var side = 0u; side < 4u; side++) {
       if (closedAt(s, side)) {

@@ -83,8 +83,7 @@ fn epoxy(s: Surf) -> Material {
   // A yellow line keeps trolleys off every wall there is.
   let line = band(wallInset(s), 0.4, 0.09)
     * smoothstep(0.3, 0.5, fbm(s.uv * 3.0, 116u, 3) + 0.2 * fleck);
-  let edge = min(min(s.p.x, ROOM.x - s.p.x), min(s.p.z, ROOM.z - s.p.z));
-  let cut = 1.0 - smoothstep(0.004, 0.012, edge);
+  let cut = 1.0 - smoothstep(0.004, 0.012, toNearestSide(s));
 
   var albedo = mix(mix(red, slab, bared), vec3f(0.55, 0.4, 0.03), line * (1.0 - bared));
   albedo *= tracked * (1.0 - 0.7 * cut);

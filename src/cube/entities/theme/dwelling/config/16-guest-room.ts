@@ -85,8 +85,7 @@ fn pleated(s: Surf) -> Material {
   let leaves = 0.5 + 0.5 * cos(turn * 9.0);
   let glow = lamps().colour * vec3f(1.0, 0.72, 0.68)
     * (2.4 * shade * (0.55 + 0.25 * pleat + 0.4 * within(r - 0.05, 0.1)) * burning(s, lamps()));
-  let toWall = min(min(s.p.x, ROOM.x - s.p.x), min(s.p.z, ROOM.z - s.p.z));
-  let cornice = within(toWall - 0.09, 0.07);
+  let cornice = within(toNearestSide(s) - 0.09, 0.07);
   let white = plaster(s, vec3f(0.5, 0.46, 0.43)) * (1.0 - 0.4 * damp(s));
   var albedo = mix(white, vec3f(0.5, 0.26, 0.26) * (0.7 + 0.3 * pleat), shade);
   albedo = mix(albedo, vec3f(0.42, 0.3, 0.1), braid);

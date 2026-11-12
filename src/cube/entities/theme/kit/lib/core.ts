@@ -50,6 +50,23 @@ struct Surf {
   hour: u32,
 };
 
+/// Metres from the point to its room's sides, in closedAt's order: east,
+/// south, west, north.
+fn toSides(s: Surf) -> vec4f {
+  return vec4f(ROOM.x - s.p.x, ROOM.z - s.p.z, s.p.x, s.p.z);
+}
+
+/// Metres from the point to the nearest of its room's sides, wall or not.
+fn toNearestSide(s: Surf) -> f32 {
+  let away = toSides(s);
+  return min(min(away.x, away.y), min(away.z, away.w));
+}
+
+/// Metres along an upright face from its room's west or north end.
+fn alongWall(s: Surf) -> f32 {
+  return select(s.p.x, s.p.z, abs(s.normal.x) > abs(s.normal.z));
+}
+
 /// What a surface is: its colour, the light it gives off, how polished it
 /// is, 0 (chalk) to 1 (a mirror), and its relief — what is added to the
 /// face's normal before it is lit, zero for a flat face.

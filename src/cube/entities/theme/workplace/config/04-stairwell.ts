@@ -38,7 +38,7 @@ fn studded(s: Surf) -> Material {
   let rubber = vec3f(0.03, 0.042, 0.04) * (0.7 + 0.6 * grime) * (1.0 + 0.9 * stud);
   let trodden = mix(rubber, vec3f(0.12, 0.115, 0.1), 0.3 * dust * (1.0 - 0.6 * stud));
   // Every room's edge is a step's edge: a ribbed yellow nosing, worn through.
-  let edge = min(min(s.p.x, ROOM.x - s.p.x), min(s.p.z, ROOM.z - s.p.z));
+  let edge = toNearestSide(s);
   let worn = smoothstep(0.38, 0.5, fbm(s.uv * 5.0, 63u, 3));
   let rib = 0.5 + 0.5 * cos(edge * 6.2832 / 0.014);
   let nosing = band(edge, 0.085, 0.09) * worn;

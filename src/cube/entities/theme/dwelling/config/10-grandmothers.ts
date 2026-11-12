@@ -65,7 +65,7 @@ fn rosePaper(s: Surf) -> Material {
   let wall = wallWord(s);
   let middle = vec2f(1.2 + 2.6 * unitOf(wall), 1.42);
   let size = vec2f(0.2 + 0.25 * unitOf(mix32(wall)), 0.16 + 0.2 * unitOf(mix32(wall ^ 0x7u)));
-  let hung = boxAway(vec2f(alongOf(s), y) - middle, size);
+  let hung = boxAway(vec2f(alongWall(s), y) - middle, size);
   let kept = within(hung, 0.006) * step(unitOf(mix32(wall ^ 0x1fu)), 0.7);
   let smoke = 0.62 + 0.14 * fbm(s.uv * 1.3, s.seed ^ 0xa1u, 3) - 0.16 * smoothstep(0.4, ROOM.y, y);
   let outline = band(hung, 0.012, 0.02) * (1.0 - kept);

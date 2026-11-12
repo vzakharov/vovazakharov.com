@@ -64,11 +64,6 @@ fn bonded(uv: vec2f, size: vec2f, salt: u32) -> vec2f {
   return vec2f(unitOf(cellHash(vec2i(floor(at)), salt)), min(edge.x, edge.y));
 }
 
-/// Metres along the room's own wall a wall point is, 0 to the room's side.
-fn alongWall(s: Surf) -> f32 {
-  return select(s.p.x, s.p.z, abs(s.normal.x) > abs(s.normal.z));
-}
-
 /// Metres across the floor a point is from the middle of its room.
 fn fromMiddle(s: Surf) -> f32 {
   return length(s.p.xz - ROOM.xz * 0.5);

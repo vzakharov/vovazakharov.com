@@ -57,8 +57,11 @@ export function loft(
       onRing(ring, from + ((to - from) * side) / sides),
     ),
   );
+  /** `ring` held to the first and last, where a normal looks past either end. */
+  const inRange = (ring: number): number =>
+    Math.min(Math.max(ring, 0), rings.length - 1);
   const at = (ring: number, side: number): Vec3 => {
-    const row = points[Math.min(Math.max(ring, 0), rings.length - 1)];
+    const row = points[inRange(ring)];
     const wrapped = closed
       ? (side + sides) % sides
       : Math.min(Math.max(side, 0), sides);
@@ -67,7 +70,7 @@ export function loft(
     return point;
   };
   const centreOf = (ring: number): Vec3 => {
-    const found = rings[Math.min(Math.max(ring, 0), rings.length - 1)];
+    const found = rings[inRange(ring)];
     if (found === undefined) throw new RangeError('A loft needs a ring');
     return found.centre;
   };

@@ -16,8 +16,7 @@ fn painted(s: Surf, fallback: vec3f) -> vec3f {
 
 /// A floor the viewer bought: \`m\` with a brass line inlaid round the room.
 fn ownedMark(s: Surf, m: Material) -> Material {
-  let inset = min(min(s.p.x, ROOM.x - s.p.x), min(s.p.z, ROOM.z - s.p.z));
-  let line = 1.0 - smoothstep(0.02, 0.024, abs(inset - 0.3));
+  let line = 1.0 - smoothstep(0.02, 0.024, abs(toNearestSide(s) - 0.3));
   let brass = vec3f(0.62, 0.43, 0.14) * (0.85 + 0.3 * valueNoise(s.uv * 200.0, 36u));
   return Material(mix(m.albedo, brass, line), m.emission, mix(m.gloss, 0.7, line), m.relief);
 }

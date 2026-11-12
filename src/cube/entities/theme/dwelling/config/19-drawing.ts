@@ -53,7 +53,7 @@ fn drawn(uv: vec2f, away: f32, width: f32) -> f32 {
 
 fn houseWall(s: Surf) -> Material {
   let y = s.p.y;
-  let at = vec2f(alongOf(s), y);
+  let at = vec2f(alongWall(s), y);
   let slot = floor(at.x / 1.66);
   let x = at.x - (slot + 0.5) * 1.66;
   let roll = hashOf(wallWord(s), u32(slot) + 0x142u);

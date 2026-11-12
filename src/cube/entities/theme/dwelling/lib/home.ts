@@ -1,18 +1,13 @@
 import { CORE, HASH, LIGHT, wgsl } from '../../kit';
 
 /**
- * What the homes of this band share: where a point is along its wall and
- * which wall that is, shapes and repeats to cut patterns from, a lamp drawn
- * as something other than a panel, and boards.
+ * What the homes of this band share: which wall a point is on, shapes and
+ * repeats to cut patterns from, a lamp drawn as something other than a
+ * panel, and boards.
  */
 export const DWELLING = wgsl(
   'dwelling/home',
   /* wgsl */ `
-/// Metres along an upright face from its room's west or north end.
-fn alongOf(s: Surf) -> f32 {
-  return select(s.p.x, s.p.z, abs(s.normal.x) > abs(s.normal.z));
-}
-
 /// The word of the room's side \`side\` (0 east, 1 south, 2 west, 3 north).
 fn sideWord(s: Surf, side: u32) -> u32 {
   return hashOf(s.seed, side + 0x5du);

@@ -48,7 +48,7 @@ fn toolAway(w: vec2f, what: f32) -> f32 {
 
 fn pegboard(s: Surf) -> Material {
   let y = s.p.y;
-  let along = alongOf(s);
+  let along = alongWall(s);
   let wall = wallWord(s);
 
   let flake = worley(s.uv * vec2f(38.0, 60.0), 0x110u);

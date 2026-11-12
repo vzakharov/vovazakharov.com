@@ -17,7 +17,7 @@ fn wallAlong(s: Surf) -> f32 {
 /// Metres from a floor's point to the nearest closed wall of its room; 9
 /// in a room with none.
 fn wallInset(s: Surf) -> f32 {
-  let toSide = vec4f(ROOM.x - s.p.x, ROOM.z - s.p.z, s.p.x, s.p.z);
+  let toSide = toSides(s);
   var inset = 9.0;
   for (var side = 0u; side < 4u; side++) {
     if (closedAt(s, side)) {
