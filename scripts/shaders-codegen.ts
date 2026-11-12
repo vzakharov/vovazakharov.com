@@ -10,10 +10,8 @@
  * A `.wgsl` file is WGSL with WESL `import` statements at its head
  * (`import super::hash::{fbm, worley};`, `import package::cube::…::{…};`,
  * `package` being `src/`, as `wesl.toml` says), so an editor resolves them.
- * What ships is the file minus its head comment and its imports, byte for
- * byte; `assemble()` places each piece once, after what it needs, as it does
- * for a piece written in TypeScript. `scripts/lib/wesl/checks.ts` says what is
- * checked.
+ * The rest of the file ships unchanged, placed by `assemble()` like any piece
+ * written in TypeScript. `scripts/lib/wesl/checks.ts` says what is checked.
  *
  * Like `pnpm styles:codegen`, it **exits non-zero when it had to write**, so a
  * vet run both repairs a stale module and reports it; on a broken import it

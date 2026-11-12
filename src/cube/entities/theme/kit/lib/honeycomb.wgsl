@@ -1,6 +1,3 @@
-// The hexagonal lattice: a bathroom's mosaic and a diatom's sieve are cut
-// from the same one.
-
 import super::core::repeated;
 
 /// A honeycomb of cells one unit apart: xy is the point's offset from the
