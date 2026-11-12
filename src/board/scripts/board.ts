@@ -166,10 +166,11 @@ ${TOOLBAR}
 }
 
 /**
- * The page's ceiling. One named `import { z }` reaching the page bundles every
- * zod locale (see the item model), and nothing else would notice.
+ * The page script's ceiling, items and styles left out so a board may grow.
+ * One named `import { z }` reaching the page bundles every zod locale (see the
+ * item model), and nothing else would notice.
  */
-const PAGE_BUDGET_KB = 160;
+const SCRIPT_BUDGET_KB = 120;
 
 const wrapped = (body: string): string =>
   `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>${body}</body></html>\n`;
@@ -183,12 +184,12 @@ async function buildBoard(board: string, out: string): Promise<void> {
       (sheet) => sheet.css,
     ),
   ]);
-  const html = page(title, items, script, css);
-  const kb = Math.round(Buffer.byteLength(html) / 1024);
-  if (kb > PAGE_BUDGET_KB)
+  const kb = Math.round(Buffer.byteLength(script) / 1024);
+  if (kb > SCRIPT_BUDGET_KB)
     throw new Error(
-      `the page is ${kb} KB, over its ${PAGE_BUDGET_KB} KB budget: look for a dependency the bundle took whole`,
+      `the page's script is ${kb} KB, over its ${SCRIPT_BUDGET_KB} KB budget: look for a dependency the bundle took whole`,
     );
+  const html = page(title, items, script, css);
   await mkdir(path.join(out, 'images'), { recursive: true });
   await writeFile(path.join(out, 'index.html'), html);
   await writeFile(path.join(out, 'local.html'), wrapped(html));
