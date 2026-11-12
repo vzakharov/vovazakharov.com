@@ -1,12 +1,13 @@
-/** The one-shot cues the sound bench listens to, each as it is mixed for a whole body. */
+import type { Named } from '@/kernel/shared/typings';
 
+/** The one-shot cues the sound bench listens to, each as it is mixed for a whole body. */
 import { GROUNDS, LADDERS } from '@/cube/shared/lib/acoustics';
 import { samplesOf, type SoundCue, voicedOf } from '@/cube/features/sound';
 import { lineFor, utter, voiceOf } from '@/cube/features/voice';
 
 const RATE = 48_000;
 
-type Take = { name: string; samples: Float32Array; rate: number };
+type Take = Named & { samples: Float32Array; takenAt: number };
 
 const CUES: ReadonlyArray<readonly [string, SoundCue]> = [
   ['pill', { kind: 'pill' }],
@@ -42,14 +43,14 @@ export function cueTakes(): Take[] {
         samples: samplesOf(cue, 'tile', seed, RATE).map(
           (sample) => loudness * sample,
         ),
-        rate: RATE,
+        takenAt: RATE,
       };
     }),
   );
   const groans = [1, 2, 3].map((grain) => ({
     name: `waking-${String(grain)}`,
     samples: utter(lineFor('waking', 1, grain), voiceOf('visitor', 1), 32_000),
-    rate: 32_000,
+    takenAt: 32_000,
   }));
   return [...cues, ...groans];
 }

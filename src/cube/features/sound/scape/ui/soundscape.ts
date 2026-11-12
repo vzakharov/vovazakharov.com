@@ -6,7 +6,7 @@ import { pathHash } from '@/dice/shared/roll';
 import type { Sound } from '@/cube/shared/lib/acoustics';
 
 import { type Mix, samplesOf, type SoundCue, voicedOf } from '../../cues';
-import { type Beds, bedsOf, type OutsideMix } from '../../outside';
+import { type Beds, bedsOf, type OutsideMix } from '../../outdoors';
 import { air, hum, impulse } from '../model/tone';
 import { type Outdoors, outdoorsOf, renderInPieces } from './outdoors';
 

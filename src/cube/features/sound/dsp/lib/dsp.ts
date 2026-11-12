@@ -1,3 +1,5 @@
+import type { Timed } from '@/kernel/shared/typings';
+
 export const CYCLE = 2 * Math.PI;
 
 /** A draw in `[-1, 1)`; the same seed gives the same run of them. */
@@ -85,6 +87,12 @@ export function sampled(
 
 /** One partial of something struck: its pitch, how long it rings, how loud. */
 export type Struck = { hz: number; dies: number; force: number };
+
+/** Something that rings when struck, in each of its `modes`. */
+export type Resonant = { modes: readonly Struck[] };
+
+/** A blow's whole answer: what rings, and for how long it is heard. */
+export type Sounding = Timed & Resonant;
 
 /** A struck partial `t` seconds after the blow, `tune` times its pitch. */
 export const ringing = ({ hz, dies, force }: Struck, t: number, tune = 1) =>

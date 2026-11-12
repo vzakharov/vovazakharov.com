@@ -1,5 +1,3 @@
-import type { Timed } from '@/kernel/shared/typings';
-
 import type { Underfoot } from '@/cube/shared/lib/acoustics';
 import { clamp01 } from '@/cube/shared/lib/ease';
 
@@ -9,6 +7,7 @@ import {
   noiseOf,
   ringing,
   sampled,
+  type Sounding,
   type Struck,
 } from '../../dsp';
 
@@ -20,14 +19,12 @@ type Scuff = Struck & {
 };
 
 /** How one footing answers a foot, and for how long. */
-type Tread = Timed & {
+type Tread = Sounding & {
   /** The heel's weight. */
   thump: Struck;
   scuff: Scuff;
   /** The hard edge of the first contact, 0 for none. */
   click: number;
-  /** What the floor itself rings with. */
-  modes: readonly Struck[];
 };
 
 const TREADS: Record<Underfoot, Tread> = {

@@ -1,3 +1,4 @@
+import type { Sound } from '@/cube/shared/lib/acoustics';
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import type { Vec2 } from '@/cube/shared/lib/vec';
 import {
@@ -26,6 +27,12 @@ export const ISLAND: Scene = {
   cube: CUBE_MIDDLE,
 };
 
+/**
+ * How the open beach sounds with nobody on it: no lamps, no walls to ring off,
+ * and its air is the wind's own layer.
+ */
+export const BEACH: Sound = { footing: 'sand', hum: 0, air: 0, echo: 0.12 };
+
 /** The doorway's middle in floor 1's room, in metres from its north-west corner. */
 const DOOR_IN_ROOM = { u: ROOM_METRES, v: (DOORWAY.from + DOORWAY.to) / 2 };
 
@@ -48,13 +55,13 @@ export function heardFrom(
 ): OutsideMix | null {
   if (isOutside(at)) {
     const { eye, yaw } = at;
-    return outsideMix(scene, { at: [eye[0], eye[2]], yaw }, seconds);
+    return outsideMix(scene, { at: [eye[0], eye[2]], facing: yaw }, seconds);
   }
   if (at.n > HEARD_DOWN_TO) return null;
   const ear = { u: at.u * ROOM_METRES, v: at.v * ROOM_METRES };
-  const { rightward, roomsAway: away } = bearingOf(ear, at.yaw, DOOR_IN_ROOM);
+  const { rightward, roomsAway: inward } = bearingOf(ear, at.yaw, DOOR_IN_ROOM);
   return throughDoorway(
-    outsideMix(scene, { at: DOOR_OUTSIDE, yaw: 0 }, seconds),
-    { away, rightward, floorsBelow: at.n - 1 },
+    outsideMix(scene, { at: DOOR_OUTSIDE, facing: 0 }, seconds),
+    { inward, rightward, floorsBelow: at.n - 1 },
   );
 }

@@ -47,7 +47,7 @@ export type RoomCue = (typeof ROOM_CUES)[number];
 
 /** How a floor sounds with nobody on it. */
 export type Sound = {
-  footing: Footing;
+  footing: Underfoot;
   /** The lamps' hum, in hertz; 0 where they make none. */
   hum: number;
   /** Moving air, 0 (still) to 1 (a duct beside the ear). */

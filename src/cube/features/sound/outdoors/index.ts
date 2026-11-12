@@ -1,5 +1,5 @@
 export { type Beds, bedsOf, EASE, MUFFLED, rendered } from './model/beds';
-export { heardFrom, ISLAND } from './model/island';
+export { BEACH, heardFrom, ISLAND } from './model/island';
 export { type Loop, whole } from './model/loop';
 export {
   type Doorway,

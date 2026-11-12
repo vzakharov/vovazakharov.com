@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { FALLING, PERIOD, RADIUS, RISING, seaOf } from './outside.test-kit';
+import { FALLING, PERIOD, RADIUS, RISING, seaOf } from './outdoors.test-kit';
 import { coastOf, shoreOf, surfAt } from './shore';
 
 describe('shoreOf', () => {

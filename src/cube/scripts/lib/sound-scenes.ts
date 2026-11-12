@@ -1,5 +1,6 @@
-/** The moments of the intro the sound bench listens to, each as a path for an ear. */
+import type { Timed } from '@/kernel/shared/typings';
 
+/** The moments of the intro the sound bench listens to, each as a path for an ear. */
 import type { Vec2 } from '@/cube/shared/lib/vec';
 import {
   gustAt,
@@ -11,9 +12,9 @@ import {
 } from '@/cube/features/sound';
 
 /** A stretch of the hour heard along some path, and what it is in words. */
-type Told = {
-  from: number;
-  seconds: number;
+type Told = Timed & {
+  /** Seconds into the hour it begins. */
+  begins: number;
   mixAt: (seconds: number) => OutsideMix;
   /** Where on the island the ear is, or the opening it hears through. */
   earAt: (seconds: number) => Vec2;
@@ -52,58 +53,58 @@ export function scenesOf(scene: Scene, places: Places): Scenes {
   const gust = hardestGust();
   return {
     waking: {
-      from: 0,
+      begins: 0,
       seconds: 60,
       told: 'lying at the waterline, 30 m from the cube, facing out to sea',
-      ...heard(() => ({ at: waking, yaw: seaward })),
+      ...heard(() => ({ at: waking, facing: seaward })),
     },
     turning: {
-      from: 60,
+      begins: 60,
       seconds: 24,
       told: 'the same spot, turning once round to the right',
       ...heard((t) => ({
         at: waking,
-        yaw: seaward + (2 * Math.PI * (t - 60)) / 24,
+        facing: seaward + (2 * Math.PI * (t - 60)) / 24,
       })),
     },
     walk: {
-      from: 100,
+      begins: 100,
       seconds: 40,
       told: 'walking from the waking spot to the foot of the ladder',
       ...heard((t) => ({
         at: partWay(waking, ladder, (t - 100) / 40),
-        yaw: toward(waking, ladder),
+        facing: toward(waking, ladder),
       })),
     },
     ladder: {
-      from: 140,
+      begins: 140,
       seconds: 30,
       told: 'standing at the foot of the ladder, facing the cube',
-      ...heard(() => ({ at: ladder, yaw: toward(ladder, cube) })),
+      ...heard(() => ({ at: ladder, facing: toward(ladder, cube) })),
     },
     under: {
-      from: 170,
+      begins: 170,
       seconds: 30,
       told: 'under the middle of the cube',
-      ...heard(() => ({ at: cube, yaw: 0 })),
+      ...heard(() => ({ at: cube, facing: 0 })),
     },
     inside: {
-      from: 200,
+      begins: 200,
       seconds: 30,
       told: 'from the doorway 4 m into floor 1 over 20 s, then on floor 2',
       earAt: () => doorway,
       mixAt: (t) =>
-        throughDoorway(outsideMix(scene, { at: doorway, yaw: Math.PI }, t), {
-          away: Math.min(4, (t - 200) / 5),
+        throughDoorway(outsideMix(scene, { at: doorway, facing: Math.PI }, t), {
+          inward: Math.min(4, (t - 200) / 5),
           rightward: -0.6,
           floorsBelow: t < 222 ? 0 : 1,
         }),
     },
     gust: {
-      from: gust - 20,
+      begins: gust - 20,
       seconds: 40,
       told: `the hour's hardest gust, at ${String(gust)} s, from the waking spot`,
-      ...heard(() => ({ at: waking, yaw: seaward })),
+      ...heard(() => ({ at: waking, facing: seaward })),
     },
   };
 }

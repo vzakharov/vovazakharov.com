@@ -37,7 +37,7 @@ const ramp = (): Loop => beat(7);
 
 /** Every layer at `level` in the left ear and half that in the right. */
 const mixOf = (level: number, muffle = OPEN_AIR): OutsideMix => ({
-  layers: perLayer(() => ({ left: level, right: level / 2 })),
+  layers: perLayer(() => ({ leftEar: level, rightEar: level / 2 })),
   muffle,
 });
 

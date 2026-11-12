@@ -8,23 +8,24 @@ import {
   SOUND_LAYERS,
   throughDoorway,
 } from './mix';
-import { FALLING, RADIUS, RISING, sceneOf } from './outside.test-kit';
+import { FALLING, RADIUS, RISING, sceneOf } from './outdoors.test-kit';
 import { gustAt } from './weather';
 
 const scene = sceneOf();
 
 /** Standing on the east shore, the sea ahead when facing east. */
-const onShore = (yaw: number) => ({ at: [RADIUS, 0] as const, yaw });
+const onShore = (yaw: number) => ({ at: [RADIUS, 0] as const, facing: yaw });
 
-const both = ({ left, right }: Ears): number => Math.hypot(left, right);
+const both = ({ leftEar, rightEar }: Ears): number =>
+  Math.hypot(leftEar, rightEar);
 
 /** The hum heard at `at`, facing `yaw`. */
 const humAt = (at: readonly [number, number], yaw = 0): Ears =>
-  outsideMix(scene, { at, yaw }, 0).layers.hum;
+  outsideMix(scene, { at, facing: yaw }, 0).layers.hum;
 
 /** Every layer heard `x` metres east of the cube's middle. */
 const eastBy = (x: number) =>
-  outsideMix(scene, { at: [x, 0], yaw: 0 }, 0).layers;
+  outsideMix(scene, { at: [x, 0], facing: 0 }, 0).layers;
 
 describe('outsideMix', () => {
   it('keeps every level finite and at most 1, in the open', () => {
@@ -49,15 +50,19 @@ describe('outsideMix', () => {
 
   it('puts the surf in the ear turned to the nearer shore', () => {
     // A step inland of the east shore, facing north: the sea is on the right.
-    const inland = { at: [RADIUS - 6, 0] as const, yaw: -Math.PI / 2 };
+    const inland = { at: [RADIUS - 6, 0] as const, facing: -Math.PI / 2 };
     const { hiss } = outsideMix(scene, inland, RISING).layers;
-    assert.ok(hiss.right > 1.3 * hiss.left);
-    const turned = outsideMix(scene, { ...inland, yaw: Math.PI / 2 }, RISING);
-    assert.ok(turned.layers.hiss.left > 1.3 * turned.layers.hiss.right);
+    assert.ok(hiss.rightEar > 1.3 * hiss.leftEar);
+    const turned = outsideMix(
+      scene,
+      { ...inland, facing: Math.PI / 2 },
+      RISING,
+    );
+    assert.ok(turned.layers.hiss.leftEar > 1.3 * turned.layers.hiss.rightEar);
   });
 
   it('is louder at the water than in the middle of the island', () => {
-    const middle = outsideMix(scene, { at: [8, 8], yaw: 0 }, RISING).layers;
+    const middle = outsideMix(scene, { at: [8, 8], facing: 0 }, RISING).layers;
     const shore = outsideMix(scene, onShore(0), RISING).layers;
     assert.ok(both(shore.hiss) > 1.3 * both(middle.hiss));
     assert.ok(both(shore.roar) > 1.2 * both(middle.roar));
@@ -67,16 +72,16 @@ describe('outsideMix', () => {
     assert.ok(both(humAt([3.3, 0])) > 6 * both(humAt([RADIUS, 0])));
     assert.ok(both(humAt([RADIUS, 0])) > 0);
     // The cube to the west of an eye facing north is on its left.
-    const { left, right } = humAt([8, 0], -Math.PI / 2);
-    assert.ok(left > 1.5 * right);
+    const { leftEar, rightEar } = humAt([8, 0], -Math.PI / 2);
+    assert.ok(leftEar > 1.5 * rightEar);
   });
 
   it('sounds different under the cube, and only there', () => {
-    assert.ok(eastBy(0).under.left > 0);
-    assert.equal(eastBy(0).under.left, eastBy(0).under.right);
-    assert.equal(eastBy(0).hum.left, eastBy(0).hum.right);
-    assert.equal(eastBy(3).under.left, 0);
-    assert.ok(eastBy(0).wind.left < eastBy(10).wind.left);
+    assert.ok(eastBy(0).under.leftEar > 0);
+    assert.equal(eastBy(0).under.leftEar, eastBy(0).under.rightEar);
+    assert.equal(eastBy(0).hum.leftEar, eastBy(0).hum.rightEar);
+    assert.equal(eastBy(3).under.leftEar, 0);
+    assert.ok(eastBy(0).wind.leftEar < eastBy(10).wind.leftEar);
   });
 
   it('puts the wind’s rumble in the ear turned to the wind', () => {
@@ -84,9 +89,9 @@ describe('outsideMix', () => {
     assert.ok(gustAt(gusty) > 0.5);
     // The wind is from the west-south-west: on the left of an eye facing north.
     const north = outsideMix(scene, onShore(-Math.PI / 2), gusty).layers;
-    assert.ok(north.buffet.left > 2 * north.buffet.right);
+    assert.ok(north.buffet.leftEar > 2 * north.buffet.rightEar);
     const south = outsideMix(scene, onShore(Math.PI / 2), gusty).layers;
-    assert.ok(south.buffet.right > 2 * south.buffet.left);
+    assert.ok(south.buffet.rightEar > 2 * south.buffet.leftEar);
   });
 
   it('comes round with the hour', () => {
@@ -94,7 +99,8 @@ describe('outsideMix', () => {
     const hourOn = outsideMix(scene, onShore(1), 1234.5 + 3600);
     for (const layer of SOUND_LAYERS) {
       assert.ok(
-        Math.abs(now.layers[layer].left - hourOn.layers[layer].left) < 1e-9,
+        Math.abs(now.layers[layer].leftEar - hourOn.layers[layer].leftEar) <
+          1e-9,
         layer,
       );
     }
@@ -103,8 +109,8 @@ describe('outsideMix', () => {
 
 describe('throughDoorway', () => {
   const outside = outsideMix(scene, onShore(0), RISING);
-  const heard = (away: number, rightward = 0, floorsBelow = 0) =>
-    throughDoorway(outside, { away, rightward, floorsBelow });
+  const heard = (inward: number, rightward = 0, floorsBelow = 0) =>
+    throughDoorway(outside, { inward, rightward, floorsBelow });
 
   it('lets in less, and duller, the further inside', () => {
     assert.ok(both(heard(4).layers.roar) < both(heard(0.5).layers.roar));
@@ -115,25 +121,25 @@ describe('throughDoorway', () => {
 
   it('comes from the doorway’s side', () => {
     const { roar } = heard(3, -1).layers;
-    assert.ok(roar.left > 1.5 * roar.right);
+    assert.ok(roar.leftEar > 1.5 * roar.rightEar);
     const ahead = heard(3, 0).layers.roar;
-    assert.equal(ahead.left, ahead.right);
+    assert.equal(ahead.leftEar, ahead.rightEar);
   });
 
   it('leaves the wind’s rumble outside and the hum in the walls', () => {
     const { buffet, hum, under } = heard(3, -1).layers;
-    assert.deepEqual(buffet, { left: 0, right: 0 });
-    assert.deepEqual(under, { left: 0, right: 0 });
-    assert.equal(hum.left, hum.right);
-    assert.ok(hum.left > 0);
+    assert.deepEqual(buffet, { leftEar: 0, rightEar: 0 });
+    assert.deepEqual(under, { leftEar: 0, rightEar: 0 });
+    assert.equal(hum.leftEar, hum.rightEar);
+    assert.ok(hum.leftEar > 0);
   });
 
   it('fades floor by floor, from nowhere in particular', () => {
     const above = heard(2, -1, 0).layers;
     const below = heard(2, -1, 1).layers;
     assert.ok(both(below.roar) < 0.5 * both(above.roar));
-    assert.equal(below.roar.left, below.roar.right);
-    assert.ok(below.hum.left < above.hum.left);
+    assert.equal(below.roar.leftEar, below.roar.rightEar);
+    assert.ok(below.hum.leftEar < above.hum.leftEar);
     assert.ok(heard(2, -1, 1).muffle < heard(2, -1, 0).muffle);
   });
 });

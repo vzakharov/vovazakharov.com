@@ -91,7 +91,7 @@ const kept = (
 ): OutsideMix => ({
   ...mix,
   layers: perLayer((layer) =>
-    keep(layer) ? mix.layers[layer] : { left: 0, right: 0 },
+    keep(layer) ? mix.layers[layer] : { leftEar: 0, rightEar: 0 },
   ),
 });
 
@@ -99,7 +99,7 @@ const kept = (
 function take(
   out: string,
   name: string,
-  { from, seconds, mixAt, earAt, told }: Scenes[string],
+  { begins: from, seconds, mixAt, earAt, told }: Scenes[string],
   beds: Beds,
   scene: Scene,
 ): string[] {
@@ -191,7 +191,7 @@ function main(): void {
 
   if (only === undefined || only === 'cues') {
     report.push('# Cues');
-    for (const { name, samples, rate } of cueTakes()) {
+    for (const { name, samples, takenAt: rate } of cueTakes()) {
       writeFileSync(
         path.join(out, `cue-${name}.wav`),
         stereoWavOf(samples, samples, rate),
@@ -221,7 +221,7 @@ function main(): void {
     const again = (from: number) =>
       rendered(
         beds,
-        (t) => outsideMix(scene, { at: [0, 20], yaw: 1 }, t),
+        (t) => outsideMix(scene, { at: [0, 20], facing: 1 }, t),
         from,
         1,
         RATE,

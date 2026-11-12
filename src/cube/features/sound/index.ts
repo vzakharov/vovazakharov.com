@@ -1,5 +1,6 @@
 export { bearingOf, samplesOf, type SoundCue, voicedOf } from './cues';
 export {
+  BEACH,
   type Beds,
   bedsOf,
   coastOf,
@@ -19,5 +20,5 @@ export {
   surfAt,
   throughDoorway,
   whole,
-} from './outside';
+} from './outdoors';
 export { createSoundscape } from './scape';
