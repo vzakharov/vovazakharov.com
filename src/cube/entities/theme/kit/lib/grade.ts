@@ -1,6 +1,7 @@
+import { wgsl } from '@/cube/shared/lib/wgsl';
+import { HASH } from '@/cube/shared/lib/wgsl-hash';
+
 import { CORE } from './core';
-import { HASH } from './hash';
-import { wgsl } from './wgsl';
 
 /**
  * From the lit scene to the pixel: the air between, and what a floor's lens

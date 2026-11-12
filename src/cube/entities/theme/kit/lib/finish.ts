@@ -1,6 +1,7 @@
+import { wgsl } from '@/cube/shared/lib/wgsl';
+import { HASH } from '@/cube/shared/lib/wgsl-hash';
+
 import { CORE } from './core';
-import { HASH } from './hash';
-import { wgsl } from './wgsl';
 
 /**
  * What walls, floors and ceilings are finished in. Each takes the point and

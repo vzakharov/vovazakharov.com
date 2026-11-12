@@ -1,3 +1,5 @@
+import type { Vec3 } from '@/cube/shared/lib/vec';
+
 import {
   cross,
   dot,
@@ -7,7 +9,6 @@ import {
   type Stuff,
   times,
   unit,
-  type Vec3,
 } from './quad';
 import type { Room } from './room';
 
