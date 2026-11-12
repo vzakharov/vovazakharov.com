@@ -1,17 +1,27 @@
 /// <reference types="@webgpu/types" />
 
+import {
+  common,
+  d,
+  tgpu,
+  type TgpuBindGroup,
+  type TgpuRenderPipeline,
+} from 'typegpu';
+
 import type { CanDispose, Sized } from '@/kernel/shared/typings';
 
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import type { Vec3 } from '@/cube/entities/world';
 
 import { inverse } from '../lib/matrix';
-import { cover, SCENE_FORMAT } from './bloom';
+import { SCENE_FORMAT } from './bloom';
 import {
   BLUR_LEVELS,
-  HALVE_SHADER,
-  REFLECTION_SHADER,
-  VIEW_FLOATS,
+  halveMain,
+  halving,
+  reflecting,
+  reflectionMain,
+  View,
 } from './reflection-shader';
 
 /**
@@ -50,62 +60,71 @@ export type Reflection = CanDispose & {
 };
 
 type Frame = Sized & {
-  textures: GPUTexture[];
-  /** The scene's levels, each viewed alone; the first is what is drawn into. */
+  textures: Array<{ destroy: () => void }>;
+  /** The scene's levels, each drawn into alone; the first by the scene. */
   levels: GPUTextureView[];
   mirror: GPUTextureView;
   plane: GPUTextureView;
   lit: GPUTextureView;
   /** Each level but the first, read from the one above it. */
-  halving: Array<{ into: GPUTextureView; read: GPUBindGroup }>;
-  reflecting: GPUBindGroup;
+  halvings: Array<{
+    into: GPUTextureView;
+    read: TgpuBindGroup<(typeof halving)['entries']>;
+  }>;
+  /** What the reflection reads. */
+  reflected: TgpuBindGroup<(typeof reflecting)['entries']>;
 };
 
-/** A pass of `code`'s `entry` over the whole screen, into scene light. */
-const covering = (
-  device: GPUDevice,
-  code: string,
-  entry: string,
-): GPURenderPipeline => {
-  const shader = device.createShaderModule({ code });
-  return device.createRenderPipeline({
-    layout: 'auto',
-    vertex: { module: shader, entryPoint: 'vertexMain' },
-    fragment: {
-      module: shader,
-      entryPoint: entry,
-      targets: [{ format: SCENE_FORMAT }],
-    },
-  });
+/** A view of `baseMipLevel` alone. */
+const level = (baseMipLevel: number) => ({ baseMipLevel, mipLevelCount: 1 });
+
+/** `columns`, a column-major 4×4 matrix, as the GPU reads one. */
+const matrix = (columns: Float32Array): d.m4x4f => {
+  const result = d.mat4x4f();
+  for (const [index, value] of columns.entries()) result[index] = value;
+  return result;
+};
+
+/** Records one pass of `pipeline`, reading `group`, over the whole of `into`. */
+const cover = (
+  encoder: GPUCommandEncoder,
+  pipeline: TgpuRenderPipeline<d.Vec4f>,
+  group: TgpuBindGroup,
+  into: GPUTextureView,
+): void => {
+  pipeline
+    .with(encoder)
+    .with(group)
+    .withColorAttachment({ view: into, loadOp: 'clear', storeOp: 'store' })
+    .draw(3);
 };
 
 export function createReflection(device: GPUDevice): Reflection {
-  const halve = covering(device, HALVE_SHADER, 'halveMain');
-  const reflect = covering(device, REFLECTION_SHADER, 'reflectionMain');
-  const linear = device.createSampler({
+  const root = tgpu.initFromDevice({ device });
+  const covering = (fragment: typeof halveMain): TgpuRenderPipeline<d.Vec4f> =>
+    root.createRenderPipeline({
+      vertex: common.fullScreenTriangle,
+      fragment,
+      targets: { format: SCENE_FORMAT },
+    });
+  const halve = covering(halveMain);
+  const reflect = covering(reflectionMain);
+  const linear = root.createSampler({
     magFilter: 'linear',
     minFilter: 'linear',
     mipmapFilter: 'linear',
   });
-  const view = device.createBuffer({
-    size: VIEW_FLOATS * 4,
-    usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
-  });
+  const view = root.createBuffer(View).$usage('uniform');
   let frame: Frame | null = null;
 
-  const target = (
-    width: number,
-    height: number,
-    format: GPUTextureFormat,
-    mipLevelCount = 1,
-  ): GPUTexture =>
-    device.createTexture({
-      size: [width, height],
-      format,
-      mipLevelCount,
-      usage:
-        GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING,
-    });
+  const target = (width: number, height: number, mipLevelCount = 1) =>
+    root
+      .createTexture({
+        size: [width, height],
+        format: SCENE_FORMAT,
+        mipLevelCount,
+      })
+      .$usage('render', 'sampled');
 
   const fit = (width: number, height: number): Frame => {
     if (frame?.width === width && frame.height === height) return frame;
@@ -114,44 +133,34 @@ export function createReflection(device: GPUDevice): Reflection {
       BLUR_LEVELS,
       Math.floor(Math.log2(Math.max(width, height))) + 1,
     );
-    const scene = target(width, height, SCENE_FORMAT, count);
-    const [mirrorFormat, planeFormat] = MIRROR_FORMATS;
-    const mirror = target(width, height, mirrorFormat);
-    const plane = target(width, height, planeFormat);
-    const lit = target(width, height, SCENE_FORMAT);
-    const levels = Array.from({ length: count }, (_, level) =>
-      scene.createView({ baseMipLevel: level, mipLevelCount: 1 }),
+    const scene = target(width, height, count);
+    const mirror = target(width, height);
+    const plane = target(width, height);
+    const lit = target(width, height);
+    const levels = Array.from({ length: count }, (_, index) =>
+      root.unwrap(scene.createView('render', level(index))),
     );
-    const halving = levels.slice(1).map((into, index) => ({
-      into,
-      read: device.createBindGroup({
-        layout: halve.getBindGroupLayout(0),
-        entries: [
-          { binding: 0, resource: levels[index] ?? into },
-          { binding: 1, resource: linear },
-        ],
-      }),
-    }));
-    const mirrorView = mirror.createView();
-    const planeView = plane.createView();
     frame = {
       width,
       height,
       textures: [scene, mirror, plane, lit],
       levels,
-      mirror: mirrorView,
-      plane: planeView,
-      lit: lit.createView(),
-      halving,
-      reflecting: device.createBindGroup({
-        layout: reflect.getBindGroupLayout(0),
-        entries: [
-          { binding: 0, resource: { buffer: view } },
-          { binding: 1, resource: scene.createView() },
-          { binding: 2, resource: mirrorView },
-          { binding: 3, resource: planeView },
-          { binding: 4, resource: linear },
-        ],
+      mirror: root.unwrap(mirror.createView('render')),
+      plane: root.unwrap(plane.createView('render')),
+      lit: root.unwrap(lit.createView('render')),
+      halvings: levels.slice(1).map((into, index) => ({
+        into,
+        read: root.createBindGroup(halving, {
+          above: scene.createView(d.texture2d(d.f32), level(index)),
+          aboveSampler: linear,
+        }),
+      })),
+      reflected: root.createBindGroup(reflecting, {
+        view,
+        scene: scene.createView(d.texture2d(d.f32)),
+        mirror: mirror.createView(d.texture2d(d.f32)),
+        plane: plane.createView(d.texture2d(d.f32)),
+        blurSampler: linear,
       }),
     };
     return frame;
@@ -177,26 +186,27 @@ export function createReflection(device: GPUDevice): Reflection {
     },
     run: (encoder, { viewProjection, eye }) => {
       if (frame === null) throw new Error('No scene was drawn to reflect');
-      const { width, height, halving, levels, reflecting, lit } = frame;
+      const { width, height, halvings, levels, reflected, lit } = frame;
       // The focal length is the length of the projection's second row.
       const focal = Math.hypot(
         viewProjection[1] ?? 0,
         viewProjection[5] ?? 0,
         viewProjection[9] ?? 0,
       );
-      const data = new Float32Array(VIEW_FLOATS);
-      data.set(viewProjection, 0);
-      data.set(inverse(viewProjection), 16);
-      data.set([...eye, ROOM_METRES], 32);
-      data.set([width, height, focal, levels.length - 1], 36);
-      device.queue.writeBuffer(view, 0, data);
-      for (const { into, read } of halving) cover(encoder, halve, read, into);
-      cover(encoder, reflect, reflecting, lit);
+      view.write({
+        viewProjection: matrix(viewProjection),
+        inverse: matrix(inverse(viewProjection)),
+        eye: d.vec4f(...eye, ROOM_METRES),
+        size: d.vec4f(width, height, focal, levels.length - 1),
+      });
+      for (const { into, read } of halvings) cover(encoder, halve, read, into);
+      cover(encoder, reflect, reflected, lit);
       return lit;
     },
     dispose: () => {
       for (const texture of frame?.textures ?? []) texture.destroy();
       view.destroy();
+      root.destroy();
     },
   };
 }

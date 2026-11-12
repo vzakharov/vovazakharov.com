@@ -68,7 +68,7 @@ fn up(in: Varying) -> @location(0) vec4f {
  * Records one pass of `pipeline`, reading `group`, over the whole of `into`:
  * cleared first, unless `keeps` leaves what it holds for the pass to add to.
  */
-export function cover(
+function cover(
   encoder: GPUCommandEncoder,
   pipeline: GPURenderPipeline,
   group: GPUBindGroup,

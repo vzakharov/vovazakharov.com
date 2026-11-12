@@ -84,6 +84,7 @@
     "remark-rehype": "^11.1.2",
     "server-only": "^0.0.1",
     "shiki": "^4.4.3",
+    "typegpu": "0.12.10",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.1.0",
     "wordlist-english": "1.2.1",
@@ -91,6 +92,7 @@
     "zod": "^4.5.4"
   },
   "devDependencies": {
+    "@babel/core": "^7.29.13",
     "@eslint-react/eslint-plugin": "^5.18.6",
     "@feature-sliced/steiger-plugin": "^0.7.0",
     "@fontsource-variable/fraunces": "^5.3.0",
@@ -108,6 +110,7 @@
     "@types/unist": "^3.0.3",
     "@typescript-eslint/parser": "^8.69.0",
     "@webgpu/types": "^0.1.74",
+    "babel-loader": "^10.1.1",
     "esbuild": "0.28.2",
     "eslint": "^9",
     "eslint-config-next": "16.4.5",
@@ -128,6 +131,7 @@
     "stylelint-config-standard-scss": "^17.0.0",
     "three": "0.187.0",
     "tsx": "^4.21.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "unplugin-typegpu": "0.12.8"
   }
 }

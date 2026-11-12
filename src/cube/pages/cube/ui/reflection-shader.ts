@@ -1,144 +1,162 @@
+import { d, std, tgpu } from 'typegpu';
+
 /** How many levels the scene is kept at, each half the last, for blur. */
 export const BLUR_LEVELS = 6;
 
-/** Floats of `View` below: two matrices and two vectors. */
-export const VIEW_FLOATS = 16 + 16 + 4 + 4;
-
-/** One triangle that covers the screen. */
-const COVER = /* wgsl */ `
-@vertex
-fn vertexMain(@builtin(vertex_index) index: u32) -> @builtin(position) vec4f {
-  let corner = vec2f(f32((index << 1u) & 2u), f32(index & 2u));
-  return vec4f(corner * 2.0 - 1.0, 0.0, 1.0);
-}
-`;
+/** A level of the scene, read to make the one below it. */
+export const halving = tgpu.bindGroupLayout({
+  above: { texture: d.texture2d(d.f32) },
+  aboveSampler: { sampler: 'filtering' },
+});
 
 /**
  * The level above, halved: one bilinear tap at a texel corner of it is the
  * mean of the four texels around.
  */
-export const HALVE_SHADER = /* wgsl */ `
-@group(0) @binding(0) var above: texture_2d<f32>;
-@group(0) @binding(1) var aboveSampler: sampler;
-${COVER}
-@fragment
-fn halveMain(@builtin(position) pixel: vec4f) -> @location(0) vec4f {
-  let uv = pixel.xy * 2.0 / vec2f(textureDimensions(above));
-  return textureSampleLevel(above, aboveSampler, uv, 0.0);
-}
-`;
+export const halveMain = tgpu.fragmentFn({
+  in: { pixel: d.builtin.position },
+  out: d.vec4f,
+})(({ pixel }) => {
+  'use gpu';
+  const uv = pixel.xy
+    .mul(2)
+    .div(d.vec2f(std.textureDimensions(halving.$.above)));
+  return std.textureSampleLevel(halving.$.above, halving.$.aboveSampler, uv, 0);
+});
 
-/**
- * The frame's mirrors filled in. Each pixel the scene left a mirror at walks
- * the reflection out through the scene's own depth until it passes behind
- * what the scene shows, and takes the light there, blurred as far as the
- * surface is rough. Where the walk leaves the screen, runs out or is hidden,
- * the lamps' light the scene left stands in, faded in over the screen's edge
- * and the walk's last stretch so neither shows a seam.
- */
-export const REFLECTION_SHADER = /* wgsl */ `
-struct View {
-  viewProjection: mat4x4f,
-  /// From clip space back to the frame the mesh is in.
-  inverse: mat4x4f,
-  /// The eye, and how many metres one unit of the frame is.
-  eye: vec4f,
-  /// The screen in pixels, the projection's focal length, the top blur level.
-  size: vec4f,
-};
+export const View = d.struct({
+  viewProjection: d.mat4x4f,
+  /** From clip space back to the frame the mesh is in. */
+  inverse: d.mat4x4f,
+  /** The eye, and how many metres one unit of the frame is. */
+  eye: d.vec4f,
+  /** The screen in pixels, the projection's focal length, the top blur level. */
+  size: d.vec4f,
+});
 
-@group(0) @binding(0) var<uniform> view: View;
-@group(0) @binding(1) var scene: texture_2d<f32>;
-@group(0) @binding(2) var mirror: texture_2d<f32>;
-@group(0) @binding(3) var plane: texture_2d<f32>;
-@group(0) @binding(4) var blurSampler: sampler;
+/** What the reflection reads: where it is seen from, and the scene's targets. */
+export const reflecting = tgpu.bindGroupLayout({
+  view: { uniform: View },
+  scene: { texture: d.texture2d(d.f32) },
+  mirror: { texture: d.texture2d(d.f32) },
+  plane: { texture: d.texture2d(d.f32) },
+  blurSampler: { sampler: 'filtering' },
+});
 
-/// Steps of the walk, and halvings that close in on what it passed behind.
-const STEPS = 24;
+/** Steps of the walk, and halvings that close in on what it passed behind. */
+const WALK_STEPS = 24;
 const CLOSING = 6;
-/// How many times its own length the walk's last halving may lie behind a
-/// face it met: a face seen edge-on hides much depth in one pixel.
-const SLANT = 8.0;
-/// The longest walk, in metres.
-const REACH = 14.0;
-/// How far behind what the scene shows the walk may be, past its own step,
-/// and still be taken for having struck it, in metres.
+/**
+ * How many times its own length the walk's last halving may lie behind a face
+ * it met: a face seen edge-on hides much depth in one pixel.
+ */
+const SLANT = 8;
+/** The longest walk, in metres. */
+const REACH = 14;
+/**
+ * How far behind what the scene shows the walk may be, past its own step, and
+ * still be taken for having struck it, in metres.
+ */
 const THICK = 0.4;
-/// The share of a distance the scene's half-float depth cannot tell apart.
+/** The share of a distance the scene's half-float depth cannot tell apart. */
 const BLUNT = 0.004;
-/// Pixels the walk goes before anything can hide it.
-const LEAVING = 2.0;
-/// What \`behind\` says of a point off the screen.
+/** Pixels the walk goes before anything can hide it. */
+const LEAVING = 2;
+/** What `behind` says of a point off the screen. */
 const OFF = -1e9;
-/// Levels below the one a blur that wide would pick: a level is a box, and
-/// a box blurs harder than an edge spread that wide.
-const SHARPEN = 1.0;
-/// Samples along the blur's long side, and the longest it runs, as a share
-/// of the screen's height.
+/**
+ * Levels below the one a blur that wide would pick: a level is a box, and a
+ * box blurs harder than an edge spread that wide.
+ */
+const SHARPEN = 1;
+/**
+ * Samples along the blur's long side, and the longest it runs, as a share of
+ * the screen's height.
+ */
 const TAPS = 5;
 const LONGEST = 0.15;
-${COVER}
-/// Where \`p\` lands on the screen, 0 to 1 from the top left; z is 0 for a
-/// point behind the eye.
-fn onScreen(p: vec3f) -> vec3f {
-  let clip = view.viewProjection * vec4f(p, 1.0);
+
+/**
+ * Where `p` lands on the screen, 0 to 1 from the top left; z is 0 for a point
+ * behind the eye.
+ */
+const onScreen = (p: d.v3f): d.v3f => {
+  'use gpu';
+  const clip = std.mul(reflecting.$.view.viewProjection, d.vec4f(p, 1));
   if (clip.w <= 1e-5) {
-    return vec3f(0.0);
+    return d.vec3f(0);
   }
-  let ndc = clip.xy / clip.w;
-  return vec3f(ndc.x * 0.5 + 0.5, 0.5 - ndc.y * 0.5, 1.0);
-}
+  const ndc = clip.xy.div(clip.w);
+  return d.vec3f(ndc.x * 0.5 + 0.5, 0.5 - ndc.y * 0.5, 1);
+};
 
-/// Metres from the eye to what the scene shows at \`uv\`.
-fn sceneFar(uv: vec2f) -> f32 {
-  let texel = clamp(vec2i(uv * view.size.xy), vec2i(0), vec2i(view.size.xy) - 1);
-  return textureLoad(scene, texel, 0).a;
-}
+/** Metres from the eye to what the scene shows at `uv`. */
+const sceneFar = (uv: d.v2f): number => {
+  'use gpu';
+  const size = reflecting.$.view.size.xy;
+  const texel = std.clamp(
+    d.vec2i(uv.mul(size)),
+    d.vec2i(0),
+    d.vec2i(size).sub(1),
+  );
+  return std.textureLoad(reflecting.$.scene, texel, 0).a;
+};
 
-/// Where the point \`t\` units along the walk lands, and how many metres it
-/// lies behind what the scene shows there, past what the scene's depth can
-/// tell apart: negative in front, \`OFF\` off the screen. Within \`LEAVING\`
-/// pixels of \`origin\`, where the walk set out, it is always in front: a
-/// pixel of a floor seen along its length spans more depth than the walk's
-/// first steps climb, so the floor there would hide the walk from itself.
-fn behind(start: vec3f, ray: vec3f, t: f32, origin: vec2f) -> vec3f {
-  let q = start + ray * t;
-  let at = onScreen(q);
-  if (at.z == 0.0 || any(at.xy < vec2f(0.0)) || any(at.xy > vec2f(1.0))) {
-    return vec3f(at.xy, OFF);
+/**
+ * Where the point `t` units along the walk lands, and how many metres it lies
+ * behind what the scene shows there, past what the scene's depth can tell
+ * apart: negative in front, `OFF` off the screen. Within `LEAVING` pixels of
+ * `origin`, where the walk set out, it is always in front: a pixel of a floor
+ * seen along its length spans more depth than the walk's first steps climb,
+ * so the floor there would hide the walk from itself.
+ */
+const behind = (start: d.v3f, ray: d.v3f, t: number, origin: d.v2f): d.v3f => {
+  'use gpu';
+  const q = start.add(ray.mul(t));
+  const at = onScreen(q);
+  if (
+    at.z === 0 ||
+    std.any(std.lt(at.xy, d.vec2f(0))) ||
+    std.any(std.gt(at.xy, d.vec2f(1)))
+  ) {
+    return d.vec3f(at.xy, OFF);
   }
-  if (length((at.xy - origin) * view.size.xy) < LEAVING) {
-    return vec3f(at.xy, -1.0);
+  if (std.length(at.xy.sub(origin).mul(reflecting.$.view.size.xy)) < LEAVING) {
+    return d.vec3f(at.xy, -1);
   }
-  let far = length(q - view.eye.xyz) * view.eye.w;
-  let shown = sceneFar(at.xy);
-  return vec3f(at.xy, far - shown - (BLUNT * shown + 0.01));
-}
+  const far =
+    std.length(q.sub(reflecting.$.view.eye.xyz)) * reflecting.$.view.eye.w;
+  const shown = sceneFar(at.xy);
+  return d.vec3f(at.xy, far - shown - (BLUNT * shown + 0.01));
+};
 
-/// The walk from \`start\`, seen at \`origin\`, along \`ray\`: where on the
-/// screen it struck, how many units it ran, and how far to trust it, 0 where
-/// it struck nothing.
-fn walk(start: vec3f, ray: vec3f, origin: vec2f) -> vec4f {
-  let reach = REACH / view.eye.w;
-  var before = 0.0;
-  for (var i = 1; i <= STEPS; i++) {
+/**
+ * The walk from `start`, seen at `origin`, along `ray`: where on the screen it
+ * struck, how many units it ran, and how far to trust it, 0 where it struck
+ * nothing.
+ */
+const walk = (start: d.v3f, ray: d.v3f, origin: d.v2f): d.v4f => {
+  'use gpu';
+  const reach = REACH / reflecting.$.view.eye.w;
+  let before = d.f32(0);
+  for (let i = 1; i <= WALK_STEPS; i++) {
     // Steps lengthen with the walk: short beside the surface it leaves, as
     // long as a far wall's detail on the screen at its end.
-    let share = f32(i) / f32(STEPS);
-    let t = reach * share * share;
-    let out = behind(start, ray, t, origin);
-    if (out.z == OFF) {
-      return vec4f(0.0);
+    const share = d.f32(i) / d.f32(WALK_STEPS);
+    const t = reach * share * share;
+    const out = behind(start, ray, t, origin);
+    if (out.z === OFF) {
+      return d.vec4f(0);
     }
-    if (out.z > 0.0) {
-      var near = before;
-      var far = t;
-      var at = out.xy;
-      var past = out.z;
-      for (var k = 0; k < CLOSING; k++) {
-        let mid = 0.5 * (near + far);
-        let probe = behind(start, ray, mid, origin);
-        if (probe.z > 0.0) {
+    if (out.z > 0) {
+      let near = before;
+      let far = t;
+      let at = out.xy;
+      let past = out.z;
+      for (let k = 0; k < CLOSING; k++) {
+        const mid = 0.5 * (near + far);
+        const probe = behind(start, ray, mid, origin);
+        if (probe.z > 0) {
           far = mid;
           at = probe.xy;
           past = probe.z;
@@ -148,77 +166,125 @@ fn walk(start: vec3f, ray: vec3f, origin: vec2f) -> vec4f {
       }
       // Closed in on a face it met, the walk ends just behind it; still far
       // behind what is shown, it passed behind something standing in front.
-      if (past > (far - near) * view.eye.w * SLANT + THICK) {
-        return vec4f(0.0);
+      if (past > (far - near) * reflecting.$.view.eye.w * SLANT + THICK) {
+        return d.vec4f(0);
       }
-      let edge = min(min(at.x, 1.0 - at.x), min(at.y, 1.0 - at.y));
-      let trust = smoothstep(0.0, 0.08, edge) * (1.0 - smoothstep(0.6, 1.0, far / reach));
-      return vec4f(at, far, trust);
+      const edge = std.min(std.min(at.x, 1 - at.x), std.min(at.y, 1 - at.y));
+      const trust =
+        std.smoothstep(0, 0.08, edge) *
+        (1 - std.smoothstep(0.6, 1, far / reach));
+      return d.vec4f(at, far, trust);
     }
     before = t;
   }
-  return vec4f(0.0);
-}
+  return d.vec4f(0);
+};
 
-/// The way from the eye through \`uv\` on the screen, unit length.
-fn sightAt(uv: vec2f) -> vec3f {
-  let along = view.inverse * vec4f(uv.x * 2.0 - 1.0, 1.0 - uv.y * 2.0, 0.5, 1.0);
-  return normalize(along.xyz / along.w - view.eye.xyz);
-}
+/** The way from the eye through `uv` on the screen, unit length. */
+const sightAt = (uv: d.v2f): d.v3f => {
+  'use gpu';
+  const along = std.mul(
+    reflecting.$.view.inverse,
+    d.vec4f(uv.x * 2 - 1, 1 - uv.y * 2, 0.5, 1),
+  );
+  return std.normalize(along.xyz.div(along.w).sub(reflecting.$.view.eye.xyz));
+};
 
-/// What the scene shows at \`texel\`, as a point of the frame.
-fn shownAt(texel: vec2i) -> vec3f {
-  let at = clamp(texel, vec2i(0), vec2i(view.size.xy) - 1);
-  let uv = (vec2f(at) + 0.5) / view.size.xy;
-  return view.eye.xyz + sightAt(uv) * (textureLoad(scene, at, 0).a / view.eye.w);
-}
+/** What the scene shows at `texel`, as a point of the frame. */
+const shownAt = (texel: d.v2i): d.v3f => {
+  'use gpu';
+  const size = reflecting.$.view.size.xy;
+  const eye = reflecting.$.view.eye;
+  const at = std.clamp(texel, d.vec2i(0), d.vec2i(size).sub(1));
+  const uv = d.vec2f(at).add(0.5).div(size);
+  const far = std.textureLoad(reflecting.$.scene, at, 0).a;
+  return eye.xyz.add(sightAt(uv).mul(far / eye.w));
+};
 
-/// Metres the face shown at \`texel\` runs across one pixel along \`axis\`,
-/// taken toward the neighbour on the same face, the nearer of the two.
-fn stride(texel: vec2i, axis: vec2i) -> f32 {
-  let p = shownAt(texel);
-  let ahead = length(shownAt(texel + axis) - p);
-  let back = length(shownAt(texel - axis) - p);
-  return max(min(ahead, back) * view.eye.w, 1e-4);
-}
+/**
+ * Metres the face shown at `texel` runs across one pixel along `axis`, taken
+ * toward the neighbour on the same face, the nearer of the two.
+ */
+const stride = (texel: d.v2i, axis: d.v2i): number => {
+  'use gpu';
+  const p = shownAt(texel);
+  const ahead = std.length(shownAt(texel.add(axis)).sub(p));
+  const back = std.length(shownAt(texel.sub(axis)).sub(p));
+  return std.max(std.min(ahead, back) * reflecting.$.view.eye.w, 1e-4);
+};
 
-/// The scene at \`uv\` blurred \`soft\` metres across the face it shows there,
-/// as a rough mirror shows it: a face seen aslant blurs along its slant in
-/// fewer pixels than across, so the blur is a level as sharp as its short
-/// side, drawn out by taps along its long one.
-fn blurred(uv: vec2f, soft: f32) -> vec3f {
-  let texel = vec2i(uv * view.size.xy);
-  let spread = soft / vec2f(stride(texel, vec2i(1, 0)), stride(texel, vec2i(0, 1)));
-  let short = min(spread.x, spread.y);
-  let long = min(max(spread.x, spread.y), LONGEST * view.size.y);
+/**
+ * The scene at `uv` blurred `soft` metres across the face it shows there, as
+ * a rough mirror shows it: a face seen aslant blurs along its slant in fewer
+ * pixels than across, so the blur is a level as sharp as its short side,
+ * drawn out by taps along its long one.
+ */
+const blurred = (uv: d.v2f, soft: number): d.v3f => {
+  'use gpu';
+  const size = reflecting.$.view.size;
+  const texel = d.vec2i(uv.mul(size.xy));
+  const spread = d
+    .vec2f(soft)
+    .div(d.vec2f(stride(texel, d.vec2i(1, 0)), stride(texel, d.vec2i(0, 1))));
+  const short = std.min(spread.x, spread.y);
+  const long = std.min(std.max(spread.x, spread.y), LONGEST * size.y);
   // No sharper than the gap between taps, so they run together.
-  let level = clamp(log2(max(max(short, long / f32(TAPS)), 1.0)) - SHARPEN, 0.0, view.size.w);
-  let way = select(vec2f(0.0, 1.0), vec2f(1.0, 0.0), spread.x > spread.y) * long / view.size.xy;
-  var sum = vec3f(0.0);
-  for (var j = 0; j < TAPS; j++) {
-    let off = (f32(j) / f32(TAPS - 1) - 0.5) * way;
-    sum += textureSampleLevel(scene, blurSampler, uv + off, level).rgb;
+  const level = std.clamp(
+    std.log2(std.max(std.max(short, long / d.f32(TAPS)), 1)) - SHARPEN,
+    0,
+    size.w,
+  );
+  const way = std
+    .select(d.vec2f(0, 1), d.vec2f(1, 0), spread.x > spread.y)
+    .mul(long)
+    .div(size.xy);
+  let sum = d.vec3f(0);
+  for (let j = 0; j < TAPS; j++) {
+    const off = way.mul(d.f32(j) / d.f32(TAPS - 1) - 0.5);
+    sum = sum.add(
+      std.textureSampleLevel(
+        reflecting.$.scene,
+        reflecting.$.blurSampler,
+        uv.add(off),
+        level,
+      ).rgb,
+    );
   }
-  return sum / f32(TAPS);
-}
+  return sum.div(d.f32(TAPS));
+};
 
-@fragment
-fn reflectionMain(@builtin(position) pixel: vec4f) -> @location(0) vec4f {
-  let texel = vec2i(pixel.xy);
-  let lit = textureLoad(scene, texel, 0);
-  let left = textureLoad(mirror, texel, 0);
-  if (left.a <= 0.0) {
+/**
+ * The frame's mirrors filled in. Each pixel the scene left a mirror at walks
+ * the reflection out through the scene's own depth until it passes behind
+ * what the scene shows, and takes the light there, blurred as far as the
+ * surface is rough. Where the walk leaves the screen, runs out or is hidden,
+ * the lamps' light the scene left stands in, faded in over the screen's edge
+ * and the walk's last stretch so neither shows a seam.
+ */
+export const reflectionMain = tgpu.fragmentFn({
+  in: { pixel: d.builtin.position },
+  out: d.vec4f,
+})(({ pixel }) => {
+  'use gpu';
+  const eye = reflecting.$.view.eye;
+  const texel = d.vec2i(pixel.xy);
+  const lit = std.textureLoad(reflecting.$.scene, texel, 0);
+  const left = std.textureLoad(reflecting.$.mirror, texel, 0);
+  if (left.a <= 0) {
     return lit;
   }
-  let facing = textureLoad(plane, texel, 0);
-  let uv = pixel.xy / view.size.xy;
-  let sight = sightAt(uv);
-  let start = view.eye.xyz + sight * (lit.a / view.eye.w);
-  let struck = walk(start, reflect(sight, normalize(facing.xyz)), uv);
-  var shown = left.rgb;
-  if (struck.w > 0.0) {
-    shown = mix(left.rgb, blurred(struck.xy, facing.w * struck.z * view.eye.w), struck.w);
+  const facing = std.textureLoad(reflecting.$.plane, texel, 0);
+  const uv = pixel.xy.div(reflecting.$.view.size.xy);
+  const sight = sightAt(uv);
+  const start = eye.xyz.add(sight.mul(lit.a / eye.w));
+  const struck = walk(start, std.reflect(sight, std.normalize(facing.xyz)), uv);
+  let shown = left.rgb;
+  if (struck.w > 0) {
+    shown = std.mix(
+      left.rgb,
+      blurred(struck.xy, facing.w * struck.z * eye.w),
+      struck.w,
+    );
   }
-  return vec4f(lit.rgb + left.a * shown, lit.a);
-}
-`;
+  return d.vec4f(lit.rgb.add(shown.mul(left.a)), lit.a);
+});

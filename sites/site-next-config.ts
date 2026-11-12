@@ -35,6 +35,25 @@ export function siteNextConfig(site: SiteId, siteDir: string): NextConfig {
     },
     turbopack: {
       root: path.join(siteDir, '..', '..'),
+      // A shader written in TypeScript reaches the GPU only as the plugin's
+      // syntax tree of it, so every module holding one goes through the
+      // plugin first, as TypeScript still.
+      rules: {
+        '*.ts': {
+          condition: { content: /["']use gpu["']/ },
+          loaders: [
+            {
+              loader: 'babel-loader',
+              options: {
+                babelrc: false,
+                configFile: false,
+                parserOpts: { plugins: ['typescript'] },
+                plugins: ['unplugin-typegpu/babel'],
+              },
+            },
+          ],
+        },
+      },
     },
     // `next dev` otherwise writes an AGENTS.md into the site directory; the
     // repo's agents take their rules from CLAUDE.md.
