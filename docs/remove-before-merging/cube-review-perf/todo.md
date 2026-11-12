@@ -28,7 +28,9 @@ trial only the frame-rate meter (F) stays here; the port lives on in
 Next for shaders out of strings: `.wgsl` files with WESL imports, the assembled
 source of every floor pinned byte-for-byte before and after — trialled on floors
 12 and 46 in `claude/cube-wesl-trial` (`pnpm shaders:codegen`,
-`shaders-pin.test.ts`), the rest of the 80 files to follow. With it:
+`shaders-pin.test.ts`), the rest of the 80 files to follow. The pin test is
+scaffolding for the move: once every file is over and `pnpm shaders:cube` plus
+a look on preview agree, it is deleted (operator, 2026-11-12). With it:
 `themeMaterial`'s per-floor `switch` as data, salts derived rather than
 hand-picked, and `pnpm shaders:cube` in vet.
 
