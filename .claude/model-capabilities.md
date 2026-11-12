@@ -34,7 +34,9 @@ model come first.
   — a gate moved from session state to git with throwaway-repo tests, a reviewer
   launched with exactly the one line its skill gives. A batch of review comments
   on skill prose answered in one round, a renamed commit type followed through
-  every hook, test, catalog entry and skill naming it.
+  every hook, test, catalog entry and skill naming it. A six-part UI plan in one
+  session — a stored-doc migration, a top-layer popover, a time-grouped scale —
+  green and browser-checked.
 - **Misses:** a record that lists the files carrying a local difference, when
   the port moves that difference into a file the record does not name yet.
   Planning a reader for an undocumented record format, it drew the shapes from
@@ -54,15 +56,20 @@ model come first.
   proposal and the thread replies that promised the part saying it was still in;
   renaming a planned module, it left the old name in the PR body and the squash
   proposal. Polishing a fix it made for a review thread, it cut as a duplicate
-  the very clause the operator had asked for there. Moving code onto a shared
-  helper, it passed its own callback where the helper calls back with the
-  arguments in the other order, on a path no test ran. Under strict index checks
-  it reaches for a cast rather than reshaping the code, and keeps dead exports a
-  "port as is" brief covers. Ask it to list every reader of the format, and, for
-  a gate, every commit and session that reaches the guarded command, in the
-  order the skills make them; on a rewrite, to diff the plan against the
-  analysis it carries out; on dropping or renaming a part, to grep every place
-  that describes the change for it; on a refactor, to test each path it moved;
+  the very clause the operator had asked for there. At a plan's gate it took a
+  "go" left as an artifact comment for the go-ahead, and chose a scale that does
+  the opposite of the operator's example. Moving code onto a shared helper, it
+  passed its own callback where the helper calls back with the arguments in the
+  other order, on a path no test ran; turning one stored value into a list, it
+  made unmarking drop only the shown entry, not one carried forward to it, so it
+  stayed marked — and browser-checked the toggle without pressing it twice.
+  Under strict index checks it reaches for a cast rather than reshaping the
+  code, and keeps dead exports a "port as is" brief covers. Ask it to list every
+  reader of the format, and, for a gate, every commit and session that reaches
+  the guarded command, in the order the skills make them; on a rewrite, to diff
+  the plan against the analysis it carries out; on dropping or renaming a part,
+  to grep every place that describes the change for it; on a refactor, to test
+  each path it moved; on a scale, to run the operator's own example through it;
   on a polish cut, to check it against the review threads open on those lines;
   on a vendor port, to name in the record every file a local difference now
   lives in.
