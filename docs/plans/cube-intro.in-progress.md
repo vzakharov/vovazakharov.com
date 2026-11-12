@@ -376,18 +376,13 @@ out; he compacts and continues tomorrow); update this block, do not append.
   glints, the island's back in blue shade. The cube reads as a small box sitting
   on the dune: the 1.1 m gap does not show from the waking spot, and the
   stand-in shell has no bands. Nothing was sent to the board from it.
-- **Pushed heads at the pause** (none merged past the list above): core 6de69066
-  (sky map out, ladder flag in the frame; its steps 3 and 4 at 2ac8a67d reported
-  green), sky 85105b1c (pure functions: fitted clear sky, marched clouds), sea
-  218db0f0 (still the FFT sea; **`claude/cube-intro-sea-fft` was not pushed** —
-  ask for it first), sand 420476f1, shell 480f5650 (says lint clean), walk
-  4385dc60 (waking plays end to end; still has a look-under scene and "E by the
-  doorway goes back down", both cut — tell it), pill 1b31ed7d (plain swallow
-  plays; prompt must say "swallow"), sound d3fed484, board 9fd5e233 (v57).
-- **To resume**: send each child "resume" with what it owes (my last message to
-  each before the pause is its list); read each one's pause report in the
-  notifications first. Walk asks: core's `setEye` to take `moving` quads;
-  shell's `LADDER` (rename pending) is on the lead for it to merge.
+- **Every child's head, state and first job at the pause is in `pause.md`**
+  beside the brief (none merged past the list above). Read it before anything.
+  The FFT sea's reference is commit 218db0f0, sea's head; no separate branch.
+- **To resume**: send each child "resume" with its whole list from `pause.md` —
+  the lead's messages of 22:37–23:09Z reached several late or never, so nothing
+  may lean on "my last message". Sky's light (sky over sun again) is judged on
+  frames before it is accepted.
 - **Next, in order**: (1) merge core, shell, sky as they report green and lint;
   re-shoot the six eyes after each; (2) sea's analytic sum beside its FFT frame,
   to the operator; (3) walk and pill in, the intro played end to end; (4) a fix
