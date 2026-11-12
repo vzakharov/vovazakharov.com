@@ -1,0 +1,101 @@
+{
+  "total": {
+    "inputTokens": 8,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 40216,
+    "cacheReadTokens": 330021,
+    "outputTokens": 3949,
+    "thinkingTokens": 1535,
+    "responses": 4,
+    "costUsd": 0.4667442
+  },
+  "estimate": {
+    "at": "2026-11-12T08:37:00.759Z",
+    "subjectLine": "docs: answer how to measure DRY by compressibility, language-agnostic",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "choosing between compression distance and token-clone detectors takes someone who knows both families and their false-positive profiles"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-12T08:36:50.479Z",
+    "contextTokens": 90130,
+    "spend": {
+      "inputTokens": 0,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 0,
+      "thinkingTokens": 0,
+      "responses": 0,
+      "costUsd": 0.0
+    }
+  },
+  "sessionId": "90f88c0d-b2cc-5b3b-865d-099cdc84469c",
+  "branch": "claude/fervent-maxwell-0lux89",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "а можно как-то написать скрипт который меряет DRY языко-агностично, исключительно по кросс-энтропии/сжимаемости, ну или как там это называется? Грубо говоря, ес…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkFcpceAgNMk2wFcqLT",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-12T08:36:50.479Z",
+  "lastResponseAt": "2026-11-12T08:37:21.612Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 8,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 40216,
+    "cacheReadTokens": 330021,
+    "outputTokens": 3949,
+    "thinkingTokens": 1535,
+    "responses": 4,
+    "costUsd": 0.4667442
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 40216,
+      "cacheReadTokens": 330021,
+      "outputTokens": 3949,
+      "thinkingTokens": 1535,
+      "responses": 4,
+      "costUsd": 0.4667442
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 4,
+    "matched": 4,
+    "matchedTableUsd": 0.4667442,
+    "matchedEventUsd": 0.4667442,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 60,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {}
+}
