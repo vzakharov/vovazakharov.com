@@ -83,7 +83,7 @@ https://claude.ai/artifact/PSHRvqMjUtVGe8v3UcN5gU
 Wait for the operator. Pending his answer:
 
 - «Ставить?» on prettier-plugin-wgsl (board thread on `12-bathroom.wgsl`, formatter/linter). The operator authorized a trial run and it ran: the plugin fails on WESL `import` lines ("expecting EOF but found: import") and formats the body without them cleanly (comments kept, 80-column breaks like prettier's TS). Proposed: a format step that hands the plugin the body only and reattaches the head — a new dependency, so a toolchain change (CLAUDE.md § "Vetting", four sites);
-- «Делать?» on folding generated twins by their header rather than the `.shader` suffix (board thread on `masd-clusters.ts`);
+- the twin fold in `masd-clusters.ts`: the operator rejected folding by the generated header («не, это хуже»), so the `.shader.ts` suffix stays; the agent asked whether he wanted the wide `\.\w+\.` fold instead — open (board thread on `masd-clusters.ts`);
 - review of #276; the `masd:clusters` fold vs markers; the three five-percent alternatives (pin test lifetime, MASD checked twice, committed generated files).
 
 ## Last agent turn
