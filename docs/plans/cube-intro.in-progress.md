@@ -174,6 +174,21 @@ The stylised hands and body stay as they are — the contrast with the island is
 the operator's creative choice («кривые руки -- украшать не надо»). "Дерево" was
 the operator's own word for the potted plant in floor 1's room.
 
+## Steering since
+
+- **2026-11-12 22:32Z, the sun's direction**, with a sketch over floor 1's room
+  (`docs/remove-before-merging/cube-intro-j2wt34/frames/operator/sun-direction.webp`):
+  two dashed rays from the top of the door running diagonally into the room and
+  down to the floor near its middle, a parallelogram of light round the hole.
+
+  > направление света солнца какое-то вот такое, наверное, должно быть
+
+  Read as: the beam comes in on a diagonal and lies on the floor, where the
+  first design sent it flat across to the west wall. The direction is taken; the
+  sketch's steepness (some 30°) is not, since a sun that high is mid-afternoon
+  and the sea and sky lose the gold — told to the operator, one constant to
+  change if they want it steeper.
+
 ## Facts established
 
 - Floor 1 is one room: `roomsAcross(1) = 1`, side 5 m, height 2.5 m
@@ -205,20 +220,27 @@ Each with its reason; a later decision that overrides one rewrites it here.
   stands in that corner, 0.07–0.9 m in from the wall, half across the doorway,
   and stays there. The decor door is dropped from floor 1's theme alone (15
   other floors list it).
-- **The doorway faces the sun; the player wakes on the far side.** The sun's
-  azimuth is the east wall's outward normal turned a few degrees south, its
-  elevation 9°, so the beam through the doorway crosses the room and ends low on
-  the west wall. The player wakes about 30 m to the cube's south-west, facing
-  the sea with the sun behind them, turns, and sees the cube against the sunset,
-  its sunlit side, door and ladder hidden — the operator's steer («солнце …
-  лучше всё-таки сзади или сбоку от куба … иначе ты сразу видишь дверь и
-  лестницу in your face»). The cube's shadow, some 38 m long, lies on the sand
-  beside the path to it. The first choice, waking in front of the doorway, lost
-  to this.
-- **The cube hovers 1.1 m over the sand.** At 9° its shadow starts about 7 m
-  behind it, so the sand right under the cube is in full sun: the look-under
-  beat, coming from the shadow side, shows lit sand and the sea's glare through
-  the gap.
+- **The sun looks in through the doorway on a diagonal; the player wakes on the
+  far side.** The sun stands 17° up, its azimuth the east wall's outward normal
+  (+x) turned 31° toward −z, which is the line from the pill's shelf (west wall,
+  z = 3.75 m) back through the doorway's middle. So the doorway's light lies on
+  the floor as one long parallelogram from the sill across the room to the foot
+  of the west wall under the pill, lapping some 0.3 m up it — the operator's
+  sketch (§ "Steering since"). `SUN_DIR` ≈ (0.820, 0.292, −0.492). The first
+  design, 9° and 8° toward +z, sent the beam flat across to the west wall and
+  lost to the sketch; 30°, the sketch's own steepness, lost to the gold of a low
+  sun.
+- **The player wakes about 30 m to the cube's south-west**, facing the sea with
+  the sun behind them, turns, and sees the cube against the sun — which stands
+  just above and right of it — its sunlit east and north faces, door and ladder
+  hidden: the operator's steer («солнце … лучше всё-таки сзади или сбоку от куба
+  … иначе ты сразу видишь дверь и лестницу in your face»). The cube's shadow,
+  some 20 m long, runs west-south-west, toward the player. The first choice,
+  waking in front of the doorway, lost to this.
+- **The cube hovers 1.1 m over the sand.** At 17° its shadow starts 3.6 m behind
+  it, so the sand right under the cube is in full sun: the look-under beat,
+  coming from the shadow side, shows lit sand and the sea's glare through the
+  gap.
 - **Outside is the same frame as inside, the eye is not a pose**:
   `W = CUBE_AT + 5 · C` in metres, the page holds "inside (a `Pose`) or outside
   (an eye in W)", and the scene draws an outside eye with floor 1's room as its
