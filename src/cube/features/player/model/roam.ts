@@ -1,5 +1,6 @@
 import type { Ground } from '@/cube/shared/lib/acoustics';
 import { lerp, ramp, smooth } from '@/cube/shared/lib/ease';
+import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import type { Gazing, Vec3 } from '@/cube/entities/world';
 
 import type { Cue } from './play';
@@ -44,11 +45,8 @@ export type Roamer = Gazing & {
   cues: readonly Cue[];
 };
 
-/** Floor 1's room side in metres, which the body's paces are told in. */
-const SIDE = 5;
-
 /** The eye over the soles, and over the water once the body floats. */
-export const EYE_OVER_SAND = EYE_HEIGHT * SIDE;
+export const EYE_OVER_SAND = EYE_HEIGHT * ROOM_METRES;
 export const EYE_OVER_WATER = 0.14;
 
 /** The depth past which the pace is a swimmer's, and that pace's share of a run. */
@@ -181,7 +179,7 @@ export function roam(
     SWIM_SHARE,
     smooth(ramp(depthOf(fromX, fromZ), 0, SWIM_DEPTH)),
   );
-  const run = (input.walking ? WALK_SPEED : RUN_SPEED) * SIDE;
+  const run = (input.walking ? WALK_SPEED : RUN_SPEED) * ROOM_METRES;
   const [east, south] = strideOf(input, gaze.yaw, run * share * dt);
   const [x, z] = clear(fromX + east, fromZ + south, land.solids);
   const went = Math.hypot(x - fromX, z - fromZ);
