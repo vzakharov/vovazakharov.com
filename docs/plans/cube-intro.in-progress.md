@@ -198,8 +198,66 @@ the operator's own word for the potted plant in floor 1's room.
   board session translates every quote; the lead sends verdicts in whatever
   language they were said.
 
+- **2026-11-12 ~22:50Z, randomness and the goal behind it**:
+
+  > все же исполнители понимают, что всё что касается случайности должно
+  > использовать наш `rolled`?
+
+  > цель -- любая вещь, любое явление должно выглядеть абсолютно идентично в
+  > один и тот же момент времени для двух игроков на разных машинах в одной
+  > точке
+
+  The contract named `src/dice` but not `roll` / `rollWith`; now it does, and
+  every build session was told. Sand's pushed shape already rolled. The second
+  sentence was the contract's first rule; it now also rules out anything that
+  remembers earlier frames (accumulated foam, reprojected clouds, a stepped
+  simulation), told to core, sky, sea and sand. Footprints are per-player
+  history, so they are out unless the operator asks for them.
+
+- **2026-11-12 ~22:50Z, on the footprints being dropped — a principle**:
+
+  > да, где-то на борду большими буквами: Interactions come at a price. Это и в
+  > фигуральном и в буквальном смысле: любое, что меняет состояние мира силами
+  > одного игрока (вплоть до "пнуть мячик на полу") -- только покупкой.
+  >
+  > в более философском смысле, можно вспомнить про всяких
+  > исследователей-первооткрывателей, у которых это первая заповедь; про sound
+  > of thunder у бредберри, про эффект бабочки итдитп
+
+  Written into `src/cube/CLAUDE.md` with the two rules it stands beside, into
+  the contract, and sent to the board session for the board, in English, large.
+  What it decides here: no footprints, no wake or ripples from the player's
+  body, no sand disturbed; and the lead's reading for the pill — the shelf holds
+  a pill for whoever comes next, the one taken being the taker's own. That
+  reading was told to the operator in passing.
+
+- **2026-11-12 ~22:55Z, on sea dropping its baked texture — a rule**:
+
+  > это наверное стоило тоже обозначить: никаких текстур. все стены, полы,
+  > потолки этажей куба отрисованы процедурно, здесь мы делаем то же
+
+  Read as: nothing drawn is looked up from a stored image, baked or computed —
+  no FFT maps, no sky map, no noise texture, no lookup table; the frame's own
+  screen-space targets (scene, reflection, bloom, a layer's reduced-resolution
+  pass) are what the renderer already has and stay. In `src/cube/CLAUDE.md` and
+  the contract; core, sky and sea re-briefed. The reading of screen-space
+  targets was told to the operator in passing.
+
 ## Facts established
 
+- **The seam (core step 1, 1a311efa, merged into this branch at faedd71d)**: the
+  outside is the shared segment `src/cube/shared/outside/` (barrel
+  `@/cube/shared/outside`), one file per name, each package replacing its own:
+  `island-height.ts` (sand), `water-level.ts` (sea), `cube-shadow.ts` (shell),
+  `sky.ts` + `aerial.ts` (sky), `frame.ts`, `sun.ts`, `outdoor-frame.ts`,
+  `stage.ts` (core). WGSL pieces moved to `@/cube/shared/lib/wgsl`, the hash to
+  `@/cube/shared/lib/wgsl-hash`. The eye is `Whereabouts = Pose | Outside` in
+  `@/cube/entities/world`. A layer is `pages/cube/ui/<name>-layer.ts`, a
+  `LayerMaker` from `outdoor-layer.ts`, its shader roots in
+  `pages/cube/lib/outdoor-shaders.ts`. Every package was told to merge it.
+  Core's steps 2–4 (renderer takes layers and an outside eye, the frame script,
+  the outside lens) are in flight; `sun.ts` still held 8° toward +z at that
+  head.
 - **The island (sand, `claude/cube-intro-sand` @ 04a800ac)**: the cube's centre
   is over W xz = (0, 0), the crest, sand 1.6 m; `CUBE_AT = (−2.5, 5.2, −2.5)`,
   underside y = 2.7, the doorway at x = 2.5, z −2.226…−1.256, sill y = 5.2.
@@ -276,9 +334,17 @@ Each with its reason; a later decision that overrides one rewrites it here.
   outside is its own thing.
 - **Sky, sea and sand join the cube's one scene pass** as layers into the same
   HDR target (alpha there is metres from the eye, so nothing blends), with a 20
-  km far plane outside and a lens of their own. The sea is a displaced mesh from
-  an FFT spectrum; clouds and atmosphere feed a sky map the sea reflects. The
-  contract is `docs/remove-before-merging/cube-intro-j2wt34/contract.md`.
+  km far plane outside and a lens of their own. The contract is
+  `docs/remove-before-merging/cube-intro-j2wt34/contract.md`.
+- **No textures: every surface is a procedure in the shader** — the operator's
+  rule (§ "Steering since"). The sea is a displaced mesh whose waves are a
+  rolled spectrum summed analytically (trochoids in the vertex stage, finer ones
+  in the normal, each faded before it aliases); the sky is
+  `skyRadiance(dir, lod)`, a pure function the backdrop, the sea's reflections
+  and the fill light all call. Only the frame's own screen-space targets are
+  textures. Lost to it: an FFT ocean with displacement maps and an
+  equirectangular sky map the sea sampled — the lead's first design, which
+  core's step 1 had already bound in group 0.
 - **Every motion is periodic in the hour**, since the shared clock is seconds
   into the hour: wave frequencies are multiples of 2π/3600, clouds drift whole
   tiles.

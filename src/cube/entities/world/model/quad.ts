@@ -1,8 +1,7 @@
 import type { Surface } from '@/cube/shared/lib/surface';
+import type { Vec3 } from '@/cube/shared/lib/vec';
 
 import type { InRoomOf, Room } from './room';
-
-export type Vec3 = readonly [number, number, number];
 
 type Four<T> = readonly [T, T, T, T];
 
