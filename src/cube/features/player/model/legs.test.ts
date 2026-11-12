@@ -34,7 +34,9 @@ describe('legsOf', () => {
   it('stands the feet on the sand under the eye, in trousers', () => {
     const quads = legsOf(standing(-10, 6, 0), land);
     const all = cornersOf(quads);
-    assert.ok(all.every((corner) => corner.every((value) => Number.isFinite(value))));
+    assert.ok(
+      all.every((corner) => corner.every((value) => Number.isFinite(value))),
+    );
     const [low, high] = bounds(all, 1);
     const ground = land.height(-10, 6);
     assert.ok(Math.abs(low - ground) < 0.06, `${low - ground}`);
@@ -59,7 +61,9 @@ describe('legsOf', () => {
     const eye: Vec3 = [-20, land.height(-20, 19.2) + 0.13, 19.2];
     const quads = legsOf({ eye, yaw: 2, seat, swing: 0, afloat: false }, land);
     const all = cornersOf(quads);
-    assert.ok(all.every((corner) => corner.every((value) => Number.isFinite(value))));
+    assert.ok(
+      all.every((corner) => corner.every((value) => Number.isFinite(value))),
+    );
     const [, south] = bounds(feetOf(quads), 2);
     assert.ok(south > 20.8 && south < 21.2, `${south}`);
     assert.ok(all.every(([x, y, z]) => y > land.height(x, z) - 0.05));
