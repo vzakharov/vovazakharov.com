@@ -18,6 +18,7 @@ import {
   type Tab,
   WEBGPU_FLAGS,
 } from '@/scene/scripts/lib/cdp';
+import { inTurn } from '@/scene/scripts/lib/in-turn';
 import { watchPageErrors } from '@/scene/scripts/lib/page-errors';
 
 const WIDTH = 1280;
@@ -163,7 +164,7 @@ export async function withCubePage(
       },
       sheet: async (file, frames, columns) => {
         const images: string[] = [];
-        for (const { pose, moving, taken, prompt } of frames) {
+        await inTurn(frames, async ({ pose, moving, taken, prompt }) => {
           await stage(pose, moving, taken);
           await tab.evaluate(call('setPill', source(prompt)), z.unknown(), {
             awaitPromise: true,
@@ -176,7 +177,7 @@ export async function withCubePage(
             }),
           );
           images.push(data);
-        }
+        });
         await tab.evaluate(call('setPill', 'null'), z.unknown(), {
           awaitPromise: true,
         });

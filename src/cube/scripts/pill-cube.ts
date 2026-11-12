@@ -61,14 +61,19 @@ const COLUMNS = 6;
 
 /** The room of floor `n` that has its hole, and that hole's shelf and look. */
 async function holedOn(n: number): Promise<{ room: Room; here: Holed }> {
-  const side = 2n ** BigInt(n - 1);
-  for (let y = 0n; y < side; y += 1n) {
-    for (let x = 0n; x < side; x += 1n) {
-      const quarter = await holeQuarter(planted, n, x, y);
-      if (quarter !== null) {
-        const room = { n, x, y };
-        return { room, here: plantedHoledOf(room, quarter) };
-      }
+  const side = 2 ** (n - 1);
+  const rooms = Array.from({ length: side * side }, (_, index) => ({
+    n,
+    x: BigInt(index % side),
+    y: BigInt(Math.floor(index / side)),
+  }));
+  const quarters = await Promise.all(
+    rooms.map(async ({ x, y }) => holeQuarter(planted, n, x, y)),
+  );
+  for (const [index, quarter] of quarters.entries()) {
+    const room = rooms[index];
+    if (room !== undefined && quarter !== null) {
+      return { room, here: plantedHoledOf(room, quarter) };
     }
   }
   throw new Error(`Floor ${String(n)} has no hole`);
@@ -111,8 +116,9 @@ function acted(
   }
   const shots: SheetFrame[] = [];
   const shoot = (player: Player) => {
+    const { pose } = player;
     shots.push({
-      pose: player.pose,
+      pose,
       moving: handsOf(player),
       taken: takenOf(player),
       prompt: isAsking(player) ? 'ask' : isStanding(player) ? 'take' : null,

@@ -3,6 +3,7 @@ import { describe, it } from 'node:test';
 
 import { holeQuarter, type Quarter } from './hole';
 import { isOpenEast, isOpenSouth, maze, type RolledMaze } from './maze';
+import { PILL_LENGTH } from './pill';
 import { plant } from './plant';
 import { counterRandom } from './plant.test-kit';
 import { type Room, roomsAcross } from './room';
@@ -110,7 +111,8 @@ describe('shelfFaces', () => {
       for (const [x, y, z] of corners) {
         assert.ok(x > 0 && x < 0.05, 'out of the wall, over the shelf');
         assert.ok(y >= top - 1e-9, 'on the paper, not in it');
-        assert.ok(Math.hypot(x - centre[0], y - centre[1], z - centre[2]) < 0.006);
+        const off = Math.hypot(x - centre[0], y - centre[1], z - centre[2]);
+        assert.ok(off < PILL_LENGTH / 2 + 1e-4, 'no longer than a pill');
       }
     }
     assert.equal(new Set(pill.map((q) => q.paint)).size, 2, 'two halves');
