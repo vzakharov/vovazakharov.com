@@ -23,6 +23,13 @@ From the parent session's brief, which opened this session (as delivered, bindin
    - Agent: ran `/polish` in a subagent (scoped against `origin/claude/cube-review-perf`).
 5. **Operator (mid-turn):** «Пиар из родителя, не мейна»
    - Agent: confirmed the PR targets `claude/cube-review-perf`. After polish, removed a `/* eslint-disable no-console */` it had added in `scripts/shaders-codegen.ts` without the operator's yes (now writes via `process.stderr`), updated #275's todo paths, vet green, opened draft PR #276 into `claude/cube-review-perf`, posted the squash proposal. Relayed polish's three five-percent alternatives (verbatim in Last agent turn).
+6. _(After the park, the operator came back through the review board.)_ **Board comments** (all sent to Claude, all replied to in their threads on https://claude.ai/artifact/PSHRvqMjUtVGe8v3UcN5gU):
+   - on `scripts/masd-clusters.ts`: «а то если расширить и сделать любое `.\w+.` исключающим? тогда и тесты и шейдеры подпадут. но подумай хорошенько» — Agent: tried it, same verdict (0 clusters); tests are already out via `isTest`, barrels' hyphenated suffixes don't match; argued to keep it narrow and proposed folding by the "Generated from … by `pnpm shaders:codegen`" header instead of a suffix. **Asked "Делать?" — awaiting answer.**
+   - on `12-bathroom.wgsl`: «почему-то нет подсветки кода у нас» / «на борде имею в виду» — Agent: added a WGSL/WESL highlight.js grammar to the board (d6ce7c09), rebuilt and republished.
+   - on `12-bathroom.wgsl`: «и какой-то форматтер надо поставить и линтер, если такие в природе существуют» — Agent: found prettier-plugin-wgsl 0.1.14; trying it was denied by auto mode; no real WGSL linter on npm (naga, Tint via `pnpm shaders:cube`, wgsl-analyzer validate). Proposed: formatter after checking it on WESL imports; no linter.
+   - on `light.wgsl` R34: «не сейчас, но на подумать: не требовать ли чтобы все численные значения задавались константами?» — Agent: name a number when it repeats, derives from another or is a unit (12.0 / 43200u / 48u there); not salts or art knobs; no lint rule.
+7. **Operator:** «эй эй мэйт», quoting the agent's line that the denied formatter run was not checked — Agent: admitted it owed a permission line at the denial (CLAUDE.md § "Key principles") and gave it (below).
+8. **Operator:** «то есть по твоему легче самому написать форматтер чем дать мне строку для разрешения?» — Agent: no formatter was written; the board's syntax highlighting answered a separate comment; the permission line is in chat.
 
 ## Intent
 
@@ -46,8 +53,10 @@ From the parent session's brief, which opened this session (as delivered, bindin
 
 ## State
 
-- Branch `claude/cube-wesl-trial`, clean, pushed; head `49a4c787 docs: add squash proposal for pr #276` (plus this relay commit).
-- PR #276, draft, base `claude/cube-review-perf` (head of #275): https://github.com/vzakharov/vovazakharov.com/pull/276 — squash proposal posted as a comment, tracked at `docs/remove-before-merging/cube-wesl-trial/squash-message.md`.
+- Branch `claude/cube-wesl-trial`, clean, pushed; head `7de078cb docs: keep the review focus to what the trial changes` (plus this summary's commit).
+- PR #276, draft, base `claude/cube-review-perf` (head of #275): https://github.com/vzakharov/vovazakharov.com/pull/276 — squash proposal posted as a comment, tracked at `docs/remove-before-merging/cube-wesl-trial/squash-message.md`; the review board's sticky comment posted on it.
+- `docs/remove-before-merging/review-focus.json` now holds trial items only (the collector refuses files unchanged against the PR base); #275's own items (`reflection.ts`, `reflection-shader.ts`, `core.ts`) are gone from it on this branch — the parent restores them when it merges #276.
+- `.claude/artifacts/vet.sh`'s prettier step calls `../../scripts/prettier.sh`, which does not exist; pre-existing, not touched.
 - Last `./scripts/vet.sh`: green on the commit before the squash-file commit. `pnpm shaders:cube`: 66 of 66 compile.
 - No PR subscription, no scheduled check-ins. Keepalive watcher has exited.
 - Five-percent review not posted on the PR: it ran before #276 existed and lives only in this container's `tmp/five-percent.md` (gone in a new container); its three points are in Last agent turn.
@@ -57,7 +66,7 @@ From the parent session's brief, which opened this session (as delivered, bindin
 
 https://claude.ai/artifact/PSHRvqMjUtVGe8v3UcN5gU
 
-(The review board, built against `main` with no PR; stopped. Not rebuilt for #276 since the operator reviews on GitHub.)
+(The review board, rebuilt against #276's base and republished as version 2; its watch was stopped at the park and not restarted, but comments sent to Claude from it still reached this session.)
 
 ## Pointers
 
@@ -71,7 +80,11 @@ https://claude.ai/artifact/PSHRvqMjUtVGe8v3UcN5gU
 
 ## Next step
 
-Wait for the operator. Open for him: review of #276 on GitHub; whether to keep the `masd:clusters` fold or use markers; the three five-percent alternatives (pin test lifetime, MASD checked twice, committed generated files).
+Wait for the operator. Pending his answer:
+
+- the permission to try prettier-plugin-wgsl, the line given in chat: «Разрешаю один прогон prettier-plugin-wgsl@0.1.14 (npm, github AbdBarho/prettier-plugin-wgsl) в /tmp/claude-0/pw: `npx prettier --plugin ./package/dist/index.mjs` на копиях honeycomb.wgsl и 12-bathroom.wgsl, без записи в репозиторий — только посмотреть, переварит ли он WESL-импорты и что поменяет.» A new container lacks `/tmp/claude-0/pw`: re-pack it there first;
+- «Делать?» on folding generated twins by their header rather than the `.shader` suffix (board thread on `masd-clusters.ts`);
+- review of #276; the `masd:clusters` fold vs markers; the three five-percent alternatives (pin test lifetime, MASD checked twice, committed generated files).
 
 ## Last agent turn
 
