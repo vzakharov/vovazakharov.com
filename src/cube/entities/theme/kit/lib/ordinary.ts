@@ -1,9 +1,9 @@
 import type { Rgb } from '@/cube/shared/lib/colour';
+import { vec3f, type Wgsl, wgsl } from '@/cube/shared/lib/wgsl';
 
 import type { Aired } from '../model/theme';
 import { GRADE } from './grade';
 import { LIGHT } from './light';
-import { vec3f, type Wgsl, wgsl } from './wgsl';
 
 /** An ordinary floor's light, air and lens, as numbers. */
 type Ordinary = Aired & {

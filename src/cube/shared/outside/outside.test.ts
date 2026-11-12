@@ -1,0 +1,215 @@
+import assert from 'node:assert/strict';
+import { describe, it } from 'node:test';
+
+import { ROOM_HEIGHT } from '../lib/room-shape';
+import type { Vec3 } from '../lib/vec';
+import { assemble, f32 } from '../lib/wgsl';
+import { CUBE_SHADOW, cubeShadow } from './cube-shadow';
+import {
+  CUBE_AT,
+  CUBE_BOX,
+  CUBE_METRES,
+  DOORWAY_BOX,
+  toCube,
+  toWorld,
+  WAKE_AT,
+  WORLD,
+} from './frame';
+import { ISLAND_HEIGHT, islandHeight } from './island-height';
+import {
+  OUTDOOR_FRAME,
+  OUTDOOR_FRAME_FLOATS,
+  packOutdoorFrame,
+} from './outdoor-frame';
+import { SKY, skyDir, skyUv } from './sky';
+import { SUN, SUN_DIR } from './sun';
+import { WATER_LEVEL, waterLevel } from './water-level';
+
+const close = (a: number, b: number, within = 1e-9): void => {
+  assert.ok(Math.abs(a - b) <= within, `${String(a)} is not ${String(b)}`);
+};
+
+/** The float literals of `listing`, as numbers. */
+const literals = (listing: string): number[] =>
+  [...listing.matchAll(/-?\d+\.\d+(?:e-?\d+)?|-?\d+e-?\d+/g)].map(([text]) =>
+    Number(text),
+  );
+
+describe('the world frame', () => {
+  it('hangs the cube 1.1 m over the sand beneath its middle', () => {
+    const [x, , z] = toWorld([0.5, 0, 0.5]);
+    close(CUBE_BOX.min[1] - islandHeight([x, z]), 1.1);
+    close(CUBE_BOX.max[1] - CUBE_BOX.min[1], CUBE_METRES);
+  });
+
+  it('takes a point to the world and back', () => {
+    const c: Vec3 = [0.2, -ROOM_HEIGHT, 0.9];
+    for (const [axis, value] of toCube(toWorld(c)).entries()) {
+      close(value, c[axis] ?? Number.NaN);
+    }
+    assert.deepEqual(toWorld([0, 0, 0]), CUBE_AT);
+  });
+
+  it('opens the doorway in the east face, by the north-east corner', () => {
+    close(DOORWAY_BOX.min[0], CUBE_BOX.max[0]);
+    close(DOORWAY_BOX.min[1], CUBE_AT[1]);
+    close(DOORWAY_BOX.min[2] - CUBE_AT[2], 0.274);
+    close(DOORWAY_BOX.max[2] - CUBE_AT[2], 1.244);
+    close(DOORWAY_BOX.max[1] - DOORWAY_BOX.min[1], 2.1);
+  });
+
+  it('wakes the player on the waterline about 30 m south-west', () => {
+    const [x, y, z] = WAKE_AT;
+    assert.equal(y, 0);
+    close(islandHeight([x, z]), 0, 1e-6);
+    assert.ok(x < 0 && z > 0);
+    const away = Math.hypot(x, z);
+    assert.ok(away > 25 && away < 40, String(away));
+  });
+
+  it('gives the shader the numbers the script reads', () => {
+    for (const value of [...CUBE_AT, ...CUBE_BOX.min, ...DOORWAY_BOX.max]) {
+      assert.ok(literals(WORLD.listing).includes(Number(f32(value))));
+    }
+  });
+});
+
+describe('the sun', () => {
+  it('stands 9° up, 8° south of east', () => {
+    close(Math.hypot(...SUN_DIR), 1);
+    close(Math.asin(SUN_DIR[1]), (9 * Math.PI) / 180);
+    close(Math.atan2(SUN_DIR[2], SUN_DIR[0]), (8 * Math.PI) / 180);
+    for (const value of SUN_DIR) {
+      assert.ok(literals(SUN.listing).includes(value));
+    }
+  });
+});
+
+describe('islandHeight', () => {
+  it('is a low island some 90 m by 50 m, the sea all round', () => {
+    close(islandHeight([0, 0]), 1.6);
+    assert.ok(islandHeight([-69, 0]) > 0 && islandHeight([-71, 0]) < 0);
+    assert.ok(islandHeight([19, 0]) > 0 && islandHeight([21, 0]) < 0);
+    assert.ok(islandHeight([0, 24]) > 0 && islandHeight([0, -26]) < 0);
+    assert.ok(islandHeight([5000, 5000]) < -10);
+  });
+
+  it('has every number of the script in its shader', () => {
+    const numbers = literals(ISLAND_HEIGHT.listing);
+    for (const value of [1.6, 20, 70, 25, -40]) {
+      assert.ok(numbers.includes(value), String(value));
+    }
+  });
+});
+
+describe('waterLevel', () => {
+  it('returns to itself on the hour', () => {
+    for (const xz of [
+      [0, 0],
+      [-23, 31],
+      [400, -90],
+    ] as const) {
+      close(waterLevel(xz, 0), waterLevel(xz, 3600), 1e-9);
+      close(waterLevel(xz, 1234.5), waterLevel(xz, 1234.5 + 12), 1e-9);
+    }
+  });
+
+  it('stays a slow surge about the still level', () => {
+    let highest = 0;
+    for (let t = 0; t < 12; t += 0.25) {
+      highest = Math.max(highest, Math.abs(waterLevel([3, 4], t)));
+    }
+    close(highest, 0.12, 1e-3);
+    assert.ok(literals(WATER_LEVEL.listing).includes(300));
+  });
+});
+
+describe('cubeShadow', () => {
+  const middle = toWorld([0.5, 0, 0.5]);
+  const down = (metres: number): Vec3 => [
+    middle[0] - SUN_DIR[0] * metres,
+    middle[1] - SUN_DIR[1] * metres,
+    middle[2] - SUN_DIR[2] * metres,
+  ];
+
+  it('is dark down-sun of the cube and lit beside it and up-sun', () => {
+    assert.equal(cubeShadow(down(10)), 0);
+    assert.equal(cubeShadow(down(-10)), 1);
+    const [x, y, z] = down(10);
+    assert.equal(cubeShadow([x, y, z + 6]), 1);
+  });
+
+  /** How far the edge runs across the shadow, `metres` down-sun. */
+  const edge = (metres: number): number => {
+    const [x, y, z] = down(metres);
+    let wide = 0;
+    for (let across = 0; across < 6; across += 0.002) {
+      const lit = cubeShadow([x, y, z + across]);
+      if (lit > 0.01 && lit < 0.99) wide += 0.002;
+    }
+    return wide;
+  };
+
+  it('softens its edge with distance', () => {
+    assert.ok(edge(30) > 2 * edge(5), `${String(edge(30))} ${String(edge(5))}`);
+  });
+
+  it('is assembled with the frame and the sun it reads', () => {
+    const source = assemble([CUBE_SHADOW]);
+    assert.ok(
+      source.indexOf('const CUBE_MIN') < source.indexOf('fn cubeShadow'),
+    );
+    assert.ok(
+      source.indexOf('const SUN_DIR') < source.indexOf('fn cubeShadow'),
+    );
+  });
+});
+
+describe('the sky map', () => {
+  it('finds a direction where it put it', () => {
+    for (const dir of [SUN_DIR, [0, 1, 0], [-0.6, -0.48, 0.64]] as const) {
+      for (const [axis, value] of skyDir(skyUv(dir)).entries()) {
+        close(value, dir[axis] ?? Number.NaN, 1e-12);
+      }
+    }
+    assert.deepEqual(skyUv([1, 0, 0]), [0.5, 0.5]);
+  });
+
+  it('binds the map beside the frame', () => {
+    const source = assemble([SKY, OUTDOOR_FRAME]);
+    for (const binding of [0, 1, 2]) {
+      assert.ok(source.includes(`@group(0) @binding(${String(binding)})`));
+    }
+  });
+});
+
+describe('packOutdoorFrame', () => {
+  it('lays the block out as the struct declares it', () => {
+    const data = packOutdoorFrame({
+      viewProjection: new Float32Array(16).fill(1),
+      inverse: new Float32Array(16).fill(2),
+      eye: [3, 4, 5],
+      sun: [6, 7, 8],
+      seconds: 9,
+      hour: 10,
+      width: 11,
+      height: 12,
+    });
+    assert.equal(data.length, OUTDOOR_FRAME_FLOATS);
+    assert.deepEqual(
+      [...data.subarray(32)],
+      [3, 4, 5, 1, 6, 7, 8, 0, 9, 10, 11, 12],
+    );
+    assert.deepEqual([data[0], data[15], data[16], data[31]], [1, 1, 2, 2]);
+    const members = [...OUTDOOR_FRAME.listing.matchAll(/^ {2}(\w+): /gm)].map(
+      ([, name]) => name,
+    );
+    assert.deepEqual(members, [
+      'viewProjection',
+      'inverse',
+      'eye',
+      'sun',
+      'clock',
+    ]);
+  });
+});
