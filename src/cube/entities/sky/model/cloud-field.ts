@@ -24,7 +24,7 @@ export const CLOUDS = {
   /** No cloud is drawn farther off than this. */
   reach: 220,
   /** What a kilometre of the densest cloud takes out of a beam. */
-  extinction: 14,
+  extinction: 40,
 } as const;
 
 const SECONDS_IN_HOUR = 3600;

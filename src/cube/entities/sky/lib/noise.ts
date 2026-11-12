@@ -122,7 +122,7 @@ ${NOISE_WGSL}
 fn weatherMain(@builtin(global_invocation_id) id: vec3u) {
   let uv = (vec2f(id.xy) + 0.5) / f32(textureDimensions(into).x);
   let uvw = vec3f(uv, 0.37);
-  let cells = cellSum(uvw, 7, 83u);
+  let cells = cellSum(uvw, 10, 83u);
   let ragged = gradientSum(uvw, 6, 5, 97u);
   let stands = remap(ragged, 0.0, 1.0, cells * 0.7, 1.0);
   let tall = gradientSum(uvw + vec3f(0.0, 0.0, 0.31), 3, 3, 101u);

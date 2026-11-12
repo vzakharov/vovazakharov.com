@@ -51,10 +51,14 @@ ${CLOUD_WGSL}
 
 const SUN = ${vec3(SUN_DIR)};
 const SIZE = vec2f(${f(PANORAMA.width)}, ${f(PANORAMA.height)});
-const STEPS = 220;
-/// The march's stride: this many km, or this share of the way gone if more.
-const STRIDE = 0.08;
-const STRIDE_GROWS = 0.011;
+const STEPS = 900;
+/// The march's two strides, each this many km or this share of the way gone
+/// if that is more: \`SEEK\` looks for a cloud, \`TREAD\` crosses one, short
+/// enough that a stride of the densest cloud still lets light through.
+const SEEK = 0.07;
+const SEEK_GROWS = 0.006;
+const TREAD = 0.014;
+const TREAD_GROWS = 0.0011;
 
 @vertex
 fn paintVertex(@builtin(vertex_index) index: u32) -> @builtin(position) vec4f {
@@ -87,36 +91,61 @@ fn paintMain(@builtin(position) at: vec4f) -> Painted {
   // Each texel starts its march a different fraction of a stride in, so
   // the strides' edges fall as grain a texel wide rather than as rings.
   let dither = fract(52.9829189 * fract(dot(at.xy, vec2f(0.06711056, 0.00583715))));
-  var t = enter + dither * max(STRIDE, enter * STRIDE_GROWS);
+  var t = enter + dither * max(SEEK, enter * SEEK_GROWS);
   var through = 1.0;
   var light = vec3f(0.0);
   var reached = 0.0;
   let fog = clearSky(dir, SUN);
+  // Whether the march is inside a cloud, and how many strides it has gone
+  // without meeting any since.
+  var treading = false;
+  var empty = 0;
 
   for (var i = 0; i < STEPS && t < leave && through > 0.01; i++) {
-    let stride = max(STRIDE, t * STRIDE_GROWS);
+    let seek = max(SEEK, t * SEEK_GROWS);
+    let least = max(TREAD, t * TREAD_GROWS);
+    var tread = least;
     let p = dir * t;
     let h = heightOf(p);
     let field = inField(p, h);
     let w = weatherAt(field, t);
     if (w.x < 0.01) {
-      t += stride * 3.0;
+      treading = false;
+      t += seek * 3.0;
       continue;
     }
-    let lod = log2(stride / STRIDE) * 0.5;
+    let lod = log2(least / TREAD) * 0.6;
     let density = cloudDensity(field, w, lod, true);
+    if (!treading) {
+      if (density > 0.0) {
+        // Found one: go back a stride and cross its edge finely.
+        treading = true;
+        empty = 0;
+        t -= seek - tread * dither;
+      } else {
+        t += seek;
+      }
+      continue;
+    }
     if (density > 0.0) {
+      empty = 0;
+      // Thin cloud is crossed in longer strides: each takes about the same
+      // share of the light, so a ray through haze does not run out of them.
+      tread = clamp(0.45 / (density * CLOUD_EXTINCTION), least, seek);
       let up = normalize(p + vec3f(0.0, EYE_RADIUS, 0.0));
       let rise = clamp((h - CLOUD_BASE) / (CLOUD_TOP - CLOUD_BASE), 0.0, 1.0);
       let glow = cloudLight(h, depthToSun(p, SUN, lod), towardSun, dot(SUN, up), rise, density);
-      let kept = exp(-density * CLOUD_EXTINCTION * stride);
+      let kept = exp(-density * CLOUD_EXTINCTION * tread);
       let air = airBetween(t, h);
       let covers = through * (1.0 - kept);
       light += covers * (glow * air + fog * (1.0 - air));
       reached += covers * t;
       through *= kept;
+    } else {
+      empty++;
+      treading = f32(empty) * tread < seek;
     }
-    t += stride;
+    t += tread;
   }
 
   let covered = 1.0 - through;

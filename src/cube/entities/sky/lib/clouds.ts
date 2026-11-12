@@ -60,11 +60,11 @@ fn cloudDensity(field: vec3f, w: vec3f, lod: f32, fine: bool) -> f32 {
   if (w.x < 0.01) { return 0.0; }
   let base = CLOUD_BASE + 0.3 * (w.z - 0.5);
   // A cloud is tallest over the middle of its cell: a dome, not a slab.
-  let top = base + (CLOUD_TOP - CLOUD_BASE - 0.3) * (0.3 + 0.7 * w.y) * mix(0.45, 1.0, w.x);
+  let top = base + (CLOUD_TOP - CLOUD_BASE - 0.3) * (0.3 + 0.7 * w.y) * mix(0.6, 1.0, w.x);
   let rise = (field.y - base) / (top - base);
   if (rise <= 0.0 || rise >= 1.0) { return 0.0; }
-  // Flat below, fullest a quarter of the way up, drawn in toward the top.
-  let profile = smoothstep(0.0, 0.07, rise) * (1.0 - smoothstep(0.3, 1.0, rise) * 0.85);
+  // Flat below, full to half its height, drawn in toward the top.
+  let profile = smoothstep(0.0, 0.07, rise) * (1.0 - smoothstep(0.5, 1.0, rise) * 0.9);
   let at = field / (CLOUD_TILE / ${f(CLOUDS.shapeTiles)});
   let n = textureSampleLevel(shape, noiseSampler, at, lod);
   let worn = n.g * 0.625 + n.b * 0.25 + n.a * 0.125;
@@ -76,9 +76,10 @@ fn cloudDensity(field: vec3f, w: vec3f, lod: f32, fine: bool) -> f32 {
     let cells = textureSampleLevel(grain, noiseSampler, fineAt, lod).r;
     // Wisps hang under a cloud, cauliflower stands on it.
     let wear = mix(cells, 1.0 - cells, clamp(rise * 4.0, 0.0, 1.0));
-    density = remap(density, wear * 0.32 * (1.0 - density), 1.0, 0.0, 1.0);
+    density = remap(density, wear * 0.45 * (1.0 - density), 1.0, 0.0, 1.0);
   }
-  return clamp(density, 0.0, 1.0) * mix(0.55, 1.0, rise);
+  // A cumulus has an edge: its water is all there a few metres in.
+  return clamp(density * 3.0, 0.0, 1.0) * mix(0.55, 1.0, rise);
 }
 
 /// The height over the sea of a point \`at\` km from the eye.
@@ -121,12 +122,12 @@ fn cloudLight(h: f32, depth: f32, towardSun: f32, sunMu: f32, rise: f32, density
     let phase = mix(henyeyCloud(towardSun, 0.82 * blunt), henyeyCloud(towardSun, -0.25 * blunt), 0.3);
     lit += weight * 4.0 * PI * phase * exp(-depth * thin);
     weight *= 0.5;
-    thin *= 0.45;
+    thin *= 0.4;
     blunt *= 0.5;
   }
   // The sky reaches a cloud's crown freely and its heart hardly at all.
   let open = mix(0.35, 1.0, rise) * exp(-density * 1.6);
-  let ambient = (SKY_AMBIENT * (0.3 + 0.7 * rise) + HORIZON_AMBIENT * 0.5) * 0.4 * open;
+  let ambient = (SKY_AMBIENT * (0.3 + 0.7 * rise) + HORIZON_AMBIENT * 0.5) * 0.7 * open;
   return sun * lit * 0.6 + ambient;
 }
 
