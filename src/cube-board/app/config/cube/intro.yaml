@@ -99,6 +99,18 @@ items:
     box: [6214, 40, 280, green]
     icon: 🗺️
     text: 'One ocean, one day. Vova: “all this will become part of one world: our island in the middle of the ocean, in the same world as Zoltan and Syama’s island. Swim, and hundreds of kilometres on you reach a shore. Or maybe you take off and fly. But that is for later :)”'
+  - id: intro-price
+    type: sticky
+    updated: [2026-11-12T23:25:00.000Z, agent:cube-intro]
+    box: [6520, 40, 280, blue]
+    icon: 👣
+    text: 'What “interactions come at a price” already decided here: no footprints on the sand, no ripples from the swimmer, and the shelf keeps its pill for whoever comes next'
+  - id: intro-no-textures
+    type: sticky
+    updated: [2026-11-12T23:25:00.000Z, agent:cube-intro]
+    box: [6826, 40, 280, blue]
+    icon: 🧮
+    text: 'The first design had an FFT ocean and a sky map. After “no textures” the sea is a rolled spectrum summed in the shader, and the sky one function of direction and clock'
   - id: intro-h-frames
     type: text
     updated: [2026-11-12T22:35:00.000Z, agent:cube-intro]

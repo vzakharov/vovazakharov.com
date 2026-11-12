@@ -1,0 +1,41 @@
+items:
+  - id: z-rules
+    type: zone
+    updated: [2026-11-12T23:25:00.000Z, agent:cube-intro]
+    box: [1820, -1640, 1720, 580, gray]
+    icon: ⚖️
+    text: The rules of the world
+  - id: rules-price
+    type: text
+    updated: [2026-11-12T23:25:00.000Z, agent:cube-intro]
+    box: [1848, -1530, 1660, h1]
+    text: INTERACTIONS COME AT A PRICE
+  - id: rules-price-body
+    type: text
+    updated: [2026-11-12T23:25:00.000Z, agent:cube-intro]
+    box: [1848, -1450, 1660, body]
+    text: 'Figuratively and literally: anything by which one player changes the state of the world, down to kicking a ball across the floor, is only by purchase. The lineage Vova names: the explorers’ first commandment, leave no trace; Bradbury’s “A Sound of Thunder”; the butterfly effect.'
+  - id: rules-same
+    type: sticky
+    updated: [2026-11-12T23:25:00.000Z, agent:cube-intro]
+    box: [1848, -1350, 244, gray]
+    icon: 👥
+    text: 'The same thing looks and sounds identical to two players at one point at one moment, on any machine. A frame is a function of where the eye is and the shared clock'
+  - id: rules-rolled
+    type: sticky
+    updated: [2026-11-12T23:25:00.000Z, agent:cube-intro]
+    box: [2183, -1350, 244, gray]
+    icon: 🎲
+    text: 'Every random number is rolled, under a named path. Nothing is random because of when the page opened'
+  - id: rules-no-textures
+    type: sticky
+    updated: [2026-11-12T23:25:00.000Z, agent:cube-intro]
+    box: [2518, -1350, 244, gray]
+    icon: 🧮
+    text: 'No textures. Every surface is a procedure in the shader, from place and clock; nothing drawn is looked up from a stored image'
+  - id: rules-body
+    type: sticky
+    updated: [2026-11-12T23:25:00.000Z, agent:cube-intro]
+    box: [2853, -1350, 244, gray]
+    icon: 🧍
+    text: 'What your body does is yours alone: your pose, your hands, what you swallowed. The world is as it was for whoever comes next'
