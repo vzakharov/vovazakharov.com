@@ -1,8 +1,8 @@
 items:
   - id: z-intro
     type: zone
-    updated: [2026-11-12T23:40:00.000Z, agent:cube-intro]
-    box: [5720, -1000, 1880, 2900, orange]
+    updated: [2026-11-13T00:20:00.000Z, agent:cube-intro]
+    box: [5720, -2150, 1880, 4050, orange]
     icon: 🏝️
     text: 'The intro: an island, the cube from outside, the way in'
   - id: intro-h-premise
@@ -164,3 +164,45 @@ items:
     box: [7132, 40, 280, blue]
     icon: 🪜
     text: 'The ladder is there until it has been climbed, and then it is not: no animation, no effect, no sound. You turn round and it is gone. You can leave by jumping from the doorway, unhurt, at half height too if you took the pill and did not go down. There is no climbing back'
+  - id: intro-img-sea-big
+    type: image
+    updated: [2026-11-13T00:20:00.000Z, agent:cube-intro]
+    box: [5748, -2040, 1200]
+    src: images/intro-06-sea-swimming.webp
+    text: 'The sea, first frame: the eye 22 cm over the water off the south-west shore, looking into the sun. Shot on the sea package’s own stand: the sky, sand and box are stand-ins; only the water is the product'
+  - id: intro-sea-verdict-1
+    type: sticky
+    updated: [2026-11-13T00:20:00.000Z, agent:cube-intro]
+    box: [6990, -2040, 280, pink]
+    icon: 🤩
+    text: 'Vova, on seeing it: “Stunning!”'
+  - id: intro-sea-verdict-2
+    type: sticky
+    updated: [2026-11-13T00:20:00.000Z, agent:cube-intro]
+    box: [7290, -2040, 280, pink]
+    icon: 💯
+    text: 'Vova: “this goes on the board, 1000%, as a big card”. So here it is, the biggest one'
+  - id: intro-sea-fft
+    type: sticky
+    updated: [2026-11-13T00:20:00.000Z, agent:cube-intro]
+    box: [5748, -1240, 600, gray]
+    icon: ⚠️
+    text: 'The lead: this frame’s waves are an FFT spectrum computed into maps each frame, which the “no textures” rule, written the same hour, forbids. The sea is being rebuilt as a sum computed in the shader, with this frame as the look to match; if the sum cannot match it, the choice goes to Vova'
+  - id: intro-img-06-sea-swimming
+    type: image
+    updated: [2026-11-13T00:20:00.000Z, agent:cube-intro]
+    box: [7128, 1000, 430]
+    src: images/intro-06-sea-swimming.webp
+    text: '6. The sea, first frame: the eye 22 cm over the water off the south-west shore, looking into the sun. Shot on the sea package’s own stand: the sky, sand and box are stand-ins; only the water is the product. Vova: “Stunning!” The big card at the top of this zone'
+  - id: intro-img-07-sea-doorway
+    type: image
+    updated: [2026-11-13T00:20:00.000Z, agent:cube-intro]
+    box: [5748, 1450, 430]
+    src: images/intro-07-sea-doorway.webp
+    text: '7. The same water from the cube’s doorway, down the glitter path'
+  - id: intro-img-08-sand-down-2
+    type: image
+    updated: [2026-11-13T00:20:00.000Z, agent:cube-intro]
+    box: [6208, 1450, 430]
+    src: images/intro-08-sand-down-2.webp
+    text: '8. Sand, second pass, under the final sun, looking down: the cube’s shadow edge across the ripples, gold in sun, blue in shade'

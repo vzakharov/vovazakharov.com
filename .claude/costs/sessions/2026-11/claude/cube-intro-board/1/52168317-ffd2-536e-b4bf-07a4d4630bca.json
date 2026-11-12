@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 10383,
-    "cacheWrite5mTokens": 1551,
-    "cacheWrite1hTokens": 245749,
-    "cacheReadTokens": 20273316,
-    "outputTokens": 57576,
-    "thinkingTokens": 8170,
-    "responses": 92,
-    "costUsd": 10.379987299999998
+    "inputTokens": 10901,
+    "cacheWrite5mTokens": 1670,
+    "cacheWrite1hTokens": 312190,
+    "cacheReadTokens": 21038508,
+    "outputTokens": 61758,
+    "thinkingTokens": 9056,
+    "responses": 99,
+    "costUsd": 11.769409699999997
   },
   "estimate": {
     "at": "2026-11-12T22:22:30.125Z",
@@ -52,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkDnTF1C1pccu6TcupR",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-12T22:19:20.231Z",
-  "lastResponseAt": "2026-11-12T23:02:23.226Z",
+  "lastResponseAt": "2026-11-12T23:05:15.357Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 161,
+    "inputTokens": 173,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 245749,
-    "cacheReadTokens": 17769234,
-    "outputTokens": 49277,
-    "thinkingTokens": 8170,
-    "responses": 81,
-    "costUsd": 9.4581988
+    "cacheWrite1hTokens": 312190,
+    "cacheReadTokens": 18415487,
+    "outputTokens": 53457,
+    "thinkingTokens": 9056,
+    "responses": 87,
+    "costUsd": 10.817801399999999
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,14 +77,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 8272,
-      "cacheWrite5mTokens": 1551,
-      "cacheWrite1hTokens": 245749,
-      "cacheReadTokens": 20273316,
-      "outputTokens": 57558,
-      "thinkingTokens": 8170,
-      "responses": 91,
-      "costUsd": 10.379767199999998
+      "inputTokens": 8790,
+      "cacheWrite5mTokens": 1670,
+      "cacheWrite1hTokens": 312190,
+      "cacheReadTokens": 21038508,
+      "outputTokens": 61740,
+      "thinkingTokens": 9056,
+      "responses": 98,
+      "costUsd": 11.769189599999997
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 2111,
@@ -105,24 +105,26 @@
       "compactedFrom": 305694,
       "summaryChars": 18412,
       "reorientation": {
-        "endedBy": null,
+        "endedBy": "end_turn",
         "endedOn": null,
-        "endedAt": null,
-        "contextTokens": null,
+        "endedAt": "2026-11-12T23:04:35.064Z",
+        "contextTokens": 118941,
         "spend": {
-          "inputTokens": 0,
+          "inputTokens": 4,
           "cacheWrite5mTokens": 0,
-          "cacheWrite1hTokens": 0,
-          "cacheReadTokens": 0,
-          "outputTokens": 0,
-          "thinkingTokens": 0,
-          "responses": 0,
-          "costUsd": 0.0
+          "cacheWrite1hTokens": 59705,
+          "cacheReadTokens": 165804,
+          "outputTokens": 1174,
+          "thinkingTokens": 93,
+          "responses": 2,
+          "costUsd": 1.0354328
         }
       },
       "rereads": {
-        "calls": 0,
-        "byTool": {},
+        "calls": 1,
+        "byTool": {
+          "Read": 1
+        },
         "estimatedTokens": 0,
         "estimatedUsd": 0.0
       },
@@ -130,20 +132,20 @@
     }
   ],
   "telemetry": {
-    "events": 92,
-    "matched": 81,
-    "matchedTableUsd": 9.4581988,
-    "matchedEventUsd": 9.4581988,
+    "events": 99,
+    "matched": 87,
+    "matchedTableUsd": 10.817801399999999,
+    "matchedEventUsd": 10.817801399999999,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 4554,
-        "cacheWrite5mTokens": 1519,
+        "inputTokens": 5060,
+        "cacheWrite5mTokens": 1638,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 2205421,
-        "outputTokens": 18,
+        "cacheReadTokens": 2324360,
+        "outputTokens": 20,
         "thinkingTokens": 0,
-        "responses": 9,
-        "costUsd": 0.5025402000000001
+        "responses": 10,
+        "costUsd": 0.53236
       },
       "generate_session_title": {
         "inputTokens": 2111,
@@ -175,10 +177,10 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 1888,
+    ".md": 1892,
     ".json": 30,
-    ".ts": 3064,
-    ".yaml": 255,
+    ".ts": 3073,
+    ".yaml": 267,
     ".tsx": 86,
     ".scss": 15
   }
