@@ -1,0 +1,124 @@
+{
+  "total": {
+    "inputTokens": 2125,
+    "cacheWrite5mTokens": 177304,
+    "cacheWrite1hTokens": 92004,
+    "cacheReadTokens": 6581157,
+    "outputTokens": 26283,
+    "thinkingTokens": 11947,
+    "responses": 54,
+    "costUsd": 3.4802064
+  },
+  "estimate": {
+    "at": "2026-11-12T08:19:43.444Z",
+    "subjectLine": "feat: land the liminal cube and set up its reference snapshot",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "qa",
+        "comment": "the every-band gallery look on the cube needs a tester's eye across all 66 floors"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "choosing how to freeze the merged state for comparisons and splitting the code review into its own PR is release planning"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-12T08:20:32.098Z",
+    "contextTokens": 118741,
+    "spend": {
+      "inputTokens": 19,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 64122,
+      "cacheReadTokens": 1049562,
+      "outputTokens": 4727,
+      "thinkingTokens": 2295,
+      "responses": 10,
+      "costUsd": 0.8175044000000001
+    }
+  },
+  "sessionId": "82a3f5b8-3f41-5c1e-afb5-d602bd3a4d37",
+  "branch": "claude/cube-liminal-332pmv",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cube-liminal-332pmv — PR открыт, отражения вмержены, ждём взгляда на превью так, превью шикарен. есть нарекания, но они не стоят того чтобы с…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBvLD2WSYPkUSXi9Di",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-12T08:19:22.604Z",
+  "lastResponseAt": "2026-11-12T08:34:21.634Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 52,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 92004,
+    "cacheReadTokens": 3141365,
+    "outputTokens": 12607,
+    "thinkingTokens": 6171,
+    "responses": 26,
+    "costUsd": 1.6166530000000001
+  },
+  "subagents": {
+    "inputTokens": 49,
+    "cacheWrite5mTokens": 174883,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 2927374,
+    "outputTokens": 13615,
+    "thinkingTokens": 5776,
+    "responses": 24,
+    "costUsd": 1.7323857999999999
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 2125,
+      "cacheWrite5mTokens": 177304,
+      "cacheWrite1hTokens": 92004,
+      "cacheReadTokens": 6581157,
+      "outputTokens": 26283,
+      "thinkingTokens": 11947,
+      "responses": 54,
+      "costUsd": 3.4802064
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 54,
+    "matched": 50,
+    "matchedTableUsd": 3.3490388,
+    "matchedEventUsd": 3.3490387999999998,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 2024,
+        "cacheWrite5mTokens": 2421,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 512418,
+        "outputTokens": 61,
+        "thinkingTokens": 0,
+        "responses": 4,
+        "costUsd": 0.1311676
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 287,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".json": 53,
+    ".md": 572,
+    ".yaml": 85,
+    ".ts": 27652,
+    ".tsx": 26
+  }
+}

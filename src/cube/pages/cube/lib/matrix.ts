@@ -1,3 +1,18 @@
+/** `a` times `b`, both column-major 4×4. */
+export function multiply(a: Float32Array, b: Float32Array): Float32Array {
+  const out = new Float32Array(16);
+  for (let column = 0; column < 4; column += 1) {
+    for (let row = 0; row < 4; row += 1) {
+      let sum = 0;
+      for (let k = 0; k < 4; k += 1) {
+        sum += (a[k * 4 + row] ?? 0) * (b[column * 4 + k] ?? 0);
+      }
+      out[column * 4 + row] = sum;
+    }
+  }
+  return out;
+}
+
 /**
  * The inverse of column-major 4×4 `m`, by cofactors; throws on a singular
  * one, which no camera's view-projection is.

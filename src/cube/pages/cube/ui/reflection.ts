@@ -6,7 +6,7 @@ import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import type { Vec3 } from '@/cube/entities/world';
 
 import { inverse } from '../lib/matrix';
-import { SCENE_FORMAT } from './bloom';
+import { cover, SCENE_FORMAT } from './bloom';
 import {
   BLUR_LEVELS,
   HALVE_SHADER,
@@ -79,22 +79,6 @@ const covering = (
     },
   });
 };
-
-/** Records one covering pass of `pipeline`, reading `group`, into `into`. */
-function cover(
-  encoder: GPUCommandEncoder,
-  pipeline: GPURenderPipeline,
-  group: GPUBindGroup,
-  into: GPUTextureView,
-): void {
-  const pass = encoder.beginRenderPass({
-    colorAttachments: [{ view: into, loadOp: 'clear', storeOp: 'store' }],
-  });
-  pass.setPipeline(pipeline);
-  pass.setBindGroup(0, group);
-  pass.draw(3);
-  pass.end();
-}
 
 export function createReflection(device: GPUDevice): Reflection {
   const halve = covering(device, HALVE_SHADER, 'halveMain');

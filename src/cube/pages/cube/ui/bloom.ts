@@ -64,6 +64,28 @@ fn up(in: Varying) -> @location(0) vec4f {
 }
 `;
 
+/**
+ * Records one pass of `pipeline`, reading `group`, over the whole of `into`:
+ * cleared first, unless `keeps` leaves what it holds for the pass to add to.
+ */
+export function cover(
+  encoder: GPUCommandEncoder,
+  pipeline: GPURenderPipeline,
+  group: GPUBindGroup,
+  into: GPUTextureView,
+  keeps = false,
+): void {
+  const pass = encoder.beginRenderPass({
+    colorAttachments: [
+      { view: into, loadOp: keeps ? 'load' : 'clear', storeOp: 'store' },
+    ],
+  });
+  pass.setPipeline(pipeline);
+  pass.setBindGroup(0, group);
+  pass.draw(3);
+  pass.end();
+}
+
 type Level = { texture: GPUTexture; view: GPUTextureView; read: GPUBindGroup };
 
 export type Bloom = CanDispose & {
@@ -151,38 +173,20 @@ export function createBloom(device: GPUDevice): Bloom {
     });
   };
 
-  const pass = (
-    encoder: GPUCommandEncoder,
-    step: GPURenderPipeline,
-    read: GPUBindGroup,
-    into: GPUTextureView,
-    keeps: boolean,
-  ): void => {
-    const drawing = encoder.beginRenderPass({
-      colorAttachments: [
-        { view: into, loadOp: keeps ? 'load' : 'clear', storeOp: 'store' },
-      ],
-    });
-    drawing.setPipeline(step);
-    drawing.setBindGroup(0, read);
-    drawing.draw(3);
-    drawing.end();
-  };
-
   return {
     run: (encoder, scene, width, height) => {
       fit(width, height);
       if (from?.view !== scene) from = { view: scene, read: reading(scene) };
       const [first, ...rest] = levels;
       if (first === undefined) throw new Error('The bloom has no levels');
-      pass(encoder, bright, from.read, first.view, false);
+      cover(encoder, bright, from.read, first.view);
       let above = first;
       for (const level of rest) {
-        pass(encoder, down, above.read, level.view, false);
+        cover(encoder, down, above.read, level.view);
         above = level;
       }
       for (const level of levels.toReversed().slice(1)) {
-        pass(encoder, up, above.read, level.view, true);
+        cover(encoder, up, above.read, level.view, true);
         above = level;
       }
       return first.view;

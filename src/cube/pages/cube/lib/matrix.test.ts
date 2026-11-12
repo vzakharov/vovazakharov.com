@@ -2,19 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { viewProjection } from './camera';
-import { inverse } from './matrix';
-
-function multiply(a: Float32Array, b: Float32Array): number[] {
-  return Array.from({ length: 16 }, (_, index) => {
-    const column = Math.floor(index / 4);
-    const row = index % 4;
-    let sum = 0;
-    for (let k = 0; k < 4; k += 1) {
-      sum += (a[k * 4 + row] ?? 0) * (b[column * 4 + k] ?? 0);
-    }
-    return sum;
-  });
-}
+import { inverse, multiply } from './matrix';
 
 describe('inverse', () => {
   it('undoes a camera’s view-projection', () => {

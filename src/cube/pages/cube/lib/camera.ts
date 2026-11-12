@@ -6,6 +6,8 @@ import {
   type Vec3,
 } from '@/cube/entities/world';
 
+import { multiply } from './matrix';
+
 /** Vertical field of view, in radians. */
 const FOV_Y = (70 * Math.PI) / 180;
 /**
@@ -20,20 +22,6 @@ export const FAR = 24;
 export function forward({ yaw, elevation: pitch }: Pose): Vec3 {
   const flat = Math.cos(pitch);
   return [flat * Math.cos(yaw), Math.sin(pitch), flat * Math.sin(yaw)];
-}
-
-function multiply(a: Float32Array, b: Float32Array): Float32Array {
-  const out = new Float32Array(16);
-  for (let column = 0; column < 4; column += 1) {
-    for (let row = 0; row < 4; row += 1) {
-      let sum = 0;
-      for (let k = 0; k < 4; k += 1) {
-        sum += (a[k * 4 + row] ?? 0) * (b[column * 4 + k] ?? 0);
-      }
-      out[column * 4 + row] = sum;
-    }
-  }
-  return out;
 }
 
 /** A right-handed view from `eye` along `ahead`, y up. */
