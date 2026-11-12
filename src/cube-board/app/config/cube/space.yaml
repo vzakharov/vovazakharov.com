@@ -74,3 +74,14 @@ items:
     box: [1033, 2180, 244, pink]
     icon: ⏳
     text: 'Time to cross floor n: ~5 s a room × 4^(n−1). Floor 6 ≈ 1.5 h (casual), 7 ≈ an evening, 8 ≈ a day, 10 ≈ 360 h. Reaching floor 7 takes ~2 h, the six above it summed'
+  - id: l-price-time
+    type: line
+    updated: [2026-11-12T21:20:00.000Z, agent:cube]
+    ends: [graf-price-time, img-price-time]
+    text: the curve
+  - id: graf-price-time
+    type: sticky
+    updated: [2026-11-12T21:00:00.000Z, agent:cube]
+    box: [1368, 2180, 244, yellow]
+    icon: ⌛
+    text: "Vova's idea: price a room by how long a player takes to reach it, not by its floor. $1M / (t − t0 + 1)^q + $5, t the time to walk there by the shortest path on the real mazes, t0 floor 2's landing. so a leaked answer changes nothing. Fitting q so floors 2…9 total $10M gives q = 1.40: 87,380 rooms, median $31.49. Tool: https://claude.ai/artifact/LXqmTnBBegpvnTQmM4sGGm"
