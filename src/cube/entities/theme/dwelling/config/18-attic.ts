@@ -54,7 +54,7 @@ fn dusty(s: Surf) -> Material {
   let grain = figure(plank.at, 0x135u);
   let gap = smoothstep(0.0, 0.006, plank.edge);
   let pine = mix(vec3f(0.14, 0.085, 0.04), vec3f(0.22, 0.14, 0.065), plank.word) * (0.55 + 0.7 * grain);
-  let nail = within(length(vec2f((fract(s.uv.x / 0.4) - 0.5) * 0.4, (fract(s.uv.y / 0.19) - 0.5) * 0.19) - vec2f(0.0, 0.05)) - 0.005, 0.003);
+  let nail = within(length(repeated(s.uv, vec2f(0.4, 0.19)) - vec2f(0.0, 0.05)) - 0.005, 0.003);
   let walked = smoothstep(0.42, 0.6, fbm(s.uv * 0.5, 0x136u, 4));
   let fur = (1.0 - 0.85 * walked) * (0.7 + 0.3 * fbm(s.uv * 7.0, 0x137u, 3));
   var albedo = pine * mix(0.25, 1.0, gap);
@@ -66,7 +66,7 @@ fn dusty(s: Surf) -> Material {
 
 fn raftered(s: Surf) -> Material {
   let pitch = 0.6;
-  let across = (fract(s.uv.x / pitch) - 0.5) * pitch;
+  let across = spaced(s.uv.x, pitch);
   let rafter = within(abs(across) - 0.035, 0.004);
   let lath = boards(s.uv.yx, 0.12, 2.2, 0x138u);
   let felt = vec3f(0.035, 0.03, 0.028) * (0.6 + 0.8 * fbm(s.uv * 12.0, 0x139u, 3));

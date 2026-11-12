@@ -87,7 +87,7 @@ fn bilayer(s: Surf) -> Material {
 
 fn pageCeiling(s: Surf) -> Material {
   // Registration crosses, as on a printer's sheet.
-  let at = (fract(s.uv / 1.25) - 0.5) * 1.25;
+  let at = repeated(s.uv, vec2f(1.25));
   let mark = step(min(abs(at.x), abs(at.y)), 0.006) * step(max(abs(at.x), abs(at.y)), 0.09);
   return glowing(mix(vec3f(0.8, 0.78, 0.7), vec3f(0.2), mark), lampGlow(s, lamps()));
 }

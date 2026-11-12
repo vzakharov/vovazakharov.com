@@ -76,7 +76,7 @@ fn channels(s: Surf) -> Material {
   let pale = vec3f(0.5, 0.42, 0.2) * (0.3 + 0.7 * tail);
   // A channel is round: the panel's light through a pore.
   let pitch = ROOM.xz / 2.0;
-  let off = (fract(s.p.xz / pitch) - 0.5) * pitch;
+  let off = repeated(s.p.xz, pitch);
   let r = length(off);
   let pore = 1.0 - smoothstep(0.42, 0.5, r);
   let collar = (1.0 - smoothstep(0.7, 0.78, r)) * (1.0 - pore);

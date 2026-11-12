@@ -80,7 +80,7 @@ fn tubed(s: Surf) -> Material {
   let trying = step(0.35, unitOf(hashOf(word, u32(s.time * 9.0))));
   let live = select(select(1.0, trying, luck < 0.2), 0.0, luck < 0.08);
   // A tube stops short of its holders at either end.
-  let held = step(0.04, (0.5 - abs(fract(s.uv.x / run) - 0.5)) * run);
+  let held = step(0.04, run * 0.5 - abs(spaced(s.uv.x, run)));
   let pink = vec3f(1.0, 0.05, 0.5);
   let cyan = vec3f(0.03, 0.7, 1.0);
   let head = band(h, 1.95, 0.022) * held;

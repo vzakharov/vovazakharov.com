@@ -83,7 +83,7 @@ fn houseWall(s: Surf) -> Material {
   let stem = drawn(s.uv, abs(fx + 0.03 * sin(y * 20.0)), 0.012) * step(y, tall);
   let bloom = length(vec2f(fx, y - tall)) - 0.06;
   let petal = vec3f(0.6, 0.07, 0.1 + 0.4 * unitOf(hashOf(u32(bed), 0x148u)));
-  let grass = within(y - 0.07 - 0.05 * abs(fract(at.x / 0.05) - 0.5), 0.004);
+  let grass = within(y - 0.07 - abs(spaced(at.x, 0.05)), 0.004);
   crayon = mix(crayon, vec3f(0.07, 0.33, 0.06), max(stem, grass));
   crayon = mix(crayon, wax(s.uv, petal, 0.3, 0x149u), within(bloom, 0.004));
   crayon = mix(crayon, vec3f(0.62, 0.5, 0.05), within(bloom + 0.04, 0.004));

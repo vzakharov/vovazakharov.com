@@ -35,7 +35,7 @@ fn splashback(s: Surf) -> Material {
   let y = s.p.y;
   let at = vec2f(s.uv.x, y);
   let tile = tiling(at, TILE, 0.007, 0xb0u);
-  let q = (fract(at / TILE) - 0.5) * TILE;
+  let q = repeated(at, vec2f(TILE));
   let row = floor(y / TILE);
   let tiled = within(y - 9.0 * TILE, 0.002);
 
@@ -71,7 +71,7 @@ fn splashback(s: Surf) -> Material {
 
 fn vinyl(s: Surf) -> Material {
   let size = 0.3;
-  let q = (fract(s.uv / size) - 0.5) * size;
+  let q = repeated(s.uv, vec2f(size));
   let r = length(q);
   let roundel = within(r - 0.105, 0.003);
   let ring = band(r, 0.085, 0.014);
@@ -93,7 +93,7 @@ fn vinyl(s: Surf) -> Material {
 
 fn foamTiles(s: Surf) -> Material {
   let size = 0.3;
-  let q = (fract(s.uv / size) - 0.5) * size;
+  let q = repeated(s.uv, vec2f(size));
   let edge = 0.15 - max(abs(q.x), abs(q.y));
   let bevel = smoothstep(0.0, 0.02, edge);
   let star = 0.5 + 0.5 * cos(atan2(q.y, q.x) * 8.0);

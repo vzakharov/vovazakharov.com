@@ -105,7 +105,7 @@ fn lampBlur(at: vec2f, grid: i32, size: vec2f, soft: f32) -> f32 {
 /// side, each \`size\` metres: negative inside one.
 fn panelEdge(at: vec2f, grid: i32, size: vec2f) -> f32 {
   let pitch = ROOM.xz / f32(grid);
-  let off = (fract(at / pitch) - 0.5) * pitch;
+  let off = repeated(at, pitch);
   let edge = abs(off) - size * 0.5;
   return max(edge.x, edge.y);
 }

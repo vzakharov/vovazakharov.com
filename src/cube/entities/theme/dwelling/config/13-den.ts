@@ -71,7 +71,7 @@ fn shag(s: Surf) -> Material {
 
 fn beamed(s: Surf) -> Material {
   let pitch = 1.25;
-  let across = (fract(s.uv.x / pitch) - 0.5) * pitch;
+  let across = spaced(s.uv.x, pitch);
   let beam = within(abs(across) - 0.08, 0.004);
   let grain = figure(vec2f(s.uv.y, across * 2.0), 0xd7u);
   let wood = vec3f(0.045, 0.02, 0.009) * (0.5 + 0.9 * grain);

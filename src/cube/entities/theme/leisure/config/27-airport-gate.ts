@@ -94,7 +94,7 @@ fn dashed(s: Surf) -> Material {
 
 /// Aluminium slats with a dark gap between each, the lamps in long slots.
 fn slatted(s: Surf) -> Material {
-  let slat = abs(fract(s.uv.x / 0.1) - 0.5) * 0.1;
+  let slat = abs(spaced(s.uv.x, 0.1));
   let gap = 1.0 - smoothstep(0.006, 0.01, 0.05 - slat);
   let brushed = valueNoise(vec2f(s.uv.x * 20.0, s.uv.y * 300.0), 264u);
   let white = vec3f(0.42, 0.43, 0.44) * (0.85 + 0.2 * brushed);

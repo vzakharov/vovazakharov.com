@@ -57,7 +57,7 @@ fn bulbs(along: f32, up: f32, way: i32, time: f32, salt: u32) -> f32 {
   let index = i32(floor(along / pitch));
   let turn = ((index * way + i32(time * 7.0)) % 4 + 4) % 4;
   let dead = step(unitOf(hashOf(bitcast<u32>(index), salt)), 0.06);
-  let bulb = inside(length(vec2f((fract(along / pitch) - 0.5) * pitch, up)) - 0.026);
+  let bulb = inside(length(vec2f(spaced(along, pitch), up)) - 0.026);
   return bulb * mix(select(0.12, 1.0, turn == 0), 0.0, dead);
 }
 

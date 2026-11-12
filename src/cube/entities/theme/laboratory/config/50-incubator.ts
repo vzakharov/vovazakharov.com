@@ -58,7 +58,7 @@ fn footprints(s: Surf) -> f32 {
 
 fn warmFloor(s: Surf) -> Material {
   let slab = 0.2 + 0.1 * fbm(s.uv * 0.6, 501u, 3);
-  let joist = 0.04 * (1.0 - smoothstep(0.02, 0.06, abs(fract(s.uv.y / 0.6) - 0.5) * 0.6));
+  let joist = 0.04 * (1.0 - smoothstep(0.02, 0.06, abs(spaced(s.uv.y, 0.6))));
   return warm(slab - joist + 0.6 * footprints(s));
 }
 

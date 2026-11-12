@@ -35,7 +35,7 @@ fn glazed(s: Surf) -> Material {
   let at = vec2f(s.uv.x, y);
   let pencil = band(y, 1.065, 0.03);
   let tile = tiling(at, GLAZED, 0.005, 0xc0u);
-  let q = (fract(at / GLAZED) - 0.5) * GLAZED;
+  let q = repeated(at, vec2f(GLAZED));
   let low = within(y - 1.05, 0.002);
   let gone = step(0.996, tile.y) * (1.0 - pencil);
   let mint = vec3f(0.2, 0.4, 0.33);
@@ -61,9 +61,9 @@ fn glazed(s: Surf) -> Material {
 /// zw its column and row.
 fn hexagon(p: vec2f) -> vec4f {
   let pitch = vec2f(1.0, 1.7320508);
-  let a = p - pitch * floor(p / pitch) - pitch * 0.5;
+  let a = repeated(p, pitch);
   let shifted = p - pitch * 0.5;
-  let b = shifted - pitch * floor(shifted / pitch) - pitch * 0.5;
+  let b = repeated(shifted, pitch);
   let own = select(b, a, dot(a, a) < dot(b, b));
   let middle = p - own;
   return vec4f(own, round(middle.x * 2.0), round(middle.y / 0.8660254));

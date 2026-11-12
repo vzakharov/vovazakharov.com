@@ -116,7 +116,7 @@ fn papered(s: Surf) -> Material {
 
   // Paper: a satin figure on a matt ground, with the seams of its drops.
   let figure = damask(vec2f(along / 0.44, h / 0.62));
-  let drop = 1.0 - smoothstep(0.0, 0.004, abs(fract(along / 0.53) - 0.5) * 0.53);
+  let drop = 1.0 - smoothstep(0.0, 0.004, abs(spaced(along, 0.53)));
   let ground = vec3f(0.4, 0.29, 0.13) * (0.82 + 0.3 * age) * (0.95 + 0.08 * fine);
   let paper = mix(ground, ground * vec3f(0.74, 0.66, 0.52), figure) * (1.0 - 0.25 * drop) * (1.0 - 0.4 * damp(s));
 
@@ -156,7 +156,7 @@ fn papered(s: Surf) -> Material {
 }
 
 fn coffered(s: Surf) -> Material {
-  let c = (fract(s.p.xz / 2.5) - 0.5) * 2.5;
+  let c = repeated(s.p.xz, vec2f(2.5));
   let d = max(abs(c.x), abs(c.y));
   let r = length(c);
   let age = fbm(s.uv * 0.9, s.seed ^ 0x91u, 4);

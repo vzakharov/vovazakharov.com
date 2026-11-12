@@ -10,7 +10,8 @@ const KINDS = SURFACES.map(
 
 /**
  * What every floor's WGSL is written over: the surface kinds by name, the
- * point being shaded as a `Surf`, and what a theme answers about it.
+ * point being shaded as a `Surf`, what a theme answers about it, and the
+ * lattice a pattern repeats over.
  */
 export const CORE = wgsl(
   'core',
@@ -102,6 +103,16 @@ fn embossed(s: Surf, m: Material, height: f32, depth: f32) -> Material {
   let near = 1.0 / (1.0 + s.far * s.far / 150.0);
   let relief = -slope * sign(det) * near / max(abs(det), 1e-9);
   return Material(m.albedo, m.emission, m.gloss, m.relief + clamp(relief, vec3f(-2.0), vec3f(2.0)));
+}
+
+/// \`uv\` within its cell of a lattice of \`size\`, from the cell's middle.
+fn repeated(uv: vec2f, size: vec2f) -> vec2f {
+  return (fract(uv / size) - 0.5) * size;
+}
+
+/// \`x\` within its interval of a row of them \`size\` long, from the middle.
+fn spaced(x: f32, size: f32) -> f32 {
+  return (fract(x / size) - 0.5) * size;
 }
 
 /// The pixel a floor's lens is asked for.

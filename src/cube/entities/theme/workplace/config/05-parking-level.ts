@@ -113,7 +113,7 @@ fn levelWall(s: Surf) -> Material {
 
 fn ribbedDeck(s: Surf) -> Material {
   // Precast ribs a metre and a quarter apart, the tubes hung between them.
-  let rib = abs(fract(s.p.x / 1.25) - 0.5) * 1.25;
+  let rib = abs(spaced(s.p.x, 1.25));
   let web = 1.0 - smoothstep(0.06, 0.2, rib);
   let mottle = fbm(s.uv * 1.6, 0xa6u, 4);
   let concrete = vec3f(0.27, 0.26, 0.235) * (0.6 + 0.5 * mottle) * (0.4 + 0.6 * web) * (1.0 - 0.6 * damp(s));

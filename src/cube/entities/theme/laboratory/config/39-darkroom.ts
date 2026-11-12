@@ -76,7 +76,7 @@ fn blackCeiling(s: Surf) -> Material {
   let tile = tiling(s.uv, 0.625, 0.01, 394u);
   let board = vec3f(0.035, 0.032, 0.03) * (0.7 + 0.5 * fbm(s.uv * 30.0, 395u, 3)) * tile.x;
   // A safelight is a small glass box: bright at its bulb, dull at its rim.
-  let off = (fract(s.p.xz / (ROOM.xz / 2.0)) - 0.5) * (ROOM.xz / 2.0);
+  let off = repeated(s.p.xz, ROOM.xz / 2.0);
   let bulb = exp(-dot(off, off) * 90.0);
   return embossed(s, glowing(board, lampGlow(s, lamps()) * (0.35 + 2.0 * bulb)), tile.x, 0.004);
 }

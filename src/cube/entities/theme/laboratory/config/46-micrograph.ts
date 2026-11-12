@@ -33,7 +33,7 @@ fn sieve(s: Surf) -> Material {
   let fine = honeycomb(s.uv / 0.035);
   let near = 1.0 / (1.0 + s.far * s.far / 40.0);
   let pit = dome(fine.xy, 0.36) * near;
-  let rib = 1.0 - smoothstep(0.05, 0.09, abs(fract(s.uv.x / 1.25) - 0.5) * 1.25);
+  let rib = 1.0 - smoothstep(0.05, 0.09, abs(spaced(s.uv.x, 1.25)));
   let height = (1.0 - pore) * (1.0 - 0.4 * pit) + 0.8 * rib;
   let m = matte(vec3f(0.3 + 0.35 * height));
   return embossed(s, m, height, 0.05);

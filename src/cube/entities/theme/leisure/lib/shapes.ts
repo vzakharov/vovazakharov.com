@@ -2,8 +2,8 @@ import { CORE, HASH, wgsl } from '../../kit';
 
 /**
  * What the leisure floors draw their patterns with: shapes as signed
- * distances in metres, lattices to repeat them over, and the point seen
- * through a wall of glass.
+ * distances in metres, slabs and veins, and the point seen through a wall of
+ * glass.
  */
 export const SHAPES = wgsl(
   'leisure/shapes',
@@ -29,16 +29,6 @@ fn spun(p: vec2f, angle: f32) -> vec2f {
   let c = cos(angle);
   let n = sin(angle);
   return vec2f(c * p.x - n * p.y, n * p.x + c * p.y);
-}
-
-/// \`uv\` within its cell of a lattice of \`size\`, from the cell's middle.
-fn repeated(uv: vec2f, size: vec2f) -> vec2f {
-  return (fract(uv / size) - 0.5) * size;
-}
-
-/// \`x\` within its interval of a row of them \`size\` long, from the middle.
-fn spaced(x: f32, size: f32) -> f32 {
-  return (fract(x / size) - 0.5) * size;
 }
 
 /// Oblong slabs laid in courses, each course \`shift\` of a slab along from

@@ -69,7 +69,7 @@ fn curls(uv: vec2f, salt: u32) -> f32 {
 fn tank(s: Surf, salt: u32) -> Material {
   let beaded = 0.45 + 0.55 * step(0.35, valueNoise(s.uv * 170.0, salt + 20u));
   let trail = clamp(rays(s.uv, salt) + curls(s.uv, salt + 7u), 0.0, 1.0) * beaded;
-  let at = (fract(s.uv / 1.25) - 0.5) * 1.25;
+  let at = repeated(s.uv, vec2f(1.25));
   let fiducial = step(min(abs(at.x), abs(at.y)), 0.004) * step(max(abs(at.x), abs(at.y)), 0.05);
   let depth = fbm(s.uv * 0.7 + vec2f(0.0, s.time * 0.01), salt + 30u, 4);
   let liquid = vec3f(0.004, 0.03, 0.04) * (0.4 + 1.2 * depth);

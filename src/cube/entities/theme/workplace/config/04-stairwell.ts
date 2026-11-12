@@ -59,7 +59,7 @@ fn boardMarked(s: Surf) -> Material {
   let pour = fbm(s.uv * 0.7, s.seed ^ 0x73u, 4);
   let raw = vec3f(0.2, 0.2, 0.185) * (0.6 + 0.2 * tone + 0.22 * grain + 0.4 * pour) * (0.82 + 0.18 * seam);
   // The formwork's tie holes, plugged and stained below.
-  let tie = vec2f((fract(s.uv.x / 1.2) - 0.5) * 1.2, (fract((h - 0.3) / 0.7) - 0.5) * 0.7);
+  let tie = vec2f(spaced(s.uv.x, 1.2), spaced(h - 0.3, 0.7));
   let hole = 1.0 - smoothstep(0.016, 0.026, length(tie));
   let weep = (1.0 - smoothstep(0.0, 0.03, abs(tie.x))) * smoothstep(0.0, -0.3, tie.y) * step(tie.y, 0.0);
   let concrete = raw * (1.0 - 0.75 * hole) * (1.0 - 0.3 * weep) * (1.0 - 0.45 * damp(s));
