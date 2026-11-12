@@ -1,7 +1,7 @@
 import type { Rgb } from '@/cube/shared/lib/colour';
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import { SHRUB } from '@/cube/shared/lib/shrub';
-import { SUN_SPREAD } from '@/cube/shared/lib/sun-disc';
+import { SUN_DISC } from '@/cube/shared/lib/sun-disc';
 import { vec3f, type Wgsl, wgsl } from '@/cube/shared/lib/wgsl';
 import { HASH } from '@/cube/shared/lib/wgsl-hash';
 import { DOORWAY, SUN, SUN_DIR, SUN_LIGHT } from '@/cube/shared/outside';
@@ -54,9 +54,6 @@ ${SHRUB.foliage
 const DOORWAY_SUN = wgsl(
   'doorway-sun',
   /* wgsl */ `
-/// The tangent of the sun's radius in the sky.
-const SUN_SPREAD = ${SUN_SPREAD.toFixed(5)};
-
 /// The doorway in the east wall: its north and south jambs, metres south of
 /// the room's north end, and its head over the floor; then the wall's inner
 /// and outer faces, metres east.
@@ -86,13 +83,14 @@ fn doorMargin(p: vec3f, dir: vec3f, x: f32) -> vec2f {
 /// The share of a beam from \`p\` along \`dir\` that leaves by the doorway,
 /// \`spread\` the tangent of half its width: both faces of the wall bound it.
 fn throughDoor(p: vec3f, dir: vec3f, spread: f32) -> f32 {
-  if (dir.x < 1e-4 || p.x > DOOR_FACES.x) {
+  if (dir.x < 1e-4) {
     return 0.0;
   }
-  let inner = doorMargin(p, dir, DOOR_FACES.x);
   let outer = doorMargin(p, dir, DOOR_FACES.y);
+  // A point in the wall's thickness has only the outer face ahead of it.
+  let inner = select(doorMargin(p, dir, DOOR_FACES.x).x, outer.x, p.x > DOOR_FACES.x);
   let soft = max(spread * outer.y, 0.003);
-  return smoothstep(-soft, soft, min(inner.x, outer.x));
+  return smoothstep(-soft, soft, min(inner, outer.x));
 }
 ${SHRUB_RADIUS}
 
@@ -229,6 +227,7 @@ fn sunlitRoom(s: Surf, m: Material, ambient: vec3f) -> vec3f {
   HASH,
   LIGHT,
   SUN,
+  SUN_DISC,
 );
 
 /** A potted plant standing in the beam: its axis in metres east and south, and its draw of height. */
