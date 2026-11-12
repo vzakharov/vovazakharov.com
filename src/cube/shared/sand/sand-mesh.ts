@@ -22,7 +22,7 @@ export const ringRadius = (ring: number): number =>
  * cell between neighbouring rings and spokes, the last spoke joined to the
  * first.
  */
-export function sandIndices(): Uint32Array {
+export function sandIndices(): Uint32Array<ArrayBuffer> {
   const { spokes, rings } = SAND_MESH;
   const indices = new Uint32Array((rings - 1) * spokes * 6);
   let at = 0;

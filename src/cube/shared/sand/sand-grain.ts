@@ -1,5 +1,5 @@
-import { HASH, wgsl } from '@/cube/entities/theme/kit';
-
+import { wgsl } from '../lib/wgsl';
+import { HASH } from '../lib/wgsl-hash';
 import { SAND_RELIEF } from './sand-relief';
 
 /**

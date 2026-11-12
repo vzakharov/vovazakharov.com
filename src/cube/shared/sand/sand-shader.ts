@@ -1,6 +1,6 @@
-import { type Wgsl, wgsl } from '@/cube/entities/theme/kit';
-
-import { sandMaterial, SWASH_TOP } from './sand-material';
+import { wgsl } from '../lib/wgsl';
+import { AERIAL, CUBE_SHADOW, ISLAND_HEIGHT, OUTDOOR_STAGE } from '../outside';
+import { SAND_MATERIAL, SWASH_TOP } from './sand-material';
 import { SAND_MESH } from './sand-mesh';
 import { RIPPLES, WIND } from './sand-relief';
 
@@ -8,14 +8,12 @@ import { RIPPLES, WIND } from './sand-relief';
 const SUNK = 0.9;
 
 /**
- * The sand layer's two stages. `seam` is the outdoor scene's shared piece: the
- * `frame` uniforms, `islandHeight`, `waterLevel`, `cubeShadow`, `skyRadiance`
- * and `aerial`.
+ * The sand layer's two stages, `vertexMain` and `fragmentMain`: the ring mesh
+ * placed round the eye on the island's shape, and each pixel of it lit.
  */
-export const sandShader = (seam: Wgsl): Wgsl =>
-  wgsl(
-    'sand-shader',
-    /* wgsl */ `
+export const SAND_SHADER = wgsl(
+  'sand-shader',
+  /* wgsl */ `
 struct SandVertex {
   @builtin(position) clip: vec4f,
   @location(0) at: vec3f,
@@ -25,7 +23,7 @@ struct SandVertex {
 }
 
 @vertex
-fn sandVertex(@builtin(vertex_index) index: u32) -> SandVertex {
+fn vertexMain(@builtin(vertex_index) index: u32) -> SandVertex {
   let ring = f32(index / ${SAND_MESH.spokes}u);
   let bearing = f32(index % ${SAND_MESH.spokes}u) * ${(2 * Math.PI) / SAND_MESH.spokes};
   let radius = ${SAND_MESH.inner} * (pow(${SAND_MESH.growth}, ring) - 1.0);
@@ -52,18 +50,12 @@ fn sandVertex(@builtin(vertex_index) index: u32) -> SandVertex {
   if (h > -0.3 && h < ${SWASH_TOP}) {
     out.wet = sandWetness(xz, h, frame.clock.x);
   }
-  out.clip = frame.viewProjection * vec4f(out.at, 1.0);
+  out.clip = clipOf(out.at);
   return out;
 }
 
-struct SandTargets {
-  @location(0) light: vec4f,
-  @location(1) mirror: vec4f,
-  @location(2) plane: vec4f,
-}
-
 @fragment
-fn sandFragment(in: SandVertex) -> SandTargets {
+fn fragmentMain(in: SandVertex) -> Scene {
   let acrossX = dpdx(in.at.xz);
   let acrossY = dpdy(in.at.xz);
   if (in.shape.x < -${SUNK}) {
@@ -81,10 +73,12 @@ fn sandFragment(in: SandVertex) -> SandTargets {
   point.px = sqrt(length(acrossX) * length(acrossY));
   point.alongWind = abs(dot(acrossX, wind)) + abs(dot(acrossY, wind));
   point.sun = cubeShadow(in.at);
-  let light = aerial(sandLight(point, frame.sun.xyz), frame.eye.xyz, in.at);
-  return SandTargets(vec4f(light, far), vec4f(0.0), vec4f(0.0));
+  return lit(aerial(sandLight(point, frame.sun.xyz), -point.view, far), far);
 }
 `,
-    sandMaterial(seam),
-    seam,
-  );
+  SAND_MATERIAL,
+  OUTDOOR_STAGE,
+  ISLAND_HEIGHT,
+  CUBE_SHADOW,
+  AERIAL,
+);

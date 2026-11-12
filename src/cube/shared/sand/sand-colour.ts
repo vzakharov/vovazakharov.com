@@ -1,5 +1,4 @@
-import { wgsl } from '@/cube/entities/theme/kit';
-
+import { wgsl } from '../lib/wgsl';
 import { SAND_RELIEF } from './sand-relief';
 
 /** Dry sand's albedo, linear: pale quartz with a little shell in it. */
@@ -27,11 +26,10 @@ fn sandWetted(albedo: vec3f, damp: f32) -> vec3f {
 }
 
 /// The bed's albedo at ground point \`xz\`, lying \`depth\` metres under the
-/// water above it: soaked sand with the ripple marks waves leave, unlit.
+/// water above it: soaked sand, mottled where the waves have sorted it, unlit.
 fn sandBed(xz: vec2f, depth: f32) -> vec3f {
-  let marks = rippleTrain(xz, vec2f(0.6, 0.8), 0.14, 0x97u);
-  let stand = 1.0 - smoothstep(1.5, 6.0, depth);
-  let shade = 1.0 + 0.22 * stand * (0.5 - 0.5 * cos(marks.x) - 0.5);
+  let sorted = fbmd(xz / 1.7, 0x97u, 2).x;
+  let shade = 1.0 + 0.3 * (sorted - 0.5) / (1.0 + 0.15 * depth);
   return sandWetted(sandAlbedo(xz), 1.0) * shade;
 }
 `,

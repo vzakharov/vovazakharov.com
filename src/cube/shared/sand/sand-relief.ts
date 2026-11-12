@@ -1,4 +1,5 @@
-import { HASH, wgsl } from '@/cube/entities/theme/kit';
+import { wgsl } from '../lib/wgsl';
+import { HASH } from '../lib/wgsl-hash';
 
 /**
  * The sand's small relief, in metres over the island's walked-on shape: the

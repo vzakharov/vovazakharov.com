@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { runInNewContext } from 'node:vm';
 
-import { ISLAND, ISLAND_HEIGHT_WGSL, islandHeight } from './island-shape';
+import { ISLAND, ISLAND_HEIGHT, islandHeight } from './island-height';
 
 type Xz = { x: number; y: number };
 
@@ -13,11 +13,13 @@ type Point = readonly [number, number];
  * both once the types are taken off, so the shader's body can be run here.
  */
 function wgslHeight(): (xz: Xz) => number {
-  const script = ISLAND_HEIGHT_WGSL.replaceAll(/^\/{3}.*$/gm, '').replaceAll(
-    /\bfn (\w+)\(([^)]*)\) -> f32/g,
-    (_, name: string, parameters: string) =>
-      `function ${name}(${parameters.replaceAll(/: \w+/g, '')})`,
-  );
+  const script = ISLAND_HEIGHT.listing
+    .replaceAll(/^\/{3}.*$/gm, '')
+    .replaceAll(
+      /\bfn (\w+)\(([^)]*)\) -> f32/g,
+      (_, name: string, parameters: string) =>
+        `function ${name}(${parameters.replaceAll(/: \w+/g, '')})`,
+    );
   const { abs, atan2, cos, exp, log, max, sqrt, tanh } = Math;
   const context = {
     abs,
@@ -55,10 +57,10 @@ function shoreAlong(bearing: number): number {
   let wet = 120;
   for (let step = 0; step < 40; step += 1) {
     const middle = (dry + wet) / 2;
-    const h = islandHeight(
+    const h = islandHeight([
       middle * Math.cos(bearing),
       middle * Math.sin(bearing),
-    );
+    ]);
     if (h > 0) dry = middle;
     else wet = middle;
   }
@@ -69,7 +71,7 @@ describe("the island's shape", () => {
   it('the WGSL body says what the TypeScript one does', () => {
     const inShader = wgslHeight();
     for (const [x, z] of POINTS) {
-      const here = islandHeight(x, z);
+      const here = islandHeight([x, z]);
       assert.ok(
         Math.abs(inShader({ x, y: z }) - here) < 1e-9,
         `at (${x}, ${z}): ${inShader({ x, y: z })} against ${here}`,
@@ -78,9 +80,9 @@ describe("the island's shape", () => {
   });
 
   it('the crest is under the cube and nothing stands higher', () => {
-    assert.ok(Math.abs(islandHeight(0, 0) - ISLAND.crest) < 1e-12);
+    assert.ok(Math.abs(islandHeight([0, 0]) - ISLAND.crest) < 1e-12);
     for (const [x, z] of POINTS) {
-      assert.ok(islandHeight(x, z) <= ISLAND.crest + 0.15);
+      assert.ok(islandHeight([x, z]) <= ISLAND.crest + 0.15);
     }
   });
 
@@ -105,10 +107,10 @@ describe("the island's shape", () => {
   it('no slope is too steep to walk and the bed keeps falling seaward', () => {
     const step = 0.25;
     for (const [x, z] of POINTS) {
-      const here = islandHeight(x, z);
+      const here = islandHeight([x, z]);
       const rise = Math.hypot(
-        islandHeight(x + step, z) - here,
-        islandHeight(x, z + step) - here,
+        islandHeight([x + step, z]) - here,
+        islandHeight([x, z + step]) - here,
       );
       assert.ok(rise / step < 0.3, `slope ${rise / step} at (${x}, ${z})`);
     }
@@ -117,10 +119,10 @@ describe("the island's shape", () => {
       const shore = shoreAlong(bearing);
       let last = 0;
       for (let out = 2; out < 300; out += 4) {
-        const h = islandHeight(
+        const h = islandHeight([
           (shore + out) * Math.cos(bearing),
           (shore + out) * Math.sin(bearing),
-        );
+        ]);
         assert.ok(
           h < last,
           `the bed rises ${out} m off the shore at ${bearing}`,

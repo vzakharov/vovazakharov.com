@@ -1,5 +1,5 @@
-import { type Wgsl, wgsl } from '@/cube/entities/theme/kit';
-
+import { wgsl } from '../lib/wgsl';
+import { SKY, SUN, WATER_LEVEL } from '../outside';
 import { DRY_SAND, SAND_COLOUR } from './sand-colour';
 import { SAND_GRAIN } from './sand-grain';
 import { RIPPLES, SAND_RELIEF, WIND } from './sand-relief';
@@ -21,14 +21,12 @@ const DRYING = 28;
 export const SWASH_TOP = 1.1;
 
 /**
- * How the sand is lit and how wet it is. `seam` is the
- * outdoor scene's shared piece: `waterLevel`, `SUN_LIGHT`, `SKY_FILL`,
- * `skyRadiance`.
+ * How the sand is lit — `sandLight` — and how wet it is from where the sea
+ * has lately been — `sandWetness`.
  */
-export const sandMaterial = (seam: Wgsl): Wgsl =>
-  wgsl(
-    'sand-material',
-    /* wgsl */ `
+export const SAND_MATERIAL = wgsl(
+  'sand-material',
+  /* wgsl */ `
 /// How wet the sand is at \`xz\`, \`h\` metres over still water, at \`t\` seconds
 /// into the hour: x how damp (1 soaked), y how much of a film of water still
 /// stands on it (1 a mirror). Both follow where \`waterLevel\` has lately
@@ -155,8 +153,10 @@ fn sandLight(point: SandPoint, sun: vec3f) -> vec3f {
   return light;
 }
 `,
-    SAND_RELIEF,
-    SAND_GRAIN,
-    SAND_COLOUR,
-    seam,
-  );
+  SAND_RELIEF,
+  SAND_GRAIN,
+  SAND_COLOUR,
+  WATER_LEVEL,
+  SUN,
+  SKY,
+);
