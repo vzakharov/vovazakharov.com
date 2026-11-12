@@ -57,11 +57,12 @@ operator, never merge to `main`, preview slot only, no external services.
   every floor is written over — `core`, `hash`, `light`, `finish`, `stuff`,
   `grade`, `ordinary` — and `FloorTheme`, `roomFlags`), one per band
   (`workplace/`, `dwelling/`, `leisure/`, `laboratory/`, `edge/`, each a
-  `config/NN-name.ts` per floor) and `catalogue/` (`themeOf(n)`: a designed
-  floor or `generic(n)`). A theme's WGSL defines
+  `config/NN-name.ts` per floor) and `catalogue/` (`themeOf(n)`: floor `n`'s
+  theme, a `RangeError` for a floor the building lacks). A theme's WGSL defines
   `themeMaterial(s: Surf) -> Material`, `themeLight(s, m) -> vec3f` and
   `themeLens(l: Lens) -> vec3f` (a screen-space pass: style breaks go here);
-  `ordinary(id, look)` writes the last two for a plain lit room.
+  `ordinary(id, look)` writes the last two for a plain lit room; `core`'s
+  `repeated`/`spaced` are every pattern's centred lattice.
 - **Frame**: scene pass into `rgba16float` (rgb scene light, `a` metres away) →
   bloom (`pages/cube/ui/bloom.ts`) → the eye floor's lens to the canvas.
 - **Clock**: `shared/lib/clock.ts`; the play hook freezes it.
@@ -80,14 +81,11 @@ for themselves". Paused at the operator's ask (account limit), to be taken up
 from another account: `/go claude/cube-liminal-332pmv`.
 
 - **Every stream is merged here**: descent, the five floor bands in full (4–8,
-  9–20, 21–35, 36–52, 53–67), decor, happenings, lettering and posters, sound,
+  9–20, 21–35, 36–52, 53–66), decor, happenings, lettering and posters, sound,
   voice. Their sessions are done; nothing is left on their branches.
 - **Gates**: typecheck, eslint, prettier, `check:masd`, `masd:clusters`,
-  `check:cycles`, `type-overlap`, `lint:fsd`, `shaders:cube` (67 of 67) are
-  green. `pnpm test:all` fails one test only: the line limit, on
-  `src/mushrooms/scripts/lib/play-*.ts` files that moving `inTurn` into scene
-  (5985ed03) pushed past their allowlist entries — the PR's `/five-percent`
-  review proposes a way out.
+  `check:cycles`, `type-overlap`, `lint:fsd`, `shaders:cube` (66 of 66) and the
+  tests the branch reaches are green; vet has not run.
 - **On the page already**: the floors, the descent and hands, `goto05` with
   `?cheated_to=5`, and decor — `furnish(setting, decor)` is called in
   `cube-scene.ts` `build()`. Decor has not been looked at on this branch.
@@ -100,8 +98,9 @@ from another account: `/go claude/cube-liminal-332pmv`.
   not been listened to in a browser yet.
 - **Floor 67**: the maze places doors down to 66 only and refuses 67, so the
   scene crashes once 66's hole would show it — the operator's intended end. A
-  slab's underside is drawn only over the eye's floor and under a hole, so
-  nothing else on 66 asks for 67.
+  slab's underside is drawn only over the eye's floor and under a hole, and
+  `between` asks for the next floor's air only between floors, so nothing else
+  on 66 asks for 67; no theme exists for it.
 - **Floors 9 and 66 trade themes** (`TRADED` in the theme catalogue): Home on 9,
   Hallway on 66, until the operator re-ranks the floors as a whole.
 - **Known breaks**: Decor has no collision; the operator wants passability of
@@ -153,7 +152,7 @@ when done; the lead reviews and merges.
 | Dwelling 9–20         | `session_01DaohkDiYMM81V4SNZcJemR` | `claude/cube-dwelling`   |
 | Leisure 21–35         | `session_01DaohkBMVGXdEuW3E2ayjQi` | `claude/cube-leisure`    |
 | Laboratory 36–52      | `session_01DaohkEULbbnPnqNmdjyPte` | `claude/cube-laboratory` |
-| Edge 53–67            | `session_01DaohkB98NDbXs6XjN5h4KC` | `claude/cube-edge`       |
+| Edge 53–66            | `session_01DaohkB98NDbXs6XjN5h4KC` | `claude/cube-edge`       |
 
 The voice stream was told, after the operator found a formant voice too robotic
 for the protagonist: the visitor makes wordless vocal sounds only; the words are
@@ -185,9 +184,6 @@ the board already links the pricing chart.
    wishes from the bands: `ordinary` split into its light and its lens, a round
    `lampMask`, a distance-fade helper, a glowing surface without TV snow, a
    matte "shade" surface.
-5. The centred repeat `(fract(uv / size) - 0.5) * size`, inline about 52 times
-   across every band, is a `/dry` call awaiting the operator: leisure's
-   `repeated`/`spaced` into the kit and every copy through them.
-6. `floor.py` takes a merged side branch's `polish:` commit as the floor, which
+5. `floor.py` takes a merged side branch's `polish:` commit as the floor, which
    scoped this branch's polish to a 25k-line diff; `/finalize` meets it too.
-7. Never `/finalize`, never merge.
+6. Never `/finalize`, never merge.
