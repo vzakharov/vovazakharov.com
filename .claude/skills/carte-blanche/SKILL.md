@@ -71,6 +71,46 @@ done, no merge to `main` without the operator's word, and
 `.claude/skills/mammoth/notes/subagents.md` holds what earlier orchestrated runs
 measured about brief size, waves over files and restarts.
 
+## What stands without being said
+
+The operator's answers to the first run's questions, which hold for every run
+until they say otherwise:
+
+- **Never merge to `main`; a preview slot is enough** («в мейн не мерджишь,
+  превью более чем достаточно»).
+- **No outside services**, whatever they would save.
+- **A remark is not an order** — «всё что я говорю -- не значит "беги и делай",
+  решай сам в какой момент до этого дойти». It goes into the plan, and the lead
+  picks the moment.
+- **MASD, the linters and the file-length cap are not negotiable** — «Чистый,
+  красивый, сухой код». Only an `insignificant` marker may be set, and only
+  knowing which consumer removes it.
+- **The limit can cut the run off at any moment, so the preview is always
+  something worth looking at**: each wave ends merged, wired and published
+  before the next starts.
+
+## What the first run got wrong
+
+- **Merged is not wired.** Five children's work sat in the branch unused by the
+  page when the run ended. Each brief says where its work plugs in and ends with
+  it plugged in, or names the seam the lead wires the same hour.
+- **The board went unpublished until the operator asked five times.** Every
+  milestone frame goes to the board the turn it exists — failed attempts too,
+  and the operator's verdict on each as a quote.
+- **"It's on the preview" was said before the preview had built.** The lead
+  checks the deployed commit before saying so.
+- **Parallel children each wrote the same helpers**, and the seam cost a
+  refactor. A helper two packages need is the lead's, landed before they start.
+- **Children were launched hours late**, after the lead built the foundation
+  alone, and the run ended on the limit with most of their output never looked
+  at. The foundation is the smallest seam that lets packages start, and what
+  comes back is looked at as it lands.
+
+A child session is made with `create_session`, `source_revision` the lead's
+branch and `outcome_branch` its own, and its brief ends by naming how it
+reports: one `send_message` to the lead's session with its branch, head, what is
+built, what is left, and what it needs changed outside its files.
+
 ## The context budget
 
 The session compacts on its own near 370k, so the relay notices are read as two
