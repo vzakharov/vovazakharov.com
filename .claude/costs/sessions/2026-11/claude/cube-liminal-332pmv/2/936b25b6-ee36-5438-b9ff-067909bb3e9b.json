@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 718,
+    "inputTokens": 770,
     "cacheWrite5mTokens": 450027,
-    "cacheWrite1hTokens": 729972,
-    "cacheReadTokens": 64357801,
-    "outputTokens": 202903,
-    "thinkingTokens": 74702,
-    "responses": 373,
-    "costUsd": 25.022403200000014
+    "cacheWrite1hTokens": 767560,
+    "cacheReadTokens": 69456490,
+    "outputTokens": 214146,
+    "thinkingTokens": 78458,
+    "responses": 397,
+    "costUsd": 26.56791300000002
   },
   "estimate": {
     "at": "2026-11-12T01:18:04.630Z",
@@ -72,18 +72,18 @@
   "url": "https://claude.ai/code/session_016Z4TKqBdiPUwyUDMrs26WP",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-12T00:34:04.933Z",
-  "lastResponseAt": "2026-11-12T01:29:21.102Z",
+  "lastResponseAt": "2026-11-12T01:43:03.381Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 471,
+    "inputTokens": 523,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 729972,
-    "cacheReadTokens": 44962996,
-    "outputTokens": 141403,
-    "thinkingTokens": 47796,
-    "responses": 245,
-    "costUsd": 17.662319200000013
+    "cacheWrite1hTokens": 767560,
+    "cacheReadTokens": 50061685,
+    "outputTokens": 152646,
+    "thinkingTokens": 51552,
+    "responses": 269,
+    "costUsd": 19.207829000000018
   },
   "subagents": {
     "inputTokens": 247,
@@ -97,14 +97,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 718,
+      "inputTokens": 770,
       "cacheWrite5mTokens": 450027,
-      "cacheWrite1hTokens": 729972,
-      "cacheReadTokens": 64357801,
-      "outputTokens": 202903,
-      "thinkingTokens": 74702,
-      "responses": 373,
-      "costUsd": 25.022403200000014
+      "cacheWrite1hTokens": 767560,
+      "cacheReadTokens": 69456490,
+      "outputTokens": 214146,
+      "thinkingTokens": 78458,
+      "responses": 397,
+      "costUsd": 26.56791300000002
     }
   },
   "warnings": [],
@@ -203,7 +203,7 @@
   ],
   "telemetry": null,
   "operatorWords": {
-    "chat": 213,
+    "chat": 261,
     "review": 0,
     "threads": 0
   },
@@ -211,7 +211,7 @@
   "threadPosts": {},
   "branchLines": {
     ".json": 51,
-    ".md": 472,
+    ".md": 474,
     ".yaml": 85,
     ".ts": 27218,
     ".tsx": 26

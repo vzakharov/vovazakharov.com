@@ -27,7 +27,7 @@ import { type Controls, Point, Top } from './mushroom-probe-answers.ts';
 import type { Expect, Page } from './mushroom-probe-drive.ts';
 import { fliersOn, type Insect, landed } from './play-fliers.ts';
 
-import { inTurn } from '@/scene/scripts/lib/in-turn';
+import { inTurn, timesInTurn } from '@/scene/scripts/lib/in-turn';
 
 /** How many taps are aimed at a fly in flight, and how many must reach it. */
 const FLYING_TAPS = 10;
@@ -193,7 +193,7 @@ async function tapFlying(
     await page.step(SIGHT_LOOK);
     return flyingInSight(looks - 1);
   };
-  await inTurn([...Array.from({ length: FLYING_TAPS }).keys()], async () => {
+  await timesInTurn(FLYING_TAPS, async () => {
     const found = await flyingInSight(SIGHT_LOOKS);
     if (!found) return;
     const { fly, point } = found;
@@ -337,7 +337,7 @@ export async function playBuzzers(
   const fliers = fliersOn(page, expect);
   const { state, insects } = fliers;
   const room = 6 - (await state()).mushrooms.length;
-  await inTurn([...Array.from({ length: room }).keys()], async (index) => {
+  await timesInTurn(room, async (index) => {
     await page.tap(controls.plus);
     await page.step(30);
     const cap =
@@ -352,7 +352,7 @@ export async function playBuzzers(
 
   await inTurn(['fly', 'bee'] as const, async (kind) => {
     const limit = INSECT_LIMITS[kind];
-    await inTurn([...Array.from({ length: limit + 1 }).keys()], async () => {
+    await timesInTurn(limit + 1, async () => {
       await page.tap(controls.releases[kind]);
       await page.step(12);
     });
@@ -399,13 +399,10 @@ export async function playPlanting(
   note(
     `bees alone: ${String(sight.flowers)} flowers in sight, ${String(sight.room)} with room to plant beside`,
   );
-  await inTurn(
-    [...Array.from({ length: INSECT_LIMITS.bee }).keys()],
-    async () => {
-      await page.tap(controls.releases.bee);
-      await page.step(20);
-    },
-  );
+  await timesInTurn(INSECT_LIMITS.bee, async () => {
+    await page.tap(controls.releases.bee);
+    await page.step(20);
+  });
   const bee = await restingOf(fliers, 'bee');
   if (bee) await tapAtRest(page, fliers, expect, bee);
   else expect(false, 'no bee ever sat still to be tapped, alone on the meadow');

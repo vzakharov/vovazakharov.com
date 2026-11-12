@@ -31,7 +31,7 @@ import {
   timedSteps,
 } from './mushroom-probe-drive.ts';
 
-import { inTurn } from '@/scene/scripts/lib/in-turn';
+import { timesInTurn } from '@/scene/scripts/lib/in-turn';
 
 /** How many spores the play sows. */
 const SPORES_SOWN = 3;
@@ -73,13 +73,10 @@ export async function playSprouts(
     return;
   }
 
-  await inTurn(
-    Array.from({ length: SPORES_SOWN }, (_, index) => index),
-    async () => {
-      await page.tap(cap);
-      await page.step(BETWEEN);
-    },
-  );
+  await timesInTurn(SPORES_SOWN, async () => {
+    await page.tap(cap);
+    await page.step(BETWEEN);
+  });
   await page.step(LANDED);
   const sown = await read();
   expect(

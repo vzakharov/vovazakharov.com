@@ -14,7 +14,7 @@ import {
 } from './mushroom-probe-answers.ts';
 
 import type { Evaluating } from '@/scene/scripts/lib/cdp';
-import { inTurn } from '@/scene/scripts/lib/in-turn';
+import { timesInTurn } from '@/scene/scripts/lib/in-turn';
 
 /** The arrow keys, by their DOM `key`, and the key code each goes down with. */
 const ARROWS = {
@@ -210,10 +210,7 @@ export async function timedSteps(
   frames: number,
 ): Promise<number[]> {
   const from = page.rendered.length;
-  await inTurn(
-    Array.from({ length: frames }, (_, index) => index),
-    async () => page.step(1),
-  );
+  await timesInTurn(frames, async () => page.step(1));
   return page.rendered.slice(from);
 }
 

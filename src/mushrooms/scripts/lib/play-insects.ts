@@ -31,7 +31,7 @@ import {
   REST_LOOK,
 } from './play-fliers.ts';
 
-import { inTurn } from '@/scene/scripts/lib/in-turn';
+import { inTurn, timesInTurn } from '@/scene/scripts/lib/in-turn';
 
 /** How many butterflies are released: one past their limit, so the oldest leaves. */
 const RELEASES = INSECT_LIMITS.butterfly + 1;
@@ -75,7 +75,7 @@ export async function playInsects(
     'two picks grew no two mushrooms',
   );
 
-  await inTurn([...Array.from({ length: RELEASES }).keys()], async (index) => {
+  await timesInTurn(RELEASES, async (index) => {
     await page.tap(controls.releases.butterfly);
     await page.step(index === 0 ? 40 : 20);
     if (index === 0) await page.shoot('b1-released');

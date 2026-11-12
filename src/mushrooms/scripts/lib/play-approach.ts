@@ -36,7 +36,7 @@ import {
 } from './mushroom-probe-drive.ts';
 import { paintedCap, Painting, painting } from './painted-cap.ts';
 
-import { inTurn } from '@/scene/scripts/lib/in-turn';
+import { timesInTurn } from '@/scene/scripts/lib/in-turn';
 import { median } from '@/scene/scripts/lib/median';
 
 /**
@@ -127,8 +127,7 @@ export async function playApproach(
     const hitches = await page.evaluate('__probe.hitches()', Hitches);
     carried.push({ ...hitches, ms: page.rendered.at(-1) ?? 0 });
   };
-  const stepEach = async (frames: number) =>
-    inTurn([...Array.from({ length: frames }).keys()], stepOne);
+  const stepEach = async (frames: number) => timesInTurn(frames, stepOne);
 
   // The forest, grown from `+` and the picker's buttons in turn until `+`
   // refuses, here and again `SOW_APART` s back, so the walk up goes through
@@ -146,13 +145,10 @@ export async function playApproach(
   // The bees out first, so their plantings land while the forest grows and
   // the walk goes up, each a re-tend on the frame it lands on.
   await page.evaluate('__probe.tendFrames()', TendFrames);
-  await inTurn(
-    [...Array.from({ length: INSECT_LIMITS.bee }).keys()],
-    async () => {
-      await page.tap(controls.releases.bee);
-      await page.step(20);
-    },
-  );
+  await timesInTurn(INSECT_LIMITS.bee, async () => {
+    await page.tap(controls.releases.bee);
+    await page.step(20);
+  });
   await sow(0);
   const first = (await state()).mushrooms.length;
   await page.key('ArrowDown', 'keyDown');

@@ -19,7 +19,7 @@ import type { Expect, Page } from './mushroom-probe-drive.ts';
 import { bandGaps } from './play-band.ts';
 import { fliersOn, REST_LOOK } from './play-fliers.ts';
 
-import { inTurn } from '@/scene/scripts/lib/in-turn';
+import { inTurn, timesInTurn } from '@/scene/scripts/lib/in-turn';
 
 /** How much room a close-up leaves round its mushroom, in the mushroom's own height, and its least side, in CSS px. */
 const MARGIN = 0.25;
@@ -45,7 +45,7 @@ export async function playSpecies(
 ): Promise<void> {
   const state = async () => page.evaluate('__probe.state()', State);
   const sporesGone = async () =>
-    inTurn([...Array.from({ length: SPORES_GONE }).keys()], async () => {
+    timesInTurn(SPORES_GONE, async () => {
       await sleep(TWEEN_STEP_MS);
       await page.step(1);
     });
@@ -210,7 +210,7 @@ export async function playSpecies(
       await page.step(24);
     }
     expect((await state()).selected === id, `the ${species} is not selected`);
-    await inTurn([...Array.from({ length: PIECES }).keys()], async (piece) => {
+    await timesInTurn(PIECES, async (piece) => {
       const button = controls.housePicker[piece];
       if (button) await page.tap(button);
       await page.step(6);
