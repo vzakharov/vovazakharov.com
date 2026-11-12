@@ -25,12 +25,19 @@ export const holeMiddle = ({ qx, qy }: Quarter): InRoom => ({
   v: (qy + 0.5) / 2,
 });
 
-const QUARTERS: readonly Quarter[] = [
+export const QUARTERS: readonly Quarter[] = [
   { qx: 0, qy: 0 },
   { qx: 1, qy: 0 },
   { qx: 0, qy: 1 },
   { qx: 1, qy: 1 },
 ];
+
+/** The room of the floor below that lies under `quarter` of `room`. */
+export const under = ({ n, x, y }: Room, { qx, qy }: Quarter): Room => ({
+  n: n + 1,
+  x: 2n * x + BigInt(qx),
+  y: 2n * y + BigInt(qy),
+});
 
 /**
  * The quarter of room `(x, y)` on floor `n` that holds floor `n`'s hole, or

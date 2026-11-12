@@ -39,7 +39,7 @@ const WIDE_BITS = 64n;
  * longest half-edge is `2^(n-2)` rooms. Floor 67 is the first past it, and is
  * refused whole rather than walled coarsely; the game ends there by design.
  */
-const DEEPEST = Number(WIDE_BITS) + 2;
+export const DEEPEST_FLOOR = Number(WIDE_BITS) + 2;
 
 type Block = Parameters<RolledMaze['block']['at']>[0];
 
@@ -56,7 +56,7 @@ function levelOf(value: bigint): number {
 
 function side(n: number, x: bigint, y: bigint): bigint {
   if (!Number.isInteger(n) || n < 1) throw new Error(`Not a floor: ${n}`);
-  if (n > DEEPEST) {
+  if (n > DEEPEST_FLOOR) {
     throw new RangeError(
       `Floor ${n}'s doors need ${n - 2} bits; roll.wide() has ${WIDE_BITS}`,
     );

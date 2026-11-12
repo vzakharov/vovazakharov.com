@@ -52,7 +52,7 @@ const QUARTER = Math.PI / 2;
 /** How far a line may miss an opening's edge and still count as through it. */
 const GRAZE = 1e-9;
 
-const minus = ([ax, ay]: Point, [bx, by]: Point): Point => [ax - bx, ay - by];
+const apart = ([ax, ay]: Point, [bx, by]: Point): Point => [ax - bx, ay - by];
 
 /** The four steps to a neighbour, clockwise seen from above: east first. */
 export const STEPS = [
@@ -175,9 +175,9 @@ export function seenFrom(seat: Room, far: number, walls: Walls): Room[] {
       if (!opens(walls, room, step)) continue;
       const [left, right] = opening(east, south, step);
       const open = narrowedAll(arc, [
-        minus(left, right),
-        ...lefts.map((before) => minus(before, right)),
-        ...rights.map((before) => minus(left, before)),
+        apart(left, right),
+        ...lefts.map((before) => apart(before, right)),
+        ...rights.map((before) => apart(left, before)),
       ]);
       if (open !== null) {
         walk(next, at, open, [...lefts, left], [...rights, right]);

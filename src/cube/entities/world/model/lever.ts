@@ -2,7 +2,13 @@ import { holeMiddle, type Quarter } from './hole';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
 import type { WallMounted } from './pose';
 import { box, type Quad, times, type Vec3 } from './quad';
-import { type InRoomOf, type Room, roomKey, roomsAcross } from './room';
+import {
+  type InRoomOf,
+  type Room,
+  roomKey,
+  roomsAcross,
+  WALL_HALF,
+} from './room';
 
 /**
  * Where a holed room's lever is mounted: on the hole quarter's outer wall
@@ -91,14 +97,14 @@ const HANDLE_TILT = (35 * Math.PI) / 180;
 const POST_HEIGHT = 0.5;
 
 /**
- * `lever`'s faces in a room of floor `n` whose north-west slab corner sits at
+ * `lever`'s faces in `room`, whose north-west slab corner sits at
  * `origin` of the eye's frame, `side` its room side there: the post where
  * there is one, the plate, and the handle out of it, `swung` of the way from
  * tilted up to tilted as far down.
  */
 export function leverFaces(
   { mount, at, facing }: Lever,
-  n: number,
+  room: Room,
   origin: Vec3,
   side: number,
   swung: number,
@@ -125,15 +131,19 @@ export function leverFaces(
             [0, POST_HEIGHT * side, 0],
             [0, 0, POST_SIDE * side],
           ],
-          n,
-          'wall',
+          room,
+          'trim',
         )
       : [];
-  const foot = local(at.u, PLATE_HEIGHT, at.v);
+  // A wall's face stands in from the room's edge; a post's is where it is.
+  const proud = mount === 'post' ? 0 : WALL_HALF;
+  const footU = at.u + out[0] * proud;
+  const footV = at.v + out[2] * proud;
+  const foot = local(footU, PLATE_HEIGHT, footV);
   const plateCorner = local(
-    at.u - (along[0] * PLATE_WIDTH) / 2,
+    footU - (along[0] * PLATE_WIDTH) / 2,
     PLATE_HEIGHT - PLATE_TALL / 2,
-    at.v - (along[2] * PLATE_WIDTH) / 2,
+    footV - (along[2] * PLATE_WIDTH) / 2,
   );
   const plate = box(
     plateCorner,
@@ -142,7 +152,7 @@ export function leverFaces(
       times(up, PLATE_TALL * side),
       times(out, PLATE_DEPTH * side),
     ],
-    n,
+    room,
     'plate',
   );
   const tilt = HANDLE_TILT * (1 - 2 * swung);
@@ -163,7 +173,7 @@ export function leverFaces(
       times(lift, HANDLE_THICK * side),
       times(reach, HANDLE_LENGTH * side),
     ],
-    n,
+    room,
     'handle',
   );
   return [...post, ...plate, ...handle];

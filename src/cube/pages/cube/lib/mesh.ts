@@ -1,18 +1,32 @@
-import type { Facet, Quad } from '@/cube/entities/world';
+import type { Seeded } from '@/kernel/shared/typings';
 
-import { colourOf } from './palette';
+import { SURFACES } from '@/cube/shared/lib/surface';
+import type { Floored, Placed, Quad, Room } from '@/cube/entities/world';
 
-/** Floats per vertex: position, normal, colour. */
-export const VERTEX_FLOATS = 9;
-
-/** Floats per sign vertex: position, normal, texture coordinate. */
-export const SIGN_VERTEX_FLOATS = 8;
+import { offsetOf, VERTEX_WORDS } from './vertex';
 
 /**
- * Each sign corner's texture coordinate: `signFacets` gives the bottom left
- * first, and a texture's rows run top down.
+ * What a face takes from the room it faces into: where that room stands in
+ * the eye's frame, and the room's own word, flags and place on its floor as
+ * the shader reads them.
  */
-const SIGN_UV = [
+export type RoomLook = Placed &
+  Seeded & {
+    flags: number;
+    cell: number;
+  };
+
+/** One floor's run of vertices in a buffer: `count` of them from `firstVertex`. */
+export type FloorRange = Floored & { firstVertex: number; count: number };
+
+/** A vertex buffer, and which run of it belongs to which floor. */
+export type Scenery = { data: ArrayBuffer; ranges: readonly FloorRange[] };
+
+/**
+ * Each corner's place across its face: a facet's corners start at the bottom
+ * left of what is drawn on it, and a texture's rows run top down.
+ */
+const TEX = [
   [0, 1],
   [1, 1],
   [1, 0],
@@ -22,37 +36,60 @@ const SIGN_UV = [
 /** Each quad's corners in the order of its two triangles. */
 const FAN = [0, 1, 2, 0, 2, 3] as const;
 
-/**
- * The vertex buffer for `quads`: two triangles each, every vertex its
- * position, normal and its room's colour, as float32 — with `packSigns`, the
- * one place the world's doubles narrow.
- */
-export function pack(quads: readonly Quad[]): Float32Array<ArrayBuffer> {
-  const out = new Float32Array(quads.length * FAN.length * VERTEX_FLOATS);
-  let at = 0;
-  for (const { corners, normal, n, surface } of quads) {
-    const colour = colourOf(n, surface);
-    for (const corner of FAN) {
-      out.set(corners[corner], at);
-      out.set(normal, at + 3);
-      out.set(colour, at + 6);
-      at += VERTEX_FLOATS;
-    }
-  }
-  return out;
-}
+const AT = {
+  position: offsetOf('position'),
+  normal: offsetOf('normal'),
+  local: offsetOf('local'),
+  tex: offsetOf('tex'),
+  kind: offsetOf('kind'),
+  seed: offsetOf('seed'),
+  flags: offsetOf('flags'),
+  paint: offsetOf('paint'),
+  cell: offsetOf('cell'),
+};
 
-/** The vertex buffer for sign `facets`, as `pack`'s but textured. */
-export function packSigns(facets: readonly Facet[]): Float32Array<ArrayBuffer> {
-  const out = new Float32Array(facets.length * FAN.length * SIGN_VERTEX_FLOATS);
+/**
+ * The vertex buffer for `quads`, two triangles each, floor by floor from the
+ * top: a floor is drawn by its own shader, so its quads are one run, in the
+ * order they were given. The one place the world's doubles narrow to float32.
+ */
+export function pack(
+  quads: readonly Quad[],
+  lookOf: (room: Room) => RoomLook,
+): Scenery {
+  const sorted = quads.toSorted((a, b) => a.room.n - b.room.n);
+  const data = new ArrayBuffer(sorted.length * FAN.length * VERTEX_WORDS * 4);
+  const floats = new Float32Array(data);
+  const words = new Uint32Array(data);
+  const ranges: FloorRange[] = [];
   let at = 0;
-  for (const { corners, normal } of facets) {
+  for (const { corners, normal, normals, room, surface, paint } of sorted) {
+    const { origin, roomSide: side, seed, flags, cell } = lookOf(room);
+    const kind = SURFACES.indexOf(surface);
+    const range = ranges.at(-1);
+    const { n } = room;
+    if (range?.n === n) range.count += FAN.length;
+    else ranges.push({ n, firstVertex: at / VERTEX_WORDS, count: FAN.length });
     for (const corner of FAN) {
-      out.set(corners[corner], at);
-      out.set(normal, at + 3);
-      out.set(SIGN_UV[corner], at + 6);
-      at += SIGN_VERTEX_FLOATS;
+      const [x, y, z] = corners[corner];
+      floats.set([x, y, z], at + AT.position);
+      floats.set(normals?.[corner] ?? normal, at + AT.normal);
+      floats.set(
+        [
+          (x - origin[0]) / side,
+          (y - origin[1]) / side,
+          (z - origin[2]) / side,
+        ],
+        at + AT.local,
+      );
+      floats.set(TEX[corner], at + AT.tex);
+      words[at + AT.kind] = kind;
+      words[at + AT.seed] = seed;
+      words[at + AT.flags] = flags;
+      words[at + AT.paint] = paint ?? 0;
+      words[at + AT.cell] = cell;
+      at += VERTEX_WORDS;
     }
   }
-  return out;
+  return { data, ranges };
 }
