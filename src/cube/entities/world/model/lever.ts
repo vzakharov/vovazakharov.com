@@ -1,7 +1,9 @@
+import type { Vec3 } from '@/cube/shared/lib/vec';
+
 import { holeMiddle, type Quarter } from './hole';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
 import type { WallMounted } from './pose';
-import { box, type Quad, times, type Vec3 } from './quad';
+import { box, type Quad, times } from './quad';
 import {
   type InRoomOf,
   type Room,

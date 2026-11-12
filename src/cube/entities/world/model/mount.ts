@@ -1,8 +1,10 @@
 import type { Sized } from '@/kernel/shared/typings';
 
+import type { Vec3 } from '@/cube/shared/lib/vec';
+
 import type { Placed } from './frame';
 import type { InRoom, WallMounted } from './pose';
-import { box, type Facet, facet, type Quad, times, type Vec3 } from './quad';
+import { box, type Facet, facet, type Quad, times } from './quad';
 import { type Room, WALL_HALF } from './room';
 import { opens, type Step, STEPS } from './rooms';
 import type { Walls } from './walls';
