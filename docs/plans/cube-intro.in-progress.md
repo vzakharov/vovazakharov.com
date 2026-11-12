@@ -174,7 +174,114 @@ The stylised hands and body stay as they are — the contrast with the island is
 the operator's creative choice («кривые руки -- украшать не надо»). "Дерево" was
 the operator's own word for the potted plant in floor 1's room.
 
+## Steering since
+
+- **2026-11-12 22:32Z, the sun's direction**, with a sketch over floor 1's room
+  (`docs/remove-before-merging/cube-intro-j2wt34/frames/operator/sun-direction.webp`):
+  two dashed rays from the top of the door running diagonally into the room and
+  down to the floor near its middle, a parallelogram of light round the hole.
+
+  > направление света солнца какое-то вот такое, наверное, должно быть
+
+  Read at first as direction and steepness both, and the sun was raised to 17°;
+  then, as a comment on the board's note about it (relayed by the board
+  session):
+
+  > я тут в основном про направление в двумерной плоскости говорил, 30 градусов
+  > я там специально не отсчитывал :)
+
+  So the sketch fixes the beam's direction across the floor and nothing else;
+  the elevation went back to 9°.
+
+- **2026-11-12 ~22:34Z, a comment on the board itself** (on the "one ocean"
+  card, relayed by the board session): "no Russian in the board whatsoever". The
+  board session translates every quote; the lead sends verdicts in whatever
+  language they were said.
+
+- **2026-11-12 ~22:50Z, randomness and the goal behind it**:
+
+  > все же исполнители понимают, что всё что касается случайности должно
+  > использовать наш `rolled`?
+
+  > цель -- любая вещь, любое явление должно выглядеть абсолютно идентично в
+  > один и тот же момент времени для двух игроков на разных машинах в одной
+  > точке
+
+  The contract named `src/dice` but not `roll` / `rollWith`; now it does, and
+  every build session was told. Sand's pushed shape already rolled. The second
+  sentence was the contract's first rule; it now also rules out anything that
+  remembers earlier frames (accumulated foam, reprojected clouds, a stepped
+  simulation), told to core, sky, sea and sand. Footprints are per-player
+  history, so they are out unless the operator asks for them.
+
+- **2026-11-12 ~22:50Z, on the footprints being dropped — a principle**:
+
+  > да, где-то на борду большими буквами: Interactions come at a price. Это и в
+  > фигуральном и в буквальном смысле: любое, что меняет состояние мира силами
+  > одного игрока (вплоть до "пнуть мячик на полу") -- только покупкой.
+  >
+  > в более философском смысле, можно вспомнить про всяких
+  > исследователей-первооткрывателей, у которых это первая заповедь; про sound
+  > of thunder у бредберри, про эффект бабочки итдитп
+
+  Written into `src/cube/CLAUDE.md` with the two rules it stands beside, into
+  the contract, and sent to the board session for the board, in English, large.
+  What it decides here: no footprints, no wake or ripples from the player's
+  body, no sand disturbed; and the lead's reading for the pill — the shelf holds
+  a pill for whoever comes next, the one taken being the taker's own. That
+  reading was told to the operator in passing.
+
+- **2026-11-12 ~22:55Z, on sea dropping its baked texture — a rule**:
+
+  > это наверное стоило тоже обозначить: никаких текстур. все стены, полы,
+  > потолки этажей куба отрисованы процедурно, здесь мы делаем то же
+
+  Read as: nothing drawn is looked up from a stored image, baked or computed —
+  no FFT maps, no sky map, no noise texture, no lookup table; the frame's own
+  screen-space targets (scene, reflection, bloom, a layer's reduced-resolution
+  pass) are what the renderer already has and stay. In `src/cube/CLAUDE.md` and
+  the contract; core, sky and sea re-briefed. The reading of screen-space
+  targets was told to the operator in passing.
+
 ## Facts established
+
+- **The seam (core step 1, 1a311efa, merged into this branch at faedd71d)**: the
+  outside is the shared segment `src/cube/shared/outside/` (barrel
+  `@/cube/shared/outside`), one file per name, each package replacing its own:
+  `island-height.ts` (sand), `water-level.ts` (sea), `cube-shadow.ts` (shell),
+  `sky.ts` + `aerial.ts` (sky), `frame.ts`, `sun.ts`, `outdoor-frame.ts`,
+  `stage.ts` (core). WGSL pieces moved to `@/cube/shared/lib/wgsl`, the hash to
+  `@/cube/shared/lib/wgsl-hash`. The eye is `Whereabouts = Pose | Outside` in
+  `@/cube/entities/world`. A layer is `pages/cube/ui/<name>-layer.ts`, a
+  `LayerMaker` from `outdoor-layer.ts`, its shader roots in
+  `pages/cube/lib/outdoor-shaders.ts`. Every package was told to merge it.
+  Core's steps 2–4 (renderer takes layers and an outside eye, the frame script,
+  the outside lens) are in flight; `sun.ts` still held 8° toward +z at that
+  head.
+- **Sand's first frames (457ccb4d, merged at 4f4d4480, not yet drawn by the
+  page)**: `frames/sand/`. The lead's verdicts, sent to sand and to the board:
+  `down` reads as a photograph; `stand` and `shadow` do not — ripples like
+  corduroy at 5–40 m, beige with no low sun in it, glints turning to noise. They
+  also showed `SKY_FILL` twice too bright against a 9° sun; core was asked to
+  set [0.65, 0.87, 1.2] (the sky's share on flat ground about equal to the
+  sun's) until sky's model gives its own. Still owed by core: step 2, `sun.ts`
+  at 31° toward −z, the sky map removed.
+- **The island (sand, `claude/cube-intro-sand` @ 04a800ac)**: the cube's centre
+  is over W xz = (0, 0), the crest, sand 1.6 m; `CUBE_AT = (−2.5, 5.2, −2.5)`,
+  underside y = 2.7, the doorway at x = 2.5, z −2.226…−1.256, sill y = 5.2.
+  Shore from the crest: east 23.7 m, west 64.4, north 27.5, south 22.4. The
+  waking spot is the still waterline at (−20.98, 20.98). `islandHeight(x, z)`
+  and `ISLAND_HEIGHT_WGSL` live in `src/cube/shared/sand/island-shape.ts` until
+  core names the slice; the bed's colour is `sandBed(xz, depth) -> vec3f`.
+- **The sea's design (sea)**: `waterLevel` is a swell train of 420 waves an hour
+  arriving by a baked arrival-time field (one `r32float` texture, so the shared
+  outdoor bind group carries piece-owned bindings — asked of core); it also
+  exports `shoreWetness(xz, t)` for sand and TS `seaHeightAt` for walk. One
+  WGSL-in-Node test kit, sea's, lands in `src/cube/shared/lib/`; sand switches
+  to it.
+- **Cue names (sound, `claude/cube-intro-sound` @ b836c3ae)**: `step` with
+  `ground`, `pill`, `swallow`, `rung`, `splash`, `say: 'waking'`;
+  `LADDER_MATERIAL` in `shared/lib/acoustics.ts`. Passed to walk, pill, shell.
 
 - Floor 1 is one room: `roomsAcross(1) = 1`, side 5 m, height 2.5 m
   (`ROOM_HEIGHT` 0.5 of a side), and it is the cube's top slab. Each floor down
@@ -205,16 +312,24 @@ Each with its reason; a later decision that overrides one rewrites it here.
   stands in that corner, 0.07–0.9 m in from the wall, half across the doorway,
   and stays there. The decor door is dropped from floor 1's theme alone (15
   other floors list it).
-- **The doorway faces the sun; the player wakes on the far side.** The sun's
-  azimuth is the east wall's outward normal turned a few degrees south, its
-  elevation 9°, so the beam through the doorway crosses the room and ends low on
-  the west wall. The player wakes about 30 m to the cube's south-west, facing
-  the sea with the sun behind them, turns, and sees the cube against the sunset,
-  its sunlit side, door and ladder hidden — the operator's steer («солнце …
-  лучше всё-таки сзади или сбоку от куба … иначе ты сразу видишь дверь и
-  лестницу in your face»). The cube's shadow, some 38 m long, lies on the sand
-  beside the path to it. The first choice, waking in front of the doorway, lost
-  to this.
+- **The sun looks in through the doorway on a diagonal; the player wakes on the
+  far side.** The azimuth is the operator's sketch (§ "Steering since"): the
+  east wall's outward normal (+x) turned 31° toward −z, the line from the pill's
+  shelf (west wall, z = 3.75 m, 1 m up) back through the doorway's middle. The
+  elevation is 9°, the lead's: the doorway's light lies along the whole diagonal
+  of the floor and stands on the west wall up to about 1.18 m, so the beam ends
+  on the pill, and outside it is a true golden hour. `SUN_DIR` ≈ (0.847, 0.156,
+  −0.509). Lost to it: 8° toward +z (the first design, before the sketch), and
+  17° up (a half-hour detour that read a steepness into the sketch the operator
+  never drew).
+- **The player wakes about 30 m to the cube's south-west**, at W (−20.98,
+  20.98), facing the sea with the sun behind them, turns, and sees the cube with
+  the sun low to its right, level with its upper half, its sunlit east and north
+  faces, door and ladder hidden: the operator's steer («солнце … лучше всё-таки
+  сзади или сбоку от куба … иначе ты сразу видишь дверь и лестницу in your
+  face»). The cube's shadow, some 38 m long, runs west-south-west and lies on
+  the beach a few metres north of the waking spot, its tip near the water. The
+  first choice, waking in front of the doorway, lost to this.
 - **The cube hovers 1.1 m over the sand.** At 9° its shadow starts about 7 m
   behind it, so the sand right under the cube is in full sun: the look-under
   beat, coming from the shadow side, shows lit sand and the sea's glare through
@@ -227,9 +342,17 @@ Each with its reason; a later decision that overrides one rewrites it here.
   outside is its own thing.
 - **Sky, sea and sand join the cube's one scene pass** as layers into the same
   HDR target (alpha there is metres from the eye, so nothing blends), with a 20
-  km far plane outside and a lens of their own. The sea is a displaced mesh from
-  an FFT spectrum; clouds and atmosphere feed a sky map the sea reflects. The
-  contract is `docs/remove-before-merging/cube-intro-j2wt34/contract.md`.
+  km far plane outside and a lens of their own. The contract is
+  `docs/remove-before-merging/cube-intro-j2wt34/contract.md`.
+- **No textures: every surface is a procedure in the shader** — the operator's
+  rule (§ "Steering since"). The sea is a displaced mesh whose waves are a
+  rolled spectrum summed analytically (trochoids in the vertex stage, finer ones
+  in the normal, each faded before it aliases); the sky is
+  `skyRadiance(dir, lod)`, a pure function the backdrop, the sea's reflections
+  and the fill light all call. Only the frame's own screen-space targets are
+  textures. Lost to it: an FFT ocean with displacement maps and an
+  equirectangular sky map the sea sampled — the lead's first design, which
+  core's step 1 had already bound in group 0.
 - **Every motion is periodic in the hour**, since the shared clock is seconds
   into the hour: wave frequencies are multiples of 2π/3600, clouds drift whole
   tiles.
@@ -266,9 +389,51 @@ fact sheets land and step 0 is in.
 
 ## The team
 
-- Transcript digest of the first cube run (`session_01DaohkEZGmfg7XD5wRftBnA`) —
-  background agent, report pending.
-- Readers for the three fact sheets — background agents, reports pending.
+Child sessions, all on `claude-fable-5-2`, cut from this branch at 2026-11-12
+22:18–22:30Z, each on `claude/cube-intro-<name>`, briefed from the contract.
+Each reports by `send_message` to this session; a brief's full text is the
+session's first event (`list_events`).
+
+- **board** — `session_01DaohkDnTF1C1pccu6TcupR`. Coordinates the Cube design
+  board (https://claude.ai/artifact/WbvwDqVtJzN8EBeuUffho3) with #275's session
+  (`session_01DaohkFooQx3YpuSjFHqR59`, the live one of two). Takes "add this"
+  from the lead: frames go to it through
+  `docs/remove-before-merging/cube-intro-j2wt34/frames/` on this branch plus a
+  message naming files and captions.
+- **core** — `session_01DaohkBKqYztUdZYGkvzgus`. The seam; owns `renderer.ts`,
+  `cube-scene.ts`, `programs.ts`, `lib/camera.ts`, `lib/shader.ts`,
+  `lib/play.ts`. Steps: names in code, layers and the outside eye, the frame
+  script, the outside lens. Stays on for integration asks.
+- **sky** — `session_01DaohkCV3DtK2zJnjgNqmMD`. Also owns `aerial(…)`,
+  `SUN_LIGHT`, `SKY_FILL`.
+- **sea** — `session_01DaohkFaRFVjmDtAdAJo43m`. Owns `waterLevel`. Needs the
+  name of sand's bed-colour function once sand reports.
+- **sand** — `session_01DaohkFCm1Bfsbsruai7cEV`. Owns `islandHeight`; tells the
+  lead the moment the walked-on shape is settled.
+- **shell** — `session_01DaohkD4VsAVvL4tdwWWFoS`. Exterior, doorway, ladder,
+  `cubeShadow`, the sunbeam in floor 1; may tune `SUN_DIR`'s azimuth; exports
+  the ladder's facts for walk.
+- **sound** — `session_01DaohkCEXbY3wSQqxH73yHK`. Owns `features/sound/**` and
+  the cue names (`pill`, `swallow`, `rung`, `splash`, a ground on `step`, voice
+  moment `waking`), pushed first for walk and pill.
+- **walk** — `session_01DaohkCA5T6M6PFv7zXNegi`. Start routing, outside
+  controller, the scene engine and four tracks, the legs; splits
+  `cube-canvas.tsx`.
+- **pill** — `session_01DaohkDoQ3zoiqrQVjXomhV`. Pill and shelf, articulated
+  hands (owns `hands.ts`; exports a rung grip for walk), the floor-1 Y/N beat.
+
+To pass on when they come in: sand's bed-colour function → sea; sound's cue
+names → walk, pill (they merge sound's branch themselves); shell's ladder facts
+→ walk; core's "how to shoot a frame" → everyone (they merge core themselves).
+
+The preview is slot 2 (`preview.yml`, site `vova`, slot 2). #275's session was
+told slot 1 is theirs.
+
+Reader agents (done): the first run's transcript digest, and the fact sheets
+`facts-render.md`, `facts-play.md`, `facts-island-board.md`,
+`facts-sound-floor1.md`; `facts-frames-gates.md` still running when the children
+were launched. Each reader filled its ~200k context before finishing a brief of
+seven sections; a reader's brief is three sections at most.
 
 ## DRY notes
 
@@ -283,5 +448,18 @@ fact sheets land and step 0 is in.
 
 ## Progress
 
-- 2026-11-12: skill saved (`.claude/skills/carte-blanche/SKILL.md`), branch
-  renamed, readers launched, questions asked.
+- 2026-11-12 22:10Z: skill saved (`.claude/skills/carte-blanche/SKILL.md`),
+  branch renamed, readers launched, questions asked.
+- 22:30Z: answers in; #275's branch merged in (34f30eac); contract written; nine
+  child sessions running. Nothing built on this branch yet. A check-in is
+  scheduled for 23:11Z (`send_later`), and each child's report wakes the lead.
+- **Next, in order**: (1) when core's first push lands, confirm the others
+  merged it; (2) pass on the owed facts listed under "The team"; (3) merge each
+  branch as it reports green, look at its frames, send the good and the bad to
+  the board session with captions; (4) when sky, sea, sand and shell are in,
+  shoot the six standard eyes on the merged tree and run a fix round on what the
+  seams show; (5) publish to preview slot 2 and check the deployed commit before
+  telling the operator; (6) `/polish`, `/pr` (base `claude/cube-review-perf`),
+  then vet. The session's human-hour estimate is set (300 senior-hours).
+- The context notices: at 330k start nothing big; at 350k bring this file
+  current. The session compacts on its own near 370k; never `/relay`.
