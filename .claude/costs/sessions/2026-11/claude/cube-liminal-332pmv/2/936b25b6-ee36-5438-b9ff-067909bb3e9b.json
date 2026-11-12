@@ -1,0 +1,89 @@
+{
+  "total": {
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 70833,
+    "cacheReadTokens": 702793,
+    "outputTokens": 2567,
+    "thinkingTokens": 914,
+    "responses": 7,
+    "costUsd": 0.7586186000000001
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-12T00:34:26.976Z",
+    "contextTokens": 114144,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 53931,
+      "cacheReadTokens": 365929,
+      "outputTokens": 1492,
+      "thinkingTokens": 246,
+      "responses": 4,
+      "costUsd": 0.5345058
+    }
+  },
+  "sessionId": "936b25b6-ee36-5438-b9ff-067909bb3e9b",
+  "branch": "claude/cube-liminal-332pmv",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/from-branch claude/cube-liminal-332pmv",
+  "prs": [],
+  "url": "https://claude.ai/code/session_016Z4TKqBdiPUwyUDMrs26WP",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-12T00:34:04.933Z",
+  "lastResponseAt": "2026-11-12T00:34:34.376Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 70833,
+    "cacheReadTokens": 702793,
+    "outputTokens": 2567,
+    "thinkingTokens": 914,
+    "responses": 7,
+    "costUsd": 0.7586186000000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 70833,
+      "cacheReadTokens": 702793,
+      "outputTokens": 2567,
+      "thinkingTokens": 914,
+      "responses": 7,
+      "costUsd": 0.7586186000000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": null,
+  "operatorWords": {
+    "chat": 30,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".json": 20,
+    ".md": 436,
+    ".yaml": 85,
+    ".ts": 26630,
+    ".tsx": 22
+  }
+}
