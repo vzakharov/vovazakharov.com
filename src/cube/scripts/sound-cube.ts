@@ -13,23 +13,24 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
+import { pick } from '@/kernel/shared/lib/collections';
+
 import { pathHash } from '@/dice/shared/roll';
 
+import { DOORWAY_BOX, WAKE_AT } from '@/cube/shared/outside';
 import {
   type Beds,
   bedsOf,
   gustAt,
-  LAYERS,
+  ISLAND,
   type OutsideMix,
   outsideMix,
   rendered,
   type Scene,
-  shoreOf,
+  SOUND_LAYERS,
   surfAt,
   whole,
 } from '@/cube/features/sound';
-
-import { flag } from '@/kernel/scripts/lib/argv';
 
 import { cueTakes } from './lib/cue-takes';
 import { plotPicture, pngOf, spectrogramPicture } from './lib/picture';
@@ -42,10 +43,21 @@ import {
   mean,
   spectrogramOf,
 } from './lib/spectrum';
-import { STAND_IN_PLACES, STAND_IN_SEA } from './lib/stand-in-sea';
 import { stereoWavOf } from './lib/stereo-wav';
 
+import { flag } from '@/kernel/scripts/lib/argv';
+
 const RATE = 32_000;
+
+/** Where the bench stands: under the cube, where the player wakes, at the ladder. */
+const PLACES = {
+  ...pick(ISLAND, 'cube'),
+  waking: [WAKE_AT[0], WAKE_AT[2]],
+  ladder: [
+    DOORWAY_BOX.min[0] + 0.8,
+    (DOORWAY_BOX.min[2] + DOORWAY_BOX.max[2]) / 2,
+  ],
+} as const;
 
 /** The mixer's own level, which everything heard goes through. */
 const MASTER = 0.8;
@@ -96,7 +108,7 @@ function take(
   );
 
   const [bare] = rendered(beds, (t) => humless(mixAt(t)), from, seconds, RATE);
-  const masker = spectrogramOf(scaled(bare ?? left, MASTER), RATE);
+  const masker = spectrogramOf(scaled(bare, MASTER), RATE);
   const humBand = mean(bandOver(spectrogramOf(left, RATE), ...BANDS.hum));
   const maskBand = mean(bandOver(masker, ...BANDS.hum));
 
@@ -171,16 +183,12 @@ function main(): void {
   }
 
   if (only !== 'cues') {
-    const sea = STAND_IN_SEA;
-    const scene: Scene = {
-      sea,
-      shore: shoreOf(sea, [0, 0], 32),
-      cube: STAND_IN_PLACES.cube,
-    };
+    const scene = ISLAND;
     const beds = bedsOf(pathHash('0'));
-    for (const layer of LAYERS) for (const loop of beds[layer]) whole(loop);
+    for (const layer of SOUND_LAYERS)
+      for (const loop of beds[layer]) whole(loop);
     report.push('', '# Scenes');
-    const scenes = scenesOf(scene, STAND_IN_PLACES);
+    const scenes = scenesOf(scene, PLACES);
     for (const [name, told] of Object.entries(scenes)) {
       if (only !== undefined && only !== name) continue;
       report.push('', ...take(out, name, told, beds, scene));
@@ -194,10 +202,10 @@ function main(): void {
         RATE,
       )[0];
     const [now, hourOn] = [again(100), again(3700)];
-    const differs = now.reduce(
-      (most, sample, i) => Math.max(most, Math.abs(sample - (hourOn[i] ?? 0))),
-      0,
-    );
+    let differs = 0;
+    for (const [i, sample] of now.entries()) {
+      differs = Math.max(differs, Math.abs(sample - (hourOn[i] ?? 0)));
+    }
     report.push(
       '',
       `# The hour`,

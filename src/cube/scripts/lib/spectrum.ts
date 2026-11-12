@@ -118,11 +118,10 @@ export function following(
   within: number,
 ): { fit: number; late: number } {
   const fitAt = (shift: number): number => {
-    const pairs: [number, number][] = [];
-    for (let i = 0; i < a.length; i += 1) {
+    const pairs: Array<[number, number]> = [];
+    for (const [i, own] of a.entries()) {
       const other = b[i - shift];
-      const own = a[i];
-      if (other !== undefined && own !== undefined) pairs.push([own, other]);
+      if (other !== undefined) pairs.push([own, other]);
     }
     const ma = mean(pairs.map(([x]) => x));
     const mb = mean(pairs.map(([, y]) => y));

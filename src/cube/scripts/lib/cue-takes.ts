@@ -8,7 +8,7 @@ const RATE = 48_000;
 
 type Take = { name: string; samples: Float32Array; rate: number };
 
-const CUES: readonly (readonly [string, SoundCue])[] = [
+const CUES: ReadonlyArray<readonly [string, SoundCue]> = [
   ['pill', { kind: 'pill' }],
   ['swallow', { kind: 'swallow' }],
   ...LADDERS.flatMap((ladder) =>

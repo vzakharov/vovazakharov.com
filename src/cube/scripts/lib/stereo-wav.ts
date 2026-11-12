@@ -1,5 +1,8 @@
 const HEADER = 44;
 
+const word = (sample: number): number =>
+  Math.round(Math.max(-1, Math.min(1, sample)) * 32_767);
+
 /** `left` and `right` as a stereo 16-bit WAV file's bytes. */
 export function stereoWavOf(
   left: Float32Array,
@@ -19,8 +22,6 @@ export function stereoWavOf(
   bytes.writeUInt16LE(16, 34);
   bytes.write('data', 36, 'latin1');
   bytes.writeUInt32LE(left.length * 4, 40);
-  const word = (sample: number): number =>
-    Math.round(Math.max(-1, Math.min(1, sample)) * 32_767);
   for (const [n, sample] of left.entries()) {
     bytes.writeInt16LE(word(sample), HEADER + n * 4);
     bytes.writeInt16LE(word(right[n] ?? 0), HEADER + n * 4 + 2);

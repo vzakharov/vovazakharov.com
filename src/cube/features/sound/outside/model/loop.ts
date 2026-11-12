@@ -98,18 +98,13 @@ export function whole(loop: Loop): Loop {
 }
 
 /**
- * `loop`'s sample at `seconds` into the hour, between its two nearest: what an
+ * A loop's sample `at` seconds into the hour, between its two nearest: what an
  * ear hears of it at that moment whatever rate it is played at.
  */
-export function heardAt(loop: Loop, seconds: number): number {
-  const { samples } = loop;
-  const along =
-    (((seconds % loop.seconds) + loop.seconds) % loop.seconds) * loop.rate;
-  const at = Math.floor(along) % samples.length;
-  const here = samples[at] ?? 0;
-  return (
-    here +
-    (along - Math.floor(along)) *
-      ((samples[(at + 1) % samples.length] ?? 0) - here)
-  );
+export function heardAt({ samples, rate, seconds }: Loop, at: number): number {
+  const along = (((at % seconds) + seconds) % seconds) * rate;
+  const before = Math.floor(along) % samples.length;
+  const here = samples[before] ?? 0;
+  const next = samples[(before + 1) % samples.length] ?? 0;
+  return here + (along - Math.floor(along)) * (next - here);
 }

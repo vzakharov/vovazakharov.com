@@ -202,7 +202,9 @@ function walk(
             };
           },
     onHeard: (heard) => {
-      hearing?.rooms(heard, player.pose, frozen ?? Date.now());
+      const now = frozen ?? Date.now();
+      hearing?.outside(player.pose, now);
+      hearing?.rooms(heard, player.pose, now);
     },
     now: () => frozen ?? Date.now(),
     onError: setFailure,

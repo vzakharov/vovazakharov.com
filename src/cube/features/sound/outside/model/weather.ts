@@ -3,7 +3,7 @@ import { clamp01 } from '@/cube/shared/lib/ease';
 import { CYCLE } from '../../dsp';
 
 /** Seconds in the hour every motion outside comes round in. */
-export const HOUR = 3600;
+export const SECONDS_AN_HOUR = 3600;
 
 /**
  * The gusts' schedule: how many times an hour each of its slow waves comes
@@ -26,7 +26,7 @@ const WEIGHT = WAVES.reduce((sum, { weight }) => sum + weight, 0);
  * gust every half minute or so, a hard one every few minutes.
  */
 export function gustAt(seconds: number): number {
-  const x = seconds / HOUR;
+  const x = seconds / SECONDS_AN_HOUR;
   let sum = 0;
   for (const { turns, starts, weight } of WAVES) {
     sum += weight * Math.sin(CYCLE * (turns * x + starts));

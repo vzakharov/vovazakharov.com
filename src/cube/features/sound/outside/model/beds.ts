@@ -1,7 +1,7 @@
 import { filterOf } from '../../dsp';
 import { hum, under } from './hum';
 import { heardAt, type Loop } from './loop';
-import { type Layer, LAYERS, OPEN_AIR, type OutsideMix } from './mix';
+import { type Layer, OPEN_AIR, type OutsideMix, SOUND_LAYERS } from './mix';
 import { fizz, hiss, roar, wash } from './surf';
 import { buffet, wind } from './wind';
 
@@ -29,9 +29,10 @@ const RATES: Record<Layer, number> = {
 
 const NOISES = { roar, hiss, fizz, wash, wind, buffet } as const;
 
+const twice = (loop: Loop) => [loop, loop] as const;
+
 /** The outside's loops, unrendered, their noise drawn from `word`'s seeds. */
 export function bedsOf(word: (name: string) => number): Beds {
-  const twice = (loop: Loop) => [loop, loop] as const;
   const pair = (layer: keyof typeof NOISES) =>
     [
       NOISES[layer](word(`${layer}/left`), RATES[layer]),
@@ -88,7 +89,7 @@ export function rendered(
   let mix = mixAt(from);
   const sides = ['left', 'right'] as const;
   const levels = ears.map((ear) =>
-    LAYERS.map((layer) => mix.layers[layer][sides[ear]]),
+    SOUND_LAYERS.map((layer) => mix.layers[layer][sides[ear]]),
   );
   let muffle = mix.muffle;
   for (let i = 0; i < length; i += 1) {
@@ -99,7 +100,7 @@ export function rendered(
       const level = levels[ear] ?? [];
       let open = 0;
       let walled = 0;
-      for (const [index, layer] of LAYERS.entries()) {
+      for (const [index, layer] of SOUND_LAYERS.entries()) {
         const now = level[index] ?? 0;
         const next = now + closing * (mix.layers[layer][sides[ear]] - now);
         level[index] = next;

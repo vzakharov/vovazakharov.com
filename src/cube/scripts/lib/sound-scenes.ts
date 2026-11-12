@@ -1,9 +1,9 @@
 /** The moments of the intro the sound bench listens to, each as a path for an ear. */
 
+import type { Vec2 } from '@/cube/shared/lib/vec';
 import {
   gustAt,
   type Listener,
-  type OnGround,
   type OutsideMix,
   outsideMix,
   type Scene,
@@ -21,12 +21,12 @@ type Told = {
 export type Scenes = Record<string, Told>;
 
 /** Where the bench stands: the cube's middle, the waking spot, the ladder's foot. */
-type Places = Record<'cube' | 'waking' | 'ladder', OnGround>;
+type Places = Record<'cube' | 'waking' | 'ladder', Vec2>;
 
-const toward = (from: OnGround, to: OnGround): number =>
+const toward = (from: Vec2, to: Vec2): number =>
   Math.atan2(to[1] - from[1], to[0] - from[0]);
 
-const between = (from: OnGround, to: OnGround, x: number): OnGround => [
+const partWay = (from: Vec2, to: Vec2, x: number): Vec2 => [
   from[0] + x * (to[0] - from[0]),
   from[1] + x * (to[1] - from[1]),
 ];
@@ -44,7 +44,7 @@ export function scenesOf(scene: Scene, places: Places): Scenes {
   const heard = (listener: (t: number) => Listener) => (seconds: number) =>
     outsideMix(scene, listener(seconds), seconds);
   const seaward = toward(cube, waking);
-  const doorway: OnGround = [cube[0] + 2.5, ladder[1]];
+  const doorway: Vec2 = [cube[0] + 2.5, ladder[1]];
   const gust = hardestGust();
   return {
     waking: {
@@ -67,7 +67,7 @@ export function scenesOf(scene: Scene, places: Places): Scenes {
       seconds: 40,
       told: 'walking from the waking spot to the foot of the ladder',
       mixAt: heard((t) => ({
-        at: between(waking, ladder, (t - 100) / 40),
+        at: partWay(waking, ladder, (t - 100) / 40),
         yaw: toward(waking, ladder),
       })),
     },

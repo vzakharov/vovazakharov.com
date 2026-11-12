@@ -70,9 +70,9 @@ function heat(x: number): Colour {
   const from = HEAT[Math.floor(along)] ?? HEAT[0];
   const to = HEAT[Math.floor(along) + 1] ?? from;
   const part = along - Math.floor(along);
-  return [0, 1, 2].map((n) =>
-    Math.round((from?.[n] ?? 0) + part * ((to?.[n] ?? 0) - (from?.[n] ?? 0))),
-  ) as unknown as Colour;
+  const mixed = (n: 0 | 1 | 2): number =>
+    Math.round((from?.[n] ?? 0) + part * ((to?.[n] ?? 0) - (from?.[n] ?? 0)));
+  return [mixed(0), mixed(1), mixed(2)];
 }
 
 /** The lowest pitch a spectrogram's picture shows, and the quietest level. */

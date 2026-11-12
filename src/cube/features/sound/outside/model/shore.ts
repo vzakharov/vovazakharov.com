@@ -1,7 +1,5 @@
 import { clamp01 } from '@/cube/shared/lib/ease';
-
-/** A point on the ground in the world's metres: x east, z south. */
-export type OnGround = readonly [x: number, z: number];
+import type { Vec2 } from '@/cube/shared/lib/vec';
 
 /**
  * The island and its sea as the ear needs them: the ground's height over the
@@ -10,15 +8,15 @@ export type OnGround = readonly [x: number, z: number];
  * makes a wave's sound and its sight one event.
  */
 export type Sea = {
-  islandHeight: (at: OnGround) => number;
-  waterLevel: (at: OnGround, seconds: number) => number;
+  islandHeight: (at: Vec2) => number;
+  waterLevel: (at: Vec2, seconds: number) => number;
 };
 
 /**
  * One stretch of shore: where the still sea meets the sand, and where the
  * waves coming in to it break.
  */
-export type Stretch = { shore: OnGround; breaks: OnGround };
+export type Stretch = { shore: Vec2; breaks: Vec2 };
 
 /** Metres between two looks along a line out from the island. */
 const STRIDE = 0.5;
@@ -32,6 +30,12 @@ const BREAK_DEPTH = 0.6;
 /** Metres past the shore beyond which the break is not looked for. */
 const BREAK_WITHIN = 25;
 
+/** The point `metres` from a point along the bearing `turn`. */
+const outFrom = ([x, z]: Vec2, turn: number, metres: number): Vec2 => [
+  x + metres * Math.cos(turn),
+  z + metres * Math.sin(turn),
+];
+
 /**
  * The shore of the island around `middle`, as `count` stretches evenly round
  * the compass: each found by walking out from the middle to where the ground
@@ -40,20 +44,16 @@ const BREAK_WITHIN = 25;
  */
 export function shoreOf(
   { islandHeight }: Sea,
-  middle: OnGround,
+  middle: Vec2,
   count = 16,
 ): Stretch[] {
   const stretches: Stretch[] = [];
   for (let n = 0; n < count; n += 1) {
     const turn = (2 * Math.PI * n) / count;
-    const out = (metres: number): OnGround => [
-      middle[0] + metres * Math.cos(turn),
-      middle[1] + metres * Math.sin(turn),
-    ];
     let shore: number | undefined;
     let breaks: number | undefined;
     for (let metres = 0; metres <= FARTHEST; metres += STRIDE) {
-      const height = islandHeight(out(metres));
+      const height = islandHeight(outFrom(middle, turn, metres));
       if (shore === undefined) {
         if (height <= 0 && metres > 0) shore = metres;
         continue;
@@ -64,7 +64,10 @@ export function shoreOf(
       }
     }
     if (shore !== undefined) {
-      stretches.push({ shore: out(shore), breaks: out(breaks ?? shore) });
+      stretches.push({
+        shore: outFrom(middle, turn, shore),
+        breaks: outFrom(middle, turn, breaks ?? shore),
+      });
     }
   }
   return stretches;
@@ -86,7 +89,7 @@ const RUN_RATE = 0.12;
 const BREAK_RATE = 0.25;
 
 /** Metres a second the sea's surface is rising at `at`, `seconds` into the hour. */
-const rising = (sea: Sea, at: OnGround, seconds: number): number =>
+const rising = (sea: Sea, at: Vec2, seconds: number): number =>
   (sea.waterLevel(at, seconds + SPAN) - sea.waterLevel(at, seconds - SPAN)) /
   (2 * SPAN);
 

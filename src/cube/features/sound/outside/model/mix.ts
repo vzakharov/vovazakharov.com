@@ -1,15 +1,11 @@
 import { clamp01 } from '@/cube/shared/lib/ease';
+import type { Vec2 } from '@/cube/shared/lib/vec';
+import { CUBE_METRES } from '@/cube/shared/outside';
 
 import { bearingOf } from '../../cues';
 import { CYCLE } from '../../dsp';
-import {
-  type OnGround,
-  type Sea,
-  type Stretch,
-  type Surf,
-  surfAt,
-} from './shore';
-import { gustAt, HOUR, UPWIND } from './weather';
+import { type Sea, type Stretch, type Surf, surfAt } from './shore';
+import { gustAt, SECONDS_AN_HOUR, UPWIND } from './weather';
 
 /**
  * What sounds outside without stopping: the surf's three (the break's roar,
@@ -17,7 +13,7 @@ import { gustAt, HOUR, UPWIND } from './weather';
  * wash, the wind and its buffet in each ear, and the cube's hum with what
  * joins it underneath.
  */
-export const LAYERS = [
+export const SOUND_LAYERS = [
   'roar',
   'hiss',
   'fizz',
@@ -27,7 +23,7 @@ export const LAYERS = [
   'hum',
   'under',
 ] as const;
-export type Layer = (typeof LAYERS)[number];
+export type Layer = (typeof SOUND_LAYERS)[number];
 
 /** A layer's level in each ear. */
 export type Ears = { left: number; right: number };
@@ -43,10 +39,10 @@ export type OutsideMix = { layers: Record<Layer, Ears>; muffle: number };
 export const OPEN_AIR = 20_000;
 
 /** Where an ear is on the island, and the way it faces (0 east, π/2 south). */
-export type Listener = { at: OnGround; yaw: number };
+export type Listener = { at: Vec2; yaw: number };
 
 /** What there is to hear: the sea, its shore, and the middle of the cube. */
-export type Scene = { sea: Sea; shore: readonly Stretch[]; cube: OnGround };
+export type Scene = { sea: Sea; shore: readonly Stretch[]; cube: Vec2 };
 
 /** A layer's level beside the ear at its fullest. */
 const LEVELS: Record<Layer, number> = {
@@ -74,7 +70,7 @@ const REACH: Record<keyof Surf, number> = {
 const LAPPING = 0.02;
 
 /** Half the cube's side, and the metres at which its hum has half its power. */
-const CUBE_HALF = 2.5;
+const CUBE_HALF = CUBE_METRES / 2;
 const HUM_REACH = 4;
 
 /** Metres in from the cube's edge by which an ear is wholly under it. */
@@ -167,7 +163,7 @@ export function outsideMix(
   const blowing = (0.5 + 0.5 * gust) ** 1.5 * (1 - 0.5 * beneath);
   const rumbling = (0.2 + 0.8 * gust) * (1 - 0.7 * beneath);
   const heave = (turn: number): number =>
-    1 + 0.15 * Math.sin(CYCLE * ((17 * seconds) / HOUR + turn));
+    1 + 0.15 * Math.sin(CYCLE * ((17 * seconds) / SECONDS_AN_HOUR + turn));
 
   return {
     layers: {
