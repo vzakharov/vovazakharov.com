@@ -1,0 +1,114 @@
+{
+  "total": {
+    "inputTokens": 50,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 181318,
+    "cacheReadTokens": 4319536,
+    "outputTokens": 80369,
+    "thinkingTokens": 49538,
+    "responses": 26,
+    "costUsd": 6.9801552000000004
+  },
+  "estimate": {
+    "at": "2026-11-12T22:35:22.715Z",
+    "subjectLine": "feat: the sea round the cube's island, from spectrum to swash",
+    "parts": [
+      {
+        "hours": 70.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "FFT ocean in WebGPU compute, LEAN-style glitter, refracted bed and a GPU budget are rendering work at the top of the trade"
+      },
+      {
+        "hours": 24.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "the surf, swash timing and foam are a procedural look judged frame by frame against a photoreal bar"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-12T22:29:10.110Z",
+    "contextTokens": 120366,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 45015,
+      "cacheReadTokens": 242126,
+      "outputTokens": 984,
+      "thinkingTokens": 22,
+      "responses": 3,
+      "costUsd": 0.8080892000000001
+    }
+  },
+  "sessionId": "7f52e7f4-57b8-51e2-a65f-4753ca447048",
+  "branch": "claude/cube-intro-sea",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a larger build run under this repo's `/carte-blanche` mode. Read first, in this order: `.claude/skills/carte-blanche/SKILL.md` (§ \"Th…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkFaRFVjmDtAdAJo43m",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-12T22:28:53.528Z",
+  "lastResponseAt": "2026-11-12T22:43:49.146Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 50,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 181318,
+    "cacheReadTokens": 4319536,
+    "outputTokens": 80369,
+    "thinkingTokens": 49538,
+    "responses": 26,
+    "costUsd": 6.9801552000000004
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 50,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 181318,
+      "cacheReadTokens": 4319536,
+      "outputTokens": 80369,
+      "thinkingTokens": 49538,
+      "responses": 26,
+      "costUsd": 6.9801552000000004
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 26,
+    "matched": 26,
+    "matchedTableUsd": 6.9801552000000004,
+    "matchedEventUsd": 6.9801552000000004,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1585,
+    ".json": 30,
+    ".yaml": 48,
+    ".ts": 208,
+    ".tsx": 86,
+    ".scss": 15
+  }
+}
