@@ -2,13 +2,14 @@ export {
   type Abroad,
   abroad,
   asleepOn,
-  bodyOf,
+  bearingOf,
   canClimb,
   leaving,
 } from './model/abroad';
 export { handsOf } from './model/hands';
 export { plantedHoled } from './model/holed';
 export { INTRO_STAGE } from './model/intro-stage';
+export { legsOf } from './model/legs';
 export { FIRST_LOOK } from './model/look';
 export {
   arrivedOn,

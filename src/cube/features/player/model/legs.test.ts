@@ -5,8 +5,8 @@ import { toWorld } from '@/cube/shared/outside';
 import type { Quad, Vec3 } from '@/cube/entities/world';
 
 import { STAGE } from './abroad.test-kit';
-import { type Bearing, legsOf } from './legs';
-import { EYE_OVER_SAND } from './roam';
+import { legsOf } from './legs';
+import { type Bearing, EYE_OVER_SAND } from './roam';
 
 const { land } = STAGE;
 

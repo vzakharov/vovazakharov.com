@@ -39,6 +39,26 @@ export type Roamer = Outside &
     stroke: number;
   };
 
+/**
+ * Where a body that is not on its feet rests: its hips' place on the ground
+ * plan, and the yaw its legs lie along.
+ */
+export type Seat = { at: readonly [x: number, z: number]; lies: number };
+
+/** Where a body sits or lies, null on its feet or afloat. */
+export type Seated = { seat: Seat | null };
+
+/**
+ * What the legs are asked for: the eye in the world's metres and the way it
+ * looks; where the body sits or lies, if it does; how far apart its feet
+ * are in their stride, from -1 to 1; and whether it floats.
+ */
+export type Bearing = Outside &
+  Seated & {
+    swing: number;
+    afloat: boolean;
+  };
+
 /** The eye over the soles, and over the water once the body floats. */
 export const EYE_OVER_SAND = EYE_HEIGHT * ROOM_METRES;
 export const EYE_OVER_WATER = 0.14;

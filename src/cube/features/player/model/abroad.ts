@@ -1,10 +1,15 @@
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Quad } from '@/cube/entities/world';
-
-import { legsOf, type Seated } from './legs';
 import type { Cue, Cued } from './play';
-import { isAfloat, roam, type Roamer, roamingAt, swingOf } from './roam';
+import {
+  type Bearing,
+  isAfloat,
+  roam,
+  type Roamer,
+  roamingAt,
+  type Seated,
+  swingOf,
+} from './roam';
 import {
   climb,
   descent,
@@ -200,24 +205,18 @@ export function abroad(
   return { ...free, roamer: moved, shot: shotOf(moved), cues };
 }
 
-/**
- * `abroad`'s own body as its eye sees it, in the frame of floor 1's room:
- * nothing while its lids are shut.
- */
-export function bodyOf(
+/** How `abroad` holds its body under its eye, null while its lids are shut. */
+export function bearingOf(
   { shot, scene, roamer }: Abroad,
   { land }: Stage,
   seconds: number,
-): Quad[] {
-  if (shot.lids <= 0) return [];
+): Bearing | null {
+  if (shot.lids <= 0) return null;
   const free = scene === null;
-  return legsOf(
-    {
-      ...outsideOf(shot),
-      seat: scene?.seat ?? null,
-      swing: free ? swingOf(roamer) : 0,
-      afloat: free && isAfloat(land, roamer.eye, seconds),
-    },
-    land,
-  );
+  return {
+    ...outsideOf(shot),
+    seat: scene?.seat ?? null,
+    swing: free ? swingOf(roamer) : 0,
+    afloat: free && isAfloat(land, roamer.eye, seconds),
+  };
 }

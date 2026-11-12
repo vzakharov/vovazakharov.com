@@ -5,7 +5,6 @@ import {
   dot,
   loft,
   minus,
-  type Outside,
   plus,
   type Quad,
   type Ring,
@@ -16,27 +15,7 @@ import {
   type Vec3,
 } from '@/cube/entities/world';
 
-import { EYE_OVER_SAND, type Land } from './roam';
-
-/**
- * Where a body that is not on its feet rests: its hips' place on the ground
- * plan, and the yaw its legs lie along.
- */
-export type Seat = { at: readonly [x: number, z: number]; lies: number };
-
-/** Where a body sits or lies, null on its feet or afloat. */
-export type Seated = { seat: Seat | null };
-
-/**
- * What the legs are asked for: the eye in the world's metres and the way it
- * looks; where the body sits or lies, if it does; how far apart its feet
- * are in their stride, from -1 to 1; and whether it floats.
- */
-export type Bearing = Outside &
-  Seated & {
-    swing: number;
-    afloat: boolean;
-  };
+import { type Bearing, EYE_OVER_SAND, type Land } from './roam';
 
 /** The room the outside is drawn in the frame of: floor 1's. */
 const FRAME: Room = { n: 1, x: 0n, y: 0n };

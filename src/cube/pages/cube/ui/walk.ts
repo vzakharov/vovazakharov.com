@@ -12,8 +12,8 @@ import {
   type Abroad,
   abroad,
   asleepOn,
+  bearingOf,
   bindInput,
-  bodyOf,
   canClimb,
   canLeave,
   canPress,
@@ -22,6 +22,7 @@ import {
   INTRO_STAGE,
   isStanding,
   leaving,
+  legsOf,
   outsideOf,
   plantedHoled,
   plantedWalls,
@@ -151,7 +152,8 @@ export function walk(
       return poseWithin(shot);
     }
     out = next;
-    body = bodyOf(next, INTRO_STAGE, seconds);
+    const bearing = bearingOf(next, INTRO_STAGE, seconds);
+    body = bearing === null ? [] : legsOf(bearing, INTRO_STAGE.land);
     setFloor(null);
     setInReach(null);
     setWay(
