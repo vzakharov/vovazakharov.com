@@ -82,7 +82,7 @@ https://claude.ai/artifact/PSHRvqMjUtVGe8v3UcN5gU
 
 Wait for the operator. Pending his answer:
 
-- the permission to try prettier-plugin-wgsl, the line given in chat: «Разрешаю один прогон prettier-plugin-wgsl@0.1.14 (npm, github AbdBarho/prettier-plugin-wgsl) в /tmp/claude-0/pw: `npx prettier --plugin ./package/dist/index.mjs` на копиях honeycomb.wgsl и 12-bathroom.wgsl, без записи в репозиторий — только посмотреть, переварит ли он WESL-импорты и что поменяет.» A new container lacks `/tmp/claude-0/pw`: re-pack it there first;
+- «Ставить?» on prettier-plugin-wgsl (board thread on `12-bathroom.wgsl`, formatter/linter). The operator authorized a trial run and it ran: the plugin fails on WESL `import` lines ("expecting EOF but found: import") and formats the body without them cleanly (comments kept, 80-column breaks like prettier's TS). Proposed: a format step that hands the plugin the body only and reattaches the head — a new dependency, so a toolchain change (CLAUDE.md § "Vetting", four sites);
 - «Делать?» on folding generated twins by their header rather than the `.shader` suffix (board thread on `masd-clusters.ts`);
 - review of #276; the `masd:clusters` fold vs markers; the three five-percent alternatives (pin test lifetime, MASD checked twice, committed generated files).
 
