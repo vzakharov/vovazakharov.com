@@ -124,18 +124,20 @@ from another account: `/go claude/cube-liminal-332pmv`.
   `cross`, `dot`, `unit`, `UP`); `clamp01`, `ramp`, `smooth`, `lerp` are
   `shared/lib/ease`; `Footing`, `Sound`, `Loud` are `shared/lib/acoustics`;
   `Furnishing` sits beside `THINGS`.
-- **Board**: published, version 39, at
-  https://claude.ai/artifact/WbvwDqVtJzN8EBeuUffho3 — ten frames in the zone
-  "Making it beautiful"; nothing added since the hands. To add one: a
-  `beauty-NN-*.webp` beside `src/cube-board/app/config/cube/beauty.yaml` and an
-  item in it (next free slot `[5048, 2010, 430]`),
-  `pnpm board build src/cube-board/app/config/cube.yaml`, then publish
-  `tmp/board/cube/index.html` to that `url` with `root: tmp/board/cube` and the
-  new image in `files`. A session on another account must read the artifact
-  before publishing to it, and may not have access to it at all.
+- **Board**: published, version 40, at
+  https://claude.ai/artifact/WbvwDqVtJzN8EBeuUffho3 — twelve frames in the zone
+  "Making it beautiful", the last two being sheets of eight merged floors (5, 7,
+  10, 15, 22, 33, 44, 61). To add one: a `beauty-NN-*.webp` beside
+  `src/cube-board/app/config/cube/beauty.yaml` and an item in it (next free slot
+  `[4128, 2460, 430]`), `pnpm board build src/cube-board/app/config/cube.yaml`,
+  then publish `tmp/board/cube/index.html` to that `url` with
+  `root: tmp/board/cube` and the new image in `files`. A session on another
+  account must read the artifact before publishing to it, and may not have
+  access to it at all.
 - **Gallery**: `pnpm gallery:cube --floors … --out <absolute dir>` died once on
-  a list of seventeen floors and ran on two; rerun in smaller lists. No frame of
-  the merged bands or of decor has been looked at by the lead.
+  a list of seventeen floors and runs on four; rerun in smaller lists. Eight
+  floors were looked at as the board's two sheets, decor in them included; the
+  other fifty-odd have not been.
 - **Preview**: republish after each visible push (`preview.yml`, inputs
   `site: vova`, `slot: 1`); last dispatched for this head.
 
