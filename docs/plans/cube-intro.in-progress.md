@@ -258,6 +258,14 @@ the operator's own word for the potted plant in floor 1's room.
   Core's steps 2–4 (renderer takes layers and an outside eye, the frame script,
   the outside lens) are in flight; `sun.ts` still held 8° toward +z at that
   head.
+- **Sand's first frames (457ccb4d, merged at 4f4d4480, not yet drawn by the
+  page)**: `frames/sand/`. The lead's verdicts, sent to sand and to the board:
+  `down` reads as a photograph; `stand` and `shadow` do not — ripples like
+  corduroy at 5–40 m, beige with no low sun in it, glints turning to noise. They
+  also showed `SKY_FILL` twice too bright against a 9° sun; core was asked to
+  set [0.65, 0.87, 1.2] (the sky's share on flat ground about equal to the
+  sun's) until sky's model gives its own. Still owed by core: step 2, `sun.ts`
+  at 31° toward −z, the sky map removed.
 - **The island (sand, `claude/cube-intro-sand` @ 04a800ac)**: the cube's centre
   is over W xz = (0, 0), the crest, sand 1.6 m; `CUBE_AT = (−2.5, 5.2, −2.5)`,
   underside y = 2.7, the doorway at x = 2.5, z −2.226…−1.256, sill y = 5.2.
