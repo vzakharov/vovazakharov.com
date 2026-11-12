@@ -1,11 +1,12 @@
 # Make the cube beautiful — working state
 
-Session `session_01DaohkEZGmfg7XD5wRftBnA`, branch `claude/cube-liminal-332pmv`
-(no PR yet), published at https://preview.vovazakharov.com/cube (slot 1,
-republished after every visible push). Planless `/go`; this file is the lead
-session's memory across compactions and sessions, kept current at every
-milestone. One-shot run: no questions to the operator, never merge to `main`,
-preview slot only, no external services.
+Session `session_016Z4TKqBdiPUwyUDMrs26WP`, branch `claude/cube-liminal-332pmv`
+(draft https://github.com/vzakharov/vovazakharov.com/pull/273, review board
+https://claude.ai/artifact/Q82osbuaDQtqdcYVAXVAss), published at
+https://preview.vovazakharov.com/cube (slot 1, republished after every visible
+push). Planless `/go`; this file is the lead session's memory across compactions
+and sessions, kept current at every milestone. One-shot run: no questions to the
+operator, never merge to `main`, preview slot only, no external services.
 
 ## The ask (operator, verbatim essentials)
 
@@ -167,8 +168,10 @@ the board already links the pricing chart.
 
 1. Mirrored lamps end at a room's edge where the mirrored ray reaches past the
    3×3 rooms the shader knows (`light.ts`, the clamped `by`): the operator asks
-   for reflections "wherever visible" — screen-space reflections, a second pass
-   over the frame's own colour, offered and awaiting a yes.
+   for reflections "wherever visible". Screen-space reflections are a stream of
+   their own, `session_016Z4TKpEWpjBRDrVBTHSavi` on `claude/cube-ssr`, with no
+   PR; it messages this session when done, and its branch is merged here, the
+   conflicts resolved here.
 2. Look at a gallery of every band and of decor; note what falls short of the
    bar. (Floor 66 loads; the mirrored lamps no longer sparkle — 3, 9, 11, 17 and
    66 looked at; posters and signs close up on 2, 9 and 22.)
@@ -180,4 +183,9 @@ the board already links the pricing chart.
    wishes from the bands: `ordinary` split into its light and its lens, a round
    `lampMask`, a distance-fade helper, a glowing surface without TV snow, a
    matte "shade" surface.
-5. `/polish`, `/pr` (draft), `/five-percent`. Never `/finalize`, never merge.
+5. The centred repeat `(fract(uv / size) - 0.5) * size`, inline about 52 times
+   across every band, is a `/dry` call awaiting the operator: leisure's
+   `repeated`/`spaced` into the kit and every copy through them.
+6. `floor.py` takes a merged side branch's `polish:` commit as the floor, which
+   scoped this branch's polish to a 25k-line diff; `/finalize` meets it too.
+7. Never `/finalize`, never merge.
