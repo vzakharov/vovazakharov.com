@@ -19,10 +19,10 @@ import {
  * the lamps' light standing in for its reflection, and the share it shows —
  * then the plane it reflects off and how fast the reflection blurs.
  */
-export const MIRROR_FORMATS: readonly GPUTextureFormat[] = [
+export const MIRROR_FORMATS = [
   'rgba16float',
   'rgba16float',
-];
+] as const satisfies readonly GPUTextureFormat[];
 
 /** Where the scene is seen from, as the reflections need it. */
 export type Seen = {
@@ -116,8 +116,7 @@ export function createReflection(device: GPUDevice): Reflection {
       Math.floor(Math.log2(Math.max(width, height))) + 1,
     );
     const scene = target(width, height, SCENE_FORMAT, count);
-    const [mirrorFormat = 'rgba16float', planeFormat = 'rgba16float'] =
-      MIRROR_FORMATS;
+    const [mirrorFormat, planeFormat] = MIRROR_FORMATS;
     const mirror = target(width, height, mirrorFormat);
     const plane = target(width, height, planeFormat);
     const lit = target(width, height, SCENE_FORMAT);
