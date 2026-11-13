@@ -126,10 +126,10 @@ export const PINCH: HandPose = {
 /** A hand closed round a rung: the fingers over it, the thumb under. */
 export const RUNG_GRIP: HandPose = {
   curls: [
-    [1.15, 1.35, 0.75],
-    [1.15, 1.4, 0.8],
-    [1.15, 1.4, 0.8],
-    [1.2, 1.4, 0.8],
+    [1.15, 1.35, 0.5],
+    [1.15, 1.4, 0.55],
+    [1.15, 1.4, 0.55],
+    [0.8, 1, 0.7],
     [0, 0, 1.3],
   ],
   oppose: -0.9,

@@ -10,7 +10,7 @@ import {
 } from '@/cube/entities/world';
 
 import { type Axes, CM, hand, padOf } from './hand';
-import { between, LOOSE, PINCH, RUNG_GRIP } from './hand-shape';
+import { between, LOOSE, PINCH, RUNG_AT, RUNG_GRIP } from './hand-shape';
 
 const ROOM = { n: 1, x: 0n, y: 0n };
 const RIGHT: Axes = [
@@ -35,13 +35,15 @@ describe('padOf', () => {
     }
   });
 
-  it('brings a grip’s four fingers round in a row, a rung’s width off the palm', () => {
+  it('brings a grip’s four fingers round onto the rung, beyond it from the palm', () => {
     const pads = ([0, 1, 2, 3] as const).map((index) =>
       padOf(RUNG_GRIP, index),
     );
+    const [rungAlong, , rungThrough] = RUNG_AT;
     for (const [along, , through] of pads) {
-      assert.ok(Math.abs(along - 8) < 0.6, 'in a row along the hand');
-      assert.ok(through > 2.5, 'off the palm');
+      const off = Math.hypot(along - rungAlong, through - rungThrough);
+      assert.ok(off > 1.4 && off < 2.2, 'on a 3 cm rung');
+      assert.ok(through > rungThrough, 'beyond it from the palm');
     }
   });
 });
