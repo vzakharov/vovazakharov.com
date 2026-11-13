@@ -58,49 +58,13 @@ compaction before deciding anything about what is being built.
 
 ## Steering since
 
-- **2026-11-12 22:32Z–22:56Z** — the sun's direction, no Russian on the board,
+- **2026-11-12 22:32Z–23:10Z** — the sun's direction, no Russian on the board,
   `rolled` and identical frames, "interactions come at a price", no textures,
-  the pill as imagination: verbatim with their readings in `brief.md` beside the
-  brief, § "Steering on 2026-11-12". Their outcomes are in the contract.
+  the pill as imagination, no look-under scene, the ladder vanishing once
+  climbed and the jump out, lettering as a todo, "swallow" not "drink", the
+  ghosts musing, the pause: verbatim with their readings in `brief.md` beside
+  the brief, § "Steering on 2026-11-12". Their outcomes are in the contract.
 
-- **2026-11-12 ~22:58Z, on the first frames**:
-
-  > судя по картинкам, катсцены "заглянуть под куб" не надо, и так отчётливо
-  > видно что он парит
-
-  The look-under scene is cut; walk was told. The scenes left are waking, the
-  climb and the climb back down.
-
-- **2026-11-12 ~23:02Z, the ladder vanishes**:
-
-  > давай лестница исчезает после того как ты забрался. без каких бы то там
-  > анимаций, эффектов, звуков. просто поворачиваешься -- и нет. выбраться
-  > можно, спрыгнув (и не пострадав), но забраться обратно уже нет. выбраться
-  > можно и половинного роста, кстати, если выпьешь таблетку и не спустишься на
-  > уровень ниже
-
-  Decided: the ladder and its shadow are drawn until the body first crosses the
-  doorway inward and never after; a game that starts inside has none. Stepping
-  off the sill drops the body 3.6 m to the sand unhurt, at full or half height;
-  no way back in. The climb-down scene is gone. Told to walk, shell, core,
-  sound.
-
-- **2026-11-12 ~23:03Z, lettering** (after learning the signs and posters are
-  lettered on a canvas because WebGPU draws no text):
-
-  > запишите на доску в todo, чтоб рисовал. так будет интереснее и их "распад"
-  > по мере спуска на нижние этажи делать
-
-  A todo on the board, sent to the board session: letters drawn in the shader,
-  so their decay down the floors can be a procedure. Not part of this run.
-
-- **~23:08Z, on the board's pill card**: «swallow а не drink наверное» — the
-  prompt is "Press Y to swallow, N to put down". Pill is not told yet.
-- **~23:10Z, on the price rule's card**, a musing and no decision: «навеяло: мы
-  призраки? мы умерли? это "по ту сторону"?»
-- **~23:10Z, to the lead**: «лимит кончается; пусть все приостановятся, я сожму
-  контекст чтобы завтра продолжить». Every child was told to push `wip:`, report
-  one line and wait for the word "resume"; the lead's check-in was deleted.
 - **2026-11-13 ~09:05Z, the restart**: the stopped sessions stay stopped —
   «сессии будить не нужно, нужно начинать новые», from each one's last messages
   and its branch as pushed. And the pill's two colours change (the lead's pick:
@@ -140,7 +104,14 @@ compaction before deciding anything about what is being built.
   фразе "откуда она там вообще взялась". НО если он уже переделал на алюминий,
   пусть будет». Aluminium was the lead's pick, and it read as wood in the frame
   anyway. **Decided: the ladder is wood** — weathered, sun-bleached, round
-  rungs; shell's material and sound's `LADDER_MATERIAL` follow.
+  rungs; shell's material and sound's `LADDER_MATERIAL` follow (sound: done,
+  357d9e94).
+- **~09:43Z, in core's session, on the doorway seen white from the room**:
+  «нужно тогда динамическое привыкание и отвыкание, пожалуй». Core built the
+  seam (8a4fb806): `pages/cube/lib/adaptation.ts` — `settled`, `adapted` (~0.5 s
+  toward light, ~2.5 s toward dark), `lensAdapted`; `OutsideLens` has `indoors`
+  0…1. The adaptation is the body's own state, never the world's. **Walk wires
+  it** in `ui/walk.ts` and `lib/lit-stage.ts`; core's recipe was passed on.
 
 ## Facts established
 
