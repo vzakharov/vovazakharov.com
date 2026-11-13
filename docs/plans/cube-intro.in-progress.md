@@ -110,6 +110,18 @@ compaction before deciding anything about what is being built.
   экономить а не фейбла запускать». Readers and the board coordinator take a
   cheaper model; in the skill.
 
+- **2026-11-13 ~09:20Z, how far "no textures" reaches.** Reading the sea's new
+  brief, the operator asked who drew the wave maps and how; told that the GPU
+  computes them every frame from formulas:
+
+  > ну да, я не имел в виду против карт, я имел в виду что сами карты должны
+  > считаться на лету
+
+  So the rule is "nothing authored, shipped or stored", and a map computed at
+  run time is allowed. **The FFT ocean stays; there is no analytic rewrite.**
+  `src/cube/CLAUDE.md`, the contract and `briefs/restart.md` say so; sea, sky
+  and core were told (sky may back its cheap lods with a per-frame sky map).
+
 ## Facts established
 
 - **The seam (core step 1, 1a311efa, merged into this branch at faedd71d)**: the
@@ -211,15 +223,14 @@ Each with its reason; a later decision that overrides one rewrites it here.
   HDR target (alpha there is metres from the eye, so nothing blends), with a 20
   km far plane outside and a lens of their own. The contract is
   `docs/remove-before-merging/cube-intro-j2wt34/contract.md`.
-- **No textures: every surface is a procedure in the shader** — the operator's
-  rule (§ "Steering since"). The sea is a displaced mesh whose waves are a
-  rolled spectrum summed analytically (trochoids in the vertex stage, finer ones
-  in the normal, each faded before it aliases); the sky is
-  `skyRadiance(dir, lod)`, a pure function the backdrop, the sea's reflections
-  and the fill light all call. Only the frame's own screen-space targets are
-  textures. Lost to it: an FFT ocean with displacement maps and an
-  equirectangular sky map the sea sampled — the lead's first design, which
-  core's step 1 had already bound in group 0.
+- **Nothing authored: every surface is a procedure, and its maps are computed at
+  run time** — the operator's rule as he narrowed it (§ "Steering since",
+  2026-11-13). The sea is the first team's FFT ocean: a rolled spectrum turned
+  into wave fields on the GPU each frame. The sky is `skyRadiance(dir, lod)`,
+  which the backdrop, the sea's reflections and the fill light all call; a
+  per-frame sky map may back its cheap lods. Lost to it: the lead's day-one
+  reading that banned every map, under which the sea was to be rebuilt as an
+  analytic sum of trochoids — never started.
 - **Every motion is periodic in the hour**, since the shared clock is seconds
   into the hour: wave frequencies are multiples of 2π/3600, clouds drift whole
   tiles.
@@ -233,38 +244,55 @@ Each with its reason; a later decision that overrides one rewrites it here.
 
 ## The team
 
-Child sessions, all on `claude-fable-5-2`, cut from this branch at 2026-11-12
-22:18–22:30Z, each on `claude/cube-intro-<name>`, briefed from the contract.
-Each reports by `send_message` to this session; a brief's full text is the
-session's first event (`list_events`).
+The second team, started 2026-11-13 09:15–09:17Z, each on its package's branch
+`claude/cube-intro-<name>` as the first team pushed it (`source_revision` and
+`outcome_branch` both that branch). Every brief is the session's first event and
+opens with `briefs/restart.md` in the working directory; each package's first
+brief is `briefs/<name>.md` there, and `pause.md` holds where the first team
+stopped. Builders run on `claude-fable-5-2`; sound and board on
+`claude-sonnet-5-5`. Every session was sent the roster and may ask a peer for a
+name or a signature directly; a decision comes to the lead.
 
-- **board** — `session_01DaohkDnTF1C1pccu6TcupR`. Coordinates the Cube design
-  board (https://claude.ai/artifact/WbvwDqVtJzN8EBeuUffho3) with #275's session
-  (`session_01DaohkFooQx3YpuSjFHqR59`, the live one of two). Takes "add this"
-  from the lead: frames go to it through
-  `docs/remove-before-merging/cube-intro-j2wt34/frames/` on this branch plus a
-  message naming files and captions.
-- **core** — `session_01DaohkBKqYztUdZYGkvzgus`. The seam; owns `renderer.ts`,
+- **core** — `session_01DaohkCDdGLyRAp2Yux9jAB`. The seam: `renderer.ts`,
   `cube-scene.ts`, `programs.ts`, `lib/camera.ts`, `lib/shader.ts`,
-  `lib/play.ts`. Steps: names in code, layers and the outside eye, the frame
-  script, the outside lens. Stays on for integration asks.
-- **sky** — `session_01DaohkCV3DtK2zJnjgNqmMD`. Also owns `aerial(…)`,
-  `SUN_LIGHT`, `SKY_FILL`.
-- **sea** — `session_01DaohkFaRFVjmDtAdAJo43m`. Owns `waterLevel`. Needs the
-  name of sand's bed-colour function once sand reports.
-- **sand** — `session_01DaohkFCm1Bfsbsruai7cEV`. Owns `islandHeight`; tells the
-  lead the moment the walked-on shape is settled.
-- **shell** — `session_01DaohkD4VsAVvL4tdwWWFoS`. Exterior, doorway, ladder,
-  `cubeShadow`, the sunbeam in floor 1; may tune `SUN_DIR`'s azimuth; exports
-  the ladder's facts for walk.
-- **sound** — `session_01DaohkCEXbY3wSQqxH73yHK`. Owns `features/sound/**` and
-  the cue names (`pill`, `swallow`, `rung`, `splash`, a ground on `step`, voice
-  moment `waking`), pushed first for walk and pill.
-- **walk** — `session_01DaohkCA5T6M6PFv7zXNegi`. Start routing, outside
-  controller, the scene engine and four tracks, the legs; splits
-  `cube-canvas.tsx`.
-- **pill** — `session_01DaohkDoQ3zoiqrQVjXomhV`. Pill and shelf, articulated
-  hands (owns `hands.ts`; exports a rung grip for walk), the floor-1 Y/N beat.
+  `lib/play.ts`, `shared/outside/{frame,sun,outdoor-frame,stage}.ts`. Jobs: the
+  flag as `ladderGone`, `masd:clusters`, gates, the `Pose` ↔ `Outside` handover
+  at the doorway, `setEye` taking `moving` quads.
+- **sky** — `session_01DaohkBFtfJ3LB6ENrHeTER`. First frames ever of the
+  pure-function sky; settle the light on frames (its fill against the lead's);
+  disc at lod 0 only, a cheap lod for reflections.
+- **sea** — `session_01DaohkDD34tV9S8mR3o9S3o`. The FFT ocean into the renderer
+  (cascades in its own layer's `prepare`), phases and constants rolled, then
+  what sand, walk and sound wait on. Its start brief asks for an analytic sum;
+  two later messages replaced that.
+- **sand** — `session_01DaohkFqNfZaGgSSE9bfE4h`. Judges and fixes the sand on
+  frames; owns the staging question (does the gap show from the waking spot, how
+  big is the cube in view) and proposes before changing `WAKE_AT` or the crest.
+- **shell** — `session_01DaohkDRoXkash4Q7kfmQ8Q`. Its layer into the renderer
+  first (the lead merges it at once), then the look, an aluminium ladder, floor
+  1 under the real sun.
+- **walk** — `session_01DaohkE74S5ZqiB98XpJ7Cy`. Takes out the two cut scenes,
+  writes `ladderGone`, the way out off the sill at either height, retimes the
+  waking.
+- **pill** — `session_01DaohkFTr7K29Yvof56czQp`. The pill's colours (the cube's
+  black and grey; the fallback one hue in two values), the prompt's "swallow",
+  lint, frames on floors 1, 2, 5, the rung grip.
+- **sound** — `session_01DaohkD7uFNoFfFbz9RLaYq`. Two overlap renames, the
+  outside eye from the page, the seed audit, the landing cue for walk.
+- **board** — `session_01DaohkC6bqy1HmL5Nbbm66J`. Recovers the protocol agreed
+  with #275's session (`session_01DaohkFooQx3YpuSjFHqR59`) from its
+  predecessor's transcript into `board-protocol.md`, takes over the artifact's
+  comment watch (https://claude.ai/artifact/WbvwDqVtJzN8EBeuUffho3), takes "add
+  this" from the lead: frames under `frames/` on this branch plus a message
+  naming files and captions. English only on the board.
+
+The first team (archived 2026-11-13, all but board's, which is archived once its
+successor has the protocol): core `session_01DaohkBKqYztUdZYGkvzgus`, sky
+`session_01DaohkCV3DtK2zJnjgNqmMD`, sea `session_01DaohkFaRFVjmDtAdAJo43m`, sand
+`session_01DaohkFCm1Bfsbsruai7cEV`, shell `session_01DaohkD4VsAVvL4tdwWWFoS`,
+sound `session_01DaohkCEXbY3wSQqxH73yHK`, walk
+`session_01DaohkCA5T6M6PFv7zXNegi`, pill `session_01DaohkDoQ3zoiqrQVjXomhV`,
+board `session_01DaohkDnTF1C1pccu6TcupR`.
 
 To pass on when they come in: sand's bed-colour function → sea; sound's cue
 names → walk, pill (they merge sound's branch themselves); shell's ladder facts
@@ -292,8 +320,8 @@ seven sections; a reader's brief is three sections at most.
 
 ## Progress
 
-State at 2026-11-12 23:15Z, **paused on the operator's word** (limit running
-out; he compacts and continues tomorrow); update this block, do not append.
+State at 2026-11-13 09:25Z, **the second team running**; update this block, do
+not append.
 
 - **On this branch**: all of the above plus core's step 2 (0e1081af, merged at
   420476f1): the page draws the outside — layers sky, sand, shell, rooms, sea,
@@ -310,19 +338,15 @@ out; he compacts and continues tomorrow); update this block, do not append.
   glints, the island's back in blue shade. The cube reads as a small box sitting
   on the dune: the 1.1 m gap does not show from the waking spot, and the
   stand-in shell has no bands. Nothing was sent to the board from it.
-- **Every child's head, state and first job at the pause is in `pause.md`**
-  beside the brief (none merged past the list above). Read it before anything.
-  The FFT sea's reference is commit 218db0f0, sea's head; no separate branch.
-- **To resume**: send each child "resume" with its whole list from `pause.md` —
-  the lead's messages of 22:37–23:09Z reached several late or never, so nothing
-  may lean on "my last message". Sky's light (sky over sun again) is judged on
-  frames before it is accepted.
+- **Waiting on**: each session's first report (core's `ladderGone` names go to
+  shell and walk; shell's layer is merged the moment it is pushed). Old board
+  session still to archive.
 - **Next, in order**: (1) merge core, shell, sky as they report green and lint;
-  re-shoot the six eyes after each; (2) sea's analytic sum beside its FFT frame,
-  to the operator; (3) walk and pill in, the intro played end to end; (4) a fix
-  round on what the frames show (the cube's size and gap from the shore first);
-  (5) preview slot 2, checking the deployed commit before saying so; (6)
-  `/polish`, `/pr` (base `claude/cube-review-perf`), then vet.
+  re-shoot the six eyes after each; (2) sea's FFT ocean in the renderer, its
+  frames to the operator and the board; (3) walk and pill in, the intro played
+  end to end; (4) a fix round on what the frames show (the cube's size and gap
+  from the shore first); (5) preview slot 2, checking the deployed commit before
+  saying so; (6) `/polish`, `/pr` (base `claude/cube-review-perf`), then vet.
 - The context notices: at 330k start nothing big; at 350k bring this file
   current. The session compacts on its own near 370k; never `/relay`. This file
   is capped at 400 lines like any other: when "Steering since" grows, move its

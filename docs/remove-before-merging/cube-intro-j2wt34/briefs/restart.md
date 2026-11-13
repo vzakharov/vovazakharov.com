@@ -15,7 +15,7 @@ Where they disagree, the order of authority is: the message that started you, th
 
 ## What changed since the first briefs were written
 
-- **No textures.** Nothing drawn is looked up from a stored image, baked or computed: no FFT maps, no sky map, no noise texture, no lookup table. The frame's own screen-space targets stay. `skyRadiance(dir, lod)` is a pure function; outdoor group 0 is the frame block alone.
+- **Nothing authored** (ruled 2026-11-13, after this file's first version said "no textures" outright): no image drawn by hand, shipped or stored; a map the GPU computes at run time from formulas — the sea's FFT wave fields, a sky map rendered from the sky's function — is allowed. `skyRadiance(dir, lod)` is the seam's signature either way; outdoor group 0 is the frame block alone today.
 - **Every random number is rolled** — `roll` / `rollWith` from `@/dice/shared/roll`, in TS, under a named path. A shader's per-pixel noise goes through the kit's hash, salted by a rolled value.
 - **Nothing remembers earlier frames**, and nothing the player does marks the world: no footprints, no wake, no accumulated foam.
 - **No look-under scene.** The scenes are the waking and the climb.
