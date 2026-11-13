@@ -20,7 +20,7 @@ function wgslHeight(): (xz: Xz) => number {
       (_, name: string, parameters: string) =>
         `function ${name}(${parameters.replaceAll(/: \w+/g, '')})`,
     );
-  const { abs, atan2, cos, exp, log, max, sqrt, tanh } = Math;
+  const { abs, atan2, cos, exp, log, max, min, sqrt, tanh } = Math;
   const context = {
     abs,
     atan2,
@@ -30,6 +30,7 @@ function wgslHeight(): (xz: Xz) => number {
     max,
     sqrt,
     tanh,
+    clamp: (v: number, low: number, high: number) => min(max(v, low), high),
     mix: (a: number, b: number, t: number) => a + (b - a) * t,
     result: undefined as ((xz: Xz) => number) | undefined,
   };
@@ -39,7 +40,11 @@ function wgslHeight(): (xz: Xz) => number {
   return result;
 }
 
-/** Points across the island and well out to sea, the crest among them. */
+/**
+ * Points across the island and well out to sea, the crest among them, the
+ * last few as far out as a ray along the water reaches — where a `tanh` of
+ * the raw distance is what overflows on a GPU.
+ */
 const POINTS: readonly Point[] = [
   ...Array.from(
     { length: 400 },
@@ -49,6 +54,10 @@ const POINTS: readonly Point[] = [
     ],
   ),
   [0, 0],
+  [9000, 0],
+  [-9000, 0],
+  [0, 9000],
+  [6000, -6000],
 ];
 
 /** The shore's distance from the crest along `bearing`, by bisection. */
