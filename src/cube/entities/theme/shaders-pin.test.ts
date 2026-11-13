@@ -147,6 +147,14 @@ const NAMED: ReadonlyArray<readonly [string, string]> = [
   ['l.pixel.y * PI', 'l.pixel.y * 3.14159'],
   // The scene a lens reads, which the stage declared before the kit did.
   [piece(SCENE), ''],
+  // The shell turn's functions, which gained their docs in a .wgsl file.
+  ['/// A way in the room frame as the shell frame has it.', ''],
+  ['/// A way in the shell frame as the room frame has it.', ''],
+  [
+    "/// A point of the room frame, in metres from the north-west corner of floor\n/// 1's room, in the shell frame, from the cube's north-west corner.",
+    '',
+  ],
+  ['/// A point of the shell frame in the room frame.', ''],
 ];
 
 /** A kit piece's text as it stood before its numbers took names. */

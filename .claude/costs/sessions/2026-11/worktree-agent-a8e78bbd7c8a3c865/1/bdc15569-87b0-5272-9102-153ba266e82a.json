@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 9837,
-    "cacheWrite5mTokens": 1284320,
-    "cacheWrite1hTokens": 669306,
-    "cacheReadTokens": 84810562,
-    "outputTokens": 423173,
-    "thinkingTokens": 158987,
-    "responses": 522,
-    "costUsd": 37.240968400000014
+    "inputTokens": 11109,
+    "cacheWrite5mTokens": 1713829,
+    "cacheWrite1hTokens": 709463,
+    "cacheReadTokens": 104692854,
+    "outputTokens": 526596,
+    "thinkingTokens": 194945,
+    "responses": 650,
+    "costUsd": 45.761671799999995
   },
   "estimate": {
     "at": "2026-11-13T16:58:16.495Z",
@@ -45,7 +45,7 @@
     }
   },
   "sessionId": "bdc15569-87b0-5272-9102-153ba266e82a",
-  "branch": "claude/cube-wesl-trial",
+  "branch": "worktree-agent-a8e78bbd7c8a3c865",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/cube-wesl-trial — база догнана, пины этажей и улицы зелёные, уличные шейдеры ещё в TS",
   "prs": [
@@ -54,39 +54,39 @@
   "url": "https://claude.ai/code/session_01DaohkCaoV7hfxzNmeuHhLY",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T16:57:56.146Z",
-  "lastResponseAt": "2026-11-13T17:53:48.716Z",
+  "lastResponseAt": "2026-11-13T18:05:15.077Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 499,
+    "inputTokens": 545,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 669306,
-    "cacheReadTokens": 53606257,
-    "outputTokens": 191006,
-    "thinkingTokens": 66938,
-    "responses": 262,
-    "costUsd": 19.8978154
+    "cacheWrite1hTokens": 709463,
+    "cacheReadTokens": 60003609,
+    "outputTokens": 207276,
+    "thinkingTokens": 72623,
+    "responses": 287,
+    "costUsd": 21.824125799999997
   },
   "subagents": {
-    "inputTokens": 558,
-    "cacheWrite5mTokens": 1283517,
+    "inputTokens": 772,
+    "cacheWrite5mTokens": 1712394,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 30608507,
-    "outputTokens": 215269,
-    "thinkingTokens": 92049,
-    "responses": 258,
-    "costUsd": 16.846898399999997
+    "cacheReadTokens": 43570126,
+    "outputTokens": 302386,
+    "thinkingTokens": 122322,
+    "responses": 359,
+    "costUsd": 23.3268032
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 9837,
-      "cacheWrite5mTokens": 1284320,
-      "cacheWrite1hTokens": 669306,
-      "cacheReadTokens": 84810562,
-      "outputTokens": 423173,
-      "thinkingTokens": 158987,
-      "responses": 522,
-      "costUsd": 37.240968400000014
+      "inputTokens": 11109,
+      "cacheWrite5mTokens": 1713829,
+      "cacheWrite1hTokens": 709463,
+      "cacheReadTokens": 104692854,
+      "outputTokens": 526596,
+      "thinkingTokens": 194945,
+      "responses": 650,
+      "costUsd": 45.761671799999995
     }
   },
   "warnings": [],
@@ -147,16 +147,16 @@
           "Read": 5
         },
         "estimatedTokens": 10093,
-        "estimatedUsd": 0.1886244
+        "estimatedUsd": 0.2390894
       },
       "billedUsd": 0.23942099999999997
     }
   ],
   "telemetry": {
-    "events": 521,
-    "matched": 519,
-    "matchedTableUsd": 36.686037200000015,
-    "matchedEventUsd": 36.68603720000001,
+    "events": 650,
+    "matched": 646,
+    "matchedTableUsd": 45.150929,
+    "matchedEventUsd": 45.15092899999999,
     "unseen": {
       "compact": {
         "inputTokens": 8780,
@@ -167,6 +167,16 @@
         "thinkingTokens": 0,
         "responses": 2,
         "costUsd": 0.4962546
+      },
+      "prompt_suggestion": {
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 632,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 523321,
+        "outputTokens": 36,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.11448819999999998
       }
     }
   },
@@ -178,12 +188,12 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".ts": 26743,
+    ".ts": 27010,
     ".md": 1124,
     ".json": 87,
     ".yaml": 765,
     ".sh": 1,
-    ".wgsl": 13102,
+    ".wgsl": 13793,
     ".tsx": -109,
     ".scss": 15,
     ".toml": 6
