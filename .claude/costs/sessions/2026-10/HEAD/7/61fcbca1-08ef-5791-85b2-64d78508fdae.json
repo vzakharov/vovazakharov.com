@@ -1,0 +1,96 @@
+{
+  "total": {
+    "inputTokens": 87,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 355520,
+    "cacheReadTokens": 8946295,
+    "outputTokens": 49976,
+    "thinkingTokens": 14262,
+    "responses": 45,
+    "costUsd": 5.633287
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-13T12:00:14.184Z",
+    "contextTokens": 269206,
+    "spend": {
+      "inputTokens": 85,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 355174,
+      "cacheReadTokens": 8677437,
+      "outputTokens": 49777,
+      "thinkingTokens": 14178,
+      "responses": 44,
+      "costUsd": 5.5727594
+    }
+  },
+  "sessionId": "61fcbca1-08ef-5791-85b2-64d78508fdae",
+  "branch": "HEAD",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a side-quest session: make ONE explainer artifact, in Russian, for the operator's own education. You change nothing in the repository, commit nothing, p…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkFroEeZ7ybMvAY9JoV",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-13T10:14:08.783Z",
+  "lastResponseAt": "2026-11-13T12:00:14.184Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": 1.9546666000000001,
+  "ownTurns": {
+    "inputTokens": 87,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 355520,
+    "cacheReadTokens": 8946295,
+    "outputTokens": 49976,
+    "thinkingTokens": 14262,
+    "responses": 45,
+    "costUsd": 5.633287
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 87,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 355520,
+      "cacheReadTokens": 8946295,
+      "outputTokens": 49976,
+      "thinkingTokens": 14262,
+      "responses": 45,
+      "costUsd": 5.633287
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 45,
+    "matched": 45,
+    "matchedTableUsd": 5.633287,
+    "matchedEventUsd": 5.633287000000001,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 1,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 2433,
+    ".json": 31,
+    ".yaml": 48,
+    ".ts": 9597,
+    ".tsx": 87,
+    ".scss": 15
+  }
+}
