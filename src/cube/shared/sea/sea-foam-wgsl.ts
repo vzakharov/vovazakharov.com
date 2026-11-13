@@ -12,7 +12,9 @@ const SHEET_LASTS = 2.2;
 /** How many times longer than wide the swash draws the lace's cells. */
 const DRAWN_OUT = 2.4;
 /** How many times finer the lace is on a swash sheet than out on the surf. */
-const FINER = 1.7;
+const FINER = 2.4;
+/** Bubbles to a metre of foam, where it thins enough to show them apart. */
+const BUBBLES = 38;
 /** Still depth, metres, by which a breaker's foam rides at full strength. */
 const SURF_FLOATS = 0.3;
 /** A sheet thinner than this, metres, is its own white edge. */
@@ -69,16 +71,21 @@ fn lace(still: vec2f, dense: f32, shore: Shore, pixel: f32) -> f32 {
   let at = p + 0.9 * warp + 0.22 * fold;
   let patches = fbm(at * 0.7, 17u, 4);
   let blur = finer * pixel;
-  let wide = 0.3 + 2.6 * blur;
+  let wide = 0.2 + 2.6 * blur;
   let wider = 0.4 + 9.0 * blur;
   // A thread drawn wider is drawn fainter, toward what the walls cover of
   // the sea on the whole, so the foam a far pixel shows is the near one's.
-  let threads = mix(0.21, 1.0 - smoothstep(0.0, wide, foamWalls(at * 2.6, 21u)), 0.3 / wide);
+  let threads = mix(0.14, 1.0 - smoothstep(0.0, wide, foamWalls(at * 2.6, 21u)), 0.2 / wide);
   let fine = mix(0.29, 1.0 - smoothstep(0.0, wider, foamWalls(at * 9.0, 22u)), 0.4 / wider);
   let body = 0.5 * patches + 0.32 * threads + 0.18 * fine;
   let open = 1.0 - 1.15 * min(dense, 1.0);
-  return smoothstep(open - 0.5 * blur, open + 0.16 + 0.5 * blur, body)
+  let cover = smoothstep(open - 0.5 * blur, open + 0.3 + 0.5 * blur, body)
     * smoothstep(0.02, 0.1, dense);
+  // Where foam thins it comes apart into bubbles, the water between them
+  // showing; a pixel wider than a bubble shows their mean.
+  let apart = smoothstep(0.12, 0.45, foamWalls(still * ${f32(BUBBLES)}, 23u))
+    * clamp(1.0 - ${f32(BUBBLES)} * pixel, 0.0, 1.0);
+  return cover * (1.0 - apart * (1.0 - cover));
 }
 
 /// How much of a breaker's foam and bubbles the water at a point is deep
