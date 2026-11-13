@@ -333,6 +333,21 @@ not append.
   `--at -15.203,2.10,15.203 --yaw -45 --pitch 4` (21.5 m out, not the final
   waking spot; from 23.43 m the cube is a touch smaller, the character the
   same). On the board as a big card with the operator's quote (v66).
+- **State at 10:55Z — lead 118c0bd7**: core's quarter-pixel lens fringe
+  (f8ee3f34; the pink glints on sand were the lens, one pixel wide) and **sky
+  merged whole** (54b3c2c7; 73 shaders, every quick gate green). Told: core —
+  delete the sky stand-in, judge `OUTSIDE_LENS` toward the sun (sky: 41 at 5°
+  from the sun, 7 at 20°, flattened to white at exposure 0.3), re-shoot the wake
+  eyes; sky — flat-topped cumulus, far grain, soft overhead streaks; sea —
+  merge, check reflections, the coarse foam lace on the swash; board — sky's
+  `wake-sea` and `opposite`. **Sand's gold pass** (ed5a3fc4, unmerged, wet band
+  unjudged): ripples across the view, lit sand gold instead of pinkish beige —
+  accepted by the lead, but the tone is the operator's (both frames on the
+  board, v67; sand holds the fill until he speaks). A pink diamond under the
+  cube seen lying down is the underside at a graze — shell's, told by sand.
+  **Still unmerged**: walk, pill, sand's pass, shell's beam comparison. The lead
+  has not re-shot its own eyes since 315051b5 — do it two at a time after core's
+  lens pass.
 - **The explainer** «Два океана» was amended on the operator's comment (how many
   waves "good" takes); answered in its thread.
 - **Next, in order**: (1) merge core, shell, sky as they report green and lint;
