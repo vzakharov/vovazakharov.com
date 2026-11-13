@@ -1,8 +1,8 @@
 items:
   - id: z-intro
     type: zone
-    updated: [2026-11-13T11:50:00.000Z, agent:cube-intro]
-    box: [5720, -3150, 2510, 8100, orange]
+    updated: [2026-11-13T11:58:00.000Z, agent:cube-intro]
+    box: [5720, -3150, 2510, 8550, orange]
     icon: 🏝️
     text: 'The intro: an island, the cube from outside, the way in'
   - id: intro-h-premise
@@ -320,6 +320,18 @@ items:
     box: [6208, 4150, 520]
     src: images/intro-26-cloud-before-after.webp
     text: '26. The approved eye’s cloud, before (top, sky at 54b3c2c7) and now (bottom): uneven base, taller dome. Re-shoot of the lower half: eye --at -15.203,2.10,15.203 --yaw -45 --pitch 4, cropped 520×260 at (0, 200), default lens, clock 2026-11-13T11:40:42Z (the wall clock; the shooter pins none yet), code 3b066f21; the upper half is sand’s frame 20'
+  - id: intro-img-27-wet-edge-before-after
+    type: image
+    updated: [2026-11-13T11:58:00.000Z, agent:cube-intro]
+    box: [6948, 4150, 520]
+    src: images/intro-27-wet-edge-before-after.webp
+    text: '27. The wet sand’s mirror meeting dry sand in the cube’s shadow, at 2× crop: before (top) with a ~12 px staircase, after the fix (bottom). Cause: wetness was computed at the mesh’s vertices; it is now computed per pixel'
+  - id: intro-img-28-wet-edge-seaward
+    type: image
+    updated: [2026-11-13T11:58:00.000Z, agent:cube-intro]
+    box: [5748, 4800, 430]
+    src: images/intro-28-wet-edge-seaward.webp
+    text: '28. The whole frame after the wet-edge fix, looking seaward. Re-shoot (frames 27 and 28): eye --at -15.2,2.05,15.2 --yaw 135 --pitch -8, clock 2026-11-01T12:00:00Z (1793534400000 ms), 1280×800 at device scale 1, commit 0b0fc832 on the sand branch'
   - id: intro-img-24-pill-shelf-4x
     type: image
     updated: [2026-11-13T11:40:00.000Z, agent:cube-intro]
