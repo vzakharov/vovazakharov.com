@@ -1,7 +1,12 @@
 import type { Rgb } from '../lib/colour';
 import { f32, vecf, wgsl } from '../lib/wgsl';
 import { SUN, SUN_DIR, SUN_WHITE } from '../outside/sun';
-import { ATMOSPHERE, extinctionAt, sunTransmittance } from './atmosphere';
+import {
+  ATMOSPHERE,
+  extinctionAt,
+  perChannel,
+  sunTransmittance,
+} from './atmosphere';
 import { FIT_TERMS, fitSky } from './sky-fit';
 import { fitGlance, GLANCE_SUNWARD } from './sky-glance';
 import { EYE_RADIUS } from './sky-light';
@@ -12,8 +17,6 @@ const PER_PART = FIT_TERMS.lift * FIT_TERMS.turn;
 const GLANCE = fitGlance(SUN_DIR);
 
 const SUN_FLAT = Math.hypot(SUN_DIR[0], SUN_DIR[2]);
-
-const rgb = (of: (channel: 0 | 1 | 2) => number): Rgb => [of(0), of(1), of(2)];
 
 /** Kilometres over the sea between which `sunThrough` follows the model. */
 export const SUN_HEIGHTS = [1, 4, 8] as const;
@@ -36,9 +39,9 @@ const sunLog = ((): readonly [Rgb, Rgb, Rgb] => {
   const second = (ch: number) =>
     ((at(2, ch) - at(1, ch)) / (c - b) - first(ch)) / (c - a);
   return [
-    rgb((ch) => at(0, ch) - first(ch) * a + second(ch) * a * b),
-    rgb((ch) => first(ch) - second(ch) * (a + b)),
-    rgb(second),
+    perChannel((ch) => at(0, ch) - first(ch) * a + second(ch) * a * b),
+    perChannel((ch) => first(ch) - second(ch) * (a + b)),
+    perChannel(second),
   ];
 })();
 
@@ -48,7 +51,7 @@ const EYE_SUN_SLOPE = ((): Rgb => {
   const step = 0.004;
   const over = sunTransmittance(EYE_RADIUS, SUN_DIR[1] + step);
   const under = sunTransmittance(EYE_RADIUS, SUN_DIR[1] - step);
-  return rgb((c) => Math.log(over[c] / under[c]) / (2 * step));
+  return perChannel((c) => Math.log(over[c] / under[c]) / (2 * step));
 })();
 
 /** What a metre of the air the eye stands in takes out of a beam. */

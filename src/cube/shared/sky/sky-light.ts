@@ -1,9 +1,10 @@
 import type { Rgb } from '../lib/colour';
-import type { Vec3 } from '../lib/vec';
+import { dot3, type Vec3 } from '../lib/vec';
 import {
   ATMOSPHERE,
   groundGlow,
   march,
+  perChannel,
   rayEnd,
   sampleTable,
   scatteringAt,
@@ -11,10 +12,6 @@ import {
   scatterUv,
   sunTransmittance,
 } from './atmosphere';
-
-const rgb = (of: (channel: 0 | 1 | 2) => number): Rgb => [of(0), of(1), of(2)];
-const dot = (a: Vec3, b: Vec3): number =>
-  a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 
 /** The eye's radius: a person's height over the sea, which is all it ever is. */
 export const EYE_RADIUS = ATMOSPHERE.ground + 0.002;
@@ -43,7 +40,7 @@ export type SkyParts = Record<'rayleigh' | 'mie' | 'many', Rgb>;
  * further order and the sea's own glow where the ray lands.
  */
 export const skyParts = (dir: Vec3, sun: Vec3): SkyParts => {
-  const between = dot(dir, sun);
+  const between = dot3(dir, sun);
   const { reach, lands } = rayEnd(EYE_RADIUS, dir[1]);
   const ray = { r: EYE_RADIUS, mu: dir[1], sun: sun[1], between };
   const rayleigh = [0, 0, 0];
@@ -60,16 +57,16 @@ export const skyParts = (dir: Vec3, sun: Vec3): SkyParts => {
         rayleigh[c] = (rayleigh[c] ?? 0) + weigh[c] * s.rayleigh[c] * direct[c];
         mie[c] = (mie[c] ?? 0) + weigh[c] * s.mie[c] * direct[c];
       }
-      return rgb((c) => (s.rayleigh[c] + s.mie[c]) * many[c]);
+      return perChannel((c) => (s.rayleigh[c] + s.mie[c]) * many[c]);
     },
   );
   const glow = lands
     ? groundGlow((EYE_RADIUS * sun[1] + reach * between) / ATMOSPHERE.ground)
     : ([0, 0, 0] as const);
   return {
-    rayleigh: rgb((c) => rayleigh[c] ?? 0),
-    mie: rgb((c) => mie[c] ?? 0),
-    many: rgb((c) => light[c] + through[c] * glow[c]),
+    rayleigh: perChannel((c) => rayleigh[c] ?? 0),
+    mie: perChannel((c) => mie[c] ?? 0),
+    many: perChannel((c) => light[c] + through[c] * glow[c]),
   };
 };
 
@@ -77,14 +74,14 @@ export const skyParts = (dir: Vec3, sun: Vec3): SkyParts => {
 export const skyOf = (parts: SkyParts, between: number): Rgb => {
   const rayleigh = rayleighPhase(between);
   const mie = miePhase(between, ATMOSPHERE.mie.g);
-  return rgb(
+  return perChannel(
     (c) => parts.rayleigh[c] * rayleigh + parts.mie[c] * mie + parts.many[c],
   );
 };
 
 /** The clear sky's radiance along `dir` from the eye, under that sun. */
 export const clearSky = (dir: Vec3, sun: Vec3): Rgb =>
-  skyOf(skyParts(dir, sun), dot(dir, sun));
+  skyOf(skyParts(dir, sun), dot3(dir, sun));
 
 const FILL_RINGS = 8;
 const FILL_SPOKES = 8;
@@ -113,7 +110,9 @@ export const hemisphereFill = (sun: Vec3, up: 1 | -1): Rgb => {
   }
   // The face shows the cosine-weighted mean radiance, and π of the scale's
   // units is one of radiance per unit of sun irradiance.
-  return rgb((c) => ((sum[c] ?? 0) * Math.PI) / (FILL_RINGS * FILL_SPOKES));
+  return perChannel(
+    (c) => ((sum[c] ?? 0) * Math.PI) / (FILL_RINGS * FILL_SPOKES),
+  );
 };
 
 const RING_LIFT = (4 * Math.PI) / 180;
@@ -140,7 +139,7 @@ export const horizonFill = (sun: Vec3): Rgb => {
     );
     for (const c of [0, 1, 2] as const) sum[c] = (sum[c] ?? 0) + sky[c];
   }
-  return rgb((c) => ((sum[c] ?? 0) * Math.PI) / FILL_SPOKES);
+  return perChannel((c) => ((sum[c] ?? 0) * Math.PI) / FILL_SPOKES);
 };
 
 /** The contract's scale: what the brightest channel of a face square to the sun shows. */
@@ -155,7 +154,7 @@ export const lightUnder = (
 ): Record<'sun' | 'sky' | 'ground' | 'horizon', Rgb> & { white: number } => {
   const reaching = sunTransmittance(EYE_RADIUS, sun[1]);
   const white = SUN_PEAK / Math.max(...reaching);
-  const scaled = (light: Rgb): Rgb => rgb((c) => light[c] * white);
+  const scaled = (light: Rgb): Rgb => perChannel((c) => light[c] * white);
   return {
     white,
     sun: scaled(reaching),

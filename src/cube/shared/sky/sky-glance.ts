@@ -1,5 +1,5 @@
 import type { Rgb } from '../lib/colour';
-import type { Vec3 } from '../lib/vec';
+import { dot3, type Vec3 } from '../lib/vec';
 import { fitRays, liftOf, solve, turnOf } from './sky-fit';
 import { clearSky } from './sky-light';
 
@@ -31,13 +31,10 @@ const basisAt = (lift: number, turn: number, between: number): number[] => [
   Math.max(between, 0) ** GLANCE_SUNWARD,
 ];
 
-const dot = (a: Vec3, b: Vec3): number =>
-  a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-
 /** The sky under a sun toward `sun`, per unit of its irradiance, at a glance. */
 export function fitGlance(sun: Vec3): SkyGlance {
   const samples = fitRays(sun).map(({ dir, toSun, axes }) => ({
-    basis: basisAt(...axes, dot(dir, toSun)),
+    basis: basisAt(...axes, dot3(dir, toSun)),
     log: clearSky(dir, toSun).map((value) => Math.log(value)),
   }));
   const size = basisAt(0, 0, 0).length;
@@ -64,7 +61,7 @@ export function fitGlance(sun: Vec3): SkyGlance {
 
 /** What `glance` gives along `dir`, a ray at or over the horizon. */
 export function glanceAt(glance: SkyGlance, dir: Vec3, sun: Vec3): Rgb {
-  const basis = basisAt(liftOf(dir[1]), turnOf(dir, sun), dot(dir, sun));
+  const basis = basisAt(liftOf(dir[1]), turnOf(dir, sun), dot3(dir, sun));
   const log = [0, 0, 0];
   for (const [n, colour] of glance.entries()) {
     for (const c of [0, 1, 2] as const) {

@@ -34,7 +34,12 @@ const RG = ATMOSPHERE.ground;
 const RT = ATMOSPHERE.top;
 const REACH = Math.sqrt(RT * RT - RG * RG);
 
-const rgb = (of: (channel: 0 | 1 | 2) => number): Rgb => [of(0), of(1), of(2)];
+/** A colour whose every channel is what `of` gives for it. */
+export const perChannel = (of: (channel: 0 | 1 | 2) => number): Rgb => [
+  of(0),
+  of(1),
+  of(2),
+];
 
 type Densities = { rayleigh: number; mie: number; ozone: number };
 
@@ -52,15 +57,15 @@ export const densitiesAt = (h: number): Densities => ({
 export const scatteringAt = (h: number): { rayleigh: Rgb; mie: Rgb } => {
   const d = densitiesAt(h);
   return {
-    rayleigh: rgb((c) => ATMOSPHERE.rayleigh.scatter[c] * d.rayleigh),
-    mie: rgb((c) => ATMOSPHERE.mie.scatter[c] * d.mie),
+    rayleigh: perChannel((c) => ATMOSPHERE.rayleigh.scatter[c] * d.rayleigh),
+    mie: perChannel((c) => ATMOSPHERE.mie.scatter[c] * d.mie),
   };
 };
 
 /** What a kilometre of air `h` km up takes out of a beam, per channel. */
 export const extinctionAt = (h: number): Rgb => {
   const d = densitiesAt(h);
-  return rgb(
+  return perChannel(
     (c) =>
       ATMOSPHERE.rayleigh.scatter[c] * d.rayleigh +
       (ATMOSPHERE.mie.scatter[c] + ATMOSPHERE.mie.absorb[c]) * d.mie +
@@ -109,7 +114,7 @@ const opticalDepthToTop = (r: number, mu: number): Rgb => {
     const e = extinctionAt(Math.max(0, h));
     for (const c of [0, 1, 2] as const) sum[c] = (sum[c] ?? 0) + e[c] * step;
   }
-  return rgb((c) => sum[c] ?? 0);
+  return perChannel((c) => sum[c] ?? 0);
 };
 
 /** A table of `width` by `height` texels, four floats each. */
@@ -139,7 +144,7 @@ export const sampleTable = (table: Table, u: number, v: number): Rgb => {
   const fy = y - y0;
   const at = (dx: number, dy: number, c: number): number =>
     table.data[((y0 + dy) * table.width + x0 + dx) * 4 + c] ?? 0;
-  return rgb(
+  return perChannel(
     (c) =>
       (at(0, 0, c) * (1 - fx) + at(1, 0, c) * fx) * (1 - fy) +
       (at(0, 1, c) * (1 - fx) + at(1, 1, c) * fx) * fy,
@@ -156,7 +161,7 @@ export const transmittanceTable = once(() =>
   tableOf(TRANSMITTANCE_SIZE, (u, v) => {
     const { r, mu } = rayOfUv(u, v);
     const depth = opticalDepthToTop(r, mu);
-    return rgb((c) => Math.exp(-depth[c]));
+    return perChannel((c) => Math.exp(-depth[c]));
   }),
 );
 
@@ -199,8 +204,8 @@ export const march = (
     const e = extinctionAt(Math.max(0, radius - RG));
     // What a unit of source in this slice adds at the ray's start, the slice
     // dimming its own light as it goes: Hillaire's closed form.
-    const kept = rgb((c) => Math.exp(-e[c] * width));
-    const weigh = rgb(
+    const kept = perChannel((c) => Math.exp(-e[c] * width));
+    const weigh = perChannel(
       (c) => ((through[c] ?? 0) * (1 - kept[c])) / Math.max(e[c], 1e-9),
     );
     const s = source(radius, (r * sun + t * between) / radius, weigh);
@@ -210,8 +215,8 @@ export const march = (
     }
   }
   return {
-    light: rgb((c) => light[c] ?? 0),
-    through: rgb((c) => through[c] ?? 0),
+    light: perChannel((c) => light[c] ?? 0),
+    through: perChannel((c) => through[c] ?? 0),
   };
 };
 
@@ -229,7 +234,7 @@ export const rayEnd = (
 /** What the matte sea at the ground sends up under a unit sun at cosine `sun`. */
 export const groundGlow = (sun: number): Rgb => {
   const lit = sunTransmittance(RG, sun);
-  return rgb(
+  return perChannel(
     (c) => (ATMOSPHERE.albedo[c] * lit[c] * Math.max(0, sun)) / Math.PI,
   );
 };
@@ -269,7 +274,9 @@ const multipleScattering = (r: number, sun: number): Rgb => {
           for (const c of [0, 1, 2] as const) {
             any[c] = (any[c] ?? 0) + weigh[c] * (s.rayleigh[c] + s.mie[c]);
           }
-          return rgb((c) => (s.rayleigh[c] + s.mie[c]) * t[c] * ISOTROPIC);
+          return perChannel(
+            (c) => (s.rayleigh[c] + s.mie[c]) * t[c] * ISOTROPIC,
+          );
         },
       );
       const glow = lands
@@ -282,7 +289,9 @@ const multipleScattering = (r: number, sun: number): Rgb => {
       }
     }
   }
-  return rgb((c) => (second[c] ?? 0) / (1 - Math.min(0.95, share[c] ?? 0)));
+  return perChannel(
+    (c) => (second[c] ?? 0) / (1 - Math.min(0.95, share[c] ?? 0)),
+  );
 };
 
 /**
