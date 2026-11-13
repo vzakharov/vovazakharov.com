@@ -9,6 +9,8 @@
 
 import path from 'node:path';
 
+import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
+import { DOOR_LADDER } from '@/cube/shared/outside';
 import { loft, type Pose, type Vec3 } from '@/cube/entities/world';
 import { grippingHand } from '@/cube/features/player';
 
@@ -25,10 +27,10 @@ const FRAMES = path.resolve(
 const ROOM = { n: 1, x: 0n, y: 0n };
 
 /** The rung's middle in the room, a metre up in the doorway's beam. */
-const RUNG: Vec3 = [0.4, 0.2, 0.2];
-/** Its half-length and its radius, in room sides: 40 cm long, 3 cm through. */
-const HALF = 0.04;
-const RADIUS = 0.003;
+const RUNG: Vec3 = [0.6, 0.2, 0.6];
+/** Its half-length and its radius, in room sides: the ladder's own rung. */
+const HALF = DOOR_LADDER.wide / 2 / ROOM_METRES;
+const RADIUS = DOOR_LADDER.rung.tall / 2 / ROOM_METRES;
 /** How far each hand is from the rung's middle, and each elbow below it. */
 const APART = 0.022;
 const ELBOW: Vec3 = [0.05, -0.07, 0];
@@ -47,7 +49,7 @@ const rung = loft(
     };
   }),
   ROOM,
-  { surface: 'metal', paint: 0xb8_bc_c0, sides: 12 },
+  { surface: 'wood', paint: 0x9a_6b_3c, sides: 12 },
 );
 
 const hands = (['left', 'right'] as const).flatMap((side) => {
