@@ -347,13 +347,17 @@ not append.
 - **11:27Z — lead eafe03e3** (sand's README with the splash frame's re-shoot
   data: eye y 2.0962, clock `PLAY_INSTANT` 2026-11-01T12:00Z, pinned by the
   script page; **every frame is recorded with eye, clock, commit** —
-  `briefs/notice.md`). Rulings to pill: the operator's wish "nothing hung over a
-  standing thing" is built for all floors (no thing may vanish — extra tries;
-  counts per floor reported); the noticeboard's rule stands. The pill's black
-  half has no highlight on floors 2, 5, 7 — the 'plastic' glint in the room's
-  renderer goes to shell, after the pink underside and deleting `bodyShadow`.
-  Core's seam is out (`ROOM_DOORWAY`, core 2f4ab3ba, unmerged, not yet reported
-  to the lead).
+  `briefs/notice.md`). Decor, by the operator's ruling (~11:27Z, over the
+  lead's): two general rules only — nothing in front of `ROOM_DOORWAY` on floor
+  1, and nothing hung shares plan footprint with a standing thing; a hung thing
+  with no place vanishes ("better than a carpet behind a cupboard"); NO special
+  rule for the noticeboard ("we'll live with that" — it lands on the east wall
+  by the SE corner, the clock near the hole). Pill reports the per-floor count
+  of what vanishes. Board v77 holds core's film pair (21–23); next free slot
+  [7128, 3700]. The pill's black half has no highlight on floors 2, 5, 7 — the
+  'plastic' glint in the room's renderer goes to shell, after the pink underside
+  and deleting `bodyShadow`. Core's seam is out (`ROOM_DOORWAY`, core 2f4ab3ba,
+  unmerged, not yet reported to the lead).
 - **The explainer** «Два океана» was amended on the operator's comment (how many
   waves "good" takes); answered in its thread. The clouds explainer's session
   (`session_01DaohkFroEeZ7ybMvAY9JoV`) has not reported yet.
