@@ -308,6 +308,12 @@ items:
     box: [6208, 3700, 900]
     src: images/intro-23-sun-three-ways.webp
     text: '23. The sun three ways: old film, tail 0.6 (chosen), tail 0.4 (greyer)'
+  - id: intro-img-24-pill-shelf-4x
+    type: image
+    updated: [2026-11-13T11:40:00.000Z, agent:cube-intro]
+    box: [7128, 3700, 600]
+    src: images/intro-24-pill-shelf-4x.webp
+    text: '24. The pill on its shelf at 4×, on floors 2, 5, 7 and 1 (left to right, top to bottom). The red ledge and the pale paper under the pill are what make the shelf findable on every floor, the dark server hall of floor 7 included. Under room light the pill’s black half has no highlight yet and reads flat; the glint is being added in the renderer'
   - id: intro-img-19-sky-wet-foreshore
     type: image
     updated: [2026-11-13T11:15:00.000Z, agent:cube-intro]
