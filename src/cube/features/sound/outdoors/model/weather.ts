@@ -21,7 +21,9 @@ const Weather = roll.struct({
 });
 
 const weatherHash = pathHash('0');
-const rolled = rollWith(Weather, (path) => weatherHash(`cube/sound/weather/${path}`));
+const rolled = rollWith(Weather, (path) =>
+  weatherHash(`cube/sound/weather/${path}`),
+);
 
 /**
  * Where in its swell, as a fraction of a turn, each ear's open-sea wash
