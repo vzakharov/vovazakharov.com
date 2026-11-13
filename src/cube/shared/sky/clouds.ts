@@ -162,7 +162,7 @@ fn cloudLight(h: f32, sun: vec2f, phase: f32, rise: f32, solid: f32, stood: f32)
   // The sky reaches a cloud's crown freely and its heart hardly at all.
   let open = mix(0.45, 1.0, exp(-4.0 * max(solid, 0.0)));
   // Its underside looks at the sea, its crown at the whole sky.
-  let ambient = mix(HORIZON_FILL * 0.14 + GROUND_FILL, SKY_FILL + HORIZON_FILL * 0.2, sqrt(rise)) * open;
+  let ambient = mix(HORIZON_FILL * 0.3 + GROUND_FILL, SKY_FILL + HORIZON_FILL * 0.2, sqrt(rise)) * open;
   // A crease between billows sees less of the sun and of the sky than a knob.
   return (sunThrough(h) * lit + ambient) * mix(0.62, 1.2, smoothstep(-0.22, 0.12, stood));
 }
