@@ -51,6 +51,9 @@ const POINTS: readonly Point[] = [
     ],
   ),
   [0, 0],
+  // Where a sea reaching for the horizon asks for its bed.
+  [40_000, -3000],
+  [-900, 200_000],
 ];
 
 /** The shore's distance from the crest along `bearing`, by bisection. */
