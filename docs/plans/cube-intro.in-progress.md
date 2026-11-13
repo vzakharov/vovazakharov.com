@@ -137,6 +137,13 @@ reached from the second account.
   > когда начинаешь забираться по лестнице, рук нет нигде. они раз какая-то
   > куцая откуда-то на секунду вылезла, но тут же исчезла
 
+  And on the eighth, once told that the cost is per pixel (the sand's and the
+  sea's, on a screen of two device pixels to the CSS one) and that the key would
+  halve the picture's resolution:
+
+  > давай по умолчанию низкое качество (без попиксельного песка), а по
+  > консольной команде -- увеличение. посмотрю как на "низком"
+
   **Decided**: the lead makes the four changes itself, with no child team — they
   are one package's worth, all in the walk's scenes and the player. The speed
   out of doors is the next round's, not this one's. Then `/finalize`, which
@@ -207,10 +214,19 @@ republish slot 2, then `/finalize` (the two red `source` checks on the way).
       indoor branch — so it needs a test or a comment at most, and no write
       added by 5 after the body has been inside.
 - [ ] **7. The bench in the beam** (above).
-- [ ] **8. A key that lowers the quality, offered when frames are slow.** Find
-      what the outdoor frame spends its time on first (the meter on `F` names
-      the GPU's stages); the key toggles that, and its hint shows only while the
-      frame rate is low. Design below once the cost is read.
+- [ ] **8. Low quality by default, the full one on a console command.** What the
+      operator's five frames with the meter say (M2 Pro, a window of about
+      1785×1150 CSS pixels at two device pixels each, `scene` stage): waking,
+      half sand and half sky, 59.5 ms; the sea filling the lower half, 43.8 ms;
+      floor 1's room with the outside seen through the doorway alone, 42.6 ms;
+      the cube close up, 28.2 ms; floor 2, 3.6 ms. So the cost is the sand's and
+      the sea's fragments, per pixel, and floor 1 pays all of it for pixels its
+      walls then cover: the outdoor layers are drawn behind the rooms with no
+      depth to cull them, and the sea writes `frag_depth`, which rules out the
+      early test. That reordering is the next round's. This round: the canvas is
+      one pixel to the CSS pixel unless raised (`resize` in `cube-scene.ts` is
+      the one place the ratio is read), and a function on `globalThis` raises it
+      to the screen's own and lowers it again.
 - [ ] **10. Hands on the rungs.** On the preview the climb shows no hands but
       one stub for a second. `handsAbroad` and `pnpm grip:cube` are where to
       look.
