@@ -9,7 +9,7 @@ items:
     updated: [2026-11-13T12:10:00.000Z, agent:cube-intro]
     box: [5748, 5780, 430]
     src: images/intro-35-whole-wake-cube.webp
-    text: '35. The first frame a player sees, lying on the sand: the cube over the dune’s crest against the sun, its shadow across the ripples. From lying, the crest hides the gap under the cube; it opens on standing up. Open: thin dark arcs on the sand bottom-left read as pen strokes (with sand). Eye wake-cube, commit 49186bc5'
+    text: '35. The first frame a player sees, lying on the sand: the cube over the dune’s crest against the sun, its shadow across the ripples. From lying, the crest hides the gap under the cube; it opens on standing up. Open: thin dark arcs on the sand bottom-left read as pen strokes (with sand; fixed, see frames 42 and 43). Eye wake-cube, commit 49186bc5'
   - id: intro-img-36-whole-wake-sea
     type: image
     updated: [2026-11-13T12:10:00.000Z, agent:cube-intro]
@@ -46,6 +46,18 @@ items:
     box: [6208, 6250, 430]
     src: images/intro-41-whole-doorway-down.webp
     text: '41. The same sill, looking down at the sand; the ladder is just under the frame’s lower edge. Eye doorway-down, elevation −0.7, otherwise as frame 40, commit b0852de6'
+  - id: intro-img-42-weed-before-after
+    type: image
+    updated: [2026-11-13T12:25:00.000Z, agent:cube-intro]
+    box: [6668, 6250, 520]
+    src: images/intro-42-weed-before-after.webp
+    text: '42. The dried weed by the waker’s cheek, bottom left of the first frame a player sees, at 3×: above as even dark arcs that read as pen strokes, below tapered, unevenly bent, black to straw, each with a short shadow, and a third fewer'
+  - id: intro-img-43-weed-wake-cube
+    type: image
+    updated: [2026-11-13T12:25:00.000Z, agent:cube-intro]
+    box: [7248, 6250, 430]
+    src: images/intro-43-weed-wake-cube.webp
+    text: '43. The waking frame after the weed fix. Eye wake-cube (pnpm outside:cube --eyes wake-cube: lying at the waking spot, yaw −45°, pitch 8.02°), clock PLAY_INSTANT 2026-11-01T12:00:00Z (1793534400000 ms), 1280×800 at device scale 1, commit 69ac8423 on the sand branch'
   - id: intro-img-24-pill-shelf-4x
     type: image
     updated: [2026-11-13T11:40:00.000Z, agent:cube-intro]
