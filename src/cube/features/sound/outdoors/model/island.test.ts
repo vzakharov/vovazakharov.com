@@ -1,11 +1,12 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { WAKE_AT } from '@/cube/shared/outside';
+import { crestOf, shoreClock, turnsAt, WAKE_AT } from '@/cube/shared/outside';
 import type { Pose } from '@/cube/entities/world';
 
 import { heardFrom, SOUNDING_ISLAND } from './island';
 import { type Ears, OPEN_AIR } from './mix';
+import { surfAt } from './shore';
 
 const both = ({ leftEar, rightEar }: Ears): number =>
   Math.hypot(leftEar, rightEar);
@@ -35,6 +36,34 @@ describe('the island', () => {
   it('has a shore all the way round the cube', () => {
     assert.equal(SOUNDING_ISLAND.coast.shore.length, 32);
     assert.ok(SOUNDING_ISLAND.coast.swing.atShore > 1e-3);
+  });
+
+  it('breaks a wave when the sea says that wave arrives', () => {
+    // The stretch that faces the swell: where the surf is a surf at all.
+    const stretch = SOUNDING_ISLAND.coast.shore.reduce((loudest, other) =>
+      surfAt(SOUNDING_ISLAND.coast, other, 4).breaking >
+      surfAt(SOUNDING_ISLAND.coast, loudest, 4).breaking
+        ? other
+        : loudest,
+    );
+    const { tau } = shoreClock(stretch.breaks, 0);
+    const offset = tau;
+    const first = Math.ceil(turnsAt(tau));
+    let found = 0;
+    for (let n = first; n < first + 8; n += 1) {
+      const crest = crestOf(n) - offset;
+      const breaking = (t: number): number =>
+        surfAt(SOUNDING_ISLAND.coast, stretch, t).breaking;
+      // The wave the sea draws arriving is the wave the ear hears break.
+      if (breaking(crest) < 0.2) continue;
+      found += 1;
+      assert.ok(
+        breaking(crest) > breaking(crest - 1.5),
+        `crest at ${crest.toFixed(2)} s is not the louder moment`,
+      );
+    }
+    // Lulls pass without breaking; most of the eight waves do break.
+    assert.ok(found >= 4, `only ${found} of 8 waves broke`);
   });
 });
 
