@@ -53,6 +53,7 @@ import type { Selling, SignOf } from './cube-mesh';
 import { type CubeScene, mountCube } from './cube-scene';
 import { hear } from './hearing';
 import { drawn, type PillPrompt, pillPromptOf } from './pill-prompt';
+import { QUALITY_KEY } from './quality';
 
 /**
  * What a press of the hand does where the body stands, a sign aside, what
@@ -136,11 +137,13 @@ export function walk(
   let body: readonly Quad[] = [];
   /** Whether the player has given the sign the sleeper wakes at. */
   let woken = false;
-  const wake = (): void => {
+  // The quality's key changes how the scene is drawn, and leaves it asleep.
+  const wake = (event: Event): void => {
+    if (event instanceof KeyboardEvent && event.code === QUALITY_KEY) return;
     woken = true;
   };
   if (out?.asleep === true) {
-    globalThis.addEventListener('keydown', wake, { once: true });
+    globalThis.addEventListener('keydown', wake);
     canvas.addEventListener('pointerdown', wake, { once: true });
   }
   // The pose is the scene's; the rest of the player rides along with it.

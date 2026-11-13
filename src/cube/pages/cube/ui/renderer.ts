@@ -32,6 +32,8 @@ type Shot = SeenAt & {
    * must be prepared; null where it shows the cube's inside alone.
    */
   outdoors: (Seen & Laddered) | null;
+  /** The share of the screen's own resolution the canvas holds, 1 at most. */
+  detail: number;
 };
 
 /**
@@ -270,7 +272,16 @@ export async function createRenderer(
       preparingOutside ??= makeOutside();
       return preparingOutside;
     },
-    draw: ({ viewProjection, eye, clear, lens, outdoors, seconds, hour }) => {
+    draw: ({
+      viewProjection,
+      eye,
+      clear,
+      lens,
+      outdoors,
+      detail,
+      seconds,
+      hour,
+    }) => {
       const { width, height, depth } = targetsOf();
       const throughFloor = typeof lens === 'number';
       const data = new Float32Array(UNIFORM_FLOATS);
@@ -284,15 +295,19 @@ export async function createRenderer(
       const encoder = device.createCommandEncoder();
       const layers = outdoors === null ? null : outsideMade().layers;
       if (outdoors !== null) {
-        layers?.prepare(encoder, {
-          ...outdoors,
-          inverse: inverse(outdoors.viewProjection),
-          sun: SUN_DIR,
-          seconds,
-          hour,
-          width,
-          height,
-        });
+        layers?.prepare(
+          encoder,
+          {
+            ...outdoors,
+            inverse: inverse(outdoors.viewProjection),
+            sun: SUN_DIR,
+            seconds,
+            hour,
+            width,
+            height,
+          },
+          detail,
+        );
       }
       const pass = encoder.beginRenderPass({
         colorAttachments: reflection.attachments(width, height, {

@@ -2,11 +2,7 @@
 
 import type { CanDispose } from '@/kernel/shared/typings';
 
-import {
-  OUTDOOR_FRAME_FLOATS,
-  type OutdoorFrame,
-  packOutdoorFrame,
-} from '@/cube/shared/outside';
+import { OUTDOOR_FRAME_FLOATS, packOutdoorFrame } from '@/cube/shared/outside';
 
 import { outdoorSource } from '../lib/outdoor-shaders';
 import {
@@ -15,6 +11,7 @@ import {
   LAYERS,
   type OutdoorKit,
   type OutdoorLayer,
+  type Prepare,
 } from './outdoor-layer';
 import { compiled, DEPTH_FORMAT, SCENE_TARGETS } from './programs';
 import { sandLayer } from './sand-layer';
@@ -36,7 +33,7 @@ const OVER = LAYERS.filter((name) => name === 'sea');
 /** The outside, drawn into the frames that show it. */
 export type Outdoors = CanDispose & {
   /** Records every layer's own passes for a frame seen as `frame`. */
-  prepare: (encoder: GPUCommandEncoder, frame: OutdoorFrame) => void;
+  prepare: Prepare;
   /** Draws into the scene pass what lies behind the rooms; group 0 is left its own. */
   behind: (pass: GPURenderPassEncoder) => void;
   /** Draws into the scene pass what lies over the rooms. */
@@ -108,9 +105,11 @@ export async function createOutdoors(device: GPUDevice): Promise<Outdoors> {
   };
 
   return {
-    prepare: (encoder, seen) => {
+    prepare: (encoder, seen, detail) => {
       device.queue.writeBuffer(frame, 0, packOutdoorFrame(seen));
-      for (const layer of layers.values()) layer.prepare?.(encoder, seen);
+      for (const layer of layers.values()) {
+        layer.prepare?.(encoder, seen, detail);
+      }
     },
     behind: (pass) => {
       draw(pass, BEHIND);

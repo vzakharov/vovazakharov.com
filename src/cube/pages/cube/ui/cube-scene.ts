@@ -30,7 +30,7 @@ import { between } from '../lib/palette';
 import type { ScenePlay } from '../lib/play';
 import { shaderOf } from '../lib/shader';
 import { build, type Mesh, type Selling, type SignOf } from './cube-mesh';
-import { consoleQuality } from './quality';
+import { type Hinting, keyedQuality } from './quality';
 import { createRenderer, type Drawing, type Renderer } from './renderer';
 
 /**
@@ -99,7 +99,7 @@ export type CubeOptions = WithOnError &
  * rebuilds the mesh once a purchase changes what it draws; the GPU's time per
  * stage, as the renderer gives it; and its end.
  */
-export type CubeScene = ScenePlay & Drawing & { refresh: () => void };
+export type CubeScene = ScenePlay & Drawing & Hinting & { refresh: () => void };
 
 const noSign: SignOf = () => null;
 
@@ -196,7 +196,10 @@ export function mountCube(
   let last = performance.now();
   let disposed = false;
   const firstFrame = Promise.withResolvers<void>();
-  const quality = consoleQuality();
+  const { hinted, ...quality } = keyedQuality();
+  /** Whether the next frame draws the outside: the island's, or floor 1's. */
+  const outdoorsNext = (): boolean =>
+    stagedEye !== null || hooked !== null || inEyeRoom(pose).n === 1;
 
   const takenKey = (): string => (taken === null ? '' : roomKey(taken.room));
 
@@ -277,6 +280,7 @@ export function mountCube(
     renderer.draw({
       ...seen,
       clear: airAt(depth),
+      detail: quality.detail(),
       lens:
         outdoor?.lens ??
         (showsOutside ? (stagedThrough ?? through) : null) ??
@@ -295,8 +299,8 @@ export function mountCube(
   };
 
   // Assigning a canvas's size clears it, so only a change is assigned.
-  const resize = (): void => {
-    const ratio = quality.ratio();
+  const resize = (outside: boolean): void => {
+    const ratio = quality.ratioFor(outside);
     const width = Math.max(1, Math.round(canvas.clientWidth * ratio));
     const height = Math.max(1, Math.round(canvas.clientHeight * ratio));
     if (canvas.width !== width) canvas.width = width;
@@ -317,7 +321,8 @@ export function mountCube(
     through = lens ?? null;
     hooked =
       outside === undefined ? null : { outside, lens: lens ?? OUTSIDE_LENS };
-    resize();
+    quality.drawn(time, outdoorsNext());
+    resize(outdoorsNext());
     render();
     frame = requestAnimationFrame(tick);
   };
@@ -342,7 +347,7 @@ export function mountCube(
   /** A frame of what the play hook just set, built for `target`, on screen. */
   const shown = async (target: Pose): Promise<void> => {
     await rebuild(target).done;
-    resize();
+    resize(outdoorsNext());
     render();
     await renderer?.drawn();
   };
@@ -376,6 +381,7 @@ export function mountCube(
     },
     adapter: () => renderer?.adapter ?? 'none',
     passTimes: () => renderer?.passTimes() ?? null,
+    hinted,
     refresh: () => {
       generation += 1;
     },

@@ -18,6 +18,7 @@ import type { Selling } from './cube-mesh';
 import type { CubeScene } from './cube-scene';
 import { FrameRate } from './frame-rate';
 import type { PillCopy, PillPrompt } from './pill-prompt';
+import type { QualityWay } from './quality';
 import { SaleOffer } from './sale-offer';
 import { walk, type Way } from './walk';
 
@@ -31,7 +32,7 @@ type CubeCanvasProps = {
   /** The one line shown when the URL's fragment leads nowhere. */
   nowhere: string;
   /** The hint for each way, a sign's and a pill's taking its place first. */
-  ways: Record<Way, string>;
+  ways: Record<Way | QualityWay, string>;
   /** The lines shown by a pill in reach and by one in the hand. */
   pill: PillCopy;
   /** A for-sale room's sign, hint and offer. */
@@ -58,7 +59,7 @@ export function CubeCanvas({
   /** The kind of the sign in reach, if one is. */
   const [inReach, setInReach] = useState<SignKind | null>(null);
   /** What a press does where the body stands, a sign in reach aside. */
-  const [way, setWay] = useState<Way | null>(null);
+  const [way, setWay] = useState<Way | QualityWay | null>(null);
   const [pill, setPill] = useState<PillPrompt | null>(null);
   /** Whether an offer is open, read by every frame. */
   const offeringRef = useRef(false);
@@ -113,7 +114,9 @@ export function CubeCanvas({
             setFailure,
             setMissing,
             setInReach,
-            setWay,
+            setWay: (next) => {
+              setWay(sceneRef.current?.hinted(next) ?? next);
+            },
             setPill,
             open: (signed) => {
               offeringRef.current = true;

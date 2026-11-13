@@ -14,13 +14,23 @@ export const LAYERS = ['sky', 'sand', 'shell', 'sea'] as const;
 export type LayerName = (typeof LAYERS)[number];
 
 /**
- * One drawer of the outside. `prepare` records the layer's own passes before
- * the scene pass, each onto a screen-space target of the frame about to be
- * drawn, from `frame` alone: a layer keeps nothing from one frame to the next.
+ * Records passes before the scene pass, each onto a screen-space target of
+ * the frame about to be drawn, from `frame` alone, the canvas holding
+ * `detail` of the screen's own resolution: a layer keeps nothing from one
+ * frame to the next.
+ */
+export type Prepare = (
+  encoder: GPUCommandEncoder,
+  frame: OutdoorFrame,
+  detail: number,
+) => void;
+
+/**
+ * One drawer of the outside. `prepare` records the layer's own passes;
  * `draw` draws into the scene pass, where group 0 is already the kit's.
  */
 export type OutdoorLayer = CanDispose & {
-  prepare?: (encoder: GPUCommandEncoder, frame: OutdoorFrame) => void;
+  prepare?: Prepare;
   draw: (pass: GPURenderPassEncoder) => void;
 };
 

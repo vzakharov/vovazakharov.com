@@ -15,9 +15,10 @@ type SkyTarget = Sized & {
 
 /**
  * The sky: each frame's air and clouds, all but the sun's disc, drawn into a
- * target `scale` times smaller than the screen each way, then the backdrop,
- * which reads that and adds the disc at the screen's own sharpness. The
- * target is this frame's alone; nothing in it outlives the frame.
+ * target `scale` times smaller each way than the screen at its own
+ * resolution, however much of that the canvas holds, then the backdrop, which
+ * reads that and adds the disc at the canvas's sharpness. The target is this
+ * frame's alone; nothing in it outlives the frame.
  */
 export const skyLayerAt =
   (scale: number): LayerMaker =>
@@ -58,9 +59,9 @@ export const skyLayerAt =
     });
 
     let target: SkyTarget | null = null;
-    const targetFor = (screen: Sized): SkyTarget => {
-      const width = Math.max(1, Math.ceil(screen.width / scale));
-      const height = Math.max(1, Math.ceil(screen.height / scale));
+    const targetFor = (screen: Sized, detail: number): SkyTarget => {
+      const width = Math.max(1, Math.ceil(screen.width / scale / detail));
+      const height = Math.max(1, Math.ceil(screen.height / scale / detail));
       if (target?.width === width && target.height === height) return target;
       target?.sky.destroy();
       const texture = device.createTexture({
@@ -86,12 +87,12 @@ export const skyLayerAt =
     };
 
     return {
-      prepare(encoder, screen) {
+      prepare(encoder, screen, detail) {
         const pass = encoder.beginRenderPass({
           label: 'sky clouds',
           colorAttachments: [
             {
-              view: targetFor(screen).sky.createView(),
+              view: targetFor(screen, detail).sky.createView(),
               loadOp: 'clear',
               storeOp: 'store',
             },
