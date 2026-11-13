@@ -4,14 +4,29 @@ Run under `/carte-blanche` (`.claude/skills/carte-blanche/SKILL.md`). This file
 is the lead's memory: read it whole after any compaction, before anything else.
 It is not shown to the operator.
 
-**Parked 2026-11-13 ~12:50Z.** The handover is
-`docs/remove-before-merging/cube-intro-j2wt34/relay-1.md`: read it first; its
-State and Next step are newer than anything below but § "Progress"'s last
-bullets. Whoever resumes renames this file back to `.in-progress.md`.
+**Parked 2026-11-13 ~12:50Z, resumed the same day on another account.** The
+handover is `docs/remove-before-merging/cube-intro-j2wt34/relay-1.md`: its State
+and Next step are newer than anything below but § "Progress"'s last bullets and
+§ "Since the resume".
 
-Lead session at the park: `session_01DaohkEr63nSs6fbnbbEpGd`, branch
-`claude/cube-intro-j2wt34`, working directory
-`docs/remove-before-merging/cube-intro-j2wt34/`.
+Lead session since the resume: `session_016Z4TKo8Y7vUYevAQEstous` (context 300k,
+so the two marks fall near 230k and 250k), branch `claude/cube-intro-j2wt34`,
+working directory `docs/remove-before-merging/cube-intro-j2wt34/`. The lead at
+the park was `session_01DaohkEr63nSs6fbnbbEpGd`; neither it, the old team's
+sessions nor the artifacts of the parking account (the board, «Два океана») can
+be reached from this one.
+
+## Since the resume
+
+- **Operator, first message after the take**: «пока не забыл: добавить измерялку
+  fps из claude/cube-review-perf (прочие части ветки, если они там есть, не
+  надо)». Read off the tree: this branch grew from `claude/cube-review-perf`
+  (f659b195 is an ancestor of the head, nothing on it is missing here), so the
+  meter (1d667830, `ui/frame-rate.tsx`, on `F`) and the GPU pass timer
+  (e926132f, `ui/pass-timer.ts`) are already in and wired in `cube-canvas.tsx`.
+  Nothing to add; the lead presses `F` on the preview's build to see it works
+  out of doors. The PR's base is `claude/cube-review-perf`, so that branch's
+  other parts stay out of this PR's diff.
 
 ## Standing rules (the operator's words)
 
