@@ -1,0 +1,177 @@
+{
+  "total": {
+    "inputTokens": 7309,
+    "cacheWrite5mTokens": 649,
+    "cacheWrite1hTokens": 410723,
+    "cacheReadTokens": 20120494,
+    "outputTokens": 96806,
+    "thinkingTokens": 29757,
+    "responses": 102,
+    "costUsd": 14.522662000000004
+  },
+  "estimate": {
+    "at": "2026-11-13T09:39:38.986Z",
+    "subjectLine": "feat: the cube intro's sea in the shared renderer, shore and height",
+    "parts": [
+      {
+        "hours": 14.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "an FFT ocean ported onto another renderer's layer kit, with rolled spectra and hour-periodic phases, is rendering work of a specialist"
+      },
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "matching the sea's look to a committed reference frame under a new sun and lens is judgement of water, foam and glitter"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-13T09:16:36.390Z",
+    "contextTokens": 113447,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 42598,
+      "cacheReadTokens": 146396,
+      "outputTokens": 1368,
+      "thinkingTokens": 245,
+      "responses": 2,
+      "costUsd": 0.7655992
+    }
+  },
+  "sessionId": "bb2e1d1c-5ab8-5ad6-9311-1c6d36477baa",
+  "branch": "claude/cube-intro-sea",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You take over the **sea** package of the cube's intro from a session that a usage limit stopped; you are on its branch, `claude/cube-intro-sea`, and push only t…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDD34tV9S8mR3o9S3o",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-13T09:16:23.585Z",
+  "lastResponseAt": "2026-11-13T09:43:21.820Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 195,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 410723,
+    "cacheReadTokens": 19821562,
+    "outputTokens": 88038,
+    "thinkingTokens": 29757,
+    "responses": 100,
+    "costUsd": 14.058960400000004
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 6122,
+      "cacheWrite5mTokens": 649,
+      "cacheWrite1hTokens": 410723,
+      "cacheReadTokens": 20120494,
+      "outputTokens": 96785,
+      "thinkingTokens": 29757,
+      "responses": 101,
+      "costUsd": 14.522532800000004
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1187,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 21,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0001292
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-13T09:32:52.948Z",
+      "trigger": "auto",
+      "compactedFrom": 307158,
+      "summaryChars": 17639,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/cube/pages/cube/ui/sea-wave-field.ts",
+        "endedAt": "2026-11-13T09:33:06.408Z",
+        "contextTokens": 131208,
+        "spend": {
+          "inputTokens": 8,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 71619,
+          "cacheReadTokens": 288177,
+          "outputTokens": 1189,
+          "thinkingTokens": 99,
+          "responses": 3,
+          "costUsd": 1.2511633999999998
+        }
+      },
+      "rereads": {
+        "calls": 6,
+        "byTool": {
+          "Read": 6
+        },
+        "estimatedTokens": 12064,
+        "estimatedUsd": 0.2637372
+      },
+      "billedUsd": 0.4635724
+    }
+  ],
+  "telemetry": {
+    "events": 102,
+    "matched": 100,
+    "matchedTableUsd": 14.058960400000004,
+    "matchedEventUsd": 14.058960400000004,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 1187,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 21,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0001292
+      },
+      "compact": {
+        "inputTokens": 5927,
+        "cacheWrite5mTokens": 649,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 298932,
+        "outputTokens": 8747,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.4635724
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 17,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 2388,
+    ".json": 31,
+    ".yaml": 48,
+    ".ts": 7394,
+    ".tsx": 87,
+    ".scss": 15
+  }
+}
