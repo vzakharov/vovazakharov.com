@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 11145,
-    "cacheWrite5mTokens": 1713829,
-    "cacheWrite1hTokens": 736847,
-    "cacheReadTokens": 109959564,
-    "outputTokens": 538799,
-    "thinkingTokens": 197931,
-    "responses": 668,
-    "costUsd": 47.278289799999975
+    "inputTokens": 13690,
+    "cacheWrite5mTokens": 1714081,
+    "cacheWrite1hTokens": 794774,
+    "cacheReadTokens": 110843513,
+    "outputTokens": 547237,
+    "thinkingTokens": 197963,
+    "responses": 673,
+    "costUsd": 48.09896859999997
   },
   "estimate": {
     "at": "2026-11-13T16:58:16.495Z",
@@ -54,18 +54,18 @@
   "url": "https://claude.ai/code/session_01DaohkCaoV7hfxzNmeuHhLY",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T16:57:56.146Z",
-  "lastResponseAt": "2026-11-13T18:09:54.643Z",
+  "lastResponseAt": "2026-11-13T18:14:45.865Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 581,
+    "inputTokens": 587,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 736847,
-    "cacheReadTokens": 65270319,
-    "outputTokens": 219479,
-    "thinkingTokens": 75609,
-    "responses": 305,
-    "costUsd": 23.340743799999995
+    "cacheWrite1hTokens": 794774,
+    "cacheReadTokens": 65547736,
+    "outputTokens": 220116,
+    "thinkingTokens": 75641,
+    "responses": 308,
+    "costUsd": 23.872407199999998
   },
   "subagents": {
     "inputTokens": 772,
@@ -79,14 +79,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 11145,
-      "cacheWrite5mTokens": 1713829,
-      "cacheWrite1hTokens": 736847,
-      "cacheReadTokens": 109959564,
-      "outputTokens": 538799,
-      "thinkingTokens": 197931,
-      "responses": 668,
-      "costUsd": 47.278289799999975
+      "inputTokens": 13690,
+      "cacheWrite5mTokens": 1714081,
+      "cacheWrite1hTokens": 794774,
+      "cacheReadTokens": 110843513,
+      "outputTokens": 547237,
+      "thinkingTokens": 197963,
+      "responses": 673,
+      "costUsd": 48.09896859999997
     }
   },
   "warnings": [],
@@ -150,33 +150,62 @@
         "estimatedUsd": 0.2754242
       },
       "billedUsd": 0.23942099999999997
+    },
+    {
+      "at": "2026-11-13T18:14:36.029Z",
+      "trigger": "auto",
+      "compactedFrom": 304594,
+      "summaryChars": 15155,
+      "reorientation": {
+        "endedBy": "end_turn",
+        "endedOn": null,
+        "endedAt": "2026-11-13T18:14:45.865Z",
+        "contextTokens": 115110,
+        "spend": {
+          "inputTokens": 4,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 57629,
+          "cacheReadTokens": 162607,
+          "outputTokens": 322,
+          "thinkingTokens": 32,
+          "responses": 2,
+          "costUsd": 0.5000094
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.2252306
     }
   ],
   "telemetry": {
-    "events": 668,
-    "matched": 664,
-    "matchedTableUsd": 46.66754699999998,
-    "matchedEventUsd": 46.66754699999998,
+    "events": 673,
+    "matched": 667,
+    "matchedTableUsd": 47.19921039999997,
+    "matchedEventUsd": 47.19921039999997,
     "unseen": {
       "compact": {
-        "inputTokens": 8780,
-        "cacheWrite5mTokens": 803,
+        "inputTokens": 10813,
+        "cacheWrite5mTokens": 964,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 595798,
-        "outputTokens": 16898,
+        "cacheReadTokens": 898966,
+        "outputTokens": 24681,
         "thinkingTokens": 0,
-        "responses": 2,
-        "costUsd": 0.4962546
+        "responses": 3,
+        "costUsd": 0.7214852
       },
       "prompt_suggestion": {
-        "inputTokens": 1012,
-        "cacheWrite5mTokens": 632,
+        "inputTokens": 1518,
+        "cacheWrite5mTokens": 723,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 523321,
-        "outputTokens": 36,
+        "cacheReadTokens": 826685,
+        "outputTokens": 54,
         "thinkingTokens": 0,
-        "responses": 2,
-        "costUsd": 0.11448819999999998
+        "responses": 3,
+        "costUsd": 0.17827300000000001
       }
     }
   },
