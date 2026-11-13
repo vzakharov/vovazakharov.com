@@ -132,6 +132,8 @@ export function walk(
   let player: Player = standingAt(start);
   /** A press the play hook asked for, resolved once a frame reads it. */
   let pressed: PromiseWithResolvers<void> | null = null;
+  /** Whether a script's eye is out of doors, where no floor is underfoot. */
+  let scriptedOut = false;
 
   /**
    * Shows the hint by a sign in reach, and opens its offer on a press;
@@ -200,7 +202,10 @@ export function walk(
     onFrame:
       input === null
         ? (pose, _seconds, signOf) => {
-            reach(pose, signOf, pressed !== null);
+            if (scriptedOut) {
+              setFloor(null);
+              setInReach(null);
+            } else reach(pose, signOf, pressed !== null);
             pressed?.resolve();
             pressed = null;
             return { pose, taken: null, moving: [] };
@@ -284,8 +289,14 @@ export function walk(
     const { ready, setPose, setEye, adapter } = scene;
     const hook: CubePlayHook = {
       ready,
-      setPose,
-      setEye,
+      setPose: async (...set) => {
+        scriptedOut = false;
+        return setPose(...set);
+      },
+      setEye: async (...set) => {
+        scriptedOut = true;
+        return setEye(...set);
+      },
       setPill: drawn(setPill),
       adapter,
       setClock: (ms) => {

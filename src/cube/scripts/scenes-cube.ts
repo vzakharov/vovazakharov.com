@@ -106,10 +106,11 @@ const SCENES: Record<string, () => Opening> = {
   }),
 };
 
-/** What the page draws of `body`, its eye `indoors` used to the room. */
-function drawn(body: Abroad, indoors: number) {
+/** What the page draws of `body` `at` seconds into its scene, its eye `indoors` used to the room. */
+function drawn(body: Abroad, indoors: number, at: number) {
   const { shot, ladderGone } = body;
   return {
+    at,
     eye: outsideOf(shot),
     lens: lensAdapted(indoors, lensOf(shot)),
     among: {
@@ -124,7 +125,7 @@ function drawn(body: Abroad, indoors: number) {
 function played({ body: from, press, indoors: used }: Opening) {
   let body = from;
   let indoors = used;
-  const frames = [drawn(body, indoors)];
+  const frames = [drawn(body, indoors, 0)];
   let due = EVERY;
   for (let t = FRAME; t < LONGEST; t += FRAME) {
     const input = press && t === FRAME ? { ...STILL, use: true } : STILL;
@@ -132,7 +133,7 @@ function played({ body: from, press, indoors: used }: Opening) {
     indoors = adapted(indoors, whereOf(body.shot, INTRO_STAGE), FRAME);
     const over = body.scene === null;
     if (t >= due || over) {
-      frames.push(drawn(body, indoors));
+      frames.push(drawn(body, indoors, t));
       due += EVERY;
     }
     if (over) break;
@@ -155,9 +156,13 @@ async function main(): Promise<void> {
     }));
   });
   await withCubePage(async ({ shootOutside }) =>
-    inTurn(frames, async ({ file, eye, lens, among }) =>
-      shootOutside(file, eye, lens, among),
-    ),
+    inTurn(frames, async ({ file, at, eye, lens, among }) => {
+      await shootOutside(file, eye, lens, among);
+      // What it takes to shoot the frame again.
+      process.stdout.write(
+        `  ${at.toFixed(2)} s: ${JSON.stringify({ eye, lens })}\n`,
+      );
+    }),
   );
 }
 
