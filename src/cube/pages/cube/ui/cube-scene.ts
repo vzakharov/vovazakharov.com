@@ -14,6 +14,7 @@ import {
   type Pulled,
   type Quad,
   roomKey,
+  type Whereabouts,
 } from '@/cube/entities/world';
 import { happening, type RoomSound } from '@/cube/features/happenings';
 
@@ -74,8 +75,11 @@ export type CubeOptions = WithOnError &
   Selling & {
     start: Pose;
     onFrame: FrameHook;
-    /** Every frame, what the rooms in view are sounding at its instant. */
-    onHeard: (heard: readonly Heard[]) => void;
+    /**
+     * Every frame, what the rooms in view are sounding at its instant, and
+     * where the eye drawn is: the outside eye when it is outside.
+     */
+    onHeard: (heard: readonly Heard[], at: Whereabouts) => void;
     /** The instant a frame is drawn at, in milliseconds since the epoch. */
     now: () => number;
     /** Hears that the browser has no WebGPU; nothing is drawn then. */
@@ -227,7 +231,7 @@ export function mountCube(
     const { lenses, mesh } = built;
     const clock = clockAt(now());
     const { quads, heard } = goingOn(mesh, clock);
-    onHeard(heard);
+    onHeard(heard, outdoor?.outside ?? pose);
     const shown = [...moving, ...staged, ...quads].filter(({ room }) =>
       lenses.has(room.n),
     );

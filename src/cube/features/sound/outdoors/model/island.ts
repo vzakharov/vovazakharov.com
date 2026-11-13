@@ -22,7 +22,7 @@ const CUBE_MIDDLE: Vec2 = [
 const STRETCHES = 32;
 
 /** The island the cube hangs over, as the ear has it. */
-export const ISLAND: Scene = {
+export const SOUNDING_ISLAND: Scene = {
   coast: coastOf({ islandHeight, waterLevel }, CUBE_MIDDLE, STRETCHES),
   cube: CUBE_MIDDLE,
 };

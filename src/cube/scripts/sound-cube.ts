@@ -22,7 +22,6 @@ import {
   type Beds,
   bedsOf,
   gustAt,
-  ISLAND,
   type Layer,
   type OutsideMix,
   outsideMix,
@@ -30,6 +29,7 @@ import {
   rendered,
   type Scene,
   SOUND_LAYERS,
+  SOUNDING_ISLAND,
   surfAt,
   whole,
 } from '@/cube/features/sound';
@@ -55,7 +55,7 @@ const RATE = 32_000;
 
 /** Where the bench stands: under the cube, where the player wakes, at the ladder. */
 const PLACES = {
-  ...pick(ISLAND, 'cube'),
+  ...pick(SOUNDING_ISLAND, 'cube'),
   waking: [WAKE_AT[0], WAKE_AT[2]],
   ladder: [
     DOORWAY_BOX.min[0] + 0.8,
@@ -208,7 +208,7 @@ function main(): void {
   }
 
   if (only !== 'cues') {
-    const scene = ISLAND;
+    const scene = SOUNDING_ISLAND;
     const beds = bedsOf(pathHash('0'));
     for (const layer of SOUND_LAYERS)
       for (const loop of beds[layer]) whole(loop);

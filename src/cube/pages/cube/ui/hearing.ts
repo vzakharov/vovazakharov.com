@@ -19,8 +19,8 @@ import {
   bearingOf,
   createSoundscape,
   heardFrom,
-  ISLAND,
   type SoundCue,
+  SOUNDING_ISLAND,
 } from '@/cube/features/sound';
 import { lineFor, type Moment, utter, voiceOf } from '@/cube/features/voice';
 
@@ -127,7 +127,7 @@ export function hear(canvas: HTMLCanvasElement): Hearing {
       if (tick - outsideRead < OUTSIDE_EVERY) return;
       outsideRead = tick;
       const { seconds } = clockAt(nowMs);
-      scape.setOutside(heardFrom(ISLAND, at, seconds), seconds);
+      scape.setOutside(heardFrom(SOUNDING_ISLAND, at, seconds), seconds);
     },
     rooms: (heard, pose, nowMs) => {
       const now = nowMs / 1000;

@@ -201,9 +201,9 @@ function walk(
               moving: handsOf(player),
             };
           },
-    onHeard: (heard) => {
+    onHeard: (heard, at) => {
       const now = frozen ?? Date.now();
-      hearing?.outside(player.pose, now);
+      hearing?.outside(at, now);
       hearing?.rooms(heard, player.pose, now);
     },
     now: () => frozen ?? Date.now(),

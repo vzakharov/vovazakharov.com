@@ -53,11 +53,7 @@ describe('outsideMix', () => {
     const inland = { at: [RADIUS - 6, 0] as const, gaze: -Math.PI / 2 };
     const { hiss } = outsideMix(scene, inland, RISING).layers;
     assert.ok(hiss.rightEar > 1.3 * hiss.leftEar);
-    const turned = outsideMix(
-      scene,
-      { ...inland, gaze: Math.PI / 2 },
-      RISING,
-    );
+    const turned = outsideMix(scene, { ...inland, gaze: Math.PI / 2 }, RISING);
     assert.ok(turned.layers.hiss.leftEar > 1.3 * turned.layers.hiss.rightEar);
   });
 
