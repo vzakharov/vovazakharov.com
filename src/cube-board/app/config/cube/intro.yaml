@@ -295,7 +295,7 @@ items:
     updated: [2026-11-13T11:15:00.000Z, agent:cube-intro]
     box: [5748, 3250, 430]
     src: images/intro-19-sky-wet-foreshore.webp
-    text: '19. Standing on the wet foreshore toward the sun: the wet sand mirrors the sky and carries the sun’s glare, brighter the further it lies. Open: close to the eye the band stays dark'
+    text: '19. Standing on the wet foreshore toward the sun: the wet sand mirrors the sky and carries the sun’s glare, brighter the further it lies. Open: close to the eye the band stays dark. Re-shoot: eye x −19.2, z 19.2, 1.6 m over the bed, yaw −31, pitch −10; same clock and commit as frame 20'
   - id: intro-img-20-sky-approved-eye
     type: image
     updated: [2026-11-13T11:35:00.000Z, agent:cube-intro]
@@ -307,7 +307,7 @@ items:
     updated: [2026-11-13T11:35:00.000Z, agent:cube-intro]
     box: [6990, -3040, 560, pink]
     icon: 🖼️
-    text: 'For the future: this frame should be the splash screen. — Vova. (Eye: at −15.203, 2.10, 15.203, yaw −45, pitch 4. Nothing is being built for it now.)'
+    text: 'For the future: this frame should be the splash screen. — Vova. (Nothing is being built for it now.) To re-shoot it exactly: eye at −15.203, 2.10, 15.203 (the bed there + 1.6 m), yaw −45, pitch 4, roll 0; the clock pinned at PLAY_INSTANT = 2026-11-01T12:00:00Z (1793534400000 ms); the sun does not move with the clock; commit f0ff9882 on the sand branch (merged into the lead as 43c24a67); default lens; command: pnpm outside:cube --at -15.203,2.10,15.203 --yaw -45 --pitch 4'
   - id: intro-img-ref-approved
     type: image
     updated: [2026-11-13T11:35:00.000Z, agent:cube-intro]
