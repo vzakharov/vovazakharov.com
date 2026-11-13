@@ -16,7 +16,7 @@ struct View {
   eye: vec4f,
   /// The screen in pixels, the projection's focal length, the top blur level.
   size: vec4f,
-};
+}
 
 @group(0) @binding(0) var<uniform> view: View;
 @group(0) @binding(1) var scene: texture_2d<f32>;
@@ -48,6 +48,7 @@ const SHARPEN = 1.0;
 /// of the screen's height.
 const TAPS = 5;
 const LONGEST = 0.15;
+
 /// Where \`p\` lands on the screen, 0 to 1 from the top left; z is 0 for a
 /// point behind the eye.
 fn onScreen(p: vec3f) -> vec3f {
@@ -68,7 +69,10 @@ fn metresAt(texel: vec2i) -> f32 {
 
 /// Metres from the eye to what the scene shows at \`uv\`.
 fn sceneFar(uv: vec2f) -> f32 {
-  return metresAt(clamp(vec2i(uv * view.size.xy), vec2i(0), vec2i(view.size.xy) - 1));
+  return
+    metresAt(
+      clamp(vec2i(uv * view.size.xy), vec2i(0), vec2i(view.size.xy) - 1),
+    );
 }
 
 /// Where the point \`t\` units along the walk lands, and how many metres it
@@ -128,7 +132,8 @@ fn walk(start: vec3f, ray: vec3f, origin: vec2f) -> vec4f {
         return vec4f(0.0);
       }
       let edge = min(min(at.x, 1.0 - at.x), min(at.y, 1.0 - at.y));
-      let trust = smoothstep(0.0, 0.08, edge) * (1.0 - smoothstep(0.6, 1.0, far / reach));
+      let trust =
+        smoothstep(0.0, 0.08, edge) * (1.0 - smoothstep(0.6, 1.0, far / reach));
       return vec4f(at, far, trust);
     }
     before = t;
@@ -138,7 +143,8 @@ fn walk(start: vec3f, ray: vec3f, origin: vec2f) -> vec4f {
 
 /// The way from the eye through \`uv\` on the screen, unit length.
 fn sightAt(uv: vec2f) -> vec3f {
-  let along = view.inverse * vec4f(uv.x * 2.0 - 1.0, 1.0 - uv.y * 2.0, 0.5, 1.0);
+  let along =
+    view.inverse * vec4f(uv.x * 2.0 - 1.0, 1.0 - uv.y * 2.0, 0.5, 1.0);
   return normalize(along.xyz / along.w - view.eye.xyz);
 }
 
@@ -164,12 +170,21 @@ fn stride(texel: vec2i, axis: vec2i) -> f32 {
 /// side, drawn out by taps along its long one.
 fn blurred(uv: vec2f, soft: f32) -> vec3f {
   let texel = vec2i(uv * view.size.xy);
-  let spread = soft / vec2f(stride(texel, vec2i(1, 0)), stride(texel, vec2i(0, 1)));
+  let spread =
+    soft / vec2f(stride(texel, vec2i(1, 0)), stride(texel, vec2i(0, 1)));
   let short = min(spread.x, spread.y);
   let long = min(max(spread.x, spread.y), LONGEST * view.size.y);
   // No sharper than the gap between taps, so they run together.
-  let level = clamp(log2(max(max(short, long / f32(TAPS)), 1.0)) - SHARPEN, 0.0, view.size.w);
-  let way = select(vec2f(0.0, 1.0), vec2f(1.0, 0.0), spread.x > spread.y) * long / view.size.xy;
+  let level =
+    clamp(
+      log2(max(max(short, long / f32(TAPS)), 1.0)) - SHARPEN,
+      0.0,
+      view.size.w,
+    );
+  let way =
+    select(vec2f(0.0, 1.0), vec2f(1.0, 0.0), spread.x > spread.y)
+      * long
+      / view.size.xy;
   var sum = vec3f(0.0);
   for (var j = 0; j < TAPS; j++) {
     let off = (f32(j) / f32(TAPS - 1) - 0.5) * way;
@@ -193,7 +208,12 @@ fn reflectionMain(@builtin(position) pixel: vec4f) -> @location(0) vec4f {
   let struck = walk(start, reflect(sight, normalize(facing.xyz)), uv);
   var shown = left.rgb;
   if (struck.w > 0.0) {
-    shown = mix(left.rgb, blurred(struck.xy, facing.w * struck.z * view.eye.w), struck.w);
+    shown =
+      mix(
+        left.rgb,
+        blurred(struck.xy, facing.w * struck.z * view.eye.w),
+        struck.w,
+      );
   }
   return vec4f(lit.rgb + left.a * shown, lit.a);
 }

@@ -14,7 +14,7 @@ export const BLOOM_PASS = wgsl(
 struct Varying {
   @builtin(position) clip: vec4f,
   @location(0) uv: vec2f,
-};
+}
 
 @vertex
 fn vertexMain(@builtin(vertex_index) index: u32) -> Varying {
@@ -32,9 +32,12 @@ fn at(uv: vec2f) -> vec3f {
 /// The source around \`uv\`, \`reach\` texels wide: its middle and four corners.
 fn spread(uv: vec2f, reach: f32) -> vec3f {
   let texel = reach / vec2f(textureDimensions(source));
-  return (at(uv) * 4.0
-    + at(uv + texel * vec2f(-1.0, -1.0)) + at(uv + texel * vec2f(1.0, -1.0))
-    + at(uv + texel * vec2f(-1.0, 1.0)) + at(uv + texel * vec2f(1.0, 1.0))) / 8.0;
+  return
+    (at(uv) * 4.0
+      + at(uv + texel * vec2f(-1.0, -1.0))
+      + at(uv + texel * vec2f(1.0, -1.0))
+      + at(uv + texel * vec2f(-1.0, 1.0))
+      + at(uv + texel * vec2f(1.0, 1.0))) / 8.0;
 }
 
 @fragment

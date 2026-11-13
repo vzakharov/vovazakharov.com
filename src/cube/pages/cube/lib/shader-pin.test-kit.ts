@@ -113,7 +113,7 @@ const evaluated = (text: string): string =>
  * reads go too, declaration by declaration in sorted order, so the move is
  * pinned whatever order it left them in.
  */
-export function canonical(source: string): string {
+function canonical(source: string): string {
   let texts = declarations(source).map((text) => evaluated(text));
   for (;;) {
     const values = new Map<string, string>();
