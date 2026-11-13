@@ -10,8 +10,8 @@ const LEAN = Math.atan(4);
 const WIDE = 0.4;
 const STILE = { across: 0.032, through: 0.07 };
 
-/** A rung's section, and how far apart rungs are: a step a person takes. */
-const RUNG = { tall: 0.032, through: 0.045 };
+/** A rung's section, a round bar 3 cm through, and how far apart rungs are: a step a person takes. */
+const RUNG = { tall: 0.03, through: 0.03 };
 const PITCH = 0.29;
 
 /** How far the feet stand in the sand, and the top rung under the sill. */

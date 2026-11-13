@@ -1,17 +1,22 @@
+import type { Timed } from '@/kernel/shared/typings';
+
+import { hashOf, unitOf } from '@/cube/shared/lib/hash32';
+
 export const CYCLE = 2 * Math.PI;
 
 /** A draw in `[-1, 1)`; the same seed gives the same run of them. */
 type Noise = () => number;
 
-/** White noise from `seed`, a 32-bit word (mulberry32). */
+/**
+ * White noise from `seed`, a word rolled from a named path: sample `n` is the
+ * kit's integer hash of `(seed, n)`, the sound's counterpart of a pixel's
+ * grain, so no generator of its own sits behind it.
+ */
 export function noiseOf(seed: number): Noise {
-  let state = seed >>> 0;
+  let n = 0;
   return () => {
-    state = (state + 0x6d_2b_79_f5) >>> 0;
-    let t = state;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 2 ** 31 - 1;
+    n += 1;
+    return 2 * unitOf(hashOf(seed, n)) - 1;
   };
 }
 
@@ -85,6 +90,12 @@ export function sampled(
 
 /** One partial of something struck: its pitch, how long it rings, how loud. */
 export type Struck = { hz: number; dies: number; force: number };
+
+/** Something that rings when struck, in each of its `modes`. */
+export type Resonant = { modes: readonly Struck[] };
+
+/** A blow's whole answer: what rings, and for how long it is heard. */
+export type Sounding = Timed & Resonant;
 
 /** A struck partial `t` seconds after the blow, `tune` times its pitch. */
 export const ringing = ({ hz, dies, force }: Struck, t: number, tune = 1) =>

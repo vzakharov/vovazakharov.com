@@ -248,3 +248,102 @@ Moved from the plan's "Steering since" when it outgrew the file cap; each entry 
 - **~23:10Z, to the lead**: «лимит кончается; пусть все приостановятся, я сожму
   контекст чтобы завтра продолжить». Every child was told to push `wip:`, report
   one line and wait for the word "resume"; the lead's check-in was deleted.
+
+## Steering on 2026-11-13, morning
+
+- **2026-11-13 ~09:05Z, the restart**: the stopped sessions stay stopped —
+  «сессии будить не нужно, нужно начинать новые», from each one's last messages
+  and its branch as pushed. And the pill's two colours change (the lead's pick:
+  the cube's own black and grey); the change is not a story for the board, and
+  its commit says only what the colours are.
+- **~09:10Z, on a reader agent run on the flagship**: «для таких задач можно и
+  экономить а не фейбла запускать». Readers and the board coordinator take a
+  cheaper model; in the skill.
+
+- **2026-11-13 ~09:20Z, how far "no textures" reaches.** Reading the sea's new
+  brief, the operator asked who drew the wave maps and how; told that the GPU
+  computes them every frame from formulas:
+
+  > ну да, я не имел в виду против карт, я имел в виду что сами карты должны
+  > считаться на лету
+
+  So the rule is "nothing authored, shipped or stored", and a map computed at
+  run time is allowed. **The FFT ocean stays; there is no analytic rewrite.**
+  `src/cube/CLAUDE.md`, the contract and `briefs/restart.md` say so; sea, sky
+  and core were told (sky may back its cheap lods with a per-frame sky map).
+
+- **~09:27Z, the children's language**: «для экономии контекста, пусть
+  подсессии-билдеры говорят на английском … unless я их спрашиваю что-то на
+  русском, тогда отвечаем на русском и дальше продолжают на английском». Sent to
+  all nine; in `briefs/restart.md` and the skill.
+- **~09:22Z, a side quest**: an explainer artifact, in Russian, on the two ways
+  of drawing an ocean, by a session on Opus (archived). Published at
+  https://claude.ai/artifact/UxGSPAXn2USWZSfpwJ7uFM; the operator has the link.
+
+## Progress and steering, 2026-11-13 09:55Z–10:42Z
+
+- **The black blocks had one cause**: `islandHeight`'s `tanh` going NaN
+  kilometres out on the GPU (found by core and, separately, by shell; shell's
+  earlier "half-float inf" reading was wrong, but the contract's "no non-finite
+  value, alpha at most `SKY_METRES`" line stays). Gone in the frames at
+  ba9210cc.
+- **What `wake-sea` and `wake-cube` show at ba9210cc** (in `tmp/eyes-sea/`, not
+  committed, not yet on the board; `under` and the rest were still shooting):
+  **the waking spot is under water** — a flat brown-grey mirror with foam lace
+  from the frame's bottom to the dune; the lace cells are 1–3 m and even; no
+  ripple near the eye; the far sea and the sun's streak look right. Sent to sea
+  as four verdicts, the flooded waking spot first. The cube still reads small (a
+  tenth of the frame) with the gap a slit; its bands now read bluish-grey.
+- **Children's heads, not merged**: sky 5c70ff27 (fill fixed: sun [8, 4.88,
+  2.14], sky [0.32, 0.46, 0.76]; page frames take 160 s until its lod work lands
+  — do not merge before); walk 1fcf79fc (cuts, `ladderGone`, `stepsOut`, scale;
+  to do: real ladder and pill's `grippingHand`, wire the adaptation, write
+  `body`, shoot the jump); sound 357d9e94 (wood ladder voice, follows the real
+  sea, is cutting `heardFrom`'s cost); pill 7d8accc0 (black and pale grey pill,
+  rung grip; shooting floors 1, 2, 5, then merge); shell e70b4bbd (must merge
+  the lead and take `eased` over its own `levelled`; then wood ladder, bands,
+  specks, `bodyShadow`; has eyes `shelf-door`, `door-shelf`); core 8a4fb806
+  merged — owes the `body` slot, the east wall opening at the doorway,
+  `ladderGone` on the play hook, a non-finite guard in the reflection pass; sand
+  — **no report since the restart; check it at the 10:01Z check-in**.
+- **Board** (session of its own, Sonnet): version 61; cards for the horizon bug,
+  the shadow, the wooden ladder, the narrowed rule. Owed to it: the frames of
+  the real sea once all six exist, with the flooded waking spot named as a
+  failure.
+- **Decided 10:03Z — the waking spot moves inland** (sea measured `WAKE_AT` on
+  the still waterline, bed −0.0001 m; swash reaches bed +0.24 m, 4.7 m up): to
+  dry sand at bed ≥ 0.45 m on the same line, about (−15.2, 15.2). Sand moves it
+  (`shared/outside/frame.ts`) and tells core, walk and sound. Sound (1292e08b):
+  surf tied to the sea's crests; no surf in the lee at the ladder's foot — kept.
+  Sea 419cc2fd (`waterLevelAt`) is next on ripples in the shallows and the lace.
+  All nine sessions have reported; every old session is archived. The six frames
+  at ba9210cc are in `tmp/eyes-sea/`; four were not yet looked at.
+- **~10:10Z, the operator in core's session** (steering, quoted here for want of
+  room above): «мне кажется не надо так спешить. это не игра на скорость» —
+  adaptation toward dark is 6 s now (core d82585e4); and «я бы поигрался с
+  направлением луча. если он будет освещать ровно таблетку и спуск вниз, это
+  слишком быстрый reveal, а так человек секунд эндцать будет ходить вообще не в
+  понятках». **Decided: the sun stays; pill moves the shelf (and the way down's
+  mark, if its own) out of the beam into the dim**; shell keeps the beam off
+  them. Core d82585e4 also has `frame.body` (`Standing`), `ladderGone`/`body` on
+  `setEye`'s third argument (an object now), the reflection guard. In sky's
+  session he asked for truer clouds (sky 0ab7c024, gates not run).
+- **~10:20Z, the beam again — the ruling above is WITHDRAWN**: «итого у нас три
+  пути: (а) переместить полку и/или дыру (если процедурность позволяет), (б)
+  повернуть солнце, (в) повернуть куб. какой из них правильный сходу не скажу,
+  надо смотреть и сравнивать». Nothing is decided until frames of all three
+  stand side by side on the board: shell shoots the comparison (inside from the
+  doorway at `--indoors` 0 / 0.5 / settled, and outside from the waking spot,
+  since (b) and (c) change the outside too), on throwaway overrides, nothing
+  committed to shared constants; pill supplies how shelf and hole are placed.
+  Core's adaptation now goes by the gaze (merged, b4058398). A second explainer,
+  on the clouds, is being made by `session_01DaohkFroEeZ7ybMvAY9JoV` (Opus).
+- **10:35Z, an incident on Claude's side** (the operator: «things may go weird
+  esp. wrt inter-session messaging, try to let everyone know»; the container
+  restarted at 10:30Z). `briefs/notice.md` on this branch is the fallback
+  channel: undelivered messages are listed there, children are to read it on
+  every fetch and write reports that will not send to `reports/<package>.md` on
+  their own branches — **fetch the nine branches and read those**.
+- **All nine were told at 10:42Z** of the incident, the notice file and (shell,
+  pill) the withdrawn ruling with `briefs/beam-comparison.md`; every message
+  delivered once the connector came back.

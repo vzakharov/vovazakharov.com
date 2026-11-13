@@ -38,11 +38,11 @@ export const REVEAL_METRES = ROOM_METRES * WALL_HALF;
 
 /**
  * A flat rect: from `corner` along `u` then `v`, both in metres, facing the
- * way `u × v` does; `at` is its corner's place on its face.
+ * way `u × v` does; `onFace` is its corner's place on its face.
  */
-type Rect = { corner: Vec3; u: Vec3; v: Vec3; at: Vec2; kind: ShellKind };
+type Rect = { corner: Vec3; u: Vec3; v: Vec3; onFace: Vec2; kind: ShellKind };
 
-function rectFloats({ corner, u, v, at, kind }: Rect): number[] {
+function rectFloats({ corner, u, v, onFace, kind }: Rect): number[] {
   const [nx, ny, nz] = cross3(u, v);
   const long = Math.hypot(nx, ny, nz);
   const [wide, tall] = [Math.hypot(...u), Math.hypot(...v)];
@@ -60,8 +60,8 @@ function rectFloats({ corner, u, v, at, kind }: Rect): number[] {
     nx / long,
     ny / long,
     nz / long,
-    at[0] + a * wide,
-    at[1] + b * tall,
+    onFace[0] + a * wide,
+    onFace[1] + b * tall,
     code,
   ]);
 }
@@ -91,7 +91,7 @@ function box(
         corner: moved(moved(face, across, -1), up, -1),
         u: scaled(across, 2),
         v: scaled(up, 2),
-        at: [0, 0],
+        onFace: [0, 0],
         kind,
       };
     }),
@@ -99,7 +99,7 @@ function box(
 }
 
 /**
- * The cube's four sides, each from a top corner: `at` runs along the side and
+ * The cube's four sides, each from a top corner: `onFace` runs along the side and
  * down it, so the floors' bands read alike on all four. The east side runs
  * from its north end, as the doorway is told, and is cut round it.
  */
@@ -111,7 +111,7 @@ function sides(): Rect[] {
     corner,
     u,
     v: down,
-    at: [0, 0],
+    onFace: [0, 0],
     kind: 'side',
   });
   const door = {
@@ -124,7 +124,7 @@ function sides(): Rect[] {
     corner: [max[0], max[1] - top, min[2] + from],
     u: [0, 0, to - from],
     v: [0, top - foot, 0],
-    at: [from, top],
+    onFace: [from, top],
     kind: 'side',
   });
   return [
@@ -147,14 +147,14 @@ function caps(): Rect[] {
       corner: [min[0], max[1], min[2]],
       u: [0, 0, wide],
       v: [wide, 0, 0],
-      at: [0, 0],
+      onFace: [0, 0],
       kind: 'top',
     },
     {
       corner: [min[0], min[1], min[2]],
       u: [wide, 0, 0],
       v: [0, 0, wide],
-      at: [0, 0],
+      onFace: [0, 0],
       kind: 'underside',
     },
   ];
@@ -171,27 +171,54 @@ function reveal(): Rect[] {
       corner: [outer, min[1], min[2]],
       u: [0, tall, 0],
       v: inward,
-      at: [0, 0],
+      onFace: [0, 0],
       kind: 'reveal',
     },
     {
       corner: [outer, min[1], max[2]],
       u: inward,
       v: [0, tall, 0],
-      at: [0, 0],
+      onFace: [0, 0],
       kind: 'reveal',
     },
     {
       corner: [outer, max[1], min[2]],
       u: [0, 0, wide],
       v: inward,
-      at: [0, 0],
+      onFace: [0, 0],
       kind: 'reveal',
     },
   ];
 }
 
-/** The ladder: two stiles and its rungs, each a box of wood. */
+/** How many flat sides a rung's round is drawn with; the shader rounds their light. */
+const RUNG_SIDES = 8;
+
+/** A rung's round about `middle`, from stile to stile, its ends inside them. */
+function round(middle: Vec3): Rect[] {
+  const radius = DOOR_LADDER.rung.tall / 2;
+  const spoke = (turn: number): Vec3 => {
+    const angle = (turn / RUNG_SIDES) * 2 * Math.PI;
+    return moved(
+      scaled(LADDER_UP, radius * Math.cos(angle)),
+      LADDER_OUT,
+      radius * Math.sin(angle),
+    );
+  };
+  const end = moved(middle, LADDER_ACROSS, -DOOR_LADDER.wide / 2);
+  return Array.from({ length: RUNG_SIDES }, (_, turn): Rect => {
+    const from = spoke(turn);
+    return {
+      corner: moved(end, from),
+      u: scaled(LADDER_ACROSS, DOOR_LADDER.wide),
+      v: moved(spoke(turn + 1), from, -1),
+      onFace: [0, 0],
+      kind: 'rung',
+    };
+  });
+}
+
+/** The ladder: two stiles, each a box of wood, and its rungs' rounds. */
 function ladder(): Rect[] {
   const middle = moved(DOOR_LADDER.foot, LADDER_UP, DOOR_LADDER.length / 2);
   const stiles = [-1, 1].flatMap((side) =>
@@ -205,17 +232,7 @@ function ladder(): Rect[] {
       'stile',
     ),
   );
-  const rungs = DOOR_LADDER.rungs.flatMap((rung) =>
-    box(
-      rung,
-      [
-        scaled(LADDER_UP, DOOR_LADDER.rung.tall / 2),
-        scaled(LADDER_ACROSS, DOOR_LADDER.wide / 2),
-        scaled(LADDER_OUT, DOOR_LADDER.rung.through / 2),
-      ],
-      'rung',
-    ),
-  );
+  const rungs = DOOR_LADDER.rungs.flatMap((rung) => round(rung));
   return [...stiles, ...rungs];
 }
 
