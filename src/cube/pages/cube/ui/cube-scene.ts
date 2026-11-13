@@ -11,7 +11,6 @@ import {
   type Posed,
   type Quad,
   roomKey,
-  type Taken,
 } from '@/cube/entities/world';
 import { happening, type RoomSound } from '@/cube/features/happenings';
 
@@ -28,7 +27,7 @@ import { createRenderer, type Drawing, type Renderer } from './renderer';
  * `moving`, what is in the rooms for this frame alone, each quad in its own
  * room's frame.
  */
-type Frame = Posed & { taken: Taken | null; moving: readonly Quad[] };
+type Frame = Posed & { taken: InRoomOf | null; moving: readonly Quad[] };
 
 /**
  * Moves the eye one frame on: the pose it was at, the seconds since the last
@@ -115,12 +114,12 @@ export function mountCube(
   }: CubeOptions,
 ): CubeScene {
   let pose = start;
-  let taken: Taken | null = null;
+  let taken: InRoomOf | null = null;
   let moving: readonly Quad[] = [];
   /** What the play hook's last call put in the rooms. */
   let staged: readonly Quad[] = [];
   /** The pill the play hook's last call took off its shelf. */
-  let stagedTaken: Taken | null = null;
+  let stagedTaken: InRoomOf | null = null;
   /** Whether the renderer holds moving quads, to drop once a frame has none. */
   let movingDrawn = false;
   let renderer: Renderer | null = null;

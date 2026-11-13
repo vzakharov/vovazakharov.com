@@ -46,7 +46,12 @@ import type { Selling, SignOf } from './cube-mesh';
 import { type CubeScene, mountCube } from './cube-scene';
 import { FrameRate } from './frame-rate';
 import { hear } from './hearing';
-import { type PillCopy, type PillPrompt, pillPromptOf } from './pill-prompt';
+import {
+  drawn,
+  type PillCopy,
+  type PillPrompt,
+  pillPromptOf,
+} from './pill-prompt';
 import { SaleOffer } from './sale-offer';
 
 /**
@@ -229,12 +234,7 @@ function walk(
         pressed ??= Promise.withResolvers();
         return pressed.promise;
       },
-      setPill: async (prompt) => {
-        setPill(prompt);
-        // Two frames on, React has committed the line and the page drawn it.
-        await new Promise(requestAnimationFrame);
-        await new Promise(requestAnimationFrame);
-      },
+      setPill: drawn(setPill),
     };
     Object.assign(globalThis, { [PLAY_HOOK]: hook });
   }

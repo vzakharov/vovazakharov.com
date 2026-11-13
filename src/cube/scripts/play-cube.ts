@@ -16,12 +16,12 @@ import path from 'node:path';
 import {
   holeMiddle,
   holeQuarter,
+  type InRoomOf,
   pillOn,
   planted,
   type Pose,
   type Quad,
   type Quarter,
-  type Taken,
 } from '@/cube/entities/world';
 import {
   EYE_HEIGHT,
@@ -82,7 +82,7 @@ type Shot = readonly [
   name: string,
   pose: Pose,
   hands: readonly Quad[],
-  taken: Taken | null,
+  taken: InRoomOf | null,
 ];
 
 /** Seconds the act may take to play out before the script gives up on it. */

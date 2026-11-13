@@ -9,9 +9,8 @@ import type { HoleOf } from './hole';
 import { isOpenEast, maze } from './maze';
 import type { Pose } from './pose';
 import type { Quad } from './quad';
-import { type Room, roomKey, WALL_HALF } from './room';
+import { type InRoomOf, type Room, roomKey, WALL_HALF } from './room';
 import { sight, withBelow } from './rooms';
-import type { Taken } from './shelf';
 import { mazeWalls } from './walls';
 
 const rolled = maze('8675309');
@@ -46,7 +45,7 @@ const mine = (room: Room): boolean => roomKey(room) === '2/1/0';
 const facesAt = (
   pose: Pose,
   holeOf: HoleOf,
-  taken: Taken | null = null,
+  taken: InRoomOf | null = null,
   owns: (room: Room) => boolean = nobody,
 ): Quad[] =>
   faces(
@@ -198,7 +197,7 @@ describe('faces', () => {
 
   it('takes the taken pill off its shelf, and no other', () => {
     const pose = at({ n: 2, x: 1n, y: 0n });
-    const pills = (taken: Taken | null) =>
+    const pills = (taken: InRoomOf | null) =>
       facesAt(pose, holedTo(3), taken).filter((q) => q.surface === 'plastic');
     const all = pills(null);
     const { n, x, y } = pose;

@@ -25,7 +25,7 @@ import {
 } from './hand-shape';
 
 /** `a·x + b·y + c·z`. */
-export const mix = (
+export const inAxes = (
   [x, y, z]: readonly [Vec3, Vec3, Vec3],
   [a, b, c]: Vec3,
 ): Vec3 => plus(plus(times(x, a), times(y, b)), times(z, c));
@@ -208,8 +208,8 @@ export function hand(
   pose: HandPose,
 ): Quad[] {
   const placed = (at: Vec3): Vec3 =>
-    plus(wrist, times(mix(axes, at), scale * CM));
-  const turned = (way: Vec3): Vec3 => times(mix(axes, way), scale * CM);
+    plus(wrist, times(inAxes(axes, at), scale * CM));
+  const turned = (way: Vec3): Vec3 => times(inAxes(axes, way), scale * CM);
   const stood = (rings: readonly Ring[]): Ring[] =>
     rings.map(({ centre, wide, thick }) => ({
       centre: placed(centre),

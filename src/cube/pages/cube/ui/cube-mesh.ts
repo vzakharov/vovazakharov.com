@@ -7,6 +7,7 @@ import {
   type HoleOf,
   holesOf,
   inPlace,
+  type InRoomOf,
   type Landing,
   landingsSeen,
   maze,
@@ -27,7 +28,6 @@ import {
   signPost,
   signsSeen,
   slabRooms,
-  type Taken,
   traits,
   withBelow,
 } from '@/cube/entities/world';
@@ -56,7 +56,7 @@ export type SignOf = (room: Room) => Sign | null;
  * settings of the rooms whose happenings it shows.
  */
 export type Mesh = {
-  faces: (taken: Taken | null) => Scenery;
+  faces: (taken: InRoomOf | null) => Scenery;
   stood: (moving: readonly Quad[]) => Scenery;
   boards: readonly Boards[];
   signOf: SignOf;

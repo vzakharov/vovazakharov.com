@@ -1,3 +1,4 @@
+export { grippingHand } from './model/grip';
 export { type Axes, hand, padOf } from './model/hand';
 export { type HandPose, LOOSE, RUNG_GRIP } from './model/hand-shape';
 export { handsOf } from './model/hands';

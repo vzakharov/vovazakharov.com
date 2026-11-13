@@ -7,9 +7,16 @@ import { holeMiddle, type HoleOf, type Quarter, QUARTERS, under } from './hole';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
 import type { InRoom, Pose } from './pose';
 import { face, type Quad } from './quad';
-import { isRoom, type Room, roomKey, roomsAcross, WALL_HALF } from './room';
+import {
+  type InRoomOf,
+  isRoom,
+  type Room,
+  roomKey,
+  roomsAcross,
+  WALL_HALF,
+} from './room';
 import type { View } from './rooms';
-import { shelfFaces, shelfOf, type Taken, takenIn } from './shelf';
+import { shelfFaces, shelfOf, takenIn } from './shelf';
 
 /** A hole's side, in its room's side; it sits in the middle of its quarter. */
 export const HOLE_SIDE = 0.08;
@@ -288,7 +295,7 @@ function shelf(
   eye: Room,
   room: Room,
   quarter: Quarter | null,
-  taken: Taken | null,
+  taken: InRoomOf | null,
 ): Quad[] {
   if (quarter === null) return [];
   const { origin, roomSide: side } = placed(eye, room);
@@ -316,7 +323,7 @@ export function faces(
   pose: Pose,
   view: View,
   holeOf: HoleOf,
-  taken: Taken | null,
+  taken: InRoomOf | null,
   owns: (room: Room) => boolean,
   pillarOf: (n: number) => number,
 ): Quad[] {

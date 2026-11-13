@@ -13,7 +13,7 @@ import {
 } from '@/cube/entities/world';
 
 import { rise } from './ease';
-import { type Axes, CM, hand, mix, padOf } from './hand';
+import { type Axes, CM, hand, inAxes, padOf } from './hand';
 import { between, LOOSE, PINCH } from './hand-shape';
 import type { Station, Taking } from './player';
 import { graspOf } from './take';
@@ -62,7 +62,7 @@ function stationed(
   scale: number,
 ): { pill: Vec3; arm: Vec3; palm: Vec3 } {
   const view = [ahead, right, up] as const;
-  const from = (at: Vec3): Vec3 => plus(eye, times(mix(view, at), scale));
+  const from = (at: Vec3): Vec3 => plus(eye, times(inAxes(view, at), scale));
   const { pill, raised } = STATIONS[station];
   return {
     pill: pill === null ? shelfAt : from(pill),
@@ -99,7 +99,7 @@ export function takingHand(
   const palm = unit(minus(facing, times(along, dot(facing, along))));
   const through = about(palm, along, wristTurn);
   const axes: Axes = [along, cross(along, through), through];
-  const wrist = minus(pill, times(mix(axes, PINCH_AT), scale * CM));
+  const wrist = minus(pill, times(inAxes(axes, PINCH_AT), scale * CM));
   const sleeve = Math.hypot(...minus(wrist, arm)) / (scale * CM);
   const quads = hand(wrist, axes, scale, room, {
     ...between(LOOSE, PINCH, pinch),
@@ -108,7 +108,7 @@ export function takingHand(
   if (!holds) return quads;
   // The pill lies as the shelf has it while the hand is there, and as the
   // pinch has it away from it.
-  const inHand = mix(axes, PINCH_AXIS);
+  const inHand = inAxes(axes, PINCH_AXIS);
   const lying = times(onShelf.axis, dot(onShelf.axis, inHand) < 0 ? -1 : 1);
   const settled =
     from === 'shelf'

@@ -26,11 +26,8 @@ type Mount = 'x-wall' | 'y-wall' | 'post';
  */
 export type Shelf = WallMounted & { mount: Mount };
 
-/** The one pill off its shelf, if any, by its room. */
-export type Taken = InRoomOf;
-
-/** Whether `room`'s pill is the one `taken`. */
-export const takenIn = (taken: Taken | null, room: Room): boolean =>
+/** Whether `room`'s pill is the one `taken`, the one pill off its shelf if any is. */
+export const takenIn = (taken: InRoomOf | null, room: Room): boolean =>
   taken !== null && roomKey(taken.room) === roomKey(room);
 
 /** The post's side, in room sides: 15 cm on floor 1. */

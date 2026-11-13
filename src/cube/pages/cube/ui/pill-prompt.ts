@@ -15,6 +15,25 @@ export type PillCopy = (typeof COPY)['pill'];
 /** Which of the pill's lines the page shows. */
 export type PillPrompt = keyof PillCopy;
 
+const nextFrame = async (): Promise<void> =>
+  new Promise((resolve) => {
+    requestAnimationFrame(() => {
+      resolve();
+    });
+  });
+
+/**
+ * `show` for a script to call: over two frames on, when React has committed
+ * the line and the page drawn it.
+ */
+export const drawn =
+  (show: (prompt: PillPrompt | null) => void) =>
+  async (prompt: PillPrompt | null): Promise<void> => {
+    show(prompt);
+    await nextFrame();
+    await nextFrame();
+  };
+
 /**
  * The line `player` is shown at `pose` in a room holed as `here` has it: the
  * question while it holds the pill before its eyes, the way to take it while

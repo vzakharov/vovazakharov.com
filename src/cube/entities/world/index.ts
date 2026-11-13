@@ -65,7 +65,7 @@ export {
   signsSeen,
 } from './model/sale';
 export { closedSides, inPlace, type Setting, settingOf } from './model/setting';
-export { pillOn, type Shelf, shelfOf, type Taken } from './model/shelf';
+export { pillOn, type Shelf, shelfOf } from './model/shelf';
 export { type RolledTraits, traits } from './model/traits';
 export { mazeWalls, type Walls } from './model/walls';
 export { isOutside, type Outside, type Whereabouts } from './model/whereabouts';

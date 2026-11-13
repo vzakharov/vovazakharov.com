@@ -135,8 +135,8 @@ export function graspOf(act: Taking & { actFor: number }): Grasp {
       holds: true,
     };
   }
-  const leaves = stage === 'drinking' ? TO_MOUTH : PUT_BACK;
-  const to = stage === 'drinking' ? 'mouth' : 'shelf';
+  const leaves = stage === 'swallowing' ? TO_MOUTH : PUT_BACK;
+  const to = stage === 'swallowing' ? 'mouth' : 'shelf';
   if (t < leaves) {
     return {
       from,
@@ -171,7 +171,7 @@ export function gazeOfTaking(act: Taking & { actFor: number }): Gazing {
   if (stage === 'inspecting') {
     return mixed(aim, eyes, rise(t, 0.05, raiseOf(act)));
   }
-  if (stage === 'drinking') {
+  if (stage === 'swallowing') {
     const back = mixed(eyes, resting, rise(t, 0, TO_MOUTH));
     const tilt = hump(t, [
       TO_MOUTH - 0.2,
@@ -259,11 +259,11 @@ export function taking(
     if (answer !== null) {
       next = staged(
         { ...act, actFor: t },
-        answer === 'yes' ? 'drinking' : 'returning',
+        answer === 'yes' ? 'swallowing' : 'returning',
         'eyes',
       );
     }
-  } else if (stage === 'drinking') {
+  } else if (stage === 'swallowing') {
     if (before < TO_MOUTH && t >= TO_MOUTH) cues = [{ cue: 'swallow' }];
     if (t >= TO_MOUTH + GULP_TIME) {
       return {

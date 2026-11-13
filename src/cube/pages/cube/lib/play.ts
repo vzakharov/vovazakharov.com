@@ -1,6 +1,6 @@
 import type { Readying } from '@/kernel/shared/typings';
 
-import type { Pose, Quad, Taken } from '@/cube/entities/world';
+import type { InRoomOf,Pose, Quad } from '@/cube/entities/world';
 
 /** The query that opens `/cube` for a script: no input, the hook installed. */
 export const PLAY_QUERY = 'play';
@@ -24,7 +24,7 @@ export type ScenePlay = Readying & {
   setPose: (
     pose: Pose,
     moving?: readonly Quad[],
-    taken?: Taken | null,
+    taken?: InRoomOf | null,
   ) => Promise<void>;
   /** The adapter's vendor and architecture, as WebGPU reports them. */
   adapter: () => string;

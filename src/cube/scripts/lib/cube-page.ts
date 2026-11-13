@@ -3,7 +3,7 @@ import path from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { z } from 'zod';
 
-import type { Pose, Quad, Taken } from '@/cube/entities/world';
+import type { InRoomOf,Pose, Quad } from '@/cube/entities/world';
 import {
   type CubePlayHook,
   PLAY_HOOK,
@@ -78,7 +78,7 @@ export type CubePage = {
 export type Staged = readonly [
   pose: Pose,
   moving?: readonly Quad[],
-  taken?: Taken | null,
+  taken?: InRoomOf | null,
 ];
 
 /** One frame of a sheet: what it is staged with, and the pill's line shown over it. */

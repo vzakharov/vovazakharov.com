@@ -136,6 +136,12 @@ export const RUNG_GRIP: HandPose = {
   sleeve: FOREARM,
 };
 
+/**
+ * Where a gripped rung's middle passes the hand, in its own axes: in the
+ * crook of the fingers, the rung running across the palm.
+ */
+export const RUNG_AT: Vec3 = [11, 0, 2.3];
+
 /** The pose `share` of the way from `from` to `to`. */
 export function between(from: HandPose, to: HandPose, share: number): HandPose {
   const mixed = (a: number, b: number): number => a * (1 - share) + b * share;

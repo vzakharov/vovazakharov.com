@@ -132,7 +132,7 @@ describe('play, swallowing the pill', () => {
         assert.equal(takenOf(player), null);
       }
     }
-    const lookedAway = played[back];
+    const lookedAway = played.at(back);
     assert.ok(lookedAway !== undefined);
     assert.ok(!isInSight(lookedAway.pose, holed.shelf));
   });

@@ -2,11 +2,11 @@ import type { Ground, Limb } from '@/cube/shared/lib/acoustics';
 import type {
   Gazing,
   InRoom,
+  InRoomOf,
   Pose,
   Posed,
   Quarter,
   Shelf,
-  Taken,
 } from '@/cube/entities/world';
 
 import type { Looking, ShrinkMoment } from './look';
@@ -45,7 +45,7 @@ export type Carrying = { from: Station; wristTurn: number };
 /**
  * A body taking the pill of its room, holed as it is: `reaching` for it on
  * the shelf; `inspecting` it before the eyes, in passing unless it `asks`
- * what to do with it, and then until answered; `drinking` it, or `returning`
+ * what to do with it, and then until answered; `swallowing` it, or `returning`
  * it to the shelf, the hand `Carrying` it from where it last was. Its own
  * gaze is where the eyes rested before; `aim` is the gaze that looks at the
  * pill on its shelf.
@@ -54,7 +54,7 @@ export type Taking = Holed &
   Gazing &
   Carrying & {
     act: 'taking';
-    stage: 'reaching' | 'inspecting' | 'drinking' | 'returning';
+    stage: 'reaching' | 'inspecting' | 'swallowing' | 'returning';
     asks: boolean;
     aim: Gazing;
   };
@@ -82,7 +82,7 @@ export type Act = { actFor: number } & (
  */
 export type Player = Posed & {
   act: Act | null;
-  pill: Taken | null;
+  pill: InRoomOf | null;
   strode: number;
   cues: readonly Cue[];
 };
@@ -106,7 +106,7 @@ export const standingAt = (pose: Pose): Player => ({
 export const isStanding = ({ act }: Player): boolean => act === null;
 
 /** The pill `player` sees gone from its shelf, if any. */
-export const takenOf = ({ pill }: Player): Taken | null => pill;
+export const takenOf = ({ pill }: Player): InRoomOf | null => pill;
 
 export const noWalk = (input: Input): Input => ({
   ...input,

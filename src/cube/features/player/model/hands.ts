@@ -9,7 +9,7 @@ import {
   type Vec3,
 } from '@/cube/entities/world';
 
-import { hand, mix } from './hand';
+import { hand, inAxes } from './hand';
 import { LOOSE } from './hand-shape';
 import { takingHand } from './held';
 import { glimpse, type Look } from './look';
@@ -35,11 +35,11 @@ function lookedAt(pose: Pose, look: Look, t: number): Quad[] {
     const view: readonly [Vec3, Vec3, Vec3] = [ahead, times(right, side), up];
     const wrist = plus(
       eye,
-      times(mix(view, [forth, aside, under - (1 - handsUp) * LOWERED]), scale),
+      times(inAxes(view, [forth, aside, under - (1 - handsUp) * LOWERED]), scale),
     );
     // Fingers ahead, a little up and in; the thumb outward while the palm
     // faces the eye, which is how the hands come up.
-    const along = unit(mix(view, [0.9, -0.3, 0.45]));
+    const along = unit(inAxes(view, [0.9, -0.3, 0.45]));
     const outward = view[1];
     const across = unit(plus(outward, times(along, -dot(outward, along))));
     const square = cross(along, across);
