@@ -75,9 +75,15 @@ fn lace(still: vec2f, dense: f32, shore: Shore, pixel: f32) -> f32 {
   let wider = 0.4 + 9.0 * blur;
   // A thread drawn wider is drawn fainter, toward what the walls cover of
   // the sea on the whole, so the foam a far pixel shows is the near one's.
-  let threads = mix(0.14, 1.0 - smoothstep(0.0, wide, foamWalls(at * 2.6, 21u)), 0.2 / wide);
+  // No wall runs whole round its cell: a thread swells, thins and breaks
+  // off along its length, and its edge is frayed.
+  let run = fbm(at * 1.9, 19u, 3);
+  let strand = wide * mix(0.35, 1.7, run);
+  let threads = smoothstep(0.3, 0.52, run)
+    * mix(0.14, 1.0 - smoothstep(0.0, strand, foamWalls(at * 2.6, 21u)), 0.2 / wide);
+  let frayed = (fbm(p * 13.0, 24u, 2) - 0.5) * clamp(1.0 - 13.0 * blur, 0.0, 1.0);
   let fine = mix(0.29, 1.0 - smoothstep(0.0, wider, foamWalls(at * 9.0, 22u)), 0.4 / wider);
-  let body = 0.5 * patches + 0.32 * threads + 0.18 * fine;
+  let body = 0.5 * patches + 0.36 * threads + 0.18 * fine + 0.07 * frayed;
   let open = 1.0 - 1.15 * min(dense, 1.0);
   let cover = smoothstep(open - 0.5 * blur, open + 0.3 + 0.5 * blur, body)
     * smoothstep(0.02, 0.1, dense);
