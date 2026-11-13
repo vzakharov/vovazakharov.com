@@ -196,7 +196,7 @@ Checked by command at the park.
   it `cube-intro.in-progress.md` — `brief.md`, `journal.md`, `contract.md`,
   `briefs/board.md` — are right again once a resuming session renames it back.
 - **Merged into the lead**: sky a6c022d8 and sound 423f1231 (final), sand
-  69ac8423, core 79f8c242, walk 966ecc5a, pill e1577d87, sea 7abe3943, shell
+  69ac8423, core 79f8c242, walk 966ecc5a, pill e1577d87, sea 1d70e13e, shell
   726d4863. `git log --no-merges --oneline HEAD..origin/claude/cube-intro-<name>`
   is empty for all but shell (one commit, the throwaway).
 - **Gates on the merged tree** (6259f6d2 plus docs): `pnpm typecheck`,
@@ -216,9 +216,12 @@ Checked by command at the park.
     climb unjudged on the turned interior; `/dry`, `/tend-prose`.
   - **pill**: floor 1's act sheet (≈50 min on SwiftShader); `/dry`,
     `/tend-prose`; full gates.
-  - **sea**: 376d8709 and 7abe3943 (far foam as the pixel's mean, foam in the
-    cube's shadow lit from the horizon, the lace's filter) unjudged in frames;
-    keeper frames; `/dry`, `/tend-prose`; `water-level.ts` is at 398 lines.
+  - **sea**: its fixes to the lead's `wake-sea` findings are judged by sea in
+    frames (`frames/sea/wake-sea-horizon-before-after.webp` and the keepers,
+    README lines beside them) but not by the lead or the operator, and
+    `along-the-breaker` and `standing-dry` are offered for the board; `/dry`,
+    `/tend-prose`; `water-level.ts` is at 398 lines; the foam arc in the frame
+    from above (below) is new.
   - **sand** (parked, no report): thin dark arcs by the waking spot were its
     last open item, answered by the weed's rework (69ac8423, frames
     `frames/sand/1113-weed-*`); the wet front's even retreat is new (§ 8); sea
