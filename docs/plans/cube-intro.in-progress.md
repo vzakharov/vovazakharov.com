@@ -364,6 +364,11 @@ not append.
   operator: "why the cube is pink underneath is beyond me"); **walk** — waits
   for core's seam. Core's lens pass comes after the turn. Board v68 holds the
   sky's frames 17–18; next free slots [5748, 3250], [6208, 3250].
+- **~10:57Z, the operator put the body's shadow on hold** (to shell): «давай
+  теней "от нас" пока не делать -- ни внутри, ни на песке… интуитивно кажется
+  что это мимо атмосферы». Shell deletes `bodyShadow`, the room's `bodyShade`
+  and `--body`; `frame.body` stays unread until he decides. **Merge shell's next
+  head at once** — the lead's tree has the indoor shade live.
 - **The explainer** «Два океана» was amended on the operator's comment (how many
   waves "good" takes); answered in its thread.
 - **Next, in order**: (1) merge core, shell, sky as they report green and lint;
