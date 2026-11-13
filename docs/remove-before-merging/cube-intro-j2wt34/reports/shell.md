@@ -4,36 +4,16 @@ Branch `claude/cube-intro-shell`. Newest first.
 
 ## 2026-11-13 12:25Z
 
-### Half-done: the bands' finish (first in line)
+### Done, awaiting the operator's pick: the bands' finish
 
 The grey bands read as construction grey because the new sky lights them about
-five times brighter than at 315051b5; `GREY` in
-`src/cube/pages/cube/lib/shell-material.ts` never changed.
-
-**The file as committed is a throwaway and fails `pnpm typecheck` on purpose.**
-`GREY` is a table of three variants picked by the `NEXT_PUBLIC_BANDS`
-environment variable (`a`, `b`, `c`; `b` when unset):
-
-- `a` — today's finish darkened to the old depth (albedo and mirror × 0.23);
-- `b` — deep graphite satin: albedo a fifth of today's, mirror 0.11 at blur 3.2
-  (a soft sky sheen), no sun flecks;
-- `c` — today's, for reference.
-
-To finish: look at the frames, tune `b`, replace the table with the one chosen
-`GREY` (delete the `BANDS` line, the `fleck` switch and, if `b` wins, the whole
-"Flecks in the grey" block), run the gates, commit, and send the three-up sheet
-to the board session with eye, clock (`PLAY_INSTANT`, the shoot's default) and
-commit. The operator picks.
-
-Shoot, one variant at a time, never editing sources while it runs:
-
-```
-NEXT_PUBLIC_BANDS=b pnpm -s outside:cube --eyes ladder-foot --out "$PWD/tmp/shell/bands/b"
-NEXT_PUBLIC_BANDS=b pnpm -s outside:cube --at -15.203,2.0962,15.203 --yaw -45 --pitch 4 --name approved --out "$PWD/tmp/shell/bands/b"
-```
-
-References: `frames/lead/1113-0930-ladder-foot.webp` (315051b5, dark and brown)
-against `frames/lead/1113-1200-ladder-foot.webp` (49186bc5, flat grey).
+five times brighter than at 315051b5. `GREY` in
+`src/cube/pages/cube/lib/shell-material.ts` is now a deep graphite satin
+(albedo a fifth of what it was, mirror 0.11 at blur 3.2, no sun flecks).
+`frames/shell/bands-abc-*.webp` set it (B) beside a darker neutral (A: albedo
+and mirror × 0.23 of the old grey, blur 4.2) and the old grey (C: albedo
+`[0.06, 0.066, 0.076]`, mirror 0.05, blur 4.2, with flecks); the sheet went to
+the board. If the operator picks A or C, those numbers are the whole change.
 
 ### Half-done: what stands in floor 1's beam throws a shadow
 
