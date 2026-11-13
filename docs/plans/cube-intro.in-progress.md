@@ -358,10 +358,11 @@ not append.
   locked, it is sand's judgment (no further pass planned). Sky told not to
   change what that eye shows.
 - **11:15Z, a splash screen** (the operator, on the same frame: «это должно быть
-  splash screen-ом»). Lead's ruling: that eye rendered live
-  (`-15.203, 2.10, 15.203`, yaw −45, pitch 4), the clock running, before the
-  wake; any key starts the waking; no title until he picks a name. Walk builds
-  it after its current merge. Put to the operator: live, not a picture.
+  splash screen-ом»), then «нене, это я про будущее. просто вынести на доску».
+  **Nothing is built**: the lead's task to walk is withdrawn; board adds a
+  sticky by frame 20. For when it is built: the eye is `-15.203, 2.10, 15.203`,
+  yaw −45, pitch 4, and the first rule points to a live render rather than a
+  shipped picture.
 - **The explainer** «Два океана» was amended on the operator's comment (how many
   waves "good" takes); answered in its thread. The clouds explainer's session
   (`session_01DaohkFroEeZ7ybMvAY9JoV`) has not reported yet.
