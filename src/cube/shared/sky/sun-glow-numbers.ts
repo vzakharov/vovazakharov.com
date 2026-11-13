@@ -1,7 +1,7 @@
 import { SUN_DIR, SUN_WHITE } from '../outside/sun';
 import { f32, vecf, wgsl } from '../shader/wgsl';
 import { ATMOSPHERE } from './atmosphere';
-import { EYE_SUN } from './clear-sky';
+import { EYE_SUN } from './clear-sky-fit';
 
 /**
  * The share of the haze's scattering that goes into the two narrow forward

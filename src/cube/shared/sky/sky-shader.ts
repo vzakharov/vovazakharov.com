@@ -3,7 +3,7 @@ import { OUTDOOR_STAGE } from '../outside/outdoor-stage.shader';
 import { STAGE_NUMBERS } from '../outside/stage-numbers';
 import { WATER_BODY } from '../sea/water-body-wgsl';
 import { f32, wgsl } from '../shader/wgsl';
-import { CLEAR_SKY } from './clear-sky';
+import { CLEAR_SKY } from './clear-sky.shader';
 import { CLOUDS_WGSL } from './clouds';
 import { SUN_GLOW } from './sun-glow.shader';
 

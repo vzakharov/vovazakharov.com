@@ -3,7 +3,8 @@
 
 import { SUN } from '../outside/sun';
 import { wgsl } from '../shader/wgsl';
-import { CLEAR_SKY } from './clear-sky';
+import { CLEAR_SKY } from './clear-sky.shader';
+import { CLEAR_SKY_FIT } from './clear-sky-fit';
 import { SUN_GLOW_NUMBERS } from './sun-glow-numbers';
 
 export const SUN_GLOW = wgsl(
@@ -67,5 +68,6 @@ fn sunDisc(dir: vec3f, edge: f32) -> vec3f {
 `,
   SUN,
   CLEAR_SKY,
+  CLEAR_SKY_FIT,
   SUN_GLOW_NUMBERS,
 );

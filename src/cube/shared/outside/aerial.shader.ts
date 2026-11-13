@@ -2,7 +2,7 @@
 // source, not here — the vet run regenerates this file and fails when it had to.
 
 import { wgsl } from '../shader/wgsl';
-import { CLEAR_SKY } from '../sky/clear-sky';
+import { CLEAR_SKY } from '../sky/clear-sky.shader';
 
 export const AERIAL = wgsl(
   'cube/shared/outside/aerial',
