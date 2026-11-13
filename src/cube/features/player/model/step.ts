@@ -25,7 +25,8 @@ export const TILT_RATE = Math.PI / 3;
  * 1, a diagonal is normalized to the body's pace, and the turn and tilt go at
  * their rates over the frame; `yawBy` and `elevationBy` are radians to add to
  * the pose's this frame, whatever its length; `walking` slows the run to a
- * walk; `pull` is whether the lever was asked for since the last frame, and
+ * walk; `use` is whether what is in reach — a pill, a sign — was asked for
+ * since the last frame, `answer` what was said to a question since then, and
  * `goTo` the floor asked for by its number, null when none was.
  */
 export type Input = {
@@ -36,7 +37,8 @@ export type Input = {
   yawBy: number;
   elevationBy: number;
   walking: boolean;
-  pull: boolean;
+  use: boolean;
+  answer: 'yes' | 'no' | null;
   goTo: number | null;
 };
 
@@ -49,7 +51,8 @@ export const STILL: Input = {
   yawBy: 0,
   elevationBy: 0,
   walking: false,
-  pull: false,
+  use: false,
+  answer: null,
   goTo: null,
 };
 

@@ -21,6 +21,7 @@ import {
   type Tab,
   WEBGPU_FLAGS,
 } from '@/scene/scripts/lib/cdp';
+import { inTurn } from '@/scene/scripts/lib/in-turn';
 import { watchPageErrors } from '@/scene/scripts/lib/page-errors';
 
 const WIDTH = 1280;
@@ -60,10 +61,9 @@ async function until(tab: Tab, expression: string, deadline: number) {
 /** What a script does with `/cube` once its hook is up. */
 export type CubePage = {
   /**
-   * Puts the eye at `pose`, `among` set around it, and saves the frame as
-   * `file`.
+   * Stages a frame and saves it as `file`.
    */
-  shoot: (file: string, pose: Pose, among?: InsideSet) => Promise<void>;
+  shoot: (file: string, ...staged: Staged) => Promise<void>;
   /**
    * Puts the eye outside the cube at `eye`, seeing through `lens` — the
    * page's own where none is given — with `among` set, and saves the frame
@@ -77,7 +77,52 @@ export type CubePage = {
   ) => Promise<void>;
   /** Stops the page's clock at `ms` since the epoch. */
   setClock: (ms: number) => Promise<void>;
+  /**
+   * Shoots each of `frames` in turn, small, and saves them as one sheet,
+   * `columns` across, read left to right and top to bottom.
+   */
+  sheet: (
+    file: string,
+    frames: readonly SheetFrame[],
+    columns: number,
+  ) => Promise<void>;
 };
+
+/** What a frame is staged with: the eye's pose, and what is set around it. */
+export type Staged = readonly [pose: Pose, among?: InsideSet];
+
+/** One frame of a sheet: what it is staged with, and the pill's line shown over it. */
+export type SheetFrame = {
+  staged: Staged;
+  prompt: Parameters<CubePlayHook['setPill']>[0];
+};
+
+/** How much smaller than the page a sheet's frame is. */
+const SHEET_SCALE = 0.3;
+
+/** Page source that tiles the `images` (base64 WebP) `columns` across into one. */
+const tiled = (images: readonly string[], columns: number): string => `
+  (async () => {
+    const images = await Promise.all(${JSON.stringify(images)}.map(async (data) => {
+      const image = new Image();
+      image.src = 'data:image/webp;base64,' + data;
+      await image.decode();
+      return image;
+    }));
+    const [{ width, height }] = images;
+    const canvas = document.createElement('canvas');
+    canvas.width = width * ${String(columns)};
+    canvas.height = height * Math.ceil(images.length / ${String(columns)});
+    const context = canvas.getContext('2d');
+    images.forEach((image, index) => {
+      context.drawImage(
+        image,
+        (index % ${String(columns)}) * width,
+        Math.floor(index / ${String(columns)}) * height,
+      );
+    });
+    return canvas.toDataURL('image/webp', 0.82).split(',')[1];
+  })()`;
 
 /**
  * Runs `script` against `/cube?play` on the dev server, in a Chromium that
@@ -101,19 +146,29 @@ export async function withCubePage(
     await tab.evaluate(call('ready'), z.unknown(), { awaitPromise: true });
     const adapter = await tab.evaluate(call('adapter'), z.string());
     process.stdout.write(`adapter: ${adapter}\n`);
-    /** Saves what `set`, a hook call as page source, puts on screen as `file`. */
-    const shot = async (file: string, set: string): Promise<void> => {
+    /** Runs `set`, a hook call as page source, to its end. */
+    const run = async (set: string): Promise<void> => {
       await tab.evaluate(set, z.unknown(), { awaitPromise: true });
-      const { data } = z
-        .object({ data: z.string() })
-        .parse(await tab.send('Page.captureScreenshot', { format: 'png' }));
+    };
+    /** The hook call that stages a frame, as page source. */
+    const stage = (...[pose, among = {}]: Staged): string =>
+      call('setPose', source(pose), source(among));
+    const save = (file: string, data: string): void => {
       fs.mkdirSync(path.dirname(file), { recursive: true });
       fs.writeFileSync(file, Buffer.from(data, 'base64'));
       process.stdout.write(`shot ${path.relative(REPO_ROOT, file)}\n`);
     };
+    const captured = z.object({ data: z.string() });
+    /** Saves what `set` puts on screen as `file`. */
+    const shot = async (file: string, set: string): Promise<void> => {
+      await run(set);
+      const { data } = captured.parse(
+        await tab.send('Page.captureScreenshot', { format: 'png' }),
+      );
+      save(file, data);
+    };
     await script({
-      shoot: async (file, pose, among = {}) =>
-        shot(file, call('setPose', source(pose), source(among))),
+      shoot: async (file, ...staged) => shot(file, stage(...staged)),
       shootOutside: async (file, eye, lens, among = {}) =>
         shot(
           file,
@@ -124,6 +179,34 @@ export async function withCubePage(
             source(among),
           ),
         ),
+      sheet: async (file, frames, columns) => {
+        const images: string[] = [];
+        await inTurn(frames, async ({ staged, prompt }) => {
+          await run(stage(...staged));
+          await run(call('setPill', source(prompt)));
+          const { data } = captured.parse(
+            await tab.send('Page.captureScreenshot', {
+              format: 'webp',
+              quality: 90,
+              clip: {
+                x: 0,
+                y: 0,
+                width: WIDTH,
+                height: HEIGHT,
+                scale: SHEET_SCALE,
+              },
+            }),
+          );
+          images.push(data);
+        });
+        await run(call('setPill', 'null'));
+        save(
+          file,
+          await tab.evaluate(tiled(images, columns), z.string(), {
+            awaitPromise: true,
+          }),
+        );
+      },
       setClock: async (ms) => {
         await tab.evaluate(call('setClock', String(ms)), z.unknown());
       },

@@ -38,7 +38,7 @@ const AJAR = 0.02 / DOOR.wide;
 
 /**
  * Where along `side` a door goes: the half of the wall away from the room's
- * hole, whose lever hangs level with it.
+ * hole, whose shelf hangs level with it.
  */
 function doorAlong({ setting, chance }: Staging, side: Side): number {
   const { base, along } = SIDE_FRAMES[side];

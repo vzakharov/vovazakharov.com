@@ -11,15 +11,7 @@ import { clamp01 } from '@/cube/shared/lib/ease';
 import type { InRoom } from '@/cube/entities/world';
 
 import { breath, grunt, jump, landing, swallow } from './body';
-import {
-  knock,
-  lever,
-  pill,
-  ring,
-  shrinking,
-  stepsAway,
-  thud,
-} from './fixture';
+import { knock, pill, ring, shrinking, stepsAway, thud } from './fixture';
 import { footstep } from './footstep';
 import { rung } from './ladder';
 import { splash } from './splash';
@@ -69,7 +61,6 @@ export type SoundCue =
   | { kind: 'step'; strength: number; footing: Underfoot }
   | { kind: 'jump' }
   | { kind: 'landing'; speed: number }
-  | { kind: 'lever' }
   | { kind: 'pill' }
   | { kind: 'swallow' }
   | { kind: 'rung'; limb: Limb; ladder: Ladder }
@@ -102,9 +93,6 @@ export function samplesOf(
     }
     case 'landing': {
       return landing(cue.speed, footing, seed, rate);
-    }
-    case 'lever': {
-      return lever(seed, rate);
     }
     case 'pill': {
       return pill(seed, rate);
@@ -185,7 +173,6 @@ const GAINS: Record<Exclude<SoundCue['kind'], RoomCue>, number> = {
   step: 0.55,
   jump: 0.4,
   landing: 0.8,
-  lever: 0.7,
   pill: 0.45,
   swallow: 0.5,
   rung: 0.6,

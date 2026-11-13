@@ -10,10 +10,10 @@ export {
   type Quarter,
 } from './model/hole';
 export { type Landing, landingsSeen } from './model/landing';
-export { type Lever, leverOf, type Pulled } from './model/lever';
 export { loft, type Ring } from './model/loft';
 export { DEEPEST_FLOOR, maze } from './model/maze';
 export { boardFacets, type BoardShape, type SignMount } from './model/mount';
+export { PILL_LENGTH, PILL_RADIUS, pillQuads } from './model/pill';
 export { plant } from './model/plant';
 export { planted } from './model/planted';
 export type {
@@ -60,6 +60,7 @@ export {
   signsSeen,
 } from './model/sale';
 export { closedSides, inPlace, type Setting, settingOf } from './model/setting';
+export { pillOn, type Shelf, shelfOf } from './model/shelf';
 export { type RolledTraits, traits } from './model/traits';
 export { mazeWalls, type Walls } from './model/walls';
 export { isOutside, type Outside, type Whereabouts } from './model/whereabouts';
