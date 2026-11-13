@@ -6,7 +6,9 @@ import { pathHash } from '@/dice/shared/roll';
 import type { Sound } from '@/cube/shared/lib/acoustics';
 
 import { type Mix, samplesOf, type SoundCue, voicedOf } from '../../cues';
+import { type Beds, bedsOf, type OutsideMix } from '../../outdoors';
 import { air, hum, impulse } from '../model/tone';
+import { type Outdoors, outdoorsOf, renderInPieces } from './outdoors';
 
 /** How `play` places its samples; what is left out is full, centred and dry. */
 type Played = Partial<Mix>;
@@ -26,6 +28,12 @@ type Soundscape = CanDispose & {
    * `into` is how many seconds of it went by before the ear came.
    */
   cue: (cue: SoundCue, into?: number) => void;
+  /**
+   * What is heard of the outside, `seconds` into the hour, or null where none
+   * of it is. A frame may call this; the first call that is not null starts
+   * making the outside's loops, a little a frame, sounding or not.
+   */
+  setOutside: (mix: OutsideMix | null, seconds: number) => void;
   /** Samples made elsewhere — the voice's — through this room. */
   play: (samples: Float32Array, sampleRate: number, how?: Played) => void;
 };
@@ -175,6 +183,9 @@ export function createSoundscape(): Soundscape {
   let here: Sound | undefined;
   let size = 1;
   let cues = 0;
+  let beds: Beds | undefined;
+  let stopRendering: (() => void) | undefined;
+  let outdoors: Outdoors | undefined;
 
   function settle(): void {
     if (rig === undefined || here === undefined) return;
@@ -248,10 +259,25 @@ export function createSoundscape(): Soundscape {
       const samples = samplesOf(cue, here.footing, seed, rate);
       emit(samples, rate, mix, playbackRate, into);
     },
+    setOutside(mix, seconds) {
+      if (mix === null) {
+        outdoors?.stop();
+        outdoors = undefined;
+        return;
+      }
+      if (beds === undefined) {
+        beds = bedsOf(word);
+        stopRendering = renderInPieces(beds);
+      }
+      if (rig?.context.state !== 'running') return;
+      outdoors ??= outdoorsOf(rig.context, rig.master, beds);
+      outdoors.set(mix, seconds);
+    },
     play(samples, sampleRate, how = {}) {
       emit(samples, sampleRate, how);
     },
     dispose() {
+      stopRendering?.();
       rig?.context.close().catch(reportError);
       rig = undefined;
     },

@@ -1,2 +1,24 @@
-export { bearingOf, type SoundCue } from './cues';
+export { bearingOf, samplesOf, type SoundCue, voicedOf } from './cues';
+export {
+  BEACH,
+  type Beds,
+  bedsOf,
+  coastOf,
+  type Doorway,
+  gustAt,
+  heardFrom,
+  type Layer,
+  type Listener,
+  type OutsideMix,
+  outsideMix,
+  perLayer,
+  rendered,
+  type Scene,
+  type Sea,
+  SOUND_LAYERS,
+  SOUNDING_ISLAND,
+  surfAt,
+  throughDoorway,
+  whole,
+} from './outdoors';
 export { createSoundscape } from './scape';
