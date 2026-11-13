@@ -85,9 +85,7 @@ fn sandGrains(xz: vec2f, px: f32) -> Grains {
 /// none does. \`half\` is the unit vector halfway between sun and eye, \`px\` the
 /// metres of ground under a pixel.
 fn sandGlint(xz: vec2f, normal: vec3f, half: vec3f, px: f32) -> f32 {
-  // A spark is drawn some three pixels wide: narrower, the lens parts its
-  // colours into a red and a blue pixel.
-  let size = max(px * 3.2, 0.0015);
+  let size = max(px * 2.0, 0.0015);
   let level = log2(size);
   let lower = floor(level);
   var glint = 0.0;

@@ -139,7 +139,8 @@ fn sandLight(point: SandPoint, sun: vec3f) -> vec3f {
     let level = point.slope + 0.3 * hummocks.slope;
     let flat = normalize(vec3f(-level.x, 1.0, -level.y));
     let lying = normalize(mix(normal, flat, 0.55 + 0.45 * film));
-    let facing = max(dot(lying, point.view), 0.0);
+    // How much it mirrors goes by the lie of the sand, not of each grain.
+    let facing = max(dot(flat, point.view), 0.0);
     let fresnel = 0.02 + 0.98 * pow(1.0 - facing, 5.0);
     let rough = mix(0.12, 0.03, film);
     // Seen at a graze, the faces that would mirror the ground hide behind
@@ -150,7 +151,7 @@ fn sandLight(point: SandPoint, sun: vec3f) -> vec3f {
     let nh = max(dot(lying, half), 0.0);
     let lobe = a2 / (${Math.PI} * pow(nh * nh * (a2 - 1.0) + 1.0, 2.0));
     let glare = min(direct * ${Math.PI / 4} * lobe / max(facing, 0.05), vec3f(60.0));
-    let sheen = fresnel * mix(0.9 * damp * damp, 1.0, film);
+    let sheen = fresnel * mix(0.9 * damp, 1.0, film);
     light = mix(light, mirrored, sheen) + sheen * glare * max(dot(lying, sun), 0.0);
   }
   return light;
