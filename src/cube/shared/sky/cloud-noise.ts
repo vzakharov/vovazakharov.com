@@ -3,45 +3,71 @@ import { pathHash, roll, rollWith } from '@/dice/shared/roll';
 import { f32, vecf, wgsl } from '../lib/wgsl';
 import { HASH } from '../lib/wgsl-hash';
 import { OUTDOOR_FRAME } from '../outside/outdoor-frame';
-import { CLOUDS, LANE, WIND_AXIS } from './cloud-field';
+import {
+  CLOUDS,
+  DRIFT_PER_SECOND,
+  LANE,
+  SUN_IN_FIELD,
+  TILE,
+  WIND_AXIS,
+} from './cloud-field';
 
 const hash = pathHash('0');
 
-/** What every lattice of the clouds is salted with. */
+/** What every lattice and every cell of the clouds is salted with. */
 const { salt: SALT } = rollWith(
   roll.struct({ salt: roll.uniform(0, 2 ** 31) }),
   (path) => hash(`island/sky/clouds/${path}`),
 );
 
-const SECONDS_IN_HOUR = 3600;
-const cellsPerKm = (cells: number): string => f32(cells / CLOUDS.tile);
+/** Lattice cells to a kilometre, for a lattice of `cells` to the tile. */
+export const cellsPerKm = (cells: number): string => f32(cells / TILE);
+
+const { radius, lane } = CLOUDS;
 
 /**
- * Where clouds stand, as noise on lattices that repeat with the field's tile
- * along the wind, so the hour's drift closes on itself:
+ * Where clouds stand and the noise that shapes them, on lattices that repeat
+ * with the field's tile along the wind, so the hour's drift closes on itself:
  *
- * - `inField(at) -> vec3f`, a point `at` km from the eye as the field holds
- *   it: x along the wind from where it started the hour, y km over the sea, z
- *   across the wind;
- * - `weatherAt(field, octaves) -> vec2f`, x the cover over that point and y
- *   how tall a cloud there grows, the cover from that many of its octaves;
- * - `cloudNoise(p, period, salt) -> f32`, smooth noise in [0, 1) over a unit
- *   lattice whose x repeats every `period.x` cells and y every `period.y`.
+ * - `inField(at) -> vec3f`, a point `at` km from the island as the field
+ *   holds it: x along the wind from where it started the hour, y km over the
+ *   sea, z across the wind;
+ * - `cloudIn(cell) -> Cloud`, the cloud a cell of the field holds, its
+ *   `radius` 0 where it holds none;
+ * - `cloudNoise(p, period, salt)` and `cloudNoise2(p, period, salt)`, smooth
+ *   noise in [0, 1) over a unit lattice whose x repeats every `period` cells.
  */
 export const CLOUD_NOISE = wgsl(
   'sky/cloud-noise',
   /* wgsl */ `
 const CLOUD_SALT = ${String(Math.floor(SALT))}u;
 const CLOUD_BASE = ${f32(CLOUDS.base)};
-const CLOUD_TOP = ${f32(CLOUDS.top)};
+const CLOUD_CEILING = ${f32(CLOUDS.ceiling)};
 const CLOUD_REACH = ${f32(CLOUDS.reach)};
+const CLOUD_CELL = ${f32(CLOUDS.cell)};
+const CLOUD_BOUND = ${f32(CLOUDS.bound)};
+const TILE_CELLS = ${String(CLOUDS.tileCells)};
 const WIND_AXIS = ${vecf(WIND_AXIS)};
 const WIND_SIDE = ${vecf([-WIND_AXIS[1], WIND_AXIS[0]])};
+/// Towards the sun, in the field's axes.
+const SUN_IN_FIELD = ${vecf(SUN_IN_FIELD)};
 const EARTH_RADIUS = 6360.0;
+
+struct Cloud {
+  /// Its middle on the sea, in the field: along the wind, across it.
+  centre: vec2f,
+  /// Its footprint's radius, 0 where the cell holds no cloud, and its height.
+  radius: f32,
+  tall: f32,
+  /// Where its second, smaller dome stands from the first.
+  lobe: vec2f,
+  /// What its own billows are salted with.
+  seed: u32,
+};
 
 /// Kilometres the field has drifted down the wind this hour.
 fn cloudDrift() -> f32 {
-  return frame.clock.x * ${f32((CLOUDS.tile * CLOUDS.tilesPerHour) / SECONDS_IN_HOUR)};
+  return frame.clock.x * ${f32(DRIFT_PER_SECOND)};
 }
 
 /// The height over the sea of a point \`at\` km from the eye: the sea falls
@@ -64,61 +90,62 @@ fn cloudNoise2(p: vec2f, period: i32, salt: u32) -> f32 {
   let u = f * f * (3.0 - 2.0 * f);
   let near = wrapped(cell.x, period);
   let far = wrapped(cell.x + 1, period);
-  let a = unitOf(cellHash(vec2i(near, cell.y), salt));
-  let b = unitOf(cellHash(vec2i(far, cell.y), salt));
-  let c = unitOf(cellHash(vec2i(near, cell.y + 1), salt));
-  let d = unitOf(cellHash(vec2i(far, cell.y + 1), salt));
-  return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
+  return mix(
+    mix(unitOf(pointHash(vec3i(near, cell.y, 0), salt)), unitOf(pointHash(vec3i(far, cell.y, 0), salt)), u.x),
+    mix(unitOf(pointHash(vec3i(near, cell.y + 1, 0), salt)), unitOf(pointHash(vec3i(far, cell.y + 1, 0), salt)), u.x),
+    u.y,
+  );
 }
 
-fn cloudNoise(p: vec3f, period: vec2i, salt: u32) -> f32 {
+fn cloudNoise(p: vec3f, period: i32, salt: u32) -> f32 {
   let cell = vec3i(floor(p));
   let f = fract(p);
   let u = f * f * (3.0 - 2.0 * f);
-  let near = wrapped(cell.x, period.x);
-  let far = wrapped(cell.x + 1, period.x);
-  let low = bitcast<u32>(wrapped(cell.y, period.y));
-  let high = bitcast<u32>(wrapped(cell.y + 1, period.y));
-  // One word per column of the lattice, hashed again with each level.
-  let a = cellHash(vec2i(near, cell.z), salt);
-  let b = cellHash(vec2i(far, cell.z), salt);
-  let c = cellHash(vec2i(near, cell.z + 1), salt);
-  let d = cellHash(vec2i(far, cell.z + 1), salt);
+  let near = wrapped(cell.x, period);
+  let far = wrapped(cell.x + 1, period);
   let under = mix(
-    mix(unitOf(hashOf(a, low)), unitOf(hashOf(b, low)), u.x),
-    mix(unitOf(hashOf(c, low)), unitOf(hashOf(d, low)), u.x),
+    mix(unitOf(pointHash(vec3i(near, cell.y, cell.z), salt)), unitOf(pointHash(vec3i(far, cell.y, cell.z), salt)), u.x),
+    mix(unitOf(pointHash(vec3i(near, cell.y, cell.z + 1), salt)), unitOf(pointHash(vec3i(far, cell.y, cell.z + 1), salt)), u.x),
     u.z,
   );
   let over = mix(
-    mix(unitOf(hashOf(a, high)), unitOf(hashOf(b, high)), u.x),
-    mix(unitOf(hashOf(c, high)), unitOf(hashOf(d, high)), u.x),
+    mix(unitOf(pointHash(vec3i(near, cell.y + 1, cell.z), salt)), unitOf(pointHash(vec3i(far, cell.y + 1, cell.z), salt)), u.x),
+    mix(unitOf(pointHash(vec3i(near, cell.y + 1, cell.z + 1), salt)), unitOf(pointHash(vec3i(far, cell.y + 1, cell.z + 1), salt)), u.x),
     u.z,
   );
   return mix(under, over, u.y);
 }
 
-fn weatherAt(field: vec3f, octaves: i32) -> vec2f {
-  let at = field.xz;
-  var cover = cloudNoise2(at * ${cellsPerKm(CLOUDS.cover[0])}, ${String(CLOUDS.cover[0])}, CLOUD_SALT);
-  if (octaves > 1) {
-    cover = mix(cover, cloudNoise2(at * ${cellsPerKm(CLOUDS.cover[1])}, ${String(CLOUDS.cover[1])}, CLOUD_SALT + 1u), 0.36);
-  }
-  if (octaves > 2) {
-    cover = mix(cover, cloudNoise2(at * ${cellsPerKm(CLOUDS.cover[2])}, ${String(CLOUDS.cover[2])}, CLOUD_SALT + 2u), 0.14);
-  }
-  let tall = cloudNoise2(at * ${cellsPerKm(4)} + vec2f(0.5), 4, CLOUD_SALT + 3u);
+fn cloudIn(cell: vec2i) -> Cloud {
+  let word = cellHash(vec2i(wrapped(cell.x, TILE_CELLS), cell.y), CLOUD_SALT);
+  let size = unitOf(hashOf(word, 1u));
+  let ragged = unitOf(hashOf(word, 2u));
+  let broad = mix(${f32(radius.least)}, ${f32(radius.most)}, size * size);
+  let room = 0.5 * CLOUD_CELL - broad * CLOUD_BOUND;
+  let nudge = vec2f(unitOf(hashOf(word, 3u)), unitOf(hashOf(word, 4u))) * 2.0 - 1.0;
+  let centre = (vec2f(cell) + 0.5) * CLOUD_CELL + nudge * room;
+
   // The lane is the island's, not the field's: it stands still while the
   // clouds go down it, open where the sun's beam crosses the slab and for a
   // way either side of the island, closing far off.
-  let toSun = -(field.x + cloudDrift());
+  let toSun = -(centre.x + cloudDrift());
   let open = smoothstep(${f32(LANE.shut.behind)}, ${f32(LANE.open.behind)}, toSun)
     * (1.0 - smoothstep(${f32(LANE.open.ahead)}, ${f32(LANE.shut.ahead)}, toSun));
-  let clear = ${f32(CLOUDS.lane.clear)} * open;
-  let edge = clear + ${f32(CLOUDS.lane.full - CLOUDS.lane.clear)} * (0.35 + 0.65 * tall);
-  let lane = mix(1.0, smoothstep(clear, edge, abs(field.z)), smoothstep(0.0, 0.2, open));
-  let away = length(vec2f(toSun, field.z));
-  let fade = 1.0 - smoothstep(0.75 * CLOUD_REACH, CLOUD_REACH, away);
-  return vec2f(smoothstep(0.5, 0.78, cover) * lane * fade, smoothstep(0.3, 0.7, tall));
+  let clear = ${f32(lane.clear)} * open;
+  let edge = clear + ${f32(lane.full - lane.clear)} * (0.35 + 0.65 * ragged);
+  let laned = mix(1.0, smoothstep(clear, edge, abs(centre.y)), smoothstep(0.0, 0.2, open));
+  let away = length(vec2f(toSun, centre.y));
+  let stands = laned * (1.0 - smoothstep(0.8 * CLOUD_REACH, CLOUD_REACH, away));
+  if (unitOf(word) > ${f32(CLOUDS.chance)} || stands < 0.3) {
+    return Cloud(centre, 0.0, 0.0, vec2f(0.0), 0u);
+  }
+
+  let radius = broad * stands;
+  // The broad ones are the ones that tower.
+  let tower = mix(0.8, 1.4, unitOf(hashOf(word, 5u))) + 0.9 * smoothstep(0.6, 1.0, size) * ragged;
+  let tall = min(radius * tower, (CLOUD_CEILING - CLOUD_BASE) / 1.2);
+  let turn = ${f32(2 * Math.PI)} * unitOf(hashOf(word, 6u));
+  return Cloud(centre, radius, tall, 0.55 * radius * vec2f(cos(turn), sin(turn)), hashOf(word, 7u));
 }
 `,
   HASH,

@@ -12,13 +12,10 @@ export const SKY = wgsl(
   'outside/sky',
   /* wgsl */ `
 fn skyRadiance(dir: vec3f, lod: f32) -> vec3f {
-  var clouds: vec4f;
-  if (lod < 0.5) {
-    clouds = cloudsAlong(dir, 0.5);
-  } else {
-    clouds = cloudVeil(dir, lod);
-  }
-  return clearSky(dir) * clouds.a + clouds.rgb;
+  let clouds = cloudVeil(dir);
+  var behind = clearSky(dir) + aureole(dir);
+  if (lod < 0.5) { behind += sunDisc(dir, 0.0005); }
+  return behind * clouds.a + clouds.rgb;
 }
 `,
   CLOUDS_WGSL,

@@ -12,8 +12,8 @@ export const AIR = {
   top: 6460,
   rayleigh: { scatter: [5.802e-3, 13.558e-3, 33.1e-3], height: 8 },
   mie: {
-    scatter: [0.019, 0.021, 0.024],
-    absorb: [0.002, 0.002, 0.0025],
+    scatter: [0.04, 0.043, 0.047],
+    absorb: [0.004, 0.004, 0.0045],
     height: 1.2,
     /** The asymmetry of the broad lobe every scattering integral uses. */
     g: 0.8,

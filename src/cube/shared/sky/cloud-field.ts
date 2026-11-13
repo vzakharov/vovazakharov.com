@@ -1,41 +1,52 @@
 import { SUN_DIR } from '../outside/sun';
 
 /**
- * The cumulus field, in kilometres. The wind blows along the sun's bearing,
- * and a lane either side of that line through the island stays clear, so no
- * cloud ever crosses the island or the sun's beam to it: the sunlight the
- * outside is lit by is constant, and the clouds stand to either hand.
+ * The cumulus field, in kilometres. The sea under it is cut into square cells
+ * along and across the wind, and a cell holds one cloud or none, standing
+ * wholly inside it. The wind blows along the sun's bearing, and a lane either
+ * side of that line through the island stays clear, so no cloud ever crosses
+ * the island or the sun's beam to it: the sunlight the outside is lit by is
+ * constant, and the clouds stand to either hand.
  */
 export const CLOUDS = {
-  /** The slab clouds live in, over the sea. */
+  /** Every cloud's flat underside, over the sea. */
   base: 1.1,
-  top: 5.6,
-  /** The field repeats this far along the wind. */
-  tile: 36,
+  /** No cloud's crown is higher. */
+  ceiling: 5.4,
+  /** A cell's side. */
+  cell: 5,
+  /** The field repeats over this many cells along the wind. */
+  tileCells: 7,
   /** Whole tiles the field drifts down the wind in an hour. */
   tilesPerHour: 1,
+  /** The share of cells that hold a cloud. */
+  chance: 0.64,
+  /** A cloud's footprint, from the many small to the few broad. */
+  radius: { least: 0.45, most: 1.7 },
   /**
-   * Lattice cells to a tile for each noise, coarsest first: where clouds
-   * stand, how they billow, and the grain that wears their edge. Whole
-   * numbers, so each repeats with the tile.
+   * How far past its own radius a cloud's billows may reach, as a share of
+   * it: the bound it is marched inside, which its cell contains.
    */
-  cover: [5, 12, 30],
-  billow: [20, 48],
-  grain: 120,
+  bound: 1.45,
   /**
-   * The grain repeats over this many of its cells upward, and rises through
-   * that many in an hour.
+   * Lattice cells to a cloud's radius for the noise that billows it, coarsest
+   * first, and cells to a tile for the grain that frays its edge.
    */
-  grainRise: 16,
-  /** How high the thin ice cloud lies. */
+  billow: [1.4, 4.3],
+  grain: 350,
+  /** How high the thin ice cloud lies, and how far off it is still drawn. */
   cirrus: 9.5,
+  cirrusReach: 260,
   /** Across the wind: clear inside `clear`, the field's own cover past `full`. */
-  lane: { clear: 5.5, full: 9 },
+  lane: { clear: 3.4, full: 6 },
   /** No cloud is drawn farther off than this. */
-  reach: 160,
+  reach: 140,
   /** What a kilometre of the densest cloud takes out of a beam. */
   extinction: 40,
 } as const;
+
+/** The field's period along the wind. */
+export const TILE = CLOUDS.cell * CLOUDS.tileCells;
 
 const SECONDS_IN_HOUR = 3600;
 const flat = Math.hypot(SUN_DIR[0], SUN_DIR[2]);
@@ -43,28 +54,23 @@ const flat = Math.hypot(SUN_DIR[0], SUN_DIR[2]);
 /** The wind's bearing on the ground: from the sun's side, away from it. */
 export const WIND_AXIS = [-SUN_DIR[0] / flat, -SUN_DIR[2] / flat] as const;
 
+/** Towards the sun, as the field's own axes hold it: along the wind, up, across. */
+export const SUN_IN_FIELD = [-flat, SUN_DIR[1], 0] as const;
+
+/** Kilometres the field drifts down the wind in a second. */
+export const DRIFT_PER_SECOND =
+  (TILE * CLOUDS.tilesPerHour) / SECONDS_IN_HOUR;
+
 /** Kilometres the field has drifted down the wind, `seconds` into the hour. */
-export const driftAt = (seconds: number): number =>
-  (CLOUDS.tile * CLOUDS.tilesPerHour * seconds) / SECONDS_IN_HOUR;
-
-/** Cells of its own the grain has risen, `seconds` into the hour. */
-export const grainRiseAt = (seconds: number): number =>
-  (CLOUDS.grainRise * seconds) / SECONDS_IN_HOUR;
-
-/** How far across the wind a point (x east, z south, km from the island) lies. */
-export const acrossWind = (x: number, z: number): number =>
-  x * -WIND_AXIS[1] + z * WIND_AXIS[0];
+export const driftAt = (seconds: number): number => DRIFT_PER_SECOND * seconds;
 
 const smoothstep = (a: number, b: number, x: number): number => {
   const c = Math.min(1, Math.max(0, (x - a) / (b - a)));
   return c * c * (3 - 2 * c);
 };
 
-/** The sun's beam to the island is inside the cloud slab between these km toward the sun. */
-const BEAM = {
-  enters: CLOUDS.base / Math.tan(Math.asin(SUN_DIR[1])),
-  leaves: CLOUDS.top / Math.tan(Math.asin(SUN_DIR[1])),
-};
+/** The sun's beam to the island is inside the cloud slab up to this many km toward the sun. */
+const BEAM_LEAVES = CLOUDS.ceiling / Math.tan(Math.asin(SUN_DIR[1]));
 
 /**
  * Where along the sun's bearing the lane is open, in km toward the sun from
@@ -73,15 +79,15 @@ const BEAM = {
  * `shut`, where a cloud bank may stand under the sun or opposite it.
  */
 export const LANE = {
-  open: { behind: -14, ahead: Math.ceil(BEAM.leaves) + 6 },
-  shut: { behind: -45, ahead: Math.ceil(BEAM.leaves) + 40 },
+  open: { behind: -14, ahead: Math.ceil(BEAM_LEAVES) + 6 },
+  shut: { behind: -45, ahead: Math.ceil(BEAM_LEAVES) + 40 },
 } as const;
 
 /**
- * The share of the field's cover the lane leaves at a point `toSun` km
- * toward the sun from the island and `across` km to the side; `ragged` in
- * [0, 1] is the weather's own unevenness there, which frays the lane's edge
- * without ever reaching inside its clear width.
+ * The share of its size the lane leaves a cloud standing `toSun` km toward
+ * the sun from the island and `across` km to the side; `ragged` in [0, 1] is
+ * the cloud's own, which frays the lane's edge without ever reaching inside
+ * its clear width.
  */
 export const laneCover = (
   toSun: number,

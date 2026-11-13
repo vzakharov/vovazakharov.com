@@ -18,8 +18,8 @@ export const DISC_LIGHT = 600;
  * aureole ten degrees wide. The broad lobe is the fitted sky's.
  */
 const AUREOLE = [
-  { g: 0.99, share: 0.04 },
-  { g: 0.95, share: 0.22 },
+  { g: 0.99, share: 0.02 },
+  { g: 0.95, share: 0.1 },
 ] as const;
 
 /**
