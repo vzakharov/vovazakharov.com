@@ -23,9 +23,12 @@ Frames: `opposite`, `wake-sea`, and the approved eye as `approved-eye` with
   smaller than in sand's frame; that is the lens as your branch has it now, not
   the sky. The cloud differs in two ways: a taller dome (your flat-tops item)
   and a slightly dimmer bright rim.
-- **Not done.** The two mushrooms at the far left and right of `opposite`. The
-  operator also told me a cloud's underside reads as too even an arc; that is
-  the same flat base, and it is next.
+- **The base (added after the message).** The operator told me a cloud's
+  underside read as too even an arc. A base now rises in places with the
+  cloud's own lumps, up to a quarter of its height; the crown is untouched.
+  `approved-eye` and the pair are re-shot with it; `opposite` and `wake-sea` are
+  from just before it.
+- **Not done.** The two mushrooms at the far left and right of `opposite`.
 
 `cloudGlance` and `cloudVeil` moved to `sky/cloud-veil.ts` (`CLOUD_VEIL`), which
 `outside/sky.ts` now needs; `clouds.ts` is at 338 lines. Gates green:
