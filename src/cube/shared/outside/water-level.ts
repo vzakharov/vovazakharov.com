@@ -1,3 +1,4 @@
+import { lerp as mix, smoothstep } from '../lib/ease';
 import type { Vec2 } from '../lib/vec';
 import { f32, vecf, wgsl } from '../lib/wgsl';
 import { ISLAND_HEIGHT, islandHeight } from './island-height';
@@ -60,13 +61,6 @@ const SINKS_UNDER = 0.01;
 const DRY = 0.03;
 /** The width, metres, the level's joins are rounded over. */
 const ROUND = 0.012;
-
-const smoothstep = (from: number, to: number, x: number): number => {
-  const t = Math.min(Math.max((x - from) / (to - from), 0), 1);
-  return t * t * (3 - 2 * t);
-};
-
-const mix = (a: number, b: number, t: number): number => a + (b - a) * t;
 
 /** The greater of two levels, rounded where they cross. */
 const over = (a: number, b: number): number =>

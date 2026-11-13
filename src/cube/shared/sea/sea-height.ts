@@ -1,3 +1,4 @@
+import { smoothstep } from '../lib/ease';
 import type { Vec2 } from '../lib/vec';
 import { islandHeight, waterLevel } from '../outside';
 import { HOUR_SECONDS } from '../outside/swell';
@@ -71,11 +72,6 @@ const cascades = (): Array<{ waves: Wave[]; offset: number }> =>
     waves: tallest(index),
     offset: (CASCADES[index]?.tileSide ?? 0) / (2 * TILE),
   })));
-
-const smoothstep = (from: number, to: number, x: number): number => {
-  const t = Math.min(Math.max((x - from) / (to - from), 0), 1);
-  return t * t * (3 - 2 * t);
-};
 
 /** How much of each carrying cascade the place `xz` lets through. */
 function calm(xz: Vec2): readonly [number, number] {

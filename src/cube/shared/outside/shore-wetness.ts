@@ -1,3 +1,4 @@
+import { smoothstep } from '../lib/ease';
 import type { Vec2 } from '../lib/vec';
 import { f32, wgsl } from '../lib/wgsl';
 import { crestOf, SEA_GRAVITY, setsAt, SWELL_HEIGHT, turnsAt } from './swell';
@@ -18,11 +19,6 @@ export const NEVER_WET = 1e3;
 const DRIES = 28;
 /** Seconds between which the film of water left on the sand sinks away. */
 const FILM = [0.4, 5] as const;
-
-const smoothstep = (from: number, to: number, x: number): number => {
-  const t = Math.min(Math.max((x - from) / (to - from), 0), 1);
-  return t * t * (3 - 2 * t);
-};
 
 /**
  * Seconds since a swash sheet last lay on sand `bed` metres over the still

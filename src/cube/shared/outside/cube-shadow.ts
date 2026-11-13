@@ -1,3 +1,4 @@
+import { smoothstep } from '../lib/ease';
 import { SUN_DISC, SUN_SPREAD } from '../lib/sun-disc';
 import { cross3, dot3, moved, scaled, type Vec3 } from '../lib/vec';
 import { f32, vecf, wgsl } from '../lib/wgsl';
@@ -17,11 +18,6 @@ const CRISP = 0.003;
 
 /** How far behind the thing that casts it a shadow is whole, in metres. */
 const BEHIND = 0.05;
-
-const smoothstep = (from: number, to: number, x: number): number => {
-  const t = Math.min(Math.max((x - from) / (to - from), 0), 1);
-  return t * t * (3 - 2 * t);
-};
 
 const HALF = scaled(moved(CUBE_BOX.max, CUBE_BOX.min, -1), 0.5);
 const MIDDLE = moved(CUBE_BOX.min, HALF);
