@@ -66,6 +66,10 @@ done, no merge to `main` without the operator's word, and
   model** — the operator: «для таких задач можно и экономить а не фейбла
   запускать». A reader agent that digests transcripts, files or logs takes
   `haiku` or `sonnet`; a coordinator whose work is mechanics takes Sonnet.
+- **A child writes in English in its own session too**, whatever the operator's
+  voice entry says, and its brief says so: English costs about a third fewer
+  tokens. A question the operator puts to it in another language is answered in
+  that language, and the child goes back to English.
 - **A team stopped by the limit is not woken; it is replaced.** The lead reads
   each stopped session's last messages and its branch's pushed state, then
   starts a new session on that same branch (`source_revision` and

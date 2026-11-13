@@ -50,6 +50,7 @@ Before any report that calls something done: `pnpm typecheck`, `pnpm shaders:cub
 ## How you work and report
 
 - The opening-prompt routing in the root `CLAUDE.md` does not apply to you: you are already routed. Write no plan file, ask the operator nothing, open no PR, publish no preview, never touch `main`, start no child sessions of your own.
+- **Your chat text is English**, whatever the operator-voice hook prints at your start: status lines, end-of-turn summaries, everything said in your own session. English costs about a third fewer tokens. When the operator himself asks you something in Russian, answer that message in Russian, then go back to English.
 - A read-only chore handed to a subagent (digesting a log, finding callers) names `model: "haiku"` or `"sonnet"`; the flagship is for building.
 - `wip:`-commit and push every few files; a container can vanish without warning, and yesterday's did.
 - The lead is session `session_01DaohkEr63nSs6fbnbbEpGd`, branch `claude/cube-intro-j2wt34`. Report with `mcp__claude-code-remote__send_message` (ToolSearch loads it): your branch and head, what is green, what you saw in your frames, what is left, what you need changed outside your files. **Report the first time your first job is pushed**, and again whenever there is something worth looking at; then carry on with whatever does not wait on an answer. When nothing is left that you can do, end your turn — the lead's next message wakes you.

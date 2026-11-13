@@ -122,6 +122,14 @@ compaction before deciding anything about what is being built.
   `src/cube/CLAUDE.md`, the contract and `briefs/restart.md` say so; sea, sky
   and core were told (sky may back its cheap lods with a per-frame sky map).
 
+- **~09:27Z, the children's language**: «для экономии контекста, пусть
+  подсессии-билдеры говорят на английском … unless я их спрашиваю что-то на
+  русском, тогда отвечаем на русском и дальше продолжают на английском». Sent to
+  all nine; in `briefs/restart.md` and the skill.
+- **~09:22Z, a side quest**: an explainer artifact, in Russian, on the two ways
+  of drawing an ocean, by a session on Opus (`session_01DaohkCAMKaXBKvg2MagU7i`,
+  no branch, changes nothing). Its link goes to the operator when it reports.
+
 ## Facts established
 
 - **The seam (core step 1, 1a311efa, merged into this branch at faedd71d)**: the
@@ -333,11 +341,17 @@ not append.
   (`pages/cube/ui/<name>-layer.ts`, `pages/cube/lib/<name>-shader.ts`).
   Typecheck, 72 of 72 shaders and the seam's tests green; lint still red on
   shell's four errors in `shared/outside`.
-- **First assembled frame** (`wake-cube`, in gitignored `tmp/cube-outside/`, so
-  re-shoot): a believable low sun in a pale sky, wet sand mirroring it with
-  glints, the island's back in blue shade. The cube reads as a small box sitting
-  on the dune: the 1.1 m gap does not show from the waking spot, and the
-  stand-in shell has no bands. Nothing was sent to the board from it.
+- **Merged since the restart**: shell's real cube and ladder with core's
+  `ladderGone` (2364cb7c). Frames of it for the board under `frames/lead/`.
+- **What the six eyes showed at 2364cb7c**: the cube reads as a banded black
+  block beside the sun, but is a tenth of the frame from the waking spot and its
+  gap is a two-pixel slit on the dune's skyline (sand proposes a staging; the
+  lead leans to waking ~15 m off). The grey bands read brown, the ladder reads
+  as wood, the specks shine in shadow like stars (all with shell). **A black
+  block across the horizon** in `wake-sea`, `doorway-out`, `room-doorway`: read
+  as a non-finite value on the horizon line smeared by the bloom; with core,
+  ahead of its other jobs. The pill is black and pale grey (942cb4ce on pill's
+  branch), accepted on frames.
 - **Waiting on**: each session's first report (core's `ladderGone` names go to
   shell and walk; shell's layer is merged the moment it is pushed). Old board
   session still to archive.
