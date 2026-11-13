@@ -83,7 +83,7 @@ fn shoreAt(xz: vec2f) -> Shore {
   let facing = shoreFacing(dot(rise, SWELL_RUNS), length(rise), shore.bed);
   let depth = shoreDepth(shore.bed);
   shore.runs = normalize(SWELL_RUNS * SWELL_PACE + shoreSlowing(depth) * rise);
-  shore.shelter = sheltered(facing);
+  shore.shelter = shelterAt(xz, facing);
   shore.tau = t - dot(xz, SWELL_RUNS) * SWELL_PACE - shoreDelay(depth);
   let turns = turnsAt(shore.tau);
   let n = floor(turns);
@@ -94,7 +94,7 @@ fn shoreAt(xz: vec2f) -> Shore {
     sheetDepth(n, shore.tau, shore.bed, shore.shelter),
     sheetDepth(n - 1.0, shore.tau, shore.bed, shore.shelter),
   );
-  shore.level = swellLevel(dot(xz, SWELL_RUNS), shore.bed, facing, t);
+  shore.level = swellLevel(dot(xz, SWELL_RUNS), shore.bed, shore.shelter, t);
   return shore;
 }
 `,

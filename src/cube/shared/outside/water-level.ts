@@ -2,6 +2,7 @@ import { lerp as mix, smoothstep } from '../lib/ease';
 import type { Vec2 } from '../lib/vec';
 import { f32, vecf, wgsl } from '../lib/wgsl';
 import { ISLAND_HEIGHT, islandHeight } from './island-height';
+import { cusped, SHORE_CUSPS } from './shore-cusps';
 import {
   bore,
   crestOf,
@@ -105,6 +106,10 @@ export function shoreFacing(along: number, steep: number, bed: number): number {
 export const sheltered = (facing: number): number =>
   mix(LEE, 1, smoothstep(-0.6, 0.7, facing));
 
+/** What the shore at `xz` keeps of a wave: its lee's share, cusped along the crest. */
+export const shelterAt = (xz: Vec2, facing: number): number =>
+  sheltered(facing) * cusped(xz[0] * SWELL_RUNS[1] - xz[1] * SWELL_RUNS[0]);
+
 /** The open swell's amplitude, metres, on a shore keeping `shelter` of it. */
 const swellAmplitude = (tau: number, shelter: number): number =>
   0.5 * SWELL_HEIGHT * shelter * setsAt(tau);
@@ -174,16 +179,15 @@ export function sheetDepth(
 
 /**
  * The sea's slow surface where the bed stands at `bed`, a point's `run`
- * metres along the swell's heading, facing it by `facing`, at `seconds`.
+ * metres along the swell's heading, keeping `shelter` of a wave, at `seconds`.
  */
 export function swellLevel(
   run: number,
   bed: number,
-  facing: number,
+  shelter: number,
   seconds: number,
 ): number {
   const tau = seconds - run / DEEP_SPEED - shoreDelay(shoreDepth(bed));
-  const shelter = sheltered(facing);
   const n = Math.floor(turnsAt(tau));
   const sheet = Math.max(
     sheetDepth(n, tau, bed, shelter),
@@ -238,7 +242,7 @@ export function shoreClock(xz: Vec2, seconds: number): ShoreClock {
     bed,
     tau: seconds - run / DEEP_SPEED - shoreDelay(shoreDepth(bed)),
     towardSwell: facing,
-    shelter: sheltered(facing),
+    shelter: shelterAt(xz, facing),
   };
 }
 
@@ -257,9 +261,9 @@ export const waterLevel = (xz: Vec2, seconds: number): number =>
  * through time pays for the island's height only on the first call.
  */
 export function waterLevelAt(xz: Vec2): (seconds: number) => number {
-  const { bed, towardSwell } = shoreClock(xz, 0);
+  const { bed, shelter } = shoreClock(xz, 0);
   const run = xz[0] * SWELL_RUNS[0] + xz[1] * SWELL_RUNS[1];
-  return (seconds) => swellLevel(run, bed, towardSwell, seconds);
+  return (seconds) => swellLevel(run, bed, shelter, seconds);
 }
 
 /**
@@ -311,6 +315,10 @@ fn shoaled(open: f32, bed: f32) -> f32 {
   return open * max(1.0, pow(${f32(SHOALS_FROM)} / shoreDepth(bed), 0.25));
 }
 
+fn shelterAt(xz: vec2f, facing: f32) -> f32 {
+  return sheltered(facing) * cusped(xz.x * SWELL_RUNS.y - xz.y * SWELL_RUNS.x);
+}
+
 fn steepness(open: f32, bed: f32) -> f32 {
   return shoaled(open, bed) / max(${f32(0.5 * SURF)} * -bed, 1e-4);
 }
@@ -352,9 +360,8 @@ fn sheetDepth(n: f32, tau: f32, bed: f32, shelter: f32) -> f32 {
     * exp(min(bed, 0.0) / 0.25);
 }
 
-fn swellLevel(run: f32, bed: f32, facing: f32, seconds: f32) -> f32 {
+fn swellLevel(run: f32, bed: f32, shelter: f32, seconds: f32) -> f32 {
   let tau = seconds - run * SWELL_PACE - shoreDelay(shoreDepth(bed));
-  let shelter = sheltered(facing);
   let n = floor(turnsAt(tau));
   let sheet = max(sheetDepth(n, tau, bed, shelter), sheetDepth(n - 1.0, tau, bed, shelter));
   var low = bed - ${f32(DRY)} * smoothstep(0.0, 0.05, bed);
@@ -384,9 +391,10 @@ fn waterLevel(xz: vec2f, t: f32) -> f32 {
   let bed = islandHeight(xz);
   let rise = shoreRise(xz);
   let facing = shoreFacing(dot(rise, SWELL_RUNS), length(rise), bed);
-  return swellLevel(dot(xz, SWELL_RUNS), bed, facing, t);
+  return swellLevel(dot(xz, SWELL_RUNS), bed, shelterAt(xz, facing), t);
 }
 `,
   ISLAND_HEIGHT,
   SWELL_TRAIN,
+  SHORE_CUSPS,
 );

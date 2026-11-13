@@ -104,7 +104,7 @@ fn shoreDrySince(xz: vec2f, t: f32) -> f32 {
   let rise = shoreRise(xz);
   let facing = shoreFacing(dot(rise, SWELL_RUNS), length(rise), bed);
   let tau = t - dot(xz, SWELL_RUNS) * SWELL_PACE - shoreDelay(shoreDepth(bed));
-  return drySince(tau, bed, sheltered(facing));
+  return drySince(tau, bed, shelterAt(xz, facing));
 }
 
 fn shoreWetness(xz: vec2f, t: f32) -> vec2f {
