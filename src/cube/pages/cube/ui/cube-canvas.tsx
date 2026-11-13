@@ -30,7 +30,7 @@ type CubeCanvasProps = {
   floor: string;
   /** The one line shown when the URL's fragment leads nowhere. */
   nowhere: string;
-  /** The hint for what a press does where the body stands, by its way. */
+  /** The hint for each way, a sign's and a pill's taking its place first. */
   ways: Record<Way, string>;
   /** The lines shown by a pill in reach and by one in the hand. */
   pill: PillCopy;

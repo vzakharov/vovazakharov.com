@@ -1,5 +1,6 @@
 import { asError } from '@/kernel/shared/lib/error-class';
 
+import { pressedShift, WALKING } from '../model/pace';
 import type { Input } from '../model/step';
 
 /** Radians of look per pixel of mouse travel. */
@@ -56,8 +57,8 @@ const GO_TO =
   /^KeyG KeyO KeyT KeyO (?:Digit|Numpad)(\d) (?:Digit|Numpad)(\d)$/u;
 const GO_TO_KEYS = 6;
 
-/** The keys that, held, slow the run to a walk. */
-const WALKING = new Set(['ShiftLeft', 'ShiftRight']);
+/** The keys that, held, give the body the pace it does not stand at. */
+const SHIFTS = new Set(['ShiftLeft', 'ShiftRight']);
 
 /** Whether keys typed at `target` are text, not a move. */
 const isTextField = (target: EventTarget | null): boolean =>
@@ -73,6 +74,8 @@ const isTextField = (target: EventTarget | null): boolean =>
 export type InputBinding = {
   /** This frame's input; the look deltas accumulated since the last read. */
   read: () => Input;
+  /** Whether a Shift key has been pressed since the binding began. */
+  shifted: () => boolean;
   dispose: () => void;
 };
 
@@ -80,7 +83,9 @@ export type InputBinding = {
  * Keyboard and pointer-lock mouse bound to `target`. Keys move whenever the
  * page has focus, except while typing into a text field; a click on `target`
  * takes the pointer lock, and only while it is held does the mouse look. A
- * refused lock goes to `onError`.
+ * refused lock goes to `onError`. The body walks at first; Shift held gives it
+ * the other pace, and a double press of Shift makes that pace the one it
+ * stands at.
  */
 export function bindInput(
   target: HTMLElement,
@@ -88,6 +93,8 @@ export function bindInput(
 ): InputBinding {
   const held = new Set<Code>();
   const shifts = new Set<string>();
+  let pace = WALKING;
+  let shifted = false;
   let turn = 0;
   let tilt = 0;
   let use = false;
@@ -110,7 +117,16 @@ export function bindInput(
     tilt -= event.movementY * LOOK_PER_PIXEL;
   };
   const onKey = (event: KeyboardEvent) => {
-    const { code, key, type, ctrlKey, metaKey, repeat, target: on } = event;
+    const {
+      code,
+      key,
+      type,
+      ctrlKey,
+      metaKey,
+      repeat,
+      target: on,
+      timeStamp,
+    } = event;
     const notAMove = isTextField(on) || ctrlKey || metaKey;
     if (type === 'keydown' && !repeat && !notAMove) {
       typed = [...typed, code].slice(-GO_TO_KEYS);
@@ -129,9 +145,13 @@ export function bindInput(
       use = true;
       return;
     }
-    if (WALKING.has(code)) {
+    if (SHIFTS.has(code)) {
       if (type === 'keyup') shifts.delete(code);
       else shifts.add(code);
+      if (type === 'keydown' && !repeat && !notAMove) {
+        pace = pressedShift(pace, timeStamp / 1000);
+        shifted = true;
+      }
       return;
     }
     if (!isCode(code)) return;
@@ -163,7 +183,7 @@ export function bindInput(
         tiltKeys: 0,
         yawBy: turn,
         elevationBy: tilt,
-        walking: shifts.size > 0,
+        running: pace.running !== shifts.size > 0,
         use,
         answer,
         goTo,
@@ -179,6 +199,7 @@ export function bindInput(
       goTo = null;
       return input;
     },
+    shifted: () => shifted,
     dispose() {
       target.removeEventListener('click', onClick);
       document.removeEventListener('mousemove', onMove);

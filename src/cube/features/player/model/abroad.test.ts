@@ -178,7 +178,7 @@ describe('abroad', () => {
       assert.ok(Math.abs(y - land.height(x, z) - EYE_OVER_SAND * scale) < 1e-6);
       assert.ok(!canClimb(state, STAGE, 0));
       // A second of running east covers the body's own share of 3.5 m.
-      const running = { ...STILL, walk: 1, walking: true };
+      const running = { ...STILL, walk: 1, running: true };
       const ran = run(state, running, 1).state.roamer;
       const went = Math.hypot(ran.eye[0] - x, ran.eye[2] - z);
       assert.ok(Math.abs(went - 3.5 * scale) < 0.2 * scale, `${went}`);

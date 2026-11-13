@@ -22,7 +22,7 @@ const beach: Land = {
 
 const EAST = { yaw: 0, elevation: 0 };
 const ahead: Input = { ...STILL, walk: 1 };
-const running: Input = { ...ahead, walking: true };
+const running: Input = { ...ahead, running: true };
 const DT = 1 / 60;
 
 /** `roamer` after `seconds` of `input` on `land`, and every cue on the way. */

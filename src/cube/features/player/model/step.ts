@@ -5,7 +5,7 @@ import { walk } from './body';
 /** Walking speed in room sides a second: 1.4 m/s on floor 1. */
 export const WALK_SPEED = 0.28;
 
-/** Running speed, the body's pace indoors unless it walks: 3.5 m/s on floor 1. */
+/** Running speed, the body's pace while it runs: 3.5 m/s on floor 1. */
 export const RUN_SPEED = 0.7;
 
 /** Eye height over the slab, in room sides: 1.6 m on floor 1. */
@@ -24,8 +24,9 @@ export const TILT_RATE = Math.PI / 3;
  * (rightward) and `tiltKeys` (upward) are in `[-1, 1]` — keys give -1, 0 or
  * 1, a diagonal is normalized to the body's pace, and the turn and tilt go at
  * their rates over the frame; `yawBy` and `elevationBy` are radians to add to
- * the pose's this frame, whatever its length; `walking` slows the run to a
- * walk indoors, and quickens the walk to a run out of doors; `use` is whether what is in reach — a pill, a sign — was asked for
+ * the pose's this frame, whatever its length; `running` quickens the body's
+ * walk to a run, indoors and out; `use` is whether what is in reach — a pill,
+ * a sign — was asked for
  * since the last frame, `answer` what was said to a question since then, and
  * `goTo` the floor asked for by its number, null when none was.
  */
@@ -36,7 +37,7 @@ export type Input = {
   tiltKeys: number;
   yawBy: number;
   elevationBy: number;
-  walking: boolean;
+  running: boolean;
   use: boolean;
   answer: 'yes' | 'no' | null;
   goTo: number | null;
@@ -50,7 +51,7 @@ export const STILL: Input = {
   tiltKeys: 0,
   yawBy: 0,
   elevationBy: 0,
-  walking: false,
+  running: false,
   use: false,
   answer: null,
   goTo: null,
@@ -100,7 +101,7 @@ export function strideOf(
  */
 export function step(pose: Pose, input: Input, dt: number, walls: Walls): Pose {
   const gaze = turned(pose, input, dt);
-  const speed = input.walking ? WALK_SPEED : RUN_SPEED;
+  const speed = input.running ? RUN_SPEED : WALK_SPEED;
   const [east, south] = strideOf(input, gaze.yaw, speed * pose.scale * dt);
   return walk(
     { ...pose, ...gaze, eyeAbove: EYE_HEIGHT * pose.scale },

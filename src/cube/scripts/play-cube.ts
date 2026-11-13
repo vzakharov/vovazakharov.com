@@ -135,7 +135,7 @@ function swallowed(quarter: Quarter): Shot[] {
     player = play(
       player,
       free
-        ? { ...STILL, walking: true, walk: 1, yawBy: turn }
+        ? { ...STILL, walk: 1, yawBy: turn }
         : { ...STILL, answer: isAsking(player) ? 'yes' : null },
       FRAME,
       plantedWalls,

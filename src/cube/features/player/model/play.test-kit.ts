@@ -75,4 +75,5 @@ export function small(): Player {
   return { ...last, pose: { ...last.pose, yaw: 0 } };
 }
 
-export const ahead: Input = { ...STILL, walk: 1 };
+/** A run straight ahead, the pace the floor's tests are timed at. */
+export const ahead: Input = { ...STILL, walk: 1, running: true };

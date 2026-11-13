@@ -204,7 +204,7 @@ describe('play, small', () => {
     };
     const run = count(beside({ yaw: 0 }), ahead);
     const smallRun = count(small(), ahead);
-    const stroll = count(beside({ yaw: 0 }), { ...ahead, walking: true });
+    const stroll = count(beside({ yaw: 0 }), { ...ahead, running: false });
     assert.ok(run.length > 5);
     assert.equal(smallRun.length, run.length);
     assert.ok(stroll.length < run.length && stroll.length > 0);
@@ -227,8 +227,8 @@ describe('play, the hole', () => {
   it('lets a whole body walk over it', () => {
     const played = frames(
       beside({ yaw: 0 }),
-      { ...ahead, walking: true },
-      { ...ahead, walking: true },
+      { ...ahead, running: false },
+      { ...ahead, running: false },
       ({ pose }) => pose.u > 0.4,
     );
     assert.ok(played.some(({ pose }) => Math.abs(pose.u - 0.25) < 0.01));

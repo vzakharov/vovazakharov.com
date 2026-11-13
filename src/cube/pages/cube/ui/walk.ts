@@ -55,10 +55,13 @@ import { hear } from './hearing';
 import { drawn, type PillPrompt, pillPromptOf } from './pill-prompt';
 
 /**
- * What a press of the hand does where the body stands, a sign aside, or
- * what the body has just found there.
+ * What a press of the hand does where the body stands, a sign aside, what
+ * the body has just found there, or the key that runs.
  */
-export type Way = 'wake' | 'climb' | 'gone';
+export type Way = 'wake' | 'climb' | 'gone' | 'run';
+
+/** The floor from which, down, the run's key is told until first pressed. */
+const RUN_TOLD_FROM = 3;
 
 /**
  * `open` hears a press on a sign in reach; `offering` whether one is open.
@@ -300,7 +303,8 @@ export function walk(
             }
             reach(moved, signOf, controls.use && standing);
             setPill(pillPromptOf(player, moved, here));
-            setWay(null);
+            // The canvas lets a sign's and a pill's hints take the place first.
+            setWay(moved.n >= RUN_TOLD_FROM && !input.shifted() ? 'run' : null);
             // A key held through the look is not a second try.
             if (
               sill === 'seen' &&

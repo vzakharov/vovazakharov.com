@@ -173,7 +173,7 @@ export const footingAt = (
  * `roamer` after `dt` seconds of `input` on `land`, `seconds` into the hour.
  *
  * It walks the sand at the inside's walking pace, and runs it at the inside's
- * running pace while `input.walking` holds, its eye its own height over its
+ * running pace while `input.running` holds, its eye its own height over its
  * soles; its footfalls fall harder the nearer its pace is a run's. It slows to
  * a swimmer's pace as the water deepens round its legs, and floats once its
  * depth would put its eyes under: the eye then rides the water's own level,
@@ -197,7 +197,7 @@ export function roam(
   const gaze = turned(roamer, input, dt);
   const depthOf = (x: number, z: number): number =>
     land.level(x, z, seconds) - land.height(x, z);
-  const pace = input.walking ? RUN_SPEED : WALK_SPEED;
+  const pace = input.running ? RUN_SPEED : WALK_SPEED;
   const speed =
     lerp(
       pace,
