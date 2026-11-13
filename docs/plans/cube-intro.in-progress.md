@@ -365,6 +365,19 @@ not append.
 - **All nine were told at 10:42Z** of the incident, the notice file and (shell,
   pill) the withdrawn ruling with `briefs/beam-comparison.md`; every message
   delivered once the connector came back.
+- **State at 10:50Z — lead 7c831056** has shell 12d16667 (cooled grey bands,
+  wooden ladder with 3 cm round rungs, `bodyShadow` folded into
+  `cubeShadow(p, { ladderGone, body })`, the specks as a night sky with parallax
+  — shell's choice, put to the operator), sand (`WAKE_AT` = [−15.174, 0.5,
+  15.174], 5af0ca79; the lead then asked for the head at bed ≈ 0.33–0.35, ~23.5
+  m out, toes at the swash's reach — sand to answer; `sandWetness` on sea's
+  `shoreWetness`) and sea d92ecc65 (shallows damped by the real water column,
+  finer lace, `skyRadiance` at lod ≥ 1). Gates green. Shooting `wake-cube`,
+  `ladder-foot` into `tmp/eyes-3/` — **two eyes a run; five killed a
+  container**. Walk baa08847 has ladder, grip, adaptation, shadow, the sill;
+  merge when its own type-overlap is clean and its strips are judged. Shell's
+  next: the beam comparison. Not merged: sky (gates not run), pill (shooting),
+  sound ce6078e4 (waits for the final waking spot), walk.
 - **The explainer** «Два океана» was amended on the operator's comment (how many
   waves "good" takes); answered in its thread.
 - **Next, in order**: (1) merge core, shell, sky as they report green and lint;
