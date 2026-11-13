@@ -1,0 +1,114 @@
+{
+  "total": {
+    "inputTokens": 77,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 212880,
+    "cacheReadTokens": 8373803,
+    "outputTokens": 47573,
+    "thinkingTokens": 11895,
+    "responses": 41,
+    "costUsd": 6.984376599999998
+  },
+  "estimate": {
+    "at": "2026-11-13T09:26:54.918Z",
+    "subjectLine": "feat: the cube intro's walk — cuts, the way out, waking and climb",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "outside controller at any body scale, the doorway exit, ladder flag and scene engine are movement and camera code with tests"
+      },
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "the waking and climb are judged as storyboards: timing, reveal and framing need a designer's eye over repeated strips"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-13T09:18:09.273Z",
+    "contextTokens": 98528,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 41894,
+      "cacheReadTokens": 146067,
+      "outputTokens": 1291,
+      "thinkingTokens": 383,
+      "responses": 2,
+      "costUsd": 0.7511894
+    }
+  },
+  "sessionId": "1d1339dd-0c9e-5174-bc3d-2eab9027efb6",
+  "branch": "claude/cube-intro-walk",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You take over the **walk** package of the cube's intro from a session that a usage limit stopped; you are on its branch, `claude/cube-intro-walk`, and push only…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkE74S5ZqiB98XpJ7Cy",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-13T09:17:57.696Z",
+  "lastResponseAt": "2026-11-13T09:27:56.073Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 77,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 212880,
+    "cacheReadTokens": 8373803,
+    "outputTokens": 47573,
+    "thinkingTokens": 11895,
+    "responses": 41,
+    "costUsd": 6.984376599999998
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 77,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 212880,
+      "cacheReadTokens": 8373803,
+      "outputTokens": 47573,
+      "thinkingTokens": 11895,
+      "responses": 41,
+      "costUsd": 6.984376599999998
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 41,
+    "matched": 41,
+    "matchedTableUsd": 6.984376599999998,
+    "matchedEventUsd": 6.984376599999998,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 2283,
+    ".json": 37,
+    ".yaml": 48,
+    ".ts": 8959,
+    ".tsx": -120,
+    ".scss": 15
+  }
+}
