@@ -1,4 +1,4 @@
-import { OUTDOOR_STAGE } from '../outside/stage';
+import { OUTDOOR_STAGE } from '../outside/outdoor-stage.shader';
 import { SUN } from '../outside/sun';
 import { vecf, wgsl } from '../shader/wgsl';
 

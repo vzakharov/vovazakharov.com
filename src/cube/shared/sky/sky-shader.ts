@@ -1,5 +1,6 @@
 import { FAR_METRES } from '../outside/frame';
-import { OUTDOOR_STAGE } from '../outside/stage';
+import { OUTDOOR_STAGE } from '../outside/outdoor-stage.shader';
+import { STAGE_NUMBERS } from '../outside/stage-numbers';
 import { WATER_BODY } from '../sea/water-body-wgsl';
 import { f32, wgsl } from '../shader/wgsl';
 import { CLEAR_SKY } from './clear-sky';
@@ -70,6 +71,7 @@ fn fragmentMain(@builtin(position) position: vec4f) -> Scene {
 }
 `,
   OUTDOOR_STAGE,
+  STAGE_NUMBERS,
   SUN_GLOW,
   CLEAR_SKY,
   WATER_BODY,

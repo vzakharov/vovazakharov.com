@@ -13,12 +13,12 @@ import { OUTDOOR_SHADERS, outdoorSource } from './outdoor-shaders';
  * which the theme's pin holds.
  */
 const BEFORE: Readonly<Record<keyof typeof OUTDOOR_SHADERS, string>> = {
-  seam: 'ba1cee4f9637eea2',
-  sky: 'ce6c3983ef14351e',
-  skyClouds: '043af2da2a505657',
-  sand: '0bdc0303c7a2a91a',
-  shell: '391c63e1a41cc5e1',
-  sea: '60ba7e899d94d4e6',
+  seam: '5b3e42218d1ae841',
+  sky: '9ca0255217e12449',
+  skyClouds: '760a0e55e35f0434',
+  sand: '57cdab9f6ca759f8',
+  shell: '3f1816c63247c5a1',
+  sea: '420482e1e348b4d8',
 };
 
 /**
@@ -82,23 +82,53 @@ function declarations(source: string): string[] {
     .toSorted();
 }
 
+/** A float literal: a point or an exponent, in decimal. */
+const FLOAT =
+  /(?<![\w.])(?:\d+\.\d*|\.\d+|\d+(?:\.\d*)?e[+-]?\d+)(?:e[+-]?\d+)?f?(?![\w.])/gi;
+
+/** The name a `const` declaration gives, read with its layout taken out. */
+const constName = (text: string): string | undefined =>
+  /^const([A-Z_a-z]\w*)[:=]/.exec(text)?.[1];
+
+/**
+ * `texts` without the constants no other declaration reads: a constant
+ * nothing reads draws nothing, so a shader that stops carrying one is
+ * unchanged.
+ */
+function read(texts: readonly string[]): string[] {
+  return texts.filter((text) => {
+    const name = constName(text);
+    if (name === undefined) return true;
+    const word = new RegExp(String.raw`(?<![\w.])${name}(?!\w)`);
+    return texts.some((other) => other !== text && word.test(other));
+  });
+}
+
 /**
  * `roots`' source as it read before its numbers took names: each numbering
- * declaration dropped, and its name written back as its value.
+ * declaration dropped, its name written back as its value, the constants
+ * nothing reads left out, and every float literal written by its value, so
+ * `1e4` and `10000.0` read the same.
  */
 function canonical(roots: readonly Wgsl[]): string {
   const numbers = numbersOf(roots);
-  const named = (text: string): boolean =>
-    [...numbers.keys()].some((name) =>
-      new RegExp(`^const${name}[:=]`).test(text),
-    );
-  return declarations(outdoorSource(roots))
+  const named = (text: string): boolean => {
+    const name = constName(text);
+    return name !== undefined && numbers.has(name);
+  };
+  return read(declarations(outdoorSource(roots)))
     .filter((text) => !named(text))
     .map((text) =>
       text.replaceAll(/(?<![\w.])[A-Z_a-z]\w*/g, (word) => {
         const value = numbers.get(word);
         return value === undefined ? word : value.replaceAll(/\s+/g, '');
       }),
+    )
+    .map((text) =>
+      text.replaceAll(
+        FLOAT,
+        (literal) => `${String(Number.parseFloat(literal))}f`,
+      ),
     )
     .join('\n');
 }

@@ -1,4 +1,4 @@
-import { AERIAL, CUBE_SHADOW } from '../outside';
+import { AERIAL, CUBE_SHADOW, STAGE_NUMBERS } from '../outside';
 import { SAND_COLOUR } from '../sand';
 import { f32, wgsl } from '../shader/wgsl';
 import { TILE } from './cascade';
@@ -177,4 +177,5 @@ fn seaFragment(in: SeaVarying, @builtin(front_facing) above: bool) -> SeaOut {
   SAND_COLOUR,
   AERIAL,
   CUBE_SHADOW,
+  STAGE_NUMBERS,
 );
