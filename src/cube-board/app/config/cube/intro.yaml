@@ -1,8 +1,8 @@
 items:
   - id: z-intro
     type: zone
-    updated: [2026-11-13T00:20:00.000Z, agent:cube-intro]
-    box: [5720, -2150, 1880, 4050, orange]
+    updated: [2026-11-13T09:40:00.000Z, agent:cube-intro]
+    box: [5720, -2150, 1880, 4550, orange]
     icon: 🏝️
     text: 'The intro: an island, the cube from outside, the way in'
   - id: intro-h-premise
@@ -148,8 +148,8 @@ items:
     text: '3. The cube’s shadow across the ripples, lit by the sky alone. The lead: the blue of it is right; the combed stripes are not. Also the frame that showed the sky was set twice too bright against the sun: on flat ground at 9° their shares are about equal'
   - id: intro-img-04-inside-door
     type: image
-    updated: [2026-11-12T23:55:00.000Z, agent:cube-intro]
-    box: [6208, 1000, 430]
+    updated: [2026-11-13T07:58:30.107Z, u_L_AriiBLoWLIB4PYEulAJA]
+    box: [6381, -1673, 430]
     src: images/intro-04-inside-door.webp
     text: '4. Floor 1 on the real page, the door gone, the lamps off; the doorway is black because nothing draws the outside yet. One beam through it and its bounce light the whole room, and the plant throws its shadow on the wall. First pass, with the old sun: the beam lands on the north wall and the bench. The lead: this is the look, the direction is wrong'
   - id: intro-img-05-inside-beam
@@ -212,3 +212,27 @@ items:
     box: [6400, -1240, 280, purple]
     icon: 👻
     text: 'No footprints, no ripples, nothing you touch stays touched. Vova, reading that card: “it makes me think: are we ghosts? Did we die? Is this the other side?” An open reading, not a decision; nothing in the game says so'
+  - id: intro-img-09-wake-cube
+    type: image
+    updated: [2026-11-13T09:40:00.000Z, agent:cube-intro]
+    box: [6668, 1450, 430]
+    src: images/intro-09-wake-cube.webp
+    text: '9. 13 Nov, the second morning. The page draws the island with the real cube for the first time: black, banded, beside the low sun. Sand is real; sky and sea are still stand-ins. The lead: it reads as a made thing now, but from the waking spot it is a tenth of the frame and sits on the dune’s skyline, and the gap under it is a two-pixel slit. Staging to be redone (wake nearer)'
+  - id: intro-img-10-ladder-foot
+    type: image
+    updated: [2026-11-13T09:40:00.000Z, agent:cube-intro]
+    box: [7128, 1450, 430]
+    src: images/intro-10-ladder-foot.webp
+    text: '10. From the ladder’s foot: the doorway into floor 1, the plant in its corner, the ladder’s shadow on the cube. The lead: the ladder reads as wood and is to be aluminium; the grey bands read brown; the specks in the black are right in the sun'
+  - id: intro-img-11-room-doorway
+    type: image
+    updated: [2026-11-13T09:40:00.000Z, agent:cube-intro]
+    box: [5748, 1900, 430]
+    src: images/intro-11-room-doorway.webp
+    text: '11. Floor 1 from inside, lit by the doorway alone. The black rectangle is a fault: a non-finite value on the horizon line, smeared into a block by the bloom. Kept here because the timelapse keeps its failures'
+  - id: intro-img-12-wake-sea
+    type: image
+    updated: [2026-11-13T09:40:00.000Z, agent:cube-intro]
+    box: [6208, 1900, 430]
+    src: images/intro-12-wake-sea.webp
+    text: '12. The same fault looking out to sea from the waking spot: the horizon is a black band. The sea below it is a stand-in plane; the real ocean is being wired in'
