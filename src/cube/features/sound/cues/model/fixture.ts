@@ -1,4 +1,4 @@
-import type { Footing } from '@/cube/shared/lib/acoustics';
+import type { Underfoot } from '@/cube/shared/lib/acoustics';
 
 import {
   chance,
@@ -41,6 +41,37 @@ export function lever(seed: number, rate: number): Float32Array<ArrayBuffer> {
       0,
     );
     return 0.5 * creak + clank + 0.4 * noise() * dying(struck, 0.005);
+  });
+}
+
+/** A pill's shell: small, hard and hollow. */
+const CAPSULE: readonly Struck[] = [
+  { hz: 2350, dies: 0.03, force: 0.5 },
+  { hz: 3900, dies: 0.022, force: 0.35 },
+  { hz: 6100, dies: 0.015, force: 0.2 },
+];
+
+/** Seconds from the fingers' touch to the pill leaving the shelf. */
+const PILL_LIFTS = 0.07;
+
+/**
+ * A pill picked up off its shelf: the fingertips' touch, its shell ticking
+ * against the board as it tips, and the tick of it coming away.
+ */
+export function pill(seed: number, rate: number): Float32Array<ArrayBuffer> {
+  const noise = noiseOf(seed);
+  const tune = 1 + 0.08 * noise();
+  const lifts = PILL_LIFTS * (1 + 0.2 * noise());
+  const skin = filterOf('band', rate);
+  const board = filterOf('band', rate);
+  const struck = (t: number, force: number): number =>
+    force *
+    (CAPSULE.reduce((sum, partial) => sum + ringing(partial, t, tune), 0) +
+      0.5 * noise() * dying(t, 0.003));
+  return sampled(lifts + 0.12, rate, (t) => {
+    const touch = 0.6 * skin(noise(), 3400, 0.8) * swell(t / lifts);
+    const shelf = 0.5 * board(noise() * dying(t, 0.004), 420 * tune, 5);
+    return touch + shelf + struck(t, 0.6) + struck(t - lifts, 1);
   });
 }
 
@@ -149,7 +180,7 @@ const STEP_EVERY = 0.52;
  * one before, their rhythm a person's rather than a clock's.
  */
 export function stepsAway(
-  footing: Footing,
+  footing: Underfoot,
   seed: number,
   rate: number,
 ): Float32Array<ArrayBuffer> {

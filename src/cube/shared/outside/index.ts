@@ -35,7 +35,15 @@ export {
 export { SHORE_WETNESS, shoreDrySince } from './shore-wetness';
 export { SKY } from './sky';
 export { OUTDOOR_STAGE, SKY_METRES } from './stage';
-export { SKY_FILL, SUN, SUN_DIR, SUN_LIGHT } from './sun';
+export {
+  GROUND_FILL,
+  HORIZON_FILL,
+  SKY_FILL,
+  SUN,
+  SUN_DIR,
+  SUN_LIGHT,
+  SUN_WHITE,
+} from './sun';
 export { crestOf, PERIOD, setsAt, turnsAt } from './swell';
 export {
   brokenAt,
@@ -43,4 +51,5 @@ export {
   shoreClock,
   WATER_LEVEL,
   waterLevel,
+  waterLevelAt,
 } from './water-level';

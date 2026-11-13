@@ -1,18 +1,39 @@
 import type { Seeded } from '@/kernel/shared/typings';
 
-import type { Footing, Loud, RoomCue } from '@/cube/shared/lib/acoustics';
+import type {
+  Ladder,
+  Limb,
+  Loud,
+  RoomCue,
+  Underfoot,
+} from '@/cube/shared/lib/acoustics';
 import { clamp01 } from '@/cube/shared/lib/ease';
 import type { InRoom } from '@/cube/entities/world';
 
-import { breath, grunt, jump, landing } from './body';
-import { knock, lever, ring, shrinking, stepsAway, thud } from './fixture';
+import { breath, grunt, jump, landing, swallow } from './body';
+import {
+  knock,
+  lever,
+  pill,
+  ring,
+  shrinking,
+  stepsAway,
+  thud,
+} from './fixture';
 import { footstep } from './footstep';
+import { rung } from './ladder';
+import { splash } from './splash';
 import { creak, mew, pop, rustle, scrape } from './stirs';
+import { threshold } from './threshold';
 
-/** Where a sound is for an ear: how far to its right, and how far off. */
-type Bearing = {
+/** How far to an ear's right a sound is. */
+export type Sided = {
   /** −1 dead left to 1 dead right; 0 ahead, behind or at the ear. */
   rightward: number;
+};
+
+/** Where a sound is for an ear: how far to its right, and how far off. */
+type Bearing = Sided & {
   /** Room sides off. */
   roomsAway: number;
 };
@@ -46,13 +67,18 @@ type Roomed = Seeded & {
 
 /** Something to be heard once, now. */
 export type SoundCue =
-  | { kind: 'step'; strength: number; footing: Footing }
+  | { kind: 'step'; strength: number; footing: Underfoot }
   | { kind: 'jump' }
   | { kind: 'landing'; speed: number }
   | { kind: 'lever' }
+  | { kind: 'pill' }
+  | { kind: 'swallow' }
+  | { kind: 'rung'; limb: Limb; ladder: Ladder }
+  | { kind: 'splash'; strength: number }
   | { kind: 'breath'; effort: number }
   | { kind: 'grunt' }
   | { kind: 'shrink' }
+  | { kind: 'threshold' }
   | (Roomed & { kind: RoomCue });
 
 /** Seconds the shrink is heard for. */
@@ -65,7 +91,7 @@ export const SHRINK_SECONDS = 3;
  */
 export function samplesOf(
   cue: SoundCue,
-  footing: Footing,
+  footing: Underfoot,
   seed: number,
   rate: number,
 ): Float32Array<ArrayBuffer> {
@@ -82,6 +108,18 @@ export function samplesOf(
     case 'lever': {
       return lever(seed, rate);
     }
+    case 'pill': {
+      return pill(seed, rate);
+    }
+    case 'swallow': {
+      return swallow(seed, rate);
+    }
+    case 'rung': {
+      return rung(cue.ladder, cue.limb, seed, rate);
+    }
+    case 'splash': {
+      return splash(cue.strength, seed, rate);
+    }
     case 'breath': {
       return breath(cue.effort, seed, rate);
     }
@@ -90,6 +128,9 @@ export function samplesOf(
     }
     case 'shrink': {
       return shrinking(SHRINK_SECONDS, seed, rate);
+    }
+    case 'threshold': {
+      return threshold(seed, rate);
     }
     case 'ring': {
       return ring(seed, rate);
@@ -142,6 +183,7 @@ const BODILY: ReadonlySet<SoundCue['kind']> = new Set([
   'landing',
   'breath',
   'grunt',
+  'swallow',
 ]);
 
 const GAINS: Record<Exclude<SoundCue['kind'], RoomCue>, number> = {
@@ -149,9 +191,14 @@ const GAINS: Record<Exclude<SoundCue['kind'], RoomCue>, number> = {
   jump: 0.4,
   landing: 0.8,
   lever: 0.7,
+  pill: 0.45,
+  swallow: 0.5,
+  rung: 0.6,
+  splash: 0.7,
   breath: 0.35,
   grunt: 0.5,
   shrink: 0.6,
+  threshold: 0.9,
 };
 
 /** Room sides at which a room's sound has lost half its level. */

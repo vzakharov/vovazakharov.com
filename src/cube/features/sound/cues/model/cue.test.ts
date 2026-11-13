@@ -24,9 +24,18 @@ const CUES: readonly SoundCue[] = [
   { kind: 'jump' },
   { kind: 'landing', speed: 0.9 },
   { kind: 'lever' },
+  { kind: 'pill' },
+  { kind: 'swallow' },
+  { kind: 'rung', limb: 'hand', ladder: 'aluminium' },
+  { kind: 'rung', limb: 'foot', ladder: 'wood' },
+  { kind: 'splash', strength: 0.7 },
+  { kind: 'step', strength: 0.6, footing: 'sand' },
+  { kind: 'step', strength: 0.6, footing: 'wet-sand' },
+  { kind: 'step', strength: 0.6, footing: 'shallows' },
   { kind: 'breath', effort: 0.5 },
   { kind: 'grunt' },
   { kind: 'shrink' },
+  { kind: 'threshold' },
   ...ROOM_CUES.map((kind) => ({ kind, from: HERE, loud: 1, seed: 5 })),
 ];
 
@@ -67,6 +76,19 @@ describe('samplesOf', () => {
       samplesOf(landed, 'tile', 3, TEST_RATE),
       samplesOf(landed, 'carpet', 3, TEST_RATE),
     );
+  });
+
+  it('lands the doorway’s 3.6 m drop on sand as the hardest landing, lighter and higher at half height', () => {
+    // 3.6 m takes v = √(2·9.81·3.6) ≈ 8.4 m/s, 1.7 room sides a second.
+    const fell = { kind: 'landing', speed: 1.7 } as const;
+    assert.deepEqual(
+      samplesOf(fell, 'sand', 3, TEST_RATE),
+      samplesOf({ kind: 'landing', speed: 1 }, 'sand', 3, TEST_RATE),
+    );
+    const whole = voicedOf(fell, 1);
+    const half = voicedOf(fell, 0.5);
+    assert.ok(half.loudness < whole.loudness);
+    assert.ok(half.playbackRate > whole.playbackRate);
   });
 
   it('shrinks for the seconds it says', () => {
