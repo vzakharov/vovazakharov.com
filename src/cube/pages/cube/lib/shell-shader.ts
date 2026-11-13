@@ -18,12 +18,16 @@ const least = (kind: ShellKind): string =>
 
 /**
  * The shell's scene-pass shader, over \`shellVertices\`' buffer: the cube's
- * faces in its black-and-grey material and the ladder in paint-flecked wood,
+ * faces in its black-and-grey material and the ladder in mill-finish aluminium,
  * both under the sun, the sky and the cube's own shadow.
  */
 export const SHELL_SHADER = wgsl(
   'shell/shader',
   /* wgsl */ `
+/// What the ladder's metal gives back: of the light on it as a matte face
+/// would, of what it mirrors, and of the sun's own streak across its grain.
+const ALUMINIUM = vec3f(0.2, 0.5, 0.5);
+
 struct ShellVertex {
   @location(0) at: vec3f,
   @location(1) facing: vec3f,
@@ -41,7 +45,10 @@ struct ShellSeen {
 
 @vertex
 fn vertexMain(v: ShellVertex) -> ShellSeen {
-  return ShellSeen(clipOf(v.at), v.at, v.facing, v.on, v.kind);
+  // A ladder that is gone is drawn nowhere: its triangles close to a point.
+  let gone = v.kind > ${least('stile')} && frame.state.x < 0.5;
+  let clip = select(clipOf(v.at), vec4f(0.0), gone);
+  return ShellSeen(clip, v.at, v.facing, v.on, v.kind);
 }
 
 /// How far in from a cap's edge a point of it is: 1 at the edge, 0 at the
@@ -51,20 +58,16 @@ fn outward(on: vec2f) -> f32 {
   return max(off.x, off.y);
 }
 
-/// The ladder's wood at \`grain\`, metres along the grain and across it:
-/// pale, weathered, spattered with two old paints.
-fn wood(grain: vec2f) -> vec3f {
-  let rings = fbm(grain * vec2f(2.5, 70.0), 81u, 3);
-  let worn = valueNoise(grain * vec2f(1.3, 9.0), 82u);
-  var colour = mix(vec3f(0.11, 0.08, 0.055), vec3f(0.26, 0.2, 0.14), 0.25 + 0.75 * rings)
-    * (0.8 + 0.3 * worn);
-  let white = worley(grain * vec2f(60.0, 90.0), 83u).x;
-  let whites = smoothstep(0.55, 0.75, valueNoise(grain * vec2f(4.0, 14.0), 84u));
-  colour = mix(colour, vec3f(0.5, 0.49, 0.45), whites * (1.0 - smoothstep(0.1, 0.22, white)));
-  let teal = worley(grain * vec2f(38.0, 55.0), 85u).x;
-  let teals = smoothstep(0.6, 0.8, valueNoise(grain * vec2f(2.3, 9.0), 86u));
-  colour = mix(colour, vec3f(0.1, 0.24, 0.27), teals * (1.0 - smoothstep(0.12, 0.26, teal)));
-  return colour;
+/// The ladder's aluminium at \`grain\`, metres along the extrusion and
+/// across it: x how bright the metal is there, y how dull its oxide has
+/// left it, 0 to 1.
+fn aluminium(grain: vec2f) -> vec2f {
+  let drawn = valueNoise(grain * vec2f(4.0, 1400.0), SHELL_SALT + 81u);
+  let dull = fbm(grain * vec2f(5.0, 34.0), SHELL_SALT + 82u, 3);
+  let nick = worley(grain * vec2f(31.0, 140.0), SHELL_SALT + 83u).x;
+  let scuffed = smoothstep(0.62, 0.8, valueNoise(grain * vec2f(3.0, 21.0), SHELL_SALT + 84u))
+    * (1.0 - smoothstep(0.08, 0.2, nick));
+  return vec2f(0.66 + 0.14 * drawn - 0.2 * dull + 0.25 * scuffed, clamp(dull - scuffed, 0.0, 1.0));
 }
 
 @fragment
@@ -81,16 +84,27 @@ fn fragmentMain(s: ShellSeen) -> Scene {
   var light: vec3f;
 
   if (s.kind > ${least('stile')}) {
-    // The ladder: its grain runs up a stile and along a rung.
+    // The ladder: its metal is drawn along a stile and along a rung.
     let off = s.world - LADDER_FOOT;
     let up = dot(off, LADDER_UP);
     let across = dot(off, LADDER_ACROSS);
     let round = dot(off, LADDER_OUT) * 1.7 + dot(abs(normal), vec3f(0.0, 3.1, 7.3));
+    let isRung = s.kind > ${least('rung')};
     let stile = vec2f(up, across + round);
     let rung = vec2f(across + 9.0 * floor(up / LADDER_SIZE.w), up + round);
-    let colour = wood(select(stile, rung, s.kind > ${least('rung')}));
+    let metal = aluminium(select(stile, rung, isRung));
+    let axis = select(LADDER_UP, LADDER_ACROSS, isRung);
+    let mid = normalize(SUN_DIR + toEye);
+    let along = dot(mid, axis);
+    let sheen = pow(max(1.0 - along * along, 0.0), 40.0) * pow(max(dot(normal, mid), 0.0), 6.0);
+    let towards = max(dot(normal, SUN_DIR), 0.0);
     let fill = SKY_FILL * (0.5 + 0.5 * normal.y) + SAND_LIGHT * (0.5 - 0.5 * normal.y);
-    light = colour * (SUN_LIGHT * max(dot(normal, SUN_DIR), 0.0) * sun + fill);
+    let mirror = surround(reflect(-toEye, normal), 3.0 + 4.0 * metal.y);
+    light = vec3f(0.91, 0.92, 0.93) * metal.x * (
+      ALUMINIUM.x * (SUN_LIGHT * towards * sun + fill)
+      + ALUMINIUM.y * mirror
+      + ALUMINIUM.z * SUN_LIGHT * sun * step(0.0, dot(normal, SUN_DIR)) * sheen * (1.0 - 0.7 * metal.y)
+    );
   } else {
     var face = Face(
       s.world, normal, toEye, s.on,

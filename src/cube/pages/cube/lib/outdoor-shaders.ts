@@ -4,11 +4,18 @@ import { assemble, type Wgsl } from '@/cube/shared/lib/wgsl';
 import {
   AERIAL,
   CUBE_SHADOW,
+  DAYLIGHT,
   ISLAND_HEIGHT,
   OUTDOOR_STAGE,
   SKY,
   WATER_LEVEL,
 } from '@/cube/shared/outside';
+import { SAND_SHADER } from '@/cube/shared/sand';
+
+import { outsideLensSource } from './outside-lens';
+import { SEA_ROOTS } from './sea-shader';
+import { SHELL_SHADER } from './shell-shader';
+import { SKY_ROOTS } from './sky-shader';
 
 /**
  * Every outdoor shader by name, as the roots it is assembled from: a layer
@@ -16,18 +23,33 @@ import {
  * `seam` is no layer's: the pieces every layer may call, compiled together.
  */
 export const OUTDOOR_SHADERS = {
-  seam: [OUTDOOR_STAGE, SKY, AERIAL, ISLAND_HEIGHT, WATER_LEVEL, CUBE_SHADOW],
+  seam: [
+    OUTDOOR_STAGE,
+    SKY,
+    AERIAL,
+    DAYLIGHT,
+    ISLAND_HEIGHT,
+    WATER_LEVEL,
+    CUBE_SHADOW,
+  ],
+  sky: SKY_ROOTS,
+  sand: [SAND_SHADER],
+  shell: [SHELL_SHADER],
+  sea: SEA_ROOTS,
 } as const satisfies Record<string, readonly Wgsl[]>;
 
-export type OutdoorShader = keyof typeof OUTDOOR_SHADERS;
+/** The line every outdoor shader opens with: its materials branch freely. */
+const HEAD = 'diagnostic(off, derivative_uniformity);';
 
-/** The whole source of outdoor shader `name`. */
-export const outdoorSource = (name: OutdoorShader): string =>
-  assemble(OUTDOOR_SHADERS[name]);
+/** `roots` and what they need, as one outdoor shader's whole source. */
+export const outdoorSource = (roots: readonly Wgsl[]): string =>
+  `${HEAD}\n${assemble(roots)}`;
 
-/** Every outdoor shader's whole source, by its name. */
-export const outdoorSources = (): Array<Named & { source: string }> =>
-  Object.entries(OUTDOOR_SHADERS).map(([name, roots]) => ({
+/** Every outdoor shader's whole source, by its name, the lens's among them. */
+export const outdoorSources = (): Array<Named & { source: string }> => [
+  ...Object.entries(OUTDOOR_SHADERS).map(([name, roots]) => ({
     name,
-    source: assemble(roots),
-  }));
+    source: outdoorSource(roots),
+  })),
+  { name: 'lens', source: outsideLensSource() },
+];

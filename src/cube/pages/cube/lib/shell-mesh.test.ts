@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { moved, scaled } from '@/cube/shared/lib/vec';
 import { assemble } from '@/cube/shared/lib/wgsl';
 import { CUBE_BOX, DOOR_LADDER, DOORWAY_BOX } from '@/cube/shared/outside';
 
@@ -30,7 +31,7 @@ const corners = (): Corner[] => {
 const count = (kind: string): number =>
   corners().filter((corner) => corner.kind === kind).length;
 
-const MIDDLE = CUBE_BOX.min.map((low, axis) => (low + CUBE_BOX.max[axis]) / 2);
+const MIDDLE = scaled(moved(CUBE_BOX.min, CUBE_BOX.max), 0.5);
 
 describe('the shell mesh', () => {
   it('is whole triangles of known kinds', () => {
@@ -56,10 +57,7 @@ describe('the shell mesh', () => {
     const east = corners().filter(
       ({ kind, facing }) => kind === 'side' && (facing[0] ?? 0) > 0.5,
     );
-    const middle = [
-      (DOORWAY_BOX.min[1] + DOORWAY_BOX.max[1]) / 2,
-      (DOORWAY_BOX.min[2] + DOORWAY_BOX.max[2]) / 2,
-    ];
+    const [, midY, midZ] = scaled(moved(DOORWAY_BOX.min, DOORWAY_BOX.max), 0.5);
     let area = 0;
     for (let first = 0; first < east.length; first += 6) {
       const rect = east.slice(first, first + 6);
@@ -72,14 +70,7 @@ describe('the shell mesh', () => {
         Math.max(...zs),
       ];
       area += (high - low) * (south - north);
-      assert.ok(
-        !(
-          middle[0] > low &&
-          middle[0] < high &&
-          middle[1] > north &&
-          middle[1] < south
-        ),
-      );
+      assert.ok(!(midY > low && midY < high && midZ > north && midZ < south));
     }
     const door =
       (DOORWAY_BOX.max[1] - DOORWAY_BOX.min[1]) *
@@ -90,9 +81,7 @@ describe('the shell mesh', () => {
   it('lines the doorway with a reveal facing into the opening', () => {
     const reveal = corners().filter(({ kind }) => kind === 'reveal');
     assert.equal(reveal.length, 18);
-    const middle = DOORWAY_BOX.min.map(
-      (low, axis) => (low + DOORWAY_BOX.max[axis]) / 2,
-    );
+    const middle = scaled(moved(DOORWAY_BOX.min, DOORWAY_BOX.max), 0.5);
     for (const { at, facing } of reveal) {
       const inward = at.reduce(
         (sum, value, axis) =>

@@ -1,7 +1,7 @@
 /// <reference types="@webgpu/types" />
 
+import { OUTDOOR_SHADERS } from '../lib/outdoor-shaders';
 import { SHELL_VERTEX_FLOATS, shellVertices } from '../lib/shell-mesh';
-import { SHELL_SHADER } from '../lib/shell-shader';
 import type { LayerMaker } from './outdoor-layer';
 
 /** A shell vertex's attributes, in buffer order, as floats each. */
@@ -40,7 +40,7 @@ export const shellLayer: LayerMaker = async ({ device, shader, pipeline }) => {
   device.queue.writeBuffer(buffer, 0, vertices);
   const drawn = await pipeline({
     label: 'shell',
-    module: await shader('shell', [SHELL_SHADER]),
+    module: await shader('shell', OUTDOOR_SHADERS.shell),
     depth: 'solid',
     buffers: [vertexLayout()],
     cullMode: 'none',

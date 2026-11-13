@@ -220,7 +220,7 @@ function ladder(): Rect[] {
 }
 
 /** The shell's every triangle: the cube's six faces, the doorway's reveal and the ladder. */
-export const shellVertices = (): Float32Array =>
+export const shellVertices = (): Float32Array<ArrayBuffer> =>
   new Float32Array(
     [...sides(), ...caps(), ...reveal(), ...ladder()].flatMap((rect) =>
       rectFloats(rect),

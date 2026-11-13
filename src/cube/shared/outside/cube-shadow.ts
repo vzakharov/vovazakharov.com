@@ -9,6 +9,7 @@ import {
   LADDER_UP,
   LADDER_WGSL,
 } from './ladder';
+import { OUTDOOR_FRAME } from './outdoor-frame';
 import { SUN, SUN_DIR } from './sun';
 
 /** How sharp a shadow's edge is where it starts, in metres. */
@@ -128,9 +129,11 @@ function ladderLight(p: Vec3): number {
  * How much of the sun reaches `p` in the world frame: 1 in the sun, 0 in the
  * shadow of the cube and its ladder, the edge as wide as the sun's disc makes
  * it at the distance the shadow has run. A point on the cube's own sunlit
- * faces is in the sun; one on the ladder is not in the ladder's shadow.
+ * faces is in the sun; one on the ladder is not in the ladder's shadow. With
+ * `ladderGone` the cube casts alone.
  */
-export const cubeShadow = (p: Vec3): number => boxLight(p) * ladderLight(p);
+export const cubeShadow = (p: Vec3, ladderGone = false): number =>
+  boxLight(p) * (ladderGone ? 1 : ladderLight(p));
 
 const OUTLINE_WGSL = OUTLINE.map(({ facing, reach }) =>
   vecf([...facing, reach]),
@@ -196,9 +199,10 @@ fn ladderLight(p: vec3f) -> f32 {
 }
 
 fn cubeShadow(p: vec3f) -> f32 {
-  return boxLight(p) * ladderLight(p);
+  return boxLight(p) * mix(1.0, ladderLight(p), frame.state.x);
 }
 `,
+  OUTDOOR_FRAME,
   WORLD,
   SUN,
   SUN_DISC,

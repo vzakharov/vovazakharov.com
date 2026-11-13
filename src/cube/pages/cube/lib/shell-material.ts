@@ -1,3 +1,5 @@
+import { pathHash, roll, rollWith } from '@/dice/shared/roll';
+
 import { vec3f, wgsl } from '@/cube/shared/lib/wgsl';
 import { HASH } from '@/cube/shared/lib/wgsl-hash';
 import { OUTDOOR_STAGE, SKY, SUN } from '@/cube/shared/outside';
@@ -24,6 +26,14 @@ const LINE = {
 /** What the sand shows of the evening, as a face looking down at it gathers it. */
 const SAND = [0.72, 0.6, 0.44] as const;
 
+const hash = pathHash('0');
+
+/** What every per-pixel hash of the shell and its ladder is salted with. */
+const { salt: SALT } = rollWith(
+  roll.struct({ salt: roll.uniform(0, 2 ** 31) }),
+  (path) => hash(`cube/shell/${path}`),
+);
+
 /**
  * The shell's own look, apart from where its faces are:
  *
@@ -41,6 +51,7 @@ export const SHELL_MATERIAL = wgsl(
   /* wgsl */ `
 const TURN = 6.2831853;
 const HOUR = 3600.0;
+const SHELL_SALT = ${Math.floor(SALT)}u;
 const SAND_LIGHT = ${vec3f(SAND)} * (SUN_LIGHT * SUN_DIR.y + SKY_FILL);
 
 fn surround(dir: vec3f, lod: f32) -> vec3f {
@@ -144,7 +155,7 @@ fn shellFace(f: Face, band: Band, depth: i32) -> vec3f {
   // Flecks in the grey that catch the sun one at a time, close to.
   let fleck = 0.0025;
   let grain = vec2i(floor(f.on / fleck));
-  let h = cellHash(grain, 61u);
+  let h = cellHash(grain, SHELL_SALT + 61u);
   let tilt = vec3f(unitOf(h), unitOf(mix32(h)), unitOf(mix32(h + 3u))) - 0.5;
   let glint = step(0.97, unitOf(mix32(h + 5u)))
     * pow(max(dot(normalize(f.normal + 0.5 * tilt), mid), 0.0), 500.0);
@@ -158,7 +169,7 @@ fn shellFace(f: Face, band: Band, depth: i32) -> vec3f {
   for (var layer = 0; layer < depth; layer++) {
     let deep = f32(layer + 1);
     let cell = max(0.25 * metres, 0.02) * (0.6 + 0.4 * deep);
-    under += lattice(f.on - slide * cell * (0.4 + 0.8 * f32(layer)), cell, 71u + u32(layer), f.pixel) / deep;
+    under += lattice(f.on - slide * cell * (0.4 + 0.8 * f32(layer)), cell, SHELL_SALT + 71u + u32(layer), f.pixel) / deep;
   }
   light += vec3f(0.62, 0.84, 1.0) * under * (0.6 + 0.5 * f32(depth)) * band.dark * (1.0 - band.blurred) * (1.0 - band.line);
 
