@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 1473,
-    "cacheWrite5mTokens": 877613,
-    "cacheWrite1hTokens": 241517,
-    "cacheReadTokens": 28255782,
-    "outputTokens": 155384,
-    "thinkingTokens": 79945,
-    "responses": 185,
-    "costUsd": 15.08680740000001
+    "inputTokens": 2081,
+    "cacheWrite5mTokens": 959310,
+    "cacheWrite1hTokens": 278851,
+    "cacheReadTokens": 38484632,
+    "outputTokens": 221450,
+    "thinkingTokens": 116791,
+    "responses": 237,
+    "costUsd": 19.16382539999999
   },
   "estimate": {
     "at": "2026-11-13T16:50:37.453Z",
@@ -51,7 +51,7 @@
     }
   },
   "sessionId": "bcd58d39-0505-58e3-8c27-9387cc499972",
-  "branch": "claude/cube-wesl-trial",
+  "branch": "worktree-agent-aba8c6c68ee71ee30",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/cube-wesl-trial — все 66 этажей в .wgsl, по папке на этаж, vet зелёный, PR #276 в черновике",
   "prs": [
@@ -60,48 +60,50 @@
   "url": "https://claude.ai/code/session_01DaohkEALtDXTdsS9KgnD24",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T16:38:21.805Z",
-  "lastResponseAt": "2026-11-13T16:52:00.703Z",
+  "lastResponseAt": "2026-11-13T16:55:16.815Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 176,
+    "inputTokens": 200,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 241517,
-    "cacheReadTokens": 18612514,
-    "outputTokens": 65727,
-    "thinkingTokens": 19681,
-    "responses": 91,
-    "costUsd": 6.969882800000001
+    "cacheWrite1hTokens": 278851,
+    "cacheReadTokens": 22330664,
+    "outputTokens": 76157,
+    "thinkingTokens": 24724,
+    "responses": 103,
+    "costUsd": 8.2208808
   },
   "subagents": {
-    "inputTokens": 218,
-    "cacheWrite5mTokens": 876404,
+    "inputTokens": 296,
+    "cacheWrite5mTokens": 957988,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 9142404,
-    "outputTokens": 88706,
-    "thinkingTokens": 60264,
-    "responses": 92,
-    "costUsd": 7.985492800000004
+    "cacheReadTokens": 15355608,
+    "outputTokens": 144332,
+    "thinkingTokens": 92067,
+    "responses": 131,
+    "costUsd": 10.748885600000005
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 1473,
-      "cacheWrite5mTokens": 877613,
-      "cacheWrite1hTokens": 241517,
-      "cacheReadTokens": 28255782,
-      "outputTokens": 155384,
-      "thinkingTokens": 79945,
-      "responses": 185,
-      "costUsd": 15.08680740000001
+      "inputTokens": 2081,
+      "cacheWrite5mTokens": 959310,
+      "cacheWrite1hTokens": 278851,
+      "cacheReadTokens": 38484632,
+      "outputTokens": 221450,
+      "thinkingTokens": 116791,
+      "responses": 237,
+      "costUsd": 19.16382539999999
     }
   },
-  "warnings": [],
+  "warnings": [
+    "1 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
+  ],
   "compactions": [],
   "telemetry": {
-    "events": 183,
-    "matched": 181,
-    "matchedTableUsd": 14.760801200000012,
-    "matchedEventUsd": 14.760801200000012,
+    "events": 236,
+    "matched": 233,
+    "matchedTableUsd": 18.93685759999999,
+    "matchedEventUsd": 18.93685759999999,
     "unseen": {
       "side_question": {
         "inputTokens": 573,
@@ -114,14 +116,14 @@
         "costUsd": 0.067652
       },
       "prompt_suggestion": {
-        "inputTokens": 506,
-        "cacheWrite5mTokens": 626,
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 739,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 282639,
-        "outputTokens": 11,
+        "cacheReadTokens": 580135,
+        "outputTokens": 21,
         "thinkingTokens": 0,
-        "responses": 1,
-        "costUsd": 0.0637798
+        "responses": 2,
+        "costUsd": 0.126407
       }
     }
   },

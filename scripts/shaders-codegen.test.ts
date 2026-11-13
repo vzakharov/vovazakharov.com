@@ -129,6 +129,22 @@ describe('pnpm shaders:codegen', () => {
     assert.equal(run(root).status, 0);
   });
 
+  it('imports a bound variable by its name', () => {
+    const root = tree({
+      'kit/index.ts': [
+        "export { BASE } from './lib/base.shader';",
+        "export { FRAME } from './lib/frame.shader';",
+      ].join('\n'),
+      'kit/lib/frame.wgsl':
+        'struct Frame {\n  at: vec4f,\n}\n\n@group(0) @binding(0) var<uniform> frame: Frame;\n',
+      'dwelling/config/floor.wgsl':
+        'import package::cube::entities::theme::kit::lib::frame::frame;\n\nfn floor() -> f32 {\n  return frame.at.x;\n}\n',
+    });
+    const first = run(root);
+    assert.equal(first.status, 1, first.report);
+    assert.equal(run(root).status, 0);
+  });
+
   for (const [name, files, says] of REFUSALS) {
     it(`refuses ${name}`, () => {
       const root = tree(files);

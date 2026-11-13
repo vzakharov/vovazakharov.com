@@ -62,7 +62,8 @@ function parseImport(text: string, line: number): Import {
 }
 
 const DECLARATION = /^(?:fn|struct|const|override|alias)\s+(\w+)/;
-const PRIVATE = /^var(?:<[^>]*>)?\s+(\w+)/;
+/** A module-scope variable, its binding attributes before it on its line. */
+const PRIVATE = /^(?:@\w+(?:\([^)]*\))?\s+)*var(?:<[^>]*>)?\s+(\w+)/;
 
 const withoutComments = (source: string): string =>
   source.replaceAll(/\/\/.*$/gm, '');
