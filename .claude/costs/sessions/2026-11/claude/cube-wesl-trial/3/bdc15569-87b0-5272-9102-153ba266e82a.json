@@ -1,29 +1,29 @@
 {
   "total": {
-    "inputTokens": 14213,
-    "cacheWrite5mTokens": 1714396,
-    "cacheWrite1hTokens": 803726,
-    "cacheReadTokens": 111914963,
-    "outputTokens": 549816,
-    "thinkingTokens": 198468,
-    "responses": 682,
-    "costUsd": 48.44106659999998
+    "inputTokens": 15261,
+    "cacheWrite5mTokens": 1715583,
+    "cacheWrite1hTokens": 854152,
+    "cacheReadTokens": 115004062,
+    "outputTokens": 557115,
+    "thinkingTokens": 198965,
+    "responses": 702,
+    "costUsd": 49.62196239999998
   },
   "estimate": {
-    "at": "2026-11-13T16:58:16.495Z",
-    "subjectLine": "refactor: move cube outdoor and pipeline shaders into .wgsl, MASD pass",
+    "at": "2026-11-13T19:50:27.812Z",
+    "subjectLine": "refactor: move cube outdoor and pipeline shaders into .wgsl",
     "parts": [
       {
         "hours": 18.0,
         "grade": "senior",
         "role": "graphics-programmer",
-        "comment": "outdoor and pipeline WGSL carry computed text and interpolated numbers; splitting them into linked modules under a pin takes rendering judgement"
+        "comment": "Outdoor and pipeline WGSL carry computed text and interpolated numbers; splitting them into linked modules under three pins takes rendering judgement"
       },
       {
-        "hours": 3.0,
+        "hours": 1.0,
         "grade": "senior",
         "role": "architect",
-        "comment": "the MASD promotion/fold-in pass is a layering call across the cube app"
+        "comment": "Weighing the cube app's slices for promotion or fold-in and fixing the upward theme-to-page shader dependency is a layering call"
       }
     ],
     "comment": null
@@ -54,18 +54,18 @@
   "url": "https://claude.ai/code/session_01DaohkCaoV7hfxzNmeuHhLY",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T16:57:56.146Z",
-  "lastResponseAt": "2026-11-13T18:21:15.776Z",
+  "lastResponseAt": "2026-11-13T19:51:01.110Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 604,
+    "inputTokens": 640,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 803726,
-    "cacheReadTokens": 66504078,
-    "outputTokens": 222678,
-    "thinkingTokens": 76146,
-    "responses": 316,
-    "costUsd": 24.1865996
+    "cacheWrite1hTokens": 854152,
+    "cacheReadTokens": 69272519,
+    "outputTokens": 229937,
+    "thinkingTokens": 76643,
+    "responses": 334,
+    "costUsd": 25.289019800000002
   },
   "subagents": {
     "inputTokens": 772,
@@ -79,14 +79,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 14213,
-      "cacheWrite5mTokens": 1714396,
-      "cacheWrite1hTokens": 803726,
-      "cacheReadTokens": 111914963,
-      "outputTokens": 549816,
-      "thinkingTokens": 198468,
-      "responses": 682,
-      "costUsd": 48.44106659999998
+      "inputTokens": 15261,
+      "cacheWrite5mTokens": 1715583,
+      "cacheWrite1hTokens": 854152,
+      "cacheReadTokens": 115004062,
+      "outputTokens": 557115,
+      "thinkingTokens": 198965,
+      "responses": 702,
+      "costUsd": 49.62196239999998
     }
   },
   "warnings": [],
@@ -173,19 +173,22 @@
         }
       },
       "rereads": {
-        "calls": 0,
-        "byTool": {},
-        "estimatedTokens": 0,
-        "estimatedUsd": 0.0
+        "calls": 2,
+        "byTool": {
+          "Bash": 1,
+          "Read": 1
+        },
+        "estimatedTokens": 5889,
+        "estimatedUsd": 0.0521056
       },
       "billedUsd": 0.2252306
     }
   ],
   "telemetry": {
-    "events": 682,
-    "matched": 675,
-    "matchedTableUsd": 47.51340279999998,
-    "matchedEventUsd": 47.51340279999998,
+    "events": 701,
+    "matched": 692,
+    "matchedTableUsd": 48.568173399999985,
+    "matchedEventUsd": 48.56817339999998,
     "unseen": {
       "compact": {
         "inputTokens": 10813,
@@ -198,14 +201,14 @@
         "costUsd": 0.7214852
       },
       "prompt_suggestion": {
-        "inputTokens": 2024,
-        "cacheWrite5mTokens": 1038,
+        "inputTokens": 3036,
+        "cacheWrite5mTokens": 2225,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 941793,
-        "outputTokens": 71,
+        "cacheReadTokens": 1262451,
+        "outputTokens": 111,
         "thinkingTokens": 0,
-        "responses": 4,
-        "costUsd": 0.20617860000000002
+        "responses": 6,
+        "costUsd": 0.2846542
       }
     }
   },
@@ -219,7 +222,7 @@
   "branchLines": {
     ".ts": 27167,
     ".md": 1124,
-    ".json": 87,
+    ".json": 104,
     ".yaml": 765,
     ".sh": 1,
     ".wgsl": 14351,
