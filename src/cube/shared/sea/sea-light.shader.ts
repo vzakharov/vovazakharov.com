@@ -1,16 +1,16 @@
-import { OUTDOOR_STAGE, SKY, SUN } from '../outside';
+// Generated from sea-light.wgsl by `pnpm shaders:codegen`. Edit the
+// source, not here — the vet run regenerates this file and fails when it had to.
+
+import { OUTDOOR_FRAME } from '../outside/outdoor-frame';
+import { SKY } from '../outside/sky.shader';
+import { SUN } from '../outside/sun';
 import { wgsl } from '../shader/wgsl';
 import { SEA_SURFACE } from './sea-surface.shader';
 import { WATER_BODY } from './water-body.shader';
+import { WATER_OPTICS } from './water-optics';
 
-/**
- * How light leaves the sea toward the eye: the sky mirrored in waves, the
- * sun's glitter, and what the water's own body sends back up. Light is in the
- * scene's units throughout, where `SUN_LIGHT` is what a white matte face
- * square to the sun shows — π times less than the sun's irradiance.
- */
 export const SEA_LIGHT = wgsl(
-  'sea/light',
+  'cube/shared/sea/sea-light',
   /* wgsl */ `
 /// The least cosine between a facet's normal and the eye's line it is lit at.
 const TURNED = 0.02;
@@ -40,12 +40,15 @@ struct Mirrored {
 /// is why a horizon neither mirrors the sky at its edge nor goes black.
 fn mirrored(waves: Waves, toEye: vec3f) -> Mirrored {
   let ahead = normalize(toEye.xz + vec2f(1e-6, 0.0));
-  let along = sqrt(max(
-    waves.spread.x * ahead.x * ahead.x
-      + waves.spread.y * ahead.y * ahead.y
-      + 2.0 * waves.spread.z * ahead.x * ahead.y,
-    0.0,
-  ));
+  let along =
+    sqrt(
+      max(
+        waves.spread.x * ahead.x * ahead.x
+          + waves.spread.y * ahead.y * ahead.y
+          + 2.0 * waves.spread.z * ahead.x * ahead.y,
+        0.0,
+      ),
+    );
   let lod = skyLod(sqrt(waves.spread.x + waves.spread.y));
   var out: Mirrored;
   var weight = 0.0;
@@ -55,7 +58,8 @@ fn mirrored(waves: Waves, toEye: vec3f) -> Mirrored {
     let leant = normalize(vec3f(-lean.x, 1.0, -lean.y));
     // A facet the eye could only see from behind is one the mesh drew too
     // smooth to hide: it shows as the nearest facet that does face the eye.
-    let normal = normalize(leant + toEye * max(TURNED - dot(leant, toEye), 0.0));
+    let normal =
+      normalize(leant + toEye * max(TURNED - dot(leant, toEye), 0.0));
     let facing = dot(normal, toEye);
     let area = select(1.0, 4.0, i == 0) / 6.0 * facing / normal.y;
     var bounce = reflect(-toEye, normal);
@@ -76,16 +80,22 @@ fn mirrored(waves: Waves, toEye: vec3f) -> Mirrored {
 /// slope (Cox & Munk 1954), over the area of sea the eye sees.
 fn glitter(waves: Waves, toEye: vec3f, shown: f32) -> vec3f {
   let half = normalize(toEye + frame.sun.xyz);
-  if (half.y <= 0.0) { return vec3f(0.0); }
+  if (half.y <= 0.0) {
+    return vec3f(0.0);
+  }
   let off = -half.xz / half.y - waves.slope;
   let sx = waves.spread.x + DISC_SPREAD;
   let sz = waves.spread.y + DISC_SPREAD;
   let cross = waves.spread.z;
   let det = max(sx * sz - cross * cross, 1e-12);
-  let fit = (sz * off.x * off.x - 2.0 * cross * off.x * off.y + sx * off.y * off.y) / det;
+  let fit =
+    (sz * off.x * off.x
+      - 2.0 * cross * off.x * off.y
+      + sx * off.y * off.y) / det;
   let density = exp(-0.5 * fit) / (6.2831853 * sqrt(det));
   let lifted = half.y * half.y;
-  let light = fresnel(dot(toEye, half)) * density / (4.0 * shown * lifted * lifted);
+  let light =
+    fresnel(dot(toEye, half)) * density / (4.0 * shown * lifted * lifted);
   return SUN_LIGHT * min(3.14159 * light, 1200.0);
 }
 
@@ -96,9 +106,10 @@ fn upwelling(falling: vec3f) -> vec3f {
   return falling * 0.33 * BACKSCATTER / (ABSORB + BACKSCATTER);
 }
 `,
-  OUTDOOR_STAGE,
+  OUTDOOR_FRAME,
   SKY,
   SUN,
   SEA_SURFACE,
   WATER_BODY,
+  WATER_OPTICS,
 );
