@@ -7,20 +7,14 @@ import {
 import type { Vec3 } from '@/cube/shared/lib/vec';
 import { ROOM_DOORWAY, type WallSide } from '@/cube/shared/outside';
 
-import { type Footprint, footprint, placed, slabHeight } from './frame';
+import { type Footprint, footprint, slabHeight } from './frame';
 import { holeMiddle, type HoleOf, type Quarter, QUARTERS, under } from './hole';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
 import type { InRoom, Pose } from './pose';
 import { face, type Quad } from './quad';
-import {
-  type InRoomOf,
-  isRoom,
-  type Room,
-  roomKey,
-  roomsAcross,
-} from './room';
+import { type InRoomOf, isRoom, type Room, roomKey, roomsAcross } from './room';
 import type { View } from './rooms';
-import { shelfFaces, shelfOf, takenIn } from './shelf';
+import { shelfSeen } from './shelf';
 
 /** A hole's side, in its room's side; it sits in the middle of its quarter. */
 export const HOLE_SIDE = 0.08;
@@ -297,25 +291,6 @@ export const walledRooms = (view: View): Room[] => [
   ...(view.overhead === null ? [] : [view.overhead]),
 ];
 
-/** The shelf of `room` in the eye's frame, if `room` has a hole. */
-function shelf(
-  rolled: RolledMaze,
-  eye: Room,
-  room: Room,
-  quarter: Quarter | null,
-  taken: InRoomOf | null,
-): Quad[] {
-  if (quarter === null) return [];
-  const { origin, roomSide: side } = placed(eye, room);
-  return shelfFaces(
-    shelfOf(rolled, room, quarter),
-    room,
-    origin,
-    side,
-    takenIn(taken, room),
-  );
-}
-
 /**
  * Every face the eye at `pose` sees of `view`: the walls of its floor's rooms,
  * of the rooms below them and of the room overhead, and those rooms' pillars,
@@ -358,7 +333,9 @@ export function faces(
     ...walls(rolled, pose, view.below),
     ...(view.overhead === null ? [] : walls(rolled, pose, [view.overhead])),
     ...walled.flatMap((room) => pillars(pose, room, pillarOf(room.n))),
-    ...walled.flatMap((room) => shelf(rolled, pose, room, holeOf(room), taken)),
+    ...walled.flatMap((room) =>
+      shelfSeen(rolled, pose, room, holeOf(room), taken),
+    ),
   ];
 }
 

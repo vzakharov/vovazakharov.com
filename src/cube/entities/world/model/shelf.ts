@@ -1,6 +1,7 @@
 import { WALL_HALF } from '@/cube/shared/lib/room-shape';
 import { scaled, unit3, type Vec3 } from '@/cube/shared/lib/vec';
 
+import { placed } from './frame';
 import { holeMiddle, type Quarter } from './hole';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
 import { PILL_RADIUS, pillQuads } from './pill';
@@ -217,4 +218,23 @@ export function shelfFaces(
     ),
     ...(taken ? [] : pillQuads(local(centre), axis, side, room)),
   ];
+}
+
+/** The shelf of `room` in the eye's frame, if `room` has a hole. */
+export function shelfSeen(
+  rolled: RolledMaze,
+  eye: Room,
+  room: Room,
+  quarter: Quarter | null,
+  taken: InRoomOf | null,
+): Quad[] {
+  if (quarter === null) return [];
+  const { origin, roomSide: side } = placed(eye, room);
+  return shelfFaces(
+    shelfOf(rolled, room, quarter),
+    room,
+    origin,
+    side,
+    takenIn(taken, room),
+  );
 }
