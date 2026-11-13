@@ -314,43 +314,45 @@ seven sections; a reader's brief is three sections at most.
 State at 2026-11-13 09:40Z, **the second team running**; update this block, do
 not append.
 
-- **On this branch**: all of the above plus core's step 2 (0e1081af, merged at
-  420476f1): the page draws the outside — layers sky, sand, shell, rooms, sea,
-  an outside eye with roll, a lens of its own (`OUTSIDE_LENS`: exposure 0.3,
-  eyelids), `pnpm outside:cube --out <absolute>` shooting six named eyes
-  (`wake-sea`, `wake-cube`, `under`, `ladder-foot`, `doorway-out`,
-  `room-doorway`) or `--at x,y,z --yaw --pitch`, ~2 min for all six. Sand's
-  layer and shader are the real ones; sky, shell and sea are core's stand-ins
-  (`pages/cube/ui/<name>-layer.ts`, `pages/cube/lib/<name>-shader.ts`).
-  Typecheck, 72 of 72 shaders and the seam's tests green; lint still red on
-  shell's four errors in `shared/outside`.
-- **Merged since the restart**: shell's real cube and ladder with core's
-  `ladderGone` (2364cb7c); core's fix for the black block across the horizon
-  (9ab45d18: typecheck, 72/72 shaders, `type-overlap`, `masd:clusters` green).
-  Frames for the board under `frames/lead/`; the board is at version 59.
-- **The two black-out bugs, both of one family** (a non-finite pixel smeared by
-  mips and bloom): `islandHeight`'s `tanh` going NaN kilometres out (core,
-  fixed, merged); the stand-in sea's `metres` overflowing a half float into inf,
-  which blacks out floor 1's mirrors with the doorway in view (shell is pushing
-  `min(metres, SKY_METRES)`; in the contract; sea and core told). **Not yet
-  re-shot at 9ab45d18.**
-- **What the six eyes showed at 2364cb7c**: the cube reads as a banded black
-  block beside the sun, but is a tenth of the frame from the waking spot and its
-  gap is a two-pixel slit on the dune's skyline (sand proposes a staging; the
-  lead leans to waking ~15 m off). With shell: grey bands read brown, the ladder
-  reads as wood, the specks shine in shadow like stars.
-- **Children's heads, not merged**: sky 5c70ff27 (fill fixed, a factor of π: sun
-  [8, 4.88, 2.14], sky [0.32, 0.46, 0.76]; its page frames take 160 s until its
-  lod work lands — do not merge before); walk 1fcf79fc (cuts, `ladderGone`
-  written, `stepsOut`, scale; ladder still a placeholder, no jump frame shot;
-  asks core for scale on `Outside`, the east wall opening at the doorway,
-  `ladderGone` on the play hook); sound 69f5c737 (jobs 1–4, waits for the sea);
-  pill 942cb4ce (black and pale grey, accepted on frames); core b8f08383 (on job
-  4, the doorway handover); sea 61944809 plus unpushed (FFT layer restored, no
-  frames yet); sand — no report yet.
-- **Waiting on**: sand's first report and staging proposal; sea's frames;
-  shell's clamp and its two inside eyes (`shelf-door`, `door-shelf`); core's
-  `body` slot. A check-in is scheduled for 10:01Z.
+- **On this branch (ba9210cc, 2026-11-13 09:55Z)**: the page draws the outside
+  as layers — sky (core's stand-in), sand (real), shell (real cube and ladder),
+  rooms, sea (the real FFT ocean, sea's 9d3c0184, merged at 01f776ea; the
+  stand-in is gone) — from an inside or outside eye, with core's `ladderGone`,
+  the `tanh` fix (`eased`) and the eye's adaptation (core 8a4fb806:
+  `pages/cube/lib/adaptation.ts`, `OutsideLens.indoors`, eye `doorway-down`,
+  `--indoors`). Gates at ba9210cc: typecheck, 72/72 shaders, `type-overlap`,
+  `masd:clusters`, cycles green. `pnpm outside:cube --out <absolute>` shoots the
+  named eyes; with the FFT sea a frame takes ~2.5 min on SwiftShader.
+- **The black blocks had one cause**: `islandHeight`'s `tanh` going NaN
+  kilometres out on the GPU (found by core and, separately, by shell; shell's
+  earlier "half-float inf" reading was wrong, but the contract's "no non-finite
+  value, alpha at most `SKY_METRES`" line stays). Gone in the frames at
+  ba9210cc.
+- **What `wake-sea` and `wake-cube` show at ba9210cc** (in `tmp/eyes-sea/`, not
+  committed, not yet on the board; `under` and the rest were still shooting):
+  **the waking spot is under water** — a flat brown-grey mirror with foam lace
+  from the frame's bottom to the dune; the lace cells are 1–3 m and even; no
+  ripple near the eye; the far sea and the sun's streak look right. Sent to sea
+  as four verdicts, the flooded waking spot first. The cube still reads small (a
+  tenth of the frame) with the gap a slit; its bands now read bluish-grey.
+- **Children's heads, not merged**: sky 5c70ff27 (fill fixed: sun [8, 4.88,
+  2.14], sky [0.32, 0.46, 0.76]; page frames take 160 s until its lod work lands
+  — do not merge before); walk 1fcf79fc (cuts, `ladderGone`, `stepsOut`, scale;
+  to do: real ladder and pill's `grippingHand`, wire the adaptation, write
+  `body`, shoot the jump); sound 357d9e94 (wood ladder voice, follows the real
+  sea, is cutting `heardFrom`'s cost); pill 7d8accc0 (black and pale grey pill,
+  rung grip; shooting floors 1, 2, 5, then merge); shell e70b4bbd (must merge
+  the lead and take `eased` over its own `levelled`; then wood ladder, bands,
+  specks, `bodyShadow`; has eyes `shelf-door`, `door-shelf`); core 8a4fb806
+  merged — owes the `body` slot, the east wall opening at the doorway,
+  `ladderGone` on the play hook, a non-finite guard in the reflection pass; sand
+  — **no report since the restart; check it at the 10:01Z check-in**.
+- **Board** (session of its own, Sonnet): version 61; cards for the horizon bug,
+  the shadow, the wooden ladder, the narrowed rule. Owed to it: the frames of
+  the real sea once all six exist, with the flooded waking spot named as a
+  failure.
+- **The explainer** «Два океана» was amended on the operator's comment (how many
+  waves "good" takes); answered in its thread.
 - **Next, in order**: (1) merge core, shell, sky as they report green and lint;
   re-shoot the six eyes after each; (2) sea's FFT ocean in the renderer, its
   frames to the operator and the board; (3) walk and pill in, the intro played
