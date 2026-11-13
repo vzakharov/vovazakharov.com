@@ -29,7 +29,7 @@ describe('beamPatches', () => {
 
   it('lays the evening sun along the floor and stands it on the west wall', () => {
     const faces = new Set(patches.map(({ facing }) => facing.join(',')));
-    assert.deepEqual([...faces].sort(), ['0,1,0', '1,0,0']);
+    assert.deepEqual([...faces].toSorted(), ['0,1,0', '1,0,0']);
     const west = patches.filter(({ facing }) => facing[0] === 1);
     assert.ok(west.every(({ middle }) => middle[1] < 1.2 && middle[2] > 2.5));
   });

@@ -35,3 +35,6 @@ export const scaled = (v: Vec3, by: number): Vec3 => [
   v[1] * by,
   v[2] * by,
 ];
+
+/** `v` at length 1. */
+export const unit3 = (v: Vec3): Vec3 => scaled(v, 1 / Math.hypot(...v));
