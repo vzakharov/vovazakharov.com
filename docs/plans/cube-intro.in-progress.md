@@ -132,6 +132,11 @@ reached from the second account.
   > +когда оказывешься "под волной", некрасиво. понятно что красиво ща там не
   > сделаешь, но хоть не серое
 
+  And a tenth:
+
+  > когда начинаешь забираться по лестнице, рук нет нигде. они раз какая-то
+  > куцая откуда-то на секунду вылезла, но тут же исчезла
+
   **Decided**: the lead makes the four changes itself, with no child team — they
   are one package's worth, all in the walk's scenes and the player. The speed
   out of doors is the next round's, not this one's. Then `/finalize`, which
@@ -206,6 +211,9 @@ republish slot 2, then `/finalize` (the two red `source` checks on the way).
       what the outdoor frame spends its time on first (the meter on `F` names
       the GPU's stages); the key toggles that, and its hint shows only while the
       frame rate is low. Design below once the cost is read.
+- [ ] **10. Hands on the rungs.** On the preview the climb shows no hands but
+      one stub for a second. `handsAbroad` and `pnpm grip:cube` are where to
+      look.
 - [ ] **9. No grey under a wave.** An eye below the sea's surface sees the
       frame's clear colour; it should see water's colour instead, however
       plainly.
