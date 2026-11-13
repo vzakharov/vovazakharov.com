@@ -6,6 +6,7 @@
  *   pnpm outside:cube --eyes wake-sea,under  # those
  *   pnpm outside:cube --out <dir>            # frames there instead, <dir> absolute
  *   pnpm outside:cube --at -23,1.6,23 --yaw 135 --pitch -5 --roll 0 --name mine
+ *   pnpm outside:cube --body 6,3             # a body standing on the sand there, for its shadow
  *   pnpm outside:cube --exposure 0.3 --eyelids 0.5   # the lens, on any of the above
  *   pnpm outside:cube --indoors 1            # an outside eye through floor 1's lens
  *
@@ -22,6 +23,7 @@ import {
   CUBE_METRES,
   DOORWAY,
   islandHeight,
+  type Standing,
   WAKE_AT,
 } from '@/cube/shared/outside';
 import {
@@ -46,6 +48,8 @@ const FRAMES = path.resolve(
 const DEGREE = Math.PI / 180;
 /** A standing eye's height over what it stands on, in metres. */
 const STANDING = EYE_HEIGHT * CUBE_METRES;
+/** How tall the body `--body` stands is. */
+const BODY_TALL = 1.75;
 /** The eye of someone propped on an elbow in the sand. */
 const LYING = 0.35;
 
@@ -151,6 +155,17 @@ function chosen(): Array<[string, Whereabouts]> {
   ];
 }
 
+/** The body `--body x,z` stands on the sand there, to cast its shadow. */
+function standing(): { body?: Standing } {
+  const at = flag('body');
+  if (at === undefined) return {};
+  const [x, z] = at.split(',').map(Number);
+  if (x === undefined || z === undefined) {
+    throw new Error(`--body wants x,z in metres, not ${at}`);
+  }
+  return { body: { foot: onSand(x, z, 0), headAbove: BODY_TALL } };
+}
+
 async function main(): Promise<void> {
   const lens = {
     exposure: numberOf('exposure', OUTSIDE_LENS.exposure),
@@ -166,7 +181,7 @@ async function main(): Promise<void> {
       const file = path.join(FRAMES, `${name}.png`);
       const started = Date.now();
       await (isOutside(at)
-        ? shootOutside(file, at, lens)
+        ? shootOutside(file, at, lens, standing())
         : shoot(file, at, inside));
       process.stdout.write(`  in ${String(Date.now() - started)} ms\n`);
     }),
