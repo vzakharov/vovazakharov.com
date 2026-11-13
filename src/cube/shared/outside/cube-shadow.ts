@@ -1,12 +1,15 @@
 import { smoothstep } from '../lib/ease';
 import { SUN_SPREAD } from '../lib/sun-disc';
 import { dot3, moved, scaled, type Vec3 } from '../lib/vec';
-import { BEHIND, CRISP, HALF, OUTLINE } from './cube-shadow-numbers';
+import {
+  CUBE_CENTRE,
+  CUBE_OUTLINE,
+  SHADOW_BEHIND,
+  SHADOW_CRISP,
+} from './cube-shadow-numbers';
 import { CUBE_BOX } from './frame';
 import { DOOR_LADDER, LADDER_ACROSS, LADDER_OUT, LADDER_UP } from './ladder';
 import { SUN_DIR } from './sun';
-
-const MIDDLE = moved(CUBE_BOX.min, HALF);
 
 /** Where the sun's ray from `p` enters and leaves the cube, in metres along it. */
 function through(p: Vec3): [enters: number, leaves: number] {
@@ -23,10 +26,10 @@ function through(p: Vec3): [enters: number, leaves: number] {
 
 /** How much of the sun the cube leaves `p`. */
 function boxLight(p: Vec3): number {
-  const off = moved(p, MIDDLE, -1);
+  const off = moved(p, CUBE_CENTRE, -1);
   let out = -Infinity;
   let back: Vec3 = [0, 0, 0];
-  for (const { facing, reach } of OUTLINE) {
+  for (const { facing, reach } of CUBE_OUTLINE) {
     const across = dot3(facing, off);
     if (Math.abs(across) - reach > out) {
       out = Math.abs(across) - reach;
@@ -39,11 +42,11 @@ function boxLight(p: Vec3): number {
   const ahead = -dot3(off, SUN_DIR);
   const run = hit ? Math.max(enters, 0) : Math.max(ahead, 0);
   const behind = hit
-    ? smoothstep(0, BEHIND, leaves)
+    ? smoothstep(0, SHADOW_BEHIND, leaves)
     : out > 0 && ahead > 0
       ? 1
       : 0;
-  const soft = SUN_SPREAD * run + CRISP;
+  const soft = SUN_SPREAD * run + SHADOW_CRISP;
   return 1 - (1 - smoothstep(-soft, soft, out)) * behind;
 }
 
@@ -59,7 +62,7 @@ function ladderLight(p: Vec3): number {
   const at = moved(moved(p, SUN_DIR, run), DOOR_LADDER.foot, -1);
   const up = dot3(at, LADDER_UP);
   const across = Math.abs(dot3(at, LADDER_ACROSS));
-  const soft = SUN_SPREAD * Math.max(run, 0) + CRISP;
+  const soft = SUN_SPREAD * Math.max(run, 0) + SHADOW_CRISP;
   const stiles =
     barLight(
       Math.abs(across - DOOR_LADDER.wide / 2),
@@ -80,7 +83,10 @@ function ladderLight(p: Vec3): number {
   const rungs =
     barLight(Math.abs(up - rung), DOOR_LADDER.rung.tall / 2, soft) *
     barLight(across, DOOR_LADDER.wide / 2, soft);
-  return 1 - Math.max(stiles, rungs) * smoothstep(BEHIND, 3 * BEHIND, run);
+  return (
+    1 -
+    Math.max(stiles, rungs) * smoothstep(SHADOW_BEHIND, 3 * SHADOW_BEHIND, run)
+  );
 }
 
 /**
