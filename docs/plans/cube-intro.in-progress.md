@@ -340,6 +340,19 @@ not append.
   reaches a session only when its turn ends (priority "next" tested, does not
   join a turn) — every package now runs shoots in the background and ends its
   turn; `briefs/notice.md`. Board v78.
+- **State at 11:55Z — lead 874eab51** adds pill 0b1b21bb (the doorway's clear
+  strip, hung keeps off standing, one rolled time per clock; floor 1 loses
+  nothing, floors 24, 10 and 27 lose most — told to the operator as a fact).
+  Sound's 423f1231 (the sill's cut closes faster; the operator: «теперь
+  идеально») merges after the lead's shoot, then sound is archived. **The
+  operator's four answers at ~11:52Z**: (1) the star-like specks on the cube's
+  shaded faces stay; (2) the body's shadow does not come back — core removes the
+  unread `frame.body`; (3) by "the ring of the former" he meant he liked the
+  sound of "cubed away" (no decision on the title); (4) the lens toward the sun:
+  «не знаю» — the lead ruled that exposure 0.3 and the film stay, and sky dims
+  the 5–20° ring until the disc reads inside a gradient, the approved eye's
+  feeling unmoved. Seen unmerged and unreported: sky 67b03d46, sand 36827743
+  ("unjudged"), sea 501fa487.
 - **The explainer** «Два океана» was amended on the operator's comment (how many
   waves "good" takes); answered in its thread. The clouds explainer's session
   (`session_01DaohkFroEeZ7ybMvAY9JoV`) has not reported yet.
