@@ -10,7 +10,7 @@ import {
   LADDER_UP,
   LADDER_WGSL,
 } from './ladder';
-import { type Laddered, OUTDOOR_FRAME, type Standing } from './outdoor-frame';
+import { OUTDOOR_FRAME, type Standing } from './outdoor-frame';
 import { SUN, SUN_DIR } from './sun';
 
 /** How sharp a shadow's edge is where it starts, in metres. */
