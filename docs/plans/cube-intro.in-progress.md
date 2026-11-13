@@ -327,13 +327,15 @@ not append.
   the boom the operator tried is removed), sky 89c6dae3 (relief back, cost back;
   undersides and two "mushrooms" next). Gates green at each merge; **the lead
   has shot no frame since 315051b5**. **Unmerged**: pill 107f9524+ (two decor
-  rules built; then the clock: hour follows minute everywhere, floor 1's time
-  from the sun — the lead's ruling, told to the operator, he has not ruled),
-  walk df3ea135+ (turned interior, waking at `WAKE_AT`, no legs out of doors by
-  the operator's word; strips re-shooting), sea 33ad5cd2+ (finer lace, shore
-  cusps, `shelterAt` — merge when it says its frames confirm). Sand: tracing a
-  ~12 px staircase at the wet sand's mirror edge in the cube's shadow (the
-  operator pointed at it). Shell owes the glint on indoor 'plastic' and
+  rules built; then the clock, by the operator's ruling at ~11:50Z: the hour
+  hand follows the minute hand everywhere, one rolled time per clock — and floor
+  1's time is NOT derived from the sun, it stays rolled: «вредит трушности…
+  лучше приму часы которые показывают неправильное время», and «найдём в этом
+  философию»), walk df3ea135+ (turned interior, waking at `WAKE_AT`, no legs out
+  of doors by the operator's word; strips re-shooting), sea 33ad5cd2+ (finer
+  lace, shore cusps, `shelterAt` — merge when it says its frames confirm). Sand:
+  tracing a ~12 px staircase at the wet sand's mirror edge in the cube's shadow
+  (the operator pointed at it). Shell owes the glint on indoor 'plastic' and
   re-reading `RECEPTION_SHRUBS` once pill lands. **Messaging**: a message
   reaches a session only when its turn ends (priority "next" tested, does not
   join a turn) — every package now runs shoots in the background and ends its
