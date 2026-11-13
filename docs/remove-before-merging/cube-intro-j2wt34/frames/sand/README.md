@@ -16,6 +16,13 @@
 - `1113-wake-lying-seaward.webp` — lying there, head turned to the sea (shot
   before the gold pass; the sun is behind).
 
+- `1113-sky-approved-eye.webp` — the approved eye again under the sky package's
+  light and core's quarter-pixel fringe: the sparks are white.
+- `1113-sky-wake-lying-sun.webp` — lying at the waking spot, toward the sun.
+- `1113-sky-wet-foreshore.webp` — standing on the foreshore toward the sun: the
+  wet band mirrors the sky, more the further it lies, with the sun's glare along
+  it.
+
 ## In the first harness
 
 Shot in a throwaway harness (SwiftShader, a stand-in sky, a flat stand-in sea, a
