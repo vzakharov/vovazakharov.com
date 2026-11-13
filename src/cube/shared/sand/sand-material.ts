@@ -49,7 +49,7 @@ fn sandFill(normal: vec3f, sun: vec3f) -> vec3f {
   // stays the lighter one in shadow too; the rest of it, overhead, is bluer
   // than its mean.
   let sunward = max(dot(normal, normalize(vec3f(sun.x, 0.35, sun.z))), 0.0);
-  return SKY_FILL * ((0.42 + 0.3 * normal.y) * vec3f(0.9, 0.96, 1.2) + 0.28 * vec3f(1.3, 0.95, 0.62) * sunward);
+  return SKY_FILL * ((0.34 + 0.3 * normal.y) * vec3f(0.9, 0.96, 1.2) + 0.5 * vec3f(1.3, 0.95, 0.62) * sunward);
 }
 
 /// What one pixel of sand has to be lit with.
@@ -123,14 +123,14 @@ fn sandLight(point: SandPoint, sun: vec3f) -> vec3f {
   // Quartz lets a low sun through: seen against it, dry sand glows the sun's
   // colour, most where the eye grazes the ground along the sun's bearing.
   let sunward = max(-dot(normalize(point.view.xz), normalize(sun.xz)), 0.0);
-  let through = pow(sunward, 3.0) * pow(1.0 - max(point.view.y, 0.0), 2.0);
-  light += direct * sqrt(albedo) * (0.11 * dry * through * (0.4 + 0.6 * crest));
+  let through = pow(sunward, 1.5) * pow(1.0 - max(point.view.y, 0.0), 2.0);
+  light += direct * vec3f(0.8, 0.78, 0.5) * (0.17 * dry * through * (0.4 + 0.6 * crest));
   // Glints are a thing of the sand at one's feet and of the sun's own
   // bearing: further off, or to the side, a pixel holds only their average.
   let glints = (1.0 - smoothstep(0.0035, 0.009, point.px)) * smoothstep(0.55, 0.9, sunward);
   if (glints > 0.0) {
     let white = mix(direct, vec3f(dot(direct, vec3f(0.3, 0.5, 0.2))), 0.6);
-    light += white * dry * dry * 6.0 * glints * sandGlint(xz, normal, half, point.px);
+    light += white * dry * dry * 3.0 * glints * sandGlint(xz, normal, half, point.px);
   }
   light += direct * litter.cover * litter.gloss * pow(max(dot(normal, half), 0.0), 60.0);
 
@@ -142,7 +142,10 @@ fn sandLight(point: SandPoint, sun: vec3f) -> vec3f {
     let facing = max(dot(lying, point.view), 0.0);
     let fresnel = 0.02 + 0.98 * pow(1.0 - facing, 5.0);
     let rough = mix(0.12, 0.03, film);
-    let mirrored = skyRadiance(reflect(-point.view, lying), 6.0 * rough);
+    // Seen at a graze, the faces that would mirror the ground hide behind
+    // their neighbours: what shows is the sky just over the horizon.
+    let bounced = reflect(-point.view, lying);
+    let mirrored = skyRadiance(normalize(vec3f(bounced.x, max(bounced.y, 0.04), bounced.z)), 6.0 * rough);
     let a2 = rough * rough * rough * rough;
     let nh = max(dot(lying, half), 0.0);
     let lobe = a2 / (${Math.PI} * pow(nh * nh * (a2 - 1.0) + 1.0, 2.0));
