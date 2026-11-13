@@ -1,6 +1,6 @@
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Laddered, Standing } from '@/cube/shared/outside';
+import type { Laddered } from '@/cube/shared/outside';
 import type { Quad } from '@/cube/entities/world';
 
 import { handsOnLadder } from './climbing';
@@ -16,7 +16,6 @@ import {
 } from './roam';
 import {
   climb,
-  HEAD_OVER_EYE,
   LADDER_REACH,
   outsideOf,
   shotOf,
@@ -241,24 +240,6 @@ export function abroad(
   const moved = roam(roamer, input, dt, seconds, landOf(stage, ladderGone));
   const { cues } = moved;
   return { ...free, roamer: moved, shot: shotOf(moved), cues };
-}
-
-/**
- * `abroad`'s body as what the sun meets: as tall as it stands, sits or
- * hangs over the sand under its eye, and no taller than itself.
- */
-export function standingOf(
-  { shot: { x, y, z }, roamer: { scale } }: Abroad,
-  { land }: Stage,
-): Standing {
-  const eyeOver = Math.min(
-    Math.max(0, y - land.height(x, z)),
-    EYE_OVER_SAND * scale,
-  );
-  return {
-    foot: [x, y - eyeOver, z],
-    headAbove: eyeOver + HEAD_OVER_EYE * scale,
-  };
 }
 
 /** `abroad`'s hands on the ladder while it climbs, in floor 1's room's frame. */

@@ -10,7 +10,7 @@
  *   pnpm scenes:cube --out <dir>         # frames there instead, <dir> absolute
  *
  * Each is played through the walk's own controller, so a frame holds what the
- * page draws: the body's hands on the ladder, its shadow, the ladder standing or
+ * page draws: the body's hands on the ladder, the ladder standing or
  * gone, and the lens as the eye has got used to the light.
  */
 
@@ -26,7 +26,6 @@ import {
   roamingFree,
   type Shot,
   shotOf,
-  standingOf,
   steppingOut,
   STILL,
   whereOf,
@@ -116,7 +115,6 @@ function drawn(body: Abroad, indoors: number, at: number) {
     among: {
       moving: handsAbroad(body, INTRO_STAGE),
       ladderGone,
-      body: standingOf(body, INTRO_STAGE),
     },
   };
 }

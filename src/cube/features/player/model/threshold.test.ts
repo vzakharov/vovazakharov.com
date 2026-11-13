@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
-import { DOORWAY_BOX, ROOM_DOORWAY, yawToRoom } from '@/cube/shared/outside';
+import { ROOM_DOORWAY, yawToRoom } from '@/cube/shared/outside';
 import { isOutside, type Pose, type Walls } from '@/cube/entities/world';
 
 import { type Abroad, abroad, steppingOut } from './abroad';
@@ -17,7 +17,6 @@ import {
   onSill,
   poseWithin,
   shotWithin,
-  standingWithin,
   whereOf,
 } from './threshold';
 
@@ -123,19 +122,6 @@ describe('the threshold', () => {
     assert.ok(
       isOutside(whereOf({ ...inside, x: cube.max[0] + 0.1 }, INTRO_STAGE)),
     );
-  });
-
-  it('stands a body in the room where the sun meets it', () => {
-    // On the sill, in the middle of the doorway: at the cube's east face.
-    const { foot, headAbove } = standingWithin({
-      ...arrivedOn(1),
-      ...facingDoor(0, OPENING),
-    });
-    const [x, y, z] = foot;
-    assert.ok(Math.abs(x - cube.max[0]) < 1e-9);
-    assert.ok(Math.abs(y - DOORWAY_BOX.min[1]) < 1e-9);
-    assert.ok(z > DOORWAY_BOX.min[2] && z < DOORWAY_BOX.max[2]);
-    assert.ok(headAbove > 1.6 && headAbove < 1.8);
   });
 
   it('climbs the real ladder into the room and steps back out onto the sand', () => {

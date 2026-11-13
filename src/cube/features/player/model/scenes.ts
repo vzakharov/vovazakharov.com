@@ -32,9 +32,6 @@ export type Stage = {
   shelf: Vec3;
 };
 
-/** A whole body's crown over its eye, in metres. */
-export const HEAD_OVER_EYE = 0.12;
-
 /** Where an eye is, as a shot's own channels. */
 type Spot = Record<'x' | 'y' | 'z', number>;
 

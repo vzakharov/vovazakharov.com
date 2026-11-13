@@ -30,8 +30,6 @@ import {
   poseWithin,
   shotWithin,
   standingAt,
-  standingOf,
-  standingWithin,
   steppingOut,
   STILL,
   takenOf,
@@ -182,7 +180,7 @@ export function walk(
 
   /**
    * The frame's share for a body inside at `pose`, `dt` seconds on: floor 1
-   * is seen through the lens the eye has got used to, and stands in the sun.
+   * is seen through the lens the eye has got used to.
    */
   const indoorsAt = (pose: Pose, dt: number) => {
     indoors = adapted(indoors, pose, dt);
@@ -191,7 +189,6 @@ export function walk(
           pose,
           ladderGone,
           lens: lensAdapted(indoors),
-          body: standingWithin(pose),
         }
       : { pose, ladderGone };
   };
@@ -226,7 +223,6 @@ export function walk(
                   outside: outsideOf(shot),
                   lens: lensAdapted(indoors, lensOf(shot)),
                   ladderGone,
-                  body: standingOf(out, INTRO_STAGE),
                 };
               }
               player = standingAt(inside);

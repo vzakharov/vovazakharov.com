@@ -5,7 +5,6 @@ export {
   canClimb,
   handsAbroad,
   roamingFree,
-  standingOf,
   steppingOut,
 } from './model/abroad';
 export { grippingHand } from './model/grip';
@@ -33,7 +32,6 @@ export {
   onSill,
   poseWithin,
   shotWithin,
-  standingWithin,
   whereOf,
 } from './model/threshold';
 export type { Shot } from './model/track';

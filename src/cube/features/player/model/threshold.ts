@@ -1,8 +1,6 @@
 import { clamp01 } from '@/cube/shared/lib/ease';
-import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import {
   ROOM_DOORWAY,
-  type Standing,
   toCube,
   toWorld,
   type WallSide,
@@ -11,7 +9,7 @@ import {
 } from '@/cube/shared/outside';
 import type { InRoom, Pose, Whereabouts } from '@/cube/entities/world';
 
-import { HEAD_OVER_EYE, outsideOf, type Stage } from './scenes';
+import { outsideOf, type Stage } from './scenes';
 import { EYE_HEIGHT } from './step';
 import type { Shot } from './track';
 
@@ -84,12 +82,6 @@ export function whereOf(shot: Shot, { cube }: Stage): Whereabouts {
   );
   return within ? poseWithin(shot) : outsideOf(shot);
 }
-
-/** A body in floor 1's room as what the sun through the doorway meets. */
-export const standingWithin = ({ u, v, eyeAbove, scale }: Pose): Standing => ({
-  foot: toWorld([u, 0, v]),
-  headAbove: eyeAbove * ROOM_METRES + HEAD_OVER_EYE * scale,
-});
 
 /**
  * Whether a body at `pose` has walked out through the doorway: its middle is
