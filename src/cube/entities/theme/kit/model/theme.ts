@@ -44,8 +44,8 @@ export type Floors = Readonly<Partial<Record<number, FloorTheme>>>;
 /**
  * A floor's whole shader: its theme's three functions, everything they call,
  * `AIR` — the theme's air, which its WGSL names without importing — the core
- * kit, and `stage`, the entry points, which may call the theme's three, the
- * core kit and `ownedMark` without importing them.
+ * kit, and `stage`, the entry points, which call the theme's three without
+ * importing them and import every kit name they use.
  */
 export const floorSource = (
   { shader, air }: FloorTheme,
