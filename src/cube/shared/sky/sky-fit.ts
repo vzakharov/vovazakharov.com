@@ -86,7 +86,7 @@ const SAMPLES = { lift: 40, turn: 12 } as const;
 /**
  * A ray and the sun, both in the frame whose x is the sun's bearing, and
  * where the ray falls on the fit's `axes`: its height, then its turn, which
- * at the zenith `dir` no longer tells.
+ * `dir` loses at the zenith.
  */
 type FitRay = { dir: Vec3; toSun: Vec3; axes: readonly [number, number] };
 

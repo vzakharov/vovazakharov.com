@@ -281,8 +281,8 @@ fn cirrusAlong(dir: vec3f, fog: vec3f) -> vec4f {
   if (dir.y <= 0.0 || away > ${f32(CLOUDS.cirrusReach)}) { return vec4f(0.0, 0.0, 0.0, 1.0); }
   let at = inField(frame.eye.xyz / 1000.0 + dir * away).xz / ${f32(CLOUD_TILE)};
   let patches = cloudNoise2(at * vec2f(3.0, 4.0), 3, CLOUD_SALT + 7u);
-  // Drawn out askew to the wind, so the streaks do not all run at the sun;
-  // along the wind the lattice still closes on the tile.
+  // Drawn out askew to the wind, which blows from the sun: streaks along it
+  // would fan out of the sun. Sheared, the lattice still closes on the tile.
   let streak = vec2f((at.x + at.y) * 24.0, at.y * 9.0);
   let sheet = 0.6 * cloudNoise2(streak, 24, CLOUD_SALT + 10u)
     + 0.28 * cloudNoise2(streak * vec2f(3.0, 4.0), 72, CLOUD_SALT + 11u)

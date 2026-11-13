@@ -11,9 +11,8 @@ const WIDEST_LOD = 8;
  * unit of `lod`, from a mirror's at 0 to a quarter of the sphere at 8.
  *
  * - Under 1 it is the sky a mirror shows: the fitted air, the glow round the
- *   sun, the ice cloud and each cumulus where it stands, lit, though not
- *   marched. The sun's
- *   own disc is in it at 0 and gone by a half.
+ *   sun, the ice cloud and each cumulus where it stands, lit as a whole
+ *   rather than marched. The sun's own disc is in it at 0 and gone by a half.
  * - From 1 up it is a few dozen operations: the air smoothed, the sun's halo,
  *   the clouds as the cover they make toward the horizon, all drawn toward
  *   the whole sky's mean as the lobe widens.
