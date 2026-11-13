@@ -183,6 +183,28 @@ reached from the second account.
   out of doors is the next round's, not this one's. Then `/finalize`, which
   needs the two red `source` checks fixed on its way.
 
+- **13 Nov, after walking slot 2 at the low default** (one canvas pixel per CSS
+  pixel, raised by the console's `cubeQuality('full')`):
+
+  > скорость намного лучше, по волнам особо разницы в качестве незаметно. но вот
+  > облака отпикселило до безобразия
+
+  > давай всё же начинать с высокого, замерять FPS, и если меньше например 60
+  > писать "нажмите то-то чтобы cycle through quality", с тремя уровнями. Я
+  > правильно понимаю что влияет это только всёснаружи?
+
+  The clouds' cause: the sky's target is a quarter of the canvas each way, so
+  halving the canvas doubled a cloud texel on the screen. The answer given to
+  the question: as written the level shrank every frame, rooms included; it is
+  made to hold only for frames that draw the outside (the island and floor 1's
+  room), deeper floors always at the screen's own ratio.
+
+  **Decided**: three levels, the canvas at 1, 0.75 and 0.5 of the screen's
+  ratio, starting at the highest; the sky's target keeps the size it has at the
+  highest whatever the level; a key cycles the levels and its hint shows once
+  the frame rate out of doors stays under the mark; the console switch goes, one
+  control being enough. An Opus subagent writes it (`quality` below).
+
 ## This bite: the scenario round
 
 Ticked is written, committed and pushed (aa0b4008 the scenario, b5ecc5ab the
@@ -194,10 +216,11 @@ leans at 0.7 s, holds to 1.9 s, is back by 3.2 s, its line from 1.0 s; the
 console's command is `cubeQuality('full' | 'low')`, bare to ask. The bench's
 frame (`pnpm outside:cube --eyes in-beam`) is still to be shot. 2b is in as
 ec122481 (the double press is two Shift keydowns within 0.3 s, in `pace.ts`); 9
-is with a subagent. All of it is in `src/cube/features/player/model/` unless a path
-says otherwise; read `scenes.ts`, `abroad.ts`, `roam.ts`, `threshold.ts` and
-`src/cube/pages/cube/ui/walk.ts` first, they are short. After it: commit, push,
-republish slot 2, then `/finalize` (the two red `source` checks on the way).
+is with a subagent. All of it is in `src/cube/features/player/model/` unless a
+path says otherwise; read `scenes.ts`, `abroad.ts`, `roam.ts`, `threshold.ts`
+and `src/cube/pages/cube/ui/walk.ts` first, they are short. After it: commit,
+push, republish slot 2, then `/finalize` (the two red `source` checks on the
+way).
 
 - [x] **1. The player turns to the cube, and the hero says "hm?".**
   - `scenes.ts` `waking`: drop the beats at 12.2, 14.1 and 15.3 and the steps at
