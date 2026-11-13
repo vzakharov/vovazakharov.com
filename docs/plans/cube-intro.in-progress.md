@@ -350,6 +350,11 @@ not append.
   **Unmerged**: walk, pill, core's quarter-turn (its main job now). `brief.md`
   is at 397 lines — the next move out of this file goes to a new `journal.md`
   beside it.
+- **11:14Z, the tone is answered**: the operator, on sand's
+  `1113-sky-approved-eye.webp` (gold sand under the real sky, board frame 20):
+  «АААА дайте две!». Gold stays; that frame — sky as of 54b3c2c7 included — is
+  the reference for the outside toward the sun, superseding the pinkish-beige
+  one. Sky told not to change what that eye shows.
 - **The explainer** «Два океана» was amended on the operator's comment (how many
   waves "good" takes); answered in its thread. The clouds explainer's session
   (`session_01DaohkFroEeZ7ybMvAY9JoV`) has not reported yet.
