@@ -10,7 +10,7 @@ import {
   LADDER_UP,
   LADDER_WGSL,
 } from './ladder';
-import { OUTDOOR_FRAME, type Standing } from './outdoor-frame';
+import { OUTDOOR_FRAME } from './outdoor-frame';
 import { SUN, SUN_DIR } from './sun';
 
 /** How sharp a shadow's edge is where it starts, in metres. */
@@ -121,30 +121,6 @@ function ladderLight(p: Vec3): number {
   return 1 - Math.max(stiles, rungs) * smoothstep(BEHIND, 3 * BEHIND, run);
 }
 
-/** A standing body as the sun sees it: a round `BODY_HALF` to each side of its middle line. */
-const BODY_HALF = 0.17;
-
-const acrossSun = (v: Vec3): Vec3 => moved(v, SUN_DIR, -dot3(v, SUN_DIR));
-
-/**
- * How much of the sun a body standing at `body` leaves `p`: its shadow is a
- * capsule's, feet to head with no limbs, and 1 everywhere for a body of no
- * height. `cubeShadow` leaves it out, so a layer shows it only by multiplying
- * it in.
- */
-export function bodyShadow(p: Vec3, { foot, headAbove }: Standing): number {
-  if (headAbove <= 0) return 1;
-  const low = moved(moved(foot, [0, 1, 0], BODY_HALF), p, -1);
-  const tall = Math.max(headAbove - 2 * BODY_HALF, 0.001);
-  const flat = acrossSun(low);
-  const line = acrossSun([0, tall, 0]);
-  const share = Math.min(Math.max(-dot3(flat, line) / dot3(line, line), 0), 1);
-  const off = Math.hypot(...moved(flat, line, share));
-  const run = dot3(moved(low, [0, tall, 0], share), SUN_DIR);
-  const soft = SUN_SPREAD * Math.max(run, 0) + CRISP;
-  return 1 - barLight(off, BODY_HALF, soft) * smoothstep(0, 2 * BODY_HALF, run);
-}
-
 /**
  * How much of the sun reaches `p` in the world frame: 1 in the sun, 0 in the
  * shadow of the cube and its ladder, the edge as wide as the sun's disc makes
@@ -159,17 +135,12 @@ const OUTLINE_WGSL = OUTLINE.map(({ facing, reach }) =>
   vecf([...facing, reach]),
 ).join(',\n  ');
 
-/**
- * `cubeShadow(p: vec3f) -> f32`, the twin of the function above, the ladder
- * read from the frame; and `bodyShadow(p: vec3f) -> f32`, the twin of the
- * body's, of the frame's body.
- */
+/** `cubeShadow(p: vec3f) -> f32`, the twin of the function above, the ladder read from the frame. */
 export const CUBE_SHADOW = wgsl(
   'outside/cube-shadow',
   /* wgsl */ `
 const SHADOW_CRISP = ${f32(CRISP)};
 const SHADOW_BEHIND = ${f32(BEHIND)};
-const BODY_HALF = ${f32(BODY_HALF)};
 /// The cube's outline as the sun sees it: the way each pair of its sides
 /// faces across the rays, and how far from the cube's middle they stand.
 const CUBE_OUTLINE = array<vec4f, 3>(
@@ -221,22 +192,6 @@ fn ladderLight(p: vec3f) -> f32 {
   let rungs = barLight(abs(up - rung), 0.5 * LADDER_RUNGS.z, soft)
     * barLight(across, 0.5 * LADDER_SIZE.y, soft);
   return 1.0 - max(stiles, rungs) * smoothstep(SHADOW_BEHIND, 3.0 * SHADOW_BEHIND, run);
-}
-
-fn bodyShadow(p: vec3f) -> f32 {
-  if (frame.body.w <= 0.0) {
-    return 1.0;
-  }
-  let up = vec3f(0.0, 1.0, 0.0);
-  let low = frame.body.xyz + up * BODY_HALF - p;
-  let tall = max(frame.body.w - 2.0 * BODY_HALF, 0.001);
-  let flat = low - SUN_DIR * dot(low, SUN_DIR);
-  let line = up * tall - SUN_DIR * (tall * SUN_DIR.y);
-  let share = clamp(-dot(flat, line) / dot(line, line), 0.0, 1.0);
-  let off = length(flat + line * share);
-  let run = dot(low + up * (tall * share), SUN_DIR);
-  let soft = SUN_SPREAD * max(run, 0.0) + SHADOW_CRISP;
-  return 1.0 - barLight(off, BODY_HALF, soft) * smoothstep(0.0, 2.0 * BODY_HALF, run);
 }
 
 fn cubeShadow(p: vec3f) -> f32 {

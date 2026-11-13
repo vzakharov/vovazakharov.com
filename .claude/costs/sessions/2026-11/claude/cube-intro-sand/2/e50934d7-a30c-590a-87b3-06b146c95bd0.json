@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 2318,
-    "cacheWrite5mTokens": 214,
-    "cacheWrite1hTokens": 466802,
-    "cacheReadTokens": 30586226,
-    "outputTokens": 120273,
-    "thinkingTokens": 45125,
-    "responses": 147,
-    "costUsd": 18.417681199999993
+    "inputTokens": 4395,
+    "cacheWrite5mTokens": 596,
+    "cacheWrite1hTokens": 578382,
+    "cacheReadTokens": 38373991,
+    "outputTokens": 136304,
+    "thinkingTokens": 46602,
+    "responses": 183,
+    "costUsd": 22.422190200000003
   },
   "estimate": {
     "at": "2026-11-13T09:52:01.356Z",
@@ -58,18 +58,18 @@
   "url": "https://claude.ai/code/session_01DaohkFqNfZaGgSSE9bfE4h",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T09:17:55.716Z",
-  "lastResponseAt": "2026-11-13T11:11:25.924Z",
+  "lastResponseAt": "2026-11-13T11:24:24.787Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 11.580683399999996,
   "ownTurns": {
-    "inputTokens": 286,
+    "inputTokens": 352,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 466802,
-    "cacheReadTokens": 30284228,
-    "outputTokens": 112064,
-    "thinkingTokens": 45125,
-    "responses": 146,
-    "costUsd": 18.010525599999994
+    "cacheWrite1hTokens": 578382,
+    "cacheReadTokens": 37769319,
+    "outputTokens": 122714,
+    "thinkingTokens": 46602,
+    "responses": 181,
+    "costUsd": 21.719351800000002
   },
   "subagents": {
     "inputTokens": 0,
@@ -83,14 +83,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 2318,
-      "cacheWrite5mTokens": 214,
-      "cacheWrite1hTokens": 466802,
-      "cacheReadTokens": 30586226,
-      "outputTokens": 120273,
-      "thinkingTokens": 45125,
-      "responses": 147,
-      "costUsd": 18.417681199999993
+      "inputTokens": 4395,
+      "cacheWrite5mTokens": 596,
+      "cacheWrite1hTokens": 578382,
+      "cacheReadTokens": 38373991,
+      "outputTokens": 136304,
+      "thinkingTokens": 46602,
+      "responses": 183,
+      "costUsd": 22.422190200000003
     }
   },
   "warnings": [],
@@ -123,38 +123,67 @@
           "Bash": 1
         },
         "estimatedTokens": 16288,
-        "estimatedUsd": 0.483304
+        "estimatedUsd": 0.5451984000000001
       },
       "billedUsd": 0.40715559999999995
+    },
+    {
+      "at": "2026-11-13T11:17:10.091Z",
+      "trigger": "auto",
+      "compactedFrom": 304314,
+      "summaryChars": 12132,
+      "reorientation": {
+        "endedBy": "end_turn",
+        "endedOn": null,
+        "endedAt": "2026-11-13T11:17:17.597Z",
+        "contextTokens": 122209,
+        "spend": {
+          "inputTokens": 2,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 59587,
+          "cacheReadTokens": 52269,
+          "outputTokens": 30,
+          "thinkingTokens": 0,
+          "responses": 1,
+          "costUsd": 0.9650618
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.29568279999999997
     }
   ],
   "telemetry": {
-    "events": 146,
-    "matched": 145,
-    "matchedTableUsd": 17.913973799999994,
-    "matchedEventUsd": 17.913973799999994,
+    "events": 182,
+    "matched": 180,
+    "matchedTableUsd": 21.6486102,
+    "matchedEventUsd": 21.6486102,
     "unseen": {
       "compact": {
-        "inputTokens": 2032,
-        "cacheWrite5mTokens": 214,
+        "inputTokens": 4043,
+        "cacheWrite5mTokens": 596,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 301998,
-        "outputTokens": 8209,
+        "cacheReadTokens": 604672,
+        "outputTokens": 13590,
         "thinkingTokens": 0,
-        "responses": 1,
-        "costUsd": 0.40715559999999995
+        "responses": 2,
+        "costUsd": 0.7028383999999999
       }
     }
   },
   "operatorWords": {
-    "chat": 12,
+    "chat": 100,
     "review": 0,
     "threads": 0
   },
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 2635,
+    ".md": 2642,
     ".json": 32,
     ".yaml": 48,
     ".ts": 13097,

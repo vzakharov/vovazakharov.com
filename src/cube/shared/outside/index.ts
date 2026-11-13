@@ -1,6 +1,6 @@
 export { AERIAL } from './aerial';
 export { beamPatches, DOOR_INNER, type SunPatch } from './beam';
-export { bodyShadow, CUBE_SHADOW, cubeShadow } from './cube-shadow';
+export { CUBE_SHADOW, cubeShadow } from './cube-shadow';
 export { DAYLIGHT } from './daylight';
 export {
   type Box,
