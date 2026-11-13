@@ -8,8 +8,8 @@ import type { LayerMaker } from './outdoor-layer';
 const CLOUD_FORMAT: GPUTextureFormat = 'rgba16float';
 
 /** The frame's clouds as drawn, and the group the backdrop reads them by. */
-type CloudTarget = Sized & {
-  texture: GPUTexture;
+type SkyTarget = Sized & {
+  sky: GPUTexture;
   group: GPUBindGroup;
 };
 
@@ -57,12 +57,12 @@ export const skyLayerAt =
       groups: [cloudLayout],
     });
 
-    let target: CloudTarget | null = null;
-    const targetFor = (screen: Sized): CloudTarget => {
+    let target: SkyTarget | null = null;
+    const targetFor = (screen: Sized): SkyTarget => {
       const width = Math.max(1, Math.ceil(screen.width / scale));
       const height = Math.max(1, Math.ceil(screen.height / scale));
       if (target?.width === width && target.height === height) return target;
-      target?.texture.destroy();
+      target?.sky.destroy();
       const texture = device.createTexture({
         label: 'sky clouds',
         size: [width, height],
@@ -73,7 +73,7 @@ export const skyLayerAt =
       target = {
         width,
         height,
-        texture,
+        sky: texture,
         group: device.createBindGroup({
           layout: cloudLayout,
           entries: [
@@ -91,7 +91,7 @@ export const skyLayerAt =
           label: 'sky clouds',
           colorAttachments: [
             {
-              view: targetFor(screen).texture.createView(),
+              view: targetFor(screen).sky.createView(),
               loadOp: 'clear',
               storeOp: 'store',
             },
@@ -109,7 +109,7 @@ export const skyLayerAt =
         pass.draw(3);
       },
       dispose() {
-        target?.texture.destroy();
+        target?.sky.destroy();
       },
     };
   };

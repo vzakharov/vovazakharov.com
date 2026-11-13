@@ -83,7 +83,12 @@ export const solve = (rows: number[][], column: number[]): number[] => {
 const SAMPLES = { lift: 40, turn: 12 } as const;
 
 /** A ray the fits are made on: where it falls on their axes, and itself. */
-type FitRay = { lift: number; turn: number; dir: Vec3; sun: Vec3 };
+/**
+ * A ray and the sun, both in the frame whose x is the sun's bearing, and
+ * where the ray falls on the fit's `axes`: its height, then its turn, which
+ * at the zenith `dir` no longer tells.
+ */
+type FitRay = { dir: Vec3; toSun: Vec3; axes: readonly [number, number] };
 
 /**
  * The rays a fit of the sky under a sun toward `sun` is made on, even in
@@ -100,10 +105,9 @@ export function fitRays(sun: Vec3): FitRay[] {
     for (let j = 0; j < SAMPLES.turn; j++) {
       const round = (Math.PI * j) / (SAMPLES.turn - 1);
       rays.push({
-        lift,
-        turn: Math.cos(round),
         dir: [out * Math.cos(round), y, out * Math.sin(round)],
-        sun: toSun,
+        toSun,
+        axes: [lift, Math.cos(round)],
       });
     }
   }
@@ -113,9 +117,9 @@ export function fitRays(sun: Vec3): FitRay[] {
 /** The sky under a sun toward `sun`, fitted. */
 export function fitSky(sun: Vec3): SkyFit {
   const size = FIT_TERMS.lift * FIT_TERMS.turn;
-  const samples = fitRays(sun).map((ray) => ({
-    basis: basisAt(ray.lift, ray.turn),
-    parts: skyParts(ray.dir, ray.sun),
+  const samples = fitRays(sun).map(({ dir, toSun, axes }) => ({
+    basis: basisAt(...axes),
+    parts: skyParts(dir, toSun),
   }));
   const normal = (): number[][] =>
     Array.from({ length: size }, (_, a) =>

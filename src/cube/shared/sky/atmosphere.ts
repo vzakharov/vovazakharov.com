@@ -1,3 +1,5 @@
+import type { Sized } from '@/kernel/shared/typings';
+
 import type { Rgb } from '../lib/colour';
 import { clamp01 } from '../lib/ease';
 
@@ -111,16 +113,10 @@ const opticalDepthToTop = (r: number, mu: number): Rgb => {
 };
 
 /** A table of `width` by `height` texels, four floats each. */
-export type Table = {
-  width: number;
-  height: number;
-  data: Float32Array;
-};
-
-type TableOfParams = { width: number; height: number };
+export type Table = Sized & { data: Float32Array };
 
 const tableOf = (
-  { width, height }: TableOfParams,
+  { width, height }: Sized,
   texel: (u: number, v: number) => Rgb,
 ): Table => {
   const data = new Float32Array(width * height * 4);

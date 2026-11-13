@@ -36,9 +36,9 @@ const dot = (a: Vec3, b: Vec3): number =>
 
 /** The sky under a sun toward `sun`, per unit of its irradiance, at a glance. */
 export function fitGlance(sun: Vec3): SkyGlance {
-  const samples = fitRays(sun).map((ray) => ({
-    basis: basisAt(ray.lift, ray.turn, dot(ray.dir, ray.sun)),
-    log: clearSky(ray.dir, ray.sun).map((value) => Math.log(value)),
+  const samples = fitRays(sun).map(({ dir, toSun, axes }) => ({
+    basis: basisAt(...axes, dot(dir, toSun)),
+    log: clearSky(dir, toSun).map((value) => Math.log(value)),
   }));
   const size = basisAt(0, 0, 0).length;
   const fitted = (channel: 0 | 1 | 2): number[] =>
