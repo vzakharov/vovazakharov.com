@@ -1,8 +1,7 @@
 # Shell frames
 
-Shot by `pnpm outside:cube` in the real renderer (SwiftShader), at head
-1114f295: the outdoor four before the body's shadow came out, which none of them
-shows; the indoor five after.
+Shot by `pnpm outside:cube` in the real renderer (SwiftShader), as the tree
+stands at 1114f295.
 
 - `wake-cube.webp` — from the waterline where the player wakes: the cube over
   the island, black with its grey seams, the ladder hanging at its east face.
