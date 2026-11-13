@@ -1,3 +1,5 @@
+import { pathHash, roll, rollWith } from '@/dice/shared/roll';
+
 import { f32, wgsl } from '../lib/wgsl';
 
 /**
@@ -22,24 +24,90 @@ export const DEEP_SPEED = (GRAVITY * PERIOD) / TAU;
 /** Crest to trough of a middling wave before the bottom is felt, metres. */
 export const HEIGHT = 0.4;
 
+type Sines = readonly (readonly [number, number, number])[];
+
+/** The world the island's sea is rolled in. */
+const SEA_WORLD = '0';
+
 /**
- * The slow wander of the crests' timing, in turns: three sines, each a whole
- * number of cycles an hour — [cycles, size, where it starts].
+ * The windows three sines' whole cycles an hour are rolled in — [fewest, how
+ * many to choose among] — and how much of the sum each tends to carry.
  */
-const DRIFT = [
-  [37, 0.088, 0.13],
-  [61, 0.064, 0.71],
-  [97, 0.04, 0.37],
-] as const;
+type Windows = readonly (readonly [number, number, number])[];
+
+const DRIFT_IN: Windows = [
+  [31, 13, 1],
+  [53, 17, 1],
+  [89, 17, 1],
+];
+const SETS_IN: Windows = [
+  [19, 9, 0.22],
+  [37, 9, 0.16],
+  [61, 13, 0.1],
+];
+
+/** How far the crests' pace swings either side of its mean, as a share of it. */
+const PACE_SWING = 0.165;
+/** How far the waves' height swings either side of its mean, likewise. */
+const HEIGHT_SWING = 0.47;
+
+const sineRoll = (span: number) =>
+  roll.struct({
+    cycles: roll.pick(span),
+    weight: roll.uniform(0.75, 1.25),
+    start: roll.uniform(0, 1),
+  });
+
+const sinesRoll = (windows: Windows) =>
+  roll.struct({
+    slow: sineRoll(windows[0]?.[1] ?? 1),
+    middle: sineRoll(windows[1]?.[1] ?? 1),
+    quick: sineRoll(windows[2]?.[1] ?? 1),
+  });
+
+const hash = pathHash(SEA_WORLD);
+
+const rolled = rollWith(
+  roll.struct({ drift: sinesRoll(DRIFT_IN), sets: sinesRoll(SETS_IN) }),
+  (path) => hash(`island/sea/swell/${path}`),
+);
+
+/**
+ * Three rolled sines — [cycles an hour, size, where it starts in turns] —
+ * whose sizes, each divided by `per(cycles)`, sum to `swing`.
+ */
+function sinesOf(
+  { slow, middle, quick }: (typeof rolled)['drift'],
+  windows: Windows,
+  swing: number,
+  per: (cycles: number) => number,
+): Sines {
+  const drawn = [slow, middle, quick].map(
+    ({ cycles, weight, start }, index) => {
+      const [fewest = 1, , share = 1] = windows[index] ?? [];
+      return { cycles: fewest + cycles, share: share * weight, start };
+    },
+  );
+  const whole = drawn.reduce((sum, { share }) => sum + share, 0);
+  return drawn.map(
+    ({ cycles, share, start }) =>
+      [cycles, ((swing * share) / whole) * per(cycles), start] as const,
+  );
+}
+
+/**
+ * The slow wander of the crests' timing, in turns: each sine a whole number
+ * of cycles an hour, sized so the pace never leaves `PACE_SWING` of its mean.
+ */
+const DRIFT = sinesOf(
+  rolled.drift,
+  DRIFT_IN,
+  PACE_SWING,
+  (cycles) => WAVES / (TAU * cycles),
+);
 
 /** The slow swelling and sinking of the waves' height, likewise, about 1. */
-const SETS = [
-  [23, 0.22, 0.52],
-  [41, 0.16, 0.05],
-  [67, 0.1, 0.84],
-] as const;
-
-type Sines = readonly (readonly [number, number, number])[];
+const SETS = sinesOf(rolled.sets, SETS_IN, HEIGHT_SWING, () => 1);
 
 const sum = (sines: Sines, tau: number): number =>
   sines.reduce(
