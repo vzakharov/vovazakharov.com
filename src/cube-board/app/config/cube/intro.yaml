@@ -248,3 +248,9 @@ items:
     box: [6730, -1240, 280, blue]
     icon: 🧍
     text: 'The player casts a shadow. Asked by the operator: “will there be a shadow from us? or is that part of no interaction with the environment?” Decided yes: a shadow marks nothing and remembers nothing — it is a function of where the body stands, like the hands. At a 9° sun it is about 11 m long'
+  - id: intro-d-wood
+    type: sticky
+    updated: [2026-11-13T09:55:00.000Z, agent:cube-intro]
+    box: [7036, -1240, 280, blue]
+    icon: 🪜
+    text: 'The ladder is wood. Aluminium was the lead’s pick; the operator: “I never said anything about the material, I have nothing against wood, and it might suit the line ‘where did it come from at all’.” The first frame read as wood anyway. An old weathered wooden ladder, on purpose now'
