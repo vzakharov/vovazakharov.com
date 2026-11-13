@@ -1,0 +1,104 @@
+{
+  "total": {
+    "inputTokens": 56,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 161109,
+    "cacheReadTokens": 4884945,
+    "outputTokens": 18937,
+    "thinkingTokens": 6649,
+    "responses": 30,
+    "costUsd": 4.312660999999999
+  },
+  "estimate": {
+    "at": "2026-11-13T12:49:15.194Z",
+    "subjectLine": "chore: the cube intro's draft PR and vet run after the second park",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "Opening the PR of a four-hundred-commit team build against a non-trunk base, running vet and reading its failures takes someone who knows what each package owes"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-13T12:48:23.900Z",
+    "contextTokens": 113536,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 58154,
+      "cacheReadTokens": 153958,
+      "outputTokens": 1003,
+      "thinkingTokens": 329,
+      "responses": 2,
+      "costUsd": 1.0014076
+    }
+  },
+  "sessionId": "c2ef4db2-d514-54d8-879d-e038baac79a7",
+  "branch": "claude/cube-intro-j2wt34",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cube-intro-j2wt34 — полоски куба решены (вариант B), текст PR готов, сам PR, сквозной прогон и vet ещё впереди",
+  "prs": [
+    277
+  ],
+  "url": "https://claude.ai/code/session_016Z4TKqfdhduUecpY8zFSAJ",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-13T12:48:06.497Z",
+  "lastResponseAt": "2026-11-13T12:53:52.574Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 56,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 161109,
+    "cacheReadTokens": 4884945,
+    "outputTokens": 18937,
+    "thinkingTokens": 6649,
+    "responses": 30,
+    "costUsd": 4.312660999999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 56,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 161109,
+      "cacheReadTokens": 4884945,
+      "outputTokens": 18937,
+      "thinkingTokens": 6649,
+      "responses": 30,
+      "costUsd": 4.312660999999999
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": null,
+  "operatorWords": {
+    "chat": 47,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 4195,
+    ".json": 285,
+    ".yaml": 48,
+    ".ts": 18745,
+    ".tsx": -112,
+    ".scss": 15
+  }
+}
