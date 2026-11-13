@@ -135,6 +135,12 @@ compaction before deciding anything about what is being built.
   stands, like the hands. Core adds `body` to the frame (foot in W, height; 0 =
   none), walk writes it, shell draws a soft capsule `bodyShadow` beside
   `cubeShadow` — after shell's three material verdicts.
+- **~09:41Z, a board comment on the ladder's frame**: «я нигде не говорил про
+  материал, не имею ничего против дерева, и, кажется, это будет больше подходить
+  фразе "откуда она там вообще взялась". НО если он уже переделал на алюминий,
+  пусть будет». Aluminium was the lead's pick, and it read as wood in the frame
+  anyway. **Decided: the ladder is wood** — weathered, sun-bleached, round
+  rungs; shell's material and sound's `LADDER_MATERIAL` follow.
 
 ## Facts established
 
