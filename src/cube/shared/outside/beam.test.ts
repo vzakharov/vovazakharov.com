@@ -27,11 +27,11 @@ describe('beamPatches', () => {
     }
   });
 
-  it('puts an evening sun on the floor and the north wall', () => {
+  it('lays the evening sun along the floor and stands it on the west wall', () => {
     const faces = new Set(patches.map(({ facing }) => facing.join(',')));
-    assert.ok(faces.has('0,1,0'));
-    assert.ok(faces.has('0,0,1'));
-    assert.ok(!faces.has('0,-1,0'));
+    assert.deepEqual([...faces].sort(), ['0,1,0', '1,0,0']);
+    const west = patches.filter(({ facing }) => facing[0] === 1);
+    assert.ok(west.every(({ middle }) => middle[1] < 1.2 && middle[2] > 2.5));
   });
 
   it('sends a level sun straight to the west wall', () => {
