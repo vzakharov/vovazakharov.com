@@ -244,10 +244,10 @@ items:
     text: 'The black block across the horizon (frames 9, 12). Cause, found by core: the island’s height used tanh of the distance from the island; on a GPU tanh of a large number is inf/inf = NaN, so kilometres out the seabed was “not a number”, the horizon became a line of NaN pixels and the bloom smeared it into a block. Fix: clamp the argument; a test holds the height finite out to 100 km. A second of the same family, found by shell: the distance written for the horizon overflowed a half float into inf and blacked out the room’s mirrors whenever the doorway was in view'
   - id: intro-d-shadow
     type: sticky
-    updated: [2026-11-13T09:50:00.000Z, agent:cube-intro]
+    updated: [2026-11-13T11:55:00.000Z, agent:cube-intro]
     box: [6730, -1240, 280, blue]
     icon: 🧍
-    text: 'The player casts a shadow. Asked by the operator: “will there be a shadow from us? or is that part of no interaction with the environment?” Decided yes: a shadow marks nothing and remembers nothing — it is a function of where the body stands, like the hands. At a 9° sun it is about 11 m long'
+    text: 'The player’s shadow. Asked by the operator: “will there be a shadow from us? or is that part of no interaction with the environment?” First decided yes: a shadow marks nothing and remembers nothing — it is a function of where the body stands, like the hands; at a 9° sun it would be about 11 m long. Later the operator said it does not come back: the player casts no shadow'
   - id: intro-d-wood
     type: sticky
     updated: [2026-11-13T09:55:00.000Z, agent:cube-intro]
@@ -277,7 +277,7 @@ items:
     updated: [2026-11-13T10:35:00.000Z, agent:cube-intro]
     box: [6208, 2800, 430]
     src: images/intro-16-ladder-foot-2.webp
-    text: '16. The ladder is wood now (the operator: “I have nothing against wood, and it might suit the line where did it come from at all”). The black faces carry small lights — shell’s choice: a night sky under the surface, in layers that shift as the eye moves; put to the operator. Fault: a potted plant of floor 1 stands in the doorway opening'
+    text: '16. The ladder is wood now (the operator: “I have nothing against wood, and it might suit the line where did it come from at all”). The black faces carry small lights — shell’s choice: a night sky under the surface, in layers that shift as the eye moves. The operator: yes, they stay. Fault: a potted plant of floor 1 stands in the doorway opening'
   - id: intro-img-17-sky-wake-sea
     type: image
     updated: [2026-11-13T11:00:00.000Z, agent:cube-intro]
@@ -337,7 +337,7 @@ items:
     updated: [2026-11-13T11:35:00.000Z, agent:cube-intro]
     box: [5748, -3040, 1200]
     src: images/intro-20-sky-approved-eye.webp
-    text: '20. Splash screen, for the future. The approved eye under the new sky:gold sand, ripples in fields across the view, white sparks, the cube’s shadow violet-blue. The operator approved it for its overall feeling: “AAAA, give me two!” The sand’s shade is not locked: “you can experiment with the sand’s shades if you like, I am talking about the overall feeling”. Open: the inside of the shadow is still even'
+    text: '20. Splash screen, for the future. The approved eye under the new sky: gold sand, ripples in fields across the view, white sparks, the cube’s shadow violet-blue. The operator approved it for its overall feeling: “AAAA, give me two!” The sand’s shade is not locked: “you can experiment with the sand’s shades if you like, I am talking about the overall feeling”. Open: the inside of the shadow is still even'
   - id: intro-splash-frame-20
     type: sticky
     updated: [2026-11-13T11:35:00.000Z, agent:cube-intro]
