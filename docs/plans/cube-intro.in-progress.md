@@ -360,6 +360,33 @@ republish slot 2, then `/finalize` (the two red `source` checks on the way).
       that the sea's surface did not cover is seen through the water's body, so
       it should take the body's colour with distance. Not grey is the bar.
 
+### The next round's: what the outside costs
+
+Not this PR's. The operator asked whether the sand is drawn the best way («а, не
+к исправлению сейчас а вообще, вообще то как мы рисуем песок -- оптимально? лет
+ли вообще других подходов?») and was told no: every pixel of sand works out
+grains and glints, ripples and hummocks, the wrack's litter, the wetness of past
+waves, the cube's shadow and the wet mirror, every frame. The ways down,
+cheapest work first:
+
+1. **Shade nothing hidden**: rooms and shell first, the sand and the sea only
+   where they show — `draw` in `renderer.ts` runs `layers.behind` before the
+   rooms, and the sea's `frag_depth` rules the early test out as it stands.
+   Floor 1's room pays 42.6 ms for a beach behind its walls.
+2. **Real branches by distance**: past a few metres call no grains, glints or
+   litter. `sandLight` already averages what a pixel cannot resolve; whether it
+   skips the work or does it and blends it away is unread.
+3. **Bake what the clock does not move** — grains, ripples, hummocks, litter —
+   into textures at load, by the same formulas (`src/cube/CLAUDE.md` allows a
+   map computed at run time), and keep the wetness, the shadow and the light per
+   frame.
+4. **The sand and the sea in a smaller target** joined by depth, as the clouds
+   are.
+
+Which term is dearest is unmeasured: turning them off one at a time under the
+operator's meter says. The meter's stages overlap on Apple's GPU (`scene` plus
+`lens` exceed the frame's time), so `lens` is not a cost to chase by itself.
+
 ### Who writes it
 
 The operator, the round under way:
