@@ -2,9 +2,9 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { ROOM_HEIGHT } from '../lib/room-shape';
-import type { Vec3 } from '../lib/vec';
+import { moved, type Vec3 } from '../lib/vec';
 import { assemble, f32 } from '../lib/wgsl';
-import { CUBE_SHADOW, cubeShadow } from './cube-shadow';
+import { bodyShadow, CUBE_SHADOW, cubeShadow } from './cube-shadow';
 import {
   CUBE_AT,
   CUBE_BOX,
@@ -180,5 +180,37 @@ describe('packOutdoorFrame', () => {
       'state',
       'body',
     ]);
+  });
+});
+
+describe('bodyShadow', () => {
+  // South-east of the cube, whose own shadow runs north-west of here.
+  const foot: Vec3 = [12, 1, 18];
+  const body = { foot, headAbove: 1.75 };
+  const chest = moved(foot, [0, 1, 0], 1);
+  /** `metres` down the sun's ray from the body's chest, `aside` metres off it to the south. */
+  const behind = (metres: number, aside = 0): Vec3 =>
+    moved(moved(chest, SUN_DIR, -metres), [0, 0, 1], aside);
+
+  it('is dark behind the body and light beside it and before it', () => {
+    assert.equal(bodyShadow(behind(1), body), 0);
+    assert.equal(bodyShadow(behind(1, 0.6), body), 1);
+    assert.equal(bodyShadow(behind(-1), body), 1);
+  });
+
+  it('is no taller than the body', () => {
+    assert.equal(bodyShadow(moved(behind(1), [0, 1, 0], 1.2), body), 1);
+  });
+
+  it('thins as it runs, the sun having a width', () => {
+    const near = bodyShadow(behind(2), body);
+    const far = bodyShadow(behind(60), body);
+    assert.ok(near < 0.05 && far > 0.3 && far < 1, `${near} then ${far}`);
+  });
+
+  it("is cast by no body of no height, and joins the cube's", () => {
+    assert.equal(bodyShadow(behind(1), { foot, headAbove: 0 }), 1);
+    assert.equal(cubeShadow(behind(1)), 1);
+    assert.equal(cubeShadow(behind(1), { body }), 0);
   });
 });

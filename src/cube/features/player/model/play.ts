@@ -1,5 +1,6 @@
 import { pick } from '@/kernel/shared/lib/collections';
 
+import type { Ground, Limb } from '@/cube/shared/lib/acoustics';
 import {
   DEEPEST_FLOOR,
   descend,
@@ -38,16 +39,23 @@ export type Holed = Looking & { quarter: Quarter; lever: Lever };
 /**
  * One thing that happened to the body in a frame, for whoever makes its
  * sounds and speaks for it. A `step` is a footfall, its `strength` from 0 to 1
- * a run's; a `landing`'s `speed` is in the room sides a second of the floor
- * landed on; `say` is a moment the body has something to say about.
+ * a run's, on the floor's own footing unless it names the island's `ground`;
+ * a `landing`'s `speed` is in the room sides a second of the floor landed on;
+ * a `rung` is a `limb` coming down on the ladder; a `splash` is the body
+ * entering or moving through water, its `strength` from 0 (a hand trailed) to
+ * 1 (falling in); `say` is a moment the body has something to say about.
  */
 export type Cue =
-  | { cue: 'step'; strength: number }
+  | { cue: 'step'; strength: number; ground?: Ground }
   | { cue: 'lever' }
+  | { cue: 'pill' }
+  | { cue: 'swallow' }
+  | { cue: 'rung'; limb: Limb }
+  | { cue: 'splash'; strength: number }
   | { cue: 'shrink' }
   | { cue: 'jump' }
   | { cue: 'landing'; speed: number }
-  | { cue: 'say'; moment: ShrinkMoment | 'landing' };
+  | { cue: 'say'; moment: ShrinkMoment | 'landing' | 'waking' };
 
 /**
  * What the body is in the middle of, for `actFor` seconds: `shrinking` where

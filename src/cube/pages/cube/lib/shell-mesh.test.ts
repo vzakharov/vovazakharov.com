@@ -93,9 +93,9 @@ describe('the shell mesh', () => {
     }
   });
 
-  it('builds the ladder as two stiles and a box a rung', () => {
+  it('builds the ladder as two boxes for stiles and an eight-sided round a rung', () => {
     assert.equal(count('stile'), 2 * 36);
-    assert.equal(count('rung'), DOOR_LADDER.rungs.length * 36);
+    assert.equal(count('rung'), DOOR_LADDER.rungs.length * 8 * 6);
   });
 });
 

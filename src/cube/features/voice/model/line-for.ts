@@ -18,6 +18,7 @@ import {
   secondShrink,
   SHRINKS,
   vocal,
+  waking,
 } from './vocal';
 
 /** A word of a line, the punctuation after it, and whether a pause follows. */
@@ -134,6 +135,7 @@ function lullaby(n: number, dice: Dice): Line {
 }
 
 const LINES: Record<Moment, (n: number, dice: Dice) => Line> = {
+  waking: (_, dice) => waking(dice),
   'first-shrink': (_, dice) => firstShrink(dice),
   'second-shrink': (_, dice) => secondShrink(dice),
   shrink: (n, dice) => vocal(wearied(SHRINKS, n, dice('which')), dice),
