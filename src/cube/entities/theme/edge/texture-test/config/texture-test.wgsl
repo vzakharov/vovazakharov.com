@@ -1,7 +1,7 @@
 // `texture-test.ts` adds this floor's light and lens, `lamps()` among them.
 
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, Surf, Material, polished, embossed};
-import package::cube::entities::theme::kit::lib::hash::fbm;
+import package::cube::shared::shader::hash::fbm;
 import package::cube::entities::theme::edge::pattern::lib::pattern::{spectrum, ruled, chequer};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::kit::lib::light::lampGlow;

@@ -1,5 +1,5 @@
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, Surf, Material, matte, glowing, embossed, Lens};
-import package::cube::entities::theme::kit::lib::hash::fbm;
+import package::cube::shared::shader::hash::fbm;
 import package::cube::entities::theme::edge::pattern::lib::pattern::{luma, bonded};
 import package::cube::entities::theme::edge::screen::lib::screen::shown;
 import package::cube::entities::theme::kit::lib::stuff::stuff;

@@ -1,4 +1,4 @@
-import package::cube::entities::theme::kit::lib::hash::{hashOf, unitOf, fbm, worley};
+import package::cube::shared::shader::hash::{hashOf, unitOf, fbm, worley};
 import package::cube::entities::theme::laboratory::small_world::lib::small_world::shards;
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, Surf, Material, matte, polished, glowing, embossed, Lens};
 import package::cube::entities::theme::kit::lib::stuff::stuff;

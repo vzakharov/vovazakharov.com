@@ -18,9 +18,9 @@ import {
 import { HASH, vec3f, type Wgsl, wgsl } from '@/cube/shared/shader';
 
 import { CORE } from './core';
-import { GRADE } from './grade';
+import { GRADE } from './grade.shader';
 import { type Graded, hazed, lensListing } from './lens';
-import { LIGHT } from './light';
+import { LIGHT } from './light.shader';
 
 const f = (value: number): string => value.toFixed(4);
 

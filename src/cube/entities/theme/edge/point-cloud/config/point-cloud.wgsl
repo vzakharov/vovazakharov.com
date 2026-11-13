@@ -1,5 +1,5 @@
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, Surf, Material, matte, Lens};
-import package::cube::entities::theme::kit::lib::hash::{fbm, worley};
+import package::cube::shared::shader::hash::{fbm, worley};
 import package::cube::entities::theme::edge::pattern::lib::pattern::{luma, spectrum, fromMiddle};
 import package::cube::entities::theme::edge::screen::lib::screen::shown;
 import package::cube::entities::theme::kit::lib::stuff::stuff;

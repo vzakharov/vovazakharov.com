@@ -1,7 +1,7 @@
 // `stairwell.ts` adds this floor's light and lens, `lamps()` among them.
 
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, Surf, toNearestSide, Material, matte, polished, glowing, embossed, spaced, litOf};
-import package::cube::entities::theme::kit::lib::hash::{hashOf, unitOf, cellHash, valueNoise, fbm};
+import package::cube::shared::shader::hash::{hashOf, unitOf, cellHash, valueNoise, fbm};
 import package::cube::entities::theme::kit::lib::finish::{band, damp};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::workplace::stencil::lib::stencil::{wallAlong, stencilDigit};

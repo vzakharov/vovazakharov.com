@@ -1,5 +1,5 @@
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, Surf, toSides, Material, polished, embossed, Lens, closedAt};
-import package::cube::entities::theme::kit::lib::hash::{mix32, hashOf, unitOf, cellHash, valueNoise, fbm, worley};
+import package::cube::shared::shader::hash::{mix32, hashOf, unitOf, cellHash, valueNoise, fbm, worley};
 import package::cube::entities::theme::kit::lib::finish::{band, tiling};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::workplace::stencil::lib::stencil::wallAlong;

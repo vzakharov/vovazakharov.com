@@ -3,7 +3,7 @@
 // grid running to the horizon does not shimmer.
 
 import package::cube::entities::theme::kit::lib::core::{ROOM, Surf};
-import package::cube::entities::theme::kit::lib::hash::{unitOf, cellHash};
+import package::cube::shared::shader::hash::{unitOf, cellHash};
 
 /// A colour's brightness as an eye weighs it.
 fn luma(colour: vec3f) -> f32 {

@@ -1,6 +1,6 @@
 // `tunnelling-scan.ts` adds this floor's light and lens, `lamps()` among them.
 
-import package::cube::entities::theme::kit::lib::hash::{hashOf, unitOf, fbm};
+import package::cube::shared::shader::hash::{hashOf, unitOf, fbm};
 import package::cube::entities::theme::laboratory::small_world::lib::small_world::{combHash, dome};
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, Surf, Material, polished, embossed};
 import package::cube::entities::theme::kit::lib::stuff::stuff;

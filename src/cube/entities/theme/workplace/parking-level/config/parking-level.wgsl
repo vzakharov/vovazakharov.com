@@ -1,7 +1,7 @@
 // `parking-level.ts` adds this floor's light and lens, `lamps()` among them.
 
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, Surf, Material, polished, embossed, spaced};
-import package::cube::entities::theme::kit::lib::hash::{hashOf, unitOf, valueNoise, fbm};
+import package::cube::shared::shader::hash::{hashOf, unitOf, valueNoise, fbm};
 import package::cube::entities::theme::kit::lib::finish::{band, damp};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::workplace::stencil::lib::stencil::{wallAlong, stencilDigit, hazard};

@@ -1,7 +1,7 @@
 // `gel.ts` adds this floor's light and lens, `lamps()` among them.
 
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, Surf, Material, glowing, embossed};
-import package::cube::entities::theme::kit::lib::hash::{mix32, hashOf, unitOf, fbm};
+import package::cube::shared::shader::hash::{mix32, hashOf, unitOf, fbm};
 import package::cube::entities::theme::kit::lib::finish::{band, tiling};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::kit::lib::light::lampGlow;

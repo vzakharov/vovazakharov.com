@@ -1,7 +1,7 @@
 // `remembered.ts` adds this floor's light and lens, `lamps()` among them.
 
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, Surf, alongWall, Material, matte, polished, glowing, embossed};
-import package::cube::entities::theme::kit::lib::hash::{mix32, unitOf, valueNoise, fbm};
+import package::cube::shared::shader::hash::{mix32, unitOf, valueNoise, fbm};
 import package::cube::entities::theme::kit::lib::finish::{plaster, carpet, damp};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::dwelling::household::lib::household::{wallWord, boxAway, within, fromLamp, burning, halfDrop};

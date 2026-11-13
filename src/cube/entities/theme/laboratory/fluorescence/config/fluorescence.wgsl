@@ -1,6 +1,6 @@
 // `fluorescence.ts` adds this floor's light and lens, `lamps()` among them.
 
-import package::cube::entities::theme::kit::lib::hash::{valueNoise, fbm, worley};
+import package::cube::shared::shader::hash::{valueNoise, fbm, worley};
 import package::cube::entities::theme::laboratory::small_world::lib::small_world::shards;
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, Surf, Material, glowing};
 import package::cube::entities::theme::kit::lib::stuff::stuff;

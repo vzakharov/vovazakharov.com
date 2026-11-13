@@ -1,5 +1,5 @@
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, Surf, Material, matte, polished, embossed, spaced, Lens};
-import package::cube::entities::theme::kit::lib::hash::{hashOf, unitOf, cellHash, fbm, worley};
+import package::cube::shared::shader::hash::{hashOf, unitOf, cellHash, fbm, worley};
 import package::cube::entities::theme::kit::lib::finish::{band, damp};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::kit::lib::light::{Lamps, roomLight};

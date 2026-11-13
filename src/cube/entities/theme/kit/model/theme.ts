@@ -3,18 +3,10 @@ import type { Named } from '@/kernel/shared/typings';
 import type { Sound } from '@/cube/shared/lib/acoustics';
 import type { Rgb } from '@/cube/shared/lib/colour';
 import type { Furnishing } from '@/cube/shared/lib/thing';
-import { assemble, type Wgsl, wgsl } from '@/cube/shared/shader';
+import { assemble, vec3f, type Wgsl, wgsl } from '@/cube/shared/shader';
 
 import { CORE } from '../lib/core';
-<<<<<<< HEAD
 import { STUFF } from '../lib/stuff.shader';
-import { assemble, vec3f, type Wgsl, wgsl } from '../lib/wgsl';
-=======
-import { STUFF } from '../lib/stuff';
-
-/** A place with air of a colour: what shows where no face is drawn. */
-export type Aired = { air: Rgb };
->>>>>>> origin/claude/cube-review-perf
 
 /**
  * One floor's look and sound, `name` the place in a word or three, as a

@@ -1,7 +1,7 @@
 // `hallway.ts` adds this floor's light and lens, `lamps()` among them.
 
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, Surf, toSides, toNearestSide, alongWall, Material, polished, embossed, closedAt};
-import package::cube::entities::theme::kit::lib::hash::{mix32, hashOf, unitOf, fbm};
+import package::cube::shared::shader::hash::{mix32, hashOf, unitOf, fbm};
 import package::cube::entities::theme::kit::lib::finish::{band, plaster, damp};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::dwelling::household::lib::household::{sideWord, wallWord, boxAway, within, fromLamp, burning, herringbone, figure};

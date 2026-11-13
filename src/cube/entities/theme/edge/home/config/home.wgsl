@@ -1,7 +1,7 @@
 // `home.ts` adds this floor's light and lens, `lamps()` among them.
 
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, Surf, alongWall, Material, matte, polished, glowing, embossed};
-import package::cube::entities::theme::kit::lib::hash::{hashOf, unitOf, cellHash, valueNoise, fbm, worley};
+import package::cube::shared::shader::hash::{hashOf, unitOf, cellHash, valueNoise, fbm, worley};
 import package::cube::entities::theme::edge::pattern::lib::pattern::fromMiddle;
 import package::cube::entities::theme::kit::lib::finish::plaster;
 import package::cube::entities::theme::kit::lib::stuff::stuff;

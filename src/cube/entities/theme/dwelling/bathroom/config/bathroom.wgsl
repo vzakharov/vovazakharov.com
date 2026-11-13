@@ -6,7 +6,7 @@ import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::dwelling::household::lib::household::{within, wrapped, fromLamp, burning};
 import package::cube::entities::theme::kit::lib::honeycomb::{honeycomb, HEX_ROW};
 import package::cube::entities::theme::kit::lib::core::{Surf, Material, ROOM, repeated, polished, embossed, WALL, FLOOR, OWNED, CEILING, TRIM};
-import package::cube::entities::theme::kit::lib::hash::{worley, fbm, unitOf, cellHash};
+import package::cube::shared::shader::hash::{worley, fbm, unitOf, cellHash};
 
 const GLAZED = 0.15;
 

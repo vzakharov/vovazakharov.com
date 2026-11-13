@@ -1,5 +1,5 @@
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, Surf, Material, polished, embossed, Lens};
-import package::cube::entities::theme::kit::lib::hash::{valueNoise, fbm};
+import package::cube::shared::shader::hash::{valueNoise, fbm};
 import package::cube::entities::theme::kit::lib::finish::{band, tiling, damp};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::kit::lib::light::{Lamps, lampReach, lampGlow, roomLight};

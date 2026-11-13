@@ -9,25 +9,39 @@
 import path from 'node:path';
 import * as prettier from 'prettier';
 
-import type { MasdGraph } from '../../../eslint/masd-graph.ts';
+import { type MasdGraph, SLICED_LAYERS } from '../../../eslint/masd-graph.ts';
 import { type Linked, type Named, throughBarrel } from './checks.ts';
 import { exportName, generatedOf } from './link.ts';
 import { placeImport } from './placement.ts';
 
 /** What every generated module builds its piece with. */
 const FACTORY: Named = {
-  file: 'src/cube/entities/theme/kit/lib/wgsl.ts',
-  module: 'src/cube/entities/theme/kit/lib/wgsl',
+  file: 'src/cube/shared/shader/wgsl.ts',
+  module: 'src/cube/shared/shader/wgsl',
   name: 'wgsl',
 };
 
+/**
+ * The unit a relative import may not leave: a slice, or a segmented layer
+ * (`app`, `shared`) whole.
+ */
+const homeOf = (file: string): string => {
+  const [app = '', layer = ''] = path.relative('src', file).split(path.sep);
+  const depth = SLICED_LAYERS.includes(layer) ? 4 : 3;
+  return file.split(path.sep).slice(0, depth).join(path.sep);
+};
+
+/** `to` as `from` imports it: relatively within its home, by `@/` past it. */
 const specifierOf = (from: string, to: string): string => {
+  if (homeOf(from) !== homeOf(to)) return `@/${path.relative('src', to)}`;
   const relative = path.relative(path.dirname(from), to);
   return relative.startsWith('.') ? relative : `./${relative}`;
 };
 
 const ups = (specifier: string): number =>
   specifier.split('/').filter((part) => part === '..').length;
+
+const aliased = (specifier: string): boolean => specifier.startsWith('@/');
 
 /** `../../` before `../` before `./`, as simple-import-sort orders them. */
 const importOrder = (a: string, b: string): number =>
@@ -50,14 +64,25 @@ function importsOf(graph: MasdGraph, file: string) {
     imports.set(specifier, (imports.get(specifier) ?? new Set()).add(name));
     return name;
   };
+  const line = ([specifier, names]: [string, Set<string>]): string => {
+    const list = [...names].toSorted((a, b) => a.localeCompare(b));
+    return `import { ${list.join(', ')} } from '${specifier}';`;
+  };
+  // Aliased imports are one group, the relative ones the next: every alias
+  // here is into the cube's own app, which the sort keeps as one group.
   const head = (): string =>
-    [...imports]
-      .toSorted(([a], [b]) => importOrder(a, b))
-      .map(([specifier, names]) => {
-        const list = [...names].toSorted((a, b) => a.localeCompare(b));
-        return `import { ${list.join(', ')} } from '${specifier}';`;
-      })
-      .join('\n');
+    [
+      [...imports].filter(([specifier]) => aliased(specifier)),
+      [...imports].filter(([specifier]) => !aliased(specifier)),
+    ]
+      .filter((group) => group.length > 0)
+      .map((group) =>
+        group
+          .toSorted(([a], [b]) => importOrder(a, b))
+          .map(line)
+          .join('\n'),
+      )
+      .join('\n\n');
   return { named, head };
 }
 

@@ -4,7 +4,7 @@
 // one salted with `s.seed` is the room's own.
 
 import super::core::{Surf, ROOM};
-import super::hash::{fbm, valueNoise, cellHash, unitOf};
+import package::cube::shared::shader::hash::{fbm, valueNoise, cellHash, unitOf};
 
 /// 1 within `width` metres centred on `at`, 0 outside.
 fn band(x: f32, at: f32, width: f32) -> f32 {

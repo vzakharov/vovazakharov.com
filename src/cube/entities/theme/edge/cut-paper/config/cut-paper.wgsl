@@ -1,5 +1,5 @@
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, Surf, Material, matte, Lens};
-import package::cube::entities::theme::kit::lib::hash::hashOf;
+import package::cube::shared::shader::hash::hashOf;
 import package::cube::entities::theme::edge::pattern::lib::pattern::fromMiddle;
 import package::cube::entities::theme::edge::screen::lib::screen::{shown, creaseAt};
 import package::cube::entities::theme::kit::lib::stuff::stuff;

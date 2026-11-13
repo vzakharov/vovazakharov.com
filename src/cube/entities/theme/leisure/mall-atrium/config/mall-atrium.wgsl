@@ -1,7 +1,7 @@
 // `mall-atrium.ts` adds this floor's light and lens, `lamps()` among them.
 
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, Surf, Material, polished, glowing, embossed, repeated};
-import package::cube::entities::theme::kit::lib::hash::{mix32, hashOf, unitOf, valueNoise, fbm, worley};
+import package::cube::shared::shader::hash::{mix32, hashOf, unitOf, valueNoise, fbm, worley};
 import package::cube::entities::theme::kit::lib::finish::{band, plaster, tiling, damp};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::leisure::shape::lib::shape::{inside, stroke, roundBox, oneOf};

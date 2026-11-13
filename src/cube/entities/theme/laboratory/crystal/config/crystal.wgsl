@@ -1,6 +1,6 @@
 // `crystal.ts` adds this floor's light and lens, `lamps()` among them.
 
-import package::cube::entities::theme::kit::lib::hash::{unitOf, cellHash, fbm};
+import package::cube::shared::shader::hash::{unitOf, cellHash, fbm};
 import package::cube::entities::theme::laboratory::small_world::lib::small_world::shards;
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, Surf, Material, embossed};
 import package::cube::entities::theme::kit::lib::stuff::stuff;

@@ -1,10 +1,11 @@
-// `reception.ts` adds this floor's light and lens, `lamps()` among them.
+// `reception.ts` adds this floor's light and lens: the low sun through the
+// doorway, the panels switched off.
 
-import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, Surf, Material, polished, glowing, embossed};
-import package::cube::entities::theme::kit::lib::hash::{valueNoise, fbm, worley};
+import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, Surf, Material, polished, embossed};
+import package::cube::shared::shader::hash::{valueNoise, fbm, worley};
 import package::cube::entities::theme::kit::lib::finish::{band, plaster, tiling, damp};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
-import package::cube::entities::theme::kit::lib::light::lampGlow;
+import package::cube::entities::theme::kit::lib::light::lampMask;
 
 fn terrazzo(s: Surf) -> Material {
   let chips = worley(s.uv * 34.0, 7u);
@@ -49,13 +50,11 @@ fn tiled(s: Surf) -> Material {
     vec3f(0.58, 0.56, 0.5) * (0.93 + 0.07 * tile.y) * (1.0 - 0.3 * pin);
   let albedo =
     mix(vec3f(0.16, 0.155, 0.14), white, tile.x) * (1.0 - 0.5 * damp(s));
-  return
-    embossed(
-      s,
-      glowing(albedo, lampGlow(s, lamps())),
-      tile.x - 0.2 * pin,
-      0.006,
-    );
+  // The panels are off: milky diffusers, a shade duller than the tiles.
+  let panel = lampMask(s.p.xz, 2, vec2f(1.2));
+  let prisms = 0.92 + 0.08 * tiling(s.uv, 0.012, 0.004, 6u).x;
+  let ceiling = polished(mix(albedo, vec3f(0.33, 0.34, 0.33) * prisms, panel), 0.45 * panel);
+  return embossed(s, ceiling, (tile.x - 0.2 * pin) * (1.0 - panel), 0.006);
 }
 
 fn themeMaterial(s: Surf) -> Material {

@@ -4,7 +4,7 @@
 import { wgsl } from './wgsl';
 
 export const HASH = wgsl(
-  'cube/entities/theme/kit/lib/hash',
+  'cube/shared/shader/hash',
   /* wgsl */ `
 fn mix32(x: u32) -> u32 {
   var h = x;

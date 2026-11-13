@@ -1,5 +1,5 @@
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, Surf, Material, matte, polished, embossed, repeated, spaced, Lens, litOf};
-import package::cube::entities::theme::kit::lib::hash::{valueNoise, fbm};
+import package::cube::shared::shader::hash::{valueNoise, fbm};
 import package::cube::entities::theme::kit::lib::finish::{band, damp};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::workplace::stencil::lib::stencil::{wallAlong, wallInset};

@@ -3,7 +3,7 @@
 // panel, and boards.
 
 import package::cube::entities::theme::kit::lib::core::{Surf, ROOM, litOf};
-import package::cube::entities::theme::kit::lib::hash::{hashOf, unitOf, cellHash, fbm, valueNoise};
+import package::cube::shared::shader::hash::{hashOf, unitOf, cellHash, fbm, valueNoise};
 import package::cube::entities::theme::kit::lib::light::{Lamps, lampLevel};
 
 /// The word of the room's side `side` (0 east, 1 south, 2 west, 3 north).

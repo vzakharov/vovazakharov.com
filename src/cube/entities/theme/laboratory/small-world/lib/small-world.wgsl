@@ -1,7 +1,7 @@
 // What the laboratory's floors share once the rooms are made of what the
 // small world is made of: packed spheres, and cells grown until they meet.
 
-import package::cube::entities::theme::kit::lib::hash::{cellHash, unitOf, mix32};
+import package::cube::shared::shader::hash::{cellHash, unitOf, mix32};
 
 /// The word of the honeycomb cell whose middle is `middle`.
 fn combHash(middle: vec2f, salt: u32) -> u32 {

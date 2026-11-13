@@ -1,6 +1,6 @@
 // `membrane.ts` adds this floor's light and lens, `lamps()` among them.
 
-import package::cube::entities::theme::kit::lib::hash::{unitOf, fbm, worley};
+import package::cube::shared::shader::hash::{unitOf, fbm, worley};
 import package::cube::entities::theme::laboratory::small_world::lib::small_world::{combHash, dome};
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, Surf, Material, polished, embossed, repeated};
 import package::cube::entities::theme::kit::lib::stuff::stuff;

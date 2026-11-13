@@ -2,7 +2,7 @@
 // `themeLight`.
 
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, Surf, Material, polished, glowing, embossed, repeated, Lens};
-import package::cube::entities::theme::kit::lib::hash::{unitOf, cellHash, fbm};
+import package::cube::shared::shader::hash::{unitOf, cellHash, fbm};
 import package::cube::entities::theme::edge::pattern::lib::pattern::{luma, ruled};
 import package::cube::entities::theme::edge::screen::lib::screen::{bayer, creaseAt};
 import package::cube::entities::theme::kit::lib::finish::{band, plaster, damp};

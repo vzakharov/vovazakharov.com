@@ -9,15 +9,17 @@ const SCRIPT = path.resolve(import.meta.dirname, 'shaders-codegen.ts');
 const TSX = path.resolve(import.meta.dirname, '..', 'node_modules/.bin/tsx');
 const THEME = 'src/cube/entities/theme';
 
-/** A throwaway tree: the theme's kit with one module, and the files given. */
+/**
+ * A throwaway tree: the shader factory, the theme's kit with one module, and
+ * the files given.
+ */
 function tree(files: Record<string, string>): string {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'shaders-codegen-'));
   const all: Record<string, string> = {
-    'kit/index.ts': [
-      "export { BASE } from './lib/base.shader';",
-      "export { wgsl } from './lib/wgsl';",
-    ].join('\n'),
-    'kit/lib/wgsl.ts': 'export const wgsl = (...parts: unknown[]) => parts;',
+    '../../shared/shader/index.ts': "export { wgsl } from './wgsl';",
+    '../../shared/shader/wgsl.ts':
+      'export const wgsl = (...parts: unknown[]) => parts;',
+    'kit/index.ts': "export { BASE } from './lib/base.shader';",
     'kit/lib/base.wgsl': 'fn base() -> f32 {\n  return 1.0;\n}\n',
     ...files,
   };
@@ -79,7 +81,7 @@ const REFUSALS: ReadonlyArray<[string, Record<string, string>, RegExp]> = [
   [
     'a module its unit does not export',
     {
-      'kit/index.ts': "export { wgsl } from './lib/wgsl';",
+      'kit/index.ts': 'export {};',
       'dwelling/config/floor.wgsl': `import ${KIT}::base;\n\nfn floor() -> f32 {\n  return base();\n}\n`,
     },
     /kit\/index\.ts does not export BASE/,
@@ -116,7 +118,10 @@ describe('pnpm shaders:codegen', () => {
       path.join(root, THEME, 'dwelling/config/floor.shader.ts'),
       'utf8',
     );
-    assert.match(written, /import { BASE, wgsl } from '\.\.\/\.\.\/kit';/);
+    assert.match(
+      written,
+      /import { wgsl } from '@\/cube\/shared\/shader';\n\nimport { BASE } from '\.\.\/\.\.\/kit';/,
+    );
     assert.match(
       written,
       /`\nfn floor\(\) -> f32 {\n {2}return base\(\);\n}\n`,\n {2}BASE,/,

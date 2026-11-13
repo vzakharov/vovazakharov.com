@@ -9,7 +9,7 @@ import package::cube::entities::theme::kit::lib::honeycomb::honeycomb;
 import package::cube::entities::theme::kit::lib::luma::luma;
 import package::cube::entities::theme::kit::lib::math::PI;
 import package::cube::entities::theme::kit::lib::core::{Surf, Material, Lens, spaced, matte, glowing, embossed, WALL, FLOOR, OWNED, CEILING, TRIM};
-import package::cube::entities::theme::kit::lib::hash::{fbm, cellHash, unitOf, hashOf};
+import package::cube::shared::shader::hash::{fbm, cellHash, unitOf, hashOf};
 
 /// A diatom's shell: a sieve of pores, each a smaller sieve, between ribs.
 fn sieve(s: Surf) -> Material {

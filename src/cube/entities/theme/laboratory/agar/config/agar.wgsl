@@ -1,7 +1,7 @@
 // `agar.ts` adds this floor's light and lens, `lamps()` among them.
 
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, Surf, Material, polished, embossed};
-import package::cube::entities::theme::kit::lib::hash::{valueNoise, fbm, worley};
+import package::cube::shared::shader::hash::{valueNoise, fbm, worley};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::kit::lib::light::lampGlow;
 
