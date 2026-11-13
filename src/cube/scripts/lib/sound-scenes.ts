@@ -55,7 +55,7 @@ export function scenesOf(scene: Scene, places: Places): Scenes {
     waking: {
       begins: 0,
       seconds: 60,
-      told: 'lying on dry sand, 21 m from the cube, facing out to sea',
+      told: 'lying on dry sand, 23 m from the cube, facing out to sea',
       ...heard(() => ({ at: waking, gaze: seaward })),
     },
     turning: {
