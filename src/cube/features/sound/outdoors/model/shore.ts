@@ -79,13 +79,35 @@ export function shoreOf(
  */
 export type Surf = { breaking: number; running: number; draining: number };
 
-/** Seconds either side of now the water's rise is measured over. */
-const SPAN = 0.12;
+/** Seconds between two looks back, and how many are taken. */
+const LOOK_BACK = 0.2;
+const LOOKS = 10;
+
+/**
+ * Seconds either side of a look the water's rise is measured over: half the
+ * way to the next look, so each look's later reading is the one before's
+ * earlier, and a point is read once per look rather than twice.
+ */
+const SPAN = LOOK_BACK / 2;
 
 /** Metres a second the sea's surface is rising at `at`, `seconds` into the hour. */
 const rising = (sea: Sea, at: Vec2, seconds: number): number =>
   (sea.waterLevel(at, seconds + SPAN) - sea.waterLevel(at, seconds - SPAN)) /
   (2 * SPAN);
+
+/**
+ * How fast the sea's surface is rising at `at` at now and at each of the
+ * `LOOKS` looks before it, in metres a second.
+ */
+function risings(sea: Sea, at: Vec2, seconds: number): number[] {
+  const levels = Array.from({ length: LOOKS + 2 }, (_, look) =>
+    sea.waterLevel(at, seconds + SPAN - look * LOOK_BACK),
+  );
+  return Array.from(
+    { length: LOOKS + 1 },
+    (_, look) => ((levels[look] ?? 0) - (levels[look + 1] ?? 0)) / (2 * SPAN),
+  );
+}
 
 /**
  * How long each of the surf's sounds goes on after the water has stopped
@@ -98,10 +120,6 @@ const LINGERS: Record<keyof Surf, number> = {
   running: 0.5,
   draining: 1.8,
 };
-
-/** Seconds between two looks back, and how many are taken. */
-const LOOK_BACK = 0.2;
-const LOOKS = 10;
 
 /**
  * How fast this sea's surface rises at its fastest, in metres a second: at
@@ -143,14 +161,10 @@ export function coastOf(sea: Sea, middle: Vec2, count?: number): Coast {
   return { sea, shore, swing: swingOf(sea, shore) };
 }
 
-/** The surf at `stretch` at one instant, with no memory. */
-function surfNow(
-  { sea, swing }: Coast,
-  stretch: Stretch,
-  seconds: number,
-): Surf {
-  const atShore = rising(sea, stretch.shore, seconds) / swing.atShore;
-  const overBar = rising(sea, stretch.breaks, seconds) / swing.overBar;
+/** The surf from how fast the water is rising at the shore and over the bar. */
+function surfFrom({ swing }: Coast, shoreRise: number, barRise: number): Surf {
+  const atShore = shoreRise / swing.atShore;
+  const overBar = barRise / swing.overBar;
   return {
     breaking: clamp01(overBar) ** 2,
     running: clamp01(atShore),
@@ -168,10 +182,12 @@ function surfNow(
  * function of the moment alone.
  */
 export function surfAt(coast: Coast, stretch: Stretch, seconds: number): Surf {
-  const surf = surfNow(coast, stretch, seconds);
+  const shoreRises = risings(coast.sea, stretch.shore, seconds);
+  const barRises = risings(coast.sea, stretch.breaks, seconds);
+  const surf = surfFrom(coast, shoreRises[0] ?? 0, barRises[0] ?? 0);
   for (let look = 1; look <= LOOKS; look += 1) {
     const ago = look * LOOK_BACK;
-    const then = surfNow(coast, stretch, seconds - ago);
+    const then = surfFrom(coast, shoreRises[look] ?? 0, barRises[look] ?? 0);
     for (const part of ['breaking', 'running', 'draining'] as const) {
       surf[part] = Math.max(
         surf[part],
