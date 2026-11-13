@@ -369,6 +369,12 @@ not append.
   что это мимо атмосферы». Shell deletes `bodyShadow`, the room's `bodyShade`
   and `--body`; `frame.body` stays unread until he decides. **Merge shell's next
   head at once** — the lead's tree has the indoor shade live.
+- **11:05Z: lead ffc34102** — shell 1114f295 merged (no body shadow; gates
+  green; shell still owes the pink underside and deleting `bodyShadow`). **Tone,
+  from the operator via board, nothing to build**: an allusion to Andy Weir's
+  "The Egg"; afterlife metaphors, the endless maze as purgatory. Working titles
+  he is turning over: "cubed away", "cubeaway". The FIRST approved frame is the
+  sea one; the beach frame is another approved one, not the first.
 - **The explainer** «Два океана» was amended on the operator's comment (how many
   waves "good" takes); answered in its thread.
 - **Next, in order**: (1) merge core, shell, sky as they report green and lint;
