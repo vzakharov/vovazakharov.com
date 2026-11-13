@@ -5,7 +5,7 @@
 import super::island_height::islandHeight;
 import super::shore_cusps::cuspAt;
 import super::shore_wetness_numbers::{WAVES_BACK, NEVER_WET, DRY_SECONDS, FILM_FROM, FILM_TO};
-import super::swell::{turnsAt, crestOf};
+import super::swell_train::{turnsAt, crestOf};
 import super::swell_course::{SWELL_RUNS, SWELL_PACE};
 import super::swell_numbers::SEA_GRAVITY;
 import super::water_level::{swashReach, shoreRise, shoreFacing, shoreDelay, shoreDepth, sheltered};

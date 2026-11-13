@@ -4,9 +4,10 @@
 import { wgsl } from '../shader/wgsl';
 import { ISLAND_HEIGHT } from './island-height';
 import { SHORE_CUSPS } from './shore-cusps';
-import { SWELL_TRAIN } from './swell';
+import { SWELL_SUMS } from './swell';
 import { SWELL_COURSE } from './swell-course';
 import { SWELL_NUMBERS } from './swell-numbers';
+import { SWELL_TRAIN } from './swell-train.shader';
 import { WATER_LEVEL_NUMBERS } from './water-level-numbers';
 
 export const WATER_LEVEL = wgsl(
@@ -169,6 +170,7 @@ fn waterLevel(xz: vec2f, t: f32) -> f32 {
 `,
   ISLAND_HEIGHT,
   SHORE_CUSPS,
+  SWELL_SUMS,
   SWELL_TRAIN,
   SWELL_COURSE,
   SWELL_NUMBERS,

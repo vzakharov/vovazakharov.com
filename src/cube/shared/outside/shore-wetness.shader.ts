@@ -5,9 +5,9 @@ import { wgsl } from '../shader/wgsl';
 import { ISLAND_HEIGHT } from './island-height';
 import { SHORE_CUSPS } from './shore-cusps';
 import { SHORE_WETNESS_NUMBERS } from './shore-wetness-numbers';
-import { SWELL_TRAIN } from './swell';
 import { SWELL_COURSE } from './swell-course';
 import { SWELL_NUMBERS } from './swell-numbers';
+import { SWELL_TRAIN } from './swell-train.shader';
 import { WATER_LEVEL } from './water-level.shader';
 import { WATER_LEVEL_NUMBERS } from './water-level-numbers';
 

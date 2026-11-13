@@ -8,8 +8,8 @@ import { f32, wgsl } from '../shader/wgsl';
  * 420 an hour, each a little early or late and taller or lower than the last,
  * so the beach gets sets and lulls and a wave every 7 to 10 seconds. Every
  * function here is a scalar closed form, written twice — TypeScript below,
- * WGSL in `SWELL_TRAIN` — and `swell.test.ts` runs the WGSL listing itself against
- * the TypeScript.
+ * WGSL in `swell-train.wgsl` and `SWELL_SUMS` — and `swell.test.ts` runs the
+ * WGSL listing itself against the TypeScript.
  */
 
 /** Gravity at the sea's surface, m/s². */
@@ -163,34 +163,31 @@ export function peaked(phase: number, sharp: number): number {
 }
 
 /** How late in the turn a bore's face begins to rise. */
-const FACE = 0.955;
+export const BORE_FACE = 0.955;
 /** How fast the water behind a bore's crest falls away, per turn. */
-const FALL = 3;
+export const BORE_FALL = 3;
 /** The mean of the bore's shape, taken off so it rides the still level. */
-const BORE_MEAN = (1 - Math.exp(-FALL)) / FALL;
+export const BORE_MEAN = (1 - Math.exp(-BORE_FALL)) / BORE_FALL;
 
 /**
  * A broken wave at `phase` turns after its front passed: highest just behind
  * the front, falling away, then the next front's steep face.
  */
 export function bore(phase: number): number {
-  const face = Math.min(Math.max((phase - FACE) / (1 - FACE), 0), 1);
+  const face = Math.min(Math.max((phase - BORE_FACE) / (1 - BORE_FACE), 0), 1);
   const rise = face * face * (3 - 2 * face);
-  const fall = Math.exp(-FALL * phase);
+  const fall = Math.exp(-BORE_FALL * phase);
   return 2.1 * (fall + (1 - fall) * rise - BORE_MEAN);
 }
 
 /**
- * `turnsAt`, `setsAt`, `crestOf`, `peaked` and `bore` in WGSL, each the twin
- * of the function of its name above.
+ * `swellDrift`, the wander `turnsAt` and `crestOf` add to the crests' even
+ * pace, and `setsAt`, in WGSL: sums over the rolled sines, so written out here
+ * for `swell-train.wgsl` and `water-level.wgsl` to import.
  */
-export const SWELL_TRAIN = wgsl(
+export const SWELL_SUMS = wgsl(
   'outside/swell',
   /* wgsl */ `
-fn turnsAt(tau: f32) -> f32 {
-  return ${f32(WAVES)} * tau / ${f32(HOUR_SECONDS)} + swellDrift(tau);
-}
-
 fn swellDrift(tau: f32) -> f32 {
   return ${sumWgsl(DRIFT)};
 }
@@ -198,27 +195,6 @@ fn swellDrift(tau: f32) -> f32 {
 fn setsAt(tau: f32) -> f32 {
   return 1.0
     + ${sumWgsl(SETS)};
-}
-
-fn crestOf(n: f32) -> f32 {
-  var tau = n * ${f32(PERIOD)};
-  for (var i = 0; i < 5; i++) {
-    tau = (n - swellDrift(tau)) * ${f32(PERIOD)};
-  }
-  return tau;
-}
-
-fn peaked(phase: f32, sharp: f32) -> f32 {
-  let blunt = sqrt(1.0 - sharp * sharp);
-  let swing = cos(${f32(RADIANS_A_TURN)} * phase);
-  return blunt * (swing - sharp / (1.0 + blunt)) / (1.0 - sharp * swing);
-}
-
-fn bore(phase: f32) -> f32 {
-  let face = clamp((phase - ${f32(FACE)}) / ${f32(1 - FACE)}, 0.0, 1.0);
-  let rise = face * face * (3.0 - 2.0 * face);
-  let fall = exp(${f32(-FALL)} * phase);
-  return 2.1 * (fall + (1.0 - fall) * rise - ${f32(BORE_MEAN)});
 }
 `,
 );
