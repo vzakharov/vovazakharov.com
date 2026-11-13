@@ -185,13 +185,20 @@ reached from the second account.
 
 ## This bite: the scenario round
 
-Nothing below is written yet unless ticked. All of it is in
-`src/cube/features/player/model/` unless a path says otherwise; read
-`scenes.ts`, `abroad.ts`, `roam.ts`, `threshold.ts` and
+Ticked is written, committed and pushed (aa0b4008 the scenario, b5ecc5ab the
+quality, the bench before them); none of it has been seen in a browser — the
+operator walks slot 2. As written: the climb's look up is 0.3 rad where it was
+0.5, so a hand stays in frame; the aside is 0.87 rad at 0.7 of the rungs' time;
+the eye is 0.2 m behind the ladder's line at its own height; the refused look
+leans at 0.7 s, holds to 1.9 s, is back by 3.2 s, its line from 1.0 s; the
+console's command is `cubeQuality('full' | 'low')`, bare to ask. The bench's
+frame (`pnpm outside:cube --eyes in-beam`) is still to be shot. 2b and 9 are
+with subagents. All of it is in `src/cube/features/player/model/` unless a path
+says otherwise; read `scenes.ts`, `abroad.ts`, `roam.ts`, `threshold.ts` and
 `src/cube/pages/cube/ui/walk.ts` first, they are short. After it: commit, push,
 republish slot 2, then `/finalize` (the two red `source` checks on the way).
 
-- [ ] **1. The player turns to the cube, and the hero says "hm?".**
+- [x] **1. The player turns to the cube, and the hero says "hm?".**
   - `scenes.ts` `waking`: drop the beats at 12.2, 14.1 and 15.3 and the steps at
     12.1 and 13.2, so it ends at 10.9 looking out to sea; `cubeHigh` goes,
     `side` stays.
@@ -206,7 +213,7 @@ republish slot 2, then `/finalize` (the two red `source` checks on the way).
     (`features/voice/model`): `'wonder'` joins `MOMENTS` in `script.ts`,
     `vocal.ts` exports `wonder = (dice) => line(asked(dice))`, `line-for.ts`
     `LINES` takes it.
-- [ ] **2. Walking by default on the island.** `roam.ts`: the pace is
+- [x] **2. Walking by default on the island.** `roam.ts`: the pace is
       `input.walking ? RUN_SPEED : WALK_SPEED` — Shift runs out of doors, where
       indoors it walks; say so in `Input`'s docstring in `step.ts`. The swim's
       pace stays `RUN_SPEED * SWIM_SHARE`, and a footfall's strength is over a
@@ -222,7 +229,7 @@ republish slot 2, then `/finalize` (the two red `source` checks on the way).
       double-tap to keep running" — shows on a floor of 3 or deeper while no
       other hint does, until Shift is first pressed. `scripts/play-cube.ts`
       passes `walking: true` indoors and no longer needs to.
-- [ ] **3. Forward again before the doorway.** `scenes.ts` `ascent`: the yaw
+- [x] **3. Forward again before the doorway.** `scenes.ts` `ascent`: the yaw
       used to drift to the shelf all the way up, which is the look aside the
       operator liked. Make it explicit — a yaw key aside at about three quarters
       of the climb, back to the ladder's `yaw` at `over`, and the arrival
@@ -230,7 +237,7 @@ republish slot 2, then `/finalize` (the two red `source` checks on the way).
       goes from `Stage`, `intro-stage.ts` (with `SHELF_*` and the `toWorld`
       import), `abroad.test-kit.ts`, and the shelf tests in
       `intro-stage.test.ts` and `scenes.test.ts`.
-- [ ] **4. No step off the sill the first time.**
+- [x] **4. No step off the sill the first time.**
   - `scenes.ts`: `lookingDown(from, scale, stage)` — from the sill, lean out
     over the edge, look down at where `ladder.foot` stood, hold, say `wonder` at
     about 1.3 s, then back to the gaze it had, half a metre inside. `GONE_SHOWS`
@@ -247,18 +254,18 @@ republish slot 2, then `/finalize` (the two red `source` checks on the way).
     is not a second try; leaving while `free` is `steppingOut`.
   - `Way` gains `'gone'`, shown while `findsLadderGone`;
     `pages/cube/config/messages/en.json` `ways.gone`: "The ladder is gone".
-- [ ] **5. A fragment once the waking has played.** `pages/cube/lib/start.ts`:
+- [x] **5. A fragment once the waking has played.** `pages/cube/lib/start.ts`:
       `Start.ashore` becomes `'asleep' | 'awake' | null`; the fragment `awake`
       (not base64url of an address's length, so `decodeAddress` never sees it)
       starts `'awake'`. `abroad.ts`: `awakeOn(stage, seconds)` is `roamingFree`
       from the waking track's last shot, the ladder standing. `walk.ts` writes
       `awake` with `writeFragment` in the frame the waking scene ends, when
       `earned`.
-- [ ] **6. The step off writes nothing.** Already so — `follow` runs only in the
+- [x] **6. The step off writes nothing.** Already so — `follow` runs only in the
       indoor branch — so it needs a test or a comment at most, and no write
       added by 5 after the body has been inside.
-- [ ] **7. The bench in the beam** (above).
-- [ ] **8. Low quality by default, the full one on a console command.** What the
+- [x] **7. The bench in the beam** (above).
+- [x] **8. Low quality by default, the full one on a console command.** What the
       operator's five frames with the meter say (M2 Pro, a window of about
       1785×1150 CSS pixels at two device pixels each, `scene` stage): waking,
       half sand and half sky, 59.5 ms; the sea filling the lower half, 43.8 ms;
@@ -271,7 +278,7 @@ republish slot 2, then `/finalize` (the two red `source` checks on the way).
       one pixel to the CSS pixel unless raised (`resize` in `cube-scene.ts` is
       the one place the ratio is read), and a function on `globalThis` raises it
       to the screen's own and lowers it again.
-- [ ] **10. Hands on the rungs.** On the preview the climb shows no hands but
+- [x] **10. Hands on the rungs.** On the preview the climb shows no hands but
       one stub for a second. Measured (`tmp/probe-hands.ts`, gone with the
       container: the track sampled every 0.28 s, each hand's rung against
       `climbing.ts`'s `ARM`): the hand is out of its arm's reach on all but two
