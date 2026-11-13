@@ -348,6 +348,22 @@ not append.
   **Still unmerged**: walk, pill, sand's pass, shell's beam comparison. The lead
   has not re-shot its own eyes since 315051b5 — do it two at a time after core's
   lens pass.
+- **10:48Z, the operator chose the beam's way (in pill's session)**: the sun
+  stays, outside nothing changes, the cube's INTERIOR turns a quarter
+  counter-clockwise against the shell — the east doorway opens into the room's
+  south wall; bench and trees ahead, hatch and shelf front-left and out of the
+  beam, the noticeboard to hang by the shelf and hatch, the painted door gone,
+  none of it hardcoded. Routed 10:57Z: **core leads** (one rigid turn of the
+  whole interior at the seam in `shared/outside/frame.ts`, the turn derived: of
+  four quarter-turns, those whose beam footprint misses floor 1's hole quarter
+  and shelf; ties come to the lead; a test holds it; outside eyes
+  pixel-identical); **pill** — clear zone at the opening asked of the seam, the
+  noticeboard by rule on the wall adjoining the shelf's, the opening consumes
+  floor 1's rolled door; **shell** — comparison narrowed (commit what exists),
+  and the oil-film tint comes off the underside and is capped elsewhere (the
+  operator: "why the cube is pink underneath is beyond me"); **walk** — waits
+  for core's seam. Core's lens pass comes after the turn. Board v68 holds the
+  sky's frames 17–18; next free slots [5748, 3250], [6208, 3250].
 - **The explainer** «Два океана» was amended on the operator's comment (how many
   waves "good" takes); answered in its thread.
 - **Next, in order**: (1) merge core, shell, sky as they report green and lint;
