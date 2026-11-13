@@ -168,7 +168,15 @@ reached from the second account.
   make the other pace the standing one; the line "Press Shift to run,
   double-press to always run" is shown from floor 3 down, until Shift has been
   pressed. The key works on every floor and the island — only its hint waits for
-  floor 3; the operator is told that reading and may narrow it.
+  floor 3. The operator, told that reading, confirmed it and freed the wording:
+
+  > начиная с 3 этажа = подсказка на 3 этаже когда спускаешься; сами клавиши
+  > действуют с самого начала
+
+  > можешь переписать текст если коряво звучит
+
+  The line is "Hold Shift to run, double-tap to keep running": the key runs for
+  as long as it is held, which "press" does not say.
 
   **Decided**: the lead makes the four changes itself, with no child team — they
   are one package's worth, all in the walk's scenes and the player. The speed
@@ -210,8 +218,8 @@ republish slot 2, then `/finalize` (the two red `source` checks on the way).
       both take `running ? RUN_SPEED : WALK_SPEED`.
       `features/player/ui/input.ts` keeps the standing pace (walk at first) and
       reads `running = standing run XOR Shift held`; two Shift presses within
-      about 0.3 s flip the standing pace. A `Way` `'run'` — "Press Shift to run,
-      double-press to always run" — shows on a floor of 3 or deeper while no
+      about 0.3 s flip the standing pace. A `Way` `'run'` — "Hold Shift to run,
+      double-tap to keep running" — shows on a floor of 3 or deeper while no
       other hint does, until Shift is first pressed. `scripts/play-cube.ts`
       passes `walking: true` indoors and no longer needs to.
 - [ ] **3. Forward again before the doorway.** `scenes.ts` `ascent`: the yaw
