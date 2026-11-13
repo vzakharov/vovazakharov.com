@@ -9,7 +9,7 @@ import type { LayerMaker } from './outdoor-layer';
 import { createWaveField } from './sea-wave-field';
 
 /** How much wider than the screen's own sweep the sector of rings is laid. */
-const MARGIN = 1.15;
+const SECTOR_MARGIN = 1.15;
 const AROUND = 2 * Math.PI;
 /** Points along each edge of the screen at which its sweep is measured. */
 const EDGE_POINTS = 9;
@@ -76,7 +76,7 @@ function sweep(frame: OutdoorFrame): { yaw: number; sector: number } {
       );
     }
   }
-  const sector = 2 * widest * MARGIN;
+  const sector = 2 * widest * SECTOR_MARGIN;
   // Past this the point under the eye is on screen, or nearly: all round.
   return { yaw, sector: sector > 0.7 * AROUND ? AROUND : sector };
 }

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { assemble } from '../lib/wgsl';
-import { scalarWgsl } from '../lib/wgsl-scalar.test-kit';
+import { scalarWgsl } from '../lib/wgsl-scalar';
 import {
   dampAfter,
   drySince,

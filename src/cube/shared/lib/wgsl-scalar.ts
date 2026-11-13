@@ -11,21 +11,24 @@ import vm from 'node:vm';
 const clamp = (x: number, low: number, high: number): number =>
   Math.min(Math.max(x, low), high);
 
+const { sin, cos, sqrt, exp, log, pow, abs, floor, min, max, tanh, atan2 } =
+  Math;
+
 const BUILT_INS = {
-  sin: Math.sin,
-  cos: Math.cos,
-  sqrt: Math.sqrt,
-  exp: Math.exp,
-  log: Math.log,
-  pow: Math.pow,
-  abs: Math.abs,
-  floor: Math.floor,
-  min: Math.min,
-  max: Math.max,
-  tanh: Math.tanh,
-  atan2: Math.atan2,
+  sin,
+  cos,
+  sqrt,
+  exp,
+  log,
+  pow,
+  abs,
+  floor,
+  min,
+  max,
+  tanh,
+  atan2,
   clamp,
-  fract: (x: number): number => x - Math.floor(x),
+  fract: (x: number): number => x - floor(x),
   mix: (a: number, b: number, t: number): number => a + (b - a) * t,
   smoothstep: (from: number, to: number, x: number): number => {
     const t = clamp((x - from) / (to - from), 0, 1);
@@ -42,7 +45,7 @@ const asScript = (listing: string): string =>
   listing
     .replaceAll(/\bfn\b/g, 'function')
     .replaceAll(/->\s*\w+/g, '')
-    .replaceAll(/:\s*(?:f32|i32|u32|bool|vec[234]f)\b/g, '')
+    .replaceAll(/:\s*(?:f32|i32|u32|bool|vec[2-4]f)\b/g, '')
     .replaceAll(/\blet\b/g, 'const')
     .replaceAll(/\bvar\b/g, 'let')
     .replaceAll(/(\d)u\b/g, '$1');
@@ -54,12 +57,13 @@ const asScript = (listing: string): string =>
 export function scalarWgsl(
   listing: string,
 ): (name: string, ...args: number[]) => number {
-  const context = vm.createContext({ ...BUILT_INS });
-  vm.runInContext(asScript(listing), context);
+  const sandbox = { ...BUILT_INS };
+  vm.createContext(sandbox);
+  vm.runInContext(asScript(listing), sandbox);
   return (name, ...args) => {
     const result: unknown = vm.runInContext(
       `${name}(${args.map(String).join(', ')})`,
-      context,
+      sandbox,
     );
     if (typeof result !== 'number') {
       throw new TypeError(`${name} did not return a number`);

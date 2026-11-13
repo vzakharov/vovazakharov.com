@@ -9,10 +9,10 @@ import { K_CEILING, type Sea, spectrumOf, turnsPerHour } from './spectrum';
  */
 export type Cascade = {
   /** Metres the tile spans before it repeats. */
-  side: number;
-  /** The band's wavenumbers, rad/m: `from` inclusive, `to` exclusive. */
-  from: number;
-  to: number;
+  tileSide: number;
+  /** The band's wavenumbers, rad/m: `kFrom` inclusive, `kTo` exclusive. */
+  kFrom: number;
+  kTo: number;
 };
 
 /** The world the island's sea is rolled in. */
@@ -29,14 +29,14 @@ export const TILE = 256;
  * stop resolving a wave, a little under its Nyquist wavenumber.
  */
 export const CASCADES: readonly Cascade[] = [
-  { side: 3200, from: 0, to: 0.157 },
-  { side: 200, from: 0.157, to: 2.5 },
-  { side: 25, from: 2.5, to: 20 },
-  { side: 3.2, from: 20, to: 160 },
+  { tileSide: 3200, kFrom: 0, kTo: 0.157 },
+  { tileSide: 200, kFrom: 0.157, kTo: 2.5 },
+  { tileSide: 25, kFrom: 2.5, kTo: 20 },
+  { tileSide: 3.2, kFrom: 20, kTo: 160 },
 ];
 
 /** The finest wave any cascade carries; shorter ones are only roughness. */
-export const FINEST = CASCADES.at(-1)?.to ?? K_CEILING;
+export const FINEST = CASCADES.at(-1)?.kTo ?? K_CEILING;
 
 /** What the wave field's first pass reads, one entry per texel of the tile. */
 export type Amplitudes = {
@@ -76,13 +76,13 @@ export function amplitudesOf(seas: readonly Sea[], index: number): Amplitudes {
   const cascade = CASCADES[index];
   if (cascade === undefined) throw new Error(`No cascade ${String(index)}`);
   const spectrum = spectrumOf(seas);
-  const step = (2 * Math.PI) / cascade.side;
+  const step = (2 * Math.PI) / cascade.tileSide;
   /** The complex amplitude of the wave at bins (`p`, `q`), or zero outside the band. */
   const wave = (p: number, q: number): [number, number] => {
     const kx = p * step;
     const kz = q * step;
     const k = Math.hypot(kx, kz);
-    if (k < cascade.from || k >= cascade.to || k === 0) return [0, 0];
+    if (k < cascade.kFrom || k >= cascade.kTo || k === 0) return [0, 0];
     const height = Math.sqrt((spectrum.at(kx, kz) * step * step) / 2);
     const { re, im } = draws.at({ cascade: index, p, q });
     return [(height * re) / Math.SQRT2, (height * im) / Math.SQRT2];

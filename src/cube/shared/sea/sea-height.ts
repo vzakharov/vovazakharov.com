@@ -1,9 +1,9 @@
 import type { Vec2 } from '../lib/vec';
 import { islandHeight, waterLevel } from '../outside';
+import { HOUR_SECONDS } from '../outside/swell';
 import { amplitudesOf, bin, CASCADES, CHOP, TILE } from './cascade';
 import { SWELL_DIES_OVER, TRAIN_ENDS } from './sea-shore-wgsl';
 import { SEAS } from './sea-state';
-import { HOUR } from './spectrum';
 
 /**
  * The sea's height where a body floats, in TypeScript: the slow surface and
@@ -31,7 +31,7 @@ type Wave = {
 
 /** The tallest waves of cascade `index`, enough to hold `KEPT` of its variance. */
 function tallest(index: number): Wave[] {
-  const side = CASCADES[index]?.side ?? 1;
+  const side = CASCADES[index]?.tileSide ?? 1;
   const { waves, turns } = amplitudesOf(SEAS, index);
   const step = TAU / side;
   const all: Array<Wave & { power: number }> = [];
@@ -69,7 +69,7 @@ let carried: Array<{ waves: Wave[]; offset: number }> | undefined;
 const cascades = (): Array<{ waves: Wave[]; offset: number }> =>
   (carried ??= CARRYING.map((index) => ({
     waves: tallest(index),
-    offset: (CASCADES[index]?.side ?? 0) / (2 * TILE),
+    offset: (CASCADES[index]?.tileSide ?? 0) / (2 * TILE),
   })));
 
 const smoothstep = (from: number, to: number, x: number): number => {
@@ -97,13 +97,14 @@ function level(xz: Vec2, seconds: number): number {
 function shiftAt(still: Vec2, seconds: number): [number, number, number] {
   const share = calm(still);
   const shift: [number, number, number] = [0, 0, 0];
-  cascades().forEach(({ waves, offset }, index) => {
+  for (const [index, { waves, offset }] of cascades().entries()) {
     const quiet = share[index] ?? 0;
-    if (quiet === 0) return;
+    if (quiet === 0) continue;
     const x = still[0] - offset;
     const z = still[1] - offset;
     for (const { kx, kz, re, im, turns } of waves) {
-      const phase = kx * x + kz * z - TAU * (((turns * seconds) / HOUR) % 1);
+      const phase =
+        kx * x + kz * z - TAU * (((turns * seconds) / HOUR_SECONDS) % 1);
       const cos = Math.cos(phase);
       const sin = Math.sin(phase);
       const sideways =
@@ -112,7 +113,7 @@ function shiftAt(still: Vec2, seconds: number): [number, number, number] {
       shift[1] += 2 * quiet * (re * cos - im * sin);
       shift[2] += sideways * kz;
     }
-  });
+  }
   return shift;
 }
 

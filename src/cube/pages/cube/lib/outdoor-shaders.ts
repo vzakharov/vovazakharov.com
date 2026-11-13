@@ -11,7 +11,6 @@ import {
   WATER_LEVEL,
 } from '@/cube/shared/outside';
 import { SAND_SHADER } from '@/cube/shared/sand';
-
 import { SEA } from '@/cube/shared/sea';
 
 import { outsideLensSource } from './outside-lens';

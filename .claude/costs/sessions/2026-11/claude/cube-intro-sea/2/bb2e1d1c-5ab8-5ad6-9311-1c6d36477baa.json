@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 1261,
-    "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 229996,
-    "cacheReadTokens": 7836405,
-    "outputTokens": 47705,
-    "thinkingTokens": 20195,
-    "responses": 40,
-    "costUsd": 7.155298199999998
+    "inputTokens": 7248,
+    "cacheWrite5mTokens": 649,
+    "cacheWrite1hTokens": 358888,
+    "cacheReadTokens": 13758593,
+    "outputTokens": 80688,
+    "thinkingTokens": 25416,
+    "responses": 69,
+    "costUsd": 11.775713799999998
   },
   "estimate": null,
   "orientation": {
@@ -34,18 +34,18 @@
   "url": "https://claude.ai/code/session_01DaohkDD34tV9S8mR3o9S3o",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T09:16:23.585Z",
-  "lastResponseAt": "2026-11-13T09:28:58.780Z",
+  "lastResponseAt": "2026-11-13T09:38:31.346Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 74,
+    "inputTokens": 134,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 229996,
-    "cacheReadTokens": 7836405,
-    "outputTokens": 47684,
-    "thinkingTokens": 20195,
-    "responses": 39,
-    "costUsd": 7.155168999999998
+    "cacheWrite1hTokens": 358888,
+    "cacheReadTokens": 13459661,
+    "outputTokens": 71920,
+    "thinkingTokens": 25416,
+    "responses": 67,
+    "costUsd": 11.312012199999998
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,14 +59,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 74,
-      "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 229996,
-      "cacheReadTokens": 7836405,
-      "outputTokens": 47684,
-      "thinkingTokens": 20195,
-      "responses": 39,
-      "costUsd": 7.155168999999998
+      "inputTokens": 6061,
+      "cacheWrite5mTokens": 649,
+      "cacheWrite1hTokens": 358888,
+      "cacheReadTokens": 13758593,
+      "outputTokens": 80667,
+      "thinkingTokens": 25416,
+      "responses": 68,
+      "costUsd": 11.775584599999998
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1187,
@@ -80,12 +80,44 @@
     }
   },
   "warnings": [],
-  "compactions": [],
+  "compactions": [
+    {
+      "at": "2026-11-13T09:32:52.948Z",
+      "trigger": "auto",
+      "compactedFrom": 307158,
+      "summaryChars": 17639,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/cube/pages/cube/ui/sea-wave-field.ts",
+        "endedAt": "2026-11-13T09:33:06.408Z",
+        "contextTokens": 131208,
+        "spend": {
+          "inputTokens": 8,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 71619,
+          "cacheReadTokens": 288177,
+          "outputTokens": 1189,
+          "thinkingTokens": 99,
+          "responses": 3,
+          "costUsd": 1.2511633999999998
+        }
+      },
+      "rereads": {
+        "calls": 1,
+        "byTool": {
+          "Read": 1
+        },
+        "estimatedTokens": 3906,
+        "estimatedUsd": 0.0718704
+      },
+      "billedUsd": 0.4635724
+    }
+  ],
   "telemetry": {
-    "events": 39,
-    "matched": 38,
-    "matchedTableUsd": 7.040803199999998,
-    "matchedEventUsd": 7.040803199999998,
+    "events": 68,
+    "matched": 66,
+    "matchedTableUsd": 11.236576799999998,
+    "matchedEventUsd": 11.236576799999998,
     "unseen": {
       "generate_session_title": {
         "inputTokens": 1187,
@@ -96,6 +128,16 @@
         "thinkingTokens": 0,
         "responses": 1,
         "costUsd": 0.0001292
+      },
+      "compact": {
+        "inputTokens": 5927,
+        "cacheWrite5mTokens": 649,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 298932,
+        "outputTokens": 8747,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.4635724
       }
     }
   },
@@ -110,7 +152,7 @@
     ".md": 2283,
     ".json": 31,
     ".yaml": 48,
-    ".ts": 6253,
+    ".ts": 6656,
     ".tsx": 87,
     ".scss": 15
   }

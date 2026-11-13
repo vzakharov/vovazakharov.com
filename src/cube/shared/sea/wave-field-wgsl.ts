@@ -1,5 +1,5 @@
+import { HOUR_SECONDS } from '../outside/swell';
 import { CASCADES, CHOP, TILE } from './cascade';
-import { HOUR } from './spectrum';
 
 /** Complex pairs a cascade's transform carries: two textures' worth. */
 export const FIELD_LAYERS = CASCADES.length * 2;
@@ -51,8 +51,8 @@ fn evolve(@builtin(global_invocation_id) id: vec3u) {
   let n = textureLoad(turns, at, cascade, 0).r;
   // The wave's turns so far this hour, the whole seconds' share in integers
   // so that a late second is as exact as an early one.
-  let whole = f32((n * moment.whole) % ${String(HOUR)}u) / ${String(HOUR)}.0;
-  let phase = TAU * fract(whole + f32(n) * moment.part / ${String(HOUR)}.0);
+  let whole = f32((n * moment.whole) % ${String(HOUR_SECONDS)}u) / ${String(HOUR_SECONDS)}.0;
+  let phase = TAU * fract(whole + f32(n) * moment.part / ${String(HOUR_SECONDS)}.0);
   let spin = vec2f(cos(phase), sin(phase));
   let h = times(wave.xy, vec2f(spin.x, -spin.y)) + times(wave.zw, spin);
   let k = TAU * vec2f(bin(id.x), bin(id.y)) / moment.sides[cascade];
@@ -147,7 +147,7 @@ fn lay(@builtin(global_invocation_id) id: vec3u) {
 `;
 
 /** A map's next mip: each texel the mean of the four under it. */
-export const HALVE_SHADER = /* wgsl */ `
+export const HALVE_MAP_SHADER = /* wgsl */ `
 @group(0) @binding(0) var source: texture_2d_array<f32>;
 @group(0) @binding(1) var to: texture_storage_2d_array<rgba16float, write>;
 
