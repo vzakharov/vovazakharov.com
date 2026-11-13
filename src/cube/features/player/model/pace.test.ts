@@ -7,7 +7,7 @@ import { pressedShift, WALKING } from './pace';
 function runsAfter(...times: number[]): boolean {
   let pace = WALKING;
   for (const at of times) pace = pressedShift(pace, at);
-  return pace.running;
+  return pace.runsUnheld;
 }
 
 describe('pressedShift', () => {

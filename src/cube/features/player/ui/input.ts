@@ -183,7 +183,7 @@ export function bindInput(
         tiltKeys: 0,
         yawBy: turn,
         elevationBy: tilt,
-        running: pace.running !== shifts.size > 0,
+        running: pace.runsUnheld !== shifts.size > 0,
         use,
         answer,
         goTo,

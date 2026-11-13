@@ -2,13 +2,13 @@
 const DOUBLE_PRESS = 0.3;
 
 /**
- * The pace a body keeps with no Shift held — `running` — and when the last
+ * The pace a body keeps with no Shift held — `runsUnheld` — and when the last
  * Shift press that could start a double press came, in seconds.
  */
-type Pace = { running: boolean; pressedAt: number | null };
+type Pace = { runsUnheld: boolean; pressedAt: number | null };
 
 /** The pace a body keeps at first: a walk. */
-export const WALKING: Pace = { running: false, pressedAt: null };
+export const WALKING: Pace = { runsUnheld: false, pressedAt: null };
 
 /**
  * `pace` after a Shift press at `at` seconds: a press within `DOUBLE_PRESS`
@@ -16,8 +16,8 @@ export const WALKING: Pace = { running: false, pressedAt: null };
  * third press starts a fresh pair.
  */
 export function pressedShift(pace: Pace, at: number): Pace {
-  const { running, pressedAt } = pace;
+  const { runsUnheld, pressedAt } = pace;
   return pressedAt !== null && at - pressedAt <= DOUBLE_PRESS
-    ? { running: !running, pressedAt: null }
-    : { running, pressedAt: at };
+    ? { runsUnheld: !runsUnheld, pressedAt: null }
+    : { runsUnheld, pressedAt: at };
 }

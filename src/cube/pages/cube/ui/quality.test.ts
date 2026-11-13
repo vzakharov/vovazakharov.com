@@ -71,13 +71,13 @@ describe('paced', () => {
     });
     assert.deepEqual(inside, { ...slow, last: null });
     const back = paced(inside, 9000, true);
-    assert.equal(back.frames, slow.frames);
+    assert.equal(back.gaps, slow.gaps);
   });
 
   it('counts a pause, a hidden tab, as no frame', () => {
     const fast = run(UNPACED, { from: 0, gap: 1000 / 60, count: 60 });
     const after = paced(fast, 60_000, true);
-    assert.equal(after.frames, fast.frames);
-    assert.equal(after.spent, fast.spent);
+    assert.equal(after.gaps, fast.gaps);
+    assert.equal(after.lasted, fast.lasted);
   });
 });

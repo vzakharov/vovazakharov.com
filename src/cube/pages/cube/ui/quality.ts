@@ -40,18 +40,18 @@ export const nextLevel = (level: Level): Level => NEXT[level];
 
 /**
  * The frame rate of the frames that draw the outside: `last`, when the
- * latest frame was drawn, null where it did not draw the outside; `frames`
- * and `spent`, the window being gathered; `slow`, the latest whole window's
+ * latest frame was drawn, null where it did not draw the outside; `gaps`
+ * and `lasted`, the window being gathered; `slow`, the latest whole window's
  * verdict.
  */
 export type Pace = {
   last: number | null;
-  frames: number;
-  spent: number;
+  gaps: number;
+  lasted: number;
   slow: boolean;
 };
 
-export const UNPACED: Pace = { last: null, frames: 0, spent: 0, slow: false };
+export const UNPACED: Pace = { last: null, gaps: 0, lasted: 0, slow: false };
 
 /**
  * `pace` after a frame at `time` milliseconds that does or does not draw the
@@ -60,13 +60,13 @@ export const UNPACED: Pace = { last: null, frames: 0, spent: 0, slow: false };
  */
 export function paced(pace: Pace, time: number, outside: boolean): Pace {
   if (!outside) return { ...pace, last: null };
-  const { last, frames, spent, slow } = pace;
+  const { last, gaps, lasted, slow } = pace;
   const gap = last === null ? HIDDEN_GAP + 1 : time - last;
   if (gap > HIDDEN_GAP) return { ...pace, last: time };
-  const counted = { frames: frames + 1, spent: spent + gap };
-  if (counted.spent < WINDOW) return { last: time, ...counted, slow };
-  const rate = (counted.frames * 1000) / counted.spent;
-  return { last: time, frames: 0, spent: 0, slow: rate < SLOW_BELOW };
+  const counted = { gaps: gaps + 1, lasted: lasted + gap };
+  if (counted.lasted < WINDOW) return { last: time, ...counted, slow };
+  const rate = (counted.gaps * 1000) / counted.lasted;
+  return { last: time, gaps: 0, lasted: 0, slow: rate < SLOW_BELOW };
 }
 
 /** A hint line of the quality's: the key's, or the level a press set. */
