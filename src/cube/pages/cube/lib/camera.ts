@@ -1,14 +1,16 @@
 import type { Seen } from '@/cube/shared/lib/vec';
 import {
-  CUBE_AT,
   CUBE_METRES,
   FAR_METRES,
+  toCube,
   toWorld,
+  yawToRoom,
 } from '@/cube/shared/outside';
 import {
   cross,
   dot,
   type Gazing,
+  type Outside,
   unit as normalized,
   type Vec3,
 } from '@/cube/entities/world';
@@ -118,25 +120,31 @@ export const viewProjection = (
 /** The far plane of a frame that shows the outside, in the cube frame's units. */
 export const OUTSIDE_FAR = FAR_METRES / CUBE_METRES;
 
-/** The world frame to the cube frame, as a matrix. */
-const WORLD_TO_CUBE = Float32Array.of(
-  1 / CUBE_METRES,
-  0,
-  0,
-  0,
-  0,
-  1 / CUBE_METRES,
-  0,
-  0,
-  0,
-  0,
-  1 / CUBE_METRES,
-  0,
-  -CUBE_AT[0] / CUBE_METRES,
-  -CUBE_AT[1] / CUBE_METRES,
-  -CUBE_AT[2] / CUBE_METRES,
-  1,
-);
+/** The world frame to the cube frame, as a matrix: `toCube` of the axes. */
+const WORLD_TO_CUBE = ((): Float32Array => {
+  const origin = toCube([0, 0, 0]);
+  const axis = (along: Vec3): number[] =>
+    toCube(along).map((value, i) => value - (origin[i] ?? 0));
+  return Float32Array.of(
+    ...axis([1, 0, 0]),
+    0,
+    ...axis([0, 1, 0]),
+    0,
+    ...axis([0, 0, 1]),
+    0,
+    ...origin,
+    1,
+  );
+})();
+
+/**
+ * Where an eye outside the cube looks, in the cube frame: its yaw is the
+ * world's, and the interior is turned in its shell.
+ */
+export const gazeInCube = ({ yaw, elevation }: Outside): Gazing => ({
+  yaw: yawToRoom(yaw),
+  elevation,
+});
 
 /**
  * `seen`, a view in the cube frame — floor 1's room sides — as the same view

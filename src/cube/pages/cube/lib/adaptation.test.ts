@@ -2,24 +2,32 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
-import { DOORWAY } from '@/cube/shared/outside';
+import { DOORWAY, toRoom, yawToRoom } from '@/cube/shared/outside';
 import type { Outside, Pose } from '@/cube/entities/world';
 
 import { adapted, lensAdapted, settled } from './adaptation';
 
 const DOORWAY_V = (DOORWAY.from + DOORWAY.to) / 2 / ROOM_METRES;
 
-const within = (u: number, v: number, yaw: number, n = 1): Pose => ({
-  n,
-  x: 0n,
-  y: 0n,
-  u,
-  v,
-  eyeAbove: 0.32,
-  scale: 1,
-  yaw,
-  elevation: 0,
-});
+/**
+ * A pose told as the shell has it — `east` and `south` of the cube's
+ * north-west corner, the doorway in the east face, yaw 0 looking out of it —
+ * in the room, which is turned inside the shell.
+ */
+function within(east: number, south: number, yaw: number, n = 1): Pose {
+  const [u, , v] = toRoom([east, 0, south]);
+  return {
+    n,
+    x: 0n,
+    y: 0n,
+    u,
+    v,
+    eyeAbove: 0.32,
+    scale: 1,
+    yaw: yawToRoom(yaw),
+    elevation: 0,
+  };
+}
 
 const ASHORE: Outside = { eye: [-20, 1.6, 20], yaw: 0, elevation: 0, roll: 0 };
 
