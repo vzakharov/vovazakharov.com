@@ -23,8 +23,29 @@ type Code = keyof typeof AXES;
 
 const isCode = (code: string): code is Code => Object.hasOwn(AXES, code);
 
-/** The key that pulls a lever, by position as the axes are. */
-const PULL = 'KeyE';
+/** The key that takes a pill or presses a sign, by position as the axes are. */
+const USE = 'KeyE';
+
+/**
+ * The keys that answer a question, by the letter the question names: the
+ * letter a key types where the layout types Latin ones, its position where
+ * it does not.
+ */
+const ANSWERS = { y: 'yes', n: 'no' } as const;
+const ANSWER_CODES = { KeyY: 'yes', KeyN: 'no' } as const;
+
+const isIn = <T extends object>(
+  table: T,
+  key: string,
+): key is string & keyof T => Object.hasOwn(table, key);
+
+/** What pressing the key typing `key` at position `code` answers, if anything. */
+export function answerOf(key: string, code: string): Input['answer'] {
+  const letter = key.toLowerCase();
+  if (/^[a-z]$/u.test(letter))
+    return isIn(ANSWERS, letter) ? ANSWERS[letter] : null;
+  return isIn(ANSWER_CODES, code) ? ANSWER_CODES[code] : null;
+}
 
 /**
  * The word that, typed with a floor's two digits after it, takes the body to
@@ -69,7 +90,8 @@ export function bindInput(
   const shifts = new Set<string>();
   let turn = 0;
   let tilt = 0;
-  let pull = false;
+  let use = false;
+  let answer: Input['answer'] = null;
   let goTo: number | null = null;
   let typed: string[] = [];
   const locked = () => document.pointerLockElement === target;
@@ -88,7 +110,7 @@ export function bindInput(
     tilt -= event.movementY * LOOK_PER_PIXEL;
   };
   const onKey = (event: KeyboardEvent) => {
-    const { code, type, ctrlKey, metaKey, repeat, target: on } = event;
+    const { code, key, type, ctrlKey, metaKey, repeat, target: on } = event;
     const notAMove = isTextField(on) || ctrlKey || metaKey;
     if (type === 'keydown' && !repeat && !notAMove) {
       typed = [...typed, code].slice(-GO_TO_KEYS);
@@ -98,10 +120,13 @@ export function bindInput(
         typed = [];
       }
     }
-    if (code === PULL && type === 'keydown' && !repeat) {
+    if (type === 'keydown' && !repeat && !notAMove) {
+      answer = answerOf(key, code) ?? answer;
+    }
+    if (code === USE && type === 'keydown' && !repeat) {
       if (notAMove) return;
       event.preventDefault();
-      pull = true;
+      use = true;
       return;
     }
     if (WALKING.has(code)) {
@@ -139,7 +164,8 @@ export function bindInput(
         yawBy: turn,
         elevationBy: tilt,
         walking: shifts.size > 0,
-        pull,
+        use,
+        answer,
         goTo,
       };
       for (const code of held) {
@@ -148,7 +174,8 @@ export function bindInput(
       }
       turn = 0;
       tilt = 0;
-      pull = false;
+      use = false;
+      answer = null;
       goTo = null;
       return input;
     },

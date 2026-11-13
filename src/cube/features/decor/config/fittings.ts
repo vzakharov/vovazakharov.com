@@ -10,6 +10,8 @@ const CHROME = 0xb8_bc_c0;
 export const FITTINGS = {
   'wall-clock': {
     build: ({ disc, beam, panel }, vary) => {
+      // The time it stopped at, in hours round the dial: both hands tell it.
+      const hours = vary(0) * 12;
       const hand = (turn: number, reach: number, thick: number) =>
         beam(
           [0, 2, 0.05],
@@ -41,8 +43,8 @@ export const FITTINGS = {
             DARK,
           );
         }),
-        hand(vary(0), 0.08, 0.016),
-        hand(vary(1), 0.12, 0.01),
+        hand(hours / 12, 0.08, 0.016),
+        hand(hours % 1, 0.12, 0.01),
       ].flat();
     },
   },
