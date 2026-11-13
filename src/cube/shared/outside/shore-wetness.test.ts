@@ -3,13 +3,9 @@ import { describe, it } from 'node:test';
 
 import { assemble } from '../shader/wgsl';
 import { scalarWgsl } from '../shader/wgsl-scalar';
-import {
-  dampAfter,
-  drySince,
-  filmAfter,
-  NEVER_WET,
-  SHORE_WETNESS,
-} from './shore-wetness';
+import { dampAfter, drySince, filmAfter } from './shore-wetness';
+import { SHORE_WETNESS } from './shore-wetness.shader';
+import { NEVER_WET } from './shore-wetness-numbers';
 import { turnsAt } from './swell';
 import { sheetDepth } from './water-level';
 

@@ -32,7 +32,7 @@ export const SUN_WHITE = LIT.white;
 export const SUN_LIGHT: Rgb = LIT.sun;
 
 /** What the sky alone puts on a white matte face looking up. */
-export const SKY_FILL: Rgb = LIT.sky;
+const SKY_FILL: Rgb = LIT.sky;
 
 /**
  * What the sea and the air under the horizon put on a white matte face

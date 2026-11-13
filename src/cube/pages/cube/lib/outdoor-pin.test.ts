@@ -13,12 +13,12 @@ import { OUTDOOR_SHADERS, outdoorSource } from './outdoor-shaders';
  * which the theme's pin holds.
  */
 const BEFORE: Readonly<Record<keyof typeof OUTDOOR_SHADERS, string>> = {
-  seam: '5b3e42218d1ae841',
-  sky: '9ca0255217e12449',
-  skyClouds: '760a0e55e35f0434',
-  sand: '57cdab9f6ca759f8',
-  shell: '3f1816c63247c5a1',
-  sea: '420482e1e348b4d8',
+  seam: '7f7b0afc2aeaab0e',
+  sky: '937733054414f5e7',
+  skyClouds: '86f6867f3404a54f',
+  sand: '3789b71f9a38807f',
+  shell: '9716e4b98fbd73f9',
+  sea: '47dac7cc4e12dcf2',
 };
 
 /**
@@ -28,7 +28,12 @@ const BEFORE: Readonly<Record<keyof typeof OUTDOOR_SHADERS, string>> = {
  * before it and named after it reads the same. `BEFORE` is canonical under
  * this set, so changing it re-derives `BEFORE` at 052138ff.
  */
-const NUMBERED: ReadonlySet<string> = new Set<string>(['outside/sun']);
+const NUMBERED: ReadonlySet<string> = new Set<string>([
+  'outside/shore-wetness-numbers',
+  'outside/sun',
+  'outside/swell-numbers',
+  'outside/water-level-numbers',
+]);
 
 /** Every piece `roots` reach, each once. */
 function reached(roots: readonly Wgsl[]): Wgsl[] {
@@ -125,12 +130,48 @@ function canonical(roots: readonly Wgsl[]): string {
       }),
     )
     .map((text) =>
-      text.replaceAll(
-        FLOAT,
-        (literal) => `${String(Number.parseFloat(literal))}f`,
+      folded(
+        text.replaceAll(
+          FLOAT,
+          (literal) => `${String(Number.parseFloat(literal))}f`,
+        ),
       ),
     )
     .join('\n');
+}
+
+/** A float literal as `canonical` writes it, its value captured. */
+const LITERAL = String.raw`(\d+(?:\.\d+)?(?:e[+-]?\d+)?)f`;
+
+/**
+ * The first two factors of a product or quotient of float literals: it
+ * starts after an opening, a comparison or a sum, so nothing binds tighter
+ * before it, and runs left to right, so they are worked out first.
+ */
+const LITERALS = new RegExp(
+  String.raw`(?<=^|[(,=+<>?:{[]|(?<![*/])-)${LITERAL}([*/])${LITERAL}(?![\w.])`,
+);
+
+/** A float literal alone in brackets that call nothing. */
+const BRACKETED = new RegExp(String.raw`(?<!\w)\(${LITERAL}\)`);
+
+/**
+ * `text` with each product or quotient of literals worked out, as WGSL's
+ * constant evaluation does: `2.0 * SEA_GRAVITY`, its name written back, reads
+ * as the `19.62` TypeScript worked out before the move.
+ */
+function folded(text: string): string {
+  let now = text;
+  for (;;) {
+    const next = now
+      .replace(LITERALS, (_, a: string, op: string, b: string) => {
+        const [x, y] = [Number.parseFloat(a), Number.parseFloat(b)];
+        return `${String(op === '*' ? x * y : x / y)}f`;
+      })
+      .replace(BRACKETED, '$1f');
+    if (next === now) return now;
+    now = next;
+  }
 }
 
 describe("every outdoor shader's source", () => {
