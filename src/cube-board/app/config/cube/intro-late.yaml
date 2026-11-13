@@ -149,10 +149,10 @@ items:
     text: 'Vova, after walking it on an M2 Pro: “a joy, but alas outside (and until the way down to floor two) it is very slow.” Then a list: the scenario first, the speed after.'
   - id: intro-r-first-look
     type: sticky
-    updated: [2026-11-13T13:50:00.000Z, agent:cube-intro]
+    updated: [2026-11-13T19:30:00.000Z, agent:cube-intro]
     box: [6054, 6900, 280, blue]
     icon: 👀
-    text: 'The first look is the player’s. The waking ends looking out to sea and nothing turns the head. The frame the whole cube first comes into view, the hero says “hm?”'
+    text: 'The first look is the player’s. The waking ends looking out to sea and nothing turns the head. The hero says “hm?” once the gaze comes to rest on the whole cube, not while the head is still turning'
   - id: intro-r-pace
     type: sticky
     updated: [2026-11-13T13:50:00.000Z, agent:cube-intro]
@@ -221,10 +221,10 @@ items:
     text: 'To do before any of them: find which term of the sand is the dearest, turning them off one at a time under the meter on Vova’s machine. The meter’s stages overlap on Apple’s GPU (scene plus lens come to more than the frame), so the lens figure is not a cost to chase by itself'
   - id: intro-r-bench
     type: sticky
-    updated: [2026-11-13T13:50:00.000Z, agent:cube-intro]
+    updated: [2026-11-13T19:30:00.000Z, agent:cube-intro]
     box: [6360, 7250, 280, green]
     icon: 🪑
-    text: 'The bench in floor 1’s beam stood dark while the wall behind it was lit: a box that shades the room from the sun also shaded every point inside itself. A point within a box takes no shade from it now'
+    text: 'The bench in floor 1’s beam stood dark while the wall behind it was lit: a thing shaded the room by one box around all of it. A thing shades by its parts now — a seat slat, a back slat, a post — so its sunlit faces are lit and its shadow falls on the wall and the floor'
   - id: intro-r-wave
     type: sticky
     updated: [2026-11-13T13:50:00.000Z, agent:cube-intro]
