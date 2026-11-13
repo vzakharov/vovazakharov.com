@@ -11,20 +11,11 @@ import { clamp01 } from '@/cube/shared/lib/ease';
 import type { InRoom } from '@/cube/entities/world';
 
 import { breath, grunt, jump, landing, swallow } from './body';
-import {
-  knock,
-  lever,
-  pill,
-  ring,
-  shrinking,
-  stepsAway,
-  thud,
-} from './fixture';
+import { knock, pill, ring, shrinking, stepsAway, thud } from './fixture';
 import { footstep } from './footstep';
 import { rung } from './ladder';
 import { splash } from './splash';
 import { creak, mew, pop, rustle, scrape } from './stirs';
-import { threshold } from './threshold';
 
 /** How far to an ear's right a sound is. */
 export type Sided = {
@@ -70,7 +61,6 @@ export type SoundCue =
   | { kind: 'step'; strength: number; footing: Underfoot }
   | { kind: 'jump' }
   | { kind: 'landing'; speed: number }
-  | { kind: 'lever' }
   | { kind: 'pill' }
   | { kind: 'swallow' }
   | { kind: 'rung'; limb: Limb; ladder: Ladder }
@@ -78,7 +68,6 @@ export type SoundCue =
   | { kind: 'breath'; effort: number }
   | { kind: 'grunt' }
   | { kind: 'shrink' }
-  | { kind: 'threshold' }
   | (Roomed & { kind: RoomCue });
 
 /** Seconds the shrink is heard for. */
@@ -105,9 +94,6 @@ export function samplesOf(
     case 'landing': {
       return landing(cue.speed, footing, seed, rate);
     }
-    case 'lever': {
-      return lever(seed, rate);
-    }
     case 'pill': {
       return pill(seed, rate);
     }
@@ -128,9 +114,6 @@ export function samplesOf(
     }
     case 'shrink': {
       return shrinking(SHRINK_SECONDS, seed, rate);
-    }
-    case 'threshold': {
-      return threshold(seed, rate);
     }
     case 'ring': {
       return ring(seed, rate);
@@ -190,7 +173,6 @@ const GAINS: Record<Exclude<SoundCue['kind'], RoomCue>, number> = {
   step: 0.55,
   jump: 0.4,
   landing: 0.8,
-  lever: 0.7,
   pill: 0.45,
   swallow: 0.5,
   rung: 0.6,
@@ -198,7 +180,6 @@ const GAINS: Record<Exclude<SoundCue['kind'], RoomCue>, number> = {
   breath: 0.35,
   grunt: 0.5,
   shrink: 0.6,
-  threshold: 0.9,
 };
 
 /** Room sides at which a room's sound has lost half its level. */

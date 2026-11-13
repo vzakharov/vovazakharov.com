@@ -29,9 +29,9 @@ import {
   plantedWalls,
   play as playFrame,
   type Player,
-  pulledOf,
   standingAt,
   STILL,
+  takenOf,
 } from '@/cube/features/player';
 
 import { type Follow, followAddress } from '../lib/fragment';
@@ -46,6 +46,12 @@ import type { Selling, SignOf } from './cube-mesh';
 import { type CubeScene, mountCube } from './cube-scene';
 import { FrameRate } from './frame-rate';
 import { hear } from './hearing';
+import {
+  drawn,
+  type PillCopy,
+  type PillPrompt,
+  pillPromptOf,
+} from './pill-prompt';
 import { SaleOffer } from './sale-offer';
 
 /**
@@ -114,6 +120,7 @@ type Hooks = {
   setFailure: (error: Error) => void;
   setMissing: (missing: boolean) => void;
   setInReach: (kind: SignKind | null) => void;
+  setPill: (prompt: PillPrompt | null) => void;
   open: (offer: Signed) => void;
   offering: () => boolean;
 };
@@ -127,8 +134,10 @@ function walk(
   { pose: start, hatch, resumable }: Start,
   play: boolean,
   selling: Selling,
-  { setFloor, setFailure, setMissing, setInReach, open, offering }: Hooks,
+  hooks: Hooks,
 ): CubeScene {
+  const { setFloor, setFailure, setMissing, setInReach, setPill } = hooks;
+  const { open, offering } = hooks;
   const input = play ? null : bindInput(canvas, setFailure);
   // A script's walk is looked at, not listened to.
   const hearing = input === null ? null : hear(canvas);
@@ -173,18 +182,19 @@ function walk(
             reach(pose, signOf, pressed !== null);
             pressed?.resolve();
             pressed = null;
-            return { pose, pulled: null, moving: [] };
+            return { pose, taken: null, moving: [] };
           }
         : (pose, seconds, signOf) => {
             // An open offer holds the body still, its keys read and dropped.
             const read = input.read();
             const controls = offering() ? STILL : read;
+            const here = holedHere(pose);
             player = playFrame(
               { ...player, pose },
               controls,
               seconds,
               plantedWalls,
-              holedHere(pose),
+              here,
             );
             const { pose: moved, cues } = player;
             hearing?.body(cues, moved);
@@ -193,11 +203,12 @@ function walk(
               follow = null;
               writeCheat(moved.n);
             }
-            reach(moved, signOf, controls.pull && standing);
+            reach(moved, signOf, controls.use && standing);
+            setPill(pillPromptOf(player, moved, here));
             follow?.(moved, standing, seconds);
             return {
               pose: moved,
-              pulled: pulledOf(player),
+              taken: takenOf(player),
               moving: handsOf(player),
             };
           },
@@ -226,6 +237,7 @@ function walk(
         pressed ??= Promise.withResolvers();
         return pressed.promise;
       },
+      setPill: drawn(setPill),
     };
     Object.assign(globalThis, { [PLAY_HOOK]: hook });
   }
@@ -248,6 +260,8 @@ type CubeCanvasProps = {
   floor: string;
   /** The one line shown when the URL's fragment leads nowhere. */
   nowhere: string;
+  /** The lines shown by a pill in reach and by one in the hand. */
+  pill: PillCopy;
   /** A for-sale room's sign, hint and offer. */
   offer: Selling['copy'];
 };
@@ -258,6 +272,7 @@ export function CubeCanvas({
   unsupported,
   floor: floorLine,
   nowhere,
+  pill: pillCopy,
   offer: offerCopy,
 }: CubeCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -269,6 +284,7 @@ export function CubeCanvas({
   const [floor, setFloor] = useState<number | null>(null);
   /** The kind of the sign in reach, if one is. */
   const [inReach, setInReach] = useState<SignKind | null>(null);
+  const [pill, setPill] = useState<PillPrompt | null>(null);
   /** Whether an offer is open, read by every frame. */
   const offeringRef = useRef(false);
   const [offer, setOffer] = useState<Signed | null>(null);
@@ -322,6 +338,7 @@ export function CubeCanvas({
             setFailure,
             setMissing,
             setInReach,
+            setPill,
             open: (signed) => {
               offeringRef.current = true;
               setOffer(signed);
@@ -355,11 +372,13 @@ export function CubeCanvas({
       )}
       <FrameRate {...{ passTimes }} />
       <p className={classes['hint']} aria-live="polite">
-        {inReach === null || offer !== null
-          ? ''
-          : inReach === 'yours'
-            ? offerCopy.hintYours
-            : offerCopy.hint}
+        {pill === null
+          ? inReach === null || offer !== null
+            ? ''
+            : inReach === 'yours'
+              ? offerCopy.hintYours
+              : offerCopy.hint
+          : pillCopy[pill]}
       </p>
       <SaleOffer
         {...{ offer }}

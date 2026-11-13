@@ -1,7 +1,7 @@
 import type { Readying } from '@/kernel/shared/typings';
 
 import type { OutdoorState } from '@/cube/shared/outside';
-import type { Outside, Pose, Quad } from '@/cube/entities/world';
+import type { InRoomOf, Outside, Pose, Quad } from '@/cube/entities/world';
 
 import type { OutsideLens } from './outside-lens';
 
@@ -26,9 +26,13 @@ export type Among = {
 /**
  * What a script sets beside a pose: an eye on floor 1 given a `lens` sees
  * through it in its floor's place, which is how a frame is shot as an eye
- * still used to daylight sees the room.
+ * still used to daylight sees the room; and the room whose pill is `taken`
+ * off its shelf.
  */
-export type InsideSet = Among & { lens?: OutsideLens };
+export type InsideSet = Among & {
+  lens?: OutsideLens;
+  taken?: InRoomOf | null;
+};
 
 /**
  * What a script sets beside an outside eye, every quad of its `moving` in the
@@ -66,6 +70,11 @@ export type CubePlayHook = ScenePlay & {
    * Resolves once a frame has read the press.
    */
   press: () => Promise<void>;
+  /**
+   * Shows the pill's line `prompt` in the page's hint, or none; resolves once
+   * the page has drawn it.
+   */
+  setPill: (prompt: 'take' | 'ask' | null) => Promise<void>;
   /**
    * Stops the clock at `ms` since the epoch, so every frame from the next is
    * of that instant. A script's page opens stopped at `PLAY_INSTANT`.

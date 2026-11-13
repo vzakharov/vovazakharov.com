@@ -23,7 +23,9 @@ import {
   DOORWAY,
   islandHeight,
   SUN_DIR,
+  toRoom,
   WAKE_AT,
+  yawToRoom,
 } from '@/cube/shared/outside';
 import {
   isOutside,
@@ -80,11 +82,28 @@ const inFirstRoom = (
   elevation,
 });
 
-/** Where someone at the pill's shelf stands: by the west wall, the shelf at their side. */
-const AT_SHELF = { u: 0.14, v: 0.68 };
+/**
+ * A person of floor 1 standing `east`, `south` of the shell's north-west
+ * corner, in the cube's side, looking `yaw` from the world's east towards its
+ * south.
+ */
+const inShell = (east: number, south: number, yaw: number, elevation = 0) => {
+  const [u, , v] = toRoom([east, 0, south]);
+  return inFirstRoom(u, v, yawToRoom(yaw), elevation);
+};
+
+/** The yaw at which someone at `from` looks at `to`, both `[u, v]` of one frame. */
+const towards = (from: [number, number], to: [number, number]): number =>
+  Math.atan2(to[1] - from[1], to[0] - from[0]);
+
+/** Where someone at the pill's shelf stands: by the room's west wall, the shelf at their side. */
+const AT_SHELF: [number, number] = [0.14, 0.68];
 
 const WAKING = onSand(WAKE_AT[0], WAKE_AT[2], LYING);
 const DOORWAY_V = DOORWAY_MIDDLE / CUBE_METRES;
+/** The doorway's middle and a step inside it, as floor 1's room has them. */
+const [DOOR_U, , DOOR_V] = toRoom([1, 0, DOORWAY_V]);
+const [STEP_U, , STEP_V] = toRoom([0.9, 0, 0.3]);
 
 const EYES: Record<string, Whereabouts> = {
   'wake-sea': { eye: WAKING, yaw: 135 * DEGREE, elevation: 0.02, roll: 0 },
@@ -96,18 +115,23 @@ const EYES: Record<string, Whereabouts> = {
     elevation: 0.75,
     roll: 0,
   },
-  'doorway-out': inFirstRoom(0.97, DOORWAY_V, 0),
-  'doorway-down': inFirstRoom(0.97, DOORWAY_V, 0, -0.7),
-  'room-doorway': inFirstRoom(0.25, 0.6, Math.atan2(DOORWAY_V - 0.6, 0.75)),
+  'doorway-out': inShell(0.97, DOORWAY_V, 0),
+  'doorway-down': inShell(0.97, DOORWAY_V, 0, -0.7),
+  entering: inShell(0.95, DOORWAY_V, Math.PI, -0.1),
+  'room-doorway': inShell(0.25, 0.6, towards([0.25, 0.6], [1, DOORWAY_V])),
   'shelf-door': inFirstRoom(
-    AT_SHELF.u,
-    AT_SHELF.v,
-    Math.atan2(DOORWAY_V - AT_SHELF.v, 1 - AT_SHELF.u),
+    ...AT_SHELF,
+    towards(AT_SHELF, [DOOR_U, DOOR_V]),
     -0.12,
   ),
-  'door-shelf': inFirstRoom(0.9, 0.3, Math.atan2(0.75 - 0.3, -0.9), -0.2),
+  'door-shelf': inFirstRoom(
+    STEP_U,
+    STEP_V,
+    towards([STEP_U, STEP_V], [0, 0.75]),
+    -0.2,
+  ),
   // Standing in the beam, looking down it at where it lands.
-  'in-beam': inFirstRoom(0.6, 0.39, Math.atan2(-SUN_DIR[2], -SUN_DIR[0]), -0.3),
+  'in-beam': inShell(0.6, 0.39, Math.atan2(-SUN_DIR[2], -SUN_DIR[0]), -0.3),
 };
 
 /** `--name` as a number, or `otherwise` where it is not given. */

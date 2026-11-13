@@ -12,7 +12,6 @@ type Take = Named & { samples: Float32Array; takenAt: number };
 const CUES: ReadonlyArray<readonly [string, SoundCue]> = [
   ['pill', { kind: 'pill' }],
   ['swallow', { kind: 'swallow' }],
-  ['threshold', { kind: 'threshold' }],
   ...LADDERS.flatMap((ladder) =>
     (['hand', 'foot'] as const).map(
       (limb) =>

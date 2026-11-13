@@ -1,9 +1,9 @@
 /**
  * Shoots `/cube` through floor 1's hole from both sides, on the dev server:
  * from floor 1 looking down into it, and from the floor-2 room beneath looking
- * up; then a body pulling floor 1's lever beside the hole: shrinking where it
- * stands, looking at its hands and around, walking small to the hole, hopping
- * in, falling and landed. Chromium runs WebGPU on SwiftShader, so the
+ * up; then a body taking floor 1's pill from its shelf: holding it before its
+ * eyes, swallowing it, shrinking where it stands, looking at its hands and
+ * around, walking small to the hole, hopping in, falling and landed. Chromium runs WebGPU on SwiftShader, so the
  * frames say what the scene draws, not how fast. It fails on any page error,
  * and prints the adapter.
  *
@@ -16,8 +16,8 @@ import path from 'node:path';
 import {
   holeMiddle,
   holeQuarter,
-  leverOf,
-  maze,
+  type InRoomOf,
+  pillOn,
   planted,
   type Pose,
   type Quad,
@@ -25,15 +25,16 @@ import {
 } from '@/cube/entities/world';
 import {
   EYE_HEIGHT,
-  FIRST_LOOK,
   handsOf,
-  type Holed,
+  isAsking,
   isStanding,
+  plantedHoledOf,
   plantedWalls,
   play,
   type Player,
   standingAt,
   STILL,
+  takenOf,
 } from '@/cube/features/player';
 
 import { withCubePage } from './lib/cube-page';
@@ -44,50 +45,64 @@ import { inTurn } from '@/scene/scripts/lib/in-turn';
 
 const FRAMES = path.resolve(flag('out') ?? path.join(REPO_ROOT, 'tmp/cube'));
 
-/** Seconds per simulated frame of the pull. */
+/** Seconds per simulated frame of the act. */
 const FRAME = 1 / 60;
 
-/** Whether a body has been falling for `seconds`. */
-const fallingFor =
-  (seconds: number) =>
-  ({ act }: Player): boolean =>
-    act?.act === 'falling' && act.actFor >= seconds;
+/** Whether a body has been at `act` for `seconds`. */
+const actingFor =
+  (act: NonNullable<Player['act']>['act'], seconds: number) =>
+  (player: Player): boolean =>
+    player.act?.act === act && player.act.actFor >= seconds;
 
 /**
- * The pull's shots in the order they come, each taken on the first frame its
- * test passes, `t` being the seconds since the pull.
+ * The act's shots in the order they come, each taken on the first frame its
+ * test passes.
  */
-const PULL_SHOTS: ReadonlyArray<
-  readonly [string, (player: Player, t: number) => boolean]
-> = [
-  ['pull-1-shrinking.png', (_, t) => t >= 1],
-  ['pull-2-palms.png', (_, t) => t >= 1.7],
-  ['pull-3-backs.png', (_, t) => t >= 2.9],
-  ['pull-4-around.png', (_, t) => t >= 4.6],
-  ['pull-5-small.png', isStanding],
-  ['pull-6-hop.png', fallingFor(0.2)],
-  ['pull-7-falling.png', fallingFor(1)],
-  ['pull-8-landed.png', (player) => player.pose.n === 2 && isStanding(player)],
+const ACT_SHOTS: ReadonlyArray<readonly [string, (player: Player) => boolean]> =
+  [
+    ['pill-0-asked.png', isAsking],
+    ['pill-1-shrinking.png', actingFor('shrinking', 1)],
+    ['pill-2-palms.png', actingFor('shrinking', 1.7)],
+    ['pill-3-backs.png', actingFor('shrinking', 2.9)],
+    ['pill-4-around.png', actingFor('shrinking', 4.6)],
+    [
+      'pill-5-small.png',
+      (player) => isStanding(player) && takenOf(player) !== null,
+    ],
+    ['pill-6-hop.png', actingFor('falling', 0.2)],
+    ['pill-7-falling.png', actingFor('falling', 1)],
+    [
+      'pill-8-landed.png',
+      (player) => player.pose.n === 2 && isStanding(player),
+    ],
+  ];
+
+/** A frame to shoot: its file name, the eye's pose, the hands before it and the pill off its shelf. */
+type Shot = readonly [
+  name: string,
+  pose: Pose,
+  hands: readonly Quad[],
+  taken: InRoomOf | null,
 ];
 
-/** A frame to shoot: its file name, the eye's pose and the hands before it. */
-type Shot = readonly [name: string, pose: Pose, hands: readonly Quad[]];
-
-/** Seconds a pull may take to play out before the script gives up on it. */
-const PULL_LIMIT = 30;
+/** Seconds the act may take to play out before the script gives up on it. */
+const ACT_LIMIT = 40;
+/** How far out from its pill the body stands to take it, in room sides. */
+const STOOD_BACK = 0.13;
 
 /**
- * The poses `play` gives a body pulling floor 1's lever from halfway between
- * it and the hole, facing it, then, once small and let go, turning to the hole
- * and walking in, at each of `PULL_SHOTS`.
+ * The poses `play` gives a body taking floor 1's pill from before its shelf,
+ * answering yes once asked, then, once small and let go, turning to the hole
+ * and walking in, at each of `ACT_SHOTS`.
  */
-function pulled(quarter: Quarter): Shot[] {
+function swallowed(quarter: Quarter): Shot[] {
   const room = { n: 1, x: 0n, y: 0n };
-  const lever = leverOf(maze(planted.seed), room, quarter);
-  const here: Holed = { quarter, lever, shrinkLook: FIRST_LOOK };
+  const here = plantedHoledOf(room, quarter);
+  const { shelf } = here;
+  const [pillU, , pillV] = pillOn(shelf).centre;
+  const u = pillU + shelf.facing.u * STOOD_BACK;
+  const v = pillV + shelf.facing.v * STOOD_BACK;
   const middle = holeMiddle(quarter);
-  const u = (middle.u + lever.at.u) / 2;
-  const v = (middle.v + lever.at.v) / 2;
   const toHole = Math.atan2(middle.v - v, middle.u - u);
   let player = play(
     standingAt({
@@ -96,29 +111,32 @@ function pulled(quarter: Quarter): Shot[] {
       v,
       eyeAbove: EYE_HEIGHT,
       scale: 1,
-      yaw: toHole + Math.PI,
+      yaw: Math.atan2(pillV - v, pillU - u),
       elevation: 0,
     }),
-    { ...STILL, pull: true },
+    { ...STILL, use: true },
     FRAME,
     plantedWalls,
     here,
   );
-  if (isStanding(player)) throw new Error('Floor 1’s lever is out of reach');
+  if (isStanding(player)) throw new Error('Floor 1’s pill is out of reach');
   const taken: Shot[] = [];
   let turned = false;
-  for (let t = FRAME; taken.length < PULL_SHOTS.length; t += FRAME) {
-    if (t > PULL_LIMIT) throw new Error('The pull never played out');
-    const shot = PULL_SHOTS[taken.length];
+  for (let t = FRAME; taken.length < ACT_SHOTS.length; t += FRAME) {
+    if (t > ACT_LIMIT) throw new Error('The act never played out');
+    const shot = ACT_SHOTS[taken.length];
     if (shot === undefined) break;
     const [name, due] = shot;
-    if (due(player, t)) taken.push([name, player.pose, handsOf(player)]);
+    if (due(player)) {
+      taken.push([name, player.pose, handsOf(player), takenOf(player)]);
+    }
     const free = isStanding(player) && player.pose.n === 1;
+    const turn = turned ? 0 : toHole - player.pose.yaw;
     player = play(
       player,
       free
-        ? { ...STILL, walking: true, walk: 1, yawBy: turned ? 0 : Math.PI }
-        : STILL,
+        ? { ...STILL, walking: true, walk: 1, yawBy: turn }
+        : { ...STILL, answer: isAsking(player) ? 'yes' : null },
       FRAME,
       plantedWalls,
       player.pose.n === 1 ? here : null,
@@ -165,17 +183,17 @@ async function shots(): Promise<Shot[]> {
     elevation: Math.atan2(0.5 - 0.16, reach),
   };
   return [
-    ['floor-1-down.png', down, []],
-    ['floor-2-up.png', up, []],
-    ...pulled(quarter),
+    ['floor-1-down.png', down, [], null],
+    ['floor-2-up.png', up, [], null],
+    ...swallowed(quarter),
   ];
 }
 
 async function main(): Promise<void> {
   const planned = await shots();
   await withCubePage(async ({ shoot }) =>
-    inTurn(planned, async ([name, pose, hands]) =>
-      shoot(path.join(FRAMES, name), pose, { moving: hands }),
+    inTurn(planned, async ([name, pose, hands, taken]) =>
+      shoot(path.join(FRAMES, name), pose, { moving: hands, taken }),
     ),
   );
 }

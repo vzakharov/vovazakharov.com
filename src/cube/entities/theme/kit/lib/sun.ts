@@ -10,9 +10,11 @@ import {
   beamPatches,
   DOOR_INNER,
   DOORWAY,
+  SHELL_TURN,
   SUN,
   SUN_DIR,
   SUN_LIGHT,
+  toShell,
 } from '@/cube/shared/outside';
 
 import { CORE } from './core';
@@ -61,8 +63,11 @@ ${SHRUB.foliage
  * The low sun through floor 1's doorway, as a room's only light: the beam
  * itself, soft at its edges as a sun half a degree wide leaves them, with a
  * potted plant's shadow in it; the sky the doorway shows and the beam's own
- * landing places lighting the rest; the dust in the beam's way. The floor
- * using it says what stands in the beam and where the beam lands:
+ * landing places lighting the rest; the dust in the beam's way. All of it
+ * is reckoned in the shell's frame, where the doorway is in the east face
+ * and the sun where the world has it; \`sunlitRoom\` and \`sunShaft\` take a
+ * point of the room there. The floor using it says, in that frame, what
+ * stands in the beam and where the beam lands:
  *
  *   fn sunShade(p: vec3f, dir: vec3f) -> f32    how much of a ray from \`p\`
  *                                               along \`dir\` its things let by
@@ -72,9 +77,9 @@ ${SHRUB.foliage
 const DOORWAY_SUN = wgsl(
   'doorway-sun',
   /* wgsl */ `
-/// The doorway in the east wall: its north and south jambs, metres south of
-/// the room's north end, and its head over the floor; then the wall's inner
-/// and outer faces, metres east.
+/// The doorway in the shell's east face: its north and south jambs, metres
+/// south of the face's north end, and its head over the floor; then the
+/// wall's inner and outer faces, metres east.
 const DOOR = vec3f(${f(DOORWAY.from)}, ${f(DOORWAY.to)}, ${f(DOORWAY.height)});
 const DOOR_FACES = vec2f(${f(DOOR_INNER)}, ${f(ROOM_METRES)});
 
@@ -185,14 +190,15 @@ fn doorLight(p: vec3f, normal: vec3f) -> f32 {
 /// eye: the beam as a shaft in the air, strongest looked into. It is added
 /// to the point's light, so nothing is blended over anything.
 fn sunShaft(s: Surf) -> vec3f {
-  let eye = s.p - s.view * s.far;
+  let view = turnedToShell(s.view);
+  let eye = toShell(s.p) - view * s.far;
   var first = 0.0;
   if (eye.x > DOOR_FACES.x) {
     // An eye outside looks in through the doorway: the air begins at it.
-    if (s.view.x >= 0.0) {
+    if (view.x >= 0.0) {
       return vec3f(0.0);
     }
-    first = (DOOR_FACES.x - eye.x) / s.view.x;
+    first = (DOOR_FACES.x - eye.x) / view.x;
   }
   let span = s.far - first;
   if (span <= 0.0) {
@@ -203,10 +209,10 @@ fn sunShaft(s: Surf) -> vec3f {
   let start = fract(52.9829189 * fract(dot(s.pixel, vec2f(0.06711056, 0.00583715))));
   var lit = 0.0;
   for (var i = 0; i < SHAFT_STEPS; i++) {
-    lit += sunAt(eye + s.view * (first + span * (f32(i) + start) / f32(SHAFT_STEPS)));
+    lit += sunAt(eye + view * (first + span * (f32(i) + start) / f32(SHAFT_STEPS)));
   }
   let g = DUST_FORWARD;
-  let forward = (1.0 - g * g) / pow(1.0 + g * g - 2.0 * g * dot(s.view, SUN_DIR), 1.5);
+  let forward = (1.0 - g * g) / pow(1.0 + g * g - 2.0 * g * dot(view, SUN_DIR), 1.5);
   return SUN_LIGHT * (DUST * 0.25 * forward * lit * span / f32(SHAFT_STEPS));
 }
 
@@ -215,30 +221,32 @@ fn sunShaft(s: Surf) -> vec3f {
 /// places on the rest, \`ambient\` under it all, and the sun's highlight on
 /// anything polished. A polished floor is left a mirror showing the doorway.
 fn sunlitRoom(s: Surf, m: Material, ambient: vec3f) -> vec3f {
-  let normal = normalize(s.normal + m.relief);
-  let door = throughDoor(s.p, SUN_DIR, SUN_SPREAD);
-  let sun = door * sunShade(s.p, SUN_DIR);
+  let at = toShell(s.p);
+  let view = turnedToShell(s.view);
+  let normal = turnedToShell(normalize(s.normal + m.relief));
+  let door = throughDoor(at, SUN_DIR, SUN_SPREAD);
+  let sun = door * sunShade(at, SUN_DIR);
   let facing = max(dot(normal, SUN_DIR), 0.0);
   var direct = SUN_LIGHT * (facing * sun);
   if (s.kind == FOLIAGE) {
     direct += SUN_LIGHT * LEAF_THROUGH * (mix(sun, door, 0.5) * (1.0 - facing));
   }
-  let fill = ambient + SKY_IN * doorLight(s.p, normal) + sunBounce(s.p, normal);
+  let fill = ambient + SKY_IN * doorLight(at, normal) + sunBounce(at, normal);
   let shade = cornerShade(s);
   // A polished thing mirrors more the more it is looked along.
-  let along = pow(1.0 - max(dot(normal, -s.view), 0.0), 5.0);
+  let along = pow(1.0 - max(dot(normal, -view), 0.0), 5.0);
   let floored = m.gloss > 0.0 && s.normal.y > 0.9 && s.kind != PLASTIC;
   // The doorway and the sun in it are so much brighter than the room that a
   // floor let go all the way to a mirror would show nothing of itself.
   let mirror = min(m.gloss * (0.04 + 0.96 * along), select(1.0, SILL_MIRROR, floored));
   let power = mix(6.0, 600.0, m.gloss * m.gloss);
-  let half = normalize(SUN_DIR - s.view);
+  let half = normalize(SUN_DIR - view);
   let glint = pow(max(dot(normal, half), 0.0), power) * (power + 8.0) / 25.0;
   var colour = m.albedo * (fill * shade + direct) + m.emission
     + SUN_LIGHT * (facing * sun * glint * mirror);
   if (s.kind == PLASTIC) {
     // Plastic's highlight here is the doorway's sky, mirrored blurred.
-    colour += SKY_IN * throughDoor(s.p, reflect(s.view, normal), SKIN_BLUR)
+    colour += SKY_IN * throughDoor(at, reflect(view, normal), SKIN_BLUR)
       * ((0.04 + 0.96 * along) * shade);
   }
   if (floored) {
@@ -246,7 +254,7 @@ fn sunlitRoom(s: Surf, m: Material, ambient: vec3f) -> vec3f {
     let blur = BLUR * (1.0 - m.gloss);
     // Where the frame cannot follow the reflection out of the doorway, the
     // floor shows the sky it opens on.
-    let fallback = SKY_IN * throughDoor(s.p, reflect(s.view, plane), blur);
+    let fallback = SKY_IN * throughDoor(at, turnedToShell(reflect(s.view, plane)), blur);
     mirroring = Mirror(mirror, plane, blur, fallback);
   }
   return colour;
@@ -257,9 +265,10 @@ fn sunlitRoom(s: Surf, m: Material, ambient: vec3f) -> vec3f {
   LIGHT,
   SUN,
   SUN_DISC,
+  SHELL_TURN,
 );
 
-/** A potted plant standing in the beam: its axis in metres east and south, and its draw of height. */
+/** A potted plant standing in the beam: its axis in metres east and south in its room, and its draw of height. */
 export type Shrub = {
   at: readonly [east: number, south: number];
   draw: number;
@@ -290,10 +299,10 @@ export const sunlit = (id: string, look: Sunlit): Wgsl => {
     ];
     return `Bounce(${vec3f(middle)}, ${vec3f(facing)}, ${vec3f(light)})`;
   });
-  const shrubs = look.shrubs.map(
-    ({ at: [east, south], draw }) =>
-      `vec3f(${f(east)}, ${f(south)}, ${f(draw)})`,
-  );
+  const shrubs = look.shrubs.map(({ at: [east, south], draw }) => {
+    const [x, , z] = toShell([east, 0, south], ROOM_METRES);
+    return `vec3f(${f(x)}, ${f(z)}, ${f(draw)})`;
+  });
   return wgsl(
     `${id}/sunlit`,
     /* wgsl */ `

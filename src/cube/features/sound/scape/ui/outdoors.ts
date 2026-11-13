@@ -5,13 +5,14 @@ import {
   EASE,
   FADE_EASE,
   FILTER_EASE,
-  FILTER_Q,
+  HUM_Q,
   type Layer,
   type Loop,
   MUFFLED,
   OPEN_AIR,
   type OutsideMix,
   SOUND_LAYERS,
+  WALL_Q,
 } from '../../outdoors';
 
 /** Milliseconds of a frame the loops' rendering may take, and samples a go. */
@@ -75,14 +76,14 @@ export function outdoorsOf(
   const wall = new BiquadFilterNode(context, {
     type: 'lowpass',
     frequency: OPEN_AIR,
-    Q: FILTER_Q,
+    Q: WALL_Q,
   });
   wall.connect(level);
   // The hum's own wall: both close as an ear steps over the sill.
   const humWall = new BiquadFilterNode(context, {
     type: 'lowpass',
     frequency: OPEN_AIR,
-    Q: FILTER_Q,
+    Q: HUM_Q,
   });
   humWall.connect(level);
   const sounding = new Map<Layer, Sounding>();

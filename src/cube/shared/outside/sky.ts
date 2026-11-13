@@ -1,5 +1,5 @@
 import { f32, vecf, wgsl } from '../lib/wgsl';
-import { CLOUDS_WGSL } from '../sky/clouds';
+import { CLOUD_VEIL } from '../sky/cloud-veil';
 import { SKY_FILL } from './sun';
 
 /** The widest lobe a caller asks for: a quarter of the sphere. */
@@ -46,5 +46,5 @@ fn skyRadiance(dir: vec3f, lod: f32) -> vec3f {
   return mix(mirrored, skyGathered(dir, lod), smoothstep(0.5, 1.0, lod));
 }
 `,
-  CLOUDS_WGSL,
+  CLOUD_VEIL,
 );

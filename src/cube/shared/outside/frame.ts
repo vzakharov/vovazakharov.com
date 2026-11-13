@@ -2,6 +2,7 @@ import { ROOM_HEIGHT, ROOM_METRES } from '../lib/room-shape';
 import type { Vec2, Vec3 } from '../lib/vec';
 import { f32, vecf, wgsl } from '../lib/wgsl';
 import { islandHeight } from './island-height';
+import { SHELL_TURN, toRoom, toShell } from './turn';
 
 /** The cube's side in metres: one side of floor 1's room. */
 export const CUBE_METRES = ROOM_METRES;
@@ -13,9 +14,11 @@ const HOVER = 1.1;
 const CUBE_MIDDLE: Vec2 = [0, 0];
 
 /**
- * Where the cube frame's origin — the north-west corner of floor 1's room, on
- * its slab — stands in the world frame W: metres, x east, y up from the still
- * sea, z south. The two frames differ by this and the cube's side, no turn.
+ * Where the cube's north-west corner, at the height of floor 1's slab, stands
+ * in the world frame W: metres, x east, y up from the still sea, z south. The
+ * cube frame — floor 1's room sides, from that room's own north-west corner —
+ * differs from W by this, the cube's side, and the interior's turn in its
+ * shell.
  */
 export const CUBE_AT: Vec3 = [
   CUBE_MIDDLE[0] - CUBE_METRES / 2,
@@ -24,33 +27,69 @@ export const CUBE_AT: Vec3 = [
 ];
 
 /** A point of the cube frame, in floor 1's room sides, in the world frame. */
-export const toWorld = ([x, y, z]: Vec3): Vec3 => [
-  CUBE_AT[0] + x * CUBE_METRES,
-  CUBE_AT[1] + y * CUBE_METRES,
-  CUBE_AT[2] + z * CUBE_METRES,
-];
+export const toWorld = (point: Vec3): Vec3 => {
+  const [x, y, z] = toShell(point);
+  return [
+    CUBE_AT[0] + x * CUBE_METRES,
+    CUBE_AT[1] + y * CUBE_METRES,
+    CUBE_AT[2] + z * CUBE_METRES,
+  ];
+};
 
 /** A point of the world frame in the cube frame. */
-export const toCube = ([x, y, z]: Vec3): Vec3 => [
-  (x - CUBE_AT[0]) / CUBE_METRES,
-  (y - CUBE_AT[1]) / CUBE_METRES,
-  (z - CUBE_AT[2]) / CUBE_METRES,
-];
+export const toCube = ([x, y, z]: Vec3): Vec3 =>
+  toRoom([
+    (x - CUBE_AT[0]) / CUBE_METRES,
+    (y - CUBE_AT[1]) / CUBE_METRES,
+    (z - CUBE_AT[2]) / CUBE_METRES,
+  ]);
 
 /** A box square to the axes, by its least and greatest corners. */
 export type Box = { min: Vec3; max: Vec3 };
 
 /** The space the cube fills, in the world frame. */
 export const CUBE_BOX: Box = {
-  min: toWorld([0, -ROOM_HEIGHT, 0]),
-  max: toWorld([1, ROOM_HEIGHT, 1]),
+  min: [CUBE_AT[0], CUBE_AT[1] - ROOM_HEIGHT * CUBE_METRES, CUBE_AT[2]],
+  max: [
+    CUBE_AT[0] + CUBE_METRES,
+    CUBE_AT[1] + ROOM_HEIGHT * CUBE_METRES,
+    CUBE_AT[2] + CUBE_METRES,
+  ],
 };
 
 /**
- * The doorway in the east wall of floor 1's room, in metres of that room:
- * `from` and `to` south of the north-east corner, its sill on the slab.
+ * The doorway in the cube's east face, in metres: `from` and `to` south of
+ * the face's north end, its sill on floor 1's slab.
  */
 export const DOORWAY = { from: 0.274, to: 1.244, height: 2.1 };
+
+/** A wall of a room, by the side of the room it stands on. */
+export type WallSide = 'east' | 'south' | 'west' | 'north';
+
+/**
+ * The doorway as floor 1's room has it: the wall it opens in, and `from` and
+ * `to` in metres along that wall from its north or west end.
+ */
+export const ROOM_DOORWAY: {
+  wall: WallSide;
+  from: number;
+  to: number;
+  height: number;
+} = (() => {
+  const { height } = DOORWAY;
+  const [ax, , az] = toRoom([CUBE_METRES, 0, DOORWAY.from], CUBE_METRES);
+  const [bx, , bz] = toRoom([CUBE_METRES, 0, DOORWAY.to], CUBE_METRES);
+  const along = Math.abs(ax - bx) > Math.abs(az - bz);
+  const [from, to] = along ? [ax, bx] : [az, bz];
+  const across = along ? az : ax;
+  const far = across > CUBE_METRES / 2;
+  return {
+    wall: along ? (far ? 'south' : 'north') : far ? 'east' : 'west',
+    from: Math.min(from, to),
+    to: Math.max(from, to),
+    height,
+  };
+})();
 
 /** The doorway's opening in the cube's east face, in the world frame. */
 export const DOORWAY_BOX: Box = {
@@ -111,11 +150,12 @@ const DOORWAY_MIN = ${vecf(DOORWAY_BOX.min)};
 const DOORWAY_MAX = ${vecf(DOORWAY_BOX.max)};
 
 fn toWorld(c: vec3f) -> vec3f {
-  return CUBE_AT + c * CUBE_METRES;
+  return CUBE_AT + toShell(c * CUBE_METRES);
 }
 
 fn toCube(w: vec3f) -> vec3f {
-  return (w - CUBE_AT) / CUBE_METRES;
+  return toRoom(w - CUBE_AT) / CUBE_METRES;
 }
 `,
+  SHELL_TURN,
 );

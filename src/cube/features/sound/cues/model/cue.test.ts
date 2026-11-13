@@ -23,7 +23,6 @@ const CUES: readonly SoundCue[] = [
   { kind: 'step', strength: 0.6, footing: 'wood' },
   { kind: 'jump' },
   { kind: 'landing', speed: 0.9 },
-  { kind: 'lever' },
   { kind: 'pill' },
   { kind: 'swallow' },
   { kind: 'rung', limb: 'hand', ladder: 'aluminium' },
@@ -35,7 +34,6 @@ const CUES: readonly SoundCue[] = [
   { kind: 'breath', effort: 0.5 },
   { kind: 'grunt' },
   { kind: 'shrink' },
-  { kind: 'threshold' },
   ...ROOM_CUES.map((kind) => ({ kind, from: HERE, loud: 1, seed: 5 })),
 ];
 
@@ -148,7 +146,7 @@ describe('voicedOf', () => {
     );
     assert.equal(voicedOf(step, 1).playbackRate, 1);
     for (const cue of [
-      { kind: 'lever' },
+      { kind: 'pill' },
       { kind: 'shrink' },
       { kind: 'knock', from: HERE, loud: 1, seed: 5 },
     ] as const) {
