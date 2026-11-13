@@ -112,7 +112,9 @@ export const hemisphereFill = (sun: Vec3, up: 1 | -1): Rgb => {
       for (const c of [0, 1, 2] as const) sum[c] = (sum[c] ?? 0) + sky[c];
     }
   }
-  return rgb((c) => ((sum[c] ?? 0) * Math.PI * Math.PI) / (RINGS * SPOKES));
+  // The face shows the cosine-weighted mean radiance, and π of the scale's
+  // units is one of radiance per unit of sun irradiance.
+  return rgb((c) => ((sum[c] ?? 0) * Math.PI) / (RINGS * SPOKES));
 };
 
 const RING_LIFT = (4 * Math.PI) / 180;
