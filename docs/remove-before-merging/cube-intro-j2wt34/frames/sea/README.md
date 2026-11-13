@@ -13,3 +13,10 @@ from the sea's own stand before the shared renderer (sun at azimuth +8°).
   before sky's fix.
 - `from-forty-metres-up.webp` — c2db03a4, `--at 30,40,60 --yaw -31 --pitch -35`:
   no tile repeats in the water or the glitter from height.
+- `swash-at-the-feet.webp` — f8e1df6f,
+  `--at -19.5,1.75,19.5 --yaw 135 --pitch -30`: the lace drawn out along the
+  run-up and thinning to its edge, the shallows rippled, no line where the still
+  sea ends.
+- `standing-dry.webp` — f8e1df6f, `--at -15.2,2.05,15.2 --yaw 135 --pitch -8`:
+  the shore from dry sand; foam in the cube's shadow is lit by the sky alone and
+  reads blue.
