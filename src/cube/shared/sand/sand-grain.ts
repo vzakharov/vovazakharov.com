@@ -145,8 +145,10 @@ fn weedStrand(to: vec2f, lot: f32) -> Strand {
   let side = vec2f(-along.y, along.x);
   let reach = 0.012 + 0.02 * fract(lot * 41.3);
   let u = clamp(dot(to, along), -reach, reach);
-  let curl = (fract(lot * 17.9) - 0.5) * 60.0;
-  let v = dot(to, side) - curl * (u * u - reach * reach * 0.3);
+  // A bend one way and a kink the other, so no two lie in the same arc.
+  let curl = (fract(lot * 17.9) - 0.5) * 26.0;
+  let kink = (fract(lot * 29.3) - 0.5) * 1800.0;
+  let v = dot(to, side) - curl * (u * u - reach * reach * 0.3) - kink * u * u * u;
   let wide = (0.0005 + 0.0007 * fract(lot * 23.7)) * (0.2 + 0.8 * (1.0 - sq(u / reach)));
   return Strand(length(vec2f(dot(to, along) - u, v)), u / reach, v, side, wide);
 }
@@ -224,13 +226,13 @@ fn sandLitter(xz: vec2f, h: f32, px: f32, sun: vec3f) -> Litter {
       litter.cover = max(litter.cover, cover);
       // Lying on the sand, it lays its shadow beside itself, the longer the
       // lower the sun.
-      let toSun = normalize(sun.xz) * (2.0 * body.wide + 0.0008) * length(sun.xz) / sun.y;
+      let toSun = normalize(sun.xz) * min(2.0 * body.wide * length(sun.xz) / sun.y, 3.5 * body.wide + 0.001);
       var shade = 0.0;
       for (var step = 1.0; step <= 3.0; step += 1.0) {
         let thrown = weedStrand(to + toSun * step / 3.0, strand.w);
-        shade = max(shade, 1.0 - smoothstep(thrown.wide, thrown.wide + edge + 0.0004 * step, thrown.off));
+        shade = max(shade, 1.0 - smoothstep(thrown.wide, thrown.wide + edge + 0.0006 * step, thrown.off));
       }
-      litter.sun = min(litter.sun, 1.0 - 0.8 * shade * near * (1.0 - cover));
+      litter.sun = min(litter.sun, 1.0 - 0.6 * shade * near * (1.0 - cover));
     }
   }
   return litter;
