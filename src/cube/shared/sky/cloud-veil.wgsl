@@ -6,7 +6,8 @@
 import package::cube::shared::outside::outdoor_frame::frame;
 import package::cube::shared::outside::sun::{SUN_DIR, SKY_FILL, HORIZON_FILL};
 import super::clear_sky::{clearSky, sunThrough};
-import super::cloud_noise::{CLOUD_BASE, CLOUD_REACH, CLOUD_CELL, WIND_AXIS, WIND_SIDE, SUN_IN_FIELD, inField, cloudIn};
+import super::cloud_noise::{inField, cloudIn};
+import super::cloud_noise_numbers::{CLOUD_BASE, CLOUD_REACH, CLOUD_CELL, WIND_AXIS, WIND_SIDE, SUN_IN_FIELD};
 import super::cloud_veil_numbers::{CLOUD_GLANCE_HEIGHT, CLOUD_GLANCE_THICK};
 import super::clouds::{airBetween, reachOf, cloudBody, cloudPhase, cloudLight};
 

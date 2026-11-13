@@ -1,10 +1,13 @@
 import { f32, vecf, wgsl } from '../shader/wgsl';
 import { ATMOSPHERE } from './atmosphere';
 import { CLOUD_TILE, CLOUDS } from './cloud-field';
-import { cellsPerKm, CLOUD_NOISE } from './cloud-noise';
+import { CLOUD_NOISE } from './cloud-noise.shader';
 import { SUN_GLOW } from './sun-glow.shader';
 
 const { rayleigh, mie } = ATMOSPHERE;
+
+/** Lattice cells to a kilometre, for a lattice of `cells` to the tile. */
+const cellsPerKm = (cells: number): string => f32(cells / CLOUD_TILE);
 
 /**
  * The most the billows add to a cloud's body or take from it, in radii: what

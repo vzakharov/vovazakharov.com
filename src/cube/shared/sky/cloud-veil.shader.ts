@@ -5,7 +5,8 @@ import { OUTDOOR_FRAME } from '../outside/outdoor-frame';
 import { SUN } from '../outside/sun';
 import { wgsl } from '../shader/wgsl';
 import { CLEAR_SKY } from './clear-sky.shader';
-import { CLOUD_NOISE } from './cloud-noise';
+import { CLOUD_NOISE } from './cloud-noise.shader';
+import { CLOUD_NOISE_NUMBERS } from './cloud-noise-numbers';
 import { CLOUD_VEIL_NUMBERS } from './cloud-veil-numbers';
 import { CLOUDS_WGSL } from './clouds';
 
@@ -83,6 +84,7 @@ fn cloudVeil(dir: vec3f) -> vec4f {
   SUN,
   CLEAR_SKY,
   CLOUD_NOISE,
+  CLOUD_NOISE_NUMBERS,
   CLOUD_VEIL_NUMBERS,
   CLOUDS_WGSL,
 );
