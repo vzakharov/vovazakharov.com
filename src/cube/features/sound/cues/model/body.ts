@@ -1,4 +1,4 @@
-import type { Footing } from '@/cube/shared/lib/acoustics';
+import type { Underfoot } from '@/cube/shared/lib/acoustics';
 import { clamp01 } from '@/cube/shared/lib/ease';
 
 import {
@@ -118,7 +118,7 @@ const WEIGHT = { hz: 48, dies: 0.18, force: 0.9 };
  */
 export function landing(
   speed: number,
-  footing: Footing,
+  footing: Underfoot,
   seed: number,
   rate: number,
 ): Float32Array<ArrayBuffer> {

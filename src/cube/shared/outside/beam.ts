@@ -3,7 +3,8 @@ import { moved, scaled, type Vec3 } from '../lib/vec';
 import { DOORWAY } from './frame';
 
 /**
- * A patch of the room the doorway's beam lands on, in metres of the room:
+ * A patch of the room the doorway's beam lands on, in metres of the shell's
+ * frame — the doorway in the east face, the sun where the world has it:
  * its middle, the way it faces, and `flux`, the square metres of the beam's
  * cross-section it takes — what it throws back is that times the sun's light
  * and its own colour.
@@ -17,7 +18,7 @@ export type SunPatch = Facing & { middle: Vec3; flux: number };
 const SIDE = ROOM_METRES;
 const HEIGHT = ROOM_METRES * CEILING_HEIGHT;
 
-/** The east wall's inner face, where the beam enters. */
+/** The inner face of the wall behind the shell's east face, where the beam enters. */
 export const DOOR_INNER = SIDE * (1 - WALL_HALF);
 
 /** How many rays cross the doorway along it and up it. */

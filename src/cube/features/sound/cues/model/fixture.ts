@@ -1,4 +1,4 @@
-import type { Footing } from '@/cube/shared/lib/acoustics';
+import type { Underfoot } from '@/cube/shared/lib/acoustics';
 
 import {
   chance,
@@ -149,7 +149,7 @@ const STEP_EVERY = 0.52;
  * one before, their rhythm a person's rather than a clock's.
  */
 export function stepsAway(
-  footing: Footing,
+  footing: Underfoot,
   seed: number,
   rate: number,
 ): Float32Array<ArrayBuffer> {

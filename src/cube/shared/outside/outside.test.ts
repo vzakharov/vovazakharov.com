@@ -2,14 +2,16 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { ROOM_HEIGHT } from '../lib/room-shape';
-import type { Vec3 } from '../lib/vec';
+import { moved, type Vec3 } from '../lib/vec';
 import { assemble, f32 } from '../lib/wgsl';
-import { CUBE_SHADOW, cubeShadow } from './cube-shadow';
+import { bodyShadow, CUBE_SHADOW, cubeShadow } from './cube-shadow';
 import {
   CUBE_AT,
   CUBE_BOX,
   CUBE_METRES,
+  DOORWAY,
   DOORWAY_BOX,
+  ROOM_DOORWAY,
   toCube,
   toWorld,
   WAKE_AT,
@@ -23,6 +25,14 @@ import {
 } from './outdoor-frame';
 import { SKY } from './sky';
 import { SUN, SUN_DIR } from './sun';
+import {
+  QUARTER_TURNS,
+  toRoom,
+  toShell,
+  turnedToShell,
+  yawToRoom,
+  yawToShell,
+} from './turn';
 
 const close = (a: number, b: number, within = 1e-9): void => {
   assert.ok(Math.abs(a - b) <= within, `${String(a)} is not ${String(b)}`);
@@ -46,7 +56,41 @@ describe('the world frame', () => {
     for (const [axis, value] of toCube(toWorld(c)).entries()) {
       close(value, c[axis] ?? Number.NaN);
     }
-    assert.deepEqual(toWorld([0, 0, 0]), CUBE_AT);
+  });
+
+  it("turns the interior in its shell about the cube's middle, the shell staying the world's", () => {
+    const middle = toWorld([0.5, 0, 0.5]);
+    close(middle[0], CUBE_AT[0] + CUBE_METRES / 2);
+    close(middle[2], CUBE_AT[2] + CUBE_METRES / 2);
+    // A corner of the room is a corner of the shell, and up is up.
+    const corner = toWorld([0, 1, 0]);
+    close(Math.abs(corner[0] - middle[0]), CUBE_METRES / 2);
+    close(Math.abs(corner[2] - middle[2]), CUBE_METRES / 2);
+    close(corner[1], CUBE_AT[1] + CUBE_METRES);
+    for (const turn of QUARTER_TURNS) {
+      const there = toRoom(toShell([0.2, 0.3, 0.9], 1, turn), 1, turn);
+      for (const [axis, value] of [0.2, 0.3, 0.9].entries()) {
+        close(there[axis] ?? Number.NaN, value);
+      }
+      close(yawToRoom(yawToShell(0.4, turn), turn), 0.4);
+    }
+    // One quarter counter-clockwise from above: the room's east is north.
+    assert.deepEqual(turnedToShell([1, 0, 0], 1), [0, 0, -1]);
+    assert.deepEqual(toShell([1, 0, 1], 1, 1), [1, 0, 0]);
+    close(Math.cos(yawToShell(0, 1)), 0);
+    close(Math.sin(yawToShell(0, 1)), -1);
+  });
+
+  it("opens the doorway in the wall of floor 1 behind the shell's east face", () => {
+    const { wall, from, to } = ROOM_DOORWAY;
+    close(to - from, DOORWAY.to - DOORWAY.from);
+    const along = wall === 'north' || wall === 'south';
+    const across = wall === 'east' || wall === 'south' ? CUBE_METRES : 0;
+    const middle = (from + to) / 2;
+    const inRoom: Vec3 = along ? [middle, 0, across] : [across, 0, middle];
+    const [x, , z] = toShell(inRoom, CUBE_METRES);
+    close(x, CUBE_METRES);
+    close(z, (DOORWAY.from + DOORWAY.to) / 2);
   });
 
   it('opens the doorway in the east face, by the north-east corner', () => {
@@ -57,13 +101,14 @@ describe('the world frame', () => {
     close(DOORWAY_BOX.max[1] - DOORWAY_BOX.min[1], 2.1);
   });
 
-  it('wakes the player on the waterline about 30 m south-west', () => {
+  it('wakes the player on dry sand south-west, above any swash', () => {
     const [x, y, z] = WAKE_AT;
-    assert.equal(y, 0);
-    close(islandHeight([x, z]), 0, 1e-6);
+    close(islandHeight([x, z]), y, 1e-6);
+    assert.ok(y >= 0.32 && y < 0.4, String(y));
     assert.ok(x < 0 && z > 0);
+    close(x, -z);
     const away = Math.hypot(x, z);
-    assert.ok(away > 25 && away < 40, String(away));
+    assert.ok(away > 22 && away < 25, String(away));
   });
 
   it('gives the shader the numbers the script reads', () => {
@@ -148,7 +193,7 @@ describe('packOutdoorFrame', () => {
     assert.equal(data.length, OUTDOOR_FRAME_FLOATS);
     assert.deepEqual(
       [...data.subarray(32)],
-      [3, 4, 5, 1, 6, 7, 8, 0, 9, 10, 11, 12, 1, 0, 0, 0],
+      [3, 4, 5, 1, 6, 7, 8, 0, 9, 10, 11, 12, 1, 0, 0, 0, 0, 0, 0, 0],
     );
     assert.deepEqual([data[0], data[15], data[16], data[31]], [1, 1, 2, 2]);
     const gone = packOutdoorFrame({
@@ -157,12 +202,16 @@ describe('packOutdoorFrame', () => {
       eye: [0, 0, 0],
       sun: [0, 0, 1],
       ladderGone: true,
+      body: { foot: [1, 2, 3], headAbove: 1.5 },
       seconds: 0,
       hour: 0,
       width: 1,
       height: 1,
     });
-    assert.equal(gone[OUTDOOR_FRAME_FLOATS - 4], 0);
+    assert.deepEqual(
+      [...gone.subarray(OUTDOOR_FRAME_FLOATS - 8)],
+      [0, 0, 0, 0, 1, 2, 3, 1.5],
+    );
     const members = [...OUTDOOR_FRAME.listing.matchAll(/^ {2}(\w+): /gm)].map(
       ([, name]) => name,
     );
@@ -173,6 +222,38 @@ describe('packOutdoorFrame', () => {
       'sun',
       'clock',
       'state',
+      'body',
     ]);
+  });
+});
+
+describe('bodyShadow', () => {
+  // South-east of the cube, whose own shadow runs north-west of here.
+  const foot: Vec3 = [12, 1, 18];
+  const body = { foot, headAbove: 1.75 };
+  const chest = moved(foot, [0, 1, 0], 1);
+  /** `metres` down the sun's ray from the body's chest, `aside` metres off it to the south. */
+  const behind = (metres: number, aside = 0): Vec3 =>
+    moved(moved(chest, SUN_DIR, -metres), [0, 0, 1], aside);
+
+  it('is dark behind the body and light beside it and before it', () => {
+    assert.equal(bodyShadow(behind(1), body), 0);
+    assert.equal(bodyShadow(behind(1, 0.6), body), 1);
+    assert.equal(bodyShadow(behind(-1), body), 1);
+  });
+
+  it('is no taller than the body', () => {
+    assert.equal(bodyShadow(moved(behind(1), [0, 1, 0], 1.2), body), 1);
+  });
+
+  it('thins as it runs, the sun having a width', () => {
+    const near = bodyShadow(behind(2), body);
+    const far = bodyShadow(behind(60), body);
+    assert.ok(near < 0.05 && far > 0.3 && far < 1, `${near} then ${far}`);
+  });
+
+  it("is cast by no body of no height, and is no part of the cube's", () => {
+    assert.equal(bodyShadow(behind(1), { foot, headAbove: 0 }), 1);
+    assert.equal(cubeShadow(behind(1)), 1);
   });
 });

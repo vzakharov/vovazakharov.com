@@ -76,6 +76,19 @@ describe('samplesOf', () => {
     );
   });
 
+  it('lands the doorway’s 3.6 m drop on sand as the hardest landing, lighter and higher at half height', () => {
+    // 3.6 m takes v = √(2·9.81·3.6) ≈ 8.4 m/s, 1.7 room sides a second.
+    const fell = { kind: 'landing', speed: 1.7 } as const;
+    assert.deepEqual(
+      samplesOf(fell, 'sand', 3, TEST_RATE),
+      samplesOf({ kind: 'landing', speed: 1 }, 'sand', 3, TEST_RATE),
+    );
+    const whole = voicedOf(fell, 1);
+    const half = voicedOf(fell, 0.5);
+    assert.ok(half.loudness < whole.loudness);
+    assert.ok(half.playbackRate > whole.playbackRate);
+  });
+
   it('shrinks for the seconds it says', () => {
     assert.equal(
       samplesOf({ kind: 'shrink' }, 'tile', 3, TEST_RATE).length,

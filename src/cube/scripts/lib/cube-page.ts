@@ -3,10 +3,12 @@ import path from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { z } from 'zod';
 
-import type { InRoomOf, Outside, Pose, Quad } from '@/cube/entities/world';
+import type { Outside, Pose } from '@/cube/entities/world';
 import {
   type CubePlayHook,
+  type InsideSet,
   type OutsideLens,
+  type OutsideSet,
   PLAY_HOOK,
   PLAY_QUERY,
 } from '@/cube/pages/cube/index.node-safe';
@@ -64,14 +66,14 @@ export type CubePage = {
   shoot: (file: string, ...staged: Staged) => Promise<void>;
   /**
    * Puts the eye outside the cube at `eye`, seeing through `lens` — the
-   * page's own where none is given — with `moving` drawn, each quad in the
-   * frame of floor 1's room, and saves the frame as `file`.
+   * page's own where none is given — with `among` set, and saves the frame
+   * as `file`.
    */
   shootOutside: (
     file: string,
     eye: Outside,
     lens?: OutsideLens,
-    moving?: readonly Quad[],
+    among?: OutsideSet,
   ) => Promise<void>;
   /** Stops the page's clock at `ms` since the epoch. */
   setClock: (ms: number) => Promise<void>;
@@ -86,12 +88,8 @@ export type CubePage = {
   ) => Promise<void>;
 };
 
-/** What a frame is staged with: the eye's pose, what moves before it, the pill off its shelf. */
-export type Staged = readonly [
-  pose: Pose,
-  moving?: readonly Quad[],
-  taken?: InRoomOf | null,
-];
+/** What a frame is staged with: the eye's pose, and what is set around it. */
+export type Staged = readonly [pose: Pose, among?: InsideSet];
 
 /** One frame of a sheet: what it is staged with, and the pill's line shown over it. */
 export type SheetFrame = {
@@ -153,8 +151,8 @@ export async function withCubePage(
       await tab.evaluate(set, z.unknown(), { awaitPromise: true });
     };
     /** The hook call that stages a frame, as page source. */
-    const stage = (...[pose, moving = [], taken = null]: Staged): string =>
-      call('setPose', source(pose), source(moving), source(taken));
+    const stage = (...[pose, among = {}]: Staged): string =>
+      call('setPose', source(pose), source(among));
     const save = (file: string, data: string): void => {
       fs.mkdirSync(path.dirname(file), { recursive: true });
       fs.writeFileSync(file, Buffer.from(data, 'base64'));
@@ -171,14 +169,14 @@ export async function withCubePage(
     };
     await script({
       shoot: async (file, ...staged) => shot(file, stage(...staged)),
-      shootOutside: async (file, eye, lens, moving = []) =>
+      shootOutside: async (file, eye, lens, among = {}) =>
         shot(
           file,
           call(
             'setEye',
             source(eye),
             lens ? source(lens) : 'undefined',
-            source(moving),
+            source(among),
           ),
         ),
       sheet: async (file, frames, columns) => {

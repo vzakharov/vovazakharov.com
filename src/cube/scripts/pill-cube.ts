@@ -121,7 +121,10 @@ function acted(
   const shots: SheetFrame[] = [];
   const shoot = (player: Player) => {
     shots.push({
-      staged: [player.pose, handsOf(player), takenOf(player)],
+      staged: [
+        player.pose,
+        { moving: handsOf(player), taken: takenOf(player) },
+      ],
       prompt: isAsking(player) ? 'ask' : isStanding(player) ? 'take' : null,
     });
   };

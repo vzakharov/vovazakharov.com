@@ -1,0 +1,209 @@
+{
+  "total": {
+    "inputTokens": 10534,
+    "cacheWrite5mTokens": 2024,
+    "cacheWrite1hTokens": 730766,
+    "cacheReadTokens": 39124713,
+    "outputTokens": 235003,
+    "thinkingTokens": 98288,
+    "responses": 193,
+    "costUsd": 29.004861400000006
+  },
+  "estimate": {
+    "at": "2026-11-13T10:33:51.952Z",
+    "subjectLine": "feat: the island's sky — fitted air, marched clouds, skyRadiance",
+    "parts": [
+      {
+        "hours": 70.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "A physical atmosphere fitted to a closed form, a cloud march inside a 3 ms budget and a lod ladder other packages sample take someone who has shipped a sky before."
+      },
+      {
+        "hours": 30.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "Cloud and cirrus shapes are judged against photographs over many rounds; that eye is a different person's from the one who writes the march."
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-13T09:16:26.856Z",
+    "contextTokens": 124290,
+    "spend": {
+      "inputTokens": 6,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 45297,
+      "cacheReadTokens": 240884,
+      "outputTokens": 1584,
+      "thinkingTokens": 250,
+      "responses": 3,
+      "costUsd": 0.8363368
+    }
+  },
+  "sessionId": "8a30e772-596d-5cbc-a99d-d66ee36c4aaf",
+  "branch": "claude/cube-intro-sky",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You take over the **sky** package of the cube's intro from a session that a usage limit stopped; you are on its branch, `claude/cube-intro-sky`, and push only t…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBFtfJ3LB6ENrHeTER",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-13T09:16:13.273Z",
+  "lastResponseAt": "2026-11-13T11:10:36.310Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": 18.6412124,
+  "ownTurns": {
+    "inputTokens": 373,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 730766,
+    "cacheReadTokens": 38524476,
+    "outputTokens": 216831,
+    "thinkingTokens": 98288,
+    "responses": 190,
+    "costUsd": 28.073375200000008
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 9281,
+      "cacheWrite5mTokens": 2024,
+      "cacheWrite1hTokens": 730766,
+      "cacheReadTokens": 39124713,
+      "outputTokens": 234824,
+      "thinkingTokens": 98288,
+      "responses": 192,
+      "costUsd": 29.004646600000008
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1253,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 179,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.00021480000000000002
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-13T09:38:41.687Z",
+      "trigger": "auto",
+      "compactedFrom": 307348,
+      "summaryChars": 19676,
+      "reorientation": {
+        "endedBy": "Write",
+        "endedOn": "src/cube/shared/sky/sky-glance.ts",
+        "endedAt": "2026-11-13T10:09:48.413Z",
+        "contextTokens": 248954,
+        "spend": {
+          "inputTokens": 70,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 188537,
+          "cacheReadTokens": 5977374,
+          "outputTokens": 32866,
+          "thinkingTokens": 18496,
+          "responses": 35,
+          "costUsd": 5.5272668000000005
+        }
+      },
+      "rereads": {
+        "calls": 12,
+        "byTool": {
+          "Read": 11,
+          "Bash": 1
+        },
+        "estimatedTokens": 16315,
+        "estimatedUsd": 0.3610778
+      },
+      "billedUsd": 0.45444080000000003
+    },
+    {
+      "at": "2026-11-13T10:29:34.777Z",
+      "trigger": "auto",
+      "compactedFrom": 305376,
+      "summaryChars": 18820,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/cube/shared/sky/atmosphere.ts",
+        "endedAt": "2026-11-13T10:31:52.960Z",
+        "contextTokens": 138970,
+        "spend": {
+          "inputTokens": 23,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 84097,
+          "cacheReadTokens": 1326375,
+          "outputTokens": 6443,
+          "thinkingTokens": 1623,
+          "responses": 11,
+          "costUsd": 1.868731
+        }
+      },
+      "rereads": {
+        "calls": 5,
+        "byTool": {
+          "Read": 5
+        },
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.47683060000000005
+    }
+  ],
+  "telemetry": {
+    "events": 192,
+    "matched": 189,
+    "matchedTableUsd": 27.928174400000007,
+    "matchedEventUsd": 27.928174400000007,
+    "unseen": {
+      "compact": {
+        "inputTokens": 8908,
+        "cacheWrite5mTokens": 2024,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 600237,
+        "outputTokens": 17993,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.9312714000000001
+      },
+      "generate_session_title": {
+        "inputTokens": 1253,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 179,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.00021480000000000002
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 35,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 2643,
+    ".json": 32,
+    ".yaml": 48,
+    ".ts": 13131,
+    ".tsx": 89,
+    ".scss": 15
+  }
+}

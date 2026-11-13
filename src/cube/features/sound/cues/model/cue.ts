@@ -1,7 +1,6 @@
 import type { Seeded } from '@/kernel/shared/typings';
 
 import type {
-  Footing,
   Ladder,
   Limb,
   Loud,
@@ -18,10 +17,14 @@ import { rung } from './ladder';
 import { splash } from './splash';
 import { creak, mew, pop, rustle, scrape } from './stirs';
 
-/** Where a sound is for an ear: how far to its right, and how far off. */
-type Bearing = {
+/** How far to an ear's right a sound is. */
+export type Sided = {
   /** −1 dead left to 1 dead right; 0 ahead, behind or at the ear. */
   rightward: number;
+};
+
+/** Where a sound is for an ear: how far to its right, and how far off. */
+type Bearing = Sided & {
   /** Room sides off. */
   roomsAway: number;
 };
@@ -77,7 +80,7 @@ export const SHRINK_SECONDS = 3;
  */
 export function samplesOf(
   cue: SoundCue,
-  footing: Footing,
+  footing: Underfoot,
   seed: number,
   rate: number,
 ): Float32Array<ArrayBuffer> {

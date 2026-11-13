@@ -1,5 +1,5 @@
 import { wgsl } from '../lib/wgsl';
-import { SKY, SUN, WATER_LEVEL } from '../outside';
+import { SHORE_WETNESS, SKY, SUN } from '../outside';
 import { DRY_SAND, SAND_COLOUR } from './sand-colour';
 import { SAND_GRAIN } from './sand-grain';
 import { RIPPLES, SAND_RELIEF, WIND } from './sand-relief';
@@ -8,14 +8,6 @@ import { RIPPLES, SAND_RELIEF, WIND } from './sand-relief';
  * Sand as a material: its colour dry and wet, how a low sun and the sky light
  * it, and how wet it is from where the sea has lately been.
  */
-
-/** Seconds ago at which the sea's reach is asked, densest over the last swash. */
-const AGES = [
-  0, 0.6, 1.2, 2, 3, 4, 5.2, 6.5, 8, 9.5, 11, 13, 16, 20, 25, 31, 38, 46,
-] as const;
-
-/** Seconds over which sand the water has left goes from soaked to dry. */
-const DRYING = 28;
 
 /** Metres over still water above which the sea is never asked: always dry. */
 export const SWASH_TOP = 1.1;
@@ -29,22 +21,14 @@ export const SAND_MATERIAL = wgsl(
   /* wgsl */ `
 /// How wet the sand is at \`xz\`, \`h\` metres over still water, at \`t\` seconds
 /// into the hour: x how damp (1 soaked), y how much of a film of water still
-/// stands on it (1 a mirror). Both follow where \`waterLevel\` has lately
-/// reached and nothing else, so two eyes at one moment see one beach.
+/// stands on it (1 a mirror). The sea says where its sheets have lately lain;
+/// the sand by the still waterline is damp whatever the waves do.
 fn sandWetness(xz: vec2f, h: f32, t: f32) -> vec2f {
   if (h > ${SWASH_TOP}) {
     return vec2f(0.0);
   }
-  let ages = array<f32, ${AGES.length}>(${AGES.map((age) => age.toFixed(1)).join(', ')});
-  var damp = 1.0 - smoothstep(0.02, 0.2, h);
-  var film = 0.0;
-  for (var index = 0; index < ${AGES.length}; index++) {
-    let age = ages[index];
-    let reached = smoothstep(-0.004, 0.006, waterLevel(xz, t - age) - h);
-    damp = max(damp, reached * exp(-age / ${DRYING}.0));
-    film = max(film, reached * (1.0 - smoothstep(0.4, 5.0, age)));
-  }
-  return vec2f(damp, film);
+  let shore = shoreWetness(xz, t);
+  return vec2f(max(shore.x, 1.0 - smoothstep(0.02, 0.2, h)), shore.y);
 }
 
 /// Sun on a rough, dusty surface that throws light back the way it came:
@@ -53,9 +37,10 @@ fn sandDiffuse(normal: vec3f, sun: vec3f, view: vec3f) -> f32 {
   let toSun = max(dot(normal, sun), 0.0);
   let toEye = max(dot(normal, view), 0.0);
   let around = dot(sun, view) - toSun * toEye;
-  let spread = select(1.0, max(toSun, toEye), around > 0.0);
+  // At a low sun both angles graze, where the bare ratio runs away.
+  let spread = select(1.0, max(max(toSun, toEye), 0.35), around > 0.0);
   let back = 0.3 * pow(max(dot(sun, view), 0.0), 6.0);
-  return toSun * (0.71 + 0.52 * around / max(spread, 1e-3) + back);
+  return toSun * (max(0.75 + 0.35 * around / spread, 0.5) + back);
 }
 
 /// The sky's light on a face of the sand.
@@ -64,7 +49,7 @@ fn sandFill(normal: vec3f, sun: vec3f) -> vec3f {
   // stays the lighter one in shadow too; the rest of it, overhead, is bluer
   // than its mean.
   let sunward = max(dot(normal, normalize(vec3f(sun.x, 0.35, sun.z))), 0.0);
-  return SKY_FILL * ((0.42 + 0.3 * normal.y) * vec3f(0.9, 0.96, 1.2) + 0.4 * vec3f(1.3, 0.95, 0.62) * sunward);
+  return SKY_FILL * ((0.34 + 0.3 * normal.y) * vec3f(0.9, 0.96, 1.2) + 0.5 * vec3f(1.3, 0.95, 0.62) * sunward);
 }
 
 /// What one pixel of sand has to be lit with.
@@ -123,7 +108,7 @@ fn sandLight(point: SandPoint, sun: vec3f) -> vec3f {
 
   let normal = normalize(vec3f(-slope.x, 1.0, -slope.y));
   let direct = SUN_LIGHT * (point.sun * rippleSun * litter.sun);
-  let hollow = 1.0 - 0.3 * stand * (1.0 - crest);
+  let hollow = 1.0 - 0.16 * stand * (1.0 - crest);
   // Sunlit sand lights the shaded faces beside it, warm.
   let bounce = SUN_LIGHT * (point.sun * sun.y * 0.3) * vec3f(${DRY_SAND.join(', ')}) * (1.0 - 0.5 * normal.y);
   var light = albedo * (direct * sandDiffuse(normal, sun, point.view) + (sandFill(normal, sun) + bounce) * hollow);
@@ -135,10 +120,17 @@ fn sandLight(point: SandPoint, sun: vec3f) -> vec3f {
   let sheenLobe = 0.09 / (${Math.PI} * pow(toHalf * toHalf * (0.09 - 1.0) + 1.0, 2.0));
   let grazing = pow(1.0 - max(dot(point.view, half), 0.0), 5.0);
   light += direct * dry * max(dot(normal, sun), 0.0) * (0.04 + 0.96 * grazing) * sheenLobe * 0.6;
-  // Glints are a thing of the sand at one's feet: further off they are noise.
-  let glints = 1.0 - smoothstep(0.003, 0.012, point.px);
+  // Quartz lets a low sun through: seen against it, dry sand glows the sun's
+  // colour, most where the eye grazes the ground along the sun's bearing.
+  let sunward = max(-dot(normalize(point.view.xz), normalize(sun.xz)), 0.0);
+  let through = pow(sunward, 1.5) * pow(1.0 - max(point.view.y, 0.0), 2.0);
+  light += direct * vec3f(0.8, 0.78, 0.5) * (0.17 * dry * through * (0.4 + 0.6 * crest));
+  // Glints are a thing of the sand at one's feet and of the sun's own
+  // bearing: further off, or to the side, a pixel holds only their average.
+  let glints = (1.0 - smoothstep(0.0035, 0.009, point.px)) * smoothstep(0.55, 0.9, sunward);
   if (glints > 0.0) {
-    light += direct * (0.2 + 0.8 * dry) * 3.0 * glints * sandGlint(xz, normal, half, point.px);
+    let white = mix(direct, vec3f(dot(direct, vec3f(0.3, 0.5, 0.2))), 0.6);
+    light += white * dry * dry * 3.0 * glints * sandGlint(xz, normal, half, point.px);
   }
   light += direct * litter.cover * litter.gloss * pow(max(dot(normal, half), 0.0), 60.0);
 
@@ -147,24 +139,29 @@ fn sandLight(point: SandPoint, sun: vec3f) -> vec3f {
     let level = point.slope + 0.3 * hummocks.slope;
     let flat = normalize(vec3f(-level.x, 1.0, -level.y));
     let lying = normalize(mix(normal, flat, 0.55 + 0.45 * film));
-    let facing = max(dot(lying, point.view), 0.0);
+    // How much it mirrors goes by the lie of the sand, not of each grain.
+    let facing = max(dot(flat, point.view), 0.0);
     let fresnel = 0.02 + 0.98 * pow(1.0 - facing, 5.0);
-    let rough = mix(0.2, 0.04, film);
-    let mirrored = skyRadiance(reflect(-point.view, lying), 6.0 * rough);
+    // Even under a film the grains show through it, so the sun's mirror
+    // image is a broad path of glare and not a disc.
+    let rough = mix(0.24, 0.1, film);
+    // Seen at a graze, the faces that would mirror the ground hide behind
+    // their neighbours: what shows is the sky just over the horizon.
+    let bounced = reflect(-point.view, lying);
+    let mirrored = skyRadiance(normalize(vec3f(bounced.x, max(bounced.y, 0.04), bounced.z)), 6.0 * rough);
     let a2 = rough * rough * rough * rough;
     let nh = max(dot(lying, half), 0.0);
     let lobe = a2 / (${Math.PI} * pow(nh * nh * (a2 - 1.0) + 1.0, 2.0));
     let glare = min(direct * ${Math.PI / 4} * lobe / max(facing, 0.05), vec3f(60.0));
-    let sheen = fresnel * mix(0.7 * damp * damp, 1.0, film);
-    light = mix(light, mirrored, sheen) + sheen * glare * max(dot(lying, sun), 0.0);
-  }
+    let sheen = fresnel * mix(0.9 * damp, 1.0, film);
+    light = mix(light, mirrored, sheen) + sheen * glare * max(dot(lying, sun), 0.0);  }
   return light;
 }
 `,
   SAND_RELIEF,
   SAND_GRAIN,
   SAND_COLOUR,
-  WATER_LEVEL,
+  SHORE_WETNESS,
   SUN,
   SKY,
 );

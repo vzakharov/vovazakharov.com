@@ -14,6 +14,7 @@
     "outside:cube": "scripts/in-site.sh vova tsx src/cube/scripts/outside-cube.ts",
     "gallery:cube": "scripts/in-site.sh vova tsx src/cube/scripts/gallery-cube.ts",
     "voice:cube": "tsx src/cube/scripts/voice-cube.ts",
+    "sound:cube": "tsx src/cube/scripts/sound-cube.ts",
     "play:island": "tsx src/island/scripts/play-island.ts",
     "play:mushrooms": "tsx src/mushrooms/scripts/play-mushrooms.ts",
     "sweep:mushrooms": "tsx src/mushrooms/scripts/sweep-mushrooms.ts",

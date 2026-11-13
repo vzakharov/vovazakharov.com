@@ -7,11 +7,12 @@ import {
   filterOf,
   noiseOf,
   sampled,
+  type Struck,
   swell,
 } from '../../dsp';
 
-/** A bubble of air under water: when it closes, how high it sings, how loud. */
-type Bubble = { at: number; hz: number; force: number };
+/** A bubble of air under water, and the second of the splash it closes at. */
+type Bubble = Struck & { closes: number };
 
 /** Seconds a bubble sings for. */
 const BUBBLE_DIES = 0.045;
@@ -34,9 +35,10 @@ export function splash(
   const bubbles: readonly Bubble[] = Array.from(
     { length: Math.round(4 + 14 * hard) },
     () => ({
-      at: 0.03 + (seconds - 0.12) * chance(noise) ** 1.6,
+      closes: 0.03 + (seconds - 0.12) * chance(noise) ** 1.6,
       hz: (520 + 2400 * chance(noise) ** 2) * (1.3 - 0.5 * hard),
       force: 0.12 + 0.3 * chance(noise),
+      dies: BUBBLE_DIES,
     }),
   );
   const slap = filterOf('low', rate);
@@ -53,13 +55,12 @@ export function splash(
       dying(t, seconds * 1.4);
     const fell = 0.35 * spray(noise(), 4200, 0.7) * swell((x - 0.15) / 0.85);
     let sang = 0;
-    for (const { at, hz, force } of bubbles) {
-      const since = t - at;
-      if (since < 0 || since > 2 * BUBBLE_DIES) continue;
+    for (const { closes, hz, force, dies } of bubbles) {
+      const since = t - closes;
+      if (since < 0 || since > 2 * dies) continue;
       // A closing bubble's pitch climbs as it shrinks.
       const rising = hz * (1 + 4 * since);
-      sang +=
-        force * Math.sin(CYCLE * rising * since) * dying(since, BUBBLE_DIES);
+      sang += force * Math.sin(CYCLE * rising * since) * dying(since, dies);
     }
     return (0.3 + 0.7 * hard) * (hit + thrown + fell + sang);
   });

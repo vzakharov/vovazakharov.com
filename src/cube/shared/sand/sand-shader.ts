@@ -72,7 +72,9 @@ fn fragmentMain(in: SandVertex) -> Scene {
   point.view = toEye / far;
   point.px = sqrt(length(acrossX) * length(acrossY));
   point.alongWind = abs(dot(acrossX, wind)) + abs(dot(acrossY, wind));
-  point.sun = cubeShadow(in.at);
+  // The shadow's edge rides the hummocks the mesh is too coarse to carry.
+  let lifted = in.shape.x + sandHummocks(in.at.xz, in.shape.x).height;
+  point.sun = cubeShadow(vec3f(in.at.x, max(in.at.y, lifted), in.at.z));
   return lit(aerial(sandLight(point, frame.sun.xyz), -point.view, far), far);
 }
 `,

@@ -2,24 +2,32 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
-import { DOORWAY } from '@/cube/shared/outside';
+import { DOORWAY, toRoom, yawToRoom } from '@/cube/shared/outside';
 import type { Outside, Pose } from '@/cube/entities/world';
 
 import { adapted, lensAdapted, settled } from './adaptation';
 
 const DOORWAY_V = (DOORWAY.from + DOORWAY.to) / 2 / ROOM_METRES;
 
-const within = (u: number, v: number, yaw: number, n = 1): Pose => ({
-  n,
-  x: 0n,
-  y: 0n,
-  u,
-  v,
-  eyeAbove: 0.32,
-  scale: 1,
-  yaw,
-  elevation: 0,
-});
+/**
+ * A pose told as the shell has it — `east` and `south` of the cube's
+ * north-west corner, the doorway in the east face, yaw 0 looking out of it —
+ * in the room, which is turned inside the shell.
+ */
+function within(east: number, south: number, yaw: number, n = 1): Pose {
+  const [u, , v] = toRoom([east, 0, south]);
+  return {
+    n,
+    x: 0n,
+    y: 0n,
+    u,
+    v,
+    eyeAbove: 0.32,
+    scale: 1,
+    yaw: yawToRoom(yaw),
+    elevation: 0,
+  };
+}
 
 const ASHORE: Outside = { eye: [-20, 1.6, 20], yaw: 0, elevation: 0, roll: 0 };
 
@@ -34,11 +42,13 @@ describe("the eye's adaptation", () => {
     assert.equal(settled(within(0.97, DOORWAY_V, 0, 2)), 1);
   });
 
-  it('keeps the doorway a glare from across the room', () => {
-    const far = settled(within(0.1, 0.7, Math.atan2(DOORWAY_V - 0.7, 0.9)));
-    const near = settled(within(0.7, DOORWAY_V, 0));
-    assert.ok(far > 0.7, String(far));
-    assert.ok(near < far, `${String(near)} against ${String(far)}`);
+  it('goes by what the eye looks at, not by where it stands', () => {
+    const toDoorway = Math.atan2(DOORWAY_V - 0.7, 0.9);
+    const across = settled(within(0.1, 0.7, toDoorway));
+    assert.ok(across < 0.3, String(across));
+    assert.equal(settled(within(0.1, 0.7, toDoorway + Math.PI / 2)), 1);
+    const beside = settled(within(0.9, DOORWAY_V, Math.PI / 2));
+    assert.ok(beside > 0.9, String(beside));
   });
 
   it('gets used to the light faster than to the dark', () => {

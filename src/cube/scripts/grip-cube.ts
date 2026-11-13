@@ -81,6 +81,8 @@ const EYES: ReadonlyArray<readonly [string, Vec3]> = [
 
 await withCubePage(async ({ shoot }) =>
   inTurn(EYES, async ([name, off]) =>
-    shoot(path.join(FRAMES, `${name}.png`), eyeAt(off), [...rung, ...hands]),
+    shoot(path.join(FRAMES, `${name}.png`), eyeAt(off), {
+      moving: [...rung, ...hands],
+    }),
   ),
 );
