@@ -10,20 +10,20 @@
     "costUsd": 18.088922800000002
   },
   "estimate": {
-    "at": "2026-11-12T23:12:03.902Z",
-    "subjectLine": "feat: the island's sky — atmosphere, clouds, sun and the light they give",
+    "at": "2026-11-13T12:51:38.086Z",
+    "subjectLine": "feat: the sky's first pass — an atmosphere model and a cloud march",
     "parts": [
       {
-        "hours": 60.0,
+        "hours": 12.0,
         "grade": "senior",
         "role": "graphics-programmer",
-        "comment": "a physically based atmosphere fitted to a closed form, and volumetric clouds marched every frame with no texture, inside a 3 ms budget"
+        "comment": "A physical atmosphere and a per-frame cloud march written from formulas, with no texture allowed, is rendering work; this is the first pass the fitted sky was later built on, not the whole sky"
       },
       {
-        "hours": 24.0,
+        "hours": 3.0,
         "grade": "senior",
         "role": "technical-artist",
-        "comment": "cloud shapes, lighting and the sunset look need an eye, frame after frame"
+        "comment": "The first clouds were shaped by eye against a low sun, a different judgement from writing the march"
       }
     ],
     "comment": null
