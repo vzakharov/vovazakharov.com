@@ -10,11 +10,12 @@ const BLACK = {
   mirror: 0.06,
   blur: 0.4,
 } as const;
+const BANDS = process.env.NEXT_PUBLIC_BANDS ?? 'b';
 const GREY = {
-  albedo: [0.06, 0.066, 0.076],
-  mirror: 0.05,
-  blur: 4.2,
-} as const;
+  a: { albedo: [0.0138, 0.0152, 0.0175], mirror: 0.0115, blur: 4.2, fleck: 1 },
+  b: { albedo: [0.012, 0.0132, 0.0152], mirror: 0.11, blur: 3.2, fleck: 0 },
+  c: { albedo: [0.06, 0.066, 0.076], mirror: 0.05, blur: 4.2, fleck: 1 },
+}[BANDS as 'a' | 'b' | 'c'];
 
 /** The line between two bands: its colour, its light, and its width in metres. */
 const LINE = {
@@ -173,7 +174,7 @@ fn shellFace(f: Face, band: Band, depth: i32, glance: f32) -> vec3f {
   let tilt = vec3f(unitOf(h), unitOf(mix32(h)), unitOf(mix32(h + 3u))) - 0.5;
   let glint = step(0.97, unitOf(mix32(h + 5u)))
     * pow(max(dot(normalize(f.normal + 0.5 * tilt), mid), 0.0), 500.0);
-  light += sunLight * sunlit * (1.0 - band.dark) * glint * 2.0
+  light += ${GREY.fleck.toFixed(1)} * sunLight * sunlit * (1.0 - band.dark) * glint * 2.0
     * (1.0 - smoothstep(0.5, 2.0, f.pixel / fleck));
 
   // The lights under the black, each layer deeper and farther apart.
