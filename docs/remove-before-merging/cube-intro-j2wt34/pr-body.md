@@ -46,4 +46,4 @@ The operator's word, with the week's limit running out: «по реализац�
 | `meter`     | manual-only | —        | Needs a real GPU: SwiftShader has no `timestamp-query` to speak of                                                                   |
 | `no-webgpu` | manual-only | —        | A browser setting                                                                                                                    |
 
-https://claude.ai/code/session_016Z4TKo8Y7vUYevAQEstous
+https://claude.ai/code/session_016Z4TKqfdhduUecpY8zFSAJ

@@ -10,12 +10,13 @@ is `docs/remove-before-merging/cube-intro-j2wt34/relay-2.md`: its State and Next
 step are newer than anything below. `relay-1.md` beside it is the first park's,
 and still the home of what each package owes (its § 6).
 
-The second lead was `session_016Z4TKo8Y7vUYevAQEstous`, branch
-`claude/cube-intro-j2wt34`, working directory
-`docs/remove-before-merging/cube-intro-j2wt34/`. The lead at the first park was
-`session_01DaohkEr63nSs6fbnbbEpGd`; neither it, the old team's sessions nor the
-artifacts of the parking account (the board, «Два океана») can be reached from
-the second account.
+The third lead is `session_016Z4TKqfdhduUecpY8zFSAJ`, which took the branch from
+`relay-2.md` the same day with a 400000 compaction window. The second lead was
+`session_016Z4TKo8Y7vUYevAQEstous`, branch `claude/cube-intro-j2wt34`, working
+directory `docs/remove-before-merging/cube-intro-j2wt34/`. The lead at the first
+park was `session_01DaohkEr63nSs6fbnbbEpGd`; neither it, the old team's sessions
+nor the artifacts of the parking account (the board, «Два океана») can be
+reached from the second account.
 
 ## Since the resume
 
@@ -51,6 +52,12 @@ the second account.
   in the working directory); slot 2 published. **Not done**: the end-to-end
   strip (stopped mid-shoot with nothing judged), the PR itself, the review
   board, `./scripts/vet.sh`. `relay-2.md` § 8 has the order.
+- **Operator, to the third lead, while it attached**: «а нужен нам этот сквозной
+  прогон?», then «просто опубликуй на превью, сам прогоню». **Decided**: the
+  end-to-end strip is dropped — the operator walks the intro on the preview
+  themself, which is the look the strip stood in for. Slot 2 already served
+  a55c5a20, the last commit that changes code, so nothing was republished. What
+  runs: the draft PR and `./scripts/vet.sh`.
 
 ## Standing rules (the operator's words)
 
