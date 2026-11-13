@@ -84,10 +84,10 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 126,
-    "matched": 95,
-    "matchedTableUsd": 8.174580000000002,
-    "matchedEventUsd": 8.174580000000002,
+    "events": 127,
+    "matched": 96,
+    "matchedTableUsd": 8.265301600000003,
+    "matchedEventUsd": 8.265301600000003,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 15686,
@@ -109,6 +109,7 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 279
+    ".md": 279,
+    ".yaml": 127
   }
 }
