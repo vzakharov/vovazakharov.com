@@ -340,28 +340,43 @@ not append.
   reaches a session only when its turn ends (priority "next" tested, does not
   join a turn) — every package now runs shoots in the background and ends its
   turn; `briefs/notice.md`. Board v78.
-- **State at 11:55Z — lead 874eab51** adds pill 0b1b21bb (the doorway's clear
-  strip, hung keeps off standing, one rolled time per clock; floor 1 loses
-  nothing, floors 24, 10 and 27 lose most — told to the operator as a fact).
-  Sound's 423f1231 (the sill's cut closes faster; the operator: «теперь
-  идеально») merges after the lead's shoot, then sound is archived. **The
-  operator's four answers at ~11:52Z**: (1) the star-like specks on the cube's
-  shaded faces stay; (2) the body's shadow does not come back — core removes the
-  unread `frame.body`; (3) by "the ring of the former" he meant he liked the
-  sound of "cubed away" (no decision on the title); (4) the lens toward the sun:
-  «не знаю» — the lead ruled that exposure 0.3 and the film stay, and sky dims
-  the 5–20° ring until the disc reads inside a gradient, the approved eye's
-  feeling unmoved. Seen unmerged and unreported: sky 67b03d46, sand 36827743
-  ("unjudged"), sea 501fa487.
+- **State at 12:10Z — lead e6cb063b** holds everything reported green: pill
+  0b1b21bb (clear strip at the doorway, hung keeps off standing, one rolled time
+  per clock), sound 423f1231 (final; the operator: «теперь идеально»), sand
+  4d5cb8b5 (wetness asked per pixel — the staircase is gone), shell 29c61d18
+  (plastic polished, mirrors the ceiling panels), sky a6c022d8 (the cloud's body
+  is 54b3c2c7's again by the operator's direct word: uneven top, no dome, no
+  uneven base), core 001b3c9b (the turn finished; `seenOutside` builds the
+  outdoor view from the world pose, so turn 0 vs 1 differ in 0 pixels;
+  `frame.body` unpacked; `outside:cube` writes `<name>.shot.json`). Gates green,
+  405 tests round core's change. **Archived**: sound, sky. **The operator's
+  answers at ~11:52Z**: the cube's specks stay; the body's shadow does not come
+  back; "cubed away" is the title whose sound he likes (no decision); the lens
+  toward the sun «не знаю» — the lead ruled the sky stays as it is (sky's trial
+  milked the whole sky; no painted hole), closed. **The lead's eyes at
+  49186bc5** (`frames/lead/1113-1200-*`, README): `wake-cube`, `wake-sea`,
+  `under`, `ladder-foot`, `room-doorway` all read; `doorway-out` shows the
+  island (through the room's lens it is washed out — re-shooting at
+  `--indoors 0`). **Open, with owners**: sand — thin dark arcs by the waking
+  spot read as pen strokes; sea — blue dots on the shallows in the cube's
+  shadow, a flat white bar with a dithered end at the horizon, and 501fa487
+  (cusps, lace) unjudged; shell + pill — the bench in floor 1's beam casts no
+  shadow: ruled (b), the beam reads the decor's own boxes from pill's placement
+  (≤ N, no authored box, a test on the planted seed); pill — rename its `turnOf`
+  (`vova/no-export-namesake` is red on the lead), then floors 10/27 frames,
+  grip, act sheet, /dry, /tend-prose; walk 93be80f2 — code done (waking, turned
+  interior, no badge out of doors), strips shooting, merge on a coarse strip
+  that reads right; core — second step of the body's removal once walk drops
+  `Standing`, then /dry and /tend-prose. Board v84+ (the lead's five frames
+  sent).
 - **The explainer** «Два океана» was amended on the operator's comment (how many
   waves "good" takes); answered in its thread. The clouds explainer's session
   (`session_01DaohkFroEeZ7ybMvAY9JoV`) has not reported yet.
-- **Next, in order**: (1) merge core's turn, walk, pill as they report green;
-  (2) re-shoot the eyes two at a time and look — `wake-cube`, `wake-sea`,
-  `under`, `ladder-foot`, `doorway-out`, `room-doorway`; failures named to the
-  owners and the board; (3) the intro played end to end; (4) a fix round; (5)
-  preview slot 2, checking the deployed commit before saying so; (6) `/polish`,
-  `/pr` (base `claude/cube-review-perf`), then vet.
+- **Next, in order**: (1) merge walk, sea, pill's second batch, shell's beam
+  boxes as they report green; (2) the intro played end to end (`play:cube`) and
+  looked at; (3) a fix round; (4) preview slot 2, checking the deployed commit
+  before saying so; (5) `/polish`, `/pr` (base `claude/cube-review-perf`), then
+  vet.
 - The context notices: at 330k start nothing big; at 350k bring this file
   current. The session compacts on its own near 370k; never `/relay`. This file
   is capped at 400 lines like any other: when "Steering since" grows, move its
