@@ -84,3 +84,59 @@ Entries moved verbatim from `docs/plans/cube-intro.in-progress.md` when it neare
   'plastic' glint in the room's renderer goes to shell, after the pink underside
   and deleting `bodyShadow`. Core's seam is out (`ROOM_DOORWAY`, core 2f4ab3ba,
   unmerged, not yet reported to the lead).
+
+## The plan's state blocks at 11:45Z and 12:10Z, moved here verbatim at the park
+
+- **State at 11:45Z — lead de2ea63a** holds: shell c49ee5ed (pink underside
+  fixed — film a faint cool sheen, none underneath; `bodyShadow` deleted),
+  core's quarter-turn dda6d590 **as wip** (`INTERIOR_TURN` in
+  `shared/outside/turn.ts`, `interior-turn.test.ts` asserts exactly one of four
+  turns keeps the beam off the hole's quarter; `entering`/`room-doorway` right;
+  `doorway-out` shows the noticeboard across the opening until pill's clear zone
+  lands; core still owes `entering` at indoors 0/0.5 and one outside eye
+  pixel-identical), sound 1165e5ec9 (the sill cuts sea, wind and hum to silence;
+  the boom the operator tried is removed), sky 89c6dae3 (relief back, cost back;
+  undersides and two "mushrooms" next). Gates green at each merge; **the lead
+  has shot no frame since 315051b5**. **Unmerged**: pill 107f9524+ (two decor
+  rules built; then the clock, by the operator's ruling at ~11:50Z: the hour
+  hand follows the minute hand everywhere, one rolled time per clock — and floor
+  1's time is NOT derived from the sun, it stays rolled: «вредит трушности…
+  лучше приму часы которые показывают неправильное время», and «найдём в этом
+  философию»), walk df3ea135+ (turned interior, waking at `WAKE_AT`, no legs out
+  of doors by the operator's word; strips re-shooting), sea 33ad5cd2+ (finer
+  lace, shore cusps, `shelterAt` — merge when it says its frames confirm). Sand:
+  tracing a ~12 px staircase at the wet sand's mirror edge in the cube's shadow
+  (the operator pointed at it). Shell owes the glint on indoor 'plastic' and
+  re-reading `RECEPTION_SHRUBS` once pill lands. **Messaging**: a message
+  reaches a session only when its turn ends (priority "next" tested, does not
+  join a turn) — every package now runs shoots in the background and ends its
+  turn; `briefs/notice.md`. Board v78.
+- **State at 12:10Z — lead e6cb063b** holds everything reported green: pill
+  0b1b21bb (clear strip at the doorway, hung keeps off standing, one rolled time
+  per clock), sound 423f1231 (final; the operator: «теперь идеально»), sand
+  4d5cb8b5 (wetness asked per pixel — the staircase is gone), shell 29c61d18
+  (plastic polished, mirrors the ceiling panels), sky a6c022d8 (the cloud's body
+  is 54b3c2c7's again by the operator's direct word: uneven top, no dome, no
+  uneven base), core 001b3c9b (the turn finished; `seenOutside` builds the
+  outdoor view from the world pose, so turn 0 vs 1 differ in 0 pixels;
+  `frame.body` unpacked; `outside:cube` writes `<name>.shot.json`). Gates green,
+  405 tests round core's change. **Archived**: sound, sky. **The operator's
+  answers at ~11:52Z**: the cube's specks stay; the body's shadow does not come
+  back; "cubed away" is the title whose sound he likes (no decision); the lens
+  toward the sun «не знаю» — the lead ruled the sky stays as it is (sky's trial
+  milked the whole sky; no painted hole), closed. **The lead's eyes at
+  49186bc5** (`frames/lead/1113-1200-*`, README): `wake-cube`, `wake-sea`,
+  `under`, `ladder-foot`, `room-doorway` all read; `doorway-out` shows the
+  island (through the room's lens it is washed out — re-shooting at
+  `--indoors 0`). **Open, with owners**: sand — thin dark arcs by the waking
+  spot read as pen strokes; sea — blue dots on the shallows in the cube's
+  shadow, a flat white bar with a dithered end at the horizon, and 501fa487
+  (cusps, lace) unjudged; shell + pill — the bench in floor 1's beam casts no
+  shadow: ruled (b), the beam reads the decor's own boxes from pill's placement
+  (≤ N, no authored box, a test on the planted seed); pill — rename its `turnOf`
+  (`vova/no-export-namesake` is red on the lead), then floors 10/27 frames,
+  grip, act sheet, /dry, /tend-prose; walk 93be80f2 — code done (waking, turned
+  interior, no badge out of doors), strips shooting, merge on a coarse strip
+  that reads right; core — second step of the body's removal once walk drops
+  `Standing`, then /dry and /tend-prose. Board v84+ (the lead's five frames
+  sent).

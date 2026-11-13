@@ -2,9 +2,14 @@
 
 Run under `/carte-blanche` (`.claude/skills/carte-blanche/SKILL.md`). This file
 is the lead's memory: read it whole after any compaction, before anything else.
-It stays `.in-progress` for the whole run and is not shown to the operator.
+It is not shown to the operator.
 
-Lead session: `session_01DaohkEr63nSs6fbnbbEpGd`, branch
+**Parked 2026-11-13 ~12:50Z.** The handover is
+`docs/remove-before-merging/cube-intro-j2wt34/relay-1.md`: read it first; its
+State and Next step are newer than anything below but § "Progress"'s last
+bullets. Whoever resumes renames this file back to `.in-progress.md`.
+
+Lead session at the park: `session_01DaohkEr63nSs6fbnbbEpGd`, branch
 `claude/cube-intro-j2wt34`, working directory
 `docs/remove-before-merging/cube-intro-j2wt34/`.
 
@@ -288,8 +293,7 @@ seven sections; a reader's brief is three sections at most.
 
 ## Progress
 
-State at 2026-11-13 09:40Z, **the second team running**; update this block, do
-not append.
+Oldest first; the last bullets are the state at the park.
 
 - **On this branch (ba9210cc, 2026-11-13 09:55Z)**: the page draws the outside
   as layers — sky (core's stand-in), sand (real), shell (real cube and ladder),
@@ -316,68 +320,23 @@ not append.
   overall feeling and marked as the future splash screen (nothing built); every
   frame recorded with eye, clock and commit; the decor rules as the operator
   ruled them; the state at 11:15Z.
-- **State at 11:45Z — lead de2ea63a** holds: shell c49ee5ed (pink underside
-  fixed — film a faint cool sheen, none underneath; `bodyShadow` deleted),
-  core's quarter-turn dda6d590 **as wip** (`INTERIOR_TURN` in
-  `shared/outside/turn.ts`, `interior-turn.test.ts` asserts exactly one of four
-  turns keeps the beam off the hole's quarter; `entering`/`room-doorway` right;
-  `doorway-out` shows the noticeboard across the opening until pill's clear zone
-  lands; core still owes `entering` at indoors 0/0.5 and one outside eye
-  pixel-identical), sound 1165e5ec9 (the sill cuts sea, wind and hum to silence;
-  the boom the operator tried is removed), sky 89c6dae3 (relief back, cost back;
-  undersides and two "mushrooms" next). Gates green at each merge; **the lead
-  has shot no frame since 315051b5**. **Unmerged**: pill 107f9524+ (two decor
-  rules built; then the clock, by the operator's ruling at ~11:50Z: the hour
-  hand follows the minute hand everywhere, one rolled time per clock — and floor
-  1's time is NOT derived from the sun, it stays rolled: «вредит трушности…
-  лучше приму часы которые показывают неправильное время», and «найдём в этом
-  философию»), walk df3ea135+ (turned interior, waking at `WAKE_AT`, no legs out
-  of doors by the operator's word; strips re-shooting), sea 33ad5cd2+ (finer
-  lace, shore cusps, `shelterAt` — merge when it says its frames confirm). Sand:
-  tracing a ~12 px staircase at the wet sand's mirror edge in the cube's shadow
-  (the operator pointed at it). Shell owes the glint on indoor 'plastic' and
-  re-reading `RECEPTION_SHRUBS` once pill lands. **Messaging**: a message
-  reaches a session only when its turn ends (priority "next" tested, does not
-  join a turn) — every package now runs shoots in the background and ends its
-  turn; `briefs/notice.md`. Board v78.
-- **State at 12:10Z — lead e6cb063b** holds everything reported green: pill
-  0b1b21bb (clear strip at the doorway, hung keeps off standing, one rolled time
-  per clock), sound 423f1231 (final; the operator: «теперь идеально»), sand
-  4d5cb8b5 (wetness asked per pixel — the staircase is gone), shell 29c61d18
-  (plastic polished, mirrors the ceiling panels), sky a6c022d8 (the cloud's body
-  is 54b3c2c7's again by the operator's direct word: uneven top, no dome, no
-  uneven base), core 001b3c9b (the turn finished; `seenOutside` builds the
-  outdoor view from the world pose, so turn 0 vs 1 differ in 0 pixels;
-  `frame.body` unpacked; `outside:cube` writes `<name>.shot.json`). Gates green,
-  405 tests round core's change. **Archived**: sound, sky. **The operator's
-  answers at ~11:52Z**: the cube's specks stay; the body's shadow does not come
-  back; "cubed away" is the title whose sound he likes (no decision); the lens
-  toward the sun «не знаю» — the lead ruled the sky stays as it is (sky's trial
-  milked the whole sky; no painted hole), closed. **The lead's eyes at
-  49186bc5** (`frames/lead/1113-1200-*`, README): `wake-cube`, `wake-sea`,
-  `under`, `ladder-foot`, `room-doorway` all read; `doorway-out` shows the
-  island (through the room's lens it is washed out — re-shooting at
-  `--indoors 0`). **Open, with owners**: sand — thin dark arcs by the waking
-  spot read as pen strokes; sea — blue dots on the shallows in the cube's
-  shadow, a flat white bar with a dithered end at the horizon, and 501fa487
-  (cusps, lace) unjudged; shell + pill — the bench in floor 1's beam casts no
-  shadow: ruled (b), the beam reads the decor's own boxes from pill's placement
-  (≤ N, no authored box, a test on the planted seed); pill — rename its `turnOf`
-  (`vova/no-export-namesake` is red on the lead), then floors 10/27 frames,
-  grip, act sheet, /dry, /tend-prose; walk 93be80f2 — code done (waking, turned
-  interior, no badge out of doors), strips shooting, merge on a coarse strip
-  that reads right; core — second step of the body's removal once walk drops
-  `Standing`, then /dry and /tend-prose. Board v84+ (the lead's five frames
-  sent).
-- **The explainer** «Два океана» was amended on the operator's comment (how many
-  waves "good" takes); answered in its thread. The clouds explainer's session
-  (`session_01DaohkFroEeZ7ybMvAY9JoV`) has not reported yet.
-- **Next, in order**: (1) merge walk, sea, pill's second batch, shell's beam
-  boxes as they report green; (2) the intro played end to end (`play:cube`) and
-  looked at; (3) a fix round; (4) preview slot 2, checking the deployed commit
-  before saying so; (5) `/polish`, `/pr` (base `claude/cube-review-perf`), then
-  vet.
+- **11:45Z and 12:10Z state blocks**: moved verbatim to `journal.md`, § "The
+  plan's state blocks at 11:45Z and 12:10Z".
+- **State at the park (~12:50Z)**: every package is merged into this branch —
+  sky and sound final; sand through 69ac8423; core through 79f8c242 (nothing
+  owed); walk through 966ecc5a; pill through e1577d87; sea through 7abe3943;
+  shell through 726d4863, its next commit 9e8e019b left on its branch because it
+  is a throwaway (three band finishes behind an environment variable). What each
+  package still owes is in `reports/<package>.md` beside the brief, and the
+  whole of it, with the operator's open questions, in `relay-1.md` § 6 and § 8.
+  The team's sessions (§ "The team") belong to the account that parked and
+  cannot be reached from another: a resuming lead starts new ones from the
+  branches and the reports.
+- **The explainers** «Два океана» (the lead's own artifact) and «Два неба» (its
+  session archived) are published and answered.
+- **Next, in order**: `relay-1.md` § 8.
 - The context notices: at 330k start nothing big; at 350k bring this file
-  current. The session compacts on its own near 370k; never `/relay`. This file
-  is capped at 400 lines like any other: when "Steering since" grows, move its
-  older entries to `brief.md` beside the brief.
+  current. The session compacts on its own near 370k; `/relay` only as
+  `/relay park`, on the operator's word. This file is capped at 400 lines like
+  any other: when "Steering since" grows, move its older entries to `brief.md`
+  beside the brief.
