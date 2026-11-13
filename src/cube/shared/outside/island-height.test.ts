@@ -31,6 +31,8 @@ function wgslHeight(): (xz: Xz) => number {
     sqrt,
     tanh,
     mix: (a: number, b: number, t: number) => a + (b - a) * t,
+    clamp: (v: number, low: number, high: number) =>
+      Math.min(Math.max(v, low), high),
     result: undefined as ((xz: Xz) => number) | undefined,
   };
   runInNewContext(`${script}\nresult = islandHeight;`, context);
@@ -76,6 +78,20 @@ describe("the island's shape", () => {
         Math.abs(inShader({ x, y: z }) - here) < 1e-9,
         `at (${x}, ${z}): ${inShader({ x, y: z })} against ${here}`,
       );
+    }
+  });
+
+  it('stays finite out to the horizon, where a shader asks for the bed', () => {
+    const inShader = wgslHeight();
+    for (const far of [1e3, 2e4, 1e5]) {
+      for (const [x, z] of [
+        [far, 0],
+        [-far, far],
+        [0, -far],
+      ] as const) {
+        assert.ok(Number.isFinite(islandHeight([x, z])));
+        assert.ok(Number.isFinite(inShader({ x, y: z })));
+      }
     }
   });
 
