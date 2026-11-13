@@ -25,4 +25,12 @@ export {
 export { SKY } from './sky';
 export { OUTDOOR_STAGE, SKY_METRES } from './stage';
 export { SKY_FILL, SUN, SUN_DIR, SUN_LIGHT } from './sun';
-export { WATER_LEVEL, waterLevel } from './water-level';
+export { SHORE_WETNESS, shoreDrySince } from './shore-wetness';
+export { crestOf, PERIOD, setsAt, turnsAt } from './swell';
+export {
+  brokenAt,
+  type ShoreClock,
+  shoreClock,
+  WATER_LEVEL,
+  waterLevel,
+} from './water-level';

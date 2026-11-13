@@ -1,0 +1,117 @@
+{
+  "total": {
+    "inputTokens": 1261,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 229996,
+    "cacheReadTokens": 7836405,
+    "outputTokens": 47705,
+    "thinkingTokens": 20195,
+    "responses": 40,
+    "costUsd": 7.155298199999998
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-13T09:16:36.390Z",
+    "contextTokens": 113447,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 42598,
+      "cacheReadTokens": 146396,
+      "outputTokens": 1368,
+      "thinkingTokens": 245,
+      "responses": 2,
+      "costUsd": 0.7655992
+    }
+  },
+  "sessionId": "bb2e1d1c-5ab8-5ad6-9311-1c6d36477baa",
+  "branch": "claude/cube-intro-sea",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You take over the **sea** package of the cube's intro from a session that a usage limit stopped; you are on its branch, `claude/cube-intro-sea`, and push only t…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDD34tV9S8mR3o9S3o",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-13T09:16:23.585Z",
+  "lastResponseAt": "2026-11-13T09:28:58.780Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 74,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 229996,
+    "cacheReadTokens": 7836405,
+    "outputTokens": 47684,
+    "thinkingTokens": 20195,
+    "responses": 39,
+    "costUsd": 7.155168999999998
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 74,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 229996,
+      "cacheReadTokens": 7836405,
+      "outputTokens": 47684,
+      "thinkingTokens": 20195,
+      "responses": 39,
+      "costUsd": 7.155168999999998
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1187,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 21,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0001292
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 39,
+    "matched": 38,
+    "matchedTableUsd": 7.040803199999998,
+    "matchedEventUsd": 7.040803199999998,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 1187,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 21,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0001292
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 17,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 2283,
+    ".json": 31,
+    ".yaml": 48,
+    ".ts": 6253,
+    ".tsx": 87,
+    ".scss": 15
+  }
+}
