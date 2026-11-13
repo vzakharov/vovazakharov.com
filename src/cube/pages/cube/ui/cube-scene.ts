@@ -30,6 +30,7 @@ import { between } from '../lib/palette';
 import type { ScenePlay } from '../lib/play';
 import { shaderOf } from '../lib/shader';
 import { build, type Mesh, type Selling, type SignOf } from './cube-mesh';
+import { consoleQuality } from './quality';
 import { createRenderer, type Drawing, type Renderer } from './renderer';
 
 /**
@@ -195,6 +196,7 @@ export function mountCube(
   let last = performance.now();
   let disposed = false;
   const firstFrame = Promise.withResolvers<void>();
+  const quality = consoleQuality();
 
   const takenKey = (): string => (taken === null ? '' : roomKey(taken.room));
 
@@ -294,7 +296,7 @@ export function mountCube(
 
   // Assigning a canvas's size clears it, so only a change is assigned.
   const resize = (): void => {
-    const ratio = globalThis.devicePixelRatio;
+    const ratio = quality.ratio();
     const width = Math.max(1, Math.round(canvas.clientWidth * ratio));
     const height = Math.max(1, Math.round(canvas.clientHeight * ratio));
     if (canvas.width !== width) canvas.width = width;
@@ -380,6 +382,7 @@ export function mountCube(
     dispose: () => {
       disposed = true;
       cancelAnimationFrame(frame);
+      quality.dispose();
       renderer?.dispose();
     },
   };
