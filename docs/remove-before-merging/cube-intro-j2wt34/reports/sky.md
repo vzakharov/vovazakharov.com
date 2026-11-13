@@ -26,9 +26,12 @@ Frames: `opposite`, `wake-sea`, and the approved eye as `approved-eye` with
 - **The base (added after the message).** The operator told me a cloud's
   underside read as too even an arc. A base now rises in places with the
   cloud's own lumps, up to a quarter of its height; the crown is untouched.
-  `approved-eye` and the pair are re-shot with it; `opposite` and `wake-sea` are
-  from just before it.
-- **Not done.** The two mushrooms at the far left and right of `opposite`.
+  `approved-eye`, the pair and `opposite` are re-shot with it; `wake-sea` is from
+  just before it.
+- **Not done.** The two mushrooms at the far left and right of `opposite`: each
+  is a near cloud, its grey underside turned to the eye, overlapping farther
+  ones at the same height in the frame. The uneven base softens the cap's line
+  but the pairing still reads as a mushroom.
 
 `cloudGlance` and `cloudVeil` moved to `sky/cloud-veil.ts` (`CLOUD_VEIL`), which
 `outside/sky.ts` now needs; `clouds.ts` is at 338 lines. Gates green:
