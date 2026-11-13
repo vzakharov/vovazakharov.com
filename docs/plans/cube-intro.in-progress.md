@@ -192,8 +192,9 @@ operator walks slot 2. As written: the climb's look up is 0.3 rad where it was
 the eye is 0.2 m behind the ladder's line at its own height; the refused look
 leans at 0.7 s, holds to 1.9 s, is back by 3.2 s, its line from 1.0 s; the
 console's command is `cubeQuality('full' | 'low')`, bare to ask. The bench's
-frame (`pnpm outside:cube --eyes in-beam`) is still to be shot. 2b and 9 are
-with subagents. All of it is in `src/cube/features/player/model/` unless a path
+frame (`pnpm outside:cube --eyes in-beam`) is still to be shot. 2b is in as
+ec122481 (the double press is two Shift keydowns within 0.3 s, in `pace.ts`); 9
+is with a subagent. All of it is in `src/cube/features/player/model/` unless a path
 says otherwise; read `scenes.ts`, `abroad.ts`, `roam.ts`, `threshold.ts` and
 `src/cube/pages/cube/ui/walk.ts` first, they are short. After it: commit, push,
 republish slot 2, then `/finalize` (the two red `source` checks on the way).
@@ -219,7 +220,7 @@ republish slot 2, then `/finalize` (the two red `source` checks on the way).
       pace stays `RUN_SPEED * SWIM_SHARE`, and a footfall's strength is over a
       run's pace, so a walk sounds softer. `roam.test.ts` and `abroad.test.ts`
       pin 3.5 m/s.
-- [ ] **2b. Walking everywhere, Shift for the other pace.** After the two
+- [x] **2b. Walking everywhere, Shift for the other pace.** After the two
       scenario subagents return (they are writing 2 as above): `Input.walking`
       becomes `running`, true on a frame the body runs; `step.ts` and `roam.ts`
       both take `running ? RUN_SPEED : WALK_SPEED`.
