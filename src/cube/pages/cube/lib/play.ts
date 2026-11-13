@@ -26,7 +26,8 @@ export type Among = {
 /**
  * What a script sets beside a pose: an eye on floor 1 given a `lens` sees
  * through it in its floor's place, which is how a frame is shot as an eye
- * still used to daylight sees the room; `taken` is the pill off its shelf.
+ * still used to daylight sees the room; and the room whose pill is `taken`
+ * off its shelf.
  */
 export type InsideSet = Among & {
   lens?: OutsideLens;

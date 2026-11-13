@@ -9,6 +9,8 @@
  *   pnpm pill:cube --floors 1,3      # those
  *   pnpm pill:cube --out <dir>       # frames there instead
  *   pnpm pill:cube --whole 5,12      # each act's frames 5 and 12 whole, too
+ *   pnpm pill:cube --every 30        # a frame of the act every half second
+ *   pnpm pill:cube --acts none       # the shelf alone
  */
 
 import path from 'node:path';
@@ -51,7 +53,9 @@ const WHOLE = (flag('whole') ?? '').split(',').filter(Boolean).map(Number);
 
 /** Seconds per simulated frame, and how many of them between two shot. */
 const FRAME = 1 / 60;
-const EVERY = 6;
+const EVERY = Number(flag('every') ?? 6);
+/** Whether the act is shot at all, or the shelf alone. */
+const ACTED = flag('acts') !== 'none';
 /** Seconds the pill is looked at before it is answered. */
 const ANSWERED_AFTER = 1.6;
 /** Seconds of what follows the act that a sheet takes in. */
@@ -101,7 +105,7 @@ function facing(room: Room, { shelf }: Holed, back: number, aside = 0): Pose {
 
 /**
  * The act from a body standing by the shelf a little askew of it, a frame
- * every tenth of a second: the pill taken, `answer` given once it is asked
+ * every `EVERY` simulated ones: the pill taken, `answer` given once it is asked
  * for, and `AFTER` seconds of what follows.
  */
 function acted(
@@ -156,6 +160,7 @@ async function main(): Promise<void> {
         );
       await shoot(name('shelf-far', 'png'), facing(room, here, 0.7, 0.1));
       await shoot(name('shelf-close', 'png'), facing(room, here, 0.16, 0.05));
+      if (!ACTED) return;
       const acts: ReadonlyArray<readonly [string, 'yes' | 'no' | null]> =
         room.n === 1
           ? [

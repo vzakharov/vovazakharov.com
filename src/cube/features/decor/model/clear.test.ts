@@ -1,16 +1,18 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
+import { ROOM_DOORWAY } from '@/cube/shared/outside';
 import {
   closedSides,
-  shelfOf,
   maze,
   mazeWalls,
   type Quarter,
   type Room,
+  shelfOf,
 } from '@/cube/entities/world';
 
-import { clearZones, shelfSpot, overlap } from './clear';
+import { clearZones, crowds, overlap, shelfSpot } from './clear';
 
 const SEED = '8675309';
 const rolled = maze(SEED);
@@ -87,5 +89,51 @@ describe('clearZones', () => {
     assert.ok(taken(0.6, 0.01, 0.12));
     assert.ok(taken(0.95, 0.01, 0.38));
     assert.ok(!taken(0.3, 0.01, 0.6));
+  });
+});
+
+describe('the way in', () => {
+  const shut = [true, true, true, true] as const;
+  const zonesOf = (n: number) =>
+    clearZones({
+      room: { n, x: 0n, y: 0n },
+      closed: shut,
+      hole: null,
+      grain: 0,
+    });
+  /** A point just inside the doorway's middle, a hand above the floor. */
+  const sill = (() => {
+    const along = (ROOM_DOORWAY.from + ROOM_DOORWAY.to) / 2 / ROOM_METRES;
+    const inside = {
+      east: [0.95, along],
+      south: [along, 0.95],
+      west: [0.05, along],
+      north: [along, 0.05],
+    } as const;
+    const [x, z] = inside[ROOM_DOORWAY.wall];
+    return point(x, 0.02, z);
+  })();
+  const taken = (n: number) => zonesOf(n).some((zone) => overlap(sill, zone));
+
+  it('is kept clear on floor 1, where the doorway is', () => {
+    assert.ok(taken(1));
+    assert.ok(!taken(2));
+  });
+});
+
+describe('crowds', () => {
+  const stands = { least: [0.4, 0, 0.02], most: [0.6, 0.3, 0.1] } as const;
+  const hung = (x: number) =>
+    ({ least: [x, 0.25, 0.014], most: [x + 0.1, 0.4, 0.02] }) as const;
+
+  it('is of a thing hung over or beside one that stands', () => {
+    assert.ok(crowds(hung(0.45), stands));
+    assert.ok(crowds(stands, hung(0.62)));
+    assert.ok(!crowds(hung(0.8), stands));
+  });
+
+  it('is of neither two that hang nor two that stand', () => {
+    assert.ok(!crowds(hung(0.45), hung(0.5)));
+    assert.ok(!crowds(stands, stands));
   });
 });

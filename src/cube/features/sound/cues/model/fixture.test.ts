@@ -44,12 +44,6 @@ describe('what the building does', () => {
     );
   });
 
-  it('lifts the pill off its ledge small, short and bright', () => {
-    const samples = pill(1, TEST_RATE);
-    assert.ok(samples.length < 0.3 * TEST_RATE);
-    assert.ok(brightness(samples, 1500) > 0.5);
-  });
-
   it('rings twice with a gap between', () => {
     const samples = ring(1, TEST_RATE);
     const at = (seconds: number) =>

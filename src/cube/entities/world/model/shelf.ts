@@ -1,10 +1,7 @@
 import { WALL_HALF } from '@/cube/shared/lib/room-shape';
-import {
-  scaled as times,
-  unit3 as unit,
-  type Vec3,
-} from '@/cube/shared/lib/vec';
+import { scaled, unit3, type Vec3 } from '@/cube/shared/lib/vec';
 
+import { placed } from './frame';
 import { holeMiddle, type Quarter } from './hole';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
 import { PILL_RADIUS, pillQuads } from './pill';
@@ -128,7 +125,7 @@ export function pillOn(shelf: Shelf): { centre: Vec3; axis: Vec3 } {
       SHELF_HEIGHT + PAPER_THICK + PILL_RADIUS,
       footV + out[2] * off,
     ],
-    axis: unit([
+    axis: unit3([
       along[0] * Math.cos(ASKEW) + out[0] * Math.sin(ASKEW),
       0,
       along[2] * Math.cos(ASKEW) + out[2] * Math.sin(ASKEW),
@@ -191,9 +188,9 @@ export function shelfFaces(
         footV - (along[2] * wide) / 2 + out[2] * near,
       ]),
       [
-        times(along, wide * side),
-        times(up, tall * side),
-        times(out, deep * side),
+        scaled(along, wide * side),
+        scaled(up, tall * side),
+        scaled(out, deep * side),
       ],
       room,
       surface,
@@ -221,4 +218,23 @@ export function shelfFaces(
     ),
     ...(taken ? [] : pillQuads(local(centre), axis, side, room)),
   ];
+}
+
+/** The shelf of `room` in the eye's frame, if `room` has a hole. */
+export function shelfSeen(
+  rolled: RolledMaze,
+  eye: Room,
+  room: Room,
+  quarter: Quarter | null,
+  taken: InRoomOf | null,
+): Quad[] {
+  if (quarter === null) return [];
+  const { origin, roomSide: side } = placed(eye, room);
+  return shelfFaces(
+    shelfOf(rolled, room, quarter),
+    room,
+    origin,
+    side,
+    takenIn(taken, room),
+  );
 }

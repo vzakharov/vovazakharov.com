@@ -1,9 +1,4 @@
-import {
-  cross3 as cross,
-  scaled as times,
-  unit3 as unit,
-  type Vec3,
-} from '@/cube/shared/lib/vec';
+import { cross3, scaled, unit3, type Vec3 } from '@/cube/shared/lib/vec';
 
 import { loft, type Ring } from './loft';
 import { plus, type Quad, UP } from './quad';
@@ -36,16 +31,16 @@ export function pillQuads(
   side: number,
   room: Room,
 ): Quad[] {
-  const across = unit(
-    cross(axis, Math.abs(axis[1]) > 0.9 ? ([1, 0, 0] as const) : UP),
+  const across = unit3(
+    cross3(axis, Math.abs(axis[1]) > 0.9 ? ([1, 0, 0] as const) : UP),
   );
-  const through = cross(axis, across);
+  const through = cross3(axis, across);
   const radius = PILL_RADIUS * side;
   const straight = (PILL_LENGTH / 2) * side - radius;
   const ringAt = (along: number, half: number): Ring => ({
-    centre: plus(centre, times(axis, along)),
-    wide: times(across, half),
-    thick: times(through, half),
+    centre: plus(centre, scaled(axis, along)),
+    wide: scaled(across, half),
+    thick: scaled(through, half),
   });
   return ([1, -1] as const).flatMap((end, index) => {
     const cap = Array.from({ length: CAP_RINGS }, (_, ring) => {
