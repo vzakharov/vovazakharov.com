@@ -64,12 +64,14 @@ export type CubePage = {
   shoot: (file: string, pose: Pose, moving?: readonly Quad[]) => Promise<void>;
   /**
    * Puts the eye outside the cube at `eye`, seeing through `lens` — the
-   * page's own where none is given — and saves the frame as `file`.
+   * page's own where none is given — with `moving` drawn, each quad in the
+   * frame of floor 1's room, and saves the frame as `file`.
    */
   shootOutside: (
     file: string,
     eye: Outside,
     lens?: OutsideLens,
+    moving?: readonly Quad[],
   ) => Promise<void>;
   /** Stops the page's clock at `ms` since the epoch. */
   setClock: (ms: number) => Promise<void>;
@@ -110,10 +112,15 @@ export async function withCubePage(
     await script({
       shoot: async (file, pose, moving = []) =>
         shot(file, call('setPose', source(pose), source(moving))),
-      shootOutside: async (file, eye, lens) =>
+      shootOutside: async (file, eye, lens, moving = []) =>
         shot(
           file,
-          call('setEye', source(eye), ...(lens ? [source(lens)] : [])),
+          call(
+            'setEye',
+            source(eye),
+            lens ? source(lens) : 'undefined',
+            source(moving),
+          ),
         ),
       setClock: async (ms) => {
         await tab.evaluate(call('setClock', String(ms)), z.unknown());
