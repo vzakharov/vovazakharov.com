@@ -10,20 +10,20 @@
     "costUsd": 17.4852358
   },
   "estimate": {
-    "at": "2026-11-12T23:12:36.846Z",
-    "subjectLine": "feat: the island's sound — surf, wind, the cube's hum, new cues",
+    "at": "2026-11-13T12:51:41.329Z",
+    "subjectLine": "feat: the island's sound — wind and surf beds mixed from the sea",
     "parts": [
       {
-        "hours": 14.0,
+        "hours": 10.0,
         "grade": "senior",
         "role": "audio-engineer",
-        "comment": "synthesis, mixing and spectral/loudness measurement of surf, wind, hum and six new cues need an ear and DSP judgement"
+        "comment": "Synthesised wind and surf beds whose level and timing follow the sea's own swell, measured on a bench against the room's hum, is sound design done by ear and by meter"
       },
       {
-        "hours": 8.0,
-        "grade": "senior",
+        "hours": 4.0,
+        "grade": "middle",
         "role": "developer",
-        "comment": "a pure hour-periodic mix model, chunked loop rendering, Web Audio wiring and an offline bench with tests"
+        "comment": "Wiring the outside into the soundscape and the page, with tests, follows patterns the indoor floors already set"
       }
     ],
     "comment": null
