@@ -1,15 +1,33 @@
 {
   "total": {
-    "inputTokens": 60,
-    "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 194667,
-    "cacheReadTokens": 6061814,
-    "outputTokens": 40473,
-    "thinkingTokens": 8997,
-    "responses": 32,
-    "costUsd": 5.946434799999999
+    "inputTokens": 7867,
+    "cacheWrite5mTokens": 1042,
+    "cacheWrite1hTokens": 663243,
+    "cacheReadTokens": 27032513,
+    "outputTokens": 108878,
+    "thinkingTokens": 25306,
+    "responses": 128,
+    "costUsd": 20.027458199999995
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-13T09:26:54.918Z",
+    "subjectLine": "feat: the cube intro's walk — cuts, the way out, waking and climb",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "outside controller at any body scale, the doorway exit, ladder flag and scene engine are movement and camera code with tests"
+      },
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "the waking and climb are judged as storyboards: timing, reveal and framing need a designer's eye over repeated strips"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -34,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkE74S5ZqiB98XpJ7Cy",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T09:17:57.696Z",
-  "lastResponseAt": "2026-11-13T09:25:57.034Z",
+  "lastResponseAt": "2026-11-13T10:15:48.351Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 60,
+    "inputTokens": 232,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 194667,
-    "cacheReadTokens": 6061814,
-    "outputTokens": 40473,
-    "thinkingTokens": 8997,
-    "responses": 32,
-    "costUsd": 5.946434799999999
+    "cacheWrite1hTokens": 663243,
+    "cacheReadTokens": 25021675,
+    "outputTokens": 98446,
+    "thinkingTokens": 25306,
+    "responses": 121,
+    "costUsd": 19.131944599999997
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,38 +77,101 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 60,
+      "inputTokens": 7853,
+      "cacheWrite5mTokens": 1042,
+      "cacheWrite1hTokens": 546122,
+      "cacheReadTokens": 25978851,
+      "outputTokens": 106391,
+      "thinkingTokens": 24084,
+      "responses": 121,
+      "costUsd": 18.267172199999997
+    },
+    "claude-opus-5/standard": {
+      "inputTokens": 14,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 194667,
-      "cacheReadTokens": 6061814,
-      "outputTokens": 40473,
-      "thinkingTokens": 8997,
-      "responses": 32,
-      "costUsd": 5.946434799999999
+      "cacheWrite1hTokens": 117121,
+      "cacheReadTokens": 1053662,
+      "outputTokens": 2487,
+      "thinkingTokens": 1222,
+      "responses": 7,
+      "costUsd": 1.760286
     }
   },
   "warnings": [],
-  "compactions": [],
+  "compactions": [
+    {
+      "at": "2026-11-13T09:41:37.589Z",
+      "trigger": "auto",
+      "compactedFrom": 304027,
+      "summaryChars": 22510,
+      "reorientation": {
+        "endedBy": null,
+        "endedOn": null,
+        "endedAt": null,
+        "contextTokens": null,
+        "spend": {
+          "inputTokens": 108,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 413632,
+          "cacheReadTokens": 9847443,
+          "outputTokens": 44708,
+          "thinkingTokens": 11402,
+          "responses": 56,
+          "costUsd": 9.9528102
+        }
+      },
+      "rereads": {
+        "calls": 5,
+        "byTool": {
+          "Read": 5
+        },
+        "estimatedTokens": 10564,
+        "estimatedUsd": 0.211403
+      },
+      "billedUsd": 0.511587
+    }
+  ],
   "telemetry": {
-    "events": 31,
-    "matched": 31,
-    "matchedTableUsd": 5.823918599999999,
-    "matchedEventUsd": 5.823918599999999,
-    "unseen": {}
+    "events": 127,
+    "matched": 120,
+    "matchedTableUsd": 19.048920999999996,
+    "matchedEventUsd": 19.048920999999996,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 3036,
+        "cacheWrite5mTokens": 761,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 1710313,
+        "outputTokens": 135,
+        "thinkingTokens": 0,
+        "responses": 6,
+        "costUsd": 0.3839266
+      },
+      "compact": {
+        "inputTokens": 4599,
+        "cacheWrite5mTokens": 281,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 300525,
+        "outputTokens": 10297,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.511587
+      }
+    }
   },
   "operatorWords": {
-    "chat": 0,
+    "chat": 2,
     "review": 0,
     "threads": 0
   },
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 2283,
-    ".json": 38,
+    ".md": 2419,
+    ".json": 43,
     ".yaml": 48,
-    ".ts": 9005,
-    ".tsx": -120,
+    ".ts": 15132,
+    ".tsx": -112,
     ".scss": 15
   }
 }

@@ -8,7 +8,7 @@ import { EYE_OVER_SAND } from './roam';
 import { climb, shotOf, stepOff, waking } from './scenes';
 import { type Shot, shotAt } from './track';
 
-const { land, cube, wake, arrival, ladder, indoors } = STAGE;
+const { land, cube, wake, arrival, ladder, shelf } = STAGE;
 
 const overSand = ({ x, y, z }: Shot): number => y - land.height(x, z);
 
@@ -51,7 +51,7 @@ describe('waking', () => {
   });
 
   it('stands looking out to sea, the horizon level', () => {
-    const stood = shotAt(track, 13.5);
+    const stood = shotAt(track, 10.5);
     assert.ok(close(stood.yaw, wake.seaward));
     assert.equal(stood.roll, 0);
     assert.ok(close(overSand(stood), EYE_OVER_SAND, 1e-6));
@@ -69,7 +69,7 @@ describe('waking', () => {
   it('groans once, before it moves', () => {
     const said = track.cues.filter(([, cue]) => cue.cue === 'say');
     assert.equal(said.length, 1);
-    assert.ok((said[0]?.[0] ?? 9) < 4.5);
+    assert.ok((said[0]?.[0] ?? 9) < 4);
   });
 });
 
@@ -78,14 +78,17 @@ describe('climb', () => {
   const up = climb(from, STAGE);
   const shots = sampled(up);
 
-  it('goes from the sand to the room, facing in, exposed for indoors', () => {
+  it('goes from the sand to the room, to look at the pill’s shelf', () => {
     const first = shotAt(up, 0);
     assert.deepEqual({ ...first, ...pick(from, 'yaw') }, from);
     const last = shotAt(up, up.runs);
     assert.deepEqual([last.x, last.y, last.z], arrival);
-    assert.ok(close(Math.cos(last.yaw), -1));
-    assert.equal(last.exposure, indoors);
-    assert.equal(last.elevation, 0);
+    // The gaze from the arrival runs through the shelf.
+    const far = Math.hypot(shelf[0] - last.x, shelf[2] - last.z);
+    assert.ok(close(last.x + far * Math.cos(last.yaw), shelf[0], 1e-9));
+    assert.ok(close(last.z + far * Math.sin(last.yaw), shelf[2], 1e-9));
+    assert.ok(close(last.y + far * Math.tan(last.elevation), shelf[1], 1e-9));
+    assert.equal(last.exposure, 1);
   });
 
   it('takes a hand and a foot to every rung', () => {
@@ -112,21 +115,21 @@ describe('climb', () => {
   });
 });
 
-/** The eye of a body of `scale` pressed to the doorway from inside. */
-const pressed = (scale: number): Shot => ({
-  x: cube.max[0] - 0.3 * scale,
+/** The eye of a body of `scale` on the sill's edge. */
+const onEdge = (scale: number): Shot => ({
+  x: cube.max[0],
   y: ladder.top[1] + EYE_OVER_SAND * scale,
   z: -1.7,
   yaw: 0.2,
   elevation: -0.1,
   roll: 0,
   lids: 1,
-  exposure: indoors,
+  exposure: 1,
 });
 
 describe('stepOff', () => {
   for (const scale of [1, 0.5]) {
-    const from = pressed(scale);
+    const from = onEdge(scale);
     const track = stepOff(from, scale, STAGE);
     const shots = sampled(track, 0.01);
 
@@ -155,9 +158,9 @@ describe('stepOff', () => {
       const [[at, cue] = [0, null]] = track.cues;
       assert.equal(track.cues.length, 1);
       assert.ok(cue?.cue === 'landing');
-      assert.ok(close(at, 0.35 + Math.sqrt((2 * drop) / 9.8), 1e-9));
+      assert.ok(close(at, 0.2 + Math.sqrt((2 * drop) / 9.8), 1e-9));
       // Half way through the fall's time, a quarter of the way down.
-      const half = shotAt(track, 0.35 + (at - 0.35) / 2);
+      const half = shotAt(track, 0.2 + (at - 0.2) / 2);
       assert.ok(close(from.y - half.y, drop / 4, 1e-9));
       assert.ok(shots.every((shot) => overSand(shot) > 0.6 * scale));
     });

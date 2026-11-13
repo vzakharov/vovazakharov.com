@@ -1,6 +1,6 @@
 /**
- * Shoots the intro's scenes as their cameras play them, a frame every half
- * second, each through the lens the scene holds at that moment. A scene is
+ * Shoots the intro's scenes as the page plays them, a frame every half
+ * second. A scene is
  * judged from these as a storyboard.
  *
  *   pnpm scenes:cube                     # every scene, to tmp/cube-scenes/
@@ -9,23 +9,35 @@
  *   pnpm scenes:cube --every 1           # a frame every second instead
  *   pnpm scenes:cube --out <dir>         # frames there instead, <dir> absolute
  *
- * The body's own legs are left out: the hook that puts an eye outside takes
- * no quads to stand under it.
+ * Each is played through the walk's own controller, so a frame holds what the
+ * page draws: the body's legs and hands, its shadow, the ladder standing or
+ * gone, and the lens as the eye has got used to the light.
  */
 
 import path from 'node:path';
 
 import {
-  climb,
+  type Abroad,
+  abroad,
+  asleepOn,
+  bearingOf,
+  handsAbroad,
+  INTRO_STAGE,
+  legsOf,
   outsideOf,
+  roamingFree,
   type Shot,
-  shotAt,
   shotOf,
-  stepOff,
-  type Track,
-  waking,
+  standingOf,
+  steppingOut,
+  STILL,
+  whereOf,
 } from '@/cube/features/player';
-import { lensOf, LIT_STAGE } from '@/cube/pages/cube/index.node-safe';
+import {
+  adapted,
+  lensAdapted,
+  lensOf,
+} from '@/cube/pages/cube/index.node-safe';
 
 import { withCubePage } from './lib/cube-page';
 
@@ -38,7 +50,11 @@ const FRAMES = path.resolve(
 );
 const EVERY = Number(flag('every') ?? 0.5);
 
-const { land, ladder, arrival, cube, indoors } = LIT_STAGE;
+/** The seconds a played frame lasts, and the longest a scene is played for. */
+const FRAME = 1 / 30;
+const LONGEST = 40;
+
+const { land, ladder, arrival, cube } = INTRO_STAGE;
 
 /** A standing eye's height over the sand, in metres. */
 const STANDING = 1.6;
@@ -53,33 +69,82 @@ const standing = (x: number, z: number, yaw: number): Shot =>
   });
 
 /**
- * The eye of a body of `scale` pressed to the doorway from inside, looking
- * out and a little down.
+ * The eye of a body of `scale` on the sill's edge, looking out and a little
+ * down.
  */
-const atDoorway = (scale: number): Shot => ({
-  ...shotOf({
-    eye: [
-      cube.max[0] - 0.3 * scale,
-      ladder.top[1] + STANDING * scale,
-      arrival[2],
-    ],
+const atDoorway = (scale: number): Shot =>
+  shotOf({
+    eye: [cube.max[0], ladder.top[1] + STANDING * scale, arrival[2]],
     yaw: 0,
     elevation: -0.15,
     roll: 0,
-  }),
-  exposure: indoors,
-});
+  });
 
-const SCENES: Record<string, () => Track<unknown>> = {
-  waking: () => waking(LIT_STAGE),
-  climb: () =>
-    climb(
+/** A scene's body as it starts, the input that sets it off, and whether its eye starts used to the room. */
+type Opening = { body: Abroad; press: boolean; indoors: number };
+
+const SCENES: Record<string, () => Opening> = {
+  waking: () => ({ body: asleepOn(INTRO_STAGE, 0), press: false, indoors: 0 }),
+  climb: () => ({
+    body: roamingFree(
       standing(ladder.foot[0] + 0.9, ladder.foot[2] + 0.3, Math.PI),
-      LIT_STAGE,
+      1,
+      INTRO_STAGE,
+      0,
+      false,
     ),
-  jump: () => stepOff(atDoorway(1), 1, LIT_STAGE),
-  'jump-small': () => stepOff(atDoorway(0.5), 0.5, LIT_STAGE),
+    press: true,
+    indoors: 0,
+  }),
+  jump: () => ({
+    body: steppingOut(atDoorway(1), 1, INTRO_STAGE, 0),
+    press: false,
+    indoors: 1,
+  }),
+  'jump-small': () => ({
+    body: steppingOut(atDoorway(0.5), 0.5, INTRO_STAGE, 0),
+    press: false,
+    indoors: 1,
+  }),
 };
+
+/** What the page draws of `body`, its eye `indoors` used to the room. */
+function drawn(body: Abroad, indoors: number) {
+  const { shot, ladderGone } = body;
+  const bearing = bearingOf(body, INTRO_STAGE, 0);
+  return {
+    eye: outsideOf(shot),
+    lens: lensAdapted(indoors, lensOf(shot)),
+    among: {
+      moving:
+        bearing === null
+          ? []
+          : [...legsOf(bearing, land), ...handsAbroad(body, INTRO_STAGE)],
+      ladderGone,
+      body: standingOf(body, INTRO_STAGE),
+    },
+  };
+}
+
+/** `opening` played as the page plays it, drawn every `EVERY` seconds until its scene ends. */
+function played({ body: from, press, indoors: used }: Opening) {
+  let body = from;
+  let indoors = used;
+  const frames = [drawn(body, indoors)];
+  let due = EVERY;
+  for (let t = FRAME; t < LONGEST; t += FRAME) {
+    const input = press && t === FRAME ? { ...STILL, use: true } : STILL;
+    body = abroad(body, input, FRAME, 0, INTRO_STAGE, true);
+    indoors = adapted(indoors, whereOf(body.shot, INTRO_STAGE), FRAME);
+    const over = body.scene === null;
+    if (t >= due || over) {
+      frames.push(drawn(body, indoors));
+      due += EVERY;
+    }
+    if (over) break;
+  }
+  return frames;
+}
 
 async function main(): Promise<void> {
   const names = flag('scenes')?.split(',') ?? Object.keys(SCENES);
@@ -90,16 +155,14 @@ async function main(): Promise<void> {
         `No scene is named ${name}: ${Object.keys(SCENES).join(', ')}`,
       );
     }
-    const track = scene();
-    const count = Math.floor(track.runs / EVERY) + 1;
-    return Array.from({ length: count }, (_, index) => ({
+    return played(scene()).map((frame, index) => ({
+      ...frame,
       file: path.join(FRAMES, name, `${String(index).padStart(3, '0')}.png`),
-      shot: shotAt(track, index * EVERY),
     }));
   });
   await withCubePage(async ({ shootOutside }) =>
-    inTurn(frames, async ({ file, shot }) =>
-      shootOutside(file, outsideOf(shot), lensOf(shot)),
+    inTurn(frames, async ({ file, eye, lens, among }) =>
+      shootOutside(file, eye, lens, among),
     ),
   );
 }

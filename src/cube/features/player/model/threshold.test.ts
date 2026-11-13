@@ -1,16 +1,29 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { isOutside, type Pose, type Walls } from '@/cube/entities/world';
+
 import { type Abroad, abroad, steppingOut } from './abroad';
+import { BODY_RADIUS, walk } from './body';
 import { INTRO_STAGE } from './intro-stage';
 import { arrivedOn } from './play';
 import { EYE_OVER_SAND, roamingAt } from './roam';
 import { shotOf } from './scenes';
 import { EYE_HEIGHT, STILL } from './step';
-import { poseWithin, shotWithin, stepsOut } from './threshold';
+import {
+  isPastSill,
+  onSill,
+  poseWithin,
+  shotWithin,
+  standingWithin,
+  whereOf,
+} from './threshold';
 
 const { land, ladder, arrival, cube } = INTRO_STAGE;
 const DT = 1 / 30;
+
+/** A floor with every wall shut. */
+const CLOSED: Walls = { isOpenEast: () => false, isOpenSouth: () => false };
 
 /** `state` played with no keys until its scene ends. */
 function played(state: Abroad): Abroad {
@@ -24,7 +37,7 @@ function played(state: Abroad): Abroad {
 describe('the threshold', () => {
   it('reads a pose in the room as a camera and back', () => {
     const pose = { ...arrivedOn(1), u: 0.8, v: 0.2, yaw: 0.4, elevation: -0.1 };
-    const shot = shotWithin(pose, INTRO_STAGE);
+    const shot = shotWithin(pose);
     assert.ok(shot.x > cube.min[0] && shot.x < cube.max[0]);
     assert.ok(Math.abs(shot.y - (cube.min[1] + 2.5 + 1.6)) < 1e-9);
     const back = poseWithin(shot);
@@ -35,7 +48,7 @@ describe('the threshold', () => {
     assert.equal(back.scale, 1);
   });
 
-  it('arrives inside the room, past the doorway, facing in', () => {
+  it('arrives inside the room, past the doorway', () => {
     const [x, y, z] = arrival;
     const pose = poseWithin({
       ...shotOf({ eye: [x, y, z], yaw: -Math.PI, elevation: 0, roll: 0 }),
@@ -46,31 +59,43 @@ describe('the threshold', () => {
     assert.equal(pose.n, 1);
   });
 
-  it('walks out of the doorway only pressed to it, inside it, heading east', () => {
-    const east = { ...STILL, walk: 1 };
+  it('walks out through the doorway and nowhere else along the wall', () => {
+    /** `pose` after walking east for a room's side, a step at a time. */
+    const walkedEast = (pose: Pose): Pose => {
+      let now = pose;
+      for (let step = 0; step < 100 && !isPastSill(now); step += 1) {
+        now = walk(now, 0.01, 0, CLOSED);
+      }
+      return now;
+    };
     for (const scale of [1, 0.5]) {
-      const by = {
-        ...arrivedOn(1),
-        scale,
-        u: 1 - 0.06 * scale,
-        v: 0.15,
-        yaw: 0.3,
-      };
-      assert.ok(stepsOut(by, east), `at scale ${scale}`);
-      assert.ok(!stepsOut(by, STILL));
-      assert.ok(!stepsOut(by, { ...STILL, walk: -1 }));
-      assert.ok(!stepsOut({ ...by, yaw: Math.PI }, east));
-      assert.ok(
-        stepsOut({ ...by, yaw: Math.PI / 2 }, { ...STILL, strafe: -1 }),
-      );
-      assert.ok(!stepsOut({ ...by, u: 0.9 }, east));
-      assert.ok(!stepsOut({ ...by, v: 0.4 }, east));
-      assert.ok(!stepsOut({ ...by, n: 2 }, east));
+      const by = { ...arrivedOn(1), scale, u: 0.8, v: 0.15 };
+      const through = walkedEast(by);
+      assert.ok(isPastSill(through), `at scale ${scale}`);
+      const back = onSill(through);
+      assert.ok(back.x === 0n && back.u < 1 && back.u > 0.99);
+      assert.equal(back.v, through.v);
+      const beside = walkedEast({ ...by, v: 0.4 });
+      assert.ok(!isPastSill(beside));
+      assert.ok(Math.abs(beside.u - (1 - BODY_RADIUS * scale)) < 1e-9);
     }
-    // A whole body's width does not fit where a halved one's does.
-    const edge = { ...arrivedOn(1), v: 0.09, yaw: 0 };
-    assert.ok(!stepsOut({ ...edge, u: 0.94 }, east));
-    assert.ok(stepsOut({ ...edge, u: 0.97, scale: 0.5 }, east));
+    const upstairs = walkedEast({ ...arrivedOn(2), u: 0.8, v: 0.15 });
+    assert.ok(!isPastSill(upstairs) && upstairs.x === 0n);
+  });
+
+  it('adapts a camera within the cube as a pose, and one outside as out of doors', () => {
+    const [x, y, z] = arrival;
+    const inside = shotOf({ eye: [x, y, z], yaw: 0, elevation: 0, roll: 0 });
+    assert.ok(!isOutside(whereOf(inside, INTRO_STAGE)));
+    assert.ok(
+      isOutside(whereOf({ ...inside, x: cube.max[0] + 0.1 }, INTRO_STAGE)),
+    );
+  });
+
+  it('stands a body in the room where the sun meets it', () => {
+    const { foot, headAbove } = standingWithin({ ...arrivedOn(1), u: 1, v: 0 });
+    assert.deepEqual(foot, [cube.max[0], ladder.top[1] + 0.01, cube.min[2]]);
+    assert.ok(headAbove > 1.6 && headAbove < 1.8);
   });
 
   it('climbs the real ladder into the room and steps back out onto the sand', () => {
@@ -94,10 +119,9 @@ describe('the threshold', () => {
       abroad(free, { ...STILL, use: true }, DT, 0, INTRO_STAGE, true),
     );
     assert.ok(up.entered);
-    const pose = { ...poseWithin(up.shot), u: 0.94, yaw: 0 };
-    assert.ok(stepsOut(pose, { ...STILL, walk: 1 }));
+    const pose = onSill({ ...poseWithin(up.shot), x: 1n, yaw: 0 });
     const down = played(
-      steppingOut(shotWithin(pose, INTRO_STAGE), 1, INTRO_STAGE, 0),
+      steppingOut(shotWithin(pose), 1, INTRO_STAGE, 0),
     );
     const [x, y, z] = down.roamer.eye;
     assert.ok(x > cube.max[0] + 0.3 && x < cube.max[0] + 1);

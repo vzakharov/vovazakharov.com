@@ -1,4 +1,5 @@
-export { lensOf, LIT_STAGE } from './lib/lit-stage';
+export { adapted, lensAdapted } from './lib/adaptation';
+export { lensOf } from './lib/lit-stage';
 export { outdoorSources } from './lib/outdoor-shaders';
 export { OUTSIDE_LENS, type OutsideLens } from './lib/outside-lens';
 export {

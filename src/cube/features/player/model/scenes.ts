@@ -20,8 +20,8 @@ import {
  * out to sea; the cube's footprint and the height of its underside; the
  * ladder from its foot on the sand to its top at the doorway's sill, with the
  * heights of its rungs from the lowest and the ground it stands in a body's
- * way on while it stands; the eye of a body just inside the doorway, facing
- * in; and the share of the outside lens's exposure that shows the room as
+ * way on while it stands; the eye of a body just inside the doorway, and the
+ * pill's shelf it looks at from there; and the share of the outside lens's exposure that shows the room as
  * its own lens does. `land`'s solids are what stands for good: the cube.
  */
 export type Stage = {
@@ -30,8 +30,11 @@ export type Stage = {
   cube: Box;
   ladder: { foot: Vec3; top: Vec3; rungs: readonly number[]; solid: Box };
   arrival: Vec3;
-  indoors: number;
+  shelf: Vec3;
 };
+
+/** A whole body's crown over its eye, in metres. */
+export const HEAD_OVER_EYE = 0.12;
 
 /** Where an eye is, as a shot's own channels. */
 type Spot = Record<'x' | 'y' | 'z', number>;
@@ -75,6 +78,9 @@ export const outsideOf = ({
   roll,
 }: Shot): Outside => ({ eye: [x, y, z], yaw, elevation, roll });
 
+/** How bright the first light is to eyes that were shut, as a multiple. */
+const DAZZLE = 1.5;
+
 /**
  * Waking: dark; the lids part on a world lying on its side, close, and part
  * again; the groan; up on an elbow, sitting with the legs in the swash,
@@ -104,62 +110,51 @@ export function waking({ land, wake, cube }: Stage): Track<Cue> {
     cube.min[1] + 2.5 - (land.height(...stood) + EYE_OVER_SAND),
     toCube.far,
   );
+  /** Flat on its side, the head inland of the hips, looking down its legs. */
+  const lying = {
+    ...eyeAt(-0.8, 0.13),
+    yaw: seaward + 0.3 * side,
+    elevation: 0.03,
+    roll: 1.1 * side,
+  };
+  const sitting = { ...eyeAt(-0.12, 0.8), yaw: seaward, elevation: -0.2 };
   const beats: Beat[] = [
-    // Lying on its side, the head inland of the hips, looking down its legs.
-    {
-      mark: 0,
-      ...eyeAt(-0.8, 0.13),
-      yaw: seaward + 0.45 * side,
-      elevation: 0.04,
-      roll: 1.3 * side,
-      lids: 0,
-      exposure: 2.6,
-    },
-    { mark: 0.7, lids: 0 },
-    { mark: 1.7, lids: 0.4 },
-    { mark: 2.3, lids: 0, ease: 'in' },
-    { mark: 3.1, lids: 0 },
-    { mark: 4.3, lids: 0.85, exposure: 1.7 },
-    { mark: 4.6, ...eyeAt(-0.8, 0.13), roll: 1.3 * side, elevation: 0.04 },
-    { mark: 4.7, yaw: seaward + 0.45 * side },
-    { mark: 5.4, lids: 1 },
+    { mark: 0, ...lying, lids: 0, exposure: DAZZLE },
+    { mark: 0.6, lids: 0 },
+    // A first look, too bright to keep.
+    { mark: 1.3, lids: 0.35 },
+    { mark: 1.8, lids: 0, ease: 'in' },
+    { mark: 2.4, lids: 0, exposure: DAZZLE },
+    { mark: 3.4, lids: 1 },
+    { mark: 4.2, ...lying, exposure: 1 },
     // Up on an elbow.
     {
-      mark: 6.4,
+      mark: 5.6,
       ...eyeAt(-0.62, 0.44),
-      yaw: seaward + 0.2 * side,
-      elevation: -0.22,
-      roll: 0.4 * side,
-      exposure: 1.2,
+      yaw: seaward + 0.15 * side,
+      elevation: -0.1,
+      roll: 0.35 * side,
     },
-    { mark: 7 },
-    // Sitting, the legs and the swash below.
-    {
-      mark: 8.7,
-      ...eyeAt(-0.12, 0.8),
-      yaw: seaward,
-      elevation: -0.42,
-      roll: 0,
-      exposure: 1,
-    },
-    { mark: 9.6, ...eyeAt(-0.12, 0.8), elevation: -0.42 },
+    // Sitting: the legs and the swash below, the horizon above them.
+    { mark: 7.2, ...sitting, roll: 0 },
+    { mark: 8, ...sitting },
     // Onto the feet: forward over the knees, then up.
-    { mark: 10.7, ...eyeAt(0.3, 1.02), elevation: -0.6, ease: 'in' },
-    { mark: 12.3, ...eyeAt(0.2, EYE_OVER_SAND), elevation: -0.02, ease: 'out' },
+    { mark: 8.9, ...eyeAt(0.3, 1.02), elevation: -0.45, ease: 'in' },
+    { mark: 10.1, ...eyeAt(0.2, EYE_OVER_SAND), elevation: -0.03, ease: 'out' },
     // Nothing but sea.
-    { mark: 13.8, yaw: seaward, elevation: -0.02, roll: 0 },
+    { mark: 10.9, yaw: seaward, elevation: -0.03, roll: 0 },
     // Over the shoulder: the head leads, the body follows.
-    { mark: 15.4, roll: 0.05 * side },
-    { mark: 17.6, yaw: round, elevation: cubeHigh * 0.55, roll: 0 },
-    { mark: 19.2 },
+    { mark: 12.2, roll: 0.04 * side },
+    { mark: 14.1, yaw: round, elevation: cubeHigh, roll: 0 },
+    { mark: 15.3 },
   ];
   const cues: Marks = [
-    [2, { cue: 'say', moment: 'waking' }],
-    [6.1, { cue: 'splash', strength: 0.12 }],
-    [11.2, { cue: 'step', strength: 0.35, ground: 'shallows' }],
-    [11.9, { cue: 'step', strength: 0.4, ground: 'wet-sand' }],
-    [15.2, { cue: 'step', strength: 0.3, ground: 'wet-sand' }],
-    [16.4, { cue: 'step', strength: 0.3, ground: 'wet-sand' }],
+    [1.6, { cue: 'say', moment: 'waking' }],
+    [4.6, { cue: 'splash', strength: 0.12 }],
+    [9.2, { cue: 'step', strength: 0.35, ground: 'shallows' }],
+    [9.9, { cue: 'step', strength: 0.4, ground: 'wet-sand' }],
+    [12.1, { cue: 'step', strength: 0.3, ground: 'wet-sand' }],
+    [13.2, { cue: 'step', strength: 0.3, ground: 'wet-sand' }],
   ];
   return trackOf(beats, cues);
 }
@@ -177,9 +172,10 @@ export const LADDER_REACH = 1.6;
 /**
  * The climb from a stance at the ladder's foot: a rung at a time, a foot and
  * then a hand, the eye swaying from side to side; over the sill, through the
- * doorway into the dimmer room, to stand at the stage's `arrival` facing in.
+ * doorway into the dimmer room, to stand at the stage's `arrival` looking
+ * down the sun's beam at the pill's `shelf`.
  */
-function ascent({ land, ladder, arrival, indoors }: Stage): Track<Cue> {
+function ascent({ land, ladder, arrival, shelf }: Stage): Track<Cue> {
   const { foot, top, rungs } = ladder;
   const { yaw } = wayTo([foot[0], foot[2]], [top[0], top[2]]);
   const [cos, sin] = [Math.cos(yaw), Math.sin(yaw)];
@@ -209,6 +205,7 @@ function ascent({ land, ladder, arrival, indoors }: Stage): Track<Cue> {
   });
   const over = begins + RUNG_TIME * (rungs.length + 1);
   const [inX, inY, inZ] = arrival;
+  const toShelf = wayTo([inX, inZ], [shelf[0], shelf[2]]);
   const beats: Beat[] = [
     {
       mark: 0,
@@ -233,8 +230,15 @@ function ascent({ land, ladder, arrival, indoors }: Stage): Track<Cue> {
       roll: 0,
       exposure: 1,
     },
-    { mark: over + 1.5, x: inX, y: inY, z: inZ, yaw: nearest(Math.PI, yaw) },
-    { mark: over + 2.1, exposure: indoors },
+    {
+      mark: over + 1.5,
+      x: inX,
+      y: inY,
+      z: inZ,
+      yaw: nearest(toShelf.yaw, yaw),
+      elevation: Math.atan2(shelf[1] - inY, toShelf.far),
+    },
+    { mark: over + 2.3 },
   ];
   const cues: Marks = [
     ...rungs.flatMap((_, index): Array<Marked<Cue>> => {
@@ -271,7 +275,7 @@ export const climb = (from: Shot, stage: Stage): Track<Cue> =>
   entered(from, ascent(stage));
 
 /** Seconds from the wall to the sill's edge, and the fall's pull, in m/s². */
-const TO_EDGE = 0.35;
+const TO_EDGE = 0.2;
 const GRAVITY_METRES = 9.8;
 /**
  * How far out of the cube's face a whole body's eye is as it starts to fall,
@@ -284,8 +288,8 @@ const DIP = 0.3;
 const DIP_TIME = 0.55;
 
 /**
- * The step off the sill, from where a body of `scale` stands `from` inside,
- * pressed to the doorway: out over the edge, a fall to the sand under the
+ * The step off the sill, from where a body of `scale` stands `from` on its
+ * edge: out over it, a fall to the sand under the
  * doorway, the knees giving on it; the eye keeps its gaze all the way and the
  * lens opens to the daylight.
  */

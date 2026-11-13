@@ -1,3 +1,5 @@
+import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
+import { DOORWAY } from '@/cube/shared/outside';
 import type { InRoom, Pose, Walls } from '@/cube/entities/world';
 
 /**
@@ -11,10 +13,14 @@ const PASSES = 4;
 
 type Segment = { a: InRoom; b: InRoom };
 
+/** The doorway's jambs along floor 1's east wall, in room sides from its north end. */
+const JAMBS = [DOORWAY.from / ROOM_METRES, DOORWAY.to / ROOM_METRES] as const;
+
 /**
- * The closed walls a body in `pose`'s room can touch, as unit segments on the
+ * The closed walls a body in `pose`'s room can touch, as segments on the
  * lines `u = 0`, `u = 1`, `v = 0` and `v = 1` of that room's frame. The closed
- * walls' ends are the door jambs.
+ * walls' ends are the door jambs, and floor 1's east wall stands either side
+ * of the doorway out of the cube.
  */
 export function closedWalls({ n, x, y }: Pose, walls: Walls): Segment[] {
   const segments: Segment[] = [];
@@ -23,7 +29,14 @@ export function closedWalls({ n, x, y }: Pose, walls: Walls): Segment[] {
     for (const line of [0, 1]) {
       const edge = BigInt(line - 1);
       if (!walls.isOpenEast(n, x + edge, y + big)) {
-        segments.push({ a: { u: line, v: d }, b: { u: line, v: d + 1 } });
+        const out = n === 1 && x + edge === 0n && y + big === 0n;
+        const ends = out ? [0, ...JAMBS, 1] : [0, 1];
+        for (let end = 0; end < ends.length; end += 2) {
+          segments.push({
+            a: { u: line, v: d + (ends[end] ?? 0) },
+            b: { u: line, v: d + (ends[end + 1] ?? 1) },
+          });
+        }
       }
       if (!walls.isOpenSouth(n, x + big, y + edge)) {
         segments.push({ a: { u: d, v: line }, b: { u: d + 1, v: line } });

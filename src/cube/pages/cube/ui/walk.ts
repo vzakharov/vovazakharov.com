@@ -16,10 +16,14 @@ import {
   bindInput,
   canClimb,
   canPress,
+  handsAbroad,
   handsOf,
   type Input,
+  INTRO_STAGE,
+  isPastSill,
   isStanding,
   legsOf,
+  onSill,
   outsideOf,
   plantedHoled,
   plantedWalls,
@@ -28,14 +32,17 @@ import {
   poseWithin,
   shotWithin,
   standingAt,
+  standingOf,
+  standingWithin,
   steppingOut,
-  stepsOut,
   STILL,
   takenOf,
+  whereOf,
 } from '@/cube/features/player';
 
+import { adapted, lensAdapted } from '../lib/adaptation';
 import { type Follow, followAddress } from '../lib/fragment';
-import { lensOf, LIT_STAGE } from '../lib/lit-stage';
+import { lensOf } from '../lib/lit-stage';
 import { type CubePlayHook, PLAY_HOOK, PLAY_INSTANT } from '../lib/play';
 import { type Start, writeCheat, writeFragment } from '../lib/start';
 import type { Selling, SignOf } from './cube-mesh';
@@ -103,13 +110,15 @@ export function walk(
   /** The body while it is out of doors, and what its eye shows there. */
   let out: Abroad | null =
     ashore && input !== null
-      ? asleepOn(LIT_STAGE, clockAt(Date.now()).seconds)
+      ? asleepOn(INTRO_STAGE, clockAt(Date.now()).seconds)
       : null;
   /**
    * Whether the ladder has gone: from the frame the body first comes in by
    * the doorway, and all along for a walk that starts inside.
    */
   let ladderGone = out === null;
+  /** How used the eye is to floor 1's lamps: 0 in daylight, 1 by them. */
+  let indoors = out === null ? 1 : 0;
   /** The body's own quads out of doors, in the frame of floor 1's room. */
   let body: readonly Quad[] = [];
   /** Whether the player has given the sign the sleeper wakes at. */
@@ -150,7 +159,7 @@ export function walk(
    */
   const outdoors = (was: Abroad, controls: Input, dt: number): Pose | null => {
     const { seconds } = clockAt(now());
-    const next = abroad(was, controls, dt, seconds, LIT_STAGE, woken);
+    const next = abroad(was, controls, dt, seconds, INTRO_STAGE, woken);
     const { cues, shot, entered, asleep } = next;
     hearing?.body(cues, outsideOf(shot));
     if (entered) {
@@ -161,15 +170,37 @@ export function walk(
       return poseWithin(shot);
     }
     out = next;
-    const bearing = bearingOf(next, LIT_STAGE, seconds);
-    body = bearing === null ? [] : legsOf(bearing, LIT_STAGE.land);
+    const bearing = bearingOf(next, INTRO_STAGE, seconds);
+    body =
+      bearing === null
+        ? []
+        : [
+            ...legsOf(bearing, INTRO_STAGE.land),
+            ...handsAbroad(next, INTRO_STAGE),
+          ];
     setFloor(null);
     setInReach(null);
     setPill(null);
     setWay(
-      asleep ? 'wake' : canClimb(next, LIT_STAGE, seconds) ? 'climb' : null,
+      asleep ? 'wake' : canClimb(next, INTRO_STAGE, seconds) ? 'climb' : null,
     );
     return null;
+  };
+
+  /**
+   * The frame's share for a body inside at `pose`, `dt` seconds on: floor 1
+   * is seen through the lens the eye has got used to, and stands in the sun.
+   */
+  const indoorsAt = (pose: Pose, dt: number) => {
+    indoors = adapted(indoors, pose, dt);
+    return pose.n === 1
+      ? {
+          pose,
+          ladderGone,
+          lens: lensAdapted(indoors),
+          body: standingWithin(pose),
+        }
+      : { pose, ladderGone };
   };
 
   const scene = mountCube(canvas, {
@@ -191,17 +222,19 @@ export function walk(
               const inside = outdoors(out, controls, seconds);
               if (inside === null) {
                 const { shot } = out;
+                indoors = adapted(indoors, whereOf(shot, INTRO_STAGE), seconds);
                 return {
                   pose,
                   taken: null,
                   moving: body,
                   outside: outsideOf(shot),
-                  lens: lensOf(shot),
+                  lens: lensAdapted(indoors, lensOf(shot)),
                   ladderGone,
+                  body: standingOf(out, INTRO_STAGE),
                 };
               }
               player = standingAt(inside);
-              return { pose: inside, taken: null, moving: [], ladderGone };
+              return { ...indoorsAt(inside, seconds), taken: null, moving: [] };
             }
             const here = holedHere(pose);
             player = playFrame(
@@ -211,6 +244,9 @@ export function walk(
               plantedWalls,
               here,
             );
+            // Past the sill there is only the drop to the sand.
+            const leaving = isPastSill(player.pose);
+            if (leaving) player = { ...player, pose: onSill(player.pose) };
             const { pose: moved, cues } = player;
             hearing?.body(cues, moved);
             const standing = isStanding(player);
@@ -222,21 +258,19 @@ export function walk(
             reach(moved, signOf, controls.use && standing);
             setPill(pillPromptOf(player, moved, here));
             setWay(null);
-            // Through the doorway there is only the drop to the sand.
-            if (standing && stepsOut(moved, controls)) {
+            if (leaving) {
               out = steppingOut(
-                shotWithin(moved, LIT_STAGE),
+                shotWithin(moved),
                 moved.scale,
-                LIT_STAGE,
+                INTRO_STAGE,
                 clockAt(now()).seconds,
               );
             }
             follow?.(moved, standing, seconds);
             return {
-              pose: moved,
+              ...indoorsAt(moved, seconds),
               taken: takenOf(player),
               moving: handsOf(player),
-              ladderGone,
             };
           },
     onHeard: (heard, at) => {

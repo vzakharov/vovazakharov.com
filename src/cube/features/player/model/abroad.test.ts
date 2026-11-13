@@ -10,7 +10,7 @@ import { type Input, STILL } from './step';
 
 const DT = 1 / 30;
 const ahead: Input = { ...STILL, walk: 1 };
-const { land, arrival, wake, indoors } = STAGE;
+const { land, arrival, wake } = STAGE;
 
 /** `state` after `seconds` of `input`, awake, and every cue on the way. */
 function run(
@@ -117,7 +117,6 @@ describe('abroad', () => {
           elevation: 0,
           roll: 0,
         }),
-        exposure: indoors,
       };
       const { state, cues } = run(
         steppingOut(inside, scale, STAGE, 0),

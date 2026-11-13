@@ -4,6 +4,9 @@ export {
   asleepOn,
   bearingOf,
   canClimb,
+  handsAbroad,
+  roamingFree,
+  standingOf,
   steppingOut,
 } from './model/abroad';
 export { grippingHand } from './model/grip';
@@ -35,7 +38,14 @@ export {
 } from './model/scenes';
 export { EYE_HEIGHT, type Input, STILL } from './model/step';
 export { canTake, isAsking } from './model/take';
-export { poseWithin, shotWithin, stepsOut } from './model/threshold';
+export {
+  isPastSill,
+  onSill,
+  poseWithin,
+  shotWithin,
+  standingWithin,
+  whereOf,
+} from './model/threshold';
 export { type Shot, shotAt, type Track } from './model/track';
 export { plantedWalls } from './model/walls';
 export { bindInput } from './ui/input';

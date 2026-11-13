@@ -1,54 +1,16 @@
 import {
-  CUBE_AT,
   CUBE_BOX,
   CUBE_METRES,
+  DOOR_LADDER,
   DOORWAY,
   islandHeight,
   toWorld,
   WAKE_AT,
   waterLevel,
 } from '@/cube/shared/outside';
-import type { Vec3 } from '@/cube/entities/world';
 
 import type { Stage } from './scenes';
 import { EYE_HEIGHT } from './step';
-
-/** How steeply the ladder leans, from the sand, and its rungs' spacing and width. */
-const LEAN = (75 * Math.PI) / 180;
-const RUNG_EVERY = 0.28;
-const LADDER_WIDE = 0.45;
-
-/** The doorway's middle south of the cube frame's origin, in metres. */
-const DOOR_MIDDLE = (DOORWAY.from + DOORWAY.to) / 2;
-
-/** The ladder's top, on the sill under the doorway's middle. */
-const LADDER_TOP: Vec3 = [
-  CUBE_BOX.max[0],
-  CUBE_AT[1],
-  CUBE_AT[2] + DOOR_MIDDLE,
-];
-
-/**
- * The ladder's foot: east of its top on the sand, where a ladder leaning at
- * `LEAN` from the sill comes down.
- */
-function ladderFoot(): Vec3 {
-  const [x, top, z] = LADDER_TOP;
-  // The sand falls away eastward, so the reach is found, not solved for.
-  let out = (top - islandHeight([x, z])) / Math.tan(LEAN);
-  for (let pass = 0; pass < 8; pass += 1) {
-    out = (top - islandHeight([x + out, z])) / Math.tan(LEAN);
-  }
-  return [x + out, islandHeight([x + out, z]), z];
-}
-
-const LADDER_FOOT = ladderFoot();
-
-/** The rungs' heights from the lowest, the last a step under the sill. */
-const RUNGS = Array.from(
-  { length: Math.floor((LADDER_TOP[1] - LADDER_FOOT[1]) / RUNG_EVERY - 0.5) },
-  (_, index) => LADDER_FOOT[1] + RUNG_EVERY * (index + 1),
-);
 
 /**
  * How far inside the doorway the body arrives, and how far south of the
@@ -56,6 +18,10 @@ const RUNGS = Array.from(
  */
 const ARRIVES_IN = 0.9;
 const ARRIVES_SOUTH = 0.64;
+
+/** The pill's shelf on floor 1's west wall: metres south along it, and up. */
+const SHELF_SOUTH = 3.75;
+const SHELF_UP = 1;
 
 /**
  * How far the body lies turned from straight out to sea, to its right: the
@@ -69,6 +35,8 @@ const ASKEW = 0.3;
  * doorway and the shore the body wakes on, its feet towards the sea and away
  * from the cube.
  */
+const { foot, top, rungs, wide } = DOOR_LADDER;
+
 export const INTRO_STAGE: Stage = {
   land: {
     height: (x, z) => islandHeight([x, z]),
@@ -85,18 +53,18 @@ export const INTRO_STAGE: Stage = {
   },
   cube: CUBE_BOX,
   ladder: {
-    foot: LADDER_FOOT,
-    top: LADDER_TOP,
-    rungs: RUNGS,
+    foot,
+    top,
+    rungs: rungs.map(([, y]) => y),
     solid: {
-      min: [LADDER_TOP[0], LADDER_FOOT[1], LADDER_TOP[2] - LADDER_WIDE / 2],
-      max: [LADDER_FOOT[0], LADDER_TOP[1], LADDER_TOP[2] + LADDER_WIDE / 2],
+      min: [CUBE_BOX.max[0], foot[1], top[2] - wide / 2],
+      max: [foot[0], top[1], top[2] + wide / 2],
     },
   },
+  shelf: toWorld([0, SHELF_UP / CUBE_METRES, SHELF_SOUTH / CUBE_METRES]),
   arrival: toWorld([
     1 - ARRIVES_IN / CUBE_METRES,
     EYE_HEIGHT,
     (DOORWAY.from + (DOORWAY.to - DOORWAY.from) * ARRIVES_SOUTH) / CUBE_METRES,
   ]),
-  indoors: 1,
 };

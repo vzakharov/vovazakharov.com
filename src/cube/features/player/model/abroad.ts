@@ -1,10 +1,13 @@
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Laddered } from '@/cube/shared/outside';
+import type { Laddered, Standing } from '@/cube/shared/outside';
+import type { Quad } from '@/cube/entities/world';
 
+import { handsOnLadder } from './climbing';
 import { type Cue, type Cued, NO_CUES } from './player';
 import {
   type Bearing,
+  EYE_OVER_SAND,
   isAfloat,
   type Land,
   roam,
@@ -15,6 +18,7 @@ import {
 } from './roam';
 import {
   climb,
+  HEAD_OVER_EYE,
   LADDER_REACH,
   outsideOf,
   shotOf,
@@ -82,9 +86,34 @@ export function asleepOn(stage: Stage, seconds: number): Abroad {
   );
 }
 
+/** A body of `scale` on its feet at `from`, free, the ladder standing or gone. */
+export const roamingFree = (
+  from: Shot,
+  scale: number,
+  { land }: Stage,
+  seconds: number,
+  ladderGone: boolean,
+): Abroad => {
+  const roamer = roamingAt(
+    land,
+    [from.x, from.z],
+    pick(from, 'yaw', 'elevation'),
+    seconds,
+    scale,
+  );
+  return {
+    roamer,
+    scene: null,
+    asleep: false,
+    ladderGone,
+    shot: shotOf(roamer),
+    cues: NO_CUES,
+    entered: false,
+  };
+};
+
 /**
- * A body of `scale` leaving the cube from `from`, pressed to the doorway
- * inside: off the sill and down to the sand, where no ladder stands.
+ * A body of `scale` leaving the cube from `from`, on the sill's edge: off it and down to the sand, where no ladder stands.
  */
 export const steppingOut = (
   from: Shot,
@@ -211,3 +240,30 @@ export function bearingOf(
     afloat: free && isAfloat(land, eye, seconds, scale),
   };
 }
+
+/**
+ * `abroad`'s body as what the sun meets: as tall as it stands, sits or
+ * hangs over the sand under its eye, and no taller than itself.
+ */
+export function standingOf(
+  { shot: { x, y, z }, roamer: { scale } }: Abroad,
+  { land }: Stage,
+): Standing {
+  const eyeOver = Math.min(
+    Math.max(0, y - land.height(x, z)),
+    EYE_OVER_SAND * scale,
+  );
+  return {
+    foot: [x, y - eyeOver, z],
+    headAbove: eyeOver + HEAD_OVER_EYE * scale,
+  };
+}
+
+/** `abroad`'s hands on the ladder while it climbs, in floor 1's room's frame. */
+export const handsAbroad = (
+  { scene, shot: { x, y, z }, roamer: { scale } }: Abroad,
+  { ladder, cube }: Stage,
+): Quad[] =>
+  scene?.into === 'cube' && x > cube.max[0]
+    ? handsOnLadder([x, y, z], ladder, scale)
+    : [];
