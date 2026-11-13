@@ -35,9 +35,10 @@ fn fresnel(cosine: f32) -> f32 {
 }
 
 /// The sky map's level whose texels are as wide as the lobe a surface with
-/// slope deviation \`deviation\` smears a reflection over.
+/// slope deviation \`deviation\` smears a reflection over — never under 1,
+/// below which the sky draws its sun's disc, which is the glitter's to draw.
 fn skyLod(deviation: f32) -> f32 {
-  return clamp(log2(max(4.0 * deviation, 1e-4) * 512.0 / 3.14159), 0.0, 8.0);
+  return clamp(log2(max(4.0 * deviation, 1e-4) * 512.0 / 3.14159), 1.0, 8.0);
 }
 
 /// What a sea surface sends the eye by reflection.
