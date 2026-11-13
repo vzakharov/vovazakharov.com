@@ -14,7 +14,7 @@ import { SAND_SHADER } from '@/cube/shared/sand';
 
 import { outsideLensSource } from './outside-lens';
 import { SEA_ROOTS } from './sea-shader';
-import { SHELL_ROOTS } from './shell-shader';
+import { SHELL_SHADER } from './shell-shader';
 import { SKY_ROOTS } from './sky-shader';
 
 /**
@@ -34,7 +34,7 @@ export const OUTDOOR_SHADERS = {
   ],
   sky: SKY_ROOTS,
   sand: [SAND_SHADER],
-  shell: SHELL_ROOTS,
+  shell: [SHELL_SHADER],
   sea: SEA_ROOTS,
 } as const satisfies Record<string, readonly Wgsl[]>;
 
