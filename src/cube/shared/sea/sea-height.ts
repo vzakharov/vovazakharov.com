@@ -3,7 +3,7 @@ import type { Vec2 } from '../lib/vec';
 import { islandHeight, waterLevel } from '../outside';
 import { HOUR_SECONDS, RADIANS_A_TURN } from '../outside/swell';
 import { amplitudesOf, bin, CASCADES, CHOP, TILE } from './cascade';
-import { SWELL_DIES_OVER, TRAIN_ENDS } from './sea-shore-wgsl';
+import { SWELL_DIES_OVER, TRAIN_ENDS } from './sea-shore-numbers';
 import { SEAS } from './sea-state';
 
 /**

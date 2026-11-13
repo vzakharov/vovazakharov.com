@@ -1,7 +1,7 @@
 import { OUTDOOR_STAGE } from '../outside';
 import { f32, wgsl } from '../shader/wgsl';
 import { CASCADES, TILE } from './cascade';
-import { SEA_SHORE } from './sea-shore-wgsl';
+import { SEA_SHORE } from './sea-shore.shader';
 
 /**
  * The sea's mesh: rings about the point under the eye, each a little wider

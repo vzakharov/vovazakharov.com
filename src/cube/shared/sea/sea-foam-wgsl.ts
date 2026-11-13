@@ -1,7 +1,7 @@
 import { PERIOD } from '../outside/swell';
 import { HASH } from '../shader/hash.shader';
 import { f32, wgsl } from '../shader/wgsl';
-import { SEA_SHORE } from './sea-shore-wgsl';
+import { SEA_SHORE } from './sea-shore.shader';
 
 /** Seconds over which the foam a breaker leaves behind thins to 1/e. */
 const TRAIL_LASTS = 2.2;
