@@ -1,5 +1,37 @@
 # Sky — reports to the lead, newest first
 
+## 2026-11-13 — relief back, grain still gone, cost back; lead merged at c86c511f
+
+Frames: `opposite`, `wake-sea`, and the approved eye as `approved-eye` with
+`approved-eye-cloud-pair` (sand's cloud above, mine below).
+
+- **Modelling.** A sample is shaded by how far the billows stand out of the body
+  there, so creases are darker than knobs; the outline keeps its knobs at every
+  distance and fine billows reach farther off. The soft near-miss outline is
+  gone.
+- **Grain.** Still none: the crossing is still placed and sampled at one depth.
+  A ray that grazes less cloud than that depth shows a thin lit wisp instead of
+  nothing.
+- **Cost.** The opposite view at 756×491 on SwiftShader: 1040–1200 ms, against
+  1000–1180 ms for 54b3c2c7 timed alongside. The +50% was the crossing's extra
+  readings of the cloud standing beside the march's own; the crossing is now
+  placed by the march's next two steps.
+- **The approved eye.** Cirrus is 54b3c2c7's again: the fibre octave I added
+  last round was finer than the sky's texels at any distance and showed as
+  dotted moiré, so it is out, and overhead streaks are as soft as they were.
+  Nothing round the sun or in the light changed. The sun's bloom in my shot is
+  smaller than in sand's frame; that is the lens as your branch has it now, not
+  the sky. The cloud differs in two ways: a taller dome (your flat-tops item)
+  and a slightly dimmer bright rim.
+- **Not done.** The two mushrooms at the far left and right of `opposite`. The
+  operator also told me a cloud's underside reads as too even an arc; that is
+  the same flat base, and it is next.
+
+`cloudGlance` and `cloudVeil` moved to `sky/cloud-veil.ts` (`CLOUD_VEIL`), which
+`outside/sky.ts` now needs; `clouds.ts` is at 338 lines. Gates green:
+typecheck, 73 of 73 shaders, lint, the sky's 7 tests, type-overlap, check:masd,
+masd:clusters, check:cycles.
+
 ## 2026-11-13 ~11:45Z — your three items; lead merged first (118c0bd7)
 
 Frames re-shot: `wake-sea`, `opposite`, `up`, and `bench-side`, `bench-anti`,
