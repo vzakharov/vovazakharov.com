@@ -12,6 +12,11 @@ ms), the default lens unless a row says otherwise.
 | `1113-1200-under.webp`        | `under`        | outside's     | 49186bc5 |
 | `1113-1200-ladder-foot.webp`  | `ladder-foot`  | outside's     | 49186bc5 |
 | `1113-1200-room-doorway.webp` | `room-doorway` | floor 1's own | 874eab51 |
+| `1113-1210-doorway-out.webp`  | `doorway-out`  | `--indoors 0` | b0852de6 |
+| `1113-1210-doorway-down.webp` | `doorway-down` | `--indoors 0` | b0852de6 |
+
+The two `1113-1210-*` frames carry the script's own record beside them
+(`*.shot.json`: the eye's pose, lens, clock, viewport, commit).
 
 The `1113-0930-*` and `1113-1050-*` frames are the same eyes at 315051b5 and
 ba9210cc, kept for comparison.
