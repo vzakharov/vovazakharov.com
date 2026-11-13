@@ -14,18 +14,18 @@ import { gustAt } from './weather';
 const scene = sceneOf();
 
 /** Standing on the east shore, the sea ahead when facing east. */
-const onShore = (yaw: number) => ({ at: [RADIUS, 0] as const, facing: yaw });
+const onShore = (yaw: number) => ({ at: [RADIUS, 0] as const, gaze: yaw });
 
 const both = ({ leftEar, rightEar }: Ears): number =>
   Math.hypot(leftEar, rightEar);
 
 /** The hum heard at `at`, facing `yaw`. */
 const humAt = (at: readonly [number, number], yaw = 0): Ears =>
-  outsideMix(scene, { at, facing: yaw }, 0).layers.hum;
+  outsideMix(scene, { at, gaze: yaw }, 0).layers.hum;
 
 /** Every layer heard `x` metres east of the cube's middle. */
 const eastBy = (x: number) =>
-  outsideMix(scene, { at: [x, 0], facing: 0 }, 0).layers;
+  outsideMix(scene, { at: [x, 0], gaze: 0 }, 0).layers;
 
 describe('outsideMix', () => {
   it('keeps every level finite and at most 1, in the open', () => {
@@ -50,19 +50,19 @@ describe('outsideMix', () => {
 
   it('puts the surf in the ear turned to the nearer shore', () => {
     // A step inland of the east shore, facing north: the sea is on the right.
-    const inland = { at: [RADIUS - 6, 0] as const, facing: -Math.PI / 2 };
+    const inland = { at: [RADIUS - 6, 0] as const, gaze: -Math.PI / 2 };
     const { hiss } = outsideMix(scene, inland, RISING).layers;
     assert.ok(hiss.rightEar > 1.3 * hiss.leftEar);
     const turned = outsideMix(
       scene,
-      { ...inland, facing: Math.PI / 2 },
+      { ...inland, gaze: Math.PI / 2 },
       RISING,
     );
     assert.ok(turned.layers.hiss.leftEar > 1.3 * turned.layers.hiss.rightEar);
   });
 
   it('is louder at the water than in the middle of the island', () => {
-    const middle = outsideMix(scene, { at: [8, 8], facing: 0 }, RISING).layers;
+    const middle = outsideMix(scene, { at: [8, 8], gaze: 0 }, RISING).layers;
     const shore = outsideMix(scene, onShore(0), RISING).layers;
     assert.ok(both(shore.hiss) > 1.3 * both(middle.hiss));
     assert.ok(both(shore.roar) > 1.2 * both(middle.roar));

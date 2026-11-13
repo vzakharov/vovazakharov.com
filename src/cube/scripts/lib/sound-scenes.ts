@@ -56,7 +56,7 @@ export function scenesOf(scene: Scene, places: Places): Scenes {
       begins: 0,
       seconds: 60,
       told: 'lying at the waterline, 30 m from the cube, facing out to sea',
-      ...heard(() => ({ at: waking, facing: seaward })),
+      ...heard(() => ({ at: waking, gaze: seaward })),
     },
     turning: {
       begins: 60,
@@ -64,7 +64,7 @@ export function scenesOf(scene: Scene, places: Places): Scenes {
       told: 'the same spot, turning once round to the right',
       ...heard((t) => ({
         at: waking,
-        facing: seaward + (2 * Math.PI * (t - 60)) / 24,
+        gaze: seaward + (2 * Math.PI * (t - 60)) / 24,
       })),
     },
     walk: {
@@ -73,20 +73,20 @@ export function scenesOf(scene: Scene, places: Places): Scenes {
       told: 'walking from the waking spot to the foot of the ladder',
       ...heard((t) => ({
         at: partWay(waking, ladder, (t - 100) / 40),
-        facing: toward(waking, ladder),
+        gaze: toward(waking, ladder),
       })),
     },
     ladder: {
       begins: 140,
       seconds: 30,
       told: 'standing at the foot of the ladder, facing the cube',
-      ...heard(() => ({ at: ladder, facing: toward(ladder, cube) })),
+      ...heard(() => ({ at: ladder, gaze: toward(ladder, cube) })),
     },
     under: {
       begins: 170,
       seconds: 30,
       told: 'under the middle of the cube',
-      ...heard(() => ({ at: cube, facing: 0 })),
+      ...heard(() => ({ at: cube, gaze: 0 })),
     },
     inside: {
       begins: 200,
@@ -94,7 +94,7 @@ export function scenesOf(scene: Scene, places: Places): Scenes {
       told: 'from the doorway 4 m into floor 1 over 20 s, then on floor 2',
       earAt: () => doorway,
       mixAt: (t) =>
-        throughDoorway(outsideMix(scene, { at: doorway, facing: Math.PI }, t), {
+        throughDoorway(outsideMix(scene, { at: doorway, gaze: Math.PI }, t), {
           inward: Math.min(4, (t - 200) / 5),
           rightward: -0.6,
           floorsBelow: t < 222 ? 0 : 1,
@@ -104,7 +104,7 @@ export function scenesOf(scene: Scene, places: Places): Scenes {
       begins: gust - 20,
       seconds: 40,
       told: `the hour's hardest gust, at ${String(gust)} s, from the waking spot`,
-      ...heard(() => ({ at: waking, facing: seaward })),
+      ...heard(() => ({ at: waking, gaze: seaward })),
     },
   };
 }

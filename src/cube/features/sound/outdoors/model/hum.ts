@@ -35,7 +35,7 @@ type Stack = {
   tuned: number;
   /** Hertz between each voice and its twin: how fast the two beat. */
   throb: number;
-  share: number;
+  weight: number;
 };
 
 /**
@@ -45,7 +45,7 @@ type Stack = {
  * both ends.
  */
 function slid(
-  { tuned, throb, share }: Stack,
+  { tuned, throb, weight }: Stack,
   x: number,
   seconds: number,
   rising: boolean,
@@ -71,7 +71,7 @@ function slid(
       (TILTS[voice] ?? 0) *
       Math.sin(wound * 2 ** voice + twin);
   }
-  return share * swelling * sum;
+  return weight * swelling * sum;
 }
 
 /**
@@ -83,8 +83,8 @@ function slid(
  */
 export function hum(rate: number): Loop {
   const stacks: readonly Stack[] = [
-    { tuned: 1, throb: 0.25, share: 0.33 },
-    { tuned: (1 + Math.sqrt(5)) / 2, throb: 0.35, share: 0.18 },
+    { tuned: 1, throb: 0.25, weight: 0.33 },
+    { tuned: (1 + Math.sqrt(5)) / 2, throb: 0.35, weight: 0.18 },
   ];
   return turning(FALLS_IN, rate, (i, length) => {
     const x = i / length;
@@ -103,7 +103,7 @@ const WEIGHT = [36, 36.5] as const;
  * every two seconds and is felt more than heard.
  */
 export function under(rate: number): Loop {
-  const stack: Stack = { tuned: 1.5, throb: 0.2, share: 0.13 };
+  const stack: Stack = { tuned: 1.5, throb: 0.2, weight: 0.13 };
   return turning(RISES_IN, rate, (i, length) => {
     const x = i / length;
     const t = x * RISES_IN;

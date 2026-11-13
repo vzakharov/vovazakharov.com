@@ -51,7 +51,7 @@ export type OutsideMix = { layers: Record<Layer, Ears>; muffle: number };
 export const OPEN_AIR = 20_000;
 
 /** Where an ear is on the island, and the way it faces (0 east, π/2 south). */
-export type Listener = { at: Vec2; facing: number };
+export type Listener = { at: Vec2; gaze: number };
 
 /** What there is to hear: the sea on its shore, and the middle of the cube. */
 export type Scene = { coast: Coast; cube: Vec2 };
@@ -104,7 +104,7 @@ const both = (level: number): Ears => ({ leftEar: level, rightEar: level });
 /** The surf's three layers for `listener`: every stretch of shore, summed. */
 function surfHeard(
   { coast }: Scene,
-  { at, facing: yaw }: Listener,
+  { at, gaze: yaw }: Listener,
   seconds: number,
 ): Record<keyof Surf, Ears> {
   const heard = {
@@ -144,7 +144,7 @@ export function outsideMix(
   listener: Listener,
   seconds: number,
 ): OutsideMix {
-  const { at, facing: yaw } = listener;
+  const { at, gaze: yaw } = listener;
   const surf = surfHeard(scene, listener, seconds);
   const ear = { u: at[0], v: at[1] };
 

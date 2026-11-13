@@ -55,13 +55,13 @@ export function heardFrom(
 ): OutsideMix | null {
   if (isOutside(at)) {
     const { eye, yaw } = at;
-    return outsideMix(scene, { at: [eye[0], eye[2]], facing: yaw }, seconds);
+    return outsideMix(scene, { at: [eye[0], eye[2]], gaze: yaw }, seconds);
   }
   if (at.n > HEARD_DOWN_TO) return null;
   const ear = { u: at.u * ROOM_METRES, v: at.v * ROOM_METRES };
   const { rightward, roomsAway: inward } = bearingOf(ear, at.yaw, DOOR_IN_ROOM);
   return throughDoorway(
-    outsideMix(scene, { at: DOOR_OUTSIDE, facing: 0 }, seconds),
+    outsideMix(scene, { at: DOOR_OUTSIDE, gaze: 0 }, seconds),
     { inward, rightward, floorsBelow: at.n - 1 },
   );
 }

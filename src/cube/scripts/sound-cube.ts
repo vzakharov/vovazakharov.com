@@ -221,7 +221,7 @@ function main(): void {
     const again = (from: number) =>
       rendered(
         beds,
-        (t) => outsideMix(scene, { at: [0, 20], facing: 1 }, t),
+        (t) => outsideMix(scene, { at: [0, 20], gaze: 1 }, t),
         from,
         1,
         RATE,
