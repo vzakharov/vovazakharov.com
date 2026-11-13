@@ -379,6 +379,10 @@ not append.
   committed to shared constants; pill supplies how shelf and hole are placed.
   Core's adaptation now goes by the gaze (merged, b4058398). A second explainer,
   on the clouds, is being made by `session_01DaohkFroEeZ7ybMvAY9JoV` (Opus).
+- **UNDELIVERED at 10:27Z** (the sessions connector gave "a credential could not
+  be obtained" three times): shell and pill have NOT been told that the ruling
+  is withdrawn. Retry first thing: one short `send_message` to each, pointing at
+  `briefs/beam-comparison.md` (e9d0c45a), which holds the whole brief.
 - **The explainer** «Два океана» was amended on the operator's comment (how many
   waves "good" takes); answered in its thread.
 - **Next, in order**: (1) merge core, shell, sky as they report green and lint;
