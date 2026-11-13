@@ -1,15 +1,39 @@
 {
   "total": {
-    "inputTokens": 84,
+    "inputTokens": 94,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 190427,
-    "cacheReadTokens": 7457746,
-    "outputTokens": 36304,
-    "thinkingTokens": 19838,
-    "responses": 42,
-    "costUsd": 5.991213199999999
+    "cacheWrite1hTokens": 218934,
+    "cacheReadTokens": 8717816,
+    "outputTokens": 48301,
+    "thinkingTokens": 26706,
+    "responses": 47,
+    "costUsd": 7.179299199999999
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-13T09:52:01.356Z",
+    "subjectLine": "feat: the sand judged in the assembled frame, toward a sunset beach",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "sand's look is tuned by eye against photographs: ripple fields, low-sun colour, wet mirror, glints"
+      },
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "a NaN traced through bloom to a shader tanh, footprint-limited glints, shared WGSL test kit"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "the cube's reveal from the waking spot is a staging call made from sightline numbers"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -34,18 +58,18 @@
   "url": "https://claude.ai/code/session_01DaohkFqNfZaGgSSE9bfE4h",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T09:17:55.716Z",
-  "lastResponseAt": "2026-11-13T09:51:25.652Z",
+  "lastResponseAt": "2026-11-13T10:03:18.128Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 84,
+    "inputTokens": 94,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 190427,
-    "cacheReadTokens": 7457746,
-    "outputTokens": 36304,
-    "thinkingTokens": 19838,
-    "responses": 42,
-    "costUsd": 5.991213199999999
+    "cacheWrite1hTokens": 218934,
+    "cacheReadTokens": 8717816,
+    "outputTokens": 48301,
+    "thinkingTokens": 26706,
+    "responses": 47,
+    "costUsd": 7.179299199999999
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,23 +83,23 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 84,
+      "inputTokens": 94,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 190427,
-      "cacheReadTokens": 7457746,
-      "outputTokens": 36304,
-      "thinkingTokens": 19838,
-      "responses": 42,
-      "costUsd": 5.991213199999999
+      "cacheWrite1hTokens": 218934,
+      "cacheReadTokens": 8717816,
+      "outputTokens": 48301,
+      "thinkingTokens": 26706,
+      "responses": 47,
+      "costUsd": 7.179299199999999
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 42,
-    "matched": 42,
-    "matchedTableUsd": 5.991213199999999,
-    "matchedEventUsd": 5.991213199999999,
+    "events": 46,
+    "matched": 46,
+    "matchedTableUsd": 6.993597999999999,
+    "matchedEventUsd": 6.993597999999999,
     "unseen": {}
   },
   "operatorWords": {
@@ -89,7 +113,7 @@
     ".md": 2283,
     ".json": 31,
     ".yaml": 48,
-    ".ts": 3979,
+    ".ts": 3989,
     ".tsx": 87,
     ".scss": 15
   }
