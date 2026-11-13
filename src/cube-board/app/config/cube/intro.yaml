@@ -292,10 +292,10 @@ items:
     text: '18. The same sky looking away from the sun'
   - id: intro-img-ref-approved
     type: image
-    updated: [2026-11-13T10:45:00.000Z, agent:cube-intro]
+    updated: [2026-11-13T11:10:00.000Z, agent:cube-intro]
     box: [5748, -3040, 1200]
     src: images/intro-ref-approved.webp
-    text: 'The first frame of the island the operator approved: standing on the beach toward the sun, the cube over the crest, its shadow running left, the ladder and the sun’s glitter under it. Every package now compares its passes against this frame. Eye: 21.5 m south-west of the cube’s middle, looking at it'
+    text: 'A frame of the island the operator approved (his first frame is the sea one below): standing on the beach toward the sun, the cube over the crest, its shadow running left, the ladder and the sun’s glitter under it. Every package now compares its passes against this frame. Eye: 21.5 m south-west of the cube’s middle, looking at it'
   - id: intro-ref-verdict
     type: sticky
     updated: [2026-11-13T10:45:00.000Z, agent:cube-intro]
