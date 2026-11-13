@@ -278,6 +278,18 @@ items:
     box: [6208, 2800, 430]
     src: images/intro-16-ladder-foot-2.webp
     text: '16. The ladder is wood now (the operator: “I have nothing against wood, and it might suit the line where did it come from at all”). The black faces carry small lights — shell’s choice: a night sky under the surface, in layers that shift as the eye moves; put to the operator. Fault: a potted plant of floor 1 stands in the doorway opening'
+  - id: intro-img-17-sky-wake-sea
+    type: image
+    updated: [2026-11-13T11:00:00.000Z, agent:cube-intro]
+    box: [6668, 2800, 430]
+    src: images/intro-17-sky-wake-sea.webp
+    text: '17. The real sky, merged: cirrus as straight streaks in patches, cumulus as heaps on a flat base — rewritten after Vova said the earlier shapes were unreal. Known flaws: a few cumulus have a flat top as well, far ones are grainy; the foam lace in the foreground is too coarse (sea’s)'
+  - id: intro-img-18-sky-opposite
+    type: image
+    updated: [2026-11-13T11:00:00.000Z, agent:cube-intro]
+    box: [7128, 2800, 430]
+    src: images/intro-18-sky-opposite.webp
+    text: '18. The same sky looking away from the sun'
   - id: intro-img-ref-approved
     type: image
     updated: [2026-11-13T10:45:00.000Z, agent:cube-intro]
