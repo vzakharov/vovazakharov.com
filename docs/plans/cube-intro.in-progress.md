@@ -351,6 +351,14 @@ not append.
   the shadow, the wooden ladder, the narrowed rule. Owed to it: the frames of
   the real sea once all six exist, with the flooded waking spot named as a
   failure.
+- **Decided 10:03Z — the waking spot moves inland** (sea measured `WAKE_AT` on
+  the still waterline, bed −0.0001 m; swash reaches bed +0.24 m, 4.7 m up): to
+  dry sand at bed ≥ 0.45 m on the same line, about (−15.2, 15.2). Sand moves it
+  (`shared/outside/frame.ts`) and tells core, walk and sound. Sound (1292e08b):
+  surf tied to the sea's crests; no surf in the lee at the ladder's foot — kept.
+  Sea 419cc2fd (`waterLevelAt`) is next on ripples in the shallows and the lace.
+  All nine sessions have reported; every old session is archived. The six frames
+  at ba9210cc are in `tmp/eyes-sea/`; four were not yet looked at.
 - **The explainer** «Два океана» was amended on the operator's comment (how many
   waves "good" takes); answered in its thread.
 - **Next, in order**: (1) merge core, shell, sky as they report green and lint;
