@@ -228,11 +228,70 @@ republish slot 2, then `/finalize` (the two red `source` checks on the way).
       the one place the ratio is read), and a function on `globalThis` raises it
       to the screen's own and lowers it again.
 - [ ] **10. Hands on the rungs.** On the preview the climb shows no hands but
-      one stub for a second. `handsAbroad` and `pnpm grip:cube` are where to
-      look.
-- [ ] **9. No grey under a wave.** An eye below the sea's surface sees the
-      frame's clear colour; it should see water's colour instead, however
-      plainly.
+      one stub for a second. Measured (`tmp/probe-hands.ts`, gone with the
+      container: the track sampled every 0.28 s, each hand's rung against
+      `climbing.ts`'s `ARM`): the hand is out of its arm's reach on all but two
+      samples of the climb. The ladder leans a quarter of a metre in for each
+      metre up, so at the eye's height, `EYE_ON_LADDER` over the feet's rung, it
+      is 0.375 m farther than at the feet, and `OFF_LADDER` 0.4 puts the eye
+      0.78 m from it against an `ARM` of 0.7. Bring the eye to about 0.2 m
+      behind the ladder's line and check every sample of the climb proper has
+      both hands in reach; the old drift of the gaze also took them out of the
+      frame, which item 3's gaze cures at the climb's two ends.
+- [ ] **9. No grey under a wave.** Reproduced:
+      `pnpm outside:cube --at 45,0.0,30 --yaw 200 --pitch -8` (three minutes on
+      this machine's software GPU) shows the upper half dark teal — the
+      surface's underside, `seaFragment`'s `DROWNED` branch — and the lower half
+      a flat pale grey with faint vertical streaks: what lies under the horizon
+      behind the water with no water drawn over it. The sky's backdrop under the
+      horizon is the horizon's own haze (`clearSky` lifts `dir.y` to 0), and the
+      sand's mesh draws its bed in air. Whatever an eye sees under the horizon
+      that the sea's surface did not cover is seen through the water's body, so
+      it should take the body's colour with distance. Not grey is the bar.
+
+### Who writes it
+
+The operator, the round under way:
+
+> кстати я думаю тут уже наверное не такая зубодробильная работа, делай наверное
+> через опус-подагентов
+
+So three subagents on Opus in the lead's own working tree, each on files the
+others do not touch and committing nothing — the lead commits each package as it
+returns: **scenario** (1–6 and 10: `features/player/model`,
+`features/voice/model`, `pages/cube/lib/start.ts`, `pages/cube/ui/walk.ts` and
+`cube-canvas.tsx`, the page's messages), **quality** (8:
+`pages/cube/ui/cube-scene.ts` and a module of its own), **depths** (9:
+`shared/sea`, `shared/sky`, `shared/sand`). Then the two red `source` checks, by
+a fourth.
+
+Details the scenario's items leave out:
+
+- **1**: `seesWhole({ eye, yaw, elevation }, { min, max })` — for each of the
+  box's eight corners, with `d` the corner less the eye:
+  `along = dx·cos(yaw) + dz·sin(yaw)`, `right = −dx·sin(yaw) + dz·cos(yaw)`,
+  `ahead = along·cos(el) + dy·sin(el)`, `up = dy·cos(el) − along·sin(el)`; false
+  if `ahead ≤ 0` or either of `|right|`, `|up|` passes `tan(0.52)·ahead`.
+- **2**: the speed is
+  `lerp(pace, RUN_SPEED·SWIM_SHARE, smooth(ramp(depth, …)))·ROOM_METRES·scale`
+  with `pace = input.walking ? RUN_SPEED : WALK_SPEED`.
+- **3**: the old track had no yaw key between the foot and the arrival, so the
+  gaze turned from the ladder's line (west) towards the shelf (south) all the
+  way up, 73° off by the sill. Keep a look aside to that side, of about 50° at
+  about 70% of the climb, eased back to the ladder's `yaw` by `over`.
+- **4**: `lookingDown` beats — 0: `from`, roll 0; about 0.7 s: the eye out to
+  `cube.max[0] + 0.25·scale`, yaw and elevation towards `ladder.foot`
+  (`nearest(…, from.yaw)`); held to about 1.9 s; about 3.2 s: the gaze it had,
+  half a metre of a whole body's inside the sill. Its one cue is the `wonder` at
+  about 1.3 s; no step cues, which `outsideOf` would sound as sand. `GONE_SHOWS`
+  about 1.0. In `walk.ts` the scene's end is
+  `player = { ...saved, pose: { ...saved.pose, u, v, yaw, elevation } }` from
+  `poseWithin(shot)`, and the frame it returns carries `takenOf(player)` and
+  `handsOf(player)` as an indoor frame does.
+- **5**: `awakeOn(stage, seconds)` is
+  `roamingFree(shotAt(waking(stage), waking(stage).runs), 1, stage, seconds, false)`;
+  `follow` stays null until the body climbs in, and nothing is written on the
+  step off (6).
 
 ## Standing rules (the operator's words)
 
