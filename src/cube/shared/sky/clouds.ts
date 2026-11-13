@@ -103,7 +103,7 @@ fn cloudSolid(cloud: Cloud, field: vec3f, frayed: bool) -> f32 {
   // The finest billows are only grain where they are narrower than a couple
   // of the sky's texels.
   let texel = cloud.off * ${f32(SKY_TEXEL)} / cloud.radius;
-  let fined = 1.0 - smoothstep(0.25, 0.7, texel * ${f32(CLOUDS.billow[1] * 2.3)});
+  let fined = 1.0 - smoothstep(0.6, 1.4, texel * ${f32(CLOUDS.billow[1] * 2.3)});
   relief = held * (${f32(BILLOW.broad)} * broad * (0.4 + 0.6 * up) + ${f32(BILLOW.knobs)} * knobs + ${f32(BILLOW.fine)} * fine * fined);
   var solid = body + relief;
   if (frayed && solid > -0.12 && fined > 0.0) {
@@ -159,7 +159,7 @@ fn cloudLight(h: f32, sun: vec2f, phase: f32, rise: f32, solid: f32, stood: f32)
   // Its underside looks at the sea, its crown at the whole sky.
   let ambient = mix(HORIZON_FILL * 0.14 + GROUND_FILL, SKY_FILL + HORIZON_FILL * 0.2, sqrt(rise)) * open;
   // A crease between billows sees less of the sun and of the sky than a knob.
-  return (sunThrough(h) * lit + ambient) * mix(0.5, 1.0, smoothstep(-0.22, 0.12, stood));
+  return (sunThrough(h) * lit + ambient) * mix(0.62, 1.2, smoothstep(-0.22, 0.12, stood));
 }
 
 /// One cloud along a ray from \`eye\` between \`begin\` and \`to\` km, laid
@@ -177,6 +177,8 @@ fn marchCloud(
   var stepped = false;
   // The sample between a crossing's two sides, which places it.
   var between = false;
+  // The sample a placed crossing sent the ray on to.
+  var landing = false;
   var after = begin;
   var inside = 0.0;
   var lit = 0;
@@ -193,9 +195,14 @@ fn marchCloud(
       if (solid > 0.0) { after = gone; inside = solid; } else { before = gone; outside = solid; }
       gone = before + (after - before) * outside / (outside - inside) + SKIN;
       between = false;
+      landing = true;
       continue;
     }
-    if (solid <= 0.0) {
+    // A ray that grazes less of a cloud than the skin's depth still shows
+    // the wisp it went through.
+    let wisp = landing && solid <= 0.0;
+    landing = false;
+    if (solid <= 0.0 && !wisp) {
       before = gone;
       outside = solid;
       stepped = true;
@@ -211,13 +218,14 @@ fn marchCloud(
       between = true;
       continue;
     }
-    let water = cloudWater(cloud, at, solid);
-    let tread = clamp(0.5 / (water * CLOUD_EXTINCTION + 1e-3), pace, 4.0 * pace);
+    let deep = select(solid, 0.5 * inside, wisp);
+    let water = cloudWater(cloud, at, deep);
+    let tread = select(clamp(0.5 / (water * CLOUD_EXTINCTION + 1e-3), pace, 4.0 * pace), SKIN, wisp);
     let rise = clamp((at.y - CLOUD_BASE) / cloud.tall, 0.0, 1.0);
     // Past its first two samples a cloud's light is its heart's, near enough.
     if (lit < 2) {
       let stood = relief;
-      shown = cloudLight(at.y, towardSun(cloud, at, solid), phase, rise, solid, stood);
+      shown = cloudLight(at.y, towardSun(cloud, at, deep), phase, rise, deep, stood);
       lit++;
     }
     let kept = exp(-water * CLOUD_EXTINCTION * tread);
@@ -309,11 +317,8 @@ fn cirrusAlong(dir: vec3f, fog: vec3f) -> vec4f {
   let sheet = 0.6 * cloudNoise2(streak, 24, CLOUD_SALT + 10u)
     + 0.28 * cloudNoise2(streak * vec2f(3.0, 4.0), 72, CLOUD_SALT + 11u)
     + 0.12 * cloudNoise2(streak * vec2f(6.0, 9.0), 144, CLOUD_SALT + 12u);
-  // Fibres, where the sheet is near enough overhead to show them.
-  let fibre = (cloudNoise2(streak * vec2f(12.0, 2.0), 288, CLOUD_SALT + 13u) - 0.5)
-    * (1.0 - smoothstep(14.0, 40.0, away));
   let fade = 1.0 - smoothstep(0.5, 1.0, away / ${f32(CLOUDS.cirrusReach)});
-  let cover = 0.38 * smoothstep(0.5, 0.82, sheet + 0.14 * fibre) * smoothstep(0.3, 0.6, patches) * fade;
+  let cover = 0.38 * smoothstep(0.5, 0.85, sheet) * smoothstep(0.3, 0.6, patches) * fade;
   let c = dot(dir, SUN_DIR);
   let light = sunThrough(CIRRUS_HEIGHT) * (0.16 + 0.1 * henyeyCloud(c, 0.7)) + SKY_FILL * 0.5;
   let air = airBetween(away, CIRRUS_HEIGHT);
