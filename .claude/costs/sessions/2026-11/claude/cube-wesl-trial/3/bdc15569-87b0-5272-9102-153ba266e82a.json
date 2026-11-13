@@ -1,0 +1,191 @@
+{
+  "total": {
+    "inputTokens": 9903,
+    "cacheWrite5mTokens": 1543993,
+    "cacheWrite1hTokens": 687816,
+    "cacheReadTokens": 89214538,
+    "outputTokens": 450660,
+    "thinkingTokens": 174316,
+    "responses": 553,
+    "costUsd": 40.11821259999997
+  },
+  "estimate": {
+    "at": "2026-11-13T16:58:16.495Z",
+    "subjectLine": "refactor: move cube outdoor and pipeline shaders into .wgsl, MASD pass",
+    "parts": [
+      {
+        "hours": 18.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "outdoor and pipeline WGSL carry computed text and interpolated numbers; splitting them into linked modules under a pin takes rendering judgement"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "the MASD promotion/fold-in pass is a layering call across the cube app"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-13T16:58:13.601Z",
+    "contextTokens": 109622,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 51471,
+      "cacheReadTokens": 458144,
+      "outputTokens": 1093,
+      "thinkingTokens": 118,
+      "responses": 5,
+      "costUsd": 0.5253048
+    }
+  },
+  "sessionId": "bdc15569-87b0-5272-9102-153ba266e82a",
+  "branch": "claude/cube-wesl-trial",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cube-wesl-trial — база догнана, пины этажей и улицы зелёные, уличные шейдеры ещё в TS",
+  "prs": [
+    276
+  ],
+  "url": "https://claude.ai/code/session_01DaohkCaoV7hfxzNmeuHhLY",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-13T16:57:56.146Z",
+  "lastResponseAt": "2026-11-13T17:55:56.633Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 519,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 687816,
+    "cacheReadTokens": 56276214,
+    "outputTokens": 201616,
+    "thinkingTokens": 71674,
+    "responses": 273,
+    "costUsd": 20.792166799999993
+  },
+  "subagents": {
+    "inputTokens": 604,
+    "cacheWrite5mTokens": 1543190,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 32342526,
+    "outputTokens": 232146,
+    "thinkingTokens": 102642,
+    "responses": 278,
+    "costUsd": 18.829791199999985
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 9903,
+      "cacheWrite5mTokens": 1543993,
+      "cacheWrite1hTokens": 687816,
+      "cacheReadTokens": 89214538,
+      "outputTokens": 450660,
+      "thinkingTokens": 174316,
+      "responses": 553,
+      "costUsd": 40.11821259999997
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-13T17:16:02.176Z",
+      "trigger": "auto",
+      "compactedFrom": 304231,
+      "summaryChars": 17994,
+      "reorientation": {
+        "endedBy": "Write",
+        "endedOn": "src/cube/shared/outside/swell-numbers.ts",
+        "endedAt": "2026-11-13T17:16:42.614Z",
+        "contextTokens": 135440,
+        "spend": {
+          "inputTokens": 8,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 76846,
+          "cacheReadTokens": 423801,
+          "outputTokens": 3813,
+          "thinkingTokens": 2720,
+          "responses": 4,
+          "costUsd": 0.7758202
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.2568336
+    },
+    {
+      "at": "2026-11-13T17:39:54.401Z",
+      "trigger": "auto",
+      "compactedFrom": 303983,
+      "summaryChars": 14854,
+      "reorientation": {
+        "endedBy": "Write",
+        "endedOn": ".claude/worktrees/agent-a4015d88191b79086/src/cube/shared/outside/island-ease.shader.ts",
+        "endedAt": "2026-11-13T17:40:14.716Z",
+        "contextTokens": 139188,
+        "spend": {
+          "inputTokens": 20,
+          "cacheWrite5mTokens": 11775,
+          "cacheWrite1hTokens": 71333,
+          "cacheReadTokens": 1216356,
+          "outputTokens": 4274,
+          "thinkingTokens": 1141,
+          "responses": 10,
+          "costUsd": 0.9583702000000001
+        }
+      },
+      "rereads": {
+        "calls": 5,
+        "byTool": {
+          "Read": 5
+        },
+        "estimatedTokens": 10093,
+        "estimatedUsd": 0.210829
+      },
+      "billedUsd": 0.23942099999999997
+    }
+  ],
+  "telemetry": {
+    "events": 553,
+    "matched": 551,
+    "matchedTableUsd": 39.62195799999997,
+    "matchedEventUsd": 39.62195799999997,
+    "unseen": {
+      "compact": {
+        "inputTokens": 8780,
+        "cacheWrite5mTokens": 803,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 595798,
+        "outputTokens": 16898,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.4962546
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".ts": 26742,
+    ".md": 1124,
+    ".json": 87,
+    ".yaml": 765,
+    ".sh": 1,
+    ".wgsl": 13102,
+    ".tsx": -109,
+    ".scss": 15,
+    ".toml": 6
+  }
+}
