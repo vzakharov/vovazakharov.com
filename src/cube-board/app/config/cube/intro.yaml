@@ -1,8 +1,8 @@
 items:
   - id: z-intro
     type: zone
-    updated: [2026-11-13T10:10:00.000Z, agent:cube-intro]
-    box: [5720, -2150, 1880, 5150, orange]
+    updated: [2026-11-13T10:35:00.000Z, agent:cube-intro]
+    box: [5720, -2150, 1880, 5450, orange]
     icon: 🏝️
     text: 'The intro: an island, the cube from outside, the way in'
   - id: intro-h-premise
@@ -266,6 +266,18 @@ items:
     box: [6368, 2350, 430]
     src: images/intro-14-rung-grip-under.webp
     text: '14. The same grip from under, whole: both hands on the bar against the ceiling tiles, fingertips and thumb in view'
+  - id: intro-img-15-wake-cube-2
+    type: image
+    updated: [2026-11-13T10:35:00.000Z, agent:cube-intro]
+    box: [5748, 2800, 430]
+    src: images/intro-15-wake-cube-2.webp
+    text: '15. The cube from the beach, standing, 10:50Z: shell’s real cube, sand’s ripples, the real ocean out of frame. The bands read as grey-blue on black now (they were brown). Shot from an intermediate waking spot 21.5 m out; the final one is 23.4 m. The sky is still core’s stand-in. Faults: the gap under the cube is a thin slit from here; the sand’s ripples run too evenly; pink speckle in the glints toward the sun'
+  - id: intro-img-16-ladder-foot-2
+    type: image
+    updated: [2026-11-13T10:35:00.000Z, agent:cube-intro]
+    box: [6208, 2800, 430]
+    src: images/intro-16-ladder-foot-2.webp
+    text: '16. The ladder is wood now (the operator: “I have nothing against wood, and it might suit the line where did it come from at all”). The black faces carry small lights — shell’s choice: a night sky under the surface, in layers that shift as the eye moves; put to the operator. Fault: a potted plant of floor 1 stands in the doorway opening'
   - id: intro-d-wake-inland
     type: sticky
     updated: [2026-11-13T10:30:00.000Z, agent:cube-intro]
