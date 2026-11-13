@@ -30,10 +30,16 @@ export type ScenePlay = Readying & {
   ) => Promise<void>;
   /**
    * Puts the eye outside the cube at `eye`, seeing through `lens` —
-   * `OUTSIDE_LENS` where none is given — until the next `setPose`; resolves
+   * `OUTSIDE_LENS` where none is given — until the next `setPose`, with
+   * `moving` drawn until the next call, each quad in the frame of floor 1's
+   * room, which reaches past its walls as far as the island does; resolves
    * once a frame of it is on screen.
    */
-  setEye: (eye: Outside, lens?: OutsideLens) => Promise<void>;
+  setEye: (
+    eye: Outside,
+    lens?: OutsideLens,
+    moving?: readonly Quad[],
+  ) => Promise<void>;
   /** The adapter's vendor and architecture, as WebGPU reports them. */
   adapter: () => string;
 };

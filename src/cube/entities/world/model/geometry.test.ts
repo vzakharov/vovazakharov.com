@@ -1,7 +1,11 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { CEILING_HEIGHT, SLAB_THICK } from '@/cube/shared/lib/room-shape';
+import {
+  CEILING_HEIGHT,
+  SLAB_THICK,
+  WALL_HALF,
+} from '@/cube/shared/lib/room-shape';
 
 import { descend, eyeInFrame } from './frame';
 import { faces, HOLE_SIDE } from './geometry';
@@ -9,7 +13,7 @@ import type { HoleOf } from './hole';
 import { isOpenEast, maze } from './maze';
 import type { Pose } from './pose';
 import type { Quad } from './quad';
-import { type InRoomOf, type Room, roomKey, WALL_HALF } from './room';
+import { type InRoomOf, type Room, roomKey } from './room';
 import { sight, withBelow } from './rooms';
 import { mazeWalls } from './walls';
 

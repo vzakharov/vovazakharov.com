@@ -62,6 +62,18 @@ done, no merge to `main` without the operator's word, and
   decisions already made with their reasons, the files that are its own and the
   ones that are off limits, the step that ends the brief, and how to report. The
   model is named in every `create_session` and `Agent` call, never inherited.
+- **The flagship is for building; reading and administering run on a cheaper
+  model** — the operator: «для таких задач можно и экономить а не фейбла
+  запускать». A reader agent that digests transcripts, files or logs takes
+  `haiku` or `sonnet`; a coordinator whose work is mechanics takes Sonnet.
+- **A child writes in English in its own session too**, whatever the operator's
+  voice entry says, and its brief says so: English costs about a third fewer
+  tokens. A question the operator puts to it in another language is answered in
+  that language, and the child goes back to English.
+- **A team stopped by the limit is not woken; it is replaced.** The lead reads
+  each stopped session's last messages and its branch's pushed state, then
+  starts a new session on that same branch (`source_revision` and
+  `outcome_branch` both the child's branch) with a brief that stands alone.
 - **A resource another branch holds gets a coordinator of its own** — a child
   session whose only job is the hand-over with that branch's session. For a
   board another agent is publishing, the coordinator takes "add this and this"

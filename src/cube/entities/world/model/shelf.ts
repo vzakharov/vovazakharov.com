@@ -1,17 +1,12 @@
-import type { Vec3 } from '@/cube/shared/lib/vec';
+import { WALL_HALF } from '@/cube/shared/lib/room-shape';
+import { scaled, unit3, type Vec3 } from '@/cube/shared/lib/vec';
 
 import { holeMiddle, type Quarter } from './hole';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
 import { PILL_RADIUS, pillQuads } from './pill';
 import type { WallMounted } from './pose';
-import { box, type Quad, times, unit } from './quad';
-import {
-  type InRoomOf,
-  type Room,
-  roomKey,
-  roomsAcross,
-  WALL_HALF,
-} from './room';
+import { box, type Quad } from './quad';
+import { type InRoomOf, type Room, roomKey, roomsAcross } from './room';
 
 /**
  * Where a holed room's shelf is mounted: on the hole quarter's outer wall
@@ -129,7 +124,7 @@ export function pillOn(shelf: Shelf): { centre: Vec3; axis: Vec3 } {
       SHELF_HEIGHT + PAPER_THICK + PILL_RADIUS,
       footV + out[2] * off,
     ],
-    axis: unit([
+    axis: unit3([
       along[0] * Math.cos(ASKEW) + out[0] * Math.sin(ASKEW),
       0,
       along[2] * Math.cos(ASKEW) + out[2] * Math.sin(ASKEW),
@@ -192,9 +187,9 @@ export function shelfFaces(
         footV - (along[2] * wide) / 2 + out[2] * near,
       ]),
       [
-        times(along, wide * side),
-        times(up, tall * side),
-        times(out, deep * side),
+        scaled(along, wide * side),
+        scaled(up, tall * side),
+        scaled(out, deep * side),
       ],
       room,
       surface,

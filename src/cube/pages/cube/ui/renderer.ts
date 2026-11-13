@@ -277,7 +277,9 @@ export async function createRenderer(
       data.set(viewProjection, 0);
       data.set([...eye, 1], 16);
       data.set([seconds, hour, width, height], 20);
-      if (!throughFloor) data.set([lens.exposure, lens.eyelids], 24);
+      if (!throughFloor) {
+        data.set([lens.exposure, lens.eyelids, lens.indoors ?? 0], 24);
+      }
       device.queue.writeBuffer(uniforms, 0, data);
       const encoder = device.createCommandEncoder();
       const layers = outdoors === null ? null : outsideMade().layers;
