@@ -4,17 +4,18 @@ Run under `/carte-blanche` (`.claude/skills/carte-blanche/SKILL.md`). This file
 is the lead's memory: read it whole after any compaction, before anything else.
 It is not shown to the operator.
 
-**Parked 2026-11-13 ~12:50Z, resumed the same day on another account.** The
-handover is `docs/remove-before-merging/cube-intro-j2wt34/relay-1.md`: its State
-and Next step are newer than anything below but § "Progress"'s last bullets and
-§ "Since the resume".
+**Parked twice on 2026-11-13**: ~12:50Z by the first lead, and again by the
+second, which resumed it the same day on another account. The current handover
+is `docs/remove-before-merging/cube-intro-j2wt34/relay-2.md`: its State and Next
+step are newer than anything below. `relay-1.md` beside it is the first park's,
+and still the home of what each package owes (its § 6).
 
-Lead session since the resume: `session_016Z4TKo8Y7vUYevAQEstous` (context 300k,
-so the two marks fall near 230k and 250k), branch `claude/cube-intro-j2wt34`,
-working directory `docs/remove-before-merging/cube-intro-j2wt34/`. The lead at
-the park was `session_01DaohkEr63nSs6fbnbbEpGd`; neither it, the old team's
-sessions nor the artifacts of the parking account (the board, «Два океана») can
-be reached from this one.
+The second lead was `session_016Z4TKo8Y7vUYevAQEstous`, branch
+`claude/cube-intro-j2wt34`, working directory
+`docs/remove-before-merging/cube-intro-j2wt34/`. The lead at the first park was
+`session_01DaohkEr63nSs6fbnbbEpGd`; neither it, the old team's sessions nor the
+artifacts of the parking account (the board, «Два океана») can be reached from
+the second account.
 
 ## Since the resume
 
@@ -39,6 +40,17 @@ be reached from this one.
 - **Not reachable from this account**: the board's artifact and «Два океана»
   (the watch was refused: 404), so nothing goes to the board from here; the
   frame from above stays in `frames/lead/`.
+- **Operator, on the bands, with screenshots of the shell session**: «а, вот,
+  усспел, берём второй». Shell had shot three finishes side by side and pushed
+  the second, B, a deep graphite satin (ce41033a on `claude/cube-intro-shell`);
+  it is merged here at a55c5a20, with `pnpm typecheck` and `pnpm shaders:cube`
+  (73 of 73) passing after the merge. The bands are settled.
+- **Operator, parking**: «запаркуй релей если что успел сделать, я запущу с
+  новой сессии с бОльшим лимитом автокомпакта». **Done by then**: the bands; the
+  PR's title, body and squash body drafted (`pr-body.md` and `squash-message.md`
+  in the working directory); slot 2 published. **Not done**: the end-to-end
+  strip (stopped mid-shoot with nothing judged), the PR itself, the review
+  board, `./scripts/vet.sh`. `relay-2.md` § 8 has the order.
 
 ## Standing rules (the operator's words)
 
