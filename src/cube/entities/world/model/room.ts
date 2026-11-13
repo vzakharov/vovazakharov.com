@@ -10,12 +10,7 @@ export type Room = Cell & Floored;
 /** A thing of one room: a lever pulled in it, a sign hung in it. */
 export type InRoomOf = { room: Room };
 
-/**
- * Half a wall's thickness, in its room's side: a wall is 12 cm through on
- * floor 1. A closed side's face stands this far in from the room's edge, and
- * so does whatever hangs on it.
- */
-export const WALL_HALF = 0.012;
+export { WALL_HALF } from '@/cube/shared/lib/room-shape';
 
 /** How many rooms floor `n` has along each side. */
 export const roomsAcross = (n: number): bigint => 1n << BigInt(n - 1);

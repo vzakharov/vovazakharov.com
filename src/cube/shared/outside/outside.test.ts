@@ -15,13 +15,13 @@ import {
   WAKE_AT,
   WORLD,
 } from './frame';
-import { ISLAND_HEIGHT, islandHeight } from './island-height';
+import { islandHeight } from './island-height';
 import {
   OUTDOOR_FRAME,
   OUTDOOR_FRAME_FLOATS,
   packOutdoorFrame,
 } from './outdoor-frame';
-import { SKY, skyDir, skyUv } from './sky';
+import { SKY } from './sky';
 import { SUN, SUN_DIR } from './sun';
 
 const close = (a: number, b: number, within = 1e-9): void => {
@@ -74,29 +74,12 @@ describe('the world frame', () => {
 });
 
 describe('the sun', () => {
-  it('stands 9° up, 8° south of east', () => {
+  it('stands 9° up, 31° north of east', () => {
     close(Math.hypot(...SUN_DIR), 1);
     close(Math.asin(SUN_DIR[1]), (9 * Math.PI) / 180);
-    close(Math.atan2(SUN_DIR[2], SUN_DIR[0]), (8 * Math.PI) / 180);
+    close(Math.atan2(SUN_DIR[2], SUN_DIR[0]), (-31 * Math.PI) / 180);
     for (const value of SUN_DIR) {
       assert.ok(literals(SUN.listing).includes(value));
-    }
-  });
-});
-
-describe('islandHeight', () => {
-  it('is a low island some 90 m by 50 m, the sea all round', () => {
-    close(islandHeight([0, 0]), 1.6);
-    assert.ok(islandHeight([-69, 0]) > 0 && islandHeight([-71, 0]) < 0);
-    assert.ok(islandHeight([19, 0]) > 0 && islandHeight([21, 0]) < 0);
-    assert.ok(islandHeight([0, 24]) > 0 && islandHeight([0, -26]) < 0);
-    assert.ok(islandHeight([5000, 5000]) < -10);
-  });
-
-  it('has every number of the script in its shader', () => {
-    const numbers = literals(ISLAND_HEIGHT.listing);
-    for (const value of [1.6, 20, 70, 25, -40]) {
-      assert.ok(numbers.includes(value), String(value));
     }
   });
 });
@@ -142,21 +125,11 @@ describe('cubeShadow', () => {
   });
 });
 
-describe('the sky map', () => {
-  it('finds a direction where it put it', () => {
-    for (const dir of [SUN_DIR, [0, 1, 0], [-0.6, -0.48, 0.64]] as const) {
-      for (const [axis, value] of skyDir(skyUv(dir)).entries()) {
-        close(value, dir[axis] ?? Number.NaN, 1e-12);
-      }
-    }
-    assert.deepEqual(skyUv([1, 0, 0]), [0.5, 0.5]);
-  });
-
-  it('binds the map beside the frame', () => {
-    const source = assemble([SKY, OUTDOOR_FRAME]);
-    for (const binding of [0, 1, 2]) {
-      assert.ok(source.includes(`@group(0) @binding(${String(binding)})`));
-    }
+describe('the sky', () => {
+  it('binds nothing but the frame', () => {
+    const source = assemble([SKY]);
+    assert.ok(source.includes('@group(0) @binding(0)'));
+    assert.equal(source.match(/@binding\(/g)?.length, 1);
   });
 });
 
@@ -167,6 +140,7 @@ describe('packOutdoorFrame', () => {
       inverse: new Float32Array(16).fill(2),
       eye: [3, 4, 5],
       sun: [6, 7, 8],
+      ladder: true,
       seconds: 9,
       hour: 10,
       width: 11,
@@ -175,7 +149,7 @@ describe('packOutdoorFrame', () => {
     assert.equal(data.length, OUTDOOR_FRAME_FLOATS);
     assert.deepEqual(
       [...data.subarray(32)],
-      [3, 4, 5, 1, 6, 7, 8, 0, 9, 10, 11, 12],
+      [3, 4, 5, 1, 6, 7, 8, 0, 9, 10, 11, 12, 1, 0, 0, 0],
     );
     assert.deepEqual([data[0], data[15], data[16], data[31]], [1, 1, 2, 2]);
     const members = [...OUTDOOR_FRAME.listing.matchAll(/^ {2}(\w+): /gm)].map(
@@ -187,6 +161,7 @@ describe('packOutdoorFrame', () => {
       'eye',
       'sun',
       'clock',
+      'state',
     ]);
   });
 });
