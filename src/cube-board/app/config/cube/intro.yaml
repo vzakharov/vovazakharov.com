@@ -313,7 +313,7 @@ items:
     updated: [2026-11-13T12:00:00.000Z, agent:cube-intro]
     box: [5748, 4150, 430]
     src: images/intro-25-sky-opposite-cumulus.webp
-    text: '25. Superseded: this frame shows the domed crown the operator turned down (“a mushroom’s cap”); sky will send a re-shot. Cumulus away from the sun: the billows are shaded again, no grain, at the old cost. Re-shoot: eye --at -21,1.9,21 --yaw 149 --pitch 9, default lens, 1280×800, clock pinned at PLAY_INSTANT 2026-11-01T12:00:00Z, code 3b066f21 on the sky branch'
+    text: '25. Superseded: this frame shows the domed crown the operator turned down (“a mushroom’s cap”). The cloud’s body went back to the earlier shape (uneven top, no dome) at the operator’s word; frame 26 shows it, and no re-shoot of this one is coming. Cumulus away from the sun: the billows are shaded again, no grain, at the old cost. Re-shoot: eye --at -21,1.9,21 --yaw 149 --pitch 9, default lens, 1280×800, clock pinned at PLAY_INSTANT 2026-11-01T12:00:00Z, code 3b066f21 on the sky branch'
   - id: intro-img-26-cloud-before-after
     type: image
     updated: [2026-11-13T12:00:00.000Z, agent:cube-intro]
