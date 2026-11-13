@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 700,
+    "inputTokens": 727,
     "cacheWrite5mTokens": 583,
-    "cacheWrite1hTokens": 192884,
-    "cacheReadTokens": 11817607,
-    "outputTokens": 36902,
-    "thinkingTokens": 11263,
-    "responses": 66,
-    "costUsd": 4.6503483999999995
+    "cacheWrite1hTokens": 212847,
+    "cacheReadTokens": 15410770,
+    "outputTokens": 45478,
+    "thinkingTokens": 15885,
+    "responses": 80,
+    "costUsd": 5.700313
   },
   "estimate": {
     "at": "2026-11-13T16:41:31.169Z",
@@ -48,22 +48,24 @@
   "branch": "claude/cube-wesl-trial",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/cube-wesl-trial — все 66 этажей в .wgsl, по папке на этаж, vet зелёный, PR #276 в черновике",
-  "prs": [],
+  "prs": [
+    276
+  ],
   "url": "https://claude.ai/code/session_01DaohkEALtDXTdsS9KgnD24",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T16:38:21.805Z",
-  "lastResponseAt": "2026-11-13T16:45:10.135Z",
+  "lastResponseAt": "2026-11-13T16:47:02.001Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 127,
+    "inputTokens": 154,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 192884,
-    "cacheReadTokens": 11599382,
-    "outputTokens": 35962,
-    "thinkingTokens": 11263,
-    "responses": 65,
-    "costUsd": 4.5826964
+    "cacheWrite1hTokens": 212847,
+    "cacheReadTokens": 15192545,
+    "outputTokens": 44538,
+    "thinkingTokens": 15885,
+    "responses": 79,
+    "costUsd": 5.632661000000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,23 +79,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 700,
+      "inputTokens": 727,
       "cacheWrite5mTokens": 583,
-      "cacheWrite1hTokens": 192884,
-      "cacheReadTokens": 11817607,
-      "outputTokens": 36902,
-      "thinkingTokens": 11263,
-      "responses": 66,
-      "costUsd": 4.6503483999999995
+      "cacheWrite1hTokens": 212847,
+      "cacheReadTokens": 15410770,
+      "outputTokens": 45478,
+      "thinkingTokens": 15885,
+      "responses": 80,
+      "costUsd": 5.700313
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 65,
-    "matched": 64,
-    "matchedTableUsd": 4.5020462,
-    "matchedEventUsd": 4.5020462,
+    "events": 80,
+    "matched": 79,
+    "matchedTableUsd": 5.632661000000001,
+    "matchedEventUsd": 5.632661000000001,
     "unseen": {
       "side_question": {
         "inputTokens": 573,
@@ -108,19 +110,19 @@
     }
   },
   "operatorWords": {
-    "chat": 87,
+    "chat": 110,
     "review": 0,
     "threads": 0
   },
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".ts": 25963,
+    ".ts": 25439,
     ".md": 951,
     ".json": 87,
     ".yaml": 765,
     ".sh": 1,
-    ".wgsl": 9872,
+    ".wgsl": 10313,
     ".tsx": -109,
     ".scss": 15,
     ".toml": 6
