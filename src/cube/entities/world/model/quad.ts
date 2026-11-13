@@ -25,13 +25,6 @@ export type Quad = Facet & Stuff;
 
 export const UP: Vec3 = [0, 1, 0];
 
-export {
-  cross3 as cross,
-  dot3 as dot,
-  scaled as times,
-  unit3 as unit,
-} from '@/cube/shared/lib/vec';
-
 export const plus = (a: Vec3, b: Vec3): Vec3 => moved(a, b);
 
 export const minus = (a: Vec3, b: Vec3): Vec3 => moved(a, b, -1);

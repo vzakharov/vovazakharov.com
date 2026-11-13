@@ -1,10 +1,10 @@
 import { WALL_HALF } from '@/cube/shared/lib/room-shape';
-import type { Vec3 } from '@/cube/shared/lib/vec';
+import { scaled as times, type Vec3 } from '@/cube/shared/lib/vec';
 
 import { holeMiddle, type Quarter } from './hole';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
 import type { WallMounted } from './pose';
-import { box, type Quad, times } from './quad';
+import { box, type Quad } from './quad';
 import { type InRoomOf, type Room, roomKey, roomsAcross } from './room';
 
 /**

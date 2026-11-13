@@ -26,15 +26,11 @@ export type {
 } from './model/pose';
 export {
   box,
-  cross,
-  dot,
   face,
   type Facet,
   minus,
   plus,
   type Quad,
-  times,
-  unit,
   UP,
 } from './model/quad';
 export {
@@ -69,3 +65,9 @@ export { mazeWalls, type Walls } from './model/walls';
 export { isOutside, type Outside, type Whereabouts } from './model/whereabouts';
 export { WALL_HALF } from '@/cube/shared/lib/room-shape';
 export type { Vec3 } from '@/cube/shared/lib/vec';
+export {
+  cross3 as cross,
+  dot3 as dot,
+  scaled as times,
+  unit3 as unit,
+} from '@/cube/shared/lib/vec';
