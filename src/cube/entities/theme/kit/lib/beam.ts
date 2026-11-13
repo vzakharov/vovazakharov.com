@@ -42,7 +42,10 @@ const ENDS = [
 export function beamPatches(sun: Vec3, cell = 1.25): SunPatch[] {
   const wide = DOORWAY.to - DOORWAY.from;
   const each = (wide * DOORWAY.height * sun[0]) / (RAYS.along * RAYS.up);
-  const patches = new Map<string, { sum: [number, number, number]; n: number; facing: Vec3 }>();
+  const patches = new Map<
+    string,
+    { sum: [number, number, number]; n: number; facing: Vec3 }
+  >();
   for (let i = 0; i < RAYS.along; i += 1) {
     for (let j = 0; j < RAYS.up; j += 1) {
       const from: Vec3 = [
@@ -63,8 +66,16 @@ export function beamPatches(sun: Vec3, cell = 1.25): SunPatch[] {
       ];
       const along = end.axis === 0 ? hit[2] : hit[0];
       const key = `${end.facing.join(',')}/${String(Math.floor(along / cell))}`;
-      const patch = patches.get(key) ?? { sum: [0, 0, 0], n: 0, facing: end.facing };
-      patch.sum = [patch.sum[0] + hit[0], patch.sum[1] + hit[1], patch.sum[2] + hit[2]];
+      const patch = patches.get(key) ?? {
+        sum: [0, 0, 0],
+        n: 0,
+        facing: end.facing,
+      };
+      patch.sum = [
+        patch.sum[0] + hit[0],
+        patch.sum[1] + hit[1],
+        patch.sum[2] + hit[2],
+      ];
       patch.n += 1;
       patches.set(key, patch);
     }

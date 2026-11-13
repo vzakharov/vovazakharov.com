@@ -9,7 +9,7 @@ import { DOORWAY, SUN, SUN_DIR, SUN_LIGHT } from '@/cube/shared/outside';
 import { beamPatches, DOOR_INNER } from './beam';
 import { CORE } from './core';
 import { GRADE } from './grade';
-import { hazed, lensListing, type Graded } from './lens';
+import { type Graded, hazed, lensListing } from './lens';
 import { LIGHT } from './light';
 
 const f = (value: number): string => value.toFixed(4);
@@ -231,7 +231,10 @@ fn sunlitRoom(s: Surf, m: Material, ambient: vec3f) -> vec3f {
 );
 
 /** A potted plant standing in the beam: its axis in metres east and south, and its draw of height. */
-export type Shrub = { at: readonly [east: number, south: number]; tall: number };
+export type Shrub = {
+  at: readonly [east: number, south: number];
+  tall: number;
+};
 
 /** A room lit by the sun through floor 1's doorway, as numbers. */
 type Sunlit = Graded & {
@@ -257,7 +260,8 @@ export const sunlit = (id: string, look: Sunlit): Wgsl => {
     return `Bounce(${vec3f(at)}, ${vec3f(facing)}, ${vec3f(light)})`;
   });
   const shrubs = look.shrubs.map(
-    ({ at: [east, south], tall }) => `vec3f(${f(east)}, ${f(south)}, ${f(tall)})`,
+    ({ at: [east, south], tall }) =>
+      `vec3f(${f(east)}, ${f(south)}, ${f(tall)})`,
   );
   return wgsl(
     `${id}/sunlit`,

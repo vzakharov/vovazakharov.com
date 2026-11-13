@@ -50,10 +50,14 @@ export type Programs = Preparing & {
   of: (n: number) => Program;
 };
 
+/** What the scene pass writes: scene light, then what a mirror keeps. */
+export const SCENE_TARGETS: GPUColorTargetState[] = [
+  SCENE_FORMAT,
+  ...MIRROR_FORMATS,
+].map((format) => ({ format }));
+
 /** `shader`'s compile errors on one line, or null where it compiled. */
-export async function compileErrors(
-  shader: GPUShaderModule,
-): Promise<string | null> {
+async function compileErrors(shader: GPUShaderModule): Promise<string | null> {
   const { messages } = await shader.getCompilationInfo();
   const errors = messages.filter(({ type }) => type === 'error');
   if (errors.length === 0) return null;
@@ -63,6 +67,21 @@ export async function compileErrors(
         `${String(lineNum)}:${String(linePos)} ${message}`,
     )
     .join('; ');
+}
+
+/**
+ * `code` compiled on `device`; rejects with the compiler's words, said of
+ * `what`, where it does not compile.
+ */
+export async function compiled(
+  device: GPUDevice,
+  what: string,
+  code: string,
+): Promise<GPUShaderModule> {
+  const shader = device.createShaderModule({ label: what, code });
+  const errors = await compileErrors(shader);
+  if (errors !== null) throw new Error(`${what}: ${errors}`);
+  return shader;
 }
 
 /**
@@ -121,12 +140,9 @@ export function createPrograms(
     });
 
   const compileOutsideLens = async (): Promise<GPURenderPipeline> => {
-    const shader = device.createShaderModule({ code: outsideLensSource() });
-    const errors = await compileErrors(shader);
-    if (errors !== null) {
-      throw new Error(`The outside lens's shader: ${errors}`);
-    }
-    return lensOf(shader);
+    return lensOf(
+      await compiled(device, "The outside lens's shader", outsideLensSource()),
+    );
   };
   let outsideLens: Promise<GPURenderPipeline> | null = null;
 
@@ -134,11 +150,11 @@ export function createPrograms(
   const ready = new Map<number, Program>();
 
   const compile = async (n: number): Promise<Program> => {
-    const shader = device.createShaderModule({ code: sourceOf(n) });
-    const errors = await compileErrors(shader);
-    if (errors !== null) {
-      throw new Error(`Floor ${String(n)}'s shader: ${errors}`);
-    }
+    const shader = await compiled(
+      device,
+      `Floor ${String(n)}'s shader`,
+      sourceOf(n),
+    );
     const pipeline = async (
       layout: GPUPipelineLayout,
       fragment: string,
@@ -153,9 +169,7 @@ export function createPrograms(
         fragment: {
           module: shader,
           entryPoint: fragment,
-          targets: [SCENE_FORMAT, ...MIRROR_FORMATS].map((written) => ({
-            format: written,
-          })),
+          targets: SCENE_TARGETS,
         },
         primitive: { topology: 'triangle-list', cullMode: 'back' },
         depthStencil: {
