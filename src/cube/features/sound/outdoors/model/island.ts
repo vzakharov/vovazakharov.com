@@ -5,7 +5,7 @@ import {
   CUBE_BOX,
   DOORWAY,
   islandHeight,
-  waterLevel,
+  waterLevelAt,
 } from '@/cube/shared/outside';
 import { isOutside, type Whereabouts } from '@/cube/entities/world';
 
@@ -23,7 +23,11 @@ const STRETCHES = 32;
 
 /** The island the cube hangs over, as the ear has it. */
 export const SOUNDING_ISLAND: Scene = {
-  coast: coastOf({ islandHeight, waterLevel }, CUBE_MIDDLE, STRETCHES),
+  coast: coastOf(
+    { islandHeight, waterAt: waterLevelAt },
+    CUBE_MIDDLE,
+    STRETCHES,
+  ),
   cube: CUBE_MIDDLE,
 };
 

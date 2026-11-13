@@ -15,7 +15,7 @@ export const PERIOD = 10;
  */
 export const seaOf = (swell = 0.2): Sea => ({
   islandHeight: ([x, z]) => 1.5 * (1 - (x * x + z * z) / RADIUS ** 2),
-  waterLevel: (_, seconds) =>
+  waterAt: () => (seconds) =>
     swell * Math.sin((2 * Math.PI * seconds) / PERIOD),
 });
 

@@ -9,14 +9,22 @@ import type { Vec2 } from '@/cube/shared/lib/vec';
  */
 export type Sea = {
   islandHeight: (at: Vec2) => number;
-  waterLevel: (at: Vec2, seconds: number) => number;
+  /** The sea's level at a point as a function of the second: made once per point. */
+  waterAt: (at: Vec2) => Level;
 };
+
+/** The sea's surface at one point, in metres over the still sea, by second. */
+type Level = (seconds: number) => number;
 
 /**
  * One stretch of shore: where the still sea meets the sand, and where the
- * waves coming in to it break.
+ * waves coming in to it break, each with the water's level there.
  */
-export type Stretch = { shore: Vec2; breaks: Vec2 };
+export type Stretch = {
+  shore: Vec2;
+  breaks: Vec2;
+  water: { shore: Level; breaks: Level };
+};
 
 /** Metres between two looks along a line out from the island. */
 const STRIDE = 0.5;
@@ -43,7 +51,7 @@ const outFrom = ([x, z]: Vec2, turn: number, metres: number): Vec2 => [
  * A line that finds no shore gives no stretch.
  */
 export function shoreOf(
-  { islandHeight }: Sea,
+  { islandHeight, waterAt }: Sea,
   middle: Vec2,
   count = 16,
 ): Stretch[] {
@@ -64,9 +72,13 @@ export function shoreOf(
       }
     }
     if (shore !== undefined) {
-      stretches.push({
+      const at = {
         shore: outFrom(middle, turn, shore),
         breaks: outFrom(middle, turn, breaks ?? shore),
+      };
+      stretches.push({
+        ...at,
+        water: { shore: waterAt(at.shore), breaks: waterAt(at.breaks) },
       });
     }
   }
@@ -90,18 +102,17 @@ const LOOKS = 10;
  */
 const SPAN = LOOK_BACK / 2;
 
-/** Metres a second the sea's surface is rising at `at`, `seconds` into the hour. */
-const rising = (sea: Sea, at: Vec2, seconds: number): number =>
-  (sea.waterLevel(at, seconds + SPAN) - sea.waterLevel(at, seconds - SPAN)) /
-  (2 * SPAN);
+/** Metres a second the surface is rising where `level` reads, `seconds` into the hour. */
+const rising = (level: Level, seconds: number): number =>
+  (level(seconds + SPAN) - level(seconds - SPAN)) / (2 * SPAN);
 
 /**
- * How fast the sea's surface is rising at `at` at now and at each of the
+ * How fast the surface is rising where `level` reads, now and at each of the
  * `LOOKS` looks before it, in metres a second.
  */
-function risings(sea: Sea, at: Vec2, seconds: number): number[] {
+function risings(level: Level, seconds: number): number[] {
   const levels = Array.from({ length: LOOKS + 2 }, (_, look) =>
-    sea.waterLevel(at, seconds + SPAN - look * LOOK_BACK),
+    level(seconds + SPAN - look * LOOK_BACK),
   );
   return Array.from(
     { length: LOOKS + 1 },
@@ -133,21 +144,18 @@ const SWING_OVER = 240;
 const SWING_EVERY = 0.5;
 
 /**
- * The swing of `sea` along `shore`, so that its biggest wave is the loudest
+ * The swing of the sea along `shore`, so that its biggest wave is the loudest
  * the surf gets whatever size the sea's waves are.
  */
-export function swingOf(sea: Sea, shore: readonly Stretch[]): Swing {
+export function swingOf(shore: readonly Stretch[]): Swing {
   const swing = { atShore: 1e-6, overBar: 1e-6 };
-  for (const stretch of shore) {
+  for (const { water } of shore) {
     for (let seconds = 0; seconds < SWING_OVER; seconds += SWING_EVERY) {
       swing.atShore = Math.max(
         swing.atShore,
-        Math.abs(rising(sea, stretch.shore, seconds)),
+        Math.abs(rising(water.shore, seconds)),
       );
-      swing.overBar = Math.max(
-        swing.overBar,
-        rising(sea, stretch.breaks, seconds),
-      );
+      swing.overBar = Math.max(swing.overBar, rising(water.breaks, seconds));
     }
   }
   return swing;
@@ -158,7 +166,7 @@ export type Coast = { sea: Sea; shore: readonly Stretch[]; swing: Swing };
 
 export function coastOf(sea: Sea, middle: Vec2, count?: number): Coast {
   const shore = shoreOf(sea, middle, count);
-  return { sea, shore, swing: swingOf(sea, shore) };
+  return { sea, shore, swing: swingOf(shore) };
 }
 
 /** The surf from how fast the water is rising at the shore and over the bar. */
@@ -182,8 +190,8 @@ function surfFrom({ swing }: Coast, shoreRise: number, barRise: number): Surf {
  * function of the moment alone.
  */
 export function surfAt(coast: Coast, stretch: Stretch, seconds: number): Surf {
-  const shoreRises = risings(coast.sea, stretch.shore, seconds);
-  const barRises = risings(coast.sea, stretch.breaks, seconds);
+  const shoreRises = risings(stretch.water.shore, seconds);
+  const barRises = risings(stretch.water.breaks, seconds);
   const surf = surfFrom(coast, shoreRises[0] ?? 0, barRises[0] ?? 0);
   for (let look = 1; look <= LOOKS; look += 1) {
     const ago = look * LOOK_BACK;
