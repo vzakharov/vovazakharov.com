@@ -71,11 +71,14 @@ fn lace(still: vec2f, dense: f32, shore: Shore, pixel: f32) -> f32 {
   let blur = finer * pixel;
   let wide = 0.3 + 2.6 * blur;
   let wider = 0.4 + 9.0 * blur;
-  let threads = (1.0 - smoothstep(0.0, wide, foamWalls(at * 2.6, 21u))) * 0.3 / wide;
-  let fine = (1.0 - smoothstep(0.0, wider, foamWalls(at * 9.0, 22u))) * 0.4 / wider;
+  // A thread drawn wider is drawn fainter, toward what the walls cover of
+  // the sea on the whole, so the foam a far pixel shows is the near one's.
+  let threads = mix(0.21, 1.0 - smoothstep(0.0, wide, foamWalls(at * 2.6, 21u)), 0.3 / wide);
+  let fine = mix(0.29, 1.0 - smoothstep(0.0, wider, foamWalls(at * 9.0, 22u)), 0.4 / wider);
   let body = 0.5 * patches + 0.32 * threads + 0.18 * fine;
   let open = 1.0 - 1.15 * min(dense, 1.0);
-  return smoothstep(open, open + 0.16 + blur, body) * smoothstep(0.02, 0.1, dense);
+  return smoothstep(open - 0.5 * blur, open + 0.16 + 0.5 * blur, body)
+    * smoothstep(0.02, 0.1, dense);
 }
 
 /// How much of a breaker's foam and bubbles the water at a point is deep
