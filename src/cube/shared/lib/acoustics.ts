@@ -25,8 +25,8 @@ export type Underfoot = Footing | Ground;
 export const LADDERS = ['aluminium', 'wood'] as const;
 export type Ladder = (typeof LADDERS)[number];
 
-/** The ladder's own material. */
-export const LADDER_MATERIAL: Ladder = 'aluminium';
+/** The ladder's own material: an old weathered one, with round rungs. */
+export const LADDER_MATERIAL: Ladder = 'wood';
 
 /** What takes hold of a rung, or stands on it. */
 export type Limb = 'hand' | 'foot';
