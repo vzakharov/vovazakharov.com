@@ -350,11 +350,13 @@ not append.
   **Unmerged**: walk, pill, core's quarter-turn (its main job now). `brief.md`
   is at 397 lines — the next move out of this file goes to a new `journal.md`
   beside it.
-- **11:14Z, the tone is answered**: the operator, on sand's
-  `1113-sky-approved-eye.webp` (gold sand under the real sky, board frame 20):
-  «АААА дайте две!». Gold stays; that frame — sky as of 54b3c2c7 included — is
-  the reference for the outside toward the sun, superseding the pinkish-beige
-  one. Sky told not to change what that eye shows.
+- **11:14Z, the frame is approved for its overall feeling**: the operator, on
+  sand's `1113-sky-approved-eye.webp` (gold sand under the real sky, board frame
+  20): «АААА дайте две!», then «по оттенкам песка можешь экспериментировать если
+  хочешь, я говорю про общее ощущение». That frame — sky as of 54b3c2c7 included
+  — is the reference for the outside toward the sun; the sand's tone is NOT
+  locked, it is sand's judgment (no further pass planned). Sky told not to
+  change what that eye shows.
 - **11:15Z, a splash screen** (the operator, on the same frame: «это должно быть
   splash screen-ом»). Lead's ruling: that eye rendered live
   (`-15.203, 2.10, 15.203`, yaw −45, pitch 4), the clock running, before the
