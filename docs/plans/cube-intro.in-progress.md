@@ -328,6 +328,11 @@ not append.
   the face (corner / a third / middle — the operator mused on a centred door and
   a turned cube); shell shoots the sun and the cube turned, and (a). Pill adds a
   decor clear zone at the doorway (a plant stood on the sill).
+- **10:40Z: the approved frame is pinned** — sand fd0a48e7,
+  `frames/sand/approved-standing-toward-sun.webp`, eye
+  `--at -15.203,2.10,15.203 --yaw -45 --pitch 4` (21.5 m out, not the final
+  waking spot; from 23.43 m the cube is a touch smaller, the character the
+  same). On the board as a big card with the operator's quote (v66).
 - **The explainer** «Два океана» was amended on the operator's comment (how many
   waves "good" takes); answered in its thread.
 - **Next, in order**: (1) merge core, shell, sky as they report green and lint;
