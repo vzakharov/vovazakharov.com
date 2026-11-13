@@ -11,7 +11,7 @@ const BLACK = {
   blur: 0.4,
 } as const;
 const GREY = {
-  albedo: [0.04, 0.046, 0.058],
+  albedo: [0.06, 0.066, 0.076],
   mirror: 0.05,
   blur: 4.2,
 } as const;
@@ -62,6 +62,13 @@ fn surround(dir: vec3f, lod: f32) -> vec3f {
   return mix(sky, ground, smoothstep(-0.01, 0.02 + 0.02 * lod, -dir.y));
 }
 
+/// \`light\` as the grey takes it: a low sun warms the grey a little, where
+/// taking its orange whole would turn the grey brown.
+fn cooled(light: vec3f) -> vec3f {
+  let level = dot(light, vec3f(0.2126, 0.7152, 0.0722));
+  return mix(light, level * vec3f(0.95, 1.0, 1.07), 0.8);
+}
+
 struct Band {
   /// 1 in a near-black band, 0 in a grey one, between where they blur.
   dark: f32,
@@ -101,11 +108,13 @@ fn lattice(at: vec2f, cell: f32, salt: u32, pixel: f32) -> f32 {
   let home = vec2i(floor(p));
   let h = cellHash(home, salt);
   let on = step(0.62, unitOf(h));
+  // One in some thirty is a bright one.
+  let bright = 1.0 + 6.0 * step(0.965, unitOf(mix32(h + 41u)));
   let off = fract(p) - 0.5;
   let beats = 300.0 + floor(unitOf(mix32(h + 13u)) * 600.0);
   let lit = 0.5 + 0.5 * cos(TURN * (beats * frame.clock.x / HOUR + unitOf(mix32(h + 29u))));
   let size = max(0.02, pixel / cell);
-  return on * lit * lit * (0.02 * 0.02) / (size * size) * (1.0 - smoothstep(0.0, size, length(off)));
+  return on * bright * lit * lit * (0.02 * 0.02) / (size * size) * (1.0 - smoothstep(0.0, size, length(off)));
 }
 
 struct Face {
@@ -135,7 +144,8 @@ fn shellFace(f: Face, band: Band, depth: i32, glance: f32) -> vec3f {
   let base = mix(${vec3f(GREY.albedo)}, ${vec3f(BLACK.albedo)}, band.dark);
   let albedo = mix(base, ${vec3f(LINE.albedo)}, band.line);
   let fill = SKY_FILL * (0.5 + 0.5 * f.normal.y) + SAND_LIGHT * (0.5 - 0.5 * f.normal.y);
-  var light = albedo * (SUN_LIGHT * towards * f.sun + fill);
+  let sunLight = mix(cooled(SUN_LIGHT), SUN_LIGHT, band.dark);
+  var light = albedo * (sunLight * towards * f.sun + fill);
 
   // The mirror in it: sharp in the black, brushed in the grey, tinted like
   // oil where it is seen along the face.
@@ -144,14 +154,15 @@ fn shellFace(f: Face, band: Band, depth: i32, glance: f32) -> vec3f {
   let blur = mix(${GREY.blur.toFixed(1)}, ${BLACK.blur.toFixed(1)}, band.dark);
   let film = 0.5 + 0.5 * cos(TURN * (vec3f(0.0, 0.33, 0.67) + 1.3 * (1.0 - facing) + 0.11 * band.level));
   let tint = mix(vec3f(1.0), film, 0.9 * glance * (1.0 - facing) * (1.0 - facing));
-  light += surround(reflect(-f.toEye, f.normal), blur) * share * tint;
+  let mirrored = surround(reflect(-f.toEye, f.normal), blur);
+  light += mix(cooled(mirrored), mirrored, band.dark) * share * tint;
 
   // The sun's own sheen on the brushed grey, drawn out down the face.
   let mid = normalize(SUN_DIR + f.toEye);
   let across = dot(mid, f.along);
   let sheen = pow(max(1.0 - across * across, 0.0), 400.0) * pow(max(dot(f.normal, mid), 0.0), 24.0);
   let skim = pow(1.0 - max(dot(mid, f.toEye), 0.0), 5.0);
-  light += SUN_LIGHT * sunlit * (1.0 - band.dark) * sheen * (0.03 + 0.97 * skim) * 0.8 * tint;
+  light += sunLight * sunlit * (1.0 - band.dark) * sheen * (0.03 + 0.97 * skim) * 0.8 * tint;
 
   // Flecks in the grey that catch the sun one at a time, close to.
   let fleck = 0.0025;
@@ -160,7 +171,7 @@ fn shellFace(f: Face, band: Band, depth: i32, glance: f32) -> vec3f {
   let tilt = vec3f(unitOf(h), unitOf(mix32(h)), unitOf(mix32(h + 3u))) - 0.5;
   let glint = step(0.97, unitOf(mix32(h + 5u)))
     * pow(max(dot(normalize(f.normal + 0.5 * tilt), mid), 0.0), 500.0);
-  light += SUN_LIGHT * sunlit * (1.0 - band.dark) * glint * 2.0
+  light += sunLight * sunlit * (1.0 - band.dark) * glint * 2.0
     * (1.0 - smoothstep(0.5, 2.0, f.pixel / fleck));
 
   // The lights under the black, each layer deeper and farther apart.

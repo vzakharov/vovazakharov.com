@@ -191,7 +191,34 @@ function reveal(): Rect[] {
   ];
 }
 
-/** The ladder: two stiles and its rungs, each a box of wood. */
+/** How many flat sides a rung's round is drawn with; the shader rounds their light. */
+const RUNG_SIDES = 8;
+
+/** A rung's round about `middle`, from stile to stile, its ends inside them. */
+function round(middle: Vec3): Rect[] {
+  const radius = DOOR_LADDER.rung.tall / 2;
+  const spoke = (turn: number): Vec3 => {
+    const angle = (turn / RUNG_SIDES) * 2 * Math.PI;
+    return moved(
+      scaled(LADDER_UP, radius * Math.cos(angle)),
+      LADDER_OUT,
+      radius * Math.sin(angle),
+    );
+  };
+  const end = moved(middle, LADDER_ACROSS, -DOOR_LADDER.wide / 2);
+  return Array.from({ length: RUNG_SIDES }, (_, turn): Rect => {
+    const from = spoke(turn);
+    return {
+      corner: moved(end, from),
+      u: scaled(LADDER_ACROSS, DOOR_LADDER.wide),
+      v: moved(spoke(turn + 1), from, -1),
+      at: [0, 0],
+      kind: 'rung',
+    };
+  });
+}
+
+/** The ladder: two stiles, each a box of wood, and its rungs' rounds. */
 function ladder(): Rect[] {
   const middle = moved(DOOR_LADDER.foot, LADDER_UP, DOOR_LADDER.length / 2);
   const stiles = [-1, 1].flatMap((side) =>
@@ -205,17 +232,7 @@ function ladder(): Rect[] {
       'stile',
     ),
   );
-  const rungs = DOOR_LADDER.rungs.flatMap((rung) =>
-    box(
-      rung,
-      [
-        scaled(LADDER_UP, DOOR_LADDER.rung.tall / 2),
-        scaled(LADDER_ACROSS, DOOR_LADDER.wide / 2),
-        scaled(LADDER_OUT, DOOR_LADDER.rung.through / 2),
-      ],
-      'rung',
-    ),
-  );
+  const rungs = DOOR_LADDER.rungs.flatMap((rung) => round(rung));
   return [...stiles, ...rungs];
 }
 
