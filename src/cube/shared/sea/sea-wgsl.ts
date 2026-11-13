@@ -155,7 +155,7 @@ fn seaFragment(in: SeaVarying, @builtin(front_facing) above: bool) -> SeaOut {
       * (0.3 + 0.7 * max(dot(normal, frame.sun.xyz), 0.0))
       + SKY_FILL
   );
-  let foam = lace(in.still, thick, shore);
+  let foam = lace(in.still, thick, shore, max(length(across), length(down)));
   // Thin foam is a film the water shows through; churning foam is white.
   let froth = 0.78 + 0.3 * fbm(in.still * 6.0, 41u, 3);
   let colour = mix(water, white * froth * mix(0.8, 1.0, min(thick, 1.0)), foam);

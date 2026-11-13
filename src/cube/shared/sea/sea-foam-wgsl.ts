@@ -53,24 +53,29 @@ fn foamWalls(p: vec2f, salt: u32) -> f32 {
 /// threads that bubbles gather into along the walls between cells. On the
 /// beach the water that carries it runs up and back along \`shore.runs\`,
 /// and draws the cells out that way, and a sheet's thin foam
-/// breaks finer than a breaker's.
-fn lace(still: vec2f, dense: f32, shore: Shore) -> f32 {
+/// breaks finer than a breaker's. A pixel \`pixel\` metres of sea wide
+/// shows the threads narrower than itself as their mean, not as dots.
+fn lace(still: vec2f, dense: f32, shore: Shore, pixel: f32) -> f32 {
   if (dense <= 0.02) {
     return 0.0;
   }
   let ashore = smoothstep(-0.35, 0.0, shore.bed);
   let drawn = 1.0 + ${f32(DRAWN_OUT - 1)} * ashore;
-  let p = (1.0 + ${f32(FINER - 1)} * ashore)
+  let finer = 1.0 + ${f32(FINER - 1)} * ashore;
+  let p = finer
     * (still + (1.0 / drawn - 1.0) * dot(still, shore.runs) * shore.runs);
   let warp = vec2f(fbm(p * 0.9, 11u, 3), fbm(p * 0.9 + vec2f(7.7, 3.1), 14u, 3)) - 0.5;
   let fold = vec2f(valueNoise(p * 3.7, 12u), valueNoise(p * 3.7 + vec2f(2.3, 9.1), 13u)) - 0.5;
   let at = p + 0.9 * warp + 0.22 * fold;
   let patches = fbm(at * 0.7, 17u, 4);
-  let threads = 1.0 - smoothstep(0.0, 0.3, foamWalls(at * 2.6, 21u));
-  let fine = 1.0 - smoothstep(0.0, 0.4, foamWalls(at * 9.0, 22u));
+  let blur = finer * pixel;
+  let wide = 0.3 + 2.6 * blur;
+  let wider = 0.4 + 9.0 * blur;
+  let threads = (1.0 - smoothstep(0.0, wide, foamWalls(at * 2.6, 21u))) * 0.3 / wide;
+  let fine = (1.0 - smoothstep(0.0, wider, foamWalls(at * 9.0, 22u))) * 0.4 / wider;
   let body = 0.5 * patches + 0.32 * threads + 0.18 * fine;
   let open = 1.0 - 1.15 * min(dense, 1.0);
-  return smoothstep(open, open + 0.16, body) * smoothstep(0.02, 0.1, dense);
+  return smoothstep(open, open + 0.16 + blur, body) * smoothstep(0.02, 0.1, dense);
 }
 
 /// How much of a breaker's foam and bubbles the water at a point is deep
