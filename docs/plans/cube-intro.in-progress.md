@@ -312,52 +312,10 @@ not append.
   chose the interior's quarter-turn and who does what about it; the body's
   shadow on hold; tone notes ("The Egg", working titles); sky's second merge and
   the ruling to bring the cumulus' relief back.
-- **State at 11:15Z — lead 34484955** holds sand f0ff9882 (gold pass, wet
-  foreshore mirrors the sky, 23.43 m waking spot), core 3a72bbfc
-  (`daylightFilm`: the room's curve up to 1, a slower tail past it; the sun's
-  white area about halved — further means lower exposure or a dimmer 5–20° ring,
-  both the operator's), shell 1114f295, sky 7416a7cd. Typecheck, 73 shaders,
-  type-overlap green; **no frame shot by the lead since 315051b5**. Board v70
-  (sand's frames 19–20; next free [6668, 3250], [7128, 3250]; core sends its
-  film pair itself). Sand is parked until the operator speaks on the tone.
-  **Unmerged**: walk, pill, core's quarter-turn (its main job now). `brief.md`
-  is at 397 lines — the next move out of this file goes to a new `journal.md`
-  beside it.
-- **11:14Z, the frame is approved for its overall feeling**: the operator, on
-  sand's `1113-sky-approved-eye.webp` (gold sand under the real sky, board frame
-  20): «АААА дайте две!», then «по оттенкам песка можешь экспериментировать если
-  хочешь, я говорю про общее ощущение». That frame — sky as of 54b3c2c7 included
-  — is the reference for the outside toward the sun; the sand's tone is NOT
-  locked, it is sand's judgment (no further pass planned). Sky told not to
-  change what that eye shows.
-- **11:15Z, a splash screen** (the operator, on the same frame: «это должно быть
-  splash screen-ом»), then «нене, это я про будущее. просто вынести на доску».
-  **Nothing is built**: the lead's task to walk is withdrawn; board adds a
-  sticky by frame 20. For when it is built: the eye is `-15.203, 2.10, 15.203`,
-  yaw −45, pitch 4, and the first rule points to a live render rather than a
-  shipped picture.
-- **11:17Z: lead 2a21b2d1** — shell 3bc2319c merged ("final", but the oil film
-  is still at `shell-material.ts:155–156` and `bodyShadow` still exported: both
-  re-sent; archive shell only after that merge). **Pill, the operator's
-  corrections**: "the room's door is the doorway" is withdrawn — the reception's
-  list simply has no door (keep it so when main merges in); the clear zone
-  stays, and after the turn only the noticeboard needs it; the doorway stays
-  off-centre ("centre is definitely not pretty"). Pill d1d449af, waiting on
-  core's seam.
-- **11:27Z — lead eafe03e3** (sand's README with the splash frame's re-shoot
-  data: eye y 2.0962, clock `PLAY_INSTANT` 2026-11-01T12:00Z, pinned by the
-  script page; **every frame is recorded with eye, clock, commit** —
-  `briefs/notice.md`). Decor, by the operator's ruling (~11:27Z, over the
-  lead's): two general rules only — nothing in front of `ROOM_DOORWAY` on floor
-  1, and nothing hung shares plan footprint with a standing thing; a hung thing
-  with no place vanishes ("better than a carpet behind a cupboard"); NO special
-  rule for the noticeboard ("we'll live with that" — it lands on the east wall
-  by the SE corner, the clock near the hole). Pill reports the per-floor count
-  of what vanishes. Board v77 holds core's film pair (21–23); next free slot
-  [7128, 3700]. The pill's black half has no highlight on floors 2, 5, 7 — the
-  'plastic' glint in the room's renderer goes to shell, after the pink underside
-  and deleting `bodyShadow`. Core's seam is out (`ROOM_DOORWAY`, core 2f4ab3ba,
-  unmerged, not yet reported to the lead).
+- **11:14Z–11:27Z, in `journal.md`** (verbatim): the frame approved for its
+  overall feeling and marked as the future splash screen (nothing built); every
+  frame recorded with eye, clock and commit; the decor rules as the operator
+  ruled them; the state at 11:15Z.
 - **State at 11:45Z — lead de2ea63a** holds: shell c49ee5ed (pink underside
   fixed — film a faint cool sheen, none underneath; `bodyShadow` deleted),
   core's quarter-turn dda6d590 **as wip** (`INTERIOR_TURN` in
