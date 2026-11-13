@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 9915,
-    "cacheWrite5mTokens": 1554381,
-    "cacheWrite1hTokens": 691359,
-    "cacheReadTokens": 90120824,
-    "outputTokens": 454012,
-    "thinkingTokens": 176424,
-    "responses": 558,
-    "costUsd": 40.44684179999998
+    "inputTokens": 10544,
+    "cacheWrite5mTokens": 1663851,
+    "cacheWrite1hTokens": 699992,
+    "cacheReadTokens": 100014342,
+    "outputTokens": 509550,
+    "thinkingTokens": 192631,
+    "responses": 620,
+    "costUsd": 44.15583539999999
   },
   "estimate": {
     "at": "2026-11-13T16:58:16.495Z",
@@ -45,7 +45,7 @@
     }
   },
   "sessionId": "bdc15569-87b0-5272-9102-153ba266e82a",
-  "branch": "claude/cube-wesl-trial",
+  "branch": "worktree-agent-a7aced22fc65767ac",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/cube-wesl-trial — база догнана, пины этажей и улицы зелёные, уличные шейдеры ещё в TS",
   "prs": [
@@ -54,39 +54,39 @@
   "url": "https://claude.ai/code/session_01DaohkCaoV7hfxzNmeuHhLY",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T16:57:56.146Z",
-  "lastResponseAt": "2026-11-13T17:56:10.781Z",
+  "lastResponseAt": "2026-11-13T18:02:09.975Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 523,
+    "inputTokens": 532,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 691359,
-    "cacheReadTokens": 56785742,
-    "outputTokens": 201846,
-    "thinkingTokens": 71731,
-    "responses": 275,
-    "costUsd": 20.927032399999995
+    "cacheWrite1hTokens": 699992,
+    "cacheReadTokens": 58098199,
+    "outputTokens": 204394,
+    "thinkingTokens": 71969,
+    "responses": 280,
+    "costUsd": 21.309583799999995
   },
   "subagents": {
-    "inputTokens": 612,
-    "cacheWrite5mTokens": 1553578,
+    "inputTokens": 726,
+    "cacheWrite5mTokens": 1662848,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 32739284,
-    "outputTokens": 235268,
-    "thinkingTokens": 104693,
-    "responses": 281,
-    "costUsd": 19.023554799999985
+    "cacheReadTokens": 41063101,
+    "outputTokens": 288240,
+    "thinkingTokens": 120662,
+    "responses": 337,
+    "costUsd": 22.294564199999996
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 9915,
-      "cacheWrite5mTokens": 1554381,
-      "cacheWrite1hTokens": 691359,
-      "cacheReadTokens": 90120824,
-      "outputTokens": 454012,
-      "thinkingTokens": 176424,
-      "responses": 558,
-      "costUsd": 40.44684179999998
+      "inputTokens": 10544,
+      "cacheWrite5mTokens": 1663851,
+      "cacheWrite1hTokens": 699992,
+      "cacheReadTokens": 100014342,
+      "outputTokens": 509550,
+      "thinkingTokens": 192631,
+      "responses": 620,
+      "costUsd": 44.15583539999999
     }
   },
   "warnings": [],
@@ -147,16 +147,16 @@
           "Read": 5
         },
         "estimatedTokens": 10093,
-        "estimatedUsd": 0.2148662
+        "estimatedUsd": 0.22495919999999997
       },
       "billedUsd": 0.23942099999999997
     }
   ],
   "telemetry": {
-    "events": 557,
-    "matched": 555,
-    "matchedTableUsd": 39.89711719999998,
-    "matchedEventUsd": 39.897117199999975,
+    "events": 620,
+    "matched": 617,
+    "matchedTableUsd": 43.60414799999999,
+    "matchedEventUsd": 43.60414799999999,
     "unseen": {
       "compact": {
         "inputTokens": 8780,
@@ -167,6 +167,16 @@
         "thinkingTokens": 0,
         "responses": 2,
         "costUsd": 0.4962546
+      },
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 200,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 257244,
+        "outputTokens": 18,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.05543279999999999
       }
     }
   },
@@ -178,12 +188,12 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".ts": 26742,
+    ".ts": 26760,
     ".md": 1124,
     ".json": 87,
     ".yaml": 765,
     ".sh": 1,
-    ".wgsl": 13102,
+    ".wgsl": 13131,
     ".tsx": -109,
     ".scss": 15,
     ".toml": 6
