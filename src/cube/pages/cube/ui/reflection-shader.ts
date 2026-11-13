@@ -1,3 +1,5 @@
+import { SKY_METRES } from '@/cube/shared/outside';
+
 /** How many levels the scene is kept at, each half the last, for blur. */
 export const BLUR_LEVELS = 6;
 
@@ -68,6 +70,9 @@ const THICK = 0.4;
 const BLUNT = 0.004;
 /// Pixels the walk goes before anything can hide it.
 const LEAVING = 2.0;
+/// The farthest the scene's depth is read as: what the sky is written at,
+/// which no face is beyond, so a pixel holding infinity reads as the sky.
+const SIGHT = ${String(SKY_METRES)};
 /// What \`behind\` says of a point off the screen.
 const OFF = -1e9;
 /// Levels below the one a blur that wide would pick: a level is a box, and
@@ -89,10 +94,16 @@ fn onScreen(p: vec3f) -> vec3f {
   return vec3f(ndc.x * 0.5 + 0.5, 0.5 - ndc.y * 0.5, 1.0);
 }
 
+/// Metres from the eye to what the scene shows at \`texel\`, \`SIGHT\` where
+/// it holds infinity or no number, which would spread through every sum.
+fn metresAt(texel: vec2i) -> f32 {
+  let metres = textureLoad(scene, texel, 0).a;
+  return select(SIGHT, metres, metres < SIGHT);
+}
+
 /// Metres from the eye to what the scene shows at \`uv\`.
 fn sceneFar(uv: vec2f) -> f32 {
-  let texel = clamp(vec2i(uv * view.size.xy), vec2i(0), vec2i(view.size.xy) - 1);
-  return textureLoad(scene, texel, 0).a;
+  return metresAt(clamp(vec2i(uv * view.size.xy), vec2i(0), vec2i(view.size.xy) - 1));
 }
 
 /// Where the point \`t\` units along the walk lands, and how many metres it
@@ -170,7 +181,7 @@ fn sightAt(uv: vec2f) -> vec3f {
 fn shownAt(texel: vec2i) -> vec3f {
   let at = clamp(texel, vec2i(0), vec2i(view.size.xy) - 1);
   let uv = (vec2f(at) + 0.5) / view.size.xy;
-  return view.eye.xyz + sightAt(uv) * (textureLoad(scene, at, 0).a / view.eye.w);
+  return view.eye.xyz + sightAt(uv) * (metresAt(at) / view.eye.w);
 }
 
 /// Metres the face shown at \`texel\` runs across one pixel along \`axis\`,
@@ -213,7 +224,7 @@ fn reflectionMain(@builtin(position) pixel: vec4f) -> @location(0) vec4f {
   let facing = textureLoad(plane, texel, 0);
   let uv = pixel.xy / view.size.xy;
   let sight = sightAt(uv);
-  let start = view.eye.xyz + sight * (lit.a / view.eye.w);
+  let start = view.eye.xyz + sight * (metresAt(texel) / view.eye.w);
   let struck = walk(start, reflect(sight, normalize(facing.xyz)), uv);
   var shown = left.rgb;
   if (struck.w > 0.0) {

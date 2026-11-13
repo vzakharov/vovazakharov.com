@@ -20,7 +20,10 @@ const GRAVITY_SIDES = 0.8;
 export const HOP_TIME = (2 * HOP_UP) / GRAVITY_SIDES;
 
 /** The speed the feet reach the slab below at, in room sides a second. */
-export const LAND_SPEED = Math.hypot(HOP_UP, Math.sqrt(2 * GRAVITY_SIDES * DROP));
+export const LAND_SPEED = Math.hypot(
+  HOP_UP,
+  Math.sqrt(2 * GRAVITY_SIDES * DROP),
+);
 
 /** Seconds from the hop to the slab below. */
 export const LAND_AT = (HOP_UP + LAND_SPEED) / GRAVITY_SIDES;
