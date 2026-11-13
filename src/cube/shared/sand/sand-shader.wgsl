@@ -8,7 +8,7 @@ import package::cube::shared::outside::cube_shadow::cubeShadow;
 import package::cube::shared::outside::island_height::islandHeight;
 import package::cube::shared::outside::outdoor_frame::frame;
 import package::cube::shared::outside::outdoor_stage::{Scene, clipOf, lit};
-import package::cube::shared::sea::water_body_wgsl::{kept, throughWater, underStill};
+import package::cube::shared::sea::water_body::{kept, throughWater, underStill};
 import super::sand_material::{SWASH_TOP, SandPoint, sandWetness, sandLight};
 import super::sand_mesh_numbers::{SAND_SPOKES, SAND_SPOKE_TURN, SAND_INNER, SAND_GROWTH, SAND_GROWTH_LOG};
 import super::sand_relief::{RIPPLE_LENGTH, sandHummocks, sandRipples};

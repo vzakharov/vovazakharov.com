@@ -1,7 +1,7 @@
 import { FAR_METRES } from '../outside/frame';
 import { OUTDOOR_STAGE } from '../outside/outdoor-stage.shader';
 import { STAGE_NUMBERS } from '../outside/stage-numbers';
-import { WATER_BODY } from '../sea/water-body-wgsl';
+import { WATER_BODY } from '../sea/water-body.shader';
 import { f32, wgsl } from '../shader/wgsl';
 import { CLEAR_SKY } from './clear-sky.shader';
 import { CLOUDS_WGSL } from './clouds';

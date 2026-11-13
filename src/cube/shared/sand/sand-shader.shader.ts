@@ -6,7 +6,7 @@ import { CUBE_SHADOW } from '../outside/cube-shadow.shader';
 import { ISLAND_HEIGHT } from '../outside/island-height';
 import { OUTDOOR_FRAME } from '../outside/outdoor-frame';
 import { OUTDOOR_STAGE } from '../outside/outdoor-stage.shader';
-import { WATER_BODY } from '../sea/water-body-wgsl';
+import { WATER_BODY } from '../sea/water-body.shader';
 import { wgsl } from '../shader/wgsl';
 import { SAND_MATERIAL } from './sand-material.shader';
 import { SAND_MESH_NUMBERS } from './sand-mesh-numbers';
