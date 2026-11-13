@@ -1,30 +1,28 @@
-import { SHORE_WETNESS, SKY, SUN } from '../outside';
+// Generated from sand-material.wgsl by `pnpm shaders:codegen`. Edit the
+// source, not here — the vet run regenerates this file and fails when it had to.
+
+import { SHORE_WETNESS } from '../outside/shore-wetness.shader';
+import { SKY } from '../outside/sky.shader';
+import { SUN } from '../outside/sun';
 import { wgsl } from '../shader/wgsl';
-import { DRY_SAND, SAND_COLOUR } from './sand-colour';
-import { SAND_GRAIN } from './sand-grain';
-import { RIPPLES, SAND_RELIEF, WIND } from './sand-relief';
+import { SAND_COLOUR } from './sand-colour.shader';
+import { SAND_GRAIN } from './sand-grain.shader';
+import { SAND_RELIEF } from './sand-relief.shader';
+import { SAND_RELIEF_NUMBERS } from './sand-relief-numbers';
+import { SAND_SALT } from './sand-salt';
 
-/**
- * Sand as a material: its colour dry and wet, how a low sun and the sky light
- * it, and how wet it is from where the sea has lately been.
- */
-
-/** Metres over still water above which the sea is never asked: always dry. */
-export const SWASH_TOP = 1.1;
-
-/**
- * How the sand is lit — `sandLight` — and how wet it is from where the sea
- * has lately been — `sandWetness`.
- */
 export const SAND_MATERIAL = wgsl(
-  'sand-material',
+  'cube/shared/sand/sand-material',
   /* wgsl */ `
+/// Metres over still water above which the sea is never asked: always dry.
+const SWASH_TOP = 1.1;
+
 /// How wet the sand is at \`xz\`, \`h\` metres over still water, at \`t\` seconds
 /// into the hour: x how damp (1 soaked), y how much of a film of water still
 /// stands on it (1 a mirror). The sea says where its sheets have lately lain;
 /// the sand by the still waterline is damp whatever the waves do.
 fn sandWetness(xz: vec2f, h: f32, t: f32) -> vec2f {
-  if (h > ${SWASH_TOP}) {
+  if (h > SWASH_TOP) {
     return vec2f(0.0);
   }
   let shore = shoreWetness(xz, t);
@@ -49,7 +47,10 @@ fn sandFill(normal: vec3f, sun: vec3f) -> vec3f {
   // stays the lighter one in shadow too; the rest of it, overhead, is bluer
   // than its mean.
   let sunward = max(dot(normal, normalize(vec3f(sun.x, 0.35, sun.z))), 0.0);
-  return SKY_FILL * ((0.34 + 0.3 * normal.y) * vec3f(0.9, 0.96, 1.2) + 0.5 * vec3f(1.3, 0.95, 0.62) * sunward);
+  return
+    SKY_FILL * ((0.34 + 0.3 * normal.y) * vec3f(0.9, 0.96, 1.2) + 0.5
+      * vec3f(1.3, 0.95, 0.62)
+      * sunward);
 }
 
 /// What one pixel of sand has to be lit with.
@@ -77,7 +78,7 @@ fn sandLight(point: SandPoint, sun: vec3f) -> vec3f {
   var slope = point.slope + hummocks.slope;
 
   // The ripples: drawn while a pixel resolves them, their average beyond.
-  let drawn = 1.0 - smoothstep(0.2, 0.55, point.alongWind / ${RIPPLES.wavelength});
+  let drawn = 1.0 - smoothstep(0.2, 0.55, point.alongWind / RIPPLE_LENGTH);
   let dryness = sandDryness(point.h);
   var crest = 0.5;
   var stand = dryness * rippleSwathe(xz);
@@ -86,15 +87,20 @@ fn sandLight(point: SandPoint, sun: vec3f) -> vec3f {
     let ripples = sandRipples(xz, point.h, sun);
     slope += drawn * ripples.relief.slope;
     crest = mix(crest, ripples.crest, drawn);
-    stand = ripples.stand / ${RIPPLES.height};
+    stand = ripples.stand / RIPPLE_HEIGHT;
     rippleSun = ripples.sun;
   }
-  let acrossSun = abs(dot(normalize(sun.xz), vec2f(${WIND[0]}, ${WIND[1]})));
+  let acrossSun = abs(dot(normalize(sun.xz), SAND_WIND));
   rippleSun = mix(1.0 - 0.42 * stand * acrossSun, rippleSun, drawn);
 
   var damp = 0.0;
   if (point.wet.x > 0.0) {
-    damp = smoothstep(0.22, 0.7, point.wet.x + 0.35 * (fbmd(xz / 0.35, SAND_SALT + 0x9bu, 3).x - 0.5));
+    damp =
+      smoothstep(
+        0.22,
+        0.7,
+        point.wet.x + 0.35 * (fbmd(xz / 0.35, SAND_SALT + 0x9bu, 3).x - 0.5),
+      );
   }
   let film = point.wet.y;
   let grains = sandGrains(xz, point.px);
@@ -103,36 +109,62 @@ fn sandLight(point: SandPoint, sun: vec3f) -> vec3f {
   slope = mix(slope, litter.slope, litter.cover);
 
   // Heavy dark grains gather in the troughs.
-  var albedo = sandAlbedo(xz) * grains.tint * (1.0 - 0.16 * stand * (1.0 - crest));
+  var albedo =
+    sandAlbedo(xz) * grains.tint * (1.0 - 0.16 * stand * (1.0 - crest));
   albedo = sandWetted(mix(albedo, litter.albedo, litter.cover), damp);
 
   let normal = normalize(vec3f(-slope.x, 1.0, -slope.y));
   let direct = SUN_LIGHT * (point.sun * rippleSun * litter.sun);
   let hollow = 1.0 - 0.16 * stand * (1.0 - crest);
   // Sunlit sand lights the shaded faces beside it, warm.
-  let bounce = SUN_LIGHT * (point.sun * sun.y * 0.3) * vec3f(${DRY_SAND.join(', ')}) * (1.0 - 0.5 * normal.y);
-  var light = albedo * (direct * sandDiffuse(normal, sun, point.view) + (sandFill(normal, sun) + bounce) * hollow);
+  let bounce =
+    SUN_LIGHT * (point.sun * sun.y * 0.3) * DRY_SAND * (1.0 - 0.5 * normal.y);
+  var light =
+    albedo * (direct * sandDiffuse(normal, sun, point.view) + (sandFill(
+      normal,
+      sun,
+    ) + bounce) * hollow);
 
   let half = normalize(sun + point.view);
   let dry = 1.0 - damp;
   // Dry quartz throws a broad sheen forward, toward an eye facing the sun.
   let toHalf = max(dot(normal, half), 0.0);
-  let sheenLobe = 0.09 / (${Math.PI} * pow(toHalf * toHalf * (0.09 - 1.0) + 1.0, 2.0));
+  let sheenLobe =
+    0.09 / (SAND_PI * pow(toHalf * toHalf * (0.09 - 1.0) + 1.0, 2.0));
   let grazing = pow(1.0 - max(dot(point.view, half), 0.0), 5.0);
-  light += direct * dry * max(dot(normal, sun), 0.0) * (0.04 + 0.96 * grazing) * sheenLobe * 0.6;
+  light +=
+    direct
+      * dry
+      * max(dot(normal, sun), 0.0)
+      * (0.04 + 0.96 * grazing)
+      * sheenLobe
+      * 0.6;
   // Quartz lets a low sun through: seen against it, dry sand glows the sun's
   // colour, most where the eye grazes the ground along the sun's bearing.
   let sunward = max(-dot(normalize(point.view.xz), normalize(sun.xz)), 0.0);
   let through = pow(sunward, 1.5) * pow(1.0 - max(point.view.y, 0.0), 2.0);
-  light += direct * vec3f(0.8, 0.78, 0.5) * (0.17 * dry * through * (0.4 + 0.6 * crest));
+  light +=
+    direct
+      * vec3f(0.8, 0.78, 0.5)
+      * (0.17 * dry * through * (0.4 + 0.6 * crest));
   // Glints are a thing of the sand at one's feet and of the sun's own
   // bearing: further off, or to the side, a pixel holds only their average.
-  let glints = (1.0 - smoothstep(0.0035, 0.009, point.px)) * smoothstep(0.55, 0.9, sunward);
+  let glints =
+    (1.0 - smoothstep(0.0035, 0.009, point.px)) * smoothstep(
+      0.55,
+      0.9,
+      sunward,
+    );
   if (glints > 0.0) {
     let white = mix(direct, vec3f(dot(direct, vec3f(0.3, 0.5, 0.2))), 0.6);
-    light += white * dry * dry * 3.0 * glints * sandGlint(xz, normal, half, point.px);
+    light +=
+      white * dry * dry * 3.0 * glints * sandGlint(xz, normal, half, point.px);
   }
-  light += direct * litter.cover * litter.gloss * pow(max(dot(normal, half), 0.0), 60.0);
+  light +=
+    direct
+      * litter.cover
+      * litter.gloss
+      * pow(max(dot(normal, half), 0.0), 60.0);
 
   // Wet sand: a sheen where it is soaked, the sky's mirror where water stands.
   if (damp > 0.0) {
@@ -148,21 +180,29 @@ fn sandLight(point: SandPoint, sun: vec3f) -> vec3f {
     // Seen at a graze, the faces that would mirror the ground hide behind
     // their neighbours: what shows is the sky just over the horizon.
     let bounced = reflect(-point.view, lying);
-    let mirrored = skyRadiance(normalize(vec3f(bounced.x, max(bounced.y, 0.04), bounced.z)), 6.0 * rough);
+    let mirrored =
+      skyRadiance(
+        normalize(vec3f(bounced.x, max(bounced.y, 0.04), bounced.z)),
+        6.0 * rough,
+      );
     let a2 = rough * rough * rough * rough;
     let nh = max(dot(lying, half), 0.0);
-    let lobe = a2 / (${Math.PI} * pow(nh * nh * (a2 - 1.0) + 1.0, 2.0));
-    let glare = min(direct * ${Math.PI / 4} * lobe / max(facing, 0.05), vec3f(60.0));
+    let lobe = a2 / (SAND_PI * pow(nh * nh * (a2 - 1.0) + 1.0, 2.0));
+    let glare =
+      min(direct * (SAND_PI / 4.0) * lobe / max(facing, 0.05), vec3f(60.0));
     let sheen = fresnel * mix(0.9 * damp, 1.0, film);
-    light = mix(light, mirrored, sheen) + sheen * glare * max(dot(lying, sun), 0.0);
+    light =
+      mix(light, mirrored, sheen) + sheen * glare * max(dot(lying, sun), 0.0);
   }
   return light;
 }
 `,
-  SAND_RELIEF,
-  SAND_GRAIN,
-  SAND_COLOUR,
   SHORE_WETNESS,
-  SUN,
   SKY,
+  SUN,
+  SAND_COLOUR,
+  SAND_GRAIN,
+  SAND_RELIEF,
+  SAND_RELIEF_NUMBERS,
+  SAND_SALT,
 );
