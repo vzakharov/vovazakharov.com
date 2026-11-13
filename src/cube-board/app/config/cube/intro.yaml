@@ -298,26 +298,26 @@ items:
     text: '19. Standing on the wet foreshore toward the sun: the wet sand mirrors the sky and carries the sun’s glare, brighter the further it lies. Open: close to the eye the band stays dark'
   - id: intro-img-20-sky-approved-eye
     type: image
-    updated: [2026-11-13T11:25:00.000Z, agent:cube-intro]
-    box: [6208, 3250, 430]
+    updated: [2026-11-13T11:35:00.000Z, agent:cube-intro]
+    box: [5748, -3040, 1200]
     src: images/intro-20-sky-approved-eye.webp
-    text: '20. The approved eye under the new sky: gold sand, ripples in fields across the view, white sparks, the cube’s shadow violet-blue. The operator approved it for its overall feeling: “AAAA, give me two!” The sand’s shade is not locked: “you can experiment with the sand’s shades if you like, I am talking about the overall feeling”. Open: the inside of the shadow is still even'
+    text: '20. Splash screen, for the future. The approved eye under the new sky:gold sand, ripples in fields across the view, white sparks, the cube’s shadow violet-blue. The operator approved it for its overall feeling: “AAAA, give me two!” The sand’s shade is not locked: “you can experiment with the sand’s shades if you like, I am talking about the overall feeling”. Open: the inside of the shadow is still even'
   - id: intro-splash-frame-20
     type: sticky
-    updated: [2026-11-13T11:30:00.000Z, agent:cube-intro]
-    box: [6668, 3250, 280, pink]
+    updated: [2026-11-13T11:35:00.000Z, agent:cube-intro]
+    box: [6990, -3040, 560, pink]
     icon: 🖼️
     text: 'For the future: this frame should be the splash screen. — Vova. (Eye: at −15.203, 2.10, 15.203, yaw −45, pitch 4. Nothing is being built for it now.)'
   - id: intro-img-ref-approved
     type: image
-    updated: [2026-11-13T11:10:00.000Z, agent:cube-intro]
-    box: [5748, -3040, 1200]
+    updated: [2026-11-13T11:35:00.000Z, agent:cube-intro]
+    box: [6208, 3250, 430]
     src: images/intro-ref-approved.webp
-    text: 'A frame of the island the operator approved (his first frame is the sea one below): standing on the beach toward the sun, the cube over the crest, its shadow running left, the ladder and the sun’s glitter under it. Every package now compares its passes against this frame. Eye: 21.5 m south-west of the cube’s middle, looking at it'
+    text: 'The same eye under the earlier, cloudless sky; a frame of the island the operator approved (his first frame is the sea one in this zone’s top block): standing on the beach toward the sun, the cube over the crest, its shadow running left, the ladder and the sun’s glitter under it. Every package now compares its passes against this frame. Eye: 21.5 m south-west of the cube’s middle, looking at it'
   - id: intro-ref-verdict
     type: sticky
-    updated: [2026-11-13T10:45:00.000Z, agent:cube-intro]
-    box: [6990, -3040, 280, pink]
+    updated: [2026-11-13T11:35:00.000Z, agent:cube-intro]
+    box: [6668, 3250, 280, pink]
     icon: 🔥
     text: 'Vova, on seeing it: “this is properly top, it can go on the board”'
   - id: intro-ref-gold-eye
@@ -325,7 +325,7 @@ items:
     updated: [2026-11-13T10:55:00.000Z, agent:cube-intro]
     box: [7000, -2880, 590]
     src: images/intro-ref-gold-eye.webp
-    text: 'The same eye after sand’s next pass: the lit sand went from pinkish beige to gold, and the ripples now run across the view instead of toward the cube. Vova approved the frame on the left — which tone does he prefer?'
+    text: 'The same eye after sand’s next pass: the lit sand went from pinkish beige to gold, and the ripples now run across the view instead of toward the cube. Vova approved the earlier pinkish frame (now at the bottom of this zone, beside frame 19) and later frame 20 for its feeling; the sand’s shade is not locked'
   - id: intro-ref-gold-lying
     type: image
     updated: [2026-11-13T10:55:00.000Z, agent:cube-intro]
