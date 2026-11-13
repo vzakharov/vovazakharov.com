@@ -154,7 +154,8 @@ fn sandLight(point: SandPoint, sun: vec3f) -> vec3f {
     let lobe = a2 / (${Math.PI} * pow(nh * nh * (a2 - 1.0) + 1.0, 2.0));
     let glare = min(direct * ${Math.PI / 4} * lobe / max(facing, 0.05), vec3f(60.0));
     let sheen = fresnel * mix(0.9 * damp, 1.0, film);
-    light = mix(light, mirrored, sheen) + sheen * glare * max(dot(lying, sun), 0.0);  }
+    light = mix(light, mirrored, sheen) + sheen * glare * max(dot(lying, sun), 0.0);
+  }
   return light;
 }
 `,
