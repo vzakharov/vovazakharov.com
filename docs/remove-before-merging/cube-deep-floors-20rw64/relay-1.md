@@ -202,7 +202,13 @@ A discussion-only session (CLAUDE.md entry ladder rung 2: no change to the codeb
 
 **Operator (29):** «(это вопрос)»
 
-**Agent:** Confirmed: yes, we can; caveat as above. (verbatim in Last agent turn)
+**Agent:** Confirmed: yes, we can; the rule must be in the circuit, and the player pays per trophy.
+
+(The session was then parked by its keepalive; this summary was first written then, and is rewritten now.)
+
+**Operator (30):** «Давай занесем на доску все что тут пообсуждали как идеи»
+
+**Agent:** Routed through `/task` → no plan (one new board section, visible whole in the diff) → `/go` § "Planless entry". Added two zones to the cube board (`src/cube-board/app/config/cube/deep.yaml`, `trophies.yaml`), committed and pushed; then paused for the context budget (plan written as `docs/plans/cube-deep-floors.paused.md`) and relayed. (verbatim in Last agent turn)
 
 ## 3. Intent
 
@@ -240,9 +246,10 @@ Vova wants the creative content of floors beyond ~10 (themes 11–66) to be reac
 
 ## 6. State
 
-- Branch `claude/cube-deep-floors-20rw64` (renamed from `claude/modest-hamilton-20rw64`, never pushed before this relay); no PR; nothing in `src/` changed. The only commit is this summary.
-- No CI, no PR subscription, no scheduled check-ins.
-- Estimate unchanged, nothing handed on: 3 h senior game-designer — "weighing descent mechanics against the hole-commitment proof and the 4^n room economy needs a designer who reads the address math".
+- Branch `claude/cube-deep-floors-20rw64` (renamed from `claude/modest-hamilton-20rw64`); no PR yet. Commits: 99b5cf40 (this summary, first version), 5ddbed42 (the two board zones), df45ef0d (the paused plan), then this summary's rewrite.
+- Plan: `docs/plans/cube-deep-floors.paused.md` — done and left recorded there.
+- No CI, no PR subscription, no scheduled check-ins. The published cube-board artifact was not touched or republished.
+- Estimate: this session keeps 3 h senior game-designer — "weighing descent mechanics against the hole-commitment proof and the 4^n room economy needs a designer who reads the address math"; the remainder handed on: 0.5 h senior game-designer — "the board's copy needs a designer's read for whether each card states the idea the discussion settled on".
 
 ### Watches
 
@@ -264,7 +271,9 @@ https://claude.ai/artifact/MfnJ7GcDEfg8VEzm334WtJ
 
 ## 8. Next step
 
-Wait for the operator. Open in the discussion: the choice between signature trophies (with re-planting) and ZK trophies, and whether any of idea A (theme inheritance), portals or the theme re-ranking should become a task — routed through `/task` when Vova asks for a change.
+Resume the paused plan `docs/plans/cube-deep-floors.paused.md` through `/go` from its Step 1 (the `*.paused.md` case): the go-ahead was the operator's «Давай занесем на доску все что тут пообсуждали как идеи», routed by `/task` to planless work. Left: `/go` Step 3 (`/polish`), Step 4 (`/pr`, which creates the PR), then `/five-percent`. Whether to republish the board artifact is the operator's call.
+
+Still open in the discussion, not a task: signature trophies (with re-planting) vs ZK trophies, and whether theme inheritance, portals or the theme re-ranking should become work.
 
 ## Last agent turn
 
