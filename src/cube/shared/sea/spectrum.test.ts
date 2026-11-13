@@ -1,11 +1,11 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { HOUR_SECONDS } from '../outside/swell';
 import { amplitudesOf, bin, CASCADES, TILE } from './cascade';
 import {
   coxMunk,
   dispersion,
-  HOUR,
   type Sea,
   slopeVariance,
   spectrumOf,
@@ -15,18 +15,18 @@ import {
 } from './spectrum';
 
 const SWELL: Sea = {
-  peak: (2 * Math.PI * 420) / HOUR,
-  height: 0.5,
+  peakOmega: (2 * Math.PI * 420) / HOUR_SECONDS,
+  significant: 0.5,
   sharpness: 8,
-  heading: -Math.PI / 4,
-  spread: 40,
-  tail: 0,
+  towards: -Math.PI / 4,
+  narrowness: 40,
+  tailBend: 0,
 };
 
 describe('the sea spectrum', () => {
   it('spreads each frequency over the compass without losing any', () => {
     const steps = 3600;
-    for (const omega of [0.4, SWELL.peak, 1.5, 6]) {
+    for (const omega of [0.4, SWELL.peakOmega, 1.5, 6]) {
       let sum = 0;
       for (let index = 0; index < steps; index += 1) {
         const theta = (index / steps) * 2 * Math.PI;
@@ -54,7 +54,7 @@ describe('the sea spectrum', () => {
       }
     }
     const height = 4 * Math.sqrt(variance);
-    assert.ok(Math.abs(height - SWELL.height) < 0.02, String(height));
+    assert.ok(Math.abs(height - SWELL.significant) < 0.02, String(height));
   });
 
   it('is as rough as Cox and Munk measured under the wind that raised it', () => {
@@ -68,7 +68,7 @@ describe('the sea spectrum', () => {
     for (const k of [0.01, 0.0548, 1, 37, 400]) {
       const turns = turnsPerHour(k);
       assert.equal(turns, Math.round(turns));
-      const exact = (dispersion(k) * HOUR) / (2 * Math.PI);
+      const exact = (dispersion(k) * HOUR_SECONDS) / (2 * Math.PI);
       assert.ok(Math.abs(turns - exact) <= 0.5);
     }
   });
@@ -82,21 +82,21 @@ describe('a cascade of rolled amplitudes', () => {
   });
 
   it('keeps to its own band and pairs each wave with its opposite', () => {
-    CASCADES.forEach((cascade, index) => {
+    for (const [index, cascade] of CASCADES.entries()) {
       const { waves } = amplitudesOf(seas, index);
-      const step = (2 * Math.PI) / cascade.side;
+      const step = (2 * Math.PI) / cascade.tileSide;
       for (let j = 0; j < TILE; j += 7) {
         for (let i = 0; i < TILE; i += 5) {
           const at = (j * TILE + i) * 4;
           const k = Math.hypot(bin(i), bin(j)) * step;
-          const inside = k >= cascade.from && k < cascade.to;
+          const inside = k >= cascade.kFrom && k < cascade.kTo;
           if (!inside) assert.equal(waves[at], 0);
           const mirror = (((TILE - j) % TILE) * TILE + ((TILE - i) % TILE)) * 4;
           assert.equal(waves[at + 2], waves[mirror]);
           assert.equal(waves[at + 3], -(waves[mirror + 1] ?? 0));
         }
       }
-    });
+    }
   });
 
   it('carries the variance the spectrum gives its band', () => {
@@ -108,6 +108,6 @@ describe('a cascade of rolled amplitudes', () => {
     }
     const height = 4 * Math.sqrt(variance);
     // One draw of a few hundred waves: within a fifth of the mean.
-    assert.ok(Math.abs(height / SWELL.height - 1) < 0.2, String(height));
+    assert.ok(Math.abs(height / SWELL.significant - 1) < 0.2, String(height));
   });
 });

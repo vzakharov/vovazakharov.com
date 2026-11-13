@@ -7,7 +7,7 @@ import {
   CASCADES,
   EVOLVE_SHADER,
   FIELD_LAYERS,
-  HALVE_SHADER,
+  HALVE_MAP_SHADER,
   LAY_SHADER,
   type Sea,
   TILE,
@@ -33,6 +33,16 @@ export type WaveField = CanDispose &
     run: (encoder: GPUCommandEncoder, clock: Timed) => void;
   };
 
+const whole = (texture: GPUTexture): GPUTextureView =>
+  texture.createView({ dimension: '2d-array' });
+
+const level = (texture: GPUTexture, mip: number): GPUTextureView =>
+  texture.createView({
+    dimension: '2d-array',
+    baseMipLevel: mip,
+    mipLevelCount: 1,
+  });
+
 export function createWaveField(
   device: GPUDevice,
   seas: readonly Sea[],
@@ -50,8 +60,6 @@ export function createWaveField(
       usage,
       mipLevelCount,
     });
-  const whole = (texture: GPUTexture): GPUTextureView =>
-    texture.createView({ dimension: '2d-array' });
 
   const waves = array(
     'rgba32float',
@@ -63,7 +71,7 @@ export function createWaveField(
     cascades,
     GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST,
   );
-  for (const [index, _] of CASCADES.entries()) {
+  for (const index of CASCADES.keys()) {
     const amplitudes = amplitudesOf(seas, index);
     const layer = { width: TILE, height: TILE };
     device.queue.writeTexture(
@@ -109,7 +117,7 @@ export function createWaveField(
 
   // struct Moment: whole u32, part f32, 8 bytes of padding, sides vec4f.
   const moment = new ArrayBuffer(32);
-  new Float32Array(moment, 16, 4).set(CASCADES.map(({ side }) => side));
+  new Float32Array(moment, 16, 4).set(CASCADES.map(({ tileSide }) => tileSide));
   const momentBuffer = uniform(moment);
 
   const evolve = compute(EVOLVE_SHADER, 'evolve');
@@ -134,16 +142,10 @@ export function createWaveField(
     return bound(transform, [{ buffer }, whole(from), whole(to)]);
   });
 
-  const level = (texture: GPUTexture, mip: number): GPUTextureView =>
-    texture.createView({
-      dimension: '2d-array',
-      baseMipLevel: mip,
-      mipLevelCount: 1,
-    });
   const lay = compute(LAY_SHADER, 'lay');
   const laying = bound(lay, [whole(ping), ...maps.map((map) => level(map, 0))]);
 
-  const halve = compute(HALVE_SHADER, 'halve');
+  const halve = compute(HALVE_MAP_SHADER, 'halve');
   const halving = maps.flatMap((map) =>
     Array.from({ length: MIPS - 1 }, (_, mip) => ({
       group: bound(halve, [level(map, mip), level(map, mip + 1)]),

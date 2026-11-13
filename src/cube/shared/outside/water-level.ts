@@ -1,3 +1,4 @@
+import { lerp as mix, smoothstep } from '../lib/ease';
 import type { Vec2 } from '../lib/vec';
 import { f32, vecf, wgsl } from '../lib/wgsl';
 import { ISLAND_HEIGHT, islandHeight } from './island-height';
@@ -5,10 +6,11 @@ import {
   bore,
   crestOf,
   DEEP_SPEED,
-  HEIGHT,
   peaked,
+  SEA_GRAVITY,
   setsAt,
-  SWELL,
+  SWELL_HEIGHT,
+  SWELL_TRAIN,
   turnsAt,
 } from './swell';
 
@@ -22,8 +24,6 @@ import {
  * TypeScript.
  */
 
-export const GRAVITY = 9.81;
-
 /** The unit direction the swell runs, on the ground plan: to the north-east. */
 export const SWELL_RUNS: Vec2 = [Math.SQRT1_2, -Math.SQRT1_2];
 /** The depth, metres, at which the swell begins to feel the bottom. */
@@ -33,7 +33,7 @@ export const SLOPE = 1 / 12;
 /** The least depth a wave is timed over, so it reaches the sand in the end. */
 const SHALLOWEST = 0.3;
 /** Seconds a wave loses between deep water and the sand. */
-const LAG = Math.sqrt(FEELS / GRAVITY) / SLOPE;
+const LAG = Math.sqrt(FEELS / SEA_GRAVITY) / SLOPE;
 /** How far either side the bed is read for which way the shore faces. */
 const FACING_REACH = 4;
 /** What the island's lee keeps of a wave's height. */
@@ -61,13 +61,6 @@ const SINKS_UNDER = 0.01;
 const DRY = 0.03;
 /** The width, metres, the level's joins are rounded over. */
 const ROUND = 0.012;
-
-const smoothstep = (from: number, to: number, x: number): number => {
-  const t = Math.min(Math.max((x - from) / (to - from), 0), 1);
-  return t * t * (3 - 2 * t);
-};
-
-const mix = (a: number, b: number, t: number): number => a + (b - a) * t;
 
 /** The greater of two levels, rounded where they cross. */
 const over = (a: number, b: number): number =>
@@ -120,11 +113,15 @@ const steepness = (open: number, bed: number): number =>
  * 0 an unbroken swell, 1 a bore.
  */
 export const brokenAt = (tau: number, bed: number, shelter: number): number =>
-  smoothstep(0.8, 1.15, steepness(0.5 * HEIGHT * shelter * setsAt(tau), bed));
+  smoothstep(
+    0.8,
+    1.15,
+    steepness(0.5 * SWELL_HEIGHT * shelter * setsAt(tau), bed),
+  );
 
 /** The waves' surface over a bed below the still sea, metres about it. */
 export function surfLevel(tau: number, bed: number, shelter: number): number {
-  const open = 0.5 * HEIGHT * shelter * setsAt(tau);
+  const open = 0.5 * SWELL_HEIGHT * shelter * setsAt(tau);
   const steep = steepness(open, bed);
   const limit = 0.5 * SURF * Math.max(-bed, 0);
   const tall = Math.min(
@@ -153,14 +150,14 @@ export function sheetDepth(
 ): number {
   const landed = crestOf(n);
   const since = tau - landed;
-  const reach = RUNUP * HEIGHT * shelter * setsAt(landed);
-  const launch = Math.sqrt(2 * GRAVITY * reach);
+  const reach = RUNUP * SWELL_HEIGHT * shelter * setsAt(landed);
+  const launch = Math.sqrt(2 * SEA_GRAVITY * reach);
   const up = Math.max(bed, 0) / SLOPE;
   const thin =
-    launch - 0.5 * GRAVITY * SLOPE * since - up / Math.max(since, 1e-3);
+    launch - 0.5 * SEA_GRAVITY * SLOPE * since - up / Math.max(since, 1e-3);
   if (since <= 0 || thin <= 0) return 0;
   return (
-    ((THICK * thin * thin) / (9 * GRAVITY)) *
+    ((THICK * thin * thin) / (9 * SEA_GRAVITY)) *
     smoothstep(0, GATHERS, since) *
     Math.exp(Math.min(bed, 0) / 0.25)
   );
@@ -196,7 +193,7 @@ export function swellLevel(
 }
 
 /** The bed's rise per metre at `xz`, along x and z, read `FACING_REACH` either side. */
-const rise = ([x, z]: Vec2): Vec2 => [
+const bedRise = ([x, z]: Vec2): Vec2 => [
   (islandHeight([x + FACING_REACH, z]) - islandHeight([x - FACING_REACH, z])) /
     (2 * FACING_REACH),
   (islandHeight([x, z + FACING_REACH]) - islandHeight([x, z - FACING_REACH])) /
@@ -214,14 +211,14 @@ export type ShoreClock = {
    */
   tau: number;
   /** How squarely its shore faces the swell, −1 to 1, and what that keeps of a wave. */
-  facing: number;
+  towardSwell: number;
   shelter: number;
 };
 
 /** The swell's timing at `xz` in the world frame, `seconds` into the hour. */
 export function shoreClock(xz: Vec2, seconds: number): ShoreClock {
   const bed = islandHeight(xz);
-  const [dx, dz] = rise(xz);
+  const [dx, dz] = bedRise(xz);
   const facing = shoreFacing(
     dx * SWELL_RUNS[0] + dz * SWELL_RUNS[1],
     Math.hypot(dx, dz),
@@ -231,7 +228,7 @@ export function shoreClock(xz: Vec2, seconds: number): ShoreClock {
   return {
     bed,
     tau: seconds - run / DEEP_SPEED - shoreDelay(shoreDepth(bed)),
-    facing,
+    towardSwell: facing,
     shelter: sheltered(facing),
   };
 }
@@ -243,7 +240,7 @@ export function shoreClock(xz: Vec2, seconds: number): ShoreClock {
  * instant.
  */
 export function waterLevel(xz: Vec2, seconds: number): number {
-  const { bed, facing } = shoreClock(xz, seconds);
+  const { bed, towardSwell: facing } = shoreClock(xz, seconds);
   return swellLevel(
     xz[0] * SWELL_RUNS[0] + xz[1] * SWELL_RUNS[1],
     bed,
@@ -299,11 +296,11 @@ fn steepness(open: f32, bed: f32) -> f32 {
 }
 
 fn brokenAt(tau: f32, bed: f32, shelter: f32) -> f32 {
-  return smoothstep(0.8, 1.15, steepness(${f32(0.5 * HEIGHT)} * shelter * setsAt(tau), bed));
+  return smoothstep(0.8, 1.15, steepness(${f32(0.5 * SWELL_HEIGHT)} * shelter * setsAt(tau), bed));
 }
 
 fn surfLevel(tau: f32, bed: f32, shelter: f32) -> f32 {
-  let open = ${f32(0.5 * HEIGHT)} * shelter * setsAt(tau);
+  let open = ${f32(0.5 * SWELL_HEIGHT)} * shelter * setsAt(tau);
   let steep = steepness(open, bed);
   let limit = ${f32(0.5 * SURF)} * max(-bed, 0.0);
   let tall = min(open * max(1.0, pow(${f32(SHOALS_FROM)} / shoreDepth(bed), 0.25)), limit);
@@ -316,14 +313,14 @@ fn surfLevel(tau: f32, bed: f32, shelter: f32) -> f32 {
 fn sheetDepth(n: f32, tau: f32, bed: f32, shelter: f32) -> f32 {
   let landed = crestOf(n);
   let since = tau - landed;
-  let reach = ${f32(RUNUP * HEIGHT)} * shelter * setsAt(landed);
-  let launch = sqrt(${f32(2 * GRAVITY)} * reach);
+  let reach = ${f32(RUNUP * SWELL_HEIGHT)} * shelter * setsAt(landed);
+  let launch = sqrt(${f32(2 * SEA_GRAVITY)} * reach);
   let up = max(bed, 0.0) / ${f32(SLOPE)};
-  let thin = launch - ${f32(0.5 * GRAVITY * SLOPE)} * since - up / max(since, 1e-3);
+  let thin = launch - ${f32(0.5 * SEA_GRAVITY * SLOPE)} * since - up / max(since, 1e-3);
   if (since <= 0.0 || thin <= 0.0) {
     return 0.0;
   }
-  return ${f32(THICK / (9 * GRAVITY))} * thin * thin
+  return ${f32(THICK / (9 * SEA_GRAVITY))} * thin * thin
     * smoothstep(0.0, ${f32(GATHERS)}, since)
     * exp(min(bed, 0.0) / 0.25);
 }
@@ -364,5 +361,5 @@ fn waterLevel(xz: vec2f, t: f32) -> f32 {
 }
 `,
   ISLAND_HEIGHT,
-  SWELL,
+  SWELL_TRAIN,
 );

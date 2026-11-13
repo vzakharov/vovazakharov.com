@@ -30,10 +30,10 @@ export {
   type OutdoorFrame,
   packOutdoorFrame,
 } from './outdoor-frame';
+export { SHORE_WETNESS, shoreDrySince } from './shore-wetness';
 export { SKY } from './sky';
 export { OUTDOOR_STAGE, SKY_METRES } from './stage';
 export { SKY_FILL, SUN, SUN_DIR, SUN_LIGHT } from './sun';
-export { SHORE_WETNESS, shoreDrySince } from './shore-wetness';
 export { crestOf, PERIOD, setsAt, turnsAt } from './swell';
 export {
   brokenAt,

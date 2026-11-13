@@ -5,10 +5,7 @@
  * spread about its heading as cos^2s (Mitsuyasu et al. 1975).
  */
 
-export const GRAVITY = 9.81;
-
-/** Seconds in the shared clock's hour, the period every motion returns in. */
-export const HOUR = 3600;
+import { HOUR_SECONDS, SEA_GRAVITY } from '../outside/swell';
 
 /** Wavenumber at which surface tension pulls as hard as gravity, rad/m. */
 const CAPILLARY = 370;
@@ -16,30 +13,30 @@ const CAPILLARY = 370;
 /** One sea: a peak, how tall, how sharp, where it is going and how spread. */
 export type Sea = {
   /** Angular frequency of the peak, rad/s. */
-  peak: number;
+  peakOmega: number;
   /** Significant wave height, metres: four standard deviations of the surface. */
-  height: number;
+  significant: number;
   /** JONSWAP's peak enhancement; 1 is a fully developed sea, 3.3 a young one. */
   sharpness: number;
   /** Where it travels, radians from +x toward +z. */
-  heading: number;
+  towards: number;
   /** The cos^2s exponent at the peak; swell is narrow (large), wind sea broad. */
-  spread: number;
+  narrowness: number;
   /**
    * How the ripples depart from the bare shape: the tail is multiplied by
-   * (1 + k / RIPPLES)^tail. `rippled` sets it for a wind sea; 0 leaves the
+   * (1 + k / RIPPLE_BEND)^tailBend. `rippled` sets it for a wind sea; 0 leaves the
    * tail alone.
    */
-  tail: number;
+  tailBend: number;
 };
 
 /** Deep-water angular frequency at wavenumber `k`, gravity and capillary. */
 export const dispersion = (k: number): number =>
-  Math.sqrt(GRAVITY * k * (1 + (k / CAPILLARY) ** 2));
+  Math.sqrt(SEA_GRAVITY * k * (1 + (k / CAPILLARY) ** 2));
 
 /** dω/dk at wavenumber `k`: the speed a group of such waves travels at. */
 export const groupSpeed = (k: number): number =>
-  (GRAVITY * (1 + 3 * (k / CAPILLARY) ** 2)) / (2 * dispersion(k));
+  (SEA_GRAVITY * (1 + 3 * (k / CAPILLARY) ** 2)) / (2 * dispersion(k));
 
 /**
  * Whole turns per hour of a wave of wavenumber `k`. Every component's
@@ -47,10 +44,10 @@ export const groupSpeed = (k: number): number =>
  * sea back to itself when the clock's hour wraps.
  */
 export const turnsPerHour = (k: number): number =>
-  Math.max(1, Math.round((dispersion(k) * HOUR) / (2 * Math.PI)));
+  Math.max(1, Math.round((dispersion(k) * HOUR_SECONDS) / (2 * Math.PI)));
 
 /** The JONSWAP shape at `omega`, unscaled: the peak's value is of order 1. */
-function shape(omega: number, { peak, sharpness }: Sea): number {
+function shape(omega: number, { peakOmega: peak, sharpness }: Sea): number {
   const ratio = omega / peak;
   const width = omega <= peak ? 0.07 : 0.09;
   const bump = Math.exp(-((ratio - 1) ** 2) / (2 * width ** 2));
@@ -66,11 +63,10 @@ function logGamma(x: number): number {
     1.505_632_735_149_311_6e-7,
   ];
   const at = x - 1;
-  const sum = coefficients.reduce(
-    (total, coefficient, index) =>
-      index === 0 ? coefficient : total + coefficient / (at + index),
-    0,
-  );
+  let sum = 0;
+  for (const [index, coefficient] of coefficients.entries()) {
+    sum += index === 0 ? coefficient : coefficient / (at + index);
+  }
   const t = at + 7.5;
   return (
     0.5 * Math.log(2 * Math.PI) + (at + 0.5) * Math.log(t) - t + Math.log(sum)
@@ -82,20 +78,23 @@ function logGamma(x: number): number {
  * integrates to 1 round the compass at every frequency.
  */
 export function spreading(omega: number, theta: number, sea: Sea): number {
-  const ratio = omega / sea.peak;
-  const s = Math.max(1, sea.spread * (ratio <= 1 ? ratio ** 5 : ratio ** -2.5));
+  const ratio = omega / sea.peakOmega;
+  const s = Math.max(
+    1,
+    sea.narrowness * (ratio <= 1 ? ratio ** 5 : ratio ** -2.5),
+  );
   const norm = Math.exp(
     logGamma(s + 1) - logGamma(s + 0.5) - Math.log(2 * Math.sqrt(Math.PI)),
   );
-  const half = Math.cos((theta - sea.heading) / 2);
+  const half = Math.cos((theta - sea.towards) / 2);
   return norm * Math.abs(half) ** (2 * s);
 }
 
-/** Wavenumber, rad/m, past which a sea's `tail` exponent bends its spectrum. */
-const RIPPLES = 10;
+/** Wavenumber, rad/m, past which a sea's `tailBend` exponent bends its spectrum. */
+const RIPPLE_BEND = 10;
 
-const thinning = (k: number, { tail }: Sea): number =>
-  (1 + k / RIPPLES) ** tail;
+const thinning = (k: number, { tailBend }: Sea): number =>
+  (1 + k / RIPPLE_BEND) ** tailBend;
 
 /** Sample points, log-spaced, a quadrature over wavenumber runs on. */
 const QUADRATURE = 2048;
@@ -128,9 +127,9 @@ function integral(
   return sum;
 }
 
-/** What scales the bare shape so the sea stands `sea.height` tall. */
+/** What scales the bare shape so the sea stands `sea.significant` tall. */
 const scaleOf = (sea: Sea): number =>
-  sea.height ** 2 / 16 / integral(sea, () => 1);
+  sea.significant ** 2 / 16 / integral(sea, () => 1);
 
 /**
  * The mean square slope of `sea`'s waves between two wavenumbers: what the
@@ -152,10 +151,10 @@ export function rippled(sea: Sea, slopes: number): Sea {
   let high = 2;
   for (let round = 0; round < 50; round += 1) {
     const middle = (low + high) / 2;
-    if (slopeVariance({ ...sea, tail: middle }) > slopes) high = middle;
+    if (slopeVariance({ ...sea, tailBend: middle }) > slopes) high = middle;
     else low = middle;
   }
-  return { ...sea, tail: (low + high) / 2 };
+  return { ...sea, tailBend: (low + high) / 2 };
 }
 
 /** Cox and Munk's mean square slope under a wind of `wind` m/s at 10 m. */
@@ -166,10 +165,17 @@ export const coxMunk = (wind: number): number => 0.003 + 0.005_12 * wind;
  * toward `heading` — JONSWAP's own growth laws for its peak and height.
  */
 export function windSea(wind: number, fetch: number, heading: number): Sea {
-  const peak = 22 * (GRAVITY ** 2 / (wind * fetch)) ** (1 / 3);
-  const height = 1.6e-3 * wind * Math.sqrt(fetch / GRAVITY);
+  const peak = 22 * (SEA_GRAVITY ** 2 / (wind * fetch)) ** (1 / 3);
+  const height = 1.6e-3 * wind * Math.sqrt(fetch / SEA_GRAVITY);
   return rippled(
-    { peak, height, sharpness: 3.3, heading, spread: 12, tail: 0 },
+    {
+      peakOmega: peak,
+      significant: height,
+      sharpness: 3.3,
+      towards: heading,
+      narrowness: 12,
+      tailBend: 0,
+    },
     coxMunk(wind),
   );
 }
