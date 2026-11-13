@@ -1,6 +1,6 @@
 import { ROOM_HEIGHT, ROOM_METRES } from '../lib/room-shape';
 import type { Vec2, Vec3 } from '../lib/vec';
-import { f32, vecf, wgsl } from '../lib/wgsl';
+import { f32, vecf, wgsl } from '../shader/wgsl';
 import { islandHeight } from './island-height';
 import { SHELL_TURN, toRoom, toShell } from './turn';
 

@@ -1,8 +1,7 @@
 import { pathHash, roll, rollWith } from '@/dice/shared/roll';
 
-import { vec3f, wgsl } from '@/cube/shared/lib/wgsl';
-import { HASH } from '@/cube/shared/lib/wgsl-hash';
 import { OUTDOOR_STAGE, SKY, SUN } from '@/cube/shared/outside';
+import { HASH, vec3f, wgsl } from '@/cube/shared/shader';
 
 /**
  * What the shell is made of where a floor's band is near-black, and where it

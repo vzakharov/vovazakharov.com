@@ -1,5 +1,5 @@
-import { wgsl } from '../lib/wgsl';
 import { SHORE_WETNESS, SKY, SUN } from '../outside';
+import { wgsl } from '../shader/wgsl';
 import { DRY_SAND, SAND_COLOUR } from './sand-colour';
 import { SAND_GRAIN } from './sand-grain';
 import { RIPPLES, SAND_RELIEF, WIND } from './sand-relief';

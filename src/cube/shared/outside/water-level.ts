@@ -1,6 +1,6 @@
 import { lerp as mix, smoothstep } from '../lib/ease';
 import type { Vec2 } from '../lib/vec';
-import { f32, vecf, wgsl } from '../lib/wgsl';
+import { f32, vecf, wgsl } from '../shader/wgsl';
 import { ISLAND_HEIGHT, islandHeight } from './island-height';
 import { cuspAt, SHORE_CUSPS } from './shore-cusps';
 import {
@@ -45,7 +45,7 @@ const SURF = 0.62;
 /** How far toward breaking a wave is between unbroken and a bore. */
 const BREAKS = [0.8, 1.15] as const;
 /** How high a wave is thrown up the sand, as a share of its height. */
-export const RUNUP = 0.55;
+const RUNUP = 0.55;
 /** The sheet's depth over Shen and Meyer's, whose lens is thinner than seen. */
 const THICK = 1.5;
 /** Seconds a sheet takes to gather at the still shoreline. */

@@ -1,4 +1,4 @@
-import { f32, wgsl } from './wgsl';
+import { f32, wgsl } from '../shader/wgsl';
 
 /**
  * The tangent of the sun's radius in the sky: it is half a degree across, so

@@ -1,4 +1,4 @@
-import { f32, vecf, wgsl } from '../lib/wgsl';
+import { f32, vecf, wgsl } from '../shader/wgsl';
 import { CLOUD_VEIL } from '../sky/cloud-veil';
 import { SKY_FILL } from './sun';
 

@@ -1,5 +1,5 @@
-import { f32, wgsl } from '../lib/wgsl';
 import { OUTDOOR_STAGE, WATER_LEVEL } from '../outside';
+import { f32, wgsl } from '../shader/wgsl';
 
 /**
  * Metres from the island's crest between which the swell's ordered train,

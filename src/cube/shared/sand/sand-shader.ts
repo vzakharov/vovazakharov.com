@@ -1,6 +1,6 @@
-import { wgsl } from '../lib/wgsl';
 import { AERIAL, CUBE_SHADOW, ISLAND_HEIGHT, OUTDOOR_STAGE } from '../outside';
 import { WATER_BODY } from '../sea/water-body-wgsl';
+import { wgsl } from '../shader/wgsl';
 import { SAND_MATERIAL, SWASH_TOP } from './sand-material';
 import { SAND_MESH } from './sand-mesh';
 import { RIPPLES, WIND } from './sand-relief';

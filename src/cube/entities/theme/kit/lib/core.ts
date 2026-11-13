@@ -1,6 +1,6 @@
 import { CEILING_HEIGHT, ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import { SURFACES } from '@/cube/shared/lib/surface';
-import { wgsl } from '@/cube/shared/lib/wgsl';
+import { wgsl } from '@/cube/shared/shader';
 
 import { FLAGS_WGSL } from '../model/flags';
 

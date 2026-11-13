@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { assemble } from '../lib/wgsl';
-import { scalarWgsl } from '../lib/wgsl-scalar';
+import { assemble } from '../shader/wgsl';
+import { scalarWgsl } from '../shader/wgsl-scalar';
 import {
   dampAfter,
   drySince,

@@ -1,5 +1,4 @@
-export { type Amplitudes, amplitudesOf, CASCADES, TILE } from './cascade';
-export { seaHeightAt } from './sea-height';
+export { amplitudesOf, CASCADES, TILE } from './cascade';
 export { SEAS } from './sea-state';
 export { RINGS, SPOKES } from './sea-surface-wgsl';
 export { SEA } from './sea-wgsl';

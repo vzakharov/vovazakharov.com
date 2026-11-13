@@ -6,7 +6,7 @@ import { type Sea, slopeVariance, windSea } from './spectrum';
  * Where the swell travels: it arrives from the south-west, so toward the
  * north-east — radians from +x (east) toward +z (south).
  */
-export const SWELL_HEADING = -Math.PI / 4;
+const SWELL_HEADING = -Math.PI / 4;
 
 /** The swell out at sea, a narrow peak from a storm far away. */
 const OPEN_SWELL: Sea = {

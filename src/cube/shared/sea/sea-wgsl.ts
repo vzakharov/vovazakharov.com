@@ -1,6 +1,6 @@
-import { f32, wgsl } from '../lib/wgsl';
 import { AERIAL, CUBE_SHADOW } from '../outside';
 import { SAND_COLOUR } from '../sand';
+import { f32, wgsl } from '../shader/wgsl';
 import { TILE } from './cascade';
 import { SEA_FOAM } from './sea-foam-wgsl';
 import { SEA_LIGHT } from './sea-light-wgsl';

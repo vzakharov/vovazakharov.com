@@ -13,7 +13,7 @@ export { type Landing, landingsSeen } from './model/landing';
 export { loft, type Ring } from './model/loft';
 export { DEEPEST_FLOOR, maze } from './model/maze';
 export { boardFacets, type BoardShape, type SignMount } from './model/mount';
-export { PILL_LENGTH, PILL_RADIUS, pillQuads } from './model/pill';
+export { PILL_RADIUS, pillQuads } from './model/pill';
 export { plant } from './model/plant';
 export { planted } from './model/planted';
 export type {

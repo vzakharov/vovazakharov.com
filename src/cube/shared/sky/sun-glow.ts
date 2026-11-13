@@ -1,5 +1,5 @@
-import { f32, vecf, wgsl } from '../lib/wgsl';
 import { SUN_DIR, SUN_WHITE } from '../outside/sun';
+import { f32, vecf, wgsl } from '../shader/wgsl';
 import { ATMOSPHERE } from './atmosphere';
 import { CLEAR_SKY, EYE_SUN } from './clear-sky';
 
@@ -10,7 +10,7 @@ const SUN_RADIUS = (0.2666 * Math.PI) / 180;
  * some forty-six thousand times a face it lights; a half float and the bloom
  * both want less, and past this the eye could not tell.
  */
-export const DISC_LIGHT = 600;
+const DISC_LIGHT = 600;
 
 /**
  * The share of the haze's scattering that goes into the two narrow forward

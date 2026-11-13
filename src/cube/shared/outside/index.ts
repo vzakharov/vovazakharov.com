@@ -1,6 +1,6 @@
 export { AERIAL } from './aerial';
-export { beamPatches, crossesBeam, DOOR_INNER, type SunPatch } from './beam';
-export { CUBE_SHADOW, cubeShadow } from './cube-shadow';
+export { beamPatches, crossesBeam, DOOR_INNER } from './beam';
+export { CUBE_SHADOW } from './cube-shadow';
 export { DAYLIGHT } from './daylight';
 export {
   type Box,
@@ -27,24 +27,15 @@ export {
 } from './ladder';
 export {
   type Laddered,
-  OUTDOOR_FRAME,
   OUTDOOR_FRAME_FLOATS,
   type OutdoorFrame,
   packOutdoorFrame,
 } from './outdoor-frame';
-export { SHORE_WETNESS, shoreDrySince } from './shore-wetness';
+export { SHORE_WETNESS } from './shore-wetness';
 export { SKY } from './sky';
 export { OUTDOOR_STAGE, SKY_METRES } from './stage';
-export {
-  GROUND_FILL,
-  HORIZON_FILL,
-  SKY_FILL,
-  SUN,
-  SUN_DIR,
-  SUN_LIGHT,
-  SUN_WHITE,
-} from './sun';
-export { crestOf, PERIOD, setsAt, turnsAt } from './swell';
+export { SUN, SUN_DIR, SUN_LIGHT } from './sun';
+export { crestOf, turnsAt } from './swell';
 export {
   INTERIOR_TURN,
   QUARTER_TURNS,
@@ -58,8 +49,6 @@ export {
   yawToShell,
 } from './turn';
 export {
-  brokenAt,
-  type ShoreClock,
   shoreClock,
   WATER_LEVEL,
   waterLevel,

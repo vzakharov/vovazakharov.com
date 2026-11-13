@@ -1,4 +1,4 @@
-import { wgsl } from '../lib/wgsl';
+import { wgsl } from '../shader/wgsl';
 import { CUBE_SHADOW } from './cube-shadow';
 import { SUN } from './sun';
 

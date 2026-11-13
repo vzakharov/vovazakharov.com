@@ -1,4 +1,4 @@
-import { wgsl } from '../lib/wgsl';
+import { wgsl } from '../shader/wgsl';
 import { OUTDOOR_FRAME } from './outdoor-frame';
 
 /** Where the scene's `a` says the sky is: farther than anything drawn. */

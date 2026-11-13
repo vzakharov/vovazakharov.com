@@ -1,7 +1,7 @@
-import { f32, wgsl } from '../lib/wgsl';
 import { FAR_METRES } from '../outside/frame';
 import { OUTDOOR_STAGE } from '../outside/stage';
 import { WATER_BODY } from '../sea/water-body-wgsl';
+import { f32, wgsl } from '../shader/wgsl';
 import { CLEAR_SKY } from './clear-sky';
 import { CLOUDS_WGSL } from './clouds';
 import { SUN_GLOW } from './sun-glow';

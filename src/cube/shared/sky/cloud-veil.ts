@@ -1,4 +1,4 @@
-import { f32, wgsl } from '../lib/wgsl';
+import { f32, wgsl } from '../shader/wgsl';
 import { CLOUDS } from './cloud-field';
 import { CLOUDS_WGSL } from './clouds';
 

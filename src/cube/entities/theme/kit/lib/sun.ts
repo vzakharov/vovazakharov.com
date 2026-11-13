@@ -4,8 +4,6 @@ import type { Rgb } from '@/cube/shared/lib/colour';
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import { SHRUB } from '@/cube/shared/lib/shrub';
 import { SUN_DISC } from '@/cube/shared/lib/sun-disc';
-import { vec3f, type Wgsl, wgsl } from '@/cube/shared/lib/wgsl';
-import { HASH } from '@/cube/shared/lib/wgsl-hash';
 import {
   beamPatches,
   type Box,
@@ -17,6 +15,7 @@ import {
   SUN_LIGHT,
   toShell,
 } from '@/cube/shared/outside';
+import { HASH, vec3f, type Wgsl, wgsl } from '@/cube/shared/shader';
 
 import { CORE } from './core';
 import { GRADE } from './grade';

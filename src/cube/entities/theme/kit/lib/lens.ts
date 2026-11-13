@@ -1,5 +1,5 @@
 import type { Rgb } from '@/cube/shared/lib/colour';
-import { vec3f } from '@/cube/shared/lib/wgsl';
+import { vec3f } from '@/cube/shared/shader';
 
 import type { Aired } from '../model/theme';
 import type { Exposed } from './grade';

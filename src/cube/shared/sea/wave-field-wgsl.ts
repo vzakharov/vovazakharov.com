@@ -1,5 +1,5 @@
-import { f32 } from '../lib/wgsl';
 import { HOUR_SECONDS, RADIANS_A_TURN } from '../outside/swell';
+import { f32 } from '../shader/wgsl';
 import { CASCADES, CHOP, TILE } from './cascade';
 
 /** Complex pairs a cascade's transform carries: two textures' worth. */

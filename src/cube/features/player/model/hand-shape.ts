@@ -29,7 +29,7 @@ export type Digit = {
 export type Curl = readonly number[];
 
 /** A hand's five curls: index to little, then the thumb. */
-export type Curls = readonly [Curl, Curl, Curl, Curl, Curl];
+type Curls = readonly [Curl, Curl, Curl, Curl, Curl];
 
 /**
  * How a hand is held: its digits' curls, how far the thumb is swung round

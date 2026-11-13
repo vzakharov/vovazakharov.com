@@ -34,7 +34,7 @@ export type ShellKind = (typeof SHELL_KINDS)[number];
 export const SHELL_VERTEX_FLOATS = 9;
 
 /** How deep the doorway's reveal is: the wall from its outer face to its inner one. */
-export const REVEAL_METRES = ROOM_METRES * WALL_HALF;
+const REVEAL_METRES = ROOM_METRES * WALL_HALF;
 
 /**
  * A flat rect: from `corner` along `u` then `v`, both in metres, facing the

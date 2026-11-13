@@ -1,7 +1,7 @@
 import { pathHash, roll, rollWith } from '@/dice/shared/roll';
 
 import type { Vec2 } from '../lib/vec';
-import { f32, wgsl } from '../lib/wgsl';
+import { f32, wgsl } from '../shader/wgsl';
 
 /**
  * The island's walked-on shape: metres over still sea level at a point of the

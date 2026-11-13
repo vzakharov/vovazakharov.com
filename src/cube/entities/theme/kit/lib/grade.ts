@@ -1,5 +1,4 @@
-import { wgsl } from '@/cube/shared/lib/wgsl';
-import { HASH } from '@/cube/shared/lib/wgsl-hash';
+import { HASH, wgsl } from '@/cube/shared/shader';
 
 import { CORE } from './core';
 

@@ -35,7 +35,7 @@ export const dispersion = (k: number): number =>
   Math.sqrt(SEA_GRAVITY * k * (1 + (k / CAPILLARY) ** 2));
 
 /** dω/dk at wavenumber `k`: the speed a group of such waves travels at. */
-export const groupSpeed = (k: number): number =>
+const groupSpeed = (k: number): number =>
   (SEA_GRAVITY * (1 + 3 * (k / CAPILLARY) ** 2)) / (2 * dispersion(k));
 
 /**
@@ -146,7 +146,7 @@ export const slopeVariance = (
  * A bare JONSWAP tail misjudges the ripples; Cox and Munk (1954) measured
  * from the sun's glitter how steep the surface really is.
  */
-export function rippled(sea: Sea, slopes: number): Sea {
+function rippled(sea: Sea, slopes: number): Sea {
   let low = -2;
   let high = 2;
   for (let round = 0; round < 50; round += 1) {

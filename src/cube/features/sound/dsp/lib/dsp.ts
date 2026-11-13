@@ -1,6 +1,6 @@
 import type { Timed } from '@/kernel/shared/typings';
 
-import { hashOf, unitOf } from '@/cube/shared/lib/hash32';
+import { hashOf, unitOf } from '@/cube/shared/shader';
 
 export const CYCLE = 2 * Math.PI;
 
@@ -92,7 +92,7 @@ export function sampled(
 export type Struck = { hz: number; dies: number; force: number };
 
 /** Something that rings when struck, in each of its `modes`. */
-export type Resonant = { modes: readonly Struck[] };
+type Resonant = { modes: readonly Struck[] };
 
 /** A blow's whole answer: what rings, and for how long it is heard. */
 export type Sounding = Timed & Resonant;

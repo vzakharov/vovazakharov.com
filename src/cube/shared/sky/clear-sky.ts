@@ -1,6 +1,6 @@
 import type { Rgb } from '../lib/colour';
-import { f32, vecf, wgsl } from '../lib/wgsl';
 import { SUN, SUN_DIR, SUN_WHITE } from '../outside/sun';
+import { f32, vecf, wgsl } from '../shader/wgsl';
 import {
   ATMOSPHERE,
   extinctionAt,
@@ -19,7 +19,7 @@ const GLANCE = fitGlance(SUN_DIR);
 const SUN_FLAT = Math.hypot(SUN_DIR[0], SUN_DIR[2]);
 
 /** Kilometres over the sea between which `sunThrough` follows the model. */
-export const SUN_HEIGHTS = [1, 4, 8] as const;
+const SUN_HEIGHTS = [1, 4, 8] as const;
 
 /**
  * The logarithm of the sun's transmittance `h` km up as a parabola through

@@ -1,4 +1,4 @@
-import { wgsl } from '../lib/wgsl';
+import { wgsl } from '../shader/wgsl';
 import { SAND_RELIEF } from './sand-relief';
 
 /** Dry sand's albedo, linear: pale quartz with a little shell in it. */

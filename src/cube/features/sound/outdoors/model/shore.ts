@@ -137,7 +137,7 @@ const LINGERS: Record<keyof Surf, number> = {
  * the shore, where that is a sheet running flat out, and over the bar, where
  * it is a wave breaking its hardest.
  */
-export type Swing = { atShore: number; overBar: number };
+type Swing = { atShore: number; overBar: number };
 
 /** The seconds of the hour a sea's swing is taken over, and between two looks. */
 const SWING_OVER = 240;
@@ -147,7 +147,7 @@ const SWING_EVERY = 0.5;
  * The swing of the sea along `shore`, so that its biggest wave is the loudest
  * the surf gets whatever size the sea's waves are.
  */
-export function swingOf(shore: readonly Stretch[]): Swing {
+function swingOf(shore: readonly Stretch[]): Swing {
   const swing = { atShore: 1e-6, overBar: 1e-6 };
   for (const { water } of shore) {
     for (let seconds = 0; seconds < SWING_OVER; seconds += SWING_EVERY) {

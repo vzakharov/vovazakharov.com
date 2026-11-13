@@ -66,7 +66,7 @@ export type Taking = Holed &
  * from `from` into the shaft at `to`; or `landing`, its knees giving, on the
  * floor below.
  */
-export type Act = { actFor: number } & (
+type Act = { actFor: number } & (
   | Taking
   | (Looking & Gazing & { act: 'shrinking' })
   | { act: 'falling'; from: InRoom; to: InRoom }

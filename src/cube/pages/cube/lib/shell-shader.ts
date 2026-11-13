@@ -1,5 +1,3 @@
-import { wgsl } from '@/cube/shared/lib/wgsl';
-import { HASH } from '@/cube/shared/lib/wgsl-hash';
 import {
   AERIAL,
   CUBE_SHADOW,
@@ -8,6 +6,7 @@ import {
   SUN,
   WORLD,
 } from '@/cube/shared/outside';
+import { HASH, wgsl } from '@/cube/shared/shader';
 
 import { SHELL_MATERIAL } from './shell-material';
 import { SHELL_KINDS, type ShellKind } from './shell-mesh';

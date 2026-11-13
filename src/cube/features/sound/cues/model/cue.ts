@@ -18,7 +18,7 @@ import { splash } from './splash';
 import { creak, mew, pop, rustle, scrape } from './stirs';
 
 /** How far to an ear's right a sound is. */
-export type Sided = {
+type Sided = {
   /** −1 dead left to 1 dead right; 0 ahead, behind or at the ear. */
   rightward: number;
 };

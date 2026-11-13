@@ -18,7 +18,7 @@ export const PLAY_HOOK = '__cubePlay';
 export const PLAY_INSTANT = Date.UTC(2026, 10, 1, 12);
 
 /** What a script puts in the rooms until its next call. */
-export type Among = {
+type Among = {
   /** Quads drawn until the next call, each in its own room's frame. */
   moving?: readonly Quad[];
 };

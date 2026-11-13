@@ -2,7 +2,7 @@ import type { Sized } from '@/kernel/shared/typings';
 
 import type { SeenAt } from '../lib/clock';
 import type { Vec3 } from '../lib/vec';
-import { wgsl } from '../lib/wgsl';
+import { wgsl } from '../shader/wgsl';
 
 /**
  * The uniform block every outdoor pipeline reads as group 0, binding 0, field

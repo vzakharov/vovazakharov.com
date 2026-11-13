@@ -1,5 +1,5 @@
-import { f32, wgsl } from '../lib/wgsl';
 import { OUTDOOR_STAGE } from '../outside';
+import { f32, wgsl } from '../shader/wgsl';
 import { CASCADES, TILE } from './cascade';
 import { SEA_SHORE } from './sea-shore-wgsl';
 

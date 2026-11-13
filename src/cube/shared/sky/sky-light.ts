@@ -17,11 +17,10 @@ import {
 export const EYE_RADIUS = ATMOSPHERE.ground + 0.002;
 
 /** Rayleigh's phase function at cosine `c`, over the whole sphere. */
-export const rayleighPhase = (c: number): number =>
-  (3 / (16 * Math.PI)) * (1 + c * c);
+const rayleighPhase = (c: number): number => (3 / (16 * Math.PI)) * (1 + c * c);
 
 /** Cornette and Shanks's phase function for asymmetry `g` at cosine `c`. */
-export const miePhase = (c: number, g: number): number =>
+const miePhase = (c: number, g: number): number =>
   ((3 / (8 * Math.PI)) * ((1 - g * g) * (1 + c * c))) /
   ((2 + g * g) * (1 + g * g - 2 * g * c) ** 1.5);
 
@@ -124,7 +123,7 @@ const RING_FROM = Math.PI / 4;
  * own glare: what a cloud's flank is lit by from the side, per unit of sun
  * irradiance over π.
  */
-export const horizonFill = (sun: Vec3): Rgb => {
+const horizonFill = (sun: Vec3): Rgb => {
   const lift = Math.hypot(sun[0], sun[2]);
   const sum = [0, 0, 0];
   for (let j = 0; j < FILL_SPOKES; j++) {

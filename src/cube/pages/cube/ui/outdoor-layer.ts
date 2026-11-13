@@ -2,8 +2,8 @@
 
 import type { CanDispose, Labeled } from '@/kernel/shared/typings';
 
-import type { Wgsl } from '@/cube/shared/lib/wgsl';
 import type { OutdoorFrame } from '@/cube/shared/outside';
+import type { Wgsl } from '@/cube/shared/shader';
 
 /**
  * The outdoor layers in the order the scene pass draws them; the rooms and
@@ -42,7 +42,7 @@ type Depth =
   | 'solid';
 
 /** What a layer's scene-pass pipeline is made of, past what all of them share. */
-export type ScenePipeline = Labeled & {
+type ScenePipeline = Labeled & {
   module: GPUShaderModule;
   depth: Depth;
   /** Entry points, `vertexMain` and `fragmentMain` unless named. */
@@ -72,22 +72,3 @@ export type OutdoorKit = {
 
 /** Makes one layer; the renderer calls each once, before the first frame. */
 export type LayerMaker = (kit: OutdoorKit) => Promise<OutdoorLayer>;
-
-/**
- * A layer that is one pipeline drawing `vertices` vertices, from `buffer`
- * where it reads one; the buffer is the layer's to destroy.
- */
-export const drawing = (
-  pipeline: GPURenderPipeline,
-  vertices: number,
-  buffer?: GPUBuffer,
-): OutdoorLayer => ({
-  draw: (pass) => {
-    pass.setPipeline(pipeline);
-    if (buffer !== undefined) pass.setVertexBuffer(0, buffer);
-    pass.draw(vertices);
-  },
-  dispose: () => {
-    buffer?.destroy();
-  },
-});

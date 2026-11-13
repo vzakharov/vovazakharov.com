@@ -12,7 +12,7 @@ export const FOOTINGS = [
   'soft',
   'hollow',
 ] as const;
-export type Footing = (typeof FOOTINGS)[number];
+type Footing = (typeof FOOTINGS)[number];
 
 /** What the island is underfoot, from the dry beach to ankle-deep water. */
 export const GROUNDS = ['sand', 'wet-sand', 'shallows'] as const;

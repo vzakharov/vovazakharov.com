@@ -20,7 +20,7 @@ type SkyTarget = Sized & {
  * reads that and adds the disc at the canvas's sharpness. The target is this
  * frame's alone; nothing in it outlives the frame.
  */
-export const skyLayerAt =
+const skyLayerAt =
   (scale: number): LayerMaker =>
   async ({ device, layout, frame, shader, pipeline }) => {
     const cloudModule = await shader('sky clouds', OUTDOOR_SHADERS.skyClouds);

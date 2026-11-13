@@ -1,8 +1,7 @@
 import { smoothstep } from '../lib/ease';
-import type { Vec2 } from '../lib/vec';
-import { f32, wgsl } from '../lib/wgsl';
+import { f32, wgsl } from '../shader/wgsl';
 import { crestOf, SEA_GRAVITY, turnsAt } from './swell';
-import { shoreClock, SLOPE, swashReach, WATER_LEVEL } from './water-level';
+import { SLOPE, swashReach, WATER_LEVEL } from './water-level';
 
 /**
  * How long the sand has been out of the water: the swash's sheets are closed
@@ -44,12 +43,6 @@ export function drySince(tau: number, bed: number, shelter: number): number {
     }
   }
   return dry;
-}
-
-/** `drySince` at `xz` in the world frame, `seconds` into the hour. */
-export function shoreDrySince(xz: Vec2, seconds: number): number {
-  const { bed, tau, shelter, tongue } = shoreClock(xz, seconds);
-  return drySince(tau, bed, shelter * tongue);
 }
 
 /** How damp sand is `dry` seconds after the water left it, 1 soaked. */

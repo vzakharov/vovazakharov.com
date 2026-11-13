@@ -1,7 +1,7 @@
 import { pathHash, roll, rollWith } from '@/dice/shared/roll';
 
 import type { Vec2 } from '../lib/vec';
-import { f32, wgsl } from '../lib/wgsl';
+import { f32, wgsl } from '../shader/wgsl';
 import { RADIANS_A_TURN, SEA_WORLD, SWELL_RUNS } from './swell';
 
 /**

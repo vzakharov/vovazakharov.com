@@ -11,12 +11,9 @@ export {
   steppingOut,
 } from './model/abroad';
 export { grippingHand } from './model/grip';
-export { type Axes, hand, padOf } from './model/hand';
-export { type HandPose, LOOSE, RUNG_GRIP } from './model/hand-shape';
 export { handsOf } from './model/hands';
 export { plantedHoled, plantedHoledOf } from './model/holed';
 export { INTRO_STAGE } from './model/intro-stage';
-export { FIRST_LOOK } from './model/look';
 export { arrivedOn, play } from './model/play';
 export {
   type Cue,

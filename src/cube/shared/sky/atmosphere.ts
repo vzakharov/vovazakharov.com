@@ -44,7 +44,7 @@ export const perChannel = (of: (channel: 0 | 1 | 2) => number): Rgb => [
 type Densities = { rayleigh: number; mie: number; ozone: number };
 
 /** How much of each constituent there is `h` km up, as a share of sea level's. */
-export const densitiesAt = (h: number): Densities => ({
+const densitiesAt = (h: number): Densities => ({
   rayleigh: Math.exp(-h / ATMOSPHERE.rayleigh.height),
   mie: Math.exp(-h / ATMOSPHERE.mie.height),
   ozone: Math.max(
@@ -74,11 +74,11 @@ export const extinctionAt = (h: number): Rgb => {
 };
 
 /** Kilometres from radius `r` along a ray of cosine `mu` to the top of the air. */
-export const toTop = (r: number, mu: number): number =>
+const toTop = (r: number, mu: number): number =>
   -r * mu + Math.sqrt(Math.max(0, r * r * (mu * mu - 1) + RT * RT));
 
 /** Kilometres to the ground along that ray, or `null` where it misses it. */
-export const toGround = (r: number, mu: number): number | null => {
+const toGround = (r: number, mu: number): number | null => {
   const under = r * r * (mu * mu - 1) + RG * RG;
   return mu < 0 && under >= 0 ? -r * mu - Math.sqrt(under) : null;
 };
@@ -87,7 +87,7 @@ export const toGround = (r: number, mu: number): number | null => {
  * Bruneton's mapping of a ray that clears the ground onto the unit square,
  * which spends its rows near the horizon where transmittance turns fastest.
  */
-export const transmittanceUv = (r: number, mu: number): [number, number] => {
+const transmittanceUv = (r: number, mu: number): [number, number] => {
   const rho = Math.sqrt(Math.max(0, r * r - RG * RG));
   const least = RT - r;
   const most = rho + REACH;
@@ -157,7 +157,7 @@ const once = <T>(make: () => T): (() => T) => {
 };
 
 /** What reaches radius r from outside the air along cosine mu, by `transmittanceUv`. */
-export const transmittanceTable = once(() =>
+const transmittanceTable = once(() =>
   tableOf(TRANSMITTANCE_SIZE, (u, v) => {
     const { r, mu } = rayOfUv(u, v);
     const depth = opticalDepthToTop(r, mu);
@@ -175,7 +175,7 @@ export const sunTransmittance = (r: number, mu: number): Rgb => {
 const along = (r: number, mu: number, t: number): number =>
   Math.sqrt(Math.max(0, t * t + 2 * r * mu * t + r * r));
 
-export const ISOTROPIC = 1 / (4 * Math.PI);
+const ISOTROPIC = 1 / (4 * Math.PI);
 
 type March = { light: Rgb; through: Rgb };
 
@@ -298,7 +298,7 @@ const multipleScattering = (r: number, sun: number): Rgb => {
  * The sun cosines the scatter table spans. The sun stands 9° up at the eye,
  * and along any ray the eye can cast through the air it stays inside this.
  */
-export const SCATTER_SUN = { low: -0.2, high: 0.5 } as const;
+const SCATTER_SUN = { low: -0.2, high: 0.5 } as const;
 
 /** Where the scatter table holds radius `r` under a sun at cosine `sun`. */
 export const scatterUv = (r: number, sun: number): [number, number] => [

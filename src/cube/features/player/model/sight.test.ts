@@ -33,7 +33,11 @@ describe('seesWhole', () => {
   });
 
   it('turns its square of view with the yaw', () => {
-    const north = { eye: [0, 1.6, -30] as const, yaw: Math.PI / 2, elevation: 0 };
+    const north = {
+      eye: [0, 1.6, -30] as const,
+      yaw: Math.PI / 2,
+      elevation: 0,
+    };
     assert.ok(seesWhole(north, BOX));
     assert.ok(!seesWhole({ ...north, yaw: -Math.PI / 2 }, BOX));
   });

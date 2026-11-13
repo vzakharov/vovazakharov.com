@@ -1,8 +1,8 @@
 import { pathHash, roll, rollWith } from '@/dice/shared/roll';
 
-import { f32, vecf, wgsl } from '../lib/wgsl';
-import { HASH } from '../lib/wgsl-hash';
 import { OUTDOOR_FRAME } from '../outside/outdoor-frame';
+import { f32, vecf, wgsl } from '../shader/wgsl';
+import { HASH } from '../shader/wgsl-hash';
 import {
   CLOUD_LANE,
   CLOUD_TILE,

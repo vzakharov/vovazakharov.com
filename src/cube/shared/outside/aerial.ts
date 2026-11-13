@@ -1,4 +1,4 @@
-import { wgsl } from '../lib/wgsl';
+import { wgsl } from '../shader/wgsl';
 import { CLEAR_SKY } from '../sky/clear-sky';
 
 /**

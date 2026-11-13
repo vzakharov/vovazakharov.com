@@ -1,6 +1,6 @@
 import type { Rgb } from '../lib/colour';
 import type { Vec3 } from '../lib/vec';
-import { vecf, wgsl } from '../lib/wgsl';
+import { vecf, wgsl } from '../shader/wgsl';
 import { lightUnder } from '../sky/sky-light';
 
 const DEGREES = Math.PI / 180;
@@ -38,13 +38,13 @@ export const SKY_FILL: Rgb = LIT.sky;
  * What the sea and the air under the horizon put on a white matte face
  * looking down.
  */
-export const GROUND_FILL: Rgb = LIT.ground;
+const GROUND_FILL: Rgb = LIT.ground;
 
 /**
  * What the sky just over the horizon, away from the sun's glare, puts on a
  * white matte face it wholly surrounds: the light on a thing's flank.
  */
-export const HORIZON_FILL: Rgb = LIT.horizon;
+const HORIZON_FILL: Rgb = LIT.horizon;
 
 /**
  * `SUN_DIR`, `SUN_LIGHT`, `SKY_FILL`, `GROUND_FILL` and `HORIZON_FILL` as WGSL

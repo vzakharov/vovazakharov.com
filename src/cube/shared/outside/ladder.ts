@@ -1,5 +1,5 @@
 import { moved, scaled, type Vec3 } from '../lib/vec';
-import { f32, vecf, wgsl } from '../lib/wgsl';
+import { f32, vecf, wgsl } from '../shader/wgsl';
 import { CUBE_AT, CUBE_BOX, DOORWAY } from './frame';
 import { islandHeight } from './island-height';
 

@@ -1,6 +1,6 @@
 import type { WithId } from '@/kernel/shared/typings';
 
-import type { Rgb } from './colour';
+import type { Rgb } from '../lib/colour';
 
 /**
  * A piece of WGSL and the pieces it calls into. A floor's shader is assembled

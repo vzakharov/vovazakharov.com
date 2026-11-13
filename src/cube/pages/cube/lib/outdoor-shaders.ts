@@ -1,6 +1,5 @@
 import type { Named } from '@/kernel/shared/typings';
 
-import { assemble, type Wgsl } from '@/cube/shared/lib/wgsl';
 import {
   AERIAL,
   CUBE_SHADOW,
@@ -12,6 +11,7 @@ import {
 } from '@/cube/shared/outside';
 import { SAND_SHADER } from '@/cube/shared/sand';
 import { SEA } from '@/cube/shared/sea';
+import { assemble, type Wgsl } from '@/cube/shared/shader';
 import { SKY_CLOUD_SHADER, SKY_SHADER } from '@/cube/shared/sky';
 
 import { outsideLensSource } from './outside-lens';

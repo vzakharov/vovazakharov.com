@@ -16,7 +16,7 @@ catches a breach of any of them:
   when the page opened.
 - **Every random number is rolled** — `roll` / `rollWith` from
   `@/dice/shared/roll`, under a named path. A shader keeps only per-pixel noise,
-  through `@/cube/shared/lib/wgsl-hash` salted by a rolled value.
+  through `@/cube/shared/shader/wgsl-hash` salted by a rolled value.
 - **Interactions come at a price.** Nothing one player does changes the state of
   the world — a footprint, a moved object, a ball kicked across a floor — except
   by purchase. What a player's body does is theirs alone (their pose, their

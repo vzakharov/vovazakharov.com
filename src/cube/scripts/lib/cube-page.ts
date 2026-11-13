@@ -90,7 +90,7 @@ export type CubePage = {
 };
 
 /** What a frame is staged with: the eye's pose, and what is set around it. */
-export type Staged = readonly [pose: Pose, among?: InsideSet];
+type Staged = readonly [pose: Pose, among?: InsideSet];
 
 /** One frame of a sheet: what it is staged with, and the pill's line shown over it. */
 export type SheetFrame = {

@@ -2,8 +2,8 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { moved, scaled } from '@/cube/shared/lib/vec';
-import { assemble } from '@/cube/shared/lib/wgsl';
 import { CUBE_BOX, DOOR_LADDER, DOORWAY_BOX } from '@/cube/shared/outside';
+import { assemble } from '@/cube/shared/shader';
 
 import { SHELL_KINDS, SHELL_VERTEX_FLOATS, shellVertices } from './shell-mesh';
 import { SHELL_SHADER } from './shell-shader';

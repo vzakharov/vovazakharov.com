@@ -1,6 +1,6 @@
-import { vecf, wgsl } from '../lib/wgsl';
 import { OUTDOOR_STAGE } from '../outside/stage';
 import { SUN } from '../outside/sun';
+import { vecf, wgsl } from '../shader/wgsl';
 
 /**
  * Pure sea water's absorption per metre, red to blue, with a little of the

@@ -69,7 +69,7 @@ export function isInSight(pose: Pose, shelf: Shelf): boolean {
 const INSPECTED_FLOOR = 1;
 
 /** Seconds the hand takes to reach the shelf and close on the pill. */
-export const REACH_TIME = 0.5;
+const REACH_TIME = 0.5;
 /** Seconds the hand takes to bring the pill before the eyes, to look at and in passing. */
 const RAISE_TIME = { asked: 0.7, passing: 0.45 };
 /** Seconds the pill takes from before the eyes to the mouth. */
@@ -160,7 +160,7 @@ const mixed = (a: Gazing, b: Gazing, share: number): Gazing => ({
 });
 
 /** Where a body `taking` looks: at the pill, wherever it is, then back. */
-export function gazeOfTaking(act: Taking & { actFor: number }): Gazing {
+function gazeOfTaking(act: Taking & { actFor: number }): Gazing {
   const { stage, actFor: t, aim, yaw, elevation } = act;
   const resting = { yaw, elevation };
   const eyes = { ...aim, elevation: EYES_ELEVATION };
