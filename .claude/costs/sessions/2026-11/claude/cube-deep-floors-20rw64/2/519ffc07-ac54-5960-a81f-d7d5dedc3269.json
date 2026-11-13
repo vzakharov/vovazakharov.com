@@ -1,0 +1,92 @@
+{
+  "total": {
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 73759,
+    "cacheReadTokens": 579957,
+    "outputTokens": 1779,
+    "thinkingTokens": 158,
+    "responses": 6,
+    "costUsd": 0.7416994000000001
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": null,
+    "endedOn": null,
+    "endedAt": null,
+    "contextTokens": null,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 73759,
+      "cacheReadTokens": 579957,
+      "outputTokens": 1779,
+      "thinkingTokens": 158,
+      "responses": 6,
+      "costUsd": 0.7416994000000001
+    }
+  },
+  "sessionId": "519ffc07-ac54-5960-a81f-d7d5dedc3269",
+  "branch": "claude/cube-deep-floors-20rw64",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cube-deep-floors-20rw64 — идеи занесены на доску кубика, остались проходы качества и PR",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDSUi42dSk2k2P8Bjt",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-13T20:22:21.628Z",
+  "lastResponseAt": "2026-11-13T20:22:40.021Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 14,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 73759,
+    "cacheReadTokens": 579957,
+    "outputTokens": 1779,
+    "thinkingTokens": 158,
+    "responses": 6,
+    "costUsd": 0.7416994000000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 73759,
+      "cacheReadTokens": 579957,
+      "outputTokens": 1779,
+      "thinkingTokens": 158,
+      "responses": 6,
+      "costUsd": 0.7416994000000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 6,
+    "matched": 6,
+    "matchedTableUsd": 0.7416994000000001,
+    "matchedEventUsd": 0.7416993999999999,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 319,
+    ".yaml": 127
+  }
+}
