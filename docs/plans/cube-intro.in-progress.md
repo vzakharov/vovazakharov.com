@@ -205,6 +205,37 @@ reached from the second account.
   the frame rate out of doors stays under the mark; the console switch goes, one
   control being enough. An Opus subagent writes it (`quality` below).
 
+  Then, on what a blur could do, on the seam and on the deeper floors:
+
+  > а на низком качестве можно делать типа блюр или интерполяцию или что-то
+  > такое, чтобы пиксели не были размером с кирпич? или это само по себе и опять
+  > вернёт низкие фпс?
+
+  > да не, не выглядят. ну да ладно. а я правильно понимаю, что вся сложность
+  > была именно в стыке там где море касается песка? нельзя было только его
+  > дескейлить?
+
+  > ок. единственное, надо подумать, когда "увеличивать качество" на следующих
+  > этажах. предлагаю в процессе падения по первому люку
+
+  Answered: the canvas is already interpolated by the browser, the bricks were
+  the sky's texels; the cost is every pixel of sand and of sea, the waking frame
+  with next to no shore in it being the dearest, so the seam is not it. Drawing
+  the sand and the sea alone into a smaller target, or thinning the sand's
+  shader with distance, is the next round's. The level lifts in the frame the
+  eye's room stops being floor 1's, which is in that fall.
+
+- **13 Nov, the run's footfalls**:
+
+  > давай ещё звук шагов сделаем не таким частым при беге. по-моему, он как раз
+  > должен быть как сейчас при шаге (а то у нас как будто не мужчина, а тодлер
+  > бегает)
+
+  A footfall falls every 0.75 m whatever the pace, so a run at 3.5 m/s gives 4.7
+  a second against a walk's 1.9. **Decided**: a run's stride is longer by the
+  two paces' ratio, so its footfalls come as often as a walk's; the walk keeps
+  its own.
+
 ## This bite: the scenario round
 
 Ticked is written, committed and pushed (aa0b4008 the scenario, b5ecc5ab the
