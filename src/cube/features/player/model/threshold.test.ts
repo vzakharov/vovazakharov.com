@@ -137,6 +137,7 @@ describe('the threshold', () => {
       scene: null,
       asleep: false,
       sawCube: false,
+      gazeHeld: 0,
       ladderGone: false,
       shot: shotOf(roamer),
       cues: [],

@@ -19,6 +19,10 @@ import { seesWhole } from './sight';
 import { type Input, STILL } from './step';
 
 const DT = 1 / 30;
+
+/** What of `cues` the voice says. */
+const says = (cues: readonly Cue[]): Cue[] =>
+  cues.filter((cue) => cue.cue === 'say');
 const ahead: Input = { ...STILL, walk: 1 };
 const { land, arrival, wake, cube } = STAGE;
 
@@ -47,6 +51,7 @@ const freeAt = (x: number, z: number, yaw: number): Abroad => {
     asleep: false,
     ladderGone: false,
     sawCube: false,
+    gazeHeld: 0,
     shot: shotOf(roamer),
     cues: [],
     entered: false,
@@ -82,24 +87,31 @@ describe('abroad', () => {
     assert.equal(sawCube, false);
   });
 
-  it('wonders once, the first frame the cube is wholly in view as it turns', () => {
+  it('wonders once, when its gaze comes to rest on the whole cube', () => {
     let state = freeAt(wake.at[0], wake.at[1], wake.seaward);
     const turning = { ...STILL, yawBy: 0.03 };
-    const said: number[] = [];
-    // Two whole turns and more.
+    // Two whole turns and more: the cube passes through its view, unremarked.
     for (let frame = 0; frame < 450; frame += 1) {
-      const was = state.sawCube;
       state = abroad(state, turning, DT, frame * DT, STAGE, true);
-      const { cues, roamer } = state;
-      const wonders = cues.filter((cue) => cue.cue === 'say');
-      if (wonders.length > 0) {
+      assert.deepEqual(says(state.cues), []);
+    }
+    assert.equal(state.sawCube, false);
+    // On round to the cube, and there the gaze stops.
+    for (let frame = 0; !seesWhole(state.roamer, cube); frame += 1) {
+      assert.ok(frame < 450);
+      state = abroad(state, turning, DT, 0, STAGE, true);
+    }
+    const said: number[] = [];
+    for (let frame = 0; frame < 90; frame += 1) {
+      state = abroad(state, STILL, DT, 0, STAGE, true);
+      if (says(state.cues).length > 0) {
         said.push(frame);
-        assert.deepEqual(wonders, [{ cue: 'say', moment: 'wonder' }]);
-        assert.ok(!was && seesWhole(roamer, cube));
+        assert.deepEqual(says(state.cues), [{ cue: 'say', moment: 'wonder' }]);
       }
     }
     assert.equal(said.length, 1);
-    assert.ok(said[0] !== undefined && said[0] > 0);
+    // A moment's rest, not the frame the turning stops in.
+    assert.ok(said[0] !== undefined && said[0] > 5 && said[0] < 30);
     assert.ok(state.sawCube);
   });
 

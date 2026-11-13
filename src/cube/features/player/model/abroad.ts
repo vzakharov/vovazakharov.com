@@ -40,15 +40,20 @@ type Playing = {
 };
 
 /** What a body out of doors carries from scene to scene. */
-type Mind = Required<Laddered> & { asleep: boolean; sawCube: boolean };
+type Mind = Required<Laddered> & {
+  asleep: boolean;
+  sawCube: boolean;
+  gazeHeld: number;
+};
 
 /**
  * A body out of doors and what the eye shows of it this frame. `scene` is
  * the one that holds its controls, null while it roams free; `asleep` until
  * the first sign of the player, the waking scene waiting on its first
  * moment; `ladderGone` once it has been inside the cube, the ladder standing
- * for a body that has not; `sawCube` once the cube has been wholly in its
- * view, the body wondering at it the frame it first is; `entered` in the one
+ * for a body that has not; `gazeHeld` the seconds its free gaze has kept
+ * still; `sawCube` once it has wondered at the cube, which it does when the
+ * cube is wholly in its view and its gaze has come to rest; `entered` in the one
  * frame a scene has put the body inside the cube, where `shot` is where it
  * stands.
  */
@@ -86,7 +91,7 @@ export function asleepOn(stage: Stage, seconds: number): Abroad {
       playedFor: 0,
       into: 'island',
     },
-    { asleep: true, ladderGone: false, sawCube: false },
+    { asleep: true, ladderGone: false, sawCube: false, gazeHeld: 0 },
   );
 }
 
@@ -123,6 +128,7 @@ export const roamingFree = (
     asleep: false,
     ladderGone,
     sawCube: ladderGone,
+    gazeHeld: 0,
     shot: shotOf(roamer),
     cues: NO_CUES,
     entered: false,
@@ -136,7 +142,12 @@ export function awakeOn(stage: Stage, seconds: number): Abroad {
 }
 
 /** What a body that has been inside the cube carries out of it. */
-const BEEN_INSIDE: Mind = { asleep: false, ladderGone: true, sawCube: true };
+const BEEN_INSIDE: Mind = {
+  asleep: false,
+  ladderGone: true,
+  sawCube: true,
+  gazeHeld: 0,
+};
 
 /**
  * A body of `scale` leaving the cube from `from`, on the sill's edge: off it
@@ -176,6 +187,17 @@ export const findsLadderGone = ({ scene }: Abroad): boolean =>
 
 /** The sound of a body that sees what it did not expect. */
 const WONDER: Cue = { cue: 'say', moment: 'wonder' };
+
+/** Radians a second under which a gaze is at rest, and the seconds it rests before the body wonders. */
+const AT_REST = 0.1;
+const RESTS = 0.4;
+
+/** Radians between two gazes, the short way round. */
+const turnedBy = (from: Roamer, to: Roamer): number =>
+  Math.hypot(
+    Math.atan2(Math.sin(to.yaw - from.yaw), Math.cos(to.yaw - from.yaw)),
+    to.elevation - from.elevation,
+  );
 
 /** How far over its standing height an eye may be and its feet still be on the sand. */
 const OFF_THE_SAND = 0.3;
@@ -230,8 +252,8 @@ export function canClimb(
  * A scene holds the controls while it plays and its cues fall in the frames
  * they are marked in; one that ends on the island hands the body back where
  * the camera left it, one that ends in the cube reports `entered`. Free, the
- * body roams, wonders the first frame the cube is wholly in its view, and
- * asking for the ladder within reach of its foot climbs it.
+ * body roams, wonders once at the cube wholly in its view when its gaze has
+ * rested on it, and asking for the ladder within reach of its foot climbs it.
  */
 export function abroad(
   state: Abroad,
@@ -241,9 +263,9 @@ export function abroad(
   stage: Stage,
   woken: boolean,
 ): Abroad {
-  const { scene, roamer, ladderGone, asleep, sawCube } = state;
+  const { scene, roamer, ladderGone, asleep, sawCube, gazeHeld } = state;
   if (asleep && !woken) return { ...state, cues: NO_CUES };
-  const rest: Mind = { asleep: false, ladderGone, sawCube };
+  const rest: Mind = { asleep: false, ladderGone, sawCube, gazeHeld: 0 };
   if (scene !== null) {
     const { track, playedFor, into } = scene;
     const t = playedFor + dt;
@@ -283,11 +305,13 @@ export function abroad(
     );
   }
   const moved = roam(roamer, input, dt, seconds, landOf(stage, ladderGone));
-  const wonders = !sawCube && seesWhole(moved, stage.cube);
+  const held = turnedBy(roamer, moved) <= AT_REST * dt ? gazeHeld + dt : 0;
+  const wonders = !sawCube && held >= RESTS && seesWhole(moved, stage.cube);
   return {
     ...free,
     roamer: moved,
     shot: shotOf(moved),
+    gazeHeld: held,
     sawCube: sawCube || wonders,
     cues: wonders ? [...moved.cues, WONDER] : moved.cues,
   };
