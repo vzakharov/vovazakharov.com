@@ -1,1 +1,4 @@
-export { RECEPTION_SHRUBS } from './workplace/index.test-only';
+export {
+  RECEPTION_BEAM_BOXES,
+  RECEPTION_SHRUBS,
+} from './workplace/index.test-only';
