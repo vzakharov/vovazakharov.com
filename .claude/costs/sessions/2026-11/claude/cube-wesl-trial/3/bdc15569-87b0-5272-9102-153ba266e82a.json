@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 11109,
+    "inputTokens": 11136,
     "cacheWrite5mTokens": 1713829,
-    "cacheWrite1hTokens": 709463,
-    "cacheReadTokens": 104692854,
-    "outputTokens": 526596,
-    "thinkingTokens": 194945,
-    "responses": 650,
-    "costUsd": 45.761671799999995
+    "cacheWrite1hTokens": 735543,
+    "cacheReadTokens": 108748937,
+    "outputTokens": 538107,
+    "thinkingTokens": 197766,
+    "responses": 664,
+    "costUsd": 47.01185639999998
   },
   "estimate": {
     "at": "2026-11-13T16:58:16.495Z",
@@ -45,7 +45,7 @@
     }
   },
   "sessionId": "bdc15569-87b0-5272-9102-153ba266e82a",
-  "branch": "worktree-agent-a8e78bbd7c8a3c865",
+  "branch": "claude/cube-wesl-trial",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/cube-wesl-trial — база догнана, пины этажей и улицы зелёные, уличные шейдеры ещё в TS",
   "prs": [
@@ -54,18 +54,18 @@
   "url": "https://claude.ai/code/session_01DaohkCaoV7hfxzNmeuHhLY",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T16:57:56.146Z",
-  "lastResponseAt": "2026-11-13T18:05:15.077Z",
+  "lastResponseAt": "2026-11-13T18:09:33.640Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 545,
+    "inputTokens": 572,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 709463,
-    "cacheReadTokens": 60003609,
-    "outputTokens": 207276,
-    "thinkingTokens": 72623,
-    "responses": 287,
-    "costUsd": 21.824125799999997
+    "cacheWrite1hTokens": 735543,
+    "cacheReadTokens": 64059692,
+    "outputTokens": 218787,
+    "thinkingTokens": 75444,
+    "responses": 301,
+    "costUsd": 23.074310399999995
   },
   "subagents": {
     "inputTokens": 772,
@@ -79,14 +79,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 11109,
+      "inputTokens": 11136,
       "cacheWrite5mTokens": 1713829,
-      "cacheWrite1hTokens": 709463,
-      "cacheReadTokens": 104692854,
-      "outputTokens": 526596,
-      "thinkingTokens": 194945,
-      "responses": 650,
-      "costUsd": 45.761671799999995
+      "cacheWrite1hTokens": 735543,
+      "cacheReadTokens": 108748937,
+      "outputTokens": 538107,
+      "thinkingTokens": 197766,
+      "responses": 664,
+      "costUsd": 47.01185639999998
     }
   },
   "warnings": [],
@@ -147,16 +147,16 @@
           "Read": 5
         },
         "estimatedTokens": 10093,
-        "estimatedUsd": 0.2390894
+        "estimatedUsd": 0.2673498
       },
       "billedUsd": 0.23942099999999997
     }
   ],
   "telemetry": {
-    "events": 650,
-    "matched": 646,
-    "matchedTableUsd": 45.150929,
-    "matchedEventUsd": 45.15092899999999,
+    "events": 663,
+    "matched": 659,
+    "matchedTableUsd": 46.32861119999998,
+    "matchedEventUsd": 46.328611199999976,
     "unseen": {
       "compact": {
         "inputTokens": 8780,
@@ -188,12 +188,12 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".ts": 27010,
+    ".ts": 27115,
     ".md": 1124,
     ".json": 87,
     ".yaml": 765,
     ".sh": 1,
-    ".wgsl": 13793,
+    ".wgsl": 14202,
     ".tsx": -109,
     ".scss": 15,
     ".toml": 6
