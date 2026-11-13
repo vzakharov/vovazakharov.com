@@ -43,9 +43,15 @@ export type Ears = { leftEar: number; rightEar: number };
 /**
  * The outside at one moment, for one ear: every layer's level, and the pitch
  * in hertz above which the sea and the wind are cut off — everything, in the
- * open; little, through a wall. The hum goes through anything.
+ * open; little, through a wall. The hum goes through the wall, and has a
+ * pitch of its own above which it is cut: all of it outside, closing to
+ * nothing in the first steps past the doorway.
  */
-export type OutsideMix = { layers: Record<Layer, Ears>; muffle: number };
+export type OutsideMix = {
+  layers: Record<Layer, Ears>;
+  muffle: number;
+  humMuffle: number;
+};
 
 /** `muffle` in the open: nothing is cut. */
 export const OPEN_AIR = 20_000;
@@ -96,9 +102,10 @@ function gather(heard: Ears, power: number, rightward: number): void {
   heard.rightEar += (power * (1 + rightward)) / 2;
 }
 
+/** `level` of the power gathered in each ear, never past the ear's fullest. */
 const levelled = ({ leftEar, rightEar }: Ears, level: number): Ears => ({
-  leftEar: level * Math.sqrt(leftEar),
-  rightEar: level * Math.sqrt(rightEar),
+  leftEar: Math.min(1, level * Math.sqrt(leftEar)),
+  rightEar: Math.min(1, level * Math.sqrt(rightEar)),
 });
 
 const both = (level: number): Ears => ({ leftEar: level, rightEar: level });
@@ -197,6 +204,7 @@ export function outsideMix(
       under: both(LEVELS.under * beneath),
     },
     muffle: OPEN_AIR,
+    humMuffle: OPEN_AIR,
   };
 }
 
@@ -214,14 +222,19 @@ const DOOR_REACH = 2.5;
 /** What each floor's slab leaves of the sound from the floor above. */
 const THROUGH_SLAB = 0.3;
 
-/** The hum inside the cube, against the hum at its wall outside. */
-const HUM_WITHIN = 0.25;
+/** The hum below the entrance hall, against the hum at the wall outside. */
+const HUM_BELOW = 0.25;
+
+/** The pitch the hum's filter is shut to once an ear is in the hall. */
+const HUM_CLOSED = 50;
 
 /**
  * `mix` — what an ear standing in the doorway would hear — as an ear inside
  * hears it: all of the sea and the wind from the one opening, fainter and
- * duller the further in and the more floors down, and the hum from nowhere,
- * being in the walls.
+ * duller the further in and the more floors down. The entrance hall has no
+ * hum — it is gone the moment an ear is over the sill, its filter shut so the
+ * mixer's easing closes it as a sweep — and the floors below have their own,
+ * from nowhere, being in the walls.
  */
 export function throughDoorway(
   { layers }: OutsideMix,
@@ -238,9 +251,11 @@ export function throughDoorway(
     };
   };
   const within =
-    HUM_WITHIN *
-    0.5 ** floorsBelow *
-    Math.hypot(layers.hum.leftEar, layers.hum.rightEar);
+    floorsBelow > 0
+      ? HUM_BELOW *
+        0.5 ** (floorsBelow - 1) *
+        Math.hypot(layers.hum.leftEar, layers.hum.rightEar)
+      : 0;
   return {
     layers: {
       roar: from(layers.roar),
@@ -254,5 +269,6 @@ export function throughDoorway(
       under: both(0),
     },
     muffle: floorsBelow > 0 ? 350 : 700 + 5300 * Math.exp(-inward / 1.2),
+    humMuffle: floorsBelow > 0 ? OPEN_AIR : HUM_CLOSED,
   };
 }

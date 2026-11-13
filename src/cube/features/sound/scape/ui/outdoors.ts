@@ -3,6 +3,9 @@ import type { Hushing } from '@/kernel/shared/typings';
 import {
   type Beds,
   EASE,
+  HUM_FILTER_EASE,
+  HUM_LEVEL_EASE,
+  HUM_Q,
   type Layer,
   type Loop,
   MUFFLED,
@@ -75,6 +78,13 @@ export function outdoorsOf(
     Q: Math.SQRT1_2,
   });
   wall.connect(level);
+  // The hum's own wall: it closes as an ear walks in at the doorway.
+  const humWall = new BiquadFilterNode(context, {
+    type: 'lowpass',
+    frequency: OPEN_AIR,
+    Q: HUM_Q,
+  });
+  humWall.connect(level);
   const sounding = new Map<Layer, Sounding>();
 
   function start(layer: Layer, seconds: number): Sounding | undefined {
@@ -83,7 +93,8 @@ export function outdoorsOf(
     // A layer whose loops were late comes in under the ones already there.
     const joined = new GainNode(context, { gain: 0 });
     joined.gain.setTargetAtTime(1, context.currentTime, FADE / 3);
-    joined.connect(MUFFLED.has(layer) ? wall : level);
+    const into = layer === 'hum' ? humWall : level;
+    joined.connect(MUFFLED.has(layer) ? wall : into);
     const merged = new ChannelMergerNode(context, { numberOfInputs: 2 });
     merged.connect(joined);
     const sources: AudioBufferSourceNode[] = [];
@@ -106,6 +117,7 @@ export function outdoorsOf(
     set: (mix, seconds) => {
       const now = context.currentTime;
       wall.frequency.setTargetAtTime(mix.muffle, now, EASE);
+      humWall.frequency.setTargetAtTime(mix.humMuffle, now, HUM_FILTER_EASE);
       for (const layer of SOUND_LAYERS) {
         let playing = sounding.get(layer);
         if (playing === undefined) {
@@ -114,8 +126,9 @@ export function outdoorsOf(
           sounding.set(layer, playing);
         }
         const { leftEar, rightEar } = mix.layers[layer];
-        playing.ears[0].gain.setTargetAtTime(leftEar, now, EASE);
-        playing.ears[1].gain.setTargetAtTime(rightEar, now, EASE);
+        const ease = layer === 'hum' ? HUM_LEVEL_EASE : EASE;
+        playing.ears[0].gain.setTargetAtTime(leftEar, now, ease);
+        playing.ears[1].gain.setTargetAtTime(rightEar, now, ease);
       }
     },
     stop: () => {

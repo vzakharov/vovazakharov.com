@@ -73,7 +73,7 @@ describe('heardFrom', () => {
     assert.ok(mix);
     assert.equal(mix.muffle, OPEN_AIR);
     assert.ok(both(mix.layers.hum) > 0);
-    assert.ok(both(mix.layers.hum) < 0.1);
+    assert.ok(both(mix.layers.hum) < 0.2);
   });
 
   it('comes through the doorway on floor 1, from the doorway’s side', () => {

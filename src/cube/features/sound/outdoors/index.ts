@@ -1,4 +1,13 @@
-export { type Beds, bedsOf, EASE, MUFFLED, rendered } from './model/beds';
+export {
+  type Beds,
+  bedsOf,
+  EASE,
+  HUM_FILTER_EASE,
+  HUM_LEVEL_EASE,
+  HUM_Q,
+  MUFFLED,
+  rendered,
+} from './model/beds';
 export { BEACH, heardFrom, SOUNDING_ISLAND } from './model/island';
 export { type Loop, whole } from './model/loop';
 export {

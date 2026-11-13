@@ -39,6 +39,7 @@ const ramp = (): Loop => beat(7);
 const mixOf = (level: number, muffle = OPEN_AIR): OutsideMix => ({
   layers: perLayer(() => ({ leftEar: level, rightEar: level / 2 })),
   muffle,
+  humMuffle: OPEN_AIR,
 });
 
 describe('a loop', () => {

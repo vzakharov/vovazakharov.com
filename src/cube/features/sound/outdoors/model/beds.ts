@@ -50,7 +50,10 @@ export function bedsOf(word: (name: string) => number): Beds {
   };
 }
 
-/** The layers a wall dulls; the hum's two go through anything. */
+/** The resonance of the filter the hum closes through: a vowel, not a cut. */
+export const HUM_Q = 2.5;
+
+/** The layers a wall dulls; the hum has a filter of its own. */
 export const MUFFLED: ReadonlySet<Layer> = new Set([
   'roar',
   'hiss',
@@ -62,6 +65,14 @@ export const MUFFLED: ReadonlySet<Layer> = new Set([
 
 /** Seconds a layer's level takes to close most of the way to a new one. */
 export const EASE = 0.06;
+
+/**
+ * Seconds the hum's filter and its level take to close on a new target. Slower
+ * than the rest, and the level slower than the filter, so that shutting the
+ * hum off is heard as a sweep down and out rather than a click.
+ */
+export const HUM_FILTER_EASE = 0.1;
+export const HUM_LEVEL_EASE = 0.18;
 
 /** Times a second the mix is asked for. */
 const ASKED = 60;
@@ -82,36 +93,50 @@ export function rendered(
 ): [leftEar: Float32Array<ArrayBuffer>, rightEar: Float32Array<ArrayBuffer>] {
   const length = Math.round(seconds * rate);
   const every = Math.max(1, Math.round(rate / ASKED));
-  const closing = 1 - Math.exp(-1 / (EASE * rate));
+  const closingOf = (ease: number): number => 1 - Math.exp(-1 / (ease * rate));
+  const closing = closingOf(EASE);
+  const humClosing = closingOf(HUM_FILTER_EASE);
+  const humFading = closingOf(HUM_LEVEL_EASE);
+  // A biquad past the Nyquist rate is unstable; the open hum is cut there.
+  const ceiling = 0.45 * rate;
   const ears = [0, 1] as const;
   const out = ears.map(() => new Float32Array(length));
   const dull = ears.map(() => filterOf('low', rate));
+  const humWall = ears.map(() => filterOf('low', rate));
   let mix = mixAt(from);
   const sides = ['leftEar', 'rightEar'] as const;
   const levels = ears.map((ear) =>
     SOUND_LAYERS.map((layer) => mix.layers[layer][sides[ear]]),
   );
   let muffle = mix.muffle;
+  let humMuffle = mix.humMuffle;
   for (let i = 0; i < length; i += 1) {
     const t = from + i / rate;
     if (i % every === 0) mix = mixAt(t);
     muffle += closing * (mix.muffle - muffle);
+    // The hum's pitch is eased on a log scale, so its sweep is even to the ear.
+    humMuffle *= (mix.humMuffle / humMuffle) ** humClosing;
     for (const ear of ears) {
       const level = levels[ear] ?? [];
       let open = 0;
       let walled = 0;
+      let humming = 0;
       for (const [index, layer] of SOUND_LAYERS.entries()) {
         const now = level[index] ?? 0;
-        const next = now + closing * (mix.layers[layer][sides[ear]] - now);
+        const toward = layer === 'hum' ? humFading : closing;
+        const next = now + toward * (mix.layers[layer][sides[ear]] - now);
         level[index] = next;
         const sample = next * heardAt(beds[layer][ear], t);
         if (MUFFLED.has(layer)) walled += sample;
+        else if (layer === 'hum') humming += sample;
         else open += sample;
       }
+      const hummed =
+        humWall[ear]?.(humming, Math.min(humMuffle, ceiling), HUM_Q) ?? 0;
       const through =
         muffle >= OPEN_AIR ? walled : (dull[ear]?.(walled, muffle, 0.7) ?? 0);
       const samples = out[ear];
-      if (samples !== undefined) samples[i] = open + through;
+      if (samples !== undefined) samples[i] = open + hummed + through;
     }
   }
   return [out[0] ?? new Float32Array(0), out[1] ?? new Float32Array(0)];

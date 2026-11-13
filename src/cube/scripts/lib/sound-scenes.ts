@@ -100,6 +100,21 @@ export function scenesOf(scene: Scene, places: Places): Scenes {
           floorsBelow: t < 222 ? 0 : 1,
         }),
     },
+    entering: {
+      begins: 230,
+      seconds: 10,
+      told: 'in the doorway for 3 s, then over the sill and in, walking on',
+      earAt: () => doorway,
+      mixAt: (t) => {
+        const outside = outsideMix(scene, { at: doorway, gaze: Math.PI }, t);
+        if (t < 233) return outside;
+        return throughDoorway(outside, {
+          inward: 1.4 * (t - 233),
+          rightward: 0,
+          floorsBelow: 0,
+        });
+      },
+    },
     gust: {
       begins: gust - 20,
       seconds: 40,
