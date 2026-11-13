@@ -31,6 +31,12 @@
   wet band mirrors the sky, more the further it lies, with the sun's glare along
   it.
 
+- `1113-wet-edge-seaward.webp` — the wet sand's mirror meeting dry sand in the
+  cube's shadow, wetness asked at each pixel: eye 1.554 m over the bed at −15.2,
+  15.2 (`--at -15.2,2.05,15.2 --yaw 135 --pitch -8`), the clock `PLAY_INSTANT`.
+- `1113-wet-edge-before-after.webp` — that edge at twice its size: above with
+  wetness asked at the mesh's vertices, below at each pixel.
+
 ## In the first harness
 
 Shot in a throwaway harness (SwiftShader, a stand-in sky, a flat stand-in sea, a
