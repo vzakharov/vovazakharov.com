@@ -2,7 +2,6 @@ import { ROOM_METRES } from '../lib/room-shape';
 import type { Vec3 } from '../lib/vec';
 import { f32, wgsl } from '../lib/wgsl';
 
-/** A count of quarter turns. */
 export type Quarters = 0 | 1 | 2 | 3;
 
 export const QUARTER_TURNS: readonly Quarters[] = [0, 1, 2, 3];

@@ -14,14 +14,15 @@ Branch `claude/cube-intro-core`, head `22733f77` when this was written. Nothing 
 - **Every frame is recorded.** `pnpm outside:cube` writes `<name>.shot.json` beside each frame — eye, lens (`null` is the floor's own), clock, viewport, commit — formatted as the repo's prettier leaves it.
 - **`/dry` over the turn's diff** — `22733f77`: the two ways of the turn share one turning; `ROOM_DOORWAY`'s type derives from `DOORWAY`.
 
+- **`/tend-prose` over the same diff**: one docstring that restated its type cut, one frame caption straightened; the rest of core's comments state constraints and stay. `entities/world/model/geometry.ts` is at exactly 400 lines — an edit there must not grow it.
+
 ### Half-done
 
-- **`/tend-prose` over the same diff** (since `3a72bbfc`): the added comment lines are listed and read, no edit made yet. Candidates worth a second look: the long docstring on `INTERIOR_TURN` in `turn.ts`, and "since only the eye and the sun go through it" on `doorwayWall` in `entities/world/model/geometry.ts` (that file is at exactly 400 lines — any edit there must not grow it).
+Nothing.
 
 ### Owed
 
-- `pnpm check:masd` and `pnpm masd:clusters` have not been re-run since the turn's commit. Green when last run on core: `pnpm typecheck`, `pnpm shaders:cube` (73/73), `pnpm type-overlap`, eslint on `src/cube/shared/outside`, the outside tests (13) and `camera.test.ts` (11).
-- Nothing else is owed by core. Not core's: the wall clock's time (pill's, by the lead's routing — one rolled time, floor 1 reading 5:24 from the sun) and the sky about the sun (sky's).
+- Nothing by core. Green on this head: `pnpm check:masd`, `pnpm masd:clusters` (0 of 138), `pnpm typecheck`, `pnpm shaders:cube` (73/73), `pnpm type-overlap`, eslint on `src/cube/shared/outside`, the outside tests (13) and `camera.test.ts` (11). Not core's: the wall clock's time (pill's, by the lead's routing — one rolled time, floor 1 reading 5:24 from the sun) and the sky about the sun (sky's).
 
 ### How to shoot core's frames again
 
