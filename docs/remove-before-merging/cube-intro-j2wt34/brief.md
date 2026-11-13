@@ -347,3 +347,51 @@ Moved from the plan's "Steering since" when it outgrew the file cap; each entry 
 - **All nine were told at 10:42Z** of the incident, the notice file and (shell,
   pill) the withdrawn ruling with `briefs/beam-comparison.md`; every message
   delivered once the connector came back.
+
+## Progress, 2026-11-13 10:40Z–10:55Z
+
+Moved verbatim from the plan.
+
+- **State at 10:50Z — lead 7c831056** has shell 12d16667 (cooled grey bands,
+  wooden ladder with 3 cm round rungs, `bodyShadow` folded into
+  `cubeShadow(p, { ladderGone, body })`, the specks as a night sky with parallax
+  — shell's choice, put to the operator), sand (`WAKE_AT` = [−15.174, 0.5,
+  15.174], 5af0ca79; the lead then asked for the head at bed ≈ 0.33–0.35, ~23.5
+  m out, toes at the swash's reach — sand to answer; `sandWetness` on sea's
+  `shoreWetness`) and sea d92ecc65 (shallows damped by the real water column,
+  finer lace, `skyRadiance` at lod ≥ 1). Gates green. Shooting `wake-cube`,
+  `ladder-foot` into `tmp/eyes-3/` — **two eyes a run; five killed a
+  container**. Walk baa08847 has ladder, grip, adaptation, shadow, the sill;
+  merge when its own type-overlap is clean and its strips are judged. Shell's
+  next: the beam comparison. Not merged: sky (gates not run), pill (shooting),
+  sound ce6078e4 (waits for the final waking spot), walk.
+- **10:40Z**: sound merged whole (lead 8ab425d7; shell-mesh's `Rect.at` renamed
+  `onFace` for type-overlap); sound's session is idle — archive once walk is in.
+  The operator approved a frame in sand's session («это прямо топчик, можно на
+  доску») — sand commits it under `frames/sand/`, board makes it a big card; it
+  is the reference. Beam facts (pill's `reports/pill.md`): the hole is rolled
+  when the world is planted, the shelf derived from it (`shelfOf()`), both in
+  the beam today. The comparison is split: pill shoots the doorway's place along
+  the face (corner / a third / middle — the operator mused on a centred door and
+  a turned cube); shell shoots the sun and the cube turned, and (a). Pill adds a
+  decor clear zone at the doorway (a plant stood on the sill).
+- **10:40Z: the approved frame is pinned** — sand fd0a48e7,
+  `frames/sand/approved-standing-toward-sun.webp`, eye
+  `--at -15.203,2.10,15.203 --yaw -45 --pitch 4` (21.5 m out, not the final
+  waking spot; from 23.43 m the cube is a touch smaller, the character the
+  same). On the board as a big card with the operator's quote (v66).
+- **State at 10:55Z — lead 118c0bd7**: core's quarter-pixel lens fringe
+  (f8ee3f34; the pink glints on sand were the lens, one pixel wide) and **sky
+  merged whole** (54b3c2c7; 73 shaders, every quick gate green). Told: core —
+  delete the sky stand-in, judge `OUTSIDE_LENS` toward the sun (sky: 41 at 5°
+  from the sun, 7 at 20°, flattened to white at exposure 0.3), re-shoot the wake
+  eyes; sky — flat-topped cumulus, far grain, soft overhead streaks; sea —
+  merge, check reflections, the coarse foam lace on the swash; board — sky's
+  `wake-sea` and `opposite`. **Sand's gold pass** (ed5a3fc4, unmerged, wet band
+  unjudged): ripples across the view, lit sand gold instead of pinkish beige —
+  accepted by the lead, but the tone is the operator's (both frames on the
+  board, v67; sand holds the fill until he speaks). A pink diamond under the
+  cube seen lying down is the underside at a graze — shell's, told by sand.
+  **Still unmerged**: walk, pill, sand's pass, shell's beam comparison. The lead
+  has not re-shot its own eyes since 315051b5 — do it two at a time after core's
+  lens pass.
