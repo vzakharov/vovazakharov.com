@@ -16,11 +16,12 @@ const AIR = linear(hex(0x17_14_0f));
  * The potted plants the planted world stands in floor 1's room, where the
  * doorway's beam finds them: the one by the doorway and the one in the far
  * corner. The decor rolls their places and the light cannot ask it, so they
- * are written here and `features/decor` tests that they are where it puts them.
+ * are written here and the page's `reception-shrubs.test.ts` holds them to
+ * where it puts them.
  */
 export const RECEPTION_SHRUBS: readonly Shrub[] = [
-  { at: [4.405, 0.4255], draw: 0.9587 },
-  { at: [0.4405, 0.555], draw: 0.8748 },
+  { at: [4.415, 0.4252], draw: 0.9588 },
+  { at: [0.441, 0.585], draw: 0.8749 },
 ];
 
 /**
