@@ -175,6 +175,14 @@ compaction before deciding anything about what is being built.
 - **~23:10Z, to the lead**: «лимит кончается; пусть все приостановятся, я сожму
   контекст чтобы завтра продолжить». Every child was told to push `wip:`, report
   one line and wait for the word "resume"; the lead's check-in was deleted.
+- **2026-11-13 ~09:05Z, the restart**: the stopped sessions stay stopped —
+  «сессии будить не нужно, нужно начинать новые», from each one's last messages
+  and its branch as pushed. And the pill's two colours change (the lead's pick:
+  the cube's own black and grey); the change is not a story for the board, and
+  its commit says only what the colours are.
+- **~09:10Z, on a reader agent run on the flagship**: «для таких задач можно и
+  экономить а не фейбла запускать». Readers and the board coordinator take a
+  cheaper model; in the skill.
 
 ## Facts established
 
