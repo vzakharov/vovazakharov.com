@@ -136,3 +136,62 @@ items:
     box: [6868, 2700, 586, yellow]
     icon: ❓
     text: 'Open question: the beam and the pill. The operator: “if it lights exactly the pill and the way down, that is too fast a reveal.” Three ways: move the shelf and/or the hole, turn the sun, turn the cube. “Which is right I cannot say offhand — it has to be looked at and compared.” Shell is shooting all three; the choice is the operator’s'
+  - id: intro-h-round
+    type: text
+    updated: [2026-11-13T13:50:00.000Z, agent:cube-intro]
+    box: [5748, 6820, 2200, h2]
+    text: 'After Vova’s first walk of the preview, 13 Nov: the scenario round'
+  - id: intro-r-verdict
+    type: sticky
+    updated: [2026-11-13T13:50:00.000Z, agent:cube-intro]
+    box: [5748, 6900, 280, pink]
+    icon: 🚶
+    text: 'Vova, after walking it on an M2 Pro: “a joy, but alas outside (and until the way down to floor two) it is very slow.” Then a list: the scenario first, the speed after.'
+  - id: intro-r-first-look
+    type: sticky
+    updated: [2026-11-13T13:50:00.000Z, agent:cube-intro]
+    box: [6054, 6900, 280, blue]
+    icon: 👀
+    text: 'The first look is the player’s. The waking ends looking out to sea and nothing turns the head. The frame the whole cube first comes into view, the hero says “hm?”'
+  - id: intro-r-pace
+    type: sticky
+    updated: [2026-11-13T13:50:00.000Z, agent:cube-intro]
+    box: [6360, 6900, 280, blue]
+    icon: 🏃
+    text: 'A body walks unless Shift says run, indoors and out. Held, Shift gives the other pace; two quick taps make it the standing one. Coming down to floor 3 a line says “Hold Shift to run, double-tap to keep running”, until Shift is first pressed'
+  - id: intro-r-climb
+    type: sticky
+    updated: [2026-11-13T13:50:00.000Z, agent:cube-intro]
+    box: [6666, 6900, 280, blue]
+    icon: 🪜
+    text: 'On the ladder the eye looks aside on the way up and straight ahead again before the doorway, so entering no longer lands the gaze on the hatch. Hands on the rungs: the eye stood 0.78 m from them against a 0.7 m arm, which is why none showed; it stands a forearm off now'
+  - id: intro-r-refused
+    type: sticky
+    updated: [2026-11-13T13:50:00.000Z, agent:cube-intro]
+    box: [6972, 6900, 280, blue]
+    icon: 🕳️
+    text: 'No jumping off the first time. The eye leans out over the sill, looks down at where the ladder stood, the line says “The ladder is gone”, the hero says “hm?”, and the body is back inside. Let go of the keys and the next step is the jump'
+  - id: intro-r-reload
+    type: sticky
+    updated: [2026-11-13T13:50:00.000Z, agent:cube-intro]
+    box: [7278, 6900, 280, blue]
+    icon: 🔁
+    text: 'Reloading. Once the waking has played the address carries #awake, and a reload starts on the island already up. Jumping off writes nothing, so a reload after it starts inside'
+  - id: intro-r-cost
+    type: sticky
+    updated: [2026-11-13T13:50:00.000Z, agent:cube-intro]
+    box: [5748, 7250, 586, yellow]
+    icon: ⏱️
+    text: 'Why it was slow outside. GPU time for the scene, M2 Pro, a window of 3570×2300 device pixels: waking (half sand, half sky) 59.5 ms; the sea filling the lower half 43.8; floor 1’s room, the outside seen through the doorway alone, 42.6; the cube close up 28.2; floor 2 3.6. So it is not the ocean’s simulation: it is the sand’s and the sea’s pixels, and floor 1 pays for all of them behind its walls. For now the picture is one pixel to the CSS pixel, a quarter of the pixels on such a screen; cubeQuality(“full”) in the console gives the screen’s own. Drawing the outside only where the doorway shows it is the next round'
+  - id: intro-r-bench
+    type: sticky
+    updated: [2026-11-13T13:50:00.000Z, agent:cube-intro]
+    box: [6360, 7250, 280, green]
+    icon: 🪑
+    text: 'The bench in floor 1’s beam stood dark while the wall behind it was lit: a box that shades the room from the sun also shaded every point inside itself. A point within a box takes no shade from it now'
+  - id: intro-r-wave
+    type: sticky
+    updated: [2026-11-13T13:50:00.000Z, agent:cube-intro]
+    box: [6666, 7250, 280, green]
+    icon: 🌊
+    text: 'Under a wave the picture was a flat pale grey: whatever lay under the horizon behind the water was drawn as if in air. Vova: “no need to make it beautiful now, but at least not grey.” It takes the colour of the water’s body with distance'
