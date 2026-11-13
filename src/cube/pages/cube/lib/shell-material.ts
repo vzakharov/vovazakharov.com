@@ -147,13 +147,14 @@ fn shellFace(f: Face, band: Band, depth: i32, glance: f32) -> vec3f {
   let sunLight = mix(cooled(SUN_LIGHT), SUN_LIGHT, band.dark);
   var light = albedo * (sunLight * towards * f.sun + fill);
 
-  // The mirror in it: sharp in the black, brushed in the grey, tinted like
-  // oil where it is seen along the face.
+  // The mirror in it: sharp in the black, brushed in the grey, with a faint
+  // cool sheen where a face that mirrors is seen along itself.
   let mirror = mix(${GREY.mirror.toFixed(3)}, ${BLACK.mirror.toFixed(3)}, band.dark);
   let share = mirror + max(glance - mirror, 0.0) * grazing;
   let blur = mix(${GREY.blur.toFixed(1)}, ${BLACK.blur.toFixed(1)}, band.dark);
-  let film = 0.5 + 0.5 * cos(TURN * (vec3f(0.0, 0.33, 0.67) + 1.3 * (1.0 - facing) + 0.11 * band.level));
-  let tint = mix(vec3f(1.0), film, 0.9 * glance * (1.0 - facing) * (1.0 - facing));
+  let film = vec3f(0.86, 0.97, 1.1)
+    + 0.06 * cos(TURN * (vec3f(0.0, 0.33, 0.67) + 1.3 * (1.0 - facing) + 0.11 * band.level));
+  let tint = mix(vec3f(1.0), film, 0.3 * smoothstep(0.1, 0.5, glance) * (1.0 - facing) * (1.0 - facing));
   let mirrored = surround(reflect(-f.toEye, f.normal), blur);
   light += mix(cooled(mirrored), mirrored, band.dark) * share * tint;
 
