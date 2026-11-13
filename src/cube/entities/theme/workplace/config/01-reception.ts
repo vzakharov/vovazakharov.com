@@ -19,8 +19,8 @@ const AIR = linear(hex(0x17_14_0f));
  * are written here and `features/decor` tests that they are where it puts them.
  */
 export const RECEPTION_SHRUBS: readonly Shrub[] = [
-  { at: [4.405, 0.4255], tall: 0.9587 },
-  { at: [0.4405, 0.555], tall: 0.8748 },
+  { at: [4.405, 0.4255], draw: 0.9587 },
+  { at: [0.4405, 0.555], draw: 0.8748 },
 ];
 
 /**

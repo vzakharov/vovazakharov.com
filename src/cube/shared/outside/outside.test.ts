@@ -140,7 +140,6 @@ describe('packOutdoorFrame', () => {
       inverse: new Float32Array(16).fill(2),
       eye: [3, 4, 5],
       sun: [6, 7, 8],
-      ladder: true,
       seconds: 9,
       hour: 10,
       width: 11,
@@ -152,6 +151,18 @@ describe('packOutdoorFrame', () => {
       [3, 4, 5, 1, 6, 7, 8, 0, 9, 10, 11, 12, 1, 0, 0, 0],
     );
     assert.deepEqual([data[0], data[15], data[16], data[31]], [1, 1, 2, 2]);
+    const gone = packOutdoorFrame({
+      viewProjection: new Float32Array(16),
+      inverse: new Float32Array(16),
+      eye: [0, 0, 0],
+      sun: [0, 0, 1],
+      ladderGone: true,
+      seconds: 0,
+      hour: 0,
+      width: 1,
+      height: 1,
+    });
+    assert.equal(gone[OUTDOOR_FRAME_FLOATS - 4], 0);
     const members = [...OUTDOOR_FRAME.listing.matchAll(/^ {2}(\w+): /gm)].map(
       ([, name]) => name,
     );
