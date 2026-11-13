@@ -11,6 +11,7 @@ import { toolsFor } from '../lib/tools';
 import {
   boundsOf,
   clearZones,
+  crowds,
   INSIDE,
   isClear,
   overlap,
@@ -124,12 +125,13 @@ describe('furnish', () => {
     }
   });
 
-  it('stands no thing in another', () => {
+  it('stands no thing in another, and hangs none where one stands', () => {
     for (const setting of SETTINGS) {
       const things = furnished(setting, CROWD).map((thing) => boundsOf(thing));
       for (const [at, thing] of things.entries()) {
         for (const other of things.slice(at + 1)) {
           assert.ok(!overlap(thing, other));
+          assert.ok(!crowds(thing, other), 'nothing hung where one stands');
         }
       }
     }
