@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { CEILING_HEIGHT, ROOM_METRES } from '@/cube/shared/lib/room-shape';
+import { CEILING_HEIGHT } from '@/cube/shared/lib/room-shape';
 import type { Sides } from '@/cube/shared/lib/sides';
 import { type Thing, THINGS } from '@/cube/shared/lib/thing';
 import type { Quarter, Room, Setting } from '@/cube/entities/world';
@@ -17,7 +17,7 @@ import {
   overlap,
   within,
 } from './clear';
-import { furnish, furnished, MOST_QUADS, standingBoxes } from './furnish';
+import { furnish, furnished, MOST_QUADS } from './furnish';
 
 const room: Room = { n: 4, x: 3n, y: 5n };
 
@@ -159,26 +159,5 @@ describe('furnish', () => {
         furnished(shut(grain), [{ thing: 'bin', perRoom: 1.3 }]).length,
     ).reduce((sum, count) => sum + count, 0);
     assert.ok(Math.abs(held / rooms - 1.3) < 0.1, String(held / rooms));
-  });
-});
-
-describe('standingBoxes', () => {
-  it('is the box, in metres, of every thing on the floor and of none on a wall', () => {
-    for (const setting of SETTINGS) {
-      const stands = furnished(setting, CROWD)
-        .map((thing) => boundsOf(thing))
-        .filter(({ least }) => least[1] < 1e-6);
-      const boxes = standingBoxes(setting, CROWD);
-      assert.equal(boxes.length, stands.length);
-      for (const [at, { min, max }] of boxes.entries()) {
-        const { least, most } = stands[at] ?? assert.fail();
-        assert.deepEqual(
-          [min, max],
-          [least, most].map((corner) =>
-            corner.map((side) => side * ROOM_METRES),
-          ),
-        );
-      }
-    }
   });
 });

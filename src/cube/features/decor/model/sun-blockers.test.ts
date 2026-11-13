@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
+import { isDeepStrictEqual } from 'node:util';
 
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import { type Box, crossesBeam, SUN_DIR, toShell } from '@/cube/shared/outside';
@@ -14,7 +15,7 @@ import {
   traits,
 } from '@/cube/entities/world';
 
-import { standingBoxes } from './furnish';
+import { standingParts } from './furnish';
 import { sunBlockers } from './sun-blockers';
 
 const FLOOR_ONE: Room = { n: 1, x: 0n, y: 0n };
@@ -45,22 +46,18 @@ describe('sunBlockers, in the planted world', () => {
   it('lists parts, a ray of the doorway through each, of the standing things but the plants', async () => {
     const setting = await plantedSetting(FLOOR_ONE);
     const blockers = sunBlockers(setting, decor, 99);
-    const things = standingBoxes(setting, decor)
-      .filter(({ thing }) => thing !== 'potted-plant')
-      .map(({ min, max }) => inShell({ min, max }));
+    const things = standingParts(setting, decor).filter(
+      ({ thing }) => thing !== 'potted-plant',
+    );
+    const parts = things.flatMap(({ parts: own }) =>
+      own.map((part) => inShell(part)),
+    );
     assert.ok(blockers.length > things.length);
-    for (const { min, max } of blockers) {
-      assert.ok(crossesBeam({ min, max }, SUN_DIR));
+    for (const blocker of blockers) {
+      const { min, max } = blocker;
+      assert.ok(crossesBeam(blocker, SUN_DIR));
       assert.ok(min.every((least, axis) => least <= (max[axis] ?? Infinity)));
-      assert.ok(
-        things.some((thing) =>
-          ([0, 1, 2] as const).every(
-            (axis) =>
-              thing.min[axis] - 1e-9 <= min[axis] &&
-              max[axis] <= thing.max[axis] + 1e-9,
-          ),
-        ),
-      );
+      assert.ok(parts.some((part) => isDeepStrictEqual(part, blocker)));
     }
   });
 

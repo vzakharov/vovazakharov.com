@@ -54,8 +54,17 @@ const wayTo = (
   far: Math.hypot(toX - fromX, toZ - fromZ),
 });
 
+/** The middle of `box`'s ground plan, east and south. */
+export const groundMiddle = ({
+  min,
+  max,
+}: Box): readonly [x: number, z: number] => [
+  (min[0] + max[0]) / 2,
+  (min[2] + max[2]) / 2,
+];
+
 /** An open, level eye with the lens's own exposure. */
-const OPEN = { lids: 1, exposure: 1 };
+export const OPEN = { lids: 1, exposure: 1 };
 
 /** A free body's camera: where a scene that takes over starts from. */
 export const shotOf = ({
@@ -102,11 +111,7 @@ export function waking({ land, wake, cube }: Stage): Track<Cue> {
     at[0] + STANDS * cos,
     at[1] + STANDS * sin,
   ];
-  const middle: readonly [number, number] = [
-    (cube.min[0] + cube.max[0]) / 2,
-    (cube.min[2] + cube.max[2]) / 2,
-  ];
-  const round = nearest(wayTo(stood, middle).yaw, seaward);
+  const round = nearest(wayTo(stood, groundMiddle(cube)).yaw, seaward);
   const side = Math.sign(round - seaward) || 1;
   /** Flat on its side, looking down the beach. */
   const lying = {
@@ -211,10 +216,7 @@ function ascent({ land, ladder, arrival, cube }: Stage): Track<Cue> {
     };
   });
   const over = begins + RUNG_TIME * (rungs.length + 1);
-  const toCube = wayTo(
-    [foot[0], foot[2]],
-    [(cube.min[0] + cube.max[0]) / 2, (cube.min[2] + cube.max[2]) / 2],
-  );
+  const toCube = wayTo([foot[0], foot[2]], groundMiddle(cube));
   const aside = yaw + ASIDE * (Math.sign(nearest(toCube.yaw, yaw) - yaw) || 1);
   const [inX, inY, inZ] = arrival;
   const beats: Beat[] = [

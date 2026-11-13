@@ -1,4 +1,5 @@
 import { clamp01 } from '@/cube/shared/lib/ease';
+import { positiveTurn } from '@/cube/shared/lib/turn';
 import {
   ROOM_DOORWAY,
   toCube,
@@ -9,11 +10,9 @@ import {
 } from '@/cube/shared/outside';
 import type { InRoom, Pose, Whereabouts } from '@/cube/entities/world';
 
-import { outsideOf, type Stage } from './scenes';
+import { OPEN, outsideOf, type Stage } from './scenes';
 import { EYE_HEIGHT } from './step';
 import type { Shot } from './track';
-
-const TAU = 2 * Math.PI;
 
 /** The largest a spot in a room gets: `u` and `v` stop short of 1. */
 const SHORT_OF_ONE = 1 - 1e-9;
@@ -38,16 +37,7 @@ const PAST_DOORWAY = PAST[ROOM_DOORWAY.wall];
  */
 export const shotWithin = ({ u, v, eyeAbove, yaw, elevation }: Pose): Shot => {
   const [x, y, z] = toWorld([u, eyeAbove, v]);
-  return {
-    x,
-    y,
-    z,
-    yaw: yawToShell(yaw),
-    elevation,
-    roll: 0,
-    lids: 1,
-    exposure: 1,
-  };
+  return { x, y, z, yaw: yawToShell(yaw), elevation, roll: 0, ...OPEN };
 };
 
 /**
@@ -65,7 +55,7 @@ export const poseWithin = ({ x, y, z, yaw: gaze, elevation }: Shot): Pose => {
     v: Math.min(SHORT_OF_ONE, clamp01(v)),
     eyeAbove: EYE_HEIGHT,
     scale: 1,
-    yaw: ((yaw % TAU) + TAU) % TAU,
+    yaw: positiveTurn(yaw),
     elevation,
   };
 };

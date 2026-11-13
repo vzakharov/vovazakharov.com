@@ -8,7 +8,7 @@ import {
   waterLevel,
 } from '@/cube/shared/outside';
 
-import type { Stage } from './scenes';
+import { groundMiddle, type Stage } from './scenes';
 import { EYE_HEIGHT } from './step';
 
 /**
@@ -25,13 +25,14 @@ const ARRIVES_SOUTH = 0.64;
  */
 const ASKEW = 0.3;
 
+const { foot, top, rungs, wide } = DOOR_LADDER;
+const [middleX, middleZ] = groundMiddle(CUBE_BOX);
+
 /**
  * The intro's stage: the island, the cube over its crest, the ladder at the
  * doorway and the shore the body wakes on, its feet towards the sea and away
  * from the cube.
  */
-const { foot, top, rungs, wide } = DOOR_LADDER;
-
 export const INTRO_STAGE: Stage = {
   land: {
     height: (x, z) => islandHeight([x, z]),
@@ -40,11 +41,7 @@ export const INTRO_STAGE: Stage = {
   },
   wake: {
     at: [WAKE_AT[0], WAKE_AT[2]],
-    seaward:
-      Math.atan2(
-        WAKE_AT[2] - (CUBE_BOX.min[2] + CUBE_BOX.max[2]) / 2,
-        WAKE_AT[0] - (CUBE_BOX.min[0] + CUBE_BOX.max[0]) / 2,
-      ) + ASKEW,
+    seaward: Math.atan2(WAKE_AT[2] - middleZ, WAKE_AT[0] - middleX) + ASKEW,
   },
   cube: CUBE_BOX,
   ladder: {

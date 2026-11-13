@@ -219,25 +219,9 @@ export function furnished(
 }
 
 /**
- * The box of each thing of `furnish`'s room that stands on the floor, in the
- * room's frame in metres — east, up, south — in the order they were stood.
- */
-export const standingBoxes = (
-  setting: Setting,
-  decor: readonly Furnishing[],
-): Array<{ thing: Thing; min: Vec3; max: Vec3 }> =>
-  stoodIn(setting, decor)
-    .map(({ thing, quads }) => ({ thing, bounds: boundsOf(quads) }))
-    .filter(({ bounds }) => !hangs(bounds))
-    .map(({ thing, bounds: { least, most } }) => ({
-      thing,
-      min: scaled(least, ROOM_METRES),
-      max: scaled(most, ROOM_METRES),
-    }));
-
-/**
- * `standingBoxes`'s things as the solids each is built of, `partsOf` them,
- * in the room's frame in metres.
+ * Each thing of `furnish`'s room that stands on the floor, in the order they
+ * were stood, as the solids it is built of, `partsOf` it, in the room's frame
+ * in metres — east, up, south.
  */
 export const standingParts = (
   setting: Setting,

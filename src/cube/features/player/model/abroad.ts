@@ -1,5 +1,6 @@
 import { pick } from '@/kernel/shared/lib/collections';
 
+import { shortTurn } from '@/cube/shared/lib/turn';
 import type { Laddered } from '@/cube/shared/outside';
 import type { Quad } from '@/cube/entities/world';
 
@@ -194,10 +195,7 @@ const RESTS = 0.4;
 
 /** Radians between two gazes, the short way round. */
 const turnedBy = (from: Roamer, to: Roamer): number =>
-  Math.hypot(
-    Math.atan2(Math.sin(to.yaw - from.yaw), Math.cos(to.yaw - from.yaw)),
-    to.elevation - from.elevation,
-  );
+  Math.hypot(shortTurn(to.yaw - from.yaw), to.elevation - from.elevation);
 
 /** How far over its standing height an eye may be and its feet still be on the sand. */
 const OFF_THE_SAND = 0.3;

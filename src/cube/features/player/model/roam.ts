@@ -15,6 +15,7 @@ import {
   stridesIn,
   turned,
   WALK_SPEED,
+  WALK_STRIDE,
 } from './step';
 
 /**
@@ -55,8 +56,8 @@ const SWIM_SHARE = 0.32;
 /** How near a solid a whole body's middle comes. */
 const GIRTH = 0.3;
 
-/** Metres between a walk's footfalls, and between a swimmer's strokes. */
-const STRIDE = 0.75;
+/** Metres between a walk's footfalls, as indoors, and a swimmer's strokes. */
+const STRIDE = WALK_STRIDE * ROOM_METRES;
 const STROKE = 1.5;
 
 /** How far a stroke lifts the eye, and treading water does, every `TREAD` seconds. */

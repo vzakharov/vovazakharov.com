@@ -1,3 +1,4 @@
+import { positiveTurn } from '@/cube/shared/lib/turn';
 import type { Gazing, Pose, Walls } from '@/cube/entities/world';
 
 import { walk } from './body';
@@ -7,6 +8,9 @@ export const WALK_SPEED = 0.28;
 
 /** Running speed, the body's pace while it runs: 3.5 m/s on floor 1. */
 export const RUN_SPEED = 0.7;
+
+/** Room sides between a walk's footfalls: 75 cm on floor 1. */
+export const WALK_STRIDE = 0.15;
 
 /**
  * How many walking strides long the stride of `input`'s pace is: a run's is
@@ -64,10 +68,6 @@ export const STILL: Input = {
   goTo: null,
 };
 
-const TAU = 2 * Math.PI;
-
-const wrap = (angle: number): number => ((angle % TAU) + TAU) % TAU;
-
 const clamp = (value: number, bound: number): number =>
   Math.min(bound, Math.max(-bound, value));
 
@@ -77,7 +77,7 @@ export function turned(gaze: Gazing, input: Input, dt: number): Gazing {
     throw new RangeError(`Not a frame time: ${dt}`);
   }
   return {
-    yaw: wrap(gaze.yaw + input.yawBy + input.turnKeys * TURN_RATE * dt),
+    yaw: positiveTurn(gaze.yaw + input.yawBy + input.turnKeys * TURN_RATE * dt),
     elevation: clamp(
       gaze.elevation + input.elevationBy + input.tiltKeys * TILT_RATE * dt,
       MAX_PITCH,
