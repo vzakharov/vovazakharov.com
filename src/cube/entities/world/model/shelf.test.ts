@@ -1,26 +1,15 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
-import { DOORWAY, SUN_DIR } from '@/cube/shared/outside';
-
 import { holeQuarter, type Quarter } from './hole';
 import { isOpenEast, isOpenSouth, maze, type RolledMaze } from './maze';
 import { PILL_LENGTH } from './pill';
 import { plant } from './plant';
 import { counterRandom } from './plant.test-kit';
 import { type Room, roomsAcross } from './room';
-import {
-  ENTRY_SHELF,
-  pillOn,
-  type Shelf,
-  shelfFaces,
-  shelfOf,
-  takenIn,
-} from './shelf';
+import { pillOn, type Shelf, shelfFaces, shelfOf, takenIn } from './shelf';
 
 const FLOORS = 6;
-const FIRST = { n: 1, x: 0n, y: 0n };
 
 /** Whether the room beyond `room` by `(dx, dy)` is a room it opens onto. */
 function opensTo(rolled: RolledMaze, room: Room, dx: bigint, dy: bigint) {
@@ -66,7 +55,6 @@ describe('shelfOf', () => {
     for (const [index, room] of rooms.entries()) {
       const quarter = quarters[index];
       assert.ok(quarter);
-      if (room.n === 1) continue;
       const shelf = shelfOf(rolled, room, quarter);
       assert.equal(shelf.mount, expected(rolled, room, quarter));
       assertPlaced(shelf, quarter);
@@ -95,17 +83,6 @@ describe('shelfOf', () => {
       }
     }
     assert.deepEqual([...met].toSorted(), ['post', 'x-wall', 'y-wall']);
-  });
-
-  it('mounts floor 1’s on the doorway’s wall, clear of the sunbeam', () => {
-    const shelf = shelfOf(maze('8675309'), FIRST, { qx: 0, qy: 1 });
-    assert.equal(shelf, ENTRY_SHELF);
-    assert.deepEqual(shelf.at, { u: 1, v: 0.75 });
-    const metre = 1 / ROOM_METRES;
-    const [pillU, , pillV] = pillOn(shelf).centre;
-    // The beam enters by the doorway and leaves it down the sun's bearing.
-    const south = (-SUN_DIR[2] / SUN_DIR[0]) * (1 - pillU);
-    assert.ok(pillV > DOORWAY.to * metre + south + 0.2);
   });
 });
 

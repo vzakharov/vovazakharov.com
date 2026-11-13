@@ -1,6 +1,5 @@
 import { CEILING_HEIGHT } from '@/cube/shared/lib/room-shape';
 import {
-  ENTRY_SHELF,
   HOLE_SIDE,
   holeMiddle,
   type Quad,
@@ -83,19 +82,13 @@ function turned({ least, most }: Bounds, side: number): Bounds {
 }
 
 /**
- * Where the shelf of a room with a hole in `setting.hole` is: floor 1's at
- * `ENTRY_SHELF`, any other on the hole quarter's east or west wall level with
- * the hole where that side is closed, else on its north or south wall, else on
- * a post in that corner — the choice `shelfOf` makes, read off the setting's
- * sides.
+ * Where the shelf of a room with a hole in `setting.hole` is: on the hole
+ * quarter's east or west wall level with the hole where that side is closed,
+ * else on its north or south wall, else on a post in that corner — the choice
+ * `shelfOf` makes, read off the setting's sides.
  */
-export function shelfSpot({
-  room,
-  hole,
-  closed,
-}: Setting): [number, number] | null {
+export function shelfSpot({ hole, closed }: Setting): [number, number] | null {
   if (hole === null) return null;
-  if (room.n === 1) return [ENTRY_SHELF.at.u, ENTRY_SHELF.at.v];
   const { u, v } = holeMiddle(hole);
   const [east, south, west, north] = closed;
   if (hole.qx === 0 ? west : east) return [hole.qx, v];

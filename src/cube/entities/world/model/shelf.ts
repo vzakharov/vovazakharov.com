@@ -48,26 +48,12 @@ function yWallClosed(
   return y === roomsAcross(n) - 1n || !isOpenSouth(rolled, n, x, y);
 }
 
-/**
- * Floor 1's shelf: on the doorway's wall, behind whoever walks in, south of
- * where the sunbeam crosses the room.
- */
-export const ENTRY_SHELF: Shelf = {
-  mount: 'x-wall',
-  at: { u: 1, v: 0.75 },
-  facing: { u: -1, v: 0 },
-};
-
-/**
- * The shelf of `room`, whose hole is in `quarter`: floor 1's is
- * `ENTRY_SHELF`, any other level with its hole.
- */
+/** The shelf of `room`, whose hole is in `quarter`, level with the hole. */
 export function shelfOf(
   rolled: RolledMaze,
   room: Room,
   quarter: Quarter,
 ): Shelf {
-  if (room.n === 1) return ENTRY_SHELF;
   const { qx, qy } = quarter;
   const { u: holeU, v: holeV } = holeMiddle(quarter);
   const intoU = 1 - 2 * qx;
