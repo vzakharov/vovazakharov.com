@@ -20,5 +20,15 @@ and shadow, and core's stand-ins for sky, shell and sea.
   exposure 1.
 - `room-doorway.webp` — floor 1's room looking at the doorway: the opening, the
   sun's beam across the floor and its haze, the ceiling panels off.
+- `room-fresh.webp` — the same pose at `--indoors 0`: the room as an eye just in
+  from daylight sees it, dim but for the beam, the sea plain through the
+  doorway.
+- `room-halfway.webp` — the same at `--indoors 0.5`.
+- `doorway-down.webp` — the sill looking 40° down through floor 1's lens: the
+  sand under the doorway, bleached, as an eye used to the room sees it.
+- `sill-halfway.webp` — an eye on the sill looking out through the outside lens
+  at `--indoors 0.5`: half used to the light.
+- `sill-adapted.webp` — the same at `--indoors 0`: the eye used to daylight, the
+  sand, the sea's edge and the sun.
 - `wake-cube-eyelids-045.webp` — `wake-cube` with `--eyelids 0.45`: the outside
   lens's lids half shut.

@@ -93,9 +93,9 @@ fn sandGlint(xz: vec2f, normal: vec3f, half: vec3f, px: f32) -> f32 {
     let scale = exp2(lower + f32(step));
     let at = xz / scale;
     let word = cellHash(vec2i(floor(at)), SAND_SALT + 0x79u + u32(i32(lower) + step + 64));
-    let lean = 0.9 * (vec2f(unitOf(word), unitOf(mix32(word))) - 0.5);
+    let lean = 0.6 * (vec2f(unitOf(word), unitOf(mix32(word))) - 0.5);
     let facet = normalize(normal + vec3f(lean.x, 0.0, lean.y));
-    let lit = smoothstep(0.992, 0.9992, dot(facet, half));
+    let lit = smoothstep(0.996, 0.9996, dot(facet, half));
     let dot_ = 1.0 - smoothstep(0.12, 0.42, length(fract(at) - 0.5));
     let weight = select(level - lower, 1.0 - (level - lower), step == 0);
     glint += weight * lit * dot_ * (0.4 + 1.6 * unitOf(mix32(word ^ 0x5bd1e995u)));
@@ -118,8 +118,8 @@ struct Litter {
 /// wrack lines high water left, y that and the thin scatter of the foreshore.
 fn sandStrewn(xz: vec2f, h: f32) -> vec2f {
   let line = ${WRACK} + 0.12 * (noised(xz / 7.0, SAND_SALT + 0x83u).x - 0.5);
-  let wrack = exp(-pow((h - line) / 0.035, 2.0));
-  let older = 0.35 * exp(-pow((h - line - 0.33) / 0.03, 2.0));
+  let wrack = exp(-sq((h - line) / 0.035));
+  let older = 0.35 * exp(-sq((h - line - 0.33) / 0.03));
   let shore = 0.12 * (1.0 - smoothstep(0.5, 1.1, h));
   return clamp(vec2f(wrack + older, wrack + older + shore), vec2f(0.0), vec2f(1.0));
 }

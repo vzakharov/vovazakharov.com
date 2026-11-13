@@ -1,15 +1,33 @@
 {
   "total": {
-    "inputTokens": 66,
-    "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 161932,
-    "cacheReadTokens": 5307219,
-    "outputTokens": 21294,
-    "thinkingTokens": 8499,
-    "responses": 33,
-    "costUsd": 4.504643799999999
+    "inputTokens": 3494,
+    "cacheWrite5mTokens": 1872,
+    "cacheWrite1hTokens": 614012,
+    "cacheReadTokens": 26932648,
+    "outputTokens": 98108,
+    "thinkingTokens": 32116,
+    "responses": 142,
+    "costUsd": 19.71877120000001
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-13T09:29:39.790Z",
+    "subjectLine": "fix: core's seam after the restart, and the doorway handover",
+    "parts": [
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "the seam is renderer and WGSL work: a frame block, a NaN through bloom, an eye switch with no dropped frame"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "the doorway handover is an agreement with the walk controller about pose, scale and the frame hook"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -34,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkCDdGLyRAp2Yux9jAB",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T09:16:09.987Z",
-  "lastResponseAt": "2026-11-13T09:28:37.580Z",
+  "lastResponseAt": "2026-11-13T10:43:30.034Z",
   "pricesAsOf": "2026-11-03",
-  "claudeCodeTotalUsd": null,
+  "claudeCodeTotalUsd": 18.538718600000006,
   "ownTurns": {
-    "inputTokens": 66,
+    "inputTokens": 274,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 161932,
-    "cacheReadTokens": 5307219,
-    "outputTokens": 21294,
-    "thinkingTokens": 8499,
-    "responses": 33,
-    "costUsd": 4.504643799999999
+    "cacheWrite1hTokens": 614012,
+    "cacheReadTokens": 26630599,
+    "outputTokens": 92596,
+    "thinkingTokens": 32116,
+    "responses": 140,
+    "costUsd": 19.41065500000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,37 +77,111 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 66,
+      "inputTokens": 2221,
+      "cacheWrite5mTokens": 1872,
+      "cacheWrite1hTokens": 497862,
+      "cacheReadTokens": 22022304,
+      "outputTokens": 83133,
+      "thinkingTokens": 26678,
+      "responses": 109,
+      "costUsd": 15.732060800000003
+    },
+    "claude-opus-5/standard": {
+      "inputTokens": 64,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 161932,
-      "cacheReadTokens": 5307219,
-      "outputTokens": 21294,
-      "thinkingTokens": 8499,
-      "responses": 33,
-      "costUsd": 4.504643799999999
+      "cacheWrite1hTokens": 116150,
+      "cacheReadTokens": 4910344,
+      "outputTokens": 14780,
+      "thinkingTokens": 5438,
+      "responses": 32,
+      "costUsd": 3.9864919999999993
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1209,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 195,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0002184
     }
   },
   "warnings": [],
-  "compactions": [],
+  "compactions": [
+    {
+      "at": "2026-11-13T09:45:36.257Z",
+      "trigger": "auto",
+      "compactedFrom": 306614,
+      "summaryChars": 12045,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/cube/shared/outside/outside.test.ts",
+        "endedAt": "2026-11-13T09:48:03.257Z",
+        "contextTokens": 147039,
+        "spend": {
+          "inputTokens": 25,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 187982,
+          "cacheReadTokens": 1468932,
+          "outputTokens": 8096,
+          "thinkingTokens": 2410,
+          "responses": 12,
+          "costUsd": 3.1956498
+        }
+      },
+      "rereads": {
+        "calls": 2,
+        "byTool": {
+          "Read": 1,
+          "Bash": 1
+        },
+        "estimatedTokens": 3084,
+        "estimatedUsd": 0.0869872
+      },
+      "billedUsd": 0.3078978
+    }
+  ],
   "telemetry": {
-    "events": 32,
-    "matched": 32,
-    "matchedTableUsd": 4.3958243999999995,
-    "matchedEventUsd": 4.3958243999999995,
-    "unseen": {}
+    "events": 142,
+    "matched": 140,
+    "matchedTableUsd": 19.41065500000001,
+    "matchedEventUsd": 19.41065500000001,
+    "unseen": {
+      "generate_session_title": {
+        "inputTokens": 1209,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 195,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0002184
+      },
+      "compact": {
+        "inputTokens": 2011,
+        "cacheWrite5mTokens": 1872,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 302049,
+        "outputTokens": 5317,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.3078978
+      }
+    }
   },
   "operatorWords": {
-    "chat": 0,
+    "chat": 130,
     "review": 0,
     "threads": 0
   },
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 2283,
+    ".md": 2530,
     ".json": 31,
     ".yaml": 48,
-    ".ts": 3979,
+    ".ts": 7714,
     ".tsx": 87,
     ".scss": 15
   }

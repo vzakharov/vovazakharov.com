@@ -6,7 +6,7 @@ import type { CanDispose, Sized, WithId } from '@/kernel/shared/typings';
 import type { SeenAt } from '@/cube/shared/lib/clock';
 import type { Rgb } from '@/cube/shared/lib/colour';
 import type { Seen } from '@/cube/shared/lib/vec';
-import { type Laddered, SUN_DIR } from '@/cube/shared/outside';
+import { type OutdoorState, SUN_DIR } from '@/cube/shared/outside';
 
 import { inverse } from '../lib/matrix';
 import type { FloorRange, Scenery } from '../lib/mesh';
@@ -31,7 +31,7 @@ type Shot = SeenAt & {
    * The same view of the world frame, where the frame shows the outside, which
    * must be prepared; null where it shows the cube's inside alone.
    */
-  outdoors: (Seen & Laddered) | null;
+  outdoors: (Seen & OutdoorState) | null;
 };
 
 /**
@@ -277,7 +277,9 @@ export async function createRenderer(
       data.set(viewProjection, 0);
       data.set([...eye, 1], 16);
       data.set([seconds, hour, width, height], 20);
-      if (!throughFloor) data.set([lens.exposure, lens.eyelids], 24);
+      if (!throughFloor) {
+        data.set([lens.exposure, lens.eyelids, lens.indoors ?? 0], 24);
+      }
       device.queue.writeBuffer(uniforms, 0, data);
       const encoder = device.createCommandEncoder();
       const layers = outdoors === null ? null : outsideMade().layers;

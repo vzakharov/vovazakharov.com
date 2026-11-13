@@ -2,7 +2,7 @@ import { asError } from '@/kernel/shared/lib/error-class';
 import type { WithOnError } from '@/kernel/shared/typings';
 
 import { type Clock, clockAt } from '@/cube/shared/lib/clock';
-import { type Laddered, toCube } from '@/cube/shared/outside';
+import { type OutdoorState, toCube } from '@/cube/shared/outside';
 import { themeOf } from '@/cube/entities/theme';
 import {
   descend,
@@ -14,6 +14,7 @@ import {
   type Pulled,
   type Quad,
   roomKey,
+  type Whereabouts,
 } from '@/cube/entities/world';
 import { happening, type RoomSound } from '@/cube/features/happenings';
 
@@ -31,11 +32,13 @@ import { createRenderer, type Drawing, type Renderer } from './renderer';
  * `moving`, what is in the rooms for this frame alone, each quad in its own
  * room's frame. An eye outside the cube is `outside`, its pose then kept for
  * its return, and sees through `lens`, `OUTSIDE_LENS` where none is given.
- * The ladder stands at the doorway until `ladderGone` is true.
+ * An eye on floor 1 given a `lens` sees through it too, in its floor's
+ * place: the eye getting used to the doorway's light. The ladder stands at
+ * the doorway until `ladderGone` is true, and `body` casts a shadow.
  */
 type Frame = Posed &
   Partial<OutsideEye> &
-  Laddered & {
+  OutdoorState & {
     pulled: Pulled | null;
     moving: readonly Quad[];
   };
@@ -74,8 +77,11 @@ export type CubeOptions = WithOnError &
   Selling & {
     start: Pose;
     onFrame: FrameHook;
-    /** Every frame, what the rooms in view are sounding at its instant. */
-    onHeard: (heard: readonly Heard[]) => void;
+    /**
+     * Every frame, what the rooms in view are sounding at its instant, and
+     * where the eye drawn is: the outside eye when it is outside.
+     */
+    onHeard: (heard: readonly Heard[], at: Whereabouts) => void;
     /** The instant a frame is drawn at, in milliseconds since the epoch. */
     now: () => number;
     /** Hears that the browser has no WebGPU; nothing is drawn then. */
@@ -151,8 +157,15 @@ export function mountCube(
   /** The outside eye the frame hook gave, and the one the play hook holds. */
   let hooked: OutsideEye | null = null;
   let stagedEye: OutsideEye | null = null;
-  /** Whether the ladder has gone, as the frame hook last said. */
-  let ladderGone = false;
+  /**
+   * The lens for an eye on floor 1 as for one outside: the frame hook's, and
+   * the one a staged pose carries, which the hook's frames do not clear.
+   */
+  let through: OutsideLens | null = null;
+  let stagedThrough: OutsideLens | null = null;
+  /** The ladder and the body as the frame hook last gave them, and the play hook's. */
+  let hookedState: OutdoorState = {};
+  let stagedState: OutdoorState = {};
   /** Whether the renderer holds moving quads, to drop once a frame has none. */
   let movingDrawn = false;
   let renderer: Renderer | null = null;
@@ -227,7 +240,7 @@ export function mountCube(
     const { lenses, mesh } = built;
     const clock = clockAt(now());
     const { quads, heard } = goingOn(mesh, clock);
-    onHeard(heard);
+    onHeard(heard, outdoor?.outside ?? pose);
     const shown = [...moving, ...staged, ...quads].filter(({ room }) =>
       lenses.has(room.n),
     );
@@ -256,8 +269,16 @@ export function mountCube(
     renderer.draw({
       ...seen,
       clear: airAt(depth),
-      lens: outdoor?.lens ?? (lenses.has(at.n) ? at.n : built.pose.n),
-      outdoors: showsOutside ? { ...seenInWorld(seen), ladderGone } : null,
+      lens:
+        outdoor?.lens ??
+        (showsOutside ? (stagedThrough ?? through) : null) ??
+        (lenses.has(at.n) ? at.n : built.pose.n),
+      outdoors: showsOutside
+        ? {
+            ...seenInWorld(seen),
+            ...(stagedEye === null ? hookedState : stagedState),
+          }
+        : null,
       ...clock,
     });
     firstFrame.resolve();
@@ -275,15 +296,16 @@ export function mountCube(
   const tick = (time: number): void => {
     const seconds = Math.min((time - last) / 1000, 0.1);
     last = time;
-    const {
-      outside,
-      lens = OUTSIDE_LENS,
-      ladderGone: gone = false,
-      ...next
-    } = onFrame(pose, seconds, built?.mesh.signOf ?? noSign);
+    const { outside, lens, ladderGone, body, ...next } = onFrame(
+      pose,
+      seconds,
+      built?.mesh.signOf ?? noSign,
+    );
     ({ pose, pulled, moving } = next);
-    ladderGone = gone;
-    hooked = outside === undefined ? null : { outside, lens };
+    hookedState = { ladderGone, body };
+    through = lens ?? null;
+    hooked =
+      outside === undefined ? null : { outside, lens: lens ?? OUTSIDE_LENS };
     resize();
     render();
     frame = requestAnimationFrame(tick);
@@ -316,16 +338,24 @@ export function mountCube(
 
   return {
     ready: async () => firstFrame.promise,
-    setPose: async (next, among = []) => {
+    setPose: async (next, { moving: among = [], lens = null } = {}) => {
       await firstFrame.promise;
       pose = next;
       staged = among;
       stagedEye = null;
+      stagedThrough = lens;
       await shown(inEyeRoom(next));
     },
-    setEye: async (outside, lens = OUTSIDE_LENS) => {
+    setEye: async (
+      outside,
+      lens = OUTSIDE_LENS,
+      { moving: among = [], ...state } = {},
+    ) => {
       await firstFrame.promise;
       stagedEye = { outside, lens };
+      staged = among;
+      stagedState = state;
+      stagedThrough = null;
       await shown(FIRST_ROOM);
     },
     adapter: () => renderer?.adapter ?? 'none',

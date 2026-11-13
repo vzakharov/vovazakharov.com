@@ -61,26 +61,39 @@ export const DOORWAY_BOX: Box = {
 /** How far off the eye's far plane is whenever a frame shows the outside. */
 export const FAR_METRES = 20_000;
 
-/** Where the island's shore lies from the cube's middle along unit `[x, z]`. */
-function shoreAlong([x, z]: Vec2): Vec2 {
+/**
+ * Metres over the still sea of the sand the player's head wakes on: the
+ * highest swash of the hour reaches 0.24 m, where their toes lie, and nothing
+ * is ever wet from 0.3 m.
+ */
+const WAKE_BED = 0.34;
+
+/**
+ * Where the beach stands `level` metres over the still sea, going out from
+ * the cube's middle along unit `[x, z]`.
+ */
+function beachAlong([x, z]: Vec2, level: number): Vec2 {
   const at = (metres: number): Vec2 => [
     CUBE_MIDDLE[0] + x * metres,
     CUBE_MIDDLE[1] + z * metres,
   ];
-  let dry = 0;
-  let wet = 200;
+  let above = 0;
+  let below = 200;
   for (let step = 0; step < 40; step += 1) {
-    const middle = (dry + wet) / 2;
-    if (islandHeight(at(middle)) > 0) dry = middle;
-    else wet = middle;
+    const middle = (above + below) / 2;
+    if (islandHeight(at(middle)) > level) above = middle;
+    else below = middle;
   }
-  return at(dry);
+  return at(above);
 }
 
-const WAKE_SHORE = shoreAlong([-Math.SQRT1_2, Math.SQRT1_2]);
+const WAKE_SPOT = beachAlong([-Math.SQRT1_2, Math.SQRT1_2], WAKE_BED);
 
-/** Where the player wakes: on the still waterline south-west of the cube. */
-export const WAKE_AT: Vec3 = [WAKE_SHORE[0], 0, WAKE_SHORE[1]];
+/**
+ * Where the player's head lies on waking: on dry sand up the beach south-west
+ * of the cube, the body down the slope and the sea reaching for the feet.
+ */
+export const WAKE_AT: Vec3 = [WAKE_SPOT[0], WAKE_BED, WAKE_SPOT[1]];
 
 /**
  * The frames in WGSL: `CUBE_AT`, `CUBE_METRES`, the cube's and the doorway's

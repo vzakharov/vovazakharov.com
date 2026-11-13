@@ -159,15 +159,15 @@ struct Ripples {
 fn rippleSwathe(xz: vec2f) -> f32 {
   let field = fbmd(xz / 7.0, SAND_SALT + 0x6du, 2).x;
   let within = noised(xz / 2.3, SAND_SALT + 0x6eu).x;
-  return smoothstep(0.33, 0.5, field) * (0.6 + 0.4 * within) + 0.08;
+  return smoothstep(0.4, 0.62, field) * (0.45 + 0.55 * within) + 0.03;
 }
 
 fn sandRipples(xz: vec2f, h: f32, sun: vec3f) -> Ripples {
   let wind = vec2f(${WIND[0]}, ${WIND[1]});
-  let veer = vec2f(wind.x * 0.9928 - wind.y * 0.1197, wind.x * 0.1197 + wind.y * 0.9928);
+  let veer = vec2f(wind.x * 0.9336 - wind.y * 0.3584, wind.x * 0.3584 + wind.y * 0.9336);
   let one = rippleTrain(xz, wind, ${RIPPLES.wavelength}, SAND_SALT + 0x61u);
-  let other = rippleTrain(xz, veer, ${RIPPLES.wavelength * 1.17}, SAND_SALT + 0x67u);
-  let which = smoothstep(0.42, 0.58, noised(xz / 1.3, SAND_SALT + 0x6bu).x);
+  let other = rippleTrain(xz, veer, ${RIPPLES.wavelength * 1.45}, SAND_SALT + 0x67u);
+  let which = smoothstep(0.44, 0.56, noised(xz / 4.3, SAND_SALT + 0x6bu).x);
   let stand = ${RIPPLES.height} * sandDryness(h) * rippleSwathe(xz);
   let a = rippleSection(one.x);
   let b = rippleSection(other.x);

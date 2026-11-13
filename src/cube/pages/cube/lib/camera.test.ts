@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { toWorld } from '@/cube/shared/outside';
-import type { Pose, Vec3 } from '@/cube/entities/world';
+import { toCube, toWorld } from '@/cube/shared/outside';
+import { eyeInFrame, type Pose, type Vec3 } from '@/cube/entities/world';
 
 import { forward, OUTSIDE_FAR, seenInWorld, viewProjection } from './camera';
 
@@ -104,5 +104,31 @@ describe('the camera', () => {
       assert.ok(Math.abs(value - (here[index] ?? Number.NaN)) < 1e-4);
     }
     assert.deepEqual(inWorld.eye, toWorld(eye));
+  });
+
+  it('sees the same from the doorway as a pose and as an eye outside', () => {
+    for (const scale of [1, 0.5]) {
+      const within: Pose = {
+        ...pose(0.2, -0.4),
+        u: 0.97,
+        v: 0.15,
+        eyeAbove: 0.32 * scale,
+        scale,
+      };
+      const { eye, side } = eyeInFrame(within, within);
+      assert.equal(side, 1);
+      const outside = toCube(toWorld([within.u, within.eyeAbove, within.v]));
+      const far = { far: OUTSIDE_FAR };
+      const inside = viewProjection(within, eye, 1.6, side * scale, far);
+      const out = viewProjection(within, outside, 1.6, 1, far);
+      for (const point of [
+        [3, 0.1, 0.4],
+        [40, -0.3, -12],
+      ] satisfies Vec3[]) {
+        const [x, y] = project(inside, point);
+        const [alsoX, alsoY] = project(out, point);
+        assert.ok(Math.abs(x - alsoX) < 1e-9 && Math.abs(y - alsoY) < 1e-9);
+      }
+    }
   });
 });

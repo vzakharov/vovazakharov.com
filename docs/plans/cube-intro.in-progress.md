@@ -58,83 +58,37 @@ compaction before deciding anything about what is being built.
 
 ## Steering since
 
-- **2026-11-12 22:32Z–22:56Z** — the sun's direction, no Russian on the board,
+- **2026-11-12 22:32Z–23:10Z** — the sun's direction, no Russian on the board,
   `rolled` and identical frames, "interactions come at a price", no textures,
-  the pill as imagination: verbatim with their readings in `brief.md` beside the
-  brief, § "Steering on 2026-11-12". Their outcomes are in the contract.
+  the pill as imagination, no look-under scene, the ladder vanishing once
+  climbed and the jump out, lettering as a todo, "swallow" not "drink", the
+  ghosts musing, the pause: verbatim with their readings in `brief.md` beside
+  the brief, § "Steering on 2026-11-12". Their outcomes are in the contract.
 
-- **2026-11-12 ~22:58Z, on the first frames**:
+- **2026-11-13 09:05Z–09:27Z** — the restart with new sessions, the pill's
+  colours, cheaper models for readers, "no textures" narrowed to "nothing
+  authored" (the FFT ocean stays), the children's English, the ocean explainer:
+  verbatim in `brief.md`, § "Steering on 2026-11-13, morning".
 
-  > судя по картинкам, катсцены "заглянуть под куб" не надо, и так отчётливо
-  > видно что он парит
-
-  The look-under scene is cut; walk was told. The scenes left are waking, the
-  climb and the climb back down.
-
-- **2026-11-12 ~23:02Z, the ladder vanishes**:
-
-  > давай лестница исчезает после того как ты забрался. без каких бы то там
-  > анимаций, эффектов, звуков. просто поворачиваешься -- и нет. выбраться
-  > можно, спрыгнув (и не пострадав), но забраться обратно уже нет. выбраться
-  > можно и половинного роста, кстати, если выпьешь таблетку и не спустишься на
-  > уровень ниже
-
-  Decided: the ladder and its shadow are drawn until the body first crosses the
-  doorway inward and never after; a game that starts inside has none. Stepping
-  off the sill drops the body 3.6 m to the sand unhurt, at full or half height;
-  no way back in. The climb-down scene is gone. Told to walk, shell, core,
-  sound.
-
-- **2026-11-12 ~23:03Z, lettering** (after learning the signs and posters are
-  lettered on a canvas because WebGPU draws no text):
-
-  > запишите на доску в todo, чтоб рисовал. так будет интереснее и их "распад"
-  > по мере спуска на нижние этажи делать
-
-  A todo on the board, sent to the board session: letters drawn in the shader,
-  so their decay down the floors can be a procedure. Not part of this run.
-
-- **~23:08Z, on the board's pill card**: «swallow а не drink наверное» — the
-  prompt is "Press Y to swallow, N to put down". Pill is not told yet.
-- **~23:10Z, on the price rule's card**, a musing and no decision: «навеяло: мы
-  призраки? мы умерли? это "по ту сторону"?»
-- **~23:10Z, to the lead**: «лимит кончается; пусть все приостановятся, я сожму
-  контекст чтобы завтра продолжить». Every child was told to push `wip:`, report
-  one line and wait for the word "resume"; the lead's check-in was deleted.
-- **2026-11-13 ~09:05Z, the restart**: the stopped sessions stay stopped —
-  «сессии будить не нужно, нужно начинать новые», from each one's last messages
-  and its branch as pushed. And the pill's two colours change (the lead's pick:
-  the cube's own black and grey); the change is not a story for the board, and
-  its commit says only what the colours are.
-- **~09:10Z, on a reader agent run on the flagship**: «для таких задач можно и
-  экономить а не фейбла запускать». Readers and the board coordinator take a
-  cheaper model; in the skill.
-
-- **2026-11-13 ~09:20Z, how far "no textures" reaches.** Reading the sea's new
-  brief, the operator asked who drew the wave maps and how; told that the GPU
-  computes them every frame from formulas:
-
-  > ну да, я не имел в виду против карт, я имел в виду что сами карты должны
-  > считаться на лету
-
-  So the rule is "nothing authored, shipped or stored", and a map computed at
-  run time is allowed. **The FFT ocean stays; there is no analytic rewrite.**
-  `src/cube/CLAUDE.md`, the contract and `briefs/restart.md` say so; sea, sky
-  and core were told (sky may back its cheap lods with a per-frame sky map).
-
-- **~09:27Z, the children's language**: «для экономии контекста, пусть
-  подсессии-билдеры говорят на английском … unless я их спрашиваю что-то на
-  русском, тогда отвечаем на русском и дальше продолжают на английском». Sent to
-  all nine; in `briefs/restart.md` and the skill.
-- **~09:22Z, a side quest**: an explainer artifact, in Russian, on the two ways
-  of drawing an ocean, by a session on Opus (archived). Published at
-  https://claude.ai/artifact/UxGSPAXn2USWZSfpwJ7uFM; the operator has the link.
 - **~09:33Z, asked in shell's session**: «а тень от нас будет? или это часть
   "никакого взаимодействия с окружением (кроме таблетки)"?» **Decided yes**: a
   shadow marks nothing and remembers nothing, it is a function of where the body
   stands, like the hands. Core adds `body` to the frame (foot in W, height; 0 =
   none), walk writes it, shell draws a soft capsule `bodyShadow` beside
   `cubeShadow` — after shell's three material verdicts.
+- **~09:41Z, a board comment on the ladder's frame**: «я нигде не говорил про
+  материал, не имею ничего против дерева, и, кажется, это будет больше подходить
+  фразе "откуда она там вообще взялась". НО если он уже переделал на алюминий,
+  пусть будет». Aluminium was the lead's pick, and it read as wood in the frame
+  anyway. **Decided: the ladder is wood** — weathered, sun-bleached, round
+  rungs; shell's material and sound's `LADDER_MATERIAL` follow (sound: done,
+  357d9e94).
+- **~09:43Z, in core's session, on the doorway seen white from the room**:
+  «нужно тогда динамическое привыкание и отвыкание, пожалуй». Core built the
+  seam (8a4fb806): `pages/cube/lib/adaptation.ts` — `settled`, `adapted` (~0.5 s
+  toward light, ~2.5 s toward dark), `lensAdapted`; `OutsideLens` has `indoors`
+  0…1. The adaptation is the body's own state, never the world's. **Walk wires
+  it** in `ui/walk.ts` and `lib/lit-stage.ts`; core's recipe was passed on.
 
 ## Facts established
 
@@ -337,43 +291,50 @@ seven sections; a reader's brief is three sections at most.
 State at 2026-11-13 09:40Z, **the second team running**; update this block, do
 not append.
 
-- **On this branch**: all of the above plus core's step 2 (0e1081af, merged at
-  420476f1): the page draws the outside — layers sky, sand, shell, rooms, sea,
-  an outside eye with roll, a lens of its own (`OUTSIDE_LENS`: exposure 0.3,
-  eyelids), `pnpm outside:cube --out <absolute>` shooting six named eyes
-  (`wake-sea`, `wake-cube`, `under`, `ladder-foot`, `doorway-out`,
-  `room-doorway`) or `--at x,y,z --yaw --pitch`, ~2 min for all six. Sand's
-  layer and shader are the real ones; sky, shell and sea are core's stand-ins
-  (`pages/cube/ui/<name>-layer.ts`, `pages/cube/lib/<name>-shader.ts`).
-  Typecheck, 72 of 72 shaders and the seam's tests green; lint still red on
-  shell's four errors in `shared/outside`.
-- **Merged since the restart**: shell's real cube and ladder with core's
-  `ladderGone` (2364cb7c); core's fix for the black block across the horizon
-  (9ab45d18: typecheck, 72/72 shaders, `type-overlap`, `masd:clusters` green).
-  Frames for the board under `frames/lead/`; the board is at version 59.
-- **The two black-out bugs, both of one family** (a non-finite pixel smeared by
-  mips and bloom): `islandHeight`'s `tanh` going NaN kilometres out (core,
-  fixed, merged); the stand-in sea's `metres` overflowing a half float into inf,
-  which blacks out floor 1's mirrors with the doorway in view (shell is pushing
-  `min(metres, SKY_METRES)`; in the contract; sea and core told). **Not yet
-  re-shot at 9ab45d18.**
-- **What the six eyes showed at 2364cb7c**: the cube reads as a banded black
-  block beside the sun, but is a tenth of the frame from the waking spot and its
-  gap is a two-pixel slit on the dune's skyline (sand proposes a staging; the
-  lead leans to waking ~15 m off). With shell: grey bands read brown, the ladder
-  reads as wood, the specks shine in shadow like stars.
-- **Children's heads, not merged**: sky 5c70ff27 (fill fixed, a factor of π: sun
-  [8, 4.88, 2.14], sky [0.32, 0.46, 0.76]; its page frames take 160 s until its
-  lod work lands — do not merge before); walk 1fcf79fc (cuts, `ladderGone`
-  written, `stepsOut`, scale; ladder still a placeholder, no jump frame shot;
-  asks core for scale on `Outside`, the east wall opening at the doorway,
-  `ladderGone` on the play hook); sound 69f5c737 (jobs 1–4, waits for the sea);
-  pill 942cb4ce (black and pale grey, accepted on frames); core b8f08383 (on job
-  4, the doorway handover); sea 61944809 plus unpushed (FFT layer restored, no
-  frames yet); sand — no report yet.
-- **Waiting on**: sand's first report and staging proposal; sea's frames;
-  shell's clamp and its two inside eyes (`shelf-door`, `door-shelf`); core's
-  `body` slot. A check-in is scheduled for 10:01Z.
+- **On this branch (ba9210cc, 2026-11-13 09:55Z)**: the page draws the outside
+  as layers — sky (core's stand-in), sand (real), shell (real cube and ladder),
+  rooms, sea (the real FFT ocean, sea's 9d3c0184, merged at 01f776ea; the
+  stand-in is gone) — from an inside or outside eye, with core's `ladderGone`,
+  the `tanh` fix (`eased`) and the eye's adaptation (core 8a4fb806:
+  `pages/cube/lib/adaptation.ts`, `OutsideLens.indoors`, eye `doorway-down`,
+  `--indoors`). Gates at ba9210cc: typecheck, 72/72 shaders, `type-overlap`,
+  `masd:clusters`, cycles green. `pnpm outside:cube --out <absolute>` shoots the
+  named eyes; with the FFT sea a frame takes ~2.5 min on SwiftShader.
+- **09:55Z–10:42Z, in `brief.md` § "Progress and steering, 2026-11-13
+  09:55Z–10:42Z"**: the black blocks' one cause (`tanh`), the first frames of
+  the real sea, the waking spot's move, the operator on adaptation ("not a speed
+  game", by the gaze) and on the beam (three ways, to be compared —
+  `briefs/beam-comparison.md`), the messaging incident and `briefs/notice.md`.
+- **State at 10:50Z — lead 7c831056** has shell 12d16667 (cooled grey bands,
+  wooden ladder with 3 cm round rungs, `bodyShadow` folded into
+  `cubeShadow(p, { ladderGone, body })`, the specks as a night sky with parallax
+  — shell's choice, put to the operator), sand (`WAKE_AT` = [−15.174, 0.5,
+  15.174], 5af0ca79; the lead then asked for the head at bed ≈ 0.33–0.35, ~23.5
+  m out, toes at the swash's reach — sand to answer; `sandWetness` on sea's
+  `shoreWetness`) and sea d92ecc65 (shallows damped by the real water column,
+  finer lace, `skyRadiance` at lod ≥ 1). Gates green. Shooting `wake-cube`,
+  `ladder-foot` into `tmp/eyes-3/` — **two eyes a run; five killed a
+  container**. Walk baa08847 has ladder, grip, adaptation, shadow, the sill;
+  merge when its own type-overlap is clean and its strips are judged. Shell's
+  next: the beam comparison. Not merged: sky (gates not run), pill (shooting),
+  sound ce6078e4 (waits for the final waking spot), walk.
+- **10:40Z**: sound merged whole (lead 8ab425d7; shell-mesh's `Rect.at` renamed
+  `onFace` for type-overlap); sound's session is idle — archive once walk is in.
+  The operator approved a frame in sand's session («это прямо топчик, можно на
+  доску») — sand commits it under `frames/sand/`, board makes it a big card; it
+  is the reference. Beam facts (pill's `reports/pill.md`): the hole is rolled
+  when the world is planted, the shelf derived from it (`shelfOf()`), both in
+  the beam today. The comparison is split: pill shoots the doorway's place along
+  the face (corner / a third / middle — the operator mused on a centred door and
+  a turned cube); shell shoots the sun and the cube turned, and (a). Pill adds a
+  decor clear zone at the doorway (a plant stood on the sill).
+- **10:40Z: the approved frame is pinned** — sand fd0a48e7,
+  `frames/sand/approved-standing-toward-sun.webp`, eye
+  `--at -15.203,2.10,15.203 --yaw -45 --pitch 4` (21.5 m out, not the final
+  waking spot; from 23.43 m the cube is a touch smaller, the character the
+  same). On the board as a big card with the operator's quote (v66).
+- **The explainer** «Два океана» was amended on the operator's comment (how many
+  waves "good" takes); answered in its thread.
 - **Next, in order**: (1) merge core, shell, sky as they report green and lint;
   re-shoot the six eyes after each; (2) sea's FFT ocean in the renderer, its
   frames to the operator and the board; (3) walk and pill in, the intro played

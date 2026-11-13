@@ -1,12 +1,18 @@
-import { assemble, wgsl } from '@/cube/shared/lib/wgsl';
-import { type Exposed, GRADE } from '@/cube/entities/theme';
+import type { Exposed } from '@/cube/entities/theme';
 
-import { LENS_STAGE } from './shader';
+import { firstFloorThrough } from './shader';
 
 /** What the outside's lens is set to for one frame. */
 export type OutsideLens = Exposed & {
   /** How far the eyelids are open: 0 shut, 1 wide. */
   eyelids: number;
+  /**
+   * How far the eye has become floor 1's: absent or 0, the outside's film at
+   * `exposure`; 1, floor 1's own lens to the pixel, whatever `exposure` is;
+   * between, the two mixed. An eye crossing the doorway runs it from one end
+   * to the other, so the frame on either side of the switch is the same.
+   */
+  indoors?: number;
 };
 
 /**
@@ -18,13 +24,15 @@ export const OUTSIDE_LENS: OutsideLens = { exposure: 0.3, eyelids: 1 };
 
 /**
  * The lens an eye outdoors sees through: the scene and a little of its glow,
- * exposed, through the film's curve, between eyelids — two soft-edged arcs
- * closing from above and below, the gap between them widest in the middle.
+ * exposed, through the film's curve, mixed with what floor 1's lens makes of
+ * the same scene, between eyelids — two soft-edged arcs closing from above
+ * and below, the gap between them widest in the middle.
  */
-const LENS = wgsl(
-  'outside/lens',
-  /* wgsl */ `
-${LENS_STAGE}
+const LENS = /* wgsl */ `
+/// How far the film parts red from blue, as \`through\` takes it: a quarter
+/// of a pixel at the frame's lower edge, where the outdoors is sparks and
+/// grain a pixel wide that a wider parting would colour.
+const FRINGE = 0.0005;
 
 /// How much of the pixel at \`uv\` shows between eyelids \`open\` of the way open.
 fn betweenLids(uv: vec2f, open: f32) -> f32 {
@@ -37,12 +45,10 @@ fn betweenLids(uv: vec2f, open: f32) -> f32 {
 @fragment
 fn lensFragment(@builtin(position) at: vec4f) -> @location(0) vec4f {
   let l = lensOf(at);
-  let seen = tonemap(through(l, 0.03, 0.002) * uniforms.lens.x);
+  let film = tonemap(through(l, 0.03, FRINGE) * uniforms.lens.x);
+  let seen = mix(film, themeLens(l), uniforms.lens.z);
   return vec4f(seen * betweenLids(l.uv, uniforms.lens.y), 1.0);
-}
-`,
-  GRADE,
-);
+}`;
 
 /** The whole shader of the outside's lens. */
-export const outsideLensSource = (): string => assemble([LENS]);
+export const outsideLensSource = (): string => firstFloorThrough(LENS);

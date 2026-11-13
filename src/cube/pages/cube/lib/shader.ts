@@ -10,15 +10,15 @@ export const UNIFORM_FLOATS = 16 + 4 + 4 + 4;
  * uniforms, the scene and its glow to look at, one triangle over the screen,
  * and `lensOf`, the `Lens` of a pixel. A lens adds `lensFragment`.
  */
-export const LENS_STAGE = /* wgsl */ `
+const LENS_STAGE = /* wgsl */ `
 struct Uniforms {
   viewProjection: mat4x4f,
   /// The eye, in its own frame.
   eye: vec4f,
   /// Seconds into the shared clock's hour, which hour, and the screen's size.
   clock: vec4f,
-  /// What the outside's lens is set to: its exposure, and how far the
-  /// eyelids are open, 0 shut to 1.
+  /// What the outside's lens is set to: its exposure, how far the eyelids
+  /// are open, 0 shut to 1, and how far indoors the eye is, 0 to 1.
   lens: vec4f,
 };
 
@@ -60,9 +60,9 @@ fn lensOf(at: vec4f) -> Lens {
  * its light — a room's face from what it is made of, a board's from the
  * texture drawn on it — writing scene light, how far off the point is, and
  * the mirror the light left, which the frame fills before the lens.
- * The lens: each pixel what the theme's lens makes of that scene.
+ * The lens is `lens`, which defines `lensFragment` over the theme's own.
  */
-const STAGE = /* wgsl */ `
+const stage = (lens: string): string => /* wgsl */ `
 ${LENS_STAGE}
 
 @group(1) @binding(0) var board: texture_2d<f32>;
@@ -142,11 +142,24 @@ fn boardFragment(in: Varying) -> Scene {
   return sceneOf(s, themeLight(s, m));
 }
 
+${lens}
+`;
+
+/** A floor's lens: each pixel what the theme's lens makes of the scene. */
+const FLOOR_LENS = /* wgsl */ `
 @fragment
 fn lensFragment(@builtin(position) at: vec4f) -> @location(0) vec4f {
   return vec4f(themeLens(lensOf(at)), 1.0);
-}
-`;
+}`;
 
 /** The whole shader of floor `n`. */
-export const shaderOf = (n: number): string => floorSource(themeOf(n), STAGE);
+export const shaderOf = (n: number): string =>
+  floorSource(themeOf(n), stage(FLOOR_LENS));
+
+/**
+ * Floor 1's whole shader with `lens` for its `lensFragment`: a lens that can
+ * call floor 1's `themeLens`, for an eye passing between that room and the
+ * outside.
+ */
+export const firstFloorThrough = (lens: string): string =>
+  floorSource(themeOf(1), stage(lens));
