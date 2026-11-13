@@ -1,5 +1,16 @@
 # Sea — reports to the lead, newest first
 
+## 2026-11-13 ~13:00Z — judged in frames at 7abe3943; nothing owed
+
+Head a2f91419 with the lead merged in; every gate in the entry below is green
+on it, and `/dry` and `/tend-prose` over the diff since 07812481 changed
+nothing. The entry below's "not yet seen" items are seen: at the lead's
+`wake-sea` eye the far breaker fades along its crest and the shadowed foam is
+pale (`frames/sea/wake-sea-horizon-before-after.webp`). 7abe3943 filters the
+lace by the mean of a glancing pixel's two sides, since 376d8709 had blurred it
+into a smear at that eye. Keeper frames and their README lines are current. The
+sand-coloured line below is still open and is not the sea's.
+
 ## 2026-11-13 ~12:25Z — state of the package at 376d8709
 
 Branch `claude/cube-intro-sea`, head 376d8709 plus this report; the lead merged
