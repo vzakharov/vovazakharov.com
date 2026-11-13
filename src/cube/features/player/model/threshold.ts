@@ -1,10 +1,11 @@
 import { clamp01 } from '@/cube/shared/lib/ease';
-import { toCube, toWorld } from '@/cube/shared/outside';
+import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
+import { DOORWAY, toCube, toWorld } from '@/cube/shared/outside';
 import type { Pose } from '@/cube/entities/world';
 
-import { byDoorway } from './abroad';
+import { BODY_RADIUS } from './body';
 import type { Stage } from './scenes';
-import { EYE_HEIGHT } from './step';
+import { EYE_HEIGHT, type Input, strideOf } from './step';
 import type { Shot } from './track';
 
 const TAU = 2 * Math.PI;
@@ -13,7 +14,7 @@ const TAU = 2 * Math.PI;
 const SHORT_OF_ONE = 1 - 1e-9;
 
 /**
- * A whole body's eye in floor 1's room as a scene's camera, in the world's
+ * The eye of a body in floor 1's room as a scene's camera, in the world's
  * metres, exposed as `stage` has the room.
  */
 export const shotWithin = (
@@ -43,9 +44,23 @@ export const poseWithin = ({ x, y, z, yaw, elevation }: Shot): Pose => {
   };
 };
 
+/** How near the east wall counts as pressed to it, in room sides. */
+const PRESSED = 1e-3;
+
 /**
- * Whether a body at `pose` can take the ladder down: whole, on floor 1, by
- * the doorway and looking out of it.
+ * Whether a body at `pose` walks out of the doorway under `input`: on floor
+ * 1 at whatever size, pressed to the east wall with its whole width inside
+ * the opening, and still walking east.
  */
-export const canLeave = (pose: Pose, stage: Stage): boolean =>
-  pose.n === 1 && pose.scale >= 1 && byDoorway(shotWithin(pose, stage), stage);
+export function stepsOut(pose: Pose, input: Input): boolean {
+  const { n, u, v, yaw, scale } = pose;
+  const radius = BODY_RADIUS * scale;
+  const [east] = strideOf(input, yaw, 1);
+  return (
+    n === 1 &&
+    east > 0 &&
+    u >= 1 - radius - PRESSED &&
+    (v - radius) * ROOM_METRES >= DOORWAY.from &&
+    (v + radius) * ROOM_METRES <= DOORWAY.to
+  );
+}

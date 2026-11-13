@@ -104,12 +104,15 @@ function leg(
   return [trouser, foot];
 }
 
-/** `rings` of the world, in the frame the outside is drawn in. */
-const framed = (rings: readonly Ring[]): Ring[] =>
+/**
+ * A whole body's `rings` shrunk to `scale` about `eye`, in the frame the
+ * outside is drawn in.
+ */
+const framed = (rings: readonly Ring[], eye: Vec3, scale: number): Ring[] =>
   rings.map(({ centre, wide, thick }) => ({
-    centre: toCube(centre),
-    wide: times(wide, 1 / CUBE_METRES),
-    thick: times(thick, 1 / CUBE_METRES),
+    centre: toCube(plus(eye, times(minus(centre, eye), scale))),
+    wide: times(wide, scale / CUBE_METRES),
+    thick: times(thick, scale / CUBE_METRES),
   }));
 
 /**
@@ -118,13 +121,29 @@ const framed = (rings: readonly Ring[]): Ring[] =>
  *
  * On its feet the legs stand under the eye and stride with `swing`; sitting
  * or lying they stretch from the seat the way it heads, and the trunk leans
- * from there to the eye; afloat they trail behind and kick.
+ * from there to the eye; afloat they trail behind and kick. A body of another
+ * scale is a whole one built round the same eye over ground that much
+ * farther off, and shrunk about the eye.
  */
 export function legsOf(
-  { eye, yaw, seat, swing, afloat }: Bearing,
-  land: Land,
+  { eye, yaw, seat: sat, swing, afloat, scale }: Bearing,
+  { height }: Land,
 ): Quad[] {
   const [eyeX, eyeY, eyeZ] = eye;
+  /** The ground as the whole body round this eye stands on it. */
+  const land = {
+    height: (x: number, z: number): number =>
+      eyeY -
+      (eyeY - height(eyeX + (x - eyeX) * scale, eyeZ + (z - eyeZ) * scale)) /
+        scale,
+  };
+  const seat = sat && {
+    ...sat,
+    at: [
+      eyeX + (sat.at[0] - eyeX) / scale,
+      eyeZ + (sat.at[1] - eyeZ) / scale,
+    ] as const,
+  };
   const over = eyeY - land.height(eyeX, eyeZ);
   // How far the body is up on its feet rather than down on its seat.
   const up = seat === null ? 1 : smooth(ramp(over, 0.85, 1.35));
@@ -163,12 +182,15 @@ export function legsOf(
     const bend = afloat ? UP : unit(plus(fore, [0, 0.6 * lain, 0]));
     const [trouser, foot] = leg(hip, ankle, bend, toes, right);
     return [
-      ...loft(framed(trouser ?? []), FRAME, {
+      ...loft(framed(trouser ?? [], eye, scale), FRAME, {
         surface: 'fabric',
         paint: TROUSERS,
         sides: LEG_SIDES,
       }),
-      ...loft(framed(foot ?? []), FRAME, { surface: 'skin', sides: 8 }),
+      ...loft(framed(foot ?? [], eye, scale), FRAME, {
+        surface: 'skin',
+        sides: 8,
+      }),
     ];
   });
   const neck = plus(hips, times(minus(eye, hips), 0.7));
@@ -185,6 +207,9 @@ export function legsOf(
   ];
   return [
     ...quads,
-    ...loft(framed(trunk), FRAME, { surface: 'fabric', sides: TORSO_SIDES }),
+    ...loft(framed(trunk, eye, scale), FRAME, {
+      surface: 'fabric',
+      sides: TORSO_SIDES,
+    }),
   ];
 }

@@ -1,9 +1,12 @@
 import { pick } from '@/kernel/shared/lib/collections';
 
+import type { Laddered } from '@/cube/shared/outside';
+
 import type { Cue, Cued } from './play';
 import {
   type Bearing,
   isAfloat,
+  type Land,
   roam,
   type Roamer,
   roamingAt,
@@ -12,14 +15,11 @@ import {
 } from './roam';
 import {
   climb,
-  descent,
-  farFrom,
   LADDER_REACH,
-  LOOK_FROM,
-  lookUnder,
   outsideOf,
   shotOf,
   type Stage,
+  stepOff,
   waking,
 } from './scenes';
 import type { Input } from './step';
@@ -33,15 +33,15 @@ type Playing = Seated & {
 };
 
 /** What a body out of doors carries from scene to scene. */
-type Mind = { asleep: boolean; lookedUnder: boolean };
+type Mind = Required<Laddered> & { asleep: boolean };
 
 /**
  * A body out of doors and what the eye shows of it this frame. `scene` is
  * the one that holds its controls, null while it roams free; `asleep` until
  * the first sign of the player, the waking scene waiting on its first
- * moment; `lookedUnder` once the look under the cube has been set off;
- * `entered` in the one frame a scene has put the body inside the cube, where
- * `shot` is where it stands.
+ * moment; `ladderGone` once it has been inside the cube, the ladder standing
+ * for a body that has not; `entered` in the one frame a scene has put the
+ * body inside the cube, where `shot` is where it stands.
  */
 export type Abroad = Mind &
   Cued & {
@@ -80,37 +80,47 @@ export function asleepOn(stage: Stage, seconds: number): Abroad {
       playedFor: 0,
       into: 'island',
     },
-    { asleep: true, lookedUnder: false },
+    { asleep: true, ladderGone: false },
   );
 }
 
 /**
- * A body leaving the cube from `from`, by the doorway inside: on its way
- * down the ladder. It has seen what holds the cube up from above.
+ * A body of `scale` leaving the cube from `from`, pressed to the doorway
+ * inside: off the sill and down to the sand, where no ladder stands.
  */
-export const leaving = (from: Shot, stage: Stage, seconds: number): Abroad =>
+export const steppingOut = (
+  from: Shot,
+  scale: number,
+  stage: Stage,
+  seconds: number,
+): Abroad =>
   playing(
     roamingAt(
       stage.land,
-      [stage.ladder.foot[0], stage.ladder.foot[2]],
-      from,
+      [from.x, from.z],
+      pick(from, 'yaw', 'elevation'),
       seconds,
+      scale,
     ),
-    { track: descent(from, stage), seat: null, playedFor: 0, into: 'island' },
-    { asleep: false, lookedUnder: true },
+    {
+      track: stepOff(from, scale, stage),
+      seat: null,
+      playedFor: 0,
+      into: 'island',
+    },
+    { asleep: false, ladderGone: true },
   );
 
-/** How near the arrival spot an eye inside reaches the doorway, in metres. */
-const DOOR_REACH = 1.3;
+/** `stage`'s land as a body meets it, the ladder in its way until it is gone. */
+const landOf = ({ land, ladder }: Stage, ladderGone: boolean): Land =>
+  ladderGone ? land : { ...land, solids: [...land.solids, ladder.solid] };
 
-/** Whether an eye inside at `shot` stands by the doorway, looking out of it. */
-export const byDoorway = ({ x, z, yaw }: Shot, { arrival }: Stage): boolean =>
-  Math.hypot(x - arrival[0], z - arrival[2]) <= DOOR_REACH &&
-  Math.cos(yaw) > 0.5;
-
-/** Whether `abroad` stands free on the sand within reach of the ladder's foot. */
+/**
+ * Whether `abroad` stands free on the sand within reach of the foot of a
+ * ladder that still stands.
+ */
 export function canClimb(
-  { scene, roamer }: Abroad,
+  { scene, roamer, ladderGone }: Abroad,
   { land, ladder }: Stage,
   seconds: number,
 ): boolean {
@@ -118,7 +128,8 @@ export function canClimb(
   const [footX, , footZ] = ladder.foot;
   return (
     scene === null &&
-    !isAfloat(land, roamer.eye, seconds) &&
+    !ladderGone &&
+    !isAfloat(land, roamer.eye, seconds, roamer.scale) &&
     Math.hypot(x - footX, z - footZ) <= LADDER_REACH
   );
 }
@@ -130,8 +141,7 @@ export function canClimb(
  * A scene holds the controls while it plays and its cues fall in the frames
  * they are marked in; one that ends on the island hands the body back where
  * the camera left it, one that ends in the cube reports `entered`. Free, the
- * body roams; the first time it comes near the cube on its feet it looks
- * under it, and asking for the ladder within reach of its foot climbs it.
+ * body roams, and asking for the ladder within reach of its foot climbs it.
  */
 export function abroad(
   state: Abroad,
@@ -141,9 +151,9 @@ export function abroad(
   stage: Stage,
   woken: boolean,
 ): Abroad {
-  const { scene, roamer, lookedUnder, asleep } = state;
+  const { scene, roamer, ladderGone, asleep } = state;
   if (asleep && !woken) return { ...state, cues: NO_CUES };
-  const rest = { asleep: false, lookedUnder };
+  const rest = { asleep: false, ladderGone };
   if (scene !== null) {
     const { track, playedFor, into } = scene;
     const t = playedFor + dt;
@@ -153,6 +163,7 @@ export function abroad(
     return {
       roamer: done
         ? {
+            ...roamer,
             ...outsideOf(shot),
             strode: 0,
             paces: 0,
@@ -180,28 +191,8 @@ export function abroad(
       rest,
     );
   }
-  const moved = roam(roamer, input, dt, seconds, stage.land);
-  const { eye, cues } = moved;
-  const [x, , z] = eye;
-  if (
-    !lookedUnder &&
-    farFrom(stage.cube, [x, z]) <= LOOK_FROM &&
-    !isAfloat(stage.land, eye, seconds)
-  ) {
-    return {
-      ...playing(
-        moved,
-        {
-          track: lookUnder(shotOf(moved), stage),
-          seat: null,
-          playedFor: 0,
-          into: 'island',
-        },
-        { asleep: false, lookedUnder: true },
-      ),
-      cues,
-    };
-  }
+  const moved = roam(roamer, input, dt, seconds, landOf(stage, ladderGone));
+  const { cues } = moved;
   return { ...free, roamer: moved, shot: shotOf(moved), cues };
 }
 
@@ -213,10 +204,12 @@ export function bearingOf(
 ): Bearing | null {
   if (shot.lids <= 0) return null;
   const free = scene === null;
+  const { scale, eye } = roamer;
   return {
     ...outsideOf(shot),
+    scale,
     seat: scene?.seat ?? null,
     swing: free ? swingOf(roamer) : 0,
-    afloat: free && isAfloat(land, roamer.eye, seconds),
+    afloat: free && isAfloat(land, eye, seconds, scale),
   };
 }

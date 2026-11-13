@@ -1,13 +1,13 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { type Abroad, abroad, leaving } from './abroad';
+import { type Abroad, abroad, steppingOut } from './abroad';
 import { INTRO_STAGE } from './intro-stage';
 import { arrivedOn } from './play';
 import { EYE_OVER_SAND, roamingAt } from './roam';
 import { shotOf } from './scenes';
 import { EYE_HEIGHT, STILL } from './step';
-import { canLeave, poseWithin, shotWithin } from './threshold';
+import { poseWithin, shotWithin, stepsOut } from './threshold';
 
 const { land, ladder, arrival, cube } = INTRO_STAGE;
 const DT = 1 / 30;
@@ -46,18 +46,34 @@ describe('the threshold', () => {
     assert.equal(pose.n, 1);
   });
 
-  it('lets a whole body on floor 1 leave by the doorway, looking out', () => {
-    const by = {
-      ...poseWithin(shotOf({ eye: arrival, yaw: 0, elevation: 0, roll: 0 })),
-    };
-    assert.ok(canLeave(by, INTRO_STAGE));
-    assert.ok(!canLeave({ ...by, yaw: Math.PI }, INTRO_STAGE));
-    assert.ok(!canLeave({ ...by, u: 0.3 }, INTRO_STAGE));
-    assert.ok(!canLeave({ ...by, scale: 0.5 }, INTRO_STAGE));
-    assert.ok(!canLeave({ ...by, n: 2 }, INTRO_STAGE));
+  it('walks out of the doorway only pressed to it, inside it, heading east', () => {
+    const east = { ...STILL, walk: 1 };
+    for (const scale of [1, 0.5]) {
+      const by = {
+        ...arrivedOn(1),
+        scale,
+        u: 1 - 0.06 * scale,
+        v: 0.15,
+        yaw: 0.3,
+      };
+      assert.ok(stepsOut(by, east), `at scale ${scale}`);
+      assert.ok(!stepsOut(by, STILL));
+      assert.ok(!stepsOut(by, { ...STILL, walk: -1 }));
+      assert.ok(!stepsOut({ ...by, yaw: Math.PI }, east));
+      assert.ok(
+        stepsOut({ ...by, yaw: Math.PI / 2 }, { ...STILL, strafe: -1 }),
+      );
+      assert.ok(!stepsOut({ ...by, u: 0.9 }, east));
+      assert.ok(!stepsOut({ ...by, v: 0.4 }, east));
+      assert.ok(!stepsOut({ ...by, n: 2 }, east));
+    }
+    // A whole body's width does not fit where a halved one's does.
+    const edge = { ...arrivedOn(1), v: 0.09, yaw: 0 };
+    assert.ok(!stepsOut({ ...edge, u: 0.94 }, east));
+    assert.ok(stepsOut({ ...edge, u: 0.97, scale: 0.5 }, east));
   });
 
-  it('climbs the real ladder into the room and comes back down it', () => {
+  it('climbs the real ladder into the room and steps back out onto the sand', () => {
     const [footX, , footZ] = ladder.foot;
     const roamer = roamingAt(
       land,
@@ -69,7 +85,7 @@ describe('the threshold', () => {
       roamer,
       scene: null,
       asleep: false,
-      lookedUnder: true,
+      ladderGone: false,
       shot: shotOf(roamer),
       cues: [],
       entered: false,
@@ -78,13 +94,15 @@ describe('the threshold', () => {
       abroad(free, { ...STILL, pull: true }, DT, 0, INTRO_STAGE, true),
     );
     assert.ok(up.entered);
-    const pose = poseWithin(up.shot);
-    assert.ok(canLeave({ ...pose, yaw: 0 }, INTRO_STAGE));
+    const pose = { ...poseWithin(up.shot), u: 0.94, yaw: 0 };
+    assert.ok(stepsOut(pose, { ...STILL, walk: 1 }));
     const down = played(
-      leaving(shotWithin({ ...pose, yaw: 0 }, INTRO_STAGE), INTRO_STAGE, 0),
+      steppingOut(shotWithin(pose, INTRO_STAGE), 1, INTRO_STAGE, 0),
     );
     const [x, y, z] = down.roamer.eye;
-    assert.ok(Math.hypot(x - footX, z - footZ) < 0.6);
+    assert.ok(x > cube.max[0] + 0.3 && x < cube.max[0] + 1);
     assert.ok(Math.abs(y - land.height(x, z) - EYE_OVER_SAND) < 1e-6);
+    // The drop is the sill's height over the sand.
+    assert.ok(Math.abs(ladder.top[1] - land.height(x, z) - 3.6) < 0.15);
   });
 });

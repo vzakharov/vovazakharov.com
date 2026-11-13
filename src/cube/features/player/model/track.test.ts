@@ -5,7 +5,6 @@ import {
   type Channel,
   cuesBetween,
   joined,
-  reversed,
   shotAt,
   type Track,
   trackOf,
@@ -125,25 +124,6 @@ describe('trackOf', () => {
 
   it('refuses a first beat that leaves a channel unpinned', () => {
     assert.throws(() => trackOf([{ mark: 0, ...REST }]), /exposure/);
-  });
-
-  it('plays backwards as the same camera at the mirrored moment', () => {
-    const back = reversed(scene, (cue) => `un${cue}`);
-    for (const t of [0, 0.3, 1, 2, 2.7, 3.9, 4]) {
-      const [there, here] = [shotAt(scene, 4 - t), shotAt(back, t)];
-      assert.ok(Math.abs(there.x - here.x) < 1e-12, `x at ${t}`);
-      assert.ok(Math.abs(there.y - here.y) < 1e-12, `y at ${t}`);
-    }
-    assert.deepEqual(back.cues, [[3, 'unstep']]);
-  });
-
-  it('mirrors an eased stretch when played backwards', () => {
-    const eased = trackOf<string>([
-      { mark: 0, ...REST, exposure: 1 },
-      { mark: 2, x: 1, ease: 'in' },
-    ]);
-    const back = reversed(eased);
-    assert.equal(shotAt(back, 0.5).x, shotAt(eased, 1.5).x);
   });
 
   it('joins two tracks end to start', () => {

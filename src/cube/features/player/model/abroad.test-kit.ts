@@ -27,6 +27,7 @@ export const STAGE: Stage = {
     foot: [4, height(4, -1.7), -1.7],
     top: [2.5, 5.2, -1.7],
     rungs: Array.from({ length: 12 }, (_, index) => 1.7 + 0.3 * index),
+    solid: { min: [2.5, 1.38, -1.9], max: [4, 5.2, -1.5] },
   },
   arrival: [1.5, 6.8, -1.5],
   indoors: 3,

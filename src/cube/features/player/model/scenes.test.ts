@@ -5,7 +5,7 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import { sampled, STAGE } from './abroad.test-kit';
 import { EYE_OVER_SAND } from './roam';
-import { climb, descent, farFrom, lookUnder, shotOf, waking } from './scenes';
+import { climb, shotOf, stepOff, waking } from './scenes';
 import { type Shot, shotAt } from './track';
 
 const { land, cube, wake, arrival, ladder, indoors } = STAGE;
@@ -73,45 +73,7 @@ describe('waking', () => {
   });
 });
 
-describe('lookUnder', () => {
-  const from = standing(-7.5, 7.5, -0.3);
-  const track = lookUnder(from, STAGE);
-  const shots = sampled(track);
-
-  it('starts where the body stands and ends on its feet', () => {
-    assert.deepEqual(shotAt(track, 0), from);
-    const last = shotAt(track, track.runs);
-    assert.ok(close(overSand(last), EYE_OVER_SAND, 1e-6));
-    assert.equal(last.roll, 0);
-  });
-
-  it('walks nearer, footfall by footfall, and stays clear of the cube', () => {
-    assert.ok(track.cues.length >= 3);
-    assert.ok(shots.every(({ x, z }) => farFrom(cube, [x, z]) > 2.5));
-    const { x, z } = shotAt(track, track.runs);
-    assert.ok(farFrom(cube, [x, z]) < 3.5);
-  });
-
-  it('bends until the eye is under the cube and sees through to the far side', () => {
-    const [lowest] = shots.toSorted((a, b) => a.y - b.y);
-    assert.ok(lowest);
-    assert.ok(lowest.y < cube.min[1] - 0.3);
-    assert.ok(overSand(lowest) > 0.4);
-    // The line of sight at the far edge is still under the cube and over the sand.
-    const reach = farFrom(cube, [lowest.x, lowest.z]) + 5;
-    const there = lowest.y + reach * Math.tan(lowest.elevation);
-    assert.ok(there < cube.min[1] && there > 1.6, `${there}`);
-    assert.ok(Math.abs(lowest.roll) > 0.1);
-  });
-
-  it('bends where it stands when already near', () => {
-    const near = lookUnder(standing(-4, 0, 0), STAGE);
-    assert.equal(near.cues.length, 0);
-    assert.ok(near.runs < track.runs);
-  });
-});
-
-describe('climb and descent', () => {
+describe('climb', () => {
   const from = standing(5, -1, Math.PI + 0.4);
   const up = climb(from, STAGE);
   const shots = sampled(up);
@@ -148,26 +110,56 @@ describe('climb and descent', () => {
       ),
     );
   });
+});
 
-  it('comes down the same way backwards, to the ladder foot', () => {
-    const inside: Shot = {
-      x: 1.2,
-      y: arrival[1],
-      z: -1.2,
-      yaw: 0.2,
-      elevation: -0.1,
-      roll: 0,
-      lids: 1,
-      exposure: indoors,
-    };
-    const down = descent(inside, STAGE);
-    const last = shotAt(down, down.runs);
-    assert.ok(close(overSand(last), EYE_OVER_SAND, 1e-6));
-    assert.ok(
-      Math.hypot(last.x - ladder.foot[0], last.z - ladder.foot[2]) < 0.6,
-    );
-    assert.equal(last.exposure, 1);
-    const [upMid, downMid] = [shotAt(up, up.runs - 3), shotAt(down, 0.8 + 3)];
-    assert.ok(close(upMid.y, downMid.y, 1e-9));
-  });
+/** The eye of a body of `scale` pressed to the doorway from inside. */
+const pressed = (scale: number): Shot => ({
+  x: cube.max[0] - 0.3 * scale,
+  y: ladder.top[1] + EYE_OVER_SAND * scale,
+  z: -1.7,
+  yaw: 0.2,
+  elevation: -0.1,
+  roll: 0,
+  lids: 1,
+  exposure: indoors,
+});
+
+describe('stepOff', () => {
+  for (const scale of [1, 0.5]) {
+    const from = pressed(scale);
+    const track = stepOff(from, scale, STAGE);
+    const shots = sampled(track, 0.01);
+
+    it(`starts where a body of ${scale} stands and keeps its gaze`, () => {
+      assert.deepEqual(shotAt(track, 0), from);
+      assert.ok(shots.every(({ yaw }) => yaw === from.yaw));
+      assert.ok(shots.every(({ elevation }) => elevation === from.elevation));
+    });
+
+    it(`lands a body of ${scale} on the sand under the doorway, in daylight`, () => {
+      const last = shotAt(track, track.runs);
+      assert.ok(close(overSand(last), EYE_OVER_SAND * scale, 1e-9));
+      assert.ok(last.x > cube.max[0] + 0.3 * scale);
+      assert.equal(last.z, from.z);
+      assert.equal(last.exposure, 1);
+    });
+
+    it(`is clear of the face before a body of ${scale} sinks under the sill`, () => {
+      assert.ok(
+        shots.every(({ x, y }) => x > cube.max[0] || y >= from.y - 1e-9),
+      );
+    });
+
+    it(`falls a body of ${scale} as a dropped thing does, and lands once`, () => {
+      const drop = from.y - shotAt(track, track.runs).y;
+      const [[at, cue] = [0, null]] = track.cues;
+      assert.equal(track.cues.length, 1);
+      assert.ok(cue?.cue === 'landing');
+      assert.ok(close(at, 0.35 + Math.sqrt((2 * drop) / 9.8), 1e-9));
+      // Half way through the fall's time, a quarter of the way down.
+      const half = shotAt(track, 0.35 + (at - 0.35) / 2);
+      assert.ok(close(from.y - half.y, drop / 4, 1e-9));
+      assert.ok(shots.every((shot) => overSand(shot) > 0.6 * scale));
+    });
+  }
 });

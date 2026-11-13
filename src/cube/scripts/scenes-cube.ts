@@ -4,8 +4,8 @@
  * judged from these as a storyboard.
  *
  *   pnpm scenes:cube                     # every scene, to tmp/cube-scenes/
- *   pnpm scenes:cube --scenes waking     # those, of waking, look-under,
- *                                        # climb and descent
+ *   pnpm scenes:cube --scenes waking     # those, of waking, climb, jump
+ *                                        # and jump-small
  *   pnpm scenes:cube --every 1           # a frame every second instead
  *   pnpm scenes:cube --out <dir>         # frames there instead, <dir> absolute
  *
@@ -17,12 +17,11 @@ import path from 'node:path';
 
 import {
   climb,
-  descent,
-  lookUnder,
   outsideOf,
   type Shot,
   shotAt,
   shotOf,
+  stepOff,
   type Track,
   waking,
 } from '@/cube/features/player';
@@ -39,7 +38,7 @@ const FRAMES = path.resolve(
 );
 const EVERY = Number(flag('every') ?? 0.5);
 
-const { land, ladder, arrival, wake, indoors } = LIT_STAGE;
+const { land, ladder, arrival, cube, indoors } = LIT_STAGE;
 
 /** A standing eye's height over the sand, in metres. */
 const STANDING = 1.6;
@@ -53,33 +52,33 @@ const standing = (x: number, z: number, yaw: number): Shot =>
     roll: 0,
   });
 
-/** How far along the walk from the shore the cube first comes near. */
-const NEARING = 0.32;
+/**
+ * The eye of a body of `scale` pressed to the doorway from inside, looking
+ * out and a little down.
+ */
+const atDoorway = (scale: number): Shot => ({
+  ...shotOf({
+    eye: [
+      cube.max[0] - 0.3 * scale,
+      ladder.top[1] + STANDING * scale,
+      arrival[2],
+    ],
+    yaw: 0,
+    elevation: -0.15,
+    roll: 0,
+  }),
+  exposure: indoors,
+});
 
 const SCENES: Record<string, () => Track<unknown>> = {
   waking: () => waking(LIT_STAGE),
-  'look-under': () =>
-    lookUnder(
-      standing(
-        wake.at[0] * NEARING,
-        wake.at[1] * NEARING,
-        Math.atan2(-wake.at[1], -wake.at[0]),
-      ),
-      LIT_STAGE,
-    ),
   climb: () =>
     climb(
       standing(ladder.foot[0] + 0.9, ladder.foot[2] + 0.3, Math.PI),
       LIT_STAGE,
     ),
-  descent: () =>
-    descent(
-      {
-        ...shotOf({ eye: arrival, yaw: 0, elevation: 0, roll: 0 }),
-        exposure: indoors,
-      },
-      LIT_STAGE,
-    ),
+  jump: () => stepOff(atDoorway(1), 1, LIT_STAGE),
+  'jump-small': () => stepOff(atDoorway(0.5), 0.5, LIT_STAGE),
 };
 
 async function main(): Promise<void> {

@@ -5,8 +5,7 @@
   "nowhere": "This address leads nowhere in the cube.",
   "ways": {
     "wake": "Press any key",
-    "climb": "Press E to climb the ladder",
-    "descend": "Press E to climb down"
+    "climb": "Press E to climb the ladder"
   },
   "offer": {
     "signs": {

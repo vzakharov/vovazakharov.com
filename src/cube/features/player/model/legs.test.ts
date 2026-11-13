@@ -17,11 +17,12 @@ const cornersOf = (quads: readonly Quad[]): Vec3[] =>
 const feetOf = (quads: readonly Quad[]): Vec3[] =>
   cornersOf(quads.filter(({ surface }) => surface === 'skin'));
 
-const standing = (x: number, z: number, yaw: number): Bearing => ({
-  eye: [x, land.height(x, z) + EYE_OVER_SAND, z],
+const standing = (x: number, z: number, yaw: number, scale = 1): Bearing => ({
+  eye: [x, land.height(x, z) + EYE_OVER_SAND * scale, z],
   yaw,
   elevation: 0,
   roll: 0,
+  scale,
   seat: null,
   swing: 0,
   afloat: false,
@@ -49,6 +50,17 @@ describe('legsOf', () => {
     assert.ok(quads.every(({ room }) => room.n === 1));
   });
 
+  it('stands a halved body on the same sand, half as tall and half as wide', () => {
+    const quads = legsOf(standing(-10, 6, 0, 0.5), land);
+    const all = cornersOf(quads);
+    const [low, high] = bounds(all, 1);
+    const ground = land.height(-10, 6);
+    assert.ok(Math.abs(low - ground) < 0.03, `${low - ground}`);
+    assert.ok(high < ground + EYE_OVER_SAND / 2 - 0.07);
+    const [west, east] = bounds(feetOf(quads), 0);
+    assert.ok(west > -10.15 && east < -9.85);
+  });
+
   it('strides its feet apart with the swing, each the other way', () => {
     const still = bounds(feetOf(legsOf(standing(-10, 6, 0), land)), 0);
     const mid = bounds(
@@ -61,7 +73,7 @@ describe('legsOf', () => {
   it('lies the legs out from the seat while the eye is down', () => {
     const seat = { at: [-20, 20] as const, lies: Math.PI / 2 };
     const eye: Vec3 = [-20, land.height(-20, 19.2) + 0.13, 19.2];
-    const quads = legsOf({ eye, yaw: 2, seat, swing: 0, afloat: false }, land);
+    const quads = legsOf({ ...standing(-20, 19.2, 2), eye, seat }, land);
     const all = cornersOf(quads);
     assert.ok(
       all.every((corner) => corner.every((value) => Number.isFinite(value))),
@@ -76,7 +88,10 @@ describe('legsOf', () => {
   it('trails the legs behind a swimmer, under the eye', () => {
     const eye: Vec3 = [-60, 0.14, 0];
     const feet = feetOf(
-      legsOf({ eye, yaw: Math.PI, seat: null, swing: 0.5, afloat: true }, land),
+      legsOf(
+        { ...standing(-60, 0, Math.PI), eye, swing: 0.5, afloat: true },
+        land,
+      ),
     );
     assert.ok(feet.every(([x, y]) => x > -59.5 && y < 0));
   });

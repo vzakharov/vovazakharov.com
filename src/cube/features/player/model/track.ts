@@ -6,10 +6,10 @@ import { lerp, ramp, smooth } from '@/cube/shared/lib/ease';
  * at pace, `out` leaves at pace and arrives at rest. An `in` into a key and an
  * `out` out of it carry a motion through the key without a stop.
  */
-export type Ease = 'smooth' | 'linear' | 'in' | 'out';
+type Ease = 'smooth' | 'linear' | 'in' | 'out';
 
 /** A channel's value at a moment, and how it is arrived at; `smooth` unsaid. */
-export type Key = readonly [at: number, value: number, ease?: Ease];
+type Key = readonly [at: number, value: number, ease?: Ease];
 
 /**
  * One number over a scene's time: its keys in order of `at`, held at the
@@ -133,44 +133,9 @@ export function trackOf<C>(
   };
 }
 
-const BACKWARDS: Record<Ease, Ease> = {
-  smooth: 'smooth',
-  linear: 'linear',
-  in: 'out',
-  out: 'in',
-};
-
-/** `channel` of a scene `runs` seconds long, played from its end to its start. */
-const backwards = (channel: Channel, runs: number): Channel =>
-  channel
-    .map(([at, value], index): Key => {
-      // The stretch arrived at here, backwards, is the one left from here.
-      const ease = channel[index + 1]?.[2];
-      return ease ? [runs - at, value, BACKWARDS[ease]] : [runs - at, value];
-    })
-    .toReversed();
-
 /** `channel` starting `by` seconds later. */
 const delayed = (channel: Channel, by: number): Channel =>
   channel.map(([at, ...rest]): Key => [at + by, ...rest]);
-
-/**
- * `track` played backwards, each cue `swapped` for the one its undoing sets
- * off.
- */
-export const reversed = <C>(
-  track: Track<C>,
-  swapped: (cue: C) => C = (cue) => cue,
-): Track<C> => {
-  const { runs, cues } = track;
-  return {
-    ...perChannel((name) => backwards(track[name], runs)),
-    runs,
-    cues: cues
-      .map(([at, cue]): Marked<C> => [runs - at, swapped(cue)])
-      .toReversed(),
-  };
-};
 
 /**
  * `first` and then `second`, which opens where `first` ends: a channel the

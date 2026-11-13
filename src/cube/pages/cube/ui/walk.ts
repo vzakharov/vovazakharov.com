@@ -15,12 +15,10 @@ import {
   bearingOf,
   bindInput,
   canClimb,
-  canLeave,
   canPress,
   handsOf,
   type Input,
   isStanding,
-  leaving,
   legsOf,
   outsideOf,
   plantedHoled,
@@ -31,6 +29,8 @@ import {
   pulledOf,
   shotWithin,
   standingAt,
+  steppingOut,
+  stepsOut,
   STILL,
 } from '@/cube/features/player';
 
@@ -43,7 +43,7 @@ import { type CubeScene, mountCube } from './cube-scene';
 import { hear } from './hearing';
 
 /** What a press of the hand does where the body stands, a sign aside. */
-export type Way = 'wake' | 'climb' | 'descend';
+export type Way = 'wake' | 'climb';
 
 /**
  * `open` hears a press on a sign in reach; `offering` whether one is open.
@@ -102,6 +102,11 @@ export function walk(
     ashore && input !== null
       ? asleepOn(LIT_STAGE, clockAt(Date.now()).seconds)
       : null;
+  /**
+   * Whether the ladder has gone: from the frame the body first comes in by
+   * the doorway, and all along for a walk that starts inside.
+   */
+  let ladderGone = out === null;
   /** The body's own quads out of doors, in the frame of floor 1's room. */
   let body: readonly Quad[] = [];
   /** Whether the player has given the sign the sleeper wakes at. */
@@ -147,6 +152,7 @@ export function walk(
     hearing?.body(cues, player.pose);
     if (entered) {
       out = null;
+      ladderGone = true;
       body = [];
       if (earned) follow ??= following();
       return poseWithin(shot);
@@ -187,10 +193,11 @@ export function walk(
                   moving: body,
                   outside: outsideOf(shot),
                   lens: lensOf(shot),
+                  ladderGone,
                 };
               }
               player = standingAt(inside);
-              return { pose: inside, pulled: null, moving: [] };
+              return { pose: inside, pulled: null, moving: [], ladderGone };
             }
             player = playFrame(
               { ...player, pose },
@@ -207,13 +214,13 @@ export function walk(
               follow = null;
               writeCheat(moved.n);
             }
-            const press = controls.pull && standing;
-            const atSign = reach(moved, signOf, press);
-            const leaves = standing && !atSign && canLeave(moved, LIT_STAGE);
-            setWay(leaves ? 'descend' : null);
-            if (leaves && press) {
-              out = leaving(
+            reach(moved, signOf, controls.pull && standing);
+            setWay(null);
+            // Through the doorway there is only the drop to the sand.
+            if (standing && stepsOut(moved, controls)) {
+              out = steppingOut(
                 shotWithin(moved, LIT_STAGE),
+                moved.scale,
                 LIT_STAGE,
                 clockAt(now()).seconds,
               );
@@ -223,6 +230,7 @@ export function walk(
               pose: moved,
               pulled: pulledOf(player),
               moving: handsOf(player),
+              ladderGone,
             };
           },
     onHeard: (heard) => {

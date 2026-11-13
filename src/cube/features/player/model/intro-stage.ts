@@ -73,13 +73,7 @@ export const INTRO_STAGE: Stage = {
   land: {
     height: (x, z) => islandHeight([x, z]),
     level: (x, z, seconds) => waterLevel([x, z], seconds),
-    solids: [
-      CUBE_BOX,
-      {
-        min: [LADDER_TOP[0], LADDER_FOOT[1], LADDER_TOP[2] - LADDER_WIDE / 2],
-        max: [LADDER_FOOT[0], LADDER_TOP[1], LADDER_TOP[2] + LADDER_WIDE / 2],
-      },
-    ],
+    solids: [CUBE_BOX],
   },
   wake: {
     at: [WAKE_AT[0], WAKE_AT[2]],
@@ -90,7 +84,15 @@ export const INTRO_STAGE: Stage = {
       ) + ASKEW,
   },
   cube: CUBE_BOX,
-  ladder: { foot: LADDER_FOOT, top: LADDER_TOP, rungs: RUNGS },
+  ladder: {
+    foot: LADDER_FOOT,
+    top: LADDER_TOP,
+    rungs: RUNGS,
+    solid: {
+      min: [LADDER_TOP[0], LADDER_FOOT[1], LADDER_TOP[2] - LADDER_WIDE / 2],
+      max: [LADDER_FOOT[0], LADDER_TOP[1], LADDER_TOP[2] + LADDER_WIDE / 2],
+    },
+  },
   arrival: toWorld([
     1 - ARRIVES_IN / CUBE_METRES,
     EYE_HEIGHT,

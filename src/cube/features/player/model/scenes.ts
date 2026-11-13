@@ -1,3 +1,4 @@
+import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import type { Box } from '@/cube/shared/outside';
 import type { Outside, Vec3 } from '@/cube/entities/world';
 
@@ -7,7 +8,6 @@ import {
   type Beat,
   joined,
   type Marked,
-  reversed,
   type Shot,
   shotAt,
   type Track,
@@ -19,15 +19,16 @@ import {
  * spot the body wakes on at the water's edge, and the way its feet point,
  * out to sea; the cube's footprint and the height of its underside; the
  * ladder from its foot on the sand to its top at the doorway's sill, with the
- * heights of its rungs from the lowest; the eye of a body just inside the
- * doorway, facing in; and the share of the outside lens's exposure that
- * shows the room as its own lens does.
+ * heights of its rungs from the lowest and the ground it stands in a body's
+ * way on while it stands; the eye of a body just inside the doorway, facing
+ * in; and the share of the outside lens's exposure that shows the room as
+ * its own lens does. `land`'s solids are what stands for good: the cube.
  */
 export type Stage = {
   land: Land;
   wake: { at: readonly [x: number, z: number]; seaward: number };
   cube: Box;
-  ladder: { foot: Vec3; top: Vec3; rungs: readonly number[] };
+  ladder: { foot: Vec3; top: Vec3; rungs: readonly number[]; solid: Box };
   arrival: Vec3;
   indoors: number;
 };
@@ -163,117 +164,6 @@ export function waking({ land, wake, cube }: Stage): Track<Cue> {
   return trackOf(beats, cues);
 }
 
-/** How near the cube the body comes before it looks under it. */
-export const LOOK_FROM = 8;
-/** How far from the cube it bends down, and the pace it walks there at. */
-const BEND_AT = 3.4;
-const STROLL = 1.5;
-/** Metres between the footfalls of a scene's walk. */
-const PACE = 0.75;
-
-/** The point of `box` nearest `x`, `z`. */
-const nearestOn = (
-  { min: [west, , north], max: [east, , south] }: Box,
-  [x, z]: readonly [number, number],
-): readonly [number, number] => [
-  Math.min(east, Math.max(west, x)),
-  Math.min(south, Math.max(north, z)),
-];
-
-/** How far `x`, `z` is from `box`: 0 on it. */
-export const farFrom = (box: Box, at: readonly [number, number]): number =>
-  wayTo(at, nearestOn(box, at)).far;
-
-/**
- * A walk at a stroll from `from` to `to` over `land`, from `start` seconds:
- * a beat and a footfall each pace, and the moment it arrives.
- */
-function strolling(
-  land: Land,
-  from: readonly [number, number],
-  to: readonly [number, number],
-  start: number,
-): { beats: Beat[]; cues: Marks; arrives: number } {
-  const { far } = wayTo(from, to);
-  const paces = Math.ceil(far / PACE);
-  const beats = Array.from({ length: paces }, (_, index): Beat => {
-    const share = (index + 1) / paces;
-    const x = from[0] + (to[0] - from[0]) * share;
-    const z = from[1] + (to[1] - from[1]) * share;
-    return {
-      mark: start + (far * share) / STROLL,
-      x,
-      y: land.height(x, z) + EYE_OVER_SAND,
-      z,
-      ease: 'linear',
-    };
-  });
-  return {
-    beats,
-    cues: beats.map(({ mark }) => [
-      mark,
-      { cue: 'step', strength: 0.4, ground: 'sand' },
-    ]),
-    arrives: start + far / STROLL,
-  };
-}
-
-/**
- * The look under the cube, from where `from` stands: a few steps nearer if it
- * is far, the knees bend, the head tilts until the eye sees under the cube
- * and out the other side; a beat; back up.
- */
-export function lookUnder(from: Shot, { land, cube }: Stage): Track<Cue> {
-  const here: readonly [number, number] = [from.x, from.z];
-  const edge = nearestOn(cube, here);
-  const { yaw: bearing, far } = wayTo(here, edge);
-  const short = Math.max(0, far - BEND_AT);
-  const there: readonly [number, number] = [
-    here[0] + short * Math.cos(bearing),
-    here[1] + short * Math.sin(bearing),
-  ];
-  const yaw = nearest(bearing, from.yaw);
-  const walk = strolling(land, here, there, 0.3);
-  const down = Math.max(walk.arrives, 0.9);
-  const lean = 0.35;
-  const [x, z] = [
-    there[0] + lean * Math.cos(bearing),
-    there[1] + lean * Math.sin(bearing),
-  ];
-  const ground = land.height(...there);
-  const low = Math.min(ground + 0.62, cube.min[1] - 0.4);
-  // Through, to the far side's sand: under the middle, half way down the gap.
-  const through = Math.atan2(
-    cube.min[1] - 0.55 - low,
-    BEND_AT - lean + (cube.max[0] - cube.min[0]) / 2,
-  );
-  const bent = { x, y: low, z, elevation: through, roll: 0.16 };
-  const beats: Beat[] = [
-    { mark: 0, ...from },
-    { mark: 0.9, yaw, elevation: 0, roll: 0 },
-    ...walk.beats,
-    {
-      mark: down,
-      x: there[0],
-      y: ground + EYE_OVER_SAND,
-      z: there[1],
-      elevation: 0,
-      roll: 0,
-    },
-    { mark: down + 1.5, ...bent },
-    { mark: down + 3.4, ...bent },
-    {
-      mark: down + 4.8,
-      x: there[0],
-      y: ground + EYE_OVER_SAND,
-      z: there[1],
-      elevation: 0.12,
-      roll: 0,
-    },
-  ];
-  return trackOf(beats, walk.cues);
-}
-
 /** Seconds a rung takes, and how far the eye sways to the side on each. */
 const RUNG_TIME = 0.56;
 const SWAY = 0.035;
@@ -380,9 +270,47 @@ const entered = (from: Shot, track: Track<Cue>): Track<Cue> => {
 export const climb = (from: Shot, stage: Stage): Track<Cue> =>
   entered(from, ascent(stage));
 
+/** Seconds from the wall to the sill's edge, and the fall's pull, in m/s². */
+const TO_EDGE = 0.35;
+const GRAVITY = 9.8;
 /**
- * The way back down, from where `from` stands by the doorway inside: the
- * climb backwards, down to the ladder's foot.
+ * How far out of the cube's face a whole body's eye is as it starts to fall,
+ * and where it comes down.
  */
-export const descent = (from: Shot, stage: Stage): Track<Cue> =>
-  entered(from, reversed(ascent(stage)));
+const CLEAR_OF_FACE = 0.15;
+const LANDS_OUT = 0.5;
+/** The share of its height a landing takes off the eye, and for how long. */
+const DIP = 0.3;
+const DIP_TIME = 0.55;
+
+/**
+ * The step off the sill, from where a body of `scale` stands `from` inside,
+ * pressed to the doorway: out over the edge, a fall to the sand under the
+ * doorway, the knees giving on it; the eye keeps its gaze all the way and the
+ * lens opens to the daylight.
+ */
+export function stepOff(
+  from: Shot,
+  scale: number,
+  { land, cube }: Stage,
+): Track<Cue> {
+  const out = cube.max[0] + LANDS_OUT * scale;
+  const tall = EYE_OVER_SAND * scale;
+  const rest = land.height(out, from.z) + tall;
+  const { y } = from;
+  const falls = Math.sqrt((2 * Math.max(0, y - rest)) / GRAVITY);
+  const lands = TO_EDGE + falls;
+  const beats: Beat[] = [
+    { mark: 0, ...from, roll: 0 },
+    // Clear of the face before the eye sinks under the sill.
+    { mark: TO_EDGE, x: cube.max[0] + CLEAR_OF_FACE * scale, y },
+    { mark: lands, x: out, exposure: 1, ease: 'linear' },
+    // From rest under a steady pull: the distance fallen goes as time squared.
+    { mark: lands, y: rest, ease: 'in' },
+    { mark: lands + 0.12, y: rest - DIP * tall, ease: 'out' },
+    { mark: lands + DIP_TIME, y: rest },
+  ];
+  return trackOf(beats, [
+    [lands, { cue: 'landing', speed: (GRAVITY * falls) / ROOM_METRES }],
+  ]);
+}
