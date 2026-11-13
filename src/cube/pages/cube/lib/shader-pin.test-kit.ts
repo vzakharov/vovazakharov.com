@@ -1,39 +1,5 @@
 import { createHash } from 'node:crypto';
 
-import type { Wgsl } from '@/cube/shared/shader';
-
-/** Every piece `roots` reach, each once. */
-function reached(roots: readonly Wgsl[]): Wgsl[] {
-  const seen = new Map<string, Wgsl>();
-  const visit = (piece: Wgsl): void => {
-    if (seen.has(piece.id)) return;
-    seen.set(piece.id, piece);
-    for (const need of piece.needs) visit(need);
-  };
-  for (const root of roots) visit(root);
-  return [...seen.values()];
-}
-
-/**
- * The `const NAME = value;` lines of the pieces `roots` reach whose ids are
- * in `numbered`: the pieces that give names to numbers TypeScript holds too.
- */
-export function numbersOf(
-  roots: readonly Wgsl[],
-  numbered: ReadonlySet<string>,
-): Map<string, string> {
-  const numbers = new Map<string, string>();
-  for (const { id, listing } of reached(roots)) {
-    if (!numbered.has(id)) continue;
-    for (const [, name = '', value = ''] of listing.matchAll(
-      /^const\s+(\w+)(?:\s*:\s*[\w<>]+)?\s*=\s*([^;]+);/gm,
-    )) {
-      numbers.set(name, value.trim());
-    }
-  }
-  return numbers;
-}
-
 /**
  * `text` with its layout taken out: a run of white space goes, but for one
  * space between two words, so `return SHORE_LAG` keeps the name a word.
@@ -123,46 +89,54 @@ function folded(text: string): string {
   }
 }
 
+/** A module constant: its name, upper case, and its value. */
+const CONSTANT = /^const ([A-Z][\dA-Z_]*)(?::[\w<>]+)?=(.+);$/;
+
+/** A value as `canonical` writes a literal: a number or a vector of them. */
+const SIMPLE =
+  /^-?(?:[\d+.e-]+f|\d+[iu]?|vec[2-4][fiu]\((?:-?[\d+.e-]+[fiu]?,)*-?[\d+.e-]+[fiu]?\))$/;
+
+/** `text` with its float literals written by value and their products worked out. */
+const evaluated = (text: string): string =>
+  folded(
+    text.replaceAll(
+      FLOAT,
+      (literal) => `${String(Number.parseFloat(literal))}f`,
+    ),
+  );
+
 /**
- * `source` as it read before its numbers took names: each declaration of
- * one of `numbers` dropped, its name written back as its value, the
- * constants nothing reads left out, and every float literal written by its
- * value, so `1e4` and `10000.0` read the same. Declaration by declaration,
- * in sorted order, so the move is pinned whatever order it left them in.
+ * `source` with its numbers' names taken out: each module constant whose
+ * value is a literal is written in where it is read and its declaration
+ * dropped, until none is left, so a number written out on one side of the
+ * move and named on the other reads the same. Then the constants nothing
+ * reads go too, declaration by declaration in sorted order, so the move is
+ * pinned whatever order it left them in.
  */
-export function canonical(
-  source: string,
-  numbers: ReadonlyMap<string, string>,
-): string {
-  const named = (text: string): boolean => {
-    const name = constName(text);
-    return name !== undefined && numbers.has(name);
-  };
-  return read(declarations(source))
-    .filter((text) => !named(text))
-    .map((text) =>
-      text.replaceAll(/(?<![\w.])[A-Z_a-z]\w*/g, (word) => {
-        const value = numbers.get(word);
-        return value === undefined ? word : unspaced(value);
-      }),
-    )
-    .map((text) =>
-      folded(
-        text.replaceAll(
-          FLOAT,
-          (literal) => `${String(Number.parseFloat(literal))}f`,
+export function canonical(source: string): string {
+  let texts = declarations(source).map((text) => evaluated(text));
+  for (;;) {
+    const values = new Map<string, string>();
+    for (const text of texts) {
+      const [, name, value] = CONSTANT.exec(text) ?? [];
+      if (name !== undefined && value !== undefined && SIMPLE.test(value)) {
+        values.set(name, value);
+      }
+    }
+    if (values.size === 0) return read(texts).join('\n');
+    texts = texts
+      .filter((text) => !values.has(CONSTANT.exec(text)?.[1] ?? ''))
+      .map((text) =>
+        evaluated(
+          text.replaceAll(
+            /(?<![\w.])[A-Z][\dA-Z_]*(?!\w)/g,
+            (word) => values.get(word) ?? word,
+          ),
         ),
-      ),
-    )
-    .join('\n');
+      );
+  }
 }
 
 /** The first 16 hex digits of the hash of `source` as `canonical` reads it. */
-export const pinHash = (
-  source: string,
-  numbers: ReadonlyMap<string, string>,
-): string =>
-  createHash('sha256')
-    .update(canonical(source, numbers))
-    .digest('hex')
-    .slice(0, 16);
+export const pinHash = (source: string): string =>
+  createHash('sha256').update(canonical(source)).digest('hex').slice(0, 16);
