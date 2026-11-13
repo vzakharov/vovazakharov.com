@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 1246,
-    "cacheWrite5mTokens": 282,
-    "cacheWrite1hTokens": 461909,
-    "cacheReadTokens": 25783876,
-    "outputTokens": 66871,
-    "thinkingTokens": 20783,
-    "responses": 123,
-    "costUsd": 8.582538200000002
+    "inputTokens": 5763,
+    "cacheWrite5mTokens": 460,
+    "cacheWrite1hTokens": 767264,
+    "cacheReadTokens": 27650861,
+    "outputTokens": 83381,
+    "thinkingTokens": 23866,
+    "responses": 131,
+    "costUsd": 10.862223300000002
   },
   "estimate": {
     "at": "2026-11-13T09:44:18.285Z",
@@ -52,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkD7uFNoFfFbz9RLaYq",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T09:17:57.996Z",
-  "lastResponseAt": "2026-11-13T09:51:04.149Z",
+  "lastResponseAt": "2026-11-13T10:04:32.465Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 234,
+    "inputTokens": 248,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 461909,
-    "cacheReadTokens": 25278650,
-    "outputTokens": 66858,
-    "thinkingTokens": 20783,
-    "responses": 121,
-    "costUsd": 8.5287336
+    "cacheWrite1hTokens": 767264,
+    "cacheReadTokens": 26839505,
+    "outputTokens": 72412,
+    "thinkingTokens": 23866,
+    "responses": 128,
+    "costUsd": 10.658794700000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,33 +77,63 @@
   },
   "byRate": {
     "claude-sonnet-5-5/standard": {
-      "inputTokens": 1210,
-      "cacheWrite5mTokens": 282,
-      "cacheWrite1hTokens": 228458,
-      "cacheReadTokens": 21056312,
-      "outputTokens": 54048,
-      "thinkingTokens": 16245,
-      "responses": 105,
-      "costUsd": 3.5634911999999996
+      "inputTokens": 5717,
+      "cacheWrite5mTokens": 460,
+      "cacheWrite1hTokens": 527108,
+      "cacheReadTokens": 21477078,
+      "outputTokens": 65342,
+      "thinkingTokens": 16266,
+      "responses": 108,
+      "costUsd": 4.922566799999999
     },
     "claude-opus-5/standard": {
-      "inputTokens": 36,
+      "inputTokens": 46,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 233451,
-      "cacheReadTokens": 4727564,
-      "outputTokens": 12823,
-      "thinkingTokens": 4538,
-      "responses": 18,
-      "costUsd": 5.0190470000000005
+      "cacheWrite1hTokens": 240156,
+      "cacheReadTokens": 6173783,
+      "outputTokens": 18039,
+      "thinkingTokens": 7600,
+      "responses": 23,
+      "costUsd": 5.939656500000001
     }
   },
   "warnings": [],
-  "compactions": [],
+  "compactions": [
+    {
+      "at": "2026-11-13T10:04:29.436Z",
+      "trigger": "auto",
+      "compactedFrom": 307896,
+      "summaryChars": 15354,
+      "reorientation": {
+        "endedBy": null,
+        "endedOn": null,
+        "endedAt": null,
+        "contextTokens": null,
+        "spend": {
+          "inputTokens": 2,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 49838,
+          "cacheReadTokens": 57318,
+          "outputTokens": 162,
+          "thinkingTokens": 21,
+          "responses": 1,
+          "costUsd": 0.20670780000000002
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.149624
+    }
+  ],
   "telemetry": {
-    "events": 123,
-    "matched": 121,
-    "matchedTableUsd": 8.5287336,
-    "matchedEventUsd": 8.5287336,
+    "events": 131,
+    "matched": 128,
+    "matchedTableUsd": 10.658794700000001,
+    "matchedEventUsd": 10.658794700000001,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 1012,
@@ -114,6 +144,16 @@
         "thinkingTokens": 0,
         "responses": 2,
         "costUsd": 0.0538046
+      },
+      "compact": {
+        "inputTokens": 4503,
+        "cacheWrite5mTokens": 178,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 306130,
+        "outputTokens": 10956,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.149624
       }
     }
   },

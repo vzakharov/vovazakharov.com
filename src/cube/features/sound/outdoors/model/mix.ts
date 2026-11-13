@@ -58,9 +58,11 @@ export type Scene = { coast: Coast; cube: Vec2 };
 
 /** A layer's level beside the ear at its fullest. */
 const LEVELS: Record<Layer, number> = {
-  roar: 0.42,
-  hiss: 0.42,
-  fizz: 0.4,
+  // The swell sweeps along the shore rather than lifting it all at once, so
+  // the stretches never sound together and each one has to carry further.
+  roar: 0.84,
+  hiss: 0.95,
+  fizz: 0.8,
   wash: 0.08,
   wind: 0.16,
   buffet: 0.3,
