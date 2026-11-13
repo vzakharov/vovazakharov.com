@@ -179,10 +179,46 @@ items:
     text: 'Reloading. Once the waking has played the address carries #awake, and a reload starts on the island already up. Jumping off writes nothing, so a reload after it starts inside'
   - id: intro-r-cost
     type: sticky
-    updated: [2026-11-13T13:50:00.000Z, agent:cube-intro]
+    updated: [2026-11-13T14:30:00.000Z, agent:cube-intro]
     box: [5748, 7250, 586, yellow]
     icon: ⏱️
-    text: 'Why it was slow outside. GPU time for the scene, M2 Pro, a window of 3570×2300 device pixels: waking (half sand, half sky) 59.5 ms; the sea filling the lower half 43.8; floor 1’s room, the outside seen through the doorway alone, 42.6; the cube close up 28.2; floor 2 3.6. So it is not the ocean’s simulation: it is the sand’s and the sea’s pixels, and floor 1 pays for all of them behind its walls. For now the picture is one pixel to the CSS pixel, a quarter of the pixels on such a screen; cubeQuality(“full”) in the console gives the screen’s own. Drawing the outside only where the doorway shows it is the next round'
+    text: 'Why it is slow outside. GPU time for the scene, M2 Pro, a window of 3570×2300 device pixels: waking (half sand, half sky) 59.5 ms; the sea filling the lower half 43.8; floor 1’s room, the outside seen through the doorway alone, 42.6; the cube close up 28.2; floor 2 3.6. So it is not the ocean’s simulation, nor the seam where the sea meets the sand: it is every pixel of sand and of sea, and floor 1 pays for all of them behind its walls. For now there are three qualities out of doors, cycled on Q: the picture at 1, 0.75 or 0.5 of the screen’s resolution, starting at the highest, and a line names the key once the outside draws under 55 frames a second. Deeper floors are always sharp: the level lifts in the fall through floor 1’s hole. The clouds keep their own grid at every level; at half the picture they had turned to bricks'
+  - id: intro-r-steps
+    type: sticky
+    updated: [2026-11-13T14:30:00.000Z, agent:cube-intro]
+    box: [6972, 7250, 280, blue]
+    icon: 👣
+    text: 'A run sounded like a toddler: a footfall every 0.75 m at any pace is 4.7 a second at a run. Vova: “it should be what a walk is now.” A run’s stride is two and a half walking ones, so both paces step 1.9 times a second, the run landing harder'
+  - id: intro-todo-hidden
+    type: sticky
+    updated: [2026-11-13T14:30:00.000Z, agent:cube-intro]
+    box: [5748, 7700, 280, orange]
+    icon: 🙈
+    text: 'To do, the outside’s cost, cheapest first. 1: shade nothing hidden. Rooms and shell first, sand and sea only where they show. Floor 1’s room stops paying 42.6 ms for a beach behind its walls. In the way: the sea writes its own depth, which rules the early depth test out as it stands'
+  - id: intro-todo-sand-far
+    type: sticky
+    updated: [2026-11-13T14:30:00.000Z, agent:cube-intro]
+    box: [6054, 7700, 280, orange]
+    icon: 🔭
+    text: 'To do, 2: thin the sand with distance. Every pixel works out grains and glints, ripples and hummocks, the wrack’s litter, the wetness of past waves, the cube’s shadow and the wet mirror. Past a few metres the grains, glints and litter are already averaged away; whether the shader skips that work or does it and blends it out is unread'
+  - id: intro-todo-sand-bake
+    type: sticky
+    updated: [2026-11-13T14:30:00.000Z, agent:cube-intro]
+    box: [6360, 7700, 280, orange]
+    icon: 🍞
+    text: 'To do, 3: bake what the clock does not move. Grains, ripples, hummocks and litter worked out once at load, by the same formulas, into maps the GPU keeps, and only read each frame; wetness, shadow and light stay per frame. A map computed at run time is allowed by the rules. The price: memory, and a pattern that may repeat; the sand at one’s feet can stay the honest sum'
+  - id: intro-todo-small-target
+    type: sticky
+    updated: [2026-11-13T14:30:00.000Z, agent:cube-intro]
+    box: [6666, 7700, 280, orange]
+    icon: 🔍
+    text: 'To do, 4: the sand and the sea alone in a smaller picture, joined to the sharp cube, ladder and hands by depth, as the clouds already are. Vova asked for it: “couldn’t we descale only that?” Without the join by depth there is a halo round everything that stands in front'
+  - id: intro-todo-measure
+    type: sticky
+    updated: [2026-11-13T14:30:00.000Z, agent:cube-intro]
+    box: [6972, 7700, 280, orange]
+    icon: 📏
+    text: 'To do before any of them: find which term of the sand is the dearest, turning them off one at a time under the meter on Vova’s machine. The meter’s stages overlap on Apple’s GPU (scene plus lens come to more than the frame), so the lens figure is not a cost to chase by itself'
   - id: intro-r-bench
     type: sticky
     updated: [2026-11-13T13:50:00.000Z, agent:cube-intro]
