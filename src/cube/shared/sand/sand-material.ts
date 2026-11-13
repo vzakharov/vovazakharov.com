@@ -142,7 +142,9 @@ fn sandLight(point: SandPoint, sun: vec3f) -> vec3f {
     // How much it mirrors goes by the lie of the sand, not of each grain.
     let facing = max(dot(flat, point.view), 0.0);
     let fresnel = 0.02 + 0.98 * pow(1.0 - facing, 5.0);
-    let rough = mix(0.12, 0.03, film);
+    // Even under a film the grains show through it, so the sun's mirror
+    // image is a broad path of glare and not a disc.
+    let rough = mix(0.24, 0.1, film);
     // Seen at a graze, the faces that would mirror the ground hide behind
     // their neighbours: what shows is the sky just over the horizon.
     let bounced = reflect(-point.view, lying);
@@ -152,8 +154,7 @@ fn sandLight(point: SandPoint, sun: vec3f) -> vec3f {
     let lobe = a2 / (${Math.PI} * pow(nh * nh * (a2 - 1.0) + 1.0, 2.0));
     let glare = min(direct * ${Math.PI / 4} * lobe / max(facing, 0.05), vec3f(60.0));
     let sheen = fresnel * mix(0.9 * damp, 1.0, film);
-    light = mix(light, mirrored, sheen) + sheen * glare * max(dot(lying, sun), 0.0);
-  }
+    light = mix(light, mirrored, sheen) + sheen * glare * max(dot(lying, sun), 0.0);  }
   return light;
 }
 `,
