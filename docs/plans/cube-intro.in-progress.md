@@ -58,84 +58,10 @@ compaction before deciding anything about what is being built.
 
 ## Steering since
 
-- **2026-11-12 22:32Z, the sun's direction**, with a sketch over floor 1's room
-  (`docs/remove-before-merging/cube-intro-j2wt34/frames/operator/sun-direction.webp`):
-  two dashed rays from the top of the door running diagonally into the room and
-  down to the floor near its middle, a parallelogram of light round the hole.
-
-  > направление света солнца какое-то вот такое, наверное, должно быть
-
-  Read at first as direction and steepness both, and the sun was raised to 17°;
-  then, as a comment on the board's note about it (relayed by the board
-  session):
-
-  > я тут в основном про направление в двумерной плоскости говорил, 30 градусов
-  > я там специально не отсчитывал :)
-
-  So the sketch fixes the beam's direction across the floor and nothing else;
-  the elevation went back to 9°.
-
-- **2026-11-12 ~22:34Z, a comment on the board itself** (on the "one ocean"
-  card, relayed by the board session): "no Russian in the board whatsoever". The
-  board session translates every quote; the lead sends verdicts in whatever
-  language they were said.
-
-- **2026-11-12 ~22:50Z, randomness and the goal behind it**:
-
-  > все же исполнители понимают, что всё что касается случайности должно
-  > использовать наш `rolled`?
-
-  > цель -- любая вещь, любое явление должно выглядеть абсолютно идентично в
-  > один и тот же момент времени для двух игроков на разных машинах в одной
-  > точке
-
-  The contract named `src/dice` but not `roll` / `rollWith`; now it does, and
-  every build session was told. Sand's pushed shape already rolled. The second
-  sentence was the contract's first rule; it now also rules out anything that
-  remembers earlier frames (accumulated foam, reprojected clouds, a stepped
-  simulation), told to core, sky, sea and sand. Footprints are per-player
-  history, so they are out unless the operator asks for them.
-
-- **2026-11-12 ~22:50Z, on the footprints being dropped — a principle**:
-
-  > да, где-то на борду большими буквами: Interactions come at a price. Это и в
-  > фигуральном и в буквальном смысле: любое, что меняет состояние мира силами
-  > одного игрока (вплоть до "пнуть мячик на полу") -- только покупкой.
-  >
-  > в более философском смысле, можно вспомнить про всяких
-  > исследователей-первооткрывателей, у которых это первая заповедь; про sound
-  > of thunder у бредберри, про эффект бабочки итдитп
-
-  Written into `src/cube/CLAUDE.md` with the two rules it stands beside, into
-  the contract, and sent to the board session for the board, in English, large.
-  What it decides here: no footprints, no wake or ripples from the player's
-  body, no sand disturbed; and the lead's reading for the pill — the shelf holds
-  a pill for whoever comes next, the one taken being the taker's own. That
-  reading was told to the operator in passing.
-
-- **2026-11-12 ~22:55Z, on sea dropping its baked texture — a rule**:
-
-  > это наверное стоило тоже обозначить: никаких текстур. все стены, полы,
-  > потолки этажей куба отрисованы процедурно, здесь мы делаем то же
-
-  Read as: nothing drawn is looked up from a stored image, baked or computed —
-  no FFT maps, no sky map, no noise texture, no lookup table; the frame's own
-  screen-space targets (scene, reflection, bloom, a layer's reduced-resolution
-  pass) are what the renderer already has and stay. In `src/cube/CLAUDE.md` and
-  the contract; core, sky and sea re-briefed. The reading of screen-space
-  targets was told to the operator in passing.
-
-- **2026-11-12 ~22:56Z, a comment on the board's rules zone, on the pill**
-  (relayed by the board session):
-
-  > упс, а таблетку ведь мы действительно берём. ну ладно, пока придумаем для
-  > этого какой-то философский смысл ("таблетки на самом деле нет, это твоё
-  > собственное воображение, представляющее необходимость принять решение как
-  > физический, экстернальный объект и таким образом снимающее с себя
-  > ответственность"
-
-  So the taking is explained, not changed: the shelf keeps its pill for the next
-  player, nothing stores "taken". Passed to pill.
+- **2026-11-12 22:32Z–22:56Z** — the sun's direction, no Russian on the board,
+  `rolled` and identical frames, "interactions come at a price", no textures,
+  the pill as imagination: verbatim with their readings in `brief.md` beside the
+  brief, § "Steering on 2026-11-12". Their outcomes are in the contract.
 
 - **2026-11-12 ~22:58Z, on the first frames**:
 
