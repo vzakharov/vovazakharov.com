@@ -1,0 +1,106 @@
+{
+  "total": {
+    "inputTokens": 80,
+    "cacheWrite5mTokens": 151953,
+    "cacheWrite1hTokens": 105578,
+    "cacheReadTokens": 4338080,
+    "outputTokens": 12672,
+    "thinkingTokens": 2198,
+    "responses": 39,
+    "costUsd": 2.7257649999999995
+  },
+  "estimate": {
+    "at": "2026-11-13T20:22:48.721Z",
+    "subjectLine": "content: the cube board's deep-floors and trophy ideas, polished",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "the board's copy needs a designer's read for whether each card states the idea the discussion settled on"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "docs/remove-before-merging/cube-deep-floors-20rw64/squash-message.md",
+    "endedAt": "2026-11-13T20:24:02.445Z",
+    "contextTokens": 152586,
+    "spend": {
+      "inputTokens": 51,
+      "cacheWrite5mTokens": 104636,
+      "cacheWrite1hTokens": 98618,
+      "cacheReadTokens": 2657010,
+      "outputTokens": 7227,
+      "thinkingTokens": 1247,
+      "responses": 25,
+      "costUsd": 1.9882700000000004
+    }
+  },
+  "sessionId": "519ffc07-ac54-5960-a81f-d7d5dedc3269",
+  "branch": "claude/cube-deep-floors-20rw64",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cube-deep-floors-20rw64 — идеи занесены на доску кубика, остались проходы качества и PR",
+  "prs": [
+    279
+  ],
+  "url": "https://claude.ai/code/session_01DaohkDSUi42dSk2k2P8Bjt",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-13T20:22:21.628Z",
+  "lastResponseAt": "2026-11-13T20:26:45.933Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 47,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 105578,
+    "cacheReadTokens": 3194971,
+    "outputTokens": 8093,
+    "thinkingTokens": 546,
+    "responses": 24,
+    "costUsd": 1.6456661999999997
+  },
+  "subagents": {
+    "inputTokens": 33,
+    "cacheWrite5mTokens": 151953,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1143109,
+    "outputTokens": 4579,
+    "thinkingTokens": 1652,
+    "responses": 15,
+    "costUsd": 1.0800988000000002
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 80,
+      "cacheWrite5mTokens": 151953,
+      "cacheWrite1hTokens": 105578,
+      "cacheReadTokens": 4338080,
+      "outputTokens": 12672,
+      "thinkingTokens": 2198,
+      "responses": 39,
+      "costUsd": 2.7257649999999995
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 39,
+    "matched": 39,
+    "matchedTableUsd": 2.7257649999999995,
+    "matchedEventUsd": 2.725764999999999,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 342,
+    ".yaml": 127
+  }
+}
