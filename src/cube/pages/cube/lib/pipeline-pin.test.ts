@@ -1,7 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { BLOOM_SHADER } from '../ui/bloom';
+import { assemble } from '@/cube/shared/shader';
+
+import { BLOOM_PASS } from '../ui/bloom-pass.shader';
 import { HALVE_SHADER, REFLECTION_SHADER } from '../ui/reflection-shader';
 import { outsideLensSource } from './outside-lens';
 import { shaderOf } from './shader';
@@ -16,7 +18,7 @@ const PIPELINE = {
   outsideLens: () => outsideLensSource(),
   halve: () => HALVE_SHADER,
   reflection: () => REFLECTION_SHADER,
-  bloom: () => BLOOM_SHADER,
+  bloom: () => assemble([BLOOM_PASS]),
 } satisfies Readonly<Record<string, () => string>>;
 
 /**
