@@ -1,5 +1,16 @@
 # Sky — reports to the lead, newest first
 
+## 2026-11-13 ~11:52Z — the cloud's body is 54b3c2c7's again, by the operator
+
+On the pair `approved-eye-cloud-pair` the operator called the upper cloud's
+uneven top what a real cloud should have and the lower one's dome a mushroom's
+cap. I had first misread him as meaning the underside. At 16db04f3 the body is
+the earlier one: no dome toward the rim, the rougher footprint noise, towers
+0.7–1.25, a level base. That undoes my answer to the flat-tops item. Kept: the
+relief in the light, the placed crossing, wisps at the outline, a lighter
+underside (67b03d46); the opposite view still about 1050 ms. `approved-eye` and
+the pair are re-shot; `opposite` and `wake-sea` still show the dome.
+
 ## 2026-11-13 — relief back, grain still gone, cost back; lead merged at c86c511f
 
 Frames: `opposite`, `wake-sea`, and the approved eye as `approved-eye` with
