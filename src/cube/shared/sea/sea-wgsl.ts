@@ -2,7 +2,7 @@ import { AERIAL, CUBE_SHADOW, STAGE_NUMBERS } from '../outside';
 import { SAND_COLOUR } from '../sand';
 import { f32, wgsl } from '../shader/wgsl';
 import { TILE } from './cascade';
-import { SEA_FOAM } from './sea-foam-wgsl';
+import { SEA_FOAM } from './sea-foam.shader';
 import { SEA_LIGHT } from './sea-light.shader';
 import { UNSEEN_SPREAD } from './sea-state';
 import { SEA_SURFACE } from './sea-surface.shader';
