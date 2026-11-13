@@ -131,7 +131,7 @@ fn seaFragment(in: SeaVarying, @builtin(front_facing) above: bool) -> SeaOut {
       body = mix(body, skyRadiance(out, 2.0), 1.0 - fresnel(dot(toEye, -normal)));
     }
     var drowned: SeaOut;
-    drowned.light = vec4f(body, far);
+    drowned.light = vec4f(body, min(far, SKY_METRES));
     drowned.depth = in.clip.z;
     return drowned;
   }
@@ -150,7 +150,7 @@ fn seaFragment(in: SeaVarying, @builtin(front_facing) above: bool) -> SeaOut {
   let colour = mix(water, white * froth * mix(0.8, 1.0, min(thick, 1.0)), foam);
 
   var out: SeaOut;
-  out.light = vec4f(aerial(colour, -toEye, far), far);
+  out.light = vec4f(aerial(colour, -toEye, far), min(far, SKY_METRES));
   let ashore = smoothstep(-0.6, -0.2, shore.bed);
   out.depth = mix(in.clip.z, in.lifted.x / in.lifted.y, ashore);
   return out;

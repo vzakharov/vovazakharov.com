@@ -1,15 +1,33 @@
 {
   "total": {
-    "inputTokens": 7248,
+    "inputTokens": 7268,
     "cacheWrite5mTokens": 649,
-    "cacheWrite1hTokens": 358888,
-    "cacheReadTokens": 13758593,
-    "outputTokens": 80688,
-    "thinkingTokens": 25416,
-    "responses": 69,
-    "costUsd": 11.775713799999998
+    "cacheWrite1hTokens": 387621,
+    "cacheReadTokens": 15697668,
+    "outputTokens": 86334,
+    "thinkingTokens": 27324,
+    "responses": 80,
+    "costUsd": 12.8492568
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-13T09:39:38.986Z",
+    "subjectLine": "feat: the cube intro's sea in the shared renderer, shore and height",
+    "parts": [
+      {
+        "hours": 14.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "an FFT ocean ported onto another renderer's layer kit, with rolled spectra and hour-periodic phases, is rendering work of a specialist"
+      },
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "matching the sea's look to a committed reference frame under a new sun and lens is judgement of water, foam and glitter"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -34,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkDD34tV9S8mR3o9S3o",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T09:16:23.585Z",
-  "lastResponseAt": "2026-11-13T09:38:31.346Z",
+  "lastResponseAt": "2026-11-13T09:39:44.236Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 134,
+    "inputTokens": 154,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 358888,
-    "cacheReadTokens": 13459661,
-    "outputTokens": 71920,
-    "thinkingTokens": 25416,
-    "responses": 67,
-    "costUsd": 11.312012199999998
+    "cacheWrite1hTokens": 387621,
+    "cacheReadTokens": 15398736,
+    "outputTokens": 77566,
+    "thinkingTokens": 27324,
+    "responses": 78,
+    "costUsd": 12.385555199999999
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,14 +77,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 6061,
+      "inputTokens": 6081,
       "cacheWrite5mTokens": 649,
-      "cacheWrite1hTokens": 358888,
-      "cacheReadTokens": 13758593,
-      "outputTokens": 80667,
-      "thinkingTokens": 25416,
-      "responses": 68,
-      "costUsd": 11.775584599999998
+      "cacheWrite1hTokens": 387621,
+      "cacheReadTokens": 15697668,
+      "outputTokens": 86313,
+      "thinkingTokens": 27324,
+      "responses": 79,
+      "costUsd": 12.8491276
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1187,
@@ -103,21 +121,21 @@
         }
       },
       "rereads": {
-        "calls": 1,
+        "calls": 5,
         "byTool": {
-          "Read": 1
+          "Read": 5
         },
-        "estimatedTokens": 3906,
-        "estimatedUsd": 0.0718704
+        "estimatedTokens": 9803,
+        "estimatedUsd": 0.18307140000000002
       },
       "billedUsd": 0.4635724
     }
   ],
   "telemetry": {
-    "events": 68,
-    "matched": 66,
-    "matchedTableUsd": 11.236576799999998,
-    "matchedEventUsd": 11.236576799999998,
+    "events": 79,
+    "matched": 77,
+    "matchedTableUsd": 12.290139799999999,
+    "matchedEventUsd": 12.290139799999999,
     "unseen": {
       "generate_session_title": {
         "inputTokens": 1187,
@@ -152,7 +170,7 @@
     ".md": 2283,
     ".json": 31,
     ".yaml": 48,
-    ".ts": 6656,
+    ".ts": 6675,
     ".tsx": 87,
     ".scss": 15
   }
