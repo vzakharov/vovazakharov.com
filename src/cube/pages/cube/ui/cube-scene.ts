@@ -323,9 +323,10 @@ export function mountCube(
       stagedEye = null;
       await shown(inEyeRoom(next));
     },
-    setEye: async (outside, lens = OUTSIDE_LENS) => {
+    setEye: async (outside, lens = OUTSIDE_LENS, among = []) => {
       await firstFrame.promise;
       stagedEye = { outside, lens };
+      staged = among;
       await shown(FIRST_ROOM);
     },
     adapter: () => renderer?.adapter ?? 'none',
