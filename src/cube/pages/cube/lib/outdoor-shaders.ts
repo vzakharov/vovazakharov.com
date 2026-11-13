@@ -12,10 +12,10 @@ import {
 } from '@/cube/shared/outside';
 import { SAND_SHADER } from '@/cube/shared/sand';
 import { SEA } from '@/cube/shared/sea';
+import { SKY_CLOUD_SHADER, SKY_SHADER } from '@/cube/shared/sky';
 
 import { outsideLensSource } from './outside-lens';
 import { SHELL_SHADER } from './shell-shader';
-import { SKY_ROOTS } from './sky-shader';
 
 /**
  * Every outdoor shader by name, as the roots it is assembled from: a layer
@@ -32,7 +32,8 @@ export const OUTDOOR_SHADERS = {
     WATER_LEVEL,
     CUBE_SHADOW,
   ],
-  sky: SKY_ROOTS,
+  sky: [SKY_SHADER],
+  skyClouds: [SKY_CLOUD_SHADER],
   sand: [SAND_SHADER],
   shell: [SHELL_SHADER],
   sea: [SEA],

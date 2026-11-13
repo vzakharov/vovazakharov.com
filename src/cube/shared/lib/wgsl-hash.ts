@@ -32,6 +32,14 @@ fn cellHash(cell: vec2i, salt: u32) -> u32 {
   return hashOf(hashOf(bitcast<u32>(cell.x), bitcast<u32>(cell.y)), salt);
 }
 
+/// The word of lattice point \`point\` under \`salt\` in one round of the
+/// mixer: for a lattice read many times a pixel, where \`cellHash\`'s four
+/// rounds a point are the whole cost.
+fn pointHash(point: vec3i, salt: u32) -> u32 {
+  let spread = bitcast<vec3u>(point) * vec3u(0x9e3779b1u, 0x85ebca77u, 0xc2b2ae3du);
+  return mix32(spread.x + spread.y + spread.z + salt);
+}
+
 /// Smooth noise in [0, 1), one lattice cell per unit of \`p\`.
 fn valueNoise(p: vec2f, salt: u32) -> f32 {
   let cell = vec2i(floor(p));

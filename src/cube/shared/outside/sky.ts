@@ -1,30 +1,50 @@
-import { wgsl } from '../lib/wgsl';
-import { OUTDOOR_FRAME } from './outdoor-frame';
-import { SUN } from './sun';
+import { f32, vecf, wgsl } from '../lib/wgsl';
+import { CLOUDS_WGSL } from '../sky/clouds';
+import { SKY_FILL } from './sun';
+
+/** The widest lobe a caller asks for: a quarter of the sphere. */
+const WIDEST_LOD = 8;
 
 /**
  * `skyRadiance(dir: vec3f, lod: f32) -> vec3f`: the sky's light along unit
- * `dir` at the frame's clock, without the sun's disc — a function of the two
- * alone, read from no texture. `lod` trades detail for cost: 0 as the backdrop
- * draws it, higher blurrier and cheaper, for a rough mirror or a face's fill.
+ * `dir` at this instant, gathered over a lobe that doubles in width with each
+ * unit of `lod`, from a mirror's at 0 to a quarter of the sphere at 8.
+ *
+ * - Under 1 it is the sky a mirror shows: the fitted air, the glow round the
+ *   sun, the ice cloud and each cumulus where it stands, lit as a whole
+ *   rather than marched. The sun's own disc is in it at 0 and gone by a half.
+ * - From 1 up it is a few dozen operations: the air smoothed, the sun's halo,
+ *   the clouds as the cover they make toward the horizon, all drawn toward
+ *   the whole sky's mean as the lobe widens.
+ *
+ * Between a half and 1 the two are mixed, so a face whose roughness crosses
+ * there shows no seam.
  */
 export const SKY = wgsl(
   'outside/sky',
   /* wgsl */ `
+fn skyMirrored(dir: vec3f, lod: f32) -> vec3f {
+  let clouds = cloudVeil(dir);
+  let air = clearSky(dir);
+  let cirrus = cirrusAlong(dir, air);
+  var behind = cirrus.rgb + cirrus.a * (air + aureole(dir));
+  if (lod < 0.5) { behind += sunDisc(dir, 0.0005) * cirrus.a * (1.0 - smoothstep(0.0, 0.5, lod)); }
+  return behind * clouds.a + clouds.rgb;
+}
+
+fn skyGathered(dir: vec3f, lod: f32) -> vec3f {
+  let clouds = cloudGlance(dir);
+  let sky = (skyGlance(dir) + sunHalo(dir)) * clouds.a + clouds.rgb;
+  let wide = clamp((lod - 1.0) / ${f32(WIDEST_LOD - 1)}, 0.0, 1.0);
+  return mix(sky, ${vecf(SKY_FILL)}, 0.7 * wide * wide);
+}
+
 fn skyRadiance(dir: vec3f, lod: f32) -> vec3f {
-  let horizon = vec3f(3.2, 2.0, 1.1);
-  let zenith = vec3f(0.5, 0.9, 1.9);
-  let blur = clamp(lod / 8.0, 0.0, 1.0);
-  let towards = max(dot(dir, SUN_DIR), 0.0);
-  let glow = SUN_LIGHT
-    * (0.25 * pow(towards, 8.0) + 1.5 * (1.0 - blur) * pow(towards, 64.0));
-  let above = mix(horizon, zenith, pow(max(dir.y, 0.0), 0.45)) + glow;
-  let below = vec3f(0.25, 0.3, 0.4);
-  let sharp = mix(above, below, smoothstep(0.0, -0.1, dir.y));
-  let soft = mix(below, mix(horizon, zenith, 0.5), 0.5 + 0.5 * dir.y);
-  return mix(sharp, soft, blur);
+  if (lod >= 1.0) { return skyGathered(dir, lod); }
+  let mirrored = skyMirrored(dir, lod);
+  if (lod <= 0.5) { return mirrored; }
+  return mix(mirrored, skyGathered(dir, lod), smoothstep(0.5, 1.0, lod));
 }
 `,
-  SUN,
-  OUTDOOR_FRAME,
+  CLOUDS_WGSL,
 );
