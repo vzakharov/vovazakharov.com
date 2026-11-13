@@ -62,10 +62,11 @@ export const DOORWAY_BOX: Box = {
 export const FAR_METRES = 20_000;
 
 /**
- * Metres over the still sea of the sand the player wakes on: the highest
- * swash of the hour reaches 0.24 m and nothing is ever wet from 0.3 m.
+ * Metres over the still sea of the sand the player's head wakes on: the
+ * highest swash of the hour reaches 0.24 m, where their toes lie, and nothing
+ * is ever wet from 0.3 m.
  */
-const WAKE_BED = 0.5;
+const WAKE_BED = 0.34;
 
 /**
  * Where the beach stands `level` metres over the still sea, going out from
@@ -89,8 +90,8 @@ function beachAlong([x, z]: Vec2, level: number): Vec2 {
 const WAKE_SPOT = beachAlong([-Math.SQRT1_2, Math.SQRT1_2], WAKE_BED);
 
 /**
- * Where the player wakes: on dry sand up the beach south-west of the cube,
- * the sea at their feet and out of reach.
+ * Where the player's head lies on waking: on dry sand up the beach south-west
+ * of the cube, the body down the slope and the sea reaching for the feet.
  */
 export const WAKE_AT: Vec3 = [WAKE_SPOT[0], WAKE_BED, WAKE_SPOT[1]];
 

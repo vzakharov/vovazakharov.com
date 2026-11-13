@@ -60,11 +60,11 @@ describe('the world frame', () => {
   it('wakes the player on dry sand south-west, above any swash', () => {
     const [x, y, z] = WAKE_AT;
     close(islandHeight([x, z]), y, 1e-6);
-    assert.ok(y >= 0.45, String(y));
+    assert.ok(y >= 0.32 && y < 0.4, String(y));
     assert.ok(x < 0 && z > 0);
     close(x, -z);
     const away = Math.hypot(x, z);
-    assert.ok(away > 17 && away < 23, String(away));
+    assert.ok(away > 22 && away < 25, String(away));
   });
 
   it('gives the shader the numbers the script reads', () => {
