@@ -27,7 +27,7 @@ const volume = ({ min, max }: Box): number =>
  * metres of the shell's frame, of the `most` largest parts of the things of
  * `furnish`'s room that stand on the floor with a doorway's ray through them
  * — largest first, equals from the north-west. A thing shades by its parts
- * so that light passes between them. None in a room of any other floor.
+ * so that light passes between them.
  */
 export function sunBlockers(
   setting: Setting,

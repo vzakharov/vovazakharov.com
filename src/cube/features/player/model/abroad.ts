@@ -182,7 +182,7 @@ export const refusedAt = (
     BEEN_INSIDE,
   );
 
-/** Whether `a` is far enough into looking for the ladder to find it gone. */
+/** Whether a body is far enough into looking for the ladder to find it gone. */
 export const findsLadderGone = ({ scene }: Abroad): boolean =>
   scene?.into === 'sill' && scene.playedFor >= GONE_SHOWS;
 
