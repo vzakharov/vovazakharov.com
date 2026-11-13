@@ -1,0 +1,101 @@
+{
+  "total": {
+    "inputTokens": 21,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 66255,
+    "cacheReadTokens": 956784,
+    "outputTokens": 10382,
+    "thinkingTokens": 6561,
+    "responses": 10,
+    "costUsd": 0.9291208000000001
+  },
+  "estimate": {
+    "at": "2026-11-13T17:18:50.201Z",
+    "subjectLine": "docs: brainstorm reaching the cube's deep floors without cheating",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "weighing descent mechanics against the hole-commitment proof and the 4^n room economy needs a designer who reads the address math"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-13T17:17:16.678Z",
+    "contextTokens": 91249,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 35654,
+      "cacheReadTokens": 54134,
+      "outputTokens": 462,
+      "thinkingTokens": 84,
+      "responses": 1,
+      "costUsd": 0.30530680000000004
+    }
+  },
+  "sessionId": "9739351b-f797-5f67-984b-4935a79f8330",
+  "branch": "claude/modest-hamilton-20rw64",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "по кубику: думаю, что б нам придумать интересного для решения следующей проблемы: сейчас реалистично играющий человек за несколько вечеров может добежать до 9, …",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBWZDxtTYRbxBLsYSC",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-13T17:17:11.533Z",
+  "lastResponseAt": "2026-11-13T17:18:57.965Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 21,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 66255,
+    "cacheReadTokens": 956784,
+    "outputTokens": 10382,
+    "thinkingTokens": 6561,
+    "responses": 10,
+    "costUsd": 0.9291208000000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 21,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 66255,
+      "cacheReadTokens": 956784,
+      "outputTokens": 10382,
+      "thinkingTokens": 6561,
+      "responses": 10,
+      "costUsd": 0.9291208000000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 10,
+    "matched": 10,
+    "matchedTableUsd": 0.9291208000000001,
+    "matchedEventUsd": 0.9291207999999999,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 523,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {}
+}
