@@ -2,39 +2,110 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { describe, it } from 'node:test';
 
+import type { Wgsl } from '@/cube/shared/shader';
+
 import { OUTDOOR_SHADERS, outdoorSource } from './outdoor-shaders';
 
 /**
- * Each outdoor shader's source as `outdoorSource()` wrote it at 052138ff,
- * before its pieces moved into `.wgsl` files, hashed as `tokens()` reads it:
- * the move is pinned token for token. The lens is floor 1's source under a
- * stage of its own, which the theme's pin holds.
+ * Each outdoor shader's source at 052138ff, before its pieces moved into
+ * `.wgsl` files, as `canonical()` reads it: the move is pinned declaration
+ * for declaration. The lens is floor 1's source under a stage of its own,
+ * which the theme's pin holds.
  */
 const BEFORE: Readonly<Record<keyof typeof OUTDOOR_SHADERS, string>> = {
-  seam: 'e53443d50c4e9981',
-  sky: '2ec1997a7713f54d',
-  skyClouds: '40063d447da24ca2',
-  sand: '9c861289720ba06b',
-  shell: '7ab9558abbb596cf',
-  sea: '25fc7a52a5353ebd',
+  seam: '7e87d343181c8c74',
+  sky: '88058bc77ca3675f',
+  skyClouds: '77fca9fe60861313',
+  sand: '605f80156f0c2e2c',
+  shell: '3ce2a38bb71117eb',
+  sea: '931ad3d54c661c16',
 };
 
 /**
- * `text` without its layout, which Prettier owns: no whitespace, no trailing
- * comma, and no `;` after a struct's closing brace.
+ * The ids of the pieces that give names to numbers TypeScript holds too,
+ * each a run of `const NAME = value;` lines: before the move every such
+ * number stood written out where it was used.
  */
-const tokens = (text: string): string =>
-  text
-    .replaceAll(/\s+/g, '')
-    .replaceAll(/,(?=[)}])/g, '')
-    .replaceAll('};', '}');
+const NUMBERED: ReadonlySet<string> = new Set<string>();
+
+/** Every piece `roots` reach, each once. */
+function reached(roots: readonly Wgsl[]): Wgsl[] {
+  const seen = new Map<string, Wgsl>();
+  const visit = (piece: Wgsl): void => {
+    if (seen.has(piece.id)) return;
+    seen.set(piece.id, piece);
+    for (const need of piece.needs) visit(need);
+  };
+  for (const root of roots) visit(root);
+  return [...seen.values()];
+}
+
+/** The `const NAME = value;` lines of the numbering pieces `roots` reach. */
+function numbersOf(roots: readonly Wgsl[]): Map<string, string> {
+  const numbers = new Map<string, string>();
+  for (const { id, listing } of reached(roots)) {
+    if (!NUMBERED.has(id)) continue;
+    for (const [, name = '', value = ''] of listing.matchAll(
+      /^const\s+(\w+)(?:\s*:\s*[\w<>]+)?\s*=\s*([^;]+);/gm,
+    )) {
+      numbers.set(name, value.trim());
+    }
+  }
+  return numbers;
+}
+
+/**
+ * `source`'s module-scope declarations, each with its comments and layout
+ * taken out, in sorted order: WGSL binds a module's names whatever order
+ * they stand in, so a piece split in two or placed elsewhere reads the same.
+ */
+function declarations(source: string): string[] {
+  const code = source.replaceAll(/\/\/.*$/gm, '');
+  const found: string[] = [];
+  let depth = 0;
+  let start = 0;
+  for (let at = 0; at < code.length; at++) {
+    const char = code[at];
+    if (char === '{' || char === '(') depth++;
+    if (char === '}' || char === ')') depth--;
+    const ends =
+      depth === 0 &&
+      (char === ';' || (char === '}' && !/^\s*;/.test(code.slice(at + 1))));
+    if (!ends) continue;
+    found.push(code.slice(start, at + 1).replaceAll(/\s+/g, ''));
+    start = at + 1;
+  }
+  return found
+    .map((text) => text.replaceAll(/,(?=[)}])/g, '').replace(/};$/, '}'))
+    .toSorted();
+}
+
+/**
+ * `roots`' source as it read before its numbers took names: each numbering
+ * declaration dropped, and its name written back as its value.
+ */
+function canonical(roots: readonly Wgsl[]): string {
+  const numbers = numbersOf(roots);
+  const named = (text: string): boolean =>
+    [...numbers.keys()].some((name) =>
+      new RegExp(`^const${name}[:=]`).test(text),
+    );
+  return declarations(outdoorSource(roots))
+    .filter((text) => !named(text))
+    .map((text) =>
+      text.replaceAll(/(?<![\w.])[A-Z_a-z]\w*/g, (word) => {
+        const value = numbers.get(word);
+        return value === undefined ? word : value.replaceAll(/\s+/g, '');
+      }),
+    )
+    .join('\n');
+}
 
 describe("every outdoor shader's source", () => {
-  it('is what it was before the move', () => {
+  it('declares what it did before the move', () => {
     const pinned = new Map(Object.entries(BEFORE));
     for (const [name, roots] of Object.entries(OUTDOOR_SHADERS)) {
-      const source = tokens(outdoorSource(roots));
-      const hash = createHash('sha256').update(source).digest('hex');
+      const hash = createHash('sha256').update(canonical(roots)).digest('hex');
       assert.equal(hash.slice(0, 16), pinned.get(name), name);
     }
   });
