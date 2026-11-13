@@ -6,12 +6,9 @@ import {
   OUTDOOR_FRAME_FLOATS,
   type OutdoorFrame,
   packOutdoorFrame,
-  SKY_MAP,
 } from '@/cube/shared/outside';
 
 import { outdoorSource } from '../lib/outdoor-shaders';
-import { SCENE_FORMAT } from './bloom';
-import { createHalver } from './mips';
 import {
   type LayerMaker,
   type LayerName,
@@ -19,8 +16,7 @@ import {
   type OutdoorKit,
   type OutdoorLayer,
 } from './outdoor-layer';
-import { compileErrors, DEPTH_FORMAT } from './programs';
-import { MIRROR_FORMATS } from './reflection';
+import { compiled, DEPTH_FORMAT, SCENE_TARGETS } from './programs';
 import { sandLayer } from './sand-layer';
 import { seaLayer } from './sea-layer';
 import { shellLayer } from './shell-layer';
@@ -56,12 +52,6 @@ export async function createOutdoors(device: GPUDevice): Promise<Outdoors> {
     size: OUTDOOR_FRAME_FLOATS * 4,
     usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
   });
-  const skyMap = device.createTexture({
-    size: [SKY_MAP.width, SKY_MAP.height],
-    format: SCENE_FORMAT,
-    mipLevelCount: Math.floor(Math.log2(SKY_MAP.width)) + 1,
-    usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING,
-  });
   const layout = device.createBindGroupLayout({
     entries: [
       {
@@ -69,48 +59,19 @@ export async function createOutdoors(device: GPUDevice): Promise<Outdoors> {
         visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
         buffer: {},
       },
-      { binding: 1, visibility: GPUShaderStage.FRAGMENT, texture: {} },
-      { binding: 2, visibility: GPUShaderStage.FRAGMENT, sampler: {} },
     ],
   });
   const group = device.createBindGroup({
     layout,
-    entries: [
-      { binding: 0, resource: { buffer: frame } },
-      { binding: 1, resource: skyMap.createView() },
-      {
-        binding: 2,
-        // Round the horizon the map meets itself; at the poles it does not.
-        resource: device.createSampler({
-          magFilter: 'linear',
-          minFilter: 'linear',
-          mipmapFilter: 'linear',
-          addressModeU: 'repeat',
-        }),
-      },
-    ],
+    entries: [{ binding: 0, resource: { buffer: frame } }],
   });
-  const targets = [SCENE_FORMAT, ...MIRROR_FORMATS].map((format) => ({
-    format,
-  }));
 
   const kit: OutdoorKit = {
     device,
     layout,
     frame,
-    skyMap,
-    mips: createHalver(device, SCENE_FORMAT),
-    shader: async (label, roots) => {
-      const compiled = device.createShaderModule({
-        label,
-        code: outdoorSource(roots),
-      });
-      const errors = await compileErrors(compiled);
-      if (errors !== null) {
-        throw new Error(`The outdoor ${label} shader: ${errors}`);
-      }
-      return compiled;
-    },
+    shader: async (label, roots) =>
+      compiled(device, `The outdoor ${label} shader`, outdoorSource(roots)),
     pipeline: async ({
       label,
       module,
@@ -127,7 +88,7 @@ export async function createOutdoors(device: GPUDevice): Promise<Outdoors> {
           bindGroupLayouts: [layout, ...groups],
         }),
         vertex: { module, entryPoint: vertex, buffers },
-        fragment: { module, entryPoint: fragment, targets },
+        fragment: { module, entryPoint: fragment, targets: SCENE_TARGETS },
         primitive: { topology: 'triangle-list', cullMode },
         depthStencil: {
           format: DEPTH_FORMAT,
@@ -159,7 +120,6 @@ export async function createOutdoors(device: GPUDevice): Promise<Outdoors> {
     },
     dispose: () => {
       for (const layer of layers.values()) layer.dispose();
-      skyMap.destroy();
       frame.destroy();
     },
   };
