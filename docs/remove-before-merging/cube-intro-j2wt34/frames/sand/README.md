@@ -1,5 +1,15 @@
 # Sand frames
 
+## In the assembled scene
+
+- `approved-standing-toward-sun.webp` — **the reference frame**: the operator
+  said of it «это прямо топчик, можно на доску». Standing 21.5 m south-west of
+  the cube's middle, looking at it:
+  `pnpm outside:cube --at -15.203,2.10,15.203 --yaw -45 --pitch 4`. Shot on the
+  lead's ee1852cb with the sand as of 1a56691b.
+
+## In the first harness
+
 Shot in a throwaway harness (SwiftShader, a stand-in sky, a flat stand-in sea, a
 black box for the cube) with the contract's sun and `SKY_FILL` as they stand.
 
