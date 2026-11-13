@@ -87,7 +87,15 @@ describe('the shore in WGSL', () => {
             bed,
             shelter,
           );
-          same('swellLevel', swellLevel(12, bed, 0.8, tau), 12, bed, 0.8, tau);
+          same(
+            'swellLevel',
+            swellLevel(12, bed, 0.8, 1.1, tau),
+            12,
+            bed,
+            0.8,
+            1.1,
+            tau,
+          );
         }
       }
     }

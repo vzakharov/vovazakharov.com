@@ -48,8 +48,8 @@ export function drySince(tau: number, bed: number, shelter: number): number {
 
 /** `drySince` at `xz` in the world frame, `seconds` into the hour. */
 export function shoreDrySince(xz: Vec2, seconds: number): number {
-  const { bed, tau, shelter } = shoreClock(xz, seconds);
-  return drySince(tau, bed, shelter);
+  const { bed, tau, shelter, tongue } = shoreClock(xz, seconds);
+  return drySince(tau, bed, shelter * tongue);
 }
 
 /** How damp sand is `dry` seconds after the water left it, 1 soaked. */
@@ -104,7 +104,7 @@ fn shoreDrySince(xz: vec2f, t: f32) -> f32 {
   let rise = shoreRise(xz);
   let facing = shoreFacing(dot(rise, SWELL_RUNS), length(rise), bed);
   let tau = t - dot(xz, SWELL_RUNS) * SWELL_PACE - shoreDelay(shoreDepth(bed));
-  return drySince(tau, bed, shelterAt(xz, facing));
+  return drySince(tau, bed, sheltered(facing) * cuspAt(xz));
 }
 
 fn shoreWetness(xz: vec2f, t: f32) -> vec2f {

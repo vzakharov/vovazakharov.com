@@ -1,5 +1,6 @@
 import { pathHash, roll, rollWith } from '@/dice/shared/roll';
 
+import type { Vec2 } from '../lib/vec';
 import { f32, wgsl } from '../lib/wgsl';
 
 /**
@@ -23,6 +24,8 @@ export const WAVES = 420;
 export const PERIOD = HOUR_SECONDS / WAVES;
 /** The speed the swell's crests travel over deep water, m/s. */
 export const DEEP_SPEED = (SEA_GRAVITY * PERIOD) / RADIANS_A_TURN;
+/** The unit direction the swell runs, on the ground plan: to the north-east. */
+export const SWELL_RUNS: Vec2 = [Math.SQRT1_2, -Math.SQRT1_2];
 /** Crest to trough of a middling wave before the bottom is felt, metres. */
 export const SWELL_HEIGHT = 0.4;
 
