@@ -3,7 +3,7 @@
 
 import { wgsl } from '../shader/wgsl';
 import { CLEAR_SKY } from '../sky/clear-sky.shader';
-import { CLOUD_VEIL } from '../sky/cloud-veil';
+import { CLOUD_VEIL } from '../sky/cloud-veil.shader';
 import { CLOUDS_WGSL } from '../sky/clouds';
 import { SUN_GLOW } from '../sky/sun-glow.shader';
 import { SUN } from './sun';

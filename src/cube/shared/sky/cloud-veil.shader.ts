@@ -1,33 +1,16 @@
-import { f32, wgsl } from '../shader/wgsl';
-import { CLOUDS } from './cloud-field';
+// Generated from cloud-veil.wgsl by `pnpm shaders:codegen`. Edit the
+// source, not here — the vet run regenerates this file and fails when it had to.
+
+import { OUTDOOR_FRAME } from '../outside/outdoor-frame';
+import { SUN } from '../outside/sun';
+import { wgsl } from '../shader/wgsl';
+import { CLEAR_SKY } from './clear-sky.shader';
+import { CLOUD_NOISE } from './cloud-noise';
+import { CLOUD_VEIL_NUMBERS } from './cloud-veil-numbers';
 import { CLOUDS_WGSL } from './clouds';
 
-/**
- * The cumulus layer as `cloudGlance` holds it: the height its clouds are seen
- * at, in kilometres, and the share of a ray straight up through it that meets
- * one — the share of the sea the clouds stand over, about.
- */
-const GLANCE = {
-  height: CLOUDS.base + 1,
-  thick:
-    (CLOUDS.chance *
-      Math.PI *
-      ((CLOUDS.radius.least + CLOUDS.radius.most) / 2) ** 2 *
-      0.5) /
-    CLOUDS.cell ** 2,
-} as const;
-
-/**
- * The cumulus without a march, for a mirror that would not show the
- * difference, each rgb their light and a the share of what is behind them
- * that shows:
- *
- * - `cloudGlance(dir) -> vec4f`, as a haze of the cover they make, in a dozen
- *   operations;
- * - `cloudVeil(dir) -> vec4f`, each cloud where it stands, lit as a whole.
- */
 export const CLOUD_VEIL = wgsl(
-  'sky/cloud-veil',
+  'cube/shared/sky/cloud-veil',
   /* wgsl */ `
 /// The cumulus along \`dir\` as the share of the sky they hide, for a mirror
 /// too rough to tell one cloud from the next: thicker toward the horizon,
@@ -35,18 +18,23 @@ export const CLOUD_VEIL = wgsl(
 /// their light, a the share of what is behind them that shows.
 fn cloudGlance(dir: vec3f) -> vec4f {
   let y = max(dir.y, 0.02);
-  let hidden = 0.7 * (1.0 - exp(-${f32(GLANCE.thick)} / y));
-  let air = airBetween(${f32(GLANCE.height)} / y, ${f32(GLANCE.height)});
+  let hidden = 0.7 * (1.0 - exp(-CLOUD_GLANCE_THICK / y));
+  let air = airBetween(CLOUD_GLANCE_HEIGHT / y, CLOUD_GLANCE_HEIGHT);
   // Looking away from the sun a cloud shows its lit flank, toward it its shade.
   let lit = 0.22 - 0.12 * dot(dir, SUN_DIR);
-  let shown = sunThrough(${f32(GLANCE.height)}) * lit + SKY_FILL * 0.6 + HORIZON_FILL * 0.1;
+  let shown =
+    sunThrough(CLOUD_GLANCE_HEIGHT) * lit + SKY_FILL * 0.6 + HORIZON_FILL * 0.1;
   let cover = hidden * max(air.r, max(air.g, air.b));
   return vec4f(shown * cover, 1.0 - cover);
 }
 
+/// Each cumulus along \`dir\` where it stands, lit as a whole. rgb their light,
+/// a the share of what is behind them that shows.
 fn cloudVeil(dir: vec3f) -> vec4f {
   var seen = vec4f(0.0, 0.0, 0.0, 1.0);
-  if (dir.y <= 0.004) { return seen; }
+  if (dir.y <= 0.004) {
+    return seen;
+  }
   let eye = frame.eye.xyz / 1000.0;
   let fog = clearSky(dir);
   let phase = cloudPhase(dot(dir, SUN_DIR));
@@ -56,14 +44,21 @@ fn cloudVeil(dir: vec3f) -> vec4f {
   for (var i = 0; i < 4; i++) {
     let level = CLOUD_BASE + 0.15 + 0.6 * f32(i);
     let reached = reachOf(dir.y, level);
-    if (reached > CLOUD_REACH) { continue; }
+    if (reached > CLOUD_REACH) {
+      continue;
+    }
     let cell = vec2i(floor(inField(eye + dir * reached).xz / CLOUD_CELL));
-    if (all(cell == last)) { continue; }
+    if (all(cell == last)) {
+      continue;
+    }
     last = cell;
     let cloud = cloudIn(cell);
-    if (cloud.radius <= 0.0) { continue; }
+    if (cloud.radius <= 0.0) {
+      continue;
+    }
     // Where the ray passes the cloud's middle is where it is deepest in it.
-    let away = max(dot(cloud.centre - start, over) / max(dot(over, over), 1e-6), 0.0);
+    let away =
+      max(dot(cloud.centre - start, over) / max(dot(over, over), 1e-6), 0.0);
     let field = inField(eye + dir * away);
     let h = field.y;
     let body = cloudBody(cloud, field);
@@ -72,12 +67,22 @@ fn cloudVeil(dir: vec3f) -> vec4f {
     let sunward = cloudBody(cloud, field + SUN_IN_FIELD * 0.5 * cloud.radius);
     let depth = 14.0 * clamp(0.5 + sunward, 0.0, 1.0);
     let rise = clamp((h - CLOUD_BASE) / cloud.tall, 0.0, 1.0);
-    let shown = cloudLight(h, vec2f(depth, body - sunward), phase, rise, 0.2, 0.2);
+    let shown =
+      cloudLight(h, vec2f(depth, body - sunward), phase, rise, 0.2, 0.2);
     let air = airBetween(away, h);
-    seen = vec4f(seen.rgb + seen.a * cover * (shown * air + fog * (1.0 - air)), seen.a * (1.0 - cover));
+    seen =
+      vec4f(
+        seen.rgb + seen.a * cover * (shown * air + fog * (1.0 - air)),
+        seen.a * (1.0 - cover),
+      );
   }
   return seen;
 }
 `,
+  OUTDOOR_FRAME,
+  SUN,
+  CLEAR_SKY,
+  CLOUD_NOISE,
+  CLOUD_VEIL_NUMBERS,
   CLOUDS_WGSL,
 );
