@@ -1,5 +1,42 @@
 # Pill's reports to the lead, newest first
 
+## 2026-11-13 ~12:30Z — state of the pill's package, for whoever continues it
+
+Branch `claude/cube-intro-pill`; the lead has merged it up to b93b3d2e (lead 6637594a). Everything below that is not marked owed is committed and pushed.
+
+### Done
+
+- **The pill and its shelf**: found on floors 1, 2, 5 and 7 (a red ledge with pale paper behind it); the act (take, ask, swallow) through `setPose(pose, { taken })`; the old lever is deleted. Frames: `frames/pill/floor-0{1,2,5,7}-shelf-{far,close}.webp`, `pill-4x-floors-2-5-7-1.webp` (frame 24 on the board).
+- **Hands on a rung**: `pnpm grip:cube` shoots a pair of hands closed round the ladder's own rung (`DOOR_LADDER.rung`); frames `rung-grip-{climber,side,under,beyond}.webp`, shot at d759efcc.
+- **Decor, two general rules** (`src/cube/features/decor/model/clear.ts`, `furnish.ts`), both the operator's decisions:
+  - the way in is kept clear on floor 1 (`threshold()` in `clearZones`, read off `ROOM_DOORWAY`);
+  - nothing is hung over or beside a thing that stands (`crowds`). `TRIES` stays 6; the cost in crowded rooms is accepted (worst: floor 24 6→1 hung things, floor 10 43→20, floor 27 55→30; floor 1 loses nothing). No special rule for the noticeboard.
+- **The wall clock** rolls one time for both hands (`config/fittings.ts`); floor 1's reads 1:40. It is not derived from the sun, by the operator's decision.
+- **Floor 1 as the rules leave it** (planted seed, room frame): plants in the north-west and north-east corners, the bench on the north wall, the clock on the south wall 1.3–1.6 m from the west corner, the noticeboard on the east wall 3.4–4.4 m from the north. Frames `turned-{entering,door-shelf,shelf-door}.webp`, shot at 107f9524.
+- **What stands in the sunbeam**: `sunBlockers(setting, decor, most): Box[]` in `@/cube/features/decor` (b93b3d2e) — metres of the shell's frame, floor-standing things a doorway ray passes through, largest first, potted plants left out, nothing above floor 1. On the planted seed it is one box, the bench: min [0.07, 0, 2.0749], max [0.5, 0.86, 3.5749]. Shell pins `RECEPTION_BEAM_BOXES` (`entities/theme/workplace/config/01-reception.ts`) to it with a test of its own.
+- **Shared turn fold**: `src/cube/shared/lib/turn.ts` (`shortTurn`, `nearestTurn`), used by the player's take, the happenings' lingering and the sea layer.
+- `shelfSeen` lives in `entities/world/model/shelf.ts`, which keeps `geometry.ts` under 400 lines.
+
+### Half-done
+
+- **Floor 1's act sheet**: `pnpm pill:cube --floors 1 --every 30 --whole 3,6` is the command; it takes up to ~50 minutes on SwiftShader and writes to `tmp/cube-pill/`. Nothing of it is committed yet. When it lands: convert the sheets and whole frames 3 and 6 to webp under 300 KB into `frames/pill/`, and note the commit they were shot at.
+- **The decor's public API**: `sunBlockers` is the one function shell should read. The lead's merge also exports `standingBoxes` because a test of shell's still imports it; once that test reads `sunBlockers`, `features/decor/index.ts` is as on this branch (`furnish`, `sunBlockers`).
+
+### Owed
+
+- `/dry` and `/tend-prose` over the pill's diff (the DRY pass should say the turn fold was shared rather than a third copy added).
+- The full gates after shell's d896395b was merged in: `pnpm test:all`, `pnpm typecheck`, `pnpm lint:files src/cube`, `pnpm type-overlap`. Typecheck, the decor slice's lint and tests, and type-overlap were green at b93b3d2e; the whole suite was last green (1611 tests) at 0b1b21bb.
+- A check eye for the pill's glint if shell asks for one (the glint is the renderer's 'plastic', shell's).
+
+### How to re-shoot
+
+One `next dev` per checkout, and no edits to page-bundled sources while a shoot runs. Each indoor frame takes about three minutes.
+
+- Shelf and act sheets: `pnpm pill:cube [--floors a,b] [--whole i,j] [--every N] [--acts none] [--out dir]` → `tmp/cube-pill/`.
+- Rung grip: `pnpm grip:cube` → `tmp/cube-grip/` (eyes are in `src/cube/scripts/grip-cube.ts`, `EYES`).
+- Floor 1 from the doorway: `pnpm outside:cube --eyes entering,door-shelf,shelf-door --out <absolute dir>` (a relative `--out` lands under `sites/vova/`).
+- The clock is the page's own stopped instant, `PLAY_INSTANT` (noon UTC, 2026-11-01), for every frame above.
+
 ## 2026-11-13 ~10:45Z — the facts for the beam comparison (for the lead, shell and the operator)
 
 ### How the two places on floor 1 are decided today
