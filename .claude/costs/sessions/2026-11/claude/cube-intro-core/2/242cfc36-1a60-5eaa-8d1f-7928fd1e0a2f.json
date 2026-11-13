@@ -1,15 +1,33 @@
 {
   "total": {
-    "inputTokens": 15,
+    "inputTokens": 135,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 85717,
-    "cacheReadTokens": 590611,
-    "outputTokens": 3888,
-    "thinkingTokens": 716,
-    "responses": 6,
-    "costUsd": 1.6452342
+    "cacheWrite1hTokens": 247085,
+    "cacheReadTokens": 14828017,
+    "outputTokens": 54358,
+    "thinkingTokens": 21742,
+    "responses": 70,
+    "costUsd": 9.094363400000002
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-13T09:29:39.790Z",
+    "subjectLine": "fix: core's seam after the restart, and the doorway handover",
+    "parts": [
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "the seam is renderer and WGSL work: a frame block, a NaN through bloom, an eye switch with no dropped frame"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "the doorway handover is an agreement with the walk controller about pose, scale and the frame hook"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -34,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkCDdGLyRAp2Yux9jAB",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T09:16:09.987Z",
-  "lastResponseAt": "2026-11-13T09:16:31.900Z",
+  "lastResponseAt": "2026-11-13T09:43:49.003Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 15,
+    "inputTokens": 135,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 85717,
-    "cacheReadTokens": 590611,
-    "outputTokens": 3888,
-    "thinkingTokens": 716,
-    "responses": 6,
-    "costUsd": 1.6452342
+    "cacheWrite1hTokens": 247085,
+    "cacheReadTokens": 14828017,
+    "outputTokens": 54358,
+    "thinkingTokens": 21742,
+    "responses": 70,
+    "costUsd": 9.094363400000002
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,37 +77,37 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 15,
+      "inputTokens": 135,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 85717,
-      "cacheReadTokens": 590611,
-      "outputTokens": 3888,
-      "thinkingTokens": 716,
-      "responses": 6,
-      "costUsd": 1.6452342
+      "cacheWrite1hTokens": 247085,
+      "cacheReadTokens": 14828017,
+      "outputTokens": 54358,
+      "thinkingTokens": 21742,
+      "responses": 70,
+      "costUsd": 9.094363400000002
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 6,
-    "matched": 6,
-    "matchedTableUsd": 1.6452342,
-    "matchedEventUsd": 1.6452342,
+    "events": 70,
+    "matched": 70,
+    "matchedTableUsd": 9.094363400000002,
+    "matchedEventUsd": 9.094363400000002,
     "unseen": {}
   },
   "operatorWords": {
-    "chat": 0,
+    "chat": 34,
     "review": 0,
     "threads": 0
   },
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 2283,
+    ".md": 2288,
     ".json": 31,
     ".yaml": 48,
-    ".ts": 3964,
+    ".ts": 4072,
     ".tsx": 87,
     ".scss": 15
   }

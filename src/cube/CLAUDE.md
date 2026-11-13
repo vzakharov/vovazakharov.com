@@ -3,11 +3,12 @@
 Four rules hold for everything drawn, heard or simulated here, and no checker
 catches a breach of any of them:
 
-- **No textures.** Every surface is a procedure evaluated in the shader from
-  place and clock; nothing drawn is looked up from a stored image, baked or
-  computed — no map, no lookup table, no noise texture. The only textures are
-  the frame's own screen-space targets, and the lettering of signs and posters,
-  which a canvas draws because WebGPU draws no text.
+- **Nothing authored.** Every surface is a procedure of place and clock: no
+  image is drawn by hand, shipped or stored. A map the GPU computes at run time
+  from formulas — a wave field, a sky, the frame's own screen-space targets — is
+  that procedure's working, and allowed. The one thing drawn elsewhere is the
+  lettering of signs and posters, which a canvas draws because WebGPU draws no
+  text.
 
 - **The same thing looks and sounds identical to two players at one point at one
   moment, on any machine.** A frame is a pure function of where the eye is and

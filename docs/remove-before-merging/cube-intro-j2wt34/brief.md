@@ -126,3 +126,125 @@ How each is read:
 The stylised hands and body stay as they are — the contrast with the island is
 the operator's creative choice («кривые руки -- украшать не надо»). "Дерево" was
 the operator's own word for the potted plant in floor 1's room.
+
+## Steering on 2026-11-12
+
+Moved from the plan's "Steering since" when it outgrew the file cap; each entry is the operator's words and how the lead read them.
+
+- **2026-11-12 22:32Z, the sun's direction**, with a sketch over floor 1's room
+  (`docs/remove-before-merging/cube-intro-j2wt34/frames/operator/sun-direction.webp`):
+  two dashed rays from the top of the door running diagonally into the room and
+  down to the floor near its middle, a parallelogram of light round the hole.
+
+  > направление света солнца какое-то вот такое, наверное, должно быть
+
+  Read at first as direction and steepness both, and the sun was raised to 17°;
+  then, as a comment on the board's note about it (relayed by the board
+  session):
+
+  > я тут в основном про направление в двумерной плоскости говорил, 30 градусов
+  > я там специально не отсчитывал :)
+
+  So the sketch fixes the beam's direction across the floor and nothing else;
+  the elevation went back to 9°.
+
+- **2026-11-12 ~22:34Z, a comment on the board itself** (on the "one ocean"
+  card, relayed by the board session): "no Russian in the board whatsoever". The
+  board session translates every quote; the lead sends verdicts in whatever
+  language they were said.
+
+- **2026-11-12 ~22:50Z, randomness and the goal behind it**:
+
+  > все же исполнители понимают, что всё что касается случайности должно
+  > использовать наш `rolled`?
+
+  > цель -- любая вещь, любое явление должно выглядеть абсолютно идентично в
+  > один и тот же момент времени для двух игроков на разных машинах в одной
+  > точке
+
+  The contract named `src/dice` but not `roll` / `rollWith`; now it does, and
+  every build session was told. Sand's pushed shape already rolled. The second
+  sentence was the contract's first rule; it now also rules out anything that
+  remembers earlier frames (accumulated foam, reprojected clouds, a stepped
+  simulation), told to core, sky, sea and sand. Footprints are per-player
+  history, so they are out unless the operator asks for them.
+
+- **2026-11-12 ~22:50Z, on the footprints being dropped — a principle**:
+
+  > да, где-то на борду большими буквами: Interactions come at a price. Это и в
+  > фигуральном и в буквальном смысле: любое, что меняет состояние мира силами
+  > одного игрока (вплоть до "пнуть мячик на полу") -- только покупкой.
+  >
+  > в более философском смысле, можно вспомнить про всяких
+  > исследователей-первооткрывателей, у которых это первая заповедь; про sound
+  > of thunder у бредберри, про эффект бабочки итдитп
+
+  Written into `src/cube/CLAUDE.md` with the two rules it stands beside, into
+  the contract, and sent to the board session for the board, in English, large.
+  What it decides here: no footprints, no wake or ripples from the player's
+  body, no sand disturbed; and the lead's reading for the pill — the shelf holds
+  a pill for whoever comes next, the one taken being the taker's own. That
+  reading was told to the operator in passing.
+
+- **2026-11-12 ~22:55Z, on sea dropping its baked texture — a rule**:
+
+  > это наверное стоило тоже обозначить: никаких текстур. все стены, полы,
+  > потолки этажей куба отрисованы процедурно, здесь мы делаем то же
+
+  Read as: nothing drawn is looked up from a stored image, baked or computed —
+  no FFT maps, no sky map, no noise texture, no lookup table; the frame's own
+  screen-space targets (scene, reflection, bloom, a layer's reduced-resolution
+  pass) are what the renderer already has and stay. In `src/cube/CLAUDE.md` and
+  the contract; core, sky and sea re-briefed. The reading of screen-space
+  targets was told to the operator in passing.
+
+- **2026-11-12 ~22:56Z, a comment on the board's rules zone, on the pill**
+  (relayed by the board session):
+
+  > упс, а таблетку ведь мы действительно берём. ну ладно, пока придумаем для
+  > этого какой-то философский смысл ("таблетки на самом деле нет, это твоё
+  > собственное воображение, представляющее необходимость принять решение как
+  > физический, экстернальный объект и таким образом снимающее с себя
+  > ответственность"
+
+  So the taking is explained, not changed: the shelf keeps its pill for the next
+  player, nothing stores "taken". Passed to pill.
+
+- **2026-11-12 ~22:58Z, on the first frames**:
+
+  > судя по картинкам, катсцены "заглянуть под куб" не надо, и так отчётливо
+  > видно что он парит
+
+  The look-under scene is cut; walk was told. The scenes left are waking, the
+  climb and the climb back down.
+
+- **2026-11-12 ~23:02Z, the ladder vanishes**:
+
+  > давай лестница исчезает после того как ты забрался. без каких бы то там
+  > анимаций, эффектов, звуков. просто поворачиваешься -- и нет. выбраться
+  > можно, спрыгнув (и не пострадав), но забраться обратно уже нет. выбраться
+  > можно и половинного роста, кстати, если выпьешь таблетку и не спустишься на
+  > уровень ниже
+
+  Decided: the ladder and its shadow are drawn until the body first crosses the
+  doorway inward and never after; a game that starts inside has none. Stepping
+  off the sill drops the body 3.6 m to the sand unhurt, at full or half height;
+  no way back in. The climb-down scene is gone. Told to walk, shell, core,
+  sound.
+
+- **2026-11-12 ~23:03Z, lettering** (after learning the signs and posters are
+  lettered on a canvas because WebGPU draws no text):
+
+  > запишите на доску в todo, чтоб рисовал. так будет интереснее и их "распад"
+  > по мере спуска на нижние этажи делать
+
+  A todo on the board, sent to the board session: letters drawn in the shader,
+  so their decay down the floors can be a procedure. Not part of this run.
+
+- **~23:08Z, on the board's pill card**: «swallow а не drink наверное» — the
+  prompt is "Press Y to swallow, N to put down". Pill is not told yet.
+- **~23:10Z, on the price rule's card**, a musing and no decision: «навеяло: мы
+  призраки? мы умерли? это "по ту сторону"?»
+- **~23:10Z, to the lead**: «лимит кончается; пусть все приостановятся, я сожму
+  контекст чтобы завтра продолжить». Every child was told to push `wip:`, report
+  one line and wait for the word "resume"; the lead's check-in was deleted.

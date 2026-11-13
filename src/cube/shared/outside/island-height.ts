@@ -115,10 +115,18 @@ const softMax = (a: number, b: number, k: number): number =>
 
 const mix = (a: number, b: number, t: number): number => a + (b - a) * t;
 
+/**
+ * A smooth step from 0 to 1 about `v` = 0. The argument is clamped because a
+ * GPU's `tanh` of a large number is infinity over infinity, and the bed is
+ * asked for as far out as the horizon.
+ */
+const eased = (v: number): number =>
+  0.5 + 0.5 * Math.tanh(Math.min(Math.max(v, -20), 20));
+
 /** Everything but the crest's own dune, which is sized from what this leaves. */
 function bareHeight(x: number, z: number): number {
-  const east = 0.5 + 0.5 * Math.tanh(x / ISLAND.turn);
-  const south = 0.5 + 0.5 * Math.tanh(z / ISLAND.turn);
+  const east = eased(x / ISLAND.turn);
+  const south = eased(z / ISLAND.turn);
   const a = mix(ISLAND.west, ISLAND.east, east);
   const b = mix(ISLAND.north, ISLAND.south, south);
   const theta = Math.atan2(z, x);
@@ -141,7 +149,7 @@ function bareHeight(x: number, z: number): number {
     0.25,
   );
   const lip = ISLAND.lip * Math.exp(-sq((m * d - ISLAND.berm) / 0.2));
-  const inland = ISLAND.inland * (0.5 + 0.5 * Math.tanh((d - 10) / 3));
+  const inland = ISLAND.inland * eased((d - 10) / 3);
   const off = softPlus(-d - 10, 6) / ISLAND.deepOver;
   const deep = (-ISLAND.deep * off * off) / (1 + off * off);
   let h = face + lip + inland + deep;
@@ -192,12 +200,6 @@ fn softPlus(a: f32, k: f32) -> f32 {
   return k * (max(a / k, 0.0) + log(1.0 + exp(-abs(a / k))));
 }
 
-/// \`tanh\`, which a GPU may compute as a ratio of exponentials that
-/// overflows far out to sea: past 20 it is 1 to the last bit.
-fn levelled(v: f32) -> f32 {
-  return tanh(clamp(v, -20.0, 20.0));
-}
-
 fn softMin(a: f32, b: f32, k: f32) -> f32 {
   return a - softPlus(a - b, k);
 }
@@ -206,13 +208,18 @@ fn softMax(a: f32, b: f32, k: f32) -> f32 {
   return a + softPlus(b - a, k);
 }
 
+/// A smooth step from 0 to 1 about \`v\` = 0, finite however large \`v\` is.
+fn eased(v: f32) -> f32 {
+  return 0.5 + 0.5 * tanh(clamp(v, -20.0, 20.0));
+}
+
 /// Metres over still sea level at \`xz\` of the world's ground plane, negative
 /// under water.
 fn islandHeight(xz: vec2f) -> f32 {
   let x = xz.x;
   let z = xz.y;
-  let east = 0.5 + 0.5 * levelled(x / ${f32(ISLAND.turn)});
-  let south = 0.5 + 0.5 * levelled(z / ${f32(ISLAND.turn)});
+  let east = eased(x / ${f32(ISLAND.turn)});
+  let south = eased(z / ${f32(ISLAND.turn)});
   let a = mix(${f32(ISLAND.west)}, ${f32(ISLAND.east)}, east);
   let b = mix(${f32(ISLAND.north)}, ${f32(ISLAND.south)}, south);
   let theta = atan2(z, x);
@@ -226,7 +233,7 @@ fn islandHeight(xz: vec2f) -> f32 {
     * exp(-(sq(x - ${f32(ISLAND.gentleAt[0])}) + sq(z - ${f32(ISLAND.gentleAt[1])})) / sq(${f32(ISLAND.gentleOver)})));
   let face = softMax(softMin(m * d, ${f32(ISLAND.berm)}, 0.12), -${f32(ISLAND.terrace)}, 0.25);
   let lip = ${f32(ISLAND.lip)} * exp(-sq((m * d - ${f32(ISLAND.berm)}) / 0.2));
-  let inland = ${f32(ISLAND.inland)} * (0.5 + 0.5 * levelled((d - 10.0) / 3.0));
+  let inland = ${f32(ISLAND.inland)} * eased((d - 10.0) / 3.0);
   let off = softPlus(-d - 10.0, 6.0) / ${f32(ISLAND.deepOver)};
   let deep = -${f32(ISLAND.deep)} * off * off / (1.0 + off * off);
   var h = face + lip + inland + deep;
