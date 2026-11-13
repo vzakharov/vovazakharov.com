@@ -8,7 +8,6 @@ import { vec3f, type Wgsl, wgsl } from '@/cube/shared/lib/wgsl';
 import { HASH } from '@/cube/shared/lib/wgsl-hash';
 import {
   beamPatches,
-  BODY_HALF,
   DOOR_INNER,
   DOORWAY,
   SUN,
@@ -147,26 +146,6 @@ fn shrubShade(p: vec3f, dir: vec3f, shrub: vec3f) -> f32 {
   return 1.0 - cover * (1.0 - open);
 }
 
-/// The body whose eye is at \`eye\`, as the sun sees it: a round this far to
-/// each side of its middle line, from the floor to this far over the eye.
-const BODY = vec2f(${f(BODY_HALF)}, 0.12);
-
-/// How much of the sun the body whose eye is at \`eye\` leaves \`p\`: its
-/// shadow in the beam, a capsule's, the twin of the one it casts outside.
-fn bodyShade(p: vec3f, eye: vec3f) -> f32 {
-  let up = vec3f(0.0, 1.0, 0.0);
-  let low = vec3f(eye.x, BODY.x, eye.z) - p;
-  let tall = max(eye.y + BODY.y - 2.0 * BODY.x, 0.001);
-  let flat = low - SUN_DIR * dot(low, SUN_DIR);
-  let line = up * tall - SUN_DIR * (tall * SUN_DIR.y);
-  let share = clamp(-dot(flat, line) / dot(line, line), 0.0, 1.0);
-  let off = length(flat + line * share);
-  let run = dot(low + up * (tall * share), SUN_DIR);
-  let soft = max(SUN_SPREAD * run, 0.003);
-  let cover = (1.0 - smoothstep(BODY.x - soft, BODY.x + soft, off)) * min(1.0, BODY.x / soft);
-  return 1.0 - cover * smoothstep(0.0, 2.0 * BODY.x, run);
-}
-
 /// How much of the sun reaches \`p\`: through the doorway, past what stands
 /// in the beam.
 fn sunAt(p: vec3f) -> f32 {
@@ -238,7 +217,7 @@ fn sunShaft(s: Surf) -> vec3f {
 fn sunlitRoom(s: Surf, m: Material, ambient: vec3f) -> vec3f {
   let normal = normalize(s.normal + m.relief);
   let door = throughDoor(s.p, SUN_DIR, SUN_SPREAD);
-  let sun = door * sunShade(s.p, SUN_DIR) * bodyShade(s.p, s.p - s.view * s.far);
+  let sun = door * sunShade(s.p, SUN_DIR);
   let facing = max(dot(normal, SUN_DIR), 0.0);
   var direct = SUN_LIGHT * (facing * sun);
   if (s.kind == FOLIAGE) {

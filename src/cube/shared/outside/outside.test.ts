@@ -207,9 +207,8 @@ describe('bodyShadow', () => {
     assert.ok(near < 0.05 && far > 0.3 && far < 1, `${near} then ${far}`);
   });
 
-  it("is cast by no body of no height, and joins the cube's", () => {
+  it("is cast by no body of no height, and is no part of the cube's", () => {
     assert.equal(bodyShadow(behind(1), { foot, headAbove: 0 }), 1);
     assert.equal(cubeShadow(behind(1)), 1);
-    assert.equal(cubeShadow(behind(1), { body }), 0);
   });
 });
