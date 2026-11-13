@@ -1,0 +1,130 @@
+{
+  "total": {
+    "inputTokens": 762,
+    "cacheWrite5mTokens": 357343,
+    "cacheWrite1hTokens": 228505,
+    "cacheReadTokens": 16922454,
+    "outputTokens": 63285,
+    "thinkingTokens": 18785,
+    "responses": 98,
+    "costUsd": 8.267993800000001
+  },
+  "estimate": {
+    "at": "2026-11-13T16:41:31.169Z",
+    "subjectLine": "feat: sync the WESL move with the cube intro, move outdoor WGSL to .wgsl",
+    "parts": [
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "a semantic merge across a shader linker and a 9-commit base that rewrote the same kit pieces: each base change has to be re-expressed in .wgsl and re-pinned, which needs someone who reads WGSL and the linker's placement rules"
+      },
+      {
+        "hours": 16.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "about 35 outdoor shader modules (sea, sky, sand, outside) moved into .wgsl under MASD placement, each pinned token for token and split where TS-derived constants must stay TS — the same order of work as the 66 floors, at half their count"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-13T16:38:52.260Z",
+    "contextTokens": 117930,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 57525,
+      "cacheReadTokens": 568233,
+      "outputTokens": 1753,
+      "thinkingTokens": 357,
+      "responses": 6,
+      "costUsd": 0.6089545999999999
+    }
+  },
+  "sessionId": "bcd58d39-0505-58e3-8c27-9387cc499972",
+  "branch": "claude/cube-wesl-trial",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cube-wesl-trial — все 66 этажей в .wgsl, по папке на этаж, vet зелёный, PR #276 в черновике",
+  "prs": [
+    276
+  ],
+  "url": "https://claude.ai/code/session_01DaohkEALtDXTdsS9KgnD24",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-13T16:38:21.805Z",
+  "lastResponseAt": "2026-11-13T16:49:01.475Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 159,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 228505,
+    "cacheReadTokens": 16009337,
+    "outputTokens": 58282,
+    "thinkingTokens": 17919,
+    "responses": 82,
+    "costUsd": 6.1961834
+  },
+  "subagents": {
+    "inputTokens": 30,
+    "cacheWrite5mTokens": 356760,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 694892,
+    "outputTokens": 4063,
+    "thinkingTokens": 866,
+    "responses": 15,
+    "costUsd": 2.0041584
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 762,
+      "cacheWrite5mTokens": 357343,
+      "cacheWrite1hTokens": 228505,
+      "cacheReadTokens": 16922454,
+      "outputTokens": 63285,
+      "thinkingTokens": 18785,
+      "responses": 98,
+      "costUsd": 8.267993800000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 97,
+    "matched": 96,
+    "matchedTableUsd": 8.175339000000001,
+    "matchedEventUsd": 8.175339000000001,
+    "unseen": {
+      "side_question": {
+        "inputTokens": 573,
+        "cacheWrite5mTokens": 583,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 218225,
+        "outputTokens": 940,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.067652
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 110,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".ts": 25480,
+    ".md": 951,
+    ".json": 87,
+    ".yaml": 765,
+    ".sh": 1,
+    ".wgsl": 10313,
+    ".tsx": -109,
+    ".scss": 15,
+    ".toml": 6
+  }
+}
