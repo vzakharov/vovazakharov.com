@@ -6,7 +6,7 @@ import type { CanDispose, Sized, WithId } from '@/kernel/shared/typings';
 import type { SeenAt } from '@/cube/shared/lib/clock';
 import type { Rgb } from '@/cube/shared/lib/colour';
 import type { Seen } from '@/cube/shared/lib/vec';
-import { type OutdoorState, SUN_DIR } from '@/cube/shared/outside';
+import { type Laddered, SUN_DIR } from '@/cube/shared/outside';
 
 import { inverse } from '../lib/matrix';
 import type { FloorRange, Scenery } from '../lib/mesh';
@@ -31,7 +31,7 @@ type Shot = SeenAt & {
    * The same view of the world frame, where the frame shows the outside, which
    * must be prepared; null where it shows the cube's inside alone.
    */
-  outdoors: (Seen & OutdoorState) | null;
+  outdoors: (Seen & Laddered) | null;
 };
 
 /**

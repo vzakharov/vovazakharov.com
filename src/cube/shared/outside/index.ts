@@ -30,9 +30,7 @@ export {
   OUTDOOR_FRAME,
   OUTDOOR_FRAME_FLOATS,
   type OutdoorFrame,
-  type OutdoorState,
   packOutdoorFrame,
-  type Standing,
 } from './outdoor-frame';
 export { SHORE_WETNESS, shoreDrySince } from './shore-wetness';
 export { SKY } from './sky';

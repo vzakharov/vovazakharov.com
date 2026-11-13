@@ -1,6 +1,6 @@
 import type { Readying } from '@/kernel/shared/typings';
 
-import type { OutdoorState } from '@/cube/shared/outside';
+import type { Laddered } from '@/cube/shared/outside';
 import type { InRoomOf, Outside, Pose, Quad } from '@/cube/entities/world';
 
 import type { OutsideLens } from './outside-lens';
@@ -39,7 +39,7 @@ export type InsideSet = Among & {
  * frame of floor 1's room, which reaches past its walls as far as the island
  * does: whether the ladder has gone, and the body that casts a shadow.
  */
-export type OutsideSet = Among & OutdoorState;
+export type OutsideSet = Among & Laddered;
 
 /** The scene's half of the hook. */
 export type ScenePlay = Readying & {
