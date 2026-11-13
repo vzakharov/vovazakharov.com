@@ -18,8 +18,8 @@ export function roar(seed: number, rate: number): Loop {
     // Water falls in lumps: the roar's level wanders several times a second.
     const lumps = 0.4 + 2.4 * tumble(Math.abs(churn()), 5, 0.7);
     return (
-      lumps * (1.6 * low(white, 620, 0.6) + 1.1 * body(white, 170, 0.8)) +
-      1.4 * weight(white, 58, 1.1)
+      lumps * (1.6 * low(white, 620, 0.6) + 0.8 * body(white, 170, 0.8)) +
+      0.9 * weight(white, 58, 1.1)
     );
   });
 }
@@ -100,7 +100,7 @@ export function wash(seed: number, rate: number): Loop {
     const heave = 1 + 0.22 * Math.sin((2 * CYCLE * i) / length + turn);
     return (
       heave *
-      (1.5 * deep(white, 240, 0.5) +
+      (deep(white, 240, 0.5) +
         0.6 * middle(white, 1100, 0.5) +
         0.2 * top(white, 3600, 0.5))
     );

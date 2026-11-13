@@ -12,7 +12,7 @@ const DEEPEST = 22;
 const OCTAVES = 6;
 
 /** How much quieter a voice is for each octave it stands up the stack. */
-const TILT = 0.55;
+const TILT = 0.4;
 const WINDOW_SIN = Array.from({ length: OCTAVES }, (_, voice) =>
   Math.sin((Math.PI * voice) / OCTAVES),
 );
@@ -32,10 +32,10 @@ const TILTS = Array.from(
  */
 type Stack = {
   /** The stack's pitch against `DEEPEST`. */
-  ratio: number;
+  tuned: number;
   /** Hertz between each voice and its twin: how fast the two beat. */
-  beat: number;
-  level: number;
+  throb: number;
+  weight: number;
 };
 
 /**
@@ -45,7 +45,7 @@ type Stack = {
  * both ends.
  */
 function slid(
-  { ratio, beat, level }: Stack,
+  { tuned, throb, weight }: Stack,
   x: number,
   seconds: number,
   rising: boolean,
@@ -53,11 +53,11 @@ function slid(
   const way = rising ? x : 1 - x;
   // The phase whose rate of change is the pitch: an exponential's integral.
   const wound =
-    ((rising ? 1 : -1) * CYCLE * seconds * DEEPEST * ratio * 2 ** way) /
+    ((rising ? 1 : -1) * CYCLE * seconds * DEEPEST * tuned * 2 ** way) /
     Math.LN2;
   const tilt = 2 ** (-TILT * way);
-  // A voice and its twin, `beat` hertz apart, are one voice swelling.
-  const twin = Math.PI * beat * x * seconds;
+  // A voice and its twin, `throb` hertz apart, are one voice swelling.
+  const twin = Math.PI * throb * x * seconds;
   const swelling = 2 * Math.cos(twin) * tilt;
   const sin = Math.sin((Math.PI * way) / OCTAVES);
   const cos = Math.cos((Math.PI * way) / OCTAVES);
@@ -71,7 +71,7 @@ function slid(
       (TILTS[voice] ?? 0) *
       Math.sin(wound * 2 ** voice + twin);
   }
-  return level * swelling * sum;
+  return weight * swelling * sum;
 }
 
 /**
@@ -83,8 +83,8 @@ function slid(
  */
 export function hum(rate: number): Loop {
   const stacks: readonly Stack[] = [
-    { ratio: 1, beat: 0.25, level: 0.33 },
-    { ratio: (1 + Math.sqrt(5)) / 2, beat: 0.35, level: 0.18 },
+    { tuned: 1, throb: 0.25, weight: 0.33 },
+    { tuned: (1 + Math.sqrt(5)) / 2, throb: 0.35, weight: 0.18 },
   ];
   return turning(FALLS_IN, rate, (i, length) => {
     const x = i / length;
@@ -103,7 +103,7 @@ const WEIGHT = [36, 36.5] as const;
  * every two seconds and is felt more than heard.
  */
 export function under(rate: number): Loop {
-  const stack: Stack = { ratio: 1.5, beat: 0.2, level: 0.13 };
+  const stack: Stack = { tuned: 1.5, throb: 0.2, weight: 0.13 };
   return turning(RISES_IN, rate, (i, length) => {
     const x = i / length;
     const t = x * RISES_IN;

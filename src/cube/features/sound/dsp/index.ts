@@ -7,6 +7,7 @@ export {
   ringing,
   sampled,
   samplesIn,
+  type Sounding,
   type Struck,
   swell,
 } from './lib/dsp';

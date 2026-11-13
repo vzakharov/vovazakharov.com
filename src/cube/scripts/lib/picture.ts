@@ -1,11 +1,12 @@
 /** Pictures of sound a script draws for an eye to check: PNGs, made here. */
-
 import { crc32, deflateSync } from 'node:zlib';
+
+import type { Sized } from '@/kernel/shared/typings';
 
 import { decibels, type Spectrogram } from './spectrum';
 
 /** An image as rows of RGB bytes. */
-type Picture = { width: number; height: number; rgb: Uint8Array };
+type Picture = Sized & { rgb: Uint8Array };
 
 type Colour = readonly [number, number, number];
 

@@ -1,5 +1,3 @@
-import type { Timed } from '@/kernel/shared/typings';
-
 import type { Ladder, Limb } from '@/cube/shared/lib/acoustics';
 
 import {
@@ -8,13 +6,12 @@ import {
   noiseOf,
   ringing,
   sampled,
+  type Sounding,
   type Struck,
 } from '../../dsp';
 
 /** How a ladder answers a limb on a rung. */
-type Rung = Timed & {
-  /** What the rung and the stiles ring with. */
-  modes: readonly Struck[];
+type Rung = Sounding & {
   /** The rattle of the ladder against the sill and in its own joints. */
   rattle: Struck & { resonance: number };
 };

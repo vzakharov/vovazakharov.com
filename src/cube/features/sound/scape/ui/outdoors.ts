@@ -1,3 +1,5 @@
+import type { Hushing } from '@/kernel/shared/typings';
+
 import {
   type Beds,
   EASE,
@@ -7,7 +9,7 @@ import {
   OPEN_AIR,
   type OutsideMix,
   SOUND_LAYERS,
-} from '../../outside';
+} from '../../outdoors';
 
 /** Milliseconds of a frame the loops' rendering may take, and samples a go. */
 const BUDGET = 4;
@@ -41,19 +43,17 @@ const isWhole = (loop: Loop): boolean => loop.render(0);
 /** One layer sounding: its level in each ear. */
 type Sounding = {
   sources: AudioBufferSourceNode[];
-  ears: readonly [left: GainNode, right: GainNode];
+  ears: readonly [leftEar: GainNode, rightEar: GainNode];
 };
 
 /** The outside as the mixer plays it. */
-export type Outdoors = {
+export type Outdoors = Hushing & {
   /**
    * The mix at `seconds` into the hour, to ease toward. A layer joins the
    * first time this is called with its loops whole, at the clock's own place
    * in them.
    */
   set: (mix: OutsideMix, seconds: number) => void;
-  /** Fades everything out and lets it go. */
-  stop: () => void;
 };
 
 /**
@@ -113,9 +113,9 @@ export function outdoorsOf(
           if (playing === undefined) continue;
           sounding.set(layer, playing);
         }
-        const { left, right } = mix.layers[layer];
-        playing.ears[0].gain.setTargetAtTime(left, now, EASE);
-        playing.ears[1].gain.setTargetAtTime(right, now, EASE);
+        const { leftEar, rightEar } = mix.layers[layer];
+        playing.ears[0].gain.setTargetAtTime(leftEar, now, EASE);
+        playing.ears[1].gain.setTargetAtTime(rightEar, now, EASE);
       }
     },
     stop: () => {

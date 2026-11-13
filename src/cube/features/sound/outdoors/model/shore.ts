@@ -82,12 +82,6 @@ export type Surf = { breaking: number; running: number; draining: number };
 /** Seconds either side of now the water's rise is measured over. */
 const SPAN = 0.12;
 
-/** The rise at the shore, in metres a second, of a sheet running flat out. */
-const RUN_RATE = 0.12;
-
-/** The rise over the bar, in metres a second, of a wave breaking its hardest. */
-const BREAK_RATE = 0.25;
-
 /** Metres a second the sea's surface is rising at `at`, `seconds` into the hour. */
 const rising = (sea: Sea, at: Vec2, seconds: number): number =>
   (sea.waterLevel(at, seconds + SPAN) - sea.waterLevel(at, seconds - SPAN)) /
@@ -109,10 +103,54 @@ const LINGERS: Record<keyof Surf, number> = {
 const LOOK_BACK = 0.2;
 const LOOKS = 10;
 
+/**
+ * How fast this sea's surface rises at its fastest, in metres a second: at
+ * the shore, where that is a sheet running flat out, and over the bar, where
+ * it is a wave breaking its hardest.
+ */
+export type Swing = { atShore: number; overBar: number };
+
+/** The seconds of the hour a sea's swing is taken over, and between two looks. */
+const SWING_OVER = 240;
+const SWING_EVERY = 0.5;
+
+/**
+ * The swing of `sea` along `shore`, so that its biggest wave is the loudest
+ * the surf gets whatever size the sea's waves are.
+ */
+export function swingOf(sea: Sea, shore: readonly Stretch[]): Swing {
+  const swing = { atShore: 1e-6, overBar: 1e-6 };
+  for (const stretch of shore) {
+    for (let seconds = 0; seconds < SWING_OVER; seconds += SWING_EVERY) {
+      swing.atShore = Math.max(
+        swing.atShore,
+        Math.abs(rising(sea, stretch.shore, seconds)),
+      );
+      swing.overBar = Math.max(
+        swing.overBar,
+        rising(sea, stretch.breaks, seconds),
+      );
+    }
+  }
+  return swing;
+}
+
+/** The sea, its shore and its swing: what the surf is read from. */
+export type Coast = { sea: Sea; shore: readonly Stretch[]; swing: Swing };
+
+export function coastOf(sea: Sea, middle: Vec2, count?: number): Coast {
+  const shore = shoreOf(sea, middle, count);
+  return { sea, shore, swing: swingOf(sea, shore) };
+}
+
 /** The surf at `stretch` at one instant, with no memory. */
-function surfNow(sea: Sea, stretch: Stretch, seconds: number): Surf {
-  const atShore = rising(sea, stretch.shore, seconds) / RUN_RATE;
-  const overBar = rising(sea, stretch.breaks, seconds) / BREAK_RATE;
+function surfNow(
+  { sea, swing }: Coast,
+  stretch: Stretch,
+  seconds: number,
+): Surf {
+  const atShore = rising(sea, stretch.shore, seconds) / swing.atShore;
+  const overBar = rising(sea, stretch.breaks, seconds) / swing.overBar;
   return {
     breaking: clamp01(overBar) ** 2,
     running: clamp01(atShore),
@@ -121,19 +159,19 @@ function surfNow(sea: Sea, stretch: Stretch, seconds: number): Surf {
 }
 
 /**
- * The surf at `stretch`, `seconds` into the hour, read off the sea's own
- * surface: a wave breaks while the water over the bar climbs, its sheet runs
- * while the water at the shore climbs and drains while it falls. A wave
- * breaks all at once or hardly at all, so `breaking` is the rise squared.
- * Each sound starts with the water and dies away after it, which is a look
- * back over the last seconds of the same sea, so it is still a function of
- * the moment alone.
+ * The surf at `stretch` of `coast`, `seconds` into the hour, read off the
+ * sea's own surface: a wave breaks while the water over the bar climbs, its
+ * sheet runs while the water at the shore climbs and drains while it falls.
+ * A wave breaks all at once or hardly at all, so `breaking` is the rise
+ * squared. Each sound starts with the water and dies away after it, which is
+ * a look back over the last seconds of the same sea, so it is still a
+ * function of the moment alone.
  */
-export function surfAt(sea: Sea, stretch: Stretch, seconds: number): Surf {
-  const surf = surfNow(sea, stretch, seconds);
+export function surfAt(coast: Coast, stretch: Stretch, seconds: number): Surf {
+  const surf = surfNow(coast, stretch, seconds);
   for (let look = 1; look <= LOOKS; look += 1) {
     const ago = look * LOOK_BACK;
-    const then = surfNow(sea, stretch, seconds - ago);
+    const then = surfNow(coast, stretch, seconds - ago);
     for (const part of ['breaking', 'running', 'draining'] as const) {
       surf[part] = Math.max(
         surf[part],

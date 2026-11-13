@@ -1,5 +1,5 @@
 export { type Beds, bedsOf, EASE, MUFFLED, rendered } from './model/beds';
-export { heardFrom, ISLAND } from './model/island';
+export { BEACH, heardFrom, SOUNDING_ISLAND } from './model/island';
 export { type Loop, whole } from './model/loop';
 export {
   type Doorway,
@@ -8,9 +8,10 @@ export {
   OPEN_AIR,
   type OutsideMix,
   outsideMix,
+  perLayer,
   type Scene,
   SOUND_LAYERS,
   throughDoorway,
 } from './model/mix';
-export { type Sea, shoreOf, type Stretch, surfAt } from './model/shore';
+export { type Coast, coastOf, type Sea, surfAt } from './model/shore';
 export { gustAt, SECONDS_AN_HOUR } from './model/weather';

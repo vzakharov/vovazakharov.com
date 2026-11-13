@@ -22,12 +22,14 @@ import {
   type Beds,
   bedsOf,
   gustAt,
-  ISLAND,
+  type Layer,
   type OutsideMix,
   outsideMix,
+  perLayer,
   rendered,
   type Scene,
   SOUND_LAYERS,
+  SOUNDING_ISLAND,
   surfAt,
   whole,
 } from '@/cube/features/sound';
@@ -41,7 +43,9 @@ import {
   following,
   levelOf,
   mean,
+  type Spectrogram,
   spectrogramOf,
+  standingOut,
 } from './lib/spectrum';
 import { stereoWavOf } from './lib/stereo-wav';
 
@@ -51,7 +55,7 @@ const RATE = 32_000;
 
 /** Where the bench stands: under the cube, where the player wakes, at the ladder. */
 const PLACES = {
-  ...pick(ISLAND, 'cube'),
+  ...pick(SOUNDING_ISLAND, 'cube'),
   waking: [WAKE_AT[0], WAKE_AT[2]],
   ladder: [
     DOORWAY_BOX.min[0] + 0.8,
@@ -67,6 +71,7 @@ const BANDS = {
   hum: [30, 320],
   roar: [60, 700],
   hiss: [2000, 9000],
+  wind: [100, 4000],
   all: [25, 15_000],
 } as const;
 
@@ -78,21 +83,24 @@ const mid = (left: Float32Array, right: Float32Array): Float32Array =>
 const scaled = (samples: Float32Array, by: number): Float32Array =>
   samples.map((sample) => by * sample);
 
-/** `mix` with the cube's hum taken out: what is left is what masks it. */
-const humless = (mix: OutsideMix): OutsideMix => ({
+const HUM_LAYERS: ReadonlySet<Layer> = new Set(['hum', 'under']);
+
+/** `mix` with only the layers `keep` says, the rest silent. */
+const kept = (
+  mix: OutsideMix,
+  keep: (layer: Layer) => boolean,
+): OutsideMix => ({
   ...mix,
-  layers: {
-    ...mix.layers,
-    hum: { left: 0, right: 0 },
-    under: { left: 0, right: 0 },
-  },
+  layers: perLayer((layer) =>
+    keep(layer) ? mix.layers[layer] : { leftEar: 0, rightEar: 0 },
+  ),
 });
 
 /** One scene rendered, drawn and measured; returns its lines of the report. */
 function take(
   out: string,
   name: string,
-  { from, seconds, mixAt, told }: Scenes[string],
+  { begins: from, seconds, mixAt, earAt, told }: Scenes[string],
   beds: Beds,
   scene: Scene,
 ): string[] {
@@ -107,18 +115,47 @@ function take(
     pngOf(spectrogramPicture(heard, 1200, 420)),
   );
 
-  const [bare] = rendered(beds, (t) => humless(mixAt(t)), from, seconds, RATE);
-  const masker = spectrogramOf(scaled(bare, MASTER), RATE);
-  const humBand = mean(bandOver(spectrogramOf(left, RATE), ...BANDS.hum));
-  const maskBand = mean(bandOver(masker, ...BANDS.hum));
+  // The hum by itself and everything else by itself: the mix is their sum.
+  const alone = (keep: (layer: Layer) => boolean): Spectrogram =>
+    spectrogramOf(
+      scaled(
+        rendered(beds, (t) => kept(mixAt(t), keep), from, seconds, RATE)[0],
+        MASTER,
+      ),
+      RATE,
+    );
+  const clear = standingOut(
+    alone((layer) => HUM_LAYERS.has(layer)),
+    alone((layer) => !HUM_LAYERS.has(layer)),
+    ...BANDS.hum,
+  ).toSorted((a, b) => a - b);
+  const lulls = clear.slice(Math.floor(0.75 * clear.length));
+
+  const windLayers: ReadonlySet<Layer> = new Set(['wind', 'buffet']);
+  const windOnly = bandOver(
+    alone((layer) => windLayers.has(layer)),
+    ...BANDS.wind,
+  );
+  const restOnly = bandOver(
+    alone((layer) => !windLayers.has(layer)),
+    ...BANDS.wind,
+  );
+  const windOver = decibels(mean(windOnly)) - decibels(mean(restOnly));
 
   const moments = heard.columns.map(
     (_, column) => from + column * heard.secondsPerColumn,
   );
+  // The water where the ear is: the stretch of shore nearest it.
   const water = (part: 'breaking' | 'running' | 'draining'): number[] =>
-    moments.map((t) =>
-      mean(scene.shore.map((stretch) => surfAt(scene.sea, stretch, t)[part])),
-    );
+    moments.map((t) => {
+      const [x, z] = earAt(t);
+      const [nearest] = scene.coast.shore.toSorted(
+        (a, b) =>
+          Math.hypot(a.shore[0] - x, a.shore[1] - z) -
+          Math.hypot(b.shore[0] - x, b.shore[1] - z),
+      );
+      return nearest === undefined ? 0 : surfAt(scene.coast, nearest, t)[part];
+    });
   const roar = bandOver(heard, ...BANDS.roar);
   const hiss = bandOver(heard, ...BANDS.hiss);
   writeFileSync(
@@ -152,7 +189,8 @@ function take(
           `${band} ${fixed(decibels(mean(bandOver(heard, low, high))))}`,
       )
       .join(', ')}`,
-    `- the hum's band with the hum over without it: ${fixed(decibels(humBand) - decibels(maskBand))} dB`,
+    `- the wind alone ${fixed(decibels(mean(windOnly)))} dBFS in its band, ${fixed(windOver)} dB against the rest of the mix`,
+    `- the hum's clearest partial over its masker: ${fixed(mean(clear))} dB on average, ${fixed(mean(lulls))} dB in the quarter of the time it is clearest`,
     `- roar follows the water breaking: fit ${fixed(broke.fit, 2)}, ${late(broke.late)}`,
     `- hiss follows the water running up: fit ${fixed(ran.fit, 2)}, ${late(ran.late)}`,
   ];
@@ -166,7 +204,7 @@ function main(): void {
 
   if (only === undefined || only === 'cues') {
     report.push('# Cues');
-    for (const { name, samples, rate } of cueTakes()) {
+    for (const { name, samples, takenAt: rate } of cueTakes()) {
       writeFileSync(
         path.join(out, `cue-${name}.wav`),
         stereoWavOf(samples, samples, rate),
@@ -183,20 +221,20 @@ function main(): void {
   }
 
   if (only !== 'cues') {
-    const scene = ISLAND;
+    const scene = SOUNDING_ISLAND;
     const beds = bedsOf(pathHash('0'));
     for (const layer of SOUND_LAYERS)
       for (const loop of beds[layer]) whole(loop);
     report.push('', '# Scenes');
     const scenes = scenesOf(scene, PLACES);
     for (const [name, told] of Object.entries(scenes)) {
-      if (only !== undefined && only !== name) continue;
+      if (only !== undefined && !only.split(',').includes(name)) continue;
       report.push('', ...take(out, name, told, beds, scene));
     }
     const again = (from: number) =>
       rendered(
         beds,
-        (t) => outsideMix(scene, { at: [0, 20], yaw: 1 }, t),
+        (t) => outsideMix(scene, { at: [0, 20], gaze: 1 }, t),
         from,
         1,
         RATE,

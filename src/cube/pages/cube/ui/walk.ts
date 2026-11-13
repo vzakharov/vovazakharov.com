@@ -149,7 +149,7 @@ export function walk(
     const { seconds } = clockAt(now());
     const next = abroad(was, controls, dt, seconds, LIT_STAGE, woken);
     const { cues, shot, entered, asleep } = next;
-    hearing?.body(cues, player.pose);
+    hearing?.body(cues, outsideOf(shot));
     if (entered) {
       out = null;
       ladderGone = true;
@@ -233,9 +233,9 @@ export function walk(
               ladderGone,
             };
           },
-    onHeard: (heard) => {
+    onHeard: (heard, at) => {
       const nowMs = now();
-      hearing?.outside(out === null ? player.pose : outsideOf(out.shot), nowMs);
+      hearing?.outside(at, nowMs);
       // The rooms are out of earshot of the island.
       if (out === null) hearing?.rooms(heard, player.pose, nowMs);
     },

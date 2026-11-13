@@ -1,3 +1,5 @@
+import type { Timed } from '@/kernel/shared/typings';
+
 import { samplesIn } from '../../dsp';
 
 /**
@@ -6,9 +8,8 @@ import { samplesIn } from '../../dsp';
  * a loop started at the clock's own place in it is the same sound for
  * everyone, all hour.
  */
-export type Loop = {
+export type Loop = Timed & {
   rate: number;
-  seconds: number;
   /** The loop's samples; silence past what has been rendered. */
   samples: Float32Array<ArrayBuffer>;
   /** Renders up to `count` samples more; true once the loop is whole. */

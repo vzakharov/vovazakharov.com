@@ -10,7 +10,7 @@ import { buffet, wind } from './wind';
  * are two takes of one sound, so the outside has width; the hum's are one
  * loop twice, so it has a place.
  */
-export type Beds = Record<Layer, readonly [left: Loop, right: Loop]>;
+export type Beds = Record<Layer, readonly [leftEar: Loop, rightEar: Loop]>;
 
 /**
  * The rate each layer is made at: as low as what is in it allows, since the
@@ -79,7 +79,7 @@ export function rendered(
   from: number,
   seconds: number,
   rate: number,
-): [left: Float32Array<ArrayBuffer>, right: Float32Array<ArrayBuffer>] {
+): [leftEar: Float32Array<ArrayBuffer>, rightEar: Float32Array<ArrayBuffer>] {
   const length = Math.round(seconds * rate);
   const every = Math.max(1, Math.round(rate / ASKED));
   const closing = 1 - Math.exp(-1 / (EASE * rate));
@@ -87,7 +87,7 @@ export function rendered(
   const out = ears.map(() => new Float32Array(length));
   const dull = ears.map(() => filterOf('low', rate));
   let mix = mixAt(from);
-  const sides = ['left', 'right'] as const;
+  const sides = ['leftEar', 'rightEar'] as const;
   const levels = ears.map((ear) =>
     SOUND_LAYERS.map((layer) => mix.layers[layer][sides[ear]]),
   );
