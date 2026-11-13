@@ -25,7 +25,7 @@ const FRAMES = path.resolve(
 const ROOM = { n: 1, x: 0n, y: 0n };
 
 /** The rung's middle in the room, a metre up in the doorway's beam. */
-const RUNG: Vec3 = [0.5, 0.2, 0.45];
+const RUNG: Vec3 = [0.4, 0.2, 0.2];
 /** Its half-length and its radius, in room sides: 40 cm long, 3 cm through. */
 const HALF = 0.04;
 const RADIUS = 0.003;
@@ -37,11 +37,15 @@ const ELBOW: Vec3 = [0.05, -0.07, 0];
 const AHEAD: Vec3 = [-1, 0, 0];
 
 const rung = loft(
-  [-HALF, HALF].map((along) => ({
-    centre: [RUNG[0], RUNG[1], RUNG[2] + along] as const,
-    wide: [RADIUS, 0, 0] as const,
-    thick: [0, RADIUS, 0] as const,
-  })),
+  // Each end is drawn nearly shut.
+  ([-1, -1, 1, 1] as const).map((end, index) => {
+    const radius = index === 0 || index === 3 ? RADIUS * 0.02 : RADIUS;
+    return {
+      centre: [RUNG[0], RUNG[1], RUNG[2] + end * HALF] as const,
+      wide: [radius, 0, 0] as const,
+      thick: [0, radius, 0] as const,
+    };
+  }),
   ROOM,
   { surface: 'metal', paint: 0xb8_bc_c0, sides: 12 },
 );
@@ -69,10 +73,10 @@ function eyeAt(off: Vec3): Pose {
 }
 
 const EYES: ReadonlyArray<readonly [string, Vec3]> = [
-  ['climber', [0.085, 0.02, 0]],
-  ['side', [0.012, 0.004, -0.095]],
-  ['under', [0.03, -0.06, -0.03]],
-  ['beyond', [-0.07, -0.01, -0.03]],
+  ['climber', [0.07, 0.02, 0]],
+  ['side', [0.02, 0.006, -0.085]],
+  ['under', [0.02, -0.05, -0.035]],
+  ['beyond', [-0.055, -0.012, -0.035]],
 ];
 
 await withCubePage(async ({ shoot }) =>
