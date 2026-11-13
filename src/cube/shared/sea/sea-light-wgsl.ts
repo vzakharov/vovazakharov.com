@@ -1,6 +1,6 @@
 import { OUTDOOR_STAGE, SKY, SUN } from '../outside';
 import { wgsl } from '../shader/wgsl';
-import { SEA_SURFACE } from './sea-surface-wgsl';
+import { SEA_SURFACE } from './sea-surface.shader';
 import { WATER_BODY } from './water-body.shader';
 
 /**

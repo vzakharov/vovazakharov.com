@@ -5,7 +5,7 @@ import { TILE } from './cascade';
 import { SEA_FOAM } from './sea-foam-wgsl';
 import { SEA_LIGHT } from './sea-light-wgsl';
 import { UNSEEN_SPREAD } from './sea-state';
-import { SEA_SURFACE } from './sea-surface-wgsl';
+import { SEA_SURFACE } from './sea-surface.shader';
 
 /** Water deeper than this, metres, shows none of its bed. */
 const BED_SHOWS = 24;

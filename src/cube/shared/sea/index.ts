@@ -1,6 +1,6 @@
 export { amplitudesOf, CASCADES, TILE } from './cascade';
 export { SEAS } from './sea-state';
-export { RINGS, SPOKES } from './sea-surface-wgsl';
+export { RINGS, SPOKES } from './sea-tables';
 export { SEA } from './sea-wgsl';
 export type { Sea } from './spectrum';
 export {
