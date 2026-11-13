@@ -280,7 +280,7 @@ export type Shrub = {
 type Sunlit = Graded & {
   /** The potted plants that shade the beam. */
   shrubs: readonly Shrub[];
-  /** What else stands in the beam, as boxes in room metres from the room's north-west corner on its floor. */
+  /** What else stands in the beam, as boxes in metres of the shell's frame, the one the beam's patches are in. */
   boxes: readonly Box[];
   /** What the floor and the walls throw back of the beam, on average. */
   floor: Rgb;
@@ -307,14 +307,9 @@ export const sunlit = (id: string, look: Sunlit): Wgsl => {
     const [x, , z] = toShell([east, 0, south], ROOM_METRES);
     return `vec3f(${f(x)}, ${f(z)}, ${f(draw)})`;
   });
-  const boxes = look.boxes.map(({ min, max }) => {
-    const a = toShell(min, ROOM_METRES);
-    const b = toShell(max, ROOM_METRES);
-    const ends = [0, 1, 2].map((axis) => [a[axis] ?? 0, b[axis] ?? 0]);
-    const corner = (pick: (...of: number[]) => number): string =>
-      `vec3f(${ends.map((pair) => f(pick(...pair))).join(', ')})`;
-    return `Slab(${corner(Math.min)}, ${corner(Math.max)})`;
-  });
+  const boxes = look.boxes.map(
+    ({ min, max }) => `Slab(${vec3f(min)}, ${vec3f(max)})`,
+  );
   // WGSL has no array of none: a box no ray can reach stands in.
   const slabs = boxes.length > 0 ? boxes : ['Slab(vec3f(-9.0), vec3f(-9.0))'];
   return wgsl(

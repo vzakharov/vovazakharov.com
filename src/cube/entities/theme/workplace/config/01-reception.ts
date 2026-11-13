@@ -27,8 +27,8 @@ export const RECEPTION_SHRUBS: readonly Shrub[] = [
 
 /**
  * What else of the planted world's decor stands in the beam, as the boxes
- * it fills, in room metres; written here and held to the decor as the plants
- * are.
+ * it fills, in metres of the shell's frame; written here and held to the
+ * decor as the plants are.
  */
 export const RECEPTION_BEAM_BOXES: readonly Box[] = [];
 
