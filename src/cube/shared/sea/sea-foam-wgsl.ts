@@ -11,6 +11,8 @@ const BUBBLES_LAST = 5;
 const SHEET_LASTS = 3.2;
 /** How many times longer than wide the swash draws the lace's cells. */
 const DRAWN_OUT = 1.8;
+/** The still waterline's distance from the island's middle, metres, about. */
+const SHORE_RADIUS = 30;
 /** How many times finer the lace is on a swash sheet than out on the surf. */
 const FINER = 2.4;
 /** Bubbles to a metre of foam, where it thins enough to show them apart. */
@@ -50,27 +52,16 @@ fn foamWalls(p: vec2f, salt: u32) -> f32 {
   return second - first;
 }
 
-/// How much of a pixel foam of thickness \`dense\` covers at \`p\`, metres on
-/// the sea: whole at 1 and over, then breaking into patches joined by the
-/// threads that bubbles gather into along the walls between cells. On the
-/// beach the water that carries it runs up and back along \`shore.runs\`,
-/// and draws the cells out that way, and a sheet's thin foam
-/// breaks finer than a breaker's. A pixel \`pixel\` metres of sea wide
-/// shows the threads narrower than itself as their mean, not as dots.
-fn lace(still: vec2f, dense: f32, shore: Shore, pixel: f32) -> f32 {
-  if (dense <= 0.02) {
-    return 0.0;
-  }
-  let ashore = smoothstep(-0.35, 0.0, shore.bed);
-  let drawn = 1.0 + ${f32(DRAWN_OUT - 1)} * ashore;
-  let finer = 1.0 + ${f32(FINER - 1)} * ashore;
-  let p = finer
-    * (still + (1.0 / drawn - 1.0) * dot(still, shore.runs) * shore.runs);
+/// How much of a pixel foam of thickness \`dense\` covers at \`p\` on the
+/// lace's own plan: whole at 1 and over, then breaking into patches joined
+/// by the threads that bubbles gather into along the walls between cells. A
+/// pixel \`blur\` of that plan wide shows the threads narrower than itself
+/// as their mean, not as dots.
+fn laceAt(p: vec2f, dense: f32, blur: f32) -> f32 {
   let warp = vec2f(fbm(p * 0.9, 11u, 3), fbm(p * 0.9 + vec2f(7.7, 3.1), 14u, 3)) - 0.5;
   let fold = vec2f(valueNoise(p * 3.7, 12u), valueNoise(p * 3.7 + vec2f(2.3, 9.1), 13u)) - 0.5;
   let at = p + 0.9 * warp + 0.22 * fold;
   let patches = fbm(at * 0.7, 17u, 4);
-  let blur = finer * pixel;
   let wide = 0.2 + 2.6 * blur;
   let wider = 0.4 + 9.0 * blur;
   // A thread drawn wider is drawn fainter, toward what the walls cover of
@@ -85,8 +76,35 @@ fn lace(still: vec2f, dense: f32, shore: Shore, pixel: f32) -> f32 {
   let fine = mix(0.29, 1.0 - smoothstep(0.0, wider, foamWalls(at * 9.0, 22u)), 0.4 / wider);
   let body = 0.5 * patches + 0.36 * threads + 0.18 * fine + 0.07 * frayed;
   let open = 1.0 - 1.15 * min(dense, 1.0);
-  let cover = smoothstep(open - 0.5 * blur, open + 0.3 + 0.5 * blur, body)
+  return smoothstep(open - 0.5 * blur, open + 0.3 + 0.5 * blur, body)
     * smoothstep(0.02, 0.1, dense);
+}
+
+/// The lace at \`still\`, metres on the sea, in a pixel \`pixel\` metres
+/// wide. Out on the surf its plan is the sea's own; on the beach the water
+/// that carries it runs up and back, drawing the cells out up the sand, and a
+/// sheet's thin foam breaks finer. The beach's plan is laid round the island
+/// — metres along the shore by metres out from it — and joins itself on one
+/// line in the island's lee.
+fn lace(still: vec2f, dense: f32, shore: Shore, pixel: f32) -> f32 {
+  if (dense <= 0.02) {
+    return 0.0;
+  }
+  let ashore = smoothstep(-0.35, 0.0, shore.bed);
+  var cover = 0.0;
+  if (ashore < 1.0) {
+    cover = laceAt(still, dense, pixel);
+  }
+  if (ashore > 0.0) {
+    let out = max(length(still), 1.0);
+    let round = atan2(
+      still.x * SWELL_RUNS.y - still.y * SWELL_RUNS.x,
+      -dot(still, SWELL_RUNS),
+    );
+    let beach = ${f32(FINER * SHORE_RADIUS)}
+      * vec2f(log(out / ${f32(SHORE_RADIUS)}) / ${f32(DRAWN_OUT)}, round);
+    cover = mix(cover, laceAt(beach, dense, ${f32(FINER * SHORE_RADIUS)} * pixel / out), ashore);
+  }
   // Where foam thins it comes apart into bubbles, the water between them
   // showing; a pixel wider than a bubble shows their mean.
   let apart = smoothstep(0.12, 0.45, foamWalls(still * ${f32(BUBBLES)}, 23u))
