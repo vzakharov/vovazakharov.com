@@ -8,7 +8,7 @@ const TRAIL_LASTS = 2.2;
 /** The same for the bubbles it drives under, which outlast the foam on top. */
 const BUBBLES_LAST = 5;
 /** And for the foam riding a swash sheet. */
-const SHEET_LASTS = 2.2;
+const SHEET_LASTS = 3.2;
 /** How many times longer than wide the swash draws the lace's cells. */
 const DRAWN_OUT = 2.4;
 /** How many times finer the lace is on a swash sheet than out on the surf. */
