@@ -124,6 +124,35 @@ fn sandStrewn(xz: vec2f, h: f32) -> vec2f {
   return clamp(vec2f(wrack + older, wrack + older + shore), vec2f(0.0), vec2f(1.0));
 }
 
+/// A dried strand of weed seen from a point beside it.
+struct Strand {
+  /// Metres from the point to the strand's middle line.
+  off: f32,
+  /// Where along it the nearest of that line is: -1 and 1 its ends.
+  along: f32,
+  /// Metres across it, signed, and the unit vector that way.
+  across: f32,
+  side: vec2f,
+  /// Its half width there, metres: it thins to a frayed point at each end.
+  wide: f32,
+}
+
+/// The strand through the middle of a cell, \`to\` metres from that middle, its
+/// lie, length, curl and thickness drawn from the cell's \`lot\`.
+fn weedStrand(to: vec2f, lot: f32) -> Strand {
+  let turn = ${2 * Math.PI} * lot;
+  let along = vec2f(cos(turn), sin(turn));
+  let side = vec2f(-along.y, along.x);
+  let reach = 0.012 + 0.02 * fract(lot * 41.3);
+  let u = clamp(dot(to, along), -reach, reach);
+  // A bend one way and a kink the other, so no two lie in the same arc.
+  let curl = (fract(lot * 17.9) - 0.5) * 26.0;
+  let kink = (fract(lot * 29.3) - 0.5) * 1800.0;
+  let v = dot(to, side) - curl * (u * u - reach * reach * 0.3) - kink * u * u * u;
+  let wide = (0.0005 + 0.0007 * fract(lot * 23.7)) * (0.2 + 0.8 * (1.0 - sq(u / reach)));
+  return Strand(length(vec2f(dot(to, along) - u, v)), u / reach, v, side, wide);
+}
+
 /// Shell fragments, a few pebbles and dried weed: sparse everywhere, gathered
 /// along the wrack line.
 fn sandLitter(xz: vec2f, h: f32, px: f32, sun: vec3f) -> Litter {
@@ -180,21 +209,30 @@ fn sandLitter(xz: vec2f, h: f32, px: f32, sun: vec3f) -> Litter {
   if (px < 0.012 && lines.x > 0.03) {
     let clump = smoothstep(0.4, 0.62, noised(xz / 0.7, SAND_SALT + 0x8bu).x) * lines.x;
     let strand = nearestSpeck(xz / 0.03, SAND_SALT + 0x8du);
-    if (strand.z < 1.3 * clump) {
-      let turn = ${2 * Math.PI} * strand.w;
-      let along = vec2f(cos(turn), sin(turn));
+    if (strand.z < 0.9 * clump) {
       let to = -strand.xy * 0.03;
-      let reach = 0.012 + 0.02 * fract(strand.w * 41.3);
-      let u = clamp(dot(to, along), -reach, reach);
-      let curl = (fract(strand.w * 17.9) - 0.5) * 60.0;
-      let v = dot(to, vec2f(-along.y, along.x)) - curl * (u * u - reach * reach * 0.3);
-      let d = length(vec2f(dot(to, along) - u, v));
+      let near = 1.0 - smoothstep(0.004, 0.012, px);
+      let body = weedStrand(to, strand.w);
       // A strand thinner than a pixel covers only its share of it.
-      let cover = (1.0 - smoothstep(0.0005, 0.0005 + edge, d)) * min(1.0, 0.0014 / edge)
-        * (1.0 - smoothstep(0.004, 0.012, px));
-      litter.albedo = mix(litter.albedo, vec3f(0.05, 0.036, 0.02), cover);
+      let cover = (1.0 - smoothstep(body.wide, body.wide + edge, body.off)) * min(1.0, 2.8 * body.wide / edge) * near;
+      // Bleached straw to nearly black, and no one strand a single tone.
+      let bleached = sq(fract(strand.w * 67.1));
+      let tone = mix(vec3f(0.07, 0.05, 0.03), vec3f(0.3, 0.22, 0.11), bleached)
+        * (0.8 + 0.3 * sin(9.0 * body.along + 40.0 * strand.w));
+      litter.albedo = mix(litter.albedo, tone, cover);
+      // Round in section, so the low sun lights one side of it.
+      litter.slope = mix(litter.slope, -1.2 * body.side * clamp(body.across / body.wide, -1.0, 1.0), cover);
       litter.gloss = mix(litter.gloss, 0.0, cover);
       litter.cover = max(litter.cover, cover);
+      // Lying on the sand, it lays its shadow beside itself: the longer the
+      // lower the sun, up to where the grains it falls across break it up.
+      let toSun = normalize(sun.xz) * min(2.0 * body.wide * length(sun.xz) / sun.y, 3.5 * body.wide + 0.001);
+      var shade = 0.0;
+      for (var step = 1.0; step <= 3.0; step += 1.0) {
+        let thrown = weedStrand(to + toSun * step / 3.0, strand.w);
+        shade = max(shade, 1.0 - smoothstep(thrown.wide, thrown.wide + edge + 0.0006 * step, thrown.off));
+      }
+      litter.sun = min(litter.sun, 1.0 - 0.6 * shade * near * (1.0 - cover));
     }
   }
   return litter;
