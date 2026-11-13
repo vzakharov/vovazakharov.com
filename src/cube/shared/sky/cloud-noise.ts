@@ -59,8 +59,6 @@ struct Cloud {
   /// Its footprint's radius, 0 where the cell holds no cloud, and its height.
   radius: f32,
   tall: f32,
-  /// Where its second, smaller dome stands from the first.
-  lobe: vec2f,
   /// What its own billows are salted with.
   seed: u32,
 };
@@ -137,15 +135,14 @@ fn cloudIn(cell: vec2i) -> Cloud {
   let away = length(vec2f(toSun, centre.y));
   let stands = laned * (1.0 - smoothstep(0.8 * CLOUD_REACH, CLOUD_REACH, away));
   if (unitOf(word) > ${f32(CLOUDS.chance)} || stands < 0.3) {
-    return Cloud(centre, 0.0, 0.0, vec2f(0.0), 0u);
+    return Cloud(centre, 0.0, 0.0, 0u);
   }
 
   let radius = broad * stands;
   // The broad ones are the ones that tower.
-  let tower = mix(0.8, 1.4, unitOf(hashOf(word, 5u))) + 0.9 * smoothstep(0.6, 1.0, size) * ragged;
-  let tall = min(radius * tower, (CLOUD_CEILING - CLOUD_BASE) / 1.2);
-  let turn = ${f32(2 * Math.PI)} * unitOf(hashOf(word, 6u));
-  return Cloud(centre, radius, tall, 0.55 * radius * vec2f(cos(turn), sin(turn)), hashOf(word, 7u));
+  let tower = mix(0.7, 1.25, unitOf(hashOf(word, 5u))) + 0.8 * smoothstep(0.6, 1.0, size) * ragged;
+  let tall = min(radius * tower, (CLOUD_CEILING - CLOUD_BASE) / CLOUD_BOUND);
+  return Cloud(centre, radius, tall, hashOf(word, 7u));
 }
 `,
   HASH,

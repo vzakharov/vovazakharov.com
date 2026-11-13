@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 4060,
+    "inputTokens": 5370,
     "cacheWrite5mTokens": 108,
-    "cacheWrite1hTokens": 315152,
-    "cacheReadTokens": 10830370,
-    "outputTokens": 108885,
-    "thinkingTokens": 55339,
-    "responses": 53,
-    "costUsd": 11.597466
+    "cacheWrite1hTokens": 423086,
+    "cacheReadTokens": 15700770,
+    "outputTokens": 132695,
+    "thinkingTokens": 67516,
+    "responses": 83,
+    "costUsd": 15.244400800000003
   },
   "estimate": null,
   "orientation": {
@@ -34,18 +34,18 @@
   "url": "https://claude.ai/code/session_01DaohkBFtfJ3LB6ENrHeTER",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T09:16:13.273Z",
-  "lastResponseAt": "2026-11-13T09:38:48.425Z",
+  "lastResponseAt": "2026-11-13T10:07:50.545Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 101,
+    "inputTokens": 158,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 315152,
-    "cacheReadTokens": 10528926,
-    "outputTokens": 99850,
-    "thinkingTokens": 55339,
-    "responses": 52,
-    "costUsd": 11.1430252
+    "cacheWrite1hTokens": 423086,
+    "cacheReadTokens": 15399326,
+    "outputTokens": 123481,
+    "thinkingTokens": 67516,
+    "responses": 81,
+    "costUsd": 14.789745200000002
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,14 +59,24 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 4060,
+      "inputTokens": 4117,
       "cacheWrite5mTokens": 108,
-      "cacheWrite1hTokens": 315152,
-      "cacheReadTokens": 10830370,
-      "outputTokens": 108885,
-      "thinkingTokens": 55339,
-      "responses": 53,
-      "costUsd": 11.597466
+      "cacheWrite1hTokens": 423086,
+      "cacheReadTokens": 15700770,
+      "outputTokens": 132516,
+      "thinkingTokens": 67516,
+      "responses": 82,
+      "costUsd": 15.244186000000003
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1253,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 179,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.00021480000000000002
     }
   },
   "warnings": [],
@@ -82,32 +92,32 @@
         "endedAt": null,
         "contextTokens": null,
         "spend": {
-          "inputTokens": 6,
+          "inputTokens": 63,
           "cacheWrite5mTokens": 0,
-          "cacheWrite1hTokens": 64674,
-          "cacheReadTokens": 167533,
-          "outputTokens": 780,
-          "thinkingTokens": 206,
-          "responses": 2,
-          "costUsd": 1.0995386
+          "cacheWrite1hTokens": 172608,
+          "cacheReadTokens": 5037933,
+          "outputTokens": 24411,
+          "thinkingTokens": 12383,
+          "responses": 31,
+          "costUsd": 4.7462586
         }
       },
       "rereads": {
-        "calls": 3,
+        "calls": 6,
         "byTool": {
-          "Read": 3
+          "Read": 6
         },
-        "estimatedTokens": 0,
-        "estimatedUsd": 0.0
+        "estimatedTokens": 2775,
+        "estimatedUsd": 0.058587
       },
       "billedUsd": 0.45444080000000003
     }
   ],
   "telemetry": {
-    "events": 52,
-    "matched": 51,
-    "matchedTableUsd": 10.8645406,
-    "matchedEventUsd": 10.8645406,
+    "events": 82,
+    "matched": 80,
+    "matchedTableUsd": 14.634186400000003,
+    "matchedEventUsd": 14.634186400000003,
     "unseen": {
       "compact": {
         "inputTokens": 3959,
@@ -118,21 +128,31 @@
         "thinkingTokens": 0,
         "responses": 1,
         "costUsd": 0.45444080000000003
+      },
+      "generate_session_title": {
+        "inputTokens": 1253,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 179,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.00021480000000000002
       }
     }
   },
   "operatorWords": {
-    "chat": 0,
+    "chat": 35,
     "review": 0,
     "threads": 0
   },
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 2283,
+    ".md": 2400,
     ".json": 31,
     ".yaml": 48,
-    ".ts": 5416,
+    ".ts": 9248,
     ".tsx": 87,
     ".scss": 15
   }

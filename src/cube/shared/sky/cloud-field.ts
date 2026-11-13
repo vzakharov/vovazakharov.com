@@ -14,20 +14,20 @@ export const CLOUDS = {
   /** No cloud's crown is higher. */
   ceiling: 5.4,
   /** A cell's side. */
-  cell: 5,
+  cell: 7,
   /** The field repeats over this many cells along the wind. */
-  tileCells: 7,
+  tileCells: 5,
   /** Whole tiles the field drifts down the wind in an hour. */
   tilesPerHour: 1,
   /** The share of cells that hold a cloud. */
-  chance: 0.64,
+  chance: 0.6,
   /** A cloud's footprint, from the many small to the few broad. */
-  radius: { least: 0.45, most: 1.7 },
+  radius: { least: 0.7, most: 2.0 },
   /**
    * How far past its own radius a cloud's billows may reach, as a share of
    * it: the bound it is marched inside, which its cell contains.
    */
-  bound: 1.45,
+  bound: 1.7,
   /**
    * Lattice cells to a cloud's radius for the noise that billows it, coarsest
    * first, and cells to a tile for the grain that frays its edge.
@@ -38,7 +38,7 @@ export const CLOUDS = {
   cirrus: 9.5,
   cirrusReach: 260,
   /** Across the wind: clear inside `clear`, the field's own cover past `full`. */
-  lane: { clear: 3.4, full: 6 },
+  lane: { clear: 5, full: 10 },
   /** No cloud is drawn farther off than this. */
   reach: 140,
   /** What a kilometre of the densest cloud takes out of a beam. */
