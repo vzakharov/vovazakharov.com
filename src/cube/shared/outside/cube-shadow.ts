@@ -1,14 +1,15 @@
 import { SUN_DISC, SUN_SPREAD } from '../lib/sun-disc';
-import type { Vec3 } from '../lib/vec';
-import { f32, wgsl } from '../lib/wgsl';
+import { cross3, dot3, moved, scaled, type Vec3 } from '../lib/vec';
+import { f32, vecf, wgsl } from '../lib/wgsl';
 import { CUBE_BOX, WORLD } from './frame';
 import {
-  LADDER,
+  DOOR_LADDER,
   LADDER_ACROSS,
   LADDER_OUT,
   LADDER_UP,
   LADDER_WGSL,
 } from './ladder';
+import { OUTDOOR_FRAME } from './outdoor-frame';
 import { SUN, SUN_DIR } from './sun';
 
 /** How sharp a shadow's edge is where it starts, in metres. */
@@ -17,25 +18,13 @@ const CRISP = 0.003;
 /** How far behind the thing that casts it a shadow is whole, in metres. */
 const BEHIND = 0.05;
 
-const dot = (a: Vec3, b: Vec3): number =>
-  a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-const cross = (a: Vec3, b: Vec3): Vec3 => [
-  a[1] * b[2] - a[2] * b[1],
-  a[2] * b[0] - a[0] * b[2],
-  a[0] * b[1] - a[1] * b[0],
-];
-const added = (a: Vec3, b: Vec3, times: number): Vec3 => [
-  a[0] + b[0] * times,
-  a[1] + b[1] * times,
-  a[2] + b[2] * times,
-];
 const smoothstep = (from: number, to: number, x: number): number => {
   const t = Math.min(Math.max((x - from) / (to - from), 0), 1);
   return t * t * (3 - 2 * t);
 };
 
-const MIDDLE = added(CUBE_BOX.min, added(CUBE_BOX.max, CUBE_BOX.min, -1), 0.5);
-const HALF = added([0, 0, 0], added(CUBE_BOX.max, CUBE_BOX.min, -1), 0.5);
+const HALF = scaled(moved(CUBE_BOX.max, CUBE_BOX.min, -1), 0.5);
+const MIDDLE = moved(CUBE_BOX.min, HALF);
 const AXES: Vec3[] = [
   [1, 0, 0],
   [0, 1, 0],
@@ -48,12 +37,12 @@ const AXES: Vec3[] = [
  * middle they stand.
  */
 const OUTLINE = AXES.map((axis) => {
-  const [x, y, z] = cross(axis, SUN_DIR);
+  const [x, y, z] = cross3(axis, SUN_DIR);
   const long = Math.hypot(x, y, z);
   const facing: Vec3 = [x / long, y / long, z / long];
   return {
     facing,
-    reach: dot(HALF, [
+    reach: dot3(HALF, [
       Math.abs(facing[0]),
       Math.abs(facing[1]),
       Math.abs(facing[2]),
@@ -76,20 +65,20 @@ function through(p: Vec3): [enters: number, leaves: number] {
 
 /** How much of the sun the cube leaves `p`. */
 function boxLight(p: Vec3): number {
-  const off = added(p, MIDDLE, -1);
+  const off = moved(p, MIDDLE, -1);
   let out = -Infinity;
   let back: Vec3 = [0, 0, 0];
   for (const { facing, reach } of OUTLINE) {
-    const across = dot(facing, off);
+    const across = dot3(facing, off);
     if (Math.abs(across) - reach > out) {
       out = Math.abs(across) - reach;
-      back = added([0, 0, 0], facing, -Math.sign(across));
+      back = scaled(facing, -Math.sign(across));
     }
   }
   // A point beside the outline is judged by the ray of the outline's edge.
-  const [enters, leaves] = through(added(p, back, Math.max(out, 0) + 0.001));
+  const [enters, leaves] = through(moved(p, back, Math.max(out, 0) + 0.001));
   const hit = leaves > Math.max(enters, 0);
-  const ahead = -dot(off, SUN_DIR);
+  const ahead = -dot3(off, SUN_DIR);
   const run = hit ? Math.max(enters, 0) : Math.max(ahead, 0);
   const behind = hit
     ? smoothstep(0, BEHIND, leaves)
@@ -107,24 +96,32 @@ const barLight = (off: number, half: number, soft: number): number =>
 /** How much of the sun the ladder leaves `p`. */
 function ladderLight(p: Vec3): number {
   const run =
-    dot(added(LADDER.foot, p, -1), LADDER_OUT) / dot(SUN_DIR, LADDER_OUT);
-  const at = added(added(p, SUN_DIR, run), LADDER.foot, -1);
-  const up = dot(at, LADDER_UP);
-  const across = Math.abs(dot(at, LADDER_ACROSS));
+    dot3(moved(DOOR_LADDER.foot, p, -1), LADDER_OUT) /
+    dot3(SUN_DIR, LADDER_OUT);
+  const at = moved(moved(p, SUN_DIR, run), DOOR_LADDER.foot, -1);
+  const up = dot3(at, LADDER_UP);
+  const across = Math.abs(dot3(at, LADDER_ACROSS));
   const soft = SUN_SPREAD * Math.max(run, 0) + CRISP;
   const stiles =
     barLight(
-      Math.abs(across - LADDER.wide / 2),
-      LADDER.stile.across / 2,
+      Math.abs(across - DOOR_LADDER.wide / 2),
+      DOOR_LADDER.stile.across / 2,
       soft,
-    ) * barLight(Math.abs(up - LADDER.length / 2), LADDER.length / 2, soft);
+    ) *
+    barLight(
+      Math.abs(up - DOOR_LADDER.length / 2),
+      DOOR_LADDER.length / 2,
+      soft,
+    );
   const step =
-    Math.min(Math.max(up, LADDER.lowest), LADDER.highest) - LADDER.lowest;
+    Math.min(Math.max(up, DOOR_LADDER.lowest), DOOR_LADDER.highest) -
+    DOOR_LADDER.lowest;
   const rung =
-    LADDER.lowest + Math.round(step / LADDER.pitch) * LADDER.pitch;
+    DOOR_LADDER.lowest +
+    Math.round(step / DOOR_LADDER.pitch) * DOOR_LADDER.pitch;
   const rungs =
-    barLight(Math.abs(up - rung), LADDER.rung.tall / 2, soft) *
-    barLight(across, LADDER.wide / 2, soft);
+    barLight(Math.abs(up - rung), DOOR_LADDER.rung.tall / 2, soft) *
+    barLight(across, DOOR_LADDER.wide / 2, soft);
   return 1 - Math.max(stiles, rungs) * smoothstep(BEHIND, 3 * BEHIND, run);
 }
 
@@ -132,13 +129,14 @@ function ladderLight(p: Vec3): number {
  * How much of the sun reaches `p` in the world frame: 1 in the sun, 0 in the
  * shadow of the cube and its ladder, the edge as wide as the sun's disc makes
  * it at the distance the shadow has run. A point on the cube's own sunlit
- * faces is in the sun; one on the ladder is not in the ladder's shadow.
+ * faces is in the sun; one on the ladder is not in the ladder's shadow. With
+ * `ladderGone` the cube casts alone.
  */
-export const cubeShadow = (p: Vec3): number => boxLight(p) * ladderLight(p);
+export const cubeShadow = (p: Vec3, ladderGone = false): number =>
+  boxLight(p) * (ladderGone ? 1 : ladderLight(p));
 
-const OUTLINE_WGSL = OUTLINE.map(
-  ({ facing, reach }) =>
-    `vec4f(${facing.map(f32).join(', ')}, ${f32(reach)})`,
+const OUTLINE_WGSL = OUTLINE.map(({ facing, reach }) =>
+  vecf([...facing, reach]),
 ).join(',\n  ');
 
 /** `cubeShadow(p: vec3f) -> f32`, the twin of the function above. */
@@ -201,9 +199,10 @@ fn ladderLight(p: vec3f) -> f32 {
 }
 
 fn cubeShadow(p: vec3f) -> f32 {
-  return boxLight(p) * ladderLight(p);
+  return boxLight(p) * mix(1.0, ladderLight(p), frame.state.x);
 }
 `,
+  OUTDOOR_FRAME,
   WORLD,
   SUN,
   SUN_DISC,

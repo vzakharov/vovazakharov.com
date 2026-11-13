@@ -5,8 +5,6 @@ import type { CanDispose, Labeled } from '@/kernel/shared/typings';
 import type { Wgsl } from '@/cube/shared/lib/wgsl';
 import type { OutdoorFrame } from '@/cube/shared/outside';
 
-import type { Halver } from './mips';
-
 /**
  * The outdoor layers in the order the scene pass draws them; the rooms and
  * what moves in them are drawn between the shell and the sea.
@@ -17,7 +15,8 @@ export type LayerName = (typeof LAYERS)[number];
 
 /**
  * One drawer of the outside. `prepare` records the layer's own passes before
- * the scene pass — a sky map, a wave field — for the frame about to be drawn;
+ * the scene pass, each onto a screen-space target of the frame about to be
+ * drawn, from `frame` alone: a layer keeps nothing from one frame to the next.
  * `draw` draws into the scene pass, where group 0 is already the kit's.
  */
 export type OutdoorLayer = CanDispose & {
@@ -48,20 +47,10 @@ export type ScenePipeline = Labeled & {
 /** What every layer is made from. */
 export type OutdoorKit = {
   device: GPUDevice;
-  /**
-   * Group 0 of every scene-pass pipeline: the `OutdoorFrame` block at binding
-   * 0, the sky map at 1 and its sampler at 2.
-   */
+  /** Group 0 of every scene-pass pipeline: the `OutdoorFrame` block alone. */
   layout: GPUBindGroupLayout;
   /** The `OutdoorFrame` block's buffer, for a group of a layer's own pass. */
   frame: GPUBuffer;
-  /**
-   * The sky map, `SKY_MAP` in size with every mip: the sky layer paints it in
-   * its `prepare`, and no pass that writes it may bind `layout`'s group.
-   */
-  skyMap: GPUTexture;
-  /** The mip chain of a texture of the scene's format, and the passes filling it. */
-  mips: Halver;
   /**
    * `roots` and what they need, assembled and compiled; rejects with the
    * compiler's words where it does not compile.

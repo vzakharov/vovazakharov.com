@@ -30,6 +30,12 @@ const FIELDS = [
     floats: 4,
     doc: "Seconds into the hour, which hour, the screen's width and height.",
   },
+  {
+    name: 'state',
+    type: 'vec4f',
+    floats: 4,
+    doc: 'x is 1 while the ladder stands at the doorway, 0 once it is gone.',
+  },
 ] as const;
 
 type FieldName = (typeof FIELDS)[number]['name'];
@@ -41,11 +47,18 @@ export const OUTDOOR_FRAME_FLOATS = FIELDS.reduce(
 );
 
 /**
+ * Something that knows whether the ladder has gone from the doorway: it stands
+ * until `ladderGone` is true.
+ */
+export type Laddered = { ladderGone?: boolean };
+
+/**
  * What one frame of the outside is seen from and when: the eye in the world
  * frame, the matrices column-major, the screen in pixels.
  */
 export type OutdoorFrame = SeenAt &
-  Sized & {
+  Sized &
+  Laddered & {
     /** Clip space back to the world, column-major. */
     inverse: Float32Array;
     sun: Vec3;
@@ -57,6 +70,7 @@ export function packOutdoorFrame({
   inverse,
   eye,
   sun,
+  ladderGone,
   seconds,
   hour,
   width,
@@ -68,6 +82,7 @@ export function packOutdoorFrame({
     eye: [...eye, 1],
     sun: [...sun, 0],
     clock: [seconds, hour, width, height],
+    state: [ladderGone === true ? 0 : 1, 0, 0, 0],
   };
   const data = new Float32Array(OUTDOOR_FRAME_FLOATS);
   let offset = 0;
