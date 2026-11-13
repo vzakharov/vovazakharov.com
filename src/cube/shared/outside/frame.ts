@@ -70,12 +70,7 @@ export type WallSide = 'east' | 'south' | 'west' | 'north';
  * The doorway as floor 1's room has it: the wall it opens in, and `from` and
  * `to` in metres along that wall from its north or west end.
  */
-export const ROOM_DOORWAY: {
-  wall: WallSide;
-  from: number;
-  to: number;
-  height: number;
-} = (() => {
+export const ROOM_DOORWAY: typeof DOORWAY & { wall: WallSide } = (() => {
   const { height } = DOORWAY;
   const [ax, , az] = toRoom([CUBE_METRES, 0, DOORWAY.from], CUBE_METRES);
   const [bx, , bz] = toRoom([CUBE_METRES, 0, DOORWAY.to], CUBE_METRES);

@@ -19,9 +19,9 @@ and shadow, and core's stand-ins for sky, shell and sea.
   interior a quarter-turn round in its shell: the sand, the sea's edge and the
   sun, bleached as an eye used to the room sees them. Decor keeps the opening
   clear.
-- `room-doorway.webp` — floor 1's room looking at the doorway, now in the room's
-  south wall: the opening, the beam and its haze, and the same notice board
-  standing in the daylight.
+- `room-doorway.webp` — floor 1's room looking at the doorway in the room's
+  south wall: the opening, the beam and its haze, and the notice board standing
+  in the daylight (shot before decor cleared the opening).
 - `entering.webp` — a step inside the doorway, looking the way one climbs in,
   through floor 1's own lens: the shrubs and the bench straight ahead, the beam
   crossing to the far wall beside the bench, the hatch's quarter on the left
