@@ -1,15 +1,21 @@
 import { wgsl } from '../lib/wgsl';
 import { AERIAL, CUBE_SHADOW, ISLAND_HEIGHT, OUTDOOR_STAGE } from '../outside';
+import { WATER_BODY } from '../sea/water-body-wgsl';
 import { SAND_MATERIAL, SWASH_TOP } from './sand-material';
 import { SAND_MESH } from './sand-mesh';
 import { RIPPLES, WIND } from './sand-relief';
 
-/** Metres under still water below which the sea always covers the sand. */
+/**
+ * Metres under still water below which the sea always covers the sand from an
+ * eye over the still sea.
+ */
 const SUNK = 0.9;
 
 /**
  * The sand layer's two stages, `vertexMain` and `fragmentMain`: the ring mesh
- * placed round the eye on the island's shape, and each pixel of it lit.
+ * placed round the eye on the island's shape, and each pixel of it lit. An eye
+ * under the still sea sees the bed through the water, whose body takes it
+ * over with distance, lit by what the water over it lets down.
  */
 export const SAND_SHADER = wgsl(
   'sand-shader',
@@ -53,7 +59,8 @@ fn vertexMain(@builtin(vertex_index) index: u32) -> SandVertex {
 fn fragmentMain(in: SandVertex) -> Scene {
   let acrossX = dpdx(in.at.xz);
   let acrossY = dpdy(in.at.xz);
-  if (in.shape.x < -${SUNK}) {
+  let drowned = frame.eye.y <= 0.0;
+  if (in.shape.x < -${SUNK} && !drowned) {
     discard;
   }
   let wind = vec2f(${WIND[0]}, ${WIND[1]});
@@ -75,7 +82,12 @@ fn fragmentMain(in: SandVertex) -> Scene {
   // The shadow's edge rides the hummocks the mesh is too coarse to carry.
   let lifted = in.shape.x + sandHummocks(in.at.xz, in.shape.x).height;
   point.sun = cubeShadow(vec3f(in.at.x, max(in.at.y, lifted), in.at.z));
-  return lit(aerial(sandLight(point, frame.sun.xyz), -point.view, far), far);
+  let shown = sandLight(point, frame.sun.xyz);
+  if (drowned) {
+    let wetted = shown * kept(-in.at.y);
+    return lit(throughWater(wetted, underStill(frame.eye.xyz, in.at)), far);
+  }
+  return lit(aerial(shown, -point.view, far), far);
 }
 `,
   SAND_MATERIAL,
@@ -83,4 +95,5 @@ fn fragmentMain(in: SandVertex) -> Scene {
   ISLAND_HEIGHT,
   CUBE_SHADOW,
   AERIAL,
+  WATER_BODY,
 );

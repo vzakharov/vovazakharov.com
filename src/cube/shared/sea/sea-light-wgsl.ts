@@ -1,14 +1,7 @@
-import { vecf, wgsl } from '../lib/wgsl';
+import { wgsl } from '../lib/wgsl';
 import { OUTDOOR_STAGE, SKY, SUN } from '../outside';
 import { SEA_SURFACE } from './sea-surface-wgsl';
-
-/**
- * Pure sea water's absorption and backscatter per metre, red to blue, with a
- * little of the green a coast's water carries (Pope & Fry 1997 for the water
- * itself; Morel & Maritorena 2001 for what lives in it).
- */
-const ABSORB = [0.42, 0.063, 0.022] as const;
-const BACKSCATTER = [0.0035, 0.0048, 0.0062] as const;
+import { WATER_BODY } from './water-body-wgsl';
 
 /**
  * How light leaves the sea toward the eye: the sky mirrored in waves, the
@@ -19,20 +12,10 @@ const BACKSCATTER = [0.0035, 0.0048, 0.0062] as const;
 export const SEA_LIGHT = wgsl(
   'sea/light',
   /* wgsl */ `
-const ABSORB = ${vecf(ABSORB)};
-const BACKSCATTER = ${vecf(BACKSCATTER)};
-/// What water returns of light meeting it head on.
-const HEAD_ON = 0.0204;
 /// The least cosine between a facet's normal and the eye's line it is lit at.
 const TURNED = 0.02;
 /// The sun's disc, as the spread of slopes that mirror some part of it.
 const DISC_SPREAD = 6e-6;
-
-fn fresnel(cosine: f32) -> f32 {
-  let away = 1.0 - clamp(cosine, 0.0, 1.0);
-  let fifth = away * away * away * away * away;
-  return HEAD_ON + (1.0 - HEAD_ON) * fifth;
-}
 
 /// The sky map's level whose texels are as wide as the lobe a surface with
 /// slope deviation \`deviation\` smears a reflection over — never under 1,
@@ -106,25 +89,16 @@ fn glitter(waves: Waves, toEye: vec3f, shown: f32) -> vec3f {
   return SUN_LIGHT * min(3.14159 * light, 1200.0);
 }
 
-/// What water \`depth\` metres deep keeps of light crossing it.
-fn kept(depth: f32) -> vec3f {
-  return exp(-ABSORB * max(depth, 0.0));
-}
-
 /// What deep water shows of \`falling\`, the light a white face would show
 /// under the same sky: what its own scattering returns before absorption
 /// takes the rest (Gordon et al. 1975).
 fn upwelling(falling: vec3f) -> vec3f {
   return falling * 0.33 * BACKSCATTER / (ABSORB + BACKSCATTER);
 }
-
-/// The sun's light let into the water, per unit of level surface.
-fn sunEntering() -> vec3f {
-  return SUN_LIGHT * frame.sun.y * (1.0 - fresnel(frame.sun.y));
-}
 `,
   OUTDOOR_STAGE,
   SKY,
   SUN,
   SEA_SURFACE,
+  WATER_BODY,
 );

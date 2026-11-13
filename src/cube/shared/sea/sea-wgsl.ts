@@ -42,8 +42,6 @@ const FOAM = 0.8;
 const FOAM_FLANKS = 0.4;
 /// What water full of bubbles returns, of the light a white face would show.
 const AERATED = vec3f(0.1, 0.24, 0.22);
-/// What the water's body shows an eye inside it, of the light falling on it.
-const DROWNED = vec3f(0.035, 0.13, 0.15);
 /// What a crest a metre thick lets through of the sun behind it.
 const CREST_GLOW = vec3f(0.01, 0.1, 0.085);
 

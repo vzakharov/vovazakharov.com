@@ -1,5 +1,8 @@
-import { wgsl } from '../lib/wgsl';
+import { f32, wgsl } from '../lib/wgsl';
+import { FAR_METRES } from '../outside/frame';
 import { OUTDOOR_STAGE } from '../outside/stage';
+import { WATER_BODY } from '../sea/water-body-wgsl';
+import { CLEAR_SKY } from './clear-sky';
 import { CLOUDS_WGSL } from './clouds';
 import { SUN_GLOW } from './sun-glow';
 
@@ -37,6 +40,13 @@ fn cloudFragment(across: Across) -> @location(0) vec4f {
  * The sky behind everything: `skyTarget`, the target `SKY_CLOUD_SHADER`
  * drew, and the sun's disc where the clouds let it through — the one thing
  * in the sky too sharp for the smaller target.
+ *
+ * Under the horizon the backdrop shows only where no surface stands in the
+ * way: past the far plane, or along a ray that is already in the water or
+ * meets the still sea short of it without crossing a surface — an eye under
+ * a crest or under the sea. That ray runs on through water, so the backdrop
+ * is the water's body, seen through the air between the eye and the still
+ * sea.
  */
 export const SKY_SHADER = wgsl(
   'sky/shader',
@@ -49,9 +59,18 @@ fn fragmentMain(@builtin(position) position: vec4f) -> Scene {
   let dir = rayThrough(position.xy);
   let edge = length(fwidth(dir));
   let sky = textureSampleLevel(skyTarget, skySampler, position.xy / frame.clock.zw, 0.0);
+  if (dir.y < 0.0) {
+    let wets = max(frame.eye.y, 0.0) / -dir.y;
+    if (wets < ${f32(FAR_METRES)}) {
+      let air = airThrough(wets);
+      return lit(drownedBody() * air + sky.rgb * (vec3f(1.0) - air), SKY_METRES);
+    }
+  }
   return lit(sky.rgb + sunDisc(dir, edge) * sky.a, SKY_METRES);
 }
 `,
   OUTDOOR_STAGE,
   SUN_GLOW,
+  CLEAR_SKY,
+  WATER_BODY,
 );
