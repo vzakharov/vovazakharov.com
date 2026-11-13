@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 import { FOOTINGS } from '@/cube/shared/lib/acoustics';
 
 import { assertAudible, loudness, TEST_RATE } from '../../dsp/index.test-only';
-import { breath, grunt, jump, landing } from './body';
+import { breath, grunt, jump, landing, swallow } from './body';
 import { footstep } from './footstep';
 
 describe('the body', () => {
@@ -15,6 +15,7 @@ describe('the body', () => {
       }
       assertAudible(grunt(seed, TEST_RATE));
       assertAudible(jump(seed, TEST_RATE));
+      assertAudible(swallow(seed, TEST_RATE));
       for (const footing of FOOTINGS) {
         assertAudible(landing(0.8, footing, seed, TEST_RATE));
       }
@@ -27,6 +28,8 @@ describe('the body', () => {
     assert.deepEqual(grunt(11, TEST_RATE), grunt(11, TEST_RATE));
     assert.notDeepEqual(grunt(11, TEST_RATE), grunt(12, TEST_RATE));
     assert.deepEqual(jump(11, TEST_RATE), jump(11, TEST_RATE));
+    assert.deepEqual(swallow(11, TEST_RATE), swallow(11, TEST_RATE));
+    assert.notDeepEqual(swallow(11, TEST_RATE), swallow(12, TEST_RATE));
     assert.deepEqual(
       landing(1, 'wood', 11, TEST_RATE),
       landing(1, 'wood', 11, TEST_RATE),

@@ -1,7 +1,7 @@
 import { ROOM_HEIGHT } from '@/cube/shared/lib/room-shape';
+import type { Vec3 } from '@/cube/shared/lib/vec';
 
 import type { Pose } from './pose';
-import type { Vec3 } from './quad';
 import type { Room } from './room';
 
 /** A room's side in the eye's frame, in the eye room's sides. */

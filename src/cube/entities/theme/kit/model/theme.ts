@@ -3,10 +3,10 @@ import type { Named } from '@/kernel/shared/typings';
 import type { Sound } from '@/cube/shared/lib/acoustics';
 import type { Rgb } from '@/cube/shared/lib/colour';
 import type { Furnishing } from '@/cube/shared/lib/thing';
+import { assemble, type Wgsl, wgsl } from '@/cube/shared/shader';
 
 import { CORE } from '../lib/core';
 import { STUFF } from '../lib/stuff';
-import { assemble, type Wgsl, wgsl } from '../lib/wgsl';
 
 /** A place with air of a colour: what shows where no face is drawn. */
 export type Aired = { air: Rgb };

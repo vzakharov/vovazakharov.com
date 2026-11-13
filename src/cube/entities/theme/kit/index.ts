@@ -1,10 +1,11 @@
 export { CORE } from './lib/core';
 export { FINISH } from './lib/finish';
-export { GRADE } from './lib/grade';
-export { HASH } from './lib/hash';
+export { type Exposed, GRADE } from './lib/grade';
 export { LIGHT } from './lib/light';
 export { ordinary } from './lib/ordinary';
 export { STUFF } from './lib/stuff';
-export { vec3f, type Wgsl, wgsl } from './lib/wgsl';
+export { type Shrub, sunlit } from './lib/sun';
 export { roomFlags, type RoomState } from './model/flags';
 export { type Floors, floorSource, type FloorTheme } from './model/theme';
+export { vec3f, type Wgsl, wgsl } from '@/cube/shared/shader';
+export { HASH } from '@/cube/shared/shader';

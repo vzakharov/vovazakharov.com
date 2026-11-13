@@ -3,6 +3,20 @@
   "unsupported": "This browser has no WebGPU, so the cube cannot be drawn.",
   "floor": "Floor {floor}",
   "nowhere": "This address leads nowhere in the cube.",
+  "ways": {
+    "wake": "Press any key",
+    "climb": "Press E to climb the ladder",
+    "gone": "The ladder is gone",
+    "run": "Hold Shift to run, double-tap to keep running",
+    "quality": "Press Q to change the quality",
+    "quality-high": "Quality: high",
+    "quality-medium": "Quality: medium",
+    "quality-low": "Quality: low"
+  },
+  "pill": {
+    "take": "Press E to take the pill",
+    "ask": "Press Y to swallow, N to put down"
+  },
   "offer": {
     "signs": {
       "for-sale": "For sale",

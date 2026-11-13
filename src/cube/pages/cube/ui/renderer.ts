@@ -3,24 +3,38 @@
 import { asError } from '@/kernel/shared/lib/error-class';
 import type { CanDispose, Sized, WithId } from '@/kernel/shared/typings';
 
-import type { Clock } from '@/cube/shared/lib/clock';
+import type { SeenAt } from '@/cube/shared/lib/clock';
 import type { Rgb } from '@/cube/shared/lib/colour';
+import type { Seen } from '@/cube/shared/lib/vec';
+import { type Laddered, SUN_DIR } from '@/cube/shared/outside';
 
+import { inverse } from '../lib/matrix';
 import type { FloorRange, Scenery } from '../lib/mesh';
+import type { OutsideLens } from '../lib/outside-lens';
 import { UNIFORM_FLOATS } from '../lib/shader';
 import { createBloom } from './bloom';
+import { createOutdoors, type Outdoors } from './outdoors';
 import { createPassTimer, type Timed } from './pass-timer';
 import { createPrograms, DEPTH_FORMAT, type Preparing } from './programs';
-import { createReflection, type Seen } from './reflection';
+import { createReflection } from './reflection';
 
 /** What one frame is seen from and when, and what shows where nothing is. */
-type Shot = Clock &
-  Seen & {
-    /** Scene light, as the faces are lit. */
-    clear: Rgb;
-    /** The floor whose lens the frame is seen through; it must be prepared. */
-    lens: number;
-  };
+type Shot = SeenAt & {
+  /** Scene light, as the faces are lit. */
+  clear: Rgb;
+  /**
+   * The lens the frame is seen through: a floor's, which must be prepared, or
+   * the outside's as it is set for this frame, the outside prepared.
+   */
+  lens: number | OutsideLens;
+  /**
+   * The same view of the world frame, where the frame shows the outside, which
+   * must be prepared; null where it shows the cube's inside alone.
+   */
+  outdoors: (Seen & Laddered) | null;
+  /** The share of the screen's own resolution the canvas holds, 1 at most. */
+  detail: number;
+};
 
 /**
  * Faces of one floor sharing one texture: `scenery` holds them, and `image`
@@ -46,6 +60,11 @@ export type Renderer = Drawing &
     uploadMoving: (scenery: Scenery) => void;
     /** Replaces the boards, drawn after the rooms. */
     uploadBoards: (boards: readonly Boards[]) => void;
+    /**
+     * Resolves once the outside can be drawn and seen through its own lens;
+     * rejects with the compiler's words on a shader that does not compile.
+     */
+    prepareOutside: () => Promise<void>;
     draw: (shot: Shot) => void;
     /** Resolves once the GPU has finished every frame submitted so far. */
     drawn: () => Promise<void>;
@@ -105,8 +124,25 @@ export async function createRenderer(
   const {
     layouts,
     prepare,
+    outsideLens,
     of: programOf,
   } = createPrograms(device, format, sourceOf);
+  /** The outside's layers and lens, once `prepareOutside` has made them. */
+  let outside: { layers: Outdoors; lens: GPURenderPipeline } | null = null;
+  let preparingOutside: Promise<void> | null = null;
+  const makeOutside = async (): Promise<void> => {
+    const [layers, lens] = await Promise.all([
+      createOutdoors(device),
+      outsideLens(),
+    ]);
+    outside = { layers, lens };
+  };
+  const outsideMade = (): NonNullable<typeof outside> => {
+    if (outside === null) {
+      throw new Error('The outside is drawn before it was prepared');
+    }
+    return outside;
+  };
 
   const uniforms = device.createBuffer({
     size: UNIFORM_FLOATS * 4,
@@ -232,14 +268,47 @@ export async function createRenderer(
         textures.delete(id);
       }
     },
-    draw: ({ viewProjection, eye, clear, lens, seconds, hour }) => {
+    prepareOutside: async () => {
+      preparingOutside ??= makeOutside();
+      return preparingOutside;
+    },
+    draw: ({
+      viewProjection,
+      eye,
+      clear,
+      lens,
+      outdoors,
+      detail,
+      seconds,
+      hour,
+    }) => {
       const { width, height, depth } = targetsOf();
+      const throughFloor = typeof lens === 'number';
       const data = new Float32Array(UNIFORM_FLOATS);
       data.set(viewProjection, 0);
       data.set([...eye, 1], 16);
       data.set([seconds, hour, width, height], 20);
+      if (!throughFloor) {
+        data.set([lens.exposure, lens.eyelids, lens.indoors ?? 0], 24);
+      }
       device.queue.writeBuffer(uniforms, 0, data);
       const encoder = device.createCommandEncoder();
+      const layers = outdoors === null ? null : outsideMade().layers;
+      if (outdoors !== null) {
+        layers?.prepare(
+          encoder,
+          {
+            ...outdoors,
+            inverse: inverse(outdoors.viewProjection),
+            sun: SUN_DIR,
+            seconds,
+            hour,
+            width,
+            height,
+          },
+          detail,
+        );
+      }
       const pass = encoder.beginRenderPass({
         colorAttachments: reflection.attachments(width, height, {
           r: clear[0],
@@ -255,6 +324,7 @@ export async function createRenderer(
         },
         ...(timer === null ? {} : { timestampWrites: timer.scene }),
       });
+      layers?.behind(pass);
       pass.setBindGroup(0, uniformGroup);
       if (rooms !== null) drawRuns(pass, rooms);
       if (moving !== null) drawRuns(pass, moving);
@@ -262,6 +332,7 @@ export async function createRenderer(
         pass.setBindGroup(1, board.group);
         drawRuns(pass, board);
       }
+      layers?.over(pass);
       pass.end();
       const sceneView = reflection.run(
         encoder,
@@ -279,7 +350,9 @@ export async function createRenderer(
         ],
         ...(timer === null ? {} : { timestampWrites: timer.lens }),
       });
-      framed.setPipeline(programOf(lens).lens);
+      framed.setPipeline(
+        throughFloor ? programOf(lens).lens : outsideMade().lens,
+      );
       framed.setBindGroup(0, uniformGroup);
       framed.setBindGroup(
         1,
@@ -302,6 +375,7 @@ export async function createRenderer(
     passTimes: () => timer?.take() ?? null,
     dispose: () => {
       timer?.dispose();
+      outside?.layers.dispose();
       rooms?.buffer.destroy();
       moving?.buffer.destroy();
       targets?.depth.destroy();

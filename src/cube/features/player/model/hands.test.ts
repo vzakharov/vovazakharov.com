@@ -5,8 +5,8 @@ import { cross, dot, minus, type Quad, type Vec3 } from '@/cube/entities/world';
 
 import { handsOf } from './hands';
 import { FIRST_LOOK } from './look';
-import type { Player } from './play';
 import { beside, holed, room, shrunk } from './play.test-kit';
+import type { Player } from './player';
 
 const eyeOf = ({ pose }: Player): Vec3 => [pose.u, pose.eyeAbove, pose.v];
 
@@ -19,9 +19,13 @@ const aheadOf = ({ pose: { yaw, elevation } }: Player): Vec3 => [
 /** A nail is the one painted part of a hand. */
 const isNail = ({ paint }: Quad): boolean => paint !== undefined;
 
+const isShrinking = ({ act }: Player): boolean => act?.act === 'shrinking';
+
 /** The frames of floor 1's look in which the hands are up. */
 const seen = (): Player[] =>
-  shrunk().filter((player) => handsOf(player).length > 0);
+  shrunk().filter(
+    (player) => isShrinking(player) && handsOf(player).length > 0,
+  );
 
 /** How far the nails face the way the eye looks. */
 const away = (player: Player): number => {
@@ -36,7 +40,11 @@ describe('handsOf', () => {
     assert.deepEqual(handsOf(beside()), []);
     assert.deepEqual(handsOf(shrunk().at(-1) ?? beside()), []);
     const around = { ...FIRST_LOOK, hands: 0 };
-    assert.ok(shrunk(around).every((player) => handsOf(player).length === 0));
+    assert.ok(
+      shrunk(around)
+        .filter((player) => isShrinking(player))
+        .every((player) => handsOf(player).length === 0),
+    );
     assert.ok(holed.shrinkLook.hands > 0);
   });
 

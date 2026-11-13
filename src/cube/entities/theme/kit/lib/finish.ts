@@ -1,6 +1,6 @@
+import { HASH, wgsl } from '@/cube/shared/shader';
+
 import { CORE } from './core';
-import { HASH } from './hash';
-import { wgsl } from './wgsl';
 
 /**
  * What walls, floors and ceilings are finished in. Each takes the point and

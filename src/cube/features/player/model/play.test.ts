@@ -11,14 +11,7 @@ import {
 import { BODY_RADIUS } from './body';
 import { LAND_AT, LAND_SPEED, LANDING_TIME } from './fall';
 import { FIRST_LOOK, type Look, spanOf } from './look';
-import {
-  arrivedOn,
-  type Cue,
-  isStanding,
-  play,
-  type Player,
-  pulledOf,
-} from './play';
+import { arrivedOn, play } from './play';
 import {
   ahead,
   allOpen,
@@ -27,13 +20,15 @@ import {
   frames,
   holed,
   NEAR,
-  pull,
   room,
   shrunk,
   small,
+  use,
 } from './play.test-kit';
-import { LEVER_REACH, PULL_SWING, SHRINK_TIME, SMALL } from './shrink';
+import { type Cue, isStanding, type Player, takenOf } from './player';
+import { SHRINK_TIME, SMALL } from './shrink';
 import { EYE_HEIGHT, type Input, STILL } from './step';
+import { isInSight } from './take';
 
 const cuesOf = (played: readonly Player[]): Array<Cue['cue']> =>
   played.flatMap(({ cues }) => cues.map(({ cue }) => cue));
@@ -46,7 +41,11 @@ const noLook: Look = {
   sayAt: 0.4,
 };
 
-describe('play, pulling the lever', () => {
+/** The frames of a played act in which the body shrinks. */
+const shrinking = (played: readonly Player[]): Player[] =>
+  played.filter(({ act }) => act?.act === 'shrinking');
+
+describe('play, swallowing the pill', () => {
   it('shrinks the body to half where it stands, its feet on the slab', () => {
     const played = shrunk();
     const start = beside().pose;
@@ -58,13 +57,15 @@ describe('play, pulling the lever', () => {
       assert.equal(act === null, index === played.length - 1);
     }
     assert.equal(played.at(-1)?.pose.scale, SMALL);
+    const from = played.findIndex(({ act }) => act?.act === 'shrinking');
+    assert.equal(played[from]?.pose.scale, 1, 'whole until the pill is down');
     const at = played.findIndex(({ pose }) => pose.scale === SMALL);
-    assert.ok(Math.abs((at + 1) * FRAME - SHRINK_TIME) < FRAME + NEAR);
+    assert.ok(Math.abs((at - from) * FRAME - SHRINK_TIME) < FRAME + NEAR);
   });
 
   it('roots a shrinking body that tries to walk', () => {
     const start = beside().pose;
-    const walked = frames(beside(), pull, ahead, isStanding);
+    const walked = frames(beside(), use, ahead, isStanding);
     assert.deepEqual(
       [walked.at(-2)?.pose.u, walked.at(-2)?.pose.v],
       [start.u, start.v],
@@ -74,66 +75,98 @@ describe('play, pulling the lever', () => {
   it('takes the gaze for the look and hands it back where it was', () => {
     const start = beside().pose;
     const turning: Input = { ...STILL, yawBy: 0.01, elevationBy: 0.01 };
-    const played = frames(beside(), pull, turning, isStanding);
+    const played = shrinking(frames(beside(), use, turning, isStanding));
     const span = spanOf(FIRST_LOOK);
     const down = Math.min(...played.map(({ pose }) => pose.elevation));
     assert.ok(down < -0.9, 'looks down at its hands');
     const yaws = played.map(({ pose }) => pose.yaw - start.yaw);
     assert.ok(Math.max(...yaws) > 0.5 && Math.min(...yaws) < -0.5);
-    const freed = played.at(-1)?.pose;
+    assert.ok(span > SHRINK_TIME);
+    assert.ok(Math.abs(played.length * FRAME - span) < 2 * FRAME + NEAR);
+  });
+
+  it('hands the gaze back with the frame’s own turn and nothing of the look', () => {
+    const start = beside().pose;
+    const turning: Input = { ...STILL, yawBy: 0.01, elevationBy: 0.01 };
+    const freed = frames(beside(), use, turning, isStanding).at(-1)?.pose;
     assert.ok(freed);
-    // The first frame past the look: the resting gaze and that frame's turn.
     assert.ok(Math.abs(freed.yaw - start.yaw - 0.01) < NEAR);
     assert.ok(Math.abs(freed.elevation - start.elevation - 0.01) < NEAR);
-    assert.ok(span > SHRINK_TIME);
-    assert.ok(Math.abs(played.length * FRAME - span) < FRAME + NEAR);
   });
 
   it('leaves the gaze free through a shrink with no look', () => {
     const turning: Input = { ...STILL, yawBy: 0.01 };
-    const played = frames(beside({ yaw: 1 }), pull, turning, isStanding, {
-      ...holed,
-      shrinkLook: noLook,
-    });
-    assert.ok(Math.abs(played.length * FRAME - SHRINK_TIME) < FRAME + NEAR);
-    const yaw = played.at(-1)?.pose.yaw ?? 0;
-    assert.ok(Math.abs(yaw - 1 - 0.01 * (played.length - 1)) < 1e-6);
+    const played = shrinking(
+      frames(beside(), use, turning, isStanding, {
+        ...holed,
+        shrinkLook: noLook,
+      }),
+    );
+    assert.ok(Math.abs(played.length * FRAME - SHRINK_TIME) < 2 * FRAME + NEAR);
+    const [first, last] = [played[0], played.at(-1)];
+    assert.ok(first && last);
+    assert.ok(
+      Math.abs(last.pose.yaw - first.pose.yaw - 0.01 * (played.length - 1)) <
+        1e-6,
+    );
   });
 
-  it('pulls from anywhere in reach, hole underfoot or not, and nowhere else', () => {
-    const shrinks = (player: Player, here = holed) =>
-      !isStanding(play(player, pull, FRAME, allOpen, here));
-    assert.ok(shrinks(beside()));
-    assert.ok(shrinks(beside({ u: 0.25 })), 'standing on the hole');
-    assert.ok(shrinks(beside({ u: LEVER_REACH - 0.01 })));
-    assert.ok(!shrinks(beside({ u: LEVER_REACH + 0.01 })));
-    assert.equal(isStanding(play(beside(), pull, FRAME, allOpen, null)), true);
-    assert.ok(!shrinks(small()), 'a small body pulls nothing');
-  });
-
-  it('swings the lever down, and holds it while the body is small', () => {
-    assert.equal(pulledOf(beside()), null);
-    const played = [...shrunk(), ...frames(small(), STILL, STILL, () => true)];
-    for (const [index, player] of played.slice(0, -1).entries()) {
-      const pulled = pulledOf(player);
-      assert.deepEqual(pulled?.room, room);
-      assert.ok(pulled.swung > 0 && pulled.swung <= 1);
-      assert.ok(
-        pulled.swung >= (pulledOf(played[index - 1] ?? beside())?.swung ?? 0),
-      );
-      if ((index + 1) * FRAME >= PULL_SWING) assert.equal(pulled.swung, 1);
-    }
-    assert.equal(pulledOf(played.at(-1) ?? beside())?.swung, 1);
-  });
-
-  it('cues the lever and the shrink at once, and the first words at the hands', () => {
+  it('has the pill back on its shelf the first frame the shelf is out of sight', () => {
+    assert.equal(takenOf(beside()), null);
     const played = shrunk();
-    assert.deepEqual(played[0]?.cues, [{ cue: 'lever' }, { cue: 'shrink' }]);
-    assert.deepEqual(cuesOf(played), ['lever', 'shrink', 'say']);
+    const pinched = played.findIndex((player) => takenOf(player) !== null);
+    const back = played.findIndex(
+      (player, index) => index > pinched && takenOf(player) === null,
+    );
+    assert.ok(pinched > 0 && back > pinched, 'by the end of the look');
+    assert.equal(played[back]?.act?.act, 'shrinking');
+    for (const [index, player] of played.entries()) {
+      const { pose, act } = player;
+      if (index < pinched) {
+        assert.equal(takenOf(player), null);
+      } else if (index < back) {
+        assert.deepEqual(takenOf(player), { room });
+        const swallowed = act?.act === 'shrinking';
+        if (swallowed) assert.ok(isInSight(pose, holed.shelf));
+      } else {
+        assert.equal(takenOf(player), null);
+      }
+    }
+    const lookedAway = played.at(back);
+    assert.ok(lookedAway !== undefined);
+    assert.ok(!isInSight(lookedAway.pose, holed.shelf));
+  });
+
+  it('keeps the shelf bare for as long as a swallower stares at it', () => {
+    const stared = shrunk(noLook);
+    const last = stared.at(-1);
+    assert.ok(last);
+    assert.deepEqual(takenOf(last), { room });
+    const still = play(last, STILL, FRAME, allOpen, holed);
+    assert.deepEqual(takenOf(still), { room });
+    const away = play(
+      last,
+      { ...STILL, yawBy: Math.PI },
+      FRAME,
+      allOpen,
+      holed,
+    );
+    assert.equal(takenOf(away), null);
+    assert.equal(takenOf(play(last, STILL, FRAME, allOpen, null)), null);
+  });
+
+  it('cues the pill, the swallow and the shrink in turn, then the first words', () => {
+    const played = shrunk();
+    assert.deepEqual(cuesOf(played), ['pill', 'swallow', 'shrink', 'say']);
+    const shrank = played.findIndex(({ cues }) =>
+      cues.some(({ cue }) => cue === 'shrink'),
+    );
     const said = played.findIndex(({ cues }) =>
       cues.some((cue) => cue.cue === 'say' && cue.moment === 'first-shrink'),
     );
-    assert.ok(Math.abs((said + 1) * FRAME - FIRST_LOOK.sayAt) < FRAME + NEAR);
+    assert.ok(
+      Math.abs((said - shrank) * FRAME - FIRST_LOOK.sayAt) < FRAME + NEAR,
+    );
     const later = shrunk(noLook).flatMap(({ cues }) => cues);
     assert.deepEqual(later.at(-1), { cue: 'say', moment: 'shrink' });
   });
@@ -156,7 +189,7 @@ describe('play, small', () => {
     assert.equal(one.act, null);
   });
 
-  it('steps as often for its size as a whole body, a run louder than a walk', () => {
+  it('steps as often small as whole and at a run as at a walk, the run louder', () => {
     const count = (start: Player, input: Input) => {
       let player = start;
       const strengths: number[] = [];
@@ -171,10 +204,10 @@ describe('play, small', () => {
     };
     const run = count(beside({ yaw: 0 }), ahead);
     const smallRun = count(small(), ahead);
-    const stroll = count(beside({ yaw: 0 }), { ...ahead, walking: true });
-    assert.ok(run.length > 5);
+    const stroll = count(beside({ yaw: 0 }), { ...ahead, running: false });
+    assert.ok(run.length > 2);
     assert.equal(smallRun.length, run.length);
-    assert.ok(stroll.length < run.length && stroll.length > 0);
+    assert.equal(stroll.length, run.length);
     assert.ok(run.every((strength) => Math.abs(strength - 1) < 1e-6));
     assert.ok(stroll.every((strength) => strength < 0.5 && strength > 0.3));
     assert.equal(count(beside(), STILL).length, 0);
@@ -194,8 +227,8 @@ describe('play, the hole', () => {
   it('lets a whole body walk over it', () => {
     const played = frames(
       beside({ yaw: 0 }),
-      { ...ahead, walking: true },
-      { ...ahead, walking: true },
+      { ...ahead, running: false },
+      { ...ahead, running: false },
       ({ pose }) => pose.u > 0.4,
     );
     assert.ok(played.some(({ pose }) => Math.abs(pose.u - 0.25) < 0.01));
@@ -243,7 +276,7 @@ describe('play, the hole', () => {
     );
     assert.equal(landed.pose.scale, 1);
     assert.equal(landed.pose.eyeAbove, EYE_HEIGHT);
-    assert.equal(pulledOf(landed), null);
+    assert.equal(takenOf(landed), null);
     assert.deepEqual(landed.cues, [
       { cue: 'landing', speed: LAND_SPEED / SMALL },
       { cue: 'say', moment: 'landing' },
@@ -300,12 +333,12 @@ describe('play, going to a floor', () => {
     });
   });
 
-  it('makes a small body whole there, its lever let go', () => {
+  it('makes a small body whole there, its pill back on its shelf', () => {
     const gone = play(small(), goTo(1), FRAME, allOpen, holed);
     assert.equal(gone.pose.n, 1);
     assert.equal(gone.pose.scale, 1);
     assert.equal(gone.pose.eyeAbove, EYE_HEIGHT);
-    assert.equal(pulledOf(gone), null);
+    assert.equal(takenOf(gone), null);
   });
 
   it('goes to no floor the cube lacks', () => {
@@ -321,10 +354,15 @@ describe('play, going to a floor', () => {
     );
   });
 
-  it('leaves a shrinking body to its shrink', () => {
-    const first = play(beside(), pull, FRAME, allOpen, holed);
+  it('leaves a body taking its pill, or shrinking, to it', () => {
+    const first = play(beside(), use, FRAME, allOpen, holed);
     const next = play(first, goTo(9), FRAME, allOpen, holed);
     assert.equal(next.pose.n, room.n);
-    assert.equal(next.act?.act, 'shrinking');
+    assert.equal(next.act?.act, 'taking');
+    const shrinks = shrunk().find(({ act }) => act?.act === 'shrinking');
+    assert.ok(shrinks);
+    const on = play(shrinks, goTo(9), FRAME, allOpen, holed);
+    assert.equal(on.pose.n, room.n);
+    assert.equal(on.act?.act, 'shrinking');
   });
 });

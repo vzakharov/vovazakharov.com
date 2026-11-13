@@ -1,6 +1,12 @@
+import { HASH, wgsl } from '@/cube/shared/shader';
+
 import { CORE } from './core';
-import { HASH } from './hash';
-import { wgsl } from './wgsl';
+
+/** A lens that lets in a share of the scene's light. */
+export type Exposed = {
+  /** What scene light is multiplied by before the film's curve. */
+  exposure: number;
+};
 
 /**
  * From the lit scene to the pixel: the air between, and what a floor's lens
@@ -18,10 +24,15 @@ fn haze(colour: vec3f, s: Surf, air: vec3f, reach: f32) -> vec3f {
   return mix(air, colour, through);
 }
 
+/// The film's curve: scene light \`x\`, none of it negative, to the share of
+/// white it prints, past 1 for the brightest.
+fn filmic(x: vec3f) -> vec3f {
+  return (x * (2.51 * x + 0.03)) / (x * (2.43 * x + 0.59) + 0.14);
+}
+
 /// Scene light to display colour: a filmic shoulder, then the display's gamma.
 fn tonemap(colour: vec3f) -> vec3f {
-  let x = max(colour, vec3f(0.0));
-  let mapped = (x * (2.51 * x + 0.03)) / (x * (2.43 * x + 0.59) + 0.14);
+  let mapped = filmic(max(colour, vec3f(0.0)));
   return pow(clamp(mapped, vec3f(0.0), vec3f(1.0)), vec3f(1.0 / 2.2));
 }
 

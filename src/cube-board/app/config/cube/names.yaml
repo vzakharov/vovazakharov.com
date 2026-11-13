@@ -77,6 +77,12 @@ items:
     box: [1370, 1400, 244, orange]
     icon: 💥
     text: 'The pitch Vova picked: «get to floor 67, piece of cake». SIX SEVEN. Nobody ever will, and whoever does gets the most anticlimactic ending in video games: floor 67 really crashes'
+  - id: names-cubed-away
+    type: sticky
+    updated: [2026-11-13T11:55:00.000Z, agent:cube-intro]
+    box: [3045, 1400, 244, orange]
+    icon: 🎬
+    text: 'Working titles: “cubed away” (a nod to Spirited Away) and “cubeaway” (a nod to The Castaway). Vova likes the sound of “cubed away” best; not a decision on the title'
   - id: names-note
     type: sticky
     updated: [2026-11-11T07:30:00.000Z, agent:cube]

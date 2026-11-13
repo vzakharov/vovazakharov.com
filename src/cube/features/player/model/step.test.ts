@@ -39,8 +39,9 @@ const still: Input = {
   tiltKeys: 0,
   yawBy: 0,
   elevationBy: 0,
-  walking: true,
-  pull: false,
+  running: false,
+  use: false,
+  answer: null,
   goTo: null,
 };
 const ahead: Input = { ...still, walk: 1 };
@@ -183,9 +184,11 @@ describe('step controls', () => {
     assert.ok(end.v > 0.5, 'right of east is south');
   });
 
-  it('runs unless it walks', () => {
+  it('walks unless it runs', () => {
     const dt = 0.1;
-    const end = step(pose(), { ...ahead, walking: false }, dt, allOpen);
+    const walked = step(pose(), ahead, dt, allOpen);
+    assert.ok(Math.abs(walked.u - 0.5 - WALK_SPEED * dt) < NEAR);
+    const end = step(pose(), { ...ahead, running: true }, dt, allOpen);
     assert.ok(Math.abs(end.u - 0.5 - RUN_SPEED * dt) < NEAR);
   });
 });
