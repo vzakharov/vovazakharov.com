@@ -192,6 +192,8 @@ const line = ({ text, phones }: ReturnType<Vocal>): Line => ({
 
 export const waking = (dice: Dice): Line => line(stirring(dice));
 
+export const wonder = (dice: Dice): Line => line(asked(dice));
+
 export const firstShrink = (dice: Dice): Line => line(huh(dice));
 
 export const secondShrink = (dice: Dice): Line => line(groan(dice));

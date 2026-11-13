@@ -34,7 +34,7 @@ export type Cue =
   | { cue: 'shrink' }
   | { cue: 'jump' }
   | { cue: 'landing'; speed: number }
-  | { cue: 'say'; moment: ShrinkMoment | 'landing' | 'waking' };
+  | { cue: 'say'; moment: ShrinkMoment | 'landing' | 'waking' | 'wonder' };
 
 /** Where a taking hand is, or is on its way to or from. */
 export type Station = 'down' | 'shelf' | 'eyes' | 'mouth';

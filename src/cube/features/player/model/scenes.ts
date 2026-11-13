@@ -1,3 +1,5 @@
+import { pick } from '@/kernel/shared/lib/collections';
+
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import type { Box } from '@/cube/shared/outside';
 import type { Outside, Vec3 } from '@/cube/entities/world';
@@ -20,8 +22,8 @@ import {
  * the way its feet point, out to sea; the cube's box; the ladder from its
  * foot on the sand to its top at the doorway's sill, with the heights of its
  * rungs from the lowest and the ground it stands in a body's way on while it
- * stands; the eye of a body just inside the doorway, and the pill's shelf it
- * looks at from there. `land`'s solids are what stands for good: the cube.
+ * stands; the eye of a body just inside the doorway. `land`'s solids are what
+ * stands for good: the cube.
  */
 export type Stage = {
   land: Land;
@@ -29,7 +31,6 @@ export type Stage = {
   cube: Box;
   ladder: { foot: Vec3; top: Vec3; rungs: readonly number[]; solid: Box };
   arrival: Vec3;
-  shelf: Vec3;
 };
 
 /** Where an eye is, as a shot's own channels. */
@@ -84,9 +85,10 @@ const STANDS = 1;
 /**
  * Waking: dark; the lids part on a world lying on its side, close, and part
  * again; the groan; up on an elbow, sitting with the beach running down to
- * the sea, standing with nothing but sea ahead; then the turn over the
- * shoulder until the cube stands in frame, and a beat on it. Its footfalls
- * name no ground: what the sand is like under them is the sea's to say.
+ * the sea, standing with nothing but sea ahead, where it hands the body over:
+ * turning to the cube behind it is the player's. It lies turned a little to
+ * the cube's side of the sea. Its footfalls name no ground: what the sand is like
+ * under them is the sea's to say.
  */
 export function waking({ land, wake, cube }: Stage): Track<Cue> {
   const { at, seaward } = wake;
@@ -104,13 +106,8 @@ export function waking({ land, wake, cube }: Stage): Track<Cue> {
     (cube.min[0] + cube.max[0]) / 2,
     (cube.min[2] + cube.max[2]) / 2,
   ];
-  const toCube = wayTo(stood, middle);
-  const round = nearest(toCube.yaw, seaward);
+  const round = nearest(wayTo(stood, middle).yaw, seaward);
   const side = Math.sign(round - seaward) || 1;
-  const cubeHigh = Math.atan2(
-    cube.min[1] + 2.5 - (land.height(...stood) + EYE_OVER_SAND),
-    toCube.far,
-  );
   /** Flat on its side, looking down the beach. */
   const lying = {
     ...eyeAt(0, 0.13),
@@ -149,17 +146,11 @@ export function waking({ land, wake, cube }: Stage): Track<Cue> {
     },
     // Nothing but sea.
     { mark: 10.9, yaw: seaward, elevation: -0.03, roll: 0 },
-    // Over the shoulder: the head leads, the body follows.
-    { mark: 12.2, roll: 0.04 * side },
-    { mark: 14.1, yaw: round, elevation: cubeHigh, roll: 0 },
-    { mark: 15.3 },
   ];
   const cues: Marks = [
     [1.6, { cue: 'say', moment: 'waking' }],
     [9.2, { cue: 'step', strength: 0.35 }],
     [9.9, { cue: 'step', strength: 0.4 }],
-    [12.1, { cue: 'step', strength: 0.3 }],
-    [13.2, { cue: 'step', strength: 0.3 }],
   ];
   return trackOf(beats, cues);
 }
@@ -167,50 +158,65 @@ export function waking({ land, wake, cube }: Stage): Track<Cue> {
 /** Seconds a rung takes, and how far the eye sways to the side on each. */
 const RUNG_TIME = 0.56;
 const SWAY = 0.035;
-/** The eye behind the ladder's line and over the feet, hands on the rails. */
-const OFF_LADDER = 0.4;
+/**
+ * The eye behind the ladder's line at the eye's own height, and over the
+ * feet: near enough the leaning ladder for the hands to reach the rungs by
+ * the face.
+ */
+const OFF_LADDER = 0.2;
 const EYE_ON_LADDER = 1.5;
+/** How far short of the ladder's top the eye stands as a foot takes the sill. */
+const AT_SILL = 0.1;
+/** How far up the gaze looks while the hands are on the rungs. */
+const CLIMB_ELEVATION = 0.3;
+/**
+ * How far the gaze turns aside from the ladder on the way up, towards the
+ * cube's side of it, and at what share of the rungs' time it is furthest.
+ */
+const ASIDE = 0.87;
+const ASIDE_AT = 0.7;
 /** How near the ladder's foot the body stands to start, and to be in reach. */
 const FOOT_STANCE = 0.5;
 export const LADDER_REACH = 1.6;
 
 /**
  * The climb from a stance at the ladder's foot: a rung at a time, a foot and
- * then a hand, the eye swaying from side to side; over the sill, through the
- * doorway into the dimmer room, to stand at the stage's `arrival` looking
- * at the pill's `shelf`.
+ * then a hand, the eye swaying from side to side, and the gaze turning aside
+ * along the cube's face on the way and back to the ladder before the sill;
+ * over the sill, through the doorway into the dimmer room, to stand at the
+ * stage's `arrival` looking straight ahead, level.
  */
-function ascent({ land, ladder, arrival, shelf }: Stage): Track<Cue> {
+function ascent({ land, ladder, arrival, cube }: Stage): Track<Cue> {
   const { foot, top, rungs } = ladder;
-  const { yaw } = wayTo([foot[0], foot[2]], [top[0], top[2]]);
+  const { yaw, far } = wayTo([foot[0], foot[2]], [top[0], top[2]]);
   const [cos, sin] = [Math.cos(yaw), Math.sin(yaw)];
-  /** The ladder's own line at height `y`. */
-  const onLadder = (y: number): readonly [number, number] => {
-    const share = (y - foot[1]) / (top[1] - foot[1]);
-    return [
-      foot[0] + (top[0] - foot[0]) * share,
-      foot[2] + (top[2] - foot[2]) * share,
-    ];
-  };
+  /** How far past the ladder's top, along its way, its own line is at height `y`. */
+  const along = (y: number): number =>
+    ((y - top[1]) / (top[1] - foot[1])) * far;
   const stance: readonly [number, number] = [
     foot[0] - FOOT_STANCE * cos,
     foot[2] - FOOT_STANCE * sin,
   ];
   const begins = 0.5;
   const climbed = rungs.map((rung, index): Beat => {
-    const [x, z] = onLadder(rung);
+    const y = rung + EYE_ON_LADDER;
+    const out = Math.min(along(y) - OFF_LADDER, -AT_SILL);
     const side = index % 2 === 0 ? 1 : -1;
     return {
       mark: begins + RUNG_TIME * (index + 1),
-      x: x - OFF_LADDER * cos - side * SWAY * sin,
-      y: rung + EYE_ON_LADDER,
-      z: z - OFF_LADDER * sin + side * SWAY * cos,
+      x: top[0] + out * cos - side * SWAY * sin,
+      y,
+      z: top[2] + out * sin + side * SWAY * cos,
       roll: 0.025 * side,
     };
   });
   const over = begins + RUNG_TIME * (rungs.length + 1);
+  const toCube = wayTo(
+    [foot[0], foot[2]],
+    [(cube.min[0] + cube.max[0]) / 2, (cube.min[2] + cube.max[2]) / 2],
+  );
+  const aside = yaw + ASIDE * (Math.sign(nearest(toCube.yaw, yaw) - yaw) || 1);
   const [inX, inY, inZ] = arrival;
-  const toShelf = wayTo([inX, inZ], [shelf[0], shelf[2]]);
   const beats: Beat[] = [
     {
       mark: 0,
@@ -222,27 +228,22 @@ function ascent({ land, ladder, arrival, shelf }: Stage): Track<Cue> {
       roll: 0,
       ...OPEN,
     },
-    { mark: begins, elevation: 0.5, exposure: 1 },
+    { mark: begins, yaw, elevation: CLIMB_ELEVATION, exposure: 1 },
     ...climbed,
-    { mark: over - RUNG_TIME * 2, elevation: 0.35 },
+    { mark: begins + (over - begins) * ASIDE_AT, yaw: aside },
+    { mark: over - RUNG_TIME * 2, elevation: 0.2 },
     // A hand on the jamb, a foot on the sill.
     {
       mark: over,
-      x: top[0] - 0.1 * cos,
+      x: top[0] - AT_SILL * cos,
       y: top[1] + EYE_OVER_SAND - 0.12,
-      z: top[2] - 0.1 * sin,
+      z: top[2] - AT_SILL * sin,
+      yaw,
       elevation: 0,
       roll: 0,
       exposure: 1,
     },
-    {
-      mark: over + 1.5,
-      x: inX,
-      y: inY,
-      z: inZ,
-      yaw: nearest(toShelf.yaw, yaw),
-      elevation: Math.atan2(shelf[1] - inY, toShelf.far),
-    },
+    { mark: over + 1.5, x: inX, y: inY, z: inZ, yaw, elevation: 0 },
     { mark: over + 2.3 },
   ];
   const cues: Marks = [
@@ -322,4 +323,57 @@ export function stepOff(
   return trackOf(beats, [
     [lands, { cue: 'landing', speed: (GRAVITY_METRES * falls) / ROOM_METRES }],
   ]);
+}
+
+/**
+ * How far out of the cube's face a whole body leans to look down, how far its
+ * eye drops doing so, and how far back inside it is put.
+ */
+const LEANS_OUT = 0.25;
+const LEAN_DROP = 0.1;
+const BACK_INSIDE = 0.5;
+/**
+ * When the lean has the ladder's foot in view, when the body wonders at it,
+ * when it straightens and when it is back inside.
+ */
+const LEANT = 0.7;
+const WONDERS = 1.3;
+const STRAIGHTENS = 1.9;
+const BACK = 3.2;
+
+/** The second the line saying the ladder is gone appears at. */
+export const GONE_SHOWS = 1;
+
+/**
+ * Looking for the ladder, from where a body of `scale` stands `from` on the
+ * sill's edge: a lean out of the doorway, the gaze down at where the ladder's
+ * foot stood, a wondering sound, and back inside the doorway, its gaze as it
+ * was. No footfall sounds: out of doors one would fall on the sand.
+ */
+export function lookingDown(
+  from: Shot,
+  scale: number,
+  { cube, ladder }: Stage,
+): Track<Cue> {
+  const x = cube.max[0] + LEANS_OUT * scale;
+  const y = from.y - LEAN_DROP * scale;
+  const [footX, footY, footZ] = ladder.foot;
+  const { yaw, far } = wayTo([x, from.z], [footX, footZ]);
+  const leant = {
+    x,
+    y,
+    yaw: nearest(yaw, from.yaw),
+    elevation: Math.atan2(footY - y, far),
+  };
+  const beats: Beat[] = [
+    { mark: 0, ...from, roll: 0 },
+    { mark: LEANT, ...leant },
+    { mark: STRAIGHTENS, ...leant },
+    {
+      mark: BACK,
+      ...pick(from, 'y', 'yaw', 'elevation'),
+      x: cube.max[0] - BACK_INSIDE * scale,
+    },
+  ];
+  return trackOf(beats, [[WONDERS, { cue: 'say', moment: 'wonder' }]]);
 }

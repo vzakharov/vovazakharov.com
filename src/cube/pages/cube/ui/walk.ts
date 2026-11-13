@@ -12,9 +12,11 @@ import {
   type Abroad,
   abroad,
   asleepOn,
+  awakeOn,
   bindInput,
   canClimb,
   canPress,
+  findsLadderGone,
   handsAbroad,
   handsOf,
   type Input,
@@ -28,6 +30,7 @@ import {
   play as playFrame,
   type Player,
   poseWithin,
+  refusedAt,
   shotWithin,
   standingAt,
   steppingOut,
@@ -40,14 +43,22 @@ import { adapted, lensAdapted } from '../lib/adaptation';
 import { type Follow, followAddress } from '../lib/fragment';
 import { lensOf } from '../lib/lit-stage';
 import { type CubePlayHook, PLAY_HOOK, PLAY_INSTANT } from '../lib/play';
-import { type Start, writeCheat, writeFragment } from '../lib/start';
+import {
+  type Start,
+  writeAwake,
+  writeCheat,
+  writeFragment,
+} from '../lib/start';
 import type { Selling, SignOf } from './cube-mesh';
 import { type CubeScene, mountCube } from './cube-scene';
 import { hear } from './hearing';
 import { drawn, type PillPrompt, pillPromptOf } from './pill-prompt';
 
-/** What a press of the hand does where the body stands, a sign aside. */
-export type Way = 'wake' | 'climb';
+/**
+ * What a press of the hand does where the body stands, a sign aside, or
+ * what the body has just found there.
+ */
+export type Way = 'wake' | 'climb' | 'gone';
 
 /**
  * `open` hears a press on a sign in reach; `offering` whether one is open.
@@ -101,13 +112,16 @@ export function walk(
       setFailure,
     );
   // A walk that starts on the shore has no address until it climbs in.
-  let follow: Follow | null = earned && !ashore ? following() : null;
+  let follow: Follow | null = earned && ashore === null ? following() : null;
   const now = (): number => frozen ?? Date.now();
   /** The body while it is out of doors, and what its eye shows there. */
   let out: Abroad | null =
-    ashore && input !== null
-      ? asleepOn(INTRO_STAGE, clockAt(Date.now()).seconds)
-      : null;
+    ashore === null || input === null
+      ? null
+      : (ashore === 'asleep' ? asleepOn : awakeOn)(
+          INTRO_STAGE,
+          clockAt(Date.now()).seconds,
+        );
   /**
    * Whether the ladder has gone: from the frame the body first comes in by
    * the doorway, and all along for a walk that starts inside.
@@ -122,12 +136,20 @@ export function walk(
   const wake = (): void => {
     woken = true;
   };
-  if (out !== null) {
+  if (out?.asleep === true) {
     globalThis.addEventListener('keydown', wake, { once: true });
     canvas.addEventListener('pointerdown', wake, { once: true });
   }
   // The pose is the scene's; the rest of the player rides along with it.
   let player: Player = standingAt(start);
+  /**
+   * The sill's edge: `unseen` until the body first goes past it and looks
+   * for the ladder, `seen` until the keys that took it there are let go,
+   * `free` from then, when going past it steps off.
+   */
+  let sill: 'unseen' | 'seen' | 'free' = 'unseen';
+  /** The player as it went to the sill, while it looks for the ladder. */
+  let saved: Player | null = null;
   /** A press the play hook asked for, resolved once a frame reads it. */
   let pressed: PromiseWithResolvers<void> | null = null;
   /** Whether a script's eye is out of doors, where no floor is underfoot. */
@@ -152,28 +174,53 @@ export function walk(
   };
 
   /**
-   * One frame of `abroad` out of doors, `dt` seconds on: the pose it stands
-   * at once a scene has put it inside the cube, null while it is still out.
+   * One frame of `abroad` out of doors, `dt` seconds on: the player once a
+   * scene has put the body inside the cube, null while it is still out. A
+   * body back from looking for the ladder is the one that went to the sill,
+   * standing where the scene leaves it; one that climbed in stands whole.
    */
-  const outdoors = (was: Abroad, controls: Input, dt: number): Pose | null => {
+  const outdoors = (
+    was: Abroad,
+    controls: Input,
+    dt: number,
+  ): Player | null => {
     const { seconds } = clockAt(now());
     const next = abroad(was, controls, dt, seconds, INTRO_STAGE, woken);
     const { cues, shot, entered, asleep } = next;
     hearing?.body(cues, outsideOf(shot));
     if (entered) {
       out = null;
-      ladderGone = true;
       body = [];
+      const inside = poseWithin(shot);
+      if (saved !== null) {
+        const { u, v, yaw, elevation } = inside;
+        const back = {
+          ...saved,
+          pose: { ...saved.pose, u, v, yaw, elevation },
+        };
+        saved = null;
+        return back;
+      }
+      ladderGone = true;
       if (earned) follow ??= following();
-      return poseWithin(shot);
+      return standingAt(inside);
     }
+    // The waking is the one scene ending on the island with the ladder up.
+    const woke = was.scene !== null && next.scene === null && !next.ladderGone;
+    if (woke && earned) writeAwake();
     out = next;
     body = handsAbroad(next, INTRO_STAGE);
     setFloor(null);
     setInReach(null);
     setPill(null);
     setWay(
-      asleep ? 'wake' : canClimb(next, INTRO_STAGE, seconds) ? 'climb' : null,
+      asleep
+        ? 'wake'
+        : findsLadderGone(next)
+          ? 'gone'
+          : canClimb(next, INTRO_STAGE, seconds)
+            ? 'climb'
+            : null,
     );
     return null;
   };
@@ -225,8 +272,12 @@ export function walk(
                   ladderGone,
                 };
               }
-              player = standingAt(inside);
-              return { ...indoorsAt(inside, seconds), taken: null, moving: [] };
+              player = inside;
+              return {
+                ...indoorsAt(player.pose, seconds),
+                taken: takenOf(player),
+                moving: handsOf(player),
+              };
             }
             const here = holedHere(pose);
             player = playFrame(
@@ -250,13 +301,22 @@ export function walk(
             reach(moved, signOf, controls.use && standing);
             setPill(pillPromptOf(player, moved, here));
             setWay(null);
-            if (leaving) {
-              out = steppingOut(
-                shotWithin(moved),
-                moved.scale,
-                INTRO_STAGE,
-                clockAt(now()).seconds,
-              );
+            // A key held through the look is not a second try.
+            if (
+              sill === 'seen' &&
+              controls.walk === 0 &&
+              controls.strafe === 0
+            ) {
+              sill = 'free';
+            }
+            if (leaving && sill !== 'seen') {
+              const edge = shotWithin(moved);
+              const at = clockAt(now()).seconds;
+              if (sill === 'unseen') {
+                saved = player;
+                sill = 'seen';
+                out = refusedAt(edge, moved.scale, INTRO_STAGE, at);
+              } else out = steppingOut(edge, moved.scale, INTRO_STAGE, at);
             }
             follow?.(moved, standing, seconds);
             return {

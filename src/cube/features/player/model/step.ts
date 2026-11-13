@@ -5,7 +5,7 @@ import { walk } from './body';
 /** Walking speed in room sides a second: 1.4 m/s on floor 1. */
 export const WALK_SPEED = 0.28;
 
-/** Running speed, the body's pace unless it walks: 3.5 m/s on floor 1. */
+/** Running speed, the body's pace indoors unless it walks: 3.5 m/s on floor 1. */
 export const RUN_SPEED = 0.7;
 
 /** Eye height over the slab, in room sides: 1.6 m on floor 1. */
@@ -25,7 +25,7 @@ export const TILT_RATE = Math.PI / 3;
  * 1, a diagonal is normalized to the body's pace, and the turn and tilt go at
  * their rates over the frame; `yawBy` and `elevationBy` are radians to add to
  * the pose's this frame, whatever its length; `walking` slows the run to a
- * walk; `use` is whether what is in reach — a pill, a sign — was asked for
+ * walk indoors, and quickens the walk to a run out of doors; `use` is whether what is in reach — a pill, a sign — was asked for
  * since the last frame, `answer` what was said to a question since then, and
  * `goTo` the floor asked for by its number, null when none was.
  */

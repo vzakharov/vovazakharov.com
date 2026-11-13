@@ -4,7 +4,6 @@ import {
   DOOR_LADDER,
   DOORWAY_BOX,
   islandHeight,
-  toWorld,
   WAKE_AT,
   waterLevel,
 } from '@/cube/shared/outside';
@@ -18,13 +17,6 @@ import { EYE_HEIGHT } from './step';
  */
 const ARRIVES_IN = 0.9;
 const ARRIVES_SOUTH = 0.64;
-
-/**
- * The pill's shelf on the west wall of floor 1's room, as the room has it:
- * metres south along it, and up.
- */
-const SHELF_SOUTH = 3.75;
-const SHELF_UP = 1;
 
 /**
  * How far the body lies turned from straight out to sea, to its right: the
@@ -64,7 +56,6 @@ export const INTRO_STAGE: Stage = {
       max: [foot[0], top[1], top[2] + wide / 2],
     },
   },
-  shelf: toWorld([0, SHELF_UP / CUBE_METRES, SHELF_SOUTH / CUBE_METRES]),
   arrival: [
     DOORWAY_BOX.min[0] - ARRIVES_IN,
     DOORWAY_BOX.min[1] + EYE_HEIGHT * CUBE_METRES,

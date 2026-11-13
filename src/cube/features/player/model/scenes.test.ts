@@ -8,12 +8,16 @@ import { EYE_OVER_SAND } from './roam';
 import { climb, shotOf, stepOff, waking } from './scenes';
 import { type Shot, shotAt } from './track';
 
-const { land, cube, wake, arrival, ladder, shelf } = STAGE;
+const { land, cube, wake, arrival, ladder } = STAGE;
 
 const overSand = ({ x, y, z }: Shot): number => y - land.height(x, z);
 
 const close = (a: number, b: number, within = 1e-9): boolean =>
   Math.abs(a - b) <= within;
+
+/** How far `a` is turned from `b`, the short way round, in radians. */
+const turned = (a: number, b: number): number =>
+  Math.abs(Math.atan2(Math.sin(a - b), Math.cos(a - b)));
 
 /** A free eye standing at `x`, `z`, looking along `yaw`. */
 const standing = (x: number, z: number, yaw: number): Shot =>
@@ -57,13 +61,10 @@ describe('waking', () => {
     assert.ok(close(overSand(stood), EYE_OVER_SAND, 1e-6));
   });
 
-  it('ends on the cube, upright, having turned the short way', () => {
+  it('ends looking out to sea, upright', () => {
     const last = shotAt(track, track.runs);
-    const toCube = Math.atan2(-last.z, -last.x);
-    assert.ok(close(Math.cos(last.yaw - toCube), 1, 1e-3));
-    assert.ok(Math.abs(last.yaw - wake.seaward) < Math.PI);
+    assert.ok(turned(last.yaw, wake.seaward) < 1e-9);
     assert.equal(last.roll, 0);
-    assert.ok(last.elevation > 0 && last.elevation < 0.2);
   });
 
   it('groans once, before it moves', () => {
@@ -78,24 +79,36 @@ describe('climb', () => {
   const up = climb(from, STAGE);
   const shots = sampled(up);
 
-  it('goes from the sand to the room, to look at the pill’s shelf', () => {
+  const { foot, top, rungs } = ladder;
+  const ladderYaw = Math.atan2(top[2] - foot[2], top[0] - foot[0]);
+
+  it('goes from the sand to the room, looking along the ladder, level', () => {
     const first = shotAt(up, 0);
     assert.deepEqual({ ...first, ...pick(from, 'yaw') }, from);
     const last = shotAt(up, up.runs);
     assert.deepEqual([last.x, last.y, last.z], arrival);
-    // The gaze from the arrival runs through the shelf.
-    const far = Math.hypot(shelf[0] - last.x, shelf[2] - last.z);
-    assert.ok(close(last.x + far * Math.cos(last.yaw), shelf[0], 1e-9));
-    assert.ok(close(last.z + far * Math.sin(last.yaw), shelf[2], 1e-9));
-    assert.ok(close(last.y + far * Math.tan(last.elevation), shelf[1], 1e-9));
+    assert.ok(turned(last.yaw, ladderYaw) < 1e-9);
+    assert.equal(last.elevation, 0);
     assert.equal(last.exposure, 1);
+  });
+
+  it('looks aside on the way up, and back along the ladder at the sill', () => {
+    assert.ok(shots.some(({ yaw }) => turned(yaw, ladderYaw) > 0.5));
+    // The first footfall off the rungs comes a tenth of a second before the sill.
+    const [stepped] = up.cues.flatMap(([at, cue]) =>
+      cue.cue === 'step' ? [at] : [],
+    );
+    assert.ok(stepped !== undefined);
+    const sill = shotAt(up, stepped + 0.1);
+    assert.ok(turned(sill.yaw, ladderYaw) < 0.01);
+    assert.ok(turned(shotAt(up, up.runs).yaw, ladderYaw) < 0.01);
   });
 
   it('takes a hand and a foot to every rung', () => {
     const limbs = up.cues.flatMap(([, cue]) =>
       cue.cue === 'rung' ? [cue.limb] : [],
     );
-    assert.equal(limbs.length, 2 * ladder.rungs.length);
+    assert.equal(limbs.length, 2 * rungs.length);
     assert.equal(limbs.filter((limb) => limb === 'foot').length, 12);
   });
 
@@ -108,9 +121,7 @@ describe('climb', () => {
 
   it('keeps the eye outside the wall until it is over the sill', () => {
     assert.ok(
-      shots.every(
-        ({ x, y }) => x > cube.max[0] + 0.05 || y > ladder.top[1] + 1.3,
-      ),
+      shots.every(({ x, y }) => x > cube.max[0] + 0.05 || y > top[1] + 1.3),
     );
   });
 });

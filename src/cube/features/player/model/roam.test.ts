@@ -22,6 +22,7 @@ const beach: Land = {
 
 const EAST = { yaw: 0, elevation: 0 };
 const ahead: Input = { ...STILL, walk: 1 };
+const running: Input = { ...ahead, walking: true };
 const DT = 1 / 60;
 
 /** `roamer` after `seconds` of `input` on `land`, and every cue on the way. */
@@ -40,9 +41,9 @@ function going(
   return { roamer: now, cues };
 }
 
-/** How far a frame of walking east carries a body from `x`. */
-const paceFrom = (x: number): number =>
-  roam(roamingAt(beach, [x, 0], EAST, 0), ahead, DT, 0, beach).eye[0] - x;
+/** How far a frame of `input` east carries a body from `x`. */
+const paceFrom = (x: number, input = ahead): number =>
+  roam(roamingAt(beach, [x, 0], EAST, 0), input, DT, 0, beach).eye[0] - x;
 
 describe('roam', () => {
   it('stands a body with its eye a person over the sand', () => {
@@ -50,15 +51,23 @@ describe('roam', () => {
     assert.deepEqual(eye, [-20, 2 + EYE_OVER_SAND, 3]);
   });
 
-  it('runs dry sand at the inside pace, footfalls on sand', () => {
-    const { roamer, cues } = going(
-      roamingAt(beach, [-30, 0], EAST, 0),
-      ahead,
-      2,
+  it('walks dry sand at the inside pace, and runs it on Shift, footfalls on sand', () => {
+    const from = roamingAt(beach, [-30, 0], EAST, 0);
+    const walked = going(from, ahead, 1);
+    const ran = going(from, running, 1);
+    assert.ok(Math.abs(walked.roamer.eye[0] - -28.6) < 0.05);
+    assert.ok(Math.abs(ran.roamer.eye[0] - -26.5) < 0.1);
+    assert.equal(walked.cues.length, 1);
+    assert.equal(ran.cues.length, 4);
+    for (const { cues } of [walked, ran]) {
+      assert.ok(
+        cues.every((cue) => cue.cue === 'step' && cue.ground === 'sand'),
+      );
+    }
+    const [soft, hard] = [walked, ran].map(({ cues: [cue] }) =>
+      cue?.cue === 'step' ? cue.strength : 0,
     );
-    assert.ok(Math.abs(roamer.eye[0] - -23) < 0.1, `${roamer.eye[0]}`);
-    assert.equal(cues.length, 9);
-    assert.ok(cues.every((cue) => cue.cue === 'step' && cue.ground === 'sand'));
+    assert.ok((soft ?? 0) > 0 && (soft ?? 0) < (hard ?? 0));
   });
 
   it('follows the sand down, the eye settling over it', () => {
@@ -71,7 +80,7 @@ describe('roam', () => {
   it('names wet sand by the water and shallows in it', () => {
     const grounds = going(
       roamingAt(beach, [-2, 0], EAST, 0),
-      ahead,
+      running,
       3,
     ).cues.map((cue) => (cue.cue === 'step' ? cue.ground : cue.cue));
     assert.deepEqual(
@@ -83,7 +92,12 @@ describe('roam', () => {
   it('slows as the water deepens', () => {
     assert.ok(paceFrom(5) < paceFrom(0));
     assert.ok(paceFrom(10) < paceFrom(5));
-    assert.ok(Math.abs(paceFrom(30) / paceFrom(-5) - 0.32) < 1e-9);
+    // Deep water is a swimmer's pace, a share of a run's, at a walk or a run.
+    for (const input of [ahead, running]) {
+      assert.ok(
+        Math.abs(paceFrom(30, input) / paceFrom(-5, running) - 0.32) < 1e-9,
+      );
+    }
   });
 
   it('floats once the water would cover its eyes, and has no edge', () => {
@@ -117,11 +131,16 @@ describe('roam', () => {
       ...beach,
       solids: [{ min: [-20, 0, -2], max: [-15, 5, 3] }],
     };
-    const head = going(roamingAt(walled, [-25, 0], EAST, 0), ahead, 3, walled);
+    const head = going(
+      roamingAt(walled, [-25, 0], EAST, 0),
+      running,
+      3,
+      walled,
+    );
     assert.ok(Math.abs(head.roamer.eye[0] - -20.3) < 1e-9);
     const slide = going(
       roamingAt(walled, [-25, 0], { yaw: 0.6, elevation: 0 }, 0),
-      ahead,
+      running,
       4,
       walled,
     ).roamer.eye;

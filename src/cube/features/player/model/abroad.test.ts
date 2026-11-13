@@ -1,16 +1,26 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { type Abroad, abroad, asleepOn, canClimb, steppingOut } from './abroad';
+import {
+  type Abroad,
+  abroad,
+  asleepOn,
+  awakeOn,
+  canClimb,
+  findsLadderGone,
+  refusedAt,
+  steppingOut,
+} from './abroad';
 import { STAGE } from './abroad.test-kit';
 import type { Cue } from './player';
 import { EYE_OVER_SAND, roamingAt } from './roam';
-import { shotOf } from './scenes';
+import { GONE_SHOWS, shotOf } from './scenes';
+import { seesWhole } from './sight';
 import { type Input, STILL } from './step';
 
 const DT = 1 / 30;
 const ahead: Input = { ...STILL, walk: 1 };
-const { land, arrival, wake } = STAGE;
+const { land, arrival, wake, cube } = STAGE;
 
 /** `state` after `seconds` of `input`, awake, and every cue on the way. */
 function run(
@@ -36,6 +46,7 @@ const freeAt = (x: number, z: number, yaw: number): Abroad => {
     scene: null,
     asleep: false,
     ladderGone: false,
+    sawCube: false,
     shot: shotOf(roamer),
     cues: [],
     entered: false,
@@ -53,21 +64,53 @@ describe('abroad', () => {
     assert.ok(state.asleep);
   });
 
-  it('wakes, groans once and is handed back facing the cube, on its feet', () => {
+  it('wakes, groans once and is handed back facing the sea, on its feet', () => {
     const { state, cues } = run(
       asleepOn(STAGE, 0),
       ahead,
       60,
       (now) => now.scene === null,
     );
-    const { scene, roamer } = state;
+    const { scene, roamer, sawCube } = state;
     assert.equal(scene, null);
     assert.equal(cues.filter((cue) => cue.cue === 'say').length, 1);
     const [x, y, z] = roamer.eye;
     assert.ok(Math.abs(y - land.height(x, z) - EYE_OVER_SAND) < 1e-6);
     // The keys held all through the scene moved nothing.
     assert.ok(Math.hypot(x - wake.at[0], z - wake.at[1]) < 1.5);
-    assert.ok(Math.cos(roamer.yaw - Math.atan2(-z, -x)) > 0.99);
+    assert.ok(Math.cos(roamer.yaw - wake.seaward) > 0.99);
+    assert.equal(sawCube, false);
+  });
+
+  it('wonders once, the first frame the cube is wholly in view as it turns', () => {
+    let state = freeAt(wake.at[0], wake.at[1], wake.seaward);
+    const turning = { ...STILL, yawBy: 0.03 };
+    const said: number[] = [];
+    // Two whole turns and more.
+    for (let frame = 0; frame < 450; frame += 1) {
+      const was = state.sawCube;
+      state = abroad(state, turning, DT, frame * DT, STAGE, true);
+      const { cues, roamer } = state;
+      const wonders = cues.filter((cue) => cue.cue === 'say');
+      if (wonders.length > 0) {
+        said.push(frame);
+        assert.deepEqual(wonders, [{ cue: 'say', moment: 'wonder' }]);
+        assert.ok(!was && seesWhole(roamer, cube));
+      }
+    }
+    assert.equal(said.length, 1);
+    assert.ok(said[0] !== undefined && said[0] > 0);
+    assert.ok(state.sawCube);
+  });
+
+  it('starts awake on the shore, free, the ladder standing', () => {
+    const state = awakeOn(STAGE, 0);
+    assert.equal(state.scene, null);
+    assert.equal(state.asleep, false);
+    assert.equal(state.ladderGone, false);
+    assert.equal(state.sawCube, false);
+    const [x, , z] = state.roamer.eye;
+    assert.ok(Math.hypot(x - wake.at[0], z - wake.at[1]) < 1.5);
   });
 
   it('climbs on E within reach of the ladder foot, into the cube', () => {
@@ -135,11 +178,37 @@ describe('abroad', () => {
       assert.ok(Math.abs(y - land.height(x, z) - EYE_OVER_SAND * scale) < 1e-6);
       assert.ok(!canClimb(state, STAGE, 0));
       // A second of running east covers the body's own share of 3.5 m.
-      const ran = run(state, { ...STILL, walk: 1 }, 1).state.roamer;
+      const running = { ...STILL, walk: 1, walking: true };
+      const ran = run(state, running, 1).state.roamer;
       const went = Math.hypot(ran.eye[0] - x, ran.eye[2] - z);
       assert.ok(Math.abs(went - 3.5 * scale) < 0.2 * scale, `${went}`);
       const over = ran.eye[1] - land.height(ran.eye[0], ran.eye[2]);
       assert.ok(Math.abs(over - EYE_OVER_SAND * scale) < 0.02);
+    });
+
+    it(`looks for the ladder from the sill at scale ${scale} and is put back inside`, () => {
+      const edge = shotOf({
+        eye: [2.5 - 0.1 * scale, 5.2 + EYE_OVER_SAND * scale, -1.7],
+        yaw: 0.1,
+        elevation: 0,
+        roll: 0,
+      });
+      let state: Abroad = refusedAt(edge, scale, STAGE, 0);
+      assert.equal(state.scene?.into, 'sill');
+      const cues: Cue[] = [];
+      for (let t = 0; t < 10 && !state.entered; t += DT) {
+        const played: number = state.scene?.playedFor ?? 0;
+        assert.equal(findsLadderGone(state), played >= GONE_SHOWS, `${played}`);
+        state = abroad(state, ahead, DT, t, STAGE, true);
+        cues.push(...state.cues);
+      }
+      const { entered, shot } = state;
+      assert.ok(entered);
+      assert.ok(!findsLadderGone(state));
+      assert.ok(shot.x < cube.max[0]);
+      assert.ok(Math.abs(shot.y - edge.y) < 1e-9);
+      assert.ok(Math.abs(shot.yaw - edge.yaw) < 1e-9);
+      assert.deepEqual(cues, [{ cue: 'say', moment: 'wonder' }]);
     });
   }
 });

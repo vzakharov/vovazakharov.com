@@ -1,12 +1,13 @@
 import type { Some } from './chance';
 
 /**
- * When something is heard. The visitor's six are sounds without words; the
+ * When something is heard. The visitor's seven are sounds without words; the
  * rest are said in words, by the building over its speakers or by someone
  * somewhere in it.
  */
 export const MOMENTS = [
   'waking',
+  'wonder',
   'first-shrink',
   'second-shrink',
   'shrink',

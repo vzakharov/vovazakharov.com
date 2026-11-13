@@ -30,7 +30,6 @@ export const STAGE: Stage = {
     solid: { min: [2.5, 1.38, -1.9], max: [4, 5.2, -1.5] },
   },
   arrival: [1.5, 6.8, -1.5],
-  shelf: [-2.5, 6.2, 1.25],
 };
 
 /** `track`'s camera every `every` seconds from its start to its end. */

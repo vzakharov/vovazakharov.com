@@ -16,33 +16,41 @@ import {
 } from './roam';
 import {
   climb,
+  GONE_SHOWS,
   LADDER_REACH,
+  lookingDown,
   outsideOf,
   shotOf,
   type Stage,
   stepOff,
   waking,
 } from './scenes';
+import { seesWhole } from './sight';
 import type { Input } from './step';
 import { cuesBetween, type Shot, shotAt, type Track } from './track';
 
-/** A scene being played, `playedFor` seconds in, and where it leaves the body. */
+/**
+ * A scene being played, `playedFor` seconds in, and where it leaves the body:
+ * on the island, inside the cube by the ladder, or back inside from its sill.
+ */
 type Playing = {
   track: Track<Cue>;
   playedFor: number;
-  into: 'island' | 'cube';
+  into: 'island' | 'cube' | 'sill';
 };
 
 /** What a body out of doors carries from scene to scene. */
-type Mind = Required<Laddered> & { asleep: boolean };
+type Mind = Required<Laddered> & { asleep: boolean; sawCube: boolean };
 
 /**
  * A body out of doors and what the eye shows of it this frame. `scene` is
  * the one that holds its controls, null while it roams free; `asleep` until
  * the first sign of the player, the waking scene waiting on its first
  * moment; `ladderGone` once it has been inside the cube, the ladder standing
- * for a body that has not; `entered` in the one frame a scene has put the
- * body inside the cube, where `shot` is where it stands.
+ * for a body that has not; `sawCube` once the cube has been wholly in its
+ * view, the body wondering at it the frame it first is; `entered` in the one
+ * frame a scene has put the body inside the cube, where `shot` is where it
+ * stands.
  */
 export type Abroad = Mind &
   Cued & {
@@ -78,11 +86,29 @@ export function asleepOn(stage: Stage, seconds: number): Abroad {
       playedFor: 0,
       into: 'island',
     },
-    { asleep: true, ladderGone: false },
+    { asleep: true, ladderGone: false, sawCube: false },
   );
 }
 
-/** A body of `scale` on its feet at `from`, free, the ladder standing or gone. */
+/** A body of `scale` on `land` under `from`'s eye, looking its way. */
+const roamerAt = (
+  from: Shot,
+  scale: number,
+  land: Land,
+  seconds: number,
+): Roamer =>
+  roamingAt(
+    land,
+    [from.x, from.z],
+    pick(from, 'yaw', 'elevation'),
+    seconds,
+    scale,
+  );
+
+/**
+ * A body of `scale` on its feet at `from`, free, the ladder standing or gone;
+ * a body that has seen the ladder go has seen the cube.
+ */
 export const roamingFree = (
   from: Shot,
   scale: number,
@@ -90,26 +116,31 @@ export const roamingFree = (
   seconds: number,
   ladderGone: boolean,
 ): Abroad => {
-  const roamer = roamingAt(
-    land,
-    [from.x, from.z],
-    pick(from, 'yaw', 'elevation'),
-    seconds,
-    scale,
-  );
+  const roamer = roamerAt(from, scale, land, seconds);
   return {
     roamer,
     scene: null,
     asleep: false,
     ladderGone,
+    sawCube: ladderGone,
     shot: shotOf(roamer),
     cues: NO_CUES,
     entered: false,
   };
 };
 
+/** A body awake on `stage`'s shore where the waking leaves it, free. */
+export function awakeOn(stage: Stage, seconds: number): Abroad {
+  const track = waking(stage);
+  return roamingFree(shotAt(track, track.runs), 1, stage, seconds, false);
+}
+
+/** What a body that has been inside the cube carries out of it. */
+const BEEN_INSIDE: Mind = { asleep: false, ladderGone: true, sawCube: true };
+
 /**
- * A body of `scale` leaving the cube from `from`, on the sill's edge: off it and down to the sand, where no ladder stands.
+ * A body of `scale` leaving the cube from `from`, on the sill's edge: off it
+ * and down to the sand, where no ladder stands.
  */
 export const steppingOut = (
   from: Shot,
@@ -118,20 +149,33 @@ export const steppingOut = (
   seconds: number,
 ): Abroad =>
   playing(
-    roamingAt(
-      stage.land,
-      [from.x, from.z],
-      pick(from, 'yaw', 'elevation'),
-      seconds,
-      scale,
-    ),
-    {
-      track: stepOff(from, scale, stage),
-      playedFor: 0,
-      into: 'island',
-    },
-    { asleep: false, ladderGone: true },
+    roamerAt(from, scale, stage.land, seconds),
+    { track: stepOff(from, scale, stage), playedFor: 0, into: 'island' },
+    BEEN_INSIDE,
   );
+
+/**
+ * A body of `scale` at the sill's edge at `from`, looking down for the ladder
+ * and put back inside the doorway.
+ */
+export const refusedAt = (
+  from: Shot,
+  scale: number,
+  stage: Stage,
+  seconds: number,
+): Abroad =>
+  playing(
+    roamerAt(from, scale, stage.land, seconds),
+    { track: lookingDown(from, scale, stage), playedFor: 0, into: 'sill' },
+    BEEN_INSIDE,
+  );
+
+/** Whether `a` is far enough into looking for the ladder to find it gone. */
+export const findsLadderGone = ({ scene }: Abroad): boolean =>
+  scene?.into === 'sill' && scene.playedFor >= GONE_SHOWS;
+
+/** The sound of a body that sees what it did not expect. */
+const WONDER: Cue = { cue: 'say', moment: 'wonder' };
 
 /** How far over its standing height an eye may be and its feet still be on the sand. */
 const OFF_THE_SAND = 0.3;
@@ -186,7 +230,8 @@ export function canClimb(
  * A scene holds the controls while it plays and its cues fall in the frames
  * they are marked in; one that ends on the island hands the body back where
  * the camera left it, one that ends in the cube reports `entered`. Free, the
- * body roams, and asking for the ladder within reach of its foot climbs it.
+ * body roams, wonders the first frame the cube is wholly in its view, and
+ * asking for the ladder within reach of its foot climbs it.
  */
 export function abroad(
   state: Abroad,
@@ -196,9 +241,9 @@ export function abroad(
   stage: Stage,
   woken: boolean,
 ): Abroad {
-  const { scene, roamer, ladderGone, asleep } = state;
+  const { scene, roamer, ladderGone, asleep, sawCube } = state;
   if (asleep && !woken) return { ...state, cues: NO_CUES };
-  const rest = { asleep: false, ladderGone };
+  const rest: Mind = { asleep: false, ladderGone, sawCube };
   if (scene !== null) {
     const { track, playedFor, into } = scene;
     const t = playedFor + dt;
@@ -222,7 +267,7 @@ export function abroad(
       ...rest,
       shot,
       cues,
-      entered: done && into === 'cube',
+      entered: done && into !== 'island',
     };
   }
   const free = { ...state, ...rest, entered: false };
@@ -238,8 +283,14 @@ export function abroad(
     );
   }
   const moved = roam(roamer, input, dt, seconds, landOf(stage, ladderGone));
-  const { cues } = moved;
-  return { ...free, roamer: moved, shot: shotOf(moved), cues };
+  const wonders = !sawCube && seesWhole(moved, stage.cube);
+  return {
+    ...free,
+    roamer: moved,
+    shot: shotOf(moved),
+    sawCube: sawCube || wonders,
+    cues: wonders ? [...moved.cues, WONDER] : moved.cues,
+  };
 }
 
 /** `abroad`'s hands on the ladder while it climbs, in floor 1's room's frame. */

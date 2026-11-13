@@ -172,8 +172,10 @@ export const footingAt = (
 /**
  * `roamer` after `dt` seconds of `input` on `land`, `seconds` into the hour.
  *
- * It walks the sand at the inside's paces with its eye its own height over
- * its soles, slows as the water deepens round its legs, and floats once its
+ * It walks the sand at the inside's walking pace, and runs it at the inside's
+ * running pace while `input.walking` holds, its eye its own height over its
+ * soles; its footfalls fall harder the nearer its pace is a run's. It slows to
+ * a swimmer's pace as the water deepens round its legs, and floats once its
  * depth would put its eyes under: the eye then rides the water's own level,
  * bobbing with each stroke and while treading; every one of those lengths is
  * its scale's share of a whole body's. Solids turn it aside. A
@@ -195,13 +197,17 @@ export function roam(
   const gaze = turned(roamer, input, dt);
   const depthOf = (x: number, z: number): number =>
     land.level(x, z, seconds) - land.height(x, z);
-  const share = lerp(
-    1,
-    SWIM_SHARE,
-    smooth(ramp(depthOf(fromX, fromZ), 0, SWIM_DEPTH * scale)),
-  );
-  const run = (input.walking ? WALK_SPEED : RUN_SPEED) * ROOM_METRES * scale;
-  const [east, south] = strideOf(input, gaze.yaw, run * share * dt);
+  const pace = input.walking ? RUN_SPEED : WALK_SPEED;
+  const speed =
+    lerp(
+      pace,
+      RUN_SPEED * SWIM_SHARE,
+      smooth(ramp(depthOf(fromX, fromZ), 0, SWIM_DEPTH * scale)),
+    ) *
+    ROOM_METRES *
+    scale;
+  const run = RUN_SPEED * ROOM_METRES * scale;
+  const [east, south] = strideOf(input, gaze.yaw, speed * dt);
   const [x, z] = clear(fromX + east, fromZ + south, land.solids, GIRTH * scale);
   const went = Math.hypot(x - fromX, z - fromZ);
   const afloat = isAfloat(land, [x, fromY, z], seconds, scale);
