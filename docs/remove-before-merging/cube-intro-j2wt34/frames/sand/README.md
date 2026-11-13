@@ -1,5 +1,30 @@
 # Sand frames
 
+## In the assembled scene
+
+- `approved-standing-toward-sun.webp` — **the reference frame**: the operator
+  said of it «это прямо топчик, можно на доску». Standing 21.5 m south-west of
+  the cube's middle, looking at it:
+  `pnpm outside:cube --at -15.203,2.10,15.203 --yaw -45 --pitch 4`. Shot on the
+  lead's ee1852cb with the sand as of 1a56691b.
+
+- `1113-gold-approved-eye.webp` — the same eye after the gold pass (sand
+  e4ee6c73): lit sand gold, ripples in fields across the sun's bearing.
+- `1113-gold-wake-lying.webp` — lying at the waking spot (head at bed 0.34 m,
+  23.43 m out, eye 0.35 m up), looking at the cube: it sits on the dune.
+- `1113-gold-wake-standing-sun.webp` — standing there, toward the sun.
+- `1113-wake-lying-seaward.webp` — lying there, head turned to the sea (shot
+  before the gold pass; the sun is behind).
+
+- `1113-sky-approved-eye.webp` — the approved eye again under the sky package's
+  light and core's quarter-pixel fringe: the sparks are white.
+- `1113-sky-wake-lying-sun.webp` — lying at the waking spot, toward the sun.
+- `1113-sky-wet-foreshore.webp` — standing on the foreshore toward the sun: the
+  wet band mirrors the sky, more the further it lies, with the sun's glare along
+  it.
+
+## In the first harness
+
 Shot in a throwaway harness (SwiftShader, a stand-in sky, a flat stand-in sea, a
 black box for the cube) with the contract's sun and `SKY_FILL` as they stand.
 

@@ -10,11 +10,7 @@ import {
   LADDER_UP,
   LADDER_WGSL,
 } from './ladder';
-import {
-  OUTDOOR_FRAME,
-  type OutdoorState,
-  type Standing,
-} from './outdoor-frame';
+import { OUTDOOR_FRAME, type Standing } from './outdoor-frame';
 import { SUN, SUN_DIR } from './sun';
 
 /** How sharp a shadow's edge is where it starts, in metres. */
@@ -133,7 +129,8 @@ const acrossSun = (v: Vec3): Vec3 => moved(v, SUN_DIR, -dot3(v, SUN_DIR));
 /**
  * How much of the sun a body standing at `body` leaves `p`: its shadow is a
  * capsule's, feet to head with no limbs, and 1 everywhere for a body of no
- * height.
+ * height. `cubeShadow` leaves it out, so a layer shows it only by multiplying
+ * it in.
  */
 export function bodyShadow(p: Vec3, { foot, headAbove }: Standing): number {
   if (headAbove <= 0) return 1;
@@ -153,15 +150,10 @@ export function bodyShadow(p: Vec3, { foot, headAbove }: Standing): number {
  * shadow of the cube and its ladder, the edge as wide as the sun's disc makes
  * it at the distance the shadow has run. A point on the cube's own sunlit
  * faces is in the sun; one on the ladder is not in the ladder's shadow. With
- * `ladderGone` the cube casts alone, and a `body` casts with them.
+ * `ladderGone` the cube casts alone.
  */
-export const cubeShadow = (
-  p: Vec3,
-  { ladderGone = false, body }: OutdoorState = {},
-): number =>
-  boxLight(p) *
-  (ladderGone ? 1 : ladderLight(p)) *
-  (body ? bodyShadow(p, body) : 1);
+export const cubeShadow = (p: Vec3, { ladderGone = false } = {}): number =>
+  boxLight(p) * (ladderGone ? 1 : ladderLight(p));
 
 const OUTLINE_WGSL = OUTLINE.map(({ facing, reach }) =>
   vecf([...facing, reach]),
@@ -169,8 +161,8 @@ const OUTLINE_WGSL = OUTLINE.map(({ facing, reach }) =>
 
 /**
  * `cubeShadow(p: vec3f) -> f32`, the twin of the function above, the ladder
- * and the body read from the frame; and `bodyShadow(p: vec3f) -> f32`, the
- * body's share of it alone.
+ * read from the frame; and `bodyShadow(p: vec3f) -> f32`, the twin of the
+ * body's, of the frame's body.
  */
 export const CUBE_SHADOW = wgsl(
   'outside/cube-shadow',
@@ -248,7 +240,7 @@ fn bodyShadow(p: vec3f) -> f32 {
 }
 
 fn cubeShadow(p: vec3f) -> f32 {
-  return boxLight(p) * mix(1.0, ladderLight(p), frame.state.x) * bodyShadow(p);
+  return boxLight(p) * mix(1.0, ladderLight(p), frame.state.x);
 }
 `,
   OUTDOOR_FRAME,

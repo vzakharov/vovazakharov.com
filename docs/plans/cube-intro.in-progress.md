@@ -305,42 +305,81 @@ not append.
   the real sea, the waking spot's move, the operator on adaptation ("not a speed
   game", by the gaze) and on the beam (three ways, to be compared —
   `briefs/beam-comparison.md`), the messaging incident and `briefs/notice.md`.
-- **State at 10:50Z — lead 7c831056** has shell 12d16667 (cooled grey bands,
-  wooden ladder with 3 cm round rungs, `bodyShadow` folded into
-  `cubeShadow(p, { ladderGone, body })`, the specks as a night sky with parallax
-  — shell's choice, put to the operator), sand (`WAKE_AT` = [−15.174, 0.5,
-  15.174], 5af0ca79; the lead then asked for the head at bed ≈ 0.33–0.35, ~23.5
-  m out, toes at the swash's reach — sand to answer; `sandWetness` on sea's
-  `shoreWetness`) and sea d92ecc65 (shallows damped by the real water column,
-  finer lace, `skyRadiance` at lod ≥ 1). Gates green. Shooting `wake-cube`,
-  `ladder-foot` into `tmp/eyes-3/` — **two eyes a run; five killed a
-  container**. Walk baa08847 has ladder, grip, adaptation, shadow, the sill;
-  merge when its own type-overlap is clean and its strips are judged. Shell's
-  next: the beam comparison. Not merged: sky (gates not run), pill (shooting),
-  sound ce6078e4 (waits for the final waking spot), walk.
-- **10:40Z**: sound merged whole (lead 8ab425d7; shell-mesh's `Rect.at` renamed
-  `onFace` for type-overlap); sound's session is idle — archive once walk is in.
-  The operator approved a frame in sand's session («это прямо топчик, можно на
-  доску») — sand commits it under `frames/sand/`, board makes it a big card; it
-  is the reference. Beam facts (pill's `reports/pill.md`): the hole is rolled
-  when the world is planted, the shelf derived from it (`shelfOf()`), both in
-  the beam today. The comparison is split: pill shoots the doorway's place along
-  the face (corner / a third / middle — the operator mused on a centred door and
-  a turned cube); shell shoots the sun and the cube turned, and (a). Pill adds a
-  decor clear zone at the doorway (a plant stood on the sill).
-- **10:40Z: the approved frame is pinned** — sand fd0a48e7,
-  `frames/sand/approved-standing-toward-sun.webp`, eye
-  `--at -15.203,2.10,15.203 --yaw -45 --pitch 4` (21.5 m out, not the final
-  waking spot; from 23.43 m the cube is a touch smaller, the character the
-  same). On the board as a big card with the operator's quote (v66).
+- **10:40Z–10:55Z, in `brief.md` § "Progress, 2026-11-13 10:40Z–10:55Z"**:
+  sound, sky, core's lens fringe merged; the approved sand frame pinned; sand's
+  gold pass; the beam comparison's split (since narrowed, below).
+- **10:48Z, the operator chose the beam's way (in pill's session)**: the sun
+  stays, outside nothing changes, the cube's INTERIOR turns a quarter
+  counter-clockwise against the shell — the east doorway opens into the room's
+  south wall; bench and trees ahead, hatch and shelf front-left and out of the
+  beam, the noticeboard to hang by the shelf and hatch, the painted door gone,
+  none of it hardcoded. Routed 10:57Z: **core leads** (one rigid turn of the
+  whole interior at the seam in `shared/outside/frame.ts`, the turn derived: of
+  four quarter-turns, those whose beam footprint misses floor 1's hole quarter
+  and shelf; ties come to the lead; a test holds it; outside eyes
+  pixel-identical); **pill** — clear zone at the opening asked of the seam, the
+  noticeboard by rule on the wall adjoining the shelf's, the opening consumes
+  floor 1's rolled door; **shell** — comparison narrowed (commit what exists),
+  and the oil-film tint comes off the underside and is capped elsewhere (the
+  operator: "why the cube is pink underneath is beyond me"); **walk** — waits
+  for core's seam. Core's lens pass comes after the turn. Board v68 holds the
+  sky's frames 17–18; next free slots [5748, 3250], [6208, 3250].
+- **~10:57Z, the operator put the body's shadow on hold** (to shell): «давай
+  теней "от нас" пока не делать -- ни внутри, ни на песке… интуитивно кажется
+  что это мимо атмосферы». Shell deletes `bodyShadow`, the room's `bodyShade`
+  and `--body`; `frame.body` stays unread until he decides. **Merge shell's next
+  head at once** — the lead's tree has the indoor shade live.
+- **11:05Z: lead ffc34102** — shell 1114f295 merged (no body shadow; gates
+  green; shell still owes the pink underside and deleting `bodyShadow`). **Tone,
+  from the operator via board, nothing to build**: an allusion to Andy Weir's
+  "The Egg"; afterlife metaphors, the endless maze as purgatory. Working titles
+  he is turning over: "cubed away", "cubeaway". The FIRST approved frame is the
+  sea one; the beach frame is another approved one, not the first.
+- **11:12Z: lead 2b1e8f10** — sky 7416a7cd merged (grain gone), but its cumulus
+  lost their relief (smooth marshmallows) and the march costs +50%: sky told to
+  bring the modelling back (reference: its `opposite` at 54b3c2c7 minus the
+  grain) and the cost down.
+- **State at 11:15Z — lead 34484955** holds sand f0ff9882 (gold pass, wet
+  foreshore mirrors the sky, 23.43 m waking spot), core 3a72bbfc
+  (`daylightFilm`: the room's curve up to 1, a slower tail past it; the sun's
+  white area about halved — further means lower exposure or a dimmer 5–20° ring,
+  both the operator's), shell 1114f295, sky 7416a7cd. Typecheck, 73 shaders,
+  type-overlap green; **no frame shot by the lead since 315051b5**. Board v70
+  (sand's frames 19–20; next free [6668, 3250], [7128, 3250]; core sends its
+  film pair itself). Sand is parked until the operator speaks on the tone.
+  **Unmerged**: walk, pill, core's quarter-turn (its main job now). `brief.md`
+  is at 397 lines — the next move out of this file goes to a new `journal.md`
+  beside it.
+- **11:14Z, the frame is approved for its overall feeling**: the operator, on
+  sand's `1113-sky-approved-eye.webp` (gold sand under the real sky, board frame
+  20): «АААА дайте две!», then «по оттенкам песка можешь экспериментировать если
+  хочешь, я говорю про общее ощущение». That frame — sky as of 54b3c2c7 included
+  — is the reference for the outside toward the sun; the sand's tone is NOT
+  locked, it is sand's judgment (no further pass planned). Sky told not to
+  change what that eye shows.
+- **11:15Z, a splash screen** (the operator, on the same frame: «это должно быть
+  splash screen-ом»), then «нене, это я про будущее. просто вынести на доску».
+  **Nothing is built**: the lead's task to walk is withdrawn; board adds a
+  sticky by frame 20. For when it is built: the eye is `-15.203, 2.10, 15.203`,
+  yaw −45, pitch 4, and the first rule points to a live render rather than a
+  shipped picture.
+- **11:17Z: lead 2a21b2d1** — shell 3bc2319c merged ("final", but the oil film
+  is still at `shell-material.ts:155–156` and `bodyShadow` still exported: both
+  re-sent; archive shell only after that merge). **Pill, the operator's
+  corrections**: "the room's door is the doorway" is withdrawn — the reception's
+  list simply has no door (keep it so when main merges in); the clear zone
+  stays, and after the turn only the noticeboard needs it; the doorway stays
+  off-centre ("centre is definitely not pretty"). Pill d1d449af, waiting on
+  core's seam.
 - **The explainer** «Два океана» was amended on the operator's comment (how many
-  waves "good" takes); answered in its thread.
-- **Next, in order**: (1) merge core, shell, sky as they report green and lint;
-  re-shoot the six eyes after each; (2) sea's FFT ocean in the renderer, its
-  frames to the operator and the board; (3) walk and pill in, the intro played
-  end to end; (4) a fix round on what the frames show (the cube's size and gap
-  from the shore first); (5) preview slot 2, checking the deployed commit before
-  saying so; (6) `/polish`, `/pr` (base `claude/cube-review-perf`), then vet.
+  waves "good" takes); answered in its thread. The clouds explainer's session
+  (`session_01DaohkFroEeZ7ybMvAY9JoV`) has not reported yet.
+- **Next, in order**: (1) merge core's turn, walk, pill as they report green;
+  (2) re-shoot the eyes two at a time and look — `wake-cube`, `wake-sea`,
+  `under`, `ladder-foot`, `doorway-out`, `room-doorway`; failures named to the
+  owners and the board; (3) the intro played end to end; (4) a fix round; (5)
+  preview slot 2, checking the deployed commit before saying so; (6) `/polish`,
+  `/pr` (base `claude/cube-review-perf`), then vet.
 - The context notices: at 330k start nothing big; at 350k bring this file
   current. The session compacts on its own near 370k; never `/relay`. This file
   is capped at 400 lines like any other: when "Steering since" grows, move its
