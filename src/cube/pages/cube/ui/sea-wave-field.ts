@@ -1,6 +1,6 @@
 /// <reference types="@webgpu/types" />
 
-import type { CanDispose, Seeded, Timed } from '@/kernel/shared/typings';
+import type { CanDispose, Timed } from '@/kernel/shared/typings';
 
 import {
   amplitudesOf,
@@ -36,7 +36,6 @@ export type WaveField = CanDispose &
 export function createWaveField(
   device: GPUDevice,
   seas: readonly Sea[],
-  seed: Seeded,
 ): WaveField {
   const cascades = CASCADES.length;
   const array = (
@@ -65,7 +64,7 @@ export function createWaveField(
     GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST,
   );
   CASCADES.forEach((_, index) => {
-    const amplitudes = amplitudesOf(seas, index, seed);
+    const amplitudes = amplitudesOf(seas, index);
     const layer = { width: TILE, height: TILE };
     device.queue.writeTexture(
       { texture: waves, origin: [0, 0, index] },
@@ -142,10 +141,7 @@ export function createWaveField(
       mipLevelCount: 1,
     });
   const lay = compute(LAY_SHADER, 'lay');
-  const laying = bound(lay, [
-    whole(ping),
-    ...maps.map((map) => level(map, 0)),
-  ]);
+  const laying = bound(lay, [whole(ping), ...maps.map((map) => level(map, 0))]);
 
   const halve = compute(HALVE_SHADER, 'halve');
   const halving = maps.flatMap((map) =>

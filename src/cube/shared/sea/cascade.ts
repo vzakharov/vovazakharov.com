@@ -1,4 +1,4 @@
-import type { Seeded } from '@/kernel/shared/typings';
+import { pathHash, roll, rollWith } from '@/dice/shared/roll';
 
 import { K_CEILING, type Sea, spectrumOf, turnsPerHour } from './spectrum';
 
@@ -14,6 +14,9 @@ export type Cascade = {
   from: number;
   to: number;
 };
+
+/** The world the island's sea is rolled in. */
+const SEA_WORLD = '0';
 
 /** Texels along a tile's side; a power of two, for the transform. */
 export const TILE = 256;
@@ -39,52 +42,38 @@ export type Amplitudes = {
    * the texel's wavevector, then the conjugate of the one travelling the
    * opposite way — the pair a real surface needs at every moment.
    */
-  waves: Float32Array;
+  waves: Float32Array<ArrayBuffer>;
   /** Whole turns per hour of the texel's wave. */
-  turns: Uint32Array;
+  turns: Uint32Array<ArrayBuffer>;
 };
 
-const mix32 = (x: number): number => {
-  let h = x >>> 0;
-  h ^= h >>> 16;
-  h = Math.imul(h, 0x7f_eb_35_2d);
-  h ^= h >>> 15;
-  h = Math.imul(h, 0x84_6c_a6_8b);
-  h ^= h >>> 16;
-  return h >>> 0;
-};
+const hash = pathHash(SEA_WORLD);
 
-const hashOf = (a: number, b: number): number =>
-  mix32(a ^ mix32((b + 0x9e_37_79_b9) >>> 0));
-
-/** A word as a number in (0, 1]. */
-const unitOf = (word: number): number => ((word >>> 8) + 1) / 16_777_216;
-
-/** Two independent unit normals from one word (Box–Muller). */
-function normals(word: number): [number, number] {
-  const radius = Math.sqrt(-2 * Math.log(unitOf(word)));
-  const angle = 2 * Math.PI * unitOf(mix32(word ^ 0xa5_a5_a5_a5));
-  return [radius * Math.cos(angle), radius * Math.sin(angle)];
-}
+/**
+ * Every wave's draw: the two parts of its complex height, each a unit normal,
+ * under `island/sea/waves/<cascade>/<p>/<q>` — a path of the wave's own
+ * indices, so every viewer draws the same sea.
+ */
+const draws = rollWith(
+  roll.over(
+    roll.key({ cascade: roll.int, p: roll.int, q: roll.int }),
+    roll.struct({ re: roll.normal(), im: roll.normal() }),
+  ),
+  (path) => hash(`island/sea/waves/${path}`),
+);
 
 /** The signed frequency index of texel `i` along a side, FFT order. */
 export const bin = (i: number): number => (i < TILE / 2 ? i : i - TILE);
 
 /**
- * The seeded amplitudes of cascade `index` of `seas`: every wave of the band
- * with a random phase and a height drawn about what the spectrum says, the
- * same for every viewer because the draw is a hash of the wave's own indices.
+ * The amplitudes of cascade `index` of `seas`: every wave of the band with a
+ * rolled phase and a height rolled about what the spectrum says.
  */
-export function amplitudesOf(
-  seas: readonly Sea[],
-  index: number,
-  { seed }: Seeded,
-): Amplitudes {
+export function amplitudesOf(seas: readonly Sea[], index: number): Amplitudes {
   const cascade = CASCADES[index];
   if (cascade === undefined) throw new Error(`No cascade ${String(index)}`);
   const spectrum = spectrumOf(seas);
   const step = (2 * Math.PI) / cascade.side;
-  const salt = hashOf(seed, index);
   /** The complex amplitude of the wave at bins (`p`, `q`), or zero outside the band. */
   const wave = (p: number, q: number): [number, number] => {
     const kx = p * step;
@@ -92,7 +81,7 @@ export function amplitudesOf(
     const k = Math.hypot(kx, kz);
     if (k < cascade.from || k >= cascade.to || k === 0) return [0, 0];
     const height = Math.sqrt((spectrum.at(kx, kz) * step * step) / 2);
-    const [re, im] = normals(hashOf(hashOf(p >>> 0, q >>> 0), salt));
+    const { re, im } = draws.at({ cascade: index, p, q });
     return [(height * re) / Math.SQRT2, (height * im) / Math.SQRT2];
   };
   const waves = new Float32Array(TILE * TILE * 4);

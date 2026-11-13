@@ -26,7 +26,7 @@ const HEAD_ON = 0.0204;
 /// The least cosine between a facet's normal and the eye's line it is lit at.
 const TURNED = 0.02;
 /// The sun's disc, as the spread of slopes that mirror some part of it.
-const SUN_SPREAD = 6e-6;
+const DISC_SPREAD = 6e-6;
 
 fn fresnel(cosine: f32) -> f32 {
   let away = 1.0 - clamp(cosine, 0.0, 1.0);
@@ -94,8 +94,8 @@ fn glitter(waves: Waves, toEye: vec3f, shown: f32) -> vec3f {
   let half = normalize(toEye + frame.sun.xyz);
   if (half.y <= 0.0) { return vec3f(0.0); }
   let off = -half.xz / half.y - waves.slope;
-  let sx = waves.spread.x + SUN_SPREAD;
-  let sz = waves.spread.y + SUN_SPREAD;
+  let sx = waves.spread.x + DISC_SPREAD;
+  let sz = waves.spread.y + DISC_SPREAD;
   let cross = waves.spread.z;
   let det = max(sx * sz - cross * cross, 1e-12);
   let fit = (sz * off.x * off.x - 2.0 * cross * off.x * off.y + sx * off.y * off.y) / det;

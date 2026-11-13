@@ -74,19 +74,16 @@ describe('the sea spectrum', () => {
   });
 });
 
-describe('a cascade of seeded amplitudes', () => {
+describe('a cascade of rolled amplitudes', () => {
   const seas = [SWELL, windSea(3.5, 15_000, -0.35)];
-  const seed = { seed: 7 };
 
-  it('is the same draw for the same seed and another for another', () => {
-    const one = amplitudesOf(seas, 1, seed);
-    assert.deepEqual(amplitudesOf(seas, 1, seed).waves, one.waves);
-    assert.notDeepEqual(amplitudesOf(seas, 1, { seed: 8 }).waves, one.waves);
+  it('is the same draw every time', () => {
+    assert.deepEqual(amplitudesOf(seas, 2).waves, amplitudesOf(seas, 2).waves);
   });
 
   it('keeps to its own band and pairs each wave with its opposite', () => {
     CASCADES.forEach((cascade, index) => {
-      const { waves } = amplitudesOf(seas, index, seed);
+      const { waves } = amplitudesOf(seas, index);
       const step = (2 * Math.PI) / cascade.side;
       for (let j = 0; j < TILE; j += 7) {
         for (let i = 0; i < TILE; i += 5) {
@@ -94,8 +91,7 @@ describe('a cascade of seeded amplitudes', () => {
           const k = Math.hypot(bin(i), bin(j)) * step;
           const inside = k >= cascade.from && k < cascade.to;
           if (!inside) assert.equal(waves[at], 0);
-          const mirror =
-            (((TILE - j) % TILE) * TILE + ((TILE - i) % TILE)) * 4;
+          const mirror = (((TILE - j) % TILE) * TILE + ((TILE - i) % TILE)) * 4;
           assert.equal(waves[at + 2], waves[mirror]);
           assert.equal(waves[at + 3], -(waves[mirror + 1] ?? 0));
         }
@@ -105,7 +101,7 @@ describe('a cascade of seeded amplitudes', () => {
 
   it('carries the variance the spectrum gives its band', () => {
     // The swell lives in the first cascade alone.
-    const { waves } = amplitudesOf([SWELL], 0, seed);
+    const { waves } = amplitudesOf([SWELL], 0);
     let variance = 0;
     for (let at = 0; at < waves.length; at += 4) {
       variance += 2 * ((waves[at] ?? 0) ** 2 + (waves[at + 1] ?? 0) ** 2);

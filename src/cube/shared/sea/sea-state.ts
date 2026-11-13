@@ -26,9 +26,6 @@ const BREEZE = windSea(3.5, 15_000, -0.35);
 /** Every sea the wave field is the sum of. */
 export const SEAS: readonly Sea[] = [SWELL, BREEZE];
 
-/** The seed every viewer's sea is drawn from. */
-export const SEA_SEED = { seed: 0x5e_a5_1d_e5 };
-
 /**
  * The variance, along one axis, of the slopes of ripples finer than any
  * cascade carries: roughness the surface has at every pixel.
