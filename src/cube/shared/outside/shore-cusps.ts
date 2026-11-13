@@ -13,9 +13,9 @@ import { RADIANS_A_TURN, SEA_WORLD } from './swell';
 
 /** Each sine's [shortest length, metres; how much longer it may be; size]. */
 const CUSPS_IN = [
-  [4.5, 3, 0.07],
-  [10, 6, 0.09],
-  [21, 12, 0.1],
+  [4.5, 3, 0.03],
+  [10, 6, 0.045],
+  [21, 12, 0.07],
 ] as const;
 
 const cuspRoll = roll.struct({
