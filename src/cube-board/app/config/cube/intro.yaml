@@ -110,7 +110,7 @@ items:
     updated: [2026-11-12T23:25:00.000Z, agent:cube-intro]
     box: [6826, 40, 280, blue]
     icon: 🧮
-    text: 'The first design had an FFT ocean and a sky map. After “no textures” the sea is a rolled spectrum summed in the shader, and the sky one function of direction and clock'
+    text: 'For about an hour on 13 Nov the lead read “no textures” as banning every map, computed ones included, and briefed the sea to be rebuilt as a sum of analytic waves. The operator: “I did not mean against maps; I meant the maps themselves must be computed on the fly.” Nothing had been deleted. The rule is the “Nothing authored” card'
   - id: intro-h-frames
     type: text
     updated: [2026-11-12T22:35:00.000Z, agent:cube-intro]
@@ -186,8 +186,8 @@ items:
     type: sticky
     updated: [2026-11-13T00:20:00.000Z, agent:cube-intro]
     box: [5748, -1240, 600, gray]
-    icon: ⚠️
-    text: 'The lead: this frame’s waves are an FFT spectrum computed into maps each frame, which the “no textures” rule, written the same hour, forbids. The sea is being rebuilt as a sum computed in the shader, with this frame as the look to match; if the sum cannot match it, the choice goes to Vova'
+    icon: 🌊
+    text: 'The sea is an FFT ocean: 4 cascades of 256², tiles of 3200 / 200 / 25 / 3.2 m, the spectrum rolled once from the dice, the wave fields computed by the GPU every frame from the shared clock. It stays. (An analytic rebuild was briefed and withdrawn the same hour — see the card beside.)'
   - id: intro-img-06-sea-swimming
     type: image
     updated: [2026-11-13T00:20:00.000Z, agent:cube-intro]
@@ -236,3 +236,15 @@ items:
     box: [6208, 1900, 430]
     src: images/intro-12-wake-sea.webp
     text: '12. The same fault looking out to sea from the waking spot: the horizon is a black band. The sea below it is a stand-in plane; the real ocean is being wired in'
+  - id: intro-bug-horizon
+    type: sticky
+    updated: [2026-11-13T09:50:00.000Z, agent:cube-intro]
+    box: [6668, 1900, 560, orange]
+    icon: 🐛
+    text: 'The black block across the horizon (frames 9, 12). Cause, found by core: the island’s height used tanh of the distance from the island; on a GPU tanh of a large number is inf/inf = NaN, so kilometres out the seabed was “not a number”, the horizon became a line of NaN pixels and the bloom smeared it into a block. Fix: clamp the argument; a test holds the height finite out to 100 km. A second of the same family, found by shell: the distance written for the horizon overflowed a half float into inf and blacked out the room’s mirrors whenever the doorway was in view'
+  - id: intro-d-shadow
+    type: sticky
+    updated: [2026-11-13T09:50:00.000Z, agent:cube-intro]
+    box: [6730, -1240, 280, blue]
+    icon: 🧍
+    text: 'The player casts a shadow. Asked by the operator: “will there be a shadow from us? or is that part of no interaction with the environment?” Decided yes: a shadow marks nothing and remembers nothing — it is a function of where the body stands, like the hands. At a 9° sun it is about 11 m long'
