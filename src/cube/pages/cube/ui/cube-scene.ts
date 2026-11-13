@@ -22,6 +22,7 @@ import {
   gazeInCube,
   OUTSIDE_FAR,
   seenInWorld,
+  seenOutside,
   viewProjection,
 } from '../lib/camera';
 import type { Scenery } from '../lib/mesh';
@@ -280,7 +281,9 @@ export function mountCube(
         (lenses.has(at.n) ? at.n : built.pose.n),
       outdoors: showsOutside
         ? {
-            ...seenInWorld(seen),
+            ...(outdoor === null
+              ? seenInWorld(seen)
+              : seenOutside(outdoor.outside, width / height)),
             ...(stagedEye === null ? hookedState : stagedState),
           }
         : null,
