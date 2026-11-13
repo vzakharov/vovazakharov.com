@@ -1,6 +1,6 @@
 import type { WithId } from '@/kernel/shared/typings';
 
-import type { Rgb } from '@/cube/shared/lib/colour';
+import type { Rgb } from '../lib/colour';
 
 /**
  * A piece of WGSL and the pieces it calls into. A floor's shader is assembled
@@ -18,6 +18,14 @@ export const wgsl = (id: string, listing: string, ...needs: Wgsl[]): Wgsl => ({
 /** `rgb` as a WGSL `vec3f`, for a colour a piece holds as a constant. */
 export const vec3f = (rgb: Rgb): string =>
   `vec3f(${rgb.map((channel) => channel.toFixed(4)).join(', ')})`;
+
+/** `n` as a WGSL float literal. */
+export const f32 = (n: number): string =>
+  Number.isInteger(n) ? n.toFixed(1) : String(n);
+
+/** `v` as a WGSL float vector of its own length, at full precision. */
+export const vecf = (v: readonly number[]): string =>
+  `vec${String(v.length)}f(${v.map((n) => f32(n)).join(', ')})`;
 
 /**
  * The source of `roots` and everything they need, each piece once and after

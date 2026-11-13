@@ -82,3 +82,28 @@ accepted for after item 1: `roomLight` mirrors only under `s.normal.y > 0.9`
 reflection pass can mirror any plane. Let any polished face mirror, lamp
 fallback for floors only. Cost: wall reflections fade at the screen edge, and
 frames get slower — hence after item 1.
+
+## 5. Next up after this review: price a room by travel time
+
+Operator, 2026-11-12: «фиксируем идею поменять цену, мне кажется стОит
+(разумеется она должна остаться "психологической")». Replaces `priceOf(n)`
+(`max(1e7/8^(n-2), 4.99)`, `sale.ts`) with `$1M / (t − t0 + 1)^q + $5`, then
+the shop's nines as `one-5` on the cube board states them. `t` is the time
+for a player who knows the way: the mean arrival at the floor plus the room's
+shortest-path steps from its landing at `RUN_SPEED`. `t0` is floor 2's landing.
+q = 1.40 makes floors 2…9 total $10M. The board's `graf-price-time` sticky
+holds the reasoning, and the calculator is at
+https://claude.ai/artifact/LXqmTnBBegpvnTQmM4sGGm. Its sources are
+`tmp/room-prices/` on the session's container and are not kept.
+
+- No room costs over $1M (the landing of floor 2 is $1,000,005, which the shop
+  rounding turns into $999,999). Every room fits Stripe's $999,999.99 cap, so
+  the bitcoin route in `one-6` falls away.
+- The arrival time is the per-floor mean from the fit, a constant. Exact arrival
+  would need the holes above, which nothing holds.
+- A room's price gives away its distance from the landing, and so where the
+  landing is. That landing sits under the hole of the floor above. The page may
+  show the price to someone standing on the floor, but no public price list by
+  coordinates may exist, and one payment link per floor no longer fits.
+  Checkout has to take the walked path (`space-url`) as proof and price the room
+  from it.

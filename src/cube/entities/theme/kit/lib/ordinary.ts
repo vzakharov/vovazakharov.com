@@ -1,5 +1,7 @@
 import type { Rgb } from '@/cube/shared/lib/colour';
+import { vec3f, type Wgsl, wgsl } from '@/cube/shared/shader';
 
+<<<<<<< HEAD
 import { GRADE } from './grade.shader';
 import { LIGHT } from './light.shader';
 import { vec3f, type Wgsl, wgsl } from './wgsl';
@@ -7,23 +9,21 @@ import { vec3f, type Wgsl, wgsl } from './wgsl';
 /** An ordinary floor's light and lens, as numbers. */
 type Ordinary = {
   /** The lamps' colour times their strength, and the light left without them. */
+=======
+import { GRADE } from './grade';
+import { type Graded, hazed, lensListing } from './lens';
+import { LIGHT } from './light';
+
+/** An ordinary floor's light, air and lens, as numbers. */
+type Ordinary = Graded & {
+  /** The lamps' colour times their strength. */
+>>>>>>> origin/claude/cube-review-perf
   lamp: Rgb;
-  ambient: Rgb;
   /** Panels along each side of a room's ceiling, and one's size in metres. */
   grid: number;
   panel: readonly [east: number, south: number];
   /** The share of rooms whose lamps stutter. */
   stutter: number;
-  /** Metres at which the air has swallowed about two thirds of a thing. */
-  visibility: number;
-  /** How much light the lens lets in: 1 as lit, 2 a stop brighter. */
-  exposure: number;
-  /** How far bright things bleed, and how far colours part in the corners. */
-  glow: number;
-  fringe: number;
-  /** How far the screen's corners darken, and how strong the grain is. */
-  vignette: number;
-  noise: number;
 };
 
 /**
@@ -46,13 +46,18 @@ fn lamps() -> Lamps {
 }
 
 fn themeLight(s: Surf, m: Material) -> vec3f {
+<<<<<<< HEAD
   return haze(roomLight(s, m, lamps()), s, AIR, ${look.visibility.toFixed(1)});
 }
 
 fn themeLens(l: Lens) -> vec3f {
   let seen = through(l, ${look.glow.toFixed(3)}, ${look.fringe.toFixed(4)}) * ${look.exposure.toFixed(3)};
   return tonemap(seen) * vignette(l, ${look.vignette.toFixed(3)}) + grain(l) * ${look.noise.toFixed(4)};
+=======
+  return ${hazed('roomLight(s, m, lamps())', look)};
+>>>>>>> origin/claude/cube-review-perf
 }
+${lensListing(look)}
 `,
     LIGHT,
     GRADE,

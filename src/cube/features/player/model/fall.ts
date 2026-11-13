@@ -14,20 +14,23 @@ import { SMALL } from './shrink';
 const HOP_UP = 0.16;
 
 /** Gravity on a shrunk body, in its floor's room sides per s²: 8 m/s² to it. */
-const GRAVITY = 0.8;
+const GRAVITY_SIDES = 0.8;
 
 /** Seconds a hop spends over the slab, in which the body gets over the hole. */
-export const HOP_TIME = (2 * HOP_UP) / GRAVITY;
+export const HOP_TIME = (2 * HOP_UP) / GRAVITY_SIDES;
 
 /** The speed the feet reach the slab below at, in room sides a second. */
-export const LAND_SPEED = Math.hypot(HOP_UP, Math.sqrt(2 * GRAVITY * DROP));
+export const LAND_SPEED = Math.hypot(
+  HOP_UP,
+  Math.sqrt(2 * GRAVITY_SIDES * DROP),
+);
 
 /** Seconds from the hop to the slab below. */
-export const LAND_AT = (HOP_UP + LAND_SPEED) / GRAVITY;
+export const LAND_AT = (HOP_UP + LAND_SPEED) / GRAVITY_SIDES;
 
 /** The feet's height over the slab `t` seconds into a hop: up, then down the shaft. */
 export const feetAt = (t: number): number =>
-  Math.max(-DROP, HOP_UP * t - (GRAVITY / 2) * t * t);
+  Math.max(-DROP, HOP_UP * t - (GRAVITY_SIDES / 2) * t * t);
 
 const HALF_HOLE = HOLE_SIDE / 2;
 const SMALL_RADIUS = BODY_RADIUS * SMALL;

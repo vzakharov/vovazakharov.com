@@ -1,12 +1,14 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { WALL_HALF } from '@/cube/shared/lib/room-shape';
+
 import { placed } from './frame';
 import { holesOf } from './hole';
 import { maze } from './maze';
 import type { SignMount } from './mount';
 import { planted } from './planted';
-import { type Room, roomKey, WALL_HALF } from './room';
+import { type Room, roomKey } from './room';
 import {
   endsOf,
   type Holdings,

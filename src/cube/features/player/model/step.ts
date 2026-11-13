@@ -1,12 +1,23 @@
-import type { Pose, Walls } from '@/cube/entities/world';
+import { positiveTurn } from '@/cube/shared/lib/turn';
+import type { Gazing, Pose, Walls } from '@/cube/entities/world';
 
 import { walk } from './body';
 
 /** Walking speed in room sides a second: 1.4 m/s on floor 1. */
 export const WALK_SPEED = 0.28;
 
-/** Running speed, the body's pace unless it walks: 3.5 m/s on floor 1. */
+/** Running speed, the body's pace while it runs: 3.5 m/s on floor 1. */
 export const RUN_SPEED = 0.7;
+
+/** Room sides between a walk's footfalls: 75 cm on floor 1. */
+export const WALK_STRIDE = 0.15;
+
+/**
+ * How many walking strides long the stride of `input`'s pace is: a run's is
+ * longer by the two paces' ratio, so its footfalls come as often as a walk's.
+ */
+export const stridesIn = ({ running }: Input): number =>
+  running ? RUN_SPEED / WALK_SPEED : 1;
 
 /** Eye height over the slab, in room sides: 1.6 m on floor 1. */
 export const EYE_HEIGHT = 0.32;
@@ -24,8 +35,10 @@ export const TILT_RATE = Math.PI / 3;
  * (rightward) and `tiltKeys` (upward) are in `[-1, 1]` — keys give -1, 0 or
  * 1, a diagonal is normalized to the body's pace, and the turn and tilt go at
  * their rates over the frame; `yawBy` and `elevationBy` are radians to add to
- * the pose's this frame, whatever its length; `walking` slows the run to a
- * walk; `pull` is whether the lever was asked for since the last frame, and
+ * the pose's this frame, whatever its length; `running` quickens the body's
+ * walk to a run, indoors and out; `use` is whether what is in reach — a pill,
+ * a sign — was asked for
+ * since the last frame, `answer` what was said to a question since then, and
  * `goTo` the floor asked for by its number, null when none was.
  */
 export type Input = {
@@ -35,8 +48,9 @@ export type Input = {
   tiltKeys: number;
   yawBy: number;
   elevationBy: number;
-  walking: boolean;
-  pull: boolean;
+  running: boolean;
+  use: boolean;
+  answer: 'yes' | 'no' | null;
   goTo: number | null;
 };
 
@@ -48,42 +62,58 @@ export const STILL: Input = {
   tiltKeys: 0,
   yawBy: 0,
   elevationBy: 0,
-  walking: false,
-  pull: false,
+  running: false,
+  use: false,
+  answer: null,
   goTo: null,
 };
 
-const TAU = 2 * Math.PI;
-
-const wrap = (angle: number): number => ((angle % TAU) + TAU) % TAU;
-
 const clamp = (value: number, bound: number): number =>
   Math.min(bound, Math.max(-bound, value));
+
+/** `gaze` after `dt` seconds of `input`'s turning and tilting. */
+export function turned(gaze: Gazing, input: Input, dt: number): Gazing {
+  if (!(dt >= 0) || !Number.isFinite(dt)) {
+    throw new RangeError(`Not a frame time: ${dt}`);
+  }
+  return {
+    yaw: positiveTurn(gaze.yaw + input.yawBy + input.turnKeys * TURN_RATE * dt),
+    elevation: clamp(
+      gaze.elevation + input.elevationBy + input.tiltKeys * TILT_RATE * dt,
+      MAX_PITCH,
+    ),
+  };
+}
+
+/**
+ * How far `input` carries a body looking along `yaw` in a frame it covers
+ * `reach` in at its pace: east and south, a diagonal held to that pace.
+ */
+export function strideOf(
+  input: Input,
+  yaw: number,
+  reach: number,
+): readonly [east: number, south: number] {
+  const stride = reach / Math.max(1, Math.hypot(input.walk, input.strafe));
+  const forward = input.walk * stride;
+  const right = input.strafe * stride;
+  const cos = Math.cos(yaw);
+  const sin = Math.sin(yaw);
+  return [forward * cos - right * sin, forward * sin + right * cos];
+}
 
 /**
  * `pose` after `dt` seconds of `input` among `walls`, standing on its slab:
  * walking, colliding and eye height go by its scale, turning does not.
  */
 export function step(pose: Pose, input: Input, dt: number, walls: Walls): Pose {
-  if (!(dt >= 0) || !Number.isFinite(dt)) {
-    throw new RangeError(`Not a frame time: ${dt}`);
-  }
-  const yaw = wrap(pose.yaw + input.yawBy + input.turnKeys * TURN_RATE * dt);
-  const elevation = clamp(
-    pose.elevation + input.elevationBy + input.tiltKeys * TILT_RATE * dt,
-    MAX_PITCH,
-  );
-  const length = Math.hypot(input.walk, input.strafe);
-  const speed = input.walking ? WALK_SPEED : RUN_SPEED;
-  const stride = (speed * pose.scale * dt) / Math.max(1, length);
-  const forward = input.walk * stride;
-  const right = input.strafe * stride;
-  const cos = Math.cos(yaw);
-  const sin = Math.sin(yaw);
+  const gaze = turned(pose, input, dt);
+  const speed = input.running ? RUN_SPEED : WALK_SPEED;
+  const [east, south] = strideOf(input, gaze.yaw, speed * pose.scale * dt);
   return walk(
-    { ...pose, yaw, elevation, eyeAbove: EYE_HEIGHT * pose.scale },
-    forward * cos - right * sin,
-    forward * sin + right * cos,
+    { ...pose, ...gaze, eyeAbove: EYE_HEIGHT * pose.scale },
+    east,
+    south,
     walls,
   );
 }

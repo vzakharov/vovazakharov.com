@@ -1,6 +1,4 @@
-import type { Timed } from '@/kernel/shared/typings';
-
-import type { Footing } from '@/cube/shared/lib/acoustics';
+import type { Underfoot } from '@/cube/shared/lib/acoustics';
 import { clamp01 } from '@/cube/shared/lib/ease';
 
 import {
@@ -9,6 +7,7 @@ import {
   noiseOf,
   ringing,
   sampled,
+  type Sounding,
   type Struck,
 } from '../../dsp';
 
@@ -20,17 +19,15 @@ type Scuff = Struck & {
 };
 
 /** How one footing answers a foot, and for how long. */
-type Tread = Timed & {
+type Tread = Sounding & {
   /** The heel's weight. */
   thump: Struck;
   scuff: Scuff;
   /** The hard edge of the first contact, 0 for none. */
   click: number;
-  /** What the floor itself rings with. */
-  modes: readonly Struck[];
 };
 
-const TREADS: Record<Footing, Tread> = {
+const TREADS: Record<Underfoot, Tread> = {
   carpet: {
     seconds: 0.16,
     thump: { hz: 70, dies: 0.05, force: 0.5 },
@@ -98,16 +95,40 @@ const TREADS: Record<Footing, Tread> = {
       { hz: 226, dies: 0.16, force: 0.2 },
     ],
   },
+  sand: {
+    seconds: 0.3,
+    thump: { hz: 46, dies: 0.07, force: 0.4 },
+    scuff: { hz: 2600, dies: 0.16, force: 0.55, resonance: 0.5, sweep: -0.9 },
+    click: 0,
+    modes: [],
+  },
+  'wet-sand': {
+    seconds: 0.28,
+    thump: { hz: 62, dies: 0.06, force: 0.55 },
+    scuff: { hz: 1500, dies: 0.12, force: 0.5, resonance: 1.4, sweep: 0.8 },
+    click: 0,
+    modes: [],
+  },
+  shallows: {
+    seconds: 0.45,
+    thump: { hz: 70, dies: 0.05, force: 0.3 },
+    scuff: { hz: 1900, dies: 0.3, force: 0.8, resonance: 0.6, sweep: -0.7 },
+    click: 0,
+    modes: [],
+  },
 };
 
 /** Seconds a step on `footing` lasts. */
-export const stepSeconds = (footing: Footing): number =>
+export const stepSeconds = (footing: Underfoot): number =>
   TREADS[footing].seconds;
 
 /** Seconds the first contact's click lasts. */
 const CLICK_DIES = 0.004;
 
-/** Seconds the click takes to arrive: the step's first sample is silence. */
+/**
+ * Seconds the click and the scuff take to arrive: the step's first sample is
+ * silence.
+ */
 const CLICK_RISES = 0.0005;
 
 /**
@@ -116,7 +137,7 @@ const CLICK_RISES = 0.0005;
  * no two steps are one sound.
  */
 export function footstep(
-  footing: Footing,
+  footing: Underfoot,
   strength: number,
   seed: number,
   rate: number,
@@ -134,6 +155,7 @@ export function footstep(
         scuff.hz * tune * 2 ** ((scuff.sweep * t) / scuff.dies),
         scuff.resonance,
       ) *
+      Math.min(1, t / CLICK_RISES) *
       dying(t, scuff.dies) *
       scuff.force;
     const rung = modes.reduce(

@@ -1,0 +1,25 @@
+items:
+  - id: z-best-of
+    type: zone
+    updated: [2026-11-12T21:20:00.000Z, agent:cube]
+    box: [3640, 3060, 1880, 640, purple]
+    icon: ⭐
+    text: Best of
+  - id: img-best-60
+    type: image
+    updated: [2026-11-12T21:20:00.000Z, agent:cube]
+    box: [3668, 3170, 580]
+    src: images/best-60-depth-buffer.webp
+    text: 'Floor 60, Depth buffer: only distance is left, a contour every metre, and the corridors bend like a fever dream'
+  - id: img-best-19
+    type: image
+    updated: [2026-11-12T21:20:00.000Z, agent:cube]
+    box: [4278, 3170, 580]
+    src: images/best-19-my-house.webp
+    text: 'Floor 19, My house: home as a six-year-old drew it, wax crayon and a sun for every lamp; the outlines are redrawn six times a second and never keep still'
+  - id: img-best-09
+    type: image
+    updated: [2026-11-12T21:20:00.000Z, agent:cube]
+    box: [4888, 3170, 580]
+    src: images/best-09-carpets.webp
+    text: 'Floor 9: herringbone parquet, sofas, and a carpet on every wall'

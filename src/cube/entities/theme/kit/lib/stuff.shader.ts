@@ -1,9 +1,15 @@
+<<<<<<< HEAD:src/cube/entities/theme/kit/lib/stuff.shader.ts
 // Generated from stuff.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
 import { CORE } from './core';
 import { HASH } from './hash.shader';
 import { wgsl } from './wgsl';
+=======
+import { HASH, wgsl } from '@/cube/shared/shader';
+
+import { CORE } from './core';
+>>>>>>> origin/claude/cube-review-perf:src/cube/entities/theme/kit/lib/stuff.ts
 
 export const STUFF = wgsl(
   'cube/entities/theme/kit/lib/stuff',
@@ -51,6 +57,10 @@ fn stuff(s: Surf) -> Material {
       let grain = fbm(vec2f(s.uv.x * 40.0, s.uv.y * 1.5), 33u, 3);
       let wood = painted(s, vec3f(0.3, 0.17, 0.08)) * (0.65 + 0.55 * grain);
       return embossed(s, polished(wood, 0.25), grain, 0.0008);
+    }
+    case PLASTIC: {
+      // Moulded smooth: without a highlight a black one is a hole in the room.
+      return polished(painted(s, vec3f(0.5, 0.5, 0.48)) * (0.92 + 0.1 * fine), 0.6);
     }
     case FABRIC: {
       let weave = valueNoise(s.uv * 400.0, 34u);

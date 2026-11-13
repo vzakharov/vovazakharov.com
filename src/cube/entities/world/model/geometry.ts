@@ -1,13 +1,20 @@
-import { CEILING_HEIGHT, SLAB_THICK } from '@/cube/shared/lib/room-shape';
+import {
+  CEILING_HEIGHT,
+  ROOM_METRES,
+  SLAB_THICK,
+  WALL_HALF,
+} from '@/cube/shared/lib/room-shape';
+import type { Vec3 } from '@/cube/shared/lib/vec';
+import { ROOM_DOORWAY, type WallSide } from '@/cube/shared/outside';
 
-import { type Footprint, footprint, placed, slabHeight } from './frame';
+import { type Footprint, footprint, slabHeight } from './frame';
 import { holeMiddle, type HoleOf, type Quarter, QUARTERS, under } from './hole';
-import { leverFaces, leverOf, type Pulled, swungIn } from './lever';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
 import type { InRoom, Pose } from './pose';
-import { face, type Quad, type Vec3 } from './quad';
-import { isRoom, type Room, roomKey, roomsAcross, WALL_HALF } from './room';
+import { face, type Quad } from './quad';
+import { type InRoomOf, isRoom, type Room, roomKey, roomsAcross } from './room';
 import type { View } from './rooms';
+import { shelfSeen } from './shelf';
 
 /** A hole's side, in its room's side; it sits in the middle of its quarter. */
 export const HOLE_SIDE = 0.08;
@@ -190,28 +197,30 @@ function roomWalls(
   const northClosed =
     y === 0n ||
     (absent({ n, x, y: y - 1n }) && !isOpenSouth(rolled, n, x, y - 1n));
-  return [
-    x === last || !isOpenEast(rolled, n, x, y)
-      ? wall(
-          [east + side, floorY, south],
-          runSouth,
-          height,
-          half,
-          room,
-          beside(1n, 0n),
-        )
-      : [],
-    y === last || !isOpenSouth(rolled, n, x, y)
-      ? wall(
-          [east, floorY, south + side],
-          runEast,
-          height,
-          half,
-          beside(0n, 1n),
-          room,
-        )
-      : [],
-    westClosed
+  const sides: Record<WallSide, Quad[]> = {
+    east:
+      x === last || !isOpenEast(rolled, n, x, y)
+        ? wall(
+            [east + side, floorY, south],
+            runSouth,
+            height,
+            half,
+            room,
+            beside(1n, 0n),
+          )
+        : [],
+    south:
+      y === last || !isOpenSouth(rolled, n, x, y)
+        ? wall(
+            [east, floorY, south + side],
+            runEast,
+            height,
+            half,
+            beside(0n, 1n),
+            room,
+          )
+        : [],
+    west: westClosed
       ? wall(
           [east, floorY, south],
           runSouth,
@@ -221,7 +230,7 @@ function roomWalls(
           room,
         )
       : [],
-    northClosed
+    north: northClosed
       ? wall(
           [east, floorY, south],
           runEast,
@@ -231,7 +240,11 @@ function roomWalls(
           beside(0n, -1n),
         )
       : [],
-  ].flat();
+  };
+  if (n === 1) {
+    sides[ROOM_DOORWAY.wall] = doorwayWall([east, floorY, south], side, room);
+  }
+  return Object.values(sides).flat();
 }
 
 /**
@@ -278,32 +291,13 @@ export const walledRooms = (view: View): Room[] => [
   ...(view.overhead === null ? [] : [view.overhead]),
 ];
 
-/** The lever of `room` in the eye's frame, if `room` has a hole. */
-function lever(
-  rolled: RolledMaze,
-  eye: Room,
-  room: Room,
-  quarter: Quarter | null,
-  pulled: Pulled | null,
-): Quad[] {
-  if (quarter === null) return [];
-  const { origin, roomSide: side } = placed(eye, room);
-  return leverFaces(
-    leverOf(rolled, room, quarter),
-    room,
-    origin,
-    side,
-    swungIn(pulled, room),
-  );
-}
-
 /**
  * Every face the eye at `pose` sees of `view`: the walls of its floor's rooms,
  * of the rooms below them and of the room overhead, and those rooms' pillars,
  * `pillarOf` their floor's half-thickness in room sides; the slabs of all of
- * them, holes cut; the levers of the holed rooms among those; and the ceiling
+ * them, holes cut; the shelves of the holed rooms among those; and the ceiling
  * over the topmost room it sees, which on floors 1 and 2 is the lid. Every
- * lever is drawn at rest but the one `pulled`. Slabs come first, so a depth
+ * shelf holds its pill but the one `taken`. Slabs come first, so a depth
  * test that keeps the first of two equal depths draws a slab, not the wall
  * tops meeting it from below. A room `owns` names has its floor drawn `owned`.
  */
@@ -312,7 +306,7 @@ export function faces(
   pose: Pose,
   view: View,
   holeOf: HoleOf,
-  pulled: Pulled | null,
+  taken: InRoomOf | null,
   owns: (room: Room) => boolean,
   pillarOf: (n: number) => number,
 ): Quad[] {
@@ -340,7 +334,48 @@ export function faces(
     ...(view.overhead === null ? [] : walls(rolled, pose, [view.overhead])),
     ...walled.flatMap((room) => pillars(pose, room, pillarOf(room.n))),
     ...walled.flatMap((room) =>
-      lever(rolled, pose, room, holeOf(room), pulled),
+      shelfSeen(rolled, pose, room, holeOf(room), taken),
     ),
   ];
+}
+
+/** A rect of a wall: along it from its north end, then up from the slab. */
+type Pane = readonly [from: number, to: number, foot: number, top: number];
+
+/**
+ * The wall of floor 1 the doorway opens in, as the room sees it: its face,
+ * the room `side` across from `corner`, its north-west one on the slab, with
+ * the doorway left open. The side stays a closed one to everything that asks
+ * — lamps, decor, the body — since only the eye and the sun go through it.
+ */
+function doorwayWall(corner: Vec3, side: number, room: Room): Quad[] {
+  const [x, y, z] = corner;
+  const metre = side / ROOM_METRES;
+  const top = side * CEILING_HEIGHT;
+  const [near, far, head] = [
+    ROOM_DOORWAY.from * metre,
+    ROOM_DOORWAY.to * metre,
+    ROOM_DOORWAY.height * metre,
+  ];
+  const panes: Pane[] = [
+    [0, near, 0, top],
+    [far, side, 0, top],
+    [near, far, head, top],
+  ];
+  const inset = side * WALL_HALF;
+  const { wall: on } = ROOM_DOORWAY;
+  const across = on === 'east' || on === 'south' ? side - inset : inset;
+  const runsSouth = on === 'east' || on === 'west';
+  const upFirst = on === 'west' || on === 'south';
+  return panes.map(([from, to, foot, upTo]) => {
+    const start: Vec3 = runsSouth
+      ? [x + across, y + foot, z + from]
+      : [x + from, y + foot, z + across];
+    const run: Vec3 = runsSouth ? [0, 0, to - from] : [to - from, 0, 0];
+    const up: Vec3 = [0, upTo - foot, 0];
+    // The order of the face's two edges is what turns it to face the room.
+    return upFirst
+      ? face(start, up, run, room, 'wall')
+      : face(start, run, up, room, 'wall');
+  });
 }

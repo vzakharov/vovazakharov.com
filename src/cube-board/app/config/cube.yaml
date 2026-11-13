@@ -10,3 +10,9 @@ items:
     updated: [2026-11-11T05:32:00.000Z, agent:cube]
     box: [0, -1180, 1720, body]
     text: "A maze you can always finish and never will: 67 floors in one cube, the player half as big on each floor down, every floor's hole a SHA-256 commitment, and a real crash on the last. How the idea got here, and what iteration zero builds."
+  - id: img-price-time
+    type: image
+    updated: [2026-11-12T21:20:00.000Z, agent:cube]
+    box: [2320, 2740, 900]
+    src: images/price-by-time-chart.webp
+    text: 'Price by travel time, q = 1.40, a room by its floor: the band spans the floor, the line its median, the dashes the price ÷8 a floor. A floor-2 room goes for $130k–$1M, a floor-5 one ~$2,400 and a floor-9 one ~$27, every room from floor 13 down at $5. Knowing the way, floor 9 is 15 minutes off and floor 15 four days'

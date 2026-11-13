@@ -1,9 +1,15 @@
+<<<<<<< HEAD:src/cube/entities/theme/kit/lib/finish.shader.ts
 // Generated from finish.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
 import { CORE } from './core';
 import { HASH } from './hash.shader';
 import { wgsl } from './wgsl';
+=======
+import { HASH, wgsl } from '@/cube/shared/shader';
+
+import { CORE } from './core';
+>>>>>>> origin/claude/cube-review-perf:src/cube/entities/theme/kit/lib/finish.ts
 
 export const FINISH = wgsl(
   'cube/entities/theme/kit/lib/finish',

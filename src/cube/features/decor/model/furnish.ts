@@ -1,7 +1,9 @@
 import { pathHash, roll, type Rolled, rollWith } from '@/dice/shared/roll';
 
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
-import { type Furnishing, THINGS } from '@/cube/shared/lib/thing';
+import { type Furnishing, type Thing, THINGS } from '@/cube/shared/lib/thing';
+import { scaled } from '@/cube/shared/lib/vec';
+import type { Box } from '@/cube/shared/outside';
 import {
   type Quad,
   type Setting,
@@ -16,6 +18,8 @@ import {
   type Bounds,
   boundsOf,
   clearZones,
+  crowds,
+  hangs,
   HUNG,
   INSIDE,
   isClear,
@@ -23,6 +27,7 @@ import {
   WALKWAY,
   within,
 } from './clear';
+import { partsOf } from './parts';
 
 /** The most quads one thing is made of, and one room's things together. */
 export const MOST_QUADS = { thing: 60, room: 250 };
@@ -198,7 +203,7 @@ function stood(
 /**
  * What stands in `setting`'s room, in the room's frame: `perRoom` of each of
  * `decor` on average, against its closed walls and in its corners, clear of
- * each other and of `clearZones`. The same setting gives the same room.
+ * each other and of `clearZones`, nothing hung where something stands. The same setting gives the same room.
  */
 export const furnish = (
   setting: Setting,
@@ -210,10 +215,37 @@ export function furnished(
   setting: Setting,
   decor: readonly Furnishing[],
 ): Quad[][] {
+  return stoodIn(setting, decor).map(({ quads }) => quads);
+}
+
+/**
+ * Each thing of `furnish`'s room that stands on the floor, in the order they
+ * were stood, as the solids it is built of, `partsOf` it, in the room's frame
+ * in metres — east, up, south.
+ */
+export const standingParts = (
+  setting: Setting,
+  decor: readonly Furnishing[],
+): Array<{ thing: Thing; parts: Box[] }> =>
+  stoodIn(setting, decor)
+    .filter(({ quads }) => !hangs(boundsOf(quads)))
+    .map(({ thing, quads }) => ({
+      thing,
+      parts: partsOf(quads).map(({ least, most }) => ({
+        min: scaled(least, ROOM_METRES),
+        max: scaled(most, ROOM_METRES),
+      })),
+    }));
+
+/** `furnish`'s room as each thing was stood, by name. */
+function stoodIn(
+  setting: Setting,
+  decor: readonly Furnishing[],
+): Array<{ thing: Thing; quads: Quad[] }> {
   const rolled = rollWith(Decor, pathHash(String(setting.grain)));
   const zones = clearZones(setting);
   const taken: Bounds[] = [];
-  const room: Quad[][] = [];
+  const room: Array<{ thing: Thing; quads: Quad[] }> = [];
   let quads = 0;
   for (const { thing, perRoom } of decor) {
     const recipe = RECIPES[thing];
@@ -236,10 +268,12 @@ export function furnished(
         if (
           within(bounds, INSIDE) &&
           placed.every((quad) => isClear(boundsOf([quad]), zones)) &&
-          !taken.some((other) => overlap(bounds, other, APART))
+          !taken.some(
+            (other) => overlap(bounds, other, APART) || crowds(bounds, other),
+          )
         ) {
           taken.push(bounds);
-          room.push(placed);
+          room.push({ thing, quads: placed });
           quads += placed.length;
           break;
         }
