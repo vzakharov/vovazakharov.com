@@ -379,6 +379,12 @@ not append.
   committed to shared constants; pill supplies how shelf and hole are placed.
   Core's adaptation now goes by the gaze (merged, b4058398). A second explainer,
   on the clouds, is being made by `session_01DaohkFroEeZ7ybMvAY9JoV` (Opus).
+- **10:35Z, an incident on Claude's side** (the operator: «things may go weird
+  esp. wrt inter-session messaging, try to let everyone know»; the container
+  restarted at 10:30Z). `briefs/notice.md` on this branch is the fallback
+  channel: undelivered messages are listed there, children are to read it on
+  every fetch and write reports that will not send to `reports/<package>.md` on
+  their own branches — **fetch the nine branches and read those**.
 - **UNDELIVERED at 10:27Z** (the sessions connector gave "a credential could not
   be obtained" three times): shell and pill have NOT been told that the ruling
   is withdrawn. Retry first thing: one short `send_message` to each, pointing at
