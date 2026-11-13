@@ -3,9 +3,10 @@ import path from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { z } from 'zod';
 
-import type { InRoomOf,Pose, Quad } from '@/cube/entities/world';
+import type { InRoomOf, Outside, Pose, Quad } from '@/cube/entities/world';
 import {
   type CubePlayHook,
+  type OutsideLens,
   PLAY_HOOK,
   PLAY_QUERY,
 } from '@/cube/pages/cube/index.node-safe';
@@ -61,6 +62,15 @@ export type CubePage = {
    * Stages a frame and saves it as `file`.
    */
   shoot: (file: string, ...staged: Staged) => Promise<void>;
+  /**
+   * Puts the eye outside the cube at `eye`, seeing through `lens` — the
+   * page's own where none is given — and saves the frame as `file`.
+   */
+  shootOutside: (
+    file: string,
+    eye: Outside,
+    lens?: OutsideLens,
+  ) => Promise<void>;
   /** Stops the page's clock at `ms` since the epoch. */
   setClock: (ms: number) => Promise<void>;
   /**
@@ -136,37 +146,40 @@ export async function withCubePage(
     await tab.evaluate(call('ready'), z.unknown(), { awaitPromise: true });
     const adapter = await tab.evaluate(call('adapter'), z.string());
     process.stdout.write(`adapter: ${adapter}\n`);
-    const stage = async (
-      ...[pose, moving = [], taken = null]: Staged
-    ): Promise<void> => {
-      await tab.evaluate(
-        call('setPose', source(pose), source(moving), source(taken)),
-        z.unknown(),
-        { awaitPromise: true },
-      );
+    /** Runs `set`, a hook call as page source, to its end. */
+    const run = async (set: string): Promise<void> => {
+      await tab.evaluate(set, z.unknown(), { awaitPromise: true });
     };
+    /** The hook call that stages a frame, as page source. */
+    const stage = (...[pose, moving = [], taken = null]: Staged): string =>
+      call('setPose', source(pose), source(moving), source(taken));
     const save = (file: string, data: string): void => {
       fs.mkdirSync(path.dirname(file), { recursive: true });
       fs.writeFileSync(file, Buffer.from(data, 'base64'));
       process.stdout.write(`shot ${path.relative(REPO_ROOT, file)}\n`);
     };
-    const shot = z.object({ data: z.string() });
+    const captured = z.object({ data: z.string() });
+    /** Saves what `set` puts on screen as `file`. */
+    const shot = async (file: string, set: string): Promise<void> => {
+      await run(set);
+      const { data } = captured.parse(
+        await tab.send('Page.captureScreenshot', { format: 'png' }),
+      );
+      save(file, data);
+    };
     await script({
-      shoot: async (file, ...staged) => {
-        await stage(...staged);
-        const { data } = shot.parse(
-          await tab.send('Page.captureScreenshot', { format: 'png' }),
-        );
-        save(file, data);
-      },
+      shoot: async (file, ...staged) => shot(file, stage(...staged)),
+      shootOutside: async (file, eye, lens) =>
+        shot(
+          file,
+          call('setEye', source(eye), ...(lens ? [source(lens)] : [])),
+        ),
       sheet: async (file, frames, columns) => {
         const images: string[] = [];
         await inTurn(frames, async ({ staged, prompt }) => {
-          await stage(...staged);
-          await tab.evaluate(call('setPill', source(prompt)), z.unknown(), {
-            awaitPromise: true,
-          });
-          const { data } = shot.parse(
+          await run(stage(...staged));
+          await run(call('setPill', source(prompt)));
+          const { data } = captured.parse(
             await tab.send('Page.captureScreenshot', {
               format: 'webp',
               quality: 90,
@@ -181,9 +194,7 @@ export async function withCubePage(
           );
           images.push(data);
         });
-        await tab.evaluate(call('setPill', 'null'), z.unknown(), {
-          awaitPromise: true,
-        });
+        await run(call('setPill', 'null'));
         save(
           file,
           await tab.evaluate(tiled(images, columns), z.string(), {

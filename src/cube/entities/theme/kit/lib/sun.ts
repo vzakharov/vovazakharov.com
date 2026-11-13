@@ -9,7 +9,7 @@ import { DOORWAY, SUN, SUN_DIR, SUN_LIGHT } from '@/cube/shared/outside';
 import { beamPatches, DOOR_INNER } from './beam';
 import { CORE } from './core';
 import { GRADE } from './grade';
-import { hazed, lensListing, type Graded } from './lens';
+import { type Graded, hazed, lensListing } from './lens';
 import { LIGHT } from './light';
 
 const f = (value: number): string => value.toFixed(4);

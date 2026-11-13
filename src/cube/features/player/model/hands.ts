@@ -35,7 +35,10 @@ function lookedAt(pose: Pose, look: Look, t: number): Quad[] {
     const view: readonly [Vec3, Vec3, Vec3] = [ahead, times(right, side), up];
     const wrist = plus(
       eye,
-      times(inAxes(view, [forth, aside, under - (1 - handsUp) * LOWERED]), scale),
+      times(
+        inAxes(view, [forth, aside, under - (1 - handsUp) * LOWERED]),
+        scale,
+      ),
     );
     // Fingers ahead, a little up and in; the thumb outward while the palm
     // faces the eye, which is how the hands come up.

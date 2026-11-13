@@ -1,6 +1,8 @@
 import type { Readying } from '@/kernel/shared/typings';
 
-import type { InRoomOf,Pose, Quad } from '@/cube/entities/world';
+import type { InRoomOf, Outside, Pose, Quad } from '@/cube/entities/world';
+
+import type { OutsideLens } from './outside-lens';
 
 /** The query that opens `/cube` for a script: no input, the hook installed. */
 export const PLAY_QUERY = 'play';
@@ -26,6 +28,12 @@ export type ScenePlay = Readying & {
     moving?: readonly Quad[],
     taken?: InRoomOf | null,
   ) => Promise<void>;
+  /**
+   * Puts the eye outside the cube at `eye`, seeing through `lens` —
+   * `OUTSIDE_LENS` where none is given — until the next `setPose`; resolves
+   * once a frame of it is on screen.
+   */
+  setEye: (eye: Outside, lens?: OutsideLens) => Promise<void>;
   /** The adapter's vendor and architecture, as WebGPU reports them. */
   adapter: () => string;
 };

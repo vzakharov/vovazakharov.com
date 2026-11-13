@@ -1,24 +1,23 @@
 import type { Rgb } from '@/cube/shared/lib/colour';
-
 import { vec3f } from '@/cube/shared/lib/wgsl';
 
 import type { Aired } from '../model/theme';
+import type { Exposed } from './grade';
 
 /** A floor's air and lens, as numbers. */
-export type Graded = Aired & {
-  /** The light left with every other light gone. */
-  ambient: Rgb;
-  /** Metres at which the air has swallowed about two thirds of a thing. */
-  visibility: number;
-  /** How much light the lens lets in: 1 as lit, 2 a stop brighter. */
-  exposure: number;
-  /** How far bright things bleed, and how far colours part in the corners. */
-  glow: number;
-  fringe: number;
-  /** How far the screen's corners darken, and how strong the grain is. */
-  vignette: number;
-  noise: number;
-};
+export type Graded = Aired &
+  Exposed & {
+    /** The light left with every other light gone. */
+    ambient: Rgb;
+    /** Metres at which the air has swallowed about two thirds of a thing. */
+    visibility: number;
+    /** How far bright things bleed, and how far colours part in the corners. */
+    glow: number;
+    fringe: number;
+    /** How far the screen's corners darken, and how strong the grain is. */
+    vignette: number;
+    noise: number;
+  };
 
 /** `light`, a WGSL expression for the point `s`'s light, seen through `look`'s air. */
 export const hazed = (light: string, look: Graded): string =>
