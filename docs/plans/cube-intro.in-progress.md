@@ -236,6 +236,24 @@ reached from the second account.
   two paces' ratio, so its footfalls come as often as a walk's; the walk keeps
   its own.
 
+- **13 Nov, the bench's frame and the first "hm?"**. Shown the reshot bench in
+  the beam (`tmp/bench/in-beam.png`):
+
+  > чё-то какая-то лажа все равно :)
+
+  Read, and put to the operator as a reading: the bench is lit and throws no
+  shadow — the wall behind its back and the floor under its seat are lit through
+  it. A thing in the beam shades by one box of its bounds, and a point within
+  the box takes no shade from it, which frees the floor and the wall the box
+  holds along with the bench. **Decided**: a thing shades by its parts' boxes;
+  an Opus subagent writes it once the vet cleanup is in.
+
+  > первое "мм?" (при виде куба) должно звучать if/when игрок останавливается,
+  > иначе он это говорит пока вертится, и это звучит неестественно
+
+  **Decided**: the hero wonders once the cube is whole in view and the gaze has
+  held still for a moment, not in the frame the cube comes into view.
+
 ## This bite: the scenario round
 
 Ticked is written, committed and pushed (aa0b4008 the scenario, b5ecc5ab the
