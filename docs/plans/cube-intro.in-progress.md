@@ -359,6 +359,30 @@ not append.
   Sea 419cc2fd (`waterLevelAt`) is next on ripples in the shallows and the lace.
   All nine sessions have reported; every old session is archived. The six frames
   at ba9210cc are in `tmp/eyes-sea/`; four were not yet looked at.
+- **~10:10Z, the operator in core's session** (steering, quoted here for want of
+  room above): «мне кажется не надо так спешить. это не игра на скорость» —
+  adaptation toward dark is 6 s now (core d82585e4); and «я бы поигрался с
+  направлением луча. если он будет освещать ровно таблетку и спуск вниз, это
+  слишком быстрый reveal, а так человек секунд эндцать будет ходить вообще не в
+  понятках». **Decided: the sun stays; pill moves the shelf (and the way down's
+  mark, if its own) out of the beam into the dim**; shell keeps the beam off
+  them. Core d82585e4 also has `frame.body` (`Standing`), `ladderGone`/`body` on
+  `setEye`'s third argument (an object now), the reflection guard. In sky's
+  session he asked for truer clouds (sky 0ab7c024, gates not run).
+- **~10:20Z, the beam again — the ruling above is WITHDRAWN**: «итого у нас три
+  пути: (а) переместить полку и/или дыру (если процедурность позволяет), (б)
+  повернуть солнце, (в) повернуть куб. какой из них правильный сходу не скажу,
+  надо смотреть и сравнивать». Nothing is decided until frames of all three
+  stand side by side on the board: shell shoots the comparison (inside from the
+  doorway at `--indoors` 0 / 0.5 / settled, and outside from the waking spot,
+  since (b) and (c) change the outside too), on throwaway overrides, nothing
+  committed to shared constants; pill supplies how shelf and hole are placed.
+  Core's adaptation now goes by the gaze (merged, b4058398). A second explainer,
+  on the clouds, is being made by `session_01DaohkFroEeZ7ybMvAY9JoV` (Opus).
+- **UNDELIVERED at 10:27Z** (the sessions connector gave "a credential could not
+  be obtained" three times): shell and pill have NOT been told that the ruling
+  is withdrawn. Retry first thing: one short `send_message` to each, pointing at
+  `briefs/beam-comparison.md` (e9d0c45a), which holds the whole brief.
 - **The explainer** «Два океана» was amended on the operator's comment (how many
   waves "good" takes); answered in its thread.
 - **Next, in order**: (1) merge core, shell, sky as they report green and lint;
