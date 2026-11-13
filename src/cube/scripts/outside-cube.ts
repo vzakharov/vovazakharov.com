@@ -17,6 +17,7 @@
 import { execFileSync } from 'node:child_process';
 import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { format } from 'prettier';
 
 import {
   CUBE_AT,
@@ -219,17 +220,17 @@ async function main(): Promise<void> {
         viewport: VIEWPORT,
         commit: at,
       };
-      // Indented, the file is as the repo's formatter would leave it.
-      const record = (indent?: number): string =>
-        JSON.stringify(
-          shot,
-          (_, value: unknown) =>
-            typeof value === 'bigint' ? String(value) : value,
-          indent,
-        );
-      await writeFile(path.join(FRAMES, `${name}.shot.json`), `${record(2)}\n`);
+      const record = JSON.stringify(shot, (_, value: unknown) =>
+        typeof value === 'bigint' ? String(value) : value,
+      );
+      // The file is committed beside its frame, so it is written as the
+      // repo's formatter would leave it.
+      await writeFile(
+        path.join(FRAMES, `${name}.shot.json`),
+        await format(record, { parser: 'json' }),
+      );
       process.stdout.write(
-        `  ${record()}\n  in ${String(Date.now() - started)} ms\n`,
+        `  ${record}\n  in ${String(Date.now() - started)} ms\n`,
       );
     }),
   );
