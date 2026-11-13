@@ -1,7 +1,8 @@
 import { smoothstep } from '../lib/ease';
 import { DRIES, FILM, NEVER_WET, WAVES_BACK } from './shore-wetness-numbers';
 import { crestOf, SEA_GRAVITY, turnsAt } from './swell';
-import { SLOPE, swashReach } from './water-level';
+import { swashReach } from './water-level';
+import { BEACH_SLOPE } from './water-level-numbers';
 
 /**
  * How long the sand has been out of the water: the swash's sheets are closed
@@ -28,8 +29,8 @@ export function drySince(tau: number, bed: number, shelter: number): number {
     const span = 2 * SEA_GRAVITY * (reach - bed);
     if (span > 0) {
       const launch = Math.sqrt(2 * SEA_GRAVITY * reach);
-      const comes = (launch - Math.sqrt(span)) / (SEA_GRAVITY * SLOPE);
-      const leaves = (launch + Math.sqrt(span)) / (SEA_GRAVITY * SLOPE);
+      const comes = (launch - Math.sqrt(span)) / (SEA_GRAVITY * BEACH_SLOPE);
+      const leaves = (launch + Math.sqrt(span)) / (SEA_GRAVITY * BEACH_SLOPE);
       if (since >= comes) dry = Math.min(dry, Math.max(since - leaves, 0));
     }
   }

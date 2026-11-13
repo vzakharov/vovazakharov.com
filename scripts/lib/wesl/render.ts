@@ -43,9 +43,30 @@ const ups = (specifier: string): number =>
 
 const aliased = (specifier: string): boolean => specifier.startsWith('@/');
 
+const collator = new Intl.Collator('en', {
+  sensitivity: 'base',
+  numeric: true,
+});
+
+/** Punctuation swapped as simple-import-sort swaps it, `.` and `/` first. */
+const SWAPPED: Readonly<Record<string, string>> = {
+  '.': '_',
+  '/': '-',
+  _: '.',
+  '-': '/',
+};
+
+/** `specifier` as simple-import-sort keys it: `./a.b` before `./a-b`. */
+const sortKey = (specifier: string): string =>
+  specifier.replaceAll(/[./_-]/g, (char) => SWAPPED[char] ?? char);
+
 /** `../../` before `../` before `./`, as simple-import-sort orders them. */
-const importOrder = (a: string, b: string): number =>
-  ups(b) - ups(a) || a.localeCompare(b);
+function importOrder(a: string, b: string): number {
+  const [x, y] = [sortKey(a), sortKey(b)];
+  return (
+    ups(b) - ups(a) || collator.compare(x, y) || (x < y ? -1 : Number(x > y))
+  );
+}
 
 const escaped = (body: string): string =>
   body.replaceAll('\\', '\\\\').replaceAll('`', '\\`').replaceAll('${', '\\${');

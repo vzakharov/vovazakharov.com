@@ -49,9 +49,5 @@ export {
   yawToRoom,
   yawToShell,
 } from './turn';
-export {
-  shoreClock,
-  WATER_LEVEL,
-  waterLevel,
-  waterLevelAt,
-} from './water-level';
+export { shoreClock, waterLevel, waterLevelAt } from './water-level';
+export { WATER_LEVEL } from './water-level.shader';

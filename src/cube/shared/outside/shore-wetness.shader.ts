@@ -6,8 +6,9 @@ import { ISLAND_HEIGHT } from './island-height';
 import { SHORE_CUSPS } from './shore-cusps';
 import { SHORE_WETNESS_NUMBERS } from './shore-wetness-numbers';
 import { SWELL_TRAIN } from './swell';
+import { SWELL_COURSE } from './swell-course';
 import { SWELL_NUMBERS } from './swell-numbers';
-import { WATER_LEVEL } from './water-level';
+import { WATER_LEVEL } from './water-level.shader';
 import { WATER_LEVEL_NUMBERS } from './water-level-numbers';
 
 export const SHORE_WETNESS = wgsl(
@@ -71,6 +72,7 @@ fn shoreWetness(xz: vec2f, t: f32) -> vec2f {
   SHORE_CUSPS,
   SHORE_WETNESS_NUMBERS,
   SWELL_TRAIN,
+  SWELL_COURSE,
   SWELL_NUMBERS,
   WATER_LEVEL,
   WATER_LEVEL_NUMBERS,

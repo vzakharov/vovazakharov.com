@@ -13,12 +13,12 @@ import { OUTDOOR_SHADERS, outdoorSource } from './outdoor-shaders';
  * which the theme's pin holds.
  */
 const BEFORE: Readonly<Record<keyof typeof OUTDOOR_SHADERS, string>> = {
-  seam: '7f7b0afc2aeaab0e',
-  sky: '937733054414f5e7',
-  skyClouds: '86f6867f3404a54f',
-  sand: '3789b71f9a38807f',
-  shell: '9716e4b98fbd73f9',
-  sea: '47dac7cc4e12dcf2',
+  seam: 'fcf113a71e0279ad',
+  sky: 'f453dbebf48693d7',
+  skyClouds: 'ff9989d325ba98a1',
+  sand: 'e9196c1b767ff88d',
+  shell: '97677acae4a46423',
+  sea: '1977b83a5bc53717',
 };
 
 /**
@@ -62,6 +62,13 @@ function numbersOf(roots: readonly Wgsl[]): Map<string, string> {
 }
 
 /**
+ * `text` with its layout taken out: a run of white space goes, but for one
+ * space between two words, so `return SHORE_LAG` keeps the name a word.
+ */
+const unspaced = (text: string): string =>
+  text.replaceAll(/\s+/g, ' ').replaceAll(/ (?!\w)|(?<!\w) /g, '');
+
+/**
  * `source`'s module-scope declarations, each with its comments and layout
  * taken out, in sorted order: WGSL binds a module's names whatever order
  * they stand in, so a piece split in two or placed elsewhere reads the same.
@@ -79,7 +86,7 @@ function declarations(source: string): string[] {
       depth === 0 &&
       (char === ';' || (char === '}' && !/^\s*;/.test(code.slice(at + 1))));
     if (!ends) continue;
-    found.push(code.slice(start, at + 1).replaceAll(/\s+/g, ''));
+    found.push(unspaced(code.slice(start, at + 1)));
     start = at + 1;
   }
   return found
@@ -93,7 +100,7 @@ const FLOAT =
 
 /** The name a `const` declaration gives, read with its layout taken out. */
 const constName = (text: string): string | undefined =>
-  /^const([A-Z_a-z]\w*)[:=]/.exec(text)?.[1];
+  /^const ([A-Z_a-z]\w*)[:=]/.exec(text)?.[1];
 
 /**
  * `texts` without the constants no other declaration reads: a constant
@@ -126,7 +133,7 @@ function canonical(roots: readonly Wgsl[]): string {
     .map((text) =>
       text.replaceAll(/(?<![\w.])[A-Z_a-z]\w*/g, (word) => {
         const value = numbers.get(word);
-        return value === undefined ? word : value.replaceAll(/\s+/g, '');
+        return value === undefined ? word : unspaced(value);
       }),
     )
     .map((text) =>
@@ -145,11 +152,11 @@ const LITERAL = String.raw`(\d+(?:\.\d+)?(?:e[+-]?\d+)?)f`;
 
 /**
  * The first two factors of a product or quotient of float literals: it
- * starts after an opening, a comparison or a sum, so nothing binds tighter
+ * starts after an opening, a comparison, a sum or a keyword, so nothing binds tighter
  * before it, and runs left to right, so they are worked out first.
  */
 const LITERALS = new RegExp(
-  String.raw`(?<=^|[(,=+<>?:{[]|(?<![*/])-)${LITERAL}([*/])${LITERAL}(?![\w.])`,
+  String.raw`(?<=^|[ (,=+<>?:{[]|(?<![*/])-)${LITERAL}([*/])${LITERAL}(?![\w.])`,
 );
 
 /** A float literal alone in brackets that call nothing. */

@@ -16,9 +16,9 @@ import {
   shoreSlowing,
   surfLevel,
   swellLevel,
-  WATER_LEVEL,
   waterLevel,
 } from './water-level';
+import { WATER_LEVEL } from './water-level.shader';
 
 const shader = scalarWgsl(assemble([WATER_LEVEL]));
 
