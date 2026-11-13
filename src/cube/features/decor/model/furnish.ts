@@ -16,6 +16,7 @@ import {
   type Bounds,
   boundsOf,
   clearZones,
+  crowds,
   HUNG,
   INSIDE,
   isClear,
@@ -198,7 +199,7 @@ function stood(
 /**
  * What stands in `setting`'s room, in the room's frame: `perRoom` of each of
  * `decor` on average, against its closed walls and in its corners, clear of
- * each other and of `clearZones`. The same setting gives the same room.
+ * each other and of `clearZones`, nothing hung where something stands. The same setting gives the same room.
  */
 export const furnish = (
   setting: Setting,
@@ -236,7 +237,9 @@ export function furnished(
         if (
           within(bounds, INSIDE) &&
           placed.every((quad) => isClear(boundsOf([quad]), zones)) &&
-          !taken.some((other) => overlap(bounds, other, APART))
+          !taken.some(
+            (other) => overlap(bounds, other, APART) || crowds(bounds, other),
+          )
         ) {
           taken.push(bounds);
           room.push(placed);

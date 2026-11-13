@@ -22,3 +22,8 @@ stands at its head.
   wall with the potted plant's shadow at its edge.
 - `in-beam.webp` — standing in the beam, back to the sun: the patch on the wall
   with no shadow of the player in it.
+- `plastic-pill-before-after.webp` — the pill on floor 2's shelf at 10×, shot in
+  pill's tree (de26e0dc): left as it was, right with plastic mirroring the
+  ceiling's panels.
+- `plastic-room-before-after.webp` — floor 2's room from across it, the same
+  pair: two pixels differ.

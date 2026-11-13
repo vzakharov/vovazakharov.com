@@ -1,5 +1,16 @@
 # Sky — reports to the lead, newest first
 
+## 2026-11-13 ~11:52Z — the cloud's body is 54b3c2c7's again, by the operator
+
+On the pair `approved-eye-cloud-pair` the operator called the upper cloud's
+uneven top what a real cloud should have and the lower one's dome a mushroom's
+cap. I had first misread him as meaning the underside. At 16db04f3 the body is
+the earlier one: no dome toward the rim, the rougher footprint noise, towers
+0.7–1.25, a level base. That undoes my answer to the flat-tops item. Kept: the
+relief in the light, the placed crossing, wisps at the outline, a lighter
+underside (67b03d46); the opposite view still about 1050 ms. `approved-eye` and
+the pair are re-shot; `opposite` and `wake-sea` still show the dome.
+
 ## 2026-11-13 — relief back, grain still gone, cost back; lead merged at c86c511f
 
 Frames: `opposite`, `wake-sea`, and the approved eye as `approved-eye` with
@@ -23,9 +34,15 @@ Frames: `opposite`, `wake-sea`, and the approved eye as `approved-eye` with
   smaller than in sand's frame; that is the lens as your branch has it now, not
   the sky. The cloud differs in two ways: a taller dome (your flat-tops item)
   and a slightly dimmer bright rim.
-- **Not done.** The two mushrooms at the far left and right of `opposite`. The
-  operator also told me a cloud's underside reads as too even an arc; that is
-  the same flat base, and it is next.
+- **The base (added after the message).** The operator told me a cloud's
+  underside read as too even an arc. A base now rises in places with the
+  cloud's own lumps, up to a quarter of its height; the crown is untouched.
+  `approved-eye`, the pair and `opposite` are re-shot with it; `wake-sea` is from
+  just before it.
+- **Not done.** The two mushrooms at the far left and right of `opposite`: each
+  is a near cloud, its grey underside turned to the eye, overlapping farther
+  ones at the same height in the frame. The uneven base softens the cap's line
+  but the pairing still reads as a mushroom.
 
 `cloudGlance` and `cloudVeil` moved to `sky/cloud-veil.ts` (`CLOUD_VEIL`), which
 `outside/sky.ts` now needs; `clouds.ts` is at 338 lines. Gates green:

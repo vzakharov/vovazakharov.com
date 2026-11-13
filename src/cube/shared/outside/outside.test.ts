@@ -193,7 +193,7 @@ describe('packOutdoorFrame', () => {
     assert.equal(data.length, OUTDOOR_FRAME_FLOATS);
     assert.deepEqual(
       [...data.subarray(32)],
-      [3, 4, 5, 1, 6, 7, 8, 0, 9, 10, 11, 12, 1, 0, 0, 0, 0, 0, 0, 0],
+      [3, 4, 5, 1, 6, 7, 8, 0, 9, 10, 11, 12, 1, 0, 0, 0],
     );
     assert.deepEqual([data[0], data[15], data[16], data[31]], [1, 1, 2, 2]);
     const gone = packOutdoorFrame({
@@ -202,15 +202,14 @@ describe('packOutdoorFrame', () => {
       eye: [0, 0, 0],
       sun: [0, 0, 1],
       ladderGone: true,
-      body: { foot: [1, 2, 3], headAbove: 1.5 },
       seconds: 0,
       hour: 0,
       width: 1,
       height: 1,
     });
     assert.deepEqual(
-      [...gone.subarray(OUTDOOR_FRAME_FLOATS - 8)],
-      [0, 0, 0, 0, 1, 2, 3, 1.5],
+      [...gone.subarray(OUTDOOR_FRAME_FLOATS - 4)],
+      [0, 0, 0, 0],
     );
     const members = [...OUTDOOR_FRAME.listing.matchAll(/^ {2}(\w+): /gm)].map(
       ([, name]) => name,
@@ -222,7 +221,6 @@ describe('packOutdoorFrame', () => {
       'sun',
       'clock',
       'state',
-      'body',
     ]);
   });
 });

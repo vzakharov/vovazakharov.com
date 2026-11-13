@@ -154,3 +154,19 @@ export const seenInWorld = ({ viewProjection: matrix, eye }: Seen): Seen => ({
   viewProjection: multiply(matrix, WORLD_TO_CUBE),
   eye: toWorld(eye),
 });
+
+/**
+ * What an eye outside the cube sees, in the world frame and reckoned in it
+ * alone, so nothing outdoors depends on how the interior sits in its shell:
+ * the same view `gazeInCube` and `toCube` give of the cube frame.
+ */
+export const seenOutside = (
+  { eye, yaw, elevation, roll }: Outside,
+  aspect: number,
+): Seen => ({
+  viewProjection: viewProjection({ yaw, elevation }, eye, aspect, CUBE_METRES, {
+    roll,
+    far: FAR_METRES,
+  }),
+  eye,
+});

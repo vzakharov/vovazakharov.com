@@ -14,6 +14,8 @@
  * south, `--pitch` degrees above the horizon, `--roll` degrees clockwise.
  */
 
+import { execFileSync } from 'node:child_process';
+import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 import {
@@ -34,9 +36,9 @@ import {
   type Whereabouts,
 } from '@/cube/entities/world';
 import { EYE_HEIGHT } from '@/cube/features/player';
-import { OUTSIDE_LENS } from '@/cube/pages/cube/index.node-safe';
+import { OUTSIDE_LENS, PLAY_INSTANT } from '@/cube/pages/cube/index.node-safe';
 
-import { withCubePage } from './lib/cube-page';
+import { VIEWPORT, withCubePage } from './lib/cube-page';
 
 import { flag } from '@/kernel/scripts/lib/argv';
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
@@ -178,7 +180,18 @@ function chosen(): Array<[string, Whereabouts]> {
   ];
 }
 
+const git = (...args: string[]): string =>
+  execFileSync('git', args, { cwd: REPO_ROOT, encoding: 'utf8' }).trim();
+
+/** The commit the tree is at, marked where `src/` has changes it does not hold. */
+function commit(): string {
+  const dirty =
+    git('status', '--porcelain', '--', 'src') === '' ? '' : '+dirty';
+  return `${git('rev-parse', '--short=8', 'HEAD')}${dirty}`;
+}
+
 async function main(): Promise<void> {
+  const at = commit();
   const lens = {
     exposure: numberOf('exposure', OUTSIDE_LENS.exposure),
     eyelids: numberOf('eyelids', OUTSIDE_LENS.eyelids),
@@ -189,13 +202,30 @@ async function main(): Promise<void> {
   // daylight sees it.
   const inside = flag('indoors') === undefined ? {} : { lens };
   await withCubePage(async ({ shoot, shootOutside }) =>
-    inTurn(chosen(), async ([name, at]) => {
+    inTurn(chosen(), async ([name, eye]) => {
       const file = path.join(FRAMES, `${name}.png`);
       const started = Date.now();
-      await (isOutside(at)
-        ? shootOutside(file, at, lens)
-        : shoot(file, at, inside));
-      process.stdout.write(`  in ${String(Date.now() - started)} ms\n`);
+      await (isOutside(eye)
+        ? shootOutside(file, eye, lens)
+        : shoot(file, eye, inside));
+      // What re-shoots this frame exactly: the eye's pose, the lens it was
+      // seen through — none being its floor's own — the clock, the viewport
+      // and the commit.
+      const shot = {
+        name,
+        eye,
+        lens: isOutside(eye) ? lens : (inside.lens ?? null),
+        clock: new Date(PLAY_INSTANT).toISOString(),
+        viewport: VIEWPORT,
+        commit: at,
+      };
+      const record = JSON.stringify(shot, (_, value: unknown) =>
+        typeof value === 'bigint' ? String(value) : value,
+      );
+      await writeFile(path.join(FRAMES, `${name}.shot.json`), `${record}\n`);
+      process.stdout.write(
+        `  ${record}\n  in ${String(Date.now() - started)} ms\n`,
+      );
     }),
   );
 }
