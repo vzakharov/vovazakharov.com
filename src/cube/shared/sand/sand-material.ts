@@ -1,5 +1,5 @@
 import { wgsl } from '../lib/wgsl';
-import { SKY, SUN, WATER_LEVEL } from '../outside';
+import { SHORE_WETNESS, SKY, SUN } from '../outside';
 import { DRY_SAND, SAND_COLOUR } from './sand-colour';
 import { SAND_GRAIN } from './sand-grain';
 import { RIPPLES, SAND_RELIEF, WIND } from './sand-relief';
@@ -8,14 +8,6 @@ import { RIPPLES, SAND_RELIEF, WIND } from './sand-relief';
  * Sand as a material: its colour dry and wet, how a low sun and the sky light
  * it, and how wet it is from where the sea has lately been.
  */
-
-/** Seconds ago at which the sea's reach is asked, densest over the last swash. */
-const AGES = [
-  0, 0.6, 1.2, 2, 3, 4, 5.2, 6.5, 8, 9.5, 11, 13, 16, 20, 25, 31, 38, 46,
-] as const;
-
-/** Seconds over which sand the water has left goes from soaked to dry. */
-const DRYING = 28;
 
 /** Metres over still water above which the sea is never asked: always dry. */
 export const SWASH_TOP = 1.1;
@@ -29,22 +21,14 @@ export const SAND_MATERIAL = wgsl(
   /* wgsl */ `
 /// How wet the sand is at \`xz\`, \`h\` metres over still water, at \`t\` seconds
 /// into the hour: x how damp (1 soaked), y how much of a film of water still
-/// stands on it (1 a mirror). Both follow where \`waterLevel\` has lately
-/// reached and nothing else, so two eyes at one moment see one beach.
+/// stands on it (1 a mirror). The sea says where its sheets have lately lain;
+/// the sand by the still waterline is damp whatever the waves do.
 fn sandWetness(xz: vec2f, h: f32, t: f32) -> vec2f {
   if (h > ${SWASH_TOP}) {
     return vec2f(0.0);
   }
-  let ages = array<f32, ${AGES.length}>(${AGES.map((age) => age.toFixed(1)).join(', ')});
-  var damp = 1.0 - smoothstep(0.02, 0.2, h);
-  var film = 0.0;
-  for (var index = 0; index < ${AGES.length}; index++) {
-    let age = ages[index];
-    let reached = smoothstep(-0.004, 0.006, waterLevel(xz, t - age) - h);
-    damp = max(damp, reached * exp(-age / ${DRYING}.0));
-    film = max(film, reached * (1.0 - smoothstep(0.4, 5.0, age)));
-  }
-  return vec2f(damp, film);
+  let shore = shoreWetness(xz, t);
+  return vec2f(max(shore.x, 1.0 - smoothstep(0.02, 0.2, h)), shore.y);
 }
 
 /// Sun on a rough, dusty surface that throws light back the way it came:
@@ -172,7 +156,7 @@ fn sandLight(point: SandPoint, sun: vec3f) -> vec3f {
   SAND_RELIEF,
   SAND_GRAIN,
   SAND_COLOUR,
-  WATER_LEVEL,
+  SHORE_WETNESS,
   SUN,
   SKY,
 );

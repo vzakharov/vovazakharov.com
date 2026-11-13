@@ -30,8 +30,6 @@ function wgslHeight(): (xz: Xz) => number {
     max,
     sqrt,
     tanh,
-    clamp: (v: number, low: number, high: number) =>
-      Math.min(Math.max(v, low), high),
     mix: (a: number, b: number, t: number) => a + (b - a) * t,
     clamp: (v: number, low: number, high: number) =>
       Math.min(Math.max(v, low), high),
