@@ -1,5 +1,6 @@
 import { lerp, ramp, smooth } from '@/cube/shared/lib/ease';
 import { CEILING_HEIGHT } from '@/cube/shared/lib/room-shape';
+import { nearestTurn } from '@/cube/shared/lib/turn';
 import {
   plus,
   type Quad,
@@ -101,10 +102,6 @@ function chairAt(room: Room, at: Vec3, yaw: number): Quad[] {
     ),
   ];
 }
-
-/** `to` as the yaw nearest `from` that looks the same way. */
-const nearestTurn = (from: number, to: number): number =>
-  from + Math.atan2(Math.sin(to - from), Math.cos(to - from));
 
 /**
  * Chairs left about the room every which way, which turn, all at once and

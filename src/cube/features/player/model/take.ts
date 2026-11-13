@@ -1,3 +1,4 @@
+import { nearestTurn, shortTurn } from '@/cube/shared/lib/turn';
 import {
   dot,
   type Gazing,
@@ -38,10 +39,6 @@ function bearing(pose: Pose, shelf: Shelf) {
   return { yaw: Math.atan2(dv, du), away: Math.hypot(du, dv) };
 }
 
-/** `angle` as the same turn in `(-π, π]`. */
-const turnOf = (angle: number): number =>
-  angle - 2 * Math.PI * Math.round(angle / (2 * Math.PI));
-
 /**
  * Whether a body at `pose`, in `shelf`'s room, can take its pill: whole,
  * within reach and looking its way, the elevation aside.
@@ -51,7 +48,7 @@ export function canTake(pose: Pose, shelf: Shelf): boolean {
   return (
     pose.scale >= 1 &&
     away <= PILL_REACH &&
-    Math.abs(turnOf(yaw - pose.yaw)) <= TAKE_GAZE
+    Math.abs(shortTurn(yaw - pose.yaw)) <= TAKE_GAZE
   );
 }
 
@@ -210,7 +207,7 @@ export function reachFor(player: Player, here: Holed): Acting<'taking'> {
       yaw,
       elevation,
       aim: {
-        yaw: yaw + turnOf(to.yaw - yaw),
+        yaw: nearestTurn(yaw, to.yaw),
         elevation: Math.atan2(pillAbove - eyeAbove, to.away),
       },
       from: 'down',
