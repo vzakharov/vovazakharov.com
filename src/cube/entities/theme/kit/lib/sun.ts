@@ -245,9 +245,10 @@ fn sunlitRoom(s: Surf, m: Material, ambient: vec3f) -> vec3f {
   var colour = m.albedo * (fill * shade + direct) + m.emission
     + SUN_LIGHT * (facing * sun * glint * mirror);
   if (s.kind == PLASTIC) {
-    // Plastic's highlight here is the doorway's sky, mirrored blurred.
+    // Plastic's highlight here is the doorway's sky, mirrored blurred, and
+    // held under a mirror's: the sky is bright enough to paint a face white.
     colour += SKY_IN * throughDoor(at, reflect(view, normal), SKIN_BLUR)
-      * ((0.04 + 0.96 * along) * shade);
+      * (min(0.04 + 0.96 * along, 0.2) * shade);
   }
   if (floored) {
     let plane = normalize(s.normal + RIPPLE * m.relief);
