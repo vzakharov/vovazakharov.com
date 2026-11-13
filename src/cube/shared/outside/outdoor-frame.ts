@@ -52,22 +52,13 @@ export const OUTDOOR_FRAME_FLOATS = FIELDS.reduce(
  */
 export type Laddered = { ladderGone?: boolean };
 
-/** A body standing in the world: where its foot is, and its head above that, in metres. */
-export type Standing = { foot: Vec3; headAbove: number };
-
-/**
- * What of the frame is its player's own doing out of doors: the ladder gone,
- * and `body`, the player's, which the frame is told and draws nothing of.
- */
-export type OutdoorState = Laddered & { body?: Standing };
-
 /**
  * What one frame of the outside is seen from and when: the eye in the world
  * frame, the matrices column-major, the screen in pixels.
  */
 export type OutdoorFrame = SeenAt &
   Sized &
-  OutdoorState & {
+  Laddered & {
     /** Clip space back to the world, column-major. */
     inverse: Float32Array;
     sun: Vec3;

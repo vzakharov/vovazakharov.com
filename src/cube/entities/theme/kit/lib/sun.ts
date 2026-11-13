@@ -8,6 +8,7 @@ import { vec3f, type Wgsl, wgsl } from '@/cube/shared/lib/wgsl';
 import { HASH } from '@/cube/shared/lib/wgsl-hash';
 import {
   beamPatches,
+  type Box,
   DOOR_INNER,
   DOORWAY,
   SHELL_TURN,
@@ -245,9 +246,10 @@ fn sunlitRoom(s: Surf, m: Material, ambient: vec3f) -> vec3f {
   var colour = m.albedo * (fill * shade + direct) + m.emission
     + SUN_LIGHT * (facing * sun * glint * mirror);
   if (s.kind == PLASTIC) {
-    // Plastic's highlight here is the doorway's sky, mirrored blurred.
+    // Plastic's highlight here is the doorway's sky, mirrored blurred, and
+    // held under a mirror's: the sky is bright enough to paint a face white.
     colour += SKY_IN * throughDoor(at, reflect(view, normal), SKIN_BLUR)
-      * ((0.04 + 0.96 * along) * shade);
+      * (min(0.04 + 0.96 * along, 0.2) * shade);
   }
   if (floored) {
     let plane = normalize(s.normal + RIPPLE * m.relief);
@@ -278,6 +280,8 @@ export type Shrub = {
 type Sunlit = Graded & {
   /** The potted plants that shade the beam. */
   shrubs: readonly Shrub[];
+  /** What else stands in the beam, as boxes in metres of the shell's frame, the one the beam's patches are in. */
+  boxes: readonly Box[];
   /** What the floor and the walls throw back of the beam, on average. */
   floor: Rgb;
   walls: Rgb;
@@ -303,15 +307,47 @@ export const sunlit = (id: string, look: Sunlit): Wgsl => {
     const [x, , z] = toShell([east, 0, south], ROOM_METRES);
     return `vec3f(${f(x)}, ${f(z)}, ${f(draw)})`;
   });
+  const boxes = look.boxes.map(
+    ({ min, max }) => `Slab(${vec3f(min)}, ${vec3f(max)})`,
+  );
+  // WGSL has no array of none: a box no ray can reach stands in.
+  const slabs = boxes.length > 0 ? boxes : ['Slab(vec3f(-9.0), vec3f(-9.0))'];
   return wgsl(
     `${id}/sunlit`,
     /* wgsl */ `
+/// A thing standing in the beam, as the box it fills.
+struct Slab {
+  low: vec3f,
+  high: vec3f,
+};
+
+const SLABS = array<Slab, ${String(slabs.length)}>(
+  ${slabs.join(',\n  ')},
+);
+
+/// How much of a ray from \`p\` along \`dir\` passes \`slab\`, its edge
+/// softening as the sun's width has it the farther the box. A point on the
+/// box's own lit face is past it at once, so shades nothing of itself.
+fn slabShade(p: vec3f, dir: vec3f, slab: Slab) -> f32 {
+  let a = (slab.low - p) / dir;
+  let b = (slab.high - p) / dir;
+  let near = min(a, b);
+  let far = max(a, b);
+  let enters = max(max(near.x, max(near.y, near.z)), 0.0);
+  let leaves = min(far.x, min(far.y, far.z));
+  let soft = 0.01 + SUN_SPREAD * enters;
+  return 1.0 - smoothstep(0.0, soft, leaves - enters);
+}
+
 const SHRUBS = array<vec3f, ${String(shrubs.length)}>(${shrubs.join(', ')});
 
 fn sunShade(p: vec3f, dir: vec3f) -> f32 {
   var shade = 1.0;
   for (var i = 0; i < ${String(shrubs.length)}; i++) {
     shade *= shrubShade(p, dir, SHRUBS[i]);
+  }
+  for (var i = 0; i < ${String(slabs.length)}; i++) {
+    shade *= slabShade(p, dir, SLABS[i]);
   }
   return shade;
 }

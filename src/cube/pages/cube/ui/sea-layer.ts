@@ -1,5 +1,6 @@
 /// <reference types="@webgpu/types" />
 
+import { shortTurn } from '@/cube/shared/lib/turn';
 import type { Vec3 } from '@/cube/shared/lib/vec';
 import type { OutdoorFrame } from '@/cube/shared/outside';
 import { RINGS, SEAS, SPOKES } from '@/cube/shared/sea';
@@ -70,10 +71,7 @@ function sweep(frame: OutdoorFrame): { yaw: number; sector: number } {
       const [rx, ry, rz] = through(frame, cx, cy);
       if (ry > RISES * Math.hypot(rx, rz)) continue;
       const turn = Math.atan2(rz, rx) - yaw;
-      widest = Math.max(
-        widest,
-        Math.abs(Math.atan2(Math.sin(turn), Math.cos(turn))),
-      );
+      widest = Math.max(widest, Math.abs(shortTurn(turn)));
     }
   }
   const sector = 2 * widest * SECTOR_MARGIN;

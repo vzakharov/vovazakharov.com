@@ -15,12 +15,13 @@ and shadow, and core's stand-ins for sky, shell and sea.
 - `ladder-foot.webp` — where the ladder stands, looking up the east face:
   sunlit, the ladder's shadow on it from shell's `cubeShadow`, the ladder itself
   and the doorway not drawn by the stand-in.
-- `doorway-out.webp` — the sill looking out, the interior a quarter-turn round
-  in its shell: a rolled notice board hangs across the opening, which decor does
-  not yet keep clear. Pill's to fix; the eye is right.
-- `room-doorway.webp` — floor 1's room looking at the doorway, now in the room's
-  south wall: the opening, the beam and its haze, and the same notice board
-  standing in the daylight.
+- `doorway-out.webp` — the sill looking out through floor 1's own lens, the
+  interior a quarter-turn round in its shell: the sand, the sea's edge and the
+  sun, bleached as an eye used to the room sees them. Decor keeps the opening
+  clear.
+- `room-doorway.webp` — floor 1's room looking at the doorway in the room's
+  south wall: the opening, the beam and its haze, and the notice board standing
+  in the daylight (shot before decor cleared the opening).
 - `entering.webp` — a step inside the doorway, looking the way one climbs in,
   through floor 1's own lens: the shrubs and the bench straight ahead, the beam
   crossing to the far wall beside the bench, the hatch's quarter on the left
@@ -50,3 +51,8 @@ and shadow, and core's stand-ins for sky, shell and sea.
 `wake-cube.webp` is re-shot with the interior turned. With the turn switched off
 the same eye gives the same frame to the pixel: an eye outside is reckoned in
 the world frame alone (`seenOutside`).
+
+Every frame with a `<name>.shot.json` beside it was shot by `pnpm outside:cube`
+at the eye, lens (`null` is the floor's own), clock, viewport and commit that
+file gives; `--eyes <name>` at that commit, with `--indoors` as its lens says,
+shoots it again.

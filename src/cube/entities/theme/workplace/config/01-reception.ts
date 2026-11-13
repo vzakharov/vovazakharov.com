@@ -1,4 +1,5 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
+import type { Box } from '@/cube/shared/outside';
 
 import {
   FINISH,
@@ -22,6 +23,15 @@ const AIR = linear(hex(0x17_14_0f));
 export const RECEPTION_SHRUBS: readonly Shrub[] = [
   { at: [4.415, 0.4252], draw: 0.9588 },
   { at: [0.441, 0.585], draw: 0.8749 },
+];
+
+/**
+ * What else of the planted world's decor stands in the beam, as the boxes
+ * it fills, in metres of the shell's frame: a bench. Written here and held to
+ * the decor by `reception-beam-boxes.test.ts`, as the plants are.
+ */
+export const RECEPTION_BEAM_BOXES: readonly Box[] = [
+  { min: [0.07, 0, 2.075], max: [0.5, 0.86, 3.575] },
 ];
 
 /**
@@ -100,6 +110,7 @@ fn themeMaterial(s: Surf) -> Material {
       air: AIR,
       ambient: [0.022, 0.02, 0.019],
       shrubs: RECEPTION_SHRUBS,
+      boxes: RECEPTION_BEAM_BOXES,
       floor: [0.27, 0.24, 0.2],
       walls: [0.26, 0.26, 0.19],
       visibility: 70,

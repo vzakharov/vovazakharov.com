@@ -1,0 +1,13 @@
+{
+  "name": "aerial",
+  "eye": {
+    "eye": [-15, 60, 70],
+    "yaw": -1.5707963267948966,
+    "elevation": -0.7853981633974483,
+    "roll": 0
+  },
+  "lens": { "exposure": 0.3, "eyelids": 1, "indoors": 0 },
+  "clock": "2026-11-01T12:00:00.000Z",
+  "viewport": { "width": 1280, "height": 800 },
+  "commit": "7a2ab712"
+}

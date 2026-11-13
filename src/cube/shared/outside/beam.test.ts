@@ -2,8 +2,8 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { CEILING_HEIGHT, ROOM_METRES } from '../lib/room-shape';
-import { beamPatches } from './beam';
-import { DOORWAY } from './frame';
+import { beamPatches, crossesBeam } from './beam';
+import { type Box, DOORWAY } from './frame';
 import { SUN_DIR } from './sun';
 
 describe('beamPatches', () => {
@@ -37,5 +37,27 @@ describe('beamPatches', () => {
   it('sends a level sun straight to the west wall', () => {
     const level = beamPatches([1, 0, 0]);
     assert.ok(level.every(({ facing }) => facing.join(',') === '1,0,0'));
+  });
+});
+
+/** A low thing standing on the floor about a point of it. */
+const standing = (east: number, south: number): Box => ({
+  min: [east - 0.2, 0, south - 0.2],
+  max: [east + 0.2, 0.5, south + 0.2],
+});
+
+describe('crossesBeam', () => {
+  const landed = beamPatches(SUN_DIR).find(({ facing }) => facing[1] === 1);
+  const [x = 0, , z = 0] = landed?.middle ?? [];
+
+  it('finds a thing standing where the beam lands on the floor', () => {
+    assert.ok(crossesBeam(standing(x, z), SUN_DIR));
+  });
+
+  it('passes one standing well to the side of it, and one against the far wall of the doorway', () => {
+    assert.ok(!crossesBeam(standing(x, z - 1.5), SUN_DIR));
+    assert.ok(
+      !crossesBeam(standing(ROOM_METRES - 0.3, ROOM_METRES - 0.3), SUN_DIR),
+    );
   });
 });
