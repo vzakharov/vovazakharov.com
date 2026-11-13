@@ -307,7 +307,7 @@ items:
     updated: [2026-11-13T11:35:00.000Z, agent:cube-intro]
     box: [6990, -3040, 560, pink]
     icon: 🖼️
-    text: 'For the future: this frame should be the splash screen. — Vova. (Nothing is being built for it now.) To re-shoot it exactly: eye at −15.203, 2.10, 15.203 (the bed there + 1.6 m), yaw −45, pitch 4, roll 0; the clock pinned at PLAY_INSTANT = 2026-11-01T12:00:00Z (1793534400000 ms); the sun does not move with the clock; commit f0ff9882 on the sand branch (merged into the lead as 43c24a67); default lens; command: pnpm outside:cube --at -15.203,2.10,15.203 --yaw -45 --pitch 4'
+    text: 'For the future: this frame should be the splash screen. — Vova. (Nothing is being built for it now.) To re-shoot it exactly: eye at −15.203, 2.0962, 15.203 (the bed there + 1.6 m; 2.10 is the rounded value), yaw −45, pitch 4, roll 0; viewport 1280×800 at device scale 1, default lens; the clock pinned at PLAY_INSTANT = 2026-11-01T12:00:00Z (1793534400000 ms); the sun does not move with the clock; commit f0ff9882 on the sand branch (merged into the lead as 43c24a67); command: pnpm outside:cube --at -15.203,2.0962,15.203 --yaw -45 --pitch 4'
   - id: intro-img-ref-approved
     type: image
     updated: [2026-11-13T11:35:00.000Z, agent:cube-intro]
