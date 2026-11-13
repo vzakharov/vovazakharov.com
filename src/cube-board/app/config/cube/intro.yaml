@@ -1,0 +1,370 @@
+items:
+  - id: z-intro
+    type: zone
+    updated: [2026-11-13T14:30:00.000Z, agent:cube-intro]
+    box: [5720, -3150, 2510, 11300, orange]
+    icon: 🏝️
+    text: 'The intro: an island, the cube from outside, the way in'
+  - id: intro-h-premise
+    type: text
+    updated: [2026-11-12T22:25:00.000Z, agent:cube-intro]
+    box: [5748, -890, 1820, h2]
+    text: The premise, beat by beat
+  - id: intro-1
+    type: sticky
+    updated: [2026-11-12T22:45:00.000Z, agent:cube-intro]
+    box: [5748, -820, 280, yellow]
+    icon: 🌊
+    text: 'You open your eyes, groan a little, sit up: a tiny sand island, nobody on it, waves lashing at your feet. Standing, you see only the sea at first'
+  - id: intro-2
+    type: sticky
+    updated: [2026-11-12T22:45:00.000Z, agent:cube-intro]
+    box: [6054, -820, 280, yellow]
+    icon: ⬛
+    text: 'You turn round. A few dozen metres off a cube hangs in the air, 5×5×5 m: black, with grey bands, each half the height that is left. Vova: “otherworldly materials that give off some sound and play in the pre-sunset sun in a way the eye is not used to”'
+  - id: intro-3
+    type: sticky
+    updated: [2026-11-12T22:45:00.000Z, agent:cube-intro]
+    box: [6360, -820, 280, yellow]
+    icon: 🪜
+    text: 'In the top band, a doorway with a room showing through it. And, “which does not fit with any of this at all”, a perfectly ordinary ladder leaning to its sill. From here you walk: round the island, or out to sea, which has no edge yet'
+  - id: intro-4
+    type: sticky
+    updated: [2026-11-13T00:05:00.000Z, agent:cube-intro]
+    box: [6666, -820, 280, gray]
+    icon: ✂️
+    text: 'Cut: nearing the cube, you were to stoop and look under it, to show nothing holds it. Vova, seeing the first frames: “judging by the pictures, no look-under cutscene is needed, it is plain enough that it hovers”'
+  - id: intro-5
+    type: sticky
+    updated: [2026-11-12T22:45:00.000Z, agent:cube-intro]
+    box: [6972, -820, 280, yellow]
+    icon: 🚪
+    text: 'E at the ladder: you climb, and through the doorway you are in floor 1’s room. Where the door was is the opening; no lamps, only the low sun through it. The office stays as it was, plant included. Vova: “let it be, all the funnier. The sun should play off it”'
+  - id: intro-6
+    type: sticky
+    updated: [2026-11-13T00:30:00.000Z, agent:cube-intro]
+    box: [7278, -820, 280, yellow]
+    icon: 💊
+    text: 'The lever becomes a pill on a small shelf at the same height: pick up, to the mouth, a swallow, and you shrink as before. The first time you turn it over in your hand first, and a prompt asks: “Press Y to swallow, N to put down”'
+  - id: intro-h-staging
+    type: text
+    updated: [2026-11-12T22:25:00.000Z, agent:cube-intro]
+    box: [5748, -400, 1820, h2]
+    text: Staging decisions, and where the sea comes from
+  - id: intro-d1
+    type: sticky
+    updated: [2026-11-12T22:45:00.000Z, agent:cube-intro]
+    box: [5748, -330, 280, blue]
+    icon: ☀️
+    text: 'The doorway faces the sun, and you wake on the cube’s far side, ~30 m south-west, the sun behind it: turning, you see the cube against the sunset, door and ladder out of sight. Vova: “otherwise you see the door and the ladder at once, in your face, and that is less interesting”. Waking in front of the doorway lost to this'
+  - id: intro-d2
+    type: sticky
+    updated: [2026-11-13T00:05:00.000Z, agent:cube-intro]
+    box: [6054, -330, 280, blue]
+    icon: 🕴️
+    text: 'The cube hovers 1.1 m over the sand. With the sun 9° up its shadow starts ~7 m behind it and runs some 38 m, west-south-west, beside your way to the cube. So the sand under it lies in full sun and the sea’s glare shows through the gap: no cutscene needed to see that it floats'
+  - id: intro-d3
+    type: sticky
+    updated: [2026-11-12T22:25:00.000Z, agent:cube-intro]
+    box: [6360, -330, 280, blue]
+    icon: 🌇
+    text: 'Eternal golden hour: the sun never moves. Waves, clouds and surf do, as functions of the clock, so a frame is a function of where you stand and when'
+  - id: intro-d4
+    type: sticky
+    updated: [2026-11-12T23:15:00.000Z, agent:cube-intro]
+    box: [6666, -330, 280, blue]
+    icon: 🪴
+    text: 'The doorway is where floor 1’s decor door stood: the east wall by the north-east corner, 0.97 m wide, 2.1 m tall. The potted plant stands half across it and stays. The sun is 31° off the doorway’s normal, so the beam crosses the floor on a diagonal and ends on the wall at the pill’s shelf'
+  - id: intro-d5
+    type: sticky
+    updated: [2026-11-12T22:35:00.000Z, agent:cube-intro]
+    box: [6972, -330, 280, blue]
+    icon: 💧
+    text: 'One function says where the water is: waterLevel(xz, t), the sea’s slow surface with surge and swash. The sea, the sand’s wet band, the surf’s sound and the waves on your feet all read it, which is what keeps them in step'
+  - id: intro-d6
+    type: sticky
+    updated: [2026-11-12T22:45:00.000Z, agent:cube-intro]
+    box: [7278, -330, 280, blue]
+    icon: 🙌
+    text: 'The stylised hands stay as they are. Vova: “the contrast between the dazzling realism of the pre-sunset island and the under-realism of the rest, let us call it a creative choice”'
+  - id: intro-img-web-ocean
+    type: image
+    updated: [2026-11-12T22:35:00.000Z, agent:cube-intro]
+    box: [5748, 40, 440]
+    src: images/intro-web-ocean.webp
+    text: 'From the Island board (item web-ocean): “Inspiration: Noniv/web-ocean — what a browser can do with sea and sky. Nothing copied.” The same goes here'
+  - id: intro-world
+    type: sticky
+    updated: [2026-11-12T22:45:00.000Z, agent:cube-intro]
+    box: [6214, 40, 280, green]
+    icon: 🗺️
+    text: 'One ocean, one day. Vova: “all this will become part of one world: our island in the middle of the ocean, in the same world as Zoltan and Syama’s island. Swim, and hundreds of kilometres on you reach a shore. Or maybe you take off and fly. But that is for later :)”'
+  - id: intro-price
+    type: sticky
+    updated: [2026-11-12T23:25:00.000Z, agent:cube-intro]
+    box: [6520, 40, 280, blue]
+    icon: 👣
+    text: 'What “interactions come at a price” already decided here: no footprints on the sand, no ripples from the swimmer, and the shelf keeps its pill for whoever comes next'
+  - id: intro-no-textures
+    type: sticky
+    updated: [2026-11-12T23:25:00.000Z, agent:cube-intro]
+    box: [6826, 40, 280, blue]
+    icon: 🧮
+    text: 'For about an hour on 13 Nov the lead read “no textures” as banning every map, computed ones included, and briefed the sea to be rebuilt as a sum of analytic waves. The operator: “I did not mean against maps; I meant the maps themselves must be computed on the fly.” Nothing had been deleted. The rule is the “Nothing authored” card'
+  - id: intro-h-frames
+    type: text
+    updated: [2026-11-12T22:35:00.000Z, agent:cube-intro]
+    box: [5748, 480, 1820, h2]
+    text: 'The timelapse: frames as they come, failures included'
+  - id: intro-img-00-sun-direction
+    type: image
+    updated: [2026-11-12T22:55:00.000Z, agent:cube-intro]
+    box: [5748, 550, 430]
+    src: images/intro-00-sun-direction.webp
+    text: 'Before any frame of ours: Vova’s own sketch over floor 1’s room, rays from the top of the door down onto the floor round the hole. “The sunlight’s direction should probably be something like this”'
+  - id: intro-sun-note
+    type: sticky
+    updated: [2026-11-12T23:15:00.000Z, agent:cube-intro]
+    box: [6208, 550, 280, gray]
+    icon: 📐
+    text: 'Direction from the sketch: the beam crosses the floor on a diagonal, 31° off the doorway’s normal, the line from the doorway to the pill’s shelf. Height is the lead’s pick, 9°: the light lies along the whole diagonal of the floor and stands on the far wall up to about 1.2 m, so the beam ends on the pill. (For half an hour it was 17°, from reading a steepness into the sketch that Vova never drew)'
+  - id: intro-img-01-sand-down
+    type: image
+    updated: [2026-11-12T23:40:00.000Z, agent:cube-intro]
+    box: [6668, 550, 430]
+    src: images/intro-01-sand-down.webp
+    text: '1. Sand, first pass, looking down, in the sand’s own harness: a stand-in sky, a flat stand-in sea, a black box for the cube. Wind ripples with their own shadows at a 9° sun, pebbles throwing long ones. The lead: this one already reads as a photograph'
+  - id: intro-img-02-sand-stand
+    type: image
+    updated: [2026-11-12T23:40:00.000Z, agent:cube-intro]
+    box: [7128, 550, 430]
+    src: images/intro-02-sand-stand.webp
+    text: '2. The same sand from standing height, the cube as a black box. The lead: not there. At 5–40 m the ripples read as corduroy, one wavelength, one direction, everywhere, and the colour is beige with nothing of a low sun in it. The white speckle on the right is glints turning to noise'
+  - id: intro-img-03-sand-shadow
+    type: image
+    updated: [2026-11-12T23:40:00.000Z, agent:cube-intro]
+    box: [5748, 1000, 430]
+    src: images/intro-03-sand-shadow.webp
+    text: '3. The cube’s shadow across the ripples, lit by the sky alone. The lead: the blue of it is right; the combed stripes are not. Also the frame that showed the sky was set twice too bright against the sun: on flat ground at 9° their shares are about equal'
+  - id: intro-img-04-inside-door
+    type: image
+    updated: [2026-11-13T07:58:30.107Z, u_L_AriiBLoWLIB4PYEulAJA]
+    box: [6381, -1673, 430]
+    src: images/intro-04-inside-door.webp
+    text: '4. Floor 1 on the real page, the door gone, the lamps off; the doorway is black because nothing draws the outside yet. One beam through it and its bounce light the whole room, and the plant throws its shadow on the wall. First pass, with the old sun: the beam lands on the north wall and the bench. The lead: this is the look, the direction is wrong'
+  - id: intro-img-05-inside-beam
+    type: image
+    updated: [2026-11-12T23:55:00.000Z, agent:cube-intro]
+    box: [6668, 1000, 430]
+    src: images/intro-05-inside-beam.webp
+    text: '5. The same room from the far corner: readable from bounce alone, the hole in the floor and the lever on the far wall visible. After Vova’s sketch the beam will cross this floor on the diagonal and end on that lever’s place, where the pill will be. The lead: the floor at the sill burns white where it should glare gold'
+  - id: intro-ladder
+    type: sticky
+    updated: [2026-11-13T00:05:00.000Z, agent:cube-intro]
+    box: [7132, 40, 280, blue]
+    icon: 🪜
+    text: 'The ladder is there until it has been climbed, and then it is not: no animation, no effect, no sound. You turn round and it is gone. You can leave by jumping from the doorway, unhurt, at half height too if you took the pill and did not go down. There is no climbing back'
+  - id: intro-img-sea-big
+    type: image
+    updated: [2026-11-13T00:20:00.000Z, agent:cube-intro]
+    box: [5748, -2040, 1200]
+    src: images/intro-06-sea-swimming.webp
+    text: 'The sea, first frame: the eye 22 cm over the water off the south-west shore, looking into the sun. Shot on the sea package’s own stand: the sky, sand and box are stand-ins; only the water is the product'
+  - id: intro-sea-verdict-1
+    type: sticky
+    updated: [2026-11-13T00:20:00.000Z, agent:cube-intro]
+    box: [6990, -2040, 280, pink]
+    icon: 🤩
+    text: 'Vova, on seeing it: “Stunning!”'
+  - id: intro-sea-verdict-2
+    type: sticky
+    updated: [2026-11-13T00:20:00.000Z, agent:cube-intro]
+    box: [7290, -2040, 280, pink]
+    icon: 💯
+    text: 'Vova: “this goes on the board, 1000%, as a big card”. So here it is, the biggest one'
+  - id: intro-sea-fft
+    type: sticky
+    updated: [2026-11-13T00:20:00.000Z, agent:cube-intro]
+    box: [5748, -1240, 600, gray]
+    icon: 🌊
+    text: 'The sea is an FFT ocean: 4 cascades of 256², tiles of 3200 / 200 / 25 / 3.2 m, the spectrum rolled once from the dice, the wave fields computed by the GPU every frame from the shared clock. It stays. (An analytic rebuild was briefed and withdrawn the same hour — see the card beside.)'
+  - id: intro-img-06-sea-swimming
+    type: image
+    updated: [2026-11-13T00:20:00.000Z, agent:cube-intro]
+    box: [7128, 1000, 430]
+    src: images/intro-06-sea-swimming.webp
+    text: '6. The sea, first frame: the eye 22 cm over the water off the south-west shore, looking into the sun. Shot on the sea package’s own stand: the sky, sand and box are stand-ins; only the water is the product. Vova: “Stunning!” The big card at the top of this zone'
+  - id: intro-img-07-sea-doorway
+    type: image
+    updated: [2026-11-13T00:20:00.000Z, agent:cube-intro]
+    box: [5748, 1450, 430]
+    src: images/intro-07-sea-doorway.webp
+    text: '7. The same water from the cube’s doorway, down the glitter path'
+  - id: intro-img-08-sand-down-2
+    type: image
+    updated: [2026-11-13T00:20:00.000Z, agent:cube-intro]
+    box: [6208, 1450, 430]
+    src: images/intro-08-sand-down-2.webp
+    text: '8. Sand, second pass, under the final sun, looking down: the cube’s shadow edge across the ripples, gold in sun, blue in shade'
+  - id: intro-ghosts
+    type: sticky
+    updated: [2026-11-13T00:40:00.000Z, agent:cube-intro]
+    box: [6400, -1240, 280, purple]
+    icon: 👻
+    text: 'No footprints, no ripples, nothing you touch stays touched. Vova, reading that card: “it makes me think: are we ghosts? Did we die? Is this the other side?” An open reading, not a decision; nothing in the game says so'
+  - id: intro-img-09-wake-cube
+    type: image
+    updated: [2026-11-13T09:40:00.000Z, agent:cube-intro]
+    box: [6668, 1450, 430]
+    src: images/intro-09-wake-cube.webp
+    text: '9. 13 Nov, the second morning. The page draws the island with the real cube for the first time: black, banded, beside the low sun. Sand is real; sky and sea are still stand-ins. The lead: it reads as a made thing now, but from the waking spot it is a tenth of the frame and sits on the dune’s skyline, and the gap under it is a two-pixel slit. Staging to be redone (wake nearer)'
+  - id: intro-img-10-ladder-foot
+    type: image
+    updated: [2026-11-13T09:40:00.000Z, agent:cube-intro]
+    box: [7128, 1450, 430]
+    src: images/intro-10-ladder-foot.webp
+    text: '10. From the ladder’s foot: the doorway into floor 1, the plant in its corner, the ladder’s shadow on the cube. The lead: the ladder reads as wood and is to be aluminium; the grey bands read brown; the specks in the black are right in the sun. Vova, on the ladder’s material: “I never said anything about the material, I have nothing against wood, and it might suit the line ‘where did it come from at all’. But if it is already aluminium, let it be”'
+  - id: intro-img-11-room-doorway
+    type: image
+    updated: [2026-11-13T09:40:00.000Z, agent:cube-intro]
+    box: [5748, 1900, 430]
+    src: images/intro-11-room-doorway.webp
+    text: '11. Floor 1 from inside, lit by the doorway alone. The black rectangle is a fault: a non-finite value on the horizon line, smeared into a block by the bloom. Kept here because the timelapse keeps its failures'
+  - id: intro-img-12-wake-sea
+    type: image
+    updated: [2026-11-13T09:40:00.000Z, agent:cube-intro]
+    box: [6208, 1900, 430]
+    src: images/intro-12-wake-sea.webp
+    text: '12. The same fault looking out to sea from the waking spot: the horizon is a black band. The sea below it is a stand-in plane; the real ocean is being wired in'
+  - id: intro-bug-horizon
+    type: sticky
+    updated: [2026-11-13T09:50:00.000Z, agent:cube-intro]
+    box: [6668, 1900, 560, orange]
+    icon: 🐛
+    text: 'The black block across the horizon (frames 9, 12). Cause, found by core: the island’s height used tanh of the distance from the island; on a GPU tanh of a large number is inf/inf = NaN, so kilometres out the seabed was “not a number”, the horizon became a line of NaN pixels and the bloom smeared it into a block. Fix: clamp the argument; a test holds the height finite out to 100 km. A second of the same family, found by shell: the distance written for the horizon overflowed a half float into inf and blacked out the room’s mirrors whenever the doorway was in view'
+  - id: intro-d-shadow
+    type: sticky
+    updated: [2026-11-13T11:55:00.000Z, agent:cube-intro]
+    box: [6730, -1240, 280, blue]
+    icon: 🧍
+    text: 'The player’s shadow. Asked by the operator: “will there be a shadow from us? or is that part of no interaction with the environment?” First decided yes: a shadow marks nothing and remembers nothing — it is a function of where the body stands, like the hands; at a 9° sun it would be about 11 m long. Later the operator said it does not come back: the player casts no shadow'
+  - id: intro-d-wood
+    type: sticky
+    updated: [2026-11-13T09:55:00.000Z, agent:cube-intro]
+    box: [7036, -1240, 280, blue]
+    icon: 🪜
+    text: 'The ladder is wood. Aluminium was the lead’s pick; the operator: “I never said anything about the material, I have nothing against wood, and it might suit the line ‘where did it come from at all’.” The first frame read as wood anyway. An old weathered wooden ladder, on purpose now'
+  - id: intro-img-13-rung-grip-four
+    type: image
+    updated: [2026-11-13T10:10:00.000Z, agent:cube-intro]
+    box: [5748, 2350, 600]
+    src: images/intro-13-rung-grip-four.webp
+    text: '13. The hands’ grip on a rung, built by pill for the climb: two hands closed round a 40 cm × 3 cm bar, fingers over it with their tips curled back, the thumb crossing under. Four views on one sheet: as the climber sees it, from the side along the bar, from under, from beyond. Shot before the last pose fix (the fingertips sat inside the bar); re-shot frames will replace these. The black rectangle in the far view is the horizon bug, since fixed. Vova, seeing it: “what wonders are these)) must go on the board”'
+  - id: intro-img-14-rung-grip-under
+    type: image
+    updated: [2026-11-13T10:10:00.000Z, agent:cube-intro]
+    box: [6368, 2350, 430]
+    src: images/intro-14-rung-grip-under.webp
+    text: '14. The same grip from under, whole: both hands on the bar against the ceiling tiles, fingertips and thumb in view'
+  - id: intro-img-15-wake-cube-2
+    type: image
+    updated: [2026-11-13T10:35:00.000Z, agent:cube-intro]
+    box: [5748, 2800, 430]
+    src: images/intro-15-wake-cube-2.webp
+    text: '15. The cube from the beach, standing, 10:50Z: shell’s real cube, sand’s ripples, the real ocean out of frame. The bands read as grey-blue on black now (they were brown). Shot from an intermediate waking spot 21.5 m out; the final one is 23.4 m. The sky is still core’s stand-in. Faults: the gap under the cube is a thin slit from here; the sand’s ripples run too evenly; pink speckle in the glints toward the sun'
+  - id: intro-img-16-ladder-foot-2
+    type: image
+    updated: [2026-11-13T10:35:00.000Z, agent:cube-intro]
+    box: [6208, 2800, 430]
+    src: images/intro-16-ladder-foot-2.webp
+    text: '16. The ladder is wood now (the operator: “I have nothing against wood, and it might suit the line where did it come from at all”). The black faces carry small lights — shell’s choice: a night sky under the surface, in layers that shift as the eye moves. The operator: yes, they stay. Fault: a potted plant of floor 1 stands in the doorway opening'
+  - id: intro-img-17-sky-wake-sea
+    type: image
+    updated: [2026-11-13T11:00:00.000Z, agent:cube-intro]
+    box: [6668, 2800, 430]
+    src: images/intro-17-sky-wake-sea.webp
+    text: '17. The real sky, merged: cirrus as straight streaks in patches, cumulus as heaps on a flat base — rewritten after Vova said the earlier shapes were unreal. Known flaws: a few cumulus have a flat top as well, far ones are grainy; the foam lace in the foreground is too coarse (sea’s)'
+  - id: intro-img-18-sky-opposite
+    type: image
+    updated: [2026-11-13T11:00:00.000Z, agent:cube-intro]
+    box: [7128, 2800, 430]
+    src: images/intro-18-sky-opposite.webp
+    text: '18. The same sky looking away from the sun'
+  - id: intro-img-21-film-before
+    type: image
+    updated: [2026-11-13T11:40:00.000Z, agent:cube-intro]
+    box: [7128, 3250, 430]
+    src: images/intro-21-film-before.webp
+    text: '21. Before: the room’s film outdoors — everything near the sun prints white'
+  - id: intro-img-22-film-after
+    type: image
+    updated: [2026-11-13T12:05:00.000Z, agent:cube-intro]
+    box: [5748, 3700, 430]
+    src: images/intro-22-film-after.webp
+    text: '22. After: the daylight film — the sky keeps its gradient right up to the sun’s disc. Re-shot after the interior’s quarter-turn; outdoors it did not change by a pixel. Eye wake-cube, outside lens (exposure 0.3), commit 001b3c9b, clock PLAY_INSTANT 2026-11-01T12:00:00Z, 1280×800'
+  - id: intro-img-23-sun-three-ways
+    type: image
+    updated: [2026-11-13T12:10:00.000Z, agent:cube-intro]
+    box: [6208, 3700, 900]
+    src: images/intro-23-sun-three-ways.webp
+    text: '23. The sun three ways: old film, tail 0.6 (chosen), tail 0.4 (greyer). Closed: the sun’s ring — the sky stays as it is, by the lead’s ruling (the trial pair is sky’s sun-ring-trial-sun, top = kept)'
+  - id: intro-img-25-sky-opposite-cumulus
+    type: image
+    updated: [2026-11-13T12:00:00.000Z, agent:cube-intro]
+    box: [5748, 4150, 430]
+    src: images/intro-25-sky-opposite-cumulus.webp
+    text: '25. Superseded: this frame shows the domed crown the operator turned down (“a mushroom’s cap”). The cloud’s body went back to the earlier shape (uneven top, no dome) at the operator’s word; frame 26 shows it, and no re-shoot of this one is coming. Cumulus away from the sun: the billows are shaded again, no grain, at the old cost. Re-shoot: eye --at -21,1.9,21 --yaw 149 --pitch 9, default lens, 1280×800, clock pinned at PLAY_INSTANT 2026-11-01T12:00:00Z, code 3b066f21 on the sky branch'
+  - id: intro-img-26-cloud-before-after
+    type: image
+    updated: [2026-11-13T12:00:00.000Z, agent:cube-intro]
+    box: [6208, 4150, 520]
+    src: images/intro-26-cloud-before-after.webp
+    text: '26. The approved eye’s cloud, before (top, sky at 54b3c2c7) and now (bottom): the same uneven heap, with its billows lit and shaded. The operator turned down the domed crown the earlier lower half showed (“a mushroom’s cap”), so it is gone. Re-shoot of the lower half: eye --at -15.203,2.10,15.203 --yaw -45 --pitch 4, cropped 520×260 at (0, 200), default lens, 1280×800, clock pinned at PLAY_INSTANT 2026-11-01T12:00:00Z, code 16db04f3 on the sky branch; the upper half is sand’s frame 20'
+  - id: intro-img-27-wet-edge-before-after
+    type: image
+    updated: [2026-11-13T11:58:00.000Z, agent:cube-intro]
+    box: [6948, 4150, 520]
+    src: images/intro-27-wet-edge-before-after.webp
+    text: '27. The wet sand’s mirror meeting dry sand in the cube’s shadow, at 2× crop: before (top) with a ~12 px staircase, after the fix (bottom). Cause: wetness was computed at the mesh’s vertices; it is now computed per pixel. Closed: the wet band looking brighter in the shadow was measured by sand and is right as it stands'
+  - id: intro-img-28-wet-edge-seaward
+    type: image
+    updated: [2026-11-13T11:58:00.000Z, agent:cube-intro]
+    box: [5748, 4800, 430]
+    src: images/intro-28-wet-edge-seaward.webp
+    text: '28. The whole frame after the wet-edge fix, looking seaward. Re-shoot (frames 27 and 28): eye --at -15.2,2.05,15.2 --yaw 135 --pitch -8, clock 2026-11-01T12:00:00Z (1793534400000 ms), 1280×800 at device scale 1, commit 0b0fc832 on the sand branch'
+  - id: intro-img-29-notice-board-doorway
+    type: image
+    updated: [2026-11-13T12:05:00.000Z, agent:cube-intro]
+    box: [6208, 4800, 430]
+    src: images/intro-29-notice-board-doorway.webp
+    text: '29. The quarter-turn’s first casualty: after the cube’s interior was turned in its shell, the doorway landed in a wall that decor still thought was whole, and the dice hung a cork notice board squarely across the only way in. Here it is back-lit in the opening. Pill is clearing it'
+  - id: intro-img-30-notice-board-view-out
+    type: image
+    updated: [2026-11-13T12:05:00.000Z, agent:cube-intro]
+    box: [6668, 4800, 430]
+    src: images/intro-30-notice-board-view-out.webp
+    text: '30. The same fault from the sill: the view of the island is 100% cork'
+  - id: intro-img-31-entering-after-turn
+    type: image
+    updated: [2026-11-13T12:05:00.000Z, agent:cube-intro]
+    box: [7128, 4800, 430]
+    src: images/intro-31-entering-after-turn.webp
+    text: '31. Climbing in after the quarter-turn: trees and bench straight ahead, the beam landing beside the bench, the hatch’s corner left in the dark. Re-shot: eye entering, the floor’s own lens, commit 001b3c9b, clock PLAY_INSTANT, 1280×800, pnpm outside:cube --eyes entering (frames 31–34 share these)'
+  - id: intro-img-32-entering-fresh
+    type: image
+    updated: [2026-11-13T12:05:00.000Z, agent:cube-intro]
+    box: [5748, 5250, 430]
+    src: images/intro-32-entering-fresh.webp
+    text: '32. The same step with eyes still full of daylight (eye entering, --indoors 0)'
+  - id: intro-img-33-entering-halfway
+    type: image
+    updated: [2026-11-13T12:05:00.000Z, agent:cube-intro]
+    box: [6208, 5250, 430]
+    src: images/intro-33-entering-halfway.webp
+    text: '33. …and half used to the room (eye entering, --indoors 0.5)'
+  - id: intro-img-34-in-beam
+    type: image
+    updated: [2026-11-13T12:05:00.000Z, agent:cube-intro]
+    box: [6668, 5250, 430]
+    src: images/intro-34-in-beam.webp
+    text: '34. Standing in the beam, looking where it lands (eye in-beam)'

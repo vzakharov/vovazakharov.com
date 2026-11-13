@@ -1,5 +1,7 @@
 import type { Timed } from '@/kernel/shared/typings';
 
+import type { Seen } from './vec';
+
 /**
  * An instant as everything timed in the cube reads it: which hour since the
  * epoch, and the seconds into it. What happens where is a function of the
@@ -8,6 +10,9 @@ import type { Timed } from '@/kernel/shared/typings';
  * frames by.
  */
 export type Clock = Timed & { hour: number };
+
+/** A scene seen from somewhere at an instant. */
+export type SeenAt = Clock & Seen;
 
 const HOUR_MS = 3_600_000;
 

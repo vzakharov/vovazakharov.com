@@ -48,6 +48,23 @@ const groan: Vocal = (dice) => ({
   ],
 });
 
+/**
+ * Coming to: a breath drawn, a low groan that wavers and sinks, and the air
+ * let out after it.
+ */
+const stirring: Vocal = (dice) => ({
+  text: 'mmh… ugh…',
+  phones: [
+    breath(0.5, 0.35, 0.2),
+    voiced('m', [-3, -1], 0.6 + 0.4 * dice('hum'), { loud: 0.6, ease: 0.2 }),
+    voiced('ax', [-1, -5], 0.7, { loud: 0.8, ease: 0.15 }),
+    voiced('ah', [-4, -9 - 2 * dice('depth')], 1.2 + dice('long'), {
+      ease: 0.3,
+    }),
+    breath(1.3, 0.5, 0.35),
+  ],
+});
+
 const sigh: Vocal = (dice) => ({
   text: '(sigh)',
   phones: [breath(0.4, 0.5, 0.15), breath(1.3 + dice('long'), 0.9, 0.35)],
@@ -172,6 +189,10 @@ const line = ({ text, phones }: ReturnType<Vocal>): Line => ({
   phones,
   tune: 'flat',
 });
+
+export const waking = (dice: Dice): Line => line(stirring(dice));
+
+export const wonder = (dice: Dice): Line => line(asked(dice));
 
 export const firstShrink = (dice: Dice): Line => line(huh(dice));
 

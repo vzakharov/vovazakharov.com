@@ -1,7 +1,15 @@
-import type { Footing } from '@/cube/shared/lib/acoustics';
+import type { Underfoot } from '@/cube/shared/lib/acoustics';
 import { clamp01 } from '@/cube/shared/lib/ease';
 
-import { filterOf, noiseOf, ringing, sampled, swell } from '../../dsp';
+import {
+  CYCLE,
+  dying,
+  filterOf,
+  noiseOf,
+  ringing,
+  sampled,
+  swell,
+} from '../../dsp';
 import { footstep, stepSeconds } from './footstep';
 
 /**
@@ -52,6 +60,34 @@ export function grunt(seed: number, rate: number): Float32Array<ArrayBuffer> {
   });
 }
 
+/**
+ * A swallow, heard from inside the head: the tongue's click against the
+ * palate, the gulp — a closed throat's pitch dropping as it opens and
+ * climbing as it shuts — and the breath let go after it.
+ */
+export function swallow(seed: number, rate: number): Float32Array<ArrayBuffer> {
+  const noise = noiseOf(seed);
+  const tune = 1 + 0.1 * noise();
+  const gulpAt = 0.09 + 0.02 * noise();
+  const gulpFor = 0.17;
+  const palate = filterOf('band', rate);
+  const throat = filterOf('band', rate);
+  const mouth = filterOf('band', rate);
+  let phase = 0;
+  return sampled(0.62, rate, (t) => {
+    const click = 1.5 * palate(noise(), 2100 * tune, 4) * dying(t, 0.012);
+    const x = (t - gulpAt) / gulpFor;
+    // Down as the throat opens, up as it closes: the "g-lk".
+    const hz = tune * (230 + 520 * (2 * x - 1) ** 2 + 260 * x);
+    phase += hz / rate;
+    const gulp =
+      swell(x) ** 0.7 *
+      (0.9 * Math.sin(CYCLE * phase) + throat(noise(), hz * 2.2, 6));
+    const after = 0.5 * mouth(noise(), 1500, 1) * swell((t - 0.34) / 0.28);
+    return click + gulp + after;
+  });
+}
+
 /** A jump leaving the floor: a quick push of breath and the clothes' swish. */
 export function jump(seed: number, rate: number): Float32Array<ArrayBuffer> {
   const noise = noiseOf(seed);
@@ -82,7 +118,7 @@ const WEIGHT = { hz: 48, dies: 0.18, force: 0.9 };
  */
 export function landing(
   speed: number,
-  footing: Footing,
+  footing: Underfoot,
   seed: number,
   rate: number,
 ): Float32Array<ArrayBuffer> {

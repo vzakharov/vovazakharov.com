@@ -1,8 +1,8 @@
 import { CEILING_HEIGHT, ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import { SURFACES } from '@/cube/shared/lib/surface';
+import { wgsl } from '@/cube/shared/shader';
 
 import { FLAGS_WGSL } from '../model/flags';
-import { wgsl } from './wgsl';
 
 const KINDS = SURFACES.map(
   (name, kind) => `const ${name.toUpperCase()}: u32 = ${String(kind)}u;`,

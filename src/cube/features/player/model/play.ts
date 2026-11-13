@@ -3,12 +3,7 @@ import { pick } from '@/kernel/shared/lib/collections';
 import {
   DEEPEST_FLOOR,
   descend,
-  type InRoom,
-  type Lever,
   type Pose,
-  type Posed,
-  type Pulled,
-  type Quarter,
   type Walls,
 } from '@/cube/entities/world';
 
@@ -22,86 +17,26 @@ import {
   LANDING_TIME,
   onHole,
 } from './fall';
+import { gazeOf, glimpse, spanOf } from './look';
 import {
-  gazeOf,
-  glimpse,
-  type Looking,
-  type ShrinkMoment,
-  spanOf,
-} from './look';
-import { LEVER_REACH, scaleAt, SHRINK_TIME, SMALL, swungAt } from './shrink';
-import { EYE_HEIGHT, type Input, RUN_SPEED, step } from './step';
-
-/** A holed room's hole and lever, and the look its lever sets off. */
-export type Holed = Looking & { quarter: Quarter; lever: Lever };
-
-/**
- * One thing that happened to the body in a frame, for whoever makes its
- * sounds and speaks for it. A `step` is a footfall, its `strength` from 0 to 1
- * a run's; a `landing`'s `speed` is in the room sides a second of the floor
- * landed on; `say` is a moment the body has something to say about.
- */
-export type Cue =
-  | { cue: 'step'; strength: number }
-  | { cue: 'lever' }
-  | { cue: 'shrink' }
-  | { cue: 'jump' }
-  | { cue: 'landing'; speed: number }
-  | { cue: 'say'; moment: ShrinkMoment | 'landing' };
-
-/**
- * What the body is in the middle of, for `actFor` seconds: `shrinking` where
- * it stood when it pulled, its gaze resting at `yaw` and `elevation` under
- * whatever the look does with it; `falling` from `from` into the shaft at
- * `to`; or `landing`, its knees giving, on the floor below.
- */
-type Act = { actFor: number } & (
-  | (Looking & { act: 'shrinking'; yaw: number; elevation: number })
-  | { act: 'falling'; from: InRoom; to: InRoom }
-  | { act: 'landing' }
-);
-
-/**
- * The body and what it is up to. `act` is null while it stands or walks,
- * whole or shrunk, which its pose's scale tells apart; `lever` is the one
- * that shrank it, until it lands, and `sincePull` the seconds since; `strode`
- * is how far it has walked since its last footfall, in its own room sides;
- * `cues` is what happened in the frame that made this player.
- */
-export type Player = Posed & {
-  act: Act | null;
-  lever: Pulled | null;
-  sincePull: number;
-  strode: number;
-  cues: readonly Cue[];
-};
-
-const NO_CUES: readonly Cue[] = [];
-
-/** A body standing at `pose` with nothing going on. */
-export const standingAt = (pose: Pose): Player => ({
-  pose,
-  act: null,
-  lever: null,
-  sincePull: 0,
-  strode: 0,
-  cues: NO_CUES,
-});
-
-/** Whether `player` stands or walks, rather than shrinks, falls or lands. */
-export const isStanding = ({ act }: Player): boolean => act === null;
-
-/**
- * The lever `player` pulled and how far its handle has swung; null from the
- * floor below on, as before any pull.
- */
-export const pulledOf = ({ lever }: Player): Pulled | null => lever;
-
-/** `player`'s lever `dt` seconds on: swinging down, then held there. */
-function swinging({ lever, sincePull }: Player, dt: number) {
-  const t = sincePull + dt;
-  return { lever: lever && { ...lever, swung: swungAt(t) }, sincePull: t };
-}
+  type Acting,
+  type Cue,
+  type Holed,
+  NO_CUES,
+  noWalk,
+  type Player,
+  standingAt,
+} from './player';
+import { scaleAt, SHRINK_TIME, SMALL } from './shrink';
+import {
+  EYE_HEIGHT,
+  type Input,
+  RUN_SPEED,
+  step,
+  stridesIn,
+  WALK_STRIDE,
+} from './step';
+import { canTake, isInSight, reachFor, taking } from './take';
 
 /**
  * A whole body arriving on floor `n` by no hole: in the middle of its
@@ -119,19 +54,12 @@ export const arrivedOn = (n: number): Pose => ({
   elevation: 0,
 });
 
-/** How far a body walks between footfalls, in its own room sides: 75 cm. */
-const STRIDE = 0.15;
-
 /** `pose` standing on the floor below, straight under where it stood, as a body of that floor. */
 const below = (pose: Pose): Pose => ({
   ...descend(pose),
   scale: 1,
   eyeAbove: EYE_HEIGHT,
 });
-
-const noWalk = (input: Input): Input => ({ ...input, walk: 0, strafe: 0 });
-
-type Acting<A extends Act['act']> = Player & { act: Act & { act: A } };
 
 function shrink(
   player: Acting<'shrinking'>,
@@ -163,7 +91,6 @@ function shrink(
       eyeAbove: EYE_HEIGHT * scale,
     },
     act: done ? null : { ...act, actFor: t },
-    ...swinging(player, dt),
     cues: actFor < sayAt && t >= sayAt ? [{ cue: 'say', moment }] : NO_CUES,
   };
 }
@@ -223,14 +150,15 @@ function walk(
     : stepped;
   const went = walked(pose, moved) / pose.scale;
   const strode = player.strode + went;
-  const footfall = strode >= STRIDE && dt > 0;
+  const stride = WALK_STRIDE * stridesIn(input);
+  const footfall = strode >= stride && dt > 0;
   const steps: readonly Cue[] = footfall
     ? [{ cue: 'step', strength: Math.min(1, went / dt / RUN_SPEED) }]
     : NO_CUES;
   const walking = {
+    ...player,
     pose: moved,
-    ...swinging(player, dt),
-    strode: footfall ? strode % STRIDE : strode,
+    strode: footfall ? strode % stride : strode,
   };
   if (landing) {
     return { ...walking, act: { act: 'landing', actFor: t }, cues: steps };
@@ -251,23 +179,7 @@ function walk(
   return { ...walking, act: null, cues: steps };
 }
 
-/** Whether a whole body at `pose` reaches `lever`. */
-const canPull = (pose: Pose, { at }: Lever): boolean =>
-  pose.scale >= 1 && Math.hypot(pose.u - at.u, pose.v - at.v) <= LEVER_REACH;
-
-/**
- * `player` after `dt` seconds of `input` among `walls`, `here` being its
- * room's hole and lever (null where it has none, or none known yet).
- *
- * A whole body pulling a lever in reach shrinks where it stands, to `SMALL`
- * over `SHRINK_TIME`, its feet rooted and its gaze the look's while that
- * lasts. Shrunk, it walks its floor at its own size; walking onto any hole it
- * hops in, falls `DROP` and lands a whole body of the floor below, its knees
- * giving for `LANDING_TIME`. A whole body walks over a hole. A standing body
- * that asks to go to a floor the cube has arrives on it that same frame, as
- * `arrivedOn` has it, keeping its gaze.
- */
-export function play(
+function played(
   player: Player,
   input: Input,
   dt: number,
@@ -275,6 +187,7 @@ export function play(
   here: Holed | null,
 ): Player {
   const { pose, act } = player;
+  if (act?.act === 'taking') return taking({ ...player, act }, input, dt);
   if (act?.act === 'shrinking') {
     return shrink({ ...player, act }, input, dt, walls);
   }
@@ -290,24 +203,43 @@ export function play(
       ...pick(pose, 'yaw', 'elevation'),
     });
   }
-  if (act === null && input.pull && here && canPull(pose, here.lever)) {
-    const { n, x, y, yaw, elevation } = pose;
-    const { shrinkLook } = here;
-    const pulled = shrink(
-      {
-        ...player,
-        act: { act: 'shrinking', actFor: 0, shrinkLook, yaw, elevation },
-        lever: { room: { n, x, y }, swung: 0 },
-        sincePull: 0,
-      },
-      input,
-      dt,
-      walls,
-    );
-    return {
-      ...pulled,
-      cues: [{ cue: 'lever' }, { cue: 'shrink' }, ...pulled.cues],
-    };
+  if (act === null && input.use && here && canTake(pose, here.shelf)) {
+    return taking(reachFor(player, here), input, dt);
   }
   return walk(player, input, dt, walls, here);
 }
+
+/**
+ * `player` with its pill back on its shelf once it has swallowed it and the
+ * shelf, `here`'s, is out of its sight: the world keeps a pill for whoever
+ * comes next, and it never appears before an eye that is looking.
+ */
+function restocked(player: Player, here: Holed | null): Player {
+  const { pose, act, pill } = player;
+  if (pill === null || act?.act === 'taking') return player;
+  return here !== null && isInSight(pose, here.shelf)
+    ? player
+    : { ...player, pill: null };
+}
+
+/**
+ * `player` after `dt` seconds of `input` among `walls`, `here` being its
+ * room's hole and shelf (null where it has none, or none known yet).
+ *
+ * A whole body using a pill it can take reaches for it, and what follows is
+ * `taking`'s; the pill swallowed, it shrinks where it stands, to `SMALL` over
+ * `SHRINK_TIME`, its feet rooted and its gaze the look's while that lasts.
+ * Its shelf has a pill again as soon as it looks away from it.
+ * Shrunk, it walks its floor at its own size; walking onto any hole it hops
+ * in, falls `DROP` and lands a whole body of the floor below, its knees
+ * giving for `LANDING_TIME`. A whole body walks over a hole. A standing body
+ * that asks to go to a floor the cube has arrives on it that same frame, as
+ * `arrivedOn` has it, keeping its gaze.
+ */
+export const play = (
+  player: Player,
+  input: Input,
+  dt: number,
+  walls: Walls,
+  here: Holed | null,
+): Player => restocked(played(player, input, dt, walls, here), here);
