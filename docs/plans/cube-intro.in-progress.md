@@ -358,6 +358,28 @@ not append.
   'plastic' glint in the room's renderer goes to shell, after the pink underside
   and deleting `bodyShadow`. Core's seam is out (`ROOM_DOORWAY`, core 2f4ab3ba,
   unmerged, not yet reported to the lead).
+- **State at 11:45Z — lead de2ea63a** holds: shell c49ee5ed (pink underside
+  fixed — film a faint cool sheen, none underneath; `bodyShadow` deleted),
+  core's quarter-turn dda6d590 **as wip** (`INTERIOR_TURN` in
+  `shared/outside/turn.ts`, `interior-turn.test.ts` asserts exactly one of four
+  turns keeps the beam off the hole's quarter; `entering`/`room-doorway` right;
+  `doorway-out` shows the noticeboard across the opening until pill's clear zone
+  lands; core still owes `entering` at indoors 0/0.5 and one outside eye
+  pixel-identical), sound 1165e5ec9 (the sill cuts sea, wind and hum to silence;
+  the boom the operator tried is removed), sky 89c6dae3 (relief back, cost back;
+  undersides and two "mushrooms" next). Gates green at each merge; **the lead
+  has shot no frame since 315051b5**. **Unmerged**: pill 107f9524+ (two decor
+  rules built; then the clock: hour follows minute everywhere, floor 1's time
+  from the sun — the lead's ruling, told to the operator, he has not ruled),
+  walk df3ea135+ (turned interior, waking at `WAKE_AT`, no legs out of doors by
+  the operator's word; strips re-shooting), sea 33ad5cd2+ (finer lace, shore
+  cusps, `shelterAt` — merge when it says its frames confirm). Sand: tracing a
+  ~12 px staircase at the wet sand's mirror edge in the cube's shadow (the
+  operator pointed at it). Shell owes the glint on indoor 'plastic' and
+  re-reading `RECEPTION_SHRUBS` once pill lands. **Messaging**: a message
+  reaches a session only when its turn ends (priority "next" tested, does not
+  join a turn) — every package now runs shoots in the background and ends its
+  turn; `briefs/notice.md`. Board v78.
 - **The explainer** «Два океана» was amended on the operator's comment (how many
   waves "good" takes); answered in its thread. The clouds explainer's session
   (`session_01DaohkFroEeZ7ybMvAY9JoV`) has not reported yet.
