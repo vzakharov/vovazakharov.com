@@ -26,7 +26,7 @@ export const SHELL_SHADER = wgsl(
   /* wgsl */ `
 /// What the ladder's metal gives back: of the light on it as a matte face
 /// would, of what it mirrors, and of the sun's own streak across its grain.
-const ALUMINIUM = vec3f(0.2, 0.5, 0.5);
+const ALUMINIUM = vec3f(0.07, 0.7, 1.1);
 
 struct ShellVertex {
   @location(0) at: vec3f,
@@ -96,7 +96,7 @@ fn fragmentMain(s: ShellSeen) -> Scene {
     let axis = select(LADDER_UP, LADDER_ACROSS, isRung);
     let mid = normalize(SUN_DIR + toEye);
     let along = dot(mid, axis);
-    let sheen = pow(max(1.0 - along * along, 0.0), 40.0) * pow(max(dot(normal, mid), 0.0), 6.0);
+    let sheen = pow(max(1.0 - along * along, 0.0), 40.0) * pow(max(dot(normal, mid), 0.0), 14.0);
     let towards = max(dot(normal, SUN_DIR), 0.0);
     let fill = SKY_FILL * (0.5 + 0.5 * normal.y) + SAND_LIGHT * (0.5 - 0.5 * normal.y);
     let mirror = surround(reflect(-toEye, normal), 3.0 + 4.0 * metal.y);
@@ -113,6 +113,7 @@ fn fragmentMain(s: ShellSeen) -> Scene {
     );
     var band: Band;
     var depth = 2;
+    var glance = 0.5;
     if (s.kind > ${least('reveal')}) {
       // The reveal: the grey all the way through the wall.
       band = Band(0.0, 0.0, 1.0, 1.0, 0.0);
@@ -124,9 +125,16 @@ fn fragmentMain(s: ShellSeen) -> Scene {
       let pixelShare = pixel / (0.5 * CUBE_METRES);
       band = bandAt(1.0 - outward(s.on), pixelShare);
       band.dark = mix(1.0, band.dark, 0.35);
+      // Its lines are for whoever looks up at it; seen along it from the
+      // beach they would run together, so only its rim is lit there.
+      let rim = smoothstep(0.98, 0.988, outward(s.on));
+      band.line = max(band.line * smoothstep(0.08, 0.35, dot(normal, toEye)), rim);
       face.along = vec3f(1.0, 0.0, 0.0);
       face.down = vec3f(0.0, 0.0, 1.0);
       depth = 5;
+      // Seen from the beach it is all glance: left a mirror, it would show
+      // the sand as bright as the gap under it.
+      glance = 0.1;
     } else if (s.kind > ${least('top')}) {
       // The top: the first floor's black folds over the edge, and the rest
       // halve inward to the middle.
@@ -136,7 +144,7 @@ fn fragmentMain(s: ShellSeen) -> Scene {
     } else {
       band = bandAt(1.0 - s.on.y / CUBE_METRES, pixel / CUBE_METRES);
     }
-    light = shellFace(face, band, depth);
+    light = shellFace(face, band, depth, glance);
   }
   return lit(aerial(light, -toEye, metres), metres);
 }

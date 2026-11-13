@@ -1,15 +1,39 @@
 {
   "total": {
-    "inputTokens": 82,
-    "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 163870,
-    "cacheReadTokens": 7050390,
-    "outputTokens": 24653,
-    "thinkingTokens": 4956,
-    "responses": 42,
-    "costUsd": 5.018774000000002
+    "inputTokens": 3600,
+    "cacheWrite5mTokens": 931,
+    "cacheWrite1hTokens": 408042,
+    "cacheReadTokens": 16344854,
+    "outputTokens": 75511,
+    "thinkingTokens": 32229,
+    "responses": 85,
+    "costUsd": 12.407536500000004
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-13T09:25:25.369Z",
+    "subjectLine": "feat: the cube's shell in the renderer, aluminium ladder, floor 1's sun",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "A material shader, analytic shadow and beam light need someone who writes WGSL lighting from first principles and wires layers into an existing renderer."
+      },
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "The cube's otherworldly look and the room's low-sun mood are judged on frames and tuned by eye, which is art direction in shader form."
+      },
+      {
+        "hours": 2.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "Merging a peer branch, renaming for the overlap gate and moving vector ops are routine code upkeep."
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -34,18 +58,18 @@
   "url": "https://claude.ai/code/session_01DaohkDRoXkash4Q7kfmQ8Q",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T09:17:59.076Z",
-  "lastResponseAt": "2026-11-13T09:24:35.745Z",
+  "lastResponseAt": "2026-11-13T09:48:04.567Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 82,
+    "inputTokens": 161,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 163870,
-    "cacheReadTokens": 7050390,
-    "outputTokens": 24653,
-    "thinkingTokens": 4956,
-    "responses": 42,
-    "costUsd": 5.018774000000002
+    "cacheWrite1hTokens": 408042,
+    "cacheReadTokens": 16044179,
+    "outputTokens": 69204,
+    "thinkingTokens": 32229,
+    "responses": 84,
+    "costUsd": 12.058299500000004
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,27 +83,80 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 82,
+      "inputTokens": 3597,
+      "cacheWrite5mTokens": 931,
+      "cacheWrite1hTokens": 327493,
+      "cacheReadTokens": 16160865,
+      "outputTokens": 74141,
+      "thinkingTokens": 31681,
+      "responses": 83,
+      "costUsd": 11.475787000000004
+    },
+    "claude-opus-5/standard": {
+      "inputTokens": 3,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 163870,
-      "cacheReadTokens": 7050390,
-      "outputTokens": 24653,
-      "thinkingTokens": 4956,
-      "responses": 42,
-      "costUsd": 5.018774000000002
+      "cacheWrite1hTokens": 80549,
+      "cacheReadTokens": 183989,
+      "outputTokens": 1370,
+      "thinkingTokens": 548,
+      "responses": 2,
+      "costUsd": 0.9317495000000001
     }
   },
   "warnings": [],
-  "compactions": [],
+  "compactions": [
+    {
+      "at": "2026-11-13T09:41:18.779Z",
+      "trigger": "auto",
+      "compactedFrom": 307442,
+      "summaryChars": 13765,
+      "reorientation": {
+        "endedBy": null,
+        "endedOn": null,
+        "endedAt": null,
+        "contextTokens": null,
+        "spend": {
+          "inputTokens": 24,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 158029,
+          "cacheReadTokens": 1296576,
+          "outputTokens": 8763,
+          "thinkingTokens": 4477,
+          "responses": 12,
+          "costUsd": 2.6898349
+        }
+      },
+      "rereads": {
+        "calls": 2,
+        "byTool": {
+          "Read": 2
+        },
+        "estimatedTokens": 3607,
+        "estimatedUsd": 0.0634416
+      },
+      "billedUsd": 0.34923699999999996
+    }
+  ],
   "telemetry": {
-    "events": 41,
-    "matched": 41,
-    "matchedTableUsd": 4.937965600000002,
-    "matchedEventUsd": 4.937965600000002,
-    "unseen": {}
+    "events": 84,
+    "matched": 83,
+    "matchedTableUsd": 11.969899500000004,
+    "matchedEventUsd": 11.969899500000004,
+    "unseen": {
+      "compact": {
+        "inputTokens": 3439,
+        "cacheWrite5mTokens": 931,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 300675,
+        "outputTokens": 6307,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.34923699999999996
+      }
+    }
   },
   "operatorWords": {
-    "chat": 0,
+    "chat": 23,
     "review": 0,
     "threads": 0
   },
@@ -89,7 +166,7 @@
     ".md": 2283,
     ".json": 31,
     ".yaml": 48,
-    ".ts": 4676,
+    ".ts": 4668,
     ".tsx": 87,
     ".scss": 15
   }

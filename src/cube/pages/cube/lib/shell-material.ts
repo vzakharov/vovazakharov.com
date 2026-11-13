@@ -7,12 +7,12 @@ import { OUTDOOR_STAGE, SKY, SUN } from '@/cube/shared/outside';
 /** What the shell is made of where a floor's band is near-black, and where it is grey. */
 const BLACK = {
   albedo: [0.008, 0.009, 0.011],
-  mirror: 0.03,
+  mirror: 0.06,
   blur: 0.4,
 } as const;
 const GREY = {
-  albedo: [0.022, 0.023, 0.026],
-  mirror: 0.012,
+  albedo: [0.04, 0.046, 0.058],
+  mirror: 0.05,
   blur: 4.2,
 } as const;
 
@@ -124,8 +124,9 @@ struct Face {
 };
 
 /// The light of a point of the shell's material in band \`band\`; \`depth\`
-/// is how many layers of lights stand under its surface where it is black.
-fn shellFace(f: Face, band: Band, depth: i32) -> vec3f {
+/// is how many layers of lights stand under its surface where it is black,
+/// \`glance\` how much of a mirror it is seen along itself.
+fn shellFace(f: Face, band: Band, depth: i32, glance: f32) -> vec3f {
   let facing = dot(f.normal, f.toEye);
   let grazing = pow(1.0 - clamp(facing, 0.0, 1.0), 5.0);
   let towards = max(dot(f.normal, SUN_DIR), 0.0);
@@ -139,18 +140,18 @@ fn shellFace(f: Face, band: Band, depth: i32) -> vec3f {
   // The mirror in it: sharp in the black, brushed in the grey, tinted like
   // oil where it is seen along the face.
   let mirror = mix(${GREY.mirror.toFixed(3)}, ${BLACK.mirror.toFixed(3)}, band.dark);
-  let share = mirror + (0.5 - mirror) * grazing;
+  let share = mirror + max(glance - mirror, 0.0) * grazing;
   let blur = mix(${GREY.blur.toFixed(1)}, ${BLACK.blur.toFixed(1)}, band.dark);
   let film = 0.5 + 0.5 * cos(TURN * (vec3f(0.0, 0.33, 0.67) + 1.3 * (1.0 - facing) + 0.11 * band.level));
-  let tint = mix(vec3f(1.0), film, 0.45 * (1.0 - facing) * (1.0 - facing));
+  let tint = mix(vec3f(1.0), film, 0.9 * glance * (1.0 - facing) * (1.0 - facing));
   light += surround(reflect(-f.toEye, f.normal), blur) * share * tint;
 
   // The sun's own sheen on the brushed grey, drawn out down the face.
   let mid = normalize(SUN_DIR + f.toEye);
   let across = dot(mid, f.along);
   let sheen = pow(max(1.0 - across * across, 0.0), 400.0) * pow(max(dot(f.normal, mid), 0.0), 24.0);
-  let glance = pow(1.0 - max(dot(mid, f.toEye), 0.0), 5.0);
-  light += SUN_LIGHT * sunlit * (1.0 - band.dark) * sheen * (0.03 + 0.97 * glance) * 0.8 * tint;
+  let skim = pow(1.0 - max(dot(mid, f.toEye), 0.0), 5.0);
+  light += SUN_LIGHT * sunlit * (1.0 - band.dark) * sheen * (0.03 + 0.97 * skim) * 0.8 * tint;
 
   // Flecks in the grey that catch the sun one at a time, close to.
   let fleck = 0.0025;

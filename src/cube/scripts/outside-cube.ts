@@ -61,7 +61,12 @@ const onSand = (x: number, z: number, above: number): Outside['eye'] => [
 ];
 
 /** A person of floor 1 standing in its room at `u`, `v`. */
-const inFirstRoom = (u: number, v: number, yaw: number): Pose => ({
+const inFirstRoom = (
+  u: number,
+  v: number,
+  yaw: number,
+  elevation = 0,
+): Pose => ({
   n: 1,
   x: 0n,
   y: 0n,
@@ -70,8 +75,11 @@ const inFirstRoom = (u: number, v: number, yaw: number): Pose => ({
   eyeAbove: EYE_HEIGHT,
   scale: 1,
   yaw,
-  elevation: 0,
+  elevation,
 });
+
+/** Where someone at the pill's shelf stands: by the west wall, the shelf at their side. */
+const AT_SHELF = { u: 0.14, v: 0.68 };
 
 const WAKING = onSand(WAKE_AT[0], WAKE_AT[2], LYING);
 const DOORWAY_V = DOORWAY_MIDDLE / CUBE_METRES;
@@ -88,6 +96,13 @@ const EYES: Record<string, Whereabouts> = {
   },
   'doorway-out': inFirstRoom(0.97, DOORWAY_V, 0),
   'room-doorway': inFirstRoom(0.25, 0.6, Math.atan2(DOORWAY_V - 0.6, 0.75)),
+  'shelf-door': inFirstRoom(
+    AT_SHELF.u,
+    AT_SHELF.v,
+    Math.atan2(DOORWAY_V - AT_SHELF.v, 1 - AT_SHELF.u),
+    -0.12,
+  ),
+  'door-shelf': inFirstRoom(0.9, 0.3, Math.atan2(0.75 - 0.3, -0.9), -0.2),
 };
 
 /** `--name` as a number, or `otherwise` where it is not given. */
