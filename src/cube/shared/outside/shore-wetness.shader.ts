@@ -1,7 +1,7 @@
 // Generated from shore-wetness.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { wgsl } from '../shader';
+import { wgsl } from '../shader/wgsl';
 import { ISLAND_HEIGHT } from './island-height';
 import { SHORE_CUSPS } from './shore-cusps';
 import { SHORE_WETNESS_NUMBERS } from './shore-wetness-numbers';

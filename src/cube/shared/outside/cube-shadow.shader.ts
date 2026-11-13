@@ -2,7 +2,7 @@
 // source, not here — the vet run regenerates this file and fails when it had to.
 
 import { SUN_DISC } from '../lib/sun-disc';
-import { wgsl } from '../shader';
+import { wgsl } from '../shader/wgsl';
 import { CUBE_SHADOW_NUMBERS } from './cube-shadow-numbers';
 import { WORLD } from './frame';
 import { LADDER_WGSL } from './ladder';

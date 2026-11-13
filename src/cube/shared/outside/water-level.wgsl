@@ -38,7 +38,10 @@ fn shoreFacing(along: f32, steep: f32, bed: f32) -> f32 {
   let slow = shoreSlowing(shoreDepth(bed));
   let pace = SWELL_PACE;
   let ahead = pace + slow * along;
-  return ahead / sqrt(pace * pace + 2.0 * pace * slow * along + slow * slow * steep * steep);
+  return
+    ahead / sqrt(
+      pace * pace + 2.0 * pace * slow * along + slow * slow * steep * steep,
+    );
 }
 
 /// What a shore facing the swell by `facing` keeps of a wave's height.
@@ -84,7 +87,8 @@ fn surfLevel(tau: f32, bed: f32, shelter: f32) -> f32 {
   let tall = min(shoaled(open, bed), limit);
   let turns = turnsAt(tau);
   let phase = turns - floor(turns);
-  let shape = mix(peaked(phase, 0.75 * min(steep, 1.0)), bore(phase), breaking(steep));
+  let shape =
+    mix(peaked(phase, 0.75 * min(steep, 1.0)), bore(phase), breaking(steep));
   return tall * shape;
 }
 
@@ -95,23 +99,35 @@ fn sheetDepth(n: f32, tau: f32, bed: f32, shelter: f32) -> f32 {
   let since = tau - landed;
   let launch = sqrt(2.0 * SEA_GRAVITY * swashReach(landed, shelter));
   let up = max(bed, 0.0) / BEACH_SLOPE;
-  let thin = launch - 0.5 * SEA_GRAVITY * BEACH_SLOPE * since - up / max(since, 1e-3);
+  let thin =
+    launch - 0.5 * SEA_GRAVITY * BEACH_SLOPE * since - up / max(since, 1e-3);
   if (since <= 0.0 || thin <= 0.0) {
     return 0.0;
   }
-  return SHEET_THICK / (9.0 * SEA_GRAVITY) * thin * thin
-    * smoothstep(0.0, SHEET_GATHERS, since)
-    * exp(min(bed, 0.0) / 0.25);
+  return
+    SHEET_THICK
+      / (9.0 * SEA_GRAVITY)
+      * thin
+      * thin
+      * smoothstep(0.0, SHEET_GATHERS, since)
+      * exp(min(bed, 0.0) / 0.25);
 }
 
 /// The sea's slow surface where the bed stands at `bed`, a point's `run`
 /// metres along the swell's heading, keeping `shelter` of a wave and `tongue`
 /// of that again in its swash, at `seconds`.
-fn swellLevel(run: f32, bed: f32, shelter: f32, tongue: f32, seconds: f32) -> f32 {
+fn swellLevel(
+  run: f32,
+  bed: f32,
+  shelter: f32,
+  tongue: f32,
+  seconds: f32,
+) -> f32 {
   let tau = seconds - run * SWELL_PACE - shoreDelay(shoreDepth(bed));
   let thrown = shelter * tongue;
   let n = floor(turnsAt(tau));
-  let sheet = max(sheetDepth(n, tau, bed, thrown), sheetDepth(n - 1.0, tau, bed, thrown));
+  let sheet =
+    max(sheetDepth(n, tau, bed, thrown), sheetDepth(n - 1.0, tau, bed, thrown));
   var low = bed - DRY_UNDER * smoothstep(0.0, 0.05, bed);
   if (bed < 0.0) {
     low = surfLevel(tau, bed, shelter);
@@ -129,10 +145,15 @@ fn swellLevel(run: f32, bed: f32, shelter: f32, tongue: f32, seconds: f32) -> f3
 /// The bed's rise per metre at `xz`, along x and z.
 fn shoreRise(xz: vec2f) -> vec2f {
   let reach = SHORE_FACING_REACH;
-  return vec2f(
-    islandHeight(xz + vec2f(reach, 0.0)) - islandHeight(xz - vec2f(reach, 0.0)),
-    islandHeight(xz + vec2f(0.0, reach)) - islandHeight(xz - vec2f(0.0, reach)),
-  ) / (2.0 * reach);
+  return
+    vec2f(
+      islandHeight(xz + vec2f(reach, 0.0)) - islandHeight(
+        xz - vec2f(reach, 0.0),
+      ),
+      islandHeight(xz + vec2f(0.0, reach)) - islandHeight(
+        xz - vec2f(0.0, reach),
+      ),
+    ) / (2.0 * reach);
 }
 
 /// The sea's slow surface at `xz` at time `t`: metres over the still sea,

@@ -163,6 +163,24 @@ describe('pnpm shaders:codegen', () => {
     assert.equal(run(root).status, 0);
   });
 
+  it("enters another shared segment's file directly, not by its barrel", () => {
+    const root = tree({
+      '../../shared/outside/sun.wgsl': 'const SUN = 0.5;\n',
+      '../../shared/sky/glow.wgsl':
+        'import package::cube::shared::outside::sun::SUN;\n\nfn glow() -> f32 {\n  return SUN;\n}\n',
+    });
+    const first = run(root);
+    assert.equal(first.status, 1, first.report);
+    assert.match(
+      fs.readFileSync(
+        path.join(root, THEME, '../../shared/sky/glow.shader.ts'),
+        'utf8',
+      ),
+      /import { SUN } from '\.\.\/outside\/sun\.shader';/,
+    );
+    assert.equal(run(root).status, 0);
+  });
+
   for (const [name, files, says] of REFUSALS) {
     it(`refuses ${name}`, () => {
       const root = tree(files);

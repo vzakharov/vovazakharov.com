@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 7202,
-    "cacheWrite5mTokens": 636001,
-    "cacheWrite1hTokens": 420437,
-    "cacheReadTokens": 42343252,
-    "outputTokens": 201288,
-    "thinkingTokens": 92971,
-    "responses": 253,
-    "costUsd": 19.066719400000014
+    "inputTokens": 7267,
+    "cacheWrite5mTokens": 682717,
+    "cacheWrite1hTokens": 454235,
+    "cacheReadTokens": 48331225,
+    "outputTokens": 237994,
+    "thinkingTokens": 110937,
+    "responses": 283,
+    "costUsd": 21.50265800000002
   },
   "estimate": {
     "at": "2026-11-13T16:58:16.495Z",
@@ -45,7 +45,7 @@
     }
   },
   "sessionId": "bdc15569-87b0-5272-9102-153ba266e82a",
-  "branch": "claude/cube-wesl-trial",
+  "branch": "worktree-agent-a2792e4fdf1014de9",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/cube-wesl-trial — база догнана, пины этажей и улицы зелёные, уличные шейдеры ещё в TS",
   "prs": [
@@ -54,39 +54,39 @@
   "url": "https://claude.ai/code/session_01DaohkCaoV7hfxzNmeuHhLY",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T16:57:56.146Z",
-  "lastResponseAt": "2026-11-13T17:28:01.833Z",
+  "lastResponseAt": "2026-11-13T17:30:57.113Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 306,
+    "inputTokens": 329,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 420437,
-    "cacheReadTokens": 31666755,
-    "outputTokens": 122137,
-    "thinkingTokens": 46434,
-    "responses": 159,
-    "costUsd": 12.140810999999998
+    "cacheWrite1hTokens": 454235,
+    "cacheReadTokens": 34699703,
+    "outputTokens": 127786,
+    "thinkingTokens": 48403,
+    "responses": 171,
+    "costUsd": 13.130856599999996
   },
   "subagents": {
-    "inputTokens": 204,
-    "cacheWrite5mTokens": 635329,
+    "inputTokens": 246,
+    "cacheWrite5mTokens": 682045,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 10383869,
-    "outputTokens": 70742,
-    "thinkingTokens": 46537,
-    "responses": 93,
-    "costUsd": 6.6690748000000015
+    "cacheReadTokens": 13338894,
+    "outputTokens": 101799,
+    "thinkingTokens": 62534,
+    "responses": 111,
+    "costUsd": 8.114967799999999
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 7202,
-      "cacheWrite5mTokens": 636001,
-      "cacheWrite1hTokens": 420437,
-      "cacheReadTokens": 42343252,
-      "outputTokens": 201288,
-      "thinkingTokens": 92971,
-      "responses": 253,
-      "costUsd": 19.066719400000014
+      "inputTokens": 7267,
+      "cacheWrite5mTokens": 682717,
+      "cacheWrite1hTokens": 454235,
+      "cacheReadTokens": 48331225,
+      "outputTokens": 237994,
+      "thinkingTokens": 110937,
+      "responses": 283,
+      "costUsd": 21.50265800000002
     }
   },
   "warnings": [],
@@ -122,10 +122,10 @@
     }
   ],
   "telemetry": {
-    "events": 252,
-    "matched": 251,
-    "matchedTableUsd": 18.735489800000014,
-    "matchedEventUsd": 18.735489800000014,
+    "events": 283,
+    "matched": 282,
+    "matchedTableUsd": 21.24582440000002,
+    "matchedEventUsd": 21.24582440000002,
     "unseen": {
       "compact": {
         "inputTokens": 6692,
@@ -147,7 +147,7 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".ts": 25904,
+    ".ts": 25981,
     ".md": 1124,
     ".json": 87,
     ".yaml": 765,

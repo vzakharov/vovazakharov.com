@@ -1,8 +1,11 @@
 // Generated from sky.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { wgsl } from '../shader';
-import { CLEAR_SKY, CLOUD_VEIL, CLOUDS_WGSL, SUN_GLOW } from '../sky';
+import { wgsl } from '../shader/wgsl';
+import { CLEAR_SKY } from '../sky/clear-sky';
+import { CLOUD_VEIL } from '../sky/cloud-veil';
+import { CLOUDS_WGSL } from '../sky/clouds';
+import { SUN_GLOW } from '../sky/sun-glow';
 import { SUN } from './sun';
 
 export const SKY = wgsl(

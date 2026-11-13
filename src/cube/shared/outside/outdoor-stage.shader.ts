@@ -1,7 +1,7 @@
 // Generated from outdoor-stage.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { wgsl } from '../shader';
+import { wgsl } from '../shader/wgsl';
 import { OUTDOOR_FRAME } from './outdoor-frame';
 
 export const OUTDOOR_STAGE = wgsl(

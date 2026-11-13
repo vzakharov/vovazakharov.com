@@ -1,8 +1,8 @@
 // Generated from aerial.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { wgsl } from '../shader';
-import { CLEAR_SKY } from '../sky';
+import { wgsl } from '../shader/wgsl';
+import { CLEAR_SKY } from '../sky/clear-sky';
 
 export const AERIAL = wgsl(
   'cube/shared/outside/aerial',
