@@ -245,8 +245,10 @@ fn panelsMirrored(s: Surf, plane: vec3f, blur: f32, lamps: Lamps) -> vec3f {
   // Past the rooms around, the ceiling mirrored is taken for theirs.
   let by = clamp(vec2i(floor(hit.xz / ROOM.xz)), vec2i(-1), vec2i(1));
   let soft = blur * length(hit - s.p);
-  return lamps.colour * (GLARE * lampsBeside(s, by, lamps.stutter))
-    * lampBlur(hit.xz, lamps.grid, lamps.size, soft);
+  return
+    lamps.colour
+      * (GLARE * lampsBeside(s, by, lamps.stutter))
+      * lampBlur(hit.xz, lamps.grid, lamps.size, soft);
 }
 
 /// The point lit by the lamps around it: their direct light and what the
@@ -269,14 +271,21 @@ fn roomLight(s: Surf, m: Material, lamps: Lamps) -> vec3f {
   if (s.kind == PLASTIC) {
     // Plastic is too small and too rounded for the frame to mirror in: it
     // carries the panels' own blurred image, which is its highlight.
-    colour += panelsMirrored(s, normal, SKIN_BLUR, lamps) * ((0.04 + 0.96 * along) * shade);
+    colour +=
+      panelsMirrored(
+        s,
+        normal,
+        SKIN_BLUR,
+        lamps,
+      ) * ((0.04 + 0.96 * along) * shade);
   } else if (m.gloss > 0.0 && s.normal.y > 0.9) {
     // The floor mirrors off its plane, its relief only rippling what it
     // shows: relief steep at every joint between boards would throw single
     // pixels' rays onto a panel, and the floor would sparkle.
     let plane = normalize(s.normal + RIPPLE * m.relief);
     let blur = BLUR * (1.0 - m.gloss);
-    mirroring = Mirror(mirror, plane, blur, panelsMirrored(s, plane, blur, lamps));
+    mirroring =
+      Mirror(mirror, plane, blur, panelsMirrored(s, plane, blur, lamps));
   }
   return colour;
 }

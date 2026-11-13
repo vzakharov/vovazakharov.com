@@ -12,4 +12,3 @@ export { type Shrub, sunlit } from './lib/sun';
 export { roomFlags, type RoomState } from './model/flags';
 export { type Floors, floorSource, type FloorTheme } from './model/theme';
 export { vec3f, type Wgsl, wgsl } from '@/cube/shared/shader';
-export { HASH } from '@/cube/shared/shader';

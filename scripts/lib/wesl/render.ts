@@ -26,7 +26,7 @@ const FACTORY: Named = {
  * (`app`, `shared`) whole.
  */
 const homeOf = (file: string): string => {
-  const [app = '', layer = ''] = path.relative('src', file).split(path.sep);
+  const [, layer = ''] = path.relative('src', file).split(path.sep);
   const depth = SLICED_LAYERS.includes(layer) ? 4 : 3;
   return file.split(path.sep).slice(0, depth).join(path.sep);
 };

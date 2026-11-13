@@ -54,7 +54,8 @@ fn stuff(s: Surf) -> Material {
     }
     case PLASTIC: {
       // Moulded smooth: without a highlight a black one is a hole in the room.
-      return polished(painted(s, vec3f(0.5, 0.5, 0.48)) * (0.92 + 0.1 * fine), 0.6);
+      return
+        polished(painted(s, vec3f(0.5, 0.5, 0.48)) * (0.92 + 0.1 * fine), 0.6);
     }
     case FABRIC: {
       let weave = valueNoise(s.uv * 400.0, 34u);

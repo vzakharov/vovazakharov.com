@@ -53,7 +53,11 @@ fn tiled(s: Surf) -> Material {
   // The panels are off: milky diffusers, a shade duller than the tiles.
   let panel = lampMask(s.p.xz, 2, vec2f(1.2));
   let prisms = 0.92 + 0.08 * tiling(s.uv, 0.012, 0.004, 6u).x;
-  let ceiling = polished(mix(albedo, vec3f(0.33, 0.34, 0.33) * prisms, panel), 0.45 * panel);
+  let ceiling =
+    polished(
+      mix(albedo, vec3f(0.33, 0.34, 0.33) * prisms, panel),
+      0.45 * panel,
+    );
   return embossed(s, ceiling, (tile.x - 0.2 * pin) * (1.0 - panel), 0.006);
 }
 

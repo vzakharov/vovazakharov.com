@@ -30,7 +30,8 @@ fn cellHash(cell: vec2i, salt: u32) -> u32 {
 /// mixer: for a lattice read many times a pixel, where `cellHash`'s four
 /// rounds a point are the whole cost.
 fn pointHash(point: vec3i, salt: u32) -> u32 {
-  let spread = bitcast<vec3u>(point) * vec3u(0x9e3779b1u, 0x85ebca77u, 0xc2b2ae3du);
+  let spread =
+    bitcast<vec3u>(point) * vec3u(0x9e3779b1u, 0x85ebca77u, 0xc2b2ae3du);
   return mix32(spread.x + spread.y + spread.z + salt);
 }
 
