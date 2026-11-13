@@ -219,12 +219,17 @@ async function main(): Promise<void> {
         viewport: VIEWPORT,
         commit: at,
       };
-      const record = JSON.stringify(shot, (_, value: unknown) =>
-        typeof value === 'bigint' ? String(value) : value,
-      );
-      await writeFile(path.join(FRAMES, `${name}.shot.json`), `${record}\n`);
+      // Indented, the file is as the repo's formatter would leave it.
+      const record = (indent?: number): string =>
+        JSON.stringify(
+          shot,
+          (_, value: unknown) =>
+            typeof value === 'bigint' ? String(value) : value,
+          indent,
+        );
+      await writeFile(path.join(FRAMES, `${name}.shot.json`), `${record(2)}\n`);
       process.stdout.write(
-        `  ${record}\n  in ${String(Date.now() - started)} ms\n`,
+        `  ${record()}\n  in ${String(Date.now() - started)} ms\n`,
       );
     }),
   );
