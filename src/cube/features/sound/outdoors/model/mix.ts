@@ -5,7 +5,7 @@ import { CUBE_METRES } from '@/cube/shared/outside';
 import { bearingOf, type Sided } from '../../cues';
 import { CYCLE } from '../../dsp';
 import { type Coast, type Surf, surfAt } from './shore';
-import { gustAt, SECONDS_AN_HOUR, UPWIND } from './weather';
+import { gustAt, SECONDS_AN_HOUR, UPWIND, WASH_TURNS } from './weather';
 
 /**
  * What sounds outside without stopping: the surf's three (the break's roar,
@@ -180,8 +180,8 @@ export function outsideMix(
       hiss: levelled(surf.running, LEVELS.hiss),
       fizz: levelled(surf.draining, LEVELS.fizz),
       wash: {
-        leftEar: LEVELS.wash * heave(0),
-        rightEar: LEVELS.wash * heave(0.3),
+        leftEar: LEVELS.wash * heave(WASH_TURNS.left),
+        rightEar: LEVELS.wash * heave(WASH_TURNS.right),
       },
       wind: {
         leftEar: LEVELS.wind * blowing * (1 - 0.25 * upwind),

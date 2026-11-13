@@ -71,6 +71,7 @@ const BANDS = {
   hum: [30, 320],
   roar: [60, 700],
   hiss: [2000, 9000],
+  wind: [100, 4000],
   all: [25, 15_000],
 } as const;
 
@@ -130,6 +131,17 @@ function take(
   ).toSorted((a, b) => a - b);
   const lulls = clear.slice(Math.floor(0.75 * clear.length));
 
+  const windLayers: ReadonlySet<Layer> = new Set(['wind', 'buffet']);
+  const windOnly = bandOver(
+    alone((layer) => windLayers.has(layer)),
+    ...BANDS.wind,
+  );
+  const restOnly = bandOver(
+    alone((layer) => !windLayers.has(layer)),
+    ...BANDS.wind,
+  );
+  const windOver = decibels(mean(windOnly)) - decibels(mean(restOnly));
+
   const moments = heard.columns.map(
     (_, column) => from + column * heard.secondsPerColumn,
   );
@@ -177,6 +189,7 @@ function take(
           `${band} ${fixed(decibels(mean(bandOver(heard, low, high))))}`,
       )
       .join(', ')}`,
+    `- the wind alone ${fixed(decibels(mean(windOnly)))} dBFS in its band, ${fixed(windOver)} dB against the rest of the mix`,
     `- the hum's clearest partial over its masker: ${fixed(mean(clear))} dB on average, ${fixed(mean(lulls))} dB in the quarter of the time it is clearest`,
     `- roar follows the water breaking: fit ${fixed(broke.fit, 2)}, ${late(broke.late)}`,
     `- hiss follows the water running up: fit ${fixed(ran.fit, 2)}, ${late(ran.late)}`,

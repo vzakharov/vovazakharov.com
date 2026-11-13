@@ -1,19 +1,22 @@
 import type { Timed } from '@/kernel/shared/typings';
 
+import { hashOf, unitOf } from '@/cube/shared/lib/hash32';
+
 export const CYCLE = 2 * Math.PI;
 
 /** A draw in `[-1, 1)`; the same seed gives the same run of them. */
 type Noise = () => number;
 
-/** White noise from `seed`, a 32-bit word (mulberry32). */
+/**
+ * White noise from `seed`, a word rolled from a named path: sample `n` is the
+ * kit's integer hash of `(seed, n)`, the sound's counterpart of a pixel's
+ * grain, so no generator of its own sits behind it.
+ */
 export function noiseOf(seed: number): Noise {
-  let state = seed >>> 0;
+  let n = 0;
   return () => {
-    state = (state + 0x6d_2b_79_f5) >>> 0;
-    let t = state;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 2 ** 31 - 1;
+    n += 1;
+    return 2 * unitOf(hashOf(seed, n)) - 1;
   };
 }
 
