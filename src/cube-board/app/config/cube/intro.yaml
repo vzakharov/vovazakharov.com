@@ -298,10 +298,10 @@ items:
     text: '19. Standing on the wet foreshore toward the sun: the wet sand mirrors the sky and carries the sun’s glare, brighter the further it lies. Open: close to the eye the band stays dark'
   - id: intro-img-20-sky-approved-eye
     type: image
-    updated: [2026-11-13T11:15:00.000Z, agent:cube-intro]
+    updated: [2026-11-13T11:20:00.000Z, agent:cube-intro]
     box: [6208, 3250, 430]
     src: images/intro-20-sky-approved-eye.webp
-    text: '20. The approved eye under the new sky: gold sand, ripples in fields across the view, white sparks, the cube’s shadow violet-blue. Open: the operator chooses between this gold tone and the earlier pinkish beige; the inside of the shadow is still even'
+    text: '20. The approved eye under the new sky: gold sand, ripples in fields across the view, white sparks, the cube’s shadow violet-blue. The operator, on seeing it: “AAAA, give me two!” The gold tone is chosen over the earlier pinkish beige. Open: the inside of the shadow is still even'
   - id: intro-img-ref-approved
     type: image
     updated: [2026-11-13T11:10:00.000Z, agent:cube-intro]
