@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 19256,
+    "inputTokens": 19294,
     "cacheWrite5mTokens": 115786,
-    "cacheWrite1hTokens": 739353,
-    "cacheReadTokens": 54385321,
-    "outputTokens": 209462,
-    "thinkingTokens": 59909,
-    "responses": 259,
-    "costUsd": 31.3377394
+    "cacheWrite1hTokens": 850751,
+    "cacheReadTokens": 57113759,
+    "outputTokens": 225165,
+    "thinkingTokens": 68547,
+    "responses": 278,
+    "costUsd": 34.29421900000001
   },
   "estimate": {
     "at": "2026-11-13T09:39:38.986Z",
@@ -52,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkDD34tV9S8mR3o9S3o",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T09:16:23.585Z",
-  "lastResponseAt": "2026-11-13T11:53:02.634Z",
+  "lastResponseAt": "2026-11-13T12:09:12.499Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 18.268161600000003,
   "ownTurns": {
-    "inputTokens": 468,
+    "inputTokens": 506,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 739353,
-    "cacheReadTokens": 50504583,
-    "outputTokens": 180152,
-    "thinkingTokens": 59717,
-    "responses": 238,
-    "costUsd": 29.1403886
+    "cacheWrite1hTokens": 850751,
+    "cacheReadTokens": 53233021,
+    "outputTokens": 195855,
+    "thinkingTokens": 68355,
+    "responses": 257,
+    "costUsd": 32.0968682
   },
   "subagents": {
     "inputTokens": 14,
@@ -77,14 +77,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 18055,
+      "inputTokens": 18093,
       "cacheWrite5mTokens": 5050,
-      "cacheWrite1hTokens": 739353,
-      "cacheReadTokens": 53963341,
-      "outputTokens": 203105,
-      "thinkingTokens": 59717,
-      "responses": 251,
-      "costUsd": 30.9551842
+      "cacheWrite1hTokens": 850751,
+      "cacheReadTokens": 56691779,
+      "outputTokens": 218808,
+      "thinkingTokens": 68355,
+      "responses": 270,
+      "costUsd": 33.9116638
     },
     "claude-sonnet-5-5/standard": {
       "inputTokens": 14,
@@ -178,10 +178,10 @@
       "compactedFrom": 303600,
       "summaryChars": 13774,
       "reorientation": {
-        "endedBy": null,
-        "endedOn": null,
-        "endedAt": null,
-        "contextTokens": null,
+        "endedBy": "Edit",
+        "endedOn": "src/cube/shared/outside/shore-cusps.ts",
+        "endedAt": "2026-11-13T11:54:52.188Z",
+        "contextTokens": 121716,
         "spend": {
           "inputTokens": 0,
           "cacheWrite5mTokens": 0,
@@ -194,19 +194,21 @@
         }
       },
       "rereads": {
-        "calls": 0,
-        "byTool": {},
-        "estimatedTokens": 0,
-        "estimatedUsd": 0.0
+        "calls": 1,
+        "byTool": {
+          "Read": 1
+        },
+        "estimatedTokens": 2509,
+        "estimatedUsd": 0.04215120000000001
       },
       "billedUsd": 0.348851
     }
   ],
   "telemetry": {
-    "events": 259,
-    "matched": 245,
-    "matchedTableUsd": 29.522814600000004,
-    "matchedEventUsd": 29.522814600000004,
+    "events": 277,
+    "matched": 263,
+    "matchedTableUsd": 32.35819700000001,
+    "matchedEventUsd": 32.35819700000001,
     "unseen": {
       "generate_session_title": {
         "inputTokens": 1187,
@@ -248,11 +250,11 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 2897,
-    ".json": 32,
+    ".md": 3071,
+    ".json": 38,
     ".yaml": 48,
-    ".ts": 13754,
-    ".tsx": 89,
+    ".ts": 15566,
+    ".tsx": 108,
     ".scss": 15
   }
 }

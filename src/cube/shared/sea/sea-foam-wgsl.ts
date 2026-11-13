@@ -19,6 +19,8 @@ const FINER = 2.4;
 const BUBBLES = 38;
 /** Still depth, metres, by which a breaker's foam rides at full strength. */
 const SURF_FLOATS = 0.3;
+/** How wide a breaker's roller is from front to back, metres, about. */
+const ROLLER_WIDE = 1.2;
 /** A sheet thinner than this, metres, is its own white edge. */
 const EDGE = 0.025;
 
@@ -55,13 +57,13 @@ fn foamWalls(p: vec2f, salt: u32) -> f32 {
 /// How much of a pixel foam of thickness \`dense\` covers at \`p\` on the
 /// lace's own plan: whole at 1 and over, then breaking into patches joined
 /// by the threads that bubbles gather into along the walls between cells. A
-/// pixel \`blur\` of that plan wide shows the threads narrower than itself
-/// as their mean, not as dots.
+/// pixel \`blur\` of that plan wide shows the threads and patches narrower
+/// than itself as their mean, not as dots.
 fn laceAt(p: vec2f, dense: f32, blur: f32) -> f32 {
   let warp = vec2f(fbm(p * 0.9, 11u, 3), fbm(p * 0.9 + vec2f(7.7, 3.1), 14u, 3)) - 0.5;
   let fold = vec2f(valueNoise(p * 3.7, 12u), valueNoise(p * 3.7 + vec2f(2.3, 9.1), 13u)) - 0.5;
   let at = p + 0.9 * warp + 0.22 * fold;
-  let patches = fbm(at * 0.7, 17u, 4);
+  let patches = mix(0.5, fbm(at * 0.7, 17u, 4), 1.0 - smoothstep(0.7, 2.8, blur));
   let wide = 0.2 + 2.6 * blur;
   let wider = 0.4 + 9.0 * blur;
   // A thread drawn wider is drawn fainter, toward what the walls cover of
@@ -76,7 +78,8 @@ fn laceAt(p: vec2f, dense: f32, blur: f32) -> f32 {
   let fine = mix(0.29, 1.0 - smoothstep(0.0, wider, foamWalls(at * 9.0, 22u)), 0.4 / wider);
   let body = 0.5 * patches + 0.36 * threads + 0.18 * fine + 0.07 * frayed;
   let open = 1.0 - 1.15 * min(dense, 1.0);
-  return smoothstep(open - 0.5 * blur, open + 0.3 + 0.5 * blur, body)
+  let soft = 0.5 * min(blur, 1.0);
+  return smoothstep(open - soft, open + 0.3 + soft, body)
     * smoothstep(0.02, 0.1, dense);
 }
 
@@ -121,20 +124,24 @@ fn surfReaches(shore: Shore) -> f32 {
 
 /// How thick the foam lies at \`still\`: the wind's whitecaps, where the
 /// surface is squeezed to a point; a breaker's roller and what it leaves; and
-/// the swash sheets' edges and backs. Over 1 where it is churning.
-fn foamThickness(still: vec2f, shore: Shore, squeeze: f32) -> f32 {
+/// the swash sheets' edges and backs. Over 1 where it is churning. A pixel
+/// \`pixel\` metres wide shows a roller narrower than itself as its share
+/// of the pixel.
+fn foamThickness(still: vec2f, shore: Shore, squeeze: f32, pixel: f32) -> f32 {
   var dense = smoothstep(0.6, 1.1, -squeeze);
   let afloat = surfReaches(shore);
   if (afloat > 0.0 && shore.broken > 0.0) {
     // The roller's back edge is ragged: each stretch of crest lets go of
     // its foam a little sooner or later than the next.
-    let ragged = shore.phase - 0.035 * fbm(still * 1.7, 31u, 3);
+    let ragged = shore.phase
+      - 0.035 * mix(0.5, fbm(still * 1.7, 31u, 3), clamp(1.5 - 2.0 * pixel, 0.0, 1.0));
     let roller = max(
       smoothstep(0.93, 0.965, shore.phase),
       1.0 - smoothstep(0.0, 0.035, ragged),
     );
     let trail = 0.75 * exp(-shore.phase * ${f32(PERIOD / TRAIL_LASTS)});
-    dense = max(dense, afloat * shore.broken * max(1.4 * roller, trail));
+    let share = clamp(${f32(ROLLER_WIDE)} / pixel, 0.4, 1.0);
+    dense = max(dense, afloat * shore.broken * max(1.4 * share * roller, trail));
   }
   for (var i = 0; i < 2; i++) {
     let sheet = shore.sheet[i];
