@@ -168,10 +168,10 @@
     }
   ],
   "telemetry": {
-    "events": 272,
-    "matched": 268,
-    "matchedTableUsd": 33.564662200000015,
-    "matchedEventUsd": 33.56466220000002,
+    "events": 273,
+    "matched": 269,
+    "matchedTableUsd": 33.692067000000016,
+    "matchedEventUsd": 33.69206700000002,
     "unseen": {
       "compact": {
         "inputTokens": 6020,
@@ -206,7 +206,7 @@
     ".md": 3017,
     ".json": 38,
     ".yaml": 48,
-    ".ts": 15476,
+    ".ts": 15553,
     ".tsx": 108,
     ".scss": 15
   }

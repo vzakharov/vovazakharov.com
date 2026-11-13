@@ -64,8 +64,14 @@ describe("what stands in the reception's beam, as its light has it", () => {
     for (const [index, { min, max }] of stood.entries()) {
       const held = RECEPTION_BEAM_BOXES[index];
       for (const axis of [0, 1, 2] as const) {
-        assert.ok(Math.abs((held?.min[axis] ?? NaN) - min[axis]) < 0.005, said);
-        assert.ok(Math.abs((held?.max[axis] ?? NaN) - max[axis]) < 0.005, said);
+        assert.ok(
+          Math.abs((held?.min[axis] ?? Number.NaN) - min[axis]) < 0.005,
+          said,
+        );
+        assert.ok(
+          Math.abs((held?.max[axis] ?? Number.NaN) - max[axis]) < 0.005,
+          said,
+        );
       }
     }
   });
