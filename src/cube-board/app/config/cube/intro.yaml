@@ -1,8 +1,8 @@
 items:
   - id: z-intro
     type: zone
-    updated: [2026-11-13T09:40:00.000Z, agent:cube-intro]
-    box: [5720, -2150, 1880, 4550, orange]
+    updated: [2026-11-13T10:10:00.000Z, agent:cube-intro]
+    box: [5720, -2150, 1880, 5150, orange]
     icon: 🏝️
     text: 'The intro: an island, the cube from outside, the way in'
   - id: intro-h-premise
@@ -254,3 +254,15 @@ items:
     box: [7036, -1240, 280, blue]
     icon: 🪜
     text: 'The ladder is wood. Aluminium was the lead’s pick; the operator: “I never said anything about the material, I have nothing against wood, and it might suit the line ‘where did it come from at all’.” The first frame read as wood anyway. An old weathered wooden ladder, on purpose now'
+  - id: intro-img-13-rung-grip-four
+    type: image
+    updated: [2026-11-13T10:10:00.000Z, agent:cube-intro]
+    box: [5748, 2350, 600]
+    src: images/intro-13-rung-grip-four.webp
+    text: '13. The hands’ grip on a rung, built by pill for the climb: two hands closed round a 40 cm × 3 cm bar, fingers over it with their tips curled back, the thumb crossing under. Four views on one sheet: as the climber sees it, from the side along the bar, from under, from beyond. Shot before the last pose fix (the fingertips sat inside the bar); re-shot frames will replace these. The black rectangle in the far view is the horizon bug, since fixed. Vova, seeing it: “what wonders are these)) must go on the board”'
+  - id: intro-img-14-rung-grip-under
+    type: image
+    updated: [2026-11-13T10:10:00.000Z, agent:cube-intro]
+    box: [6368, 2350, 430]
+    src: images/intro-14-rung-grip-under.webp
+    text: '14. The same grip from under, whole: both hands on the bar against the ceiling tiles, fingertips and thumb in view'
