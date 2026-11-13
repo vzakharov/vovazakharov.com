@@ -1,7 +1,7 @@
 // Generated from sand-grain.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { ISLAND_HEIGHT } from '../outside/island-height';
+import { ISLAND_EASE } from '../outside/island-ease.shader';
 import { HASH } from '../shader/hash.shader';
 import { wgsl } from '../shader/wgsl';
 import { SAND_RELIEF } from './sand-relief.shader';
@@ -295,7 +295,7 @@ fn sandLitter(xz: vec2f, h: f32, px: f32, sun: vec3f) -> Litter {
   return litter;
 }
 `,
-  ISLAND_HEIGHT,
+  ISLAND_EASE,
   HASH,
   SAND_RELIEF,
   SAND_RELIEF_NUMBERS,

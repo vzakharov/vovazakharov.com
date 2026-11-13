@@ -3,9 +3,9 @@
 
 import { ISLAND_HEIGHT } from '../outside/island-height';
 import { OUTDOOR_FRAME } from '../outside/outdoor-frame';
-import { SHORE_CUSPS } from '../outside/shore-cusps';
-import { SWELL_TRAIN } from '../outside/swell';
+import { SHORE_CUSPS } from '../outside/shore-cusps.shader';
 import { SWELL_COURSE } from '../outside/swell-course';
+import { SWELL_TRAIN } from '../outside/swell-train.shader';
 import { WATER_LEVEL } from '../outside/water-level.shader';
 import { wgsl } from '../shader/wgsl';
 import { SEA_SHORE_NUMBERS } from './sea-shore-numbers';

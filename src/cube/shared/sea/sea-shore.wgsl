@@ -6,7 +6,7 @@
 import package::cube::shared::outside::island_height::islandHeight;
 import package::cube::shared::outside::outdoor_frame::frame;
 import package::cube::shared::outside::shore_cusps::cuspAt;
-import package::cube::shared::outside::swell::{turnsAt, crestOf};
+import package::cube::shared::outside::swell_train::{turnsAt, crestOf};
 import package::cube::shared::outside::swell_course::{SWELL_RUNS, SWELL_PACE};
 import package::cube::shared::outside::water_level::{waterLevel, shoreRise, shoreFacing, shoreDepth, sheltered, shoreDelay, brokenAt, sheetDepth, swellLevel};
 import super::sea_shore_numbers::{OFFSHORE_FROM, OFFSHORE_TO, SWELL_DIES_FROM, SWELL_DIES_TO};

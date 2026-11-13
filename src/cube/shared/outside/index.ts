@@ -33,7 +33,7 @@ export {
 } from './outdoor-frame';
 export { OUTDOOR_STAGE } from './outdoor-stage.shader';
 export { SKY } from './sky.shader';
-export { SKY_METRES, STAGE_NUMBERS } from './stage-numbers';
+export { SKY_METRES } from './stage-numbers';
 export { SUN, SUN_DIR, SUN_LIGHT } from './sun';
 export { crestOf, turnsAt } from './swell';
 export {

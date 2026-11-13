@@ -8,7 +8,7 @@ import { OUTDOOR_FRAME } from '../outside/outdoor-frame';
 import { SKY } from '../outside/sky.shader';
 import { STAGE_NUMBERS } from '../outside/stage-numbers';
 import { SUN } from '../outside/sun';
-import { SAND_COLOUR } from '../sand/sand-colour';
+import { SAND_COLOUR } from '../sand/sand-colour.shader';
 import { HASH } from '../shader/hash.shader';
 import { wgsl } from '../shader/wgsl';
 import { SEA_FOAM } from './sea-foam.shader';
