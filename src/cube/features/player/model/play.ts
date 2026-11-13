@@ -28,7 +28,7 @@ import {
   standingAt,
 } from './player';
 import { scaleAt, SHRINK_TIME, SMALL } from './shrink';
-import { EYE_HEIGHT, type Input, RUN_SPEED, step } from './step';
+import { EYE_HEIGHT, type Input, RUN_SPEED, step, stridesIn } from './step';
 import { canTake, isInSight, reachFor, taking } from './take';
 
 /**
@@ -47,7 +47,7 @@ export const arrivedOn = (n: number): Pose => ({
   elevation: 0,
 });
 
-/** How far a body walks between footfalls, in its own room sides: 75 cm. */
+/** How far a walking body goes between footfalls, in its own room sides: 75 cm. */
 const STRIDE = 0.15;
 
 /** `pose` standing on the floor below, straight under where it stood, as a body of that floor. */
@@ -146,14 +146,15 @@ function walk(
     : stepped;
   const went = walked(pose, moved) / pose.scale;
   const strode = player.strode + went;
-  const footfall = strode >= STRIDE && dt > 0;
+  const stride = STRIDE * stridesIn(input);
+  const footfall = strode >= stride && dt > 0;
   const steps: readonly Cue[] = footfall
     ? [{ cue: 'step', strength: Math.min(1, went / dt / RUN_SPEED) }]
     : NO_CUES;
   const walking = {
     ...player,
     pose: moved,
-    strode: footfall ? strode % STRIDE : strode,
+    strode: footfall ? strode % stride : strode,
   };
   if (landing) {
     return { ...walking, act: { act: 'landing', actFor: t }, cues: steps };

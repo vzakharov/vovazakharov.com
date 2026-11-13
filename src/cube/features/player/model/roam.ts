@@ -12,6 +12,7 @@ import {
   type Input,
   RUN_SPEED,
   strideOf,
+  stridesIn,
   turned,
   WALK_SPEED,
 } from './step';
@@ -54,7 +55,7 @@ const SWIM_SHARE = 0.32;
 /** How near a solid a whole body's middle comes. */
 const GIRTH = 0.3;
 
-/** Metres between footfalls, and between a swimmer's strokes. */
+/** Metres between a walk's footfalls, and between a swimmer's strokes. */
 const STRIDE = 0.75;
 const STROKE = 1.5;
 
@@ -215,7 +216,7 @@ export function roam(
   const rest = restingEye(land, x, z, seconds, stroke, scale);
   const y = lerp(fromY, rest, 1 - Math.exp(-dt / SETTLE));
   const strode = roamer.strode + went;
-  const reach = (afloat ? STROKE : STRIDE) * scale;
+  const reach = (afloat ? STROKE : STRIDE * stridesIn(input)) * scale;
   const fell = strode >= reach && dt > 0;
   const depth = depthOf(x, z);
   const strength = dt > 0 ? Math.min(1, went / dt / run) : 0;

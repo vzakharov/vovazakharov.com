@@ -189,7 +189,7 @@ describe('play, small', () => {
     assert.equal(one.act, null);
   });
 
-  it('steps as often for its size as a whole body, a run louder than a walk', () => {
+  it('steps as often small as whole and at a run as at a walk, the run louder', () => {
     const count = (start: Player, input: Input) => {
       let player = start;
       const strengths: number[] = [];
@@ -205,9 +205,9 @@ describe('play, small', () => {
     const run = count(beside({ yaw: 0 }), ahead);
     const smallRun = count(small(), ahead);
     const stroll = count(beside({ yaw: 0 }), { ...ahead, running: false });
-    assert.ok(run.length > 5);
+    assert.ok(run.length > 2);
     assert.equal(smallRun.length, run.length);
-    assert.ok(stroll.length < run.length && stroll.length > 0);
+    assert.equal(stroll.length, run.length);
     assert.ok(run.every((strength) => Math.abs(strength - 1) < 1e-6));
     assert.ok(stroll.every((strength) => strength < 0.5 && strength > 0.3));
     assert.equal(count(beside(), STILL).length, 0);

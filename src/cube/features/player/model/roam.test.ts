@@ -58,7 +58,7 @@ describe('roam', () => {
     assert.ok(Math.abs(walked.roamer.eye[0] - -28.6) < 0.05);
     assert.ok(Math.abs(ran.roamer.eye[0] - -26.5) < 0.1);
     assert.equal(walked.cues.length, 1);
-    assert.equal(ran.cues.length, 4);
+    assert.equal(ran.cues.length, 1);
     for (const { cues } of [walked, ran]) {
       assert.ok(
         cues.every((cue) => cue.cue === 'step' && cue.ground === 'sand'),
@@ -80,8 +80,8 @@ describe('roam', () => {
   it('names wet sand by the water and shallows in it', () => {
     const grounds = going(
       roamingAt(beach, [-2, 0], EAST, 0),
-      running,
-      3,
+      ahead,
+      5,
     ).cues.map((cue) => (cue.cue === 'step' ? cue.ground : cue.cue));
     assert.deepEqual(
       [...new Set(grounds)],
