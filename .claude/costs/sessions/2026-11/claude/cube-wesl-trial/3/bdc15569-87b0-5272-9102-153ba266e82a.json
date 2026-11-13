@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 77,
+    "inputTokens": 88,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 148972,
-    "cacheReadTokens": 5565650,
-    "outputTokens": 20312,
-    "thinkingTokens": 10979,
-    "responses": 36,
-    "costUsd": 2.711454
+    "cacheWrite1hTokens": 155962,
+    "cacheReadTokens": 6794423,
+    "outputTokens": 24829,
+    "thinkingTokens": 11838,
+    "responses": 42,
+    "costUsd": 3.1035126
   },
   "estimate": {
     "at": "2026-11-13T16:58:16.495Z",
@@ -48,22 +48,24 @@
   "branch": "claude/cube-wesl-trial",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/cube-wesl-trial — база догнана, пины этажей и улицы зелёные, уличные шейдеры ещё в TS",
-  "prs": [],
+  "prs": [
+    276
+  ],
   "url": "https://claude.ai/code/session_01DaohkCaoV7hfxzNmeuHhLY",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T16:57:56.146Z",
-  "lastResponseAt": "2026-11-13T17:01:55.224Z",
+  "lastResponseAt": "2026-11-13T17:02:42.078Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 77,
+    "inputTokens": 88,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 148972,
-    "cacheReadTokens": 5565650,
-    "outputTokens": 20312,
-    "thinkingTokens": 10979,
-    "responses": 36,
-    "costUsd": 2.711454
+    "cacheWrite1hTokens": 155962,
+    "cacheReadTokens": 6794423,
+    "outputTokens": 24829,
+    "thinkingTokens": 11838,
+    "responses": 42,
+    "costUsd": 3.1035126
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,23 +79,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 77,
+      "inputTokens": 88,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 148972,
-      "cacheReadTokens": 5565650,
-      "outputTokens": 20312,
-      "thinkingTokens": 10979,
-      "responses": 36,
-      "costUsd": 2.711454
+      "cacheWrite1hTokens": 155962,
+      "cacheReadTokens": 6794423,
+      "outputTokens": 24829,
+      "thinkingTokens": 11838,
+      "responses": 42,
+      "costUsd": 3.1035126
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 35,
-    "matched": 35,
-    "matchedTableUsd": 2.65944,
-    "matchedEventUsd": 2.65944,
+    "events": 41,
+    "matched": 41,
+    "matchedTableUsd": 3.045109,
+    "matchedEventUsd": 3.045109,
     "unseen": {}
   },
   "operatorWords": {
@@ -109,7 +111,7 @@
     ".json": 87,
     ".yaml": 765,
     ".sh": 1,
-    ".wgsl": 10313,
+    ".wgsl": 10339,
     ".tsx": -109,
     ".scss": 15,
     ".toml": 6

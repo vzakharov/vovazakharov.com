@@ -32,7 +32,7 @@ export {
   packOutdoorFrame,
 } from './outdoor-frame';
 export { SHORE_WETNESS } from './shore-wetness';
-export { SKY } from './sky';
+export { SKY } from './sky.shader';
 export { OUTDOOR_STAGE, SKY_METRES } from './stage';
 export { SUN, SUN_DIR, SUN_LIGHT } from './sun';
 export { crestOf, turnsAt } from './swell';

@@ -13,20 +13,22 @@ import { OUTDOOR_SHADERS, outdoorSource } from './outdoor-shaders';
  * which the theme's pin holds.
  */
 const BEFORE: Readonly<Record<keyof typeof OUTDOOR_SHADERS, string>> = {
-  seam: '7e87d343181c8c74',
-  sky: '88058bc77ca3675f',
-  skyClouds: '77fca9fe60861313',
-  sand: '605f80156f0c2e2c',
-  shell: '3ce2a38bb71117eb',
-  sea: '931ad3d54c661c16',
+  seam: 'ba1cee4f9637eea2',
+  sky: 'ce6c3983ef14351e',
+  skyClouds: '043af2da2a505657',
+  sand: '0bdc0303c7a2a91a',
+  shell: '391c63e1a41cc5e1',
+  sea: '60ba7e899d94d4e6',
 };
 
 /**
- * The ids of the pieces that give names to numbers TypeScript holds too,
- * each a run of `const NAME = value;` lines: before the move every such
- * number stood written out where it was used.
+ * The ids of the pieces that give names to numbers TypeScript holds too, by
+ * their `const NAME = value;` lines: `canonical()` writes each such name
+ * back as its value, on both sides of the move, so a number written out
+ * before it and named after it reads the same. `BEFORE` is canonical under
+ * this set, so changing it re-derives `BEFORE` at 052138ff.
  */
-const NUMBERED: ReadonlySet<string> = new Set<string>();
+const NUMBERED: ReadonlySet<string> = new Set<string>(['outside/sun']);
 
 /** Every piece `roots` reach, each once. */
 function reached(roots: readonly Wgsl[]): Wgsl[] {

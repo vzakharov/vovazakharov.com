@@ -23,7 +23,7 @@ import {
   OUTDOOR_FRAME_FLOATS,
   packOutdoorFrame,
 } from './outdoor-frame';
-import { SKY } from './sky';
+import { SKY } from './sky.shader';
 import { SUN, SUN_DIR } from './sun';
 import {
   QUARTER_TURNS,
