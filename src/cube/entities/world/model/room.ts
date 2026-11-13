@@ -10,8 +10,6 @@ export type Room = Cell & Floored;
 /** A thing of one room: a lever pulled in it, a sign hung in it. */
 export type InRoomOf = { room: Room };
 
-export { WALL_HALF } from '@/cube/shared/lib/room-shape';
-
 /** How many rooms floor `n` has along each side. */
 export const roomsAcross = (n: number): bigint => 1n << BigInt(n - 1);
 

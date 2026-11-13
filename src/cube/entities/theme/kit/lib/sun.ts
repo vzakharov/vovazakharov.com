@@ -4,9 +4,15 @@ import { SHRUB } from '@/cube/shared/lib/shrub';
 import { SUN_DISC } from '@/cube/shared/lib/sun-disc';
 import { vec3f, type Wgsl, wgsl } from '@/cube/shared/lib/wgsl';
 import { HASH } from '@/cube/shared/lib/wgsl-hash';
-import { DOORWAY, SUN, SUN_DIR, SUN_LIGHT } from '@/cube/shared/outside';
+import {
+  beamPatches,
+  DOOR_INNER,
+  DOORWAY,
+  SUN,
+  SUN_DIR,
+  SUN_LIGHT,
+} from '@/cube/shared/outside';
 
-import { beamPatches, DOOR_INNER } from './beam';
 import { CORE } from './core';
 import { GRADE } from './grade';
 import { type Graded, hazed, lensListing } from './lens';
@@ -233,7 +239,7 @@ fn sunlitRoom(s: Surf, m: Material, ambient: vec3f) -> vec3f {
 /** A potted plant standing in the beam: its axis in metres east and south, and its draw of height. */
 export type Shrub = {
   at: readonly [east: number, south: number];
-  tall: number;
+  draw: number;
 };
 
 /** A room lit by the sun through floor 1's doorway, as numbers. */
@@ -252,16 +258,18 @@ type Sunlit = Graded & {
  */
 export const sunlit = (id: string, look: Sunlit): Wgsl => {
   const patches = beamPatches(SUN_DIR);
-  const bounces = patches.map(({ at, facing, flux }) => {
+  const bounces = patches.map(({ middle, facing, flux }) => {
     const thrown = facing[1] > 0.5 ? look.floor : look.walls;
-    const light = thrown.map(
-      (share, channel) => share * flux * (SUN_LIGHT[channel] ?? 0),
-    ) as [number, number, number];
-    return `Bounce(${vec3f(at)}, ${vec3f(facing)}, ${vec3f(light)})`;
+    const light: Rgb = [
+      thrown[0] * flux * SUN_LIGHT[0],
+      thrown[1] * flux * SUN_LIGHT[1],
+      thrown[2] * flux * SUN_LIGHT[2],
+    ];
+    return `Bounce(${vec3f(middle)}, ${vec3f(facing)}, ${vec3f(light)})`;
   });
   const shrubs = look.shrubs.map(
-    ({ at: [east, south], tall }) =>
-      `vec3f(${f(east)}, ${f(south)}, ${f(tall)})`,
+    ({ at: [east, south], draw }) =>
+      `vec3f(${f(east)}, ${f(south)}, ${f(draw)})`,
   );
   return wgsl(
     `${id}/sunlit`,
