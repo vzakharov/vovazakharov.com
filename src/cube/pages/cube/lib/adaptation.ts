@@ -19,9 +19,12 @@ const HALF_ACROSS = 0.85;
 const HALF_UP = 0.6;
 /** The share of the view in daylight at which the eye is wholly used to it. */
 const FILLED = 0.3;
-/** Seconds to get most of the way used to the light, and to the dark. */
+/**
+ * Seconds to get most of the way used to the light, and to the dark: the room
+ * comes up slowly enough that whoever walks in looks about it first.
+ */
 const TO_LIGHT = 0.5;
-const TO_DARK = 2.5;
+const TO_DARK = 6;
 
 /** Whether the ray from `pose`'s eye turned by `yaw` and `elevation` leaves by the doorway. */
 function leaves(pose: Pose, yaw: number, elevation: number): boolean {
@@ -62,7 +65,7 @@ export function settled(at: Whereabouts): number {
 
 /**
  * `indoors` after `seconds` more at `at`: it nears what the eye settles to
- * there, to the light within the second and to the dark over several.
+ * there, to the light within the second and to the dark over a quarter of a minute.
  */
 export function adapted(
   indoors: number,

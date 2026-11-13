@@ -3,10 +3,12 @@ import path from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { z } from 'zod';
 
-import type { Outside, Pose, Quad } from '@/cube/entities/world';
+import type { Outside, Pose } from '@/cube/entities/world';
 import {
   type CubePlayHook,
+  type InsideSet,
   type OutsideLens,
+  type OutsideSet,
   PLAY_HOOK,
   PLAY_QUERY,
 } from '@/cube/pages/cube/index.node-safe';
@@ -58,20 +60,20 @@ async function until(tab: Tab, expression: string, deadline: number) {
 /** What a script does with `/cube` once its hook is up. */
 export type CubePage = {
   /**
-   * Puts the eye at `pose`, `moving` in the rooms around it, and saves the
-   * frame as `file`.
+   * Puts the eye at `pose`, `among` set around it, and saves the frame as
+   * `file`.
    */
-  shoot: (file: string, pose: Pose, moving?: readonly Quad[]) => Promise<void>;
+  shoot: (file: string, pose: Pose, among?: InsideSet) => Promise<void>;
   /**
    * Puts the eye outside the cube at `eye`, seeing through `lens` — the
-   * page's own where none is given — with `moving` drawn, each quad in the
-   * frame of floor 1's room, and saves the frame as `file`.
+   * page's own where none is given — with `among` set, and saves the frame
+   * as `file`.
    */
   shootOutside: (
     file: string,
     eye: Outside,
     lens?: OutsideLens,
-    moving?: readonly Quad[],
+    among?: OutsideSet,
   ) => Promise<void>;
   /** Stops the page's clock at `ms` since the epoch. */
   setClock: (ms: number) => Promise<void>;
@@ -110,16 +112,16 @@ export async function withCubePage(
       process.stdout.write(`shot ${path.relative(REPO_ROOT, file)}\n`);
     };
     await script({
-      shoot: async (file, pose, moving = []) =>
-        shot(file, call('setPose', source(pose), source(moving))),
-      shootOutside: async (file, eye, lens, moving = []) =>
+      shoot: async (file, pose, among = {}) =>
+        shot(file, call('setPose', source(pose), source(among))),
+      shootOutside: async (file, eye, lens, among = {}) =>
         shot(
           file,
           call(
             'setEye',
             source(eye),
             lens ? source(lens) : 'undefined',
-            source(moving),
+            source(among),
           ),
         ),
       setClock: async (ms) => {

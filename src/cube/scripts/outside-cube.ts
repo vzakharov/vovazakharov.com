@@ -157,11 +157,17 @@ async function main(): Promise<void> {
     eyelids: numberOf('eyelids', OUTSIDE_LENS.eyelids),
     indoors: numberOf('indoors', 0),
   };
+  // An eye in the room sees through its floor's lens unless `--indoors` asks
+  // for the outside's at that adaptation: the room as an eye still used to
+  // daylight sees it.
+  const inside = flag('indoors') === undefined ? {} : { lens };
   await withCubePage(async ({ shoot, shootOutside }) =>
     inTurn(chosen(), async ([name, at]) => {
       const file = path.join(FRAMES, `${name}.png`);
       const started = Date.now();
-      await (isOutside(at) ? shootOutside(file, at, lens) : shoot(file, at));
+      await (isOutside(at)
+        ? shootOutside(file, at, lens)
+        : shoot(file, at, inside));
       process.stdout.write(`  in ${String(Date.now() - started)} ms\n`);
     }),
   );
