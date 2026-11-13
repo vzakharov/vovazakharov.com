@@ -1,5 +1,13 @@
 # Notices from the lead, newest first
 
+## 2026-11-13 ~11:42Z — keep your turns short, so messages reach you
+
+A message to you is delivered only when your turn ends (tested with walk at 11:36Z: priority "next" did not join a running turn). The operator's and the lead's rulings have been arriving tens of minutes late, after the work they changed. So: **start every shoot, build or long test in the background and end your turn at once** — the harness wakes you when it finishes, and anything sent meanwhile reaches you within seconds. Never sit in a foreground wait or a polling loop. At each wake, read what arrived before continuing. The lead uses priority "now" only to stop work that has been withdrawn.
+
+## 2026-11-13 ~11:25Z — every frame is recorded with its eye AND its clock
+
+From the operator: "everyone involved must not forget which position/timestamp it was, so it can be re-shot exactly." For every frame you commit or send to the board, its README line gives the eye (`--at`, `--yaw`, `--pitch`, or the named eye), the lens flags, the clock the shot used, the viewport and the commit. Core is making `outside:cube` print these and pin the clock; until then, write down what you passed.
+
 When messages between sessions fail, this file on the lead's branch is the channel. **At every milestone, and whenever a `send_message` of yours fails: `git fetch origin claude/cube-intro-j2wt34` and read this file** (`git show origin/claude/cube-intro-j2wt34:docs/remove-before-merging/cube-intro-j2wt34/briefs/notice.md`).
 
 ## 2026-11-13 ~10:35Z — messaging between sessions is unreliable

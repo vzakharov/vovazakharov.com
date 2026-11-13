@@ -1,6 +1,6 @@
 export { AERIAL } from './aerial';
 export { beamPatches, DOOR_INNER, type SunPatch } from './beam';
-export { bodyShadow, CUBE_SHADOW, cubeShadow } from './cube-shadow';
+export { CUBE_SHADOW, cubeShadow } from './cube-shadow';
 export { DAYLIGHT } from './daylight';
 export {
   type Box,
@@ -10,9 +10,11 @@ export {
   DOORWAY,
   DOORWAY_BOX,
   FAR_METRES,
+  ROOM_DOORWAY,
   toCube,
   toWorld,
   WAKE_AT,
+  type WallSide,
   WORLD,
 } from './frame';
 export { ISLAND_HEIGHT, islandHeight } from './island-height';
@@ -45,6 +47,18 @@ export {
   SUN_WHITE,
 } from './sun';
 export { crestOf, PERIOD, setsAt, turnsAt } from './swell';
+export {
+  INTERIOR_TURN,
+  QUARTER_TURNS,
+  type Quarters,
+  SHELL_TURN,
+  toRoom,
+  toShell,
+  turnedToRoom,
+  turnedToShell,
+  yawToRoom,
+  yawToShell,
+} from './turn';
 export {
   brokenAt,
   type ShoreClock,

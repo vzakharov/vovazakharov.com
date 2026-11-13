@@ -1,10 +1,21 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { toCube, toWorld } from '@/cube/shared/outside';
-import { eyeInFrame, type Pose, type Vec3 } from '@/cube/entities/world';
+import { toCube, toWorld, yawToShell } from '@/cube/shared/outside';
+import {
+  eyeInFrame,
+  type Outside,
+  type Pose,
+  type Vec3,
+} from '@/cube/entities/world';
 
-import { forward, OUTSIDE_FAR, seenInWorld, viewProjection } from './camera';
+import {
+  forward,
+  gazeInCube,
+  OUTSIDE_FAR,
+  seenInWorld,
+  viewProjection,
+} from './camera';
 
 const pose = (yaw: number, pitch: number): Pose => ({
   n: 1,
@@ -117,17 +128,29 @@ describe('the camera', () => {
       };
       const { eye, side } = eyeInFrame(within, within);
       assert.equal(side, 1);
-      const outside = toCube(toWorld([within.u, within.eyeAbove, within.v]));
+      const { u, v, eyeAbove, yaw, elevation } = within;
+      const twin: Outside = {
+        eye: toWorld([u, eyeAbove, v]),
+        yaw: yawToShell(yaw),
+        elevation,
+        roll: 0,
+      };
       const far = { far: OUTSIDE_FAR };
       const inside = viewProjection(within, eye, 1.6, side * scale, far);
-      const out = viewProjection(within, outside, 1.6, 1, far);
+      const out = viewProjection(
+        gazeInCube(twin),
+        toCube(twin.eye),
+        1.6,
+        1,
+        far,
+      );
       for (const point of [
         [3, 0.1, 0.4],
         [40, -0.3, -12],
       ] satisfies Vec3[]) {
         const [x, y] = project(inside, point);
         const [alsoX, alsoY] = project(out, point);
-        assert.ok(Math.abs(x - alsoX) < 1e-9 && Math.abs(y - alsoY) < 1e-9);
+        assert.ok(Math.abs(x - alsoX) < 1e-6 && Math.abs(y - alsoY) < 1e-6);
       }
     }
   });

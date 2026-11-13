@@ -4,9 +4,10 @@ export {
   type Beds,
   bedsOf,
   coastOf,
-  type Doorway,
   gustAt,
   heardFrom,
+  type Indoors,
+  indoors,
   type Layer,
   type Listener,
   type OutsideMix,
@@ -18,7 +19,6 @@ export {
   SOUND_LAYERS,
   SOUNDING_ISLAND,
   surfAt,
-  throughDoorway,
   whole,
 } from './outdoors';
 export { createSoundscape } from './scape';

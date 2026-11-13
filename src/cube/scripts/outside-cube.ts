@@ -6,7 +6,6 @@
  *   pnpm outside:cube --eyes wake-sea,under  # those
  *   pnpm outside:cube --out <dir>            # frames there instead, <dir> absolute
  *   pnpm outside:cube --at -23,1.6,23 --yaw 135 --pitch -5 --roll 0 --name mine
- *   pnpm outside:cube --body 6,3             # a body standing on the sand there, for its shadow
  *   pnpm outside:cube --exposure 0.3 --eyelids 0.5   # the lens, on any of the above
  *   pnpm outside:cube --indoors 1            # an outside eye through floor 1's lens
  *
@@ -23,8 +22,10 @@ import {
   CUBE_METRES,
   DOORWAY,
   islandHeight,
-  type Standing,
+  SUN_DIR,
+  toRoom,
   WAKE_AT,
+  yawToRoom,
 } from '@/cube/shared/outside';
 import {
   isOutside,
@@ -48,8 +49,6 @@ const FRAMES = path.resolve(
 const DEGREE = Math.PI / 180;
 /** A standing eye's height over what it stands on, in metres. */
 const STANDING = EYE_HEIGHT * CUBE_METRES;
-/** How tall the body `--body` stands is. */
-const BODY_TALL = 1.75;
 /** The eye of someone propped on an elbow in the sand. */
 const LYING = 0.35;
 
@@ -83,11 +82,28 @@ const inFirstRoom = (
   elevation,
 });
 
-/** Where someone at the pill's shelf stands: by the west wall, the shelf at their side. */
-const AT_SHELF = { u: 0.14, v: 0.68 };
+/**
+ * A person of floor 1 standing `east`, `south` of the shell's north-west
+ * corner, in the cube's side, looking `yaw` from the world's east towards its
+ * south.
+ */
+const inShell = (east: number, south: number, yaw: number, elevation = 0) => {
+  const [u, , v] = toRoom([east, 0, south]);
+  return inFirstRoom(u, v, yawToRoom(yaw), elevation);
+};
+
+/** The yaw at which someone at `from` looks at `to`, both `[u, v]` of one frame. */
+const towards = (from: [number, number], to: [number, number]): number =>
+  Math.atan2(to[1] - from[1], to[0] - from[0]);
+
+/** Where someone at the pill's shelf stands: by the room's west wall, the shelf at their side. */
+const AT_SHELF: [number, number] = [0.14, 0.68];
 
 const WAKING = onSand(WAKE_AT[0], WAKE_AT[2], LYING);
 const DOORWAY_V = DOORWAY_MIDDLE / CUBE_METRES;
+/** The doorway's middle and a step inside it, as floor 1's room has them. */
+const [DOOR_U, , DOOR_V] = toRoom([1, 0, DOORWAY_V]);
+const [STEP_U, , STEP_V] = toRoom([0.9, 0, 0.3]);
 
 const EYES: Record<string, Whereabouts> = {
   'wake-sea': { eye: WAKING, yaw: 135 * DEGREE, elevation: 0.02, roll: 0 },
@@ -99,16 +115,23 @@ const EYES: Record<string, Whereabouts> = {
     elevation: 0.75,
     roll: 0,
   },
-  'doorway-out': inFirstRoom(0.97, DOORWAY_V, 0),
-  'doorway-down': inFirstRoom(0.97, DOORWAY_V, 0, -0.7),
-  'room-doorway': inFirstRoom(0.25, 0.6, Math.atan2(DOORWAY_V - 0.6, 0.75)),
+  'doorway-out': inShell(0.97, DOORWAY_V, 0),
+  'doorway-down': inShell(0.97, DOORWAY_V, 0, -0.7),
+  entering: inShell(0.95, DOORWAY_V, Math.PI, -0.1),
+  'room-doorway': inShell(0.25, 0.6, towards([0.25, 0.6], [1, DOORWAY_V])),
   'shelf-door': inFirstRoom(
-    AT_SHELF.u,
-    AT_SHELF.v,
-    Math.atan2(DOORWAY_V - AT_SHELF.v, 1 - AT_SHELF.u),
+    ...AT_SHELF,
+    towards(AT_SHELF, [DOOR_U, DOOR_V]),
     -0.12,
   ),
-  'door-shelf': inFirstRoom(0.9, 0.3, Math.atan2(0.75 - 0.3, -0.9), -0.2),
+  'door-shelf': inFirstRoom(
+    STEP_U,
+    STEP_V,
+    towards([STEP_U, STEP_V], [0, 0.75]),
+    -0.2,
+  ),
+  // Standing in the beam, looking down it at where it lands.
+  'in-beam': inShell(0.6, 0.39, Math.atan2(-SUN_DIR[2], -SUN_DIR[0]), -0.3),
 };
 
 /** `--name` as a number, or `otherwise` where it is not given. */
@@ -155,17 +178,6 @@ function chosen(): Array<[string, Whereabouts]> {
   ];
 }
 
-/** The body `--body x,z` stands on the sand there, to cast its shadow. */
-function standing(): { body?: Standing } {
-  const at = flag('body');
-  if (at === undefined) return {};
-  const [x, z] = at.split(',').map(Number);
-  if (x === undefined || z === undefined) {
-    throw new Error(`--body wants x,z in metres, not ${at}`);
-  }
-  return { body: { foot: onSand(x, z, 0), headAbove: BODY_TALL } };
-}
-
 async function main(): Promise<void> {
   const lens = {
     exposure: numberOf('exposure', OUTSIDE_LENS.exposure),
@@ -181,7 +193,7 @@ async function main(): Promise<void> {
       const file = path.join(FRAMES, `${name}.png`);
       const started = Date.now();
       await (isOutside(at)
-        ? shootOutside(file, at, lens, standing())
+        ? shootOutside(file, at, lens)
         : shoot(file, at, inside));
       process.stdout.write(`  in ${String(Date.now() - started)} ms\n`);
     }),

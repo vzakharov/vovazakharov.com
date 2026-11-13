@@ -62,6 +62,8 @@ struct Cloud {
   tall: f32,
   /// What its own billows are salted with.
   seed: u32,
+  /// Kilometres from the eye to it, 0 until a ray's walk of the field says.
+  off: f32,
 };
 
 /// Kilometres the field has drifted down the wind this hour.
@@ -136,14 +138,14 @@ fn cloudIn(cell: vec2i) -> Cloud {
   let away = length(vec2f(toSun, centre.y));
   let stands = laned * (1.0 - smoothstep(0.8 * CLOUD_REACH, CLOUD_REACH, away));
   if (unitOf(word) > ${f32(CLOUDS.chance)} || stands < 0.3) {
-    return Cloud(centre, 0.0, 0.0, 0u);
+    return Cloud(centre, 0.0, 0.0, 0u, 0.0);
   }
 
   let radius = broad * stands;
   // The broad ones are the ones that tower.
-  let tower = mix(0.7, 1.25, unitOf(hashOf(word, 5u))) + 0.8 * smoothstep(0.6, 1.0, size) * ragged;
+  let tower = mix(0.95, 1.35, unitOf(hashOf(word, 5u))) + 0.8 * smoothstep(0.6, 1.0, size) * ragged;
   let tall = min(radius * tower, (CLOUD_CEILING - CLOUD_BASE) / CLOUD_BOUND);
-  return Cloud(centre, radius, tall, hashOf(word, 7u));
+  return Cloud(centre, radius, tall, hashOf(word, 7u), 0.0);
 }
 `,
   HASH,
