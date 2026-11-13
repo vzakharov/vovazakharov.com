@@ -16,6 +16,7 @@ The operator's word, with the week's limit running out: «по реализац�
 - **sand** — the wet sand's edge retreats along too even a front; a pixel-wide sand-coloured line across the swash near (−19, 21).
 - **sea** — an arc of foam stands off the west shore in the frame from above, and the cube's shadow lies on the water as sharp and dark as on the sand; neither judged.
 - **walk**, **pill**, **sea**, **shell** — `/dry` and `/tend-prose` over their own diffs. `/polish` has not run on this branch; `/finalize` runs it before anything lands.
+- **`./scripts/vet.sh` is red on two checks**, both in the `source` job of [run 43428585850](https://github.com/vzakharov/vovazakharov.com/actions/runs/43428585850) on 79d82bca; every build, the lint, the type check and the tests pass. `knip` names 47 unused exports and 20 unused exported types across `src/cube/` — what parallel packages exported for each other and nobody took. Steiger's `fsd/shared-lib-grouping` counts 19 modules in `src/cube/shared/lib` against its threshold of 15. Neither is fixed here.
 - **Not decided**: the title («нравилось звучание cubed away»).
 
 ## QA Checklist

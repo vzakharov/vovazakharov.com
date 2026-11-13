@@ -58,6 +58,21 @@ reached from the second account.
   themself, which is the look the strip stood in for. Slot 2 already served
   a55c5a20, the last commit that changes code, so nothing was republished. What
   runs: the draft PR and `./scripts/vet.sh`.
+- **Done by the third lead**: the draft PR,
+  https://github.com/vzakharov/vovazakharov.com/pull/277, base
+  `claude/cube-review-perf`, with the squash proposal and the review board
+  (https://claude.ai/artifact/2kDXXwA4rXP8oSKvU797qc, watched from this session;
+  `docs/remove-before-merging/review-focus.json` is this diff's own). Estimates
+  set for the two first-wave sessions that had none (sky/1, sound/1), which the
+  `local` phase failed on; it passes on f594e0cc.
+- **Vet, run 43428585850 on 79d82bca**: builds of all six sites, lint, type
+  check, tests and `built` pass. `source` fails on two checks, neither fixed, on
+  the operator's «давай собирать как есть»; both are named in the PR's body.
+  - `knip`: 47 unused exports and 20 unused exported types under `src/cube/`,
+    mostly barrels (`shared/outside`, `shared/sky`, `features/player`,
+    `features/sound`) carrying what one package offered and no other took.
+  - Steiger `fsd/shared-lib-grouping`: `src/cube/shared/lib` holds 19 modules
+    against a threshold of 15.
 
 ## Standing rules (the operator's words)
 

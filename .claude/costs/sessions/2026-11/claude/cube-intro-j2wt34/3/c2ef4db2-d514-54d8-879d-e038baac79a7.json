@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 41,
+    "inputTokens": 64,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 141305,
-    "cacheReadTokens": 3241896,
-    "outputTokens": 15548,
-    "thinkingTokens": 5815,
-    "responses": 22,
-    "costUsd": 3.5315072
+    "cacheWrite1hTokens": 174113,
+    "cacheReadTokens": 5764099,
+    "outputTokens": 21538,
+    "thinkingTokens": 7390,
+    "responses": 34,
+    "costUsd": 4.8006598
   },
   "estimate": {
     "at": "2026-11-13T12:49:15.194Z",
@@ -48,18 +48,18 @@
   "url": "https://claude.ai/code/session_016Z4TKqfdhduUecpY8zFSAJ",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T12:48:06.497Z",
-  "lastResponseAt": "2026-11-13T12:51:50.389Z",
+  "lastResponseAt": "2026-11-13T12:55:44.720Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 41,
+    "inputTokens": 64,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 141305,
-    "cacheReadTokens": 3241896,
-    "outputTokens": 15548,
-    "thinkingTokens": 5815,
-    "responses": 22,
-    "costUsd": 3.5315072
+    "cacheWrite1hTokens": 174113,
+    "cacheReadTokens": 5764099,
+    "outputTokens": 21538,
+    "thinkingTokens": 7390,
+    "responses": 34,
+    "costUsd": 4.8006598
   },
   "subagents": {
     "inputTokens": 0,
@@ -73,14 +73,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 41,
+      "inputTokens": 64,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 141305,
-      "cacheReadTokens": 3241896,
-      "outputTokens": 15548,
-      "thinkingTokens": 5815,
-      "responses": 22,
-      "costUsd": 3.5315072
+      "cacheWrite1hTokens": 174113,
+      "cacheReadTokens": 5764099,
+      "outputTokens": 21538,
+      "thinkingTokens": 7390,
+      "responses": 34,
+      "costUsd": 4.8006598
     }
   },
   "warnings": [],
@@ -95,7 +95,7 @@
   "threadPosts": {},
   "branchLines": {
     ".md": 4195,
-    ".json": 266,
+    ".json": 285,
     ".yaml": 48,
     ".ts": 18745,
     ".tsx": -112,
