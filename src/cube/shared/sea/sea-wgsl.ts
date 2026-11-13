@@ -149,6 +149,8 @@ fn seaFragment(in: SeaVarying, @builtin(front_facing) above: bool) -> SeaOut {
   let water = seen.sky
     + (1.0 - seen.share) * under
     + sunlit * glitter(waves, toEye, seen.shown);
+  // A roller is filtered by the pixel's longer side; the lace by the mean
+  // of its two, since a glancing pixel is long one way only.
   let pixel = max(length(across), length(down));
   let thick = foamThickness(in.still, shore, waves.squeeze, pixel);
   // Churning foam stands in lumps, each shading the next from a low sun.
@@ -159,7 +161,7 @@ fn seaFragment(in: SeaVarying, @builtin(front_facing) above: bool) -> SeaOut {
       * (0.3 + 0.7 * max(dot(normal, frame.sun.xyz), 0.0))
       + mix(SKY_FILL, HORIZON_FILL, FOAM_FLANKS)
   );
-  let foam = lace(in.still, thick, shore, pixel);
+  let foam = lace(in.still, thick, shore, sqrt(length(across) * length(down)));
   // Thin foam is a film the water shows through; churning foam is white.
   let froth = 0.78 + 0.3 * fbm(in.still * 6.0, 41u, 3);
   let colour = mix(water, white * froth * mix(0.8, 1.0, min(thick, 1.0)), foam);
