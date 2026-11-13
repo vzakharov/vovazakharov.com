@@ -46,8 +46,11 @@ export const OUTDOOR_FRAME_FLOATS = FIELDS.reduce(
   0,
 );
 
-/** Something that knows whether the ladder still stands at the doorway. */
-export type Laddered = { ladder: boolean };
+/**
+ * Something that knows whether the ladder has gone from the doorway: it stands
+ * until `ladderGone` is true.
+ */
+export type Laddered = { ladderGone?: boolean };
 
 /**
  * What one frame of the outside is seen from and when: the eye in the world
@@ -67,7 +70,7 @@ export function packOutdoorFrame({
   inverse,
   eye,
   sun,
-  ladder,
+  ladderGone,
   seconds,
   hour,
   width,
@@ -79,7 +82,7 @@ export function packOutdoorFrame({
     eye: [...eye, 1],
     sun: [...sun, 0],
     clock: [seconds, hour, width, height],
-    state: [ladder ? 1 : 0, 0, 0, 0],
+    state: [ladderGone === true ? 0 : 1, 0, 0, 0],
   };
   const data = new Float32Array(OUTDOOR_FRAME_FLOATS);
   let offset = 0;
