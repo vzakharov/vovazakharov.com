@@ -85,10 +85,13 @@ function column(x0: number, z0: number, x1: number, z1: number): Bounds {
   return { least: [x0, 0, z0], most: [x1, CEILING_HEIGHT, z1] };
 }
 
-/** The way in through floor 1's doorway, as deep as a walkway. */
+/** How far to either side of the doorway nothing is, clear of its jambs. */
+const JAMB = 0.03;
+
+/** The way in through floor 1's doorway, jambs and all, as deep as a walkway. */
 function threshold(): Bounds {
-  const from = ROOM_DOORWAY.from / ROOM_METRES;
-  const to = ROOM_DOORWAY.to / ROOM_METRES;
+  const from = ROOM_DOORWAY.from / ROOM_METRES - JAMB;
+  const to = ROOM_DOORWAY.to / ROOM_METRES + JAMB;
   const inside: Record<WallSide, Bounds> = {
     east: column(1 - WALKWAY, from, 1, to),
     south: column(from, 1 - WALKWAY, to, 1),
