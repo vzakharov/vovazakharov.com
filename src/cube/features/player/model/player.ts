@@ -73,6 +73,12 @@ export type Act = { actFor: number } & (
   | { act: 'landing' }
 );
 
+/** What happened to a body in the frame that made it. */
+export type Cued = { cues: readonly Cue[] };
+
+/** A body on its feet: the metres walked since its last footfall. */
+export type Striding = Cued & { strode: number };
+
 /**
  * The body and what it is up to. `act` is null while it stands or walks,
  * whole or shrunk, which its pose's scale tells apart; `pill` is the one off
@@ -80,12 +86,11 @@ export type Act = { actFor: number } & (
  * far it has walked since its last footfall, in its own room sides; `cues` is
  * what happened in the frame that made this player.
  */
-export type Player = Posed & {
-  act: Act | null;
-  pill: InRoomOf | null;
-  strode: number;
-  cues: readonly Cue[];
-};
+export type Player = Posed &
+  Striding & {
+    act: Act | null;
+    pill: InRoomOf | null;
+  };
 
 export type Acting<A extends Act['act']> = Player & {
   act: Act & { act: A };

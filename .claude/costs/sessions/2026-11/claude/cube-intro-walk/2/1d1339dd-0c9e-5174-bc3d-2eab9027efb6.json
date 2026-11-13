@@ -1,0 +1,229 @@
+{
+  "total": {
+    "inputTokens": 15166,
+    "cacheWrite5mTokens": 1988,
+    "cacheWrite1hTokens": 930557,
+    "cacheReadTokens": 51840553,
+    "outputTokens": 172901,
+    "thinkingTokens": 41199,
+    "responses": 238,
+    "costUsd": 31.8832743
+  },
+  "estimate": {
+    "at": "2026-11-13T09:26:54.918Z",
+    "subjectLine": "feat: the cube intro's walk — cuts, the way out, waking and climb",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "outside controller at any body scale, the doorway exit, ladder flag and scene engine are movement and camera code with tests"
+      },
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "the waking and climb are judged as storyboards: timing, reveal and framing need a designer's eye over repeated strips"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-13T09:18:09.273Z",
+    "contextTokens": 98528,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 41894,
+      "cacheReadTokens": 146067,
+      "outputTokens": 1291,
+      "thinkingTokens": 383,
+      "responses": 2,
+      "costUsd": 0.7511894
+    }
+  },
+  "sessionId": "1d1339dd-0c9e-5174-bc3d-2eab9027efb6",
+  "branch": "claude/cube-intro-walk",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You take over the **walk** package of the cube's intro from a session that a usage limit stopped; you are on its branch, `claude/cube-intro-walk`, and push only…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkE74S5ZqiB98XpJ7Cy",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-13T09:17:57.696Z",
+  "lastResponseAt": "2026-11-13T11:59:59.264Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 429,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 930557,
+    "cacheReadTokens": 48242102,
+    "outputTokens": 152884,
+    "thinkingTokens": 41199,
+    "responses": 224,
+    "costUsd": 30.232150000000004
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 13956,
+      "cacheWrite5mTokens": 1988,
+      "cacheWrite1hTokens": 813436,
+      "cacheReadTokens": 50786891,
+      "outputTokens": 170221,
+      "thinkingTokens": 39977,
+      "responses": 230,
+      "costUsd": 30.122772200000004
+    },
+    "claude-opus-5/standard": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 117121,
+      "cacheReadTokens": 1053662,
+      "outputTokens": 2487,
+      "thinkingTokens": 1222,
+      "responses": 7,
+      "costUsd": 1.760286
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1196,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 193,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0002161
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-13T09:41:37.589Z",
+      "trigger": "auto",
+      "compactedFrom": 304027,
+      "summaryChars": 22510,
+      "reorientation": {
+        "endedBy": "end_turn",
+        "endedOn": null,
+        "endedAt": "2026-11-13T10:16:41.515Z",
+        "contextTokens": 254070,
+        "spend": {
+          "inputTokens": 115,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 417001,
+          "cacheReadTokens": 10854104,
+          "outputTokens": 45895,
+          "thinkingTokens": 11779,
+          "responses": 60,
+          "costUsd": 10.255582400000002
+        }
+      },
+      "rereads": {
+        "calls": 6,
+        "byTool": {
+          "Read": 5,
+          "Bash": 1
+        },
+        "estimatedTokens": 10903,
+        "estimatedUsd": 0.291453
+      },
+      "billedUsd": 0.511587
+    },
+    {
+      "at": "2026-11-13T11:31:03.439Z",
+      "trigger": "auto",
+      "compactedFrom": 303897,
+      "summaryChars": 20685,
+      "reorientation": {
+        "endedBy": "Write",
+        "endedOn": "src/cube/features/player/model/intro-stage.test.ts",
+        "endedAt": "2026-11-13T11:37:52.506Z",
+        "contextTokens": 222109,
+        "spend": {
+          "inputTokens": 70,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 167981,
+          "cacheReadTokens": 5981090,
+          "outputTokens": 32536,
+          "thinkingTokens": 10943,
+          "responses": 36,
+          "costUsd": 5.185914000000001
+        }
+      },
+      "rereads": {
+        "calls": 5,
+        "byTool": {
+          "Read": 5
+        },
+        "estimatedTokens": 15215,
+        "estimatedUsd": 0.3773908
+      },
+      "billedUsd": 0.4607098
+    }
+  ],
+  "telemetry": {
+    "events": 237,
+    "matched": 223,
+    "matchedTableUsd": 30.107310200000004,
+    "matchedEventUsd": 30.107310200000004,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 5566,
+        "cacheWrite5mTokens": 1675,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 2995017,
+        "outputTokens": 207,
+        "thinkingTokens": 0,
+        "responses": 11,
+        "costUsd": 0.6786114000000002
+      },
+      "compact": {
+        "inputTokens": 7975,
+        "cacheWrite5mTokens": 313,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 603434,
+        "outputTokens": 19617,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.9722968000000001
+      },
+      "generate_session_title": {
+        "inputTokens": 1196,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 193,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0002161
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 38,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 2974,
+    ".json": 43,
+    ".yaml": 48,
+    ".ts": 18145,
+    ".tsx": -112,
+    ".scss": 15
+  }
+}
