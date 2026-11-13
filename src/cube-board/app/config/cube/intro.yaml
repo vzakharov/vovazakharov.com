@@ -1,8 +1,8 @@
 items:
   - id: z-intro
     type: zone
-    updated: [2026-11-13T10:55:00.000Z, agent:cube-intro]
-    box: [5720, -3150, 2510, 6450, orange]
+    updated: [2026-11-13T11:15:00.000Z, agent:cube-intro]
+    box: [5720, -3150, 2510, 6950, orange]
     icon: 🏝️
     text: 'The intro: an island, the cube from outside, the way in'
   - id: intro-h-premise
@@ -290,6 +290,18 @@ items:
     box: [7128, 2800, 430]
     src: images/intro-18-sky-opposite.webp
     text: '18. The same sky looking away from the sun'
+  - id: intro-img-19-sky-wet-foreshore
+    type: image
+    updated: [2026-11-13T11:15:00.000Z, agent:cube-intro]
+    box: [5748, 3250, 430]
+    src: images/intro-19-sky-wet-foreshore.webp
+    text: '19. Standing on the wet foreshore toward the sun: the wet sand mirrors the sky and carries the sun’s glare, brighter the further it lies. Open: close to the eye the band stays dark'
+  - id: intro-img-20-sky-approved-eye
+    type: image
+    updated: [2026-11-13T11:15:00.000Z, agent:cube-intro]
+    box: [6208, 3250, 430]
+    src: images/intro-20-sky-approved-eye.webp
+    text: '20. The approved eye under the new sky: gold sand, ripples in fields across the view, white sparks, the cube’s shadow violet-blue. Open: the operator chooses between this gold tone and the earlier pinkish beige; the inside of the shadow is still even'
   - id: intro-img-ref-approved
     type: image
     updated: [2026-11-13T11:10:00.000Z, agent:cube-intro]
