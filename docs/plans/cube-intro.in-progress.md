@@ -378,6 +378,16 @@ not append.
   merge when its own type-overlap is clean and its strips are judged. Shell's
   next: the beam comparison. Not merged: sky (gates not run), pill (shooting),
   sound ce6078e4 (waits for the final waking spot), walk.
+- **10:40Z**: sound merged whole (lead 8ab425d7; shell-mesh's `Rect.at` renamed
+  `onFace` for type-overlap); sound's session is idle — archive once walk is in.
+  The operator approved a frame in sand's session («это прямо топчик, можно на
+  доску») — sand commits it under `frames/sand/`, board makes it a big card; it
+  is the reference. Beam facts (pill's `reports/pill.md`): the hole is rolled
+  when the world is planted, the shelf derived from it (`shelfOf()`), both in
+  the beam today. The comparison is split: pill shoots the doorway's place along
+  the face (corner / a third / middle — the operator mused on a centred door and
+  a turned cube); shell shoots the sun and the cube turned, and (a). Pill adds a
+  decor clear zone at the doorway (a plant stood on the sill).
 - **The explainer** «Два океана» was amended on the operator's comment (how many
   waves "good" takes); answered in its thread.
 - **Next, in order**: (1) merge core, shell, sky as they report green and lint;
