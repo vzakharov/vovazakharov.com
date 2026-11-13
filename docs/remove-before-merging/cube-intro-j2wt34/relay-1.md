@@ -236,11 +236,15 @@ Checked by command at the park.
   stands where the operator's sketch puts it"). `tmp/shadow.ts` in the parked
   container computed it and is not on the branch; it is fifteen lines over
   `CUBE_BOX`, `SUN_DIR` and `islandHeight` from `@/cube/shared/outside`.
-- **The frame from above**: its original eye was never recorded. A re-shoot at
-  the park's head was started with
-  `pnpm outside:cube --at -15,60,70 --yaw -90 --pitch -45 --name aerial`; if it
-  landed, it is `frames/lead/1113-1255-aerial.webp` with its `.shot.json` and a
-  README row, and § 8's first step is done but for showing it.
+- **The frame from above**: its original eye was never recorded, so the lead
+  chose one — `pnpm outside:cube --at -15,60,70 --yaw -90 --pitch -45 --name aerial`,
+  shot at 7a2ab712 (the park's sources) and kept as
+  `frames/lead/1113-1230-aerial.webp` with its `.shot.json`. It shows the whole
+  island, the cube, and the shadow running off the south-west shore onto the
+  water. It was shown to the operator in chat; it is not on the board. Two
+  things it shows that nobody has judged: an arc of white foam standing off the
+  west shore with open water between it and the beach, and the cube's shadow
+  lying on the sea as sharp and as dark as on the sand.
 - **The board**: v88–v89. The protocol agreed with PR 275's session was kept in
   the board session's own `board-protocol.md`, which is not on this branch; what
   is here is `briefs/board.md` (frames under `frames/`, English captions, a
@@ -309,9 +313,9 @@ In line with the operator's last requests — «хотелось бы уже в�
 
 1. Rename the plan back to `docs/plans/cube-intro.in-progress.md`; load
    `.claude/skills/carte-blanche/SKILL.md`.
-2. **The frame from above**: if `frames/lead/1113-1255-aerial.webp` is absent or
-   frames the island badly, shoot it (§ 6), record eye, clock and commit, show
-   it to the operator and put it on the board.
+2. **The frame from above** is shot (§ 6): put it on the board, and pass its two
+   unjudged findings to sea (the foam arc off the west shore) and to whoever
+   takes the cube's shadow on water (shell's `cubeShadow`, sea's surface).
 3. **The intro played end to end** (`pnpm play:cube`, and walk's strips via
    `pnpm scenes:cube --scenes waking,climb,jump,jump-small --every 2.4`) and
    looked at; then one fix round on what it shows.
