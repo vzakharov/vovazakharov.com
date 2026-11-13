@@ -40,26 +40,24 @@ function swung(x: number, z: number, turn: number): [number, number] {
   }
 }
 
+/** A way turned `turn` quarters clockwise from above about the upright. */
+const quarterTurned = ([x, y, z]: Vec3, turn: number): Vec3 => {
+  const [east, south] = swung(x, z, turn);
+  return [east, y, south];
+};
+
 /**
  * A way in the room frame as the shell frame has it: x east, y up, z south in
  * both, the shell's being the world's.
  */
 export const turnedToShell = (
-  [x, y, z]: Vec3,
+  way: Vec3,
   turn: Quarters = INTERIOR_TURN,
-): Vec3 => {
-  const [east, south] = swung(x, z, -turn);
-  return [east, y, south];
-};
+): Vec3 => quarterTurned(way, -turn);
 
 /** A way in the shell frame as the room frame has it. */
-export const turnedToRoom = (
-  [x, y, z]: Vec3,
-  turn: Quarters = INTERIOR_TURN,
-): Vec3 => {
-  const [east, south] = swung(x, z, turn);
-  return [east, y, south];
-};
+export const turnedToRoom = (way: Vec3, turn: Quarters = INTERIOR_TURN): Vec3 =>
+  quarterTurned(way, turn);
 
 /** `point` turned by `turning` about the upright through the middle of a square `side` across. */
 const about = (
