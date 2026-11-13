@@ -56,3 +56,63 @@ Every child pushed and waits for the word "resume". Each entry is the child's ow
 - First: the overlap; merge the lead and pass the outside eye from the page; re-measure on the real sea. Needs: walk emitting `step` with `ground`, `rung`, `splash`, `say 'waking'`; pill emitting `pill` and `swallow`; shell setting `LADDER_MATERIAL`.
 
 ## board — 9fd5e233, version 57, clean
+
+- Last card: `intro-ghosts` (sticky, `box: [6400, -1240, 280, purple]`) in `src/cube-board/app/config/cube/intro.yaml`. Rebuild with `pnpm -s board build src/cube-board/app/config/cube.yaml`, then `pnpm -s board refile …`; output `tmp/board/cube/index.html`, 163 items.
+- **The artifact's comment subscription belonged to the stopped session.** Its successor takes over watching the artifact, or the operator's comments sent to Claude reach nobody.
+
+# What the stopped sessions' last messages add (read 2026-11-13)
+
+No session edited, committed or pushed anything after its pause report. What their tails say beyond the entries above:
+
+## core
+
+- Lint was 14 errors in all: its own `vova/no-default-true` at `cube-scene.ts` 280:24; the rest are shell's, fixed on shell's branch.
+- The frame block ends with a `state` member after `clock`. `src/cube/shared/outside/outside.test.ts` was rewritten by script minutes before the commit (a new test, "binds nothing but the frame") — read it over. 72 of 72 shaders, 73 tests.
+- `ladder` on the frame hook is optional and "stands unless false" — the default the lint objects to.
+- It never told sky and sea that `SKY` has no binding now.
+- On the doorway handover: floor 1's mesh is already the outside eye's frame, so no rebuild; verify no dropped frame.
+- A package may point its `OUTDOOR_SHADERS` entry at its `shared/<name>` root, as sand does: that is the intended pattern.
+
+## sky
+
+- There is no sun disc or halo in `skyRadiance` at any lod; both live in the backdrop only. The lead wants the disc at lod 0 and only a halo above it.
+- `cloudVeil` plus the clear-sky formula costs more than the few dozen operations a pixel the sea's reflection path was promised.
+- Expect a merge conflict in `pages/cube/ui/sky-layer.ts` against core's stand-ins (`pages/cube/lib/sky-shader.ts`, `shared/outside/daylight.ts`); resolve for the pure function, no sky-map `prepare`.
+- The renderer does not call `skyLayer` yet. Shaders registered as `sky: [SKY_SHADER]` and `skyClouds: [SKY_CLOUD_SHADER]`; the layer is `skyLayerAt(scale)`, its target `rgba16float`. The fit is within 1.7% of the model.
+- Files: `src/cube/shared/sky/{atmosphere,clear-sky,cloud-field,cloud-noise,clouds,sky-fit,sky-light,sky-shader,sun-glow,index}.ts`; edited `shared/outside/{sun,sky,aerial,index}.ts`. The first shot was to be `pnpm outside:cube` at yaw −31°.
+- Its `SKY_FILL` [1.01, 1.44, 2.39] is about double the lead's [0.65, 0.87, 1.2]; it meant to justify it with numbers or re-check the model after the first frame.
+
+## sea
+
+- The layer is `pages/cube/ui/sea-layer.ts` with `./sea-wave-field` (`createWaveField`); four frames under `frames/sea/`. Core's 0e1081af and 2ac8a67d are not merged. GPU time unmeasured (SwiftShader only); the line limit not run.
+- Not started: `seaHeightAt`, `rollWith`, the sun at −31°.
+- It wanted a `claude/cube-intro-sea-fft` branch before starting the analytic sum. There is none and none is needed: 218db0f0 stays an ancestor of everything built on top.
+- The bed is a plain colour until sand's `fn sandBed(xz: vec2f, depth: f32) -> vec3f` (piece `SAND_COLOUR` from `@/cube/shared/sand`).
+
+## sand
+
+- It never read its message queue, so nothing the lead sent after ~22:40Z reached it. "Done" is everything it reported at 08539b3c. Its six frames were in its own container: re-shoot.
+
+## shell
+
+- Every room frame and the beam's tuning were made under the old sun: redo. Its blurred-reflection lookups read the sky map: rewrite on `skyRadiance(dir, lod)`. The material's hash salts and the ladder's paint are unchecked against `roll`.
+- The ladder is wood; the lead prefers aluminium. `LADDER_MATERIAL: 'aluminium' | 'wood'` in `src/cube/shared/lib/acoustics.ts` defaults to aluminium.
+- It added vector ops in `shared/lib/vec.ts` beside the world entity's (`src/cube/entities/world/model/quad.ts`); making that one import from the shared file is still to do.
+- Additive edits in others' files: `shared/outside/index.ts`, `cube-shadow.ts` (needs `SUN_DISC` and `LADDER_WGSL`), `world/index.ts` (`WALL_HALF` re-exported from `shared/lib/room-shape`).
+- The overlap is `End` in `src/cube/shared/outside/beam.ts` against `Backdrop` in `src/mushrooms/entities/landscape/ui/paint-backdrop.ts`.
+- Unwritten: the test pinning `RECEPTION_SHRUBS` to the furnished plants. Untuned: leaf transmission, the dust shaft. The floor's glare at the sill is to go from white to the sun's colour with the carpet's speckle showing.
+
+## sound
+
+- Wind level went 0.12 → 0.16 after the last bench run, not re-measured. `cube-canvas` still passes `player.pose`, not the outside eye. `pages/cube/ui/hearing.ts` stays.
+- The overlaps: `Listener.facing` in `src/cube/features/sound/outdoors/model/mix.ts` (against mushrooms' `Faced`) and `Stack.share` in `.../outdoors/model/hum.ts` (against `GrainStrip`).
+- A scripted rename went in seconds before the commit — `sampleRate` → `takenAt` in `src/cube/scripts/lib/cue-takes.ts`, `yaw` → `facing`, a new `Sounding = Timed & Resonant` in `features/sound/dsp/lib/dsp.ts`; 82 tests passed after it. Read it over.
+- From the lead's late messages: audit every noise seed against `roll` / `rollWith`; the surf needs a TS twin of `waterLevel` (names from sea); the jump off the sill reuses `landing` with ground `sand` — check it scales at half height and tell walk which cue.
+- Measured: the hum is −4 dB under its masker at the waking spot, +8 dB at the ladder, +12 dB under the cube.
+
+## walk
+
+- `src/cube/pages/cube/lib/start.ts` went into the wip commit unreviewed. 142 tests. The descent and the look-under are written and wired — to be taken out.
+- The outside controller must take the body's scale (eye height, stride, swimming) for the half-height exit. The eyelids come from `OUTSIDE_LENS` (exposure and eyelids 0…1), and the waking scene opens them.
+- Still to merge: the lead, core's newer commits, sound's cue names (`origin/claude/cube-intro-sound`).
+- The lead asked that the climb's last frame look down the beam at the pill's shelf.
