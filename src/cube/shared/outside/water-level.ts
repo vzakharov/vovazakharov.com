@@ -22,14 +22,14 @@ import {
  * TypeScript.
  */
 
-const GRAVITY = 9.81;
+export const GRAVITY = 9.81;
 
 /** The unit direction the swell runs, on the ground plan: to the north-east. */
 export const SWELL_RUNS: Vec2 = [Math.SQRT1_2, -Math.SQRT1_2];
 /** The depth, metres, at which the swell begins to feel the bottom. */
 const FEELS = 30;
 /** The beach's slope the shore's timing is worked out for. */
-const SLOPE = 1 / 12;
+export const SLOPE = 1 / 12;
 /** The least depth a wave is timed over, so it reaches the sand in the end. */
 const SHALLOWEST = 0.3;
 /** Seconds a wave loses between deep water and the sand. */
@@ -43,7 +43,7 @@ const SHOALS_FROM = 4.55;
 /** A broken wave's height as a share of the depth it runs in. */
 const SURF = 0.62;
 /** How high a wave is thrown up the sand, as a share of its height. */
-const RUNUP = 0.55;
+export const RUNUP = 0.55;
 /** The sheet's depth over Shen and Meyer's, whose lens is thinner than seen. */
 const THICK = 1.5;
 /** Seconds a sheet takes to gather at the still shoreline. */
@@ -100,7 +100,9 @@ export function shoreFacing(along: number, steep: number, bed: number): number {
   const ahead = pace + slow * along;
   return (
     ahead /
-    Math.sqrt(pace * pace + 2 * pace * slow * along + slow * slow * steep * steep)
+    Math.sqrt(
+      pace * pace + 2 * pace * slow * along + slow * slow * steep * steep,
+    )
   );
 }
 
@@ -182,7 +184,9 @@ export function swellLevel(
     sheetDepth(n - 1, tau, bed, shelter),
   );
   const floor =
-    bed < 0 ? surfLevel(tau, bed, shelter) : bed - DRY * smoothstep(0, 0.05, bed);
+    bed < 0
+      ? surfLevel(tau, bed, shelter)
+      : bed - DRY * smoothstep(0, 0.05, bed);
   if (sheet <= 0) return floor;
   const top =
     Math.max(bed, 0) +
@@ -199,13 +203,23 @@ const rise = ([x, z]: Vec2): Vec2 => [
     (2 * FACING_REACH),
 ];
 
-/**
- * The sea's slow surface at `xz` in the world frame, `seconds` into the hour:
- * metres over the still sea, with the swell, its surf and the swash and no
- * wind wave. Where it is over `islandHeight` the sand is under water at that
- * instant.
- */
-export function waterLevel(xz: Vec2, seconds: number): number {
+/** The swell as one point of the shore meets it. */
+export type ShoreClock = {
+  /** The sand there, metres over the still sea. */
+  bed: number;
+  /**
+   * The point's own time: the clock less how long the swell takes to reach
+   * it. `turnsAt(tau)` counts the crests that have passed the point, and
+   * `crestOf(n)` is the `tau` at which crest `n` does.
+   */
+  tau: number;
+  /** How squarely its shore faces the swell, −1 to 1, and what that keeps of a wave. */
+  facing: number;
+  shelter: number;
+};
+
+/** The swell's timing at `xz` in the world frame, `seconds` into the hour. */
+export function shoreClock(xz: Vec2, seconds: number): ShoreClock {
   const bed = islandHeight(xz);
   const [dx, dz] = rise(xz);
   const facing = shoreFacing(
@@ -213,6 +227,23 @@ export function waterLevel(xz: Vec2, seconds: number): number {
     Math.hypot(dx, dz),
     bed,
   );
+  const run = xz[0] * SWELL_RUNS[0] + xz[1] * SWELL_RUNS[1];
+  return {
+    bed,
+    tau: seconds - run / DEEP_SPEED - shoreDelay(shoreDepth(bed)),
+    facing,
+    shelter: sheltered(facing),
+  };
+}
+
+/**
+ * The sea's slow surface at `xz` in the world frame, `seconds` into the hour:
+ * metres over the still sea, with the swell, its surf and the swash and no
+ * wind wave. Where it is over `islandHeight` the sand is under water at that
+ * instant.
+ */
+export function waterLevel(xz: Vec2, seconds: number): number {
+  const { bed, facing } = shoreClock(xz, seconds);
   return swellLevel(
     xz[0] * SWELL_RUNS[0] + xz[1] * SWELL_RUNS[1],
     bed,

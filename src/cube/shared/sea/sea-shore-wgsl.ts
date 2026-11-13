@@ -5,17 +5,14 @@ import { OUTDOOR_STAGE, WATER_LEVEL } from '../outside';
  * Metres from the island's crest between which the swell's ordered train,
  * which `waterLevel` draws, gives way to the open sea's own random swell.
  */
-const TRAIN_ENDS = [140, 260] as const;
+export const TRAIN_ENDS = [140, 260] as const;
 
 /**
  * Still depths, metres, over which each cascade's waves die out toward the
  * beach: a wave cannot stand in water much shallower than it is long.
  */
-const DIES_OVER = [
-  [0.3, 3],
-  [0.08, 0.8],
-  [0.01, 0.15],
-] as const;
+export const SWELL_DIES_OVER = [0.3, 3] as const;
+const DIES_OVER = [SWELL_DIES_OVER, [0.08, 0.8], [0.01, 0.15]] as const;
 
 /**
  * The sea at the shore, for the sea's own shader: \`level(xz)\`, the slow

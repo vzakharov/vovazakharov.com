@@ -1,11 +1,8 @@
-import { CASCADES, TILE } from './cascade';
+import { CASCADES, CHOP, TILE } from './cascade';
 import { HOUR } from './spectrum';
 
 /** Complex pairs a cascade's transform carries: two textures' worth. */
 export const FIELD_LAYERS = CASCADES.length * 2;
-
-/** How far a wave's crest leans forward of a pure sine: Tessendorf's chop. */
-const CHOP = 0.92;
 
 const COMPLEX = /* wgsl */ `
 const TAU = 6.283185307179586;

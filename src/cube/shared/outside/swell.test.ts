@@ -4,15 +4,7 @@ import { describe, it } from 'node:test';
 import { assemble } from '../lib/wgsl';
 import { scalarWgsl } from '../lib/wgsl-scalar.test-kit';
 import { islandHeight } from './island-height';
-import {
-  bore,
-  crestOf,
-  peaked,
-  PERIOD,
-  setsAt,
-  turnsAt,
-  WAVES,
-} from './swell';
+import { bore, crestOf, peaked, PERIOD, setsAt, turnsAt, WAVES } from './swell';
 import {
   brokenAt,
   sheetDepth,
@@ -83,7 +75,14 @@ describe('the shore in WGSL', () => {
           same('brokenAt', brokenAt(tau, bed, shelter), tau, bed, shelter);
           same('surfLevel', surfLevel(tau, bed, shelter), tau, bed, shelter);
           const n = Math.floor(turnsAt(tau));
-          same('sheetDepth', sheetDepth(n, tau, bed, shelter), n, tau, bed, shelter);
+          same(
+            'sheetDepth',
+            sheetDepth(n, tau, bed, shelter),
+            n,
+            tau,
+            bed,
+            shelter,
+          );
           same('swellLevel', swellLevel(12, bed, 0.8, tau), 12, bed, 0.8, tau);
         }
       }

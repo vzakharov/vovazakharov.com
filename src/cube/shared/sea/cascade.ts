@@ -18,6 +18,9 @@ export type Cascade = {
 /** The world the island's sea is rolled in. */
 const SEA_WORLD = '0';
 
+/** How far a wave's crest leans forward of a pure sine: Tessendorf's chop. */
+export const CHOP = 0.92;
+
 /** Texels along a tile's side; a power of two, for the transform. */
 export const TILE = 256;
 
