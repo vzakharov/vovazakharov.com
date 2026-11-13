@@ -36,6 +36,13 @@
   15.2 (`--at -15.2,2.05,15.2 --yaw 135 --pitch -8`), the clock `PLAY_INSTANT`.
 - `1113-wet-edge-before-after.webp` — that edge at twice its size: above with
   wetness asked at the mesh's vertices, below at each pixel.
+- `1113-weed-wake-cube.webp` — the named eye `wake-cube`
+  (`pnpm outside:cube --eyes wake-cube`, the clock `PLAY_INSTANT`): the dried
+  weed by the waker's cheek tapers, bends unevenly, runs from black to straw and
+  lays a short shadow.
+- `1113-weed-before-after.webp` — that frame's bottom left (x 0–400, y 620–800)
+  at three times its size: above the strands as even dark arcs, below with a
+  body and a third fewer.
 
 ## In the first harness
 
