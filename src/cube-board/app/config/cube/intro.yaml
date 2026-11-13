@@ -301,7 +301,7 @@ items:
     updated: [2026-11-13T12:05:00.000Z, agent:cube-intro]
     box: [5748, 3700, 430]
     src: images/intro-22-film-after.webp
-    text: '22. After: the daylight film — the sky keeps its gradient right up to the sun’s disc. Re-shot after the interior’s quarter-turn; outdoors it did not change by a pixel'
+    text: '22. After: the daylight film — the sky keeps its gradient right up to the sun’s disc. Re-shot after the interior’s quarter-turn; outdoors it did not change by a pixel. Eye wake-cube, outside lens (exposure 0.3), commit 001b3c9b, clock PLAY_INSTANT 2026-11-01T12:00:00Z, 1280×800'
   - id: intro-img-23-sun-three-ways
     type: image
     updated: [2026-11-13T12:10:00.000Z, agent:cube-intro]
@@ -349,22 +349,22 @@ items:
     updated: [2026-11-13T12:05:00.000Z, agent:cube-intro]
     box: [7128, 4800, 430]
     src: images/intro-31-entering-after-turn.webp
-    text: '31. Climbing in after the quarter-turn: trees and bench straight ahead, the beam landing beside the bench, the hatch’s corner left in the dark'
+    text: '31. Climbing in after the quarter-turn: trees and bench straight ahead, the beam landing beside the bench, the hatch’s corner left in the dark. Re-shot: eye entering, the floor’s own lens, commit 001b3c9b, clock PLAY_INSTANT, 1280×800, pnpm outside:cube --eyes entering (frames 31–34 share these)'
   - id: intro-img-32-entering-fresh
     type: image
     updated: [2026-11-13T12:05:00.000Z, agent:cube-intro]
     box: [5748, 5250, 430]
     src: images/intro-32-entering-fresh.webp
-    text: '32. The same step with eyes still full of daylight'
+    text: '32. The same step with eyes still full of daylight (eye entering, --indoors 0)'
   - id: intro-img-33-entering-halfway
     type: image
     updated: [2026-11-13T12:05:00.000Z, agent:cube-intro]
     box: [6208, 5250, 430]
     src: images/intro-33-entering-halfway.webp
-    text: '33. …and half used to the room'
+    text: '33. …and half used to the room (eye entering, --indoors 0.5)'
   - id: intro-img-34-in-beam
     type: image
     updated: [2026-11-13T12:05:00.000Z, agent:cube-intro]
     box: [6668, 5250, 430]
     src: images/intro-34-in-beam.webp
-    text: '34. Standing in the beam, looking where it lands'
+    text: '34. Standing in the beam, looking where it lands (eye in-beam)'

@@ -58,6 +58,18 @@ items:
     box: [7248, 6250, 430]
     src: images/intro-43-weed-wake-cube.webp
     text: '43. The waking frame after the weed fix. Eye wake-cube (pnpm outside:cube --eyes wake-cube: lying at the waking spot, yaw −45°, pitch 8.02°), clock PLAY_INSTANT 2026-11-01T12:00:00Z (1793534400000 ms), 1280×800 at device scale 1, commit 69ac8423 on the sand branch'
+  - id: intro-img-44-after-room-doorway
+    type: image
+    updated: [2026-11-13T12:30:00.000Z, agent:cube-intro]
+    box: [7128, 5250, 430]
+    src: images/intro-44-after-room-doorway.webp
+    text: '44. After pill’s clear zone: the way in is a way in again (the notice board of frame 29 hangs on the wall beside the opening). Eye room-doorway, commit 001b3c9b, clock PLAY_INSTANT, 1280×800'
+  - id: intro-img-45-after-doorway-out
+    type: image
+    updated: [2026-11-13T12:30:00.000Z, agent:cube-intro]
+    box: [7588, 5250, 430]
+    src: images/intro-45-after-doorway-out.webp
+    text: '45. …and the sill has its view back (frame 30 shows the cork). Eye doorway-out, commit 001b3c9b, clock PLAY_INSTANT, 1280×800'
   - id: intro-img-24-pill-shelf-4x
     type: image
     updated: [2026-11-13T11:40:00.000Z, agent:cube-intro]
