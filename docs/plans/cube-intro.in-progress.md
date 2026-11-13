@@ -369,6 +369,16 @@ not append.
   them. Core d82585e4 also has `frame.body` (`Standing`), `ladderGone`/`body` on
   `setEye`'s third argument (an object now), the reflection guard. In sky's
   session he asked for truer clouds (sky 0ab7c024, gates not run).
+- **~10:20Z, the beam again — the ruling above is WITHDRAWN**: «итого у нас три
+  пути: (а) переместить полку и/или дыру (если процедурность позволяет), (б)
+  повернуть солнце, (в) повернуть куб. какой из них правильный сходу не скажу,
+  надо смотреть и сравнивать». Nothing is decided until frames of all three
+  stand side by side on the board: shell shoots the comparison (inside from the
+  doorway at `--indoors` 0 / 0.5 / settled, and outside from the waking spot,
+  since (b) and (c) change the outside too), on throwaway overrides, nothing
+  committed to shared constants; pill supplies how shelf and hole are placed.
+  Core's adaptation now goes by the gaze (merged, b4058398). A second explainer,
+  on the clouds, is being made by `session_01DaohkFroEeZ7ybMvAY9JoV` (Opus).
 - **The explainer** «Два океана» was amended on the operator's comment (how many
   waves "good" takes); answered in its thread.
 - **Next, in order**: (1) merge core, shell, sky as they report green and lint;
