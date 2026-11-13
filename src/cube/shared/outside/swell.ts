@@ -7,33 +7,40 @@ import { f32, wgsl } from '../lib/wgsl';
  * 420 an hour, each a little early or late and taller or lower than the last,
  * so the beach gets sets and lulls and a wave every 7 to 10 seconds. Every
  * function here is a scalar closed form, written twice — TypeScript below,
- * WGSL in `SWELL` — and `swell.test.ts` runs the WGSL listing itself against
+ * WGSL in `SWELL_TRAIN` — and `swell.test.ts` runs the WGSL listing itself against
  * the TypeScript.
  */
 
-const GRAVITY = 9.81;
-const HOUR = 3600;
+/** Gravity at the sea's surface, m/s². */
+export const SEA_GRAVITY = 9.81;
+/** Seconds in the shared clock's hour, the period every motion returns in. */
+export const HOUR_SECONDS = 3600;
 const TAU = 2 * Math.PI;
 
 /** Waves the swell lands in an hour. */
 export const WAVES = 420;
 /** Seconds from one crest to the next, on average. */
-export const PERIOD = HOUR / WAVES;
+export const PERIOD = HOUR_SECONDS / WAVES;
 /** The speed the swell's crests travel over deep water, m/s. */
-export const DEEP_SPEED = (GRAVITY * PERIOD) / TAU;
+export const DEEP_SPEED = (SEA_GRAVITY * PERIOD) / TAU;
 /** Crest to trough of a middling wave before the bottom is felt, metres. */
-export const HEIGHT = 0.4;
+export const SWELL_HEIGHT = 0.4;
 
-type Sines = readonly (readonly [number, number, number])[];
+/** Sines, each [cycles an hour, size, where it starts in turns]. */
+type Sines = ReadonlyArray<
+  readonly [cycles: number, size: number, start: number]
+>;
 
 /** The world the island's sea is rolled in. */
 const SEA_WORLD = '0';
 
 /**
  * The windows three sines' whole cycles an hour are rolled in — [fewest, how
- * many to choose among] — and how much of the sum each tends to carry.
+ * many to choose among, how much of the sum it tends to carry].
  */
-type Windows = readonly (readonly [number, number, number])[];
+type Windows = ReadonlyArray<
+  readonly [fewest: number, span: number, share: number]
+>;
 
 const DRIFT_IN: Windows = [
   [31, 13, 1],
@@ -112,7 +119,7 @@ const SETS = sinesOf(rolled.sets, SETS_IN, HEIGHT_SWING, () => 1);
 const sum = (sines: Sines, tau: number): number =>
   sines.reduce(
     (total, [cycles, size, start]) =>
-      total + size * Math.sin(TAU * ((cycles * tau) / HOUR + start)),
+      total + size * Math.sin(TAU * ((cycles * tau) / HOUR_SECONDS + start)),
     0,
   );
 
@@ -120,15 +127,15 @@ const sumWgsl = (sines: Sines): string =>
   sines
     .map(
       ([cycles, size, start]) =>
-        `${f32(size)} * sin(${f32(TAU)} * fract(${f32(cycles)} * tau / ${f32(HOUR)} + ${f32(start)}))`,
+        `${f32(size)} * sin(${f32(TAU)} * fract(${f32(cycles)} * tau / ${f32(HOUR_SECONDS)} + ${f32(start)}))`,
     )
     .join('\n    + ');
 
 /** How many crests have passed a point whose own time is `tau` seconds. */
 export const turnsAt = (tau: number): number =>
-  (WAVES * tau) / HOUR + sum(DRIFT, tau);
+  (WAVES * tau) / HOUR_SECONDS + sum(DRIFT, tau);
 
-/** How tall the waves run at `tau`, as a multiple of `HEIGHT`. */
+/** How tall the waves run at `tau`, as a multiple of `SWELL_HEIGHT`. */
 export const setsAt = (tau: number): number => 1 + sum(SETS, tau);
 
 /** The moment, in a point's own time, that crest `n` passes it. */
@@ -173,11 +180,11 @@ export function bore(phase: number): number {
  * `turnsAt`, `setsAt`, `crestOf`, `peaked` and `bore` in WGSL, each the twin
  * of the function of its name above.
  */
-export const SWELL = wgsl(
+export const SWELL_TRAIN = wgsl(
   'outside/swell',
   /* wgsl */ `
 fn turnsAt(tau: f32) -> f32 {
-  return ${f32(WAVES)} * tau / ${f32(HOUR)} + swellDrift(tau);
+  return ${f32(WAVES)} * tau / ${f32(HOUR_SECONDS)} + swellDrift(tau);
 }
 
 fn swellDrift(tau: f32) -> f32 {

@@ -1,5 +1,6 @@
 import { f32, wgsl } from '../lib/wgsl';
 import { AERIAL, CUBE_SHADOW } from '../outside';
+import { SAND_COLOUR } from '../sand';
 import { TILE } from './cascade';
 import { SEA_FOAM } from './sea-foam-wgsl';
 import { SEA_LIGHT } from './sea-light-wgsl';
@@ -42,9 +43,6 @@ const AERATED = vec3f(0.1, 0.24, 0.22);
 const DROWNED = vec3f(0.035, 0.13, 0.15);
 /// What a crest a metre thick lets through of the sun behind it.
 const CREST_GLOW = vec3f(0.01, 0.1, 0.085);
-
-/// Wet sand under water, until the sand's own colour is read here.
-const SEA_BED = vec3f(0.36, 0.29, 0.2);
 
 /// Where a ray entering water \`column\` metres deep at \`start\` meets the bed.
 fn bedUnder(start: vec3f, ray: vec3f, column: f32) -> vec3f {
@@ -106,7 +104,7 @@ fn seaFragment(in: SeaVarying, @builtin(front_facing) above: bool) -> SeaOut {
     // The sky is too wide a lamp to come to a line, but its brighter half
     // still gathers a little.
     let gather = gathered(bed.xz, over);
-    let lit = SEA_BED * (
+    let lit = sandBed(bed.xz, over) * (
       sunEntering() * cubeShadow(bed) * kept(over / ${f32(SUN_SINKS)}) * gather
         + SKY_FILL * kept(over) * mix(1.0, gather, 0.3)
     );
@@ -133,7 +131,7 @@ fn seaFragment(in: SeaVarying, @builtin(front_facing) above: bool) -> SeaOut {
       body = mix(body, skyRadiance(out, 2.0), 1.0 - fresnel(dot(toEye, -normal)));
     }
     var drowned: SeaOut;
-    drowned.light = vec4f(body, far);
+    drowned.light = vec4f(body, min(far, SKY_METRES));
     drowned.depth = in.clip.z;
     return drowned;
   }
@@ -152,7 +150,7 @@ fn seaFragment(in: SeaVarying, @builtin(front_facing) above: bool) -> SeaOut {
   let colour = mix(water, white * froth * mix(0.8, 1.0, min(thick, 1.0)), foam);
 
   var out: SeaOut;
-  out.light = vec4f(aerial(colour, -toEye, far), far);
+  out.light = vec4f(aerial(colour, -toEye, far), min(far, SKY_METRES));
   let ashore = smoothstep(-0.6, -0.2, shore.bed);
   out.depth = mix(in.clip.z, in.lifted.x / in.lifted.y, ashore);
   return out;
@@ -161,6 +159,7 @@ fn seaFragment(in: SeaVarying, @builtin(front_facing) above: bool) -> SeaOut {
   SEA_SURFACE,
   SEA_LIGHT,
   SEA_FOAM,
+  SAND_COLOUR,
   AERIAL,
   CUBE_SHADOW,
 );

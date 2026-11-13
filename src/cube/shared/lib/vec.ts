@@ -12,3 +12,29 @@ export type Seen = WithEye & {
 
 /** A point on the ground plan: x east, z south. */
 export type Vec2 = readonly [number, number];
+
+export const dot3 = (a: Vec3, b: Vec3): number =>
+  a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+
+export const cross3 = (a: Vec3, b: Vec3): Vec3 => [
+  a[1] * b[2] - a[2] * b[1],
+  a[2] * b[0] - a[0] * b[2],
+  a[0] * b[1] - a[1] * b[0],
+];
+
+/** `from`, moved `metres` along `dir`. */
+export const moved = (from: Vec3, dir: Vec3, metres = 1): Vec3 => [
+  from[0] + dir[0] * metres,
+  from[1] + dir[1] * metres,
+  from[2] + dir[2] * metres,
+];
+
+/** `v`, `by` times as long. */
+export const scaled = (v: Vec3, by: number): Vec3 => [
+  v[0] * by,
+  v[1] * by,
+  v[2] * by,
+];
+
+/** `v` at length 1. */
+export const unit3 = (v: Vec3): Vec3 => scaled(v, 1 / Math.hypot(...v));

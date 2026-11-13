@@ -11,9 +11,9 @@ import { SEA_SHORE } from './sea-shore-wgsl';
 export const RINGS = 512;
 export const SPOKES = 640;
 /** Metres: the radius at which rings stop growing by a fixed step. */
-const CORE = 0.5;
+const HUB = 0.5;
 const REACH = 20_000;
-const GROWTH = Math.log(REACH / CORE + 1) / (RINGS - 1);
+const GROWTH = Math.log(REACH / HUB + 1) / (RINGS - 1);
 
 /** How far apart the slow surface is read for its own slope, metres. */
 const SWELL_STEP = 0.4;
@@ -39,7 +39,7 @@ struct SeaGrid {
 @group(1) @binding(4) var momentMap: texture_2d_array<f32>;
 
 const CASCADES = ${String(CASCADES.length)}u;
-const SIDES = array<f32, ${String(CASCADES.length)}>(${CASCADES.map(({ side }) => f32(side)).join(', ')});
+const SIDES = array<f32, ${String(CASCADES.length)}>(${CASCADES.map(({ tileSide }) => f32(tileSide)).join(', ')});
 const SPOKES = ${String(SPOKES)}u;
 
 /// How far the wind's waves carry the still surface's point \`still\`, for a
@@ -73,11 +73,11 @@ struct SeaVarying {
 fn seaVertex(@builtin(vertex_index) index: u32) -> SeaVarying {
   let ring = f32(index / (SPOKES + 1u));
   let spoke = f32(index % (SPOKES + 1u));
-  let radius = ${f32(CORE)} * (exp(${f32(GROWTH)} * ring) - 1.0);
+  let radius = ${f32(HUB)} * (exp(${f32(GROWTH)} * ring) - 1.0);
   let angle = grid.yaw + (spoke / f32(SPOKES) - 0.5) * grid.sector;
   let still = frame.eye.xz + radius * vec2f(cos(angle), sin(angle));
   let cell = max(
-    ${f32(GROWTH)} * (radius + ${f32(CORE)}),
+    ${f32(GROWTH)} * (radius + ${f32(HUB)}),
     radius * grid.sector / f32(SPOKES),
   );
   var out: SeaVarying;

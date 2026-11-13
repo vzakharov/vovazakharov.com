@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { assemble } from '../lib/wgsl';
-import { scalarWgsl } from '../lib/wgsl-scalar.test-kit';
+import { scalarWgsl } from '../lib/wgsl-scalar';
 import { islandHeight } from './island-height';
 import { bore, crestOf, peaked, PERIOD, setsAt, turnsAt, WAVES } from './swell';
 import {
@@ -124,20 +124,20 @@ describe('the swell', () => {
   });
 });
 
-describe('waterLevel', () => {
-  /** A point on the south-west beach, `bed` metres over the still sea. */
-  function onBeach(bed: number): [number, number] {
-    let dry = 0;
-    let wet = 200;
-    for (let step = 0; step < 50; step += 1) {
-      const middle = (dry + wet) / 2;
-      const at = islandHeight([-middle * Math.SQRT1_2, middle * Math.SQRT1_2]);
-      if (at > bed) dry = middle;
-      else wet = middle;
-    }
-    return [-dry * Math.SQRT1_2, dry * Math.SQRT1_2];
+/** A point on the south-west beach, `bed` metres over the still sea. */
+function onBeach(bed: number): [number, number] {
+  let dry = 0;
+  let wet = 200;
+  for (let step = 0; step < 50; step += 1) {
+    const middle = (dry + wet) / 2;
+    const at = islandHeight([-middle * Math.SQRT1_2, middle * Math.SQRT1_2]);
+    if (at > bed) dry = middle;
+    else wet = middle;
   }
+  return [-dry * Math.SQRT1_2, dry * Math.SQRT1_2];
+}
 
+describe('waterLevel', () => {
   it('returns to itself on the hour', () => {
     for (const xz of [onBeach(0.1), onBeach(-0.5), [300, -200]] as const) {
       for (const t of [0, 0.5, 2.25]) {
