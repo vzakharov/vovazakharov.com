@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 10534,
-    "cacheWrite5mTokens": 2024,
-    "cacheWrite1hTokens": 730766,
-    "cacheReadTokens": 39124713,
-    "outputTokens": 235003,
-    "thinkingTokens": 98288,
-    "responses": 193,
-    "costUsd": 29.004861400000006
+    "inputTokens": 12667,
+    "cacheWrite5mTokens": 2667,
+    "cacheWrite1hTokens": 840920,
+    "cacheReadTokens": 43314531,
+    "outputTokens": 257856,
+    "thinkingTokens": 104251,
+    "responses": 214,
+    "costUsd": 32.542903
   },
   "estimate": {
     "at": "2026-11-13T10:33:51.952Z",
@@ -52,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkBFtfJ3LB6ENrHeTER",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T09:16:13.273Z",
-  "lastResponseAt": "2026-11-13T11:10:36.310Z",
+  "lastResponseAt": "2026-11-13T11:18:19.281Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 18.6412124,
   "ownTurns": {
-    "inputTokens": 373,
+    "inputTokens": 413,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 730766,
-    "cacheReadTokens": 38524476,
-    "outputTokens": 216831,
-    "thinkingTokens": 98288,
-    "responses": 190,
-    "costUsd": 28.073375200000008
+    "cacheWrite1hTokens": 840920,
+    "cacheReadTokens": 42412987,
+    "outputTokens": 233702,
+    "thinkingTokens": 104251,
+    "responses": 210,
+    "costUsd": 31.288701400000004
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,14 +77,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 9281,
-      "cacheWrite5mTokens": 2024,
-      "cacheWrite1hTokens": 730766,
-      "cacheReadTokens": 39124713,
-      "outputTokens": 234824,
-      "thinkingTokens": 98288,
-      "responses": 192,
-      "costUsd": 29.004646600000008
+      "inputTokens": 11414,
+      "cacheWrite5mTokens": 2667,
+      "cacheWrite1hTokens": 840920,
+      "cacheReadTokens": 43314531,
+      "outputTokens": 257677,
+      "thinkingTokens": 104251,
+      "responses": 213,
+      "costUsd": 32.54268820000001
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1253,
@@ -161,23 +161,54 @@
         "estimatedUsd": 0.0
       },
       "billedUsd": 0.47683060000000005
+    },
+    {
+      "at": "2026-11-13T11:14:08.604Z",
+      "trigger": "auto",
+      "compactedFrom": 304684,
+      "summaryChars": 13931,
+      "reorientation": {
+        "endedBy": null,
+        "endedOn": null,
+        "endedAt": null,
+        "contextTokens": null,
+        "spend": {
+          "inputTokens": 24,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 95751,
+          "cacheReadTokens": 1537772,
+          "outputTokens": 10152,
+          "thinkingTokens": 3767,
+          "responses": 12,
+          "costUsd": 2.2458424
+        }
+      },
+      "rereads": {
+        "calls": 1,
+        "byTool": {
+          "Read": 1
+        },
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.32271540000000004
     }
   ],
   "telemetry": {
-    "events": 192,
-    "matched": 189,
-    "matchedTableUsd": 27.928174400000007,
-    "matchedEventUsd": 27.928174400000007,
+    "events": 213,
+    "matched": 209,
+    "matchedTableUsd": 31.186057400000003,
+    "matchedEventUsd": 31.186057400000003,
     "unseen": {
       "compact": {
-        "inputTokens": 8908,
-        "cacheWrite5mTokens": 2024,
+        "inputTokens": 11001,
+        "cacheWrite5mTokens": 2667,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 600237,
-        "outputTokens": 17993,
+        "cacheReadTokens": 901544,
+        "outputTokens": 23975,
         "thinkingTokens": 0,
-        "responses": 2,
-        "costUsd": 0.9312714000000001
+        "responses": 3,
+        "costUsd": 1.2539868
       },
       "generate_session_title": {
         "inputTokens": 1253,
@@ -192,14 +223,14 @@
     }
   },
   "operatorWords": {
-    "chat": 35,
+    "chat": 48,
     "review": 0,
     "threads": 0
   },
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 2643,
+    ".md": 2673,
     ".json": 32,
     ".yaml": 48,
     ".ts": 13131,
