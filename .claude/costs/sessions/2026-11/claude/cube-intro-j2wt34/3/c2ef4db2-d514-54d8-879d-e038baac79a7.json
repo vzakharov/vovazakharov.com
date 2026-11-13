@@ -1,41 +1,41 @@
 {
   "total": {
-    "inputTokens": 977,
-    "cacheWrite5mTokens": 1495555,
-    "cacheWrite1hTokens": 851817,
-    "cacheReadTokens": 84530427,
-    "outputTokens": 403280,
-    "thinkingTokens": 148471,
-    "responses": 479,
-    "costUsd": 50.143772399999975
+    "inputTokens": 1047,
+    "cacheWrite5mTokens": 1538430,
+    "cacheWrite1hTokens": 857760,
+    "cacheReadTokens": 89963380,
+    "outputTokens": 426235,
+    "thinkingTokens": 156460,
+    "responses": 513,
+    "costUsd": 52.049345999999964
   },
   "estimate": {
-    "at": "2026-11-13T13:27:38.443Z",
+    "at": "2026-11-13T14:31:56.309Z",
     "subjectLine": "feat: the cube intro's PR, vet, the scenario round and finalize",
     "parts": [
       {
-        "hours": 4.0,
+        "hours": 5.0,
         "grade": "senior",
         "role": "producer",
-        "comment": "Opening the PR of a four-hundred-commit team build against a non-trunk base, reading vet's failures, then briefing three builders on disjoint files and taking their work in takes someone who knows what each package owes"
+        "comment": "Opening the PR of a four-hundred-commit team build against a non-trunk base, then briefing six builders on disjoint files, taking their packages in and keeping the board and the plan true takes someone who knows what each package owes"
       },
       {
-        "hours": 8.0,
+        "hours": 9.0,
         "grade": "senior",
         "role": "gameplay-programmer",
-        "comment": "A player-driven first look with a voiced cue, a walking default, a gaze restored at the ladder's top, a refused first step-off with its own cutscene, a start fragment and hands that reach the rungs are scene-engine changes with tests"
+        "comment": "A player-driven first look whose voiced cue waits for the gaze to rest, a walking default with a held and a locked run, a run's stride, a gaze restored at the ladder's top, a refused first step-off, a start fragment and hands on the rungs are scene-engine changes with tests"
       },
       {
         "hours": 1.0,
         "grade": "senior",
         "role": "game-designer",
-        "comment": "Where the hero's hmm lands, and what the refused first jump shows, decide how the intro reads"
+        "comment": "Where the hero's hmm lands, what the refused first jump shows and how often a running man's feet fall decide how the intro reads"
       },
       {
-        "hours": 5.0,
+        "hours": 8.0,
         "grade": "senior",
         "role": "graphics-programmer",
-        "comment": "Reading a frame's cost off five metered frames, a default resolution with a console switch, the water's body behind the surface for an eye under a wave and a box that shaded itself are GPU-budget and shader work"
+        "comment": "Reading a frame's cost off metered frames, three resolutions with a frame-rate mark and a sky target that keeps its grid, the water's body for an eye under a wave, and a beam shaded by a thing's parts are GPU-budget and shader work"
       },
       {
         "hours": 3.0,
@@ -72,49 +72,49 @@
   "url": "https://claude.ai/code/session_016Z4TKqfdhduUecpY8zFSAJ",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T12:48:06.497Z",
-  "lastResponseAt": "2026-11-13T14:24:18.093Z",
+  "lastResponseAt": "2026-11-13T14:32:04.841Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 443,
+    "inputTokens": 453,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 851817,
-    "cacheReadTokens": 53374547,
-    "outputTokens": 202978,
-    "thinkingTokens": 80242,
-    "responses": 221,
-    "costUsd": 32.42664540000001
+    "cacheWrite1hTokens": 857760,
+    "cacheReadTokens": 55037576,
+    "outputTokens": 205483,
+    "thinkingTokens": 80907,
+    "responses": 226,
+    "costUsd": 32.95461920000001
   },
   "subagents": {
-    "inputTokens": 534,
-    "cacheWrite5mTokens": 1495555,
+    "inputTokens": 594,
+    "cacheWrite5mTokens": 1538430,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 31155880,
-    "outputTokens": 200302,
-    "thinkingTokens": 68229,
-    "responses": 258,
-    "costUsd": 17.717127000000005
+    "cacheReadTokens": 34925804,
+    "outputTokens": 220752,
+    "thinkingTokens": 75553,
+    "responses": 287,
+    "costUsd": 19.094726800000007
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 443,
+      "inputTokens": 453,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 851817,
-      "cacheReadTokens": 53374547,
-      "outputTokens": 202978,
-      "thinkingTokens": 80242,
-      "responses": 221,
-      "costUsd": 32.42664540000001
+      "cacheWrite1hTokens": 857760,
+      "cacheReadTokens": 55037576,
+      "outputTokens": 205483,
+      "thinkingTokens": 80907,
+      "responses": 226,
+      "costUsd": 32.95461920000001
     },
     "claude-opus-5-5/standard": {
-      "inputTokens": 534,
-      "cacheWrite5mTokens": 1495555,
+      "inputTokens": 594,
+      "cacheWrite5mTokens": 1538430,
       "cacheWrite1hTokens": 0,
-      "cacheReadTokens": 31155880,
-      "outputTokens": 200302,
-      "thinkingTokens": 68229,
-      "responses": 258,
-      "costUsd": 17.717127000000005
+      "cacheReadTokens": 34925804,
+      "outputTokens": 220752,
+      "thinkingTokens": 75553,
+      "responses": 287,
+      "costUsd": 19.094726800000007
     }
   },
   "warnings": [],
@@ -175,7 +175,7 @@
           "Read": 3
         },
         "estimatedTokens": 2227,
-        "estimatedUsd": 0.0685916
+        "estimatedUsd": 0.07081860000000001
       },
       "billedUsd": null
     }
