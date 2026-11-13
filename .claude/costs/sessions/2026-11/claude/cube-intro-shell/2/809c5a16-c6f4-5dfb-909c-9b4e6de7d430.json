@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 13356,
+    "inputTokens": 13360,
     "cacheWrite5mTokens": 4878,
-    "cacheWrite1hTokens": 1021464,
-    "cacheReadTokens": 62941579,
-    "outputTokens": 223186,
+    "cacheWrite1hTokens": 1024529,
+    "cacheReadTokens": 63262922,
+    "outputTokens": 223289,
     "thinkingTokens": 66566,
-    "responses": 304,
-    "costUsd": 38.11966860000001
+    "responses": 306,
+    "costUsd": 38.23712920000001
   },
   "estimate": {
     "at": "2026-11-13T11:16:36.357Z",
@@ -58,18 +58,18 @@
   "url": "https://claude.ai/code/session_01DaohkDRoXkash4Q7kfmQ8Q",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T09:17:59.076Z",
-  "lastResponseAt": "2026-11-13T12:24:35.320Z",
+  "lastResponseAt": "2026-11-13T12:24:45.875Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 19.342049400000008,
   "ownTurns": {
-    "inputTokens": 574,
+    "inputTokens": 578,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 1021464,
-    "cacheReadTokens": 60666523,
-    "outputTokens": 204777,
+    "cacheWrite1hTokens": 1024529,
+    "cacheReadTokens": 60987866,
+    "outputTokens": 204880,
     "thinkingTokens": 66566,
-    "responses": 295,
-    "costUsd": 36.76551340000001
+    "responses": 297,
+    "costUsd": 36.88297400000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -83,14 +83,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 13315,
+      "inputTokens": 13319,
       "cacheWrite5mTokens": 4878,
-      "cacheWrite1hTokens": 917100,
-      "cacheReadTokens": 60078713,
-      "outputTokens": 213890,
+      "cacheWrite1hTokens": 920165,
+      "cacheReadTokens": 60400056,
+      "outputTokens": 213993,
       "thinkingTokens": 64231,
-      "responses": 283,
-      "costUsd": 35.411990599999996
+      "responses": 285,
+      "costUsd": 35.5294512
     },
     "claude-opus-5/standard": {
       "inputTokens": 41,
@@ -194,16 +194,16 @@
           "Bash": 1
         },
         "estimatedTokens": 14049,
-        "estimatedUsd": 0.278046
+        "estimatedUsd": 0.28366559999999996
       },
       "billedUsd": 0.36343
     }
   ],
   "telemetry": {
-    "events": 304,
-    "matched": 295,
-    "matchedTableUsd": 36.76551340000001,
-    "matchedEventUsd": 36.76551340000002,
+    "events": 306,
+    "matched": 297,
+    "matchedTableUsd": 36.88297400000001,
+    "matchedEventUsd": 36.88297400000002,
     "unseen": {
       "compact": {
         "inputTokens": 9746,
