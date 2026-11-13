@@ -1,15 +1,27 @@
 {
   "total": {
-    "inputTokens": 17559,
+    "inputTokens": 17565,
     "cacheWrite5mTokens": 6025,
-    "cacheWrite1hTokens": 574501,
-    "cacheReadTokens": 61713862,
-    "outputTokens": 140487,
+    "cacheWrite1hTokens": 579197,
+    "cacheReadTokens": 62126316,
+    "outputTokens": 141695,
     "thinkingTokens": 22129,
-    "responses": 304,
-    "costUsd": 9.926922900000003
+    "responses": 307,
+    "costUsd": 9.999044300000005
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-13T14:31:40.498Z",
+    "subjectLine": "content: the cube board's late frames, re-shots and notes",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "Keeping the design board true to nine builders' reports — choosing which frames show a decision, re-shooting the stale ones and wording each note in the operator's terms — takes someone following the whole build"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "Write",
     "endedOn": "docs/remove-before-merging/cube-intro-j2wt34/board-protocol.md",
@@ -34,18 +46,18 @@
   "url": "https://claude.ai/code/session_01DaohkC6bqy1HmL5Nbbm66J",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T09:17:54.822Z",
-  "lastResponseAt": "2026-11-13T12:22:08.070Z",
+  "lastResponseAt": "2026-11-13T12:22:31.117Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 2.7422694,
   "ownTurns": {
-    "inputTokens": 541,
+    "inputTokens": 547,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 574501,
-    "cacheReadTokens": 56267520,
-    "outputTokens": 125683,
+    "cacheWrite1hTokens": 579197,
+    "cacheReadTokens": 56679974,
+    "outputTokens": 126891,
     "thinkingTokens": 22129,
-    "responses": 278,
-    "costUsd": 9.182668
+    "responses": 281,
+    "costUsd": 9.254789400000002
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,14 +71,14 @@
   },
   "byRate": {
     "claude-sonnet-5-5/standard": {
-      "inputTokens": 16347,
+      "inputTokens": 16353,
       "cacheWrite5mTokens": 6025,
-      "cacheWrite1hTokens": 574501,
-      "cacheReadTokens": 61713862,
-      "outputTokens": 140178,
+      "cacheWrite1hTokens": 579197,
+      "cacheReadTokens": 62126316,
+      "outputTokens": 141386,
       "thinkingTokens": 22129,
-      "responses": 303,
-      "costUsd": 9.926647200000003
+      "responses": 306,
+      "costUsd": 9.998768600000005
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1212,
@@ -132,19 +144,21 @@
         }
       },
       "rereads": {
-        "calls": 0,
-        "byTool": {},
-        "estimatedTokens": 0,
-        "estimatedUsd": 0.0
+        "calls": 1,
+        "byTool": {
+          "Bash": 1
+        },
+        "estimatedTokens": 353,
+        "estimatedUsd": 0.001412
       },
       "billedUsd": 0.1132935
     }
   ],
   "telemetry": {
-    "events": 304,
-    "matched": 278,
-    "matchedTableUsd": 9.182668,
-    "matchedEventUsd": 9.182668,
+    "events": 307,
+    "matched": 281,
+    "matchedTableUsd": 9.254789400000002,
+    "matchedEventUsd": 9.254789400000002,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 11638,
@@ -189,7 +203,7 @@
     ".md": 2275,
     ".json": 30,
     ".ts": 3073,
-    ".yaml": 603,
+    ".yaml": 615,
     ".tsx": 86,
     ".scss": 15
   }
