@@ -248,3 +248,34 @@ Moved from the plan's "Steering since" when it outgrew the file cap; each entry 
 - **~23:10Z, to the lead**: «лимит кончается; пусть все приостановятся, я сожму
   контекст чтобы завтра продолжить». Every child was told to push `wip:`, report
   one line and wait for the word "resume"; the lead's check-in was deleted.
+
+## Steering on 2026-11-13, morning
+
+- **2026-11-13 ~09:05Z, the restart**: the stopped sessions stay stopped —
+  «сессии будить не нужно, нужно начинать новые», from each one's last messages
+  and its branch as pushed. And the pill's two colours change (the lead's pick:
+  the cube's own black and grey); the change is not a story for the board, and
+  its commit says only what the colours are.
+- **~09:10Z, on a reader agent run on the flagship**: «для таких задач можно и
+  экономить а не фейбла запускать». Readers and the board coordinator take a
+  cheaper model; in the skill.
+
+- **2026-11-13 ~09:20Z, how far "no textures" reaches.** Reading the sea's new
+  brief, the operator asked who drew the wave maps and how; told that the GPU
+  computes them every frame from formulas:
+
+  > ну да, я не имел в виду против карт, я имел в виду что сами карты должны
+  > считаться на лету
+
+  So the rule is "nothing authored, shipped or stored", and a map computed at
+  run time is allowed. **The FFT ocean stays; there is no analytic rewrite.**
+  `src/cube/CLAUDE.md`, the contract and `briefs/restart.md` say so; sea, sky
+  and core were told (sky may back its cheap lods with a per-frame sky map).
+
+- **~09:27Z, the children's language**: «для экономии контекста, пусть
+  подсессии-билдеры говорят на английском … unless я их спрашиваю что-то на
+  русском, тогда отвечаем на русском и дальше продолжают на английском». Sent to
+  all nine; in `briefs/restart.md` and the skill.
+- **~09:22Z, a side quest**: an explainer artifact, in Russian, on the two ways
+  of drawing an ocean, by a session on Opus (archived). Published at
+  https://claude.ai/artifact/UxGSPAXn2USWZSfpwJ7uFM; the operator has the link.

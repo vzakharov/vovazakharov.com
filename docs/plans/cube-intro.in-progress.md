@@ -65,34 +65,11 @@ compaction before deciding anything about what is being built.
   ghosts musing, the pause: verbatim with their readings in `brief.md` beside
   the brief, § "Steering on 2026-11-12". Their outcomes are in the contract.
 
-- **2026-11-13 ~09:05Z, the restart**: the stopped sessions stay stopped —
-  «сессии будить не нужно, нужно начинать новые», from each one's last messages
-  and its branch as pushed. And the pill's two colours change (the lead's pick:
-  the cube's own black and grey); the change is not a story for the board, and
-  its commit says only what the colours are.
-- **~09:10Z, on a reader agent run on the flagship**: «для таких задач можно и
-  экономить а не фейбла запускать». Readers and the board coordinator take a
-  cheaper model; in the skill.
+- **2026-11-13 09:05Z–09:27Z** — the restart with new sessions, the pill's
+  colours, cheaper models for readers, "no textures" narrowed to "nothing
+  authored" (the FFT ocean stays), the children's English, the ocean explainer:
+  verbatim in `brief.md`, § "Steering on 2026-11-13, morning".
 
-- **2026-11-13 ~09:20Z, how far "no textures" reaches.** Reading the sea's new
-  brief, the operator asked who drew the wave maps and how; told that the GPU
-  computes them every frame from formulas:
-
-  > ну да, я не имел в виду против карт, я имел в виду что сами карты должны
-  > считаться на лету
-
-  So the rule is "nothing authored, shipped or stored", and a map computed at
-  run time is allowed. **The FFT ocean stays; there is no analytic rewrite.**
-  `src/cube/CLAUDE.md`, the contract and `briefs/restart.md` say so; sea, sky
-  and core were told (sky may back its cheap lods with a per-frame sky map).
-
-- **~09:27Z, the children's language**: «для экономии контекста, пусть
-  подсессии-билдеры говорят на английском … unless я их спрашиваю что-то на
-  русском, тогда отвечаем на русском и дальше продолжают на английском». Sent to
-  all nine; in `briefs/restart.md` and the skill.
-- **~09:22Z, a side quest**: an explainer artifact, in Russian, on the two ways
-  of drawing an ocean, by a session on Opus (archived). Published at
-  https://claude.ai/artifact/UxGSPAXn2USWZSfpwJ7uFM; the operator has the link.
 - **~09:33Z, asked in shell's session**: «а тень от нас будет? или это часть
   "никакого взаимодействия с окружением (кроме таблетки)"?» **Decided yes**: a
   shadow marks nothing and remembers nothing, it is a function of where the body
@@ -385,10 +362,9 @@ not append.
   channel: undelivered messages are listed there, children are to read it on
   every fetch and write reports that will not send to `reports/<package>.md` on
   their own branches — **fetch the nine branches and read those**.
-- **UNDELIVERED at 10:27Z** (the sessions connector gave "a credential could not
-  be obtained" three times): shell and pill have NOT been told that the ruling
-  is withdrawn. Retry first thing: one short `send_message` to each, pointing at
-  `briefs/beam-comparison.md` (e9d0c45a), which holds the whole brief.
+- **All nine were told at 10:42Z** of the incident, the notice file and (shell,
+  pill) the withdrawn ruling with `briefs/beam-comparison.md`; every message
+  delivered once the connector came back.
 - **The explainer** «Два океана» was amended on the operator's comment (how many
   waves "good" takes); answered in its thread.
 - **Next, in order**: (1) merge core, shell, sky as they report green and lint;
