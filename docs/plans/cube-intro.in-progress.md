@@ -119,6 +119,12 @@ reached from the second account.
   fix is in `slabShade`)". Look on `origin/claude/cube-intro-shell` past
   ce41033a for a commit that was never merged before writing it again.
 
+  And an eighth, on the speed out of doors, which had been the next round's:
+
+  > если есть сходу идея что именно вызывает такой фпс (наверное океан?), то при
+  > низких FPS можно выдать нажмите то-то чтобы снизить качество, и по этой
+  > кнопке переключать
+
   **Decided**: the lead makes the four changes itself, with no child team — they
   are one package's worth, all in the walk's scenes and the player. The speed
   out of doors is the next round's, not this one's. Then `/finalize`, which
@@ -189,6 +195,10 @@ republish slot 2, then `/finalize` (the two red `source` checks on the way).
       indoor branch — so it needs a test or a comment at most, and no write
       added by 5 after the body has been inside.
 - [ ] **7. The bench in the beam** (above).
+- [ ] **8. A key that lowers the quality, offered when frames are slow.** Find
+      what the outdoor frame spends its time on first (the meter on `F` names
+      the GPU's stages); the key toggles that, and its hint shows only while the
+      frame rate is low. Design below once the cost is read.
 
 ## Standing rules (the operator's words)
 
