@@ -1,7 +1,7 @@
 export { amplitudesOf, CASCADES, TILE } from './cascade';
+export { SEA } from './sea.shader';
 export { SEAS } from './sea-state';
 export { RINGS, SPOKES } from './sea-tables';
-export { SEA } from './sea-wgsl';
 export type { Sea } from './spectrum';
 export {
   EVOLVE_SHADER,
