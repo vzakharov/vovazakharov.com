@@ -375,6 +375,11 @@ not append.
   "The Egg"; afterlife metaphors, the endless maze as purgatory. Working titles
   he is turning over: "cubed away", "cubeaway". The FIRST approved frame is the
   sea one; the beach frame is another approved one, not the first.
+- **11:12Z: lead 2b1e8f10** — sky 7416a7cd merged (grain gone), but its cumulus
+  lost their relief (smooth marshmallows) and the march costs +50%: sky told to
+  bring the modelling back (reference: its `opposite` at 54b3c2c7 minus the
+  grain) and the cost down. **The plan is near 400 lines — move the entries
+  before 10:55Z into `brief.md` before adding more.**
 - **The explainer** «Два океана» was amended on the operator's comment (how many
   waves "good" takes); answered in its thread.
 - **Next, in order**: (1) merge core, shell, sky as they report green and lint;
