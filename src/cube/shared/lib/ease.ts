@@ -12,3 +12,7 @@ export const smooth = (t: number): number => {
 
 export const lerp = (a: number, b: number, share: number): number =>
   a + (b - a) * share;
+
+/** WGSL's `smoothstep`, its arguments in WGSL's order. */
+export const smoothstep = (from: number, to: number, x: number): number =>
+  smooth(ramp(x, from, to));

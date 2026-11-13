@@ -7,6 +7,7 @@ import type { Outside, Pose, Quad } from '@/cube/entities/world';
 import {
   type CubePlayHook,
   type OutsideLens,
+  type OutsideSet,
   PLAY_HOOK,
   PLAY_QUERY,
 } from '@/cube/pages/cube/index.node-safe';
@@ -64,12 +65,14 @@ export type CubePage = {
   shoot: (file: string, pose: Pose, moving?: readonly Quad[]) => Promise<void>;
   /**
    * Puts the eye outside the cube at `eye`, seeing through `lens` — the
-   * page's own where none is given — and saves the frame as `file`.
+   * page's own where none is given — with `among` set, and saves the frame
+   * as `file`.
    */
   shootOutside: (
     file: string,
     eye: Outside,
     lens?: OutsideLens,
+    among?: OutsideSet,
   ) => Promise<void>;
   /** Stops the page's clock at `ms` since the epoch. */
   setClock: (ms: number) => Promise<void>;
@@ -110,10 +113,15 @@ export async function withCubePage(
     await script({
       shoot: async (file, pose, moving = []) =>
         shot(file, call('setPose', source(pose), source(moving))),
-      shootOutside: async (file, eye, lens) =>
+      shootOutside: async (file, eye, lens, among = {}) =>
         shot(
           file,
-          call('setEye', source(eye), ...(lens ? [source(lens)] : [])),
+          call(
+            'setEye',
+            source(eye),
+            lens ? source(lens) : 'undefined',
+            source(among),
+          ),
         ),
       setClock: async (ms) => {
         await tab.evaluate(call('setClock', String(ms)), z.unknown());

@@ -19,7 +19,7 @@ export const DISC_LIGHT = 600;
  */
 const AUREOLE = [
   { g: 0.99, share: 0.02 },
-  { g: 0.95, share: 0.1 },
+  { g: 0.95, share: 0.06 },
 ] as const;
 
 /**

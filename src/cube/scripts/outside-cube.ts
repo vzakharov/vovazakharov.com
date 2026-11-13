@@ -7,6 +7,7 @@
  *   pnpm outside:cube --out <dir>            # frames there instead, <dir> absolute
  *   pnpm outside:cube --at -23,1.6,23 --yaw 135 --pitch -5 --roll 0 --name mine
  *   pnpm outside:cube --exposure 0.3 --eyelids 0.5   # the lens, on any of the above
+ *   pnpm outside:cube --indoors 1            # an outside eye through floor 1's lens
  *
  * `--at` is the eye in world metres — x east, y up from the still sea, z
  * south, the cube's middle over the origin — `--yaw` degrees from east towards
@@ -61,7 +62,12 @@ const onSand = (x: number, z: number, above: number): Outside['eye'] => [
 ];
 
 /** A person of floor 1 standing in its room at `u`, `v`. */
-const inFirstRoom = (u: number, v: number, yaw: number): Pose => ({
+const inFirstRoom = (
+  u: number,
+  v: number,
+  yaw: number,
+  elevation = 0,
+): Pose => ({
   n: 1,
   x: 0n,
   y: 0n,
@@ -70,7 +76,7 @@ const inFirstRoom = (u: number, v: number, yaw: number): Pose => ({
   eyeAbove: EYE_HEIGHT,
   scale: 1,
   yaw,
-  elevation: 0,
+  elevation,
 });
 
 const WAKING = onSand(WAKE_AT[0], WAKE_AT[2], LYING);
@@ -87,6 +93,7 @@ const EYES: Record<string, Whereabouts> = {
     roll: 0,
   },
   'doorway-out': inFirstRoom(0.97, DOORWAY_V, 0),
+  'doorway-down': inFirstRoom(0.97, DOORWAY_V, 0, -0.7),
   'room-doorway': inFirstRoom(0.25, 0.6, Math.atan2(DOORWAY_V - 0.6, 0.75)),
 };
 
@@ -138,6 +145,7 @@ async function main(): Promise<void> {
   const lens = {
     exposure: numberOf('exposure', OUTSIDE_LENS.exposure),
     eyelids: numberOf('eyelids', OUTSIDE_LENS.eyelids),
+    indoors: numberOf('indoors', 0),
   };
   await withCubePage(async ({ shoot, shootOutside }) =>
     inTurn(chosen(), async ([name, at]) => {

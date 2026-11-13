@@ -23,7 +23,6 @@ import {
 } from './outdoor-frame';
 import { SKY } from './sky';
 import { SUN, SUN_DIR } from './sun';
-import { WATER_LEVEL, waterLevel } from './water-level';
 
 const close = (a: number, b: number, within = 1e-9): void => {
   assert.ok(Math.abs(a - b) <= within, `${String(a)} is not ${String(b)}`);
@@ -85,28 +84,6 @@ describe('the sun', () => {
   });
 });
 
-describe('waterLevel', () => {
-  it('returns to itself on the hour', () => {
-    for (const xz of [
-      [0, 0],
-      [-23, 31],
-      [400, -90],
-    ] as const) {
-      close(waterLevel(xz, 0), waterLevel(xz, 3600), 1e-9);
-      close(waterLevel(xz, 1234.5), waterLevel(xz, 1234.5 + 12), 1e-9);
-    }
-  });
-
-  it('stays a slow surge about the still level', () => {
-    let highest = 0;
-    for (let t = 0; t < 12; t += 0.25) {
-      highest = Math.max(highest, Math.abs(waterLevel([3, 4], t)));
-    }
-    close(highest, 0.12, 1e-3);
-    assert.ok(literals(WATER_LEVEL.listing).includes(300));
-  });
-});
-
 describe('cubeShadow', () => {
   const middle = toWorld([0.5, 0, 0.5]);
   const down = (metres: number): Vec3 => [
@@ -163,7 +140,6 @@ describe('packOutdoorFrame', () => {
       inverse: new Float32Array(16).fill(2),
       eye: [3, 4, 5],
       sun: [6, 7, 8],
-      ladder: true,
       seconds: 9,
       hour: 10,
       width: 11,
@@ -172,9 +148,25 @@ describe('packOutdoorFrame', () => {
     assert.equal(data.length, OUTDOOR_FRAME_FLOATS);
     assert.deepEqual(
       [...data.subarray(32)],
-      [3, 4, 5, 1, 6, 7, 8, 0, 9, 10, 11, 12, 1, 0, 0, 0],
+      [3, 4, 5, 1, 6, 7, 8, 0, 9, 10, 11, 12, 1, 0, 0, 0, 0, 0, 0, 0],
     );
     assert.deepEqual([data[0], data[15], data[16], data[31]], [1, 1, 2, 2]);
+    const gone = packOutdoorFrame({
+      viewProjection: new Float32Array(16),
+      inverse: new Float32Array(16),
+      eye: [0, 0, 0],
+      sun: [0, 0, 1],
+      ladderGone: true,
+      body: { foot: [1, 2, 3], headAbove: 1.5 },
+      seconds: 0,
+      hour: 0,
+      width: 1,
+      height: 1,
+    });
+    assert.deepEqual(
+      [...gone.subarray(OUTDOOR_FRAME_FLOATS - 8)],
+      [0, 0, 0, 0, 1, 2, 3, 1.5],
+    );
     const members = [...OUTDOOR_FRAME.listing.matchAll(/^ {2}(\w+): /gm)].map(
       ([, name]) => name,
     );
@@ -185,6 +177,7 @@ describe('packOutdoorFrame', () => {
       'sun',
       'clock',
       'state',
+      'body',
     ]);
   });
 });

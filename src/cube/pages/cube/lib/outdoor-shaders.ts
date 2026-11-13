@@ -11,11 +11,11 @@ import {
   WATER_LEVEL,
 } from '@/cube/shared/outside';
 import { SAND_SHADER } from '@/cube/shared/sand';
+import { SEA } from '@/cube/shared/sea';
 import { SKY_CLOUD_SHADER, SKY_SHADER } from '@/cube/shared/sky';
 
 import { outsideLensSource } from './outside-lens';
-import { SEA_ROOTS } from './sea-shader';
-import { SHELL_ROOTS } from './shell-shader';
+import { SHELL_SHADER } from './shell-shader';
 
 /**
  * Every outdoor shader by name, as the roots it is assembled from: a layer
@@ -35,8 +35,8 @@ export const OUTDOOR_SHADERS = {
   sky: [SKY_SHADER],
   skyClouds: [SKY_CLOUD_SHADER],
   sand: [SAND_SHADER],
-  shell: SHELL_ROOTS,
-  sea: SEA_ROOTS,
+  shell: [SHELL_SHADER],
+  sea: [SEA],
 } as const satisfies Record<string, readonly Wgsl[]>;
 
 /** The line every outdoor shader opens with: its materials branch freely. */
