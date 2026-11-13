@@ -97,6 +97,14 @@ reached from the second account.
   >
   > после этого можно финализировать
 
+  And, while the lead was reading the scenes:
+
+  > а, и давай добавим в url hashparam после окончания самой первой cutscene,
+  > чтобы при обновлении страницы её не пересматривать (позицию запоминать не
+  > надо)
+
+  > при спрыгивании урл не менять, чтобы при обновлении опять оказаться внутри
+
   **Decided**: the lead makes the four changes itself, with no child team — they
   are one package's worth, all in the walk's scenes and the player. The speed
   out of doors is the next round's, not this one's. Then `/finalize`, which
