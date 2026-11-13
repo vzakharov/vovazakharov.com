@@ -209,7 +209,7 @@ fn sandLitter(xz: vec2f, h: f32, px: f32, sun: vec3f) -> Litter {
   if (px < 0.012 && lines.x > 0.03) {
     let clump = smoothstep(0.4, 0.62, noised(xz / 0.7, SAND_SALT + 0x8bu).x) * lines.x;
     let strand = nearestSpeck(xz / 0.03, SAND_SALT + 0x8du);
-    if (strand.z < 1.3 * clump) {
+    if (strand.z < 0.9 * clump) {
       let to = -strand.xy * 0.03;
       let near = 1.0 - smoothstep(0.004, 0.012, px);
       let body = weedStrand(to, strand.w);
@@ -224,8 +224,8 @@ fn sandLitter(xz: vec2f, h: f32, px: f32, sun: vec3f) -> Litter {
       litter.slope = mix(litter.slope, -1.2 * body.side * clamp(body.across / body.wide, -1.0, 1.0), cover);
       litter.gloss = mix(litter.gloss, 0.0, cover);
       litter.cover = max(litter.cover, cover);
-      // Lying on the sand, it lays its shadow beside itself, the longer the
-      // lower the sun.
+      // Lying on the sand, it lays its shadow beside itself: the longer the
+      // lower the sun, up to where the grains it falls across break it up.
       let toSun = normalize(sun.xz) * min(2.0 * body.wide * length(sun.xz) / sun.y, 3.5 * body.wide + 0.001);
       var shade = 0.0;
       for (var step = 1.0; step <= 3.0; step += 1.0) {
