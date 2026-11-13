@@ -1,28 +1,19 @@
-import {
-  AERIAL,
-  CUBE_SHADOW,
-  LADDER_WGSL,
-  OUTDOOR_STAGE,
-  SUN,
-  WORLD,
-} from '@/cube/shared/outside';
-import { HASH, wgsl } from '@/cube/shared/shader';
+// The shell's scene-pass shader, over `shellVertices`' buffer: the cube's faces
+// in its black-and-grey material and the ladder in weathered wood, both under
+// the sun, the sky and the cube's own shadow.
 
-import { SHELL_MATERIAL } from './shell-material';
-import { SHELL_KINDS, type ShellKind } from './shell-mesh';
+import package::cube::shared::outside::outdoor_stage::{Scene, lit, clipOf, metresTo};
+import package::cube::shared::outside::outdoor_frame::frame;
+import package::cube::shared::outside::frame::CUBE_METRES;
+import package::cube::shared::outside::ladder::{LADDER_FOOT, LADDER_UP, LADDER_ACROSS, LADDER_OUT, LADDER_RUNGS, LADDER_SIZE};
+import package::cube::shared::outside::cube_shadow::cubeShadow;
+import package::cube::shared::outside::aerial::aerial;
+import package::cube::shared::outside::sun::{SUN_DIR, SUN_LIGHT, SKY_FILL};
+import package::cube::shared::shader::hash::{valueNoise, fbm, worley};
+import super::shell_material::{TURN, SAND_LIGHT, cooled, Band, bandAt, Face, shellFace};
+import super::shell_salt::SHELL_SALT;
+import super::shell_shader_numbers::{SHELL_TOP_FROM, SHELL_UNDERSIDE_FROM, SHELL_REVEAL_FROM, SHELL_STILE_FROM, SHELL_RUNG_FROM};
 
-/** The least `kind` a vertex of `kind` and of the kinds after it carries, as WGSL. */
-const least = (kind: ShellKind): string =>
-  (SHELL_KINDS.indexOf(kind) - 0.5).toFixed(1);
-
-/**
- * The shell's scene-pass shader, over \`shellVertices\`' buffer: the cube's
- * faces in its black-and-grey material and the ladder in weathered wood,
- * both under the sun, the sky and the cube's own shadow.
- */
-export const SHELL_SHADER = wgsl(
-  'shell/shader',
-  /* wgsl */ `
 /// The ladder's wood where the weather has left it brown, and where the sun
 /// has bleached it silver.
 const WOOD_BROWN = vec3f(0.13, 0.092, 0.06);
@@ -33,7 +24,7 @@ struct ShellVertex {
   @location(1) facing: vec3f,
   @location(2) on: vec2f,
   @location(3) kind: f32,
-};
+}
 
 struct ShellSeen {
   @builtin(position) clip: vec4f,
@@ -41,12 +32,12 @@ struct ShellSeen {
   @location(1) facing: vec3f,
   @location(2) on: vec2f,
   @location(3) @interpolate(flat) kind: f32,
-};
+}
 
 @vertex
 fn vertexMain(v: ShellVertex) -> ShellSeen {
   // A ladder that is gone is drawn nowhere: its triangles close to a point.
-  let gone = v.kind > ${least('stile')} && frame.state.x < 0.5;
+  let gone = v.kind > SHELL_STILE_FROM && frame.state.x < 0.5;
   let clip = select(clipOf(v.at), vec4f(0.0), gone);
   return ShellSeen(clip, v.at, v.facing, v.on, v.kind);
 }
@@ -58,19 +49,42 @@ fn outward(on: vec2f) -> f32 {
   return max(off.x, off.y);
 }
 
-/// The ladder's wood at \`grain\`, metres along a member and round it:
+/// The ladder's wood at `grain`, metres along a member and round it:
 /// its colour there, weathered grey-brown, the grain running along, split
-/// by drying checks and carrying the odd knot. \`worn\` is how much hands
+/// by drying checks and carrying the odd knot. `worn` is how much hands
 /// and feet have rubbed the place smooth and pale.
 fn wood(grain: vec2f, worn: f32) -> vec3f {
   // The grain wanders a little from straight, as the tree grew.
   let wander = 0.004 * valueNoise(grain * vec2f(2.5, 9.0), SHELL_SALT + 81u);
-  let fibre = fbm(vec2f(grain.x * 6.0, (grain.y + wander) * 330.0), SHELL_SALT + 82u, 3);
-  let ring = 0.5 + 0.5 * cos(TURN * ((grain.y + wander) * 95.0 + 2.0 * valueNoise(grain * vec2f(1.3, 40.0), SHELL_SALT + 83u)));
+  let fibre =
+    fbm(vec2f(grain.x * 6.0, (grain.y + wander) * 330.0), SHELL_SALT + 82u, 3);
+  let ring =
+    0.5 + 0.5 * cos(
+      TURN * ((grain.y + wander) * 95.0 + 2.0 * valueNoise(
+        grain * vec2f(1.3, 40.0),
+        SHELL_SALT + 83u,
+      )),
+    );
   let bleached = fbm(grain * vec2f(1.7, 30.0), SHELL_SALT + 84u, 3);
-  let check = smoothstep(0.86, 0.93, valueNoise(vec2f(grain.x * 3.0, (grain.y + wander) * 260.0), SHELL_SALT + 85u))
-    * smoothstep(0.35, 0.6, valueNoise(grain * vec2f(4.0, 12.0), SHELL_SALT + 86u));
-  let knot = 1.0 - smoothstep(0.0, 0.12, worley(grain * vec2f(4.5, 55.0), SHELL_SALT + 87u).x);
+  let check =
+    smoothstep(
+      0.86,
+      0.93,
+      valueNoise(
+        vec2f(grain.x * 3.0, (grain.y + wander) * 260.0),
+        SHELL_SALT + 85u,
+      ),
+    ) * smoothstep(
+      0.35,
+      0.6,
+      valueNoise(grain * vec2f(4.0, 12.0), SHELL_SALT + 86u),
+    );
+  let knot =
+    1.0 - smoothstep(
+      0.0,
+      0.12,
+      worley(grain * vec2f(4.5, 55.0), SHELL_SALT + 87u).x,
+    );
   let silver = clamp(0.35 + 0.9 * bleached + 0.4 * worn, 0.0, 1.0);
   var colour = mix(WOOD_BROWN, WOOD_SILVER, silver);
   colour *= 0.5 + 0.45 * fibre + 0.3 * ring * (1.0 - 0.6 * worn);
@@ -91,13 +105,13 @@ fn fragmentMain(s: ShellSeen) -> Scene {
   }
   var light: vec3f;
 
-  if (s.kind > ${least('stile')}) {
+  if (s.kind > SHELL_STILE_FROM) {
     // The ladder: its grain runs up a stile and along a rung.
     let off = s.world - LADDER_FOOT;
     let up = dot(off, LADDER_UP);
     let across = dot(off, LADDER_ACROSS);
     let out = dot(off, LADDER_OUT);
-    let isRung = s.kind > ${least('rung')};
+    let isRung = s.kind > SHELL_RUNG_FROM;
     var grain: vec2f;
     var worn = 0.0;
     if (isRung) {
@@ -106,42 +120,60 @@ fn fragmentMain(s: ShellSeen) -> Scene {
       let spoke = vec2f(up - LADDER_RUNGS.x - step * LADDER_SIZE.w, out);
       normal = normalize(LADDER_UP * spoke.x + LADDER_OUT * spoke.y);
       let turn = atan2(spoke.y, spoke.x);
-      grain = vec2f(across + 7.0 * step, 0.5 * LADDER_RUNGS.z * turn + 0.31 * step);
-      worn = (1.0 - smoothstep(0.05, 0.16, abs(across))) * smoothstep(-0.3, 0.6, cos(turn));
+      grain =
+        vec2f(across + 7.0 * step, 0.5 * LADDER_RUNGS.z * turn + 0.31 * step);
+      worn =
+        (1.0 - smoothstep(0.05, 0.16, abs(across))) * smoothstep(
+          -0.3,
+          0.6,
+          cos(turn),
+        );
     } else {
       // A stile's four faces are four cuts of one piece: each its own way
       // through the grain, the two stiles two pieces.
       let side = sign(across);
       let through = dot(abs(flat), abs(LADDER_ACROSS));
-      grain = vec2f(up + 11.0 * side, mix(across, out, through) + 0.07 * through + 0.19 * side);
+      grain =
+        vec2f(
+          up + 11.0 * side,
+          mix(across, out, through) + 0.07 * through + 0.19 * side,
+        );
       // Hands have rubbed the stiles' edges where a climber holds them.
       worn = 0.35 * smoothstep(0.5, 2.5, up) * (1.0 - through);
     }
     let albedo = wood(grain, worn);
     let sun = cubeShadow(s.world + normal * 0.004);
     let towards = max(dot(normal, SUN_DIR), 0.0);
-    let fill = SKY_FILL * (0.5 + 0.5 * normal.y) + SAND_LIGHT * (0.5 - 0.5 * normal.y);
+    let fill =
+      SKY_FILL * (0.5 + 0.5 * normal.y) + SAND_LIGHT * (0.5 - 0.5 * normal.y);
     // Rubbed wood takes a dull polish, which the low sun finds.
     let mid = normalize(SUN_DIR + toEye);
     let polish = 0.05 * worn * pow(max(dot(normal, mid), 0.0), 30.0);
-    light = albedo * (SUN_LIGHT * towards * sun + fill) + SUN_LIGHT * sun * polish;
+    light =
+      albedo * (SUN_LIGHT * towards * sun + fill) + SUN_LIGHT * sun * polish;
   } else {
     let sun = cubeShadow(s.world + normal * 0.004);
-    var face = Face(
-      s.world, normal, toEye, s.on,
-      cross(vec3f(0.0, -1.0, 0.0), normal), vec3f(0.0, -1.0, 0.0),
-      pixel, sun,
-    );
+    var face =
+      Face(
+        s.world,
+        normal,
+        toEye,
+        s.on,
+        cross(vec3f(0.0, -1.0, 0.0), normal),
+        vec3f(0.0, -1.0, 0.0),
+        pixel,
+        sun,
+      );
     var band: Band;
     var depth = 2;
     var glance = 0.5;
     var bounce = vec3f(0.0);
-    if (s.kind > ${least('reveal')}) {
+    if (s.kind > SHELL_REVEAL_FROM) {
       // The reveal: the grey all the way through the wall.
       band = Band(0.0, 0.0, 1.0, 1.0, 0.0);
       face.along = vec3f(0.0, 0.0, 1.0);
       face.down = vec3f(-1.0, 0.0, 0.0);
-    } else if (s.kind > ${least('underside')}) {
+    } else if (s.kind > SHELL_UNDERSIDE_FROM) {
       // The underside: the floors go on outward from its middle, over a
       // well of lights.
       let pixelShare = pixel / (0.5 * CUBE_METRES);
@@ -150,7 +182,8 @@ fn fragmentMain(s: ShellSeen) -> Scene {
       // Its lines are for whoever looks up at it; seen along it from the
       // beach they would run together, so only its rim is lit there.
       let rim = smoothstep(0.98, 0.988, outward(s.on));
-      band.line = max(band.line * smoothstep(0.08, 0.35, dot(normal, toEye)), rim);
+      band.line =
+        max(band.line * smoothstep(0.08, 0.35, dot(normal, toEye)), rim);
       face.along = vec3f(1.0, 0.0, 0.0);
       face.down = vec3f(0.0, 0.0, 1.0);
       depth = 5;
@@ -159,8 +192,9 @@ fn fragmentMain(s: ShellSeen) -> Scene {
       glance = 0.1;
       // Toward its edges it faces the sand the sun still reaches, which
       // lights it from below.
-      bounce = cooled(SAND_LIGHT) * 0.035 * smoothstep(0.55, 1.0, outward(s.on));
-    } else if (s.kind > ${least('top')}) {
+      bounce =
+        cooled(SAND_LIGHT) * 0.035 * smoothstep(0.55, 1.0, outward(s.on));
+    } else if (s.kind > SHELL_TOP_FROM) {
       // The top: the first floor's black folds over the edge, and the rest
       // halve inward to the middle.
       band = bandAt(outward(s.on), pixel / (0.5 * CUBE_METRES));
@@ -173,13 +207,3 @@ fn fragmentMain(s: ShellSeen) -> Scene {
   }
   return lit(aerial(light, -toEye, metres), metres);
 }
-`,
-  OUTDOOR_STAGE,
-  SHELL_MATERIAL,
-  CUBE_SHADOW,
-  LADDER_WGSL,
-  AERIAL,
-  WORLD,
-  SUN,
-  HASH,
-);

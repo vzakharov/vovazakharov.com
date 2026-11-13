@@ -27,6 +27,7 @@ export {
 } from './ladder';
 export {
   type Laddered,
+  OUTDOOR_FRAME,
   OUTDOOR_FRAME_FLOATS,
   type OutdoorFrame,
   packOutdoorFrame,

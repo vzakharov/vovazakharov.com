@@ -15,7 +15,7 @@ import { assemble, type Wgsl } from '@/cube/shared/shader';
 import { SKY_CLOUD_SHADER, SKY_SHADER } from '@/cube/shared/sky';
 
 import { outsideLensSource } from './outside-lens';
-import { SHELL_SHADER } from './shell-shader';
+import { SHELL_SHADER } from './shell-shader.shader';
 
 /**
  * Every outdoor shader by name, as the roots it is assembled from: a layer
