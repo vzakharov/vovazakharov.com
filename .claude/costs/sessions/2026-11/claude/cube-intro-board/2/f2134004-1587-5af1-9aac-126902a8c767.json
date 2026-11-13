@@ -9,7 +9,19 @@
     "responses": 307,
     "costUsd": 9.999044300000005
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-13T14:31:40.498Z",
+    "subjectLine": "content: the cube board's late frames, re-shots and notes",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "Keeping the design board true to nine builders' reports — choosing which frames show a decision, re-shooting the stale ones and wording each note in the operator's terms — takes someone following the whole build"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "Write",
     "endedOn": "docs/remove-before-merging/cube-intro-j2wt34/board-protocol.md",
