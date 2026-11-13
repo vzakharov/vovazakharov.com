@@ -125,6 +125,13 @@ reached from the second account.
   > низких FPS можно выдать нажмите то-то чтобы снизить качество, и по этой
   > кнопке переключать
 
+  And a ninth, with a frame from the water where the lower right of the picture
+  is a flat grey wedge — the eye under a wave's crest, looking at the sea's
+  surface from below:
+
+  > +когда оказывешься "под волной", некрасиво. понятно что красиво ща там не
+  > сделаешь, но хоть не серое
+
   **Decided**: the lead makes the four changes itself, with no child team — they
   are one package's worth, all in the walk's scenes and the player. The speed
   out of doors is the next round's, not this one's. Then `/finalize`, which
@@ -199,6 +206,9 @@ republish slot 2, then `/finalize` (the two red `source` checks on the way).
       what the outdoor frame spends its time on first (the meter on `F` names
       the GPU's stages); the key toggles that, and its hint shows only while the
       frame rate is low. Design below once the cost is read.
+- [ ] **9. No grey under a wave.** An eye below the sea's surface sees the
+      frame's clear colour; it should see water's colour instead, however
+      plainly.
 
 ## Standing rules (the operator's words)
 
