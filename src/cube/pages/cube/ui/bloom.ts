@@ -15,7 +15,7 @@ const LEVELS = 5;
  * level's share, so the levels add up to their mean: the spread of the
  * bright parts, as bright as they were.
  */
-const SHADER = /* wgsl */ `
+export const BLOOM_SHADER = /* wgsl */ `
 @group(0) @binding(0) var source: texture_2d<f32>;
 @group(0) @binding(1) var sourceSampler: sampler;
 
@@ -107,7 +107,7 @@ export type Bloom = CanDispose & {
 };
 
 export function createBloom(device: GPUDevice): Bloom {
-  const shader = device.createShaderModule({ code: SHADER });
+  const shader = device.createShaderModule({ code: BLOOM_SHADER });
   const layout = device.createBindGroupLayout({
     entries: [
       { binding: 0, visibility: GPUShaderStage.FRAGMENT, texture: {} },
