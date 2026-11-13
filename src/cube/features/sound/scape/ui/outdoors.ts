@@ -3,12 +3,16 @@ import type { Hushing } from '@/kernel/shared/typings';
 import {
   type Beds,
   EASE,
+  FADE_EASE,
+  FILTER_EASE,
+  HUM_Q,
   type Layer,
   type Loop,
   MUFFLED,
   OPEN_AIR,
   type OutsideMix,
   SOUND_LAYERS,
+  WALL_Q,
 } from '../../outdoors';
 
 /** Milliseconds of a frame the loops' rendering may take, and samples a go. */
@@ -72,9 +76,16 @@ export function outdoorsOf(
   const wall = new BiquadFilterNode(context, {
     type: 'lowpass',
     frequency: OPEN_AIR,
-    Q: Math.SQRT1_2,
+    Q: WALL_Q,
   });
   wall.connect(level);
+  // The hum's own wall: both close as an ear steps over the sill.
+  const humWall = new BiquadFilterNode(context, {
+    type: 'lowpass',
+    frequency: OPEN_AIR,
+    Q: HUM_Q,
+  });
+  humWall.connect(level);
   const sounding = new Map<Layer, Sounding>();
 
   function start(layer: Layer, seconds: number): Sounding | undefined {
@@ -83,7 +94,8 @@ export function outdoorsOf(
     // A layer whose loops were late comes in under the ones already there.
     const joined = new GainNode(context, { gain: 0 });
     joined.gain.setTargetAtTime(1, context.currentTime, FADE / 3);
-    joined.connect(MUFFLED.has(layer) ? wall : level);
+    const into = layer === 'hum' ? humWall : level;
+    joined.connect(MUFFLED.has(layer) ? wall : into);
     const merged = new ChannelMergerNode(context, { numberOfInputs: 2 });
     merged.connect(joined);
     const sources: AudioBufferSourceNode[] = [];
@@ -105,7 +117,8 @@ export function outdoorsOf(
   return {
     set: (mix, seconds) => {
       const now = context.currentTime;
-      wall.frequency.setTargetAtTime(mix.muffle, now, EASE);
+      wall.frequency.setTargetAtTime(mix.muffle, now, FILTER_EASE);
+      humWall.frequency.setTargetAtTime(mix.humMuffle, now, FILTER_EASE);
       for (const layer of SOUND_LAYERS) {
         let playing = sounding.get(layer);
         if (playing === undefined) {
@@ -114,8 +127,16 @@ export function outdoorsOf(
           sounding.set(layer, playing);
         }
         const { leftEar, rightEar } = mix.layers[layer];
-        playing.ears[0].gain.setTargetAtTime(leftEar, now, EASE);
-        playing.ears[1].gain.setTargetAtTime(rightEar, now, EASE);
+        // A level falls slower than it rises, so a cut is a sweep, not a click.
+        for (const [ear, target] of [leftEar, rightEar].entries()) {
+          const gain = playing.ears[ear]?.gain;
+          if (gain === undefined) continue;
+          gain.setTargetAtTime(
+            target,
+            now,
+            target < gain.value ? FADE_EASE : EASE,
+          );
+        }
       }
     },
     stop: () => {

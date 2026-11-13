@@ -73,34 +73,31 @@ describe('heardFrom', () => {
     assert.ok(mix);
     assert.equal(mix.muffle, OPEN_AIR);
     assert.ok(both(mix.layers.hum) > 0);
-    assert.ok(both(mix.layers.hum) < 0.1);
+    assert.ok(both(mix.layers.hum) < 0.2);
   });
 
-  it('comes through the doorway on floor 1, from the doorway’s side', () => {
-    // The doorway is in the east wall: on the left of an eye facing south.
-    const south = heardFrom(SOUNDING_ISLAND, inside(1, Math.PI / 2), 100);
-    assert.ok(south);
-    assert.ok(south.muffle < OPEN_AIR);
-    assert.ok(south.layers.wash.leftEar > 1.2 * south.layers.wash.rightEar);
-    const north = heardFrom(SOUNDING_ISLAND, inside(1, -Math.PI / 2), 100);
-    assert.ok(north);
-    assert.ok(north.layers.wash.rightEar > 1.2 * north.layers.wash.leftEar);
+  it('has no sea and no wind indoors, wherever in the room', () => {
+    for (const [u, yaw] of [
+      [0.95, 0],
+      [0.05, Math.PI / 2],
+    ] as const) {
+      const mix = heardFrom(SOUNDING_ISLAND, inside(1, yaw, u), 100);
+      assert.ok(mix);
+      assert.ok(mix.muffle < OPEN_AIR);
+      assert.equal(both(mix.layers.wash), 0);
+      assert.equal(both(mix.layers.wind), 0);
+      assert.equal(both(mix.layers.hum), 0);
+    }
   });
 
-  it('is louder at the doorway than across the room', () => {
-    const near = heardFrom(SOUNDING_ISLAND, inside(1, 0, 0.95), 100);
-    const far = heardFrom(SOUNDING_ISLAND, inside(1, 0, 0.05), 100);
-    assert.ok(near && far);
-    assert.ok(both(near.layers.wash) > 1.5 * both(far.layers.wash));
-  });
-
-  it('fades floor by floor and is gone below the fourth', () => {
-    const levels = [1, 2, 3, 4].map((n) => {
+  it('hums on the floors below the hall, fainter on each, and is gone below the fourth', () => {
+    const levels = [2, 3, 4].map((n) => {
       const mix = heardFrom(SOUNDING_ISLAND, inside(n), 100);
       assert.ok(mix);
-      return both(mix.layers.wash);
+      return both(mix.layers.hum);
     });
     for (const [n, level] of levels.entries()) {
+      assert.ok(level > 0);
       if (n > 0) assert.ok(level < (levels[n - 1] ?? 0));
     }
     assert.equal(heardFrom(SOUNDING_ISLAND, inside(5), 100), null);

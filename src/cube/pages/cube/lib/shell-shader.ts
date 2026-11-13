@@ -159,8 +159,8 @@ fn fragmentMain(s: ShellSeen) -> Scene {
       // the sand as bright as the gap under it.
       glance = 0.1;
       // Toward its edges it faces the sand the sun still reaches, which
-      // lights it warm from below.
-      bounce = SAND_LIGHT * 0.035 * smoothstep(0.55, 1.0, outward(s.on));
+      // lights it from below.
+      bounce = cooled(SAND_LIGHT) * 0.035 * smoothstep(0.55, 1.0, outward(s.on));
     } else if (s.kind > ${least('top')}) {
       // The top: the first floor's black folds over the edge, and the rest
       // halve inward to the middle.

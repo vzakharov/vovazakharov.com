@@ -1,7 +1,7 @@
 # Shell frames
 
 Shot by `pnpm outside:cube` in the real renderer (SwiftShader), as the tree
-stands at 1114f295.
+stands at its head.
 
 - `wake-cube.webp` — from the waterline where the player wakes: the cube over
   the island, black with its grey seams, the ladder hanging at its east face.
@@ -9,6 +9,9 @@ stands at 1114f295.
   rungs, the doorway above.
 - `under.webp` — under the cube, looking up: the black underside with its
   lights, a faint bounce of the sand on it.
+- `graze.webp` — from 0.35 m over the sand, 23 m south-west
+  (`--at -16.566,0.69,16.566 --yaw -45 --pitch 8`): black and grey from the
+  beach, the underside included.
 - `doorway-out.webp` — on the sill looking out, the eye adapted to daylight.
 - `doorway-down.webp` — on the sill looking down the ladder to the sand.
 - `room-doorway.webp` — floor 1 from across the room: the doorway's sun on the
@@ -19,3 +22,8 @@ stands at 1114f295.
   wall with the potted plant's shadow at its edge.
 - `in-beam.webp` — standing in the beam, back to the sun: the patch on the wall
   with no shadow of the player in it.
+- `plastic-pill-before-after.webp` — the pill on floor 2's shelf at 10×, shot in
+  pill's tree (de26e0dc): left as it was, right with plastic mirroring the
+  ceiling's panels.
+- `plastic-room-before-after.webp` — floor 2's room from across it, the same
+  pair: two pixels differ.

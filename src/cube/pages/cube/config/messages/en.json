@@ -3,6 +3,10 @@
   "unsupported": "This browser has no WebGPU, so the cube cannot be drawn.",
   "floor": "Floor {floor}",
   "nowhere": "This address leads nowhere in the cube.",
+  "pill": {
+    "take": "Press E to take the pill",
+    "ask": "Press Y to swallow, N to put down"
+  },
   "offer": {
     "signs": {
       "for-sale": "For sale",

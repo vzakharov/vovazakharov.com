@@ -17,11 +17,25 @@
   before the gold pass; the sun is behind).
 
 - `1113-sky-approved-eye.webp` — the approved eye again under the sky package's
-  light and core's quarter-pixel fringe: the sparks are white.
+  light and core's quarter-pixel fringe: the sparks are white. **The future
+  splash screen.** To shoot it again exactly: on sand's f0ff9882 (in the lead's
+  branch as 43c24a67),
+  `pnpm outside:cube --at -15.203,2.0962,15.203 --yaw -45 --pitch 4` — the eye
+  1.6 m over the bed, roll 0, the default lens, a 1280 × 800 viewport at device
+  scale 1. The clock is the one every script page is stopped at, `PLAY_INSTANT`:
+  2026-11-01T12:00:00Z, 1793534400000 ms, hour 498204 and 0 s into it. It moves
+  the sea, the swash's wetness and the clouds; the sun stands where `SUN_DIR`
+  puts it at any clock.
 - `1113-sky-wake-lying-sun.webp` — lying at the waking spot, toward the sun.
 - `1113-sky-wet-foreshore.webp` — standing on the foreshore toward the sun: the
   wet band mirrors the sky, more the further it lies, with the sun's glare along
   it.
+
+- `1113-wet-edge-seaward.webp` — the wet sand's mirror meeting dry sand in the
+  cube's shadow, wetness asked at each pixel: eye 1.554 m over the bed at −15.2,
+  15.2 (`--at -15.2,2.05,15.2 --yaw 135 --pitch -8`), the clock `PLAY_INSTANT`.
+- `1113-wet-edge-before-after.webp` — that edge at twice its size: above with
+  wetness asked at the mesh's vertices, below at each pixel.
 
 ## In the first harness
 

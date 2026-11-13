@@ -308,69 +308,51 @@ not append.
 - **10:40Z–10:55Z, in `brief.md` § "Progress, 2026-11-13 10:40Z–10:55Z"**:
   sound, sky, core's lens fringe merged; the approved sand frame pinned; sand's
   gold pass; the beam comparison's split (since narrowed, below).
-- **10:48Z, the operator chose the beam's way (in pill's session)**: the sun
-  stays, outside nothing changes, the cube's INTERIOR turns a quarter
-  counter-clockwise against the shell — the east doorway opens into the room's
-  south wall; bench and trees ahead, hatch and shelf front-left and out of the
-  beam, the noticeboard to hang by the shelf and hatch, the painted door gone,
-  none of it hardcoded. Routed 10:57Z: **core leads** (one rigid turn of the
-  whole interior at the seam in `shared/outside/frame.ts`, the turn derived: of
-  four quarter-turns, those whose beam footprint misses floor 1's hole quarter
-  and shelf; ties come to the lead; a test holds it; outside eyes
-  pixel-identical); **pill** — clear zone at the opening asked of the seam, the
-  noticeboard by rule on the wall adjoining the shelf's, the opening consumes
-  floor 1's rolled door; **shell** — comparison narrowed (commit what exists),
-  and the oil-film tint comes off the underside and is capped elsewhere (the
-  operator: "why the cube is pink underneath is beyond me"); **walk** — waits
-  for core's seam. Core's lens pass comes after the turn. Board v68 holds the
-  sky's frames 17–18; next free slots [5748, 3250], [6208, 3250].
-- **~10:57Z, the operator put the body's shadow on hold** (to shell): «давай
-  теней "от нас" пока не делать -- ни внутри, ни на песке… интуитивно кажется
-  что это мимо атмосферы». Shell deletes `bodyShadow`, the room's `bodyShade`
-  and `--body`; `frame.body` stays unread until he decides. **Merge shell's next
-  head at once** — the lead's tree has the indoor shade live.
-- **11:05Z: lead ffc34102** — shell 1114f295 merged (no body shadow; gates
-  green; shell still owes the pink underside and deleting `bodyShadow`). **Tone,
-  from the operator via board, nothing to build**: an allusion to Andy Weir's
-  "The Egg"; afterlife metaphors, the endless maze as purgatory. Working titles
-  he is turning over: "cubed away", "cubeaway". The FIRST approved frame is the
-  sea one; the beach frame is another approved one, not the first.
-- **11:12Z: lead 2b1e8f10** — sky 7416a7cd merged (grain gone), but its cumulus
-  lost their relief (smooth marshmallows) and the march costs +50%: sky told to
-  bring the modelling back (reference: its `opposite` at 54b3c2c7 minus the
-  grain) and the cost down.
-- **State at 11:15Z — lead 34484955** holds sand f0ff9882 (gold pass, wet
-  foreshore mirrors the sky, 23.43 m waking spot), core 3a72bbfc
-  (`daylightFilm`: the room's curve up to 1, a slower tail past it; the sun's
-  white area about halved — further means lower exposure or a dimmer 5–20° ring,
-  both the operator's), shell 1114f295, sky 7416a7cd. Typecheck, 73 shaders,
-  type-overlap green; **no frame shot by the lead since 315051b5**. Board v70
-  (sand's frames 19–20; next free [6668, 3250], [7128, 3250]; core sends its
-  film pair itself). Sand is parked until the operator speaks on the tone.
-  **Unmerged**: walk, pill, core's quarter-turn (its main job now). `brief.md`
-  is at 397 lines — the next move out of this file goes to a new `journal.md`
-  beside it.
-- **11:14Z, the frame is approved for its overall feeling**: the operator, on
-  sand's `1113-sky-approved-eye.webp` (gold sand under the real sky, board frame
-  20): «АААА дайте две!», then «по оттенкам песка можешь экспериментировать если
-  хочешь, я говорю про общее ощущение». That frame — sky as of 54b3c2c7 included
-  — is the reference for the outside toward the sun; the sand's tone is NOT
-  locked, it is sand's judgment (no further pass planned). Sky told not to
-  change what that eye shows.
-- **11:15Z, a splash screen** (the operator, on the same frame: «это должно быть
-  splash screen-ом»), then «нене, это я про будущее. просто вынести на доску».
-  **Nothing is built**: the lead's task to walk is withdrawn; board adds a
-  sticky by frame 20. For when it is built: the eye is `-15.203, 2.10, 15.203`,
-  yaw −45, pitch 4, and the first rule points to a live render rather than a
-  shipped picture.
-- **11:17Z: lead 2a21b2d1** — shell 3bc2319c merged ("final", but the oil film
-  is still at `shell-material.ts:155–156` and `bodyShadow` still exported: both
-  re-sent; archive shell only after that merge). **Pill, the operator's
-  corrections**: "the room's door is the doorway" is withdrawn — the reception's
-  list simply has no door (keep it so when main merges in); the clear zone
-  stays, and after the turn only the noticeboard needs it; the doorway stays
-  off-centre ("centre is definitely not pretty"). Pill d1d449af, waiting on
-  core's seam.
+- **10:48Z–11:12Z, in `journal.md` beside the brief** (verbatim): the operator
+  chose the interior's quarter-turn and who does what about it; the body's
+  shadow on hold; tone notes ("The Egg", working titles); sky's second merge and
+  the ruling to bring the cumulus' relief back.
+- **11:14Z–11:27Z, in `journal.md`** (verbatim): the frame approved for its
+  overall feeling and marked as the future splash screen (nothing built); every
+  frame recorded with eye, clock and commit; the decor rules as the operator
+  ruled them; the state at 11:15Z.
+- **State at 11:45Z — lead de2ea63a** holds: shell c49ee5ed (pink underside
+  fixed — film a faint cool sheen, none underneath; `bodyShadow` deleted),
+  core's quarter-turn dda6d590 **as wip** (`INTERIOR_TURN` in
+  `shared/outside/turn.ts`, `interior-turn.test.ts` asserts exactly one of four
+  turns keeps the beam off the hole's quarter; `entering`/`room-doorway` right;
+  `doorway-out` shows the noticeboard across the opening until pill's clear zone
+  lands; core still owes `entering` at indoors 0/0.5 and one outside eye
+  pixel-identical), sound 1165e5ec9 (the sill cuts sea, wind and hum to silence;
+  the boom the operator tried is removed), sky 89c6dae3 (relief back, cost back;
+  undersides and two "mushrooms" next). Gates green at each merge; **the lead
+  has shot no frame since 315051b5**. **Unmerged**: pill 107f9524+ (two decor
+  rules built; then the clock, by the operator's ruling at ~11:50Z: the hour
+  hand follows the minute hand everywhere, one rolled time per clock — and floor
+  1's time is NOT derived from the sun, it stays rolled: «вредит трушности…
+  лучше приму часы которые показывают неправильное время», and «найдём в этом
+  философию»), walk df3ea135+ (turned interior, waking at `WAKE_AT`, no legs out
+  of doors by the operator's word; strips re-shooting), sea 33ad5cd2+ (finer
+  lace, shore cusps, `shelterAt` — merge when it says its frames confirm). Sand:
+  tracing a ~12 px staircase at the wet sand's mirror edge in the cube's shadow
+  (the operator pointed at it). Shell owes the glint on indoor 'plastic' and
+  re-reading `RECEPTION_SHRUBS` once pill lands. **Messaging**: a message
+  reaches a session only when its turn ends (priority "next" tested, does not
+  join a turn) — every package now runs shoots in the background and ends its
+  turn; `briefs/notice.md`. Board v78.
+- **State at 11:55Z — lead 874eab51** adds pill 0b1b21bb (the doorway's clear
+  strip, hung keeps off standing, one rolled time per clock; floor 1 loses
+  nothing, floors 24, 10 and 27 lose most — told to the operator as a fact).
+  Sound's 423f1231 (the sill's cut closes faster; the operator: «теперь
+  идеально») merges after the lead's shoot, then sound is archived. **The
+  operator's four answers at ~11:52Z**: (1) the star-like specks on the cube's
+  shaded faces stay; (2) the body's shadow does not come back — core removes the
+  unread `frame.body`; (3) by "the ring of the former" he meant he liked the
+  sound of "cubed away" (no decision on the title); (4) the lens toward the sun:
+  «не знаю» — the lead ruled that exposure 0.3 and the film stay, and sky dims
+  the 5–20° ring until the disc reads inside a gradient, the approved eye's
+  feeling unmoved. Seen unmerged and unreported: sky 67b03d46, sand 36827743
+  ("unjudged"), sea 501fa487.
 - **The explainer** «Два океана» was amended on the operator's comment (how many
   waves "good" takes); answered in its thread. The clouds explainer's session
   (`session_01DaohkFroEeZ7ybMvAY9JoV`) has not reported yet.

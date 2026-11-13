@@ -41,6 +41,10 @@ fn stuff(s: Surf) -> Material {
       let wood = painted(s, vec3f(0.3, 0.17, 0.08)) * (0.65 + 0.55 * grain);
       return embossed(s, polished(wood, 0.25), grain, 0.0008);
     }
+    case PLASTIC: {
+      // Moulded smooth: without a highlight a black one is a hole in the room.
+      return polished(painted(s, vec3f(0.5, 0.5, 0.48)) * (0.92 + 0.1 * fine), 0.6);
+    }
     case FABRIC: {
       let weave = valueNoise(s.uv * 400.0, 34u);
       return matte(painted(s, vec3f(0.22, 0.24, 0.32)) * (0.75 + 0.35 * weave));

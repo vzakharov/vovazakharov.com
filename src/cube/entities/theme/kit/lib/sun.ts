@@ -235,15 +235,20 @@ fn sunlitRoom(s: Surf, m: Material, ambient: vec3f) -> vec3f {
   let shade = cornerShade(s);
   // A polished thing mirrors more the more it is looked along.
   let along = pow(1.0 - max(dot(normal, -view), 0.0), 5.0);
-  let floored = m.gloss > 0.0 && s.normal.y > 0.9;
+  let floored = m.gloss > 0.0 && s.normal.y > 0.9 && s.kind != PLASTIC;
   // The doorway and the sun in it are so much brighter than the room that a
   // floor let go all the way to a mirror would show nothing of itself.
   let mirror = min(m.gloss * (0.04 + 0.96 * along), select(1.0, SILL_MIRROR, floored));
   let power = mix(6.0, 600.0, m.gloss * m.gloss);
   let half = normalize(SUN_DIR - view);
   let glint = pow(max(dot(normal, half), 0.0), power) * (power + 8.0) / 25.0;
-  let colour = m.albedo * (fill * shade + direct) + m.emission
+  var colour = m.albedo * (fill * shade + direct) + m.emission
     + SUN_LIGHT * (facing * sun * glint * mirror);
+  if (s.kind == PLASTIC) {
+    // Plastic's highlight here is the doorway's sky, mirrored blurred.
+    colour += SKY_IN * throughDoor(at, reflect(view, normal), SKIN_BLUR)
+      * ((0.04 + 0.96 * along) * shade);
+  }
   if (floored) {
     let plane = normalize(s.normal + RIPPLE * m.relief);
     let blur = BLUR * (1.0 - m.gloss);
