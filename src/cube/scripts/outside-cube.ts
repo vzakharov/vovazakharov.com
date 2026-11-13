@@ -108,6 +108,12 @@ const DOORWAY_V = DOORWAY_MIDDLE / CUBE_METRES;
 const [DOOR_U, , DOOR_V] = toRoom([1, 0, DOORWAY_V]);
 const [STEP_U, , STEP_V] = toRoom([0.9, 0, 0.3]);
 
+/** Where the beam through `in-beam`'s eye comes to the west wall, in the shell's frame. */
+const BEAM_END: [number, number] = [
+  0.05,
+  0.39 - (0.55 * SUN_DIR[2]) / SUN_DIR[0],
+];
+
 const EYES: Record<string, Whereabouts> = {
   'wake-sea': { eye: WAKING, yaw: 135 * DEGREE, elevation: 0.02, roll: 0 },
   'wake-cube': { eye: WAKING, yaw: -45 * DEGREE, elevation: 0.14, roll: 0 },
@@ -135,6 +141,8 @@ const EYES: Record<string, Whereabouts> = {
   ),
   // Standing in the beam, looking down it at where it lands.
   'in-beam': inShell(0.6, 0.39, Math.atan2(-SUN_DIR[2], -SUN_DIR[0]), -0.3),
+  // Beside the beam, looking across it at where it lands.
+  'beam-side': inShell(0.35, 0.72, towards([0.35, 0.72], BEAM_END), -0.25),
 };
 
 /** `--name` as a number, or `otherwise` where it is not given. */

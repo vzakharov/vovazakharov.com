@@ -27,11 +27,19 @@ export const RECEPTION_SHRUBS: readonly Shrub[] = [
 
 /**
  * What else of the planted world's decor stands in the beam, as the boxes
- * it fills, in metres of the shell's frame: a bench. Written here and held to
- * the decor by `reception-beam-boxes.test.ts`, as the plants are.
+ * of its parts, in metres of the shell's frame, the largest first: a bench's
+ * south end support, its three seat slats, its two back slats and the post
+ * that holds them. Written here and held to the decor by
+ * `reception-beam-boxes.test.ts`, as the plants are.
  */
 export const RECEPTION_BEAM_BOXES: readonly Box[] = [
-  { min: [0.07, 0, 2.075], max: [0.5, 0.86, 3.575] },
+  { min: [0.1, 0, 3.42], max: [0.5, 0.42, 3.47] },
+  { min: [0.09, 0.42, 2.075], max: [0.21, 0.46, 3.575] },
+  { min: [0.23, 0.42, 2.075], max: [0.35, 0.46, 3.575] },
+  { min: [0.37, 0.42, 2.075], max: [0.49, 0.46, 3.575] },
+  { min: [0.07, 0.58, 2.075], max: [0.1, 0.68, 3.575] },
+  { min: [0.07, 0.74, 2.075], max: [0.1, 0.84, 3.575] },
+  { min: [0.1, 0.42, 3.42], max: [0.14, 0.86, 3.47] },
 ];
 
 /**

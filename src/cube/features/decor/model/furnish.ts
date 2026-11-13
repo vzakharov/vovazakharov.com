@@ -3,6 +3,7 @@ import { pathHash, roll, type Rolled, rollWith } from '@/dice/shared/roll';
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import { type Furnishing, type Thing, THINGS } from '@/cube/shared/lib/thing';
 import { scaled } from '@/cube/shared/lib/vec';
+import type { Box } from '@/cube/shared/outside';
 import {
   type Quad,
   type Setting,
@@ -26,6 +27,7 @@ import {
   WALKWAY,
   within,
 } from './clear';
+import { partsOf } from './parts';
 
 /** The most quads one thing is made of, and one room's things together. */
 export const MOST_QUADS = { thing: 60, room: 250 };
@@ -231,6 +233,24 @@ export const standingBoxes = (
       thing,
       min: scaled(least, ROOM_METRES),
       max: scaled(most, ROOM_METRES),
+    }));
+
+/**
+ * `standingBoxes`'s things as the solids each is built of, `partsOf` them,
+ * in the room's frame in metres.
+ */
+export const standingParts = (
+  setting: Setting,
+  decor: readonly Furnishing[],
+): Array<{ thing: Thing; parts: Box[] }> =>
+  stoodIn(setting, decor)
+    .filter(({ quads }) => !hangs(boundsOf(quads)))
+    .map(({ thing, quads }) => ({
+      thing,
+      parts: partsOf(quads).map(({ least, most }) => ({
+        min: scaled(least, ROOM_METRES),
+        max: scaled(most, ROOM_METRES),
+      })),
     }));
 
 /** `furnish`'s room as each thing was stood, by name. */

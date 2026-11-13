@@ -3,7 +3,7 @@ import type { Furnishing, Thing } from '@/cube/shared/lib/thing';
 import { type Box, crossesBeam, SUN_DIR, toShell } from '@/cube/shared/outside';
 import type { Setting, Vec3 } from '@/cube/entities/world';
 
-import { standingBoxes } from './furnish';
+import { standingParts } from './furnish';
 
 /** What the beam's shade draws finer than a box, so no box stands for it. */
 const FINER: ReadonlySet<Thing> = new Set(['potted-plant']);
@@ -24,9 +24,10 @@ const volume = ({ min, max }: Box): number =>
 
 /**
  * What stands in the sun's beam through floor 1's doorway: the boxes, in
- * metres of the shell's frame, of the `most` largest things of `furnish`'s
- * room that stand on the floor with a doorway's ray through them — largest
- * first, equals from the north-west. None in a room of any other floor.
+ * metres of the shell's frame, of the `most` largest parts of the things of
+ * `furnish`'s room that stand on the floor with a doorway's ray through them
+ * — largest first, equals from the north-west. A thing shades by its parts
+ * so that light passes between them. None in a room of any other floor.
  */
 export function sunBlockers(
   setting: Setting,
@@ -34,9 +35,9 @@ export function sunBlockers(
   most: number,
 ): Box[] {
   if (setting.room.n !== 1) return [];
-  return standingBoxes(setting, decor)
+  return standingParts(setting, decor)
     .filter(({ thing }) => !FINER.has(thing))
-    .map((box) => inShell(box))
+    .flatMap(({ parts }) => parts.map((part) => inShell(part)))
     .filter((box) => crossesBeam(box, SUN_DIR))
     .toSorted(
       (a, b) =>

@@ -314,7 +314,7 @@ export const sunlit = (id: string, look: Sunlit): Wgsl => {
   return wgsl(
     `${id}/sunlit`,
     /* wgsl */ `
-/// A thing standing in the beam, as the box it fills.
+/// A part of a thing standing in the beam, as the box it fills.
 struct Slab {
   low: vec3f,
   high: vec3f,
@@ -324,21 +324,23 @@ const SLABS = array<Slab, ${String(slabs.length)}>(
   ${slabs.join(',\n  ')},
 );
 
+/// How far a ray runs through a box before its shadow begins: a point on
+/// a part's own face, its box a hair off the face, sees none of it.
+const SLAB_BIAS = 0.003;
+
 /// How much of a ray from \`p\` along \`dir\` passes \`slab\`, its edge
-/// softening as the sun's width has it the farther the box. A point within
-/// the box is the thing itself, which its own box does not shade.
+/// softening as the sun's width has it the farther the box. Only the run
+/// through the box ahead of \`p\` counts, so a part's faces toward the sun
+/// lie in no shadow of its own and those away from it in all of it.
 fn slabShade(p: vec3f, dir: vec3f, slab: Slab) -> f32 {
   let a = (slab.low - p) / dir;
   let b = (slab.high - p) / dir;
   let near = min(a, b);
   let far = max(a, b);
-  let enters = max(near.x, max(near.y, near.z));
-  if (enters <= 0.0) {
-    return 1.0;
-  }
+  let enters = max(max(near.x, max(near.y, near.z)), 0.0);
   let leaves = min(far.x, min(far.y, far.z));
   let soft = 0.01 + SUN_SPREAD * enters;
-  return 1.0 - smoothstep(0.0, soft, leaves - enters);
+  return 1.0 - smoothstep(0.0, soft, leaves - enters - SLAB_BIAS);
 }
 
 const SHRUBS = array<vec3f, ${String(shrubs.length)}>(${shrubs.join(', ')});

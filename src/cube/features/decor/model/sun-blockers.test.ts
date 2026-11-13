@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
-import { crossesBeam, SUN_DIR, toShell } from '@/cube/shared/outside';
+import { type Box, crossesBeam, SUN_DIR, toShell } from '@/cube/shared/outside';
 import { themeOf } from '@/cube/entities/theme';
 import {
   holesOf,
@@ -20,6 +20,16 @@ import { sunBlockers } from './sun-blockers';
 const FLOOR_ONE: Room = { n: 1, x: 0n, y: 0n };
 const { decor } = themeOf(1);
 
+/** A box of the room's frame, in metres, as the shell's frame has it. */
+function inShell({ min, max }: Box): Box {
+  const a = toShell(min, ROOM_METRES);
+  const b = toShell(max, ROOM_METRES);
+  return {
+    min: [Math.min(a[0], b[0]), Math.min(a[1], b[1]), Math.min(a[2], b[2])],
+    max: [Math.max(a[0], b[0]), Math.max(a[1], b[1]), Math.max(a[2], b[2])],
+  };
+}
+
 /** The planted world's setting of `room`. */
 async function plantedSetting(room: Room) {
   const holeOf = await holesOf(planted, [room]);
@@ -32,38 +42,25 @@ async function plantedSetting(room: Room) {
 }
 
 describe('sunBlockers, in the planted world', () => {
-  it('lists every standing thing but the plants that a ray of the doorway passes through', async () => {
+  it('lists parts, a ray of the doorway through each, of the standing things but the plants', async () => {
     const setting = await plantedSetting(FLOOR_ONE);
     const blockers = sunBlockers(setting, decor, 99);
-    const inBeam = standingBoxes(setting, decor).filter(
-      ({ thing, min, max }) => {
-        const a = toShell(min, ROOM_METRES);
-        const b = toShell(max, ROOM_METRES);
-        return (
-          thing !== 'potted-plant' &&
-          crossesBeam(
-            {
-              min: [
-                Math.min(a[0], b[0]),
-                Math.min(a[1], b[1]),
-                Math.min(a[2], b[2]),
-              ],
-              max: [
-                Math.max(a[0], b[0]),
-                Math.max(a[1], b[1]),
-                Math.max(a[2], b[2]),
-              ],
-            },
-            SUN_DIR,
-          )
-        );
-      },
-    );
-    assert.equal(blockers.length, inBeam.length);
+    const things = standingBoxes(setting, decor)
+      .filter(({ thing }) => thing !== 'potted-plant')
+      .map(({ min, max }) => inShell({ min, max }));
+    assert.ok(blockers.length > things.length);
     for (const { min, max } of blockers) {
       assert.ok(crossesBeam({ min, max }, SUN_DIR));
       assert.ok(min.every((least, axis) => least <= (max[axis] ?? Infinity)));
-      assert.ok(min[1] < 1e-6);
+      assert.ok(
+        things.some((thing) =>
+          ([0, 1, 2] as const).every(
+            (axis) =>
+              thing.min[axis] - 1e-9 <= min[axis] &&
+              max[axis] <= thing.max[axis] + 1e-9,
+          ),
+        ),
+      );
     }
   });
 
