@@ -73,6 +73,34 @@ reached from the second account.
     `features/sound`) carrying what one package offered and no other took.
   - Steiger `fsd/shared-lib-grouping`: `src/cube/shared/lib` holds 19 modules
     against a threshold of 15.
+- **Operator, after walking the preview on an M2 Pro** (frames at 16–32 fps out
+  of doors and on floor 1, 120 on floor 2):
+
+  > кайфно но увы снаружи (и до спуска на второй уровень) очень тормозно, на M2
+  > Pro. Сейчас это править не будем, возьмём следующим заходом.
+  >
+  > сейчас только поправим по сценарию:
+  >
+  > 1- после просыпания герой не должен поворачиваться сам, это должен сделать
+  > игрок, при этом когда куб оказывается полностью в виде, герой должен
+  > произнести аля "хмм?"
+  >
+  > 2- по умолчанию по острову нужно чтобы ходил, не бегал
+  >
+  > 3- при подёме по лестнице то что смотрит в сторону это хорошо, но перед
+  > самым заходом надо повернуться обратно (вперёд), иначе сразу при входе
+  > взгляд падает на люк и таблетку.
+  >
+  > 4- с куба с первого раза спрыгнуть нельзя; если игрок идёт туда, включает
+  > cutscene "посмотреть вниз, увидеть что нет лестницы, показать надпись "The
+  > ladder is gone", и герою сказать хмм?". Со второго раза может прыгнуть.
+  >
+  > после этого можно финализировать
+
+  **Decided**: the lead makes the four changes itself, with no child team — they
+  are one package's worth, all in the walk's scenes and the player. The speed
+  out of doors is the next round's, not this one's. Then `/finalize`, which
+  needs the two red `source` checks fixed on its way.
 
 ## Standing rules (the operator's words)
 
