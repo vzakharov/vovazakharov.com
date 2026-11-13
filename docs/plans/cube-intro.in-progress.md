@@ -355,6 +355,11 @@ not append.
   «АААА дайте две!». Gold stays; that frame — sky as of 54b3c2c7 included — is
   the reference for the outside toward the sun, superseding the pinkish-beige
   one. Sky told not to change what that eye shows.
+- **11:15Z, a splash screen** (the operator, on the same frame: «это должно быть
+  splash screen-ом»). Lead's ruling: that eye rendered live
+  (`-15.203, 2.10, 15.203`, yaw −45, pitch 4), the clock running, before the
+  wake; any key starts the waking; no title until he picks a name. Walk builds
+  it after its current merge. Put to the operator: live, not a picture.
 - **The explainer** «Два океана» was amended on the operator's comment (how many
   waves "good" takes); answered in its thread. The clouds explainer's session
   (`session_01DaohkFroEeZ7ybMvAY9JoV`) has not reported yet.
