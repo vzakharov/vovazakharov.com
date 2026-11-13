@@ -1,8 +1,8 @@
 items:
   - id: z-intro
     type: zone
-    updated: [2026-11-13T10:35:00.000Z, agent:cube-intro]
-    box: [5720, -2150, 1880, 5450, orange]
+    updated: [2026-11-13T10:45:00.000Z, agent:cube-intro]
+    box: [5720, -3150, 1880, 6450, orange]
     icon: 🏝️
     text: 'The intro: an island, the cube from outside, the way in'
   - id: intro-h-premise
@@ -278,6 +278,18 @@ items:
     box: [6208, 2800, 430]
     src: images/intro-16-ladder-foot-2.webp
     text: '16. The ladder is wood now (the operator: “I have nothing against wood, and it might suit the line where did it come from at all”). The black faces carry small lights — shell’s choice: a night sky under the surface, in layers that shift as the eye moves; put to the operator. Fault: a potted plant of floor 1 stands in the doorway opening'
+  - id: intro-img-ref-approved
+    type: image
+    updated: [2026-11-13T10:45:00.000Z, agent:cube-intro]
+    box: [5748, -3040, 1200]
+    src: images/intro-ref-approved.webp
+    text: 'The first frame of the island the operator approved: standing on the beach toward the sun, the cube over the crest, its shadow running left, the ladder and the sun’s glitter under it. Every package now compares its passes against this frame. Eye: 21.5 m south-west of the cube’s middle, looking at it'
+  - id: intro-ref-verdict
+    type: sticky
+    updated: [2026-11-13T10:45:00.000Z, agent:cube-intro]
+    box: [6990, -3040, 280, pink]
+    icon: 🔥
+    text: 'Vova, on seeing it: “this is properly top, it can go on the board”'
   - id: intro-d-wake-inland
     type: sticky
     updated: [2026-11-13T10:30:00.000Z, agent:cube-intro]
