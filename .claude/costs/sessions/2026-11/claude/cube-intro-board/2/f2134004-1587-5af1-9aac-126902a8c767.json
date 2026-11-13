@@ -1,0 +1,96 @@
+{
+  "total": {
+    "inputTokens": 2,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 38206,
+    "cacheReadTokens": 53035,
+    "outputTokens": 604,
+    "thinkingTokens": 73,
+    "responses": 1,
+    "costUsd": 0.16417149999999997
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": null,
+    "endedOn": null,
+    "endedAt": null,
+    "contextTokens": null,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 38206,
+      "cacheReadTokens": 53035,
+      "outputTokens": 604,
+      "thinkingTokens": 73,
+      "responses": 1,
+      "costUsd": 0.16417149999999997
+    }
+  },
+  "sessionId": "f2134004-1587-5af1-9aac-126902a8c767",
+  "branch": "claude/cube-intro-board",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You take over the **board coordinator's** job in the cube's intro build from a session that a usage limit stopped; you are on its branch, `claude/cube-intro-boa…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkC6bqy1HmL5Nbbm66J",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-13T09:17:54.822Z",
+  "lastResponseAt": "2026-11-13T09:17:54.822Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 2,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 38206,
+    "cacheReadTokens": 53035,
+    "outputTokens": 604,
+    "thinkingTokens": 73,
+    "responses": 1,
+    "costUsd": 0.16417149999999997
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-sonnet-5-5/standard": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 38206,
+      "cacheReadTokens": 53035,
+      "outputTokens": 604,
+      "thinkingTokens": 73,
+      "responses": 1,
+      "costUsd": 0.16417149999999997
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 1,
+    "matched": 1,
+    "matchedTableUsd": 0.16417149999999997,
+    "matchedEventUsd": 0.1641715,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1892,
+    ".json": 30,
+    ".ts": 3073,
+    ".yaml": 315,
+    ".tsx": 86,
+    ".scss": 15
+  }
+}
