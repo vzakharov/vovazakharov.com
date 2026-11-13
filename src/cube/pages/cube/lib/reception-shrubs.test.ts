@@ -25,7 +25,6 @@ const FOLIAGE_REACH =
 
 const FLOOR_ONE: Room = { n: 1, x: 0n, y: 0n };
 
-/** Every corner of what the planted world stands in floor 1's room, in metres, with its quad's paint. */
 type Corner = Awaited<ReturnType<typeof corners>>[number];
 
 /** The mean of `some` corners along `axis`. */
@@ -34,8 +33,9 @@ const mean = (some: readonly Corner[], axis: 0 | 2): number =>
 
 /** How high the top turn of a plant's leaves stands, for its draw of height. */
 const crownOf = (draw: number): number =>
-  shrubHeight(SHRUB.foliage.at(-1).at, draw);
+  shrubHeight(SHRUB.foliage[3].at, draw);
 
+/** Every corner of what the planted world stands in floor 1's room, in metres, with its quad's paint. */
 async function corners() {
   const holeOf = await holesOf(planted, [FLOOR_ONE]);
   const setting = settingOf(
