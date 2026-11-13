@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 58,
+    "inputTokens": 72,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 162747,
-    "cacheReadTokens": 5100313,
-    "outputTokens": 19163,
-    "thinkingTokens": 6775,
-    "responses": 31,
-    "costUsd": 4.3909986
+    "cacheWrite1hTokens": 177452,
+    "cacheReadTokens": 6684851,
+    "outputTokens": 23191,
+    "thinkingTokens": 7565,
+    "responses": 38,
+    "costUsd": 5.1044182000000005
   },
   "estimate": {
     "at": "2026-11-13T12:49:15.194Z",
@@ -48,18 +48,18 @@
   "url": "https://claude.ai/code/session_016Z4TKqfdhduUecpY8zFSAJ",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T12:48:06.497Z",
-  "lastResponseAt": "2026-11-13T12:54:01.825Z",
+  "lastResponseAt": "2026-11-13T12:56:28.365Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 58,
+    "inputTokens": 72,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 162747,
-    "cacheReadTokens": 5100313,
-    "outputTokens": 19163,
-    "thinkingTokens": 6775,
-    "responses": 31,
-    "costUsd": 4.3909986
+    "cacheWrite1hTokens": 177452,
+    "cacheReadTokens": 6684851,
+    "outputTokens": 23191,
+    "thinkingTokens": 7565,
+    "responses": 38,
+    "costUsd": 5.1044182000000005
   },
   "subagents": {
     "inputTokens": 0,
@@ -73,14 +73,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 58,
+      "inputTokens": 72,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 162747,
-      "cacheReadTokens": 5100313,
-      "outputTokens": 19163,
-      "thinkingTokens": 6775,
-      "responses": 31,
-      "costUsd": 4.3909986
+      "cacheWrite1hTokens": 177452,
+      "cacheReadTokens": 6684851,
+      "outputTokens": 23191,
+      "thinkingTokens": 7565,
+      "responses": 38,
+      "costUsd": 5.1044182000000005
     }
   },
   "warnings": [],
@@ -94,7 +94,7 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 4195,
+    ".md": 4211,
     ".json": 285,
     ".yaml": 48,
     ".ts": 18745,
