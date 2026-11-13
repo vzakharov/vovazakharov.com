@@ -36,12 +36,6 @@ const FIELDS = [
     floats: 4,
     doc: 'x is 1 while the ladder stands at the doorway, 0 once it is gone.',
   },
-  {
-    name: 'body',
-    type: 'vec4f',
-    floats: 4,
-    doc: "The body's foot in the world, and in w its height in metres: 0 where no body stands.",
-  },
 ] as const;
 
 type FieldName = (typeof FIELDS)[number]['name'];
@@ -63,7 +57,7 @@ export type Standing = { foot: Vec3; headAbove: number };
 
 /**
  * What of the frame is its player's own doing out of doors: the ladder gone,
- * and `body`, the player's, which casts a shadow where one is given.
+ * and `body`, the player's, which the frame is told and draws nothing of.
  */
 export type OutdoorState = Laddered & { body?: Standing };
 
@@ -86,7 +80,6 @@ export function packOutdoorFrame({
   eye,
   sun,
   ladderGone,
-  body,
   seconds,
   hour,
   width,
@@ -99,7 +92,6 @@ export function packOutdoorFrame({
     sun: [...sun, 0],
     clock: [seconds, hour, width, height],
     state: [ladderGone === true ? 0 : 1, 0, 0, 0],
-    body: body ? [...body.foot, body.headAbove] : [0, 0, 0, 0],
   };
   const data = new Float32Array(OUTDOOR_FRAME_FLOATS);
   let offset = 0;

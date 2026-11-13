@@ -39,7 +39,7 @@ import { createRenderer, type Drawing, type Renderer } from './renderer';
  * its return, and sees through `lens`, `OUTSIDE_LENS` where none is given.
  * An eye on floor 1 given a `lens` sees through it too, in its floor's
  * place: the eye getting used to the doorway's light. The ladder stands at
- * the doorway until `ladderGone` is true, and `body` casts a shadow.
+ * the doorway until `ladderGone` is true.
  */
 type Frame = Posed &
   Partial<OutsideEye> &
