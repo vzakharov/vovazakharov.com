@@ -31,7 +31,8 @@ import { createRenderer, type Drawing, type Renderer } from './renderer';
  * `moving`, what is in the rooms for this frame alone, each quad in its own
  * room's frame. An eye outside the cube is `outside`, its pose then kept for
  * its return, and sees through `lens`, `OUTSIDE_LENS` where none is given.
- * The ladder stands at the doorway until `ladderGone` is true.
+ * An eye on floor 1 given a `lens` sees through it too, in its floor's
+ * place: the eye getting used to the doorway's light. The ladder stands at the doorway until `ladderGone` is true.
  */
 type Frame = Posed &
   Partial<OutsideEye> &
@@ -151,6 +152,8 @@ export function mountCube(
   /** The outside eye the frame hook gave, and the one the play hook holds. */
   let hooked: OutsideEye | null = null;
   let stagedEye: OutsideEye | null = null;
+  /** The lens the frame hook gave, for an eye on floor 1 as for one outside. */
+  let through: OutsideLens | null = null;
   /** Whether the ladder has gone, as the frame hook last said. */
   let ladderGone = false;
   /** Whether the renderer holds moving quads, to drop once a frame has none. */
@@ -256,7 +259,10 @@ export function mountCube(
     renderer.draw({
       ...seen,
       clear: airAt(depth),
-      lens: outdoor?.lens ?? (lenses.has(at.n) ? at.n : built.pose.n),
+      lens:
+        outdoor?.lens ??
+        (showsOutside ? through : null) ??
+        (lenses.has(at.n) ? at.n : built.pose.n),
       outdoors: showsOutside ? { ...seenInWorld(seen), ladderGone } : null,
       ...clock,
     });
@@ -277,13 +283,15 @@ export function mountCube(
     last = time;
     const {
       outside,
-      lens = OUTSIDE_LENS,
+      lens,
       ladderGone: gone = false,
       ...next
     } = onFrame(pose, seconds, built?.mesh.signOf ?? noSign);
     ({ pose, pulled, moving } = next);
     ladderGone = gone;
-    hooked = outside === undefined ? null : { outside, lens };
+    through = lens ?? null;
+    hooked =
+      outside === undefined ? null : { outside, lens: lens ?? OUTSIDE_LENS };
     resize();
     render();
     frame = requestAnimationFrame(tick);
