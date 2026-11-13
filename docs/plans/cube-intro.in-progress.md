@@ -359,6 +359,16 @@ not append.
   Sea 419cc2fd (`waterLevelAt`) is next on ripples in the shallows and the lace.
   All nine sessions have reported; every old session is archived. The six frames
   at ba9210cc are in `tmp/eyes-sea/`; four were not yet looked at.
+- **~10:10Z, the operator in core's session** (steering, quoted here for want of
+  room above): «мне кажется не надо так спешить. это не игра на скорость» —
+  adaptation toward dark is 6 s now (core d82585e4); and «я бы поигрался с
+  направлением луча. если он будет освещать ровно таблетку и спуск вниз, это
+  слишком быстрый reveal, а так человек секунд эндцать будет ходить вообще не в
+  понятках». **Decided: the sun stays; pill moves the shelf (and the way down's
+  mark, if its own) out of the beam into the dim**; shell keeps the beam off
+  them. Core d82585e4 also has `frame.body` (`Standing`), `ladderGone`/`body` on
+  `setEye`'s third argument (an object now), the reflection guard. In sky's
+  session he asked for truer clouds (sky 0ab7c024, gates not run).
 - **The explainer** «Два океана» was amended on the operator's comment (how many
   waves "good" takes); answered in its thread.
 - **Next, in order**: (1) merge core, shell, sky as they report green and lint;
