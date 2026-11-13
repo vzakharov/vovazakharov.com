@@ -1,6 +1,6 @@
 export { AERIAL } from './aerial.shader';
 export { beamPatches, crossesBeam, DOOR_INNER } from './beam';
-export { CUBE_SHADOW } from './cube-shadow';
+export { CUBE_SHADOW } from './cube-shadow.shader';
 export { DAYLIGHT } from './daylight.shader';
 export {
   type Box,

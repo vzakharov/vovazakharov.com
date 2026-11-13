@@ -4,7 +4,8 @@ import { describe, it } from 'node:test';
 import { ROOM_HEIGHT } from '../lib/room-shape';
 import type { Vec3 } from '../lib/vec';
 import { assemble, f32 } from '../shader/wgsl';
-import { CUBE_SHADOW, cubeShadow } from './cube-shadow';
+import { cubeShadow } from './cube-shadow';
+import { CUBE_SHADOW } from './cube-shadow.shader';
 import {
   CUBE_AT,
   CUBE_BOX,

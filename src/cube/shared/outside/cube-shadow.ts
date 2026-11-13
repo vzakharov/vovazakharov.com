@@ -1,50 +1,12 @@
 import { smoothstep } from '../lib/ease';
-import { SUN_DISC, SUN_SPREAD } from '../lib/sun-disc';
-import { cross3, dot3, moved, scaled, type Vec3 } from '../lib/vec';
-import { f32, vecf, wgsl } from '../shader/wgsl';
-import { CUBE_BOX, WORLD } from './frame';
-import {
-  DOOR_LADDER,
-  LADDER_ACROSS,
-  LADDER_OUT,
-  LADDER_UP,
-  LADDER_WGSL,
-} from './ladder';
-import { OUTDOOR_FRAME } from './outdoor-frame';
-import { SUN, SUN_DIR } from './sun';
+import { SUN_SPREAD } from '../lib/sun-disc';
+import { dot3, moved, scaled, type Vec3 } from '../lib/vec';
+import { BEHIND, CRISP, HALF, OUTLINE } from './cube-shadow-numbers';
+import { CUBE_BOX } from './frame';
+import { DOOR_LADDER, LADDER_ACROSS, LADDER_OUT, LADDER_UP } from './ladder';
+import { SUN_DIR } from './sun';
 
-/** How sharp a shadow's edge is where it starts, in metres. */
-const CRISP = 0.003;
-
-/** How far behind the thing that casts it a shadow is whole, in metres. */
-const BEHIND = 0.05;
-
-const HALF = scaled(moved(CUBE_BOX.max, CUBE_BOX.min, -1), 0.5);
 const MIDDLE = moved(CUBE_BOX.min, HALF);
-const AXES: Vec3[] = [
-  [1, 0, 0],
-  [0, 1, 0],
-  [0, 0, 1],
-];
-
-/**
- * The cube's outline as the sun sees it, a hexagon: for each pair of its
- * sides, the way they face across the sun's rays and how far from the cube's
- * middle they stand.
- */
-const OUTLINE = AXES.map((axis) => {
-  const [x, y, z] = cross3(axis, SUN_DIR);
-  const long = Math.hypot(x, y, z);
-  const facing: Vec3 = [x / long, y / long, z / long];
-  return {
-    facing,
-    reach: dot3(HALF, [
-      Math.abs(facing[0]),
-      Math.abs(facing[1]),
-      Math.abs(facing[2]),
-    ]),
-  };
-});
 
 /** Where the sun's ray from `p` enters and leaves the cube, in metres along it. */
 function through(p: Vec3): [enters: number, leaves: number] {
@@ -130,77 +92,3 @@ function ladderLight(p: Vec3): number {
  */
 export const cubeShadow = (p: Vec3, { ladderGone = false } = {}): number =>
   boxLight(p) * (ladderGone ? 1 : ladderLight(p));
-
-const OUTLINE_WGSL = OUTLINE.map(({ facing, reach }) =>
-  vecf([...facing, reach]),
-).join(',\n  ');
-
-/** `cubeShadow(p: vec3f) -> f32`, the twin of the function above, the ladder read from the frame. */
-export const CUBE_SHADOW = wgsl(
-  'outside/cube-shadow',
-  /* wgsl */ `
-const SHADOW_CRISP = ${f32(CRISP)};
-const SHADOW_BEHIND = ${f32(BEHIND)};
-/// The cube's outline as the sun sees it: the way each pair of its sides
-/// faces across the rays, and how far from the cube's middle they stand.
-const CUBE_OUTLINE = array<vec4f, 3>(
-  ${OUTLINE_WGSL}
-);
-
-fn boxLight(p: vec3f) -> f32 {
-  let off = p - 0.5 * (CUBE_MIN + CUBE_MAX);
-  var out = -1e9;
-  var back = vec3f(0.0);
-  for (var i = 0; i < 3; i++) {
-    let side = CUBE_OUTLINE[i];
-    let across = dot(side.xyz, off);
-    if (abs(across) - side.w > out) {
-      out = abs(across) - side.w;
-      back = -side.xyz * sign(across);
-    }
-  }
-  let edge = p + back * (max(out, 0.0) + 0.001);
-  let a = (CUBE_MIN - edge) / SUN_DIR;
-  let b = (CUBE_MAX - edge) / SUN_DIR;
-  let near = min(a, b);
-  let far = max(a, b);
-  let enters = max(near.x, max(near.y, near.z));
-  let leaves = min(far.x, min(far.y, far.z));
-  let hit = leaves > max(enters, 0.0);
-  let ahead = -dot(off, SUN_DIR);
-  let run = select(max(ahead, 0.0), max(enters, 0.0), hit);
-  let beside = select(0.0, 1.0, out > 0.0 && ahead > 0.0);
-  let behind = select(beside, smoothstep(0.0, SHADOW_BEHIND, leaves), hit);
-  let soft = SUN_SPREAD * run + SHADOW_CRISP;
-  return 1.0 - (1.0 - smoothstep(-soft, soft, out)) * behind;
-}
-
-fn barLight(off: f32, half: f32, soft: f32) -> f32 {
-  return (1.0 - smoothstep(half - soft, half + soft, off)) * min(1.0, half / soft);
-}
-
-fn ladderLight(p: vec3f) -> f32 {
-  let run = dot(LADDER_FOOT - p, LADDER_OUT) / dot(SUN_DIR, LADDER_OUT);
-  let at = p + SUN_DIR * run - LADDER_FOOT;
-  let up = dot(at, LADDER_UP);
-  let across = abs(dot(at, LADDER_ACROSS));
-  let soft = SUN_SPREAD * max(run, 0.0) + SHADOW_CRISP;
-  let stiles = barLight(abs(across - 0.5 * LADDER_SIZE.y), 0.5 * LADDER_SIZE.z, soft)
-    * barLight(abs(up - 0.5 * LADDER_SIZE.x), 0.5 * LADDER_SIZE.x, soft);
-  let step = clamp(up, LADDER_RUNGS.x, LADDER_RUNGS.y) - LADDER_RUNGS.x;
-  let rung = LADDER_RUNGS.x + round(step / LADDER_SIZE.w) * LADDER_SIZE.w;
-  let rungs = barLight(abs(up - rung), 0.5 * LADDER_RUNGS.z, soft)
-    * barLight(across, 0.5 * LADDER_SIZE.y, soft);
-  return 1.0 - max(stiles, rungs) * smoothstep(SHADOW_BEHIND, 3.0 * SHADOW_BEHIND, run);
-}
-
-fn cubeShadow(p: vec3f) -> f32 {
-  return boxLight(p) * mix(1.0, ladderLight(p), frame.state.x);
-}
-`,
-  OUTDOOR_FRAME,
-  WORLD,
-  SUN,
-  SUN_DISC,
-  LADDER_WGSL,
-);

@@ -145,6 +145,24 @@ describe('pnpm shaders:codegen', () => {
     assert.equal(run(root).status, 0);
   });
 
+  it('enters a shared/lib file directly, that segment having no barrel', () => {
+    const root = tree({
+      '../../shared/lib/spread.wgsl': 'const SPREAD = 0.5;\n',
+      'dwelling/config/floor.wgsl':
+        'import package::cube::shared::lib::spread::SPREAD;\n\nfn floor() -> f32 {\n  return SPREAD;\n}\n',
+    });
+    const first = run(root);
+    assert.equal(first.status, 1, first.report);
+    assert.match(
+      fs.readFileSync(
+        path.join(root, THEME, 'dwelling/config/floor.shader.ts'),
+        'utf8',
+      ),
+      /import { SPREAD } from '@\/cube\/shared\/lib\/spread\.shader';/,
+    );
+    assert.equal(run(root).status, 0);
+  });
+
   for (const [name, files, says] of REFUSALS) {
     it(`refuses ${name}`, () => {
       const root = tree(files);

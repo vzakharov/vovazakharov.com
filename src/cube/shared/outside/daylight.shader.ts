@@ -2,7 +2,7 @@
 // source, not here — the vet run regenerates this file and fails when it had to.
 
 import { wgsl } from '../shader';
-import { CUBE_SHADOW } from './cube-shadow';
+import { CUBE_SHADOW } from './cube-shadow.shader';
 import { SUN } from './sun';
 
 export const DAYLIGHT = wgsl(

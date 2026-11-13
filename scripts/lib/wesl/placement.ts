@@ -74,12 +74,18 @@ export function placeImport(
   const outer = unitChain(importer);
   const inner = unitChain(target);
   const depth = inner.findIndex((unit) => !outer.includes(unit));
-  const barrel = depth === -1 ? undefined : inner[depth];
+  const entered = depth === -1 ? undefined : inner[depth];
+  // A `shared/lib` segment has no root barrel: each top-level file in it is
+  // its own public API, entered directly.
+  const subLibrary =
+    entered?.endsWith(`${path.sep}shared${path.sep}lib`) === true &&
+    path.dirname(target) === entered;
+  const barrel = subLibrary ? undefined : entered;
   const besideOwn =
     barrel !== undefined && depth > 0 && outer.includes(inner[depth - 1] ?? '');
   const sibling = besideOwn ? outer[depth] : undefined;
 
-  if (barrel === undefined && supers === undefined) {
+  if (barrel === undefined && !subLibrary && supers === undefined) {
     errors.push('a module in the same unit is imported by super::');
   }
   if (barrel !== undefined && supers !== undefined) {
