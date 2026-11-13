@@ -175,7 +175,7 @@ async function main(): Promise<void> {
   const planned = await shots();
   await withCubePage(async ({ shoot }) =>
     inTurn(planned, async ([name, pose, hands]) =>
-      shoot(path.join(FRAMES, name), pose, hands),
+      shoot(path.join(FRAMES, name), pose, { moving: hands }),
     ),
   );
 }
