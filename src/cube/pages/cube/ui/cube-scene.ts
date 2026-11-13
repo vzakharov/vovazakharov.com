@@ -2,7 +2,7 @@ import { asError } from '@/kernel/shared/lib/error-class';
 import type { WithOnError } from '@/kernel/shared/typings';
 
 import { type Clock, clockAt } from '@/cube/shared/lib/clock';
-import { type OutdoorState, toCube } from '@/cube/shared/outside';
+import { type Laddered, toCube } from '@/cube/shared/outside';
 import { themeOf } from '@/cube/entities/theme';
 import {
   descend,
@@ -43,7 +43,7 @@ import { createRenderer, type Drawing, type Renderer } from './renderer';
  */
 type Frame = Posed &
   Partial<OutsideEye> &
-  OutdoorState & {
+  Laddered & {
     taken: InRoomOf | null;
     moving: readonly Quad[];
   };
@@ -170,9 +170,9 @@ export function mountCube(
    */
   let through: OutsideLens | null = null;
   let stagedThrough: OutsideLens | null = null;
-  /** The ladder and the body as the frame hook last gave them, and the play hook's. */
-  let hookedState: OutdoorState = {};
-  let stagedState: OutdoorState = {};
+  /** The ladder as the frame hook last gave it, and the play hook's. */
+  let hookedState: Laddered = {};
+  let stagedState: Laddered = {};
   /** Whether the renderer holds moving quads, to drop once a frame has none. */
   let movingDrawn = false;
   let renderer: Renderer | null = null;
@@ -304,14 +304,14 @@ export function mountCube(
   const tick = (time: number): void => {
     const seconds = Math.min((time - last) / 1000, 0.1);
     last = time;
-    const { outside, lens, ladderGone, body, ...next } = onFrame(
+    const { outside, lens, ladderGone, ...next } = onFrame(
       pose,
       seconds,
       built?.mesh.signOf ?? noSign,
     );
     ({ pose, taken, moving } = next);
     taken ??= stagedTaken;
-    hookedState = { ladderGone, body };
+    hookedState = { ladderGone };
     through = lens ?? null;
     hooked =
       outside === undefined ? null : { outside, lens: lens ?? OUTSIDE_LENS };
