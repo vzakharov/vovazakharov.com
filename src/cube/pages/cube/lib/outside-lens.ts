@@ -29,6 +29,11 @@ export const OUTSIDE_LENS: OutsideLens = { exposure: 0.3, eyelids: 1 };
  * and below, the gap between them widest in the middle.
  */
 const LENS = /* wgsl */ `
+/// How far the film parts red from blue, as \`through\` takes it: a quarter
+/// of a pixel at the frame's lower edge, where the outdoors is sparks and
+/// grain a pixel wide that a wider parting would colour.
+const FRINGE = 0.0005;
+
 /// How much of the pixel at \`uv\` shows between eyelids \`open\` of the way open.
 fn betweenLids(uv: vec2f, open: f32) -> f32 {
   let across = uv.x - 0.5;
@@ -40,7 +45,7 @@ fn betweenLids(uv: vec2f, open: f32) -> f32 {
 @fragment
 fn lensFragment(@builtin(position) at: vec4f) -> @location(0) vec4f {
   let l = lensOf(at);
-  let film = tonemap(through(l, 0.03, 0.002) * uniforms.lens.x);
+  let film = tonemap(through(l, 0.03, FRINGE) * uniforms.lens.x);
   let seen = mix(film, themeLens(l), uniforms.lens.z);
   return vec4f(seen * betweenLids(l.uv, uniforms.lens.y), 1.0);
 }`;
