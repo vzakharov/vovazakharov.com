@@ -11,7 +11,7 @@ import { HASH } from '../lib/wgsl-hash';
  */
 
 /** Where the wind blows to, a unit vector on the ground plane (x east, z south). */
-export const WIND = [-Math.cos(0.6), -Math.sin(0.6)] as const;
+export const WIND = [-Math.cos(2.44), -Math.sin(2.44)] as const;
 
 export const RIPPLES = {
   /** Crest to crest, metres. */
@@ -159,7 +159,7 @@ struct Ripples {
 fn rippleSwathe(xz: vec2f) -> f32 {
   let field = fbmd(xz / 7.0, SAND_SALT + 0x6du, 2).x;
   let within = noised(xz / 2.3, SAND_SALT + 0x6eu).x;
-  return smoothstep(0.4, 0.62, field) * (0.45 + 0.55 * within) + 0.03;
+  return smoothstep(0.46, 0.66, field) * (0.45 + 0.55 * within) + 0.03;
 }
 
 fn sandRipples(xz: vec2f, h: f32, sun: vec3f) -> Ripples {
