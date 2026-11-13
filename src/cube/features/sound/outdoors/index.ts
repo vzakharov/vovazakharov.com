@@ -4,9 +4,10 @@ export {
   EASE,
   FADE_EASE,
   FILTER_EASE,
-  FILTER_Q,
+  HUM_Q,
   MUFFLED,
   rendered,
+  WALL_Q,
 } from './model/beds';
 export { BEACH, heardFrom, SOUNDING_ISLAND } from './model/island';
 export { type Loop, whole } from './model/loop';

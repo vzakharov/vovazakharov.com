@@ -72,11 +72,9 @@ export const EASE = 0.06;
 export const FILTER_EASE = 0.1;
 export const FADE_EASE = 0.18;
 
-/**
- * The resonance of the filters the outside closes through: high, so the sweep
- * ends on a low boom as the peak passes through the bass, a vowel for the hum.
- */
-export const FILTER_Q = 5;
+/** The resonance of the sea's and the wind's filter, and of the hum's: a vowel. */
+export const WALL_Q = Math.SQRT1_2;
+export const HUM_Q = 2.5;
 
 /** Times a second the mix is asked for. */
 const ASKED = 60;
@@ -135,9 +133,9 @@ export function rendered(
         else open += sample;
       }
       const hummed =
-        humWall[ear]?.(humming, Math.min(humMuffle, ceiling), FILTER_Q) ?? 0;
+        humWall[ear]?.(humming, Math.min(humMuffle, ceiling), HUM_Q) ?? 0;
       const through =
-        dull[ear]?.(walled, Math.min(muffle, ceiling), FILTER_Q) ?? 0;
+        dull[ear]?.(walled, Math.min(muffle, ceiling), WALL_Q) ?? 0;
       const samples = out[ear];
       if (samples !== undefined) samples[i] = open + hummed + through;
     }

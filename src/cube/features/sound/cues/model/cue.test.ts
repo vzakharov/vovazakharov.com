@@ -35,7 +35,6 @@ const CUES: readonly SoundCue[] = [
   { kind: 'breath', effort: 0.5 },
   { kind: 'grunt' },
   { kind: 'shrink' },
-  { kind: 'threshold' },
   ...ROOM_CUES.map((kind) => ({ kind, from: HERE, loud: 1, seed: 5 })),
 ];
 
