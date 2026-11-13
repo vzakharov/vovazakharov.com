@@ -1,5 +1,35 @@
 # Sky — reports to the lead, newest first
 
+## 2026-11-13 ~11:45Z — your three items; lead merged first (118c0bd7)
+
+Frames re-shot: `wake-sea`, `opposite`, `up`, and `bench-side`, `bench-anti`,
+`bench-cloud`.
+
+1. **Grain on far cumulus — gone.** The cause was the march, not the billows:
+   each texel's first sample of a cloud landed at a different depth, so
+   neighbours were lit differently. The crossing is now refined once and the
+   first sample taken a set 47 m under the skin. Billows narrower than a couple
+   of the sky's texels at a cloud's distance are left out as well.
+2. **Flat tops.** The crown now falls toward the rim, the lowest clouds stand
+   taller (height 0.95–1.35 of the radius, was 0.7–1.25), and the footprint's
+   noise is gentler, which is what made cliffs and table tops. What still reads
+   as a slab in `opposite`, far left and far right, is a near cloud's flat base
+   in front of farther heaps; its own top is a dome.
+3. **Overhead streaks.** A fibre octave is added where the sheet is within 40 km
+   of the eye. In `up` the streaks now show strands; they are still soft,
+   because the sky is drawn at a quarter of the screen each way and that is the
+   limit of it.
+
+**The price.** Clean far clouds read flatter: front-lit, away from the sun,
+they are near-uniform white with less modelling than the grainy ones had, and
+their outlines show the quarter-size texels despite a new share-of-a-texel
+edge. The marched pass is about half again as dear on SwiftShader (the opposite
+view 1100 → 1500–1850 ms at 756×491, readings noisy): one more sample per
+crossing and a shaded near miss per cloud edge.
+
+Gates green as before: typecheck, 73 of 73 shaders, lint, the sky's 7 tests.
+`clouds.ts` is at 397 lines; the next addition there splits the cirrus out.
+
 ## 2026-11-13 ~10:55Z — done bar hardware timing; head 54b3c2c7 plus this file
 
 Also sent as a message at ~10:50Z (reported delivered). Your branch is merged in
