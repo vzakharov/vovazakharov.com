@@ -49,130 +49,12 @@ The operator's voice entry (`.claude/voice/operators/vzakharov.md`) applies to
 every reply: Russian, «ты», «Вова», banter welcome, no "load-bearing", no
 "quietly".
 
-## The brief (the operator's words)
+## The brief and the answers
 
-> хочу intro sequence для кубика [...] представь: ты открываешь глаза, немного
-> стонешь, приподнимаешься, и понимаешь, что ты на крошечном песчаном
-> необитаемом острове. о твои ноги хлещут волны.
->
-> ты встаёшь (сначала видишь только море), оборачиваешься, и видишь: в
-> нескольких десятках метров от тебя в воздухе висит куб 5х5х5 метров. в
-> основном чёрный, но с серыми полосами, которые уменьшаются каждую половину
-> оставшейся длины [...] Материалы otherworldly, издают какой-то звук и не
-> привычным глазу образом играют в предзакатном солнце, насколько это может
-> позволить чёрный/серый цвет.
->
-> на верхней полосе -- дверной проём, и в него виднеется какая-то обстановка.
-> что совершенно не вяжется со всем этим, к низу этого дверного проёма
-> приставлена совершенно обычная приставная лестница.
->
-> с этого момента можно ходить, управлять клавишами, пройтись по острову и тп,
-> даже поплыть вдаль (пока -- без края). Как только ты приближаешься к кубу, ещё
-> одна cut scene: ты наклоняешься, смотришь под куб -- под ним ничего нет, то
-> есть он реально висит в воздухе (это нужно чтобы дать понять, что весь наш
-> лабиринт действительно находится в одном кубе).
->
-> После этого возвращается обычное управление.
->
-> когда подходишь к приставной лестнице, ты можешь нажать E, и следующей
-> кат-сценой ты забираешься наверх и, через дверной проём, оказываешься в нашей
-> самой первой комнате на первом этаже.
->
-> там где на скрине дверь, должен быть проём, и внутри не должно быть
-> естественного освещения, куб изнутри должен освещаться предзакатным солнцем,
-> которое светит ровно в эту щель. Остальное должно остаться, контраст между
-> обыденностью внутри и видом куба снаружи. Единственное, не знаю что делать с
-> деревом. Его расположение процедурное, поэтому просто "убирать" не хочется.
-> Пусть будет, тем комичнее. Солнце должно играть "об него".
->
-> Ну а дальше всё как было, с небольшим изменением: давай рычаг заменим на
-> таблетку, лежащую на том же уровне на небольшой полочке. Анимация
-> "берёшь-несёшь ко рту-звук глотания". Кроме первого раза -- первый раз ты её
-> поднимаешь и как бы рукой немного проворачиваешь, разглядывая. При этом
-> возникает подсказка: Press Y то drink, N to put down. Если пьёшь -- анимация
-> довершается, ты уменьшаешься, дальше как обычно -- руки, взгляд вокруг.
->
-> Что касается острова: он должен быть отрисован супер-пупер, прям супер-пупер,
-> не отличишь от настоящего. И вода, с прибоем и шумом, и солнце и облака в небе
-> -- всё, разумеется, процедурно-детерминированно, как мы любим.
->
-> Вдохновляться можно рисунком с борды "острова" [...] через сколько-то итераций
-> [...] это всё станет частью одного мира: наш остров посреди океана в том же
-> мире, где остров Золтана и Сямы. Если поплывёшь -- через сотни километров
-> доплывёшь до берега. А может и взлетишь. Но это потом :)
-
-The three attached pictures are under `tmp/session-images/` (gitignored, die
-with the container): the banded rectangle from the "Куб с уменьшалкой" artifact,
-floor 1's room with the door, bench, plant and clock, and the island board's
-ocean-at-sunset inspiration ("Noniv/web-ocean … Nothing copied").
-
-## The one batch of questions
-
-What was asked (1 lamps on floor 1 off, sun the only light; 2 branch from `main`
-or stack on #275; 3 when the intro plays, skipping, the ladder both ways; 4 the
-pill everywhere, "first time" per browser, the prompt's language; 5 the machine
-and the frame rate; 6 preview slot and a ceiling on spend) and the answers,
-verbatim, 2026-11-12:
-
-> карт-бланш -- супер
->
-> поясню, кривые руки -- украшать не надо; контраст между ослепительным
-> реализмом предазкатного острова и недореализмом остального -- будем считать
-> творческим выбором. вопросы:
->
-> 1- да; конечно желательно чтобы при этом в комнате было хоть что-то видно
->
-> 2- давай так, к слову возможно так будет проще и борду править поверх
->
-> 3- урл сменяется на наш стандартный "запоминающий при обновлении страницы хеш"
-> (честный, не cheated) при переходе дверного проёма. то есть если обновишь до
-> этого -- сцена с начала, если после -- уже сразу внутри.
->
-> 4- "первый раз" -- только на самом первом этаже. подсказка и вся игра только
-> на английском
->
-> 5- окей. пока у меня вся остальная игра где-то на 111 fps. У меня M2 Pro 16 GB
->
-> 6- давай на 2, на 1м может быть #275, сообщи той сессии о разделении. потолка
-> нет, лимиты остановят 🙂 ориентируйся на 500-1000 долларов по API cost-ам
-> (затраты можешь посмотреть по cost ledger-у той сессии). ну или просто
-> посмотри сколько было там и сколько нужно тебе чтобы сделать так же хорошо:
-> кучи уровней нет, зато есть зверские требования к реализму.
->
-> по твоим решениям: солнце наверное лучше всё-таки сзади или сбоку от куба,
-> если смотреть на него с места "просыпания", потому что иначе ты сразу видишь
-> дверь и лестницу in your face, это не так интересно
->
-> > Солнце стоит
->
-> ну ок, пусть пока так
->
-> > Дерево остаётся
->
-> не понял какое дерево, но пусть остаётся :)
-
-How each is read:
-
-1. Lamps off on floor 1, and the room must still be readable: the sun's patch
-   lights the rest by bounce, tuned until the bench, the walls and the hole can
-   be made out.
-2. Read as "stack on #275" («править поверх»): `claude/cube-review-perf` is
-   merged into this branch (34f30eac) and merged again as it moves; the PR's
-   base is that branch. The reading was told to the operator; reverse it if they
-   say so.
-3. No `localStorage`, no skip key. The honest address fragment is first written
-   when the body crosses the doorway inward; a refresh before that plays the
-   intro from the start, after it starts inside. `?cheated_to=` as today.
-4. The inspect-and-ask beat happens on floor 1 only, every game; every other
-   floor's pill is taken and swallowed at once. English only.
-5. The machine is an M2 Pro, 16 GB, where the game runs near 111 fps; the
-   outside holds 60 there.
-6. Preview slot 2; #275's session is told slot 1 is theirs. Spend to aim for:
-   $500–1000 at API rates.
-
-The stylised hands and body stay as they are — the contrast with the island is
-the operator's creative choice («кривые руки -- украшать не надо»). "Дерево" was
-the operator's own word for the potted plant in floor 1's room.
+The operator's brief and the answers to the one batch of questions, both
+verbatim with how each was read, are in
+`docs/remove-before-merging/cube-intro-j2wt34/brief.md`. Re-read it after a
+compaction before deciding anything about what is being built.
 
 ## Steering since
 
@@ -407,29 +289,6 @@ Each with its reason; a later decision that overrides one rewrites it here.
   game**, their world-neutral parts free of anything the cube names. Where they
   live today waits on `facts-island-board.md`.
 
-## Packages
-
-Sketch; each becomes a child session on `claude/cube-intro-<package>` once the
-fact sheets land and step 0 is in.
-
-- **Step 0 (lead)** — the outdoor seam: shared frame uniforms (camera, sun,
-  clock), the island's height function with a WGSL twin, how extra passes join
-  the HDR target, and a way to shoot an outdoor frame headlessly.
-- **sky** — atmosphere and clouds at pre-sunset, a sky map the ocean reflects.
-- **ocean** — open water, sun glitter, foam, the shore: shoaling, swash, wet
-  sand line.
-- **sand** — the island's terrain and its material, wet band, footprints if
-  cheap.
-- **shell** — the cube's outside: bands, the otherworldly material, the doorway
-  cut into floor 1's wall, the ladder, the sunbeam inside and the lamps.
-- **walk** — moving outdoors: terrain walking, swimming, the three cut scenes
-  (wake, look under, climb), the body seen from its own eyes.
-- **pill** — the lever becomes a pill on a shelf, the first-time inspection and
-  its prompt.
-- **sound** — surf tied to the drawn swash, wind, the cube's hum, groan, ladder,
-  swallow.
-- **board** — the coordinator with #275's session for the cube board.
-
 ## The team
 
 Child sessions, all on `claude-fable-5-2`, cut from this branch at 2026-11-12
@@ -491,18 +350,36 @@ seven sections; a reader's brief is three sections at most.
 
 ## Progress
 
-- 2026-11-12 22:10Z: skill saved (`.claude/skills/carte-blanche/SKILL.md`),
-  branch renamed, readers launched, questions asked.
-- 22:30Z: answers in; #275's branch merged in (34f30eac); contract written; nine
-  child sessions running. Nothing built on this branch yet. A check-in is
-  scheduled for 23:11Z (`send_later`), and each child's report wakes the lead.
-- **Next, in order**: (1) when core's first push lands, confirm the others
-  merged it; (2) pass on the owed facts listed under "The team"; (3) merge each
-  branch as it reports green, look at its frames, send the good and the bad to
-  the board session with captions; (4) when sky, sea, sand and shell are in,
-  shoot the six standard eyes on the merged tree and run a fix round on what the
-  seams show; (5) publish to preview slot 2 and check the deployed commit before
-  telling the operator; (6) `/polish`, `/pr` (base `claude/cube-review-perf`),
-  then vet. The session's human-hour estimate is set (300 senior-hours).
+State at 2026-11-12 23:05Z; update this block, do not append a log.
+
+- **On this branch**: the skill; core's step 1 (the seam, `shared/outside`);
+  sand (island body, material, layer, in `OUTDOOR_SHADERS`); shell's first pass
+  (doorway cut, floor 1 sunlit, ladder facts, real `cubeShadow`); the lead's own
+  `sun.ts` edit (−31°, 9°, `SKY_FILL` [0.65, 0.87, 1.2]); `src/cube/CLAUDE.md`
+  with the four world rules; #275's branch merged twice. Typecheck, shaders (68
+  of 68) and the shared/world/theme tests were green at 5f761cfb.
+- **Known red**: `pnpm lint:files src/cube/shared/outside` — four errors in
+  shell's files (`dot`/`cross` namesakes, `f32` passed to `.map`, `LADDER`
+  namesake); shell was told to fix before its next merge.
+- **Nothing outside is drawn by the page yet.** Core's step 2 (renderer calls
+  layers, the outside eye, `?play` setting one) is what every package waits on;
+  core was pressed for it at 23:03Z, with the sky map's removal, a ladder-stands
+  field in `OutdoorFrame`, and the `Pose` → `Outside` switch going out through
+  the doorway.
+- **In flight**: sky (atmosphere, no sky map now), sea (analytic sum, closed
+  form `waterLevel`, the WGSL-in-Node kit for `shared/lib`), sand (cost, second
+  frames with the real sun), shell (re-shoot with the real sun, lint, exterior
+  mesh and material, ladder flag), walk (controller, waking and climb, exit by
+  the sill at either height, ladder flag), pill, sound, board (version 53).
+- **Next, in order**: (1) when core's step 2 lands, merge it, tell every
+  package, shoot the six standard eyes; (2) merge each branch as it reports
+  green and lints, look at its frames, send the good and the bad to the board
+  session with verdicts; (3) a fix round on what the seams show; (4) publish to
+  preview slot 2 and check the deployed commit before telling the operator; (5)
+  `/polish`, `/pr` (base `claude/cube-review-perf`), then vet.
+- A check-in is scheduled for 23:11Z (`send_later`); each child's report wakes
+  the lead. On each check-in schedule the next.
 - The context notices: at 330k start nothing big; at 350k bring this file
-  current. The session compacts on its own near 370k; never `/relay`.
+  current. The session compacts on its own near 370k; never `/relay`. This file
+  is capped at 400 lines like any other: when "Steering since" grows, move its
+  older entries to `brief.md` beside the brief.

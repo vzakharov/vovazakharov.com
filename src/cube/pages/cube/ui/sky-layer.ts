@@ -2,8 +2,7 @@
 
 import type { Sized } from '@/kernel/shared/typings';
 
-import { SKY_CLOUD_SHADER, SKY_SHADER } from '@/cube/shared/sky';
-
+import { OUTDOOR_SHADERS } from '../lib/outdoor-shaders';
 import type { LayerMaker } from './outdoor-layer';
 
 const CLOUD_FORMAT: GPUTextureFormat = 'rgba16float';
@@ -11,7 +10,6 @@ const CLOUD_FORMAT: GPUTextureFormat = 'rgba16float';
 /** The frame's clouds as drawn, and the group the backdrop reads them by. */
 type CloudTarget = Sized & {
   texture: GPUTexture;
-  view: GPUTextureView;
   group: GPUBindGroup;
 };
 
@@ -23,17 +21,11 @@ type CloudTarget = Sized & {
  */
 export const skyLayerAt =
   (scale: number): LayerMaker =>
-  async ({ device, frame, shader, pipeline }) => {
-    const frameLayout = device.createBindGroupLayout({
-      label: 'sky clouds frame',
-      entries: [
-        { binding: 0, visibility: GPUShaderStage.FRAGMENT, buffer: {} },
-      ],
-    });
-    const cloudModule = await shader('sky clouds', [SKY_CLOUD_SHADER]);
+  async ({ device, layout, frame, shader, pipeline }) => {
+    const cloudModule = await shader('sky clouds', OUTDOOR_SHADERS.skyClouds);
     const marched = await device.createRenderPipelineAsync({
       label: 'sky clouds',
-      layout: device.createPipelineLayout({ bindGroupLayouts: [frameLayout] }),
+      layout: device.createPipelineLayout({ bindGroupLayouts: [layout] }),
       vertex: { module: cloudModule, entryPoint: 'cloudVertex' },
       fragment: {
         module: cloudModule,
@@ -42,7 +34,7 @@ export const skyLayerAt =
       },
     });
     const frameGroup = device.createBindGroup({
-      layout: frameLayout,
+      layout,
       entries: [{ binding: 0, resource: { buffer: frame } }],
     });
 
@@ -59,7 +51,7 @@ export const skyLayerAt =
     });
     const drawn = await pipeline({
       label: 'sky',
-      module: await shader('sky', [SKY_SHADER]),
+      module: await shader('sky', OUTDOOR_SHADERS.sky),
       depth: 'backdrop',
       vertex: 'backdropVertex',
       groups: [cloudLayout],
@@ -78,16 +70,14 @@ export const skyLayerAt =
         usage:
           GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING,
       });
-      const view = texture.createView();
       target = {
         width,
         height,
         texture,
-        view,
         group: device.createBindGroup({
           layout: cloudLayout,
           entries: [
-            { binding: 0, resource: view },
+            { binding: 0, resource: texture.createView() },
             { binding: 1, resource: sampler },
           ],
         }),
@@ -101,7 +91,7 @@ export const skyLayerAt =
           label: 'sky clouds',
           colorAttachments: [
             {
-              view: targetFor(screen).view,
+              view: targetFor(screen).texture.createView(),
               loadOp: 'clear',
               storeOp: 'store',
             },

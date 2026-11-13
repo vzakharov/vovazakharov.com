@@ -211,10 +211,11 @@ function walk(
     },
   });
   if (play) {
-    const { ready, setPose, adapter } = scene;
+    const { ready, setPose, setEye, adapter } = scene;
     const hook: CubePlayHook = {
       ready,
       setPose,
+      setEye,
       adapter,
       setClock: (ms) => {
         frozen = ms;

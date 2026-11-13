@@ -120,8 +120,7 @@ function ladderLight(p: Vec3): number {
     ) * barLight(Math.abs(up - LADDER.length / 2), LADDER.length / 2, soft);
   const step =
     Math.min(Math.max(up, LADDER.lowest), LADDER.highest) - LADDER.lowest;
-  const rung =
-    LADDER.lowest + Math.round(step / LADDER.pitch) * LADDER.pitch;
+  const rung = LADDER.lowest + Math.round(step / LADDER.pitch) * LADDER.pitch;
   const rungs =
     barLight(Math.abs(up - rung), LADDER.rung.tall / 2, soft) *
     barLight(across, LADDER.wide / 2, soft);
@@ -137,8 +136,7 @@ function ladderLight(p: Vec3): number {
 export const cubeShadow = (p: Vec3): number => boxLight(p) * ladderLight(p);
 
 const OUTLINE_WGSL = OUTLINE.map(
-  ({ facing, reach }) =>
-    `vec4f(${facing.map(f32).join(', ')}, ${f32(reach)})`,
+  ({ facing, reach }) => `vec4f(${facing.map(f32).join(', ')}, ${f32(reach)})`,
 ).join(',\n  ');
 
 /** `cubeShadow(p: vec3f) -> f32`, the twin of the function above. */
