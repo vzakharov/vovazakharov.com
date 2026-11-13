@@ -363,6 +363,14 @@ not append.
   sticky by frame 20. For when it is built: the eye is `-15.203, 2.10, 15.203`,
   yaw −45, pitch 4, and the first rule points to a live render rather than a
   shipped picture.
+- **11:17Z: lead 2a21b2d1** — shell 3bc2319c merged ("final", but the oil film
+  is still at `shell-material.ts:155–156` and `bodyShadow` still exported: both
+  re-sent; archive shell only after that merge). **Pill, the operator's
+  corrections**: "the room's door is the doorway" is withdrawn — the reception's
+  list simply has no door (keep it so when main merges in); the clear zone
+  stays, and after the turn only the noticeboard needs it; the doorway stays
+  off-centre ("centre is definitely not pretty"). Pill d1d449af, waiting on
+  core's seam.
 - **The explainer** «Два океана» was amended on the operator's comment (how many
   waves "good" takes); answered in its thread. The clouds explainer's session
   (`session_01DaohkFroEeZ7ybMvAY9JoV`) has not reported yet.
