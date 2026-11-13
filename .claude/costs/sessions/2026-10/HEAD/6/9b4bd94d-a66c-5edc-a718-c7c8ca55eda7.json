@@ -1,0 +1,96 @@
+{
+  "total": {
+    "inputTokens": 46,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 123207,
+    "cacheReadTokens": 2872384,
+    "outputTokens": 45166,
+    "thinkingTokens": 17066,
+    "responses": 20,
+    "costUsd": 2.4636368
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-13T09:23:05.168Z",
+    "contextTokens": 106560,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 37836,
+      "cacheReadTokens": 54191,
+      "outputTokens": 674,
+      "thinkingTokens": 169,
+      "responses": 1,
+      "costUsd": 0.32701420000000003
+    }
+  },
+  "sessionId": "9b4bd94d-a66c-5edc-a718-c7c8ca55eda7",
+  "branch": "HEAD",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "One job: build and publish one interactive Artifact that explains, to a curious non-graphics-programmer, the difference between two ways of drawing an ocean in …",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCAMKaXBKvg2MagU7i",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-13T09:22:57.539Z",
+  "lastResponseAt": "2026-11-13T09:31:01.594Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 46,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 123207,
+    "cacheReadTokens": 2872384,
+    "outputTokens": 45166,
+    "thinkingTokens": 17066,
+    "responses": 20,
+    "costUsd": 2.4636368
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 46,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 123207,
+      "cacheReadTokens": 2872384,
+      "outputTokens": 45166,
+      "thinkingTokens": 17066,
+      "responses": 20,
+      "costUsd": 2.4636368
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 20,
+    "matched": 20,
+    "matchedTableUsd": 2.4636368,
+    "matchedEventUsd": 2.4636368,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 2283,
+    ".json": 31,
+    ".yaml": 48,
+    ".ts": 6185,
+    ".tsx": 87,
+    ".scss": 15
+  }
+}
