@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 1418,
-    "cacheWrite5mTokens": 766319,
-    "cacheWrite1hTokens": 236681,
-    "cacheReadTokens": 24598988,
-    "outputTokens": 114434,
-    "thinkingTokens": 46576,
-    "responses": 161,
-    "costUsd": 12.94107060000001
+    "inputTokens": 1497,
+    "cacheWrite5mTokens": 897339,
+    "cacheWrite1hTokens": 242736,
+    "cacheReadTokens": 30356420,
+    "outputTokens": 172359,
+    "thinkingTokens": 92852,
+    "responses": 197,
+    "costUsd": 15.95491300000001
   },
   "estimate": {
     "at": "2026-11-13T16:50:37.453Z",
@@ -51,7 +51,7 @@
     }
   },
   "sessionId": "bcd58d39-0505-58e3-8c27-9387cc499972",
-  "branch": "claude/cube-wesl-trial",
+  "branch": "worktree-agent-aba8c6c68ee71ee30",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/cube-wesl-trial — все 66 этажей в .wgsl, по папке на этаж, vet зелёный, PR #276 в черновике",
   "prs": [
@@ -60,48 +60,48 @@
   "url": "https://claude.ai/code/session_01DaohkEALtDXTdsS9KgnD24",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T16:38:21.805Z",
-  "lastResponseAt": "2026-11-13T16:51:10.728Z",
+  "lastResponseAt": "2026-11-13T16:52:27.410Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 169,
+    "inputTokens": 180,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 236681,
-    "cacheReadTokens": 17437764,
-    "outputTokens": 64183,
-    "thinkingTokens": 19378,
-    "responses": 87,
-    "costUsd": 6.6653367999999995
+    "cacheWrite1hTokens": 242736,
+    "cacheReadTokens": 19205861,
+    "outputTokens": 66148,
+    "thinkingTokens": 19790,
+    "responses": 93,
+    "costUsd": 7.1067402
   },
   "subagents": {
-    "inputTokens": 170,
-    "cacheWrite5mTokens": 765110,
+    "inputTokens": 238,
+    "cacheWrite5mTokens": 896130,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 6660360,
-    "outputTokens": 49300,
-    "thinkingTokens": 27198,
-    "responses": 72,
-    "costUsd": 6.144302000000001
+    "cacheReadTokens": 10649695,
+    "outputTokens": 105260,
+    "thinkingTokens": 73062,
+    "responses": 102,
+    "costUsd": 8.716741
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 1418,
-      "cacheWrite5mTokens": 766319,
-      "cacheWrite1hTokens": 236681,
-      "cacheReadTokens": 24598988,
-      "outputTokens": 114434,
-      "thinkingTokens": 46576,
-      "responses": 161,
-      "costUsd": 12.94107060000001
+      "inputTokens": 1497,
+      "cacheWrite5mTokens": 897339,
+      "cacheWrite1hTokens": 242736,
+      "cacheReadTokens": 30356420,
+      "outputTokens": 172359,
+      "thinkingTokens": 92852,
+      "responses": 197,
+      "costUsd": 15.95491300000001
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 160,
-    "matched": 158,
-    "matchedTableUsd": 12.77862720000001,
-    "matchedEventUsd": 12.77862720000001,
+    "events": 197,
+    "matched": 195,
+    "matchedTableUsd": 15.823481200000009,
+    "matchedEventUsd": 15.823481200000009,
     "unseen": {
       "side_question": {
         "inputTokens": 573,
