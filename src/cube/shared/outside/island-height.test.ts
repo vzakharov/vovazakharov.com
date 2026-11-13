@@ -2,18 +2,20 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { runInNewContext } from 'node:vm';
 
-import { ISLAND, ISLAND_HEIGHT, islandHeight } from './island-height';
+import { assemble } from '../shader/wgsl';
+import { ISLAND_HEIGHT, islandHeight } from './island-height';
+import { ISLAND } from './island-height-numbers';
 
 type Xz = { x: number; y: number };
 
 type Point = readonly [number, number];
 
 /**
- * The WGSL listing read as JavaScript: its scalar arithmetic is the same in
+ * The linked WGSL read as JavaScript: its scalar arithmetic is the same in
  * both once the types are taken off, so the shader's body can be run here.
  */
 function wgslHeight(): (xz: Xz) => number {
-  const script = ISLAND_HEIGHT.listing
+  const script = assemble([ISLAND_HEIGHT])
     .replaceAll(/^\/{3}.*$/gm, '')
     .replaceAll(
       /\bfn (\w+)\(([^)]*)\) -> f32/g,
