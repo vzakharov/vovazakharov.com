@@ -12,10 +12,10 @@ export const PILL_LENGTH = 0.012;
 export const PILL_RADIUS = 0.0024;
 
 /**
- * The capsule's halves, a blue and a yellow no shelf or paper under them is,
- * so the pill shows on every floor.
+ * The capsule's halves, the cube's own black and its pale grey: the black
+ * half shows on the paper under it, the grey one against a dark wall.
  */
-const PILL_PAINTS = [0x1c_5f_c4, 0xf4_c2_1a] as const;
+const PILL_PAINTS = [0x14_15_18, 0xc6_c8_cc] as const;
 
 /** How many rings round off an end, and how many quads go round the capsule. */
 const CAP_RINGS = 4;
@@ -23,7 +23,7 @@ const PILL_SIDES = 8;
 
 /**
  * A pill's quads in a frame where a room side is `side` long: its middle at
- * `centre`, its length along `axis`, a unit vector, the blue half that way.
+ * `centre`, its length along `axis`, a unit vector, the black half that way.
  */
 export function pillQuads(
   centre: Vec3,
