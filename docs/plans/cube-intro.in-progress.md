@@ -371,6 +371,16 @@ not append.
   stays, and after the turn only the noticeboard needs it; the doorway stays
   off-centre ("centre is definitely not pretty"). Pill d1d449af, waiting on
   core's seam.
+- **11:27Z — lead eafe03e3** (sand's README with the splash frame's re-shoot
+  data: eye y 2.0962, clock `PLAY_INSTANT` 2026-11-01T12:00Z, pinned by the
+  script page; **every frame is recorded with eye, clock, commit** —
+  `briefs/notice.md`). Rulings to pill: the operator's wish "nothing hung over a
+  standing thing" is built for all floors (no thing may vanish — extra tries;
+  counts per floor reported); the noticeboard's rule stands. The pill's black
+  half has no highlight on floors 2, 5, 7 — the 'plastic' glint in the room's
+  renderer goes to shell, after the pink underside and deleting `bodyShadow`.
+  Core's seam is out (`ROOM_DOORWAY`, core 2f4ab3ba, unmerged, not yet reported
+  to the lead).
 - **The explainer** «Два океана» was amended on the operator's comment (how many
   waves "good" takes); answered in its thread. The clouds explainer's session
   (`session_01DaohkFroEeZ7ybMvAY9JoV`) has not reported yet.
