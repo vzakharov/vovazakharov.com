@@ -27,10 +27,12 @@ export const RECEPTION_SHRUBS: readonly Shrub[] = [
 
 /**
  * What else of the planted world's decor stands in the beam, as the boxes
- * it fills, in metres of the shell's frame; written here and held to the
- * decor as the plants are.
+ * it fills, in metres of the shell's frame: a bench. Written here and held to
+ * the decor by `reception-beam-boxes.test.ts`, as the plants are.
  */
-export const RECEPTION_BEAM_BOXES: readonly Box[] = [];
+export const RECEPTION_BEAM_BOXES: readonly Box[] = [
+  { min: [0.07, 0, 2.075], max: [0.5, 0.86, 3.575] },
+];
 
 /**
  * The whole cube as one room: a reception nobody staffs. Terrazzo, a green
