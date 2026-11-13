@@ -1,4 +1,39 @@
 items:
+  - id: intro-h-whole-1200
+    type: text
+    updated: [2026-11-13T12:10:00.000Z, agent:cube-intro]
+    box: [5748, 5700, 2200, h2]
+    text: Where the whole stands, 12:00Z
+  - id: intro-img-35-whole-wake-cube
+    type: image
+    updated: [2026-11-13T12:10:00.000Z, agent:cube-intro]
+    box: [5748, 5780, 430]
+    src: images/intro-35-whole-wake-cube.webp
+    text: '35. The first frame a player sees, lying on the sand: the cube over the dune’s crest against the sun, its shadow across the ripples. From lying, the crest hides the gap under the cube; it opens on standing up. Open: thin dark arcs on the sand bottom-left read as pen strokes (with sand). Eye wake-cube, commit 49186bc5'
+  - id: intro-img-36-whole-wake-sea
+    type: image
+    updated: [2026-11-13T12:10:00.000Z, agent:cube-intro]
+    box: [6208, 5780, 430]
+    src: images/intro-36-whole-wake-sea.webp
+    text: '36. The same spot, toward the sea. Open: hard blue dots on the shallows inside the cube’s shadow, and a flat white bar at the horizon on the right (both with sea). Eye wake-sea, commit 49186bc5'
+  - id: intro-img-37-whole-ladder-foot
+    type: image
+    updated: [2026-11-13T12:10:00.000Z, agent:cube-intro]
+    box: [6668, 5780, 430]
+    src: images/intro-37-whole-ladder-foot.webp
+    text: '37. Up the wooden ladder to the doorway; the ladder’s shadow lies on the face, the room’s ceiling shows through the opening. Eye ladder-foot, commit 49186bc5'
+  - id: intro-img-38-whole-under
+    type: image
+    updated: [2026-11-13T12:10:00.000Z, agent:cube-intro]
+    box: [7128, 5780, 430]
+    src: images/intro-38-whole-under.webp
+    text: '38. Under the cube, looking up: black with the specks the operator said stay. Eye under, commit 49186bc5'
+  - id: intro-img-39-whole-room-doorway
+    type: image
+    updated: [2026-11-13T12:10:00.000Z, agent:cube-intro]
+    box: [7588, 5780, 430]
+    src: images/intro-39-whole-room-doorway.webp
+    text: '39. Floor 1 toward its doorway after the quarter-turn and the clear-strip rule: nothing stands in the opening. Open: the bench in the beam casts no shadow yet (shell and pill are giving the beam the decor’s boxes). Eye room-doorway, floor 1’s own lens, commit 874eab51. Frames 35 to 39: clock PLAY_INSTANT 2026-11-01T12:00:00Z, 1280×800, re-shot with pnpm outside:cube --eyes <name>'
   - id: intro-img-24-pill-shelf-4x
     type: image
     updated: [2026-11-13T11:40:00.000Z, agent:cube-intro]

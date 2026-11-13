@@ -1,8 +1,8 @@
 items:
   - id: z-intro
     type: zone
-    updated: [2026-11-13T12:05:00.000Z, agent:cube-intro]
-    box: [5720, -3150, 2510, 8950, orange]
+    updated: [2026-11-13T12:10:00.000Z, agent:cube-intro]
+    box: [5720, -3150, 2510, 9500, orange]
     icon: 🏝️
     text: 'The intro: an island, the cube from outside, the way in'
   - id: intro-h-premise
@@ -304,10 +304,10 @@ items:
     text: '22. After: the daylight film — the sky keeps its gradient right up to the sun’s disc. Re-shot after the interior’s quarter-turn; outdoors it did not change by a pixel'
   - id: intro-img-23-sun-three-ways
     type: image
-    updated: [2026-11-13T11:40:00.000Z, agent:cube-intro]
+    updated: [2026-11-13T12:10:00.000Z, agent:cube-intro]
     box: [6208, 3700, 900]
     src: images/intro-23-sun-three-ways.webp
-    text: '23. The sun three ways: old film, tail 0.6 (chosen), tail 0.4 (greyer)'
+    text: '23. The sun three ways: old film, tail 0.6 (chosen), tail 0.4 (greyer). Closed: the sun’s ring — the sky stays as it is, by the lead’s ruling (the trial pair is sky’s sun-ring-trial-sun, top = kept)'
   - id: intro-img-25-sky-opposite-cumulus
     type: image
     updated: [2026-11-13T12:00:00.000Z, agent:cube-intro]
@@ -325,7 +325,7 @@ items:
     updated: [2026-11-13T11:58:00.000Z, agent:cube-intro]
     box: [6948, 4150, 520]
     src: images/intro-27-wet-edge-before-after.webp
-    text: '27. The wet sand’s mirror meeting dry sand in the cube’s shadow, at 2× crop: before (top) with a ~12 px staircase, after the fix (bottom). Cause: wetness was computed at the mesh’s vertices; it is now computed per pixel'
+    text: '27. The wet sand’s mirror meeting dry sand in the cube’s shadow, at 2× crop: before (top) with a ~12 px staircase, after the fix (bottom). Cause: wetness was computed at the mesh’s vertices; it is now computed per pixel. Closed: the wet band looking brighter in the shadow was measured by sand and is right as it stands'
   - id: intro-img-28-wet-edge-seaward
     type: image
     updated: [2026-11-13T11:58:00.000Z, agent:cube-intro]
