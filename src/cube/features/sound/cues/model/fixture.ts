@@ -13,37 +13,6 @@ import {
 } from '../../dsp';
 import { footstep, stepSeconds } from './footstep';
 
-/** Seconds the lever's handle creaks before it stops: its swing. */
-const LEVER_SWING = 0.25;
-
-/** The lever's stop: a steel arm against its housing. */
-const CLANK: readonly Struck[] = [
-  { hz: 95, dies: 0.07, force: 0.6 },
-  { hz: 380, dies: 0.25, force: 0.4 },
-  { hz: 915, dies: 0.2, force: 0.3 },
-  { hz: 1570, dies: 0.15, force: 0.2 },
-  { hz: 2440, dies: 0.1, force: 0.12 },
-];
-
-/** The lever pulled: the handle's creak down, then the clank of its stop. */
-export function lever(seed: number, rate: number): Float32Array<ArrayBuffer> {
-  const noise = noiseOf(seed);
-  const tune = 1 + 0.05 * noise();
-  const hinge = filterOf('band', rate);
-  let phase = 0;
-  return sampled(LEVER_SWING + 0.4, rate, (t) => {
-    const x = t / LEVER_SWING;
-    phase += (240 - 70 * Math.min(1, x)) / rate;
-    const creak = hinge(2 * (phase % 1) - 1, 900 * tune, 3) * swell(x);
-    const struck = t - LEVER_SWING;
-    const clank = CLANK.reduce(
-      (sum, partial) => sum + ringing(partial, struck, tune),
-      0,
-    );
-    return 0.5 * creak + clank + 0.4 * noise() * dying(struck, 0.005);
-  });
-}
-
 /** A pill's shell: small, hard and hollow. */
 const CAPSULE: readonly Struck[] = [
   { hz: 2350, dies: 0.03, force: 0.5 },

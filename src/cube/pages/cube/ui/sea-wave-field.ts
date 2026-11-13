@@ -63,7 +63,7 @@ export function createWaveField(
     cascades,
     GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST,
   );
-  CASCADES.forEach((_, index) => {
+  for (const [index, _] of CASCADES.entries()) {
     const amplitudes = amplitudesOf(seas, index);
     const layer = { width: TILE, height: TILE };
     device.queue.writeTexture(
@@ -78,7 +78,7 @@ export function createWaveField(
       { bytesPerRow: TILE * 4 },
       layer,
     );
-  });
+  }
 
   const working =
     GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.STORAGE_BINDING;

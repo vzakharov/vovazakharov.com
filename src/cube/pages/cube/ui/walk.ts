@@ -26,12 +26,12 @@ import {
   play as playFrame,
   type Player,
   poseWithin,
-  pulledOf,
   shotWithin,
   standingAt,
   steppingOut,
   stepsOut,
   STILL,
+  takenOf,
 } from '@/cube/features/player';
 
 import { type Follow, followAddress } from '../lib/fragment';
@@ -41,6 +41,7 @@ import { type Start, writeCheat, writeFragment } from '../lib/start';
 import type { Selling, SignOf } from './cube-mesh';
 import { type CubeScene, mountCube } from './cube-scene';
 import { hear } from './hearing';
+import { drawn, type PillPrompt, pillPromptOf } from './pill-prompt';
 
 /** What a press of the hand does where the body stands, a sign aside. */
 export type Way = 'wake' | 'climb';
@@ -55,6 +56,7 @@ export type Hooks = {
   setMissing: (missing: boolean) => void;
   setInReach: (kind: SignKind | null) => void;
   setWay: (way: Way | null) => void;
+  setPill: (prompt: PillPrompt | null) => void;
   open: (offer: Signed) => void;
   offering: () => boolean;
 };
@@ -74,6 +76,7 @@ export function walk(
     setMissing,
     setInReach,
     setWay,
+    setPill,
     open,
     offering,
   }: Hooks,
@@ -162,6 +165,7 @@ export function walk(
     body = bearing === null ? [] : legsOf(bearing, LIT_STAGE.land);
     setFloor(null);
     setInReach(null);
+    setPill(null);
     setWay(
       asleep ? 'wake' : canClimb(next, LIT_STAGE, seconds) ? 'climb' : null,
     );
@@ -177,7 +181,7 @@ export function walk(
             reach(pose, signOf, pressed !== null);
             pressed?.resolve();
             pressed = null;
-            return { pose, pulled: null, moving: [] };
+            return { pose, taken: null, moving: [] };
           }
         : (pose, seconds, signOf) => {
             // An open offer holds the body still, its keys read and dropped.
@@ -189,7 +193,7 @@ export function walk(
                 const { shot } = out;
                 return {
                   pose,
-                  pulled: null,
+                  taken: null,
                   moving: body,
                   outside: outsideOf(shot),
                   lens: lensOf(shot),
@@ -197,14 +201,15 @@ export function walk(
                 };
               }
               player = standingAt(inside);
-              return { pose: inside, pulled: null, moving: [], ladderGone };
+              return { pose: inside, taken: null, moving: [], ladderGone };
             }
+            const here = holedHere(pose);
             player = playFrame(
               { ...player, pose },
               controls,
               seconds,
               plantedWalls,
-              holedHere(pose),
+              here,
             );
             const { pose: moved, cues } = player;
             hearing?.body(cues, moved);
@@ -214,7 +219,8 @@ export function walk(
               follow = null;
               writeCheat(moved.n);
             }
-            reach(moved, signOf, controls.pull && standing);
+            reach(moved, signOf, controls.use && standing);
+            setPill(pillPromptOf(player, moved, here));
             setWay(null);
             // Through the doorway there is only the drop to the sand.
             if (standing && stepsOut(moved, controls)) {
@@ -228,7 +234,7 @@ export function walk(
             follow?.(moved, standing, seconds);
             return {
               pose: moved,
-              pulled: pulledOf(player),
+              taken: takenOf(player),
               moving: handsOf(player),
               ladderGone,
             };
@@ -251,6 +257,7 @@ export function walk(
       ready,
       setPose,
       setEye,
+      setPill: drawn(setPill),
       adapter,
       setClock: (ms) => {
         frozen = ms;

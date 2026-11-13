@@ -114,7 +114,7 @@ describe('furnish', () => {
     }
   });
 
-  it('keeps the walkways, the hole, the lever and the signs’ walls clear', () => {
+  it('keeps the walkways, the hole, the shelf and the signs’ walls clear', () => {
     for (const setting of SETTINGS) {
       const zones = clearZones(setting);
       for (const quad of furnish(setting, CROWD)) {

@@ -11,7 +11,6 @@ import {
   type Outside,
   type Pose,
   type Posed,
-  type Pulled,
   type Quad,
   roomKey,
   type Whereabouts,
@@ -28,7 +27,7 @@ import { build, type Mesh, type Selling, type SignOf } from './cube-mesh';
 import { createRenderer, type Drawing, type Renderer } from './renderer';
 
 /**
- * What one frame draws: the eye's pose, the lever pulled, if any, and
+ * What one frame draws: the eye's pose, the pill taken, if any, and
  * `moving`, what is in the rooms for this frame alone, each quad in its own
  * room's frame. An eye outside the cube is `outside`, its pose then kept for
  * its return, and sees through `lens`, `OUTSIDE_LENS` where none is given.
@@ -37,7 +36,7 @@ import { createRenderer, type Drawing, type Renderer } from './renderer';
 type Frame = Posed &
   Partial<OutsideEye> &
   Laddered & {
-    pulled: Pulled | null;
+    taken: InRoomOf | null;
     moving: readonly Quad[];
   };
 
@@ -148,10 +147,12 @@ export function mountCube(
   }: CubeOptions,
 ): CubeScene {
   let pose = start;
-  let pulled: Pulled | null = null;
+  let taken: InRoomOf | null = null;
   let moving: readonly Quad[] = [];
   /** What the play hook's last call put in the rooms. */
   let staged: readonly Quad[] = [];
+  /** The pill the play hook's last call took off its shelf. */
+  let stagedTaken: InRoomOf | null = null;
   /** The outside eye the frame hook gave, and the one the play hook holds. */
   let hooked: OutsideEye | null = null;
   let stagedEye: OutsideEye | null = null;
@@ -172,21 +173,20 @@ export function mountCube(
     mesh: Mesh;
     lenses: ReadonlySet<number>;
   } | null = null;
-  /** The lever pulled as the mesh last uploaded draws it. */
-  let uploadedPull = '';
+  /** The pill taken as the mesh last uploaded draws it. */
+  let uploadedTaken = '';
   let building: { key: string; done: Promise<void> } | null = null;
   let frame = 0;
   let last = performance.now();
   let disposed = false;
   const firstFrame = Promise.withResolvers<void>();
 
-  const pullKey = (): string =>
-    pulled === null ? '' : `${roomKey(pulled.room)} ${pulled.swung}`;
+  const takenKey = (): string => (taken === null ? '' : roomKey(taken.room));
 
   const upload = async (target: Pose, key: string): Promise<void> => {
     const mesh = await build(target, copy, bought());
-    const pull = pullKey();
-    const scenery = mesh.faces(pulled);
+    const off = takenKey();
+    const scenery = mesh.faces(taken);
     const floors = [
       ...floorsIn([scenery, ...mesh.boards.map((board) => board.scenery)]),
       target.n,
@@ -198,7 +198,7 @@ export function mountCube(
     if (disposed || renderer === null) return;
     renderer.upload(scenery);
     renderer.uploadBoards(mesh.boards);
-    uploadedPull = pull;
+    uploadedTaken = off;
     built = { key, pose: target, mesh, lenses: new Set(floors) };
   };
 
@@ -224,9 +224,9 @@ export function mountCube(
     // The outside is drawn in floor 1's frame alone, which prepared it.
     const first = built.pose.n === 1;
     if (outdoor !== null && !first) return;
-    if (pullKey() !== uploadedPull) {
-      renderer.upload(built.mesh.faces(pulled));
-      uploadedPull = pullKey();
+    if (takenKey() !== uploadedTaken) {
+      renderer.upload(built.mesh.faces(taken));
+      uploadedTaken = takenKey();
     }
     const { lenses, mesh } = built;
     const clock = clockAt(now());
@@ -285,7 +285,8 @@ export function mountCube(
       ladderGone: gone = false,
       ...next
     } = onFrame(pose, seconds, built?.mesh.signOf ?? noSign);
-    ({ pose, pulled, moving } = next);
+    ({ pose, taken, moving } = next);
+    taken ??= stagedTaken;
     ladderGone = gone;
     hooked = outside === undefined ? null : { outside, lens };
     resize();
@@ -320,10 +321,12 @@ export function mountCube(
 
   return {
     ready: async () => firstFrame.promise,
-    setPose: async (next, among = []) => {
+    setPose: async (next, among = [], off = null) => {
       await firstFrame.promise;
       pose = next;
       staged = among;
+      stagedTaken = off;
+      taken = off;
       stagedEye = null;
       await shown(inEyeRoom(next));
     },

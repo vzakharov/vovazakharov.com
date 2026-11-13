@@ -17,6 +17,7 @@ import classes from './cube.module.scss';
 import type { Selling } from './cube-mesh';
 import type { CubeScene } from './cube-scene';
 import { FrameRate } from './frame-rate';
+import type { PillCopy, PillPrompt } from './pill-prompt';
 import { SaleOffer } from './sale-offer';
 import { walk, type Way } from './walk';
 
@@ -31,6 +32,8 @@ type CubeCanvasProps = {
   nowhere: string;
   /** The hint for what a press does where the body stands, by its way. */
   ways: Record<Way, string>;
+  /** The lines shown by a pill in reach and by one in the hand. */
+  pill: PillCopy;
   /** A for-sale room's sign, hint and offer. */
   offer: Selling['copy'];
 };
@@ -42,6 +45,7 @@ export function CubeCanvas({
   floor: floorLine,
   nowhere,
   ways,
+  pill: pillCopy,
   offer: offerCopy,
 }: CubeCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -55,6 +59,7 @@ export function CubeCanvas({
   const [inReach, setInReach] = useState<SignKind | null>(null);
   /** What a press does where the body stands, a sign in reach aside. */
   const [way, setWay] = useState<Way | null>(null);
+  const [pill, setPill] = useState<PillPrompt | null>(null);
   /** Whether an offer is open, read by every frame. */
   const offeringRef = useRef(false);
   const [offer, setOffer] = useState<Signed | null>(null);
@@ -109,6 +114,7 @@ export function CubeCanvas({
             setMissing,
             setInReach,
             setWay,
+            setPill,
             open: (signed) => {
               offeringRef.current = true;
               setOffer(signed);
@@ -142,15 +148,17 @@ export function CubeCanvas({
       )}
       <FrameRate {...{ passTimes }} />
       <p className={classes['hint']} aria-live="polite">
-        {offer === null
-          ? inReach === 'yours'
-            ? offerCopy.hintYours
-            : inReach === null
-              ? way === null
-                ? ''
-                : ways[way]
-              : offerCopy.hint
-          : ''}
+        {pill === null
+          ? offer === null
+            ? inReach === 'yours'
+              ? offerCopy.hintYours
+              : inReach === null
+                ? way === null
+                  ? ''
+                  : ways[way]
+                : offerCopy.hint
+            : ''
+          : pillCopy[pill]}
       </p>
       <SaleOffer
         {...{ offer }}

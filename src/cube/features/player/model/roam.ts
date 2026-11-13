@@ -6,7 +6,7 @@ import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import type { Box } from '@/cube/shared/outside';
 import type { Gazing, Outside, Vec3 } from '@/cube/entities/world';
 
-import type { Cue, Striding } from './play';
+import { type Cue, NO_CUES, type Striding } from './player';
 import {
   EYE_HEIGHT,
   type Input,
@@ -91,8 +91,6 @@ const SETTLE = 0.12;
 const ANKLE = 0.25;
 /** How far above the water's edge the sand is still wet. */
 const WET_REACH = 0.12;
-
-const NO_CUES: readonly Cue[] = [];
 
 /** A body of `scale` standing on `land` at `x`, `z`, looking along `gaze`. */
 export const roamingAt = (

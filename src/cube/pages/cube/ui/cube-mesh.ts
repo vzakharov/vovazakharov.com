@@ -7,6 +7,7 @@ import {
   type HoleOf,
   holesOf,
   inPlace,
+  type InRoomOf,
   type Landing,
   landingsSeen,
   maze,
@@ -15,7 +16,6 @@ import {
   planted,
   type Pose,
   priceOf,
-  type Pulled,
   type Quad,
   type Room,
   roomKey,
@@ -51,12 +51,12 @@ type LookOf = (room: Room) => RoomLook;
 export type SignOf = (room: Room) => Sign | null;
 
 /**
- * One room's view: its faces, the lever pulled drawn as such, its boards,
+ * One room's view: its faces, the pill taken left off its shelf, its boards,
  * `stood`, a frame's moving quads where the view has their rooms, and the
  * settings of the rooms whose happenings it shows.
  */
 export type Mesh = {
-  faces: (pulled: Pulled | null) => Scenery;
+  faces: (taken: InRoomOf | null) => Scenery;
   stood: (moving: readonly Quad[]) => Scenery;
   boards: readonly Boards[];
   signOf: SignOf;
@@ -143,7 +143,7 @@ const posterBoards = (
  * The mesh for an eye at `pose`. Its floor's holes are resolved first, since
  * they decide which rooms of the floor below it sees, and only then those
  * rooms' own; which rooms sell is read off the same answers. What it awaits
- * is resolved once per room, so a swinging lever re-packs the faces without
+ * is resolved once per room, so a pill taken re-packs the faces without
  * resolving the holes again.
  */
 export async function build(
@@ -178,10 +178,10 @@ export async function build(
     ),
   );
   return {
-    faces: (pulled) =>
+    faces: (taken) =>
       pack(
         [
-          ...faces(rolled, pose, full, holeOf, pulled, owns, pillarOf),
+          ...faces(rolled, pose, full, holeOf, taken, owns, pillarOf),
           ...posts,
           ...things,
         ],

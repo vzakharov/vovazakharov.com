@@ -9,12 +9,12 @@ import { DOORWAY } from '@/cube/shared/outside';
 
 import { type Footprint, footprint, placed, slabHeight } from './frame';
 import { holeMiddle, type HoleOf, type Quarter, QUARTERS, under } from './hole';
-import { leverFaces, leverOf, type Pulled, swungIn } from './lever';
 import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
 import type { InRoom, Pose } from './pose';
 import { face, type Quad } from './quad';
-import { isRoom, type Room, roomKey, roomsAcross } from './room';
+import { type InRoomOf, isRoom, type Room, roomKey, roomsAcross } from './room';
 import type { View } from './rooms';
+import { shelfFaces, shelfOf, takenIn } from './shelf';
 
 /** A hole's side, in its room's side; it sits in the middle of its quarter. */
 export const HOLE_SIDE = 0.08;
@@ -287,22 +287,22 @@ export const walledRooms = (view: View): Room[] => [
   ...(view.overhead === null ? [] : [view.overhead]),
 ];
 
-/** The lever of `room` in the eye's frame, if `room` has a hole. */
-function lever(
+/** The shelf of `room` in the eye's frame, if `room` has a hole. */
+function shelf(
   rolled: RolledMaze,
   eye: Room,
   room: Room,
   quarter: Quarter | null,
-  pulled: Pulled | null,
+  taken: InRoomOf | null,
 ): Quad[] {
   if (quarter === null) return [];
   const { origin, roomSide: side } = placed(eye, room);
-  return leverFaces(
-    leverOf(rolled, room, quarter),
+  return shelfFaces(
+    shelfOf(rolled, room, quarter),
     room,
     origin,
     side,
-    swungIn(pulled, room),
+    takenIn(taken, room),
   );
 }
 
@@ -310,9 +310,9 @@ function lever(
  * Every face the eye at `pose` sees of `view`: the walls of its floor's rooms,
  * of the rooms below them and of the room overhead, and those rooms' pillars,
  * `pillarOf` their floor's half-thickness in room sides; the slabs of all of
- * them, holes cut; the levers of the holed rooms among those; and the ceiling
+ * them, holes cut; the shelves of the holed rooms among those; and the ceiling
  * over the topmost room it sees, which on floors 1 and 2 is the lid. Every
- * lever is drawn at rest but the one `pulled`. Slabs come first, so a depth
+ * shelf holds its pill but the one `taken`. Slabs come first, so a depth
  * test that keeps the first of two equal depths draws a slab, not the wall
  * tops meeting it from below. A room `owns` names has its floor drawn `owned`.
  */
@@ -321,7 +321,7 @@ export function faces(
   pose: Pose,
   view: View,
   holeOf: HoleOf,
-  pulled: Pulled | null,
+  taken: InRoomOf | null,
   owns: (room: Room) => boolean,
   pillarOf: (n: number) => number,
 ): Quad[] {
@@ -348,9 +348,7 @@ export function faces(
     ...walls(rolled, pose, view.below),
     ...(view.overhead === null ? [] : walls(rolled, pose, [view.overhead])),
     ...walled.flatMap((room) => pillars(pose, room, pillarOf(room.n))),
-    ...walled.flatMap((room) =>
-      lever(rolled, pose, room, holeOf(room), pulled),
-    ),
+    ...walled.flatMap((room) => shelf(rolled, pose, room, holeOf(room), taken)),
   ];
 }
 

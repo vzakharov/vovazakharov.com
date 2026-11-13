@@ -7,7 +7,7 @@ export type Floored = { n: number };
 /** A room of floor `n`. */
 export type Room = Cell & Floored;
 
-/** A thing of one room: a lever pulled in it, a sign hung in it. */
+/** A thing of one room: a pill taken in it, a sign hung in it. */
 export type InRoomOf = { room: Room };
 
 /** How many rooms floor `n` has along each side. */

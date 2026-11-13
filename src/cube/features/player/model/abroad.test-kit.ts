@@ -1,6 +1,6 @@
 import type { Box } from '@/cube/shared/outside';
 
-import type { Cue } from './play';
+import type { Cue } from './player';
 import type { Stage } from './scenes';
 import { type Shot, shotAt, type Track } from './track';
 

@@ -7,6 +7,10 @@
     "wake": "Press any key",
     "climb": "Press E to climb the ladder"
   },
+  "pill": {
+    "take": "Press E to take the pill",
+    "ask": "Press Y to swallow, N to put down"
+  },
   "offer": {
     "signs": {
       "for-sale": "For sale",

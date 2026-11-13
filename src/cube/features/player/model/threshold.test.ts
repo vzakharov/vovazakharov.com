@@ -91,7 +91,7 @@ describe('the threshold', () => {
       entered: false,
     };
     const up = played(
-      abroad(free, { ...STILL, pull: true }, DT, 0, INTRO_STAGE, true),
+      abroad(free, { ...STILL, use: true }, DT, 0, INTRO_STAGE, true),
     );
     assert.ok(up.entered);
     const pose = { ...poseWithin(up.shot), u: 0.94, yaw: 0 };

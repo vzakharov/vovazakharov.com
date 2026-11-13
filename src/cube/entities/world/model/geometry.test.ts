@@ -10,11 +10,10 @@ import {
 import { descend, eyeInFrame } from './frame';
 import { faces, HOLE_SIDE } from './geometry';
 import type { HoleOf } from './hole';
-import type { Pulled } from './lever';
 import { isOpenEast, maze } from './maze';
 import type { Pose } from './pose';
 import type { Quad } from './quad';
-import { type Room, roomKey } from './room';
+import { type InRoomOf, type Room, roomKey } from './room';
 import { sight, withBelow } from './rooms';
 import { mazeWalls } from './walls';
 
@@ -50,7 +49,7 @@ const mine = (room: Room): boolean => roomKey(room) === '2/1/0';
 const facesAt = (
   pose: Pose,
   holeOf: HoleOf,
-  pulled: Pulled | null = null,
+  taken: InRoomOf | null = null,
   owns: (room: Room) => boolean = nobody,
 ): Quad[] =>
   faces(
@@ -58,7 +57,7 @@ const facesAt = (
     pose,
     withBelow(sight(pose, 24, walls), holeOf),
     holeOf,
-    pulled,
+    taken,
     owns,
     noPillars,
   );
@@ -187,7 +186,7 @@ describe('faces', () => {
     assert.ok(!quads.some((q) => q.room.n === 0));
   });
 
-  it('draws a lever in each holed room it walls, and only there', () => {
+  it('draws a shelf in each holed room it walls, and only there', () => {
     const quads = facesAt(at({ n: 2, x: 1n, y: 0n }), holedTo(3));
     const floors = new Set(
       quads.filter((q) => q.surface === 'handle').map((q) => q.room.n),
@@ -200,35 +199,17 @@ describe('faces', () => {
     assert.ok(!facesAt(at({}), noHoles).some((q) => q.surface === 'plate'));
   });
 
-  it('swings the pulled lever’s handle down, and no other', () => {
+  it('takes the taken pill off its shelf, and no other', () => {
     const pose = at({ n: 2, x: 1n, y: 0n });
-    const handles = (pulled: Pulled | null) =>
-      facesAt(pose, holedTo(3), pulled).filter((q) => q.surface === 'handle');
-    const rest = handles(null);
-    const half = handles({ room: pose, swung: 0.5 });
-    const down = handles({ room: pose, swung: 1 });
-    const moved = down
-      .map((quad, index) => ({ quad, index }))
-      .filter(({ quad, index }) =>
-        quad.corners.some((corner, c) =>
-          corner.some(
-            (value, axis) => value !== rest[index]?.corners[c]?.[axis],
-          ),
-        ),
-      )
-      .map(({ index }) => index);
-    // One handle is a box of six faces, all the pulled room's.
-    assert.equal(moved.length, 6);
-    /** The highest corner, among the moved faces, of `quads`. */
-    const top = (quads: readonly Quad[]) =>
-      Math.max(
-        ...moved.flatMap(
-          (index) => quads[index]?.corners.map((c) => c[1]) ?? [],
-        ),
-      );
-    assert.ok(moved.every((index) => rest[index]?.room.n === 2));
-    assert.ok(top(half) < top(rest));
-    assert.ok(top(down) < top(half));
+    const pills = (taken: InRoomOf | null) =>
+      facesAt(pose, holedTo(3), taken).filter((q) => q.surface === 'plastic');
+    const all = pills(null);
+    const { n, x, y } = pose;
+    const left = pills({ room: { n, x, y } });
+    const here = all.filter((q) => roomKey(q.room) === roomKey(pose));
+    assert.ok(here.length > 0);
+    assert.equal(left.length, all.length - here.length);
+    assert.ok(!left.some((q) => roomKey(q.room) === roomKey(pose)));
   });
 });
 

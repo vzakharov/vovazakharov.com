@@ -3,14 +3,14 @@ import { describe, it } from 'node:test';
 
 import {
   closedSides,
-  leverOf,
+  shelfOf,
   maze,
   mazeWalls,
   type Quarter,
   type Room,
 } from '@/cube/entities/world';
 
-import { clearZones, leverSpot, overlap } from './clear';
+import { clearZones, shelfSpot, overlap } from './clear';
 
 const SEED = '8675309';
 const rolled = maze(SEED);
@@ -29,16 +29,16 @@ const ROOMS: readonly Room[] = [0n, 1n, 2n, 3n, 4n, 5n, 6n, 7n].flatMap((x) =>
 
 const HOLED: Room = { n: 4, x: 0n, y: 0n };
 
-describe('leverSpot', () => {
-  it('is where the world mounts the lever', () => {
+describe('shelfSpot', () => {
+  it('is where the world mounts the shelf', () => {
     for (const room of ROOMS) {
       for (const hole of QUARTERS) {
         const closed = closedSides(walls, room);
-        const { at, mount } = leverOf(rolled, room, hole);
-        const spot = leverSpot({ room, closed, hole, grain: 0 });
+        const { at, mount } = shelfOf(rolled, room, hole);
+        const spot = shelfSpot({ room, closed, hole, grain: 0 });
         assert.ok(spot);
         const [u, v] = spot;
-        // A post stands a little in from the corner its lever is filed under.
+        // A post stands a little in from the corner its shelf is filed under.
         const near = mount === 'post' ? 0.04 : 1e-9;
         assert.ok(Math.abs(u - at.u) < near && Math.abs(v - at.v) < near);
       }
@@ -48,7 +48,7 @@ describe('leverSpot', () => {
   it('is nowhere in a room with no hole', () => {
     const closed = [true, true, true, true] as const;
     assert.equal(
-      leverSpot({ room: HOLED, closed, hole: null, grain: 0 }),
+      shelfSpot({ room: HOLED, closed, hole: null, grain: 0 }),
       null,
     );
   });
@@ -82,7 +82,7 @@ describe('clearZones', () => {
     assert.ok(taken(0.5, 0.3, 0.03));
   });
 
-  it('keeps round the hole and round the lever on the wall beside it', () => {
+  it('keeps round the hole and round the shelf on the wall beside it', () => {
     assert.ok(taken(0.75, 0.01, 0.25));
     assert.ok(taken(0.6, 0.01, 0.12));
     assert.ok(taken(0.95, 0.01, 0.38));

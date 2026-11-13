@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 
 import { type Abroad, abroad, asleepOn, canClimb, steppingOut } from './abroad';
 import { STAGE } from './abroad.test-kit';
-import type { Cue } from './play';
+import type { Cue } from './player';
 import { EYE_OVER_SAND, roamingAt } from './roam';
 import { shotOf } from './scenes';
 import { type Input, STILL } from './step';
@@ -76,14 +76,14 @@ describe('abroad', () => {
     assert.ok(!canClimb(freeAt(8, -1.2, Math.PI), STAGE, 0));
     const far = abroad(
       freeAt(8, -1.2, Math.PI),
-      { ...STILL, pull: true },
+      { ...STILL, use: true },
       DT,
       0,
       STAGE,
       true,
     );
     assert.equal(far.scene, null);
-    const started = abroad(by, { ...STILL, pull: true }, DT, 0, STAGE, true);
+    const started = abroad(by, { ...STILL, use: true }, DT, 0, STAGE, true);
     assert.equal(started.scene?.into, 'cube');
     const { state, cues } = run(started, ahead, 60, (now) => now.entered);
     assert.ok(state.entered);
@@ -94,7 +94,7 @@ describe('abroad', () => {
   it('finds no ladder to climb once it has been inside', () => {
     const by = { ...freeAt(4.8, -1.2, Math.PI), ladderGone: true };
     assert.ok(!canClimb(by, STAGE, 0));
-    const pressed = abroad(by, { ...STILL, pull: true }, DT, 0, STAGE, true);
+    const pressed = abroad(by, { ...STILL, use: true }, DT, 0, STAGE, true);
     assert.equal(pressed.scene, null);
   });
 

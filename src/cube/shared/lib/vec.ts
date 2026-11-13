@@ -37,4 +37,8 @@ export const scaled = (v: Vec3, by: number): Vec3 => [
 ];
 
 /** `v` at length 1. */
-export const unit3 = (v: Vec3): Vec3 => scaled(v, 1 / Math.hypot(...v));
+export const unit3 = ([x, y, z]: Vec3): Vec3 => {
+  // Divided, not scaled by a reciprocal: an axis comes out exactly 1.
+  const length = Math.hypot(x, y, z);
+  return [x / length, y / length, z / length];
+};

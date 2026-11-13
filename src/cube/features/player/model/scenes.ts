@@ -2,7 +2,7 @@ import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import type { Box } from '@/cube/shared/outside';
 import type { Outside, Vec3 } from '@/cube/entities/world';
 
-import type { Cue } from './play';
+import type { Cue } from './player';
 import { EYE_OVER_SAND, type Land } from './roam';
 import {
   type Beat,
@@ -272,7 +272,7 @@ export const climb = (from: Shot, stage: Stage): Track<Cue> =>
 
 /** Seconds from the wall to the sill's edge, and the fall's pull, in m/s². */
 const TO_EDGE = 0.35;
-const GRAVITY = 9.8;
+const GRAVITY_METRES = 9.8;
 /**
  * How far out of the cube's face a whole body's eye is as it starts to fall,
  * and where it comes down.
@@ -298,7 +298,7 @@ export function stepOff(
   const tall = EYE_OVER_SAND * scale;
   const rest = land.height(out, from.z) + tall;
   const { y } = from;
-  const falls = Math.sqrt((2 * Math.max(0, y - rest)) / GRAVITY);
+  const falls = Math.sqrt((2 * Math.max(0, y - rest)) / GRAVITY_METRES);
   const lands = TO_EDGE + falls;
   const beats: Beat[] = [
     { mark: 0, ...from, roll: 0 },
@@ -311,6 +311,6 @@ export function stepOff(
     { mark: lands + DIP_TIME, y: rest },
   ];
   return trackOf(beats, [
-    [lands, { cue: 'landing', speed: (GRAVITY * falls) / ROOM_METRES }],
+    [lands, { cue: 'landing', speed: (GRAVITY_METRES * falls) / ROOM_METRES }],
   ]);
 }

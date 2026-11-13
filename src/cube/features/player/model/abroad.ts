@@ -2,7 +2,7 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import type { Laddered } from '@/cube/shared/outside';
 
-import type { Cue, Cued } from './play';
+import { type Cue, type Cued, NO_CUES } from './player';
 import {
   type Bearing,
   isAfloat,
@@ -50,8 +50,6 @@ export type Abroad = Mind &
     shot: Shot;
     entered: boolean;
   };
-
-const NO_CUES: readonly Cue[] = [];
 
 /** `scene` taking over a body last seen as `roamer`. */
 const playing = (roamer: Roamer, scene: Playing, rest: Mind): Abroad => ({
@@ -179,7 +177,7 @@ export function abroad(
     };
   }
   const free = { ...state, ...rest, entered: false };
-  if (input.pull && canClimb(free, stage, seconds)) {
+  if (input.use && canClimb(free, stage, seconds)) {
     return playing(
       roamer,
       {

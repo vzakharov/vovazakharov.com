@@ -16,7 +16,7 @@ export type Bounds = { least: Vec3; most: Vec3 };
 /** How deep the strip along an open side is that stays clear to walk through. */
 export const WALKWAY = 0.25;
 
-/** How far round the hole and the lever nothing stands. */
+/** How far round the hole and the shelf nothing stands. */
 const REACH = 0.15;
 
 /** Where signs and posters hang on a closed wall: its middle third, this high. */
@@ -82,12 +82,12 @@ function turned({ least, most }: Bounds, side: number): Bounds {
 }
 
 /**
- * Where the lever of a room with a hole in `setting.hole` is: on the hole
+ * Where the shelf of a room with a hole in `setting.hole` is: on the hole
  * quarter's east or west wall level with the hole where that side is closed,
  * else on its north or south wall, else on a post in that corner — the choice
- * `leverOf` makes, read off the setting's sides.
+ * `shelfOf` makes, read off the setting's sides.
  */
-export function leverSpot({ hole, closed }: Setting): [number, number] | null {
+export function shelfSpot({ hole, closed }: Setting): [number, number] | null {
   if (hole === null) return null;
   const { u, v } = holeMiddle(hole);
   const [east, south, west, north] = closed;
@@ -98,14 +98,14 @@ export function leverSpot({ hole, closed }: Setting): [number, number] | null {
 
 /**
  * Everything of `setting`'s room that nothing may stand in: the walkway
- * along each open side, round the hole and the lever, and in front of where
+ * along each open side, round the hole and the shelf, and in front of where
  * each closed wall's signs hang.
  */
 export function clearZones(setting: Setting): Bounds[] {
   const { hole, closed } = setting;
   const round = (x: number, z: number, reach: number): Bounds =>
     column(x - reach, z - reach, x + reach, z + reach);
-  const lever = leverSpot(setting);
+  const shelf = shelfSpot(setting);
   return [
     ...closed.map((isClosed, side) =>
       turned(
@@ -121,6 +121,6 @@ export function clearZones(setting: Setting): Bounds[] {
     ...(hole === null
       ? []
       : [round(holeMiddle(hole).u, holeMiddle(hole).v, HOLE_SIDE / 2 + REACH)]),
-    ...(lever === null ? [] : [round(lever[0], lever[1], REACH)]),
+    ...(shelf === null ? [] : [round(shelf[0], shelf[1], REACH)]),
   ];
 }

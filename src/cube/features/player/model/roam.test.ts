@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { Cue } from './play';
+import type { Cue } from './player';
 import {
   EYE_OVER_SAND,
   EYE_OVER_WATER,

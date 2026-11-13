@@ -1,6 +1,6 @@
 import type { Readying } from '@/kernel/shared/typings';
 
-import type { Outside, Pose, Quad } from '@/cube/entities/world';
+import type { InRoomOf, Outside, Pose, Quad } from '@/cube/entities/world';
 
 import type { OutsideLens } from './outside-lens';
 
@@ -20,10 +20,14 @@ export const PLAY_INSTANT = Date.UTC(2026, 10, 1, 12);
 export type ScenePlay = Readying & {
   /**
    * Puts the eye at `pose`, with `moving` in the rooms until the next call,
-   * each quad in its own room's frame; resolves once a frame of it is on
-   * screen.
+   * each quad in its own room's frame, and the pill `taken` off its shelf;
+   * resolves once a frame of it is on screen.
    */
-  setPose: (pose: Pose, moving?: readonly Quad[]) => Promise<void>;
+  setPose: (
+    pose: Pose,
+    moving?: readonly Quad[],
+    taken?: InRoomOf | null,
+  ) => Promise<void>;
   /**
    * Puts the eye outside the cube at `eye`, seeing through `lens` —
    * `OUTSIDE_LENS` where none is given — until the next `setPose`; resolves
@@ -41,6 +45,11 @@ export type CubePlayHook = ScenePlay & {
    * Resolves once a frame has read the press.
    */
   press: () => Promise<void>;
+  /**
+   * Shows the pill's line `prompt` in the page's hint, or none; resolves once
+   * the page has drawn it.
+   */
+  setPill: (prompt: 'take' | 'ask' | null) => Promise<void>;
   /**
    * Stops the clock at `ms` since the epoch, so every frame from the next is
    * of that instant. A script's page opens stopped at `PLAY_INSTANT`.

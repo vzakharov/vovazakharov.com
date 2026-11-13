@@ -5,20 +5,11 @@ import {
   assertAudible,
   brightness,
   loudness,
-  peak,
   TEST_RATE,
 } from '../../dsp/index.test-only';
-import {
-  knock,
-  lever,
-  pill,
-  ring,
-  shrinking,
-  stepsAway,
-  thud,
-} from './fixture';
+import { knock, pill, ring, shrinking, stepsAway, thud } from './fixture';
 
-const ONCE = { lever, pill, ring, knock, thud };
+const ONCE = { pill, ring, knock, thud };
 
 describe('what the building does', () => {
   it('is finite and inside ±1, the same from the same seed', () => {
@@ -57,14 +48,6 @@ describe('what the building does', () => {
     const samples = pill(1, TEST_RATE);
     assert.ok(samples.length < 0.3 * TEST_RATE);
     assert.ok(brightness(samples, 1500) > 0.5);
-  });
-
-  it('clanks the lever after its creak', () => {
-    const samples = lever(1, TEST_RATE);
-    const swing = Math.round(0.25 * TEST_RATE);
-    assert.ok(
-      peak(samples.subarray(swing)) > 2 * peak(samples.subarray(0, swing)),
-    );
   });
 
   it('rings twice with a gap between', () => {
