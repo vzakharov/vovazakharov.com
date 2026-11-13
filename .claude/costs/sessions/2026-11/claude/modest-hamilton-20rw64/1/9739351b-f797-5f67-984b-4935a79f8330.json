@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 2565,
-    "cacheWrite5mTokens": 10376,
-    "cacheWrite1hTokens": 77956,
-    "cacheReadTokens": 2541263,
-    "outputTokens": 22800,
-    "thinkingTokens": 14156,
-    "responses": 22,
-    "costUsd": 1.6811686
+    "inputTokens": 3081,
+    "cacheWrite5mTokens": 11410,
+    "cacheWrite1hTokens": 83470,
+    "cacheReadTokens": 3415068,
+    "outputTokens": 27084,
+    "thinkingTokens": 16267,
+    "responses": 28,
+    "costUsd": 1.9960576
   },
   "estimate": {
     "at": "2026-11-13T17:18:50.201Z",
@@ -40,24 +40,24 @@
   },
   "sessionId": "9739351b-f797-5f67-984b-4935a79f8330",
   "branch": "claude/modest-hamilton-20rw64",
-  "cwd": "/home/user/vovazakharov.com/src/cube",
+  "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "по кубику: думаю, что б нам придумать интересного для решения следующей проблемы: сейчас реалистично играющий человек за несколько вечеров может добежать до 9, …",
   "prs": [],
   "url": "https://claude.ai/code/session_01DaohkBWZDxtTYRbxBLsYSC",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T17:17:11.533Z",
-  "lastResponseAt": "2026-11-13T17:46:22.088Z",
+  "lastResponseAt": "2026-11-13T17:48:42.412Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 35,
+    "inputTokens": 45,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 77956,
-    "cacheReadTokens": 1886099,
-    "outputTokens": 22698,
-    "thinkingTokens": 14156,
-    "responses": 17,
-    "costUsd": 1.4549677999999997
+    "cacheWrite1hTokens": 83470,
+    "cacheReadTokens": 2617438,
+    "outputTokens": 26962,
+    "thinkingTokens": 16267,
+    "responses": 22,
+    "costUsd": 1.7306675999999999
   },
   "subagents": {
     "inputTokens": 0,
@@ -71,38 +71,38 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 2565,
-      "cacheWrite5mTokens": 10376,
-      "cacheWrite1hTokens": 77956,
-      "cacheReadTokens": 2541263,
-      "outputTokens": 22800,
-      "thinkingTokens": 14156,
-      "responses": 22,
-      "costUsd": 1.6811686
+      "inputTokens": 3081,
+      "cacheWrite5mTokens": 11410,
+      "cacheWrite1hTokens": 83470,
+      "cacheReadTokens": 3415068,
+      "outputTokens": 27084,
+      "thinkingTokens": 16267,
+      "responses": 28,
+      "costUsd": 1.9960576
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 22,
-    "matched": 17,
-    "matchedTableUsd": 1.4549677999999997,
-    "matchedEventUsd": 1.4549677999999995,
+    "events": 28,
+    "matched": 22,
+    "matchedTableUsd": 1.7306675999999999,
+    "matchedEventUsd": 1.7306675999999996,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 2530,
-        "cacheWrite5mTokens": 10376,
+        "inputTokens": 3036,
+        "cacheWrite5mTokens": 11410,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 655164,
-        "outputTokens": 102,
+        "cacheReadTokens": 797630,
+        "outputTokens": 122,
         "thinkingTokens": 0,
-        "responses": 5,
-        "costUsd": 0.2262008
+        "responses": 6,
+        "costUsd": 0.26539
       }
     }
   },
   "operatorWords": {
-    "chat": 1050,
+    "chat": 1070,
     "review": 0,
     "threads": 0
   },
