@@ -58,8 +58,7 @@ export const WIND_AXIS = [-SUN_DIR[0] / flat, -SUN_DIR[2] / flat] as const;
 export const SUN_IN_FIELD = [-flat, SUN_DIR[1], 0] as const;
 
 /** Kilometres the field drifts down the wind in a second. */
-export const DRIFT_PER_SECOND =
-  (TILE * CLOUDS.tilesPerHour) / SECONDS_IN_HOUR;
+export const DRIFT_PER_SECOND = (TILE * CLOUDS.tilesPerHour) / SECONDS_IN_HOUR;
 
 /** Kilometres the field has drifted down the wind, `seconds` into the hour. */
 export const driftAt = (seconds: number): number => DRIFT_PER_SECOND * seconds;

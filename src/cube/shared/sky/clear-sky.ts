@@ -3,11 +3,13 @@ import { f32, vecf, wgsl } from '../lib/wgsl';
 import { SUN, SUN_DIR, SUN_WHITE } from '../outside/sun';
 import { AIR, extinctionAt, sunTransmittance } from './atmosphere';
 import { FIT_TERMS, fitSky } from './sky-fit';
+import { fitGlance, GLANCE_SUNWARD } from './sky-glance';
 import { EYE_RADIUS } from './sky-light';
 
 const FIT = fitSky(SUN_DIR);
 const COEFFICIENTS = [...FIT.rayleigh, ...FIT.mie, ...FIT.many];
 const PER_PART = FIT_TERMS.lift * FIT_TERMS.turn;
+const GLANCE = fitGlance(SUN_DIR);
 
 const SUN_FLAT = Math.hypot(SUN_DIR[0], SUN_DIR[2]);
 
@@ -38,8 +40,8 @@ const sunLog = ((): readonly [Rgb, Rgb, Rgb] => {
   ];
 })();
 
-/** The sun's share reaching the eye, and how its logarithm turns per unit of a ray's sine. */
-const EYE_SUN = sunTransmittance(EYE_RADIUS, SUN_DIR[1]);
+/** The sun's share reaching the eye, exported for the glow round it, and how its logarithm turns per unit of a ray's sine. */
+export const EYE_SUN = sunTransmittance(EYE_RADIUS, SUN_DIR[1]);
 const EYE_SUN_SLOPE = ((): Rgb => {
   const step = 0.004;
   const over = sunTransmittance(EYE_RADIUS, SUN_DIR[1] + step);
@@ -58,6 +60,8 @@ const AIR_PER_METRE = extinctionAt(EYE_RADIUS - AIR.ground).map(
  * - `clearSky(dir) -> vec3f`, the cloudless sky's radiance along unit `dir`
  *   in the scene's light, the model's own within a few percent; under the
  *   horizon it is the horizon's;
+ * - `skyGlance(dir) -> vec3f`, the same sky smoothed, in a few dozen
+ *   operations: what a rough mirror or a matte face gathers;
  * - `sunThrough(km) -> vec3f`, what a white face square to the sun shows that
  *   many kilometres over the sea, and `sunSeen(dir) -> vec3f`, the share of the
  *   sun's own light that reaches the eye along a ray near the sun;
@@ -117,6 +121,23 @@ fn clearSky(dir: vec3f) -> vec3f {
     skyPart(0, lift, turn) * rayleighPhase(between)
     + skyPart(1, lift, turn) * miePhase(between, MIE_G)
     + skyPart(2, lift, turn)
+  );
+}
+
+const SKY_GLANCE = array<vec3f, ${String(GLANCE.length)}>(
+${GLANCE.map((colour) => `  ${vecf(colour)},`).join('\n')}
+);
+
+fn skyGlance(dir: vec3f) -> vec3f {
+  let lift = 2.0 * pow(max(dir.y, 0.0), 1.0 / 3.0) - 1.0;
+  let flat = length(dir.xz);
+  let turn = select(1.0, dot(dir.xz, SUN_BEARING) / flat, flat > 1e-5);
+  let sunward = pow(max(dot(dir, SUN_DIR), 0.0), ${f32(GLANCE_SUNWARD)});
+  return SUN_IRRADIANCE * exp(
+    SKY_GLANCE[0] + lift * (SKY_GLANCE[1] + lift * SKY_GLANCE[2])
+    + turn * (SKY_GLANCE[3] + lift * (SKY_GLANCE[4] + lift * SKY_GLANCE[5])
+      + turn * (SKY_GLANCE[6] + lift * (SKY_GLANCE[7] + lift * SKY_GLANCE[8])))
+    + sunward * SKY_GLANCE[9]
   );
 }
 

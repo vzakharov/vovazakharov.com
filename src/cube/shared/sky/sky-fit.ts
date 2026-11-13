@@ -53,7 +53,7 @@ const basisAt = (lift: number, turn: number): number[] => {
 };
 
 /** `rows · x = column`, solved in place by elimination with pivoting. */
-const solve = (rows: number[][], column: number[]): number[] => {
+export const solve = (rows: number[][], column: number[]): number[] => {
   const size = column.length;
   const at = (i: number, j: number): number => rows[i]?.[j] ?? 0;
   for (let k = 0; k < size; k++) {
@@ -82,26 +82,41 @@ const solve = (rows: number[][], column: number[]): number[] => {
 /** Sample rays per axis: enough over the terms that the fit cannot ring. */
 const SAMPLES = { lift: 40, turn: 12 } as const;
 
-/** The sky under a sun toward `sun`, fitted. */
-export function fitSky(sun: Vec3): SkyFit {
-  const size = FIT_TERMS.lift * FIT_TERMS.turn;
-  const flat = Math.hypot(sun[0], sun[2]);
-  const samples: Array<{ basis: number[]; parts: SkyParts }> = [];
+/** A ray the fits are made on: where it falls on their axes, and itself. */
+type FitRay = { lift: number; turn: number; dir: Vec3; sun: Vec3 };
+
+/**
+ * The rays a fit of the sky under a sun toward `sun` is made on, even in
+ * height as `liftOf` spreads it and in the turn from the sun, in the frame
+ * whose x is the sun's bearing.
+ */
+export function fitRays(sun: Vec3): FitRay[] {
+  const toSun: Vec3 = [Math.hypot(sun[0], sun[2]), sun[1], 0];
+  const rays: FitRay[] = [];
   for (let i = 0; i < SAMPLES.lift; i++) {
     const lift = (2 * i) / (SAMPLES.lift - 1) - 1;
     const y = ((lift + 1) / 2) ** 3;
     const out = Math.sqrt(1 - y * y);
     for (let j = 0; j < SAMPLES.turn; j++) {
       const round = (Math.PI * j) / (SAMPLES.turn - 1);
-      samples.push({
-        basis: basisAt(lift, Math.cos(round)),
-        parts: skyParts(
-          [out * Math.cos(round), y, out * Math.sin(round)],
-          [flat, sun[1], 0],
-        ),
+      rays.push({
+        lift,
+        turn: Math.cos(round),
+        dir: [out * Math.cos(round), y, out * Math.sin(round)],
+        sun: toSun,
       });
     }
   }
+  return rays;
+}
+
+/** The sky under a sun toward `sun`, fitted. */
+export function fitSky(sun: Vec3): SkyFit {
+  const size = FIT_TERMS.lift * FIT_TERMS.turn;
+  const samples = fitRays(sun).map((ray) => ({
+    basis: basisAt(ray.lift, ray.turn),
+    parts: skyParts(ray.dir, ray.sun),
+  }));
   const normal = (): number[][] =>
     Array.from({ length: size }, (_, a) =>
       Array.from({ length: size }, (__, b) =>
@@ -139,7 +154,11 @@ export function fittedParts(fit: SkyFit, dir: Vec3, sun: Vec3): SkyParts {
         sum[c] = (sum[c] ?? 0) + colour[c] * (basis[n] ?? 0);
       }
     });
-    return [Math.exp(sum[0] ?? 0), Math.exp(sum[1] ?? 0), Math.exp(sum[2] ?? 0)];
+    return [
+      Math.exp(sum[0] ?? 0),
+      Math.exp(sum[1] ?? 0),
+      Math.exp(sum[2] ?? 0),
+    ];
   };
   return { rayleigh: part('rayleigh'), mie: part('mie'), many: part('many') };
 }

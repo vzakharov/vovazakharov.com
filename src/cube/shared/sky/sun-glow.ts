@@ -1,7 +1,7 @@
 import { f32, vecf, wgsl } from '../lib/wgsl';
-import { SUN_WHITE } from '../outside/sun';
+import { SUN_DIR, SUN_WHITE } from '../outside/sun';
 import { AIR } from './atmosphere';
-import { CLEAR_SKY } from './clear-sky';
+import { CLEAR_SKY, EYE_SUN } from './clear-sky';
 
 const SUN_RADIUS = (0.2666 * Math.PI) / 180;
 
@@ -22,10 +22,35 @@ const AUREOLE = [
   { g: 0.95, share: 0.06 },
 ] as const;
 
+/** Kasten and Young's air mass along a ray `lift` radians over the horizon. */
+const KASTEN = { a: 0.50572, b: 6.07995, c: -1.6364 } as const;
+const airMass = (lift: number): number =>
+  1 /
+  (Math.sin(lift) + KASTEN.a * ((lift * 180) / Math.PI + KASTEN.b) ** KASTEN.c);
+
+const BROAD = AUREOLE[1];
+
+/**
+ * The broad lobe's glow per unit of its phase function, along the ray to the
+ * sun itself: what `sunHalo` spreads round the sun.
+ */
+const HALO = EYE_SUN.map(
+  (reaching, channel) =>
+    SUN_WHITE *
+    Math.PI *
+    BROAD.share *
+    reaching *
+    (AIR.mie.scatter[channel] ?? 0) *
+    AIR.mie.height *
+    airMass(Math.asin(SUN_DIR[1])),
+);
+
 /**
  * The sun as the eye meets it:
  *
  * - `aureole(dir) -> vec3f`, the glow close round the sun;
+ * - `sunHalo(dir) -> vec3f`, that glow's broad lobe alone at the price of
+ *   one power, for a mirror too rough to show the rest;
  * - `sunDisc(dir, edge) -> vec3f`, the disc itself, `edge` a pixel's width in
  *   radians.
  */
@@ -42,7 +67,7 @@ fn henyey(c: f32, g: f32) -> f32 {
 /// \`lift\` radians over the horizon, by Kasten and Young's air mass.
 fn hazeDepth(lift: f32) -> vec3f {
   let degrees = max(lift, 0.0) * 180.0 / PI;
-  let mass = 1.0 / (sin(max(lift, 0.0)) + 0.50572 * pow(degrees + 6.07995, -1.6364));
+  let mass = 1.0 / (sin(max(lift, 0.0)) + ${f32(KASTEN.a)} * pow(degrees + ${f32(KASTEN.b)}, ${f32(KASTEN.c)}));
   return ${vecf(AIR.mie.scatter.map((perKm) => perKm * AIR.mie.height))} * mass;
 }
 
@@ -56,6 +81,10 @@ fn aureole(dir: vec3f) -> vec3f {
   let glow = ${f32(SUN_WHITE * Math.PI)} * lobes * sunSeen(dir) * hazeDepth(lift);
   // Nothing round the disc outshines the disc.
   return glow / (1.0 + max(glow.r, max(glow.g, glow.b)) / ${f32(DISC_LIGHT * 0.5)});
+}
+
+fn sunHalo(dir: vec3f) -> vec3f {
+  return ${vecf(HALO)} * henyey(dot(dir, SUN_DIR), ${f32(BROAD.g)});
 }
 
 /// Darker and redder to the limb, redder again toward the horizon, where its

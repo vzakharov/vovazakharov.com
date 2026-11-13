@@ -14,7 +14,8 @@ import {
 } from './atmosphere';
 
 const rgb = (of: (channel: 0 | 1 | 2) => number): Rgb => [of(0), of(1), of(2)];
-const dot = (a: Vec3, b: Vec3): number => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+const dot = (a: Vec3, b: Vec3): number =>
+  a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 
 /** The eye's radius: a person's height over the sea, which is all it ever is. */
 export const EYE_RADIUS = AIR.ground + 0.002;
@@ -78,8 +79,7 @@ export const skyOf = (parts: SkyParts, between: number): Rgb => {
   const rayleigh = rayleighPhase(between);
   const mie = miePhase(between, AIR.mie.g);
   return rgb(
-    (c) =>
-      parts.rayleigh[c] * rayleigh + parts.mie[c] * mie + parts.many[c],
+    (c) => parts.rayleigh[c] * rayleigh + parts.mie[c] * mie + parts.many[c],
   );
 };
 
