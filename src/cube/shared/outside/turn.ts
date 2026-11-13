@@ -103,34 +103,15 @@ function columns(to: (way: Vec3) => Vec3): string {
 }
 
 /**
- * The turn in WGSL, for a room `ROOM_METRES` across: `turnedToShell` and
- * `turnedToRoom` of a way, `toShell` and `toRoom` of a point in metres.
+ * The turn's numbers as WGSL constants, for a room `ROOM_METRES` across: the
+ * turn of a way each way, `ROOM_TO_SHELL` and `SHELL_TO_ROOM`, and
+ * `TURN_ABOUT`, the room's middle a point turns about.
  */
-export const SHELL_TURN = wgsl(
-  'outside/turn',
+export const TURN_NUMBERS = wgsl(
+  'outside/turn-numbers',
   /* wgsl */ `
 const ROOM_TO_SHELL = ${columns((way) => turnedToShell(way))};
 const SHELL_TO_ROOM = ${columns((way) => turnedToRoom(way))};
 const TURN_ABOUT = vec2f(${f32(ROOM_METRES / 2)});
-
-fn turnedToShell(way: vec3f) -> vec3f {
-  let flat = ROOM_TO_SHELL * way.xz;
-  return vec3f(flat.x, way.y, flat.y);
-}
-
-fn turnedToRoom(way: vec3f) -> vec3f {
-  let flat = SHELL_TO_ROOM * way.xz;
-  return vec3f(flat.x, way.y, flat.y);
-}
-
-fn toShell(p: vec3f) -> vec3f {
-  let flat = ROOM_TO_SHELL * (p.xz - TURN_ABOUT) + TURN_ABOUT;
-  return vec3f(flat.x, p.y, flat.y);
-}
-
-fn toRoom(p: vec3f) -> vec3f {
-  let flat = SHELL_TO_ROOM * (p.xz - TURN_ABOUT) + TURN_ABOUT;
-  return vec3f(flat.x, p.y, flat.y);
-}
 `,
 );

@@ -32,6 +32,7 @@ export {
   packOutdoorFrame,
 } from './outdoor-frame';
 export { OUTDOOR_STAGE } from './outdoor-stage.shader';
+export { SHELL_TURN } from './shell-turn.shader';
 export { SKY } from './sky.shader';
 export { SKY_METRES } from './stage-numbers';
 export { SUN, SUN_DIR, SUN_LIGHT } from './sun';
@@ -40,7 +41,6 @@ export {
   INTERIOR_TURN,
   QUARTER_TURNS,
   type Quarters,
-  SHELL_TURN,
   toRoom,
   toShell,
   turnedToRoom,

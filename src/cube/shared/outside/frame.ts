@@ -2,7 +2,8 @@ import { ROOM_HEIGHT, ROOM_METRES } from '../lib/room-shape';
 import type { Vec2, Vec3 } from '../lib/vec';
 import { f32, vecf, wgsl } from '../shader/wgsl';
 import { islandHeight } from './island-height';
-import { SHELL_TURN, toRoom, toShell } from './turn';
+import { SHELL_TURN } from './shell-turn.shader';
+import { toRoom, toShell } from './turn';
 
 /** The cube's side in metres: one side of floor 1's room. */
 export const CUBE_METRES = ROOM_METRES;
