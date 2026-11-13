@@ -1,4 +1,5 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
+import type { Box } from '@/cube/shared/outside';
 
 import {
   FINISH,
@@ -23,6 +24,13 @@ export const RECEPTION_SHRUBS: readonly Shrub[] = [
   { at: [4.415, 0.4252], draw: 0.9588 },
   { at: [0.441, 0.585], draw: 0.8749 },
 ];
+
+/**
+ * What else of the planted world's decor stands in the beam, as the boxes
+ * it fills, in room metres; written here and held to the decor as the plants
+ * are.
+ */
+export const RECEPTION_BEAM_BOXES: readonly Box[] = [];
 
 /**
  * The whole cube as one room: a reception nobody staffs. Terrazzo, a green
@@ -100,6 +108,7 @@ fn themeMaterial(s: Surf) -> Material {
       air: AIR,
       ambient: [0.022, 0.02, 0.019],
       shrubs: RECEPTION_SHRUBS,
+      boxes: RECEPTION_BEAM_BOXES,
       floor: [0.27, 0.24, 0.2],
       walls: [0.26, 0.26, 0.19],
       visibility: 70,
