@@ -9,6 +9,10 @@ const TRAIL_LASTS = 2.2;
 const BUBBLES_LAST = 5;
 /** And for the foam riding a swash sheet. */
 const SHEET_LASTS = 2.2;
+/** How many times longer than wide the swash draws the lace's cells. */
+const DRAWN_OUT = 2.4;
+/** How many times finer the lace is on a swash sheet than out on the surf. */
+const FINER = 1.7;
 /** A sheet thinner than this, metres, is its own white edge. */
 const EDGE = 0.025;
 
@@ -44,11 +48,18 @@ fn foamWalls(p: vec2f, salt: u32) -> f32 {
 
 /// How much of a pixel foam of thickness \`dense\` covers at \`p\`, metres on
 /// the sea: whole at 1 and over, then breaking into patches joined by the
-/// threads that bubbles gather into along the walls between cells.
-fn lace(p: vec2f, dense: f32) -> f32 {
+/// threads that bubbles gather into along the walls between cells. On the
+/// beach the water that carries it runs up and back along \`shore.runs\`,
+/// and draws the cells out that way, and a sheet's thin foam
+/// breaks finer than a breaker's.
+fn lace(still: vec2f, dense: f32, shore: Shore) -> f32 {
   if (dense <= 0.02) {
     return 0.0;
   }
+  let ashore = smoothstep(-0.35, 0.0, shore.bed);
+  let drawn = 1.0 + ${f32(DRAWN_OUT - 1)} * ashore;
+  let p = (1.0 + ${f32(FINER - 1)} * ashore)
+    * (still + (1.0 / drawn - 1.0) * dot(still, shore.runs) * shore.runs);
   let warp = vec2f(fbm(p * 0.9, 11u, 3), fbm(p * 0.9 + vec2f(7.7, 3.1), 14u, 3)) - 0.5;
   let fold = vec2f(valueNoise(p * 3.7, 12u), valueNoise(p * 3.7 + vec2f(2.3, 9.1), 13u)) - 0.5;
   let at = p + 0.9 * warp + 0.22 * fold;
