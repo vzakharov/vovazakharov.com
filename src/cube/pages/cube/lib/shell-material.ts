@@ -4,18 +4,21 @@ import { vec3f, wgsl } from '@/cube/shared/lib/wgsl';
 import { HASH } from '@/cube/shared/lib/wgsl-hash';
 import { OUTDOOR_STAGE, SKY, SUN } from '@/cube/shared/outside';
 
-/** What the shell is made of where a floor's band is near-black, and where it is grey. */
+/**
+ * What the shell is made of where a floor's band is near-black, and where it
+ * is grey: a graphite hardly lighter, told from the black by its finish — a
+ * satin that takes the sky as a soft sheen where the black mirrors it sharp.
+ */
 const BLACK = {
   albedo: [0.008, 0.009, 0.011],
   mirror: 0.06,
   blur: 0.4,
 } as const;
-const BANDS = process.env.NEXT_PUBLIC_BANDS ?? 'b';
 const GREY = {
-  a: { albedo: [0.0138, 0.0152, 0.0175], mirror: 0.0115, blur: 4.2, fleck: 1 },
-  b: { albedo: [0.012, 0.0132, 0.0152], mirror: 0.11, blur: 3.2, fleck: 0 },
-  c: { albedo: [0.06, 0.066, 0.076], mirror: 0.05, blur: 4.2, fleck: 1 },
-}[BANDS as 'a' | 'b' | 'c'];
+  albedo: [0.012, 0.0132, 0.0152],
+  mirror: 0.11,
+  blur: 3.2,
+} as const;
 
 /** The line between two bands: its colour, its light, and its width in metres. */
 const LINE = {
@@ -148,7 +151,7 @@ fn shellFace(f: Face, band: Band, depth: i32, glance: f32) -> vec3f {
   let sunLight = mix(cooled(SUN_LIGHT), SUN_LIGHT, band.dark);
   var light = albedo * (sunLight * towards * f.sun + fill);
 
-  // The mirror in it: sharp in the black, brushed in the grey, with a faint
+  // The mirror in it: sharp in the black, a satin blur in the grey, with a faint
   // cool sheen where a face that mirrors is seen along itself.
   let mirror = mix(${GREY.mirror.toFixed(3)}, ${BLACK.mirror.toFixed(3)}, band.dark);
   let share = mirror + max(glance - mirror, 0.0) * grazing;
@@ -166,16 +169,6 @@ fn shellFace(f: Face, band: Band, depth: i32, glance: f32) -> vec3f {
   let sheen = pow(max(1.0 - across * across, 0.0), 400.0) * pow(max(dot(f.normal, mid), 0.0), 24.0);
   let skim = pow(1.0 - max(dot(mid, f.toEye), 0.0), 5.0);
   light += sunLight * sunlit * (1.0 - band.dark) * sheen * (0.03 + 0.97 * skim) * 0.8 * tint;
-
-  // Flecks in the grey that catch the sun one at a time, close to.
-  let fleck = 0.0025;
-  let grain = vec2i(floor(f.on / fleck));
-  let h = cellHash(grain, SHELL_SALT + 61u);
-  let tilt = vec3f(unitOf(h), unitOf(mix32(h)), unitOf(mix32(h + 3u))) - 0.5;
-  let glint = step(0.97, unitOf(mix32(h + 5u)))
-    * pow(max(dot(normalize(f.normal + 0.5 * tilt), mid), 0.0), 500.0);
-  light += ${GREY.fleck.toFixed(1)} * sunLight * sunlit * (1.0 - band.dark) * glint * 2.0
-    * (1.0 - smoothstep(0.5, 2.0, f.pixel / fleck));
 
   // The lights under the black, each layer deeper and farther apart.
   let slide = vec2f(dot(f.toEye, f.along), dot(f.toEye, f.down)) / max(facing, 0.2);

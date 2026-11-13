@@ -22,6 +22,11 @@ stands at its head.
   wall with the potted plant's shadow at its edge.
 - `in-beam.webp` — standing in the beam, back to the sun: the patch on the wall
   with no shadow of the player in it.
+- `bands-abc-ladder-foot.webp`, `bands-abc-approved.webp` — three finishes of
+  the grey bands, at `ladder-foot` and at
+  `--at -15.203,2.0962,15.203 --yaw -45 --pitch 4`, clock `PLAY_INSTANT`: A as
+  dark as at 315051b5 and neutral, B a deep graphite satin (the tree's), C the
+  flat grey before it.
 - `plastic-pill-before-after.webp` — the pill on floor 2's shelf at 10×, shot in
   pill's tree (de26e0dc): left as it was, right with plastic mirroring the
   ceiling's panels.
