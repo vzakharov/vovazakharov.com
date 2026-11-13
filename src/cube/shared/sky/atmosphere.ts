@@ -19,7 +19,7 @@ export const ATMOSPHERE = {
     absorb: [0.004, 0.004, 0.0045],
     height: 1.2,
     /** The asymmetry of the broad lobe every scattering integral uses. */
-    g: 0.7,
+    g: 0.8,
   },
   ozone: { absorb: [0.65e-3, 1.881e-3, 0.085e-3], centre: 25, half: 15 },
   /** What the sea gives back of the light falling on it, as a matte ground. */

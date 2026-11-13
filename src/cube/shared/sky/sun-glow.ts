@@ -18,8 +18,8 @@ export const DISC_LIGHT = 600;
  * aureole ten degrees wide. The broad lobe is the fitted sky's.
  */
 const AUREOLE = [
-  { g: 0.99, share: 0.01 },
-  { g: 0.95, share: 0.03 },
+  { g: 0.99, share: 0.02 },
+  { g: 0.95, share: 0.06 },
 ] as const;
 
 /** Kasten and Young's air mass along a ray `lift` radians over the horizon. */
