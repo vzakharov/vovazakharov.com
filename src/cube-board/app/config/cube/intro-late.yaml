@@ -34,6 +34,18 @@ items:
     box: [7588, 5780, 430]
     src: images/intro-39-whole-room-doorway.webp
     text: '39. Floor 1 toward its doorway after the quarter-turn and the clear-strip rule: nothing stands in the opening. Open: the bench in the beam casts no shadow yet (shell and pill are giving the beam the decor’s boxes). Eye room-doorway, floor 1’s own lens, commit 874eab51. Frames 35 to 39: clock PLAY_INSTANT 2026-11-01T12:00:00Z, 1280×800, re-shot with pnpm outside:cube --eyes <name>'
+  - id: intro-img-40-whole-doorway-out
+    type: image
+    updated: [2026-11-13T12:20:00.000Z, agent:cube-intro]
+    box: [5748, 6250, 430]
+    src: images/intro-40-whole-doorway-out.webp
+    text: '40. What a player sees turning round on floor 1’s sill: the sun and its path on the water, the shore’s arc, the dune below. The notice board that used to hang across this opening is gone (frames 29–30 show it). Eye doorway-out, eyes used to daylight (indoors 0), commit b0852de6; pose: u 0.8482, v 0.97, eye 0.32 above, yaw π/2, elevation 0, exposure 0.3, eyelids 1; clock PLAY_INSTANT; the same fields are in the .shot.json beside the file on the lead’s branch'
+  - id: intro-img-41-whole-doorway-down
+    type: image
+    updated: [2026-11-13T12:20:00.000Z, agent:cube-intro]
+    box: [6208, 6250, 430]
+    src: images/intro-41-whole-doorway-down.webp
+    text: '41. The same sill, looking down at the sand; the ladder is just under the frame’s lower edge. Eye doorway-down, elevation −0.7, otherwise as frame 40, commit b0852de6'
   - id: intro-img-24-pill-shelf-4x
     type: image
     updated: [2026-11-13T11:40:00.000Z, agent:cube-intro]
