@@ -1,3 +1,5 @@
+import { pathHash, roll, rollWith } from '@/dice/shared/roll';
+
 import type { Rgb } from '@/cube/shared/lib/colour';
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import { SHRUB } from '@/cube/shared/lib/shrub';
@@ -6,6 +8,7 @@ import { vec3f, type Wgsl, wgsl } from '@/cube/shared/lib/wgsl';
 import { HASH } from '@/cube/shared/lib/wgsl-hash';
 import {
   beamPatches,
+  BODY_HALF,
   DOOR_INNER,
   DOORWAY,
   SUN,
@@ -19,6 +22,16 @@ import { type Graded, hazed, lensListing } from './lens';
 import { LIGHT } from './light';
 
 const f = (value: number): string => value.toFixed(4);
+
+/** What a plant's shadow salts its leaves' outline and the gaps between them with. */
+const SALTS = rollWith(
+  roll.struct({
+    outline: roll.uniform(0, 2 ** 31),
+    gaps: roll.uniform(0, 2 ** 31),
+  }),
+  (path) => pathHash('0')(`cube/doorway-sun/${path}`),
+);
+const salt = (value: number): string => `${String(Math.floor(value))}u`;
 
 /** `SHRUB`'s outline as WGSL: its radius at height `y` of a plant `tall`. */
 const SHRUB_RADIUS = /* wgsl */ `
@@ -70,11 +83,14 @@ const DOOR_FACES = vec2f(${f(DOOR_INNER)}, ${f(ROOM_METRES)});
 /// sea and sand.
 const SKY_IN = vec3f(3.4, 2.5, 1.8);
 
+/// The most of a mirror the floor is let become, seen along itself.
+const SILL_MIRROR = 0.12;
+
 /// How much of the light on a leaf's back comes through it, and its colour.
 const LEAF_THROUGH = vec3f(0.16, 0.3, 0.05);
 
 /// How much light a metre of the room's air scatters, and how far forward.
-const DUST = 0.012;
+const DUST = 0.007;
 const DUST_FORWARD = 0.6;
 const SHAFT_STEPS = 12;
 
@@ -119,16 +135,36 @@ fn shrubShade(p: vec3f, dir: vec3f, shrub: vec3f) -> f32 {
   let leafy = step(${f(SHRUB.foliage[0].at[0])} + ${f(SHRUB.foliage[0].at[1])} * shrub.z, y);
   let at = vec2f(aside, y);
   // Six flat sides come a little inside the radius their corners stand on.
-  let edge = radius * 0.93 * (1.0 - 0.32 * leafy * valueNoise(at * 15.0, 41u));
+  let edge = radius * 0.93 * (1.0 - 0.32 * leafy * valueNoise(at * 15.0, ${salt(SALTS.outline)}));
   let cover = smoothstep(-soft, soft, edge - abs(aside))
     * smoothstep(-radius, radius, ahead);
   // Gaps between leaves, wider toward the outline, which a sun with width
   // blurs into an even thinning the farther the shadow falls.
   let thin = smoothstep(0.1, 0.95, abs(aside) / edge);
-  let gaps = smoothstep(0.52, 0.74, valueNoise(at * 11.0, 42u));
+  let gaps = smoothstep(0.52, 0.74, valueNoise(at * 11.0, ${salt(SALTS.gaps)}));
   let sharp = 1.0 / (1.0 + soft * soft * 900.0);
   let open = leafy * thin * 0.9 * mix(0.3, gaps, sharp);
   return 1.0 - cover * (1.0 - open);
+}
+
+/// The body whose eye is at \`eye\`, as the sun sees it: a round this far to
+/// each side of its middle line, from the floor to this far over the eye.
+const BODY = vec2f(${f(BODY_HALF)}, 0.12);
+
+/// How much of the sun the body whose eye is at \`eye\` leaves \`p\`: its
+/// shadow in the beam, a capsule's, the twin of the one it casts outside.
+fn bodyShade(p: vec3f, eye: vec3f) -> f32 {
+  let up = vec3f(0.0, 1.0, 0.0);
+  let low = vec3f(eye.x, BODY.x, eye.z) - p;
+  let tall = max(eye.y + BODY.y - 2.0 * BODY.x, 0.001);
+  let flat = low - SUN_DIR * dot(low, SUN_DIR);
+  let line = up * tall - SUN_DIR * (tall * SUN_DIR.y);
+  let share = clamp(-dot(flat, line) / dot(line, line), 0.0, 1.0);
+  let off = length(flat + line * share);
+  let run = dot(low + up * (tall * share), SUN_DIR);
+  let soft = max(SUN_SPREAD * run, 0.003);
+  let cover = (1.0 - smoothstep(BODY.x - soft, BODY.x + soft, off)) * min(1.0, BODY.x / soft);
+  return 1.0 - cover * smoothstep(0.0, 2.0 * BODY.x, run);
 }
 
 /// How much of the sun reaches \`p\`: through the doorway, past what stands
@@ -202,7 +238,7 @@ fn sunShaft(s: Surf) -> vec3f {
 fn sunlitRoom(s: Surf, m: Material, ambient: vec3f) -> vec3f {
   let normal = normalize(s.normal + m.relief);
   let door = throughDoor(s.p, SUN_DIR, SUN_SPREAD);
-  let sun = door * sunShade(s.p, SUN_DIR);
+  let sun = door * sunShade(s.p, SUN_DIR) * bodyShade(s.p, s.p - s.view * s.far);
   let facing = max(dot(normal, SUN_DIR), 0.0);
   var direct = SUN_LIGHT * (facing * sun);
   if (s.kind == FOLIAGE) {
@@ -212,13 +248,16 @@ fn sunlitRoom(s: Surf, m: Material, ambient: vec3f) -> vec3f {
   let shade = cornerShade(s);
   // A polished thing mirrors more the more it is looked along.
   let along = pow(1.0 - max(dot(normal, -s.view), 0.0), 5.0);
-  let mirror = m.gloss * (0.04 + 0.96 * along);
+  let floored = m.gloss > 0.0 && s.normal.y > 0.9;
+  // The doorway and the sun in it are so much brighter than the room that a
+  // floor let go all the way to a mirror would show nothing of itself.
+  let mirror = min(m.gloss * (0.04 + 0.96 * along), select(1.0, SILL_MIRROR, floored));
   let power = mix(6.0, 600.0, m.gloss * m.gloss);
   let half = normalize(SUN_DIR - s.view);
   let glint = pow(max(dot(normal, half), 0.0), power) * (power + 8.0) / 25.0;
   let colour = m.albedo * (fill * shade + direct) + m.emission
     + SUN_LIGHT * (facing * sun * glint * mirror);
-  if (m.gloss > 0.0 && s.normal.y > 0.9) {
+  if (floored) {
     let plane = normalize(s.normal + RIPPLE * m.relief);
     let blur = BLUR * (1.0 - m.gloss);
     // Where the frame cannot follow the reflection out of the doorway, the

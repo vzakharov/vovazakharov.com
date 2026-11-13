@@ -126,7 +126,7 @@ function ladderLight(p: Vec3): number {
 }
 
 /** A standing body as the sun sees it: a round `BODY_HALF` to each side of its middle line. */
-const BODY_HALF = 0.17;
+export const BODY_HALF = 0.17;
 
 const acrossSun = (v: Vec3): Vec3 => moved(v, SUN_DIR, -dot3(v, SUN_DIR));
 

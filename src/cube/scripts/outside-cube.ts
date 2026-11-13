@@ -24,6 +24,7 @@ import {
   DOORWAY,
   islandHeight,
   type Standing,
+  SUN_DIR,
   WAKE_AT,
 } from '@/cube/shared/outside';
 import {
@@ -109,6 +110,8 @@ const EYES: Record<string, Whereabouts> = {
     -0.12,
   ),
   'door-shelf': inFirstRoom(0.9, 0.3, Math.atan2(0.75 - 0.3, -0.9), -0.2),
+  // Standing in the beam, looking down it at one's own shadow.
+  'in-beam': inFirstRoom(0.6, 0.39, Math.atan2(-SUN_DIR[2], -SUN_DIR[0]), -0.3),
 };
 
 /** `--name` as a number, or `otherwise` where it is not given. */
