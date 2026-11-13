@@ -5,7 +5,7 @@ import { wgsl } from '../shader/wgsl';
 import { CLEAR_SKY } from '../sky/clear-sky';
 import { CLOUD_VEIL } from '../sky/cloud-veil';
 import { CLOUDS_WGSL } from '../sky/clouds';
-import { SUN_GLOW } from '../sky/sun-glow';
+import { SUN_GLOW } from '../sky/sun-glow.shader';
 import { SUN } from './sun';
 
 export const SKY = wgsl(

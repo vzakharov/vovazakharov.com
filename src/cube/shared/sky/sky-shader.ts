@@ -5,7 +5,7 @@ import { WATER_BODY } from '../sea/water-body-wgsl';
 import { f32, wgsl } from '../shader/wgsl';
 import { CLEAR_SKY } from './clear-sky';
 import { CLOUDS_WGSL } from './clouds';
-import { SUN_GLOW } from './sun-glow';
+import { SUN_GLOW } from './sun-glow.shader';
 
 /**
  * The sky of this frame without the sun's disc, drawn over the whole of a

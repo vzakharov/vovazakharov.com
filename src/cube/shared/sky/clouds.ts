@@ -2,7 +2,7 @@ import { f32, vecf, wgsl } from '../shader/wgsl';
 import { ATMOSPHERE } from './atmosphere';
 import { CLOUD_TILE, CLOUDS } from './cloud-field';
 import { cellsPerKm, CLOUD_NOISE } from './cloud-noise';
-import { SUN_GLOW } from './sun-glow';
+import { SUN_GLOW } from './sun-glow.shader';
 
 const { rayleigh, mie } = ATMOSPHERE;
 
