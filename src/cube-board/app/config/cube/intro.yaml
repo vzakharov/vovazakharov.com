@@ -1,8 +1,8 @@
 items:
   - id: z-intro
     type: zone
-    updated: [2026-11-13T11:15:00.000Z, agent:cube-intro]
-    box: [5720, -3150, 2510, 6950, orange]
+    updated: [2026-11-13T11:40:00.000Z, agent:cube-intro]
+    box: [5720, -3150, 2510, 7450, orange]
     icon: 🏝️
     text: 'The intro: an island, the cube from outside, the way in'
   - id: intro-h-premise
@@ -290,6 +290,24 @@ items:
     box: [7128, 2800, 430]
     src: images/intro-18-sky-opposite.webp
     text: '18. The same sky looking away from the sun'
+  - id: intro-img-21-film-before
+    type: image
+    updated: [2026-11-13T11:40:00.000Z, agent:cube-intro]
+    box: [7128, 3250, 430]
+    src: images/intro-21-film-before.webp
+    text: '21. Before: the room’s film outdoors — everything near the sun prints white'
+  - id: intro-img-22-film-after
+    type: image
+    updated: [2026-11-13T11:40:00.000Z, agent:cube-intro]
+    box: [5748, 3700, 430]
+    src: images/intro-22-film-after.webp
+    text: '22. After: the daylight film — the sky keeps its gradient right up to the sun’s disc. To be re-shot once the interior’s quarter-turn lands; outdoors it should not change by a pixel'
+  - id: intro-img-23-sun-three-ways
+    type: image
+    updated: [2026-11-13T11:40:00.000Z, agent:cube-intro]
+    box: [6208, 3700, 900]
+    src: images/intro-23-sun-three-ways.webp
+    text: '23. The sun three ways: old film, tail 0.6 (chosen), tail 0.4 (greyer)'
   - id: intro-img-19-sky-wet-foreshore
     type: image
     updated: [2026-11-13T11:15:00.000Z, agent:cube-intro]
