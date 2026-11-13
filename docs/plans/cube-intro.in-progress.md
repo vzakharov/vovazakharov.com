@@ -105,10 +105,90 @@ reached from the second account.
 
   > при спрыгивании урл не менять, чтобы при обновлении опять оказаться внутри
 
+  And a seventh, with a frame of floor 1 where the bench standing in the
+  doorway's beam is dark while the wall behind it is lit, then a frame from the
+  shell session (`tmp/turn/a/in-beam.png` there, gone with its container) where
+  the bench is lit by the beam:
+
+  > а, вот глюк ещё. причём подсессия которая это делала нашла решение но
+  > почему-то не взяла его, ща
+
+  > вот так -- норм
+
+  This is `reports/shell.md`'s "the bench in floor 1's beam shades itself (the
+  fix is in `slabShade`)". Look on `origin/claude/cube-intro-shell` past
+  ce41033a for a commit that was never merged before writing it again.
+
   **Decided**: the lead makes the four changes itself, with no child team — they
   are one package's worth, all in the walk's scenes and the player. The speed
   out of doors is the next round's, not this one's. Then `/finalize`, which
   needs the two red `source` checks fixed on its way.
+
+## This bite: the scenario round
+
+Nothing below is written yet unless ticked. All of it is in
+`src/cube/features/player/model/` unless a path says otherwise; read
+`scenes.ts`, `abroad.ts`, `roam.ts`, `threshold.ts` and
+`src/cube/pages/cube/ui/walk.ts` first, they are short. After it: commit, push,
+republish slot 2, then `/finalize` (the two red `source` checks on the way).
+
+- [ ] **1. The player turns to the cube, and the hero says "hm?".**
+  - `scenes.ts` `waking`: drop the beats at 12.2, 14.1 and 15.3 and the steps at
+    12.1 and 13.2, so it ends at 10.9 looking out to sea; `cubeHigh` goes,
+    `side` stays.
+  - A new `sight.ts`: `seesWhole(outside, box)`, true when every corner of the
+    box is ahead of the eye and within a square of view of half-angle 0.52 rad,
+    which is inside the page's 70° field of view on any screen.
+  - `abroad.ts`: `Mind` gains `sawCube`; free, the first frame `seesWhole` holds
+    for `stage.cube` adds `{ cue: 'say', moment: 'wonder' }` and sets it.
+    `asleepOn` starts it false, `steppingOut` true, `roamingFree` as
+    `ladderGone`.
+  - `player.ts` `Cue`: `'wonder'` joins the `say` moments. Voice
+    (`features/voice/model`): `'wonder'` joins `MOMENTS` in `script.ts`,
+    `vocal.ts` exports `wonder = (dice) => line(asked(dice))`, `line-for.ts`
+    `LINES` takes it.
+- [ ] **2. Walking by default on the island.** `roam.ts`: the pace is
+      `input.walking ? RUN_SPEED : WALK_SPEED` — Shift runs out of doors, where
+      indoors it walks; say so in `Input`'s docstring in `step.ts`. The swim's
+      pace stays `RUN_SPEED * SWIM_SHARE`, and a footfall's strength is over a
+      run's pace, so a walk sounds softer. `roam.test.ts` and `abroad.test.ts`
+      pin 3.5 m/s.
+- [ ] **3. Forward again before the doorway.** `scenes.ts` `ascent`: the yaw
+      used to drift to the shelf all the way up, which is the look aside the
+      operator liked. Make it explicit — a yaw key aside at about three quarters
+      of the climb, back to the ladder's `yaw` at `over`, and the arrival
+      keeping that `yaw` with elevation 0. `Stage.shelf` then has no reader: it
+      goes from `Stage`, `intro-stage.ts` (with `SHELF_*` and the `toWorld`
+      import), `abroad.test-kit.ts`, and the shelf tests in
+      `intro-stage.test.ts` and `scenes.test.ts`.
+- [ ] **4. No step off the sill the first time.**
+  - `scenes.ts`: `lookingDown(from, scale, stage)` — from the sill, lean out
+    over the edge, look down at where `ladder.foot` stood, hold, say `wonder` at
+    about 1.3 s, then back to the gaze it had, half a metre inside. `GONE_SHOWS`
+    is the second its line appears at.
+  - `abroad.ts`: `Playing.into` gains `'sill'`; `entered` is true for any ending
+    that is not `'island'`; `handsAbroad` stays on `'cube'`;
+    `refusedAt(from, scale, stage, seconds)` plays it with `ladderGone` and
+    `sawCube` true; `findsLadderGone(abroad)` is true from `GONE_SHOWS`.
+  - `walk.ts`: a `sill` state `'unseen' | 'seen' | 'free'`. Leaving while
+    `unseen` saves `player`, plays `refusedAt` and goes `seen`; the scene's end
+    restores the saved player at the shot's `u`, `v` and gaze (not
+    `standingAt(poseWithin(...))`, which would make a shrunk body whole). `seen`
+    becomes `free` on a frame inside with no `walk` or `strafe`, so a held key
+    is not a second try; leaving while `free` is `steppingOut`.
+  - `Way` gains `'gone'`, shown while `findsLadderGone`;
+    `pages/cube/config/messages/en.json` `ways.gone`: "The ladder is gone".
+- [ ] **5. A fragment once the waking has played.** `pages/cube/lib/start.ts`:
+      `Start.ashore` becomes `'asleep' | 'awake' | null`; the fragment `awake`
+      (not base64url of an address's length, so `decodeAddress` never sees it)
+      starts `'awake'`. `abroad.ts`: `awakeOn(stage, seconds)` is `roamingFree`
+      from the waking track's last shot, the ladder standing. `walk.ts` writes
+      `awake` with `writeFragment` in the frame the waking scene ends, when
+      `earned`.
+- [ ] **6. The step off writes nothing.** Already so — `follow` runs only in the
+      indoor branch — so it needs a test or a comment at most, and no write
+      added by 5 after the body has been inside.
+- [ ] **7. The bench in the beam** (above).
 
 ## Standing rules (the operator's words)
 
