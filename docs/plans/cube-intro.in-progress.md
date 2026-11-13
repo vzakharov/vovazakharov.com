@@ -243,15 +243,20 @@ quality, the bench before them); none of it has been seen in a browser — the
 operator walks slot 2. As written: the climb's look up is 0.3 rad where it was
 0.5, so a hand stays in frame; the aside is 0.87 rad at 0.7 of the rungs' time;
 the eye is 0.2 m behind the ladder's line at its own height; the refused look
-leans at 0.7 s, holds to 1.9 s, is back by 3.2 s, its line from 1.0 s; the
-console's command is `cubeQuality('full' | 'low')`, bare to ask. The bench's
-frame (`pnpm outside:cube --eyes in-beam`) is still to be shot. 2b is in as
-ec122481 (the double press is two Shift keydowns within 0.3 s, in `pace.ts`); 9
-is with a subagent. All of it is in `src/cube/features/player/model/` unless a
-path says otherwise; read `scenes.ts`, `abroad.ts`, `roam.ts`, `threshold.ts`
-and `src/cube/pages/cube/ui/walk.ts` first, they are short. After it: commit,
-push, republish slot 2, then `/finalize` (the two red `source` checks on the
-way).
+leans at 0.7 s, holds to 1.9 s, is back by 3.2 s, its line from 1.0 s. The
+quality is three levels on `Q` (8892581b, `pages/cube/ui/quality.ts`: the
+levels, the frame-rate mark and the hint; the console switch is gone). The
+bench's frame (`pnpm outside:cube --eyes in-beam`) is still to be shot. 2b is in
+as ec122481 (the double press is two Shift keydowns within 0.3 s, in `pace.ts`),
+and a run's stride is 2.5 walking ones (bb8e5531, `stridesIn` in `step.ts`); 9
+is in as 346448f9 (`shared/sea/water-body-wgsl.ts`), its frames seen: dark teal
+above and below the surface's line, the bed fading in green. Left by 9 and not
+taken up: sand between the still sea and 0.9 m under it is drawn dry for an eye
+inside a crest but over the still level; an eye under water looking steeply up
+sees the sky. All of it is in `src/cube/features/player/model/` unless a path
+says otherwise; read `scenes.ts`, `abroad.ts`, `roam.ts`, `threshold.ts` and
+`src/cube/pages/cube/ui/walk.ts` first, they are short. After it: commit, push,
+republish slot 2, then `/finalize` (the two red `source` checks on the way).
 
 - [x] **1. The player turns to the cube, and the hero says "hm?".**
   - `scenes.ts` `waking`: drop the beats at 12.2, 14.1 and 15.3 and the steps at
@@ -344,7 +349,7 @@ way).
       behind the ladder's line and check every sample of the climb proper has
       both hands in reach; the old drift of the gaze also took them out of the
       frame, which item 3's gaze cures at the climb's two ends.
-- [ ] **9. No grey under a wave.** Reproduced:
+- [x] **9. No grey under a wave.** Reproduced:
       `pnpm outside:cube --at 45,0.0,30 --yaw 200 --pitch -8` (three minutes on
       this machine's software GPU) shows the upper half dark teal — the
       surface's underside, `seaFragment`'s `DROWNED` branch — and the lower half

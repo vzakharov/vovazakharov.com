@@ -12,7 +12,7 @@ export const RUN_SPEED = 0.7;
  * How many walking strides long the stride of `input`'s pace is: a run's is
  * longer by the two paces' ratio, so its footfalls come as often as a walk's.
  */
-export const stridesIn = ({ running }: Pick<Input, 'running'>): number =>
+export const stridesIn = ({ running }: Input): number =>
   running ? RUN_SPEED / WALK_SPEED : 1;
 
 /** Eye height over the slab, in room sides: 1.6 m on floor 1. */
