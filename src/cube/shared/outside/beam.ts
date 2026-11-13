@@ -24,21 +24,21 @@ export const DOOR_INNER = SIDE * (1 - WALL_HALF);
 const RAYS = { along: 8, up: 16 };
 
 /** A face a ray from the doorway can end on: the way it looks, and where it stands on which axis. */
-type End = Facing & { axis: 0 | 1 | 2; level: number };
+type End = Facing & { axis: 0 | 1 | 2; plane: number };
 
 const ENDS: End[] = [
-  { facing: [0, 1, 0], axis: 1, level: 0 },
-  { facing: [0, -1, 0], axis: 1, level: HEIGHT },
-  { facing: [0, 0, 1], axis: 2, level: 0 },
-  { facing: [0, 0, -1], axis: 2, level: SIDE },
-  { facing: [1, 0, 0], axis: 0, level: 0 },
+  { facing: [0, 1, 0], axis: 1, plane: 0 },
+  { facing: [0, -1, 0], axis: 1, plane: HEIGHT },
+  { facing: [0, 0, 1], axis: 2, plane: 0 },
+  { facing: [0, 0, -1], axis: 2, plane: SIDE },
+  { facing: [1, 0, 0], axis: 0, plane: 0 },
 ];
 
 /** Where the ray from `from` against `sun` ends: the nearest face ahead of it, and how far along the ray. */
 function landing(from: Vec3, sun: Vec3): { end: End; run: number } | undefined {
   let nearest: { end: End; run: number } | undefined;
   for (const end of ENDS) {
-    const run = (from[end.axis] - end.level) / sun[end.axis];
+    const run = (from[end.axis] - end.plane) / sun[end.axis];
     if (run > 0 && run < (nearest?.run ?? Infinity)) nearest = { end, run };
   }
   return nearest;
