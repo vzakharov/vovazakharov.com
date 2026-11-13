@@ -19,7 +19,6 @@ struct SandVertex {
   @location(0) at: vec3f,
   /// x metres over still water of the walked-on shape, yz its slope.
   @location(1) shape: vec3f,
-  @location(2) wet: vec2f,
 }
 
 @vertex
@@ -46,10 +45,6 @@ fn vertexMain(@builtin(vertex_index) index: u32) -> SandVertex {
   var out: SandVertex;
   out.at = vec3f(xz.x, h + lift, xz.y);
   out.shape = vec3f(h, slope);
-  out.wet = vec2f(select(0.0, 1.0, h < 0.0));
-  if (h > -0.3 && h < ${SWASH_TOP}) {
-    out.wet = sandWetness(xz, h, frame.clock.x);
-  }
   out.clip = clipOf(out.at);
   return out;
 }
@@ -68,7 +63,12 @@ fn fragmentMain(in: SandVertex) -> Scene {
   point.at = in.at;
   point.h = in.shape.x;
   point.slope = in.shape.yz;
-  point.wet = in.wet;
+  // A swash sheet's edge is sharper than a triangle is small, so the sea is
+  // asked at each pixel.
+  point.wet = vec2f(select(0.0, 1.0, in.shape.x < 0.0));
+  if (in.shape.x > -0.3 && in.shape.x < ${SWASH_TOP}) {
+    point.wet = sandWetness(in.at.xz, in.shape.x, frame.clock.x);
+  }
   point.view = toEye / far;
   point.px = sqrt(length(acrossX) * length(acrossY));
   point.alongWind = abs(dot(acrossX, wind)) + abs(dot(acrossY, wind));

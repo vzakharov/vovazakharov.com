@@ -14,10 +14,7 @@ const BILLOW = { broad: 0.95, knobs: 0.3, fine: 0.14 } as const;
 const BILLOW_REACH = (BILLOW.broad + BILLOW.knobs + BILLOW.fine) / 2;
 
 /** How far a cloud's own noise pushes its footprint in and out, in radii². */
-const HEAP = 1.8;
-
-/** How far a cloud's base rises in places, in its own heights. */
-const BASE_RAG = 0.24;
+const HEAP = 2;
 
 /** The angle one texel of the quarter-size sky spans, in radians, about. */
 const SKY_TEXEL = 0.005;
@@ -76,18 +73,13 @@ fn reachOf(y: f32, h: f32) -> f32 {
 /// so no two are one shape, and it stands tallest where the footprint is
 /// deepest: a heap of domes on one flat base.
 fn cloudBody(cloud: Cloud, field: vec3f) -> f32 {
-  let lift = (field.y - CLOUD_BASE) / cloud.tall;
+  let up = (field.y - CLOUD_BASE) / cloud.tall;
   // Its crown leans down the wind.
-  let within = (field.xz - cloud.centre) / cloud.radius - vec2f(0.15 * max(lift, 0.0), 0.0);
-  let lumps = cloudNoise2(within * 2.3 + 40.0, BILLOW_PERIOD, cloud.seed + 3u);
-  let heap = 0.7 * cloudNoise2(within * 1.1 + 40.0, BILLOW_PERIOD, cloud.seed + 2u) + 0.3 * lumps;
-  let out = dot(within, within);
-  let foot = 0.75 - out + ${f32(HEAP)} * (heap - 0.5);
-  // The crown falls toward the rim, so the heap's outline is a dome's.
-  let crown = max(1.0 - 0.25 * out, 0.6);
-  // The base is level only about: it hangs lower under some lumps than others.
-  let under = max(${f32(BASE_RAG)} * lumps - lift, 0.0);
-  return foot - lift * lift / (crown * crown) - 3.0 * under;
+  let within = (field.xz - cloud.centre) / cloud.radius - vec2f(0.15 * max(up, 0.0), 0.0);
+  let heap = 0.6 * cloudNoise2(within * 1.1 + 40.0, BILLOW_PERIOD, cloud.seed + 2u)
+    + 0.4 * cloudNoise2(within * 2.7 + 40.0, BILLOW_PERIOD, cloud.seed + 3u);
+  let foot = 0.75 - dot(within, within) + ${f32(HEAP)} * (heap - 0.5);
+  return foot - up * up - 3.0 * max(-up, 0.0);
 }
 
 /// A cloud's body with its billows at a point of the field, in the same
@@ -162,7 +154,7 @@ fn cloudLight(h: f32, sun: vec2f, phase: f32, rise: f32, solid: f32, stood: f32)
   // The sky reaches a cloud's crown freely and its heart hardly at all.
   let open = mix(0.45, 1.0, exp(-4.0 * max(solid, 0.0)));
   // Its underside looks at the sea, its crown at the whole sky.
-  let ambient = mix(HORIZON_FILL * 0.14 + GROUND_FILL, SKY_FILL + HORIZON_FILL * 0.2, sqrt(rise)) * open;
+  let ambient = mix(HORIZON_FILL * 0.3 + GROUND_FILL, SKY_FILL + HORIZON_FILL * 0.2, sqrt(rise)) * open;
   // A crease between billows sees less of the sun and of the sky than a knob.
   return (sunThrough(h) * lit + ambient) * mix(0.62, 1.2, smoothstep(-0.22, 0.12, stood));
 }
