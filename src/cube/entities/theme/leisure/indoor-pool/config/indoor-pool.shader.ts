@@ -1,7 +1,9 @@
 // Generated from indoor-pool.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { CORE, FINISH, GRADE, HASH, LIGHT, STUFF, wgsl } from '../../../kit';
+import { HASH, wgsl } from '@/cube/shared/shader';
+
+import { CORE, FINISH, GRADE, LIGHT, STUFF } from '../../../kit';
 import { SHAPE } from '../../shape';
 
 export const INDOOR_POOL_SHADER = wgsl(

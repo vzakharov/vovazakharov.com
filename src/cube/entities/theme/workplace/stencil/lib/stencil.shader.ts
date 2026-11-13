@@ -1,7 +1,9 @@
 // Generated from stencil.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { CORE, wgsl } from '../../../kit';
+import { wgsl } from '@/cube/shared/shader';
+
+import { CORE } from '../../../kit';
 
 export const STENCIL = wgsl(
   'cube/entities/theme/workplace/stencil/lib/stencil',

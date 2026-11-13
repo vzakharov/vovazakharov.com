@@ -1,7 +1,9 @@
 // Generated from figure.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { CORE, GRADE, HASH, LIGHT, LUMA, STUFF, wgsl } from '../../../kit';
+import { HASH, wgsl } from '@/cube/shared/shader';
+
+import { CORE, GRADE, LIGHT, LUMA, STUFF } from '../../../kit';
 import { SMALL_WORLD } from '../../small-world';
 
 export const FIGURE_SHADER = wgsl(

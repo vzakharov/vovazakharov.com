@@ -1,7 +1,9 @@
 // Generated from reception.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { CORE, FINISH, HASH, LIGHT, STUFF, wgsl } from '../../../kit';
+import { HASH, wgsl } from '@/cube/shared/shader';
+
+import { CORE, FINISH, LIGHT, STUFF } from '../../../kit';
 
 export const RECEPTION_SHADER = wgsl(
   'cube/entities/theme/workplace/reception/config/reception',
@@ -49,13 +51,11 @@ fn tiled(s: Surf) -> Material {
     vec3f(0.58, 0.56, 0.5) * (0.93 + 0.07 * tile.y) * (1.0 - 0.3 * pin);
   let albedo =
     mix(vec3f(0.16, 0.155, 0.14), white, tile.x) * (1.0 - 0.5 * damp(s));
-  return
-    embossed(
-      s,
-      glowing(albedo, lampGlow(s, lamps())),
-      tile.x - 0.2 * pin,
-      0.006,
-    );
+  // The panels are off: milky diffusers, a shade duller than the tiles.
+  let panel = lampMask(s.p.xz, 2, vec2f(1.2));
+  let prisms = 0.92 + 0.08 * tiling(s.uv, 0.012, 0.004, 6u).x;
+  let ceiling = polished(mix(albedo, vec3f(0.33, 0.34, 0.33) * prisms, panel), 0.45 * panel);
+  return embossed(s, ceiling, (tile.x - 0.2 * pin) * (1.0 - panel), 0.006);
 }
 
 fn themeMaterial(s: Surf) -> Material {

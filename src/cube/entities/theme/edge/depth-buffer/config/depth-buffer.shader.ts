@@ -1,7 +1,9 @@
 // Generated from depth-buffer.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { CORE, GRADE, STUFF, wgsl } from '../../../kit';
+import { wgsl } from '@/cube/shared/shader';
+
+import { CORE, GRADE, STUFF } from '../../../kit';
 import { PATTERN } from '../../pattern';
 
 export const DEPTH_BUFFER_SHADER = wgsl(

@@ -1,17 +1,9 @@
 // Generated from micrograph.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import {
-  CORE,
-  GRADE,
-  HASH,
-  HONEYCOMB,
-  LIGHT,
-  LUMA,
-  MATH,
-  STUFF,
-  wgsl,
-} from '../../../kit';
+import { HASH, wgsl } from '@/cube/shared/shader';
+
+import { CORE, GRADE, HONEYCOMB, LIGHT, LUMA, MATH, STUFF } from '../../../kit';
 import { SMALL_WORLD } from '../../small-world';
 
 export const MICROGRAPH_SHADER = wgsl(

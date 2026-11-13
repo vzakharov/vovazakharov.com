@@ -1,15 +1,9 @@
-<<<<<<< HEAD:src/cube/entities/theme/kit/lib/light.shader.ts
 // Generated from light.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { CORE } from './core';
-import { HASH } from './hash.shader';
-import { wgsl } from './wgsl';
-=======
 import { HASH, wgsl } from '@/cube/shared/shader';
 
 import { CORE } from './core';
->>>>>>> origin/claude/cube-review-perf:src/cube/entities/theme/kit/lib/light.ts
 
 export const LIGHT = wgsl(
   'cube/entities/theme/kit/lib/light',
@@ -270,43 +264,21 @@ fn roomLight(s: Surf, m: Material, lamps: Lamps) -> vec3f {
   // A polished thing mirrors more the more it is looked along.
   let along = pow(1.0 - max(dot(normal, -s.view), 0.0), 5.0);
   let mirror = m.gloss * (0.04 + 0.96 * along);
-<<<<<<< HEAD:src/cube/entities/theme/kit/lib/light.shader.ts
-  let colour =
+  var colour =
     m.albedo * light * shade
       + m.emission
       + lamps.colour * (reach.y * mirror * shade);
-  if (m.gloss > 0.0 && s.normal.y > 0.9) {
-=======
-  var colour = m.albedo * light * shade + m.emission
-    + lamps.colour * (reach.y * mirror * shade);
   if (s.kind == PLASTIC) {
     // Plastic is too small and too rounded for the frame to mirror in: it
     // carries the panels' own blurred image, which is its highlight.
     colour += panelsMirrored(s, normal, SKIN_BLUR, lamps) * ((0.04 + 0.96 * along) * shade);
   } else if (m.gloss > 0.0 && s.normal.y > 0.9) {
->>>>>>> origin/claude/cube-review-perf:src/cube/entities/theme/kit/lib/light.ts
     // The floor mirrors off its plane, its relief only rippling what it
     // shows: relief steep at every joint between boards would throw single
     // pixels' rays onto a panel, and the floor would sparkle.
     let plane = normalize(s.normal + RIPPLE * m.relief);
     let blur = BLUR * (1.0 - m.gloss);
-<<<<<<< HEAD:src/cube/entities/theme/kit/lib/light.shader.ts
-    var fallback = vec3f(0.0);
-    let ray = reflect(s.view, plane);
-    if (ray.y > 0.001) {
-      let hit = s.p + ray * ((ROOM.y - s.p.y) / ray.y);
-      // Past the rooms around, the ceiling mirrored is taken for theirs.
-      let by = clamp(vec2i(floor(hit.xz / ROOM.xz)), vec2i(-1), vec2i(1));
-      let soft = blur * length(hit - s.p);
-      fallback =
-        lamps.colour
-          * (GLARE * lampsBeside(s, by, lamps.stutter))
-          * lampBlur(hit.xz, lamps.grid, lamps.size, soft);
-    }
-    mirroring = Mirror(mirror, plane, blur, fallback);
-=======
     mirroring = Mirror(mirror, plane, blur, panelsMirrored(s, plane, blur, lamps));
->>>>>>> origin/claude/cube-review-perf:src/cube/entities/theme/kit/lib/light.ts
   }
   return colour;
 }

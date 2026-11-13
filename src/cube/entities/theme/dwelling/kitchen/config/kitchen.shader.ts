@@ -1,7 +1,9 @@
 // Generated from kitchen.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { CORE, FINISH, HASH, STUFF, wgsl } from '../../../kit';
+import { HASH, wgsl } from '@/cube/shared/shader';
+
+import { CORE, FINISH, STUFF } from '../../../kit';
 import { HOUSEHOLD } from '../../household';
 
 export const KITCHEN_SHADER = wgsl(

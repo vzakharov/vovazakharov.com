@@ -1,7 +1,9 @@
 // Generated from cold-room.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { CORE, FINISH, HASH, LIGHT, STUFF, wgsl } from '../../../kit';
+import { HASH, wgsl } from '@/cube/shared/shader';
+
+import { CORE, FINISH, LIGHT, STUFF } from '../../../kit';
 
 export const COLD_ROOM_SHADER = wgsl(
   'cube/entities/theme/laboratory/cold-room/config/cold-room',

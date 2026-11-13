@@ -1,7 +1,9 @@
 // Generated from household.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { CORE, HASH, LIGHT, wgsl } from '../../../kit';
+import { HASH, wgsl } from '@/cube/shared/shader';
+
+import { CORE, LIGHT } from '../../../kit';
 
 export const HOUSEHOLD = wgsl(
   'cube/entities/theme/dwelling/household/lib/household',

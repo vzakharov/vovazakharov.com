@@ -1,7 +1,7 @@
 // Generated from small-world.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { HASH, wgsl } from '../../../kit';
+import { HASH, wgsl } from '@/cube/shared/shader';
 
 export const SMALL_WORLD = wgsl(
   'cube/entities/theme/laboratory/small-world/lib/small-world',

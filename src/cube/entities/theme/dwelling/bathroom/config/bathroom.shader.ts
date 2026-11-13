@@ -1,7 +1,9 @@
 // Generated from bathroom.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { CORE, FINISH, HASH, HONEYCOMB, STUFF, wgsl } from '../../../kit';
+import { HASH, wgsl } from '@/cube/shared/shader';
+
+import { CORE, FINISH, HONEYCOMB, STUFF } from '../../../kit';
 import { HOUSEHOLD } from '../../household';
 
 export const BATHROOM_SHADER = wgsl(

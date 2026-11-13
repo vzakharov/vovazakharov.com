@@ -1,15 +1,9 @@
-<<<<<<< HEAD:src/cube/entities/theme/kit/lib/stuff.shader.ts
 // Generated from stuff.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { CORE } from './core';
-import { HASH } from './hash.shader';
-import { wgsl } from './wgsl';
-=======
 import { HASH, wgsl } from '@/cube/shared/shader';
 
 import { CORE } from './core';
->>>>>>> origin/claude/cube-review-perf:src/cube/entities/theme/kit/lib/stuff.ts
 
 export const STUFF = wgsl(
   'cube/entities/theme/kit/lib/stuff',

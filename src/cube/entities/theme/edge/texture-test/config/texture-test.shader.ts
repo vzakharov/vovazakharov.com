@@ -1,7 +1,9 @@
 // Generated from texture-test.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { CORE, HASH, LIGHT, STUFF, wgsl } from '../../../kit';
+import { HASH, wgsl } from '@/cube/shared/shader';
+
+import { CORE, LIGHT, STUFF } from '../../../kit';
 import { PATTERN } from '../../pattern';
 
 export const TEXTURE_TEST_SHADER = wgsl(

@@ -1,21 +1,9 @@
-<<<<<<< HEAD:src/cube/entities/theme/kit/lib/grade.shader.ts
 // Generated from grade.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { CORE } from './core';
-import { HASH } from './hash.shader';
-import { wgsl } from './wgsl';
-=======
 import { HASH, wgsl } from '@/cube/shared/shader';
 
 import { CORE } from './core';
-
-/** A lens that lets in a share of the scene's light. */
-export type Exposed = {
-  /** What scene light is multiplied by before the film's curve. */
-  exposure: number;
-};
->>>>>>> origin/claude/cube-review-perf:src/cube/entities/theme/kit/lib/grade.ts
 
 export const GRADE = wgsl(
   'cube/entities/theme/kit/lib/grade',

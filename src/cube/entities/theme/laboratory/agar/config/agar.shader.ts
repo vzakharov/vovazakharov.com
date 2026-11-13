@@ -1,7 +1,9 @@
 // Generated from agar.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { CORE, HASH, LIGHT, STUFF, wgsl } from '../../../kit';
+import { HASH, wgsl } from '@/cube/shared/shader';
+
+import { CORE, LIGHT, STUFF } from '../../../kit';
 
 export const AGAR_SHADER = wgsl(
   'cube/entities/theme/laboratory/agar/config/agar',

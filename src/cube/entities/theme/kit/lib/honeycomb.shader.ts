@@ -1,8 +1,9 @@
 // Generated from honeycomb.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
+import { wgsl } from '@/cube/shared/shader';
+
 import { CORE } from './core';
-import { wgsl } from './wgsl';
 
 export const HONEYCOMB = wgsl(
   'cube/entities/theme/kit/lib/honeycomb',

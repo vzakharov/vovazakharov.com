@@ -1,7 +1,9 @@
 // Generated from pattern.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { CORE, HASH, wgsl } from '../../../kit';
+import { HASH, wgsl } from '@/cube/shared/shader';
+
+import { CORE } from '../../../kit';
 
 export const PATTERN = wgsl(
   'cube/entities/theme/edge/pattern/lib/pattern',

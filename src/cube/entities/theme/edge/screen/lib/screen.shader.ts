@@ -1,7 +1,9 @@
 // Generated from screen.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { CORE, wgsl } from '../../../kit';
+import { wgsl } from '@/cube/shared/shader';
+
+import { CORE } from '../../../kit';
 
 export const SCREEN = wgsl(
   'cube/entities/theme/edge/screen/lib/screen',
