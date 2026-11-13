@@ -326,14 +326,17 @@ const SLABS = array<Slab, ${String(slabs.length)}>(
 );
 
 /// How much of a ray from \`p\` along \`dir\` passes \`slab\`, its edge
-/// softening as the sun's width has it the farther the box. A point on the
-/// box's own lit face is past it at once, so shades nothing of itself.
+/// softening as the sun's width has it the farther the box. A point within
+/// the box is the thing itself, which its own box does not shade.
 fn slabShade(p: vec3f, dir: vec3f, slab: Slab) -> f32 {
   let a = (slab.low - p) / dir;
   let b = (slab.high - p) / dir;
   let near = min(a, b);
   let far = max(a, b);
-  let enters = max(max(near.x, max(near.y, near.z)), 0.0);
+  let enters = max(near.x, max(near.y, near.z));
+  if (enters <= 0.0) {
+    return 1.0;
+  }
   let leaves = min(far.x, min(far.y, far.z));
   let soft = 0.01 + SUN_SPREAD * enters;
   return 1.0 - smoothstep(0.0, soft, leaves - enters);
