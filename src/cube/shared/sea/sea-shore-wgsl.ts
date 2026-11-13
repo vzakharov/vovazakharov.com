@@ -12,7 +12,7 @@ export const TRAIN_ENDS = [140, 260] as const;
  * beach: a wave cannot stand in water much shallower than it is long.
  */
 export const SWELL_DIES_OVER = [0.3, 3] as const;
-const DIES_OVER = [SWELL_DIES_OVER, [0.08, 0.8], [0.01, 0.15]] as const;
+const DIES_OVER = [SWELL_DIES_OVER, [0.05, 0.5], [0.004, 0.05]] as const;
 
 /**
  * The sea at the shore, for the sea's own shader: \`level(xz)\`, the slow
@@ -36,16 +36,22 @@ fn level(xz: vec2f) -> f32 {
   return (1.0 - off) * waterLevel(xz, frame.clock.x);
 }
 
+/// How much of each cascade water \`depth\` metres deep lets through, \`off\`
+/// of the way offshore.
+fn calmOver(off: f32, depth: f32) -> vec4f {
+  return vec4f(
+    off,
+    ${DIES_OVER.map(([from, to]) => `smoothstep(${f32(from)}, ${f32(to)}, depth)`).join(',\n    ')},
+  );
+}
+
+/// \`calmOver\` at \`xz\` by the still sea's depth there.
 fn calm(xz: vec2f) -> vec4f {
   let off = offshore(xz);
   if (off >= 1.0) {
     return vec4f(1.0);
   }
-  let depth = -islandHeight(xz);
-  return vec4f(
-    off,
-    ${DIES_OVER.map(([from, to]) => `smoothstep(${f32(from)}, ${f32(to)}, depth)`).join(',\n    ')},
-  );
+  return calmOver(off, -islandHeight(xz));
 }
 
 /// The surf and the swash at one point, now.

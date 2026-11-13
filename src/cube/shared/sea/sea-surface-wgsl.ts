@@ -111,9 +111,8 @@ struct Waves {
 }
 
 /// The wind's waves about \`still\`, filtered over the pixel's footprint
-/// \`across\` and \`down\` the screen.
-fn wavesAt(still: vec2f, across: vec2f, down: vec2f) -> Waves {
-  let quiet = calm(still);
+/// \`across\` and \`down\` the screen, each cascade let through by \`quiet\`.
+fn wavesAt(still: vec2f, across: vec2f, down: vec2f, quiet: vec4f) -> Waves {
   var waves: Waves;
   for (var i = 0u; i < CASCADES; i++) {
     let at = still / SIDES[i];

@@ -80,7 +80,8 @@ fn seaFragment(in: SeaVarying, @builtin(front_facing) above: bool) -> SeaOut {
 
   var shore: Shore;
   shore.bed = -${f32(BED_SHOWS)};
-  if (offshore(in.still) < 1.0) {
+  let off = offshore(in.still);
+  if (off < 1.0) {
     shore = shoreAt(in.still);
   }
   let column = shore.level - shore.bed;
@@ -88,7 +89,13 @@ fn seaFragment(in: SeaVarying, @builtin(front_facing) above: bool) -> SeaOut {
     discard;
   }
 
-  var waves = wavesAt(in.still, across, down);
+  // The ripples a pixel shows ride the water that is there at this moment,
+  // a swash sheet included; the mesh keeps to the still depth.
+  var quiet = vec4f(1.0);
+  if (off < 1.0) {
+    quiet = calmOver(off, column);
+  }
+  var waves = wavesAt(in.still, across, down, quiet);
   waves.slope += in.swell;
   waves.spread += vec3f(${f32(UNSEEN_SPREAD)}, ${f32(UNSEEN_SPREAD)}, 0.0);
   let normal = normalize(vec3f(-waves.slope.x, 1.0, -waves.slope.y));
@@ -144,7 +151,7 @@ fn seaFragment(in: SeaVarying, @builtin(front_facing) above: bool) -> SeaOut {
       + SKY_FILL
   );
   let thick = foamThickness(in.still, shore, waves.squeeze);
-  let foam = lace(in.still, thick);
+  let foam = lace(in.still, thick, shore);
   // Thin foam is a film the water shows through; churning foam is white.
   let froth = 0.78 + 0.3 * fbm(in.still * 6.0, 41u, 3);
   let colour = mix(water, white * froth * mix(0.8, 1.0, min(thick, 1.0)), foam);
