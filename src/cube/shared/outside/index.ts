@@ -41,4 +41,5 @@ export {
   shoreClock,
   WATER_LEVEL,
   waterLevel,
+  waterLevelAt,
 } from './water-level';

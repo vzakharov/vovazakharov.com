@@ -239,14 +239,18 @@ export function shoreClock(xz: Vec2, seconds: number): ShoreClock {
  * wind wave. Where it is over `islandHeight` the sand is under water at that
  * instant.
  */
-export function waterLevel(xz: Vec2, seconds: number): number {
-  const { bed, towardSwell: facing } = shoreClock(xz, seconds);
-  return swellLevel(
-    xz[0] * SWELL_RUNS[0] + xz[1] * SWELL_RUNS[1],
-    bed,
-    facing,
-    seconds,
-  );
+export const waterLevel = (xz: Vec2, seconds: number): number =>
+  waterLevelAt(xz)(seconds);
+
+/**
+ * `waterLevel` at one point, as a function of the moment alone: what the
+ * point's bed settles is read once, so a caller that follows a fixed point
+ * through time pays for the island's height only on the first call.
+ */
+export function waterLevelAt(xz: Vec2): (seconds: number) => number {
+  const { bed, towardSwell } = shoreClock(xz, 0);
+  const run = xz[0] * SWELL_RUNS[0] + xz[1] * SWELL_RUNS[1];
+  return (seconds) => swellLevel(run, bed, towardSwell, seconds);
 }
 
 /**
