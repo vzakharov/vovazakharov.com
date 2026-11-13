@@ -3,9 +3,9 @@ import type { Hushing } from '@/kernel/shared/typings';
 import {
   type Beds,
   EASE,
-  HUM_FILTER_EASE,
-  HUM_LEVEL_EASE,
-  HUM_Q,
+  FADE_EASE,
+  FILTER_EASE,
+  FILTER_Q,
   type Layer,
   type Loop,
   MUFFLED,
@@ -75,14 +75,14 @@ export function outdoorsOf(
   const wall = new BiquadFilterNode(context, {
     type: 'lowpass',
     frequency: OPEN_AIR,
-    Q: Math.SQRT1_2,
+    Q: FILTER_Q,
   });
   wall.connect(level);
-  // The hum's own wall: it closes as an ear walks in at the doorway.
+  // The hum's own wall: both close as an ear steps over the sill.
   const humWall = new BiquadFilterNode(context, {
     type: 'lowpass',
     frequency: OPEN_AIR,
-    Q: HUM_Q,
+    Q: FILTER_Q,
   });
   humWall.connect(level);
   const sounding = new Map<Layer, Sounding>();
@@ -116,8 +116,8 @@ export function outdoorsOf(
   return {
     set: (mix, seconds) => {
       const now = context.currentTime;
-      wall.frequency.setTargetAtTime(mix.muffle, now, EASE);
-      humWall.frequency.setTargetAtTime(mix.humMuffle, now, HUM_FILTER_EASE);
+      wall.frequency.setTargetAtTime(mix.muffle, now, FILTER_EASE);
+      humWall.frequency.setTargetAtTime(mix.humMuffle, now, FILTER_EASE);
       for (const layer of SOUND_LAYERS) {
         let playing = sounding.get(layer);
         if (playing === undefined) {
@@ -126,9 +126,16 @@ export function outdoorsOf(
           sounding.set(layer, playing);
         }
         const { leftEar, rightEar } = mix.layers[layer];
-        const ease = layer === 'hum' ? HUM_LEVEL_EASE : EASE;
-        playing.ears[0].gain.setTargetAtTime(leftEar, now, ease);
-        playing.ears[1].gain.setTargetAtTime(rightEar, now, ease);
+        // A level falls slower than it rises, so a cut is a sweep, not a click.
+        for (const [ear, target] of [leftEar, rightEar].entries()) {
+          const gain = playing.ears[ear]?.gain;
+          if (gain === undefined) continue;
+          gain.setTargetAtTime(
+            target,
+            now,
+            target < gain.value ? FADE_EASE : EASE,
+          );
+        }
       }
     },
     stop: () => {

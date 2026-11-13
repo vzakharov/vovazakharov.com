@@ -2,7 +2,7 @@ import { clamp01 } from '@/cube/shared/lib/ease';
 import type { Vec2 } from '@/cube/shared/lib/vec';
 import { CUBE_METRES } from '@/cube/shared/outside';
 
-import { bearingOf, type Sided } from '../../cues';
+import { bearingOf } from '../../cues';
 import { CYCLE } from '../../dsp';
 import { type Coast, type Surf, surfAt } from './shore';
 import { gustAt, SECONDS_AN_HOUR, UPWIND, WASH_TURNS } from './weather';
@@ -208,48 +208,26 @@ export function outsideMix(
   };
 }
 
-/** Where the doorway is for an ear inside the cube. */
-export type Doorway = Sided & {
-  /** Metres from the ear to the doorway, in the ear's own floor's metres. */
-  inward: number;
-  /** Floors between the ear and floor 1. */
-  floorsBelow: number;
-};
-
-/** Metres inside at which the doorway's sound has half its power. */
-const DOOR_REACH = 2.5;
-
-/** What each floor's slab leaves of the sound from the floor above. */
-const THROUGH_SLAB = 0.3;
+/** Where an ear is inside the cube: the floors between it and floor 1. */
+export type Indoors = { floorsBelow: number };
 
 /** The hum below the entrance hall, against the hum at the wall outside. */
 const HUM_BELOW = 0.25;
 
-/** The pitch the hum's filter is shut to once an ear is in the hall. */
-const HUM_CLOSED = 50;
+/** The pitch the filters are shut to once an ear is over the sill. */
+const SHUT = 50;
 
 /**
- * `mix` — what an ear standing in the doorway would hear — as an ear inside
- * hears it: all of the sea and the wind from the one opening, fainter and
- * duller the further in and the more floors down. The entrance hall has no
- * hum — it is gone the moment an ear is over the sill, its filter shut so the
- * mixer's easing closes it as a sweep — and the floors below have their own,
- * from nowhere, being in the walls.
+ * `mix` — what an ear standing at the doorway would hear — as an ear inside
+ * hears it. Over the sill the sea and the wind are gone at once, their filter
+ * shut so the mixer's easing closes them as a falling sweep that ends in
+ * silence; the entrance hall has no hum either, and the floors below have
+ * their own, from nowhere, being in the walls.
  */
-export function throughDoorway(
+export function indoors(
   { layers }: OutsideMix,
-  { inward, rightward, floorsBelow }: Doorway,
+  { floorsBelow }: Indoors,
 ): OutsideMix {
-  const slabs = THROUGH_SLAB ** floorsBelow;
-  const let_in = slabs / Math.sqrt(1 + (inward / DOOR_REACH) ** 2);
-  const aside = floorsBelow > 0 ? 0 : 0.7 * rightward * clamp01(inward / 1.5);
-  const from = ({ leftEar, rightEar }: Ears): Ears => {
-    const all = let_in * Math.hypot(leftEar, rightEar);
-    return {
-      leftEar: all * Math.sqrt((1 - aside) / 2),
-      rightEar: all * Math.sqrt((1 + aside) / 2),
-    };
-  };
   const within =
     floorsBelow > 0
       ? HUM_BELOW *
@@ -258,17 +236,10 @@ export function throughDoorway(
       : 0;
   return {
     layers: {
-      roar: from(layers.roar),
-      hiss: from(layers.hiss),
-      fizz: from(layers.fizz),
-      wash: from(layers.wash),
-      wind: from(layers.wind),
-      // No wind reaches an ear indoors.
-      buffet: both(0),
+      ...perLayer(() => both(0)),
       hum: both(within / Math.SQRT2),
-      under: both(0),
     },
-    muffle: floorsBelow > 0 ? 350 : 700 + 5300 * Math.exp(-inward / 1.2),
-    humMuffle: floorsBelow > 0 ? OPEN_AIR : HUM_CLOSED,
+    muffle: SHUT,
+    humMuffle: floorsBelow > 0 ? OPEN_AIR : SHUT,
   };
 }

@@ -168,10 +168,11 @@ describe('rendered', () => {
   });
 
   it('dulls the sea and the wind behind a wall, and not the hum', () => {
-    const [open] = rendered(beds, () => mixOf(0.1), 0, 0.05, 8000);
-    const [walled] = rendered(beds, () => mixOf(0.1, 200), 0, 0.05, 8000);
+    const [open] = rendered(beds, () => mixOf(0.1), 0, 0.3, 8000);
+    // Shut below every pitch the beats have, the filter's resonance is idle.
+    const [walled] = rendered(beds, () => mixOf(0.1, 50), 0, 0.3, 8000);
     assert.ok(loudness(walled) < 0.8 * loudness(open));
-    assert.ok(loudness(walled) > 0.1 * loudness(open));
+    assert.ok(loudness(walled) > 0.02 * loudness(open));
   });
 
   it('names a loop for every layer and ear', () => {

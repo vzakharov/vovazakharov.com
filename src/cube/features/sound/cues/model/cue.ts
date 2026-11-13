@@ -24,6 +24,7 @@ import { footstep } from './footstep';
 import { rung } from './ladder';
 import { splash } from './splash';
 import { creak, mew, pop, rustle, scrape } from './stirs';
+import { threshold } from './threshold';
 
 /** How far to an ear's right a sound is. */
 export type Sided = {
@@ -77,6 +78,7 @@ export type SoundCue =
   | { kind: 'breath'; effort: number }
   | { kind: 'grunt' }
   | { kind: 'shrink' }
+  | { kind: 'threshold' }
   | (Roomed & { kind: RoomCue });
 
 /** Seconds the shrink is heard for. */
@@ -126,6 +128,9 @@ export function samplesOf(
     }
     case 'shrink': {
       return shrinking(SHRINK_SECONDS, seed, rate);
+    }
+    case 'threshold': {
+      return threshold(seed, rate);
     }
     case 'ring': {
       return ring(seed, rate);
@@ -193,6 +198,7 @@ const GAINS: Record<Exclude<SoundCue['kind'], RoomCue>, number> = {
   breath: 0.35,
   grunt: 0.5,
   shrink: 0.6,
+  threshold: 0.9,
 };
 
 /** Room sides at which a room's sound has lost half its level. */

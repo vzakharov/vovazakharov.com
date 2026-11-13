@@ -1,13 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import {
-  type Ears,
-  OPEN_AIR,
-  outsideMix,
-  SOUND_LAYERS,
-  throughDoorway,
-} from './mix';
+import { type Ears, indoors, OPEN_AIR, outsideMix, SOUND_LAYERS } from './mix';
 import { FALLING, RADIUS, RISING, sceneOf } from './outdoors.test-kit';
 import { gustAt } from './weather';
 
@@ -103,53 +97,34 @@ describe('outsideMix', () => {
   });
 });
 
-describe('throughDoorway', () => {
+describe('indoors', () => {
   const outside = outsideMix(scene, onShore(0), RISING);
-  const heard = (inward: number, rightward = 0, floorsBelow = 0) =>
-    throughDoorway(outside, { inward, rightward, floorsBelow });
+  const silent = { leftEar: 0, rightEar: 0 };
 
-  it('lets in less, and duller, the further inside', () => {
-    assert.ok(both(heard(4).layers.roar) < both(heard(0.5).layers.roar));
-    assert.ok(heard(4).muffle < heard(0.5).muffle);
-    assert.ok(heard(0.5).muffle < OPEN_AIR);
-    assert.ok(both(heard(0).layers.hiss) <= both(outside.layers.hiss) + 1e-9);
-  });
-
-  it('comes from the doorway’s side', () => {
-    const { roar } = heard(3, -1).layers;
-    assert.ok(roar.leftEar > 1.5 * roar.rightEar);
-    const ahead = heard(3, 0).layers.roar;
-    assert.equal(ahead.leftEar, ahead.rightEar);
-  });
-
-  it('leaves the wind’s rumble outside', () => {
-    const { buffet, under } = heard(3, -1).layers;
-    assert.deepEqual(buffet, { leftEar: 0, rightEar: 0 });
-    assert.deepEqual(under, { leftEar: 0, rightEar: 0 });
+  it('has none of the sea or the wind over the sill, their filter shut', () => {
+    const hall = indoors(outside, { floorsBelow: 0 });
+    for (const layer of SOUND_LAYERS) {
+      if (layer !== 'hum') assert.deepEqual(hall.layers[layer], silent, layer);
+    }
+    assert.ok(hall.muffle < 100);
+    assert.equal(outside.muffle, OPEN_AIR);
   });
 
   it('has no hum in the entrance hall, its filter shut from the sill on', () => {
-    for (const inward of [0, 0.3, 3]) {
-      const mix = heard(inward);
-      assert.deepEqual(mix.layers.hum, { leftEar: 0, rightEar: 0 });
-      assert.ok(mix.humMuffle < 100);
-    }
+    assert.ok(both(outside.layers.hum) > 0);
+    const hall = indoors(outside, { floorsBelow: 0 });
+    assert.deepEqual(hall.layers.hum, silent);
+    assert.ok(hall.humMuffle < 100);
     assert.equal(outside.humMuffle, OPEN_AIR);
   });
 
   it('keeps a hum on the floors below, open and fainter the deeper', () => {
-    const first = heard(2, 0, 1);
-    const second = heard(2, 0, 2);
+    const first = indoors(outside, { floorsBelow: 1 });
+    const second = indoors(outside, { floorsBelow: 2 });
     assert.ok(both(first.layers.hum) > 0);
     assert.ok(both(second.layers.hum) < both(first.layers.hum));
     assert.equal(first.humMuffle, OPEN_AIR);
-  });
-
-  it('fades floor by floor, from nowhere in particular', () => {
-    const above = heard(2, -1, 0).layers;
-    const below = heard(2, -1, 1).layers;
-    assert.ok(both(below.roar) < 0.5 * both(above.roar));
-    assert.equal(below.roar.leftEar, below.roar.rightEar);
-    assert.ok(heard(2, -1, 1).muffle < heard(2, -1, 0).muffle);
+    assert.equal(first.layers.hum.leftEar, first.layers.hum.rightEar);
+    assert.deepEqual(first.layers.roar, silent);
   });
 });

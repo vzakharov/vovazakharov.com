@@ -4,11 +4,11 @@ import type { Timed } from '@/kernel/shared/typings';
 import type { Vec2 } from '@/cube/shared/lib/vec';
 import {
   gustAt,
+  indoors,
   type Listener,
   type OutsideMix,
   outsideMix,
   type Scene,
-  throughDoorway,
 } from '@/cube/features/sound';
 
 /** A stretch of the hour heard along some path, and what it is in words. */
@@ -91,28 +91,21 @@ export function scenesOf(scene: Scene, places: Places): Scenes {
     inside: {
       begins: 200,
       seconds: 30,
-      told: 'from the doorway 4 m into floor 1 over 20 s, then on floor 2',
+      told: 'in the hall for 22 s, then on floor 2',
       earAt: () => doorway,
       mixAt: (t) =>
-        throughDoorway(outsideMix(scene, { at: doorway, gaze: Math.PI }, t), {
-          inward: Math.min(4, (t - 200) / 5),
-          rightward: -0.6,
+        indoors(outsideMix(scene, { at: doorway, gaze: Math.PI }, t), {
           floorsBelow: t < 222 ? 0 : 1,
         }),
     },
     entering: {
       begins: 230,
       seconds: 10,
-      told: 'in the doorway for 3 s, then over the sill and in, walking on',
+      told: 'in the doorway for 3 s, then over the sill and in',
       earAt: () => doorway,
       mixAt: (t) => {
         const outside = outsideMix(scene, { at: doorway, gaze: Math.PI }, t);
-        if (t < 233) return outside;
-        return throughDoorway(outside, {
-          inward: 1.4 * (t - 233),
-          rightward: 0,
-          floorsBelow: 0,
-        });
+        return t < 233 ? outside : indoors(outside, { floorsBelow: 0 });
       },
     },
     gust: {
