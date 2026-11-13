@@ -1,29 +1,35 @@
 {
   "total": {
-    "inputTokens": 727,
-    "cacheWrite5mTokens": 583,
-    "cacheWrite1hTokens": 212847,
-    "cacheReadTokens": 15410770,
-    "outputTokens": 45478,
-    "thinkingTokens": 15885,
-    "responses": 80,
-    "costUsd": 5.700313
+    "inputTokens": 1473,
+    "cacheWrite5mTokens": 877613,
+    "cacheWrite1hTokens": 241517,
+    "cacheReadTokens": 28255782,
+    "outputTokens": 155384,
+    "thinkingTokens": 79945,
+    "responses": 185,
+    "costUsd": 15.08680740000001
   },
   "estimate": {
-    "at": "2026-11-13T16:41:31.169Z",
-    "subjectLine": "feat: sync the WESL move with the cube intro, move outdoor WGSL to .wgsl",
+    "at": "2026-11-13T16:50:37.453Z",
+    "subjectLine": "feat: sync the WESL move with the cube intro, move all cube WGSL out",
     "parts": [
       {
         "hours": 4.0,
         "grade": "senior",
         "role": "graphics-programmer",
-        "comment": "a semantic merge across a shader linker and a 9-commit base that rewrote the same kit pieces: each base change has to be re-expressed in .wgsl and re-pinned, which needs someone who reads WGSL and the linker's placement rules"
+        "comment": "a semantic merge across a shader linker and a 9-commit base that rewrote the same kit pieces: each base change re-expressed in .wgsl and re-pinned, which needs someone who reads WGSL and the linker's placement rules"
       },
       {
-        "hours": 16.0,
+        "hours": 20.0,
         "grade": "senior",
         "role": "graphics-programmer",
-        "comment": "about 35 outdoor shader modules (sea, sky, sand, outside) moved into .wgsl under MASD placement, each pinned token for token and split where TS-derived constants must stay TS — the same order of work as the 66 floors, at half their count"
+        "comment": "about 40 outdoor and pipeline shader modules moved into .wgsl under MASD placement, each pinned token for token and split where TS-derived constants must stay TS — the same order of work as the 66 floors"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "a MASD pass over the cube app after the move: judging which units earned a promotion or a fold-in takes reading the noun model, not just the checkers"
       }
     ],
     "comment": null
@@ -54,48 +60,48 @@
   "url": "https://claude.ai/code/session_01DaohkEALtDXTdsS9KgnD24",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T16:38:21.805Z",
-  "lastResponseAt": "2026-11-13T16:47:02.001Z",
+  "lastResponseAt": "2026-11-13T16:52:00.703Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 154,
+    "inputTokens": 176,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 212847,
-    "cacheReadTokens": 15192545,
-    "outputTokens": 44538,
-    "thinkingTokens": 15885,
-    "responses": 79,
-    "costUsd": 5.632661000000001
+    "cacheWrite1hTokens": 241517,
+    "cacheReadTokens": 18612514,
+    "outputTokens": 65727,
+    "thinkingTokens": 19681,
+    "responses": 91,
+    "costUsd": 6.969882800000001
   },
   "subagents": {
-    "inputTokens": 0,
-    "cacheWrite5mTokens": 0,
+    "inputTokens": 218,
+    "cacheWrite5mTokens": 876404,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 0,
-    "outputTokens": 0,
-    "thinkingTokens": 0,
-    "responses": 0,
-    "costUsd": 0.0
+    "cacheReadTokens": 9142404,
+    "outputTokens": 88706,
+    "thinkingTokens": 60264,
+    "responses": 92,
+    "costUsd": 7.985492800000004
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 727,
-      "cacheWrite5mTokens": 583,
-      "cacheWrite1hTokens": 212847,
-      "cacheReadTokens": 15410770,
-      "outputTokens": 45478,
-      "thinkingTokens": 15885,
-      "responses": 80,
-      "costUsd": 5.700313
+      "inputTokens": 1473,
+      "cacheWrite5mTokens": 877613,
+      "cacheWrite1hTokens": 241517,
+      "cacheReadTokens": 28255782,
+      "outputTokens": 155384,
+      "thinkingTokens": 79945,
+      "responses": 185,
+      "costUsd": 15.08680740000001
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 80,
-    "matched": 79,
-    "matchedTableUsd": 5.632661000000001,
-    "matchedEventUsd": 5.632661000000001,
+    "events": 183,
+    "matched": 181,
+    "matchedTableUsd": 14.760801200000012,
+    "matchedEventUsd": 14.760801200000012,
     "unseen": {
       "side_question": {
         "inputTokens": 573,
@@ -106,18 +112,28 @@
         "thinkingTokens": 0,
         "responses": 1,
         "costUsd": 0.067652
+      },
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 626,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 282639,
+        "outputTokens": 11,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0637798
       }
     }
   },
   "operatorWords": {
-    "chat": 110,
+    "chat": 134,
     "review": 0,
     "threads": 0
   },
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".ts": 25439,
+    ".ts": 25480,
     ".md": 951,
     ".json": 87,
     ".yaml": 765,

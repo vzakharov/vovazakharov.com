@@ -79,7 +79,7 @@ function importsOf(graph: MasdGraph, file: string) {
       .map((group) =>
         group
           .toSorted(([a], [b]) => importOrder(a, b))
-          .map(line)
+          .map((entry) => line(entry))
           .join('\n'),
       )
       .join('\n\n');

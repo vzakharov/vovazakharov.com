@@ -1,7 +1,7 @@
 import { pathHash, roll, rollWith } from '@/dice/shared/roll';
 
-import { wgsl } from '../shader/wgsl';
 import { HASH } from '../shader/hash.shader';
+import { wgsl } from '../shader/wgsl';
 
 /**
  * The sand's small relief, in metres over the island's walked-on shape: the

@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { hashOf, mix32, unitOf } from './hash32';
 import { HASH } from './hash.shader';
+import { hashOf, mix32, unitOf } from './hash32';
 
 describe('the hash twin', () => {
   it('uses the constants the WGSL does', () => {

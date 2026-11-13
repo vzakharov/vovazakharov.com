@@ -1,5 +1,5 @@
-import { wgsl } from '../shader/wgsl';
 import { HASH } from '../shader/hash.shader';
+import { wgsl } from '../shader/wgsl';
 import { SAND_RELIEF } from './sand-relief';
 
 /**
