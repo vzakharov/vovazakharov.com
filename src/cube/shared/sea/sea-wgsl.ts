@@ -146,11 +146,15 @@ fn seaFragment(in: SeaVarying, @builtin(front_facing) above: bool) -> SeaOut {
   let water = seen.sky
     + (1.0 - seen.share) * under
     + sunlit * glitter(waves, toEye, seen.shown);
+  let thick = foamThickness(in.still, shore, waves.squeeze);
+  // Churning foam stands in lumps, each shading the next from a low sun.
+  let lumps = smoothstep(0.3, 0.7, fbm(in.still * 2.3, 43u, 4));
+  let heaped = mix(1.0, mix(0.5, 1.08, lumps), smoothstep(0.9, 1.3, thick));
   let white = FOAM * (
-    SUN_LIGHT * sunlit * (0.3 + 0.7 * max(dot(normal, frame.sun.xyz), 0.0))
+    SUN_LIGHT * sunlit * heaped
+      * (0.3 + 0.7 * max(dot(normal, frame.sun.xyz), 0.0))
       + SKY_FILL
   );
-  let thick = foamThickness(in.still, shore, waves.squeeze);
   let foam = lace(in.still, thick, shore);
   // Thin foam is a film the water shows through; churning foam is white.
   let froth = 0.78 + 0.3 * fbm(in.still * 6.0, 41u, 3);

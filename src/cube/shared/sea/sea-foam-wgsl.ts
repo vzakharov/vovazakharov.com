@@ -13,6 +13,8 @@ const SHEET_LASTS = 2.2;
 const DRAWN_OUT = 2.4;
 /** How many times finer the lace is on a swash sheet than out on the surf. */
 const FINER = 1.7;
+/** Still depth, metres, by which a breaker's foam rides at full strength. */
+const SURF_FLOATS = 0.3;
 /** A sheet thinner than this, metres, is its own white edge. */
 const EDGE = 0.025;
 
@@ -71,12 +73,20 @@ fn lace(still: vec2f, dense: f32, shore: Shore) -> f32 {
   return smoothstep(open, open + 0.16, body) * smoothstep(0.02, 0.1, dense);
 }
 
+/// How much of a breaker's foam and bubbles the water at a point is deep
+/// enough to carry: none where the still sea ends, all of it by
+/// ${String(SURF_FLOATS)} m deep, so the surf thins into the swash with no edge.
+fn surfReaches(shore: Shore) -> f32 {
+  return smoothstep(0.0, ${f32(SURF_FLOATS)}, -shore.bed);
+}
+
 /// How thick the foam lies at \`still\`: the wind's whitecaps, where the
 /// surface is squeezed to a point; a breaker's roller and what it leaves; and
 /// the swash sheets' edges and backs. Over 1 where it is churning.
 fn foamThickness(still: vec2f, shore: Shore, squeeze: f32) -> f32 {
   var dense = smoothstep(0.6, 1.1, -squeeze);
-  if (shore.bed < 0.0 && shore.broken > 0.0) {
+  let afloat = surfReaches(shore);
+  if (afloat > 0.0 && shore.broken > 0.0) {
     // The roller's back edge is ragged: each stretch of crest lets go of
     // its foam a little sooner or later than the next.
     let ragged = shore.phase - 0.035 * fbm(still * 1.7, 31u, 3);
@@ -85,7 +95,7 @@ fn foamThickness(still: vec2f, shore: Shore, squeeze: f32) -> f32 {
       1.0 - smoothstep(0.0, 0.035, ragged),
     );
     let trail = 0.75 * exp(-shore.phase * ${f32(PERIOD / TRAIL_LASTS)});
-    dense = max(dense, shore.broken * max(1.4 * roller, trail));
+    dense = max(dense, afloat * shore.broken * max(1.4 * roller, trail));
   }
   for (var i = 0; i < 2; i++) {
     let sheet = shore.sheet[i];
@@ -102,10 +112,8 @@ fn foamThickness(still: vec2f, shore: Shore, squeeze: f32) -> f32 {
 
 /// The share of the water under a breaker's wake that is bubbles.
 fn bubbles(shore: Shore) -> f32 {
-  if (shore.bed >= 0.0) {
-    return 0.0;
-  }
-  return shore.broken * exp(-shore.phase * ${f32(PERIOD / BUBBLES_LAST)});
+  return surfReaches(shore) * shore.broken
+    * exp(-shore.phase * ${f32(PERIOD / BUBBLES_LAST)});
 }
 `,
   HASH,
