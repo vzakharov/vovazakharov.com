@@ -8,7 +8,7 @@ import { CLEAR_SKY } from './clear-sky.shader';
 import { CLOUD_NOISE } from './cloud-noise.shader';
 import { CLOUD_NOISE_NUMBERS } from './cloud-noise-numbers';
 import { CLOUD_VEIL_NUMBERS } from './cloud-veil-numbers';
-import { CLOUDS_WGSL } from './clouds';
+import { CLOUDS_WGSL } from './clouds-wgsl.shader';
 
 export const CLOUD_VEIL = wgsl(
   'cube/shared/sky/cloud-veil',

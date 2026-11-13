@@ -3,7 +3,7 @@
 // sphere at 8.
 
 import package::cube::shared::sky::clear_sky::{clearSky, skyGlance};
-import package::cube::shared::sky::clouds::cirrusAlong;
+import package::cube::shared::sky::clouds_wgsl::cirrusAlong;
 import package::cube::shared::sky::cloud_veil::{cloudVeil, cloudGlance};
 import package::cube::shared::sky::sun_glow::{aureole, sunDisc, sunHalo};
 import super::sun::SKY_FILL;
