@@ -58,7 +58,8 @@ export const within = (inner: Bounds, outer: Bounds): boolean =>
 /** How near a thing on the floor something on the wall may hang, to any side. */
 const BESIDE = 0.06;
 
-const hangs = ({ least }: Bounds): boolean => least[1] > 1e-6;
+/** Whether a thing of `bounds` hangs on a wall, clear of the floor. */
+export const hangs = ({ least }: Bounds): boolean => least[1] > 1e-6;
 
 const footing = ({ least, most }: Bounds): Bounds =>
   column(least[0], least[2], most[0], most[2]);

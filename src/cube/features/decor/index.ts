@@ -1,1 +1,1 @@
-export { furnish } from './model/furnish';
+export { furnish, standingBoxes } from './model/furnish';

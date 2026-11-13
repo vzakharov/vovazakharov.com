@@ -1,7 +1,8 @@
 import { pathHash, roll, type Rolled, rollWith } from '@/dice/shared/roll';
 
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
-import { type Furnishing, THINGS } from '@/cube/shared/lib/thing';
+import { type Furnishing, type Thing, THINGS } from '@/cube/shared/lib/thing';
+import { scaled } from '@/cube/shared/lib/vec';
 import {
   type Quad,
   type Setting,
@@ -17,6 +18,7 @@ import {
   boundsOf,
   clearZones,
   crowds,
+  hangs,
   HUNG,
   INSIDE,
   isClear,
@@ -211,10 +213,35 @@ export function furnished(
   setting: Setting,
   decor: readonly Furnishing[],
 ): Quad[][] {
+  return stoodIn(setting, decor).map(({ quads }) => quads);
+}
+
+/**
+ * The box of each thing of `furnish`'s room that stands on the floor, in the
+ * room's frame in metres — east, up, south — in the order they were stood.
+ */
+export const standingBoxes = (
+  setting: Setting,
+  decor: readonly Furnishing[],
+): Array<{ thing: Thing; min: Vec3; max: Vec3 }> =>
+  stoodIn(setting, decor)
+    .map(({ thing, quads }) => ({ thing, bounds: boundsOf(quads) }))
+    .filter(({ bounds }) => !hangs(bounds))
+    .map(({ thing, bounds: { least, most } }) => ({
+      thing,
+      min: scaled(least, ROOM_METRES),
+      max: scaled(most, ROOM_METRES),
+    }));
+
+/** `furnish`'s room as each thing was stood, by name. */
+function stoodIn(
+  setting: Setting,
+  decor: readonly Furnishing[],
+): Array<{ thing: Thing; quads: Quad[] }> {
   const rolled = rollWith(Decor, pathHash(String(setting.grain)));
   const zones = clearZones(setting);
   const taken: Bounds[] = [];
-  const room: Quad[][] = [];
+  const room: Array<{ thing: Thing; quads: Quad[] }> = [];
   let quads = 0;
   for (const { thing, perRoom } of decor) {
     const recipe = RECIPES[thing];
@@ -242,7 +269,7 @@ export function furnished(
           )
         ) {
           taken.push(bounds);
-          room.push(placed);
+          room.push({ thing, quads: placed });
           quads += placed.length;
           break;
         }
