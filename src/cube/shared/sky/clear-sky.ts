@@ -1,7 +1,7 @@
 import type { Rgb } from '../lib/colour';
 import { f32, vecf, wgsl } from '../lib/wgsl';
 import { SUN, SUN_DIR, SUN_WHITE } from '../outside/sun';
-import { AIR, extinctionAt, sunTransmittance } from './atmosphere';
+import { ATMOSPHERE, extinctionAt, sunTransmittance } from './atmosphere';
 import { FIT_TERMS, fitSky } from './sky-fit';
 import { fitGlance, GLANCE_SUNWARD } from './sky-glance';
 import { EYE_RADIUS } from './sky-light';
@@ -26,7 +26,9 @@ export const SUN_HEIGHTS = [1, 4, 8] as const;
 const sunLog = ((): readonly [Rgb, Rgb, Rgb] => {
   const [a, b, c] = SUN_HEIGHTS;
   const logs = SUN_HEIGHTS.map((h) =>
-    sunTransmittance(AIR.ground + h, SUN_DIR[1]).map(Math.log),
+    sunTransmittance(ATMOSPHERE.ground + h, SUN_DIR[1]).map((value) =>
+      Math.log(value),
+    ),
   );
   const at = (i: number, channel: number): number => logs[i]?.[channel] ?? 0;
   // Newton's divided differences, then expanded into powers of h.
@@ -50,7 +52,7 @@ const EYE_SUN_SLOPE = ((): Rgb => {
 })();
 
 /** What a metre of the air the eye stands in takes out of a beam. */
-const AIR_PER_METRE = extinctionAt(EYE_RADIUS - AIR.ground).map(
+const AIR_PER_METRE = extinctionAt(EYE_RADIUS - ATMOSPHERE.ground).map(
   (perKm) => perKm / 1000,
 );
 
@@ -78,7 +80,7 @@ ${COEFFICIENTS.map((colour) => `  ${vecf(colour)},`).join('\n')}
 /// The sun's irradiance above the air, in the scene's light.
 const SUN_IRRADIANCE = ${f32(SUN_WHITE * Math.PI)};
 const SUN_BEARING = ${vecf([SUN_DIR[0] / SUN_FLAT, SUN_DIR[2] / SUN_FLAT])};
-const MIE_G = ${f32(AIR.mie.g)};
+const MIE_G = ${f32(ATMOSPHERE.mie.g)};
 
 fn rayleighPhase(c: f32) -> f32 {
   return 3.0 / (16.0 * PI) * (1.0 + c * c);

@@ -1,6 +1,6 @@
 import { f32, vecf, wgsl } from '../lib/wgsl';
 import { SUN_DIR, SUN_WHITE } from '../outside/sun';
-import { AIR } from './atmosphere';
+import { ATMOSPHERE } from './atmosphere';
 import { CLEAR_SKY, EYE_SUN } from './clear-sky';
 
 const SUN_RADIUS = (0.2666 * Math.PI) / 180;
@@ -23,7 +23,7 @@ const AUREOLE = [
 ] as const;
 
 /** Kasten and Young's air mass along a ray `lift` radians over the horizon. */
-const KASTEN = { a: 0.50572, b: 6.07995, c: -1.6364 } as const;
+const KASTEN = { a: 0.505_72, b: 6.079_95, c: -1.6364 } as const;
 const airMass = (lift: number): number =>
   1 /
   (Math.sin(lift) + KASTEN.a * ((lift * 180) / Math.PI + KASTEN.b) ** KASTEN.c);
@@ -40,8 +40,8 @@ const HALO = EYE_SUN.map(
     Math.PI *
     BROAD.share *
     reaching *
-    (AIR.mie.scatter[channel] ?? 0) *
-    AIR.mie.height *
+    (ATMOSPHERE.mie.scatter[channel] ?? 0) *
+    ATMOSPHERE.mie.height *
     airMass(Math.asin(SUN_DIR[1])),
 );
 
@@ -68,7 +68,7 @@ fn henyey(c: f32, g: f32) -> f32 {
 fn hazeDepth(lift: f32) -> vec3f {
   let degrees = max(lift, 0.0) * 180.0 / PI;
   let mass = 1.0 / (sin(max(lift, 0.0)) + ${f32(KASTEN.a)} * pow(degrees + ${f32(KASTEN.b)}, ${f32(KASTEN.c)}));
-  return ${vecf(AIR.mie.scatter.map((perKm) => perKm * AIR.mie.height))} * mass;
+  return ${vecf(ATMOSPHERE.mie.scatter.map((perKm) => perKm * ATMOSPHERE.mie.height))} * mass;
 }
 
 /// The haze's forward lobes, scattered once. Near the sun the way to a

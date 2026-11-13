@@ -1,3 +1,4 @@
+import { smoothstep } from '../lib/ease';
 import { SUN_DIR } from '../outside/sun';
 
 /**
@@ -22,7 +23,7 @@ export const CLOUDS = {
   /** The share of cells that hold a cloud. */
   chance: 0.6,
   /** A cloud's footprint, from the many small to the few broad. */
-  radius: { least: 0.7, most: 2.0 },
+  radius: { least: 0.7, most: 2 },
   /**
    * How far past its own radius a cloud's billows may reach, as a share of
    * it: the bound it is marched inside, which its cell contains.
@@ -46,7 +47,7 @@ export const CLOUDS = {
 } as const;
 
 /** The field's period along the wind. */
-export const TILE = CLOUDS.cell * CLOUDS.tileCells;
+export const CLOUD_TILE = CLOUDS.cell * CLOUDS.tileCells;
 
 const SECONDS_IN_HOUR = 3600;
 const flat = Math.hypot(SUN_DIR[0], SUN_DIR[2]);
@@ -58,15 +59,11 @@ export const WIND_AXIS = [-SUN_DIR[0] / flat, -SUN_DIR[2] / flat] as const;
 export const SUN_IN_FIELD = [-flat, SUN_DIR[1], 0] as const;
 
 /** Kilometres the field drifts down the wind in a second. */
-export const DRIFT_PER_SECOND = (TILE * CLOUDS.tilesPerHour) / SECONDS_IN_HOUR;
+export const DRIFT_PER_SECOND =
+  (CLOUD_TILE * CLOUDS.tilesPerHour) / SECONDS_IN_HOUR;
 
 /** Kilometres the field has drifted down the wind, `seconds` into the hour. */
 export const driftAt = (seconds: number): number => DRIFT_PER_SECOND * seconds;
-
-const smoothstep = (a: number, b: number, x: number): number => {
-  const c = Math.min(1, Math.max(0, (x - a) / (b - a)));
-  return c * c * (3 - 2 * c);
-};
 
 /** The sun's beam to the island is inside the cloud slab up to this many km toward the sun. */
 const BEAM_LEAVES = CLOUDS.ceiling / Math.tan(Math.asin(SUN_DIR[1]));
@@ -77,7 +74,7 @@ const BEAM_LEAVES = CLOUDS.ceiling / Math.tan(Math.asin(SUN_DIR[1]));
  * island and the whole of the beam's way through the slab, and shut past
  * `shut`, where a cloud bank may stand under the sun or opposite it.
  */
-export const LANE = {
+export const CLOUD_LANE = {
   open: { behind: -14, ahead: Math.ceil(BEAM_LEAVES) + 6 },
   shut: { behind: -45, ahead: Math.ceil(BEAM_LEAVES) + 40 },
 } as const;
@@ -94,8 +91,8 @@ export const laneCover = (
   ragged: number,
 ): number => {
   const open =
-    smoothstep(LANE.shut.behind, LANE.open.behind, toSun) *
-    (1 - smoothstep(LANE.open.ahead, LANE.shut.ahead, toSun));
+    smoothstep(CLOUD_LANE.shut.behind, CLOUD_LANE.open.behind, toSun) *
+    (1 - smoothstep(CLOUD_LANE.open.ahead, CLOUD_LANE.shut.ahead, toSun));
   const clear = CLOUDS.lane.clear * open;
   const edge =
     clear + (CLOUDS.lane.full - CLOUDS.lane.clear) * (0.35 + 0.65 * ragged);

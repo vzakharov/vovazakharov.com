@@ -70,7 +70,7 @@ export const solve = (rows: number[][], column: number[]): number[] => {
       column[i] = (column[i] ?? 0) - factor * (column[k] ?? 0);
     }
   }
-  const x = new Array<number>(size).fill(0);
+  const x = Array.from({ length: size }, () => 0);
   for (let i = size - 1; i >= 0; i--) {
     let rest = column[i] ?? 0;
     for (let j = i + 1; j < size; j++) rest -= at(i, j) * (x[j] ?? 0);
@@ -149,11 +149,11 @@ export function fittedParts(fit: SkyFit, dir: Vec3, sun: Vec3): SkyParts {
   const basis = basisAt(liftOf(dir[1]), turnOf(dir, sun));
   const part = (name: Part): Rgb => {
     const sum = [0, 0, 0];
-    fit[name].forEach((colour, n) => {
+    for (const [n, colour] of fit[name].entries()) {
       for (const c of [0, 1, 2] as const) {
         sum[c] = (sum[c] ?? 0) + colour[c] * (basis[n] ?? 0);
       }
-    });
+    }
     return [
       Math.exp(sum[0] ?? 0),
       Math.exp(sum[1] ?? 0),

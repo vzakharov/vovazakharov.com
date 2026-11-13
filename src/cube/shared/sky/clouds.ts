@@ -1,10 +1,10 @@
 import { f32, vecf, wgsl } from '../lib/wgsl';
-import { AIR } from './atmosphere';
-import { CLOUDS, TILE } from './cloud-field';
+import { ATMOSPHERE } from './atmosphere';
+import { CLOUD_TILE, CLOUDS } from './cloud-field';
 import { cellsPerKm, CLOUD_NOISE } from './cloud-noise';
 import { SUN_GLOW } from './sun-glow';
 
-const { rayleigh, mie } = AIR;
+const { rayleigh, mie } = ATMOSPHERE;
 
 /**
  * The most the billows add to a cloud's body or take from it, in radii: what
@@ -14,7 +14,7 @@ const BILLOW = { broad: 0.95, knobs: 0.3, fine: 0.14 } as const;
 const BILLOW_REACH = (BILLOW.broad + BILLOW.knobs + BILLOW.fine) / 2;
 
 /** How far a cloud's own noise pushes its footprint in and out, in radii². */
-const HEAP = 2.0;
+const HEAP = 2;
 
 /**
  * The cumulus layer as `cloudGlance` holds it: the height its clouds are seen
@@ -273,19 +273,21 @@ fn cumulusAlong(dir: vec3f, jitter: f32, fog: vec3f) -> vec4f {
   return seen;
 }
 
-/// The ice cloud's sheet where the ray crosses it: streaks drawn out along
-/// the wind, in the patches a wider weather leaves them.
+/// The ice cloud's sheet where the ray crosses it: streaks, in the patches a
+/// wider weather leaves them.
 fn cirrusAlong(dir: vec3f, fog: vec3f) -> vec4f {
   let away = reachOf(max(dir.y, 0.0), CIRRUS_HEIGHT);
   if (dir.y <= 0.0 || away > ${f32(CLOUDS.cirrusReach)}) { return vec4f(0.0, 0.0, 0.0, 1.0); }
-  let at = inField(frame.eye.xyz / 1000.0 + dir * away).xz / ${f32(TILE)};
+  let at = inField(frame.eye.xyz / 1000.0 + dir * away).xz / ${f32(CLOUD_TILE)};
   let patches = cloudNoise2(at * vec2f(3.0, 4.0), 3, CLOUD_SALT + 7u);
-  let streak = at * vec2f(6.0, 30.0);
-  let sheet = 0.6 * cloudNoise2(streak, 6, CLOUD_SALT + 10u)
-    + 0.28 * cloudNoise2(streak * vec2f(3.0, 4.0), 18, CLOUD_SALT + 11u)
-    + 0.12 * cloudNoise2(streak * vec2f(12.0, 16.0), 72, CLOUD_SALT + 12u);
+  // Drawn out askew to the wind, so the streaks do not all run at the sun;
+  // along the wind the lattice still closes on the tile.
+  let streak = vec2f((at.x + at.y) * 24.0, at.y * 9.0);
+  let sheet = 0.6 * cloudNoise2(streak, 24, CLOUD_SALT + 10u)
+    + 0.28 * cloudNoise2(streak * vec2f(3.0, 4.0), 72, CLOUD_SALT + 11u)
+    + 0.12 * cloudNoise2(streak * vec2f(6.0, 9.0), 144, CLOUD_SALT + 12u);
   let fade = 1.0 - smoothstep(0.5, 1.0, away / ${f32(CLOUDS.cirrusReach)});
-  let cover = 0.45 * smoothstep(0.5, 0.85, sheet) * smoothstep(0.3, 0.6, patches) * fade;
+  let cover = 0.38 * smoothstep(0.5, 0.85, sheet) * smoothstep(0.3, 0.6, patches) * fade;
   let c = dot(dir, SUN_DIR);
   let light = sunThrough(CIRRUS_HEIGHT) * (0.16 + 0.1 * henyeyCloud(c, 0.7)) + SKY_FILL * 0.5;
   let air = airBetween(away, CIRRUS_HEIGHT);

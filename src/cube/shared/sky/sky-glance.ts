@@ -38,7 +38,7 @@ const dot = (a: Vec3, b: Vec3): number =>
 export function fitGlance(sun: Vec3): SkyGlance {
   const samples = fitRays(sun).map((ray) => ({
     basis: basisAt(ray.lift, ray.turn, dot(ray.dir, ray.sun)),
-    log: clearSky(ray.dir, ray.sun).map(Math.log),
+    log: clearSky(ray.dir, ray.sun).map((value) => Math.log(value)),
   }));
   const size = basisAt(0, 0, 0).length;
   const fitted = (channel: 0 | 1 | 2): number[] =>
@@ -66,10 +66,10 @@ export function fitGlance(sun: Vec3): SkyGlance {
 export function glanceAt(glance: SkyGlance, dir: Vec3, sun: Vec3): Rgb {
   const basis = basisAt(liftOf(dir[1]), turnOf(dir, sun), dot(dir, sun));
   const log = [0, 0, 0];
-  glance.forEach((colour, n) => {
+  for (const [n, colour] of glance.entries()) {
     for (const c of [0, 1, 2] as const) {
       log[c] = (log[c] ?? 0) + colour[c] * (basis[n] ?? 0);
     }
-  });
+  }
   return [Math.exp(log[0] ?? 0), Math.exp(log[1] ?? 0), Math.exp(log[2] ?? 0)];
 }

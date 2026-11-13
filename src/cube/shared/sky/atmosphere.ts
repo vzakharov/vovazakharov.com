@@ -1,4 +1,5 @@
 import type { Rgb } from '../lib/colour';
+import { clamp01 } from '../lib/ease';
 
 /**
  * The air over the island, in kilometres and per-kilometre coefficients for
@@ -7,7 +8,7 @@ import type { Rgb } from '../lib/colour';
  * a low sun. The numbers are the ones Bruneton and Hillaire publish, with the
  * haze raised to an ocean's aerosol optical depth of about 0.1.
  */
-export const AIR = {
+export const ATMOSPHERE = {
   ground: 6360,
   top: 6460,
   rayleigh: { scatter: [5.802e-3, 13.558e-3, 33.1e-3], height: 8 },
@@ -27,27 +28,30 @@ export const AIR = {
 const TRANSMITTANCE_SIZE = { width: 128, height: 64 } as const;
 const SCATTER_SIZE = { width: 8, height: 24 } as const;
 
-const { ground: RG, top: RT } = AIR;
+const RG = ATMOSPHERE.ground;
+const RT = ATMOSPHERE.top;
 const REACH = Math.sqrt(RT * RT - RG * RG);
 
 const rgb = (of: (channel: 0 | 1 | 2) => number): Rgb => [of(0), of(1), of(2)];
-const clamp01 = (x: number): number => Math.min(1, Math.max(0, x));
 
 type Densities = { rayleigh: number; mie: number; ozone: number };
 
 /** How much of each constituent there is `h` km up, as a share of sea level's. */
 export const densitiesAt = (h: number): Densities => ({
-  rayleigh: Math.exp(-h / AIR.rayleigh.height),
-  mie: Math.exp(-h / AIR.mie.height),
-  ozone: Math.max(0, 1 - Math.abs(h - AIR.ozone.centre) / AIR.ozone.half),
+  rayleigh: Math.exp(-h / ATMOSPHERE.rayleigh.height),
+  mie: Math.exp(-h / ATMOSPHERE.mie.height),
+  ozone: Math.max(
+    0,
+    1 - Math.abs(h - ATMOSPHERE.ozone.centre) / ATMOSPHERE.ozone.half,
+  ),
 });
 
 /** What a kilometre of air `h` km up scatters out of a beam, per channel. */
 export const scatteringAt = (h: number): { rayleigh: Rgb; mie: Rgb } => {
   const d = densitiesAt(h);
   return {
-    rayleigh: rgb((c) => AIR.rayleigh.scatter[c] * d.rayleigh),
-    mie: rgb((c) => AIR.mie.scatter[c] * d.mie),
+    rayleigh: rgb((c) => ATMOSPHERE.rayleigh.scatter[c] * d.rayleigh),
+    mie: rgb((c) => ATMOSPHERE.mie.scatter[c] * d.mie),
   };
 };
 
@@ -56,9 +60,9 @@ export const extinctionAt = (h: number): Rgb => {
   const d = densitiesAt(h);
   return rgb(
     (c) =>
-      AIR.rayleigh.scatter[c] * d.rayleigh +
-      (AIR.mie.scatter[c] + AIR.mie.absorb[c]) * d.mie +
-      AIR.ozone.absorb[c] * d.ozone,
+      ATMOSPHERE.rayleigh.scatter[c] * d.rayleigh +
+      (ATMOSPHERE.mie.scatter[c] + ATMOSPHERE.mie.absorb[c]) * d.mie +
+      ATMOSPHERE.ozone.absorb[c] * d.ozone,
   );
 };
 
@@ -85,7 +89,7 @@ export const transmittanceUv = (r: number, mu: number): [number, number] => {
 
 const rayOfUv = (u: number, v: number): { r: number; mu: number } => {
   const rho = v * REACH;
-  const r = Math.sqrt(rho * rho + RG * RG);
+  const r = Math.hypot(rho, RG);
   const least = RT - r;
   const d = least + u * (rho + REACH - least);
   const mu = d === 0 ? 1 : (REACH * REACH - rho * rho - d * d) / (2 * r * d);
@@ -113,8 +117,10 @@ export type Table = {
   data: Float32Array;
 };
 
+type TableOfParams = { width: number; height: number };
+
 const tableOf = (
-  { width, height }: { width: number; height: number },
+  { width, height }: TableOfParams,
   texel: (u: number, v: number) => Rgb,
 ): Table => {
   const data = new Float32Array(width * height * 4);
@@ -227,7 +233,9 @@ export const rayEnd = (
 /** What the matte sea at the ground sends up under a unit sun at cosine `sun`. */
 export const groundGlow = (sun: number): Rgb => {
   const lit = sunTransmittance(RG, sun);
-  return rgb((c) => (AIR.albedo[c] * lit[c] * Math.max(0, sun)) / Math.PI);
+  return rgb(
+    (c) => (ATMOSPHERE.albedo[c] * lit[c] * Math.max(0, sun)) / Math.PI,
+  );
 };
 
 const SCATTER_DIRECTIONS = 6;

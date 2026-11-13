@@ -1,8 +1,7 @@
 import type { Rgb } from '../lib/colour';
 import type { Vec3 } from '../lib/vec';
-
 import {
-  AIR,
+  ATMOSPHERE,
   groundGlow,
   march,
   rayEnd,
@@ -18,7 +17,7 @@ const dot = (a: Vec3, b: Vec3): number =>
   a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 
 /** The eye's radius: a person's height over the sea, which is all it ever is. */
-export const EYE_RADIUS = AIR.ground + 0.002;
+export const EYE_RADIUS = ATMOSPHERE.ground + 0.002;
 
 /** Rayleigh's phase function at cosine `c`, over the whole sphere. */
 export const rayleighPhase = (c: number): number =>
@@ -54,7 +53,7 @@ export const skyParts = (dir: Vec3, sun: Vec3): SkyParts => {
     reach,
     SKY_STEPS,
     (radius, cosine, weigh) => {
-      const s = scatteringAt(radius - AIR.ground);
+      const s = scatteringAt(radius - ATMOSPHERE.ground);
       const direct = sunTransmittance(radius, cosine);
       const many = sampleTable(scatterTable(), ...scatterUv(radius, cosine));
       for (const c of [0, 1, 2] as const) {
@@ -65,7 +64,7 @@ export const skyParts = (dir: Vec3, sun: Vec3): SkyParts => {
     },
   );
   const glow = lands
-    ? groundGlow((EYE_RADIUS * sun[1] + reach * between) / AIR.ground)
+    ? groundGlow((EYE_RADIUS * sun[1] + reach * between) / ATMOSPHERE.ground)
     : ([0, 0, 0] as const);
   return {
     rayleigh: rgb((c) => rayleigh[c] ?? 0),
@@ -77,7 +76,7 @@ export const skyParts = (dir: Vec3, sun: Vec3): SkyParts => {
 /** `parts` as one radiance, seen at cosine `between` to the sun. */
 export const skyOf = (parts: SkyParts, between: number): Rgb => {
   const rayleigh = rayleighPhase(between);
-  const mie = miePhase(between, AIR.mie.g);
+  const mie = miePhase(between, ATMOSPHERE.mie.g);
   return rgb(
     (c) => parts.rayleigh[c] * rayleigh + parts.mie[c] * mie + parts.many[c],
   );
@@ -87,8 +86,8 @@ export const skyOf = (parts: SkyParts, between: number): Rgb => {
 export const clearSky = (dir: Vec3, sun: Vec3): Rgb =>
   skyOf(skyParts(dir, sun), dot(dir, sun));
 
-const RINGS = 8;
-const SPOKES = 8;
+const FILL_RINGS = 8;
+const FILL_SPOKES = 8;
 
 /**
  * The light a matte white face gets from the half of the sky on the `up` side
@@ -98,13 +97,13 @@ const SPOKES = 8;
 export const hemisphereFill = (sun: Vec3, up: 1 | -1): Rgb => {
   const lift = Math.hypot(sun[0], sun[2]);
   const sum = [0, 0, 0];
-  for (let i = 0; i < RINGS; i++) {
+  for (let i = 0; i < FILL_RINGS; i++) {
     // Even steps of the squared cosine weigh each ray by its cosine.
-    const y = Math.sqrt((i + 0.5) / RINGS);
+    const y = Math.sqrt((i + 0.5) / FILL_RINGS);
     const flat = Math.sqrt(1 - y * y);
-    for (let j = 0; j < SPOKES; j++) {
+    for (let j = 0; j < FILL_SPOKES; j++) {
       // Half a turn from the sun's side: the sky is the same on both hands.
-      const turn = (Math.PI * (j + 0.5)) / SPOKES;
+      const turn = (Math.PI * (j + 0.5)) / FILL_SPOKES;
       const sky = clearSky(
         [flat * Math.cos(turn), up * y, flat * Math.sin(turn)],
         [lift, sun[1], 0],
@@ -114,7 +113,7 @@ export const hemisphereFill = (sun: Vec3, up: 1 | -1): Rgb => {
   }
   // The face shows the cosine-weighted mean radiance, and π of the scale's
   // units is one of radiance per unit of sun irradiance.
-  return rgb((c) => ((sum[c] ?? 0) * Math.PI) / (RINGS * SPOKES));
+  return rgb((c) => ((sum[c] ?? 0) * Math.PI) / (FILL_RINGS * FILL_SPOKES));
 };
 
 const RING_LIFT = (4 * Math.PI) / 180;
@@ -129,8 +128,8 @@ const RING_FROM = Math.PI / 4;
 export const horizonFill = (sun: Vec3): Rgb => {
   const lift = Math.hypot(sun[0], sun[2]);
   const sum = [0, 0, 0];
-  for (let j = 0; j < SPOKES; j++) {
-    const turn = RING_FROM + ((Math.PI - RING_FROM) * (j + 0.5)) / SPOKES;
+  for (let j = 0; j < FILL_SPOKES; j++) {
+    const turn = RING_FROM + ((Math.PI - RING_FROM) * (j + 0.5)) / FILL_SPOKES;
     const sky = clearSky(
       [
         Math.cos(RING_LIFT) * Math.cos(turn),
@@ -141,7 +140,7 @@ export const horizonFill = (sun: Vec3): Rgb => {
     );
     for (const c of [0, 1, 2] as const) sum[c] = (sum[c] ?? 0) + sky[c];
   }
-  return rgb((c) => ((sum[c] ?? 0) * Math.PI) / SPOKES);
+  return rgb((c) => ((sum[c] ?? 0) * Math.PI) / FILL_SPOKES);
 };
 
 /** The contract's scale: what the brightest channel of a face square to the sun shows. */

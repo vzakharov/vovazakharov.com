@@ -4,11 +4,11 @@ import { f32, vecf, wgsl } from '../lib/wgsl';
 import { HASH } from '../lib/wgsl-hash';
 import { OUTDOOR_FRAME } from '../outside/outdoor-frame';
 import {
+  CLOUD_LANE,
+  CLOUD_TILE,
   CLOUDS,
   DRIFT_PER_SECOND,
-  LANE,
   SUN_IN_FIELD,
-  TILE,
   WIND_AXIS,
 } from './cloud-field';
 
@@ -21,9 +21,10 @@ const { salt: SALT } = rollWith(
 );
 
 /** Lattice cells to a kilometre, for a lattice of `cells` to the tile. */
-export const cellsPerKm = (cells: number): string => f32(cells / TILE);
+export const cellsPerKm = (cells: number): string => f32(cells / CLOUD_TILE);
 
-const { radius, lane } = CLOUDS;
+const radius = CLOUDS.radius;
+const lane = CLOUDS.lane;
 
 /**
  * Where clouds stand and the noise that shapes them, on lattices that repeat
@@ -127,8 +128,8 @@ fn cloudIn(cell: vec2i) -> Cloud {
   // clouds go down it, open where the sun's beam crosses the slab and for a
   // way either side of the island, closing far off.
   let toSun = -(centre.x + cloudDrift());
-  let open = smoothstep(${f32(LANE.shut.behind)}, ${f32(LANE.open.behind)}, toSun)
-    * (1.0 - smoothstep(${f32(LANE.open.ahead)}, ${f32(LANE.shut.ahead)}, toSun));
+  let open = smoothstep(${f32(CLOUD_LANE.shut.behind)}, ${f32(CLOUD_LANE.open.behind)}, toSun)
+    * (1.0 - smoothstep(${f32(CLOUD_LANE.open.ahead)}, ${f32(CLOUD_LANE.shut.ahead)}, toSun));
   let clear = ${f32(lane.clear)} * open;
   let edge = clear + ${f32(lane.full - lane.clear)} * (0.35 + 0.65 * ragged);
   let laned = mix(1.0, smoothstep(clear, edge, abs(centre.y)), smoothstep(0.0, 0.2, open));
