@@ -144,6 +144,18 @@ reached from the second account.
   > давай по умолчанию низкое качество (без попиксельного песка), а по
   > консольной команде -- увеличение. посмотрю как на "низком"
 
+  And, with the subagents out:
+
+  > как закончат, сделаешь ревью-борду тоже? и на борду кубика тоже надо занести
+  > апдейт
+
+  The review board is republished once the packages are in. The cube's design
+  board (https://claude.ai/artifact/WbvwDqVtJzN8EBeuUffho3) and the board
+  session that kept it both read as not found from this account, so the update
+  is written to `board-update.md` in the branch's working directory — English,
+  the pill's colours left out — for whoever can reach the board to add, unless
+  the operator shares it with this account.
+
   **Decided**: the lead makes the four changes itself, with no child team — they
   are one package's worth, all in the walk's scenes and the player. The speed
   out of doors is the next round's, not this one's. Then `/finalize`, which
