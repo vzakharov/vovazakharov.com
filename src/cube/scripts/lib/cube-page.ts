@@ -24,8 +24,9 @@ import {
 import { inTurn } from '@/scene/scripts/lib/in-turn';
 import { watchPageErrors } from '@/scene/scripts/lib/page-errors';
 
-const WIDTH = 1280;
-const HEIGHT = 800;
+/** The page's viewport, which every frame is the size of. */
+export const VIEWPORT = { width: 1280, height: 800 };
+const { width: WIDTH, height: HEIGHT } = VIEWPORT;
 /** How long the page gets to compile, load and install its hook. */
 const HOOK_TIMEOUT_MS = 180_000;
 const POLL_MS = 500;

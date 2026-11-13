@@ -15,14 +15,22 @@ and shadow, and core's stand-ins for sky, shell and sea.
 - `ladder-foot.webp` — where the ladder stands, looking up the east face:
   sunlit, the ladder's shadow on it from shell's `cubeShadow`, the ladder itself
   and the doorway not drawn by the stand-in.
-- `doorway-out.webp` — floor 1's room at the doorway, looking east through it:
-  the sand and the sky toward the sun, burnt out by floor 1's lens at
-  exposure 1.
-- `room-doorway.webp` — floor 1's room looking at the doorway: the opening, the
-  sun's beam across the floor and its haze, the ceiling panels off.
-- `room-fresh.webp` — the same pose at `--indoors 0`: the room as an eye just in
-  from daylight sees it, dim but for the beam, the sea plain through the
-  doorway.
+- `doorway-out.webp` — the sill looking out, the interior a quarter-turn round
+  in its shell: a rolled notice board hangs across the opening, which decor does
+  not yet keep clear. Pill's to fix; the eye is right.
+- `room-doorway.webp` — floor 1's room looking at the doorway, now in the room's
+  south wall: the opening, the beam and its haze, and the same notice board
+  standing in the daylight.
+- `entering.webp` — a step inside the doorway, looking the way one climbs in,
+  through floor 1's own lens: the shrubs and the bench straight ahead, the beam
+  crossing to the far wall beside the bench, the hatch's quarter on the left
+  unlit.
+- `entering-fresh.webp`, `entering-halfway.webp` — the same at `--indoors 0` and
+  `0.5`: an eye just in from daylight, and half used to the room.
+- `in-beam.webp` — standing in the beam, looking down it at where it lands.
+- `room-fresh.webp` — `room-doorway`'s pose before the turn, at `--indoors 0`:
+  the room as an eye just in from daylight sees it, dim but for the beam, the
+  sea plain through the doorway.
 - `room-halfway.webp` — the same at `--indoors 0.5`.
 - `doorway-down.webp` — the sill looking 40° down through floor 1's lens: the
   sand under the doorway, bleached, as an eye used to the room sees it.
@@ -31,10 +39,14 @@ and shadow, and core's stand-ins for sky, shell and sea.
 - `sill-adapted.webp` — the same at `--indoors 0`: the eye used to daylight, the
   sand, the sea's edge and the sun.
 - `wake-cube-before-film.webp` — `wake-cube` through the room's film curve, as
-  it was: the sky about the sun one white area. `wake-cube.webp`, `wake-sea.webp`
-  and `ladder-foot.webp` are through the outside's own curve, from the waking
-  spot inland, with the real sky, sea and shell.
+  it was: the sky about the sun one white area. `wake-cube.webp`,
+  `wake-sea.webp` and `ladder-foot.webp` are through the outside's own curve,
+  from the waking spot inland, with the real sky, sea and shell.
 - `sun-film-before-06-04.webp` — the sky about the sun, cropped, three ways: the
   room's curve, the outside's with its tail at 0.6 (kept), and at 0.4 (greyer).
 - `wake-cube-eyelids-045.webp` — `wake-cube` with `--eyelids 0.45`: the outside
   lens's lids half shut.
+
+`wake-cube.webp` is re-shot with the interior turned. With the turn switched off
+the same eye gives the same frame to the pixel: an eye outside is reckoned in
+the world frame alone (`seenOutside`).

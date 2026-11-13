@@ -14,6 +14,7 @@ import {
   gazeInCube,
   OUTSIDE_FAR,
   seenInWorld,
+  seenOutside,
   viewProjection,
 } from './camera';
 
@@ -151,6 +152,32 @@ describe('the camera', () => {
         const [x, y] = project(inside, point);
         const [alsoX, alsoY] = project(out, point);
         assert.ok(Math.abs(x - alsoX) < 1e-6 && Math.abs(y - alsoY) < 1e-6);
+      }
+    }
+  });
+
+  it('sees the same of the world from an eye outside as the cube frame shows of itself', () => {
+    const outside: Outside = {
+      eye: [-16, 1.4, 12],
+      yaw: -0.6,
+      elevation: 0.14,
+      roll: 0.05,
+    };
+    const { eye, roll } = outside;
+    const inCube = viewProjection(gazeInCube(outside), toCube(eye), 1.6, 1, {
+      roll,
+      far: OUTSIDE_FAR,
+    });
+    const inWorld = seenOutside(outside, 1.6);
+    assert.deepEqual(inWorld.eye, eye);
+    for (const point of [
+      [0.5, 0.2, 0.5],
+      [9, -0.1, -3],
+    ] satisfies Vec3[]) {
+      const there = project(inCube, point);
+      const here = project(inWorld.viewProjection, toWorld(point));
+      for (const [index, value] of there.entries()) {
+        assert.ok(Math.abs(value - (here[index] ?? Number.NaN)) < 1e-4);
       }
     }
   });
