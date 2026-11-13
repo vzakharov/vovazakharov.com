@@ -2,6 +2,7 @@ import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEIL
 import package::cube::entities::theme::edge::pattern::lib::pattern::luma;
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::kit::lib::grade::{grain, vignette};
+import package::cube::entities::theme::kit::lib::scene::sceneAt;
 
 fn themeMaterial(s: Surf) -> Material {
   switch s.kind {

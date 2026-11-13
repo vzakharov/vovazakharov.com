@@ -9,6 +9,7 @@ import package::cube::entities::theme::kit::lib::finish::{band, plaster, damp};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::kit::lib::light::lampGlow;
 import package::cube::entities::theme::kit::lib::grade::tonemap;
+import package::cube::entities::theme::kit::lib::scene::{sceneAt, glowAt};
 
 fn themeMaterial(s: Surf) -> Material {
   switch s.kind {

@@ -3,7 +3,7 @@
 
 import { HASH, wgsl } from '@/cube/shared/shader';
 
-import { CORE, FINISH, GRADE, LIGHT, STUFF } from '../../../kit';
+import { CORE, FINISH, GRADE, LIGHT, SCENE, STUFF } from '../../../kit';
 import { HOUSEHOLD } from '../../household';
 
 export const DRAWING_SHADER = wgsl(
@@ -203,4 +203,5 @@ fn themeLens(l: Lens) -> vec3f {
   LIGHT,
   HOUSEHOLD,
   GRADE,
+  SCENE,
 );

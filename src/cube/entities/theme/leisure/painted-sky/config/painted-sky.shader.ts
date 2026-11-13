@@ -3,7 +3,7 @@
 
 import { HASH, wgsl } from '@/cube/shared/shader';
 
-import { CORE, GRADE, LIGHT, STUFF } from '../../../kit';
+import { CORE, GRADE, LIGHT, SCENE, STUFF } from '../../../kit';
 import { SHAPE } from '../../shape';
 
 export const PAINTED_SKY_SHADER = wgsl(
@@ -194,4 +194,5 @@ fn themeLens(l: Lens) -> vec3f {
   LIGHT,
   GRADE,
   SHAPE,
+  SCENE,
 );

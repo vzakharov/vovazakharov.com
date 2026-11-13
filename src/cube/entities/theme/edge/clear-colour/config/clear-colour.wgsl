@@ -3,6 +3,7 @@ import package::cube::entities::theme::edge::pattern::lib::pattern::luma;
 import package::cube::entities::theme::edge::screen::lib::screen::shown;
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::kit::lib::light::{Lamps, cornerShade, lampGlow, roomLight};
+import package::cube::entities::theme::kit::lib::scene::{sceneAt, glowAt};
 
 const CLEAR = AIR;
 

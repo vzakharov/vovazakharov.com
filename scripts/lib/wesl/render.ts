@@ -9,7 +9,11 @@
 import path from 'node:path';
 import * as prettier from 'prettier';
 
-import { type MasdGraph, SLICED_LAYERS } from '../../../eslint/masd-graph.ts';
+import {
+  LAYERS,
+  type MasdGraph,
+  SLICED_LAYERS,
+} from '../../../eslint/masd-graph.ts';
 import { type Linked, type Named, throughBarrel } from './checks.ts';
 import { exportName, generatedOf } from './link.ts';
 import { placeImport } from './placement.ts';
@@ -60,11 +64,23 @@ const SWAPPED: Readonly<Record<string, string>> = {
 const sortKey = (specifier: string): string =>
   specifier.replaceAll(/[./_-]/g, (char) => SWAPPED[char] ?? char);
 
-/** `../../` before `../` before `./`, as simple-import-sort orders them. */
+/** An aliased import's layer, lowest first, as the import sort groups them. */
+const layerRank = (specifier: string): number => {
+  const layer = specifier.split('/').at(2) ?? '';
+  return LAYERS.toReversed().indexOf(layer);
+};
+
+/**
+ * Lower layers before higher, then `../../` before `../` before `./`, as
+ * simple-import-sort orders them.
+ */
 function importOrder(a: string, b: string): number {
   const [x, y] = [sortKey(a), sortKey(b)];
   return (
-    ups(b) - ups(a) || collator.compare(x, y) || (x < y ? -1 : Number(x > y))
+    layerRank(a) - layerRank(b) ||
+    ups(b) - ups(a) ||
+    collator.compare(x, y) ||
+    (x < y ? -1 : Number(x > y))
   );
 }
 

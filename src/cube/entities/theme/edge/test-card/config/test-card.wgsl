@@ -7,6 +7,7 @@ import package::cube::entities::theme::edge::screen::lib::screen::scanned;
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::kit::lib::light::lampGlow;
 import package::cube::entities::theme::kit::lib::grade::{tonemap, grain, vignette};
+import package::cube::entities::theme::kit::lib::scene::{sceneAt, glowAt};
 
 const BARS =
   array<vec3f, 7>(

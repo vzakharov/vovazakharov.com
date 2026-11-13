@@ -5,6 +5,7 @@ import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::kit::lib::light::{Lamps, lampReach};
 import package::cube::entities::theme::dwelling::household::lib::household::{wallWord, boxAway, within, fromLamp};
 import package::cube::entities::theme::kit::lib::grade::vignette;
+import package::cube::entities::theme::kit::lib::scene::sceneAt;
 
 const SUGAR = vec3f(0.62, 0.57, 0.45);
 

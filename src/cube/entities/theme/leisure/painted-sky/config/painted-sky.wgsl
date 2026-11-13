@@ -4,6 +4,7 @@ import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::kit::lib::light::{Lamps, lampLevel, roomLight};
 import package::cube::entities::theme::kit::lib::grade::{haze, tonemap, vignette};
 import package::cube::entities::theme::leisure::shape::lib::shape::{inside, stroke, oneOf};
+import package::cube::entities::theme::kit::lib::scene::{sceneAt, glowAt};
 
 fn lamps() -> Lamps {
   return

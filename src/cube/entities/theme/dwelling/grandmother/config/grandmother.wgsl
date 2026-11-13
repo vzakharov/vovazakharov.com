@@ -5,6 +5,7 @@ import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::kit::lib::light::{Lamps, roomLight};
 import package::cube::entities::theme::dwelling::household::lib::household::{wallWord, boxAway, within, fromLamp, burning, halfDrop};
 import package::cube::entities::theme::kit::lib::grade::{haze, tonemap, through, grain, vignette};
+import package::cube::entities::theme::kit::lib::scene::sceneAt;
 
 fn lamps() -> Lamps {
   return

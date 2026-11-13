@@ -3,7 +3,7 @@
 
 import { HASH, wgsl } from '@/cube/shared/shader';
 
-import { CORE, GRADE, STUFF } from '../../../kit';
+import { CORE, GRADE, SCENE, STUFF } from '../../../kit';
 import { PATTERN } from '../../pattern';
 import { SCREEN } from '../../screen';
 
@@ -68,4 +68,5 @@ fn themeLens(l: Lens) -> vec3f {
   SCREEN,
   STUFF,
   GRADE,
+  SCENE,
 );

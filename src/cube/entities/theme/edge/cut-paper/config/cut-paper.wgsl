@@ -4,6 +4,7 @@ import package::cube::entities::theme::edge::pattern::lib::pattern::fromMiddle;
 import package::cube::entities::theme::edge::screen::lib::screen::{shown, creaseAt};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::kit::lib::grade::{grain, vignette};
+import package::cube::entities::theme::kit::lib::scene::sceneAt;
 
 const PAPERS =
   array<vec3f, 6>(

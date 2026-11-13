@@ -3,7 +3,7 @@
 
 import { wgsl } from '@/cube/shared/shader';
 
-import { CORE, GRADE, STUFF } from '../../../kit';
+import { CORE, GRADE, SCENE, STUFF } from '../../../kit';
 import { PATTERN } from '../../pattern';
 
 export const DEPTH_BUFFER_SHADER = wgsl(
@@ -56,4 +56,5 @@ fn themeLens(l: Lens) -> vec3f {
   PATTERN,
   STUFF,
   GRADE,
+  SCENE,
 );

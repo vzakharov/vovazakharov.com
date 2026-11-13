@@ -181,6 +181,24 @@ describe('pnpm shaders:codegen', () => {
     assert.equal(run(root).status, 0);
   });
 
+  it("enters a sub-slice's module by the slice barrel carrying it on", () => {
+    const root = tree({
+      'index.ts': "export { BASE } from './kit';",
+      '../../pages/cube/lib/stage.wgsl': `import ${KIT}::base;\n\nfn stage() -> f32 {\n  return base();\n}\n`,
+    });
+    const first = run(root);
+    assert.equal(first.status, 1, first.report);
+    const written = fs.readFileSync(
+      path.join(root, THEME, '../../pages/cube/lib/stage.shader.ts'),
+      'utf8',
+    );
+    assert.match(
+      written,
+      /import { wgsl } from '@\/cube\/shared\/shader';\nimport { BASE } from '@\/cube\/entities\/theme';/,
+    );
+    assert.equal(run(root).status, 0);
+  });
+
   for (const [name, files, says] of REFUSALS) {
     it(`refuses ${name}`, () => {
       const root = tree(files);

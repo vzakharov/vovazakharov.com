@@ -9,6 +9,7 @@ import package::cube::entities::theme::kit::lib::finish::{band, tiling};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::kit::lib::light::lampGlow;
 import package::cube::entities::theme::kit::lib::grade::tonemap;
+import package::cube::entities::theme::kit::lib::scene::{sceneAt, glowAt};
 
 const CARD =
   array<vec3f, 16>(

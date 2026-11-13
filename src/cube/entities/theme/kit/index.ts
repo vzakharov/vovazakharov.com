@@ -7,6 +7,7 @@ export { LIGHT } from './lib/light.shader';
 export { LUMA } from './lib/luma.shader';
 export { MATH } from './lib/math.shader';
 export { ordinary } from './lib/ordinary';
+export { SCENE } from './lib/scene.shader';
 export { STUFF } from './lib/stuff.shader';
 export { type Shrub, sunlit } from './lib/sun';
 export { roomFlags, type RoomState } from './model/flags';

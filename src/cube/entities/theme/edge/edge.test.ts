@@ -35,7 +35,7 @@ describe('the edge band', () => {
 
   it("every floor's shader assembles and answers with the three functions", () => {
     for (const theme of themes) {
-      const source = floorSource(theme, '');
+      const source = floorSource(theme);
       for (const answer of ['themeMaterial', 'themeLight', 'themeLens']) {
         assert.equal(
           source.split(`fn ${answer}(`).length,

@@ -8,6 +8,7 @@ import package::cube::entities::theme::edge::screen::lib::screen::scanned;
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::kit::lib::light::lampGlow;
 import package::cube::entities::theme::kit::lib::grade::{tonemap, vignette};
+import package::cube::entities::theme::kit::lib::scene::{sceneAt, glowAt};
 
 /// Snow at a point, 0 to 1, in grains `grain` to the metre each way.
 fn snow(s: Surf, grain: vec2f, salt: u32) -> f32 {

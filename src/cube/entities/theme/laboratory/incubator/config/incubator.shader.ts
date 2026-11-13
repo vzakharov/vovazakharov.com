@@ -3,7 +3,7 @@
 
 import { HASH, wgsl } from '@/cube/shared/shader';
 
-import { CORE, GRADE, LIGHT, LUMA, STUFF } from '../../../kit';
+import { CORE, GRADE, LIGHT, LUMA, SCENE, STUFF } from '../../../kit';
 
 export const INCUBATOR_SHADER = wgsl(
   'cube/entities/theme/laboratory/incubator/config/incubator',
@@ -184,4 +184,5 @@ fn themeLens(l: Lens) -> vec3f {
   LIGHT,
   GRADE,
   LUMA,
+  SCENE,
 );

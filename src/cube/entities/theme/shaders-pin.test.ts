@@ -13,6 +13,7 @@ import {
   HONEYCOMB,
   LUMA,
   MATH,
+  SCENE,
   vec3f,
   type Wgsl,
 } from './kit';
@@ -144,6 +145,8 @@ const NAMED: ReadonlyArray<readonly [string, string]> = [
   ['hex.w / HEX_ROW', 'hex.w / 0.8660254'],
   [piece(MATH), ''],
   ['l.pixel.y * PI', 'l.pixel.y * 3.14159'],
+  // The scene a lens reads, which the stage declared before the kit did.
+  [piece(SCENE), ''],
 ];
 
 /** A kit piece's text as it stood before its numbers took names. */
@@ -236,7 +239,7 @@ function home(source: string): string {
 
 const asBefore = (n: number, theme: FloorTheme): string => {
   const moved = calling[n];
-  const named = undoAll(tokens(floorSource(theme, '')), NAMED);
+  const named = undoAll(tokens(floorSource(theme)), NAMED);
   const source = aired(uncalled(named, n), theme.air);
   if (n === 12) return bathroom(source);
   if (n === 9) return home(source);

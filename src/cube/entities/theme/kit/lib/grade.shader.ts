@@ -4,6 +4,7 @@
 import { HASH, wgsl } from '@/cube/shared/shader';
 
 import { CORE } from './core';
+import { SCENE } from './scene.shader';
 
 export const GRADE = wgsl(
   'cube/entities/theme/kit/lib/grade',
@@ -53,4 +54,5 @@ fn vignette(l: Lens, depth: f32) -> f32 {
 `,
   CORE,
   HASH,
+  SCENE,
 );

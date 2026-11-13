@@ -41,22 +41,47 @@ export const messageOf = (error: unknown): string =>
 const BARREL_EXPORT = /export\s*{([^}]*)}\s*from\s*'([^']+)'/g;
 
 /**
+ * The name `barrel` re-exports `name` of `module` under, or undefined: from
+ * the module itself, or from the barrel of a sub-slice holding it.
+ */
+function exportedAs(
+  barrel: string,
+  module: string,
+  name: string,
+): string | undefined {
+  const source = fs.readFileSync(path.join(barrel, 'index.ts'), 'utf8');
+  for (const [, list = '', specifier = ''] of source.matchAll(BARREL_EXPORT)) {
+    const from = path.join(barrel, specifier);
+    const inner =
+      module.startsWith(`${from}/`) &&
+      fs.existsSync(path.join(from, 'index.ts'));
+    if (from !== module && !inner) continue;
+    for (const item of list.split(',')) {
+      const [own = '', as = own] = item
+        .trim()
+        .replace(/^type\s+/, '')
+        .split(/\s+as\s+/);
+      if (own !== name) continue;
+      if (from === module || exportedAs(from, module, own) !== undefined) {
+        return as;
+      }
+    }
+  }
+  return undefined;
+}
+
+/**
  * The name `barrel`'s `index.ts` re-exports `name` of `module` under: a
- * module entered from outside its unit has to be on the unit's public API.
+ * module entered from outside its unit has to be on the unit's public API,
+ * which may carry it on from a sub-slice's own.
  */
 export function throughBarrel(
   barrel: string,
   module: string,
   name: string,
 ): string {
-  const source = fs.readFileSync(path.join(barrel, 'index.ts'), 'utf8');
-  for (const [, list = '', specifier = ''] of source.matchAll(BARREL_EXPORT)) {
-    if (path.join(barrel, specifier) !== module) continue;
-    for (const item of list.split(',')) {
-      const [own, as = own] = item.trim().split(/\s+as\s+/);
-      if (own === name && as !== undefined) return as;
-    }
-  }
+  const as = exportedAs(barrel, module, name);
+  if (as !== undefined) return as;
   throw new Error(`${barrel}/index.ts does not export ${name} from ${module}`);
 }
 

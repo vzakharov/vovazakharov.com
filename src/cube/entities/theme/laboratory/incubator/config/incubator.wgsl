@@ -4,6 +4,7 @@ import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::kit::lib::light::{Lamps, lampReach, cornerShade, lampGlow};
 import package::cube::entities::theme::kit::lib::grade::{haze, grain, vignette};
 import package::cube::entities::theme::kit::lib::luma::luma;
+import package::cube::entities::theme::kit::lib::scene::{sceneAt, glowAt};
 
 /// A material that is only a temperature: 0 the coldest thing in the frame,
 /// 1 the hottest.

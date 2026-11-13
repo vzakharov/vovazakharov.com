@@ -3,6 +3,7 @@
 
 import super::core::{Surf, Lens, mirroring};
 import package::cube::shared::shader::hash::{hashOf, unitOf};
+import super::scene::{sceneAt, glowAt};
 
 /// The colour seen through air of colour `air` that swallows a thing
 /// `reach` metres off by about two thirds, and the point's mirror dimmed

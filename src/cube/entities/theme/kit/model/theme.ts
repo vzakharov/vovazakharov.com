@@ -43,17 +43,18 @@ export type Floors = Readonly<Partial<Record<number, FloorTheme>>>;
 
 /**
  * A floor's whole shader: its theme's three functions, everything they call,
- * `AIR` — the theme's air, which its WGSL names without importing — and
- * `stage`, the entry points, which may call the theme's three, the core kit
- * and `ownedMark`.
+ * `AIR` — the theme's air, which its WGSL names without importing — the core
+ * kit, and `stage`, the entry points, which may call the theme's three, the
+ * core kit and `ownedMark` without importing them.
  */
 export const floorSource = (
   { shader, air }: FloorTheme,
-  stage: string,
+  ...stage: readonly Wgsl[]
 ): string =>
   `${DIRECTIVES}\n\n${assemble([
     wgsl('air', `const AIR = ${vec3f(air)};`),
     shader,
     STUFF,
-    wgsl('stage', stage, CORE),
+    CORE,
+    ...stage,
   ])}`;

@@ -3,7 +3,7 @@
 
 import { wgsl } from '@/cube/shared/shader';
 
-import { CORE } from '../../../kit';
+import { CORE, SCENE } from '../../../kit';
 
 export const SCREEN = wgsl(
   'cube/entities/theme/edge/screen/lib/screen',
@@ -50,4 +50,5 @@ fn scanned(l: Lens, count: f32, depth: f32) -> f32 {
 }
 `,
   CORE,
+  SCENE,
 );

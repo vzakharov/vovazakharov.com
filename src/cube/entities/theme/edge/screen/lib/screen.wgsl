@@ -2,6 +2,7 @@
 // outlines read off the scene's depth, and a display's own gamma.
 
 import package::cube::entities::theme::kit::lib::core::Lens;
+import package::cube::entities::theme::kit::lib::scene::sceneAt;
 
 /// Linear light, 0 to 1, as the display's own numbers.
 fn shown(colour: vec3f) -> vec3f {
