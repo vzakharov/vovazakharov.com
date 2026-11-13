@@ -9,8 +9,6 @@ import { SEA_SURFACE } from './sea-surface-wgsl';
 
 /** Water deeper than this, metres, shows none of its bed. */
 const BED_SHOWS = 24;
-/** Water at least this deep, metres, mirrors the sky as a whole surface does. */
-const MIRRORS_FROM = 0.02;
 /** The cosine of the sun's rays to the vertical once they are in the water. */
 const SUN_SINKS = 0.67;
 
@@ -145,12 +143,9 @@ fn seaFragment(in: SeaVarying, @builtin(front_facing) above: bool) -> SeaOut {
     return drowned;
   }
 
-  // A sheet thinner than the sand's grain is no mirror yet: its tip shows
-  // the wet sand under it, and the sky comes in as the water deepens.
-  let film = smoothstep(0.002, ${f32(MIRRORS_FROM)}, column);
-  let water = film * seen.sky
-    + (1.0 - film * seen.share) * under
-    + film * sunlit * glitter(waves, toEye, seen.shown);
+  let water = seen.sky
+    + (1.0 - seen.share) * under
+    + sunlit * glitter(waves, toEye, seen.shown);
   let thick = foamThickness(in.still, shore, waves.squeeze);
   // Churning foam stands in lumps, each shading the next from a low sun.
   let lumps = smoothstep(0.3, 0.7, fbm(in.still * 2.3, 43u, 4));
