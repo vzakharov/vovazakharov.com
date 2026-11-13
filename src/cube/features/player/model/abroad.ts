@@ -6,15 +6,13 @@ import type { Quad } from '@/cube/entities/world';
 import { handsOnLadder } from './climbing';
 import { type Cue, type Cued, NO_CUES } from './player';
 import {
-  type Bearing,
   EYE_OVER_SAND,
+  footingAt,
   isAfloat,
   type Land,
   roam,
   type Roamer,
   roamingAt,
-  type Seated,
-  swingOf,
 } from './roam';
 import {
   climb,
@@ -30,7 +28,7 @@ import type { Input } from './step';
 import { cuesBetween, type Shot, shotAt, type Track } from './track';
 
 /** A scene being played, `playedFor` seconds in, and where it leaves the body. */
-type Playing = Seated & {
+type Playing = {
   track: Track<Cue>;
   playedFor: number;
   into: 'island' | 'cube';
@@ -78,7 +76,6 @@ export function asleepOn(stage: Stage, seconds: number): Abroad {
     roamer,
     {
       track: waking(stage),
-      seat: { ...pick(wake, 'at'), lies: wake.seaward },
       playedFor: 0,
       into: 'island',
     },
@@ -131,12 +128,34 @@ export const steppingOut = (
     ),
     {
       track: stepOff(from, scale, stage),
-      seat: null,
       playedFor: 0,
       into: 'island',
     },
     { asleep: false, ladderGone: true },
   );
+
+/** How far over its standing height an eye may be and its feet still be on the sand. */
+const OFF_THE_SAND = 0.3;
+
+/**
+ * A scene's `cue` as the frame it falls in sounds it: a footfall the scene
+ * gave no ground, made by a body of `scale` standing on `land` with its eye
+ * at `shot`, lands on the sand as the sea has left it `seconds` into the
+ * hour.
+ */
+function footed(
+  cue: Cue,
+  { x, y, z }: Shot,
+  scale: number,
+  land: Land,
+  seconds: number,
+): Cue {
+  if (cue.cue !== 'step' || cue.ground !== undefined) return cue;
+  const over = y - land.height(x, z);
+  return over > (EYE_OVER_SAND + OFF_THE_SAND) * scale
+    ? cue
+    : { ...cue, ground: footingAt(land, x, z, seconds) };
+}
 
 /** `stage`'s land as a body meets it, the ladder in its way until it is gone. */
 const landOf = ({ land, ladder }: Stage, ladderGone: boolean): Land =>
@@ -185,7 +204,9 @@ export function abroad(
     const { track, playedFor, into } = scene;
     const t = playedFor + dt;
     const shot = shotAt(track, t);
-    const cues = cuesBetween(track, playedFor, t);
+    const cues = cuesBetween(track, playedFor, t).map((cue) =>
+      footed(cue, shot, roamer.scale, stage.land, seconds),
+    );
     const done = t >= track.runs;
     return {
       roamer: done
@@ -211,7 +232,6 @@ export function abroad(
       roamer,
       {
         track: climb(shotOf(roamer), stage),
-        seat: null,
         playedFor: 0,
         into: 'cube',
       },
@@ -221,24 +241,6 @@ export function abroad(
   const moved = roam(roamer, input, dt, seconds, landOf(stage, ladderGone));
   const { cues } = moved;
   return { ...free, roamer: moved, shot: shotOf(moved), cues };
-}
-
-/** How `abroad` holds its body under its eye, null while its lids are shut. */
-export function bearingOf(
-  { shot, scene, roamer }: Abroad,
-  { land }: Stage,
-  seconds: number,
-): Bearing | null {
-  if (shot.lids <= 0) return null;
-  const free = scene === null;
-  const { scale, eye } = roamer;
-  return {
-    ...outsideOf(shot),
-    scale,
-    seat: scene?.seat ?? null,
-    swing: free ? swingOf(roamer) : 0,
-    afloat: free && isAfloat(land, eye, seconds, scale),
-  };
 }
 
 /**

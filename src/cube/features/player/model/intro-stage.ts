@@ -2,7 +2,7 @@ import {
   CUBE_BOX,
   CUBE_METRES,
   DOOR_LADDER,
-  DOORWAY,
+  DOORWAY_BOX,
   islandHeight,
   toWorld,
   WAKE_AT,
@@ -13,13 +13,16 @@ import type { Stage } from './scenes';
 import { EYE_HEIGHT } from './step';
 
 /**
- * How far inside the doorway the body arrives, and how far south of the
- * doorway's north jamb: past the potted plant that stands in the corner.
+ * How far inside the doorway the body arrives, in metres, and how far along
+ * the doorway from its north jamb to its south.
  */
 const ARRIVES_IN = 0.9;
 const ARRIVES_SOUTH = 0.64;
 
-/** The pill's shelf on floor 1's west wall: metres south along it, and up. */
+/**
+ * The pill's shelf on the west wall of floor 1's room, as the room has it:
+ * metres south along it, and up.
+ */
 const SHELF_SOUTH = 3.75;
 const SHELF_UP = 1;
 
@@ -62,9 +65,10 @@ export const INTRO_STAGE: Stage = {
     },
   },
   shelf: toWorld([0, SHELF_UP / CUBE_METRES, SHELF_SOUTH / CUBE_METRES]),
-  arrival: toWorld([
-    1 - ARRIVES_IN / CUBE_METRES,
-    EYE_HEIGHT,
-    (DOORWAY.from + (DOORWAY.to - DOORWAY.from) * ARRIVES_SOUTH) / CUBE_METRES,
-  ]),
+  arrival: [
+    DOORWAY_BOX.min[0] - ARRIVES_IN,
+    DOORWAY_BOX.min[1] + EYE_HEIGHT * CUBE_METRES,
+    DOORWAY_BOX.min[2] +
+      (DOORWAY_BOX.max[2] - DOORWAY_BOX.min[2]) * ARRIVES_SOUTH,
+  ],
 };

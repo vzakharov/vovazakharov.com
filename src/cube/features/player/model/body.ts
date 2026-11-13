@@ -1,5 +1,5 @@
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
-import { DOORWAY } from '@/cube/shared/outside';
+import { ROOM_DOORWAY } from '@/cube/shared/outside';
 import type { InRoom, Pose, Walls } from '@/cube/entities/world';
 
 /**
@@ -13,14 +13,45 @@ const PASSES = 4;
 
 type Segment = { a: InRoom; b: InRoom };
 
-/** The doorway's jambs along floor 1's east wall, in room sides from its north end. */
-const JAMBS = [DOORWAY.from / ROOM_METRES, DOORWAY.to / ROOM_METRES] as const;
+/** A length of a wall, from and to, in room sides from its north or west end. */
+type Span = readonly [number, number];
+
+const WHOLE: readonly Span[] = [[0, 1]];
+
+/**
+ * The wall of floor 1 the doorway out of the cube opens in: whether it is an
+ * east wall, running along `v`, or a south one, along `u`; the room whose
+ * east or south wall it is; and the lengths of it that stand either side of
+ * the doorway, in room sides from its north or west end.
+ */
+const DOOR_WALL = (() => {
+  const { wall, from, to } = ROOM_DOORWAY;
+  const stands: readonly Span[] = [
+    [0, from / ROOM_METRES],
+    [to / ROOM_METRES, 1],
+  ];
+  return {
+    isEast: wall === 'east' || wall === 'west',
+    x: wall === 'west' ? -1n : 0n,
+    y: wall === 'north' ? -1n : 0n,
+    stands,
+  };
+})();
+
+/** The lengths that stand of the east (`isEast`) or south wall of room `x`, `y` on floor `n`. */
+const standing = (n: number, x: bigint, y: bigint, isEast: boolean) =>
+  n === 1 &&
+  isEast === DOOR_WALL.isEast &&
+  x === DOOR_WALL.x &&
+  y === DOOR_WALL.y
+    ? DOOR_WALL.stands
+    : WHOLE;
 
 /**
  * The closed walls a body in `pose`'s room can touch, as segments on the
  * lines `u = 0`, `u = 1`, `v = 0` and `v = 1` of that room's frame. The closed
- * walls' ends are the door jambs, and floor 1's east wall stands either side
- * of the doorway out of the cube.
+ * walls' ends are the door jambs, and floor 1's wall stands either side of
+ * the doorway out of the cube.
  */
 export function closedWalls({ n, x, y }: Pose, walls: Walls): Segment[] {
   const segments: Segment[] = [];
@@ -29,17 +60,20 @@ export function closedWalls({ n, x, y }: Pose, walls: Walls): Segment[] {
     for (const line of [0, 1]) {
       const edge = BigInt(line - 1);
       if (!walls.isOpenEast(n, x + edge, y + big)) {
-        const out = n === 1 && x + edge === 0n && y + big === 0n;
-        const ends = out ? [0, ...JAMBS, 1] : [0, 1];
-        for (let end = 0; end < ends.length; end += 2) {
+        for (const [from, to] of standing(n, x + edge, y + big, true)) {
           segments.push({
-            a: { u: line, v: d + (ends[end] ?? 0) },
-            b: { u: line, v: d + (ends[end + 1] ?? 1) },
+            a: { u: line, v: d + from },
+            b: { u: line, v: d + to },
           });
         }
       }
       if (!walls.isOpenSouth(n, x + big, y + edge)) {
-        segments.push({ a: { u: d, v: line }, b: { u: d + 1, v: line } });
+        for (const [from, to] of standing(n, x + big, y + edge, false)) {
+          segments.push({
+            a: { u: d + from, v: line },
+            b: { u: d + to, v: line },
+          });
+        }
       }
     }
   }

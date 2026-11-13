@@ -1,4 +1,4 @@
-import { LADDER_OUT, toCube } from '@/cube/shared/outside';
+import { LADDER_OUT, toCube, turnedToRoom } from '@/cube/shared/outside';
 import { type Quad, type Room, times, type Vec3 } from '@/cube/entities/world';
 
 import { grippingHand } from './grip';
@@ -29,7 +29,7 @@ export function handsOnLadder(
   scale: number,
 ): Quad[] {
   const [, eyeY, eyeZ] = eye;
-  const palm = times(LADDER_OUT, -1);
+  const palm = turnedToRoom(times(LADDER_OUT, -1));
   return BOTH_HANDS.flatMap((side, parity) => {
     const mine = rungs.filter((_, index) => index % 2 === parity);
     const [rung] = mine.toSorted(

@@ -10,7 +10,7 @@
  *   pnpm scenes:cube --out <dir>         # frames there instead, <dir> absolute
  *
  * Each is played through the walk's own controller, so a frame holds what the
- * page draws: the body's legs and hands, its shadow, the ladder standing or
+ * page draws: the body's hands on the ladder, its shadow, the ladder standing or
  * gone, and the lens as the eye has got used to the light.
  */
 
@@ -20,10 +20,8 @@ import {
   type Abroad,
   abroad,
   asleepOn,
-  bearingOf,
   handsAbroad,
   INTRO_STAGE,
-  legsOf,
   outsideOf,
   roamingFree,
   type Shot,
@@ -111,15 +109,11 @@ const SCENES: Record<string, () => Opening> = {
 /** What the page draws of `body`, its eye `indoors` used to the room. */
 function drawn(body: Abroad, indoors: number) {
   const { shot, ladderGone } = body;
-  const bearing = bearingOf(body, INTRO_STAGE, 0);
   return {
     eye: outsideOf(shot),
     lens: lensAdapted(indoors, lensOf(shot)),
     among: {
-      moving:
-        bearing === null
-          ? []
-          : [...legsOf(bearing, land), ...handsAbroad(body, INTRO_STAGE)],
+      moving: handsAbroad(body, INTRO_STAGE),
       ladderGone,
       body: standingOf(body, INTRO_STAGE),
     },

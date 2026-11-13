@@ -16,13 +16,12 @@ import {
 
 /**
  * Where the scenes are set, in metres east, up and south: the island; the
- * spot the body wakes on at the water's edge, and the way its feet point,
- * out to sea; the cube's footprint and the height of its underside; the
- * ladder from its foot on the sand to its top at the doorway's sill, with the
- * heights of its rungs from the lowest and the ground it stands in a body's
- * way on while it stands; the eye of a body just inside the doorway, and the
- * pill's shelf it looks at from there; and the share of the outside lens's exposure that shows the room as
- * its own lens does. `land`'s solids are what stands for good: the cube.
+ * spot the body's head lies on as it wakes, up the beach on dry sand, and
+ * the way its feet point, out to sea; the cube's box; the ladder from its
+ * foot on the sand to its top at the doorway's sill, with the heights of its
+ * rungs from the lowest and the ground it stands in a body's way on while it
+ * stands; the eye of a body just inside the doorway, and the pill's shelf it
+ * looks at from there. `land`'s solids are what stands for good: the cube.
  */
 export type Stage = {
   land: Land;
@@ -81,23 +80,28 @@ export const outsideOf = ({
 /** How bright the first light is to eyes that were shut, as a multiple. */
 const DAZZLE = 1.5;
 
+/** How far down the beach from where its head lay a body sits up, and stands. */
+const SITS = 0.68;
+const STANDS = 1;
+
 /**
  * Waking: dark; the lids part on a world lying on its side, close, and part
- * again; the groan; up on an elbow, sitting with the legs in the swash,
- * standing with nothing but sea ahead; then the turn over the shoulder until
- * the cube stands in frame, and a beat on it.
+ * again; the groan; up on an elbow, sitting with the beach running down to
+ * the sea, standing with nothing but sea ahead; then the turn over the
+ * shoulder until the cube stands in frame, and a beat on it. Its footfalls
+ * name no ground: what the sand is like under them is the sea's to say.
  */
 export function waking({ land, wake, cube }: Stage): Track<Cue> {
   const { at, seaward } = wake;
   const [cos, sin] = [Math.cos(seaward), Math.sin(seaward)];
-  /** The eye `out` metres seaward of the hips and `over` the sand there. */
+  /** The eye `out` metres seaward of where the head lay and `over` the sand there. */
   const eyeAt = (out: number, over: number): Spot => {
     const [x, z] = [at[0] + out * cos, at[1] + out * sin];
     return { x, y: land.height(x, z) + over, z };
   };
   const stood: readonly [number, number] = [
-    at[0] + 0.2 * cos,
-    at[1] + 0.2 * sin,
+    at[0] + STANDS * cos,
+    at[1] + STANDS * sin,
   ];
   const middle: readonly [number, number] = [
     (cube.min[0] + cube.max[0]) / 2,
@@ -110,14 +114,14 @@ export function waking({ land, wake, cube }: Stage): Track<Cue> {
     cube.min[1] + 2.5 - (land.height(...stood) + EYE_OVER_SAND),
     toCube.far,
   );
-  /** Flat on its side, the head inland of the hips, looking down its legs. */
+  /** Flat on its side, looking down the beach. */
   const lying = {
-    ...eyeAt(-0.8, 0.13),
+    ...eyeAt(0, 0.13),
     yaw: seaward + 0.3 * side,
     elevation: 0.03,
     roll: 1.1 * side,
   };
-  const sitting = { ...eyeAt(-0.12, 0.8), yaw: seaward, elevation: -0.2 };
+  const sitting = { ...eyeAt(SITS, 0.8), yaw: seaward, elevation: -0.08 };
   const beats: Beat[] = [
     { mark: 0, ...lying, lids: 0, exposure: DAZZLE },
     { mark: 0.6, lids: 0 },
@@ -130,17 +134,22 @@ export function waking({ land, wake, cube }: Stage): Track<Cue> {
     // Up on an elbow.
     {
       mark: 5.6,
-      ...eyeAt(-0.62, 0.44),
+      ...eyeAt(0.18, 0.44),
       yaw: seaward + 0.15 * side,
       elevation: -0.1,
       roll: 0.35 * side,
     },
-    // Sitting: the legs and the swash below, the horizon above them.
+    // Sitting: the beach, the surf and the horizon.
     { mark: 7.2, ...sitting, roll: 0 },
     { mark: 8, ...sitting },
     // Onto the feet: forward over the knees, then up.
-    { mark: 8.9, ...eyeAt(0.3, 1.02), elevation: -0.45, ease: 'in' },
-    { mark: 10.1, ...eyeAt(0.2, EYE_OVER_SAND), elevation: -0.03, ease: 'out' },
+    { mark: 8.9, ...eyeAt(STANDS + 0.1, 1.02), elevation: -0.3, ease: 'in' },
+    {
+      mark: 10.1,
+      ...eyeAt(STANDS, EYE_OVER_SAND),
+      elevation: -0.03,
+      ease: 'out',
+    },
     // Nothing but sea.
     { mark: 10.9, yaw: seaward, elevation: -0.03, roll: 0 },
     // Over the shoulder: the head leads, the body follows.
@@ -150,11 +159,10 @@ export function waking({ land, wake, cube }: Stage): Track<Cue> {
   ];
   const cues: Marks = [
     [1.6, { cue: 'say', moment: 'waking' }],
-    [4.6, { cue: 'splash', strength: 0.12 }],
-    [9.2, { cue: 'step', strength: 0.35, ground: 'shallows' }],
-    [9.9, { cue: 'step', strength: 0.4, ground: 'wet-sand' }],
-    [12.1, { cue: 'step', strength: 0.3, ground: 'wet-sand' }],
-    [13.2, { cue: 'step', strength: 0.3, ground: 'wet-sand' }],
+    [9.2, { cue: 'step', strength: 0.35 }],
+    [9.9, { cue: 'step', strength: 0.4 }],
+    [12.1, { cue: 'step', strength: 0.3 }],
+    [13.2, { cue: 'step', strength: 0.3 }],
   ];
   return trackOf(beats, cues);
 }
@@ -173,7 +181,7 @@ export const LADDER_REACH = 1.6;
  * The climb from a stance at the ladder's foot: a rung at a time, a foot and
  * then a hand, the eye swaying from side to side; over the sill, through the
  * doorway into the dimmer room, to stand at the stage's `arrival` looking
- * down the sun's beam at the pill's `shelf`.
+ * at the pill's `shelf`.
  */
 function ascent({ land, ladder, arrival, shelf }: Stage): Track<Cue> {
   const { foot, top, rungs } = ladder;

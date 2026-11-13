@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
+import { DOORWAY_BOX, ROOM_DOORWAY, yawToRoom } from '@/cube/shared/outside';
 import { isOutside, type Pose, type Walls } from '@/cube/entities/world';
 
 import { type Abroad, abroad, steppingOut } from './abroad';
@@ -24,6 +26,28 @@ const DT = 1 / 30;
 
 /** A floor with every wall shut. */
 const CLOSED: Walls = { isOpenEast: () => false, isOpenSouth: () => false };
+
+/**
+ * The doorway as a body in floor 1's room walks at it: whether its wall is
+ * across `u`, the way through it, and the middle of its opening along the
+ * wall, in room sides.
+ */
+const { wall, from, to } = ROOM_DOORWAY;
+const ACROSS_U = wall === 'east' || wall === 'west';
+const OUTWARD = wall === 'east' || wall === 'south' ? 1 : -1;
+const OPENING = (from + to) / 2 / ROOM_METRES;
+
+/** A spot `across` room sides in from the doorway's wall, `along` it. */
+const facingDoor = (across: number, along: number) => {
+  const off = OUTWARD > 0 ? 1 - across : across;
+  return ACROSS_U ? { u: off, v: along } : { u: along, v: off };
+};
+
+/** How far `pose` is from the doorway's wall, and where along it. */
+const offDoor = ({ u, v }: Pose) => {
+  const [off, along] = ACROSS_U ? [u, v] : [v, u];
+  return { across: OUTWARD > 0 ? 1 - off : off, along };
+};
 
 /** `state` played with no keys until its scene ends. */
 function played(state: Abroad): Abroad {
@@ -53,34 +77,43 @@ describe('the threshold', () => {
     const pose = poseWithin({
       ...shotOf({ eye: [x, y, z], yaw: -Math.PI, elevation: 0, roll: 0 }),
     });
-    assert.ok(pose.u > 0.7 && pose.u < 0.9);
-    assert.ok(pose.v > 0.1 && pose.v < 0.25);
-    assert.ok(Math.abs(pose.yaw - Math.PI) < 1e-9);
+    const { across, along } = offDoor(pose);
+    assert.ok(across > 0.1 && across < 0.3);
+    assert.ok(along > from / ROOM_METRES && along < to / ROOM_METRES);
+    // It faces the way it climbed: into the room, the doorway behind it.
+    assert.ok(Math.abs(Math.cos(pose.yaw - yawToRoom(Math.PI)) - 1) < 1e-9);
     assert.equal(pose.n, 1);
   });
 
   it('walks out through the doorway and nowhere else along the wall', () => {
-    /** `pose` after walking east for a room's side, a step at a time. */
-    const walkedEast = (pose: Pose): Pose => {
+    const [du, dv] = ACROSS_U ? [0.01 * OUTWARD, 0] : [0, 0.01 * OUTWARD];
+    /** `pose` after walking at the doorway's wall for a room's side, a step at a time. */
+    const walkedOut = (pose: Pose): Pose => {
       let now = pose;
       for (let step = 0; step < 100 && !isPastSill(now); step += 1) {
-        now = walk(now, 0.01, 0, CLOSED);
+        now = walk(now, du, dv, CLOSED);
       }
       return now;
     };
+    const aside = OPENING < 0.5 ? OPENING + 0.3 : OPENING - 0.3;
     for (const scale of [1, 0.5]) {
-      const by = { ...arrivedOn(1), scale, u: 0.8, v: 0.15 };
-      const through = walkedEast(by);
+      const by = { ...arrivedOn(1), scale, ...facingDoor(0.2, OPENING) };
+      const through = walkedOut(by);
       assert.ok(isPastSill(through), `at scale ${scale}`);
       const back = onSill(through);
-      assert.ok(back.x === 0n && back.u < 1 && back.u > 0.99);
-      assert.equal(back.v, through.v);
-      const beside = walkedEast({ ...by, v: 0.4 });
+      assert.ok(back.x === 0n && back.y === 0n);
+      assert.ok(offDoor(back).across < 0.01);
+      assert.equal(offDoor(back).along, offDoor(through).along);
+      const beside = walkedOut({ ...by, ...facingDoor(0.2, aside) });
       assert.ok(!isPastSill(beside));
-      assert.ok(Math.abs(beside.u - (1 - BODY_RADIUS * scale)) < 1e-9);
+      assert.ok(Math.abs(offDoor(beside).across - BODY_RADIUS * scale) < 1e-9);
     }
-    const upstairs = walkedEast({ ...arrivedOn(2), u: 0.8, v: 0.15 });
-    assert.ok(!isPastSill(upstairs) && upstairs.x === 0n);
+    const upstairs = walkedOut({
+      ...arrivedOn(2),
+      ...facingDoor(0.2, OPENING),
+    });
+    assert.ok(!isPastSill(upstairs));
+    assert.ok(upstairs.x === 0n && upstairs.y === 0n);
   });
 
   it('adapts a camera within the cube as a pose, and one outside as out of doors', () => {
@@ -93,8 +126,15 @@ describe('the threshold', () => {
   });
 
   it('stands a body in the room where the sun meets it', () => {
-    const { foot, headAbove } = standingWithin({ ...arrivedOn(1), u: 1, v: 0 });
-    assert.deepEqual(foot, [cube.max[0], ladder.top[1] + 0.01, cube.min[2]]);
+    // On the sill, in the middle of the doorway: at the cube's east face.
+    const { foot, headAbove } = standingWithin({
+      ...arrivedOn(1),
+      ...facingDoor(0, OPENING),
+    });
+    const [x, y, z] = foot;
+    assert.ok(Math.abs(x - cube.max[0]) < 1e-9);
+    assert.ok(Math.abs(y - DOORWAY_BOX.min[1]) < 1e-9);
+    assert.ok(z > DOORWAY_BOX.min[2] && z < DOORWAY_BOX.max[2]);
     assert.ok(headAbove > 1.6 && headAbove < 1.8);
   });
 
@@ -119,10 +159,9 @@ describe('the threshold', () => {
       abroad(free, { ...STILL, use: true }, DT, 0, INTRO_STAGE, true),
     );
     assert.ok(up.entered);
-    const pose = onSill({ ...poseWithin(up.shot), x: 1n, yaw: 0 });
-    const down = played(
-      steppingOut(shotWithin(pose), 1, INTRO_STAGE, 0),
-    );
+    // Turned round to look out of the doorway, and on its sill.
+    const pose = onSill({ ...poseWithin(up.shot), yaw: yawToRoom(0) });
+    const down = played(steppingOut(shotWithin(pose), 1, INTRO_STAGE, 0));
     const [x, y, z] = down.roamer.eye;
     assert.ok(x > cube.max[0] + 0.3 && x < cube.max[0] + 1);
     assert.ok(Math.abs(y - land.height(x, z) - EYE_OVER_SAND) < 1e-6);

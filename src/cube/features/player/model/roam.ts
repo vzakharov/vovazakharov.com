@@ -43,27 +43,6 @@ export type Roamer = Outside &
     stroke: number;
   };
 
-/**
- * Where a body that is not on its feet rests: its hips' place on the ground
- * plan, and the yaw its legs lie along.
- */
-type Seat = { at: readonly [x: number, z: number]; lies: number };
-
-/** Where a body sits or lies, null on its feet or afloat. */
-export type Seated = { seat: Seat | null };
-
-/**
- * What the legs are asked for: the eye in the world's metres and the way it
- * looks; the body's scale; where it sits or lies, if it does; how far apart
- * its feet are in their stride, from -1 to 1; and whether it floats.
- */
-export type Bearing = Outside &
-  Scaling &
-  Seated & {
-    swing: number;
-    afloat: boolean;
-  };
-
 /** A whole body's eye over its soles, and over the water once it floats. */
 export const EYE_OVER_SAND = EYE_HEIGHT * ROOM_METRES;
 export const EYE_OVER_WATER = 0.14;
@@ -128,13 +107,6 @@ function restingEye(
   );
 }
 
-/**
- * How far apart `roamer`'s feet are in their stride, from -1 to 1: each
- * footfall brings them together and sends the other foot ahead.
- */
-export const swingOf = ({ strode, paces, scale }: Roamer): number =>
-  (paces % 2 === 0 ? 1 : -1) * Math.sin((Math.PI * strode) / (STRIDE * scale));
-
 /** Whether a body of `scale` with its eye at `eye` floats rather than stands. */
 export const isAfloat = (
   land: Land,
@@ -188,6 +160,14 @@ function clear(
 /** What a foot lands on where the water is `depth` over the sand, or under it. */
 const groundAt = (depth: number): Ground =>
   depth > 0 ? 'shallows' : -depth < WET_REACH ? 'wet-sand' : 'sand';
+
+/** What a foot lands on at `x`, `z` of `land`, `seconds` into the hour. */
+export const footingAt = (
+  land: Land,
+  x: number,
+  z: number,
+  seconds: number,
+): Ground => groundAt(land.level(x, z, seconds) - land.height(x, z));
 
 /**
  * `roamer` after `dt` seconds of `input` on `land`, `seconds` into the hour.

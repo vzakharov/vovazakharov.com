@@ -12,7 +12,6 @@ import {
   type Abroad,
   abroad,
   asleepOn,
-  bearingOf,
   bindInput,
   canClimb,
   canPress,
@@ -22,7 +21,6 @@ import {
   INTRO_STAGE,
   isPastSill,
   isStanding,
-  legsOf,
   onSill,
   outsideOf,
   plantedHoled,
@@ -119,7 +117,7 @@ export function walk(
   let ladderGone = out === null;
   /** How used the eye is to floor 1's lamps: 0 in daylight, 1 by them. */
   let indoors = out === null ? 1 : 0;
-  /** The body's own quads out of doors, in the frame of floor 1's room. */
+  /** The body's hands out of doors, in the frame of floor 1's room. */
   let body: readonly Quad[] = [];
   /** Whether the player has given the sign the sleeper wakes at. */
   let woken = false;
@@ -170,14 +168,7 @@ export function walk(
       return poseWithin(shot);
     }
     out = next;
-    const bearing = bearingOf(next, INTRO_STAGE, seconds);
-    body =
-      bearing === null
-        ? []
-        : [
-            ...legsOf(bearing, INTRO_STAGE.land),
-            ...handsAbroad(next, INTRO_STAGE),
-          ];
+    body = handsAbroad(next, INTRO_STAGE);
     setFloor(null);
     setInReach(null);
     setPill(null);
@@ -275,7 +266,11 @@ export function walk(
           },
     onHeard: (heard, at) => {
       const nowMs = now();
-      hearing?.outside(at, nowMs);
+      // A scene's eye is inside from the frame it passes the cube's face.
+      hearing?.outside(
+        out === null ? at : whereOf(out.shot, INTRO_STAGE),
+        nowMs,
+      );
       // The rooms are out of earshot of the island.
       if (out === null) hearing?.rooms(heard, player.pose, nowMs);
     },

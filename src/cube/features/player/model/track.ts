@@ -70,7 +70,7 @@ export type Track<C> = Record<ShotChannel, Channel> & {
 };
 
 /** One value for each channel, as `of` gives it. */
-const perChannel = <T>(
+const channelWise = <T>(
   of: (name: ShotChannel) => T,
 ): Record<ShotChannel, T> => ({
   x: of('x'),
@@ -85,7 +85,7 @@ const perChannel = <T>(
 
 /** `track`'s camera `t` seconds in: a function of `t` alone. */
 export const shotAt = <C>(track: Track<C>, t: number): Shot =>
-  perChannel((name) => valueAt(track[name], t));
+  channelWise((name) => valueAt(track[name], t));
 
 /**
  * The cues `track` sets off in the frame that takes it from `from` to `to`
@@ -116,7 +116,7 @@ export function trackOf<C>(
   beats: readonly Beat[],
   cues: ReadonlyArray<Marked<C>> = [],
 ): Track<C> {
-  const channels = perChannel((name): Channel => {
+  const channels = channelWise((name): Channel => {
     if (beats[0]?.[name] === undefined) {
       throw new RangeError(`A track's first beat pins its ${name}`);
     }
@@ -144,7 +144,7 @@ const delayed = (channel: Channel, by: number): Channel =>
 export const joined = <C>(first: Track<C>, second: Track<C>): Track<C> => {
   const by = first.runs;
   return {
-    ...perChannel(
+    ...channelWise(
       (name): Channel => [...first[name], ...delayed(second[name], by)],
     ),
     runs: by + second.runs,
