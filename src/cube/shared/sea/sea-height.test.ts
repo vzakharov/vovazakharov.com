@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { HOUR_SECONDS } from '../outside/swell';
 import { seaHeightAt } from './sea-height';
 
 describe('seaHeightAt', () => {
@@ -11,7 +12,7 @@ describe('seaHeightAt', () => {
     ] as const) {
       for (const t of [0, 12.25, 1800.5]) {
         const now = seaHeightAt(xz, t);
-        assert.ok(Math.abs(now - seaHeightAt(xz, t + 3600)) < 1e-6);
+        assert.ok(Math.abs(now - seaHeightAt(xz, t + HOUR_SECONDS)) < 1e-6);
       }
     }
   });

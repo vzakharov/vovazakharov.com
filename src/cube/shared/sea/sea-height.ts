@@ -1,7 +1,7 @@
 import { smoothstep } from '../lib/ease';
 import type { Vec2 } from '../lib/vec';
 import { islandHeight, waterLevel } from '../outside';
-import { HOUR_SECONDS } from '../outside/swell';
+import { HOUR_SECONDS, RADIANS_A_TURN } from '../outside/swell';
 import { amplitudesOf, bin, CASCADES, CHOP, TILE } from './cascade';
 import { SWELL_DIES_OVER, TRAIN_ENDS } from './sea-shore-wgsl';
 import { SEAS } from './sea-state';
@@ -17,7 +17,6 @@ import { SEAS } from './sea-state';
 const CARRYING = [0, 1] as const;
 /** The share of each cascade's variance its summed waves keep. */
 const KEPT = 0.98;
-const TAU = 2 * Math.PI;
 
 /** One wave of a cascade, as the sum reads it. */
 type Wave = {
@@ -34,7 +33,7 @@ type Wave = {
 function tallest(index: number): Wave[] {
   const side = CASCADES[index]?.tileSide ?? 1;
   const { waves, turns } = amplitudesOf(SEAS, index);
-  const step = TAU / side;
+  const step = RADIANS_A_TURN / side;
   const all: Array<Wave & { power: number }> = [];
   for (let j = 0; j < TILE; j += 1) {
     for (let i = 0; i < TILE; i += 1) {
@@ -100,7 +99,9 @@ function shiftAt(still: Vec2, seconds: number): [number, number, number] {
     const z = still[1] - offset;
     for (const { kx, kz, re, im, turns } of waves) {
       const phase =
-        kx * x + kz * z - TAU * (((turns * seconds) / HOUR_SECONDS) % 1);
+        kx * x +
+        kz * z -
+        RADIANS_A_TURN * (((turns * seconds) / HOUR_SECONDS) % 1);
       const cos = Math.cos(phase);
       const sin = Math.sin(phase);
       const sideways =
