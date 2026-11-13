@@ -5,7 +5,7 @@
  * spread about its heading as cos^2s (Mitsuyasu et al. 1975).
  */
 
-import { HOUR_SECONDS, SEA_GRAVITY } from '../outside/swell';
+import { HOUR_SECONDS, RADIANS_A_TURN, SEA_GRAVITY } from '../outside/swell';
 
 /** Wavenumber at which surface tension pulls as hard as gravity, rad/m. */
 const CAPILLARY = 370;
@@ -44,7 +44,7 @@ export const groupSpeed = (k: number): number =>
  * sea back to itself when the clock's hour wraps.
  */
 export const turnsPerHour = (k: number): number =>
-  Math.max(1, Math.round((dispersion(k) * HOUR_SECONDS) / (2 * Math.PI)));
+  Math.max(1, Math.round((dispersion(k) * HOUR_SECONDS) / RADIANS_A_TURN));
 
 /** The JONSWAP shape at `omega`, unscaled: the peak's value is of order 1. */
 function shape(omega: number, { peakOmega: peak, sharpness }: Sea): number {

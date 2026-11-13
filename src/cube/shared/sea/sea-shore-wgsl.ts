@@ -67,8 +67,6 @@ struct Shore {
   phase: f32,
   /// 0 an unbroken swell, 1 a bore.
   broken: f32,
-  /// Unit direction the waves run here, on the ground plan.
-  runs: vec2f,
   /// Seconds since the last wave landed and the one before it, and how deep
   /// each one's sheet lies here.
   since: vec2f,
@@ -82,8 +80,8 @@ fn shoreAt(xz: vec2f) -> Shore {
   let rise = shoreRise(xz);
   let facing = shoreFacing(dot(rise, SWELL_RUNS), length(rise), shore.bed);
   let depth = shoreDepth(shore.bed);
-  shore.runs = normalize(SWELL_RUNS * SWELL_PACE + shoreSlowing(depth) * rise);
   shore.shelter = sheltered(facing);
+  let tongue = cuspAt(xz);
   shore.tau = t - dot(xz, SWELL_RUNS) * SWELL_PACE - shoreDelay(depth);
   let turns = turnsAt(shore.tau);
   let n = floor(turns);
@@ -91,10 +89,10 @@ fn shoreAt(xz: vec2f) -> Shore {
   shore.broken = brokenAt(shore.tau, shore.bed, shore.shelter);
   shore.since = shore.tau - vec2f(crestOf(n), crestOf(n - 1.0));
   shore.sheet = vec2f(
-    sheetDepth(n, shore.tau, shore.bed, shore.shelter),
-    sheetDepth(n - 1.0, shore.tau, shore.bed, shore.shelter),
+    sheetDepth(n, shore.tau, shore.bed, shore.shelter * tongue),
+    sheetDepth(n - 1.0, shore.tau, shore.bed, shore.shelter * tongue),
   );
-  shore.level = swellLevel(dot(xz, SWELL_RUNS), shore.bed, facing, t);
+  shore.level = swellLevel(dot(xz, SWELL_RUNS), shore.bed, shore.shelter, tongue, t);
   return shore;
 }
 `,

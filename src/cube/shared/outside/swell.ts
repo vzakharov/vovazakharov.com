@@ -1,5 +1,6 @@
 import { pathHash, roll, rollWith } from '@/dice/shared/roll';
 
+import type { Vec2 } from '../lib/vec';
 import { f32, wgsl } from '../lib/wgsl';
 
 /**
@@ -15,14 +16,16 @@ import { f32, wgsl } from '../lib/wgsl';
 export const SEA_GRAVITY = 9.81;
 /** Seconds in the shared clock's hour, the period every motion returns in. */
 export const HOUR_SECONDS = 3600;
-const TAU = 2 * Math.PI;
+export const RADIANS_A_TURN = 2 * Math.PI;
 
 /** Waves the swell lands in an hour. */
 export const WAVES = 420;
 /** Seconds from one crest to the next, on average. */
 export const PERIOD = HOUR_SECONDS / WAVES;
 /** The speed the swell's crests travel over deep water, m/s. */
-export const DEEP_SPEED = (SEA_GRAVITY * PERIOD) / TAU;
+export const DEEP_SPEED = (SEA_GRAVITY * PERIOD) / RADIANS_A_TURN;
+/** The unit direction the swell runs, on the ground plan: to the north-east. */
+export const SWELL_RUNS: Vec2 = [Math.SQRT1_2, -Math.SQRT1_2];
 /** Crest to trough of a middling wave before the bottom is felt, metres. */
 export const SWELL_HEIGHT = 0.4;
 
@@ -32,7 +35,7 @@ type Sines = ReadonlyArray<
 >;
 
 /** The world the island's sea is rolled in. */
-const SEA_WORLD = '0';
+export const SEA_WORLD = '0';
 
 /**
  * The windows three sines' whole cycles an hour are rolled in — [fewest, how
@@ -110,7 +113,7 @@ const DRIFT = sinesOf(
   rolled.drift,
   DRIFT_IN,
   PACE_SWING,
-  (cycles) => WAVES / (TAU * cycles),
+  (cycles) => WAVES / (RADIANS_A_TURN * cycles),
 );
 
 /** The slow swelling and sinking of the waves' height, likewise, about 1. */
@@ -119,7 +122,8 @@ const SETS = sinesOf(rolled.sets, SETS_IN, HEIGHT_SWING, () => 1);
 const sum = (sines: Sines, tau: number): number =>
   sines.reduce(
     (total, [cycles, size, start]) =>
-      total + size * Math.sin(TAU * ((cycles * tau) / HOUR_SECONDS + start)),
+      total +
+      size * Math.sin(RADIANS_A_TURN * ((cycles * tau) / HOUR_SECONDS + start)),
     0,
   );
 
@@ -127,7 +131,7 @@ const sumWgsl = (sines: Sines): string =>
   sines
     .map(
       ([cycles, size, start]) =>
-        `${f32(size)} * sin(${f32(TAU)} * fract(${f32(cycles)} * tau / ${f32(HOUR_SECONDS)} + ${f32(start)}))`,
+        `${f32(size)} * sin(${f32(RADIANS_A_TURN)} * fract(${f32(cycles)} * tau / ${f32(HOUR_SECONDS)} + ${f32(start)}))`,
     )
     .join('\n    + ');
 
@@ -154,7 +158,7 @@ export function crestOf(n: number): number {
  */
 export function peaked(phase: number, sharp: number): number {
   const blunt = Math.sqrt(1 - sharp * sharp);
-  const swing = Math.cos(TAU * phase);
+  const swing = Math.cos(RADIANS_A_TURN * phase);
   return (blunt * (swing - sharp / (1 + blunt))) / (1 - sharp * swing);
 }
 
@@ -206,7 +210,7 @@ fn crestOf(n: f32) -> f32 {
 
 fn peaked(phase: f32, sharp: f32) -> f32 {
   let blunt = sqrt(1.0 - sharp * sharp);
-  let swing = cos(${f32(TAU)} * phase);
+  let swing = cos(${f32(RADIANS_A_TURN)} * phase);
   return blunt * (swing - sharp / (1.0 + blunt)) / (1.0 - sharp * swing);
 }
 

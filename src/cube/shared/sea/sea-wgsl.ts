@@ -37,6 +37,9 @@ struct SeaOut {
 
 /// What foam returns of the light on it.
 const FOAM = 0.8;
+/// How much of the sky's light on foam is the horizon's: foam stands in
+/// lumps, whose flanks face the horizon and not the zenith.
+const FOAM_FLANKS = 0.4;
 /// What water full of bubbles returns, of the light a white face would show.
 const AERATED = vec3f(0.1, 0.24, 0.22);
 /// What the water's body shows an eye inside it, of the light falling on it.
@@ -146,12 +149,17 @@ fn seaFragment(in: SeaVarying, @builtin(front_facing) above: bool) -> SeaOut {
   let water = seen.sky
     + (1.0 - seen.share) * under
     + sunlit * glitter(waves, toEye, seen.shown);
+  let pixel = max(length(across), length(down));
+  let thick = foamThickness(in.still, shore, waves.squeeze, pixel);
+  // Churning foam stands in lumps, each shading the next from a low sun.
+  let lumps = smoothstep(0.3, 0.7, fbm(in.still * 2.3, 43u, 4));
+  let heaped = mix(1.0, mix(0.5, 1.08, lumps), smoothstep(0.9, 1.3, thick));
   let white = FOAM * (
-    SUN_LIGHT * sunlit * (0.3 + 0.7 * max(dot(normal, frame.sun.xyz), 0.0))
-      + SKY_FILL
+    SUN_LIGHT * sunlit * heaped
+      * (0.3 + 0.7 * max(dot(normal, frame.sun.xyz), 0.0))
+      + mix(SKY_FILL, HORIZON_FILL, FOAM_FLANKS)
   );
-  let thick = foamThickness(in.still, shore, waves.squeeze);
-  let foam = lace(in.still, thick, shore);
+  let foam = lace(in.still, thick, shore, pixel);
   // Thin foam is a film the water shows through; churning foam is white.
   let froth = 0.78 + 0.3 * fbm(in.still * 6.0, 41u, 3);
   let colour = mix(water, white * froth * mix(0.8, 1.0, min(thick, 1.0)), foam);

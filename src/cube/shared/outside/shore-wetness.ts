@@ -1,8 +1,8 @@
 import { smoothstep } from '../lib/ease';
 import type { Vec2 } from '../lib/vec';
 import { f32, wgsl } from '../lib/wgsl';
-import { crestOf, SEA_GRAVITY, setsAt, SWELL_HEIGHT, turnsAt } from './swell';
-import { RUNUP, shoreClock, SLOPE, WATER_LEVEL } from './water-level';
+import { crestOf, SEA_GRAVITY, turnsAt } from './swell';
+import { shoreClock, SLOPE, swashReach, WATER_LEVEL } from './water-level';
 
 /**
  * How long the sand has been out of the water: the swash's sheets are closed
@@ -33,7 +33,7 @@ export function drySince(tau: number, bed: number, shelter: number): number {
   for (let back = 0; back < WAVES_BACK; back += 1) {
     const landed = crestOf(n - back);
     const since = tau - landed;
-    const reach = RUNUP * SWELL_HEIGHT * shelter * setsAt(landed);
+    const reach = swashReach(landed, shelter);
     // The sheet's tip passes the point going up and again coming down.
     const span = 2 * SEA_GRAVITY * (reach - bed);
     if (span > 0) {
@@ -48,8 +48,8 @@ export function drySince(tau: number, bed: number, shelter: number): number {
 
 /** `drySince` at `xz` in the world frame, `seconds` into the hour. */
 export function shoreDrySince(xz: Vec2, seconds: number): number {
-  const { bed, tau, shelter } = shoreClock(xz, seconds);
-  return drySince(tau, bed, shelter);
+  const { bed, tau, shelter, tongue } = shoreClock(xz, seconds);
+  return drySince(tau, bed, shelter * tongue);
 }
 
 /** How damp sand is `dry` seconds after the water left it, 1 soaked. */
@@ -77,7 +77,7 @@ fn drySince(tau: f32, bed: f32, shelter: f32) -> f32 {
   for (var back = 0.0; back < ${f32(WAVES_BACK)}; back += 1.0) {
     let landed = crestOf(n - back);
     let since = tau - landed;
-    let reach = ${f32(RUNUP * SWELL_HEIGHT)} * shelter * setsAt(landed);
+    let reach = swashReach(landed, shelter);
     let span = ${f32(2 * SEA_GRAVITY)} * (reach - bed);
     if (span > 0.0) {
       let launch = sqrt(${f32(2 * SEA_GRAVITY)} * reach);
@@ -104,7 +104,7 @@ fn shoreDrySince(xz: vec2f, t: f32) -> f32 {
   let rise = shoreRise(xz);
   let facing = shoreFacing(dot(rise, SWELL_RUNS), length(rise), bed);
   let tau = t - dot(xz, SWELL_RUNS) * SWELL_PACE - shoreDelay(shoreDepth(bed));
-  return drySince(tau, bed, sheltered(facing));
+  return drySince(tau, bed, sheltered(facing) * cuspAt(xz));
 }
 
 fn shoreWetness(xz: vec2f, t: f32) -> vec2f {

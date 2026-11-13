@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import { assemble } from '../lib/wgsl';
 import { scalarWgsl } from '../lib/wgsl-scalar';
 import { islandHeight } from './island-height';
+import { cusped } from './shore-cusps';
 import { bore, crestOf, peaked, PERIOD, setsAt, turnsAt, WAVES } from './swell';
 import {
   brokenAt,
@@ -66,6 +67,9 @@ describe('the shore in WGSL', () => {
     for (const facing of [-1, -0.2, 0.3, 1]) {
       same('sheltered', sheltered(facing), facing);
     }
+    for (const across of [-61.5, -3, 0, 7.25, 48]) {
+      same('cusped', cusped(across), across);
+    }
   });
 
   it('raises the surf, the sheet and the level as the script does', () => {
@@ -83,7 +87,15 @@ describe('the shore in WGSL', () => {
             bed,
             shelter,
           );
-          same('swellLevel', swellLevel(12, bed, 0.8, tau), 12, bed, 0.8, tau);
+          same(
+            'swellLevel',
+            swellLevel(12, bed, 0.8, 1.1, tau),
+            12,
+            bed,
+            0.8,
+            1.1,
+            tau,
+          );
         }
       }
     }

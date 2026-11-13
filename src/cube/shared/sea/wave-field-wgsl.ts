@@ -1,11 +1,12 @@
-import { HOUR_SECONDS } from '../outside/swell';
+import { f32 } from '../lib/wgsl';
+import { HOUR_SECONDS, RADIANS_A_TURN } from '../outside/swell';
 import { CASCADES, CHOP, TILE } from './cascade';
 
 /** Complex pairs a cascade's transform carries: two textures' worth. */
 export const FIELD_LAYERS = CASCADES.length * 2;
 
 const COMPLEX = /* wgsl */ `
-const TAU = 6.283185307179586;
+const TAU = ${f32(RADIANS_A_TURN)};
 const TILE = ${String(TILE)}u;
 
 fn times(a: vec2f, b: vec2f) -> vec2f {

@@ -1,4 +1,4 @@
-import { HOUR_SECONDS, WAVES } from '../outside/swell';
+import { HOUR_SECONDS, RADIANS_A_TURN, WAVES } from '../outside/swell';
 import { FINEST } from './cascade';
 import { type Sea, slopeVariance, windSea } from './spectrum';
 
@@ -10,7 +10,7 @@ export const SWELL_HEADING = -Math.PI / 4;
 
 /** The swell out at sea, a narrow peak from a storm far away. */
 const OPEN_SWELL: Sea = {
-  peakOmega: (2 * Math.PI * WAVES) / HOUR_SECONDS,
+  peakOmega: (RADIANS_A_TURN * WAVES) / HOUR_SECONDS,
   significant: 0.5,
   sharpness: 8,
   towards: SWELL_HEADING,

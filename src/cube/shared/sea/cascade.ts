@@ -1,5 +1,6 @@
 import { pathHash, roll, rollWith } from '@/dice/shared/roll';
 
+import { RADIANS_A_TURN, SEA_WORLD } from '../outside/swell';
 import { K_CEILING, type Sea, spectrumOf, turnsPerHour } from './spectrum';
 
 /**
@@ -16,7 +17,6 @@ export type Cascade = {
 };
 
 /** The world the island's sea is rolled in. */
-const SEA_WORLD = '0';
 
 /** How far a wave's crest leans forward of a pure sine: Tessendorf's chop. */
 export const CHOP = 0.92;
@@ -76,7 +76,7 @@ export function amplitudesOf(seas: readonly Sea[], index: number): Amplitudes {
   const cascade = CASCADES[index];
   if (cascade === undefined) throw new Error(`No cascade ${String(index)}`);
   const spectrum = spectrumOf(seas);
-  const step = (2 * Math.PI) / cascade.tileSide;
+  const step = RADIANS_A_TURN / cascade.tileSide;
   /** The complex amplitude of the wave at bins (`p`, `q`), or zero outside the band. */
   const wave = (p: number, q: number): [number, number] => {
     const kx = p * step;
