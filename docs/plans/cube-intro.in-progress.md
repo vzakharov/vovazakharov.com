@@ -156,6 +156,20 @@ reached from the second account.
   the pill's colours left out — for whoever can reach the board to add, unless
   the operator shares it with this account.
 
+  And a correction to the second, the pace:
+
+  > поправка по бегу: давай вообще по умолчанию не бегать; начиная с 3 этажа
+  > "Press Shift to run, double-press to always run"; соответственно потом shift
+  > переключает режим пока зажат, а двойной (то есть два раза подряд быстро) --
+  > лочит противоположный
+
+  Read as: a body walks everywhere unless told otherwise, indoors as out; Shift
+  held gives the other pace for as long as it is held, and two quick presses
+  make the other pace the standing one; the line "Press Shift to run,
+  double-press to always run" is shown from floor 3 down, until Shift has been
+  pressed. The key works on every floor and the island — only its hint waits for
+  floor 3; the operator is told that reading and may narrow it.
+
   **Decided**: the lead makes the four changes itself, with no child team — they
   are one package's worth, all in the walk's scenes and the player. The speed
   out of doors is the next round's, not this one's. Then `/finalize`, which
@@ -190,6 +204,16 @@ republish slot 2, then `/finalize` (the two red `source` checks on the way).
       pace stays `RUN_SPEED * SWIM_SHARE`, and a footfall's strength is over a
       run's pace, so a walk sounds softer. `roam.test.ts` and `abroad.test.ts`
       pin 3.5 m/s.
+- [ ] **2b. Walking everywhere, Shift for the other pace.** After the two
+      scenario subagents return (they are writing 2 as above): `Input.walking`
+      becomes `running`, true on a frame the body runs; `step.ts` and `roam.ts`
+      both take `running ? RUN_SPEED : WALK_SPEED`.
+      `features/player/ui/input.ts` keeps the standing pace (walk at first) and
+      reads `running = standing run XOR Shift held`; two Shift presses within
+      about 0.3 s flip the standing pace. A `Way` `'run'` — "Press Shift to run,
+      double-press to always run" — shows on a floor of 3 or deeper while no
+      other hint does, until Shift is first pressed. `scripts/play-cube.ts`
+      passes `walking: true` indoors and no longer needs to.
 - [ ] **3. Forward again before the doorway.** `scenes.ts` `ascent`: the yaw
       used to drift to the shelf all the way up, which is the look aside the
       operator liked. Make it explicit — a yaw key aside at about three quarters
