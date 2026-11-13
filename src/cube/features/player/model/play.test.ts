@@ -121,19 +121,20 @@ describe('play, swallowing the pill', () => {
     assert.ok(pinched > 0 && back > pinched, 'by the end of the look');
     assert.equal(played[back]?.act?.act, 'shrinking');
     for (const [index, player] of played.entries()) {
-      const { pose } = player;
+      const { pose, act } = player;
       if (index < pinched) {
         assert.equal(takenOf(player), null);
       } else if (index < back) {
         assert.deepEqual(takenOf(player), { room });
-        const swallowed = player.act?.act === 'shrinking';
+        const swallowed = act?.act === 'shrinking';
         if (swallowed) assert.ok(isInSight(pose, holed.shelf));
       } else {
         assert.equal(takenOf(player), null);
       }
     }
     const lookedAway = played[back];
-    assert.ok(lookedAway && !isInSight(lookedAway.pose, holed.shelf));
+    assert.ok(lookedAway !== undefined);
+    assert.ok(!isInSight(lookedAway.pose, holed.shelf));
   });
 
   it('keeps the shelf bare for as long as a swallower stares at it', () => {

@@ -203,9 +203,9 @@ describe('faces', () => {
     const all = pills(null);
     const { n, x, y } = pose;
     const left = pills({ room: { n, x, y } });
-    const mine = all.filter((q) => roomKey(q.room) === roomKey(pose));
-    assert.ok(mine.length > 0);
-    assert.equal(left.length, all.length - mine.length);
+    const here = all.filter((q) => roomKey(q.room) === roomKey(pose));
+    assert.ok(here.length > 0);
+    assert.equal(left.length, all.length - here.length);
     assert.ok(!left.some((q) => roomKey(q.room) === roomKey(pose)));
   });
 });
