@@ -1,0 +1,138 @@
+items:
+  - id: intro-h-whole-1200
+    type: text
+    updated: [2026-11-13T12:10:00.000Z, agent:cube-intro]
+    box: [5748, 5700, 2200, h2]
+    text: Where the whole stands, 12:00Z
+  - id: intro-img-35-whole-wake-cube
+    type: image
+    updated: [2026-11-13T12:10:00.000Z, agent:cube-intro]
+    box: [5748, 5780, 430]
+    src: images/intro-35-whole-wake-cube.webp
+    text: '35. The first frame a player sees, lying on the sand: the cube over the dune’s crest against the sun, its shadow across the ripples. From lying, the crest hides the gap under the cube; it opens on standing up. Open: thin dark arcs on the sand bottom-left read as pen strokes (with sand; fixed, see frames 42 and 43). Eye wake-cube, commit 49186bc5'
+  - id: intro-img-36-whole-wake-sea
+    type: image
+    updated: [2026-11-13T12:10:00.000Z, agent:cube-intro]
+    box: [6208, 5780, 430]
+    src: images/intro-36-whole-wake-sea.webp
+    text: '36. The same spot, toward the sea. Open: hard blue dots on the shallows inside the cube’s shadow, and a flat white bar at the horizon on the right (both with sea). Eye wake-sea, commit 49186bc5'
+  - id: intro-img-37-whole-ladder-foot
+    type: image
+    updated: [2026-11-13T12:10:00.000Z, agent:cube-intro]
+    box: [6668, 5780, 430]
+    src: images/intro-37-whole-ladder-foot.webp
+    text: '37. Up the wooden ladder to the doorway; the ladder’s shadow lies on the face, the room’s ceiling shows through the opening. Open: the operator finds the band between the black faces “construction grey — it used to be more mysterious”. Shell is shooting three variants (dark as in the morning, deep graphite satin, today’s) from two eyes; the operator picks. Eye ladder-foot, commit 49186bc5'
+  - id: intro-img-38-whole-under
+    type: image
+    updated: [2026-11-13T12:10:00.000Z, agent:cube-intro]
+    box: [7128, 5780, 430]
+    src: images/intro-38-whole-under.webp
+    text: '38. Under the cube, looking up: black with the specks the operator said stay. Eye under, commit 49186bc5'
+  - id: intro-img-39-whole-room-doorway
+    type: image
+    updated: [2026-11-13T12:10:00.000Z, agent:cube-intro]
+    box: [7588, 5780, 430]
+    src: images/intro-39-whole-room-doorway.webp
+    text: '39. Floor 1 toward its doorway after the quarter-turn and the clear-strip rule: nothing stands in the opening. Open: the bench in the beam casts no shadow yet (shell and pill are giving the beam the decor’s boxes). Eye room-doorway, floor 1’s own lens, commit 874eab51. Frames 35 to 39: clock PLAY_INSTANT 2026-11-01T12:00:00Z, 1280×800, re-shot with pnpm outside:cube --eyes <name>'
+  - id: intro-img-40-whole-doorway-out
+    type: image
+    updated: [2026-11-13T12:20:00.000Z, agent:cube-intro]
+    box: [5748, 6250, 430]
+    src: images/intro-40-whole-doorway-out.webp
+    text: '40. What a player sees turning round on floor 1’s sill: the sun and its path on the water, the shore’s arc, the dune below. The notice board that used to hang across this opening is gone (frames 29–30 show it). Eye doorway-out, eyes used to daylight (indoors 0), commit b0852de6; pose: u 0.8482, v 0.97, eye 0.32 above, yaw π/2, elevation 0, exposure 0.3, eyelids 1; clock PLAY_INSTANT; the same fields are in the .shot.json beside the file on the lead’s branch'
+  - id: intro-img-41-whole-doorway-down
+    type: image
+    updated: [2026-11-13T12:20:00.000Z, agent:cube-intro]
+    box: [6208, 6250, 430]
+    src: images/intro-41-whole-doorway-down.webp
+    text: '41. The same sill, looking down at the sand; the ladder is just under the frame’s lower edge. Eye doorway-down, elevation −0.7, otherwise as frame 40, commit b0852de6'
+  - id: intro-img-42-weed-before-after
+    type: image
+    updated: [2026-11-13T12:25:00.000Z, agent:cube-intro]
+    box: [6668, 6250, 520]
+    src: images/intro-42-weed-before-after.webp
+    text: '42. The dried weed by the waker’s cheek, bottom left of the first frame a player sees, at 3×: above as even dark arcs that read as pen strokes, below tapered, unevenly bent, black to straw, each with a short shadow, and a third fewer'
+  - id: intro-img-43-weed-wake-cube
+    type: image
+    updated: [2026-11-13T12:25:00.000Z, agent:cube-intro]
+    box: [7248, 6250, 430]
+    src: images/intro-43-weed-wake-cube.webp
+    text: '43. The waking frame after the weed fix. Eye wake-cube (pnpm outside:cube --eyes wake-cube: lying at the waking spot, yaw −45°, pitch 8.02°), clock PLAY_INSTANT 2026-11-01T12:00:00Z (1793534400000 ms), 1280×800 at device scale 1, commit 69ac8423 on the sand branch'
+  - id: intro-img-44-after-room-doorway
+    type: image
+    updated: [2026-11-13T12:30:00.000Z, agent:cube-intro]
+    box: [7128, 5250, 430]
+    src: images/intro-44-after-room-doorway.webp
+    text: '44. After pill’s clear zone: the way in is a way in again (the notice board of frame 29 hangs on the wall beside the opening). Eye room-doorway, commit 001b3c9b, clock PLAY_INSTANT, 1280×800'
+  - id: intro-img-45-after-doorway-out
+    type: image
+    updated: [2026-11-13T12:30:00.000Z, agent:cube-intro]
+    box: [7588, 5250, 430]
+    src: images/intro-45-after-doorway-out.webp
+    text: '45. …and the sill has its view back (frame 30 shows the cork). Eye doorway-out, commit 001b3c9b, clock PLAY_INSTANT, 1280×800'
+  - id: intro-img-24-pill-shelf-4x
+    type: image
+    updated: [2026-11-13T11:40:00.000Z, agent:cube-intro]
+    box: [7128, 3700, 600]
+    src: images/intro-24-pill-shelf-4x.webp
+    text: '24. The pill on its shelf at 4×, on floors 2, 5, 7 and 1 (left to right, top to bottom). The red ledge and the pale paper under the pill are what make the shelf findable on every floor, the dark server hall of floor 7 included. Under room light the pill’s black half has no highlight yet and reads flat; the glint is being added in the renderer'
+  - id: intro-img-19-sky-wet-foreshore
+    type: image
+    updated: [2026-11-13T11:15:00.000Z, agent:cube-intro]
+    box: [5748, 3250, 430]
+    src: images/intro-19-sky-wet-foreshore.webp
+    text: '19. Standing on the wet foreshore toward the sun: the wet sand mirrors the sky and carries the sun’s glare, brighter the further it lies. Open: close to the eye the band stays dark. Re-shoot: eye x −19.2, z 19.2, 1.6 m over the bed, yaw −31, pitch −10; same clock and commit as frame 20'
+  - id: intro-img-20-sky-approved-eye
+    type: image
+    updated: [2026-11-13T11:35:00.000Z, agent:cube-intro]
+    box: [5748, -3040, 1200]
+    src: images/intro-20-sky-approved-eye.webp
+    text: '20. Splash screen, for the future. The approved eye under the new sky: gold sand, ripples in fields across the view, white sparks, the cube’s shadow violet-blue. The operator approved it for its overall feeling: “AAAA, give me two!” The sand’s shade is not locked: “you can experiment with the sand’s shades if you like, I am talking about the overall feeling”. Open: the inside of the shadow is still even'
+  - id: intro-splash-frame-20
+    type: sticky
+    updated: [2026-11-13T11:35:00.000Z, agent:cube-intro]
+    box: [6990, -3040, 560, pink]
+    icon: 🖼️
+    text: 'For the future: this frame should be the splash screen. — Vova. (Nothing is being built for it now.) To re-shoot it exactly: eye at −15.203, 2.0962, 15.203 (the bed there + 1.6 m; 2.10 is the rounded value), yaw −45, pitch 4, roll 0; viewport 1280×800 at device scale 1, default lens; the clock pinned at PLAY_INSTANT = 2026-11-01T12:00:00Z (1793534400000 ms); the sun does not move with the clock; commit f0ff9882 on the sand branch (merged into the lead as 43c24a67); command: pnpm outside:cube --at -15.203,2.0962,15.203 --yaw -45 --pitch 4'
+  - id: intro-img-ref-approved
+    type: image
+    updated: [2026-11-13T11:35:00.000Z, agent:cube-intro]
+    box: [6208, 3250, 430]
+    src: images/intro-ref-approved.webp
+    text: 'The same eye under the earlier, cloudless sky; a frame of the island the operator approved (his first frame is the sea one in this zone’s top block): standing on the beach toward the sun, the cube over the crest, its shadow running left, the ladder and the sun’s glitter under it. Every package now compares its passes against this frame. Eye: 21.5 m south-west of the cube’s middle, looking at it'
+  - id: intro-ref-verdict
+    type: sticky
+    updated: [2026-11-13T11:35:00.000Z, agent:cube-intro]
+    box: [6668, 3250, 280, pink]
+    icon: 🔥
+    text: 'Vova, on seeing it: “this is properly top, it can go on the board”'
+  - id: intro-ref-gold-eye
+    type: image
+    updated: [2026-11-13T10:55:00.000Z, agent:cube-intro]
+    box: [7000, -2880, 590]
+    src: images/intro-ref-gold-eye.webp
+    text: 'The same eye after sand’s next pass: the lit sand went from pinkish beige to gold, and the ripples now run across the view instead of toward the cube. Vova approved the earlier pinkish frame (now at the bottom of this zone, beside frame 19) and later frame 20 for its feeling; the sand’s shade is not locked'
+  - id: intro-ref-gold-lying
+    type: image
+    updated: [2026-11-13T10:55:00.000Z, agent:cube-intro]
+    box: [7620, -2880, 590]
+    src: images/intro-ref-gold-lying.webp
+    text: 'What the player sees on waking, lying down: the cube sits on the dune’s crest; it floats only once you stand up. Known flaw: a pink smear under the cube’s lower edge, being traced'
+  - id: intro-d-wake-inland
+    type: sticky
+    updated: [2026-11-13T10:30:00.000Z, agent:cube-intro]
+    box: [6868, 2350, 280, blue]
+    icon: 🏖️
+    text: 'The waking spot moves ~8 m inland. Measured by sea: it sat exactly on the still waterline, and the swash runs 4.7 m up the beach, so the first frames with the real ocean woke the player under water'
+  - id: intro-d-eye
+    type: sticky
+    updated: [2026-11-13T10:30:00.000Z, agent:cube-intro]
+    box: [7174, 2350, 280, blue]
+    icon: 👁️
+    text: 'The eye adapts by where it looks: 0.5 s toward light, 6 s toward dark (“this is not a speed game”); looking at the doorway holds it to daylight'
+  - id: intro-q-beam-pill
+    type: sticky
+    updated: [2026-11-13T10:30:00.000Z, agent:cube-intro]
+    box: [6868, 2700, 586, yellow]
+    icon: ❓
+    text: 'Open question: the beam and the pill. The operator: “if it lights exactly the pill and the way down, that is too fast a reveal.” Three ways: move the shelf and/or the hole, turn the sun, turn the cube. “Which is right I cannot say offhand — it has to be looked at and compared.” Shell is shooting all three; the choice is the operator’s'
