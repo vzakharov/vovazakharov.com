@@ -30,5 +30,11 @@ and shadow, and core's stand-ins for sky, shell and sea.
   at `--indoors 0.5`: half used to the light.
 - `sill-adapted.webp` — the same at `--indoors 0`: the eye used to daylight, the
   sand, the sea's edge and the sun.
+- `wake-cube-before-film.webp` — `wake-cube` through the room's film curve, as
+  it was: the sky about the sun one white area. `wake-cube.webp`, `wake-sea.webp`
+  and `ladder-foot.webp` are through the outside's own curve, from the waking
+  spot inland, with the real sky, sea and shell.
+- `sun-film-before-06-04.webp` — the sky about the sun, cropped, three ways: the
+  room's curve, the outside's with its tail at 0.6 (kept), and at 0.4 (greyer).
 - `wake-cube-eyelids-045.webp` — `wake-cube` with `--eyelids 0.45`: the outside
   lens's lids half shut.
