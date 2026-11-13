@@ -27,6 +27,18 @@ be reached from this one.
   Nothing to add; the lead presses `F` on the preview's build to see it works
   out of doors. The PR's base is `claude/cube-review-perf`, so that branch's
   other parts stay out of this PR's diff.
+- **Operator, minutes later**: «по реализации есть ещё мелкие нарекания, но
+  кончаются недельные лимиты, поэтому давай собирать как есть». **Decided**: no
+  new team and no fix round — `relay-1.md` § 8's steps 2 and 4 are dropped, and
+  what each package owes (§ 6 there) is listed in the PR as left undone. What
+  runs: the preview on slot 2, one end-to-end strip (`pnpm scenes:cube`, then
+  `pnpm play:cube`) looked at as contact sheets, the draft PR through `/pr`
+  (base `claude/cube-review-perf`), `./scripts/vet.sh`. `/polish` over a diff of
+  four hundred commits is left to `/finalize`, which runs it before anything
+  lands; the PR says so. It lost to polishing now on cost alone.
+- **Not reachable from this account**: the board's artifact and «Два океана»
+  (the watch was refused: 404), so nothing goes to the board from here; the
+  frame from above stays in `frames/lead/`.
 
 ## Standing rules (the operator's words)
 
