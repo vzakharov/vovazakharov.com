@@ -36,9 +36,12 @@ export const scaled = (v: Vec3, by: number): Vec3 => [
   v[2] * by,
 ];
 
-/** `v` at length 1. */
+/**
+ * `v` at length 1. Divides rather than scaling by the reciprocal, which
+ * costs an axis vector its exact 1 and so an axis-aligned face its exact
+ * normal.
+ */
 export const unit3 = ([x, y, z]: Vec3): Vec3 => {
-  // Divided, not scaled by a reciprocal: an axis comes out exactly 1.
   const length = Math.hypot(x, y, z);
   return [x / length, y / length, z / length];
 };

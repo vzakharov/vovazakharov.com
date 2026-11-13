@@ -80,7 +80,7 @@ const fixed = (value: number, digits = 1): string => value.toFixed(digits);
 const mid = (left: Float32Array, right: Float32Array): Float32Array =>
   left.map((sample, i) => (sample + (right[i] ?? 0)) / 2);
 
-const scaled = (samples: Float32Array, by: number): Float32Array =>
+const amplified = (samples: Float32Array, by: number): Float32Array =>
   samples.map((sample) => by * sample);
 
 const HUM_LAYERS: ReadonlySet<Layer> = new Set(['hum', 'under']);
@@ -105,7 +105,7 @@ function take(
   scene: Scene,
 ): string[] {
   const [left, right] = rendered(beds, mixAt, from, seconds, RATE).map((ear) =>
-    scaled(ear, MASTER),
+    amplified(ear, MASTER),
   );
   if (left === undefined || right === undefined) return [];
   writeFileSync(path.join(out, `${name}.wav`), stereoWavOf(left, right, RATE));
@@ -118,7 +118,7 @@ function take(
   // The hum by itself and everything else by itself: the mix is their sum.
   const alone = (keep: (layer: Layer) => boolean): Spectrogram =>
     spectrogramOf(
-      scaled(
+      amplified(
         rendered(beds, (t) => kept(mixAt(t), keep), from, seconds, RATE)[0],
         MASTER,
       ),

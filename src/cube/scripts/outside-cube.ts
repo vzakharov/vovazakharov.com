@@ -22,6 +22,7 @@ import {
   CUBE_METRES,
   DOORWAY,
   islandHeight,
+  SUN_DIR,
   WAKE_AT,
 } from '@/cube/shared/outside';
 import {
@@ -79,6 +80,9 @@ const inFirstRoom = (
   elevation,
 });
 
+/** Where someone at the pill's shelf stands: by the west wall, the shelf at their side. */
+const AT_SHELF = { u: 0.14, v: 0.68 };
+
 const WAKING = onSand(WAKE_AT[0], WAKE_AT[2], LYING);
 const DOORWAY_V = DOORWAY_MIDDLE / CUBE_METRES;
 
@@ -95,6 +99,15 @@ const EYES: Record<string, Whereabouts> = {
   'doorway-out': inFirstRoom(0.97, DOORWAY_V, 0),
   'doorway-down': inFirstRoom(0.97, DOORWAY_V, 0, -0.7),
   'room-doorway': inFirstRoom(0.25, 0.6, Math.atan2(DOORWAY_V - 0.6, 0.75)),
+  'shelf-door': inFirstRoom(
+    AT_SHELF.u,
+    AT_SHELF.v,
+    Math.atan2(DOORWAY_V - AT_SHELF.v, 1 - AT_SHELF.u),
+    -0.12,
+  ),
+  'door-shelf': inFirstRoom(0.9, 0.3, Math.atan2(0.75 - 0.3, -0.9), -0.2),
+  // Standing in the beam, looking down it at where it lands.
+  'in-beam': inFirstRoom(0.6, 0.39, Math.atan2(-SUN_DIR[2], -SUN_DIR[0]), -0.3),
 };
 
 /** `--name` as a number, or `otherwise` where it is not given. */
@@ -147,11 +160,17 @@ async function main(): Promise<void> {
     eyelids: numberOf('eyelids', OUTSIDE_LENS.eyelids),
     indoors: numberOf('indoors', 0),
   };
+  // An eye in the room sees through its floor's lens unless `--indoors` asks
+  // for the outside's at that adaptation: the room as an eye still used to
+  // daylight sees it.
+  const inside = flag('indoors') === undefined ? {} : { lens };
   await withCubePage(async ({ shoot, shootOutside }) =>
     inTurn(chosen(), async ([name, at]) => {
       const file = path.join(FRAMES, `${name}.png`);
       const started = Date.now();
-      await (isOutside(at) ? shootOutside(file, at, lens) : shoot(file, at));
+      await (isOutside(at)
+        ? shootOutside(file, at, lens)
+        : shoot(file, at, inside));
       process.stdout.write(`  in ${String(Date.now() - started)} ms\n`);
     }),
   );

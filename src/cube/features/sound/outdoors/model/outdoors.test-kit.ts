@@ -13,10 +13,14 @@ export const PERIOD = 10;
  * A round island with a sea that rises and falls on every shore at once,
  * `swell` metres either way: the least a surf can be read from.
  */
+const swelling =
+  (swell: number) =>
+  (seconds: number): number =>
+    swell * Math.sin((2 * Math.PI * seconds) / PERIOD);
+
 export const seaOf = (swell = 0.2): Sea => ({
   islandHeight: ([x, z]) => 1.5 * (1 - (x * x + z * z) / RADIUS ** 2),
-  waterLevel: (_, seconds) =>
-    swell * Math.sin((2 * Math.PI * seconds) / PERIOD),
+  waterAt: () => swelling(swell),
 });
 
 /** The round island with the cube `cube` from its middle. */

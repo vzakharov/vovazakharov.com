@@ -158,8 +158,12 @@ export function mountCube(
   /** The outside eye the frame hook gave, and the one the play hook holds. */
   let hooked: OutsideEye | null = null;
   let stagedEye: OutsideEye | null = null;
-  /** The lens the frame hook gave, for an eye on floor 1 as for one outside. */
+  /**
+   * The lens for an eye on floor 1 as for one outside: the frame hook's, and
+   * the one a staged pose carries, which the hook's frames do not clear.
+   */
   let through: OutsideLens | null = null;
+  let stagedThrough: OutsideLens | null = null;
   /** The ladder and the body as the frame hook last gave them, and the play hook's. */
   let hookedState: OutdoorState = {};
   let stagedState: OutdoorState = {};
@@ -267,7 +271,7 @@ export function mountCube(
       clear: airAt(depth),
       lens:
         outdoor?.lens ??
-        (showsOutside ? through : null) ??
+        (showsOutside ? (stagedThrough ?? through) : null) ??
         (lenses.has(at.n) ? at.n : built.pose.n),
       outdoors: showsOutside
         ? {
@@ -335,13 +339,17 @@ export function mountCube(
 
   return {
     ready: async () => firstFrame.promise,
-    setPose: async (next, among = [], off = null) => {
+    setPose: async (
+      next,
+      { moving: among = [], lens = null, taken: off = null } = {},
+    ) => {
       await firstFrame.promise;
       pose = next;
       staged = among;
       stagedTaken = off;
       taken = off;
       stagedEye = null;
+      stagedThrough = lens;
       await shown(inEyeRoom(next));
     },
     setEye: async (
@@ -353,6 +361,7 @@ export function mountCube(
       stagedEye = { outside, lens };
       staged = among;
       stagedState = state;
+      stagedThrough = null;
       await shown(FIRST_ROOM);
     },
     adapter: () => renderer?.adapter ?? 'none',

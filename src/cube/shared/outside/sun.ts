@@ -1,6 +1,7 @@
 import type { Rgb } from '../lib/colour';
 import type { Vec3 } from '../lib/vec';
 import { vecf, wgsl } from '../lib/wgsl';
+import { lightUnder } from '../sky/sky-light';
 
 const DEGREES = Math.PI / 180;
 /**
@@ -19,21 +20,43 @@ export const SUN_DIR: Vec3 = [
   Math.cos(ELEVATION) * Math.sin(AZIMUTH),
 ];
 
-/** What a white matte face square to the sun shows, in the scene's light. */
-export const SUN_LIGHT: Rgb = [8, 4.96, 2.64];
+const LIT = lightUnder(SUN_DIR);
 
 /**
- * What the sky alone puts on a white matte face looking up: about the sun's own
- * share on flat ground, as under a clear sky with the sun this low.
+ * What a white matte face square to the sun would show above the air: the
+ * unit the sky's own radiance is counted in.
  */
-export const SKY_FILL: Rgb = [0.65, 0.87, 1.2];
+export const SUN_WHITE = LIT.white;
 
-/** `SUN_DIR`, `SUN_LIGHT` and `SKY_FILL` as WGSL constants of those names. */
+/** What a white matte face square to the sun shows, in the scene's light. */
+export const SUN_LIGHT: Rgb = LIT.sun;
+
+/** What the sky alone puts on a white matte face looking up. */
+export const SKY_FILL: Rgb = LIT.sky;
+
+/**
+ * What the sea and the air under the horizon put on a white matte face
+ * looking down.
+ */
+export const GROUND_FILL: Rgb = LIT.ground;
+
+/**
+ * What the sky just over the horizon, away from the sun's glare, puts on a
+ * white matte face it wholly surrounds: the light on a thing's flank.
+ */
+export const HORIZON_FILL: Rgb = LIT.horizon;
+
+/**
+ * `SUN_DIR`, `SUN_LIGHT`, `SKY_FILL`, `GROUND_FILL` and `HORIZON_FILL` as WGSL
+ * constants of those names.
+ */
 export const SUN = wgsl(
   'outside/sun',
   /* wgsl */ `
 const SUN_DIR = ${vecf(SUN_DIR)};
 const SUN_LIGHT = ${vecf(SUN_LIGHT)};
 const SKY_FILL = ${vecf(SKY_FILL)};
+const GROUND_FILL = ${vecf(GROUND_FILL)};
+const HORIZON_FILL = ${vecf(HORIZON_FILL)};
 `,
 );

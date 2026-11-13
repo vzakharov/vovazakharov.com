@@ -57,13 +57,14 @@ describe('the world frame', () => {
     close(DOORWAY_BOX.max[1] - DOORWAY_BOX.min[1], 2.1);
   });
 
-  it('wakes the player on the waterline about 30 m south-west', () => {
+  it('wakes the player on dry sand south-west, above any swash', () => {
     const [x, y, z] = WAKE_AT;
-    assert.equal(y, 0);
-    close(islandHeight([x, z]), 0, 1e-6);
+    close(islandHeight([x, z]), y, 1e-6);
+    assert.ok(y >= 0.32 && y < 0.4, String(y));
     assert.ok(x < 0 && z > 0);
+    close(x, -z);
     const away = Math.hypot(x, z);
-    assert.ok(away > 25 && away < 40, String(away));
+    assert.ok(away > 22 && away < 25, String(away));
   });
 
   it('gives the shader the numbers the script reads', () => {

@@ -96,6 +96,8 @@ export function hear(canvas: HTMLCanvasElement): Hearing {
   const played = new Map<string, number>();
   /** When the outside was last read, on the page's own clock. */
   let outsideRead = -Infinity;
+  /** Whether the eye was last outside the cube. */
+  let wasOutdoors = false;
   /** Whether the last shrink said was the first. */
   let afterFirst = false;
 
@@ -123,6 +125,10 @@ export function hear(canvas: HTMLCanvasElement): Hearing {
       }
     },
     outside: (at, nowMs) => {
+      // The sill crossed inward: the outside shuts off, and the cube booms.
+      const indoors = !isOutside(at);
+      if (indoors && wasOutdoors) scape.cue({ kind: 'threshold' });
+      wasOutdoors = !indoors;
       const tick = performance.now();
       if (tick - outsideRead < OUTSIDE_EVERY) return;
       outsideRead = tick;

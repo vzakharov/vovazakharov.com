@@ -34,11 +34,13 @@ describe("the eye's adaptation", () => {
     assert.equal(settled(within(0.97, DOORWAY_V, 0, 2)), 1);
   });
 
-  it('keeps the doorway a glare from across the room', () => {
-    const far = settled(within(0.1, 0.7, Math.atan2(DOORWAY_V - 0.7, 0.9)));
-    const near = settled(within(0.7, DOORWAY_V, 0));
-    assert.ok(far > 0.7, String(far));
-    assert.ok(near < far, `${String(near)} against ${String(far)}`);
+  it('goes by what the eye looks at, not by where it stands', () => {
+    const toDoorway = Math.atan2(DOORWAY_V - 0.7, 0.9);
+    const across = settled(within(0.1, 0.7, toDoorway));
+    assert.ok(across < 0.3, String(across));
+    assert.equal(settled(within(0.1, 0.7, toDoorway + Math.PI / 2)), 1);
+    const beside = settled(within(0.9, DOORWAY_V, Math.PI / 2));
+    assert.ok(beside > 0.9, String(beside));
   });
 
   it('gets used to the light faster than to the dark', () => {

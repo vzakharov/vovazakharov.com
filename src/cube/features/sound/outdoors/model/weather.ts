@@ -36,7 +36,7 @@ export const WASH_TURNS = rolled.wash;
  * round, and where in its turn it starts. Whole numbers of turns, none a
  * multiple of another, so the hour repeats and nothing within it does.
  */
-const WAVES = [
+const GUST_WAVES = [
   { turns: 23, starts: rolled.gusts.a, weight: 1 },
   { turns: 41, starts: rolled.gusts.b, weight: 0.9 },
   { turns: 73, starts: rolled.gusts.c, weight: 0.7 },
@@ -44,7 +44,7 @@ const WAVES = [
   { turns: 211, starts: rolled.gusts.e, weight: 0.3 },
 ] as const;
 
-const WEIGHT = WAVES.reduce((sum, { weight }) => sum + weight, 0);
+const WEIGHT = GUST_WAVES.reduce((sum, { weight }) => sum + weight, 0);
 
 /**
  * How hard the wind is gusting `seconds` into the hour, from 0 (the steady
@@ -54,7 +54,7 @@ const WEIGHT = WAVES.reduce((sum, { weight }) => sum + weight, 0);
 export function gustAt(seconds: number): number {
   const x = seconds / SECONDS_AN_HOUR;
   let sum = 0;
-  for (const { turns, starts, weight } of WAVES) {
+  for (const { turns, starts, weight } of GUST_WAVES) {
     sum += weight * Math.sin(CYCLE * (turns * x + starts));
   }
   // Only where the waves pile up is there a gust.

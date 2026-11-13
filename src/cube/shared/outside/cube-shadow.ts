@@ -128,14 +128,14 @@ function ladderLight(p: Vec3): number {
  * faces is in the sun; one on the ladder is not in the ladder's shadow. With
  * `ladderGone` the cube casts alone.
  */
-export const cubeShadow = (p: Vec3, ladderGone = false): number =>
+export const cubeShadow = (p: Vec3, { ladderGone = false } = {}): number =>
   boxLight(p) * (ladderGone ? 1 : ladderLight(p));
 
 const OUTLINE_WGSL = OUTLINE.map(({ facing, reach }) =>
   vecf([...facing, reach]),
 ).join(',\n  ');
 
-/** `cubeShadow(p: vec3f) -> f32`, the twin of the function above. */
+/** `cubeShadow(p: vec3f) -> f32`, the twin of the function above, the ladder read from the frame. */
 export const CUBE_SHADOW = wgsl(
   'outside/cube-shadow',
   /* wgsl */ `
