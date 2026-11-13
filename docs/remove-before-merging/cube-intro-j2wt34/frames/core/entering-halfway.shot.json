@@ -1,0 +1,25 @@
+{
+  "name": "entering",
+  "eye": {
+    "n": 1,
+    "x": "0",
+    "y": "0",
+    "u": 0.8482000000000001,
+    "v": 0.95,
+    "eyeAbove": 0.32,
+    "scale": 1,
+    "yaw": 4.71238898038469,
+    "elevation": -0.1
+  },
+  "lens": {
+    "exposure": 0.3,
+    "eyelids": 1,
+    "indoors": 0.5
+  },
+  "clock": "2026-11-01T12:00:00.000Z",
+  "viewport": {
+    "width": 1280,
+    "height": 800
+  },
+  "commit": "001b3c9b"
+}

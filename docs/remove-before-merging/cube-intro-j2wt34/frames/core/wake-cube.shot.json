@@ -1,1 +1,24 @@
-{"name":"wake-cube","eye":{"eye":[-16.566195569523455,0.6900000000001614,16.566195569523455],"yaw":-0.7853981633974483,"elevation":0.14,"roll":0},"lens":{"exposure":0.3,"eyelids":1,"indoors":0},"clock":"2026-11-01T12:00:00.000Z","viewport":{"width":1280,"height":800},"commit":"001b3c9b"}
+{
+  "name": "wake-cube",
+  "eye": {
+    "eye": [
+      -16.566195569523455,
+      0.6900000000001614,
+      16.566195569523455
+    ],
+    "yaw": -0.7853981633974483,
+    "elevation": 0.14,
+    "roll": 0
+  },
+  "lens": {
+    "exposure": 0.3,
+    "eyelids": 1,
+    "indoors": 0
+  },
+  "clock": "2026-11-01T12:00:00.000Z",
+  "viewport": {
+    "width": 1280,
+    "height": 800
+  },
+  "commit": "001b3c9b"
+}
