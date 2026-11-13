@@ -1,8 +1,8 @@
 items:
   - id: z-intro
     type: zone
-    updated: [2026-11-13T10:45:00.000Z, agent:cube-intro]
-    box: [5720, -3150, 1880, 6450, orange]
+    updated: [2026-11-13T10:55:00.000Z, agent:cube-intro]
+    box: [5720, -3150, 2510, 6450, orange]
     icon: 🏝️
     text: 'The intro: an island, the cube from outside, the way in'
   - id: intro-h-premise
@@ -290,6 +290,18 @@ items:
     box: [6990, -3040, 280, pink]
     icon: 🔥
     text: 'Vova, on seeing it: “this is properly top, it can go on the board”'
+  - id: intro-ref-gold-eye
+    type: image
+    updated: [2026-11-13T10:55:00.000Z, agent:cube-intro]
+    box: [7000, -2880, 590]
+    src: images/intro-ref-gold-eye.webp
+    text: 'The same eye after sand’s next pass: the lit sand went from pinkish beige to gold, and the ripples now run across the view instead of toward the cube. Vova approved the frame on the left — which tone does he prefer?'
+  - id: intro-ref-gold-lying
+    type: image
+    updated: [2026-11-13T10:55:00.000Z, agent:cube-intro]
+    box: [7620, -2880, 590]
+    src: images/intro-ref-gold-lying.webp
+    text: 'What the player sees on waking, lying down: the cube sits on the dune’s crest; it floats only once you stand up. Known flaw: a pink smear under the cube’s lower edge, being traced'
   - id: intro-d-wake-inland
     type: sticky
     updated: [2026-11-13T10:30:00.000Z, agent:cube-intro]
