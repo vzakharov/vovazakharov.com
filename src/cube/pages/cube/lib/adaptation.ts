@@ -1,5 +1,5 @@
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
-import { DOORWAY } from '@/cube/shared/outside';
+import { DOORWAY, toShell, turnedToShell } from '@/cube/shared/outside';
 import { isOutside, type Pose, type Whereabouts } from '@/cube/entities/world';
 
 import { forward } from './camera';
@@ -33,14 +33,15 @@ const TO_DARK = 6;
 
 /** Whether the ray from `pose`'s eye turned by `yaw` and `elevation` leaves by the doorway. */
 function leaves(pose: Pose, yaw: number, elevation: number): boolean {
-  const [east, up, south] = forward({
-    yaw: pose.yaw + yaw,
-    elevation: pose.elevation + elevation,
-  });
+  // In the shell's frame the doorway is in the east face.
+  const [east, up, south] = turnedToShell(
+    forward({ yaw: pose.yaw + yaw, elevation: pose.elevation + elevation }),
+  );
   if (east <= 0) return false;
-  const run = (1 - pose.u) / east;
-  const z = (pose.v + run * south) * ROOM_METRES;
-  const y = (pose.eyeAbove + run * up) * ROOM_METRES;
+  const [x, eye, across] = toShell([pose.u, pose.eyeAbove, pose.v]);
+  const run = (1 - x) / east;
+  const z = (across + run * south) * ROOM_METRES;
+  const y = (eye + run * up) * ROOM_METRES;
   return z > DOORWAY.from && z < DOORWAY.to && y > 0 && y < DOORWAY.height;
 }
 

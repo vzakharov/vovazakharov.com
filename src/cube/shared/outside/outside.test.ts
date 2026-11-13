@@ -9,7 +9,9 @@ import {
   CUBE_AT,
   CUBE_BOX,
   CUBE_METRES,
+  DOORWAY,
   DOORWAY_BOX,
+  ROOM_DOORWAY,
   toCube,
   toWorld,
   WAKE_AT,
@@ -23,6 +25,14 @@ import {
 } from './outdoor-frame';
 import { SKY } from './sky';
 import { SUN, SUN_DIR } from './sun';
+import {
+  QUARTER_TURNS,
+  toRoom,
+  toShell,
+  turnedToShell,
+  yawToRoom,
+  yawToShell,
+} from './turn';
 
 const close = (a: number, b: number, within = 1e-9): void => {
   assert.ok(Math.abs(a - b) <= within, `${String(a)} is not ${String(b)}`);
@@ -46,7 +56,41 @@ describe('the world frame', () => {
     for (const [axis, value] of toCube(toWorld(c)).entries()) {
       close(value, c[axis] ?? Number.NaN);
     }
-    assert.deepEqual(toWorld([0, 0, 0]), CUBE_AT);
+  });
+
+  it("turns the interior in its shell about the cube's middle, the shell staying the world's", () => {
+    const middle = toWorld([0.5, 0, 0.5]);
+    close(middle[0], CUBE_AT[0] + CUBE_METRES / 2);
+    close(middle[2], CUBE_AT[2] + CUBE_METRES / 2);
+    // A corner of the room is a corner of the shell, and up is up.
+    const corner = toWorld([0, 1, 0]);
+    close(Math.abs(corner[0] - middle[0]), CUBE_METRES / 2);
+    close(Math.abs(corner[2] - middle[2]), CUBE_METRES / 2);
+    close(corner[1], CUBE_AT[1] + CUBE_METRES);
+    for (const turn of QUARTER_TURNS) {
+      const there = toRoom(toShell([0.2, 0.3, 0.9], 1, turn), 1, turn);
+      for (const [axis, value] of [0.2, 0.3, 0.9].entries()) {
+        close(there[axis] ?? Number.NaN, value);
+      }
+      close(yawToRoom(yawToShell(0.4, turn), turn), 0.4);
+    }
+    // One quarter counter-clockwise from above: the room's east is north.
+    assert.deepEqual(turnedToShell([1, 0, 0], 1), [0, 0, -1]);
+    assert.deepEqual(toShell([1, 0, 1], 1, 1), [1, 0, 0]);
+    close(Math.cos(yawToShell(0, 1)), 0);
+    close(Math.sin(yawToShell(0, 1)), -1);
+  });
+
+  it("opens the doorway in the wall of floor 1 behind the shell's east face", () => {
+    const { wall, from, to } = ROOM_DOORWAY;
+    close(to - from, DOORWAY.to - DOORWAY.from);
+    const along = wall === 'north' || wall === 'south';
+    const across = wall === 'east' || wall === 'south' ? CUBE_METRES : 0;
+    const middle = (from + to) / 2;
+    const inRoom: Vec3 = along ? [middle, 0, across] : [across, 0, middle];
+    const [x, , z] = toShell(inRoom, CUBE_METRES);
+    close(x, CUBE_METRES);
+    close(z, (DOORWAY.from + DOORWAY.to) / 2);
   });
 
   it('opens the doorway in the east face, by the north-east corner', () => {

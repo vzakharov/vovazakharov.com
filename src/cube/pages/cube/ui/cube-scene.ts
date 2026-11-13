@@ -17,7 +17,12 @@ import {
 } from '@/cube/entities/world';
 import { happening, type RoomSound } from '@/cube/features/happenings';
 
-import { OUTSIDE_FAR, seenInWorld, viewProjection } from '../lib/camera';
+import {
+  gazeInCube,
+  OUTSIDE_FAR,
+  seenInWorld,
+  viewProjection,
+} from '../lib/camera';
 import type { Scenery } from '../lib/mesh';
 import { OUTSIDE_LENS, type OutsideLens } from '../lib/outside-lens';
 import { between } from '../lib/palette';
@@ -258,7 +263,7 @@ export function mountCube(
     const showsOutside = first && (outdoor !== null || at.n === 1);
     const seen = {
       viewProjection: viewProjection(
-        outdoor?.outside ?? at,
+        outdoor === null ? at : gazeInCube(outdoor.outside),
         eye,
         width / height,
         unit,
