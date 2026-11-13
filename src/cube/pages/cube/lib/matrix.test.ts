@@ -7,17 +7,7 @@ import { inverse, multiply } from './matrix';
 describe('inverse', () => {
   it('undoes a camera’s view-projection', () => {
     const matrix = viewProjection(
-      {
-        n: 1,
-        x: 0n,
-        y: 0n,
-        u: 0.5,
-        v: 0.5,
-        eyeAbove: 0.32,
-        scale: 1,
-        yaw: 0.7,
-        elevation: -0.2,
-      },
+      { yaw: 0.7, elevation: -0.2 },
       [0.4, 0.3, 0.6],
       16 / 9,
       1,

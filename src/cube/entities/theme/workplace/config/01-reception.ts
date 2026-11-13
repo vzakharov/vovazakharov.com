@@ -1,12 +1,32 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
-import { FINISH, type FloorTheme, ordinary, STUFF, wgsl } from '../../kit';
+import {
+  FINISH,
+  type FloorTheme,
+  LIGHT,
+  type Shrub,
+  STUFF,
+  sunlit,
+  wgsl,
+} from '../../kit';
 
 const AIR = linear(hex(0x17_14_0f));
 
 /**
+ * The potted plants the planted world stands in floor 1's room, where the
+ * doorway's beam finds them: the one by the doorway and the one in the far
+ * corner. The decor rolls their places and the light cannot ask it, so they
+ * are written here and `features/decor` tests that they are where it puts them.
+ */
+export const RECEPTION_SHRUBS: readonly Shrub[] = [
+  { at: [4.405, 0.4255], tall: 0.9587 },
+  { at: [0.4405, 0.555], tall: 0.8748 },
+];
+
+/**
  * The whole cube as one room: a reception nobody staffs. Terrazzo, a green
- * dado under cream plaster, and four big panels that have never flickered.
+ * dado under cream plaster, and four big panels nobody switched on: the
+ * evening sun through the doorway is all its light.
  */
 export const RECEPTION: FloorTheme = {
   name: 'Reception',
@@ -19,7 +39,6 @@ export const RECEPTION: FloorTheme = {
     { thing: 'bench', perRoom: 1 },
     { thing: 'wall-clock', perRoom: 1 },
     { thing: 'notice-board', perRoom: 1 },
-    { thing: 'door', perRoom: 1 },
   ],
   shader: wgsl(
     'reception',
@@ -57,7 +76,11 @@ fn tiled(s: Surf) -> Material {
   let pin = step(0.72, valueNoise(s.uv * 110.0, 5u));
   let white = vec3f(0.58, 0.56, 0.5) * (0.93 + 0.07 * tile.y) * (1.0 - 0.3 * pin);
   let albedo = mix(vec3f(0.16, 0.155, 0.14), white, tile.x) * (1.0 - 0.5 * damp(s));
-  return embossed(s, glowing(albedo, lampGlow(s, lamps())), tile.x - 0.2 * pin, 0.006);
+  // The panels are off: milky diffusers, a shade duller than the tiles.
+  let panel = lampMask(s.p.xz, 2, vec2f(1.2));
+  let prisms = 0.92 + 0.08 * tiling(s.uv, 0.012, 0.004, 6u).x;
+  let ceiling = polished(mix(albedo, vec3f(0.33, 0.34, 0.33) * prisms, panel), 0.45 * panel);
+  return embossed(s, ceiling, (tile.x - 0.2 * pin) * (1.0 - panel), 0.006);
 }
 
 fn themeMaterial(s: Surf) -> Material {
@@ -71,16 +94,16 @@ fn themeMaterial(s: Surf) -> Material {
 `,
     FINISH,
     STUFF,
-    ordinary('reception', {
+    LIGHT,
+    sunlit('reception', {
       air: AIR,
-      lamp: [1.5, 1.38, 1.14],
-      ambient: [0.012, 0.011, 0.01],
-      grid: 2,
-      panel: [1.2, 1.2],
-      stutter: 0,
+      ambient: [0.022, 0.02, 0.019],
+      shrubs: RECEPTION_SHRUBS,
+      floor: [0.27, 0.24, 0.2],
+      walls: [0.26, 0.26, 0.19],
       visibility: 70,
-      exposure: 1,
-      glow: 0.1,
+      exposure: 1.5,
+      glow: 0.14,
       fringe: 0.004,
       vignette: 0.3,
       noise: 0.012,

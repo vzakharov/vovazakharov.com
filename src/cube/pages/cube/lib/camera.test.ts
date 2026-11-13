@@ -1,9 +1,10 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { toWorld } from '@/cube/shared/outside';
 import type { Pose, Vec3 } from '@/cube/entities/world';
 
-import { forward, viewProjection } from './camera';
+import { forward, OUTSIDE_FAR, seenInWorld, viewProjection } from './camera';
 
 const pose = (yaw: number, pitch: number): Pose => ({
   n: 1,
@@ -67,5 +68,41 @@ describe('the camera', () => {
     const matrix = viewProjection(pose(0, -0.3), eye, 1, 1);
     const [, y] = project(matrix, [1, 0.32, 0.5]);
     assert.ok(y > 0);
+  });
+
+  it('drops the horizon on the left with a clockwise roll', () => {
+    const eye: Vec3 = [0, 0, 0];
+    const matrix = viewProjection(pose(0, 0), eye, 1, 1, { roll: 0.3 });
+    // Facing east, north is on the left.
+    const [x, y] = project(matrix, [1, 0, -0.2]);
+    assert.ok(x < 0 && y < 0);
+    const [, ahead] = project(matrix, [1, 0, 0]);
+    assert.ok(Math.abs(ahead) < 1e-6);
+  });
+
+  it('puts the far plane where it is told to', () => {
+    const matrix = viewProjection(pose(0, 0), [0, 0, 0], 1, 1, {
+      far: OUTSIDE_FAR,
+    });
+    const depth = (ahead: number) => project(matrix, [ahead, 0, 0])[2];
+    assert.ok(Math.abs(depth(0.004) - 1) < 1e-6);
+    assert.ok(depth(24) > 0);
+    assert.ok(Math.abs(depth(OUTSIDE_FAR)) < 1e-9);
+  });
+
+  it('sees a point of the world where it sees that point of the cube', () => {
+    const eye: Vec3 = [0.5, 0.32, 0.5];
+    const inCube = {
+      viewProjection: viewProjection(pose(0.4, 0.1), eye, 1.6, 1),
+      eye,
+    };
+    const inWorld = seenInWorld(inCube);
+    const point: Vec3 = [1.7, 0.1, 0.9];
+    const there = project(inCube.viewProjection, point);
+    const here = project(inWorld.viewProjection, toWorld(point));
+    for (const [index, value] of there.entries()) {
+      assert.ok(Math.abs(value - (here[index] ?? Number.NaN)) < 1e-4);
+    }
+    assert.deepEqual(inWorld.eye, toWorld(eye));
   });
 });
