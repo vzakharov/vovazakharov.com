@@ -7,17 +7,17 @@ import type { LayerMaker } from './outdoor-layer';
 
 const CLOUD_FORMAT: GPUTextureFormat = 'rgba16float';
 
-/** The frame's clouds as drawn, and the group the backdrop reads them by. */
+/** The frame's sky as drawn, and the group the backdrop reads it by. */
 type SkyTarget = Sized & {
   sky: GPUTexture;
   group: GPUBindGroup;
 };
 
 /**
- * The sky: each frame's clouds marched into a target `scale` times smaller
- * than the screen each way, then the backdrop, which lays them over the clear
- * air and the sun. The target is this frame's alone; nothing in it outlives
- * the frame.
+ * The sky: each frame's air and clouds, all but the sun's disc, drawn into a
+ * target `scale` times smaller than the screen each way, then the backdrop,
+ * which reads that and adds the disc at the screen's own sharpness. The
+ * target is this frame's alone; nothing in it outlives the frame.
  */
 export const skyLayerAt =
   (scale: number): LayerMaker =>

@@ -30,8 +30,9 @@ export const CLOUDS = {
    */
   bound: 1.7,
   /**
-   * Lattice cells to a cloud's radius for the noise that billows it, coarsest
-   * first, and cells to a tile for the grain that frays its edge.
+   * Lattice cells to a cloud's radius for the noise that billows it, the
+   * broad swell and then the knobs on it, and cells to a tile for the grain
+   * that frays its edge.
    */
   billow: [1.4, 4.3],
   grain: 350,

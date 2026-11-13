@@ -1,15 +1,33 @@
 {
   "total": {
-    "inputTokens": 10412,
+    "inputTokens": 10431,
     "cacheWrite5mTokens": 2024,
-    "cacheWrite1hTokens": 589007,
-    "cacheReadTokens": 26067638,
-    "outputTokens": 184970,
-    "thinkingTokens": 80503,
-    "responses": 130,
-    "costUsd": 22.1230064
+    "cacheWrite1hTokens": 602531,
+    "cacheReadTokens": 27591052,
+    "outputTokens": 190008,
+    "thinkingTokens": 80949,
+    "responses": 140,
+    "costUsd": 22.8457452
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-13T10:33:51.952Z",
+    "subjectLine": "feat: the island's sky — fitted air, marched clouds, skyRadiance",
+    "parts": [
+      {
+        "hours": 70.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "A physical atmosphere fitted to a closed form, a cloud march inside a 3 ms budget and a lod ladder other packages sample take someone who has shipped a sky before."
+      },
+      {
+        "hours": 30.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "Cloud and cirrus shapes are judged against photographs over many rounds; that eye is a different person's from the one who writes the march."
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -34,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkBFtfJ3LB6ENrHeTER",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-13T09:16:13.273Z",
-  "lastResponseAt": "2026-11-13T10:32:58.559Z",
+  "lastResponseAt": "2026-11-13T10:33:53.655Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 18.6412124,
   "ownTurns": {
-    "inputTokens": 251,
+    "inputTokens": 270,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 589007,
-    "cacheReadTokens": 25467401,
-    "outputTokens": 166798,
-    "thinkingTokens": 80503,
-    "responses": 127,
-    "costUsd": 21.191520200000003
+    "cacheWrite1hTokens": 602531,
+    "cacheReadTokens": 26990815,
+    "outputTokens": 171836,
+    "thinkingTokens": 80949,
+    "responses": 137,
+    "costUsd": 21.914259
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,14 +77,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 9159,
+      "inputTokens": 9178,
       "cacheWrite5mTokens": 2024,
-      "cacheWrite1hTokens": 589007,
-      "cacheReadTokens": 26067638,
-      "outputTokens": 184791,
-      "thinkingTokens": 80503,
-      "responses": 129,
-      "costUsd": 22.122791600000003
+      "cacheWrite1hTokens": 602531,
+      "cacheReadTokens": 27591052,
+      "outputTokens": 189829,
+      "thinkingTokens": 80949,
+      "responses": 139,
+      "costUsd": 22.8455304
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1253,
@@ -146,10 +164,10 @@
     }
   ],
   "telemetry": {
-    "events": 129,
-    "matched": 126,
-    "matchedTableUsd": 21.114578800000004,
-    "matchedEventUsd": 21.114578800000004,
+    "events": 139,
+    "matched": 136,
+    "matchedTableUsd": 21.854936000000002,
+    "matchedEventUsd": 21.854936000000002,
     "unseen": {
       "compact": {
         "inputTokens": 8908,

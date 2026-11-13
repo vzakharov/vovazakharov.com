@@ -48,8 +48,9 @@ const EDGE = 0.18;
  *   mirror that would not show the difference: rgb their light, a the share of
  *   what is behind them that shows.
  *
- * A cloud is a dome on a flat base with a smaller one beside it, leaning down
- * the wind, pushed in and out by two sizes of billow and frayed by a grain.
+ * A cloud is a heap on a flat base: its footprint is its own noise's, so no
+ * two are one shape, and it domes over that, leaning down the wind, pushed in
+ * and out by three sizes of billow and frayed by a grain.
  * The body is near enough a distance for a ray to step by, so a march walks
  * to its surface and spends its samples there. The light is the sun's own
  * colour at the cloud's height through the cloud between, spread over terms

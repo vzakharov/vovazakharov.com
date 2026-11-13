@@ -8,7 +8,7 @@ import { clamp01 } from '../lib/ease';
  * red, green and blue: Rayleigh air, a marine haze of Mie aerosol, and the
  * ozone layer, whose absorption of orange is what keeps the zenith blue under
  * a low sun. The numbers are the ones Bruneton and Hillaire publish, with the
- * haze raised to an ocean's aerosol optical depth of about 0.1.
+ * haze at a clean ocean's aerosol optical depth of about 0.05.
  */
 export const ATMOSPHERE = {
   ground: 6360,
