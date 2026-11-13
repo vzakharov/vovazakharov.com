@@ -30,6 +30,8 @@ function wgslHeight(): (xz: Xz) => number {
     max,
     sqrt,
     tanh,
+    clamp: (v: number, low: number, high: number) =>
+      Math.min(Math.max(v, low), high),
     mix: (a: number, b: number, t: number) => a + (b - a) * t,
     result: undefined as ((xz: Xz) => number) | undefined,
   };
@@ -49,6 +51,9 @@ const POINTS: readonly Point[] = [
     ],
   ),
   [0, 0],
+  // Where a sea reaching for the horizon asks for its bed.
+  [40_000, -3000],
+  [-900, 200_000],
 ];
 
 /** The shore's distance from the crest along `bearing`, by bisection. */
