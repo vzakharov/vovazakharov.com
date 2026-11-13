@@ -299,8 +299,8 @@ export function mountCube(
   };
 
   // Assigning a canvas's size clears it, so only a change is assigned.
-  const resize = (outside: boolean): void => {
-    const ratio = quality.ratioFor(outside);
+  const resize = (): void => {
+    const ratio = quality.ratioFor(outdoorsNext());
     const width = Math.max(1, Math.round(canvas.clientWidth * ratio));
     const height = Math.max(1, Math.round(canvas.clientHeight * ratio));
     if (canvas.width !== width) canvas.width = width;
@@ -322,7 +322,7 @@ export function mountCube(
     hooked =
       outside === undefined ? null : { outside, lens: lens ?? OUTSIDE_LENS };
     quality.drawn(time, outdoorsNext());
-    resize(outdoorsNext());
+    resize();
     render();
     frame = requestAnimationFrame(tick);
   };
@@ -347,7 +347,7 @@ export function mountCube(
   /** A frame of what the play hook just set, built for `target`, on screen. */
   const shown = async (target: Pose): Promise<void> => {
     await rebuild(target).done;
-    resize(outdoorsNext());
+    resize();
     render();
     await renderer?.drawn();
   };

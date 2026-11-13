@@ -1,11 +1,10 @@
 /**
  * Shoots the intro's scenes as the page plays them, a frame every half
- * second. A scene is
- * judged from these as a storyboard.
+ * second, to judge a scene from as a storyboard.
  *
  *   pnpm scenes:cube                     # every scene, to tmp/cube-scenes/
- *   pnpm scenes:cube --scenes waking     # those, of waking, climb, jump
- *                                        # and jump-small
+ *   pnpm scenes:cube --scenes waking     # those named, comma-separated, of
+ *                                        # waking, climb, jump, jump-small
  *   pnpm scenes:cube --every 1           # a frame every second instead
  *   pnpm scenes:cube --out <dir>         # frames there instead, <dir> absolute
  *
@@ -16,10 +15,12 @@
 
 import path from 'node:path';
 
+import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import {
   type Abroad,
   abroad,
   asleepOn,
+  EYE_HEIGHT,
   handsAbroad,
   INTRO_STAGE,
   outsideOf,
@@ -54,7 +55,7 @@ const LONGEST = 40;
 const { land, ladder, arrival, cube } = INTRO_STAGE;
 
 /** A standing eye's height over the sand, in metres. */
-const STANDING = 1.6;
+const STANDING = EYE_HEIGHT * ROOM_METRES;
 
 /** An eye on its feet at `x`, `z`, looking along `yaw`. */
 const standing = (x: number, z: number, yaw: number): Shot =>

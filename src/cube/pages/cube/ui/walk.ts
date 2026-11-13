@@ -232,18 +232,19 @@ export function walk(
   };
 
   /**
-   * The frame's share for a body inside at `pose`, `dt` seconds on: floor 1
-   * is seen through the lens the eye has got used to.
+   * The frame for a body inside as `inside`, `dt` seconds on: floor 1 is
+   * seen through the lens the eye has got used to.
    */
-  const indoorsAt = (pose: Pose, dt: number) => {
+  const indoorsAt = (inside: Player, dt: number) => {
+    const { pose } = inside;
     indoors = adapted(indoors, pose, dt);
-    return pose.n === 1
-      ? {
-          pose,
-          ladderGone,
-          lens: lensAdapted(indoors),
-        }
-      : { pose, ladderGone };
+    const shown = {
+      pose,
+      ladderGone,
+      taken: takenOf(inside),
+      moving: handsOf(inside),
+    };
+    return pose.n === 1 ? { ...shown, lens: lensAdapted(indoors) } : shown;
   };
 
   const scene = mountCube(canvas, {
@@ -279,11 +280,7 @@ export function walk(
                 };
               }
               player = inside;
-              return {
-                ...indoorsAt(player.pose, seconds),
-                taken: takenOf(player),
-                moving: handsOf(player),
-              };
+              return indoorsAt(player, seconds);
             }
             const here = holedHere(pose);
             player = playFrame(
@@ -326,11 +323,7 @@ export function walk(
               } else out = steppingOut(edge, moved.scale, INTRO_STAGE, at);
             }
             follow?.(moved, standing, seconds);
-            return {
-              ...indoorsAt(moved, seconds),
-              taken: takenOf(player),
-              moving: handsOf(player),
-            };
+            return indoorsAt(player, seconds);
           },
     onHeard: (heard, at) => {
       const nowMs = now();

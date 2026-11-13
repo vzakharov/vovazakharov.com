@@ -24,6 +24,9 @@ export const DOOR_INNER = SIDE * (1 - WALL_HALF);
 /** How many rays cross the doorway along it and up it. */
 const RAYS = { along: 8, up: 16 };
 
+/** The doorway's width, metres. */
+const DOOR_WIDE = DOORWAY.to - DOORWAY.from;
+
 /** A face a ray from the doorway can end on: the way it looks, and where it stands on which axis. */
 type End = Facing & { axis: 0 | 1 | 2; plane: number };
 
@@ -47,14 +50,13 @@ function landing(from: Vec3, sun: Vec3): { end: End; run: number } | undefined {
 
 /** The doorway's rays, each from where it enters the room. */
 function doorwayRays(): Vec3[] {
-  const wide = DOORWAY.to - DOORWAY.from;
   return Array.from({ length: RAYS.along * RAYS.up }, (_, ray): Vec3 => {
     const i = ray % RAYS.along;
     const j = Math.floor(ray / RAYS.along);
     return [
       DOOR_INNER,
       (DOORWAY.height * (j + 0.5)) / RAYS.up,
-      DOORWAY.from + (wide * (i + 0.5)) / RAYS.along,
+      DOORWAY.from + (DOOR_WIDE * (i + 0.5)) / RAYS.along,
     ];
   });
 }
@@ -66,11 +68,7 @@ function doorwayRays(): Vec3[] {
  * rays is not missed.
  */
 export function crossesBeam({ min, max }: Box, sun: Vec3): boolean {
-  const spare = [
-    0,
-    DOORWAY.height / RAYS.up / 2,
-    (DOORWAY.to - DOORWAY.from) / RAYS.along / 2,
-  ];
+  const spare = [0, DOORWAY.height / RAYS.up / 2, DOOR_WIDE / RAYS.along / 2];
   return doorwayRays().some((from) => {
     let enters = 0;
     let leaves = Infinity;
@@ -91,8 +89,7 @@ export function crossesBeam({ min, max }: Box, sun: Vec3): boolean {
  * metres long. Their flux adds up to the doorway's area seen from the sun.
  */
 export function beamPatches(sun: Vec3, cell = 1.25): SunPatch[] {
-  const wide = DOORWAY.to - DOORWAY.from;
-  const each = (wide * DOORWAY.height * sun[0]) / (RAYS.along * RAYS.up);
+  const each = (DOOR_WIDE * DOORWAY.height * sun[0]) / (RAYS.along * RAYS.up);
   const patches = new Map<string, { sum: Vec3; rays: number; facing: Vec3 }>();
   for (const from of doorwayRays()) {
     const landed = landing(from, sun);
