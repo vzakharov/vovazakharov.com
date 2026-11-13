@@ -39,6 +39,7 @@ The cube's renderer (`src/cube/pages/cube/ui/renderer.ts`) stays the only one. T
 
 - Three colour targets, all `rgba16float`, no blending, no MSAA; depth `depth32float`, reversed-Z (`depthCompare: 'greater'`), not readable.
 - **Target 0's alpha is metres from the eye**, not opacity; `1e4` means sky. Target 1's alpha is mirror strength: write 0 unless you mean to be a screen-space mirror.
+- **No layer writes a non-finite value to any target, and target 0's alpha never exceeds `SKY_METRES`.** The targets are half floats (65504 at most), and one inf or NaN pixel becomes a black block once the mips, the bloom or the rooms' reflection pass read it. Watch `tanh` and `exp` of large arguments, `1 / dir.y` at the horizon, `pow` of a negative, `normalize` of zero.
 - Nothing translucent in the scene pass. Water shows its bed by computing it (below), not by blending over it.
 - Draw order in the scene pass: sky backdrop, sand, the cube's shell and ladder, the rooms and what moves in them, the sea.
 - The far plane outside is 20 km; sight (`FAR` = 24 room sides) stays what `sight()` uses for rooms. Reversed-Z in float keeps the precision.
