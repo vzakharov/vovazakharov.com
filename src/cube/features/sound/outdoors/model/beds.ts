@@ -69,8 +69,8 @@ export const EASE = 0.06;
  * that shutting the outside off at the sill is heard as a sweep down and out
  * rather than a click.
  */
-export const FILTER_EASE = 0.1;
-export const FADE_EASE = 0.18;
+export const FILTER_EASE = 0.05;
+export const FADE_EASE = 0.07;
 
 /** The resonance of the sea's and the wind's filter, and of the hum's: a vowel. */
 export const WALL_Q = Math.SQRT1_2;
