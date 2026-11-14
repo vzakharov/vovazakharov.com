@@ -1,0 +1,128 @@
+{
+  "total": {
+    "inputTokens": 3448,
+    "cacheWrite5mTokens": 2769,
+    "cacheWrite1hTokens": 210512,
+    "cacheReadTokens": 8761921,
+    "outputTokens": 89170,
+    "thinkingTokens": 36648,
+    "responses": 45,
+    "costUsd": 5.252332200000001
+  },
+  "estimate": {
+    "at": "2026-11-14T11:01:19.316Z",
+    "subjectLine": "docs: weigh drowsy reprojection vs stylised rendering for the cube intro",
+    "parts": [
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "judging whether temporal reprojection beats a full frame on the GPU, and prototyping it with a calibrated slow-machine emulation, is rendering expertise"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "whether a drowsy smear reads as waking up rather than as lag is a call about feel"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-14T09:45:49.543Z",
+    "contextTokens": 93663,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 36388,
+      "cacheReadTokens": 54421,
+      "outputTokens": 500,
+      "thinkingTokens": 116,
+      "responses": 1,
+      "costUsd": 0.3119962
+    }
+  },
+  "sessionId": "beb873c0-6d41-5f37-821a-d0347d5ab591",
+  "branch": "claude/drowsy-eye-intro-ha4w78",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "проблема: интро куба жутко тормозит сейчас решение: понижать пиксельность рассматриваю следующее креативное решение: не менять пиксельность, но при любом движен…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEDLi4h9PRuRHgXuPy",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-14T09:45:43.313Z",
+  "lastResponseAt": "2026-11-14T11:02:09.157Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 85,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 210512,
+    "cacheReadTokens": 8097791,
+    "outputTokens": 83043,
+    "thinkingTokens": 36648,
+    "responses": 42,
+    "costUsd": 4.9648542
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 3448,
+      "cacheWrite5mTokens": 2769,
+      "cacheWrite1hTokens": 210512,
+      "cacheReadTokens": 8761921,
+      "outputTokens": 89170,
+      "thinkingTokens": 36648,
+      "responses": 45,
+      "costUsd": 5.252332200000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 44,
+    "matched": 41,
+    "matchedTableUsd": 4.8985604,
+    "matchedEventUsd": 4.898560400000001,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 1605,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 419967,
+        "outputTokens": 23,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.1013414
+      },
+      "compact": {
+        "inputTokens": 2351,
+        "cacheWrite5mTokens": 1164,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 244163,
+        "outputTokens": 6104,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.18613659999999999
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 1666,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {}
+}
