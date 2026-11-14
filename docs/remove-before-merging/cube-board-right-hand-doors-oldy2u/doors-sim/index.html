@@ -194,7 +194,7 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
       <div class="ctl">
         <label for="split">Граница двери и проёма: обход в комнатах <span class="num" id="splitOut"></span></label>
         <input type="range" id="split" min="0" max="257" step="1" value="48">
-        <div class="seg" id="near"><button data-n="door">ближе границы двери, дальше проёмы</button><button data-n="gap">ближе границы проёмы, дальше двери</button></div>
+        <label class="check"><input type="checkbox" id="near" checked> ближе границы двери, дальше проёмы (снято — наоборот)</label>
         <small>Проём — стены просто нет: топологически то же, что дверь, но изнутри его не отличить от родного прохода, и сквозь него видно. Какое из двух ставится, решает обход той стены, на которую выпал бросок перегородки, так что соотношение задают сами пороги. Граница в самом правом положении — ∞: всё, что ближе неё, одного вида.</small>
       </div>
       <div class="ctl">
@@ -499,7 +499,7 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
   $('density').addEventListener('input', (ev) => { state.perHundred = +ev.target.value; rebuildDoors(); });
   $('gap').addEventListener('input', (ev) => { state.minGap = +ev.target.value; rebuildDoors(); });
   $('split').addEventListener('input', (ev) => { state.split = +ev.target.value; rebuildDoors(); });
-  $('near').addEventListener('click', (ev) => { const n = ev.target.dataset?.n; if (!n) return; state.near = n; pressSeg('near', 'n', n); rebuildDoors(); });
+  $('near').addEventListener('change', (ev) => { state.near = ev.target.checked ? 'door' : 'gap'; rebuildDoors(); });
   $('heat').addEventListener('change', (ev) => { state.heat = ev.target.checked; draw(); });
   $('elig').addEventListener('change', (ev) => { state.elig = ev.target.checked; draw(); });
   $('dead').addEventListener('change', (ev) => { state.dead = ev.target.checked; draw(); });
@@ -571,7 +571,7 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
 
   $('runSweep').addEventListener('click', runSweep);
   pressSeg('size', 'k', state.k);
-  pressSeg('spacing', 's', state.spacing); pressSeg('near', 'n', state.near); rebuildFloor();
+  pressSeg('spacing', 's', state.spacing); rebuildFloor();
   runSweep();
 })();
 </script>
