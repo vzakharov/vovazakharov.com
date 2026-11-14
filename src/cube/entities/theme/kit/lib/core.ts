@@ -131,9 +131,8 @@ fn spaced(x: f32, size: f32) -> f32 {
 
 /// 0 where the point's cell, on a row of them \`size\` long along its wall's
 /// \`uv.x\`, overlaps the span a doorway may be cut in or runs past an end of
-/// the wall; 1 elsewhere. A piece drawn whole in each cell is multiplied by
-/// it, so neither a doorway nor a corner cuts one. A row whose \`size\`
-/// divides the room's has the same cells counted from either end of the wall.
+/// the wall; 1 elsewhere. A row whose \`size\` divides the room's has the same
+/// cells counted from either end of the wall.
 fn uncut(s: Surf, size: f32) -> f32 {
   let start = alongWall(s) - fract(s.uv.x / size) * size;
   let end = start + size;
