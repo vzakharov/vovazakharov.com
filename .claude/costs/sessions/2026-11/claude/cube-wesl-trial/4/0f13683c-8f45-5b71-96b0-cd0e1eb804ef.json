@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 1586,
-    "cacheWrite5mTokens": 3654,
-    "cacheWrite1hTokens": 106735,
-    "cacheReadTokens": 4719096,
-    "outputTokens": 19141,
-    "thinkingTokens": 8230,
-    "responses": 36,
-    "costUsd": 2.2160952000000007
+    "inputTokens": 2098,
+    "cacheWrite5mTokens": 4623,
+    "cacheWrite1hTokens": 110303,
+    "cacheReadTokens": 5386309,
+    "outputTokens": 20715,
+    "thinkingTokens": 8793,
+    "responses": 40,
+    "costUsd": 2.419361800000001
   },
   "estimate": {
     "at": "2026-11-14T05:07:57.627Z",
@@ -40,24 +40,24 @@
   },
   "sessionId": "0f13683c-8f45-5b71-96b0-cd0e1eb804ef",
   "branch": "claude/cube-wesl-trial",
-  "cwd": "/home/user/vovazakharov.com",
+  "cwd": "/home/user/vovazakharov.com/src/cube/features/voice",
   "openingPrompt": "/relay take claude/cube-wesl-trial — все шейдеры куба в .wgsl, вет зелёный, ревью-борд обновлён, ждут ответа три MASD-предложения",
   "prs": [],
   "url": "https://claude.ai/code/session_01DaohkBtCTt6tgWMeqbp5dW",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-14T05:07:38.455Z",
-  "lastResponseAt": "2026-11-14T05:26:20.861Z",
+  "lastResponseAt": "2026-11-14T05:27:21.690Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 68,
+    "inputTokens": 74,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 106735,
-    "cacheReadTokens": 4299137,
-    "outputTokens": 19086,
-    "thinkingTokens": 8230,
-    "responses": 33,
-    "costUsd": 2.0956994000000004
+    "cacheWrite1hTokens": 110303,
+    "cacheReadTokens": 4801212,
+    "outputTokens": 20653,
+    "thinkingTokens": 8793,
+    "responses": 36,
+    "costUsd": 2.2560224000000004
   },
   "subagents": {
     "inputTokens": 0,
@@ -71,38 +71,38 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 1586,
-      "cacheWrite5mTokens": 3654,
-      "cacheWrite1hTokens": 106735,
-      "cacheReadTokens": 4719096,
-      "outputTokens": 19141,
-      "thinkingTokens": 8230,
-      "responses": 36,
-      "costUsd": 2.2160952000000007
+      "inputTokens": 2098,
+      "cacheWrite5mTokens": 4623,
+      "cacheWrite1hTokens": 110303,
+      "cacheReadTokens": 5386309,
+      "outputTokens": 20715,
+      "thinkingTokens": 8793,
+      "responses": 40,
+      "costUsd": 2.419361800000001
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 35,
-    "matched": 32,
-    "matchedTableUsd": 2.0316224000000003,
-    "matchedEventUsd": 2.0316224000000003,
+    "events": 40,
+    "matched": 36,
+    "matchedTableUsd": 2.2560224000000004,
+    "matchedEventUsd": 2.2560224000000004,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 1518,
-        "cacheWrite5mTokens": 3654,
+        "inputTokens": 2024,
+        "cacheWrite5mTokens": 4623,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 419959,
-        "outputTokens": 55,
+        "cacheReadTokens": 585097,
+        "outputTokens": 62,
         "thinkingTokens": 0,
-        "responses": 3,
-        "costUsd": 0.1203958
+        "responses": 4,
+        "costUsd": 0.1633394
       }
     }
   },
   "operatorWords": {
-    "chat": 187,
+    "chat": 209,
     "review": 0,
     "threads": 0
   },
