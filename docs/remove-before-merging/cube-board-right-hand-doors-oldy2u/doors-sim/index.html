@@ -83,6 +83,11 @@ input[type=range] { width: 100%; accent-color: var(--door); }
 .btn:disabled:hover { background: transparent; color: var(--ink); }
 button:focus-visible, input:focus-visible { outline: 2px solid var(--door); outline-offset: 2px; }
 .check { display: flex; gap: 8px; align-items: center; font-size: 13.5px; }
+.tally { background: var(--paper); border: 1px solid var(--rule); border-left: 4px solid var(--door); padding: 12px 14px; display: grid; gap: 8px; font-size: 14px; }
+.tally .big { font: 500 20px/1.2 var(--mono); font-variant-numeric: tabular-nums; }
+.tally .d { color: var(--door); } .tally .g { color: var(--gap); }
+.tally b { font-family: var(--mono); font-weight: 600; font-variant-numeric: tabular-nums; }
+.tally small { color: var(--ink-soft); font-size: 12.5px; }
 
 table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
 th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--rule); vertical-align: top; }
@@ -184,7 +189,7 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
       </div>
       <div class="ctl">
         <label for="density">Отверстий (дверей и проёмов) на 100 комнат <span class="num" id="densityOut"></span></label>
-        <input type="range" id="density" min="0" max="100" step="1" value="3">        <small id="placedOut"></small>
+        <input type="range" id="density" min="0" max="100" step="1" value="3">
       </div>
       <div class="ctl">
         <label for="gap">Порог: не меньше комнат в обход <span class="num" id="gapOut"></span></label>
@@ -196,6 +201,14 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
         <input type="range" id="split" min="0" max="257" step="1" value="48">
         <label class="check"><input type="checkbox" id="near" checked> ближе границы двери, дальше проёмы (снято — наоборот)</label>
         <small>Проём — стены просто нет: топологически то же, что дверь, но изнутри его не отличить от родного прохода, и сквозь него видно. Какое из двух ставится, решает обход той стены, на которую выпал бросок перегородки, так что соотношение задают сами пороги. Граница в самом правом положении — ∞: всё, что ближе неё, одного вида.</small>
+      </div>
+      <div class="tally" aria-live="polite">
+        <div class="big" id="tallyBig"></div>
+        <div id="pathPair"></div>
+        <div id="pathAvg"></div>
+        <div class="btns"><button class="btn" id="tune">подобрать границу: дверь на пути в ~50% пар</button></div>
+        <small id="tuneNote"></small>
+        <small id="placedOut"></small>
       </div>
       <div class="ctl">
         <label>Двери рядом друг с другом</label>
@@ -300,7 +313,26 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
   const $ = (id) => document.getElementById(id);
   const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
   const state = { k: 5, perHundred: 3, minGap: 24, split: 48, near: 'door', floorSeed: 7, doorSeed: 101, pairSeed: 3, heat: true, elig: true, dead: true, game: true, spacing: 'arm', landing: 0, hole: 0, clickNext: 'landing' };
-  let maze, mazeOpen, placement, adjBare, adjDoors, distLand, seen, eyesBare, eyesDoors;
+  let maze, mazeOpen, placement, adjBare, adjDoors, distLand, seen, eyesBare, eyesDoors, usage;
+  const AVG_PAIRS = 300;
+
+  // An opening lies on the shortest path when some shortest path from a to h crosses it.
+  function onPath(a, h) {
+    const da = S.bfs(adjDoors, a), dh = S.bfs(adjDoors, h), L = da[h];
+    return (w) => da[w.a] + 1 + dh[w.b] === L || da[w.b] + 1 + dh[w.a] === L;
+  }
+  // How many of AVG_PAIRS random pairs of this floor each opening serves. The split only relabels
+  // openings as doors or gaps and never moves one, so the counts hold for every split.
+  function pathUsage() {
+    const all = placement.doors.concat(placement.gaps), use = new Map(all.map((w) => [w, 0]));
+    for (const [a, h] of S.randomPairs(maze, AVG_PAIRS, 977 + state.k)) {
+      const on = onPath(a, h);
+      for (const w of all) if (on(w)) use.set(w, use.get(w) + 1);
+    }
+    return use;
+  }
+  const avgShare = (list) => (list.length ? list.reduce((t, w) => t + usage.get(w), 0) / (AVG_PAIRS * list.length) : null);
+  const pct = (x) => (x === null ? '—' : `${Math.round(100 * x)}%`);
 
   const canvas = $('floor');
   const ctx = canvas.getContext('2d');
@@ -344,7 +376,25 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
     adjDoors = S.adjacency(mazeOpen, placement.doors);
     eyesBare = S.eyesOf(maze, []);
     eyesDoors = S.eyesOf(mazeOpen, placement.doors);
+    usage = pathUsage();
+    $('tuneNote').textContent = '';
     refresh();
+  }
+  function tune() {
+    const all = placement.doors.concat(placement.gaps);
+    let best = null;
+    for (let s = 0; s <= 257; s++) {
+      const split = s > 256 ? Infinity : s, doors = all.filter((w) => (w.exact < split) === (state.near === 'door'));
+      const p = avgShare(doors);
+      if (p !== null && (!best || Math.abs(p - 0.5) < Math.abs(best.p - 0.5))) best = { s, p };
+    }
+    if (!best) { $('tuneNote').textContent = 'отверстий нет — подбирать нечего'; return; }
+    state.split = best.s; $('split').value = best.s;
+    rebuildDoors();
+    const at = best.s > 256 ? '∞' : best.s;
+    $('tuneNote').textContent = Math.abs(best.p - 0.5) <= 0.05
+      ? `граница ${at}: дверь на кратчайшем пути в ${pct(best.p)} пар`
+      : `50% при этой плотности не достать: ближе всего ${pct(best.p)}, при границе ${at}. Плотность не спасает: на этажах 6–7 даже единственная дальняя дверь лежит на кратчайшем пути случайной пары в 20% случаев или реже`;
   }
   function refresh() {
     distLand = S.bfs(adjDoors, state.landing);
@@ -356,7 +406,12 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
     $('gapOut').textContent = state.minGap;
     const p = placement;
     $('splitOut').textContent = state.split > 256 ? '∞' : state.split;
-    $('placedOut').textContent = `дверей ${p.doors.length}, проёмов ${p.gaps.length}, просили ${p.want} · разрешённых стен ${p.eligible} из ${maze.closed.length} · лишних, чей обход с учётом остальных отверстий короче порога: ${p.redundant}`;
+    $('tallyBig').innerHTML = `<span class="d">дверей ${p.doors.length}</span> · <span class="g">проёмов ${p.gaps.length}</span>`;
+    const on = onPath(state.landing, state.hole), dOn = p.doors.filter(on).length, gOn = p.gaps.filter(on).length;
+    const of = (n, all) => `<b>${n}</b> из ${all} (${pct(all ? n / all : null)})`;
+    $('pathPair').innerHTML = `На кратчайшем пути от приземления до дыры: <span class="d">дверей ${of(dOn, p.doors.length)}</span>, <span class="g">проёмов ${of(gOn, p.gaps.length)}</span>`;
+    $('pathAvg').innerHTML = `В среднем по ${AVG_PAIRS} случайным парам этого этажа на кратчайшем пути лежит <span class="d"><b>${pct(avgShare(p.doors))}</b> дверей</span> и <span class="g"><b>${pct(avgShare(p.gaps))}</b> проёмов</span>. Это и есть шанс, что увиденная дверь — на кратчайшем пути к дыре.`;
+    $('placedOut').textContent = `просили ${p.want} · разрешённых стен ${p.eligible} из ${maze.closed.length} · лишних, чей обход с учётом остальных отверстий короче порога: ${p.redundant}`;
   }
 
   function pathOf(adj, from, to) {
@@ -499,6 +554,7 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
   $('density').addEventListener('input', (ev) => { state.perHundred = +ev.target.value; rebuildDoors(); });
   $('gap').addEventListener('input', (ev) => { state.minGap = +ev.target.value; rebuildDoors(); });
   $('split').addEventListener('input', (ev) => { state.split = +ev.target.value; rebuildDoors(); });
+  $('tune').addEventListener('click', tune);
   $('near').addEventListener('change', (ev) => { state.near = ev.target.checked ? 'door' : 'gap'; rebuildDoors(); });
   $('heat').addEventListener('change', (ev) => { state.heat = ev.target.checked; draw(); });
   $('elig').addEventListener('change', (ev) => { state.elig = ev.target.checked; draw(); });
