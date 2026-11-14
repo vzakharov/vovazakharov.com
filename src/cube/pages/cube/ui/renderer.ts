@@ -2,11 +2,10 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 import { asError } from '@/kernel/shared/lib/error-class';
-import type { CanDispose, Sized } from '@/kernel/shared/typings';
+import type { CanDispose } from '@/kernel/shared/typings';
 
 import { SUN_DIR } from '@/cube/shared/cube-boundary';
 import type { SeenAt } from '@/cube/shared/lib/clock';
-import type { Rgb } from '@/cube/shared/lib/colour';
 import type { Seen } from '@/cube/shared/lib/vec';
 import type { Laddered } from '@/cube/entities/island';
 
@@ -16,30 +15,33 @@ import type { OutsideLens } from '../lib/outside-lens';
 import { createUniforms, uniformsOf } from '../lib/uniforms';
 import { createBloom } from './bloom';
 import { type Boards, createBoardTextures } from './board-textures';
-import { createDrowsyEye } from './drowsy-eye';
+import { createDrowsyEye, type Drowsing } from './drowsy-eye';
 import { outsideOnce } from './outside';
 import { createPassTimer, type Timed, timedOf } from './pass-timer';
-import { createPrograms, DEPTH_FORMAT, type Preparing } from './programs';
+import { createPrograms, type Preparing } from './programs';
 import { createReflection } from './reflection';
+import { beginScene, type Cleared, createDepthTarget } from './scene-pass';
 import { beginRepeat, encodeRepeats } from './slowdown';
+import { createUnderlay } from './underlay';
 
 /** What one frame is seen from and when, and what shows where nothing is. */
-type Shot = SeenAt & {
-  /** Scene light, as the faces are lit. */
-  clear: Rgb;
-  /**
-   * The lens the frame is seen through: a floor's, which must be prepared, or
-   * the outside's as it is set for this frame, the outside prepared.
-   */
-  lens: number | OutsideLens;
-  /**
-   * The same view of the world frame, where the frame shows the outside, which
-   * must be prepared; null where it shows the cube's inside alone.
-   */
-  outdoors: (Seen & Laddered) | null;
-  /** The share of the screen's own resolution the canvas holds, 1 at most. */
-  detail: number;
-};
+type Shot = SeenAt &
+  Cleared & {
+    /**
+     * The lens the frame is seen through: a floor's, which must be prepared, or
+     * the outside's as it is set for this frame, the outside prepared.
+     */
+    lens: number | OutsideLens;
+    /**
+     * The same view of the world frame, where the frame shows the outside, which
+     * must be prepared; null where it shows the cube's inside alone.
+     */
+    outdoors: (Seen & Laddered) | null;
+    /** The share of the screen's own resolution the canvas holds, 1 at most. */
+    detail: number;
+    /** Whether the body is out of doors, waking: the rooms then drowse too. */
+    waking: boolean;
+  };
 
 /** What draws frames until it is disposed, timing them where the GPU can. */
 export type Drawing = CanDispose & Timed;
@@ -66,12 +68,6 @@ export type Renderer = Drawing &
     /** The adapter's vendor and architecture. */
     readonly adapter: string;
   };
-
-/** How far off the scene's `a` says the air is, where no face is drawn. */
-const NOWHERE = 1e4;
-
-/** The depth a frame is drawn through, remade when its size changes. */
-type Targets = Sized & { depth: GPUTexture };
 
 /** A run of a vertex buffer and the pipeline that draws it. */
 type Run = FloorRange & { pipeline: GPURenderPipeline };
@@ -154,32 +150,31 @@ export async function createRenderer(
   let rooms: Drawn | null = null;
   let moving: Drawn | null = null;
   let boards: Array<Drawn & { group: GPUBindGroup }> = [];
-  let targets: Targets | null = null;
   const bloom = createBloom(device);
+  /** The scene pass's targets, and the rooms' drawn whole over the outside. */
   const reflection = createReflection(device);
+  const sharp = createReflection(device);
+  const depth = createDepthTarget(device);
+  const sharpDepth = createDepthTarget(device);
+  const underlay = createUnderlay(device);
   const drowsy = createDrowsyEye(device);
   const textures = createBoardTextures(device, layouts.board, sampler);
-
-  const targetsOf = ({ width, height }: Sized): Targets => {
-    if (targets?.width === width && targets.height === height) return targets;
-    targets?.depth.destroy();
-    targets = {
-      width,
-      height,
-      depth: device.createTexture({
-        size: [width, height],
-        format: DEPTH_FORMAT,
-        usage: GPUTextureUsage.RENDER_ATTACHMENT,
-      }),
-    };
-    return targets;
-  };
 
   const drawRuns = (pass: GPURenderPassEncoder, { buffer, runs }: Drawn) => {
     pass.setVertexBuffer(0, buffer);
     for (const { pipeline, firstVertex, count } of runs) {
       pass.setPipeline(pipeline);
       pass.draw(count, 1, firstVertex);
+    }
+  };
+  /** The rooms, what moves in them and the boards, seen through `group`. */
+  const drawRooms = (pass: GPURenderPassEncoder, group: GPUBindGroup) => {
+    pass.setBindGroup(0, group);
+    if (rooms !== null) drawRuns(pass, rooms);
+    if (moving !== null) drawRuns(pass, moving);
+    for (const board of boards) {
+      pass.setBindGroup(1, board.group);
+      drawRuns(pass, board);
     }
   };
 
@@ -215,11 +210,16 @@ export async function createRenderer(
       lens,
       outdoors,
       detail,
+      waking,
       seconds,
       hour,
     }) => {
       const full = pick(canvas, 'width', 'height');
-      const low = drowsy.lowPass(full, outdoors !== null);
+      // Out of doors the eye wakes on all it sees; indoors only the outside,
+      // through the doorway, is drowsy.
+      const drowsing: Drowsing | null =
+        outdoors === null ? null : waking ? 'all' : 'outside';
+      const low = drowsy.lowPass(full, drowsing);
       // The size the scene and mirrors are drawn at, and the view they are
       // drawn through: the low pass's where the eye is drowsy.
       const drawn = low ?? full;
@@ -270,50 +270,35 @@ export async function createRenderer(
           low === null ? detail : detail / low.share,
         );
       }
-      const { depth } = targetsOf(drawn);
+      // The outside alone in the low pass, the rooms drawn whole over it.
+      const split = low?.drowsing === 'outside';
+      const shot = { reflection, depth, clear, size: drawn };
       encodeRepeats(repeats, (repeat) => {
-        const pass = beginRepeat(
-          encoder,
-          {
-            colorAttachments: reflection.attachments(
-              drawn.width,
-              drawn.height,
-              { r: clear[0], g: clear[1], b: clear[2], a: NOWHERE },
-            ),
-            depthStencilAttachment: {
-              view: depth.createView(),
-              depthClearValue: 0,
-              depthLoadOp: 'clear',
-              depthStoreOp: 'discard',
-            },
-            ...(stamps === null ? {} : { timestampWrites: stamps.scene }),
-          },
-          repeat,
-          drawn,
-        );
+        const stamp = stamps?.scene;
+        const pass = beginScene(encoder, { ...shot, stamp }, repeat);
         layers?.behind(pass);
-        pass.setBindGroup(0, sceneGroup);
-        if (rooms !== null) drawRuns(pass, rooms);
-        if (moving !== null) drawRuns(pass, moving);
-        for (const board of boards) {
-          pass.setBindGroup(1, board.group);
-          drawRuns(pass, board);
-        }
+        if (!split) drawRooms(pass, sceneGroup);
         layers?.over(pass);
         pass.end();
       });
       const lit = encodeRepeats(repeats, (repeat) =>
         reflection.run(encoder, seen, stamps?.mirrors, repeat),
       );
-      const sceneView =
+      const whole = { viewProjection, eye };
+      const resolved =
         low === null
           ? lit
-          : drowsy.resolve(
-              encoder,
-              lit,
-              { viewProjection, eye },
-              stamps?.resolve,
-            );
+          : drowsy.resolve(encoder, lit, whole, stamps?.resolve);
+      const sharpShot = { reflection: sharp, depth: sharpDepth, size: full };
+      const sceneView = split
+        ? encodeRepeats(repeats, (repeat) => {
+            const pass = beginScene(encoder, { ...sharpShot, clear }, repeat);
+            underlay.draw(pass, resolved, whole, full);
+            drawRooms(pass, wholeUniforms.group);
+            pass.end();
+            return sharp.run(encoder, whole, undefined, repeat);
+          })
+        : resolved;
       const glow = encodeRepeats(repeats, (repeat) =>
         bloom.run(encoder, sceneView, full.width, full.height, repeat),
       );
@@ -360,8 +345,11 @@ export async function createRenderer(
       outside.dispose();
       rooms?.buffer.destroy();
       moving?.buffer.destroy();
-      targets?.depth.destroy();
+      depth.dispose();
+      sharpDepth.dispose();
       reflection.dispose();
+      sharp.dispose();
+      underlay.dispose();
       drowsy.dispose();
       bloom.dispose();
       wholeUniforms.buffer.destroy();

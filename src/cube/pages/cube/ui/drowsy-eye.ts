@@ -20,8 +20,14 @@ const TRUST_FORMAT: GPUTextureFormat = 'r16float';
 /** Floats of `drowsy-resolve.wgsl`'s `Resolve`: two matrices, three vectors. */
 const RESOLVE_FLOATS = 16 + 16 + 4 + 4 + 4;
 
-/** A size, and the share of full pixels per low pixel, each way. */
-type Portioned = Sized & { share: Share };
+/**
+ * What a low pass draws: the whole frame, or the outside alone, the rooms
+ * then drawn whole over its resolve.
+ */
+export type Drowsing = 'all' | 'outside';
+
+/** A size, the share of full pixels per low pixel each way, what is drawn. */
+type Portioned = Sized & { share: Share; drowsing: Drowsing };
 
 /** A frame's low pass: its size, and the view it draws through. */
 type LowPass = Portioned & {
@@ -42,11 +48,11 @@ export type DrowsyEye = CanDispose & {
    */
   vignette: () => number;
   /**
-   * Starts a `full` frame: its low pass, or null where the eye is awake and
-   * the frame is drawn whole: set so, or the frame shows no `outside`, the
-   * part of it the eye is drowsy for.
+   * Starts a `full` frame: its low pass, drawing as `drowsing` says, or null
+   * where the eye is awake and the frame is drawn whole: set so, or with no
+   * `drowsing` asked, the frame showing no outside.
    */
-  lowPass: (full: Sized, outside: boolean) => LowPass | null;
+  lowPass: (full: Sized, drowsing: Drowsing | null) => LowPass | null;
   /**
    * Records the resolve of `lit`, the frame's low pass, into the history,
    * the frame seen whole as `seen`, and gives back the full frame it makes.
@@ -120,11 +126,18 @@ export function createDrowsyEye(device: GPUDevice): DrowsyEye {
     reading = null;
   };
 
-  const historyOf = ({ width, height }: Sized, share: Share): History => {
+  const historyOf = (
+    { width, height }: Sized,
+    share: Share,
+    drowsing: Drowsing,
+  ): History => {
+    // A history of the whole frame shows rooms where one of the outside does
+    // not, so a change of what is drawn starts afresh.
     if (
       history?.width === width &&
       history.height === height &&
-      history.share === share
+      history.share === share &&
+      history.drowsing === drowsing
     ) {
       return history;
     }
@@ -152,6 +165,7 @@ export function createDrowsyEye(device: GPUDevice): DrowsyEye {
       width,
       height,
       share,
+      drowsing,
       dispose: () => {
         for (const texture of textures) texture.destroy();
       },
@@ -185,13 +199,13 @@ export function createDrowsyEye(device: GPUDevice): DrowsyEye {
     repeats: () => repeatsOf(settings().slowdown),
     // The history is held exactly while the eye is drowsy.
     vignette: () => (history === null ? 0 : settings().vignette),
-    lowPass: (full, outside) => {
+    lowPass: (full, drowsing) => {
       const { drowsy, share } = settings();
-      if (!drowsy || !outside) {
+      if (!drowsy || drowsing === null) {
         drop();
         return null;
       }
-      historyOf(full, share);
+      historyOf(full, share, drowsing);
       jitter = jitterOf(share, frame);
       frame += 1;
       const low = lowSizeOf(full, share);
@@ -199,6 +213,7 @@ export function createDrowsyEye(device: GPUDevice): DrowsyEye {
       return {
         ...low,
         share,
+        drowsing,
         shift: (viewProjection) =>
           shifted(viewProjection, at, full, low, share),
       };

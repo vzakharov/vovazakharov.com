@@ -283,6 +283,7 @@ export function mountCube(
       ...seen,
       clear: airAt(depth),
       detail: quality.detail(),
+      waking: outdoor !== null,
       lens:
         outdoor?.lens ??
         (showsOutside ? (stagedThrough ?? through) : null) ??

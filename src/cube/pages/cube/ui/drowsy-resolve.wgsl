@@ -9,6 +9,7 @@
 // its own since it came into view.
 
 import super::reflection_numbers::SIGHT;
+import super::sight_line::sightThrough;
 
 struct Resolve {
   /// From this frame's clip space back to the frame the mesh is in.
@@ -34,13 +35,6 @@ struct Resolved {
   /// The light, and in `a` the metres to what it shows, as the scene keeps it.
   @location(0) light: vec4f,
   @location(1) trust: vec4f,
-}
-
-/// The way from the eye through `uv` on the screen, unit length.
-fn sightThrough(uv: vec2f) -> vec3f {
-  let along =
-    resolve.inverse * vec4f(uv.x * 2.0 - 1.0, 1.0 - uv.y * 2.0, 0.5, 1.0);
-  return normalize(along.xyz / along.w - resolve.eye.xyz);
 }
 
 /// Where `p` stood on the last frame's screen, 0 to 1 from the top left; z is
@@ -82,7 +76,8 @@ fn resolveMain(@builtin(position) at: vec4f) -> Resolved {
 
   let here = (at.xy) / resolve.size.xy;
   let metres = select(SIGHT, near.a, near.a < SIGHT);
-  let shown = resolve.eye.xyz + sightThrough(here) * (metres / resolve.eye.w);
+  let sight = sightThrough(resolve.inverse, resolve.eye.xyz, here);
+  let shown = resolve.eye.xyz + sight * (metres / resolve.eye.w);
   let was = before(shown);
   let front = was.z > 0.0;
   var motion = select(vec2f(0.0), here - was.xy, front);
