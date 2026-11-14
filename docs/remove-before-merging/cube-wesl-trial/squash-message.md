@@ -2,25 +2,29 @@ Proposed squash body:
 
 ```
 Shader programs were written as TypeScript strings, so no editor read
-them and nothing checked what one piece took from another. This trials
-the way out on two floors: bathroom (12) and micrograph (46), and every
-piece they reach, now live in .wgsl files that import what they call
-with WESL `import` statements. The hexagonal lattice and luma, each
-written twice, move into the kit as HONEYCOMB and LUMA.
+them and nothing checked what one piece took from another. Every floor,
+the floors' pipeline and the whole outdoor picture now live in .wgsl
+files that import what they call with WESL `import` statements; pieces
+written twice (the hexagonal lattice, luma) move into the kit once.
 
 `pnpm shaders:codegen`, run by vet, is our own linker over WESL's
-syntax: wesl-js reorders, reprints and tree-shakes the source, and
-cannot see pieces still in strings. It writes a committed .shader.ts
-beside each file, one wgsl(...) piece over the existing assemble(), so
-the browser gets no new code. It holds imports to MASD by the graph the
-TS checkers use (no other app, higher layer, sideways slice, entry past
-a barrel, band entered by its sibling) and refuses names used
-unimported, imported unused or not declared.
+syntax: wesl-js reorders, reprints and tree-shakes the source. It
+writes a committed .shader.ts beside each file, one wgsl(...) piece
+over the existing assemble(), so the browser gets no new code. It
+holds imports to MASD by the graph the TS checkers use, and refuses
+names used unimported, imported unused or not declared. Prettier
+formats .wgsl through a plugin that leaves the import head as written.
 
-shaders-pin.test.ts pins all 66 floors' linked source to the pre-move
-bytes, undoing the kit move's differences by name; 57 floors match
-untouched. masd:clusters counts a generated .shader.ts with a .ts
-beside it as part of that file.
+Moving the outdoor shaders out of shared showed what they are: the
+island the player walks on (height, ladder, swell, shore) becomes the
+entity `island`, read by the player and sound features; the picture of
+sea, sand, sky and the cube's shell becomes the widget `outdoors`; and
+what joins room and outside (the doorway, the room/island turns, the
+sun coming in) stays in shared as `cube-boundary`.
+
+Three pins hash the floors', the pipeline's and the outdoor shaders'
+declarations against the pre-move source, so the move changes no
+pixel.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
