@@ -33,8 +33,8 @@ const FRAMES = path.resolve(
   flag('out') ?? path.join(REPO_ROOT, 'tmp/cube/door'),
 );
 
-/** The floors shot, `--floors 5,8` by default: a shallow one lit enough to see a door by, and a deep one. */
-const FLOORS = (flag('floors') ?? '5,8').split(',').map(Number);
+/** The floors shot, `--floors 6,8` by default: a shallow one lit enough to see a door by, and a deep one. */
+const FLOORS = (flag('floors') ?? '6,8').split(',').map(Number);
 
 /** How many rooms across, from the north-west corner, a door is looked for in. */
 const SEARCH = 24n;
