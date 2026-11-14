@@ -107,7 +107,12 @@ function threshold(side: WallSide): Bounds {
 }
 
 /** The room's sides in the order of `Sides`. */
-const WALL_SIDES = ['east', 'south', 'west', 'north'] as const satisfies readonly WallSide[];
+const WALL_SIDES = [
+  'east',
+  'south',
+  'west',
+  'north',
+] as const satisfies readonly WallSide[];
 
 /** The same box seen from the room's side `side`, where it lies along the east. */
 function turned({ least, most }: Bounds, side: number): Bounds {
@@ -167,7 +172,9 @@ export function clearZones(setting: Setting): Bounds[] {
       ? []
       : [round(holeMiddle(hole).u, holeMiddle(hole).v, HOLE_SIDE / 2 + REACH)]),
     ...(shelf === null ? [] : [round(shelf[0], shelf[1], REACH)]),
-    ...WALL_SIDES.filter((_, side) => doors[side] === true).map((side) => threshold(side)),
+    ...WALL_SIDES.filter((_, side) => doors[side] === true).map((side) =>
+      threshold(side),
+    ),
     ...(room.n === 1 ? [threshold(ROOM_DOORWAY.wall)] : []),
   ];
 }

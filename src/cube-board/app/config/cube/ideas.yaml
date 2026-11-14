@@ -16,13 +16,13 @@ items:
     updated: [2026-11-14T19:50:00.000Z, agent:cube]
     box: [4268, -3690, 560]
     src: images/doors-02-partition-window.webp
-    text: "One partition at threshold 11, the same as 10: green walls are allowed by 2·d + 1 alone. Only the window boxed round the passage (teal dot) needs a search: gold walls passed it, the grey one failed. The roll picked the red wall at the top, and its way round, in blue, is 67 long"
+    text: 'One partition at threshold 11, the same as 10: green walls are allowed by 2·d + 1 alone. Only the window boxed round the passage (teal dot) needs a search: gold walls passed it, the grey one failed. The roll picked the red wall at the top, and its way round, in blue, is 67 long'
   - id: img-doors-03-floor-8-shut
     type: image
     updated: [2026-11-14T20:55:00.000Z, agent:cube]
     box: [4868, -3690, 236]
     src: images/doors-03-floor-8-shut.webp
-    text: 'In the game, floor 8: a door, shut. A plain leaf for now, and the wall''s wainscot runs across its foot'
+    text: "In the game, floor 8: a door, shut. A plain leaf for now, and the wall's wainscot runs across its foot"
   - id: img-doors-03-floor-8-half
     type: image
     updated: [2026-11-14T20:55:00.000Z, agent:cube]
@@ -40,7 +40,7 @@ items:
     updated: [2026-11-14T21:40:00.000Z, agent:cube]
     box: [4868, -3480, 236]
     src: images/doors-04-floor-6-shut.webp
-    text: "Floor 6, the real door: the decor door's build moved onto the doorway, and decor doors are gone. A white frame lining the cut, a leaf in one of five paints, a chrome lever on its backplate, a kick plate and a number plate; paint and handle side rolled per wall. \"Press E to open the door\", or \"Tap\" on a touch screen"
+    text: 'Floor 6, the real door: the decor door''s build moved onto the doorway, and decor doors are gone. A white frame lining the cut, a leaf in one of five paints, a chrome lever on its backplate, a kick plate and a number plate; paint and handle side rolled per wall. "Press E to open the door", or "Tap" on a touch screen'
   - id: img-doors-04-floor-6-half
     type: image
     updated: [2026-11-14T21:40:00.000Z, agent:cube]
@@ -52,13 +52,13 @@ items:
     updated: [2026-11-14T21:40:00.000Z, agent:cube]
     box: [5364, -3480, 236]
     src: images/doors-04-floor-6-open.webp
-    text: 'Open, with nothing standing in the doorway: decor, signs and shelves keep a walkway clear on both sides of every door. Reads well here, under floor 6''s ceiling tubes'
+    text: "Open, with nothing standing in the doorway: decor, signs and shelves keep a walkway clear on both sides of every door. Reads well here, under floor 6's ceiling tubes"
   - id: img-doors-05-floor-8-shut
     type: image
     updated: [2026-11-14T21:50:00.000Z, agent:cube]
     box: [4868, -3310, 236]
     src: images/doors-05-floor-8-shut.webp
-    text: 'Floor 8, the same door in the hotel, the sconce whole beside it. Its first shots had the leaf go black once it swung: the hotel''s sconces painted their glow onto walls alone, so a door beside a glowing wall stood unlit'
+    text: "Floor 8, the same door in the hotel, the sconce whole beside it. Its first shots had the leaf go black once it swung: the hotel's sconces painted their glow onto walls alone, so a door beside a glowing wall stood unlit"
   - id: img-doors-05-floor-8-half
     type: image
     updated: [2026-11-14T21:50:00.000Z, agent:cube]
@@ -70,13 +70,13 @@ items:
     updated: [2026-11-14T21:50:00.000Z, agent:cube]
     box: [5364, -3310, 236]
     src: images/doors-05-floor-8-open.webp
-    text: 'Open onto the next corridor, nothing in the doorway. The sconces first hung 1.25 m from each wall end, half under a door''s frame; every doorway is cut at the same spot along its wall, so both now hang 0.35 m clear of it, 1.59 m in'
+    text: "Open onto the next corridor, nothing in the doorway. The sconces first hung 1.25 m from each wall end, half under a door's frame; every doorway is cut at the same spot along its wall, so both now hang 0.35 m clear of it, 1.59 m in"
   - id: doors-idea
     type: sticky
     updated: [2026-11-14T10:45:00.000Z, agent:cube]
     box: [3668, -2990, 244, yellow]
     icon: 🚪
-    text: "Idea: doors that open into the room behind the wall. A door belongs to the wall, so both faces show it and no wall holds two; none on the perimeter, and none where the walk round between its two rooms is under a threshold. Opening one is free: it shuts behind you, so nothing lasting changes"
+    text: 'Idea: doors that open into the room behind the wall. A door belongs to the wall, so both faces show it and no wall holds two; none on the perimeter, and none where the walk round between its two rooms is under a threshold. Opening one is free: it shuts behind you, so nothing lasting changes'
   - id: doors-lock
     type: sticky
     updated: [2026-11-14T10:45:00.000Z, agent:cube]
@@ -130,7 +130,7 @@ items:
     updated: [2026-11-14T20:30:00.000Z, agent:cube]
     box: [5343, -2560, 244, gray]
     icon: 👥
-    text: 'Open question for when a second player arrives: who sees a door open? Only its opener, as their own body''s act, keeps the world unchanged for everyone else, so it stays free; everyone nearby makes it a change to the world, which here comes only by purchase. One player today, so the door opens for them alone'
+    text: "Open question for when a second player arrives: who sees a door open? Only its opener, as their own body's act, keeps the world unchanged for everyone else, so it stays free; everyone nearby makes it a change to the world, which here comes only by purchase. One player today, so the door opens for them alone"
   - id: doors-jumpscare
     type: sticky
     updated: [2026-11-14T21:05:00.000Z, agent:cube]

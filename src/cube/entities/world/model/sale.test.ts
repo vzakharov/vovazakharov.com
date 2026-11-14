@@ -190,7 +190,11 @@ describe('lotSign, no wall to hang on', () => {
   it('hangs it past a door to the next plain wall, and on the door’s wall only with none', () => {
     // (2, 1) of the plus opens west only; its far side, east, holds a door,
     // which keeps it on sale as a wall would.
-    const doored = wallsOpen(['3/0/1', '3/1/1'], ['3/1/0', '3/1/1'], ['3/2/1E']);
+    const doored = wallsOpen(
+      ['3/0/1', '3/1/1'],
+      ['3/1/0', '3/1/1'],
+      ['3/2/1E'],
+    );
     assert.deepEqual(lotSign(doored, new Map(), room(3, 2, 1), noEnds), {
       ...on(0.5, 1, 0, -1),
       kind: 'for-sale',
