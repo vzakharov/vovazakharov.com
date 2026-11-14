@@ -33,7 +33,7 @@ type LowPass = Sized & {
 export type DrowsyEye = CanDispose & {
   /** How each stage of the next frame is encoded under the slowdown. */
   repeats: () => readonly Repeat[];
-  /** How far the lens darkens the frame's corners. */
+  /** How far the lens darkens the frame's corners: 0 while the eye is awake. */
   vignette: () => number;
   /**
    * Starts a `full` frame: its low pass, or null where the eye is awake and

@@ -84,7 +84,6 @@ export function drowsiness(): Drowsiness {
   };
 }
 
-/** The name the knobs go by in the browser's console. */
 const CONSOLE_NAME = 'cube';
 
 /** Puts `knobs` on the page as `cube` until disposed. */
