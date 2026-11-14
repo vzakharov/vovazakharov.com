@@ -1,12 +1,14 @@
 import { DOORWAY_CUT } from '@/cube/shared/cube-boundary';
 import {
   type Ajar,
+  type Doors,
   type DoorWall,
+  type Facing,
   type InRoom,
   isSameWall,
-  type Leaf,
   type Pose,
   type Walls,
+  wallsAround,
 } from '@/cube/entities/world';
 
 import { rise } from './ease';
@@ -16,10 +18,10 @@ import { canReach, HAND_REACH } from './press';
  * Walls a body walks among: `isDoor` says which are doors, none where it is
  * absent, and `ajar` is the door the body holds open.
  */
-export type Ways = Walls & {
-  isDoor?: (wall: DoorWall) => boolean;
-  ajar?: Ajar | null;
-};
+export type Ways = Walls &
+  Partial<Doors> & {
+    ajar?: Ajar | null;
+  };
 
 /**
  * A door the body opened, which is its own and no one else's: its wall, the
@@ -27,8 +29,7 @@ export type Ways = Walls & {
  * it was opened, and how many of them had passed when it began to shut — null
  * while the body is still within reach of it.
  */
-export type OpenDoor = DoorWall & {
-  toward: Leaf['toward'];
+export type OpenDoor = Facing & {
   openFor: number;
   shutAt: number | null;
 };
@@ -83,16 +84,9 @@ const doorwayAt = (pose: Pose, wall: DoorWall): InRoom =>
  */
 export function doorFaced(
   pose: Pose,
-  isDoor: (wall: DoorWall) => boolean,
+  isDoor: Doors['isDoor'],
 ): OpenDoor | null {
-  const { n, x, y } = pose;
-  const walls: ReadonlyArray<DoorWall & { toward: Leaf['toward'] }> = [
-    { n, x, y, isEast: true, toward: 1 },
-    { n, x, y, isEast: false, toward: 1 },
-    { n, x: x - 1n, y, isEast: true, toward: -1 },
-    { n, x, y: y - 1n, isEast: false, toward: -1 },
-  ];
-  const reached = walls
+  const reached = wallsAround(pose)
     .filter((wall) => canReach(pose, doorwayAt(pose, wall)) && isDoor(wall))
     .map((wall) => {
       const { u, v } = doorwayAt(pose, wall);

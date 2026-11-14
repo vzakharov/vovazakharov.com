@@ -6,7 +6,7 @@ import { RECEPTION_BEAM_BOXES } from '@/cube/entities/theme/index.test-only';
 import {
   holesOf,
   maze,
-  mazeWalls,
+  mazeDoored,
   planted,
   type Room,
   settingOf,
@@ -23,7 +23,7 @@ describe("what stands in the reception's beam, as its light has it", () => {
   it("is the parts of the decor's standing things the beam crosses, the largest first", async () => {
     const holeOf = await holesOf(planted, [FLOOR_ONE]);
     const setting = settingOf(
-      mazeWalls(maze(planted.seed)),
+      mazeDoored(maze(planted.seed)),
       traits(planted.seed),
       FLOOR_ONE,
       holeOf(FLOOR_ONE),

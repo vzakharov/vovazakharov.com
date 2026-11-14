@@ -13,7 +13,7 @@ import { themeOf } from '@/cube/entities/theme';
 import {
   holesOf,
   maze,
-  mazeWalls,
+  mazeDoored,
   planted,
   type Room,
   settingOf,
@@ -40,7 +40,7 @@ function inShell({ min, max }: Box): Box {
 async function plantedSetting(room: Room) {
   const holeOf = await holesOf(planted, [room]);
   return settingOf(
-    mazeWalls(maze(planted.seed)),
+    mazeDoored(maze(planted.seed)),
     traits(planted.seed),
     room,
     holeOf(room),

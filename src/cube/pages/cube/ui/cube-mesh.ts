@@ -14,7 +14,7 @@ import {
   type Landing,
   landingsSeen,
   maze,
-  mazeWalls,
+  mazeDoored,
   placed,
   planted,
   type Pose,
@@ -80,7 +80,7 @@ export type Selling = {
 };
 
 const rolled = maze(planted.seed);
-const walls = mazeWalls(rolled);
+const walls = mazeDoored(rolled);
 export const rolledTraits = traits(planted.seed);
 
 const pillarOf = (n: number): number => themeOf(n).pillar;

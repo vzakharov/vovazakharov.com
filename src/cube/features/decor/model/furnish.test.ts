@@ -21,10 +21,13 @@ import { furnish, furnished, MOST_QUADS } from './furnish';
 
 const room: Room = { n: 4, x: 3n, y: 5n };
 
+const NO_DOORS: Sides = [false, false, false, false];
+
 /** A room of four walls and no hole, under `grain`. */
 const shut = (grain: number): Setting => ({
   room,
   closed: [true, true, true, true],
+  doors: NO_DOORS,
   hole: null,
   grain,
 });
@@ -45,12 +48,16 @@ const HOLES: ReadonlyArray<Quarter | null> = [
   { qx: 1, qy: 1 },
 ];
 
-/** Rooms of every walling and hole, each under a grain of its own. */
+/**
+ * Rooms of every walling and hole, each under a grain of its own, a third of
+ * them with a door in every closed side.
+ */
 const SETTINGS: readonly Setting[] = WALLINGS.flatMap((closed, walling) =>
   HOLES.flatMap((hole, holed) =>
     [0, 1, 2].map((again) => ({
       room,
       closed,
+      doors: again === 2 ? closed : NO_DOORS,
       hole,
       grain: 1000 + walling * 97 + holed * 13 + again,
     })),
@@ -115,7 +122,7 @@ describe('furnish', () => {
     }
   });
 
-  it('keeps the walkways, the hole, the shelf and the signs’ walls clear', () => {
+  it('keeps the walkways, the doorways, the hole, the shelf and the signs’ walls clear', () => {
     for (const setting of SETTINGS) {
       const zones = clearZones(setting);
       for (const quad of furnish(setting, CROWD)) {
@@ -146,7 +153,7 @@ describe('furnish', () => {
   it('leaves a room with no closed side empty', () => {
     const open: Sides = [false, false, false, false];
     assert.deepEqual(
-      furnish({ room, closed: open, hole: null, grain: 5 }, CROWD),
+      furnish({ room, closed: open, doors: open, hole: null, grain: 5 }, CROWD),
       [],
     );
   });

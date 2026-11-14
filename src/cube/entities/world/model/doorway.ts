@@ -1,24 +1,65 @@
 import { DOORWAY_CUT, ROOM_DOORWAY } from '@/cube/shared/cube-boundary';
 import { CEILING_HEIGHT, WALL_HALF } from '@/cube/shared/lib/room-shape';
+import type { Sides as RoomSides } from '@/cube/shared/lib/sides';
 import type { Surface } from '@/cube/shared/lib/surface';
 import { cross3, dot3, type Vec3 } from '@/cube/shared/lib/vec';
 
+import { eastKind, southKind } from './doorways';
+import type { RolledMaze } from './maze';
 import { box, face, type Quad } from './quad';
-import type { Room } from './room';
-import type { Walls } from './walls';
+import { isRoom, type Room } from './room';
+import { mazeWalls, type Walls } from './walls';
 
 /** The wall a doorway is cut in: the east (`isEast`) or south wall of `n`, `x`, `y`. */
 export type DoorWall = Room & { isEast: boolean };
 
+/** Into the east or south room of a wall (1), or the west or north one (-1). */
+type Toward = { toward: 1 | -1 };
+
 /**
  * A door's leaf, turned `angle` radians off its wall about the hinge on the
- * doorway's north or west jamb, into the east or south room (`toward` 1) or
- * the west or north one (`toward` -1).
+ * doorway's north or west jamb, `toward` the room it swings into.
  */
-export type Leaf = { angle: number; toward: 1 | -1 };
+export type Leaf = Toward & { angle: number };
 
 /** A door standing open: its wall and its leaf as it stands. */
 export type Ajar = DoorWall & Leaf;
+
+/** A wall seen from one of its rooms, `toward` the other. */
+export type Facing = DoorWall & Toward;
+
+/** Which walls hold a door. */
+export type Doors = { isDoor: (wall: DoorWall) => boolean };
+
+/** `walls` that know which of them hold a door. */
+export type Doored = Walls & Doors;
+
+/** `room`'s four walls in the order of `STEPS` — east, south, west, north. */
+export const wallsAround = ({
+  n,
+  x,
+  y,
+}: Room): readonly [Facing, Facing, Facing, Facing] => [
+  { n, x, y, isEast: true, toward: 1 },
+  { n, x, y, isEast: false, toward: 1 },
+  { n, x: x - 1n, y, isEast: true, toward: -1 },
+  { n, x, y: y - 1n, isEast: false, toward: -1 },
+];
+
+/** Which of `room`'s sides hold a door. */
+export function doorSides({ isDoor }: Doors, room: Room): RoomSides {
+  const [east, south, west, north] = wallsAround(room);
+  return [isDoor(east), isDoor(south), isDoor(west), isDoor(north)];
+}
+
+/** `rolled`'s walls and doors: a wall touching a room outside its floor is no door. */
+export const mazeDoored = (rolled: RolledMaze): Doored => ({
+  ...mazeWalls(rolled),
+  isDoor: ({ n, x, y, isEast }) =>
+    isRoom(n, x, y) &&
+    (isEast ? isRoom(n, x + 1n, y) : isRoom(n, x, y + 1n)) &&
+    (isEast ? eastKind : southKind)(rolled, n, x, y) === 'door',
+});
 
 /** The faces of a doorway's wall drawn: `near` into its west or north room, `far` into the other. */
 export type Sides = { near: boolean; far: boolean };

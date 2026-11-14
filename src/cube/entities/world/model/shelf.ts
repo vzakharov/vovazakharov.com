@@ -1,9 +1,9 @@
 import { WALL_HALF } from '@/cube/shared/lib/room-shape';
 import { scaled, unit3, type Vec3 } from '@/cube/shared/lib/vec';
 
+import { eastKind, southKind } from './doorways';
 import { placed } from './frame';
 import { holeMiddle, type Quarter } from './hole';
-import { isPassableEast, isPassableSouth } from './doorways';
 import type { RolledMaze } from './maze';
 import { PILL_RADIUS, pillQuads } from './pill';
 import type { WallMounted } from './pose';
@@ -12,8 +12,10 @@ import { type InRoomOf, type Room, roomKey, roomsAcross } from './room';
 
 /**
  * Where a holed room's shelf is mounted: on the hole quarter's outer wall
- * across `u` (the x-wall), else on the one across `v` (the y-wall), else, both
- * being doors, on a post standing in that corner.
+ * across `u` (the x-wall), else on the one across `v` (the y-wall), else,
+ * neither being a plain wall, on a post standing in that corner. A wall
+ * holding a door is not plain: a shelf level with a hole in its quarter would
+ * stand over the doorway's jamb, in the leaf's swing.
  */
 type Mount = 'x-wall' | 'y-wall' | 'post';
 
@@ -30,24 +32,24 @@ export const takenIn = (taken: InRoomOf | null, room: Room): boolean =>
 /** The post's side, in room sides: 15 cm on floor 1. */
 const POST_SIDE = 0.03;
 
-/** Whether the room's outer wall across `u` on the `qx` side is closed. */
-function xWallClosed(
+/** Whether the room's outer wall across `u` on the `qx` side is a plain wall. */
+function xWallPlain(
   rolled: RolledMaze,
   { n, x, y }: Room,
   qx: Quarter['qx'],
 ): boolean {
-  if (qx === 0) return x === 0n || !isPassableEast(rolled, n, x - 1n, y);
-  return x === roomsAcross(n) - 1n || !isPassableEast(rolled, n, x, y);
+  if (qx === 0) return x === 0n || eastKind(rolled, n, x - 1n, y) === 'wall';
+  return x === roomsAcross(n) - 1n || eastKind(rolled, n, x, y) === 'wall';
 }
 
-/** Whether the room's outer wall across `v` on the `qy` side is closed. */
-function yWallClosed(
+/** Whether the room's outer wall across `v` on the `qy` side is a plain wall. */
+function yWallPlain(
   rolled: RolledMaze,
   { n, x, y }: Room,
   qy: Quarter['qy'],
 ): boolean {
-  if (qy === 0) return y === 0n || !isPassableSouth(rolled, n, x, y - 1n);
-  return y === roomsAcross(n) - 1n || !isPassableSouth(rolled, n, x, y);
+  if (qy === 0) return y === 0n || southKind(rolled, n, x, y - 1n) === 'wall';
+  return y === roomsAcross(n) - 1n || southKind(rolled, n, x, y) === 'wall';
 }
 
 /** The shelf of `room`, whose hole is in `quarter`, level with the hole. */
@@ -60,14 +62,14 @@ export function shelfOf(
   const { u: holeU, v: holeV } = holeMiddle(quarter);
   const intoU = 1 - 2 * qx;
   const intoV = 1 - 2 * qy;
-  if (xWallClosed(rolled, room, qx)) {
+  if (xWallPlain(rolled, room, qx)) {
     return {
       mount: 'x-wall',
       at: { u: qx, v: holeV },
       facing: { u: intoU, v: 0 },
     };
   }
-  if (yWallClosed(rolled, room, qy)) {
+  if (yWallPlain(rolled, room, qy)) {
     return {
       mount: 'y-wall',
       at: { u: holeU, v: qy },

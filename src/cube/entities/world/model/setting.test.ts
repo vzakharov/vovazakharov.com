@@ -1,16 +1,16 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { doorSides, mazeDoored } from './doorway';
 import { maze } from './maze';
 import { face } from './quad';
 import type { Room } from './room';
 import { opens, STEPS } from './rooms';
 import { closedSides, inPlace, settingOf } from './setting';
 import { traits } from './traits';
-import { mazeWalls } from './walls';
 
 const SEED = '8675309';
-const walls = mazeWalls(maze(SEED));
+const walls = mazeDoored(maze(SEED));
 const rolled = traits(SEED);
 const room: Room = { n: 5, x: 3n, y: 9n };
 
@@ -33,15 +33,31 @@ describe('closedSides', () => {
 });
 
 describe('settingOf', () => {
-  it('gives the room its walls, its hole and its own word', () => {
+  it('gives the room its walls, its doors, its hole and its own word', () => {
     const hole = { qx: 1, qy: 0 } as const;
     const { grain } = rolled.room.at(room);
     assert.deepEqual(settingOf(walls, rolled, room, hole), {
       room,
       closed: closedSides(walls, room),
+      doors: doorSides(walls, room),
       hole,
       grain,
     });
+  });
+
+  it('marks as doors only closed sides, and some of them on a deep floor', () => {
+    let doors = 0;
+    for (let x = 0n; x < 16n; x += 1n) {
+      for (let y = 0n; y < 16n; y += 1n) {
+        const at = { n: 5, x, y };
+        const { closed, doors: held } = settingOf(walls, rolled, at, null);
+        for (const [side, isDoor] of held.entries()) {
+          assert.ok(!isDoor || closed[side] === true);
+          if (isDoor) doors += 1;
+        }
+      }
+    }
+    assert.ok(doors > 0);
   });
 });
 

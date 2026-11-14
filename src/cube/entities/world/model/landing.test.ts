@@ -1,13 +1,13 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { mazeDoored } from './doorway';
 import { type HoleOf, QUARTERS, under } from './hole';
 import { isLanding, landingsSeen } from './landing';
 import { maze } from './maze';
 import { type Room, roomKey } from './room';
-import { mazeWalls } from './walls';
 
-const walls = mazeWalls(maze('8675309'));
+const walls = mazeDoored(maze('8675309'));
 
 const top: Room = { n: 1, x: 0n, y: 0n };
 const quarter = { qx: 1, qy: 0 } as const;

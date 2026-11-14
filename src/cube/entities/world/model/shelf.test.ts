@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { isPassableEast, isPassableSouth } from './doorways';
+import { eastKind, southKind } from './doorways';
 import { holeQuarter, type Quarter } from './hole';
 import { maze, type RolledMaze } from './maze';
 import { PILL_LENGTH } from './pill';
@@ -12,20 +12,20 @@ import { pillOn, type Shelf, shelfFaces, shelfOf, takenIn } from './shelf';
 
 const FLOORS = 6;
 
-/** Whether the room beyond `room` by `(dx, dy)` is a room it opens onto. */
-function opensTo(rolled: RolledMaze, room: Room, dx: bigint, dy: bigint) {
+/** Whether the side of `room` toward `(dx, dy)` is a plain wall, the floor's edge included. */
+function isPlain(rolled: RolledMaze, room: Room, dx: bigint, dy: bigint) {
   const { n, x, y } = room;
   const [bx, by] = [x + dx, y + dy];
   const last = roomsAcross(n) - 1n;
-  if (bx < 0n || by < 0n || bx > last || by > last) return false;
-  if (dx !== 0n) return isPassableEast(rolled, n, dx < 0n ? bx : x, y);
-  return isPassableSouth(rolled, n, x, dy < 0n ? by : y);
+  if (bx < 0n || by < 0n || bx > last || by > last) return true;
+  if (dx !== 0n) return eastKind(rolled, n, dx < 0n ? bx : x, y) === 'wall';
+  return southKind(rolled, n, x, dy < 0n ? by : y) === 'wall';
 }
 
-/** What the rule says of `room`'s shelf, from the walls a body passes alone. */
+/** What the rule says of `room`'s shelf, from its plain walls alone. */
 function expected(rolled: RolledMaze, room: Room, { qx, qy }: Quarter) {
-  const xWall = !opensTo(rolled, room, qx === 0 ? -1n : 1n, 0n);
-  const yWall = !opensTo(rolled, room, 0n, qy === 0 ? -1n : 1n);
+  const xWall = isPlain(rolled, room, qx === 0 ? -1n : 1n, 0n);
+  const yWall = isPlain(rolled, room, 0n, qy === 0 ? -1n : 1n);
   if (xWall) return 'x-wall';
   return yWall ? 'y-wall' : 'post';
 }

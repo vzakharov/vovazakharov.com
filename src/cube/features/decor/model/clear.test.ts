@@ -5,8 +5,9 @@ import { ROOM_DOORWAY } from '@/cube/shared/cube-boundary';
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import {
   closedSides,
+  doorSides,
   maze,
-  mazeWalls,
+  mazeDoored,
   type Quarter,
   type Room,
   shelfOf,
@@ -16,7 +17,7 @@ import { clearZones, crowds, overlap, shelfSpot } from './clear';
 
 const SEED = '8675309';
 const rolled = maze(SEED);
-const walls = mazeWalls(rolled);
+const walls = mazeDoored(rolled);
 
 const QUARTERS: readonly Quarter[] = [
   { qx: 0, qy: 0 },
@@ -31,13 +32,16 @@ const ROOMS: readonly Room[] = [0n, 1n, 2n, 3n, 4n, 5n, 6n, 7n].flatMap((x) =>
 
 const HOLED: Room = { n: 4, x: 0n, y: 0n };
 
+const NO_DOORS = [false, false, false, false] as const;
+
 describe('shelfSpot', () => {
   it('is where the world mounts the shelf', () => {
     for (const room of ROOMS) {
       for (const hole of QUARTERS) {
         const closed = closedSides(walls, room);
+        const doors = doorSides(walls, room);
         const { at, mount } = shelfOf(rolled, room, hole);
-        const spot = shelfSpot({ room, closed, hole, grain: 0 });
+        const spot = shelfSpot({ room, closed, doors, hole, grain: 0 });
         assert.ok(spot);
         const [u, v] = spot;
         // A post stands a little in from the corner its shelf is filed under.
@@ -50,7 +54,7 @@ describe('shelfSpot', () => {
   it('is nowhere in a room with no hole', () => {
     const closed = [true, true, true, true] as const;
     assert.equal(
-      shelfSpot({ room: HOLED, closed, hole: null, grain: 0 }),
+      shelfSpot({ room: HOLED, closed, doors: NO_DOORS, hole: null, grain: 0 }),
       null,
     );
   });
@@ -65,6 +69,7 @@ describe('clearZones', () => {
   const zones = clearZones({
     room: HOLED,
     closed: [true, false, true, true],
+    doors: NO_DOORS,
     hole: { qx: 1, qy: 0 },
     grain: 0,
   });
@@ -98,6 +103,7 @@ describe('the way in', () => {
     clearZones({
       room: { n, x: 0n, y: 0n },
       closed: shut,
+      doors: NO_DOORS,
       hole: null,
       grain: 0,
     });
@@ -118,6 +124,39 @@ describe('the way in', () => {
   it('is kept clear on floor 1, where the doorway is', () => {
     assert.ok(taken(1));
     assert.ok(!taken(2));
+  });
+});
+
+describe('a door', () => {
+  const shut = [true, true, true, true] as const;
+  const zonesOf = (doors: typeof shut | typeof NO_DOORS) =>
+    clearZones({ room: HOLED, closed: shut, doors, hole: null, grain: 0 });
+  const taken = (
+    doors: typeof shut | typeof NO_DOORS,
+    x: number,
+    y: number,
+    z: number,
+  ) => zonesOf(doors).some((zone) => overlap(point(x, y, z), zone));
+  const { from, to } = ROOM_DOORWAY;
+  const along = (from + to) / 2 / ROOM_METRES;
+  const leaf = (to - from) / ROOM_METRES;
+
+  it('keeps its doorway and its leaf’s swing clear on each wall, floor to ceiling', () => {
+    for (const [x, z] of [
+      [0.98, along],
+      [1 - leaf + 0.01, along],
+      [along, 0.98],
+      [0.02, along],
+      [along, leaf - 0.01],
+    ] as const) {
+      assert.ok(taken(shut, x, 0.02, z));
+      assert.ok(taken(shut, x, 0.4, z));
+      assert.ok(!taken(NO_DOORS, x, 0.02, z));
+    }
+  });
+
+  it('leaves the rest of its wall to stand against', () => {
+    assert.ok(!taken(shut, 0.95, 0.02, 0.3));
   });
 });
 

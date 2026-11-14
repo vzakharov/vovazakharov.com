@@ -1,11 +1,17 @@
 export { type Address, decodeAddress, encodeAddress } from './model/address';
 export {
   type Ajar,
+  type Doored,
   doorLeaf,
+  type Doors,
+  doorSides,
   type DoorWall,
   EXIT,
+  type Facing,
   isSameWall,
   type Leaf,
+  mazeDoored,
+  wallsAround,
   withOpen,
 } from './model/doorway';
 export { eastKind, southKind } from './model/doorways';
