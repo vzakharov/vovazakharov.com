@@ -1,6 +1,6 @@
 import package::cube::shared::shader::hash::{mix32, hashOf, unitOf, valueNoise, fbm, worley};
 import package::cube::entities::theme::laboratory::small_world::lib::small_world::shards;
-import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, Surf, Material, matte, glowing, repeated, Lens};
+import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, Surf, Material, matte, glowing, repeated, uncut, Lens};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::kit::lib::light::{Lamps, lampGlow, roomLight};
 import package::cube::entities::theme::kit::lib::grade::{haze, tonemap, vignette};
@@ -87,7 +87,7 @@ fn bilayer(s: Surf) -> Material {
   // One callout a bay: a leader from the membrane up to a box of blank lines.
   let bay = fract(s.uv.x / 1.25) * 1.25;
   let word = hashOf(bitcast<u32>(i32(floor(s.uv.x / 1.25))), s.seed ^ 0x49u);
-  let called = step(0.35, unitOf(word));
+  let called = step(0.35, unitOf(word)) * uncut(s, 1.25);
   let leader =
     called
       * step(abs(bay - 0.3), 0.004)

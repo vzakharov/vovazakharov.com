@@ -1,4 +1,4 @@
-import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, Surf, Material, matte, polished, glowing, embossed, Lens};
+import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, Surf, Material, matte, polished, glowing, embossed, uncut, Lens};
 import package::cube::shared::shader::hash::{mix32, unitOf, cellHash, valueNoise, fbm, worley};
 import package::cube::entities::theme::kit::lib::finish::band;
 import package::cube::entities::theme::kit::lib::stuff::stuff;
@@ -100,7 +100,9 @@ fn cosmos(s: Surf) -> Material {
   let word = cellHash(vec2i(floor(at)), 324u);
   let p = spun((fract(at) - 0.5) * size, (unitOf(word) - 0.5) * 0.9);
   let shape =
-    body(p, unitOf(mix32(word)) * 6.0) * step(unitOf(mix32(word)), 0.84);
+    body(p, unitOf(mix32(word)) * 6.0)
+      * step(unitOf(mix32(word)), 0.84)
+      * uncut(s, size.x);
   let star = worley(vec2f(s.uv.x, s.p.y) * 14.0, 325u);
   let spatter =
     inside(star.x / 14.0 - 0.003 - 0.007 * star.y * star.y) * step(

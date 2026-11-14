@@ -1,6 +1,6 @@
 // `mall-atrium.ts` adds this floor's light and lens, `lamps()` among them.
 
-import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, Surf, Material, polished, glowing, embossed, repeated};
+import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, Surf, Material, polished, glowing, embossed, repeated, uncut};
 import package::cube::shared::shader::hash::{mix32, hashOf, unitOf, valueNoise, fbm, worley};
 import package::cube::entities::theme::kit::lib::finish::{band, plaster, tiling, damp};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
@@ -49,7 +49,13 @@ fn shuttered(s: Surf) -> Material {
   let bay = 2.5;
   let along = fract(s.uv.x / bay) * bay;
   let word = hashOf(bitcast<u32>(i32(floor(s.uv.x / bay))), 249u);
-  let pier = 1.0 - smoothstep(0.16, 0.164, min(along, bay - along));
+  // A bay a doorway may cut is walled up in the piers' stone, shop and sign
+  // and all.
+  let pier =
+    max(
+      1.0 - smoothstep(0.16, 0.164, min(along, bay - along)),
+      1.0 - uncut(s, bay),
+    );
   let fascia = smoothstep(1.9, 1.904, h);
   let rib = sin(fract(h / 0.075) * 3.1416);
   let brushed = valueNoise(vec2f(s.uv.x * 5.0, h * 260.0), 251u);
