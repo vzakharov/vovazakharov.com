@@ -11,7 +11,7 @@ import {
   bearing,
   canPress,
   canTake,
-  doorFaced,
+  doorsFaced,
   doorwayAt,
   type OpenDoor,
 } from '../../body';
@@ -37,7 +37,7 @@ const offGaze = (pose: Pose, { u, v }: InRoom): number =>
 
 /**
  * What a press of the hand by a body at `pose` answers, of the pill it can
- * take, the sign it can press and the closed door it faces: the one nearest
+ * take, the sign it can press and the closed doors it faces: the one nearest
  * its gaze, a tie going in that order; null where it reaches none.
  */
 export function aimOf(
@@ -55,8 +55,7 @@ export function aimOf(
   if (sign !== null && canPress(pose, sign)) {
     aims.push({ aim: { at: 'sign' }, off: offGaze(pose, sign.at) });
   }
-  const door = isDoor === undefined ? null : doorFaced(pose, isDoor);
-  if (door !== null) {
+  for (const door of isDoor === undefined ? [] : doorsFaced(pose, isDoor)) {
     aims.push({
       aim: { at: 'door', door },
       off: offGaze(pose, doorwayAt(pose, door)),
