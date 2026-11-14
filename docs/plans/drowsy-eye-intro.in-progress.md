@@ -87,7 +87,21 @@ own knob).
   `runsUnheld` in localStorage, a stored pace counting as Shift learnt. Its two
   `catch` blocks are silent fallbacks the operator has not yet approved — named
   in the report to them.
-- Left, in this order:
+- Operator, on the frames page and the board (18:00 UTC), verbatim: on the Y/N
+  frame «можно на тапальных менять "Press" на "Tap"?»; on the frames page «а
+  зачем это здесь, почему не на основной борде?»; on `touch.ts` «ах, вот оно
+  что. ну давай хотя бы на время покажем наложение типа-клавиш-управления на
+  экран, а то как люди догадаются, где что делать»; on `underlay.wgsl` «почему
+  roomS? оно же никак с другими комнатами кроме первой вообще не
+  взаимодействует?»; in chat «так, это баг, глюк или что: облака (причём только
+  они) на medium смотрятся лучше чем на High. Тело не шевелю» with two crops:
+  high shredded at the cloud's edges and banded, medium clean. Cause: the
+  resolve reprojects history by the eye alone and the clouds drift on the wind,
+  so a still eye keeps stale cloud for up to 9 frames; high has more pixels per
+  degree and fewer frames a second, so the drift crosses more pixels per
+  refresh. Fix: the sky trusts its history only while the eye turns.
+- Left, in this order: 0. The clouds; Tap on touch; a touch-controls overlay
+  shown for a while; the board showing frames; answer the `rooms` question.
   1. Frames on the board (the operator's screenshot, SwiftShader shots).
   2. Touch, once the operator says what feels off: a visible stick ring, a run
      when the stick is pushed to its rim (a phone has no Shift).
