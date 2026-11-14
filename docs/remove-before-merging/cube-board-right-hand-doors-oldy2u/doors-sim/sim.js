@@ -230,7 +230,7 @@
    */
   function rolledDoors(eligible, want, spacing, roll) {
     const unit = (path) => roll(path) / 2 ** 32;
-    if (spacing !== 'arm') {
+    if (spacing === 'none') {
       const p = Math.min(1, want / Math.max(1, eligible.length));
       return eligible.filter((w) => unit(`${w.dir}/${w.x}/${w.y}/has`) < p);
     }
@@ -244,6 +244,14 @@
     const out = [];
     for (const [key, walls] of arms) {
       if (unit(`${key}/has`) >= p) continue;
+      if (spacing === 'armAny') {
+        // The roll picks among all of the arm's walls and the one it lands on is checked alone,
+        // as a floor too deep to list an arm's eligible walls has to.
+        const half = 1 << (walls[0].level - 1), at = Math.floor(unit(`${key}/at`) * half);
+        const hit = walls.find((w) => ((w.dir === 'E' ? w.y : w.x) & (half - 1)) === at);
+        if (hit) out.push(hit);
+        continue;
+      }
       walls.sort((u, v) => u.x - v.x || u.y - v.y);
       out.push(walls[Math.floor(unit(`${key}/at`) * walls.length)]);
     }
