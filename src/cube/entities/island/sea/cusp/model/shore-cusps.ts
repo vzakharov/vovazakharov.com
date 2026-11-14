@@ -28,7 +28,7 @@ const hash = pathHash(SEA_WORLD);
 
 const rolled = rollWith(
   roll.struct({ short: cuspRoll, middle: cuspRoll, long: cuspRoll }),
-  (path) => hash(`island/sea/cusp/${path}`),
+  (path) => hash(`island/sea/cusps/${path}`),
 );
 
 /** The cusps' sines, each [turns a metre, size, where it starts in turns]. */

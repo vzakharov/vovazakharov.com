@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 92,
+    "inputTokens": 172,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 137361,
-    "cacheReadTokens": 6387813,
-    "outputTokens": 28044,
-    "thinkingTokens": 14042,
-    "responses": 45,
-    "costUsd": 2.9376986
+    "cacheWrite1hTokens": 192428,
+    "cacheReadTokens": 15950932,
+    "outputTokens": 62931,
+    "thinkingTokens": 32206,
+    "responses": 88,
+    "costUsd": 5.988918400000001
   },
   "estimate": {
     "at": "2026-11-14T05:57:22.416Z",
@@ -48,22 +48,24 @@
   "branch": "claude/cube-wesl-trial",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/cube-wesl-trial — остров стал сущностью, картинка улицы виджетом, осталось нарезать подслайсы по masd:clusters",
-  "prs": [],
+  "prs": [
+    276
+  ],
   "url": "https://claude.ai/code/session_01DaohkE8BAFBC4BLL26Y4pr",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-14T05:56:35.022Z",
-  "lastResponseAt": "2026-11-14T06:04:23.519Z",
+  "lastResponseAt": "2026-11-14T06:19:19.631Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 92,
+    "inputTokens": 172,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 137361,
-    "cacheReadTokens": 6387813,
-    "outputTokens": 28044,
-    "thinkingTokens": 14042,
-    "responses": 45,
-    "costUsd": 2.9376986
+    "cacheWrite1hTokens": 192428,
+    "cacheReadTokens": 15950932,
+    "outputTokens": 62931,
+    "thinkingTokens": 32206,
+    "responses": 88,
+    "costUsd": 5.988918400000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,23 +79,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 92,
+      "inputTokens": 172,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 137361,
-      "cacheReadTokens": 6387813,
-      "outputTokens": 28044,
-      "thinkingTokens": 14042,
-      "responses": 45,
-      "costUsd": 2.9376986
+      "cacheWrite1hTokens": 192428,
+      "cacheReadTokens": 15950932,
+      "outputTokens": 62931,
+      "thinkingTokens": 32206,
+      "responses": 88,
+      "costUsd": 5.988918400000001
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 45,
-    "matched": 45,
-    "matchedTableUsd": 2.9376986,
-    "matchedEventUsd": 2.9376986,
+    "events": 88,
+    "matched": 88,
+    "matchedTableUsd": 5.988918400000001,
+    "matchedEventUsd": 5.988918400000001,
     "unseen": {}
   },
   "operatorWords": {
@@ -104,7 +106,7 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".ts": 27317,
+    ".ts": 27418,
     ".md": 1480,
     ".json": 104,
     ".yaml": 765,
