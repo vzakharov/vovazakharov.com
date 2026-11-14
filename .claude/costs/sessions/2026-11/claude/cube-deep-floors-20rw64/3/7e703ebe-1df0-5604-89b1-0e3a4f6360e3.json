@@ -1,0 +1,112 @@
+{
+  "total": {
+    "inputTokens": 68,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 112748,
+    "cacheReadTokens": 4452151,
+    "outputTokens": 12145,
+    "thinkingTokens": 3607,
+    "responses": 33,
+    "costUsd": 2.0355861999999996
+  },
+  "estimate": {
+    "at": "2026-11-14T07:22:43.419Z",
+    "subjectLine": "content: republish the cube board, trim a card, land the branch",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "trimming the deep-inherit card without losing the idea it records needs a designer's read of the game"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "syncing live board edits before a republish and running the land prep is routine tooling work"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "src/cube-board/app/config/cube/deep.yaml",
+    "endedAt": "2026-11-14T07:25:44.810Z",
+    "contextTokens": 145504,
+    "spend": {
+      "inputTokens": 40,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 88801,
+      "cacheReadTokens": 2290611,
+      "outputTokens": 4791,
+      "thinkingTokens": 831,
+      "responses": 19,
+      "costUsd": 1.2645102
+    }
+  },
+  "sessionId": "7e703ebe-1df0-5604-89b1-0e3a4f6360e3",
+  "branch": "claude/cube-deep-floors-20rw64",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cube-deep-floors-20rw64 — PR открыт, проходы качества пройдены, ждут два вопроса",
+  "prs": [
+    279
+  ],
+  "url": "https://claude.ai/code/session_01DaohkC5yeBhetxVink5B1s",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-14T07:22:20.036Z",
+  "lastResponseAt": "2026-11-14T07:27:19.826Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 68,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 112748,
+    "cacheReadTokens": 4452151,
+    "outputTokens": 12145,
+    "thinkingTokens": 3607,
+    "responses": 33,
+    "costUsd": 2.0355861999999996
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 68,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 112748,
+      "cacheReadTokens": 4452151,
+      "outputTokens": 12145,
+      "thinkingTokens": 3607,
+      "responses": 33,
+      "costUsd": 2.0355861999999996
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 33,
+    "matched": 33,
+    "matchedTableUsd": 2.0355861999999996,
+    "matchedEventUsd": 2.0355861999999996,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 32,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 427,
+    ".yaml": 127
+  }
+}

@@ -2,42 +2,42 @@ items:
   - id: z-trophies
     type: zone
     updated: [2026-11-13T20:18:00.000Z, agent:cube]
-    box: [5780, -1000, 1060, 900, orange]
+    box: [3640, -2000, 1060, 900, orange]
     icon: 🏆
     text: Trophies without spoilers
   - id: trophy-want
     type: sticky
     updated: [2026-11-13T20:18:00.000Z, agent:cube]
-    box: [5808, -890, 244, orange]
+    box: [3668, -1890, 244, orange]
     icon: 🎯
     text: 'The want: prove an achievement without handing over the way to repeat it. Today the URL carries the hatch in the clear, so showing it is giving it'
   - id: trophy-sign
     type: sticky
     updated: [2026-11-13T20:18:00.000Z, agent:cube]
-    box: [6143, -890, 244, yellow]
+    box: [4003, -1890, 244, yellow]
     icon: ✍️
     text: "Idea, signature: a key derived from the hole's room, its public half in world.json; the trophy signs «name · date», checked in the browser. Proves having had a URL past the hole. Only whoever knew the room can publish the public half, so plant.ts has to"
   - id: trophy-replant
     type: sticky
     updated: [2026-11-13T20:18:00.000Z, agent:cube]
-    box: [6478, -890, 244, yellow]
+    box: [4338, -1890, 244, yellow]
     icon: 🌱
     text: 'Idea, replanting that keeps floors: keep the seed and the first commitments, brute-force their rooms (one core: floors 1–6 under 0.1 s, 9 in 10 s, 14 in hours) for the keys, plant the rest anew. Only the hole, lever, clearing, landing board and signs move'
   - id: trophy-class
     type: sticky
     updated: [2026-11-13T20:18:00.000Z, agent:cube]
-    box: [5808, -560, 244, gray]
+    box: [3668, -1560, 244, gray]
     icon: 🎲
     text: 'Tried: portal classes. A door is a class portal when its roll starts with a sealed number, one key per class, any density. Falls: one shared door gives away the number, and every trophy of its class with it'
   - id: trophy-zk
     type: sticky
     updated: [2026-11-13T20:18:00.000Z, agent:cube]
-    box: [6143, -560, 244, yellow]
+    box: [4003, -1560, 244, yellow]
     icon: 🕳️
     text: 'Idea, zero-knowledge: prove "I know a door where the rule holds" over today''s commitments, nothing planted, with a tag per door so a shared door gives away only itself. ~200 bytes, same cost on any floor; the player pays tens of MB and seconds per trophy'
   - id: trophy-choice
     type: sticky
     updated: [2026-11-13T20:18:00.000Z, agent:cube]
-    box: [6478, -560, 244, orange]
+    box: [4338, -1560, 244, orange]
     icon: ⚖️
     text: 'Open: signatures (cheap per trophy, need the replanting, frequent portals without trophies of their own) or zero-knowledge (heavy per trophy, nothing planted, every portal its own). Trusted setup is moot either way: the author is trusted already'
