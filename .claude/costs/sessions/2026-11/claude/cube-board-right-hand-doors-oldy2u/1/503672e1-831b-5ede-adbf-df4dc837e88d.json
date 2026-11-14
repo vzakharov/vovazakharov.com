@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 2181,
-    "cacheWrite5mTokens": 111005,
-    "cacheWrite1hTokens": 268862,
-    "cacheReadTokens": 16546438,
-    "outputTokens": 105092,
-    "thinkingTokens": 41930,
-    "responses": 81,
-    "costUsd": 8.131277599999997
+    "inputTokens": 4950,
+    "cacheWrite5mTokens": 111107,
+    "cacheWrite1hTokens": 374579,
+    "cacheReadTokens": 21310360,
+    "outputTokens": 121695,
+    "thinkingTokens": 44093,
+    "responses": 102,
+    "costUsd": 10.273443999999998
   },
   "estimate": {
     "at": "2026-11-14T09:44:52.800Z",
@@ -48,22 +48,24 @@
   "branch": "claude/cube-board-right-hand-doors-oldy2u",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "хочу сделать, чтобы двери (случайные объекты, расставляемые по этажу) открывались и вели на другую сторону 1- надо посчитать не схлопнет ли это сложность (по ин…",
-  "prs": [],
+  "prs": [
+    280
+  ],
   "url": "https://claude.ai/code/session_01DaohkCH6sCRrmk6LaotEWV",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-14T09:42:39.605Z",
-  "lastResponseAt": "2026-11-14T10:14:43.132Z",
+  "lastResponseAt": "2026-11-14T10:19:20.217Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 140,
+    "inputTokens": 181,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 268862,
-    "cacheReadTokens": 15097640,
-    "outputTokens": 101421,
-    "thinkingTokens": 40357,
-    "responses": 69,
-    "costUsd": 7.199403999999998
+    "cacheWrite1hTokens": 374579,
+    "cacheReadTokens": 19513238,
+    "outputTokens": 111317,
+    "thinkingTokens": 42520,
+    "responses": 89,
+    "costUsd": 9.126343599999998
   },
   "subagents": {
     "inputTokens": 17,
@@ -77,23 +79,53 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 2181,
-      "cacheWrite5mTokens": 111005,
-      "cacheWrite1hTokens": 268862,
-      "cacheReadTokens": 16546438,
-      "outputTokens": 105092,
-      "thinkingTokens": 41930,
-      "responses": 81,
-      "costUsd": 8.131277599999997
+      "inputTokens": 4950,
+      "cacheWrite5mTokens": 111107,
+      "cacheWrite1hTokens": 374579,
+      "cacheReadTokens": 21310360,
+      "outputTokens": 121695,
+      "thinkingTokens": 44093,
+      "responses": 102,
+      "costUsd": 10.273443999999998
     }
   },
   "warnings": [],
-  "compactions": [],
+  "compactions": [
+    {
+      "at": "2026-11-14T10:17:35.864Z",
+      "trigger": "auto",
+      "compactedFrom": 351900,
+      "summaryChars": 12984,
+      "reorientation": {
+        "endedBy": null,
+        "endedOn": null,
+        "endedAt": null,
+        "contextTokens": null,
+        "spend": {
+          "inputTokens": 23,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 81677,
+          "cacheReadTokens": 1380805,
+          "outputTokens": 5251,
+          "thinkingTokens": 1223,
+          "responses": 11,
+          "costUsd": 1.034689
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.21522680000000005
+    }
+  ],
   "telemetry": {
-    "events": 81,
-    "matched": 77,
-    "matchedTableUsd": 7.9431857999999975,
-    "matchedEventUsd": 7.9431857999999975,
+    "events": 102,
+    "matched": 97,
+    "matchedTableUsd": 9.8701254,
+    "matchedEventUsd": 9.8701254,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 2024,
@@ -104,11 +136,21 @@
         "thinkingTokens": 0,
         "responses": 4,
         "costUsd": 0.1880918
+      },
+      "compact": {
+        "inputTokens": 2728,
+        "cacheWrite5mTokens": 102,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 348324,
+        "outputTokens": 6707,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.21522680000000005
       }
     }
   },
   "operatorWords": {
-    "chat": 6902,
+    "chat": 8422,
     "review": 0,
     "threads": 0
   },
