@@ -21,7 +21,6 @@ export const STAIRWELL: FloorTheme = {
     { thing: 'pipe', perRoom: 0.8 },
     { thing: 'fire-extinguisher', perRoom: 0.4 },
     { thing: 'exit-sign', perRoom: 0.5 },
-    { thing: 'door', perRoom: 0.4 },
     { thing: 'bin', perRoom: 0.1 },
     { thing: 'traffic-cone', perRoom: 0.05 },
   ],

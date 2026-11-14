@@ -18,7 +18,6 @@ export const CONFERENCE_HOTEL: FloorTheme = {
   sound: { footing: 'carpet', hum: 60, air: 0.25, echo: 0.4 },
   decor: [
     { thing: 'chair-stack', perRoom: 0.8 },
-    { thing: 'door', perRoom: 1.4 },
     { thing: 'potted-plant', perRoom: 0.6 },
     { thing: 'armchair', perRoom: 0.4 },
     { thing: 'mirror', perRoom: 0.3 },

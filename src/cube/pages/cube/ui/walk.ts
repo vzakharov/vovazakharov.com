@@ -5,20 +5,23 @@ import {
   type Pose,
   type Quad,
   type Room,
+  type Sign,
   type Signed,
   type SignKind,
 } from '@/cube/entities/world';
 import {
   type Abroad,
   abroad,
+  type Aim,
+  aimOf,
   asleepOn,
   awakeOn,
   bindInput,
   canClimb,
-  canPress,
   findsLadderGone,
   handsAbroad,
   handsOf,
+  type Holed,
   type Input,
   INTRO_STAGE,
   isPastSill,
@@ -51,7 +54,7 @@ import {
   writeCheat,
   writeFragment,
 } from '../lib/start';
-import type { Selling, SignOf } from './cube-mesh';
+import type { Selling } from './cube-mesh';
 import { type CubeScene, mountCube } from './cube-scene';
 import { hear } from './hearing';
 import { drawn, type PillPrompt, pillPromptOf } from './pill-prompt';
@@ -70,6 +73,12 @@ export type Walk = CubeScene & { answer: (said: Said) => void };
 const RUN_TOLD_FROM = 3;
 const RUN_TOLD_FOR = 6;
 
+const { isDoor } = plantedWalls;
+
+/** What the hand of a body at `pose` answers, among `here`'s shelf, `sign` and the doors. */
+const aimAt = (pose: Pose, here: Holed | null, sign: Sign | null) =>
+  aimOf(pose, { shelf: here?.shelf ?? null, sign, isDoor });
+
 /**
  * `open` hears a press on a sign in reach; `offering` whether one is open.
  * `setFloor` takes null out of doors, where no floor is underfoot; `setFree`
@@ -80,6 +89,7 @@ export type Hooks = {
   setFailure: (error: Error) => void;
   setMissing: (missing: boolean) => void;
   setInReach: (kind: SignKind | null) => void;
+  setDoor: (faced: boolean) => void;
   setWay: (way: Way | null) => void;
   setPill: (prompt: PillPrompt | null) => void;
   setFree: (free: boolean) => void;
@@ -101,6 +111,7 @@ export function walk(
     setFailure,
     setMissing,
     setInReach,
+    setDoor,
     setWay,
     setPill,
     setFree,
@@ -173,23 +184,23 @@ export function walk(
   let runTold = 0;
 
   /**
-   * Shows the hint by a sign in reach, and opens its offer on a press;
-   * returns whether a sign is in reach.
+   * Shows the hint for what the hand at `pose` answers, `aim`, of a sign —
+   * its room's, `sign` — or a door; the pill's is `setPill`'s.
    */
-  const reach = (pose: Pose, signOf: SignOf, press: boolean): boolean => {
-    const sign = signOf(pose);
-    const can = sign !== null && canPress(pose, sign);
+  const reach = (pose: Pose, sign: Sign | null, aim: Aim | null): void => {
     setFloor(pose.n);
-    setInReach(can ? sign.kind : null);
-    if (!can || !press) return can;
+    setInReach(aim?.at === 'sign' && sign !== null ? sign.kind : null);
+    setDoor(aim?.at === 'door');
+  };
+
+  /** Opens the offer of `sign`, the sign of the room at `pose`. */
+  const offer = (pose: Pose, sign: Sign): void => {
     const { n, x, y } = pose;
     const room: Room = { n, x, y };
     open({ room, sign });
     // The offer takes the pointer, so the mouse can reach its buttons.
     if (document.pointerLockElement === canvas) document.exitPointerLock();
-    return true;
   };
-
   /**
    * One frame of `abroad` out of doors, `dt` seconds on: the player once a
    * scene has put the body inside the cube, null while it is still out. A
@@ -229,6 +240,7 @@ export function walk(
     body = handsAbroad(next, INTRO_STAGE);
     setFloor(null);
     setInReach(null);
+    setDoor(false);
     setPill(null);
     setFree(!asleep && next.scene === null);
     setWay(
@@ -269,7 +281,15 @@ export function walk(
             if (scriptedOut) {
               setFloor(null);
               setInReach(null);
-            } else reach(pose, signOf, pressed !== null);
+              setDoor(false);
+            } else {
+              const sign = signOf(pose);
+              const aim = aimOf(pose, { shelf: null, sign });
+              reach(pose, sign, aim);
+              if (pressed !== null && aim?.at === 'sign' && sign !== null) {
+                offer(pose, sign);
+              }
+            }
             pressed?.resolve();
             pressed = null;
             return { pose, taken: null, moving: [] };
@@ -296,12 +316,19 @@ export function walk(
               return indoorsAt(player, seconds);
             }
             const here = holedHere(pose);
+            const sign = signOf(pose);
+            // A press answers one thing: the sign here, or what play opens.
+            const pressedSign =
+              controls.use && aimAt(pose, here, sign)?.at === 'sign'
+                ? sign
+                : null;
             player = playFrame(
               { ...player, pose },
               controls,
               seconds,
               plantedWalls,
               here,
+              sign,
             );
             // Past the sill there is only the drop to the sand.
             const leaving = isPastSill(player.pose);
@@ -314,8 +341,11 @@ export function walk(
               follow = null;
               writeCheat(moved.n);
             }
-            reach(moved, signOf, controls.use && standing);
-            setPill(pillPromptOf(player, moved, here));
+            const signMoved = signOf(moved);
+            const aim = aimAt(moved, here, signMoved);
+            reach(moved, signMoved, aim);
+            if (pressedSign !== null && standing) offer(pose, pressedSign);
+            setPill(pillPromptOf(player, aim));
             setFree(true);
             const tellsRun =
               moved.n >= RUN_TOLD_FROM &&

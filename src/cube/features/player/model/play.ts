@@ -1,7 +1,13 @@
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { DEEPEST_FLOOR, descend, type Pose } from '@/cube/entities/world';
+import {
+  DEEPEST_FLOOR,
+  descend,
+  type Pose,
+  type WallMounted,
+} from '@/cube/entities/world';
 
+import { type Aim, aimOf } from './aim';
 import { ajarOf, doorAfter, type Ways } from './door';
 import {
   dipAt,
@@ -32,7 +38,7 @@ import {
   stridesIn,
   WALK_STRIDE,
 } from './step';
-import { canTake, isInSight, reachFor, taking } from './take';
+import { isInSight, reachFor, taking } from './take';
 
 /**
  * A whole body arriving on floor `n` by no hole: in the middle of its
@@ -181,6 +187,7 @@ function played(
   dt: number,
   walls: Ways,
   here: Holed | null,
+  aim: Aim | null,
 ): Player {
   const { pose, act } = player;
   if (act?.act === 'taking') return taking({ ...player, act }, input, dt);
@@ -199,7 +206,7 @@ function played(
       ...pick(pose, 'yaw', 'elevation'),
     });
   }
-  if (act === null && input.use && here && canTake(pose, here.shelf)) {
+  if (act === null && aim?.at === 'pill' && here !== null) {
     return taking(reachFor(player, here), input, dt);
   }
   return walk(player, input, dt, walls, here);
@@ -220,10 +227,12 @@ function restocked(player: Player, here: Holed | null): Player {
 
 /**
  * `player` after `dt` seconds of `input` among `walls`, `here` being its
- * room's hole and shelf (null where it has none, or none known yet).
+ * room's hole and shelf (null where it has none, or none known yet) and
+ * `sign` its room's sign (null where it has none).
  *
- * A whole body using a pill it can take reaches for it, and what follows is
- * `taking`'s; the pill swallowed, it shrinks where it stands, to `SMALL` over
+ * A press of the hand answers one thing, `aimOf`'s: a pill, a sign — which
+ * is the page's to open — or a door. A whole body using a pill it can take
+ * reaches for it, and what follows is `taking`'s; the pill swallowed, it shrinks where it stands, to `SMALL` over
  * `SHRINK_TIME`, its feet rooted and its gaze the look's while that lasts.
  * Its shelf has a pill again as soon as it looks away from it.
  * Shrunk, it walks its floor at its own size; walking onto any hole it hops
@@ -232,10 +241,9 @@ function restocked(player: Player, here: Holed | null): Player {
  * that asks to go to a floor the cube has arrives on it that same frame, as
  * `arrivedOn` has it, keeping its gaze.
  *
- * A standing body using the hand with no pill to take opens the closed door
- * it faces, which swings away from it and shuts once it is out of reach;
- * while open, its wall stands only either side of the doorway, and its leaf
- * where it has swung to.
+ * A standing body using the hand on a closed door opens it, and it swings
+ * away from the body and shuts once it is out of reach; while open, its wall
+ * stands only either side of the doorway, and its leaf where it has swung to.
  */
 export function play(
   player: Player,
@@ -243,10 +251,16 @@ export function play(
   dt: number,
   walls: Ways,
   here: Holed | null,
+  sign: WallMounted | null = null,
 ): Player {
-  const ways = { ...walls, ajar: ajarOf(player.door) };
-  const next = restocked(played(player, input, dt, ways, here), here);
-  const { use } = input;
-  const pressed = { use, standing: player.act === null && next.act === null };
-  return { ...next, door: doorAfter(next.door, next.pose, pressed, dt, walls) };
+  const { pose, act, door } = player;
+  const { isDoor } = walls;
+  const aim = input.use
+    ? aimOf(pose, { shelf: here?.shelf ?? null, sign, isDoor })
+    : null;
+  const ways = { ...walls, ajar: ajarOf(door) };
+  const next = restocked(played(player, input, dt, ways, here, aim), here);
+  const standing = act === null && next.act === null;
+  const opened = standing && aim?.at === 'door' ? aim.door : null;
+  return { ...next, door: doorAfter(next.door, next.pose, opened, dt) };
 }

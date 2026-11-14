@@ -20,7 +20,6 @@ export const SCHOOL_CORRIDOR: FloorTheme = {
     { thing: 'bench', perRoom: 0.4 },
     { thing: 'radiator', perRoom: 0.5 },
     { thing: 'notice-board', perRoom: 0.4 },
-    { thing: 'door', perRoom: 0.5 },
     { thing: 'wet-floor-sign', perRoom: 0.1 },
     { thing: 'exit-sign', perRoom: 0.15 },
   ],

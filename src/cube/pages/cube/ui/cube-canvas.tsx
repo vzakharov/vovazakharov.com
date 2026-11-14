@@ -38,6 +38,8 @@ type CubeCanvasProps = {
   ways: Record<Way | QualityWay, string>;
   /** The lines shown by a pill in reach and by one in the hand. */
   pill: PillCopy;
+  /** The line shown by a closed door the hand would open. */
+  door: (typeof COPY)['door'];
   /** A for-sale room's sign, hint and offer. */
   offer: Selling['copy'];
   /** The hints a touch screen words as taps, in place of the keys'. */
@@ -54,6 +56,7 @@ export function CubeCanvas({
   nowhere,
   ways,
   pill: pillCopy,
+  door: doorCopy,
   offer: offerCopy,
   tapped,
   controls,
@@ -67,6 +70,8 @@ export function CubeCanvas({
   const [floor, setFloor] = useState<number | null>(null);
   /** The kind of the sign in reach, if one is. */
   const [inReach, setInReach] = useState<SignKind | null>(null);
+  /** Whether the hand would open a closed door. */
+  const [door, setDoor] = useState(false);
   /** What a press does where the body stands, a sign in reach aside. */
   const [way, setWay] = useState<Way | QualityWay | null>(null);
   const [pill, setPill] = useState<PillPrompt | null>(null);
@@ -144,6 +149,7 @@ export function CubeCanvas({
             setFailure,
             setMissing,
             setInReach,
+            setDoor,
             setWay: (next) => {
               setWay(sceneRef.current?.hinted(next) ?? next);
             },
@@ -172,9 +178,21 @@ export function CubeCanvas({
     ? {
         ways: { ...ways, ...tapped.ways, run: '' },
         pill: { ...pillCopy, ...tapped.pill },
+        door: { ...doorCopy, ...tapped.door },
         offer: { ...offerCopy, ...tapped.offer },
       }
-    : { ways, pill: pillCopy, offer: offerCopy };
+    : { ways, pill: pillCopy, door: doorCopy, offer: offerCopy };
+  /** The line for what a press does where no pill is in question. */
+  const pressHint =
+    inReach === 'yours'
+      ? hints.offer.hintYours
+      : inReach === null
+        ? door
+          ? hints.door.open
+          : way === null
+            ? ''
+            : hints.ways[way]
+        : hints.offer.hint;
   return (
     <>
       <canvas
@@ -197,13 +215,7 @@ export function CubeCanvas({
             })
           : pill === null
             ? offer === null
-              ? inReach === 'yours'
-                ? hints.offer.hintYours
-                : inReach === null
-                  ? way === null
-                    ? ''
-                    : hints.ways[way]
-                  : hints.offer.hint
+              ? pressHint
               : ''
             : hints.pill[pill]}
       </p>

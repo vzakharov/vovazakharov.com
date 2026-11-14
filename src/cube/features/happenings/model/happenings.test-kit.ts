@@ -18,7 +18,13 @@ export const settingOf = (
   grain: number,
   closed: Sides = MIXED,
   hole: Setting['hole'] = null,
-): Setting => ({ room: { n: 7, x: 3n, y: 5n }, closed, hole, grain });
+): Setting => ({
+  room: { n: 7, x: 3n, y: 5n },
+  closed,
+  doors: OPEN,
+  hole,
+  grain,
+});
 
 const SLACK = 1e-9;
 

@@ -17,7 +17,6 @@ export const MISSING_TEXTURE: FloorTheme = {
   dark: 0.3,
   sound: { footing: 'hollow', hum: 0, air: 0.02, echo: 1.4 },
   decor: [
-    { thing: 'door', perRoom: 0.5 },
     { thing: 'exit-sign', perRoom: 0.2 },
     { thing: 'crate', perRoom: 0.3 },
     { thing: 'monolith', perRoom: 0.1 },

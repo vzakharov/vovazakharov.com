@@ -5,6 +5,7 @@ import {
   EXIT,
   type InRoom,
   isSameWall,
+  leafLine,
   type Pose,
 } from '@/cube/entities/world';
 
@@ -76,13 +77,8 @@ export function closedWalls(pose: Pose, walls: Ways): Segment[] {
 
 /** The leaf of `ajar` as a segment in the frame of `pose`'s room, hinge to edge. */
 function leafOf(pose: Pose, ajar: Ajar): Segment {
-  const turn = ajar.toward * ajar.angle;
-  const { from, to } = DOORWAY_CUT;
-  const wide = to - from;
-  return {
-    a: onWall(pose, ajar, from, 0),
-    b: onWall(pose, ajar, from + wide * Math.cos(turn), wide * Math.sin(turn)),
-  };
+  const { hinge, edge } = leafLine(ajar);
+  return { a: onWall(pose, ajar, hinge, 0), b: onWall(pose, ajar, ...edge) };
 }
 
 function closestOn({ a, b }: Segment, p: InRoom): InRoom {

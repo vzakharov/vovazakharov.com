@@ -5,14 +5,8 @@ import {
 } from '@/cube/shared/lib/room-shape';
 import type { Vec3 } from '@/cube/shared/lib/vec';
 
-import {
-  doorLeaf,
-  type DoorWall,
-  doorwayWall,
-  EXIT,
-  isSameWall,
-  type Sides,
-} from './doorway';
+import { doorLeaf } from './door';
+import { doorwayWall, EXIT, isSameWall, type Sides } from './doorway';
 import { eastKind, isPassable, southKind } from './doorways';
 import { type Footprint, footprint, placed, slabHeight } from './frame';
 import { holeMiddle, type HoleOf, type Quarter, QUARTERS, under } from './hole';
@@ -23,6 +17,7 @@ import { type InRoomOf, isRoom, type Room, roomKey, roomsAcross } from './room';
 import type { View } from './rooms';
 import { inPlace } from './setting';
 import { shelfSeen } from './shelf';
+import type { DoorWall } from './wall-frame';
 
 /** A hole's side, in its room's side; it sits in the middle of its quarter. */
 export const HOLE_SIDE = 0.08;

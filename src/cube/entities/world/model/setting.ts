@@ -1,6 +1,7 @@
 import type { Sides, Walled } from '@/cube/shared/lib/sides';
 import type { Vec3 } from '@/cube/shared/lib/vec';
 
+import { type Doored, doorSides } from './doorway';
 import type { Placed } from './frame';
 import type { Quarter } from './hole';
 import type { Quad } from './quad';
@@ -20,6 +21,11 @@ import type { Walls } from './walls';
  */
 export type Setting = InRoomOf &
   Walled & {
+    /**
+     * Which of its closed sides hold a door, whose doorway and the swing of
+     * whose leaf stay clear.
+     */
+    doors: Sides;
     /** The quarter of the floor the room's hole is in, null where it has none. */
     hole: Quarter | null;
     /** The word to roll what stands in the room from. */
@@ -38,13 +44,19 @@ export function closedSides(walls: Walls, room: Room): Sides {
 }
 
 export const settingOf = (
-  walls: Walls,
+  walls: Doored,
   rolled: RolledTraits,
   room: Room,
   hole: Quarter | null,
 ): Setting => {
   const { grain } = rolled.room.at(room);
-  return { room, closed: closedSides(walls, room), hole, grain };
+  return {
+    room,
+    closed: closedSides(walls, room),
+    doors: doorSides(walls, room),
+    hole,
+    grain,
+  };
 };
 
 /** `quads`, set in a room's own frame, standing where the eye's frame has it. */

@@ -21,7 +21,6 @@ export const CUT_PAPER: FloorTheme = {
     { thing: 'potted-plant', perRoom: 0.5 },
     { thing: 'floor-lamp', perRoom: 0.3 },
     { thing: 'balloon', perRoom: 0.2 },
-    { thing: 'door', perRoom: 0.4 },
   ],
   shader: CUT_PAPER_SHADER,
 };

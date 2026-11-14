@@ -8,7 +8,7 @@ import { RECEPTION_SHRUBS } from '@/cube/entities/theme/index.test-only';
 import {
   holesOf,
   maze,
-  mazeWalls,
+  mazeDoored,
   planted,
   type Room,
   settingOf,
@@ -39,7 +39,7 @@ const crownOf = (draw: number): number =>
 async function corners() {
   const holeOf = await holesOf(planted, [FLOOR_ONE]);
   const setting = settingOf(
-    mazeWalls(maze(planted.seed)),
+    mazeDoored(maze(planted.seed)),
     traits(planted.seed),
     FLOOR_ONE,
     holeOf(FLOOR_ONE),

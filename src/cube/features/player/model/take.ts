@@ -33,7 +33,7 @@ export const PILL_REACH = 0.2;
 const TAKE_GAZE = Math.PI / 3;
 
 /** The yaw from `pose` to `shelf`'s pill, and how far off it is across the floor. */
-function bearing(pose: Pose, shelf: Shelf) {
+export function bearing(pose: Pose, shelf: Shelf) {
   const [u, , v] = pillOn(shelf).centre;
   const [du, dv] = [u - pose.u, v - pose.v];
   return { yaw: Math.atan2(dv, du), away: Math.hypot(du, dv) };

@@ -1,9 +1,9 @@
+import type { Doored } from './doorway';
 import { walledRooms } from './geometry';
 import { type HoleOf, under } from './hole';
 import { type SignMount, wallMount } from './mount';
 import { type InRoomOf, type Room, roomKey } from './room';
 import { parent, type View } from './rooms';
-import type { Walls } from './walls';
 
 /**
  * Whether `room` is the one the floor above's hole drops a body into; `holeOf`
@@ -21,7 +21,7 @@ export type Landing = InRoomOf & { mount: SignMount };
 
 /** The landing rooms among those whose walls `view` draws. */
 export const landingsSeen = (
-  walls: Walls,
+  walls: Doored,
   view: View,
   holeOf: HoleOf,
 ): Landing[] =>

@@ -89,8 +89,12 @@ function column(x0: number, z0: number, x1: number, z1: number): Bounds {
 /** How far to either side of the doorway nothing is, clear of its jambs. */
 const JAMB = 0.03;
 
-/** The way in through floor 1's doorway, jambs and all, as deep as a walkway. */
-function threshold(): Bounds {
+/**
+ * The way through a doorway in the wall on `side`, jambs and all, as deep as
+ * a walkway — deeper than a door's leaf is wide, so its swing is clear too.
+ * Every doorway is cut where floor 1's is along its wall.
+ */
+function threshold(side: WallSide): Bounds {
   const from = ROOM_DOORWAY.from / ROOM_METRES - JAMB;
   const to = ROOM_DOORWAY.to / ROOM_METRES + JAMB;
   const inside: Record<WallSide, Bounds> = {
@@ -99,8 +103,11 @@ function threshold(): Bounds {
     west: column(0, from, WALKWAY, to),
     north: column(from, 0, to, WALKWAY),
   };
-  return inside[ROOM_DOORWAY.wall];
+  return inside[side];
 }
+
+/** The room's sides in the order of `Sides`. */
+const WALL_SIDES = ['east', 'south', 'west', 'north'] as const satisfies readonly WallSide[];
 
 /** The same box seen from the room's side `side`, where it lies along the east. */
 function turned({ least, most }: Bounds, side: number): Bounds {
@@ -119,22 +126,28 @@ function turned({ least, most }: Bounds, side: number): Bounds {
  * else on its north or south wall, else on a post in that corner — the choice
  * `shelfOf` makes, read off the setting's sides.
  */
-export function shelfSpot({ hole, closed }: Setting): [number, number] | null {
+export function shelfSpot({
+  hole,
+  closed,
+  doors,
+}: Setting): [number, number] | null {
   if (hole === null) return null;
   const { u, v } = holeMiddle(hole);
-  const [east, south, west, north] = closed;
-  if (hole.qx === 0 ? west : east) return [hole.qx, v];
-  if (hole.qy === 0 ? north : south) return [u, hole.qy];
+  // A wall holding a door backs no shelf: `shelfOf`'s rule.
+  const plain = (side: 0 | 1 | 2 | 3) => closed[side] && !doors[side];
+  if (plain(hole.qx === 0 ? 2 : 0)) return [hole.qx, v];
+  if (plain(hole.qy === 0 ? 3 : 1)) return [u, hole.qy];
   return [hole.qx, hole.qy];
 }
 
 /**
  * Everything of `setting`'s room that nothing may stand in: the walkway
- * along each open side, the way in through floor 1's doorway, round the hole
- * and the shelf, and in front of where each closed wall's signs hang.
+ * along each open side, the way through each door and floor 1's doorway,
+ * round the hole and the shelf, and in front of where each closed wall's
+ * signs hang.
  */
 export function clearZones(setting: Setting): Bounds[] {
-  const { hole, closed, room } = setting;
+  const { hole, closed, doors, room } = setting;
   const round = (x: number, z: number, reach: number): Bounds =>
     column(x - reach, z - reach, x + reach, z + reach);
   const shelf = shelfSpot(setting);
@@ -154,6 +167,7 @@ export function clearZones(setting: Setting): Bounds[] {
       ? []
       : [round(holeMiddle(hole).u, holeMiddle(hole).v, HOLE_SIDE / 2 + REACH)]),
     ...(shelf === null ? [] : [round(shelf[0], shelf[1], REACH)]),
-    ...(room.n === 1 ? [threshold()] : []),
+    ...WALL_SIDES.filter((_, side) => doors[side] === true).map((side) => threshold(side)),
+    ...(room.n === 1 ? [threshold(ROOM_DOORWAY.wall)] : []),
   ];
 }
