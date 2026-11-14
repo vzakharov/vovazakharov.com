@@ -10,17 +10,20 @@ import {
   type SignKind,
   type SignMount,
 } from '@/cube/entities/world';
+import type { Said } from '@/cube/features/player';
 
+import type COPY from '../config/messages/en.json';
 import { PLAY_QUERY } from '../lib/play';
 import { startOf } from '../lib/start';
 import classes from './cube.module.scss';
 import type { Selling } from './cube-mesh';
-import type { CubeScene } from './cube-scene';
 import { FrameRate } from './frame-rate';
 import type { PillCopy, PillPrompt } from './pill-prompt';
 import type { QualityWay } from './quality';
 import { SaleOffer } from './sale-offer';
-import { walk, type Way } from './walk';
+import { TouchControls } from './touch-controls';
+import { useTouchScreen } from './touch-screen';
+import { type Walk, walk, type Way } from './walk';
 
 type CubeCanvasProps = {
   /** The canvas's accessible name. */
@@ -37,6 +40,10 @@ type CubeCanvasProps = {
   pill: PillCopy;
   /** A for-sale room's sign, hint and offer. */
   offer: Selling['copy'];
+  /** The hints a touch screen words as taps, in place of the keys'. */
+  tapped: (typeof COPY)['tapped'];
+  /** What each part of a touch screen does, shown a while on one. */
+  controls: (typeof COPY)['controls'];
 };
 
 /** The canvas the cube draws into, filling the viewport. */
@@ -48,6 +55,8 @@ export function CubeCanvas({
   ways,
   pill: pillCopy,
   offer: offerCopy,
+  tapped,
+  controls,
 }: CubeCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [failure, setFailure] = useState<Error | null>(null);
@@ -61,6 +70,11 @@ export function CubeCanvas({
   /** What a press does where the body stands, a sign in reach aside. */
   const [way, setWay] = useState<Way | QualityWay | null>(null);
   const [pill, setPill] = useState<PillPrompt | null>(null);
+  const touch = useTouchScreen();
+  /** Whether a touch screen's controls have been shown their while. */
+  const [toldControls, setToldControls] = useState(false);
+  /** Whether the body answers the controls: awake, and no scene playing. */
+  const [free, setFree] = useState(false);
   /** Whether an offer is open, read by every frame. */
   const offeringRef = useRef(false);
   const [offer, setOffer] = useState<Signed | null>(null);
@@ -69,7 +83,7 @@ export function CubeCanvas({
    * page's life alone, the purchase being a demo that charges nothing.
    */
   const holdingsRef = useRef(new Map<string, SignMount>());
-  const sceneRef = useRef<CubeScene | null>(null);
+  const sceneRef = useRef<Walk | null>(null);
   // Stable, so the meter's window does not restart on every render here.
   const passTimes = useCallback(
     () => sceneRef.current?.passTimes() ?? null,
@@ -94,6 +108,19 @@ export function CubeCanvas({
     sceneRef.current?.refresh();
     setOffer({ room, sign: { ...sign, kind: 'yours' } });
   };
+
+  /** A question's answer as a button, named by its key or, on a touch screen, by what it does. */
+  const answerKey = (said: Said, key: string) => (
+    <button
+      type="button"
+      className={classes['key']}
+      onClick={() => {
+        sceneRef.current?.answer(said);
+      }}
+    >
+      {key}
+    </button>
+  );
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -121,6 +148,7 @@ export function CubeCanvas({
               setWay(sceneRef.current?.hinted(next) ?? next);
             },
             setPill,
+            setFree,
             open: (signed) => {
               offeringRef.current = true;
               setOffer(signed);
@@ -139,6 +167,14 @@ export function CubeCanvas({
 
   if (lost) return <p className={classes['notice']}>{nowhere}</p>;
   if (missing) return <p className={classes['notice']}>{unsupported}</p>;
+  // A phone has no Shift, so the run's key goes untold on one.
+  const hints = touch
+    ? {
+        ways: { ...ways, ...tapped.ways, run: '' },
+        pill: { ...pillCopy, ...tapped.pill },
+        offer: { ...offerCopy, ...tapped.offer },
+      }
+    : { ways, pill: pillCopy, offer: offerCopy };
   return (
     <>
       <canvas
@@ -154,18 +190,31 @@ export function CubeCanvas({
       )}
       <FrameRate {...{ passTimes, timing }} />
       <p className={classes['hint']} aria-live="polite">
-        {pill === null
-          ? offer === null
-            ? inReach === 'yours'
-              ? offerCopy.hintYours
-              : inReach === null
-                ? way === null
-                  ? ''
-                  : ways[way]
-                : offerCopy.hint
-            : ''
-          : pillCopy[pill]}
+        {pill === 'ask'
+          ? fillSlots(hints.pill.ask, {
+              yes: answerKey('yes', touch ? tapped.answers.yes : 'Y'),
+              no: answerKey('no', touch ? tapped.answers.no : 'N'),
+            })
+          : pill === null
+            ? offer === null
+              ? inReach === 'yours'
+                ? hints.offer.hintYours
+                : inReach === null
+                  ? way === null
+                    ? ''
+                    : hints.ways[way]
+                  : hints.offer.hint
+              : ''
+            : hints.pill[pill]}
       </p>
+      {touch && !toldControls && free && (
+        <TouchControls
+          copy={controls}
+          onShown={() => {
+            setToldControls(true);
+          }}
+        />
+      )}
       <SaleOffer
         {...{ offer }}
         onBuy={buy}

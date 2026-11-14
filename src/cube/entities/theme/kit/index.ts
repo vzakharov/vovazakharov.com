@@ -2,7 +2,7 @@ export { CORE } from './lib/core';
 export { FINISH } from './lib/finish.shader.generated';
 export { GRADE } from './lib/grade.shader.generated';
 export { HONEYCOMB } from './lib/honeycomb.shader.generated';
-export { type Exposed } from './lib/lens';
+export { type Exposed, type Vignetted } from './lib/lens';
 export { LIGHT } from './lib/light.shader.generated';
 export { LUMA } from './lib/luma.shader.generated';
 export { MATH } from './lib/math.shader.generated';

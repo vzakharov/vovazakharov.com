@@ -30,6 +30,19 @@ export const TURN_RATE = Math.PI / 2;
 /** Radians a second a held tilt key tilts the eye: 60°/s. */
 export const TILT_RATE = Math.PI / 3;
 
+/** What can be said to a question the body is asked. */
+export type Said = 'yes' | 'no';
+
+/** The part of a frame's `Input` a finger can give as well as the keys. */
+export type Touched = {
+  walk: number;
+  strafe: number;
+  yawBy: number;
+  elevationBy: number;
+  running: boolean;
+  use: boolean;
+};
+
 /**
  * One frame's controls. `walk` (forward), `strafe` (rightward), `turnKeys`
  * (rightward) and `tiltKeys` (upward) are in `[-1, 1]` — keys give -1, 0 or
@@ -41,16 +54,10 @@ export const TILT_RATE = Math.PI / 3;
  * since the last frame, `answer` what was said to a question since then, and
  * `goTo` the floor asked for by its number, null when none was.
  */
-export type Input = {
-  walk: number;
-  strafe: number;
+export type Input = Touched & {
   turnKeys: number;
   tiltKeys: number;
-  yawBy: number;
-  elevationBy: number;
-  running: boolean;
-  use: boolean;
-  answer: 'yes' | 'no' | null;
+  answer: Said | null;
   goTo: number | null;
 };
 

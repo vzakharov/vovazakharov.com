@@ -38,8 +38,8 @@ import { FAR } from '../lib/camera';
 import { formatPrice } from '../lib/figures';
 import { pack, type RoomLook, type Scenery } from '../lib/mesh';
 import { roomLooks } from '../lib/room-look';
+import type { Boards } from './board-textures';
 import { drawPoster, POSTER } from './poster-board';
-import type { Boards } from './renderer';
 import { drawBoard } from './sign-board';
 
 type LookOf = (room: Room) => RoomLook;

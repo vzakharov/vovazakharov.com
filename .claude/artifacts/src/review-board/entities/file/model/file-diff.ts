@@ -29,7 +29,13 @@ export type FileDiff =
       /** Null for a file with no known grammar, or a side past the highlighting budget. */
       syntax: () => DiffSyntax | null;
     }
-  | { kind: "binary"; fromSize: number | null; toSize: number | null };
+  | {
+      kind: "binary";
+      fromSize: number | null;
+      toSize: number | null;
+      /** The picture at the range's `to` as a `data:` URI; null for a non-image or a version the payload does not carry. */
+      image: string | null;
+    };
 
 // A side this long is shown plain: highlighting it would stall the page.
 const MAX_HIGHLIGHT_CHARS = 500_000;
@@ -92,6 +98,7 @@ export function fileDiff(
       kind: "binary",
       fromSize: sizeAt(range.from),
       toSize: sizeAt(range.to),
+      image: range.toBlob === null ? null : (data.images[range.toBlob] ?? null),
     };
   }
   const key = `${range.fromBlob ?? "-"}|${range.toBlob ?? "-"}|${ignoreWhitespace}`;

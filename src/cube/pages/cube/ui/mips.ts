@@ -2,12 +2,16 @@
 
 import { cover } from './bloom';
 import { HALVE_SHADER } from './reflection-shader';
+import { type Repeat, UNREPEATED } from './slowdown';
 
 /** A texture's mip levels, each viewed alone, the first the one drawn into. */
 export type MipChain = {
   levels: GPUTextureView[];
-  /** Records the passes that fill each level but the first from the one above. */
-  fill: (encoder: GPUCommandEncoder) => void;
+  /**
+   * Records the passes that fill each level but the first from the one
+   * above, as `repeat` encodes them.
+   */
+  fill: (encoder: GPUCommandEncoder, repeat?: Repeat) => void;
 };
 
 /** `texture`'s chain; the texture must be a render attachment of `format`. */
@@ -38,6 +42,8 @@ export function createHalver(
     );
     const halving = levels.slice(1).map((into, index) => ({
       into,
+      width: Math.max(1, texture.width >> (index + 1)),
+      height: Math.max(1, texture.height >> (index + 1)),
       read: device.createBindGroup({
         layout: halve.getBindGroupLayout(0),
         entries: [
@@ -48,8 +54,12 @@ export function createHalver(
     }));
     return {
       levels,
-      fill: (encoder) => {
-        for (const { into, read } of halving) cover(encoder, halve, read, into);
+      fill: (encoder, repeat = UNREPEATED) => {
+        for (const { into, read, width, height } of halving) {
+          cover(encoder, halve, read, into, {
+            scissored: { repeat, width, height },
+          });
+        }
       },
     };
   };

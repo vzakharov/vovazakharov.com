@@ -1,56 +1,47 @@
 /// <reference types="@webgpu/types" />
 
+import { pick } from '@/kernel/shared/lib/collections';
 import { asError } from '@/kernel/shared/lib/error-class';
-import type { CanDispose, Sized, WithId } from '@/kernel/shared/typings';
+import type { CanDispose } from '@/kernel/shared/typings';
 
 import { SUN_DIR } from '@/cube/shared/cube-boundary';
 import type { SeenAt } from '@/cube/shared/lib/clock';
-import type { Rgb } from '@/cube/shared/lib/colour';
 import type { Seen } from '@/cube/shared/lib/vec';
 import type { Laddered } from '@/cube/entities/island';
-import { createOutdoors, type Outdoors } from '@/cube/widgets/outdoors';
 
 import { inverse } from '../lib/matrix';
 import type { FloorRange, Scenery } from '../lib/mesh';
 import type { OutsideLens } from '../lib/outside-lens';
-import { UNIFORM_FLOATS } from '../lib/shader';
+import { createUniforms, uniformsOf } from '../lib/uniforms';
 import { createBloom } from './bloom';
+import { type Boards, createBoardTextures } from './board-textures';
+import { createDrowsyEye, type Drowsing } from './drowsy-eye';
+import { outsideOnce } from './outside';
 import { createPassTimer, type Timed, timedOf } from './pass-timer';
-import {
-  createPrograms,
-  DEPTH_FORMAT,
-  type Preparing,
-  SCENE_TARGETS,
-} from './programs';
+import { createPrograms, type Preparing } from './programs';
 import { createReflection } from './reflection';
+import { beginScene, type Cleared, createDepthTarget } from './scene-pass';
+import { beginRepeat, encodeRepeats } from './slowdown';
+import { createUnderlay } from './underlay';
 
 /** What one frame is seen from and when, and what shows where nothing is. */
-type Shot = SeenAt & {
-  /** Scene light, as the faces are lit. */
-  clear: Rgb;
-  /**
-   * The lens the frame is seen through: a floor's, which must be prepared, or
-   * the outside's as it is set for this frame, the outside prepared.
-   */
-  lens: number | OutsideLens;
-  /**
-   * The same view of the world frame, where the frame shows the outside, which
-   * must be prepared; null where it shows the cube's inside alone.
-   */
-  outdoors: (Seen & Laddered) | null;
-  /** The share of the screen's own resolution the canvas holds, 1 at most. */
-  detail: number;
-};
-
-/**
- * Faces of one floor sharing one texture: `scenery` holds them, and `image`
- * is drawn once per `id`, the first time the id is uploaded since an upload
- * without it.
- */
-export type Boards = WithId & {
-  image: () => GPUCopyExternalImageSource & { width: number; height: number };
-  scenery: Scenery;
-};
+type Shot = SeenAt &
+  Cleared & {
+    /**
+     * The lens the frame is seen through: a floor's, which must be prepared, or
+     * the outside's as it is set for this frame, the outside prepared.
+     */
+    lens: number | OutsideLens;
+    /**
+     * The same view of the world frame, where the frame shows the outside, which
+     * must be prepared; null where it shows the cube's inside alone.
+     */
+    outdoors: (Seen & Laddered) | null;
+    /** The share of the screen's own resolution the canvas holds, 1 at most. */
+    detail: number;
+    /** Whether the body is out of doors, waking: the rooms then drowse too. */
+    waking: boolean;
+  };
 
 /** What draws frames until it is disposed, timing them where the GPU can. */
 export type Drawing = CanDispose & Timed;
@@ -77,12 +68,6 @@ export type Renderer = Drawing &
     /** The adapter's vendor and architecture. */
     readonly adapter: string;
   };
-
-/** How far off the scene's `a` says the air is, where no face is drawn. */
-const NOWHERE = 1e4;
-
-/** The depth a frame is drawn through, remade when the canvas changes size. */
-type Targets = Sized & { depth: GPUTexture };
 
 /** A run of a vertex buffer and the pipeline that draws it. */
 type Run = FloorRange & { pipeline: GPURenderPipeline };
@@ -133,34 +118,11 @@ export async function createRenderer(
     outsideLens,
     of: programOf,
   } = createPrograms(device, format, sourceOf);
-  /** The outside's layers and lens, once `prepareOutside` has made them. */
-  let outside: { layers: Outdoors; lens: GPURenderPipeline } | null = null;
-  let preparingOutside: Promise<void> | null = null;
-  const makeOutside = async (): Promise<void> => {
-    const [layers, lens] = await Promise.all([
-      createOutdoors(device, {
-        targets: SCENE_TARGETS,
-        depthFormat: DEPTH_FORMAT,
-      }),
-      outsideLens(),
-    ]);
-    outside = { layers, lens };
-  };
-  const outsideMade = (): NonNullable<typeof outside> => {
-    if (outside === null) {
-      throw new Error('The outside is drawn before it was prepared');
-    }
-    return outside;
-  };
+  const outside = outsideOnce(device, outsideLens);
 
-  const uniforms = device.createBuffer({
-    size: UNIFORM_FLOATS * 4,
-    usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
-  });
-  const uniformGroup = device.createBindGroup({
-    layout: layouts.uniform,
-    entries: [{ binding: 0, resource: { buffer: uniforms } }],
-  });
+  /** The frame's uniforms, as the lens reads them and as the low pass does. */
+  const wholeUniforms = createUniforms(device, layouts.uniform);
+  const lowUniforms = createUniforms(device, layouts.uniform);
   const sampler = device.createSampler({
     magFilter: 'linear',
     minFilter: 'linear',
@@ -188,63 +150,31 @@ export async function createRenderer(
   let rooms: Drawn | null = null;
   let moving: Drawn | null = null;
   let boards: Array<Drawn & { group: GPUBindGroup }> = [];
-  let targets: Targets | null = null;
   const bloom = createBloom(device);
+  /** The scene pass's targets, and the rooms' drawn whole over the outside. */
   const reflection = createReflection(device);
-  /** Each board texture by its id, and the bind group sampling it. */
-  const textures = new Map<
-    string,
-    { texture: GPUTexture; group: GPUBindGroup }
-  >();
-
-  const textureOf = ({ id, image }: Boards): GPUBindGroup => {
-    const known = textures.get(id);
-    if (known !== undefined) return known.group;
-    const source = image();
-    const texture = device.createTexture({
-      size: [source.width, source.height],
-      format: 'rgba8unorm',
-      usage:
-        GPUTextureUsage.TEXTURE_BINDING |
-        GPUTextureUsage.COPY_DST |
-        GPUTextureUsage.RENDER_ATTACHMENT,
-    });
-    device.queue.copyExternalImageToTexture({ source }, { texture }, [
-      source.width,
-      source.height,
-    ]);
-    const group = device.createBindGroup({
-      layout: layouts.board,
-      entries: [
-        { binding: 0, resource: texture.createView() },
-        { binding: 1, resource: sampler },
-      ],
-    });
-    textures.set(id, { texture, group });
-    return group;
-  };
-
-  const targetsOf = (): Targets => {
-    const { width, height } = canvas;
-    if (targets?.width === width && targets.height === height) return targets;
-    targets?.depth.destroy();
-    targets = {
-      width,
-      height,
-      depth: device.createTexture({
-        size: [width, height],
-        format: DEPTH_FORMAT,
-        usage: GPUTextureUsage.RENDER_ATTACHMENT,
-      }),
-    };
-    return targets;
-  };
+  const sharp = createReflection(device);
+  const depth = createDepthTarget(device);
+  const sharpDepth = createDepthTarget(device);
+  const underlay = createUnderlay(device);
+  const drowsy = createDrowsyEye(device);
+  const textures = createBoardTextures(device, layouts.board, sampler);
 
   const drawRuns = (pass: GPURenderPassEncoder, { buffer, runs }: Drawn) => {
     pass.setVertexBuffer(0, buffer);
     for (const { pipeline, firstVertex, count } of runs) {
       pass.setPipeline(pipeline);
       pass.draw(count, 1, firstVertex);
+    }
+  };
+  /** The rooms, what moves in them and the boards, seen through `group`. */
+  const drawRooms = (pass: GPURenderPassEncoder, group: GPUBindGroup) => {
+    pass.setBindGroup(0, group);
+    if (rooms !== null) drawRuns(pass, rooms);
+    if (moving !== null) drawRuns(pass, moving);
+    for (const board of boards) {
+      pass.setBindGroup(1, board.group);
+      drawRuns(pass, board);
     }
   };
 
@@ -264,23 +194,15 @@ export async function createRenderer(
     uploadBoards: (next) => {
       const made = next.flatMap((board) => {
         const drawn = drawnOf(board.scenery, 'boards');
-        return drawn === null ? [] : [{ ...drawn, group: textureOf(board) }];
+        return drawn === null
+          ? []
+          : [{ ...drawn, group: textures.groupOf(board) }];
       });
       for (const { buffer } of boards) buffer.destroy();
       boards = made;
-      // A texture the boards no longer show goes, so a long walk holds only
-      // the floors in view; one back in view is painted again.
-      const kept = new Set(next.map(({ id }) => id));
-      for (const [id, { texture }] of textures) {
-        if (kept.has(id)) continue;
-        texture.destroy();
-        textures.delete(id);
-      }
+      textures.keepOnly(new Set(next.map(({ id }) => id)));
     },
-    prepareOutside: async () => {
-      preparingOutside ??= makeOutside();
-      return preparingOutside;
-    },
+    prepareOutside: outside.prepare,
     draw: ({
       viewProjection,
       eye,
@@ -288,96 +210,131 @@ export async function createRenderer(
       lens,
       outdoors,
       detail,
+      waking,
       seconds,
       hour,
     }) => {
-      const { width, height, depth } = targetsOf();
+      const full = pick(canvas, 'width', 'height');
+      // Out of doors the eye wakes on all it sees; indoors only the outside,
+      // through the doorway, is drowsy.
+      const drowsing: Drowsing | null =
+        outdoors === null ? null : waking ? 'all' : 'outside';
+      const low = drowsy.lowPass(full, drowsing);
+      // The size the scene and mirrors are drawn at, and the view they are
+      // drawn through: the low pass's where the eye is drowsy.
+      const drawn = low ?? full;
+      const shift = (m: Float32Array): Float32Array => low?.shift(m) ?? m;
       const throughFloor = typeof lens === 'number';
-      const data = new Float32Array(UNIFORM_FLOATS);
-      data.set(viewProjection, 0);
-      data.set([...eye, 1], 16);
-      data.set([seconds, hour, width, height], 20);
-      if (!throughFloor) {
-        data.set([lens.exposure, lens.eyelids, lens.indoors ?? 0], 24);
+      const framing = {
+        seconds,
+        hour,
+        outside: throughFloor ? null : lens,
+      };
+      device.queue.writeBuffer(
+        wholeUniforms.buffer,
+        0,
+        uniformsOf({
+          ...framing,
+          ...full,
+          viewProjection,
+          eye,
+          vignette: drowsy.vignette(),
+        }),
+      );
+      const seen = { viewProjection: shift(viewProjection), eye };
+      if (low !== null) {
+        device.queue.writeBuffer(
+          lowUniforms.buffer,
+          0,
+          uniformsOf({ ...framing, ...low, ...seen, vignette: 0 }),
+        );
       }
-      device.queue.writeBuffer(uniforms, 0, data);
+      const sceneGroup = (low === null ? wholeUniforms : lowUniforms).group;
+      const repeats = drowsy.repeats();
       const stamps = timer?.stamping() === true ? timer : null;
       const encoder = device.createCommandEncoder();
-      const layers = outdoors === null ? null : outsideMade().layers;
+      const layers = outdoors === null ? null : outside.made().layers;
       if (outdoors !== null) {
+        const outdoorsShifted = shift(outdoors.viewProjection);
         layers?.prepare(
           encoder,
           {
             ...outdoors,
-            inverse: inverse(outdoors.viewProjection),
+            viewProjection: outdoorsShifted,
+            inverse: inverse(outdoorsShifted),
             sun: SUN_DIR,
             seconds,
             hour,
-            width,
-            height,
+            ...drawn,
           },
-          detail,
+          low === null ? detail : detail / low.share,
         );
       }
-      const pass = encoder.beginRenderPass({
-        colorAttachments: reflection.attachments(width, height, {
-          r: clear[0],
-          g: clear[1],
-          b: clear[2],
-          a: NOWHERE,
-        }),
-        depthStencilAttachment: {
-          view: depth.createView(),
-          depthClearValue: 0,
-          depthLoadOp: 'clear',
-          depthStoreOp: 'discard',
-        },
-        ...(stamps === null ? {} : { timestampWrites: stamps.scene }),
+      // The outside alone in the low pass, the rooms drawn whole over it.
+      const split = low?.drowsing === 'outside';
+      const shot = { reflection, depth, clear, size: drawn };
+      encodeRepeats(repeats, (repeat) => {
+        const stamp = stamps?.scene;
+        const pass = beginScene(encoder, { ...shot, stamp }, repeat);
+        layers?.behind(pass);
+        if (!split) drawRooms(pass, sceneGroup);
+        layers?.over(pass);
+        pass.end();
       });
-      layers?.behind(pass);
-      pass.setBindGroup(0, uniformGroup);
-      if (rooms !== null) drawRuns(pass, rooms);
-      if (moving !== null) drawRuns(pass, moving);
-      for (const board of boards) {
-        pass.setBindGroup(1, board.group);
-        drawRuns(pass, board);
-      }
-      layers?.over(pass);
-      pass.end();
-      const sceneView = reflection.run(
-        encoder,
-        { viewProjection, eye },
-        stamps?.mirrors,
+      const lit = encodeRepeats(repeats, (repeat) =>
+        reflection.run(encoder, seen, stamps?.mirrors, repeat),
       );
-      const glow = bloom.run(encoder, sceneView, width, height);
-      const framed = encoder.beginRenderPass({
-        colorAttachments: [
-          {
-            view: context.getCurrentTexture().createView(),
-            loadOp: 'clear',
-            storeOp: 'store',
-          },
+      const whole = { viewProjection, eye };
+      const resolved =
+        low === null
+          ? lit
+          : drowsy.resolve(encoder, lit, whole, stamps?.resolve);
+      const sharpShot = { reflection: sharp, depth: sharpDepth, size: full };
+      const sceneView = split
+        ? encodeRepeats(repeats, (repeat) => {
+            const pass = beginScene(encoder, { ...sharpShot, clear }, repeat);
+            underlay.draw(pass, resolved, whole, full);
+            drawRooms(pass, wholeUniforms.group);
+            pass.end();
+            return sharp.run(encoder, whole, undefined, repeat);
+          })
+        : resolved;
+      const glow = encodeRepeats(repeats, (repeat) =>
+        bloom.run(encoder, sceneView, full.width, full.height, repeat),
+      );
+      const lensGroup = device.createBindGroup({
+        layout: layouts.lens,
+        entries: [
+          { binding: 2, resource: sceneView },
+          { binding: 3, resource: glow },
+          { binding: 4, resource: sampler },
         ],
-        ...(stamps === null ? {} : { timestampWrites: stamps.lens }),
       });
-      framed.setPipeline(
-        throughFloor ? programOf(lens).lens : outsideMade().lens,
-      );
-      framed.setBindGroup(0, uniformGroup);
-      framed.setBindGroup(
-        1,
-        device.createBindGroup({
-          layout: layouts.lens,
-          entries: [
-            { binding: 2, resource: sceneView },
-            { binding: 3, resource: glow },
-            { binding: 4, resource: sampler },
-          ],
-        }),
-      );
-      framed.draw(3);
-      framed.end();
-      stamps?.resolve(encoder);
+      encodeRepeats(repeats, (repeat) => {
+        const framed = beginRepeat(
+          encoder,
+          {
+            colorAttachments: [
+              {
+                view: context.getCurrentTexture().createView(),
+                loadOp: 'clear',
+                storeOp: 'store',
+              },
+            ],
+            ...(stamps === null ? {} : { timestampWrites: stamps.lens }),
+          },
+          repeat,
+          full,
+        );
+        framed.setPipeline(
+          throughFloor ? programOf(lens).lens : outside.made().lens,
+        );
+        framed.setBindGroup(0, wholeUniforms.group);
+        framed.setBindGroup(1, lensGroup);
+        framed.draw(3);
+        framed.end();
+      });
+      stamps?.copy(encoder, low !== null);
       device.queue.submit([encoder.finish()]);
       stamps?.read();
     },
@@ -385,14 +342,20 @@ export async function createRenderer(
     ...timedOf(timer),
     dispose: () => {
       timer?.dispose();
-      outside?.layers.dispose();
+      outside.dispose();
       rooms?.buffer.destroy();
       moving?.buffer.destroy();
-      targets?.depth.destroy();
+      depth.dispose();
+      sharpDepth.dispose();
       reflection.dispose();
+      sharp.dispose();
+      underlay.dispose();
+      drowsy.dispose();
       bloom.dispose();
+      wholeUniforms.buffer.destroy();
+      lowUniforms.buffer.destroy();
       for (const { buffer } of boards) buffer.destroy();
-      for (const { texture } of textures.values()) texture.destroy();
+      textures.dispose();
       device.destroy();
     },
   };
