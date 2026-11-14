@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 61936,
-    "cacheWrite5mTokens": 431355,
-    "cacheWrite1hTokens": 1092264,
-    "cacheReadTokens": 120921124,
-    "outputTokens": 433361,
-    "thinkingTokens": 142369,
-    "responses": 547,
-    "costUsd": 42.776310499999994
+    "inputTokens": 61944,
+    "cacheWrite5mTokens": 431815,
+    "cacheWrite1hTokens": 1101263,
+    "cacheReadTokens": 121970514,
+    "outputTokens": 437059,
+    "thinkingTokens": 142728,
+    "responses": 551,
+    "costUsd": 43.102459399999994
   },
   "estimate": {
     "at": "2026-11-14T11:01:19.316Z",
@@ -45,7 +45,7 @@
     }
   },
   "sessionId": "beb873c0-6d41-5f37-821a-d0347d5ab591",
-  "branch": "claude/board-frames-ha4w78",
+  "branch": "claude/drowsy-eye-intro-ha4w78",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "проблема: интро куба жутко тормозит сейчас решение: понижать пиксельность рассматриваю следующее креативное решение: не менять пиксельность, но при любом движен…",
   "prs": [
@@ -54,49 +54,49 @@
   "url": "https://claude.ai/code/session_01DaohkEDLi4h9PRuRHgXuPy",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-14T09:45:43.313Z",
-  "lastResponseAt": "2026-11-14T18:19:58.252Z",
+  "lastResponseAt": "2026-11-14T18:20:17.380Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 7.099354800000002,
   "ownTurns": {
-    "inputTokens": 848,
+    "inputTokens": 854,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 1092264,
-    "cacheReadTokens": 102082510,
-    "outputTokens": 360078,
-    "thinkingTokens": 133998,
-    "responses": 434,
-    "costUsd": 36.35956600000001
+    "cacheWrite1hTokens": 1101263,
+    "cacheReadTokens": 102969009,
+    "outputTokens": 362319,
+    "thinkingTokens": 134357,
+    "responses": 437,
+    "costUsd": 36.65370180000001
   },
   "subagents": {
-    "inputTokens": 154,
-    "cacheWrite5mTokens": 414138,
+    "inputTokens": 156,
+    "cacheWrite5mTokens": 414598,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 8546030,
-    "outputTokens": 36759,
+    "cacheReadTokens": 8708921,
+    "outputTokens": 38216,
     "thinkingTokens": 8371,
-    "responses": 72,
-    "costUsd": 3.3786037
+    "responses": 73,
+    "costUsd": 3.4106168
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 33632,
+      "inputTokens": 33638,
       "cacheWrite5mTokens": 268464,
-      "cacheWrite1hTokens": 1092264,
-      "cacheReadTokens": 115766896,
-      "outputTokens": 410202,
-      "thinkingTokens": 137751,
-      "responses": 506,
-      "costUsd": 41.6155342
+      "cacheWrite1hTokens": 1101263,
+      "cacheReadTokens": 116653395,
+      "outputTokens": 412443,
+      "thinkingTokens": 138110,
+      "responses": 509,
+      "costUsd": 41.90967
     },
     "claude-sonnet-5-5/standard": {
-      "inputTokens": 84,
-      "cacheWrite5mTokens": 162891,
+      "inputTokens": 86,
+      "cacheWrite5mTokens": 163351,
       "cacheWrite1hTokens": 0,
-      "cacheReadTokens": 5154228,
-      "outputTokens": 21427,
+      "cacheReadTokens": 5317119,
+      "outputTokens": 22884,
       "thinkingTokens": 4618,
-      "responses": 39,
-      "costUsd": 1.1370883000000003
+      "responses": 40,
+      "costUsd": 1.1691014000000002
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 28220,
@@ -202,16 +202,16 @@
           "Read": 5
         },
         "estimatedTokens": 6945,
-        "estimatedUsd": 0.1820978
+        "estimatedUsd": 0.1862648
       },
       "billedUsd": 0.2797308
     }
   ],
   "telemetry": {
-    "events": 546,
-    "matched": 505,
-    "matchedTableUsd": 39.66725929999999,
-    "matchedEventUsd": 39.66725929999999,
+    "events": 550,
+    "matched": 509,
+    "matchedTableUsd": 39.97335499999999,
+    "matchedEventUsd": 39.97335499999999,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 17204,
@@ -253,11 +253,11 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
+    ".scss": 100,
+    ".ts": 1655,
     ".md": 561,
     ".json": 56,
-    ".ts": 1449,
     ".wgsl": 208,
-    ".tsx": 75,
-    ".scss": 92
+    ".tsx": 75
   }
 }
