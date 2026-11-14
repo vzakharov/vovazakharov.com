@@ -6,6 +6,7 @@ import type {
   ReviewFile,
 } from "#src/review-board/shared/review-data/index.ts";
 import { FOCUS_PATH, lineCount, parseFocus } from "./focus.ts";
+import { CHECK_GENERATED, generatedPaths } from "./generated.ts";
 
 interface CollectOptions {
   cwd: string;
@@ -363,9 +364,12 @@ export function collect({ cwd, base }: CollectOptions): ReviewData {
   const baseRef = resolveBaseRef(cwd, base, pr);
   const baseSha = resolveBaseSha(cwd, baseRef);
   // The focus file is about the review, not part of it.
-  const changes = readChanges(cwd, baseSha).filter(
+  const changed = readChanges(cwd, baseSha).filter(
     (change) => change.path !== FOCUS_PATH,
   );
+  const paths = changed.map((change) => change.path).join("\0");
+  const generated = generatedPaths(gitText(cwd, CHECK_GENERATED, paths));
+  const changes = changed.filter((change) => !generated.has(change.path));
   const binary = readBinaryPaths(cwd, baseSha);
   const revisions = readRevisions(cwd, baseSha, changes);
 

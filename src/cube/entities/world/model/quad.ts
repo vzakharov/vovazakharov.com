@@ -1,8 +1,7 @@
 import type { Surface } from '@/cube/shared/lib/surface';
+import { cross3, moved, unit3, type Vec3 } from '@/cube/shared/lib/vec';
 
 import type { InRoomOf, Room } from './room';
-
-export type Vec3 = readonly [number, number, number];
 
 type Four<T> = readonly [T, T, T, T];
 
@@ -26,37 +25,9 @@ export type Quad = Facet & Stuff;
 
 export const UP: Vec3 = [0, 1, 0];
 
-export const cross = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
-  ay * bz - az * by,
-  az * bx - ax * bz,
-  ax * by - ay * bx,
-];
+export const plus = (a: Vec3, b: Vec3): Vec3 => moved(a, b);
 
-export const dot = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): number =>
-  ax * bx + ay * by + az * bz;
-
-export const unit = ([x, y, z]: Vec3): Vec3 => {
-  const length = Math.hypot(x, y, z);
-  return [x / length, y / length, z / length];
-};
-
-export const plus = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
-  ax + bx,
-  ay + by,
-  az + bz,
-];
-
-export const minus = ([ax, ay, az]: Vec3, [bx, by, bz]: Vec3): Vec3 => [
-  ax - bx,
-  ay - by,
-  az - bz,
-];
-
-export const times = ([x, y, z]: Vec3, by: number): Vec3 => [
-  x * by,
-  y * by,
-  z * by,
-];
+export const minus = (a: Vec3, b: Vec3): Vec3 => moved(a, b, -1);
 
 /** The parallelogram from `corner` along `a`, then `b`, facing `a × b`. */
 export function facet(corner: Vec3, a: Vec3, b: Vec3, room: Room): Facet {
@@ -67,7 +38,7 @@ export function facet(corner: Vec3, a: Vec3, b: Vec3, room: Room): Facet {
       plus(plus(corner, a), b),
       plus(corner, b),
     ],
-    normal: unit(cross(a, b)),
+    normal: unit3(cross3(a, b)),
     room,
   };
 }

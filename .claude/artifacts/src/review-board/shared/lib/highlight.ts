@@ -1,3 +1,4 @@
+import type { HLJSApi, Language as Grammar } from "highlight.js";
 import hljs from "highlight.js/lib/core";
 import bash from "highlight.js/lib/languages/bash";
 import css from "highlight.js/lib/languages/css";
@@ -17,6 +18,40 @@ import typescript from "highlight.js/lib/languages/typescript";
 import xml from "highlight.js/lib/languages/xml";
 import yaml from "highlight.js/lib/languages/yaml";
 
+/** WGSL, with WESL's `import` paths; highlight.js ships no grammar for either. */
+function wgsl({
+  C_LINE_COMMENT_MODE,
+  C_BLOCK_COMMENT_MODE,
+}: HLJSApi): Grammar {
+  return {
+    name: "WGSL",
+    keywords: {
+      keyword:
+        "alias break case const const_assert continue continuing default diagnostic discard else enable fn for if import let loop override package requires return struct super switch var while",
+      type: "array atomic bool f16 f32 i32 ptr sampler sampler_comparison u32",
+      literal: "false true",
+    },
+    contains: [
+      C_LINE_COMMENT_MODE,
+      C_BLOCK_COMMENT_MODE,
+      { scope: "meta", match: /@\w+/ },
+      {
+        scope: "type",
+        match: /\b(?:vec[234][fhiu]?|mat[234]x[234][fh]?|texture_\w+)\b/,
+      },
+      {
+        scope: "number",
+        match:
+          /\b(?:0[xX][\da-fA-F]+|\d+\.\d*(?:[eE][+-]?\d+)?|\d+(?:[eE][+-]?\d+)?)[fhiu]?\b|\B\.\d+(?:[eE][+-]?\d+)?[fh]?\b/,
+      },
+      {
+        match: [/\b(?:fn|struct)/, /\s+/, /[A-Za-z_]\w*/],
+        scope: { 1: "keyword", 3: "title.function" },
+      },
+    ],
+  };
+}
+
 const LANGUAGES = {
   bash,
   css,
@@ -33,6 +68,7 @@ const LANGUAGES = {
   scss,
   sql,
   typescript,
+  wgsl,
   xml,
   yaml,
 } as const;
@@ -70,6 +106,8 @@ const BY_EXTENSION: Readonly<Record<string, Language>> = {
   toml: "ini",
   ts: "typescript",
   tsx: "typescript",
+  wesl: "wgsl",
+  wgsl: "wgsl",
   xml: "xml",
   yaml: "yaml",
   yml: "yaml",

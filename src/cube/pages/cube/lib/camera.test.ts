@@ -1,9 +1,23 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { Pose, Vec3 } from '@/cube/entities/world';
+import { yawToShell } from '@/cube/shared/cube-boundary';
+import { toCube, toWorld } from '@/cube/entities/island';
+import {
+  eyeInFrame,
+  type Outside,
+  type Pose,
+  type Vec3,
+} from '@/cube/entities/world';
 
-import { forward, viewProjection } from './camera';
+import {
+  forward,
+  gazeInCube,
+  OUTSIDE_FAR,
+  seenInWorld,
+  seenOutside,
+  viewProjection,
+} from './camera';
 
 const pose = (yaw: number, pitch: number): Pose => ({
   n: 1,
@@ -67,5 +81,105 @@ describe('the camera', () => {
     const matrix = viewProjection(pose(0, -0.3), eye, 1, 1);
     const [, y] = project(matrix, [1, 0.32, 0.5]);
     assert.ok(y > 0);
+  });
+
+  it('drops the horizon on the left with a clockwise roll', () => {
+    const eye: Vec3 = [0, 0, 0];
+    const matrix = viewProjection(pose(0, 0), eye, 1, 1, { roll: 0.3 });
+    // Facing east, north is on the left.
+    const [x, y] = project(matrix, [1, 0, -0.2]);
+    assert.ok(x < 0 && y < 0);
+    const [, ahead] = project(matrix, [1, 0, 0]);
+    assert.ok(Math.abs(ahead) < 1e-6);
+  });
+
+  it('puts the far plane where it is told to', () => {
+    const matrix = viewProjection(pose(0, 0), [0, 0, 0], 1, 1, {
+      far: OUTSIDE_FAR,
+    });
+    const depth = (ahead: number) => project(matrix, [ahead, 0, 0])[2];
+    assert.ok(Math.abs(depth(0.004) - 1) < 1e-6);
+    assert.ok(depth(24) > 0);
+    assert.ok(Math.abs(depth(OUTSIDE_FAR)) < 1e-9);
+  });
+
+  it('sees a point of the world where it sees that point of the cube', () => {
+    const eye: Vec3 = [0.5, 0.32, 0.5];
+    const inCube = {
+      viewProjection: viewProjection(pose(0.4, 0.1), eye, 1.6, 1),
+      eye,
+    };
+    const inWorld = seenInWorld(inCube);
+    const point: Vec3 = [1.7, 0.1, 0.9];
+    const there = project(inCube.viewProjection, point);
+    const here = project(inWorld.viewProjection, toWorld(point));
+    for (const [index, value] of there.entries()) {
+      assert.ok(Math.abs(value - (here[index] ?? Number.NaN)) < 1e-4);
+    }
+    assert.deepEqual(inWorld.eye, toWorld(eye));
+  });
+
+  it('sees the same from the doorway as a pose and as an eye outside', () => {
+    for (const scale of [1, 0.5]) {
+      const within: Pose = {
+        ...pose(0.2, -0.4),
+        u: 0.97,
+        v: 0.15,
+        eyeAbove: 0.32 * scale,
+        scale,
+      };
+      const { eye, side } = eyeInFrame(within, within);
+      assert.equal(side, 1);
+      const { u, v, eyeAbove, yaw, elevation } = within;
+      const twin: Outside = {
+        eye: toWorld([u, eyeAbove, v]),
+        yaw: yawToShell(yaw),
+        elevation,
+        roll: 0,
+      };
+      const far = { far: OUTSIDE_FAR };
+      const inside = viewProjection(within, eye, 1.6, side * scale, far);
+      const out = viewProjection(
+        gazeInCube(twin),
+        toCube(twin.eye),
+        1.6,
+        1,
+        far,
+      );
+      for (const point of [
+        [3, 0.1, 0.4],
+        [40, -0.3, -12],
+      ] satisfies Vec3[]) {
+        const [x, y] = project(inside, point);
+        const [alsoX, alsoY] = project(out, point);
+        assert.ok(Math.abs(x - alsoX) < 1e-6 && Math.abs(y - alsoY) < 1e-6);
+      }
+    }
+  });
+
+  it('sees the same of the world from an eye outside as the cube frame shows of itself', () => {
+    const outside: Outside = {
+      eye: [-16, 1.4, 12],
+      yaw: -0.6,
+      elevation: 0.14,
+      roll: 0.05,
+    };
+    const { eye, roll } = outside;
+    const inCube = viewProjection(gazeInCube(outside), toCube(eye), 1.6, 1, {
+      roll,
+      far: OUTSIDE_FAR,
+    });
+    const inWorld = seenOutside(outside, 1.6);
+    assert.deepEqual(inWorld.eye, eye);
+    for (const point of [
+      [0.5, 0.2, 0.5],
+      [9, -0.1, -3],
+    ] satisfies Vec3[]) {
+      const there = project(inCube, point);
+      const here = project(inWorld.viewProjection, toWorld(point));
+      for (const [index, value] of there.entries()) {
+        assert.ok(Math.abs(value - (here[index] ?? Number.NaN)) < 1e-4);
+      }
+    }
   });
 });

@@ -3,13 +3,13 @@
 import type { CanDispose, Sized } from '@/kernel/shared/typings';
 
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
-import type { Vec3 } from '@/cube/entities/world';
+import type { Seen } from '@/cube/shared/lib/vec';
 
 import { inverse } from '../lib/matrix';
 import { cover, SCENE_FORMAT } from './bloom';
+import { createHalver, type MipChain } from './mips';
 import {
   BLUR_LEVELS,
-  HALVE_SHADER,
   REFLECTION_SHADER,
   VIEW_FLOATS,
 } from './reflection-shader';
@@ -22,14 +22,6 @@ export const MIRROR_FORMATS = [
   'rgba16float',
   'rgba16float',
 ] as const satisfies readonly GPUTextureFormat[];
-
-/** Where the scene is seen from, as the reflections need it. */
-export type Seen = {
-  /** Column-major. */
-  viewProjection: Float32Array;
-  /** The eye, in its own frame. */
-  eye: Vec3;
-};
 
 export type Reflection = CanDispose & {
   /**
@@ -45,19 +37,22 @@ export type Reflection = CanDispose & {
    * Records the passes that fill the mirrors of the scene last drawn into
    * `attachments`, seen as `seen`, and gives back the view of the frame they
    * end in: the scene's light, mirrors filled, and its depth as the scene had.
+   * `stamp` is written by the last of them.
    */
-  run: (encoder: GPUCommandEncoder, seen: Seen) => GPUTextureView;
+  run: (
+    encoder: GPUCommandEncoder,
+    seen: Seen,
+    stamp?: GPURenderPassTimestampWrites,
+  ) => GPUTextureView;
 };
 
 type Frame = Sized & {
   textures: GPUTexture[];
-  /** The scene's levels, each viewed alone; the first is what is drawn into. */
-  levels: GPUTextureView[];
+  /** The scene and its blur levels; the first level is what is drawn into. */
+  chain: MipChain;
   mirror: GPUTextureView;
   plane: GPUTextureView;
   lit: GPUTextureView;
-  /** Each level but the first, read from the one above it. */
-  halving: Array<{ into: GPUTextureView; read: GPUBindGroup }>;
   reflecting: GPUBindGroup;
 };
 
@@ -80,7 +75,7 @@ const covering = (
 };
 
 export function createReflection(device: GPUDevice): Reflection {
-  const halve = covering(device, HALVE_SHADER, 'halveMain');
+  const halver = createHalver(device, SCENE_FORMAT);
   const reflect = covering(device, REFLECTION_SHADER, 'reflectionMain');
   const linear = device.createSampler({
     magFilter: 'linear',
@@ -119,30 +114,16 @@ export function createReflection(device: GPUDevice): Reflection {
     const mirror = target(width, height, mirrorFormat);
     const plane = target(width, height, planeFormat);
     const lit = target(width, height, SCENE_FORMAT);
-    const levels = Array.from({ length: count }, (_, level) =>
-      scene.createView({ baseMipLevel: level, mipLevelCount: 1 }),
-    );
-    const halving = levels.slice(1).map((into, index) => ({
-      into,
-      read: device.createBindGroup({
-        layout: halve.getBindGroupLayout(0),
-        entries: [
-          { binding: 0, resource: levels[index] ?? into },
-          { binding: 1, resource: linear },
-        ],
-      }),
-    }));
     const mirrorView = mirror.createView();
     const planeView = plane.createView();
     frame = {
       width,
       height,
       textures: [scene, mirror, plane, lit],
-      levels,
+      chain: halver(scene),
       mirror: mirrorView,
       plane: planeView,
       lit: lit.createView(),
-      halving,
       reflecting: device.createBindGroup({
         layout: reflect.getBindGroupLayout(0),
         entries: [
@@ -159,8 +140,8 @@ export function createReflection(device: GPUDevice): Reflection {
 
   return {
     attachments: (width, height, clear) => {
-      const { levels, mirror, plane } = fit(width, height);
-      const [drawn] = levels;
+      const { chain, mirror, plane } = fit(width, height);
+      const [drawn] = chain.levels;
       if (drawn === undefined) throw new Error('The scene has no levels');
       const none = { r: 0, g: 0, b: 0, a: 0 };
       return [
@@ -175,9 +156,9 @@ export function createReflection(device: GPUDevice): Reflection {
         }),
       );
     },
-    run: (encoder, { viewProjection, eye }) => {
+    run: (encoder, { viewProjection, eye }, stamp) => {
       if (frame === null) throw new Error('No scene was drawn to reflect');
-      const { width, height, halving, levels, reflecting, lit } = frame;
+      const { width, height, chain, reflecting, lit } = frame;
       // The focal length is the length of the projection's second row.
       const focal = Math.hypot(
         viewProjection[1] ?? 0,
@@ -188,10 +169,10 @@ export function createReflection(device: GPUDevice): Reflection {
       data.set(viewProjection, 0);
       data.set(inverse(viewProjection), 16);
       data.set([...eye, ROOM_METRES], 32);
-      data.set([width, height, focal, levels.length - 1], 36);
+      data.set([width, height, focal, chain.levels.length - 1], 36);
       device.queue.writeBuffer(view, 0, data);
-      for (const { into, read } of halving) cover(encoder, halve, read, into);
-      cover(encoder, reflect, reflecting, lit);
+      chain.fill(encoder);
+      cover(encoder, reflect, reflecting, lit, { stamp });
       return lit;
     },
     dispose: () => {

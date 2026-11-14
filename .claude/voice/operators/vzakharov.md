@@ -15,6 +15,11 @@ waited on: «не нужно было (и не нужно в будущем) о�
 продолжать из-за затыков во, в-принципе, параллелизуемых вопросах». Ask it and
 keep going on everything it does not block.
 
+A Claude session that is no longer needed — a child whose result is in, a
+predecessor whose work a relay carried on — is archived, unasked: «здесь и
+дальше архивируй сессии которые больше не нужны». The report names each one
+archived.
+
 Stop-words, in anything written for me to read — chat, plans, boards, PRs —
 because each marks slop, text produced rather than meant: "load-bearing" (say
 what the thing holds up), "quietly" (say what happened and who did not notice).

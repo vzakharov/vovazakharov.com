@@ -1,0 +1,62 @@
+import { CUBE_METRES } from '@/cube/shared/cube-boundary';
+import {
+  CUBE_BOX,
+  DOOR_LADDER,
+  DOORWAY_BOX,
+  islandHeight,
+  WAKE_AT,
+  waterLevel,
+} from '@/cube/entities/island';
+
+import { groundMiddle, type Stage } from './scenes';
+import { EYE_HEIGHT } from './step';
+
+/**
+ * How far inside the doorway the body arrives, in metres, and how far along
+ * the doorway from its north jamb to its south.
+ */
+const ARRIVES_IN = 0.9;
+const ARRIVES_SOUTH = 0.64;
+
+/**
+ * How far the body lies turned from straight out to sea, to its right: the
+ * short way round to the cube is then to the right as well, which brings the
+ * cube into frame ahead of the sun beside it.
+ */
+const ASKEW = 0.3;
+
+const { foot, top, rungs, wide } = DOOR_LADDER;
+const [middleX, middleZ] = groundMiddle(CUBE_BOX);
+
+/**
+ * The intro's stage: the island, the cube over its crest, the ladder at the
+ * doorway and the shore the body wakes on, its feet towards the sea and away
+ * from the cube.
+ */
+export const INTRO_STAGE: Stage = {
+  land: {
+    height: (x, z) => islandHeight([x, z]),
+    level: (x, z, seconds) => waterLevel([x, z], seconds),
+    solids: [CUBE_BOX],
+  },
+  wake: {
+    at: [WAKE_AT[0], WAKE_AT[2]],
+    seaward: Math.atan2(WAKE_AT[2] - middleZ, WAKE_AT[0] - middleX) + ASKEW,
+  },
+  cube: CUBE_BOX,
+  ladder: {
+    foot,
+    top,
+    rungs: rungs.map(([, y]) => y),
+    solid: {
+      min: [CUBE_BOX.max[0], foot[1], top[2] - wide / 2],
+      max: [foot[0], top[1], top[2] + wide / 2],
+    },
+  },
+  arrival: [
+    DOORWAY_BOX.min[0] - ARRIVES_IN,
+    DOORWAY_BOX.min[1] + EYE_HEIGHT * CUBE_METRES,
+    DOORWAY_BOX.min[2] +
+      (DOORWAY_BOX.max[2] - DOORWAY_BOX.min[2]) * ARRIVES_SOUTH,
+  ],
+};

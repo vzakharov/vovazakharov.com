@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { offsetOf, VERTEX_LAYOUT, VERTEX_WGSL, VERTEX_WORDS } from './vertex';
+import { offsetOf, VERTEX, VERTEX_LAYOUT, VERTEX_WORDS } from './vertex';
 
 describe('the vertex', () => {
   it('lays its fields end to end', () => {
@@ -23,8 +23,11 @@ describe('the vertex', () => {
   });
 
   it('passes whole numbers to the fragment unblended', () => {
-    assert.match(VERTEX_WGSL, /@location\(4\) kind: u32,/);
-    assert.match(VERTEX_WGSL, /@location\(4\) @interpolate\(flat\) kind: u32,/);
-    assert.doesNotMatch(VERTEX_WGSL, /@interpolate\(flat\) position/);
+    assert.match(VERTEX.listing, /@location\(4\) kind: u32,/);
+    assert.match(
+      VERTEX.listing,
+      /@location\(4\) @interpolate\(flat\) kind: u32,/,
+    );
+    assert.doesNotMatch(VERTEX.listing, /@interpolate\(flat\) position/);
   });
 });

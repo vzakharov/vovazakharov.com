@@ -2,83 +2,34 @@
 
 import type { CanDispose } from '@/kernel/shared/typings';
 
+import { assemble } from '@/cube/shared/shader';
+
+import { BLOOM_LEVELS } from './bloom-numbers';
+import { BLOOM_PASS } from './bloom-pass.shader.generated';
+
 /** What the scene is drawn into: light past white, and room in `a` for depth. */
 export const SCENE_FORMAT: GPUTextureFormat = 'rgba16float';
 
-/** How many times the frame is halved: the last is what a lamp's halo is as wide as. */
-const LEVELS = 5;
-
-/**
- * Three passes over one texture: `bright` halves the scene and keeps what is
- * brighter than white, `down` halves again, and `up` doubles a level back
- * onto the one above it, where the pipeline adds it. `bright` keeps one
- * level's share, so the levels add up to their mean: the spread of the
- * bright parts, as bright as they were.
- */
-const SHADER = /* wgsl */ `
-@group(0) @binding(0) var source: texture_2d<f32>;
-@group(0) @binding(1) var sourceSampler: sampler;
-
-struct Varying {
-  @builtin(position) clip: vec4f,
-  @location(0) uv: vec2f,
+type Covering = {
+  /** Leaves what `into` holds for the pass to add to, rather than clearing. */
+  keeps?: boolean;
+  /** Where the GPU stamps the pass's start or end. */
+  stamp?: GPURenderPassTimestampWrites;
 };
 
-@vertex
-fn vertexMain(@builtin(vertex_index) index: u32) -> Varying {
-  let corner = vec2f(f32((index << 1u) & 2u), f32(index & 2u));
-  var out: Varying;
-  out.clip = vec4f(corner * 2.0 - 1.0, 0.0, 1.0);
-  out.uv = vec2f(corner.x, 1.0 - corner.y);
-  return out;
-}
-
-fn at(uv: vec2f) -> vec3f {
-  return textureSampleLevel(source, sourceSampler, uv, 0.0).rgb;
-}
-
-/// The source around \`uv\`, \`reach\` texels wide: its middle and four corners.
-fn spread(uv: vec2f, reach: f32) -> vec3f {
-  let texel = reach / vec2f(textureDimensions(source));
-  return (at(uv) * 4.0
-    + at(uv + texel * vec2f(-1.0, -1.0)) + at(uv + texel * vec2f(1.0, -1.0))
-    + at(uv + texel * vec2f(-1.0, 1.0)) + at(uv + texel * vec2f(1.0, 1.0))) / 8.0;
-}
-
-@fragment
-fn bright(in: Varying) -> @location(0) vec4f {
-  let colour = spread(in.uv, 1.0);
-  let level = max(colour.r, max(colour.g, colour.b));
-  let kept = max(level - 1.0, 0.0) / max(level, 1e-4);
-  return vec4f(colour * (kept / ${LEVELS.toFixed(1)}), 1.0);
-}
-
-@fragment
-fn down(in: Varying) -> @location(0) vec4f {
-  return vec4f(spread(in.uv, 1.0), 1.0);
-}
-
-@fragment
-fn up(in: Varying) -> @location(0) vec4f {
-  return vec4f(spread(in.uv, 0.75), 1.0);
-}
-`;
-
-/**
- * Records one pass of `pipeline`, reading `group`, over the whole of `into`:
- * cleared first, unless `keeps` leaves what it holds for the pass to add to.
- */
+/** Records one pass of `pipeline`, reading `group`, over the whole of `into`. */
 export function cover(
   encoder: GPUCommandEncoder,
   pipeline: GPURenderPipeline,
   group: GPUBindGroup,
   into: GPUTextureView,
-  keeps = false,
+  { keeps = false, stamp }: Covering = {},
 ): void {
   const pass = encoder.beginRenderPass({
     colorAttachments: [
       { view: into, loadOp: keeps ? 'load' : 'clear', storeOp: 'store' },
     ],
+    ...(stamp === undefined ? {} : { timestampWrites: stamp }),
   });
   pass.setPipeline(pipeline);
   pass.setBindGroup(0, group);
@@ -102,7 +53,7 @@ export type Bloom = CanDispose & {
 };
 
 export function createBloom(device: GPUDevice): Bloom {
-  const shader = device.createShaderModule({ code: SHADER });
+  const shader = device.createShaderModule({ code: assemble([BLOOM_PASS]) });
   const layout = device.createBindGroupLayout({
     entries: [
       { binding: 0, visibility: GPUShaderStage.FRAGMENT, texture: {} },
@@ -158,7 +109,7 @@ export function createBloom(device: GPUDevice): Bloom {
     if (key === size) return;
     size = key;
     for (const { texture } of levels) texture.destroy();
-    levels = Array.from({ length: LEVELS }, (_, level) => {
+    levels = Array.from({ length: BLOOM_LEVELS }, (_, level) => {
       const texture = device.createTexture({
         size: [
           Math.max(1, width >> (level + 1)),
@@ -186,7 +137,7 @@ export function createBloom(device: GPUDevice): Bloom {
         above = level;
       }
       for (const level of levels.toReversed().slice(1)) {
-        cover(encoder, up, above.read, level.view, true);
+        cover(encoder, up, above.read, level.view, { keeps: true });
         above = level;
       }
       return first.view;

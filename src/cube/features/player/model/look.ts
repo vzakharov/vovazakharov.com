@@ -26,7 +26,7 @@ export type Look = {
 /** A thing that sets a look off, or is in the middle of one. */
 export type Looking = { shrinkLook: Look };
 
-/** Seconds from the pull before the eyes go anywhere: the lever's swing. */
+/** Seconds into the shrink before the eyes go anywhere: the pill going down. */
 const LEAD = 0.4;
 /** Seconds the gaze takes to drop to the hands, and to come back up. */
 const DROP_GAZE = 0.6;
@@ -66,7 +66,7 @@ const HANDS_CHANCE = 0.5;
 const GLANCE_CHANCE = 0.5;
 
 /**
- * The look each holed room's lever sets off under `seed`: floor 1's is
+ * The look each holed room's pill sets off under `seed`: floor 1's is
  * `FIRST_LOOK`; a deeper room rolls its own, shorter, and often no look at all.
  */
 export function looks(seed: string): (room: Room) => Look {
@@ -90,12 +90,12 @@ export function looks(seed: string): (room: Room) => Look {
   };
 }
 
-/** Seconds from the pull for which `look` holds the gaze. */
+/** Seconds into the shrink for which `look` holds the gaze. */
 export const spanOf = ({ hands, glance }: Look): number =>
   hands + glance > 0 ? LEAD + hands + glance : 0;
 
 /**
- * A look `t` seconds after the pull: `aside` radians off where the eyes were,
+ * A look `t` seconds into the shrink: `aside` radians off where the eyes were,
  * `toHands` of the way from their elevation to the hands, the hands `handsUp` of
  * the way into sight and `turned` of the way over. All four are 0 at 0 and
  * from `spanOf` on, bar `turned`, which nobody sees by then.

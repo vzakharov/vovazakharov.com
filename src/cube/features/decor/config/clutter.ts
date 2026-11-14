@@ -1,3 +1,4 @@
+import { SHRUB, shrubHeight } from '@/cube/shared/lib/shrub';
 import type { Thing } from '@/cube/shared/lib/thing';
 
 import { oneOf, type Recipe } from '../lib/tools';
@@ -12,46 +13,33 @@ export const CLUTTER = {
     cornered: true,
     gap: [0.02, 0.1],
     build: ({ prism, beam }, vary) => {
-      const tall = 0.5 + vary(0) * 0.6;
+      const { pot, stem, lean, out, foliage, sides } = SHRUB;
+      const tall = SHRUB.tall(vary(0));
       const leaf = oneOf([0x2a_6a_2a, 0x3a_7a_30, 0x1f_5a_3a], vary(1));
       return [
-        prism([0, 0, 0.36], 0.15, 0.36, 'plastic', 0x9a_50_30, {
-          top: 0.2,
+        prism([0, 0, out], pot.foot, pot.height, 'plastic', 0x9a_50_30, {
+          top: pot.rim,
           lid: 0x2a_1a_10,
         }),
         beam(
-          [0, 0.36, 0.36],
-          [0.02, 0.36 + tall, 0.36],
-          0.035,
+          [0, pot.height, out],
+          [lean, pot.height + tall, out],
+          stem,
           'wood',
           0x4a_30_1c,
         ),
-        prism([0, 0.3 + tall * 0.5, 0.36], 0.2, tall * 0.35, 'foliage', leaf, {
-          sides: 6,
-          top: 0.34,
+        ...foliage.slice(1).map((turn, below) => {
+          const from = foliage[below] ?? turn;
+          const foot = shrubHeight(from.at, tall);
+          return prism(
+            [below === 0 ? 0 : lean, foot, out],
+            from.radius,
+            shrubHeight(turn.at, tall) - foot,
+            'foliage',
+            leaf,
+            { sides, top: turn.radius },
+          );
         }),
-        prism(
-          [0.02, 0.3 + tall * 0.85, 0.36],
-          0.34,
-          tall * 0.4,
-          'foliage',
-          leaf,
-          {
-            sides: 6,
-            top: 0.24,
-          },
-        ),
-        prism(
-          [0.02, 0.3 + tall * 1.25, 0.36],
-          0.24,
-          tall * 0.3,
-          'foliage',
-          leaf,
-          {
-            sides: 6,
-            top: 0.06,
-          },
-        ),
       ].flat();
     },
   },

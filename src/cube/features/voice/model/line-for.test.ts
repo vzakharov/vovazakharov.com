@@ -50,6 +50,7 @@ describe('lineFor', () => {
     for (const n of [1, 30, 66]) {
       assert.equal(lineFor('first-shrink', n, 1).text, 'huh? huh?!');
       assert.equal(lineFor('second-shrink', n, 8).text, 'ugh…');
+      assert.equal(lineFor('wonder', n, 3).text, 'hm?');
     }
     const { phones } = lineFor('first-shrink', 1, 1);
     const asked = phones[1];

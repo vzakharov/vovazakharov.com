@@ -1,5 +1,8 @@
 /// <reference types="@webgpu/types" />
 
+import { compiled } from '@/cube/shared/shader';
+
+import { outsideLensSource } from '../lib/outside-lens';
 import { VERTEX_LAYOUT } from '../lib/vertex';
 import { SCENE_FORMAT } from './bloom';
 import { MIRROR_FORMATS } from './reflection';
@@ -40,22 +43,20 @@ export type Preparing = {
 
 export type Programs = Preparing & {
   layouts: Layouts;
+  /**
+   * The lens of an eye outdoors, compiled the first time it is asked for;
+   * rejects with the compiler's words where it does not compile.
+   */
+  outsideLens: () => Promise<GPURenderPipeline>;
   /** Floor `n`'s program; throws where the floor was not prepared. */
   of: (n: number) => Program;
 };
 
-/** `shader`'s compile errors on one line, or null where it compiled. */
-async function compileErrors(shader: GPUShaderModule): Promise<string | null> {
-  const { messages } = await shader.getCompilationInfo();
-  const errors = messages.filter(({ type }) => type === 'error');
-  if (errors.length === 0) return null;
-  return errors
-    .map(
-      ({ lineNum, linePos, message }) =>
-        `${String(lineNum)}:${String(linePos)} ${message}`,
-    )
-    .join('; ');
-}
+/** What the scene pass writes: scene light, then what a mirror keeps. */
+export const SCENE_TARGETS: GPUColorTargetState[] = [
+  SCENE_FORMAT,
+  ...MIRROR_FORMATS,
+].map((format) => ({ format }));
 
 /**
  * Each floor's program on `device`, `sourceOf` its WGSL, compiled the first
@@ -100,15 +101,34 @@ export function createPrograms(
     bindGroupLayouts: [layouts.uniform, layouts.board],
   });
 
+  /** The lens pipeline of `shader`, a module built on the lens stage. */
+  const lensOf = async (shader: GPUShaderModule): Promise<GPURenderPipeline> =>
+    device.createRenderPipelineAsync({
+      layout: lensLayout,
+      vertex: { module: shader, entryPoint: 'lensVertex' },
+      fragment: {
+        module: shader,
+        entryPoint: 'lensFragment',
+        targets: [{ format }],
+      },
+    });
+
+  const compileOutsideLens = async (): Promise<GPURenderPipeline> => {
+    return lensOf(
+      await compiled(device, "The outside lens's shader", outsideLensSource()),
+    );
+  };
+  let outsideLens: Promise<GPURenderPipeline> | null = null;
+
   const compiling = new Map<number, Promise<Program>>();
   const ready = new Map<number, Program>();
 
   const compile = async (n: number): Promise<Program> => {
-    const shader = device.createShaderModule({ code: sourceOf(n) });
-    const errors = await compileErrors(shader);
-    if (errors !== null) {
-      throw new Error(`Floor ${String(n)}'s shader: ${errors}`);
-    }
+    const shader = await compiled(
+      device,
+      `Floor ${String(n)}'s shader`,
+      sourceOf(n),
+    );
     const pipeline = async (
       layout: GPUPipelineLayout,
       fragment: string,
@@ -123,9 +143,7 @@ export function createPrograms(
         fragment: {
           module: shader,
           entryPoint: fragment,
-          targets: [SCENE_FORMAT, ...MIRROR_FORMATS].map((written) => ({
-            format: written,
-          })),
+          targets: SCENE_TARGETS,
         },
         primitive: { topology: 'triangle-list', cullMode: 'back' },
         depthStencil: {
@@ -137,15 +155,7 @@ export function createPrograms(
     const [faces, boards, lens] = await Promise.all([
       pipeline(facesLayout, 'fragmentMain'),
       pipeline(boardsLayout, 'boardFragment'),
-      device.createRenderPipelineAsync({
-        layout: lensLayout,
-        vertex: { module: shader, entryPoint: 'lensVertex' },
-        fragment: {
-          module: shader,
-          entryPoint: 'lensFragment',
-          targets: [{ format }],
-        },
-      }),
+      lensOf(shader),
     ]);
     const program = { faces, boards, lens };
     ready.set(n, program);
@@ -154,6 +164,10 @@ export function createPrograms(
 
   return {
     layouts,
+    outsideLens: async () => {
+      outsideLens ??= compileOutsideLens();
+      return outsideLens;
+    },
     prepare: async (floors) => {
       await Promise.all(
         floors.map(async (n) => {

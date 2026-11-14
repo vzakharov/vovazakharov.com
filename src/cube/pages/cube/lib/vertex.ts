@@ -1,5 +1,9 @@
 /// <reference types="@webgpu/types" />
 
+import { wgsl } from '@/cube/shared/shader';
+
+import { LENS_STAGE } from './lens-stage.shader.generated';
+
 /**
  * A vertex, field by field in buffer order: what the mesh packs, the pipeline
  * reads and the shader receives are all derived from this list. Every field
@@ -56,10 +60,13 @@ const members = (interpolated: boolean): string =>
   }).join('\n');
 
 /**
- * The WGSL structs a vertex passes through: `VertexIn` as the buffer holds
- * it, and `Varying` as the fragment receives it, with its clip position.
+ * The scene's vertex stage: `VertexIn` as the buffer holds a vertex,
+ * `Varying` as the fragment receives it, and `vertexMain`, which places the
+ * vertex and hands every field on as it is.
  */
-export const VERTEX_WGSL = /* wgsl */ `
+export const VERTEX = wgsl(
+  'pages/cube/vertex',
+  /* wgsl */ `
 struct VertexIn {
 ${members(false)}
 };
@@ -68,9 +75,14 @@ struct Varying {
   @builtin(position) clip: vec4f,
 ${members(true)}
 };
-`;
 
-/** Every field handed from `VertexIn` to `Varying` as it is. */
-export const PASS_WGSL = FIELDS.map(
-  ({ name }) => `  out.${name} = in.${name};`,
-).join('\n');
+@vertex
+fn vertexMain(in: VertexIn) -> Varying {
+  var out: Varying;
+  out.clip = uniforms.viewProjection * vec4f(in.position, 1.0);
+${FIELDS.map(({ name }) => `  out.${name} = in.${name};`).join('\n')}
+  return out;
+}
+`,
+  LENS_STAGE,
+);

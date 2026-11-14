@@ -3,23 +3,44 @@
 import { asError } from '@/kernel/shared/lib/error-class';
 import type { CanDispose, Sized, WithId } from '@/kernel/shared/typings';
 
-import type { Clock } from '@/cube/shared/lib/clock';
+import { SUN_DIR } from '@/cube/shared/cube-boundary';
+import type { SeenAt } from '@/cube/shared/lib/clock';
 import type { Rgb } from '@/cube/shared/lib/colour';
+import type { Seen } from '@/cube/shared/lib/vec';
+import type { Laddered } from '@/cube/entities/island';
+import { createOutdoors, type Outdoors } from '@/cube/widgets/outdoors';
 
+import { inverse } from '../lib/matrix';
 import type { FloorRange, Scenery } from '../lib/mesh';
+import type { OutsideLens } from '../lib/outside-lens';
 import { UNIFORM_FLOATS } from '../lib/shader';
 import { createBloom } from './bloom';
-import { createPrograms, DEPTH_FORMAT, type Preparing } from './programs';
-import { createReflection, type Seen } from './reflection';
+import { createPassTimer, type Timed, timedOf } from './pass-timer';
+import {
+  createPrograms,
+  DEPTH_FORMAT,
+  type Preparing,
+  SCENE_TARGETS,
+} from './programs';
+import { createReflection } from './reflection';
 
 /** What one frame is seen from and when, and what shows where nothing is. */
-type Shot = Clock &
-  Seen & {
-    /** Scene light, as the faces are lit. */
-    clear: Rgb;
-    /** The floor whose lens the frame is seen through; it must be prepared. */
-    lens: number;
-  };
+type Shot = SeenAt & {
+  /** Scene light, as the faces are lit. */
+  clear: Rgb;
+  /**
+   * The lens the frame is seen through: a floor's, which must be prepared, or
+   * the outside's as it is set for this frame, the outside prepared.
+   */
+  lens: number | OutsideLens;
+  /**
+   * The same view of the world frame, where the frame shows the outside, which
+   * must be prepared; null where it shows the cube's inside alone.
+   */
+  outdoors: (Seen & Laddered) | null;
+  /** The share of the screen's own resolution the canvas holds, 1 at most. */
+  detail: number;
+};
 
 /**
  * Faces of one floor sharing one texture: `scenery` holds them, and `image`
@@ -31,7 +52,10 @@ export type Boards = WithId & {
   scenery: Scenery;
 };
 
-export type Renderer = CanDispose &
+/** What draws frames until it is disposed, timing them where the GPU can. */
+export type Drawing = CanDispose & Timed;
+
+export type Renderer = Drawing &
   Preparing & {
     /** Replaces the rooms drawn. */
     upload: (scenery: Scenery) => void;
@@ -42,6 +66,11 @@ export type Renderer = CanDispose &
     uploadMoving: (scenery: Scenery) => void;
     /** Replaces the boards, drawn after the rooms. */
     uploadBoards: (boards: readonly Boards[]) => void;
+    /**
+     * Resolves once the outside can be drawn and seen through its own lens;
+     * rejects with the compiler's words on a shader that does not compile.
+     */
+    prepareOutside: () => Promise<void>;
     draw: (shot: Shot) => void;
     /** Resolves once the GPU has finished every frame submitted so far. */
     drawn: () => Promise<void>;
@@ -85,10 +114,14 @@ export async function createRenderer(
   if (!('gpu' in navigator)) return null;
   const adapter = await navigator.gpu.requestAdapter();
   if (adapter === null) return null;
-  const device = await adapter.requestDevice();
+  const timed = adapter.features.has('timestamp-query');
+  const device = await adapter.requestDevice({
+    requiredFeatures: timed ? ['timestamp-query'] : [],
+  });
   watchLoss(device, onLost).catch((error: unknown) => {
     onLost(asError(error));
   });
+  const timer = timed ? createPassTimer(device, onLost) : null;
   const context = canvas.getContext('webgpu');
   if (context === null) return null;
   const format = navigator.gpu.getPreferredCanvasFormat();
@@ -97,8 +130,28 @@ export async function createRenderer(
   const {
     layouts,
     prepare,
+    outsideLens,
     of: programOf,
   } = createPrograms(device, format, sourceOf);
+  /** The outside's layers and lens, once `prepareOutside` has made them. */
+  let outside: { layers: Outdoors; lens: GPURenderPipeline } | null = null;
+  let preparingOutside: Promise<void> | null = null;
+  const makeOutside = async (): Promise<void> => {
+    const [layers, lens] = await Promise.all([
+      createOutdoors(device, {
+        targets: SCENE_TARGETS,
+        depthFormat: DEPTH_FORMAT,
+      }),
+      outsideLens(),
+    ]);
+    outside = { layers, lens };
+  };
+  const outsideMade = (): NonNullable<typeof outside> => {
+    if (outside === null) {
+      throw new Error('The outside is drawn before it was prepared');
+    }
+    return outside;
+  };
 
   const uniforms = device.createBuffer({
     size: UNIFORM_FLOATS * 4,
@@ -224,14 +277,48 @@ export async function createRenderer(
         textures.delete(id);
       }
     },
-    draw: ({ viewProjection, eye, clear, lens, seconds, hour }) => {
+    prepareOutside: async () => {
+      preparingOutside ??= makeOutside();
+      return preparingOutside;
+    },
+    draw: ({
+      viewProjection,
+      eye,
+      clear,
+      lens,
+      outdoors,
+      detail,
+      seconds,
+      hour,
+    }) => {
       const { width, height, depth } = targetsOf();
+      const throughFloor = typeof lens === 'number';
       const data = new Float32Array(UNIFORM_FLOATS);
       data.set(viewProjection, 0);
       data.set([...eye, 1], 16);
       data.set([seconds, hour, width, height], 20);
+      if (!throughFloor) {
+        data.set([lens.exposure, lens.eyelids, lens.indoors ?? 0], 24);
+      }
       device.queue.writeBuffer(uniforms, 0, data);
+      const stamps = timer?.stamping() === true ? timer : null;
       const encoder = device.createCommandEncoder();
+      const layers = outdoors === null ? null : outsideMade().layers;
+      if (outdoors !== null) {
+        layers?.prepare(
+          encoder,
+          {
+            ...outdoors,
+            inverse: inverse(outdoors.viewProjection),
+            sun: SUN_DIR,
+            seconds,
+            hour,
+            width,
+            height,
+          },
+          detail,
+        );
+      }
       const pass = encoder.beginRenderPass({
         colorAttachments: reflection.attachments(width, height, {
           r: clear[0],
@@ -245,7 +332,9 @@ export async function createRenderer(
           depthLoadOp: 'clear',
           depthStoreOp: 'discard',
         },
+        ...(stamps === null ? {} : { timestampWrites: stamps.scene }),
       });
+      layers?.behind(pass);
       pass.setBindGroup(0, uniformGroup);
       if (rooms !== null) drawRuns(pass, rooms);
       if (moving !== null) drawRuns(pass, moving);
@@ -253,8 +342,13 @@ export async function createRenderer(
         pass.setBindGroup(1, board.group);
         drawRuns(pass, board);
       }
+      layers?.over(pass);
       pass.end();
-      const sceneView = reflection.run(encoder, { viewProjection, eye });
+      const sceneView = reflection.run(
+        encoder,
+        { viewProjection, eye },
+        stamps?.mirrors,
+      );
       const glow = bloom.run(encoder, sceneView, width, height);
       const framed = encoder.beginRenderPass({
         colorAttachments: [
@@ -264,8 +358,11 @@ export async function createRenderer(
             storeOp: 'store',
           },
         ],
+        ...(stamps === null ? {} : { timestampWrites: stamps.lens }),
       });
-      framed.setPipeline(programOf(lens).lens);
+      framed.setPipeline(
+        throughFloor ? programOf(lens).lens : outsideMade().lens,
+      );
       framed.setBindGroup(0, uniformGroup);
       framed.setBindGroup(
         1,
@@ -280,10 +377,15 @@ export async function createRenderer(
       );
       framed.draw(3);
       framed.end();
+      stamps?.resolve(encoder);
       device.queue.submit([encoder.finish()]);
+      stamps?.read();
     },
     drawn: async () => device.queue.onSubmittedWorkDone(),
+    ...timedOf(timer),
     dispose: () => {
+      timer?.dispose();
+      outside?.layers.dispose();
       rooms?.buffer.destroy();
       moving?.buffer.destroy();
       targets?.depth.destroy();

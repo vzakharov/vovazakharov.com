@@ -1,30 +1,19 @@
 import type { Rgb } from '@/cube/shared/lib/colour';
+import { vec3f, type Wgsl, wgsl } from '@/cube/shared/shader';
 
-import type { Aired } from '../model/theme';
-import { GRADE } from './grade';
-import { LIGHT } from './light';
-import { vec3f, type Wgsl, wgsl } from './wgsl';
+import { GRADE } from './grade.shader.generated';
+import { type Graded, hazed, lensListing } from './lens';
+import { LIGHT } from './light.shader.generated';
 
-/** An ordinary floor's light, air and lens, as numbers. */
-type Ordinary = Aired & {
-  /** The lamps' colour times their strength, and the light left without them. */
+/** An ordinary floor's light and lens, as numbers. */
+type Ordinary = Graded & {
+  /** The lamps' colour times their strength. */
   lamp: Rgb;
-  ambient: Rgb;
   /** Panels along each side of a room's ceiling, and one's size in metres. */
   grid: number;
   panel: readonly [east: number, south: number];
   /** The share of rooms whose lamps stutter. */
   stutter: number;
-  /** Metres at which the air has swallowed about two thirds of a thing. */
-  visibility: number;
-  /** How much light the lens lets in: 1 as lit, 2 a stop brighter. */
-  exposure: number;
-  /** How far bright things bleed, and how far colours part in the corners. */
-  glow: number;
-  fringe: number;
-  /** How far the screen's corners darken, and how strong the grain is. */
-  vignette: number;
-  noise: number;
 };
 
 /**
@@ -47,13 +36,9 @@ fn lamps() -> Lamps {
 }
 
 fn themeLight(s: Surf, m: Material) -> vec3f {
-  return haze(roomLight(s, m, lamps()), s, ${vec3f(look.air)}, ${look.visibility.toFixed(1)});
+  return ${hazed('roomLight(s, m, lamps())', look)};
 }
-
-fn themeLens(l: Lens) -> vec3f {
-  let seen = through(l, ${look.glow.toFixed(3)}, ${look.fringe.toFixed(4)}) * ${look.exposure.toFixed(3)};
-  return tonemap(seen) * vignette(l, ${look.vignette.toFixed(3)}) + grain(l) * ${look.noise.toFixed(4)};
-}
+${lensListing(look)}
 `,
     LIGHT,
     GRADE,

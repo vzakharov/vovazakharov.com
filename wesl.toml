@@ -1,0 +1,6 @@
+# Where an editor's WESL support finds the shader modules, so the `import`
+# statements in `src/**/*.wgsl` resolve: `package::` is `src/`.
+# `scripts/shaders-codegen.ts` links them by the same rule.
+edition = "2026_pre"
+include = ["src/**/*.wgsl"]
+root = "src"
