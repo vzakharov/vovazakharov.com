@@ -1,4 +1,4 @@
-import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, Surf, Material, matte, polished, embossed, repeated, spaced, Lens, litOf};
+import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, Surf, Material, matte, polished, embossed, repeated, spaced, Lens, litOf, closedAt};
 import package::cube::shared::shader::hash::{valueNoise, fbm};
 import package::cube::entities::theme::kit::lib::finish::{band, damp};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
@@ -24,6 +24,35 @@ const SCONCE = vec2f(1.25, 1.66);
 fn fromSconce(s: Surf) -> vec2f {
   let along = wallAlong(s);
   return vec2f(min(along, ROOM.x - along) - SCONCE.x, s.p.y - SCONCE.y);
+}
+
+/// The wall lights' glow on what stands before them, a door and its frame
+/// among it: the two lights of each closed wall, each a lamp a shade's depth
+/// off its wall, falling off with distance and with the slant it is met at.
+fn sconceGlow(s: Surf, normal: vec3f) -> f32 {
+  let ends = vec2f(SCONCE.x, ROOM.x - SCONCE.x);
+  let off = 0.15;
+  var glow = 0.0;
+  for (var side = 0u; side < 4u; side++) {
+    if (!closedAt(s, side)) {
+      continue;
+    }
+    for (var end = 0u; end < 2u; end++) {
+      let a = ends[end];
+      var lamp = vec3f(ROOM.x - off, SCONCE.y, a);
+      if (side == 1u) {
+        lamp = vec3f(a, SCONCE.y, ROOM.z - off);
+      } else if (side == 2u) {
+        lamp = vec3f(off, SCONCE.y, a);
+      } else if (side == 3u) {
+        lamp = vec3f(a, SCONCE.y, off);
+      }
+      let to = lamp - s.p;
+      let far = length(to);
+      glow += max(dot(normal, to / far), 0.0) / (1.0 + 5.0 * far * far);
+    }
+  }
+  return glow;
 }
 
 fn woven(s: Surf) -> Material {
@@ -259,6 +288,8 @@ fn themeLight(s: Surf, m: Material) -> vec3f {
     let wash =
       exp(-off.x * off.x / (spread * spread)) / (1.0 + 7.0 * off.y * off.y);
     colour += m.albedo * vec3f(1.3, 0.78, 0.3) * (wash * cornerShade(s));
+  } else {
+    colour += m.albedo * vec3f(1.3, 0.78, 0.3) * sconceGlow(s, s.normal);
   }
   return haze(colour, s, AIR, 42.0);
 }
