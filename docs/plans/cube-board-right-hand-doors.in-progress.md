@@ -114,8 +114,14 @@ All on Opus, started 2026-11-14 20:19Z from 47b2d1fb.
     of the doorway spot, frames per theme.
   - `aim` — session_01DaohkCcMFsgFLxWoWWTwm1, `claude/cube-doors-aim-oldy2u`:
     every door in reach goes to `aimOf`, ranked by gaze.
-- Left: merge both, reply on the review's two threads, `/polish` over them, vet,
-  preview.
+- `aim` merged at 23fc5f2e (1ace2eca), archived; its review thread answered.
+- Vet's first runs failed on what the branch had piled up: the simulator's `.js`
+  (source dropped, e09cbfdf), tsc, knip, type-overlap (`Angled` in kernel
+  typings, `HeldOpen`), prettier, `walk.ts` over 400 (`scripted.ts`). Green on
+  GitHub at 35c3d5b3 plus the aim session's estimate (383e87ed).
+- Preview slot 2 (preview2.vovazakharov.com/cube) at 383e87ed.
+- Left: merge `themes`, answer its review thread, `/polish` over the rest, vet,
+  republish preview 2.
 
 The doors analysis on this branch (the simulator, published as artifact
 E42bCrk3t6DubakRH61irN, its source last held at 259136093 under
