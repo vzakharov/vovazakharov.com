@@ -1,29 +1,32 @@
 Proposed squash body:
 
 ```
-Doors that open into the room behind the wall were weighed in a
-simulation of the game's own floor maze, and the cube board now keeps
-what that settled in an ideas zone of its own, apart from the shipped
-iterations.
+The cube's floors were pure mazes: a room was left only the way the
+maze was carved, so a neighbour behind a wall could be a long walk
+round. Doors and gaps now cut through some of those walls, at numbers
+weighed in a simulation of the floor maze and kept on the cube board.
 
-The zone holds the rule set (mirrored, one per wall, none on the
-perimeter or under a walk-round threshold, free to open); why doors
-leave the lock alone, since a search hashes rooms and never walks; who
-they help, the random wanderer most and the mapper least; the
-right-hand rule they fool, a bug kept as a feature; one opening per
-partition, and how that rule was found; and the numbers: every
-partition with an allowed wall gets an opening, 75% of them doors and
-the rest gaps, at threshold 10, where a player who remembers every
-room meets a door a minute and a gap every three on floors 7 to 10. A
-partition's allowed walls come from a window by its passage, so a
-deep floor's 2^58-wall partition needs at most nine searches. Two
-pictures from the simulator show a floor at those numbers and one
-partition's window, and a line ties doors to the deep-floor portals
-some may become.
+Every wall has one of four kinds, wall, passage, door or gap, and
+everything that asks whether a body or a line of sight gets through
+reads it through one seam. Each partition of the maze gets one opening,
+on a wall whose way round is at least ten rooms; three in four are
+doors, the rest gaps, and the density stays a setting at 100%. The
+candidates come from a window by the partition's passage, so a deep
+floor's 2^58-wall partition costs at most nine bounded searches and
+the answer never depends on what was asked first. Sight on a maze with
+loops now sees whatever a straight line reaches.
 
-The lock zone records a casus the simulation turned up: our world's
-holes on floors 2 to 8 all hug the edge, chance rather than a bias in
-the planter, since floors 10 and deeper sit well inside.
+The door is the decor door made real, and decor doors are gone: panels
+and a knob on both faces, paint and hinge side rolled per door. E or a
+tap opens the door the gaze is on, a prompt names it, the leaf swings
+and blocks the body, and it shuts once the player has left it; an open
+door is its opener's alone. Every doorway sits at the same spot along
+its wall, and furniture, signs, shelves, theme fixtures and pieces
+tiled along a wall are kept clear of it.
+
+The board's ideas zone holds the rule set, the numbers, frames from the
+simulator and the game, and ideas for later: who sees a door another
+player opened, and jumpscares behind doors.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
