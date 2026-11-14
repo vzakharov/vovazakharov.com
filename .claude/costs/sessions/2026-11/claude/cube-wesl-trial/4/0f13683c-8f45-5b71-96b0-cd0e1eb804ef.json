@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 557,
+    "inputTokens": 559,
     "cacheWrite5mTokens": 719,
-    "cacheWrite1hTokens": 92379,
-    "cacheReadTokens": 3004431,
-    "outputTokens": 12007,
-    "thinkingTokens": 4373,
-    "responses": 25,
-    "costUsd": 1.5880382000000002
+    "cacheWrite1hTokens": 94586,
+    "cacheReadTokens": 3151950,
+    "outputTokens": 12335,
+    "thinkingTokens": 4639,
+    "responses": 26,
+    "costUsd": 1.6417660000000003
   },
   "estimate": {
     "at": "2026-11-14T05:07:57.627Z",
@@ -46,18 +46,18 @@
   "url": "https://claude.ai/code/session_01DaohkBtCTt6tgWMeqbp5dW",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-14T05:07:38.455Z",
-  "lastResponseAt": "2026-11-14T05:15:53.518Z",
+  "lastResponseAt": "2026-11-14T05:16:07.510Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 51,
+    "inputTokens": 53,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 92379,
-    "cacheReadTokens": 2892350,
-    "outputTokens": 11984,
-    "thinkingTokens": 4373,
-    "responses": 24,
-    "costUsd": 1.5573860000000002
+    "cacheWrite1hTokens": 94586,
+    "cacheReadTokens": 3039869,
+    "outputTokens": 12312,
+    "thinkingTokens": 4639,
+    "responses": 25,
+    "costUsd": 1.6111138000000003
   },
   "subagents": {
     "inputTokens": 0,
@@ -71,14 +71,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 557,
+      "inputTokens": 559,
       "cacheWrite5mTokens": 719,
-      "cacheWrite1hTokens": 92379,
-      "cacheReadTokens": 3004431,
-      "outputTokens": 12007,
-      "thinkingTokens": 4373,
-      "responses": 25,
-      "costUsd": 1.5880382000000002
+      "cacheWrite1hTokens": 94586,
+      "cacheReadTokens": 3151950,
+      "outputTokens": 12335,
+      "thinkingTokens": 4639,
+      "responses": 26,
+      "costUsd": 1.6417660000000003
     }
   },
   "warnings": [],
@@ -102,7 +102,7 @@
     }
   },
   "operatorWords": {
-    "chat": 82,
+    "chat": 89,
     "review": 0,
     "threads": 0
   },
