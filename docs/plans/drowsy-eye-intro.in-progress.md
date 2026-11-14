@@ -76,7 +76,10 @@ own knob).
   локально запоминать бежит ли или ходит игрок по дефолту. По управлению тачем
   как-то стремно, перечисли ещё раз какие там контролы.» And: «А на борду ты
   добавлял что мы сделали?» (yes: board v3 has everything to d5737274; a
-  screenshot from them is coming — check what it shows.)
+  screenshot from them is coming.) Their screenshot (phone, landscape): the
+  shore, head rolled, clouds doubled along the turn by the smear, and «Press Q
+  to change the quality» hanging. The board holds the diff only, no frames,
+  though carte-blanche asks milestone frames on it — none are there yet.
   - **Y/N tappable**: `config/messages/en.json` `pill.ask` becomes
     `"Press {yes} to swallow, {no} to put down"`, rendered in `cube-canvas.tsx`
     with `fillSlots` and two `<button>`s (`Y`, `N`); the `.hint` has
