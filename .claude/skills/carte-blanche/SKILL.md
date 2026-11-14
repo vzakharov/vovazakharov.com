@@ -108,7 +108,10 @@ until they say otherwise:
   it plugged in, or names the seam the lead wires the same hour.
 - **The board went unpublished until the operator asked five times.** Every
   milestone frame goes to the board the turn it exists — failed attempts too,
-  and the operator's verdict on each as a quote.
+  and the operator's verdict on each as a quote. A frame is a JPEG committed
+  under `docs/remove-before-merging/frames/`, which the board shows as an image
+  card, with the verdict as its focus item's `why`; a page of frames beside the
+  board is a second place to look, and the operator asked why it existed.
 - **"It's on the preview" was said before the preview had built.** The lead
   checks the deployed commit before saying so.
 - **Parallel children each wrote the same helpers**, and the seam cost a

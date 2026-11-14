@@ -100,9 +100,14 @@ own knob).
   so a still eye keeps stale cloud for up to 9 frames; high has more pixels per
   degree and fewer frames a second, so the drift crosses more pixels per
   refresh. Fix: the sky trusts its history only while the eye turns.
-- Left, in this order: 0. The clouds; Tap on touch; a touch-controls overlay
-  shown for a while; the board showing frames; answer the `rooms` question.
-  1. Frames on the board (the operator's screenshot, SwiftShader shots).
+- Built: the still sky drawn fresh, Tap wording and the controls overlay
+  (da8454bc, on preview slot 1); the board shows images (a Sonnet subagent's
+  `claude/board-frames-ha4w78`, dda339e1, merged), and the frames sit in
+  `docs/remove-before-merging/frames/` as focus items; `rooms` answered
+  (7ae53255). The separate frames artifact XmWzbERkyr3dwYoJdgFC4m is superseded
+  by the board.
+- Left, in this order:
+  1. The operator's look at the clouds on high after da8454bc.
   2. Touch, once the operator says what feels off: a visible stick ring, a run
      when the stick is pushed to its rim (a phone has no Shift).
   3. `/five-percent` on the PR; refresh the board after each pushed fix.
