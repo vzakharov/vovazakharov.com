@@ -3,10 +3,10 @@
 import { asError } from '@/kernel/shared/lib/error-class';
 import type { CanDispose, Sized, WithId } from '@/kernel/shared/typings';
 
+import { SUN_DIR } from '@/cube/shared/cube-boundary';
 import type { SeenAt } from '@/cube/shared/lib/clock';
 import type { Rgb } from '@/cube/shared/lib/colour';
 import type { Seen } from '@/cube/shared/lib/vec';
-import { SUN_DIR } from '@/cube/shared/outside';
 import type { Laddered } from '@/cube/entities/island';
 import { createOutdoors, type Outdoors } from '@/cube/widgets/outdoors';
 

@@ -5,7 +5,7 @@
 
 import package::cube::widgets::outdoors::stage::lib::outdoor_frame::frame;
 import package::cube::widgets::outdoors::stage::lib::sky::skyRadiance;
-import package::cube::shared::outside::sun::SUN_LIGHT;
+import package::cube::shared::cube_boundary::sun::SUN_LIGHT;
 import super::sea_surface::Waves;
 import package::cube::widgets::outdoors::stage::lib::water_body::fresnel;
 import package::cube::widgets::outdoors::stage::lib::water_optics::{ABSORB, BACKSCATTER};

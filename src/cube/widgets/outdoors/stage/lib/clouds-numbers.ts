@@ -1,4 +1,4 @@
-import { ATMOSPHERE } from '@/cube/shared/outside';
+import { ATMOSPHERE } from '@/cube/shared/cube-boundary';
 import { f32, vecf, wgsl } from '@/cube/shared/shader';
 
 import { CLOUD_TILE, CLOUDS } from './cloud-field';

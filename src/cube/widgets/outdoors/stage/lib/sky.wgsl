@@ -6,7 +6,7 @@ import super::clear_sky::{clearSky, skyGlance};
 import super::clouds_wgsl::cirrusAlong;
 import super::cloud_veil::{cloudVeil, cloudGlance};
 import super::sun_glow::{aureole, sunDisc, sunHalo};
-import package::cube::shared::outside::sun::SKY_FILL;
+import package::cube::shared::cube_boundary::sun::SKY_FILL;
 
 /// The sky a mirror shows: the fitted air, the glow round the sun, the ice
 /// cloud and each cumulus where it stands, lit as a whole rather than

@@ -1,6 +1,6 @@
+import { type SkyParts, skyParts } from '@/cube/shared/cube-boundary';
 import type { Rgb } from '@/cube/shared/lib/colour';
 import type { Vec3 } from '@/cube/shared/lib/vec';
-import { type SkyParts, skyParts } from '@/cube/shared/outside';
 
 /**
  * The clear sky as a closed form the shader evaluates. The sun does not move

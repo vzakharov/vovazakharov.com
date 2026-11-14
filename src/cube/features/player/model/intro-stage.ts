@@ -1,4 +1,4 @@
-import { CUBE_METRES } from '@/cube/shared/outside';
+import { CUBE_METRES } from '@/cube/shared/cube-boundary';
 import {
   CUBE_BOX,
   DOOR_LADDER,

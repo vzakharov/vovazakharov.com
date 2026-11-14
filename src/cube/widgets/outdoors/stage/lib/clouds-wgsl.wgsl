@@ -6,7 +6,7 @@
 // approximation), plus the sky's.
 
 import super::outdoor_frame::frame;
-import package::cube::shared::outside::sun::{SUN_DIR, SKY_FILL, HORIZON_FILL, GROUND_FILL};
+import package::cube::shared::cube_boundary::sun::{SUN_DIR, SKY_FILL, HORIZON_FILL, GROUND_FILL};
 import super::clear_sky::{clearSky, sunThrough};
 import super::cloud_body::{relief, cloudSolid, cloudWater, towardSun};
 import super::cloud_noise::{EARTH_RADIUS, Cloud, inField, cloudIn, cloudNoise2};

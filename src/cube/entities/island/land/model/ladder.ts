@@ -1,5 +1,5 @@
+import { DOORWAY } from '@/cube/shared/cube-boundary';
 import { moved, scaled, type Vec3 } from '@/cube/shared/lib/vec';
-import { DOORWAY } from '@/cube/shared/outside';
 import { f32, vecf, wgsl } from '@/cube/shared/shader';
 
 import { islandHeight } from './island-height';

@@ -1,6 +1,6 @@
+import { DOORWAY } from '@/cube/shared/cube-boundary';
 import type { Sound } from '@/cube/shared/lib/acoustics';
 import type { Vec2 } from '@/cube/shared/lib/vec';
-import { DOORWAY } from '@/cube/shared/outside';
 import { CUBE_BOX, islandHeight, waterLevelAt } from '@/cube/entities/island';
 import { isOutside, type Whereabouts } from '@/cube/entities/world';
 

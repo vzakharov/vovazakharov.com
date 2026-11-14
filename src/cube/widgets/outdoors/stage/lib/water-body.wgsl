@@ -2,7 +2,7 @@
 // among its needs, so the sky's backdrop and the sand take it too.
 
 import super::outdoor_frame::frame;
-import package::cube::shared::outside::sun::{SUN_LIGHT, SKY_FILL};
+import package::cube::shared::cube_boundary::sun::{SUN_LIGHT, SKY_FILL};
 import super::water_optics::{ABSORB, ATTENUATE};
 
 /// What water returns of light meeting it head on.

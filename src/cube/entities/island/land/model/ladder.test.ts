@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { DOORWAY } from '@/cube/shared/outside';
+import { DOORWAY } from '@/cube/shared/cube-boundary';
 
 import { islandHeight } from './island-height';
 import { DOOR_LADDER, LADDER_UP } from './ladder';

@@ -1,7 +1,7 @@
 // The sun as the eye meets it: the glow close round it, that glow's broad lobe
 // alone, and the disc itself.
 
-import package::cube::shared::outside::sun::SUN_DIR;
+import package::cube::shared::cube_boundary::sun::SUN_DIR;
 import super::clear_sky::{PI, sunSeen};
 import super::clear_sky_fit::SUN_IRRADIANCE;
 import super::sun_glow_numbers::{GLARE_G, GLARE_SHARE, AUREOLE_G, AUREOLE_SHARE, KASTEN_A, KASTEN_B, KASTEN_C, HAZE_OVERHEAD, SUN_HALO};

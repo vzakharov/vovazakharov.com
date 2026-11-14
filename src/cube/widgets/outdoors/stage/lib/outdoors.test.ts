@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { SUN_DIR } from '@/cube/shared/cube-boundary';
 import type { Vec3 } from '@/cube/shared/lib/vec';
-import { SUN_DIR } from '@/cube/shared/outside';
 import { assemble } from '@/cube/shared/shader';
 import { toWorld } from '@/cube/entities/island';
 

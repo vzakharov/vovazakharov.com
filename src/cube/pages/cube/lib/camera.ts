@@ -1,5 +1,5 @@
+import { CUBE_METRES, yawToRoom } from '@/cube/shared/cube-boundary';
 import type { Seen } from '@/cube/shared/lib/vec';
-import { CUBE_METRES, yawToRoom } from '@/cube/shared/outside';
 import { toCube, toWorld } from '@/cube/entities/island';
 import {
   cross,

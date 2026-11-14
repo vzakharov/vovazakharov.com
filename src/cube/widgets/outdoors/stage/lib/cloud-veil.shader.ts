@@ -1,7 +1,7 @@
 // Generated from cloud-veil.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { SUN } from '@/cube/shared/outside';
+import { SUN } from '@/cube/shared/cube-boundary';
 import { wgsl } from '@/cube/shared/shader';
 
 import { CLEAR_SKY } from './clear-sky.shader';

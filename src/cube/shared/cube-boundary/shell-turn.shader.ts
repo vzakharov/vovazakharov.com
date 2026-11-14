@@ -5,7 +5,7 @@ import { wgsl } from '../shader/wgsl';
 import { TURN_NUMBERS } from './turn';
 
 export const SHELL_TURN = wgsl(
-  'cube/shared/outside/shell-turn',
+  'cube/shared/cube-boundary/shell-turn',
   /* wgsl */ `
 /// A way in the room frame as the shell frame has it.
 fn turnedToShell(way: vec3f) -> vec3f {

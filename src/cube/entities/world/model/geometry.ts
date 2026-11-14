@@ -1,3 +1,4 @@
+import { ROOM_DOORWAY, type WallSide } from '@/cube/shared/cube-boundary';
 import {
   CEILING_HEIGHT,
   ROOM_METRES,
@@ -5,7 +6,6 @@ import {
   WALL_HALF,
 } from '@/cube/shared/lib/room-shape';
 import type { Vec3 } from '@/cube/shared/lib/vec';
-import { ROOM_DOORWAY, type WallSide } from '@/cube/shared/outside';
 
 import { type Footprint, footprint, slabHeight } from './frame';
 import { holeMiddle, type HoleOf, type Quarter, QUARTERS, under } from './hole';

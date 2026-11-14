@@ -1,8 +1,8 @@
 // Generated from cube-shadow.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
+import { SUN } from '@/cube/shared/cube-boundary';
 import { SUN_DISC } from '@/cube/shared/lib/sun-disc';
-import { SUN } from '@/cube/shared/outside';
 import { wgsl } from '@/cube/shared/shader';
 import { LADDER_WGSL, WORLD } from '@/cube/entities/island';
 

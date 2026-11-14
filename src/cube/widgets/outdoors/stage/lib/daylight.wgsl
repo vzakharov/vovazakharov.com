@@ -1,7 +1,7 @@
 // The light falling on a matte face outdoors, to be multiplied by what the
 // face is made of.
 
-import package::cube::shared::outside::sun::{SUN_LIGHT, SUN_DIR, SKY_FILL};
+import package::cube::shared::cube_boundary::sun::{SUN_LIGHT, SUN_DIR, SKY_FILL};
 import super::cube_shadow::cubeShadow;
 
 /// The light on a matte face at `p` in the world frame: the sun where the

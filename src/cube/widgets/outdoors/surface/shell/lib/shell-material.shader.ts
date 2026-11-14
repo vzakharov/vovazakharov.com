@@ -1,7 +1,7 @@
 // Generated from shell-material.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { SUN } from '@/cube/shared/outside';
+import { SUN } from '@/cube/shared/cube-boundary';
 import { HASH, wgsl } from '@/cube/shared/shader';
 
 import { OUTDOOR_FRAME, SKY } from '../../../stage';

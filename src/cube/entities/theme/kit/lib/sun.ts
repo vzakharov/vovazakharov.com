@@ -1,9 +1,5 @@
 import { pathHash, roll, rollWith } from '@/dice/shared/roll';
 
-import type { Rgb } from '@/cube/shared/lib/colour';
-import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
-import { SHRUB } from '@/cube/shared/lib/shrub';
-import { SUN_DISC } from '@/cube/shared/lib/sun-disc';
 import {
   beamPatches,
   type Box,
@@ -14,7 +10,11 @@ import {
   SUN_DIR,
   SUN_LIGHT,
   toShell,
-} from '@/cube/shared/outside';
+} from '@/cube/shared/cube-boundary';
+import type { Rgb } from '@/cube/shared/lib/colour';
+import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
+import { SHRUB } from '@/cube/shared/lib/shrub';
+import { SUN_DISC } from '@/cube/shared/lib/sun-disc';
 import { HASH, vec3f, type Wgsl, wgsl } from '@/cube/shared/shader';
 
 import { CORE } from './core';

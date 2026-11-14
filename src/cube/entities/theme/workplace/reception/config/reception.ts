@@ -1,5 +1,5 @@
+import type { Box } from '@/cube/shared/cube-boundary';
 import { hex, linear } from '@/cube/shared/lib/colour';
-import type { Box } from '@/cube/shared/outside';
 
 import { type FloorTheme, type Shrub, sunlit } from '../../../kit';
 import { RECEPTION_SHADER } from './reception.shader';

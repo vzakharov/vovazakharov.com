@@ -8,7 +8,7 @@ import package::cube::entities::island::land::model::place::CUBE_METRES;
 import package::cube::entities::island::land::model::ladder::{LADDER_FOOT, LADDER_UP, LADDER_ACROSS, LADDER_OUT, LADDER_RUNGS, LADDER_SIZE};
 import package::cube::widgets::outdoors::stage::lib::cube_shadow::cubeShadow;
 import package::cube::widgets::outdoors::stage::lib::aerial::aerial;
-import package::cube::shared::outside::sun::{SUN_DIR, SUN_LIGHT, SKY_FILL};
+import package::cube::shared::cube_boundary::sun::{SUN_DIR, SUN_LIGHT, SKY_FILL};
 import package::cube::shared::shader::hash::{valueNoise, fbm, worley};
 import super::shell_material::{TURN, SAND_LIGHT, cooled, Band, bandAt, Face, shellFace};
 import super::shell_salt::SHELL_SALT;

@@ -2,7 +2,7 @@
 // sky smoothed, the sun's light at a height and along a ray near it, and what
 // the air at the sea's level lets through.
 
-import package::cube::shared::outside::sun::SUN_DIR;
+import package::cube::shared::cube_boundary::sun::SUN_DIR;
 import super::clear_sky_fit::{SUN_IRRADIANCE, SUN_WHITE, SUN_BEARING, MIE_G, skyPart, SKY_GLANCE, GLANCE_SUNWARD, SUN_LOG_FLAT, SUN_LOG_SLOPE, SUN_LOG_CURVE, EYE_SUN, EYE_SUN_SLOPE, AIR_PER_METRE};
 
 const PI = 3.141592653589793;

@@ -25,7 +25,7 @@ import {
   SUN_DIR,
   toRoom,
   yawToRoom,
-} from '@/cube/shared/outside';
+} from '@/cube/shared/cube-boundary';
 import {
   CUBE_AT,
   CUBE_BOX,

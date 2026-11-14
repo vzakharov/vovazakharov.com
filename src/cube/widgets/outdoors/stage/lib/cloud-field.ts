@@ -1,5 +1,5 @@
+import { SUN_DIR } from '@/cube/shared/cube-boundary';
 import { smoothstep } from '@/cube/shared/lib/ease';
-import { SUN_DIR } from '@/cube/shared/outside';
 
 /**
  * The cumulus field, in kilometres. The sea under it is cut into square cells

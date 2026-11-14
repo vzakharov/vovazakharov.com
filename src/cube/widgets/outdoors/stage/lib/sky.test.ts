@@ -1,15 +1,15 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { Rgb } from '@/cube/shared/lib/colour';
-import type { Vec3 } from '@/cube/shared/lib/vec';
 import {
   clearSky,
   hemisphereFill,
   skyOf,
   skyParts,
   SUN_DIR,
-} from '@/cube/shared/outside';
+} from '@/cube/shared/cube-boundary';
+import type { Rgb } from '@/cube/shared/lib/colour';
+import type { Vec3 } from '@/cube/shared/lib/vec';
 
 import {
   CLOUD_LANE,

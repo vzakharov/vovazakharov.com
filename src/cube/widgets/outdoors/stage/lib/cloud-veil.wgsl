@@ -4,7 +4,7 @@
 // stands, lit as a whole.
 
 import super::outdoor_frame::frame;
-import package::cube::shared::outside::sun::{SUN_DIR, SKY_FILL, HORIZON_FILL};
+import package::cube::shared::cube_boundary::sun::{SUN_DIR, SKY_FILL, HORIZON_FILL};
 import super::clear_sky::{clearSky, sunThrough};
 import super::cloud_noise::{inField, cloudIn};
 import super::cloud_noise_numbers::{CLOUD_BASE, CLOUD_REACH, CLOUD_CELL, WIND_AXIS, WIND_SIDE, SUN_IN_FIELD};

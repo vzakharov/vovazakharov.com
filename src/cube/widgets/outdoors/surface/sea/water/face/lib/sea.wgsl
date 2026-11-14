@@ -9,7 +9,7 @@ import package::cube::entities::island::land::model::island_height::islandHeight
 import package::cube::widgets::outdoors::stage::lib::outdoor_frame::frame;
 import package::cube::widgets::outdoors::stage::lib::sky::skyRadiance;
 import package::cube::widgets::outdoors::stage::lib::stage_numbers::SKY_METRES;
-import package::cube::shared::outside::sun::{SUN_LIGHT, SKY_FILL, HORIZON_FILL};
+import package::cube::shared::cube_boundary::sun::{SUN_LIGHT, SKY_FILL, HORIZON_FILL};
 import package::cube::widgets::outdoors::surface::beach::lib::sand_colour::sandBed;
 import package::cube::shared::shader::hash::fbm;
 import package::cube::widgets::outdoors::surface::sea::water::foam::lib::sea_foam::{lace, foamThickness, bubbles};

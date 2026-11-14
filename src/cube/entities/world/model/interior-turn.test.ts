@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import {
   beamPatches,
   INTERIOR_TURN,
@@ -9,7 +8,8 @@ import {
   type Quarters,
   SUN_DIR,
   toRoom,
-} from '@/cube/shared/outside';
+} from '@/cube/shared/cube-boundary';
+import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
 
 import { holeQuarter, type Quarter } from './hole';
 import { planted } from './planted';

@@ -1,5 +1,5 @@
+import { ROOM_DOORWAY, type WallSide } from '@/cube/shared/cube-boundary';
 import { CEILING_HEIGHT, ROOM_METRES } from '@/cube/shared/lib/room-shape';
-import { ROOM_DOORWAY, type WallSide } from '@/cube/shared/outside';
 import {
   HOLE_SIDE,
   holeMiddle,

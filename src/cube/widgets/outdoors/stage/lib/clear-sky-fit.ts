@@ -1,4 +1,3 @@
-import type { Rgb } from '@/cube/shared/lib/colour';
 import {
   ATMOSPHERE,
   extinctionAt,
@@ -7,7 +6,8 @@ import {
   SUN_DIR,
   SUN_WHITE,
   sunTransmittance,
-} from '@/cube/shared/outside';
+} from '@/cube/shared/cube-boundary';
+import type { Rgb } from '@/cube/shared/lib/colour';
 import { f32, vecf, wgsl } from '@/cube/shared/shader';
 
 import { FIT_TERMS, fitSky } from './sky-fit';

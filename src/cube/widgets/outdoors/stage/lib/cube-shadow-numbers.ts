@@ -1,5 +1,5 @@
+import { SUN_DIR } from '@/cube/shared/cube-boundary';
 import { cross3, dot3, moved, scaled, type Vec3 } from '@/cube/shared/lib/vec';
-import { SUN_DIR } from '@/cube/shared/outside';
 import { f32, vecf, wgsl } from '@/cube/shared/shader';
 import { CUBE_BOX } from '@/cube/entities/island';
 

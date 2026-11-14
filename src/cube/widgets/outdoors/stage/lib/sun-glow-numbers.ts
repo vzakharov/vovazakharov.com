@@ -1,4 +1,4 @@
-import { ATMOSPHERE, SUN_DIR, SUN_WHITE } from '@/cube/shared/outside';
+import { ATMOSPHERE, SUN_DIR, SUN_WHITE } from '@/cube/shared/cube-boundary';
 import { f32, vecf, wgsl } from '@/cube/shared/shader';
 
 import { EYE_SUN } from './clear-sky-fit';

@@ -6,7 +6,7 @@ import super::cube_shadow_numbers::{SHADOW_CRISP, SHADOW_BEHIND, CUBE_OUTLINE};
 import package::cube::entities::island::land::model::place::{CUBE_MIN, CUBE_MAX};
 import package::cube::entities::island::land::model::ladder::{LADDER_FOOT, LADDER_OUT, LADDER_UP, LADDER_ACROSS, LADDER_SIZE, LADDER_RUNGS};
 import super::outdoor_frame::frame;
-import package::cube::shared::outside::sun::SUN_DIR;
+import package::cube::shared::cube_boundary::sun::SUN_DIR;
 
 /// How much of the sun the cube leaves `p`, the edge as wide as the sun's
 /// disc makes it at the distance the shadow has run.

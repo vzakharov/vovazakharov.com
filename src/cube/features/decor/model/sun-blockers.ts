@@ -1,6 +1,11 @@
+import {
+  type Box,
+  crossesBeam,
+  SUN_DIR,
+  toShell,
+} from '@/cube/shared/cube-boundary';
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import type { Furnishing, Thing } from '@/cube/shared/lib/thing';
-import { type Box, crossesBeam, SUN_DIR, toShell } from '@/cube/shared/outside';
 import type { Setting, Vec3 } from '@/cube/entities/world';
 
 import { standingParts } from './furnish';

@@ -4,7 +4,7 @@
 
 import package::cube::entities::island::shore::wetness::model::shore_wetness::shoreWetness;
 import package::cube::widgets::outdoors::stage::lib::sky::skyRadiance;
-import package::cube::shared::outside::sun::{SUN_LIGHT, SKY_FILL};
+import package::cube::shared::cube_boundary::sun::{SUN_LIGHT, SKY_FILL};
 import package::cube::widgets::outdoors::surface::beach::lib::sand_colour::{DRY_SAND, sandAlbedo, sandWetted};
 import super::sand_grain::{sandGrains, sandLitter, sandGlint};
 import package::cube::widgets::outdoors::surface::beach::lib::sand_relief::{RIPPLE_LENGTH, RIPPLE_HEIGHT, fbmd, sandHummocks, sandDryness, rippleSwathe, sandRipples};

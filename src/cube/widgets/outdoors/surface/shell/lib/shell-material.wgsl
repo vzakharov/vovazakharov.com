@@ -7,7 +7,7 @@
 
 import package::cube::widgets::outdoors::stage::lib::outdoor_frame::frame;
 import package::cube::widgets::outdoors::stage::lib::sky::skyRadiance;
-import package::cube::shared::outside::sun::{SUN_LIGHT, SUN_DIR, SKY_FILL};
+import package::cube::shared::cube_boundary::sun::{SUN_LIGHT, SUN_DIR, SKY_FILL};
 import package::cube::shared::shader::hash::{cellHash, unitOf, mix32};
 import super::shell_salt::SHELL_SALT;
 

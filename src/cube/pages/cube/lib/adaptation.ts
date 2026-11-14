@@ -1,5 +1,5 @@
+import { DOORWAY, toShell, turnedToShell } from '@/cube/shared/cube-boundary';
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
-import { DOORWAY, toShell, turnedToShell } from '@/cube/shared/outside';
 import { isOutside, type Pose, type Whereabouts } from '@/cube/entities/world';
 
 import { forward } from './camera';

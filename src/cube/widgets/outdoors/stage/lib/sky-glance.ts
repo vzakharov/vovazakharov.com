@@ -1,6 +1,6 @@
+import { clearSky } from '@/cube/shared/cube-boundary';
 import type { Rgb } from '@/cube/shared/lib/colour';
 import { dot3, type Vec3 } from '@/cube/shared/lib/vec';
-import { clearSky } from '@/cube/shared/outside';
 
 import { fitRays, liftOf, solve, turnOf } from './sky-fit';
 

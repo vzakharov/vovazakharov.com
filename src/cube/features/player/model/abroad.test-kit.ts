@@ -1,4 +1,4 @@
-import type { Box } from '@/cube/shared/outside';
+import type { Box } from '@/cube/shared/cube-boundary';
 
 import type { Cue } from './player';
 import type { Stage } from './scenes';

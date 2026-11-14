@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { DOORWAY, toRoom, yawToRoom } from '@/cube/shared/cube-boundary';
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
-import { DOORWAY, toRoom, yawToRoom } from '@/cube/shared/outside';
 import type { Outside, Pose } from '@/cube/entities/world';
 
 import { adapted, lensAdapted, settled } from './adaptation';

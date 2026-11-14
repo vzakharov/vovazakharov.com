@@ -1,8 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { ROOM_HEIGHT } from '@/cube/shared/lib/room-shape';
-import type { Vec3 } from '@/cube/shared/lib/vec';
 import {
   CUBE_METRES,
   QUARTER_TURNS,
@@ -11,7 +9,9 @@ import {
   turnedToShell,
   yawToRoom,
   yawToShell,
-} from '@/cube/shared/outside';
+} from '@/cube/shared/cube-boundary';
+import { ROOM_HEIGHT } from '@/cube/shared/lib/room-shape';
+import type { Vec3 } from '@/cube/shared/lib/vec';
 import { f32 } from '@/cube/shared/shader';
 
 import { islandHeight } from './island-height';

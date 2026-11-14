@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { Box } from '@/cube/shared/outside';
+import type { Box } from '@/cube/shared/cube-boundary';
 
 import { seesWhole } from './sight';
 
