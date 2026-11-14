@@ -83,7 +83,7 @@
   touch-action: manipulation;
 }
 
-// The touch screen's controls, laid over the canvas for a while: two halves,
+// The touch screen's controls, laid over the canvas until a drag: two halves,
 // each saying what a drag on it does, letting every touch through.
 .controls {
   position: fixed;
@@ -97,7 +97,11 @@
   text-shadow: 0 1px 3px rgb(0 0 0 / 80%);
   pointer-events: none;
   user-select: none;
-  animation: controls-fade 8s ease-in forwards;
+}
+
+// Faded out once a finger first drags.
+.controlsGone {
+  animation: controls-fade 1s ease-in forwards;
 }
 
 .controlsHalf {
@@ -146,8 +150,7 @@
 }
 
 @keyframes controls-fade {
-  0%,
-  75% {
+  0% {
     opacity: 1;
   }
 

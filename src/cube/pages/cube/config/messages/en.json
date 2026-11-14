@@ -23,7 +23,11 @@
     },
     "pill": {
       "take": "Tap to take the pill",
-      "ask": "Tap {yes} to swallow, {no} to put down"
+      "ask": "{yes} {no}"
+    },
+    "answers": {
+      "yes": "Swallow",
+      "no": "Put down"
     },
     "offer": {
       "hint": "Tap to see the offer",
@@ -31,7 +35,7 @@
     }
   },
   "controls": {
-    "walk": "Drag here to walk",
+    "walk": "Drag here to walk, further to run",
     "look": "Drag here to look around",
     "use": "Tap to use what is in reach"
   },

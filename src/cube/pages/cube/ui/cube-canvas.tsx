@@ -107,7 +107,7 @@ export function CubeCanvas({
     setOffer({ room, sign: { ...sign, kind: 'yours' } });
   };
 
-  /** A question's key as a button, for a screen with no keyboard. */
+  /** A question's answer as a button, named by its key or, on a touch screen, by what it does. */
   const answerKey = (said: Said, key: string) => (
     <button
       type="button"
@@ -189,8 +189,8 @@ export function CubeCanvas({
       <p className={classes['hint']} aria-live="polite">
         {pill === 'ask'
           ? fillSlots(hints.pill.ask, {
-              yes: answerKey('yes', 'Y'),
-              no: answerKey('no', 'N'),
+              yes: answerKey('yes', touch ? tapped.answers.yes : 'Y'),
+              no: answerKey('no', touch ? tapped.answers.no : 'N'),
             })
           : pill === null
             ? offer === null

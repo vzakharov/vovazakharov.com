@@ -7,6 +7,9 @@ import type { Touched } from '../model/step';
 /** CSS pixels a thumb travels from where it landed to push the stick full over. */
 const STICK_REACH = 56;
 
+/** CSS pixels from where it landed past which the stick runs rather than walks. */
+const RUN_REACH = 100;
+
 /** Radians of look per CSS pixel a finger drags. */
 const LOOK_PER_PIXEL = 0.006;
 
@@ -33,7 +36,8 @@ export type TouchBinding = CanDispose & {
 
 /**
  * Fingers on `target`: one landing on its left half is a stick, anchored
- * where it landed, that walks and strafes as it is pushed; one on the right
+ * where it landed, that walks and strafes as it is pushed, and runs pushed past
+ * `RUN_REACH`; one on the right
  * half looks as it drags. A short, still touch anywhere uses what is in reach.
  */
 export function bindTouch(target: HTMLElement): TouchBinding {
@@ -93,14 +97,13 @@ export function bindTouch(target: HTMLElement): TouchBinding {
 
   return {
     read() {
+      const pushed = stick === null ? 0 : Math.hypot(stick.dx, stick.dy);
       // Pushed past its reach, the stick is still only full over.
-      const over =
-        stick === null
-          ? 0
-          : Math.max(STICK_REACH, Math.hypot(stick.dx, stick.dy));
+      const over = Math.max(STICK_REACH, pushed);
       const touched: Touched = {
         walk: stick === null ? 0 : -stick.dy / over,
         strafe: stick === null ? 0 : stick.dx / over,
+        running: pushed > RUN_REACH,
         yawBy: turn,
         elevationBy: tilt,
         use,

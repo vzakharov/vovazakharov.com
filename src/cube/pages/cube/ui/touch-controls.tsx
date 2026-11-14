@@ -1,3 +1,7 @@
+import { useEffect, useState } from 'react';
+
+import { cx } from '@/kernel/shared/lib/class-names';
+
 import type COPY from '../config/messages/en.json';
 import classes from './cube.module.scss';
 
@@ -8,13 +12,28 @@ type TouchControlsProps = {
 };
 
 /**
- * What each part of a touch screen does, laid over the canvas for a while as
- * the fingers find it: the left half walks, the right half looks, a tap uses.
- * It lets every touch through to the canvas under it.
+ * What each part of a touch screen does, laid over the canvas until a finger
+ * first drags — however long the waking takes before the body can move — and
+ * then fading: the left half walks, the right half looks, a tap uses. It lets
+ * every touch through to the canvas under it.
  */
 export function TouchControls({ copy, onShown }: TouchControlsProps) {
+  const [dragged, setDragged] = useState(false);
+  useEffect(() => {
+    const onMove = ({ pointerType, buttons }: PointerEvent) => {
+      if (pointerType === 'touch' && buttons !== 0) setDragged(true);
+    };
+    globalThis.addEventListener('pointermove', onMove);
+    return () => {
+      globalThis.removeEventListener('pointermove', onMove);
+    };
+  }, []);
   return (
-    <div className={classes['controls']} aria-hidden onAnimationEnd={onShown}>
+    <div
+      className={cx(classes['controls'], dragged && classes['controlsGone'])}
+      aria-hidden
+      onAnimationEnd={onShown}
+    >
       <div className={classes['controlsHalf']}>
         <span className={classes['controlsStick']} />
         {copy.walk}

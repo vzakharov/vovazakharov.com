@@ -191,7 +191,14 @@ export function bindInput(
 
   return {
     read() {
-      const { walk, strafe, yawBy, elevationBy, use: tapped } = touch.read();
+      const {
+        walk,
+        strafe,
+        yawBy,
+        elevationBy,
+        running,
+        use: tapped,
+      } = touch.read();
       const input: Input = {
         walk,
         strafe,
@@ -199,7 +206,7 @@ export function bindInput(
         tiltKeys: 0,
         yawBy: turn + yawBy,
         elevationBy: tilt + elevationBy,
-        running: pace.runsUnheld !== shifts.size > 0,
+        running: running || pace.runsUnheld !== shifts.size > 0,
         use: use || tapped,
         answer,
         goTo,

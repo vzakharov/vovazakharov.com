@@ -39,6 +39,7 @@ export type Touched = {
   strafe: number;
   yawBy: number;
   elevationBy: number;
+  running: boolean;
   use: boolean;
 };
 
@@ -56,7 +57,6 @@ export type Touched = {
 export type Input = Touched & {
   turnKeys: number;
   tiltKeys: number;
-  running: boolean;
   answer: Said | null;
   goTo: number | null;
 };
