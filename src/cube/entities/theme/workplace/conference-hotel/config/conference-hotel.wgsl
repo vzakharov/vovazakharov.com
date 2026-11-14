@@ -1,4 +1,4 @@
-import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, DOORWAY_AT, Surf, Material, matte, polished, embossed, repeated, spaced, clearOfDoorway, Lens, litOf, closedAt};
+import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, DOORWAY_AT, Surf, Material, matte, polished, embossed, repeated, spaced, uncut, Lens, litOf, closedAt};
 import package::cube::shared::shader::hash::{valueNoise, fbm};
 import package::cube::entities::theme::kit::lib::finish::{band, damp};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
@@ -164,7 +164,7 @@ fn papered(s: Surf) -> Material {
   // and plain board where a doorway may cut one.
   let x = fract(along / 0.625) * 0.625;
   let edge = min(min(x, 0.625 - x) - 0.075, min(h - 0.2, 0.86 - h));
-  let panelled = clearOfDoorway(s, 0.625);
+  let panelled = uncut(s, 0.625);
   let field =
     panelled
       * smoothstep(0.0, 0.03, edge)

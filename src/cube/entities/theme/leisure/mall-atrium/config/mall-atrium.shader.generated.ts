@@ -56,7 +56,7 @@ fn shuttered(s: Surf) -> Material {
   let pier =
     max(
       1.0 - smoothstep(0.16, 0.164, min(along, bay - along)),
-      1.0 - clearOfDoorway(s, bay),
+      1.0 - uncut(s, bay),
     );
   let fascia = smoothstep(1.9, 1.904, h);
   let rib = sin(fract(h / 0.075) * 3.1416);

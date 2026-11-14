@@ -69,10 +69,7 @@ fn glazed(s: Surf) -> Material {
   let head = smoothstep(2.13, 2.134, h);
   // A bay a doorway may cut is a panel of the frame's metal, not a pane.
   let frame =
-    max(
-      max(max(upright, rails), max(sill, head)),
-      1.0 - clearOfDoorway(s, 1.25),
-    );
+    max(max(max(upright, rails), max(sill, head)), 1.0 - uncut(s, 1.25));
   let brushed = valueNoise(vec2f(s.uv.x * 240.0, h * 8.0), 262u);
   let metal =
     mix(

@@ -79,7 +79,7 @@ fn towers(s: Surf) -> Material {
   let half = 0.3 + 0.25 * unitOf(word);
   let top = 1.5 + 0.55 * unitOf(mix32(word));
   let box = vec2f(abs(across - 0.625) - half, max(h - top, 0.5 - h));
-  let fitted = clearOfDoorway(s, 1.25);
+  let fitted = uncut(s, 1.25);
   let body = fitted * (1.0 - smoothstep(0.0, 0.006, max(box.x, box.y)));
   let leg =
     fitted

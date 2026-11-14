@@ -49,7 +49,7 @@ fn blackout(s: Surf) -> Material {
   // Prints hang from a line at eye height, one every forty centimetres.
   let slot = floor(s.uv.x / 0.4);
   let word = hashOf(bitcast<u32>(i32(slot)), s.seed ^ 0x93u);
-  let hung = step(0.45, unitOf(word)) * clearOfDoorway(s, 0.4);
+  let hung = step(0.45, unitOf(word)) * uncut(s, 0.4);
   let at = vec2f((fract(s.uv.x / 0.4) - 0.15) / 0.7, (h - 1.22) / 0.36);
   let inside =
     hung

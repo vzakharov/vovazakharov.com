@@ -167,7 +167,7 @@ fn papered(s: Surf) -> Material {
   // and plain board where a doorway may cut one.
   let x = fract(along / 0.625) * 0.625;
   let edge = min(min(x, 0.625 - x) - 0.075, min(h - 0.2, 0.86 - h));
-  let panelled = clearOfDoorway(s, 0.625);
+  let panelled = uncut(s, 0.625);
   let field =
     panelled
       * smoothstep(0.0, 0.03, edge)

@@ -1,6 +1,6 @@
 // `casino.ts` adds this floor's light and lens, `lamps()` among them.
 
-import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, Surf, Material, matte, polished, embossed, repeated, spaced, clearOfDoorway};
+import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, Surf, Material, matte, polished, embossed, repeated, spaced, uncut};
 import package::cube::shared::shader::hash::{hashOf, unitOf, valueNoise, fbm};
 import package::cube::entities::theme::kit::lib::finish::{band, tiling};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
@@ -63,7 +63,7 @@ fn gilded(s: Surf) -> Material {
     max(
       stroke(roundBox(upper, vec2f(0.5, 0.42), 0.06), 0.03),
       stroke(roundBox(lower, vec2f(0.5, 0.3), 0.0), 0.025),
-    ) * clearOfDoorway(s, 1.25);
+    ) * uncut(s, 1.25);
   let sheen = fbm(vec2f(s.uv.x, h) * 3.0, 342u, 3);
   let lacquer =
     mix(

@@ -78,7 +78,7 @@ fn coiledWall(s: Surf) -> Material {
   let age = fract(s.time / 90.0 + unitOf(word));
   let touched =
     step(0.7, unitOf(mix32(word)))
-      * clearOfDoorway(s, 1.25)
+      * uncut(s, 1.25)
       * handprint(
         vec2f(fract(s.uv.x / 1.25) * 1.25 - 0.3 - 0.6 * unitOf(word), h - 1.3),
       )

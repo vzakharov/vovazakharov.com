@@ -108,7 +108,7 @@ fn boards(s: Surf) -> Material {
   let advert =
     inside(roundBox(vec2f(along - bay * 0.5, h - 0.63), vec2f(0.85, 0.27), 0.0))
       * step(0.4, unitOf(word))
-      * clearOfDoorway(s, bay);
+      * uncut(s, bay);
   let ground =
     oneOf(
       unitOf(mix32(word)),

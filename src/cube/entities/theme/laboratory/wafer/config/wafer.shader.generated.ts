@@ -52,7 +52,7 @@ fn cassette(s: Surf) -> Material {
       bitcast<u32>(i32(floor(s.uv.x / 1.25))) ^ s.seed,
     );
   // A bay a doorway may cut stands empty, between its posts.
-  let loaded = step(0.12, unitOf(word)) * clearOfDoorway(s, 1.25);
+  let loaded = step(0.12, unitOf(word)) * uncut(s, 1.25);
   let edge = loaded * (1.0 - smoothstep(0.1, 0.18, abs(fract(slot) - 0.5)));
   // The rack's posts, a bay apart, combed to hold the wafers.
   let across = fract(s.uv.x / 1.25) * 1.25;

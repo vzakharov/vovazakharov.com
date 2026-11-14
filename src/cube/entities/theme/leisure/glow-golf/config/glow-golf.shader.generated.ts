@@ -105,7 +105,7 @@ fn cosmos(s: Surf) -> Material {
   let shape =
     body(p, unitOf(mix32(word)) * 6.0)
       * step(unitOf(mix32(word)), 0.84)
-      * clearOfDoorway(s, size.x);
+      * uncut(s, size.x);
   let star = worley(vec2f(s.uv.x, s.p.y) * 14.0, 325u);
   let spatter =
     inside(star.x / 14.0 - 0.003 - 0.007 * star.y * star.y) * step(
