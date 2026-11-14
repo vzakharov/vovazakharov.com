@@ -1,6 +1,7 @@
-// The outside the drowsy eye resolved, laid under the rooms of a frame that
-// draws them whole: its light and metres, no mirror, and the depth of what it
-// shows, so the rooms and it hide one another as one scene pass would have.
+// The outside the drowsy eye resolved, laid under floor 1's room, the one
+// room it is seen from, in a frame that draws the room whole: its light and
+// metres, no mirror, and the depth of what it shows, so the room and it hide
+// one another as one scene pass would have.
 
 import super::reflection_numbers::SIGHT;
 import super::sight_line::sightThrough;
