@@ -83,6 +83,79 @@
   touch-action: manipulation;
 }
 
+// The touch screen's controls, laid over the canvas for a while: two halves,
+// each saying what a drag on it does, letting every touch through.
+.controls {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  color: rgb(255 255 255 / 85%);
+  font:
+    600 14px / 1.4 system-ui,
+    sans-serif;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 80%);
+  pointer-events: none;
+  user-select: none;
+  animation: controls-fade 8s ease-in forwards;
+}
+
+.controlsHalf {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  text-align: center;
+
+  & + & {
+    border-left: 1px dashed rgb(255 255 255 / 40%);
+  }
+}
+
+// Where a thumb sits to walk: the stick's ring.
+.controlsStick {
+  width: 96px;
+  height: 96px;
+  border: 2px solid rgb(255 255 255 / 60%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgb(255 255 255 / 45%) 0 18px,
+    rgb(0 0 0 / 20%) 19px
+  );
+}
+
+// A drag's sweep: a bar the eye turns along.
+.controlsLook {
+  width: 120px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgb(255 255 255 / 60%);
+  box-shadow: 0 0 0 6px rgb(0 0 0 / 20%);
+}
+
+.controlsUse {
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  margin: 0;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+@keyframes controls-fade {
+  0%,
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
 // The one line shown in the cube's place when it cannot be drawn.
 .notice {
   margin: 0;

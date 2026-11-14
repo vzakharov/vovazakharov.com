@@ -16,6 +16,25 @@
     "take": "Press E to take the pill",
     "ask": "Press {yes} to swallow, {no} to put down"
   },
+  "tapped": {
+    "ways": {
+      "wake": "Tap anywhere",
+      "climb": "Tap to climb the ladder"
+    },
+    "pill": {
+      "take": "Tap to take the pill",
+      "ask": "Tap {yes} to swallow, {no} to put down"
+    },
+    "offer": {
+      "hint": "Tap to see the offer",
+      "hintYours": "Tap to see your room"
+    }
+  },
+  "controls": {
+    "walk": "Drag here to walk",
+    "look": "Drag here to look around",
+    "use": "Tap to use what is in reach"
+  },
   "offer": {
     "signs": {
       "for-sale": "For sale",

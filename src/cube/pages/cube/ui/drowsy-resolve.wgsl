@@ -104,8 +104,17 @@ fn resolveMain(@builtin(position) at: vec4f) -> Resolved {
     );
   let fade =
     smoothstep(vec2f(0.0), max(abs(motion) * 3.0, vec2f(1e-4)), crossed);
+  // The sky drifts on the wind, which the reprojection does not follow, and
+  // its clouds are marched afresh every frame anyway: a still eye takes it
+  // from the fresh view, and only a turning one lets it trail.
+  let sky = near.a >= SIGHT;
+  let turning = smoothstep(0.0005, 0.004, length(motion));
   var trust =
-    select(0.0, fade.x * fade.y, front && inside && resolve.jitter.z > 0.5);
+    select(
+      0.0,
+      fade.x * fade.y,
+      front && inside && resolve.jitter.z > 0.5,
+    ) * select(1.0, turning, sky);
   var held = smeared;
   if (trust > 0.0) {
     // The lag: the old picture trails the turn.
