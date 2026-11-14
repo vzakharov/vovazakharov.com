@@ -1,10 +1,22 @@
 items:
   - id: z-ideas
     type: zone
-    updated: [2026-11-14T10:45:00.000Z, agent:cube]
-    box: [3640, -3100, 1980, 1000, yellow]
+    updated: [2026-11-14T19:50:00.000Z, agent:cube]
+    box: [3640, -3800, 1980, 1700, yellow]
     icon: 💡
     text: 'Ideas: doors that open into the room behind the wall'
+  - id: img-doors-01-floor-plan
+    type: image
+    updated: [2026-11-14T19:50:00.000Z, agent:cube]
+    box: [3668, -3690, 560]
+    src: images/doors-01-floor-plan.webp
+    text: 'Floor 7 at threshold 10, density 100%, 75% doors: 263 red doors, 75 purple gaps, and in green the walls where an opening is allowed. From landing (gold) to the hole (teal), the red route takes doors and the dashed blue one walks without'
+  - id: img-doors-02-partition-window
+    type: image
+    updated: [2026-11-14T19:50:00.000Z, agent:cube]
+    box: [4268, -3690, 560]
+    src: images/doors-02-partition-window.webp
+    text: "One partition at threshold 11, the same as 10: green walls are allowed by 2·d + 1 alone. Only the window boxed round the passage (teal dot) needs a search: gold walls passed it, the grey one failed. The roll picked the red wall at the top, and its way round, in blue, is 67 long"
   - id: doors-idea
     type: sticky
     updated: [2026-11-14T10:45:00.000Z, agent:cube]
@@ -37,22 +49,22 @@ items:
     text: 'At most one door per partition. The maze cuts each square crosswise into quarters, and a partition is the straight wall between two of them, so a second door there repeats the first. The threshold alone lines doors up along long blind partitions: 32×32, threshold 8, 216 doors and 192 redundant; with the rule 71 and 2. Read off the coordinates in O(1)'
   - id: doors-roll
     type: sticky
-    updated: [2026-11-14T10:45:00.000Z, agent:cube]
+    updated: [2026-11-14T19:30:00.000Z, agent:cube]
     box: [5343, -2990, 244, yellow]
     icon: 🎲
-    text: 'Placed locally from the world seed: two rolls per partition, doorway/{floor}/{partition}/has, a door or not against the density, and …/at, which of its allowed walls. Raising the density keeps every door and adds more. Not at the longest walk round: that is where whoever knows the rule would look first'
+    text: 'Placed locally from the world seed: per partition, doorway/{floor}/{partition}/has, an opening or not against the density, and …/at, which of its allowed walls; per wall, …/kind, a door at 75% or else a gap, a missing wall nobody can tell from a native passage. Density is 100%, so every partition with an allowed wall gets one; it stays a parameter for playing with. Not at the longest walk round: that is where whoever knows the rule would look first'
   - id: doors-threshold
     type: sticky
-    updated: [2026-11-14T10:45:00.000Z, agent:cube]
+    updated: [2026-11-14T19:30:00.000Z, agent:cube]
     box: [3668, -2560, 244, purple]
     icon: 📏
-    text: 'The threshold counts rooms, not a share of the floor. 48 works: on our world doors begin on floor 5 and shorten the shortest path a little. Half the side would leave ~20 doors a floor at any size, so deep doors would go unfound, and finding them, some portals later, is part of the fun'
+    text: 'Threshold 10, set by the hour: a player who remembers every room walks into ~700 new ones an hour, and at 10 meets ~59 doors and ~20 gaps, a door a minute and a gap every three, the same on floors 7 to 10. Walk rounds are always odd, so 10 acts as 11 and the knob moves in odd steps of ~30%. A count of rooms, not a share of the floor, so deep doors stay as findable as shallow ones'
   - id: doors-bound
     type: sticky
-    updated: [2026-11-14T10:45:00.000Z, agent:cube]
+    updated: [2026-11-14T19:30:00.000Z, agent:cube]
     box: [4338, -2560, 244, purple]
     icon: 📐
-    text: "The threshold asks only whether a wall's two rooms are K steps apart, so a search K steps deep from one of them settles it on any floor: up to ~2K² rooms, a few milliseconds at 48, once per partition. That retired the O(1) lower bound from one block's cross: never above the truth on 104,080 walls, it still turned away two thirds of the walls that qualify"
+    text: "A partition's allowed walls without searching each of its 2^58: the way round crosses the partition only at its passage, so it is at least 2·d + 1 for a wall d from it, and only walls within (K − 1)/2 of the passage, or of a blind partition's centre end, need a search K deep, at most K − 1 of them. One search costs ~0.4 ms with blocks cached, once per wall, kept for good. Same walls as a full count on floors 6–10"
   - id: doors-spacing-why
     type: sticky
     updated: [2026-11-14T11:05:00.000Z, agent:cube]
