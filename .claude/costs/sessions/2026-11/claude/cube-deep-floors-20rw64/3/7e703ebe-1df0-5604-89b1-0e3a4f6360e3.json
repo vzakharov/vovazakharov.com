@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 171,
-    "cacheWrite5mTokens": 126009,
-    "cacheWrite1hTokens": 174394,
-    "cacheReadTokens": 12338731,
-    "outputTokens": 29921,
-    "thinkingTokens": 9890,
-    "responses": 82,
-    "costUsd": 5.092047199999998
+    "inputTokens": 1200,
+    "cacheWrite5mTokens": 127000,
+    "cacheWrite1hTokens": 187125,
+    "cacheReadTokens": 14913427,
+    "outputTokens": 31936,
+    "thinkingTokens": 10011,
+    "responses": 93,
+    "costUsd": 5.761178399999998
   },
   "estimate": {
     "at": "2026-11-14T07:22:43.419Z",
@@ -54,18 +54,18 @@
   "url": "https://claude.ai/code/session_01DaohkC5yeBhetxVink5B1s",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-14T07:22:20.036Z",
-  "lastResponseAt": "2026-11-14T07:42:43.978Z",
+  "lastResponseAt": "2026-11-14T07:52:21.667Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 127,
+    "inputTokens": 144,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 174394,
-    "cacheReadTokens": 10064336,
-    "outputTokens": 21230,
-    "thinkingTokens": 5762,
-    "responses": 60,
-    "costUsd": 3.833127199999999
+    "cacheWrite1hTokens": 187125,
+    "cacheReadTokens": 12180411,
+    "outputTokens": 23233,
+    "thinkingTokens": 5883,
+    "responses": 69,
+    "costUsd": 4.3983181999999985
   },
   "subagents": {
     "inputTokens": 44,
@@ -79,27 +79,40 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 171,
-      "cacheWrite5mTokens": 126009,
-      "cacheWrite1hTokens": 174394,
-      "cacheReadTokens": 12338731,
-      "outputTokens": 29921,
-      "thinkingTokens": 9890,
-      "responses": 82,
-      "costUsd": 5.092047199999998
+      "inputTokens": 1200,
+      "cacheWrite5mTokens": 127000,
+      "cacheWrite1hTokens": 187125,
+      "cacheReadTokens": 14913427,
+      "outputTokens": 31936,
+      "thinkingTokens": 10011,
+      "responses": 93,
+      "costUsd": 5.761178399999998
     }
   },
-  "warnings": [],
+  "warnings": [
+    "1 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
+  ],
   "compactions": [],
   "telemetry": {
-    "events": 82,
-    "matched": 82,
-    "matchedTableUsd": 5.092047199999998,
-    "matchedEventUsd": 5.092047199999998,
-    "unseen": {}
+    "events": 92,
+    "matched": 90,
+    "matchedTableUsd": 5.580300999999998,
+    "matchedEventUsd": 5.580300999999998,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 991,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 458621,
+        "outputTokens": 12,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.10394020000000001
+      }
+    }
   },
   "operatorWords": {
-    "chat": 32,
+    "chat": 54,
     "review": 0,
     "threads": 0
   },
