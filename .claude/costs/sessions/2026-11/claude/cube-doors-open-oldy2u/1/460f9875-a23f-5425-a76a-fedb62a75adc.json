@@ -1,15 +1,39 @@
 {
   "total": {
-    "inputTokens": 118,
+    "inputTokens": 145,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 197412,
-    "cacheReadTokens": 11912299,
-    "outputTokens": 69950,
-    "thinkingTokens": 30625,
-    "responses": 61,
-    "costUsd": 5.3612278000000035
+    "cacheWrite1hTokens": 227952,
+    "cacheReadTokens": 15617696,
+    "outputTokens": 77310,
+    "thinkingTokens": 32511,
+    "responses": 75,
+    "costUsd": 6.493935200000004
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-14T20:32:44.118Z",
+    "subjectLine": "feat: doors drawn, opened by the hand, shut behind the player",
+    "parts": [
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "door state, reach, and the body's jambs and leaf collision threaded through play and step without breaking the existing walk"
+      },
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "the doorway cut and a hinged leaf as quads in two rooms' frames, and a mesh rebuilt only when a door opens or shuts"
+      },
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "checking the leaf reads on shallow and deep floors in both themes"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -34,18 +58,18 @@
   "url": "https://claude.ai/code/session_01DaohkBudYCRGpUtpm5hS2H",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-14T20:20:03.863Z",
-  "lastResponseAt": "2026-11-14T20:32:30.979Z",
+  "lastResponseAt": "2026-11-14T20:39:02.818Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 118,
+    "inputTokens": 145,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 197412,
-    "cacheReadTokens": 11912299,
-    "outputTokens": 69950,
-    "thinkingTokens": 30625,
-    "responses": 61,
-    "costUsd": 5.3612278000000035
+    "cacheWrite1hTokens": 227952,
+    "cacheReadTokens": 15617696,
+    "outputTokens": 77310,
+    "thinkingTokens": 32511,
+    "responses": 75,
+    "costUsd": 6.493935200000004
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,23 +83,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 118,
+      "inputTokens": 145,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 197412,
-      "cacheReadTokens": 11912299,
-      "outputTokens": 69950,
-      "thinkingTokens": 30625,
-      "responses": 61,
-      "costUsd": 5.3612278000000035
+      "cacheWrite1hTokens": 227952,
+      "cacheReadTokens": 15617696,
+      "outputTokens": 77310,
+      "thinkingTokens": 32511,
+      "responses": 75,
+      "costUsd": 6.493935200000004
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 60,
-    "matched": 60,
-    "matchedTableUsd": 5.292867200000003,
-    "matchedEventUsd": 5.292867200000003,
+    "events": 74,
+    "matched": 74,
+    "matchedTableUsd": 6.427053600000003,
+    "matchedEventUsd": 6.427053600000003,
     "unseen": {}
   },
   "operatorWords": {
@@ -88,7 +112,7 @@
   "branchLines": {
     ".md": 333,
     ".js": 1353,
-    ".ts": 78,
+    ".ts": 660,
     ".html": 822,
     ".yaml": 90
   }

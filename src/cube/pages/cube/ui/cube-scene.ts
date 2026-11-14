@@ -141,6 +141,8 @@ export function mountCube(
   let taken: InRoomOf | null = null;
   let moving: readonly Quad[] = [];
   let door: Ajar | null = null;
+  /** The door the play hook's last call holds open. */
+  let stagedDoor: Ajar | null = null;
   /** What the play hook's last call put in the rooms. */
   let staged: readonly Quad[] = [];
   /** The pill the play hook's last call took off its shelf. */
@@ -306,7 +308,7 @@ export function mountCube(
       built?.mesh.signOf ?? noSign,
     );
     ({ pose, taken, moving } = next);
-    door = next.door ?? null;
+    door = next.door ?? stagedDoor;
     taken ??= stagedTaken;
     hookedState = { ladderGone };
     through = lens ?? null;
@@ -347,10 +349,17 @@ export function mountCube(
     ready: async () => firstFrame.promise,
     setPose: async (
       next,
-      { moving: among = [], lens = null, taken: off = null } = {},
+      {
+        moving: among = [],
+        lens = null,
+        taken: off = null,
+        door: held = null,
+      } = {},
     ) => {
       await firstFrame.promise;
       pose = next;
+      stagedDoor = held;
+      door = held;
       staged = among;
       stagedTaken = off;
       taken = off;
