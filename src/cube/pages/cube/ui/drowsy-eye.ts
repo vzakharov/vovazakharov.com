@@ -22,6 +22,8 @@ const RESOLVE_FLOATS = 16 + 16 + 4 + 4 + 4;
 
 /** A frame's low pass: its size, and the view it draws through. */
 type LowPass = Sized & {
+  /** Full pixels per low pixel, each way. */
+  share: Share;
   /** A view-projection of the full frame as the low pass draws through it. */
   shift: (viewProjection: Float32Array) => Float32Array;
 };
@@ -194,6 +196,7 @@ export function createDrowsyEye(device: GPUDevice): DrowsyEye {
       const at = jitter;
       return {
         ...low,
+        share,
         shift: (viewProjection) =>
           shifted(viewProjection, at, full, low, share),
       };

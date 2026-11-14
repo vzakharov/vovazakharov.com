@@ -293,7 +293,7 @@ export async function createRenderer(
             hour,
             ...drawn,
           },
-          detail,
+          low === null ? detail : detail / low.share,
         );
       }
       const { depth } = targetsOf(drawn);
