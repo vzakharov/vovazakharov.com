@@ -3,20 +3,29 @@ Proposed squash body:
 ```
 The cube's intro stutters on weaker GPUs, and the one remedy so far,
 dropping the canvas resolution, blurs every frame alike. The drowsy
-eye spends the cost over time instead: each frame draws the scene and
-its mirrors at a 1/N² share of the pixels (N = 2, 3 or 4), one pixel
-per N×N block chosen by a sub-pixel shift of the view-projection, and
-a new full-size resolve pass reprojects the rest from the previous
-frames by the distance the scene keeps in its alpha. Standing still,
-the picture sharpens to full in N² frames; turning, it trails and
-smears, which the intro reads as waking up.
+eye, on by default outdoors, spends the cost over time instead: each
+frame draws the outside and its mirrors at a ninth of the pixels, one
+per 3×3 block chosen by a sub-pixel shift of the view, and a resolve
+pass reprojects the rest from earlier frames by the distance kept in
+alpha. Standing still the picture sharpens in nine frames; turning,
+it trails and smears, which the intro reads as waking up. A still sky
+blends fresh and held light every frame, since its clouds drift on a
+wind the reprojection does not follow.
 
-It is off by default, so the frame is unchanged until switched on: no
-extra pass, no history held. A console object `cube`, present while
-the cube page is mounted, sets the share, the drowsiness (lag, smear
-and how far history is trusted), a lens vignette, and a slowdown
-factor that re-encodes every pass k times so a fast GPU can stand in
-for a slow one. The `F` meter times the resolve as a stage of its own.
+Indoors, floor 1's room is drawn whole and sharp over the drowsy
+outside seen through its doorway, and a floor that shows no outside
+draws the full frame. A console object `cube` sets the share, the
+drowsiness, a vignette and a slowdown factor that re-encodes every
+pass k times so a fast GPU can stand in for a slow one; the `F` meter
+times the resolve as a stage of its own.
+
+The cube can now be played by touch: the left half is a stick where
+the finger lands, walking near and running far, the right half looks,
+and a tap uses. An overlay shows this once the waking scene ends,
+until the first drag. On touch the hints say "Tap" and the pill's
+question is answered by Swallow and Put down buttons. The keyboard's
+run-or-walk default is remembered in localStorage, and the quality
+hint is gone.
 
 The cube's world rule on earlier frames now says what it guarded: the
 world's state is a pure function of place and shared clock, while one
