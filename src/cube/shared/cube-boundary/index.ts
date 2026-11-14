@@ -9,6 +9,7 @@ export {
   type Box,
   CUBE_METRES,
   DOORWAY,
+  DOORWAY_CUT,
   ROOM_DOORWAY,
   type WallSide,
 } from './frame';

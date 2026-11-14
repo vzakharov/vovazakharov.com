@@ -1,0 +1,161 @@
+{
+  "total": {
+    "inputTokens": 2476,
+    "cacheWrite5mTokens": 1119,
+    "cacheWrite1hTokens": 339849,
+    "cacheReadTokens": 22592793,
+    "outputTokens": 97941,
+    "thinkingTokens": 35536,
+    "responses": 111,
+    "costUsd": 9.211669600000006
+  },
+  "estimate": {
+    "at": "2026-11-14T20:32:44.118Z",
+    "subjectLine": "feat: doors drawn, opened by the hand, shut behind the player",
+    "parts": [
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "door state, reach, and the body's jambs and leaf collision threaded through play and step without breaking the existing walk"
+      },
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "the doorway cut and a hinged leaf as quads in two rooms' frames, and a mesh rebuilt only when a door opens or shuts"
+      },
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "checking the leaf reads on shallow and deep floors in both themes"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-14T20:20:13.327Z",
+    "contextTokens": 112892,
+    "spend": {
+      "inputTokens": 6,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 45952,
+      "cacheReadTokens": 238861,
+      "outputTokens": 882,
+      "thinkingTokens": 80,
+      "responses": 3,
+      "costUsd": 0.4330522
+    }
+  },
+  "sessionId": "460f9875-a23f-5425-a76a-fedb62a75adc",
+  "branch": "claude/cube-doors-open-oldy2u",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session in a `/carte-blanche` run. The lead is session session_01DaohkE83TgA9HwGzYS9z1n on branch `claude/cube-board-right-hand-doors-oldy2u` (P…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBudYCRGpUtpm5hS2H",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-14T20:20:03.863Z",
+  "lastResponseAt": "2026-11-14T20:49:45.332Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 217,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 339849,
+    "cacheReadTokens": 22290775,
+    "outputTokens": 90987,
+    "thinkingTokens": 35536,
+    "responses": 110,
+    "costUsd": 8.997555000000006
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 2476,
+      "cacheWrite5mTokens": 1119,
+      "cacheWrite1hTokens": 339849,
+      "cacheReadTokens": 22592793,
+      "outputTokens": 97941,
+      "thinkingTokens": 35536,
+      "responses": 111,
+      "costUsd": 9.211669600000006
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-14T20:41:55.716Z",
+      "trigger": "auto",
+      "compactedFrom": 304045,
+      "summaryChars": 16389,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/cube/entities/world/model/geometry.test.ts",
+        "endedAt": "2026-11-14T20:43:15.819Z",
+        "contextTokens": 135757,
+        "spend": {
+          "inputTokens": 15,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 77850,
+          "cacheReadTokens": 971675,
+          "outputTokens": 1957,
+          "thinkingTokens": 266,
+          "responses": 8,
+          "costUsd": 0.8563349999999998
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.2141146
+    }
+  ],
+  "telemetry": {
+    "events": 110,
+    "matched": 109,
+    "matchedTableUsd": 8.943376800000005,
+    "matchedEventUsd": 8.943376800000005,
+    "unseen": {
+      "compact": {
+        "inputTokens": 2259,
+        "cacheWrite5mTokens": 1119,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 302018,
+        "outputTokens": 6954,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.2141146
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 333,
+    ".js": 1353,
+    ".ts": 1335,
+    ".html": 822,
+    ".json": 1,
+    ".yaml": 90
+  }
+}

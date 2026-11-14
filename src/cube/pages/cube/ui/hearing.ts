@@ -25,7 +25,7 @@ import {
 import { lineFor, type Moment, utter, voiceOf } from '@/cube/features/voice';
 
 import { rolledTraits } from './cube-mesh';
-import type { Heard } from './cube-scene';
+import type { Heard } from './going-on';
 
 /** What the ear hears: the body's own cues, and the rooms' sounds. */
 export type Hearing = CanDispose & {

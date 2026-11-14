@@ -1,6 +1,14 @@
-import { ROOM_DOORWAY } from '@/cube/shared/cube-boundary';
-import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
-import type { InRoom, Pose, Walls } from '@/cube/entities/world';
+import { DOORWAY_CUT } from '@/cube/shared/cube-boundary';
+import {
+  type Ajar,
+  type DoorWall,
+  EXIT,
+  type InRoom,
+  isSameWall,
+  type Pose,
+} from '@/cube/entities/world';
+
+import { onWall, type Ways } from './door';
 
 /**
  * The radius of a whole body's collision circle, in room sides: 0.6 m across
@@ -18,57 +26,43 @@ type Span = readonly [number, number];
 
 const WHOLE: readonly Span[] = [[0, 1]];
 
-/**
- * The wall of floor 1 the doorway out of the cube opens in: whether it is an
- * east wall, running along `v`, or a south one, along `u`; the room whose
- * east or south wall it is; and the lengths of it that stand either side of
- * the doorway, in room sides from its north or west end.
- */
-const DOOR_WALL = (() => {
-  const { wall, from, to } = ROOM_DOORWAY;
-  const stands: readonly Span[] = [
-    [0, from / ROOM_METRES],
-    [to / ROOM_METRES, 1],
-  ];
-  return {
-    isEast: wall === 'east' || wall === 'west',
-    x: wall === 'west' ? -1n : 0n,
-    y: wall === 'north' ? -1n : 0n,
-    stands,
-  };
-})();
-
-/** The lengths that stand of the east (`isEast`) or south wall of room `x`, `y` on floor `n`. */
-const standing = (n: number, x: bigint, y: bigint, isEast: boolean) =>
-  n === 1 &&
-  isEast === DOOR_WALL.isEast &&
-  x === DOOR_WALL.x &&
-  y === DOOR_WALL.y
-    ? DOOR_WALL.stands
-    : WHOLE;
+/** What stands of a wall a doorway is cut in: either side of the cut. */
+const JAMBS: readonly Span[] = [
+  [0, DOORWAY_CUT.from],
+  [DOORWAY_CUT.to, 1],
+];
 
 /**
  * The closed walls a body in `pose`'s room can touch, as segments on the
  * lines `u = 0`, `u = 1`, `v = 0` and `v = 1` of that room's frame. The closed
- * walls' ends are the door jambs, and floor 1's wall stands either side of
- * the doorway out of the cube.
+ * walls' ends are the door jambs; floor 1's wall stands either side of the
+ * doorway out of the cube, and so does the wall of the door `walls` holds
+ * ajar, whose leaf stands where it has turned to.
  */
-export function closedWalls({ n, x, y }: Pose, walls: Walls): Segment[] {
-  const segments: Segment[] = [];
+export function closedWalls(pose: Pose, walls: Ways): Segment[] {
+  const { n, x, y } = pose;
+  const ajar = walls.ajar ?? null;
+  const standing = (wall: DoorWall): readonly Span[] =>
+    isSameWall(wall, EXIT.wall) || (ajar !== null && isSameWall(wall, ajar))
+      ? JAMBS
+      : WHOLE;
+  const segments: Segment[] = ajar === null ? [] : [leafOf(pose, ajar)];
   for (const d of [-1, 0, 1]) {
     const big = BigInt(d);
     for (const line of [0, 1]) {
       const edge = BigInt(line - 1);
-      if (!walls.isOpenEast(n, x + edge, y + big)) {
-        for (const [from, to] of standing(n, x + edge, y + big, true)) {
+      const east = { n, x: x + edge, y: y + big, isEast: true };
+      if (!walls.isOpenEast(n, east.x, east.y)) {
+        for (const [from, to] of standing(east)) {
           segments.push({
             a: { u: line, v: d + from },
             b: { u: line, v: d + to },
           });
         }
       }
-      if (!walls.isOpenSouth(n, x + big, y + edge)) {
-        for (const [from, to] of standing(n, x + big, y + edge, false)) {
+      const south = { n, x: x + big, y: y + edge, isEast: false };
+      if (!walls.isOpenSouth(n, south.x, south.y)) {
+        for (const [from, to] of standing(south)) {
           segments.push({
             a: { u: d + from, v: line },
             b: { u: d + to, v: line },
@@ -78,6 +72,17 @@ export function closedWalls({ n, x, y }: Pose, walls: Walls): Segment[] {
     }
   }
   return segments;
+}
+
+/** The leaf of `ajar` as a segment in the frame of `pose`'s room, hinge to edge. */
+function leafOf(pose: Pose, ajar: Ajar): Segment {
+  const turn = ajar.toward * ajar.angle;
+  const { from, to } = DOORWAY_CUT;
+  const wide = to - from;
+  return {
+    a: onWall(pose, ajar, from, 0),
+    b: onWall(pose, ajar, from + wide * Math.cos(turn), wide * Math.sin(turn)),
+  };
 }
 
 function closestOn({ a, b }: Segment, p: InRoom): InRoom {
@@ -129,7 +134,7 @@ export function walk<P extends Pose>(
   pose: P,
   du: number,
   dv: number,
-  walls: Walls,
+  walls: Ways,
 ): P {
   const radius = BODY_RADIUS * pose.scale;
   const steps = Math.max(1, Math.ceil(Math.hypot(du, dv) / (radius / 2)));

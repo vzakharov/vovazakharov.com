@@ -10,6 +10,7 @@ export {
   roamingFree,
   steppingOut,
 } from './model/abroad';
+export { swingingOf } from './model/door';
 export { grippingHand } from './model/grip';
 export { handsOf } from './model/hands';
 export { plantedHoled, plantedHoledOf } from './model/holed';

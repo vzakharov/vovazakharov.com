@@ -1,4 +1,14 @@
 export { type Address, decodeAddress, encodeAddress } from './model/address';
+export {
+  type Ajar,
+  doorLeaf,
+  type DoorWall,
+  EXIT,
+  isSameWall,
+  type Leaf,
+  withOpen,
+} from './model/doorway';
+export { eastKind, southKind } from './model/doorways';
 export { descend, DROP, eyeInFrame, type Placed, placed } from './model/frame';
 export { faces, HOLE_SIDE } from './model/geometry';
 export {
