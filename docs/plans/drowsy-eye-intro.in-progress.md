@@ -28,8 +28,15 @@ own knob).
   run 43608036038), merged into this branch as 75e9e9c0. Seen rendering only in
   SwiftShader WebGPU; no GPU timestamps there, so the slowdown's GPU ms is
   unverified on real hardware.
-- In flight: preview slot 1, the PR and its review board. Left: `/five-percent`
-  on the PR, the operator's look on a real GPU.
+- Published: preview slot 1 (https://preview.vovazakharov.com, built from
+  75e9e9c0), PR https://github.com/vzakharov/vovazakharov.com/pull/281 with its
+  squash proposal, review board
+  https://claude.ai/artifact/BxBFPz3uShGcazjTpLQpP3 (watched).
+- In flight: a diagnosis agent on the operator's «посмотри управление с
+  телефона, почему-то кажется что оно не работает» — touch controls in the cube,
+  this branch vs main; diagnosis only, no edits.
+- Left: fix the touch controls per that diagnosis, `/five-percent` on the PR,
+  the operator's look on a real GPU.
 
 ## Goal
 
