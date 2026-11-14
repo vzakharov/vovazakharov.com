@@ -39,11 +39,13 @@ export const ROOM_DOORWAY: typeof DOORWAY & { wall: WallSide } = (() => {
 
 /**
  * The cut every doorway makes in its wall, floor 1's way out and every door
- * alike: `from` and `to` along the wall from its north or west end and the
- * head's height over the slab, in room sides, so it fits a room of any floor.
+ * alike: `from`, `to` and their `middle` along the wall from its north or west
+ * end, and the head's height over the slab, in room sides, so it fits a room
+ * of any floor.
  */
 export const DOORWAY_CUT = {
   from: ROOM_DOORWAY.from / CUBE_METRES,
   to: ROOM_DOORWAY.to / CUBE_METRES,
+  middle: (ROOM_DOORWAY.from + ROOM_DOORWAY.to) / 2 / CUBE_METRES,
   height: ROOM_DOORWAY.height / CUBE_METRES,
 };

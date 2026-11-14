@@ -29,15 +29,13 @@ const doored: Ways = {
   isDoor: (wall) => isSameWall(wall, DOOR),
 };
 
-const MIDDLE = (DOORWAY_CUT.from + DOORWAY_CUT.to) / 2;
-
 /** A body in the door's west room, level with the doorway, looking east at it. */
 const facing = (over: Partial<Pose> = {}): Pose => ({
   n: 3,
   x: 1n,
   y: 2n,
   u: 0.8,
-  v: MIDDLE,
+  v: DOORWAY_CUT.middle,
   eyeAbove: EYE_HEIGHT,
   scale: 1,
   yaw: 0,

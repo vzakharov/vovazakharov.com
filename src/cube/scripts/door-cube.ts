@@ -63,7 +63,7 @@ function before({ n, x, y }: DoorWall, east: boolean): Pose {
     x: east ? x + 1n : x,
     y,
     u: east ? BACK : 1 - BACK,
-    v: (DOORWAY_CUT.from + DOORWAY_CUT.to) / 2 - 0.08,
+    v: DOORWAY_CUT.middle - 0.08,
     eyeAbove: EYE_HEIGHT,
     scale: 1,
     yaw: east ? Math.PI : 0,

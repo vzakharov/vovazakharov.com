@@ -39,9 +39,6 @@ export const LEAF_SWING = 0.9;
 /** How far a leaf swings open, in radians. */
 export const OPEN_ANGLE = Math.PI / 2;
 
-/** The middle of a doorway, along its wall from the north or west end. */
-const MIDDLE = (DOORWAY_CUT.from + DOORWAY_CUT.to) / 2;
-
 /** The angle `door`'s leaf has turned to: up to `OPEN_ANGLE`, then back to 0 once it shuts. */
 export function leafAngle({ openFor, shutAt }: OpenDoor): number {
   const opened = (t: number) => OPEN_ANGLE * rise(t, 0, LEAF_SWING);
@@ -62,11 +59,23 @@ export const ajarOf = (door: OpenDoor | null): Ajar | null =>
 export const swingingOf = (door: OpenDoor | null): Ajar | null =>
   door === null ? null : leafOf(door);
 
-/** The middle of `wall`'s doorway on its line, in the frame of `pose`'s room. */
-function doorwayAt({ x, y }: Pose, wall: DoorWall): InRoom {
-  const [u, v] = wall.isEast ? [1, MIDDLE] : [MIDDLE, 1];
+/**
+ * The point `along` `wall` from its north or west end and `across` it east
+ * or south, in the frame of `pose`'s room.
+ */
+export function onWall(
+  { x, y }: Pose,
+  wall: DoorWall,
+  along: number,
+  across: number,
+): InRoom {
+  const [u, v] = wall.isEast ? [1 + across, along] : [along, 1 + across];
   return { u: u + Number(wall.x - x), v: v + Number(wall.y - y) };
 }
+
+/** The middle of `wall`'s doorway on its line, in the frame of `pose`'s room. */
+const doorwayAt = (pose: Pose, wall: DoorWall): InRoom =>
+  onWall(pose, wall, DOORWAY_CUT.middle, 0);
 
 /**
  * The closed door a body at `pose` opens with its hand: of its room's four

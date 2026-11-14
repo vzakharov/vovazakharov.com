@@ -8,7 +8,7 @@ import {
   type Pose,
 } from '@/cube/entities/world';
 
-import type { Ways } from './door';
+import { onWall, type Ways } from './door';
 
 /**
  * The radius of a whole body's collision circle, in room sides: 0.6 m across
@@ -75,17 +75,13 @@ export function closedWalls(pose: Pose, walls: Ways): Segment[] {
 }
 
 /** The leaf of `ajar` as a segment in the frame of `pose`'s room, hinge to edge. */
-function leafOf({ x, y }: Pose, ajar: Ajar): Segment {
+function leafOf(pose: Pose, ajar: Ajar): Segment {
   const turn = ajar.toward * ajar.angle;
   const { from, to } = DOORWAY_CUT;
   const wide = to - from;
-  const inFrame = (along: number, across: number): InRoom => {
-    const [u, v] = ajar.isEast ? [1 + across, along] : [along, 1 + across];
-    return { u: u + Number(ajar.x - x), v: v + Number(ajar.y - y) };
-  };
   return {
-    a: inFrame(from, 0),
-    b: inFrame(from + wide * Math.cos(turn), wide * Math.sin(turn)),
+    a: onWall(pose, ajar, from, 0),
+    b: onWall(pose, ajar, from + wide * Math.cos(turn), wide * Math.sin(turn)),
   };
 }
 
