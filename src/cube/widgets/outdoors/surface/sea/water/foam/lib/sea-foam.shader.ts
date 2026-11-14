@@ -4,11 +4,11 @@
 import { HASH, wgsl } from '@/cube/shared/shader';
 import { SWELL_COURSE } from '@/cube/entities/island';
 
+import { SEA_SHORE } from '../../shore';
 import { SEA_FOAM_NUMBERS } from './sea-foam-numbers';
-import { SEA_SHORE } from './sea-shore.shader';
 
 export const SEA_FOAM = wgsl(
-  'cube/widgets/outdoors/surface/sea/water/lib/sea-foam',
+  'cube/widgets/outdoors/surface/sea/water/foam/lib/sea-foam',
   /* wgsl */ `
 /// Seconds over which the foam a breaker leaves behind thins to 1/e.
 const TRAIL_LASTS = 2.2;

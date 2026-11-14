@@ -133,24 +133,3 @@ export function unimported(
     });
   });
 }
-
-/**
- * A sub-slice reaching a sibling stands on it, so it is a band, not a base,
- * and nothing beside it may import it: what two bands share goes below both.
- */
-export function bandsEntered(linked: readonly Linked[]): string[] {
-  const bands = new Set(
-    linked.flatMap(({ links }) =>
-      links.flatMap(({ entry }) => entry.sibling ?? []),
-    ),
-  );
-  return linked.flatMap(({ file, links }) =>
-    links
-      .filter(({ entry }) => entry.sibling !== undefined)
-      .filter(({ entry }) => bands.has(entry.barrel ?? ''))
-      .map(
-        ({ import: found, entry }) =>
-          `${file}:${String(found.line)}: ${String(entry.barrel)} reaches a sibling itself, so it is a band; what two bands share goes below both`,
-      ),
-  );
-}

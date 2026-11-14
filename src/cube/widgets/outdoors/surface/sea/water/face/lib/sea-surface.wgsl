@@ -4,7 +4,7 @@
 
 import package::cube::widgets::outdoors::stage::lib::outdoor_frame::frame;
 import package::cube::widgets::outdoors::stage::lib::outdoor_stage::clipOf;
-import super::sea_shore::{offshore, level, calm};
+import package::cube::widgets::outdoors::surface::sea::water::shore::lib::sea_shore::{offshore, level, calm};
 import super::sea_surface_numbers::{SEA_HUB, SEA_GROWTH, WAVE_TILE};
 import package::cube::widgets::outdoors::surface::sea::state::lib::sea_tables::{CASCADES, SIDES, SPOKES};
 

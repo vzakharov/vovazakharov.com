@@ -1,30 +1,26 @@
-// Generated from sea.wgsl by `pnpm shaders:codegen`. Edit the
-// source, not here — the vet run regenerates this file and fails when it had to.
+// The sea's fragment: one pixel of water, lit. It writes the scene pass's
+// three targets — light with metres from the eye in its alpha, the two
+// mirror targets empty, since the sea reflects the sky map itself — and its
+// own depth, so the swash's thin sheet lies over the sand's mesh.
 
-import { SUN } from '@/cube/shared/outside';
-import { HASH, wgsl } from '@/cube/shared/shader';
-import { ISLAND_HEIGHT } from '@/cube/entities/island';
+import package::cube::widgets::outdoors::stage::lib::aerial::aerial;
+import package::cube::widgets::outdoors::stage::lib::cube_shadow::cubeShadow;
+import package::cube::entities::island::land::model::island_height::islandHeight;
+import package::cube::widgets::outdoors::stage::lib::outdoor_frame::frame;
+import package::cube::widgets::outdoors::stage::lib::sky::skyRadiance;
+import package::cube::widgets::outdoors::stage::lib::stage_numbers::SKY_METRES;
+import package::cube::shared::outside::sun::{SUN_LIGHT, SKY_FILL, HORIZON_FILL};
+import package::cube::widgets::outdoors::surface::beach::lib::sand_colour::sandBed;
+import package::cube::shared::shader::hash::fbm;
+import package::cube::widgets::outdoors::surface::sea::water::foam::lib::sea_foam::{lace, foamThickness, bubbles};
+import super::sea_light::{mirrored, glitter, upwelling};
+import super::sea_numbers::UNSEEN_SPREAD;
+import package::cube::widgets::outdoors::surface::sea::water::shore::lib::sea_shore::{Shore, offshore, calm, calmOver, shoreAt};
+import super::sea_surface::{SeaVarying, waveSampler, slopeMap, wavesAt};
+import super::sea_surface_numbers::WAVE_TILE;
+import package::cube::widgets::outdoors::surface::sea::state::lib::sea_tables::{CASCADES, SIDES};
+import package::cube::widgets::outdoors::stage::lib::water_body::{DROWNED, fresnel, kept, sunEntering};
 
-import {
-  AERIAL,
-  CUBE_SHADOW,
-  OUTDOOR_FRAME,
-  SKY,
-  STAGE_NUMBERS,
-  WATER_BODY,
-} from '../../../../stage';
-import { SAND_COLOUR } from '../../../beach';
-import { SEA_TABLES } from '../../state';
-import { SEA_FOAM } from './sea-foam.shader';
-import { SEA_LIGHT } from './sea-light.shader';
-import { SEA_NUMBERS } from './sea-numbers';
-import { SEA_SHORE } from './sea-shore.shader';
-import { SEA_SURFACE } from './sea-surface.shader';
-import { SEA_SURFACE_NUMBERS } from './sea-surface-numbers';
-
-export const SEA = wgsl(
-  'cube/widgets/outdoors/surface/sea/water/lib/sea',
-  /* wgsl */ `
 /// Water deeper than this, metres, shows none of its bed.
 const BED_SHOWS = 24.0;
 /// The cosine of the sun's rays to the vertical once they are in the water.
@@ -52,7 +48,7 @@ struct SeaOut {
   @builtin(frag_depth) depth: f32,
 }
 
-/// Where a ray entering water \`column\` metres deep at \`start\` meets the bed.
+/// Where a ray entering water `column` metres deep at `start` meets the bed.
 fn bedUnder(start: vec3f, ray: vec3f, column: f32) -> vec3f {
   let sinks = max(-ray.y, 0.2);
   var reach = column / sinks;
@@ -63,7 +59,7 @@ fn bedUnder(start: vec3f, ray: vec3f, column: f32) -> vec3f {
   return start + ray * reach;
 }
 
-/// How the ripples over \`xz\` gather the sun on a bed \`over\` metres under
+/// How the ripples over `xz` gather the sun on a bed `over` metres under
 /// them, about 1: a crest is a lens, and the deeper the bed the wider the
 /// ripples whose light comes to a line on it, until they all blur together.
 fn gathered(xz: vec2f, over: f32) -> f32 {
@@ -194,22 +190,3 @@ fn seaFragment(in: SeaVarying, @builtin(front_facing) above: bool) -> SeaOut {
   out.depth = mix(in.clip.z, in.lifted.x / in.lifted.y, ashore);
   return out;
 }
-`,
-  AERIAL,
-  CUBE_SHADOW,
-  ISLAND_HEIGHT,
-  OUTDOOR_FRAME,
-  SKY,
-  STAGE_NUMBERS,
-  SUN,
-  SAND_COLOUR,
-  HASH,
-  SEA_FOAM,
-  SEA_LIGHT,
-  SEA_NUMBERS,
-  SEA_SHORE,
-  SEA_SURFACE,
-  SEA_SURFACE_NUMBERS,
-  SEA_TABLES,
-  WATER_BODY,
-);

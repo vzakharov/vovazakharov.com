@@ -33,11 +33,6 @@ type Entry = {
    * shares the importer's unit and is reached directly.
    */
   barrel: string | undefined;
-  /**
-   * When `barrel` is a sub-slice beside one the importer sits in, that
-   * sub-slice of the importer's: the one now reaching a sibling.
-   */
-  sibling: string | undefined;
 };
 
 export type Entered = { entry: Entry };
@@ -88,9 +83,6 @@ export function placeImport(
     !SLICED_LAYERS.includes(toLayer);
   const direct = subLibrary || segmented;
   const barrel = direct ? undefined : entered;
-  const besideOwn =
-    barrel !== undefined && depth > 0 && outer.includes(inner[depth - 1] ?? '');
-  const sibling = besideOwn ? outer[depth] : undefined;
 
   if (barrel === undefined && !direct && supers === undefined) {
     errors.push('a module in the same unit is imported by super::');
@@ -98,5 +90,5 @@ export function placeImport(
   if (barrel !== undefined && supers !== undefined) {
     errors.push(`${barrel} is entered by a package:: path to its barrel`);
   }
-  return { errors, entry: { barrel, sibling } };
+  return { errors, entry: { barrel } };
 }

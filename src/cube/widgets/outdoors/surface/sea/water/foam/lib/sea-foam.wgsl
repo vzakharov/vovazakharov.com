@@ -5,7 +5,7 @@
 import package::cube::entities::island::sea::swell::model::swell_course::SWELL_RUNS;
 import package::cube::shared::shader::hash::{mix32, unitOf, cellHash, valueNoise, fbm};
 import super::sea_foam_numbers::SWELL_PERIOD;
-import super::sea_shore::Shore;
+import package::cube::widgets::outdoors::surface::sea::water::shore::lib::sea_shore::Shore;
 
 /// Seconds over which the foam a breaker leaves behind thins to 1/e.
 const TRAIL_LASTS = 2.2;

@@ -9,11 +9,11 @@ import {
   SKY,
   WATER_BODY,
   WATER_OPTICS,
-} from '../../../../stage';
+} from '../../../../../stage';
 import { SEA_SURFACE } from './sea-surface.shader';
 
 export const SEA_LIGHT = wgsl(
-  'cube/widgets/outdoors/surface/sea/water/lib/sea-light',
+  'cube/widgets/outdoors/surface/sea/water/face/lib/sea-light',
   /* wgsl */ `
 /// The least cosine between a facet's normal and the eye's line it is lit at.
 const TURNED = 0.02;

@@ -1,6 +1,6 @@
 import { f32, wgsl } from '@/cube/shared/shader';
 
-import { UNSEEN_SPREAD } from '../../state';
+import { UNSEEN_SPREAD } from '../../../state';
 
 /** `UNSEEN_SPREAD` as the WGSL constant of that name. */
 export const SEA_NUMBERS = wgsl(

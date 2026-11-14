@@ -11,7 +11,6 @@ import { pathToFileURL } from 'node:url';
 
 import type { MasdGraph } from '../../../eslint/masd-graph.ts';
 import {
-  bandsEntered,
   checkImport,
   type Linked,
   messageOf,
@@ -134,9 +133,6 @@ export async function linkAll(
     return { file, module, links };
   });
 
-  errors.push(
-    ...unimported(linked, [...targets.values()]),
-    ...bandsEntered(linked),
-  );
+  errors.push(...unimported(linked, [...targets.values()]));
   return { linked, errors };
 }

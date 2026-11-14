@@ -10,11 +10,11 @@ import {
   WATER_LEVEL,
 } from '@/cube/entities/island';
 
-import { OUTDOOR_FRAME } from '../../../../stage';
-import { SEA_SHORE_NUMBERS } from '../../state';
+import { OUTDOOR_FRAME } from '../../../../../stage';
+import { SEA_SHORE_NUMBERS } from '../../../state';
 
 export const SEA_SHORE = wgsl(
-  'cube/widgets/outdoors/surface/sea/water/lib/sea-shore',
+  'cube/widgets/outdoors/surface/sea/water/shore/lib/sea-shore',
   /* wgsl */ `
 /// 0 by the island, 1 out where the open sea's own swell has taken over.
 fn offshore(xz: vec2f) -> f32 {

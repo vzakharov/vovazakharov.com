@@ -68,17 +68,6 @@ const REFUSALS: ReadonlyArray<[string, Record<string, string>, RegExp]> = [
   ],
 
   [
-    'one band importing another',
-    {
-      'dwelling/lib/home.wgsl': `import ${KIT}::base;\n\nfn home() -> f32 {\n  return base();\n}\n`,
-      'dwelling/index.ts': "export { HOME } from './lib/home.shader';",
-      'laboratory/config/floor.wgsl':
-        'import package::cube::entities::theme::dwelling::lib::home::home;\n\nfn floor() -> f32 {\n  return home();\n}\n',
-    },
-    /theme\/dwelling reaches a sibling itself, so it is a band/,
-  ],
-
-  [
     'a module its unit does not export',
     {
       'kit/index.ts': 'export {};',

@@ -1,6 +1,6 @@
 import { f32, wgsl } from '@/cube/shared/shader';
 
-import { RINGS, TILE } from '../../state';
+import { RINGS, TILE } from '../../../state';
 
 /** Metres: the radius at which the mesh's rings stop growing by a fixed step. */
 const HUB = 0.5;

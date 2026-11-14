@@ -3,13 +3,13 @@
 
 import { wgsl } from '@/cube/shared/shader';
 
-import { OUTDOOR_FRAME, OUTDOOR_STAGE } from '../../../../stage';
-import { SEA_TABLES } from '../../state';
-import { SEA_SHORE } from './sea-shore.shader';
+import { OUTDOOR_FRAME, OUTDOOR_STAGE } from '../../../../../stage';
+import { SEA_TABLES } from '../../../state';
+import { SEA_SHORE } from '../../shore';
 import { SEA_SURFACE_NUMBERS } from './sea-surface-numbers';
 
 export const SEA_SURFACE = wgsl(
-  'cube/widgets/outdoors/surface/sea/water/lib/sea-surface',
+  'cube/widgets/outdoors/surface/sea/water/face/lib/sea-surface',
   /* wgsl */ `
 /// How far apart the slow surface is read for its own slope, metres.
 const SWELL_STEP = 0.4;
