@@ -2,11 +2,16 @@ import { DOORWAY_CUT, ROOM_DOORWAY } from '@/cube/shared/cube-boundary';
 import { CEILING_HEIGHT, WALL_HALF } from '@/cube/shared/lib/room-shape';
 import type { Sides as RoomSides } from '@/cube/shared/lib/sides';
 import type { Surface } from '@/cube/shared/lib/surface';
-import { cross3, dot3, type Vec3 } from '@/cube/shared/lib/vec';
+import {
+  cross3,
+  dot3,
+  scaled as times,
+  type Vec3,
+} from '@/cube/shared/lib/vec';
 
 import { eastKind, southKind } from './doorways';
 import type { RolledMaze } from './maze';
-import { box, face, type Quad } from './quad';
+import { box, face, plus, type Quad } from './quad';
 import { isRoom, type Room } from './room';
 import { mazeWalls, type Walls } from './walls';
 
@@ -153,10 +158,11 @@ const leaning = (
   [a, b]: readonly [Vec3, Vec3],
   toward: Vec3,
   surface: Surface,
+  paint?: number,
 ): Quad =>
   dot3(cross3(a, b), toward) > 0
-    ? face(corner, a, b, PLACEHOLDER, surface)
-    : face(corner, b, a, PLACEHOLDER, surface);
+    ? face(corner, a, b, PLACEHOLDER, surface, paint)
+    : face(corner, b, a, PLACEHOLDER, surface, paint);
 
 /**
  * `wall` with the doorway cut in it, each quad in the frame of the room it
@@ -209,9 +215,47 @@ export function doorwayWall(wall: DoorWall, sides: Sides): Quad[] {
 }
 
 /**
+ * A door's raised panels, the same on both faces: each from and to, as shares
+ * of the leaf's width from the hinge and of its height from the foot.
+ */
+const PANELS = [
+  { from: 0.16, to: 0.84, foot: 0.08, top: 0.42 },
+  { from: 0.16, to: 0.84, foot: 0.5, top: 0.92 },
+] as const;
+
+/** How far a panel stands proud of its face, in leaf thicknesses. */
+const PANEL_PROUD = 0.15;
+
+/**
+ * A door's knob on each face: where its corner is, as shares of the leaf's
+ * width and height; its size as shares of them; and how far it stands out,
+ * in leaf thicknesses.
+ */
+const KNOB = { along: 0.86, up: 0.47, wide: 0.06, tall: 0.03, out: 1.5 };
+
+/** A door's paints: its wood, its panels a shade darker, and its brass knob. */
+const DOOR_PAINT = { leaf: 0x5a_3a_22, panel: 0x4a_2e_1a, knob: 0xb0_8d_57 };
+
+/** The box from `corner` along three edges, in whichever order faces out. */
+const solid = (
+  corner: Vec3,
+  [a, b, c]: readonly [Vec3, Vec3, Vec3],
+  surface: Surface,
+  paint: number,
+): Quad[] =>
+  box(
+    corner,
+    dot3(cross3(a, b), c) > 0 ? [a, b, c] : [b, a, c],
+    PLACEHOLDER,
+    surface,
+    paint,
+  );
+
+/**
  * The leaf hung in `wall`'s doorway, turned as `leaf` has it, each quad in the
- * frame of the room it stands in: a slab a third of the wall's thickness
- * filling the cut, hinged on its north or west jamb.
+ * frame of the room it stands in: a wooden slab a third of the wall's
+ * thickness filling the cut, hinged on its north or west jamb, with two
+ * raised panels and a knob on each face.
  */
 export function doorLeaf(wall: DoorWall, { angle, toward }: Leaf): Quad[] {
   const { run, at, own } = wallFrame(wall);
@@ -219,12 +263,36 @@ export function doorLeaf(wall: DoorWall, { angle, toward }: Leaf): Quad[] {
   const wide = to - from - 2 * LEAF_CLEAR;
   const turn = toward * angle;
   const thick = 2 * LEAF_HALF * toward;
+  // Along the leaf from its hinge, through it, and up it.
   const p = run(wide * Math.cos(turn), wide * Math.sin(turn), 0);
   const q = run(thick * Math.sin(turn), -thick * Math.cos(turn), 0);
   const r = run(0, 0, height - 2 * LEAF_CLEAR);
   const corner = at(from + LEAF_CLEAR, toward * LEAF_HALF, LEAF_CLEAR);
-  const rightHanded = dot3(cross3(p, q), r) > 0;
-  return own(
-    box(corner, rightHanded ? [p, q, r] : [q, p, r], PLACEHOLDER, 'trim'),
-  );
+  /** The point `along`, `through` and `up` the leaf, each a share of its edge. */
+  const point = (along: number, through: number, up: number): Vec3 =>
+    plus(plus(plus(corner, times(p, along)), times(q, through)), times(r, up));
+  const faced = (sign: -1 | 1): Quad[] => {
+    const through = sign < 0 ? -PANEL_PROUD : 1 + PANEL_PROUD;
+    const panels = PANELS.map((panel) =>
+      leaning(
+        point(panel.from, through, panel.foot),
+        [times(p, panel.to - panel.from), times(r, panel.top - panel.foot)],
+        times(q, sign),
+        'wood',
+        DOOR_PAINT.panel,
+      ),
+    );
+    const knob = solid(
+      point(KNOB.along, sign < 0 ? -KNOB.out : 1, KNOB.up),
+      [times(p, KNOB.wide), times(q, KNOB.out), times(r, KNOB.tall)],
+      'handle',
+      DOOR_PAINT.knob,
+    );
+    return [...panels, ...knob];
+  };
+  return own([
+    ...solid(corner, [p, q, r], 'wood', DOOR_PAINT.leaf),
+    ...faced(-1),
+    ...faced(1),
+  ]);
 }
