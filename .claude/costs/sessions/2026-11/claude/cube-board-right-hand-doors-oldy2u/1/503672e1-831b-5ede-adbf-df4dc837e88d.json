@@ -1,16 +1,16 @@
 {
   "total": {
-    "inputTokens": 12639,
+    "inputTokens": 12672,
     "cacheWrite5mTokens": 232815,
-    "cacheWrite1hTokens": 685212,
-    "cacheReadTokens": 57024931,
-    "outputTokens": 224295,
-    "thinkingTokens": 76832,
-    "responses": 265,
-    "costUsd": 22.597746199999992
+    "cacheWrite1hTokens": 728667,
+    "cacheReadTokens": 60121392,
+    "outputTokens": 237613,
+    "thinkingTokens": 85817,
+    "responses": 282,
+    "costUsd": 23.83117039999999
   },
   "estimate": {
-    "at": "2026-11-14T10:54:54.148Z",
+    "at": "2026-11-14T10:58:32.829Z",
     "subjectLine": "docs: analyse openable doors in the cube's floor maze, with a simulator",
     "parts": [
       {
@@ -20,10 +20,10 @@
         "comment": "whether shortcuts flatten a search maze is a design-theory call: which difficulty the game sells, which player model measures it, and where doors stay findable on deep floors"
       },
       {
-        "hours": 5.0,
+        "hours": 7.0,
         "grade": "senior",
         "role": "developer",
-        "comment": "a faithful port of the recursive-division maze and the world's hole seals, three explorer models, a seeded door roll, and a lower bound proven against exact distances"
+        "comment": "a faithful port of the recursive-division maze and the world's hole seals, three explorer models, a seeded door roll, a lower bound proven against exact distances, and dead ends read off by line of sight through real doorways"
       }
     ],
     "comment": null
@@ -54,18 +54,18 @@
   "url": "https://claude.ai/code/session_01DaohkCH6sCRrmk6LaotEWV",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-14T09:42:39.605Z",
-  "lastResponseAt": "2026-11-14T10:58:24.179Z",
+  "lastResponseAt": "2026-11-14T11:01:35.294Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 435,
+    "inputTokens": 468,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 685212,
-    "cacheReadTokens": 50207381,
-    "outputTokens": 196119,
-    "thinkingTokens": 70281,
-    "responses": 219,
-    "costUsd": 19.4472922
+    "cacheWrite1hTokens": 728667,
+    "cacheReadTokens": 53303842,
+    "outputTokens": 209437,
+    "thinkingTokens": 79266,
+    "responses": 236,
+    "costUsd": 20.680716399999998
   },
   "subagents": {
     "inputTokens": 63,
@@ -79,14 +79,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 12639,
+      "inputTokens": 12672,
       "cacheWrite5mTokens": 232815,
-      "cacheWrite1hTokens": 685212,
-      "cacheReadTokens": 57024931,
-      "outputTokens": 224295,
-      "thinkingTokens": 76832,
-      "responses": 265,
-      "costUsd": 22.597746199999992
+      "cacheWrite1hTokens": 728667,
+      "cacheReadTokens": 60121392,
+      "outputTokens": 237613,
+      "thinkingTokens": 85817,
+      "responses": 282,
+      "costUsd": 23.83117039999999
     }
   },
   "warnings": [],
@@ -150,16 +150,16 @@
           "Bash": 1
         },
         "estimatedTokens": 701,
-        "estimatedUsd": 0.0057482
+        "estimatedUsd": 0.0081316
       },
       "billedUsd": 0.23716879999999999
     }
   ],
   "telemetry": {
-    "events": 265,
-    "matched": 249,
-    "matchedTableUsd": 21.41496739999999,
-    "matchedEventUsd": 21.41496739999999,
+    "events": 282,
+    "matched": 266,
+    "matchedTableUsd": 22.64839159999999,
+    "matchedEventUsd": 22.64839159999999,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 7084,
@@ -184,17 +184,17 @@
     }
   },
   "operatorWords": {
-    "chat": 20012,
+    "chat": 22076,
     "review": 0,
     "threads": 0
   },
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
+    ".md": 32,
     ".js": 804,
     ".ts": 28,
     ".html": 539,
-    ".md": 211,
     ".yaml": 66
   }
 }

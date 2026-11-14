@@ -52,7 +52,13 @@ items:
     updated: [2026-11-14T10:45:00.000Z, agent:cube]
     box: [4338, -2560, 244, purple]
     icon: 📐
-    text: "The threshold asks only whether a wall's two rooms are K steps apart, so a search K steps deep from one of them settles it on any floor: up to ~2K² rooms, a few milliseconds at 48. A lower bound from the cross of the one block whose cut holds the wall costs O(1), never above the truth on 104,080 walls, but turns away two thirds of the walls that qualify"
+    text: "The threshold asks only whether a wall's two rooms are K steps apart, so a search K steps deep from one of them settles it on any floor: up to ~2K² rooms, a few milliseconds at 48, once per partition. That retired the O(1) lower bound from one block's cross: never above the truth on 104,080 walls, it still turned away two thirds of the walls that qualify"
+  - id: doors-spacing-why
+    type: sticky
+    updated: [2026-11-14T11:05:00.000Z, agent:cube]
+    box: [5008, -2560, 244, yellow]
+    icon: 🔎
+    text: "How the partition rule was found: doors bunched along one blind partition, because every room on either side of it is far by the maze. The first door already joins the two quarters, so a second one's detour runs through it. Recounting detours after each door needs a floor-wide search; the division labels each wall with its partition for free. Not a guarantee: 0–3 redundant doors instead of hundreds"
   - id: l-doors-portals
     type: line
     updated: [2026-11-14T10:45:00.000Z, agent:cube]
