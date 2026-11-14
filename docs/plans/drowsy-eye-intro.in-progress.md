@@ -79,27 +79,19 @@ own knob).
   screenshot from them is coming.) Their screenshot (phone, landscape): the
   shore, head rolled, clouds doubled along the turn by the smear, and «Press Q
   to change the quality» hanging. The board holds the diff only, no frames,
-  though carte-blanche asks milestone frames on it — none are there yet.
-  - **Y/N tappable**: `config/messages/en.json` `pill.ask` becomes
-    `"Press {yes} to swallow, {no} to put down"`, rendered in `cube-canvas.tsx`
-    with `fillSlots` and two `<button>`s (`Y`, `N`); the `.hint` has
-    `pointer-events: none`, so the buttons set `auto`. A press reaches the input
-    as `answer` through a new `answer(yes|no)` on `InputBinding`
-    (`features/player/ui/input.ts`), surfaced on `CubeScene` by `walk.ts`.
-  - **Quality hint gone**: `quality.ts` `hinted` stops offering `'quality'`
-    (keep the echo after a Q press); `paced`/`UNPACED`/`Pace`/`SLOW_BELOW`/
-    `HIDDEN_GAP`/`WINDOW`/`drawn` then serve nothing — delete them, their tests
-    in `quality.test.ts`, the `quality` line in `en.json`, and the
-    `quality.drawn(...)` call in `cube-scene.ts:327`.
-  - **Tips expire**: the `run` hint (walk.ts:307, Shift — useless on a phone)
-    shows for a few seconds per floor rather than until pressed.
-  - **Pace remembered**: `pace.ts` `runsUnheld` read from and written to
-    `localStorage` (try/catch, per-viewer convenience), so a double Shift sticks
-    across visits.
-- Left, in this order: 0. The four asks above.
-  1. The pill question's yes/no is keyboard-only; a phone cannot answer it. Taps
-     on on-screen buttons are the likely shape.
-  2. `/five-percent` on the PR; refresh the board after each pushed fix.
+  though carte-blanche asks milestone frames on it — none are there yet. All
+  four built in 56687a8f: `pill.ask` fills `{yes}`/`{no}` with `.key` buttons
+  calling `Walk.answer` → `InputBinding.say`; the `quality` hint and its
+  frame-rate watch are deleted (the echo after Q stays); the `run` hint shows
+  `RUN_TOLD_FOR` = 6 s a visit; `features/player/ui/stored-pace.ts` keeps
+  `runsUnheld` in localStorage, a stored pace counting as Shift learnt. Its two
+  `catch` blocks are silent fallbacks the operator has not yet approved — named
+  in the report to them.
+- Left, in this order:
+  1. Frames on the board (the operator's screenshot, SwiftShader shots).
+  2. Touch, once the operator says what feels off: a visible stick ring, a run
+     when the stick is pushed to its rim (a phone has no Shift).
+  3. `/five-percent` on the PR; refresh the board after each pushed fix.
 
 ## Goal
 

@@ -53,9 +53,12 @@
   position: fixed;
   bottom: 18%;
   left: 50%;
+  width: max-content;
+  max-width: calc(100vw - 32px);
   margin: 0;
   transform: translateX(-50%);
   color: rgb(255 255 255 / 92%);
+  text-align: center;
   font:
     600 15px / 1.4 system-ui,
     sans-serif;
@@ -67,8 +70,8 @@
 // A key the hint names, pressable on a screen with no keyboard: the one
 // thing in the hint that takes a pointer.
 .key {
-  margin: 0 2px;
-  padding: 0 8px;
+  margin: 0 4px;
+  padding: 6px 14px;
   border: 1px solid rgb(255 255 255 / 70%);
   border-radius: 4px;
   background: rgb(0 0 0 / 35%);
