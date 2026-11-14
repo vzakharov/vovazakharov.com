@@ -129,12 +129,10 @@ All on Opus, started 2026-11-14 20:19Z from 47b2d1fb.
 - Fourth wave, from 5906c037: `grid` — session_01DaohkFJyKVaDDQ89npB53x,
   `claude/cube-doors-grid-oldy2u`: blank the grid cell over
   `DOORWAY_AT`..`DOORWAY_TO` for discrete pieces; continuous coverings stay.
-- Vet running on 5906c037 (task bsoue133h); the previous run's GitHub half was
-  green at 383e87ed.
-- Context at ~333k: the operator wants no relays («никаких релеев кроме парка»),
-  so the session autocompacts; this file is where to resume.
-- Left: merge `grid` (look at its frames, board them, answer review 5907572554's
-  thread on core.ts), vet, republish preview slot 2
+  Merged at 1a58a414 (`uncut(s, size)` in the kit core, 15 themes); session
+  archived; darkroom and clean-room frames boarded at c009217c; review
+  5907572554's thread answered.
+- Left: vet on the head, republish preview slot 2
   (`gh workflow run preview.yml --ref <branch> -f site=vova -f slot=2`), then
   `/squash-message` (title to a publishing type, `feat(vova): …`), refresh the
   PR body, and tell the operator.
