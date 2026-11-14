@@ -2,7 +2,6 @@ export { AERIAL } from './lib/aerial.shader';
 export { CLEAR_SKY } from './lib/clear-sky.shader';
 export { CLOUD_NOISE_NUMBERS } from './lib/cloud-noise-numbers';
 export { CLOUDS_WGSL } from './lib/clouds-wgsl.shader';
-export { cubeShadow } from './lib/cube-shadow';
 export { CUBE_SHADOW } from './lib/cube-shadow.shader';
 export { DAYLIGHT } from './lib/daylight.shader';
 export {
