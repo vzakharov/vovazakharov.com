@@ -76,7 +76,7 @@ items:
     updated: [2026-11-14T19:30:00.000Z, agent:cube]
     box: [3668, -2560, 244, purple]
     icon: 📏
-    text: 'Threshold 10, set by the hour: a player who remembers every room walks into ~700 new ones an hour, and at 10 meets ~59 doors and ~20 gaps, a door a minute and a gap every three, the same on floors 7 to 10. Walk rounds are always odd, so 10 acts as 11 and the knob moves in odd steps of ~30%. A count of rooms, not a share of the floor, so deep doors stay as findable as shallow ones'
+    text: 'Threshold 10, set by the hour: a player who remembers every room walks into ~700 new ones an hour, and at 10 meets ~50 doors and ~15 gaps in the game, a door every 1.2 minutes and a gap every four. The simulator said 59 and 20, on a floor-7 maze that ran rich. Walk rounds are always odd, so 10 acts as 11 and the knob moves in odd steps of ~30%. A count of rooms, not a share of the floor, so deep doors stay as findable as shallow ones'
   - id: doors-bound
     type: sticky
     updated: [2026-11-14T19:30:00.000Z, agent:cube]

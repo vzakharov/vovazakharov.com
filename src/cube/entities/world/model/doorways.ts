@@ -31,8 +31,8 @@ export type WallKind = (typeof WALL_KINDS)[number];
 export const DOORWAYS = {
   /**
    * The fewest steps through native passages between a wall's two rooms for
-   * it to hold a doorway: about a door a minute and a gap every three for an
-   * explorer on floors 7 to 10. A count of rooms, not a share of the floor,
+   * it to hold a doorway: ~50 doors and ~15 gaps an hour for an explorer
+   * (`doorways-hour.test.ts`). A count of rooms, not a share of the floor,
    * so deep doorways stay as findable as shallow ones. Walk rounds are odd,
    * so 10 acts as 11.
    */
