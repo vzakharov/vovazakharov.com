@@ -1,3 +1,4 @@
+import { DOORWAY_CUT } from '@/cube/shared/cube-boundary';
 import { CEILING_HEIGHT, ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import { SURFACES } from '@/cube/shared/lib/surface';
 import { wgsl } from '@/cube/shared/shader';
@@ -20,6 +21,9 @@ ${KINDS}
 
 /// A room from its floor to its ceiling, in metres: x east, y up, z south.
 const ROOM = vec3f(${ROOM_METRES.toFixed(1)}, ${(ROOM_METRES * CEILING_HEIGHT).toFixed(3)}, ${ROOM_METRES.toFixed(1)});
+
+/// Metres from a wall's west or north end to where a doorway in it may be cut.
+const DOORWAY_AT = ${(ROOM_METRES * DOORWAY_CUT.from).toFixed(4)};
 
 /// The point being shaded, in its own room's terms.
 struct Surf {
