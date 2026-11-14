@@ -22,8 +22,18 @@ ${KINDS}
 /// A room from its floor to its ceiling, in metres: x east, y up, z south.
 const ROOM = vec3f(${ROOM_METRES.toFixed(1)}, ${(ROOM_METRES * CEILING_HEIGHT).toFixed(3)}, ${ROOM_METRES.toFixed(1)});
 
-/// Metres from a wall's west or north end to where a doorway in it may be cut.
+/// Metres from a wall's west or north end to where a doorway in it may be cut,
+/// and to where that cut ends. It is the same span on every wall, so what
+/// clears it on all of them clears every door.
 const DOORWAY_AT = ${(ROOM_METRES * DOORWAY_CUT.from).toFixed(4)};
+const DOORWAY_TO = ${(ROOM_METRES * DOORWAY_CUT.to).toFixed(4)};
+
+/// The middle of something \`half\` a width across, hung a \`share\` 0..1 of
+/// the way along its wall from \`first\` metres to the last spot clear of a
+/// doorway.
+fn shortOfDoorway(first: f32, half: f32, share: f32) -> f32 {
+  return mix(first, DOORWAY_AT - 0.1 - half, share);
+}
 
 /// The point being shaded, in its own room's terms.
 struct Surf {

@@ -9,8 +9,21 @@ import { HOUSEHOLD } from '../../household';
 export const HALLWAY_SHADER = wgsl(
   'cube/entities/theme/dwelling/hallway/config/hallway',
   /* wgsl */ `
-/// Metres between one door's middle and the next.
-const DOOR_PITCH = 1.25;
+/// Where a wall's painted doors stand, metres along it: four of them, the
+/// last centred where a doorway may be cut, so a real door takes its place,
+/// and the first as far from its end of the wall as the last is from the
+/// other.
+const DOORS = 4.0;
+const LAST_DOOR = (DOORWAY_AT + DOORWAY_TO) * 0.5;
+const FIRST_DOOR = ROOM.x - LAST_DOOR;
+const DOOR_PITCH = (LAST_DOOR - FIRST_DOOR) / (DOORS - 1.0);
+
+/// The painted door nearest \`along\` metres along its wall: its slot, and
+/// metres from its middle to the point.
+fn nearestDoor(along: f32) -> vec2f {
+  let slot = clamp(round((along - FIRST_DOOR) / DOOR_PITCH), 0.0, DOORS - 1.0);
+  return vec2f(slot, along - FIRST_DOOR - slot * DOOR_PITCH);
+}
 
 /// What comes under door \`slot\` of the wall with word \`wall\`: nothing, a
 /// lamp left on, or a television.
@@ -29,8 +42,9 @@ fn underDoor(wall: u32, slot: f32, time: f32) -> vec3f {
 
 fn doored(s: Surf) -> Material {
   let along = alongWall(s);
-  let slot = floor(along / DOOR_PITCH);
-  let x = along - (slot + 0.5) * DOOR_PITCH;
+  let nearest = nearestDoor(along);
+  let slot = nearest.x;
+  let x = nearest.y;
   let y = s.p.y;
   let wall = wallWord(s);
   let word = hashOf(wall, u32(slot));
@@ -101,12 +115,11 @@ fn spilled(s: Surf) -> vec3f {
     if (!closedAt(s, side) || toSide[side] > 1.2) {
       continue;
     }
-    let along = select(s.p.x, s.p.z, (side & 1u) == 0u);
-    let slot = floor(along / DOOR_PITCH);
-    let x = abs(along - (slot + 0.5) * DOOR_PITCH);
+    let door = nearestDoor(select(s.p.x, s.p.z, (side & 1u) == 0u));
     let away = toSide[side];
-    let fan = within(x - 0.34 - 0.25 * away, 0.08 + 0.3 * away);
-    sum += underDoor(sideWord(s, side), slot, s.time) * fan * exp(-away * 5.0);
+    let fan = within(abs(door.y) - 0.34 - 0.25 * away, 0.08 + 0.3 * away);
+    sum +=
+      underDoor(sideWord(s, side), door.x, s.time) * fan * exp(-away * 5.0);
   }
   return sum;
 }

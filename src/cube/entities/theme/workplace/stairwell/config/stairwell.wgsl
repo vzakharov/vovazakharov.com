@@ -4,7 +4,7 @@ import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEIL
 import package::cube::shared::shader::hash::{hashOf, unitOf, cellHash, valueNoise, fbm};
 import package::cube::entities::theme::kit::lib::finish::{band, damp};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
-import package::cube::entities::theme::workplace::stencil::lib::stencil::{wallAlong, stencilDigit};
+import package::cube::entities::theme::workplace::stencil::lib::stencil::{markAlong, stencilDigit};
 import package::cube::entities::theme::kit::lib::light::{lampLevel, GLARE};
 
 fn studded(s: Surf) -> Material {
@@ -30,7 +30,6 @@ fn studded(s: Surf) -> Material {
 
 fn boardMarked(s: Surf) -> Material {
   let h = s.p.y;
-  let along = wallAlong(s);
   let board = h / 0.14;
   let row = i32(floor(board));
   let plank = vec2i(i32(floor(s.uv.x / 2.4 + f32(row) * 0.37)), row);
@@ -68,12 +67,17 @@ fn boardMarked(s: Surf) -> Material {
   let red = vec3f(0.36, 0.03, 0.02) * (0.85 + 0.3 * roller);
   let line = band(h, 1.15, 0.06) * (1.0 - chipped);
 
-  // The floor's number, off to the left where no notice hangs; now and
-  // then a room is sure it is some other floor.
+  // The floor's number, at the wall's west or north end, where no notice
+  // hangs and no doorway is cut; now and then a room is sure it is some
+  // other floor.
   let roll = hashOf(s.seed, 0x78u);
   let number = select(4u, (roll >> 4u) % 10u, roll % 9u == 0u);
   let fade = smoothstep(0.3, 0.5, fbm(s.uv * 9.0, 79u, 3) + 0.25 * grain);
-  let figure = stencilDigit(vec2f(along - 0.6, h - 1.36) / 0.32, number) * fade;
+  let figure =
+    stencilDigit(
+      vec2f(markAlong(s, 0.6, 0.32), h - 1.36) / 0.32,
+      number,
+    ) * fade;
 
   let albedo =
     mix(
