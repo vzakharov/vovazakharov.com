@@ -1,0 +1,84 @@
+items:
+  - id: z-deep
+    type: zone
+    updated: [2026-11-13T20:18:00.000Z, agent:cube]
+    box: [3640, -1000, 2040, 900, purple]
+    icon: 🌀
+    text: 'Past floor ten: letting the deep floors be seen'
+  - id: deep-why
+    type: sticky
+    updated: [2026-11-13T20:18:00.000Z, agent:cube]
+    box: [3668, -890, 244, purple]
+    icon: 🎯
+    text: 'The problem: legs reach floor 9 or 10 in a few evenings, a shared ASIC crack ~30, and the rest is never seen. What goes unseen is the themes, not the floors: themeOf(n) glues a theme to its floor number, so unglue them'
+  - id: deep-inherit
+    type: sticky
+    updated: [2026-11-14T07:27:00.000Z, agent:cube]
+    box: [4003, -890, 244, yellow]
+    icon: 🧬
+    text: "Idea: a room's theme inherited down the room tree: mostly the parent's, now and then a step stranger, rarely a leap. Early leaps make continents, late ones islands, so like sits by like. Cost: air per room, not per depth"
+  - id: deep-seams
+    type: sticky
+    updated: [2026-11-13T20:18:00.000Z, agent:cube]
+    box: [4338, -890, 244, yellow]
+    icon: 🚪
+    text: 'Idea: where two theme patches meet, a wall with a door, a different door for each pair of families. Behind it, the other world'
+  - id: deep-rank
+    type: sticky
+    updated: [2026-11-13T20:18:00.000Z, agent:cube]
+    box: [4673, -890, 244, purple]
+    icon: 🔀
+    text: 'To keep in mind, not to do yet: re-rank the themes from roughly normal to unconditionally hallucinatory. Inheritance needs it, since a step along the order only means "stranger" if the order says so'
+  - id: deep-portals
+    type: sticky
+    updated: [2026-11-13T20:18:00.000Z, agent:cube]
+    box: [5008, -890, 244, yellow]
+    icon: 🌀
+    text: 'Idea: portals. A door, or a lift, drops you on another floor, up or down, the odds growing with depth, from around floor 7. "Open every door." Computed from the seed is fine: a portal to 60 still leaves its hole at 4^60'
+  - id: deep-stack
+    type: sticky
+    updated: [2026-11-13T20:18:00.000Z, agent:cube]
+    box: [5343, -890, 244, yellow]
+    icon: 🥞
+    text: 'Idea: the URL as a stack. A portal pushes the room it stood in, a return pops it, a real hatch collapses it. The trophy (the deepest honest hatch, which only grows) lives apart from the position (the latest hatch and the stack), so a fall from 30 to 2 erases no history'
+  - id: deep-thread
+    type: sticky
+    updated: [2026-11-13T20:18:00.000Z, agent:cube]
+    box: [3668, -560, 244, yellow]
+    icon: 🧵
+    text: "Idea: portals one-way in the world, the way back the player's own thread. No door stands on the far floor, so whoever walks floor 2 never meets a door to 30; only who came from 30 can pull the thread"
+  - id: deep-beds
+    type: sticky
+    updated: [2026-11-13T20:18:00.000Z, agent:cube]
+    box: [4003, -560, 244, yellow]
+    icon: 🛏️
+    text: 'Idea: beds are portals with a sure wake: lie down, dream a deeper theme, wake where you lay. The same bed dreams the same dream, unless the date joins the roll'
+  - id: deep-drawing
+    type: sticky
+    updated: [2026-11-13T20:18:00.000Z, agent:cube]
+    box: [4338, -560, 244, yellow]
+    icon: 🖍️
+    text: "Idea: signature entries. A child's drawing that always leads to the drawing floor, a TV of static to static, rare among ordinary ones, with a tell seen only up close: the drawing shows the room you stand in, its door ajar"
+  - id: deep-fall
+    type: sticky
+    updated: [2026-11-13T20:18:00.000Z, agent:cube]
+    box: [4673, -560, 244, yellow]
+    icon: 🍄
+    text: 'Idea: the long fall. From 9 to 40 is a 2^31 shrink, so sweep the depth through airAt, which already blends fractional depths: 31 themes flash past in three seconds. Eat me, drink me'
+  - id: deep-win
+    type: sticky
+    updated: [2026-11-13T20:18:00.000Z, agent:cube]
+    box: [5008, -560, 244, purple]
+    icon: 🏁
+    text: "The win is falling through the last floor's hole, the game crashing, not standing on the last floor. So a portal may lead anywhere, the last floor too. Thinking of 60 floors"
+  - id: deep-out
+    type: sticky
+    updated: [2026-11-13T20:18:00.000Z, agent:cube]
+    box: [5343, -560, 244, gray]
+    icon: 🚫
+    text: 'Ruled out: doors two-way in the world (floor 2 would hold a door to 30 for everyone); portal odds per room on deep floors, which bury the one hatch under thousands of doors (odds per floor instead)'
+  - id: l-deep-stack-trophy
+    type: line
+    updated: [2026-11-13T20:18:00.000Z, agent:cube]
+    ends: [deep-stack, trophy-want]
+    text: trophy apart from position
