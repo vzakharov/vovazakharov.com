@@ -45,7 +45,6 @@ const facing = (over: Partial<Pose> = {}): Pose => ({
 
 const opened: OpenDoor = { ...DOOR, toward: 1, openFor: 0, shutAt: null };
 
-/** `player` after `seconds` of `input` among `doored`. */
 function played(player: Player, input: typeof STILL, seconds: number): Player {
   let now = player;
   for (let t = 0; t < seconds; t += FRAME) {

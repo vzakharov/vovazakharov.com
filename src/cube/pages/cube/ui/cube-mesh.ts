@@ -146,8 +146,8 @@ const posterBoards = (
   }));
 
 /**
- * The mesh for an eye at `pose`, which sees through the door `opened` as the
- * one who opened it, and no one else, does. Its floor's holes are resolved first, since
+ * The mesh for an eye at `pose`, seeing through the door `opened` as its
+ * opener alone does. Its floor's holes are resolved first, since
  * they decide which rooms of the floor below it sees, and only then those
  * rooms' own; which rooms sell is read off the same answers. What it awaits
  * is resolved once per room, so a pill taken re-packs the faces without

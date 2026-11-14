@@ -23,7 +23,7 @@ export type Ajar = DoorWall & Leaf;
 /** The faces of a doorway's wall drawn: `near` into its west or north room, `far` into the other. */
 export type Sides = { near: boolean; far: boolean };
 
-/** Half a leaf's thickness, in room sides: a third of the wall's. */
+/** Half a leaf's thickness, in room sides. */
 const LEAF_HALF = WALL_HALF / 3;
 
 /** The leaf's clearance from the jambs, the head and the slab, in room sides. */

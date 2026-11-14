@@ -171,7 +171,6 @@ function wall(
   ];
 }
 
-/** A door's both faces, and the leaf shut in it. */
 const BOTH: Sides = { near: true, far: true };
 const SHUT = { angle: 0, toward: 1 } as const;
 
