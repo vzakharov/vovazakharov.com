@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { isPassableEast, isPassableSouth } from './doorways';
 import { holeQuarter, type Quarter } from './hole';
-import { isOpenEast, isOpenSouth, maze, type RolledMaze } from './maze';
+import { maze, type RolledMaze } from './maze';
 import { PILL_LENGTH } from './pill';
 import { plant } from './plant';
 import { counterRandom } from './plant.test-kit';
@@ -17,11 +18,11 @@ function opensTo(rolled: RolledMaze, room: Room, dx: bigint, dy: bigint) {
   const [bx, by] = [x + dx, y + dy];
   const last = roomsAcross(n) - 1n;
   if (bx < 0n || by < 0n || bx > last || by > last) return false;
-  if (dx !== 0n) return isOpenEast(rolled, n, dx < 0n ? bx : x, y);
-  return isOpenSouth(rolled, n, x, dy < 0n ? by : y);
+  if (dx !== 0n) return isPassableEast(rolled, n, dx < 0n ? bx : x, y);
+  return isPassableSouth(rolled, n, x, dy < 0n ? by : y);
 }
 
-/** What the rule says of `room`'s shelf, from the wall predicate alone. */
+/** What the rule says of `room`'s shelf, from the walls a body passes alone. */
 function expected(rolled: RolledMaze, room: Room, { qx, qy }: Quarter) {
   const xWall = !opensTo(rolled, room, qx === 0 ? -1n : 1n, 0n);
   const yWall = !opensTo(rolled, room, 0n, qy === 0 ? -1n : 1n);

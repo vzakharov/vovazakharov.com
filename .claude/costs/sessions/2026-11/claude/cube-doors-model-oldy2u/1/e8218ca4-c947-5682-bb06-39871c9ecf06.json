@@ -1,0 +1,113 @@
+{
+  "total": {
+    "inputTokens": 107,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 160178,
+    "cacheReadTokens": 9201689,
+    "outputTokens": 53431,
+    "thinkingTokens": 15727,
+    "responses": 55,
+    "costUsd": 4.1908098
+  },
+  "estimate": {
+    "at": "2026-11-14T20:20:34.520Z",
+    "subjectLine": "feat: doorway model — doors and gaps behind the wall-kind seam",
+    "parts": [
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "local bigint maze algorithm with a bounded search, a window bound and uniform-over-allowed picking, which needs someone who reasons about graph walks on procedural grids"
+      },
+      {
+        "hours": 1.5,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "property tests against a brute-force walk count over several floors and seeds"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-14T20:20:22.667Z",
+    "contextTokens": 129985,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 73896,
+      "cacheReadTokens": 457101,
+      "outputTokens": 1718,
+      "thinkingTokens": 94,
+      "responses": 5,
+      "costUsd": 0.7169962000000001
+    }
+  },
+  "sessionId": "e8218ca4-c947-5682-bb06-39871c9ecf06",
+  "branch": "claude/cube-doors-model-oldy2u",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session in a `/carte-blanche` run. The lead is session session_01DaohkE83TgA9HwGzYS9z1n on branch `claude/cube-board-right-hand-doors-oldy2u` (P…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkF1JS8gB1tRwKtZtd1",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-14T20:20:04.265Z",
+  "lastResponseAt": "2026-11-14T20:32:38.644Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 107,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 160178,
+    "cacheReadTokens": 9201689,
+    "outputTokens": 53431,
+    "thinkingTokens": 15727,
+    "responses": 55,
+    "costUsd": 4.1908098
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 107,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 160178,
+      "cacheReadTokens": 9201689,
+      "outputTokens": 53431,
+      "thinkingTokens": 15727,
+      "responses": 55,
+      "costUsd": 4.1908098
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 54,
+    "matched": 54,
+    "matchedTableUsd": 4.1269986,
+    "matchedEventUsd": 4.1269986,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 333,
+    ".js": 1353,
+    ".ts": 78,
+    ".html": 822,
+    ".yaml": 90
+  }
+}
