@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 15678,
-    "cacheWrite5mTokens": 12258,
-    "cacheWrite1hTokens": 622022,
-    "cacheReadTokens": 54649488,
-    "outputTokens": 156374,
-    "thinkingTokens": 56728,
-    "responses": 269,
-    "costUsd": 19.182978799999997
+    "inputTokens": 16818,
+    "cacheWrite5mTokens": 176822,
+    "cacheWrite1hTokens": 641538,
+    "cacheReadTokens": 64157806,
+    "outputTokens": 181404,
+    "thinkingTokens": 66328,
+    "responses": 333,
+    "costUsd": 22.57109939999999
   },
   "estimate": {
     "at": "2026-11-14T05:57:22.416Z",
@@ -49,44 +49,45 @@
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/cube-wesl-trial — остров стал сущностью, картинка улицы виджетом, осталось нарезать подслайсы по masd:clusters",
   "prs": [
+    275,
     276
   ],
   "url": "https://claude.ai/code/session_01DaohkE8BAFBC4BLL26Y4pr",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-14T05:56:35.022Z",
-  "lastResponseAt": "2026-11-14T07:52:02.992Z",
+  "lastResponseAt": "2026-11-14T08:00:18.090Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 496,
+    "inputTokens": 535,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 622022,
-    "cacheReadTokens": 50894063,
-    "outputTokens": 143945,
-    "thinkingTokens": 56728,
-    "responses": 252,
-    "costUsd": 18.035872599999994
+    "cacheWrite1hTokens": 641538,
+    "cacheReadTokens": 54495295,
+    "outputTokens": 150153,
+    "thinkingTokens": 58783,
+    "responses": 270,
+    "costUsd": 19.03656299999999
   },
   "subagents": {
-    "inputTokens": 0,
-    "cacheWrite5mTokens": 0,
+    "inputTokens": 89,
+    "cacheWrite5mTokens": 163781,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 0,
-    "outputTokens": 0,
-    "thinkingTokens": 0,
-    "responses": 0,
-    "costUsd": 0.0
+    "cacheReadTokens": 5490839,
+    "outputTokens": 18791,
+    "thinkingTokens": 7545,
+    "responses": 44,
+    "costUsd": 2.2932488
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 14491,
-      "cacheWrite5mTokens": 12258,
-      "cacheWrite1hTokens": 622022,
-      "cacheReadTokens": 54649488,
-      "outputTokens": 156067,
-      "thinkingTokens": 56728,
-      "responses": 268,
-      "costUsd": 19.182706599999996
+      "inputTokens": 15631,
+      "cacheWrite5mTokens": 176822,
+      "cacheWrite1hTokens": 641538,
+      "cacheReadTokens": 64157806,
+      "outputTokens": 181097,
+      "thinkingTokens": 66328,
+      "responses": 332,
+      "costUsd": 22.57082719999999
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1187,
@@ -152,29 +153,31 @@
         }
       },
       "rereads": {
-        "calls": 0,
-        "byTool": {},
-        "estimatedTokens": 0,
-        "estimatedUsd": 0.0
+        "calls": 1,
+        "byTool": {
+          "Bash": 1
+        },
+        "estimatedTokens": 372,
+        "estimatedUsd": 0.0040176000000000005
       },
       "billedUsd": 0.19093960000000001
     }
   ],
   "telemetry": {
-    "events": 268,
-    "matched": 251,
-    "matchedTableUsd": 17.983529199999992,
-    "matchedEventUsd": 17.983529199999992,
+    "events": 333,
+    "matched": 314,
+    "matchedTableUsd": 21.329811799999987,
+    "matchedEventUsd": 21.329811799999987,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 7084,
-        "cacheWrite5mTokens": 12013,
+        "inputTokens": 8096,
+        "cacheWrite5mTokens": 12796,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 3153079,
-        "outputTokens": 185,
+        "cacheReadTokens": 3569326,
+        "outputTokens": 216,
         "thinkingTokens": 0,
-        "responses": 14,
-        "costUsd": 0.7587558000000001
+        "responses": 16,
+        "costUsd": 0.8529372000000001
       },
       "generate_session_title": {
         "inputTokens": 1187,
@@ -199,7 +202,7 @@
     }
   },
   "operatorWords": {
-    "chat": 771,
+    "chat": 795,
     "review": 0,
     "threads": 0
   },
@@ -210,7 +213,7 @@
     ".md": 1491,
     ".gitattributes": 5,
     ".json": 121,
-    ".yaml": 765,
+    ".yaml": 813,
     ".sh": 1,
     ".wgsl": 14351,
     ".tsx": -109,
