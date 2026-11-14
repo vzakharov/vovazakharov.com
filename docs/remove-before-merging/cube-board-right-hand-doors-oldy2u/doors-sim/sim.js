@@ -130,17 +130,75 @@
   /**
    * Openings in closed interior walls, `perHundred` per 100 rooms among walls
    * whose walk round is at least `minGap`, decided locally by `roll` as the
-   * game would. An opening is a door or a gap (the wall simply missing) by
-   * its own walk round: under `split` it is `near`, from `split` up the other
-   * kind. A door is a property of the wall, so both faces show it and no wall
-   * holds two; perimeter walls are never candidates.
+   * game would. An opening is a door, with odds `doorShare`, or else a gap
+   * (the wall simply missing), by a roll of its own wall's. A door is a
+   * property of the wall, so both faces show it and no wall holds two;
+   * perimeter walls are never candidates.
    */
-  function placeDoors(m, { perHundred, minGap, maxGap = Infinity, split = Infinity, near = 'door', spacing = 'none', roll }) {
+  function placeDoors(m, { perHundred, minGap, maxGap = Infinity, doorShare = 1, spacing = 'none', roll }) {
     const eligible = m.closed.filter((w) => w.exact >= minGap && w.exact < maxGap);
     const want = Math.round((perHundred * m.N) / 100);
     const doors = [], gaps = [];
-    for (const w of rolledDoors(eligible, want, spacing, roll)) ((w.exact < split) === (near === 'door') ? doors : gaps).push(w);
+    for (const w of rolledDoors(eligible, want, spacing, roll)) (roll(`${w.dir}/${w.x}/${w.y}/kind`) / 2 ** 32 < doorShare ? doors : gaps).push(w);
     return { doors, gaps, eligible: eligible.length, want };
+  }
+
+  /** `steps` moves from `start`, each to a random neighbouring room, door and gap alike: the rooms stood in, in order. */
+  function randomWalk(adj, start, steps, rnd) {
+    const out = [start];
+    for (let cur = start, t = 0; t < steps; t++) out.push((cur = adj[cur][Math.floor(rnd() * adj[cur].length)]));
+    return out;
+  }
+
+  /**
+   * `steps` moves of a player who remembers every room: always on to the
+   * nearest room not yet entered, the way back through known rooms included.
+   */
+  function exploreWalk(adj, start, steps) {
+    const N = adj.length, entered = new Uint8Array(N), prev = new Int32Array(N), stamp = new Int32Array(N);
+    const out = [start];
+    entered[start] = 1;
+    let cur = start, round = 0;
+    while (out.length <= steps) {
+      round++;
+      const q = [cur];
+      stamp[cur] = round;
+      let found = -1;
+      for (let h = 0; h < q.length && found < 0; h++)
+        for (const v of adj[q[h]]) {
+          if (stamp[v] === round) continue;
+          stamp[v] = round; prev[v] = q[h];
+          if (!entered[v]) { found = v; break; }
+          q.push(v);
+        }
+      if (found < 0) break;
+      const leg = [];
+      for (let r = found; r !== cur; r = prev[r]) leg.push(r);
+      for (let j = leg.length - 1; j >= 0 && out.length <= steps; j--) out.push(leg[j]);
+      entered[found] = 1;
+      cur = found;
+    }
+    return out;
+  }
+
+  /**
+   * What a walk through `rooms` meets of `openings`: one counts as met when the
+   * walk stands in either room it joins. `met` is distinct openings, `passes`
+   * every arrival beside one, repeats included, `rooms` the distinct rooms.
+   */
+  function metAlong(rooms, openings) {
+    const beside = new Map();
+    openings.forEach((d, j) => { for (const r of [d.a, d.b]) { if (!beside.has(r)) beside.set(r, []); beside.get(r).push(j); } });
+    const met = new Uint8Array(openings.length), walked = new Set();
+    let distinct = 0, passes = 0;
+    for (const r of rooms) {
+      walked.add(r);
+      const list = beside.get(r);
+      if (!list) continue;
+      passes++;
+      for (const j of list) if (!met[j]) (met[j] = 1), distinct++;
+    }
+    return { met: distinct, passes, rooms: walked.size };
   }
 
   /** The floor with `gaps` knocked out of its walls: a copy whose open sides include them. */
@@ -541,6 +599,6 @@
     return { entered: p.entered, dead: p.dead, skipped: m.N - p.entered.reduce((a, b) => a + b, 0) };
   }
 
-  root.DoorSim = { buildMaze, placeDoors, withGaps, seededRoll, deadEnds, eyesOf, WALL_HALF, redundant, adjacency, bfs, shortcuts, mapper, wanderer, follower, opener, trial, randomPairs, sweep, treeDistance, levelOf, mulberry32 };
+  root.DoorSim = { buildMaze, placeDoors, randomWalk, exploreWalk, metAlong, withGaps, seededRoll, deadEnds, eyesOf, WALL_HALF, redundant, adjacency, bfs, shortcuts, mapper, wanderer, follower, opener, trial, randomPairs, sweep, treeDistance, levelOf, mulberry32 };
   if (typeof module !== 'undefined') module.exports = root.DoorSim;
 })(typeof globalThis !== 'undefined' ? globalThis : this);

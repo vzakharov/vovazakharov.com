@@ -1,0 +1,124 @@
+{
+  "total": {
+    "inputTokens": 585,
+    "cacheWrite5mTokens": 755,
+    "cacheWrite1hTokens": 171249,
+    "cacheReadTokens": 6632906,
+    "outputTokens": 33923,
+    "thinkingTokens": 12215,
+    "responses": 40,
+    "costUsd": 3.383413200000001
+  },
+  "estimate": {
+    "at": "2026-11-14T17:50:37.508Z",
+    "subjectLine": "docs: tune door thresholds in the cube doors analysis",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "deciding the door/gap thresholds is a game-feel judgement about what makes search fun"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "any tuner or metric change touches the simulator's BFS code"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-14T17:50:28.475Z",
+    "contextTokens": 113402,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 51882,
+      "cacheReadTokens": 467175,
+      "outputTokens": 1226,
+      "thinkingTokens": 138,
+      "responses": 5,
+      "costUsd": 0.5330590000000002
+    }
+  },
+  "sessionId": "8fc3879b-c119-5998-aec1-55fd4c802049",
+  "branch": "claude/cube-board-right-hand-doors-oldy2u",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cube-board-right-hand-doors-oldy2u — PR открыт, обсуждаем подбор порогов дверей и проёмов",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkE83TgA9HwGzYS9z1n",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-14T17:49:58.859Z",
+  "lastResponseAt": "2026-11-14T17:57:05.079Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 79,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 171249,
+    "cacheReadTokens": 6507571,
+    "outputTokens": 33827,
+    "thinkingTokens": 12215,
+    "responses": 39,
+    "costUsd": 3.348362200000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 585,
+      "cacheWrite5mTokens": 755,
+      "cacheWrite1hTokens": 171249,
+      "cacheReadTokens": 6632906,
+      "outputTokens": 33923,
+      "thinkingTokens": 12215,
+      "responses": 40,
+      "costUsd": 3.383413200000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 40,
+    "matched": 39,
+    "matchedTableUsd": 3.348362200000001,
+    "matchedEventUsd": 3.3483622000000013,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 755,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 125335,
+        "outputTokens": 96,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.035051
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 153,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 159,
+    ".js": 1108,
+    ".ts": 28,
+    ".html": 653,
+    ".yaml": 72
+  }
+}

@@ -194,19 +194,19 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
       <div class="ctl">
         <label for="gap">Порог: не меньше комнат в обход <span class="num" id="gapOut"></span></label>
         <input type="range" id="gap" min="0" max="256" step="1" value="24">
-        <small>Обход считается точно, поиском на глубину порога: хватит обойти всё, куда ведут K ходов, и проверить, нет ли там комнаты с той стороны. Это до ~2K² комнат на любом этаже, при K = 48 — несколько миллисекунд на перегородку.</small>
+        <small>Обход считается точно, поиском на глубину порога: хватит обойти всё, куда ведут K ходов, и проверить, нет ли там комнаты с той стороны. Этаж лабиринт-дерево, так что на деле это ~60–150 комнат. Замер (bfs-cost.js, этажи 9–50, каждая стена решается из хешей мира на месте): при K = 48 около 0,4 мс на стену с кешем блоков и 2,5 мс без него. Считается один раз на стену, выпавшую кандидатом в дверь, и запоминается навсегда, а не каждый кадр.</small>
       </div>
       <div class="ctl">
-        <label for="split">Граница двери и проёма: обход в комнатах <span class="num" id="splitOut"></span></label>
-        <input type="range" id="split" min="0" max="257" step="1" value="48">
-        <label class="check"><input type="checkbox" id="near" checked> ближе границы двери, дальше проёмы (снято — наоборот)</label>
-        <small>Проём — стены просто нет: топологически то же, что дверь, но изнутри его не отличить от родного прохода, и сквозь него видно. Какое из двух ставится, решает обход той стены, на которую выпал бросок перегородки, так что соотношение задают сами пороги. Граница в самом правом положении — ∞: всё, что ближе неё, одного вида.</small>
+        <label for="share">Доля дверей среди отверстий <span class="num" id="shareOut"></span></label>
+        <input type="range" id="share" min="0" max="100" step="5" value="75">
+        <small>Проём — стены просто нет: топологически то же, что дверь, но изнутри его не отличить от родного прохода, и сквозь него видно. Дверь это или проём, решает отдельный бросок стены, <code>…/kind</code>, независимо от обхода: 75% — это три двери на один проём.</small>
       </div>
       <div class="tally" aria-live="polite">
         <div class="big" id="tallyBig"></div>
+        <div id="wanderOut"></div>
         <div id="pathAvg"></div>
         <small id="pathPair"></small>
-        <div class="btns"><button class="btn" id="tune">подобрать порог и границу: дверь выгодна в ~50% случаев</button></div>
+        <div class="btns"><button class="btn" id="tune">подобрать порог: дверь выгодна в ~50% случаев</button></div>
         <small id="tuneNote"></small>
         <small id="placedOut"></small>
       </div>
@@ -312,13 +312,13 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
   const S = window.DoorSim, W = window.DoorWorld;
   const $ = (id) => document.getElementById(id);
   const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-  const state = { k: 5, perHundred: 3, minGap: 24, split: 48, near: 'door', floorSeed: 7, doorSeed: 101, pairSeed: 3, heat: true, elig: true, dead: true, game: true, spacing: 'arm', landing: 0, hole: 0, clickNext: 'landing' };
-  let maze, mazeOpen, placement, adjBare, adjDoors, distLand, seen, eyesBare, eyesDoors, usage;
+  const state = { k: 5, perHundred: 3, minGap: 24, doorShare: 75, floorSeed: 7, doorSeed: 101, pairSeed: 3, heat: true, elig: true, dead: true, game: true, spacing: 'arm', landing: 0, hole: 0, clickNext: 'landing' };
+  let maze, mazeOpen, placement, adjBare, adjDoors, distLand, seen, eyesBare, eyesDoors, usage, wander;
   const AVG_PAIRS = 300;
 
   // For how many of AVG_PAIRS random pairs of this floor each opening is a shortcut, seen from the
-  // walk's side. The split only relabels openings as doors or gaps and never moves one, so the
-  // counts hold for every split.
+  // walk's side. The door share only relabels openings as doors or gaps and never moves one, so the
+  // counts hold for every share.
   function usageOf(all, adj, pairs) {
     const use = new Map(all.map((w) => [w, 0]));
     for (const [a, h] of S.randomPairs(maze, pairs, 977 + state.k)) for (const w of S.shortcuts(adj, a, h, all)) use.set(w, use.get(w) + 1);
@@ -365,7 +365,7 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
     rebuildDoors();
   }
   function rebuildDoors() {
-    placement = S.placeDoors(maze, { perHundred: state.perHundred, minGap: state.minGap, split: state.split > 256 ? Infinity : state.split, near: state.near, spacing: state.spacing, roll: doorRoll() });
+    placement = S.placeDoors(maze, { perHundred: state.perHundred, minGap: state.minGap, doorShare: state.doorShare / 100, spacing: state.spacing, roll: doorRoll() });
     placement.redundant = S.redundant(maze, placement.doors.concat(placement.gaps), state.minGap);
     mazeOpen = S.withGaps(maze, placement.gaps);
     adjBare = S.adjacency(maze, []);
@@ -373,14 +373,31 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
     eyesBare = S.eyesOf(maze, []);
     eyesDoors = S.eyesOf(mazeOpen, placement.doors);
     usage = pathUsage();
+    wander = hourOfWandering();
     $('tuneNote').textContent = '';
     refresh();
+  }
+  // An hour's walk at step.ts's WALK_SPEED, in room sides a second, from random rooms: a random
+  // wanderer and an explorer who remembers every room bracket a real player from below and above.
+  const HOUR_STEPS = Math.round(3600 * 0.28), WANDER_RUNS = 30;
+  function hourOfWandering() {
+    const rnd = S.mulberry32(4243 + state.k), out = {};
+    for (const [who, walk] of [['wanderer', (a) => S.randomWalk(adjDoors, a, HOUR_STEPS, rnd)], ['explorer', (a) => S.exploreWalk(adjDoors, a, HOUR_STEPS)]]) {
+      const t = { doors: 0, gaps: 0, rooms: 0 };
+      for (let r = 0; r < WANDER_RUNS; r++) {
+        const rooms = walk(Math.floor(rnd() * maze.N)), d = S.metAlong(rooms, placement.doors);
+        t.doors += d.met / WANDER_RUNS; t.rooms += d.rooms / WANDER_RUNS;
+        t.gaps += S.metAlong(rooms, placement.gaps).met / WANDER_RUNS;
+      }
+      out[who] = t;
+    }
+    return out;
   }
   function doorRoll() {
     return state.game ? ((H, n) => (path) => H(`doorway/${n}/${path}`))(worldHash, state.k + 1) : S.seededRoll(`sandbox/${state.doorSeed}`);
   }
-  // Both knobs at once: every threshold, and under each every split on either side. One target leaves
-  // a whole ridge of answers, so among those within TUNE_SLACK of 50% the most doors wins.
+  // Every threshold, at the set density and door share. Among those within TUNE_SLACK of 50% the most
+  // doors wins, which is the lowest such threshold.
   const TUNE_PAIRS = AVG_PAIRS, TUNE_SLACK = 0.03;
   let tuning = false;
   async function tune() {
@@ -389,33 +406,25 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
     const roll = doorRoll(), rate = (c) => (Math.abs(c.p - 0.5) <= TUNE_SLACK ? 1e6 + c.n : -Math.abs(c.p - 0.5));
     let best = null, lastEligible = -1;
     for (let g = 0; g <= 256; g++) {
-      const { doors: all, eligible } = S.placeDoors(maze, { perHundred: state.perHundred, minGap: g, spacing: state.spacing, roll });
+      const { doors, gaps, eligible } = S.placeDoors(maze, { perHundred: state.perHundred, minGap: g, doorShare: state.doorShare / 100, spacing: state.spacing, roll });
       // The allowed walls only shrink as the threshold rises, so an unchanged count is an unchanged set.
       const fresh = eligible !== lastEligible;
       lastEligible = eligible;
-      if (fresh && all.length) {
-        const use = usageOf(all, S.adjacency(maze, all), TUNE_PAIRS);
-        for (const near of ['door', 'gap']) for (let s = g; s <= 257; s++) {
-          const split = s > 256 ? Infinity : s, doors = all.filter((w) => (w.exact < split) === (near === 'door'));
-          const p = shareIn(use, TUNE_PAIRS, doors);
-          if (p === null) continue;
-          const c = { g, s, near, p, n: doors.length };
-          if (!best || rate(c) > rate(best)) best = c;
-        }
+      if (fresh && doors.length) {
+        const all = doors.concat(gaps), p = shareIn(usageOf(all, S.adjacency(maze, all), TUNE_PAIRS), TUNE_PAIRS, doors);
+        const c = { g, p, n: doors.length };
+        if (!best || rate(c) > rate(best)) best = c;
       }
       if (g % 8 === 0) { $('tuneNote').textContent = `перебираю порог ${g} из 256…`; await new Promise((r) => setTimeout(r)); }
     }
     tuning = false; $('tune').disabled = false;
-    if (!best) { $('tuneNote').textContent = 'отверстий нет ни при каком пороге — подбирать нечего'; return; }
+    if (!best) { $('tuneNote').textContent = 'дверей нет ни при каком пороге — подбирать нечего'; return; }
     state.minGap = best.g; $('gap').value = best.g;
-    state.split = best.s; $('split').value = best.s;
-    state.near = best.near; $('near').checked = best.near === 'door';
     rebuildDoors();
     const p = avgShare(placement.doors);
-    const at = `порог ${best.g}, граница ${best.s > 256 ? '∞' : best.s}, ${best.near === 'door' ? 'ближе неё двери' : 'ближе неё проёмы, дальше двери'}`;
     $('tuneNote').textContent = Math.abs(best.p - 0.5) <= TUNE_SLACK
-      ? `${at}: самое большое число дверей (${placement.doors.length}), при котором дверь выгодна в 50 ± 3% случаев; по ${AVG_PAIRS} парам вышло ${pct(p)}`
-      : `50% при этой плотности не достать: ближе всего ${pct(p)}, ${at}`;
+      ? `порог ${best.g}: самое большое число дверей (${placement.doors.length}), при котором дверь выгодна в 50 ± 3% случаев; по ${AVG_PAIRS} парам вышло ${pct(p)}`
+      : `50% при этой плотности не достать: ближе всего ${pct(p)}, порог ${best.g}`;
   }
   function refresh() {
     distLand = S.bfs(adjDoors, state.landing);
@@ -426,8 +435,10 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
     $('densityOut').textContent = state.perHundred;
     $('gapOut').textContent = state.minGap;
     const p = placement;
-    $('splitOut').textContent = state.split > 256 ? '∞' : state.split;
+    $('shareOut').textContent = `${state.doorShare}%`;
     $('tallyBig').innerHTML = `<span class="d">дверей ${p.doors.length}</span> · <span class="g">проёмов ${p.gaps.length}</span>`;
+    const hour = (t) => `<span class="d"><b>${Math.round(t.doors)}</b> дверей</span>, <span class="g"><b>${Math.round(t.gaps)}</b> проёмов</span> на ${Math.round(t.rooms)} комнатах`;
+    $('wanderOut').innerHTML = `За час ходьбы: исследователь ${hour(wander.explorer)}; блуждающий наугад ${hour(wander.wanderer)}. <small>Шагом это ${HOUR_STEPS} переходов из комнаты в комнату, сквозь двери и проёмы как сквозь любой проход, дыра не останавливает. Встреча — постоять в одной из двух комнат, которые отверстие соединяет; каждое отверстие считается один раз. Исследователь помнит все комнаты и идёт к ближайшей новой, блуждающий выбирает выход наугад; живой игрок где-то между ними. Цель «дверь в минуту, проём раз в три» — 60 и 20.</small>`;
     const dOn = S.shortcuts(adjDoors, state.landing, state.hole, p.doors).length;
     $('pathAvg').innerHTML = `<span class="d">Увиденная дверь выгодна в <b>${pct(avgShare(p.doors))}</b> случаев</span>: столько дверей в среднем сократили бы путь к дыре по ${AVG_PAIRS} случайным парам приземление–дыра этого этажа, если бы игрок стоял у каждой с той стороны, куда приходит раньше. «Сократила» — значит, любой кратчайший путь оттуда до дыры идёт сквозь неё. Это число и подбирает кнопка.`;
     $('pathPair').textContent = `Только для этих приземления и дыры: ${dOn} из ${p.doors.length} (${pct(p.doors.length ? dOn / p.doors.length : null)}). Одна дыра — это шум: при малом числе дверей число скачет далеко от среднего.`;
@@ -573,9 +584,8 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
   $('size').addEventListener('click', (ev) => { const k = ev.target.dataset?.k; if (!k) return; state.k = +k; pressSeg('size', 'k', k); rebuildFloor(); });
   $('density').addEventListener('input', (ev) => { state.perHundred = +ev.target.value; rebuildDoors(); });
   $('gap').addEventListener('input', (ev) => { state.minGap = +ev.target.value; rebuildDoors(); });
-  $('split').addEventListener('input', (ev) => { state.split = +ev.target.value; rebuildDoors(); });
+  $('share').addEventListener('input', (ev) => { state.doorShare = +ev.target.value; rebuildDoors(); });
   $('tune').addEventListener('click', tune);
-  $('near').addEventListener('change', (ev) => { state.near = ev.target.checked ? 'door' : 'gap'; rebuildDoors(); });
   $('heat').addEventListener('change', (ev) => { state.heat = ev.target.checked; draw(); });
   $('elig').addEventListener('change', (ev) => { state.elig = ev.target.checked; draw(); });
   $('dead').addEventListener('change', (ev) => { state.dead = ev.target.checked; draw(); });
