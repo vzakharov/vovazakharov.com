@@ -1,0 +1,60 @@
+items:
+  - id: z-ideas
+    type: zone
+    updated: [2026-11-14T10:45:00.000Z, agent:cube]
+    box: [3640, -3100, 1980, 1000, yellow]
+    icon: 💡
+    text: 'Ideas: doors that open into the room behind the wall'
+  - id: doors-idea
+    type: sticky
+    updated: [2026-11-14T10:45:00.000Z, agent:cube]
+    box: [3668, -2990, 244, yellow]
+    icon: 🚪
+    text: "Idea: doors that open into the room behind the wall. A door belongs to the wall, so both faces show it and no wall holds two; none on the perimeter, and none where the walk round between its two rooms is under a threshold. Opening one is free: it shuts behind you, so nothing lasting changes"
+  - id: doors-lock
+    type: sticky
+    updated: [2026-11-14T10:45:00.000Z, agent:cube]
+    box: [4003, -2990, 244, purple]
+    icon: 🔐
+    text: 'Doors leave the lock alone: a search hashes room addresses and never walks, so a shortcut saves it nothing. Floor 65 by brute force at the whole Bitcoin network, 10^21 hashes a second, is still ~22 billion years; Grover needs 2^65 calls one after another, ~900 years at a billion a second'
+  - id: doors-who
+    type: sticky
+    updated: [2026-11-14T10:45:00.000Z, agent:cube]
+    box: [4338, -2990, 244, yellow]
+    icon: 🧭
+    text: 'Doors help the lost most and the methodical least. 32×32, 5 doors per 100 rooms: the random wanderer needs 0.26 of its steps, who knows the route 0.48, the mapper (perfect memory, nearest unseen room next) 0.93, and worse than bare on some pairs, a door luring it off before a district is done. Finding the hole stays the hard part'
+  - id: doors-right-hand
+    type: sticky
+    updated: [2026-11-14T10:45:00.000Z, agent:cube]
+    box: [4673, -2990, 244, yellow]
+    icon: ✋
+    text: 'A bug kept as a feature: a hand on the right wall walks a whole floor while it has no loops, but a door cuts the wall, and a cut-off run can become an island the hand circles forever. At 5 doors per 100 rooms on a 32×32 floor, the hand that takes doors misses the hole 87% of the time; skip them and the rule still holds, so it fools only whoever was tempted'
+  - id: doors-spacing
+    type: sticky
+    updated: [2026-11-14T10:45:00.000Z, agent:cube]
+    box: [5008, -2990, 244, yellow]
+    icon: 🧱
+    text: 'At most one door per partition. The maze cuts each square crosswise into quarters, and a partition is the straight wall between two of them, so a second door there repeats the first. The threshold alone lines doors up along long blind partitions: 32×32, threshold 8, 216 doors and 192 redundant; with the rule 71 and 2. Read off the coordinates in O(1)'
+  - id: doors-roll
+    type: sticky
+    updated: [2026-11-14T10:45:00.000Z, agent:cube]
+    box: [5343, -2990, 244, yellow]
+    icon: 🎲
+    text: 'Placed locally from the world seed: two rolls per partition, doorway/{floor}/{partition}/has, a door or not against the density, and …/at, which of its allowed walls. Raising the density keeps every door and adds more. Not at the longest walk round: that is where whoever knows the rule would look first'
+  - id: doors-threshold
+    type: sticky
+    updated: [2026-11-14T10:45:00.000Z, agent:cube]
+    box: [3668, -2560, 244, purple]
+    icon: 📏
+    text: 'The threshold counts rooms, not a share of the floor. 48 works: on our world doors begin on floor 5 and shorten the shortest path a little. Half the side would leave ~20 doors a floor at any size, so deep doors would go unfound, and finding them, some portals later, is part of the fun'
+  - id: doors-bound
+    type: sticky
+    updated: [2026-11-14T10:45:00.000Z, agent:cube]
+    box: [4338, -2560, 244, purple]
+    icon: 📐
+    text: "The threshold needs the walk round between a wall's two rooms, which no deep floor can count exactly. A lower bound from the cross of the one block whose cut holds the wall costs O(1): checked against exact distances on 104,080 walls, never above them"
+  - id: l-doors-portals
+    type: line
+    updated: [2026-11-14T10:45:00.000Z, agent:cube]
+    ends: [doors-idea, deep-portals]
+    text: some doors are portals
