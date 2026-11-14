@@ -26,12 +26,15 @@ model's kinds do. Until the model lands, the kinds are the native maze's alone.
 
 ### Team
 
-- `model` — the doorway model behind the seam (rolls, window method, cache,
-  tests).
-- `sight` — `seenFrom` on a maze with loops.
-- `doors` — the door drawn, opened by the use action, shut behind.
+All on Opus, started 2026-11-14 20:19Z from 47b2d1fb.
 
-Ids and branches are filled in as each starts.
+- `model` — session_01DaohkF1JS8gB1tRwKtZtd1, `claude/cube-doors-model-oldy2u`:
+  the doorway model behind the seam (rolls, window method, cache, tests).
+- `sight` — session_01DaohkDz2WrSMUE8wwDgdtY, `claude/cube-doors-sight-oldy2u`:
+  `seenFrom` and any other tree assumption, on a maze with loops.
+- `doors` — session_01DaohkBudYCRGpUtpm5hS2H, `claude/cube-doors-open-oldy2u`:
+  the door drawn, opened by the use action, shut behind; told to merge `model`
+  once it returns doors, and the lead messages it when that lands.
 
 ### Status
 
