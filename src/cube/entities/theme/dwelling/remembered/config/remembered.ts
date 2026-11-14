@@ -20,7 +20,6 @@ export const REMEMBERED: FloorTheme = {
   decor: [
     { thing: 'armchair', perRoom: 0.4 },
     { thing: 'bed', perRoom: 0.3 },
-    { thing: 'door', perRoom: 0.6 },
     { thing: 'wall-clock', perRoom: 0.3 },
     { thing: 'tv', perRoom: 0.2 },
     { thing: 'floor-lamp', perRoom: 0.3 },

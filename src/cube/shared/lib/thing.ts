@@ -19,7 +19,6 @@ export const THINGS = [
   'notice-board',
   'exit-sign',
   'vent',
-  'door',
   'radiator',
   'socket',
   'fire-extinguisher',

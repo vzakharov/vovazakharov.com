@@ -21,7 +21,6 @@ export const SIXTEEN_COLOUR: FloorTheme = {
   decor: [
     { thing: 'barrel', perRoom: 0.8 },
     { thing: 'crate', perRoom: 0.6 },
-    { thing: 'door', perRoom: 0.6 },
     { thing: 'bench', perRoom: 0.2 },
     { thing: 'drain', perRoom: 0.2 },
   ],

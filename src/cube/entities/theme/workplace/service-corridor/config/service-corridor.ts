@@ -17,7 +17,6 @@ export const SERVICE_CORRIDOR: FloorTheme = {
   dark: 0.06,
   sound: { footing: 'concrete', hum: 100, air: 0.6, echo: 1.8 },
   decor: [
-    { thing: 'door', perRoom: 1.2 },
     { thing: 'crate', perRoom: 0.5 },
     { thing: 'cardboard-box', perRoom: 0.8 },
     { thing: 'shopping-cart', perRoom: 0.2 },

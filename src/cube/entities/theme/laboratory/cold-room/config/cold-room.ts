@@ -22,7 +22,6 @@ export const COLD_ROOM: FloorTheme = {
     { thing: 'tank', perRoom: 0.4 },
     { thing: 'locker', perRoom: 0.3 },
     { thing: 'pipe', perRoom: 0.8 },
-    { thing: 'door', perRoom: 0.3 },
   ],
   shader: {
     ...COLD_ROOM_SHADER,

@@ -2,7 +2,12 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { DOORWAY_CUT } from '@/cube/shared/cube-boundary';
-import { type DoorWall, isSameWall, type Pose } from '@/cube/entities/world';
+import {
+  type DoorWall,
+  isSameWall,
+  leafLine,
+  type Pose,
+} from '@/cube/entities/world';
 
 import { closedWalls } from './body';
 import {
@@ -123,9 +128,7 @@ describe('closedWalls with a door ajar', () => {
     );
     const leaf = closedWalls(facing(), { ...doored, ajar })[0];
     assert.ok(leaf !== undefined);
-    assert.ok(
-      Math.abs(leaf.b.u - (1 + DOORWAY_CUT.to - DOORWAY_CUT.from)) < NEAR,
-    );
+    assert.ok(Math.abs(leaf.b.u - (1 + leafLine(ajar).edge[1])) < NEAR);
   });
 });
 

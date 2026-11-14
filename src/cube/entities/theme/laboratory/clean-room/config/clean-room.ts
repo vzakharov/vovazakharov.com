@@ -21,7 +21,6 @@ export const CLEAN_ROOM: FloorTheme = {
     { thing: 'locker', perRoom: 0.5 },
     { thing: 'vent', perRoom: 1 },
     { thing: 'bin', perRoom: 0.3 },
-    { thing: 'door', perRoom: 0.4 },
     { thing: 'mirror', perRoom: 0.15 },
   ],
   shader: {

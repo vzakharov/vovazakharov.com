@@ -18,7 +18,6 @@ export const CLEAR_COLOUR: FloorTheme = {
   dark: 0.15,
   sound: { footing: 'soft', hum: 0, air: 0, echo: 4 },
   decor: [
-    { thing: 'door', perRoom: 0.3 },
     { thing: 'bench', perRoom: 0.2 },
     { thing: 'balloon', perRoom: 0.15 },
   ],
