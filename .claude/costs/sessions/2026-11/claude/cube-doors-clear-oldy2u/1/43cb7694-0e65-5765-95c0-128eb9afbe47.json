@@ -1,15 +1,39 @@
 {
   "total": {
-    "inputTokens": 95,
+    "inputTokens": 136,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 201067,
-    "cacheReadTokens": 9615899,
-    "outputTokens": 45723,
-    "thinkingTokens": 15163,
-    "responses": 52,
-    "costUsd": 4.4465558000000005
+    "cacheWrite1hTokens": 237548,
+    "cacheReadTokens": 15861263,
+    "outputTokens": 69410,
+    "thinkingTokens": 21714,
+    "responses": 75,
+    "costUsd": 6.4613806
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-14T21:03:27.836Z",
+    "subjectLine": "feat: keep doorways clear, one answer per press, a door prompt and look",
+    "parts": [
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "placement rules across four placers and a use-action arbiter must stay pure, rolled and agree with the shelf/sign models"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "a procedural door leaf with panels and a handle that reads at a few quads needs an eye for the room's look"
+      },
+      {
+        "hours": 1.5,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "re-shooting lit frames across floors and states and checking each by eye"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -34,18 +58,18 @@
   "url": "https://claude.ai/code/session_01DaohkDQ9KQGyhEf1cx1m5E",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-14T20:52:47.506Z",
-  "lastResponseAt": "2026-11-14T21:02:52.908Z",
+  "lastResponseAt": "2026-11-14T21:08:05.162Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 95,
+    "inputTokens": 136,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 201067,
-    "cacheReadTokens": 9615899,
-    "outputTokens": 45723,
-    "thinkingTokens": 15163,
-    "responses": 52,
-    "costUsd": 4.4465558000000005
+    "cacheWrite1hTokens": 237548,
+    "cacheReadTokens": 15861263,
+    "outputTokens": 69410,
+    "thinkingTokens": 21714,
+    "responses": 75,
+    "costUsd": 6.4613806
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,23 +83,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 95,
+      "inputTokens": 136,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 201067,
-      "cacheReadTokens": 9615899,
-      "outputTokens": 45723,
-      "thinkingTokens": 15163,
-      "responses": 52,
-      "costUsd": 4.4465558000000005
+      "cacheWrite1hTokens": 237548,
+      "cacheReadTokens": 15861263,
+      "outputTokens": 69410,
+      "thinkingTokens": 21714,
+      "responses": 75,
+      "costUsd": 6.4613806
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 51,
-    "matched": 51,
-    "matchedTableUsd": 4.362934600000001,
-    "matchedEventUsd": 4.362934600000001,
+    "events": 74,
+    "matched": 74,
+    "matchedTableUsd": 6.385408,
+    "matchedEventUsd": 6.385408,
     "unseen": {}
   },
   "operatorWords": {
@@ -88,7 +112,7 @@
   "branchLines": {
     ".md": 350,
     ".js": 1353,
-    ".ts": 1353,
+    ".ts": 1508,
     ".html": 822,
     ".json": 1,
     ".yaml": 90

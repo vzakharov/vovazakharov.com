@@ -75,7 +75,7 @@ export function onWall(
 }
 
 /** The middle of `wall`'s doorway on its line, in the frame of `pose`'s room. */
-const doorwayAt = (pose: Pose, wall: DoorWall): InRoom =>
+export const doorwayAt = (pose: Pose, wall: DoorWall): InRoom =>
   onWall(pose, wall, DOORWAY_CUT.middle, 0);
 
 /**
@@ -115,24 +115,20 @@ export function swung(door: OpenDoor, pose: Pose, dt: number): OpenDoor | null {
   return { ...door, openFor, shutAt: away ? openFor : null };
 }
 
-/** Whether a frame pressed the hand, and whether the body stood all through it. */
-type Pressed = { use: boolean; standing: boolean };
-
 /**
- * The body's door after a frame of `dt` seconds that left it at `pose`,
- * `standing` or not: the one it had, swung on, unless a press of the hand
- * (`use`) while standing opens the closed door it faces among `ways`.
+ * The body's door after a frame of `dt` seconds that left it at `pose`: the
+ * one it had, swung on, unless the frame's press `opened` another, or the
+ * same one again once it had begun to shut.
  */
 export function doorAfter(
   door: OpenDoor | null,
   pose: Pose,
-  { use, standing }: Pressed,
+  opened: OpenDoor | null,
   dt: number,
-  { isDoor }: Ways,
 ): OpenDoor | null {
   const kept = door === null ? null : swung(door, pose, dt);
-  if (!use || !standing || isDoor === undefined) return kept;
-  const faced = doorFaced(pose, isDoor);
   const holding = kept !== null && kept.shutAt === null;
-  return faced === null || (holding && isSameWall(kept, faced)) ? kept : faced;
+  return opened === null || (holding && isSameWall(kept, opened))
+    ? kept
+    : opened;
 }

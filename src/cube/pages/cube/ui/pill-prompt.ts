@@ -1,7 +1,5 @@
-import type { Pose } from '@/cube/entities/world';
 import {
-  canTake,
-  type Holed,
+  type Aim,
   isAsking,
   isStanding,
   type Player,
@@ -35,17 +33,14 @@ export const drawn =
   };
 
 /**
- * The line `player` is shown at `pose` in a room holed as `here` has it: the
- * question while it holds the pill before its eyes, the way to take it while
- * it stands where it can, none otherwise.
+ * The line `player` is shown with its hand at `aim`: the question while it
+ * holds the pill before its eyes, the way to take it while it stands aiming
+ * at it, none otherwise.
  */
 export function pillPromptOf(
   player: Player,
-  pose: Pose,
-  here: Holed | null,
+  aim: Aim | null,
 ): PillPrompt | null {
   if (isAsking(player)) return 'ask';
-  return isStanding(player) && here !== null && canTake(pose, here.shelf)
-    ? 'take'
-    : null;
+  return isStanding(player) && aim?.at === 'pill' ? 'take' : null;
 }
