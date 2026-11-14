@@ -1,15 +1,20 @@
 Proposed squash body:
 
 ```
-Openable doors in the floor maze, weighed in a simulation of the game's
-own maze, turned up a bug worth keeping: a hand on the right wall walks
-a whole floor while it has no loops, but a door can cut a run of wall
-loose into an island the hand then circles forever.
+Doors that open into the room behind the wall were weighed in a
+simulation of the game's own floor maze, and the cube board now keeps
+what that settled in an ideas zone of its own, apart from the shipped
+iterations.
 
-The cube board's iteration-one zone gains a sticky for it. Taking doors
-on a 32x32 floor at 5 per 100 rooms, the hand misses the hole 87% of
-the time; skipping them keeps the rule working, so it fools only
-whoever was tempted.
+The zone holds the rule set (mirrored, one per wall, none on the
+perimeter or under a walk-round threshold, free to open); why doors
+leave the lock alone, since a search hashes rooms and never walks; who
+they help, the random wanderer most and the mapper least; the
+right-hand rule they fool, a bug kept as a feature; one door per
+partition; placing them from the world seed with two rolls per
+partition; the threshold counted in rooms, 48 working; and the O(1)
+lower bound it is checked with. A line ties them to the deep-floor
+portals some doors may become.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
