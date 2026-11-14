@@ -74,8 +74,11 @@ export function doorLook({ n, x, y, isEast }: DoorWall): {
   };
 }
 
+/** The frame's width on each jamb and the head, in room sides. */
+const JAMB_WIDE = DOOR.frame * METRE;
+
 /** The leaf's width, in room sides: the cut less its frame on both jambs. */
-const LEAF_WIDE = DOORWAY_CUT.to - DOORWAY_CUT.from - 2 * DOOR.frame * METRE;
+const LEAF_WIDE = DOORWAY_CUT.to - DOORWAY_CUT.from - 2 * JAMB_WIDE;
 
 /**
  * Where the leaf of `ajar` stands, in its wall's frame: its hinge `along`
@@ -99,7 +102,7 @@ function swing(ajar: Ajar): {
 } {
   const atFrom = doorLook(ajar).hinge === 'from';
   const { from, to } = DOORWAY_CUT;
-  const hinge = atFrom ? from + DOOR.frame * METRE : to - DOOR.frame * METRE;
+  const hinge = atFrom ? from + JAMB_WIDE : to - JAMB_WIDE;
   return {
     hinge,
     run: [
@@ -117,7 +120,6 @@ function swing(ajar: Ajar): {
 export function doorFrame(wall: DoorWall): Quad[] {
   const { run, at, own } = wallFrame(wall);
   const { from, to, height } = DOORWAY_CUT;
-  const frame = DOOR.frame * METRE;
   const deep = WALL_HALF + DOOR.proud * METRE;
   const block = (a0: number, a1: number, u0: number, u1: number) =>
     solid(
@@ -126,10 +128,11 @@ export function doorFrame(wall: DoorWall): Quad[] {
       'wood',
       WHITE,
     );
+  const head = height - JAMB_WIDE;
   return own([
-    ...block(from, from + frame, 0, height - frame),
-    ...block(to - frame, to, 0, height - frame),
-    ...block(from, to, height - frame, height),
+    ...block(from, from + JAMB_WIDE, 0, head),
+    ...block(to - JAMB_WIDE, to, 0, head),
+    ...block(from, to, head, height),
   ]);
 }
 
