@@ -1,7 +1,9 @@
 import { asError } from '@/kernel/shared/lib/error-class';
+import type { CanDispose } from '@/kernel/shared/typings';
 
 import { pressedShift, WALKING } from '../model/pace';
 import type { Input } from '../model/step';
+import { bindTouch } from './touch';
 
 /** Radians of look per pixel of mouse travel. */
 const LOOK_PER_PIXEL = 0.0025;
@@ -71,19 +73,19 @@ const isTextField = (target: EventTarget | null): boolean =>
         target.type,
       )));
 
-export type InputBinding = {
+export type InputBinding = CanDispose & {
   /** This frame's input; the look deltas accumulated since the last read. */
   read: () => Input;
   /** Whether a Shift key has been pressed since the binding began. */
   shifted: () => boolean;
-  dispose: () => void;
 };
 
 /**
- * Keyboard and pointer-lock mouse bound to `target`. Keys move whenever the
- * page has focus, except while typing into a text field; a click on `target`
- * takes the pointer lock, and only while it is held does the mouse look. A
- * refused lock goes to `onError`. The body walks at first; Shift held gives it
+ * Keyboard, pointer-lock mouse and fingers bound to `target`. Keys move
+ * whenever the page has focus, except while typing into a text field; a click
+ * on `target` takes the pointer lock, and only while it is held does the mouse
+ * look. A refused lock goes to `onError`; a tap asks for none, since a phone
+ * has none to give, and the fingers walk and look as `bindTouch` reads them. The body walks at first; Shift held gives it
  * the other pace, and a double press of Shift makes that pace the one it
  * stands at.
  */
@@ -102,10 +104,11 @@ export function bindInput(
   let goTo: number | null = null;
   let typed: string[] = [];
   const locked = () => document.pointerLockElement === target;
+  const touch = bindTouch(target);
 
   // Older engines return nothing rather than a promise, hence the `resolve`.
   const onClick = () => {
-    if (!locked()) {
+    if (!locked() && !touch.touching()) {
       Promise.resolve(target.requestPointerLock()).catch((error: unknown) => {
         onError(asError(error));
       });
@@ -176,15 +179,16 @@ export function bindInput(
 
   return {
     read() {
+      const { walk, strafe, yawBy, elevationBy, use: tapped } = touch.read();
       const input: Input = {
-        walk: 0,
-        strafe: 0,
+        walk,
+        strafe,
         turnKeys: 0,
         tiltKeys: 0,
-        yawBy: turn,
-        elevationBy: tilt,
+        yawBy: turn + yawBy,
+        elevationBy: tilt + elevationBy,
         running: pace.runsUnheld !== shifts.size > 0,
-        use,
+        use: use || tapped,
         answer,
         goTo,
       };
@@ -201,6 +205,7 @@ export function bindInput(
     },
     shifted: () => shifted,
     dispose() {
+      touch.dispose();
       target.removeEventListener('click', onClick);
       document.removeEventListener('mousemove', onMove);
       globalThis.removeEventListener('keydown', onKey);

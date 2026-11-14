@@ -20,10 +20,11 @@ const TRUST_FORMAT: GPUTextureFormat = 'r16float';
 /** Floats of `drowsy-resolve.wgsl`'s `Resolve`: two matrices, three vectors. */
 const RESOLVE_FLOATS = 16 + 16 + 4 + 4 + 4;
 
+/** A size, and the share of full pixels per low pixel, each way. */
+type Portioned = Sized & { share: Share };
+
 /** A frame's low pass: its size, and the view it draws through. */
-type LowPass = Sized & {
-  /** Full pixels per low pixel, each way. */
-  share: Share;
+type LowPass = Portioned & {
   /** A view-projection of the full frame as the low pass draws through it. */
   shift: (viewProjection: Float32Array) => Float32Array;
 };
@@ -56,9 +57,8 @@ export type DrowsyEye = CanDispose & {
 };
 
 /** Two frames of light and trust, one read while the other is written. */
-type History = Sized &
+type History = Portioned &
   CanDispose & {
-    share: Share;
     light: readonly [GPUTextureView, GPUTextureView];
     trust: readonly [GPUTextureView, GPUTextureView];
   };
