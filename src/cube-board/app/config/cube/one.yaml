@@ -47,6 +47,12 @@ items:
     box: [4673, 450, 244, yellow]
     icon: 💳
     text: 'Paying, open, and nobody knows how yet: Stripe takes $0.50 to $999,999.99 a charge, so floors 2 and 3 would go for bitcoin, an address and a sum on a static page. Below them, one payment link per floor, quantity left to the buyer, no server. No room sells under $4.99: a room on floor 9 or any deeper costs that, however small. Vova likes the whole sale idea less the further it goes; kept as it stands for now'
+  - id: one-8
+    type: sticky
+    updated: [2026-11-14T10:10:00.000Z, agent:cube]
+    box: [5008, 450, 244, yellow]
+    icon: ✋
+    text: 'Idea, a bug kept as a feature: doors that open into the room behind the wall. A hand on the right wall walks a whole tree floor, but a door cuts the wall, and a cut-off run can become an island the hand circles forever. At 5 doors per 100 rooms on a 32×32 floor, the hand that takes doors misses the hole 87% of the time; skip them and the rule still holds, so it fools only whoever was tempted'
   - id: img-floor-three
     type: image
     updated: [2026-11-11T14:50:00.000Z, agent:cube]
