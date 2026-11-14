@@ -43,12 +43,12 @@ fn rosePaper(s: Surf) -> Material {
   paper = mix(paper, vec3f(0.5, 0.33, 0.12), bud);
 
   let wall = wallWord(s);
-  let middle = vec2f(1.2 + 2.6 * unitOf(wall), 1.42);
   let size =
     vec2f(
       0.2 + 0.25 * unitOf(mix32(wall)),
       0.16 + 0.2 * unitOf(mix32(wall ^ 0x7u)),
     );
+  let middle = vec2f(shortOfDoorway(1.2, size.x + 0.03, unitOf(wall)), 1.42);
   let hung = boxAway(vec2f(alongWall(s), y) - middle, size);
   let kept = within(hung, 0.006) * step(unitOf(mix32(wall ^ 0x1fu)), 0.7);
   let smoke =

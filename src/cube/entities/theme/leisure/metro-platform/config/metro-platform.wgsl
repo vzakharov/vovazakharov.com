@@ -76,7 +76,8 @@ fn bills(at: vec2f, salt: u32) -> vec3f {
 }
 
 /// Cream tiles over a maroon dado, soot down from the head of the wall, a
-/// red enamel frieze of blank name plates, and a bill board either end.
+/// red enamel frieze of blank name plates, and a bill board at the west or
+/// north end, the end no doorway is cut beside.
 fn enamelled(s: Surf) -> Material {
   let h = s.p.y;
   let tile = slabs(s.uv, vec2f(0.2, 0.1), 0.004, 317u, 0.5);
@@ -117,13 +118,12 @@ fn enamelled(s: Surf) -> Material {
     height = 3.0 + plate;
   }
   let run = alongWall(s);
-  let board = vec2f(min(abs(run - 0.85), abs(run - 4.15)), h - 1.45);
+  let board = vec2f(run - 0.85, h - 1.45);
   let rim = roundBox(board, vec2f(0.55, 0.5), 0.0);
   if (rim < 0.0) {
-    let side = select(0u, 1u, run > 2.5);
     colour =
       mix(
-        bills(vec2f(run, h), s.seed ^ side),
+        bills(vec2f(run, h), s.seed),
         vec3f(0.02),
         1.0 - inside(rim + 0.03),
       ) * (1.0 - 0.4 * soot);

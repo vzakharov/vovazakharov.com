@@ -3,11 +3,25 @@
 
 import package::cube::entities::theme::kit::lib::core::{ROOM, Surf, toSides, closedAt};
 
+/// Whether a wall, read from inside its room, runs from its east or south
+/// end rather than its west or north.
+fn readsBackward(s: Surf) -> bool {
+  return s.normal.z - s.normal.x < 0.0;
+}
+
 /// Metres along a wall from its left end, as someone in its room facing it
 /// reads it: unlike `s.uv.x` it is never mirrored and starts at the corner.
 fn wallAlong(s: Surf) -> f32 {
   let right = vec2f(s.normal.z, -s.normal.x);
-  return dot(s.p.xz, right) + select(0.0, ROOM.x, right.x + right.y < 0.0);
+  return dot(s.p.xz, right) + select(0.0, ROOM.x, readsBackward(s));
+}
+
+/// `wallAlong` from the left edge of a mark `wide` metres across, set
+/// `inset` metres in from its wall's west or north end, which no doorway is
+/// cut beside: it reads the right way round on every wall, at the left end
+/// of some and the right end of others.
+fn markAlong(s: Surf, inset: f32, wide: f32) -> f32 {
+  return wallAlong(s) - select(inset, ROOM.x - inset - wide, readsBackward(s));
 }
 
 /// Metres from a floor's point to the nearest closed wall of its room; 9
