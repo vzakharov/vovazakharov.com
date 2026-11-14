@@ -1,4 +1,4 @@
-import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, Surf, Material, polished, glowing, embossed, repeated, spaced, Lens};
+import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, Surf, Material, polished, glowing, embossed, repeated, spaced, clearOfDoorway, Lens};
 import package::cube::shared::shader::hash::{mix32, hashOf, unitOf, cellHash, valueNoise, worley};
 import package::cube::entities::theme::kit::lib::finish::{band, tiling, carpet};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
@@ -74,7 +74,12 @@ fn tubed(s: Surf) -> Material {
   let word = hashOf(bitcast<u32>(i32(floor(s.uv.x / run))), 228u);
   let luck = unitOf(word);
   let trying = step(0.35, unitOf(hashOf(word, u32(s.time * 9.0))));
-  let live = select(select(1.0, trying, luck < 0.2), 0.0, luck < 0.08);
+  // No tube is hung where a doorway may cut one.
+  let live =
+    select(select(1.0, trying, luck < 0.2), 0.0, luck < 0.08) * clearOfDoorway(
+      s,
+      run,
+    );
   // A tube stops short of its holders at either end.
   let held = step(0.04, run * 0.5 - abs(spaced(s.uv.x, run)));
   let pink = vec3f(1.0, 0.05, 0.5);

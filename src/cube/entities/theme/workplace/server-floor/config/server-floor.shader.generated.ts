@@ -30,8 +30,9 @@ fn racks(s: Surf) -> Material {
   let h = s.p.y;
   let along = wallAlong(s);
   let fine = valueNoise(s.uv * 120.0, 131u);
-  if (h > 2.02) {
-    // Over the racks: the dark, and a yellow trough of fibre.
+  // Over the racks, and where a doorway may cut one in place of the rack: the
+  // dark, and a yellow trough of fibre.
+  if (h > 2.02 || clearOfDoorway(s, 0.625) < 0.5) {
     let trough = band(h, 2.14, 0.12);
     let clip = band(fract(along / 0.625) * 0.625, 0.3125, 0.03);
     let yellow =

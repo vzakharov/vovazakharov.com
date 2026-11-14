@@ -1,6 +1,6 @@
 // `airport-gate.ts` adds this floor's light and lens, `lamps()` among them.
 
-import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, Surf, Material, matte, polished, embossed, repeated, spaced};
+import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, Surf, Material, matte, polished, embossed, repeated, spaced, clearOfDoorway};
 import package::cube::shared::shader::hash::{mix32, hashOf, unitOf, cellHash, valueNoise, fbm};
 import package::cube::entities::theme::kit::lib::finish::{band, carpet};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
@@ -65,7 +65,12 @@ fn glazed(s: Surf) -> Material {
   let rails = max(band(h, 0.48, 0.05), band(h, 2.1, 0.06));
   let sill = 1.0 - smoothstep(0.1, 0.104, h);
   let head = smoothstep(2.13, 2.134, h);
-  let frame = max(max(upright, rails), max(sill, head));
+  // A bay a doorway may cut is a panel of the frame's metal, not a pane.
+  let frame =
+    max(
+      max(max(upright, rails), max(sill, head)),
+      1.0 - clearOfDoorway(s, 1.25),
+    );
   let brushed = valueNoise(vec2f(s.uv.x * 240.0, h * 8.0), 262u);
   let metal =
     mix(

@@ -1,6 +1,6 @@
 // `circuit-board.ts` adds this floor's light and lens, `lamps()` among them.
 
-import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, Surf, Material, polished, embossed};
+import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, Surf, Material, polished, embossed, clearOfDoorway};
 import package::cube::shared::shader::hash::{mix32, hashOf, unitOf, cellHash, valueNoise, worley};
 import package::cube::entities::theme::kit::lib::finish::band;
 import package::cube::entities::theme::kit::lib::stuff::stuff;
@@ -77,9 +77,11 @@ fn towers(s: Surf) -> Material {
   let half = 0.3 + 0.25 * unitOf(word);
   let top = 1.5 + 0.55 * unitOf(mix32(word));
   let box = vec2f(abs(across - 0.625) - half, max(h - top, 0.5 - h));
-  let body = 1.0 - smoothstep(0.0, 0.006, max(box.x, box.y));
+  let fitted = clearOfDoorway(s, 1.25);
+  let body = fitted * (1.0 - smoothstep(0.0, 0.006, max(box.x, box.y)));
   let leg =
-    (1.0 - smoothstep(0.0, 0.004, box.x))
+    fitted
+      * (1.0 - smoothstep(0.0, 0.004, box.x))
       * step(0.4, fract(across / 0.05))
       * (1.0 - smoothstep(0.0, 0.004, max(h - top - 0.06, 0.44 - h)))
       * (1.0 - body);

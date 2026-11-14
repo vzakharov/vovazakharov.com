@@ -1,0 +1,96 @@
+{
+  "total": {
+    "inputTokens": 168,
+    "cacheWrite5mTokens": 277566,
+    "cacheWrite1hTokens": 149433,
+    "cacheReadTokens": 10349476,
+    "outputTokens": 56473,
+    "thinkingTokens": 18560,
+    "responses": 84,
+    "costUsd": 5.783321199999999
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-14T22:46:20.003Z",
+    "contextTokens": 109160,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 41053,
+      "cacheReadTokens": 145654,
+      "outputTokens": 900,
+      "thinkingTokens": 216,
+      "responses": 2,
+      "costUsd": 0.37557080000000004
+    }
+  },
+  "sessionId": "73cb6745-741c-5243-8660-4b1576efbf55",
+  "branch": "claude/cube-doors-grid-oldy2u",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a lead working on branch claude/cube-board-right-hand-doors-oldy2u (PR #280 in vzakharov/vovazakharov.com, the lead's; you open no PR…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkFJyKVaDDQ89npB53x",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-14T22:46:10.011Z",
+  "lastResponseAt": "2026-11-14T23:09:48.259Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 88,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 149433,
+    "cacheReadTokens": 7160368,
+    "outputTokens": 27773,
+    "thinkingTokens": 10254,
+    "responses": 46,
+    "costUsd": 3.1833495999999997
+  },
+  "subagents": {
+    "inputTokens": 80,
+    "cacheWrite5mTokens": 277566,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 3189108,
+    "outputTokens": 28700,
+    "thinkingTokens": 8306,
+    "responses": 38,
+    "costUsd": 2.5999716
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 168,
+      "cacheWrite5mTokens": 277566,
+      "cacheWrite1hTokens": 149433,
+      "cacheReadTokens": 10349476,
+      "outputTokens": 56473,
+      "thinkingTokens": 18560,
+      "responses": 84,
+      "costUsd": 5.783321199999999
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 83,
+    "matched": 83,
+    "matchedTableUsd": 5.726633999999999,
+    "matchedEventUsd": 5.726633999999999,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 419,
+    ".json": 7,
+    ".yaml": 185,
+    ".ts": 2189,
+    ".wgsl": 73,
+    ".tsx": 12
+  }
+}

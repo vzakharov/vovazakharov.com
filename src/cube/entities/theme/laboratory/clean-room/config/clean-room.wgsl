@@ -1,6 +1,6 @@
 // `clean-room.ts` adds this floor's light and lens, `lamps()` among them.
 
-import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, Surf, Material, polished, embossed};
+import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, Surf, Material, polished, embossed, clearOfDoorway};
 import package::cube::shared::shader::hash::{hashOf, unitOf, valueNoise, fbm};
 import package::cube::entities::theme::kit::lib::finish::{band, tiling};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
@@ -55,7 +55,10 @@ fn cleanWall(s: Surf) -> Material {
   let slat = fract(h / 0.04);
   let gap = grille * (1.0 - smoothstep(0.3, 0.45, slat));
   let glazed =
-    step(0.55, unitOf(hashOf(bitcast<u32>(i32(bay)), s.seed ^ 0x36u)));
+    step(
+      0.55,
+      unitOf(hashOf(bitcast<u32>(i32(bay)), s.seed ^ 0x36u)),
+    ) * clearOfDoorway(s, 1.25);
   let pane = max(abs(across - 0.625) - 0.4, abs(h - 1.4) - 0.34);
   let window = glazed * (1.0 - smoothstep(0.0, 0.006, pane));
   let frame = glazed * (1.0 - smoothstep(0.03, 0.036, pane)) - window;

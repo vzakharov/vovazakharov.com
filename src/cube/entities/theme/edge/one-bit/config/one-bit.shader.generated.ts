@@ -16,7 +16,11 @@ fn themeMaterial(s: Surf) -> Material {
       // Frame-and-panel to shoulder height, plaster above.
       let low = 1.0 - smoothstep(1.2, 1.21, s.p.y);
       let f = abs(repeated(vec2f(s.uv.x, s.p.y), vec2f(0.8, 1.2)));
-      let panel = smoothstep(0.0, 0.03, min(0.31 - f.x, 0.5 - f.y));
+      let panel =
+        smoothstep(0.0, 0.03, min(0.31 - f.x, 0.5 - f.y)) * clearOfDoorway(
+          s,
+          0.8,
+        );
       let rail = band(s.p.y, 1.24, 0.07);
       let colour = mix(plaster(s, vec3f(0.5, 0.5, 0.5)), vec3f(0.13), low);
       return

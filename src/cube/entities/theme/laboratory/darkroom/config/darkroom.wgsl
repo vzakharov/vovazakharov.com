@@ -1,6 +1,6 @@
 // `darkroom.ts` adds this floor's light and lens, `lamps()` among them.
 
-import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, Surf, Material, polished, glowing, embossed, repeated};
+import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, Surf, Material, polished, glowing, embossed, repeated, clearOfDoorway};
 import package::cube::shared::shader::hash::{mix32, hashOf, unitOf, valueNoise, fbm};
 import package::cube::entities::theme::kit::lib::finish::{band, tiling};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
@@ -47,7 +47,7 @@ fn blackout(s: Surf) -> Material {
   // Prints hang from a line at eye height, one every forty centimetres.
   let slot = floor(s.uv.x / 0.4);
   let word = hashOf(bitcast<u32>(i32(slot)), s.seed ^ 0x93u);
-  let hung = step(0.45, unitOf(word));
+  let hung = step(0.45, unitOf(word)) * clearOfDoorway(s, 0.4);
   let at = vec2f((fract(s.uv.x / 0.4) - 0.15) / 0.7, (h - 1.22) / 0.36);
   let inside =
     hung

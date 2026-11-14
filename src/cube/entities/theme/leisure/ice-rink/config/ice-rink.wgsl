@@ -1,6 +1,6 @@
 // `ice-rink.ts` adds this floor's light and lens, `lamps()` among them.
 
-import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, Surf, Material, polished, glowing, embossed, repeated, spaced};
+import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, Surf, Material, polished, glowing, embossed, repeated, spaced, clearOfDoorway};
 import package::cube::shared::shader::hash::{mix32, hashOf, unitOf, valueNoise, fbm, worley};
 import package::cube::entities::theme::kit::lib::finish::band;
 import package::cube::entities::theme::kit::lib::stuff::stuff;
@@ -104,9 +104,9 @@ fn boards(s: Surf) -> Material {
       311u,
     ));
   let advert =
-    inside(
-      roundBox(vec2f(along - bay * 0.5, h - 0.63), vec2f(0.85, 0.27), 0.0),
-    ) * step(0.4, unitOf(word));
+    inside(roundBox(vec2f(along - bay * 0.5, h - 0.63), vec2f(0.85, 0.27), 0.0))
+      * step(0.4, unitOf(word))
+      * clearOfDoorway(s, bay);
   let ground =
     oneOf(
       unitOf(mix32(word)),

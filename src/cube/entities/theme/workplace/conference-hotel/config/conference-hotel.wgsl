@@ -1,4 +1,4 @@
-import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, DOORWAY_AT, Surf, Material, matte, polished, embossed, repeated, spaced, Lens, litOf, closedAt};
+import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, DOORWAY_AT, Surf, Material, matte, polished, embossed, repeated, spaced, clearOfDoorway, Lens, litOf, closedAt};
 import package::cube::shared::shader::hash::{valueNoise, fbm};
 import package::cube::entities::theme::kit::lib::finish::{band, damp};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
@@ -160,12 +160,16 @@ fn papered(s: Surf) -> Material {
       * (1.0 - 0.25 * drop)
       * (1.0 - 0.4 * damp(s));
 
-  // Mahogany below the rail: a raised panel to every five-eighths of a metre.
+  // Mahogany below the rail: a raised panel to every five-eighths of a metre,
+  // and plain board where a doorway may cut one.
   let x = fract(along / 0.625) * 0.625;
   let edge = min(min(x, 0.625 - x) - 0.075, min(h - 0.2, 0.86 - h));
+  let panelled = clearOfDoorway(s, 0.625);
   let field =
-    smoothstep(0.0, 0.03, edge) * (1.0 - 0.35 * smoothstep(0.03, 0.06, edge));
-  let groove = 1.0 - smoothstep(0.0, 0.006, abs(edge));
+    panelled
+      * smoothstep(0.0, 0.03, edge)
+      * (1.0 - 0.35 * smoothstep(0.03, 0.06, edge));
+  let groove = panelled * (1.0 - smoothstep(0.0, 0.006, abs(edge)));
   let grain =
     fbm(vec2f(along * 50.0 + floor(along / 0.625) * 7.0, h * 1.3), 144u, 3);
   let wood =

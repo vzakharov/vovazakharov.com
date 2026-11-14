@@ -129,6 +129,16 @@ fn spaced(x: f32, size: f32) -> f32 {
   return (fract(x / size) - 0.5) * size;
 }
 
+/// 0 where the point's cell, on a row of them \`size\` long along its wall's
+/// \`uv.x\`, overlaps the span a doorway may be cut in; 1 elsewhere. A piece
+/// drawn whole in each cell is multiplied by it, so no doorway cuts one. A
+/// row whose \`size\` divides the room's has the same cells counted from
+/// either end of the wall.
+fn clearOfDoorway(s: Surf, size: f32) -> f32 {
+  let start = alongWall(s) - fract(s.uv.x / size) * size;
+  return select(1.0, 0.0, start < DOORWAY_TO && start + size > DOORWAY_AT);
+}
+
 /// What a point mirroring its surroundings leaves for the frame to finish:
 /// the share of what lies along its reflection it shows, the plane it
 /// reflects off, how many metres the reflection blurs per metre it runs, and
