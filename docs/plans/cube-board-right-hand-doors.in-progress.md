@@ -132,10 +132,12 @@ All on Opus, started 2026-11-14 20:19Z from 47b2d1fb.
   Merged at 1a58a414 (`uncut(s, size)` in the kit core, 15 themes); session
   archived; darkroom and clean-room frames boarded at c009217c; review
   5907572554's thread answered.
-- Left: vet on the head, republish preview slot 2
-  (`gh workflow run preview.yml --ref <branch> -f site=vova -f slot=2`), then
-  `/squash-message` (title to a publishing type, `feat(vova): …`), refresh the
-  PR body, and tell the operator.
+- Vet green at 1a58a414 (both halves); preview slot 2 built from 0f2eda68; board
+  v99; PR retitled
+  `feat(vova): doors and gaps through the walls of the cube's floors`, squash
+  proposal and body refreshed at 8da33ebc.
+- Left: nothing in flight. Wait for the operator's look at the preview; no merge
+  to `main` («в мейн не мерджишь, превью более чем достаточно»).
 
 The doors analysis on this branch (the simulator, published as artifact
 E42bCrk3t6DubakRH61irN, its source last held at 259136093 under
