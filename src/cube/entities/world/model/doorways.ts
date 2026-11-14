@@ -29,11 +29,11 @@ export type WallKind = (typeof WALL_KINDS)[number];
  */
 export const DOORWAYS = {
   /**
-   * The shortest walk round, in steps through native passages, that a wall
-   * must save before it may hold a doorway. Ten gives a player who remembers
-   * every room about a door a minute and a gap every three on floors 7 to 10.
-   * A count of rooms rather than a share of the floor, so deep doorways stay
-   * as findable as shallow ones. Every walk round is odd, so 10 acts as 11.
+   * The fewest steps through native passages between a wall's two rooms for
+   * it to hold a doorway: about a door a minute and a gap every three for an
+   * explorer on floors 7 to 10. A count of rooms, not a share of the floor,
+   * so deep doorways stay as findable as shallow ones. Walk rounds are odd,
+   * so 10 acts as 11.
    */
   threshold: 10,
   /**

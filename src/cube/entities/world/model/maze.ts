@@ -23,8 +23,8 @@ const Maze = roll.struct({
       door: roll.over(edgeKey, roll.wide()),
     }),
   ),
-  // One doorway at most per partition: whether it has one, at which of its
-  // allowed walls, and whether that is a door or a gap.
+  // At most one doorway per partition, so its door-or-gap `kind` is rolled
+  // once for the partition rather than for each wall.
   doorway: roll.over(
     blockKey,
     roll.over(
