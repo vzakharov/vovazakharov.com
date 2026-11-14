@@ -1,4 +1,5 @@
-import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
+import { isPassableEast, isPassableSouth } from './doorways';
+import type { RolledMaze } from './maze';
 import { isRoom, roomKey } from './room';
 
 /**
@@ -16,7 +17,7 @@ export type Walls = {
 /** Walls remembered at once: a frame's walk or a room's sight re-reads its own. */
 const CACHE_SIZE = 4096;
 
-type Predicate = typeof isOpenEast;
+type Predicate = typeof isPassableEast;
 type Wall = Walls['isOpenEast'];
 
 function cached(rolled: RolledMaze, predicate: Predicate): Wall {
@@ -34,8 +35,8 @@ function cached(rolled: RolledMaze, predicate: Predicate): Wall {
 
 /** `rolled`'s walls, each hashed once while it stays in the cache. */
 export function mazeWalls(rolled: RolledMaze): Walls {
-  const east = cached(rolled, isOpenEast);
-  const south = cached(rolled, isOpenSouth);
+  const east = cached(rolled, isPassableEast);
+  const south = cached(rolled, isPassableSouth);
   return {
     isOpenEast: (n, x, y) =>
       isRoom(n, x, y) && isRoom(n, x + 1n, y) && east(n, x, y),

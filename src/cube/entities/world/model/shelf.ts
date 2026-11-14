@@ -3,7 +3,8 @@ import { scaled, unit3, type Vec3 } from '@/cube/shared/lib/vec';
 
 import { placed } from './frame';
 import { holeMiddle, type Quarter } from './hole';
-import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
+import { isPassableEast, isPassableSouth } from './doorways';
+import type { RolledMaze } from './maze';
 import { PILL_RADIUS, pillQuads } from './pill';
 import type { WallMounted } from './pose';
 import { box, type Quad } from './quad';
@@ -35,8 +36,8 @@ function xWallClosed(
   { n, x, y }: Room,
   qx: Quarter['qx'],
 ): boolean {
-  if (qx === 0) return x === 0n || !isOpenEast(rolled, n, x - 1n, y);
-  return x === roomsAcross(n) - 1n || !isOpenEast(rolled, n, x, y);
+  if (qx === 0) return x === 0n || !isPassableEast(rolled, n, x - 1n, y);
+  return x === roomsAcross(n) - 1n || !isPassableEast(rolled, n, x, y);
 }
 
 /** Whether the room's outer wall across `v` on the `qy` side is closed. */
@@ -45,8 +46,8 @@ function yWallClosed(
   { n, x, y }: Room,
   qy: Quarter['qy'],
 ): boolean {
-  if (qy === 0) return y === 0n || !isOpenSouth(rolled, n, x, y - 1n);
-  return y === roomsAcross(n) - 1n || !isOpenSouth(rolled, n, x, y);
+  if (qy === 0) return y === 0n || !isPassableSouth(rolled, n, x, y - 1n);
+  return y === roomsAcross(n) - 1n || !isPassableSouth(rolled, n, x, y);
 }
 
 /** The shelf of `room`, whose hole is in `quarter`, level with the hole. */

@@ -9,7 +9,8 @@ import type { Vec3 } from '@/cube/shared/lib/vec';
 
 import { type Footprint, footprint, slabHeight } from './frame';
 import { holeMiddle, type HoleOf, type Quarter, QUARTERS, under } from './hole';
-import { isOpenEast, isOpenSouth, type RolledMaze } from './maze';
+import { isPassableEast, isPassableSouth } from './doorways';
+import type { RolledMaze } from './maze';
 import type { InRoom, Pose } from './pose';
 import { face, type Quad } from './quad';
 import { type InRoomOf, isRoom, type Room, roomKey, roomsAcross } from './room';
@@ -193,13 +194,13 @@ function roomWalls(
     isRoom(n, x + dx, y + dy) ? { n, x: x + dx, y: y + dy } : null;
   const westClosed =
     x === 0n ||
-    (absent({ n, x: x - 1n, y }) && !isOpenEast(rolled, n, x - 1n, y));
+    (absent({ n, x: x - 1n, y }) && !isPassableEast(rolled, n, x - 1n, y));
   const northClosed =
     y === 0n ||
-    (absent({ n, x, y: y - 1n }) && !isOpenSouth(rolled, n, x, y - 1n));
+    (absent({ n, x, y: y - 1n }) && !isPassableSouth(rolled, n, x, y - 1n));
   const sides: Record<WallSide, Quad[]> = {
     east:
-      x === last || !isOpenEast(rolled, n, x, y)
+      x === last || !isPassableEast(rolled, n, x, y)
         ? wall(
             [east + side, floorY, south],
             runSouth,
@@ -210,7 +211,7 @@ function roomWalls(
           )
         : [],
     south:
-      y === last || !isOpenSouth(rolled, n, x, y)
+      y === last || !isPassableSouth(rolled, n, x, y)
         ? wall(
             [east, floorY, south + side],
             runEast,

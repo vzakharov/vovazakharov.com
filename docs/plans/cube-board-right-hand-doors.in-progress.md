@@ -1,10 +1,43 @@
-> ⛔ **DRAFT — DO NOT IMPLEMENT.** This plan is not approved. Do not edit source
-> while this file is named `*.draft.do-not-implement.md` — prep and spikes go in
-> `tmp/`. On an explicit operator go-ahead, `git mv` it to `*.in-progress.md`
-> and delete this banner (quoting the go-ahead in the commit) _before_ touching
-> code.
-
 # Doors and gaps in the cube's floors
+
+## Run (`/carte-blanche`, lead on Opus)
+
+### Standing rules, verbatim
+
+- «1 в этом, и через /carte-blanche (но на Опусе, кажется что тут без фейбла
+  можно справиться), 2 через E/тап, и кстати подтяни мейн, там добавили
+  мобильную навигацию, 3 ну пока у нас только один игрок так что кажется вопрос
+  опережает технологию 🙂 а так вопрос хороший, добавь на доску»
+- «никаких релеев кроме парка»
+- The skill's standing answers hold: no merge to `main`, no outside services, a
+  remark is not an order, MASD/linters/line cap not negotiable.
+
+### Questions
+
+None asked: the three forks the draft carried were answered above.
+
+### The seam
+
+`src/cube/entities/world/model/doorways.ts`: `WallKind`, `eastKind` /
+`southKind`, `isPassable` / `isPassableEast` / `isPassableSouth`. Every read of
+whether a wall lets a body or an eye through (`walls.ts`'s `mazeWalls`,
+`geometry.ts`, `shelf.ts`) goes through it, so gaps go live the moment the
+model's kinds do. Until the model lands, the kinds are the native maze's alone.
+
+### Team
+
+- `model` — the doorway model behind the seam (rolls, window method, cache,
+  tests).
+- `sight` — `seenFrom` on a maze with loops.
+- `doors` — the door drawn, opened by the use action, shut behind.
+
+Ids and branches are filled in as each starts.
+
+### Status
+
+- Built: the seam (lead).
+- In flight: the three children.
+- Left: integration, `/polish`, preview.
 
 The doors analysis on this branch
 (`docs/remove-before-merging/cube-board-right-hand-doors-oldy2u/doors-sim/`, the
