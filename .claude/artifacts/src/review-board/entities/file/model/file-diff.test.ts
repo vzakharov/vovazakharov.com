@@ -18,6 +18,7 @@ const data: ReviewData = {
   files: [],
   focus: [],
   blobs: { old: "a\nb\n", next: "a\nc\n" },
+  images: {},
 };
 const file: ReviewFile = {
   path: "x.txt",
@@ -75,7 +76,28 @@ test("a binary file reports its sizes", () => {
     kind: "binary",
     fromSize: 10,
     toSize: 30,
+    image: null,
   });
+});
+
+test("a binary file carries the picture at the range's to, when the payload has it", () => {
+  const binary: ReviewFile = {
+    ...file,
+    path: "shot.png",
+    binary: true,
+    revisions: [
+      { commit: "B", path: "shot.png", blob: null, size: null },
+      { commit: "c1", path: "shot.png", blob: "y", size: 30 },
+    ],
+  };
+  const withImage = { ...data, images: { y: "data:image/png;base64,AA==" } };
+  const shown = fileDiff(withImage, binary, range(null, "y"), false);
+  assert.equal(
+    shown.kind === "binary" && shown.image,
+    "data:image/png;base64,AA==",
+  );
+  const gone = fileDiff(withImage, binary, range("y", null), false);
+  assert.equal(gone.kind === "binary" && gone.image, null);
 });
 
 test("a file with no known grammar has no syntax", () => {
