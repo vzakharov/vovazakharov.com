@@ -206,7 +206,7 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
         <div class="big" id="tallyBig"></div>
         <div id="pathPair"></div>
         <div id="pathAvg"></div>
-        <div class="btns"><button class="btn" id="tune">подобрать границу: дверь выгодна в ~50% случаев</button></div>
+        <div class="btns"><button class="btn" id="tune">подобрать порог и границу: дверь выгодна в ~50% случаев</button></div>
         <small id="tuneNote"></small>
         <small id="placedOut"></small>
       </div>
@@ -319,12 +319,16 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
   // For how many of AVG_PAIRS random pairs of this floor each opening is a shortcut, seen from the
   // walk's side. The split only relabels openings as doors or gaps and never moves one, so the
   // counts hold for every split.
-  function pathUsage() {
-    const all = placement.doors.concat(placement.gaps), use = new Map(all.map((w) => [w, 0]));
-    for (const [a, h] of S.randomPairs(maze, AVG_PAIRS, 977 + state.k)) for (const w of S.shortcuts(adjDoors, a, h, all)) use.set(w, use.get(w) + 1);
+  function usageOf(all, adj, pairs) {
+    const use = new Map(all.map((w) => [w, 0]));
+    for (const [a, h] of S.randomPairs(maze, pairs, 977 + state.k)) for (const w of S.shortcuts(adj, a, h, all)) use.set(w, use.get(w) + 1);
     return use;
   }
-  const avgShare = (list) => (list.length ? list.reduce((t, w) => t + usage.get(w), 0) / (AVG_PAIRS * list.length) : null);
+  function pathUsage() {
+    return usageOf(placement.doors.concat(placement.gaps), adjDoors, AVG_PAIRS);
+  }
+  const shareIn = (use, pairs, list) => (list.length ? list.reduce((t, w) => t + use.get(w), 0) / (pairs * list.length) : null);
+  const avgShare = (list) => shareIn(usage, AVG_PAIRS, list);
   const pct = (x) => (x === null ? '—' : `${Math.round(100 * x)}%`);
 
   const canvas = $('floor');
@@ -361,8 +365,7 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
     rebuildDoors();
   }
   function rebuildDoors() {
-    const roll = state.game ? ((H, n) => (path) => H(`doorway/${n}/${path}`))(worldHash, state.k + 1) : S.seededRoll(`sandbox/${state.doorSeed}`);
-    placement = S.placeDoors(maze, { perHundred: state.perHundred, minGap: state.minGap, split: state.split > 256 ? Infinity : state.split, near: state.near, spacing: state.spacing, roll });
+    placement = S.placeDoors(maze, { perHundred: state.perHundred, minGap: state.minGap, split: state.split > 256 ? Infinity : state.split, near: state.near, spacing: state.spacing, roll: doorRoll() });
     placement.redundant = S.redundant(maze, placement.doors.concat(placement.gaps), state.minGap);
     mazeOpen = S.withGaps(maze, placement.gaps);
     adjBare = S.adjacency(maze, []);
@@ -373,22 +376,46 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
     $('tuneNote').textContent = '';
     refresh();
   }
-  function tune() {
-    const all = placement.doors.concat(placement.gaps);
-    let best = null;
-    for (const near of ['door', 'gap']) for (let s = 0; s <= 257; s++) {
-      const split = s > 256 ? Infinity : s, doors = all.filter((w) => (w.exact < split) === (near === 'door'));
-      const p = avgShare(doors);
-      if (p !== null && (!best || Math.abs(p - 0.5) < Math.abs(best.p - 0.5))) best = { s, near, p };
+  function doorRoll() {
+    return state.game ? ((H, n) => (path) => H(`doorway/${n}/${path}`))(worldHash, state.k + 1) : S.seededRoll(`sandbox/${state.doorSeed}`);
+  }
+  // Both knobs at once: every threshold, and under each every split on either side. One target leaves
+  // a whole ridge of answers, so among those within TUNE_SLACK of 50% the most doors wins.
+  const TUNE_PAIRS = AVG_PAIRS, TUNE_SLACK = 0.03;
+  let tuning = false;
+  async function tune() {
+    if (tuning) return;
+    tuning = true; $('tune').disabled = true;
+    const roll = doorRoll(), rate = (c) => (Math.abs(c.p - 0.5) <= TUNE_SLACK ? 1e6 + c.n : -Math.abs(c.p - 0.5));
+    let best = null, lastEligible = -1;
+    for (let g = 0; g <= 256; g++) {
+      const { doors: all, eligible } = S.placeDoors(maze, { perHundred: state.perHundred, minGap: g, spacing: state.spacing, roll });
+      // The allowed walls only shrink as the threshold rises, so an unchanged count is an unchanged set.
+      const fresh = eligible !== lastEligible;
+      lastEligible = eligible;
+      if (fresh && all.length) {
+        const use = usageOf(all, S.adjacency(maze, all), TUNE_PAIRS);
+        for (const near of ['door', 'gap']) for (let s = g; s <= 257; s++) {
+          const split = s > 256 ? Infinity : s, doors = all.filter((w) => (w.exact < split) === (near === 'door'));
+          const p = shareIn(use, TUNE_PAIRS, doors);
+          if (p === null) continue;
+          const c = { g, s, near, p, n: doors.length };
+          if (!best || rate(c) > rate(best)) best = c;
+        }
+      }
+      if (g % 8 === 0) { $('tuneNote').textContent = `перебираю порог ${g} из 256…`; await new Promise((r) => setTimeout(r)); }
     }
-    if (!best) { $('tuneNote').textContent = 'отверстий нет — подбирать нечего'; return; }
+    tuning = false; $('tune').disabled = false;
+    if (!best) { $('tuneNote').textContent = 'отверстий нет ни при каком пороге — подбирать нечего'; return; }
+    state.minGap = best.g; $('gap').value = best.g;
     state.split = best.s; $('split').value = best.s;
     state.near = best.near; $('near').checked = best.near === 'door';
     rebuildDoors();
-    const at = `${best.s > 256 ? '∞' : best.s}, ${best.near === 'door' ? 'ближе неё двери' : 'ближе неё проёмы, дальше двери'}`;
-    $('tuneNote').textContent = Math.abs(best.p - 0.5) <= 0.05
-      ? `граница ${at}: дверь сократила бы путь в ${pct(best.p)} случаев`
-      : `50% при этой плотности и пороге не достать: ближе всего ${pct(best.p)}, при границе ${at}. Выше долю поднимает нижний порог: чем дальше двери, тем чаще они выгодны`;
+    const p = avgShare(placement.doors);
+    const at = `порог ${best.g}, граница ${best.s > 256 ? '∞' : best.s}, ${best.near === 'door' ? 'ближе неё двери' : 'ближе неё проёмы, дальше двери'}`;
+    $('tuneNote').textContent = Math.abs(best.p - 0.5) <= TUNE_SLACK
+      ? `${at}: самое большое число дверей (${placement.doors.length}), при котором дверь выгодна в 50 ± 3% случаев; по ${AVG_PAIRS} парам вышло ${pct(p)}`
+      : `50% при этой плотности не достать: ближе всего ${pct(p)}, ${at}`;
   }
   function refresh() {
     distLand = S.bfs(adjDoors, state.landing);
