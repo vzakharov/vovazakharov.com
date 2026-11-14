@@ -1,7 +1,14 @@
 import { moved, scaled, type Vec3 } from '../lib/vec';
 import { f32, vecf, wgsl } from '../shader/wgsl';
-import { CUBE_AT, CUBE_BOX, DOORWAY } from './frame';
+import { DOORWAY } from './frame';
 import { islandHeight } from './island-height';
+import { CUBE_AT, CUBE_BOX } from './place';
+
+/**
+ * Something that knows whether the ladder has gone from the doorway: it stands
+ * until `ladderGone` is true.
+ */
+export type Laddered = { ladderGone?: boolean };
 
 /** How steep an ordinary ladder is leant: four up for one out. */
 const LEAN = Math.atan(4);

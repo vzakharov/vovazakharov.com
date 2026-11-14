@@ -4,29 +4,30 @@ export { CUBE_SHADOW } from './cube-shadow.shader';
 export { DAYLIGHT } from './daylight.shader';
 export {
   type Box,
-  CUBE_AT,
-  CUBE_BOX,
   CUBE_METRES,
   DOORWAY,
-  DOORWAY_BOX,
-  FAR_METRES,
   ROOM_DOORWAY,
+  type WallSide,
+} from './frame';
+export {
+  CUBE_AT,
+  CUBE_BOX,
+  DOORWAY_BOX,
   toCube,
   toWorld,
   WAKE_AT,
-  type WallSide,
   WORLD,
-} from './frame';
+} from './place';
 export { ISLAND_HEIGHT, islandHeight } from './island-height';
 export {
   DOOR_LADDER,
   LADDER_ACROSS,
   LADDER_OUT,
   LADDER_UP,
+  type Laddered,
   LADDER_WGSL,
 } from './ladder';
 export {
-  type Laddered,
   OUTDOOR_FRAME,
   OUTDOOR_FRAME_FLOATS,
   type OutdoorFrame,
@@ -35,7 +36,7 @@ export {
 export { OUTDOOR_STAGE } from './outdoor-stage.shader';
 export { SHELL_TURN } from './shell-turn.shader';
 export { SKY } from './sky.shader';
-export { SKY_METRES } from './stage-numbers';
+export { FAR_METRES, SKY_METRES } from './stage-numbers';
 export { SUN, SUN_DIR, SUN_LIGHT } from './sun';
 export { crestOf, turnsAt } from './swell';
 export {

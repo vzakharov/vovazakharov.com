@@ -1,4 +1,4 @@
-import { FAR_METRES } from '../outside/frame';
+import { FAR_METRES } from '../outside/stage-numbers';
 import { f32, wgsl } from '../shader/wgsl';
 
 /** `FAR_METRES`, the camera's far plane, as the WGSL constant of that name. */

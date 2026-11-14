@@ -7,7 +7,7 @@ import {
   SHADOW_BEHIND,
   SHADOW_CRISP,
 } from './cube-shadow-numbers';
-import { CUBE_BOX } from './frame';
+import { CUBE_BOX } from './place';
 import { DOOR_LADDER, LADDER_ACROSS, LADDER_OUT, LADDER_UP } from './ladder';
 import { SUN_DIR } from './sun';
 

@@ -3,7 +3,8 @@ import { describe, it } from 'node:test';
 
 import { moved, type Vec3 } from '../lib/vec';
 import { cubeShadow } from './cube-shadow';
-import { CUBE_AT, CUBE_BOX, DOORWAY } from './frame';
+import { DOORWAY } from './frame';
+import { CUBE_AT, CUBE_BOX } from './place';
 import { islandHeight } from './island-height';
 import { DOOR_LADDER, LADDER_OUT, LADDER_UP } from './ladder';
 import { SUN_DIR } from './sun';

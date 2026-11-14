@@ -4,9 +4,9 @@
 import { SUN_DISC } from '../lib/sun-disc';
 import { wgsl } from '../shader/wgsl';
 import { CUBE_SHADOW_NUMBERS } from './cube-shadow-numbers';
-import { WORLD } from './frame';
 import { LADDER_WGSL } from './ladder';
 import { OUTDOOR_FRAME } from './outdoor-frame';
+import { WORLD } from './place';
 import { SUN } from './sun';
 
 export const CUBE_SHADOW = wgsl(

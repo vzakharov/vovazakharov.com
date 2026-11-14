@@ -1,0 +1,122 @@
+{
+  "total": {
+    "inputTokens": 4209,
+    "cacheWrite5mTokens": 8720,
+    "cacheWrite1hTokens": 186473,
+    "cacheReadTokens": 15842076,
+    "outputTokens": 57665,
+    "thinkingTokens": 29645,
+    "responses": 89,
+    "costUsd": 5.900095199999999
+  },
+  "estimate": {
+    "at": "2026-11-14T05:07:57.627Z",
+    "subjectLine": "refactor: MASD moves in the cube app the operator approves",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "weighing which shared cube segments to fold, split or promote under MASD takes a staff-adjacent read of the dependency graph and three shader pins"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-14T05:08:08.696Z",
+    "contextTokens": 112082,
+    "spend": {
+      "inputTokens": 18,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 57295,
+      "cacheReadTokens": 677456,
+      "outputTokens": 1593,
+      "thinkingTokens": 208,
+      "responses": 7,
+      "costUsd": 0.6257832
+    }
+  },
+  "sessionId": "0f13683c-8f45-5b71-96b0-cd0e1eb804ef",
+  "branch": "claude/cube-wesl-trial",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cube-wesl-trial — все шейдеры куба в .wgsl, вет зелёный, ревью-борд обновлён, ждут ответа три MASD-предложения",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBtCTt6tgWMeqbp5dW",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-14T05:07:38.455Z",
+  "lastResponseAt": "2026-11-14T05:43:24.996Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 161,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 186473,
+    "cacheReadTokens": 14549445,
+    "outputTokens": 57502,
+    "thinkingTokens": 29645,
+    "responses": 81,
+    "costUsd": 5.552357
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 4209,
+      "cacheWrite5mTokens": 8720,
+      "cacheWrite1hTokens": 186473,
+      "cacheReadTokens": 15842076,
+      "outputTokens": 57665,
+      "thinkingTokens": 29645,
+      "responses": 89,
+      "costUsd": 5.900095199999999
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 88,
+    "matched": 80,
+    "matchedTableUsd": 5.4910178,
+    "matchedEventUsd": 5.4910178,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 4048,
+        "cacheWrite5mTokens": 8720,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 1292631,
+        "outputTokens": 163,
+        "thinkingTokens": 0,
+        "responses": 8,
+        "costUsd": 0.34773819999999994
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 287,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".ts": 27167,
+    ".md": 1271,
+    ".json": 104,
+    ".yaml": 765,
+    ".sh": 1,
+    ".wgsl": 14351,
+    ".tsx": -109,
+    ".scss": 15,
+    ".toml": 6
+  }
+}

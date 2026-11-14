@@ -3,7 +3,7 @@
 
 import package::cube::shared::lib::sun_disc::SUN_SPREAD;
 import super::cube_shadow_numbers::{SHADOW_CRISP, SHADOW_BEHIND, CUBE_OUTLINE};
-import super::frame::{CUBE_MIN, CUBE_MAX};
+import super::place::{CUBE_MIN, CUBE_MAX};
 import super::ladder::{LADDER_FOOT, LADDER_OUT, LADDER_UP, LADDER_ACROSS, LADDER_SIZE, LADDER_RUNGS};
 import super::outdoor_frame::frame;
 import super::sun::SUN_DIR;

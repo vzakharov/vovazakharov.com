@@ -4,7 +4,7 @@
 
 import package::cube::shared::outside::outdoor_stage::{Scene, lit, clipOf, metresTo};
 import package::cube::shared::outside::outdoor_frame::frame;
-import package::cube::shared::outside::frame::CUBE_METRES;
+import package::cube::shared::outside::place::CUBE_METRES;
 import package::cube::shared::outside::ladder::{LADDER_FOOT, LADDER_UP, LADDER_ACROSS, LADDER_OUT, LADDER_RUNGS, LADDER_SIZE};
 import package::cube::shared::outside::cube_shadow::cubeShadow;
 import package::cube::shared::outside::aerial::aerial;

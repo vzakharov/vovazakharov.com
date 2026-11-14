@@ -6,18 +6,16 @@ import type { Vec3 } from '../lib/vec';
 import { assemble, f32 } from '../shader/wgsl';
 import { cubeShadow } from './cube-shadow';
 import { CUBE_SHADOW } from './cube-shadow.shader';
+import { CUBE_METRES, DOORWAY, ROOM_DOORWAY } from './frame';
 import {
   CUBE_AT,
   CUBE_BOX,
-  CUBE_METRES,
-  DOORWAY,
   DOORWAY_BOX,
-  ROOM_DOORWAY,
   toCube,
   toWorld,
   WAKE_AT,
   WORLD,
-} from './frame';
+} from './place';
 import { islandHeight } from './island-height';
 import {
   OUTDOOR_FRAME,

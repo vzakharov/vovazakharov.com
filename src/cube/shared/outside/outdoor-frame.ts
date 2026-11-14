@@ -3,6 +3,7 @@ import type { Sized } from '@/kernel/shared/typings';
 import type { SeenAt } from '../lib/clock';
 import type { Vec3 } from '../lib/vec';
 import { wgsl } from '../shader/wgsl';
+import type { Laddered } from './ladder';
 
 /**
  * The uniform block every outdoor pipeline reads as group 0, binding 0, field
@@ -45,12 +46,6 @@ export const OUTDOOR_FRAME_FLOATS = FIELDS.reduce(
   (sum, { floats }) => sum + floats,
   0,
 );
-
-/**
- * Something that knows whether the ladder has gone from the doorway: it stands
- * until `ladderGone` is true.
- */
-export type Laddered = { ladderGone?: boolean };
 
 /**
  * What one frame of the outside is seen from and when: the eye in the world

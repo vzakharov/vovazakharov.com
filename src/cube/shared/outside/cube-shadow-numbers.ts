@@ -1,6 +1,6 @@
 import { cross3, dot3, moved, scaled, type Vec3 } from '../lib/vec';
 import { f32, vecf, wgsl } from '../shader/wgsl';
-import { CUBE_BOX } from './frame';
+import { CUBE_BOX } from './place';
 import { SUN_DIR } from './sun';
 
 /** How sharp a shadow's edge is where it starts, in metres. */
