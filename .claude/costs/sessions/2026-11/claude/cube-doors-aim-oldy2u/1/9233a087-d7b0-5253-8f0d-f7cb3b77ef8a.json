@@ -10,14 +10,14 @@
     "costUsd": 1.2683486000000002
   },
   "estimate": {
-    "at": "2026-11-14T22:01:07.925Z",
-    "subjectLine": "fix: a press opens the door the gaze is on, not the nearest one",
+    "at": "2026-11-14T22:19:53.814Z",
+    "subjectLine": "fix: a press opens the door looked at, not the nearest",
     "parts": [
       {
         "hours": 1.5,
         "grade": "senior",
         "role": "gameplay-programmer",
-        "comment": "aim ranking across interactables is game-feel code: choosing what a press answers needs the gaze rule held consistent across press and prompt"
+        "comment": "Every door in reach goes to the aim and is ranked by the gaze rule signs and pills use, with the review's corner case as a test that fails on the old pick; one module and its tests."
       }
     ],
     "comment": null
