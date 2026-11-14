@@ -66,6 +66,26 @@ All on Opus, started 2026-11-14 20:19Z from 47b2d1fb.
   floor 4's frames re-shot lit.
 - Lead: the doors simulator split under 400 lines (subagent), the cube board
   republished with the doors zone (subagent).
+- Steer, operator: «А ты переимпользуешь модели дверей которые у нас уже есть?»
+  — no, the first leaf was new. Sent to `clear`: build the real door from the
+  decor fitting `door` (`features/decor/config/fittings.ts`, used by nine
+  themes; also `happenings/model/fixtures.ts`'s `door` act), extracted to one
+  shared build at the lowest layer both reach, leaf swinging on the side away
+  from the handle, paint and handle rolled per wall. Decor doors stay and E on
+  them does nothing (lead's lean, put to the operator as a question with b)
+  remove them, c) make them visibly different).
+- Steer, operator, on the floor-8 open frame's coat rack read as a figure:
+  «выглядит в хорошем смысле uncanny, запомни на борде, может будем делать
+  jumpscare-ы в дверях» — sticky `doors-jumpscare` and the frame's caption
+  (5186a875). Doorways stay clear; a scare would be placed on purpose.
+- Doors simulator republished split at E42bCrk3t6DubakRH61irN v35; a stray
+  duplicate Gf2FbMjCKfXwD8jHSgw8nw was created by mistake, deletion offered to
+  the operator, not done. Cube board republished at v93 before 5186a875: needs
+  one more republish (subagent: read the url, publish `tmp/board/cube/` with
+  `images/` and `icons/` as `files`).
+- Open question to the operator: threshold 10 (≈50 doors, 15 gaps an hour in
+  game) or 8 (≈ +30%); 10 stands until answered; the `doors-threshold` sticky
+  still says 59/20 and needs the game's figures.
 - Known and left: one open door at a time (a second snaps the first shut); no
   door sound.
 - Left: integration, `/polish`, preview.
