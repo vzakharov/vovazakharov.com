@@ -102,17 +102,21 @@ fn resolveMain(@builtin(position) at: vec4f) -> Resolved {
     );
   let fade =
     smoothstep(vec2f(0.0), max(abs(motion) * 3.0, vec2f(1e-4)), crossed);
-  // The sky drifts on the wind, which the reprojection does not follow, and
-  // its clouds are marched afresh every frame anyway: a still eye takes it
-  // from the fresh view, and only a turning one lets it trail.
+  // The sky drifts on the wind, which the reprojection does not follow, so
+  // under a still eye a sky pixel held whole until its block's turn comes
+  // round tears the cloud; and the fresh view alone, one jittered pixel a
+  // block, shakes. A still sky blends the two every frame instead, as a
+  // temporal antialiaser does: the jitter averages out, and the drift lags
+  // by a few frames. A turning eye lets the sky trail like the rest.
   let sky = near.a >= SIGHT;
   let turning = smoothstep(0.0005, 0.004, length(motion));
+  let still = select(0.0, 1.0 - turning, sky);
   var trust =
     select(
       0.0,
       fade.x * fade.y,
       front && inside && resolve.jitter.z > 0.5,
-    ) * select(1.0, turning, sky);
+    );
   var held = smeared;
   if (trust > 0.0) {
     // The lag: the old picture trails the turn.
@@ -132,14 +136,11 @@ fn resolveMain(@builtin(position) at: vec4f) -> Resolved {
     past = mix(past, smeared, smoothstep(0.0, 0.08, stray) * drowsy);
     past = mix(clamp(past, least, most), past, drowsy);
     trust *= confidence * 0.25;
-    held = mix(smeared, past, trust);
+    held = mix(smeared, past, trust * mix(1.0, 0.9, still));
   }
-  let light =
-    select(
-      held,
-      mix(near.rgb, held, 0.55 * drowsy * trust + 0.5 * (1.0 - trust)),
-      fresh,
-    );
+  let freshLight =
+    mix(near.rgb, held, 0.55 * drowsy * trust + 0.5 * (1.0 - trust));
+  let light = select(held, mix(freshLight, held, still), fresh);
   return
     Resolved(
       vec4f(light, near.a),
