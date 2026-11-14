@@ -173,7 +173,7 @@ const SHUT = { angle: 0, toward: 1 } as const;
  * `doorway` as the eye at `eye` sees it: the cut, and the leaf shut in it
  * unless `opened` is this wall, whose leaf is the opener's to draw.
  */
-export function doorSeen(
+function doorSeen(
   eye: Room,
   doorway: DoorWall,
   sides: Sides,

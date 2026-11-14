@@ -148,6 +148,7 @@ describe('faces', () => {
       null,
       nobody,
       noPillars,
+      null,
     );
     const eastward = new Set(
       quads

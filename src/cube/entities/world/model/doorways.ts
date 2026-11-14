@@ -21,7 +21,7 @@ import { type Cell, isRoom } from './room';
  * `wall`, or a doorway cut into a wall — a `door`, closed until opened, or a
  * `gap`, a missing wall nobody can tell from a passage.
  */
-export const WALL_KINDS = ['wall', 'passage', 'door', 'gap'] as const;
+const WALL_KINDS = ['wall', 'passage', 'door', 'gap'] as const;
 export type WallKind = (typeof WALL_KINDS)[number];
 
 /**

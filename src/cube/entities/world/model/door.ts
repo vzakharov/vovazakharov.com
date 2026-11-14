@@ -1,3 +1,5 @@
+import type { Angled } from '@/kernel/shared/typings';
+
 import { pathHash, roll, rollWith } from '@/dice/shared/roll';
 
 import { DOORWAY_CUT } from '@/cube/shared/cube-boundary';
@@ -16,7 +18,7 @@ type Toward = { toward: 1 | -1 };
  * A door's leaf, turned `angle` radians off its wall about its hinge,
  * `toward` the room it swings into.
  */
-export type Leaf = Toward & { angle: number };
+export type Leaf = Toward & Angled;
 
 /** A door standing open: its wall and its leaf as it stands. */
 export type Ajar = DoorWall & Leaf;

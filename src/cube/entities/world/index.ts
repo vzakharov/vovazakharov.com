@@ -1,14 +1,6 @@
 export { type Address, decodeAddress, encodeAddress } from './model/address';
+export { type Ajar, doorLeaf, type Facing, leafLine } from './model/door';
 export {
-  type Ajar,
-  doorLeaf,
-  doorLook,
-  type Facing,
-  type Leaf,
-  leafLine,
-} from './model/door';
-export {
-  type Doored,
   type Doors,
   doorSides,
   EXIT,
@@ -17,7 +9,7 @@ export {
   wallsAround,
   withOpen,
 } from './model/doorway';
-export { eastKind, southKind } from './model/doorways';
+export { eastKind } from './model/doorways';
 export { descend, DROP, eyeInFrame, type Placed, placed } from './model/frame';
 export { faces, HOLE_SIDE } from './model/geometry';
 export {

@@ -35,11 +35,14 @@ type Among = {
  * still used to daylight sees the room; the room whose pill is `taken`
  * off its shelf; and the `door` the body holds open, its leaf as it stands.
  */
-export type InsideSet = Among & {
-  lens?: OutsideLens;
-  taken?: InRoomOf | null;
-  door?: Ajar | null;
-};
+export type InsideSet = Among &
+  HeldOpen & {
+    lens?: OutsideLens;
+    taken?: InRoomOf | null;
+  };
+
+/** The door the body holds open, its leaf as it stands, if any. */
+export type HeldOpen = { door?: Ajar | null };
 
 /**
  * What a script sets beside an outside eye, every quad of its `moving` in the

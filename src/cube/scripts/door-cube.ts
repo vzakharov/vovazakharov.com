@@ -81,7 +81,9 @@ await withCubePage(async ({ shoot }) =>
     const at = before(door, false);
     const named = (what: string) =>
       path.join(FRAMES, `floor-${String(n)}-${what}.png`);
-    const leaf = (angle: number) => ({ door: { ...door, toward: 1, angle } });
+    const leaf = (angle: number) => ({
+      door: { ...door, toward: 1 as const, angle },
+    });
     await shoot(named('shut'), at);
     await shoot(named('half'), at, leaf(Math.PI / 4));
     await shoot(named('open'), at, leaf(Math.PI / 2));

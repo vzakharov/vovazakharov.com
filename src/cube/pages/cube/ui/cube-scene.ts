@@ -27,7 +27,7 @@ import {
 import type { Scenery } from '../lib/mesh';
 import { OUTSIDE_LENS, type OutsideLens } from '../lib/outside-lens';
 import { between } from '../lib/palette';
-import type { ScenePlay } from '../lib/play';
+import type { HeldOpen, ScenePlay } from '../lib/play';
 import { shaderOf } from '../lib/shader';
 import { build, type Mesh, type Selling, type SignOf } from './cube-mesh';
 import { goingOn, type Heard } from './going-on';
@@ -47,10 +47,10 @@ import { createRenderer, type Drawing, type Renderer } from './renderer';
  */
 type Frame = Posed &
   Partial<OutsideEye> &
-  Laddered & {
+  Laddered &
+  HeldOpen & {
     taken: InRoomOf | null;
     moving: readonly Quad[];
-    door?: Ajar | null;
   };
 
 /**

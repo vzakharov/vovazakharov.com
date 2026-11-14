@@ -11,7 +11,6 @@ export {
   steppingOut,
 } from './abroad';
 export {
-  canPress,
   canTake,
   type Cue,
   EYE_HEIGHT,
