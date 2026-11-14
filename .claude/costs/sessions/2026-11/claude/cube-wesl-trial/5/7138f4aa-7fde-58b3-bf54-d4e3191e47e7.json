@@ -1,0 +1,119 @@
+{
+  "total": {
+    "inputTokens": 181,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 197534,
+    "cacheReadTokens": 17189944,
+    "outputTokens": 65744,
+    "thinkingTokens": 32813,
+    "responses": 93,
+    "costUsd": 6.333864800000001
+  },
+  "estimate": {
+    "at": "2026-11-14T05:57:22.416Z",
+    "subjectLine": "refactor: cut the island entity and outdoors widget into sub-slices",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "answering masd:clusters means choosing sub-slice seams across an entity and a widget under the WGSL band rule's two tiers — a structural call per cluster"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "~140 WGSL modules re-import across the new sub-slices, with three shader pins to keep green"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-14T05:57:19.691Z",
+    "contextTokens": 113499,
+    "spend": {
+      "inputTokens": 23,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 54327,
+      "cacheReadTokens": 1101957,
+      "outputTokens": 2398,
+      "thinkingTokens": 427,
+      "responses": 11,
+      "costUsd": 0.7030594000000002
+    }
+  },
+  "sessionId": "7138f4aa-7fde-58b3-bf54-d4e3191e47e7",
+  "branch": "claude/cube-wesl-trial",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cube-wesl-trial — остров стал сущностью, картинка улицы виджетом, осталось нарезать подслайсы по masd:clusters",
+  "prs": [
+    276
+  ],
+  "url": "https://claude.ai/code/session_01DaohkE8BAFBC4BLL26Y4pr",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-14T05:56:35.022Z",
+  "lastResponseAt": "2026-11-14T06:20:50.903Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 181,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 197534,
+    "cacheReadTokens": 17189944,
+    "outputTokens": 65744,
+    "thinkingTokens": 32813,
+    "responses": 93,
+    "costUsd": 6.333864800000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 181,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 197534,
+      "cacheReadTokens": 17189944,
+      "outputTokens": 65744,
+      "thinkingTokens": 32813,
+      "responses": 93,
+      "costUsd": 6.333864800000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 93,
+    "matched": 93,
+    "matchedTableUsd": 6.333864800000001,
+    "matchedEventUsd": 6.333864800000001,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".ts": 27500,
+    ".md": 1480,
+    ".json": 104,
+    ".yaml": 765,
+    ".sh": 1,
+    ".wgsl": 14351,
+    ".tsx": -109,
+    ".scss": 15,
+    ".toml": 6
+  }
+}
