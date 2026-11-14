@@ -73,11 +73,15 @@ With the drowsy eye on, at share N (2, 3 or 4):
    `rg16float` for distance and trust).
 3. **Bloom and lens** run on the resolved texture, unchanged.
 
-**Scatter** (on by default): each block enters the order at its own random step,
-so ages scatter into noise rather than the cross-stitch the operator saw on the
-shoreline. Its per-block offset is per-pixel noise through
-`@/cube/shared/shader/hash.wgsl`, salted by a rolled value, as the world rules
-require of shader randomness.
+**No scatter.** The prototype's per-block random entry into the order cannot be
+ported: it ray-marched, so each low pixel chose its own sub-pixel offset, while
+the cube rasterizes with one view-projection per pass (the outdoors' prepare
+passes too), so every low pixel shares the frame's offset. Per-tile passes would
+multiply vertex work and the outdoors' buffers; a full-res masked pass saves
+nothing at share 2, GPUs shading 2×2 quads. The builder found this; the lead
+dropped the knob rather than ship a setter that only throws. The lattice it was
+for is the accepted cost ("embrace the glitch"); a resolve-side dither that
+breaks it without moving samples is the follow-up if the operator dislikes it.
 
 **Vignette** is applied in the lens pass from a uniform, so it costs nothing
 when zero (question 2 decides its default).
@@ -93,7 +97,6 @@ removed on its disposal:
 - `cube.setDrowsy(on: boolean)` — the drowsy eye on or off.
 - `cube.setShare(n: 2 | 3 | 4)` — one pixel in n×n per frame.
 - `cube.setDrowsiness(x: number)` — 0…1, the artifact's slider.
-- `cube.setScatter(on: boolean)`.
 - `cube.setVignette(x: number)` — 0…1, independent of drowsiness.
 - `cube.setSlowdown(k: number)` — ≥ 1; every pass of the frame is encoded
   `floor(k)` times over and once more under a scissor covering the fraction, so
@@ -114,8 +117,8 @@ the share buys.
 
 Recommended: **off by default** (question 1), so the merged site draws exactly
 as today until the operator picks settings from the console comparison; the
-defaults it starts from when switched on are share 4, drowsiness 1, scatter on,
-vignette 0.35.
+defaults it starts from when switched on are share 4, drowsiness 1, vignette
+0.35.
 
 ## The world rule
 
@@ -138,8 +141,8 @@ clock; how a player's eye presents it may carry their own earlier frames.
   console object; `drowsy-settings.test.ts`.
 - `src/cube/pages/cube/ui/drowsy-phases.ts` — the spread orders, the sub-pixel
   offset → view-projection shift, the low target size; `drowsy-phases.test.ts`
-  (each pixel of a block exactly once per N² frames, scattered or not; the shift
-  lands low pixel centres on the intended full pixels).
+  (each pixel of a block exactly once per N² frames; the shift lands low pixel
+  centres on the intended full pixels).
 - `src/cube/pages/cube/ui/pass-timer.ts` (+ test) — the `resolve` stage.
 - The lens WGSL that reads `uniforms` — the vignette term.
 - `src/cube/pages/cube/ui/cube-canvas.tsx` or wherever the renderer is created —
@@ -164,8 +167,8 @@ clock; how a player's eye presents it may carry their own earlier frames.
 
 `pnpm test` covers the pure parts (phases, offsets, sizes, settings schema). The
 look is checked with `/preview` on the intro at shares 2 and 4, drowsiness 0 and
-1, scatter on and off, and in motion (the intro's turn), plus
-`cube.setSlowdown(4)` with the `F` meter to see the GPU time scale.
+1, and in motion (the intro's turn), plus `cube.setSlowdown(4)` with the `F`
+meter to see the GPU time scale.
 
 ## Questions
 
