@@ -1,4 +1,4 @@
-import type { Pose, Quad, Sign } from '@/cube/entities/world';
+import type { Pose, Sign } from '@/cube/entities/world';
 import { type Aim, aimOf } from '@/cube/features/player';
 
 import { type CubePlayHook, PLAY_HOOK, PLAY_INSTANT } from '../lib/play';
@@ -16,9 +16,6 @@ type Reaching = {
   offer: (pose: Pose, sign: Sign) => void;
 };
 
-/** A frame a script's walk draws: the pose it was set at, nothing in hand. */
-type Still = { pose: Pose; taken: null; moving: readonly Quad[] };
-
 /**
  * A walk driven by the play hook rather than the controls: its clock stopped
  * at `PLAY_INSTANT` until a script sets it, and each press it asks for resolved
@@ -32,7 +29,7 @@ export function scripted({ reach, unreach, offer }: Reaching) {
   let out = false;
   return {
     now: (): number => frozen,
-    onFrame: (pose: Pose, _seconds: number, signOf: SignOf): Still => {
+    onFrame: (pose: Pose, _seconds: number, signOf: SignOf) => {
       if (out) unreach();
       else {
         const sign = signOf(pose);
