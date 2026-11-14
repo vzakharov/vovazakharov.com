@@ -52,7 +52,7 @@ items:
     updated: [2026-11-14T10:45:00.000Z, agent:cube]
     box: [4338, -2560, 244, purple]
     icon: 📐
-    text: "The threshold needs the walk round between a wall's two rooms, which no deep floor can count exactly. A lower bound from the cross of the one block whose cut holds the wall costs O(1): checked against exact distances on 104,080 walls, never above them"
+    text: "The threshold asks only whether a wall's two rooms are K steps apart, so a search K steps deep from one of them settles it on any floor: up to ~2K² rooms, a few milliseconds at 48. A lower bound from the cross of the one block whose cut holds the wall costs O(1), never above the truth on 104,080 walls, but turns away two thirds of the walls that qualify"
   - id: l-doors-portals
     type: line
     updated: [2026-11-14T10:45:00.000Z, agent:cube]
