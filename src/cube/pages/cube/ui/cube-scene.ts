@@ -30,6 +30,7 @@ import { between } from '../lib/palette';
 import type { ScenePlay } from '../lib/play';
 import { shaderOf } from '../lib/shader';
 import { build, type Mesh, type Selling, type SignOf } from './cube-mesh';
+import { heldTiming } from './pass-timer';
 import { type Hinting, keyedQuality } from './quality';
 import { createRenderer, type Drawing, type Renderer } from './renderer';
 
@@ -177,8 +178,7 @@ export function mountCube(
   /** Whether the renderer holds moving quads, to drop once a frame has none. */
   let movingDrawn = false;
   let renderer: Renderer | null = null;
-  /** Whether the GPU's stages are timed, held for a renderer not made yet. */
-  let timed = false;
+  const timing = heldTiming(() => renderer);
   /** Counts purchases, so a mesh built before one is rebuilt. */
   let generation = 0;
   /** What a mesh is built for: the eye's room, as of `generation`. */
@@ -340,7 +340,7 @@ export function mountCube(
       return;
     }
     renderer = created;
-    renderer.timing(timed);
+    timing.settle(renderer);
     frame = requestAnimationFrame(tick);
   };
   begin().catch((error: unknown) => {
@@ -383,11 +383,7 @@ export function mountCube(
       await shown(FIRST_ROOM);
     },
     adapter: () => renderer?.adapter ?? 'none',
-    passTimes: () => renderer?.passTimes() ?? null,
-    timing: (on) => {
-      timed = on;
-      renderer?.timing(on);
-    },
+    ...timing.timed,
     hinted,
     refresh: () => {
       generation += 1;

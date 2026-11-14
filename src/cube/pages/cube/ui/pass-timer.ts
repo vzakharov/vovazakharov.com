@@ -32,6 +32,10 @@ export type Timed = {
 const STAMPS = 5;
 
 export type PassTimer = CanDispose & {
+  /** Whether frames are stamped: off until `timing` turns it on. */
+  stamping: () => boolean;
+  /** Turns stamping on or off, dropping what was timed so far. */
+  timing: (on: boolean) => void;
   /** Stamps the scene pass's start and end. */
   scene: GPURenderPassTimestampWrites;
   /** Stamps the end of the last mirror pass. */
@@ -67,6 +71,37 @@ export function spansOf(stamps: BigInt64Array): PassTimes {
 export const timesLine = (times: PassTimes): string =>
   `GPU ms: ${STAGES.map((stage) => `${stage} ${times[stage].toFixed(2)}`).join(' · ')}`;
 
+/** `timer` as the meter reads it, or nothing to read where there is none. */
+export const timedOf = (timer: PassTimer | null): Timed => ({
+  passTimes: () => timer?.take() ?? null,
+  timing: (on) => {
+    timer?.timing(on);
+  },
+});
+
+/**
+ * `Timed` over a drawing that may not be made yet: the switch is held, and
+ * handed on to the drawing `settle` is given once it is.
+ */
+export function heldTiming(drawing: () => Timed | null): {
+  timed: Timed;
+  settle: (made: Timed) => void;
+} {
+  let on = false;
+  return {
+    timed: {
+      passTimes: () => drawing()?.passTimes() ?? null,
+      timing: (next) => {
+        on = next;
+        drawing()?.timing(next);
+      },
+    },
+    settle: (made) => {
+      made.timing(on);
+    },
+  };
+}
+
 /**
  * A timer over `device`, which must have been made with `timestamp-query`.
  * `onError` hears a read that fails while the timer is live.
@@ -90,6 +125,7 @@ export function createPassTimer(
   /** Whether this frame's encoder copies into `readback`. */
   let copied = false;
   let disposed = false;
+  let stamping = false;
   let sum = zeroes();
   let frames = 0;
 
@@ -106,6 +142,12 @@ export function createPassTimer(
   };
 
   return {
+    stamping: () => stamping,
+    timing: (on) => {
+      stamping = on;
+      sum = zeroes();
+      frames = 0;
+    },
     scene: {
       querySet,
       beginningOfPassWriteIndex: 0,

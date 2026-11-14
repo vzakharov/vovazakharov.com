@@ -15,7 +15,7 @@ import type { FloorRange, Scenery } from '../lib/mesh';
 import type { OutsideLens } from '../lib/outside-lens';
 import { UNIFORM_FLOATS } from '../lib/shader';
 import { createBloom } from './bloom';
-import { createPassTimer, type Timed } from './pass-timer';
+import { createPassTimer, type Timed, timedOf } from './pass-timer';
 import {
   createPrograms,
   DEPTH_FORMAT,
@@ -122,8 +122,6 @@ export async function createRenderer(
     onLost(asError(error));
   });
   const timer = timed ? createPassTimer(device, onLost) : null;
-  /** Whether frames stamp the GPU's time, which costs a readback a frame. */
-  let timing = false;
   const context = canvas.getContext('webgpu');
   if (context === null) return null;
   const format = navigator.gpu.getPreferredCanvasFormat();
@@ -303,7 +301,7 @@ export async function createRenderer(
         data.set([lens.exposure, lens.eyelids, lens.indoors ?? 0], 24);
       }
       device.queue.writeBuffer(uniforms, 0, data);
-      const stamps = timing ? timer : null;
+      const stamps = timer?.stamping() === true ? timer : null;
       const encoder = device.createCommandEncoder();
       const layers = outdoors === null ? null : outsideMade().layers;
       if (outdoors !== null) {
@@ -384,11 +382,7 @@ export async function createRenderer(
       stamps?.read();
     },
     drawn: async () => device.queue.onSubmittedWorkDone(),
-    passTimes: () => timer?.take() ?? null,
-    timing: (on) => {
-      timing = on;
-      timer?.take();
-    },
+    ...timedOf(timer),
     dispose: () => {
       timer?.dispose();
       outside?.layers.dispose();
