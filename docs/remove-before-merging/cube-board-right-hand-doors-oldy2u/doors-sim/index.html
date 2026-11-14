@@ -1,0 +1,539 @@
+<title>Двери сквозь стены</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a floor-plan sheet. Verdict up top, the live floor beside its readings, then the sweep chart and the rules. */
+:root {
+  --paper: #e8ecef;
+  --sheet: #f5f7f8;
+  --ink: #1b242c;
+  --ink-soft: #55626d;
+  --rule: #c5cdd3;
+  --wall: #26313a;
+  --door: #a3321f;
+  --door-soft: rgba(163, 50, 31, 0.18);
+  --allow: #2e8b2e;
+  --bare: #2f6fd0;
+  --land: #b7791f;
+  --hole: #0f6e6a;
+  --heat: 15, 110, 106;
+  --display: 'Archivo', 'Arial Narrow', system-ui, sans-serif;
+  --body: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --allow: #7fd65b; --bare: #6ea8ff; --paper: #11161b; --sheet: #182027; --ink: #dfe6eb; --ink-soft: #93a1ac; --rule: #2c3842;
+  --wall: #c9d4dc; --door: #ef7a62; --door-soft: rgba(239, 122, 98, 0.22); --land: #e0a94a; --hole: #45c2b9;
+  --heat: 69, 194, 185; color-scheme: dark;
+} }
+:root[data-theme="dark"] {
+  --allow: #7fd65b; --bare: #6ea8ff; --paper: #11161b; --sheet: #182027; --ink: #dfe6eb; --ink-soft: #93a1ac; --rule: #2c3842;
+  --wall: #c9d4dc; --door: #ef7a62; --door-soft: rgba(239, 122, 98, 0.22); --land: #e0a94a; --hole: #45c2b9;
+  --heat: 69, 194, 185; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 64px;
+}
+main { max-width: 1080px; margin: 0 auto; display: grid; gap: 40px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(30px, 5vw, 46px); font-weight: 800; line-height: 1.05; }
+h2 { font-size: 24px; font-weight: 700; }
+h3 { font-size: 16px; font-weight: 700; }
+p { margin: 0; max-width: 68ch; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+header { display: grid; gap: 12px; }
+.lede { font-size: 17px; color: var(--ink-soft); }
+section { display: grid; gap: 16px; }
+
+.verdict { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.verdict article { background: var(--sheet); border: 1px solid var(--rule); padding: 16px 18px; display: grid; gap: 8px; align-content: start; }
+.verdict .big { font-family: var(--mono); font-size: 30px; font-weight: 500; line-height: 1; }
+.verdict .who { font-family: var(--display); font-weight: 700; font-size: 15px; }
+.tag { display: inline-block; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 7px; border: 1px solid currentColor; width: fit-content; }
+.ok { color: var(--hole); } .warn { color: var(--land); } .bad { color: var(--door); }
+
+.bench { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+@media (max-width: 820px) { .bench { grid-template-columns: minmax(0, 1fr); } }
+.plan { background: var(--sheet); border: 1px solid var(--rule); padding: 12px; display: grid; gap: 10px; min-width: 0; }
+canvas { width: 100%; max-width: 100%; aspect-ratio: 1; display: block; cursor: crosshair; touch-action: manipulation; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--ink-soft); }
+.legend i { display: inline-block; width: 14px; height: 4px; vertical-align: middle; margin-right: 6px; }
+.tip { font-family: var(--mono); font-size: 12.5px; color: var(--ink-soft); min-height: 2.6em; }
+
+.controls { display: grid; gap: 14px; }
+.ctl { display: grid; gap: 4px; }
+.ctl label { display: flex; justify-content: space-between; gap: 8px; font-size: 13.5px; font-weight: 500; }
+.ctl small { color: var(--ink-soft); font-size: 12.5px; }
+input[type=range] { width: 100%; accent-color: var(--door); }
+.seg { display: flex; flex-wrap: wrap; gap: 0; border: 1px solid var(--rule); width: fit-content; }
+.seg button { font: 500 13px var(--body); padding: 6px 12px; border: 0; background: transparent; color: var(--ink); cursor: pointer; }
+.seg button[aria-pressed=true] { background: var(--ink); color: var(--sheet); }
+.btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn { font: 500 13px var(--body); padding: 7px 12px; border: 1px solid var(--ink); background: transparent; color: var(--ink); cursor: pointer; }
+.btn:hover, .btn[aria-pressed=true] { background: var(--ink); color: var(--sheet); }
+.btn:disabled { opacity: .4; cursor: default; }
+.btn:disabled:hover { background: transparent; color: var(--ink); }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--door); outline-offset: 2px; }
+.check { display: flex; gap: 8px; align-items: center; font-size: 13.5px; }
+
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 600; color: var(--ink-soft); font-size: 12.5px; }
+td.num, th.num { text-align: right; }
+.scroll { overflow-x: auto; }
+.read td:first-child { color: var(--ink-soft); }
+
+.chart-wrap { background: var(--sheet); border: 1px solid var(--rule); padding: 14px; display: grid; gap: 10px; }
+.chart-wrap svg { width: 100%; height: auto; display: block; }
+.progress { height: 3px; background: var(--rule); }
+.progress span { display: block; height: 100%; width: 0; background: var(--door); transition: width 0.2s; }
+
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.rules article { display: grid; gap: 8px; align-content: start; border-top: 2px solid var(--ink); padding-top: 10px; }
+.rules .n { font-family: var(--mono); color: var(--door); font-size: 13px; }
+code { font-family: var(--mono); font-size: 0.92em; }
+footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
+@media (prefers-reduced-motion: reduce) { .progress span { transition: none; } }
+</style>
+
+<main>
+<header>
+  <div class="eyebrow">Куб · лабиринт этажа · открывающиеся двери</div>
+  <h1>Двери сквозь стены</h1>
+  <p class="lede">Что будет, если двери на стенах этажа начнут открываться в соседнюю комнату. Лабиринт ниже собран тем же рекурсивным делением, что в <code>maze.ts</code>: этаж <span class="num">n</span> — сетка <span class="num">2<sup>n−1</sup></span> комнат по стороне, идеальное дерево, одна дыра вниз в неизвестной комнате.</p>
+</header>
+
+<section>
+  <h2>Непроходимость в целом: двери её не касаются</h2>
+  <p>Машина не ходит по лабиринту, она перебирает адреса. Дыра этажа <span class="num">n</span> запечатана как <code>SHA-256(мир/hole/n+1/x/y)</code> комнаты, в которую падает (<code>seal.ts</code>), а зерно мира и печати публичны. Значит, перебор — это все <span class="num">4<sup>n</sup></span> комнат этажа ниже, по хешу на комнату, и стены в нём не участвуют вообще. Ни проходы, ни двери не меняют ни числа кандидатов, ни стоимости проверки.</p>
+  <p>Ногами — тоже нет: дверь соединяет только соседние комнаты, так что путь не бывает короче манхэттенского. На 66-м этаже это порядка <span class="num">2<sup>64</sup></span> комнат между приземлением и дырой; по комнате в секунду — сотни миллиардов лет. Двери могут ужать лишь извилистость дерева сверх этого минимума.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Дыра этажа</th><th class="num">кандидатов</th><th class="num">вся сеть биткоина*</th><th class="num">Гровер, вызовов</th><th class="num">Гровер, 10 вызовов/с</th><th class="num">Гровер, фантазия 1 ГГц</th></tr></thead>
+      <tbody>
+        <tr><td>30</td><td class="num">2<sup>60</sup></td><td class="num">миллисекунда</td><td class="num">2<sup>30</sup></td><td class="num">3 года</td><td class="num">секунда</td></tr>
+        <tr><td>40</td><td class="num">2<sup>80</sup></td><td class="num">10 минут</td><td class="num">2<sup>40</sup></td><td class="num">2 700 лет</td><td class="num">15 минут</td></tr>
+        <tr><td>48</td><td class="num">2<sup>96</sup></td><td class="num">1,3 года</td><td class="num">2<sup>48</sup></td><td class="num">700 тыс. лет</td><td class="num">2,5 дня</td></tr>
+        <tr><td>55</td><td class="num">2<sup>110</sup></td><td class="num">21 тыс. лет</td><td class="num">2<sup>55</sup></td><td class="num">90 млн лет</td><td class="num">11 месяцев</td></tr>
+        <tr><td>60</td><td class="num">2<sup>120</sup></td><td class="num">21 млн лет</td><td class="num">2<sup>60</sup></td><td class="num">3 млрд лет</td><td class="num">29 лет</td></tr>
+        <tr><td>65, последняя</td><td class="num">2<sup>130</sup></td><td class="num">22 млрд лет</td><td class="num">2<sup>65</sup></td><td class="num">90 млрд лет</td><td class="num">900 лет</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:13px;color:var(--ink-soft)">*Сырая скорость сети, принятая за 10<sup>21</sup> хешей в секунду; на деле её ASIC-и считают только заголовки блоков и этот хеш не посчитают вовсе. Гровер берёт корень из перебора, но вызовы идут последовательно: 10 в секунду — порядок для отказоустойчивой машины с SHA-256 в схеме, 1 ГГц — заведомая фантастика. Миллион таких фантастических машин делят 900 лет только на тысячу (Гровер параллелится как корень), то есть около года. Последний этаж — 2<sup>130</sup> кандидатов, это уровень AES-128, который и для квантовой эпохи считается стойким именно из-за последовательной глубины Гровера.</p>
+  <p>Вывод: весь лабиринт держит последний десяток этажей, и держит его криптография и арифметика, а не стены. Двери меняют только то, каково человеку на этажах, которые можно обойти.</p>
+</section>
+
+<section>
+  <h2>На человеческих этажах</h2>
+  <p>Здесь ответ зависит от того, какого игрока считать. Цифры ниже — этаж 6 (32×32, 1024 комнаты), двери не ближе 8 комнат в обход, среднее по 6 этажам и 180 парам «точка приземления → дыра». Это доля от длины пути без дверей.</p>
+  <div class="verdict">
+    <article>
+      <span class="tag ok">держится</span>
+      <span class="who">Картограф: ищет дыру, помнит всё</span>
+      <span class="big num">0.94 · 0.93</span>
+      <p>При 2 и 5 дверях на 100 комнат. Твоя интуиция верна: чтобы найти дыру, всё равно надо обойти почти все комнаты, и ни одна дверь этого не отменит. Потолок выигрыша — вдвое (обход дерева проходит каждый коридор не больше двух раз), а на больших этажах выигрыш ещё меньше.</p>
+    </article>
+    <article>
+      <span class="tag bad">схлопывается</span>
+      <span class="who">Блуждающий: идёт куда попало</span>
+      <span class="big num">0.42 · 0.26</span>
+      <p>Дерево держит заблудившегося в длинных тупиковых ветках, а дверь — выход из ветки. С ростом этажа эффект растёт: на 64×64 при 5 дверях — <span class="num">0.07</span>. На глубоких этажах, которые никто не обойдёт целиком, живой игрок ближе к этому, чем к картографу.</p>
+    </article>
+    <article>
+      <span class="tag warn">короче вдвое</span>
+      <span class="who">Знающий: ему сказали, где дыра</span>
+      <span class="big num">0.62 · 0.48</span>
+      <p>Мир общий, координаты дыры можно передать. Тогда сложность — это маршрут, и его двери режут заметно. Тоже растёт с этажом: <span class="num">0.38</span> на 64×64.</p>
+    </article>
+  </div>
+  <p>Ещё одно: правило 4 (дверь только там, где обход длинный) делает каждую дверь <em>сильнее</em>. При тех же 2 дверях на 100 комнат путь знающего сокращается до 0.82 без порога, до 0.69 при пороге 8 и до 0.53 при пороге 32. Так что порог и плотность — одна ручка: поднял порог, убавь плотность.</p>
+</section>
+
+<section>
+  <h2>Этаж на столе</h2>
+  <div class="bench">
+    <div class="plan">
+      <canvas id="floor" width="560" height="560" aria-label="План этажа с дверями"></canvas>
+      <div class="legend">
+        <span><i style="background:var(--door)"></i>дверь</span>
+        <span><i style="background:var(--allow)"></i>стена, где дверь разрешена</span>
+        <span><i style="background:var(--land);width:10px;height:10px;border-radius:50%"></i>старт: приземление</span>
+        <span><i style="background:var(--hole);width:10px;height:10px"></i>цель: дыра</span>
+        <span><i style="background:var(--door)"></i>маршрут с дверьми</span>
+        <span><i style="background:repeating-linear-gradient(90deg, var(--bare) 0 5px, transparent 5px 8px)"></i>маршрут без дверей</span>
+      </div>
+      <div class="tip" id="tip">Наведи на стену — покажу, сколько комнат в обход. Клик ставит приземление, следующий клик — дыру.</div>
+    </div>
+    <div class="controls">
+      <div class="ctl">
+        <label>Этаж</label>
+        <div class="seg" id="size">
+          <button data-k="1">2 · 2×2</button><button data-k="2">3 · 4×4</button><button data-k="3">4 · 8×8</button><button data-k="4">5 · 16×16</button><button data-k="5">6 · 32×32</button><button data-k="6">7 · 64×64</button><button data-k="7">8 · 128×128</button>
+        </div>
+      </div>
+      <div class="ctl">
+        <label for="density">Дверей на 100 комнат <span class="num" id="densityOut"></span></label>
+        <input type="range" id="density" min="0" max="100" step="1" value="3">        <small id="placedOut"></small>
+      </div>
+      <div class="ctl">
+        <label for="gap">Порог: не меньше комнат в обход <span class="num" id="gapOut"></span></label>
+        <input type="range" id="gap" min="0" max="256" step="1" value="8">
+      </div>
+      <div class="ctl">
+        <label>Как мерить обход</label>
+        <div class="seg" id="metric">
+          <button data-m="bound">оценка снизу, O(1)</button><button data-m="exact">точно, поиском на глубину порога</button>
+        </div>
+        <small>Полное расстояние на глубоком этаже бывает астрономическим, но порогу оно не нужно: хватит обойти всё, куда ведут K ходов, и проверить, нет ли там комнаты с той стороны. Это до ~2K² комнат на любом этаже, при K = 48 — несколько миллисекунд. Оценка снизу дешевле, берёт один блок, в кресте которого стоит стена, но отбрасывает около двух третей годных стен.</small>
+      </div>
+      <div class="ctl">
+        <label>Двери рядом друг с другом</label>
+        <div class="seg" id="spacing"><button data-s="none">как выпадет</button><button data-s="arm">не больше одной на перегородку</button></div>
+        <small>Лабиринт режется так: весь этаж, квадрат из комнат, делят двумя стенами крест-накрест на четыре четверти. Получаются четыре перегородки, каждая — прямая стена между двумя соседними четвертями. В трёх перегородках пробивают по проходу, одну оставляют глухой, и так же режут каждую четверть. Две двери в одной перегородке соединяют одни и те же две четверти рядом друг с другом, так что вторая ничего нового не открывает.</small>
+      </div>
+      <label class="check"><input type="checkbox" id="heat" checked> тепловая карта от приземления</label>
+      <label class="check"><input type="checkbox" id="elig" checked> показывать разрешённые стены</label>
+      <div class="btns">
+        <button class="btn" id="game" aria-pressed="false" title="Этаж нашего мира с настоящими приземлением и дырой">как в игре</button>
+        <button class="btn" id="newFloor">другой этаж</button>
+        <button class="btn" id="newDoors">другие двери</button>
+        <button class="btn" id="newPair">другая пара</button>
+      </div>
+      <small id="gameNote"></small>
+      <div class="scroll">
+        <table class="read">
+          <thead><tr><th>Эта пара комнат</th><th class="num">без дверей</th><th class="num">с дверями</th></tr></thead>
+          <tbody id="readings"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Кривые по плотности</h2>
+  <p>Доля от пути без дверей, по средним на нескольких этажах выбранного размера. Сплошные линии — при выбранном пороге, бледные — без порога. Если разрешённых стен меньше, чем просит плотность, кривая выходит на плато. Картограф около 1 шумит, а при малой плотности может и подняться выше: дверь уводит жадный обход в новый район, и недообойдённый угол приходится добирать на обратном пути.</p>
+  <div class="chart-wrap">
+    <div class="btns"><button class="btn" id="runSweep">пересчитать для текущих настроек</button><span class="tip" id="sweepNote"></span></div>
+    <div class="progress"><span id="bar"></span></div>
+    <svg id="chart" viewBox="0 0 720 340" role="img" aria-label="Доля длины пути от плотности дверей"></svg>
+  </div>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Этаж</th><th class="num">комнат</th><th class="num">знающий</th><th class="num">картограф</th><th class="num">блуждающий</th><th class="num">правая рука ломается</th></tr></thead>
+      <tbody>
+        <tr><td>4 · 8×8</td><td class="num">64</td><td class="num">0.78</td><td class="num">0.92</td><td class="num">0.61</td><td class="num">32%</td></tr>
+        <tr><td>5 · 16×16</td><td class="num">256</td><td class="num">0.58</td><td class="num">0.90</td><td class="num">0.41</td><td class="num">61%</td></tr>
+        <tr><td>6 · 32×32</td><td class="num">1 024</td><td class="num">0.45</td><td class="num">0.94</td><td class="num">0.25</td><td class="num">87%</td></tr>
+        <tr><td>7 · 64×64</td><td class="num">4 096</td><td class="num">0.38</td><td class="num">0.98</td><td class="num">0.07*</td><td class="num">94%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:13px;color:var(--ink-soft)">5 дверей на 100 комнат, порог 8 по оценке снизу. Картограф держится и даже приближается к 1 с ростом этажа; блуждающий и знающий проваливаются всё глубже. *На 64×64 блуждание без дверей иногда упирается в лимит шагов, так что настоящее число ещё меньше. «Правая рука» ломается, только если идти в двери; игрок, который их не открывает, теряет ноль.</p>
+</section>
+
+<section>
+  <h2>Твои правила 2–4</h2>
+  <div class="rules">
+    <article>
+      <span class="n">2 и 3 · пара и одна на стену</span>
+      <h3>Достаются даром, если дверь — свойство стены</h3>
+      <p>Сейчас <code>door</code> — предмет декора комнаты (<code>fittings.ts</code>), и у соседней комнаты о нём нет ни бита. Если дверь — это бит стены, брошенный под её ключом, как проход в <code>isOpenEast</code>, то обе комнаты читают один и тот же бит: двойник на той стороне есть всегда, а второй двери в той же стене быть не может по устройству.</p>
+    </article>
+    <article>
+      <span class="n">4а · периметр</span>
+      <h3>Кандидаты — только закрытые внутренние стены</h3>
+      <p>Наружная стена этажа — стенка куба, за ней нет комнаты. На этаже <span class="num">n</span> закрытых внутренних стен ровно <span class="num">(2<sup>n−1</sup>−1)²</span> — почти по одной на комнату, так что кандидатов с запасом.</p>
+    </article>
+    <article>
+      <span class="n">4б · порог обхода</span>
+      <h3>Оценка из креста одного блока</h3>
+      <p>Стена между <span class="num">(x, y)</span> и <span class="num">(x+1, y)</span> лежит в кресте блока уровня <code>levelOf(x)</code>, и путь между двумя комнатами не выходит из этого блока. Значит, он идёт через проходы креста в известном порядке, а внутри четверти не короче манхэттенского. Отсюда оценка снизу за O(1) на любом этаже до 66-го. Проверено на 104 080 стенах этажей 4–7: ни разу не больше точного.</p>
+    </article>
+    <article>
+      <span class="n">4б · какой порог</span>
+      <h3>Восемь — граница пустых дверей</h3>
+      <p>Половина закрытых стен на 32×32 разделяет комнаты, до которых 5 шагов в обход и меньше: такая дверь ничего не открывает. Порог 8 их отсекает. Выше — каждая дверь сильнее, и плотность надо снижать. Оценка консервативна: при пороге 8 она пропускает 209 стен из 353 подходящих, при 32 — 20 из 86.</p>
+    </article>
+    <article>
+      <span class="n">5 · соседние двери</span>
+      <h3>Не больше одной двери на перегородку</h3>
+      <p>Перегородка — прямая стена между двумя соседними четвертями квадрата, который лабиринт режет крест-накрест. С высоким порогом разрешёнными остаются почти только стены глухой перегородки: обход у них длинный по всей длине, и двери выстраиваются вдоль неё в ряд. Каждая следующая там лишняя: соседняя дверь уже открыла тот же обход. Правило «не больше одной двери на перегородку» решается внутри одного квадрата, то есть за O(1) на любом этаже. На 64×64 при 30 дверях на 100 комнат и пороге 48 без правила ставится 94 двери, из них 92 лишних; с правилом — 9–10, лишних ноль. В обычном режиме (3 на 100, порог 8) правило убирает 5 лишних дверей из 31, а кривые почти не меняет: знающий 0.54, картограф 0.89, блуждающий 0.32. Ноль лишних — результат прогонов, а не доказательство: дверь в перегородке соседнего квадрата теоретически может сократить чужой обход.</p>
+    </article>
+    <article>
+      <span class="n">вне списка · плата</span>
+      <h3>Открыть-закрыть — не изменение мира</h3>
+      <p>Дверь закрывается за прошедшим, так что долговременного состояния у неё нет и платить не за что. Чтобы двое у одной двери видели одно и то же, её угол удобно выводить из позы проходящего игрока: тогда распахнутая дверь — часть того, что делает его тело, а кадр остаётся функцией точки и часов.</p>
+    </article>
+    <article>
+      <span class="n">что я бы взял</span>
+      <h3>Порог 8 по оценке, 1–2 двери на 100 комнат</h3>
+      <p>Картограф не замечает, блуждающему дверь — событие, а не дыра в стене лабиринта. Чего стоит бояться — глубины: там живой игрок ближе к блуждающему, и плотность, возможно, стоит уменьшать с номером этажа. Кривые выше позволяют это пощупать.</p>
+    </article>
+  </div>
+</section>
+
+<footer>
+  <span>Модель: рекурсивное деление как в <code>src/cube/entities/world/model/maze.ts</code> (одна глухая рука креста, в трёх по проходу). Приземление и дыра — случайные комнаты; с галочкой «как в игре» этаж бросается из зерна нашего мира тем же <code>pathHash</code>, что в игре (стены сверены с <code>maze.ts</code> на этажах 5–8), а приземление и дыра находятся перебором печатей SHA-256 из <code>world.json</code>. Картограф каждый раз идёт к ближайшей непосещённой комнате по известной карте; блуждающий шагает в случайную соседнюю; правая рука — классическое правило стены.</span>
+</footer>
+</main>
+
+<script src="sim.js"></script>
+<script src="world-holes.js"></script>
+<script src="world.js"></script>
+<script>
+(() => {
+  const S = window.DoorSim, W = window.DoorWorld;
+  const $ = (id) => document.getElementById(id);
+  const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  const state = { k: 5, perHundred: 3, minGap: 8, metric: 'bound', floorSeed: 7, doorSeed: 101, pairSeed: 3, heat: true, elig: true, game: false, spacing: 'arm', landing: 0, hole: 0, clickNext: 'landing' };
+  let maze, placement, adjBare, adjDoors, distLand;
+
+  const canvas = $('floor');
+  const ctx = canvas.getContext('2d');
+
+  // Floors of our world already searched, by k: the brute force runs once each.
+  const gameFloors = new Map();
+  const worldHash = W.pathHash(W.WORLD.seed);
+  // Each floor draws its own pair, so a new floor moves the landing and the hole too.
+  const pairSeed = () => state.pairSeed * 7919 + state.floorSeed;
+  let floorToken = 0;
+  async function rebuildFloor() {
+    const token = ++floorToken, k = state.k;
+    if (!state.game) {
+      maze = S.buildMaze(k, state.floorSeed);
+      const [[a, h]] = S.randomPairs(maze, 1, pairSeed());
+      state.landing = a; state.hole = h;
+      $('gameNote').textContent = '';
+      rebuildDoors();
+      return;
+    }
+    const next = S.buildMaze(k, 0, W.blockSource(W.WORLD.seed, k + 1));
+    if (!gameFloors.has(k)) {
+      const found = await W.gameFloor(k + 1, (p) => {
+        if (token === floorToken) $('gameNote').textContent = `ищу приземление и дыру перебором печатей: ${Math.round(p * 100)}%`;
+      });
+      gameFloors.set(k, found);
+    }
+    if (token !== floorToken) return;
+    maze = next;
+    ({ landing: state.landing, hole: state.hole } = gameFloors.get(k));
+    const xy = (i) => `(${i % maze.s}, ${Math.floor(i / maze.s)})`;
+    $('gameNote').textContent = `этаж ${k + 1} нашего мира: приземление ${xy(state.landing)}, дыра ${xy(state.hole)}, найдены по печатям из world.json. Двери из броска мира: у каждой перегородки свой бросок doorway/${k + 1}/…/has (есть ли дверь) и …/at (на какой стене); в игре их пока нет, это предложение`;
+    rebuildDoors();
+  }
+  function rebuildDoors() {
+    const roll = state.game ? ((H, n) => (path) => H(`doorway/${n}/${path}`))(worldHash, state.k + 1) : null;
+    placement = S.placeDoors(maze, { perHundred: state.perHundred, minGap: state.minGap, metric: state.metric, spacing: state.spacing, seed: state.doorSeed, roll });
+    placement.redundant = S.redundant(maze, placement.doors, state.minGap);
+    adjBare = S.adjacency(maze, []);
+    adjDoors = S.adjacency(maze, placement.doors);
+    refresh();
+  }
+  function refresh() {
+    distLand = S.bfs(adjDoors, state.landing);
+    draw();
+    readings();
+    $('densityOut').textContent = state.perHundred;
+    $('gapOut').textContent = state.minGap;
+    const p = placement;
+    $('placedOut').textContent = `поставлено ${p.doors.length} из ${p.want} · разрешённых стен ${p.eligible} из ${maze.closed.length} · лишних, чей обход с учётом остальных дверей короче порога: ${p.redundant}`;
+  }
+
+  function pathOf(adj, from, to) {
+    const prev = new Int32Array(adj.length).fill(-1), q = [from];
+    prev[from] = from;
+    for (let h = 0; h < q.length; h++) for (const v of adj[q[h]]) if (prev[v] < 0) { prev[v] = q[h]; q.push(v); }
+    const out = [to];
+    while (out[out.length - 1] !== from) out.push(prev[out[out.length - 1]]);
+    return out.reverse();
+  }
+
+  function draw() {
+    const dpr = window.devicePixelRatio || 1;
+    const W = canvas.clientWidth || 560;
+    if (canvas.width !== Math.round(W * dpr)) { canvas.width = Math.round(W * dpr); canvas.height = Math.round(W * dpr); }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const { s } = maze, pad = 6, c = (W - 2 * pad) / s;
+    const X = (i) => pad + (i % s) * c, Y = (i) => pad + Math.floor(i / s) * c;
+    ctx.clearRect(0, 0, W, W);
+    ctx.fillStyle = css('--sheet'); ctx.fillRect(0, 0, W, W);
+    if (state.heat) {
+      let max = 0; for (const d of distLand) max = Math.max(max, d);
+      const rgb = css('--heat');
+      for (let i = 0; i < maze.N; i++) {
+        ctx.fillStyle = `rgba(${rgb}, ${0.32 * (1 - distLand[i] / max)})`;
+        ctx.fillRect(X(i), Y(i), c + 0.5, c + 0.5);
+      }
+    }
+    ctx.strokeStyle = css('--wall'); ctx.lineWidth = Math.max(1, Math.min(2.2, c * 0.12)); ctx.lineCap = 'square';
+    ctx.beginPath();
+    for (const w of maze.closed) wallSeg(w, X, Y, c, 1);
+    ctx.rect(pad, pad, s * c, s * c);
+    ctx.stroke();
+    // Allowed walls over the plain ones, so the choice reads at a glance.
+    if (state.elig) {
+      ctx.strokeStyle = css('--allow'); ctx.lineWidth = Math.max(2.5, Math.min(8, c * 0.24)); ctx.lineCap = 'butt';
+      ctx.beginPath();
+      for (const w of maze.closed) if (w[state.metric] >= state.minGap) wallSeg(w, X, Y, c, 0.9);
+      ctx.stroke();
+    }
+    // Doors: one bar across the wall, read the same from either room.
+    ctx.strokeStyle = css('--door'); ctx.lineWidth = Math.max(2.5, Math.min(10, c * 0.32)); ctx.lineCap = 'butt';
+    ctx.beginPath();
+    for (const w of placement.doors) wallSeg(w, X, Y, c, 0.62);
+    ctx.stroke();
+    const centre = (i) => [X(i) + c / 2, Y(i) + c / 2];
+    const line = (path, colour, width, dash) => {
+      ctx.strokeStyle = colour; ctx.lineWidth = width; ctx.setLineDash(dash); ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+      ctx.beginPath(); path.forEach((i, j) => { const [x, y] = centre(i); j ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }); ctx.stroke(); ctx.setLineDash([]);
+    };
+    const pathWidth = Math.max(1.5, Math.min(5, c * 0.16));
+    line(pathOf(adjBare, state.landing, state.hole), css('--bare'), pathWidth, [Math.max(4, Math.min(12, c * 0.45)), Math.max(3, Math.min(8, c * 0.3))]);
+    line(pathOf(adjDoors, state.landing, state.hole), css('--door'), pathWidth, []);
+    // Start and goal ringed in the sheet colour, so neither sinks into the heat map.
+    const r = Math.max(5, Math.min(14, c * 0.4));
+    ctx.lineWidth = 2.5; ctx.strokeStyle = css('--sheet');
+    let [x, y] = centre(state.landing);
+    ctx.fillStyle = css('--land'); ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.stroke(); ctx.fill();
+    [x, y] = centre(state.hole);
+    ctx.fillStyle = css('--hole'); ctx.strokeRect(x - r, y - r, 2 * r, 2 * r); ctx.fillRect(x - r, y - r, 2 * r, 2 * r);
+  }
+
+  function wallSeg(w, X, Y, c, frac) {
+    const i = w.a, inset = (c * (1 - frac)) / 2;
+    if (w.dir === 'E') { const x = X(i) + c; ctx.moveTo(x, Y(i) + inset); ctx.lineTo(x, Y(i) + c - inset); }
+    else { const y = Y(i) + c; ctx.moveTo(X(i) + inset, y); ctx.lineTo(X(i) + c - inset, y); }
+  }
+
+  function readings() {
+    const a = state.landing, h = state.hole;
+    const path = [S.bfs(adjBare, a)[h], S.bfs(adjDoors, a)[h]];
+    const mapper = [S.mapper(adjBare, a, h), S.mapper(adjDoors, a, h)];
+    const rnd = S.mulberry32(state.pairSeed * 13 + 1), runs = maze.k >= 7 ? 4 : 12, cap = 400 * maze.N;
+    const wander = [adjBare, adjDoors].map((adj) => { let t = 0; for (let r = 0; r < runs; r++) t += S.wanderer(adj, a, h, rnd, cap); return Math.round(t / runs); });
+    const fol = [S.opener(maze, []), S.opener(maze, placement.doors)].map((o) => S.follower(maze, o, a, h));
+    const fmt = (n) => n.toLocaleString('ru-RU');
+    const row = (name, [x, y]) => `<tr><td>${name}</td><td class="num">${fmt(x)}</td><td class="num">${fmt(y)}${x ? ` <span style="color:var(--ink-soft)">(${(y / x).toFixed(2)})</span>` : ''}</td></tr>`;
+    $('readings').innerHTML =
+      row('маршрут, если знаешь где', path) +
+      row('картограф, шагов', mapper) +
+      row(`блуждающий, шагов (среднее из ${runs})`, wander) +
+      (fol[0].ok && fol[1].ok
+        ? row('правая рука, шагов', [fol[0].steps, fol[1].steps])
+        : `<tr><td>правая рука, шагов</td><td class="num">${fol[0].ok ? fmt(fol[0].steps) : 'не дошёл'}</td><td class="num">${fol[1].ok ? fmt(fol[1].steps) : 'кружит, не дошёл'}</td></tr>`);
+  }
+
+  function cellAt(ev) {
+    const rect = canvas.getBoundingClientRect(), pad = 6, c = (rect.width - 2 * pad) / maze.s;
+    const fx = (ev.clientX - rect.left - pad) / c, fy = (ev.clientY - rect.top - pad) / c;
+    return { fx, fy, x: Math.floor(fx), y: Math.floor(fy) };
+  }
+  canvas.addEventListener('click', (ev) => {
+    const { x, y } = cellAt(ev);
+    if (x < 0 || y < 0 || x >= maze.s || y >= maze.s) return;
+    const i = y * maze.s + x;
+    if (state.clickNext === 'landing') { state.landing = i; state.clickNext = 'hole'; }
+    else { state.hole = i; state.clickNext = 'landing'; }
+    if (state.landing === state.hole) return;
+    refresh();
+  });
+  canvas.addEventListener('mousemove', (ev) => {
+    const { fx, fy } = cellAt(ev);
+    let best = null, bd = 0.22;
+    for (const w of maze.closed) {
+      const d = w.dir === 'E' ? Math.abs(fx - (w.x + 1)) + Math.max(0, Math.abs(fy - (w.y + 0.5)) - 0.5) : Math.abs(fy - (w.y + 1)) + Math.max(0, Math.abs(fx - (w.x + 0.5)) - 0.5);
+      if (d < bd) { bd = d; best = w; }
+    }
+    if (!best) { $('tip').textContent = 'Наведи на стену — покажу, сколько комнат в обход. Клик ставит приземление, следующий клик — дыру.'; return; }
+    const isDoor = placement.doors.includes(best);
+    const ok = best[state.metric] >= state.minGap;
+    $('tip').textContent = `стена уровня ${best.level}: в обход ${best.exact} шагов, оценка снизу ≥ ${best.bound}. ${isDoor ? 'Здесь дверь.' : ok ? 'Двери можно.' : 'Двери нельзя: обход короче порога.'}`;
+  });
+
+  function pressSeg(id, attr, value) { for (const b of $(id).querySelectorAll('button')) b.setAttribute('aria-pressed', String(b.dataset[attr] === String(value))); }
+  $('size').addEventListener('click', (ev) => { const k = ev.target.dataset?.k; if (!k) return; state.k = +k; pressSeg('size', 'k', k); rebuildFloor(); });
+  $('metric').addEventListener('click', (ev) => { const m = ev.target.dataset?.m; if (!m) return; state.metric = m; pressSeg('metric', 'm', m); rebuildDoors(); });
+  $('density').addEventListener('input', (ev) => { state.perHundred = +ev.target.value; rebuildDoors(); });
+  $('gap').addEventListener('input', (ev) => { state.minGap = +ev.target.value; rebuildDoors(); });
+  $('heat').addEventListener('change', (ev) => { state.heat = ev.target.checked; draw(); });
+  $('elig').addEventListener('change', (ev) => { state.elig = ev.target.checked; draw(); });
+  $('game').addEventListener('click', (ev) => { state.game = !state.game; ev.currentTarget.setAttribute('aria-pressed', String(state.game)); $('newFloor').disabled = $('newDoors').disabled = $('newPair').disabled = state.game; rebuildFloor(); });
+  $('spacing').addEventListener('click', (ev) => { const sp = ev.target.dataset?.s; if (!sp) return; state.spacing = sp; pressSeg('spacing', 's', sp); rebuildDoors(); });
+  $('newFloor').addEventListener('click', () => { state.floorSeed++; rebuildFloor(); });
+  $('newDoors').addEventListener('click', () => { state.doorSeed++; rebuildDoors(); });
+  $('newPair').addEventListener('click', () => { state.pairSeed++; const [[a, h]] = S.randomPairs(maze, 1, pairSeed()); state.landing = a; state.hole = h; refresh(); });
+  window.addEventListener('resize', () => draw());
+  if (window.matchMedia) window.matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', () => { draw(); renderChart(lastSweep); });
+
+  // Sweep chart.
+  const DENSITIES = [0, 1, 2, 3, 5, 8, 12, 20, 30];
+  const BUDGET = { 1: { floors: 8, pairs: 24 }, 2: { floors: 8, pairs: 24 }, 3: { floors: 8, pairs: 24 }, 4: { floors: 8, pairs: 24 }, 5: { floors: 4, pairs: 20 }, 6: { floors: 2, pairs: 5 }, 7: { floors: 1, pairs: 4 } };
+  const SERIES = [
+    { key: 'mapper', name: 'картограф', colour: '--hole' },
+    { key: 'path', name: 'знающий', colour: '--land' },
+    { key: 'wander', name: 'блуждающий', colour: '--door' },
+  ];
+  let lastSweep = null, sweepToken = 0;
+
+  async function runSweep() {
+    const token = ++sweepToken, { k } = state, { floors, pairs } = BUDGET[k];
+    const configs = [{ minGap: state.minGap, metric: state.metric, spacing: state.spacing }, { minGap: 0, metric: 'exact', spacing: 'none' }];
+    const total = configs.length * DENSITIES.length;
+    let done = 0;
+    const out = [];
+    for (const cfg of configs) {
+      const rows = [];
+      for (const perHundred of DENSITIES) {
+        await new Promise((r) => setTimeout(r, 0));
+        if (token !== sweepToken) return;
+        const [row] = S.sweep({ k, densities: [perHundred], minGap: cfg.minGap, metric: cfg.metric, spacing: cfg.spacing, floors, pairsPerFloor: pairs, seed: 11 });
+        rows.push(row);
+        $('bar').style.width = `${(++done / total) * 100}%`;
+      }
+      out.push(rows);
+    }
+    lastSweep = { k, minGap: state.minGap, metric: state.metric, rows: out };
+    $('sweepNote').textContent = `этаж ${k + 1} (${1 << k}×${1 << k}), порог ${state.minGap} (${state.metric === 'bound' ? 'оценка' : 'точно'}), ${floors} этажа × ${pairs} пар`;
+    renderChart(lastSweep);
+  }
+
+  function renderChart(sw) {
+    const svg = $('chart');
+    if (!sw) return;
+    const W = 720, H = 340, L = 48, R = 120, T = 16, B = 40;
+    const xMax = DENSITIES[DENSITIES.length - 1];
+    const px = (d) => L + (d / xMax) * (W - L - R), py = (v) => T + (1 - Math.min(v, 1.1) / 1.1) * (H - T - B);
+    const ink = css('--ink-soft'), rule = css('--rule');
+    let g = '';
+    for (const v of [0, 0.25, 0.5, 0.75, 1]) g += `<line x1="${L}" x2="${W - R}" y1="${py(v)}" y2="${py(v)}" stroke="${rule}" stroke-width="${v === 1 ? 1.5 : 1}"/><text x="${L - 8}" y="${py(v) + 4}" text-anchor="end" font-size="11" fill="${ink}" font-family="IBM Plex Mono, monospace">${v.toFixed(2)}</text>`;
+    for (const d of [0, 5, 10, 15, 20, 25, 30]) g += `<text x="${px(d)}" y="${H - B + 18}" text-anchor="middle" font-size="11" fill="${ink}" font-family="IBM Plex Mono, monospace">${d}</text>`;
+    g += `<text x="${(L + W - R) / 2}" y="${H - 6}" text-anchor="middle" font-size="12" fill="${ink}">дверей на 100 комнат</text>`;
+    sw.rows.forEach((rows, faint) => {
+      for (const sr of SERIES) {
+        const colour = css(sr.colour);
+        const pts = rows.map((r) => `${px(r.perHundred).toFixed(1)},${py(r[sr.key]).toFixed(1)}`).join(' ');
+        g += `<polyline points="${pts}" fill="none" stroke="${colour}" stroke-width="${faint ? 1.5 : 2.5}" stroke-opacity="${faint ? 0.35 : 1}" ${faint ? 'stroke-dasharray="4 4"' : ''}/>`;
+        if (!faint) {
+          for (const r of rows) g += `<circle cx="${px(r.perHundred)}" cy="${py(r[sr.key])}" r="3" fill="${colour}"><title>${sr.name}: ${r[sr.key].toFixed(2)} при ${r.perHundred} (поставлено ${r.placedPerHundred.toFixed(1)})</title></circle>`;
+          const last = rows[rows.length - 1];
+          g += `<text x="${W - R + 8}" y="${py(last[sr.key]) + 4}" font-size="12" fill="${colour}" font-weight="600">${sr.name} ${last[sr.key].toFixed(2)}</text>`;
+        }
+      }
+    });
+    svg.innerHTML = g;
+  }
+
+  $('runSweep').addEventListener('click', runSweep);
+  pressSeg('size', 'k', state.k);
+  pressSeg('metric', 'm', state.metric);
+  pressSeg('spacing', 's', state.spacing);  rebuildFloor();
+  runSweep();
+})();
+</script>
