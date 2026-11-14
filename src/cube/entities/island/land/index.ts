@@ -1,3 +1,4 @@
+// masd-disable promotion -- the island reads land itself, and entities do not import one another, so land has no slice of its own to go to
 export { ISLAND_EASE } from './model/island-ease.shader';
 export { ISLAND_HEIGHT, islandHeight } from './model/island-height';
 export {
