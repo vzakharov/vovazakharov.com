@@ -1,7 +1,8 @@
 import { eastKind, southKind, type WallKind } from './doorways';
 import { isOpenEast, isOpenSouth, type RolledMaze, type Wall } from './maze';
+import { roomsAcross } from './room';
 
-export const sideOf = (n: number): number => Number(1n << BigInt(n - 1));
+export const sideOf = (n: number): number => Number(roomsAcross(n));
 
 /** Every inner wall of floor `n`, row by row. */
 function everyWall(n: number): Wall[] {
