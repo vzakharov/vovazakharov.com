@@ -6,10 +6,8 @@ import package::cube::entities::theme::kit::lib::finish::{band, plaster, damp};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::dwelling::household::lib::household::{sideWord, wallWord, boxAway, within, fromLamp, burning, herringbone, figure};
 
-/// Where a wall's painted doors stand, metres along it: four of them, the
-/// last centred where a doorway may be cut, so a real door takes its place,
-/// and the first as far from its end of the wall as the last is from the
-/// other.
+/// Where a wall's painted doors stand, metres along it: the last centred
+/// where a doorway may be cut, so a real door takes its place.
 const DOORS = 4.0;
 const LAST_DOOR = (DOORWAY_AT + DOORWAY_TO) * 0.5;
 const FIRST_DOOR = ROOM.x - LAST_DOOR;

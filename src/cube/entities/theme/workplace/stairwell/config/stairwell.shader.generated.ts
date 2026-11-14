@@ -70,8 +70,7 @@ fn boardMarked(s: Surf) -> Material {
   let line = band(h, 1.15, 0.06) * (1.0 - chipped);
 
   // The floor's number, at the wall's west or north end, where no notice
-  // hangs and no doorway is cut; now and then a room is sure it is some
-  // other floor.
+  // hangs; now and then a room is sure it is some other floor.
   let roll = hashOf(s.seed, 0x78u);
   let number = select(4u, (roll >> 4u) % 10u, roll % 9u == 0u);
   let fade = smoothstep(0.3, 0.5, fbm(s.uv * 9.0, 79u, 3) + 0.25 * grain);

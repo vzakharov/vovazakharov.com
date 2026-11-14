@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 19358,
-    "cacheWrite5mTokens": 1107623,
-    "cacheWrite1hTokens": 837072,
-    "cacheReadTokens": 107357025,
-    "outputTokens": 334439,
-    "thinkingTokens": 91509,
-    "responses": 526,
-    "costUsd": 38.29217519999998
+    "inputTokens": 20424,
+    "cacheWrite5mTokens": 1347134,
+    "cacheWrite1hTokens": 842972,
+    "cacheReadTokens": 111206754,
+    "outputTokens": 351591,
+    "thinkingTokens": 97892,
+    "responses": 553,
+    "costUsd": 40.35082729999999
   },
   "estimate": {
     "at": "2026-11-14T20:19:54.682Z",
@@ -66,49 +66,49 @@
   "url": "https://claude.ai/code/session_01DaohkE83TgA9HwGzYS9z1n",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-14T17:49:58.859Z",
-  "lastResponseAt": "2026-11-14T22:39:16.810Z",
+  "lastResponseAt": "2026-11-14T22:42:45.269Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 12.064862000000002,
   "ownTurns": {
-    "inputTokens": 727,
+    "inputTokens": 733,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 837072,
-    "cacheReadTokens": 85015350,
-    "outputTokens": 227713,
+    "cacheWrite1hTokens": 842972,
+    "cacheReadTokens": 85992157,
+    "outputTokens": 229676,
     "thinkingTokens": 65194,
-    "responses": 366,
-    "costUsd": 28.25681399999999
+    "responses": 369,
+    "costUsd": 28.538659399999993
   },
   "subagents": {
-    "inputTokens": 269,
-    "cacheWrite5mTokens": 1091610,
+    "inputTokens": 317,
+    "cacheWrite5mTokens": 1330518,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 14313129,
-    "outputTokens": 89759,
-    "thinkingTokens": 26315,
-    "responses": 130,
-    "costUsd": 7.8900800000000055
+    "cacheReadTokens": 16528589,
+    "outputTokens": 104924,
+    "thinkingTokens": 32698,
+    "responses": 152,
+    "costUsd": 9.526042300000002
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 19280,
-      "cacheWrite5mTokens": 506145,
-      "cacheWrite1hTokens": 837072,
-      "cacheReadTokens": 104285517,
-      "outputTokens": 292854,
-      "thinkingTokens": 86092,
-      "responses": 487,
-      "costUsd": 36.06532339999999
+      "inputTokens": 20340,
+      "cacheWrite5mTokens": 648913,
+      "cacheWrite1hTokens": 842972,
+      "cacheReadTokens": 107977924,
+      "outputTokens": 305250,
+      "thinkingTokens": 92408,
+      "responses": 511,
+      "costUsd": 37.818813799999994
     },
     "claude-sonnet-5-5/standard": {
-      "inputTokens": 78,
-      "cacheWrite5mTokens": 601478,
+      "inputTokens": 84,
+      "cacheWrite5mTokens": 698221,
       "cacheWrite1hTokens": 0,
-      "cacheReadTokens": 3071508,
-      "outputTokens": 41585,
-      "thinkingTokens": 5417,
-      "responses": 39,
-      "costUsd": 2.2268517999999995
+      "cacheReadTokens": 3228830,
+      "outputTokens": 46341,
+      "thinkingTokens": 5484,
+      "responses": 42,
+      "costUsd": 2.5320134999999997
     }
   },
   "warnings": [],
@@ -173,26 +173,26 @@
           "Bash": 1
         },
         "estimatedTokens": 360,
-        "estimatedUsd": 0.004536000000000001
+        "estimatedUsd": 0.004752
       },
       "billedUsd": 0.24232080000000003
     }
   ],
   "telemetry": {
-    "events": 525,
-    "matched": 495,
-    "matchedTableUsd": 36.04549199999998,
-    "matchedEventUsd": 36.04549199999998,
+    "events": 552,
+    "matched": 520,
+    "matchedTableUsd": 38.02421749999999,
+    "matchedEventUsd": 38.02421749999999,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 14168,
-        "cacheWrite5mTokens": 15573,
+        "inputTokens": 15180,
+        "cacheWrite5mTokens": 16176,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 7333406,
-        "outputTokens": 450,
+        "cacheReadTokens": 7990868,
+        "outputTokens": 474,
         "thinkingTokens": 0,
-        "responses": 28,
-        "costUsd": 1.6569372000000002
+        "responses": 30,
+        "costUsd": 1.7977816000000002
       },
       "compact": {
         "inputTokens": 4194,
@@ -216,7 +216,7 @@
   "branchLines": {
     ".md": 419,
     ".json": 7,
-    ".yaml": 155,
+    ".yaml": 185,
     ".ts": 2192,
     ".wgsl": 76,
     ".tsx": 12

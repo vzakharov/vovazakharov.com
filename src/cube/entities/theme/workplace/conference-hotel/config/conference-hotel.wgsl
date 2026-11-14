@@ -17,8 +17,8 @@ fn lamps() -> Lamps {
     );
 }
 
-/// Where the wall lights hang: metres up, and along from either end of a wall,
-/// far enough in that the one beside a doorway clears its frame.
+/// Where the wall lights hang: metres along from either end of a wall, far
+/// enough in that the one beside a doorway clears its frame, and metres up.
 const SCONCE = vec2f(ROOM.x - DOORWAY_AT + 0.35, 1.66);
 
 /// From the nearer wall light to the point on its wall: x along, y up.
