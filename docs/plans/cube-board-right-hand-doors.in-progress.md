@@ -117,10 +117,12 @@ All on Opus, started 2026-11-14 20:19Z from 47b2d1fb.
 - Left: merge both, reply on the review's two threads, `/polish` over them, vet,
   preview.
 
-The doors analysis on this branch
-(`docs/remove-before-merging/cube-board-right-hand-doors-oldy2u/doors-sim/`, the
-board's `ideas.yaml`) settled the numbers: threshold 10, 75% of openings doors,
-density 100% kept as a parameter. This plan puts them in the game.
+The doors analysis on this branch (the simulator, published as artifact
+E42bCrk3t6DubakRH61irN, its source last held at 259136093 under
+`docs/remove-before-merging/cube-board-right-hand-doors-oldy2u/doors-sim/` and
+removed because vet lints every tracked `.js`; the board's `ideas.yaml`) settled
+the numbers: threshold 10, 75% of openings doors, density 100% kept as a
+parameter. This plan puts them in the game.
 
 ## Scope
 
