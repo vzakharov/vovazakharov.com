@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 18837,
-    "cacheWrite5mTokens": 1107205,
-    "cacheWrite1hTokens": 826385,
-    "cacheReadTokens": 104497832,
-    "outputTokens": 330815,
-    "thinkingTokens": 90748,
-    "responses": 517,
-    "costUsd": 37.55693259999999
+    "inputTokens": 19364,
+    "cacheWrite5mTokens": 1173134,
+    "cacheWrite1hTokens": 840852,
+    "cacheReadTokens": 108005880,
+    "outputTokens": 336548,
+    "thinkingTokens": 91509,
+    "responses": 529,
+    "costUsd": 38.65629369999997
   },
   "estimate": {
     "at": "2026-11-14T20:19:54.682Z",
@@ -66,49 +66,49 @@
   "url": "https://claude.ai/code/session_01DaohkE83TgA9HwGzYS9z1n",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-14T17:49:58.859Z",
-  "lastResponseAt": "2026-11-14T22:25:11.082Z",
+  "lastResponseAt": "2026-11-14T22:39:50.412Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 12.064862000000002,
   "ownTurns": {
-    "inputTokens": 712,
+    "inputTokens": 731,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 826385,
-    "cacheReadTokens": 82468662,
-    "outputTokens": 224101,
-    "thinkingTokens": 64433,
-    "responses": 358,
-    "costUsd": 27.58968039999999
+    "cacheWrite1hTokens": 840852,
+    "cacheReadTokens": 85664205,
+    "outputTokens": 229635,
+    "thinkingTokens": 65194,
+    "responses": 368,
+    "costUsd": 28.455280999999992
   },
   "subagents": {
-    "inputTokens": 269,
-    "cacheWrite5mTokens": 1091610,
+    "inputTokens": 271,
+    "cacheWrite5mTokens": 1157121,
     "cacheWrite1hTokens": 0,
     "cacheReadTokens": 14313129,
-    "outputTokens": 89759,
+    "outputTokens": 89946,
     "thinkingTokens": 26315,
-    "responses": 130,
-    "costUsd": 7.8900800000000055
+    "responses": 131,
+    "costUsd": 8.055731500000004
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 18759,
-      "cacheWrite5mTokens": 505727,
-      "cacheWrite1hTokens": 826385,
-      "cacheReadTokens": 101426324,
-      "outputTokens": 289230,
-      "thinkingTokens": 85331,
-      "responses": 478,
-      "costUsd": 35.33008079999998
+      "inputTokens": 19284,
+      "cacheWrite5mTokens": 506145,
+      "cacheWrite1hTokens": 840852,
+      "cacheReadTokens": 104934372,
+      "outputTokens": 294776,
+      "thinkingTokens": 86092,
+      "responses": 489,
+      "costUsd": 36.26379039999999
     },
     "claude-sonnet-5-5/standard": {
-      "inputTokens": 78,
-      "cacheWrite5mTokens": 601478,
+      "inputTokens": 80,
+      "cacheWrite5mTokens": 666989,
       "cacheWrite1hTokens": 0,
       "cacheReadTokens": 3071508,
-      "outputTokens": 41585,
+      "outputTokens": 41772,
       "thinkingTokens": 5417,
-      "responses": 39,
-      "costUsd": 2.2268517999999995
+      "responses": 40,
+      "costUsd": 2.392503299999999
     }
   },
   "warnings": [],
@@ -173,26 +173,26 @@
           "Bash": 1
         },
         "estimatedTokens": 360,
-        "estimatedUsd": 0.00396
+        "estimatedUsd": 0.00468
       },
       "billedUsd": 0.24232080000000003
     }
   ],
   "telemetry": {
-    "events": 517,
-    "matched": 488,
-    "matchedTableUsd": 35.47976039999998,
-    "matchedEventUsd": 35.47976039999999,
+    "events": 529,
+    "matched": 499,
+    "matchedTableUsd": 36.511012499999964,
+    "matchedEventUsd": 36.51101249999998,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 13662,
-        "cacheWrite5mTokens": 15155,
+        "inputTokens": 14168,
+        "cacheWrite5mTokens": 15573,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 7020901,
-        "outputTokens": 438,
+        "cacheReadTokens": 7333406,
+        "outputTokens": 450,
         "thinkingTokens": 0,
-        "responses": 27,
-        "costUsd": 1.5888282000000002
+        "responses": 28,
+        "costUsd": 1.6569372000000002
       },
       "compact": {
         "inputTokens": 4194,
@@ -216,9 +216,9 @@
   "branchLines": {
     ".md": 419,
     ".json": 7,
-    ".yaml": 155,
-    ".ts": 2138,
-    ".wgsl": 32,
+    ".yaml": 185,
+    ".ts": 2192,
+    ".wgsl": 76,
     ".tsx": 12
   }
 }
