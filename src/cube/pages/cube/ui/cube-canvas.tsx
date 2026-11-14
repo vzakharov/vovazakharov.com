@@ -73,6 +73,8 @@ export function CubeCanvas({
   const touch = useTouchScreen();
   /** Whether a touch screen's controls have been shown their while. */
   const [toldControls, setToldControls] = useState(false);
+  /** Whether the body answers the controls: awake, and no scene playing. */
+  const [free, setFree] = useState(false);
   /** Whether an offer is open, read by every frame. */
   const offeringRef = useRef(false);
   const [offer, setOffer] = useState<Signed | null>(null);
@@ -146,6 +148,7 @@ export function CubeCanvas({
               setWay(sceneRef.current?.hinted(next) ?? next);
             },
             setPill,
+            setFree,
             open: (signed) => {
               offeringRef.current = true;
               setOffer(signed);
@@ -204,7 +207,7 @@ export function CubeCanvas({
               : ''
             : hints.pill[pill]}
       </p>
-      {touch && !toldControls && way !== 'wake' && (
+      {touch && !toldControls && free && (
         <TouchControls
           copy={controls}
           onShown={() => {

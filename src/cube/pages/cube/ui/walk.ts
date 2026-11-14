@@ -65,16 +65,14 @@ export type Way = 'wake' | 'climb' | 'gone' | 'run';
 /** The scene walked, which a button on screen can answer a question in. */
 export type Walk = CubeScene & { answer: (said: Said) => void };
 
-/**
- * The floor from which, down, the run's key is told until first pressed, for
- * `RUN_TOLD_FOR` seconds a visit.
- */
+/** From this floor down, the run's key is told `RUN_TOLD_FOR` s a visit. */
 const RUN_TOLD_FROM = 3;
 const RUN_TOLD_FOR = 6;
 
 /**
  * `open` hears a press on a sign in reach; `offering` whether one is open.
- * `setFloor` takes null out of doors, where no floor is underfoot.
+ * `setFloor` takes null out of doors, where no floor is underfoot; `setFree`
+ * whether the body answers the controls, neither asleep nor in a scene.
  */
 export type Hooks = {
   setFloor: (n: number | null) => void;
@@ -83,6 +81,7 @@ export type Hooks = {
   setInReach: (kind: SignKind | null) => void;
   setWay: (way: Way | null) => void;
   setPill: (prompt: PillPrompt | null) => void;
+  setFree: (free: boolean) => void;
   open: (offer: Signed) => void;
   offering: () => boolean;
 };
@@ -103,6 +102,7 @@ export function walk(
     setInReach,
     setWay,
     setPill,
+    setFree,
     open,
     offering,
   }: Hooks,
@@ -229,6 +229,7 @@ export function walk(
     setFloor(null);
     setInReach(null);
     setPill(null);
+    setFree(!asleep && next.scene === null);
     setWay(
       asleep
         ? 'wake'
@@ -313,6 +314,7 @@ export function walk(
             }
             reach(moved, signOf, controls.use && standing);
             setPill(pillPromptOf(player, moved, here));
+            setFree(true);
             const tellsRun =
               moved.n >= RUN_TOLD_FROM &&
               !input.shifted() &&
