@@ -6,10 +6,8 @@ const STORED_PACES = new Map([
 ]);
 
 /**
- * The pace this browser's body last stood at — whether it runs with no Shift
- * held — or null where none was stored or it cannot be read. Memory is the
- * pace's truth and storage only its copy, so a browser refusing storage — a
- * private window, blocked site data — walks as on a first visit.
+ * Whether this browser's body last ran with no Shift held, or null where none
+ * was stored or storage is refused (a private window, blocked site data).
  */
 export function storedRunsUnheld(): boolean | null {
   try {

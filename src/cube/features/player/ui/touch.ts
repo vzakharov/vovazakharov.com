@@ -35,10 +35,10 @@ export type TouchBinding = CanDispose & {
 };
 
 /**
- * Fingers on `target`: one landing on its left half is a stick, anchored
- * where it landed, that walks and strafes as it is pushed, and runs pushed past
- * `RUN_REACH`; one on the right
- * half looks as it drags. A short, still touch anywhere uses what is in reach.
+ * Fingers on `target`: one landing on its left half is a stick, anchored where
+ * it landed, that walks and strafes as it is pushed and runs past `RUN_REACH`;
+ * one on the right half looks as it drags. A short, still touch anywhere uses
+ * what is in reach.
  */
 export function bindTouch(target: HTMLElement): TouchBinding {
   let stick: (Finger & { dx: number; dy: number }) | null = null;

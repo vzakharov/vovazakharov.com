@@ -102,12 +102,10 @@ fn resolveMain(@builtin(position) at: vec4f) -> Resolved {
     );
   let fade =
     smoothstep(vec2f(0.0), max(abs(motion) * 3.0, vec2f(1e-4)), crossed);
-  // The sky drifts on the wind, which the reprojection does not follow, so
-  // under a still eye a sky pixel held whole until its block's turn comes
-  // round tears the cloud; and the fresh view alone, one jittered pixel a
-  // block, shakes. A still sky blends the two every frame instead, as a
-  // temporal antialiaser does: the jitter averages out, and the drift lags
-  // by a few frames. A turning eye lets the sky trail like the rest.
+  // Clouds drift on the wind, which reprojection does not follow: held whole
+  // they tear, drawn fresh alone they shake. A still sky blends both every
+  // frame, so the jitter averages out and the drift lags a few frames; a
+  // turning eye lets it trail like the rest.
   let sky = near.a >= SIGHT;
   let turning = smoothstep(0.0005, 0.004, length(motion));
   let still = select(0.0, 1.0 - turning, sky);
