@@ -1,15 +1,27 @@
 {
   "total": {
-    "inputTokens": 32,
+    "inputTokens": 39,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 72582,
-    "cacheReadTokens": 1675362,
-    "outputTokens": 8806,
-    "thinkingTokens": 1389,
-    "responses": 15,
-    "costUsd": 1.0919764
+    "cacheWrite1hTokens": 77893,
+    "cacheReadTokens": 2185443,
+    "outputTokens": 10398,
+    "thinkingTokens": 1471,
+    "responses": 19,
+    "costUsd": 1.2683486000000002
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-14T22:19:53.814Z",
+    "subjectLine": "fix: a press opens the door looked at, not the nearest",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "Every door in reach goes to the aim and is ranked by the gaze rule signs and pills use, with the review's corner case as a test that fails on the old pick; one module and its tests."
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -34,18 +46,18 @@
   "url": "https://claude.ai/code/session_01DaohkCcMFsgFLxWoWWTwm1",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-14T21:57:41.510Z",
-  "lastResponseAt": "2026-11-14T22:01:03.000Z",
+  "lastResponseAt": "2026-11-14T22:01:40.519Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 32,
+    "inputTokens": 39,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 72582,
-    "cacheReadTokens": 1675362,
-    "outputTokens": 8806,
-    "thinkingTokens": 1389,
-    "responses": 15,
-    "costUsd": 1.0919764
+    "cacheWrite1hTokens": 77893,
+    "cacheReadTokens": 2185443,
+    "outputTokens": 10398,
+    "thinkingTokens": 1471,
+    "responses": 19,
+    "costUsd": 1.2683486000000002
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,23 +71,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 32,
+      "inputTokens": 39,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 72582,
-      "cacheReadTokens": 1675362,
-      "outputTokens": 8806,
-      "thinkingTokens": 1389,
-      "responses": 15,
-      "costUsd": 1.0919764
+      "cacheWrite1hTokens": 77893,
+      "cacheReadTokens": 2185443,
+      "outputTokens": 10398,
+      "thinkingTokens": 1471,
+      "responses": 19,
+      "costUsd": 1.2683486000000002
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 14,
-    "matched": 14,
-    "matchedTableUsd": 1.0410614,
-    "matchedEventUsd": 1.0410614,
+    "events": 19,
+    "matched": 19,
+    "matchedTableUsd": 1.2683486000000002,
+    "matchedEventUsd": 1.2683486000000002,
     "unseen": {}
   },
   "operatorWords": {
@@ -88,7 +100,7 @@
   "branchLines": {
     ".md": 397,
     ".js": 1861,
-    ".ts": 2104,
+    ".ts": 2117,
     ".html": 357,
     ".json": 7,
     ".yaml": 155,
