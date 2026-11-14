@@ -3,16 +3,18 @@
 
 import { wgsl } from '@/cube/shared/shader';
 
-import { ISLAND_HEIGHT } from './island-height';
-import { SHORE_CUSPS } from './shore-cusps.shader';
-import { SWELL_SUMS } from './swell';
-import { SWELL_COURSE } from './swell-course';
-import { SWELL_NUMBERS } from './swell-numbers';
-import { SWELL_TRAIN } from './swell-train.shader';
+import { ISLAND_HEIGHT } from '../../../land';
+import {
+  SHORE_CUSPS,
+  SWELL_COURSE,
+  SWELL_NUMBERS,
+  SWELL_SUMS,
+  SWELL_TRAIN,
+} from '../../../sea';
 import { WATER_LEVEL_NUMBERS } from './water-level-numbers';
 
 export const WATER_LEVEL = wgsl(
-  'cube/entities/island/model/water-level',
+  'cube/entities/island/shore/level/model/water-level',
   /* wgsl */ `
 /// The greater of two levels, rounded where they cross.
 fn shoreOver(a: f32, b: f32) -> f32 {

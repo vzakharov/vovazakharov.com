@@ -2,7 +2,7 @@
 // it — `sandLight` — and how wet it is from where the sea has lately been —
 // `sandWetness`.
 
-import package::cube::entities::island::model::shore_wetness::shoreWetness;
+import package::cube::entities::island::shore::wetness::model::shore_wetness::shoreWetness;
 import super::sky::skyRadiance;
 import package::cube::shared::outside::sun::{SUN_LIGHT, SKY_FILL};
 import super::sand_colour::{DRY_SAND, sandAlbedo, sandWetted};

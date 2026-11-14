@@ -1,11 +1,11 @@
 import { lerp as mix, smoothstep } from '@/cube/shared/lib/ease';
 import type { Vec2 } from '@/cube/shared/lib/vec';
 
-import { islandHeight } from './island-height';
-import { cuspAt } from './shore-cusps';
+import { islandHeight } from '../../../land';
 import {
   bore,
   crestOf,
+  cuspAt,
   DEEP_SPEED,
   peaked,
   SEA_GRAVITY,
@@ -13,7 +13,7 @@ import {
   SWELL_HEIGHT,
   SWELL_RUNS,
   turnsAt,
-} from './swell';
+} from '../../../sea';
 import {
   BEACH_SLOPE,
   BREAKS,

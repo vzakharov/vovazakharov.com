@@ -3,11 +3,11 @@ import { describe, it } from 'node:test';
 
 import { assemble, scalarWgsl } from '@/cube/shared/shader';
 
+import { turnsAt } from '../../../sea';
+import { sheetDepth } from '../../level/index.test-only';
 import { dampAfter, drySince, filmAfter } from './shore-wetness';
 import { SHORE_WETNESS } from './shore-wetness.shader';
 import { NEVER_WET } from './shore-wetness-numbers';
-import { turnsAt } from './swell';
-import { sheetDepth } from './water-level';
 
 const shader = scalarWgsl(assemble([SHORE_WETNESS]));
 

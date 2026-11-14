@@ -2,7 +2,7 @@
 // read from how long ago a crest passed or a wave landed there, and the lace
 // it thins into is a pattern fixed to the sea, so no frame remembers another.
 
-import package::cube::entities::island::model::swell_course::SWELL_RUNS;
+import package::cube::entities::island::sea::swell::model::swell_course::SWELL_RUNS;
 import package::cube::shared::shader::hash::{mix32, unitOf, cellHash, valueNoise, fbm};
 import super::sea_foam_numbers::SWELL_PERIOD;
 import super::sea_shore::Shore;

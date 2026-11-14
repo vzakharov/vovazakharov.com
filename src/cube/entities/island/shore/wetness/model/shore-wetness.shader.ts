@@ -3,17 +3,18 @@
 
 import { wgsl } from '@/cube/shared/shader';
 
-import { ISLAND_HEIGHT } from './island-height';
-import { SHORE_CUSPS } from './shore-cusps.shader';
+import { ISLAND_HEIGHT } from '../../../land';
+import {
+  SHORE_CUSPS,
+  SWELL_COURSE,
+  SWELL_NUMBERS,
+  SWELL_TRAIN,
+} from '../../../sea';
+import { WATER_LEVEL, WATER_LEVEL_NUMBERS } from '../../level';
 import { SHORE_WETNESS_NUMBERS } from './shore-wetness-numbers';
-import { SWELL_COURSE } from './swell-course';
-import { SWELL_NUMBERS } from './swell-numbers';
-import { SWELL_TRAIN } from './swell-train.shader';
-import { WATER_LEVEL } from './water-level.shader';
-import { WATER_LEVEL_NUMBERS } from './water-level-numbers';
 
 export const SHORE_WETNESS = wgsl(
-  'cube/entities/island/model/shore-wetness',
+  'cube/entities/island/shore/wetness/model/shore-wetness',
   /* wgsl */ `
 /// Seconds since a swash sheet last lay on sand \`bed\` metres over the still
 /// sea, at a point whose own time is \`tau\` and whose shore keeps \`shelter\` of

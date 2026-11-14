@@ -4,7 +4,7 @@
 import { wgsl } from '@/cube/shared/shader';
 
 export const ISLAND_EASE = wgsl(
-  'cube/entities/island/model/island-ease',
+  'cube/entities/island/land/model/island-ease',
   /* wgsl */ `
 fn sq(v: f32) -> f32 {
   return v * v;

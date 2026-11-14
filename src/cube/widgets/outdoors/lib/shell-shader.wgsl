@@ -4,8 +4,8 @@
 
 import super::outdoor_stage::{Scene, lit, clipOf, metresTo};
 import super::outdoor_frame::frame;
-import package::cube::entities::island::model::place::CUBE_METRES;
-import package::cube::entities::island::model::ladder::{LADDER_FOOT, LADDER_UP, LADDER_ACROSS, LADDER_OUT, LADDER_RUNGS, LADDER_SIZE};
+import package::cube::entities::island::land::model::place::CUBE_METRES;
+import package::cube::entities::island::land::model::ladder::{LADDER_FOOT, LADDER_UP, LADDER_ACROSS, LADDER_OUT, LADDER_RUNGS, LADDER_SIZE};
 import super::cube_shadow::cubeShadow;
 import super::aerial::aerial;
 import package::cube::shared::outside::sun::{SUN_DIR, SUN_LIGHT, SKY_FILL};

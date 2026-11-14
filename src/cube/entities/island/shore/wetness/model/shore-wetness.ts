@@ -1,9 +1,8 @@
 import { smoothstep } from '@/cube/shared/lib/ease';
 
+import { crestOf, SEA_GRAVITY, turnsAt } from '../../../sea';
+import { BEACH_SLOPE, swashReach } from '../../level';
 import { DRIES, FILM, NEVER_WET, WAVES_BACK } from './shore-wetness-numbers';
-import { crestOf, SEA_GRAVITY, turnsAt } from './swell';
-import { swashReach } from './water-level';
-import { BEACH_SLOPE } from './water-level-numbers';
 
 /**
  * How long the sand has been out of the water: the swash's sheets are closed

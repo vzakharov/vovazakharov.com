@@ -2,7 +2,7 @@ import { pathHash, roll, rollWith } from '@/dice/shared/roll';
 
 import type { Vec2 } from '@/cube/shared/lib/vec';
 
-import { RADIANS_A_TURN, SEA_WORLD, SWELL_RUNS } from './swell';
+import { RADIANS_A_TURN, SEA_WORLD, SWELL_RUNS } from '../../swell';
 
 /**
  * The shore's cusps: a wave is not thrown equally far all along a beach, so
@@ -28,7 +28,7 @@ const hash = pathHash(SEA_WORLD);
 
 const rolled = rollWith(
   roll.struct({ short: cuspRoll, middle: cuspRoll, long: cuspRoll }),
-  (path) => hash(`island/sea/cusps/${path}`),
+  (path) => hash(`island/sea/cusp/${path}`),
 );
 
 /** The cusps' sines, each [turns a metre, size, where it starts in turns]. */

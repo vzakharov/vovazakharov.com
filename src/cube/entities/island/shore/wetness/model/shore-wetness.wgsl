@@ -2,14 +2,14 @@
 // twins of the scalar closed forms in shore-wetness.ts, which
 // `shore-wetness.test.ts` runs this against.
 
-import super::island_height::islandHeight;
-import super::shore_cusps::cuspAt;
+import package::cube::entities::island::land::model::island_height::islandHeight;
+import package::cube::entities::island::sea::cusp::model::shore_cusps::cuspAt;
 import super::shore_wetness_numbers::{WAVES_BACK, NEVER_WET, DRY_SECONDS, FILM_FROM, FILM_TO};
-import super::swell_train::{turnsAt, crestOf};
-import super::swell_course::{SWELL_RUNS, SWELL_PACE};
-import super::swell_numbers::SEA_GRAVITY;
-import super::water_level::{swashReach, shoreRise, shoreFacing, shoreDelay, shoreDepth, sheltered};
-import super::water_level_numbers::BEACH_SLOPE;
+import package::cube::entities::island::sea::swell::model::swell_train::{turnsAt, crestOf};
+import package::cube::entities::island::sea::swell::model::swell_course::{SWELL_RUNS, SWELL_PACE};
+import package::cube::entities::island::sea::swell::model::swell_numbers::SEA_GRAVITY;
+import package::cube::entities::island::shore::level::model::water_level::{swashReach, shoreRise, shoreFacing, shoreDelay, shoreDepth, sheltered};
+import package::cube::entities::island::shore::level::model::water_level_numbers::BEACH_SLOPE;
 
 /// Seconds since a swash sheet last lay on sand `bed` metres over the still
 /// sea, at a point whose own time is `tau` and whose shore keeps `shelter` of

@@ -7,7 +7,7 @@ import { SWELL_SUMS } from './swell';
 import { SWELL_NUMBERS } from './swell-numbers';
 
 export const SWELL_TRAIN = wgsl(
-  'cube/entities/island/model/swell-train',
+  'cube/entities/island/sea/swell/model/swell-train',
   /* wgsl */ `
 /// How many crests have passed a point whose own time is \`tau\` seconds.
 fn turnsAt(tau: f32) -> f32 {

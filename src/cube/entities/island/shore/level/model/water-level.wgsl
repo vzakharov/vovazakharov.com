@@ -3,12 +3,12 @@
 // from: the twins of the closed forms in water-level.ts, which
 // `swell.test.ts` runs this against.
 
-import super::island_height::islandHeight;
-import super::shore_cusps::cuspAt;
-import super::swell::setsAt;
-import super::swell_train::{turnsAt, crestOf, peaked, bore};
-import super::swell_course::{SWELL_RUNS, SWELL_PACE};
-import super::swell_numbers::{SEA_GRAVITY, SWELL_HEIGHT};
+import package::cube::entities::island::land::model::island_height::islandHeight;
+import package::cube::entities::island::sea::cusp::model::shore_cusps::cuspAt;
+import package::cube::entities::island::sea::swell::model::swell::setsAt;
+import package::cube::entities::island::sea::swell::model::swell_train::{turnsAt, crestOf, peaked, bore};
+import package::cube::entities::island::sea::swell::model::swell_course::{SWELL_RUNS, SWELL_PACE};
+import package::cube::entities::island::sea::swell::model::swell_numbers::{SEA_GRAVITY, SWELL_HEIGHT};
 import super::water_level_numbers::{SWELL_FEELS, BEACH_SLOPE, SHORE_SHALLOWEST, SHORE_LAG, SHORE_FACING_REACH, SHORE_LEE, SHOALS_FROM, SURF_SHARE, BREAKS_FROM, BREAKS_TO, RUNUP_SHARE, SHEET_THICK, SHEET_GATHERS, SHEET_REACHES, SHEET_SINKS, SHEET_SINKS_UNDER, DRY_UNDER, SHORE_ROUND};
 
 /// The greater of two levels, rounded where they cross.

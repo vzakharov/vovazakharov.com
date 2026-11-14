@@ -1,7 +1,7 @@
 import { f32, wgsl } from '@/cube/shared/shader';
 
+import { RADIANS_A_TURN } from '../../swell';
 import { SHORE_CUSP_SINES } from './shore-cusps';
-import { RADIANS_A_TURN } from './swell';
 
 /**
  * `cusped(across: f32) -> f32`, the twin of `cusped` in shore-cusps.ts: a sum

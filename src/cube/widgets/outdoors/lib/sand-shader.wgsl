@@ -5,7 +5,7 @@
 
 import super::aerial::aerial;
 import super::cube_shadow::cubeShadow;
-import package::cube::entities::island::model::island_height::islandHeight;
+import package::cube::entities::island::land::model::island_height::islandHeight;
 import super::outdoor_frame::frame;
 import super::outdoor_stage::{Scene, clipOf, lit};
 import super::water_body::{kept, throughWater, underStill};

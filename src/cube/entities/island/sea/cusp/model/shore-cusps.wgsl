@@ -2,7 +2,7 @@
 // shore-cusps.ts, which `swell.test.ts` runs this against.
 
 import super::shore_cusped::cusped;
-import super::swell_course::{SWELL_RUNS_X, SWELL_RUNS_Z};
+import package::cube::entities::island::sea::swell::model::swell_course::{SWELL_RUNS_X, SWELL_RUNS_Z};
 
 /// `cusped` at `xz` in the world frame.
 fn cuspAt(xz: vec2f) -> f32 {

@@ -3,7 +3,7 @@
 // drawn at the size it has and fades to its average once a pixel covers
 // several, so the beach holds one brightness from 20 cm to the far shore.
 
-import package::cube::entities::island::model::island_ease::sq;
+import package::cube::entities::island::land::model::island_ease::sq;
 import package::cube::shared::shader::hash::{cellHash, unitOf, mix32};
 import super::sand_relief::noised;
 import super::sand_relief_numbers::SAND_PI;

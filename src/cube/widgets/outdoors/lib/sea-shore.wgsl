@@ -3,12 +3,12 @@
 // place lets through; and `shoreAt(xz)`, everything about the surf and the
 // swash at a point that foam and the bed's light are drawn from.
 
-import package::cube::entities::island::model::island_height::islandHeight;
+import package::cube::entities::island::land::model::island_height::islandHeight;
 import super::outdoor_frame::frame;
-import package::cube::entities::island::model::shore_cusps::cuspAt;
-import package::cube::entities::island::model::swell_train::{turnsAt, crestOf};
-import package::cube::entities::island::model::swell_course::{SWELL_RUNS, SWELL_PACE};
-import package::cube::entities::island::model::water_level::{waterLevel, shoreRise, shoreFacing, shoreDepth, sheltered, shoreDelay, brokenAt, sheetDepth, swellLevel};
+import package::cube::entities::island::sea::cusp::model::shore_cusps::cuspAt;
+import package::cube::entities::island::sea::swell::model::swell_train::{turnsAt, crestOf};
+import package::cube::entities::island::sea::swell::model::swell_course::{SWELL_RUNS, SWELL_PACE};
+import package::cube::entities::island::shore::level::model::water_level::{waterLevel, shoreRise, shoreFacing, shoreDepth, sheltered, shoreDelay, brokenAt, sheetDepth, swellLevel};
 import super::sea_shore_numbers::{OFFSHORE_FROM, OFFSHORE_TO, SWELL_DIES_FROM, SWELL_DIES_TO};
 
 /// 0 by the island, 1 out where the open sea's own swell has taken over.

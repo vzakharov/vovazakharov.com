@@ -3,11 +3,11 @@
 
 import { wgsl } from '@/cube/shared/shader';
 
+import { SWELL_COURSE } from '../../swell';
 import { SHORE_CUSPED } from './shore-cusped';
-import { SWELL_COURSE } from './swell-course';
 
 export const SHORE_CUSPS = wgsl(
-  'cube/entities/island/model/shore-cusps',
+  'cube/entities/island/sea/cusp/model/shore-cusps',
   /* wgsl */ `
 /// \`cusped\` at \`xz\` in the world frame.
 fn cuspAt(xz: vec2f) -> f32 {

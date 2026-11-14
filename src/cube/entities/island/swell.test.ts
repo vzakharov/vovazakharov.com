@@ -3,9 +3,10 @@ import { describe, it } from 'node:test';
 
 import { assemble, scalarWgsl } from '@/cube/shared/shader';
 
-import { islandHeight } from './island-height';
-import { cusped } from './shore-cusps';
-import { bore, crestOf, peaked, PERIOD, setsAt, turnsAt, WAVES } from './swell';
+import { islandHeight } from './land';
+import { bore, crestOf, peaked, PERIOD, setsAt, turnsAt, WAVES } from './sea';
+import { cusped } from './sea/index.test-only';
+import { WATER_LEVEL, waterLevel } from './shore';
 import {
   brokenAt,
   sheetDepth,
@@ -16,9 +17,7 @@ import {
   shoreSlowing,
   surfLevel,
   swellLevel,
-  waterLevel,
-} from './water-level';
-import { WATER_LEVEL } from './water-level.shader';
+} from './shore/index.test-only';
 
 const shader = scalarWgsl(assemble([WATER_LEVEL]));
 

@@ -1,6 +1,6 @@
 import { f32, wgsl } from '@/cube/shared/shader';
 
-import { SEA_GRAVITY } from './swell';
+import { SEA_GRAVITY } from '../../../sea';
 
 /** The depth, metres, at which the swell begins to feel the bottom. */
 export const SWELL_FEELS = 30;
