@@ -16,10 +16,11 @@ own knob).
 
 ## Team
 
-- **Builder** — one child session on Opus, branch
-  `claude/drowsy-eye-build-ha4w78`, owning every file under "Files". One
-  builder, not several: every piece goes through `renderer.ts`'s `draw`, so
-  parallel children would collide in one function.
+- **Builder** — child session `session_01DaohkDmAN4kMsfC88FQYVE` on Opus, branch
+  `claude/drowsy-eye-build-ha4w78`, owning every file under "Files"; reads
+  `docs/plans/drowsy-eye-prototype.md` for the shaders to port. One builder, not
+  several: every piece goes through `renderer.ts`'s `draw`, so parallel children
+  would collide in one function.
 
 ## Status
 
