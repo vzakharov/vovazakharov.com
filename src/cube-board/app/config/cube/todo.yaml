@@ -12,10 +12,10 @@ items:
     text: the idea
   - id: todo-shaders
     type: sticky
-    updated: [2026-11-14T12:00:00.000Z, agent:cube]
+    updated: [2026-11-14T14:00:00.000Z, agent:cube]
     box: [28, 3910, 244, gray]
     icon: 🧵
-    text: "0. Shaders: every floor and the outdoors now live in .wgsl. Left: delete the pin test once `pnpm shaders:cube` and a look on preview agree; themeMaterial's per-floor switch as data; salts derived rather than hand-picked; `pnpm shaders:cube` in vet"
+    text: "0. Shaders: every floor and the outdoors now live in .wgsl, and the pin tests that held the move are gone. Left: themeMaterial's per-floor switch as data; salts derived rather than hand-picked; `pnpm shaders:cube` in vet"
   - id: todo-perf
     type: sticky
     updated: [2026-11-14T12:00:00.000Z, agent:cube]
