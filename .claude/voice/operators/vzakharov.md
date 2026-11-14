@@ -20,6 +20,12 @@ predecessor whose work a relay carried on — is archived, unasked: «здесь
 дальше архивируй сессии которые больше не нужны». The report names each one
 archived.
 
+A session nearing its context limit keeps working and lets autocompact fold it,
+never hands off by itself: «не передавай! никаких релеев, есть автокомпакт». A
+handoff to a new session runs only when he asks for it by name. Parking is not a
+handoff, so `/relay park` runs whenever the keepalive calls for it: «парковать
+можно, релеи и парковка -- разные вещи».
+
 Stop-words, in anything written for me to read — chat, plans, boards, PRs —
 because each marks slop, text produced rather than meant: "load-bearing" (say
 what the thing holds up), "quietly" (say what happened and who did not notice).

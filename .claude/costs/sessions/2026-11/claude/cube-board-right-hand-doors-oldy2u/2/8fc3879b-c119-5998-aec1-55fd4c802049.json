@@ -1,0 +1,168 @@
+{
+  "total": {
+    "inputTokens": 6849,
+    "cacheWrite5mTokens": 7496,
+    "cacheWrite1hTokens": 410114,
+    "cacheReadTokens": 30617215,
+    "outputTokens": 118209,
+    "thinkingTokens": 36601,
+    "responses": 142,
+    "costUsd": 11.854579000000001
+  },
+  "estimate": {
+    "at": "2026-11-14T17:57:45.784Z",
+    "subjectLine": "docs: door share and an hour's openings met in the cube doors analysis",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "turning 'a door a minute, a gap every three, a magic one an hour' into densities and thresholds is a call on what makes exploration feel right"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "two walk models over the maze, a hash-level benchmark of the walk-round check, and the simulator's tally and tuner rebuilt around them"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-14T17:50:28.475Z",
+    "contextTokens": 113402,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 51882,
+      "cacheReadTokens": 467175,
+      "outputTokens": 1226,
+      "thinkingTokens": 138,
+      "responses": 5,
+      "costUsd": 0.5330590000000002
+    }
+  },
+  "sessionId": "8fc3879b-c119-5998-aec1-55fd4c802049",
+  "branch": "claude/cube-board-right-hand-doors-oldy2u",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cube-board-right-hand-doors-oldy2u — PR открыт, обсуждаем подбор порогов дверей и проёмов",
+  "prs": [
+    280
+  ],
+  "url": "https://claude.ai/code/session_01DaohkE83TgA9HwGzYS9z1n",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-14T17:49:58.859Z",
+  "lastResponseAt": "2026-11-14T19:53:15.093Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 261,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 410114,
+    "cacheReadTokens": 27738658,
+    "outputTokens": 109688,
+    "thinkingTokens": 36601,
+    "responses": 132,
+    "costUsd": 11.0234476
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 6849,
+      "cacheWrite5mTokens": 7496,
+      "cacheWrite1hTokens": 410114,
+      "cacheReadTokens": 30617215,
+      "outputTokens": 118209,
+      "thinkingTokens": 36601,
+      "responses": 142,
+      "costUsd": 11.854579000000001
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-14T19:48:31.480Z",
+      "trigger": "auto",
+      "compactedFrom": 350342,
+      "summaryChars": 15930,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/cube-board/app/config/cube/ideas.yaml",
+        "endedAt": "2026-11-14T19:49:34.094Z",
+        "contextTokens": 127193,
+        "spend": {
+          "inputTokens": 19,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 67183,
+          "cacheReadTokens": 1142855,
+          "outputTokens": 3519,
+          "thinkingTokens": 1591,
+          "responses": 10,
+          "costUsd": 0.8364910000000001
+        }
+      },
+      "rereads": {
+        "calls": 1,
+        "byTool": {
+          "Read": 1
+        },
+        "estimatedTokens": 2197,
+        "estimatedUsd": 0.026803399999999998
+      },
+      "billedUsd": 0.24602320000000003
+    }
+  ],
+  "telemetry": {
+    "events": 142,
+    "matched": 132,
+    "matchedTableUsd": 11.0234476,
+    "matchedEventUsd": 11.0234476,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 4554,
+        "cacheWrite5mTokens": 7056,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 2531521,
+        "outputTokens": 207,
+        "thinkingTokens": 0,
+        "responses": 9,
+        "costUsd": 0.5851082000000001
+      },
+      "compact": {
+        "inputTokens": 2034,
+        "cacheWrite5mTokens": 440,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 347036,
+        "outputTokens": 8314,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.24602320000000003
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 898,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 271,
+    ".js": 1353,
+    ".ts": 28,
+    ".html": 822,
+    ".yaml": 84
+  }
+}

@@ -1,0 +1,822 @@
+<title>Двери сквозь стены</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a floor-plan sheet. Verdict up top, the live floor beside its readings, then the sweep chart and the rules. */
+:root {
+  --paper: #e8ecef;
+  --sheet: #f5f7f8;
+  --ink: #1b242c;
+  --ink-soft: #55626d;
+  --rule: #c5cdd3;
+  --wall: #26313a;
+  --door: #a3321f;
+  --door-soft: rgba(163, 50, 31, 0.18);
+  --gap: #7a4fb0;
+  --allow: #2e8b2e;
+  --bare: #2f6fd0;
+  --land: #b7791f;
+  --hole: #0f6e6a;
+  --heat: 15, 110, 106;
+  --dead: rgba(85, 98, 109, 0.55);
+  --dead-fill: rgba(85, 98, 109, 0.16);
+  --display: 'Archivo', 'Arial Narrow', system-ui, sans-serif;
+  --body: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --allow: #7fd65b; --bare: #6ea8ff; --paper: #11161b; --sheet: #182027; --ink: #dfe6eb; --ink-soft: #93a1ac; --rule: #2c3842;
+  --wall: #c9d4dc; --door: #ef7a62; --door-soft: rgba(239, 122, 98, 0.22); --gap: #b994f0; --land: #e0a94a; --hole: #45c2b9;
+  --heat: 69, 194, 185; --dead: rgba(147, 161, 172, 0.5); --dead-fill: rgba(147, 161, 172, 0.12); color-scheme: dark;
+} }
+:root[data-theme="dark"] {
+  --allow: #7fd65b; --bare: #6ea8ff; --paper: #11161b; --sheet: #182027; --ink: #dfe6eb; --ink-soft: #93a1ac; --rule: #2c3842;
+  --wall: #c9d4dc; --door: #ef7a62; --door-soft: rgba(239, 122, 98, 0.22); --gap: #b994f0; --land: #e0a94a; --hole: #45c2b9;
+  --heat: 69, 194, 185; --dead: rgba(147, 161, 172, 0.5); --dead-fill: rgba(147, 161, 172, 0.12); color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 64px;
+}
+main { max-width: 1080px; margin: 0 auto; display: grid; gap: 40px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(30px, 5vw, 46px); font-weight: 800; line-height: 1.05; }
+h2 { font-size: 24px; font-weight: 700; }
+h3 { font-size: 16px; font-weight: 700; }
+p { margin: 0; max-width: 68ch; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+header { display: grid; gap: 12px; }
+.lede { font-size: 17px; color: var(--ink-soft); }
+section { display: grid; gap: 16px; }
+
+.verdict { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.verdict article { background: var(--sheet); border: 1px solid var(--rule); padding: 16px 18px; display: grid; gap: 8px; align-content: start; }
+.verdict .big { font-family: var(--mono); font-size: 30px; font-weight: 500; line-height: 1; }
+.verdict .who { font-family: var(--display); font-weight: 700; font-size: 15px; }
+.tag { display: inline-block; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 7px; border: 1px solid currentColor; width: fit-content; }
+.ok { color: var(--hole); } .warn { color: var(--land); } .bad { color: var(--door); }
+
+.bench { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+@media (max-width: 820px) { .bench { grid-template-columns: minmax(0, 1fr); } }
+.plan { background: var(--sheet); border: 1px solid var(--rule); padding: 12px; display: grid; gap: 10px; min-width: 0; }
+canvas { width: 100%; max-width: 100%; aspect-ratio: 1; display: block; cursor: crosshair; touch-action: manipulation; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--ink-soft); }
+.legend i { display: inline-block; width: 14px; height: 4px; vertical-align: middle; margin-right: 6px; }
+.tip { font-family: var(--mono); font-size: 12.5px; color: var(--ink-soft); min-height: 2.6em; }
+
+.controls { display: grid; gap: 14px; }
+.ctl { display: grid; gap: 4px; }
+.ctl label { display: flex; justify-content: space-between; gap: 8px; font-size: 13.5px; font-weight: 500; }
+.ctl small { color: var(--ink-soft); font-size: 12.5px; }
+input[type=range] { width: 100%; accent-color: var(--door); }
+.seg { display: flex; flex-wrap: wrap; gap: 0; border: 1px solid var(--rule); width: fit-content; }
+.seg button { font: 500 13px var(--body); padding: 6px 12px; border: 0; background: transparent; color: var(--ink); cursor: pointer; }
+.seg button[aria-pressed=true] { background: var(--ink); color: var(--sheet); }
+.btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn { font: 500 13px var(--body); padding: 7px 12px; border: 1px solid var(--ink); background: transparent; color: var(--ink); cursor: pointer; }
+.btn:hover, .btn[aria-pressed=true] { background: var(--ink); color: var(--sheet); }
+.btn:disabled { opacity: .4; cursor: default; }
+.btn:disabled:hover { background: transparent; color: var(--ink); }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--door); outline-offset: 2px; }
+.check { display: flex; gap: 8px; align-items: center; font-size: 13.5px; }
+.tally { background: var(--paper); border: 1px solid var(--rule); border-left: 4px solid var(--door); padding: 12px 14px; display: grid; gap: 8px; font-size: 14px; }
+.tally .big { font: 500 20px/1.2 var(--mono); font-variant-numeric: tabular-nums; }
+.tally .d { color: var(--door); } .tally .g { color: var(--gap); }
+.tally b { font-family: var(--mono); font-weight: 600; font-variant-numeric: tabular-nums; }
+.tally small { color: var(--ink-soft); font-size: 12.5px; }
+
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 600; color: var(--ink-soft); font-size: 12.5px; }
+td.num, th.num { text-align: right; }
+.scroll { overflow-x: auto; }
+.read td:first-child { color: var(--ink-soft); }
+
+.chart-wrap { background: var(--sheet); border: 1px solid var(--rule); padding: 14px; display: grid; gap: 10px; }
+.chart-wrap svg { width: 100%; height: auto; display: block; }
+.progress { height: 3px; background: var(--rule); }
+.progress span { display: block; height: 100%; width: 0; background: var(--door); transition: width 0.2s; }
+
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.rules article { display: grid; gap: 8px; align-content: start; border-top: 2px solid var(--ink); padding-top: 10px; }
+.rules .n { font-family: var(--mono); color: var(--door); font-size: 13px; }
+code { font-family: var(--mono); font-size: 0.92em; }
+footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
+@media (prefers-reduced-motion: reduce) { .progress span { transition: none; } }
+</style>
+
+<main>
+<header>
+  <div class="eyebrow">Куб · лабиринт этажа · открывающиеся двери</div>
+  <h1>Двери сквозь стены</h1>
+  <p class="lede">Что будет, если двери на стенах этажа начнут открываться в соседнюю комнату. Лабиринт ниже собран тем же рекурсивным делением, что в <code>maze.ts</code>: этаж <span class="num">n</span> — сетка <span class="num">2<sup>n−1</sup></span> комнат по стороне, идеальное дерево, одна дыра вниз в неизвестной комнате.</p>
+</header>
+
+<section>
+  <h2>Непроходимость в целом: двери её не касаются</h2>
+  <p>Машина не ходит по лабиринту, она перебирает адреса. Дыра этажа <span class="num">n</span> запечатана как <code>SHA-256(мир/hole/n+1/x/y)</code> комнаты, в которую падает (<code>seal.ts</code>), а зерно мира и печати публичны. Значит, перебор — это все <span class="num">4<sup>n</sup></span> комнат этажа ниже, по хешу на комнату, и стены в нём не участвуют вообще. Ни проходы, ни двери не меняют ни числа кандидатов, ни стоимости проверки.</p>
+  <p>Ногами — тоже нет: дверь соединяет только соседние комнаты, так что путь не бывает короче манхэттенского. На 66-м этаже это порядка <span class="num">2<sup>64</sup></span> комнат между приземлением и дырой; по комнате в секунду — сотни миллиардов лет. Двери могут ужать лишь извилистость дерева сверх этого минимума.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Дыра этажа</th><th class="num">кандидатов</th><th class="num">вся сеть биткоина*</th><th class="num">Гровер, вызовов</th><th class="num">Гровер, 10 вызовов/с</th><th class="num">Гровер, фантазия 1 ГГц</th></tr></thead>
+      <tbody>
+        <tr><td>30</td><td class="num">2<sup>60</sup></td><td class="num">миллисекунда</td><td class="num">2<sup>30</sup></td><td class="num">3 года</td><td class="num">секунда</td></tr>
+        <tr><td>40</td><td class="num">2<sup>80</sup></td><td class="num">10 минут</td><td class="num">2<sup>40</sup></td><td class="num">2 700 лет</td><td class="num">15 минут</td></tr>
+        <tr><td>48</td><td class="num">2<sup>96</sup></td><td class="num">1,3 года</td><td class="num">2<sup>48</sup></td><td class="num">700 тыс. лет</td><td class="num">2,5 дня</td></tr>
+        <tr><td>55</td><td class="num">2<sup>110</sup></td><td class="num">21 тыс. лет</td><td class="num">2<sup>55</sup></td><td class="num">90 млн лет</td><td class="num">11 месяцев</td></tr>
+        <tr><td>60</td><td class="num">2<sup>120</sup></td><td class="num">21 млн лет</td><td class="num">2<sup>60</sup></td><td class="num">3 млрд лет</td><td class="num">29 лет</td></tr>
+        <tr><td>65, последняя</td><td class="num">2<sup>130</sup></td><td class="num">22 млрд лет</td><td class="num">2<sup>65</sup></td><td class="num">90 млрд лет</td><td class="num">900 лет</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:13px;color:var(--ink-soft)">*Сырая скорость сети, принятая за 10<sup>21</sup> хешей в секунду; на деле её ASIC-и считают только заголовки блоков и этот хеш не посчитают вовсе. Гровер берёт корень из перебора, но вызовы идут последовательно: 10 в секунду — порядок для отказоустойчивой машины с SHA-256 в схеме, 1 ГГц — заведомая фантастика. Миллион таких фантастических машин делят 900 лет только на тысячу (Гровер параллелится как корень), то есть около года. Последний этаж — 2<sup>130</sup> кандидатов, это уровень AES-128, который и для квантовой эпохи считается стойким именно из-за последовательной глубины Гровера.</p>
+  <p>Вывод: весь лабиринт держит последний десяток этажей, и держит его криптография и арифметика, а не стены. Двери меняют только то, каково человеку на этажах, которые можно обойти.</p>
+</section>
+
+<section>
+  <h2>На человеческих этажах</h2>
+  <p>Здесь ответ зависит от того, какого игрока считать. Цифры ниже — этаж 6 (32×32, 1024 комнаты), двери не ближе 8 комнат в обход, среднее по 6 этажам и 180 парам «точка приземления → дыра». Это доля от длины пути без дверей.</p>
+  <div class="verdict">
+    <article>
+      <span class="tag ok">держится</span>
+      <span class="who">Картограф: ищет дыру, помнит всё</span>
+      <span class="big num">0.94 · 0.93</span>
+      <p>При 2 и 5 дверях на 100 комнат. Твоя интуиция верна: чтобы найти дыру, всё равно надо обойти почти все комнаты, и ни одна дверь этого не отменит. Потолок выигрыша — вдвое (обход дерева проходит каждый коридор не больше двух раз), а на больших этажах выигрыш ещё меньше.</p>
+    </article>
+    <article>
+      <span class="tag bad">схлопывается</span>
+      <span class="who">Блуждающий: идёт куда попало</span>
+      <span class="big num">0.42 · 0.26</span>
+      <p>Дерево держит заблудившегося в длинных тупиковых ветках, а дверь — выход из ветки. С ростом этажа эффект растёт: на 64×64 при 5 дверях — <span class="num">0.07</span>. На глубоких этажах, которые никто не обойдёт целиком, живой игрок ближе к этому, чем к картографу.</p>
+    </article>
+    <article>
+      <span class="tag warn">короче вдвое</span>
+      <span class="who">Знающий: ему сказали, где дыра</span>
+      <span class="big num">0.62 · 0.48</span>
+      <p>Мир общий, координаты дыры можно передать. Тогда сложность — это маршрут, и его двери режут заметно. Тоже растёт с этажом: <span class="num">0.38</span> на 64×64.</p>
+    </article>
+  </div>
+  <p>Ещё одно: правило 4 (дверь только там, где обход длинный) делает каждую дверь <em>сильнее</em>. При тех же 2 дверях на 100 комнат путь знающего сокращается до 0.82 без порога, до 0.69 при пороге 8 и до 0.53 при пороге 32. Так что порог и плотность — одна ручка: поднял порог, убавь плотность.</p>
+</section>
+
+<section>
+  <h2>Этаж на столе</h2>
+  <div class="bench">
+    <div class="plan">
+      <canvas id="floor" width="560" height="560" aria-label="План этажа с дверями"></canvas>
+      <div class="legend">
+        <span><i style="background:var(--door)"></i>дверь</span>
+        <span><i style="background:repeating-linear-gradient(90deg, var(--gap) 0 3px, transparent 3px 6px)"></i>проём</span>
+        <span><i style="background:var(--allow)"></i>стена, где дверь разрешена</span>
+        <span><i style="background:var(--land);width:10px;height:10px;border-radius:50%"></i>старт: приземление</span>
+        <span><i style="background:var(--hole);width:10px;height:10px"></i>цель: дыра</span>
+        <span><i style="background:var(--door)"></i>маршрут с дверьми</span>
+        <span><i style="background:repeating-linear-gradient(90deg, var(--bare) 0 5px, transparent 5px 8px)"></i>маршрут без дверей</span>
+        <span><i style="background:repeating-linear-gradient(45deg, var(--dead) 0 2px, transparent 2px 5px)"></i>сразу видно, что тупик</span>
+      </div>
+      <div class="tip" id="tip">Наведи на стену — покажу, сколько комнат в обход. Клик ставит приземление, следующий клик — дыру.</div>
+    </div>
+    <div class="controls">
+      <div class="ctl">
+        <label>Этаж</label>
+        <div class="seg" id="size">
+          <button data-k="1">2 · 2×2</button><button data-k="2">3 · 4×4</button><button data-k="3">4 · 8×8</button><button data-k="4">5 · 16×16</button><button data-k="5">6 · 32×32</button><button data-k="6">7 · 64×64</button><button data-k="7">8 · 128×128</button>
+        </div>
+      </div>
+      <div class="ctl">
+        <label for="density">Отверстий (дверей и проёмов) на 100 комнат <span class="num" id="densityOut"></span></label>
+        <input type="range" id="density" min="0" max="100" step="1" value="100">
+      </div>
+      <div class="ctl">
+        <label for="gap">Порог: не меньше комнат в обход <span class="num" id="gapOut"></span></label>
+        <input type="range" id="gap" min="0" max="256" step="1" value="11">
+        <small>Обход считается точно, поиском на глубину порога: хватит обойти всё, куда ведут K ходов, и проверить, нет ли там комнаты с той стороны. Этаж лабиринт-дерево, так что на деле это ~60–150 комнат. Замер (bfs-cost.js, этажи 9–50, каждая стена решается из хешей мира на месте): при K = 48 около 0,4 мс на стену с кешем блоков и 2,5 мс без него. Считается один раз на стену, выпавшую кандидатом в дверь, и запоминается навсегда, а не каждый кадр.</small>
+        <label class="check"><input type="checkbox" id="window"> искать разрешённые стены как игра: поиск только в окне у прохода, остальное по оценке 2·d + 1</label>
+        <small id="windowOut"></small>
+      </div>
+      <div class="ctl">
+        <label for="share">Доля дверей среди отверстий <span class="num" id="shareOut"></span></label>
+        <input type="range" id="share" min="0" max="100" step="1" value="75">
+        <small>Проём — стены просто нет: топологически то же, что дверь, но изнутри его не отличить от родного прохода, и сквозь него видно. Дверь это или проём, решает отдельный бросок стены, <code>…/kind</code>, независимо от обхода: 75% — это три двери на один проём.</small>
+      </div>
+      <div class="tally" aria-live="polite">
+        <div class="big" id="tallyBig"></div>
+        <div id="wanderOut"></div>
+        <div class="btns">
+          <label class="check">цель за час: дверей <input type="number" id="wantDoors" min="0" max="999" value="60" style="width:4.5em"></label>
+          <label class="check">проёмов <input type="number" id="wantGaps" min="0" max="999" value="20" style="width:4.5em"></label>
+        </div>
+        <div class="btns"><button class="btn" id="tune">подобрать под час исследователя</button></div>
+        <small id="tuneNote"></small>
+        <small id="placedOut"></small>
+      </div>
+      <div class="ctl">
+        <label>Двери рядом друг с другом</label>
+        <div class="seg" id="spacing"><button data-s="none">как выпадет</button><button data-s="arm">не больше одной на перегородку</button></div>
+        <small>Лабиринт режется так: весь этаж, квадрат из комнат, делят двумя стенами крест-накрест на четыре четверти. Получаются четыре перегородки, каждая — прямая стена между двумя соседними четвертями. В трёх перегородках пробивают по проходу, одну оставляют глухой, и так же режут каждую четверть. Две двери в одной перегородке соединяют одни и те же две четверти рядом друг с другом, так что вторая ничего нового не открывает.</small>
+      </div>
+      <label class="check"><input type="checkbox" id="heat" checked> тепловая карта от приземления</label>
+      <label class="check"><input type="checkbox" id="elig" checked> показывать разрешённые стены</label>
+      <label class="check"><input type="checkbox" id="dead" checked> комнаты, куда игрок не зайдёт: сразу видно, что тупик</label>
+      <small id="deadOut"></small>
+      <div class="btns">
+        <button class="btn" id="game" aria-pressed="true" title="Этаж нашего мира с настоящими приземлением и дырой">как в игре</button>
+        <button class="btn" id="newFloor" disabled>другой этаж</button>
+        <button class="btn" id="newDoors" disabled>другие двери</button>
+        <button class="btn" id="newPair" disabled>другая пара</button>
+      </div>
+      <small id="gameNote"></small>
+      <div class="scroll">
+        <table class="read">
+          <thead><tr><th>Эта пара комнат</th><th class="num">голый этаж</th><th class="num">с отверстиями</th></tr></thead>
+          <tbody id="readings"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Как игра выбирает стену в луче, не проверяя все</h2>
+  <p>Отверстие ставится так: у каждого луча креста свой бросок, на какой стене оно будет, и выбирать можно только среди стен, у которых обход не короче порога. Чтобы знать, какие это стены, игре не надо искать обход у каждой — на глубоком этаже в луче их 2<sup>58</sup>. Обход между двумя комнатами по обе стороны стены не может пересечь луч нигде, кроме его прохода. Значит, он не короче, чем дойти вдоль луча до прохода и вернуться: <b>2·d + 1</b>, где d — сколько стен от этой до прохода. Если уже это не меньше порога, стена разрешена без всякого поиска.</p>
+  <div class="bench">
+    <div class="plan">
+      <canvas id="armPlan" width="560" height="560" aria-label="Один блок лабиринта и стены выбранного луча"></canvas>
+      <div class="legend">
+        <span><i style="background:var(--allow)"></i>разрешена заведомо: 2·d + 1 ≥ порога, поиск не нужен</span>
+        <span><i style="background:var(--land)"></i>в окне у прохода: проверили поиском, обход длинный</span>
+        <span><i style="background:var(--ink-soft)"></i>в окне: проверили, обход короче порога — нельзя</span>
+        <span><i style="background:var(--hole)"></i>проход луча</span>
+        <span><i style="background:var(--bare)"></i>обход выбранной стены</span>
+        <span><i style="background:var(--door)"></i>сюда выпал бросок луча</span>
+      </div>
+    </div>
+    <div class="controls">
+      <div class="ctl">
+        <label>Блок вокруг приземления</label>
+        <div class="seg" id="armLevel"></div>
+      </div>
+      <div class="ctl">
+        <label>Луч креста</label>
+        <div class="seg" id="armWhich"><button data-a="0">северный</button><button data-a="1">восточный</button><button data-a="2">южный</button><button data-a="3">западный</button></div>
+      </div>
+      <div class="ctl">
+        <label for="armGap">Порог (тот же, что выше) <span class="num" id="armGapOut"></span></label>
+        <input type="range" id="armGap" min="0" max="128" step="1" value="11">
+      </div>
+      <div class="tally" aria-live="polite">
+        <div id="armCount"></div>
+        <div id="armPick"></div>
+      </div>
+      <small>Клик по стене выбранного луча показывает её обход. У глухого луча прохода нет, и обход огибает его конец в центре креста — там и окно, а d считается до этого конца.</small>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Кривые по плотности</h2>
+  <p>Доля от пути без дверей, по средним на нескольких этажах выбранного размера. Сплошные линии — при выбранном пороге, бледные — без порога. Если разрешённых стен меньше, чем просит плотность, кривая выходит на плато. Картограф около 1 шумит, а при малой плотности может и подняться выше: дверь уводит жадный обход в новый район, и недообойдённый угол приходится добирать на обратном пути.</p>
+  <div class="chart-wrap">
+    <div class="btns"><button class="btn" id="runSweep">пересчитать для текущих настроек</button><span class="tip" id="sweepNote"></span></div>
+    <div class="progress"><span id="bar"></span></div>
+    <svg id="chart" viewBox="0 0 720 340" role="img" aria-label="Доля длины пути от плотности дверей"></svg>
+  </div>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Этаж</th><th class="num">комнат</th><th class="num">знающий</th><th class="num">картограф</th><th class="num">блуждающий</th><th class="num">правая рука ломается</th></tr></thead>
+      <tbody>
+        <tr><td>4 · 8×8</td><td class="num">64</td><td class="num">0.78</td><td class="num">0.92</td><td class="num">0.61</td><td class="num">32%</td></tr>
+        <tr><td>5 · 16×16</td><td class="num">256</td><td class="num">0.58</td><td class="num">0.90</td><td class="num">0.41</td><td class="num">61%</td></tr>
+        <tr><td>6 · 32×32</td><td class="num">1 024</td><td class="num">0.45</td><td class="num">0.94</td><td class="num">0.25</td><td class="num">87%</td></tr>
+        <tr><td>7 · 64×64</td><td class="num">4 096</td><td class="num">0.38</td><td class="num">0.98</td><td class="num">0.07*</td><td class="num">94%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:13px;color:var(--ink-soft)">5 дверей на 100 комнат, порог 8 по оценке снизу. Картограф держится и даже приближается к 1 с ростом этажа; блуждающий и знающий проваливаются всё глубже. *На 64×64 блуждание без дверей иногда упирается в лимит шагов, так что настоящее число ещё меньше. «Правая рука» ломается, только если идти в двери; игрок, который их не открывает, теряет ноль.</p>
+</section>
+
+<section>
+  <h2>Твои правила 2–4</h2>
+  <div class="rules">
+    <article>
+      <span class="n">2 и 3 · пара и одна на стену</span>
+      <h3>Достаются даром, если дверь — свойство стены</h3>
+      <p>Сейчас <code>door</code> — предмет декора комнаты (<code>fittings.ts</code>), и у соседней комнаты о нём нет ни бита. Если дверь — это бит стены, брошенный под её ключом, как проход в <code>isOpenEast</code>, то обе комнаты читают один и тот же бит: двойник на той стороне есть всегда, а второй двери в той же стене быть не может по устройству.</p>
+    </article>
+    <article>
+      <span class="n">4а · периметр</span>
+      <h3>Кандидаты — только закрытые внутренние стены</h3>
+      <p>Наружная стена этажа — стенка куба, за ней нет комнаты. На этаже <span class="num">n</span> закрытых внутренних стен ровно <span class="num">(2<sup>n−1</sup>−1)²</span> — почти по одной на комнату, так что кандидатов с запасом.</p>
+    </article>
+    <article>
+      <span class="n">4б · порог обхода</span>
+      <h3>Оценка из креста одного блока</h3>
+      <p>Стена между <span class="num">(x, y)</span> и <span class="num">(x+1, y)</span> лежит в кресте блока уровня <code>levelOf(x)</code>, и путь между двумя комнатами не выходит из этого блока. Значит, он идёт через проходы креста в известном порядке, а внутри четверти не короче манхэттенского. Отсюда оценка снизу за O(1) на любом этаже до 66-го. Проверено на 104 080 стенах этажей 4–7: ни разу не больше точного.</p>
+    </article>
+    <article>
+      <span class="n">4б · какой порог</span>
+      <h3>Восемь — граница пустых дверей</h3>
+      <p>Половина закрытых стен на 32×32 разделяет комнаты, до которых 5 шагов в обход и меньше: такая дверь ничего не открывает. Порог 8 их отсекает. Выше — каждая дверь сильнее, и плотность надо снижать. Оценка консервативна: при пороге 8 она пропускает 209 стен из 353 подходящих, при 32 — 20 из 86.</p>
+    </article>
+    <article>
+      <span class="n">5 · соседние двери</span>
+      <h3>Не больше одной двери на перегородку</h3>
+      <p>Перегородка — прямая стена между двумя соседними четвертями квадрата, который лабиринт режет крест-накрест. С высоким порогом разрешёнными остаются почти только стены глухой перегородки: обход у них длинный по всей длине, и двери выстраиваются вдоль неё в ряд. Каждая следующая там лишняя: соседняя дверь уже открыла тот же обход. Правило «не больше одной двери на перегородку» решается внутри одного квадрата, то есть за O(1) на любом этаже. На 64×64 при 30 дверях на 100 комнат и пороге 48 без правила ставится 94 двери, из них 92 лишних; с правилом — 9–10, лишних ноль. В обычном режиме (3 на 100, порог 8) правило убирает 5 лишних дверей из 31, а кривые почти не меняет: знающий 0.54, картограф 0.89, блуждающий 0.32. Ноль лишних — результат прогонов, а не доказательство: дверь в перегородке соседнего квадрата теоретически может сократить чужой обход.</p>
+    </article>
+    <article>
+      <span class="n">вне списка · плата</span>
+      <h3>Открыть-закрыть — не изменение мира</h3>
+      <p>Дверь закрывается за прошедшим, так что долговременного состояния у неё нет и платить не за что. Чтобы двое у одной двери видели одно и то же, её угол удобно выводить из позы проходящего игрока: тогда распахнутая дверь — часть того, что делает его тело, а кадр остаётся функцией точки и часов.</p>
+    </article>
+    <article>
+      <span class="n">что я бы взял</span>
+      <h3>Порог 8 по оценке, 1–2 двери на 100 комнат</h3>
+      <p>Картограф не замечает, блуждающему дверь — событие, а не дыра в стене лабиринта. Чего стоит бояться — глубины: там живой игрок ближе к блуждающему, и плотность, возможно, стоит уменьшать с номером этажа. Кривые выше позволяют это пощупать.</p>
+    </article>
+  </div>
+</section>
+
+<footer>
+  <span>Модель: рекурсивное деление как в <code>src/cube/entities/world/model/maze.ts</code> (одна глухая рука креста, в трёх по проходу). Приземление и дыра — случайные комнаты; с галочкой «как в игре» этаж бросается из зерна нашего мира тем же <code>pathHash</code>, что в игре (стены сверены с <code>maze.ts</code> на этажах 5–8), а приземление и дыра находятся перебором печатей SHA-256 из <code>world.json</code>. Картограф каждый раз идёт к ближайшей непосещённой комнате по известной карте; блуждающий шагает в случайную соседнюю; правая рука — классическое правило стены.</span>
+</footer>
+</main>
+
+<script src="sim.js"></script>
+<script src="world-holes.js"></script>
+<script src="world.js"></script>
+<script>
+(() => {
+  const S = window.DoorSim, W = window.DoorWorld;
+  const $ = (id) => document.getElementById(id);
+  const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  const state = { k: 5, perHundred: 100, minGap: 11, doorShare: 75, window: false, floorSeed: 7, doorSeed: 101, pairSeed: 3, heat: true, elig: true, dead: true, game: true, spacing: 'arm', landing: 0, hole: 0, clickNext: 'landing' };
+  let maze, mazeOpen, placement, adjBare, adjDoors, distLand, seen, eyesBare, eyesDoors, wander;
+
+  const canvas = $('floor');
+  const ctx = canvas.getContext('2d');
+
+  // Floors of our world already searched, by k: the brute force runs once each.
+  const gameFloors = new Map();
+  const worldHash = W.pathHash(W.WORLD.seed);
+  // Each floor draws its own pair, so a new floor moves the landing and the hole too.
+  const pairSeed = () => state.pairSeed * 7919 + state.floorSeed;
+  let floorToken = 0;
+  async function rebuildFloor() {
+    const token = ++floorToken, k = state.k;
+    if (!state.game) {
+      maze = S.buildMaze(k, state.floorSeed);
+      const [[a, h]] = S.randomPairs(maze, 1, pairSeed());
+      state.landing = a; state.hole = h;
+      $('gameNote').textContent = '';
+      rebuildDoors();
+      return;
+    }
+    const next = S.buildMaze(k, 0, W.blockSource(W.WORLD.seed, k + 1));
+    if (!gameFloors.has(k)) {
+      const found = await W.gameFloor(k + 1, (p) => {
+        if (token === floorToken) $('gameNote').textContent = `ищу приземление и дыру перебором печатей: ${Math.round(p * 100)}%`;
+      });
+      gameFloors.set(k, found);
+    }
+    if (token !== floorToken) return;
+    maze = next;
+    ({ landing: state.landing, hole: state.hole } = gameFloors.get(k));
+    const xy = (i) => `(${i % maze.s}, ${Math.floor(i / maze.s)})`;
+    $('gameNote').textContent = `этаж ${k + 1} нашего мира: приземление ${xy(state.landing)}, дыра ${xy(state.hole)}, найдены по печатям из world.json. Двери из броска мира: у каждой перегородки свой бросок doorway/${k + 1}/…/has (есть ли дверь) и …/at (на какой стене); в игре их пока нет, это предложение`;
+    rebuildDoors();
+  }
+  function rebuildDoors() {
+    const how = { perHundred: state.perHundred, minGap: state.minGap, doorShare: state.doorShare / 100, spacing: state.spacing, roll: doorRoll() };
+    placement = S.placeDoors(maze, { ...how, window: state.window });
+    if (state.window) {
+      // The full count beside it, so the page shows the two agree rather than saying so.
+      const full = S.placeDoors(maze, how), same = (a, b) => a.length === b.length && a.every((w, i) => w === b[i]);
+      const agree = same(placement.doors, full.doors) && same(placement.gaps, full.gaps) && placement.eligible === full.eligible;
+      $('windowOut').innerHTML = `Поиском проверено <b>${placement.searched}</b> стен из ${maze.closed.length}, остальные ${maze.closed.length - placement.searched} решены оценкой. Разрешённых ${placement.eligible}, полный подсчёт по всему дереву даёт ${full.eligible}. ${agree ? '<span style="color:var(--allow)">Двери и проёмы стоят на тех же стенах, что и при полном подсчёте.</span>' : '<span style="color:var(--door)">Расстановка разошлась с полным подсчётом!</span>'}`;
+    } else $('windowOut').textContent = '';
+    placement.redundant = S.redundant(maze, placement.doors.concat(placement.gaps), state.minGap);
+    mazeOpen = S.withGaps(maze, placement.gaps);
+    adjBare = S.adjacency(maze, []);
+    adjDoors = S.adjacency(mazeOpen, placement.doors);
+    eyesBare = S.eyesOf(maze, []);
+    eyesDoors = S.eyesOf(mazeOpen, placement.doors);
+    wander = hourOfWandering();
+    $('tuneNote').textContent = '';
+    refresh();
+  }
+  // An hour's walk at step.ts's WALK_SPEED, in room sides a second, from random rooms: a random
+  // wanderer and an explorer who remembers every room bracket a real player from below and above.
+  const HOUR_STEPS = Math.round(3600 * 0.28), WANDER_RUNS = 30;
+  // The hour averaged over `runs` walks from rooms drawn the same way every call, so two settings
+  // differ only by their openings.
+  function hourOf(adj, p, who, runs) {
+    const rnd = S.mulberry32(4243 + state.k), t = { doors: 0, gaps: 0, rooms: 0 };
+    for (let r = 0; r < runs; r++) {
+      const a = Math.floor(rnd() * maze.N);
+      const rooms = who === 'explorer' ? S.exploreWalk(adj, a, HOUR_STEPS) : S.randomWalk(adj, a, HOUR_STEPS, rnd);
+      const d = S.metAlong(rooms, p.doors);
+      t.doors += d.met / runs; t.rooms += d.rooms / runs;
+      t.gaps += S.metAlong(rooms, p.gaps).met / runs;
+    }
+    return t;
+  }
+  function hourOfWandering() {
+    return { explorer: hourOf(adjDoors, placement, 'explorer', WANDER_RUNS), wanderer: hourOf(adjDoors, placement, 'wanderer', WANDER_RUNS) };
+  }
+  function doorRoll() {
+    return state.game ? ((H, n) => (path) => H(`doorway/${n}/${path}`))(worldHash, state.k + 1) : S.seededRoll(`sandbox/${state.doorSeed}`);
+  }
+  // The explorer's hour against the target: the share is the target's own ratio, then the highest
+  // threshold whose fullest density still reaches the target total, then the density nearest to it.
+  // A higher threshold leaves fewer, longer shortcuts, so it is the one worth keeping.
+  const TUNE_RUNS = WANDER_RUNS;
+  let tuning = false;
+  async function tune() {
+    if (tuning) return;
+    const wantDoors = Math.max(0, +$('wantDoors').value || 0), wantGaps = Math.max(0, +$('wantGaps').value || 0), want = wantDoors + wantGaps;
+    if (!want) { $('tuneNote').textContent = 'цель пустая — подбирать нечего'; return; }
+    tuning = true; $('tune').disabled = true;
+    const roll = doorRoll(), doorShare = wantDoors / want;
+    const met = (minGap, perHundred) => {
+      const p = S.placeDoors(maze, { perHundred, minGap, doorShare, spacing: state.spacing, roll });
+      const t = hourOf(S.adjacency(S.withGaps(maze, p.gaps), p.doors), p, 'explorer', TUNE_RUNS);
+      return t.doors + t.gaps;
+    };
+    let g = 256, best = null, lastEligible = -1;
+    for (; g >= 0; g--) {
+      const { eligible } = S.placeDoors(maze, { perHundred: 100, minGap: g, spacing: state.spacing, roll });
+      // The allowed walls only grow as the threshold falls, so an unchanged count is an unchanged set.
+      if (eligible === lastEligible) continue;
+      lastEligible = eligible;
+      const top = met(g, 100);
+      if (!best || top > best.n) best = { g, per: 100, n: top };
+      if (top >= want) break;
+      if (g % 4 === 0) { $('tuneNote').textContent = `ищу порог: ${g}, при 100 на 100 комнат исследователь встречает ${Math.round(top)} из ${want}…`; await new Promise((r) => setTimeout(r)); }
+    }
+    if (best.n >= want) {
+      let lo = 0, hi = 100;
+      while (hi - lo > 1) { const mid = (lo + hi) >> 1; (met(best.g, mid) >= want ? (hi = mid) : (lo = mid)); }
+      const [nLo, nHi] = [met(best.g, lo), met(best.g, hi)];
+      best = Math.abs(nLo - want) < Math.abs(nHi - want) ? { g: best.g, per: lo, n: nLo } : { g: best.g, per: hi, n: nHi };
+    }
+    tuning = false; $('tune').disabled = false;
+    state.doorShare = Math.round(100 * doorShare); $('share').value = state.doorShare;
+    state.minGap = best.g; $('gap').value = best.g;
+    state.perHundred = best.per; $('density').value = best.per;
+    rebuildDoors();
+    const t = wander.explorer;
+    $('tuneNote').textContent = best.n >= want - 0.5
+      ? `доля дверей ${state.doorShare}%, порог ${best.g} — самый высокий, при котором цель достижима, плотность ${best.per} на 100 комнат: исследователь встречает за час ${Math.round(t.doors)} дверей и ${Math.round(t.gaps)} проёмов`
+      : `${want} за час не достать ни при каком пороге: больше всего ${Math.round(best.n)}, порог ${best.g}, плотность 100`;
+  }
+  function refresh() {
+    distLand = S.bfs(adjDoors, state.landing);
+    seen = S.deadEnds(mazeOpen, placement.doors, state.landing, state.hole, eyesDoors);
+    $('deadOut').textContent = `не зайдёт в ${seen.skipped.toLocaleString('ru-RU')} из ${maze.N.toLocaleString('ru-RU')} комнат (${Math.round((100 * seen.skipped) / maze.N)}%). Игрок идёт волной от приземления и помнит каждую грань стены, увиденную из середины комнаты и с порога каждого её прохода. Комната — явный тупик, если все её стороны, кроме ведущей к игроку, — стена, про которую видно, что она глухая, или проход в явный тупик. Пока дверей нет, хватает куска стены: сторона либо глухая вся, либо открыта вся. С дверями грань надо увидеть целиком. Комната, где игрок побывал, и комната с дырой тупиком не считаются.`;
+    draw();
+    readings();
+    $('densityOut').textContent = state.perHundred;
+    $('gapOut').textContent = state.minGap;
+    const p = placement;
+    $('shareOut').textContent = `${state.doorShare}%`;
+    $('tallyBig').innerHTML = `<span class="d">дверей ${p.doors.length}</span> · <span class="g">проёмов ${p.gaps.length}</span>`;
+    const hour = (t) => `<span class="d"><b>${Math.round(t.doors)}</b> дверей</span>, <span class="g"><b>${Math.round(t.gaps)}</b> проёмов</span> на ${Math.round(t.rooms)} комнатах`;
+    $('wanderOut').innerHTML = `За час ходьбы: исследователь ${hour(wander.explorer)}; блуждающий наугад ${hour(wander.wanderer)}. <small>Шагом это ${HOUR_STEPS} переходов из комнаты в комнату, сквозь двери и проёмы как сквозь любой проход, дыра не останавливает. Встреча — постоять в одной из двух комнат, которые отверстие соединяет; каждое отверстие считается один раз. Исследователь помнит все комнаты и идёт к ближайшей новой, блуждающий выбирает выход наугад; живой игрок где-то между ними. Кнопка подбирает под исследователя.</small>`;
+    drawArm();
+    $('placedOut').textContent = `просили ${p.want} · разрешённых стен ${p.eligible} из ${maze.closed.length} · лишних, чей обход с учётом остальных отверстий короче порога: ${p.redundant}`;
+  }
+
+  function pathOf(adj, from, to) {
+    const prev = new Int32Array(adj.length).fill(-1), q = [from];
+    prev[from] = from;
+    for (let h = 0; h < q.length; h++) for (const v of adj[q[h]]) if (prev[v] < 0) { prev[v] = q[h]; q.push(v); }
+    const out = [to];
+    while (out[out.length - 1] !== from) out.push(prev[out[out.length - 1]]);
+    return out.reverse();
+  }
+
+  function draw() {
+    const dpr = window.devicePixelRatio || 1;
+    const W = canvas.clientWidth || 560;
+    if (canvas.width !== Math.round(W * dpr)) { canvas.width = Math.round(W * dpr); canvas.height = Math.round(W * dpr); }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const { s } = maze, pad = 6, c = (W - 2 * pad) / s;
+    const X = (i) => pad + (i % s) * c, Y = (i) => pad + Math.floor(i / s) * c;
+    ctx.clearRect(0, 0, W, W);
+    ctx.fillStyle = css('--sheet'); ctx.fillRect(0, 0, W, W);
+    if (state.heat) {
+      let max = 0; for (const d of distLand) max = Math.max(max, d);
+      const rgb = css('--heat');
+      for (let i = 0; i < maze.N; i++) {
+        ctx.fillStyle = `rgba(${rgb}, ${0.32 * (1 - distLand[i] / max)})`;
+        ctx.fillRect(X(i), Y(i), c + 0.5, c + 0.5);
+      }
+    }
+    // Rooms the player never enters, hatched under the walls so the walls stay crisp.
+    if (state.dead) {
+      ctx.save();
+      ctx.beginPath();
+      for (let i = 0; i < maze.N; i++) if (!seen.entered[i]) ctx.rect(X(i), Y(i), c + 0.5, c + 0.5);
+      ctx.clip();
+      ctx.fillStyle = css('--dead-fill'); ctx.fillRect(0, 0, W, W);
+      ctx.strokeStyle = css('--dead'); ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (let d = -W; d < W; d += 5) { ctx.moveTo(d, W); ctx.lineTo(d + W, 0); }
+      ctx.stroke();
+      ctx.restore();
+    }
+    ctx.strokeStyle = css('--wall'); ctx.lineWidth = Math.max(1, Math.min(2.2, c * 0.12)); ctx.lineCap = 'square';
+    ctx.beginPath();
+    for (const w of mazeOpen.closed) wallSeg(w, X, Y, c, 1);
+    ctx.rect(pad, pad, s * c, s * c);
+    ctx.stroke();
+    // Allowed walls over the plain ones, so the choice reads at a glance.
+    if (state.elig) {
+      ctx.strokeStyle = css('--allow'); ctx.lineWidth = Math.max(2.5, Math.min(8, c * 0.24)); ctx.lineCap = 'butt';
+      ctx.beginPath();
+      for (const w of maze.closed) if (w.exact >= state.minGap) wallSeg(w, X, Y, c, 0.9);
+      ctx.stroke();
+    }
+    // Doors: one bar across the wall, read the same from either room.
+    ctx.strokeStyle = css('--door'); ctx.lineWidth = Math.max(2.5, Math.min(10, c * 0.32)); ctx.lineCap = 'butt';
+    ctx.beginPath();
+    for (const w of placement.doors) wallSeg(w, X, Y, c, 0.62);
+    ctx.stroke();
+    // Gaps: the missing wall traced faintly, so the plan shows what the player cannot.
+    ctx.strokeStyle = css('--gap'); ctx.lineWidth = Math.max(1.5, Math.min(4, c * 0.14)); ctx.setLineDash([Math.max(2, c * 0.12), Math.max(2, c * 0.12)]);
+    ctx.beginPath();
+    for (const w of placement.gaps) wallSeg(w, X, Y, c, 0.9);
+    ctx.stroke(); ctx.setLineDash([]);
+    const centre = (i) => [X(i) + c / 2, Y(i) + c / 2];
+    const line = (path, colour, width, dash) => {
+      ctx.strokeStyle = colour; ctx.lineWidth = width; ctx.setLineDash(dash); ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+      ctx.beginPath(); path.forEach((i, j) => { const [x, y] = centre(i); j ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }); ctx.stroke(); ctx.setLineDash([]);
+    };
+    const pathWidth = Math.max(1.5, Math.min(5, c * 0.16));
+    line(pathOf(adjBare, state.landing, state.hole), css('--bare'), pathWidth, [Math.max(4, Math.min(12, c * 0.45)), Math.max(3, Math.min(8, c * 0.3))]);
+    line(pathOf(adjDoors, state.landing, state.hole), css('--door'), pathWidth, []);
+    // Start and goal ringed in the sheet colour, so neither sinks into the heat map.
+    const r = Math.max(5, Math.min(14, c * 0.4));
+    ctx.lineWidth = 2.5; ctx.strokeStyle = css('--sheet');
+    let [x, y] = centre(state.landing);
+    ctx.fillStyle = css('--land'); ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.stroke(); ctx.fill();
+    [x, y] = centre(state.hole);
+    ctx.fillStyle = css('--hole'); ctx.strokeRect(x - r, y - r, 2 * r, 2 * r); ctx.fillRect(x - r, y - r, 2 * r, 2 * r);
+  }
+
+  function wallSeg(w, X, Y, c, frac) {
+    const i = w.a, inset = (c * (1 - frac)) / 2;
+    if (w.dir === 'E') { const x = X(i) + c; ctx.moveTo(x, Y(i) + inset); ctx.lineTo(x, Y(i) + c - inset); }
+    else { const y = Y(i) + c; ctx.moveTo(X(i) + inset, y); ctx.lineTo(X(i) + c - inset, y); }
+  }
+
+  function readings() {
+    const a = state.landing, h = state.hole;
+    const path = [S.bfs(adjBare, a)[h], S.bfs(adjDoors, a)[h]];
+    const mapper = [S.mapper(adjBare, a, h), S.mapper(adjDoors, a, h)];
+    const mapperSees = [S.mapper(adjBare, a, h, eyesBare.player(h)), S.mapper(adjDoors, a, h, eyesDoors.player(h))];
+    const rnd = S.mulberry32(state.pairSeed * 13 + 1), runs = maze.k >= 7 ? 4 : 12, cap = 400 * maze.N;
+    const wanderWith = (eyes) => [[adjBare, eyesBare], [adjDoors, eyesDoors]].map(([adj, e]) => { let t = 0; for (let r = 0; r < runs; r++) t += S.wanderer(adj, a, h, rnd, cap, eyes ? e.player(h) : null); return Math.round(t / runs); });
+    const wander = wanderWith(false), wanderSees = wanderWith(true);
+    const openers = [S.opener(maze, []), S.opener(mazeOpen, placement.doors)];
+    const fol = openers.map((o) => S.follower(maze, o, a, h));
+    const folSees = openers.map((o, j) => S.follower(maze, o, a, h, (j ? eyesDoors : eyesBare).player(h)));
+    const fmt = (n) => n.toLocaleString('ru-RU');
+    const row = (name, [x, y]) => `<tr><td>${name}</td><td class="num">${fmt(x)}</td><td class="num">${fmt(y)}${x ? ` <span style="color:var(--ink-soft)">(${(y / x).toFixed(2)})</span>` : ''}</td></tr>`;
+    const hand = (name, f) => f[0].ok && f[1].ok
+      ? row(name, [f[0].steps, f[1].steps])
+      : `<tr><td>${name}</td><td class="num">${f[0].ok ? fmt(f[0].steps) : 'не дошёл'}</td><td class="num">${f[1].ok ? fmt(f[1].steps) : 'кружит, не дошёл'}</td></tr>`;
+    const sees = (name) => `<span style="color:var(--ink-soft)">${name}, видя тупики</span>`;
+    $('readings').innerHTML =
+      row('маршрут, если знаешь где', path) +
+      row('картограф, шагов', mapper) + row(sees('картограф'), mapperSees) +
+      row(`блуждающий, шагов (среднее из ${runs})`, wander) + row(sees('блуждающий'), wanderSees) +
+      hand('правая рука, шагов', fol) + hand(sees('правая рука'), folSees);
+  }
+
+  // One block of the floor and one arm of its cross: every wall of the arm sorted by whether the
+  // 2·d + 1 bound already clears the threshold, or a search had to settle it.
+  const armView = { level: null, arm: null, pick: null };
+  const ARM_NAMES = ['северный', 'восточный', 'южный', 'западный'];
+  function armGeometry() {
+    const { s, k } = maze, L = Math.max(1, Math.min(armView.level ?? Math.min(k, 5), k)), half = 1 << (L - 1);
+    const lx = state.landing % s, ly = Math.floor(state.landing / s);
+    const x0 = (lx >> L) << L, y0 = (ly >> L) << L, b = maze.block(L, x0, y0);
+    const arm = armView.arm ?? [0, 1, 2, 3].find((a) => a !== b.omit);
+    const blind = b.omit === arm;
+    // The end a blind arm's way round has to turn: the arm's offset nearest the cross's centre.
+    const anchor = blind ? (arm === 0 || arm === 3 ? half - 1 : 0) : b.door[arm];
+    if (!maze.closedAt) maze.closedAt = new Map(maze.closed.map((w) => [`${w.dir}${w.a}`, w]));
+    const walls = [];
+    for (let o = 0; o < half; o++) {
+      const [dir, x, y] = arm === 0 ? ['E', x0 + half - 1, y0 + o] : arm === 2 ? ['E', x0 + half - 1, y0 + half + o] : arm === 3 ? ['S', x0 + o, y0 + half - 1] : ['S', x0 + half + o, y0 + half - 1];
+      const a = y * s + x, w = maze.closedAt.get(`${dir}${a}`) || null, d = Math.abs(o - anchor);
+      const kind = !w ? 'passage' : 2 * d + 1 >= state.minGap ? 'far' : w.exact >= state.minGap ? 'checked' : 'short';
+      walls.push({ o, dir, x, y, a, b: dir === 'E' ? a + 1 : a + s, w, d, kind });
+    }
+    return { L, half, x0, y0, size: 2 * half, arm, blind, walls };
+  }
+  function drawArm() {
+    const g = armGeometry(), cv = $('armPlan'), c2 = cv.getContext('2d');
+    armView.level = g.L; armView.arm = g.arm;
+    $('armLevel').innerHTML = Array.from({ length: maze.k }, (_, i) => i + 1).filter((L) => L >= 2).map((L) => `<button data-l="${L}" aria-pressed="${L === g.L}">${1 << L}×${1 << L}</button>`).join('');
+    pressSeg('armWhich', 'a', g.arm);
+    $('armGap').value = state.minGap; $('armGapOut').textContent = state.minGap;
+    const dpr = window.devicePixelRatio || 1, W = cv.clientWidth || 560;
+    if (cv.width !== Math.round(W * dpr)) { cv.width = Math.round(W * dpr); cv.height = Math.round(W * dpr); }
+    c2.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const pad = 8, c = (W - 2 * pad) / g.size, s = maze.s;
+    const X = (x) => pad + (x - g.x0) * c, Y = (y) => pad + (y - g.y0) * c;
+    c2.fillStyle = css('--sheet'); c2.fillRect(0, 0, W, W);
+    const seg = (dir, x, y, inset = 0) => dir === 'E'
+      ? (c2.moveTo(X(x + 1), Y(y) + inset), c2.lineTo(X(x + 1), Y(y + 1) - inset))
+      : (c2.moveTo(X(x) + inset, Y(y + 1)), c2.lineTo(X(x + 1) - inset, Y(y + 1)));
+    // The block's own walls, faint, and its outline.
+    c2.strokeStyle = css('--rule'); c2.lineWidth = Math.max(1, Math.min(2, c * 0.08)); c2.beginPath();
+    for (let y = g.y0; y < g.y0 + g.size; y++) for (let x = g.x0; x < g.x0 + g.size; x++) {
+      const i = y * s + x;
+      if (x + 1 < g.x0 + g.size && !maze.openE[i]) seg('E', x, y);
+      if (y + 1 < g.y0 + g.size && !maze.openS[i]) seg('S', x, y);
+    }
+    c2.rect(X(g.x0), Y(g.y0), g.size * c, g.size * c); c2.stroke();
+    // The cross: the other three arms in wall ink, so the chosen one stands out.
+    c2.strokeStyle = css('--wall'); c2.lineWidth = Math.max(1.5, Math.min(3, c * 0.12)); c2.beginPath();
+    const h = g.half, cx = g.x0 + h - 1, cy = g.y0 + h - 1;
+    for (let o = 0; o < 2 * h; o++) {
+      if (maze.closedAt.has(`E${(g.y0 + o) * s + cx}`)) seg('E', cx, g.y0 + o);
+      if (maze.closedAt.has(`S${cy * s + g.x0 + o}`)) seg('S', g.x0 + o, cy);
+    }
+    c2.stroke();
+    // The window around the passage (or a blind arm's centre end): the only walls a search may be needed for.
+    const win = g.walls.filter((w) => w.kind === 'checked' || w.kind === 'short');
+    if (win.length) {
+      const lo = win.reduce((a, w) => Math.min(a, w.o), Infinity), hi = win.reduce((a, w) => Math.max(a, w.o), -1);
+      const [first, last] = [g.walls[lo], g.walls[hi]];
+      c2.strokeStyle = css('--land'); c2.lineWidth = 1.5; c2.setLineDash([4, 3]);
+      const m = c * 0.42;
+      if (first.dir === 'E') c2.strokeRect(X(first.x + 1) - m, Y(first.y), 2 * m, Y(last.y + 1) - Y(first.y));
+      else c2.strokeRect(X(first.x), Y(first.y + 1) - m, X(last.x + 1) - X(first.x), 2 * m);
+      c2.setLineDash([]);
+    }
+    const colour = { far: '--allow', checked: '--land', short: '--ink-soft', passage: '--hole' };
+    const width = Math.max(3, Math.min(9, c * 0.3));
+    for (const kind of ['far', 'checked', 'short']) {
+      c2.strokeStyle = css(colour[kind]); c2.lineWidth = width; c2.lineCap = 'butt'; c2.beginPath();
+      for (const w of g.walls) if (w.kind === kind) seg(w.dir, w.x, w.y, c * 0.08);
+      c2.stroke();
+    }
+    // The passage: a mark across the gap, since it has no wall to colour.
+    for (const w of g.walls) if (w.kind === 'passage') {
+      c2.fillStyle = css('--hole');
+      const [px, py] = w.dir === 'E' ? [X(w.x + 1), (Y(w.y) + Y(w.y + 1)) / 2] : [(X(w.x) + X(w.x + 1)) / 2, Y(w.y + 1)];
+      c2.beginPath(); c2.arc(px, py, Math.max(4, Math.min(9, c * 0.3)), 0, Math.PI * 2); c2.fill();
+    }
+    // Where the arm's roll put an opening, if it did.
+    const placed = placement.doors.concat(placement.gaps), hit = g.walls.find((w) => w.w && placed.includes(w.w));
+    if (hit) { c2.strokeStyle = css('--door'); c2.lineWidth = width * 0.5; c2.beginPath(); seg(hit.dir, hit.x, hit.y, c * 0.3); c2.stroke(); }
+    // The chosen wall's way round, room centre to room centre.
+    let pick = g.walls.find((w) => w.o === armView.pick && w.w);
+    if (!pick) pick = g.walls.filter((w) => w.kind === 'far').sort((u, v) => u.d - v.d)[0] || g.walls.find((w) => w.w);
+    if (pick) {
+      const path = pathOf(adjBare, pick.a, pick.b);
+      c2.strokeStyle = css('--bare'); c2.lineWidth = Math.max(1.5, Math.min(4, c * 0.14)); c2.lineJoin = 'round'; c2.lineCap = 'round';
+      c2.beginPath();
+      path.forEach((i, j) => { const px = X(i % s) + c / 2, py = Y(Math.floor(i / s)) + c / 2; j ? c2.lineTo(px, py) : c2.moveTo(px, py); });
+      c2.stroke();
+      c2.strokeStyle = css('--bare'); c2.lineWidth = width * 0.9; c2.beginPath(); seg(pick.dir, pick.x, pick.y, -c * 0.12); c2.globalAlpha = 0.35; c2.stroke(); c2.globalAlpha = 1;
+    }
+    const n = (kind) => g.walls.filter((w) => w.kind === kind).length;
+    const total = g.walls.filter((w) => w.w).length, half = (state.minGap - 1) / 2;
+    $('armCount').innerHTML = `${g.blind ? 'Луч глухой' : 'В луче проход'}, стен ${total}. <span style="color:var(--allow)"><b>${n('far')}</b> разрешены заведомо</span>: до ${g.blind ? 'конца в центре' : 'прохода'} от них ${Math.max(0, Math.ceil(half))} стен и больше, и поиск им не нужен. Поиском проверено <b>${n('checked') + n('short')}</b>: <span style="color:var(--land)">${n('checked')} прошли</span>, ${n('short')} нет. На глубоком этаже стен в луче хоть 2<sup>58</sup>, а в окне всё равно не больше ${Math.max(0, state.minGap - 1)}.`;
+    $('armPick').innerHTML = pick
+      ? `<span style="color:var(--bare)">Обход выбранной стены: <b>${pick.w.exact}</b></span>, а оценка 2·d + 1 = 2·${pick.d} + 1 = <b>${2 * pick.d + 1}</b>: обход не бывает короче оценки, потому что ${g.blind ? 'огибает конец луча в центре' : 'пересекает луч только через проход'}. ${hit ? 'Бросок этого луча выпал на стену, отмеченную красным.' : 'Бросок этого луча отверстия не дал.'}`
+      : '';
+  }
+  $('armLevel').addEventListener('click', (ev) => { const L = ev.target.dataset?.l; if (!L) return; armView.level = +L; armView.pick = null; drawArm(); });
+  $('armWhich').addEventListener('click', (ev) => { const a = ev.target.dataset?.a; if (a === undefined) return; armView.arm = +a; armView.pick = null; drawArm(); });
+  $('armGap').addEventListener('input', (ev) => { state.minGap = +ev.target.value; $('gap').value = state.minGap; rebuildDoors(); });
+  $('armPlan').addEventListener('click', (ev) => {
+    const g = armGeometry(), rect = $('armPlan').getBoundingClientRect(), pad = 8, c = (rect.width - 2 * pad) / g.size;
+    const fx = g.x0 + (ev.clientX - rect.left - pad) / c, fy = g.y0 + (ev.clientY - rect.top - pad) / c;
+    let best = null, bd = 0.6;
+    for (const w of g.walls) {
+      if (!w.w) continue;
+      const d = w.dir === 'E' ? Math.abs(fx - (w.x + 1)) + Math.abs(fy - (w.y + 0.5)) : Math.abs(fy - (w.y + 1)) + Math.abs(fx - (w.x + 0.5));
+      if (d < bd) { bd = d; best = w; }
+    }
+    if (best) { armView.pick = best.o; drawArm(); }
+  });
+
+  function cellAt(ev) {
+    const rect = canvas.getBoundingClientRect(), pad = 6, c = (rect.width - 2 * pad) / maze.s;
+    const fx = (ev.clientX - rect.left - pad) / c, fy = (ev.clientY - rect.top - pad) / c;
+    return { fx, fy, x: Math.floor(fx), y: Math.floor(fy) };
+  }
+  canvas.addEventListener('click', (ev) => {
+    const { x, y } = cellAt(ev);
+    if (x < 0 || y < 0 || x >= maze.s || y >= maze.s) return;
+    const i = y * maze.s + x;
+    if (state.clickNext === 'landing') { state.landing = i; state.clickNext = 'hole'; }
+    else { state.hole = i; state.clickNext = 'landing'; }
+    if (state.landing === state.hole) return;
+    refresh();
+  });
+  canvas.addEventListener('mousemove', (ev) => {
+    const { fx, fy } = cellAt(ev);
+    let best = null, bd = 0.22;
+    for (const w of maze.closed) {
+      const d = w.dir === 'E' ? Math.abs(fx - (w.x + 1)) + Math.max(0, Math.abs(fy - (w.y + 0.5)) - 0.5) : Math.abs(fy - (w.y + 1)) + Math.max(0, Math.abs(fx - (w.x + 0.5)) - 0.5);
+      if (d < bd) { bd = d; best = w; }
+    }
+    if (!best) { $('tip').textContent = 'Наведи на стену — покажу, сколько комнат в обход. Клик ставит приземление, следующий клик — дыру.'; return; }
+    const isDoor = placement.doors.includes(best), isGap = placement.gaps.includes(best);
+    const ok = best.exact >= state.minGap;
+    $('tip').textContent = `стена уровня ${best.level}: в обход ${best.exact} шагов. ${isDoor ? 'Здесь дверь.' : isGap ? 'Здесь проём.' : ok ? 'Отверстие можно.' : 'Отверстие нельзя: обход короче порога.'}`;
+  });
+
+  function pressSeg(id, attr, value) { for (const b of $(id).querySelectorAll('button')) b.setAttribute('aria-pressed', String(b.dataset[attr] === String(value))); }
+  $('size').addEventListener('click', (ev) => { const k = ev.target.dataset?.k; if (!k) return; state.k = +k; pressSeg('size', 'k', k); rebuildFloor(); });
+  $('density').addEventListener('input', (ev) => { state.perHundred = +ev.target.value; rebuildDoors(); });
+  $('gap').addEventListener('input', (ev) => { state.minGap = +ev.target.value; rebuildDoors(); });
+  $('share').addEventListener('input', (ev) => { state.doorShare = +ev.target.value; rebuildDoors(); });
+  $('window').addEventListener('change', (ev) => { state.window = ev.target.checked; rebuildDoors(); });
+  $('tune').addEventListener('click', tune);
+  $('heat').addEventListener('change', (ev) => { state.heat = ev.target.checked; draw(); });
+  $('elig').addEventListener('change', (ev) => { state.elig = ev.target.checked; draw(); });
+  $('dead').addEventListener('change', (ev) => { state.dead = ev.target.checked; draw(); });
+  $('game').addEventListener('click', (ev) => { state.game = !state.game; ev.currentTarget.setAttribute('aria-pressed', String(state.game)); $('newFloor').disabled = $('newDoors').disabled = $('newPair').disabled = state.game; rebuildFloor(); });
+  $('spacing').addEventListener('click', (ev) => { const sp = ev.target.dataset?.s; if (!sp) return; state.spacing = sp; pressSeg('spacing', 's', sp); rebuildDoors(); });
+  $('newFloor').addEventListener('click', () => { state.floorSeed++; rebuildFloor(); });
+  $('newDoors').addEventListener('click', () => { state.doorSeed++; rebuildDoors(); });
+  $('newPair').addEventListener('click', () => { state.pairSeed++; const [[a, h]] = S.randomPairs(maze, 1, pairSeed()); state.landing = a; state.hole = h; refresh(); });
+  window.addEventListener('resize', () => { draw(); drawArm(); });
+  if (window.matchMedia) window.matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', () => { draw(); renderChart(lastSweep); });
+
+  // Sweep chart.
+  const DENSITIES = [0, 1, 2, 3, 5, 8, 12, 20, 30];
+  const BUDGET = { 1: { floors: 8, pairs: 24 }, 2: { floors: 8, pairs: 24 }, 3: { floors: 8, pairs: 24 }, 4: { floors: 8, pairs: 24 }, 5: { floors: 4, pairs: 20 }, 6: { floors: 2, pairs: 5 }, 7: { floors: 1, pairs: 4 } };
+  const SERIES = [
+    { key: 'mapper', name: 'картограф', colour: '--hole' },
+    { key: 'path', name: 'знающий', colour: '--land' },
+    { key: 'wander', name: 'блуждающий', colour: '--door' },
+  ];
+  let lastSweep = null, sweepToken = 0;
+
+  async function runSweep() {
+    const token = ++sweepToken, { k } = state, { floors, pairs } = BUDGET[k];
+    const configs = [{ minGap: state.minGap, spacing: state.spacing }, { minGap: 0, spacing: 'none' }];
+    const total = configs.length * DENSITIES.length;
+    let done = 0;
+    const out = [];
+    for (const cfg of configs) {
+      const rows = [];
+      for (const perHundred of DENSITIES) {
+        await new Promise((r) => setTimeout(r, 0));
+        if (token !== sweepToken) return;
+        const [row] = S.sweep({ k, densities: [perHundred], minGap: cfg.minGap, spacing: cfg.spacing, floors, pairsPerFloor: pairs, seed: 11 });
+        rows.push(row);
+        $('bar').style.width = `${(++done / total) * 100}%`;
+      }
+      out.push(rows);
+    }
+    lastSweep = { k, minGap: state.minGap, rows: out };
+    $('sweepNote').textContent = `этаж ${k + 1} (${1 << k}×${1 << k}), порог ${state.minGap}, ${floors} этажа × ${pairs} пар`;
+    renderChart(lastSweep);
+  }
+
+  function renderChart(sw) {
+    const svg = $('chart');
+    if (!sw) return;
+    const W = 720, H = 340, L = 48, R = 120, T = 16, B = 40;
+    const xMax = DENSITIES[DENSITIES.length - 1];
+    const px = (d) => L + (d / xMax) * (W - L - R), py = (v) => T + (1 - Math.min(v, 1.1) / 1.1) * (H - T - B);
+    const ink = css('--ink-soft'), rule = css('--rule');
+    let g = '';
+    for (const v of [0, 0.25, 0.5, 0.75, 1]) g += `<line x1="${L}" x2="${W - R}" y1="${py(v)}" y2="${py(v)}" stroke="${rule}" stroke-width="${v === 1 ? 1.5 : 1}"/><text x="${L - 8}" y="${py(v) + 4}" text-anchor="end" font-size="11" fill="${ink}" font-family="IBM Plex Mono, monospace">${v.toFixed(2)}</text>`;
+    for (const d of [0, 5, 10, 15, 20, 25, 30]) g += `<text x="${px(d)}" y="${H - B + 18}" text-anchor="middle" font-size="11" fill="${ink}" font-family="IBM Plex Mono, monospace">${d}</text>`;
+    g += `<text x="${(L + W - R) / 2}" y="${H - 6}" text-anchor="middle" font-size="12" fill="${ink}">дверей на 100 комнат</text>`;
+    sw.rows.forEach((rows, faint) => {
+      for (const sr of SERIES) {
+        const colour = css(sr.colour);
+        const pts = rows.map((r) => `${px(r.perHundred).toFixed(1)},${py(r[sr.key]).toFixed(1)}`).join(' ');
+        g += `<polyline points="${pts}" fill="none" stroke="${colour}" stroke-width="${faint ? 1.5 : 2.5}" stroke-opacity="${faint ? 0.35 : 1}" ${faint ? 'stroke-dasharray="4 4"' : ''}/>`;
+        if (!faint) {
+          for (const r of rows) g += `<circle cx="${px(r.perHundred)}" cy="${py(r[sr.key])}" r="3" fill="${colour}"><title>${sr.name}: ${r[sr.key].toFixed(2)} при ${r.perHundred} (поставлено ${r.placedPerHundred.toFixed(1)})</title></circle>`;
+          const last = rows[rows.length - 1];
+          g += `<text x="${W - R + 8}" y="${py(last[sr.key]) + 4}" font-size="12" fill="${colour}" font-weight="600">${sr.name} ${last[sr.key].toFixed(2)}</text>`;
+        }
+      }
+    });
+    svg.innerHTML = g;
+  }
+
+  $('runSweep').addEventListener('click', runSweep);
+  pressSeg('size', 'k', state.k);
+  pressSeg('spacing', 's', state.spacing); rebuildFloor();
+  runSweep();
+})();
+</script>
