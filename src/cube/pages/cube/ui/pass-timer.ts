@@ -10,18 +10,21 @@ type Stage = (typeof STAGES)[number];
 /** Milliseconds of GPU time per frame on each stage, the mean of a window. */
 export type PassTimes = Record<Stage, number>;
 
-export type Timed = {
+type TimingSwitch = {
+  /**
+   * Starts or stops timing, dropping whatever was timed before: while off, a
+   * frame carries no stamps and reads nothing back.
+   */
+  timing: (on: boolean) => void;
+};
+
+export type Timed = TimingSwitch & {
   /**
    * The GPU's time per frame on each stage, the mean of the frames read
    * since the last call; null where the GPU cannot time passes, or no frame
    * was read.
    */
   passTimes: () => PassTimes | null;
-  /**
-   * Starts or stops timing, dropping whatever was timed before: while off, a
-   * frame carries no stamps and reads nothing back.
-   */
-  timing: (on: boolean) => void;
 };
 
 /**
@@ -31,24 +34,23 @@ export type Timed = {
  */
 const STAMPS = 5;
 
-export type PassTimer = CanDispose & {
-  /** Whether frames are stamped: off until `timing` turns it on. */
-  stamping: () => boolean;
-  /** Turns stamping on or off, dropping what was timed so far. */
-  timing: (on: boolean) => void;
-  /** Stamps the scene pass's start and end. */
-  scene: GPURenderPassTimestampWrites;
-  /** Stamps the end of the last mirror pass. */
-  mirrors: GPURenderPassTimestampWrites;
-  /** Stamps the lens pass's start and end. */
-  lens: GPURenderPassTimestampWrites;
-  /** Records copying this frame's stamps out, unless a read is under way. */
-  resolve: (encoder: GPUCommandEncoder) => void;
-  /** Reads back the stamps `resolve` copied, once the frame is submitted. */
-  read: () => void;
-  /** The mean of the frames read since the last call, or null if none was. */
-  take: () => PassTimes | null;
-};
+export type PassTimer = CanDispose &
+  TimingSwitch & {
+    /** Whether frames are stamped: off until `timing` turns it on. */
+    stamping: () => boolean;
+    /** Stamps the scene pass's start and end. */
+    scene: GPURenderPassTimestampWrites;
+    /** Stamps the end of the last mirror pass. */
+    mirrors: GPURenderPassTimestampWrites;
+    /** Stamps the lens pass's start and end. */
+    lens: GPURenderPassTimestampWrites;
+    /** Records copying this frame's stamps out, unless a read is under way. */
+    resolve: (encoder: GPUCommandEncoder) => void;
+    /** Reads back the stamps `resolve` copied, once the frame is submitted. */
+    read: () => void;
+    /** The mean of the frames read since the last call, or null if none was. */
+    take: () => PassTimes | null;
+  };
 
 const NANOS_PER_MS = 1e6;
 
