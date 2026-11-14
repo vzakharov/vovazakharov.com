@@ -34,7 +34,7 @@ items:
     updated: [2026-11-14T20:55:00.000Z, agent:cube]
     box: [5364, -3690, 236]
     src: images/doors-03-floor-8-open.webp
-    text: 'Open for its opener alone, and shut once they leave it. The next room was there all along'
+    text: 'Open for its opener alone, and shut once they leave it. The next room was there all along, and so was a coat rack in its shadow: «выглядит в хорошем смысле uncanny»'
   - id: doors-idea
     type: sticky
     updated: [2026-11-14T10:45:00.000Z, agent:cube]
@@ -95,6 +95,17 @@ items:
     box: [5343, -2560, 244, gray]
     icon: 👥
     text: 'Open question for when a second player arrives: who sees a door open? Only its opener, as their own body''s act, keeps the world unchanged for everyone else, so it stays free; everyone nearby makes it a change to the world, which here comes only by purchase. One player today, so the door opens for them alone'
+  - id: doors-jumpscare
+    type: sticky
+    updated: [2026-11-14T21:05:00.000Z, agent:cube]
+    box: [4003, -2560, 244, orange]
+    icon: 👤
+    text: 'Idea: something waiting behind a door. The first door opened on floor 8 had a coat rack in its shadow that read as a hooded figure, by accident: furniture stood against what was a wall before it became a door. Doorways are now kept clear, so a scare would be placed on purpose: rolled, rare, a still shape that is never there on the second look'
+  - id: l-doors-jumpscare
+    type: line
+    updated: [2026-11-14T21:05:00.000Z, agent:cube]
+    ends: [doors-jumpscare, img-doors-03-floor-8-open]
+    text: by accident, here
   - id: l-doors-portals
     type: line
     updated: [2026-11-14T10:45:00.000Z, agent:cube]
