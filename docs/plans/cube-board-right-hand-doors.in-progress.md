@@ -71,9 +71,11 @@ All on Opus, started 2026-11-14 20:19Z from 47b2d1fb.
   decor fitting `door` (`features/decor/config/fittings.ts`, used by nine
   themes; also `happenings/model/fixtures.ts`'s `door` act), extracted to one
   shared build at the lowest layer both reach, leaf swinging on the side away
-  from the handle, paint and handle rolled per wall. Decor doors stay and E on
-  them does nothing (lead's lean, put to the operator as a question with b)
-  remove them, c) make them visibly different).
+  from the handle, paint and handle rolled per wall.
+- Steer, operator: «Я думаю декора двери теперь не надо». Decor doors go: the
+  fitting's build moves to the real door, the fitting and every theme's
+  `thing: 'door'` entry are removed; the happenings `door` act stays (an event,
+  not decor). Sent to `clear`.
 - Steer, operator, on the floor-8 open frame's coat rack read as a figure:
   «выглядит в хорошем смысле uncanny, запомни на борде, может будем делать
   jumpscare-ы в дверях» — sticky `doors-jumpscare` and the frame's caption
