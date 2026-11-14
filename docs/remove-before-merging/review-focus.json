@@ -16,6 +16,10 @@
     "why": "Те же облака на medium до исправления — чище, потому что пикселей на градус меньше, а кадров больше, и за одно обновление облако уезжает меньше."
   },
   {
+    "path": "docs/remove-before-merging/frames/touch-controls-overlay.jpg",
+    "why": "SwiftShader как Pixel 7, 53d4ab8d: после тапа «Tap anywhere» поверх экрана схема управления; держится до первого движения пальцем, затем гаснет за секунду. Тач теперь определяется по последнему вводу."
+  },
+  {
     "path": "docs/remove-before-merging/frames/pill-ask-buttons.jpg",
     "why": "SwiftShader, 6960a9df: Y и N в вопросе о таблетке — кнопки под палец. На тач-экране строка говорит «Tap» (da8454bc)."
   },
