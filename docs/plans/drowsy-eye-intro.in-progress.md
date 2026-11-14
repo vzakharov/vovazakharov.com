@@ -67,7 +67,33 @@ own knob).
   doorway seam itself not yet seen (headless pointer lock gives one jump). The
   `F` meter stamps the low passes only, so the sharp pass's cost is not in its
   GPU ms yet.
-- Left, in this order:
+- Operator on the phone, verbatim: «Я попробовал на телефоне, хорошо. Внутри
+  первой комнаты по-прежнему подтормаживает, но терпимо, лучше пусть будет четко
+  тут. Проблема, на телефоне никак не нажать Y или N, так что нужно выводить
+  какие-то нажимали. Можно в той же надписи которая выводится делать [Y] и [N]
+  нажимабельными. Ещё раздражает что сообщения типа нажми Q висят вечно пока не
+  нажмешь. Но собственно надпись о качестве уже нужно убирать. Ещё нужно
+  локально запоминать бежит ли или ходит игрок по дефолту. По управлению тачем
+  как-то стремно, перечисли ещё раз какие там контролы.» And: «А на борду ты
+  добавлял что мы сделали?» (yes: board v3 has everything to d5737274; a
+  screenshot from them is coming — check what it shows.)
+  - **Y/N tappable**: `config/messages/en.json` `pill.ask` becomes
+    `"Press {yes} to swallow, {no} to put down"`, rendered in `cube-canvas.tsx`
+    with `fillSlots` and two `<button>`s (`Y`, `N`); the `.hint` has
+    `pointer-events: none`, so the buttons set `auto`. A press reaches the input
+    as `answer` through a new `answer(yes|no)` on `InputBinding`
+    (`features/player/ui/input.ts`), surfaced on `CubeScene` by `walk.ts`.
+  - **Quality hint gone**: `quality.ts` `hinted` stops offering `'quality'`
+    (keep the echo after a Q press); `paced`/`UNPACED`/`Pace`/`SLOW_BELOW`/
+    `HIDDEN_GAP`/`WINDOW`/`drawn` then serve nothing — delete them, their tests
+    in `quality.test.ts`, the `quality` line in `en.json`, and the
+    `quality.drawn(...)` call in `cube-scene.ts:327`.
+  - **Tips expire**: the `run` hint (walk.ts:307, Shift — useless on a phone)
+    shows for a few seconds per floor rather than until pressed.
+  - **Pace remembered**: `pace.ts` `runsUnheld` read from and written to
+    `localStorage` (try/catch, per-viewer convenience), so a double Shift sticks
+    across visits.
+- Left, in this order: 0. The four asks above.
   1. The pill question's yes/no is keyboard-only; a phone cannot answer it. Taps
      on on-screen buttons are the likely shape.
   2. `/five-percent` on the PR; refresh the board after each pushed fix.
