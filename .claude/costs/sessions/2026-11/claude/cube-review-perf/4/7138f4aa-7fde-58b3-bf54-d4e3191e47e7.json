@@ -1,0 +1,264 @@
+{
+  "total": {
+    "inputTokens": 28190,
+    "cacheWrite5mTokens": 185454,
+    "cacheWrite1hTokens": 829791,
+    "cacheReadTokens": 83526439,
+    "outputTokens": 219217,
+    "thinkingTokens": 72211,
+    "responses": 416,
+    "costUsd": 28.79892299999999
+  },
+  "estimate": {
+    "at": "2026-11-14T05:57:22.416Z",
+    "subjectLine": "refactor: cut the island entity and outdoors widget into sub-slices",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "answering masd:clusters means choosing sub-slice seams across an entity and a widget under the WGSL band rule's two tiers — a structural call per cluster"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "~140 WGSL modules re-import across the new sub-slices, with three shader pins to keep green"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-14T05:57:19.691Z",
+    "contextTokens": 113499,
+    "spend": {
+      "inputTokens": 23,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 54327,
+      "cacheReadTokens": 1101957,
+      "outputTokens": 2398,
+      "thinkingTokens": 427,
+      "responses": 11,
+      "costUsd": 0.7030594000000002
+    }
+  },
+  "sessionId": "7138f4aa-7fde-58b3-bf54-d4e3191e47e7",
+  "branch": "claude/cube-review-perf",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cube-wesl-trial — остров стал сущностью, картинка улицы виджетом, осталось нарезать подслайсы по masd:clusters",
+  "prs": [
+    275,
+    276
+  ],
+  "url": "https://claude.ai/code/session_01DaohkE8BAFBC4BLL26Y4pr",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-14T05:56:35.022Z",
+  "lastResponseAt": "2026-11-14T08:19:14.720Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 661,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 829791,
+    "cacheReadTokens": 70490489,
+    "outputTokens": 175731,
+    "thinkingTokens": 64033,
+    "responses": 336,
+    "costUsd": 24.25368979999999
+  },
+  "subagents": {
+    "inputTokens": 114,
+    "cacheWrite5mTokens": 170529,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 7495973,
+    "outputTokens": 23395,
+    "thinkingTokens": 8178,
+    "responses": 56,
+    "costUsd": 2.8201956
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 27003,
+      "cacheWrite5mTokens": 185454,
+      "cacheWrite1hTokens": 829791,
+      "cacheReadTokens": 83526439,
+      "outputTokens": 218910,
+      "thinkingTokens": 72211,
+      "responses": 415,
+      "costUsd": 28.79865079999999
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1187,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 307,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0002722
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-14T06:30:52.038Z",
+      "trigger": "auto",
+      "compactedFrom": 303993,
+      "summaryChars": 13487,
+      "reorientation": {
+        "endedBy": "end_turn",
+        "endedOn": null,
+        "endedAt": "2026-11-14T06:32:42.999Z",
+        "contextTokens": 149125,
+        "spend": {
+          "inputTokens": 21,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 95357,
+          "cacheReadTokens": 1399412,
+          "outputTokens": 10565,
+          "thinkingTokens": 1741,
+          "responses": 11,
+          "costUsd": 1.2541224
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.1971386
+    },
+    {
+      "at": "2026-11-14T07:50:00.739Z",
+      "trigger": "auto",
+      "compactedFrom": 304647,
+      "summaryChars": 12819,
+      "reorientation": {
+        "endedBy": "Write",
+        "endedOn": "src/cube-board/app/config/cube/todo.yaml",
+        "endedAt": "2026-11-14T07:51:06.572Z",
+        "contextTokens": 158413,
+        "spend": {
+          "inputTokens": 29,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 100125,
+          "cacheReadTokens": 2090724,
+          "outputTokens": 4201,
+          "thinkingTokens": 1619,
+          "responses": 15,
+          "costUsd": 1.3032808
+        }
+      },
+      "rereads": {
+        "calls": 1,
+        "byTool": {
+          "Bash": 1
+        },
+        "estimatedTokens": 372,
+        "estimatedUsd": 0.0081096
+      },
+      "billedUsd": 0.19093960000000001
+    },
+    {
+      "at": "2026-11-14T08:17:53.440Z",
+      "trigger": "auto",
+      "compactedFrom": 305420,
+      "summaryChars": 14991,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/cube/pages/cube/ui/pass-timer.ts",
+        "endedAt": "2026-11-14T08:18:15.970Z",
+        "contextTokens": 146204,
+        "spend": {
+          "inputTokens": 10,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 88130,
+          "cacheReadTokens": 606609,
+          "outputTokens": 1701,
+          "thinkingTokens": 678,
+          "responses": 5,
+          "costUsd": 0.8604218000000001
+        }
+      },
+      "rereads": {
+        "calls": 1,
+        "byTool": {
+          "Read": 1
+        },
+        "estimatedTokens": 8421,
+        "estimatedUsd": 0.0825258
+      },
+      "billedUsd": 0.23964280000000002
+    }
+  ],
+  "telemetry": {
+    "events": 415,
+    "matched": 391,
+    "matchedTableUsd": 27.034856799999986,
+    "matchedEventUsd": 27.034856799999982,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 9614,
+        "cacheWrite5mTokens": 13851,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 4353670,
+        "outputTokens": 233,
+        "thinkingTokens": 0,
+        "responses": 19,
+        "costUsd": 1.024658
+      },
+      "generate_session_title": {
+        "inputTokens": 1187,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 307,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0002722
+      },
+      "compact": {
+        "inputTokens": 16132,
+        "cacheWrite5mTokens": 635,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 898790,
+        "outputTokens": 19013,
+        "thinkingTokens": 0,
+        "responses": 3,
+        "costUsd": 0.6277210000000001
+      },
+      "side_question": {
+        "inputTokens": 482,
+        "cacheWrite5mTokens": 439,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 287517,
+        "outputTokens": 538,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.07238640000000002
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 825,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".ts": 27018,
+    ".md": 213,
+    ".gitattributes": 5,
+    ".json": 33,
+    ".yaml": 813,
+    ".sh": 1,
+    ".wgsl": 14328,
+    ".tsx": -109,
+    ".scss": 15,
+    ".toml": 6
+  }
+}

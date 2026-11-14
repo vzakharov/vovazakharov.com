@@ -24,10 +24,10 @@ const readingLines = ({ fps, interval, gpu }: Reading): string => {
  * The frames the browser draws each second, the mean time between them and,
  * where the GPU can time its passes, how long each stage of a frame takes
  * there, shown in a corner once `F` is pressed and gone on the next press. It
- * counts animation frames, which the cube draws one of each, and runs only
- * while shown.
+ * counts animation frames, which the cube draws one of each, and runs, the
+ * GPU's timer with it, only while shown.
  */
-export function FrameRate({ passTimes }: Timed) {
+export function FrameRate({ passTimes, timing }: Timed) {
   const [shown, setShown] = useState(false);
   const [reading, setReading] = useState<Reading | null>(null);
 
@@ -48,8 +48,7 @@ export function FrameRate({ passTimes }: Timed) {
     let frame = 0;
     let since = performance.now();
     let frames = 0;
-    // What the GPU timed before the meter was shown is not this window's.
-    passTimes();
+    timing(true);
     const tick = (time: number) => {
       frames += 1;
       const spent = time - since;
@@ -67,8 +66,9 @@ export function FrameRate({ passTimes }: Timed) {
     frame = requestAnimationFrame(tick);
     return () => {
       cancelAnimationFrame(frame);
+      timing(false);
     };
-  }, [shown, passTimes]);
+  }, [shown, passTimes, timing]);
 
   if (!shown) return null;
   return (

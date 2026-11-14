@@ -177,6 +177,8 @@ export function mountCube(
   /** Whether the renderer holds moving quads, to drop once a frame has none. */
   let movingDrawn = false;
   let renderer: Renderer | null = null;
+  /** Whether the GPU's stages are timed, held for a renderer not made yet. */
+  let timed = false;
   /** Counts purchases, so a mesh built before one is rebuilt. */
   let generation = 0;
   /** What a mesh is built for: the eye's room, as of `generation`. */
@@ -338,6 +340,7 @@ export function mountCube(
       return;
     }
     renderer = created;
+    renderer.timing(timed);
     frame = requestAnimationFrame(tick);
   };
   begin().catch((error: unknown) => {
@@ -381,6 +384,10 @@ export function mountCube(
     },
     adapter: () => renderer?.adapter ?? 'none',
     passTimes: () => renderer?.passTimes() ?? null,
+    timing: (on) => {
+      timed = on;
+      renderer?.timing(on);
+    },
     hinted,
     refresh: () => {
       generation += 1;

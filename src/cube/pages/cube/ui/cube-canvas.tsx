@@ -75,6 +75,9 @@ export function CubeCanvas({
     () => sceneRef.current?.passTimes() ?? null,
     [],
   );
+  const timing = useCallback((on: boolean) => {
+    sceneRef.current?.timing(on);
+  }, []);
   // Thrown while rendering, so the route's error boundary shows it.
   if (failure !== null) throw failure;
 
@@ -149,7 +152,7 @@ export function CubeCanvas({
           {fillSlots(floorLine, { floor })}
         </p>
       )}
-      <FrameRate {...{ passTimes }} />
+      <FrameRate {...{ passTimes, timing }} />
       <p className={classes['hint']} aria-live="polite">
         {pill === null
           ? offer === null

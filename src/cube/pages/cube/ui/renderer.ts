@@ -122,6 +122,8 @@ export async function createRenderer(
     onLost(asError(error));
   });
   const timer = timed ? createPassTimer(device, onLost) : null;
+  /** Whether frames stamp the GPU's time, which costs a readback a frame. */
+  let timing = false;
   const context = canvas.getContext('webgpu');
   if (context === null) return null;
   const format = navigator.gpu.getPreferredCanvasFormat();
@@ -301,6 +303,7 @@ export async function createRenderer(
         data.set([lens.exposure, lens.eyelids, lens.indoors ?? 0], 24);
       }
       device.queue.writeBuffer(uniforms, 0, data);
+      const stamps = timing ? timer : null;
       const encoder = device.createCommandEncoder();
       const layers = outdoors === null ? null : outsideMade().layers;
       if (outdoors !== null) {
@@ -331,7 +334,7 @@ export async function createRenderer(
           depthLoadOp: 'clear',
           depthStoreOp: 'discard',
         },
-        ...(timer === null ? {} : { timestampWrites: timer.scene }),
+        ...(stamps === null ? {} : { timestampWrites: stamps.scene }),
       });
       layers?.behind(pass);
       pass.setBindGroup(0, uniformGroup);
@@ -346,7 +349,7 @@ export async function createRenderer(
       const sceneView = reflection.run(
         encoder,
         { viewProjection, eye },
-        timer?.mirrors,
+        stamps?.mirrors,
       );
       const glow = bloom.run(encoder, sceneView, width, height);
       const framed = encoder.beginRenderPass({
@@ -357,7 +360,7 @@ export async function createRenderer(
             storeOp: 'store',
           },
         ],
-        ...(timer === null ? {} : { timestampWrites: timer.lens }),
+        ...(stamps === null ? {} : { timestampWrites: stamps.lens }),
       });
       framed.setPipeline(
         throughFloor ? programOf(lens).lens : outsideMade().lens,
@@ -376,12 +379,16 @@ export async function createRenderer(
       );
       framed.draw(3);
       framed.end();
-      timer?.resolve(encoder);
+      stamps?.resolve(encoder);
       device.queue.submit([encoder.finish()]);
-      timer?.read();
+      stamps?.read();
     },
     drawn: async () => device.queue.onSubmittedWorkDone(),
     passTimes: () => timer?.take() ?? null,
+    timing: (on) => {
+      timing = on;
+      timer?.take();
+    },
     dispose: () => {
       timer?.dispose();
       outside?.layers.dispose();

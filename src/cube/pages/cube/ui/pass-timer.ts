@@ -17,6 +17,11 @@ export type Timed = {
    * was read.
    */
   passTimes: () => PassTimes | null;
+  /**
+   * Starts or stops timing, dropping whatever was timed before: while off, a
+   * frame carries no stamps and reads nothing back.
+   */
+  timing: (on: boolean) => void;
 };
 
 /**
