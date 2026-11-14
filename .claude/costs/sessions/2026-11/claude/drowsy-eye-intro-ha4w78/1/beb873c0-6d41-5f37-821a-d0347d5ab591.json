@@ -1,23 +1,23 @@
 {
   "total": {
-    "inputTokens": 563,
-    "cacheWrite5mTokens": 1254,
-    "cacheWrite1hTokens": 190005,
-    "cacheReadTokens": 4918282,
-    "outputTokens": 76832,
-    "thinkingTokens": 36119,
-    "responses": 30,
-    "costUsd": 4.052620399999999
+    "inputTokens": 3450,
+    "cacheWrite5mTokens": 2769,
+    "cacheWrite1hTokens": 211031,
+    "cacheReadTokens": 9028459,
+    "outputTokens": 89546,
+    "thinkingTokens": 36701,
+    "responses": 46,
+    "costUsd": 5.317319800000001
   },
   "estimate": {
-    "at": "2026-11-14T09:46:33.277Z",
+    "at": "2026-11-14T11:01:19.316Z",
     "subjectLine": "docs: weigh drowsy reprojection vs stylised rendering for the cube intro",
     "parts": [
       {
-        "hours": 4.0,
+        "hours": 5.0,
         "grade": "senior",
         "role": "graphics-programmer",
-        "comment": "judging whether temporal reprojection beats a full frame on the GPU, and prototyping it, is rendering expertise"
+        "comment": "judging whether temporal reprojection beats a full frame on the GPU, and prototyping it with a calibrated slow-machine emulation, is rendering expertise"
       },
       {
         "hours": 1.0,
@@ -45,25 +45,25 @@
     }
   },
   "sessionId": "beb873c0-6d41-5f37-821a-d0347d5ab591",
-  "branch": "claude/wonderful-tesla-ha4w78",
+  "branch": "claude/drowsy-eye-intro-ha4w78",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "проблема: интро куба жутко тормозит сейчас решение: понижать пиксельность рассматриваю следующее креативное решение: не менять пиксельность, но при любом движен…",
   "prs": [],
   "url": "https://claude.ai/code/session_01DaohkEDLi4h9PRuRHgXuPy",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-14T09:45:43.313Z",
-  "lastResponseAt": "2026-11-14T10:06:01.502Z",
+  "lastResponseAt": "2026-11-14T11:02:18.784Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 57,
+    "inputTokens": 87,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 190005,
-    "cacheReadTokens": 4743995,
-    "outputTokens": 76816,
-    "thinkingTokens": 36119,
-    "responses": 29,
-    "costUsd": 4.005386999999999
+    "cacheWrite1hTokens": 211031,
+    "cacheReadTokens": 8364329,
+    "outputTokens": 83419,
+    "thinkingTokens": 36701,
+    "responses": 43,
+    "costUsd": 5.029841800000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,33 +77,43 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 563,
-      "cacheWrite5mTokens": 1254,
-      "cacheWrite1hTokens": 190005,
-      "cacheReadTokens": 4918282,
-      "outputTokens": 76832,
-      "thinkingTokens": 36119,
-      "responses": 30,
-      "costUsd": 4.052620399999999
+      "inputTokens": 3450,
+      "cacheWrite5mTokens": 2769,
+      "cacheWrite1hTokens": 211031,
+      "cacheReadTokens": 9028459,
+      "outputTokens": 89546,
+      "thinkingTokens": 36701,
+      "responses": 46,
+      "costUsd": 5.317319800000001
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 30,
-    "matched": 29,
-    "matchedTableUsd": 4.005386999999999,
-    "matchedEventUsd": 4.005387,
+    "events": 46,
+    "matched": 43,
+    "matchedTableUsd": 5.029841800000001,
+    "matchedEventUsd": 5.029841800000002,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 506,
-        "cacheWrite5mTokens": 1254,
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 1605,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 174287,
-        "outputTokens": 16,
+        "cacheReadTokens": 419967,
+        "outputTokens": 23,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.1013414
+      },
+      "compact": {
+        "inputTokens": 2351,
+        "cacheWrite5mTokens": 1164,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 244163,
+        "outputTokens": 6104,
         "thinkingTokens": 0,
         "responses": 1,
-        "costUsd": 0.0472334
+        "costUsd": 0.18613659999999999
       }
     }
   },
@@ -114,5 +124,7 @@
   },
   "reviewPosts": {},
   "threadPosts": {},
-  "branchLines": {}
+  "branchLines": {
+    ".md": 136
+  }
 }
