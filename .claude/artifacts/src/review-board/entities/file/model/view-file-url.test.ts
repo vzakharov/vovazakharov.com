@@ -18,6 +18,7 @@ const data: ReviewData = {
   files: [],
   focus: [],
   blobs: {},
+  images: {},
 };
 const file: ReviewFile = {
   path: "docs/a b.md",

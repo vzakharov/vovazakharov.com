@@ -1,6 +1,4 @@
-import type { Sized } from '@/kernel/shared/typings';
-
-import type { SeenAt } from '@/cube/shared/lib/clock';
+import type { SeenOnScreen } from '@/cube/shared/lib/clock';
 import type { Vec3 } from '@/cube/shared/lib/vec';
 import { wgsl } from '@/cube/shared/shader';
 import type { Laddered } from '@/cube/entities/island';
@@ -51,8 +49,7 @@ export const OUTDOOR_FRAME_FLOATS = FIELDS.reduce(
  * What one frame of the outside is seen from and when: the eye in the world
  * frame, the matrices column-major, the screen in pixels.
  */
-export type OutdoorFrame = SeenAt &
-  Sized &
+export type OutdoorFrame = SeenOnScreen &
   Laddered & {
     /** Clip space back to the world, column-major. */
     inverse: Float32Array;

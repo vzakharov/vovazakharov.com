@@ -10,7 +10,8 @@ export const FLOOR_LENS = wgsl(
   /* wgsl */ `
 @fragment
 fn lensFragment(@builtin(position) at: vec4f) -> @location(0) vec4f {
-  return vec4f(themeLens(lensOf(at)), 1.0);
+  let l = lensOf(at);
+  return vec4f(vignetted(themeLens(l), l.uv), 1.0);
 }
 `,
   LENS_STAGE,

@@ -4,7 +4,7 @@ import { asError } from '@/kernel/shared/lib/error-class';
 import type { CanDispose } from '@/kernel/shared/typings';
 
 /** The stretches of a frame the GPU times, in the order a frame runs them. */
-const STAGES = ['scene', 'mirrors', 'glow', 'lens'] as const;
+const STAGES = ['scene', 'mirrors', 'resolve', 'glow', 'lens'] as const;
 type Stage = (typeof STAGES)[number];
 
 /** Milliseconds of GPU time per frame on each stage, the mean of a window. */
@@ -29,10 +29,14 @@ export type Timed = TimingSwitch & {
 
 /**
  * The instants stamped each frame, by index: the scene pass's start and end,
- * the end of the last mirror pass, the lens pass's start and end. Bloom runs
- * between the mirrors' end and the lens's start.
+ * the end of the last mirror pass, the end of the drowsy eye's resolve, the
+ * lens pass's start and end. Bloom runs between the resolve's end, or the
+ * mirrors' where the eye is wide awake, and the lens's start.
  */
-const STAMPS = 5;
+const STAMPS = 6;
+
+/** The resolve's end, which a frame drawn without the drowsy eye leaves unwritten. */
+const RESOLVED = 3;
 
 export type PassTimer = CanDispose &
   TimingSwitch & {
@@ -42,11 +46,16 @@ export type PassTimer = CanDispose &
     scene: GPURenderPassTimestampWrites;
     /** Stamps the end of the last mirror pass. */
     mirrors: GPURenderPassTimestampWrites;
+    /** Stamps the end of the drowsy eye's resolve. */
+    resolve: GPURenderPassTimestampWrites;
     /** Stamps the lens pass's start and end. */
     lens: GPURenderPassTimestampWrites;
-    /** Records copying this frame's stamps out, unless a read is under way. */
-    resolve: (encoder: GPUCommandEncoder) => void;
-    /** Reads back the stamps `resolve` copied, once the frame is submitted. */
+    /**
+     * Records copying this frame's stamps out, unless a read is under way;
+     * `resolving` says whether the frame stamps a resolve.
+     */
+    copy: (encoder: GPUCommandEncoder, resolving: boolean) => void;
+    /** Reads back the stamps `copy` copied, once the frame is submitted. */
     read: () => void;
     /** The mean of the frames read since the last call, or null if none was. */
     take: () => PassTimes | null;
@@ -54,18 +63,28 @@ export type PassTimer = CanDispose &
 
 const NANOS_PER_MS = 1e6;
 
-const zeroes = (): PassTimes => ({ scene: 0, mirrors: 0, glow: 0, lens: 0 });
+const zeroes = (): PassTimes => ({
+  scene: 0,
+  mirrors: 0,
+  resolve: 0,
+  glow: 0,
+  lens: 0,
+});
 
-/** Each stage's span, in ms, from one frame's stamps in nanoseconds. */
-export function spansOf(stamps: BigInt64Array): PassTimes {
+/**
+ * Each stage's span, in ms, from one frame's stamps in nanoseconds; a frame
+ * not `resolved` left the resolve's stamp unwritten, and spent no time there.
+ */
+export function spansOf(stamps: BigInt64Array, resolved: boolean): PassTimes {
   const at = (index: number): number => Number(stamps[index] ?? 0n);
   const span = (from: number, to: number): number =>
     Math.max(at(to) - at(from), 0) / NANOS_PER_MS;
   return {
     scene: span(0, 1),
     mirrors: span(1, 2),
-    glow: span(2, 3),
-    lens: span(3, 4),
+    resolve: resolved ? span(2, RESOLVED) : 0,
+    glow: span(resolved ? RESOLVED : 2, 4),
+    lens: span(4, 5),
   };
 }
 
@@ -126,6 +145,8 @@ export function createPassTimer(
   let busy = false;
   /** Whether this frame's encoder copies into `readback`. */
   let copied = false;
+  /** Whether the frame `readback` holds stamped a resolve. */
+  let withResolve = false;
   let disposed = false;
   let stamping = false;
   let sum = zeroes();
@@ -137,7 +158,7 @@ export function createPassTimer(
       new BigInt64Array(readback.getMappedRange()),
     );
     readback.unmap();
-    const spans = spansOf(stamps);
+    const spans = spansOf(stamps, withResolve);
     for (const stage of STAGES) sum[stage] += spans[stage];
     frames += 1;
     busy = false;
@@ -156,11 +177,13 @@ export function createPassTimer(
       endOfPassWriteIndex: 1,
     },
     mirrors: { querySet, endOfPassWriteIndex: 2 },
-    lens: { querySet, beginningOfPassWriteIndex: 3, endOfPassWriteIndex: 4 },
-    resolve: (encoder) => {
+    resolve: { querySet, endOfPassWriteIndex: RESOLVED },
+    lens: { querySet, beginningOfPassWriteIndex: 4, endOfPassWriteIndex: 5 },
+    copy: (encoder, resolving) => {
       copied = !busy;
       if (!copied) return;
       busy = true;
+      withResolve = resolving;
       encoder.resolveQuerySet(querySet, 0, STAMPS, resolved, 0);
       encoder.copyBufferToBuffer(resolved, 0, readback, 0, bytes);
     },

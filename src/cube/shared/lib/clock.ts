@@ -1,4 +1,4 @@
-import type { Timed } from '@/kernel/shared/typings';
+import type { Sized, Timed } from '@/kernel/shared/typings';
 
 import type { Seen } from './vec';
 
@@ -13,6 +13,9 @@ export type Clock = Timed & { hour: number };
 
 /** A scene seen from somewhere at an instant. */
 export type SeenAt = Clock & Seen;
+
+/** A scene seen from somewhere at an instant, onto a screen of a size. */
+export type SeenOnScreen = SeenAt & Sized;
 
 const HOUR_MS = 3_600_000;
 

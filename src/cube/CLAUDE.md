@@ -11,9 +11,10 @@ catches a breach of any of them:
   text.
 
 - **The same thing looks and sounds identical to two players at one point at one
-  moment, on any machine.** A frame is a pure function of where the eye is and
-  the shared clock: nothing remembers earlier frames, and nothing depends on
-  when the page opened.
+  moment, on any machine.** The world's state is a pure function of place and
+  the shared clock — a wave arrives for everyone at once — and nothing depends
+  on when the page opened. How one player's eye presents it may carry that
+  player's own earlier frames, as the drowsy eye's history does.
 - **Every random number is rolled** — `roll` / `rollWith` from
   `@/dice/shared/roll`, under a named path. A shader keeps only per-pixel noise,
   through `@/cube/shared/shader/hash.wgsl` salted by a rolled value.

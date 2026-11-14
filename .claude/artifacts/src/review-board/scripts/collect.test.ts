@@ -213,6 +213,53 @@ test("a focus line past the file's end fails the collection", () => {
   }
 });
 
+const PNG = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0, 7]);
+
+test("embeds an image at HEAD as a data URI and takes it as a focus without lines", () => {
+  const { dir } = makeRepo();
+  try {
+    const git = gitIn(dir);
+    mkdirSync(join(dir, "docs"));
+    writeFileSync(join(dir, "docs/frame.png"), PNG);
+    writeFileSync(join(dir, "docs/notes.bin"), PNG);
+    git("add", "-A");
+    git("commit", "-q", "-m", "frames");
+    commitFocus(dir, [{ path: "docs/frame.png", why: "the new screen" }]);
+
+    const data = collect({ cwd: dir, base: "main" });
+    const frame = data.files.find((file) => file.path === "docs/frame.png");
+    const blob = frame?.revisions.at(-1)?.blob;
+    assert.ok(frame?.binary && blob);
+    assert.equal(
+      data.images[blob],
+      `data:image/png;base64,${PNG.toString("base64")}`,
+    );
+    // A binary that is not a PNG, JPEG or WebP is not embedded.
+    assert.deepEqual(Object.keys(data.images), [blob]);
+    assert.deepEqual(data.focus, [
+      { path: "docs/frame.png", why: "the new screen" },
+    ]);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("lines on an image focus fail the collection", () => {
+  const { dir } = makeRepo();
+  try {
+    writeFileSync(join(dir, "frame.png"), PNG);
+    gitIn(dir)("add", "-A");
+    gitIn(dir)("commit", "-q", "-m", "frame");
+    commitFocus(dir, [{ path: "frame.png", why: "x", lines: [[1, 2]] }]);
+    assert.throws(
+      () => collect({ cwd: dir, base: "main" }),
+      /frame\.png has no text at HEAD to mark lines in/,
+    );
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
 test("marks the merges that bring the base in, and only those", () => {
   const { dir } = makeRepo();
   try {
