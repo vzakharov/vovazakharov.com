@@ -9,8 +9,10 @@ written twice (the hexagonal lattice, luma) move into the kit once.
 
 `pnpm shaders:codegen`, run by vet, is our own linker over WESL's
 syntax: wesl-js reorders, reprints and tree-shakes the source. It
-writes a committed .shader.ts beside each file, one wgsl(...) piece
-over the existing assemble(), so the browser gets no new code. It
+writes a committed .shader.generated.ts beside each file, one
+wgsl(...) piece over the existing assemble(), so the browser gets no
+new code; `*.generated.*` is linguist-generated, so GitHub and the
+review board leave those files out of review. It
 holds imports to MASD by the graph the TS checkers use, and refuses
 names used unimported, imported unused or not declared. Prettier
 formats .wgsl through a plugin that leaves the import head as written.
