@@ -31,29 +31,6 @@ const ROLLER_WIDE = 1.2;
 /// A sheet thinner than this, metres, is its own white edge.
 const FOAM_EDGE = 0.025;
 
-/// How far \`p\` stands from the nearest wall between cells of a unit
-/// lattice with one point in each: 0 on a wall.
-fn foamWalls(p: vec2f, salt: u32) -> f32 {
-  let cell = vec2i(floor(p));
-  var first = 8.0;
-  var second = 8.0;
-  for (var dy = -1; dy <= 1; dy++) {
-    for (var dx = -1; dx <= 1; dx++) {
-      let other = cell + vec2i(dx, dy);
-      let word = cellHash(other, salt);
-      let distance =
-        length(vec2f(other) + vec2f(unitOf(word), unitOf(mix32(word))) - p);
-      if (distance < first) {
-        second = first;
-        first = distance;
-      } else if (distance < second) {
-        second = distance;
-      }
-    }
-  }
-  return second - first;
-}
-
 /// How much of a pixel foam of thickness \`dense\` covers at \`p\` on the
 /// lace's own plan: whole at 1 and over, then breaking into patches joined
 /// by the threads that bubbles gather into along the walls between cells. A
@@ -81,7 +58,7 @@ fn laceAt(p: vec2f, dense: f32, blur: f32) -> f32 {
   let threads =
     smoothstep(0.36, 0.6, run) * mix(
       0.14,
-      1.0 - smoothstep(0.0, strand, foamWalls(at * 2.6, 21u)),
+      1.0 - smoothstep(0.0, strand, cellWalls(at * 2.6, 21u)),
       0.2 / wide,
     );
   let frayed =
@@ -89,7 +66,7 @@ fn laceAt(p: vec2f, dense: f32, blur: f32) -> f32 {
   let fine =
     mix(
       0.29,
-      1.0 - smoothstep(0.0, wider, foamWalls(at * 9.0, 22u)),
+      1.0 - smoothstep(0.0, wider, cellWalls(at * 9.0, 22u)),
       0.4 / wider,
     );
   let body = 0.5 * patches + 0.36 * threads + 0.18 * fine + 0.07 * frayed;
@@ -139,7 +116,7 @@ fn lace(still: vec2f, dense: f32, shore: Shore, pixel: f32) -> f32 {
   // Where foam thins it comes apart into bubbles, the water between them
   // showing; a pixel wider than a bubble shows their mean.
   let apart =
-    smoothstep(0.12, 0.45, foamWalls(still * BUBBLES, 23u)) * clamp(
+    smoothstep(0.12, 0.45, cellWalls(still * BUBBLES, 23u)) * clamp(
       1.0 - BUBBLES * pixel,
       0.0,
       1.0,

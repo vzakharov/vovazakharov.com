@@ -82,7 +82,7 @@ fn bills(at: vec2f, salt: u32) -> vec3f {
 fn enamelled(s: Surf) -> Material {
   let h = s.p.y;
   let tile = slabs(s.uv, vec2f(0.2, 0.1), 0.004, 317u, 0.5);
-  let craze = 1.0 - 0.25 * smoothstep(0.05, 0.0, veins(s.uv * 40.0, 318u));
+  let craze = 1.0 - 0.25 * smoothstep(0.05, 0.0, cellWalls(s.uv * 40.0, 318u));
   let dado = 1.0 - smoothstep(0.9, 0.904, h);
   let nosing = band(h, 0.925, 0.05);
   let glaze =

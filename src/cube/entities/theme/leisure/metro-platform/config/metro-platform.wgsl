@@ -1,10 +1,10 @@
 // `metro-platform.ts` adds this floor's light and lens, `lamps()` among them.
 
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, Surf, alongWall, Material, polished, glowing, embossed, repeated, spaced};
-import package::cube::shared::shader::hash::{mix32, unitOf, fbm, worley};
+import package::cube::shared::shader::hash::{mix32, unitOf, fbm, worley, cellWalls};
 import package::cube::entities::theme::kit::lib::finish::{band, tiling, damp};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
-import package::cube::entities::theme::leisure::shape::lib::shape::{inside, roundBox, slabs, veins, oneOf};
+import package::cube::entities::theme::leisure::shape::lib::shape::{inside, roundBox, slabs, oneOf};
 import package::cube::entities::theme::kit::lib::light::lampGlow;
 
 /// Granite flags, and across every room the blistered yellow strip and the
@@ -80,7 +80,7 @@ fn bills(at: vec2f, salt: u32) -> vec3f {
 fn enamelled(s: Surf) -> Material {
   let h = s.p.y;
   let tile = slabs(s.uv, vec2f(0.2, 0.1), 0.004, 317u, 0.5);
-  let craze = 1.0 - 0.25 * smoothstep(0.05, 0.0, veins(s.uv * 40.0, 318u));
+  let craze = 1.0 - 0.25 * smoothstep(0.05, 0.0, cellWalls(s.uv * 40.0, 318u));
   let dado = 1.0 - smoothstep(0.9, 0.904, h);
   let nosing = band(h, 0.925, 0.05);
   let glaze =

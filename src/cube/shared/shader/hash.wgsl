@@ -78,3 +78,26 @@ fn worley(p: vec2f, salt: u32) -> vec2f {
   }
   return nearest;
 }
+
+/// How far `p` stands from the nearest wall between `worley`'s cells: 0 on
+/// the web of walls, rising into each cell.
+fn cellWalls(p: vec2f, salt: u32) -> f32 {
+  let cell = vec2i(floor(p));
+  var first = 8.0;
+  var second = 8.0;
+  for (var dy = -1; dy <= 1; dy++) {
+    for (var dx = -1; dx <= 1; dx++) {
+      let other = cell + vec2i(dx, dy);
+      let word = cellHash(other, salt);
+      let distance =
+        length(vec2f(other) + vec2f(unitOf(word), unitOf(mix32(word))) - p);
+      if (distance < first) {
+        second = first;
+        first = distance;
+      } else if (distance < second) {
+        second = distance;
+      }
+    }
+  }
+  return second - first;
+}
