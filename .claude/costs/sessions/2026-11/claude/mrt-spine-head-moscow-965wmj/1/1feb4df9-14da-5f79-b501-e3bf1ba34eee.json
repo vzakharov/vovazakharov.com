@@ -1,0 +1,132 @@
+{
+  "total": {
+    "inputTokens": 318554,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 69567,
+    "cacheReadTokens": 1468781,
+    "outputTokens": 32052,
+    "thinkingTokens": 2988,
+    "responses": 30,
+    "costUsd": 1.1550433
+  },
+  "estimate": {
+    "at": "2026-11-14T15:15:22.351Z",
+    "subjectLine": "research: find a good 3T spine and head MRI clinic in north Moscow",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "middle",
+        "role": "analyst",
+        "comment": "comparing clinics by scanner field strength and radiologist report quality needs reading reviews and equipment pages with judgement"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-14T15:15:18.226Z",
+    "contextTokens": 89182,
+    "spend": {
+      "inputTokens": 0,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 0,
+      "thinkingTokens": 0,
+      "responses": 0,
+      "costUsd": 0.0
+    }
+  },
+  "sessionId": "1feb4df9-14da-5f79-b501-e3bf1ba34eee",
+  "branch": "claude/mrt-spine-head-moscow-965wmj",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "Найди Лейсан хорошее МРТ позвоночника и головы на севере Москвы, *с хорошим описанием* и теслами",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkE3zPdDPby3feDV5xH",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-14T15:15:18.226Z",
+  "lastResponseAt": "2026-11-14T15:17:47.936Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 28,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 69567,
+    "cacheReadTokens": 1468781,
+    "outputTokens": 8039,
+    "thinkingTokens": 2988,
+    "responses": 14,
+    "costUsd": 1.0111842
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 28,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 69567,
+      "cacheReadTokens": 1468781,
+      "outputTokens": 8039,
+      "thinkingTokens": 2988,
+      "responses": 14,
+      "costUsd": 1.0111842
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 318526,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 24013,
+      "thinkingTokens": 0,
+      "responses": 16,
+      "costUsd": 0.1438591
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 30,
+    "matched": 14,
+    "matchedTableUsd": 1.0111842,
+    "matchedEventUsd": 1.0111842,
+    "unseen": {
+      "web_search_tool": {
+        "inputTokens": 127333,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 10198,
+        "thinkingTokens": 0,
+        "responses": 10,
+        "costUsd": 0.1178323
+      },
+      "web_fetch_apply": {
+        "inputTokens": 191193,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 13815,
+        "thinkingTokens": 0,
+        "responses": 6,
+        "costUsd": 0.0260268
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 15,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {}
+}
