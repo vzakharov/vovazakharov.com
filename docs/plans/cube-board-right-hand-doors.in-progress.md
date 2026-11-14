@@ -38,8 +38,12 @@ All on Opus, started 2026-11-14 20:19Z from 47b2d1fb.
 
 ### Status
 
-- Built: the seam (lead).
-- In flight: the three children.
+- Built: the seam (lead); `sight` merged at 796a9bb9 and its session archived.
+  `seenFrom` enumerates every walk whose arc stays open (arcs per room are not
+  enough state: two walks reach one room along disjoint lines). Measured +5% at
+  realistic gap rates, steep past 20% open walls: raising density or the gap
+  share is felt there.
+- In flight: `model`, `doors`.
 - Left: integration, `/polish`, preview.
 
 The doors analysis on this branch
