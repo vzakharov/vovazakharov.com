@@ -43,7 +43,17 @@ All on Opus, started 2026-11-14 20:19Z from 47b2d1fb.
   enough state: two walks reach one room along disjoint lines). Measured +5% at
   realistic gap rates, steep past 20% open walls: raising density or the gap
   share is felt there.
-- In flight: `model`, `doors`.
+- `model` merged at 20f65329 (f5ef6f74), session archived. Departures it made,
+  kept: settings sit at the top of `doorways.ts` as `DOORWAYS` (a config file
+  read by one module made a cluster `masd:clusters` fails); `kind` is rolled per
+  partition, since a partition holds one opening. Cost: cold ~0.27 ms a
+  partition, warm ~4 µs. Its hour guard measures ~50 doors and ~15 gaps for the
+  explorer on floor 7 in our seeds, not the sticky's 59/20: the simulator's
+  floor-7 maze was an outlier (9.1 openings per 100 rooms against 8.2–8.9). Put
+  to the operator whether to keep 10 or go to 8 (≈ +30%).
+- Lead: `memo.ts`, one clear-when-full cache for `walls.ts` and the doorway
+  model (15700c50).
+- In flight: `doors`, told to merge the lead branch at f5ef6f74.
 - Left: integration, `/polish`, preview.
 
 The doors analysis on this branch
