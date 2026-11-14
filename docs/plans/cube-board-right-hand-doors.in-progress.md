@@ -53,7 +53,21 @@ All on Opus, started 2026-11-14 20:19Z from 47b2d1fb.
   to the operator whether to keep 10 or go to 8 (≈ +30%).
 - Lead: `memo.ts`, one clear-when-full cache for `walls.ts` and the doorway
   model (15700c50).
-- In flight: `doors`, told to merge the lead branch at f5ef6f74.
+- `doors` merged at 1ae0121f (2476ae0a), session archived: `DOORWAY_CUT` shared
+  with floor 1's exit, `doorway.ts` (wall panes, leaf, `withOpen`),
+  `features/player/model/door.ts` (pure state, 0.9 s swing, shuts out of reach
+  or on a floor change), the opener's body/sight/mesh take the open door. 882
+  cube tests green. Frames in `docs/remove-before-merging/frames/`; floor 8's
+  three are on the board (b8e3fbd1).
+- Second wave, `clear` — session_01DaohkDQ9KQGyhEf1cx1m5E,
+  `claude/cube-doors-clear-oldy2u`: decor, signs and mounts keep a doorway and
+  its swing clear; one target per use press (the most directly faced); a door
+  prompt; a leaf that reads as a door (panels, handle, no wainscot across it);
+  floor 4's frames re-shot lit.
+- Lead: the doors simulator split under 400 lines (subagent), the cube board
+  republished with the doors zone (subagent).
+- Known and left: one open door at a time (a second snaps the first shut); no
+  door sound.
 - Left: integration, `/polish`, preview.
 
 The doors analysis on this branch
