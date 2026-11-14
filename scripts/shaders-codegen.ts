@@ -2,7 +2,7 @@
 
 /**
  * Links the `.wgsl` modules under `src/` and writes beside each one the
- * TypeScript module its importers read, `<name>.shader.ts`, exporting the
+ * TypeScript module its importers read, `<name>.shader.generated.ts`, exporting the
  * module as one `wgsl(...)` piece whose needs are its imports:
  *
  *   pnpm shaders:codegen
@@ -60,8 +60,10 @@ for (const { output, source, expected } of rendered) {
   report(`regenerated ${output} from ${source}`);
   rewrote = true;
 }
-for (const output of filesEnding('.shader.ts')) {
-  if (fs.existsSync(output.replace(/\.shader\.ts$/, '.wgsl'))) continue;
+for (const output of filesEnding('.shader.generated.ts')) {
+  if (fs.existsSync(output.replace(/\.shader\.generated\.ts$/, '.wgsl'))) {
+    continue;
+  }
   fs.rmSync(output);
   report(`removed ${output}, whose .wgsl is gone`);
   rewrote = true;

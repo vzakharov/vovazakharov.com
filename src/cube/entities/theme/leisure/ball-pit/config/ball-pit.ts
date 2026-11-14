@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { BALL_PIT_SHADER } from './ball-pit.shader';
+import { BALL_PIT_SHADER } from './ball-pit.shader.generated';
 
 const AIR = linear(hex(0x1a_14_10));
 

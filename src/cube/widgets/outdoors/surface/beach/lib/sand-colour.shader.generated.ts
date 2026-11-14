@@ -3,7 +3,7 @@
 
 import { wgsl } from '@/cube/shared/shader';
 
-import { SAND_RELIEF } from './sand-relief.shader';
+import { SAND_RELIEF } from './sand-relief.shader.generated';
 import { SAND_SALT } from './sand-salt';
 
 export const SAND_COLOUR = wgsl(

@@ -1,5 +1,5 @@
 import type { FloorTheme } from '../../../kit';
-import { DEPTH_BUFFER_SHADER } from './depth-buffer.shader';
+import { DEPTH_BUFFER_SHADER } from './depth-buffer.shader.generated';
 
 /**
  * Only how far away things are is left, and that is what is shown: white

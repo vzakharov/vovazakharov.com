@@ -12,7 +12,7 @@ export {
   ROOM_DOORWAY,
   type WallSide,
 } from './frame';
-export { SHELL_TURN } from './shell-turn.shader';
+export { SHELL_TURN } from './shell-turn.shader.generated';
 export {
   clearSky,
   EYE_RADIUS,

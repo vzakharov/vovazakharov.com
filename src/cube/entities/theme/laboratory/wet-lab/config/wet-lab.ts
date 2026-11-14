@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { WET_LAB_SHADER } from './wet-lab.shader';
+import { WET_LAB_SHADER } from './wet-lab.shader.generated';
 
 const AIR = linear(hex(0x0d_14_10));
 

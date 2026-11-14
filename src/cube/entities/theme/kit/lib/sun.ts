@@ -18,9 +18,9 @@ import { SUN_DISC } from '@/cube/shared/lib/sun-disc';
 import { HASH, vec3f, type Wgsl, wgsl } from '@/cube/shared/shader';
 
 import { CORE } from './core';
-import { GRADE } from './grade.shader';
+import { GRADE } from './grade.shader.generated';
 import { type Graded, hazed, lensListing } from './lens';
-import { LIGHT } from './light.shader';
+import { LIGHT } from './light.shader.generated';
 
 const f = (value: number): string => value.toFixed(4);
 

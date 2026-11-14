@@ -4,7 +4,7 @@
 import { wgsl } from '@/cube/shared/shader';
 import { CORE, STUFF } from '@/cube/entities/theme';
 
-import { LENS_STAGE } from './lens-stage.shader';
+import { LENS_STAGE } from './lens-stage.shader.generated';
 import { VERTEX } from './vertex';
 
 export const FLOOR_STAGE = wgsl(

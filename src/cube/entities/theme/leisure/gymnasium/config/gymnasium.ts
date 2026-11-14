@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { GYMNASIUM_SHADER } from './gymnasium.shader';
+import { GYMNASIUM_SHADER } from './gymnasium.shader.generated';
 
 const AIR = linear(hex(0x16_12_0b));
 

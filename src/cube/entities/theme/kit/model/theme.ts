@@ -6,7 +6,7 @@ import type { Furnishing } from '@/cube/shared/lib/thing';
 import { assemble, vec3f, type Wgsl, wgsl } from '@/cube/shared/shader';
 
 import { CORE } from '../lib/core';
-import { STUFF } from '../lib/stuff.shader';
+import { STUFF } from '../lib/stuff.shader.generated';
 
 /**
  * One floor's look and sound, `name` the place in a word or three, as a

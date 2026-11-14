@@ -11,3 +11,8 @@
 *.og.png                              linguist-generated=true
 *-renders.json                        linguist-generated=true
 sites/*/public/generated/mermaid/*.svg linguist-generated=true
+
+# Source a script writes from another file in the tree — a `.wgsl` module's
+# `<name>.shader.generated.ts` — reviewed by that file and the script, and left
+# off the review board as GitHub collapses it.
+*.generated.*                         linguist-generated=true

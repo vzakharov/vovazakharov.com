@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { HASH } from './hash.shader';
+import { HASH } from './hash.shader.generated';
 import { hashOf, mix32, unitOf } from './hash32';
 
 describe('the hash twin', () => {

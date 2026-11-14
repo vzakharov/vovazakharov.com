@@ -5,7 +5,7 @@ import type { CanDispose } from '@/kernel/shared/typings';
 import { assemble } from '@/cube/shared/shader';
 
 import { BLOOM_LEVELS } from './bloom-numbers';
-import { BLOOM_PASS } from './bloom-pass.shader';
+import { BLOOM_PASS } from './bloom-pass.shader.generated';
 
 /** What the scene is drawn into: light past white, and room in `a` for depth. */
 export const SCENE_FORMAT: GPUTextureFormat = 'rgba16float';

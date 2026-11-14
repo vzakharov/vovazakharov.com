@@ -5,7 +5,7 @@ import { HASH, wgsl } from '@/cube/shared/shader';
 
 import { CORE, FINISH, LIGHT, STUFF } from '../../../kit';
 import { PATTERN } from '../../pattern';
-import { CARPET } from '../lib/carpet.shader';
+import { CARPET } from '../lib/carpet.shader.generated';
 
 export const HOME_SHADER = wgsl(
   'cube/entities/theme/edge/home/config/home',

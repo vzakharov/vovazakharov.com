@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { PARKING_LEVEL_SHADER } from './parking-level.shader';
+import { PARKING_LEVEL_SHADER } from './parking-level.shader.generated';
 
 const AIR = linear(hex(0x14_0d_06));
 

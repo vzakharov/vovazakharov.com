@@ -1,9 +1,9 @@
 import { assemble } from '@/cube/shared/shader';
 
-import { WAVE_EVOLVE } from './wave-evolve.shader';
-import { WAVE_HALVE } from './wave-halve.shader';
-import { WAVE_LAY } from './wave-lay.shader';
-import { WAVE_TRANSFORM } from './wave-transform.shader';
+import { WAVE_EVOLVE } from './wave-evolve.shader.generated';
+import { WAVE_HALVE } from './wave-halve.shader.generated';
+import { WAVE_LAY } from './wave-lay.shader.generated';
+import { WAVE_TRANSFORM } from './wave-transform.shader.generated';
 
 /** The wave field's first pass, `evolve`: the spectra at the clock's moment. */
 export const EVOLVE_SHADER = assemble([WAVE_EVOLVE]);

@@ -11,7 +11,7 @@ import {
   OUTDOOR_FRAME,
   OUTDOOR_STAGE,
 } from '../../../stage';
-import { SHELL_MATERIAL } from './shell-material.shader';
+import { SHELL_MATERIAL } from './shell-material.shader.generated';
 import { SHELL_SALT } from './shell-salt';
 import { SHELL_SHADER_NUMBERS } from './shell-shader-numbers';
 

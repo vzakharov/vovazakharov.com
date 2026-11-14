@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { SUPERMARKET_SHADER } from './supermarket.shader';
+import { SUPERMARKET_SHADER } from './supermarket.shader.generated';
 
 const AIR = linear(hex(0x12_14_16));
 

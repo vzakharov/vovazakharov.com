@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import type { FloorTheme } from '../../../kit';
-import { CUT_PAPER_SHADER } from './cut-paper.shader';
+import { CUT_PAPER_SHADER } from './cut-paper.shader.generated';
 
 const AIR = linear(hex(0xee_e3_c8));
 

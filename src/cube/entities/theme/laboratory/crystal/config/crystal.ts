@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { CRYSTAL_SHADER } from './crystal.shader';
+import { CRYSTAL_SHADER } from './crystal.shader.generated';
 
 const AIR = linear(hex(0x05_04_10));
 

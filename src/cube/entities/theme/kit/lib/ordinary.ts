@@ -1,9 +1,9 @@
 import type { Rgb } from '@/cube/shared/lib/colour';
 import { vec3f, type Wgsl, wgsl } from '@/cube/shared/shader';
 
-import { GRADE } from './grade.shader';
+import { GRADE } from './grade.shader.generated';
 import { type Graded, hazed, lensListing } from './lens';
-import { LIGHT } from './light.shader';
+import { LIGHT } from './light.shader.generated';
 
 /** An ordinary floor's light and lens, as numbers. */
 type Ordinary = Graded & {

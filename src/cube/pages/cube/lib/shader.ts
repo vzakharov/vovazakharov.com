@@ -1,8 +1,8 @@
 import type { Wgsl } from '@/cube/shared/shader';
 import { floorSource, themeOf } from '@/cube/entities/theme';
 
-import { FLOOR_LENS } from './floor-lens.shader';
-import { FLOOR_STAGE } from './floor-stage.shader';
+import { FLOOR_LENS } from './floor-lens.shader.generated';
+import { FLOOR_STAGE } from './floor-stage.shader.generated';
 
 /** The floats of `lens-stage.wgsl`'s `Uniforms`: a matrix and three vectors. */
 export const UNIFORM_FLOATS = 16 + 4 + 4 + 4;

@@ -3,7 +3,7 @@
 
 import { wgsl } from '@/cube/shared/shader';
 
-import { CLEAR_SKY } from './clear-sky.shader';
+import { CLEAR_SKY } from './clear-sky.shader.generated';
 
 export const AERIAL = wgsl(
   'cube/widgets/outdoors/stage/lib/aerial',

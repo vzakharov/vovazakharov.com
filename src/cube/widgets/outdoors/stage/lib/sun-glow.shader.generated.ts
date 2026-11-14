@@ -4,7 +4,7 @@
 import { SUN } from '@/cube/shared/cube-boundary';
 import { wgsl } from '@/cube/shared/shader';
 
-import { CLEAR_SKY } from './clear-sky.shader';
+import { CLEAR_SKY } from './clear-sky.shader.generated';
 import { CLEAR_SKY_FIT } from './clear-sky-fit';
 import { SUN_GLOW_NUMBERS } from './sun-glow-numbers';
 

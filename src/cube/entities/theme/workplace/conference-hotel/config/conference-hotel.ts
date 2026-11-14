@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import type { FloorTheme } from '../../../kit';
-import { CONFERENCE_HOTEL_SHADER } from './conference-hotel.shader';
+import { CONFERENCE_HOTEL_SHADER } from './conference-hotel.shader.generated';
 
 const AIR = linear(hex(0x1a_10_08));
 

@@ -101,7 +101,12 @@ record" holds the three rules this file keeps.
   file stays at the flat `docs/remove-before-merging/review-focus.json` that
   `.claude/artifacts/src/review-board/scripts/focus.ts` names, rather than under
   `scripts/working-dir.sh`'s folder, so the vendored code needs no edit; a
-  per-branch path there is a candidate to carry upstream.
+  per-branch path there is a candidate to carry upstream. One edit is ahead of
+  the source, sent there on the operator's ask: the board's collector leaves off
+  every path `.gitattributes` marks `linguist-generated`
+  (`.claude/artifacts/src/review-board/scripts/generated.ts`, called from
+  `collect.ts`); once the source carries it, the next sync takes the source's
+  version and this sentence goes.
 - **`.claude/hooks/file-tools-nudge.py`** — cites `vzakharov/muthur#118`, so it
   does not resolve to this repo's own #118.
 - **`.claude/voice/operators/vzakharov.md`** — the same operator's entry, kept

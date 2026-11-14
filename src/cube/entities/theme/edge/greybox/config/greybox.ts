@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { GREYBOX_SHADER } from './greybox.shader';
+import { GREYBOX_SHADER } from './greybox.shader.generated';
 
 const AIR = linear(hex(0x2a_2b_2d));
 

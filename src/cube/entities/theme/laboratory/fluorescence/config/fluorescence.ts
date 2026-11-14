@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { FLUORESCENCE_SHADER } from './fluorescence.shader';
+import { FLUORESCENCE_SHADER } from './fluorescence.shader.generated';
 
 const AIR = linear(hex(0x00_00_02));
 

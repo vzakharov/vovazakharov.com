@@ -1,1 +1,1 @@
-export { SEA_FOAM } from './lib/sea-foam.shader';
+export { SEA_FOAM } from './lib/sea-foam.shader.generated';

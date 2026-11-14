@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { COLD_ROOM_SHADER } from './cold-room.shader';
+import { COLD_ROOM_SHADER } from './cold-room.shader.generated';
 
 const AIR = linear(hex(0x9a_b6_c6));
 

@@ -1,1 +1,1 @@
-export { SCREEN } from './lib/screen.shader';
+export { SCREEN } from './lib/screen.shader.generated';

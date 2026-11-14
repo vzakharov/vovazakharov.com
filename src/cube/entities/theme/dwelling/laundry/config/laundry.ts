@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { LAUNDRY_SHADER } from './laundry.shader';
+import { LAUNDRY_SHADER } from './laundry.shader.generated';
 
 const AIR = linear(hex(0x0d_10_10));
 

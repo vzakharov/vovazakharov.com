@@ -6,7 +6,7 @@ import { assemble } from '@/cube/shared/shader';
 import { CUBE_BOX, DOOR_LADDER, DOORWAY_BOX } from '@/cube/entities/island';
 
 import { SHELL_KINDS, SHELL_VERTEX_FLOATS, shellVertices } from './shell-mesh';
-import { SHELL_SHADER } from './shell-shader.shader';
+import { SHELL_SHADER } from './shell-shader.shader.generated';
 
 type Corner = { at: number[]; facing: number[]; kind: string };
 

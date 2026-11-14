@@ -17,9 +17,9 @@ import { SAND_COLOUR } from '../../../../beach';
 import { SEA_TABLES } from '../../../state';
 import { SEA_FOAM } from '../../foam';
 import { SEA_SHORE } from '../../shore';
-import { SEA_LIGHT } from './sea-light.shader';
+import { SEA_LIGHT } from './sea-light.shader.generated';
 import { SEA_NUMBERS } from './sea-numbers';
-import { SEA_SURFACE } from './sea-surface.shader';
+import { SEA_SURFACE } from './sea-surface.shader.generated';
 import { SEA_SURFACE_NUMBERS } from './sea-surface-numbers';
 
 export const SEA = wgsl(

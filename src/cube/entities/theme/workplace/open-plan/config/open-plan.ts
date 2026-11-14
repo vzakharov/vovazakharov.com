@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { OPEN_PLAN_SHADER } from './open-plan.shader';
+import { OPEN_PLAN_SHADER } from './open-plan.shader.generated';
 
 const AIR = linear(hex(0x10_13_0f));
 

@@ -7,13 +7,13 @@ import { assemble } from '@/cube/shared/shader';
 import { toWorld } from '@/cube/entities/island';
 
 import { cubeShadow } from './cube-shadow';
-import { CUBE_SHADOW } from './cube-shadow.shader';
+import { CUBE_SHADOW } from './cube-shadow.shader.generated';
 import {
   OUTDOOR_FRAME,
   OUTDOOR_FRAME_FLOATS,
   packOutdoorFrame,
 } from './outdoor-frame';
-import { SKY } from './sky.shader';
+import { SKY } from './sky.shader.generated';
 
 describe('cubeShadow', () => {
   const middle = toWorld([0.5, 0, 0.5]);

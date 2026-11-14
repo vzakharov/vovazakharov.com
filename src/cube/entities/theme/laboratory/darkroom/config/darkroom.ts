@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { DARKROOM_SHADER } from './darkroom.shader';
+import { DARKROOM_SHADER } from './darkroom.shader.generated';
 
 const AIR = linear(hex(0x0a_00_00));
 

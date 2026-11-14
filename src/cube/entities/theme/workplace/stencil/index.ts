@@ -1,1 +1,1 @@
-export { STENCIL } from './lib/stencil.shader';
+export { STENCIL } from './lib/stencil.shader.generated';

@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { METRO_PLATFORM_SHADER } from './metro-platform.shader';
+import { METRO_PLATFORM_SHADER } from './metro-platform.shader.generated';
 
 const AIR = linear(hex(0x0e_0f_0b));
 

@@ -17,4 +17,4 @@ export {
 } from './model/swell';
 export { SWELL_COURSE } from './model/swell-course';
 export { SWELL_NUMBERS } from './model/swell-numbers';
-export { SWELL_TRAIN } from './model/swell-train.shader';
+export { SWELL_TRAIN } from './model/swell-train.shader.generated';

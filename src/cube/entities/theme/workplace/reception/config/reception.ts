@@ -2,7 +2,7 @@ import type { Box } from '@/cube/shared/cube-boundary';
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, type Shrub, sunlit } from '../../../kit';
-import { RECEPTION_SHADER } from './reception.shader';
+import { RECEPTION_SHADER } from './reception.shader.generated';
 
 const AIR = linear(hex(0x17_14_0f));
 

@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { STAIRWELL_SHADER } from './stairwell.shader';
+import { STAIRWELL_SHADER } from './stairwell.shader.generated';
 
 const AIR = linear(hex(0x0c_10_0d));
 

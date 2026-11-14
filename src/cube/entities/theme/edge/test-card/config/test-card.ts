@@ -2,7 +2,7 @@ import { hex, linear } from '@/cube/shared/lib/colour';
 
 import type { FloorTheme } from '../../../kit';
 import { lit } from '../../lit';
-import { TEST_CARD_SHADER } from './test-card.shader';
+import { TEST_CARD_SHADER } from './test-card.shader.generated';
 
 const AIR = linear(hex(0x05_06_08));
 

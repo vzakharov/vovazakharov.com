@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { KITCHEN_SHADER } from './kitchen.shader';
+import { KITCHEN_SHADER } from './kitchen.shader.generated';
 
 const AIR = linear(hex(0x12_12_08));
 

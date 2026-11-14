@@ -4,7 +4,7 @@
 import { HASH, wgsl } from '@/cube/shared/shader';
 
 import { CORE } from './core';
-import { SCENE } from './scene.shader';
+import { SCENE } from './scene.shader.generated';
 
 export const GRADE = wgsl(
   'cube/entities/theme/kit/lib/grade',

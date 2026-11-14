@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { GEL_SHADER } from './gel.shader';
+import { GEL_SHADER } from './gel.shader.generated';
 
 const AIR = linear(hex(0x05_00_10));
 

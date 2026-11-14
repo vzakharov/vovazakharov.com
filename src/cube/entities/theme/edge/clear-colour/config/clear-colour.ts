@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import type { FloorTheme } from '../../../kit';
-import { CLEAR_COLOUR_SHADER } from './clear-colour.shader';
+import { CLEAR_COLOUR_SHADER } from './clear-colour.shader.generated';
 
 const CLEAR = linear(hex(0x64_95_ed));
 

@@ -2,7 +2,7 @@ import { hex, linear } from '@/cube/shared/lib/colour';
 
 import type { FloorTheme } from '../../../kit';
 import { lit } from '../../lit';
-import { ONE_BIT_SHADER } from './one-bit.shader';
+import { ONE_BIT_SHADER } from './one-bit.shader.generated';
 
 const AIR = linear(hex(0x04_04_06));
 

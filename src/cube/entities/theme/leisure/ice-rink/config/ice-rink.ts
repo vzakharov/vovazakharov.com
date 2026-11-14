@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { ICE_RINK_SHADER } from './ice-rink.shader';
+import { ICE_RINK_SHADER } from './ice-rink.shader.generated';
 
 const AIR = linear(hex(0x26_2e_34));
 

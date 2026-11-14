@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { TUNNELLING_SCAN_SHADER } from './tunnelling-scan.shader';
+import { TUNNELLING_SCAN_SHADER } from './tunnelling-scan.shader.generated';
 
 const AIR = linear(hex(0x0a_03_00));
 

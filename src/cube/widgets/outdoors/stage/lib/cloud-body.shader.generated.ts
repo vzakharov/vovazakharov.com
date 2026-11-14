@@ -3,7 +3,7 @@
 
 import { wgsl } from '@/cube/shared/shader';
 
-import { CLOUD_NOISE } from './cloud-noise.shader';
+import { CLOUD_NOISE } from './cloud-noise.shader.generated';
 import { CLOUD_NOISE_NUMBERS } from './cloud-noise-numbers';
 import { CLOUDS_NUMBERS } from './clouds-numbers';
 

@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { ATTIC_SHADER } from './attic.shader';
+import { ATTIC_SHADER } from './attic.shader.generated';
 
 const AIR = linear(hex(0x2a_1e_12));
 

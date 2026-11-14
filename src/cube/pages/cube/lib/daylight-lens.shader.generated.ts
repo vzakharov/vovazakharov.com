@@ -4,7 +4,7 @@
 import { wgsl } from '@/cube/shared/shader';
 import { GRADE } from '@/cube/entities/theme';
 
-import { LENS_STAGE } from './lens-stage.shader';
+import { LENS_STAGE } from './lens-stage.shader.generated';
 
 export const DAYLIGHT_LENS = wgsl(
   'cube/pages/cube/lib/daylight-lens',

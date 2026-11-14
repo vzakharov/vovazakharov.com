@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { MISSING_TEXTURE_SHADER } from './missing-texture.shader';
+import { MISSING_TEXTURE_SHADER } from './missing-texture.shader.generated';
 
 const AIR = linear(hex(0x14_02_14));
 

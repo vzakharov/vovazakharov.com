@@ -4,12 +4,12 @@
 import { SUN } from '@/cube/shared/cube-boundary';
 import { wgsl } from '@/cube/shared/shader';
 
-import { CLEAR_SKY } from './clear-sky.shader';
-import { CLOUD_BODY } from './cloud-body.shader';
-import { CLOUD_NOISE } from './cloud-noise.shader';
+import { CLEAR_SKY } from './clear-sky.shader.generated';
+import { CLOUD_BODY } from './cloud-body.shader.generated';
+import { CLOUD_NOISE } from './cloud-noise.shader.generated';
 import { CLOUD_NOISE_NUMBERS } from './cloud-noise-numbers';
 import { CLOUD_VEIL_NUMBERS } from './cloud-veil-numbers';
-import { CLOUDS_WGSL } from './clouds-wgsl.shader';
+import { CLOUDS_WGSL } from './clouds-wgsl.shader.generated';
 import { OUTDOOR_FRAME } from './outdoor-frame';
 
 export const CLOUD_VEIL = wgsl(

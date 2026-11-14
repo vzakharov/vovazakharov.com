@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 import { assemble } from '@/cube/shared/shader';
 import { pinHash } from '@/cube/shared/shader/index.test-only';
 
-import { BLOOM_PASS } from '../ui/bloom-pass.shader';
+import { BLOOM_PASS } from '../ui/bloom-pass.shader.generated';
 import { HALVE_SHADER, REFLECTION_SHADER } from '../ui/reflection-shader';
 import { outsideLensSource } from './outside-lens';
 import { shaderOf } from './shader';

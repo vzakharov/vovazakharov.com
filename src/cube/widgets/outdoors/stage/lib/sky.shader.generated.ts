@@ -4,10 +4,10 @@
 import { SUN } from '@/cube/shared/cube-boundary';
 import { wgsl } from '@/cube/shared/shader';
 
-import { CLEAR_SKY } from './clear-sky.shader';
-import { CLOUD_VEIL } from './cloud-veil.shader';
-import { CLOUDS_WGSL } from './clouds-wgsl.shader';
-import { SUN_GLOW } from './sun-glow.shader';
+import { CLEAR_SKY } from './clear-sky.shader.generated';
+import { CLOUD_VEIL } from './cloud-veil.shader.generated';
+import { CLOUDS_WGSL } from './clouds-wgsl.shader.generated';
+import { SUN_GLOW } from './sun-glow.shader.generated';
 
 export const SKY = wgsl(
   'cube/widgets/outdoors/stage/lib/sky',

@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { CINEMA_CORRIDOR_SHADER } from './cinema-corridor.shader';
+import { CINEMA_CORRIDOR_SHADER } from './cinema-corridor.shader.generated';
 
 const AIR = linear(hex(0x0c_05_04));
 

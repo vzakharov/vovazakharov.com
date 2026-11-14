@@ -1,5 +1,5 @@
 import type { FloorTheme } from '../../../kit';
-import { POINT_CLOUD_SHADER } from './point-cloud.shader';
+import { POINT_CLOUD_SHADER } from './point-cloud.shader.generated';
 
 /**
  * The building as a surveyor's scan of it: no surfaces, only the points

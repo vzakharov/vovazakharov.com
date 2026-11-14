@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import type { FloorTheme } from '../../../kit';
-import { STAINED_SECTION_SHADER } from './stained-section.shader';
+import { STAINED_SECTION_SHADER } from './stained-section.shader.generated';
 
 const AIR = linear(hex(0xf4_ea_ee));
 

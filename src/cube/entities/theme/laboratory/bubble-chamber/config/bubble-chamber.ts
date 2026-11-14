@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { BUBBLE_CHAMBER_SHADER } from './bubble-chamber.shader';
+import { BUBBLE_CHAMBER_SHADER } from './bubble-chamber.shader.generated';
 
 const AIR = linear(hex(0x00_05_08));
 

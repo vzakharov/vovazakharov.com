@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { GARAGE_SHADER } from './garage.shader';
+import { GARAGE_SHADER } from './garage.shader.generated';
 
 const AIR = linear(hex(0x0a_0c_0e));
 

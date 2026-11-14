@@ -1,8 +1,8 @@
 import { assemble } from '@/cube/shared/shader';
 
-import { COVER } from './cover.shader';
-import { HALVE_PASS } from './halve-pass.shader';
-import { REFLECTION_PASS } from './reflection-pass.shader';
+import { COVER } from './cover.shader.generated';
+import { HALVE_PASS } from './halve-pass.shader.generated';
+import { REFLECTION_PASS } from './reflection-pass.shader.generated';
 
 /** How many levels the scene is kept at, each half the last, for blur. */
 export const BLUR_LEVELS = 6;

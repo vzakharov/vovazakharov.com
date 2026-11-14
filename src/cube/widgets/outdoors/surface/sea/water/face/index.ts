@@ -1,1 +1,1 @@
-export { SEA } from './lib/sea.shader';
+export { SEA } from './lib/sea.shader.generated';

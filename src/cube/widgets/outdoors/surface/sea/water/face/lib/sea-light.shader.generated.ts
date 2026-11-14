@@ -10,7 +10,7 @@ import {
   WATER_BODY,
   WATER_OPTICS,
 } from '../../../../../stage';
-import { SEA_SURFACE } from './sea-surface.shader';
+import { SEA_SURFACE } from './sea-surface.shader.generated';
 
 export const SEA_LIGHT = wgsl(
   'cube/widgets/outdoors/surface/sea/water/face/lib/sea-light',

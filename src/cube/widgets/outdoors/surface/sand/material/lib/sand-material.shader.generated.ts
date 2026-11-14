@@ -12,7 +12,7 @@ import {
   SAND_RELIEF_NUMBERS,
   SAND_SALT,
 } from '../../../beach';
-import { SAND_GRAIN } from './sand-grain.shader';
+import { SAND_GRAIN } from './sand-grain.shader.generated';
 
 export const SAND_MATERIAL = wgsl(
   'cube/widgets/outdoors/surface/sand/material/lib/sand-material',

@@ -3,7 +3,7 @@ import type { Named } from '@/kernel/shared/typings';
 import type { Exposed } from '@/cube/entities/theme';
 import { OUTDOOR_SHADERS, outdoorSource } from '@/cube/widgets/outdoors';
 
-import { DAYLIGHT_LENS } from './daylight-lens.shader';
+import { DAYLIGHT_LENS } from './daylight-lens.shader.generated';
 import { firstFloorThrough } from './shader';
 
 /** What the outside's lens is set to for one frame. */

@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import type { FloorTheme } from '../../../kit';
-import { NORMAL_MAP_SHADER } from './normal-map.shader';
+import { NORMAL_MAP_SHADER } from './normal-map.shader.generated';
 
 const AIR = linear(hex(0x80_80_ff));
 

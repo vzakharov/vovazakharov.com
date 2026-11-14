@@ -2,7 +2,7 @@
 
 import { wgsl } from '@/cube/shared/shader';
 
-import { LENS_STAGE } from './lens-stage.shader';
+import { LENS_STAGE } from './lens-stage.shader.generated';
 
 /**
  * A vertex, field by field in buffer order: what the mesh packs, the pipeline

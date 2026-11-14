@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import type { FloorTheme } from '../../../kit';
-import { PAINTED_SKY_SHADER } from './painted-sky.shader';
+import { PAINTED_SKY_SHADER } from './painted-sky.shader.generated';
 
 const AIR = linear(hex(0x1c_24_30));
 

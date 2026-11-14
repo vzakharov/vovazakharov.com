@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { MALL_ATRIUM_SHADER } from './mall-atrium.shader';
+import { MALL_ATRIUM_SHADER } from './mall-atrium.shader.generated';
 
 const AIR = linear(hex(0x1a_18_16));
 

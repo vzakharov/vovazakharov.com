@@ -3,7 +3,7 @@
 
 import { wgsl } from '@/cube/shared/shader';
 
-import { WAVE_COMPLEX } from './wave-complex.shader';
+import { WAVE_COMPLEX } from './wave-complex.shader.generated';
 import { WAVE_FIELD_NUMBERS } from './wave-field-numbers';
 
 export const WAVE_TRANSFORM = wgsl(

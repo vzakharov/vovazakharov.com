@@ -1,5 +1,5 @@
 import type { FloorTheme } from '../../../kit';
-import { WIREFRAME_SHADER } from './wireframe.shader';
+import { WIREFRAME_SHADER } from './wireframe.shader.generated';
 
 /**
  * The surfaces are gone and the mesh under them is left: every face two

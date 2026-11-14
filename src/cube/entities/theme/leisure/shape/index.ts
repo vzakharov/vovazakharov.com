@@ -1,1 +1,1 @@
-export { SHAPE } from './lib/shape.shader';
+export { SHAPE } from './lib/shape.shader.generated';

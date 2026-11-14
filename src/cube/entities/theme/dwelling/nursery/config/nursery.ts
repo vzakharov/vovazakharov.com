@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import type { FloorTheme } from '../../../kit';
-import { NURSERY_SHADER } from './nursery.shader';
+import { NURSERY_SHADER } from './nursery.shader.generated';
 
 const AIR = linear(hex(0x02_04_0b));
 

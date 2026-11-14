@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { AIRPORT_GATE_SHADER } from './airport-gate.shader';
+import { AIRPORT_GATE_SHADER } from './airport-gate.shader.generated';
 
 const AIR = linear(hex(0x0d_10_15));
 

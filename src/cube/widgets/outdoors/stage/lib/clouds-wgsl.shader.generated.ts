@@ -4,13 +4,13 @@
 import { SUN } from '@/cube/shared/cube-boundary';
 import { wgsl } from '@/cube/shared/shader';
 
-import { CLEAR_SKY } from './clear-sky.shader';
-import { CLOUD_BODY } from './cloud-body.shader';
-import { CLOUD_NOISE } from './cloud-noise.shader';
+import { CLEAR_SKY } from './clear-sky.shader.generated';
+import { CLOUD_BODY } from './cloud-body.shader.generated';
+import { CLOUD_NOISE } from './cloud-noise.shader.generated';
 import { CLOUD_NOISE_NUMBERS } from './cloud-noise-numbers';
 import { CLOUDS_NUMBERS } from './clouds-numbers';
 import { OUTDOOR_FRAME } from './outdoor-frame';
-import { SUN_GLOW } from './sun-glow.shader';
+import { SUN_GLOW } from './sun-glow.shader.generated';
 
 export const CLOUDS_WGSL = wgsl(
   'cube/widgets/outdoors/stage/lib/clouds-wgsl',

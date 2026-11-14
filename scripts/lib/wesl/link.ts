@@ -40,7 +40,7 @@ export function exportName(file: string): string {
 
 /** The generated TypeScript module beside a `.wgsl` file. */
 export const generatedOf = (file: string): string =>
-  file.replace(/\.wgsl$/, '.shader.ts');
+  file.replace(/\.wgsl$/, '.shader.generated.ts');
 
 async function tsPiece(file: string): Promise<Target> {
   const loaded: unknown = await import(pathToFileURL(path.resolve(file)).href);

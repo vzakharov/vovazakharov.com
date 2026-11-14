@@ -19,7 +19,7 @@ function tree(files: Record<string, string>): string {
     '../../shared/shader/index.ts': "export { wgsl } from './wgsl';",
     '../../shared/shader/wgsl.ts':
       'export const wgsl = (...parts: unknown[]) => parts;',
-    'kit/index.ts': "export { BASE } from './lib/base.shader';",
+    'kit/index.ts': "export { BASE } from './lib/base.shader.generated';",
     'kit/lib/base.wgsl': 'fn base() -> f32 {\n  return 1.0;\n}\n',
     ...files,
   };
@@ -104,7 +104,7 @@ describe('pnpm shaders:codegen', () => {
     });
     assert.equal(run(root).status, 1);
     const written = fs.readFileSync(
-      path.join(root, THEME, 'dwelling/config/floor.shader.ts'),
+      path.join(root, THEME, 'dwelling/config/floor.shader.generated.ts'),
       'utf8',
     );
     assert.match(
@@ -121,8 +121,8 @@ describe('pnpm shaders:codegen', () => {
   it('imports a bound variable by its name', () => {
     const root = tree({
       'kit/index.ts': [
-        "export { BASE } from './lib/base.shader';",
-        "export { FRAME } from './lib/frame.shader';",
+        "export { BASE } from './lib/base.shader.generated';",
+        "export { FRAME } from './lib/frame.shader.generated';",
       ].join('\n'),
       'kit/lib/frame.wgsl':
         'struct Frame {\n  at: vec4f,\n}\n\n@group(0) @binding(0) var<uniform> frame: Frame;\n',
@@ -144,10 +144,10 @@ describe('pnpm shaders:codegen', () => {
     assert.equal(first.status, 1, first.report);
     assert.match(
       fs.readFileSync(
-        path.join(root, THEME, 'dwelling/config/floor.shader.ts'),
+        path.join(root, THEME, 'dwelling/config/floor.shader.generated.ts'),
         'utf8',
       ),
-      /import { SPREAD } from '@\/cube\/shared\/lib\/spread\.shader';/,
+      /import { SPREAD } from '@\/cube\/shared\/lib\/spread\.shader\.generated';/,
     );
     assert.equal(run(root).status, 0);
   });
@@ -162,10 +162,10 @@ describe('pnpm shaders:codegen', () => {
     assert.equal(first.status, 1, first.report);
     assert.match(
       fs.readFileSync(
-        path.join(root, THEME, '../../shared/sky/glow.shader.ts'),
+        path.join(root, THEME, '../../shared/sky/glow.shader.generated.ts'),
         'utf8',
       ),
-      /import { SUN } from '\.\.\/outside\/sun\.shader';/,
+      /import { SUN } from '\.\.\/outside\/sun\.shader\.generated';/,
     );
     assert.equal(run(root).status, 0);
   });
@@ -178,7 +178,7 @@ describe('pnpm shaders:codegen', () => {
     const first = run(root);
     assert.equal(first.status, 1, first.report);
     const written = fs.readFileSync(
-      path.join(root, THEME, '../../pages/cube/lib/stage.shader.ts'),
+      path.join(root, THEME, '../../pages/cube/lib/stage.shader.generated.ts'),
       'utf8',
     );
     assert.match(
@@ -195,7 +195,9 @@ describe('pnpm shaders:codegen', () => {
       assert.equal(status, 1);
       assert.match(report, says);
       assert.ok(
-        !fs.existsSync(path.join(root, THEME, 'kit/lib/base.shader.ts')),
+        !fs.existsSync(
+          path.join(root, THEME, 'kit/lib/base.shader.generated.ts'),
+        ),
         'wrote despite the problem',
       );
     });

@@ -4,7 +4,7 @@
 import { SUN } from '@/cube/shared/cube-boundary';
 import { wgsl } from '@/cube/shared/shader';
 
-import { CUBE_SHADOW } from './cube-shadow.shader';
+import { CUBE_SHADOW } from './cube-shadow.shader.generated';
 
 export const DAYLIGHT = wgsl(
   'cube/widgets/outdoors/stage/lib/daylight',

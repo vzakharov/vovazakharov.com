@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { AQUARIUM_TUNNEL_SHADER } from './aquarium-tunnel.shader';
+import { AQUARIUM_TUNNEL_SHADER } from './aquarium-tunnel.shader.generated';
 
 const AIR = linear(hex(0x02_0a_12));
 

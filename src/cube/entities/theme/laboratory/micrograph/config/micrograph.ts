@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import type { FloorTheme } from '../../../kit';
-import { MICROGRAPH_SHADER } from './micrograph.shader';
+import { MICROGRAPH_SHADER } from './micrograph.shader.generated';
 
 /**
  * An electron micrograph with the visitor inside the specimen chamber: a

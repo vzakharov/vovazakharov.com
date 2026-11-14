@@ -14,7 +14,7 @@ paths:
 ```bash
 pnpm build            # every site's next build — the whole-app end-to-end check
 pnpm styles:codegen   # rewrites the generated Sass partials; fails if it had to
-pnpm shaders:codegen  # relinks each .wgsl into its .shader.ts; the same
+pnpm shaders:codegen  # relinks each .wgsl into its .shader.generated.ts; the same
 pnpm typecheck                  # tsc --noEmit                  ┐
 pnpm lint:check                 # not `pnpm lint`               │
 pnpm format:check               # prettier --check ., md wrap too │

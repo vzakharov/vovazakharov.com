@@ -1,7 +1,7 @@
 import { hex, linear } from '@/cube/shared/lib/colour';
 
 import { type FloorTheme, ordinary } from '../../../kit';
-import { BATHROOM_SHADER } from './bathroom.shader';
+import { BATHROOM_SHADER } from './bathroom.shader.generated';
 
 const AIR = linear(hex(0x9a_a8_a4));
 

@@ -1,7 +1,7 @@
 import type { Vec2 } from '@/cube/shared/lib/vec';
 import { f32, wgsl } from '@/cube/shared/shader';
 
-import { ISLAND_EASE } from './island-ease.shader';
+import { ISLAND_EASE } from './island-ease.shader.generated';
 import {
   ISLAND,
   ISLAND_HEIGHT_NUMBERS,

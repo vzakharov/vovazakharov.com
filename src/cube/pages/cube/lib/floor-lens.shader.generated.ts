@@ -3,7 +3,7 @@
 
 import { wgsl } from '@/cube/shared/shader';
 
-import { LENS_STAGE } from './lens-stage.shader';
+import { LENS_STAGE } from './lens-stage.shader.generated';
 
 export const FLOOR_LENS = wgsl(
   'cube/pages/cube/lib/floor-lens',
