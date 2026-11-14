@@ -23,8 +23,8 @@ const settingsSchema = z.object({
 type DrowsySettings = z.infer<typeof settingsSchema>;
 
 const DEFAULTS: DrowsySettings = {
-  drowsy: false,
-  share: 4,
+  drowsy: true,
+  share: 3,
   drowsiness: 1,
   vignette: 0.35,
   slowdown: 1,

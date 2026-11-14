@@ -4,10 +4,10 @@ import { afterEach, describe, it } from 'node:test';
 import { drowsiness, installConsole } from './drowsy-settings';
 
 describe('drowsiness', () => {
-  it('starts off, with the drowsy defaults ready for when it is on', () => {
+  it('starts drowsy, at a ninth of the pixels and full drowsiness', () => {
     assert.deepEqual(drowsiness().settings(), {
-      drowsy: false,
-      share: 4,
+      drowsy: true,
+      share: 3,
       drowsiness: 1,
       vignette: 0.35,
       slowdown: 1,
@@ -30,7 +30,7 @@ describe('drowsiness', () => {
     assert.throws(() => knobs.setDrowsy('yes'), /drowsy/);
     assert.throws(() => knobs.setSlowdown(0.5), /slowdown/);
     assert.throws(() => knobs.setVignette(-1), /vignette/);
-    assert.equal(settings().share, 4);
+    assert.equal(settings().share, 3);
   });
 });
 
