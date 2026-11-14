@@ -88,9 +88,20 @@ All on Opus, started 2026-11-14 20:19Z from 47b2d1fb.
 - Threshold, operator: «порог: 10 (около 50 дверей и 15 проёмов в час) — Так,
   да». Sticky and `DOORWAYS` doc carry the game's figures (179e5b29); the cube
   board needs a republish for it.
+- `clear` merged at fe961aef (81692547): doorways kept clear through
+  `Doored.isDoor` / `Setting.doors`; `aimOf` gives one target per press; door
+  prompt; the real door in `entities/world/model/door.ts` from the old fitting,
+  decor `door` and `'door'` thing removed (fifteen themes lost their slot,
+  nothing refills it); frames re-shot on floors 6 and 8 (4–5 too dark). Floor
+  6's three on the board (7a40e677), cube board v95.
+- Sent back to `clear`, open: floor 8's leaf goes black under sconce light
+  (half, open, far side), and `masd:clusters` fails on `features/player` (main
+  has 0 clusters; `door.ts` + `aim.ts` tipped it) — cut by noun, no marker.
 - Known and left: one open door at a time (a second snaps the first shut); no
-  door sound.
-- Left: integration, `/polish`, preview.
+  door sound; the door's look rolls from a module-level `rollWith` over
+  `planted.seed` — the same for every player, kept.
+- Left: `clear`'s two fixes, floor-8 frames to the board, `/polish`, vet,
+  preview.
 
 The doors analysis on this branch
 (`docs/remove-before-merging/cube-board-right-hand-doors-oldy2u/doors-sim/`, the
