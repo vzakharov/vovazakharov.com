@@ -10,7 +10,7 @@
 import path from 'node:path';
 
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
-import { DOOR_LADDER } from '@/cube/shared/outside';
+import { DOOR_LADDER } from '@/cube/entities/island';
 import { loft, type Pose, type Vec3 } from '@/cube/entities/world';
 import { grippingHand } from '@/cube/features/player';
 

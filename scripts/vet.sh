@@ -158,6 +158,7 @@ fi
 # leave it to `source`, whose run it is fixing and failing either way.
 if [[ "$phase" != built && "$phase" != local ]]; then
   logged styles pnpm styles:codegen
+  logged shaders pnpm shaders:codegen
 fi
 
 # Each array is one phase's fan-out. Nothing in one writes what another reads,

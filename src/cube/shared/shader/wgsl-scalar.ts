@@ -40,9 +40,14 @@ const BUILT_INS = {
   vec3f: (...parts: number[]): number[] => parts,
 };
 
-/** `listing` as the JavaScript the scalar subset of WGSL reads as. */
+/**
+ * `listing` as the JavaScript the scalar subset of WGSL reads as. A value
+ * Prettier breaks onto the line after its `return` is pulled up to it, where
+ * JavaScript would end the statement at the break.
+ */
 const asScript = (listing: string): string =>
   listing
+    .replaceAll(/\breturn\s*\n\s*/g, 'return ')
     .replaceAll(/\bfn\b/g, 'function')
     .replaceAll(/->\s*\w+/g, '')
     .replaceAll(/:\s*(?:f32|i32|u32|bool|vec[2-4]f)\b/g, '')

@@ -246,9 +246,36 @@ function units(files: readonly string[]): Map<string, string[]> {
   return found;
 }
 
+/**
+ * `files` and `imports` with each generated `<name>.shader.generated.ts` that has a
+ * `<name>.ts` beside it folded into that file: a floor written half in WGSL is
+ * one module in two languages, and its twin no cluster of its own.
+ */
+function foldTwins(
+  files: readonly string[],
+  imports: ReadonlyMap<string, ReadonlySet<string>>,
+): { files: string[]; imports: Map<string, Set<string>> } {
+  const present = new Set(files);
+  const into = (file: string): string => {
+    const own = file.replace(/\.shader\.generated\.ts$/, '.ts');
+    return own !== file && present.has(own) ? own : file;
+  };
+  const folded = new Map<string, Set<string>>();
+  for (const [from, targets] of imports) {
+    const merged = folded.get(into(from)) ?? new Set();
+    for (const to of targets) merged.add(into(to));
+    merged.delete(into(from));
+    folded.set(into(from), merged);
+  }
+  return {
+    files: files.filter((file) => into(file) === file),
+    imports: folded,
+  };
+}
+
 function report(): { text: string; flagged: number } {
-  const files = appFiles();
-  const imports = importsOf(files);
+  const shipped = appFiles();
+  const { files, imports } = foldTwins(shipped, importsOf(shipped));
   const all = units(files);
   const lines: string[] = [];
   let flagged = 0;

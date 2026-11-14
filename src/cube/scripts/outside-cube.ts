@@ -20,16 +20,18 @@ import path from 'node:path';
 import { format } from 'prettier';
 
 import {
-  CUBE_AT,
-  CUBE_BOX,
   CUBE_METRES,
   DOORWAY,
-  islandHeight,
   SUN_DIR,
   toRoom,
-  WAKE_AT,
   yawToRoom,
-} from '@/cube/shared/outside';
+} from '@/cube/shared/cube-boundary';
+import {
+  CUBE_AT,
+  CUBE_BOX,
+  islandHeight,
+  WAKE_AT,
+} from '@/cube/entities/island';
 import {
   isOutside,
   type Outside,

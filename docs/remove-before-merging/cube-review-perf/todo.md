@@ -26,7 +26,11 @@ trial only the frame-rate meter (F) stays here; the port lives on in
 `claude/cube-typegpu-trial` at 3cdb5134 until that branch is deleted.
 
 Next for shaders out of strings: `.wgsl` files with WESL imports, the assembled
-source of every floor pinned byte-for-byte before and after. With it:
+source of every floor pinned byte-for-byte before and after — trialled on floors
+12 and 46 in `claude/cube-wesl-trial` (`pnpm shaders:codegen`,
+`shaders-pin.test.ts`), the rest of the 80 files to follow. The pin test is
+scaffolding for the move: once every file is over and `pnpm shaders:cube` plus
+a look on preview agree, it is deleted (operator, 2026-11-12). With it:
 `themeMaterial`'s per-floor `switch` as data, salts derived rather than
 hand-picked, and `pnpm shaders:cube` in vet.
 
@@ -47,14 +51,12 @@ The floor reflections already stutter (operator, 2026-11-12).
 ## 2. Duplication
 
 - Lattice maths still spelled out where the kit's `repeated`/`spaced`
-  (`kit/lib/core.ts`) would do: `dwelling/lib/home.ts`, `14-laundry.ts`,
+  (`kit/lib/core.ts`) would do: `dwelling/lib/dwelling.wgsl`, `14-laundry.ts`,
   `17-garage.ts` (two places), `15-nursery.ts`, `19-drawing.ts` (two
   places). `spaced` is the one-dimensional case of `repeated`. `pnpm
 shaders:cube` after.
-- One hexagonal lattice written twice: `hexagon` in
-  `dwelling/config/12-bathroom.ts` and `honeycomb` in
-  `laboratory/lib/small-world.ts`. Into the kit or not is a call for the
-  operator — every floor's shader would carry it, for two users.
+- `luma` still has a copy in `edge/lib/pattern.ts`, beside the kit's
+  `kit/lib/luma.wgsl`; it goes when edge moves to `.wgsl`.
 - The full-screen triangle three times: `COVER` in `reflection-shader.ts`,
   bloom's `vertexMain`, the lens's in `lib/shader.ts`.
 - Two pipeline builders: `reflection.ts`'s `covering` and `bloom.ts`'s
@@ -76,7 +78,7 @@ shaders:cube` after.
 From `/five-percent` on #273
 (https://github.com/vzakharov/vovazakharov.com/pull/273#discussion_r4548136117),
 accepted for after item 1: `roomLight` mirrors only under `s.normal.y > 0.9`
-(`kit/lib/light.ts`), a limit left from the ceiling-only mirror, while the
+(`kit/lib/light.wgsl`), a limit left from the ceiling-only mirror, while the
 reflection pass can mirror any plane. Let any polished face mirror, lamp
 fallback for floors only. Cost: wall reflections fade at the screen edge, and
 frames get slower — hence after item 1.

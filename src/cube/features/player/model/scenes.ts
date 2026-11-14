@@ -1,7 +1,7 @@
 import { pick } from '@/kernel/shared/lib/collections';
 
+import type { Box } from '@/cube/shared/cube-boundary';
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
-import type { Box } from '@/cube/shared/outside';
 import type { Outside, Vec3 } from '@/cube/entities/world';
 
 import type { Cue } from './player';

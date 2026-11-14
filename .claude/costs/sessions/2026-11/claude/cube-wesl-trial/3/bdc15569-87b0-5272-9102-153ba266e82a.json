@@ -1,0 +1,233 @@
+{
+  "total": {
+    "inputTokens": 15261,
+    "cacheWrite5mTokens": 1715583,
+    "cacheWrite1hTokens": 854152,
+    "cacheReadTokens": 115004062,
+    "outputTokens": 557115,
+    "thinkingTokens": 198965,
+    "responses": 702,
+    "costUsd": 49.62196239999998
+  },
+  "estimate": {
+    "at": "2026-11-13T19:50:27.812Z",
+    "subjectLine": "refactor: move cube outdoor and pipeline shaders into .wgsl",
+    "parts": [
+      {
+        "hours": 18.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "Outdoor and pipeline WGSL carry computed text and interpolated numbers; splitting them into linked modules under three pins takes rendering judgement"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "Weighing the cube app's slices for promotion or fold-in and fixing the upward theme-to-page shader dependency is a layering call"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-13T16:58:13.601Z",
+    "contextTokens": 109622,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 51471,
+      "cacheReadTokens": 458144,
+      "outputTokens": 1093,
+      "thinkingTokens": 118,
+      "responses": 5,
+      "costUsd": 0.5253048
+    }
+  },
+  "sessionId": "bdc15569-87b0-5272-9102-153ba266e82a",
+  "branch": "claude/cube-wesl-trial",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cube-wesl-trial — база догнана, пины этажей и улицы зелёные, уличные шейдеры ещё в TS",
+  "prs": [
+    276
+  ],
+  "url": "https://claude.ai/code/session_01DaohkCaoV7hfxzNmeuHhLY",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-13T16:57:56.146Z",
+  "lastResponseAt": "2026-11-13T19:51:01.110Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 640,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 854152,
+    "cacheReadTokens": 69272519,
+    "outputTokens": 229937,
+    "thinkingTokens": 76643,
+    "responses": 334,
+    "costUsd": 25.289019800000002
+  },
+  "subagents": {
+    "inputTokens": 772,
+    "cacheWrite5mTokens": 1712394,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 43570126,
+    "outputTokens": 302386,
+    "thinkingTokens": 122322,
+    "responses": 359,
+    "costUsd": 23.3268032
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 15261,
+      "cacheWrite5mTokens": 1715583,
+      "cacheWrite1hTokens": 854152,
+      "cacheReadTokens": 115004062,
+      "outputTokens": 557115,
+      "thinkingTokens": 198965,
+      "responses": 702,
+      "costUsd": 49.62196239999998
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-13T17:16:02.176Z",
+      "trigger": "auto",
+      "compactedFrom": 304231,
+      "summaryChars": 17994,
+      "reorientation": {
+        "endedBy": "Write",
+        "endedOn": "src/cube/shared/outside/swell-numbers.ts",
+        "endedAt": "2026-11-13T17:16:42.614Z",
+        "contextTokens": 135440,
+        "spend": {
+          "inputTokens": 8,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 76846,
+          "cacheReadTokens": 423801,
+          "outputTokens": 3813,
+          "thinkingTokens": 2720,
+          "responses": 4,
+          "costUsd": 0.7758202
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.2568336
+    },
+    {
+      "at": "2026-11-13T17:39:54.401Z",
+      "trigger": "auto",
+      "compactedFrom": 303983,
+      "summaryChars": 14854,
+      "reorientation": {
+        "endedBy": "Write",
+        "endedOn": ".claude/worktrees/agent-a4015d88191b79086/src/cube/shared/outside/island-ease.shader.ts",
+        "endedAt": "2026-11-13T17:40:14.716Z",
+        "contextTokens": 139188,
+        "spend": {
+          "inputTokens": 20,
+          "cacheWrite5mTokens": 11775,
+          "cacheWrite1hTokens": 71333,
+          "cacheReadTokens": 1216356,
+          "outputTokens": 4274,
+          "thinkingTokens": 1141,
+          "responses": 10,
+          "costUsd": 0.9583702000000001
+        }
+      },
+      "rereads": {
+        "calls": 5,
+        "byTool": {
+          "Read": 5
+        },
+        "estimatedTokens": 10093,
+        "estimatedUsd": 0.2754242
+      },
+      "billedUsd": 0.23942099999999997
+    },
+    {
+      "at": "2026-11-13T18:14:36.029Z",
+      "trigger": "auto",
+      "compactedFrom": 304594,
+      "summaryChars": 15155,
+      "reorientation": {
+        "endedBy": "end_turn",
+        "endedOn": null,
+        "endedAt": "2026-11-13T18:14:45.865Z",
+        "contextTokens": 115110,
+        "spend": {
+          "inputTokens": 4,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 57629,
+          "cacheReadTokens": 162607,
+          "outputTokens": 322,
+          "thinkingTokens": 32,
+          "responses": 2,
+          "costUsd": 0.5000094
+        }
+      },
+      "rereads": {
+        "calls": 2,
+        "byTool": {
+          "Bash": 1,
+          "Read": 1
+        },
+        "estimatedTokens": 5889,
+        "estimatedUsd": 0.0521056
+      },
+      "billedUsd": 0.2252306
+    }
+  ],
+  "telemetry": {
+    "events": 701,
+    "matched": 692,
+    "matchedTableUsd": 48.568173399999985,
+    "matchedEventUsd": 48.56817339999998,
+    "unseen": {
+      "compact": {
+        "inputTokens": 10813,
+        "cacheWrite5mTokens": 964,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 898966,
+        "outputTokens": 24681,
+        "thinkingTokens": 0,
+        "responses": 3,
+        "costUsd": 0.7214852
+      },
+      "prompt_suggestion": {
+        "inputTokens": 3036,
+        "cacheWrite5mTokens": 2225,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 1262451,
+        "outputTokens": 111,
+        "thinkingTokens": 0,
+        "responses": 6,
+        "costUsd": 0.2846542
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".ts": 27167,
+    ".md": 1124,
+    ".json": 104,
+    ".yaml": 765,
+    ".sh": 1,
+    ".wgsl": 14351,
+    ".tsx": -109,
+    ".scss": 15,
+    ".toml": 6
+  }
+}

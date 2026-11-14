@@ -3,13 +3,10 @@ import type { Named } from '@/kernel/shared/typings';
 import type { Sound } from '@/cube/shared/lib/acoustics';
 import type { Rgb } from '@/cube/shared/lib/colour';
 import type { Furnishing } from '@/cube/shared/lib/thing';
-import { assemble, type Wgsl, wgsl } from '@/cube/shared/shader';
+import { assemble, vec3f, type Wgsl, wgsl } from '@/cube/shared/shader';
 
 import { CORE } from '../lib/core';
-import { STUFF } from '../lib/stuff';
-
-/** A place with air of a colour: what shows where no face is drawn. */
-export type Aired = { air: Rgb };
+import { STUFF } from '../lib/stuff.shader.generated';
 
 /**
  * One floor's look and sound, `name` the place in a word or three, as a
@@ -21,16 +18,17 @@ export type Aired = { air: Rgb };
  *   fn themeLens(l: Lens) -> vec3f                 a pixel of the frame an eye
  *                                                  on this floor sees
  */
-export type FloorTheme = Named &
-  Aired & {
-    /** Half a corner pillar's thickness, in room sides; 0 for none. */
-    pillar: number;
-    /** The share of rooms whose lamps have failed. */
-    dark: number;
-    shader: Wgsl;
-    sound: Sound;
-    decor: readonly Furnishing[];
-  };
+export type FloorTheme = Named & {
+  /** The air's colour: what shows where no face is drawn. */
+  air: Rgb;
+  /** Half a corner pillar's thickness, in room sides; 0 for none. */
+  pillar: number;
+  /** The share of rooms whose lamps have failed. */
+  dark: number;
+  shader: Wgsl;
+  sound: Sound;
+  decor: readonly Furnishing[];
+};
 
 /**
  * What stands at the head of a floor's shader. A material is chosen by the
@@ -45,8 +43,18 @@ export type Floors = Readonly<Partial<Record<number, FloorTheme>>>;
 
 /**
  * A floor's whole shader: its theme's three functions, everything they call,
- * and `stage` — the entry points, which may call the theme's three, the core
- * kit and `ownedMark`.
+ * `AIR` — the theme's air, which its WGSL names without importing — the core
+ * kit, and `stage`, the entry points, which call the theme's three without
+ * importing them and import every kit name they use.
  */
-export const floorSource = ({ shader }: FloorTheme, stage: string): string =>
-  `${DIRECTIVES}\n\n${assemble([shader, STUFF, wgsl('stage', stage, CORE)])}`;
+export const floorSource = (
+  { shader, air }: FloorTheme,
+  ...stage: readonly Wgsl[]
+): string =>
+  `${DIRECTIVES}\n\n${assemble([
+    wgsl('air', `const AIR = ${vec3f(air)};`),
+    shader,
+    STUFF,
+    CORE,
+    ...stage,
+  ])}`;

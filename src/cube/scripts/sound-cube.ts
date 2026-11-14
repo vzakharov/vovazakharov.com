@@ -17,7 +17,7 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import { pathHash } from '@/dice/shared/roll';
 
-import { DOORWAY_BOX, WAKE_AT } from '@/cube/shared/outside';
+import { DOORWAY_BOX, WAKE_AT } from '@/cube/entities/island';
 import {
   type Beds,
   bedsOf,

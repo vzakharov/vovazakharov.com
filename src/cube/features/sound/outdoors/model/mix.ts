@@ -1,6 +1,6 @@
+import { CUBE_METRES } from '@/cube/shared/cube-boundary';
 import { clamp01 } from '@/cube/shared/lib/ease';
 import type { Vec2 } from '@/cube/shared/lib/vec';
-import { CUBE_METRES } from '@/cube/shared/outside';
 
 import { bearingOf } from '../../cues';
 import { CYCLE } from '../../dsp';

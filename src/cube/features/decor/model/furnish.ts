@@ -1,9 +1,9 @@
 import { pathHash, roll, type Rolled, rollWith } from '@/dice/shared/roll';
 
+import type { Box } from '@/cube/shared/cube-boundary';
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import { type Furnishing, type Thing, THINGS } from '@/cube/shared/lib/thing';
 import { scaled } from '@/cube/shared/lib/vec';
-import type { Box } from '@/cube/shared/outside';
 import {
   type Quad,
   type Setting,

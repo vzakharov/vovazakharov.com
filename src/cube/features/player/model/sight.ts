@@ -1,5 +1,5 @@
+import type { Box } from '@/cube/shared/cube-boundary';
 import type { WithEye } from '@/cube/shared/lib/vec';
-import type { Box } from '@/cube/shared/outside';
 import type { Gazing } from '@/cube/entities/world';
 
 /**

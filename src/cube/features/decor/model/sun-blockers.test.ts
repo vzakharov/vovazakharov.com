@@ -2,8 +2,13 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { isDeepStrictEqual } from 'node:util';
 
+import {
+  type Box,
+  crossesBeam,
+  SUN_DIR,
+  toShell,
+} from '@/cube/shared/cube-boundary';
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
-import { type Box, crossesBeam, SUN_DIR, toShell } from '@/cube/shared/outside';
 import { themeOf } from '@/cube/entities/theme';
 import {
   holesOf,

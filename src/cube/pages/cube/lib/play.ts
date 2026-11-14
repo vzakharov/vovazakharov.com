@@ -1,6 +1,6 @@
 import type { Readying } from '@/kernel/shared/typings';
 
-import type { Laddered } from '@/cube/shared/outside';
+import type { Laddered } from '@/cube/entities/island';
 import type { InRoomOf, Outside, Pose, Quad } from '@/cube/entities/world';
 
 import type { OutsideLens } from './outside-lens';
