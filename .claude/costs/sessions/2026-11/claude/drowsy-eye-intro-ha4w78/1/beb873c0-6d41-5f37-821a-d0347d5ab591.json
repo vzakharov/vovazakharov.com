@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 49555,
+    "inputTokens": 49572,
     "cacheWrite5mTokens": 10442,
-    "cacheWrite1hTokens": 529004,
-    "cacheReadTokens": 43677930,
-    "outputTokens": 206268,
-    "thinkingTokens": 73806,
-    "responses": 198,
-    "costUsd": 17.246906000000006
+    "cacheWrite1hTokens": 541496,
+    "cacheReadTokens": 46133164,
+    "outputTokens": 210090,
+    "thinkingTokens": 74302,
+    "responses": 206,
+    "costUsd": 17.914396800000006
   },
   "estimate": {
     "at": "2026-11-14T11:01:19.316Z",
@@ -48,22 +48,24 @@
   "branch": "claude/drowsy-eye-intro-ha4w78",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "проблема: интро куба жутко тормозит сейчас решение: понижать пиксельность рассматриваю следующее креативное решение: не менять пиксельность, но при любом движен…",
-  "prs": [],
+  "prs": [
+    281
+  ],
   "url": "https://claude.ai/code/session_01DaohkEDLi4h9PRuRHgXuPy",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-14T09:45:43.313Z",
-  "lastResponseAt": "2026-11-14T15:10:52.310Z",
+  "lastResponseAt": "2026-11-14T15:11:46.425Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 7.099354800000002,
   "ownTurns": {
-    "inputTokens": 342,
+    "inputTokens": 359,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 529004,
-    "cacheReadTokens": 37757574,
-    "outputTokens": 187095,
-    "thinkingTokens": 73806,
-    "responses": 171,
-    "costUsd": 15.526814800000006
+    "cacheWrite1hTokens": 541496,
+    "cacheReadTokens": 40212808,
+    "outputTokens": 190917,
+    "thinkingTokens": 74302,
+    "responses": 179,
+    "costUsd": 16.194305600000007
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,14 +79,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 21335,
+      "inputTokens": 21352,
       "cacheWrite5mTokens": 10442,
-      "cacheWrite1hTokens": 529004,
-      "cacheReadTokens": 43677930,
-      "outputTokens": 204536,
-      "thinkingTokens": 73806,
-      "responses": 196,
-      "costUsd": 17.223218000000006
+      "cacheWrite1hTokens": 541496,
+      "cacheReadTokens": 46133164,
+      "outputTokens": 208358,
+      "thinkingTokens": 74302,
+      "responses": 204,
+      "costUsd": 17.890708800000006
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 28220,
@@ -127,16 +129,16 @@
           "Bash": 1
         },
         "estimatedTokens": 4757,
-        "estimatedUsd": 0.07036239999999999
+        "estimatedUsd": 0.0779736
       },
       "billedUsd": 0.5624473999999999
     }
   ],
   "telemetry": {
-    "events": 197,
-    "matched": 170,
-    "matchedTableUsd": 15.408278400000006,
-    "matchedEventUsd": 15.40827840000001,
+    "events": 205,
+    "matched": 178,
+    "matchedTableUsd": 16.116279000000006,
+    "matchedEventUsd": 16.11627900000001,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 11132,
@@ -178,7 +180,7 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 451,
+    ".md": 455,
     ".ts": 1071,
     ".wgsl": 156
   }
