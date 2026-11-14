@@ -1,11 +1,17 @@
 /// <reference types="@webgpu/types" />
 
-import type { CanDispose } from '@/kernel/shared/typings';
+import type { CanDispose, Sized } from '@/kernel/shared/typings';
 
 import { assemble } from '@/cube/shared/shader';
 
 import { BLOOM_LEVELS } from './bloom-numbers';
 import { BLOOM_PASS } from './bloom-pass.shader.generated';
+import {
+  beginRepeat,
+  type Repeat,
+  type Scissored,
+  UNREPEATED,
+} from './slowdown';
 
 /** What the scene is drawn into: light past white, and room in `a` for depth. */
 export const SCENE_FORMAT: GPUTextureFormat = 'rgba16float';
@@ -15,6 +21,8 @@ type Covering = {
   keeps?: boolean;
   /** Where the GPU stamps the pass's start or end. */
   stamp?: GPURenderPassTimestampWrites;
+  /** Which of its stage's encodings the pass is, `into` being that size. */
+  scissored?: Scissored;
 };
 
 /** Records one pass of `pipeline`, reading `group`, over the whole of `into`. */
@@ -23,32 +31,43 @@ export function cover(
   pipeline: GPURenderPipeline,
   group: GPUBindGroup,
   into: GPUTextureView,
-  { keeps = false, stamp }: Covering = {},
+  { keeps = false, stamp, scissored }: Covering = {},
 ): void {
-  const pass = encoder.beginRenderPass({
-    colorAttachments: [
-      { view: into, loadOp: keeps ? 'load' : 'clear', storeOp: 'store' },
-    ],
-    ...(stamp === undefined ? {} : { timestampWrites: stamp }),
-  });
+  const pass = beginRepeat(
+    encoder,
+    {
+      colorAttachments: [
+        { view: into, loadOp: keeps ? 'load' : 'clear', storeOp: 'store' },
+      ],
+      ...(stamp === undefined ? {} : { timestampWrites: stamp }),
+    },
+    scissored?.repeat ?? UNREPEATED,
+    scissored ?? { width: 1, height: 1 },
+  );
   pass.setPipeline(pipeline);
   pass.setBindGroup(0, group);
   pass.draw(3);
   pass.end();
 }
 
-type Level = { texture: GPUTexture; view: GPUTextureView; read: GPUBindGroup };
+type Level = Sized & {
+  texture: GPUTexture;
+  view: GPUTextureView;
+  read: GPUBindGroup;
+};
 
 export type Bloom = CanDispose & {
   /**
    * Records the passes that spread the bright parts of `scene`, a `width` by
-   * `height` frame, and gives back the view they end in.
+   * `height` frame, as `repeat` encodes them, and gives back the view they
+   * end in.
    */
   run: (
     encoder: GPUCommandEncoder,
     scene: GPUTextureView,
     width: number,
     height: number,
+    repeat?: Repeat,
   ) => GPUTextureView;
 };
 
@@ -110,34 +129,43 @@ export function createBloom(device: GPUDevice): Bloom {
     size = key;
     for (const { texture } of levels) texture.destroy();
     levels = Array.from({ length: BLOOM_LEVELS }, (_, level) => {
+      const sized = {
+        width: Math.max(1, width >> (level + 1)),
+        height: Math.max(1, height >> (level + 1)),
+      };
       const texture = device.createTexture({
-        size: [
-          Math.max(1, width >> (level + 1)),
-          Math.max(1, height >> (level + 1)),
-        ],
+        size: [sized.width, sized.height],
         format: SCENE_FORMAT,
         usage:
           GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING,
       });
       const view = texture.createView();
-      return { texture, view, read: reading(view) };
+      return { ...sized, texture, view, read: reading(view) };
     });
   };
 
   return {
-    run: (encoder, scene, width, height) => {
+    run: (encoder, scene, width, height, repeat = UNREPEATED) => {
       fit(width, height);
       if (from?.view !== scene) from = { view: scene, read: reading(scene) };
       const [first, ...rest] = levels;
       if (first === undefined) throw new Error('The bloom has no levels');
-      cover(encoder, bright, from.read, first.view);
+      const scissored = (level: Level) => ({ repeat, ...level });
+      cover(encoder, bright, from.read, first.view, {
+        scissored: scissored(first),
+      });
       let above = first;
       for (const level of rest) {
-        cover(encoder, down, above.read, level.view);
+        cover(encoder, down, above.read, level.view, {
+          scissored: scissored(level),
+        });
         above = level;
       }
       for (const level of levels.toReversed().slice(1)) {
-        cover(encoder, up, above.read, level.view, { keeps: true });
+        cover(encoder, up, above.read, level.view, {
+          keeps: true,
+          scissored: scissored(level),
+        });
         above = level;
       }
       return first.view;

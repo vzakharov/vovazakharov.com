@@ -6,6 +6,7 @@
 // and the walk's last stretch so neither shows a seam.
 
 import super::reflection_numbers::SIGHT;
+import super::sight_line::sightThrough;
 
 struct View {
   viewProjection: mat4x4f,
@@ -142,9 +143,7 @@ fn walk(start: vec3f, ray: vec3f, origin: vec2f) -> vec4f {
 
 /// The way from the eye through `uv` on the screen, unit length.
 fn sightAt(uv: vec2f) -> vec3f {
-  let along =
-    view.inverse * vec4f(uv.x * 2.0 - 1.0, 1.0 - uv.y * 2.0, 0.5, 1.0);
-  return normalize(along.xyz / along.w - view.eye.xyz);
+  return sightThrough(view.inverse, view.eye.xyz, uv);
 }
 
 /// What the scene shows at `texel`, as a point of the frame.

@@ -3,7 +3,7 @@
 // the same scene, between eyelids — two soft-edged arcs closing from above and
 // below, the gap between them widest in the middle.
 
-import super::lens_stage::{uniforms, lensOf};
+import super::lens_stage::{uniforms, lensOf, vignetted};
 import package::cube::entities::theme::kit::lib::grade::{filmic, through};
 
 /// How far the film parts red from blue, as `through` takes it: a quarter
@@ -41,5 +41,5 @@ fn lensFragment(@builtin(position) at: vec4f) -> @location(0) vec4f {
   let l = lensOf(at);
   let film = daylightFilm(through(l, 0.03, FRINGE) * uniforms.lens.x);
   let seen = mix(film, themeLens(l), uniforms.lens.z);
-  return vec4f(seen * betweenLids(l.uv, uniforms.lens.y), 1.0);
+  return vec4f(vignetted(seen, l.uv) * betweenLids(l.uv, uniforms.lens.y), 1.0);
 }

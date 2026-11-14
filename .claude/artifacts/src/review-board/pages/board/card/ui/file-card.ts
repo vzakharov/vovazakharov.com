@@ -250,7 +250,7 @@ export function createCard(
         ? asDocument
           ? `doc:${state.diff.after ?? ""}:${state.diff.after === null}`
           : state.diff.diff
-        : `binary:${state.diff.fromSize}:${state.diff.toSize}`;
+        : `binary:${state.diff.fromSize}:${state.diff.toSize}:${state.diff.image ?? ""}`;
     if (state.viewed) {
       body.hidden = true;
       body.replaceChildren();
@@ -262,7 +262,18 @@ export function createCard(
     rendered = key;
     body.classList.toggle("has-diff", false);
     body.classList.toggle("has-doc", false);
+    body.classList.toggle("has-image", false);
     if (state.diff.kind === "binary") {
+      const { image } = state.diff;
+      if (image !== null) {
+        const picture = el("img", "frame");
+        picture.src = image;
+        picture.alt = file.path;
+        picture.title = `${file.path} — ${formatSize(state.diff.toSize)}`;
+        body.classList.add("has-image");
+        body.replaceChildren(picture);
+        return;
+      }
       body.replaceChildren(
         stubBody(
           `Binary file — ${formatSize(state.diff.fromSize)} → ${formatSize(state.diff.toSize)}`,

@@ -31,6 +31,7 @@ import {
   type Player,
   poseWithin,
   refusedAt,
+  type Said,
   shotWithin,
   standingAt,
   steppingOut,
@@ -61,12 +62,17 @@ import { QUALITY_KEY } from './quality';
  */
 export type Way = 'wake' | 'climb' | 'gone' | 'run';
 
-/** The floor from which, down, the run's key is told until first pressed. */
+/** The scene walked, which a button on screen can answer a question in. */
+export type Walk = CubeScene & { answer: (said: Said) => void };
+
+/** From this floor down, the run's key is told `RUN_TOLD_FOR` s a visit. */
 const RUN_TOLD_FROM = 3;
+const RUN_TOLD_FOR = 6;
 
 /**
  * `open` hears a press on a sign in reach; `offering` whether one is open.
- * `setFloor` takes null out of doors, where no floor is underfoot.
+ * `setFloor` takes null out of doors, where no floor is underfoot; `setFree`
+ * whether the body answers the controls, neither asleep nor in a scene.
  */
 export type Hooks = {
   setFloor: (n: number | null) => void;
@@ -75,6 +81,7 @@ export type Hooks = {
   setInReach: (kind: SignKind | null) => void;
   setWay: (way: Way | null) => void;
   setPill: (prompt: PillPrompt | null) => void;
+  setFree: (free: boolean) => void;
   open: (offer: Signed) => void;
   offering: () => boolean;
 };
@@ -95,10 +102,11 @@ export function walk(
     setInReach,
     setWay,
     setPill,
+    setFree,
     open,
     offering,
   }: Hooks,
-): CubeScene {
+): Walk {
   const input = play ? null : bindInput(canvas, setFailure);
   // A script's walk is looked at, not listened to.
   const hearing = input === null ? null : hear(canvas);
@@ -160,6 +168,8 @@ export function walk(
   let pressed: PromiseWithResolvers<void> | null = null;
   /** Whether a script's eye is out of doors, where no floor is underfoot. */
   let scriptedOut = false;
+  /** Seconds the run's key has been told this visit. */
+  let runTold = 0;
 
   /**
    * Shows the hint by a sign in reach, and opens its offer on a press;
@@ -219,6 +229,7 @@ export function walk(
     setFloor(null);
     setInReach(null);
     setPill(null);
+    setFree(!asleep && next.scene === null);
     setWay(
       asleep
         ? 'wake'
@@ -303,8 +314,14 @@ export function walk(
             }
             reach(moved, signOf, controls.use && standing);
             setPill(pillPromptOf(player, moved, here));
+            setFree(true);
+            const tellsRun =
+              moved.n >= RUN_TOLD_FROM &&
+              !input.shifted() &&
+              runTold < RUN_TOLD_FOR;
+            if (tellsRun) runTold += seconds;
             // The canvas lets a sign's and a pill's hints take the place first.
-            setWay(moved.n >= RUN_TOLD_FROM && !input.shifted() ? 'run' : null);
+            setWay(tellsRun ? 'run' : null);
             // A key held through the look is not a second try.
             if (
               sill === 'seen' &&
@@ -367,6 +384,9 @@ export function walk(
   }
   return {
     ...scene,
+    answer: (said) => {
+      input?.say(said);
+    },
     dispose: () => {
       input?.dispose();
       globalThis.removeEventListener('keydown', wake);

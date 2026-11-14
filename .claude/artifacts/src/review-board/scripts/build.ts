@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { build } from "esbuild";
 import { boardTitle } from "#src/review-board/shared/review-data/index.ts";
 import { collect } from "./collect.ts";
+import { oversizeWarnings } from "./images.ts";
 import { renderPage } from "./page.ts";
 import { scss } from "./scss.ts";
 
@@ -61,6 +62,16 @@ const indexPath = join(outDir, "index.html");
 const localPath = join(outDir, "local.html");
 writeFileSync(indexPath, page.fragment);
 writeFileSync(localPath, page.document);
+
+const imageSizes = new Map(
+  data.files.flatMap((file) => {
+    const head = file.revisions.at(-1);
+    return head?.blob != null && head.blob in data.images
+      ? [[file.path, head.size ?? 0] as const]
+      : [];
+  }),
+);
+for (const warning of oversizeWarnings(imageSizes)) console.warn(warning);
 
 const bytes = Buffer.byteLength(page.fragment);
 const size = `${(bytes / MB).toFixed(2)} MB`;

@@ -1,4 +1,3 @@
-import { spawnSync } from "node:child_process";
 import * as z from "zod/mini";
 import type {
   FileStatus,
@@ -7,6 +6,8 @@ import type {
 } from "#src/review-board/shared/review-data/index.ts";
 import { FOCUS_PATH, lineCount, parseFocus } from "./focus.ts";
 import { CHECK_GENERATED, generatedPaths } from "./generated.ts";
+import { git, gitText, run, tryText } from "./git.ts";
+import { dataUri, imageType } from "./images.ts";
 
 interface CollectOptions {
   cwd: string;
@@ -14,53 +15,8 @@ interface CollectOptions {
   base?: string;
 }
 
-const MAX_BUFFER = 1 << 30;
 const FIELD = "\x1f";
 const RECORD = "\x1e";
-
-type Outcome =
-  | { ok: true; stdout: Buffer }
-  | { ok: false; status: number | null; reason: string };
-
-function run(
-  cwd: string,
-  command: string,
-  args: string[],
-  input?: string,
-): Outcome {
-  const result = spawnSync(command, args, {
-    cwd,
-    maxBuffer: MAX_BUFFER,
-    ...(input === undefined ? {} : { input }),
-  });
-  if (result.error)
-    return { ok: false, status: null, reason: result.error.message };
-  if (result.status !== 0)
-    return {
-      ok: false,
-      status: result.status,
-      reason: result.stderr.toString("utf8").trim(),
-    };
-  return { ok: true, stdout: result.stdout };
-}
-
-function git(cwd: string, args: string[], input?: string): Buffer {
-  const outcome = run(cwd, "git", args, input);
-  if (!outcome.ok)
-    throw new Error(`git ${args.join(" ")} failed: ${outcome.reason}`);
-  return outcome.stdout;
-}
-
-function gitText(cwd: string, args: string[], input?: string): string {
-  return git(cwd, args, input).toString("utf8");
-}
-
-/** The command's trimmed stdout, or null when it is unavailable or exits non-zero. */
-function tryText(cwd: string, command: string, args: string[]): string | null {
-  const outcome = run(cwd, command, args);
-  if (!outcome.ok) return null;
-  return outcome.stdout.toString("utf8").trim() || null;
-}
 
 const prSchema = z.object({ number: z.number(), baseRefName: z.string() });
 type Pr = z.infer<typeof prSchema>;
@@ -315,11 +271,11 @@ function readRevisions(
   });
 }
 
-/** Blob id → text, one `cat-file --batch` run over the distinct ids. */
-function readBlobs(cwd: string, ids: string[]): Record<string, string> {
-  if (ids.length === 0) return {};
+/** Blob id → bytes, one `cat-file --batch` run over the distinct ids. */
+function readBlobBytes(cwd: string, ids: string[]): Map<string, Buffer> {
+  const blobs = new Map<string, Buffer>();
+  if (ids.length === 0) return blobs;
   const out = git(cwd, ["cat-file", "--batch"], `${ids.join("\n")}\n`);
-  const blobs: Record<string, string> = {};
   let pos = 0;
   for (const id of ids) {
     const headerEnd = out.indexOf("\n", pos);
@@ -329,10 +285,35 @@ function readBlobs(cwd: string, ids: string[]): Record<string, string> {
     }
     const start = headerEnd + 1;
     const end = start + Number(size);
-    blobs[id] = out.toString("utf8", start, end);
+    blobs.set(id, out.subarray(start, end));
     pos = end + 1;
   }
   return blobs;
+}
+
+/** Blob id → text. */
+function readBlobs(cwd: string, ids: string[]): Record<string, string> {
+  return Object.fromEntries(
+    [...readBlobBytes(cwd, ids)].map(([id, bytes]) => [
+      id,
+      bytes.toString("utf8"),
+    ]),
+  );
+}
+
+/** Blob id → `data:` URI for each image file's version at HEAD; a deleted image has none. */
+function readImages(cwd: string, files: ReviewFile[]): Record<string, string> {
+  const types = new Map<string, string>();
+  for (const file of files) {
+    const type = file.binary ? imageType(file.path) : null;
+    const blob = file.revisions.at(-1)?.blob ?? null;
+    if (type !== null && blob !== null) types.set(blob, type);
+  }
+  const images: Record<string, string> = {};
+  for (const [id, bytes] of readBlobBytes(cwd, [...types.keys()])) {
+    images[id] = dataUri(types.get(id) ?? "", bytes);
+  }
+  return images;
 }
 
 /** The focus file as committed at HEAD, checked against the files' text there; empty when there is none. */
@@ -401,5 +382,6 @@ export function collect({ cwd, base }: CollectOptions): ReviewData {
     files,
     focus: readFocus(cwd, files, blobs),
     blobs,
+    images: readImages(cwd, files),
   };
 }
