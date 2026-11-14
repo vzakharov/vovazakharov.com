@@ -24,8 +24,12 @@ own knob).
 
 ## Status
 
-- Built: nothing yet. In flight: the builder. Left: integrate, `/preview live`,
-  review board, `/polish`, `/pr`.
+- Built: everything under "Files", by the builder (head 15d1ad6c, vet green on
+  run 43608036038), merged into this branch as 75e9e9c0. Seen rendering only in
+  SwiftShader WebGPU; no GPU timestamps there, so the slowdown's GPU ms is
+  unverified on real hardware.
+- In flight: preview slot 1, the PR and its review board. Left: `/five-percent`
+  on the PR, the operator's look on a real GPU.
 
 ## Goal
 
