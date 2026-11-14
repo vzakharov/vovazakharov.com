@@ -85,9 +85,9 @@ All on Opus, started 2026-11-14 20:19Z from 47b2d1fb.
   the operator, not done. Cube board republished at v93 before 5186a875: needs
   one more republish (subagent: read the url, publish `tmp/board/cube/` with
   `images/` and `icons/` as `files`).
-- Open question to the operator: threshold 10 (≈50 doors, 15 gaps an hour in
-  game) or 8 (≈ +30%); 10 stands until answered; the `doors-threshold` sticky
-  still says 59/20 and needs the game's figures.
+- Threshold, operator: «порог: 10 (около 50 дверей и 15 проёмов в час) — Так,
+  да». Sticky and `DOORWAYS` doc carry the game's figures (179e5b29); the cube
+  board needs a republish for it.
 - Known and left: one open door at a time (a second snaps the first shut); no
   door sound.
 - Left: integration, `/polish`, preview.
