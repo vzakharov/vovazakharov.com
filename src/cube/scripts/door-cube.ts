@@ -32,11 +32,11 @@ const FRAMES = path.resolve(
   flag('out') ?? path.join(REPO_ROOT, 'tmp/cube/door'),
 );
 
-/** The floors shot: a shallow one and a deep one. */
-const FLOORS = [3, 8] as const;
+/** The floors shot: the shallowest that holds a door, and a deep one. */
+const FLOORS = [4, 8] as const;
 
 /** How many rooms across, from the north-west corner, a door is looked for in. */
-const SEARCH = 16n;
+const SEARCH = 24n;
 
 /** How far back from the door the eye stands, in room sides. */
 const BACK = 0.3;
