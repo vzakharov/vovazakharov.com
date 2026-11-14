@@ -116,6 +116,9 @@ own knob).
   input (a finger yes, a mouse or a key no, a coarse pointer before any), the
   overlay holds until the first drag, the answers are `Swallow` / `Put down`
   buttons on touch, and the stick runs past 100 CSS px.
+- Operator: «подсказка про контролы должна подсказываться после окончания
+  стартовой cutscene» — built in 0a1bc1ca (`Hooks.setFree`, true once awake and
+  in no scene), on preview slot 1.
 - Left, in this order:
   1. The operator's look, on the iPhone, at the clouds on high, the overlay and
      the stick's run.
