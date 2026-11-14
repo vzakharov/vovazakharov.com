@@ -128,15 +128,28 @@
   }
 
   /**
-   * Doors in closed interior walls. A door is a property of the wall, so both
-   * faces show it and no wall holds two; perimeter walls are never candidates.
-   * `perHundred` doors per 100 rooms, among walls whose walk round is at least
-   * `minGap`, decided locally by `roll` as the game would.
+   * Openings in closed interior walls, `perHundred` per 100 rooms among walls
+   * whose walk round is at least `minGap`, decided locally by `roll` as the
+   * game would. An opening is a door or a gap (the wall simply missing) by
+   * its own walk round: under `split` it is `near`, from `split` up the other
+   * kind. A door is a property of the wall, so both faces show it and no wall
+   * holds two; perimeter walls are never candidates.
    */
-  function placeDoors(m, { perHundred, minGap, spacing = 'none', roll }) {
-    const eligible = m.closed.filter((w) => w.exact >= minGap);
+  function placeDoors(m, { perHundred, minGap, maxGap = Infinity, split = Infinity, near = 'door', spacing = 'none', roll }) {
+    const eligible = m.closed.filter((w) => w.exact >= minGap && w.exact < maxGap);
     const want = Math.round((perHundred * m.N) / 100);
-    return { doors: rolledDoors(eligible, want, spacing, roll), eligible: eligible.length, want };
+    const doors = [], gaps = [];
+    for (const w of rolledDoors(eligible, want, spacing, roll)) ((w.exact < split) === (near === 'door') ? doors : gaps).push(w);
+    return { doors, gaps, eligible: eligible.length, want };
+  }
+
+  /** The floor with `gaps` knocked out of its walls: a copy whose open sides include them. */
+  function withGaps(m, gaps) {
+    if (!gaps.length) return m;
+    const openE = m.openE.slice(), openS = m.openS.slice();
+    for (const g of gaps) (g.dir === 'E' ? openE : openS)[g.a] = 1;
+    const gone = new Set(gaps);
+    return { ...m, openE, openS, closed: m.closed.filter((w) => !gone.has(w)) };
   }
 
   /** A stand-in for the world roll on sandbox floors: FNV-1a over `${seed}/${path}`, then a murmur finaliser. */
@@ -151,11 +164,11 @@
   }
 
   /**
-   * Doors decided locally from a world roll, `roll(path)` a uint32 for a path
-   * under the floor's own prefix: each
-   * перегородка (or each wall, with no spacing) asks whether it has a door and,
-   * per перегородка, at which of its allowed walls. The per-unit odds are the
-   * one global input: on the real floor they would be a constant per depth.
+   * Openings decided locally from a world roll, `roll(path)` a uint32 for a
+   * path under the floor's own prefix: each перегородка (or each wall, with
+   * no spacing) asks whether it has an opening and, per перегородка, at which
+   * of its allowed walls. The per-unit odds are the one global input: on the
+   * real floor they would be a constant per depth.
    */
   function rolledDoors(eligible, want, spacing, roll) {
     const unit = (path) => roll(path) / 2 ** 32;
@@ -170,13 +183,13 @@
       arms.get(key).push(w);
     }
     const p = Math.min(1, want / Math.max(1, arms.size));
-    const doors = [];
+    const out = [];
     for (const [key, walls] of arms) {
       if (unit(`${key}/has`) >= p) continue;
       walls.sort((u, v) => u.x - v.x || u.y - v.y);
-      doors.push(walls[Math.floor(unit(`${key}/at`) * walls.length)]);
+      out.push(walls[Math.floor(unit(`${key}/at`) * walls.length)]);
     }
-    return doors;
+    return out;
   }
 
   function armOf(w) {
@@ -517,6 +530,6 @@
     return { entered: p.entered, dead: p.dead, skipped: m.N - p.entered.reduce((a, b) => a + b, 0) };
   }
 
-  root.DoorSim = { buildMaze, placeDoors, seededRoll, deadEnds, eyesOf, WALL_HALF, redundant, adjacency, bfs, mapper, wanderer, follower, opener, trial, randomPairs, sweep, treeDistance, levelOf, mulberry32 };
+  root.DoorSim = { buildMaze, placeDoors, withGaps, seededRoll, deadEnds, eyesOf, WALL_HALF, redundant, adjacency, bfs, mapper, wanderer, follower, opener, trial, randomPairs, sweep, treeDistance, levelOf, mulberry32 };
   if (typeof module !== 'undefined') module.exports = root.DoorSim;
 })(typeof globalThis !== 'undefined' ? globalThis : this);
