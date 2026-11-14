@@ -195,6 +195,8 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
         <label for="gap">Порог: не меньше комнат в обход <span class="num" id="gapOut"></span></label>
         <input type="range" id="gap" min="0" max="256" step="1" value="11">
         <small>Обход считается точно, поиском на глубину порога: хватит обойти всё, куда ведут K ходов, и проверить, нет ли там комнаты с той стороны. Этаж лабиринт-дерево, так что на деле это ~60–150 комнат. Замер (bfs-cost.js, этажи 9–50, каждая стена решается из хешей мира на месте): при K = 48 около 0,4 мс на стену с кешем блоков и 2,5 мс без него. Считается один раз на стену, выпавшую кандидатом в дверь, и запоминается навсегда, а не каждый кадр.</small>
+        <label class="check"><input type="checkbox" id="window"> искать разрешённые стены как игра: поиск только в окне у прохода, остальное по оценке 2·d + 1</label>
+        <small id="windowOut"></small>
       </div>
       <div class="ctl">
         <label for="share">Доля дверей среди отверстий <span class="num" id="shareOut"></span></label>
@@ -351,7 +353,7 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
   const S = window.DoorSim, W = window.DoorWorld;
   const $ = (id) => document.getElementById(id);
   const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-  const state = { k: 5, perHundred: 100, minGap: 11, doorShare: 75, floorSeed: 7, doorSeed: 101, pairSeed: 3, heat: true, elig: true, dead: true, game: true, spacing: 'arm', landing: 0, hole: 0, clickNext: 'landing' };
+  const state = { k: 5, perHundred: 100, minGap: 11, doorShare: 75, window: false, floorSeed: 7, doorSeed: 101, pairSeed: 3, heat: true, elig: true, dead: true, game: true, spacing: 'arm', landing: 0, hole: 0, clickNext: 'landing' };
   let maze, mazeOpen, placement, adjBare, adjDoors, distLand, seen, eyesBare, eyesDoors, wander;
 
   const canvas = $('floor');
@@ -388,7 +390,14 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
     rebuildDoors();
   }
   function rebuildDoors() {
-    placement = S.placeDoors(maze, { perHundred: state.perHundred, minGap: state.minGap, doorShare: state.doorShare / 100, spacing: state.spacing, roll: doorRoll() });
+    const how = { perHundred: state.perHundred, minGap: state.minGap, doorShare: state.doorShare / 100, spacing: state.spacing, roll: doorRoll() };
+    placement = S.placeDoors(maze, { ...how, window: state.window });
+    if (state.window) {
+      // The full count beside it, so the page shows the two agree rather than saying so.
+      const full = S.placeDoors(maze, how), same = (a, b) => a.length === b.length && a.every((w, i) => w === b[i]);
+      const agree = same(placement.doors, full.doors) && same(placement.gaps, full.gaps) && placement.eligible === full.eligible;
+      $('windowOut').innerHTML = `Поиском проверено <b>${placement.searched}</b> стен из ${maze.closed.length}, остальные ${maze.closed.length - placement.searched} решены оценкой. Разрешённых ${placement.eligible}, полный подсчёт по всему дереву даёт ${full.eligible}. ${agree ? '<span style="color:var(--allow)">Двери и проёмы стоят на тех же стенах, что и при полном подсчёте.</span>' : '<span style="color:var(--door)">Расстановка разошлась с полным подсчётом!</span>'}`;
+    } else $('windowOut').textContent = '';
     placement.redundant = S.redundant(maze, placement.doors.concat(placement.gaps), state.minGap);
     mazeOpen = S.withGaps(maze, placement.gaps);
     adjBare = S.adjacency(maze, []);
@@ -734,6 +743,7 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
   $('density').addEventListener('input', (ev) => { state.perHundred = +ev.target.value; rebuildDoors(); });
   $('gap').addEventListener('input', (ev) => { state.minGap = +ev.target.value; rebuildDoors(); });
   $('share').addEventListener('input', (ev) => { state.doorShare = +ev.target.value; rebuildDoors(); });
+  $('window').addEventListener('change', (ev) => { state.window = ev.target.checked; rebuildDoors(); });
   $('tune').addEventListener('click', tune);
   $('heat').addEventListener('change', (ev) => { state.heat = ev.target.checked; draw(); });
   $('elig').addEventListener('change', (ev) => { state.elig = ev.target.checked; draw(); });

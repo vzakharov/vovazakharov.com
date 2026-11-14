@@ -135,12 +135,37 @@
    * property of the wall, so both faces show it and no wall holds two;
    * perimeter walls are never candidates.
    */
-  function placeDoors(m, { perHundred, minGap, maxGap = Infinity, doorShare = 1, spacing = 'none', roll }) {
-    const eligible = m.closed.filter((w) => w.exact >= minGap && w.exact < maxGap);
+  function placeDoors(m, { perHundred, minGap, maxGap = Infinity, doorShare = 1, spacing = 'none', roll, window = false }) {
+    const found = window ? eligibleByWindow(m, minGap) : { eligible: m.closed.filter((w) => w.exact >= minGap && w.exact < maxGap), searched: null };
+    const { eligible } = found;
     const want = Math.round((perHundred * m.N) / 100);
     const doors = [], gaps = [];
     for (const w of rolledDoors(eligible, want, spacing, roll)) (roll(`${w.dir}/${w.x}/${w.y}/kind`) / 2 ** 32 < doorShare ? doors : gaps).push(w);
-    return { doors, gaps, eligible: eligible.length, want };
+    return { doors, gaps, eligible: eligible.length, want, searched: found.searched };
+  }
+
+  /**
+   * The walls whose walk round is at least `minGap`, found as the game would:
+   * never from the floor's whole tree. The way round crosses the wall's arm
+   * only at its passage, or turns a blind arm's centre end, so it is at least
+   * 2·d + 1 for d walls between the wall and that point; a bounded search runs
+   * only where that bound falls short. `searched` counts those searches.
+   */
+  function eligibleByWindow(m, minGap) {
+    const adj = Array.from({ length: m.N }, (_, i) => treeNeighbours(m, i));
+    const eligible = [];
+    let searched = 0;
+    for (const w of m.closed) {
+      const along = w.dir === 'E' ? w.y : w.x, L = w.level, half = 1 << (L - 1);
+      const inB = along & (2 * half - 1), first = inB < half, off = first ? inB : inB - half;
+      const arm = w.dir === 'E' ? (first ? NORTH : SOUTH) : first ? WEST : EAST;
+      const b = m.block(L, w.x, w.y);
+      const anchor = b.omit === arm ? (first ? half - 1 : 0) : b.door[arm];
+      if (2 * Math.abs(off - anchor) + 1 >= minGap) { eligible.push(w); continue; }
+      searched++;
+      if (!withinGap(adj, w.a, w.b, minGap)) eligible.push(w);
+    }
+    return { eligible, searched };
   }
 
   /** `steps` moves from `start`, each to a random neighbouring room, door and gap alike: the rooms stood in, in order. */
