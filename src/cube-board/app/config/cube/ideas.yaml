@@ -101,6 +101,30 @@ items:
     box: [4580, -3320, 220]
     src: images/doors-06-hallway-after.webp
     text: 'Floor 66: the painted doors are spaced so the last stands on the doorway, and a real door takes its place with no sliver of painted casing beside it'
+  - id: img-doors-07-darkroom-before
+    type: image
+    updated: [2026-11-14T23:40:00.000Z, agent:cube]
+    box: [3668, -3165, 220]
+    src: images/doors-07-darkroom-before.webp
+    text: "Darkroom, before: the prints on the line repeat every 0.4 m from the room's corner, so the doorway's edge cuts one in half on every wall with a door"
+  - id: img-doors-07-darkroom-after
+    type: image
+    updated: [2026-11-14T23:40:00.000Z, agent:cube]
+    box: [3896, -3165, 220]
+    src: images/doors-07-darkroom-after.webp
+    text: 'After: a print that would touch the doorway is not hung at all; the line itself runs on, as the wallpaper does'
+  - id: img-doors-07-clean-room-before
+    type: image
+    updated: [2026-11-14T23:40:00.000Z, agent:cube]
+    box: [4124, -3165, 220]
+    src: images/doors-07-clean-room-all-glazed-before.webp
+    text: 'Clean room, every bay glazed, before: the window of the fourth 1.25 m bay sits at 3.98–4.78 m, and a strip of its steel frame shows past the jamb'
+  - id: img-doors-07-clean-room-after
+    type: image
+    updated: [2026-11-14T23:40:00.000Z, agent:cube]
+    box: [4352, -3165, 220]
+    src: images/doors-07-clean-room-all-glazed-after.webp
+    text: 'After: that bay goes blank on every wall, door or not, since the grid is the same in every room. The same gate covers fifteen themes with pieces set on a grid'
   - id: doors-idea
     type: sticky
     updated: [2026-11-14T10:45:00.000Z, agent:cube]
