@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 6826,
+    "inputTokens": 6849,
     "cacheWrite5mTokens": 7496,
-    "cacheWrite1hTokens": 392407,
-    "cacheReadTokens": 28883021,
-    "outputTokens": 114481,
-    "thinkingTokens": 36163,
-    "responses": 132,
-    "costUsd": 11.291432200000001
+    "cacheWrite1hTokens": 410114,
+    "cacheReadTokens": 30617215,
+    "outputTokens": 118209,
+    "thinkingTokens": 36601,
+    "responses": 142,
+    "costUsd": 11.854579000000001
   },
   "estimate": {
     "at": "2026-11-14T17:57:45.784Z",
@@ -46,7 +46,7 @@
   },
   "sessionId": "8fc3879b-c119-5998-aec1-55fd4c802049",
   "branch": "claude/cube-board-right-hand-doors-oldy2u",
-  "cwd": "/home/user/vovazakharov.com/src/cube",
+  "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/cube-board-right-hand-doors-oldy2u — PR открыт, обсуждаем подбор порогов дверей и проёмов",
   "prs": [
     280
@@ -54,18 +54,18 @@
   "url": "https://claude.ai/code/session_01DaohkE83TgA9HwGzYS9z1n",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-14T17:49:58.859Z",
-  "lastResponseAt": "2026-11-14T19:52:16.529Z",
+  "lastResponseAt": "2026-11-14T19:53:15.093Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 238,
+    "inputTokens": 261,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 392407,
-    "cacheReadTokens": 26004464,
-    "outputTokens": 105960,
-    "thinkingTokens": 36163,
-    "responses": 122,
-    "costUsd": 10.4603008
+    "cacheWrite1hTokens": 410114,
+    "cacheReadTokens": 27738658,
+    "outputTokens": 109688,
+    "thinkingTokens": 36601,
+    "responses": 132,
+    "costUsd": 11.0234476
   },
   "subagents": {
     "inputTokens": 0,
@@ -79,14 +79,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 6826,
+      "inputTokens": 6849,
       "cacheWrite5mTokens": 7496,
-      "cacheWrite1hTokens": 392407,
-      "cacheReadTokens": 28883021,
-      "outputTokens": 114481,
-      "thinkingTokens": 36163,
-      "responses": 132,
-      "costUsd": 11.291432200000001
+      "cacheWrite1hTokens": 410114,
+      "cacheReadTokens": 30617215,
+      "outputTokens": 118209,
+      "thinkingTokens": 36601,
+      "responses": 142,
+      "costUsd": 11.854579000000001
     }
   },
   "warnings": [],
@@ -118,16 +118,16 @@
           "Read": 1
         },
         "estimatedTokens": 2197,
-        "estimatedUsd": 0.0224094
+        "estimatedUsd": 0.026803399999999998
       },
       "billedUsd": 0.24602320000000003
     }
   ],
   "telemetry": {
-    "events": 132,
-    "matched": 122,
-    "matchedTableUsd": 10.4603008,
-    "matchedEventUsd": 10.4603008,
+    "events": 142,
+    "matched": 132,
+    "matchedTableUsd": 11.0234476,
+    "matchedEventUsd": 11.0234476,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 4554,
@@ -159,7 +159,7 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 159,
+    ".md": 271,
     ".js": 1353,
     ".ts": 28,
     ".html": 822,

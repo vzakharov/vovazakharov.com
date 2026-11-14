@@ -10,12 +10,16 @@ The zone holds the rule set (mirrored, one per wall, none on the
 perimeter or under a walk-round threshold, free to open); why doors
 leave the lock alone, since a search hashes rooms and never walks; who
 they help, the random wanderer most and the mapper least; the
-right-hand rule they fool, a bug kept as a feature; one door per
-partition, and how that rule was found; placing them from the world
-seed with two rolls per partition; and the threshold counted in rooms,
-48 working, settled by a search K steps deep that retired an O(1)
-lower bound. A line ties them to the deep-floor portals some doors may
-become.
+right-hand rule they fool, a bug kept as a feature; one opening per
+partition, and how that rule was found; and the numbers: every
+partition with an allowed wall gets an opening, 75% of them doors and
+the rest gaps, at threshold 10, where a player who remembers every
+room meets a door a minute and a gap every three on floors 7 to 10. A
+partition's allowed walls come from a window by its passage, so a
+deep floor's 2^58-wall partition needs at most nine searches. Two
+pictures from the simulator show a floor at those numbers and one
+partition's window, and a line ties doors to the deep-floor portals
+some may become.
 
 The lock zone records a casus the simulation turned up: our world's
 holes on floors 2 to 8 all hug the edge, chance rather than a bias in
