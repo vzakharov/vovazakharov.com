@@ -206,7 +206,7 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
         <div class="big" id="tallyBig"></div>
         <div id="pathPair"></div>
         <div id="pathAvg"></div>
-        <div class="btns"><button class="btn" id="tune">подобрать границу: дверь на пути в ~50% пар</button></div>
+        <div class="btns"><button class="btn" id="tune">подобрать границу: дверь выгодна в ~50% случаев</button></div>
         <small id="tuneNote"></small>
         <small id="placedOut"></small>
       </div>
@@ -316,19 +316,12 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
   let maze, mazeOpen, placement, adjBare, adjDoors, distLand, seen, eyesBare, eyesDoors, usage;
   const AVG_PAIRS = 300;
 
-  // An opening lies on the shortest path when some shortest path from a to h crosses it.
-  function onPath(a, h) {
-    const da = S.bfs(adjDoors, a), dh = S.bfs(adjDoors, h), L = da[h];
-    return (w) => da[w.a] + 1 + dh[w.b] === L || da[w.b] + 1 + dh[w.a] === L;
-  }
-  // How many of AVG_PAIRS random pairs of this floor each opening serves. The split only relabels
-  // openings as doors or gaps and never moves one, so the counts hold for every split.
+  // For how many of AVG_PAIRS random pairs of this floor each opening is a shortcut, seen from the
+  // walk's side. The split only relabels openings as doors or gaps and never moves one, so the
+  // counts hold for every split.
   function pathUsage() {
     const all = placement.doors.concat(placement.gaps), use = new Map(all.map((w) => [w, 0]));
-    for (const [a, h] of S.randomPairs(maze, AVG_PAIRS, 977 + state.k)) {
-      const on = onPath(a, h);
-      for (const w of all) if (on(w)) use.set(w, use.get(w) + 1);
-    }
+    for (const [a, h] of S.randomPairs(maze, AVG_PAIRS, 977 + state.k)) for (const w of S.shortcuts(adjDoors, a, h, all)) use.set(w, use.get(w) + 1);
     return use;
   }
   const avgShare = (list) => (list.length ? list.reduce((t, w) => t + usage.get(w), 0) / (AVG_PAIRS * list.length) : null);
@@ -383,18 +376,19 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
   function tune() {
     const all = placement.doors.concat(placement.gaps);
     let best = null;
-    for (let s = 0; s <= 257; s++) {
-      const split = s > 256 ? Infinity : s, doors = all.filter((w) => (w.exact < split) === (state.near === 'door'));
+    for (const near of ['door', 'gap']) for (let s = 0; s <= 257; s++) {
+      const split = s > 256 ? Infinity : s, doors = all.filter((w) => (w.exact < split) === (near === 'door'));
       const p = avgShare(doors);
-      if (p !== null && (!best || Math.abs(p - 0.5) < Math.abs(best.p - 0.5))) best = { s, p };
+      if (p !== null && (!best || Math.abs(p - 0.5) < Math.abs(best.p - 0.5))) best = { s, near, p };
     }
     if (!best) { $('tuneNote').textContent = 'отверстий нет — подбирать нечего'; return; }
     state.split = best.s; $('split').value = best.s;
+    state.near = best.near; $('near').checked = best.near === 'door';
     rebuildDoors();
-    const at = best.s > 256 ? '∞' : best.s;
+    const at = `${best.s > 256 ? '∞' : best.s}, ${best.near === 'door' ? 'ближе неё двери' : 'ближе неё проёмы, дальше двери'}`;
     $('tuneNote').textContent = Math.abs(best.p - 0.5) <= 0.05
-      ? `граница ${at}: дверь на кратчайшем пути в ${pct(best.p)} пар`
-      : `50% при этой плотности не достать: ближе всего ${pct(best.p)}, при границе ${at}. Плотность не спасает: на этажах 6–7 даже единственная дальняя дверь лежит на кратчайшем пути случайной пары в 20% случаев или реже`;
+      ? `граница ${at}: дверь сократила бы путь в ${pct(best.p)} случаев`
+      : `50% при этой плотности и пороге не достать: ближе всего ${pct(best.p)}, при границе ${at}. Выше долю поднимает нижний порог: чем дальше двери, тем чаще они выгодны`;
   }
   function refresh() {
     distLand = S.bfs(adjDoors, state.landing);
@@ -407,10 +401,9 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
     const p = placement;
     $('splitOut').textContent = state.split > 256 ? '∞' : state.split;
     $('tallyBig').innerHTML = `<span class="d">дверей ${p.doors.length}</span> · <span class="g">проёмов ${p.gaps.length}</span>`;
-    const on = onPath(state.landing, state.hole), dOn = p.doors.filter(on).length, gOn = p.gaps.filter(on).length;
-    const of = (n, all) => `<b>${n}</b> из ${all} (${pct(all ? n / all : null)})`;
-    $('pathPair').innerHTML = `На кратчайшем пути от приземления до дыры: <span class="d">дверей ${of(dOn, p.doors.length)}</span>, <span class="g">проёмов ${of(gOn, p.gaps.length)}</span>`;
-    $('pathAvg').innerHTML = `В среднем по ${AVG_PAIRS} случайным парам этого этажа на кратчайшем пути лежит <span class="d"><b>${pct(avgShare(p.doors))}</b> дверей</span> и <span class="g"><b>${pct(avgShare(p.gaps))}</b> проёмов</span>. Это и есть шанс, что увиденная дверь — на кратчайшем пути к дыре.`;
+    const dOn = S.shortcuts(adjDoors, state.landing, state.hole, p.doors).length;
+    $('pathPair').innerHTML = `<span class="d">Сократили бы путь к дыре <b>${dOn}</b> из ${p.doors.length} дверей (${pct(p.doors.length ? dOn / p.doors.length : null)})</span>, если бы игрок стоял у каждой с той стороны, куда он приходит с приземления раньше. «Сократила» — значит, любой кратчайший путь оттуда до дыры идёт сквозь неё.`;
+    $('pathAvg').innerHTML = `В среднем по ${AVG_PAIRS} случайным парам этого этажа: <span class="d"><b>${pct(avgShare(p.doors))}</b> дверей</span>. Это и есть шанс, что увиденная дверь выгодна.`;
     $('placedOut').textContent = `просили ${p.want} · разрешённых стен ${p.eligible} из ${maze.closed.length} · лишних, чей обход с учётом остальных отверстий короче порога: ${p.redundant}`;
   }
 

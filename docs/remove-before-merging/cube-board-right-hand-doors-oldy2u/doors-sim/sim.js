@@ -340,6 +340,17 @@
     return r;
   }
 
+  /**
+   * The openings a player walking from `from` to `to` would gain by, were they standing at one:
+   * seen from the side the walk reaches first, every shortest way on to `to` steps through it.
+   * A side tie looks from both sides.
+   */
+  function shortcuts(adj, from, to, openings) {
+    const df = bfs(adj, from), dt = bfs(adj, to);
+    const through = (x, y) => dt[x] === dt[y] + 1 && adj[x].every((v) => v === y || dt[v] !== dt[x] - 1);
+    return openings.filter((w) => (df[w.a] <= df[w.b] && through(w.a, w.b)) || (df[w.b] <= df[w.a] && through(w.b, w.a)));
+  }
+
   function randomPairs(m, count, seed) {
     const rnd = mulberry32(seed), out = [];
     while (out.length < count) {
@@ -530,6 +541,6 @@
     return { entered: p.entered, dead: p.dead, skipped: m.N - p.entered.reduce((a, b) => a + b, 0) };
   }
 
-  root.DoorSim = { buildMaze, placeDoors, withGaps, seededRoll, deadEnds, eyesOf, WALL_HALF, redundant, adjacency, bfs, mapper, wanderer, follower, opener, trial, randomPairs, sweep, treeDistance, levelOf, mulberry32 };
+  root.DoorSim = { buildMaze, placeDoors, withGaps, seededRoll, deadEnds, eyesOf, WALL_HALF, redundant, adjacency, bfs, shortcuts, mapper, wanderer, follower, opener, trial, randomPairs, sweep, treeDistance, levelOf, mulberry32 };
   if (typeof module !== 'undefined') module.exports = root.DoorSim;
 })(typeof globalThis !== 'undefined' ? globalThis : this);
