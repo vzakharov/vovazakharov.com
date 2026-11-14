@@ -106,8 +106,19 @@ own knob).
   `docs/remove-before-merging/frames/` as focus items; `rooms` answered
   (7ae53255). The separate frames artifact XmWzbERkyr3dwYoJdgFC4m is superseded
   by the board.
+- Operator, verbatim: «так, ну вроде ок, только оверлея с контролами я не
+  увидел. Ещё: 1- "Press E to ..." -- "Tap to ..." 2- подумал, что [Y] и [N]
+  таки не имеют значения когда клавы нет, лучше бы просто [Swallow] [Put down]
+  (или как там было) 3- как бежать на телефоне непонятно, предлагаю просто типа
+  если палец далеко продвинул, то это бег, близко -- шаг», then «у меня айфон
+  если что». Both misses read as the touch screen going undetected or the
+  overlay's 8 s spent on the waking's dark: a touch is now told by the last
+  input (a finger yes, a mouse or a key no, a coarse pointer before any), the
+  overlay holds until the first drag, the answers are `Swallow` / `Put down`
+  buttons on touch, and the stick runs past 100 CSS px.
 - Left, in this order:
-  1. The operator's look at the clouds on high after da8454bc.
+  1. The operator's look, on the iPhone, at the clouds on high, the overlay and
+     the stick's run.
   2. Touch, once the operator says what feels off: a visible stick ring, a run
      when the stick is pushed to its rim (a phone has no Shift).
   3. `/five-percent` on the PR; refresh the board after each pushed fix.
