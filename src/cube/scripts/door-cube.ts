@@ -7,6 +7,7 @@
  *
  *   pnpm door:cube                   # frames to tmp/cube/door/
  *   pnpm door:cube --out <dir>       # frames there instead
+ *   pnpm door:cube --floors 5,6      # those floors instead
  */
 
 import path from 'node:path';
@@ -32,8 +33,8 @@ const FRAMES = path.resolve(
   flag('out') ?? path.join(REPO_ROOT, 'tmp/cube/door'),
 );
 
-/** The floors shot: the shallowest that holds a door, and a deep one. */
-const FLOORS = [4, 8] as const;
+/** The floors shot, `--floors 5,8` by default: a shallow one lit enough to see a door by, and a deep one. */
+const FLOORS = (flag('floors') ?? '5,8').split(',').map(Number);
 
 /** How many rooms across, from the north-west corner, a door is looked for in. */
 const SEARCH = 24n;
