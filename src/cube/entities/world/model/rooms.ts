@@ -153,11 +153,11 @@ const gap = (east: number, south: number): number =>
  * with everything past it. Every such line crosses the seat's own wall, so it
  * starts inside the seat; the set is what some eye anywhere in the seat sees.
  *
- * Every walk whose arc stays open is followed, a room reached by two walks
- * included, since on a maze with loops the walk found first may see less than
- * another: the result is the same whatever order the walls are tried in. A
- * straight line enters no room twice, so a walk never steps back onto itself;
- * the far bound and the closing arcs bound the rest.
+ * Every walk whose arc stays open is followed, so what lies past a room is
+ * seen along each walk that reaches it, whatever order the walls are tried in.
+ * A straight line enters no room twice, so a walk never re-enters its own
+ * rooms; the far bound and the closing arcs bound the rest. Walks multiply
+ * with the loops in reach: sparse gaps cost little, a floor of them a lot.
  */
 export function seenFrom(seat: Room, far: number, walls: Walls): Room[] {
   const { n } = seat;
