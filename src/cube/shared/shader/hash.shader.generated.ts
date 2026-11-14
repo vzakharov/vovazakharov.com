@@ -65,6 +65,11 @@ fn fbm(p: vec2f, salt: u32, octaves: i32) -> f32 {
   return sum / (1.0 - 2.0 * weight);
 }
 
+/// The point lattice cell \`cell\` holds, \`word\` being its \`cellHash\`.
+fn cellPoint(cell: vec2i, word: u32) -> vec2f {
+  return vec2f(cell) + vec2f(unitOf(word), unitOf(mix32(word)));
+}
+
 /// Cells of a unit lattice, one point in each: x is the distance to the
 /// nearest point, y that point's own random number in [0, 1).
 fn worley(p: vec2f, salt: u32) -> vec2f {
@@ -74,8 +79,7 @@ fn worley(p: vec2f, salt: u32) -> vec2f {
     for (var dx = -1; dx <= 1; dx++) {
       let other = cell + vec2i(dx, dy);
       let word = cellHash(other, salt);
-      let point = vec2f(other) + vec2f(unitOf(word), unitOf(mix32(word)));
-      let distance = length(point - p);
+      let distance = length(cellPoint(other, word) - p);
       if (distance < nearest.x) {
         nearest = vec2f(distance, unitOf(mix32(word ^ 0xa5a5a5a5u)));
       }
@@ -93,9 +97,7 @@ fn cellWalls(p: vec2f, salt: u32) -> f32 {
   for (var dy = -1; dy <= 1; dy++) {
     for (var dx = -1; dx <= 1; dx++) {
       let other = cell + vec2i(dx, dy);
-      let word = cellHash(other, salt);
-      let distance =
-        length(vec2f(other) + vec2f(unitOf(word), unitOf(mix32(word))) - p);
+      let distance = length(cellPoint(other, cellHash(other, salt)) - p);
       if (distance < first) {
         second = first;
         first = distance;
