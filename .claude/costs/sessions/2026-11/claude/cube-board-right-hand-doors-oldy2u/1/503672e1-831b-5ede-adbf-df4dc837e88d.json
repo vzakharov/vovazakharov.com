@@ -1,0 +1,165 @@
+{
+  "total": {
+    "inputTokens": 5033,
+    "cacheWrite5mTokens": 230647,
+    "cacheWrite1hTokens": 420571,
+    "cacheReadTokens": 26641470,
+    "outputTokens": 143580,
+    "thinkingTokens": 53115,
+    "responses": 144,
+    "costUsd": 12.743333999999999
+  },
+  "estimate": {
+    "at": "2026-11-14T09:44:52.800Z",
+    "subjectLine": "docs: analyse openable doors in the cube's floor maze, with a simulator",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "whether shortcuts flatten a search maze is a design-theory call: which difficulty the game sells, and which player model to measure it with"
+      },
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a faithful port of the recursive-division maze plus three explorer models and a lower bound that must be proven against exact distances"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-14T09:42:45.688Z",
+    "contextTokens": 98105,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 36254,
+      "cacheReadTokens": 54421,
+      "outputTokens": 457,
+      "thinkingTokens": 129,
+      "responses": 1,
+      "costUsd": 0.3100642
+    }
+  },
+  "sessionId": "503672e1-831b-5ede-adbf-df4dc837e88d",
+  "branch": "claude/cube-board-right-hand-doors-oldy2u",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "хочу сделать, чтобы двери (случайные объекты, расставляемые по этажу) открывались и вели на другую сторону 1- надо посчитать не схлопнет ли это сложность (по ин…",
+  "prs": [
+    280
+  ],
+  "url": "https://claude.ai/code/session_01DaohkCH6sCRrmk6LaotEWV",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-14T09:42:39.605Z",
+  "lastResponseAt": "2026-11-14T10:24:35.525Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 218,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 420571,
+    "cacheReadTokens": 22702401,
+    "outputTokens": 123321,
+    "thinkingTokens": 46564,
+    "responses": 109,
+    "costUsd": 10.3723402
+  },
+  "subagents": {
+    "inputTokens": 63,
+    "cacheWrite5mTokens": 228710,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 2771566,
+    "outputTokens": 13478,
+    "thinkingTokens": 6551,
+    "responses": 30,
+    "costUsd": 1.9676751999999995
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 5033,
+      "cacheWrite5mTokens": 230647,
+      "cacheWrite1hTokens": 420571,
+      "cacheReadTokens": 26641470,
+      "outputTokens": 143580,
+      "thinkingTokens": 53115,
+      "responses": 144,
+      "costUsd": 12.743333999999999
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-14T10:17:35.864Z",
+      "trigger": "auto",
+      "compactedFrom": 351900,
+      "summaryChars": 12984,
+      "reorientation": {
+        "endedBy": "end_turn",
+        "endedOn": null,
+        "endedAt": "2026-11-14T10:24:35.525Z",
+        "contextTokens": 186684,
+        "spend": {
+          "inputTokens": 105,
+          "cacheWrite5mTokens": 119540,
+          "cacheWrite1hTokens": 124730,
+          "cacheReadTokens": 6528171,
+          "outputTokens": 26630,
+          "thinkingTokens": 10207,
+          "responses": 52,
+          "costUsd": 3.4341942000000003
+        }
+      },
+      "rereads": {
+        "calls": 1,
+        "byTool": {
+          "Read": 1
+        },
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.21522680000000005
+    }
+  ],
+  "telemetry": {
+    "events": 144,
+    "matched": 139,
+    "matchedTableUsd": 12.3400154,
+    "matchedEventUsd": 12.3400154,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 2024,
+        "cacheWrite5mTokens": 1835,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 819179,
+        "outputTokens": 74,
+        "thinkingTokens": 0,
+        "responses": 4,
+        "costUsd": 0.1880918
+      },
+      "compact": {
+        "inputTokens": 2728,
+        "cacheWrite5mTokens": 102,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 348324,
+        "outputTokens": 6707,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.21522680000000005
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 10982,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 19,
+    ".yaml": 6
+  }
+}
