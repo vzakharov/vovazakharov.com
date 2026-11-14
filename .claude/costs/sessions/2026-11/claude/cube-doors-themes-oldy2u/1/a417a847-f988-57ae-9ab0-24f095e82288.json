@@ -1,15 +1,33 @@
 {
   "total": {
-    "inputTokens": 102,
+    "inputTokens": 143,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 147799,
-    "cacheReadTokens": 8667653,
-    "outputTokens": 38483,
-    "thinkingTokens": 21157,
-    "responses": 54,
-    "costUsd": 3.6859906000000016
+    "cacheWrite1hTokens": 182110,
+    "cacheReadTokens": 13046056,
+    "outputTokens": 45712,
+    "thinkingTokens": 23324,
+    "responses": 74,
+    "costUsd": 4.980903200000002
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-14T22:23:46.502Z",
+    "subjectLine": "fix: keep theme wall fixtures clear of the doorway span",
+    "parts": [
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "auditing a dozen WGSL themes against one shared span and re-placing fixtures without losing each look needs shader judgement"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "choosing where each fixture goes and judging the frames is art direction"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -34,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkDeF8G4hEnoTz4rn3Z",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-14T21:57:38.896Z",
-  "lastResponseAt": "2026-11-14T22:23:33.435Z",
+  "lastResponseAt": "2026-11-14T22:36:51.902Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 102,
+    "inputTokens": 143,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 147799,
-    "cacheReadTokens": 8667653,
-    "outputTokens": 38483,
-    "thinkingTokens": 21157,
-    "responses": 54,
-    "costUsd": 3.6859906000000016
+    "cacheWrite1hTokens": 182110,
+    "cacheReadTokens": 13046056,
+    "outputTokens": 45712,
+    "thinkingTokens": 23324,
+    "responses": 74,
+    "costUsd": 4.980903200000002
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,23 +77,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 102,
+      "inputTokens": 143,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 147799,
-      "cacheReadTokens": 8667653,
-      "outputTokens": 38483,
-      "thinkingTokens": 21157,
-      "responses": 54,
-      "costUsd": 3.6859906000000016
+      "cacheWrite1hTokens": 182110,
+      "cacheReadTokens": 13046056,
+      "outputTokens": 45712,
+      "thinkingTokens": 23324,
+      "responses": 74,
+      "costUsd": 4.980903200000002
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 53,
-    "matched": 53,
-    "matchedTableUsd": 3.6296294000000016,
-    "matchedEventUsd": 3.6296294000000016,
+    "events": 73,
+    "matched": 73,
+    "matchedTableUsd": 4.916440600000002,
+    "matchedEventUsd": 4.916440600000002,
     "unseen": {}
   },
   "operatorWords": {
@@ -88,11 +106,11 @@
   "branchLines": {
     ".md": 397,
     ".js": 1861,
-    ".ts": 2104,
+    ".ts": 2158,
     ".html": 357,
     ".json": 7,
     ".yaml": 155,
-    ".wgsl": 32,
+    ".wgsl": 76,
     ".tsx": 12
   }
 }
