@@ -56,12 +56,18 @@ own knob).
   отключить, то все равно будет тормозить. Нужно оставить для той части что
   снаружи, но отключить для внтурненостец куба — так можно?» Interim (this
   commit): the eye is drowsy only in frames that show the outside, so floors
-  below 1 draw whole. **The split** is the next build: the outside's layers in
-  the low pass, resolved through the history as now; the rooms, boards and
-  mirrors in a full-size pass over the resolved outside, depth-tested against a
-  depth written from the history's metres, so a dune or the sea still hides the
-  cube's foot from the shore.
-- Left, in this order: 0. The split above.
+  below 1 draw whole.
+- **The split**, built (d5737274): indoors with the outside in view, the low
+  pass draws the outside's layers alone, the resolve rebuilds it, and a
+  full-size pass lays it under the rooms (`underlay.wgsl`, depth from the
+  history's metres) and draws rooms, boards and mirrors whole over it. Out of
+  doors (`waking`) the whole frame still drowses, because the sea's reflection
+  is screen-space and would lose the cube if the cube left the low pass.
+  Rendered in SwiftShader on floor 1 and the shore with no validation error; the
+  doorway seam itself not yet seen (headless pointer lock gives one jump). The
+  `F` meter stamps the low passes only, so the sharp pass's cost is not in its
+  GPU ms yet.
+- Left, in this order:
   1. The pill question's yes/no is keyboard-only; a phone cannot answer it. Taps
      on on-screen buttons are the likely shape.
   2. `/five-percent` on the PR; refresh the board after each pushed fix.
