@@ -1,6 +1,6 @@
 import { pathHash, roll, type Rolled, rollWith } from '@/dice/shared/roll';
 
-import { roomsAcross } from './room';
+import { type Cell, roomsAcross } from './room';
 
 const blockKey = roll.key({
   n: roll.int,
@@ -23,6 +23,19 @@ const Maze = roll.struct({
       door: roll.over(edgeKey, roll.wide()),
     }),
   ),
+  // At most one doorway per partition, so its door-or-gap `kind` is rolled
+  // once for the partition rather than for each wall.
+  doorway: roll.over(
+    blockKey,
+    roll.over(
+      edgeKey,
+      roll.struct({
+        has: roll.uniform(0, 1),
+        at: roll.wide(),
+        kind: roll.uniform(0, 1),
+      }),
+    ),
+  ),
 });
 
 export type RolledMaze = Rolled<typeof Maze>;
@@ -43,9 +56,32 @@ export const DEEPEST_FLOOR = Number(WIDE_BITS) + 2;
 
 type Block = Parameters<RolledMaze['block']['at']>[0];
 
-/** A door's position along a half-edge of `2^(level-1)` rooms. */
-const doorOffset = (wide: bigint, level: number): bigint =>
-  (wide * (1n << BigInt(level - 1))) >> WIDE_BITS;
+/**
+ * One arm of a block's cross — a partition: a run of `2^(level-1)` walls,
+ * offset 0 at the end nearer the origin, holding the native passage unless the
+ * block omits it.
+ */
+export type Partition = Block & { arm: Edge };
+
+/** A key naming one partition, for maps of partitions. */
+export const partitionKey = ({ n, level, x, y, arm }: Partition): string =>
+  `${n}/${level}/${x}/${y}/${arm}`;
+
+/** A wall, named by the room west (`east`) or north (`south`) of it. */
+export type Wall = Cell & { across: 'east' | 'south' };
+
+/** How far along its partition a wall sits. */
+export type Along = { offset: bigint };
+
+/** Where a wall sits: its partition, and how far along it. */
+export type Spot = Along & { partition: Partition };
+
+/** How many walls a partition of a block at `level` holds. */
+export const halfOf = (level: number): bigint => 1n << BigInt(level - 1);
+
+/** A `roll.wide()` draw scaled to an integer uniform on `[0, count)`. */
+export const drawBelow = (wide: bigint, count: bigint): bigint =>
+  (wide * count) >> WIDE_BITS;
 
 /** One more than the run of one-bits at the bottom of `value`. */
 function levelOf(value: bigint): number {
@@ -77,49 +113,78 @@ const blockAt = (n: number, level: number, x: bigint, y: bigint): Block => ({
 });
 
 /**
- * Whether the wall between `(x, y)` and `(x + 1, y)` is open on floor `n`,
- * decided from that wall alone: its block is at the level where `x` and `x + 1`
- * first differ, and the wall is open iff the block keeps that half-edge and its
- * door sits at this row.
+ * Where an inner wall of floor `n` sits, from that wall alone: its block is at
+ * the level where the two rooms' coordinates across it first differ, and the
+ * coordinate along it picks the half of the midline and the place in it.
  */
-export function isOpenEast(
-  rolled: RolledMaze,
-  n: number,
-  x: bigint,
-  y: bigint,
-): boolean {
-  if (x + 1n >= side(n, x, y)) throw new Error(`No wall east of (${x}, ${y})`);
-  return isOpenAt(rolled, blockAt(n, levelOf(x), x, y), y, 'north', 'south');
-}
-
-/** Whether the wall between `(x, y)` and `(x, y + 1)` is open on floor `n`. */
-export function isOpenSouth(
-  rolled: RolledMaze,
-  n: number,
-  x: bigint,
-  y: bigint,
-): boolean {
-  if (y + 1n >= side(n, x, y)) {
-    throw new Error(`No wall south of (${x}, ${y})`);
+export function spotOf(n: number, { across, x, y }: Wall): Spot {
+  const rooms = side(n, x, y);
+  if (across === 'east') {
+    if (x + 1n >= rooms) throw new Error(`No wall east of (${x}, ${y})`);
+    return spotIn(blockAt(n, levelOf(x), x, y), y, 'north', 'south');
   }
-  return isOpenAt(rolled, blockAt(n, levelOf(y), x, y), x, 'west', 'east');
+  if (y + 1n >= rooms) throw new Error(`No wall south of (${x}, ${y})`);
+  return spotIn(blockAt(n, levelOf(y), x, y), x, 'west', 'east');
 }
 
-// `along` is the coordinate running along the wall: it picks the half of the
-// midline and the position in it.
-function isOpenAt(
-  rolled: RolledMaze,
-  block: Block,
-  along: bigint,
-  first: Edge,
-  second: Edge,
-): boolean {
-  const half = 1n << BigInt(block.level - 1);
+function spotIn(block: Block, along: bigint, first: Edge, second: Edge): Spot {
+  const half = halfOf(block.level);
   const inBlock = along & ((half << 1n) - 1n);
   const inFirst = inBlock < half;
-  const { omit, door } = rolled.block.at(block);
-  const edge = inFirst ? first : second;
-  if (EDGES[omit] === edge) return false;
-  const offset = inFirst ? inBlock : inBlock - half;
-  return doorOffset(door.at(edge), block.level) === offset;
+  return {
+    partition: { ...block, arm: inFirst ? first : second },
+    offset: inFirst ? inBlock : inBlock - half,
+  };
 }
+
+/** Whether `arm` runs out from its block's centre rather than into it. */
+const runsOut = (arm: Edge): boolean => arm === 'south' || arm === 'east';
+
+/** The wall `offset` along `partition`: `spotOf`'s inverse. */
+export function wallOf(partition: Partition, offset: bigint): Wall {
+  const { level, arm } = partition;
+  const half = halfOf(level);
+  const x = partition.x << BigInt(level);
+  const y = partition.y << BigInt(level);
+  const along = (runsOut(arm) ? half : 0n) + offset;
+  return arm === 'north' || arm === 'south'
+    ? { across: 'east', x: x + half - 1n, y: y + along }
+    : { across: 'south', x: x + along, y: y + half - 1n };
+}
+
+/** The offset of the wall at `partition`'s end in its block's centre. */
+export const centreEnd = ({ level, arm }: Partition): bigint =>
+  runsOut(arm) ? 0n : halfOf(level) - 1n;
+
+/** The offset of `partition`'s native passage; null on the arm its block omits. */
+export function passageOf(
+  rolled: RolledMaze,
+  partition: Partition,
+): bigint | null {
+  const { omit, door } = rolled.block.at(partition);
+  if (EDGES[omit] === partition.arm) return null;
+  return drawBelow(door.at(partition.arm), halfOf(partition.level));
+}
+
+const isOpen = (rolled: RolledMaze, { partition, offset }: Spot): boolean =>
+  passageOf(rolled, partition) === offset;
+
+/**
+ * Whether the wall between `(x, y)` and `(x + 1, y)` is a passage of floor
+ * `n`'s native maze: the wall's block keeps its partition, and the passage
+ * sits at this row.
+ */
+export const isOpenEast = (
+  rolled: RolledMaze,
+  n: number,
+  x: bigint,
+  y: bigint,
+): boolean => isOpen(rolled, spotOf(n, { across: 'east', x, y }));
+
+/** Whether the wall between `(x, y)` and `(x, y + 1)` is a native passage. */
+export const isOpenSouth = (
+  rolled: RolledMaze,
+  n: number,
+  x: bigint,
+  y: bigint,
+): boolean => isOpen(rolled, spotOf(n, { across: 'south', x, y }));
