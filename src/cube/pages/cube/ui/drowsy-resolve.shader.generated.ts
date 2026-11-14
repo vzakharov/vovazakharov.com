@@ -110,11 +110,7 @@ fn resolveMain(@builtin(position) at: vec4f) -> Resolved {
   let turning = smoothstep(0.0005, 0.004, length(motion));
   let still = select(0.0, 1.0 - turning, sky);
   var trust =
-    select(
-      0.0,
-      fade.x * fade.y,
-      front && inside && resolve.jitter.z > 0.5,
-    );
+    select(0.0, fade.x * fade.y, front && inside && resolve.jitter.z > 0.5);
   var held = smeared;
   if (trust > 0.0) {
     // The lag: the old picture trails the turn.
