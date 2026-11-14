@@ -204,8 +204,8 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
       </div>
       <div class="tally" aria-live="polite">
         <div class="big" id="tallyBig"></div>
-        <div id="pathPair"></div>
         <div id="pathAvg"></div>
+        <small id="pathPair"></small>
         <div class="btns"><button class="btn" id="tune">подобрать порог и границу: дверь выгодна в ~50% случаев</button></div>
         <small id="tuneNote"></small>
         <small id="placedOut"></small>
@@ -429,8 +429,8 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
     $('splitOut').textContent = state.split > 256 ? '∞' : state.split;
     $('tallyBig').innerHTML = `<span class="d">дверей ${p.doors.length}</span> · <span class="g">проёмов ${p.gaps.length}</span>`;
     const dOn = S.shortcuts(adjDoors, state.landing, state.hole, p.doors).length;
-    $('pathPair').innerHTML = `<span class="d">Сократили бы путь к дыре <b>${dOn}</b> из ${p.doors.length} дверей (${pct(p.doors.length ? dOn / p.doors.length : null)})</span>, если бы игрок стоял у каждой с той стороны, куда он приходит с приземления раньше. «Сократила» — значит, любой кратчайший путь оттуда до дыры идёт сквозь неё.`;
-    $('pathAvg').innerHTML = `В среднем по ${AVG_PAIRS} случайным парам этого этажа: <span class="d"><b>${pct(avgShare(p.doors))}</b> дверей</span>. Это и есть шанс, что увиденная дверь выгодна.`;
+    $('pathAvg').innerHTML = `<span class="d">Увиденная дверь выгодна в <b>${pct(avgShare(p.doors))}</b> случаев</span>: столько дверей в среднем сократили бы путь к дыре по ${AVG_PAIRS} случайным парам приземление–дыра этого этажа, если бы игрок стоял у каждой с той стороны, куда приходит раньше. «Сократила» — значит, любой кратчайший путь оттуда до дыры идёт сквозь неё. Это число и подбирает кнопка.`;
+    $('pathPair').textContent = `Только для этих приземления и дыры: ${dOn} из ${p.doors.length} (${pct(p.doors.length ? dOn / p.doors.length : null)}). Одна дыра — это шум: при малом числе дверей число скачет далеко от среднего.`;
     $('placedOut').textContent = `просили ${p.want} · разрешённых стен ${p.eligible} из ${maze.closed.length} · лишних, чей обход с учётом остальных отверстий короче порога: ${p.redundant}`;
   }
 
