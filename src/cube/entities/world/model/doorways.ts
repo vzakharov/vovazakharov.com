@@ -13,6 +13,7 @@ import {
   type Wall,
   wallOf,
 } from './maze';
+import { type Memo, memo } from './memo';
 import { type Cell, isRoom } from './room';
 
 /**
@@ -152,10 +153,7 @@ function rollOpening(rolled: RolledMaze, partition: Partition): Opening | null {
   };
 }
 
-/** Partitions remembered at once per maze: a frame's walk re-reads its own. */
-const CACHE_SIZE = 4096;
-
-const memos = new WeakMap<RolledMaze, Map<string, Opening | null>>();
+const memos = new WeakMap<RolledMaze, Memo<Opening | null>>();
 
 /**
  * `partition`'s doorway, decided from its own rolls and the native walls
@@ -163,15 +161,9 @@ const memos = new WeakMap<RolledMaze, Map<string, Opening | null>>();
  * order they are asked in. Kept while it stays in the cache.
  */
 function openingOf(rolled: RolledMaze, partition: Partition): Opening | null {
-  const memo = memos.get(rolled) ?? new Map<string, Opening | null>();
-  memos.set(rolled, memo);
-  const key = partitionKey(partition);
-  const hit = memo.get(key);
-  if (hit !== undefined) return hit;
-  const opening = rollOpening(rolled, partition);
-  if (memo.size >= CACHE_SIZE) memo.clear();
-  memo.set(key, opening);
-  return opening;
+  const kept = memos.get(rolled) ?? memo<Opening | null>();
+  memos.set(rolled, kept);
+  return kept(partitionKey(partition), () => rollOpening(rolled, partition));
 }
 
 function kindOf(rolled: RolledMaze, n: number, wall: Wall): WallKind {

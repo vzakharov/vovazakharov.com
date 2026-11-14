@@ -1,5 +1,6 @@
 import { isPassableEast, isPassableSouth } from './doorways';
 import type { RolledMaze } from './maze';
+import { memo } from './memo';
 import { isRoom, roomKey } from './room';
 
 /**
@@ -14,23 +15,13 @@ export type Walls = {
   isOpenSouth: (n: number, x: bigint, y: bigint) => boolean;
 };
 
-/** Walls remembered at once: a frame's walk or a room's sight re-reads its own. */
-const CACHE_SIZE = 4096;
-
 type Predicate = typeof isPassableEast;
 type Wall = Walls['isOpenEast'];
 
 function cached(rolled: RolledMaze, predicate: Predicate): Wall {
-  const memo = new Map<string, boolean>();
-  return (n, x, y) => {
-    const key = roomKey({ n, x, y });
-    const hit = memo.get(key);
-    if (hit !== undefined) return hit;
-    const open = predicate(rolled, n, x, y);
-    if (memo.size >= CACHE_SIZE) memo.clear();
-    memo.set(key, open);
-    return open;
-  };
+  const kept = memo<boolean>();
+  return (n, x, y) =>
+    kept(roomKey({ n, x, y }), () => predicate(rolled, n, x, y));
 }
 
 /** `rolled`'s walls, each hashed once while it stays in the cache. */
