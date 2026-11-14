@@ -119,6 +119,12 @@ own knob).
 - Operator: «подсказка про контролы должна подсказываться после окончания
   стартовой cutscene» — built in 0a1bc1ca (`Hooks.setFree`, true once awake and
   in no scene), on preview slot 1.
+- Operator, with a Mac screen recording: «облака приблизились к Medium, и всё бы
+  ок, но они теперь на всех режимах дрожат». The fresh-only still sky is the low
+  pass upsampled, one jittered pixel a block, so it shakes with the phase and
+  steps at the edges. Fix: a still sky blends fresh and history every frame (90%
+  history), as a temporal antialiaser does — the jitter averages out and the
+  drift lags a few frames instead of tearing.
 - Left, in this order:
   1. The operator's look, on the iPhone, at the clouds on high, the overlay and
      the stick's run.
