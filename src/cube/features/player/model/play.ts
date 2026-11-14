@@ -232,8 +232,7 @@ function restocked(player: Player, here: Holed | null): Player {
  *
  * A press of the hand answers one thing, `aimOf`'s: a pill, a sign — which
  * is the page's to open — or a door. A whole body using a pill it can take
- * reaches for it, and what follows is
- * `taking`'s; the pill swallowed, it shrinks where it stands, to `SMALL` over
+ * reaches for it, and what follows is `taking`'s; the pill swallowed, it shrinks where it stands, to `SMALL` over
  * `SHRINK_TIME`, its feet rooted and its gaze the look's while that lasts.
  * Its shelf has a pill again as soon as it looks away from it.
  * Shrunk, it walks its floor at its own size; walking onto any hole it hops

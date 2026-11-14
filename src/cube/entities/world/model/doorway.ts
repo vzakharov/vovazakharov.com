@@ -33,10 +33,8 @@ export type Ajar = DoorWall & Leaf;
 /** A wall seen from one of its rooms, `toward` the other. */
 export type Facing = DoorWall & Toward;
 
-/** Which walls hold a door. */
 export type Doors = { isDoor: (wall: DoorWall) => boolean };
 
-/** `walls` that know which of them hold a door. */
 export type Doored = Walls & Doors;
 
 /** `room`'s four walls in the order of `STEPS` — east, south, west, north. */
@@ -51,7 +49,6 @@ export const wallsAround = ({
   { n, x, y: y - 1n, isEast: false, toward: -1 },
 ];
 
-/** Which of `room`'s sides hold a door. */
 export function doorSides({ isDoor }: Doors, room: Room): RoomSides {
   const [east, south, west, north] = wallsAround(room);
   return [isDoor(east), isDoor(south), isDoor(west), isDoor(north)];
@@ -226,11 +223,7 @@ const PANELS = [
 /** How far a panel stands proud of its face, in leaf thicknesses. */
 const PANEL_PROUD = 0.15;
 
-/**
- * A door's knob on each face: where its corner is, as shares of the leaf's
- * width and height; its size as shares of them; and how far it stands out,
- * in leaf thicknesses.
- */
+/** A door's knob on each face, in shares of the leaf's width and height; `out` in leaf thicknesses. */
 const KNOB = { along: 0.86, up: 0.47, wide: 0.06, tall: 0.03, out: 1.5 };
 
 /** A door's paints: its wood, its panels a shade darker, and its brass knob. */
