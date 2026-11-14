@@ -1,0 +1,110 @@
+{
+  "total": {
+    "inputTokens": 35,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 74478,
+    "cacheReadTokens": 1928036,
+    "outputTokens": 10101,
+    "thinkingTokens": 1389,
+    "responses": 17,
+    "costUsd": 1.1835912000000002
+  },
+  "estimate": {
+    "at": "2026-11-14T22:01:07.925Z",
+    "subjectLine": "fix: a press opens the door the gaze is on, not the nearest one",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "aim ranking across interactables is game-feel code: choosing what a press answers needs the gaze rule held consistent across press and prompt"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-14T21:57:52.443Z",
+    "contextTokens": 108011,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 39201,
+      "cacheReadTokens": 144603,
+      "outputTokens": 971,
+      "thinkingTokens": 121,
+      "responses": 2,
+      "costUsd": 0.3619646
+    }
+  },
+  "sessionId": "9233a087-d7b0-5253-8f0d-f7cb3b77ef8a",
+  "branch": "claude/cube-doors-aim-oldy2u",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a lead working on branch claude/cube-board-right-hand-doors-oldy2u (PR #280 in vzakharov/vovazakharov.com, the lead's; you open no PR…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCcMFsgFLxWoWWTwm1",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-14T21:57:41.510Z",
+  "lastResponseAt": "2026-11-14T22:01:27.141Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 35,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 74478,
+    "cacheReadTokens": 1928036,
+    "outputTokens": 10101,
+    "thinkingTokens": 1389,
+    "responses": 17,
+    "costUsd": 1.1835912000000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 35,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 74478,
+      "cacheReadTokens": 1928036,
+      "outputTokens": 10101,
+      "thinkingTokens": 1389,
+      "responses": 17,
+      "costUsd": 1.1835912000000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 17,
+    "matched": 17,
+    "matchedTableUsd": 1.1835912000000002,
+    "matchedEventUsd": 1.1835912000000002,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 397,
+    ".js": 1861,
+    ".ts": 2117,
+    ".html": 357,
+    ".json": 7,
+    ".yaml": 155,
+    ".wgsl": 32,
+    ".tsx": 12
+  }
+}
