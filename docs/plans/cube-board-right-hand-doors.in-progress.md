@@ -100,7 +100,21 @@ All on Opus, started 2026-11-14 20:19Z from 47b2d1fb.
 - Known and left: one open door at a time (a second snaps the first shut); no
   door sound; the door's look rolls from a module-level `rollWith` over
   `planted.seed` — the same for every player, kept.
-- Left: `clear`'s two fixes, floor-8 frames to the board, `/polish`, vet,
+- `clear` done and archived: floor 8's black leaf was the hotel's sconces
+  painting walls only (`sconceGlow` lights the rest); `features/player` cut into
+  seven noun sub-slices (0 clusters); sconces hang clear of the doorway spot via
+  `DOORWAY_AT` (52414950), merged at d1935905. Frames on the board, v97.
+- `/polish`: `polish(dry):` ba1486a7, `polish:` 988c167e (the floor);
+  `/five-percent` posted review 5907343400 with two critical points, both taken:
+  other themes paint wall fixtures into the doorway spot, and a press opens the
+  nearest door rather than the faced one.
+- Third wave, from 9690774f:
+  - `themes` — session_01DaohkDeF8G4hEnoTz4rn3Z,
+    `claude/cube-doors-themes-oldy2u`: every theme shader's wall fixtures clear
+    of the doorway spot, frames per theme.
+  - `aim` — session_01DaohkCcMFsgFLxWoWWTwm1, `claude/cube-doors-aim-oldy2u`:
+    every door in reach goes to `aimOf`, ranked by gaze.
+- Left: merge both, reply on the review's two threads, `/polish` over them, vet,
   preview.
 
 The doors analysis on this branch
