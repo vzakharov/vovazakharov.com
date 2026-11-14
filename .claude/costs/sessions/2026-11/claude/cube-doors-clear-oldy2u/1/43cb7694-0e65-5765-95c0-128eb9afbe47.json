@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 3384,
-    "cacheWrite5mTokens": 926,
-    "cacheWrite1hTokens": 456569,
-    "cacheReadTokens": 37728190,
-    "outputTokens": 143315,
-    "thinkingTokens": 43423,
-    "responses": 184,
-    "costUsd": 14.085061999999994
+    "inputTokens": 3931,
+    "cacheWrite5mTokens": 1424,
+    "cacheWrite1hTokens": 479198,
+    "cacheReadTokens": 43857616,
+    "outputTokens": 154946,
+    "thinkingTokens": 45882,
+    "responses": 206,
+    "costUsd": 15.730771199999994
   },
   "estimate": {
     "at": "2026-11-14T21:03:27.836Z",
@@ -52,24 +52,24 @@
   },
   "sessionId": "43cb7694-0e65-5765-95c0-128eb9afbe47",
   "branch": "claude/cube-doors-clear-oldy2u",
-  "cwd": "/home/user/vovazakharov.com/tmp/cut-wt",
+  "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "You are a child session in a `/carte-blanche` run. The lead is session session_01DaohkE83TgA9HwGzYS9z1n on branch `claude/cube-board-right-hand-doors-oldy2u` (P…",
   "prs": [],
   "url": "https://claude.ai/code/session_01DaohkDQ9KQGyhEf1cx1m5E",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-14T20:52:47.506Z",
-  "lastResponseAt": "2026-11-14T21:39:48.001Z",
+  "lastResponseAt": "2026-11-14T21:45:45.723Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 345,
+    "inputTokens": 386,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 456569,
-    "cacheReadTokens": 37205480,
-    "outputTokens": 134690,
-    "thinkingTokens": 43423,
-    "responses": 182,
-    "costUsd": 13.788827999999993
+    "cacheWrite1hTokens": 479198,
+    "cacheReadTokens": 43058751,
+    "outputTokens": 146291,
+    "thinkingTokens": 45882,
+    "responses": 203,
+    "costUsd": 15.372698199999993
   },
   "subagents": {
     "inputTokens": 0,
@@ -83,14 +83,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 3384,
-      "cacheWrite5mTokens": 926,
-      "cacheWrite1hTokens": 456569,
-      "cacheReadTokens": 37728190,
-      "outputTokens": 143315,
-      "thinkingTokens": 43423,
-      "responses": 184,
-      "costUsd": 14.085061999999994
+      "inputTokens": 3931,
+      "cacheWrite5mTokens": 1424,
+      "cacheWrite1hTokens": 479198,
+      "cacheReadTokens": 43857616,
+      "outputTokens": 154946,
+      "thinkingTokens": 45882,
+      "responses": 206,
+      "costUsd": 15.730771199999994
     }
   },
   "warnings": [],
@@ -128,10 +128,10 @@
     }
   ],
   "telemetry": {
-    "events": 183,
-    "matched": 181,
-    "matchedTableUsd": 13.697495399999994,
-    "matchedEventUsd": 13.697495399999994,
+    "events": 205,
+    "matched": 202,
+    "matchedTableUsd": 15.306479599999994,
+    "matchedEventUsd": 15.306479599999994,
     "unseen": {
       "compact": {
         "inputTokens": 2533,
@@ -144,14 +144,14 @@
         "costUsd": 0.24314980000000003
       },
       "prompt_suggestion": {
-        "inputTokens": 506,
-        "cacheWrite5mTokens": 802,
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 1300,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 222621,
-        "outputTokens": 6,
+        "cacheReadTokens": 498776,
+        "outputTokens": 36,
         "thinkingTokens": 0,
-        "responses": 1,
-        "costUsd": 0.053084200000000005
+        "responses": 2,
+        "costUsd": 0.1149232
       }
     }
   },
@@ -163,12 +163,13 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 386,
+    ".md": 397,
     ".js": 1861,
-    ".ts": 1875,
+    ".ts": 2093,
     ".html": 357,
     ".json": 7,
-    ".yaml": 119,
+    ".yaml": 137,
+    ".wgsl": 31,
     ".tsx": 12
   }
 }
