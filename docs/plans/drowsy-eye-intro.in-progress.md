@@ -35,8 +35,25 @@ own knob).
 - In flight: a diagnosis agent on the operator's «посмотри управление с
   телефона, почему-то кажется что оно не работает» — touch controls in the cube,
   this branch vs main; diagnosis only, no edits.
-- Left: fix the touch controls per that diagnosis, `/five-percent` on the PR,
-  the operator's look on a real GPU.
+- Defaults changed on the operator's word (ab09a59c, on preview slot 1):
+  «Умолчание: сонный глаз 100%, 1/9, без slowdown. А то с телефона я консоль не
+  достану».
+- Operator's verdict on the phone, verbatim: «Просыпание классно, но телефон
+  управление не работает. А ещё облака почему-то все ещё пиксельные».
+- Left, in this order:
+  1. **Touch controls do not work on the phone.** The diagnosis agent's report
+     did not reach this session before it relayed; diagnose afresh — Playwright
+     phone emulation with the SwiftShader WebGPU flags the builder used (in its
+     report:
+     `--enable-unsafe-webgpu --enable-features=Vulkan --use-vulkan=swiftshader --use-webgpu-adapter=swiftshader --use-angle=swiftshader --enable-unsafe-swiftshader --ignore-gpu-blocklist`),
+     and check main too, since it may predate this branch.
+  2. **Clouds still look pixelated.** Unverified guess: the outdoors' sky is
+     drawn into its own target by `prepare` at a reduced size (its `detail`
+     argument, or the low pass's dimensions) and sampled without smoothing, so
+     the resolve never sees sub-pixel steps in it; or the sky layer bypasses the
+     jitter. Read how `src/cube/widgets/outdoors` sizes and samples its sky
+     before changing anything.
+  3. `/five-percent` on the PR; refresh the board after each pushed fix.
 
 ## Goal
 
