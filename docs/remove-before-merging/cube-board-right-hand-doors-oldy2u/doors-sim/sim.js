@@ -226,12 +226,17 @@
     return dist;
   }
 
-  /** A player with a perfect map: always walks to the nearest unvisited room. */
-  function mapper(adj, start, hole) {
+  /**
+   * A player with a perfect map: always walks to the nearest unvisited room.
+   * Given `eye`, a player's sight, it never steps into a room it has seen to
+   * be plainly dead; so for the wanderer and the right hand.
+   */
+  function mapper(adj, start, hole, eye = null) {
     const N = adj.length, visited = new Uint8Array(N), d = new Int32Array(N);
     const seen = new Int32Array(N).fill(-1);
     let cur = start, steps = 0, stamp = 0;
     visited[cur] = 1;
+    eye?.enter(cur);
     while (cur !== hole) {
       stamp++;
       const q = [cur];
@@ -241,7 +246,7 @@
       for (let h = 0; h < q.length && next < 0; h++) {
         const u = q[h];
         for (const v of adj[u]) {
-          if (seen[v] === stamp) continue;
+          if (seen[v] === stamp || eye?.dead[v]) continue;
           seen[v] = stamp;
           d[v] = d[u] + 1;
           if (!visited[v]) { next = v; break; }
@@ -251,23 +256,26 @@
       steps += d[next];
       cur = next;
       visited[cur] = 1;
+      eye?.enter(cur);
     }
     return steps;
   }
 
   /** A lost player: every step to a random neighbouring room. */
-  function wanderer(adj, start, hole, rnd, cap) {
+  function wanderer(adj, start, hole, rnd, cap, eye = null) {
     let cur = start, steps = 0;
+    eye?.enter(cur);
     while (cur !== hole && steps < cap) {
-      const n = adj[cur];
+      const n = eye ? adj[cur].filter((v) => !eye.dead[v]) : adj[cur];
       cur = n[Math.floor(rnd() * n.length)];
+      eye?.enter(cur);
       steps++;
     }
     return steps;
   }
 
   /** Right hand on the wall; fails when it comes back to where it started. */
-  function follower(m, open, start, hole) {
+  function follower(m, open, start, hole, eye = null) {
     const { s } = m;
     const DX = [0, 1, 0, -1], DY = [-1, 0, 1, 0];
     let cur = start, face = 1, steps = 0;
@@ -276,12 +284,13 @@
       const st = cur * 4 + face;
       if (seen[st]) return { ok: false, steps };
       seen[st] = 1;
+      eye?.enter(cur);
       for (const turn of [1, 0, 3, 2]) {
         const f = (face + turn) % 4;
         const x = (cur % s) + DX[f], y = ((cur / s) | 0) + DY[f];
         if (x < 0 || y < 0 || x >= s || y >= s) continue;
         const to = y * s + x;
-        if (open(cur, to)) { face = f; cur = to; steps++; break; }
+        if (open(cur, to) && !eye?.dead[to]) { face = f; cur = to; steps++; break; }
       }
     }
     return { ok: true, steps };
@@ -364,16 +373,18 @@
   const cross = (ax, ay, bx, by) => ax * by - ay * bx;
 
   /**
-   * Who never enters which room because it is plainly a dead end. The player
-   * sweeps out from `landing` in breadth-first order, remembering every wall
-   * face seen from each room entered: from its middle and from the threshold
-   * of each of its open sides. A room is plainly dead when every side but the
-   * one towards the player is a wall seen to be blank or an opening into a
-   * plainly dead room; a room once entered, and the hole's, never is. A glimpse
-   * of a wall proves a side closed while the floor has no doors, since a side
-   * is open whole or not at all; with doors the whole face must be seen.
+   * What players see on one floor. `look` follows line of sight from a point
+   * through open sides only; `views(i)` caches every wall face seen from room
+   * i's middle and from the threshold of each of its open sides, which is
+   * where a player entering it looks from. `player(hole)` is one player's
+   * memory of those faces: a room is plainly dead when every side but the one
+   * towards the player is a wall seen to be blank or an opening into a
+   * plainly dead room; a room once entered, and the hole's, never is. A
+   * glimpse of a wall proves a side closed while the floor has no doors,
+   * since a side is open whole or not at all; with doors the whole face must
+   * be seen.
    */
-  function deadEnds(m, doors, landing, hole) {
+  function eyesOf(m, doors) {
     const { s, N, openE, openS } = m, T = WALL_HALF;
     const doorAt = new Set(doors.map((d) => `${d.dir}${d.a}`));
     const whole = doors.length > 0;
@@ -442,52 +453,70 @@
       walk(from, null, -1);
     }
 
-    const seenOn = new Map(); // room·4 + side → merged intervals
-    const known = new Uint8Array(N * 4);
-    const unresolved = new Uint8Array(N).fill(4);
-    const entered = new Uint8Array(N), dead = new Uint8Array(N);
-    const cover = (i, d) => {
-      if (known[i * 4 + d]) return;
-      known[i * 4 + d] = 1;
-      unresolved[i]--;
-      settle(i);
-    };
-    function settle(i) {
-      if (entered[i] || dead[i] || i === hole || unresolved[i] !== 1) return;
-      let out = -1;
-      for (let d = 0; d < 4; d++) if (!known[i * 4 + d]) out = d;
-      if (!sideOpen(i, out)) return;
-      dead[i] = 1;
-      const j = i + DX[out] + DY[out] * s;
-      cover(j, (out + 2) % 4);
-    }
-    const onFace = (i, d, [lo, hi]) => {
-      if (known[i * 4 + d] || sideDoor(i, d)) return;
-      if (!whole || perimeter(i, d)) return cover(i, d);
-      const key = i * 4 + d, list = (seenOn.get(key) || []).concat([[lo, hi]]).sort((u, v) => u[0] - v[0]);
-      seenOn.set(key, list);
-      let reach = 0;
-      for (const [a, b] of list) { if (a > reach + 1e-6) break; reach = Math.max(reach, b); }
-      if (reach >= 1 - 1e-6) cover(i, d);
-    };
-    const enter = (i) => {
-      entered[i] = 1;
-      const x = i % s, y = (i / s) | 0, inset = 0.06;
-      look(i, x + 0.5, y + 0.5, onFace);
+    const cache = new Array(N);
+    function views(i) {
+      if (cache[i]) return cache[i];
+      const out = [], x = i % s, y = (i / s) | 0, inset = 0.06;
+      const note = (j, d, [lo, hi]) => { if (!sideDoor(j, d)) out.push(j * 4 + d, lo, hi); };
+      look(i, x + 0.5, y + 0.5, note);
       for (let d = 0; d < 4; d++)
-        if (sideOpen(i, d)) look(i, x + 0.5 + DX[d] * (0.5 - inset), y + 0.5 + DY[d] * (0.5 - inset), onFace);
-    };
-    const adj = adjacency(m, doors), queued = new Uint8Array(N), q = [landing];
+        if (sideOpen(i, d)) look(i, x + 0.5 + DX[d] * (0.5 - inset), y + 0.5 + DY[d] * (0.5 - inset), note);
+      return (cache[i] = out);
+    }
+
+    function player(hole) {
+      const seenOn = new Map(); // room·4 + side → merged intervals
+      const known = new Uint8Array(N * 4);
+      const unresolved = new Uint8Array(N).fill(4);
+      const entered = new Uint8Array(N), dead = new Uint8Array(N);
+      const cover = (key) => {
+        if (known[key]) return;
+        known[key] = 1;
+        const i = key >> 2;
+        unresolved[i]--;
+        settle(i);
+      };
+      function settle(i) {
+        if (entered[i] || dead[i] || i === hole || unresolved[i] !== 1) return;
+        let out = -1;
+        for (let d = 0; d < 4; d++) if (!known[i * 4 + d]) out = d;
+        if (!sideOpen(i, out)) return;
+        dead[i] = 1;
+        cover((i + DX[out] + DY[out] * s) * 4 + ((out + 2) % 4));
+      }
+      const face = (key, lo, hi) => {
+        if (known[key]) return;
+        if (!whole || perimeter(key >> 2, key & 3)) return cover(key);
+        const list = (seenOn.get(key) || []).concat([[lo, hi]]).sort((u, v) => u[0] - v[0]);
+        seenOn.set(key, list);
+        let reach = 0;
+        for (const [a, b] of list) { if (a > reach + 1e-6) break; reach = Math.max(reach, b); }
+        if (reach >= 1 - 1e-6) cover(key);
+      };
+      const enter = (i) => {
+        if (entered[i]) return;
+        entered[i] = 1;
+        const v = views(i);
+        for (let k = 0; k < v.length; k += 3) face(v[k], v[k + 1], v[k + 2]);
+      };
+      return { enter, entered, dead };
+    }
+    return { views, player };
+  }
+
+  /** The rooms a player sweeping out from `landing` breadth-first never enters. */
+  function deadEnds(m, doors, landing, hole, eyes = eyesOf(m, doors)) {
+    const p = eyes.player(hole), adj = adjacency(m, doors), queued = new Uint8Array(m.N), q = [landing];
     queued[landing] = 1;
     for (let h = 0; h < q.length; h++) {
       const u = q[h];
-      if (dead[u]) continue;
-      enter(u);
+      if (p.dead[u]) continue;
+      p.enter(u);
       for (const v of adj[u]) if (!queued[v]) { queued[v] = 1; q.push(v); }
     }
-    return { entered, dead, skipped: N - entered.reduce((a, b) => a + b, 0) };
+    return { entered: p.entered, dead: p.dead, skipped: m.N - p.entered.reduce((a, b) => a + b, 0) };
   }
 
-  root.DoorSim = { buildMaze, placeDoors, seededRoll, deadEnds, WALL_HALF, redundant, adjacency, bfs, mapper, wanderer, follower, opener, trial, randomPairs, sweep, treeDistance, levelOf, mulberry32 };
+  root.DoorSim = { buildMaze, placeDoors, seededRoll, deadEnds, eyesOf, WALL_HALF, redundant, adjacency, bfs, mapper, wanderer, follower, opener, trial, randomPairs, sweep, treeDistance, levelOf, mulberry32 };
   if (typeof module !== 'undefined') module.exports = root.DoorSim;
 })(typeof globalThis !== 'undefined' ? globalThis : this);

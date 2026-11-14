@@ -292,7 +292,7 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
   const $ = (id) => document.getElementById(id);
   const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
   const state = { k: 5, perHundred: 3, minGap: 8, floorSeed: 7, doorSeed: 101, pairSeed: 3, heat: true, elig: true, dead: true, game: false, spacing: 'arm', landing: 0, hole: 0, clickNext: 'landing' };
-  let maze, placement, adjBare, adjDoors, distLand, seen;
+  let maze, placement, adjBare, adjDoors, distLand, seen, eyesBare, eyesDoors;
 
   const canvas = $('floor');
   const ctx = canvas.getContext('2d');
@@ -333,11 +333,13 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
     placement.redundant = S.redundant(maze, placement.doors, state.minGap);
     adjBare = S.adjacency(maze, []);
     adjDoors = S.adjacency(maze, placement.doors);
+    eyesBare = S.eyesOf(maze, []);
+    eyesDoors = S.eyesOf(maze, placement.doors);
     refresh();
   }
   function refresh() {
     distLand = S.bfs(adjDoors, state.landing);
-    seen = S.deadEnds(maze, placement.doors, state.landing, state.hole);
+    seen = S.deadEnds(maze, placement.doors, state.landing, state.hole, eyesDoors);
     $('deadOut').textContent = `не зайдёт в ${seen.skipped.toLocaleString('ru-RU')} из ${maze.N.toLocaleString('ru-RU')} комнат (${Math.round((100 * seen.skipped) / maze.N)}%). Игрок идёт волной от приземления и помнит каждую грань стены, увиденную из середины комнаты и с порога каждого её прохода. Комната — явный тупик, если все её стороны, кроме ведущей к игроку, — стена, про которую видно, что она глухая, или проход в явный тупик. Пока дверей нет, хватает куска стены: сторона либо глухая вся, либо открыта вся. С дверями грань надо увидеть целиком. Комната, где игрок побывал, и комната с дырой тупиком не считаются.`;
     draw();
     readings();
@@ -430,18 +432,24 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
     const a = state.landing, h = state.hole;
     const path = [S.bfs(adjBare, a)[h], S.bfs(adjDoors, a)[h]];
     const mapper = [S.mapper(adjBare, a, h), S.mapper(adjDoors, a, h)];
+    const mapperSees = [S.mapper(adjBare, a, h, eyesBare.player(h)), S.mapper(adjDoors, a, h, eyesDoors.player(h))];
     const rnd = S.mulberry32(state.pairSeed * 13 + 1), runs = maze.k >= 7 ? 4 : 12, cap = 400 * maze.N;
-    const wander = [adjBare, adjDoors].map((adj) => { let t = 0; for (let r = 0; r < runs; r++) t += S.wanderer(adj, a, h, rnd, cap); return Math.round(t / runs); });
-    const fol = [S.opener(maze, []), S.opener(maze, placement.doors)].map((o) => S.follower(maze, o, a, h));
+    const wanderWith = (eyes) => [[adjBare, eyesBare], [adjDoors, eyesDoors]].map(([adj, e]) => { let t = 0; for (let r = 0; r < runs; r++) t += S.wanderer(adj, a, h, rnd, cap, eyes ? e.player(h) : null); return Math.round(t / runs); });
+    const wander = wanderWith(false), wanderSees = wanderWith(true);
+    const openers = [S.opener(maze, []), S.opener(maze, placement.doors)];
+    const fol = openers.map((o) => S.follower(maze, o, a, h));
+    const folSees = openers.map((o, j) => S.follower(maze, o, a, h, (j ? eyesDoors : eyesBare).player(h)));
     const fmt = (n) => n.toLocaleString('ru-RU');
     const row = (name, [x, y]) => `<tr><td>${name}</td><td class="num">${fmt(x)}</td><td class="num">${fmt(y)}${x ? ` <span style="color:var(--ink-soft)">(${(y / x).toFixed(2)})</span>` : ''}</td></tr>`;
+    const hand = (name, f) => f[0].ok && f[1].ok
+      ? row(name, [f[0].steps, f[1].steps])
+      : `<tr><td>${name}</td><td class="num">${f[0].ok ? fmt(f[0].steps) : 'не дошёл'}</td><td class="num">${f[1].ok ? fmt(f[1].steps) : 'кружит, не дошёл'}</td></tr>`;
+    const sees = (name) => `<span style="color:var(--ink-soft)">${name}, видя тупики</span>`;
     $('readings').innerHTML =
       row('маршрут, если знаешь где', path) +
-      row('картограф, шагов', mapper) +
-      row(`блуждающий, шагов (среднее из ${runs})`, wander) +
-      (fol[0].ok && fol[1].ok
-        ? row('правая рука, шагов', [fol[0].steps, fol[1].steps])
-        : `<tr><td>правая рука, шагов</td><td class="num">${fol[0].ok ? fmt(fol[0].steps) : 'не дошёл'}</td><td class="num">${fol[1].ok ? fmt(fol[1].steps) : 'кружит, не дошёл'}</td></tr>`);
+      row('картограф, шагов', mapper) + row(sees('картограф'), mapperSees) +
+      row(`блуждающий, шагов (среднее из ${runs})`, wander) + row(sees('блуждающий'), wanderSees) +
+      hand('правая рука, шагов', fol) + hand(sees('правая рука'), folSees);
   }
 
   function cellAt(ev) {
