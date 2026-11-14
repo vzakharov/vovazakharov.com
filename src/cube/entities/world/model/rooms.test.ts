@@ -180,6 +180,13 @@ describe('seenFrom', () => {
     for (const room of back.slice(1)) assert.ok(!seen.has(roomKey(room)));
   });
 
+  it('sees past a room a loop reaches first by a bent walk', () => {
+    const loop = [at(0, 0), at(0, 1), at(-1, 1), at(-1, 0), at(0, 0)];
+    const north = run(at(-1, 0), at(-1, -1));
+    const seen = keySet(seenFrom(at(0, 0), 24, pathWalls(loop, north)));
+    assert.ok(seen.has(roomKey(at(-1, -1))));
+  });
+
   it('never asks past the cube from its corner', () => {
     const corner: Room = { n: 3, x: 0n, y: 0n };
     const corridor = run(corner, { n: 3, x: 3n, y: 0n });

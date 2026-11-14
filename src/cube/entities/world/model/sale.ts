@@ -52,10 +52,10 @@ export const priceOf = (n: number): number =>
  * where it hung. Otherwise a room on floor 2 and below is for sale when every
  * side of it but at most one is a closed wall or opens onto a bought room, the
  * floor's boundary counting as wall, and it is neither end; it reads "buy
- * more" when it adjoins a bought room. With nothing bought those are the dead
- * ends off the path from landing to hole, and no room of that path can ever
- * sell: its two ends never do, so each room between keeps two openings on
- * sale. `isEnd` is asked only of a room the walls alone leave for sale.
+ * more" when it adjoins a bought room. With nothing bought those are dead
+ * ends, and no room of any path from landing to hole can ever sell: its two
+ * ends never do, so each room between keeps two openings on sale. `isEnd` is
+ * asked only of a room the walls alone leave for sale.
  */
 export function lotSign(
   walls: Walls,
