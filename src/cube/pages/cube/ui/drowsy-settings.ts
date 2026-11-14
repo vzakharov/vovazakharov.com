@@ -28,7 +28,7 @@ const settingsSchema = z.object({
   slowdown: z.number().min(1).max(SLOWEST),
 });
 
-export type DrowsySettings = z.infer<typeof settingsSchema>;
+type DrowsySettings = z.infer<typeof settingsSchema>;
 
 const DEFAULTS: DrowsySettings = {
   drowsy: false,
@@ -39,25 +39,25 @@ const DEFAULTS: DrowsySettings = {
   slowdown: 1,
 };
 
+type Settled = {
+  /** Every setting as it now stands, which the next frame is drawn by. */
+  settings: () => DrowsySettings;
+};
+
 /**
  * The console's knobs: each setter takes one setting, throws on a bad value,
  * and returns every setting as it now stands, which the console prints.
  */
-export type DrowsyConsole = {
+export type DrowsyConsole = Settled & {
   setDrowsy: (on: unknown) => DrowsySettings;
   setShare: (share: unknown) => DrowsySettings;
   setDrowsiness: (drowsiness: unknown) => DrowsySettings;
   setScatter: (on: unknown) => DrowsySettings;
   setVignette: (vignette: unknown) => DrowsySettings;
   setSlowdown: (slowdown: unknown) => DrowsySettings;
-  settings: () => DrowsySettings;
 };
 
-export type Drowsiness = {
-  /** The settings for the next frame. */
-  settings: () => DrowsySettings;
-  console: DrowsyConsole;
-};
+export type Drowsiness = Settled & { console: DrowsyConsole };
 
 /** Settings at their defaults, held for the life of what made them. */
 export function drowsiness(): Drowsiness {

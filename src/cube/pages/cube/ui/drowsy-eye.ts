@@ -21,7 +21,7 @@ const TRUST_FORMAT: GPUTextureFormat = 'r16float';
 const RESOLVE_FLOATS = 16 + 16 + 4 + 4 + 4;
 
 /** A frame's low pass: its size, and the view it draws through. */
-export type LowPass = Sized & {
+type LowPass = Sized & {
   /** A view-projection of the full frame as the low pass draws through it. */
   shift: (viewProjection: Float32Array) => Float32Array;
 };
@@ -54,12 +54,12 @@ export type DrowsyEye = CanDispose & {
 };
 
 /** Two frames of light and trust, one read while the other is written. */
-type History = Sized & {
-  share: Share;
-  textures: GPUTexture[];
-  light: readonly [GPUTextureView, GPUTextureView];
-  trust: readonly [GPUTextureView, GPUTextureView];
-};
+type History = Sized &
+  CanDispose & {
+    share: Share;
+    light: readonly [GPUTextureView, GPUTextureView];
+    trust: readonly [GPUTextureView, GPUTextureView];
+  };
 
 /** `view` as a target the pass clears and keeps. */
 const cleared = (view: GPUTextureView): GPURenderPassColorAttachment => ({
@@ -108,7 +108,7 @@ export function createDrowsyEye(device: GPUDevice): DrowsyEye {
   } | null = null;
 
   const drop = (): void => {
-    for (const texture of history?.textures ?? []) texture.destroy();
+    history?.dispose();
     history = null;
     previous = null;
     reading = null;
@@ -146,7 +146,9 @@ export function createDrowsyEye(device: GPUDevice): DrowsyEye {
       width,
       height,
       share,
-      textures,
+      dispose: () => {
+        for (const texture of textures) texture.destroy();
+      },
       light: [light0, light1],
       trust: [trust0, trust1],
     };

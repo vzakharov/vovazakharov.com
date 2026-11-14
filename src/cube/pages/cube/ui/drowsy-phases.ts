@@ -1,5 +1,7 @@
 import type { Sized } from '@/kernel/shared/typings';
 
+import type { Point } from '@/scene/shared/lib/plane';
+
 /** The shares the drowsy eye draws at: one pixel in n×n a frame. */
 export const SHARES = [2, 3, 4] as const;
 
@@ -17,11 +19,11 @@ const ORDERS: Record<Share, readonly number[]> = {
   4: [0, 10, 2, 8, 5, 15, 7, 13, 1, 11, 3, 9, 4, 14, 6, 12],
 };
 
-/** A pixel's place inside its block, 0 to n − 1 on each axis. */
-export type Jitter = { x: number; y: number };
-
-/** The pixel of every block that frame number `frame` draws at `share`. */
-export function jitterOf(share: Share, frame: number): Jitter {
+/**
+ * The pixel of every block that frame number `frame` draws at `share`, by its
+ * place in the block, 0 to n − 1 on each axis.
+ */
+export function jitterOf(share: Share, frame: number): Point {
   const order = ORDERS[share];
   const index = order[frame % order.length] ?? 0;
   return { x: index % share, y: Math.floor(index / share) };
@@ -42,7 +44,7 @@ export const lowSizeOf = ({ width, height }: Sized, share: Share): Sized => ({
  */
 export function shifted(
   viewProjection: Float32Array,
-  { x, y }: Jitter,
+  { x, y }: Point,
   full: Sized,
   low: Sized,
   share: Share,

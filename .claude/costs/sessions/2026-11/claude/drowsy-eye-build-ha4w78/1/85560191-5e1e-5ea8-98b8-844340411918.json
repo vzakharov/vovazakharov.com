@@ -1,15 +1,33 @@
 {
   "total": {
-    "inputTokens": 138,
-    "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 219037,
-    "cacheReadTokens": 14631709,
-    "outputTokens": 80251,
-    "thinkingTokens": 33485,
-    "responses": 72,
-    "costUsd": 6.284209800000001
+    "inputTokens": 2778,
+    "cacheWrite5mTokens": 159,
+    "cacheWrite1hTokens": 346883,
+    "cacheReadTokens": 23298122,
+    "outputTokens": 111207,
+    "thinkingTokens": 38029,
+    "responses": 110,
+    "costUsd": 9.670735400000002
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-14T14:37:50.924Z",
+    "subjectLine": "feat: the drowsy eye in the cube's WebGPU renderer, knobs on the console",
+    "parts": [
+      {
+        "hours": 14.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "a temporal reprojection resolve ported from a ray-marched prototype into a rasterizing multi-pass renderer, with jittered projection math, ping-pong history and a GPU slowdown, is specialist rendering work"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "the console knobs and their validation are the player-facing control surface"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -34,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkDmAN4kMsfC88FQYVE",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-14T14:24:09.510Z",
-  "lastResponseAt": "2026-11-14T14:37:34.866Z",
+  "lastResponseAt": "2026-11-14T14:57:10.211Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 138,
+    "inputTokens": 209,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 219037,
-    "cacheReadTokens": 14631709,
-    "outputTokens": 80251,
-    "thinkingTokens": 33485,
-    "responses": 72,
-    "costUsd": 6.284209800000001
+    "cacheWrite1hTokens": 346883,
+    "cacheReadTokens": 22995630,
+    "outputTokens": 100526,
+    "thinkingTokens": 38029,
+    "responses": 109,
+    "costUsd": 9.385546000000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,24 +77,67 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 138,
-      "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 219037,
-      "cacheReadTokens": 14631709,
-      "outputTokens": 80251,
-      "thinkingTokens": 33485,
-      "responses": 72,
-      "costUsd": 6.284209800000001
+      "inputTokens": 2778,
+      "cacheWrite5mTokens": 159,
+      "cacheWrite1hTokens": 346883,
+      "cacheReadTokens": 23298122,
+      "outputTokens": 111207,
+      "thinkingTokens": 38029,
+      "responses": 110,
+      "costUsd": 9.670735400000002
     }
   },
   "warnings": [],
-  "compactions": [],
+  "compactions": [
+    {
+      "at": "2026-11-14T14:55:11.301Z",
+      "trigger": "auto",
+      "compactedFrom": 304270,
+      "summaryChars": 22399,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/cube/pages/cube/ui/drowsy-settings.ts",
+        "endedAt": "2026-11-14T14:55:56.813Z",
+        "contextTokens": 147370,
+        "spend": {
+          "inputTokens": 15,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 88472,
+          "cacheReadTokens": 965735,
+          "outputTokens": 4457,
+          "thinkingTokens": 1467,
+          "responses": 8,
+          "costUsd": 0.990123
+        }
+      },
+      "rereads": {
+        "calls": 2,
+        "byTool": {
+          "Read": 2
+        },
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.2851894
+    }
+  ],
   "telemetry": {
-    "events": 71,
-    "matched": 71,
-    "matchedTableUsd": 6.206591000000001,
-    "matchedEventUsd": 6.206591000000001,
-    "unseen": {}
+    "events": 109,
+    "matched": 108,
+    "matchedTableUsd": 9.337802800000002,
+    "matchedEventUsd": 9.337802800000002,
+    "unseen": {
+      "compact": {
+        "inputTokens": 2569,
+        "cacheWrite5mTokens": 159,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 302492,
+        "outputTokens": 10681,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.2851894
+      }
+    }
   },
   "operatorWords": {
     "chat": 0,
@@ -86,6 +147,8 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 446
+    ".md": 447,
+    ".ts": 1077,
+    ".wgsl": 156
   }
 }

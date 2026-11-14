@@ -10,15 +10,15 @@ describe('repeatsOf', () => {
 
   it('puts the part first, then the whole encodings', () => {
     assert.deepEqual(repeatsOf(2.25), [
-      { rows: 0.25, first: true, last: false },
-      { rows: 1, first: false, last: false },
-      { rows: 1, first: false, last: true },
+      { coverage: 0.25, first: true, last: false },
+      { coverage: 1, first: false, last: false },
+      { coverage: 1, first: false, last: true },
     ]);
   });
 
   it('adds no part for a whole number', () => {
     assert.equal(repeatsOf(4).length, 4);
-    assert.ok(repeatsOf(4).every(({ rows }) => rows === 1));
+    assert.ok(repeatsOf(4).every(({ coverage }) => coverage === 1));
   });
 });
 

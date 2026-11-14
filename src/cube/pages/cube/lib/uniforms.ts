@@ -1,21 +1,21 @@
 /// <reference types="@webgpu/types" />
 
-import type { Sized } from '@/kernel/shared/typings';
-
-import type { SeenAt } from '@/cube/shared/lib/clock';
+import type { SeenOnScreen } from '@/cube/shared/lib/clock';
+import type { Vignetted } from '@/cube/entities/theme';
 
 import type { OutsideLens } from './outside-lens';
 
 /** The floats of `lens-stage.wgsl`'s `Uniforms`: a matrix and four vectors. */
 const UNIFORM_FLOATS = 16 + 4 + 4 + 4 + 4;
 
-/** What one pass's `Uniforms` hold, as `lens-stage.wgsl` lays them out. */
-type Framing = Sized &
-  SeenAt & {
+/**
+ * What one pass's `Uniforms` hold, as `lens-stage.wgsl` lays them out; the
+ * vignette is the drowsy eye's.
+ */
+type Framing = SeenOnScreen &
+  Vignetted & {
     /** The outside's lens as set for the frame; null for a floor's. */
     outside: OutsideLens | null;
-    /** How far the drowsy eye darkens the frame's corners. */
-    vignette: number;
   };
 
 /** `framing` as the floats of a `Uniforms`. */

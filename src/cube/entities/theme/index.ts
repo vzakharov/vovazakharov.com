@@ -7,4 +7,5 @@ export {
   roomFlags,
   type RoomState,
   STUFF,
+  type Vignetted,
 } from './kit';
