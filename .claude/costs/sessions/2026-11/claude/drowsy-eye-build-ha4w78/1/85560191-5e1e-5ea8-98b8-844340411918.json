@@ -1,0 +1,91 @@
+{
+  "total": {
+    "inputTokens": 138,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 219037,
+    "cacheReadTokens": 14631709,
+    "outputTokens": 80251,
+    "thinkingTokens": 33485,
+    "responses": 72,
+    "costUsd": 6.284209800000001
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-14T14:24:58.387Z",
+    "contextTokens": 155497,
+    "spend": {
+      "inputTokens": 24,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 100979,
+      "cacheReadTokens": 1473670,
+      "outputTokens": 4213,
+      "thinkingTokens": 1110,
+      "responses": 12,
+      "costUsd": 1.1869220000000003
+    }
+  },
+  "sessionId": "85560191-5e1e-5ea8-98b8-844340411918",
+  "branch": "claude/drowsy-eye-build-ha4w78",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are the builder in a /carte-blanche run; the lead is session session_01DaohkEDLi4h9PRuRHgXuPy on branch `claude/drowsy-eye-intro-ha4w78`. Write in English t…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDmAN4kMsfC88FQYVE",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-14T14:24:09.510Z",
+  "lastResponseAt": "2026-11-14T14:37:34.866Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 138,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 219037,
+    "cacheReadTokens": 14631709,
+    "outputTokens": 80251,
+    "thinkingTokens": 33485,
+    "responses": 72,
+    "costUsd": 6.284209800000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 138,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 219037,
+      "cacheReadTokens": 14631709,
+      "outputTokens": 80251,
+      "thinkingTokens": 33485,
+      "responses": 72,
+      "costUsd": 6.284209800000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 71,
+    "matched": 71,
+    "matchedTableUsd": 6.206591000000001,
+    "matchedEventUsd": 6.206591000000001,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 446
+  }
+}

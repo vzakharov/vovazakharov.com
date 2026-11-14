@@ -13,6 +13,7 @@ import {
   REFLECTION_SHADER,
   VIEW_FLOATS,
 } from './reflection-shader';
+import { type Repeat, UNREPEATED } from './slowdown';
 
 /**
  * The formats the scene pass writes after its light, in the order of the
@@ -37,12 +38,14 @@ export type Reflection = CanDispose & {
    * Records the passes that fill the mirrors of the scene last drawn into
    * `attachments`, seen as `seen`, and gives back the view of the frame they
    * end in: the scene's light, mirrors filled, and its depth as the scene had.
-   * `stamp` is written by the last of them.
+   * `stamp` is written by the last of them; `repeat` is which of the stage's
+   * encodings they are.
    */
   run: (
     encoder: GPUCommandEncoder,
     seen: Seen,
     stamp?: GPURenderPassTimestampWrites,
+    repeat?: Repeat,
   ) => GPUTextureView;
 };
 
@@ -156,7 +159,7 @@ export function createReflection(device: GPUDevice): Reflection {
         }),
       );
     },
-    run: (encoder, { viewProjection, eye }, stamp) => {
+    run: (encoder, { viewProjection, eye }, stamp, repeat = UNREPEATED) => {
       if (frame === null) throw new Error('No scene was drawn to reflect');
       const { width, height, chain, reflecting, lit } = frame;
       // The focal length is the length of the projection's second row.
@@ -171,8 +174,11 @@ export function createReflection(device: GPUDevice): Reflection {
       data.set([...eye, ROOM_METRES], 32);
       data.set([width, height, focal, chain.levels.length - 1], 36);
       device.queue.writeBuffer(view, 0, data);
-      chain.fill(encoder);
-      cover(encoder, reflect, reflecting, lit, { stamp });
+      chain.fill(encoder, repeat);
+      cover(encoder, reflect, reflecting, lit, {
+        stamp,
+        scissored: { repeat, width, height },
+      });
       return lit;
     },
     dispose: () => {

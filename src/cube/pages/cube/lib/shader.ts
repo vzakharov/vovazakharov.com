@@ -4,9 +4,6 @@ import { floorSource, themeOf } from '@/cube/entities/theme';
 import { FLOOR_LENS } from './floor-lens.shader.generated';
 import { FLOOR_STAGE } from './floor-stage.shader.generated';
 
-/** The floats of `lens-stage.wgsl`'s `Uniforms`: a matrix and three vectors. */
-export const UNIFORM_FLOATS = 16 + 4 + 4 + 4;
-
 /** The whole shader of floor `n`. */
 export const shaderOf = (n: number): string =>
   floorSource(themeOf(n), FLOOR_STAGE, FLOOR_LENS);

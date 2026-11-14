@@ -44,7 +44,7 @@ fn lensFragment(@builtin(position) at: vec4f) -> @location(0) vec4f {
   let l = lensOf(at);
   let film = daylightFilm(through(l, 0.03, FRINGE) * uniforms.lens.x);
   let seen = mix(film, themeLens(l), uniforms.lens.z);
-  return vec4f(seen * betweenLids(l.uv, uniforms.lens.y), 1.0);
+  return vec4f(vignetted(seen, l.uv) * betweenLids(l.uv, uniforms.lens.y), 1.0);
 }
 `,
   LENS_STAGE,
