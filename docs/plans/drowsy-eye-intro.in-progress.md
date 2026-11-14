@@ -52,7 +52,16 @@ own knob).
     (walk/strafe), right half drag-to-look, a short still tap uses. Decided
     without asking: a floating stick over a fixed one, since nothing on screen
     has to be drawn for it.
-- Left, in this order:
+- Operator, verbatim, on whether the eye wakes indoors: «Да но если её просто
+  отключить, то все равно будет тормозить. Нужно оставить для той части что
+  снаружи, но отключить для внтурненостец куба — так можно?» Interim (this
+  commit): the eye is drowsy only in frames that show the outside, so floors
+  below 1 draw whole. **The split** is the next build: the outside's layers in
+  the low pass, resolved through the history as now; the rooms, boards and
+  mirrors in a full-size pass over the resolved outside, depth-tested against a
+  depth written from the history's metres, so a dune or the sea still hides the
+  cube's foot from the shore.
+- Left, in this order: 0. The split above.
   1. The pill question's yes/no is keyboard-only; a phone cannot answer it. Taps
      on on-screen buttons are the likely shape.
   2. `/five-percent` on the PR; refresh the board after each pushed fix.

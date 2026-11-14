@@ -9,7 +9,6 @@ import type { SeenAt } from '@/cube/shared/lib/clock';
 import type { Rgb } from '@/cube/shared/lib/colour';
 import type { Seen } from '@/cube/shared/lib/vec';
 import type { Laddered } from '@/cube/entities/island';
-import { createOutdoors, type Outdoors } from '@/cube/widgets/outdoors';
 
 import { inverse } from '../lib/matrix';
 import type { FloorRange, Scenery } from '../lib/mesh';
@@ -18,13 +17,9 @@ import { createUniforms, uniformsOf } from '../lib/uniforms';
 import { createBloom } from './bloom';
 import { type Boards, createBoardTextures } from './board-textures';
 import { createDrowsyEye } from './drowsy-eye';
+import { outsideOnce } from './outside';
 import { createPassTimer, type Timed, timedOf } from './pass-timer';
-import {
-  createPrograms,
-  DEPTH_FORMAT,
-  type Preparing,
-  SCENE_TARGETS,
-} from './programs';
+import { createPrograms, DEPTH_FORMAT, type Preparing } from './programs';
 import { createReflection } from './reflection';
 import { beginRepeat, encodeRepeats } from './slowdown';
 
@@ -127,25 +122,7 @@ export async function createRenderer(
     outsideLens,
     of: programOf,
   } = createPrograms(device, format, sourceOf);
-  /** The outside's layers and lens, once `prepareOutside` has made them. */
-  let outside: { layers: Outdoors; lens: GPURenderPipeline } | null = null;
-  let preparingOutside: Promise<void> | null = null;
-  const makeOutside = async (): Promise<void> => {
-    const [layers, lens] = await Promise.all([
-      createOutdoors(device, {
-        targets: SCENE_TARGETS,
-        depthFormat: DEPTH_FORMAT,
-      }),
-      outsideLens(),
-    ]);
-    outside = { layers, lens };
-  };
-  const outsideMade = (): NonNullable<typeof outside> => {
-    if (outside === null) {
-      throw new Error('The outside is drawn before it was prepared');
-    }
-    return outside;
-  };
+  const outside = outsideOnce(device, outsideLens);
 
   /** The frame's uniforms, as the lens reads them and as the low pass does. */
   const wholeUniforms = createUniforms(device, layouts.uniform);
@@ -230,10 +207,7 @@ export async function createRenderer(
       boards = made;
       textures.keepOnly(new Set(next.map(({ id }) => id)));
     },
-    prepareOutside: async () => {
-      preparingOutside ??= makeOutside();
-      return preparingOutside;
-    },
+    prepareOutside: outside.prepare,
     draw: ({
       viewProjection,
       eye,
@@ -245,7 +219,7 @@ export async function createRenderer(
       hour,
     }) => {
       const full = pick(canvas, 'width', 'height');
-      const low = drowsy.lowPass(full);
+      const low = drowsy.lowPass(full, outdoors !== null);
       // The size the scene and mirrors are drawn at, and the view they are
       // drawn through: the low pass's where the eye is drowsy.
       const drawn = low ?? full;
@@ -279,7 +253,7 @@ export async function createRenderer(
       const repeats = drowsy.repeats();
       const stamps = timer?.stamping() === true ? timer : null;
       const encoder = device.createCommandEncoder();
-      const layers = outdoors === null ? null : outsideMade().layers;
+      const layers = outdoors === null ? null : outside.made().layers;
       if (outdoors !== null) {
         const outdoorsShifted = shift(outdoors.viewProjection);
         layers?.prepare(
@@ -368,7 +342,7 @@ export async function createRenderer(
           full,
         );
         framed.setPipeline(
-          throughFloor ? programOf(lens).lens : outsideMade().lens,
+          throughFloor ? programOf(lens).lens : outside.made().lens,
         );
         framed.setBindGroup(0, wholeUniforms.group);
         framed.setBindGroup(1, lensGroup);
@@ -383,7 +357,7 @@ export async function createRenderer(
     ...timedOf(timer),
     dispose: () => {
       timer?.dispose();
-      outside?.layers.dispose();
+      outside.dispose();
       rooms?.buffer.destroy();
       moving?.buffer.destroy();
       targets?.depth.destroy();

@@ -15,11 +15,13 @@ export const DEPTH_FORMAT: GPUTextureFormat = 'depth32float';
  * as scene light and the mirrors it leaves, and the lens that makes the
  * frame of that.
  */
-type Program = {
+type Program = Lensed & {
   faces: GPURenderPipeline;
   boards: GPURenderPipeline;
-  lens: GPURenderPipeline;
 };
+
+/** What a frame is seen through: the lens pass's pipeline. */
+export type Lensed = { lens: GPURenderPipeline };
 
 /** The bind group layouts every floor's pipelines share. */
 type Layouts = {

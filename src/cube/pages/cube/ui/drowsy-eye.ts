@@ -36,13 +36,17 @@ type LowPass = Portioned & {
 export type DrowsyEye = CanDispose & {
   /** How each stage of the next frame is encoded under the slowdown. */
   repeats: () => readonly Repeat[];
-  /** How far the lens darkens the frame's corners: 0 while the eye is awake. */
+  /**
+   * How far the lens darkens the frame `lowPass` started: 0 where the eye is
+   * awake for it.
+   */
   vignette: () => number;
   /**
    * Starts a `full` frame: its low pass, or null where the eye is awake and
-   * the frame is drawn whole.
+   * the frame is drawn whole: set so, or the frame shows no `outside`, the
+   * part of it the eye is drowsy for.
    */
-  lowPass: (full: Sized) => LowPass | null;
+  lowPass: (full: Sized, outside: boolean) => LowPass | null;
   /**
    * Records the resolve of `lit`, the frame's low pass, into the history,
    * the frame seen whole as `seen`, and gives back the full frame it makes.
@@ -179,13 +183,11 @@ export function createDrowsyEye(device: GPUDevice): DrowsyEye {
 
   return {
     repeats: () => repeatsOf(settings().slowdown),
-    vignette: () => {
-      const { drowsy, vignette } = settings();
-      return drowsy ? vignette : 0;
-    },
-    lowPass: (full) => {
+    // The history is held exactly while the eye is drowsy.
+    vignette: () => (history === null ? 0 : settings().vignette),
+    lowPass: (full, outside) => {
       const { drowsy, share } = settings();
-      if (!drowsy) {
+      if (!drowsy || !outside) {
         drop();
         return null;
       }
