@@ -13,7 +13,7 @@ import { ahead, FRAME, NEAR, use } from '../../play.test-kit';
 import { play } from '../../play/index.test-only';
 import { closedWalls } from './body';
 import {
-  doorFaced,
+  doorsFaced,
   LEAF_SWING,
   leafAngle,
   OPEN_ANGLE,
@@ -72,27 +72,39 @@ describe('leafAngle', () => {
   });
 });
 
-describe('doorFaced', () => {
-  it('opens the door the body reaches and faces, away from it', () => {
-    const door = doorFaced(facing(), doored.isDoor ?? (() => false));
-    assert.ok(door !== null && isSameWall(door, DOOR));
+describe('doorsFaced', () => {
+  const isDoor = doored.isDoor ?? (() => false);
+
+  it('yields the door the body reaches and faces, away from it', () => {
+    const [door, ...rest] = doorsFaced(facing(), isDoor);
+    assert.ok(door !== undefined && isSameWall(door, DOOR));
     assert.equal(door.toward, 1);
+    assert.deepEqual(rest, []);
   });
 
   it('swings into the west room when opened from the east', () => {
     const east = facing({ x: 2n, u: 0.2, yaw: Math.PI });
-    const door = doorFaced(east, doored.isDoor ?? (() => false));
-    assert.ok(door !== null && isSameWall(door, DOOR));
+    const [door] = doorsFaced(east, isDoor);
+    assert.ok(door !== undefined && isSameWall(door, DOOR));
     assert.equal(door.toward, -1);
   });
 
-  it('opens nothing turned away, out of reach, or at a plain wall', () => {
-    const isDoor = doored.isDoor ?? (() => false);
-    assert.equal(doorFaced(facing({ yaw: Math.PI }), isDoor), null);
-    assert.equal(doorFaced(facing({ u: 0.3 }), isDoor), null);
-    assert.equal(
-      doorFaced(facing(), () => false),
-      null,
+  it('yields every door in reach, the nearer not hiding the other', () => {
+    const south: DoorWall = { ...DOOR, isEast: false };
+    const both = (wall: DoorWall) =>
+      isSameWall(wall, DOOR) || isSameWall(wall, south);
+    const corner = facing({ u: 0.7, v: 0.8, yaw: Math.PI / 4 });
+    const walls = doorsFaced(corner, both).map(({ isEast }) => isEast);
+    assert.equal(walls.length, 2);
+    assert.ok(walls.includes(true) && walls.includes(false));
+  });
+
+  it('yields nothing turned away, out of reach, or at a plain wall', () => {
+    assert.deepEqual(doorsFaced(facing({ yaw: Math.PI }), isDoor), []);
+    assert.deepEqual(doorsFaced(facing({ u: 0.3 }), isDoor), []);
+    assert.deepEqual(
+      doorsFaced(facing(), () => false),
+      [],
     );
   });
 });

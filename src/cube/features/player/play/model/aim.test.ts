@@ -61,6 +61,20 @@ describe('aimOf', () => {
     assert.equal(aim.door.toward, 1);
   });
 
+  it('opens the door looked at, not the nearer one beside it', () => {
+    const south: DoorWall = { ...DOOR, isEast: false };
+    const cornered: Pressable = {
+      shelf: null,
+      sign: null,
+      isDoor: (wall) => isDoor(wall) || isSameWall(wall, south),
+    };
+    const ten = (10 * Math.PI) / 180;
+    const east = aimOf(at(0.7, 0.8, ten), cornered);
+    assert.ok(east?.at === 'door' && isSameWall(east.door, DOOR));
+    const looking = aimOf(at(0.7, 0.8, Math.PI / 2 - ten), cornered);
+    assert.ok(looking?.at === 'door' && isSameWall(looking.door, south));
+  });
+
   it('answers nothing out of reach, or with nothing there', () => {
     assert.equal(aimOf(at(0.2, 0.75, 0), all), null);
     assert.equal(aimOf(at(0.7, 0.75, 0), { shelf: null, sign: null }), null);

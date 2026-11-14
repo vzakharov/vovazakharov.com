@@ -79,25 +79,13 @@ export const doorwayAt = (pose: Pose, wall: DoorWall): InRoom =>
   onWall(pose, wall, DOORWAY_CUT.middle, 0);
 
 /**
- * The closed door a body at `pose` opens with its hand: of its room's four
- * walls, the nearest door it reaches and faces, swinging away from it.
+ * The closed doors a body at `pose` could open with its hand: of its room's
+ * four walls, every door it reaches and faces, each swinging away from it.
  */
-export function doorFaced(
-  pose: Pose,
-  isDoor: Doors['isDoor'],
-): OpenDoor | null {
-  const reached = wallsAround(pose)
+export const doorsFaced = (pose: Pose, isDoor: Doors['isDoor']): OpenDoor[] =>
+  wallsAround(pose)
     .filter((wall) => canReach(pose, doorwayAt(pose, wall)) && isDoor(wall))
-    .map((wall) => {
-      const { u, v } = doorwayAt(pose, wall);
-      return { wall, distance: Math.hypot(u - pose.u, v - pose.v) };
-    })
-    .toSorted((a, b) => a.distance - b.distance);
-  const nearest = reached[0]?.wall;
-  return nearest === undefined
-    ? null
-    : { ...nearest, openFor: 0, shutAt: null };
-}
+    .map((wall) => ({ ...wall, openFor: 0, shutAt: null }));
 
 /**
  * `door` `dt` seconds on, the body at `pose`: it begins to shut once the body

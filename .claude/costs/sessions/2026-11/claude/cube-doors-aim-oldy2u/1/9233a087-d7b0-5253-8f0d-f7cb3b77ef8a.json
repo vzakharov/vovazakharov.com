@@ -1,0 +1,98 @@
+{
+  "total": {
+    "inputTokens": 32,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 72582,
+    "cacheReadTokens": 1675362,
+    "outputTokens": 8806,
+    "thinkingTokens": 1389,
+    "responses": 15,
+    "costUsd": 1.0919764
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-14T21:57:52.443Z",
+    "contextTokens": 108011,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 39201,
+      "cacheReadTokens": 144603,
+      "outputTokens": 971,
+      "thinkingTokens": 121,
+      "responses": 2,
+      "costUsd": 0.3619646
+    }
+  },
+  "sessionId": "9233a087-d7b0-5253-8f0d-f7cb3b77ef8a",
+  "branch": "claude/cube-doors-aim-oldy2u",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a lead working on branch claude/cube-board-right-hand-doors-oldy2u (PR #280 in vzakharov/vovazakharov.com, the lead's; you open no PR…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCcMFsgFLxWoWWTwm1",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-14T21:57:41.510Z",
+  "lastResponseAt": "2026-11-14T22:01:03.000Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 32,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 72582,
+    "cacheReadTokens": 1675362,
+    "outputTokens": 8806,
+    "thinkingTokens": 1389,
+    "responses": 15,
+    "costUsd": 1.0919764
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 32,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 72582,
+      "cacheReadTokens": 1675362,
+      "outputTokens": 8806,
+      "thinkingTokens": 1389,
+      "responses": 15,
+      "costUsd": 1.0919764
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 14,
+    "matched": 14,
+    "matchedTableUsd": 1.0410614,
+    "matchedEventUsd": 1.0410614,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 397,
+    ".js": 1861,
+    ".ts": 2104,
+    ".html": 357,
+    ".json": 7,
+    ".yaml": 155,
+    ".wgsl": 32,
+    ".tsx": 12
+  }
+}
