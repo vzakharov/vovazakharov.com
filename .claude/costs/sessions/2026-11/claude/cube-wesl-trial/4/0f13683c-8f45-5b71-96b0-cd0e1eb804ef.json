@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 4209,
+    "inputTokens": 4311,
     "cacheWrite5mTokens": 8720,
-    "cacheWrite1hTokens": 186473,
-    "cacheReadTokens": 15842076,
-    "outputTokens": 57665,
-    "thinkingTokens": 29645,
-    "responses": 89,
-    "costUsd": 5.900095199999999
+    "cacheWrite1hTokens": 268960,
+    "cacheReadTokens": 30736527,
+    "outputTokens": 99858,
+    "thinkingTokens": 43069,
+    "responses": 140,
+    "costUsd": 10.383149399999999
   },
   "estimate": {
     "at": "2026-11-14T05:07:57.627Z",
@@ -42,22 +42,24 @@
   "branch": "claude/cube-wesl-trial",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/cube-wesl-trial — все шейдеры куба в .wgsl, вет зелёный, ревью-борд обновлён, ждут ответа три MASD-предложения",
-  "prs": [],
+  "prs": [
+    276
+  ],
   "url": "https://claude.ai/code/session_01DaohkBtCTt6tgWMeqbp5dW",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-14T05:07:38.455Z",
-  "lastResponseAt": "2026-11-14T05:43:24.996Z",
+  "lastResponseAt": "2026-11-14T05:54:54.743Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 161,
+    "inputTokens": 263,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 186473,
-    "cacheReadTokens": 14549445,
-    "outputTokens": 57502,
-    "thinkingTokens": 29645,
-    "responses": 81,
-    "costUsd": 5.552357
+    "cacheWrite1hTokens": 268960,
+    "cacheReadTokens": 29443896,
+    "outputTokens": 99695,
+    "thinkingTokens": 43069,
+    "responses": 132,
+    "costUsd": 10.0354112
   },
   "subagents": {
     "inputTokens": 0,
@@ -71,23 +73,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 4209,
+      "inputTokens": 4311,
       "cacheWrite5mTokens": 8720,
-      "cacheWrite1hTokens": 186473,
-      "cacheReadTokens": 15842076,
-      "outputTokens": 57665,
-      "thinkingTokens": 29645,
-      "responses": 89,
-      "costUsd": 5.900095199999999
+      "cacheWrite1hTokens": 268960,
+      "cacheReadTokens": 30736527,
+      "outputTokens": 99858,
+      "thinkingTokens": 43069,
+      "responses": 140,
+      "costUsd": 10.383149399999999
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 88,
-    "matched": 80,
-    "matchedTableUsd": 5.4910178,
-    "matchedEventUsd": 5.4910178,
+    "events": 139,
+    "matched": 131,
+    "matchedTableUsd": 9.9502044,
+    "matchedEventUsd": 9.9502044,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 4048,
@@ -109,7 +111,7 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".ts": 27167,
+    ".ts": 27173,
     ".md": 1271,
     ".json": 104,
     ".yaml": 765,

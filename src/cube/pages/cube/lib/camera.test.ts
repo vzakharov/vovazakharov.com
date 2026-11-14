@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { toCube, toWorld, yawToShell } from '@/cube/shared/outside';
+import { yawToShell } from '@/cube/shared/outside';
+import { toCube, toWorld } from '@/cube/entities/island';
 import {
   eyeInFrame,
   type Outside,

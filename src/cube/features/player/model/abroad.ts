@@ -1,7 +1,7 @@
 import { pick } from '@/kernel/shared/lib/collections';
 
 import { shortTurn } from '@/cube/shared/lib/turn';
-import type { Laddered } from '@/cube/shared/outside';
+import type { Laddered } from '@/cube/entities/island';
 import type { Quad } from '@/cube/entities/world';
 
 import { handsOnLadder } from './climbing';

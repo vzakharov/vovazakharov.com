@@ -1,5 +1,5 @@
-import type { Vec3 } from '../lib/vec';
 import { ROOM_METRES } from '../lib/room-shape';
+import type { Vec3 } from '../lib/vec';
 import { toRoom } from './turn';
 
 /** The cube's side in metres: one side of floor 1's room. */

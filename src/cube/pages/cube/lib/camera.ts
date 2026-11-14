@@ -1,11 +1,6 @@
 import type { Seen } from '@/cube/shared/lib/vec';
-import {
-  CUBE_METRES,
-  FAR_METRES,
-  toCube,
-  toWorld,
-  yawToRoom,
-} from '@/cube/shared/outside';
+import { CUBE_METRES, yawToRoom } from '@/cube/shared/outside';
+import { toCube, toWorld } from '@/cube/entities/island';
 import {
   cross,
   dot,
@@ -14,6 +9,7 @@ import {
   unit as normalized,
   type Vec3,
 } from '@/cube/entities/world';
+import { FAR_METRES } from '@/cube/widgets/outdoors';
 
 import { multiply } from './matrix';
 

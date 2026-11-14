@@ -6,16 +6,22 @@ import type { CanDispose, Sized, WithId } from '@/kernel/shared/typings';
 import type { SeenAt } from '@/cube/shared/lib/clock';
 import type { Rgb } from '@/cube/shared/lib/colour';
 import type { Seen } from '@/cube/shared/lib/vec';
-import { type Laddered, SUN_DIR } from '@/cube/shared/outside';
+import { SUN_DIR } from '@/cube/shared/outside';
+import type { Laddered } from '@/cube/entities/island';
+import { createOutdoors, type Outdoors } from '@/cube/widgets/outdoors';
 
 import { inverse } from '../lib/matrix';
 import type { FloorRange, Scenery } from '../lib/mesh';
 import type { OutsideLens } from '../lib/outside-lens';
 import { UNIFORM_FLOATS } from '../lib/shader';
 import { createBloom } from './bloom';
-import { createOutdoors, type Outdoors } from './outdoors';
 import { createPassTimer, type Timed } from './pass-timer';
-import { createPrograms, DEPTH_FORMAT, type Preparing } from './programs';
+import {
+  createPrograms,
+  DEPTH_FORMAT,
+  type Preparing,
+  SCENE_TARGETS,
+} from './programs';
 import { createReflection } from './reflection';
 
 /** What one frame is seen from and when, and what shows where nothing is. */
@@ -132,7 +138,10 @@ export async function createRenderer(
   let preparingOutside: Promise<void> | null = null;
   const makeOutside = async (): Promise<void> => {
     const [layers, lens] = await Promise.all([
-      createOutdoors(device),
+      createOutdoors(device, {
+        targets: SCENE_TARGETS,
+        depthFormat: DEPTH_FORMAT,
+      }),
       outsideLens(),
     ]);
     outside = { layers, lens };

@@ -1,4 +1,5 @@
-import { LADDER_OUT, toCube, turnedToRoom } from '@/cube/shared/outside';
+import { turnedToRoom } from '@/cube/shared/outside';
+import { LADDER_OUT, toCube } from '@/cube/entities/island';
 import { type Quad, type Room, times, type Vec3 } from '@/cube/entities/world';
 
 import { grippingHand } from './grip';

@@ -2,7 +2,7 @@ import { asError } from '@/kernel/shared/lib/error-class';
 import type { WithOnError } from '@/kernel/shared/typings';
 
 import { type Clock, clockAt } from '@/cube/shared/lib/clock';
-import { type Laddered, toCube } from '@/cube/shared/outside';
+import { type Laddered, toCube } from '@/cube/entities/island';
 import { themeOf } from '@/cube/entities/theme';
 import {
   descend,

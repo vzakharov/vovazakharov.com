@@ -1,12 +1,12 @@
+import { CUBE_METRES } from '@/cube/shared/outside';
 import {
   CUBE_BOX,
-  CUBE_METRES,
   DOOR_LADDER,
   DOORWAY_BOX,
   islandHeight,
   WAKE_AT,
   waterLevel,
-} from '@/cube/shared/outside';
+} from '@/cube/entities/island';
 
 import { groundMiddle, type Stage } from './scenes';
 import { EYE_HEIGHT } from './step';

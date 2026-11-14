@@ -1,7 +1,7 @@
 import type { Rgb } from '../lib/colour';
 import type { Vec3 } from '../lib/vec';
 import { vecf, wgsl } from '../shader/wgsl';
-import { lightUnder } from '../sky/sky-light';
+import { lightUnder } from './sky-light';
 
 const DEGREES = Math.PI / 180;
 /**

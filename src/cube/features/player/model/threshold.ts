@@ -2,12 +2,11 @@ import { clamp01 } from '@/cube/shared/lib/ease';
 import { positiveTurn } from '@/cube/shared/lib/turn';
 import {
   ROOM_DOORWAY,
-  toCube,
-  toWorld,
   type WallSide,
   yawToRoom,
   yawToShell,
 } from '@/cube/shared/outside';
+import { toCube, toWorld } from '@/cube/entities/island';
 import type { InRoom, Pose, Whereabouts } from '@/cube/entities/world';
 
 import { OPEN, outsideOf, type Stage } from './scenes';

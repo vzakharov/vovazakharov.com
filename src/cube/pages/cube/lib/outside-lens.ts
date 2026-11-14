@@ -1,4 +1,7 @@
+import type { Named } from '@/kernel/shared/typings';
+
 import type { Exposed } from '@/cube/entities/theme';
+import { OUTDOOR_SHADERS, outdoorSource } from '@/cube/widgets/outdoors';
 
 import { DAYLIGHT_LENS } from './daylight-lens.shader';
 import { firstFloorThrough } from './shader';
@@ -25,3 +28,12 @@ export const OUTSIDE_LENS: OutsideLens = { exposure: 0.3, eyelids: 1 };
 
 /** The whole shader of the outside's lens. */
 export const outsideLensSource = (): string => firstFloorThrough(DAYLIGHT_LENS);
+
+/** Every outdoor shader's whole source, by its name, the lens's among them. */
+export const outdoorSources = (): Array<Named & { source: string }> => [
+  ...Object.entries(OUTDOOR_SHADERS).map(([name, roots]) => ({
+    name,
+    source: outdoorSource(roots),
+  })),
+  { name: 'lens', source: outsideLensSource() },
+];
