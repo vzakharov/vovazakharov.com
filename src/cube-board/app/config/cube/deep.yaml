@@ -13,7 +13,7 @@ items:
     text: 'The problem: legs reach floor 9 or 10 in a few evenings, a shared ASIC crack ~30, and the rest is never seen. What goes unseen is the themes, not the floors: themeOf(n) glues a theme to its floor number, so unglue them'
   - id: deep-inherit
     type: sticky
-    updated: [2026-11-14T12:00:00.000Z, agent:cube]
+    updated: [2026-11-14T07:27:00.000Z, agent:cube]
     box: [4003, -890, 244, yellow]
     icon: 🧬
     text: "Idea: a room's theme inherited down the room tree: mostly the parent's, now and then a step stranger, rarely a leap. Early leaps make continents, late ones islands, so like sits by like. Cost: air per room, not per depth"
