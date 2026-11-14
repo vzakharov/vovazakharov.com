@@ -14,14 +14,6 @@ const settingsSchema = z.object({
   share: z.literal(SHARES),
   /** 0 holds the history to the fresh view, 1 lets it lag and smear. */
   drowsiness: z.number().min(0).max(1),
-  /**
-   * Each block entering the order at its own step. The cube rasterizes, so
-   * one pass draws every block at one offset, and scatter cannot be had.
-   */
-  scatter: z.literal(false, {
-    error:
-      'Scatter is not available: the cube rasterizes, so a pass draws every block at one offset',
-  }),
   /** How far the frame's corners darken while the eye is drowsy. */
   vignette: z.number().min(0).max(1),
   /** How many times over the GPU draws each frame, to stand in for a slower one. */
@@ -34,7 +26,6 @@ const DEFAULTS: DrowsySettings = {
   drowsy: false,
   share: 4,
   drowsiness: 1,
-  scatter: false,
   vignette: 0.35,
   slowdown: 1,
 };
@@ -52,7 +43,6 @@ export type DrowsyConsole = Settled & {
   setDrowsy: (on: unknown) => DrowsySettings;
   setShare: (share: unknown) => DrowsySettings;
   setDrowsiness: (drowsiness: unknown) => DrowsySettings;
-  setScatter: (on: unknown) => DrowsySettings;
   setVignette: (vignette: unknown) => DrowsySettings;
   setSlowdown: (slowdown: unknown) => DrowsySettings;
 };
@@ -76,7 +66,6 @@ export function drowsiness(): Drowsiness {
       setDrowsy: setter('drowsy'),
       setShare: setter('share'),
       setDrowsiness: setter('drowsiness'),
-      setScatter: setter('scatter'),
       setVignette: setter('vignette'),
       setSlowdown: setter('slowdown'),
       settings: () => current,

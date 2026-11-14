@@ -9,7 +9,6 @@ describe('drowsiness', () => {
       drowsy: false,
       share: 4,
       drowsiness: 1,
-      scatter: false,
       vignette: 0.35,
       slowdown: 1,
     });
@@ -32,10 +31,6 @@ describe('drowsiness', () => {
     assert.throws(() => knobs.setSlowdown(0.5), /slowdown/);
     assert.throws(() => knobs.setVignette(-1), /vignette/);
     assert.equal(settings().share, 4);
-  });
-
-  it('refuses scatter, saying why', () => {
-    assert.throws(() => drowsiness().console.setScatter(true), /rasterizes/);
   });
 });
 
