@@ -1,7 +1,8 @@
 import { positiveTurn } from '@/cube/shared/lib/turn';
-import type { Gazing, Pose, Walls } from '@/cube/entities/world';
+import type { Gazing, Pose } from '@/cube/entities/world';
 
 import { walk } from './body';
+import type { Ways } from './door';
 
 /** Walking speed in room sides a second: 1.4 m/s on floor 1. */
 export const WALK_SPEED = 0.28;
@@ -113,7 +114,7 @@ export function strideOf(
  * `pose` after `dt` seconds of `input` among `walls`, standing on its slab:
  * walking, colliding and eye height go by its scale, turning does not.
  */
-export function step(pose: Pose, input: Input, dt: number, walls: Walls): Pose {
+export function step(pose: Pose, input: Input, dt: number, walls: Ways): Pose {
   const gaze = turned(pose, input, dt);
   const speed = input.running ? RUN_SPEED : WALK_SPEED;
   const [east, south] = strideOf(input, gaze.yaw, speed * pose.scale * dt);

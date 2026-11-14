@@ -1,12 +1,8 @@
 import { pick } from '@/kernel/shared/lib/collections';
 
-import {
-  DEEPEST_FLOOR,
-  descend,
-  type Pose,
-  type Walls,
-} from '@/cube/entities/world';
+import { DEEPEST_FLOOR, descend, type Pose } from '@/cube/entities/world';
 
+import { ajarOf, doorAfter, type Ways } from './door';
 import {
   dipAt,
   feetAt,
@@ -65,7 +61,7 @@ function shrink(
   player: Acting<'shrinking'>,
   input: Input,
   dt: number,
-  walls: Walls,
+  walls: Ways,
 ): Player {
   const { pose, act } = player;
   const { shrinkLook: look, actFor, yaw, elevation } = act;
@@ -99,7 +95,7 @@ function fall(
   player: Acting<'falling'>,
   input: Input,
   dt: number,
-  walls: Walls,
+  walls: Ways,
 ): Player {
   const { pose, act } = player;
   const t = act.actFor + dt;
@@ -138,7 +134,7 @@ function walk(
   player: Player,
   input: Input,
   dt: number,
-  walls: Walls,
+  walls: Ways,
   here: Holed | null,
 ): Player {
   const { pose, act } = player;
@@ -183,7 +179,7 @@ function played(
   player: Player,
   input: Input,
   dt: number,
-  walls: Walls,
+  walls: Ways,
   here: Holed | null,
 ): Player {
   const { pose, act } = player;
@@ -235,11 +231,22 @@ function restocked(player: Player, here: Holed | null): Player {
  * giving for `LANDING_TIME`. A whole body walks over a hole. A standing body
  * that asks to go to a floor the cube has arrives on it that same frame, as
  * `arrivedOn` has it, keeping its gaze.
+ *
+ * A standing body using the hand with no pill to take opens the closed door
+ * it faces, which swings away from it and shuts once it is out of reach;
+ * while open, its wall stands only either side of the doorway, and its leaf
+ * where it has swung to.
  */
-export const play = (
+export function play(
   player: Player,
   input: Input,
   dt: number,
-  walls: Walls,
+  walls: Ways,
   here: Holed | null,
-): Player => restocked(played(player, input, dt, walls, here), here);
+): Player {
+  const ways = { ...walls, ajar: ajarOf(player.door) };
+  const next = restocked(played(player, input, dt, ways, here), here);
+  const { use } = input;
+  const pressed = { use, standing: player.act === null && next.act === null };
+  return { ...next, door: doorAfter(next.door, next.pose, pressed, dt, walls) };
+}

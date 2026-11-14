@@ -36,6 +36,7 @@ import {
   standingAt,
   steppingOut,
   STILL,
+  swingingOf,
   takenOf,
   whereOf,
 } from '@/cube/features/player';
@@ -247,13 +248,14 @@ export function walk(
    * seen through the lens the eye has got used to.
    */
   const indoorsAt = (inside: Player, dt: number) => {
-    const { pose } = inside;
+    const { pose, door } = inside;
     indoors = adapted(indoors, pose, dt);
     const shown = {
       pose,
       ladderGone,
       taken: takenOf(inside),
       moving: handsOf(inside),
+      door: swingingOf(door),
     };
     return pose.n === 1 ? { ...shown, lens: lensAdapted(indoors) } : shown;
   };
