@@ -28,7 +28,7 @@ describe('a door', () => {
     assert.deepEqual([...hinges].toSorted(), ['from', 'to']);
   });
 
-  it('is painted wood with chrome, steel and paper, and no wainscot', () => {
+  it('is painted wood with chrome, steel and paper', () => {
     const surfaces = new Set(shut.map(({ surface }) => surface));
     assert.deepEqual([...surfaces].toSorted(), ['metal', 'paper', 'wood']);
     assert.ok(shut.some(({ paint }) => paint === doorLook(WALL).paint));

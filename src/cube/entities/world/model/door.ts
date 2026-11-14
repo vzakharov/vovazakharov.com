@@ -58,8 +58,8 @@ const looks = rollWith(Looks, pathHash(planted.seed));
 
 /**
  * How the door in `wall` looks, the same to every eye: its leaf's paint, and
- * whether it hangs on the doorway's north or west jamb (`from`), its handle
- * on the other side, or on the south or east one (`to`).
+ * the jamb it hangs on, the doorway's north or west (`from`) or its south or
+ * east (`to`), its handle by the other.
  */
 export function doorLook({ n, x, y, isEast }: DoorWall): {
   paint: number;
@@ -137,10 +137,10 @@ export function doorFrame(wall: DoorWall): Quad[] {
 }
 
 /**
- * The leaf hung in `wall`'s doorway, turned as `leaf` has it, each quad in the
- * frame of the room it stands in, as `doorLook` has it: painted wood, with a
- * chrome lever on its backplate by the free edge, a kick plate and a number
- * plate on each face.
+ * The leaf hung in `wall`'s doorway as `doorLook` has it, turned as `leaf` has
+ * it, each quad in the frame of the room it stands in: painted wood with, on
+ * each face, a chrome lever on its backplate by the free edge, a kick plate
+ * and a number plate.
  */
 export function doorLeaf(wall: DoorWall, leaf: Leaf): Quad[] {
   const { run, at, own } = wallFrame(wall);
