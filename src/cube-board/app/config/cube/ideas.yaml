@@ -52,7 +52,25 @@ items:
     updated: [2026-11-14T21:40:00.000Z, agent:cube]
     box: [5364, -3480, 236]
     src: images/doors-04-floor-6-open.webp
-    text: 'Open, with nothing standing in the doorway: decor, signs and shelves keep a walkway clear on both sides of every door. Reads well here; on floor 8 the leaf still goes black under sconce light, being fixed'
+    text: 'Open, with nothing standing in the doorway: decor, signs and shelves keep a walkway clear on both sides of every door. Reads well here, under floor 6''s ceiling tubes'
+  - id: img-doors-05-floor-8-shut
+    type: image
+    updated: [2026-11-14T21:50:00.000Z, agent:cube]
+    box: [4868, -3310, 236]
+    src: images/doors-05-floor-8-shut.webp
+    text: 'Floor 8, the same door in the hotel. Its first shots had the leaf go black once it swung: the hotel''s sconces painted their glow onto walls alone, so a door beside a glowing wall stood unlit'
+  - id: img-doors-05-floor-8-half
+    type: image
+    updated: [2026-11-14T21:50:00.000Z, agent:cube]
+    box: [5116, -3310, 236]
+    src: images/doors-05-floor-8-half.webp
+    text: 'Each sconce now lights whatever is not a wall too, falling off with distance: the swung leaf, the frame, the carpet near the walls'
+  - id: img-doors-05-floor-8-open
+    type: image
+    updated: [2026-11-14T21:50:00.000Z, agent:cube]
+    box: [5364, -3310, 236]
+    src: images/doors-05-floor-8-open.webp
+    text: 'Open onto the next corridor, nothing in the doorway. Left: the sconce by the jamb hangs half under the frame, which the shader places 1.25 m from the wall''s end; being moved clear'
   - id: doors-idea
     type: sticky
     updated: [2026-11-14T10:45:00.000Z, agent:cube]
