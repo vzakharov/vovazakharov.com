@@ -198,15 +198,17 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
       </div>
       <div class="ctl">
         <label for="share">Доля дверей среди отверстий <span class="num" id="shareOut"></span></label>
-        <input type="range" id="share" min="0" max="100" step="5" value="75">
+        <input type="range" id="share" min="0" max="100" step="1" value="75">
         <small>Проём — стены просто нет: топологически то же, что дверь, но изнутри его не отличить от родного прохода, и сквозь него видно. Дверь это или проём, решает отдельный бросок стены, <code>…/kind</code>, независимо от обхода: 75% — это три двери на один проём.</small>
       </div>
       <div class="tally" aria-live="polite">
         <div class="big" id="tallyBig"></div>
         <div id="wanderOut"></div>
-        <div id="pathAvg"></div>
-        <small id="pathPair"></small>
-        <div class="btns"><button class="btn" id="tune">подобрать порог: дверь выгодна в ~50% случаев</button></div>
+        <div class="btns">
+          <label class="check">цель за час: дверей <input type="number" id="wantDoors" min="0" max="999" value="60" style="width:4.5em"></label>
+          <label class="check">проёмов <input type="number" id="wantGaps" min="0" max="999" value="20" style="width:4.5em"></label>
+        </div>
+        <div class="btns"><button class="btn" id="tune">подобрать под час исследователя</button></div>
         <small id="tuneNote"></small>
         <small id="placedOut"></small>
       </div>
@@ -313,23 +315,7 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
   const $ = (id) => document.getElementById(id);
   const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
   const state = { k: 5, perHundred: 3, minGap: 24, doorShare: 75, floorSeed: 7, doorSeed: 101, pairSeed: 3, heat: true, elig: true, dead: true, game: true, spacing: 'arm', landing: 0, hole: 0, clickNext: 'landing' };
-  let maze, mazeOpen, placement, adjBare, adjDoors, distLand, seen, eyesBare, eyesDoors, usage, wander;
-  const AVG_PAIRS = 300;
-
-  // For how many of AVG_PAIRS random pairs of this floor each opening is a shortcut, seen from the
-  // walk's side. The door share only relabels openings as doors or gaps and never moves one, so the
-  // counts hold for every share.
-  function usageOf(all, adj, pairs) {
-    const use = new Map(all.map((w) => [w, 0]));
-    for (const [a, h] of S.randomPairs(maze, pairs, 977 + state.k)) for (const w of S.shortcuts(adj, a, h, all)) use.set(w, use.get(w) + 1);
-    return use;
-  }
-  function pathUsage() {
-    return usageOf(placement.doors.concat(placement.gaps), adjDoors, AVG_PAIRS);
-  }
-  const shareIn = (use, pairs, list) => (list.length ? list.reduce((t, w) => t + use.get(w), 0) / (pairs * list.length) : null);
-  const avgShare = (list) => shareIn(usage, AVG_PAIRS, list);
-  const pct = (x) => (x === null ? '—' : `${Math.round(100 * x)}%`);
+  let maze, mazeOpen, placement, adjBare, adjDoors, distLand, seen, eyesBare, eyesDoors, wander;
 
   const canvas = $('floor');
   const ctx = canvas.getContext('2d');
@@ -372,7 +358,6 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
     adjDoors = S.adjacency(mazeOpen, placement.doors);
     eyesBare = S.eyesOf(maze, []);
     eyesDoors = S.eyesOf(mazeOpen, placement.doors);
-    usage = pathUsage();
     wander = hourOfWandering();
     $('tuneNote').textContent = '';
     refresh();
@@ -380,51 +365,67 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
   // An hour's walk at step.ts's WALK_SPEED, in room sides a second, from random rooms: a random
   // wanderer and an explorer who remembers every room bracket a real player from below and above.
   const HOUR_STEPS = Math.round(3600 * 0.28), WANDER_RUNS = 30;
-  function hourOfWandering() {
-    const rnd = S.mulberry32(4243 + state.k), out = {};
-    for (const [who, walk] of [['wanderer', (a) => S.randomWalk(adjDoors, a, HOUR_STEPS, rnd)], ['explorer', (a) => S.exploreWalk(adjDoors, a, HOUR_STEPS)]]) {
-      const t = { doors: 0, gaps: 0, rooms: 0 };
-      for (let r = 0; r < WANDER_RUNS; r++) {
-        const rooms = walk(Math.floor(rnd() * maze.N)), d = S.metAlong(rooms, placement.doors);
-        t.doors += d.met / WANDER_RUNS; t.rooms += d.rooms / WANDER_RUNS;
-        t.gaps += S.metAlong(rooms, placement.gaps).met / WANDER_RUNS;
-      }
-      out[who] = t;
+  // The hour averaged over `runs` walks from rooms drawn the same way every call, so two settings
+  // differ only by their openings.
+  function hourOf(adj, p, who, runs) {
+    const rnd = S.mulberry32(4243 + state.k), t = { doors: 0, gaps: 0, rooms: 0 };
+    for (let r = 0; r < runs; r++) {
+      const a = Math.floor(rnd() * maze.N);
+      const rooms = who === 'explorer' ? S.exploreWalk(adj, a, HOUR_STEPS) : S.randomWalk(adj, a, HOUR_STEPS, rnd);
+      const d = S.metAlong(rooms, p.doors);
+      t.doors += d.met / runs; t.rooms += d.rooms / runs;
+      t.gaps += S.metAlong(rooms, p.gaps).met / runs;
     }
-    return out;
+    return t;
+  }
+  function hourOfWandering() {
+    return { explorer: hourOf(adjDoors, placement, 'explorer', WANDER_RUNS), wanderer: hourOf(adjDoors, placement, 'wanderer', WANDER_RUNS) };
   }
   function doorRoll() {
     return state.game ? ((H, n) => (path) => H(`doorway/${n}/${path}`))(worldHash, state.k + 1) : S.seededRoll(`sandbox/${state.doorSeed}`);
   }
-  // Every threshold, at the set density and door share. Among those within TUNE_SLACK of 50% the most
-  // doors wins, which is the lowest such threshold.
-  const TUNE_PAIRS = AVG_PAIRS, TUNE_SLACK = 0.03;
+  // The explorer's hour against the target: the share is the target's own ratio, then the highest
+  // threshold whose fullest density still reaches the target total, then the density nearest to it.
+  // A higher threshold leaves fewer, longer shortcuts, so it is the one worth keeping.
+  const TUNE_RUNS = WANDER_RUNS;
   let tuning = false;
   async function tune() {
     if (tuning) return;
+    const wantDoors = Math.max(0, +$('wantDoors').value || 0), wantGaps = Math.max(0, +$('wantGaps').value || 0), want = wantDoors + wantGaps;
+    if (!want) { $('tuneNote').textContent = 'цель пустая — подбирать нечего'; return; }
     tuning = true; $('tune').disabled = true;
-    const roll = doorRoll(), rate = (c) => (Math.abs(c.p - 0.5) <= TUNE_SLACK ? 1e6 + c.n : -Math.abs(c.p - 0.5));
-    let best = null, lastEligible = -1;
-    for (let g = 0; g <= 256; g++) {
-      const { doors, gaps, eligible } = S.placeDoors(maze, { perHundred: state.perHundred, minGap: g, doorShare: state.doorShare / 100, spacing: state.spacing, roll });
-      // The allowed walls only shrink as the threshold rises, so an unchanged count is an unchanged set.
-      const fresh = eligible !== lastEligible;
+    const roll = doorRoll(), doorShare = wantDoors / want;
+    const met = (minGap, perHundred) => {
+      const p = S.placeDoors(maze, { perHundred, minGap, doorShare, spacing: state.spacing, roll });
+      const t = hourOf(S.adjacency(S.withGaps(maze, p.gaps), p.doors), p, 'explorer', TUNE_RUNS);
+      return t.doors + t.gaps;
+    };
+    let g = 256, best = null, lastEligible = -1;
+    for (; g >= 0; g--) {
+      const { eligible } = S.placeDoors(maze, { perHundred: 100, minGap: g, spacing: state.spacing, roll });
+      // The allowed walls only grow as the threshold falls, so an unchanged count is an unchanged set.
+      if (eligible === lastEligible) continue;
       lastEligible = eligible;
-      if (fresh && doors.length) {
-        const all = doors.concat(gaps), p = shareIn(usageOf(all, S.adjacency(maze, all), TUNE_PAIRS), TUNE_PAIRS, doors);
-        const c = { g, p, n: doors.length };
-        if (!best || rate(c) > rate(best)) best = c;
-      }
-      if (g % 8 === 0) { $('tuneNote').textContent = `перебираю порог ${g} из 256…`; await new Promise((r) => setTimeout(r)); }
+      const top = met(g, 100);
+      if (!best || top > best.n) best = { g, per: 100, n: top };
+      if (top >= want) break;
+      if (g % 4 === 0) { $('tuneNote').textContent = `ищу порог: ${g}, при 100 на 100 комнат исследователь встречает ${Math.round(top)} из ${want}…`; await new Promise((r) => setTimeout(r)); }
+    }
+    if (best.n >= want) {
+      let lo = 0, hi = 100;
+      while (hi - lo > 1) { const mid = (lo + hi) >> 1; (met(best.g, mid) >= want ? (hi = mid) : (lo = mid)); }
+      const [nLo, nHi] = [met(best.g, lo), met(best.g, hi)];
+      best = Math.abs(nLo - want) < Math.abs(nHi - want) ? { g: best.g, per: lo, n: nLo } : { g: best.g, per: hi, n: nHi };
     }
     tuning = false; $('tune').disabled = false;
-    if (!best) { $('tuneNote').textContent = 'дверей нет ни при каком пороге — подбирать нечего'; return; }
+    state.doorShare = Math.round(100 * doorShare); $('share').value = state.doorShare;
     state.minGap = best.g; $('gap').value = best.g;
+    state.perHundred = best.per; $('density').value = best.per;
     rebuildDoors();
-    const p = avgShare(placement.doors);
-    $('tuneNote').textContent = Math.abs(best.p - 0.5) <= TUNE_SLACK
-      ? `порог ${best.g}: самое большое число дверей (${placement.doors.length}), при котором дверь выгодна в 50 ± 3% случаев; по ${AVG_PAIRS} парам вышло ${pct(p)}`
-      : `50% при этой плотности не достать: ближе всего ${pct(p)}, порог ${best.g}`;
+    const t = wander.explorer;
+    $('tuneNote').textContent = best.n >= want - 0.5
+      ? `доля дверей ${state.doorShare}%, порог ${best.g} — самый высокий, при котором цель достижима, плотность ${best.per} на 100 комнат: исследователь встречает за час ${Math.round(t.doors)} дверей и ${Math.round(t.gaps)} проёмов`
+      : `${want} за час не достать ни при каком пороге: больше всего ${Math.round(best.n)}, порог ${best.g}, плотность 100`;
   }
   function refresh() {
     distLand = S.bfs(adjDoors, state.landing);
@@ -438,10 +439,7 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
     $('shareOut').textContent = `${state.doorShare}%`;
     $('tallyBig').innerHTML = `<span class="d">дверей ${p.doors.length}</span> · <span class="g">проёмов ${p.gaps.length}</span>`;
     const hour = (t) => `<span class="d"><b>${Math.round(t.doors)}</b> дверей</span>, <span class="g"><b>${Math.round(t.gaps)}</b> проёмов</span> на ${Math.round(t.rooms)} комнатах`;
-    $('wanderOut').innerHTML = `За час ходьбы: исследователь ${hour(wander.explorer)}; блуждающий наугад ${hour(wander.wanderer)}. <small>Шагом это ${HOUR_STEPS} переходов из комнаты в комнату, сквозь двери и проёмы как сквозь любой проход, дыра не останавливает. Встреча — постоять в одной из двух комнат, которые отверстие соединяет; каждое отверстие считается один раз. Исследователь помнит все комнаты и идёт к ближайшей новой, блуждающий выбирает выход наугад; живой игрок где-то между ними. Цель «дверь в минуту, проём раз в три» — 60 и 20.</small>`;
-    const dOn = S.shortcuts(adjDoors, state.landing, state.hole, p.doors).length;
-    $('pathAvg').innerHTML = `<span class="d">Увиденная дверь выгодна в <b>${pct(avgShare(p.doors))}</b> случаев</span>: столько дверей в среднем сократили бы путь к дыре по ${AVG_PAIRS} случайным парам приземление–дыра этого этажа, если бы игрок стоял у каждой с той стороны, куда приходит раньше. «Сократила» — значит, любой кратчайший путь оттуда до дыры идёт сквозь неё. Это число и подбирает кнопка.`;
-    $('pathPair').textContent = `Только для этих приземления и дыры: ${dOn} из ${p.doors.length} (${pct(p.doors.length ? dOn / p.doors.length : null)}). Одна дыра — это шум: при малом числе дверей число скачет далеко от среднего.`;
+    $('wanderOut').innerHTML = `За час ходьбы: исследователь ${hour(wander.explorer)}; блуждающий наугад ${hour(wander.wanderer)}. <small>Шагом это ${HOUR_STEPS} переходов из комнаты в комнату, сквозь двери и проёмы как сквозь любой проход, дыра не останавливает. Встреча — постоять в одной из двух комнат, которые отверстие соединяет; каждое отверстие считается один раз. Исследователь помнит все комнаты и идёт к ближайшей новой, блуждающий выбирает выход наугад; живой игрок где-то между ними. Кнопка подбирает под исследователя.</small>`;
     $('placedOut').textContent = `просили ${p.want} · разрешённых стен ${p.eligible} из ${maze.closed.length} · лишних, чей обход с учётом остальных отверстий короче порога: ${p.redundant}`;
   }
 
