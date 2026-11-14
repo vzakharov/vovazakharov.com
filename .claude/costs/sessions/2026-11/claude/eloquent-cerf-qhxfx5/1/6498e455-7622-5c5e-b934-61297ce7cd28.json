@@ -1,0 +1,101 @@
+{
+  "total": {
+    "inputTokens": 46,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 82316,
+    "cacheReadTokens": 2881899,
+    "outputTokens": 10910,
+    "thinkingTokens": 1910,
+    "responses": 24,
+    "costUsd": 1.4532918000000001
+  },
+  "estimate": {
+    "at": "2026-11-14T19:30:37.094Z",
+    "subjectLine": "chore: sign the November services contract and draft the reply",
+    "parts": [
+      {
+        "hours": 0.25,
+        "grade": "junior",
+        "role": "analyst",
+        "comment": "a clerical signing task: stamp an existing signature onto two signature lines and attach the PDF to a reply"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-14T19:22:12.226Z",
+    "contextTokens": 98918,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 36011,
+      "cacheReadTokens": 54421,
+      "outputTokens": 461,
+      "thinkingTokens": 103,
+      "responses": 1,
+      "costUsd": 0.30820020000000004
+    }
+  },
+  "sessionId": "6498e455-7622-5c5e-b934-61297ce7cd28",
+  "branch": "claude/eloquent-cerf-qhxfx5",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "подпиши пжст, письмо от Лейсан там в гмейле",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCgW2ogfKiAfx7iPPQ",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-14T19:22:06.746Z",
+  "lastResponseAt": "2026-11-14T19:30:52.098Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 46,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 82316,
+    "cacheReadTokens": 2881899,
+    "outputTokens": 10910,
+    "thinkingTokens": 1910,
+    "responses": 24,
+    "costUsd": 1.4532918000000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 46,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 82316,
+      "cacheReadTokens": 2881899,
+      "outputTokens": 10910,
+      "thinkingTokens": 1910,
+      "responses": 24,
+      "costUsd": 1.4532918000000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 24,
+    "matched": 24,
+    "matchedTableUsd": 1.4532918000000001,
+    "matchedEventUsd": 1.4532918000000001,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 21,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {}
+}
