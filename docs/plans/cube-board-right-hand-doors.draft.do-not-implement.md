@@ -13,17 +13,14 @@ density 100% kept as a parameter. This plan puts them in the game.
 
 ## Scope
 
-This PR does two things:
+This PR does three things:
 
 1. **The model.** Every wall gets a kind, and the doorway rolls decide it.
 2. **Gaps go live.** A gap is a missing wall, so everything that asks whether a
    wall is open sees it: the body walks through, sight and meshes see through,
    signs and planting treat it as an opening.
-
-**Doors stay in the model only.** What a door looks like, how it opens, and who
-sees it open are design calls of their own (questions 2 and 3 below), so a
-follow-up PR takes them. Until then a door reads as a closed wall everywhere,
-and nothing in the game changes for it.
+3. **Doors go live.** A door is drawn in its wall, opens on the player's use
+   action, E or a tap, and shuts behind them.
 
 ## The model — `src/cube/entities/world/model/doorways.ts`
 
@@ -71,6 +68,29 @@ and nothing in the game changes for it.
 - **Sale signs** keep their rule: a gap is an opening, so a dead end with a gap
   in it is no longer a dead end, and stops selling. A door reads as a wall.
 
+## Doors go live
+
+- **Look.** A door's wall is the floor-1 doorway wall (`geometry.ts`'s
+  `doorwayWall`) with a leaf in the opening: the cut is shared, generalised from
+  floor 1's one wall to any wall a door holds, and the leaf is a procedure of
+  the room's theme like every other surface, nothing authored. Both faces show
+  it, since the door belongs to the wall.
+- **Opening.** The player's existing use action (`KeyE`, or a tap, in
+  `features/player/ui/input.ts` and `touch.ts`, which pills and signs already
+  answer) opens the closed door the player faces within reach. The leaf swings
+  open on the clock, and shuts once the body has left the doorway's reach on
+  either side.
+- **Who sees it open.** The opener alone: the open door is part of the player's
+  own state, like their pose, so nothing in the world changes and no price is
+  due (`src/cube/CLAUDE.md`). With one player today that is everyone; the
+  multiplayer question is on the board (`doors-who-sees`).
+- **Walls while open.** `Walls` reads a door as closed. The player's body and
+  sight take the open door as an extra opening on top: `closedWalls` gets the
+  doorway's jambs, as floor 1's does, and the room's sight and mesh are rebuilt
+  when the door opens and when it shuts.
+- **A door is never a gap to signs or planting**: those read the world, not one
+  player's state, so a door stays a wall to them.
+
 ## Tests
 
 - `doorways.test.ts`: the window method agrees with a full way-round count on
@@ -81,20 +101,21 @@ and nothing in the game changes for it.
   ~20 gaps for the explorer), as a guard against the game drifting from the
   analysis it came from.
 - `rooms.test.ts`: the loop case above.
+- Door state: a pure function from the player's pose, the door opened and the
+  clock to the leaf's angle and to whether the door has shut, tested without a
+  page; `closedWalls` with an open door gives the jambs.
+- The door's look is checked by eye on `/preview`, as the page has no suite.
 - Existing tests that pin a floor's layout (sale, plant, setting, shelf) are
   re-read, and any change in what they pin is a gap appearing, said so in the
   commit.
 
-## Questions
+## Decisions
 
-1. **Scope.** a) model and gaps now, doors' look and opening in a follow-up
-   (recommended: those are design calls, and this PR is already whole without
-   them); b) everything in this PR.
-2. **Opening a door** (follow-up). a) walk into it, it swings open and shuts
-   behind you (recommended: no new control); b) a key or a click.
-3. **Who sees it open** (follow-up). a) the opener alone, as their own body's
-   act, which `src/cube/CLAUDE.md`'s rules allow without a price (recommended);
-   b) everyone nearby, which those rules make a purchase.
+- **Scope**: everything in this PR — «1 в этом».
+- **Opening**: the use action — «2 через E/тап».
+- **Who sees it open**: the opener, one player being all there is — «пока у нас
+  только один игрок так что кажется вопрос опережает технологию»; the question
+  itself goes on the board.
 
 ## DRY notes
 
@@ -107,6 +128,10 @@ and nothing in the game changes for it.
 - **Shared, not duplicated**: one "open" predicate pair for every reader, so
   `geometry.ts` and `shelf.ts` stop being the two places that read the native
   maze directly.
+- **Generalised, not copied**: floor 1's doorway — its cut in `geometry.ts` and
+  its jambs in `body.ts`'s `DOOR_WALL` — becomes the one doorway shape every
+  door uses, so the exit and the doors cannot drift apart. The use action is the
+  existing one, so a door is one more thing it answers.
 - **Not extracted**: the simulator's `sim.js` stays a reference, not a source.
   It lives under `docs/remove-before-merging/` and is deleted at merge, so
   sharing code with it would be sharing with something about to disappear.

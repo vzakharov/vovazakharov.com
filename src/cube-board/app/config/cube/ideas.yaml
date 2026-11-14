@@ -71,6 +71,12 @@ items:
     box: [5008, -2560, 244, yellow]
     icon: 🔎
     text: "How the partition rule was found: doors bunched along one blind partition, because every room on either side of it is far by the maze. The first door already joins the two quarters, so a second one's detour runs through it. Recounting detours after each door needs a floor-wide search; the division labels each wall with its partition for free. Not a guarantee: 0–3 redundant doors instead of hundreds"
+  - id: doors-who-sees
+    type: sticky
+    updated: [2026-11-14T20:30:00.000Z, agent:cube]
+    box: [5343, -2560, 244, gray]
+    icon: 👥
+    text: 'Open question for when a second player arrives: who sees a door open? Only its opener, as their own body''s act, keeps the world unchanged for everyone else, so it stays free; everyone nearby makes it a change to the world, which here comes only by purchase. One player today, so the door opens for them alone'
   - id: l-doors-portals
     type: line
     updated: [2026-11-14T10:45:00.000Z, agent:cube]
