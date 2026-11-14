@@ -30,6 +30,9 @@ export const TURN_RATE = Math.PI / 2;
 /** Radians a second a held tilt key tilts the eye: 60°/s. */
 export const TILT_RATE = Math.PI / 3;
 
+/** What can be said to a question the body is asked. */
+export type Said = 'yes' | 'no';
+
 /** The part of a frame's `Input` a finger can give as well as the keys. */
 export type Touched = {
   walk: number;
@@ -54,7 +57,7 @@ export type Input = Touched & {
   turnKeys: number;
   tiltKeys: number;
   running: boolean;
-  answer: 'yes' | 'no' | null;
+  answer: Said | null;
   goTo: number | null;
 };
 

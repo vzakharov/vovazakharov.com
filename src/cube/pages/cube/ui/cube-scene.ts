@@ -324,7 +324,6 @@ export function mountCube(
     through = lens ?? null;
     hooked =
       outside === undefined ? null : { outside, lens: lens ?? OUTSIDE_LENS };
-    quality.drawn(time, outdoorsNext());
     resize();
     render();
     frame = requestAnimationFrame(tick);

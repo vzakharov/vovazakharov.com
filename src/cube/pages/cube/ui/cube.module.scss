@@ -64,6 +64,22 @@
   user-select: none;
 }
 
+// A key the hint names, pressable on a screen with no keyboard: the one
+// thing in the hint that takes a pointer.
+.key {
+  margin: 0 2px;
+  padding: 0 8px;
+  border: 1px solid rgb(255 255 255 / 70%);
+  border-radius: 4px;
+  background: rgb(0 0 0 / 35%);
+  color: inherit;
+  font: inherit;
+  text-shadow: inherit;
+  cursor: pointer;
+  pointer-events: auto;
+  touch-action: manipulation;
+}
+
 // The one line shown in the cube's place when it cannot be drawn.
 .notice {
   margin: 0;

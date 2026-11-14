@@ -10,17 +10,17 @@ import {
   type SignKind,
   type SignMount,
 } from '@/cube/entities/world';
+import type { Said } from '@/cube/features/player';
 
 import { PLAY_QUERY } from '../lib/play';
 import { startOf } from '../lib/start';
 import classes from './cube.module.scss';
 import type { Selling } from './cube-mesh';
-import type { CubeScene } from './cube-scene';
 import { FrameRate } from './frame-rate';
 import type { PillCopy, PillPrompt } from './pill-prompt';
 import type { QualityWay } from './quality';
 import { SaleOffer } from './sale-offer';
-import { walk, type Way } from './walk';
+import { type Walk, walk, type Way } from './walk';
 
 type CubeCanvasProps = {
   /** The canvas's accessible name. */
@@ -69,7 +69,7 @@ export function CubeCanvas({
    * page's life alone, the purchase being a demo that charges nothing.
    */
   const holdingsRef = useRef(new Map<string, SignMount>());
-  const sceneRef = useRef<CubeScene | null>(null);
+  const sceneRef = useRef<Walk | null>(null);
   // Stable, so the meter's window does not restart on every render here.
   const passTimes = useCallback(
     () => sceneRef.current?.passTimes() ?? null,
@@ -94,6 +94,19 @@ export function CubeCanvas({
     sceneRef.current?.refresh();
     setOffer({ room, sign: { ...sign, kind: 'yours' } });
   };
+
+  /** A question's key as a button, for a screen with no keyboard. */
+  const answerKey = (said: Said, key: string) => (
+    <button
+      type="button"
+      className={classes['key']}
+      onClick={() => {
+        sceneRef.current?.answer(said);
+      }}
+    >
+      {key}
+    </button>
+  );
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -154,17 +167,22 @@ export function CubeCanvas({
       )}
       <FrameRate {...{ passTimes, timing }} />
       <p className={classes['hint']} aria-live="polite">
-        {pill === null
-          ? offer === null
-            ? inReach === 'yours'
-              ? offerCopy.hintYours
-              : inReach === null
-                ? way === null
-                  ? ''
-                  : ways[way]
-                : offerCopy.hint
-            : ''
-          : pillCopy[pill]}
+        {pill === 'ask'
+          ? fillSlots(pillCopy.ask, {
+              yes: answerKey('yes', 'Y'),
+              no: answerKey('no', 'N'),
+            })
+          : pill === null
+            ? offer === null
+              ? inReach === 'yours'
+                ? offerCopy.hintYours
+                : inReach === null
+                  ? way === null
+                    ? ''
+                    : ways[way]
+                  : offerCopy.hint
+              : ''
+            : pillCopy[pill]}
       </p>
       <SaleOffer
         {...{ offer }}

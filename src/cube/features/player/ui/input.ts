@@ -2,7 +2,8 @@ import { asError } from '@/kernel/shared/lib/error-class';
 import type { CanDispose } from '@/kernel/shared/typings';
 
 import { pressedShift, WALKING } from '../model/pace';
-import type { Input } from '../model/step';
+import type { Input, Said } from '../model/step';
+import { storedRunsUnheld, storeRunsUnheld } from './stored-pace';
 import { bindTouch } from './touch';
 
 /** Radians of look per pixel of mouse travel. */
@@ -76,8 +77,13 @@ const isTextField = (target: EventTarget | null): boolean =>
 export type InputBinding = CanDispose & {
   /** This frame's input; the look deltas accumulated since the last read. */
   read: () => Input;
-  /** Whether a Shift key has been pressed since the binding began. */
+  /**
+   * Whether a Shift key has been pressed since the binding began, or on an
+   * earlier visit that left its pace stored.
+   */
   shifted: () => boolean;
+  /** Says `said` to the question, as its key would: for a button on screen. */
+  say: (said: Said) => void;
 };
 
 /**
@@ -85,9 +91,10 @@ export type InputBinding = CanDispose & {
  * whenever the page has focus, except while typing into a text field; a click
  * on `target` takes the pointer lock, and only while it is held does the mouse
  * look. A refused lock goes to `onError`; a tap asks for none, since a phone
- * has none to give, and the fingers walk and look as `bindTouch` reads them. The body walks at first; Shift held gives it
- * the other pace, and a double press of Shift makes that pace the one it
- * stands at.
+ * has none to give, and the fingers walk and look as `bindTouch` reads them.
+ * The body walks at first; Shift held gives it the other pace, and a double
+ * press of Shift makes that pace the one it stands at, kept for the browser's
+ * next visit.
  */
 export function bindInput(
   target: HTMLElement,
@@ -95,8 +102,9 @@ export function bindInput(
 ): InputBinding {
   const held = new Set<Code>();
   const shifts = new Set<string>();
-  let pace = WALKING;
-  let shifted = false;
+  const stored = storedRunsUnheld();
+  let pace = stored === null ? WALKING : { ...WALKING, runsUnheld: stored };
+  let shifted = stored !== null;
   let turn = 0;
   let tilt = 0;
   let use = false;
@@ -152,7 +160,11 @@ export function bindInput(
       if (type === 'keyup') shifts.delete(code);
       else shifts.add(code);
       if (type === 'keydown' && !repeat && !notAMove) {
-        pace = pressedShift(pace, timeStamp / 1000);
+        const next = pressedShift(pace, timeStamp / 1000);
+        if (next.runsUnheld !== pace.runsUnheld) {
+          storeRunsUnheld(next.runsUnheld);
+        }
+        pace = next;
         shifted = true;
       }
       return;
@@ -204,6 +216,9 @@ export function bindInput(
       return input;
     },
     shifted: () => shifted,
+    say: (said) => {
+      answer = said;
+    },
     dispose() {
       touch.dispose();
       target.removeEventListener('click', onClick);

@@ -31,6 +31,7 @@ import {
   type Player,
   poseWithin,
   refusedAt,
+  type Said,
   shotWithin,
   standingAt,
   steppingOut,
@@ -61,8 +62,15 @@ import { QUALITY_KEY } from './quality';
  */
 export type Way = 'wake' | 'climb' | 'gone' | 'run';
 
-/** The floor from which, down, the run's key is told until first pressed. */
+/** The scene walked, which a button on screen can answer a question in. */
+export type Walk = CubeScene & { answer: (said: Said) => void };
+
+/**
+ * The floor from which, down, the run's key is told until first pressed, for
+ * `RUN_TOLD_FOR` seconds a visit.
+ */
 const RUN_TOLD_FROM = 3;
+const RUN_TOLD_FOR = 6;
 
 /**
  * `open` hears a press on a sign in reach; `offering` whether one is open.
@@ -98,7 +106,7 @@ export function walk(
     open,
     offering,
   }: Hooks,
-): CubeScene {
+): Walk {
   const input = play ? null : bindInput(canvas, setFailure);
   // A script's walk is looked at, not listened to.
   const hearing = input === null ? null : hear(canvas);
@@ -160,6 +168,8 @@ export function walk(
   let pressed: PromiseWithResolvers<void> | null = null;
   /** Whether a script's eye is out of doors, where no floor is underfoot. */
   let scriptedOut = false;
+  /** Seconds the run's key has been told this visit. */
+  let runTold = 0;
 
   /**
    * Shows the hint by a sign in reach, and opens its offer on a press;
@@ -303,8 +313,13 @@ export function walk(
             }
             reach(moved, signOf, controls.use && standing);
             setPill(pillPromptOf(player, moved, here));
+            const tellsRun =
+              moved.n >= RUN_TOLD_FROM &&
+              !input.shifted() &&
+              runTold < RUN_TOLD_FOR;
+            if (tellsRun) runTold += seconds;
             // The canvas lets a sign's and a pill's hints take the place first.
-            setWay(moved.n >= RUN_TOLD_FROM && !input.shifted() ? 'run' : null);
+            setWay(tellsRun ? 'run' : null);
             // A key held through the look is not a second try.
             if (
               sill === 'seen' &&
@@ -367,6 +382,9 @@ export function walk(
   }
   return {
     ...scene,
+    answer: (said) => {
+      input?.say(said);
+    },
     dispose: () => {
       input?.dispose();
       globalThis.removeEventListener('keydown', wake);

@@ -25,7 +25,7 @@ export {
 } from './model/player';
 export { canPress } from './model/press';
 export { outsideOf, shotOf } from './model/scenes';
-export { EYE_HEIGHT, type Input, STILL } from './model/step';
+export { EYE_HEIGHT, type Input, type Said, STILL } from './model/step';
 export { canTake, isAsking } from './model/take';
 export {
   isPastSill,
