@@ -112,56 +112,6 @@
     return d;
   }
 
-  /**
-   * A lower bound on the tree distance across a closed wall, read off the one
-   * block whose cross holds the wall: the path stays inside that block, so it
-   * goes through the cross's doors in a known order, and inside each quadrant
-   * it is at least the Manhattan distance. O(1), so it scales to any floor.
-   */
-  function localBound(m, w) {
-    const { x, y } = w;
-    if (w.dir === 'E') {
-      const L = levelOf(x), half = 1 << (L - 1), b = m.block(L, x, y);
-      const X0 = (x >> L) << L, Y0 = (y >> L) << L;
-      const cw = X0 + half - 1, ce = X0 + half, rn = Y0 + half - 1, rs = Y0 + half;
-      const same = y - Y0 < half ? NORTH : SOUTH;
-      if (b.omit !== same) {
-        const yd = (same === NORTH ? Y0 : Y0 + half) + b.door[same];
-        return 2 * Math.abs(y - yd) + 1;
-      }
-      const other = same === NORTH ? SOUTH : NORTH;
-      const near = same === NORTH ? rn : rs, far = same === NORTH ? rs : rn;
-      const xw = X0 + b.door[WEST];
-      const yo = (other === NORTH ? Y0 : Y0 + half) + b.door[other];
-      const xe = X0 + half + b.door[EAST];
-      return (
-        Math.abs(cw - xw) + Math.abs(y - near) + 1 +
-        Math.abs(xw - cw) + Math.abs(far - yo) + 1 +
-        Math.abs(ce - xe) + Math.abs(yo - far) + 1 +
-        Math.abs(xe - ce) + Math.abs(near - y)
-      );
-    }
-    const L = levelOf(y), half = 1 << (L - 1), b = m.block(L, x, y);
-    const X0 = (x >> L) << L, Y0 = (y >> L) << L;
-    const cw = X0 + half - 1, ce = X0 + half, rn = Y0 + half - 1, rs = Y0 + half;
-    const same = x - X0 < half ? WEST : EAST;
-    if (b.omit !== same) {
-      const xd = (same === WEST ? X0 : X0 + half) + b.door[same];
-      return 2 * Math.abs(x - xd) + 1;
-    }
-    const other = same === WEST ? EAST : WEST;
-    const near = same === WEST ? cw : ce, far = same === WEST ? ce : cw;
-    const yn = Y0 + b.door[NORTH];
-    const xo = (other === WEST ? X0 : X0 + half) + b.door[other];
-    const ys = Y0 + half + b.door[SOUTH];
-    return (
-      Math.abs(x - near) + Math.abs(rn - yn) + 1 +
-      Math.abs(far - xo) + Math.abs(yn - rn) + 1 +
-      Math.abs(xo - far) + Math.abs(rs - ys) + 1 +
-      Math.abs(near - x) + Math.abs(ys - rs)
-    );
-  }
-
   function closedWalls(m) {
     const { s, openE, openS } = m, out = [];
     for (let y = 0; y < s; y++)
@@ -173,7 +123,6 @@
     for (const w of out) {
       w.level = levelOf(w.dir === 'E' ? w.x : w.y);
       w.exact = treeDistance(m, w.a, w.b);
-      w.bound = localBound(m, w);
     }
     return out;
   }
@@ -181,45 +130,24 @@
   /**
    * Doors in closed interior walls. A door is a property of the wall, so both
    * faces show it and no wall holds two; perimeter walls are never candidates.
-   * `perHundred` doors per 100 rooms, among walls whose `metric` distance is
-   * at least `minGap`.
+   * `perHundred` doors per 100 rooms, among walls whose walk round is at least
+   * `minGap`, decided locally by `roll` as the game would.
    */
-  function placeDoors(m, { perHundred, minGap, metric, seed, spacing = 'none', roll = null }) {
-    const rnd = mulberry32(seed);
-    const eligible = m.closed.filter((w) => w[metric] >= minGap);
+  function placeDoors(m, { perHundred, minGap, spacing = 'none', roll }) {
+    const eligible = m.closed.filter((w) => w.exact >= minGap);
     const want = Math.round((perHundred * m.N) / 100);
-    if (roll) return { doors: rolledDoors(eligible, want, spacing, roll), eligible: eligible.length, want };
-    const pool = eligible.slice();
-    for (let i = pool.length - 1; i > 0; i--) {
-      const j = Math.floor(rnd() * (i + 1));
-      [pool[i], pool[j]] = [pool[j], pool[i]];
-    }
-    const doors = [];
-    if (spacing === 'none') doors.push(...pool.slice(0, want));
-    if (spacing === 'arm') {
-      // At most one door per arm of a block's cross: the arm is the run of
-      // walls between the same two quadrants, so a second door there only
-      // repeats the first. Decided per arm, so it stays local on any floor.
-      const taken = new Set();
-      for (const w of pool) {
-        if (doors.length >= want) break;
-        if (taken.has(armOf(w))) continue;
-        taken.add(armOf(w));
-        doors.push(w);
-      }
-    }
-    if (spacing === 'greedy') {
-      // Reference only, global: a door must still save `minGap` once the
-      // doors already placed are open.
-      const adj = adjacency(m, []);
-      for (const w of pool) {
-        if (doors.length >= want) break;
-        if (withinGap(adj, w.a, w.b, minGap, null)) continue;
-        doors.push(w);
-        adj[w.a].push(w.b), adj[w.b].push(w.a);
-      }
-    }
-    return { doors, eligible: eligible.length, want };
+    return { doors: rolledDoors(eligible, want, spacing, roll), eligible: eligible.length, want };
+  }
+
+  /** A stand-in for the world roll on sandbox floors: FNV-1a over `${seed}/${path}`, then a murmur finaliser. */
+  function seededRoll(seed) {
+    return (path) => {
+      let h = 0x811c9dc5;
+      const text = `${seed}/${path}`;
+      for (let i = 0; i < text.length; i++) h = Math.imul(h ^ text.charCodeAt(i), 0x01000193);
+      h ^= h >>> 16; h = Math.imul(h, 0x85ebca6b); h ^= h >>> 13; h = Math.imul(h, 0xc2b2ae35); h ^= h >>> 16;
+      return h >>> 0;
+    };
   }
 
   /**
@@ -400,12 +328,12 @@
   }
 
   /** Ratios with-doors / bare, averaged over several floors. */
-  function sweep({ k, densities, minGap, metric, spacing, floors, pairsPerFloor, seed }) {
+  function sweep({ k, densities, minGap, spacing, floors, pairsPerFloor, seed }) {
     return densities.map((perHundred) => {
       const acc = { path: [0, 0], mapper: [0, 0], wander: [0, 0], followFail: [0, 0], followSteps: [0, 0], followOk: [0, 0], n: 0, placed: 0 };
       for (let f = 0; f < floors; f++) {
         const m = buildMaze(k, seed + f * 7919);
-        const { doors } = placeDoors(m, { perHundred, minGap, metric, spacing, seed: seed + f * 104729 + 1 });
+        const { doors } = placeDoors(m, { perHundred, minGap, spacing, roll: seededRoll(seed + f * 104729 + 1) });
         acc.placed += doors.length;
         const r = trial(m, doors, randomPairs(m, pairsPerFloor, seed + f * 31 + 3), seed + f);
         for (const key of ['path', 'mapper', 'wander', 'followFail', 'followSteps', 'followOk'])
@@ -424,6 +352,142 @@
     });
   }
 
-  root.DoorSim = { buildMaze, placeDoors, redundant, adjacency, bfs, mapper, wanderer, follower, opener, trial, randomPairs, sweep, treeDistance, levelOf, mulberry32 };
+  /**
+   * Half a wall's thickness in a room's side, as the game's room-shape.ts has
+   * it. A closed side is a wall that thick on the side's line, an open side is
+   * no wall at all, and a post of the same section stands at every grid
+   * vertex any wall touches (the post overstates a wall's end by at most this).
+   */
+  const WALL_HALF = 0.012;
+  // Sides of a room: east, south, west, north.
+  const DX = [1, 0, -1, 0], DY = [0, 1, 0, -1];
+  const cross = (ax, ay, bx, by) => ax * by - ay * bx;
+
+  /**
+   * Who never enters which room because it is plainly a dead end. The player
+   * sweeps out from `landing` in breadth-first order, remembering every wall
+   * face seen from each room entered: from its middle and from the threshold
+   * of each of its open sides. A room is plainly dead when every side but the
+   * one towards the player is a wall seen to be blank or an opening into a
+   * plainly dead room; a room once entered, and the hole's, never is. A glimpse
+   * of a wall proves a side closed while the floor has no doors, since a side
+   * is open whole or not at all; with doors the whole face must be seen.
+   */
+  function deadEnds(m, doors, landing, hole) {
+    const { s, N, openE, openS } = m, T = WALL_HALF;
+    const doorAt = new Set(doors.map((d) => `${d.dir}${d.a}`));
+    const whole = doors.length > 0;
+    const sideOpen = (i, d) => {
+      const x = i % s, y = (i / s) | 0, nx = x + DX[d], ny = y + DY[d];
+      if (nx < 0 || ny < 0 || nx >= s || ny >= s) return false;
+      return d === 0 ? !!openE[i] : d === 1 ? !!openS[i] : d === 2 ? !!openE[i - 1] : !!openS[i - s];
+    };
+    const sideDoor = (i, d) => (d === 0 ? doorAt.has(`E${i}`) : d === 1 ? doorAt.has(`S${i}`) : d === 2 ? doorAt.has(`E${i - 1}`) : doorAt.has(`S${i - s}`));
+    const perimeter = (i, d) => { const x = i % s + DX[d], y = ((i / s) | 0) + DY[d]; return x < 0 || y < 0 || x >= s || y >= s; };
+    // A vertex carries a post when any of the four sides meeting there is a wall.
+    const wallV = (X, yc) => yc >= 0 && yc < s && (X === 0 || X === s || !openE[yc * s + X - 1]);
+    const wallH = (xc, Y) => xc >= 0 && xc < s && (Y === 0 || Y === s || !openS[(Y - 1) * s + xc]);
+    const post = (X, Y) => wallV(X, Y - 1) || wallV(X, Y) || wallH(X - 1, Y) || wallH(X, Y);
+
+    // Cone ∩ the directions from (ex, ey) through segment P–Q; null when empty.
+    function through(cone, ex, ey, px, py, qx, qy) {
+      let ax = px - ex, ay = py - ey, bx = qx - ex, by = qy - ey;
+      if (cross(ax, ay, bx, by) < 0) [ax, ay, bx, by] = [bx, by, ax, ay];
+      if (!cone) return cross(ax, ay, bx, by) > 1e-12 ? [ax, ay, bx, by] : null;
+      const [rx, ry, lx, ly] = cone;
+      const [Rx, Ry] = cross(rx, ry, ax, ay) > 0 ? [ax, ay] : [rx, ry];
+      const [Lx, Ly] = cross(bx, by, lx, ly) > 0 ? [bx, by] : [lx, ly];
+      return cross(Rx, Ry, Lx, Ly) > 1e-12 ? [Rx, Ry, Lx, Ly] : null;
+    }
+    // The part of room i's side d inside the cone, as an interval of [0, 1] along its face.
+    function faceSeen(i, d, cone, ex, ey) {
+      const x = i % s, y = (i / s) | 0, span = 1 - 2 * T;
+      const [px, py, dx, dy] = d === 0 ? [x + 1 - T, y + T, 0, span] : d === 1 ? [x + T, y + 1 - T, span, 0] : d === 2 ? [x + T, y + T, 0, span] : [x + T, y + T, span, 0];
+      let lo = 0, hi = 1;
+      const clip = (c0, c1) => { // c0 + t·c1 ≥ 0
+        if (Math.abs(c1) < 1e-15) { if (c0 < 0) hi = -1; return; }
+        const t = -c0 / c1;
+        if (c1 > 0) lo = Math.max(lo, t); else hi = Math.min(hi, t);
+      };
+      const [rx, ry, lx, ly] = cone;
+      clip(cross(rx, ry, px - ex, py - ey), cross(rx, ry, dx, dy));
+      clip(cross(px - ex, py - ey, lx, ly), cross(dx, dy, lx, ly));
+      return hi - lo > 1e-9 ? [lo, hi] : null;
+    }
+    // Every wall face seen from (ex, ey) in room `from`, through open sides only.
+    function look(from, ex, ey, onFace) {
+      const walk = (i, cone, back) => {
+        const x = i % s, y = (i / s) | 0;
+        for (let d = 0; d < 4; d++) {
+          if (d === back) continue;
+          if (!sideOpen(i, d)) {
+            if (cone) { const seen = faceSeen(i, d, cone, ex, ey); if (seen) onFace(i, d, seen); }
+            continue;
+          }
+          // The aperture between the posts, on both faces of the wall line.
+          let c = cone;
+          for (const off of [-T, T]) {
+            if (d === 0 || d === 2) {
+              const X = d === 0 ? x + 1 : x, a = y + (post(X, y) ? T : 0), b = y + 1 - (post(X, y + 1) ? T : 0);
+              c = c === null && cone !== null ? null : through(c, ex, ey, X + off, a, X + off, b);
+            } else {
+              const Y = d === 1 ? y + 1 : y, a = x + (post(x, Y) ? T : 0), b = x + 1 - (post(x + 1, Y) ? T : 0);
+              c = c === null && cone !== null ? null : through(c, ex, ey, a, Y + off, b, Y + off);
+            }
+            if (c === null) break;
+          }
+          if (c) walk(i + DX[d] + DY[d] * s, c, (d + 2) % 4);
+        }
+      };
+      walk(from, null, -1);
+    }
+
+    const seenOn = new Map(); // room·4 + side → merged intervals
+    const known = new Uint8Array(N * 4);
+    const unresolved = new Uint8Array(N).fill(4);
+    const entered = new Uint8Array(N), dead = new Uint8Array(N);
+    const cover = (i, d) => {
+      if (known[i * 4 + d]) return;
+      known[i * 4 + d] = 1;
+      unresolved[i]--;
+      settle(i);
+    };
+    function settle(i) {
+      if (entered[i] || dead[i] || i === hole || unresolved[i] !== 1) return;
+      let out = -1;
+      for (let d = 0; d < 4; d++) if (!known[i * 4 + d]) out = d;
+      if (!sideOpen(i, out)) return;
+      dead[i] = 1;
+      const j = i + DX[out] + DY[out] * s;
+      cover(j, (out + 2) % 4);
+    }
+    const onFace = (i, d, [lo, hi]) => {
+      if (known[i * 4 + d] || sideDoor(i, d)) return;
+      if (!whole || perimeter(i, d)) return cover(i, d);
+      const key = i * 4 + d, list = (seenOn.get(key) || []).concat([[lo, hi]]).sort((u, v) => u[0] - v[0]);
+      seenOn.set(key, list);
+      let reach = 0;
+      for (const [a, b] of list) { if (a > reach + 1e-6) break; reach = Math.max(reach, b); }
+      if (reach >= 1 - 1e-6) cover(i, d);
+    };
+    const enter = (i) => {
+      entered[i] = 1;
+      const x = i % s, y = (i / s) | 0, inset = 0.06;
+      look(i, x + 0.5, y + 0.5, onFace);
+      for (let d = 0; d < 4; d++)
+        if (sideOpen(i, d)) look(i, x + 0.5 + DX[d] * (0.5 - inset), y + 0.5 + DY[d] * (0.5 - inset), onFace);
+    };
+    const adj = adjacency(m, doors), queued = new Uint8Array(N), q = [landing];
+    queued[landing] = 1;
+    for (let h = 0; h < q.length; h++) {
+      const u = q[h];
+      if (dead[u]) continue;
+      enter(u);
+      for (const v of adj[u]) if (!queued[v]) { queued[v] = 1; q.push(v); }
+    }
+    return { entered, dead, skipped: N - entered.reduce((a, b) => a + b, 0) };
+  }
+
+  root.DoorSim = { buildMaze, placeDoors, seededRoll, deadEnds, WALL_HALF, redundant, adjacency, bfs, mapper, wanderer, follower, opener, trial, randomPairs, sweep, treeDistance, levelOf, mulberry32 };
   if (typeof module !== 'undefined') module.exports = root.DoorSim;
 })(typeof globalThis !== 'undefined' ? globalThis : this);

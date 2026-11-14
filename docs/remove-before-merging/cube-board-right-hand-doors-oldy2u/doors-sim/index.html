@@ -18,6 +18,8 @@
   --land: #b7791f;
   --hole: #0f6e6a;
   --heat: 15, 110, 106;
+  --dead: rgba(85, 98, 109, 0.55);
+  --dead-fill: rgba(85, 98, 109, 0.16);
   --display: 'Archivo', 'Arial Narrow', system-ui, sans-serif;
   --body: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
   --mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
@@ -25,12 +27,12 @@
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --allow: #7fd65b; --bare: #6ea8ff; --paper: #11161b; --sheet: #182027; --ink: #dfe6eb; --ink-soft: #93a1ac; --rule: #2c3842;
   --wall: #c9d4dc; --door: #ef7a62; --door-soft: rgba(239, 122, 98, 0.22); --land: #e0a94a; --hole: #45c2b9;
-  --heat: 69, 194, 185; color-scheme: dark;
+  --heat: 69, 194, 185; --dead: rgba(147, 161, 172, 0.5); --dead-fill: rgba(147, 161, 172, 0.12); color-scheme: dark;
 } }
 :root[data-theme="dark"] {
   --allow: #7fd65b; --bare: #6ea8ff; --paper: #11161b; --sheet: #182027; --ink: #dfe6eb; --ink-soft: #93a1ac; --rule: #2c3842;
   --wall: #c9d4dc; --door: #ef7a62; --door-soft: rgba(239, 122, 98, 0.22); --land: #e0a94a; --hole: #45c2b9;
-  --heat: 69, 194, 185; color-scheme: dark;
+  --heat: 69, 194, 185; --dead: rgba(147, 161, 172, 0.5); --dead-fill: rgba(147, 161, 172, 0.12); color-scheme: dark;
 }
 * { box-sizing: border-box; }
 body {
@@ -167,6 +169,7 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
         <span><i style="background:var(--hole);width:10px;height:10px"></i>цель: дыра</span>
         <span><i style="background:var(--door)"></i>маршрут с дверьми</span>
         <span><i style="background:repeating-linear-gradient(90deg, var(--bare) 0 5px, transparent 5px 8px)"></i>маршрут без дверей</span>
+        <span><i style="background:repeating-linear-gradient(45deg, var(--dead) 0 2px, transparent 2px 5px)"></i>сразу видно, что тупик</span>
       </div>
       <div class="tip" id="tip">Наведи на стену — покажу, сколько комнат в обход. Клик ставит приземление, следующий клик — дыру.</div>
     </div>
@@ -184,13 +187,7 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
       <div class="ctl">
         <label for="gap">Порог: не меньше комнат в обход <span class="num" id="gapOut"></span></label>
         <input type="range" id="gap" min="0" max="256" step="1" value="8">
-      </div>
-      <div class="ctl">
-        <label>Как мерить обход</label>
-        <div class="seg" id="metric">
-          <button data-m="bound">оценка снизу, O(1)</button><button data-m="exact">точно, поиском на глубину порога</button>
-        </div>
-        <small>Полное расстояние на глубоком этаже бывает астрономическим, но порогу оно не нужно: хватит обойти всё, куда ведут K ходов, и проверить, нет ли там комнаты с той стороны. Это до ~2K² комнат на любом этаже, при K = 48 — несколько миллисекунд. Оценка снизу дешевле, берёт один блок, в кресте которого стоит стена, но отбрасывает около двух третей годных стен.</small>
+        <small>Обход считается точно, поиском на глубину порога: хватит обойти всё, куда ведут K ходов, и проверить, нет ли там комнаты с той стороны. Это до ~2K² комнат на любом этаже, при K = 48 — несколько миллисекунд на перегородку.</small>
       </div>
       <div class="ctl">
         <label>Двери рядом друг с другом</label>
@@ -199,6 +196,8 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
       </div>
       <label class="check"><input type="checkbox" id="heat" checked> тепловая карта от приземления</label>
       <label class="check"><input type="checkbox" id="elig" checked> показывать разрешённые стены</label>
+      <label class="check"><input type="checkbox" id="dead" checked> комнаты, куда игрок не зайдёт: сразу видно, что тупик</label>
+      <small id="deadOut"></small>
       <div class="btns">
         <button class="btn" id="game" aria-pressed="false" title="Этаж нашего мира с настоящими приземлением и дырой">как в игре</button>
         <button class="btn" id="newFloor">другой этаж</button>
@@ -292,8 +291,8 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
   const S = window.DoorSim, W = window.DoorWorld;
   const $ = (id) => document.getElementById(id);
   const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-  const state = { k: 5, perHundred: 3, minGap: 8, metric: 'bound', floorSeed: 7, doorSeed: 101, pairSeed: 3, heat: true, elig: true, game: false, spacing: 'arm', landing: 0, hole: 0, clickNext: 'landing' };
-  let maze, placement, adjBare, adjDoors, distLand;
+  const state = { k: 5, perHundred: 3, minGap: 8, floorSeed: 7, doorSeed: 101, pairSeed: 3, heat: true, elig: true, dead: true, game: false, spacing: 'arm', landing: 0, hole: 0, clickNext: 'landing' };
+  let maze, placement, adjBare, adjDoors, distLand, seen;
 
   const canvas = $('floor');
   const ctx = canvas.getContext('2d');
@@ -329,8 +328,8 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
     rebuildDoors();
   }
   function rebuildDoors() {
-    const roll = state.game ? ((H, n) => (path) => H(`doorway/${n}/${path}`))(worldHash, state.k + 1) : null;
-    placement = S.placeDoors(maze, { perHundred: state.perHundred, minGap: state.minGap, metric: state.metric, spacing: state.spacing, seed: state.doorSeed, roll });
+    const roll = state.game ? ((H, n) => (path) => H(`doorway/${n}/${path}`))(worldHash, state.k + 1) : S.seededRoll(`sandbox/${state.doorSeed}`);
+    placement = S.placeDoors(maze, { perHundred: state.perHundred, minGap: state.minGap, spacing: state.spacing, roll });
     placement.redundant = S.redundant(maze, placement.doors, state.minGap);
     adjBare = S.adjacency(maze, []);
     adjDoors = S.adjacency(maze, placement.doors);
@@ -338,6 +337,8 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
   }
   function refresh() {
     distLand = S.bfs(adjDoors, state.landing);
+    seen = S.deadEnds(maze, placement.doors, state.landing, state.hole);
+    $('deadOut').textContent = `не зайдёт в ${seen.skipped.toLocaleString('ru-RU')} из ${maze.N.toLocaleString('ru-RU')} комнат (${Math.round((100 * seen.skipped) / maze.N)}%). Игрок идёт волной от приземления и помнит каждую грань стены, увиденную из середины комнаты и с порога каждого её прохода. Комната — явный тупик, если все её стороны, кроме ведущей к игроку, — стена, про которую видно, что она глухая, или проход в явный тупик. Пока дверей нет, хватает куска стены: сторона либо глухая вся, либо открыта вся. С дверями грань надо увидеть целиком. Комната, где игрок побывал, и комната с дырой тупиком не считаются.`;
     draw();
     readings();
     $('densityOut').textContent = state.perHundred;
@@ -372,6 +373,19 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
         ctx.fillRect(X(i), Y(i), c + 0.5, c + 0.5);
       }
     }
+    // Rooms the player never enters, hatched under the walls so the walls stay crisp.
+    if (state.dead) {
+      ctx.save();
+      ctx.beginPath();
+      for (let i = 0; i < maze.N; i++) if (!seen.entered[i]) ctx.rect(X(i), Y(i), c + 0.5, c + 0.5);
+      ctx.clip();
+      ctx.fillStyle = css('--dead-fill'); ctx.fillRect(0, 0, W, W);
+      ctx.strokeStyle = css('--dead'); ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (let d = -W; d < W; d += 5) { ctx.moveTo(d, W); ctx.lineTo(d + W, 0); }
+      ctx.stroke();
+      ctx.restore();
+    }
     ctx.strokeStyle = css('--wall'); ctx.lineWidth = Math.max(1, Math.min(2.2, c * 0.12)); ctx.lineCap = 'square';
     ctx.beginPath();
     for (const w of maze.closed) wallSeg(w, X, Y, c, 1);
@@ -381,7 +395,7 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
     if (state.elig) {
       ctx.strokeStyle = css('--allow'); ctx.lineWidth = Math.max(2.5, Math.min(8, c * 0.24)); ctx.lineCap = 'butt';
       ctx.beginPath();
-      for (const w of maze.closed) if (w[state.metric] >= state.minGap) wallSeg(w, X, Y, c, 0.9);
+      for (const w of maze.closed) if (w.exact >= state.minGap) wallSeg(w, X, Y, c, 0.9);
       ctx.stroke();
     }
     // Doors: one bar across the wall, read the same from either room.
@@ -453,17 +467,17 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
     }
     if (!best) { $('tip').textContent = 'Наведи на стену — покажу, сколько комнат в обход. Клик ставит приземление, следующий клик — дыру.'; return; }
     const isDoor = placement.doors.includes(best);
-    const ok = best[state.metric] >= state.minGap;
-    $('tip').textContent = `стена уровня ${best.level}: в обход ${best.exact} шагов, оценка снизу ≥ ${best.bound}. ${isDoor ? 'Здесь дверь.' : ok ? 'Двери можно.' : 'Двери нельзя: обход короче порога.'}`;
+    const ok = best.exact >= state.minGap;
+    $('tip').textContent = `стена уровня ${best.level}: в обход ${best.exact} шагов. ${isDoor ? 'Здесь дверь.' : ok ? 'Двери можно.' : 'Двери нельзя: обход короче порога.'}`;
   });
 
   function pressSeg(id, attr, value) { for (const b of $(id).querySelectorAll('button')) b.setAttribute('aria-pressed', String(b.dataset[attr] === String(value))); }
   $('size').addEventListener('click', (ev) => { const k = ev.target.dataset?.k; if (!k) return; state.k = +k; pressSeg('size', 'k', k); rebuildFloor(); });
-  $('metric').addEventListener('click', (ev) => { const m = ev.target.dataset?.m; if (!m) return; state.metric = m; pressSeg('metric', 'm', m); rebuildDoors(); });
   $('density').addEventListener('input', (ev) => { state.perHundred = +ev.target.value; rebuildDoors(); });
   $('gap').addEventListener('input', (ev) => { state.minGap = +ev.target.value; rebuildDoors(); });
   $('heat').addEventListener('change', (ev) => { state.heat = ev.target.checked; draw(); });
   $('elig').addEventListener('change', (ev) => { state.elig = ev.target.checked; draw(); });
+  $('dead').addEventListener('change', (ev) => { state.dead = ev.target.checked; draw(); });
   $('game').addEventListener('click', (ev) => { state.game = !state.game; ev.currentTarget.setAttribute('aria-pressed', String(state.game)); $('newFloor').disabled = $('newDoors').disabled = $('newPair').disabled = state.game; rebuildFloor(); });
   $('spacing').addEventListener('click', (ev) => { const sp = ev.target.dataset?.s; if (!sp) return; state.spacing = sp; pressSeg('spacing', 's', sp); rebuildDoors(); });
   $('newFloor').addEventListener('click', () => { state.floorSeed++; rebuildFloor(); });
@@ -484,7 +498,7 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
 
   async function runSweep() {
     const token = ++sweepToken, { k } = state, { floors, pairs } = BUDGET[k];
-    const configs = [{ minGap: state.minGap, metric: state.metric, spacing: state.spacing }, { minGap: 0, metric: 'exact', spacing: 'none' }];
+    const configs = [{ minGap: state.minGap, spacing: state.spacing }, { minGap: 0, spacing: 'none' }];
     const total = configs.length * DENSITIES.length;
     let done = 0;
     const out = [];
@@ -493,14 +507,14 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
       for (const perHundred of DENSITIES) {
         await new Promise((r) => setTimeout(r, 0));
         if (token !== sweepToken) return;
-        const [row] = S.sweep({ k, densities: [perHundred], minGap: cfg.minGap, metric: cfg.metric, spacing: cfg.spacing, floors, pairsPerFloor: pairs, seed: 11 });
+        const [row] = S.sweep({ k, densities: [perHundred], minGap: cfg.minGap, spacing: cfg.spacing, floors, pairsPerFloor: pairs, seed: 11 });
         rows.push(row);
         $('bar').style.width = `${(++done / total) * 100}%`;
       }
       out.push(rows);
     }
-    lastSweep = { k, minGap: state.minGap, metric: state.metric, rows: out };
-    $('sweepNote').textContent = `этаж ${k + 1} (${1 << k}×${1 << k}), порог ${state.minGap} (${state.metric === 'bound' ? 'оценка' : 'точно'}), ${floors} этажа × ${pairs} пар`;
+    lastSweep = { k, minGap: state.minGap, rows: out };
+    $('sweepNote').textContent = `этаж ${k + 1} (${1 << k}×${1 << k}), порог ${state.minGap}, ${floors} этажа × ${pairs} пар`;
     renderChart(lastSweep);
   }
 
@@ -532,7 +546,6 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
 
   $('runSweep').addEventListener('click', runSweep);
   pressSeg('size', 'k', state.k);
-  pressSeg('metric', 'm', state.metric);
   pressSeg('spacing', 's', state.spacing);  rebuildFloor();
   runSweep();
 })();

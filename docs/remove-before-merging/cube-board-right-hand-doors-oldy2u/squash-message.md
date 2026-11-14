@@ -11,10 +11,11 @@ perimeter or under a walk-round threshold, free to open); why doors
 leave the lock alone, since a search hashes rooms and never walks; who
 they help, the random wanderer most and the mapper least; the
 right-hand rule they fool, a bug kept as a feature; one door per
-partition; placing them from the world seed with two rolls per
-partition; the threshold counted in rooms, 48 working; and the O(1)
-lower bound, the cheap fallback to a search K steps deep. A line ties
-them to the deep-floor portals some doors may become.
+partition, and how that rule was found; placing them from the world
+seed with two rolls per partition; and the threshold counted in rooms,
+48 working, settled by a search K steps deep that retired an O(1)
+lower bound. A line ties them to the deep-floor portals some doors may
+become.
 
 The lock zone records a casus the simulation turned up: our world's
 holes on floors 2 to 8 all hug the edge, chance rather than a bias in
