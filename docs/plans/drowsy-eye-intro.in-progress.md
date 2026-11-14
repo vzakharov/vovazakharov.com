@@ -85,8 +85,8 @@ own knob).
   frame-rate watch are deleted (the echo after Q stays); the `run` hint shows
   `RUN_TOLD_FOR` = 6 s a visit; `features/player/ui/stored-pace.ts` keeps
   `runsUnheld` in localStorage, a stored pace counting as Shift learnt. Its two
-  `catch` blocks are silent fallbacks the operator has not yet approved — named
-  in the report to them.
+  `catch` blocks are silent fallbacks, approved by the operator: «ой да
+  переживут».
 - Operator, on the frames page and the board (18:00 UTC), verbatim: on the Y/N
   frame «можно на тапальных менять "Press" на "Tap"?»; on the frames page «а
   зачем это здесь, почему не на основной борде?»; on `touch.ts` «ах, вот оно

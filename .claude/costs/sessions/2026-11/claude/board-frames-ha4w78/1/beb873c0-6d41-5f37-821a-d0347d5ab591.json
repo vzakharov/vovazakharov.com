@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 61329,
-    "cacheWrite5mTokens": 267534,
-    "cacheWrite1hTokens": 1079647,
-    "cacheReadTokens": 112927283,
-    "outputTokens": 404975,
-    "thinkingTokens": 136410,
-    "responses": 498,
-    "costUsd": 40.821651599999996
+    "inputTokens": 61936,
+    "cacheWrite5mTokens": 431355,
+    "cacheWrite1hTokens": 1092264,
+    "cacheReadTokens": 120921124,
+    "outputTokens": 433361,
+    "thinkingTokens": 142369,
+    "responses": 547,
+    "costUsd": 42.776310499999994
   },
   "estimate": {
     "at": "2026-11-14T11:01:19.316Z",
@@ -45,7 +45,7 @@
     }
   },
   "sessionId": "beb873c0-6d41-5f37-821a-d0347d5ab591",
-  "branch": "claude/drowsy-eye-intro-ha4w78",
+  "branch": "claude/board-frames-ha4w78",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "проблема: интро куба жутко тормозит сейчас решение: понижать пиксельность рассматриваю следующее креативное решение: не менять пиксельность, но при любом движен…",
   "prs": [
@@ -54,39 +54,49 @@
   "url": "https://claude.ai/code/session_01DaohkEDLi4h9PRuRHgXuPy",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-14T09:45:43.313Z",
-  "lastResponseAt": "2026-11-14T18:14:13.583Z",
+  "lastResponseAt": "2026-11-14T18:19:58.252Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 7.099354800000002,
   "ownTurns": {
-    "inputTokens": 831,
+    "inputTokens": 848,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 1079647,
-    "cacheReadTokens": 99529989,
-    "outputTokens": 353134,
-    "thinkingTokens": 132657,
-    "responses": 425,
-    "costUsd": 35.609177800000005
+    "cacheWrite1hTokens": 1092264,
+    "cacheReadTokens": 102082510,
+    "outputTokens": 360078,
+    "thinkingTokens": 133998,
+    "responses": 434,
+    "costUsd": 36.35956600000001
   },
   "subagents": {
-    "inputTokens": 70,
-    "cacheWrite5mTokens": 251247,
+    "inputTokens": 154,
+    "cacheWrite5mTokens": 414138,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 3391802,
-    "outputTokens": 15332,
-    "thinkingTokens": 3753,
-    "responses": 33,
-    "costUsd": 2.2415154
+    "cacheReadTokens": 8546030,
+    "outputTokens": 36759,
+    "thinkingTokens": 8371,
+    "responses": 72,
+    "costUsd": 3.3786037
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 33109,
-      "cacheWrite5mTokens": 267534,
-      "cacheWrite1hTokens": 1079647,
-      "cacheReadTokens": 112927283,
-      "outputTokens": 403243,
-      "thinkingTokens": 136410,
-      "responses": 496,
-      "costUsd": 40.797963599999996
+      "inputTokens": 33632,
+      "cacheWrite5mTokens": 268464,
+      "cacheWrite1hTokens": 1092264,
+      "cacheReadTokens": 115766896,
+      "outputTokens": 410202,
+      "thinkingTokens": 137751,
+      "responses": 506,
+      "costUsd": 41.6155342
+    },
+    "claude-sonnet-5-5/standard": {
+      "inputTokens": 84,
+      "cacheWrite5mTokens": 162891,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 5154228,
+      "outputTokens": 21427,
+      "thinkingTokens": 4618,
+      "responses": 39,
+      "costUsd": 1.1370883000000003
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 28220,
@@ -192,26 +202,26 @@
           "Read": 5
         },
         "estimatedTokens": 6945,
-        "estimatedUsd": 0.1695968
+        "estimatedUsd": 0.1820978
       },
       "billedUsd": 0.2797308
     }
   ],
   "telemetry": {
-    "events": 497,
-    "matched": 457,
-    "matchedTableUsd": 37.7651924,
-    "matchedEventUsd": 37.7651924,
+    "events": 546,
+    "matched": 505,
+    "matchedTableUsd": 39.66725929999999,
+    "matchedEventUsd": 39.66725929999999,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 16698,
-        "cacheWrite5mTokens": 13455,
+        "inputTokens": 17204,
+        "cacheWrite5mTokens": 14385,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 8424706,
-        "outputTokens": 633,
+        "cacheReadTokens": 8711798,
+        "outputTokens": 648,
         "thinkingTokens": 0,
-        "responses": 33,
-        "costUsd": 1.8720332000000002
+        "responses": 34,
+        "costUsd": 1.9392156000000003
       },
       "compact": {
         "inputTokens": 15510,
@@ -236,7 +246,7 @@
     }
   },
   "operatorWords": {
-    "chat": 11827,
+    "chat": 11864,
     "review": 0,
     "threads": 0
   },
@@ -246,7 +256,7 @@
     ".md": 561,
     ".json": 56,
     ".ts": 1449,
-    ".wgsl": 207,
+    ".wgsl": 208,
     ".tsx": 75,
     ".scss": 92
   }
