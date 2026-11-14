@@ -71,6 +71,36 @@ items:
     box: [5364, -3310, 236]
     src: images/doors-05-floor-8-open.webp
     text: "Open onto the next corridor, nothing in the doorway. The sconces first hung 1.25 m from each wall end, half under a door's frame; every doorway is cut at the same spot along its wall, so both now hang 0.35 m clear of it, 1.59 m in"
+  - id: img-doors-06-cinema-corridor-before
+    type: image
+    updated: [2026-11-14T22:45:00.000Z, agent:cube]
+    box: [3668, -3320, 220]
+    src: images/doors-06-cinema-corridor-before.webp
+    text: "Floor 25, before: every doorway is cut at the same spot along its wall, and the cinema's second wall light sat inside it; decor took the lamp away, the shader's wash stayed on the curtain round the frame"
+  - id: img-doors-06-cinema-corridor-after
+    type: image
+    updated: [2026-11-14T22:45:00.000Z, agent:cube]
+    box: [3896, -3320, 220]
+    src: images/doors-06-cinema-corridor-after.webp
+    text: 'After: both lights hang 0.3 m clear of that spot, at 1.54 m and 3.46 m, lamp and wash together, as in the hotel'
+  - id: img-doors-06-metro-platform-before
+    type: image
+    updated: [2026-11-14T22:45:00.000Z, agent:cube]
+    box: [4124, -3320, 220]
+    src: images/doors-06-metro-platform-before.webp
+    text: 'Floor 31, before: the second bill board ran from 3.6 m to 4.7 m, mostly into the door'
+  - id: img-doors-06-metro-platform-after
+    type: image
+    updated: [2026-11-14T22:45:00.000Z, agent:cube]
+    box: [4352, -3320, 220]
+    src: images/doors-06-metro-platform-after.webp
+    text: "After: one board, at the wall's far end. The second, 1.1 m wide, fits nowhere between the signs and the cut, so doorless walls lose it too"
+  - id: img-doors-06-hallway-after
+    type: image
+    updated: [2026-11-14T22:45:00.000Z, agent:cube]
+    box: [4580, -3320, 220]
+    src: images/doors-06-hallway-after.webp
+    text: 'Floor 66: the painted doors are spaced so the last stands on the doorway, and a real door takes its place with no sliver of painted casing beside it'
   - id: doors-idea
     type: sticky
     updated: [2026-11-14T10:45:00.000Z, agent:cube]
