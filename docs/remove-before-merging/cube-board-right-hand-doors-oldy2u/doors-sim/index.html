@@ -207,10 +207,10 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
       <label class="check"><input type="checkbox" id="dead" checked> комнаты, куда игрок не зайдёт: сразу видно, что тупик</label>
       <small id="deadOut"></small>
       <div class="btns">
-        <button class="btn" id="game" aria-pressed="false" title="Этаж нашего мира с настоящими приземлением и дырой">как в игре</button>
-        <button class="btn" id="newFloor">другой этаж</button>
-        <button class="btn" id="newDoors">другие двери</button>
-        <button class="btn" id="newPair">другая пара</button>
+        <button class="btn" id="game" aria-pressed="true" title="Этаж нашего мира с настоящими приземлением и дырой">как в игре</button>
+        <button class="btn" id="newFloor" disabled>другой этаж</button>
+        <button class="btn" id="newDoors" disabled>другие двери</button>
+        <button class="btn" id="newPair" disabled>другая пара</button>
       </div>
       <small id="gameNote"></small>
       <div class="scroll">
@@ -299,7 +299,7 @@ footer { color: var(--ink-soft); font-size: 13px; display: grid; gap: 6px; }
   const S = window.DoorSim, W = window.DoorWorld;
   const $ = (id) => document.getElementById(id);
   const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-  const state = { k: 5, perHundred: 3, minGap: 24, split: 48, near: 'door', floorSeed: 7, doorSeed: 101, pairSeed: 3, heat: true, elig: true, dead: true, game: false, spacing: 'arm', landing: 0, hole: 0, clickNext: 'landing' };
+  const state = { k: 5, perHundred: 3, minGap: 24, split: 48, near: 'door', floorSeed: 7, doorSeed: 101, pairSeed: 3, heat: true, elig: true, dead: true, game: true, spacing: 'arm', landing: 0, hole: 0, clickNext: 'landing' };
   let maze, mazeOpen, placement, adjBare, adjDoors, distLand, seen, eyesBare, eyesDoors;
 
   const canvas = $('floor');
