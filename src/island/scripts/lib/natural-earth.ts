@@ -96,7 +96,7 @@ export function namedPolygons(
 ): Map<string, GeoPolygon[]> {
   const found = new Map<string, GeoPolygon[]>();
   for (const feature of FeatureCollection.parse(json).features) {
-    const name = feature.properties?.name;
+    const name = feature.properties?.['name'];
     if (typeof name !== 'string' || !names.includes(name)) continue;
     found.set(name, [...(found.get(name) ?? []), ...featurePolygons(feature)]);
   }

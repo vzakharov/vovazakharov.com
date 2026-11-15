@@ -25,12 +25,14 @@ const named = (coarse: CoarseEdges) =>
 function side(grid: number, direction: (typeof DIRECTIONS)[number]) {
   const last = grid - 1;
   return Array.from({ length: grid }, (_, k) => {
-    const [i, j] = {
-      right: [last, k],
-      left: [0, k],
-      up: [k, last],
-      down: [k, 0],
-    }[direction];
+    const [i, j] = (
+      {
+        right: [last, k],
+        left: [0, k],
+        up: [k, last],
+        down: [k, 0],
+      } satisfies Record<typeof direction, readonly [number, number]>
+    )[direction];
     return j * grid + i;
   });
 }

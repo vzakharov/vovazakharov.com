@@ -4,7 +4,6 @@ import { describe, it } from 'node:test';
 import {
   type CubeCell,
   type Direction,
-  DIRECTIONS,
   FACES,
   faceToSphere,
   length,
