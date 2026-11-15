@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 
 import { DOORWAY_CUT } from '@/cube/shared/cube-boundary';
 import type { Vec3 } from '@/cube/shared/lib/vec';
-import type { Beyond } from '@/cube/entities/world';
+import { type Beyond, DOORWAY_DEEP } from '@/cube/entities/world';
 
 import { doorwayOpening, seenBeyond } from './portal-frame';
 
@@ -79,13 +79,34 @@ describe('seenBeyond', () => {
 });
 
 describe('doorwayOpening', () => {
-  it('spans the cut on the wall line, floor to head', () => {
-    const half = (DOORWAY_CUT.to - DOORWAY_CUT.from) / 2;
-    const east = doorwayOpening({ u: 2, v: 0.5 }, true);
+  const half = (DOORWAY_CUT.to - DOORWAY_CUT.from) / 2;
+
+  it('spans the cut, floor to head', () => {
+    const east = doorwayOpening({ u: 2, v: 0.5 }, { isEast: true, toward: 1 });
     assert.equal(east.length, 18);
-    close([...east.subarray(0, 3)], [2, 0, 0.5 - half]);
-    close([...east.subarray(6, 9)], [2, DOORWAY_CUT.height, 0.5 + half]);
-    const south = doorwayOpening({ u: 0.5, v: 1 }, false);
-    close([...south.subarray(3, 6)], [0.5 + half, 0, 1]);
+    close([...east.subarray(0, 3)], [2 + DOORWAY_DEEP, 0, 0.5 - half]);
+    close(
+      [...east.subarray(6, 9)],
+      [2 + DOORWAY_DEEP, DOORWAY_CUT.height, 0.5 + half],
+    );
+    const south = doorwayOpening(
+      { u: 0.5, v: 1 },
+      { isEast: false, toward: 1 },
+    );
+    close([...south.subarray(3, 6)], [0.5 + half, 0, 1 + DOORWAY_DEEP]);
+  });
+
+  it('lays every corner DOORWAY_DEEP past the line, on the side the way leads', () => {
+    for (const isEast of [true, false]) {
+      for (const toward of [1, -1] as const) {
+        const line = 1;
+        const opening = doorwayOpening({ u: line, v: line }, { isEast, toward });
+        const across = isEast ? 0 : 2;
+        for (let corner = 0; corner < opening.length; corner += 3) {
+          const past = ((opening[corner + across] ?? line) - line) * toward;
+          assert.ok(Math.abs(past - DOORWAY_DEEP) < 1e-6);
+        }
+      }
+    }
   });
 });

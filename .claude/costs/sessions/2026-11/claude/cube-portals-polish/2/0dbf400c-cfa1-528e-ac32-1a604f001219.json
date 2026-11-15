@@ -1,0 +1,98 @@
+{
+  "total": {
+    "inputTokens": 28,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 77616,
+    "cacheReadTokens": 1446112,
+    "outputTokens": 5981,
+    "thinkingTokens": 1217,
+    "responses": 13,
+    "costUsd": 1.0298823999999998
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-15T21:40:45.601Z",
+    "contextTokens": 95915,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 40581,
+      "cacheReadTokens": 54478,
+      "outputTokens": 453,
+      "thinkingTokens": 53,
+      "responses": 1,
+      "costUsd": 0.3446116
+    }
+  },
+  "sessionId": "0dbf400c-cfa1-528e-ac32-1a604f001219",
+  "branch": "claude/cube-portals-polish",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are package E of a carte-blanche run building portals into the cube game (`src/cube/`, served at /cube on vovazakharov.com). The lead is session session_01D…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCr8UsatJU7EFPupzV",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-15T21:40:39.456Z",
+  "lastResponseAt": "2026-11-15T21:46:20.234Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 28,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 77616,
+    "cacheReadTokens": 1446112,
+    "outputTokens": 5981,
+    "thinkingTokens": 1217,
+    "responses": 13,
+    "costUsd": 1.0298823999999998
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 28,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 77616,
+      "cacheReadTokens": 1446112,
+      "outputTokens": 5981,
+      "thinkingTokens": 1217,
+      "responses": 13,
+      "costUsd": 1.0298823999999998
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 12,
+    "matched": 12,
+    "matchedTableUsd": 0.9689031999999999,
+    "matchedEventUsd": 0.9689031999999999,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 304,
+    ".txt": 295,
+    ".json": 2,
+    ".scss": 11,
+    ".ts": 2654,
+    ".yaml": 459,
+    ".tsx": 8,
+    ".wgsl": 27
+  }
+}

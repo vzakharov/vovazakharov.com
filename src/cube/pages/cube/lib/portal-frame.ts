@@ -1,6 +1,11 @@
 import { DOORWAY_CUT } from '@/cube/shared/cube-boundary';
 import type { Seen, Vec3 } from '@/cube/shared/lib/vec';
-import type { Beyond, InRoom } from '@/cube/entities/world';
+import {
+  type Beyond,
+  DOORWAY_DEEP,
+  type Facing,
+  type InRoom,
+} from '@/cube/entities/world';
 
 import { multiply } from './matrix';
 
@@ -48,17 +53,20 @@ export function seenBeyond(
 }
 
 /**
- * The opening of a doorway whose middle is at `middle` of the eye's frame, in
- * an east wall or a south one, as the vertices of two triangles, on its
- * wall's line.
+ * The opening of a doorway whose middle is on its wall's line at `{ u, v }` of
+ * the eye's frame, in an east wall or a south one, as the vertices of two
+ * triangles. It stands `DOORWAY_DEEP` past the line `toward` the room the way
+ * leads into, so an eye crossing the line, where the crossing fires, is never
+ * near enough for the camera's near plane to clip it.
  */
 export function doorwayOpening(
   { u, v }: InRoom,
-  isEast: boolean,
+  { isEast, toward }: Pick<Facing, 'isEast' | 'toward'>,
 ): Float32Array<ArrayBuffer> {
   const half = (DOORWAY_CUT.to - DOORWAY_CUT.from) / 2;
+  const past = toward * DOORWAY_DEEP;
   const corner = (along: number, up: number): Vec3 =>
-    isEast ? [u, up, v + along] : [u + along, up, v];
+    isEast ? [u + past, up, v + along] : [u + along, up, v + past];
   const { height } = DOORWAY_CUT;
   const [a, b, c, d] = [
     corner(-half, 0),

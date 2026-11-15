@@ -96,7 +96,7 @@ export function createPortalView({
       const placing = beyondOf(frame, way, shown.far);
       return {
         seen: seenBeyond(placing, seen),
-        opening: doorwayOpening(placing.to, door.isEast),
+        opening: doorwayOpening(placing.to, way),
         door: mesh.stood([...doorFrame(door), ...leaf]),
       };
     },
