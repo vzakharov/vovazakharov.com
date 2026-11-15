@@ -143,5 +143,15 @@ and becomes the far floor's once through.
   east, URL pushed, Back returned to 6, no page errors. Still covered by unit
   tests only: a crossing on a walk with a real address (`fell` byte). Not built:
   a `?cheated_to=6&at=x,y` start to make such a walk repeatable. B archived.
-- Next: `/preview live vova` and check the deployed commit, then
-  `./scripts/vet.sh`. PR #283 stays draft.
+- Vova walked it on the preview (15 Nov, from the address `#hgHCKitJPJqM2vpUWw`,
+  before floor 6's hub): «крутяк, только створки изнутри и снаружи раскрыты в
+  разные стороны» and «есть небольшое подтормаживание/мигание при проходе. это
+  может быть конечно и не-баг-а-фичей, но всё ж глянуть можно». Cause of the
+  first: each wall rolls its own hinge jamb (`doorLook`), so the far portal's
+  leaf hangs on an unrelated jamb. Decided: a portal's leaf hangs on the jamb at
+  the left of one walking east or south — `farSideOf` keeps `toward`, so every
+  pairing then agrees — and every portal leaf takes one shared rolled paint, the
+  leaf walked through being one leaf. Package D (door fixes) takes both.
+- vet at 5f0b0a4c red: format, type-overlap, knip (portal exports unused outside
+  the slice, `Ways`). The lead's.
+- Next: D's report; vet green. PR #283 stays draft.
