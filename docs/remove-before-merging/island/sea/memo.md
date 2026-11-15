@@ -80,3 +80,7 @@ Sea, milestone 4 (e21dee97; vet green on a9d17034): the ground off the beach.
 - Win: relief below the mesh's cell is drawn by light — ridges read off the same 64-wave table the ripples use, each fading as it passes under a pixel — and steep ground above the beach shows bare rock. Frames: docs/remove-before-merging/island/sea/frames/13-relief-grass-40m.jpg, 14-wet-sand-landward-2m.jpg (the damp band behind the sheet).
 - Find: one wave table serves the sea's ripples and the land's relief; the land reads it as ridges standing still.
 - Not yet looked at: rock on a real cliff — the inlet's country is too gentle to show it.
+
+## lead · 2026-11-15 22:38:07 UTC
+
+Milestone 4 is on the board (v75).
