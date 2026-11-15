@@ -265,10 +265,10 @@ items:
     text: 'No lift. A portal is an ordinary door; opened, it shows the far floor as you will see it once through. When the minute turns, the view through an open hub door turns with it'
   - id: p-go-air
     type: sticky
-    updated: [2026-11-15T19:30:04.000Z, agent:cube]
-    box: [7388, 3900, 380, yellow]
+    updated: [2026-11-15T19:46:00.000Z, agent:cube]
+    box: [7388, 3900, 380, green]
     icon: 🌫️
-    text: 'Air, for now: the far floor is drawn in the air of the floor you leave, not its own. Maybe a glitch that stays as a feature'
+    text: 'Air, lens included: the far floor is drawn in the air, haze and lens of the floor you leave, not its own, so a glitchy floor looks ordinary until you step in. Vova: “just what we need”'
   - id: l-go-period
     type: line
     updated: [2026-11-15T19:30:05.000Z, agent:cube]
@@ -309,3 +309,8 @@ items:
     updated: [2026-11-15T11:31:33.000Z, agent:cube]
     ends: [p-way-stack, deep-stack]
     text: the pop
+  - id: l-go-air-views
+    type: line
+    updated: [2026-11-15T19:46:00.000Z, agent:cube]
+    ends: [p-go-air, pv-rule]
+    text: what it looks like
