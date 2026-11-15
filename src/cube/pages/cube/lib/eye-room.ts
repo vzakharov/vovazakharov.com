@@ -1,4 +1,10 @@
-import { descend, parent, type Pose, type Room } from '@/cube/entities/world';
+import {
+  descend,
+  parent,
+  type Pose,
+  type Room,
+  roomKey,
+} from '@/cube/entities/world';
 
 /** An eye in the middle of `room`, looking level and east: a frame to build a mesh in. */
 export const poseIn = (room: Room): Pose => ({
@@ -24,9 +30,6 @@ export const FIRST_ROOM: Pose = poseIn({ n: 1, x: 0n, y: 0n });
 export const inEyeRoom = (pose: Pose): Pose =>
   pose.eyeAbove < 0 ? descend(pose) : pose;
 
-const isSameRoom = (a: Room, b: Room): boolean =>
-  a.n === b.n && a.x === b.x && a.y === b.y;
-
 /**
  * Whether a mesh built in the frame of `built` can stand in for `eye`'s own
  * until that is built: on its floor, or the room over or under it, as a fall
@@ -35,5 +38,5 @@ const isSameRoom = (a: Room, b: Room): boolean =>
 export function standsIn(built: Room, eye: Room): boolean {
   if (built.n === eye.n) return true;
   const [over, under] = built.n < eye.n ? [built, eye] : [eye, built];
-  return under.n - over.n === 1 && isSameRoom(parent(under), over);
+  return under.n - over.n === 1 && roomKey(parent(under)) === roomKey(over);
 }

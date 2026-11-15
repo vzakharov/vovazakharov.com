@@ -113,15 +113,18 @@ export const writeAwake = (): void => {
   writeFragment(AWAKE);
 };
 
+/** The URL of a walk that cheated its way to floor `n`. */
+const cheatOf = (n: number): string => `?${CHEAT_QUERY}=${String(n)}`;
+
 /**
  * Makes the URL say the walk cheated its way to floor `n`, its fragment
  * dropped: an address is of a floor reached through its holes.
  */
 export const writeCheat = (n: number): void => {
-  globalThis.history.replaceState(null, '', `?${CHEAT_QUERY}=${String(n)}`);
+  globalThis.history.replaceState(null, '', cheatOf(n));
 };
 
 /** `writeCheat` as a new history entry: a cheated walk gone on to floor `n`. */
 export const pushCheat = (n: number): void => {
-  globalThis.history.pushState(null, '', `?${CHEAT_QUERY}=${String(n)}`);
+  globalThis.history.pushState(null, '', cheatOf(n));
 };
