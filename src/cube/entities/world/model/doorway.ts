@@ -6,8 +6,14 @@ import { doorFrame, type Facing } from './door';
 import { eastKind, southKind } from './doorways';
 import type { RolledMaze } from './maze';
 import type { Quad } from './quad';
-import { isRoom, type Room } from './room';
-import { type DoorWall, leaning, wallFrame } from './wall-frame';
+import type { Room } from './room';
+import {
+  type DoorWall,
+  isInnerWall,
+  isSameWall,
+  leaning,
+  wallFrame,
+} from './wall-frame';
 import { mazeWalls, type Walls } from './walls';
 
 export type Doors = { isDoor: (wall: DoorWall) => boolean };
@@ -34,10 +40,13 @@ export function doorSides({ isDoor }: Doors, room: Room): RoomSides {
 /** `rolled`'s walls and doors: a wall touching a room outside its floor is no door. */
 export const mazeDoored = (rolled: RolledMaze): Doored => ({
   ...mazeWalls(rolled),
-  isDoor: ({ n, x, y, isEast }) =>
-    isRoom(n, x, y) &&
-    (isEast ? isRoom(n, x + 1n, y) : isRoom(n, x, y + 1n)) &&
-    (isEast ? eastKind : southKind)(rolled, n, x, y) === 'door',
+  isDoor: (wall) => {
+    const { n, x, y, isEast } = wall;
+    return (
+      isInnerWall(wall) &&
+      (isEast ? eastKind : southKind)(rolled, n, x, y) === 'door'
+    );
+  },
 });
 
 /** The faces of a doorway's wall drawn: `near` into its west or north room, `far` into the other. */
@@ -60,9 +69,6 @@ export const EXIT: { wall: DoorWall; sides: Sides } = (() => {
     sides: { near: inward, far: !inward },
   };
 })();
-
-export const isSameWall = (a: DoorWall, b: DoorWall): boolean =>
-  a.isEast === b.isEast && a.n === b.n && a.x === b.x && a.y === b.y;
 
 /** `walls` with `door`'s wall open, for the eye of the one who opened it. */
 export function withOpen(walls: Walls, door: DoorWall | null): Walls {

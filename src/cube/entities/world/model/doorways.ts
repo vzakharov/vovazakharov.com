@@ -96,7 +96,7 @@ function isNear(
   return false;
 }
 
-const ascending = (a: bigint, b: bigint) => (a < b ? -1 : a > b ? 1 : 0);
+export const ascending = (a: bigint, b: bigint) => (a < b ? -1 : a > b ? 1 : 0);
 
 /**
  * The offsets along `partition` that may not hold a doorway, ascending: its
@@ -132,7 +132,7 @@ export function barredOf(
  * The `index`-th offset not in `barred` (ascending), counting past each
  * barred offset at or below it.
  */
-function unbarred(index: bigint, barred: readonly bigint[]): bigint {
+export function unbarred(index: bigint, barred: readonly bigint[]): bigint {
   let offset = index;
   for (const skip of barred) if (skip <= offset) offset += 1n;
   return offset;
@@ -165,6 +165,12 @@ function openingOf(rolled: RolledMaze, partition: Partition): Opening | null {
   memos.set(rolled, kept);
   return kept(partitionKey(partition), () => rollOpening(rolled, partition));
 }
+
+/** The offset of `partition`'s doorway, door or gap; null when it has none. */
+export const doorwayOf = (
+  rolled: RolledMaze,
+  partition: Partition,
+): bigint | null => openingOf(rolled, partition)?.offset ?? null;
 
 function kindOf(rolled: RolledMaze, n: number, wall: Wall): WallKind {
   const { partition, offset } = spotOf(n, wall);

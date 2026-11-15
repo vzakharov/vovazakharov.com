@@ -4,7 +4,6 @@ export {
   type Doors,
   doorSides,
   EXIT,
-  isSameWall,
   mazeDoored,
   wallsAround,
   withOpen,
@@ -27,6 +26,14 @@ export { boardFacets, type BoardShape, type SignMount } from './model/mount';
 export { PILL_RADIUS, pillQuads } from './model/pill';
 export { plant } from './model/plant';
 export { planted } from './model/planted';
+export { PORTALS } from './model/portal-counts';
+export {
+  type Portal,
+  portalAt,
+  portalsOf,
+  type PortalTarget,
+  portalTarget,
+} from './model/portals';
 export type {
   Gazing,
   InRoom,
@@ -73,7 +80,7 @@ export {
 export { closedSides, inPlace, type Setting, settingOf } from './model/setting';
 export { pillOn, type Shelf, shelfOf } from './model/shelf';
 export { type RolledTraits, traits } from './model/traits';
-export { type DoorWall } from './model/wall-frame';
+export { type DoorWall, isSameWall } from './model/wall-frame';
 export { mazeWalls, type Walls } from './model/walls';
 export { isOutside, type Outside, type Whereabouts } from './model/whereabouts';
 export { WALL_HALF } from '@/cube/shared/lib/room-shape';
