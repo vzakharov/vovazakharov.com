@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 93,
+    "inputTokens": 115,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 147836,
-    "cacheReadTokens": 6752772,
-    "outputTokens": 37006,
-    "thinkingTokens": 20122,
-    "responses": 45,
-    "costUsd": 3.273734400000001
+    "cacheWrite1hTokens": 193354,
+    "cacheReadTokens": 9303414,
+    "outputTokens": 41226,
+    "thinkingTokens": 20642,
+    "responses": 56,
+    "costUsd": 4.232494800000001
   },
   "estimate": {
     "at": "2026-11-15T12:10:15.808Z",
@@ -48,22 +48,24 @@
   "branch": "claude/cube-board-portal-forks-ilv09n",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "так, давай думать за порталы в кубе. вопросы-развилки: 1- как визуализировать дверь, которая портал, варианты: а) стандартный вид \"портала\" из scifi, б) комната…",
-  "prs": [],
+  "prs": [
+    283
+  ],
   "url": "https://claude.ai/code/session_01DaohkCvX92ZgAUuXATxUKF",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-15T12:03:27.124Z",
-  "lastResponseAt": "2026-11-15T12:11:21.962Z",
+  "lastResponseAt": "2026-11-15T12:12:29.745Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 93,
+    "inputTokens": 115,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 147836,
-    "cacheReadTokens": 6752772,
-    "outputTokens": 37006,
-    "thinkingTokens": 20122,
-    "responses": 45,
-    "costUsd": 3.273734400000001
+    "cacheWrite1hTokens": 193354,
+    "cacheReadTokens": 9303414,
+    "outputTokens": 41226,
+    "thinkingTokens": 20642,
+    "responses": 56,
+    "costUsd": 4.232494800000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,23 +79,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 93,
+      "inputTokens": 115,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 147836,
-      "cacheReadTokens": 6752772,
-      "outputTokens": 37006,
-      "thinkingTokens": 20122,
-      "responses": 45,
-      "costUsd": 3.273734400000001
+      "cacheWrite1hTokens": 193354,
+      "cacheReadTokens": 9303414,
+      "outputTokens": 41226,
+      "thinkingTokens": 20642,
+      "responses": 56,
+      "costUsd": 4.232494800000001
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 45,
-    "matched": 45,
-    "matchedTableUsd": 3.273734400000001,
-    "matchedEventUsd": 3.273734400000001,
+    "events": 56,
+    "matched": 56,
+    "matchedTableUsd": 4.232494800000001,
+    "matchedEventUsd": 4.232494800000001,
     "unseen": {}
   },
   "operatorWords": {
@@ -104,6 +106,6 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".yaml": 200
+    ".yaml": 206
   }
 }
