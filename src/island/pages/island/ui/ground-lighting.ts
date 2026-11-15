@@ -212,7 +212,7 @@ export function groundLighting(): GroundLighting {
   /** How far the ground leans off level, 0 flat and 1 a wall. */
   const steep = normalWorldGeometry.dot(surface.zenith).oneMinus();
   /** Bare rock: steep ground above the beach, whatever grows on the level beside it. */
-  const rock = smoothstep(0.1, 0.3, steep).mul(
+  const rock = smoothstep(0.04, 0.15, steep).mul(
     smoothstep(2, SHORE_TOP, heightNode()),
   );
   const landColour = mix(
