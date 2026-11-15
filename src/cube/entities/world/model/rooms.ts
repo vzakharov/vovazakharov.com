@@ -153,12 +153,16 @@ const gap = (east: number, south: number): number =>
  * with everything past it. Every such line crosses the seat's own wall, so it
  * starts inside the seat; the set is what some eye anywhere in the seat sees.
  *
- * The maze is a tree, so each room has one walk from the seat and none is
- * expanded twice; the far bound and the closing arcs bound the walk.
+ * Every walk whose arc stays open is followed, so what lies past a room is
+ * seen along each walk that reaches it, whatever order the walls are tried in.
+ * A straight line enters no room twice, so a walk never re-enters its own
+ * rooms; the far bound and the closing arcs bound the rest. Walks multiply
+ * with the loops in reach: sparse gaps cost little, a floor of them a lot.
  */
 export function seenFrom(seat: Room, far: number, walls: Walls): Room[] {
   const { n } = seat;
   const seen = new Map<string, Room>();
+  const onWalk = new Set<string>();
   const walk = (
     room: Room,
     [east, south]: Point,
@@ -166,12 +170,14 @@ export function seenFrom(seat: Room, far: number, walls: Walls): Room[] {
     lefts: readonly Point[],
     rights: readonly Point[],
   ): void => {
-    seen.set(roomKey(room), room);
+    const key = roomKey(room);
+    seen.set(key, room);
+    onWalk.add(key);
     for (const step of STEPS) {
       const next = stepped(room, step);
       const at: Point = [east + step[0], south + step[1]];
       const inside = isRoom(n, next.x, next.y);
-      if (!inside || seen.has(roomKey(next)) || gap(...at) > far) continue;
+      if (!inside || onWalk.has(roomKey(next)) || gap(...at) > far) continue;
       if (!opens(walls, room, step)) continue;
       const [left, right] = opening(east, south, step);
       const open = narrowedAll(arc, [
@@ -183,6 +189,7 @@ export function seenFrom(seat: Room, far: number, walls: Walls): Room[] {
         walk(next, at, open, [...lefts, left], [...rights, right]);
       }
     }
+    onWalk.delete(key);
   };
   walk(seat, [0, 0], 'any', [], []);
   return [...seen.values()];

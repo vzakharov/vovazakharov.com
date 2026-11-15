@@ -22,7 +22,6 @@ export const GYMNASIUM: FloorTheme = {
     { thing: 'traffic-cone', perRoom: 0.8 },
     { thing: 'mattress', perRoom: 0.4 },
     { thing: 'wall-clock', perRoom: 0.2 },
-    { thing: 'door', perRoom: 0.3 },
     { thing: 'fire-extinguisher', perRoom: 0.2 },
   ],
   shader: {

@@ -1,4 +1,15 @@
 export { type Address, decodeAddress, encodeAddress } from './model/address';
+export { type Ajar, doorLeaf, type Facing, leafLine } from './model/door';
+export {
+  type Doors,
+  doorSides,
+  EXIT,
+  isSameWall,
+  mazeDoored,
+  wallsAround,
+  withOpen,
+} from './model/doorway';
+export { eastKind } from './model/doorways';
 export { descend, DROP, eyeInFrame, type Placed, placed } from './model/frame';
 export { faces, HOLE_SIDE } from './model/geometry';
 export {
@@ -62,6 +73,7 @@ export {
 export { closedSides, inPlace, type Setting, settingOf } from './model/setting';
 export { pillOn, type Shelf, shelfOf } from './model/shelf';
 export { type RolledTraits, traits } from './model/traits';
+export { type DoorWall } from './model/wall-frame';
 export { mazeWalls, type Walls } from './model/walls';
 export { isOutside, type Outside, type Whereabouts } from './model/whereabouts';
 export { WALL_HALF } from '@/cube/shared/lib/room-shape';

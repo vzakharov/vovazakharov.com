@@ -3,6 +3,7 @@ import { describe, it } from 'node:test';
 
 import { WALL_HALF } from '@/cube/shared/lib/room-shape';
 
+import { type Doored, mazeDoored } from './doorway';
 import { placed } from './frame';
 import { holesOf } from './hole';
 import { maze } from './maze';
@@ -17,7 +18,6 @@ import {
   signFacets,
   signPost,
 } from './sale';
-import { mazeWalls, type Walls } from './walls';
 
 describe('priceOf', () => {
   it('prices floor 2 at $10M and every floor at the same $/m³', () => {
@@ -35,13 +35,19 @@ describe('priceOf', () => {
   });
 });
 
-/** Walls with exactly `open` open, each wall named by the room west or north of it. */
+/**
+ * Walls with exactly `east` and `south` open and `doors` holding a door, each
+ * wall named by the room west or north of it, an east wall's name with `E`.
+ */
 const wallsOpen = (
   east: readonly string[],
   south: readonly string[],
-): Walls => ({
+  doors: readonly string[] = [],
+): Doored => ({
   isOpenEast: (n, x, y) => east.includes(roomKey({ n, x, y })),
   isOpenSouth: (n, x, y) => south.includes(roomKey({ n, x, y })),
+  isDoor: ({ isEast, ...wall }) =>
+    doors.includes(`${roomKey(wall)}${isEast ? 'E' : ''}`),
 });
 
 const room = (n: number, x: number, y: number): Room => ({
@@ -99,7 +105,7 @@ describe('lotSign, nothing bought', () => {
   });
 
   it('agrees with the planted world: floor 2 sells room (1, 1)', async () => {
-    const walls = mazeWalls(maze(planted.seed));
+    const walls = mazeDoored(maze(planted.seed));
     const known = await holesOf(planted, [room(1, 0, 0), ...rooms]);
     const sold = rooms.filter(
       (r) => lotSign(walls, new Map(), r, endsOf(known)) !== null,
@@ -179,6 +185,29 @@ describe('lotSign, no wall to hang on', () => {
     );
     // Open south, so the far side is north, bought, and no side is wall.
     assert.deepEqual(sign, { ...on(0.5, 0.2, 0, 1, true), kind: 'buy-more' });
+  });
+
+  it('hangs it past a door to the next plain wall, and on the door’s wall only with none', () => {
+    // (2, 1) of the plus opens west only; its far side, east, holds a door,
+    // which keeps it on sale as a wall would.
+    const doored = wallsOpen(
+      ['3/0/1', '3/1/1'],
+      ['3/1/0', '3/1/1'],
+      ['3/2/1E'],
+    );
+    assert.deepEqual(lotSign(doored, new Map(), room(3, 2, 1), noEnds), {
+      ...on(0.5, 1, 0, -1),
+      kind: 'for-sale',
+    });
+    const allDoors = wallsOpen(
+      ['3/0/1', '3/1/1'],
+      ['3/1/0', '3/1/1'],
+      ['3/2/1E', '3/2/1', '3/2/0'],
+    );
+    assert.deepEqual(lotSign(allDoors, new Map(), room(3, 2, 1), noEnds), {
+      ...on(1, 0.5, -1, 0),
+      kind: 'for-sale',
+    });
   });
 
   it('keeps it on the wall when the far side is a closed wall', () => {

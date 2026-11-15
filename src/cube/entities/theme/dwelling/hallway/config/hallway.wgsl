@@ -1,13 +1,24 @@
 // `hallway.ts` adds this floor's light and lens, `lamps()` among them.
 
-import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, Surf, toSides, toNearestSide, alongWall, Material, polished, embossed, closedAt};
+import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, DOORWAY_AT, DOORWAY_TO, Surf, toSides, toNearestSide, alongWall, Material, polished, embossed, closedAt};
 import package::cube::shared::shader::hash::{mix32, hashOf, unitOf, fbm};
 import package::cube::entities::theme::kit::lib::finish::{band, plaster, damp};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::dwelling::household::lib::household::{sideWord, wallWord, boxAway, within, fromLamp, burning, herringbone, figure};
 
-/// Metres between one door's middle and the next.
-const DOOR_PITCH = 1.25;
+/// Where a wall's painted doors stand, metres along it: the last centred
+/// where a doorway may be cut, so a real door takes its place.
+const DOORS = 4.0;
+const LAST_DOOR = (DOORWAY_AT + DOORWAY_TO) * 0.5;
+const FIRST_DOOR = ROOM.x - LAST_DOOR;
+const DOOR_PITCH = (LAST_DOOR - FIRST_DOOR) / (DOORS - 1.0);
+
+/// The painted door nearest `along` metres along its wall: its slot, and
+/// metres from its middle to the point.
+fn nearestDoor(along: f32) -> vec2f {
+  let slot = clamp(round((along - FIRST_DOOR) / DOOR_PITCH), 0.0, DOORS - 1.0);
+  return vec2f(slot, along - FIRST_DOOR - slot * DOOR_PITCH);
+}
 
 /// What comes under door `slot` of the wall with word `wall`: nothing, a
 /// lamp left on, or a television.
@@ -26,8 +37,9 @@ fn underDoor(wall: u32, slot: f32, time: f32) -> vec3f {
 
 fn doored(s: Surf) -> Material {
   let along = alongWall(s);
-  let slot = floor(along / DOOR_PITCH);
-  let x = along - (slot + 0.5) * DOOR_PITCH;
+  let nearest = nearestDoor(along);
+  let slot = nearest.x;
+  let x = nearest.y;
   let y = s.p.y;
   let wall = wallWord(s);
   let word = hashOf(wall, u32(slot));
@@ -98,12 +110,11 @@ fn spilled(s: Surf) -> vec3f {
     if (!closedAt(s, side) || toSide[side] > 1.2) {
       continue;
     }
-    let along = select(s.p.x, s.p.z, (side & 1u) == 0u);
-    let slot = floor(along / DOOR_PITCH);
-    let x = abs(along - (slot + 0.5) * DOOR_PITCH);
+    let door = nearestDoor(select(s.p.x, s.p.z, (side & 1u) == 0u));
     let away = toSide[side];
-    let fan = within(x - 0.34 - 0.25 * away, 0.08 + 0.3 * away);
-    sum += underDoor(sideWord(s, side), slot, s.time) * fan * exp(-away * 5.0);
+    let fan = within(abs(door.y) - 0.34 - 0.25 * away, 0.08 + 0.3 * away);
+    sum +=
+      underDoor(sideWord(s, side), door.x, s.time) * fan * exp(-away * 5.0);
   }
   return sum;
 }

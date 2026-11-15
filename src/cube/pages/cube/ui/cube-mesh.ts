@@ -1,6 +1,8 @@
 import { themeOf } from '@/cube/entities/theme';
 import {
+  type Ajar,
   boardFacets,
+  doorLeaf,
   faces,
   type Facet,
   type Holdings,
@@ -8,10 +10,11 @@ import {
   holesOf,
   inPlace,
   type InRoomOf,
+  isSameWall,
   type Landing,
   landingsSeen,
   maze,
-  mazeWalls,
+  mazeDoored,
   placed,
   planted,
   type Pose,
@@ -30,6 +33,7 @@ import {
   slabRooms,
   traits,
   withBelow,
+  withOpen,
 } from '@/cube/entities/world';
 import { furnish } from '@/cube/features/decor';
 
@@ -52,12 +56,14 @@ export type SignOf = (room: Room) => Sign | null;
 
 /**
  * One room's view: its faces, the pill taken left off its shelf, its boards,
- * `stood`, a frame's moving quads where the view has their rooms, and the
+ * `stood`, a frame's moving quads where the view has their rooms, `leaf`, the
+ * leaf of the door it was built open as a frame's `door` swings it, and the
  * settings of the rooms whose happenings it shows.
  */
 export type Mesh = {
   faces: (taken: InRoomOf | null) => Scenery;
   stood: (moving: readonly Quad[]) => Scenery;
+  leaf: (door: Ajar | null) => Quad[];
   boards: readonly Boards[];
   signOf: SignOf;
   settings: readonly Setting[];
@@ -74,7 +80,7 @@ export type Selling = {
 };
 
 const rolled = maze(planted.seed);
-const walls = mazeWalls(rolled);
+const walls = mazeDoored(rolled);
 export const rolledTraits = traits(planted.seed);
 
 const pillarOf = (n: number): number => themeOf(n).pillar;
@@ -140,7 +146,8 @@ const posterBoards = (
   }));
 
 /**
- * The mesh for an eye at `pose`. Its floor's holes are resolved first, since
+ * The mesh for an eye at `pose`, seeing through the door `opened` as its
+ * opener alone does. Its floor's holes are resolved first, since
  * they decide which rooms of the floor below it sees, and only then those
  * rooms' own; which rooms sell is read off the same answers. What it awaits
  * is resolved once per room, so a pill taken re-packs the faces without
@@ -150,8 +157,9 @@ export async function build(
   pose: Pose,
   copy: SignCopy,
   bought: Holdings,
+  opened: Ajar | null,
 ): Promise<Mesh> {
-  const seen = sight(pose, FAR, walls);
+  const seen = sight(pose, FAR, withOpen(walls, opened));
   const holeAbove = await holesOf(planted, slabRooms(seen));
   const full = withBelow(seen, holeAbove);
   const holeBelow = await holesOf(planted, full.below);
@@ -181,7 +189,7 @@ export async function build(
     faces: (taken) =>
       pack(
         [
-          ...faces(rolled, pose, full, holeOf, taken, owns, pillarOf),
+          ...faces(rolled, pose, full, holeOf, taken, owns, pillarOf, opened),
           ...posts,
           ...things,
         ],
@@ -201,6 +209,16 @@ export async function build(
       ...signBoards(pose, signed, copy, lookOf),
       ...posterBoards(pose, landingsSeen(walls, full, holeOf), lookOf),
     ],
+    // A frame whose door is another, or none, sees this one's leaf shut.
+    leaf: (door) =>
+      opened === null
+        ? []
+        : doorLeaf(
+            opened,
+            door !== null && isSameWall(door, opened)
+              ? door
+              : { ...opened, angle: 0 },
+          ),
     signOf: (room) => onFloor.get(roomKey(room)) ?? null,
     settings,
   };

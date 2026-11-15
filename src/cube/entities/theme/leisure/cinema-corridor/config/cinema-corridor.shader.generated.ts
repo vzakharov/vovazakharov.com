@@ -28,6 +28,10 @@ fn ringed(s: Surf) -> Material {
   return embossed(s, matte(woven), pile + 0.6 * max(rings, lozenge), 0.002);
 }
 
+/// Where the wall lights hang: metres along from either end of a wall, far
+/// enough in that the one beside a doorway clears its frame, and metres up.
+const SCONCE = vec2f(ROOM.x - DOORWAY_AT + 0.3, 1.7);
+
 /// The wash a wall light at \`at\` throws up and down the wall, 0 to 1.
 fn sconceWash(at: vec2f) -> f32 {
   let spread = 0.06 + 0.3 * abs(at.y);
@@ -50,7 +54,7 @@ fn draped(s: Surf) -> Material {
   let strip = band(h, 0.045, 0.014);
   let warm = vec3f(1.0, 0.55, 0.2);
   let run = alongWall(s);
-  let near = vec2f(min(abs(run - 0.75), abs(run - 4.25)), h - 1.7);
+  let near = vec2f(abs(min(run, ROOM.x - run) - SCONCE.x), h - SCONCE.y);
   let shade = inside(roundBox(near, vec2f(0.06, 0.09), 0.02));
   var albedo = mix(mix(velvet, walnut, dado), brass, max(rail, shade));
   let wash = sconceWash(near) * 3.0 + exp(-max(h - 0.045, 0.0) * 9.0) * 1.2;

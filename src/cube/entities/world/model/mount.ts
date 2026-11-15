@@ -3,12 +3,12 @@ import type { Sized } from '@/kernel/shared/typings';
 import { WALL_HALF } from '@/cube/shared/lib/room-shape';
 import { scaled as times, type Vec3 } from '@/cube/shared/lib/vec';
 
+import { type Doored, doorSides } from './doorway';
 import type { Placed } from './frame';
 import type { InRoom, WallMounted } from './pose';
 import { box, type Facet, facet, type Quad } from './quad';
 import type { Room } from './room';
 import { opens, type Step, STEPS } from './rooms';
-import type { Walls } from './walls';
 
 /**
  * Where a board hangs: on a wall, or, `onPost`, on a post standing at `at`,
@@ -22,8 +22,17 @@ export type SignMount = WallMounted & { onPost: boolean };
  */
 export type BoardShape = Sized & { hungAt: number };
 
-/** One side of a room: a wall, an opening onto a bought room, or open. */
-export type Side = { step: Step; is: 'wall' | 'bought' | 'open' };
+/** One side of a room: a wall, a wall with a door, an opening onto a bought room, or open. */
+export type Side = { step: Step; is: 'wall' | 'door' | 'bought' | 'open' };
+
+/** `room`'s sides in the order of `STEPS`, each a wall, a door or open. */
+export function sidesOf(walls: Doored, room: Room): Side[] {
+  const doors = doorSides(walls, room);
+  return STEPS.map((step, side) => {
+    if (opens(walls, room, step)) return { step, is: 'open' };
+    return { step, is: doors[side] === true ? 'door' : 'wall' };
+  });
+}
 
 /**
  * How far a post stands in from the doorway it faces away from, in room sides:
@@ -48,32 +57,29 @@ function mountedOn([dx, dy]: Step, onPost: boolean): SignMount {
 }
 
 /**
- * Where a room's board hangs, facing in from across `door`: the first wall
- * clockwise from the side opposite it, or with no `door` from the east; with
- * no wall at all, on a post in from that first side.
+ * Where a room's board hangs, facing in from across `opening`: the first
+ * plain wall clockwise from the side opposite it, or with no `opening` from
+ * the east; with none, the first wall holding a door, whose doorway is clear
+ * of a board's middle; with no wall at all, on a post in from that first side.
  */
 export function farSide(
   sides: readonly Side[],
-  door: Side | undefined,
+  opening: Side | undefined,
 ): SignMount {
   // STEPS run clockwise, so two on from a step is the one across from it.
-  const start = door === undefined ? 0 : (sides.indexOf(door) + 2) % 4;
+  const start = opening === undefined ? 0 : (sides.indexOf(opening) + 2) % 4;
   const turn = [...sides.slice(start), ...sides.slice(0, start)];
-  const wall = turn.find((side) => side.is === 'wall');
+  const wall =
+    turn.find((side) => side.is === 'wall') ??
+    turn.find((side) => side.is === 'door');
   if (wall !== undefined) return mountedOn(wall.step, false);
   const [across = { step: STEPS[0] }] = turn;
   return mountedOn(across.step, true);
 }
 
 /** Where a board of `room` hangs when no opening of it sets the side. */
-export const wallMount = (walls: Walls, room: Room): SignMount =>
-  farSide(
-    STEPS.map((step) => ({
-      step,
-      is: opens(walls, room, step) ? 'open' : 'wall',
-    })),
-    undefined,
-  );
+export const wallMount = (walls: Doored, room: Room): SignMount =>
+  farSide(sidesOf(walls, room), undefined);
 
 /**
  * How far a board stands off its wall's face or its post, in room sides:

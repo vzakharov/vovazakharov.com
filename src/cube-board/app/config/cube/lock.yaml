@@ -41,6 +41,12 @@ items:
     box: [698, -640, 244, blue]
     icon: 👁️
     text: 'Free panning or first person changes nothing for the lock: what you see is a function of world coordinates. Only a zoomed-out view could leak the door, and none is drawn'
+  - id: lock-edge
+    type: sticky
+    updated: [2026-11-14T10:55:00.000Z, agent:cube]
+    box: [28, -390, 244, purple]
+    icon: 🎰
+    text: "A casus: our holes on floors 2 to 8 all hug the floor's edge, ~1 in a few thousand for a fair draw. No bug: plant.ts draws from crypto.getRandomValues, and from floor 10 on they sit deep inside. Kept"
   - id: l-lock-never
     type: line
     updated: [2026-11-11T04:30:00.000Z, agent:cube]

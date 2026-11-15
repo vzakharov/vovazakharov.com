@@ -19,7 +19,6 @@ export const ICE_RINK: FloorTheme = {
   decor: [
     { thing: 'bench', perRoom: 0.8 },
     { thing: 'traffic-cone', perRoom: 0.6 },
-    { thing: 'door', perRoom: 0.4 },
     { thing: 'wall-clock', perRoom: 0.2 },
     { thing: 'bin', perRoom: 0.2 },
     { thing: 'wet-floor-sign', perRoom: 0.2 },

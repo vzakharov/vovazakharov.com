@@ -40,13 +40,18 @@ fn drawn(uv: vec2f, away: f32, width: f32) -> f32 {
     ));
 }
 
+/// How many pictures a wall carries, and the metres from one's middle to the
+/// next: all of them short of where a doorway may be cut.
+const PICTURES = 3.0;
+const PICTURE_PITCH = DOORWAY_AT / PICTURES;
+
 fn houseWall(s: Surf) -> Material {
   let y = s.p.y;
   let at = vec2f(alongWall(s), y);
-  let slot = floor(at.x / 1.66);
-  let x = at.x - (slot + 0.5) * 1.66;
+  let slot = floor(at.x / PICTURE_PITCH);
+  let x = at.x - (slot + 0.5) * PICTURE_PITCH;
   let roll = hashOf(wallWord(s), u32(slot) + 0x142u);
-  let what = unitOf(roll);
+  let what = select(1.0, unitOf(roll), slot < PICTURES);
   let lean = 0.6 + 0.5 * unitOf(mix32(s.seed));
   var crayon = wax(s.uv, vec3f(0.6, 0.42, 0.06), lean, 0x143u);
   var ink = 0.0;

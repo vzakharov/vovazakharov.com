@@ -104,7 +104,8 @@ fn levelWall(s: Surf) -> Material {
   let stripe = smoothstep(1.3, 1.304, h) * (1.0 - smoothstep(1.8, 1.804, h));
   let blue = vec3f(0.035, 0.11, 0.36) * (0.8 + 0.35 * pour);
   let flaked = smoothstep(0.35, 0.5, fbm(s.uv * 6.0, 0xa3u, 3) + 0.2 * pores);
-  let figure = stencilDigit(vec2f(along - 0.55, h - 1.36) / 0.19, 5u) * flaked;
+  let figure =
+    stencilDigit(vec2f(markAlong(s, 0.55, 0.19), h - 1.36) / 0.19, 5u) * flaked;
   let chevrons = (1.0 - smoothstep(0.34, 0.344, h)) * flaked;
   let warning =
     mix(vec3f(0.02), vec3f(0.55, 0.38, 0.03), hazard(vec2f(along, h), 0.36));

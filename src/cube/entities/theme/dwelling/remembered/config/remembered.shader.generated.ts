@@ -63,12 +63,15 @@ fn unsure(s: Surf) -> Material {
     );
   paper = plaster(s, paper);
 
-  let middle =
-    vec2f(1.0 + 3.0 * unitOf(wall), 1.45 + 0.3 * unitOf(mix32(wall)));
   let half =
     vec2f(
       0.14 + 0.18 * unitOf(mix32(wall ^ 0x165u)),
       0.18 + 0.16 * unitOf(mix32(wall ^ 0x166u)),
+    );
+  let middle =
+    vec2f(
+      shortOfDoorway(1.0, half.x, unitOf(wall)),
+      1.45 + 0.3 * unitOf(mix32(wall)),
     );
   let p = vec2f(along, y) - middle;
   let frame = boxAway(p, half);
@@ -94,13 +97,13 @@ fn unsure(s: Surf) -> Material {
   paper = mix(paper, vec3f(0.1, 0.06, 0.03), within(frame, 0.004) * hung);
   paper = mix(paper, photo, glass * hung);
 
-  let at = vec2f(0.8 + 3.4 * unitOf(mix32(wall ^ 0x168u)), 0.0);
   let size =
     vec2f(
       0.25 + 0.4 * unitOf(mix32(wall ^ 0x169u)),
       1.1 + 1.1 * unitOf(mix32(wall ^ 0x16au)),
     );
-  let q = vec2f(along - at.x, y);
+  let q =
+    vec2f(along - shortOfDoorway(0.8, size.x, unitOf(mix32(wall ^ 0x168u))), y);
   let leaf = boxAway(q, size);
   let doorway = within(leaf, 0.004) * step(0.35, unitOf(mix32(wall ^ 0x16bu)));
   let knobAt =

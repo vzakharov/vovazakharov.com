@@ -1,10 +1,11 @@
 import { asError } from '@/kernel/shared/lib/error-class';
 import type { WithOnError } from '@/kernel/shared/typings';
 
-import { type Clock, clockAt } from '@/cube/shared/lib/clock';
+import { clockAt } from '@/cube/shared/lib/clock';
 import { type Laddered, toCube } from '@/cube/entities/island';
 import { themeOf } from '@/cube/entities/theme';
 import {
+  type Ajar,
   descend,
   eyeInFrame,
   type InRoomOf,
@@ -15,7 +16,6 @@ import {
   roomKey,
   type Whereabouts,
 } from '@/cube/entities/world';
-import { happening, type RoomSound } from '@/cube/features/happenings';
 
 import {
   gazeInCube,
@@ -27,9 +27,10 @@ import {
 import type { Scenery } from '../lib/mesh';
 import { OUTSIDE_LENS, type OutsideLens } from '../lib/outside-lens';
 import { between } from '../lib/palette';
-import type { ScenePlay } from '../lib/play';
+import type { HeldOpen, ScenePlay } from '../lib/play';
 import { shaderOf } from '../lib/shader';
 import { build, type Mesh, type Selling, type SignOf } from './cube-mesh';
+import { goingOn, type Heard } from './going-on';
 import { heldTiming } from './pass-timer';
 import { type Hinting, keyedQuality } from './quality';
 import { createRenderer, type Drawing, type Renderer } from './renderer';
@@ -41,11 +42,13 @@ import { createRenderer, type Drawing, type Renderer } from './renderer';
  * its return, and sees through `lens`, `OUTSIDE_LENS` where none is given.
  * An eye on floor 1 given a `lens` sees through it too, in its floor's
  * place: the eye getting used to the doorway's light. The ladder stands at
- * the doorway until `ladderGone` is true.
+ * the doorway until `ladderGone` is true. `door` is the one the body holds
+ * open, which the eye sees through until it has swung shut.
  */
 type Frame = Posed &
   Partial<OutsideEye> &
-  Laddered & {
+  Laddered &
+  HeldOpen & {
     taken: InRoomOf | null;
     moving: readonly Quad[];
   };
@@ -76,9 +79,6 @@ type FrameHook = (pose: Pose, seconds: number, signOf: SignOf) => Frame;
 /** An eye outside the cube and the lens it sees through. */
 type OutsideEye = { outside: Outside; lens: OutsideLens };
 
-/** A sound a room in view is making, and the room, in whose frame it is. */
-export type Heard = RoomSound & InRoomOf;
-
 /** `onError` hears a device lost or a build that threw. */
 export type CubeOptions = WithOnError &
   Selling & {
@@ -106,25 +106,6 @@ const noSign: SignOf = () => null;
 
 /** What shows where no face is drawn, for an eye `depth` floors down. */
 const airAt = (depth: number) => between((n) => themeOf(n).air, depth);
-
-/**
- * What goes on by itself in `mesh`'s rooms at `clock`: the quads of that
- * instant, each in its room's frame, and the sounds.
- */
-function goingOn(
-  { settings }: Mesh,
-  clock: Clock,
-): { quads: Quad[]; heard: Heard[] } {
-  const quads: Quad[] = [];
-  const heard: Heard[] = [];
-  for (const setting of settings) {
-    const { room } = setting;
-    const now = happening(setting, room.n, clock);
-    quads.push(...now.quads);
-    for (const sound of now.sounds) heard.push({ ...sound, room });
-  }
-  return { quads, heard };
-}
 
 /** The floors any of `sceneries` has a face on. */
 const floorsIn = (sceneries: readonly Scenery[]): number[] => [
@@ -159,6 +140,9 @@ export function mountCube(
   let pose = start;
   let taken: InRoomOf | null = null;
   let moving: readonly Quad[] = [];
+  let door: Ajar | null = null;
+  /** The door the play hook's last call holds open. */
+  let stagedDoor: Ajar | null = null;
   /** What the play hook's last call put in the rooms. */
   let staged: readonly Quad[] = [];
   /** The pill the play hook's last call took off its shelf. */
@@ -181,9 +165,9 @@ export function mountCube(
   const timing = heldTiming(() => renderer);
   /** Counts purchases, so a mesh built before one is rebuilt. */
   let generation = 0;
-  /** What a mesh is built for: the eye's room, as of `generation`. */
+  /** What a mesh is built for: the eye's room and the door open, as of `generation`. */
   const meshKey = (target: Pose): string =>
-    `${roomKey(target)}#${String(generation)}`;
+    `${roomKey(target)}#${String(generation)}#${door === null ? '' : `${roomKey(door)}${String(door.isEast)}`}`;
   /** The mesh drawn, and `lenses`, the floors whose shaders it prepared. */
   let built: {
     key: string;
@@ -205,8 +189,12 @@ export function mountCube(
 
   const takenKey = (): string => (taken === null ? '' : roomKey(taken.room));
 
-  const upload = async (target: Pose, key: string): Promise<void> => {
-    const mesh = await build(target, copy, bought());
+  const upload = async (
+    target: Pose,
+    key: string,
+    opened: Ajar | null,
+  ): Promise<void> => {
+    const mesh = await build(target, copy, bought(), opened);
     const off = takenKey();
     const scenery = mesh.faces(taken);
     const floors = [
@@ -228,7 +216,7 @@ export function mountCube(
   const rebuild = (target: Pose): { done: Promise<void> } => {
     const key = meshKey(target);
     if (building?.key !== key) {
-      const done = upload(target, key);
+      const done = upload(target, key, door);
       done.catch(onError);
       building = { key, done };
     }
@@ -254,7 +242,8 @@ export function mountCube(
     const clock = clockAt(now());
     const { quads, heard } = goingOn(mesh, clock);
     onHeard(heard, outdoor?.outside ?? pose);
-    const shown = [...moving, ...staged, ...quads].filter(({ room }) =>
+    const leaf = mesh.leaf(door);
+    const shown = [...moving, ...leaf, ...staged, ...quads].filter(({ room }) =>
       lenses.has(room.n),
     );
     if (shown.length > 0 || movingDrawn) {
@@ -319,6 +308,7 @@ export function mountCube(
       built?.mesh.signOf ?? noSign,
     );
     ({ pose, taken, moving } = next);
+    door = next.door ?? stagedDoor;
     taken ??= stagedTaken;
     hookedState = { ladderGone };
     through = lens ?? null;
@@ -359,10 +349,17 @@ export function mountCube(
     ready: async () => firstFrame.promise,
     setPose: async (
       next,
-      { moving: among = [], lens = null, taken: off = null } = {},
+      {
+        moving: among = [],
+        lens = null,
+        taken: off = null,
+        door: held = null,
+      } = {},
     ) => {
       await firstFrame.promise;
       pose = next;
+      stagedDoor = held;
+      door = held;
       staged = among;
       stagedTaken = off;
       taken = off;

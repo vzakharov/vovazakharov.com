@@ -65,7 +65,7 @@ fn gilded(s: Surf) -> Material {
     max(
       stroke(roundBox(upper, vec2f(0.5, 0.42), 0.06), 0.03),
       stroke(roundBox(lower, vec2f(0.5, 0.3), 0.0), 0.025),
-    );
+    ) * uncut(s, 1.25);
   let sheen = fbm(vec2f(s.uv.x, h) * 3.0, 342u, 3);
   let lacquer =
     mix(

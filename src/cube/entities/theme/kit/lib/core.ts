@@ -1,3 +1,4 @@
+import { DOORWAY_CUT } from '@/cube/shared/cube-boundary';
 import { CEILING_HEIGHT, ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import { SURFACES } from '@/cube/shared/lib/surface';
 import { wgsl } from '@/cube/shared/shader';
@@ -20,6 +21,19 @@ ${KINDS}
 
 /// A room from its floor to its ceiling, in metres: x east, y up, z south.
 const ROOM = vec3f(${ROOM_METRES.toFixed(1)}, ${(ROOM_METRES * CEILING_HEIGHT).toFixed(3)}, ${ROOM_METRES.toFixed(1)});
+
+/// Metres from a wall's west or north end to where a doorway in it may be cut,
+/// and to where that cut ends. It is the same span on every wall, so what
+/// clears it on all of them clears every door.
+const DOORWAY_AT = ${(ROOM_METRES * DOORWAY_CUT.from).toFixed(4)};
+const DOORWAY_TO = ${(ROOM_METRES * DOORWAY_CUT.to).toFixed(4)};
+
+/// The middle of something \`half\` a width across, hung a \`share\` 0..1 of
+/// the way along its wall from \`first\` metres to the last spot clear of a
+/// doorway.
+fn shortOfDoorway(first: f32, half: f32, share: f32) -> f32 {
+  return mix(first, DOORWAY_AT - 0.1 - half, share);
+}
 
 /// The point being shaded, in its own room's terms.
 struct Surf {
@@ -113,6 +127,18 @@ fn repeated(uv: vec2f, size: vec2f) -> vec2f {
 /// \`x\` within its interval of a row of them \`size\` long, from the middle.
 fn spaced(x: f32, size: f32) -> f32 {
   return (fract(x / size) - 0.5) * size;
+}
+
+/// 0 where the point's cell, on a row of them \`size\` long along its wall's
+/// \`uv.x\`, overlaps the span a doorway may be cut in or runs past an end of
+/// the wall; 1 elsewhere. A row whose \`size\` divides the room's has the same
+/// cells counted from either end of the wall.
+fn uncut(s: Surf, size: f32) -> f32 {
+  let start = alongWall(s) - fract(s.uv.x / size) * size;
+  let end = start + size;
+  let doorway = start < DOORWAY_TO && end > DOORWAY_AT;
+  // A centimetre's slack keeps a cell ending at a corner from rounding past it.
+  return select(1.0, 0.0, doorway || start < -0.01 || end > ROOM.x + 0.01);
 }
 
 /// What a point mirroring its surroundings leaves for the frame to finish:

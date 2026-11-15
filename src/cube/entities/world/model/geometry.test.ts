@@ -60,6 +60,7 @@ const facesAt = (
     taken,
     owns,
     noPillars,
+    null,
   );
 
 /** The hole in the east-north quarter of floor 1's room, and nowhere else. */
@@ -147,6 +148,7 @@ describe('faces', () => {
       null,
       nobody,
       noPillars,
+      null,
     );
     const eastward = new Set(
       quads

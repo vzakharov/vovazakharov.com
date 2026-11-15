@@ -1,4 +1,4 @@
-import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, Surf, Material, matte, polished, embossed, repeated, spaced, Lens, litOf};
+import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, DOORWAY_AT, Surf, Material, matte, polished, embossed, repeated, spaced, uncut, Lens, litOf, closedAt};
 import package::cube::shared::shader::hash::{valueNoise, fbm};
 import package::cube::entities::theme::kit::lib::finish::{band, damp};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
@@ -17,13 +17,43 @@ fn lamps() -> Lamps {
     );
 }
 
-/// Where the wall lights hang: metres up, and along from either end of a wall.
-const SCONCE = vec2f(1.25, 1.66);
+/// Where the wall lights hang: metres along from either end of a wall, far
+/// enough in that the one beside a doorway clears its frame, and metres up.
+const SCONCE = vec2f(ROOM.x - DOORWAY_AT + 0.35, 1.66);
 
 /// From the nearer wall light to the point on its wall: x along, y up.
 fn fromSconce(s: Surf) -> vec2f {
   let along = wallAlong(s);
   return vec2f(min(along, ROOM.x - along) - SCONCE.x, s.p.y - SCONCE.y);
+}
+
+/// The wall lights' glow on what stands before them, a door and its frame
+/// among it: the two lights of each closed wall, each a lamp a shade's depth
+/// off its wall, falling off with distance and with the slant it is met at.
+fn sconceGlow(s: Surf, normal: vec3f) -> f32 {
+  let ends = vec2f(SCONCE.x, ROOM.x - SCONCE.x);
+  let off = 0.15;
+  var glow = 0.0;
+  for (var side = 0u; side < 4u; side++) {
+    if (!closedAt(s, side)) {
+      continue;
+    }
+    for (var end = 0u; end < 2u; end++) {
+      let a = ends[end];
+      var lamp = vec3f(ROOM.x - off, SCONCE.y, a);
+      if (side == 1u) {
+        lamp = vec3f(a, SCONCE.y, ROOM.z - off);
+      } else if (side == 2u) {
+        lamp = vec3f(off, SCONCE.y, a);
+      } else if (side == 3u) {
+        lamp = vec3f(a, SCONCE.y, off);
+      }
+      let to = lamp - s.p;
+      let far = length(to);
+      glow += max(dot(normal, to / far), 0.0) / (1.0 + 5.0 * far * far);
+    }
+  }
+  return glow;
 }
 
 fn woven(s: Surf) -> Material {
@@ -130,12 +160,16 @@ fn papered(s: Surf) -> Material {
       * (1.0 - 0.25 * drop)
       * (1.0 - 0.4 * damp(s));
 
-  // Mahogany below the rail: a raised panel to every five-eighths of a metre.
+  // Mahogany below the rail: a raised panel to every five-eighths of a metre,
+  // and plain board where a doorway may cut one.
   let x = fract(along / 0.625) * 0.625;
   let edge = min(min(x, 0.625 - x) - 0.075, min(h - 0.2, 0.86 - h));
+  let panelled = uncut(s, 0.625);
   let field =
-    smoothstep(0.0, 0.03, edge) * (1.0 - 0.35 * smoothstep(0.03, 0.06, edge));
-  let groove = 1.0 - smoothstep(0.0, 0.006, abs(edge));
+    panelled
+      * smoothstep(0.0, 0.03, edge)
+      * (1.0 - 0.35 * smoothstep(0.03, 0.06, edge));
+  let groove = panelled * (1.0 - smoothstep(0.0, 0.006, abs(edge)));
   let grain =
     fbm(vec2f(along * 50.0 + floor(along / 0.625) * 7.0, h * 1.3), 144u, 3);
   let wood =
@@ -259,6 +293,8 @@ fn themeLight(s: Surf, m: Material) -> vec3f {
     let wash =
       exp(-off.x * off.x / (spread * spread)) / (1.0 + 7.0 * off.y * off.y);
     colour += m.albedo * vec3f(1.3, 0.78, 0.3) * (wash * cornerShade(s));
+  } else {
+    colour += m.albedo * vec3f(1.3, 0.78, 0.3) * sconceGlow(s, s.normal);
   }
   return haze(colour, s, AIR, 42.0);
 }

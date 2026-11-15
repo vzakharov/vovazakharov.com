@@ -17,7 +17,6 @@ export const CINEMA_CORRIDOR: FloorTheme = {
   dark: 0.08,
   sound: { footing: 'carpet', hum: 50, air: 0.1, echo: 0.35 },
   decor: [
-    { thing: 'door', perRoom: 1.2 },
     { thing: 'curtain', perRoom: 0.8 },
     { thing: 'exit-sign', perRoom: 0.5 },
     { thing: 'armchair', perRoom: 0.4 },

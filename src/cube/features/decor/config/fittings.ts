@@ -121,44 +121,6 @@ export const FITTINGS = {
       ].flat(),
   },
 
-  door: {
-    build: ({ block, panel }, vary) => {
-      const leaf = oneOf(
-        [0x6a_7a_6a, 0x7a_5a_3a, 0xc8_c0_a8, 0x4a_5a_7a, 0x7a_2a_2a],
-        vary(0),
-      );
-      const hand = vary(1) < 0.5 ? 1 : -1;
-      return [
-        block([-0.45, 0, 0], [0.07, 2.07, 0.05], 'wood', WHITE),
-        block([0.45, 0, 0], [0.07, 2.07, 0.05], 'wood', WHITE),
-        block([0, 2.03, 0], [0.97, 0.07, 0.05], 'wood', WHITE),
-        block([0, 0, 0], [0.83, 2.03, 0.035], 'wood', leaf),
-        block([hand * 0.3, 1, 0.035], [0.13, 0.025, 0.05], 'metal', CHROME),
-        panel(
-          [hand * 0.3 - 0.03, 0.93, 0.036],
-          [0.06, 0, 0],
-          [0, 0.18, 0],
-          'metal',
-          CHROME,
-        ),
-        panel(
-          [-0.41, 0, 0.036],
-          [0.82, 0, 0],
-          [0, 0.2, 0],
-          'metal',
-          0x8a_8a_84,
-        ),
-        panel(
-          [-0.1, 1.55, 0.036],
-          [0.2, 0, 0],
-          [0, 0.07, 0],
-          'paper',
-          0xe8_e6_dc,
-        ),
-      ].flat();
-    },
-  },
-
   radiator: {
     build: ({ block }) =>
       [

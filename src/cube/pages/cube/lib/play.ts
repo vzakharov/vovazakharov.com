@@ -1,7 +1,13 @@
 import type { Readying } from '@/kernel/shared/typings';
 
 import type { Laddered } from '@/cube/entities/island';
-import type { InRoomOf, Outside, Pose, Quad } from '@/cube/entities/world';
+import type {
+  Ajar,
+  InRoomOf,
+  Outside,
+  Pose,
+  Quad,
+} from '@/cube/entities/world';
 
 import type { OutsideLens } from './outside-lens';
 
@@ -26,13 +32,17 @@ type Among = {
 /**
  * What a script sets beside a pose: an eye on floor 1 given a `lens` sees
  * through it in its floor's place, which is how a frame is shot as an eye
- * still used to daylight sees the room; and the room whose pill is `taken`
- * off its shelf.
+ * still used to daylight sees the room; the room whose pill is `taken`
+ * off its shelf; and the `door` the body holds open, its leaf as it stands.
  */
-export type InsideSet = Among & {
-  lens?: OutsideLens;
-  taken?: InRoomOf | null;
-};
+export type InsideSet = Among &
+  HeldOpen & {
+    lens?: OutsideLens;
+    taken?: InRoomOf | null;
+  };
+
+/** The door the body holds open, its leaf as it stands, if any. */
+export type HeldOpen = { door?: Ajar | null };
 
 /**
  * What a script sets beside an outside eye, every quad of its `moving` in the

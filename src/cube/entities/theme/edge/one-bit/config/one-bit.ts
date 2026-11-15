@@ -18,7 +18,6 @@ export const ONE_BIT: FloorTheme = {
   dark: 0.25,
   sound: { footing: 'wood', hum: 0, air: 0.05, echo: 1.3 },
   decor: [
-    { thing: 'door', perRoom: 0.8 },
     { thing: 'window', perRoom: 0.4 },
     { thing: 'bookshelf', perRoom: 0.4 },
     { thing: 'armchair', perRoom: 0.3 },

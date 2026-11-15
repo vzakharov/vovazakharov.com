@@ -57,6 +57,9 @@ export type Aimed = { to: number };
 /** Whether a recording carries the explicit-content mark. */
 export type Rated = { explicit: boolean };
 
+/** A turn, in radians: a door's leaf off its wall, a mottle on its plane. */
+export type Angled = { angle: number };
+
 /** What a reproducible random draw starts from: the same seed, the same result. */
 export type Seeded = { seed: number };
 

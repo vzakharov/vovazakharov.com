@@ -1,3 +1,4 @@
+import type { Doored } from './doorway';
 import type { Placed } from './frame';
 import { walledRooms } from './geometry';
 import type { HoleOf } from './hole';
@@ -8,12 +9,12 @@ import {
   type BoardShape,
   farSide,
   type Side,
+  sidesOf,
   type SignMount,
 } from './mount';
 import type { Facet, Quad } from './quad';
 import { type InRoomOf, type Room, roomKey } from './room';
-import { opens, stepped, STEPS, type View } from './rooms';
-import type { Walls } from './walls';
+import { stepped, type View } from './rooms';
 
 /**
  * What a sign says: a room for sale, one for sale because it adjoins a room
@@ -51,14 +52,14 @@ export const priceOf = (n: number): number =>
  * drops a body into — or its holed room. A bought room's sign reads as its own
  * where it hung. Otherwise a room on floor 2 and below is for sale when every
  * side of it but at most one is a closed wall or opens onto a bought room, the
- * floor's boundary counting as wall, and it is neither end; it reads "buy
- * more" when it adjoins a bought room. With nothing bought those are the dead
- * ends off the path from landing to hole, and no room of that path can ever
- * sell: its two ends never do, so each room between keeps two openings on
- * sale. `isEnd` is asked only of a room the walls alone leave for sale.
+ * floor's boundary and a door counting as wall, and it is neither end; it reads "buy
+ * more" when it adjoins a bought room. With nothing bought those are dead
+ * ends, and no room of any path from landing to hole can ever sell: its two
+ * ends never do, so each room between keeps two openings on sale. `isEnd` is
+ * asked only of a room the walls alone leave for sale.
  */
 export function lotSign(
-  walls: Walls,
+  walls: Doored,
   bought: Holdings,
   room: Room,
   isEnd: (room: Room) => boolean,
@@ -66,15 +67,16 @@ export function lotSign(
   const own = bought.get(roomKey(room));
   if (own !== undefined) return { ...own, kind: 'yours' };
   if (room.n < 2) return null;
-  const sides: Side[] = STEPS.map((step) => {
-    if (!opens(walls, room, step)) return { step, is: 'wall' };
-    const beyond = roomKey(stepped(room, step));
-    return { step, is: bought.has(beyond) ? 'bought' : 'open' };
-  });
-  const doors = sides.filter((side) => side.is === 'open');
-  if (doors.length > 1 || isEnd(room)) return null;
+  const sides = sidesOf(walls, room).map(
+    (side): Side =>
+      side.is === 'open' && bought.has(roomKey(stepped(room, side.step)))
+        ? { ...side, is: 'bought' }
+        : side,
+  );
+  const openings = sides.filter((side) => side.is === 'open');
+  if (openings.length > 1 || isEnd(room)) return null;
   return {
-    ...farSide(sides, doors[0]),
+    ...farSide(sides, openings[0]),
     kind: sides.some((side) => side.is === 'bought') ? 'buy-more' : 'for-sale',
   };
 }
@@ -87,7 +89,7 @@ export const endsOf =
 
 /** The rooms with signs among those whose walls `view` draws. */
 export function signsSeen(
-  walls: Walls,
+  walls: Doored,
   bought: Holdings,
   view: View,
   holeOf: HoleOf,

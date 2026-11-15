@@ -9,31 +9,37 @@ export {
   refusedAt,
   roamingFree,
   steppingOut,
-} from './model/abroad';
-export { grippingHand } from './model/grip';
-export { handsOf } from './model/hands';
-export { plantedHoled, plantedHoledOf } from './model/holed';
-export { INTRO_STAGE } from './model/intro-stage';
-export { arrivedOn, play } from './model/play';
+} from './abroad';
 export {
+  canTake,
   type Cue,
+  EYE_HEIGHT,
   type Holed,
+  type Input,
+  isAsking,
   isStanding,
+  plantedHoled,
+  plantedHoledOf,
+  plantedWalls,
   type Player,
+  type Said,
   standingAt,
+  STILL,
+  swingingOf,
   takenOf,
-} from './model/player';
-export { canPress } from './model/press';
-export { outsideOf, shotOf } from './model/scenes';
-export { EYE_HEIGHT, type Input, type Said, STILL } from './model/step';
-export { canTake, isAsking } from './model/take';
+} from './body';
+export { grippingHand } from './hand';
+export { handsOf } from './hands';
+export { bindInput } from './input';
+export { type Aim, aimOf, arrivedOn, play } from './play';
 export {
+  INTRO_STAGE,
   isPastSill,
   onSill,
+  outsideOf,
   poseWithin,
+  type Shot,
+  shotOf,
   shotWithin,
   whereOf,
-} from './model/threshold';
-export type { Shot } from './model/track';
-export { plantedWalls } from './model/walls';
-export { bindInput } from './ui/input';
+} from './scene';
