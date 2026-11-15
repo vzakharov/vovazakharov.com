@@ -226,10 +226,11 @@ export function renderLines(
     const { d, mid } = handStroke(a, b, line);
     const { d: echo } = handStroke(a, b, line, 1);
     const dashed = line.dashed === true ? ' dashed' : '';
-    const hit = svg('g', { class: 'line', 'data-id': line.id });
+    const lineGroup = { class: 'line', 'data-id': line.id };
+    const hit = svg('g', lineGroup);
     hit.append(svg('path', { d, class: 'hit' }));
     hits.push(hit);
-    const group = svg('g', { class: 'line', 'data-id': line.id });
+    const group = svg('g', lineGroup);
     group.append(
       svg('path', {
         d: echo,
