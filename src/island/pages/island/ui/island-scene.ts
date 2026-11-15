@@ -231,7 +231,12 @@ export function mountIslandScene(
     camera.up.set(...pose.up);
     camera.lookAt(...pose.forward);
     const heavens = heavensAt(openingOf(Number(world)), clock.hours);
-    lighting.shine(heavens, unit(pose.position), eye.height);
+    lighting.shine(
+      heavens,
+      unit(pose.position),
+      eye.height,
+      play ? stepped : Date.now() / 1000,
+    );
     lighting.stirSea({
       ...heavens,
       eye: pose.position,
