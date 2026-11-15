@@ -96,11 +96,10 @@ type V = Node<'vec3'>;
 type Lamp = { readonly toward: V; readonly light: V };
 
 /**
- * The island's sky and its air in TSL, one model from two metres to orbit:
- * two layers of air thinning with height round a sphere, lit by the sun and
- * the moon, scattered once. A ray's sky and a surface's haze are the same
- * sum over different lengths of it, so a far shore fades into the horizon
- * behind it, and from orbit the same air is the planet's veil and its limb.
+ * The island's sky and its air, one model from two metres to orbit: two
+ * layers of air round a sphere, lit by the sun and the moon, scattered once.
+ * A ray's sky and a surface's haze are the same sum over different lengths,
+ * so a far shore fades into the horizon behind it.
  */
 export function skyNodes(): SkyNodes {
   const up = uniform(new Vector3(0, 1, 0));
@@ -118,6 +117,7 @@ export function skyNodes(): SkyNodes {
   const gasPerMetre = vec3(...GAS_PER_METRE);
   const lightPerMetre = vec3(...LIGHT_PER_METRE);
   const skylight = vec3(...SKYLIGHT);
+  const space = vec3(...SPACE_COLOUR);
 
   /** The lowest height a ray from `h` reaches leaving `cosine` off the zenith, downward. */
   const lowestAlong = (cosine: F, h: F): F =>
@@ -219,9 +219,7 @@ export function skyNodes(): SkyNodes {
 
   const radiance = (direction: V): V => {
     const { through, glow } = dome(direction);
-    return vec3(...SPACE_COLOUR)
-      .mul(through)
-      .add(glow);
+    return space.mul(through).add(glow);
   };
 
   const aerial = (colour: V, direction: V, metres: F): V => {
@@ -260,10 +258,7 @@ export function skyNodes(): SkyNodes {
     .mul(SUN_DISC)
     .mul(disc(sun))
     .add(vec3(...MOON_DISC).mul(disc(moon)));
-  const background = vec3(...SPACE_COLOUR)
-    .add(discs)
-    .mul(sky.through)
-    .add(sky.glow);
+  const background = space.add(discs).mul(sky.through).add(sky.glow);
 
   return {
     radiance,

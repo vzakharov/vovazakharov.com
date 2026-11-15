@@ -1,6 +1,6 @@
 /**
- * What `play-island` shoots on each world: ours at five heights and along its
- * inlet, Earth (#0) at orbit from six sides and at 1,000 km over three coasts,
+ * What `play-island` shoots on each world: ours at five heights, along its
+ * inlet and up at its sky, Earth (#0) at orbit from six sides and at 1,000 km over three coasts,
  * and every other world at orbit from two sides. Places are in degrees, east
  * positive, as the play hook's `moveTo` takes them.
  */
