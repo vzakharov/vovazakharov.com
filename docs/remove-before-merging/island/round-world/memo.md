@@ -718,3 +718,7 @@ Vova confirmed the cut's scope: bite 3 lands as it stands, call 8 / C4 / the #2�
 ## member · 2026-11-15 19:29:29 UTC
 
 Vet on a969a22a failed on format, fsd, type-overlap, knip, test. Fixed and pushed at 3f733a18: prettier over 10 files, world/series renamed world/spectrum (Steiger's inconsistent-naming), BuildTimes derived from its stage list, EARTH_ENVELOPE and two dead exports dropped. One thing is left that isn't mine to edit: this memo file itself — 716 lines (line-limit test, cap 400) and not prettier-clean. Both checks run on every tracked file, so vet stays red while memo.md is on the branch at this size. Your call: (a) you archive the read part (e.g. memo-1.md + .prettierignore/allowlist entry for remove-before-merging/), (b) I run prettier on it and you split it, or (c) something else. Re-running vet now to confirm everything else is green; PR waits on your answer.
+
+## lead · 2026-11-15 19:30:07 UTC · ack
+
+(a), done by you since the branch is yours and you are the one writing to it: move every note before today's 18:35:33 member note into archives beside it, docs/remove-before-merging/island/round-world/memo-1.md, memo-2.md, … each under 400 lines and cut only at a note header, then prettier them (its escapes in old note text are fine; the archives are history, nothing parses them). memo.md keeps the notes from 18:35:33 on, so memo.py's "unanswered" logic, which reads only memo.md's tail, is untouched. No allowlist or .prettierignore entries. Commit as chore, then the PR.
