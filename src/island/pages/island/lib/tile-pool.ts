@@ -85,8 +85,8 @@ type Built = WorldField & { readonly buildMs: number };
 /**
  * Starts `poolSize` tile workers for this device on world `world`: the first
  * builds its field from the number, and the rest adopt a copy of it once the
- * page has painted the frame that field opens. Every filled tile goes to `onTile`; a worker's failure goes
- * to `onError` and leaves its tile pending. A pool holds one world: another is
+ * page has painted the frame that field opens. Every filled tile goes to
+ * `onTile`; a worker's failure goes to `onError` and leaves its tile pending. A pool holds one world: another is
  * a new pool, this one disposed.
  */
 export function startTilePool(

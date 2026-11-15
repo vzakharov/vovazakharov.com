@@ -1,5 +1,6 @@
 import type { CanDispose } from '@/kernel/shared/typings';
 
+import { clamp } from '../model/clamp';
 import type { Intent, Vec2 } from '../model/eye';
 import { groundPerScreen } from '../model/pose';
 import { shortest } from '../model/turns';
@@ -69,7 +70,7 @@ const onContextMenu = (event: Event) => {
   event.preventDefault();
 };
 
-const clampUnit = (value: number) => Math.min(1, Math.max(-1, value));
+const clampUnit = (value: number) => clamp(value, -1, 1);
 
 /**
  * Binds the eye's controls: the wheel, drags, a pinch and a twist on
