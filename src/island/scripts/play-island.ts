@@ -64,10 +64,18 @@ type Played = { readonly frames: number[]; readonly backend: string };
 async function play(tab: Tab, screen: Screen): Promise<Played> {
   const shootAt = async ([shot, ...rest]: readonly Shot[]): Promise<void> => {
     if (shot === undefined) return;
-    const { name, place, hours } = shot;
+    const { name, place, aim = [], hours } = shot;
     if (hours !== undefined)
       await tab.evaluate(`${call('setTime', hours)}, true`, z.boolean());
-    await settle(tab, place, place.slice(hook.length + 1));
+    const settleAt = async ([
+      at,
+      ...next
+    ]: readonly string[]): Promise<void> => {
+      if (at === undefined) return;
+      await settle(tab, at, at.slice(hook.length + 1));
+      return settleAt(next);
+    };
+    await settleAt([place, ...aim]);
     await shoot(
       tab,
       FRAMES_PER_SHOT,

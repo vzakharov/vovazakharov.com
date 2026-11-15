@@ -1,10 +1,4 @@
-import {
-  Color,
-  Group,
-  PerspectiveCamera,
-  Scene,
-  WebGPURenderer,
-} from 'three/webgpu';
+import { Group, PerspectiveCamera, Scene, WebGPURenderer } from 'three/webgpu';
 
 import type { CanDispose, WithOnError } from '@/kernel/shared/typings';
 
@@ -33,6 +27,7 @@ import {
   STILL,
   withHeading,
   withHeight,
+  withLook,
 } from '@/island/features/eye';
 
 import {
@@ -46,7 +41,6 @@ import { eyeOfPose, placeOfEye } from '../lib/eye-pose';
 import { type Pace, paced } from '../lib/pace';
 import type { Pose } from '../lib/place-hash';
 import { HOUR_SECONDS } from '../lib/ripple-table';
-import { skyColour } from '../lib/sky-colour';
 import { startTilePool, type TilePool } from '../lib/tile-pool';
 import type { Where } from '../lib/where-line';
 import { groundLighting } from './ground-lighting';
@@ -67,6 +61,8 @@ export type IslandScene = CanDispose & {
   readonly setTime: (hours: number) => void;
   /** Turns the eye to `heading`, resolving as `setHeight` does. */
   readonly turnTo: (heading: number) => Promise<void>;
+  /** Raises the view `look` radians above its height's pitch, resolving as `setHeight` does. */
+  readonly lookTo: (look: number) => Promise<void>;
   /** `'webgpu'` or `'webgl2'`, once ready. */
   readonly backend: () => string;
   /** Ms the worker took to build the current world's field; throws until it lands. */
@@ -136,11 +132,10 @@ export function mountIslandScene(
     logarithmicDepthBuffer: true,
   });
   const scene = new Scene();
-  const background = new Color(skyColour(MAX_HEIGHT, 1));
-  scene.background = background;
   const camera = new PerspectiveCamera(50, 1, NEAR, FAR);
 
   const lighting = groundLighting();
+  scene.backgroundNode = lighting.background;
   const { land, sea, standIn, ocean, lights } = lighting;
   const globe = oceanGlobe(ocean);
   const tiles = new Group();
@@ -236,12 +231,10 @@ export function mountIslandScene(
     camera.up.set(...pose.up);
     camera.lookAt(...pose.forward);
     const heavens = heavensAt(openingOf(Number(world)), clock.hours);
-    const day = lighting.shine(heavens, unit(pose.position));
-    background.setHex(skyColour(eye.height, day));
+    lighting.shine(heavens, unit(pose.position), eye.height);
     lighting.stirSea({
       ...heavens,
       eye: pose.position,
-      horizon: background,
       time: play ? stepped : (Date.now() / 1000) % HOUR_SECONDS,
     });
     renderer.render(scene, camera);
@@ -356,6 +349,7 @@ export function mountIslandScene(
       render();
     },
     turnTo: async (heading) => placed((from) => withHeading(from, heading)),
+    lookTo: async (look) => placed((from) => withLook(from, look)),
     backend: () => (webgpu() ? 'webgpu' : 'webgl2'),
     buildMs: () => {
       if (built?.of !== generation) throw new Error('field not built');

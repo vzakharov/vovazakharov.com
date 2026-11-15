@@ -129,24 +129,10 @@ fn seaFresnel(cosine: f32) -> f32 {
   return 0.02 + 0.98 * pow(1.0 - clamp(cosine, 0.0, 1.0), 5.0);
 }
 
-/**
- * The sky's light from \`toward\`, between \`horizon\`'s colour and a deeper
- * zenith, with the sun's glow about it. A stand-in for the sky's own model.
- */
-fn seaSky(toward: vec3f, up: vec3f, sun: vec3f, horizon: vec3f) -> vec3f {
-  let lift = clamp(dot(toward, up), 0.0, 1.0);
-  let zenith = horizon * vec3f(0.42, 0.62, 0.95);
-  let glow = pow(max(dot(toward, sun), 0.0), 12.0);
-  return mix(horizon, zenith, pow(lift, 0.5)) + vec3f(1.0, 0.82, 0.6) * (0.35 * glow);
-}
-
 /** What the sun lays on the water's body per unit of its height's sine, and the sky by day and by night. */
 const SEA_SUNLIGHT = vec3f(1.47, 1.42, 1.3);
 const SEA_DAY_SKYLIGHT = vec3f(0.22, 0.26, 0.3);
 const SEA_NIGHT_SKYLIGHT = vec3f(0.04, 0.05, 0.075);
-
-/** How far the sea's haze reaches before a thing is two thirds gone, metres. */
-const SEA_HAZE_REACH = 60000.0;
 
 /**
  * How much of a wave's throw the shore keeps at a point \`world\` from the
@@ -211,12 +197,13 @@ fn seaDampTint(world: vec3f, bed: f32, swell: vec2f) -> vec3f {
  * The sea's colour toward an eye at the origin: \`world\` is the fragment less
  * the eye, \`eye\` the eye from the planet's centre, \`place\` the fragment
  * modulo the ripples' period, \`bed\` the floor's height under it, \`under\`
- * the colour of the water's body over that floor, unlit; \`horizon\` the sky's
- * colour at the horizon.
+ * the colour of the water's body over that floor, unlit; \`mirrored\` the
+ * sky a still sea would show the eye there and \`overhead\` the zenith's.
+ * The air between is the caller's to add.
  */
 fn seaColour(
   place: vec3f, world: vec3f, eye: vec3f, sun: vec3f, bed: f32, under: vec3f,
-  footprint: f32, seconds: f32, horizon: vec3f, swell: vec2f,
+  footprint: f32, seconds: f32, mirrored: vec3f, overhead: vec3f, swell: vec2f,
 ) -> vec3f {
   let up = normalize(eye + world);
   let range = length(world);
@@ -241,7 +228,10 @@ fn seaColour(
   let mirror = seaFresnel(sqrt(facing * facing + 2.0 * rough * rough + 1e-4) * 0.98 + rough);
   var bounced = reflect(-toEye, normal);
   bounced = normalize(bounced + up * max(0.02 - dot(bounced, up), 0.0) * 2.0);
-  let sky = seaSky(bounced, up, sun, horizon);
+  // The sky in the water: between what a still sea would mirror and the zenith's.
+  let still = max(dot(reflect(-toEye, up), up), 0.03);
+  let raised = clamp((dot(bounced, up) - still) / max(1.0 - still, 1e-3), 0.0, 1.0);
+  let sky = mix(mirrored, overhead, sqrt(raised));
 
   // The sun's glint, a Beckmann lobe as wide as the slopes the pixel hides.
   let half = normalize(toEye + sun);
@@ -260,17 +250,15 @@ fn seaColour(
   let broken = brokenAt(tau, min(bed, -0.02), 1.0) * smoothstep(-0.05, 0.25, level) * swellSeen;
   // The sheet on the sand is all froth at its thin tip.
   let sheet = smoothstep(0.035, 0.0, level - bed) * step(0.0, bed);
-  let still = smoothstep(0.12, 0.0, depth) * (1.0 - swellSeen);
-  let foam = clamp(max(max(broken, sheet), still) * (0.45 + 0.55 * lace), 0.0, 1.0) *
+  let line = smoothstep(0.12, 0.0, depth) * (1.0 - swellSeen);
+  let foam = clamp(max(max(broken, sheet), line) * (0.45 + 0.55 * lace), 0.0, 1.0) *
     smoothstep(400.0, 40.0, footprint * 100.0);
   let height = dot(sun, up);
   let light = SEA_SUNLIGHT * max(height, 0.0) +
     mix(SEA_NIGHT_SKYLIGHT, SEA_DAY_SKYLIGHT, smoothstep(-0.1, 0.2, height));
   let body = mix(under, vec3f(0.9, 0.93, 0.94), foam) * light;
 
-  let lit = mix(body, sky, mirror * (1.0 - foam)) + glint * (1.0 - foam);
-  let haze = 1.0 - exp(-range / SEA_HAZE_REACH);
-  return mix(lit, horizon, haze * smoothstep(3.0e6, 2.0e5, range));
+  return mix(body, sky, mirror * (1.0 - foam)) + glint * (1.0 - foam);
 }
 `;
 

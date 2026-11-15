@@ -2,15 +2,19 @@ import {
   code,
   dFdx,
   dFdy,
+  dot,
+  float,
   length,
   max,
   modelPosition,
+  normalize,
   positionGeometry,
   positionWorld,
+  reflect,
   uniform,
   wgslFn,
 } from 'three/tsl';
-import { Color, type Node, Vector2, Vector3 } from 'three/webgpu';
+import { type Node, Vector2, Vector3 } from 'three/webgpu';
 
 import type { Vec3 } from '@/island/shared/globe';
 
@@ -22,11 +26,12 @@ import { SEA_LISTING, swellAt } from '../lib/sea-wgsl';
 export type SeaFrame = Sunlit & {
   /** The eye from the planet's centre, metres. */
   readonly eye: Vec3;
-  /** The sky's colour at the horizon, which the far sea fades to. */
-  readonly horizon: Color;
   /** The sea's clock, seconds into its hour. */
   readonly time: number;
 };
+
+/** The sky's radiance arriving from a unit world direction, in the scene's exposure. */
+type Radiance = (direction: Node<'vec3'>) => Node<'vec3'>;
 
 export type SeaSurface = {
   /**
@@ -54,14 +59,13 @@ const wrapped = (metres: number) =>
 
 /**
  * The sea's surface as nodes: ripples under the wind, the sky mirrored in
- * them, the sun's glint, foam at the waterline and the haze toward the
- * horizon, all in the WGSL of `SEA_LISTING`, which only the WebGPU backend
+ * them out of `radiance`, the sun's glint and foam at the waterline, all in
+ * the WGSL of `SEA_LISTING`, which only the WebGPU backend
  * compiles.
  */
-export function seaSurface(): SeaSurface {
+export function seaSurface(radiance: Radiance): SeaSurface {
   const eyeNode = uniform(new Vector3());
   const sun = uniform(new Vector3(0, 1, 0));
-  const horizon = uniform(new Color());
   const seconds = uniform(0);
   /**
    * The eye modulo the ripples' period, taken in float64. A fragment's place
@@ -70,6 +74,13 @@ export function seaSurface(): SeaSurface {
    */
   const anchor = uniform(new Vector3());
   const place = anchor.add(positionWorld);
+  const zenith = normalize(eyeNode.add(positionWorld));
+  const flat = reflect(normalize(positionWorld), zenith);
+  /** What a still sea would mirror, kept off the ground: the sky toward it, and the sky overhead. */
+  const mirrored = radiance(
+    normalize(flat.add(zenith.mul(max(float(0.03).sub(dot(flat, zenith)), 0)))),
+  );
+  const overhead = radiance(zenith);
   const footprint = max(
     length(dFdx(positionWorld)),
     length(dFdy(positionWorld)),
@@ -99,9 +110,9 @@ export function seaSurface(): SeaSurface {
   const shade = wgslFn(
     `fn seaShade(
       place: vec3f, world: vec3f, eye: vec3f, sun: vec3f, bed: f32, under: vec3f,
-      footprint: f32, seconds: f32, horizon: vec3f, swell: vec2f,
+      footprint: f32, seconds: f32, mirrored: vec3f, overhead: vec3f, swell: vec2f,
     ) -> vec3f {
-      return seaColour(place, world, eye, sun, bed, under, footprint, seconds, horizon, swell);
+      return seaColour(place, world, eye, sun, bed, under, footprint, seconds, mirrored, overhead, swell);
     }`,
     [listing],
   );
@@ -117,7 +128,8 @@ export function seaSurface(): SeaSurface {
         under,
         footprint,
         seconds,
-        horizon,
+        mirrored,
+        overhead,
         swell,
       }),
     lifted: (bed) =>
@@ -135,7 +147,6 @@ export function seaSurface(): SeaSurface {
       eyeNode.value.set(x, y, z);
       anchor.value.set(wrapped(x), wrapped(y), wrapped(z));
       sun.value.set(...frame.sun);
-      horizon.value.copy(frame.horizon);
       seconds.value = frame.time;
       swell.value.set(...swellAt(frame.eye, frame.time));
     },

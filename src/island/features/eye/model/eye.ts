@@ -213,6 +213,12 @@ export function withHeading(eye: Eye, heading: number): Eye {
   };
 }
 
+/** `eye` looking at once, no glide, `look` radians above the pitch its height gives, within what `lookWithin` lets show. */
+export function withLook(eye: Eye, look: number): Eye {
+  const set = lookWithin(look, eye.height);
+  return { ...eye, look: set, aim: { ...eye.aim, look: set } };
+}
+
 /** Which way screen-up faces, radians clockwise from north. */
 export const headingOf = (eye: Eye) => headingAt(eye.at, eye.ahead);
 
