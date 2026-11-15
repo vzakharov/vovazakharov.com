@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 212,
-    "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 245113,
-    "cacheReadTokens": 24272443,
-    "outputTokens": 67536,
-    "thinkingTokens": 23864,
-    "responses": 111,
-    "costUsd": 8.166960600000001
+    "inputTokens": 2966,
+    "cacheWrite5mTokens": 875,
+    "cacheWrite1hTokens": 326582,
+    "cacheReadTokens": 29247203,
+    "outputTokens": 88479,
+    "thinkingTokens": 27042,
+    "responses": 145,
+    "costUsd": 10.247915599999995
   },
   "estimate": {
     "at": "2026-11-15T21:18:23.863Z",
@@ -52,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkEEm3LNwEwmSEUQqq4",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-15T21:14:24.777Z",
-  "lastResponseAt": "2026-11-15T21:35:03.292Z",
+  "lastResponseAt": "2026-11-15T21:41:00.456Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 212,
+    "inputTokens": 276,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 245113,
-    "cacheReadTokens": 24272443,
-    "outputTokens": 67536,
-    "thinkingTokens": 23864,
-    "responses": 111,
-    "costUsd": 8.166960600000001
+    "cacheWrite1hTokens": 326582,
+    "cacheReadTokens": 28944747,
+    "outputTokens": 80912,
+    "thinkingTokens": 27042,
+    "responses": 144,
+    "costUsd": 10.020949399999996
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,24 +77,65 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 212,
-      "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 245113,
-      "cacheReadTokens": 24272443,
-      "outputTokens": 67536,
-      "thinkingTokens": 23864,
-      "responses": 111,
-      "costUsd": 8.166960600000001
+      "inputTokens": 2966,
+      "cacheWrite5mTokens": 875,
+      "cacheWrite1hTokens": 326582,
+      "cacheReadTokens": 29247203,
+      "outputTokens": 88479,
+      "thinkingTokens": 27042,
+      "responses": 145,
+      "costUsd": 10.247915599999995
     }
   },
   "warnings": [],
-  "compactions": [],
+  "compactions": [
+    {
+      "at": "2026-11-15T21:36:52.738Z",
+      "trigger": "auto",
+      "compactedFrom": 306663,
+      "summaryChars": 18444,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/cube/widgets/outdoors/surface/sea/water/face/lib/sea-light.shader.generated.ts",
+        "endedAt": "2026-11-15T21:37:23.781Z",
+        "contextTokens": 116619,
+        "spend": {
+          "inputTokens": 13,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 58606,
+          "cacheReadTokens": 731615,
+          "outputTokens": 2141,
+          "thinkingTokens": 317,
+          "responses": 7,
+          "costUsd": 0.658043
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.22696619999999998
+    }
+  ],
   "telemetry": {
-    "events": 110,
-    "matched": 110,
-    "matchedTableUsd": 8.084946200000001,
-    "matchedEventUsd": 8.084946200000001,
-    "unseen": {}
+    "events": 144,
+    "matched": 143,
+    "matchedTableUsd": 9.983467799999996,
+    "matchedEventUsd": 9.983467799999996,
+    "unseen": {
+      "compact": {
+        "inputTokens": 2690,
+        "cacheWrite5mTokens": 875,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 302456,
+        "outputTokens": 7567,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.22696619999999998
+      }
+    }
   },
   "operatorWords": {
     "chat": 0,
@@ -106,6 +147,9 @@
   "branchLines": {
     ".md": 16776,
     ".txt": 2356,
-    ".py": 436
+    ".py": 436,
+    ".ts": 106,
+    ".wgsl": 13,
+    ".json": 1
   }
 }

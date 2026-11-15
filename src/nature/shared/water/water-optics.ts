@@ -1,4 +1,4 @@
-import { vecf, wgsl } from '@/cube/shared/shader';
+import { vecf, wgsl } from '@/scene/shared/shader';
 
 /**
  * Pure sea water's absorption per metre, red to blue, with a little of the
