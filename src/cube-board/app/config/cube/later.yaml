@@ -22,7 +22,7 @@ items:
     updated: [2026-11-15T10:02:00.000Z, agent:cube]
     box: [1208, 4520, 586, gray]
     icon: ☁️
-    text: 'Open, the soft clouds on high. Vova: “думаем позже”, we think about it later. Two ways: hold the history by time rather than by frames (a couple of lines; the blur becomes medium’s); or take the sky out of the drowsy eye and draw it on top at full resolution, as floor 1’s room is (an hour or two; turning, the land smears and the sky stays sharp)'
+    text: 'Open, the soft clouds on high. Vova: “we think about it later”. Two ways: hold the history by time rather than by frames (a couple of lines; the blur becomes medium’s); or take the sky out of the drowsy eye and draw it on top at full resolution, as floor 1’s room is (an hour or two; turning, the land smears and the sky stays sharp)'
   - id: l-later-clouds
     type: line
     updated: [2026-11-15T10:02:00.000Z, agent:cube]

@@ -34,6 +34,7 @@
     "check:masked-words": "tsx src/music/scripts/check-masked-words.ts",
     "check:song-titles": "tsx src/music/scripts/check-song-titles.ts",
     "check:stanza-repeats": "tsx src/music/scripts/check-stanza-repeats.ts",
+    "check:board-language": "tsx src/board/scripts/check-board-language.ts",
     "lint": "pnpm lint:check --fix",
     "lint:check": "pnpm lint:files .",
     "lint:files": "NODE_OPTIONS=\"$NODE_OPTIONS --max-old-space-size=3072\" eslint --no-warn-ignored",

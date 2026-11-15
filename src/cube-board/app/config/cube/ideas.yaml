@@ -34,7 +34,7 @@ items:
     updated: [2026-11-14T20:55:00.000Z, agent:cube]
     box: [5364, -3690, 236]
     src: images/doors-03-floor-8-open.webp
-    text: 'Open for its opener alone, and shut once they leave it. The next room was there all along, and so was a coat rack in its shadow: «выглядит в хорошем смысле uncanny»'
+    text: 'Open for its opener alone, and shut once they leave it. The next room was there all along, and so was a coat rack in its shadow: “it looks uncanny, in the good sense”'
   - id: img-doors-04-floor-6-shut
     type: image
     updated: [2026-11-14T21:40:00.000Z, agent:cube]

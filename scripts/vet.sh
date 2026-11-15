@@ -172,6 +172,7 @@ built_checks=(
 # The checks that read the branch against its merge base, or the cost ledger.
 local_checks=(
   songs='src/music/scripts/vet-songs.sh'
+  boards='src/board/scripts/vet-boards.sh'
   squash='scripts/check-squash-message.sh'
   claude-md-size='scripts/check-claude-md-size.sh'
   estimates='python3 .claude/costs/check_estimates.py'

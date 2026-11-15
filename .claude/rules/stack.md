@@ -30,6 +30,7 @@ pnpm check:mantine-styles       # rendered classes vs. imports  │
 pnpm check:i18n-payload         # no page ships next-intl       │ concurrent
 pnpm check:typography           # quotes and dashes per medium  │
 src/music/scripts/vet-songs.sh  # song checks, when a song moved │
+src/board/scripts/vet-boards.sh # no Russian, when a board moved │
 pnpm content:og <site> --check # social cards, hashes only, a site each │
 pnpm content:drawings maya --check # each drawing's per-language copy │
 pnpm music:masters check              # song masters' tags, hashes only │
@@ -153,7 +154,10 @@ Nineteen things about that list are deliberate:
   `src/kernel/scripts/lib/changed-files.sh` reads. It runs `pnpm music:untold`
   there as well, which regenerates `docs/music/untold-songs.md` and, like the
   codegen below, fails when it had to write. The typography check reads every
-  site's prose, so it stays ungated.
+  site's prose, so it stays ungated. `src/board/scripts/vet-boards.sh` gates
+  `pnpm check:board-language` the same way, on a branch that changes a board:
+  boards are read in English, an operator's quoted words translated, so a
+  Cyrillic letter in any board's YAML fails it.
 - **`pnpm styles:codegen` repairs the generated Sass partials rather than
   reporting on them.** Two scales are needed on both sides of a boundary neither
   language can read across: the breakpoints (TypeScript for Mantine's responsive

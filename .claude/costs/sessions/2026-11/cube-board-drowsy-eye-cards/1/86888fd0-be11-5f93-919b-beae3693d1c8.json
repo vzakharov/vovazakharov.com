@@ -1,15 +1,33 @@
 {
   "total": {
-    "inputTokens": 62,
-    "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 134866,
-    "cacheReadTokens": 4254384,
-    "outputTokens": 18516,
-    "thinkingTokens": 6807,
-    "responses": 31,
-    "costUsd": 2.3003728000000008
+    "inputTokens": 2724,
+    "cacheWrite5mTokens": 938,
+    "cacheWrite1hTokens": 170958,
+    "cacheReadTokens": 7558700,
+    "outputTokens": 28899,
+    "thinkingTokens": 8477,
+    "responses": 48,
+    "costUsd": 3.4670051000000006
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-15T09:53:00.739Z",
+    "subjectLine": "content: PR #281's review-board cards and frames onto the cube board",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "middle",
+        "role": "editor",
+        "comment": "recovering eighteen cards from a swept review board and rewriting them as board prose in English needs care with the operator's verdicts"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "designer",
+        "comment": "placing two card rows and a new zone without overlap on a dense board"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "Write",
     "endedOn": "src/cube-board/app/config/cube/intro-drowsy.yaml",
@@ -34,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkD9P4XptTYFmmQHxAa",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-15T09:49:19.853Z",
-  "lastResponseAt": "2026-11-15T09:52:54.267Z",
+  "lastResponseAt": "2026-11-15T10:00:08.840Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 62,
+    "inputTokens": 92,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 134866,
-    "cacheReadTokens": 4254384,
-    "outputTokens": 18516,
-    "thinkingTokens": 6807,
-    "responses": 31,
-    "costUsd": 2.3003728000000008
+    "cacheWrite1hTokens": 170958,
+    "cacheReadTokens": 7368386,
+    "outputTokens": 28862,
+    "thinkingTokens": 8477,
+    "responses": 46,
+    "costUsd": 3.4189492000000006
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,27 +77,58 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 62,
+      "inputTokens": 598,
+      "cacheWrite5mTokens": 938,
+      "cacheWrite1hTokens": 170958,
+      "cacheReadTokens": 7558700,
+      "outputTokens": 28874,
+      "thinkingTokens": 8477,
+      "responses": 47,
+      "costUsd": 3.4667800000000004
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 2126,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 134866,
-      "cacheReadTokens": 4254384,
-      "outputTokens": 18516,
-      "thinkingTokens": 6807,
-      "responses": 31,
-      "costUsd": 2.3003728000000008
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 25,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0002251
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 30,
-    "matched": 30,
-    "matchedTableUsd": 2.248309000000001,
-    "matchedEventUsd": 2.248309000000001,
-    "unseen": {}
+    "events": 48,
+    "matched": 46,
+    "matchedTableUsd": 3.4189492000000006,
+    "matchedEventUsd": 3.4189492000000006,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 938,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 190314,
+        "outputTokens": 12,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.04783080000000001
+      },
+      "generate_session_title": {
+        "inputTokens": 2126,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 25,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0002251
+      }
+    }
   },
   "operatorWords": {
-    "chat": 0,
+    "chat": 497,
     "review": 9,
     "threads": 0
   },
@@ -87,5 +136,7 @@
     "IC_kwDOQXZBKM8AAAABmgxuAg": 9
   },
   "threadPosts": {},
-  "branchLines": {}
+  "branchLines": {
+    ".yaml": 132
+  }
 }
