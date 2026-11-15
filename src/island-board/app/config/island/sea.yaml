@@ -2,7 +2,7 @@ items:
   - id: z-sea
     type: zone
     updated: [2026-11-15T21:45:00.000Z, agent:lead]
-    box: [7900, 260, 1150, 3060, blue]
+    box: [7900, 260, 1150, 3560, blue]
     text: 'The sea — near ground as the cube draws it outside'
   - id: sea-before
     type: image
@@ -88,3 +88,14 @@ items:
     updated: [2026-11-15T22:30:00.000Z, agent:lead]
     box: [8300, 2990, 330, pink]
     text: "Open: blue space from mid orbit (with the sky child); the swash's edge is still the mesh's own polygon at 2 m, which the cusps do not hide"
+  - id: sea-relief
+    type: image
+    updated: [2026-11-15T22:40:00.000Z, agent:lead]
+    box: [7940, 3250, 1070]
+    src: images/sea-relief.webp
+    text: 'Milestone 4, the ground off the beach: grass at 40 m with relief finer than the mesh, and the damp band of sand behind the sheet at 2 m'
+  - id: sea-relief-how
+    type: sticky
+    updated: [2026-11-15T22:40:00.000Z, agent:lead]
+    box: [7940, 3600, 330, green]
+    text: "Relief below the mesh's 1.2 m cell is drawn by light alone: ridges read off the same 64-wave table as the sea's ripples, standing still, each fading as it passes under a pixel. Steep ground above the beach shows bare rock — not yet seen on a real cliff"
