@@ -1,6 +1,5 @@
-// The water's body as every layer may need it, none of the sea's own bindings
-// among its needs, so the sky's backdrop and the sand take it too: nature's
-// water light, lit by the frame's sun.
+// The water's body as the frame's sun lights it, for every layer: it needs
+// none of the sea's own bindings, so the sky's backdrop and the sand take it.
 
 import super::outdoor_frame::frame;
 import package::cube::shared::cube_boundary::sun::{SUN_LIGHT, SKY_FILL};

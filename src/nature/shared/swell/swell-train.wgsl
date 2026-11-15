@@ -1,6 +1,6 @@
 // The swell's train of waves as it meets the island: when crests pass and
 // what shape a wave takes, the twins of the closed forms in swell.ts, which
-// `swell.test.ts` runs this against.
+// `shore.test.ts` runs this against.
 
 import super::swell::swellDrift;
 import super::swell_numbers::{HOUR_SECONDS, RADIANS_A_TURN, WAVES, PERIOD, BORE_FACE, BORE_FACE_SPAN, BORE_FALL, BORE_MEAN};
