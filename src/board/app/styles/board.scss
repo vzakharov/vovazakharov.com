@@ -318,7 +318,7 @@ body:not(.editing) #stage {
   display: none;
 }
 
-// `--weight` is set on the one line a board reads along; every other line is 1.
+// `--weight` is the line's `weight`, which `renderLines` sets only where given.
 .line .stroke {
   fill: none;
   stroke: var(--pencil);

@@ -141,8 +141,7 @@ def is_ack(section: str) -> bool:
 
 
 def unanswered(text: str, me: str) -> List[str]:
-    """What the other side wrote after `me` last did, its acks left out: an
-    ack asks for no answer, so it never wakes the reader.
+    """What the other side wrote after `me` last did, its acks left out.
 
     >>> t = TITLE + "\\n## lead · 1\\n\\na\\n\\n## member · 2\\n\\nb\\n\\n## member · 3\\n\\nc\\n"
     >>> [n.split()[-1] for n in unanswered(t, "lead")]

@@ -50,21 +50,14 @@ survives a relay, because on the web the successor's container is not this one.
 **Artifact watches are stopped**: list this session's with `ArtifactComments`
 `watch` and no URL, keep their URLs for the summary's State, and stop each with
 `watch` and `on: false`. A watch left running wakes this session, not the
-successor, on every comment sent to Claude.
+successor, on every comment sent to Claude, to answer from a cold cache.
+`.claude/hooks/relay-watch-gate.py` holds the step: the relay's turn ends only
+once the watches are listed and stopped.
 
 Where the cost ledger ships (`.claude/costs/`), revise this session's human-hour
 estimate down to the work done here, with
 `python3 .claude/costs/estimate.py set`: the rest is the successor's, and two
 sessions each claiming the whole job would count it twice.
-
-**Stop every artifact watch this session holds**: list them with a bare
-`ArtifactComments` `watch` call and stop each with `on: false`. A watch outlives
-the cache, so the next comment sent to Claude would wake this session to answer
-from a cold one, beside a successor, where there is one, already watching the
-same page. The summary's State names each one stopped, for a return to this
-session (§ "When the summary goes stale"). `.claude/hooks/relay-watch-gate.py`
-holds the step: the relay's turn ends only once the watches are listed and
-stopped.
 
 ### Step 2 — Write the summary
 
@@ -221,11 +214,6 @@ summary is theirs to settle, per the next section, and its `### Watches` are
 watched again as `/relay take` does.
 
 ## When the summary goes stale
-
-**A parked session its operator comes back to watches again**, before the turn's
-work, each artifact its summary's State names as stopped: until another session
-takes the work up, a comment sent to Claude is this one's to answer. Parked
-again, it stops them again, per Step 1.
 
 A parked summary is a claim about what the absent session would do next, and
 `/relay take` acts on it with nobody checking it first. So a parked session its

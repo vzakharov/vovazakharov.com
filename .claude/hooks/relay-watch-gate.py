@@ -5,7 +5,7 @@ watches are stopped.
 A watch outlives the session's cache: a parked session still watching a board
 is woken by the next comment sent to Claude and answers it from a cold cache,
 at several times the price of the live session that should have answered.
-`.claude/skills/relay/SKILL.md` § "Step 4" stops them; this hook holds it. A
+`.claude/skills/relay/SKILL.md` § "Step 1" stops them; this hook holds it. A
 watch is stopped only by a tool call (`ArtifactComments` `watch`,
 `on: false`), so a hook can refuse the stop but cannot stop the watch itself.
 

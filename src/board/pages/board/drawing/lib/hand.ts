@@ -56,7 +56,6 @@ const round = (n: number): number => Math.round(n * 10) / 10;
  */
 export type Bent = WithId & Spiralled & Weighted;
 
-/** A line's stroke as a multiple of the plain one's; a plain line's is 1. */
 export const weightOf = ({ weight }: Weighted): number => weight ?? 1;
 
 /**

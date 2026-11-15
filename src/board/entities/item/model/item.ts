@@ -91,7 +91,7 @@ export const SPIRALS = ['cw'] as const;
 const Spiralled = z.object({ spiral: z.enum(SPIRALS).optional() });
 export type Spiralled = z.infer<typeof Spiralled>;
 
-/** A line's stroke as a multiple of the plain one's: the line a board reads along. */
+/** A line's stroke as a multiple of the plain one's. */
 const Weighted = z.object({ weight: z.number().positive().optional() });
 export type Weighted = z.infer<typeof Weighted>;
 
