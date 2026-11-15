@@ -155,6 +155,18 @@ altogether later.
   gone, every material's `outputNode` is the sky's `aerial`, the land's damp
   tint over it. The sky stays TSL (typed), not WGSL in `nature`: the
   cube-convergence steer waits there.
+- Built (e21dee97, frames 13–14, preview slot 1 redispatched; `./scripts/vet.sh`
+  green on a9d17034): the ground's relief — `lib/ground-wgsl.ts`
+  (`groundNormal`, ridges read off the ripples' table, footprint-faded) as the
+  land's `normalNode`, and bare rock in TSL where the mesh is steep above the
+  beach (`ROCK_COLOUR`, `rock`, `roughness` in `ground-lighting.ts`). Rock has
+  not been looked at on a real cliff yet: find one and shoot it.
+- If parked here: everything is pushed; the sky child
+  (session_01DaohkCJdeeFwaqj45LNp9n, `island/sea-sky`) is the only one alive and
+  must merge `origin/island/sea` before its next push. Left: its orbit fix and
+  clouds; the shoreline's polygons; film mirror on wet sand; shelter; beach
+  profile; `sea-wgsl`/`ground-wgsl` into `nature`; `/polish`; `/pr` into
+  `island/stretch-3`.
 - Open with the sky child: blue space and a veiled disc from mid orbit (frame
   11; the far-orbit opening, frame 12, is right); then clouds and `shade`.
 - (Superseded below where it names the sky's wiring or the kit as pending.)
