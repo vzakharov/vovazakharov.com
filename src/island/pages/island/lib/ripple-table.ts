@@ -1,4 +1,7 @@
+import { f32 } from '@/scene/shared/shader';
+
 import { HOUR_SECONDS } from '@/nature/shared/swell';
+
 /**
  * The wind sea's ripples as a fixed table of plane waves in space, each an
  * integer wave vector over a period that halves from band to band. A place is
@@ -66,9 +69,6 @@ export const RIPPLES: readonly Ripple[] = Array.from(
     };
   },
 );
-
-const f32 = (x: number) =>
-  Number.isInteger(x) ? `${String(x)}.0` : x.toPrecision(9);
 
 /** The table as WGSL constants: each wave's vector and phase, and its pace. */
 export const RIPPLE_TABLE_WGSL = `

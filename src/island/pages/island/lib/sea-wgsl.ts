@@ -148,6 +148,16 @@ fn seaTongue(world: vec3f, swell: vec2f) -> f32 {
   return cusped(swell.y + dot(world, SEA_SWELL_CREST));
 }
 
+/** How much of the swell a mesh's vertices carry at a point \`world\` from the eye: none past where they could. */
+fn seaNear(world: vec3f) -> f32 {
+  return 1.0 - smoothstep(600.0, 2500.0, length(world));
+}
+
+/** The shore's clock at a point \`world\` from the eye over a floor at \`bed\`. */
+fn seaTau(world: vec3f, bed: f32, swell: vec2f) -> f32 {
+  return swell.x - dot(world, SEA_SWELL_AXIS) * SWELL_PACE - shoreDelay(shoreDepth(bed));
+}
+
 /**
  * The swell's level, metres about the still sea, at a point \`world\` from an
  * eye where the swell reads \`swell\` — its clock, and the eye's place along
@@ -156,7 +166,7 @@ fn seaTongue(world: vec3f, swell: vec2f) -> f32 {
  * where a mesh's vertices could carry it.
  */
 fn seaSwellAt(world: vec3f, bed: f32, swell: vec2f) -> f32 {
-  let near = 1.0 - smoothstep(600.0, 2500.0, length(world));
+  let near = seaNear(world);
   if (near <= 0.0) {
     return 0.0;
   }
@@ -176,7 +186,7 @@ fn seaVertexLevel(world: vec3f, bed: f32, swell: vec2f) -> f32 {
   if (bed <= 0.0) {
     return level;
   }
-  let near = 1.0 - smoothstep(600.0, 2500.0, length(world));
+  let near = seaNear(world);
   return max(level, near * (bed + SEA_SHEET_RIDES));
 }
 
@@ -190,11 +200,11 @@ fn seaLies(world: vec3f, bed: f32, swell: vec2f) -> bool {
  * a sheet has just left, drying back to its own.
  */
 fn seaDampTint(world: vec3f, bed: f32, swell: vec2f) -> vec3f {
-  let near = 1.0 - smoothstep(600.0, 2500.0, length(world));
+  let near = seaNear(world);
   if (bed > 1.5 || near <= 0.0) {
     return vec3f(1.0);
   }
-  let tau = swell.x - dot(world, SEA_SWELL_AXIS) * SWELL_PACE - shoreDelay(shoreDepth(bed));
+  let tau = seaTau(world, bed, swell);
   let damp = near * dampAfter(drySince(tau, bed, seaTongue(world, swell)));
   return mix(vec3f(1.0), vec3f(0.6, 0.57, 0.52), damp);
 }
@@ -254,7 +264,7 @@ fn seaColour(
 
   // Foam where the water thins out over the beach, broken by the ripples.
   let lace = 0.5 + 0.5 * sin(dot(place, vec3f(2.1, 1.3, 1.7)) + 3.0 * rippled.slope.x / max(rough, 0.05));
-  let tau = swell.x - dot(world, SEA_SWELL_AXIS) * SWELL_PACE - shoreDelay(shoreDepth(bed));
+  let tau = seaTau(world, bed, swell);
   let broken = brokenAt(tau, min(bed, -0.02), 1.0) * smoothstep(-0.05, 0.25, level) * swellSeen;
   // The sheet on the sand is all froth at its thin tip.
   let sheet = smoothstep(0.012, 0.0, level - bed) * step(0.0, bed);

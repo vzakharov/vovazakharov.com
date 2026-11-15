@@ -214,23 +214,19 @@ export function groundLighting(): GroundLighting {
     return material;
   };
   const surface = seaSurface(radiance);
+  /** Ground above the beach, 0 on the sand and 1 from `SHORE_TOP` up. */
+  const aboveBeach = smoothstep(2, SHORE_TOP, heightNode());
   /** How far the ground leans off level, 0 flat and 1 a wall. */
   const steep = normalWorldGeometry.dot(surface.zenith).oneMinus();
   /** Bare rock: steep ground above the beach, whatever grows on the level beside it. */
-  const rock = smoothstep(0.04, 0.15, steep).mul(
-    smoothstep(2, SHORE_TOP, heightNode()),
-  );
+  const rock = smoothstep(0.04, 0.15, steep).mul(aboveBeach);
   const landColour = mix(
     groundColourNode(heightNode()),
     vec3(...ROCK_COLOUR),
     rock,
   );
   /** The relief's slope: sand lies smooth, soil rolls, rock stands rough. */
-  const roughness = mix(
-    mix(0.04, 0.18, smoothstep(2, SHORE_TOP, heightNode())),
-    0.7,
-    rock,
-  );
+  const roughness = mix(mix(0.04, 0.18, aboveBeach), 0.7, rock);
   const seaColour = seaColourNode(heightNode());
   const land = tileMaterial(landColour, [landSun, landMoon, sky], 0);
   const sea = tileMaterial(seaColour, [seaSun, seaMoon, sky], 0);
