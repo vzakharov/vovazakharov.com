@@ -142,3 +142,8 @@ items:
     updated: [2026-11-15T23:40:00.000Z, agent:lead]
     box: [8300, 5110, 330, pink]
     text: 'Open: nothing measured on a real GPU, so 60 fps on the M2 Pro is unconfirmed; from the beach the far clouds on the horizon read as slanted strokes, few samples through a thin slab at a grazing ray'
+  - id: sea-merged
+    type: sticky
+    updated: [2026-11-15T23:55:00.000Z, agent:lead]
+    box: [8660, 5110, 330, blue]
+    text: "Merged into stretch 3 as #288. The cube's sea moved out to a shared app, nature, and its shader kit to scene. Two optional /five-percent calls wait for Vova on the PR: the swell's heading from the wind, and ripples, wind and relief into nature as WGSL"
