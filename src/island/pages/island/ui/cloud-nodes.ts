@@ -1,4 +1,5 @@
 import {
+  Break,
   dot,
   exp,
   float,
@@ -9,10 +10,12 @@ import {
   min,
   mix,
   normalize,
+  screenCoordinate,
   select,
   smoothstep,
   sqrt,
   uniform,
+  vec2,
   vec3,
   vec4,
 } from 'three/tsl';
@@ -63,7 +66,7 @@ export type CloudNodes = {
 };
 
 /** Samples of the field along a ray's stretch of the layer. */
-const STEPS = 8;
+const STEPS = 5;
 /** What a metre of full cloud takes from a ray. */
 const PER_METRE = 0.012;
 /** How far the cells' noise moves the field off its weather. */
@@ -74,6 +77,13 @@ const CELL_GAPS = 0.3;
 const THICKEST = 0.4;
 /** A pixel's width as a share of its distance, on a screen a thousand pixels across. */
 const PIXEL = 1.2e-3;
+/** Each cell octave's share of the cells' noise, coarsest first. */
+const CELL_WEIGHTS = [0.55, 0.3, 0.15] as const;
+/** Weather at or under this is clear sky: no cell lifts it into cloud. */
+const CLEAR = CELL_GAPS - CELL_WEIGHT * 0.7;
+/** The finest cell octave, and the distance past which it is under a pixel. */
+const FINEST = CELL_WAVES.length - 1;
+const FINEST_SEEN_TO = R / (CELL_WAVES[FINEST] ?? 1) / (2 * PIXEL);
 /** The white of a cloud top in the sun, in the scene's exposure. */
 const WHITE = 0.94;
 /** A cloud's base as a share of its top's light. */
@@ -174,21 +184,22 @@ export function cloudNodes(frame: CloudFrame): CloudNodes {
   };
 
   /**
-   * The cells over `place`, `octaves` of them, as an eye `metres` away tells
-   * them apart: each fades out as its wave nears a pixel's width.
+   * The cells over `place`, octaves `first` up to `octaves`, as an eye
+   * `metres` away tells them apart: each fades out as its wave nears a
+   * pixel's width.
    */
-  const cells = (place: V, octaves: number, metres: F): F => {
+  const cells = (place: V, octaves: number, metres: F, first = 0): F => {
     const grown = vec3(0, growth, 0);
-    const weights = [0.55, 0.3, 0.15];
     let sum: F = float(0);
-    for (const [index, waves] of CELL_WAVES.slice(0, octaves).entries()) {
+    for (const [index, waves] of CELL_WAVES.entries()) {
+      if (index < first || index >= octaves) continue;
       const told = toldFrom(waves, metres);
       // Each octave on its own axes, so the lattices never line up.
       const turnedOnce = index % 2 === 0 ? place : place.zxy;
       sum = sum.add(
         noise(turnedOnce.mul(waves).add(grown))
           .mul(told)
-          .mul(weights[index] ?? 0),
+          .mul(CELL_WEIGHTS[index] ?? 0),
       );
     }
     return sum;
@@ -262,22 +273,34 @@ export function cloudNodes(frame: CloudFrame): CloudNodes {
       If(length.greaterThan(0), () => {
         const middle = pointAt(direction, cosine, from.add(length.mul(0.5)));
         const weathered = weather(turned(middle.place)).toVar();
-        // No cell lifts weather this clear into cloud.
-        If(weathered.greaterThan(CELL_GAPS - CELL_WEIGHT * 0.7), () => {
+        If(weathered.greaterThan(CLEAR), () => {
           const { sun, day, night } = lightOver(middle.place);
           const pace = length.div(STEPS).toVar();
+          // Each pixel starts its samples elsewhere in the first step: grain for bands.
+          const start = screenCoordinate.xy
+            .dot(vec2(0.067_110_56, 0.005_837_15))
+            .fract()
+            .mul(52.982_918_9)
+            .fract()
+            .toVar();
           Loop(STEPS, ({ i }) => {
-            const at = from.add(pace.mul(float(i).add(0.5)));
+            // What is left would not show through what the ray already met.
+            If(through.lessThan(0.02), () => {
+              Break();
+            });
+            const at = from.add(pace.mul(float(i).add(start)));
             const { place, over } = pointAt(direction, cosine, at);
             const level = over
               .sub(CLOUD_BASE)
               .div(CLOUD_TOP - CLOUD_BASE)
               .clamp(0, 1);
-            const cover = coverOf(
-              weathered,
-              cells(turned(place), CELL_WAVES.length, at),
-              at,
-            );
+            const spot = turned(place);
+            const celled = cells(spot, FINEST, at).toVar();
+            // The finest cells are under a pixel past here.
+            If(at.lessThan(FINEST_SEEN_TO), () => {
+              celled.addAssign(cells(spot, CELL_WAVES.length, at, FINEST));
+            });
+            const cover = coverOf(weathered, celled, at);
             const thick = thickness(cover, level);
             const taken = exp(thick.mul(pace).mul(-PER_METRE)).oneMinus();
             // Lighter toward its top, darker deep under a whole cover.
@@ -303,24 +326,35 @@ export function cloudNodes(frame: CloudFrame): CloudNodes {
     return { seen, near: from };
   };
 
-  /** The cover over the place a ray from `place` toward `toward` crosses the layer's middle. */
-  const coverToward = (place: V, toward: V, metres: F): F => {
-    const rise = max(dot(place, toward), 0.2);
-    const over = normalize(
-      place.mul(R).add(toward.mul(float(CLOUD_BASE + 800).div(rise))),
-    );
-    const spot = turned(over);
-    return thickness(
-      coverOf(weather(spot), cells(spot, 2, metres), metres),
-      float(MIDDLE),
-    );
-  };
+  /**
+   * The cover over the place a ray from `place` toward `toward` crosses the
+   * layer's middle, from the weather and the `octaves` coarsest cells.
+   */
+  const coverToward = (place: V, toward: V, metres: F, octaves: number): F =>
+    Fn(() => {
+      const rise = max(dot(place, toward), 0.2);
+      const over = normalize(
+        place.mul(R).add(toward.mul(float(CLOUD_BASE + 800).div(rise))),
+      );
+      const spot = turned(over);
+      const cover = float(0).toVar();
+      const weathered = weather(spot).toVar();
+      If(weathered.greaterThan(CLEAR), () => {
+        cover.assign(
+          thickness(
+            coverOf(weathered, cells(spot, octaves, metres), metres),
+            float(MIDDLE),
+          ),
+        );
+      });
+      return cover;
+    })();
 
   const glanced = (direction: V): Node<'vec4'> => {
     const cosine = dot(direction, up);
     const { from, length } = stretch(cosine, float(1e12));
     const { place } = pointAt(direction, cosine, from.add(length.mul(0.5)));
-    const cover = coverToward(place, place, from).mul(
+    const cover = coverToward(place, place, from, 1).mul(
       select(length.greaterThan(0), 1, 0),
     );
     const taken = smoothstep(0, 0.5, cover);
@@ -332,7 +366,7 @@ export function cloudNodes(frame: CloudFrame): CloudNodes {
   const shade = (position: V): F => {
     const offset = up.mul(radius).add(position);
     const place = normalize(offset);
-    const cover = coverToward(place, towardSun, position.length());
+    const cover = coverToward(place, towardSun, position.length(), 2);
     const day = smoothstep(0, 0.15, dot(place, towardSun));
     return smoothstep(0, 0.5, cover).mul(day).mul(GROUND_SHADE).oneMinus();
   };
