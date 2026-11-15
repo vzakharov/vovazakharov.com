@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 5989,
-    "cacheWrite5mTokens": 1108654,
-    "cacheWrite1hTokens": 239921,
-    "cacheReadTokens": 51351543,
-    "outputTokens": 197638,
-    "thinkingTokens": 47029,
-    "responses": 372,
-    "costUsd": 21.71286179999998
+    "inputTokens": 8537,
+    "cacheWrite5mTokens": 1109400,
+    "cacheWrite1hTokens": 345484,
+    "cacheReadTokens": 55529221,
+    "outputTokens": 208524,
+    "thinkingTokens": 48183,
+    "responses": 395,
+    "costUsd": 23.626136399999982
   },
   "estimate": {
     "at": "2026-11-15T18:34:52.268Z",
@@ -52,24 +52,24 @@
   },
   "sessionId": "da6a3430-25cb-5bf5-9dc9-201bf078dd7a",
   "branch": "island/round-world",
-  "cwd": "/home/user/vovazakharov.com/tmp/wt-fix",
+  "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take island/round-world — LOD и дыры на поворотах влиты, четыре воркера ждут двух правок перед вливанием",
   "prs": [],
   "url": "https://claude.ai/code/session_01DaohkD686c7ehYswH9TgcL",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-15T18:34:34.687Z",
-  "lastResponseAt": "2026-11-15T19:19:17.348Z",
+  "lastResponseAt": "2026-11-15T19:29:34.837Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 195,
+    "inputTokens": 235,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 239921,
-    "cacheReadTokens": 18517001,
-    "outputTokens": 41853,
-    "thinkingTokens": 7611,
-    "responses": 94,
-    "costUsd": 6.460608199999999
+    "cacheWrite1hTokens": 345484,
+    "cacheReadTokens": 22094757,
+    "outputTokens": 49023,
+    "thinkingTokens": 8765,
+    "responses": 115,
+    "costUsd": 8.1642234
   },
   "subagents": {
     "inputTokens": 564,
@@ -83,14 +83,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 4807,
-      "cacheWrite5mTokens": 1108654,
-      "cacheWrite1hTokens": 239921,
-      "cacheReadTokens": 51351543,
-      "outputTokens": 197618,
-      "thinkingTokens": 47029,
-      "responses": 371,
-      "costUsd": 21.712733599999982
+      "inputTokens": 7355,
+      "cacheWrite5mTokens": 1109400,
+      "cacheWrite1hTokens": 345484,
+      "cacheReadTokens": 55529221,
+      "outputTokens": 208504,
+      "thinkingTokens": 48183,
+      "responses": 394,
+      "costUsd": 23.626008199999983
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1182,
@@ -104,22 +104,52 @@
     }
   },
   "warnings": [],
-  "compactions": [],
+  "compactions": [
+    {
+      "at": "2026-11-15T19:25:19.517Z",
+      "trigger": "auto",
+      "compactedFrom": 304183,
+      "summaryChars": 9228,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/island/entities/terrain/world/land/model/world-schema.ts",
+        "endedAt": "2026-11-15T19:27:19.163Z",
+        "contextTokens": 148372,
+        "spend": {
+          "inputTokens": 18,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 92495,
+          "cacheReadTokens": 1173498,
+          "outputTokens": 2909,
+          "thinkingTokens": 743,
+          "responses": 9,
+          "costUsd": 1.0329116
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.143781
+    }
+  ],
   "telemetry": {
-    "events": 372,
-    "matched": 363,
-    "matchedTableUsd": 21.367527199999984,
-    "matchedEventUsd": 21.36752719999998,
+    "events": 395,
+    "matched": 384,
+    "matchedTableUsd": 23.071142399999985,
+    "matchedEventUsd": 23.07114239999998,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 4048,
-        "cacheWrite5mTokens": 2733,
+        "inputTokens": 4554,
+        "cacheWrite5mTokens": 3264,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 1525252,
-        "outputTokens": 105,
+        "cacheReadTokens": 1822384,
+        "outputTokens": 114,
         "thinkingTokens": 0,
-        "responses": 8,
-        "costUsd": 0.3452064
+        "responses": 9,
+        "costUsd": 0.41108480000000003
       },
       "generate_session_title": {
         "inputTokens": 1182,
@@ -130,6 +160,16 @@
         "thinkingTokens": 0,
         "responses": 1,
         "costUsd": 0.00012820000000000003
+      },
+      "compact": {
+        "inputTokens": 2002,
+        "cacheWrite5mTokens": 215,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 302790,
+        "outputTokens": 3707,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.143781
       }
     }
   },
@@ -142,10 +182,10 @@
   "threadPosts": {},
   "branchLines": {
     ".py": 980,
-    ".md": 16580,
+    ".md": 16587,
     ".json": 488,
     ".txt": 2356,
-    ".ts": 9112,
+    ".ts": 9102,
     ".sh": 43,
     ".yaml": 295,
     ".tsx": 114,
