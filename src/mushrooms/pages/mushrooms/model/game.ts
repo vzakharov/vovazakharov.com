@@ -5,13 +5,9 @@
  */
 
 import { pick } from '@/kernel/shared/lib/collections';
-import type {
-  Clocked,
-  Seeded,
-  WithId,
-  WithSelected,
-} from '@/kernel/shared/typings';
+import type { Seeded, WithId, WithSelected } from '@/kernel/shared/typings';
 
+import type { Timed } from '@/mushrooms/shared/lib/motion';
 import type { Random } from '@/mushrooms/shared/lib/random';
 import {
   dusky,
@@ -144,7 +140,7 @@ export type Action =
   | ({ kind: 'tick'; burrows?: Burrows } & Sighted);
 
 /** An insect action's moment, and what the scene sees of the perches as it happens. */
-type Sighted = Clocked & Sight;
+type Sighted = Timed & Sight;
 
 /** The drawing's two fly agarics, standing as one clump on the opening's feet. */
 export function firstMeadow(random: Random): Meadow {

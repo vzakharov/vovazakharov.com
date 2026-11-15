@@ -1,12 +1,10 @@
 /**
  * The meadow's weather as pure functions of its rain span and the clock, in
- * ms on the insects' clock (`Clocked.now`), so the scene sets every frame from
+ * ms on the insects' clock (`Timed.now`), so the scene sets every frame from
  * the clock and nothing has to end a shower.
  */
 
-import type { Clocked } from '@/kernel/shared/typings';
-
-import { outAndBack, smooth, type Started } from '../lib/motion';
+import { outAndBack, smooth, type Started, type Timed } from '../lib/motion';
 
 /** A shower, from its first drop to the moment it stops. */
 export type Rain = Started & { stopsAt: number };
@@ -73,4 +71,4 @@ export function rainbow(rain: Rain | undefined, now: number): number {
 }
 
 /** A tap on a cloud: starts a shower, or while one falls restarts its time. */
-export type StartRain = { kind: 'rain' } & Clocked;
+export type StartRain = { kind: 'rain' } & Timed;

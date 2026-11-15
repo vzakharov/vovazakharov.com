@@ -8,8 +8,9 @@
  */
 
 import { pick } from '@/kernel/shared/lib/collections';
-import type { Clocked, Seeded, WithId } from '@/kernel/shared/typings';
+import type { Seeded, WithId } from '@/kernel/shared/typings';
 
+import type { Timed } from '@/mushrooms/shared/lib/motion';
 import { nextSeed, saltedStream } from '@/mushrooms/shared/lib/random';
 import {
   darkAt,
@@ -49,7 +50,7 @@ export type Spored = WithSpores & { scattered: number };
 type Sowing = WithMushrooms & Spored;
 
 /** A tap's spore: the foot the scene found for it, and the tap's moment. */
-export type SporeTap = { spore?: Footed & Clocked };
+export type SporeTap = { spore?: Footed & Timed };
 
 /**
  * The seed the next spore of the mushroom `id` grows from, or `undefined`

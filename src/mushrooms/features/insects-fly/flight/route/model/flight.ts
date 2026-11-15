@@ -7,8 +7,9 @@
  * away (`flightAway`).
  */
 
-import type { Clocked, WithId } from '@/kernel/shared/typings';
+import type { WithId } from '@/kernel/shared/typings';
 
+import type { Timed } from '@/mushrooms/shared/lib/motion';
 import {
   mulberry32,
   nextSeed,
@@ -229,7 +230,7 @@ type Flying = InsectSeed & Flight & Partial<WithId>;
  */
 function onward(
   { seed, kind, leg, legs, id }: Flying,
-  { now, ...placed }: Clocked & Placed,
+  { now, ...placed }: Timed & Placed,
   choose: (random: Random, habits: Habits, setOff: Placed) => Perch,
 ): Flight {
   const random = legRandom(seed, legs);

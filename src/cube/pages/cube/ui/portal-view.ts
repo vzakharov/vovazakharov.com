@@ -1,5 +1,3 @@
-import type { Clocked } from '@/kernel/shared/typings';
-
 import type { Seen } from '@/cube/shared/lib/vec';
 import {
   type Ajar,
@@ -28,17 +26,18 @@ type Showing = Building & {
 };
 
 /** One frame's door and the eye that may see through it, at the frame's instant. */
-type Glance = Seen &
-  Clocked & {
-    /** The door the body holds open, if any. */
-    door: Ajar | null;
-    /** The door's leaf as the frame draws it. */
-    leaf: readonly Quad[];
-    /** The eye, and the mesh drawn with the pose it was built for. */
-    at: Pose;
-    frame: Pose;
-    mesh: Mesh;
-  };
+type Glance = Seen & {
+  /** The shared clock's instant, in ms since the epoch: the minute a portal leads by. */
+  epochMs: number;
+  /** The door the body holds open, if any. */
+  door: Ajar | null;
+  /** The door's leaf as the frame draws it. */
+  leaf: readonly Quad[];
+  /** The eye, and the mesh drawn with the pose it was built for. */
+  at: Pose;
+  frame: Pose;
+  mesh: Mesh;
+};
 
 export type PortalView = {
   /**
@@ -80,10 +79,10 @@ export function createPortalView({
   };
 
   return {
-    through: ({ door, leaf, at, frame, mesh, now, ...seen }) => {
+    through: ({ door, leaf, at, frame, mesh, epochMs, ...seen }) => {
       if (door?.n !== frame.n) return null;
       const way = wayThrough(door, at);
-      const far = farSideOf(way, now);
+      const far = farSideOf(way, epochMs);
       if (far === null) return null;
       const key = `${wayKey(way)}>${wayKey(far)}`;
       if (shown?.key !== key && building !== key) {

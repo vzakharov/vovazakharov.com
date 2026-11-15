@@ -251,7 +251,9 @@ export function mountCube(
     renderer.draw({
       ...seen,
       through:
-        outdoor === null ? portals.through({ ...glance, now: instant }) : null,
+        outdoor === null
+          ? portals.through({ ...glance, epochMs: instant })
+          : null,
       clear: airAt(depth),
       detail: quality.detail(),
       waking: outdoor !== null,

@@ -63,9 +63,6 @@ export type Angled = { angle: number };
 /** How far a thing is turned, in radians: a mushroom drawn off upright, the far side of a portal about the vertical. */
 export type Turned = { turn: number };
 
-/** An instant on a clock, in milliseconds. */
-export type Clocked = { now: number };
-
 /** What a reproducible random draw starts from: the same seed, the same result. */
 export type Seeded = { seed: number };
 
