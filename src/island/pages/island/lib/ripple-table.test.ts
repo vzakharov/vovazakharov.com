@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { HOUR_SECONDS } from '@/nature/shared/swell';
+
 import {
-  HOUR_SECONDS,
   RIPPLE_BANDS,
   RIPPLE_PERIOD,
   RIPPLES,

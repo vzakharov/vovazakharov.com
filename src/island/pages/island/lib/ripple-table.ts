@@ -1,3 +1,4 @@
+import { HOUR_SECONDS } from '@/nature/shared/swell';
 /**
  * The wind sea's ripples as a fixed table of plane waves in space, each an
  * integer wave vector over a period that halves from band to band. A place is
@@ -15,7 +16,6 @@ export const RIPPLE_BANDS = 8;
 export const RIPPLES_PER_BAND = 8;
 
 /** The hour every clock here wraps on, seconds; each wave turns a whole number of times in it. */
-export const HOUR_SECONDS = 3600;
 
 const GRAVITY = 9.81;
 const TAU = 2 * Math.PI;

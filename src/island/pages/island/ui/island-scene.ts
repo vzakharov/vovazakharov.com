@@ -2,6 +2,8 @@ import { Group, PerspectiveCamera, Scene, WebGPURenderer } from 'three/webgpu';
 
 import type { CanDispose, WithOnError } from '@/kernel/shared/typings';
 
+import { HOUR_SECONDS } from '@/nature/shared/swell';
+
 import { length, R, sub, unit } from '@/island/shared/globe';
 import {
   type CoastDistance,
@@ -40,7 +42,6 @@ import {
 import { eyeOfPose, placeOfEye } from '../lib/eye-pose';
 import { type Pace, paced } from '../lib/pace';
 import type { Pose } from '../lib/place-hash';
-import { HOUR_SECONDS } from '../lib/ripple-table';
 import { startTilePool, type TilePool } from '../lib/tile-pool';
 import type { Where } from '../lib/where-line';
 import { groundLighting } from './ground-lighting';

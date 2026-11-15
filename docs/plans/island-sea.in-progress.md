@@ -174,9 +174,19 @@ altogether later.
   noon sand, foam and snow stay under white; the sheet's froth is its 1.2 cm
   tip; the sky child's fe9df61b (black space from mid orbit) merged and checked
   on WebGPU. The sky child now holds its last package: clouds and `shade`.
-- Polish notes: `lib/nature-listing.ts` (the kit's `NATURE_LISTING`) and
-  `sea-wgsl.ts`'s own `assemble([...])` are two listings of the same pieces —
-  keep one; `HOUR_SECONDS` lives in both `ripple-table.ts` and nature's swell.
+- Built (frames 19–20, sky-clouds-\*): the sky child's clouds (a033b922) merged
+  — `ui/cloud-nodes.ts`, `lib/clouds.ts`; `aerial` carries their shadow and lays
+  them in front of every material, `radiance` includes them,
+  `shine(heavens, up, height, seconds)`. Checked on WebGPU at 2 m, 6 km and 4000
+  km. The two listings and the two `HOUR_SECONDS` below are now one each. The
+  child's last round: cut the clouds' cost (2–2.8× on software), jitter the
+  edge-on banding, `/dry` + `/tend-prose`, then stop. When it reports: merge,
+  shoot, archive it, run `./scripts/vet.sh`, `/polish`, `/pr` into
+  `island/stretch-3`.
+- Polish notes (done, see above): `lib/nature-listing.ts` (the kit's
+  `NATURE_LISTING`) and `sea-wgsl.ts`'s own `assemble([...])` are two listings
+  of the same pieces — keep one; `HOUR_SECONDS` lives in both `ripple-table.ts`
+  and nature's swell.
 - (Stale below: the orbit bug is fixed.) Open with the sky child: blue space and
   a veiled disc from mid orbit (frame 11; the far-orbit opening, frame 12, is
   right); then clouds and `shade`.
