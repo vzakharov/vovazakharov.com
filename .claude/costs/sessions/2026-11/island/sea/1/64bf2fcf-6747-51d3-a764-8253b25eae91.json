@@ -1,0 +1,113 @@
+{
+  "total": {
+    "inputTokens": 74,
+    "cacheWrite5mTokens": 285669,
+    "cacheWrite1hTokens": 169092,
+    "cacheReadTokens": 3915081,
+    "outputTokens": 54002,
+    "thinkingTokens": 21341,
+    "responses": 35,
+    "costUsd": 4.994305929999999
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-15T20:57:25.161Z",
+    "contextTokens": 103641,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 45217,
+      "cacheReadTokens": 53322,
+      "outputTokens": 665,
+      "thinkingTokens": 57,
+      "responses": 1,
+      "costUsd": 0.7607524
+    }
+  },
+  "sessionId": "64bf2fcf-6747-51d3-a764-8253b25eae91",
+  "branch": "island/sea",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/carte-blanche The island game at /island (src/island/, a three/webgpu TSL cube-sphere planet with spherical-harmonic land and quadtree LOD) gets its sea and it…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkE11JPgYbnCts79FnX",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-15T20:57:17.655Z",
+  "lastResponseAt": "2026-11-15T21:02:12.660Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 26,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 169092,
+    "cacheReadTokens": 2038973,
+    "outputTokens": 26913,
+    "thinkingTokens": 17473,
+    "responses": 13,
+    "costUsd": 4.1899946
+  },
+  "subagents": {
+    "inputTokens": 48,
+    "cacheWrite5mTokens": 285669,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1876108,
+    "outputTokens": 27089,
+    "thinkingTokens": 3868,
+    "responses": 22,
+    "costUsd": 0.80431133
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 26,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 169092,
+      "cacheReadTokens": 2038973,
+      "outputTokens": 26913,
+      "thinkingTokens": 17473,
+      "responses": 13,
+      "costUsd": 4.1899946
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 20,
+      "cacheWrite5mTokens": 102664,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 676121,
+      "outputTokens": 9042,
+      "thinkingTokens": 3515,
+      "responses": 10,
+      "costUsd": 0.04627413
+    },
+    "claude-sonnet-5-5/standard": {
+      "inputTokens": 28,
+      "cacheWrite5mTokens": 183005,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 1199987,
+      "outputTokens": 18047,
+      "thinkingTokens": 353,
+      "responses": 12,
+      "costUsd": 0.7580372
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 34,
+    "matched": 34,
+    "matchedTableUsd": 4.62132713,
+    "matchedEventUsd": 4.62132713,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 16615,
+    ".txt": 2356,
+    ".py": 436
+  }
+}
