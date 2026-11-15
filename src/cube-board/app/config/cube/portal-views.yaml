@@ -1,0 +1,85 @@
+items:
+  - id: z-portal-views
+    type: zone
+    updated: [2026-11-15T19:46:00.000Z, agent:cube]
+    box: [8290, 2800, 2260, 1640, blue]
+    icon: 🚪
+    text: 'Through a portal: their surfaces, your air'
+  - id: pv-f06-own
+    type: image
+    updated: [2026-11-15T19:46:00.000Z, agent:cube]
+    box: [8318, 2910, 520]
+    src: images/portal-view-f06-own.webp
+    text: 'Floor 6, Service corridor, as it is: where we look from'
+  - id: pv-rule
+    type: sticky
+    updated: [2026-11-15T19:46:00.000Z, agent:cube]
+    box: [8318, 3380, 244, blue]
+    icon: 👁️
+    text: "One frame, one lens. Through a portal you see the far floor's surfaces and light, but in the air, haze and lens of the floor you stand on; step through and air and lens switch at once. Real game frames, the lens swapped by hand for the shot"
+  - id: pv-verdict
+    type: sticky
+    updated: [2026-11-15T19:46:00.000Z, agent:cube]
+    box: [8594, 3380, 244, green]
+    icon: ✅
+    text: 'Vova: “to look at a glitchy floor with ordinary eyes, then glitch your way into it: just what we need.” On floor 60 seen from 6 as plain grey rooms: “that is the whole point”'
+  - id: pv-f13-own
+    type: image
+    updated: [2026-11-15T19:46:00.000Z, agent:cube]
+    box: [8878, 2910, 520]
+    src: images/portal-view-f13-own.webp
+    text: 'Floor 13, Den, from inside: its own VHS lens, the band of snow mid-frame'
+  - id: pv-f13-from6
+    type: image
+    updated: [2026-11-15T19:46:00.000Z, agent:cube]
+    box: [9438, 2910, 520]
+    src: images/portal-view-f13-from6.webp
+    text: 'Floor 13 seen from 6: walnut and satsuma shag, a clean picture, no tape'
+  - id: pv-f06-from13
+    type: image
+    updated: [2026-11-15T19:46:00.000Z, agent:cube]
+    box: [9998, 2910, 520]
+    src: images/portal-view-f06-from13.webp
+    text: 'Floor 6 seen from 13: the corridor on tape, smeared, snow across the middle'
+  - id: pv-f19-own
+    type: image
+    updated: [2026-11-15T19:46:00.000Z, agent:cube]
+    box: [8878, 3380, 520]
+    src: images/portal-view-f19-own.webp
+    text: 'Floor 19, My house, from inside: wax outlines redrawn six times a second'
+  - id: pv-f19-from6
+    type: image
+    updated: [2026-11-15T19:46:00.000Z, agent:cube]
+    box: [9438, 3380, 520]
+    src: images/portal-view-f19-from6.webp
+    text: 'Floor 19 seen from 6: the crayon stays, the outlines go; only lines drawn into the walls remain'
+  - id: pv-f06-from19
+    type: image
+    updated: [2026-11-15T19:46:00.000Z, agent:cube]
+    box: [9998, 3380, 520]
+    src: images/portal-view-f06-from19.webp
+    text: "Floor 6 seen from 19: every edge in wobbling wax; the lamps burn flat white, as 19's lens has no tone curve"
+  - id: pv-f60-own
+    type: image
+    updated: [2026-11-15T19:46:00.000Z, agent:cube]
+    box: [8878, 3850, 520]
+    src: images/portal-view-f60-own.webp
+    text: 'Floor 60, Depth buffer, from inside: greys of distance, a contour every metre'
+  - id: pv-f60-from6
+    type: image
+    updated: [2026-11-15T19:46:00.000Z, agent:cube]
+    box: [9438, 3850, 520]
+    src: images/portal-view-f60-from6.webp
+    text: 'Floor 60 seen from 6: plain grey rooms in the haze; the depth lives only in its lens'
+  - id: pv-f06-from60
+    type: image
+    updated: [2026-11-15T19:46:00.000Z, agent:cube]
+    box: [9998, 3850, 520]
+    src: images/portal-view-f06-from60.webp
+    text: 'Floor 6 seen from 60: the corridor as depth greys and contours, the blockwork still faintly there'
+  - id: pv-sign
+    type: image
+    updated: [2026-11-15T20:24:00.000Z, agent:cube]
+    box: [8318, 3850, 520]
+    src: images/portal-sign-across.webp
+    text: 'The first portal door gets a sign on both sides of its wall: the first portal of the first floor with any, found by the model, not picked by hand. Vova: “for tutorialising”. The arrow points at bare wall here; the door itself lands with the door package'

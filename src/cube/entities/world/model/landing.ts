@@ -1,8 +1,8 @@
 import type { Doored } from './doorway';
 import { walledRooms } from './geometry';
 import { type HoleOf, under } from './hole';
-import { type SignMount, wallMount } from './mount';
-import { type InRoomOf, type Room, roomKey } from './room';
+import { type Hung, wallMount } from './mount';
+import { type Room, roomKey } from './room';
 import { parent, type View } from './rooms';
 
 /**
@@ -16,15 +16,12 @@ export function isLanding(room: Room, holeOf: HoleOf): boolean {
   return quarter !== null && roomKey(under(over, quarter)) === roomKey(room);
 }
 
-/** A landing room, and where on its walls a board hangs. */
-export type Landing = InRoomOf & { mount: SignMount };
-
 /** The landing rooms among those whose walls `view` draws. */
 export const landingsSeen = (
   walls: Doored,
   view: View,
   holeOf: HoleOf,
-): Landing[] =>
+): Hung[] =>
   walledRooms(view)
     .filter((room) => isLanding(room, holeOf))
     .map((room) => ({ room, mount: wallMount(walls, room) }));

@@ -263,12 +263,18 @@ items:
     box: [6978, 3900, 380, green]
     icon: 🚪
     text: 'No lift. A portal is an ordinary door; opened, it shows the far floor as you will see it once through. When the minute turns, the view through an open hub door turns with it'
+  - id: p-go-lock
+    type: sticky
+    updated: [2026-11-15T19:58:00.000Z, agent:cube]
+    box: [7798, 3900, 380, purple]
+    icon: 🔒
+    text: 'To think about, not now. Vova: “some temporary lock, or another mechanism, after you go through a door, so you cannot step straight back.” Today the way back is always open after a descent (a spoke is fixed to its hub) and within the minute after a climb'
   - id: p-go-air
     type: sticky
-    updated: [2026-11-15T19:30:04.000Z, agent:cube]
-    box: [7388, 3900, 380, yellow]
+    updated: [2026-11-15T19:46:00.000Z, agent:cube]
+    box: [7388, 3900, 380, green]
     icon: 🌫️
-    text: 'Air, for now: the far floor is drawn in the air of the floor you leave, not its own. Maybe a glitch that stays as a feature'
+    text: 'Air, lens included: the far floor is drawn in the air, haze and lens of the floor you leave, not its own, so a glitchy floor looks ordinary until you step in. Vova: “just what we need”'
   - id: l-go-period
     type: line
     updated: [2026-11-15T19:30:05.000Z, agent:cube]
@@ -309,3 +315,8 @@ items:
     updated: [2026-11-15T11:31:33.000Z, agent:cube]
     ends: [p-way-stack, deep-stack]
     text: the pop
+  - id: l-go-air-views
+    type: line
+    updated: [2026-11-15T19:46:00.000Z, agent:cube]
+    ends: [p-go-air, pv-rule]
+    text: what it looks like
