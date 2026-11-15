@@ -1,31 +1,31 @@
 items:
   - id: z-portal-door
     type: zone
-    updated: [2026-11-15T20:32:00.000Z, agent:cube]
+    updated: [2026-11-15T20:50:00.000Z, agent:cube]
     box: [11300, 2060, 2260, 780, blue]
     icon: 🚪
-    text: 'The portal door, first build (on a stand-in network: floor 6 to floor 9)'
+    text: 'The portal door on the real network: floor 6''s one hub'
   - id: pd-shut
     type: image
-    updated: [2026-11-15T20:32:00.000Z, agent:cube]
+    updated: [2026-11-15T20:50:00.000Z, agent:cube]
     box: [11328, 2170, 520]
     src: images/portal-door-shut.webp
     text: 'Shut: an ordinary door, the same frame, leaf and handle as any other'
   - id: pd-open
     type: image
-    updated: [2026-11-15T20:32:00.000Z, agent:cube]
+    updated: [2026-11-15T20:50:00.000Z, agent:cube]
     box: [11888, 2170, 520]
     src: images/portal-door-open.webp
-    text: 'Open on floor 6: the maze goes on behind it, floor 9 at this room''s size, in its own theme and in floor 6''s air'
+    text: 'Open on floor 6: floor 7''s server hall goes on behind it at this room''s size, its own theme in floor 6''s air. The sign is the old wording, being changed'
   - id: pd-next-minute
     type: image
-    updated: [2026-11-15T20:32:00.000Z, agent:cube]
+    updated: [2026-11-15T20:50:00.000Z, agent:cube]
     box: [12448, 2170, 520]
     src: images/portal-door-open-next-minute.webp
-    text: 'The same door a minute on: the hub has turned to another spoke, and the view with it'
+    text: 'The same door at the next turn of the minute that leads elsewhere: another spoke, another view'
   - id: pd-back
     type: image
-    updated: [2026-11-15T20:32:00.000Z, agent:cube]
+    updated: [2026-11-15T20:50:00.000Z, agent:cube]
     box: [13008, 2170, 520]
     src: images/portal-door-arrived-looking-back.webp
-    text: 'Through, on floor 9, looking back: the door you came out of stands open on floor 6, now in floor 9''s air. The URL moved, and Back returns you'
+    text: 'Through, on floor 7, looking back: the door stands open on floor 6''s corridor, now in floor 7''s air. The URL moved, and Back returns you'

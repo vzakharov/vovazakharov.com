@@ -126,4 +126,13 @@ and becomes the far floor's once through.
   давай даже "some doors are more equal than the others", и без стрелки», then
   «\*than others» — sent to B: "SOME DOORS ARE MORE EQUAL THAN OTHERS", no
   arrow, ≈0.8 m wide.
-- Next: B's report — merge, look at frames, board, preview; then `vet.sh`.
+- B integrated (7b294018): real model in, stub deleted; merged here as 84187fb5;
+  213 tests green. Frames re-shot on the real hub (6 → 7), on the board v115
+  (zone `z-portal-door`). Vova, typed into B's session: «≈0.8 m wide много,
+  давай как лист А4».
+- In flight with B (session_01DaohkBaqwW3EMrLSiAmuSU): rename the reference
+  model to `.js.txt` (eslint red repo-wide until then); hint board → "SOME DOORS
+  ARE / MORE EQUAL / THAN OTHERS", no arrow, A4 (297 × 210 mm); reshoot sign
+  frames; far-side FOR SALE check; a live walk on the real hub.
+- Next: B's report — merge, board (sign frame `pv-sign`), `/preview live vova`
+  and check the deployed commit, then `./scripts/vet.sh`. PR #283 stays draft.
