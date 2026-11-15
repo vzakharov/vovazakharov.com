@@ -93,16 +93,11 @@ const ROOTS: TileKey[] = Array.from({ length: 4 ** MIN_LEVEL }, (_, i) => ({
   y: Math.floor(i / 2 ** MIN_LEVEL),
 }));
 
-<<<<<<< HEAD
-type MountIslandSceneParams = {
+type MountIslandSceneParams = WithOnError & {
   /** The world number the scene opens on. */
   world: string;
   play: boolean;
-  onError: (error: Error) => void;
 };
-=======
-type MountIslandSceneParams = WithOnError & { play: boolean };
->>>>>>> origin/main
 
 /**
  * The island's scene on `canvas`: three's WebGPU renderer, which falls back
