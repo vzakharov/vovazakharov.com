@@ -2,7 +2,7 @@ items:
   - id: z-sea
     type: zone
     updated: [2026-11-15T21:45:00.000Z, agent:lead]
-    box: [7900, 260, 1150, 2000, blue]
+    box: [7900, 260, 1150, 2560, blue]
     text: 'The sea — near ground as the cube draws it outside'
   - id: sea-before
     type: image
@@ -56,3 +56,19 @@ items:
     updated: [2026-11-15T21:45:00.000Z, agent:lead]
     box: [8660, 1880, 330, yellow]
     text: "Bite 3's blue flashes: the globe now draws first and writes no depth, so a stand-in pushed 3% deeper cannot fall behind it. Not yet checked on a fast flight"
+  - id: sea-swash
+    type: image
+    updated: [2026-11-15T22:15:00.000Z, agent:lead]
+    box: [7940, 2200, 1070]
+    src: images/sea-swash.webp
+    text: "Milestone 2, the cube's swell on the island's sea: the inlet at 2 m as a sheet runs up the sand, the same spot a second later with wet sand left behind it, and the swell on open ocean at 3 m"
+  - id: sea-swash-how
+    type: sticky
+    updated: [2026-11-15T22:15:00.000Z, agent:lead]
+    box: [7940, 2490, 330, green]
+    text: "The shared app nature, extracted from the cube, is merged; the island's sea calls the cube's swell formula as it stands. One swell axis through the planet and a 64-bit clock at the eye give every fragment its phase, with nothing per tile"
+  - id: sea-swash-open
+    type: sticky
+    updated: [2026-11-15T22:15:00.000Z, agent:lead]
+    box: [8300, 2490, 330, pink]
+    text: "Still open: the sheet's edge follows the 1.2 m mesh, so the shoreline is a polygon at 2 m (left frame). Next: the surf cusps' tongue softens it"
