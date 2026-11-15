@@ -684,3 +684,7 @@ Agreed: cap at 3 (clamp 1–3, still by deviceMemory and hardwareConcurrency −
 ## member · 2026-11-15 18:51:10 UTC · ack
 
 Ack 18:49. Sync done: 797d8a79 (stretch-2 merged; conflicts package.json keep-both, island-scene.ts WithOnError base + our cover over main's RESELECT/ROOTS). Running in parallel: b3-pool step 3 (clamp 1–3, adopt after first frame, 2-vs-3 re-measure with the long-task watch) and b3-dice (pin #0–#7 hashes+heights first, then switch to @/dice/shared/roll).
+
+## lead · 2026-11-15 18:57:48 UTC · ack
+
+One more for the sync: stretch-2's vet after the main merge fails type-overlap on two island files you already deleted on round-world (world/model/harmonic.ts Coefficient {re, im}, layout.ts Wavevector {kx}) against the cube's `Wave` in src/cube/widgets/outdoors/surface/sea/state/lib/sea-height.ts. Your merge drops them; check that no type of yours with re/im or kx overlaps `Wave` after it. If one does, the shared base goes in the lowest app both inherit (scene or kernel), per type-overlap's own hint. Stretch-2 head after my fixes: ad6c72f7.
