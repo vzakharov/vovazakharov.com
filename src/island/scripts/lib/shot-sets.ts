@@ -1,8 +1,8 @@
 /**
  * What `play-island` shoots on each world: ours at five heights, along its
- * inlet and up at its sky, Earth (#0) at orbit from six sides and at 1,000 km over three coasts,
- * and every other world at orbit from two sides. Places are in degrees, east
- * positive, as the play hook's `moveTo` takes them.
+ * inlet and up at its sky, Earth (#0) at orbit from six sides and at 1,000 km
+ * over three coasts, and every other world at orbit from two sides. Places are
+ * in degrees, east positive, as the play hook's `moveTo` takes them.
  */
 
 import type { Named } from '@/kernel/shared/typings';
@@ -88,7 +88,10 @@ const ALONG_INLET: readonly Shot[] = [
 const NOON_EARLIER = 4.5;
 /** Hours after it that the sun touches the horizon. */
 const SUNSET_LATER = 1.2;
-/** Hours after it that the full moon stands as high in the east as the sun did in the west. */
+/**
+ * Hours after it that the full moon stands as high in the east as the sun did
+ * in the west.
+ */
 const MOONRISE_LATER = 2.7;
 
 const NORTH = 0;
@@ -97,7 +100,10 @@ const WEST = -Math.PI / 2;
 /** As far up as the eye may look: the horizon in frame at any height. */
 const UP = Math.PI / 2;
 
-/** A frame of the sky `m` metres over the inlet's beach, facing `heading`, `later` hours past the opening's afternoon. */
+/**
+ * A frame of the sky `m` metres over the inlet's beach, facing `heading`,
+ * `later` hours past the opening's afternoon.
+ */
 const skyOver = (
   name: string,
   m: number,
