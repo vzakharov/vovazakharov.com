@@ -1,10 +1,10 @@
-"""Split a Bash tool command into the simple commands it runs, for the
-`PreToolUse` hooks that judge a command by what it executes rather than by its
-text: a word inside quotes stays one word, so a commit message or an `echo`
-naming a command is never mistaken for running it.
+"""A Bash command split into the simple commands it runs, for the `PreToolUse`
+hooks that judge a command by the programs in it.
 
-`tokens` raises `ValueError` on a command `shlex` cannot split (an unterminated
-quote); each caller decides what that means for it.
+Approximate by design: `shlex` with shell punctuation, heredoc bodies dropped,
+and only as much of the grammar as tells one simple command from the next and
+whether its output feeds another command. A command it cannot tokenise raises
+`ValueError`, which its callers take as a reason to let the command through.
 """
 
 from __future__ import annotations
@@ -50,8 +50,9 @@ def strip_heredocs(command: str) -> str:
 def tokens(command: str) -> list[str]:
     lexer = shlex.shlex(strip_heredocs(command), posix=True, punctuation_chars=PUNCTUATION)
     lexer.whitespace = " \t\r"
-    # Without it a word breaks at any character outside `wordchars`, so a
-    # refspec `+main:main` or a path `a@b` would come out as several words.
+    # Words break where the shell breaks them — on whitespace and punctuation —
+    # rather than at every character outside `shlex`'s word set, so
+    # `body=@f.md` and `issues/comments/$id` each stay one word.
     lexer.whitespace_split = True
     return list(lexer)
 

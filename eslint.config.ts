@@ -214,6 +214,9 @@ const eslintConfig = defineConfig([
     // The cost ledger's rows: JSON only, and vet's concurrent cost tests make
     // and remove month directories here while ESLint walks the tree.
     '.claude/costs/sessions/**',
+    // The artifact apps: a project of its own with its own ESLint config and
+    // tsconfig, vendored from vzakharov/muthur and linted there.
+    '.claude/artifacts/**',
   ]),
 ]);
 

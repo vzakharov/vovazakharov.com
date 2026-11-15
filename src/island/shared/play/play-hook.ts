@@ -1,12 +1,12 @@
+import type { Readying } from '@/kernel/shared/typings';
+
 /**
  * What `/island?play` hands a script on `window[PLAY_HOOK]`, and only when the
  * URL carries `PLAY_QUERY`: the page's real clock frozen and a seeded one
  * stepped by hand, so every run draws the same frames. The page implements it;
  * `scripts/play-island.ts` drives it.
  */
-export type IslandPlayHook = {
-  /** Resolves once the scene has drawn its first frame. */
-  ready: () => Promise<void>;
+export type IslandPlayHook = Readying & {
   /** Puts the eye `m` metres above the ground; resolves once every tile the view then selects is uploaded. */
   setHeight: (m: number) => Promise<void>;
   /** Puts the eye `m` metres over plane point `(x, y)`, in metres east and north of the island's centre; resolves as `setHeight` does. */

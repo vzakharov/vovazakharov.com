@@ -14,10 +14,10 @@ export default {
     'steiger.config.mjs',
     // Named by string in `sites/site-next-config.ts`, as `createNextIntlPlugin` wants.
     'src/kernel/shared/i18n/request.ts',
-    // `src/island-board/scripts/board.ts` bundles the page from an entry it writes
+    // `src/board/scripts/board.ts` bundles the page from an entry it writes
     // inline and compiles the stylesheet by path.
-    'src/island-board/pages/board/index.ts',
-    'src/island-board/app/styles/board.scss',
+    'src/board/pages/board/index.ts',
+    'src/board/app/styles/board.scss',
     // A branch's one-off scripts, run by hand and swept by `/finalize`.
     'docs/remove-before-merging/**/*.ts',
     // Run by `scripts/vet-test.sh`, which hands node the files rather than a
@@ -37,6 +37,9 @@ export default {
   // SCSS is in: knip follows `@use` and `@forward`, so a stylesheet nothing reaches
   // is reported like any other file.
   project: ['**/*.{ts,tsx,mjs,scss}'],
+  // The artifact apps are a project of their own, with their own `package.json`,
+  // vendored from vzakharov/muthur and checked there.
+  ignore: ['.claude/artifacts/**'],
   // knip expands a `pnpm <script> <args>` spawned from a source file and resolves
   // the script's local binary against that file's directory, ignoring the spawn's
   // `cwd`; pnpm runs it from the repository root, where this one exists.

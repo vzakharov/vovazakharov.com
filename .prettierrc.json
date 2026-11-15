@@ -7,6 +7,7 @@
   "useTabs": false,
   "arrowParens": "always",
   "endOfLine": "lf",
+  "plugins": ["./scripts/prettier-wesl.ts"],
   "overrides": [
     {
       "files": "sites/vova/public/music/*/*.maya.reflections.md",

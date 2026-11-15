@@ -9,7 +9,7 @@ import { keptIn } from '@/kernel/shared/cache';
 import { pick } from '@/kernel/shared/lib/collections';
 import type { Sized, WithHeight, WithWidth } from '@/kernel/shared/typings';
 
-import type { Abscissa, Point } from '@/scene/shared/lib/plane';
+import type { Abscissa, Point, Scaling } from '@/scene/shared/lib/plane';
 
 import { alongAzimuth, type Scaled } from '../lib/geometry';
 
@@ -71,9 +71,6 @@ export type LayeredPoint = Point & Layered;
 
 /** Where on the ground something is laid out: the world's frame. */
 export type Framed = { frame: Frame };
-
-/** How big, in px, one of the clump's size stands where a point is shown. */
-export type Scaling = { scale: number };
 
 /**
  * A ground point as a camera shows it: where on the screen, how big one of

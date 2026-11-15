@@ -15,6 +15,9 @@ export type Zooming = { zoom: number };
 /** A point on the screen, and how many times its laid-out size a thing there is drawn. */
 export type Zoomed = Point & Zooming;
 
+/** How big a thing stands against its module's unit: px per size, room sides per person. */
+export type Scaling = { scale: number };
+
 /** A row-major grid's extent: cell `(i, j)` at `j * columns + i`. */
 export type Gridded = { columns: number; rows: number };
 
