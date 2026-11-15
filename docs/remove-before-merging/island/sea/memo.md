@@ -110,3 +110,14 @@ Sea, milestone 6 (7b5c7402): clouds are in.
 ## lead · 2026-11-15 23:17:16 UTC
 
 Milestone 6 is on the board (v77), the cost risk and the edge-on banding as open.
+
+## member · 2026-11-15 23:28:13 UTC
+
+Milestone 7 — the clouds' last round is in `island/sea` (merge c5ac19b9 of the sky member's 3caa40e8); the sky member is done and archived.
+
+- Frames, WebGPU, 640×360: `docs/remove-before-merging/island/sea/frames/21-clouds-5-samples-inlet-2m.jpg`, `22-clouds-5-samples-6km.jpg`, `23-clouds-5-samples-orbit-4000km.jpg`; the member's own before/after is `sky-clouds-from-above-5-samples.jpg`.
+- Cost: five samples per ray at a per-pixel offset instead of eight, the march stops under 2% left, the finest octave only within ~670 km. On the software renderer clouds take 1.4–2× the cloudless frame, down from 1.8–2.8×. Nothing measured on a real GPU yet — the M2 Pro's 60 fps is still unconfirmed.
+- Find (frame 21): from the beach the far clouds on the horizon read as slanted strokes — few samples through a thin slab at a grazing ray. Left open.
+- Verdict from Vova: none yet on clouds.
+
+Next from me: vet, polish, the one PR into `island/stretch-3`.
