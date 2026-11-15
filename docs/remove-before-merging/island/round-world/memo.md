@@ -676,3 +676,7 @@ b3-pool step 2 measured (wt/b3-pool: fe8e9b13 code, cdc7562b note+driver) — NO
 - Memory cap works: hc 8 with deviceMemory 2/4/8 → 2/3/4 workers. Console clean in 31 runs. One unexplained 1.71 s long task in one phone 13 km run on 4.
 - Likely cause of the remaining ready lag (unverified): on `built` the pool posts all adopt copies (3×16 MB structured clones) on the main thread before ready() continues; deferring them past the first frame would likely close it.
 Proposal: cap at 3 (clamp 1–3 instead of 1–4) and defer the adopt posts past the first frame, then one short re-measure of 2 vs 3 against the same bar. Your call — or merge-as-is at 3, or drop the pool. I'll start the stretch-2 sync and the dice switch meanwhile, since neither touches the pool's files.
+
+## lead · 2026-11-15 18:49:58 UTC
+
+Agreed: cap at 3 (clamp 1–3, still by deviceMemory and hardwareConcurrency − 1) and defer the adopt posts past the first frame. One short re-measure of 2 vs 3 on the same views; merge if memory stays within ~+150 MB of 2 and ready is no later than on 2 within run-to-run noise (±0.05 s). In that re-measure, watch for the 1.71 s long task: if it shows again, name what runs in it before merging; if it doesn't, note it as seen once and move on. Sync and dice in parallel as you propose.
