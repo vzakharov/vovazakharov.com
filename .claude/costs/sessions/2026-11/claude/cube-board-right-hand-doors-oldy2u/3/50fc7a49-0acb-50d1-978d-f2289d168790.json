@@ -1,0 +1,129 @@
+{
+  "total": {
+    "inputTokens": 1060,
+    "cacheWrite5mTokens": 169865,
+    "cacheWrite1hTokens": 206835,
+    "cacheReadTokens": 5113704,
+    "outputTokens": 32212,
+    "thinkingTokens": 16318,
+    "responses": 35,
+    "costUsd": 9.159638500000002
+  },
+  "estimate": {
+    "at": "2026-11-15T09:22:35.964Z",
+    "subjectLine": "content: answer the doors PR's review and land-prep it",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "the edits are a board line, doc comments on three constants and a ledger row, each in a format the repo already fixes"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "copywriter",
+        "comment": "the squash body and five thread replies explain wall kinds and the sight fix to a reader without the code in front of them"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "land prep: the vet run, the base merge, the sweep and the attestation, each a scripted step to run and read"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "src/cube-board/app/config/cube/ideas.yaml",
+    "endedAt": "2026-11-15T09:20:20.938Z",
+    "contextTokens": 183036,
+    "spend": {
+      "inputTokens": 418,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 126790,
+      "cacheReadTokens": 1716317,
+      "outputTokens": 12106,
+      "thinkingTokens": 6401,
+      "responses": 14,
+      "costUsd": 3.57435925
+    }
+  },
+  "sessionId": "50fc7a49-0acb-50d1-978d-f2289d168790",
+  "branch": "claude/cube-board-right-hand-doors-oldy2u",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/handle & finalize claude/cube-board-right-hand-doors-oldy2u",
+  "prs": [
+    280
+  ],
+  "url": "https://claude.ai/code/session_01DaohkBGuBxGomQuEpDiL7p",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-15T09:17:23.599Z",
+  "lastResponseAt": "2026-11-15T09:24:54.301Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 770,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 206835,
+    "cacheReadTokens": 4040634,
+    "outputTokens": 22768,
+    "thinkingTokens": 10080,
+    "responses": 25,
+    "costUsd": 6.292958499999998
+  },
+  "subagents": {
+    "inputTokens": 290,
+    "cacheWrite5mTokens": 169865,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1073070,
+    "outputTokens": 9444,
+    "thinkingTokens": 6238,
+    "responses": 10,
+    "costUsd": 2.8666799999999997
+  },
+  "byRate": {
+    "claude-fable-5-1/standard": {
+      "inputTokens": 1060,
+      "cacheWrite5mTokens": 169865,
+      "cacheWrite1hTokens": 206835,
+      "cacheReadTokens": 5113704,
+      "outputTokens": 32212,
+      "thinkingTokens": 16318,
+      "responses": 35,
+      "costUsd": 9.159638500000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 35,
+    "matched": 35,
+    "matchedTableUsd": 9.159638500000002,
+    "matchedEventUsd": 9.159638500000002,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 22,
+    "review": 65,
+    "threads": 0
+  },
+  "reviewPosts": {
+    "PRR_kwDOQXZBKM8AAAABYB5nSg": 17,
+    "PRRC_kwDOQXZBKM8AAAABENpWew": 24,
+    "PRRC_kwDOQXZBKM8AAAABENpgqw": 13,
+    "PRRC_kwDOQXZBKM8AAAABENp-og": 5,
+    "PRRC_kwDOQXZBKM8AAAABENqGvg": 4,
+    "PRRC_kwDOQXZBKM8AAAABENth7g": 2
+  },
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 972,
+    ".json": 36,
+    ".yaml": 214,
+    ".ts": 2229,
+    ".wgsl": 98,
+    ".tsx": 12
+  }
+}
