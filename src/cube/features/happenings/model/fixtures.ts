@@ -1,4 +1,5 @@
-import { ramp, smooth } from '@/cube/shared/lib/ease';
+import { ramp, smooth } from '@/scene/shared/lib/ease';
+
 import { CEILING_HEIGHT } from '@/cube/shared/lib/room-shape';
 import {
   box,

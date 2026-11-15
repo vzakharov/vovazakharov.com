@@ -1,8 +1,9 @@
 // Generated from sea-foam.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { HASH, wgsl } from '@/cube/shared/shader';
-import { SWELL_COURSE } from '@/cube/entities/island';
+import { HASH, wgsl } from '@/scene/shared/shader';
+
+import { SWELL_COURSE } from '@/nature/shared/swell';
 
 import { SEA_SHORE } from '../../shore';
 import { SEA_FOAM_NUMBERS } from './sea-foam-numbers';

@@ -1,7 +1,8 @@
 import type { Sized } from '@/kernel/shared/typings';
 
+import { clamp01 } from '@/scene/shared/lib/ease';
+
 import type { Rgb } from '../lib/colour';
-import { clamp01 } from '../lib/ease';
 
 /**
  * The air over the island, in kilometres and per-kilometre coefficients for

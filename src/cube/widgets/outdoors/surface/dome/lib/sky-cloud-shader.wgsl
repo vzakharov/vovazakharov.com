@@ -4,7 +4,7 @@
 
 import package::cube::widgets::outdoors::stage::lib::outdoor_frame::frame;
 import package::cube::widgets::outdoors::stage::lib::outdoor_stage::rayThrough;
-import package::cube::shared::shader::hash::{unitOf, cellHash};
+import package::scene::shared::shader::hash::{unitOf, cellHash};
 import package::cube::widgets::outdoors::stage::lib::cloud_noise_numbers::CLOUD_SALT;
 import package::cube::widgets::outdoors::stage::lib::clouds_wgsl::skyAlong;
 

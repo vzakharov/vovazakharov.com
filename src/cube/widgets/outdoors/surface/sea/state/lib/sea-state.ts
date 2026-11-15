@@ -1,4 +1,4 @@
-import { HOUR_SECONDS, RADIANS_A_TURN, WAVES } from '@/cube/entities/island';
+import { HOUR_SECONDS, RADIANS_A_TURN, WAVES } from '@/nature/shared/swell';
 
 import { FINEST } from './cascade';
 import { type Sea, slopeVariance, windSea } from './spectrum';

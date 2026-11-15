@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { HOUR_SECONDS } from '@/cube/entities/island';
+import { HOUR_SECONDS } from '@/nature/shared/swell';
 
 import { amplitudesOf, bin, CASCADES, TILE } from './cascade';
 import {

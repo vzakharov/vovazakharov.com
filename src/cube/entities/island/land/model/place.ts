@@ -1,3 +1,5 @@
+import type { Vec2 } from '@/scene/shared/lib/vec2';
+
 import {
   type Box,
   CUBE_METRES,
@@ -7,7 +9,7 @@ import {
   toShell,
 } from '@/cube/shared/cube-boundary';
 import { ROOM_HEIGHT } from '@/cube/shared/lib/room-shape';
-import type { Vec2, Vec3 } from '@/cube/shared/lib/vec';
+import type { Vec3 } from '@/cube/shared/lib/vec';
 import { f32, vecf, wgsl } from '@/cube/shared/shader';
 
 import { islandHeight } from './island-height';

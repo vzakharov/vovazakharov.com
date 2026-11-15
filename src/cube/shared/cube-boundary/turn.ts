@@ -1,6 +1,7 @@
+import { f32, wgsl } from '@/scene/shared/shader/wgsl';
+
 import { ROOM_METRES } from '../lib/room-shape';
 import type { Vec3 } from '../lib/vec';
-import { f32, wgsl } from '../shader/wgsl';
 
 export type Quarters = 0 | 1 | 2 | 3;
 

@@ -1,7 +1,7 @@
 // `metro-platform.ts` adds this floor's light and lens, `lamps()` among them.
 
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, Surf, alongWall, Material, polished, glowing, embossed, repeated, spaced};
-import package::cube::shared::shader::hash::{mix32, unitOf, fbm, worley, cellWalls};
+import package::scene::shared::shader::hash::{mix32, unitOf, fbm, worley, cellWalls};
 import package::cube::entities::theme::kit::lib::finish::{band, tiling, damp};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::leisure::shape::lib::shape::{inside, roundBox, slabs, oneOf};

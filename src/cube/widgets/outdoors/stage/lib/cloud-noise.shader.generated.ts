@@ -1,7 +1,7 @@
 // Generated from cloud-noise.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { HASH, wgsl } from '@/cube/shared/shader';
+import { HASH, wgsl } from '@/scene/shared/shader';
 
 import { CLOUD_NOISE_NUMBERS } from './cloud-noise-numbers';
 import { OUTDOOR_FRAME } from './outdoor-frame';

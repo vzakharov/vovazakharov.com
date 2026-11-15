@@ -1,4 +1,4 @@
-import { lerp, ramp, smooth } from '@/cube/shared/lib/ease';
+import { lerp, ramp, smooth } from '@/scene/shared/lib/ease';
 
 /**
  * How a channel arrives at a key from the one before: `smooth` leaves and

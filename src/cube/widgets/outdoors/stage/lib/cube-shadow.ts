@@ -1,5 +1,6 @@
+import { smoothstep } from '@/scene/shared/lib/ease';
+
 import { SUN_DIR } from '@/cube/shared/cube-boundary';
-import { smoothstep } from '@/cube/shared/lib/ease';
 import { SUN_SPREAD } from '@/cube/shared/lib/sun-disc';
 import { dot3, moved, scaled, type Vec3 } from '@/cube/shared/lib/vec';
 import {

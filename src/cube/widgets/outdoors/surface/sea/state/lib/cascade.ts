@@ -1,6 +1,6 @@
 import { pathHash, roll, rollWith } from '@/dice/shared/roll';
 
-import { RADIANS_A_TURN, SEA_WORLD } from '@/cube/entities/island';
+import { RADIANS_A_TURN, SEA_WORLD } from '@/nature/shared/swell';
 
 import { K_CEILING, type Sea, spectrumOf, turnsPerHour } from './spectrum';
 
