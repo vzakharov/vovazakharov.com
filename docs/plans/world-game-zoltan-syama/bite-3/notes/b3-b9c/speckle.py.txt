@@ -1,0 +1,40 @@
+# Throwaway: B8b's outlier count — pixels more than 3 grey levels off their 5x5 median, on the
+# contrast-equalised frame — per frame, plus a map (outliers red over the greyed frame) and the
+# count inside the sea only (land masked out by hue) so speckle along tile seams stands apart.
+# `python3 speckle.py <out-dir> <label>=<png> ...`
+import sys
+import numpy as np
+from PIL import Image, ImageOps
+from numpy.lib.stride_tricks import sliding_window_view
+
+
+def median_filter(x, size):
+    r = size // 2
+    return np.median(sliding_window_view(np.pad(x, r, mode='edge'), (size, size)), axis=(-1, -2)).astype(int)
+
+
+def neighbours(m):
+    p = np.pad(m.astype(int), 1)
+    return sliding_window_view(p, (3, 3)).sum(axis=(-1, -2))
+
+out = sys.argv[1]
+for arg in sys.argv[2:]:
+    name, png = arg.split('=', 1)
+    rgb = Image.open(png).convert('RGB')
+    eq = np.asarray(ImageOps.equalize(rgb.convert('L'))).astype(int)
+    med = median_filter(eq, size=5)
+    out_mask = np.abs(eq - med) > 3
+    a = np.asarray(rgb).astype(int)
+    sea = (a[..., 2] > a[..., 0] + 20) & (a[..., 2] > a[..., 1])
+    # Isolated single bright pixels: brighter than the median by > 3 and no other outlier in the 3x3.
+    single = out_mask & (neighbours(out_mask) == 1) & (eq > med)
+    raw = np.asarray(rgb.convert('L')).astype(int)
+    raw_med = median_filter(raw, size=5)
+    raw_sparkle = (raw - raw_med) > 8
+    print(f'{name}: outliers {int(out_mask.sum())}, in sea {int((out_mask & sea).sum())}, '
+          f'isolated bright {int(single.sum())} (sea {int((single & sea).sum())}), '
+          f'raw > 8 grey over median {int(raw_sparkle.sum())} (sea {int((raw_sparkle & sea).sum())})')
+    grey = np.stack([eq * 0.4] * 3, axis=-1)
+    grey[out_mask] = (255, 60, 60)
+    grey[raw_sparkle] = (255, 255, 0)
+    Image.fromarray(grey.clip(0, 255).astype(np.uint8)).save(f'{out}/{name}-outliers.png')
