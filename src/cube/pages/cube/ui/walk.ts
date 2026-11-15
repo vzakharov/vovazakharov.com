@@ -1,7 +1,7 @@
 import { clockAt } from '@/cube/shared/lib/clock';
 import {
-  encodeAddress,
-  planted,
+  type Facing,
+  farSideOf,
   type Pose,
   type Quad,
   type Room,
@@ -24,6 +24,7 @@ import {
   type Holed,
   type Input,
   INTRO_STAGE,
+  isCarried,
   isPastSill,
   isStanding,
   onSill,
@@ -45,13 +46,14 @@ import {
 } from '@/cube/features/player';
 
 import { adapted, lensAdapted } from '../lib/adaptation';
-import { type Follow, followAddress } from '../lib/fragment';
+import type { Follow } from '../lib/fragment';
 import { lensOf } from '../lib/lit-stage';
 import {
+  followPlanted,
+  pushCheat,
   type Start,
   writeAwake,
   writeCheat,
-  writeFragment,
 } from '../lib/start';
 import type { Selling } from './cube-mesh';
 import { type CubeScene, mountCube } from './cube-scene';
@@ -103,7 +105,7 @@ export type Hooks = {
  */
 export function walk(
   canvas: HTMLCanvasElement,
-  { pose: start, hatch, resumable, ashore }: Start,
+  { pose: start, resumable, ashore, ...fallen }: Start,
   play: boolean,
   selling: Selling,
   {
@@ -125,14 +127,7 @@ export function walk(
   const holedHere = plantedHoled(setFailure);
   /** Whether the walk's address may still be written back. */
   let earned = input !== null && resumable;
-  const following = (): Follow =>
-    followAddress(
-      start.n,
-      hatch,
-      async (address) => encodeAddress(planted, address),
-      writeFragment,
-      setFailure,
-    );
+  const following = (): Follow => followPlanted(start.n, fallen, setFailure);
   // A walk that starts on the shore has no address until it climbs in.
   let follow: Follow | null = earned && ashore === null ? following() : null;
   /** The body while it is out of doors, and what its eye shows there. */
@@ -202,6 +197,11 @@ export function walk(
   const script = scripted({ reach, unreach, offer });
   /** The instant a frame is drawn at: a script's stopped clock, or the time. */
   const now = (): number => (input === null ? script.now() : Date.now());
+  /** The walls, a portal door leading where it does at the frame's instant. */
+  const ways = {
+    ...plantedWalls,
+    beyond: (door: Facing) => farSideOf(door, now()),
+  };
   /**
    * One frame of `abroad` out of doors, `dt` seconds on: the player once a
    * scene has put the body inside the cube, null while it is still out. A
@@ -309,10 +309,13 @@ export function walk(
               { ...player, pose },
               controls,
               seconds,
-              plantedWalls,
+              ways,
               here,
               sign,
             );
+            const carried = isCarried(pose, player);
+            // A walk with no address to keep gets its floor's entry.
+            if (carried && follow === null) pushCheat(player.pose.n);
             // Past the sill there is only the drop to the sand.
             const leaving = isPastSill(player.pose);
             if (leaving) player = { ...player, pose: onSill(player.pose) };
@@ -354,7 +357,7 @@ export function walk(
                 out = refusedAt(edge, moved.scale, INTRO_STAGE, at);
               } else out = steppingOut(edge, moved.scale, INTRO_STAGE, at);
             }
-            follow?.(moved, standing, seconds);
+            follow?.(moved, standing, seconds, carried);
             return indoorsAt(player, seconds);
           },
     onHeard: (heard, at) => {

@@ -1,0 +1,196 @@
+{
+  "total": {
+    "inputTokens": 5176,
+    "cacheWrite5mTokens": 1423,
+    "cacheWrite1hTokens": 653447,
+    "cacheReadTokens": 28539223,
+    "outputTokens": 180828,
+    "thinkingTokens": 75275,
+    "responses": 136,
+    "costUsd": 23.451754599999997
+  },
+  "estimate": {
+    "at": "2026-11-15T20:28:00.616Z",
+    "subjectLine": "feat: a portal door shows another floor and carries the walk there",
+    "parts": [
+      {
+        "hours": 14.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "a second scene pass in another floor's air, laid in a doorway with depth, needs someone who owns the render pipeline"
+      },
+      {
+        "hours": 8.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "the crossing, the door's far twin, the URL address format and Back are movement and state code with tests"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "qa",
+        "comment": "the crossing had to be walked live under software WebGPU, and frames shot at fixed clock instants"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-15T19:20:53.284Z",
+    "contextTokens": 113197,
+    "spend": {
+      "inputTokens": 6,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 43296,
+      "cacheReadTokens": 146704,
+      "outputTokens": 1001,
+      "thinkingTokens": 155,
+      "responses": 2,
+      "costUsd": 0.7621648
+    }
+  },
+  "sessionId": "38fddadb-077f-5acf-9a62-78932a5770ef",
+  "branch": "claude/cube-portals-door",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session in a /carte-blanche run led by session session_01DaohkBxB5aodsuLB2dftcE. Write in English, including in chat. Do not open a PR. Do not m…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBaqwW3EMrLSiAmuSU",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-15T19:20:38.543Z",
+  "lastResponseAt": "2026-11-15T20:41:11.330Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 255,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 653447,
+    "cacheReadTokens": 27939289,
+    "outputTokens": 166723,
+    "thinkingTokens": 75275,
+    "responses": 134,
+    "costUsd": 22.713969799999997
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 5176,
+      "cacheWrite5mTokens": 1423,
+      "cacheWrite1hTokens": 653447,
+      "cacheReadTokens": 28539223,
+      "outputTokens": 180828,
+      "thinkingTokens": 75275,
+      "responses": 136,
+      "costUsd": 23.451754599999997
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-15T19:33:46.963Z",
+      "trigger": "auto",
+      "compactedFrom": 307240,
+      "summaryChars": 19350,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/cube/entities/world/index.ts",
+        "endedAt": "2026-11-15T19:39:58.732Z",
+        "contextTokens": 179891,
+        "spend": {
+          "inputTokens": 25,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 119824,
+          "cacheReadTokens": 1841380,
+          "outputTokens": 18633,
+          "thinkingTokens": 11852,
+          "responses": 14,
+          "costUsd": 3.0309800000000005
+        }
+      },
+      "rereads": {
+        "calls": 12,
+        "byTool": {
+          "Read": 12
+        },
+        "estimatedTokens": 34969,
+        "estimatedUsd": 0.8930937999999998
+      },
+      "billedUsd": 0.4139242
+    },
+    {
+      "at": "2026-11-15T20:16:12.399Z",
+      "trigger": "auto",
+      "compactedFrom": 303455,
+      "summaryChars": 14617,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/cube/pages/cube/ui/walk.ts",
+        "endedAt": "2026-11-15T20:18:36.772Z",
+        "contextTokens": 124252,
+        "spend": {
+          "inputTokens": 2,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 54305,
+          "cacheReadTokens": 59036,
+          "outputTokens": 612,
+          "thinkingTokens": 234,
+          "responses": 1,
+          "costUsd": 0.9051832
+        }
+      },
+      "rereads": {
+        "calls": 4,
+        "byTool": {
+          "Read": 4
+        },
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.3238606
+    }
+  ],
+  "telemetry": {
+    "events": 135,
+    "matched": 133,
+    "matchedTableUsd": 22.628785599999997,
+    "matchedEventUsd": 22.628785599999997,
+    "unseen": {
+      "compact": {
+        "inputTokens": 4921,
+        "cacheWrite5mTokens": 1423,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 599934,
+        "outputTokens": 14105,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.7377848
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 254,
+    ".js": 295,
+    ".json": 2,
+    ".scss": 11,
+    ".ts": 2631,
+    ".yaml": 422,
+    ".tsx": 8,
+    ".wgsl": 27
+  }
+}

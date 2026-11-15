@@ -1,5 +1,17 @@
-export { type Address, decodeAddress, encodeAddress } from './model/address';
-export { type Ajar, doorLeaf, type Facing, leafLine } from './model/door';
+export {
+  type Address,
+  decodeAddress,
+  encodeAddress,
+  type Hatched,
+} from './model/address';
+export {
+  type Ajar,
+  doorFrame,
+  doorLeaf,
+  DOORWAY_DEEP,
+  type Facing,
+  leafLine,
+} from './model/door';
 export {
   type Doors,
   doorSides,
@@ -32,6 +44,17 @@ export {
 export { PILL_RADIUS, pillQuads } from './model/pill';
 export { plant } from './model/plant';
 export { planted } from './model/planted';
+export {
+  type Beyond,
+  beyondOf,
+  carried,
+  farSideOf,
+  isBeyond,
+  isPortal,
+  pastDoorway,
+  roomBeyond,
+  wayThrough,
+} from './model/portal';
 export { PORTALS } from './model/portal-counts';
 export {
   type Portal,
@@ -66,6 +89,8 @@ export {
 } from './model/room';
 export {
   opens,
+  parent,
+  type Sight,
   sight,
   slabRooms,
   type Step,

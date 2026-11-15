@@ -89,6 +89,8 @@ export function CubeCanvas({
    */
   const holdingsRef = useRef(new Map<string, SignMount>());
   const sceneRef = useRef<Walk | null>(null);
+  /** Counts the browser's steps through history, each a walk from its URL. */
+  const [visit, setVisit] = useState(0);
   // Stable, so the meter's window does not restart on every render here.
   const passTimes = useCallback(
     () => sceneRef.current?.passTimes() ?? null,
@@ -164,12 +166,18 @@ export function CubeCanvas({
         );
       })
       .catch(setFailure);
+    // Back from a portal's far side leads to where the walk went through it.
+    const revisit = (): void => {
+      setVisit((count) => count + 1);
+    };
+    globalThis.addEventListener('popstate', revisit);
     return () => {
       live = false;
+      globalThis.removeEventListener('popstate', revisit);
       sceneRef.current?.dispose();
       sceneRef.current = null;
     };
-  }, [offerCopy]);
+  }, [offerCopy, visit]);
 
   if (lost) return <p className={classes['notice']}>{nowhere}</p>;
   if (missing) return <p className={classes['notice']}>{unsupported}</p>;

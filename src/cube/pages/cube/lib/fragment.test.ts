@@ -25,7 +25,7 @@ function recording() {
   const errors: Error[] = [];
   const follow = followAddress(
     1,
-    null,
+    { hatch: null },
     async (address) => {
       encoded.push(address);
       await setImmediate();
@@ -79,13 +79,55 @@ describe('followAddress', () => {
     assert.equal(errors.length, 1);
   });
 
+  it('keeps its hatch through a portal, the far side a history entry', async () => {
+    const encoded: Address[] = [];
+    const written: Array<[string, boolean]> = [];
+    const follow = followAddress(
+      2,
+      { hatch: { x: 1n, y: 0n } },
+      async (address) => {
+        encoded.push(address);
+        await setImmediate();
+        return String(encoded.length);
+      },
+      (fragment, push) => {
+        written.push([fragment, push]);
+      },
+      (error) => assert.fail(error),
+    );
+    follow(pose({ n: 2, x: 1n }), true, 1);
+    await setImmediate();
+    await setImmediate();
+    follow(pose({ n: 5, x: 3n }), true, 1, true);
+    await setImmediate();
+    await setImmediate();
+    follow(pose({ n: 5, x: 3n, u: 0.6 }), true, 1);
+    await setImmediate();
+    await setImmediate();
+    follow(pose({ n: 6, x: 7n }), true, 1);
+    await setImmediate();
+    await setImmediate();
+    assert.deepEqual(written, [
+      ['1', false],
+      ['2', true],
+      ['3', false],
+      ['4', false],
+    ]);
+    const [, far, , landed] = encoded;
+    assert.ok(far && landed);
+    assert.deepEqual(far.hatch, { x: 1n, y: 0n });
+    assert.deepEqual([far.fell, far.at.n], [2, 5]);
+    assert.deepEqual(landed.hatch, { x: 7n, y: 0n });
+    assert.equal(landed.fell, undefined);
+  });
+
   it('lands only the latest write', async () => {
     const written: string[] = [];
     const { promise: held, resolve: release } = Promise.withResolvers<void>();
     let calls = 0;
     const follow = followAddress(
       1,
-      null,
+      { hatch: null },
       async () => {
         calls += 1;
         const mine = String(calls);

@@ -22,6 +22,11 @@ export type FloorRange = Floored & { firstVertex: number; count: number };
 /** A vertex buffer, and which run of it belongs to which floor. */
 export type Scenery = { data: ArrayBuffer; ranges: readonly FloorRange[] };
 
+/** The floors any of `sceneries` has a face on. */
+export const floorsIn = (sceneries: readonly Scenery[]): number[] => [
+  ...new Set(sceneries.flatMap(({ ranges }) => ranges.map(({ n }) => n))),
+];
+
 /**
  * Each corner's place across its face: a facet's corners start at the bottom
  * left of what is drawn on it, and a texture's rows run top down.

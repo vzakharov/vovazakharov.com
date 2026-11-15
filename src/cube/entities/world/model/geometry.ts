@@ -11,6 +11,7 @@ import { eastKind, isPassable, southKind } from './doorways';
 import { type Footprint, footprint, placed, slabHeight } from './frame';
 import { holeMiddle, type HoleOf, type Quarter, QUARTERS, under } from './hole';
 import type { RolledMaze } from './maze';
+import { isPortal } from './portal';
 import type { InRoom, Pose } from './pose';
 import { face, type Quad } from './quad';
 import { type InRoomOf, isRoom, type Room, roomKey, roomsAcross } from './room';
@@ -232,7 +233,9 @@ function roomWalls(
       along < 0n || along >= last
         ? 'wall'
         : (door.isEast ? eastKind : southKind)(rolled, n, door.x, door.y);
-    if (kind === 'door') return doorSeen(eye, door, BOTH, opened);
+    if (kind === 'door' || (kind === 'wall' && isPortal(door, rolled))) {
+      return doorSeen(eye, door, BOTH, opened);
+    }
     return isPassable(kind) ? [] : whole();
   };
   const westWall = { n, x: x - 1n, y, isEast: true };

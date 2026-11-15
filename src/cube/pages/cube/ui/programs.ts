@@ -36,11 +36,12 @@ type Layouts = {
 /** Compiles floors' shaders ahead of their being drawn. */
 export type Preparing = {
   /**
-   * Resolves once the shaders of `floors` are compiled; a floor's faces are
-   * uploaded only after that. Rejects with the compiler's words on a shader
-   * that does not compile.
+   * Resolves once the shaders of `floors` are compiled, each in the air of
+   * floor `air`, its own where none is given; a floor's faces are uploaded
+   * only after that. Rejects with the compiler's words on a shader that does
+   * not compile.
    */
-  prepare: (floors: readonly number[]) => Promise<void>;
+  prepare: (floors: readonly number[], air?: number) => Promise<void>;
 };
 
 export type Programs = Preparing & {
@@ -50,8 +51,11 @@ export type Programs = Preparing & {
    * rejects with the compiler's words where it does not compile.
    */
   outsideLens: () => Promise<GPURenderPipeline>;
-  /** Floor `n`'s program; throws where the floor was not prepared. */
-  of: (n: number) => Program;
+  /**
+   * Floor `n`'s program in the air of floor `air`, its own where none is
+   * given; throws where the floor was not prepared so.
+   */
+  of: (n: number, air?: number) => Program;
 };
 
 /** What the scene pass writes: scene light, then what a mirror keeps. */
@@ -60,6 +64,11 @@ export const SCENE_TARGETS: GPUColorTargetState[] = [
   ...MIRROR_FORMATS,
 ].map((format) => ({ format }));
 
+/** The WGSL of floor `n` in the air of floor `air`. */
+export type SourceOf = (n: number, air: number) => string;
+
+const keyOf = (n: number, air: number): string => `${String(n)}/${String(air)}`;
+
 /**
  * Each floor's program on `device`, `sourceOf` its WGSL, compiled the first
  * time the floor is prepared; a lens draws into a target of `format`.
@@ -67,7 +76,7 @@ export const SCENE_TARGETS: GPUColorTargetState[] = [
 export function createPrograms(
   device: GPUDevice,
   format: GPUTextureFormat,
-  sourceOf: (n: number) => string,
+  sourceOf: SourceOf,
 ): Programs {
   const layouts: Layouts = {
     uniform: device.createBindGroupLayout({
@@ -122,14 +131,16 @@ export function createPrograms(
   };
   let outsideLens: Promise<GPURenderPipeline> | null = null;
 
-  const compiling = new Map<number, Promise<Program>>();
-  const ready = new Map<number, Program>();
+  const compiling = new Map<string, Promise<Program>>();
+  const ready = new Map<string, Program>();
 
-  const compile = async (n: number): Promise<Program> => {
+  const compile = async (n: number, air: number): Promise<Program> => {
     const shader = await compiled(
       device,
-      `Floor ${String(n)}'s shader`,
-      sourceOf(n),
+      air === n
+        ? `Floor ${String(n)}'s shader`
+        : `Floor ${String(n)}'s shader in floor ${String(air)}'s air`,
+      sourceOf(n, air),
     );
     const pipeline = async (
       layout: GPUPipelineLayout,
@@ -160,7 +171,7 @@ export function createPrograms(
       lensOf(shader),
     ]);
     const program = { faces, boards, lens };
-    ready.set(n, program);
+    ready.set(keyOf(n, air), program);
     return program;
   };
 
@@ -170,19 +181,22 @@ export function createPrograms(
       outsideLens ??= compileOutsideLens();
       return outsideLens;
     },
-    prepare: async (floors) => {
+    prepare: async (floors, air) => {
       await Promise.all(
         floors.map(async (n) => {
-          const underWay = compiling.get(n) ?? compile(n);
-          compiling.set(n, underWay);
+          const key = keyOf(n, air ?? n);
+          const underWay = compiling.get(key) ?? compile(n, air ?? n);
+          compiling.set(key, underWay);
           return underWay;
         }),
       );
     },
-    of: (n) => {
-      const program = ready.get(n);
+    of: (n, air = n) => {
+      const program = ready.get(keyOf(n, air));
       if (program === undefined) {
-        throw new Error(`Floor ${String(n)} is drawn before it was prepared`);
+        throw new Error(
+          `Floor ${String(n)} is drawn in floor ${String(air)}'s air before it was prepared`,
+        );
       }
       return program;
     },

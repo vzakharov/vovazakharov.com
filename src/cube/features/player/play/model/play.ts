@@ -10,6 +10,7 @@ import {
 import {
   type Acting,
   ajarOf,
+  carriedThrough,
   type Cue,
   doorAfter,
   EYE_HEIGHT,
@@ -248,6 +249,8 @@ function restocked(player: Player, here: Holed | null): Player {
  * A standing body using the hand on a closed door opens it, and it swings
  * away from the body and shuts once it is out of reach; while open, its wall
  * stands only either side of the doorway, and its leaf where it has swung to.
+ * A step through a door that `walls.beyond` leads elsewhere ends through the
+ * door it leads to, that door open behind the body in its place.
  */
 export function play(
   player: Player,
@@ -258,12 +261,14 @@ export function play(
   sign: WallMounted | null = null,
 ): Player {
   const { pose, act, door } = player;
-  const { isDoor } = walls;
+  const { isDoor, beyond } = walls;
   const aim = input.use
     ? aimOf(pose, { shelf: here?.shelf ?? null, sign, isDoor })
     : null;
   const ways = { ...walls, ajar: ajarOf(door) };
-  const next = restocked(played(player, input, dt, ways, here, aim), here);
+  const moved = restocked(played(player, input, dt, ways, here, aim), here);
+  const through = carriedThrough(pose, moved.pose, moved.door, beyond);
+  const next = through === null ? moved : { ...moved, ...through };
   const standing = act === null && next.act === null;
   const opened = standing && aim?.at === 'door' ? aim.door : null;
   return { ...next, door: doorAfter(next.door, next.pose, opened, dt) };

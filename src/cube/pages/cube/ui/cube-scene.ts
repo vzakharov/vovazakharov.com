@@ -6,7 +6,6 @@ import { type Laddered, toCube } from '@/cube/entities/island';
 import { themeOf } from '@/cube/entities/theme';
 import {
   type Ajar,
-  descend,
   eyeInFrame,
   type InRoomOf,
   type Outside,
@@ -24,7 +23,8 @@ import {
   seenOutside,
   viewProjection,
 } from '../lib/camera';
-import type { Scenery } from '../lib/mesh';
+import { FIRST_ROOM, inEyeRoom, standsIn } from '../lib/eye-room';
+import { floorsIn } from '../lib/mesh';
 import { OUTSIDE_LENS, type OutsideLens } from '../lib/outside-lens';
 import { between } from '../lib/palette';
 import type { HeldOpen, ScenePlay } from '../lib/play';
@@ -32,6 +32,7 @@ import { shaderOf } from '../lib/shader';
 import { build, type Mesh, type Selling, type SignOf } from './cube-mesh';
 import { goingOn, type Heard } from './going-on';
 import { heldTiming } from './pass-timer';
+import { createPortalView } from './portal-view';
 import { type Hinting, keyedQuality } from './quality';
 import { createRenderer, type Drawing, type Renderer } from './renderer';
 
@@ -52,22 +53,6 @@ type Frame = Posed &
     taken: InRoomOf | null;
     moving: readonly Quad[];
   };
-
-/**
- * The room an outside eye's frame is built in: floor 1's, whose sides are the
- * cube frame's units.
- */
-const FIRST_ROOM: Pose = {
-  n: 1,
-  x: 0n,
-  y: 0n,
-  u: 0.5,
-  v: 0.5,
-  yaw: 0,
-  elevation: 0,
-  scale: 1,
-  eyeAbove: 0,
-};
 
 /**
  * Moves the eye one frame on: the pose it was at, the seconds since the last
@@ -106,18 +91,6 @@ const noSign: SignOf = () => null;
 
 /** What shows where no face is drawn, for an eye `depth` floors down. */
 const airAt = (depth: number) => between((n) => themeOf(n).air, depth);
-
-/** The floors any of `sceneries` has a face on. */
-const floorsIn = (sceneries: readonly Scenery[]): number[] => [
-  ...new Set(sceneries.flatMap(({ ranges }) => ranges.map(({ n }) => n))),
-];
-
-/**
- * `pose` on the floor whose room holds its eye: the floor below once a
- * falling eye has passed under its slab, so the mesh is that room's.
- */
-const inEyeRoom = (pose: Pose): Pose =>
-  pose.eyeAbove < 0 ? descend(pose) : pose;
 
 /**
  * Draws the cube into `canvas` every animation frame from `options.start`,
@@ -187,6 +160,13 @@ export function mountCube(
   const outdoorsNext = (): boolean =>
     stagedEye !== null || hooked !== null || inEyeRoom(pose).n === 1;
 
+  const portals = createPortalView({
+    copy,
+    bought,
+    onError,
+    renderer: () => (disposed ? null : renderer),
+  });
+
   const takenKey = (): string => (taken === null ? '' : roomKey(taken.room));
 
   const upload = async (
@@ -230,7 +210,7 @@ export function mountCube(
     const outdoor = stagedEye ?? hooked;
     const at = outdoor === null ? inEyeRoom(pose) : FIRST_ROOM;
     if (built?.key !== meshKey(at)) rebuild(at);
-    if (built === null || Math.abs(built.pose.n - at.n) > 1) return;
+    if (built === null || !standsIn(built.pose, at)) return;
     // The outside is drawn in floor 1's frame alone, which prepared it.
     const first = built.pose.n === 1;
     if (outdoor !== null && !first) return;
@@ -239,7 +219,8 @@ export function mountCube(
       uploadedTaken = takenKey();
     }
     const { lenses, mesh } = built;
-    const clock = clockAt(now());
+    const instant = now();
+    const clock = clockAt(instant);
     const { quads, heard } = goingOn(mesh, clock);
     onHeard(heard, outdoor?.outside ?? pose);
     const leaf = mesh.leaf(door);
@@ -268,8 +249,11 @@ export function mountCube(
       ),
       eye,
     };
+    const glance = { ...seen, door, leaf, at, frame: built.pose, mesh };
     renderer.draw({
       ...seen,
+      through:
+        outdoor === null ? portals.through({ ...glance, now: instant }) : null,
       clear: airAt(depth),
       detail: quality.detail(),
       waking: outdoor !== null,
@@ -341,6 +325,9 @@ export function mountCube(
   const shown = async (target: Pose): Promise<void> => {
     await rebuild(target).done;
     resize();
+    render();
+    // A portal door's far rooms are asked for by the frame that first shows it.
+    await portals.settled();
     render();
     await renderer?.drawn();
   };

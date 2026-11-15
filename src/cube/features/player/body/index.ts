@@ -1,9 +1,11 @@
 export { BODY_RADIUS } from './model/body';
 export {
   ajarOf,
+  carriedThrough,
   doorAfter,
   doorsFaced,
   doorwayAt,
+  isCarried,
   type OpenDoor,
   swingingOf,
   type Ways,
