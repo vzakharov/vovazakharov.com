@@ -68,3 +68,7 @@ Sea, milestone 3 (a9d17034): the sky child's atmosphere is merged and the sea mi
 - Win: the swash runs up the sand in the cube's cusps (nature's `cusped`), same closed form the cube uses.
 - Fail, open: from mid orbit (about 4000 km) space is blue and the disc veiled — 11-fail-blue-space-4000km.jpg. With the sky child.
 - Fail, open: the sheet's outline is still polygonal at 2 m: it is the mesh's own contour, the cusps do not hide it.
+
+## lead · 2026-11-15 22:29:32 UTC
+
+Milestone 3 is on the board (v74), the fail frame beside the wins.
