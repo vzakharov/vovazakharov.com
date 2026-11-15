@@ -25,17 +25,23 @@ The lead's memory for this run (`/carte-blanche`). Not an approval gate.
 
 ## Answers to the batch of questions
 
-Not yet answered; the defaults below are what is being built.
+Asked: 1 view (far room at your size, a window into it), 2 crossing (instant at
+the threshold), 3 way back (nothing extra), 4 branch (this one, PR #283).
+Answered 15 Nov, verbatim:
 
-1. View through an open portal door — default: the far room at your size, as you
-   will stand in it once through (a window into it), not the true-scale
-   dollhouse of `p-look-scale`.
-2. Crossing — default: instant at the threshold, the URL switching to the far
-   floor and room; no size slide.
-3. Way back — default: nothing extra. The spoke you step out of leads back to
-   its hub; the browser's Back is the other way.
-4. Branch — default: this branch and PR #283, its squash subject becoming the
-   game's `feat` once portals ship.
+> 1- нет, вид в масштабе комнаты, прямо как будто за дверью просто продолжается
+> лабиринт (но с другой темой)
+>
+> 2- мгновенно, меняется только воздух
+>
+> 3- ага
+>
+> 4- ага
+
+Read as: behind the door the maze simply goes on — the far floor's rooms at this
+room's scale, in the far floor's theme, so the far floor's own scale never
+shows; on crossing nothing jumps but the air, which was this floor's in the view
+and becomes the far floor's once through.
 
 ## Design decisions
 
