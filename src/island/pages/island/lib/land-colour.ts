@@ -1,7 +1,8 @@
 /** The sea's colour, sRGB. */
 export const SEA_COLOUR = 0x0b_34_62;
 
-type Rgb = readonly [number, number, number];
+/** A colour's channels, each in `[0, 1]`. */
+export type Rgb = readonly [number, number, number];
 
 const channels = (hex: number): Rgb => [
   ((hex >> 16) & 0xff) / 255,

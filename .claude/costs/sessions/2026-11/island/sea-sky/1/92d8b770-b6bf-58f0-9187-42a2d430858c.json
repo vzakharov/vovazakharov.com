@@ -1,0 +1,93 @@
+{
+  "total": {
+    "inputTokens": 80,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 217973,
+    "cacheReadTokens": 8229970,
+    "outputTokens": 85073,
+    "thinkingTokens": 50672,
+    "responses": 41,
+    "costUsd": 8.537121999999998
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-15T21:04:20.967Z",
+    "contextTokens": 113199,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 41459,
+      "cacheReadTokens": 54603,
+      "outputTokens": 884,
+      "thinkingTokens": 301,
+      "responses": 1,
+      "costUsd": 0.7096406
+    }
+  },
+  "sessionId": "92d8b770-b6bf-58f0-9187-42a2d430858c",
+  "branch": "island/sea-sky",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a member of a team building one bite of the island game at /island (src/island/, a three.js `three/webgpu` TSL cube-sphere planet, flown from orbit down…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCJdeeFwaqj45LNp9n",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-15T21:04:11.693Z",
+  "lastResponseAt": "2026-11-15T21:40:46.126Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 80,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 217973,
+    "cacheReadTokens": 8229970,
+    "outputTokens": 85073,
+    "thinkingTokens": 50672,
+    "responses": 41,
+    "costUsd": 8.537121999999998
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 80,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 217973,
+      "cacheReadTokens": 8229970,
+      "outputTokens": 85073,
+      "thinkingTokens": 50672,
+      "responses": 41,
+      "costUsd": 8.537121999999998
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 41,
+    "matched": 41,
+    "matchedTableUsd": 8.537121999999998,
+    "matchedEventUsd": 8.537121999999998,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 16706,
+    ".txt": 2356,
+    ".py": 436
+  }
+}
