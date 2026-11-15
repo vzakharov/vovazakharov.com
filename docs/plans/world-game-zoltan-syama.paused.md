@@ -77,10 +77,10 @@ the bite in hand. The text it held before the board took over is in git
   beside it in the release goes `NNNN-slug.json` with the figures to date,
   `python3 .claude/costs/contribution.py --at <time> --json`.
 - R02, settled in chat after «давай создадим ветку epic/island-part-1» — no epic
-  branch: the mammoth lives on `island/stretch-N` (#266 for stretch 2; stretch 1
-  was #255) and reaches `main` through cuts, `island/cut-N`, each finalized and
-  squashed while bites keep landing on the stretch. After a squash the next
-  stretch starts off `main`, carrying `docs/plans/` and
+  branch: the mammoth lives on `island/stretch-N` (#287 for stretch 3; stretch 2
+  was #266, stretch 1 #255) and reaches `main` through cuts, `island/cut-N`,
+  each finalized and squashed while bites keep landing on the stretch. After a
+  squash the next stretch starts off `main`, carrying `docs/plans/` and
   `docs/remove-before-merging/` in one commit; members branch off and merge into
   the current stretch. The plan, board and relays are swept from a cut only.
   `.claude/skills/mammoth/notes/gates.md` carries the cycle. A stretch's code
@@ -189,6 +189,13 @@ the bite in hand. The text it held before the board took over is in git
   draws the last selection whose tiles are all held until the new one is, so a
   turn or climb no longer shows a blank or coarse frame (the frame-by-frame
   replay is in #268's body).
+- **Bite 3 — a round world, and Earth as world #0** — contract
+  `docs/plans/world-game-zoltan-syama/bite-3.md`; #285 merged into
+  `island/stretch-2`. Land is a spherical-harmonic series over the whole sphere,
+  tiles a cube of six quadtrees, parameters on `@/dice` keyed by path, pinned
+  worlds #0 Earth and #1 ours re-fitted; three tile workers.
+- **Cut 2** — #286 squashed into `main` as 4d5ef08b: the round world live at
+  `/island`. `island/stretch-3` (#287) starts off it.
 
 ## Waiting on the operator
 
@@ -198,23 +205,22 @@ step"), less the world-number fork, which bite 2 settles.
 
 ## Open bites
 
-- **Bite 3 — a round world, and Earth as world #0** — contract
-  `docs/plans/world-game-zoltan-syama/bite-3.md`, the lead's probe beside it in
-  `bite-3/`. Land is a spherical-harmonic series over the whole sphere, tiles a
-  cube of six quadtrees, parameters a typed schema keyed by path, pinned worlds
-  a table (#0 Earth from Natural Earth, #1 ours re-fitted), random worlds on
-  Earth's measured envelope; no count set anywhere. Branch `island/round-world`.
+- **The sea, and the near ground as the cube draws it** — a session on Fable
+  running `/carte-blanche` on `island/sea`, its one PR into `island/stretch-3`
+  («давай мерджить и запускать на фейбле /carte-blanche»). Vova's brief: «на
+  ближнем приближении должно быть как снаружи куба, при этом как-то всё это
+  сделать так чтобы компьютер не сдох всё отрисовывать (на кубе, например,
+  нещадно тормозит и пришлось делать "drowsy" -- тут этого не хочется). при этом
+  как совмещать воксели three с тем что у нас снаружи куба я тоже без понятия,
+  возможно придётся вообще-всё переписывать». The cube's island floor
+  (`src/cube/entities/island/`) is the source: swell, water level, wet shore,
+  surf cusps. Bite 3's leftovers ride with it where they touch: the blue flashes
+  over new ground from high up (a stand-in pushed 3% deeper falls behind the
+  ocean globe above ~50 km; the board's `bite3-flicker-left`), call 8, C4, the
+  #2–#6 re-shoot, the Gulf islet, the moiré.
 
 ## Next bites
 
-- **Cut 2 first** («срез»; «давайте общими усилиями добьём то что есть»): bite 3
-  lands as it stands, its open items (call 8, C4, the #2–#6 re-shoot, the Gulf
-  islet, the moiré) and the flicker Vova still saw on the last preview left for
-  later («что остаётся -- пока берём как есть, будем решать потом»).
-- **The sea, ahead of every bite below**, once cut 2 merges: a session on Fable
-  running `/carte-blanche` («не сейчас -- после того как мёрджнем, и на fable, и
-  с новым скиллом /carte-blanche»). Its source is the cube's island floor
-  (`src/cube/entities/island/`): swell, water level, wet shore, surf cusps.
 - **Objects from dice rolls** — agreed on the board's strait thread («да,
   согласен»): after the base formula, a chain of seeded rolls, each placing a
   water object with harmonics at its own scale; lakes first, the strait as two
