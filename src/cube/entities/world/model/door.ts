@@ -79,7 +79,7 @@ export function doorLook({ n, x, y, isEast }: DoorWall): {
   };
 }
 
-/** The frame's width on each jamb and the head, in room sides. */
+/** `DOOR.frame` in room sides. */
 const JAMB_WIDE = DOOR.frame * METRE;
 
 /** The leaf's width, in room sides: the cut less its frame on both jambs. */
