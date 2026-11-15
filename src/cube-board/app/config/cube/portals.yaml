@@ -263,6 +263,12 @@ items:
     box: [6978, 3900, 380, green]
     icon: 🚪
     text: 'No lift. A portal is an ordinary door; opened, it shows the far floor as you will see it once through. When the minute turns, the view through an open hub door turns with it'
+  - id: p-go-lock
+    type: sticky
+    updated: [2026-11-15T19:58:00.000Z, agent:cube]
+    box: [7798, 3900, 380, purple]
+    icon: 🔒
+    text: 'To think about, not now. Vova: “some temporary lock, or another mechanism, after you go through a door, so you cannot step straight back.” Today the way back is always open after a descent (a spoke is fixed to its hub) and within the minute after a climb'
   - id: p-go-air
     type: sticky
     updated: [2026-11-15T19:46:00.000Z, agent:cube]
