@@ -1,11 +1,11 @@
 /**
- * Fails when any board's files carry Cyrillic: a board is written in English,
- * an operator's words on it included, translated.
+ * Fails when any board's files carry Cyrillic. `board sync` stops the same
+ * lines where a live edit brings them in; this is the backstop for a hand edit.
  */
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 
-import { cyrillicLines } from './lib/cyrillic.ts';
+import { russianOnBoard } from './lib/cyrillic.ts';
 
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 
@@ -16,10 +16,8 @@ async function boardFiles(): Promise<string[]> {
   );
   const nested = await Promise.all(
     apps.map(async (app) => {
-      const config = path.join('src', app, 'app/config');
-      const names = await readdir(path.join(REPO_ROOT, config), {
-        recursive: true,
-      });
+      const config = path.join(REPO_ROOT, 'src', app, 'app/config');
+      const names = await readdir(config, { recursive: true });
       return names
         .filter((name) => name.endsWith('.yaml'))
         .map((name) => path.join(config, name));
@@ -28,15 +26,13 @@ async function boardFiles(): Promise<string[]> {
   return nested.flat().toSorted();
 }
 
-const findings = (
-  await Promise.all(
-    (await boardFiles()).map(async (file) =>
-      cyrillicLines(await readFile(path.join(REPO_ROOT, file), 'utf8')).map(
-        ({ line, words }) => `${file}:${line}: “${words}”`,
-      ),
-    ),
-  )
-).flat();
+const files = await boardFiles();
+const texts = await Promise.all(
+  files.map(async (file) => readFile(file, 'utf8')),
+);
+const findings = russianOnBoard(
+  new Map(files.map((file, at) => [file, texts[at] ?? ''])),
+);
 for (const finding of findings) process.stderr.write(`${finding}\n`);
 if (findings.length > 0)
   throw new Error(

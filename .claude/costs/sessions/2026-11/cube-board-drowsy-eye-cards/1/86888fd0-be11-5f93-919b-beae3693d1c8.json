@@ -1,0 +1,197 @@
+{
+  "total": {
+    "inputTokens": 8504,
+    "cacheWrite5mTokens": 150015,
+    "cacheWrite1hTokens": 340606,
+    "cacheReadTokens": 22906849,
+    "outputTokens": 67747,
+    "thinkingTokens": 16837,
+    "responses": 127,
+    "costUsd": 9.4421459
+  },
+  "estimate": {
+    "at": "2026-11-15T10:41:19.156Z",
+    "subjectLine": "content: PR #281's cards on the cube board, no Russian on boards",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "middle",
+        "role": "editor",
+        "comment": "recovering eighteen cards from a swept review board and rewriting them as board prose in English needs care with the operator's verdicts"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "designer",
+        "comment": "placing two card rows and a new zone without overlap on a dense board"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a gated vet check is a routine script, a pure helper with a test and wiring into vet.sh and its rule"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "src/cube-board/app/config/cube/intro-drowsy.yaml",
+    "endedAt": "2026-11-15T09:51:32.191Z",
+    "contextTokens": 150629,
+    "spend": {
+      "inputTokens": 40,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 96912,
+      "cacheReadTokens": 2423644,
+      "outputTokens": 10527,
+      "thinkingTokens": 5843,
+      "responses": 20,
+      "costUsd": 1.4707248000000004
+    }
+  },
+  "sessionId": "86888fd0-be11-5f93-919b-beae3693d1c8",
+  "branch": "cube-board-drowsy-eye-cards",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/task Move onto the cube board what PR #281's session put on its review board instead. Context, verified by the session that hands this over: - PR #281 (`claude…",
+  "prs": [
+    282
+  ],
+  "url": "https://claude.ai/code/session_01DaohkD9P4XptTYFmmQHxAa",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-15T09:49:19.853Z",
+  "lastResponseAt": "2026-11-15T11:06:58.484Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 184,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 340606,
+    "cacheReadTokens": 17853882,
+    "outputTokens": 48399,
+    "thinkingTokens": 11675,
+    "responses": 90,
+    "costUsd": 7.264340400000002
+  },
+  "subagents": {
+    "inputTokens": 64,
+    "cacheWrite5mTokens": 148004,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 3757665,
+    "outputTokens": 13377,
+    "thinkingTokens": 5162,
+    "responses": 31,
+    "costUsd": 1.7593489999999998
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 6378,
+      "cacheWrite5mTokens": 150015,
+      "cacheWrite1hTokens": 340606,
+      "cacheReadTokens": 22906849,
+      "outputTokens": 67722,
+      "thinkingTokens": 16837,
+      "responses": 126,
+      "costUsd": 9.4419208
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 2126,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 25,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0002251
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-15T11:04:49.878Z",
+      "trigger": "auto",
+      "compactedFrom": 307923,
+      "summaryChars": 12629,
+      "reorientation": {
+        "endedBy": "Write",
+        "endedOn": "src/board/scripts/lib/cyrillic.ts",
+        "endedAt": "2026-11-15T11:05:04.546Z",
+        "contextTokens": 136916,
+        "spend": {
+          "inputTokens": 4,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 79504,
+          "cacheReadTokens": 171674,
+          "outputTokens": 927,
+          "thinkingTokens": 296,
+          "responses": 2,
+          "costUsd": 0.6889228000000001
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.19493120000000003
+    }
+  ],
+  "telemetry": {
+    "events": 126,
+    "matched": 120,
+    "matchedTableUsd": 8.9674568,
+    "matchedEventUsd": 8.9674568,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 2024,
+        "cacheWrite5mTokens": 1892,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 997041,
+        "outputTokens": 33,
+        "thinkingTokens": 0,
+        "responses": 4,
+        "costUsd": 0.22330020000000003
+      },
+      "generate_session_title": {
+        "inputTokens": 2126,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 25,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0002251
+      },
+      "compact": {
+        "inputTokens": 4106,
+        "cacheWrite5mTokens": 119,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 298261,
+        "outputTokens": 5913,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.19493120000000003
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 505,
+    "review": 43,
+    "threads": 0
+  },
+  "reviewPosts": {
+    "IC_kwDOQXZBKM8AAAABmgxuAg": 9,
+    "PRRC_kwDOQXZBKM8AAAABEOA3bQ": 20,
+    "PRRC_kwDOQXZBKM8AAAABEOA8EQ": 1,
+    "PRRC_kwDOQXZBKM8AAAABEOBFkw": 13
+  },
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 237,
+    ".json": 1,
+    ".sh": 20,
+    ".ts": 74,
+    ".yaml": 132
+  }
+}

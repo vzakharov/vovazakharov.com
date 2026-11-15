@@ -1,7 +1,10 @@
 import assert from 'node:assert/strict';
+import path from 'node:path';
 import { describe, it } from 'node:test';
 
-import { cyrillicLines } from './cyrillic.ts';
+import { cyrillicLines, russianOnBoard } from './cyrillic.ts';
+
+import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 
 describe('cyrillicLines', () => {
   it('finds nothing in English, curly quotes and emoji included', () => {
@@ -16,5 +19,14 @@ describe('cyrillicLines', () => {
         { line: 3, words: 'ёж' },
       ],
     );
+  });
+});
+
+describe('russianOnBoard', () => {
+  it('prints each Cyrillic line as a repo path, line and words', () => {
+    const file = path.join(REPO_ROOT, 'src/x-board/app/config/x/a.yaml');
+    assert.deepEqual(russianOnBoard(new Map([[file, 'a: ok\nb: привет']])), [
+      'src/x-board/app/config/x/a.yaml:2: “привет”',
+    ]);
   });
 });
