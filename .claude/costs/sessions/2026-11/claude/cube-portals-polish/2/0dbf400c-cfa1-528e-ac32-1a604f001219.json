@@ -10,26 +10,20 @@
     "costUsd": 4.5397496
   },
   "estimate": {
-    "at": "2026-11-15T22:12:34.451Z",
-    "subjectLine": "fix: portal threshold dropout, family paint, type gates, frames",
+    "at": "2026-11-15T22:31:31.608Z",
+    "subjectLine": "fix: the portal threshold without a black frame, paint by family",
     "parts": [
-      {
-        "hours": 3.0,
-        "grade": "senior",
-        "role": "graphics-programmer",
-        "comment": "diagnosing a near-plane clip of a stencil quad against the crossing line needs rendering depth"
-      },
-      {
-        "hours": 2.0,
-        "grade": "middle",
-        "role": "developer",
-        "comment": "routine type-base extraction and barrel trimming across two apps under the repo's gates"
-      },
       {
         "hours": 1.0,
         "grade": "senior",
-        "role": "game-designer",
-        "comment": "deciding portal paint so doors don't give portals away"
+        "role": "graphics-programmer",
+        "comment": "Moving the far view's doorway mask past the wall line so the near plane never clips it before the crossing, with a geometric test and a re-shot threshold frame."
+      },
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "Paint shared within a hub's family as a pure function of place, tested over every pairing, plus resolving type-overlap and knip failures across the portal code and re-shooting the door frames."
       }
     ],
     "comment": null
