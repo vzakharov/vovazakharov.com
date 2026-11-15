@@ -152,6 +152,11 @@ and becomes the far floor's once through.
   the left of one walking east or south — `farSideOf` keeps `toward`, so every
   pairing then agrees — and every portal leaf takes one shared rolled paint, the
   leaf walked through being one leaf. Package D (door fixes) takes both.
+- Vova's second recording (frames committed as
+  `cube-portal-threshold-glitch-*.jpg`): for one game frame at the threshold,
+  still on floor 6, the far view drops out — black, a sliver of floor 7 out of
+  place. No long freeze that time (to floor 7); the first stall (to floor 8) may
+  be a cold compile. Sent to D with the frames.
 - vet at 5f0b0a4c red: format, type-overlap, knip (portal exports unused outside
   the slice, `Ways`). The lead's.
 - Next: D's report; vet green. PR #283 stays draft.
