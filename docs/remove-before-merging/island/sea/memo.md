@@ -97,3 +97,12 @@ Sea, milestone 5 (e177eb5b):
 ## lead · 2026-11-15 22:55:21 UTC
 
 Milestone 5 is on the board (v76).
+
+## member · 2026-11-15 23:16:26 UTC
+
+Sea, milestone 6 (7b5c7402): clouds are in.
+
+- Win: one cloud field on the sphere (the sky child's), seen from the beach, from inside and as cover from orbit, casting shadows through the same air every material is seen through. Frames: docs/remove-before-merging/island/sea/frames/20-clouds-orbit-4000km.jpg, 19-clouds-inlet-2m.jpg, sky-clouds-6km.jpg (a shadow on the land), sky-clouds-dusk.jpg.
+- Find (the sky child's): three's stock `mx_noise_float` kept the page from ever becoming ready on the software compiler — about forty Perlin calls a material; a small value noise as a real shader function compiles in seconds.
+- Risk, open: the clouds cost 2–2.8× frame time on the software rasteriser (8 samples a fragment). Unmeasured on a real GPU; the child is cutting it.
+- Fail, open: far clouds seen edge-on band horizontally.
