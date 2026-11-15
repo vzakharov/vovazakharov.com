@@ -84,3 +84,12 @@ Sea, milestone 4 (e21dee97; vet green on a9d17034): the ground off the beach.
 ## lead · 2026-11-15 22:38:07 UTC
 
 Milestone 4 is on the board (v75).
+
+## member · 2026-11-15 22:54:17 UTC
+
+Sea, milestone 5 (e177eb5b):
+
+- Win: noon no longer burns out. The sun lights were set for the opening's 20° sun, so a noon beach, its foam and the snow clipped to white; now the eye adapts (`eyeKeeps`), on land and in the sea alike. Frames: docs/remove-before-merging/island/sea/frames/16-noon-inlet-2m.jpg, 17-noon-wet-sand-2m.jpg.
+- Win: rock shows where the mountains are steep enough — outcrops in the snow: 15-rock-in-snow-1500m.jpg.
+- Fixed fail: blue space from mid orbit (was 11-fail-blue-space-4000km.jpg) — the sky child's fix, checked on WebGPU: 18-orbit-4000km-fixed.jpg.
+- Next: clouds (the sky child's last package), the shoreline's polygons, polish, the PR into island/stretch-3.
