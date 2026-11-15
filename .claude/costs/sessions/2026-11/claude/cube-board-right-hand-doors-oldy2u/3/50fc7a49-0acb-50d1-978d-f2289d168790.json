@@ -1,0 +1,103 @@
+{
+  "total": {
+    "inputTokens": 162,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 56504,
+    "cacheReadTokens": 566580,
+    "outputTokens": 2013,
+    "thinkingTokens": 199,
+    "responses": 6,
+    "costUsd": 1.373995
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": null,
+    "endedOn": null,
+    "endedAt": null,
+    "contextTokens": null,
+    "spend": {
+      "inputTokens": 162,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 56504,
+      "cacheReadTokens": 566580,
+      "outputTokens": 2013,
+      "thinkingTokens": 199,
+      "responses": 6,
+      "costUsd": 1.373995
+    }
+  },
+  "sessionId": "50fc7a49-0acb-50d1-978d-f2289d168790",
+  "branch": "claude/cube-board-right-hand-doors-oldy2u",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/handle & finalize claude/cube-board-right-hand-doors-oldy2u",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBGuBxGomQuEpDiL7p",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-15T09:17:23.599Z",
+  "lastResponseAt": "2026-11-15T09:17:48.111Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 162,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 56504,
+    "cacheReadTokens": 566580,
+    "outputTokens": 2013,
+    "thinkingTokens": 199,
+    "responses": 6,
+    "costUsd": 1.373995
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-1/standard": {
+      "inputTokens": 162,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 56504,
+      "cacheReadTokens": 566580,
+      "outputTokens": 2013,
+      "thinkingTokens": 199,
+      "responses": 6,
+      "costUsd": 1.373995
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 6,
+    "matched": 6,
+    "matchedTableUsd": 1.373995,
+    "matchedEventUsd": 1.3739949999999999,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 22,
+    "review": 65,
+    "threads": 0
+  },
+  "reviewPosts": {
+    "PRR_kwDOQXZBKM8AAAABYB5nSg": 17,
+    "PRRC_kwDOQXZBKM8AAAABENpWew": 24,
+    "PRRC_kwDOQXZBKM8AAAABENpgqw": 13,
+    "PRRC_kwDOQXZBKM8AAAABENp-og": 5,
+    "PRRC_kwDOQXZBKM8AAAABENqGvg": 4,
+    "PRRC_kwDOQXZBKM8AAAABENth7g": 2
+  },
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 552,
+    ".json": 7,
+    ".yaml": 209,
+    ".ts": 2226,
+    ".wgsl": 98,
+    ".tsx": 12
+  }
+}
