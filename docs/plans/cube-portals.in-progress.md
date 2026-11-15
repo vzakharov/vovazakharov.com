@@ -173,4 +173,11 @@ and becomes the far floor's once through.
 - E (Opus, session_01DaohkCr8UsatJU7EFPupzV) on the same branch: dropout fix,
   paint by family (replacing D's one shared paint), type-overlap and knip,
   frames.
-- Next: E's report, merge, board, preview, vet. PR #283 stays draft.
+- E done (51841919; archived): dropout fixed (mask `DOORWAY_DEEP` past the
+  line), paint by family (`familyOf`), gates, frames. Merged; the lead undid E's
+  move of the meadow's clock into kernel (it pushed game.ts past its frozen line
+  count) and named the portal view's instant `epochMs` instead (2d598133). vet
+  green; preview slot 2 at 51841919; board v117.
+- Next: wait for Vova. At /finalize: the meadow's half-hour suite
+  (`VET_MEADOW=1`), since E touched mushrooms type imports (`Turned`). PR #283
+  stays draft.

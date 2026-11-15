@@ -2,7 +2,7 @@ items:
   - id: z-portal-door
     type: zone
     updated: [2026-11-15T20:50:00.000Z, agent:cube]
-    box: [11300, 2060, 2260, 780, blue]
+    box: [11300, 2060, 2260, 1170, blue]
     icon: 🚪
     text: "The portal door on the real network: floor 6's one hub"
   - id: pd-shut
@@ -29,3 +29,21 @@ items:
     box: [13008, 2170, 520]
     src: images/portal-door-arrived-looking-back.webp
     text: "Through, on floor 7, looking back: the door stands open on floor 6's corridor, now in floor 7's air. The URL moved, and Back returns you"
+  - id: pd-leaf-before
+    type: image
+    updated: [2026-11-15T22:40:00.000Z, agent:cube]
+    box: [11328, 2560, 520]
+    src: images/portal-door-leaf-before.webp
+    text: 'One leaf, side one: a step before the threshold on floor 6, the leaf hung on the left and swung away'
+  - id: pd-leaf-past
+    type: image
+    updated: [2026-11-15T22:40:00.000Z, agent:cube]
+    box: [11888, 2560, 520]
+    src: images/portal-door-leaf-past-looking-back.webp
+    text: "One leaf, side two: a step past it on floor 7, turned round, the same leaf now on the right and swung toward you. Vova: “the leaves inside and outside open different ways”, fixed: a portal hangs on the jamb at the left of one walking east or south, and a spoke takes its hub's paint, so portals don't stand out by colour"
+  - id: pd-threshold
+    type: image
+    updated: [2026-11-15T22:40:00.000Z, agent:cube]
+    box: [12448, 2560, 520]
+    src: images/portal-door-threshold.webp
+    text: 'A millimetre before the crossing, inside the doorway: the far floor still shows. Vova saw this frame go black, the doorway mask clipped by the near plane; the mask now lies past the wall line'
