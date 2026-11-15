@@ -12,15 +12,17 @@ import {
   type WorldField,
 } from './tile-protocol';
 
+const MAX_WORKERS = 3;
+
 /**
  * Workers in a pool on a device with `cores` logical cores and `memoryGb` of
  * memory (each `undefined` where the browser does not say). One core is left
  * to the main thread, 2 workers where the cores are unknown. Each worker is an
- * isolate holding its own copy of the world field and adds ~130 MB to the page,
- * so memory buys one worker per doubling — 1 at ≤1 GB, 2 at 2 GB, 3 at 4 GB, 4
- * at 8 GB — which keeps the pool under ~13 % of a small device's memory and
- * lets unknown memory cap nothing. The pool stops at 4 rather than paying for
- * one per core.
+ * isolate holding its own copy of the world field and adds ~100 MB to the page,
+ * so memory buys one worker per doubling — 1 at ≤1 GB, 2 at 2 GB, 3 at 4 GB —
+ * which keeps the pool under ~13 % of a small device's memory and lets unknown
+ * memory cap nothing. The pool stops at {@link MAX_WORKERS}: a fourth worker
+ * settles a view little sooner than a third and costs another ~100 MB.
  */
 export function poolSize(
   cores: number | undefined,
@@ -29,7 +31,17 @@ export function poolSize(
   const byCores = cores === undefined ? 2 : cores - 1;
   const byMemory =
     memoryGb === undefined ? Infinity : Math.floor(Math.log2(memoryGb) + 1);
-  return Math.max(1, Math.min(4, byCores, byMemory));
+  return Math.max(1, Math.min(MAX_WORKERS, byCores, byMemory));
+}
+
+/**
+ * Runs `run` once the browser has painted the frame being prepared now: the
+ * next animation frame, then a task after its paint.
+ */
+function afterPaint(run: () => void): void {
+  requestAnimationFrame(() => {
+    setTimeout(run, 0);
+  });
 }
 
 /** `navigator.deviceMemory`, GB, which only Chromium reports. */
@@ -72,8 +84,8 @@ type Built = WorldField & { readonly buildMs: number };
 
 /**
  * Starts `poolSize` tile workers for this device on world `world`: the first
- * builds its field from the number, and the rest adopt a copy of it once it
- * has. Every filled tile goes to `onTile`; a worker's failure goes
+ * builds its field from the number, and the rest adopt a copy of it once the
+ * page has painted the frame that field opens. Every filled tile goes to `onTile`; a worker's failure goes
  * to `onError` and leaves its tile pending. A pool holds one world: another is
  * a new pool, this one disposed.
  */
@@ -124,9 +136,14 @@ export function startTilePool(
       if (message.kind === 'built') {
         const { field: copy, seed, buildMs } = message;
         field.resolve({ field: copy, seed, buildMs });
-        // Copied, not transferred: the page samples this field too.
-        for (const other of slots.slice(1))
-          send(other, adoptRequest({ field: copy, seed }));
+        // Copied, not transferred: the page samples this field too. Each copy
+        // is a structured clone on the main thread, so they wait until the
+        // page has drawn the frame the field opens; fills sent to these
+        // workers meanwhile wait in them for it.
+        afterPaint(() => {
+          for (const other of slots.slice(1))
+            send(other, adoptRequest({ field: copy, seed }));
+        });
         return;
       }
       inFlight.delete(orderId(message.tile));

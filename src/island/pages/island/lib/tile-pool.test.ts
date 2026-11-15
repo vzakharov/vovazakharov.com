@@ -16,9 +16,10 @@ describe('poolSize', () => {
     assert.equal(poolSize(4, undefined), 3);
   });
 
-  it('stops at 4', () => {
-    assert.equal(poolSize(8, undefined), 4);
-    assert.equal(poolSize(16, 32), 4);
+  it('stops at 3', () => {
+    assert.equal(poolSize(5, undefined), 3);
+    assert.equal(poolSize(8, undefined), 3);
+    assert.equal(poolSize(16, 32), 3);
   });
 
   it('buys one worker per doubling of memory', () => {
@@ -27,7 +28,7 @@ describe('poolSize', () => {
     assert.equal(poolSize(8, 2), 2);
     assert.equal(poolSize(8, 3), 2);
     assert.equal(poolSize(8, 4), 3);
-    assert.equal(poolSize(8, 8), 4);
+    assert.equal(poolSize(8, 8), 3);
   });
 
   it('lets the cores cap a pool memory would allow', () => {
