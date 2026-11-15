@@ -22,8 +22,8 @@ import {
   PORTALS,
   spokesOf,
 } from './portal-counts';
-import { type InRoomOf, isRoom } from './room';
-import { type DoorWall, isSameWall } from './wall-frame';
+import type { InRoomOf } from './room';
+import { type DoorWall, isInnerWall, isSameWall } from './wall-frame';
 
 /**
  * The shallowest block level whose partitions may hold a portal: two walls an
@@ -179,9 +179,7 @@ function portalOn(rolled: RolledMaze, site: Partition): Portal | null {
 /** The portal on `wall`, or null: on a floor with none, or a wall without. */
 export function portalAt(rolled: RolledMaze, wall: DoorWall): Portal | null {
   const { n, x, y, isEast } = wall;
-  const isInner =
-    isRoom(n, x, y) && (isEast ? isRoom(n, x + 1n, y) : isRoom(n, x, y + 1n));
-  if (!hasPortals(n) || !isInner) return null;
+  if (!hasPortals(n) || !isInnerWall(wall)) return null;
   const across = isEast ? 'east' : 'south';
   const { partition } = spotOf(n, { across, x, y });
   if (partition.level < SITE_LEVEL) return null;

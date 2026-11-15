@@ -1,5 +1,5 @@
 import { DEEPEST_FLOOR } from './maze';
-import type { Floored } from './room';
+import { type Floored, roomsAcross } from './room';
 
 /**
  * How many portals a floor holds and where they lead. The numbers come from
@@ -23,7 +23,7 @@ export const hasPortals = (n: number): boolean =>
 export function portalCount(n: number): bigint {
   if (!hasPortals(n)) return 0n;
   const per = PORTALS.roomsPerPortal;
-  const rounded = ((1n << BigInt(2 * (n - 1))) + per / 2n) / per;
+  const rounded = (roomsAcross(n) ** 2n + per / 2n) / per;
   return rounded < 1n ? 1n : rounded;
 }
 

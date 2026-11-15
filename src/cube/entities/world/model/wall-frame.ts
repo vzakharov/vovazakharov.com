@@ -2,10 +2,14 @@ import type { Surface } from '@/cube/shared/lib/surface';
 import { cross3, dot3, type Vec3 } from '@/cube/shared/lib/vec';
 
 import { box, face, type Quad } from './quad';
-import type { Room } from './room';
+import { isRoom, type Room } from './room';
 
 /** The wall a doorway is cut in: the east (`isEast`) or south wall of `n`, `x`, `y`. */
 export type DoorWall = Room & { isEast: boolean };
+
+/** Whether `wall` stands between two rooms of its floor, not on its edge or past it. */
+export const isInnerWall = ({ n, x, y, isEast }: DoorWall): boolean =>
+  isRoom(n, x, y) && (isEast ? isRoom(n, x + 1n, y) : isRoom(n, x, y + 1n));
 
 export const isSameWall = (a: DoorWall, b: DoorWall): boolean =>
   a.isEast === b.isEast && a.n === b.n && a.x === b.x && a.y === b.y;
