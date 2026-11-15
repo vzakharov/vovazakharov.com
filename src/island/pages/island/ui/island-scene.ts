@@ -242,7 +242,7 @@ export function mountIslandScene(
       ...heavens,
       eye: pose.position,
       horizon: background,
-      seconds: play ? stepped : (Date.now() / 1000) % HOUR_SECONDS,
+      time: play ? stepped : (Date.now() / 1000) % HOUR_SECONDS,
     });
     renderer.render(scene, camera);
   }

@@ -136,18 +136,30 @@ altogether later.
   the surface as emissive once the backend is WebGPU. The selection's `relief`
   bounds a tile by the sea too: deep-water tiles near the eye were culled by
   their floor.
-- In flight: the extraction child (`nature` exists on its branch, swell, shore
-  level, wetness and cusps moved; waiting for its "barrels exist"); the sky
+- Built (5d92f863, frames 06–08, preview slot 1 redispatched): the kit's first
+  merge (d90aa892: `nature` with swell, shore level, wetness, cusps); the swell
+  on the sea. `SWELL_AXIS` and `swellClock(eye, seconds)` in `lib/sea-wgsl.ts`;
+  sea vertices rise by `seaVertexLevel` (ashore they ride 1.5 cm over the sand
+  and `maskNode = seaLies` cuts the surface to the sheet a fragment at a time);
+  the fragment adds the swell's slope and `brokenAt` foam; land's `outputNode`
+  darkens by `seaDampTint` (`drySince`/`dampAfter`). Shelter is 1 everywhere.
+- Traps met: three's types give `wgslFn` an untyped `Node`, which `colorNode`
+  refuses and `emissiveNode`, `maskNode`, `positionNode` and `outputNode` take —
+  so a WGSL result goes into one of those slots. `h.step` on the software
+  renderer costs ~3 s a call: shoot with `--frames` ≤ 60, never `--t`.
+- In flight: the extraction child (optics and sand, its final report); the sky
   child.
-- Next, in this order: merge the kit, move `sea-wgsl` into `nature` as `.wgsl`;
-  the swell and surf on the sea and the swash sheet and wet sand on land tiles
-  (`swellLevel(run, bed, shelter, tongue, seconds)`, run = `dot(place, axis)`
-  taken like the ripples' place); the sky child's `radiance` and `aerial` in
-  place of `seaSky` and the flat background; the beach profile (candidate: land
-  side `h + 0.9·tanh(h / 0.08)`, the sea side as it is — it moves pinned
-  heights, so judge it with the swell in); ground detail off the beach; vertex
-  swell; `/polish`, `/pr`.
-- Known: the inlet's beach at 2 m is still a flat sheet (frame 04).
+- Next, in this order: the sky child's `radiance` and `aerial` in place of
+  `seaSky` and the flat background; the shoreline's polygons (the sheet's
+  outline follows the 1.2 m mesh — soften it with the cusps' `tongue` or noise
+  in the reach) and the sand's film mirror (`filmAfter`); shelter from the
+  floor's gradient; the beach profile (candidate: land side
+  `h + 0.9·tanh(h / 0.08)` — it moves pinned heights); ground detail off the
+  beach; move `sea-wgsl` into `nature` as `.wgsl` and dedupe `HOUR_SECONDS`; a
+  TS twin of `windAt` for the sky child; `./scripts/vet.sh`, `/polish`, `/pr`.
+- Known: the inlet's shoreline is polygonal at 2 m (frame 06); the blue-flash
+  fix is unchecked in flight; knip, type-overlap and masd:clusters have not run
+  over the new files.
 
 ## DRY notes
 

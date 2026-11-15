@@ -33,7 +33,7 @@ Milestone 1 on island/sea (00314cbe): the sea is a surface now. Frames, all unde
 - 03-ripples-inlet-40m.jpg — the inlet at 40 m, turquoise shallows with the sun's path.
 - 04-ripples-inlet-2m.jpg — the inlet beach at 2 m. Still a flat sheet near the waterline: no swell, no swash, no wet sand yet (those wait on the shared `nature` app).
 - 05-ripples-orbit.jpg — orbit: the terminator and a soft glint, both from the same shader.
-(00-before-*.jpg are the befores.)
+  (00-before-\*.jpg are the befores.)
 
 How: one WGSL listing called from TSL via wgslFn; a table of 64 plane waves with integer wave vectors over a 256 m period, so a place taken modulo the period is exact in float32 anywhere on the planet and no tile shows a seam; slope variance by Cox–Munk from a wind that follows latitude belts. One forward pass, no render targets.
 

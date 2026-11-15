@@ -12,7 +12,7 @@ import { RIPPLE_TABLE_WGSL } from './ripple-table';
  * planes square to it, so it rolls strongest where it lies along the sea and
  * dies out toward the two points where it stands up out of it.
  */
-export const SWELL_AXIS: Vec3 = [0.6, 0.25, -0.758_287_5];
+const SWELL_AXIS: Vec3 = [0.6, 0.25, -0.758_287_5];
 
 /**
  * The swell's clock at \`eye\` (metres from the planet's centre), \`seconds\`

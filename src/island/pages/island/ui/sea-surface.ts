@@ -25,7 +25,7 @@ export type SeaFrame = Sunlit & {
   /** The sky's colour at the horizon, which the far sea fades to. */
   readonly horizon: Color;
   /** The sea's clock, seconds into its hour. */
-  readonly seconds: number;
+  readonly time: number;
 };
 
 export type SeaSurface = {
@@ -135,8 +135,8 @@ export function seaSurface(): SeaSurface {
       anchor.value.set(wrapped(x), wrapped(y), wrapped(z));
       sun.value.set(...frame.sun);
       horizon.value.copy(frame.horizon);
-      seconds.value = frame.seconds;
-      clock.value = swellClock(frame.eye, frame.seconds);
+      seconds.value = frame.time;
+      clock.value = swellClock(frame.eye, frame.time);
     },
   };
 }
