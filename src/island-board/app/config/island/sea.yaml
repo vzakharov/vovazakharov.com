@@ -2,7 +2,7 @@ items:
   - id: z-sea
     type: zone
     updated: [2026-11-15T21:45:00.000Z, agent:lead]
-    box: [7900, 260, 1150, 3560, blue]
+    box: [7900, 260, 1150, 4100, blue]
     text: 'The sea — near ground as the cube draws it outside'
   - id: sea-before
     type: image
@@ -99,3 +99,14 @@ items:
     updated: [2026-11-15T22:40:00.000Z, agent:lead]
     box: [7940, 3600, 330, green]
     text: "Relief below the mesh's 1.2 m cell is drawn by light alone: ridges read off the same 64-wave table as the sea's ripples, standing still, each fading as it passes under a pixel. Steep ground above the beach shows bare rock — not yet seen on a real cliff"
+  - id: sea-noon
+    type: image
+    updated: [2026-11-15T23:00:00.000Z, agent:lead]
+    box: [7940, 3860, 1070]
+    src: images/sea-noon.webp
+    text: 'Milestone 5: the inlet and the wet sand at noon, no longer burnt white; rock showing through snow on steep mountains at 1,500 m; orbit from 4,000 km with black space again'
+  - id: sea-noon-how
+    type: sticky
+    updated: [2026-11-15T23:00:00.000Z, agent:lead]
+    box: [7940, 4070, 330, green]
+    text: "Noon burnt out because the lights were set for the opening's 20° sun; now the eye adapts, on land and sea alike. Blue space from mid orbit fixed by the sky child, checked on WebGPU. Next: clouds, the shoreline's polygons, polish, then the PR into stretch 3"
