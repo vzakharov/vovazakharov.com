@@ -1,7 +1,8 @@
 // Throwaway: the tile pool by emulated hardwareConcurrency, #0 over Italy.
 // Each run a fresh browser: hc overridden before any script, opened at 20,000 km over the pose,
 // then setHeight(h) timed while a rAF probe and a longtask observer watch the main thread.
-// `SCREEN=desktop HCS=3,4,8 HEIGHTS=13000,527 REPS=1 pnpm exec tsx tmp/b3-pool/pool.ts`
+// `SCREEN=desktop HCS=3,4,8 MEMS=8 HEIGHTS=13000,527 REPS=1 pnpm exec tsx tmp/b3-pool/pool.ts`
+// MEMS overrides navigator.deviceMemory (GB) per run, crossed with HCS; empty leaves the browser's own.
 import { execSync } from 'node:child_process';
 import os from 'node:os';
 import path from 'node:path';
@@ -20,6 +21,7 @@ const SCREENS: Record<string, Screen> = {
 };
 const screen = SCREENS[process.env.SCREEN ?? 'desktop']!;
 const hcs = (process.env.HCS ?? '3,4,8').split(',').map(Number);
+const mems = (process.env.MEMS ?? '').split(',').filter(Boolean).map(Number);
 const heights = (process.env.HEIGHTS ?? '13000,527').split(',').map(Number);
 const reps = Number(process.env.REPS ?? '1');
 const dir = path.join(REPO_ROOT, 'sites/vova/out');
@@ -53,9 +55,9 @@ const errors: string[] = [];
 await withPrintOrigin({ serve: 'export', dir }, async (origin) => {
   for (let rep = 0; rep < reps; rep++) {
     for (const h of heights) {
-      for (const hc of hcs) {
+      for (const [hc, mem] of hcs.flatMap((hc) => (mems.length > 0 ? mems : [undefined]).map((m) => [hc, m] as const))) {
         const [lat, lon] = POSE[h]!;
-        const tag = `${screen.name} h=${String(h)} hc=${String(hc)} rep=${String(rep)}`;
+        const tag = `${screen.name} h=${String(h)} hc=${String(hc)} mem=${String(mem ?? '-')} rep=${String(rep)}`;
         const browser = await launch();
         try {
           const hours = (((openingOf(0).lon * 180) / Math.PI - lon) / 15 + 24) % 24;
@@ -64,6 +66,7 @@ await withPrintOrigin({ serve: 'export', dir }, async (origin) => {
           await watchPageErrors(tab, (m) => errors.push(`${tag}: ${m}`));
           await tab.send('Page.addScriptToEvaluateOnNewDocument', {
             source: `Object.defineProperty(Navigator.prototype, 'hardwareConcurrency', { get: () => ${String(hc)} });
+              ${mem === undefined ? '' : `Object.defineProperty(Navigator.prototype, 'deviceMemory', { get: () => ${String(mem)} });`}
               window.__workers = 0; const W = window.Worker;
               window.Worker = class extends W { constructor(...a) { super(...a); window.__workers += 1; } };`,
           });
@@ -79,6 +82,7 @@ await withPrintOrigin({ serve: 'export', dir }, async (origin) => {
           const buildMs = await tab.evaluate(call('buildMs'), z.number());
           const workers = await tab.evaluate(`window.__workers`, z.number());
           const seenHc = await tab.evaluate(`navigator.hardwareConcurrency`, z.number());
+          const seenMem = await tab.evaluate(`navigator.deviceMemory ?? -1`, z.number());
           await tab.evaluate(
             `(() => { window.__gaps = []; window.__long = []; window.__probe = true; let last = performance.now();
               const tick = (t) => { if (!window.__probe) return; window.__gaps.push(t - last); last = t; requestAnimationFrame(tick); };
@@ -122,6 +126,7 @@ await withPrintOrigin({ serve: 'export', dir }, async (origin) => {
             [
               tag,
               `hc_seen ${String(seenHc)}`,
+              `mem_seen ${String(seenMem)}`,
               `workers ${String(workers)}`,
               `ready ${String(readyMs)} ms`,
               `buildMs ${buildMs.toFixed(0)}`,

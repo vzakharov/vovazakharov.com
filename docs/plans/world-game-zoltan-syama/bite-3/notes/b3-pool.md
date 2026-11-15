@@ -29,7 +29,7 @@ shown. While descending, a `requestAnimationFrame` probe logs frame gaps and a
 process's RSS once settled (workers live in it; one browser running, load ≤
 3.6). Headless, SwiftShader, 4 cores.
 
-## Numbers
+## Numbers — before (step 1, c3137343)
 
 Settle = `setHeight` to every tile drawn. Ready = navigate to first frame (field
 built). fps = rAF callbacks per second while loading.
@@ -122,6 +122,63 @@ header says). What must change:
 - **RSS per worker** should drop below the ~135 MB above (no build scratch in
   workers 1…n), though each still holds its own 16 MB field.
 
+## Step 2 measured (fe8e9b13)
+
+**Against the lead's bar: both conditions miss, by less than before.** Renderer
+RSS on 4 workers is **+162 to +226 MB over 2** (mean +202; bar ~+150), and ready
+on 4 is **0.10–0.19 s later than on 2** (bar: no later). The fixes did what they
+promised in kind — buildMs no longer grows, ready's penalty fell from +0.65–0.9
+s to +0.17 s, RSS per extra worker fell from ~135 to ~100 MB — but not far
+enough to clear either line.
+
+Same method and box as above (fresh browser per run, headless SwiftShader, 4
+cores, load 3.5–4.3), driver extended with `MEMS` (a `deviceMemory` override
+beside `hardwareConcurrency`) and logging `mem_seen`. The grid ran with `MEMS=8`
+so the host's own bucket cannot cap it (headless here reports **16**). Two runs
+per cell; phone 13 km three (a third rep after an outlier, below). No console or
+page errors in any of the 31 runs.
+
+**Memory cap** (desktop, 13 km, hc 8): mem 2 → 2 workers, 4 → 3, 8 → 4, unset
+(16) → 4. The cap works as built.
+
+| screen  | h     | workers | ready (s) | buildMs | settle (s) | ready + settle | fps loading | renderer RSS (MB) |
+| ------- | ----- | ------- | --------- | ------- | ---------- | -------------- | ----------- | ----------------- |
+| desktop | 527 m | 2       | 1.79      | 1.21 s  | 4.90       | 6.7            | 53          | 1,412             |
+| desktop | 527 m | 3       | 1.82      | 1.21 s  | 3.86       | 5.7            | 50          | 1,518             |
+| desktop | 527 m | 4       | 1.96      | 1.25 s  | 3.50       | 5.5            | 48          | 1,625             |
+| desktop | 13 km | 2       | 1.78      | 1.22 s  | 1.78       | 3.6            | 42          | 1,308             |
+| desktop | 13 km | 3       | 1.81      | 1.23 s  | 1.50       | 3.3            | 38          | 1,396             |
+| desktop | 13 km | 4       | 1.97      | 1.24 s  | 1.44       | 3.4            | 32          | 1,470             |
+| phone   | 527 m | 2       | 1.81      | 1.22 s  | 4.35       | 6.2            | 54          | 1,378             |
+| phone   | 527 m | 3       | 1.83      | 1.21 s  | 3.40       | 5.2            | 50          | 1,484             |
+| phone   | 527 m | 4       | 2.00      | 1.27 s  | 3.05       | 5.1            | 44          | 1,604             |
+| phone   | 13 km | 2       | 1.89      | 1.25 s  | 2.90       | 4.8            | 49          | 1,340             |
+| phone   | 13 km | 3       | 1.79      | 1.22 s  | 2.05       | 3.8            | 43          | 1,427             |
+| phone   | 13 km | 4       | 1.99      | 1.28 s  | 2.58\*     | 4.6\*          | 33          | 1,547             |
+
+\* One of three runs settled in 3.60 s with a single 1.71 s long task on the
+main thread (every other run: 0–1 long task, 59–162 ms); without it, 2.07 s and
+4.1. That run's longest rAF gap was only 0.51 s, so the long task did not block
+frames the probe saw — cause not settled; a trace of that cell (`Tracing.start`
+around `setHeight`) would say what ran.
+
+- **RSS, 4 vs 2 workers**: desktop +213 / +162, phone +226 / +207 (527 m / 13
+  km); before, +257 to +274. Per extra worker ~81–113 MB, so each worker's
+  isolate, terrain code and tile buffers outweigh the 16 MB field copy it still
+  holds; meeting +150 needs ≤ 75 MB per worker.
+- **Ready** grows ~0.17 s from 2 to 4 workers in every cell (per run: 2 workers
+  1.68–1.91 s, 4 workers 1.84–2.11 s). A likely cause, not verified: on `built`
+  the pool posts the three adopt copies synchronously, so three structured
+  clones of the field run on the main thread before the page's `ready`
+  continuation, while three more isolates boot beside SwiftShader on 4 cores.
+- **buildMs** is flat at 1.2–1.3 s for every pool size (before: 1.5–1.6 s on 2
+  growing to 2.2–2.3 s on 4) — worker 0 builds alone, as designed.
+- **Settle** gains hold: 527 m −29 % desktop, −30 % phone on 4 workers; 13 km
+  −19 % desktop, −29 % phone (outlier excluded). 3 workers gets most of it.
+- **fps while loading** still falls with the pool (desktop 13 km 42 → 32, phone
+  13 km 49 → 33), the same CPU contention with the software rasterizer as
+  before.
+
 ## Left
 
-- The measurement above, by a separate agent.
+- The lead's call on the bar above.
