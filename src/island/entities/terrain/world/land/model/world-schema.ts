@@ -1,5 +1,4 @@
-import { roll, type Rolled, rollWith, type TableIndex } from '../../roll';
-import { pathHash } from './hash';
+import { pathHash, roll, type Rolled, rollWith } from '@/dice/shared/roll';
 
 /** The series' degree `L`: `(L + 1)² = 262,144` coefficients. */
 export const LAND_DEGREE = 511;
@@ -11,12 +10,12 @@ export type Harmonic = { l: number; m: number };
  * `(l, m)` for `1 ≤ l ≤ degree`, `|m| ≤ l`, spelled `<l>/<m>`, at slot
  * `l² + l + m − 1`: the series' own slot for it, less the mean's.
  */
-export function harmonicIndex(degree: number): TableIndex<Harmonic> {
+export function harmonicIndex(degree: number) {
   return {
     slots: (degree + 1) ** 2 - 1,
-    slotOf: ({ l, m }) =>
+    slotOf: ({ l, m }: Harmonic) =>
       l >= 1 && l <= degree && Math.abs(m) <= l ? l * l + l + m - 1 : -1,
-    segmentsAt: (slot) => {
+    segmentsAt: (slot: number) => {
       const l = Math.floor(Math.sqrt(slot + 1));
       return `${l}/${slot + 1 - l * l - l}`;
     },

@@ -13,12 +13,14 @@ import { z } from 'zod';
 
 import type { Named, Sized } from '@/kernel/shared/typings';
 
+import { isWorldNumber } from '@/dice/shared/roll';
+
 import {
   type IslandPlayHook,
   PLAY_HOOK,
   PLAY_QUERY,
 } from '@/island/shared/play';
-import { assertWorldNumber, OUR_WORLD } from '@/island/entities/terrain';
+import { OUR_WORLD } from '@/island/entities/terrain';
 
 import { flag, given } from '@/kernel/scripts/lib/argv';
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
@@ -41,7 +43,9 @@ export function buildExport(): void {
 /** The world the run plays, from `--world <N>`: ours when not given. */
 export function worldArgument(): string {
   const world = flag('world') ?? OUR_WORLD;
-  assertWorldNumber(world);
+  if (!isWorldNumber(world)) {
+    throw new Error(`Not a world number: ${JSON.stringify(world)}`);
+  }
   return world;
 }
 

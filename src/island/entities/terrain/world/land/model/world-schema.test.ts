@@ -1,13 +1,16 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { roll, rollWith } from '../../roll';
-import { decodeNormal, type Roll } from '../../roll/index.test-only';
-import { pathHash } from './hash';
+import { pathHash, roll, rollWith } from '@/dice/shared/roll';
+
 import { harmonicIndex, rollWorld, worldSchema } from './world-schema';
 
+/** A unit normal as `roll.normal()` decodes `word`. */
+const decodeNormal = (word: number) =>
+  rollWith(roll.struct({ z: roll.normal() }), () => word).z;
+
 /** Every path `schema` reads, with the word `H(world, path)` gives it. */
-function wordsOf(schema: Roll, world: string) {
+function wordsOf(schema: Parameters<typeof rollWith>[0], world: string) {
   const hash = pathHash(world);
   const words = new Map<string, number>();
   rollWith(schema, (path) => {

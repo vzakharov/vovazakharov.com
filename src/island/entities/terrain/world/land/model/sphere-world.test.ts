@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { pathHash } from '@/dice/shared/roll';
+
 import { latLonToUnit, R, type Vec3 } from '@/island/shared/globe';
 
 import {
@@ -8,7 +10,6 @@ import {
   nodePosition,
   sampleSphereField,
 } from '../../../coast-field';
-import { pathHash } from './hash';
 import { sphereContourOf } from './sphere-contour';
 import {
   buildSphereWorld,

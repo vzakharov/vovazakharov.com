@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { pathHash, roll, rollWith } from '@/dice/shared/roll';
+
 import { legendreTable } from '../../grid/index.test-only';
-import { pathHash } from '../../land';
-import { decodeNormal } from '../../roll/index.test-only';
 import {
   analyze,
   harmonicSlot,
@@ -11,11 +11,14 @@ import {
   synthesize,
 } from './sphere-series';
 
+const coefficient = roll.struct({ z: roll.normal() });
+
 /** Unit normal coefficients, reproducible. */
 function randomSeries(degree: number) {
   const hash = pathHash('5');
-  return Float64Array.from({ length: (degree + 1) ** 2 }, (_, i) =>
-    decodeNormal(hash(`test/${i}`)),
+  return Float64Array.from(
+    { length: (degree + 1) ** 2 },
+    (_, i) => rollWith(coefficient, () => hash(`test/${i}`)).z,
   );
 }
 

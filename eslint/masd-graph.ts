@@ -142,13 +142,7 @@ export type Wait = { child: string; since: string };
  * is here; an entry leaves when that child lands. A yes lasts `WAIT_LIMIT_MS`
  * from `since`, then `check:masd` fails the app again until it is renewed.
  */
-const WAITING_APPS: Readonly<Record<string, Wait>> = {
-  dice: {
-    child:
-      "island, whose terrain rolls its world on dice's roll (branch island/round-world)",
-    since: '2026-11-11T09:07:00Z',
-  },
-};
+const WAITING_APPS: Readonly<Record<string, Wait>> = {};
 
 const WAIT_LIMIT_MS = 7 * 24 * 60 * 60 * 1000;
 

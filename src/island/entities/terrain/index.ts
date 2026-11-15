@@ -27,14 +27,12 @@ export {
 } from './tile';
 export {
   analyze,
-  assertWorldNumber,
   decodePinnedRow,
   EARTH_ENVELOPE,
   encodePinnedRow,
   fieldGrids,
   fieldOf,
   harmonicSlot,
-  isWorldNumber,
   kneeEnvelope,
   LAND_DEGREE,
   landmasses,

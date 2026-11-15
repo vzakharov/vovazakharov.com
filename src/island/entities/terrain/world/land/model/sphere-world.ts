@@ -1,14 +1,14 @@
 import type { Seeded } from '@/kernel/shared/typings';
 
+import { pathHash, rollWith } from '@/dice/shared/roll';
+
 import {
   type LatLonGrid,
   sphereDistanceField,
   type SphereField,
 } from '../../../coast-field';
 import { gaussLegendre, legendreRecursion, type RingGrid } from '../../grid';
-import { rollWith, type WordSource } from '../../roll';
 import { synthesize } from '../../series';
-import { pathHash } from './hash';
 import { type Envelope, landSeries, PROBE_ENVELOPE } from './land-series';
 import { pinnedSeries } from './pinned-row';
 import { isLand, sphereContourOf } from './sphere-contour';
@@ -80,7 +80,7 @@ export function fieldOf(
 /** How a world is built when not wholly from its own hash. */
 export type BuildOptions = {
   /** Where the words are rolled from; the hash by path by default. */
-  source?: WordSource;
+  source?: Parameters<typeof rollWith>[1];
   /** A ready land series up to `LAND_DEGREE` (a pinned row's) in place of the rolled one; the seed is still rolled. */
   series?: Float64Array;
   envelope?: Envelope;
