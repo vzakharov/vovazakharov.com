@@ -167,8 +167,19 @@ altogether later.
   clouds; the shoreline's polygons; film mirror on wet sand; shelter; beach
   profile; `sea-wgsl`/`ground-wgsl` into `nature`; `/polish`; `/pr` into
   `island/stretch-3`.
-- Open with the sky child: blue space and a veiled disc from mid orbit (frame
-  11; the far-orbit opening, frame 12, is right); then clouds and `shade`.
+- Built (e177eb5b, frames 15–18, preview slot 1 redispatched): rock at
+  `smoothstep(0.04, 0.15, steep)` (the island's mountains are gentle; it shows
+  as outcrops in the snow); `eyeKeeps` in `lib/sun.ts` dims a sun above the
+  opening's 20° on the lights and, by injected constants, in the sea's WGSL —
+  noon sand, foam and snow stay under white; the sheet's froth is its 1.2 cm
+  tip; the sky child's fe9df61b (black space from mid orbit) merged and checked
+  on WebGPU. The sky child now holds its last package: clouds and `shade`.
+- Polish notes: `lib/nature-listing.ts` (the kit's `NATURE_LISTING`) and
+  `sea-wgsl.ts`'s own `assemble([...])` are two listings of the same pieces —
+  keep one; `HOUR_SECONDS` lives in both `ripple-table.ts` and nature's swell.
+- (Stale below: the orbit bug is fixed.) Open with the sky child: blue space and
+  a veiled disc from mid orbit (frame 11; the far-orbit opening, frame 12, is
+  right); then clouds and `shade`.
 - (Superseded below where it names the sky's wiring or the kit as pending.)
 - In flight: the extraction child (optics and sand, its final report); the sky
   child.
