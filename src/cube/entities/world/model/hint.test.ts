@@ -131,8 +131,8 @@ describe('the planted world’s first portal', () => {
   assert.ok(portal);
   const { wall } = portal;
 
-  // A room's sale sign or poster takes a plain wall before a door's, so with
-  // one to spare neither hangs over the hint on the portal's.
+  // Where a portal's wall counts as a door, a room's sale sign or poster takes
+  // a plain wall before it, so with one to spare neither hangs over the hint.
   it('leaves each room beside it a plain wall other than the portal’s', () => {
     const walls = mazeDoored(world);
     for (const [at, { room }] of hintsBeside(wall).entries()) {

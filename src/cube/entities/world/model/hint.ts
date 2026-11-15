@@ -12,10 +12,7 @@ import { roomKey } from './room';
 import type { View } from './rooms';
 import type { DoorWall } from './wall-frame';
 
-/**
- * A hint board on one face of a door's wall: the room it faces into, where it
- * hangs, and whether the door is to the right of someone reading it.
- */
+/** A hint board on one face of a door's wall, the door to its reader's right or left. */
 export type Hint = Hung & { doorOnRight: boolean };
 
 /** A hint board: 1.3 m wide and 65 cm tall on floor 1, its middle 1.5 m up. */

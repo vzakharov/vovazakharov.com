@@ -17,7 +17,7 @@ import type { Boards } from './board-textures';
 /** What a hint board says of the door beside it, a line to each entry. */
 const SAYS = ['THIS DOOR', 'IS SPECIAL'] as const;
 
-/** The arrow's length, in em: as tall as a capital, about as long as a line. */
+/** The arrow's length, in em, about a line's; its head is a capital tall. */
 const ARROW_LONG = 7;
 
 /** An arrow along a line of lettering, in em from its left end, pointing right or left. */
