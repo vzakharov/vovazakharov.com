@@ -1,0 +1,123 @@
+{
+  "total": {
+    "inputTokens": 45,
+    "cacheWrite5mTokens": 77318,
+    "cacheWrite1hTokens": 74608,
+    "cacheReadTokens": 1981579,
+    "outputTokens": 6632,
+    "thinkingTokens": 1088,
+    "responses": 20,
+    "costUsd": 1.5125898000000004
+  },
+  "estimate": {
+    "at": "2026-11-15T18:34:52.268Z",
+    "subjectLine": "feat: bite 3 worker pool fixes and tail as the member",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "C4's envelope switch and the Done table's tests are routine code against a settled contract"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "the pool's shared field and memory cap are worker plumbing with a GPU-budget check"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "the tail with the lead: polish, sync, vet, the PR"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-15T18:35:41.177Z",
+    "contextTokens": 128208,
+    "spend": {
+      "inputTokens": 31,
+      "cacheWrite5mTokens": 72132,
+      "cacheWrite1hTokens": 71481,
+      "cacheReadTokens": 1376620,
+      "outputTokens": 5152,
+      "thinkingTokens": 981,
+      "responses": 14,
+      "costUsd": 1.3109960000000003
+    }
+  },
+  "sessionId": "da6a3430-25cb-5bf5-9dc9-201bf078dd7a",
+  "branch": "wt/b3-pool",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/round-world — LOD и дыры на поворотах влиты, четыре воркера ждут двух правок перед вливанием",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkD686c7ehYswH9TgcL",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-15T18:34:34.687Z",
+  "lastResponseAt": "2026-11-15T18:35:51.771Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 35,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 74608,
+    "cacheReadTokens": 1690353,
+    "outputTokens": 5577,
+    "thinkingTokens": 1075,
+    "responses": 15,
+    "costUsd": 1.0466146000000003
+  },
+  "subagents": {
+    "inputTokens": 10,
+    "cacheWrite5mTokens": 77318,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 291226,
+    "outputTokens": 1055,
+    "thinkingTokens": 13,
+    "responses": 5,
+    "costUsd": 0.46597520000000003
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 45,
+      "cacheWrite5mTokens": 77318,
+      "cacheWrite1hTokens": 74608,
+      "cacheReadTokens": 1981579,
+      "outputTokens": 6632,
+      "thinkingTokens": 1088,
+      "responses": 20,
+      "costUsd": 1.5125898000000004
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 20,
+    "matched": 20,
+    "matchedTableUsd": 1.5125898000000004,
+    "matchedEventUsd": 1.5125898000000004,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".py": 980,
+    ".md": 15958,
+    ".json": 488,
+    ".txt": 2188,
+    ".ts": 9557,
+    ".sh": 43,
+    ".yaml": 242,
+    ".tsx": 114,
+    ".scss": 96
+  }
+}
