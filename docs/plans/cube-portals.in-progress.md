@@ -163,4 +163,14 @@ and becomes the far floor's once through.
   frames, the freeze hunt dropped.
 - vet at 5f0b0a4c red: format, type-overlap, knip (portal exports unused outside
   the slice, `Ways`). The lead's.
-- Next: D's report; vet green. PR #283 stays draft.
+- D (Fable, session_01DaohkFYMyrxoGS3AxcPYBZ) stopped on Vova's word over the
+  limit and archived; branch `claude/cube-portals-polish` at 2db28790: hinge
+  fixed with tests. Found: the dropout is `doorwayOpening`'s mask quad on the
+  wall's centre line, clipped by the near plane (0.004) before the crossing
+  fires; fix is to lay it `DOORWAY_DEEP` past the line. Crossing cost measured
+  and left alone: arrival mesh built on the crossing frame (~56 ms), floors
+  far−2..far compiled cold on a first arrival.
+- E (Opus, session_01DaohkCr8UsatJU7EFPupzV) on the same branch: dropout fix,
+  paint by family (replacing D's one shared paint), type-overlap and knip,
+  frames.
+- Next: E's report, merge, board, preview, vet. PR #283 stays draft.
