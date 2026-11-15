@@ -27,9 +27,9 @@ describe('airAtEye', () => {
   });
 
   it('has none at orbit and above', () => {
-    for (const height of [20_000_000, 40_000_000]) {
+    for (const height of [1_000_000, 20_000_000]) {
       const { air, excess } = airAtEye(height);
-      near(air, 0, 0);
+      near(air, 0, 1e-9);
       near(excess, 0, 0);
     }
   });

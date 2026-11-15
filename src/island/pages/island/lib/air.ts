@@ -34,7 +34,7 @@ export const HAZE_PER_METRE = 1.2e-5;
 export const SPACE_COLOUR: Rgb = [0.0015, 0.0021, 0.0037];
 
 /** From here up the eye has no air round it. */
-const SPACE_FROM = 20_000_000;
+const SPACE_FROM = 1_000_000;
 /** From here down the eye keeps `AIR_ALOFT` at the least. */
 const AIR_FROM = 100_000;
 /**
@@ -47,9 +47,16 @@ const AIR_ALOFT = 0.16;
 export type EyeAir = {
   /** The gas's density at the eye, sea level's being 1. */
   readonly air: number;
-  /** What of it is more than the real air's: the same on every ray, so it veils no ground. */
+  /** What of it is more than the real air's: the sky's alone, so it veils no ground. */
   readonly excess: number;
 };
+
+/**
+ * The least steepness the eye's excess is spread along: it lies round the eye
+ * as a level sheet one scale height deep, so a ray along it still leaves it,
+ * and from orbit no band of sky stands level with the eye.
+ */
+export const EXCESS_LEAST_STEEP = 0.3;
 
 /**
  * The gas round an eye `height` metres up: the real air's while that is the
@@ -86,11 +93,13 @@ export function airColumn(
   of: Layer,
   excess = 0,
 ): number {
-  const density = (h: number) => Math.exp(-h / of.scale) + excess;
-  const up = density(height) * chapman(Math.abs(cosine), of) * of.scale;
-  if (cosine >= 0) return up;
+  const density = (h: number) => Math.exp(-h / of.scale);
+  const steep = Math.abs(cosine);
+  const sheet = (excess * of.scale) / Math.max(steep, EXCESS_LEAST_STEEP);
+  const up = density(height) * chapman(steep, of) * of.scale;
+  if (cosine >= 0) return up + sheet;
   const lowest = Math.max(0, lowestAlong(cosine, height));
-  return 2 * density(lowest) * chapman(0, of) * of.scale - up;
+  return 2 * density(lowest) * chapman(0, of) * of.scale - up + sheet;
 }
 
 /**

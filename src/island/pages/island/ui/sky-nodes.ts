@@ -22,6 +22,7 @@ import { R, type Vec3 } from '@/island/shared/globe';
 import {
   adaptedTo,
   airAtEye,
+  EXCESS_LEAST_STEEP,
   GAS,
   GAS_PER_METRE,
   HAZE,
@@ -128,20 +129,19 @@ export function skyNodes(): SkyNodes {
         .div(sqrt(max(0, float(1).sub(cosine.mul(cosine)))).add(1)),
     );
 
-  /** `lib/air.ts`'s `airColumn` per fragment; only the gas takes the eye's excess. */
-  const column = (cosine: F, h: F, of: Layer): F => {
-    const more = of === GAS ? excess : float(0);
+  /** `lib/air.ts`'s `airColumn` per fragment, `more` being its excess. */
+  const column = (cosine: F, h: F, of: Layer, more: F = float(0)): F => {
     const steep = abs(cosine);
+    const sheet = more.mul(of.scale).div(max(steep, EXCESS_LEAST_STEEP));
     const grazing = float(2).div(
       steep.add(sqrt(steep.mul(steep).add(of.rounding))),
     );
-    const upward = exp(h.div(-of.scale)).add(more).mul(grazing).mul(of.scale);
+    const upward = exp(h.div(-of.scale)).mul(grazing).mul(of.scale);
     const lowest = max(0, lowestAlong(cosine, h));
     const through = exp(lowest.div(-of.scale))
-      .add(more)
       .mul((4 * of.scale) / Math.sqrt(of.rounding))
       .sub(upward);
-    return select(cosine.greaterThanEqual(0), upward, through);
+    return select(cosine.greaterThanEqual(0), upward, through).add(sheet);
   };
 
   /**
@@ -201,7 +201,7 @@ export function skyNodes(): SkyNodes {
       direction,
       normalize(up.mul(radius).add(direction.mul(reach))),
       select(rising, height, lowest),
-      column(cosine, height, GAS),
+      column(cosine, height, GAS, excess),
       column(cosine, height, HAZE),
       max(cosine, 0),
     );
