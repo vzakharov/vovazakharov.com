@@ -40,6 +40,7 @@ import {
   decodeBoardFiles,
   writeBoardFiles,
 } from './lib/board-files.ts';
+import { failOnRussian } from './lib/cyrillic.ts';
 
 import { findScreenshotChromium } from '@/kernel/scripts/lib/chromium';
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
@@ -296,9 +297,14 @@ async function sync(
   const localised = await Promise.all(
     changed.map(async (item) => localiseImage(item, board, assets)),
   );
-  await writeBack(writeBoardFiles(board, files, localised));
+  const written = writeBoardFiles(board, files, localised);
+  await writeBack(written);
   process.stdout.write(
     `${rows.length} rows, ${changed.length} newer than the repo: ${changed.map((item) => item.id).join(', ') || 'none'}\n`,
+  );
+  failOnRussian(
+    written,
+    'synced, so translate them in the YAML, quotes included',
   );
 }
 

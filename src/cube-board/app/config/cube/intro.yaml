@@ -2,7 +2,7 @@ items:
   - id: z-intro
     type: zone
     updated: [2026-11-13T14:30:00.000Z, agent:cube-intro]
-    box: [5720, -3150, 2510, 11300, orange]
+    box: [5720, -3150, 2510, 13750, orange]
     icon: 🏝️
     text: 'The intro: an island, the cube from outside, the way in'
   - id: intro-h-premise

@@ -1,0 +1,30 @@
+items:
+  - id: z-later
+    type: zone
+    updated: [2026-11-15T10:00:00.000Z, agent:cube]
+    box: [0, 4420, 1980, 760, gray]
+    icon: 🤔
+    text: 'To think about later (#281)'
+  - id: later-img-clouds-high
+    type: image
+    updated: [2026-11-15T10:01:00.000Z, agent:cube]
+    box: [28, 4520, 560]
+    src: images/later-clouds-blended-high.webp
+    text: 'Vova’s frame on high after f78b657e: “they do not shake, but on medium they are better after all”. Both modes draw the clouds alike, at a quarter of the screen; the blur is the blend, 90% of the last frame each frame, and high has fewer frames a second, so in ten frames a cloud drifts further'
+  - id: later-img-clouds-medium
+    type: image
+    updated: [2026-11-15T10:01:00.000Z, agent:cube]
+    box: [618, 4520, 560]
+    src: images/later-clouds-blended-medium.webp
+    text: 'The same spot on medium: sharper'
+  - id: later-clouds
+    type: sticky
+    updated: [2026-11-15T10:02:00.000Z, agent:cube]
+    box: [1208, 4520, 586, gray]
+    icon: ☁️
+    text: 'Open, the soft clouds on high. Vova: “we think about it later”. Two ways: hold the history by time rather than by frames (a couple of lines; the blur becomes medium’s); or take the sky out of the drowsy eye and draw it on top at full resolution, as floor 1’s room is (an hour or two; turning, the land smears and the sky stays sharp)'
+  - id: l-later-clouds
+    type: line
+    updated: [2026-11-15T10:02:00.000Z, agent:cube]
+    ends: [later-clouds, intro-drowsy-img-05-clouds-shaking]
+    text: after this fix

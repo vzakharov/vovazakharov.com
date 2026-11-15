@@ -187,6 +187,7 @@ source_checks=(
   type-overlap='pnpm type-overlap'
   knip='pnpm knip'
   typography='pnpm check:typography'
+  board-language='pnpm check:board-language'
   drawings-maya='pnpm content:drawings maya --check'
   music-masters='pnpm music:masters check'
   test='scripts/vet-test.sh'
