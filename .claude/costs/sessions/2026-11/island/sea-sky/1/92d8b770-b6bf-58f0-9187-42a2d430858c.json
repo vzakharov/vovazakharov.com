@@ -1,0 +1,153 @@
+{
+  "total": {
+    "inputTokens": 2476,
+    "cacheWrite5mTokens": 412,
+    "cacheWrite1hTokens": 347472,
+    "cacheReadTokens": 14935746,
+    "outputTokens": 110726,
+    "thinkingTokens": 55676,
+    "responses": 73,
+    "costUsd": 12.999669200000001
+  },
+  "estimate": {
+    "at": "2026-11-15T21:42:05.739Z",
+    "subjectLine": "feat: analytic sky, sun, moon and aerial haze for the island",
+    "parts": [
+      {
+        "hours": 14.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "a closed-form atmosphere from 2 m to orbit in TSL, precise in float32 at both ends, with its seam for the sea"
+      },
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "the look is tuned by eye across day, sunset, night and four heights against the cube's sky"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-15T21:04:20.967Z",
+    "contextTokens": 113199,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 41459,
+      "cacheReadTokens": 54603,
+      "outputTokens": 884,
+      "thinkingTokens": 301,
+      "responses": 1,
+      "costUsd": 0.7096406
+    }
+  },
+  "sessionId": "92d8b770-b6bf-58f0-9187-42a2d430858c",
+  "branch": "island/sea-sky",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a member of a team building one bite of the island game at /island (src/island/, a three.js `three/webgpu` TSL cube-sphere planet, flown from orbit down…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCJdeeFwaqj45LNp9n",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-15T21:04:11.693Z",
+  "lastResponseAt": "2026-11-15T22:37:52.428Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 143,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 347472,
+    "cacheReadTokens": 14634433,
+    "outputTokens": 103700,
+    "thinkingTokens": 55676,
+    "responses": 72,
+    "costUsd": 12.635582600000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 2476,
+      "cacheWrite5mTokens": 412,
+      "cacheWrite1hTokens": 347472,
+      "cacheReadTokens": 14935746,
+      "outputTokens": 110726,
+      "thinkingTokens": 55676,
+      "responses": 73,
+      "costUsd": 12.999669200000001
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-15T22:00:49.037Z",
+      "trigger": "auto",
+      "compactedFrom": 304004,
+      "summaryChars": 16086,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/island/scripts/lib/shot-sets.ts",
+        "endedAt": "2026-11-15T22:25:53.972Z",
+        "contextTokens": 154315,
+        "spend": {
+          "inputTokens": 24,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 93165,
+          "cacheReadTokens": 1490450,
+          "outputTokens": 4942,
+          "thinkingTokens": 1497,
+          "responses": 11,
+          "costUsd": 1.9866020000000002
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.36408660000000004
+    }
+  ],
+  "telemetry": {
+    "events": 73,
+    "matched": 72,
+    "matchedTableUsd": 12.635582600000001,
+    "matchedEventUsd": 12.635582600000001,
+    "unseen": {
+      "compact": {
+        "inputTokens": 2333,
+        "cacheWrite5mTokens": 412,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 301313,
+        "outputTokens": 7026,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.36408660000000004
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 16706,
+    ".txt": 2356,
+    ".py": 436,
+    ".ts": 553
+  }
+}
