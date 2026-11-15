@@ -201,3 +201,8 @@ items:
     updated: [2026-11-14T10:45:00.000Z, agent:cube]
     ends: [doors-idea, deep-portals]
     text: some doors are portals
+  - id: l-doors-became
+    type: line
+    updated: [2026-11-15T09:20:00.000Z, agent:cube]
+    ends: [doors-idea, img-doors-04-floor-6-shut]
+    text: what it came to

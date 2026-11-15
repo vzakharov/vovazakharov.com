@@ -1,0 +1,29 @@
+{
+  "pr": 280,
+  "verdicts": [
+    {
+      "comment": 4573029862,
+      "about": "link the right-hand sticky to the deep-floor door cards and reweigh 'feature'",
+      "verdict": 0.6,
+      "why": "Operator took the link: an arrow from the idea to what it became, on the board. Turned down rewording the sticky: ideas are not changed after the fact."
+    },
+    {
+      "comment": 4575808919,
+      "about": "check every theme's along-wall fixtures against the one doorway spot",
+      "verdict": 1,
+      "why": "Taken whole: every theme checked through DOORWAY_AT and DOORWAY_TO. Operator: an accepted critical proposal counts as a hit."
+    },
+    {
+      "comment": 4575809270,
+      "about": "let aimOf pick among every reachable door by gaze, one rule per press",
+      "verdict": 1,
+      "why": "Taken whole: doorsFaced hands aimOf every door in reach and the faced one opens. Operator: an accepted critical proposal counts as a hit."
+    },
+    {
+      "comment": 4575982009,
+      "about": "blank the grid cell that overlaps the doorway in every uv-grid theme",
+      "verdict": 1,
+      "why": "Taken whole: uncut() in the shader kit blanks that cell in fifteen themes. Operator: an accepted critical proposal counts as a hit."
+    }
+  ]
+}

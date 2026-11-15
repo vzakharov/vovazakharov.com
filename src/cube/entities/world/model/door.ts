@@ -39,8 +39,11 @@ const LEAF_PAINTS = [
 
 /** A door's sizes in metres: its frame's lining of the cut, and its leaf. */
 const DOOR = {
+  /** The frame's width on each jamb and the head. */
   frame: 0.07,
+  /** How far the frame stands proud of each face of its wall. */
   proud: 0.025,
+  /** The leaf's thickness. */
   thick: 0.035,
   /** The leaf's clearance from the floor and the head. */
   clear: 0.005,

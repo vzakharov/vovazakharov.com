@@ -6,15 +6,21 @@ maze was carved, so a neighbour behind a wall could be a long walk
 round. Doors and gaps now cut through some of those walls, at numbers
 weighed in a simulation of the floor maze and kept on the cube board.
 
-Every wall has one of four kinds, wall, passage, door or gap, and
-everything that asks whether a body or a line of sight gets through
-reads it through one seam. Each partition of the maze gets one opening,
-on a wall whose way round is at least ten rooms; three in four are
-doors, the rest gaps, and the density stays a setting at 100%. The
-candidates come from a window by the partition's passage, so a deep
-floor's 2^58-wall partition costs at most nine bounded searches and
-the answer never depends on what was asked first. Sight on a maze with
-loops now sees whatever a straight line reaches.
+Every wall has one of four kinds, and everything that asks whether a
+body or a line of sight gets through reads it through one seam. Wall
+and passage are the maze's own, as it was carved; door and gap are the
+openings cut into its walls, a gap being a door with no leaf, which a
+player cannot tell from a passage. Each partition of the maze gets one
+opening, on a wall whose way round is at least ten rooms; three in four
+are doors, the rest gaps, and the density stays a setting at 100%. The
+candidates come from a window by the partition's passage, searched over
+the maze's own passages alone, so a deep floor's 2^58-wall partition
+costs at most nine bounded searches and no partition's answer depends
+on another's. Sight, which picks the rooms built around the eye, used
+to stop at a room once any walk reached it, which on a maze with no
+loops is the only walk; gaps make loops, so it now follows every walk
+whose line of sight stays open, and a room seen past another is built
+whichever way the walk came.
 
 The door is the decor door made real, and decor doors are gone: panels
 and a knob on both faces, paint and hinge side rolled per door. E or a
