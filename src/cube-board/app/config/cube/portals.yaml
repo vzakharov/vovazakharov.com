@@ -205,10 +205,10 @@ items:
     text: 'Vova, at minutes: a chase between worlds. The chased steps in during a period’s last seconds, and the chaser has those seconds or loses the trail, the changed room in the doorway saying so. Or an ambush: the spoke the chased took leads back only to this hub'
   - id: p-period-clock
     type: sticky
-    updated: [2026-11-15T13:48:05.000Z, agent:cube]
+    updated: [2026-11-15T14:00:39.000Z, agent:cube]
     box: [7798, 2985, 380, purple]
     icon: ⏳
-    text: 'Either way the hub shows its clock, a countdown or a pulse in the door before it flips, or timing is luck rather than play. Each hub can take its own offset, rolled at its path, so the world does not flip all at once on the hour'
+    text: 'The clock is already on everyone’s wrist, Vova: if every hub flips on the minute, a watch with a second hand is all the timing a chase needs. An offset rolled per hub, so the world does not flip all at once, takes that away, and then the door itself must show its countdown'
   - id: p-period-lottery
     type: sticky
     updated: [2026-11-15T13:48:06.000Z, agent:cube]
