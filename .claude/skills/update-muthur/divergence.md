@@ -13,6 +13,12 @@ record" holds the three rules this file keeps.
   `scripts/vet.sh`, `.claude/rules/stack.md`, `.gitignore`, `.prettierignore`
   and `.prettierrc.json`. A source edit to any of them is read for the idea; the
   file never lands.
+- **Prettier formats `.wgsl` here, through a local plugin**:
+  `scripts/prettier-wesl.ts`, named in `.prettierrc.json`'s `plugins`, hands the
+  body to `prettier-plugin-wgsl` and keeps the WESL `import` head as written,
+  which that plugin cannot parse. The source has no shaders; a source change to
+  Prettier's setup is merged around the plugin, and `pnpm format` then covers
+  the shaders with everything else.
 - **The cost rows count the human share, ahead of the source**: `operatorWords`
   as `{chat, review, threads}` with `reviewPosts` and `threadPosts`,
   `branchLines`, `estimate.subjectLine`, `.claude/costs/contribution.py`,
@@ -85,7 +91,22 @@ record" holds the three rules this file keeps.
   (`.claude/hooks/allow-add-repo.py` among them) and allows its own commands.
 - **`.claude/hooks/install-deps.sh`** — carries this project's
   `corepack enable pnpm` and `pnpm install --frozen-lockfile` where the source
-  ships a TODO.
+  ships a TODO, and the `.claude/artifacts/` install line without the source's
+  prettier warm-up.
+- **`.claude/artifacts/`** — taken byte for byte, its `vet.sh` included, and run
+  by nothing here: like `scripts/gh_export/`, its suite stays where its code is
+  edited, so `scripts/vet.sh` has no artifacts line, and the root ESLint,
+  Prettier, knip and line-limit configs skip the tree (`.prettierignore` because
+  the source formats it to its own style and Prettier pin). The board's focus
+  file stays at the flat `docs/remove-before-merging/review-focus.json` that
+  `.claude/artifacts/src/review-board/scripts/focus.ts` names, rather than under
+  `scripts/working-dir.sh`'s folder, so the vendored code needs no edit; a
+  per-branch path there is a candidate to carry upstream. One edit is ahead of
+  the source, sent there on the operator's ask: the board's collector leaves off
+  every path `.gitattributes` marks `linguist-generated`
+  (`.claude/artifacts/src/review-board/scripts/generated.ts`, called from
+  `collect.ts`); once the source carries it, the next sync takes the source's
+  version and this sentence goes.
 - **`.claude/hooks/file-tools-nudge.py`** — cites `vzakharov/muthur#118`, so it
   does not resolve to this repo's own #118.
 - **`.claude/voice/operators/vzakharov.md`** — the same operator's entry, kept
@@ -174,4 +195,4 @@ record" holds the three rules this file keeps.
   `scripts/test_markdown_tables.py`, `scripts/test_markdown_wrap.py`,
   `scripts/test_multi_repo_hooks.py`, `scripts/test_muthur_sync.py`,
   `scripts/test_relay_last_reply.py`, `scripts/test_session_qa.py`,
-  `scripts/test_staged.py`.
+  `scripts/test_staged.py`, `scripts/test_sticky_comment_nudge.py`.

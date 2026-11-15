@@ -10,8 +10,12 @@
   "scene": ["kernel"],
   "mushrooms": ["scene"],
   "origami": ["scene"],
-  "island-board": ["scene"],
+  "board": ["scene"],
+  "island-board": ["board"],
+  "cube-board": ["board"],
   "island": ["scene"],
   "unsquatted": ["shell"],
-  "vova": ["blog", "music", "mushrooms", "island"]
+  "dice": [],
+  "cube": ["scene", "dice"],
+  "vova": ["blog", "music", "mushrooms", "island", "cube"]
 }

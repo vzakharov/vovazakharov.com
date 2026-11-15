@@ -8,6 +8,8 @@
 
 import type * as Phaser from 'phaser';
 
+import type { Angled } from '@/kernel/shared/typings';
+
 import type { Point } from '@/scene/shared/lib/plane';
 
 import { mix } from '@/mushrooms/shared/lib/colour';
@@ -58,8 +60,8 @@ export const MOTTLE_DEPTH = (DEPTHS.ground + DEPTHS.brow) / 2;
 export type Mottle = WithMiddle &
   Wide & {
     lengthways: number;
-    angle: number;
-  } & Deep;
+  } & Angled &
+  Deep;
 /** Whether a mottle is deeper than the ground or lighter. */
 export type Deep = { deep: boolean };
 

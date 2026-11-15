@@ -19,10 +19,11 @@ import {
   type Expect,
   FRAME_MS,
   grow,
-  inTurn,
   type Page,
   tapSun,
 } from './mushroom-probe-drive.ts';
+
+import { inTurn } from '@/scene/scripts/lib/in-turn';
 
 /** Frames between looks while waiting. */
 const LOOK_EVERY = 15;

@@ -225,15 +225,24 @@ same holds across a cube face's edge (call 7).
 переключение на горизонт -- можно оставить как есть, при этом подсказка "Press ↓
 to look down"».
 
-- **"Press ↑ to look up"** shows once the horizon at the frame's side edges sits
-  at or below the middle of the frame, which happens when the pitch below the
-  horizontal falls to `p* = asin(sin δ / cos(φ/2))`, where
-  `δ = acos(R / (R + h))` is the horizon's dip at height `h` and `φ` the
-  horizontal field of view: the ray through a side edge at mid-height then
-  grazes the horizon.
+- **"Press ↑ to look up"** shows once the horizon enters the frame at its side
+  edges at all — the ray through a top corner grazes it — which happens when the
+  pitch below the horizontal falls to
+  `p* = θv + asin(sin δ · √(1 + tan²θh · cos²θv))`, where
+  `δ = acos(R / (R + h))` is the horizon's dip at height `h` and `θh`, `θv` the
+  horizontal and vertical half-fields of view. Where the asin's argument passes
+  1, or `p*` passes straight down (π/2), no corner can graze the horizon and no
+  hint shows. Vova left the reading to the member («выбери на своё усмотрение
+  пока»), who took this one over a set fraction from the top and over flattening
+  the descent's pitch: the middle-of-the-frame reading never fires, the descent
+  looking far steeper than its threshold at every height.
 - **"Press ↓ to look down"** shows once the pitch the height gives reaches its
   floor, the eye fully on the horizon. Neither shows while the player has
   already moved the look with ↑/↓.
+- **A hint stays up three seconds, then goes out by itself**, and does not come
+  back until its condition has lapsed and returned. Vova: «при постоянном
+  нажатии q, подсказка мигает очень быстро, я даже в первый раз не успел её
+  заметить. пусть горит секунды три а потом гаснет сама».
 
 18\. **Diagnostics on screen.** Vova: «какую-то кнопку для вывода
 диагностических данных на экран, чтобы даже по простому скриншоту (или просто
@@ -243,6 +252,12 @@ to look down"».
   build, world, latitude and longitude, height, heading, pitch, time of day,
   tile levels under the eye — and the frame time, so a screenshot alone says
   where it was taken. The key is the member's call; the key hint lists it.
+- **The panel also shows the speed and the height above sea level, and carries a
+  button that copies the share link** (`#<world>@…` of call 15) for this exact
+  view. Vova: «в панельку с инфой не хватает: текущей скорости, высоты от уровня
+  моря, кнопки для копирования ссылки для расшаривания прямо на это место
+  (последнее собственно упраздняет необходимость P и команды в консоли)» — so P
+  and `island.where()` go, the button being the one way to copy a view.
 
 11\. **Order of work**: the schema and the series, then the cube tiles and the
 eye with #1 re-fitted, then Earth with its envelope measured for call 4. Each

@@ -1,0 +1,85 @@
+items:
+  - id: z-beauty
+    type: zone
+    updated: [2026-11-11T22:45:00.000Z, agent:cube]
+    box: [3640, 1000, 1880, 1960, green]
+    icon: 🎞️
+    text: 'Making it beautiful: the timelapse, failures included'
+  - id: img-beauty-01-first-compile
+    type: image
+    updated: [2026-11-11T22:45:00.000Z, agent:cube]
+    box: [3668, 1110, 430]
+    src: images/beauty-01-first-compile.webp
+    text: "1. First frame that compiled: a shader per floor, lit in the surface pass. Flat, and from a bird's eye"
+  - id: img-beauty-02-hdr-bloom
+    type: image
+    updated: [2026-11-11T22:45:00.000Z, agent:cube]
+    box: [4128, 1110, 430]
+    src: images/beauty-02-hdr-bloom.webp
+    text: '2. HDR and bloom, first try: every lamp a white cloud. The bloom levels added up instead of averaging'
+  - id: img-beauty-03-eye-level
+    type: image
+    updated: [2026-11-11T22:45:00.000Z, agent:cube]
+    box: [4588, 1110, 430]
+    src: images/beauty-03-eye-level.webp
+    text: '3. Shot from eye height at last, bloom tamed. Vova: "orders of magnitude better, but not AAA". Walls are paper'
+  - id: img-beauty-04-pillars
+    type: image
+    updated: [2026-11-11T22:45:00.000Z, agent:cube]
+    box: [5048, 1110, 430]
+    src: images/beauty-04-pillars.webp
+    text: '4. Pillars on every corner, and light through doorways as a hack. Vova: the lever shows through the wall, and the light jumps at room edges'
+  - id: img-beauty-05-thick
+    type: image
+    updated: [2026-11-11T22:45:00.000Z, agent:cube]
+    box: [3668, 1560, 430]
+    src: images/beauty-05-thick.webp
+    text: '5. Walls 12 cm thick, slabs 20 cm, a shaft through each hole; idclip to fall a floor'
+  - id: img-beauty-06-light-5
+    type: image
+    updated: [2026-11-11T22:45:00.000Z, agent:cube]
+    box: [4128, 1560, 430]
+    src: images/beauty-06-light-5.webp
+    text: '6. A point lit by the lamps of nine rooms through what is open: no seams on the generic floor 5'
+  - id: img-beauty-06-light-2
+    type: image
+    updated: [2026-11-11T22:45:00.000Z, agent:cube]
+    box: [4588, 1560, 430]
+    src: images/beauty-06-light-2.webp
+    text: '7. Floor 2 under the same light. Floors 4 to 67 are in five parallel sessions now'
+  - id: img-beauty-07-box-hands
+    type: image
+    updated: [2026-11-11T23:20:00.000Z, agent:cube]
+    box: [3668, 2010, 430]
+    src: images/beauty-07-box-hands.webp
+    text: '8. The descent stream merged: the lever shrinks you where you stand, and the first time you look at your hands. Vova: "funny, but these are not AAA hands"'
+  - id: img-beauty-07-small
+    type: image
+    updated: [2026-11-11T23:20:00.000Z, agent:cube]
+    box: [4128, 2010, 430]
+    src: images/beauty-07-small.webp
+    text: '9. Mouse-sized on floor 1, looking up at the lever that did it. The hole is a walk away, and a hop'
+  - id: img-beauty-08-hands
+    type: image
+    updated: [2026-11-12T00:10:00.000Z, agent:cube]
+    box: [4588, 2010, 430]
+    src: images/beauty-08-hands.webp
+    text: '10. Hands again, an hour on: surfaces lofted through rings and lit by their own normals, fingers of three bones with a curl at rest, nails, a cuff'
+  - id: img-beauty-09-bands-upper
+    type: image
+    updated: [2026-11-12T00:20:00.000Z, agent:cube]
+    box: [5048, 2010, 430]
+    src: images/beauty-09-bands-upper.webp
+    text: '11. Every stream merged. Floors 5, 7, 10 and 15: a parking level, a server floor, grandmother’s, a nursery at night — with the decor stream’s cones, sofas and boxes in them'
+  - id: img-beauty-09-bands-lower
+    type: image
+    updated: [2026-11-12T00:20:00.000Z, agent:cube]
+    box: [3668, 2460, 430]
+    src: images/beauty-09-bands-lower.webp
+    text: '12. Floors 22, 33, 44 and 61: an arcade, a ball pit, a circuit board, a test card. Merged and compiling; sound, voice, posters and happenings are in the branch and not on the page yet'
+  - id: beauty-streams
+    type: sticky
+    updated: [2026-11-11T22:45:00.000Z, agent:cube]
+    box: [5048, 1560, 244, green]
+    icon: 🧵
+    text: 'Eleven sessions ran beside the lead: sound, voice, lettering and posters, the descent, decor, happenings, and five bands of floors. All eleven are merged; the run is paused at the account limit'

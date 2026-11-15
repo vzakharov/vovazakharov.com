@@ -158,6 +158,7 @@ fi
 # leave it to `source`, whose run it is fixing and failing either way.
 if [[ "$phase" != built && "$phase" != local ]]; then
   logged styles pnpm styles:codegen
+  logged shaders pnpm shaders:codegen
 fi
 
 # Each array is one phase's fan-out. Nothing in one writes what another reads,
@@ -186,6 +187,7 @@ source_checks=(
   type-overlap='pnpm type-overlap'
   knip='pnpm knip'
   typography='pnpm check:typography'
+  board-language='pnpm check:board-language'
   drawings-maya='pnpm content:drawings maya --check'
   music-masters='pnpm music:masters check'
   test='scripts/vet-test.sh'

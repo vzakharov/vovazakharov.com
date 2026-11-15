@@ -45,3 +45,39 @@ items:
     box: [2625.720312037562, 105.90156333340494, 200, yellow]
     text: ''
     deleted: true
+  - id: bite3-coast-finer
+    type: image
+    updated: [2026-11-09T13:40:00.000Z, agent:lead]
+    box: [6760, 4420, 620]
+    src: images/bite3-coast-finer.webp
+    text: 'How much finer the coast is cut, on #0 over Italy (columns: as now, one step coarser, two). Top two rows 13 km: coarser saws the waterline and turns the S-islet into two ovals, then into nothing. Bottom rows 527 m: the dunes go soft, then smooth. Coarser would cut the wait by 15–40%; more workers (2 → 4) halve it at no cost to the look, so the coast stays and the workers grow'
+  - id: bite3-holes-fixed
+    type: image
+    updated: [2026-11-09T13:15:00.000Z, agent:lead]
+    box: [6760, 4100, 620]
+    src: images/bite3-holes-fixed.webp
+    text: 'Both fixed, on #0 over Calabria: left, the same fast turn before; middle, after — no blue below the horizon in any frame; right, the fast descent at 923 m, fine ground all the way down. A coarser ancestor of each tile is held and fetched first (6–9% more fills), and drawn just behind the finer tiles until they arrive'
+  - id: bite3-holes
+    type: image
+    updated: [2026-11-09T12:10:00.000Z, agent:lead]
+    box: [6760, 3760, 620]
+    src: images/bite3-holes.webp
+    text: 'Vova''s holes on turns, found: left, his frame at 529 m over Calabria; middle, a fast 8-step turn on the same spot; right, the same view 400 ms after the turn stops. The blue is the ocean globe under the land, showing where tiles for the side turned into are not yet in hand and nothing stands in for them. Fix in progress: the finest tile already in hand stands in. The same cover held #0 on level-2 tiles through the whole descent; that half is fixed'
+  - id: bite3-floor
+    type: image
+    updated: [2026-11-09T11:45:00.000Z, agent:lead]
+    box: [6760, 3420, 620]
+    src: images/bite3-floor.webp
+    text: 'Vova''s sand band at 121 m, before and after: ground that dipped under the lowland floor was clamped flat; now it is squeezed up, keeping its order, so it still rolls and shades. Level ground near the coast 34% → 4%; fill time unchanged'
+  - id: bite3-earth
+    type: image
+    updated: [2026-11-09T10:45:00.000Z, agent:lead]
+    box: [6760, 3080, 620]
+    src: images/bite3-earth.webp
+    text: '#0, Earth, in the game: Africa and the Americas from orbit, Italy from 1,000 km. Fitted from Natural Earth; builds in 1.4 s. Its colours still come from generated height, so the poles are not iced and some low land (Sahara, Amazonia) shows snow — a later bite colours land by climate'
+  - id: bite3-envelopes
+    type: image
+    updated: [2026-11-09T09:40:00.000Z, agent:lead]
+    box: [6760, 2431, 620]
+    src: images/bite3-envelopes.webp
+    text: 'Call 8, for Vova: worlds #2–#6 (rows; two sides each) under three envelopes. Left: the probe, 8.7 landmasses, the largest 44%. Middle: Earth measured (log bins), 7.3, the largest 51%, a Pangaea in one world of five; the member and the lead take it (Earth: 5, 54%). Right: Earth per degree, 11.4, 34%, more channels'

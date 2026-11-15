@@ -1,0 +1,129 @@
+{
+  "total": {
+    "inputTokens": 1642,
+    "cacheWrite5mTokens": 1599,
+    "cacheWrite1hTokens": 141122,
+    "cacheReadTokens": 9325206,
+    "outputTokens": 23813,
+    "thinkingTokens": 9424,
+    "responses": 63,
+    "costUsd": 3.4896371999999993
+  },
+  "estimate": {
+    "at": "2026-11-15T18:37:03.428Z",
+    "subjectLine": "docs: pick up the second stretch's lead and weigh what main brought",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "re-reading a week-old multi-session state and restarting the member takes a producer's judgement of what still holds"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "telling which of a week of WGSL, shader tooling and a parallel island in the cube bears on the round world needs a rendering engineer's read"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-15T18:25:27.017Z",
+    "contextTokens": 110766,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 52968,
+      "cacheReadTokens": 363659,
+      "outputTokens": 1080,
+      "thinkingTokens": 32,
+      "responses": 4,
+      "costUsd": 0.5181078
+    }
+  },
+  "sessionId": "480d25d8-1748-5443-b85c-3c10bf09fe96",
+  "branch": "island/stretch-2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/stretch-2 — дефекты из видео Вовы починены и на превью, участник запаркован и ждёт запуска, четыре воркера ждут двух правок",
+  "prs": [
+    266
+  ],
+  "url": "https://claude.ai/code/session_01DaohkC2YGcWo5oHHsdQaGe",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-15T18:25:03.796Z",
+  "lastResponseAt": "2026-11-15T18:47:46.846Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 124,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 141122,
+    "cacheReadTokens": 8888465,
+    "outputTokens": 23773,
+    "thinkingTokens": 9424,
+    "responses": 60,
+    "costUsd": 3.3826249999999995
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 1642,
+      "cacheWrite5mTokens": 1599,
+      "cacheWrite1hTokens": 141122,
+      "cacheReadTokens": 9325206,
+      "outputTokens": 23813,
+      "thinkingTokens": 9424,
+      "responses": 63,
+      "costUsd": 3.4896371999999993
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 63,
+    "matched": 60,
+    "matchedTableUsd": 3.3826249999999995,
+    "matchedEventUsd": 3.382624999999999,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 1518,
+        "cacheWrite5mTokens": 1599,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 436741,
+        "outputTokens": 40,
+        "thinkingTokens": 0,
+        "responses": 3,
+        "costUsd": 0.1070122
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 103,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".py": 980,
+    ".md": 10363,
+    ".json": -1391,
+    ".txt": 31,
+    ".ts": 625,
+    ".sh": 43,
+    ".yaml": 295,
+    ".tsx": 11
+  }
+}

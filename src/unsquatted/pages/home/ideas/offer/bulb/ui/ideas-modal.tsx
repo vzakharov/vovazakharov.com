@@ -4,15 +4,16 @@ import { Button, Group, Modal } from '@mantine/core';
 import { Lightbulb } from 'lucide-react';
 
 import { pick } from '@/kernel/shared/lib/collections';
+import type { WithOnClose } from '@/kernel/shared/typings';
 
 import type { WithCopy } from '../../../../checker';
 import type { Loading } from '../../generation';
 import classes from './ideas-offer.module.scss';
 
 type IdeasModalProps = WithCopy &
-  Loading & {
+  Loading &
+  WithOnClose & {
     opened: boolean;
-    onClose: () => void;
     /** Starts the download. */
     onTurnOn: () => void;
     /** Stops the download. */

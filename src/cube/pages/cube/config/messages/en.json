@@ -1,0 +1,66 @@
+{
+  "canvas": "The shrinking cube: a maze of floors, each half the size of the one above",
+  "unsupported": "This browser has no WebGPU, so the cube cannot be drawn.",
+  "floor": "Floor {floor}",
+  "nowhere": "This address leads nowhere in the cube.",
+  "ways": {
+    "wake": "Press any key",
+    "climb": "Press E to climb the ladder",
+    "gone": "The ladder is gone",
+    "run": "Hold Shift to run, double-tap to keep running",
+    "quality-high": "Quality: high",
+    "quality-medium": "Quality: medium",
+    "quality-low": "Quality: low"
+  },
+  "pill": {
+    "take": "Press E to take the pill",
+    "ask": "Press {yes} to swallow, {no} to put down"
+  },
+  "door": {
+    "open": "Press E to open the door"
+  },
+  "tapped": {
+    "ways": {
+      "wake": "Tap anywhere",
+      "climb": "Tap to climb the ladder"
+    },
+    "pill": {
+      "take": "Tap to take the pill",
+      "ask": "{yes} {no}"
+    },
+    "door": {
+      "open": "Tap to open the door"
+    },
+    "answers": {
+      "yes": "Swallow",
+      "no": "Put down"
+    },
+    "offer": {
+      "hint": "Tap to see the offer",
+      "hintYours": "Tap to see your room"
+    }
+  },
+  "controls": {
+    "walk": "Drag here to walk, further to run",
+    "look": "Drag here to look around",
+    "use": "Tap to use what is in reach"
+  },
+  "offer": {
+    "signs": {
+      "for-sale": "For sale",
+      "buy-more": "Buy more",
+      "yours": "Sold"
+    },
+    "sold": "Yours",
+    "hint": "Press E to see the offer",
+    "hintYours": "Press E to see your room",
+    "title": "A room on floor {floor}",
+    "titleYours": "Your room on floor {floor}",
+    "price": "Price: {price}",
+    "paid": "Bought for {price}",
+    "size": "{side} m a side, {height} m to the ceiling",
+    "buy": "Buy",
+    "demo": "A demo: nothing is charged, and the room is yours only until the page reloads.",
+    "close": "Close"
+  }
+}

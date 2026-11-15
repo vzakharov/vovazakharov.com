@@ -10,7 +10,9 @@
 # the run by hand, over only what the branch reached (scripts/test-changed.sh).
 #
 # The list comes from git rather than a glob so an agent's scratch worktree or
-# an ignored directory never joins the run.
+# an ignored directory never joins the run. `.claude/artifacts/` is a vendored
+# project with its own toolchain and suite, run where it is edited, so it never
+# joins either.
 set -uo pipefail
 
 cd "$(dirname "$0")/.."
@@ -31,7 +33,7 @@ mapfile -t files < <(
   {
     git ls-files '*.test.ts'
     git ls-files --others --exclude-standard '*.test.ts'
-  } | "${pick[@]}"
+  } | grep -v '^\.claude/artifacts/' | "${pick[@]}"
 )
 if [ -z "${1:-}" ] && [ "${VET_MEADOW:-}" != 1 ]; then
   printf 'vet-test: the meadow'\''s tests are skipped; VET_MEADOW=1 runs them.\n'
