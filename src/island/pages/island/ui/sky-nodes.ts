@@ -6,6 +6,7 @@ import {
   fwidth,
   length,
   max,
+  mix,
   normalize,
   positionWorldDirection,
   pow,
@@ -34,6 +35,7 @@ import {
   SPACE_COLOUR,
 } from '../lib/air';
 import type { Heavens } from '../lib/day';
+import { cloudNodes } from './cloud-nodes';
 
 export type Backed = {
   /** The scene's background node: `radiance` along the view ray plus the discs. */
@@ -49,9 +51,19 @@ export type SkyNodes = Backed & {
     direction: Node<'vec3'>,
     metres: Node<'float'>,
   ) => Node<'vec3'>;
-  /** Per frame: the heavens, the eye's zenith (unit) and its height in metres. */
-  readonly update: (heavens: Heavens, up: Vec3, height: number) => void;
+  /** The share of the sun's light the clouds leave at `position`, the eye being the origin; `aerial` lays it on what it is handed. */
+  readonly shade: (position: Node<'vec3'>) => Node<'float'>;
+  /** Per frame: the heavens, the eye's zenith (unit), its height in metres and the shared clock's seconds, which the clouds drift on. */
+  readonly update: (
+    heavens: Heavens,
+    up: Vec3,
+    height: number,
+    seconds?: number,
+  ) => void;
 };
+
+/** The distance over which the air takes a cloud's own light for the sky's, metres. */
+const CLOUD_SIGHT = 60_000;
 
 /** What the sun's in-scattered light is worth in the scene's exposure, where lit land stays under 1. */
 const SUN_LIGHT = 0.9;
@@ -217,12 +229,30 @@ export function skyNodes(): SkyNodes {
     };
   };
 
+  const clouds = cloudNodes({
+    up,
+    height,
+    radius,
+    shell,
+    towardSun,
+    towardMoon,
+  });
+
+  const { shade } = clouds;
+
   const radiance = (direction: V): V => {
     const { through, glow } = dome(direction);
-    return space.mul(through).add(glow);
+    const cloud = clouds.glanced(direction);
+    return space.mul(through).add(glow).mul(cloud.a).add(cloud.rgb);
   };
 
-  const aerial = (colour: V, direction: V, metres: F): V => {
+  const aerial = (lit: V, direction: V, metres: F): V => {
+    const cloud = clouds.along(direction, metres).seen;
+    // The clouds' shadow on the surface, then the clouds before it, then the air over both.
+    const colour = lit
+      .mul(clouds.shade(direction.mul(metres)))
+      .mul(cloud.a)
+      .add(cloud.rgb);
     const cosine = dot(direction, up);
     /** The far end's radius squared less the eye's. */
     const gained = metres.mul(radius.mul(cosine).mul(2).add(metres));
@@ -258,13 +288,25 @@ export function skyNodes(): SkyNodes {
     .mul(SUN_DISC)
     .mul(disc(sun))
     .add(vec3(...MOON_DISC).mul(disc(moon)));
-  const background = space.add(discs).mul(sky.through).add(sky.glow);
+  const overhead = clouds.along(view, float(1e12));
+  /** How much of a cloud's own light the air before it leaves: far ones fade into the sky. */
+  const clear = exp(overhead.near.div(-CLOUD_SIGHT));
+  const background = space
+    .add(discs)
+    .mul(sky.through)
+    .add(sky.glow)
+    .mul(overhead.seen.a)
+    .add(
+      mix(sky.glow.mul(overhead.seen.a.oneMinus()), overhead.seen.rgb, clear),
+    );
 
   return {
     radiance,
     aerial,
+    shade,
     background,
-    update: (heavens, zenith, eyeHeight) => {
+    update: (heavens, zenith, eyeHeight, seconds = 0) => {
+      clouds.update(seconds);
       up.value.set(...zenith);
       height.value = eyeHeight;
       radius.value = R + eyeHeight;

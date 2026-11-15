@@ -163,7 +163,12 @@ export type GroundLighting = CanDispose &
      * `height` metres up at direction `up`: the sky's fill stays overhead of
      * it and dims with the night there.
      */
-    readonly shine: (heavens: Heavens, up: Vec3, height: number) => void;
+    readonly shine: (
+      heavens: Heavens,
+      up: Vec3,
+      height: number,
+      seconds: number,
+    ) => void;
     /**
      * Draws the sea as a surface — ripples, the sky in them, the sun's glint —
      * in place of its flat colour. WebGPU only, and before the first frame.
@@ -270,8 +275,8 @@ export function groundLighting(): GroundLighting {
     },
     stirSea: surface.update,
     lights: [landSun, seaSun, landMoon, seaMoon, sky],
-    shine: (heavens, up, height) => {
-      air.update(heavens, up, height);
+    shine: (heavens, up, height, seconds) => {
+      air.update(heavens, up, height, seconds);
       // The sun's colour after the air it crossed to the eye: warm when low, out once set.
       const warmth = tintOf(lightThrough(dot(heavens.sun, up), height));
       for (const light of [landSun, seaSun]) {
