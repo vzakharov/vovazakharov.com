@@ -2,7 +2,7 @@ items:
   - id: z-sea
     type: zone
     updated: [2026-11-15T21:45:00.000Z, agent:lead]
-    box: [7900, 260, 1150, 4560, blue]
+    box: [7900, 260, 1150, 5100, blue]
     text: 'The sea — near ground as the cube draws it outside'
   - id: sea-before
     type: image
@@ -126,3 +126,19 @@ items:
     updated: [2026-11-15T23:20:00.000Z, agent:lead]
     box: [8300, 4600, 330, pink]
     text: 'Open: clouds cost 2–2.8× frame time on the software rasteriser, unmeasured on a real GPU and being cut; far clouds seen edge-on band horizontally'
+  - id: sea-clouds-cut
+    type: image
+    updated: [2026-11-15T23:40:00.000Z, agent:lead]
+    box: [7940, 4870, 1070]
+    src: images/sea-clouds-cut.webp
+    text: 'Milestone 7, clouds at five samples a ray: from the inlet at 2 m, from 6 km and from orbit at 4,000 km'
+  - id: sea-clouds-cut-how
+    type: sticky
+    updated: [2026-11-15T23:40:00.000Z, agent:lead]
+    box: [7940, 5110, 330, green]
+    text: 'Five samples a ray at a per-pixel offset instead of eight, the march stopping once under 2% light is left, the finest octave only within ~670 km. On the software renderer clouds now cost 1.4–2× the cloudless frame, down from 1.8–2.8×'
+  - id: sea-clouds-cut-open
+    type: sticky
+    updated: [2026-11-15T23:40:00.000Z, agent:lead]
+    box: [8300, 5110, 330, pink]
+    text: 'Open: nothing measured on a real GPU, so 60 fps on the M2 Pro is unconfirmed; from the beach the far clouds on the horizon read as slanted strokes, few samples through a thin slab at a grazing ray'
