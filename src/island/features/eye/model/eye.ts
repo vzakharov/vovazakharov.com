@@ -261,9 +261,9 @@ function aimed(eye: Eye, intent: Intent, dt: number): Eye['aim'] {
  * eye eases toward it — along the great circle to the aim's point, carrying
  * its facing, which then turns the shorter way toward the aim's facing
  * carried to the same point; height in its logarithm, so a climb is as
- * smooth at orbit as at the ground; the look straight — then the floor eases toward the surface
- * now under the eye, and the eye is lifted if that left it under
- * `MIN_HEIGHT`.
+ * smooth at orbit as at the ground; the look straight — then the floor eases
+ * toward the surface now under the eye, and the eye is lifted if that left it
+ * under `MIN_HEIGHT`.
  */
 export function step(
   eye: Eye,

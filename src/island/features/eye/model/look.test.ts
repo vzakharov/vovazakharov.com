@@ -120,7 +120,7 @@ describe('looking up and down', () => {
     }
   });
 
-  it('keeps the planar pitch at the default look, at every height', () => {
+  it('keeps the pitch its height gives at the default look, at every height', () => {
     for (const height of HEIGHTS) {
       assert.equal(lookWithin(0, height), 0);
       for (const place of PLACES) {

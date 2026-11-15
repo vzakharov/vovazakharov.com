@@ -152,8 +152,7 @@ const moon = (irradiance: number) =>
 /**
  * The land and sea materials and the lights on them: one sun direction, laying
  * more light on the land than on the sea, the full moon opposite it, and one
- * sky. Land and tile sea are
- * coloured by the `height` vertex attribute — the ground's, and the floor's
+ * sky. Land and tile sea are coloured by the `height` vertex attribute — the ground's, and the floor's
  * under the sea; the ocean keeps the deep sea's flat colour.
  */
 export function groundLighting(): GroundLighting {
