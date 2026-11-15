@@ -161,12 +161,17 @@ altogether later.
   land's `normalNode`, and bare rock in TSL where the mesh is steep above the
   beach (`ROCK_COLOUR`, `rock`, `roughness` in `ground-lighting.ts`). Rock has
   not been looked at on a real cliff yet: find one and shoot it.
-- If parked here: everything is pushed; the sky child
-  (session_01DaohkCJdeeFwaqj45LNp9n, `island/sea-sky`) is the only one alive and
-  must merge `origin/island/sea` before its next push. Left: its orbit fix and
-  clouds; the shoreline's polygons; film mirror on wet sand; shelter; beach
-  profile; `sea-wgsl`/`ground-wgsl` into `nature`; `/polish`; `/pr` into
-  `island/stretch-3`.
+- If parked here: everything is pushed and no child is alive — the sky child
+  (session_01DaohkCJdeeFwaqj45LNp9n) is archived, its last head 3caa40e8 merged
+  (frames 21–23: five jittered samples, 1.4–2× the cloudless frame on software).
+  Left, in order: `./scripts/vet.sh` on the pushed head, `/polish`, `/pr` into
+  `island/stretch-3`. Then, optional: the far clouds read as slanted strokes on
+  the horizon from the beach at 640 px (frame 21 — few samples through a thin
+  slab at a grazing ray); the shoreline's polygons; film mirror on wet sand;
+  shelter; beach profile; `sea-wgsl`/`ground-wgsl` into `nature`; the wind
+  driving the clouds' drift; `pointAt` (cloud-nodes) and `aerial`'s far-end
+  geometry (sky-nodes) are the same maths, left apart for float32 at orbit.
+  Unmeasured: fps on a real GPU.
 - Built (e177eb5b, frames 15–18, preview slot 1 redispatched): rock at
   `smoothstep(0.04, 0.15, steep)` (the island's mountains are gentle; it shows
   as outcrops in the snow); `eyeKeeps` in `lib/sun.ts` dims a sun above the
