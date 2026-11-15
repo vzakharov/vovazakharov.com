@@ -2,7 +2,7 @@ items:
   - id: z-portals
     type: zone
     updated: [2026-11-15T11:02:33.000Z, agent:cube]
-    box: [5720, 2000, 2470, 1900, blue]
+    box: [5720, 2000, 2470, 2400, blue]
     icon: 🌀
     text: 'Portals: the forks'
   - id: p-look-q
@@ -239,6 +239,46 @@ items:
     box: [6568, 3660, 380, yellow]
     icon: 🔢
     text: 'Is the floor on the display a spoiler? It puts in the world a fact the world did not show, which spoiler-free trophies guard against. But the URL already names the floor, so the display tells nothing the player lacks: fine'
+  - id: p-go-q
+    type: sticky
+    updated: [2026-11-15T19:30:00.000Z, agent:cube]
+    box: [5748, 3900, 380, blue]
+    icon: 🛠️
+    text: 'Decided, 15 Nov: what the first build of portals is. Everything above that this row does not settle stays open'
+  - id: p-go-net
+    type: sticky
+    updated: [2026-11-15T19:30:01.000Z, agent:cube]
+    box: [6158, 3900, 380, green]
+    icon: ⚖️
+    text: 'The fair network. A spoke climbs one floor 3 times in 4 because each floor holds four times the hubs above it; a hub drops by the mirror of that, one floor at weight 1, two at ¼, three at 1/16. The hub share is the one at which a portal opened at random moves you down as far as up: ½ on floors 8–64, derived, no number set by hand'
+  - id: p-go-minute
+    type: sticky
+    updated: [2026-11-15T19:30:02.000Z, agent:cube]
+    box: [6568, 3900, 380, green]
+    icon: ⏱️
+    text: 'The period is a minute, one tick for every hub: a hub is a ride, and a watch’s second hand is its timetable'
+  - id: p-go-door
+    type: sticky
+    updated: [2026-11-15T19:30:03.000Z, agent:cube]
+    box: [6978, 3900, 380, green]
+    icon: 🚪
+    text: 'No lift. A portal is an ordinary door; opened, it shows the far floor as you will see it once through. When the minute turns, the view through an open hub door turns with it'
+  - id: p-go-air
+    type: sticky
+    updated: [2026-11-15T19:30:04.000Z, agent:cube]
+    box: [7388, 3900, 380, yellow]
+    icon: 🌫️
+    text: 'Air, for now: the far floor is drawn in the air of the floor you leave, not its own. Maybe a glitch that stays as a feature'
+  - id: l-go-period
+    type: line
+    updated: [2026-11-15T19:30:05.000Z, agent:cube]
+    ends: [p-go-minute, p-period-ride]
+    text: this one
+  - id: l-go-lift
+    type: line
+    updated: [2026-11-15T19:30:06.000Z, agent:cube]
+    ends: [p-go-door, p-lift-q]
+    text: not for now
   - id: l-lift-look
     type: line
     updated: [2026-11-15T14:06:01.000Z, agent:cube]
