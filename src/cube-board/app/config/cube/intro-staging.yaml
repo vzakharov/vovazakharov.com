@@ -1,0 +1,73 @@
+items:
+  - id: z-intro-staging
+    type: zone
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-board]
+    box: [0, 7500, 2510, 900, orange]
+    icon: 🏝️
+    text: 'The intro: staging decisions, and where the sea comes from'
+  - id: intro-d1
+    type: sticky
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    box: [28, 7600, 280, blue]
+    icon: ☀️
+    text: 'The doorway faces the sun, and you wake on the cube’s far side, ~30 m south-west, the sun behind it: turning, you see the cube against the sunset, door and ladder out of sight. Vova: “otherwise you see the door and the ladder at once, in your face, and that is less interesting”. Waking in front of the doorway lost to this'
+  - id: intro-d2
+    type: sticky
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    box: [334, 7600, 280, blue]
+    icon: 🕴️
+    text: 'The cube hovers 1.1 m over the sand. With the sun 9° up its shadow starts ~7 m behind it and runs some 38 m, west-south-west, beside your way to the cube. So the sand under it lies in full sun and the sea’s glare shows through the gap: no cutscene needed to see that it floats'
+  - id: intro-d3
+    type: sticky
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    box: [640, 7600, 280, blue]
+    icon: 🌇
+    text: 'Eternal golden hour: the sun never moves. Waves, clouds and surf do, as functions of the clock, so a frame is a function of where you stand and when'
+  - id: intro-d4
+    type: sticky
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    box: [946, 7600, 280, blue]
+    icon: 🪴
+    text: 'The doorway is where floor 1’s decor door stood: the east wall by the north-east corner, 0.97 m wide, 2.1 m tall. The potted plant stands half across it and stays. The sun is 31° off the doorway’s normal, so the beam crosses the floor on a diagonal and ends on the wall at the pill’s shelf'
+  - id: intro-d5
+    type: sticky
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    box: [1252, 7600, 280, blue]
+    icon: 💧
+    text: 'One function says where the water is: waterLevel(xz, t), the sea’s slow surface with surge and swash. The sea, the sand’s wet band, the surf’s sound and the waves on your feet all read it, which is what keeps them in step'
+  - id: intro-d6
+    type: sticky
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    box: [1558, 7600, 280, blue]
+    icon: 🙌
+    text: 'The stylised hands stay as they are. Vova: “the contrast between the dazzling realism of the pre-sunset island and the under-realism of the rest, let us call it a creative choice”'
+  - id: intro-img-web-ocean
+    type: image
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    box: [28, 7970, 440]
+    src: images/intro-web-ocean.webp
+    text: 'From the Island board (item web-ocean): “Inspiration: Noniv/web-ocean — what a browser can do with sea and sky. Nothing copied.” The same goes here'
+  - id: intro-world
+    type: sticky
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    box: [494, 7970, 280, green]
+    icon: 🗺️
+    text: 'One ocean, one day. Vova: “all this will become part of one world: our island in the middle of the ocean, in the same world as Zoltan and Syama’s island. Swim, and hundreds of kilometres on you reach a shore. Or maybe you take off and fly. But that is for later :)”'
+  - id: intro-price
+    type: sticky
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    box: [800, 7970, 280, blue]
+    icon: 👣
+    text: 'What “interactions come at a price” already decided here: no footprints on the sand, no ripples from the swimmer, and the shelf keeps its pill for whoever comes next'
+  - id: intro-no-textures
+    type: sticky
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    box: [1106, 7970, 280, blue]
+    icon: 🧮
+    text: 'For about an hour on 13 Nov the lead read “no textures” as banning every map, computed ones included, and briefed the sea to be rebuilt as a sum of analytic waves. The operator: “I did not mean against maps; I meant the maps themselves must be computed on the fly.” Nothing had been deleted. The rule is the “Nothing authored” card'
+  - id: intro-ladder
+    type: sticky
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    box: [1412, 7970, 280, blue]
+    icon: 🪜
+    text: 'The ladder is there until it has been climbed, and then it is not: no animation, no effect, no sound. You turn round and it is gone. You can leave by jumping from the doorway, unhurt, at half height too if you took the pill and did not go down. There is no climbing back'

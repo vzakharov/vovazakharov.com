@@ -1,0 +1,97 @@
+items:
+  - id: z-intro-round
+    type: zone
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-board]
+    box: [5220, 5840, 2510, 1350, orange]
+    icon: 🏝️
+    text: 'The intro: after Vova’s first walk of the preview, 13 Nov: the scenario round'
+  - id: intro-r-verdict
+    type: sticky
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    box: [5248, 5950, 280, pink]
+    icon: 🚶
+    text: 'Vova, after walking it on an M2 Pro: “a joy, but alas outside (and until the way down to floor two) it is very slow.” Then a list: the scenario first, the speed after.'
+  - id: intro-r-first-look
+    type: sticky
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    box: [5554, 5950, 280, blue]
+    icon: 👀
+    text: The first look is the player’s. The waking ends looking out to sea and nothing turns the head. The hero says “hm?” once the gaze comes to rest on the whole cube, not while the head is still turning
+  - id: intro-r-pace
+    type: sticky
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    box: [5860, 5950, 280, blue]
+    icon: 🏃
+    text: A body walks unless Shift says run, indoors and out. Held, Shift gives the other pace; two quick taps make it the standing one. Coming down to floor 3 a line says “Hold Shift to run, double-tap to keep running”, until Shift is first pressed
+  - id: intro-r-climb
+    type: sticky
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    box: [6166, 5950, 280, blue]
+    icon: 🪜
+    text: 'On the ladder the eye looks aside on the way up and straight ahead again before the doorway, so entering no longer lands the gaze on the hatch. Hands on the rungs: the eye stood 0.78 m from them against a 0.7 m arm, which is why none showed; it stands a forearm off now'
+  - id: intro-r-refused
+    type: sticky
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    box: [6472, 5950, 280, blue]
+    icon: 🕳️
+    text: No jumping off the first time. The eye leans out over the sill, looks down at where the ladder stood, the line says “The ladder is gone”, the hero says “hm?”, and the body is back inside. Let go of the keys and the next step is the jump
+  - id: intro-r-reload
+    type: sticky
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    box: [6778, 5950, 280, blue]
+    icon: 🔁
+    text: 'Reloading. Once the waking has played the address carries #awake, and a reload starts on the island already up. Jumping off writes nothing, so a reload after it starts inside'
+  - id: intro-r-cost
+    type: sticky
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    box: [5248, 6300, 586, yellow]
+    icon: ⏱️
+    text: 'Why it is slow outside. GPU time for the scene, M2 Pro, a window of 3570×2300 device pixels: waking (half sand, half sky) 59.5 ms; the sea filling the lower half 43.8; floor 1’s room, the outside seen through the doorway alone, 42.6; the cube close up 28.2; floor 2 3.6. So it is not the ocean’s simulation, nor the seam where the sea meets the sand: it is every pixel of sand and of sea, and floor 1 pays for all of them behind its walls. For now there are three qualities out of doors, cycled on Q: the picture at 1, 0.75 or 0.5 of the screen’s resolution, starting at the highest, and a line names the key once the outside draws under 55 frames a second. Deeper floors are always sharp: the level lifts in the fall through floor 1’s hole. The clouds keep their own grid at every level; at half the picture they had turned to bricks'
+  - id: intro-r-steps
+    type: sticky
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    box: [6472, 6300, 280, blue]
+    icon: 👣
+    text: 'A run sounded like a toddler: a footfall every 0.75 m at any pace is 4.7 a second at a run. Vova: “it should be what a walk is now.” A run’s stride is two and a half walking ones, so both paces step 1.9 times a second, the run landing harder'
+  - id: intro-todo-hidden
+    type: sticky
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    box: [5248, 6750, 280, orange]
+    icon: 🙈
+    text: 'To do, the outside’s cost, cheapest first. 1: shade nothing hidden. Rooms and shell first, sand and sea only where they show. Floor 1’s room stops paying 42.6 ms for a beach behind its walls. In the way: the sea writes its own depth, which rules the early depth test out as it stands'
+  - id: intro-todo-sand-far
+    type: sticky
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    box: [5554, 6750, 280, orange]
+    icon: 🔭
+    text: 'To do, 2: thin the sand with distance. Every pixel works out grains and glints, ripples and hummocks, the wrack’s litter, the wetness of past waves, the cube’s shadow and the wet mirror. Past a few metres the grains, glints and litter are already averaged away; whether the shader skips that work or does it and blends it out is unread'
+  - id: intro-todo-sand-bake
+    type: sticky
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    box: [5860, 6750, 280, orange]
+    icon: 🍞
+    text: 'To do, 3: bake what the clock does not move. Grains, ripples, hummocks and litter worked out once at load, by the same formulas, into maps the GPU keeps, and only read each frame; wetness, shadow and light stay per frame. A map computed at run time is allowed by the rules. The price: memory, and a pattern that may repeat; the sand at one’s feet can stay the honest sum'
+  - id: intro-todo-small-target
+    type: sticky
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    box: [6166, 6750, 280, orange]
+    icon: 🔍
+    text: 'To do, 4: the sand and the sea alone in a smaller picture, joined to the sharp cube, ladder and hands by depth, as the clouds already are. Vova asked for it: “couldn’t we descale only that?” Without the join by depth there is a halo round everything that stands in front'
+  - id: intro-todo-measure
+    type: sticky
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    box: [6472, 6750, 280, orange]
+    icon: 📏
+    text: 'To do before any of them: find which term of the sand is the dearest, turning them off one at a time under the meter on Vova’s machine. The meter’s stages overlap on Apple’s GPU (scene plus lens come to more than the frame), so the lens figure is not a cost to chase by itself'
+  - id: intro-r-bench
+    type: sticky
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    box: [5860, 6300, 280, green]
+    icon: 🪑
+    text: 'The bench in floor 1’s beam stood dark while the wall behind it was lit: a thing shaded the room by one box around all of it. A thing shades by its parts now — a seat slat, a back slat, a post — so its sunlit faces are lit and its shadow falls on the wall and the floor'
+  - id: intro-r-wave
+    type: sticky
+    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    box: [6166, 6300, 280, green]
+    icon: 🌊
+    text: 'Under a wave the picture was a flat pale grey: whatever lay under the horizon behind the water was drawn as if in air. Vova: “no need to make it beautiful now, but at least not grey.” It takes the colour of the water’s body with distance'

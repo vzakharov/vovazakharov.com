@@ -1,200 +1,200 @@
 items:
   - id: z-ideas
     type: zone
-    updated: [2026-11-14T19:50:00.000Z, agent:cube]
-    box: [3640, -3800, 1980, 1700, yellow]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [3640, 1000, 1980, 2612, yellow]
     icon: 💡
     text: 'Ideas: doors that open into the room behind the wall'
   - id: img-doors-01-floor-plan
     type: image
-    updated: [2026-11-14T19:50:00.000Z, agent:cube]
-    box: [3668, -3690, 560]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [3668, 2137, 560]
     src: images/doors-01-floor-plan.webp
     text: 'Floor 7 at threshold 10, density 100%, 75% doors: 263 red doors, 75 purple gaps, and in green the walls where an opening is allowed. From landing (gold) to the hole (teal), the red route takes doors and the dashed blue one walks without'
   - id: img-doors-02-partition-window
     type: image
-    updated: [2026-11-14T19:50:00.000Z, agent:cube]
-    box: [4268, -3690, 560]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [4258, 2137, 560]
     src: images/doors-02-partition-window.webp
     text: 'One partition at threshold 11, the same as 10: green walls are allowed by 2·d + 1 alone. Only the window boxed round the passage (teal dot) needs a search: gold walls passed it, the grey one failed. The roll picked the red wall at the top, and its way round, in blue, is 67 long'
   - id: img-doors-03-floor-8-shut
     type: image
-    updated: [2026-11-14T20:55:00.000Z, agent:cube]
-    box: [4868, -3690, 236]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [4848, 2137, 236]
     src: images/doors-03-floor-8-shut.webp
     text: "In the game, floor 8: a door, shut. A plain leaf for now, and the wall's wainscot runs across its foot"
   - id: img-doors-03-floor-8-half
     type: image
-    updated: [2026-11-14T20:55:00.000Z, agent:cube]
-    box: [5116, -3690, 236]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [5096, 2137, 236]
     src: images/doors-03-floor-8-half.webp
     text: 'E or a tap: it swings away from the opener over 0.9 s. A coat rack stands right behind it'
   - id: img-doors-03-floor-8-open
     type: image
-    updated: [2026-11-14T20:55:00.000Z, agent:cube]
-    box: [5364, -3690, 236]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [5344, 2137, 236]
     src: images/doors-03-floor-8-open.webp
     text: 'Open for its opener alone, and shut once they leave it. The next room was there all along, and so was a coat rack in its shadow: “it looks uncanny, in the good sense”'
   - id: img-doors-04-floor-6-shut
     type: image
-    updated: [2026-11-14T21:40:00.000Z, agent:cube]
-    box: [4868, -3480, 236]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [4848, 2466, 236]
     src: images/doors-04-floor-6-shut.webp
     text: 'Floor 6, the real door: the decor door''s build moved onto the doorway, and decor doors are gone. A white frame lining the cut, a leaf in one of five paints, a chrome lever on its backplate, a kick plate and a number plate; paint and handle side rolled per wall. "Press E to open the door", or "Tap" on a touch screen'
   - id: img-doors-04-floor-6-half
     type: image
-    updated: [2026-11-14T21:40:00.000Z, agent:cube]
-    box: [5116, -3480, 236]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [5096, 2466, 236]
     src: images/doors-04-floor-6-half.webp
     text: 'It hangs on the jamb away from the handle and swings away from the opener; the body bumps into the leaf where it stands. One press answers one thing: the pill, sign or door nearest the gaze'
   - id: img-doors-04-floor-6-open
     type: image
-    updated: [2026-11-14T21:40:00.000Z, agent:cube]
-    box: [5364, -3480, 236]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [5344, 2466, 236]
     src: images/doors-04-floor-6-open.webp
     text: "Open, with nothing standing in the doorway: decor, signs and shelves keep a walkway clear on both sides of every door. Reads well here, under floor 6's ceiling tubes"
   - id: img-doors-05-floor-8-shut
     type: image
-    updated: [2026-11-14T21:50:00.000Z, agent:cube]
-    box: [4868, -3310, 236]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [4848, 2921, 236]
     src: images/doors-05-floor-8-shut.webp
     text: "Floor 8, the same door in the hotel, the sconce whole beside it. Its first shots had the leaf go black once it swung: the hotel's sconces painted their glow onto walls alone, so a door beside a glowing wall stood unlit"
   - id: img-doors-05-floor-8-half
     type: image
-    updated: [2026-11-14T21:50:00.000Z, agent:cube]
-    box: [5116, -3310, 236]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [5096, 2921, 236]
     src: images/doors-05-floor-8-half.webp
     text: 'Each sconce now lights whatever is not a wall too, falling off with distance: the swung leaf, the frame, the carpet near the walls'
   - id: img-doors-05-floor-8-open
     type: image
-    updated: [2026-11-14T21:50:00.000Z, agent:cube]
-    box: [5364, -3310, 236]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [5344, 2921, 236]
     src: images/doors-05-floor-8-open.webp
     text: "Open onto the next corridor, nothing in the doorway. The sconces first hung 1.25 m from each wall end, half under a door's frame; every doorway is cut at the same spot along its wall, so both now hang 0.35 m clear of it, 1.59 m in"
   - id: img-doors-06-cinema-corridor-before
     type: image
-    updated: [2026-11-14T22:45:00.000Z, agent:cube]
-    box: [3668, -3320, 220]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [3668, 2830, 220]
     src: images/doors-06-cinema-corridor-before.webp
     text: "Floor 25, before: every doorway is cut at the same spot along its wall, and the cinema's second wall light sat inside it; decor took the lamp away, the shader's wash stayed on the curtain round the frame"
   - id: img-doors-06-cinema-corridor-after
     type: image
-    updated: [2026-11-14T22:45:00.000Z, agent:cube]
-    box: [3896, -3320, 220]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [3896, 2830, 220]
     src: images/doors-06-cinema-corridor-after.webp
     text: 'After: both lights hang 0.3 m clear of that spot, at 1.54 m and 3.46 m, lamp and wash together, as in the hotel'
   - id: img-doors-06-metro-platform-before
     type: image
-    updated: [2026-11-14T22:45:00.000Z, agent:cube]
-    box: [4124, -3320, 220]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [4124, 2830, 220]
     src: images/doors-06-metro-platform-before.webp
     text: 'Floor 31, before: the second bill board ran from 3.6 m to 4.7 m, mostly into the door'
   - id: img-doors-06-metro-platform-after
     type: image
-    updated: [2026-11-14T22:45:00.000Z, agent:cube]
-    box: [4352, -3320, 220]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [4352, 2830, 220]
     src: images/doors-06-metro-platform-after.webp
     text: "After: one board, at the wall's far end. The second, 1.1 m wide, fits nowhere between the signs and the cut, so doorless walls lose it too"
   - id: img-doors-06-hallway-after
     type: image
-    updated: [2026-11-14T22:45:00.000Z, agent:cube]
-    box: [4580, -3320, 220]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [4580, 2830, 220]
     src: images/doors-06-hallway-after.webp
     text: 'Floor 66: the painted doors are spaced so the last stands on the doorway, and a real door takes its place with no sliver of painted casing beside it'
   - id: img-doors-07-darkroom-before
     type: image
-    updated: [2026-11-14T23:40:00.000Z, agent:cube]
-    box: [3668, -3165, 220]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [3668, 3212, 220]
     src: images/doors-07-darkroom-before.webp
     text: "Darkroom, before: the prints on the line repeat every 0.4 m from the room's corner, so the doorway's edge cuts one in half on every wall with a door"
   - id: img-doors-07-darkroom-after
     type: image
-    updated: [2026-11-14T23:40:00.000Z, agent:cube]
-    box: [3896, -3165, 220]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [3896, 3212, 220]
     src: images/doors-07-darkroom-after.webp
     text: 'After: a print that would touch the doorway is not hung at all; the line itself runs on, as the wallpaper does'
   - id: img-doors-07-clean-room-before
     type: image
-    updated: [2026-11-14T23:40:00.000Z, agent:cube]
-    box: [4124, -3165, 220]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [4124, 3212, 220]
     src: images/doors-07-clean-room-all-glazed-before.webp
     text: 'Clean room, every bay glazed, before: the window of the fourth 1.25 m bay sits at 3.98–4.78 m, and a strip of its steel frame shows past the jamb'
   - id: img-doors-07-clean-room-after
     type: image
-    updated: [2026-11-14T23:40:00.000Z, agent:cube]
-    box: [4352, -3165, 220]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [4352, 3212, 220]
     src: images/doors-07-clean-room-all-glazed-after.webp
     text: 'After: that bay goes blank on every wall, door or not, since the grid is the same in every room. The same gate covers fifteen themes with pieces set on a grid'
   - id: doors-idea
     type: sticky
-    updated: [2026-11-14T10:45:00.000Z, agent:cube]
-    box: [3668, -2990, 244, yellow]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [5343, 1110, 244, yellow]
     icon: 🚪
     text: 'Idea: doors that open into the room behind the wall. A door belongs to the wall, so both faces show it and no wall holds two; none on the perimeter, and none where the walk round between its two rooms is under a threshold. Opening one is free: it shuts behind you, so nothing lasting changes'
   - id: doors-lock
     type: sticky
-    updated: [2026-11-14T10:45:00.000Z, agent:cube]
-    box: [4003, -2990, 244, purple]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [4003, 1110, 244, purple]
     icon: 🔐
     text: 'Doors leave the lock alone: a search hashes room addresses and never walks, so a shortcut saves it nothing. Floor 65 by brute force at the whole Bitcoin network, 10^21 hashes a second, is still ~22 billion years; Grover needs 2^65 calls one after another, ~900 years at a billion a second'
   - id: doors-who
     type: sticky
-    updated: [2026-11-14T10:45:00.000Z, agent:cube]
-    box: [4338, -2990, 244, yellow]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [4338, 1110, 244, yellow]
     icon: 🧭
     text: 'Doors help the lost most and the methodical least. 32×32, 5 doors per 100 rooms: the random wanderer needs 0.26 of its steps, who knows the route 0.48, the mapper (perfect memory, nearest unseen room next) 0.93, and worse than bare on some pairs, a door luring it off before a district is done. Finding the hole stays the hard part'
   - id: doors-right-hand
     type: sticky
-    updated: [2026-11-14T10:45:00.000Z, agent:cube]
-    box: [4673, -2990, 244, yellow]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [4673, 1110, 244, yellow]
     icon: ✋
     text: 'A bug kept as a feature: a hand on the right wall walks a whole floor while it has no loops, but a door cuts the wall, and a cut-off run can become an island the hand circles forever. At 5 doors per 100 rooms on a 32×32 floor, the hand that takes doors misses the hole 87% of the time; skip them and the rule still holds, so it fools only whoever was tempted'
   - id: doors-spacing
     type: sticky
-    updated: [2026-11-14T10:45:00.000Z, agent:cube]
-    box: [5008, -2990, 244, yellow]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [5008, 1110, 244, yellow]
     icon: 🧱
     text: 'At most one door per partition. The maze cuts each square crosswise into quarters, and a partition is the straight wall between two of them, so a second door there repeats the first. The threshold alone lines doors up along long blind partitions: 32×32, threshold 8, 216 doors and 192 redundant; with the rule 71 and 2. Read off the coordinates in O(1)'
   - id: doors-roll
     type: sticky
-    updated: [2026-11-14T19:30:00.000Z, agent:cube]
-    box: [5343, -2990, 244, yellow]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [3668, 1110, 244, yellow]
     icon: 🎲
     text: 'Placed locally from the world seed: per partition, doorway/{floor}/{partition}/has, an opening or not against the density, and …/at, which of its allowed walls; per wall, …/kind, a door at 75% or else a gap, a missing wall nobody can tell from a native passage. Density is 100%, so every partition with an allowed wall gets one; it stays a parameter for playing with. Not at the longest walk round: that is where whoever knows the rule would look first'
   - id: doors-threshold
     type: sticky
-    updated: [2026-11-14T19:30:00.000Z, agent:cube]
-    box: [3668, -2560, 244, purple]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [3668, 1630, 244, purple]
     icon: 📏
     text: 'Threshold 10, set by the hour: a player who remembers every room walks into ~700 new ones an hour, and at 10 meets ~50 doors and ~15 gaps in the game, a door every 1.2 minutes and a gap every four. The simulator said 59 and 20, on a floor-7 maze that ran rich. Walk rounds are always odd, so 10 acts as 11 and the knob moves in odd steps of ~30%. A count of rooms, not a share of the floor, so deep doors stay as findable as shallow ones'
   - id: doors-bound
     type: sticky
-    updated: [2026-11-14T19:30:00.000Z, agent:cube]
-    box: [4338, -2560, 244, purple]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [4003, 1630, 244, purple]
     icon: 📐
     text: "A partition's allowed walls without searching each of its 2^58: the way round crosses the partition only at its passage, so it is at least 2·d + 1 for a wall d from it, and only walls within (K − 1)/2 of the passage, or of a blind partition's centre end, need a search K deep, at most K − 1 of them. One search costs ~0.4 ms with blocks cached, once per wall, kept for good. Same walls as a full count on floors 6–10"
   - id: doors-spacing-why
     type: sticky
-    updated: [2026-11-14T11:05:00.000Z, agent:cube]
-    box: [5008, -2560, 244, yellow]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [5008, 1630, 244, yellow]
     icon: 🔎
     text: "How the partition rule was found: doors bunched along one blind partition, because every room on either side of it is far by the maze. The first door already joins the two quarters, so a second one's detour runs through it. Recounting detours after each door needs a floor-wide search; the division labels each wall with its partition for free. Not a guarantee: 0–3 redundant doors instead of hundreds"
   - id: doors-who-sees
     type: sticky
-    updated: [2026-11-14T20:30:00.000Z, agent:cube]
-    box: [5343, -2560, 244, gray]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [4673, 1630, 244, gray]
     icon: 👥
     text: "Open question for when a second player arrives: who sees a door open? Only its opener, as their own body's act, keeps the world unchanged for everyone else, so it stays free; everyone nearby makes it a change to the world, which here comes only by purchase. One player today, so the door opens for them alone"
   - id: doors-jumpscare
     type: sticky
-    updated: [2026-11-14T21:05:00.000Z, agent:cube]
-    box: [4003, -2560, 244, orange]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [5343, 1630, 244, orange]
     icon: 👤
     text: 'Idea: something waiting behind a door. The first door opened on floor 8 had a coat rack in its shadow that read as a hooded figure, by accident: furniture stood against what was a wall before it became a door. Doorways are now kept clear, so a scare would be placed on purpose: rolled, rare, a still shape that is never there on the second look'
   - id: doors-uncut-later
     type: sticky
-    updated: [2026-11-15T09:45:00.000Z, agent:cube]
-    box: [4673, -2560, 244, gray]
+    updated: [2026-11-15T12:26:20.654Z, agent:cube]
+    box: [4338, 1630, 244, gray]
     icon: 🔲
     text: "To think about later: the grid gate blanks the doorway's cell on every wall of fifteen themes, door or not, because a wall's shader is not told which of its walls hold a door. So the mall walls up every second shopfront and the clean room never glazes its fourth bay. The way out is a door bit per side in the room's flags, which have three bits free for four sides, so a second vertex word or a repack; then only a door wall loses its cell"
   - id: l-doors-jumpscare
