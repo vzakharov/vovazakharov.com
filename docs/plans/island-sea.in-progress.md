@@ -63,6 +63,13 @@ altogether later.
   улицей или чем-то таким … я бы смотрел в принципе в направлении "модель
   мира/планеты" … даже "планета" тут может быть слишком узким, если соберёмся
   делать звёзды»; on `nature`: «во, nature это норм». The app is `nature`.
+- «послеживай за лимитами. где-то на 90% надо сворачиваться и ставить на паузу,
+  чтобы я мог продолжить с другого акка или вообще в другой раз. в идеале к
+  этому времени что-нибудь бы вкусное уже на preview (не обязательно всё,
+  конечно)» — at about 90% of the usage limit (he sent 35% of the 5-hour, 62%
+  weekly at the time) the run parks: plan current, everything pushed, children
+  told to push and stop. The first preview publish comes as early as there is a
+  sea worth looking at, before the rest of the list.
 - What the lead told him of the ground that is not beach: a material by place
   (sand, grass and soil, rock on steep and high ground, snow) from height, slope
   and coast distance; relief below the mesh's 1.2 m cell drawn by light, each
@@ -104,10 +111,12 @@ altogether later.
 
 - **Lead** (this session): the sea material, the shore on land tiles, wiring,
   integration, the PR.
-- **Sky** — `island/sea-sky`: analytic sky, sun, aerial haze. Session: see below
-  once started.
-- **Extraction** — `island/sea-kit`: the `sea` app and the kit's move. Session:
-  see below once started.
+- **Sky** — `island/sea-sky`, session_01DaohkCJdeeFwaqj45LNp9n: analytic sky,
+  sun, aerial haze, clouds; seam
+  `SkyNodes { radiance, aerial, background, update }` plus `shade` for cloud
+  shadows.
+- **Extraction** — `island/sea-kit`, session_01DaohkEJvpB9uSL7xF31AzF: the
+  `nature` app and the kit's move to `scene/shared/shader`.
 
 ## Built / in flight / left
 
