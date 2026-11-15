@@ -106,3 +106,7 @@ Sea, milestone 6 (7b5c7402): clouds are in.
 - Find (the sky child's): three's stock `mx_noise_float` kept the page from ever becoming ready on the software compiler — about forty Perlin calls a material; a small value noise as a real shader function compiles in seconds.
 - Risk, open: the clouds cost 2–2.8× frame time on the software rasteriser (8 samples a fragment). Unmeasured on a real GPU; the child is cutting it.
 - Fail, open: far clouds seen edge-on band horizontally.
+
+## lead · 2026-11-15 23:17:16 UTC
+
+Milestone 6 is on the board (v77), the cost risk and the edge-on banding as open.
