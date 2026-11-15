@@ -52,6 +52,15 @@ export type EnvelopeFit = {
   residual: number;
 };
 
+/** The degrees a fit counts: from 1, each with an amplitude and a weight. */
+function* counted(amplitudes: Float64Array, weights: Float64Array) {
+  for (let l = 1; l < amplitudes.length; l += 1) {
+    const a = amplitudes[l] ?? 0;
+    const weight = weights[l] ?? 0;
+    if (a > 0 && weight > 0) yield { l, weight, lnA: Math.log(a) };
+  }
+}
+
 /**
  * A given knee and slope held to `amplitudes`: only the amplitude is fitted, the
  * weighted mean of `ln A` over the envelope's.
@@ -65,11 +74,8 @@ export function holdEnvelope(
   let w = 0;
   let sum = 0;
   let squares = 0;
-  for (let l = 1; l < amplitudes.length; l += 1) {
-    const a = amplitudes[l] ?? 0;
-    const weight = weights[l] ?? 0;
-    if (a <= 0 || weight <= 0) continue;
-    const gap = Math.log(a) + (slope / 2) * Math.log(knee * knee + l * l);
+  for (const { l, weight, lnA } of counted(amplitudes, weights)) {
+    const gap = lnA + (slope / 2) * Math.log(knee * knee + l * l);
     w += weight;
     sum += weight * gap;
     squares += weight * gap * gap;
@@ -85,8 +91,7 @@ const KNEES = Array.from({ length: 799 }, (_, i) => 0.1 + 0.05 * i);
 /**
  * The knee-and-slope envelope nearest `amplitudes` in `ln A`: for each knee
  * tried, weighted least squares of `ln A(l)` on `ln(knee² + l²)`, the slope
- * minus twice the coefficient; the knee whose residual is least wins. Degrees
- * with no amplitude or no weight are left out.
+ * minus twice the coefficient; the knee whose residual is least wins.
  */
 export function fitEnvelope(
   amplitudes: Float64Array,
@@ -101,12 +106,8 @@ export function fitEnvelope(
     let sxx = 0;
     let sxy = 0;
     let syy = 0;
-    for (let l = 1; l < amplitudes.length; l += 1) {
-      const a = amplitudes[l] ?? 0;
-      const weight = weights[l] ?? 0;
-      if (a <= 0 || weight <= 0) continue;
+    for (const { l, weight, lnA: y } of counted(amplitudes, weights)) {
       const x = Math.log(knee * knee + l * l);
-      const y = Math.log(a);
       w += weight;
       sx += weight * x;
       sy += weight * y;

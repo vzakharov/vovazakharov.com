@@ -19,11 +19,20 @@ function nearestRing({ x }: RingGrid, lat: number): number {
     : high;
 }
 
+/** `grid`'s cell nearest `point`: `ring·columns + column`, column `j` at east longitude `2πj/columns`. */
+export function nearestCell(grid: RingGrid, { lat, lon }: LatLon): number {
+  const { columns } = grid;
+  const turn = lon / (2 * Math.PI);
+  const column =
+    ((Math.round((turn - Math.floor(turn)) * columns) % columns) + columns) %
+    columns;
+  return nearestRing(grid, lat) * columns + column;
+}
+
 /**
  * An orthographic view of the globe from far over `centre`, `size` pixels
- * square, north up and east to the right: each pixel's nearest cell of `grid`
- * (`ring·columns + column`, column `j` at east longitude `2πj/columns`), or
- * `OFF_DISK` past the limb. One map serves every field on `grid`.
+ * square, north up and east to the right: each pixel's `nearestCell` of
+ * `grid`, or `OFF_DISK` past the limb. One map serves every field on `grid`.
  */
 export function globeSamples(
   grid: RingGrid,
@@ -31,7 +40,6 @@ export function globeSamples(
   size: number,
 ): Int32Array {
   const cells = new Int32Array(size * size).fill(OFF_DISK);
-  const { columns } = grid;
   const sinLat0 = Math.sin(centre.lat);
   const cosLat0 = Math.cos(centre.lat);
   for (let row = 0; row < size; row += 1) {
@@ -50,12 +58,7 @@ export function globeSamples(
       const lon =
         centre.lon +
         Math.atan2(u * sinC, rho * cosC * cosLat0 - v * sinC * sinLat0);
-      const turn = lon / (2 * Math.PI);
-      const column =
-        ((Math.round((turn - Math.floor(turn)) * columns) % columns) +
-          columns) %
-        columns;
-      cells[row * size + col] = nearestRing(grid, lat) * columns + column;
+      cells[row * size + col] = nearestCell(grid, { lat, lon });
     }
   }
   return cells;

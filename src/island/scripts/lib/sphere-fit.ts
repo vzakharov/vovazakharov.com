@@ -17,6 +17,8 @@ import { type CoastField, sampleCoastField } from './coast-field';
  * antipode.
  */
 const FAR_METRES = 9_000_000;
+const FAR_COSINE = Math.cos(FAR_METRES / R);
+const isFar = (p: Vec3) => dot(p, ISLAND_CENTRE) < FAR_COSINE;
 
 /** Ring `r`'s node `j` of `grid` on the unit sphere, `φ = 0` on `+X`. */
 function nodeLatLon(grid: RingGrid, r: number, j: number): LatLon {
@@ -69,12 +71,11 @@ export function coastTarget(
   clip: number,
 ): Float64Array {
   const target = new Float64Array(grid.rows * grid.columns);
-  const farCosine = Math.cos(FAR_METRES / R);
   for (let r = 0; r < grid.rows; r += 1) {
     for (let j = 0; j < grid.columns; j += 1) {
       const p = nodeUnit(grid, r, j);
       const n = r * grid.columns + j;
-      if (Number.isFinite(clip) && dot(p, ISLAND_CENTRE) < farCosine) {
+      if (Number.isFinite(clip) && isFar(p)) {
         target[n] = -clip;
         continue;
       }
@@ -235,13 +236,12 @@ export function lakeWater(
   const ys = ring.map(([, y]) => y);
   const [minX, maxX] = [Math.min(...xs), Math.max(...xs)];
   const [minY, maxY] = [Math.min(...ys), Math.max(...ys)];
-  const farCosine = Math.cos(FAR_METRES / R);
   let nodes = 0;
   let water = 0;
   for (let r = 0; r < grid.rows; r += 1) {
     for (let j = 0; j < grid.columns; j += 1) {
       const p = nodeUnit(grid, r, j);
-      if (dot(p, ISLAND_CENTRE) < farCosine) continue;
+      if (isFar(p)) continue;
       const plane = worldToPlane(p);
       const x = plane.x / 1000;
       const y = plane.y / 1000;

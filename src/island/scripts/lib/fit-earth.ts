@@ -20,6 +20,7 @@ import {
 
 import { earthMask, polygonMask } from './earth-mask';
 import { DRAWN_CLIP_METRES } from './fit-drawn';
+import { nearestCell } from './globe-view';
 import { namedPolygons, naturalEarthJson } from './natural-earth';
 import { type FitTarget, lakeLine, nodeUnit } from './sphere-fit';
 
@@ -55,28 +56,16 @@ const LINKS = [
   { name: 'Bering', from: atDegrees(66, 175), to: atDegrees(65, -155) },
 ] as const;
 
-/** `grid`'s node nearest `point`. */
-function nodeAt(grid: RingGrid, { lat, lon }: LatLon): number {
-  let ring = 0;
-  for (let r = 1; r < grid.rows; r += 1) {
-    const here = Math.abs(Math.asin(grid.x[r] ?? 0) - lat);
-    if (here < Math.abs(Math.asin(grid.x[ring] ?? 0) - lat)) ring = r;
-  }
-  const turn = (lon / (2 * Math.PI)) * grid.columns;
-  const j = ((Math.round(turn) % grid.columns) + grid.columns) % grid.columns;
-  return ring * grid.columns + j;
-}
-
 /** Whether `field`'s land (`> 0`) joins `a` to `b`, eight-connected, wrapping in longitude. */
-export function joined(
+function joined(
   grid: RingGrid,
   field: Float64Array,
   a: LatLon,
   b: LatLon,
 ): boolean {
   const { rows, columns } = grid;
-  const start = nodeAt(grid, a);
-  const goal = nodeAt(grid, b);
+  const start = nearestCell(grid, a);
+  const goal = nearestCell(grid, b);
   if ((field[start] ?? 0) <= 0 || (field[goal] ?? 0) <= 0) return false;
   const seen = new Uint8Array(field.length);
   const stack = [start];
@@ -102,7 +91,7 @@ export function joined(
 }
 
 /** #0's target on `transform`'s nodes: `field` read there, clipped to `±clip`. */
-export function earthSeries(
+function earthSeries(
   transform: SphereTransform,
   field: SphereField,
   clip = EARTH_CLIP_METRES,
@@ -119,7 +108,7 @@ export function earthSeries(
 }
 
 /** Earth's coast field on `grid`, traced from its land mask. */
-export function earthField(grid: RingGrid, mask: Uint8Array): SphereField {
+function earthField(grid: RingGrid, mask: Uint8Array): SphereField {
   const { latLonGrid } = fieldGrids(grid.rows, grid.columns);
   const f = Float64Array.from(mask, (land) => (land === 1 ? 1 : -1));
   return fieldOf(f, latLonGrid);
