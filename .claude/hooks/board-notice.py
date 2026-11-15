@@ -44,11 +44,11 @@ from typing import Dict, Iterable, List, Set, Tuple
 
 from memo_channel import has_channel
 from session_state import project_root
+from transcript_marks import artifact_id
 
 HEADER = "**The plan is the board**"
 # Prettier wraps an item past 80 columns, so the url may sit on its continuation line.
 COPY = re.compile(r"- `([0-9a-f]+)`:\s+(https://claude\.ai/artifact/[A-Za-z0-9_-]+)\s*")
-ARTIFACT_ID = re.compile(r"claude\.ai/(?:code/)?artifact/([A-Za-z0-9_-]+)")
 
 
 def organization_key(organization: str) -> str:
@@ -94,11 +94,6 @@ def boards(root: Path, key: str) -> Boards:
         elif url not in urls:
             urls.append(url)
     return urls, uncopied
-
-
-def artifact_id(url: object) -> str:
-    match = ARTIFACT_ID.search(url) if isinstance(url, str) else None
-    return match.group(1) if match else ""
 
 
 PROMPT = object()

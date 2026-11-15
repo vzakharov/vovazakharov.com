@@ -24,12 +24,10 @@ stderr and exit 0.
 from __future__ import annotations
 
 import json
-import re
 import sys
 from typing import Iterable, List, Set, Tuple
 
-ARTIFACT_ID = re.compile(r"claude\.ai/(?:code/)?artifact/([A-Za-z0-9_-]+)")
-RELAY_SCRIPT = "relay-last-reply.py"
+from transcript_marks import RELAY_SCRIPT, artifact_id
 
 
 def say(message: str) -> None:
@@ -55,11 +53,6 @@ def tool_uses(parsed: List[dict]) -> Iterable[dict]:
             for block in content:
                 if isinstance(block, dict) and block.get("type") == "tool_use":
                     yield block
-
-
-def artifact_id(url: object) -> str:
-    match = ARTIFACT_ID.search(url) if isinstance(url, str) else None
-    return match.group(1) if match else ""
 
 
 def standing(parsed: List[dict]) -> Tuple[bool, Set[str]]:

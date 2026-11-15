@@ -29,11 +29,11 @@ from typing import Iterable, Set, Tuple
 
 from memo_channel import has_channel
 from session_state import project_root
+from transcript_marks import RELAY_SCRIPT
 
 MEMO = re.compile(r"memo\.py\s+(?:post|wait)\b")
 STARTED = re.compile(r"running in background with ID: (\w+)")
 ENDED = re.compile(r"<task-id>(\w+)</task-id>")
-RELAY_SCRIPT = "relay-last-reply.py"
 
 
 def say(message: str) -> None:
