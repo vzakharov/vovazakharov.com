@@ -9,7 +9,7 @@ import { scaled as times, type Vec3 } from '@/cube/shared/lib/vec';
 
 import { maze } from './maze';
 import { planted } from './planted';
-import { portalAt } from './portals';
+import { familyOf, portalAt } from './portals';
 import { plus, type Quad } from './quad';
 import { type DoorWall, leaning, solid, wallFrame } from './wall-frame';
 
@@ -59,7 +59,6 @@ const Looks = roll.struct({
       roll.struct({ paint: roll.pick(LEAF_PAINTS.length), hand: roll.pick(2) }),
     ),
   ),
-  portal: roll.struct({ paint: roll.pick(LEAF_PAINTS.length) }),
 });
 
 const looks = rollWith(Looks, pathHash(planted.seed));
@@ -73,23 +72,22 @@ const paintAt = (index: number): number => LEAF_PAINTS[index] ?? LEAF_PAINTS[0];
  * the jamb it hangs on, the doorway's north or west (`from`) or its south or
  * east (`to`), its handle by the other. A portal's two doors are one leaf
  * seen from its two sides, whichever pair the minute makes of them: each
- * hangs at the left of one walking east or south through it, in the one
- * paint every portal shares.
+ * hangs at the left of one walking east or south through it, in the paint
+ * its hub's wall rolls, since every pairing is a hub and one of its spokes.
  */
 export function doorLook(wall: DoorWall): {
   paint: number;
   hinge: 'from' | 'to';
 } {
-  const { n, x, y, isEast } = wall;
-  if (portalAt(rolled, wall) !== null) {
-    return {
-      paint: paintAt(looks.portal.paint),
-      hinge: isEast ? 'from' : 'to',
-    };
+  const portal = portalAt(rolled, wall);
+  const painted = portal === null ? wall : familyOf(rolled, portal).wall;
+  const rolledLook = ({ n, x, y, isEast }: DoorWall) =>
+    looks.door.at({ n, x, y }).at(isEast ? 'east' : 'south');
+  const { paint } = rolledLook(painted);
+  if (portal !== null) {
+    return { paint: paintAt(paint), hinge: wall.isEast ? 'from' : 'to' };
   }
-  const { paint, hand } = looks.door
-    .at({ n, x, y })
-    .at(isEast ? 'east' : 'south');
+  const { hand } = rolledLook(wall);
   return { paint: paintAt(paint), hinge: hand === 0 ? 'from' : 'to' };
 }
 

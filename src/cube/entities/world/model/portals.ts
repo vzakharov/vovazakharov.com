@@ -234,6 +234,10 @@ function spokeTarget(rolled: RolledMaze, { wall, number }: Portal): Portal {
   return portalNumbered(rolled, hub.n, hub.number);
 }
 
+/** The hub `portal`'s family hangs from: itself, or a spoke's one hub. */
+export const familyOf = (rolled: RolledMaze, portal: Portal): Portal =>
+  portal.isHub ? portal : spokeTarget(rolled, portal);
+
 /** The far end of a crossing: the portal come out of, and the room stood in. */
 export type PortalTarget = InRoomOf & { portal: Portal };
 

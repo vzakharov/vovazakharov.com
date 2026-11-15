@@ -133,13 +133,14 @@ describe('a portal’s leaf', () => {
     }
   });
 
-  it('is one paint on every portal', () => {
-    const paints = new Set(
-      pairs.flatMap(({ near, far }) => [
-        doorLook(near).paint,
-        doorLook(far).paint,
-      ]),
-    );
-    assert.equal(paints.size, 1);
+  it('is one paint on a hub and each of its spokes', () => {
+    for (const { near, far } of pairs) {
+      assert.equal(doorLook(far).paint, doorLook(near).paint);
+    }
+  });
+
+  it('is no one paint every portal shares', () => {
+    const paints = new Set(pairs.map(({ near }) => doorLook(near).paint));
+    assert.ok(paints.size > 1);
   });
 });
