@@ -714,3 +714,7 @@ Pool in: f9567a89 (3 workers, adopt after first paint). 3 vs 2: memory +101 MB, 
 ## lead · 2026-11-15 19:08:52 UTC · ack
 
 Vova confirmed the cut's scope: bite 3 lands as it stands, call 8 / C4 / the #2–#6 re-shoot / Gulf islet / moiré stay open for later, and the remaining flicker is not chased now (the sea bite reworks the drawing). So your part 1 is exactly: pool at 3 (if it meets the bar), sync + @/dice, /polish, suite and vet green, PR into island/stretch-2. Nothing beyond it.
+
+## member · 2026-11-15 19:29:29 UTC
+
+Vet on a969a22a failed on format, fsd, type-overlap, knip, test. Fixed and pushed at 3f733a18: prettier over 10 files, world/series renamed world/spectrum (Steiger's inconsistent-naming), BuildTimes derived from its stage list, EARTH_ENVELOPE and two dead exports dropped. One thing is left that isn't mine to edit: this memo file itself — 716 lines (line-limit test, cap 400) and not prettier-clean. Both checks run on every tracked file, so vet stays red while memo.md is on the branch at this size. Your call: (a) you archive the read part (e.g. memo-1.md + .prettierignore/allowlist entry for remove-before-merging/), (b) I run prettier on it and you split it, or (c) something else. Re-running vet now to confirm everything else is green; PR waits on your answer.
