@@ -106,6 +106,24 @@ describe('an address', () => {
     assert.equal(await roundTrip({ ...on(4), hatch: above }), null);
   });
 
+  it('keeps the hatch of the floor fallen to where a portal carried the walk off it', async () => {
+    const [second, third] = answers;
+    assert.ok(second && third);
+    const down = await roundTrip({ ...on(5), hatch: third, fell: 3 });
+    assert.deepEqual(
+      [down?.hatch, down?.fell, down?.at.n, down?.at.x],
+      [third, 3, 5, on(5).at.x],
+    );
+    const up = await roundTrip({ ...on(1), hatch: third, fell: 3 });
+    assert.deepEqual([up?.hatch, up?.fell, up?.at.n], [third, 3, 1]);
+    assert.equal(await roundTrip({ ...on(5), hatch: second, fell: 3 }), null);
+    // A walk on its hatch's floor is spelled as one no portal carried.
+    assert.equal(
+      await encodeAddress(world, { ...on(3), fell: 3 }),
+      await encodeAddress(world, on(3)),
+    );
+  });
+
   it('is refused when any one character is changed', async () => {
     const text = await encodeAddress(world, on(3));
     const edits = Array.from(text, (_, i) => swapped(text, i));

@@ -10,15 +10,17 @@ import type { Seen } from '@/cube/shared/lib/vec';
 import type { Laddered } from '@/cube/entities/island';
 
 import { inverse } from '../lib/matrix';
-import type { FloorRange, Scenery } from '../lib/mesh';
+import type { Scenery } from '../lib/mesh';
 import type { OutsideLens } from '../lib/outside-lens';
 import { createUniforms, uniformsOf } from '../lib/uniforms';
 import { createBloom } from './bloom';
 import { type Boards, createBoardTextures } from './board-textures';
+import { type Drawn, drawnOf as drawnOn, drawRuns } from './drawn';
 import { createDrowsyEye, type Drowsing } from './drowsy-eye';
 import { outsideOnce } from './outside';
 import { createPassTimer, type Timed, timedOf } from './pass-timer';
-import { createPrograms, type Preparing } from './programs';
+import { createPortalPass, type PortalPass, type Through } from './portal-pass';
+import { createPrograms, type Preparing, type SourceOf } from './programs';
 import { createReflection } from './reflection';
 import { beginScene, type Cleared, createDepthTarget } from './scene-pass';
 import { beginRepeat, encodeRepeats } from './slowdown';
@@ -41,6 +43,11 @@ type Shot = SeenAt &
     detail: number;
     /** Whether the body is out of doors, waking: the rooms then drowse too. */
     waking: boolean;
+    /**
+     * What the open portal door shows, its rooms uploaded; null where none
+     * does. A drowsy eye sees none.
+     */
+    through: Through | null;
   };
 
 /** What draws frames until it is disposed, timing them where the GPU can. */
@@ -55,6 +62,8 @@ export type Renderer = Drawing &
      * prepared, as an uploaded room's are.
      */
     uploadMoving: (scenery: Scenery) => void;
+    /** Replaces the rooms through a portal door, as `PortalPass.upload` has it. */
+    uploadBeyond: PortalPass['upload'];
     /** Replaces the boards, drawn after the rooms. */
     uploadBoards: (boards: readonly Boards[]) => void;
     /**
@@ -68,11 +77,6 @@ export type Renderer = Drawing &
     /** The adapter's vendor and architecture. */
     readonly adapter: string;
   };
-
-/** A run of a vertex buffer and the pipeline that draws it. */
-type Run = FloorRange & { pipeline: GPURenderPipeline };
-
-type Drawn = { buffer: GPUBuffer; runs: readonly Run[] };
 
 /** Hands `onLost` the device's loss, unless the renderer itself destroyed it. */
 async function watchLoss(
@@ -93,7 +97,7 @@ async function watchLoss(
  */
 export async function createRenderer(
   canvas: HTMLCanvasElement,
-  sourceOf: (n: number) => string,
+  sourceOf: SourceOf,
   onLost: (error: Error) => void,
 ): Promise<Renderer | null> {
   if (!('gpu' in navigator)) return null;
@@ -128,24 +132,8 @@ export async function createRenderer(
     minFilter: 'linear',
   });
 
-  const drawnOf = (
-    { data, ranges }: Scenery,
-    kind: 'faces' | 'boards',
-  ): Drawn | null => {
-    if (data.byteLength === 0) return null;
-    const buffer = device.createBuffer({
-      size: data.byteLength,
-      usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST,
-    });
-    device.queue.writeBuffer(buffer, 0, data);
-    return {
-      buffer,
-      runs: ranges.map((range) => ({
-        ...range,
-        pipeline: programOf(range.n)[kind],
-      })),
-    };
-  };
+  const drawnOf = (scenery: Scenery, kind: 'faces' | 'boards'): Drawn | null =>
+    drawnOn(device, scenery, (n) => programOf(n)[kind]);
 
   let rooms: Drawn | null = null;
   let moving: Drawn | null = null;
@@ -157,16 +145,10 @@ export async function createRenderer(
   const depth = createDepthTarget(device);
   const sharpDepth = createDepthTarget(device);
   const underlay = createUnderlay(device);
+  const portal = createPortalPass(device, layouts.uniform, programOf);
   const drowsy = createDrowsyEye(device);
   const textures = createBoardTextures(device, layouts.board, sampler);
 
-  const drawRuns = (pass: GPURenderPassEncoder, { buffer, runs }: Drawn) => {
-    pass.setVertexBuffer(0, buffer);
-    for (const { pipeline, firstVertex, count } of runs) {
-      pass.setPipeline(pipeline);
-      pass.draw(count, 1, firstVertex);
-    }
-  };
   /** The rooms, what moves in them and the boards, seen through `group`. */
   const drawRooms = (pass: GPURenderPassEncoder, group: GPUBindGroup) => {
     pass.setBindGroup(0, group);
@@ -191,6 +173,7 @@ export async function createRenderer(
       moving?.buffer.destroy();
       moving = next;
     },
+    uploadBeyond: portal.upload,
     uploadBoards: (next) => {
       const made = next.flatMap((board) => {
         const drawn = drawnOf(board.scenery, 'boards');
@@ -211,6 +194,7 @@ export async function createRenderer(
       outdoors,
       detail,
       waking,
+      through,
       seconds,
       hour,
     }) => {
@@ -270,6 +254,20 @@ export async function createRenderer(
           low === null ? detail : detail / low.share,
         );
       }
+      const beyond =
+        through === null || low !== null
+          ? null
+          : portal.shoot(encoder, through, {
+              uniforms: uniformsOf({
+                ...framing,
+                ...full,
+                ...through.seen,
+                vignette: 0,
+              }),
+              clear,
+              size: full,
+              ...pick(wholeUniforms, 'group'),
+            });
       // The outside alone in the low pass, the rooms drawn whole over it.
       const split = low?.drowsing === 'outside';
       const shot = { reflection, depth, clear, size: drawn };
@@ -278,6 +276,9 @@ export async function createRenderer(
         const pass = beginScene(encoder, { ...shot, stamp }, repeat);
         layers?.behind(pass);
         if (!split) drawRooms(pass, sceneGroup);
+        if (through !== null && beyond !== null) {
+          portal.lay(pass, beyond, seen.viewProjection, through.opening);
+        }
         layers?.over(pass);
         pass.end();
       });
@@ -350,6 +351,7 @@ export async function createRenderer(
       reflection.dispose();
       sharp.dispose();
       underlay.dispose();
+      portal.dispose();
       drowsy.dispose();
       bloom.dispose();
       wholeUniforms.buffer.destroy();

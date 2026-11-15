@@ -8,7 +8,24 @@ import type { Beyond } from '@/cube/entities/world';
 import { doorwayOpening, seenBeyond } from './portal-frame';
 
 /** A view-projection that is the identity, so a clip point is a frame point. */
-const IDENTITY = Float32Array.of(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+const IDENTITY = Float32Array.of(
+  1,
+  0,
+  0,
+  0,
+  0,
+  1,
+  0,
+  0,
+  0,
+  0,
+  1,
+  0,
+  0,
+  0,
+  0,
+  1,
+);
 
 /** Through an east wall into a south one: the far frame turns a quarter back. */
 const BEYOND: Beyond = {

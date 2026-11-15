@@ -22,10 +22,22 @@ export function seenBeyond(
   const south = to.v - (sin * from.u + cos * from.v);
   // Column-major: the far frame turned about the vertical, then moved.
   const placing = Float32Array.of(
-    cos, 0, sin, 0,
-    0, 1, 0, 0,
-    -sin, 0, cos, 0,
-    east, 0, south, 1,
+    cos,
+    0,
+    sin,
+    0,
+    0,
+    1,
+    0,
+    0,
+    -sin,
+    0,
+    cos,
+    0,
+    east,
+    0,
+    south,
+    1,
   );
   const [x, y, z] = eye;
   const off: Vec3 = [x - east, y, z - south];

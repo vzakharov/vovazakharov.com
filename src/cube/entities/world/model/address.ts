@@ -4,13 +4,25 @@ import type { Cell } from './room';
 import { seals } from './seals';
 
 /**
- * Where a walk is, as its URL fragment carries it. `hatch` is the room of
- * `at`'s floor the walk landed in through the hole above — the answer to that
- * hole's commitment, which no one finds but by falling — and null on floor 1,
- * which no hole leads to. A real hatch implies every floor above it, so the
- * fragment carries the last one alone.
+ * How deep a walk has fallen. `hatch` is the room of floor `fell` it landed
+ * in through the hole above — the answer to that hole's commitment, which no
+ * one finds but by falling — and null on floor 1, which no hole leads to. A
+ * real hatch implies every floor above it, so the last one alone is kept.
  */
-export type Address = { hatch: Cell | null; at: Standing };
+export type Hatched = {
+  hatch: Cell | null;
+  /**
+   * The floor `hatch` is of, given where a portal has carried the walk off
+   * it; the floor the walk stands on where absent.
+   */
+  fell?: number;
+};
+
+/** Where a walk is, as its URL fragment carries it: its hatch, and where it stands. */
+export type Address = Hatched & { at: Standing };
+
+/** The bit of an address's first byte that says a portal carried the walk: its hatch's floor follows. */
+const CARRIED = 0x80;
 
 const BYTE = 8;
 /** Bits of `u` and of `v`, each over `[0, 1)`. */
@@ -163,31 +175,38 @@ function fromBase64Url(text: string): Uint8Array | null {
   return toBase64Url(bytes) === text ? bytes : null;
 }
 
+const isFloorOf = (world: World, n: number): boolean =>
+  Number.isInteger(n) && n >= 1 && n < CARRIED && n <= floorsOf(world);
+
 /**
- * `address` as a URL fragment: the floor in a byte and the hatch bit-packed,
- * both in the clear, then a checksum over them and the place, then the place
+ * `address` as a URL fragment: the floor in a byte, the hatch's own after it
+ * where a portal carried the walk off that floor, and the hatch bit-packed,
+ * all in the clear, then a checksum over them and the place, then the place
  * on the floor masked with a keystream of the world and all that precedes it.
- * Throws when the floor is not `world`'s or the hatch is missing below floor 1
+ * Throws when a floor is not `world`'s or the hatch is missing below floor 1
  * or present on it.
  */
 export async function encodeAddress(
   world: World,
-  { hatch, at: { n, x, y, u, v, yaw, elevation } }: Address,
+  { hatch, at: { n, x, y, u, v, yaw, elevation }, fell = n }: Address,
 ): Promise<string> {
-  if (!Number.isInteger(n) || n < 1 || n > floorsOf(world)) {
-    throw new RangeError(`Floor ${String(n)} is not in the world`);
+  const off = [n, fell].find((floor) => !isFloorOf(world, floor));
+  if (off !== undefined) {
+    throw new RangeError(`Floor ${String(off)} is not in the world`);
   }
-  if ((hatch === null) !== (n === 1)) {
-    throw new RangeError(`Floor ${String(n)} takes a hatch below floor 1 only`);
+  if ((hatch === null) !== (fell === 1)) {
+    throw new RangeError(
+      `Floor ${String(fell)} takes a hatch below floor 1 only`,
+    );
   }
   const head = concat(
-    Uint8Array.of(n),
+    fell === n ? Uint8Array.of(n) : Uint8Array.of(n | CARRIED, fell),
     pack(
       hatch === null
         ? []
         : [
-            [hatch.x, n - 1],
-            [hatch.y, n - 1],
+            [hatch.x, fell - 1],
+            [hatch.y, fell - 1],
           ],
     ),
   );
@@ -214,11 +233,21 @@ export async function decodeAddress(
   fragment: string,
 ): Promise<Address | null> {
   const bytes = fromBase64Url(fragment);
-  const n = bytes?.[0];
-  if (bytes === null || n === undefined || n < 1 || n > floorsOf(world)) {
+  const first = bytes?.[0];
+  if (bytes === null || first === undefined) return null;
+  const carried = (first & CARRIED) !== 0;
+  const n = first & ~CARRIED;
+  const fell = carried ? (bytes[1] ?? 0) : n;
+  // One spelling an address: a walk on its hatch's floor names it once.
+  if (
+    !isFloorOf(world, n) ||
+    !isFloorOf(world, fell) ||
+    (carried && fell === n)
+  ) {
     return null;
   }
-  const headBytes = 1 + bytesOf(hatchWidths(n));
+  const floorBytes = carried ? 2 : 1;
+  const headBytes = floorBytes + bytesOf(hatchWidths(fell));
   const placeBytes = bytesOf(placeWidths(n));
   if (bytes.length !== headBytes + placeBytes + CHECK_BYTES) return null;
   const head = bytes.subarray(0, headBytes);
@@ -227,7 +256,7 @@ export async function decodeAddress(
   const place = xor(bytes.subarray(clear.length), mask);
   const check = await checksum(world, concat(head, place));
   if (check.some((byte, i) => byte !== clear[headBytes + i])) return null;
-  const hatchFields = unpack(head.subarray(1), hatchWidths(n));
+  const hatchFields = unpack(head.subarray(floorBytes), hatchWidths(fell));
   const fields = unpack(place, placeWidths(n));
   if (hatchFields === null || fields === null) return null;
   const [x, y, u, v, yaw, elevation] = fields;
@@ -247,9 +276,10 @@ export async function decodeAddress(
     hatchX === undefined || hatchY === undefined
       ? null
       : { x: hatchX, y: hatchY };
-  if (hatch !== null && !(await answers(world, n - 1, hatch))) return null;
+  if (hatch !== null && !(await answers(world, fell - 1, hatch))) return null;
   return {
     hatch,
+    ...(carried ? { fell } : {}),
     at: {
       n,
       x,

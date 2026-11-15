@@ -18,6 +18,7 @@ import {
   isPortal,
   pastDoorway,
   roomBeyond,
+  wayThrough,
 } from './portal';
 import type { Pose, Standing } from './pose';
 
@@ -122,6 +123,12 @@ describe('what lies through a portal', () => {
     assert.deepEqual(from, { u: middle, v: 0 });
     assert.deepEqual(to, { u: 2, v: middle });
     close(turn, -Math.PI / 2);
+  });
+
+  it('is looked into from whichever side the eye is on', () => {
+    const { toward: _, ...wall } = EAST;
+    assert.equal(wayThrough(wall, { n: 6, x: 1n, y: 4n }).toward, 1);
+    assert.equal(wayThrough(wall, { n: 6, x: 3n, y: 0n }).toward, -1);
   });
 
   it('holds only the rooms past the far wall', () => {

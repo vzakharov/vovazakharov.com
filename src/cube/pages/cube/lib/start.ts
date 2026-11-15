@@ -1,11 +1,14 @@
 import {
-  type Address,
   decodeAddress,
+  encodeAddress,
   floorsOf,
+  type Hatched,
   planted,
   type Posed,
 } from '@/cube/entities/world';
 import { arrivedOn, EYE_HEIGHT } from '@/cube/features/player';
+
+import { type Follow, followAddress } from './fragment';
 
 /**
  * The query naming a floor the walk went to by its number rather than through
@@ -27,11 +30,11 @@ const AWAKE = 'awake';
  * waking ahead of it or `'awake'` on its feet past it, `pose` being where it
  * first stands once it has climbed in.
  */
-export type Start = Posed & {
-  hatch: Address['hatch'];
-  resumable: boolean;
-  ashore: 'asleep' | 'awake' | null;
-};
+export type Start = Posed &
+  Hatched & {
+    resumable: boolean;
+    ashore: 'asleep' | 'awake' | null;
+  };
 
 /**
  * Where the page starts. `?cheated_to=` wins over the fragment and starts on
@@ -67,19 +70,43 @@ export async function startOf(
   }
   const address = await decodeAddress(planted, fragment);
   if (address === null) return null;
-  const { at, hatch } = address;
+  const { at, ...fallen } = address;
   return {
     pose: { ...at, eyeAbove: EYE_HEIGHT, scale: 1 },
-    hatch,
+    ...fallen,
     resumable: true,
     ashore: null,
   };
 }
 
-/** Replaces the URL's fragment without adding a history entry. */
-export const writeFragment = (fragment: string): void => {
-  globalThis.history.replaceState(null, '', `#${fragment}`);
+/**
+ * Makes `fragment` the URL's: in place, or, given `push`, as a history entry
+ * of its own.
+ */
+const writeFragment = (fragment: string, push = false): void => {
+  globalThis.history[push ? 'pushState' : 'replaceState'](
+    null,
+    '',
+    `#${fragment}`,
+  );
 };
+
+/**
+ * Follows a walk of the planted cube from floor `floor`, fallen as deep as
+ * `fallen`, its address written to the URL as `followAddress` hands it.
+ */
+export const followPlanted = (
+  floor: number,
+  fallen: Hatched,
+  onError: (error: Error) => void,
+): Follow =>
+  followAddress(
+    floor,
+    fallen,
+    async (address) => encodeAddress(planted, address),
+    writeFragment,
+    onError,
+  );
 
 /** Makes the URL say the walk has woken on the island. */
 export const writeAwake = (): void => {
@@ -92,4 +119,9 @@ export const writeAwake = (): void => {
  */
 export const writeCheat = (n: number): void => {
   globalThis.history.replaceState(null, '', `?${CHEAT_QUERY}=${String(n)}`);
+};
+
+/** `writeCheat` as a new history entry: a cheated walk gone on to floor `n`. */
+export const pushCheat = (n: number): void => {
+  globalThis.history.pushState(null, '', `?${CHEAT_QUERY}=${String(n)}`);
 };

@@ -1,4 +1,9 @@
-export { type Address, decodeAddress, encodeAddress } from './model/address';
+export {
+  type Address,
+  decodeAddress,
+  encodeAddress,
+  type Hatched,
+} from './model/address';
 export {
   type Ajar,
   doorFrame,
@@ -42,6 +47,7 @@ export {
   isPortal,
   pastDoorway,
   roomBeyond,
+  wayThrough,
 } from './model/portal';
 export type {
   Gazing,
@@ -69,6 +75,8 @@ export {
 } from './model/room';
 export {
   opens,
+  parent,
+  type Sight,
   sight,
   slabRooms,
   type Step,

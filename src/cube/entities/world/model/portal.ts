@@ -22,6 +22,16 @@ export function farSideOf(door: Facing, epochMs: number): Facing | null {
   return { n, x, y, isEast, toward };
 }
 
+/**
+ * `wall` as an eye in `eye`, a room of its floor, looks through it: toward
+ * the side of it the eye is not on.
+ */
+export const wayThrough = (wall: DoorWall, eye: Room): Facing => {
+  const { n, x, y, isEast } = wall;
+  const before = isEast ? eye.x <= x : eye.y <= y;
+  return { n, x, y, isEast, toward: before ? 1 : -1 };
+};
+
 /** The room `door` is gone through into. */
 export const roomBeyond = ({ n, x, y, isEast, toward }: Facing): Room => {
   if (toward < 0) return { n, x, y };
