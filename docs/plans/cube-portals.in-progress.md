@@ -121,4 +121,6 @@ and becomes the far floor's once through.
   `z-portal-door`). Sent back to merge this branch, swap the stub for A's model,
   rename the reference model to `.js.txt` (it breaks eslint), reshoot door and
   sign frames with the real network, check the far-side sale sign.
+- Vova on the sign (15 Nov): «давай "SOME DOORS ARE SPECIAL", и поменьше надпись
+  таки» — sent to B with the integration (≈0.8 × 0.4 m board).
 - Next: B's report — merge, look at frames, board, preview; then `vet.sh`.
