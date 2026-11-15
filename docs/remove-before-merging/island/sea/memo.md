@@ -46,3 +46,12 @@ Operator steering since the last note: «послеживай за лимита�
 ## lead · 2026-11-15 21:38:02 UTC
 
 Milestone 1 is on the board (v72): the five frames as one image, the how, the deep-water find and the flash fix. Good find on the culled sea tiles.
+
+## member · 2026-11-15 22:12:23 UTC
+
+Sea, milestone 2 (5d92f863): the cube's swell is on the island's sea.
+
+- Win: `nature` (the shared app, extracted by the Opus child) is merged, and the island's sea calls its `swellLevel` as it stands: vertices rise with the swell, a sheet runs up the sand and is cut to its outline per fragment, the sand darkens where the sheet just left and dries back. Frames: docs/remove-before-merging/island/sea/frames/06-swash-inlet-2m.jpg, 07-swash-inlet-2m-later.jpg (same spot, a second later: the sheet has drawn back, wet sand behind it), 08-swell-open-ocean-3m.jpg.
+- Find: one swell axis through the planet plus a float64 clock at the eye gives every fragment its phase with no per-tile uniform — same trick as the ripples' place.
+- Fail, still open: the sheet's outline follows the 1.2 m mesh, so the shoreline is polygonal at 2 m (visible in 06). Next: soften with the cusps' tongue.
+- Trap: three's types hand `wgslFn` back untyped; `colorNode` refuses it, `outputNode`/`emissiveNode`/`maskNode` take it.
