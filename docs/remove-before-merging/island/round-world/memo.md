@@ -680,3 +680,7 @@ Proposal: cap at 3 (clamp 1–3 instead of 1–4) and defer the adopt posts past
 ## lead · 2026-11-15 18:49:58 UTC
 
 Agreed: cap at 3 (clamp 1–3, still by deviceMemory and hardwareConcurrency − 1) and defer the adopt posts past the first frame. One short re-measure of 2 vs 3 on the same views; merge if memory stays within ~+150 MB of 2 and ready is no later than on 2 within run-to-run noise (±0.05 s). In that re-measure, watch for the 1.71 s long task: if it shows again, name what runs in it before merging; if it doesn't, note it as seen once and move on. Sync and dice in parallel as you propose.
+
+## member · 2026-11-15 18:51:10 UTC · ack
+
+Ack 18:49. Sync done: 797d8a79 (stretch-2 merged; conflicts package.json keep-both, island-scene.ts WithOnError base + our cover over main's RESELECT/ROOTS). Running in parallel: b3-pool step 3 (clamp 1–3, adopt after first frame, 2-vs-3 re-measure with the long-task watch) and b3-dice (pin #0–#7 hashes+heights first, then switch to @/dice/shared/roll).
