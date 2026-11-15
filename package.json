@@ -7,10 +7,8 @@
     "dev": "scripts/site-task.sh 'next dev'",
     "build": "scripts/site-task.sh --every 'next build'",
     "film:island": "tsx src/island/scripts/film-descent.ts",
-<<<<<<< HEAD
     "fit:island": "tsx src/island/scripts/fit-sphere.ts",
     "frame:island": "tsx src/island/scripts/frame-worlds.ts",
-=======
     "play:cube": "scripts/in-site.sh vova tsx src/cube/scripts/play-cube.ts",
     "pill:cube": "scripts/in-site.sh vova tsx src/cube/scripts/pill-cube.ts",
     "door:cube": "scripts/in-site.sh vova tsx src/cube/scripts/door-cube.ts",
@@ -21,7 +19,6 @@
     "gallery:cube": "scripts/in-site.sh vova tsx src/cube/scripts/gallery-cube.ts",
     "voice:cube": "tsx src/cube/scripts/voice-cube.ts",
     "sound:cube": "tsx src/cube/scripts/sound-cube.ts",
->>>>>>> origin/island/stretch-2
     "play:island": "tsx src/island/scripts/play-island.ts",
     "spectrum:island": "tsx src/island/scripts/earth-spectrum.ts",
     "play:mushrooms": "tsx src/mushrooms/scripts/play-mushrooms.ts",

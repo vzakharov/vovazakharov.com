@@ -110,37 +110,14 @@ const DEGREE = Math.PI / 180;
  */
 const GLOBE_RADIUS = R - 1500;
 
-<<<<<<< HEAD
-type MountIslandSceneParams = {
-=======
-/** A move under this share of the height reuses the last tile selection. */
-const RESELECT_SHARE = 0.02;
-/**
- * Cosine of the turn that reselects: half the frustum's margin, so the view
- * never turns past the tiles selected for it.
- */
-const RESELECT_TURN = Math.cos(0.05);
-
-/** Every root tile: always held, so a missing tile always has an ancestor to stand in. */
-const ROOTS: TileKey[] = Array.from({ length: 4 ** MIN_LEVEL }, (_, i) => ({
-  level: MIN_LEVEL,
-  x: i % 2 ** MIN_LEVEL,
-  y: Math.floor(i / 2 ** MIN_LEVEL),
-}));
-
 type MountIslandSceneParams = WithOnError & {
->>>>>>> origin/island/stretch-2
   /** The world number the scene opens on. */
   world: string;
   /** Where the eye opens, when not at the world's opening. */
   pose: Pose | undefined;
   play: boolean;
-<<<<<<< HEAD
-  onError: (error: Error) => void;
   /** Told each time a look hint is shown or goes; never under play. */
   onLookHint: (showing: HintShowing | undefined) => void;
-=======
->>>>>>> origin/island/stretch-2
 };
 
 /**
