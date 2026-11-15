@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 193,
-    "cacheWrite5mTokens": 123477,
-    "cacheWrite1hTokens": 200105,
-    "cacheReadTokens": 14242168,
-    "outputTokens": 68667,
-    "thinkingTokens": 38375,
-    "responses": 90,
-    "costUsd": 6.440770599999998
+    "inputTokens": 225,
+    "cacheWrite5mTokens": 124270,
+    "cacheWrite1hTokens": 227697,
+    "cacheReadTokens": 18102382,
+    "outputTokens": 76231,
+    "thinkingTokens": 39621,
+    "responses": 105,
+    "costUsd": 7.5889223999999995
   },
   "estimate": {
     "at": "2026-11-15T12:27:57.638Z",
@@ -54,52 +54,54 @@
   "branch": "claude/cube-board-untangle",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/task Reorganise the cube board so it reads cleanly. Vova (the operator) asked for this in another session: «растасовать доску, а то у нас сейчас там все нити п…",
-  "prs": [],
+  "prs": [
+    284
+  ],
   "url": "https://claude.ai/code/session_01DaohkCDa3UfkHgRbQ38sg2",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-15T12:14:56.910Z",
-  "lastResponseAt": "2026-11-15T12:30:12.905Z",
+  "lastResponseAt": "2026-11-15T12:31:39.908Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 145,
+    "inputTokens": 176,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 200105,
-    "cacheReadTokens": 11827496,
-    "outputTokens": 61164,
-    "thinkingTokens": 35413,
-    "responses": 66,
-    "costUsd": 5.190199200000001
+    "cacheWrite1hTokens": 227697,
+    "cacheReadTokens": 15564233,
+    "outputTokens": 66924,
+    "thinkingTokens": 36250,
+    "responses": 80,
+    "costUsd": 6.273606600000003
   },
   "subagents": {
-    "inputTokens": 48,
-    "cacheWrite5mTokens": 123477,
+    "inputTokens": 49,
+    "cacheWrite5mTokens": 124270,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 2414672,
-    "outputTokens": 7503,
-    "thinkingTokens": 2962,
-    "responses": 24,
-    "costUsd": 1.2505713999999999
+    "cacheReadTokens": 2538149,
+    "outputTokens": 9307,
+    "thinkingTokens": 3371,
+    "responses": 25,
+    "costUsd": 1.3153157999999998
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 193,
-      "cacheWrite5mTokens": 123477,
-      "cacheWrite1hTokens": 200105,
-      "cacheReadTokens": 14242168,
-      "outputTokens": 68667,
-      "thinkingTokens": 38375,
-      "responses": 90,
-      "costUsd": 6.440770599999998
+      "inputTokens": 225,
+      "cacheWrite5mTokens": 124270,
+      "cacheWrite1hTokens": 227697,
+      "cacheReadTokens": 18102382,
+      "outputTokens": 76231,
+      "thinkingTokens": 39621,
+      "responses": 105,
+      "costUsd": 7.5889223999999995
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 89,
-    "matched": 89,
-    "matchedTableUsd": 6.402104799999997,
-    "matchedEventUsd": 6.402104799999997,
+    "events": 105,
+    "matched": 105,
+    "matchedTableUsd": 7.5889223999999995,
+    "matchedEventUsd": 7.5889223999999995,
     "unseen": {}
   },
   "operatorWords": {
