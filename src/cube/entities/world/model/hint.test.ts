@@ -5,15 +5,9 @@ import { DOORWAY_CUT } from '@/cube/shared/cube-boundary';
 import { WALL_HALF } from '@/cube/shared/lib/room-shape';
 
 import { mazeDoored } from './doorway';
-import {
-  firstPortal,
-  type Hint,
-  hintFacets,
-  hintsBeside,
-  hintsSeen,
-} from './hint';
+import { firstPortal, hintFacets, hintsBeside, hintsSeen } from './hint';
 import { maze } from './maze';
-import { sidesOf } from './mount';
+import { type Hung, sidesOf } from './mount';
 import { planted } from './planted';
 import { hasPortals, portalCount, PORTALS } from './portal-counts';
 import { portalAt, portalsOf } from './portals';
@@ -35,11 +29,11 @@ const viewOf = (near: readonly Room[]): View => ({
 });
 
 /** The rooms `hints` hang in, by `roomKey`. */
-const keysOf = (hints: readonly Hint[]): string[] =>
+const keysOf = (hints: readonly Hung[]): string[] =>
   hints.map(({ room }) => roomKey(room));
 
-/** The board's extent along its wall and its reader's right, in its room's frame. */
-function along(hint: Hint, isEast: boolean) {
+/** The board's extent along its wall, and how far off the wall's line, in its room's frame. */
+function along(hint: Hung, isEast: boolean) {
   const [facet] = hintFacets(hint, { origin: [0, 0, 0], roomSide: 1 });
   assert.ok(facet);
   const [bottomLeft, bottomRight] = facet.corners;
@@ -48,7 +42,6 @@ function along(hint: Hint, isEast: boolean) {
   return {
     from: Math.min(...ends),
     to: Math.max(...ends),
-    rightward: Math.sign(bottomRight[axis] - bottomLeft[axis]),
     off: bottomLeft[isEast ? 0 : 2],
   };
 }
@@ -85,22 +78,7 @@ describe('hintsBeside', () => {
       assert.ok(near < 1 - WALL_HALF && near > 1 - 2 * WALL_HALF);
       assert.ok(far > WALL_HALF && far < 2 * WALL_HALF);
     });
-
-    it(`points each board on the ${name} wall at the door as its reader sees it`, () => {
-      for (const hint of hintsBeside(wall)) {
-        const { from, to, rightward } = along(hint, wall.isEast);
-        const doorAhead = DOORWAY_CUT.middle > (from + to) / 2 ? 1 : -1;
-        assert.equal(hint.doorOnRight, doorAhead === rightward);
-      }
-    });
   }
-
-  it('points the two faces of one wall opposite ways', () => {
-    for (const wall of [east, south]) {
-      const [near, far] = hintsBeside(wall);
-      assert.notEqual(near?.doorOnRight, far?.doorOnRight);
-    }
-  });
 });
 
 describe('firstPortal', () => {

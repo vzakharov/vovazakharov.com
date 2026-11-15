@@ -23,7 +23,7 @@ export {
 export { eastKind } from './model/doorways';
 export { descend, DROP, eyeInFrame, type Placed, placed } from './model/frame';
 export { faces, HOLE_SIDE } from './model/geometry';
-export { firstPortal, type Hint, hintFacets, hintsSeen } from './model/hint';
+export { firstPortal, hintFacets, hintsSeen } from './model/hint';
 export {
   floorsOf,
   holeMiddle,
