@@ -82,3 +82,8 @@ items:
     updated: [2026-11-13T20:18:00.000Z, agent:cube]
     ends: [deep-stack, trophy-want]
     text: trophy apart from position
+  - id: l-portals-deep
+    type: line
+    updated: [2026-11-15T16:29:00.000Z, agent:cube]
+    ends: [deep-portals, p-look-q]
+    text: the forks

@@ -1,0 +1,195 @@
+items:
+  - id: z-portals
+    type: zone
+    updated: [2026-11-15T16:00:00.000Z, agent:cube]
+    box: [0, 5280, 2080, 1480, blue]
+    icon: 🌀
+    text: 'Portals: the forks'
+  - id: p-look-q
+    type: sticky
+    updated: [2026-11-15T16:01:00.000Z, agent:cube]
+    box: [28, 5390, 380, blue]
+    icon: 🚪
+    text: 'Fork 1, the look: (a) the sci-fi portal; (b) the far room seen straight through the doorway; (c) something else. Vova on (b): how would you tell it is a portal, and you do not shrink'
+  - id: p-look-a
+    type: sticky
+    updated: [2026-11-15T16:02:00.000Z, agent:cube]
+    box: [28, 5560, 380, gray]
+    icon: 🚫
+    text: '(a), a glowing swirl, out by tone rather than by the rules, which allow a swirl computed in a shader. It announces itself from across the room, and the cube’s doors work by being ordinary until opened: the coat rack on floor 8 was uncanny in the good sense because nothing warned you'
+  - id: p-look-scale
+    type: sticky
+    updated: [2026-11-15T16:03:00.000Z, agent:cube]
+    box: [28, 5790, 380, yellow]
+    icon: 🏠
+    text: '(c), (b) at true scale: a door like any other, and opened it shows the far room at the size it really has from here. Five floors down is 32 times smaller: a dollhouse on the threshold, its front wall missing, darkness round it. Five up is 32 times bigger: a skirting board taller than you and the pile of a carpet. The size is the tell, and it answers the shrinking: you have not shrunk yet'
+  - id: p-look-far
+    type: sticky
+    updated: [2026-11-15T16:04:00.000Z, agent:cube]
+    box: [28, 6080, 380, yellow]
+    icon: ✨
+    text: 'A far jump shows almost nothing: twenty floors down, the room is a millionth of the doorway, under a pixel. So the doorway holds a dark closet and one point of light, the far room’s light summed, in its theme’s colour. The smaller the star, the further; the colour says where'
+  - id: p-look-render
+    type: sticky
+    updated: [2026-11-15T16:05:00.000Z, agent:cube]
+    box: [28, 6310, 380, purple]
+    icon: 🖥️
+    text: 'The cost: while a portal door stands open, a second room is drawn inside the doorway, clipped to its opening, with the room really behind the wall left out there. One extra room, only while the door is open and only through it'
+  - id: p-look-pick
+    type: sticky
+    updated: [2026-11-15T16:06:00.000Z, agent:cube]
+    box: [28, 6510, 380, green]
+    icon: ✅
+    text: 'Leaning to (c). “Open every door” gets its reason: shut, a portal is any door, and opening it is the reveal'
+  - id: p-pass-q
+    type: sticky
+    updated: [2026-11-15T16:07:00.000Z, agent:cube]
+    box: [438, 5390, 380, blue]
+    icon: 🌀
+    text: 'Fork 2, the crossing: a flight down a wormhole, some effect, or nothing at all'
+  - id: p-pass-grow
+    type: sticky
+    updated: [2026-11-15T16:08:00.000Z, agent:cube]
+    box: [438, 5560, 380, yellow]
+    icon: 📏
+    text: 'The crossing is the change of size, tied to where you stand: across the doorway’s depth your size slides from this floor’s to the far one’s, and the dollhouse grows to meet you. Step back halfway and you grow back; only past the threshold does the URL change. No tunnel, no cut, no loading'
+  - id: p-pass-long
+    type: sticky
+    updated: [2026-11-15T16:09:00.000Z, agent:cube]
+    box: [438, 5800, 380, yellow]
+    icon: 🍄
+    text: 'A long jump sweeps the floors between, as deep-fall has it: depth run through airAt, every theme passed flashing by. A short one only grows or shrinks. About 0.1 s a floor and never under 0.6 s, so thirty floors take three seconds'
+  - id: p-pass-free
+    type: sticky
+    updated: [2026-11-15T16:10:00.000Z, agent:cube]
+    box: [438, 6010, 380, purple]
+    icon: 👁️
+    text: 'What is already built does the rest: the drowsy eye’s blend smears the sweep for free, and the far floor’s sound comes through the open door pitched by its scale, a smaller room ringing higher and a bigger one lower, sliding as you cross'
+  - id: p-pass-pick
+    type: sticky
+    updated: [2026-11-15T16:11:00.000Z, agent:cube]
+    box: [438, 6230, 380, green]
+    icon: ✅
+    text: 'Leaning to no wormhole: the change of size is the passage, and walking through it is the effect'
+  - id: p-where-q
+    type: sticky
+    updated: [2026-11-15T16:12:00.000Z, agent:cube]
+    box: [848, 5390, 380, blue]
+    icon: 🎯
+    text: 'Fork 3, where to and how often, and up as well as down or down only'
+  - id: p-where-odds
+    type: sticky
+    updated: [2026-11-15T16:13:00.000Z, agent:cube]
+    box: [848, 5560, 380, yellow]
+    icon: 🎲
+    text: 'How often: a share of doors, not a count per floor. A player meets ~50 doors an hour on any floor (doors-threshold), so a share is an hourly rate: from floor 7, 2% of doors, one portal an hour; rising to ~10% by floor 20, one every 12 minutes, so the deep, reached only by portal, keeps a way on'
+  - id: p-where-to
+    type: sticky
+    updated: [2026-11-15T16:14:00.000Z, agent:cube]
+    box: [848, 5800, 380, yellow]
+    icon: 🗺️
+    text: 'Where: any floor but your own, all alike, the last one too (deep-win). From floor 7 that is 9 in 10 down; from floor 40, 6 in 10 up. Alike shows every theme equally, which is what the deep zone is for; favouring short jumps would show again what legs already reach. The room on that floor is rolled too'
+  - id: p-where-roll
+    type: sticky
+    updated: [2026-11-15T16:15:00.000Z, agent:cube]
+    box: [848, 6040, 380, purple]
+    icon: 🔢
+    text: 'Rolled per door: doorway/{floor}/{partition}/portal says whether, …/to which floor, …/room which room. Fixed for good, so a door always leads to the same place and a shared map of portals spoils nothing: arriving by portal is not a trophy (deep-stack)'
+  - id: p-where-ask
+    type: sticky
+    updated: [2026-11-15T16:16:00.000Z, agent:cube]
+    box: [848, 6260, 380, gray]
+    icon: ❓
+    text: 'For Vova: deep-out ruled out odds per room, for burying the one hatch under thousands of doors. A share of doors is odds per room. I would take it anyway: on floor 30 the hatch is out of reach whatever the doors do, and a fixed count on a floor of 2^58 rooms means whoever arrives there never meets a second portal'
+  - id: p-way-q
+    type: sticky
+    updated: [2026-11-15T16:17:00.000Z, agent:cube]
+    box: [1258, 5390, 380, blue]
+    icon: ↔️
+    text: 'Fork 4, one-way or two-way. One-way: a fixed random spot on the far floor, shut behind you, the browser’s Back the worst-case way home. Two-way: out through a door on the other floor, and the same door leads back. Plus the math: how to make pairs that point at each other'
+  - id: p-way-pairs
+    type: sticky
+    updated: [2026-11-15T16:18:00.000Z, agent:cube]
+    box: [1258, 5600, 380, purple]
+    icon: 🧮
+    text: 'The pairing is easy: roll each pair of floors {a, b}, a < b, under one path, and both ends read the same record, so each points at the other by construction. The counts are what break: every pair has one end on each floor, so a and b hold as many a–b doors each, while floor 30 has 4^28 times the rooms of floor 2'
+  - id: p-way-count
+    type: sticky
+    updated: [2026-11-15T16:19:00.000Z, agent:cube]
+    box: [1258, 5840, 380, purple]
+    icon: 📉
+    text: 'In numbers: one portal an hour on floor 30 is ~10^15 portals there. Two-way, a 65th of them end on floor 2, ~10^13 doors in each of its four rooms. So two-way leaves deep portals rare, or linking only floors close in size, and either kills the long jump. One-way lets each floor set its own rate'
+  - id: p-way-thread
+    type: sticky
+    updated: [2026-11-15T16:20:00.000Z, agent:cube]
+    box: [1258, 6070, 380, yellow]
+    icon: 🧵
+    text: 'Both at once: one-way in the world, two-way for you. You arrive with your back to a wall, and on it stands the door you came through, open onto the room you left, a giant’s if you came down. It is yours alone, as an opened door already is (doors-who-sees): whoever else walks that floor sees a wall. Back through it, and you are home'
+  - id: p-way-stack
+    type: sticky
+    updated: [2026-11-15T16:21:00.000Z, agent:cube]
+    box: [1258, 6320, 380, yellow]
+    icon: 🥞
+    text: 'That door is deep-stack’s pop: crossing pushes the room you stood in onto the URL, the door back pops it, and the browser’s Back is the same pop, so the worst case is no worse. Only the top of the stack has a door: come back through the second, and the first stands where you landed the first time'
+  - id: p-way-pick
+    type: sticky
+    updated: [2026-11-15T16:22:00.000Z, agent:cube]
+    box: [1258, 6560, 380, green]
+    icon: ✅
+    text: 'Leaning to one-way in the world with a way back of your own, as deep-thread had it on 13 Nov, now with the door you asked for'
+  - id: p-more-q
+    type: sticky
+    updated: [2026-11-15T16:23:00.000Z, agent:cube]
+    box: [1668, 5390, 380, blue]
+    icon: ➕
+    text: 'Forks not yet named'
+  - id: p-more-gaps
+    type: sticky
+    updated: [2026-11-15T16:24:00.000Z, agent:cube]
+    box: [1668, 5520, 380, yellow]
+    icon: 🕳️
+    text: 'Doors only, or gaps too? A gap that is a portal shows its dollhouse from across the room, always open. Doors only, so the reveal stays something you do; a rare portal gap could be the one you see coming'
+  - id: p-more-objects
+    type: sticky
+    updated: [2026-11-15T16:25:00.000Z, agent:cube]
+    box: [1668, 5720, 380, yellow]
+    icon: 🛏️
+    text: 'Doors only, or the signature entries too (deep-beds, deep-drawing)? Those lead to a chosen theme, a door to a random floor. They can wait: a door is the portal that needs no new object'
+  - id: p-more-landing
+    type: sticky
+    updated: [2026-11-15T16:26:00.000Z, agent:cube]
+    box: [1668, 5910, 380, yellow]
+    icon: 🧍
+    text: 'Landing: which way you face, and against what. Back to a rolled wall of the rolled room, facing in; the wall must be one a door may stand on, since your way back stands there, and decor already keeps doorways clear'
+  - id: p-more-trophy
+    type: sticky
+    updated: [2026-11-15T16:27:00.000Z, agent:cube]
+    box: [1668, 6110, 380, purple]
+    icon: 🏆
+    text: 'What arriving counts for: nothing toward the trophy, the deepest honest hatch (deep-stack). A portal moves the position only, so a portal to the last floor is a view of it, not the win; the win stays the fall through its hole'
+  - id: p-more-two
+    type: sticky
+    updated: [2026-11-15T16:28:00.000Z, agent:cube]
+    box: [1668, 6310, 380, gray]
+    icon: 👥
+    text: 'Two players: the dollhouse is seen by whoever sees the door open, so by its opener alone, as doors-who-sees has it. A second player cannot follow the first through, since for them the door is shut'
+  - id: l-portals-fall
+    type: line
+    updated: [2026-11-15T16:29:00.000Z, agent:cube]
+    ends: [p-pass-long, deep-fall]
+    text: as here
+  - id: l-portals-out
+    type: line
+    updated: [2026-11-15T16:29:00.000Z, agent:cube]
+    ends: [p-where-ask, deep-out]
+    text: revisit?
+  - id: l-portals-thread
+    type: line
+    updated: [2026-11-15T16:29:00.000Z, agent:cube]
+    ends: [p-way-thread, deep-thread]
+    text: now with a door
+  - id: l-portals-stack
+    type: line
+    updated: [2026-11-15T16:29:00.000Z, agent:cube]
+    ends: [p-way-stack, deep-stack]
+    text: the pop
