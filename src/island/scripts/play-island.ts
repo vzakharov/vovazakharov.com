@@ -3,11 +3,9 @@
  * for the scene, then puts the eye at each of the world's shots
  * (`lib/shot-sets.ts`), sets the hour a shot names, steps a few frames on the
  * page's seeded clock and shoots `<screen>-<shot>.png`. It fails on any page
- * error or console error, and
- * prints per screen the ms the world's field took to build, the renderer's
- * backend and the median frame time beside
- * the machine's load average, which is what a slow median has to be read
- * against.
+ * error or console error, and prints per screen the ms the world's field took
+ * to build, the renderer's backend and the median frame time beside the
+ * machine's load average, which is what a slow median has to be read against.
  *
  *   pnpm play:island                       # build the vova export, then play it
  *   pnpm play:island --no-build            # play the one already in sites/vova/out
@@ -15,7 +13,6 @@
  *   pnpm play:island --out tmp/island      # frames there instead
  *   pnpm play:island --world 2             # world #2, frames prefixed world2-
  *
-
  * The page drives itself through the hook `@/island/shared/play` declares; a
  * hook call that returns a promise is awaited against a deadline, so a call
  * that never resolves fails rather than hanging the run.
