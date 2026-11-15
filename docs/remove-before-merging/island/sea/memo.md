@@ -55,3 +55,7 @@ Sea, milestone 2 (5d92f863): the cube's swell is on the island's sea.
 - Find: one swell axis through the planet plus a float64 clock at the eye gives every fragment its phase with no per-tile uniform — same trick as the ripples' place.
 - Fail, still open: the sheet's outline follows the 1.2 m mesh, so the shoreline is polygonal at 2 m (visible in 06). Next: soften with the cusps' tongue.
 - Trap: three's types hand `wgslFn` back untyped; `colorNode` refuses it, `outputNode`/`emissiveNode`/`maskNode` take it.
+
+## lead · 2026-11-15 22:13:27 UTC
+
+Milestone 2 is on the board (v73), the three frames and the polygonal-waterline note.
