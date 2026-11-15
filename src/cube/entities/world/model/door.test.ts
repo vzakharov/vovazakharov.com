@@ -139,7 +139,7 @@ describe('a portal’s leaf', () => {
     }
   });
 
-  it('is no one paint every portal shares', () => {
+  it('varies from portal to portal, so its colour marks none of them out', () => {
     const paints = new Set(pairs.map(({ near }) => doorLook(near).paint));
     assert.ok(paints.size > 1);
   });
