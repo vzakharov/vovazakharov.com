@@ -1,0 +1,38 @@
+// Throwaway: #1's ground along the cube edges near its island, and the split rule's leaf level under a 10 km eye.
+import { heightAtSphere, openSphereWorld, sampleSphereField } from '@/island/entities/terrain';
+import { cubeSplitRule } from '@/island/entities/terrain/quadtree';
+import { latLonToUnit, R, scaled, sphereToFace } from '@/island/shared/globe';
+
+const DEG = Math.PI / 180;
+const { field, seed } = await openSphereWorld('1');
+const coast = (q: readonly [number, number, number]) => sampleSphereField(field, q);
+const ground = (lat: number, lon: number) => heightAtSphere(coast, seed, latLonToUnit({ lat: lat * DEG, lon: lon * DEG }));
+const out = (s: string) => process.stdout.write(`${s}\n`);
+
+out('45E meridian: ' + [-30, -20, -10, 0, 5, 10, 15, 20, 25, 30].map((la) => `${la}:${ground(la, 45).toFixed(0)}`).join(' '));
+out('lon 0 meridian (px/py edge at 45N): ' + [30, 35, 40, 44, 45, 46, 50].map((la) => `${la}:${ground(la, 0).toFixed(0)}`).join(' '));
+out('45N parallel: ' + [-30, -20, -10, -5, 0, 5, 10, 20, 30].map((lo) => `${lo}:${ground(45, lo).toFixed(0)}`).join(' '));
+out('45W meridian: ' + [-10, 0, 10, 20, 30].map((la) => `${la}:${ground(la, -45).toFixed(0)}`).join(' '));
+for (const [la, lo] of [[10, 44.9], [10, 45], [10, 45.1], [45.2, 0], [44.8, 0], [90, 0], [35.26, 45]] as const) {
+  const f = sphereToFace(latLonToUnit({ lat: la * DEG, lon: lo * DEG }));
+  out(`face at ${la},${lo}: ${f.face} u ${f.u.toFixed(4)} v ${f.v.toFixed(4)}`);
+}
+// Land search on a 1° grid within 25° of the opening, for a 10 km spot.
+const spots = (process.env.SPOTS ?? '10,0;21.194931,4.888499;19.968265,4.750977').split(';');
+for (const spot of spots) {
+  const [lat, lon] = spot.split(',').map(Number) as [number, number];
+  const g = ground(lat, lon);
+  const up = latLonToUnit({ lat: lat * DEG, lon: lon * DEG });
+  for (const withCoast of [false, true]) {
+    const rule = cubeSplitRule(scaled(up, R + Math.max(0, g) + 10_000), withCoast ? coast : undefined);
+    const p = sphereToFace(up);
+    let level = 0;
+    for (;;) {
+      const n = 2 ** level;
+      const idx = (c: number) => Math.min(n - 1, Math.floor(((c + 1) / 2) * n));
+      if (!rule({ face: p.face, level, x: idx(p.u), y: idx(p.v) })) break;
+      level += 1;
+    }
+    out(`${spot}: ground ${g.toFixed(0)} m, coast ${coast(up).toFixed(0)} m, leaf under 10 km eye ${withCoast ? 'with' : 'without'} coast: level ${level}`);
+  }
+}

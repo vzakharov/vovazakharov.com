@@ -44,8 +44,13 @@ items:
     done: true
   - id: later-dice
     type: sticky
+<<<<<<< HEAD
     updated: [2026-11-15T20:00:00.000Z, agent:lead]
     box: [7880, -1910, 340, orange]
+=======
+    updated: [2026-11-15T19:00:00.000Z, agent:lead]
+    box: [4020, -1300, 340, orange]
+>>>>>>> origin/island/round-world
     text: "Next bite, agreed with Vova: objects from dice rolls. “Draw the island, roll a die, if lucky draw a lake, roll again” — each lake its own harmonics at its own scale, so it traces true; the strait is two lakes touching each other and the sea. Later rivers and mountains roll the same way. The die now exists: the cube lifted bite 3's roll and world hash into a shared app, @/dice, and the island moves onto it (Vova: yes) — a new roll under its own path moves no world"
   - id: later-neighbours
     type: sticky

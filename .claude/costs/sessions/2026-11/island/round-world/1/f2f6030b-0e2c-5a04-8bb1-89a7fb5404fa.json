@@ -1,0 +1,145 @@
+{
+  "total": {
+    "inputTokens": 6210,
+    "cacheWrite5mTokens": 1240629,
+    "cacheWrite1hTokens": 231094,
+    "cacheReadTokens": 79244854,
+    "outputTokens": 463379,
+    "thinkingTokens": 128367,
+    "responses": 567,
+    "costUsd": 33.202512800000015
+  },
+  "estimate": {
+    "at": "2026-11-09T04:44:55.544Z",
+    "subjectLine": "feat: a round world of spherical harmonics, Earth as world #0",
+    "parts": [
+      {
+        "hours": 16.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "spherical-harmonic synthesis at L=511, the sphere coast field and cube tiles under a worker budget need rendering depth"
+      },
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "fitting #1's coastline onto the sphere at the fewest bits is procedural-look work"
+      },
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "the eye moving through a pole with unchanged feel is camera work"
+      },
+      {
+        "hours": 10.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "the typed roll schema, path hashing, pinned row and their tests are routine model code"
+      },
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "settling the calls and orchestrating nine agents across one wave"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-09T04:00:06.953Z",
+    "contextTokens": 103799,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 40198,
+      "cacheReadTokens": 155867,
+      "outputTokens": 775,
+      "thinkingTokens": 50,
+      "responses": 2,
+      "costUsd": 0.3682734
+    }
+  },
+  "sessionId": "f2f6030b-0e2c-5a04-8bb1-89a7fb5404fa",
+  "branch": "island/round-world",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/from-branch island/round-world You are the member building bite 3 of the island mammoth. Read the lead's brief in this branch's memo (`python3 scripts/memo/mem…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBg4xmo4kUboLzwnL1",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-09T03:59:56.614Z",
+  "lastResponseAt": "2026-11-09T04:45:00.146Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 178,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 231094,
+    "cacheReadTokens": 18974025,
+    "outputTokens": 53134,
+    "thinkingTokens": 10880,
+    "responses": 93,
+    "costUsd": 6.706949000000002
+  },
+  "subagents": {
+    "inputTokens": 972,
+    "cacheWrite5mTokens": 1237554,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 58086773,
+    "outputTokens": 410110,
+    "thinkingTokens": 117487,
+    "responses": 464,
+    "costUsd": 26.011212600000007
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 6210,
+      "cacheWrite5mTokens": 1240629,
+      "cacheWrite1hTokens": 231094,
+      "cacheReadTokens": 79244854,
+      "outputTokens": 463379,
+      "thinkingTokens": 128367,
+      "responses": 567,
+      "costUsd": 33.202512800000015
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 567,
+    "matched": 557,
+    "matchedTableUsd": 32.71816160000002,
+    "matchedEventUsd": 32.71816160000002,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 5060,
+        "cacheWrite5mTokens": 3075,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 2184056,
+        "outputTokens": 135,
+        "thinkingTokens": 0,
+        "responses": 10,
+        "costUsd": 0.4843512
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".py": 718,
+    ".md": 10770,
+    ".json": 293,
+    ".txt": 31,
+    ".ts": 6099,
+    ".sh": 43,
+    ".yaml": 214,
+    ".tsx": 11
+  }
+}

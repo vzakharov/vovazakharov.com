@@ -13,12 +13,14 @@ import { z } from 'zod';
 
 import type { Named, Sized } from '@/kernel/shared/typings';
 
+import { isWorldNumber } from '@/dice/shared/roll';
+
 import {
   type IslandPlayHook,
   PLAY_HOOK,
   PLAY_QUERY,
 } from '@/island/shared/play';
-import { assertWorldNumber, OUR_WORLD } from '@/island/entities/terrain';
+import { OUR_WORLD } from '@/island/entities/terrain';
 
 import { flag, given } from '@/kernel/scripts/lib/argv';
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
@@ -41,7 +43,9 @@ export function buildExport(): void {
 /** The world the run plays, from `--world <N>`: ours when not given. */
 export function worldArgument(): string {
   const world = flag('world') ?? OUR_WORLD;
-  assertWorldNumber(world);
+  if (!isWorldNumber(world)) {
+    throw new Error(`Not a world number: ${JSON.stringify(world)}`);
+  }
   return world;
 }
 
@@ -162,16 +166,23 @@ export async function openPlay(
   return tab;
 }
 
-/** Steps the seeded clock `frames` frames of `ms` each, then writes a PNG of the screen to `file`. */
+/**
+ * Steps the seeded clock `frames` frames of `ms` each, then writes a PNG of the
+ * screen to `file`. An animation frame passes before the last step: three's
+ * lights update once per animation frame, so a render in the task that moved
+ * the time would draw the shot lit by the sun of before.
+ */
 export async function shoot(
   tab: Tab,
   frames: number,
   file: string,
   ms = FRAME_MS,
 ): Promise<void> {
+  const step = call('step', ms);
   await tab.evaluate(
-    `(() => { for (let i = 0; i < ${String(frames)}; i += 1) ${call('step', ms)}; return true; })()`,
+    `(async () => { for (let i = 1; i < ${String(frames)}; i += 1) ${step}; await new Promise(requestAnimationFrame); if (${String(frames)} > 0) ${step}; return true; })()`,
     z.boolean(),
+    { awaitPromise: true },
   );
   const { data } = z
     .object({ data: z.string() })

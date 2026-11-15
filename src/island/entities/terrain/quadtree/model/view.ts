@@ -6,6 +6,11 @@ import { cross, dot, scaled, sub, sum, type Vec3 } from '@/island/shared/globe';
  */
 export type Frustum = { readonly sides: readonly Vec3[] };
 
+export type Framed = {
+  /** The camera's view, when tiles out of it should be dropped. */
+  readonly frustum?: Frustum;
+};
+
 /**
  * How far past the screen's edges, radians, a frustum keeps tiles: enough
  * that a small turn finds its new edge already drawn.

@@ -1,0 +1,36 @@
+// Throwaway: #0's and #1's ground (metres, below sea negative) at item 4's spots, plus each world's highest ground.
+import { heightAtSphere, openSphereWorld, sampleSphereField } from '@/island/entities/terrain';
+import { latLonToUnit } from '@/island/shared/globe';
+
+const DEG = Math.PI / 180;
+const spots = (process.env.SPOTS ?? '46.5,9.0;28.0,86.9;32.0,88.0;-15.0,-70.0;39.0,-106.0;43.0,42.5;0.5,37.0;10,0;38,15').split(';');
+const worlds = await Promise.all(['0', '1'].map(async (w) => openSphereWorld(w)));
+const ground = (i: number, lat: number, lon: number) => {
+  const { field, seed } = worlds[i]!;
+  const p = latLonToUnit({ lat: lat * DEG, lon: lon * DEG });
+  return heightAtSphere((q) => sampleSphereField(field, q), seed, p);
+};
+for (const spot of spots) {
+  const [lat, lon] = spot.split(',').map(Number) as [number, number];
+  process.stdout.write(`${spot} g0 ${ground(0, lat, lon).toFixed(1)} g1 ${ground(1, lat, lon).toFixed(1)}\n`);
+}
+for (const i of [0, 1]) {
+  const top: Array<[number, number, number]> = [];
+  let land = 0;
+  let n = 0;
+  for (let lat = -85; lat <= 85; lat += 1) {
+    for (let lon = -180; lon < 180; lon += 1) {
+      const g = ground(i, lat, lon);
+      n += 1;
+      if (g > 0) land += 1;
+      top.push([g, lat, lon]);
+    }
+  }
+  top.sort((a, b) => b[0] - a[0]);
+  const picks: Array<[number, number, number]> = [];
+  for (const t of top) {
+    if (picks.length === 7) break;
+    if (picks.every((p) => Math.hypot(p[1] - t[1], p[2] - t[2]) > 8)) picks.push(t);
+  }
+  process.stdout.write(`#${i} land ${((100 * land) / n).toFixed(1)}% highest ${picks.map(([g, la, lo]) => `${la},${lo}=${g.toFixed(0)}`).join(' ')}\n`);
+}

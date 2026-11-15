@@ -1,0 +1,59 @@
+# Throwaway: the worker's fills per run (`tmp/look/data/<run>.json`): fill time by kind (stitched or
+# flat; ground only, sea only, both), and churn — a variant asked again after it arrived — counted
+# over the run's steps (events after the opening settled).
+import json
+import sys
+import statistics as st
+
+def q(xs, p):
+    xs = sorted(xs)
+    return xs[min(len(xs) - 1, int(p * len(xs)))] if xs else float('nan')
+
+print('| run | asks (stitched) | variants of a key already held | churn: re-asked after arrival | fill ms, stitched: ground / sea / both (median, p90, n) | fill ms, flat: both kinds (median, n) |')
+print('|---|---|---|---|---|---|')
+extra = []
+for name in sys.argv[1:]:
+    d = json.load(open(f'tmp/look/data/{name}.json'))
+    fills, opened = d['fills'], d['marks'][0]
+    arrived, keys_held = set(), set()
+    asks = stitched_asks = churn = restitch = 0
+    for i, f in enumerate(fills):
+        key = '|'.join(f['id'].split('|')[:4])
+        if f['k'] == 'got':
+            arrived.add(f['id'])
+            keys_held.add(key)
+            continue
+        if i < opened:
+            continue
+        asks += 1
+        stitched_asks += f['stitched']
+        churn += f['id'] in arrived
+        restitch += key in keys_held
+    got = [f for f in fills[opened:] if f['k'] == 'got']
+    def kind(f):
+        return 'both' if f['land'] and f['sea'] else 'ground' if f['land'] else 'sea'
+    cell = []
+    for k in ('ground', 'sea', 'both'):
+        ms = [f['fillMs'] for f in got if f['stitched'] and kind(f) == k]
+        cell.append(f'{st.median(ms):.0f}, {q(ms, 0.9):.0f}, {len(ms)}' if ms else '–')
+    flat = [f['fillMs'] for f in got if not f['stitched']]
+    flat_s = f'{st.median(flat):.0f}, {len(flat)}' if flat else '–'
+    print(f'| {name} | {asks} ({stitched_asks}) | {restitch} | {churn} | {" / ".join(cell)} | {flat_s} |')
+    held, refill, asked = set(), set(), {}
+    for i, f in enumerate(fills):
+        key = '|'.join(f['id'].split('|')[:4])
+        if f['k'] == 'ask':
+            if i >= opened:
+                asked[f['id']] = f['t']
+                if key in held:
+                    refill.add(f['id'])
+        else:
+            held.add(key)
+    tot = sum(f['fillMs'] for f in got)
+    re = sum(f['fillMs'] for f in got if f['id'] in refill)
+    lat = sorted(f['t'] - asked[f['id']] for f in got if f['id'] in asked)
+    lost = len(set(asked) - {f['id'] for f in got})
+    extra.append(f'{name}: worker ms {tot:.0f}, re-fills of held keys {re:.0f} ({100 * re / tot:.0f}%), '
+                 f'ask→got median {q(lat, 0.5):.0f} ms p90 {q(lat, 0.9):.0f}, asked never got {lost}; {d["where"]}')
+for e in extra:
+    print(e)

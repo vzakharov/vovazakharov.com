@@ -1,18 +1,20 @@
+export { fillCubeTile } from './model/cube-fill';
 export {
-  MAX_LEVEL,
-  MIN_LEVEL,
-  SPLIT_RATIO,
-  TILE_GRID,
-  TILE_SQUARE,
-  tileId,
-  type TileKey,
-  type TileKeyed,
-  tileRect,
-  tileSide,
-} from './model/tile';
+  type Corner,
+  fillStitchedCubeTile,
+  type NeighbourLevels,
+} from './model/cube-stitch';
 export {
-  borderLoop,
-  fillTile,
-  tileBuffers,
-  type TileMesh,
-} from './model/tile-fill';
+  capGap,
+  capsApart,
+  CUBE_MAX_LEVEL,
+  CUBE_MIN_LEVEL,
+  cubeTileId,
+  cubeTileSide,
+  faceLattice,
+  type TileCap,
+  tileCap,
+  tileHolds,
+} from './model/cube-tile';
+export { SPLIT_RATIO, TILE_GRID, type TileKeyed } from './model/tile';
+export { borderLoop, tileBuffers, type TileMesh } from './model/tile-mesh';

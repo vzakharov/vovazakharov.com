@@ -1,0 +1,116 @@
+// Throwaway look at b3-lod0's cut finest cover: a fast turn and a fast descent on #0, every frame read
+// from the canvas in the task that stepped it, with the panel's `tiles` line and fill counts.
+// `pnpm exec tsx tmp/look/lod0.ts <spin|descent> <name>`; DIR=<export>.
+import fs from 'node:fs';
+import path from 'node:path';
+import { setTimeout as sleep } from 'node:timers/promises';
+import { z } from 'zod';
+
+import { call, hook, settle } from '@/island/scripts/lib/play-tab';
+import { withPrintOrigin } from '@/kernel/scripts/lib/print-origin';
+import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
+import { type Browser, launch, openTab, type Tab } from '@/scene/scripts/lib/cdp';
+import { watchPageErrors } from '@/scene/scripts/lib/page-errors';
+
+const only = process.argv[2] ?? 'spin';
+const name = process.argv[3] ?? 'run';
+const OUT = path.join(REPO_ROOT, 'tmp/look/frames', `${only}-${name}`);
+fs.rmSync(OUT, { recursive: true, force: true });
+fs.mkdirSync(OUT, { recursive: true });
+const log = (s: string) => process.stdout.write(`${s}\n`);
+const errors: string[] = [];
+const W = Number(process.env.W ?? 1440);
+const H = Number(process.env.H ?? 900);
+
+const SPY = `(() => {
+  const Base = window.Worker;
+  const log = (window.__fills = []);
+  window.Worker = class extends Base {
+    constructor(...a) {
+      super(...a);
+      this.addEventListener('message', (e) => { const m = e.data; if (m && m.kind === 'tile') log.push('got'); });
+    }
+    postMessage(m, tr) { if (m && m.kind === 'fill') log.push('ask'); return super.postMessage(m, tr); }
+  };
+  const warn = console.warn; const err = console.error; window.__console = [];
+  console.warn = (...a) => { window.__console.push('warn ' + a.join(' ')); warn(...a); };
+  console.error = (...a) => { window.__console.push('error ' + a.join(' ')); err(...a); };
+})();`;
+
+async function poll(tab: Tab, expr: string, ms: number): Promise<void> {
+  const end = Date.now() + ms;
+  for (;;) {
+    if (await tab.evaluate(`(() => { try { return Boolean(${expr}); } catch { return false; } })()`, z.boolean())) return;
+    if (Date.now() > end) throw new Error(`timeout: ${expr}`);
+    await sleep(250);
+  }
+}
+
+async function playOpen(browser: Browser, origin: string, hash: string): Promise<Tab> {
+  const route = `/island?play${hash}`;
+  const tab = await openTab(browser, (m) => errors.push(`${route}: ${m}`));
+  await watchPageErrors(tab, (m) => errors.push(`${route}: ${m}`));
+  await tab.send('Emulation.setDeviceMetricsOverride', { width: W, height: H, deviceScaleFactor: 1, mobile: false });
+  await tab.send('Page.addScriptToEvaluateOnNewDocument', { source: SPY });
+  await tab.send('Page.navigate', { url: `${origin}${route}` });
+  await poll(tab, `document.readyState === 'complete'`, 30_000);
+  await poll(tab, `typeof ${hook}?.ready === 'function'`, 30_000);
+  await settle(tab, call('ready'), 'ready()');
+  return tab;
+}
+
+const Frame = z.object({ tag: z.string(), ms: z.number(), ask: z.number(), got: z.number(), tiles: z.string(), png: z.string() });
+const GRAB = `const t0 = performance.now(); const out = [];
+  const grab = (tag) => { ${call('step', 1000 / 60)}; const f = window.__fills;
+    const tiles = (document.body.innerText.match(/tiles[^\\n]*/) ?? [''])[0];
+    out.push({ tag, ms: Math.round(performance.now() - t0), ask: f.filter((x) => x === 'ask').length, got: f.filter((x) => x === 'got').length, tiles, png: document.querySelector('canvas').toDataURL('image/png') }); };`;
+
+async function run(tab: Tab, body: string) {
+  const frames = await tab.evaluate(`(async () => { ${GRAB} ${body}; return out; })()`, z.array(Frame), { awaitPromise: true });
+  for (const fr of frames) {
+    fs.writeFileSync(path.join(OUT, `${fr.tag}.png`), Buffer.from(fr.png.split(',')[1] ?? '', 'base64'));
+    log(`${fr.tag}\t${String(fr.ms)} ms\task ${String(fr.ask)}\tgot ${String(fr.got)}\t${fr.tiles}`);
+  }
+  log(`console: ${JSON.stringify(await tab.evaluate('window.__console', z.array(z.string())))}`);
+}
+
+const POSE = '38.30756,15.90432';
+async function main(): Promise<void> {
+  const dir = process.env.DIR ?? path.join(REPO_ROOT, 'tmp/out-new');
+  const browser = await launch();
+  try {
+    await withPrintOrigin({ serve: 'export', dir }, async (origin) => {
+      if (only === 'spin') {
+        const tab = await playOpen(browser, origin, `#0@${POSE},546,220.1,25.8,0.000`);
+        await settle(tab, call('setHeight', 546), 'open');
+        await run(tab, `
+          grab('settled');
+          for (let i = 1; i <= 8; i++) {
+            ${hook}.turnTo((220.1 - 12 * i) * Math.PI / 180).catch(() => {});
+            grab('turn' + String(i).padStart(2, '0'));
+            await new Promise((r) => setTimeout(r, 33));
+          }
+          for (let ms = 100; ms <= ${process.env.HOLD ?? '1500'}; ms += 100) { await new Promise((r) => setTimeout(r, 100)); grab('hold' + String(ms).padStart(4, '0')); }`);
+      }
+      if (only === 'descent') {
+        const n = Number(process.env.N ?? 40);
+        const tab = await playOpen(browser, origin, `#0@${POSE},20000000,220.1,25.8,0.000`);
+        await settle(tab, call('setHeight', 20_000_000), 'open');
+        await run(tab, `
+          grab('h20000000');
+          for (let i = 1; i <= ${String(n)}; i++) {
+            const h = 20000000 * Math.pow(546 / 20000000, i / ${String(n)});
+            ${hook}.setHeight(h).catch(() => {});
+            grab(String(i).padStart(2, '0') + '-h' + String(Math.round(h)));
+            await new Promise((r) => setTimeout(r, ${process.env.GAP ?? '33'}));
+          }
+          for (let ms = 250; ms <= ${process.env.HOLD ?? '3000'}; ms += 250) { await new Promise((r) => setTimeout(r, 250)); grab('hold' + String(ms).padStart(4, '0')); }`);
+      }
+    });
+  } finally {
+    await browser.close();
+    for (const e of errors) process.stderr.write(`ERR ${e}\n`);
+  }
+}
+
+await main();
