@@ -147,6 +147,17 @@ altogether later.
   refuses and `emissiveNode`, `maskNode`, `positionNode` and `outputNode` take —
   so a WGSL result goes into one of those slots. `h.step` on the software
   renderer costs ~3 s a call: shoot with `--frames` ≤ 60, never `--t`.
+- Built (a9d17034, frames 09–12, preview slot 1 redispatched): the swash's cusps
+  (`seaTongue`, `swellAt(eye, seconds)` returning the clock and the eye's place
+  along the crests); the kit's final head 0b8a9e5f (child archived); the sky
+  child's bd35d5b4 merged and wired — `seaSurface(radiance)` samples the still
+  sea's mirror direction and the zenith, the sea's own haze and `seaSky` are
+  gone, every material's `outputNode` is the sky's `aerial`, the land's damp
+  tint over it. The sky stays TSL (typed), not WGSL in `nature`: the
+  cube-convergence steer waits there.
+- Open with the sky child: blue space and a veiled disc from mid orbit (frame
+  11; the far-orbit opening, frame 12, is right); then clouds and `shade`.
+- (Superseded below where it names the sky's wiring or the kit as pending.)
 - In flight: the extraction child (optics and sand, its final report); the sky
   child.
 - Next, in this order: the sky child's `radiance` and `aerial` in place of
