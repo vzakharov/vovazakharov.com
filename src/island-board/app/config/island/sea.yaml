@@ -1,0 +1,37 @@
+items:
+  - id: z-sea
+    type: zone
+    updated: [2026-11-15T21:15:00.000Z, agent:lead]
+    box: [7900, 260, 1150, 1180, blue]
+    text: 'The sea — near ground as the cube draws it outside'
+  - id: sea-before
+    type: image
+    updated: [2026-11-15T21:15:00.000Z, agent:lead]
+    box: [7940, 330, 1070]
+    src: images/sea-before.webp
+    text: "Where it starts: world #1's inlet beach at 30 m and at 2 m. A still turquoise wash, a flat blue sky, sand one colour"
+  - id: sea-lead
+    type: sticky
+    updated: [2026-11-15T21:15:00.000Z, agent:lead]
+    box: [7940, 700, 330, green]
+    text: 'Led on Fable under /carte-blanche, branch island/sea, one PR into stretch 3: https://claude.ai/code/session_01DaohkE11JPgYbnCts79FnX. Children: island/sea-kit (the shore formulas into a shared app) and island/sea-sky (sky, sun, haze, then clouds)'
+  - id: sea-slow
+    type: sticky
+    updated: [2026-11-15T21:15:00.000Z, agent:lead]
+    box: [8300, 700, 330, yellow]
+    text: 'Why the cube needs drowsy: its machinery, not its shore — an FFT wave field (4 cascades of 256², ~20 compute passes a frame), a 650k-triangle sea, a cloud ray march, a per-grain search in the sand. Swell, water level, wet sand and cusps are cheap closed forms of bed height and clock. So the island takes the formulas and drops the machinery; no rewrite of everything'
+  - id: sea-wgsl
+    type: sticky
+    updated: [2026-11-15T21:15:00.000Z, agent:lead]
+    box: [8660, 700, 330, green]
+    text: "The cube's WGSL runs inside three: its shore listing goes into a three WebGPU material through TSL's wgslFn, in both vertex and fragment. One shader source for both games, not a third copy"
+  - id: sea-answers
+    type: sticky
+    updated: [2026-11-15T21:15:00.000Z, agent:lead]
+    box: [7940, 1110, 330, pink]
+    text: 'Vova''s answers: clouds are in ("don''t skimp, do it with clouds"); a simple wind model to start; the target is an M2 Pro at 60 fps with no drowsy, not the phone; WebGL2 may go later'
+  - id: sea-outdoors
+    type: sticky
+    updated: [2026-11-15T21:15:00.000Z, agent:lead]
+    box: [8300, 1110, 330, orange]
+    text: "Vova: the cube's island will later be part of some seeded world, so the two apps move toward one technology. Everything new is a pure WGSL function of place, clock and parameters in a shared app, outdoors, that both cube and island extend"
