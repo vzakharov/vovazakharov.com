@@ -1,0 +1,106 @@
+{
+  "total": {
+    "inputTokens": 21,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 64901,
+    "cacheReadTokens": 924651,
+    "outputTokens": 2688,
+    "thinkingTokens": 360,
+    "responses": 9,
+    "costUsd": 0.7579822
+  },
+  "estimate": {
+    "at": "2026-11-15T18:25:14.381Z",
+    "subjectLine": "content: pick up the portal-design session from its relay",
+    "parts": [
+      {
+        "hours": 0.25,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "re-attaching a parked design thread and its three artifact watches is a producer's handover, no design or code yet"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-15T18:25:21.963Z",
+    "contextTokens": 119324,
+    "spend": {
+      "inputTokens": 19,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 64568,
+      "cacheReadTokens": 805662,
+      "outputTokens": 2098,
+      "thinkingTokens": 360,
+      "responses": 8,
+      "costUsd": 0.7197124
+    }
+  },
+  "sessionId": "4a274e14-21c3-56ad-b87d-73979dae4d42",
+  "branch": "claude/cube-board-portal-forks-ilv09n",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cube-board-portal-forks-ilv09n — модель порталов с хабами и спицами в артефакте (версия 5), развилки про период и лифт на доске, PR черновик",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBxB5aodsuLB2dftcE",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-15T18:24:42.229Z",
+  "lastResponseAt": "2026-11-15T18:25:21.963Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 21,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 64901,
+    "cacheReadTokens": 924651,
+    "outputTokens": 2688,
+    "thinkingTokens": 360,
+    "responses": 9,
+    "costUsd": 0.7579822
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 21,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 64901,
+      "cacheReadTokens": 924651,
+      "outputTokens": 2688,
+      "thinkingTokens": 360,
+      "responses": 9,
+      "costUsd": 0.7579822
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 9,
+    "matched": 9,
+    "matchedTableUsd": 0.7579822,
+    "matchedEventUsd": 0.7579822000000002,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 40,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 138,
+    ".scss": 11,
+    ".ts": 20,
+    ".yaml": 286
+  }
+}
