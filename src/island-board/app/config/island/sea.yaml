@@ -1,8 +1,8 @@
 items:
   - id: z-sea
     type: zone
-    updated: [2026-11-15T21:15:00.000Z, agent:lead]
-    box: [7900, 260, 1150, 1180, blue]
+    updated: [2026-11-15T21:45:00.000Z, agent:lead]
+    box: [7900, 260, 1150, 2000, blue]
     text: 'The sea — near ground as the cube draws it outside'
   - id: sea-before
     type: image
@@ -35,3 +35,24 @@ items:
     updated: [2026-11-15T21:15:00.000Z, agent:lead]
     box: [8300, 1110, 330, orange]
     text: "Vova: the cube's island will later be part of some seeded world, so the two apps move toward one technology. Everything new is a pure WGSL function of place, clock and parameters in a shared app, outdoors, that both cube and island extend"
+  - id: sea-ripples
+    type: image
+    updated: [2026-11-15T21:45:00.000Z, agent:lead]
+    box: [7940, 1420, 1070]
+    src: images/sea-ripples.webp
+    text: 'Milestone 1, the sea as a surface: open ocean at 3 m and 300 m toward the sun, orbit; the inlet at 40 m and at 2 m. At 2 m the waterline is still a flat sheet: no swell, swash or wet sand yet'
+  - id: sea-how
+    type: sticky
+    updated: [2026-11-15T21:45:00.000Z, agent:lead]
+    box: [7940, 1880, 330, green]
+    text: 'How: one WGSL listing called from TSL; 64 plane waves with integer wave vectors over a 256 m period, so a place taken modulo the period is exact in float32 anywhere on the planet and no tile shows a seam; the glint widens where waves are too short to see. One forward pass, no render targets'
+  - id: sea-deep-bug
+    type: sticky
+    updated: [2026-11-15T21:45:00.000Z, agent:lead]
+    box: [8300, 1880, 330, pink]
+    text: "Found, older than this bite: over deep water the sea's near tiles were never drawn. The selection culled a tile by its floor (−3,500 m), not by the sea on it, so at 3 m over open ocean you saw the globe 1.5 km below; both were one flat blue. Fixed: a tile is bounded by its sea too"
+  - id: sea-flash-fix
+    type: sticky
+    updated: [2026-11-15T21:45:00.000Z, agent:lead]
+    box: [8660, 1880, 330, yellow]
+    text: "Bite 3's blue flashes: the globe now draws first and writes no depth, so a stand-in pushed 3% deeper cannot fall behind it. Not yet checked on a fast flight"
