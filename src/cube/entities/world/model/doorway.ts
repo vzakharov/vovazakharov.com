@@ -7,7 +7,7 @@ import { eastKind, southKind } from './doorways';
 import type { RolledMaze } from './maze';
 import type { Quad } from './quad';
 import { isRoom, type Room } from './room';
-import { type DoorWall, leaning, wallFrame } from './wall-frame';
+import { type DoorWall, isSameWall, leaning, wallFrame } from './wall-frame';
 import { mazeWalls, type Walls } from './walls';
 
 export type Doors = { isDoor: (wall: DoorWall) => boolean };
@@ -60,9 +60,6 @@ export const EXIT: { wall: DoorWall; sides: Sides } = (() => {
     sides: { near: inward, far: !inward },
   };
 })();
-
-export const isSameWall = (a: DoorWall, b: DoorWall): boolean =>
-  a.isEast === b.isEast && a.n === b.n && a.x === b.x && a.y === b.y;
 
 /** `walls` with `door`'s wall open, for the eye of the one who opened it. */
 export function withOpen(walls: Walls, door: DoorWall | null): Walls {
