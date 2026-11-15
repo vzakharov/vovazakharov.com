@@ -40,7 +40,7 @@ import {
   decodeBoardFiles,
   writeBoardFiles,
 } from './lib/board-files.ts';
-import { russianOnBoard } from './lib/cyrillic.ts';
+import { failOnRussian } from './lib/cyrillic.ts';
 
 import { findScreenshotChromium } from '@/kernel/scripts/lib/chromium';
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
@@ -302,12 +302,10 @@ async function sync(
   process.stdout.write(
     `${rows.length} rows, ${changed.length} newer than the repo: ${changed.map((item) => item.id).join(', ') || 'none'}\n`,
   );
-  const russian = russianOnBoard(written);
-  for (const finding of russian) process.stderr.write(`${finding}\n`);
-  if (russian.length > 0)
-    throw new Error(
-      `synced, but ${russian.length} line(s) carry Russian: translate them in the YAML, quotes included`,
-    );
+  failOnRussian(
+    written,
+    'synced, so translate them in the YAML, quotes included',
+  );
 }
 
 /** The page fitted to every item, with no toolbar (`#snapshot`), at 2× for a crisp case-study image. */

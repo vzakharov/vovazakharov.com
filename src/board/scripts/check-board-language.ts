@@ -5,7 +5,7 @@
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 
-import { russianOnBoard } from './lib/cyrillic.ts';
+import { failOnRussian } from './lib/cyrillic.ts';
 
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 
@@ -30,11 +30,7 @@ const files = await boardFiles();
 const texts = await Promise.all(
   files.map(async (file) => readFile(file, 'utf8')),
 );
-const findings = russianOnBoard(
+failOnRussian(
   new Map(files.map((file, at) => [file, texts[at] ?? ''])),
+  'a board is English, quotes translated',
 );
-for (const finding of findings) process.stderr.write(`${finding}\n`);
-if (findings.length > 0)
-  throw new Error(
-    `${findings.length} board line(s) carry Russian; a board is English, quotes translated`,
-  );

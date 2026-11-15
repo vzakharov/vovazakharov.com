@@ -25,3 +25,14 @@ export const russianOnBoard = (files: ReadonlyMap<string, string>): string[] =>
         `${path.relative(REPO_ROOT, file)}:${line}: “${words}”`,
     ),
   );
+
+/** Prints each of `russianOnBoard`'s lines to stderr and throws when there are any, `hint` saying what to do. */
+export function failOnRussian(
+  files: ReadonlyMap<string, string>,
+  hint: string,
+): void {
+  const findings = russianOnBoard(files);
+  for (const finding of findings) process.stderr.write(`${finding}\n`);
+  if (findings.length > 0)
+    throw new Error(`${findings.length} board line(s) carry Russian; ${hint}`);
+}
