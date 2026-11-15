@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 8080,
-    "cacheWrite5mTokens": 291198,
-    "cacheWrite1hTokens": 739012,
-    "cacheReadTokens": 48774549,
-    "outputTokens": 257220,
-    "thinkingTokens": 88245,
-    "responses": 233,
-    "costUsd": 31.337441530000014
+    "inputTokens": 13493,
+    "cacheWrite5mTokens": 291230,
+    "cacheWrite1hTokens": 804098,
+    "cacheReadTokens": 50380403,
+    "outputTokens": 267144,
+    "thinkingTokens": 88386,
+    "responses": 241,
+    "costUsd": 33.140572330000005
   },
   "estimate": {
     "at": "2026-11-15T21:02:43.209Z",
@@ -64,18 +64,18 @@
   "url": "https://claude.ai/code/session_01DaohkE11JPgYbnCts79FnX",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-15T20:57:17.655Z",
-  "lastResponseAt": "2026-11-15T23:18:57.947Z",
+  "lastResponseAt": "2026-11-15T23:27:31.229Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 394,
+    "inputTokens": 410,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 739012,
-    "cacheReadTokens": 45735363,
-    "outputTokens": 212423,
-    "thinkingTokens": 84377,
-    "responses": 207,
-    "costUsd": 29.471336600000004
+    "cacheWrite1hTokens": 804098,
+    "cacheReadTokens": 47038763,
+    "outputTokens": 214641,
+    "thinkingTokens": 84518,
+    "responses": 214,
+    "costUsd": 30.862240600000003
   },
   "subagents": {
     "inputTokens": 48,
@@ -89,14 +89,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 8032,
-      "cacheWrite5mTokens": 5529,
-      "cacheWrite1hTokens": 739012,
-      "cacheReadTokens": 46898441,
-      "outputTokens": 230131,
-      "thinkingTokens": 84377,
-      "responses": 211,
-      "costUsd": 30.533130200000006
+      "inputTokens": 13445,
+      "cacheWrite5mTokens": 5561,
+      "cacheWrite1hTokens": 804098,
+      "cacheReadTokens": 48504295,
+      "outputTokens": 240055,
+      "thinkingTokens": 84518,
+      "responses": 219,
+      "costUsd": 32.33626100000001
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 20,
@@ -180,26 +180,55 @@
           "Bash": 2
         },
         "estimatedTokens": 2781,
-        "estimatedUsd": 0.0529662
+        "estimatedUsd": 0.0546348
       },
       "billedUsd": 0.4620634
+    },
+    {
+      "at": "2026-11-15T23:23:31.652Z",
+      "trigger": "auto",
+      "compactedFrom": 304624,
+      "summaryChars": 17575,
+      "reorientation": {
+        "endedBy": null,
+        "endedOn": null,
+        "endedAt": null,
+        "contextTokens": null,
+        "spend": {
+          "inputTokens": 10,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 61310,
+          "cacheReadTokens": 404759,
+          "outputTokens": 1430,
+          "thinkingTokens": 141,
+          "responses": 4,
+          "costUsd": 1.1191918
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.4122268
     }
   ],
   "telemetry": {
-    "events": 232,
-    "matched": 228,
-    "matchedTableUsd": 30.140442930000013,
-    "matchedEventUsd": 30.140442930000013,
+    "events": 241,
+    "matched": 236,
+    "matchedTableUsd": 31.66655193000001,
+    "matchedEventUsd": 31.66655193000001,
     "unseen": {
       "compact": {
-        "inputTokens": 6626,
-        "cacheWrite5mTokens": 4785,
+        "inputTokens": 12023,
+        "cacheWrite5mTokens": 4817,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 597803,
-        "outputTokens": 17694,
+        "cacheReadTokens": 900257,
+        "outputTokens": 25400,
         "thinkingTokens": 0,
-        "responses": 2,
-        "costUsd": 0.9281786000000001
+        "responses": 3,
+        "costUsd": 1.3404054
       },
       "prompt_suggestion": {
         "inputTokens": 1012,
@@ -221,10 +250,10 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 16932,
+    ".md": 16942,
     ".txt": 2356,
     ".py": 436,
-    ".ts": 1876,
+    ".ts": 1912,
     ".wgsl": 20,
     ".json": 1
   }
