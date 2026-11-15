@@ -2,7 +2,7 @@ items:
   - id: z-sea
     type: zone
     updated: [2026-11-15T21:45:00.000Z, agent:lead]
-    box: [7900, 260, 1150, 2560, blue]
+    box: [7900, 260, 1150, 3060, blue]
     text: 'The sea — near ground as the cube draws it outside'
   - id: sea-before
     type: image
@@ -72,3 +72,19 @@ items:
     updated: [2026-11-15T22:15:00.000Z, agent:lead]
     box: [8300, 2490, 330, pink]
     text: "Still open: the sheet's edge follows the 1.2 m mesh, so the shoreline is a polygon at 2 m (left frame). Next: the surf cusps' tongue softens it"
+  - id: sea-sky
+    type: image
+    updated: [2026-11-15T22:30:00.000Z, agent:lead]
+    box: [7940, 2780, 1070]
+    src: images/sea-sky.webp
+    text: 'Milestone 3, one air from 2 m to orbit and the sea mirroring it: the inlet at 2 m, open ocean at 3 m, the opening view from orbit. Right, a fail: from ~4,000 km space turns blue and veils the disc'
+  - id: sea-sky-how
+    type: sticky
+    updated: [2026-11-15T22:30:00.000Z, agent:lead]
+    box: [7940, 2990, 330, green]
+    text: "The sky child's analytic atmosphere is merged: one model of the air at every height, and the water reflects its radiance, so the sun's glare lies on the inlet and the ocean alike. The swash now runs up in the cube's cusps, the same closed form"
+  - id: sea-sky-open
+    type: sticky
+    updated: [2026-11-15T22:30:00.000Z, agent:lead]
+    box: [8300, 2990, 330, pink]
+    text: "Open: blue space from mid orbit (with the sky child); the swash's edge is still the mesh's own polygon at 2 m, which the cusps do not hide"
