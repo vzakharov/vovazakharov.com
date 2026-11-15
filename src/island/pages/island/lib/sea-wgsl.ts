@@ -1,12 +1,14 @@
-import { assemble, vecf } from '@/scene/shared/shader';
+import { assemble, f32, vecf } from '@/scene/shared/shader';
 
 import { SHORE_CUSPED, SHORE_LEVEL, WETNESS } from '@/nature/shared/shore';
 import { DEEP_SPEED, HOUR_SECONDS } from '@/nature/shared/swell';
 
 import type { Vec3 } from '@/island/shared/globe';
 
+import { SUN_ELEVATION } from './day';
 import { GROUND_WGSL } from './ground-wgsl';
 import { RIPPLE_TABLE_WGSL } from './ripple-table';
+import { CLIMB_KEPT } from './sun';
 
 /**
  * The way the open swell runs, a unit vector in space: its crests are the
@@ -50,6 +52,9 @@ export const swellAt = (eye: Vec3, seconds: number): [number, number] => [
 const SEA_WGSL = `
 const SEA_TAU = 6.283185307;
 const SEA_SWELL_AXIS = ${vecf(SWELL_AXIS)};
+/** The sine of the sun's height the eye is set by, and the share of a higher sun's growth it lets through: \`eyeKeeps\` in sun.ts. */
+const SEA_EYE_SET = ${f32(Math.sin((SUN_ELEVATION * Math.PI) / 180))};
+const SEA_CLIMB_KEPT = ${f32(CLIMB_KEPT)};
 const SEA_SWELL_CREST = ${vecf(SWELL_CREST)};
 
 /**
@@ -241,8 +246,10 @@ fn seaColour(
   let lobe = exp((tilt * tilt - 1.0) / (tilt * tilt * spread)) /
     (3.14159 * spread * tilt * tilt * tilt * tilt);
   let sunUp = smoothstep(-0.02, 0.1, dot(sun, up));
+  let height = dot(sun, up);
+  let kept = pow(SEA_EYE_SET / max(height, SEA_EYE_SET), 1.0 - SEA_CLIMB_KEPT);
   let glint = vec3f(1.0, 0.9, 0.72) * (
-    sunUp * seaFresnel(dot(toEye, half)) * min(lobe, 400.0) * 0.5 / max(4.0 * facing, 0.2)
+    sunUp * kept * seaFresnel(dot(toEye, half)) * min(lobe, 400.0) * 0.5 / max(4.0 * facing, 0.2)
   );
 
   // Foam where the water thins out over the beach, broken by the ripples.
@@ -250,12 +257,11 @@ fn seaColour(
   let tau = swell.x - dot(world, SEA_SWELL_AXIS) * SWELL_PACE - shoreDelay(shoreDepth(bed));
   let broken = brokenAt(tau, min(bed, -0.02), 1.0) * smoothstep(-0.05, 0.25, level) * swellSeen;
   // The sheet on the sand is all froth at its thin tip.
-  let sheet = smoothstep(0.035, 0.0, level - bed) * step(0.0, bed);
+  let sheet = smoothstep(0.012, 0.0, level - bed) * step(0.0, bed);
   let line = smoothstep(0.12, 0.0, depth) * (1.0 - swellSeen);
   let foam = clamp(max(max(broken, sheet), line) * (0.45 + 0.55 * lace), 0.0, 1.0) *
     smoothstep(400.0, 40.0, footprint * 100.0);
-  let height = dot(sun, up);
-  let light = SEA_SUNLIGHT * max(height, 0.0) +
+  let light = SEA_SUNLIGHT * (max(height, 0.0) * kept) +
     mix(SEA_NIGHT_SKYLIGHT, SEA_DAY_SKYLIGHT, smoothstep(-0.1, 0.2, height));
   let body = mix(under, vec3f(0.9, 0.93, 0.94), foam) * light;
 
