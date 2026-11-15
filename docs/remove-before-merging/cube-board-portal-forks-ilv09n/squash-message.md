@@ -1,25 +1,26 @@
 Proposed squash body:
 
 ```
-Portals have sat on the cube board as single cards since 13 Nov; this
-lays out the decisions they need as a zone of their own, "Portals: the
-forks": how a portal door looks, how the crossing looks, where it
-leads and how often, one-way or two-way, and five forks not named
-before (gaps, signature entries, the landing, what arriving counts
-for, two players). Each column ends in the direction it leans.
+Portals have sat on the cube board as single cards since 13 Nov; a
+zone of their own, "Portals: the forks", lays out the decisions they
+need: how a portal door looks, how the crossing looks, where it leads
+and how often, one-way or two-way, and five forks not named before.
+Each column ends in the direction it leans: an ordinary door showing
+the far room at true scale, the crossing as the change of size,
+portals as a share of doors, one-way in the world with the way back a
+thread in the traveller's hand. A door back only the traveller sees
+is ruled out: the maze is the same for every player, and no state
+changes for free.
 
-The leanings: a portal is an ordinary door that, opened, shows the far
-room at its true scale, a dollhouse going down and a giant's room
-going up, and crossing is the change of size itself, tied to where you
-stand in the doorway. Portals are a share of doors, an hourly rate on
-any floor, leading to any other floor alike.
+The board is re-laid so linked cards sit together, line length down
+from ~57k to ~13k px and crossings from 10 to 0. The intro is split
+into seven zones, one per section, so every board file belongs to its
+own zone and board refile no longer folds the hand-split intro files
+back into one file over the line limit.
 
-One-way in the world, with the way back a thread in the traveller's
-hand, which is deep-stack's pop. World pairs fail on counting, since
-each pair puts one end on each floor and floors differ in size by
-powers of four; a door back only the traveller sees is ruled out, the
-maze being the same for every player and no state changing for free.
-One card asks to revisit deep-out's ruling on odds per room.
+Lines are drawn over the cards: a line's ink sits above every item
+and its hit stroke under the cards, so a click on a card still
+selects the card where a line crosses it.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
