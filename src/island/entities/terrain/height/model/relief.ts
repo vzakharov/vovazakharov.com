@@ -82,16 +82,16 @@ export const LOWEST_GROUND = -ABYSS_METRES - NOISE_REACH_METRES;
  */
 const humped = (n: number) => n * (0.6 + 0.4 * n);
 
-/** One noise octave; `index`, its place in `OCTAVES`, keys its lattice. */ export type Octave =
-  {
-    readonly index: number;
-    readonly cyclesPerMetre: number;
-    readonly amplitude: number;
-    readonly wavelength: number;
-    readonly regional: boolean;
-    readonly hill: boolean;
-    readonly broad: boolean;
-  };
+/** One noise octave; `index`, its place in `OCTAVES`, keys its lattice. */
+export type Octave = {
+  readonly index: number;
+  readonly cyclesPerMetre: number;
+  readonly amplitude: number;
+  readonly wavelength: number;
+  readonly regional: boolean;
+  readonly hill: boolean;
+  readonly broad: boolean;
+};
 
 export const OCTAVES: readonly Octave[] = AMPLITUDES_METRES.map(
   (amplitude, o) => {
@@ -112,8 +112,8 @@ export const OCTAVES: readonly Octave[] = AMPLITUDES_METRES.map(
  * A bound on the ground's slope, metres of rise per metre run, whatever the
  * detail cut, for octaves each at most `octaveSteepest` times its amplitude
  * over its wavelength: every octave at its steepest, plus the plateau's, the
- * shelf's, and the lowland floor's climb, sink, rounding and squeeze. Loose: real
- * ground stays under a tenth of it.
+ * shelf's, and the lowland floor's climb, sink, rounding and squeeze. Loose:
+ * real ground stays under a tenth of it.
  */
 export const groundSlope = (octaveSteepest: number) =>
   Math.SQRT2 *

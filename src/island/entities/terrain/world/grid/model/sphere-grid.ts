@@ -1,7 +1,7 @@
 import type { Gridded } from '@/scene/shared/lib/plane';
 
 /**
- * A latitude–longitude grid:`rows` rings at the Gauss–Legendre nodes in
+ * A latitude–longitude grid: `rows` rings at the Gauss–Legendre nodes in
  * `x = cos θ`, north to south, and `columns` equally spaced longitudes from
  * `φ = 0`.
  */

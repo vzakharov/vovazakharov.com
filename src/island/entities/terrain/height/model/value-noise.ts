@@ -1,8 +1,7 @@
 /**
- * Seeded value noise in `[-1, 1]` over space, with a
- * quintic fade so a sum of octaves has continuous slope. Integer arithmetic
- * only on the lattice, so the same `(seed, layer, point)` gives the same value
- * on every engine.
+ * Seeded value noise in `[-1, 1]` over space, with a quintic fade so a sum of
+ * octaves has continuous slope. Integer arithmetic only on the lattice, so the
+ * same `(seed, layer, point)` gives the same value on every engine.
  */
 
 /** A lattice corner's mixed bits, mapped onto `[-1, 1]` by their top 24. */
