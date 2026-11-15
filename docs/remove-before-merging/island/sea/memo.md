@@ -72,3 +72,11 @@ Sea, milestone 3 (a9d17034): the sky child's atmosphere is merged and the sea mi
 ## lead · 2026-11-15 22:29:32 UTC
 
 Milestone 3 is on the board (v74), the fail frame beside the wins.
+
+## member · 2026-11-15 22:37:04 UTC
+
+Sea, milestone 4 (e21dee97; vet green on a9d17034): the ground off the beach.
+
+- Win: relief below the mesh's cell is drawn by light — ridges read off the same 64-wave table the ripples use, each fading as it passes under a pixel — and steep ground above the beach shows bare rock. Frames: docs/remove-before-merging/island/sea/frames/13-relief-grass-40m.jpg, 14-wet-sand-landward-2m.jpg (the damp band behind the sheet).
+- Find: one wave table serves the sea's ripples and the land's relief; the land reads it as ridges standing still.
+- Not yet looked at: rock on a real cliff — the inlet's country is too gentle to show it.
