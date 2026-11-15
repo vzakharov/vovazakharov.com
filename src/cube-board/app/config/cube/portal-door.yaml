@@ -16,7 +16,7 @@ items:
     updated: [2026-11-15T20:50:00.000Z, agent:cube]
     box: [11888, 2170, 520]
     src: images/portal-door-open.webp
-    text: 'Open on floor 6: floor 7''s server hall goes on behind it at this room''s size, its own theme in floor 6''s air. The sign is the old wording, being changed'
+    text: 'Open on floor 6: floor 7''s server hall goes on behind it at this room''s size, its own theme in floor 6''s air. The A4 sign beside it reads SOME DOORS ARE MORE EQUAL THAN OTHERS'
   - id: pd-next-minute
     type: image
     updated: [2026-11-15T20:50:00.000Z, agent:cube]

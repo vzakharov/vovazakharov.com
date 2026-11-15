@@ -134,5 +134,10 @@ and becomes the far floor's once through.
   model to `.js.txt` (eslint red repo-wide until then); hint board → "SOME DOORS
   ARE / MORE EQUAL / THAN OTHERS", no arrow, A4 (297 × 210 mm); reshoot sign
   frames; far-side FOR SALE check; a live walk on the real hub.
-- Next: B's report — merge, board (sign frame `pv-sign`), `/preview live vova`
-  and check the deployed commit, then `./scripts/vet.sh`. PR #283 stays draft.
+- B reported (a8549f95): reference model `.js.txt` (lint clean repo-wide), A4
+  sign "SOME DOORS ARE / MORE EQUAL / THAN OTHERS", no arrow; far-side FOR SALE
+  moved to a side wall; frames re-shot. Merged as 530a133f, 210 tests green.
+  Board v116 (door webps regenerated, `pv-sign-close` added). Still unwalked: a
+  live keyboard crossing on the real hub.
+- Next: `/preview live vova` and check the deployed commit, then
+  `./scripts/vet.sh`. PR #283 stays draft.

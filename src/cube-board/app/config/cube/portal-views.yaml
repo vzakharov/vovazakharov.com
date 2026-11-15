@@ -1,8 +1,8 @@
 items:
   - id: z-portal-views
     type: zone
-    updated: [2026-11-15T19:46:00.000Z, agent:cube]
-    box: [8290, 2800, 2260, 1640, blue]
+    updated: [2026-11-15T22:10:00.000Z, agent:cube]
+    box: [8290, 2800, 2260, 1790, blue]
     icon: 🚪
     text: 'Through a portal: their surfaces, your air'
   - id: pv-f06-own
@@ -79,7 +79,13 @@ items:
     text: 'Floor 6 seen from 60: the corridor as depth greys and contours, the blockwork still faintly there'
   - id: pv-sign
     type: image
-    updated: [2026-11-15T20:24:00.000Z, agent:cube]
+    updated: [2026-11-15T22:10:00.000Z, agent:cube]
     box: [8318, 3850, 520]
     src: images/portal-sign-across.webp
-    text: 'The first portal door gets a sign on both sides of its wall: the first portal of the first floor with any, found by the model, not picked by hand. Vova: “for tutorialising”. The arrow points at bare wall here; the door itself lands with the door package'
+    text: 'The first portal door gets a sign on both sides of its wall, beside the door: the first portal of the first floor with any, found by the model, not picked by hand. A sheet of A4 on its side, no arrow. Vova: “for tutorialising”, then “some doors are more equal than others”'
+  - id: pv-sign-close
+    type: image
+    updated: [2026-11-15T22:10:00.000Z, agent:cube]
+    box: [8318, 4215, 520]
+    src: images/portal-sign-close.webp
+    text: 'Up close on floor 6: SOME DOORS ARE / MORE EQUAL / THAN OTHERS. On the far side the FOR SALE sign has moved to a side wall, since the portal wall now counts as a door'
