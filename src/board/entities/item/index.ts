@@ -8,4 +8,5 @@ export {
   SPIRALS,
   STICKY_COLORS,
   TEXT_SIZES,
+  type Weighted,
 } from './model/item.ts';

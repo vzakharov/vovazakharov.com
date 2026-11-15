@@ -11,7 +11,8 @@
  * `box` holds an item's geometry positionally — `x, y, w` for a sticky or an
  * image, `x, y, w, h` for a zone, `x, y[, w]` for a text — then its colour, or a
  * text's size; a line has `ends: [from, to]`, `dashed` appended when it is, and
- * `spiral: cw` when it spirals; a sticky ticked off has `done: true`. `text` is
+ * `spiral: cw` when it spirals, `weight: 2.5` when its stroke is that many
+ * times the plain one; a sticky ticked off has `done: true`. `text` is
  * each type's one text field: a zone's title, an image's caption, a line's
  * label. A sticky or zone may carry `icon:`, an emoji or `icons/<name>.svg`
  * from the board's `icons/` directory. The file is the codec only: decoded,
@@ -48,6 +49,7 @@ const Shape = z.object({
   icon: z.string().optional(),
   text: z.string().optional(),
   spiral: z.enum(SPIRALS).optional(),
+  weight: z.number().optional(),
   done: z.literal(true).optional(),
 });
 type Shape = z.infer<typeof Shape>;
@@ -94,6 +96,7 @@ function fields({
   icon,
   text,
   spiral,
+  weight,
   done,
 }: FileItem): Record<string, unknown> {
   switch (type) {
@@ -124,6 +127,7 @@ function fields({
         label: text,
         dashed: dashed === undefined ? undefined : true,
         spiral,
+        weight,
       };
     }
     default: {
@@ -178,11 +182,12 @@ function shape(item: Item): Shape {
       return { box: w === undefined ? [x, y, size] : [x, y, w, size], text };
     }
     case 'line': {
-      const { from, to, dashed, label, spiral } = item;
+      const { from, to, dashed, label, spiral, weight } = item;
       return {
         ends: dashed === true ? [from, to, 'dashed'] : [from, to],
         text: label,
         spiral,
+        weight,
       };
     }
     default: {

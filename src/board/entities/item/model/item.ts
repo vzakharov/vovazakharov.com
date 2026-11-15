@@ -91,13 +91,19 @@ export const SPIRALS = ['cw'] as const;
 const Spiralled = z.object({ spiral: z.enum(SPIRALS).optional() });
 export type Spiralled = z.infer<typeof Spiralled>;
 
+/** A line's stroke as a multiple of the plain one's: the line a board reads along. */
+const Weighted = z.object({ weight: z.number().positive().optional() });
+export type Weighted = z.infer<typeof Weighted>;
+
 const Line = Common.extend({
   kind: z.literal('line'),
   from: ID,
   to: ID,
   label: z.string().optional(),
   dashed: z.boolean().optional(),
-}).extend(Spiralled.shape);
+})
+  .extend(Spiralled.shape)
+  .extend(Weighted.shape);
 
 export const Item = z.discriminatedUnion('kind', [
   Sticky,
