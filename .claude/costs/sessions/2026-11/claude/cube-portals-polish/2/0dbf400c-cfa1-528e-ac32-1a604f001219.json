@@ -1,0 +1,122 @@
+{
+  "total": {
+    "inputTokens": 144,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 166698,
+    "cacheReadTokens": 11926948,
+    "outputTokens": 41010,
+    "thinkingTokens": 9233,
+    "responses": 74,
+    "costUsd": 4.5397496
+  },
+  "estimate": {
+    "at": "2026-11-15T22:12:34.451Z",
+    "subjectLine": "fix: portal threshold dropout, family paint, type gates, frames",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "diagnosing a near-plane clip of a stencil quad against the crossing line needs rendering depth"
+      },
+      {
+        "hours": 2.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "routine type-base extraction and barrel trimming across two apps under the repo's gates"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "deciding portal paint so doors don't give portals away"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-15T21:40:45.601Z",
+    "contextTokens": 95915,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 40581,
+      "cacheReadTokens": 54478,
+      "outputTokens": 453,
+      "thinkingTokens": 53,
+      "responses": 1,
+      "costUsd": 0.3446116
+    }
+  },
+  "sessionId": "0dbf400c-cfa1-528e-ac32-1a604f001219",
+  "branch": "claude/cube-portals-polish",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are package E of a carte-blanche run building portals into the cube game (`src/cube/`, served at /cube on vovazakharov.com). The lead is session session_01D…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCr8UsatJU7EFPupzV",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-15T21:40:39.456Z",
+  "lastResponseAt": "2026-11-15T22:12:57.387Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 144,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 166698,
+    "cacheReadTokens": 11926948,
+    "outputTokens": 41010,
+    "thinkingTokens": 9233,
+    "responses": 74,
+    "costUsd": 4.5397496
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 144,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 166698,
+      "cacheReadTokens": 11926948,
+      "outputTokens": 41010,
+      "thinkingTokens": 9233,
+      "responses": 74,
+      "costUsd": 4.5397496
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 74,
+    "matched": 74,
+    "matchedTableUsd": 4.5397496,
+    "matchedEventUsd": 4.5397496,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 319,
+    ".txt": 295,
+    ".json": 2,
+    ".scss": 11,
+    ".ts": 2716,
+    ".yaml": 459,
+    ".tsx": 8,
+    ".wgsl": 27
+  }
+}
