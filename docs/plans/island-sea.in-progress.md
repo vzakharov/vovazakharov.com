@@ -31,7 +31,39 @@ The sea lead's memory, a `/carte-blanche` run on `island/sea`; one PR into
 7. Target 60 fps on an integrated-graphics laptop, 30+ on a mid phone; real
    numbers come from a preview slot (the container renders in software).
 
-Answers, verbatim: none yet.
+Answers, verbatim (2026-11-15):
+
+> 1 если пока легче так, ок. в перспективе наверное вообще стоит убрать. wgslFn
+> -- это "wgsl в three"? 2 окей, только не уверен что sea хорошее название 3 на
+> твоё усмотрение + экспериментирование 4 не мелочись, давай с облаками 🙂 5
+> было бы классно модель ветра, поначалу можно простенькую 6 окей 7 остров в
+> кубе даёт ~18 fps без пьяни, ~60 с ней. M2 Pro, на телефон не ориентируйся
+>
+> и вот что хочется услышать: как ты собираешься делать то что не пляж/пясок:
+> возвышенности, горы и пр.
+
+So: the shared app is `outdoors`, not `sea`; clouds are in; a simple wind model
+is in (it turns the ripples, shelters lee shores, drifts the clouds); the target
+is 60 fps on an M2 Pro without drowsy, the phone no yardstick; WebGL2 may go
+altogether later.
+
+## Steering
+
+- «и не забывай пополнять доску интересными находками, достижениями и фейлами!)»
+  — finds, wins and fails go to the island lead by memo as they happen, frames
+  attached.
+- «что ещё важно -- "остров" куба впоследствии хочу сделать прямо частью мира
+  какого-то засеянного island (будет ли там что-то кроме этого острова или нет
+  -- не знаю), поэтому технологии двух аппов нужно если не унифицировать, то
+  идти в этом направлении» — whatever this bite writes new (ripples, the water's
+  light, sky, clouds, wind, ground detail) is a pure WGSL function of place,
+  clock and parameters in `outdoors`, with no frame uniform and no binding, so
+  the cube can take it as it stands; the island only composes them in TSL.
+- What the lead told him of the ground that is not beach: a material by place
+  (sand, grass and soil, rock on steep and high ground, snow) from height, slope
+  and coast distance; relief below the mesh's 1.2 m cell drawn by light, each
+  noise octave fading as it passes under a pixel; no new landforms and no
+  vegetation in this bite.
 
 ## Design decisions
 
@@ -44,7 +76,7 @@ Answers, verbatim: none yet.
   pieces as a `code()` include. Beat: rewriting the closed forms in TSL, a third
   copy beside the TS and WGSL twins `swell.test.ts` already holds together.
   Cost: WebGPU only (question 1).
-- **The shared formulas live in an app `sea` (parents `scene`, `dice`) that
+- **The shared formulas live in an app `outdoors` (parents `scene`, `dice`) that
   `cube` and `island` both extend**; the WGSL kit (`wgsl`, `assemble`, `f32`,
   `hash.wgsl`) drops to `scene/shared/shader`. What needs the cube's analytic
   `islandHeight` (`waterLevel(xz, t)`, `shoreRise`) stays in the cube.
