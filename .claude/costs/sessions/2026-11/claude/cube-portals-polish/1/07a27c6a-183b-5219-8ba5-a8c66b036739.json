@@ -1,0 +1,116 @@
+{
+  "total": {
+    "inputTokens": 72,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 179515,
+    "cacheReadTokens": 6631095,
+    "outputTokens": 31008,
+    "thinkingTokens": 13759,
+    "responses": 37,
+    "costUsd": 5.439355
+  },
+  "estimate": {
+    "at": "2026-11-15T21:39:13.886Z",
+    "subjectLine": "fix: portal leaf hangs as one leaf; crossing stall and dropout traced",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "the far-view pass, near-plane clipping and pipeline timing need someone who reads a WebGPU frame"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "hinge and swing agreement across paired walls is door-feel geometry with tests"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-15T21:25:28.922Z",
+    "contextTokens": 113841,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 40327,
+      "cacheReadTokens": 53322,
+      "outputTokens": 1001,
+      "thinkingTokens": 422,
+      "responses": 1,
+      "costUsd": 0.6959524
+    }
+  },
+  "sessionId": "07a27c6a-183b-5219-8ba5-a8c66b036739",
+  "branch": "claude/cube-portals-polish",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are package D of a carte-blanche run building portals into the cube game (`src/cube/`, served at /cube on vovazakharov.com). The lead is session session_01D…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkFYMyrxoGS3AxcPYBZ",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-15T21:25:19.645Z",
+  "lastResponseAt": "2026-11-15T21:39:48.623Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 72,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 179515,
+    "cacheReadTokens": 6631095,
+    "outputTokens": 31008,
+    "thinkingTokens": 13759,
+    "responses": 37,
+    "costUsd": 5.439355
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 72,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 179515,
+      "cacheReadTokens": 6631095,
+      "outputTokens": 31008,
+      "thinkingTokens": 13759,
+      "responses": 37,
+      "costUsd": 5.439355
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 37,
+    "matched": 37,
+    "matchedTableUsd": 5.439355,
+    "matchedEventUsd": 5.439355,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 7,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 304,
+    ".txt": 295,
+    ".json": 2,
+    ".scss": 11,
+    ".ts": 2654,
+    ".yaml": 459,
+    ".tsx": 8,
+    ".wgsl": 27
+  }
+}
