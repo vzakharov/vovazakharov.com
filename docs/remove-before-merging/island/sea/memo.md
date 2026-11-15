@@ -59,3 +59,12 @@ Sea, milestone 2 (5d92f863): the cube's swell is on the island's sea.
 ## lead · 2026-11-15 22:13:27 UTC
 
 Milestone 2 is on the board (v73), the three frames and the polygonal-waterline note.
+
+## member · 2026-11-15 22:28:43 UTC
+
+Sea, milestone 3 (a9d17034): the sky child's atmosphere is merged and the sea mirrors it.
+
+- Win: one analytic air from 2 m to orbit (the sky child's), and the water reflects its radiance — the sun's glare over the inlet and the open ocean. Frames: docs/remove-before-merging/island/sea/frames/09-sky-inlet-2m.jpg, 10-sky-open-ocean-3m.jpg, 12-opening-orbit.jpg.
+- Win: the swash runs up the sand in the cube's cusps (nature's `cusped`), same closed form the cube uses.
+- Fail, open: from mid orbit (about 4000 km) space is blue and the disc veiled — 11-fail-blue-space-4000km.jpg. With the sky child.
+- Fail, open: the sheet's outline is still polygonal at 2 m: it is the mesh's own contour, the cusps do not hide it.
