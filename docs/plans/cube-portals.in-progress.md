@@ -150,8 +150,17 @@ and becomes the far floor's once through.
   first: each wall rolls its own hinge jamb (`doorLook`), so the far portal's
   leaf hangs on an unrelated jamb. Decided: a portal's leaf hangs on the jamb at
   the left of one walking east or south — `farSideOf` keeps `toward`, so every
-  pairing then agrees — and every portal leaf takes one shared rolled paint, the
-  leaf walked through being one leaf. Package D (door fixes) takes both.
+  pairing then agrees. Paint by family: a hub keeps its wall's rolled paint and
+  each spoke takes its hub's, since every pairing is a hub and one of its
+  spokes. Beat: one paint for every portal, which Vova caught giving portals
+  away by colour («получается, портал можно будет распознать по цвету?»).
+  Package D (door fixes) takes both.
+- Vova's second recording (frames committed as
+  `cube-portal-threshold-glitch-*.jpg`): for one game frame at the threshold,
+  still on floor 6, the far view drops out — black, a sliver of floor 7 out of
+  place. Vova: «его и в первый раз не было, сама запись видимо глючнула» — the
+  first recording's stall was the recorder; no freeze to fix. Sent to D with the
+  frames, the freeze hunt dropped.
 - vet at 5f0b0a4c red: format, type-overlap, knip (portal exports unused outside
   the slice, `Ways`). The lead's.
 - Next: D's report; vet green. PR #283 stays draft.

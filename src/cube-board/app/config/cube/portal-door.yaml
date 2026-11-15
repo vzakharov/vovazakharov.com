@@ -4,7 +4,7 @@ items:
     updated: [2026-11-15T20:50:00.000Z, agent:cube]
     box: [11300, 2060, 2260, 780, blue]
     icon: 🚪
-    text: 'The portal door on the real network: floor 6''s one hub'
+    text: "The portal door on the real network: floor 6's one hub"
   - id: pd-shut
     type: image
     updated: [2026-11-15T20:50:00.000Z, agent:cube]
@@ -16,7 +16,7 @@ items:
     updated: [2026-11-15T20:50:00.000Z, agent:cube]
     box: [11888, 2170, 520]
     src: images/portal-door-open.webp
-    text: 'Open on floor 6: floor 7''s server hall goes on behind it at this room''s size, its own theme in floor 6''s air. The A4 sign beside it reads SOME DOORS ARE MORE EQUAL THAN OTHERS'
+    text: "Open on floor 6: floor 7's server hall goes on behind it at this room's size, its own theme in floor 6's air. The A4 sign beside it reads SOME DOORS ARE MORE EQUAL THAN OTHERS"
   - id: pd-next-minute
     type: image
     updated: [2026-11-15T20:50:00.000Z, agent:cube]
@@ -28,4 +28,4 @@ items:
     updated: [2026-11-15T20:50:00.000Z, agent:cube]
     box: [13008, 2170, 520]
     src: images/portal-door-arrived-looking-back.webp
-    text: 'Through, on floor 7, looking back: the door stands open on floor 6''s corridor, now in floor 7''s air. The URL moved, and Back returns you'
+    text: "Through, on floor 7, looking back: the door stands open on floor 6's corridor, now in floor 7's air. The URL moved, and Back returns you"
