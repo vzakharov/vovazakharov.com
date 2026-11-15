@@ -123,8 +123,8 @@ the bite in hand. The text it held before the board took over is in git
 
 ## Eaten so far
 
-- **The board** — the app `src/island-board/`, its tooling
-  `src/island-board/scripts/board.ts`
+- **The board** — the app `src/island-board/` over the shared `src/board/`, its
+  tooling `src/board/scripts/board.ts`
   (`pnpm board build | sync | refile | snapshot`, usage atop the file); its
   content `src/island-board/app/config/island.yaml` and a YAML per zone with the
   images in `src/island-board/app/config/island/`. Light in every theme; Caveat
