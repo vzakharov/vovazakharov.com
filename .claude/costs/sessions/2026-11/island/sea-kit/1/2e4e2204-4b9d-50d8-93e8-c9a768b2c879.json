@@ -1,0 +1,155 @@
+{
+  "total": {
+    "inputTokens": 3022,
+    "cacheWrite5mTokens": 875,
+    "cacheWrite1hTokens": 358402,
+    "cacheReadTokens": 33416210,
+    "outputTokens": 100708,
+    "thinkingTokens": 30373,
+    "responses": 173,
+    "costUsd": 11.581080999999994
+  },
+  "estimate": {
+    "at": "2026-11-15T21:18:23.863Z",
+    "subjectLine": "refactor: the cube's shore formulas and WGSL kit move to a nature app",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "moving shader modules between apps without changing one compiled byte needs someone who knows the WGSL linker and the twin tests"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "the cut between the shared physics and what reads the cube's terrain, under the app graph's layer rules"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-15T21:14:36.036Z",
+    "contextTokens": 114365,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 55432,
+      "cacheReadTokens": 242633,
+      "outputTokens": 1162,
+      "thinkingTokens": 173,
+      "responses": 3,
+      "costUsd": 0.5152546
+    }
+  },
+  "sessionId": "2e4e2204-4b9d-50d8-93e8-c9a768b2c879",
+  "branch": "island/sea-kit",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a member of a team building one bite of the island game at /island (src/island/, a three.js `three/webgpu` TSL planet). The lead's session id is session…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEEm3LNwEwmSEUQqq4",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-15T21:14:24.777Z",
+  "lastResponseAt": "2026-11-15T21:52:25.512Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 332,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 358402,
+    "cacheReadTokens": 33113754,
+    "outputTokens": 93141,
+    "thinkingTokens": 30373,
+    "responses": 172,
+    "costUsd": 11.354114799999994
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 3022,
+      "cacheWrite5mTokens": 875,
+      "cacheWrite1hTokens": 358402,
+      "cacheReadTokens": 33416210,
+      "outputTokens": 100708,
+      "thinkingTokens": 30373,
+      "responses": 173,
+      "costUsd": 11.581080999999994
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-15T21:36:52.738Z",
+      "trigger": "auto",
+      "compactedFrom": 306663,
+      "summaryChars": 18444,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/cube/widgets/outdoors/surface/sea/water/face/lib/sea-light.shader.generated.ts",
+        "endedAt": "2026-11-15T21:37:23.781Z",
+        "contextTokens": 116619,
+        "spend": {
+          "inputTokens": 13,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 58606,
+          "cacheReadTokens": 731615,
+          "outputTokens": 2141,
+          "thinkingTokens": 317,
+          "responses": 7,
+          "costUsd": 0.658043
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.22696619999999998
+    }
+  ],
+  "telemetry": {
+    "events": 173,
+    "matched": 172,
+    "matchedTableUsd": 11.354114799999994,
+    "matchedEventUsd": 11.354114799999994,
+    "unseen": {
+      "compact": {
+        "inputTokens": 2690,
+        "cacheWrite5mTokens": 875,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 302456,
+        "outputTokens": 7567,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.22696619999999998
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 16822,
+    ".txt": 2356,
+    ".py": 436,
+    ".ts": 568,
+    ".wgsl": 20,
+    ".json": 1
+  }
+}
