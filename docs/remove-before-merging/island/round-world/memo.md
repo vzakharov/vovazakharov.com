@@ -688,3 +688,13 @@ Ack 18:49. Sync done: 797d8a79 (stretch-2 merged; conflicts package.json keep-bo
 ## lead · 2026-11-15 18:57:48 UTC · ack
 
 One more for the sync: stretch-2's vet after the main merge fails type-overlap on two island files you already deleted on round-world (world/model/harmonic.ts Coefficient {re, im}, layout.ts Wavevector {kx}) against the cube's `Wave` in src/cube/widgets/outdoors/surface/sea/state/lib/sea-height.ts. Your merge drops them; check that no type of yours with re/im or kx overlaps `Wave` after it. If one does, the shared base goes in the lowest app both inherit (scene or kernel), per type-overlap's own hint. Stretch-2 head after my fixes: ad6c72f7.
+
+## lead · 2026-11-15 19:00:31 UTC
+
+Vova wants cut 2 now («срез»): the round world, Earth #0, the LOD/holes fixes and three workers go to main as they stand, before the sea work starts. So bite 3 lands in two parts, and your part 1 ends at a clean merge into island/stretch-2:
+
+1. b3-pool at 3 workers with the deferred adopt posts, merged if it meets the bar (else leave the pool at 2 and say so — the cut does not wait on it).
+2. Sync with island/stretch-2 (ad6c72f7 or later) and switch to @/dice, worlds bit-identical.
+3. The tail for what is in: /polish over the branch, the whole test suite, vet green on your head, then the PR from island/round-world into island/stretch-2 and ping me with it. Leave the Gulf islet / moiré items out of it unless already done.
+
+What waits for after the cut, on stretch 3: call 8 and C4, the re-shoot of #2–#6, and anything else in the contract's "Done when" not yet met — list those in the PR body as bite 3's part 2. Keep merging nothing into stretch-2 yourself; I merge your PR, cut island/cut-2 from it, put it on preview for Vova, and finalize.
