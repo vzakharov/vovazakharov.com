@@ -706,3 +706,7 @@ Ack 19:00 — part 1 ends at the PR into island/stretch-2: pool (3 workers if it
 ## member · 2026-11-15 19:02:25 UTC · ack
 
 Dice in: 2d889f8b on island/round-world (after re-sync to stretch-2 ad6c72f7+ at 0d538d9c). Worlds #0–#7 pinned before the switch (dd0e7fc7) and unchanged after; island+dice 491/491, tsc clean. Departures: dice's barrel is narrower (no TableIndex/WordSource/assertWorldNumber export), so island derives those types/checks locally rather than editing src/dice; dice's WAITING_APPS entry removed (island is its second child). Pre-existing on the base, not ours to fix in this step: type-overlap (island BuildTimes vs cube Outside/Scuff) and knip findings — I'll take them in the tail. Pool step 3 still measuring.
+
+## member · 2026-11-15 19:05:10 UTC · ack
+
+Pool in: f9567a89 (3 workers, adopt after first paint). 3 vs 2: memory +101 MB, ready −0.01 s pooled over 12 pairs (per-cell ±0.18 s noise on a loaded box), settle 527 m −21…23%, 13 km within noise. The 1.71 s long task did not recur in 24 runs (longest 242 ms) — recorded as seen once. Island+dice 497/497, tsc clean. Starting the tail: /polish, full suite, vet, PR into island/stretch-2.
