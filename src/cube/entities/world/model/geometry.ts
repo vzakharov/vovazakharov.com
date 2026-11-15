@@ -233,7 +233,7 @@ function roomWalls(
       along < 0n || along >= last
         ? 'wall'
         : (door.isEast ? eastKind : southKind)(rolled, n, door.x, door.y);
-    if (kind === 'door' || (kind === 'wall' && isPortal(door))) {
+    if (kind === 'door' || (kind === 'wall' && isPortal(door, rolled))) {
       return doorSeen(eye, door, BOTH, opened);
     }
     return isPassable(kind) ? [] : whole();

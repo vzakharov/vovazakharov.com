@@ -8,6 +8,7 @@ import { DOORWAY_CUT } from '@/cube/shared/cube-boundary';
 import type { Facing } from './door';
 import { mazeDoored } from './doorway';
 import { eastKind, southKind } from './doorways';
+import { firstPortal } from './hint';
 import { maze } from './maze';
 import { planted } from './planted';
 import {
@@ -38,13 +39,13 @@ const close = (actual: number, expected: number): void => {
   );
 };
 
-const farAt = (ms: number) => farSideOf(EAST, ms);
-
-describe('the stub portal', () => {
+describe('the planted world\u2019s first portal', () => {
   const rolled = maze(planted.seed);
+  const hub: Facing = { ...firstPortal(rolled).wall, toward: 1 };
+  const farAt = (ms: number) => farSideOf(hub, ms);
 
-  it('stands in plain walls of the planted maze, which open as doors', () => {
-    const ends = [farAt(0), farAt(MINUTE), EAST];
+  it('stands in a plain wall of the maze, which opens as a door, as its far end does', () => {
+    const ends = [hub, farAt(0)];
     for (const end of ends) {
       assert.ok(end !== null);
       const { n, x, y, isEast } = end;
@@ -54,21 +55,22 @@ describe('the stub portal', () => {
     }
   });
 
-  it('leads elsewhere each minute, and the same way within one', () => {
-    assert.deepEqual(farAt(0), farAt(MINUTE - 1));
-    assert.notDeepEqual(farAt(0), farAt(MINUTE));
-    assert.deepEqual(farAt(0), farAt(2 * MINUTE));
+  it('leads to another floor, the same way all through a minute', () => {
+    const there = farAt(0);
+    assert.ok(there !== null);
+    assert.notEqual(there.n, hub.n);
+    assert.deepEqual(there, farAt(MINUTE - 1));
   });
 
-  it('leads back from where it led', () => {
+  it('leads back from where it led, whatever the minute', () => {
     const there = farAt(MINUTE);
     assert.ok(there !== null);
     const back = farSideOf({ ...there, toward: -1 }, 5 * MINUTE);
-    assert.deepEqual(back, { ...EAST, toward: -1 });
+    assert.deepEqual(back, { ...hub, toward: -1 });
   });
 
-  it('is no portal in any other wall', () => {
-    assert.equal(farSideOf({ ...EAST, x: 3n }, 0), null);
+  it('is no portal on a floor above the first with any', () => {
+    assert.equal(farSideOf({ ...EAST, n: 5 }, 0), null);
   });
 });
 

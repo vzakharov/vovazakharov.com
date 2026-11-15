@@ -1,25 +1,37 @@
 import { DOORWAY_CUT } from '@/cube/shared/cube-boundary';
 
 import type { Facing } from './door';
-import { portalAt, portalTarget } from './portal.stub';
+import { maze, type RolledMaze } from './maze';
+import { planted } from './planted';
+import { portalAt, portalTarget } from './portals';
 import type { InRoom, Pose } from './pose';
 import type { Room } from './room';
 import type { DoorWall } from './wall-frame';
 
-/** Whether `wall` holds a portal: a door that leads to another floor. */
-export const isPortal = (wall: DoorWall): boolean => portalAt(wall) !== null;
+const plantedRolled = maze(planted.seed);
 
 /**
- * Where the portal door `door` leads at `epochMs`, null where it is no
- * portal: the far portal's wall, come out of the way it was gone into, east
- * or south for east or south.
+ * Whether `wall` holds a portal, a door that leads to another floor, in
+ * `rolled`: the planted world's maze where none is given.
  */
-export function farSideOf(door: Facing, epochMs: number): Facing | null {
-  const portal = portalAt(door);
+export const isPortal = (wall: DoorWall, rolled = plantedRolled): boolean =>
+  portalAt(rolled, wall) !== null;
+
+/**
+ * Where the portal door `door` of `rolled` leads at `epochMs`, null where it
+ * is no portal: the far portal's wall, come out of the way it was gone into,
+ * east or south for east or south.
+ */
+export function farSideOf(
+  door: Facing,
+  epochMs: number,
+  rolled: RolledMaze = plantedRolled,
+): Facing | null {
+  const portal = portalAt(rolled, door);
   if (portal === null) return null;
   const { toward } = door;
-  const { n, x, y, isEast } = portalTarget(portal, epochMs);
-  return { n, x, y, isEast, toward };
+  const { wall } = portalTarget(rolled, portal, toward, epochMs).portal;
+  return { ...wall, toward };
 }
 
 /**

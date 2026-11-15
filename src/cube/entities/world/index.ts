@@ -44,7 +44,6 @@ export {
 export { PILL_RADIUS, pillQuads } from './model/pill';
 export { plant } from './model/plant';
 export { planted } from './model/planted';
-<<<<<<< HEAD
 export {
   type Beyond,
   beyondOf,
@@ -56,7 +55,6 @@ export {
   roomBeyond,
   wayThrough,
 } from './model/portal';
-=======
 export { PORTALS } from './model/portal-counts';
 export {
   type Portal,
@@ -65,7 +63,6 @@ export {
   type PortalTarget,
   portalTarget,
 } from './model/portals';
->>>>>>> origin/claude/cube-board-portal-forks-ilv09n
 export type {
   Gazing,
   InRoom,

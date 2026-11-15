@@ -7,13 +7,10 @@ import { isRoom, type Room } from './room';
 /** The wall a doorway is cut in: the east (`isEast`) or south wall of `n`, `x`, `y`. */
 export type DoorWall = Room & { isEast: boolean };
 
-<<<<<<< HEAD
-=======
 /** Whether `wall` stands between two rooms of its floor, not on its edge or past it. */
 export const isInnerWall = ({ n, x, y, isEast }: DoorWall): boolean =>
   isRoom(n, x, y) && (isEast ? isRoom(n, x + 1n, y) : isRoom(n, x, y + 1n));
 
->>>>>>> origin/claude/cube-board-portal-forks-ilv09n
 export const isSameWall = (a: DoorWall, b: DoorWall): boolean =>
   a.isEast === b.isEast && a.n === b.n && a.x === b.x && a.y === b.y;
 
