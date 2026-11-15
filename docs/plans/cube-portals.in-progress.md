@@ -54,6 +54,17 @@ and becomes the far floor's once through.
   (`floor(time / 60 000)`). The `line` and `fewest` rules and the `uniform` law
   stay in the artifact only.
 - Board row `p-go-*` (portals.yaml) records the decided first build.
+- **"Air" is everything a floor looks through, its lens included.** In code a
+  theme's look splits in two: per surface (`themeMaterial`, `themeLight`) and
+  per frame (`AIR` and the haze's visibility, plus `themeLens`, a full-screen
+  pass over the scene). Floor 19's wobbling crayon outlines and floor 60's depth
+  greys live in `themeLens`. One frame takes one lens, so the far floor's
+  surfaces are drawn in its own theme and the whole frame goes through the lens
+  of the floor you stand on; crossing swaps air and lens together. Beat: a lens
+  per region of the screen, masked at the door — two full-screen passes, and
+  edge-detecting lenses (19's) read neighbouring pixels, so the seam bleeds.
+  Vova asked (15 Nov) «"галлюциногенность" это свойства воздуха или темы?»; this
+  is the lead's answer, open to his steer.
 
 ## Team
 
