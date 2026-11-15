@@ -28,6 +28,10 @@ const viewOf = (near: readonly Room[]): View => ({
   topmost: null,
 });
 
+/** The rooms `hints` hang in, by `roomKey`. */
+const keysOf = (hints: readonly Hint[]): string[] =>
+  hints.map(({ room }) => roomKey(room));
+
 /** The board's extent along its wall and its reader's right, in its room's frame. */
 function along(hint: Hint, isEast: boolean) {
   const [facet] = hintFacets(hint, { origin: [0, 0, 0], roomSide: 1 });
@@ -45,14 +49,14 @@ function along(hint: Hint, isEast: boolean) {
 
 describe('hintsBeside', () => {
   it('hangs one board in each room the wall stands between', () => {
-    assert.deepEqual(
-      hintsBeside(east).map(({ room }) => roomKey(room)),
-      [roomKey({ n: 6, x: 3n, y: 5n }), roomKey({ n: 6, x: 4n, y: 5n })],
-    );
-    assert.deepEqual(
-      hintsBeside(south).map(({ room }) => roomKey(room)),
-      [roomKey({ n: 6, x: 3n, y: 5n }), roomKey({ n: 6, x: 3n, y: 6n })],
-    );
+    assert.deepEqual(keysOf(hintsBeside(east)), [
+      roomKey({ n: 6, x: 3n, y: 5n }),
+      roomKey({ n: 6, x: 4n, y: 5n }),
+    ]);
+    assert.deepEqual(keysOf(hintsBeside(south)), [
+      roomKey({ n: 6, x: 3n, y: 5n }),
+      roomKey({ n: 6, x: 3n, y: 6n }),
+    ]);
   });
 
   for (const [name, wall] of [
@@ -100,7 +104,7 @@ describe('hintsSeen', () => {
 
   it('shows both boards of the first portal with both its rooms in view', () => {
     assert.deepEqual(
-      hintsSeen(rolled, viewOf(sides)).map(({ room }) => roomKey(room)),
+      keysOf(hintsSeen(rolled, viewOf(sides))),
       sides.map((room) => roomKey(room)),
     );
   });
@@ -108,10 +112,9 @@ describe('hintsSeen', () => {
   it('shows only the board of the room in view', () => {
     const [near] = sides;
     assert.ok(near);
-    assert.deepEqual(
-      hintsSeen(rolled, viewOf([near])).map(({ room }) => roomKey(room)),
-      [roomKey(near)],
-    );
+    assert.deepEqual(keysOf(hintsSeen(rolled, viewOf([near]))), [
+      roomKey(near),
+    ]);
   });
 
   it('shows none on a deeper floor, whatever portals it has', () => {
