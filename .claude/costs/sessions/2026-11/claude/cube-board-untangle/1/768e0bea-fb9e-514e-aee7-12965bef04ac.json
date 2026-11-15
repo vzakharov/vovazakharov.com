@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 196,
+    "inputTokens": 229,
     "cacheWrite5mTokens": 124270,
-    "cacheWrite1hTokens": 200816,
-    "cacheReadTokens": 14618947,
-    "outputTokens": 71546,
-    "thinkingTokens": 38834,
-    "responses": 92,
-    "costUsd": 6.583371399999998
+    "cacheWrite1hTokens": 228623,
+    "cacheReadTokens": 18664829,
+    "outputTokens": 76974,
+    "thinkingTokens": 39721,
+    "responses": 107,
+    "costUsd": 7.7236958
   },
   "estimate": {
     "at": "2026-11-15T12:27:57.638Z",
@@ -54,22 +54,24 @@
   "branch": "claude/cube-board-untangle",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/task Reorganise the cube board so it reads cleanly. Vova (the operator) asked for this in another session: «растасовать доску, а то у нас сейчас там все нити п…",
-  "prs": [],
+  "prs": [
+    284
+  ],
   "url": "https://claude.ai/code/session_01DaohkCDa3UfkHgRbQ38sg2",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-15T12:14:56.910Z",
-  "lastResponseAt": "2026-11-15T12:30:26.736Z",
+  "lastResponseAt": "2026-11-15T12:31:58.581Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 147,
+    "inputTokens": 180,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 200816,
-    "cacheReadTokens": 12080798,
-    "outputTokens": 62239,
-    "thinkingTokens": 35463,
-    "responses": 67,
-    "costUsd": 5.268055600000001
+    "cacheWrite1hTokens": 228623,
+    "cacheReadTokens": 16126680,
+    "outputTokens": 67667,
+    "thinkingTokens": 36350,
+    "responses": 82,
+    "costUsd": 6.408380000000003
   },
   "subagents": {
     "inputTokens": 49,
@@ -83,23 +85,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 196,
+      "inputTokens": 229,
       "cacheWrite5mTokens": 124270,
-      "cacheWrite1hTokens": 200816,
-      "cacheReadTokens": 14618947,
-      "outputTokens": 71546,
-      "thinkingTokens": 38834,
-      "responses": 92,
-      "costUsd": 6.583371399999998
+      "cacheWrite1hTokens": 228623,
+      "cacheReadTokens": 18664829,
+      "outputTokens": 76974,
+      "thinkingTokens": 39721,
+      "responses": 107,
+      "costUsd": 7.7236958
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 92,
-    "matched": 92,
-    "matchedTableUsd": 6.583371399999998,
-    "matchedEventUsd": 6.583371399999998,
+    "events": 107,
+    "matched": 107,
+    "matchedTableUsd": 7.7236958,
+    "matchedEventUsd": 7.7236958,
     "unseen": {}
   },
   "operatorWords": {
@@ -110,7 +112,7 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 29,
+    ".md": 59,
     ".scss": 11,
     ".ts": 20,
     ".yaml": 216
