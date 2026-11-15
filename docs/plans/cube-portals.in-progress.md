@@ -137,7 +137,11 @@ and becomes the far floor's once through.
 - B reported (a8549f95): reference model `.js.txt` (lint clean repo-wide), A4
   sign "SOME DOORS ARE / MORE EQUAL / THAN OTHERS", no arrow; far-side FOR SALE
   moved to a side wall; frames re-shot. Merged as 530a133f, 210 tests green.
-  Board v116 (door webps regenerated, `pv-sign-close` added). Still unwalked: a
-  live keyboard crossing on the real hub.
+  Board v116 (door webps regenerated, `pv-sign-close` added). Preview slot 2
+  serves da9e6c75.
+- B walked the real hub live (keyboard, headless): 6 → 10, gaze turned south →
+  east, URL pushed, Back returned to 6, no page errors. Still covered by unit
+  tests only: a crossing on a walk with a real address (`fell` byte). Not built:
+  a `?cheated_to=6&at=x,y` start to make such a walk repeatable. B archived.
 - Next: `/preview live vova` and check the deployed commit, then
   `./scripts/vet.sh`. PR #283 stays draft.
