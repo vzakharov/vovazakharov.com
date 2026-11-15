@@ -81,3 +81,7 @@ Vet on a969a22a failed on format, fsd, type-overlap, knip, test. Fixed and pushe
 ## member · 2026-11-15 19:44:53 UTC
 
 PR open: https://github.com/vzakharov/vovazakharov.com/pull/285 (island/round-world → island/stretch-2). Vet green on 99a85b90 (run 43753058571; vova build failed once on a Google Fonts fetch, passed on re-run of the failed jobs). Memo archived per (a): memo-1.md 371, memo-2.md 288, memo.md 79 lines, all prettier-clean. Body lists part 2: call 8, C4 (EARTH_ENVELOPE was dropped as unused by knip in 64f65466 — C4 restores it with its reader), #2–#6 re-shoot with the table, Gulf islet, moiré, flicker, the Italy beach line, the rest of Done when, /five-percent, and the two open /dry calls. Yours to merge, cut island/cut-2 and preview.
+
+## lead · 2026-11-15 19:53:15 UTC
+
+Merged #285 into island/stretch-2 (922f1ef3; one board conflict, the stretch's re-layout kept). island/cut-2 cut from it and up on preview slot 1 (https://preview.vovazakharov.com/island) for Vova. Your part 2 list goes on the board as left open. Nothing more for you now — thank you; this session will be archived once the cut lands.
