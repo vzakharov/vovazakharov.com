@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 10206,
-    "cacheWrite5mTokens": 186197,
-    "cacheWrite1hTokens": 360514,
-    "cacheReadTokens": 46555699,
-    "outputTokens": 117891,
-    "thinkingTokens": 40316,
-    "responses": 240,
-    "costUsd": 15.546612799999995
+    "inputTokens": 10860,
+    "cacheWrite5mTokens": 490188,
+    "cacheWrite1hTokens": 392295,
+    "cacheReadTokens": 54553058,
+    "outputTokens": 148792,
+    "thinkingTokens": 55745,
+    "responses": 308,
+    "costUsd": 19.541103599999996
   },
   "estimate": {
     "at": "2026-11-15T18:37:03.428Z",
@@ -49,44 +49,45 @@
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take island/stretch-2 — дефекты из видео Вовы починены и на превью, участник запаркован и ждёт запуска, четыре воркера ждут двух правок",
   "prs": [
-    266
+    266,
+    286
   ],
   "url": "https://claude.ai/code/session_01DaohkC2YGcWo5oHHsdQaGe",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-15T18:25:03.796Z",
-  "lastResponseAt": "2026-11-15T19:54:24.815Z",
+  "lastResponseAt": "2026-11-15T20:00:45.722Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 340,
+    "inputTokens": 385,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 360514,
-    "cacheReadTokens": 35858066,
-    "outputTokens": 68911,
-    "thinkingTokens": 22340,
-    "responses": 172,
-    "costUsd": 11.435305199999997
+    "cacheWrite1hTokens": 392295,
+    "cacheReadTokens": 39000874,
+    "outputTokens": 75789,
+    "thinkingTokens": 23639,
+    "responses": 193,
+    "costUsd": 12.455854799999996
   },
   "subagents": {
-    "inputTokens": 116,
-    "cacheWrite5mTokens": 178953,
+    "inputTokens": 219,
+    "cacheWrite5mTokens": 482884,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 6585451,
-    "outputTokens": 40394,
-    "thinkingTokens": 17976,
-    "responses": 52,
-    "costUsd": 3.0201991999999995
+    "cacheReadTokens": 11306415,
+    "outputTokens": 64403,
+    "thinkingTokens": 32106,
+    "responses": 98,
+    "costUsd": 5.964639000000001
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 10206,
-      "cacheWrite5mTokens": 186197,
-      "cacheWrite1hTokens": 360514,
-      "cacheReadTokens": 46555699,
-      "outputTokens": 117891,
-      "thinkingTokens": 40316,
-      "responses": 240,
-      "costUsd": 15.546612799999995
+      "inputTokens": 10860,
+      "cacheWrite5mTokens": 490188,
+      "cacheWrite1hTokens": 392295,
+      "cacheReadTokens": 54553058,
+      "outputTokens": 148792,
+      "thinkingTokens": 55745,
+      "responses": 308,
+      "costUsd": 19.541103599999996
     }
   },
   "warnings": [],
@@ -118,26 +119,26 @@
           "Bash": 1
         },
         "estimatedTokens": 351,
-        "estimatedUsd": 0.0032291999999999998
+        "estimatedUsd": 0.004703400000000001
       },
       "billedUsd": 0.24608100000000002
     }
   ],
   "telemetry": {
-    "events": 240,
-    "matched": 224,
-    "matchedTableUsd": 14.455504399999997,
-    "matchedEventUsd": 14.455504399999997,
+    "events": 308,
+    "matched": 291,
+    "matchedTableUsd": 18.420493799999996,
+    "matchedEventUsd": 18.420493799999996,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 7590,
-        "cacheWrite5mTokens": 7244,
+        "inputTokens": 8096,
+        "cacheWrite5mTokens": 7304,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 3764577,
-        "outputTokens": 190,
+        "cacheReadTokens": 3898164,
+        "outputTokens": 204,
         "thinkingTokens": 0,
-        "responses": 15,
-        "costUsd": 0.8450274
+        "responses": 16,
+        "costUsd": 0.8745288
       },
       "compact": {
         "inputTokens": 2160,
@@ -152,7 +153,7 @@
     }
   },
   "operatorWords": {
-    "chat": 731,
+    "chat": 786,
     "review": 0,
     "threads": 0
   },
