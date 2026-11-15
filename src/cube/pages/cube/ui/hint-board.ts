@@ -1,4 +1,3 @@
-import type { Polyline } from '@/cube/shared/lettering';
 import {
   type Facet,
   hintFacets,
@@ -14,72 +13,46 @@ import { signOf } from '../lib/palette';
 import { letteredBoard } from './board-canvas';
 import type { Boards } from './board-textures';
 
-/** What a hint board says of the door beside it, a line to each entry. */
-const SAYS = ['THIS DOOR', 'IS SPECIAL'] as const;
+/** What a hint board says of the doors of its floor, a line to each entry. */
+const SAYS = ['SOME DOORS ARE', 'MORE EQUAL', 'THAN OTHERS'] as const;
 
-/** The arrow's length, in em, about a line's; its head is a capital tall. */
-const ARROW_LONG = 7;
-
-/** An arrow along a line of lettering, in em from its left end, pointing right or left. */
-function arrow(pointsRight: boolean): Polyline[] {
-  const [tail, tip, barb] = pointsRight
-    ? [0, ARROW_LONG, ARROW_LONG - 0.6]
-    : [ARROW_LONG, 0, 0.6];
-  return [
-    [
-      [tail, 0.5],
-      [tip, 0.5],
-    ],
-    [
-      [barb, 1],
-      [tip, 0.5],
-      [barb, 0],
-    ],
-  ];
-}
+/** The texture's height in pixels: a sheet of A4 on its side, 512 wide. */
+const SHEET_TALL = 362;
 
 /**
- * A hint board on floor `n` as a canvas to upload: `SAYS` over an arrow at
- * the door, which is to its reader's right or left, in a sale sign's colours
- * turned over, light on dark, so the two never read as one.
+ * A hint board on floor `n` as a canvas to upload: `SAYS` in a sale sign's
+ * colours turned over, light on dark, so the two never read as one.
  */
-function drawHint(n: number, doorOnRight: boolean): OffscreenCanvas {
+function drawHint(n: number): OffscreenCanvas {
   const { board: light, price: dark } = signOf(n, false);
-  const { canvas, ink, write } = letteredBoard(n, dark, light);
+  const { canvas, write } = letteredBoard(n, dark, light, SHEET_TALL);
   for (const [row, line] of SAYS.entries()) {
-    write(line, 50, light, 0.24 + 0.26 * row);
+    write(line, 33, light, 0.26 + 0.24 * row);
   }
-  ink(arrow(doorOnRight), ARROW_LONG, 34, light, 0.8);
   return canvas;
 }
 
 /**
  * The hint boards `view` shows in the eye's frame at `pose`, their facets
- * packed by `paper`, one texture per floor and way the arrow points.
+ * packed by `paper` under one texture: they hang on one floor.
  */
-export const hintBoards = (
+export function hintBoards(
   rolled: RolledMaze,
   pose: Pose,
   view: View,
   paper: (facets: readonly Facet[]) => Scenery,
-): Boards[] =>
-  [
-    ...Map.groupBy(
-      hintsSeen(rolled, view),
-      ({ room, doorOnRight }) =>
-        `hint/${String(room.n)}/${doorOnRight ? 'right' : 'left'}`,
-    ),
-  ].flatMap(([id, hints]) => {
-    const [first] = hints;
-    if (first === undefined) return [];
-    const { room, doorOnRight } = first;
-    return [
-      {
-        id,
-        image: () => drawHint(room.n, doorOnRight),
-        scenery: paper(
-          hints.flatMap((hint) => hintFacets(hint, placed(pose, hint.room))),
-        ),
-      },
-    ];
-  });
+): Boards[] {
+  const hints = hintsSeen(rolled, view);
+  const [first] = hints;
+  if (first === undefined) return [];
+  const { n } = first.room;
+  return [
+    {
+      id: `hint/${String(n)}`,
+      image: () => drawHint(n),
+      scenery: paper(
+        hints.flatMap((hint) => hintFacets(hint, placed(pose, hint.room))),
+      ),
+    },
+  ];
+}

@@ -12,11 +12,8 @@ import { roomKey } from './room';
 import type { View } from './rooms';
 import type { DoorWall } from './wall-frame';
 
-/** A hint board on one face of a door's wall, the door to its reader's right or left. */
-export type Hint = Hung & { doorOnRight: boolean };
-
-/** A hint board: 1.3 m wide and 65 cm tall on floor 1, its middle 1.5 m up. */
-const HINT: BoardShape = { width: 0.26, height: 0.13, hungAt: 0.3 };
+/** A hint board: a sheet of A4 on its side on floor 1, its middle 1.5 m up. */
+const HINT: BoardShape = { width: 0.0594, height: 0.042, hungAt: 0.3 };
 
 /** The wall left bare between a doorway's edge and the board, in room sides. */
 const GAP = 0.03;
@@ -35,20 +32,16 @@ const BESIDE =
  * The hint boards beside the door in `wall`, one on each face: a portal is
  * gone through from either side, so each room it stands between reads one.
  */
-export function hintsBeside({ n, x, y, isEast }: DoorWall): Hint[] {
-  const faced = (toward: 1 | -1): Hint => {
+export function hintsBeside({ n, x, y, isEast }: DoorWall): Hung[] {
+  const faced = (toward: 1 | -1): Hung => {
     // The wall's line in the frame of the room the board faces into.
     const line = toward === 1 ? 0 : 1;
     const at: InRoom = isEast ? { u: line, v: BESIDE } : { u: BESIDE, v: line };
     const facing: InRoom = isEast ? { u: toward, v: 0 } : { u: 0, v: toward };
-    // Rightward for a reader is `(facing.v, −facing.u)`; the door lies along
-    // the wall from the board, which is +v on an east wall and +u on a south.
-    const right = isEast ? 0 - facing.u : facing.v;
     const step = toward === 1 ? 1n : 0n;
     return {
       room: isEast ? { n, x: x + step, y } : { n, x, y: y + step },
       mount: { at, facing, onPost: false },
-      doorOnRight: right * (DOORWAY_CUT.middle - BESIDE) > 0,
     };
   };
   return [faced(-1), faced(1)];
@@ -65,7 +58,7 @@ export const firstPortal = (rolled: RolledMaze): Portal =>
  * The hint boards among the rooms whose walls `view` draws: those beside
  * `firstPortal`, and no other door.
  */
-export function hintsSeen(rolled: RolledMaze, view: View): Hint[] {
+export function hintsSeen(rolled: RolledMaze, view: View): Hung[] {
   const seen = new Set(
     walledRooms(view)
       .filter(({ n }) => n === PORTALS.first)
@@ -78,5 +71,5 @@ export function hintsSeen(rolled: RolledMaze, view: View): Hint[] {
 }
 
 /** The board of `hint`, at `place` in the eye's frame. */
-export const hintFacets = ({ mount, room }: Hint, place: Placed): Facet[] =>
+export const hintFacets = ({ mount, room }: Hung, place: Placed): Facet[] =>
   boardFacets(mount, HINT, room, place);
