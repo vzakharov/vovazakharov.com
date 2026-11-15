@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 2720,
-    "cacheWrite5mTokens": 286273,
-    "cacheWrite1hTokens": 480741,
-    "cacheReadTokens": 23422422,
-    "outputTokens": 167440,
-    "thinkingTokens": 64121,
-    "responses": 119,
-    "costUsd": 18.44688613000001
+    "inputTokens": 6913,
+    "cacheWrite5mTokens": 290454,
+    "cacheWrite1hTokens": 604824,
+    "cacheReadTokens": 28943434,
+    "outputTokens": 200326,
+    "thinkingTokens": 74158,
+    "responses": 149,
+    "costUsd": 22.92721053000001
   },
   "estimate": {
     "at": "2026-11-15T21:02:43.209Z",
@@ -64,18 +64,18 @@
   "url": "https://claude.ai/code/session_01DaohkE11JPgYbnCts79FnX",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-15T20:57:17.655Z",
-  "lastResponseAt": "2026-11-15T21:38:02.689Z",
+  "lastResponseAt": "2026-11-15T22:11:19.874Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 182,
+    "inputTokens": 239,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 480741,
-    "cacheReadTokens": 21243538,
-    "outputTokens": 130861,
-    "thinkingTokens": 60253,
-    "responses": 96,
-    "costUsd": 17.1764596
+    "cacheWrite1hTokens": 604824,
+    "cacheReadTokens": 26469523,
+    "outputTokens": 155543,
+    "thinkingTokens": 70290,
+    "responses": 125,
+    "costUsd": 21.1947206
   },
   "subagents": {
     "inputTokens": 48,
@@ -89,14 +89,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 2672,
-      "cacheWrite5mTokens": 604,
-      "cacheWrite1hTokens": 480741,
-      "cacheReadTokens": 21546314,
-      "outputTokens": 140351,
-      "thinkingTokens": 60253,
-      "responses": 97,
-      "costUsd": 17.642574800000002
+      "inputTokens": 6865,
+      "cacheWrite5mTokens": 4785,
+      "cacheWrite1hTokens": 604824,
+      "cacheReadTokens": 27067326,
+      "outputTokens": 173237,
+      "thinkingTokens": 70290,
+      "responses": 127,
+      "costUsd": 22.122899200000003
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 20,
@@ -148,26 +148,55 @@
           "Read": 2
         },
         "estimatedTokens": 21584,
-        "estimatedUsd": 0.585674
+        "estimatedUsd": 0.6202084
       },
       "billedUsd": 0.4661152
+    },
+    {
+      "at": "2026-11-15T21:45:44.707Z",
+      "trigger": "auto",
+      "compactedFrom": 306536,
+      "summaryChars": 18759,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/island/pages/island/ui/sea-surface.ts",
+        "endedAt": "2026-11-15T22:09:46.085Z",
+        "contextTokens": 161746,
+        "spend": {
+          "inputTokens": 39,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 102441,
+          "cacheReadTokens": 2599609,
+          "outputTokens": 14066,
+          "thinkingTokens": 5648,
+          "responses": 19,
+          "costUsd": 2.7219298
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.4620634
     }
   ],
   "telemetry": {
-    "events": 118,
-    "matched": 117,
-    "matchedTableUsd": 17.83307213000001,
-    "matchedEventUsd": 17.83307213000001,
+    "events": 149,
+    "matched": 147,
+    "matchedTableUsd": 21.999031930000008,
+    "matchedEventUsd": 21.999031930000008,
     "unseen": {
       "compact": {
-        "inputTokens": 2490,
-        "cacheWrite5mTokens": 604,
+        "inputTokens": 6626,
+        "cacheWrite5mTokens": 4785,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 302776,
-        "outputTokens": 9490,
+        "cacheReadTokens": 597803,
+        "outputTokens": 17694,
         "thinkingTokens": 0,
-        "responses": 1,
-        "costUsd": 0.4661152
+        "responses": 2,
+        "costUsd": 0.9281786000000001
       }
     }
   },
@@ -179,9 +208,11 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 16801,
+    ".md": 16822,
     ".txt": 2356,
     ".py": 436,
-    ".ts": 437
+    ".ts": 543,
+    ".wgsl": 13,
+    ".json": 1
   }
 }

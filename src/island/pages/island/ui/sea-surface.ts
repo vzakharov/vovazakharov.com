@@ -4,6 +4,8 @@ import {
   dFdy,
   length,
   max,
+  modelPosition,
+  positionGeometry,
   positionWorld,
   uniform,
   wgslFn,
@@ -14,7 +16,7 @@ import type { Vec3 } from '@/island/shared/globe';
 
 import type { Sunlit } from '../lib/day';
 import { RIPPLE_PERIOD } from '../lib/ripple-table';
-import { SEA_LISTING } from '../lib/sea-wgsl';
+import { SEA_LISTING, swellClock } from '../lib/sea-wgsl';
 
 /** What the sea is drawn under, this frame. */
 export type SeaFrame = Sunlit & {
@@ -32,6 +34,18 @@ export type SeaSurface = {
    * surface unlit: a `vec3`, which three's types cannot read off the WGSL.
    */
   readonly colour: (bed: Node<'float'>, under: Node<'vec3'>) => Node;
+  /**
+   * A sea vertex lifted by the swell over a floor at `bed`: a material's
+   * `positionNode`.
+   */
+  readonly lifted: (bed: Node<'float'>) => Node;
+  /** Whether water lies on a fragment over a floor at `bed`: a material's `maskNode`. */
+  readonly lies: (bed: Node<'float'>) => Node;
+  /**
+   * Lit ground at height `bed` as the swash's dampness leaves it: a `vec4`, a
+   * land material's `outputNode` over its own `lit` output.
+   */
+  readonly damp: (lit: Node<'vec4'>, bed: Node<'float'>) => Node;
   readonly update: (frame: SeaFrame) => void;
 };
 
@@ -60,14 +74,35 @@ export function seaSurface(): SeaSurface {
     length(dFdx(positionWorld)),
     length(dFdy(positionWorld)),
   );
+  const clock = uniform(0);
+  const listing = code(SEA_LISTING);
+  const lift = wgslFn(
+    `fn seaLift(local: vec3f, origin: vec3f, eye: vec3f, bed: f32, clock: f32) -> vec3f {
+      let world = local + origin;
+      return local + normalize(eye + world) * seaVertexLevel(world, bed, clock);
+    }`,
+    [listing],
+  );
+  const lies = wgslFn(
+    `fn seaMask(world: vec3f, bed: f32, clock: f32) -> bool {
+      return seaLies(world, bed, clock);
+    }`,
+    [listing],
+  );
+  const damp = wgslFn(
+    `fn seaDamp(lit: vec4f, world: vec3f, bed: f32, clock: f32) -> vec4f {
+      return vec4f(lit.rgb * seaDampTint(world, bed, clock), lit.a);
+    }`,
+    [listing],
+  );
   const shade = wgslFn(
     `fn seaShade(
       place: vec3f, world: vec3f, eye: vec3f, sun: vec3f, bed: f32, under: vec3f,
-      footprint: f32, seconds: f32, horizon: vec3f,
+      footprint: f32, seconds: f32, horizon: vec3f, clock: f32,
     ) -> vec3f {
-      return seaColour(place, world, eye, sun, bed, under, footprint, seconds, horizon);
+      return seaColour(place, world, eye, sun, bed, under, footprint, seconds, horizon, clock);
     }`,
-    [code(SEA_LISTING)],
+    [listing],
   );
 
   return {
@@ -82,7 +117,18 @@ export function seaSurface(): SeaSurface {
         footprint,
         seconds,
         horizon,
+        clock,
       }),
+    lifted: (bed) =>
+      lift({
+        local: positionGeometry,
+        origin: modelPosition,
+        eye: eyeNode,
+        bed,
+        clock,
+      }),
+    lies: (bed) => lies({ world: positionWorld, bed, clock }),
+    damp: (lit, bed) => damp({ lit, world: positionWorld, bed, clock }),
     update: (frame) => {
       const [x, y, z] = frame.eye;
       eyeNode.value.set(x, y, z);
@@ -90,6 +136,7 @@ export function seaSurface(): SeaSurface {
       sun.value.set(...frame.sun);
       horizon.value.copy(frame.horizon);
       seconds.value = frame.seconds;
+      clock.value = swellClock(frame.eye, frame.seconds);
     },
   };
 }

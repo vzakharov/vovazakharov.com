@@ -6,6 +6,7 @@ import {
   float,
   lights,
   mix,
+  output,
   positionView,
   smoothstep,
   varying,
@@ -207,6 +208,13 @@ export function groundLighting(): GroundLighting {
         [standIn.sea, surface.colour(heightNode(), floorColour)],
         [ocean, surface.colour(float(deepest[0]), vec3(...deepest[1]))],
       ];
+      for (const material of [sea, standIn.sea]) {
+        material.positionNode = surface.lifted(heightNode());
+        material.maskNode = surface.lies(heightNode());
+      }
+      for (const material of [land, standIn.land]) {
+        material.outputNode = surface.damp(output, heightNode());
+      }
       for (const [material, colour] of dressed) {
         // The surface carries its own light: nothing is left for the lamps.
         material.colorNode = vec3(0);
