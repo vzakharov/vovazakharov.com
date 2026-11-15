@@ -2,7 +2,7 @@ items:
   - id: z-sea
     type: zone
     updated: [2026-11-15T21:45:00.000Z, agent:lead]
-    box: [7900, 260, 1150, 4100, blue]
+    box: [7900, 260, 1150, 4560, blue]
     text: 'The sea — near ground as the cube draws it outside'
   - id: sea-before
     type: image
@@ -110,3 +110,19 @@ items:
     updated: [2026-11-15T23:00:00.000Z, agent:lead]
     box: [7940, 4070, 330, green]
     text: "Noon burnt out because the lights were set for the opening's 20° sun; now the eye adapts, on land and sea alike. Blue space from mid orbit fixed by the sky child, checked on WebGPU. Next: clouds, the shoreline's polygons, polish, then the PR into stretch 3"
+  - id: sea-clouds
+    type: image
+    updated: [2026-11-15T23:20:00.000Z, agent:lead]
+    box: [7940, 4380, 1070]
+    src: images/sea-clouds.webp
+    text: 'Milestone 6, clouds: from the beach at 2 m, a cloud and its shadow on the land from 6 km, at dusk, and as cover from orbit at 4,000 km'
+  - id: sea-clouds-how
+    type: sticky
+    updated: [2026-11-15T23:20:00.000Z, agent:lead]
+    box: [7940, 4600, 330, green]
+    text: "One cloud field on the sphere, seen from below, from inside and from orbit, its shadows cast through the same air every material is seen through. three's stock Perlin noise kept the page from ever loading on a software GPU; a small value noise compiles in seconds"
+  - id: sea-clouds-open
+    type: sticky
+    updated: [2026-11-15T23:20:00.000Z, agent:lead]
+    box: [8300, 4600, 330, pink]
+    text: 'Open: clouds cost 2–2.8× frame time on the software rasteriser, unmeasured on a real GPU and being cut; far clouds seen edge-on band horizontally'
