@@ -100,9 +100,15 @@ items:
     text: 'Cut 2 takes bite 3 as it stands (Vova: "for now we take it as is, decide later"). Left open, not dropped: call 8 (the random worlds'' envelope), C4 on it, the re-shoot of #2–#6 and the Earth-vs-20-worlds table, the Gulf islet, the moiré'
   - id: bite3-flicker-left
     type: sticky
-    updated: [2026-11-15T20:00:00.000Z, agent:lead]
+    updated: [2026-11-15T21:00:00.000Z, agent:lead]
     box: [5764, 1159, 290, pink]
-    text: "Still flickering on the last preview (Vova). Not chased now: the sea bite brings the cube's drawing over, which changes what flickers"
+    text: 'Still flickering on the cut-2 preview, only over ground not yet seen (Vova). Found, not fixed: a stand-in tile is pushed 3% deeper so finer tiles win, and above ~50 km that puts it behind the ocean globe 1.5 km under the sea, so the gap shows blue for 1–3 frames. Seen ground is cached, nothing stands in. Fix: keep the globe behind every tile (~1 h), or a stencil instead of the push (~a day)'
+  - id: bite3-flicker
+    type: image
+    updated: [2026-11-15T21:00:00.000Z, agent:lead]
+    box: [5044, 1960, 620]
+    src: images/bite3-flicker.webp
+    text: "Vova's flicker, frame by frame: top, a three-quadrant hole for one frame; bottom, an L that shrinks to one square as the missing tiles land, then closes"
   - id: bite3-coast-finer
     type: image
     updated: [2026-11-15T20:00:00.000Z, agent:lead]
