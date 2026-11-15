@@ -92,9 +92,27 @@ await withPrintOrigin({ serve: 'export', dir }, async (origin) => {
             z.boolean(),
           );
           process.stderr.write(`${tag}: ready, descending\n`);
+          const trace: unknown[] = [];
+          const tracing = process.env.TRACE === '1';
+          const traced = new Promise<void>((done) => {
+            tab.on('Tracing.dataCollected', (p) => { trace.push(...z.object({ value: z.array(z.unknown()) }).parse(p).value); });
+            tab.on('Tracing.tracingComplete', () => { done(); });
+          });
+          if (tracing)
+            await tab.send('Tracing.start', {
+              transferMode: 'ReportEvents',
+              traceConfig: { includedCategories: ['devtools.timeline', 'disabled-by-default-devtools.timeline', 'v8', 'v8.execute', 'disabled-by-default-devtools.timeline.stack', 'blink.user_timing', 'toplevel', 'disabled-by-default-v8.cpu_profiler'] },
+            });
           const t1 = Date.now();
           await settle(tab, call('setHeight', h), `setHeight ${String(h)}`);
           const settleMs = Date.now() - t1;
+          if (tracing) {
+            await tab.send('Tracing.end', {});
+            await traced;
+            const file = path.join(REPO_ROOT, 'tmp/b3-pool', `trace-${tag.replace(/[^\w=.-]+/g, '_')}.json`);
+            (await import('node:fs')).writeFileSync(file, JSON.stringify({ traceEvents: trace }));
+            process.stderr.write(`${tag}: trace ${file}\n`);
+          }
           const probe = await tab.evaluate(
             `(() => { window.__probe = false; return { gaps: window.__gaps, long: window.__long, heap: performance.memory ? performance.memory.usedJSHeapSize : -1 }; })()`,
             z.object({ gaps: z.array(z.number()), long: z.array(z.number()), heap: z.number() }),
@@ -132,7 +150,7 @@ await withPrintOrigin({ serve: 'export', dir }, async (origin) => {
               `buildMs ${buildMs.toFixed(0)}`,
               `settle ${String(settleMs)} ms`,
               `rAF n ${String(probe.gaps.length)} med ${q(probe.gaps, 0.5).toFixed(1)} p90 ${q(probe.gaps, 0.9).toFixed(1)} max ${Math.max(...probe.gaps).toFixed(0)}`,
-              `longtasks ${String(probe.long.length)} sum ${longSum.toFixed(0)} ms`,
+              `longtasks ${String(probe.long.length)} sum ${longSum.toFixed(0)} max ${Math.max(0, ...probe.long).toFixed(0)} ms`,
               `heap ${(probe.heap / 2 ** 20).toFixed(0)} MB`,
               `rss ${rss.all.toFixed(0)} MB renderer ${rss.renderer.toFixed(0)} MB`,
               `browsers ${String(rss.profiles)} load ${os.loadavg()[0]!.toFixed(2)}`,

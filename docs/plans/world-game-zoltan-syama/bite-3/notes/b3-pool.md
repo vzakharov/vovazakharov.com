@@ -1,5 +1,9 @@
 # b3-pool — the tile pool sized by the device's cores
 
+**Current state (step 3):** the pool is capped at 3, and the adopt copies are
+posted after the first paint. It meets the lead's bar: +101 MB over 2 workers,
+and ready 0.01 s earlier. See § "Step 3". The verdict below is step 1's.
+
 **Verdict: the phone check holds.** On the phone screen at 527 m the view
 settles in 3.2 s on 4 workers against 4.7 s on 2, the main thread stalls no
 more, and the field still builds in 2.2 s (< 3 s). The price is memory — each
@@ -179,6 +183,59 @@ around `setHeight`) would say what ran.
   13 km 49 → 33), the same CPU contention with the software rasterizer as
   before.
 
+## Step 3 — cap at 3, adopt after first paint (0269c05a)
+
+**Against the lead's bar: both hold — merge.** Renderer RSS on 3 workers is
+**+101 MB over 2** (cells +71 to +121; bar ~+150). Ready on 3 is **0.01 s
+earlier than on 2** across all 12 pairs (2.24 vs 2.23 s; bar: no later than
+±0.05 s). Per cell the ready delta swings −0.17 to +0.18 s with no sign, because
+this box was noisier than step 2's. **The 1.71 s long task did not come back**:
+the longest in 24 runs was 242 ms, so it is a one-off and no trace was taken.
+
+**Change.** `poolSize` clamps to 1…3 (`MAX_WORKERS`), still the least of
+`cores − 1` and `⌊log₂ memoryGb⌋ + 1`, so 4 GB and up now give 3. On `built` the
+pool resolves `field` at once but posts the `adopt` copies from `afterPaint` — a
+`requestAnimationFrame` and then a `setTimeout(0)`. `ready`'s render runs in the
+microtasks of the same `built` message, so the copies run after the first frame
+is painted. The pool owns this, not the scene: a world swapped in with
+`setWorld` gets the same hook without the scene doing anything. Fills sent
+before adoption wait in the worker as before. Test: the cap at 3 (5, 8, 16
+cores; 8 GB).
+
+**Method.** Same driver and box as step 2, with `HCS=3,4 MEMS=8` (2 and 3
+workers, confirmed by the counting wrapper), three runs per cell, the 2 and 3
+runs alternating so drift hits both. The driver also logs the longest long task
+and takes a trace around `setHeight` when `TRACE=1`. The export was built at
+0269c05a. Load ran 4.1–7.7, against step 2's 3.5–4.3. Every time came out slower
+than in step 2: ready 1.9–2.8 s against 1.7–2.1, buildMs 1.2–1.8 s against
+1.2–1.3. So a single cell's ready delta is mostly noise. No console or page
+errors in any of the 24 runs.
+
+| screen  | h     | workers | ready (s)        | buildMs | settle (s) | ready + settle | fps loading | renderer RSS (MB) | longest task (ms) |
+| ------- | ----- | ------- | ---------------- | ------- | ---------- | -------------- | ----------- | ----------------- | ----------------- |
+| desktop | 527 m | 2       | 2.37 (1.94–2.77) | 1.47 s  | 7.47       | 9.8            | 52          | 1,406             | 242               |
+| desktop | 527 m | 3       | 2.19 (2.00–2.51) | 1.35 s  | 5.78       | 8.0            | 47          | 1,504             | 131               |
+| desktop | 13 km | 2       | 2.15 (1.96–2.31) | 1.29 s  | 2.58       | 4.7            | 40          | 1,297             | 147               |
+| desktop | 13 km | 3       | 2.33 (2.13–2.64) | 1.49 s  | 2.46       | 4.8            | 34          | 1,368             | 177               |
+| phone   | 527 m | 2       | 2.21 (1.96–2.57) | 1.45 s  | 6.18       | 8.4            | 52          | 1,370             | 213               |
+| phone   | 527 m | 3       | 2.23 (2.06–2.48) | 1.38 s  | 4.87       | 7.1            | 48          | 1,491             | 212               |
+| phone   | 13 km | 2       | 2.23 (1.99–2.51) | 1.48 s  | 3.61       | 5.8            | 45          | 1,326             | 217               |
+| phone   | 13 km | 3       | 2.17 (1.93–2.58) | 1.35 s  | 3.56       | 5.7            | 46          | 1,440             | 219               |
+
+- **RSS, 3 vs 2**: desktop +98 / +71, phone +121 / +114 (527 m / 13 km). Mean
+  +101 MB, the same ~100 MB per worker step 2 found.
+- **Ready, 3 vs 2**: desktop −0.17 / +0.18, phone +0.02 / −0.06; pooled −0.01 s.
+  In step 2, before the deferral, 3 workers was already level with 2 when pooled
+  (1.81 vs 1.82 s); the +0.17 s was a 4-worker cost. So the deferral shows no
+  cost on 3, and the noise here is too large to show a gain of a few hundredths.
+- **Settle**: 527 m −23 % desktop, −21 % phone on 3 workers. At 13 km the gain
+  is −5 % desktop and −1 % phone. That is smaller than step 2's −16 / −29 %, and
+  it is also inside this run's noise: phone 13 km on 2 workers ranged 3.2–4.1 s.
+- **Long tasks**: 0–1 per descent, 94–242 ms, in all 24 runs. None was over 500
+  ms.
+- **fps while loading** falls slightly with the third worker (desktop 13 km 40 →
+  34), the SwiftShader contention seen before.
+
 ## Left
 
-- The lead's call on the bar above.
+- The orchestrator's merge into `island/round-world`.
