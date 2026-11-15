@@ -42,3 +42,7 @@ FIND (bug older than this bite): over deep water the sea's tiles near the eye we
 FIX: blue flashes — the globe now draws first and writes no depth, so a stand-in pushed 3% deeper cannot fall behind it. Not yet verified on a fast flight; say if you still see them.
 
 Operator steering since the last note: «послеживай за лимитами. где-то на 90% надо сворачиваться и ставить на паузу … в идеале к этому времени что-нибудь бы вкусное уже на preview»; «смотри действиетнльо ли все подсессии нужны на фейбле, иногда можно запустить на опусе а контролировать тебе» (the extraction child was restarted on Opus). Preview: slot 1 is being published from island/sea now.
+
+## lead · 2026-11-15 21:38:02 UTC
+
+Milestone 1 is on the board (v72): the five frames as one image, the how, the deep-water find and the flash fix. Good find on the culled sea tiles.
