@@ -7,7 +7,7 @@ import { type Doored, doorSides } from './doorway';
 import type { Placed } from './frame';
 import type { InRoom, WallMounted } from './pose';
 import { box, type Facet, facet, type Quad } from './quad';
-import type { Room } from './room';
+import type { InRoomOf, Room } from './room';
 import { opens, type Step, STEPS } from './rooms';
 
 /**
@@ -15,6 +15,9 @@ import { opens, type Step, STEPS } from './rooms';
  * readable from both faces.
  */
 export type SignMount = WallMounted & { onPost: boolean };
+
+/** A room with a board, and where in it the board hangs. */
+export type Hung = InRoomOf & { mount: SignMount };
 
 /**
  * A board's size and height, in room sides: its middle `hungAt` over the

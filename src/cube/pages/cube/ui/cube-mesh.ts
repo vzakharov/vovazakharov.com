@@ -8,10 +8,10 @@ import {
   type Holdings,
   type HoleOf,
   holesOf,
+  type Hung,
   inPlace,
   type InRoomOf,
   isSameWall,
-  type Landing,
   landingsSeen,
   maze,
   mazeDoored,
@@ -43,6 +43,7 @@ import { formatPrice } from '../lib/figures';
 import { pack, type RoomLook, type Scenery } from '../lib/mesh';
 import { roomLooks } from '../lib/room-look';
 import type { Boards } from './board-textures';
+import { hintBoards } from './hint-board';
 import { drawPoster, POSTER } from './poster-board';
 import { drawBoard } from './sign-board';
 
@@ -131,7 +132,7 @@ function signBoards(
 /** The posters of `landings` in the eye's frame at `pose`, one per floor. */
 const posterBoards = (
   pose: Pose,
-  landings: readonly Landing[],
+  landings: readonly Hung[],
   lookOf: LookOf,
 ): Boards[] =>
   [...Map.groupBy(landings, ({ room }) => room.n)].map(([n, rooms]) => ({
@@ -208,6 +209,7 @@ export async function build(
     boards: [
       ...signBoards(pose, signed, copy, lookOf),
       ...posterBoards(pose, landingsSeen(walls, full, holeOf), lookOf),
+      ...hintBoards(rolled, pose, full, (facets) => asPaper(facets, lookOf)),
     ],
     // A frame whose door is another, or none, sees this one's leaf shut.
     leaf: (door) =>
