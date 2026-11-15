@@ -18,8 +18,6 @@ export const RIPPLE_BANDS = 8;
 /** Waves a band holds, spread over every direction in space. */
 export const RIPPLES_PER_BAND = 8;
 
-/** The hour every clock here wraps on, seconds; each wave turns a whole number of times in it. */
-
 const GRAVITY = 9.81;
 const TAU = 2 * Math.PI;
 const GOLDEN = (1 + Math.sqrt(5)) / 2;
