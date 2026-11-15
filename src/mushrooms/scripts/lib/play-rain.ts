@@ -33,11 +33,12 @@ import {
   type Expect,
   FRAME_MS,
   grow,
-  inTurn,
   type Page,
   tapCloud,
   timedSteps,
 } from './mushroom-probe-drive.ts';
+
+import { inTurn } from '@/scene/scripts/lib/in-turn';
 
 /** A shower as the model starts it, its clock counted from the tap. */
 const SPAN = { startedAt: 0, stopsAt: RAIN_MS };

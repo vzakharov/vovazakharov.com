@@ -30,9 +30,10 @@ describe('countLines', () => {
 });
 
 describe('isChecked', () => {
-  it('skips the lockfile, exported threads and JSON data', () => {
+  it('skips the lockfile, exported threads, JSON data and vendored apps', () => {
     for (const file of [
       'pnpm-lock.yaml',
+      '.claude/artifacts/types/claude-runtime/comments.d.ts',
       'docs/pr/255/pr.md',
       'docs/issue/9/issue.md',
       'src/x/lexicon.json',

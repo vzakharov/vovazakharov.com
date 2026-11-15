@@ -1,0 +1,53 @@
+items:
+  - id: z-rules
+    type: zone
+    updated: [2026-11-12T23:25:00.000Z, agent:cube-intro]
+    box: [1820, -1640, 1720, 580, gray]
+    icon: ⚖️
+    text: The rules of the world
+  - id: rules-price
+    type: text
+    updated: [2026-11-13T00:05:00.000Z, agent:cube-intro]
+    box: [1848, -1530, 1300, h1]
+    text: INTERACTIONS COME AT A PRICE
+  - id: rules-price-body
+    type: text
+    updated: [2026-11-13T00:05:00.000Z, agent:cube-intro]
+    box: [1848, -1450, 1300, body]
+    text: 'Figuratively and literally: anything by which one player changes the state of the world, down to kicking a ball across the floor, is only by purchase. The lineage Vova names: the explorers’ first commandment, leave no trace; Bradbury’s “A Sound of Thunder”; the butterfly effect.'
+  - id: rules-same
+    type: sticky
+    updated: [2026-11-12T23:25:00.000Z, agent:cube-intro]
+    box: [1848, -1350, 244, gray]
+    icon: 👥
+    text: 'The same thing looks and sounds identical to two players at one point at one moment, on any machine. A frame is a function of where the eye is and the shared clock'
+  - id: rules-rolled
+    type: sticky
+    updated: [2026-11-12T23:25:00.000Z, agent:cube-intro]
+    box: [2183, -1350, 244, gray]
+    icon: 🎲
+    text: 'Every random number is rolled, under a named path. Nothing is random because of when the page opened'
+  - id: rules-no-textures
+    type: sticky
+    updated: [2026-11-13T09:40:00.000Z, agent:cube-intro]
+    box: [2518, -1350, 320, gray]
+    icon: 🧮
+    text: 'Nothing authored. No image is drawn by hand, shipped or stored; every surface is a procedure of place and clock. A map the GPU computes at run time from formulas — the ocean’s wave fields, a sky — is that procedure’s working, and allowed. Vova, narrowing the first wording: “I didn’t mean ‘against maps’ — I meant the maps themselves must be computed on the fly.”'
+  - id: rules-body
+    type: sticky
+    updated: [2026-11-12T23:25:00.000Z, agent:cube-intro]
+    box: [2853, -1350, 244, gray]
+    icon: 🧍
+    text: 'What your body does is yours alone: your pose, your hands, what you swallowed. The world is as it was for whoever comes next'
+  - id: rules-pill
+    type: sticky
+    updated: [2026-11-12T23:45:00.000Z, agent:cube-intro]
+    box: [3188, -1350, 244, yellow]
+    icon: 💊
+    text: 'Oops: the pill you do take. Vova’s reading, for now: “there is no pill. It is your own imagination, picturing the need to decide as a physical, external object, and so taking the responsibility off itself”. So the shelf still holds one for whoever comes next'
+  - id: rules-todo-lettering
+    type: sticky
+    updated: [2026-11-13T00:05:00.000Z, agent:cube-intro]
+    box: [3240, -1620, 272, orange]
+    icon: ✍️
+    text: 'To do, outside the intro’s run: letter the signs and posters in the shader, glyphs as strokes the fragment shader draws, no canvas. They are the cube’s one drawn texture today. Then their decay down the floors can be a procedure too'

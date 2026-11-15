@@ -8,7 +8,7 @@ import {
   WebGPURenderer,
 } from 'three/webgpu';
 
-import type { CanDispose } from '@/kernel/shared/typings';
+import type { CanDispose, WithOnError } from '@/kernel/shared/typings';
 
 import { length, R, sub, unit } from '@/island/shared/globe';
 import {
@@ -110,13 +110,12 @@ const DEGREE = Math.PI / 180;
  */
 const GLOBE_RADIUS = R - 1500;
 
-type MountIslandSceneParams = {
+type MountIslandSceneParams = WithOnError & {
   /** The world number the scene opens on. */
   world: string;
   /** Where the eye opens, when not at the world's opening. */
   pose: Pose | undefined;
   play: boolean;
-  onError: (error: Error) => void;
   /** Told each time a look hint is shown or goes; never under play. */
   onLookHint: (showing: HintShowing | undefined) => void;
 };

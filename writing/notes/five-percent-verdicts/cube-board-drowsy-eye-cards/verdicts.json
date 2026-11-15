@@ -1,0 +1,17 @@
+{
+  "pr": 282,
+  "verdicts": [
+    {
+      "comment": 4578034503,
+      "about": "Catch Cyrillic in board sync, where live edits enter, not only in vet",
+      "verdict": 0.8,
+      "why": "Taken (\"да, хорошо\"), with a condition the proposal skipped: either vet no longer needs the check, or it stays and shares one implementation with sync. The frame was right; the DRY question was left open."
+    },
+    {
+      "comment": 4578034836,
+      "about": "Run the board language check ungated in vet and delete vet-boards.sh",
+      "verdict": 1.0,
+      "why": "Taken as proposed with a bare \"окей\"."
+    }
+  ]
+}

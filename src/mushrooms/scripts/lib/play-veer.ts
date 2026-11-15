@@ -31,13 +31,7 @@ import {
   Insects,
   Point,
 } from './mushroom-probe-answers.ts';
-import {
-  type Expect,
-  FPS,
-  grow,
-  inTurn,
-  type Page,
-} from './mushroom-probe-drive.ts';
+import { type Expect, FPS, grow, type Page } from './mushroom-probe-drive.ts';
 import { buttonsOf, nearestOpening, TUFTS } from './play-tufts.ts';
 import {
   blinks,
@@ -52,6 +46,8 @@ import {
   zooms,
 } from './veer-report.ts';
 import { most, type Sample, Samples, VEER } from './veer-watch.ts';
+
+import { inTurn } from '@/scene/scripts/lib/in-turn';
 
 /** The headings round the eye a perch is looked for at, in radians. */
 const HEADINGS = Array.from(

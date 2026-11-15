@@ -18,13 +18,10 @@ import {
   State,
   Top,
 } from './mushroom-probe-answers.ts';
-import {
-  backToFront,
-  type Expect,
-  inTurn,
-  type Page,
-} from './mushroom-probe-drive.ts';
+import { backToFront, type Expect, type Page } from './mushroom-probe-drive.ts';
 import { playWorms } from './play-worms.ts';
+
+import { inTurn } from '@/scene/scripts/lib/in-turn';
 
 const DOOR = FURNISHINGS.indexOf('door');
 /** More taps than any cap has windows for, so a row always fills. */

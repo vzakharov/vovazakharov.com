@@ -1,0 +1,11 @@
+{
+  "pr": 275,
+  "verdicts": [
+    {
+      "comment": 4572428256,
+      "about": "Time the GPU stages only while the F meter is shown, not on every frame",
+      "verdict": 1,
+      "why": "The operator took it whole in the session chat (\"3 да\"): the timer now stamps and reads back only while the meter is open."
+    }
+  ]
+}

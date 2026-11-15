@@ -88,7 +88,6 @@ export {
   type Rooted,
   sameFoot,
   scaleAt,
-  type Scaling,
   seen,
   SPREAD,
   spread,

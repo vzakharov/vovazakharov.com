@@ -1,0 +1,48 @@
+items:
+  - id: z-todo
+    type: zone
+    updated: [2026-11-14T12:00:00.000Z, agent:cube]
+    box: [0, 3800, 1980, 520, gray]
+    icon: 📋
+    text: 'Still to do after the review (#275)'
+  - id: l-todo-price
+    type: line
+    updated: [2026-11-14T12:00:00.000Z, agent:cube]
+    ends: [todo-price, graf-price-time]
+    text: the idea
+  - id: todo-shaders
+    type: sticky
+    updated: [2026-11-14T14:00:00.000Z, agent:cube]
+    box: [28, 3910, 244, gray]
+    icon: 🧵
+    text: "0. Shaders: every floor and the outdoors now live in .wgsl, and the pin tests that held the move are gone. Left: themeMaterial's per-floor switch as data; salts derived rather than hand-picked; `pnpm shaders:cube` in vet"
+  - id: todo-perf
+    type: sticky
+    updated: [2026-11-14T12:00:00.000Z, agent:cube]
+    box: [363, 3910, 244, gray]
+    icon: 🐢
+    text: '1. Reflections stutter. Measure first (preview slot 1 against cube-liminal on slot 2). Skip the pass and its mip chain on floors with no gloss; two extra rgba16float targets every frame; read the depth32float attachment instead of half-float depth in alpha, which would retire BLUNT and LEAVING'
+  - id: todo-dry
+    type: sticky
+    updated: [2026-11-14T12:00:00.000Z, agent:cube]
+    box: [698, 3910, 244, gray]
+    icon: ♊
+    text: "2. Duplication: lattice maths spelled out where the kit's repeated/spaced would do (dwelling, laundry, garage, nursery, drawing); luma copied in edge's pattern; the full-screen triangle three times; two pipeline builders (reflection, bloom); mushrooms' bounds probe in three places and the bee-release loop twice"
+  - id: todo-leftovers
+    type: sticky
+    updated: [2026-11-14T12:00:00.000Z, agent:cube]
+    box: [1033, 3910, 244, gray]
+    icon: 🧹
+    text: '3. Leftovers: voice tests and `voice-cube`’s DOWN assume floor 67 instead of DEEPEST_FLOOR; DESIGNED in the floor catalogue is named against `generic`, which is gone'
+  - id: todo-mirrors
+    type: sticky
+    updated: [2026-11-14T12:00:00.000Z, agent:cube]
+    box: [1368, 3910, 244, gray]
+    icon: 🪞
+    text: '4. After 1: every polished face mirrors, not only floors (normal.y > 0.9 in light.wgsl is left from the ceiling-only mirror); lamp fallback for floors only. Costs: wall reflections fade at the screen edge, and frames get slower'
+  - id: todo-price
+    type: sticky
+    updated: [2026-11-14T12:00:00.000Z, agent:cube]
+    box: [1703, 3910, 244, yellow]
+    icon: ⌛
+    text: '5. Next after the review: price a room by travel time, replacing priceOf(n) in sale.ts. No room over $1M, so every room fits Stripe and the bitcoin route falls away. A price gives away the landing, so no public price list: checkout takes the walked path (space-url) as proof'

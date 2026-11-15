@@ -36,5 +36,8 @@ export function siteNextConfig(site: SiteId, siteDir: string): NextConfig {
     turbopack: {
       root: path.join(siteDir, '..', '..'),
     },
+    // `next dev` otherwise writes an AGENTS.md into the site directory; the
+    // repo's agents take their rules from CLAUDE.md.
+    agentRules: false,
   });
 }

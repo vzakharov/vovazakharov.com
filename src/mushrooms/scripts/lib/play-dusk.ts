@@ -28,12 +28,13 @@ import {
   deselect,
   type Expect,
   FRAME_MS,
-  inTurn,
   type Page,
   tapSun,
 } from './mushroom-probe-drive.ts';
 import { shootNightRun } from './play-night-run.ts';
 import { releaseButterfly, shootRoosting } from './play-roost.ts';
+
+import { inTurn } from '@/scene/scripts/lib/in-turn';
 
 /** Frames to half a full turn of the light. */
 const HALF = Math.round(DUSK_MS / 2 / FRAME_MS);

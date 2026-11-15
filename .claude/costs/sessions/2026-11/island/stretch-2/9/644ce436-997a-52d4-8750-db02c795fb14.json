@@ -1,0 +1,149 @@
+{
+  "total": {
+    "inputTokens": 13203,
+    "cacheWrite5mTokens": 6222,
+    "cacheWrite1hTokens": 253357,
+    "cacheReadTokens": 46926078,
+    "outputTokens": 60617,
+    "thinkingTokens": 7139,
+    "responses": 214,
+    "costUsd": 12.7199055
+  },
+  "estimate": {
+    "at": "2026-11-09T11:49:57.466Z",
+    "subjectLine": "docs: lead bite 3 of the island's second stretch past relay 8",
+    "parts": [
+      {
+        "hours": 2.5,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "a game team's lead over a long bite: settling calls 8, 17, 18 and the lowland floor with Vova, briefing three successive member sessions, merging and tracking their branches"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "board republishes, preview dispatches and timelapse uploads are routine scripted work"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-09T06:57:27.471Z",
+    "contextTokens": 111828,
+    "spend": {
+      "inputTokens": 10,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 49662,
+      "cacheReadTokens": 367614,
+      "outputTokens": 1220,
+      "thinkingTokens": 98,
+      "responses": 4,
+      "costUsd": 0.4952588
+    }
+  },
+  "sessionId": "644ce436-997a-52d4-8750-db02c795fb14",
+  "branch": "island/stretch-2",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take island/stretch-2 — бит 3 дошёл до B7d, пункт 17 ждёт прочтения Вовы, кадры полдня и полуночи ждут доски",
+  "prs": [
+    266
+  ],
+  "url": "https://claude.ai/code/session_01DaohkEMN9qX6y62bdhQZY3",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-09T06:57:06.830Z",
+  "lastResponseAt": "2026-11-09T11:50:01.181Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 372,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 253357,
+    "cacheReadTokens": 41438670,
+    "outputTokens": 60232,
+    "thinkingTokens": 7139,
+    "responses": 191,
+    "costUsd": 11.520718
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 11504,
+      "cacheWrite5mTokens": 6222,
+      "cacheWrite1hTokens": 253357,
+      "cacheReadTokens": 46926078,
+      "outputTokens": 60593,
+      "thinkingTokens": 7139,
+      "responses": 213,
+      "costUsd": 12.7197236
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1699,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 24,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0001819
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 213,
+    "matched": 190,
+    "matchedTableUsd": 11.3811474,
+    "matchedEventUsd": 11.381147399999998,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 11132,
+        "cacheWrite5mTokens": 6222,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 5487408,
+        "outputTokens": 361,
+        "thinkingTokens": 0,
+        "responses": 22,
+        "costUsd": 1.1990056
+      },
+      "generate_session_title": {
+        "inputTokens": 1699,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 24,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0001819
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 836,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".py": 980,
+    ".md": 10147,
+    ".json": -1391,
+    ".txt": 31,
+    ".ts": 623,
+    ".sh": 43,
+    ".yaml": 277,
+    ".tsx": 11
+  }
+}

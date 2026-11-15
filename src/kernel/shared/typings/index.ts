@@ -57,6 +57,9 @@ export type Aimed = { to: number };
 /** Whether a recording carries the explicit-content mark. */
 export type Rated = { explicit: boolean };
 
+/** A turn, in radians: a door's leaf off its wall, a mottle on its plane. */
+export type Angled = { angle: number };
+
 /** What a reproducible random draw starts from: the same seed, the same result. */
 export type Seeded = { seed: number };
 
@@ -74,6 +77,15 @@ export type WithLanguage = { language: string };
 
 /** A repo-relative path to the file a thing was read from. */
 export type WithFilePath = { filePath: string };
+
+/** Hears a failure that happens past the call that set the holder up. */
+export type WithOnError = { onError: (error: Error) => void };
+
+/** Hears that whoever is looking at the holder — a dialog — asked to close it. */
+export type WithOnClose = { onClose: () => void };
+
+/** A scene a script waits on: resolves once its first frame is drawn. */
+export type Readying = { ready: () => Promise<void> };
 
 /** What can be stopped — a voice, a player's decks, a download. */
 export type Hushing = { stop: () => void };

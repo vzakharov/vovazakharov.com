@@ -3,9 +3,8 @@ description: Finalize (a.k.a. "prep merge") — land prep: verify there's a draf
 ---
 
 **Where bash is older than 4, `.claude/hooks/finalize-bash-gate.py` refuses this
-skill** and says how to run it in a cloud session instead. Under a harness that
-runs no hooks, run `.claude/hooks/finalize-bash-gate.py check` before anything
-else: when it prints, what it prints replaces everything below.
+skill under Claude Code** and says how to run it in a cloud session of Claude
+instead. A harness that runs no hooks finalizes where it is.
 
 **Optional branch/PR target**: if the first token of the argument is a branch
 name, `#NNN` PR number, or PR URL, then `/finalize <target>` is shorthand for
@@ -105,6 +104,13 @@ duplication like any other.
 runs right after them**, before step 1 for the same reason, and so the vet run
 covers the reviewer's commits; under a harness that runs no hooks, that file's §
 "Who runs it" says whether it runs. `no vet` does not skip it.
+
+**A branch with a review board gets it rebuilt and republished next**, by
+`@.claude/skills/review-board/SKILL.md` Steps 1–2 — found by its sticky
+`<!-- review-board` PR comment. The passes just changed the diff the board
+shows, and the board is the operator's view of what is about to land; its focus
+file lives under `docs/remove-before-merging/`, so this runs while that tree is
+still on the branch. `no vet` does not skip it.
 
 Steps (stop on first unresolved failure):
 
