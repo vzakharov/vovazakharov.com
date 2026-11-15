@@ -70,6 +70,10 @@ altogether later.
   weekly at the time) the run parks: plan current, everything pushed, children
   told to push and stop. The first preview publish comes as early as there is a
   sea worth looking at, before the rest of the list.
+- «смотри действиетнльо ли все подсессии нужны на фейбле, иногда можно запустить
+  на опусе а контролировать тебе» — a child's model is chosen by its package:
+  mechanical moves and wiring run on Opus under the lead's review, the flagship
+  only where the picture is being invented.
 - What the lead told him of the ground that is not beach: a material by place
   (sand, grass and soil, rock on steep and high ground, snow) from height, slope
   and coast distance; relief below the mesh's 1.2 m cell drawn by light, each
@@ -115,8 +119,10 @@ altogether later.
   sun, aerial haze, clouds; seam
   `SkyNodes { radiance, aerial, background, update }` plus `shade` for cloud
   shadows.
-- **Extraction** — `island/sea-kit`, session_01DaohkEJvpB9uSL7xF31AzF: the
-  `nature` app and the kit's move to `scene/shared/shader`.
+- **Extraction** — `island/sea-kit`, session_01DaohkEEm3LNwEwmSEUQqq4, on Opus:
+  the `nature` app and the kit's move to `scene/shared/shader`. Sends "barrels
+  exist" first. (Its flagship predecessor, session_01DaohkEJvpB9uSL7xF31AzF, was
+  archived after eight minutes of reading, nothing pushed.)
 
 ## Built / in flight / left
 
