@@ -17,6 +17,7 @@ export {
   type Holed,
   type Input,
   isAsking,
+  isCarried,
   isStanding,
   plantedHoled,
   plantedHoledOf,
@@ -27,6 +28,7 @@ export {
   STILL,
   swingingOf,
   takenOf,
+  type Ways,
 } from './body';
 export { grippingHand } from './hand';
 export { handsOf } from './hands';

@@ -1,0 +1,136 @@
+{
+  "total": {
+    "inputTokens": 2910,
+    "cacheWrite5mTokens": 1234,
+    "cacheWrite1hTokens": 327029,
+    "cacheReadTokens": 9477925,
+    "outputTokens": 73088,
+    "thinkingTokens": 36901,
+    "responses": 46,
+    "costUsd": 10.087189000000002
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-15T19:20:53.284Z",
+    "contextTokens": 113197,
+    "spend": {
+      "inputTokens": 6,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 43296,
+      "cacheReadTokens": 146704,
+      "outputTokens": 1001,
+      "thinkingTokens": 155,
+      "responses": 2,
+      "costUsd": 0.7621648
+    }
+  },
+  "sessionId": "38fddadb-077f-5acf-9a62-78932a5770ef",
+  "branch": "claude/cube-portals-door",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session in a /carte-blanche run led by session session_01DaohkBxB5aodsuLB2dftcE. Write in English, including in chat. Do not open a PR. Do not m…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBaqwW3EMrLSiAmuSU",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-15T19:20:38.543Z",
+  "lastResponseAt": "2026-11-15T19:37:11.086Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 86,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 327029,
+    "cacheReadTokens": 9177364,
+    "outputTokens": 65116,
+    "thinkingTokens": 36901,
+    "responses": 45,
+    "costUsd": 9.673264800000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 2910,
+      "cacheWrite5mTokens": 1234,
+      "cacheWrite1hTokens": 327029,
+      "cacheReadTokens": 9477925,
+      "outputTokens": 73088,
+      "thinkingTokens": 36901,
+      "responses": 46,
+      "costUsd": 10.087189000000002
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-15T19:33:46.963Z",
+      "trigger": "auto",
+      "compactedFrom": 307240,
+      "summaryChars": 19350,
+      "reorientation": {
+        "endedBy": null,
+        "endedOn": null,
+        "endedAt": null,
+        "contextTokens": null,
+        "spend": {
+          "inputTokens": 17,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 77729,
+          "cacheReadTokens": 1079726,
+          "outputTokens": 5036,
+          "thinkingTokens": 525,
+          "responses": 9,
+          "costUsd": 1.6611851999999998
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.4139242
+    }
+  ],
+  "telemetry": {
+    "events": 45,
+    "matched": 44,
+    "matchedTableUsd": 9.611234200000002,
+    "matchedEventUsd": 9.6112342,
+    "unseen": {
+      "compact": {
+        "inputTokens": 2824,
+        "cacheWrite5mTokens": 1234,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 300561,
+        "outputTokens": 7972,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.4139242
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 199,
+    ".js": 295,
+    ".scss": 11,
+    ".ts": 20,
+    ".yaml": 326
+  }
+}

@@ -14,6 +14,7 @@ import { play } from '../../play/index.test-only';
 import { closedWalls } from './body';
 import {
   doorsFaced,
+  isCarried,
   LEAF_SWING,
   leafAngle,
   OPEN_ANGLE,
@@ -50,10 +51,15 @@ const facing = (over: Partial<Pose> = {}): Pose => ({
 
 const opened: OpenDoor = { ...DOOR, toward: 1, openFor: 0, shutAt: null };
 
-function played(player: Player, input: typeof STILL, seconds: number): Player {
+function played(
+  player: Player,
+  input: typeof STILL,
+  seconds: number,
+  walls: Ways = doored,
+): Player {
   let now = player;
   for (let t = 0; t < seconds; t += FRAME) {
-    now = play(now, input, FRAME, doored, null);
+    now = play(now, input, FRAME, walls, null);
   }
   return now;
 }
@@ -161,5 +167,53 @@ describe('play with a door', () => {
     const later = played(through, STILL, LEAF_SWING);
     assert.equal(later.door, null);
     assert.equal(played(later, { ...ahead, walk: -1 }, 2).pose.x, 2n);
+  });
+});
+
+describe('play with a portal door', () => {
+  /** A south wall five floors down, which the door leads to and back from. */
+  const FAR: DoorWall = { n: 8, x: 4n, y: 6n, isEast: false };
+  const portal: Ways = {
+    ...doored,
+    isDoor: (wall) => isSameWall(wall, DOOR) || isSameWall(wall, FAR),
+    beyond: ({ toward, ...wall }) => {
+      if (isSameWall(wall, DOOR)) return { ...FAR, toward };
+      return isSameWall(wall, FAR) ? { ...DOOR, toward } : null;
+    },
+  };
+  const open = played(
+    play(standingAt(facing()), use, FRAME, portal, null),
+    STILL,
+    LEAF_SWING,
+    portal,
+  );
+
+  it('comes out of the far door, turned as it is, the door open behind', () => {
+    const through = played(open, ahead, 0.5, portal);
+    const { n, x, y, v, yaw } = through.pose;
+    assert.deepEqual({ n, x, y }, { n: 8, x: 4n, y: 7n });
+    assert.ok(v > 0 && v < 0.5);
+    assert.ok(Math.abs(yaw - Math.PI / 2) < NEAR);
+    assert.ok(through.door !== null && isSameWall(through.door, FAR));
+    assert.equal(through.door.toward, 1);
+  });
+
+  it('says so of the frame that carried it, and of no other', () => {
+    let now = open;
+    const carriedOn: number[] = [];
+    for (let frame = 0; frame < 30; frame += 1) {
+      const next = play(now, ahead, FRAME, portal, null);
+      if (isCarried(now.pose, next)) carriedOn.push(frame);
+      now = next;
+    }
+    assert.equal(carriedOn.length, 1);
+  });
+
+  it('walks back through to where it left', () => {
+    const through = played(open, ahead, 0.3, portal);
+    const back = played(through, { ...ahead, walk: -1 }, 0.6, portal);
+    const { n, x, y } = back.pose;
+    assert.deepEqual({ n, x, y }, { n: 3, x: 1n, y: 2n });
+    assert.ok(back.door !== null && isSameWall(back.door, DOOR));
   });
 });

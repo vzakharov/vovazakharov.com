@@ -117,6 +117,9 @@ function swing(ajar: Ajar): {
   };
 }
 
+/** How far a door's frame reaches either side of its wall's line, in room sides. */
+export const DOORWAY_DEEP = WALL_HALF + DOOR.proud * METRE;
+
 /**
  * The frame lining `wall`'s doorway, each quad in the frame of the room it
  * faces into: a white jamb either side and a head, standing proud of both
@@ -125,7 +128,7 @@ function swing(ajar: Ajar): {
 export function doorFrame(wall: DoorWall): Quad[] {
   const { run, at, own } = wallFrame(wall);
   const { from, to, height } = DOORWAY_CUT;
-  const deep = WALL_HALF + DOOR.proud * METRE;
+  const deep = DOORWAY_DEEP;
   const block = (a0: number, a1: number, u0: number, u1: number) =>
     solid(
       at(a0, -deep, u0),

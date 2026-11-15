@@ -7,6 +7,9 @@ import type { Room } from './room';
 /** The wall a doorway is cut in: the east (`isEast`) or south wall of `n`, `x`, `y`. */
 export type DoorWall = Room & { isEast: boolean };
 
+export const isSameWall = (a: DoorWall, b: DoorWall): boolean =>
+  a.isEast === b.isEast && a.n === b.n && a.x === b.x && a.y === b.y;
+
 /**
  * A wall's own frame, set in its west or north room's: lengths `along` it
  * from its north or west end, `across` it east or south of its middle line,

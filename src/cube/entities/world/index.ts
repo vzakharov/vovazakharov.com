@@ -1,10 +1,16 @@
 export { type Address, decodeAddress, encodeAddress } from './model/address';
-export { type Ajar, doorLeaf, type Facing, leafLine } from './model/door';
+export {
+  type Ajar,
+  doorFrame,
+  doorLeaf,
+  DOORWAY_DEEP,
+  type Facing,
+  leafLine,
+} from './model/door';
 export {
   type Doors,
   doorSides,
   EXIT,
-  isSameWall,
   mazeDoored,
   wallsAround,
   withOpen,
@@ -27,6 +33,16 @@ export { boardFacets, type BoardShape, type SignMount } from './model/mount';
 export { PILL_RADIUS, pillQuads } from './model/pill';
 export { plant } from './model/plant';
 export { planted } from './model/planted';
+export {
+  type Beyond,
+  beyondOf,
+  carried,
+  farSideOf,
+  isBeyond,
+  isPortal,
+  pastDoorway,
+  roomBeyond,
+} from './model/portal';
 export type {
   Gazing,
   InRoom,
@@ -73,7 +89,7 @@ export {
 export { closedSides, inPlace, type Setting, settingOf } from './model/setting';
 export { pillOn, type Shelf, shelfOf } from './model/shelf';
 export { type RolledTraits, traits } from './model/traits';
-export { type DoorWall } from './model/wall-frame';
+export { type DoorWall, isSameWall } from './model/wall-frame';
 export { mazeWalls, type Walls } from './model/walls';
 export { isOutside, type Outside, type Whereabouts } from './model/whereabouts';
 export { WALL_HALF } from '@/cube/shared/lib/room-shape';
