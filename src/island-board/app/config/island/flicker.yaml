@@ -13,7 +13,7 @@ items:
     type: sticky
     updated: [2026-11-09T03:00:00.000Z, agent:lead]
     box: [2850, 1680, 300, yellow]
-    text: "The cause: a tile not yet loaded was stood in for by its coarse ancestor, which hid the fine tiles under it. A turn reselects every 2–3 frames, and that coarse surface sat above a 2 m eye — seen from below, so nothing showed"
+    text: 'The cause: a tile not yet loaded was stood in for by its coarse ancestor, which hid the fine tiles under it. A turn reselects every 2–3 frames, and that coarse surface sat above a 2 m eye — seen from below, so nothing showed'
   - id: flicker-3
     type: sticky
     updated: [2026-11-09T03:00:00.000Z, agent:lead]

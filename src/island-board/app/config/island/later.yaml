@@ -11,9 +11,9 @@ items:
     text: seen in
   - id: later-1
     type: sticky
-    updated: [2026-11-08T20:52:31.000Z, agent:lead]
+    updated: [2026-11-15T19:00:00.000Z, agent:lead]
     box: [3940, -730, 300, blue]
-    text: 'The sea bite: the general feel of web-ocean, sea and sky. A sun glint from orbit is optional, not required'
+    text: "The sea bite: the general feel of web-ocean, sea and sky. A sun glint from orbit is optional, not required. Its source, agreed with Vova: the cube's own island floor already has the sea in WGSL — swell trains, the shore's water level, wet sand at the waterline, the surf's cusps (src/cube/entities/island/). Those come to the round world"
   - id: later-2
     type: sticky
     updated: [2026-11-08T20:52:31.000Z, agent:lead]
@@ -44,9 +44,9 @@ items:
     done: true
   - id: later-dice
     type: sticky
-    updated: [2026-11-09T02:32:17.000Z, agent:lead]
+    updated: [2026-11-15T19:00:00.000Z, agent:lead]
     box: [4020, -1300, 340, orange]
-    text: 'Next bite, agreed with Vova: objects from dice rolls. “Draw the island, roll a die, if lucky draw a lake, roll again” — each lake its own harmonics at its own scale, so it traces true; the strait is two lakes touching each other and the sea. Later rivers and mountains roll the same way'
+    text: 'Next bite, agreed with Vova: objects from dice rolls. “Draw the island, roll a die, if lucky draw a lake, roll again” — each lake its own harmonics at its own scale, so it traces true; the strait is two lakes touching each other and the sea. Later rivers and mountains roll the same way. The die now exists: the cube lifted bite 3''s roll and world hash into a shared app, @/dice, and the island moves onto it (Vova: yes) — a new roll under its own path moves no world'
   - id: later-neighbours
     type: sticky
     updated: [2026-11-09T05:10:00.000Z, agent:lead]

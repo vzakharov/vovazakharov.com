@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 1185,
-    "cacheWrite5mTokens": 176784,
-    "cacheWrite1hTokens": 130523,
-    "cacheReadTokens": 9362015,
-    "outputTokens": 48806,
-    "thinkingTokens": 10875,
-    "responses": 84,
-    "costUsd": 4.782615000000002
+    "inputTokens": 4601,
+    "cacheWrite5mTokens": 375860,
+    "cacheWrite1hTokens": 158673,
+    "cacheReadTokens": 22718396,
+    "outputTokens": 97835,
+    "thinkingTokens": 23535,
+    "responses": 190,
+    "costUsd": 9.6692624
   },
   "estimate": {
     "at": "2026-11-15T18:34:52.268Z",
@@ -58,63 +58,83 @@
   "url": "https://claude.ai/code/session_01DaohkD686c7ehYswH9TgcL",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-15T18:34:34.687Z",
-  "lastResponseAt": "2026-11-15T18:50:37.226Z",
+  "lastResponseAt": "2026-11-15T19:01:27.105Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 83,
+    "inputTokens": 109,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 130523,
-    "cacheReadTokens": 5166207,
-    "outputTokens": 13738,
-    "thinkingTokens": 2241,
-    "responses": 38,
-    "costUsd": 2.3525174
+    "cacheWrite1hTokens": 158673,
+    "cacheReadTokens": 7751450,
+    "outputTokens": 20967,
+    "thinkingTokens": 3023,
+    "responses": 51,
+    "costUsd": 3.2394499999999993
   },
   "subagents": {
-    "inputTokens": 90,
-    "cacheWrite5mTokens": 176368,
+    "inputTokens": 274,
+    "cacheWrite5mTokens": 373595,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 3930839,
-    "outputTokens": 35027,
-    "thinkingTokens": 8634,
-    "responses": 44,
-    "costUsd": 2.3689078
+    "cacheReadTokens": 13913018,
+    "outputTokens": 76767,
+    "thinkingTokens": 20512,
+    "responses": 132,
+    "costUsd": 6.187014600000003
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 1185,
-      "cacheWrite5mTokens": 176784,
-      "cacheWrite1hTokens": 130523,
-      "cacheReadTokens": 9362015,
-      "outputTokens": 48806,
-      "thinkingTokens": 10875,
-      "responses": 84,
-      "costUsd": 4.782615000000002
+      "inputTokens": 3419,
+      "cacheWrite5mTokens": 375860,
+      "cacheWrite1hTokens": 158673,
+      "cacheReadTokens": 22718396,
+      "outputTokens": 97815,
+      "thinkingTokens": 23535,
+      "responses": 189,
+      "costUsd": 9.669134199999998
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1182,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 20,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.00012820000000000003
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 83,
-    "matched": 81,
-    "matchedTableUsd": 4.6674188,
-    "matchedEventUsd": 4.6674188,
+    "events": 190,
+    "matched": 183,
+    "matchedTableUsd": 9.426464599999997,
+    "matchedEventUsd": 9.426464599999997,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 1012,
-        "cacheWrite5mTokens": 416,
+        "inputTokens": 3036,
+        "cacheWrite5mTokens": 2265,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 264969,
-        "outputTokens": 41,
+        "cacheReadTokens": 1053928,
+        "outputTokens": 81,
         "thinkingTokens": 0,
-        "responses": 2,
-        "costUsd": 0.0611898
+        "responses": 6,
+        "costUsd": 0.2426696
+      },
+      "generate_session_title": {
+        "inputTokens": 1182,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 20,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.00012820000000000003
       }
     }
   },
   "operatorWords": {
-    "chat": 0,
+    "chat": 39,
     "review": 0,
     "threads": 0
   },
@@ -122,11 +142,11 @@
   "threadPosts": {},
   "branchLines": {
     ".py": 980,
-    ".md": 16240,
-    ".json": 491,
+    ".md": 16262,
+    ".json": 488,
     ".txt": 2188,
-    ".ts": 9582,
     ".sh": 43,
+    ".ts": 9473,
     ".yaml": 295,
     ".tsx": 114,
     ".scss": 96
