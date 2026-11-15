@@ -198,9 +198,8 @@ function arrowMarker(): SVGElement {
 }
 
 /**
- * The two SVGs a line is split across: `ink`, what is seen, drawn over the
- * cards and blind to the pointer, and `hits`, a wide invisible stroke under
- * them, so a press on a card where a line crosses it reaches the card.
+ * A line's two SVGs: `ink` over the cards, `hits` under them, so a press where
+ * a line crosses a card reaches the card.
  */
 export type LineLayers = { ink: SVGSVGElement; hits: SVGSVGElement };
 
