@@ -5,12 +5,18 @@ import { DOORWAY_CUT } from '@/cube/shared/cube-boundary';
 import { WALL_HALF } from '@/cube/shared/lib/room-shape';
 
 import { mazeDoored } from './doorway';
-import { type Hint, hintFacets, hintsBeside, hintsSeen } from './hint';
+import {
+  firstPortal,
+  type Hint,
+  hintFacets,
+  hintsBeside,
+  hintsSeen,
+} from './hint';
 import { maze } from './maze';
 import { sidesOf } from './mount';
 import { planted } from './planted';
-import { PORTALS } from './portal-counts';
-import { portalsOf } from './portals';
+import { hasPortals, portalCount, PORTALS } from './portal-counts';
+import { portalAt, portalsOf } from './portals';
 import { type Room, roomKey } from './room';
 import type { View } from './rooms';
 import type { DoorWall } from './wall-frame';
@@ -97,9 +103,24 @@ describe('hintsBeside', () => {
   });
 });
 
+describe('firstPortal', () => {
+  const first = firstPortal(rolled);
+
+  it('stands on the first floor that has portals, and no floor above has one', () => {
+    assert.equal(first.wall.n, PORTALS.first);
+    assert.equal(hasPortals(PORTALS.first - 1), false);
+    assert.equal(portalCount(PORTALS.first - 1), 0n);
+  });
+
+  it('is that floor’s portal 0, the one the model finds on its wall', () => {
+    assert.equal(first.number, 0n);
+    assert.deepEqual(portalsOf(rolled, PORTALS.first)[0], first);
+    assert.deepEqual(portalAt(rolled, first.wall), first);
+  });
+});
+
 describe('hintsSeen', () => {
-  const [portal] = portalsOf(rolled, PORTALS.first);
-  assert.ok(portal);
+  const portal = firstPortal(rolled);
   const sides = hintsBeside(portal.wall).map(({ room }) => room);
 
   it('shows both boards of the first portal with both its rooms in view', () => {
@@ -117,19 +138,26 @@ describe('hintsSeen', () => {
     ]);
   });
 
-  it('shows none on a deeper floor, whatever portals it has', () => {
-    const [deeper] = portalsOf(rolled, PORTALS.first + 1);
-    assert.ok(deeper);
-    const rooms = hintsBeside(deeper.wall).map(({ room }) => room);
-    assert.deepEqual(hintsSeen(rolled, viewOf(rooms)), []);
+  it('hangs a board beside no other portal, of its floor or the next', () => {
+    const others = [
+      ...portalsOf(rolled, PORTALS.first).slice(1),
+      ...portalsOf(rolled, PORTALS.first + 1),
+    ];
+    assert.ok(others.length > 0);
+    for (const { wall } of others) {
+      const rooms = hintsBeside(wall)
+        .map(({ room }) => room)
+        .filter(
+          (room) => !sides.some((side) => roomKey(side) === roomKey(room)),
+        );
+      assert.deepEqual(hintsSeen(rolled, viewOf(rooms)), []);
+    }
   });
 });
 
 describe('the planted world’s first portal', () => {
   const world = maze(planted.seed);
-  const [portal] = portalsOf(world, PORTALS.first);
-  assert.ok(portal);
-  const { wall } = portal;
+  const { wall } = firstPortal(world);
 
   // Where a portal's wall counts as a door, a room's sale sign or poster takes
   // a plain wall before it, so with one to spare neither hangs over the hint.

@@ -5,7 +5,7 @@ import { walledRooms } from './geometry';
 import type { RolledMaze } from './maze';
 import { boardFacets, type BoardShape, type Hung } from './mount';
 import { PORTALS } from './portal-counts';
-import { portalsOf } from './portals';
+import { type Portal, portalNumbered } from './portals';
 import type { InRoom } from './pose';
 import type { Facet } from './quad';
 import { roomKey } from './room';
@@ -55,9 +55,15 @@ export function hintsBeside({ n, x, y, isEast }: DoorWall): Hint[] {
 }
 
 /**
- * The hint boards among the rooms whose walls `view` draws: those beside the
- * portals of the first floor that has any, which holds one, the first a body
- * meets on its way down.
+ * The first portal door in the game: portal 0 of the first floor that has
+ * any, which a body going down meets before every other.
+ */
+export const firstPortal = (rolled: RolledMaze): Portal =>
+  portalNumbered(rolled, PORTALS.first, 0n);
+
+/**
+ * The hint boards among the rooms whose walls `view` draws: those beside
+ * `firstPortal`, and no other door.
  */
 export function hintsSeen(rolled: RolledMaze, view: View): Hint[] {
   const seen = new Set(
@@ -66,9 +72,9 @@ export function hintsSeen(rolled: RolledMaze, view: View): Hint[] {
       .map((room) => roomKey(room)),
   );
   if (seen.size === 0) return [];
-  return portalsOf(rolled, PORTALS.first)
-    .flatMap(({ wall }) => hintsBeside(wall))
-    .filter(({ room }) => seen.has(roomKey(room)));
+  return hintsBeside(firstPortal(rolled).wall).filter(({ room }) =>
+    seen.has(roomKey(room)),
+  );
 }
 
 /** The board of `hint`, at `place` in the eye's frame. */

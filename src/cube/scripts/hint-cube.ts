@@ -11,13 +11,7 @@
 import path from 'node:path';
 
 import { DOORWAY_CUT } from '@/cube/shared/cube-boundary';
-import {
-  maze,
-  planted,
-  PORTALS,
-  portalsOf,
-  type Pose,
-} from '@/cube/entities/world';
+import { firstPortal, maze, planted, type Pose } from '@/cube/entities/world';
 import { EYE_HEIGHT } from '@/cube/features/player';
 
 import { withCubePage } from './lib/cube-page';
@@ -36,9 +30,7 @@ const BACK = { across: 0.85, close: 0.35 };
 /** How far along the wall from the doorway's middle, toward the board, the eye stands. */
 const ASIDE = 0.14;
 
-const [portal] = portalsOf(maze(planted.seed), PORTALS.first);
-if (portal === undefined) throw new Error('The first portal floor has none');
-const { n, x, y, isEast } = portal.wall;
+const { n, x, y, isEast } = firstPortal(maze(planted.seed)).wall;
 
 /** An eye `back` from the portal's wall, facing it, in its far room or its near one. */
 function before(back: number, far: boolean): Pose {
