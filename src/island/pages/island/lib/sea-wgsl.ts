@@ -1,6 +1,6 @@
 import { assemble, vecf } from '@/scene/shared/shader';
 
-import { SHORE_LEVEL, WETNESS } from '@/nature/shared/shore';
+import { SHORE_CUSPED, SHORE_LEVEL, WETNESS } from '@/nature/shared/shore';
 import { DEEP_SPEED, HOUR_SECONDS } from '@/nature/shared/swell';
 
 import type { Vec3 } from '@/island/shared/globe';
@@ -14,17 +14,32 @@ import { RIPPLE_TABLE_WGSL } from './ripple-table';
  */
 const SWELL_AXIS: Vec3 = [0.6, 0.25, -0.758_287_5];
 
+/** Along the swell's crests: square to its axis and level at the equator. */
+const SWELL_CREST: Vec3 = (() => {
+  const [x, , z] = SWELL_AXIS;
+  const size = Math.hypot(x, z);
+  return [-z / size, 0, x / size];
+})();
+
+/** How far along a crest the cusps' pattern is carried before it wraps, metres: millimetres fine in a float. */
+const CREST_WRAPS = 65_536;
+
+const along = (eye: Vec3, axis: Vec3) =>
+  eye[0] * axis[0] + eye[1] * axis[1] + eye[2] * axis[2];
+
+const wrapped = (value: number, period: number) =>
+  ((value % period) + period) % period;
+
 /**
- * The swell's clock at \`eye\` (metres from the planet's centre), \`seconds\`
- * into the hour: the hour's seconds less those the swell takes to reach the
- * eye, in float64, so a shader adds only a fragment's distance from the eye.
+ * The swell at `eye` (metres from the planet's centre), `seconds` into the
+ * hour, taken in float64 so a shader adds only a fragment's distance from the
+ * eye: its clock — the hour's seconds less those the swell takes to reach the
+ * eye — and the eye's place along the crests.
  */
-export function swellClock(eye: Vec3, seconds: number): number {
-  const run =
-    eye[0] * SWELL_AXIS[0] + eye[1] * SWELL_AXIS[1] + eye[2] * SWELL_AXIS[2];
-  const clock = (seconds - run / DEEP_SPEED) % HOUR_SECONDS;
-  return clock < 0 ? clock + HOUR_SECONDS : clock;
-}
+export const swellAt = (eye: Vec3, seconds: number): [number, number] => [
+  wrapped(seconds - along(eye, SWELL_AXIS) / DEEP_SPEED, HOUR_SECONDS),
+  wrapped(along(eye, SWELL_CREST), CREST_WRAPS),
+];
 
 /**
  * The sea's surface as WGSL functions of their arguments alone — no uniform,
@@ -34,6 +49,7 @@ export function swellClock(eye: Vec3, seconds: number): number {
 const SEA_WGSL = `
 const SEA_TAU = 6.283185307;
 const SEA_SWELL_AXIS = ${vecf(SWELL_AXIS)};
+const SEA_SWELL_CREST = ${vecf(SWELL_CREST)};
 
 /**
  * The wind over direction \`unit\` from the planet's centre, metres a second
@@ -133,17 +149,26 @@ const SEA_NIGHT_SKYLIGHT = vec3f(0.04, 0.05, 0.075);
 const SEA_HAZE_REACH = 60000.0;
 
 /**
+ * How much of a wave's throw the shore keeps at a point \`world\` from the
+ * eye: its cusps, which run the swash up the sand in tongues.
+ */
+fn seaTongue(world: vec3f, swell: vec2f) -> f32 {
+  return cusped(swell.y + dot(world, SEA_SWELL_CREST));
+}
+
+/**
  * The swell's level, metres about the still sea, at a point \`world\` from an
- * eye whose swell clock reads \`clock\`, over a floor at \`bed\`: the open
+ * eye where the swell reads \`swell\` — its clock, and the eye's place along
+ * the crests — over a floor at \`bed\`: the open
  * swell, its surf, and its sheet up the sand. It dies out with distance, past
  * where a mesh's vertices could carry it.
  */
-fn seaSwellAt(world: vec3f, bed: f32, clock: f32) -> f32 {
+fn seaSwellAt(world: vec3f, bed: f32, swell: vec2f) -> f32 {
   let near = 1.0 - smoothstep(600.0, 2500.0, length(world));
   if (near <= 0.0) {
     return 0.0;
   }
-  return near * swellLevel(dot(world, SEA_SWELL_AXIS), bed, 1.0, 1.0, clock);
+  return near * swellLevel(dot(world, SEA_SWELL_AXIS), bed, 1.0, seaTongue(world, swell), swell.x);
 }
 
 /** How far over the sand a sea vertex rides where a sheet may lie on it, metres. */
@@ -154,8 +179,8 @@ const SEA_SHEET_RIDES = 0.015;
  * the sand ashore, where \`seaLies\` cuts the surface to the sheet's outline
  * a fragment at a time.
  */
-fn seaVertexLevel(world: vec3f, bed: f32, clock: f32) -> f32 {
-  let level = seaSwellAt(world, bed, clock);
+fn seaVertexLevel(world: vec3f, bed: f32, swell: vec2f) -> f32 {
+  let level = seaSwellAt(world, bed, swell);
   if (bed <= 0.0) {
     return level;
   }
@@ -164,21 +189,21 @@ fn seaVertexLevel(world: vec3f, bed: f32, clock: f32) -> f32 {
 }
 
 /** Whether water lies at a point: always over a floor under the still sea, ashore only under a sheet. */
-fn seaLies(world: vec3f, bed: f32, clock: f32) -> bool {
-  return bed <= 0.0 || seaSwellAt(world, bed, clock) - bed > 0.004;
+fn seaLies(world: vec3f, bed: f32, swell: vec2f) -> bool {
+  return bed <= 0.0 || seaSwellAt(world, bed, swell) - bed > 0.004;
 }
 
 /**
  * What the sand's dampness leaves of its colour at a point ashore: dark where
  * a sheet has just left, drying back to its own.
  */
-fn seaDampTint(world: vec3f, bed: f32, clock: f32) -> vec3f {
+fn seaDampTint(world: vec3f, bed: f32, swell: vec2f) -> vec3f {
   let near = 1.0 - smoothstep(600.0, 2500.0, length(world));
   if (bed > 1.5 || near <= 0.0) {
     return vec3f(1.0);
   }
-  let tau = clock - dot(world, SEA_SWELL_AXIS) * SWELL_PACE - shoreDelay(shoreDepth(bed));
-  let damp = near * dampAfter(drySince(tau, bed, 1.0));
+  let tau = swell.x - dot(world, SEA_SWELL_AXIS) * SWELL_PACE - shoreDelay(shoreDepth(bed));
+  let damp = near * dampAfter(drySince(tau, bed, seaTongue(world, swell)));
   return mix(vec3f(1.0), vec3f(0.6, 0.57, 0.52), damp);
 }
 
@@ -191,7 +216,7 @@ fn seaDampTint(world: vec3f, bed: f32, clock: f32) -> vec3f {
  */
 fn seaColour(
   place: vec3f, world: vec3f, eye: vec3f, sun: vec3f, bed: f32, under: vec3f,
-  footprint: f32, seconds: f32, horizon: vec3f, clock: f32,
+  footprint: f32, seconds: f32, horizon: vec3f, swell: vec2f,
 ) -> vec3f {
   let up = normalize(eye + world);
   let range = length(world);
@@ -203,10 +228,10 @@ fn seaColour(
   let rippled = ripplesAt(place, up, wind * calm, footprint, seconds);
   // The swell's own slope along its run, while a pixel is finer than a wave.
   let swellSeen = 1.0 - smoothstep(1.0, 6.0, footprint);
-  let level = seaSwellAt(world, bed, clock);
+  let level = seaSwellAt(world, bed, swell);
   let run = SEA_SWELL_AXIS - up * dot(SEA_SWELL_AXIS, up);
   let along = run / max(length(run), 1e-4);
-  let ahead = seaSwellAt(world + along * 0.4, bed, clock);
+  let ahead = seaSwellAt(world + along * 0.4, bed, swell);
   let swellSlope = along * (swellSeen * (ahead - level) / 0.4);
   let normal = normalize(up - rippled.slope - swellSlope);
 
@@ -231,7 +256,7 @@ fn seaColour(
 
   // Foam where the water thins out over the beach, broken by the ripples.
   let lace = 0.5 + 0.5 * sin(dot(place, vec3f(2.1, 1.3, 1.7)) + 3.0 * rippled.slope.x / max(rough, 0.05));
-  let tau = clock - dot(world, SEA_SWELL_AXIS) * SWELL_PACE - shoreDelay(shoreDepth(bed));
+  let tau = swell.x - dot(world, SEA_SWELL_AXIS) * SWELL_PACE - shoreDelay(shoreDepth(bed));
   let broken = brokenAt(tau, min(bed, -0.02), 1.0) * smoothstep(-0.05, 0.25, level) * swellSeen;
   // The sheet on the sand is all froth at its thin tip.
   let sheet = smoothstep(0.035, 0.0, level - bed) * step(0.0, bed);
@@ -250,4 +275,4 @@ fn seaColour(
 `;
 
 /** The whole listing the island's sea compiles: the shore's closed forms, the ripples' table, the sea's own. */
-export const SEA_LISTING = `${assemble([SHORE_LEVEL, WETNESS])}\n${RIPPLE_TABLE_WGSL}\n${SEA_WGSL}`;
+export const SEA_LISTING = `${assemble([SHORE_LEVEL, WETNESS, SHORE_CUSPED])}\n${RIPPLE_TABLE_WGSL}\n${SEA_WGSL}`;
