@@ -1,6 +1,8 @@
 import { z } from 'zod';
 
-import { isWorldNumber, OUR_WORLD } from '@/island/entities/terrain';
+import { isWorldNumber } from '@/dice/shared/roll';
+
+import { OUR_WORLD } from '@/island/entities/terrain';
 
 /** Decimal places each pose field is written to: ~1 m of latitude and longitude. */
 export const PLACES = {

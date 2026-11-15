@@ -1,12 +1,10 @@
 export { type RingGrid } from './grid';
 export {
-  assertWorldNumber,
   decodePinnedRow,
   EARTH_ENVELOPE,
   encodePinnedRow,
   fieldGrids,
   fieldOf,
-  isWorldNumber,
   kneeEnvelope,
   LAND_DEGREE,
   landmasses,
