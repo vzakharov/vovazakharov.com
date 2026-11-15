@@ -47,6 +47,9 @@ const ASIDE = 0.08;
 /** How far back from the door the eye stands, in room sides. */
 const BACK = 0.3;
 
+/** How far before the wall's line the eye stands in the doorway, in room sides. */
+const THRESHOLD = 0.001;
+
 /** How far past the far door the body stands once through, in room sides. */
 const THROUGH = 0.25;
 
@@ -106,6 +109,12 @@ await withCubePage(async ({ shoot, setClock }) => {
   await setClock(AT);
   await shoot(named('shut'), at);
   await shoot(named('open'), at, open);
+  // The last frame before the crossing: nearer the wall's line than the near plane.
+  await shoot(
+    named('threshold'),
+    { ...before(way, THRESHOLD), yaw: at.yaw + 0.5 },
+    open,
+  );
   await setClock(nextTurn(way, far));
   await shoot(named('open-next-minute'), at, open);
   await setClock(AT);

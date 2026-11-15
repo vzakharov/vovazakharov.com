@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 25,
+    "inputTokens": 68,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 120990,
-    "cacheReadTokens": 1621385,
-    "outputTokens": 10889,
-    "thinkingTokens": 4710,
-    "responses": 12,
-    "costUsd": 2.695877
+    "cacheWrite1hTokens": 177033,
+    "cacheReadTokens": 6166045,
+    "outputTokens": 28817,
+    "thinkingTokens": 13759,
+    "responses": 35,
+    "costUsd": 5.218960999999999
   },
   "estimate": null,
   "orientation": {
@@ -34,18 +34,18 @@
   "url": "https://claude.ai/code/session_01DaohkFYMyrxoGS3AxcPYBZ",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-15T21:25:19.645Z",
-  "lastResponseAt": "2026-11-15T21:27:24.021Z",
+  "lastResponseAt": "2026-11-15T21:39:08.572Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 25,
+    "inputTokens": 68,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 120990,
-    "cacheReadTokens": 1621385,
-    "outputTokens": 10889,
-    "thinkingTokens": 4710,
-    "responses": 12,
-    "costUsd": 2.695877
+    "cacheWrite1hTokens": 177033,
+    "cacheReadTokens": 6166045,
+    "outputTokens": 28817,
+    "thinkingTokens": 13759,
+    "responses": 35,
+    "costUsd": 5.218960999999999
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,38 +59,38 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 25,
+      "inputTokens": 68,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 120990,
-      "cacheReadTokens": 1621385,
-      "outputTokens": 10889,
-      "thinkingTokens": 4710,
-      "responses": 12,
-      "costUsd": 2.695877
+      "cacheWrite1hTokens": 177033,
+      "cacheReadTokens": 6166045,
+      "outputTokens": 28817,
+      "thinkingTokens": 13759,
+      "responses": 35,
+      "costUsd": 5.218960999999999
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 11,
-    "matched": 11,
-    "matchedTableUsd": 2.5827236,
-    "matchedEventUsd": 2.5827236000000005,
+    "events": 34,
+    "matched": 34,
+    "matchedTableUsd": 5.122341199999999,
+    "matchedEventUsd": 5.122341199999999,
     "unseen": {}
   },
   "operatorWords": {
-    "chat": 0,
+    "chat": 7,
     "review": 0,
     "threads": 0
   },
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 295,
+    ".md": 304,
     ".txt": 295,
     ".json": 2,
     ".scss": 11,
-    ".ts": 2561,
+    ".ts": 2645,
     ".yaml": 459,
     ".tsx": 8,
     ".wgsl": 27
