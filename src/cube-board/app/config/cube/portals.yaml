@@ -2,7 +2,7 @@ items:
   - id: z-portals
     type: zone
     updated: [2026-11-15T11:02:33.000Z, agent:cube]
-    box: [5720, 2000, 2470, 1600, blue]
+    box: [5720, 2000, 2470, 1900, blue]
     icon: 🌀
     text: 'Portals: the forks'
   - id: p-look-q
@@ -221,6 +221,29 @@ items:
     box: [7798, 3355, 380, gray]
     icon: 👥
     text: 'Meeting and chasing both need to see the other player, and the cube has no channel for it: the site is static, and the world is shared only as a function. Presence is a fork of its own, outside portals'
+  - id: p-lift-q
+    type: sticky
+    updated: [2026-11-15T14:05:58.000Z, agent:cube]
+    box: [5748, 3660, 380, blue]
+    icon: 🛗
+    text: 'Vova: the portal as a lift. Shut, an ordinary door; opened, a plain cabin whose display names the floor it goes to. Mundane sci-fi: you shrink inside a cabin that shrinks with you, so the change of size needs no playing out. And elevator music on the way'
+  - id: p-lift-music
+    type: sticky
+    updated: [2026-11-15T14:05:59.000Z, agent:cube]
+    box: [6158, 3660, 380, yellow]
+    icon: 🎵
+    text: 'Music as the speedometer. At ~0.1 s a floor a ride is too short for a tune, but a lift may take longer: thirty floors, half a minute of a silly melody, a semitone lower each floor, so going deeper sinks into the bass. The cube already has sound (features/sound), so no new system'
+  - id: p-lift-number
+    type: sticky
+    updated: [2026-11-15T14:06:00.000Z, agent:cube]
+    box: [6568, 3660, 380, yellow]
+    icon: 🔢
+    text: 'Is the floor on the display a spoiler? It puts in the world a fact the world did not show, which spoiler-free trophies guard against. But the URL already names the floor, so the display tells nothing the player lacks: fine'
+  - id: l-lift-look
+    type: line
+    updated: [2026-11-15T14:06:01.000Z, agent:cube]
+    ends: [p-lift-q, p-look-pick]
+    text: or this
   - id: l-period-two
     type: line
     updated: [2026-11-15T13:48:08.000Z, agent:cube]
