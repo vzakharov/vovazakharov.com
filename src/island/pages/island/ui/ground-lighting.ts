@@ -37,7 +37,7 @@ import { dot, type Vec3 } from '@/island/shared/globe';
 import { lightThrough, tintOf } from '../lib/air';
 import { daylight, type Heavens, SUN_ELEVATION } from '../lib/day';
 import { GROUND_STOPS, SEA_COLOUR, SHORE_TOP } from '../lib/land-colour';
-import { intensityFor } from '../lib/sun';
+import { eyeKeeps, intensityFor } from '../lib/sun';
 import { type SeaFrame, seaSurface } from './sea-surface';
 import { type Backed, type SkyNodes, skyNodes } from './sky-nodes';
 
@@ -273,10 +273,15 @@ export function groundLighting(): GroundLighting {
     shine: (heavens, up, height) => {
       air.update(heavens, up, height);
       // The sun's colour after the air it crossed to the eye: warm when low, out once set.
-      const warmth = tintOf(lightThrough(dot(heavens.sun, up), height));
+      const sine = dot(heavens.sun, up);
+      const warmth = tintOf(lightThrough(sine, height));
+      const kept = eyeKeeps(sine, SUN_ELEVATION);
       for (const light of [landSun, seaSun]) {
         light.position.set(...heavens.sun);
-        light.color.setRGB(...warmth).multiply(sunColour);
+        light.color
+          .setRGB(...warmth)
+          .multiply(sunColour)
+          .multiplyScalar(kept);
       }
       for (const light of [landMoon, seaMoon]) {
         light.position.set(...heavens.moon);
