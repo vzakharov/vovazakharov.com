@@ -1,4 +1,3 @@
-/** A board is read in English, so no line of its files may carry Cyrillic. */
 const CYRILLIC = /\p{Script=Cyrillic}+(?:[\s,.!?«»—–-]+\p{Script=Cyrillic}+)*/u;
 
 export type CyrillicLine = { line: number; words: string };

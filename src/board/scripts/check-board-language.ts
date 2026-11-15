@@ -1,7 +1,6 @@
 /**
  * Fails when any board's files carry Cyrillic: a board is written in English,
- * an operator's words on it included, translated. Run by
- * `src/board/scripts/vet-boards.sh` when a branch changes a board.
+ * an operator's words on it included, translated.
  */
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';

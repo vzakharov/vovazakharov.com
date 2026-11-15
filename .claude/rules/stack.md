@@ -155,9 +155,7 @@ Nineteen things about that list are deliberate:
   there as well, which regenerates `docs/music/untold-songs.md` and, like the
   codegen below, fails when it had to write. The typography check reads every
   site's prose, so it stays ungated. `src/board/scripts/vet-boards.sh` gates
-  `pnpm check:board-language` the same way, on a branch that changes a board:
-  boards are read in English, an operator's quoted words translated, so a
-  Cyrillic letter in any board's YAML fails it.
+  `pnpm check:board-language` the same way, on a branch that changes a board.
 - **`pnpm styles:codegen` repairs the generated Sass partials rather than
   reporting on them.** Two scales are needed on both sides of a boundary neither
   language can read across: the breakpoints (TypeScript for Mantine's responsive
