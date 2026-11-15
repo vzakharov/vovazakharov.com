@@ -1,7 +1,7 @@
 // Generated from light.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { HASH, wgsl } from '@/cube/shared/shader';
+import { HASH, wgsl } from '@/scene/shared/shader';
 
 import { CORE } from './core';
 

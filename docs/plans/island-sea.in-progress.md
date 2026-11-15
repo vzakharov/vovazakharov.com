@@ -31,7 +31,54 @@ The sea lead's memory, a `/carte-blanche` run on `island/sea`; one PR into
 7. Target 60 fps on an integrated-graphics laptop, 30+ on a mid phone; real
    numbers come from a preview slot (the container renders in software).
 
-Answers, verbatim: none yet.
+Answers, verbatim (2026-11-15):
+
+> 1 если пока легче так, ок. в перспективе наверное вообще стоит убрать. wgslFn
+> -- это "wgsl в three"? 2 окей, только не уверен что sea хорошее название 3 на
+> твоё усмотрение + экспериментирование 4 не мелочись, давай с облаками 🙂 5
+> было бы классно модель ветра, поначалу можно простенькую 6 окей 7 остров в
+> кубе даёт ~18 fps без пьяни, ~60 с ней. M2 Pro, на телефон не ориентируйся
+>
+> и вот что хочется услышать: как ты собираешься делать то что не пляж/пясок:
+> возвышенности, горы и пр.
+
+So: the shared app is `nature`, not `sea`; clouds are in; a simple wind model is
+in (it turns the ripples, shelters lee shores, drifts the clouds); the target is
+60 fps on an M2 Pro without drowsy, the phone no yardstick; WebGL2 may go
+altogether later.
+
+## Steering
+
+- «и не забывай пополнять доску интересными находками, достижениями и фейлами!)»
+  — finds, wins and fails go to the island lead by memo as they happen, frames
+  attached.
+- «что ещё важно -- "остров" куба впоследствии хочу сделать прямо частью мира
+  какого-то засеянного island (будет ли там что-то кроме этого острова или нет
+  -- не знаю), поэтому технологии двух аппов нужно если не унифицировать, то
+  идти в этом направлении» — whatever this bite writes new (ripples, the water's
+  light, sky, clouds, wind, ground detail) is a pure WGSL function of place,
+  clock and parameters in `nature`, with no frame uniform and no binding, so the
+  cube can take it as it stands; the island only composes them in TSL.
+- On the shared app's name, after `outdoors` was offered: «outdoors навевает
+  улицей или чем-то таким … я бы смотрел в принципе в направлении "модель
+  мира/планеты" … даже "планета" тут может быть слишком узким, если соберёмся
+  делать звёзды»; on `nature`: «во, nature это норм». The app is `nature`.
+- «послеживай за лимитами. где-то на 90% надо сворачиваться и ставить на паузу,
+  чтобы я мог продолжить с другого акка или вообще в другой раз. в идеале к
+  этому времени что-нибудь бы вкусное уже на preview (не обязательно всё,
+  конечно)» — at about 90% of the usage limit (he sent 35% of the 5-hour, 62%
+  weekly at the time) the run parks: plan current, everything pushed, children
+  told to push and stop. The first preview publish comes as early as there is a
+  sea worth looking at, before the rest of the list.
+- «смотри действиетнльо ли все подсессии нужны на фейбле, иногда можно запустить
+  на опусе а контролировать тебе» — a child's model is chosen by its package:
+  mechanical moves and wiring run on Opus under the lead's review, the flagship
+  only where the picture is being invented.
+- What the lead told him of the ground that is not beach: a material by place
+  (sand, grass and soil, rock on steep and high ground, snow) from height, slope
+  and coast distance; relief below the mesh's 1.2 m cell drawn by light, each
+  noise octave fading as it passes under a pixel; no new landforms and no
+  vegetation in this bite.
 
 ## Design decisions
 
@@ -44,16 +91,16 @@ Answers, verbatim: none yet.
   pieces as a `code()` include. Beat: rewriting the closed forms in TSL, a third
   copy beside the TS and WGSL twins `swell.test.ts` already holds together.
   Cost: WebGPU only (question 1).
-- **The shared formulas live in an app `sea` (parents `scene`, `dice`) that
+- **The shared formulas live in an app `nature` (parents `scene`, `dice`) that
   `cube` and `island` both extend**; the WGSL kit (`wgsl`, `assemble`, `f32`,
   `hash.wgsl`) drops to `scene/shared/shader`. What needs the cube's analytic
   `islandHeight` (`waterLevel(xz, t)`, `shoreRise`) stays in the cube.
 - **Bed height is the tiles' `height` vertex attribute**, already the floor's
   under the sea. No analytic height in a shader, no height texture.
-- **The swell's run is `dot(world position, axis)`**: per tile a float64
-  `tau0 = −dot(centre, axis)·pace mod 3600` as an object uniform, the local
-  remainder in float32. Every swell sum is periodic in the hour, so the mod is
-  exact.
+- **The swell's run is `dot(world position, axis)`**, its hour-periodic part
+  taken in float64 at the eye and the remainder from `positionWorld`, as the
+  ripples' place is. Beat: a per-tile object uniform, which loses the place on a
+  coarse tile whose centre is far from the eye.
 - **Ripples are an analytic sum of sines in the fragment**, each octave faded to
   roughness as it passes under a pixel. Beat: the FFT (cost) and a baked normal
   map (the cube's "nothing authored" holds here by taste).
@@ -68,18 +115,74 @@ Answers, verbatim: none yet.
 
 - **Lead** (this session): the sea material, the shore on land tiles, wiring,
   integration, the PR.
-- **Sky** — `island/sea-sky`: analytic sky, sun, aerial haze. Session: see below
-  once started.
-- **Extraction** — `island/sea-kit`: the `sea` app and the kit's move. Session:
-  see below once started.
+- **Sky** — `island/sea-sky`, session_01DaohkCJdeeFwaqj45LNp9n: analytic sky,
+  sun, aerial haze, clouds; seam
+  `SkyNodes { radiance, aerial, background, update }` plus `shade` for cloud
+  shadows.
+- **Extraction** — `island/sea-kit`, session_01DaohkEEm3LNwEwmSEUQqq4, on Opus:
+  the `nature` app and the kit's move to `scene/shared/shader`. Sends "barrels
+  exist" first. (Its flagship predecessor, session_01DaohkEJvpB9uSL7xF31AzF, was
+  archived after eight minutes of reading, nothing pushed.)
 
 ## Built / in flight / left
 
-- In flight: the `wgslFn` spike; both children.
-- Left: sea material; swash and wet sand on land; beach profile; sand grain near
-  the eye; vertex swell; glint from orbit (optional); blue flashes; bite 3's
-  leftovers where touched; preview; frames to the board by memo; `/polish`,
-  `/pr`.
+- Built (00314cbe, frames 01–05, memo sent, preview slot 1): the sea's surface —
+  `lib/ripple-table.ts` (64 plane waves, integer vectors over a 256 m period),
+  `lib/sea-wgsl.ts` (`windAt`, `ripplesAt`, `seaColour`, a stand-in `seaSky`),
+  `ui/sea-surface.ts` (the TSL seam; a fragment's place is the eye modulo the
+  period plus `positionWorld`, so no per-tile uniform), `ui/ocean-globe.ts`
+  (drawn first, no depth write: the blue flashes' fix, not yet checked in
+  flight). `groundLighting().rippleSea()` dresses the Lambert sea materials with
+  the surface as emissive once the backend is WebGPU. The selection's `relief`
+  bounds a tile by the sea too: deep-water tiles near the eye were culled by
+  their floor.
+- Built (5d92f863, frames 06–08, preview slot 1 redispatched): the kit's first
+  merge (d90aa892: `nature` with swell, shore level, wetness, cusps); the swell
+  on the sea. `SWELL_AXIS` and `swellClock(eye, seconds)` in `lib/sea-wgsl.ts`;
+  sea vertices rise by `seaVertexLevel` (ashore they ride 1.5 cm over the sand
+  and `maskNode = seaLies` cuts the surface to the sheet a fragment at a time);
+  the fragment adds the swell's slope and `brokenAt` foam; land's `outputNode`
+  darkens by `seaDampTint` (`drySince`/`dampAfter`). Shelter is 1 everywhere.
+- Traps met: three's types give `wgslFn` an untyped `Node`, which `colorNode`
+  refuses and `emissiveNode`, `maskNode`, `positionNode` and `outputNode` take —
+  so a WGSL result goes into one of those slots. `h.step` on the software
+  renderer costs ~3 s a call: shoot with `--frames` ≤ 60, never `--t`.
+- Built (a9d17034, frames 09–12, preview slot 1 redispatched): the swash's cusps
+  (`seaTongue`, `swellAt(eye, seconds)` returning the clock and the eye's place
+  along the crests); the kit's final head 0b8a9e5f (child archived); the sky
+  child's bd35d5b4 merged and wired — `seaSurface(radiance)` samples the still
+  sea's mirror direction and the zenith, the sea's own haze and `seaSky` are
+  gone, every material's `outputNode` is the sky's `aerial`, the land's damp
+  tint over it. The sky stays TSL (typed), not WGSL in `nature`: the
+  cube-convergence steer waits there.
+- Built (e21dee97, frames 13–14, preview slot 1 redispatched; `./scripts/vet.sh`
+  green on a9d17034): the ground's relief — `lib/ground-wgsl.ts`
+  (`groundNormal`, ridges read off the ripples' table, footprint-faded) as the
+  land's `normalNode`, and bare rock in TSL where the mesh is steep above the
+  beach (`ROCK_COLOUR`, `rock`, `roughness` in `ground-lighting.ts`). Rock has
+  not been looked at on a real cliff yet: find one and shoot it.
+- If parked here: everything is pushed; the sky child
+  (session_01DaohkCJdeeFwaqj45LNp9n, `island/sea-sky`) is the only one alive and
+  must merge `origin/island/sea` before its next push. Left: its orbit fix and
+  clouds; the shoreline's polygons; film mirror on wet sand; shelter; beach
+  profile; `sea-wgsl`/`ground-wgsl` into `nature`; `/polish`; `/pr` into
+  `island/stretch-3`.
+- Open with the sky child: blue space and a veiled disc from mid orbit (frame
+  11; the far-orbit opening, frame 12, is right); then clouds and `shade`.
+- (Superseded below where it names the sky's wiring or the kit as pending.)
+- In flight: the extraction child (optics and sand, its final report); the sky
+  child.
+- Next, in this order: the sky child's `radiance` and `aerial` in place of
+  `seaSky` and the flat background; the shoreline's polygons (the sheet's
+  outline follows the 1.2 m mesh — soften it with the cusps' `tongue` or noise
+  in the reach) and the sand's film mirror (`filmAfter`); shelter from the
+  floor's gradient; the beach profile (candidate: land side
+  `h + 0.9·tanh(h / 0.08)` — it moves pinned heights); ground detail off the
+  beach; move `sea-wgsl` into `nature` as `.wgsl` and dedupe `HOUR_SECONDS`; a
+  TS twin of `windAt` for the sky child; `./scripts/vet.sh`, `/polish`, `/pr`.
+- Known: the inlet's shoreline is polygonal at 2 m (frame 06); the blue-flash
+  fix is unchecked in flight; knip, type-overlap and masd:clusters have not run
+  over the new files.
 
 ## DRY notes
 

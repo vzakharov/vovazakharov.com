@@ -1,8 +1,9 @@
 // Generated from clouds-wgsl.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
+import { wgsl } from '@/scene/shared/shader';
+
 import { SUN } from '@/cube/shared/cube-boundary';
-import { wgsl } from '@/cube/shared/shader';
 
 import { CLEAR_SKY } from './clear-sky.shader.generated';
 import { CLOUD_BODY } from './cloud-body.shader.generated';

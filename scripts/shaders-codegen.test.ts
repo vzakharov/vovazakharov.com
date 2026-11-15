@@ -16,8 +16,8 @@ const THEME = 'src/cube/entities/theme';
 function tree(files: Record<string, string>): string {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'shaders-codegen-'));
   const all: Record<string, string> = {
-    '../../shared/shader/index.ts': "export { wgsl } from './wgsl';",
-    '../../shared/shader/wgsl.ts':
+    '../../../scene/shared/shader/index.ts': "export { wgsl } from './wgsl';",
+    '../../../scene/shared/shader/wgsl.ts':
       'export const wgsl = (...parts: unknown[]) => parts;',
     'kit/index.ts': "export { BASE } from './lib/base.shader.generated';",
     'kit/lib/base.wgsl': 'fn base() -> f32 {\n  return 1.0;\n}\n',
@@ -109,7 +109,7 @@ describe('pnpm shaders:codegen', () => {
     );
     assert.match(
       written,
-      /import { wgsl } from '@\/cube\/shared\/shader';\n\nimport { BASE } from '\.\.\/\.\.\/kit';/,
+      /import { wgsl } from '@\/scene\/shared\/shader';\n\nimport { BASE } from '\.\.\/\.\.\/kit';/,
     );
     assert.match(
       written,
@@ -183,7 +183,7 @@ describe('pnpm shaders:codegen', () => {
     );
     assert.match(
       written,
-      /import { wgsl } from '@\/cube\/shared\/shader';\nimport { BASE } from '@\/cube\/entities\/theme';/,
+      /import { wgsl } from '@\/scene\/shared\/shader';\n\nimport { BASE } from '@\/cube\/entities\/theme';/,
     );
     assert.equal(run(root).status, 0);
   });

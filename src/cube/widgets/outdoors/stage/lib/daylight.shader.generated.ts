@@ -1,8 +1,9 @@
 // Generated from daylight.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
+import { wgsl } from '@/scene/shared/shader';
+
 import { SUN } from '@/cube/shared/cube-boundary';
-import { wgsl } from '@/cube/shared/shader';
 
 import { CUBE_SHADOW } from './cube-shadow.shader.generated';
 

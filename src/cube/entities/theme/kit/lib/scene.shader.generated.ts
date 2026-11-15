@@ -1,7 +1,7 @@
 // Generated from scene.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { wgsl } from '@/cube/shared/shader';
+import { wgsl } from '@/scene/shared/shader';
 
 export const SCENE = wgsl(
   'cube/entities/theme/kit/lib/scene',

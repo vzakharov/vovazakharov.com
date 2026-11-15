@@ -1,7 +1,7 @@
 // `wafer.ts` adds this floor's light and lens, `lamps()` among them.
 
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, Surf, Material, polished, embossed, uncut};
-import package::cube::shared::shader::hash::{mix32, hashOf, unitOf, cellHash, valueNoise};
+import package::scene::shared::shader::hash::{mix32, hashOf, unitOf, cellHash, valueNoise};
 import package::cube::entities::theme::kit::lib::finish::tiling;
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::kit::lib::light::lampGlow;

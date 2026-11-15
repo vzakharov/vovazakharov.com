@@ -15,4 +15,3 @@ export { SKY } from './lib/sky.shader.generated';
 export { FAR_METRES, SKY_METRES, STAGE_NUMBERS } from './lib/stage-numbers';
 export { SUN_GLOW } from './lib/sun-glow.shader.generated';
 export { WATER_BODY } from './lib/water-body.shader.generated';
-export { WATER_OPTICS } from './lib/water-optics';

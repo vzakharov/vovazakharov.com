@@ -1,15 +1,13 @@
 // Generated from sea-light.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { SUN } from '@/cube/shared/cube-boundary';
-import { wgsl } from '@/cube/shared/shader';
+import { wgsl } from '@/scene/shared/shader';
 
-import {
-  OUTDOOR_FRAME,
-  SKY,
-  WATER_BODY,
-  WATER_OPTICS,
-} from '../../../../../stage';
+import { WATER_LIGHT, WATER_OPTICS } from '@/nature/shared/water';
+
+import { SUN } from '@/cube/shared/cube-boundary';
+
+import { OUTDOOR_FRAME, SKY } from '../../../../../stage';
 import { SEA_SURFACE } from './sea-surface.shader.generated';
 
 export const SEA_LIGHT = wgsl(
@@ -113,6 +111,6 @@ fn upwelling(falling: vec3f) -> vec3f {
   SKY,
   SUN,
   SEA_SURFACE,
-  WATER_BODY,
+  WATER_LIGHT,
   WATER_OPTICS,
 );

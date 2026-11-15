@@ -1,4 +1,4 @@
-import { clamp01 } from '@/cube/shared/lib/ease';
+import { clamp01 } from '@/scene/shared/lib/ease';
 
 import {
   chance,

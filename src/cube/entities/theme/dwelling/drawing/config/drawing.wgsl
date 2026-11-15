@@ -1,5 +1,5 @@
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, DOORWAY_AT, Surf, alongWall, Material, matte, spaced, Lens, litOf};
-import package::cube::shared::shader::hash::{mix32, hashOf, unitOf, valueNoise, fbm};
+import package::scene::shared::shader::hash::{mix32, hashOf, unitOf, valueNoise, fbm};
 import package::cube::entities::theme::kit::lib::finish::band;
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::kit::lib::light::{Lamps, lampReach};
