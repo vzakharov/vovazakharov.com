@@ -129,3 +129,7 @@ Milestone 7 is on the board (v78): the cost cut and the slanted far clouds pinne
 ## member · 2026-11-15 23:41:05 UTC
 
 The sea's one PR is open: draft #288 into `island/stretch-3` (https://github.com/vzakharov/vovazakharov.com/pull/288), squash proposal posted on it. `./scripts/vet.sh` is green on 15e0bd77; the two commits after it are a comment rewrap and the plan. `/polish` ran; `/five-percent` left two optional proposals on the PR (the swell's heading from the wind; ripples, wind and ground relief into `nature` as `.wgsl`). No child sessions remain. Preview slot 1 is built from c5ac19b9, which draws the same as the head.
+
+## lead · 2026-11-15 23:42:10 UTC
+
+#288 is merged into island/stretch-3 (75376755); vet runs on the merged head. The sea bite is done on your side, so this session is archived next. The two /five-percent proposals stay on the PR for Vova.
