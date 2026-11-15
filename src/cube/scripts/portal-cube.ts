@@ -53,6 +53,12 @@ const THRESHOLD = 0.001;
 /** How far past the far door the body stands once through, in room sides. */
 const THROUGH = 0.25;
 
+/** How far either side of the wall's line the leaf is shot from, in room sides. */
+const LEAF_STEP = 0.15;
+
+/** How far right of straight back the eye turns once past, to face the leaf, in radians. */
+const LEAF_TURN = 0.6;
+
 const MINUTE = 60_000;
 
 /** The instant the frames are shot at: the start of a minute of the shared clock. */
@@ -129,6 +135,18 @@ await withCubePage(async ({ shoot, setClock }) => {
   await shoot(
     named('arrived-looking-back'),
     { ...through, yaw: through.yaw + Math.PI },
+    behind,
+  );
+  // One leaf from its two sides, a step either side of the threshold.
+  await shoot(named('leaf-before'), before(way, LEAF_STEP), open);
+  const past = carried(
+    { ...before(way, 1 - LEAF_STEP), ...roomBeyond(way) },
+    way,
+    far,
+  );
+  await shoot(
+    named('leaf-past-looking-back'),
+    { ...past, yaw: past.yaw + Math.PI + LEAF_TURN },
     behind,
   );
 });
