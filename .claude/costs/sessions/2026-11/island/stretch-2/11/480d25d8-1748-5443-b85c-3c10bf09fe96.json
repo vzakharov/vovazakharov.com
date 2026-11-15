@@ -1,23 +1,29 @@
 {
   "total": {
-    "inputTokens": 556,
-    "cacheWrite5mTokens": 136,
-    "cacheWrite1hTokens": 84007,
-    "cacheReadTokens": 3002851,
-    "outputTokens": 8182,
-    "thinkingTokens": 2278,
-    "responses": 25,
-    "costUsd": 1.4395782000000001
+    "inputTokens": 1101,
+    "cacheWrite5mTokens": 597,
+    "cacheWrite1hTokens": 113492,
+    "cacheReadTokens": 6252675,
+    "outputTokens": 17157,
+    "thinkingTokens": 6060,
+    "responses": 46,
+    "costUsd": 2.5107910000000007
   },
   "estimate": {
-    "at": "2026-11-15T18:26:16.568Z",
-    "subjectLine": "docs: pick up the second stretch's lead and report where it stands",
+    "at": "2026-11-15T18:37:03.428Z",
+    "subjectLine": "docs: pick up the second stretch's lead and weigh what main brought",
     "parts": [
       {
-        "hours": 0.5,
+        "hours": 1.0,
         "grade": "senior",
         "role": "producer",
-        "comment": "re-reading a week-old multi-session state across lead, member, review and preview takes a producer's judgement of what still holds"
+        "comment": "re-reading a week-old multi-session state and restarting the member takes a producer's judgement of what still holds"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "telling which of a week of WGSL, shader tooling and a parallel island in the cube bears on the round world needs a rendering engineer's read"
       }
     ],
     "comment": null
@@ -48,18 +54,18 @@
   "url": "https://claude.ai/code/session_01DaohkC2YGcWo5oHHsdQaGe",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-15T18:25:03.796Z",
-  "lastResponseAt": "2026-11-15T18:34:09.196Z",
+  "lastResponseAt": "2026-11-15T18:37:15.906Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 50,
+    "inputTokens": 89,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 84007,
-    "cacheReadTokens": 2873184,
-    "outputTokens": 8167,
-    "thinkingTokens": 2278,
-    "responses": 24,
-    "costUsd": 1.4102328000000002
+    "cacheWrite1hTokens": 113492,
+    "cacheReadTokens": 5984444,
+    "outputTokens": 17126,
+    "thinkingTokens": 6060,
+    "responses": 44,
+    "costUsd": 2.4477008000000007
   },
   "subagents": {
     "inputTokens": 0,
@@ -73,38 +79,38 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 556,
-      "cacheWrite5mTokens": 136,
-      "cacheWrite1hTokens": 84007,
-      "cacheReadTokens": 3002851,
-      "outputTokens": 8182,
-      "thinkingTokens": 2278,
-      "responses": 25,
-      "costUsd": 1.4395782000000001
+      "inputTokens": 1101,
+      "cacheWrite5mTokens": 597,
+      "cacheWrite1hTokens": 113492,
+      "cacheReadTokens": 6252675,
+      "outputTokens": 17157,
+      "thinkingTokens": 6060,
+      "responses": 46,
+      "costUsd": 2.5107910000000007
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 25,
-    "matched": 24,
-    "matchedTableUsd": 1.4102328000000002,
-    "matchedEventUsd": 1.4102328,
+    "events": 46,
+    "matched": 44,
+    "matchedTableUsd": 2.4477008000000007,
+    "matchedEventUsd": 2.4477008000000002,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 506,
-        "cacheWrite5mTokens": 136,
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 597,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 129667,
-        "outputTokens": 15,
+        "cacheReadTokens": 268231,
+        "outputTokens": 31,
         "thinkingTokens": 0,
-        "responses": 1,
-        "costUsd": 0.0293454
+        "responses": 2,
+        "costUsd": 0.0630902
       }
     }
   },
   "operatorWords": {
-    "chat": 57,
+    "chat": 74,
     "review": 0,
     "threads": 0
   },
