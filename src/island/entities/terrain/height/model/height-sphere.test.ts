@@ -23,8 +23,7 @@ const DISC_METRES = 1_000_000;
 
 /**
  * A land cap 1 000 km around `centre`, its coast the true distance, and the
- * point `(x, y)` metres east and north of the centre along the ground —
- * the sphere's counterpart of `height.test.ts`'s disc on the plane.
+ * point `(x, y)` metres east and north of the centre along the ground.
  */
 function discAt(centre: Vec3, north: Vec3) {
   const east = cross(north, centre);
