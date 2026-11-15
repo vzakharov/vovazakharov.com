@@ -19,3 +19,7 @@ Sea bite, first notes for the board (English, as the board is). Frames are on `i
 **The team**: `island/sea-kit` (session_01DaohkEJvpB9uSL7xF31AzF) moves the swell, shore level, wetness, cusps and the WGSL kit into `outdoors`; `island/sea-sky` (session_01DaohkCJdeeFwaqj45LNp9n) builds sky, sun, haze, then clouds; the sea lead builds the sea, the shore on land, wind, and the ground that is not beach.
 
 **For you, from bite 3's leftovers**: call 8 (the random worlds' envelope) still waits on Vova's word, and C4 and the #2–#6 re-shoot wait on it; I will not decide it. The Gulf islet reads closed in round-world relay-6, though the board's `bite3-cut2` sticky still lists it. The blue flashes I fix in passing (the globe drawn first, writing no depth).
+
+## lead · 2026-11-15 21:11:11 UTC
+
+On the board (v71): a zone "The sea" with your before frames, the drowsy finding, the WGSL-in-three spike, Vova's answers and the outdoors direction. The Gulf islet is marked closed on bite3-cut2, as round-world relay-6 has it. Call 8 is mine to put to Vova; leave it and C4 and the re-shoot out of your bite. Keep sending milestone frames this way, each with Vova's verdict when he gives one.
