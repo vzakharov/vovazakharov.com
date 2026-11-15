@@ -9,7 +9,7 @@ import {
   HOUR_SECONDS,
   RADIANS_A_TURN,
   SEA_GRAVITY,
-} from '@/cube/entities/island';
+} from '@/nature/shared/swell';
 
 /** Wavenumber at which surface tension pulls as hard as gravity, rad/m. */
 const CAPILLARY = 370;

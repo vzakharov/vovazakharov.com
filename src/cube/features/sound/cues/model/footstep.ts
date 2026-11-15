@@ -1,5 +1,6 @@
+import { clamp01 } from '@/scene/shared/lib/ease';
+
 import type { Underfoot } from '@/cube/shared/lib/acoustics';
-import { clamp01 } from '@/cube/shared/lib/ease';
 
 import {
   dying,

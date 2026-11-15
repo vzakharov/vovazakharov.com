@@ -1,4 +1,4 @@
-import package::cube::shared::shader::hash::{mix32, hashOf, unitOf, fbm};
+import package::scene::shared::shader::hash::{mix32, hashOf, unitOf, fbm};
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, PLATE, METAL, GLASS, SCREEN, SKIN, ROOM, Surf, Material, matte, glowing, spaced, uncut, Lens};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::kit::lib::light::{Lamps, lampReach, cornerShade, lampGlow};

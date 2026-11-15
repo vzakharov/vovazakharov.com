@@ -16,19 +16,7 @@ export {
   WAKE_AT,
   WORLD,
 } from './land';
-export {
-  crestOf,
-  HOUR_SECONDS,
-  PERIOD,
-  RADIANS_A_TURN,
-  SEA_GRAVITY,
-  SEA_WORLD,
-  SHORE_CUSPS,
-  SWELL_COURSE,
-  SWELL_TRAIN,
-  turnsAt,
-  WAVES,
-} from './sea';
+export { SHORE_CUSPS } from './sea';
 export {
   SHORE_WETNESS,
   shoreClock,

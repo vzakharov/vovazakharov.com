@@ -1,4 +1,5 @@
-import { lerp } from '@/cube/shared/lib/ease';
+import { lerp } from '@/scene/shared/lib/ease';
+
 import { DEEPEST_FLOOR, type Setting } from '@/cube/entities/world';
 
 import { openSides, shutCorners, shutSides } from '../lib/side';

@@ -1,7 +1,7 @@
 // Generated from wave-complex.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { wgsl } from '@/cube/shared/shader';
+import { wgsl } from '@/scene/shared/shader';
 
 export const WAVE_COMPLEX = wgsl(
   'cube/widgets/outdoors/scene/wave/field/lib/wave-complex',

@@ -1,5 +1,5 @@
-import { clamp01 } from '@/cube/shared/lib/ease';
-import type { Vec2 } from '@/cube/shared/lib/vec';
+import { clamp01 } from '@/scene/shared/lib/ease';
+import type { Vec2 } from '@/scene/shared/lib/vec2';
 
 /**
  * The island and its sea as the ear needs them: the ground's height over the

@@ -1,11 +1,9 @@
-import { smoothstep } from '@/cube/shared/lib/ease';
-import type { Vec2 } from '@/cube/shared/lib/vec';
-import {
-  HOUR_SECONDS,
-  islandHeight,
-  RADIANS_A_TURN,
-  waterLevel,
-} from '@/cube/entities/island';
+import { smoothstep } from '@/scene/shared/lib/ease';
+import type { Vec2 } from '@/scene/shared/lib/vec2';
+
+import { HOUR_SECONDS, RADIANS_A_TURN } from '@/nature/shared/swell';
+
+import { islandHeight, waterLevel } from '@/cube/entities/island';
 
 import { amplitudesOf, bin, CASCADES, CHOP, TILE } from './cascade';
 import { SWELL_DIES_OVER, TRAIN_ENDS } from './sea-shore-numbers';

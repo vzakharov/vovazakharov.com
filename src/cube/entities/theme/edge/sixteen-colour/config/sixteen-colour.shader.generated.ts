@@ -1,7 +1,7 @@
 // Generated from sixteen-colour.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { HASH, wgsl } from '@/cube/shared/shader';
+import { HASH, wgsl } from '@/scene/shared/shader';
 
 import { CORE, FINISH, GRADE, LIGHT, SCENE, STUFF } from '../../../kit';
 import { PATTERN } from '../../pattern';

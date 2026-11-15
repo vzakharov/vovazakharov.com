@@ -1,5 +1,7 @@
 import type { Seeded } from '@/kernel/shared/typings';
 
+import { clamp01 } from '@/scene/shared/lib/ease';
+
 import type {
   Ladder,
   Limb,
@@ -7,7 +9,6 @@ import type {
   RoomCue,
   Underfoot,
 } from '@/cube/shared/lib/acoustics';
-import { clamp01 } from '@/cube/shared/lib/ease';
 import type { InRoom } from '@/cube/entities/world';
 
 import { breath, grunt, jump, landing, swallow } from './body';

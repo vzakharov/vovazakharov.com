@@ -20,8 +20,8 @@ import { placeImport } from './placement.ts';
 
 /** What every generated module builds its piece with. */
 const FACTORY: Named = {
-  file: 'src/cube/shared/shader/wgsl.ts',
-  module: 'src/cube/shared/shader/wgsl',
+  file: 'src/scene/shared/shader/wgsl.ts',
+  module: 'src/scene/shared/shader/wgsl',
   name: 'wgsl',
 };
 
@@ -46,6 +46,10 @@ const ups = (specifier: string): number =>
   specifier.split('/').filter((part) => part === '..').length;
 
 const aliased = (specifier: string): boolean => specifier.startsWith('@/');
+
+/** The app an aliased import enters, `@/<app>/…`; none for a relative one. */
+const appOf = (specifier: string): string | undefined =>
+  aliased(specifier) ? specifier.split('/')[1] : undefined;
 
 const collator = new Intl.Collator('en', {
   sensitivity: 'base',
@@ -105,11 +109,13 @@ function importsOf(graph: MasdGraph, file: string) {
     const list = [...names].toSorted((a, b) => a.localeCompare(b));
     return `import { ${list.join(', ')} } from '${specifier}';`;
   };
-  // Aliased imports are one group, the relative ones the next: every alias
-  // here is into the cube's own app, which the sort keeps as one group.
+  // A group per app in graph order, then the relative imports, as the import
+  // sort groups them.
   const head = (): string =>
     [
-      [...imports].filter(([specifier]) => aliased(specifier)),
+      ...[...graph.keys()].map((app) =>
+        [...imports].filter(([specifier]) => appOf(specifier) === app),
+      ),
       [...imports].filter(([specifier]) => !aliased(specifier)),
     ]
       .filter((group) => group.length > 0)

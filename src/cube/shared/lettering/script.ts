@@ -1,6 +1,6 @@
-import { pathHash, roll, rollWith } from '@/dice/shared/roll';
+import { ramp } from '@/scene/shared/lib/ease';
 
-import { ramp } from '@/cube/shared/lib/ease';
+import { pathHash, roll, rollWith } from '@/dice/shared/roll';
 
 import { alphabetOf } from './invented';
 import { type Glyph, latinGlyph } from './latin';
