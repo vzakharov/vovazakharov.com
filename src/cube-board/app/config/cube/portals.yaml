@@ -2,7 +2,7 @@ items:
   - id: z-portals
     type: zone
     updated: [2026-11-15T11:02:33.000Z, agent:cube]
-    box: [5720, 2000, 2080, 1600, blue]
+    box: [5720, 2000, 2470, 1600, blue]
     icon: 🌀
     text: 'Portals: the forks'
   - id: p-look-q
@@ -179,6 +179,53 @@ items:
     box: [7388, 3030, 380, gray]
     icon: 👥
     text: 'Two players: the dollhouse is seen by whoever sees the door open, so by its opener alone, as doors-who-sees has it. A second player cannot follow the first through, since for them the door is shut'
+  - id: p-period-q
+    type: sticky
+    updated: [2026-11-15T13:48:01.000Z, agent:cube]
+    box: [7798, 2110, 380, blue]
+    icon: ⏱️
+    text: 'Fork 5, the hub’s period. In the hub-and-spoke model (the doors artifact) a hub rolls where it leads once a period, on one clock for every hub, and a spoke always leads back to its hub. Nothing in the arithmetic fixes the length: it is one constant, and the question is what a hub is for'
+  - id: p-period-place
+    type: sticky
+    updated: [2026-11-15T13:48:02.000Z, agent:cube]
+    box: [7798, 2350, 380, yellow]
+    icon: 🤝
+    text: 'An hour or longer: a hub is a place. Two who step in within one period land in the same spoke, so strangers meet by chance, and a hub has a timetable worth learning. A shared URL meets in any period, since it names the period'
+  - id: p-period-ride
+    type: sticky
+    updated: [2026-11-15T13:48:03.000Z, agent:cube]
+    box: [7798, 2545, 380, yellow]
+    icon: 🎡
+    text: 'Minutes: a hub is a ride. Wait a minute and the door leads elsewhere; with the far room seen through it (p-look-scale), standing at a hub is flipping channels. The cost: you pick where you go by waiting, and meeting by chance needs the same minute'
+  - id: p-period-chase
+    type: sticky
+    updated: [2026-11-15T13:48:04.000Z, agent:cube]
+    box: [7798, 2765, 380, yellow]
+    icon: 🏃
+    text: 'Vova, at minutes: a chase between worlds. The chased steps in during a period’s last seconds, and the chaser has those seconds or loses the trail, the changed room in the doorway saying so. Or an ambush: the spoke the chased took leads back only to this hub'
+  - id: p-period-clock
+    type: sticky
+    updated: [2026-11-15T13:48:05.000Z, agent:cube]
+    box: [7798, 2985, 380, purple]
+    icon: ⏳
+    text: 'Either way the hub shows its clock, a countdown or a pulse in the door before it flips, or timing is luck rather than play. Each hub can take its own offset, rolled at its path, so the world does not flip all at once on the hour'
+  - id: p-period-lottery
+    type: sticky
+    updated: [2026-11-15T13:48:06.000Z, agent:cube]
+    box: [7798, 3180, 380, purple]
+    icon: 🎲
+    text: 'Lottery or timetable: a fresh roll each period repeats, and a floor-6 hub at an hour shows all its 182 spokes in ~44 days; a shuffled cycle shows each once in 182 periods and still looks random'
+  - id: p-period-see
+    type: sticky
+    updated: [2026-11-15T13:48:07.000Z, agent:cube]
+    box: [7798, 3355, 380, gray]
+    icon: 👥
+    text: 'Meeting and chasing both need to see the other player, and the cube has no channel for it: the site is static, and the world is shared only as a function. Presence is a fork of its own, outside portals'
+  - id: l-period-two
+    type: line
+    updated: [2026-11-15T13:48:08.000Z, agent:cube]
+    ends: [p-period-see, p-more-two]
+    text: each opens their own door
   - id: l-portals-fall
     type: line
     updated: [2026-11-15T11:31:33.000Z, agent:cube]
