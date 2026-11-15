@@ -176,13 +176,12 @@ const pastWall = (far: Facing, quads: readonly Quad[]): Quad[] =>
 
 /**
  * The mesh for an eye at `pose`, seeing through the door `opened` as its
- * opener alone does; given `through`, the far side of a portal the eye looks
- * out of from its doorway, only what lies past that wall, in the frame of
- * the room past it, which `pose` must be in. Its floor's holes are resolved first, since
- * they decide which rooms of the floor below it sees, and only then those
- * rooms' own; which rooms sell is read off the same answers. What it awaits
- * is resolved once per room, so a pill taken re-packs the faces without
- * resolving the holes again.
+ * opener alone does; given `through`, a portal's far side, only what lies
+ * past that wall, and `pose` must be in the room past it. Its floor's holes
+ * are resolved first, since they decide which rooms of the floor below it
+ * sees, and only then those rooms' own; which rooms sell is read off the
+ * same answers. What it awaits is resolved once per room, so a pill taken
+ * re-packs the faces without resolving the holes again.
  */
 export async function build(
   pose: Pose,
