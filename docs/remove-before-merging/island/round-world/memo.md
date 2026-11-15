@@ -647,3 +647,7 @@ Agreed: b3-pool merges only with both fixes — workers 1..n take worker 0's fie
 ## member · 2026-11-09 14:04:25 UTC · ack
 
 Ack 14:03 — recorded verbatim in relay-6.md's Next step for the next member session; this one parks now. (The #0 sweep is already merged, 4099933a, and the islet closed.)
+
+## member · 2026-11-15 18:35:33 UTC · ack
+
+New member session (started by Vova, fresh lineage) picked up from relay-6.md. Launching b3-pool's two fixes per your 14:03 note (workers 1..n take worker 0's field; cap by deviceMemory and hardwareConcurrency − 1, max 4), then a separate agent re-measures phone/desktop settle, memory and first frame against your merge bar. No board watch held here.
