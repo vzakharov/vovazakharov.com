@@ -77,7 +77,8 @@ body:not(.editing) #stage {
    it costs a layout and a repaint every frame of a pan. */
 #camera,
 #world,
-#lines {
+#lines,
+#line-hits {
   position: absolute;
   top: 0;
   left: 0;
@@ -91,12 +92,22 @@ body:not(.editing) #stage {
   will-change: transform;
 }
 
-#lines {
+/* A line is seen over the cards and pressed under them (`renderLines`): the
+   ink above every item, the hit strokes above the zones alone. */
+#lines,
+#line-hits {
   width: 1px;
   height: 1px;
   overflow: visible;
   pointer-events: none;
+}
+
+#line-hits {
   z-index: 1;
+}
+
+#lines {
+  z-index: 3;
 }
 
 .item {

@@ -1,0 +1,92 @@
+{
+  "total": {
+    "inputTokens": 135,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 196712,
+    "cacheReadTokens": 10822502,
+    "outputTokens": 59824,
+    "thinkingTokens": 35151,
+    "responses": 62,
+    "costUsd": 4.935216400000002
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-15T12:15:06.936Z",
+    "contextTokens": 100538,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 44165,
+      "cacheReadTokens": 53197,
+      "outputTokens": 428,
+      "thinkingTokens": 16,
+      "responses": 1,
+      "costUsd": 0.37252740000000006
+    }
+  },
+  "sessionId": "768e0bea-fb9e-514e-aee7-12965bef04ac",
+  "branch": "claude/cube-board-untangle",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/task Reorganise the cube board so it reads cleanly. Vova (the operator) asked for this in another session: «растасовать доску, а то у нас сейчас там все нити п…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCDa3UfkHgRbQ38sg2",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-15T12:14:56.910Z",
+  "lastResponseAt": "2026-11-15T12:27:51.819Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 135,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 196712,
+    "cacheReadTokens": 10822502,
+    "outputTokens": 59824,
+    "thinkingTokens": 35151,
+    "responses": 62,
+    "costUsd": 4.935216400000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 135,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 196712,
+      "cacheReadTokens": 10822502,
+      "outputTokens": 59824,
+      "thinkingTokens": 35151,
+      "responses": 62,
+      "costUsd": 4.935216400000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 61,
+    "matched": 61,
+    "matchedTableUsd": 4.856643600000002,
+    "matchedEventUsd": 4.856643600000002,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 29,
+    ".yaml": 206
+  }
+}

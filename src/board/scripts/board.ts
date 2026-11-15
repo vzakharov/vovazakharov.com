@@ -156,8 +156,9 @@ function page(
 <style>${css}</style>
 <div id="stage">
   <div id="camera">
-    <svg id="lines" aria-hidden="true"></svg>
+    <svg id="line-hits" aria-hidden="true"></svg>
     <div id="world"></div>
+    <svg id="lines" aria-hidden="true"></svg>
   </div>
 </div>
 ${TOOLBAR}

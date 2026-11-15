@@ -27,7 +27,13 @@ function boardOnPage(): Board {
     lens: byId('camera'),
     lift: createLift(stage.classList, () => board.camera.zoom),
     world: byId('world'),
-    lines: required(document.querySelector<SVGSVGElement>('#lines'), '#lines'),
+    lines: {
+      ink: required(document.querySelector<SVGSVGElement>('#lines'), '#lines'),
+      hits: required(
+        document.querySelector<SVGSVGElement>('#line-hits'),
+        '#line-hits',
+      ),
+    },
     status,
     colors: byId('colors'),
     picker: required(

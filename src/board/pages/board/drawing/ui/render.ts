@@ -198,17 +198,25 @@ function arrowMarker(): SVGElement {
 }
 
 /**
+ * The two SVGs a line is split across: `ink`, what is seen, drawn over the
+ * cards and blind to the pointer, and `hits`, a wide invisible stroke under
+ * them, so a press on a card where a line crosses it reaches the card.
+ */
+export type LineLayers = { ink: SVGSVGElement; hits: SVGSVGElement };
+
+/**
  * Each line from edge to edge of the items it joins, drawn as `handStroke`
  * curves; one whose end is gone is skipped.
  */
 export function renderLines(
-  layerNode: SVGSVGElement,
+  layers: LineLayers,
   lines: readonly LineItem[],
   rectOf: (id: string) => Rect | undefined,
 ): void {
   const defs = svg('defs', {});
   defs.append(arrowMarker());
-  const nodes: SVGElement[] = [defs];
+  const inked: SVGElement[] = [defs];
+  const hits: SVGElement[] = [];
   for (const line of lines) {
     const from = rectOf(line.from);
     const to = rectOf(line.to);
@@ -218,9 +226,11 @@ export function renderLines(
     const { d, mid } = handStroke(a, b, line);
     const { d: echo } = handStroke(a, b, line, 1);
     const dashed = line.dashed === true ? ' dashed' : '';
+    const hit = svg('g', { class: 'line', 'data-id': line.id });
+    hit.append(svg('path', { d, class: 'hit' }));
+    hits.push(hit);
     const group = svg('g', { class: 'line', 'data-id': line.id });
     group.append(
-      svg('path', { d, class: 'hit' }),
       svg('path', {
         d: echo,
         class: `stroke echo${dashed}`,
@@ -241,7 +251,8 @@ export function renderLines(
       label.textContent = line.label;
       group.append(label);
     }
-    nodes.push(group);
+    inked.push(group);
   }
-  layerNode.replaceChildren(...nodes);
+  layers.ink.replaceChildren(...inked);
+  layers.hits.replaceChildren(...hits);
 }
