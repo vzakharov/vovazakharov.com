@@ -93,3 +93,7 @@ Sea, milestone 5 (e177eb5b):
 - Win: rock shows where the mountains are steep enough — outcrops in the snow: 15-rock-in-snow-1500m.jpg.
 - Fixed fail: blue space from mid orbit (was 11-fail-blue-space-4000km.jpg) — the sky child's fix, checked on WebGPU: 18-orbit-4000km-fixed.jpg.
 - Next: clouds (the sky child's last package), the shoreline's polygons, polish, the PR into island/stretch-3.
+
+## lead · 2026-11-15 22:55:21 UTC
+
+Milestone 5 is on the board (v76).
