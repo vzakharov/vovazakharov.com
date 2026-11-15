@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 4701,
+    "inputTokens": 4712,
     "cacheWrite5mTokens": 13351,
-    "cacheWrite1hTokens": 268121,
-    "cacheReadTokens": 17346490,
-    "outputTokens": 67066,
-    "thinkingTokens": 26441,
-    "responses": 80,
-    "costUsd": 7.0811980000000005
+    "cacheWrite1hTokens": 278158,
+    "cacheReadTokens": 19375966,
+    "outputTokens": 71084,
+    "thinkingTokens": 27825,
+    "responses": 86,
+    "costUsd": 7.6477932
   },
   "estimate": {
     "at": "2026-11-15T18:58:35.620Z",
@@ -52,24 +52,26 @@
   },
   "sessionId": "4a274e14-21c3-56ad-b87d-73979dae4d42",
   "branch": "claude/cube-board-portal-forks-ilv09n",
-  "cwd": "/home/user/vovazakharov.com/src/cube-board/app/config/cube",
+  "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/cube-board-portal-forks-ilv09n — модель порталов с хабами и спицами в артефакте (версия 5), развилки про период и лифт на доске, PR черновик",
-  "prs": [],
+  "prs": [
+    283
+  ],
   "url": "https://claude.ai/code/session_01DaohkBxB5aodsuLB2dftcE",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-15T18:24:42.229Z",
-  "lastResponseAt": "2026-11-15T19:16:38.072Z",
+  "lastResponseAt": "2026-11-15T19:17:26.412Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 147,
+    "inputTokens": 158,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 268121,
-    "cacheReadTokens": 15699586,
-    "outputTokens": 66908,
-    "thinkingTokens": 26441,
-    "responses": 71,
-    "costUsd": 6.6236332
+    "cacheWrite1hTokens": 278158,
+    "cacheReadTokens": 17729062,
+    "outputTokens": 70926,
+    "thinkingTokens": 27825,
+    "responses": 77,
+    "costUsd": 7.1902284
   },
   "subagents": {
     "inputTokens": 0,
@@ -83,23 +85,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 4701,
+      "inputTokens": 4712,
       "cacheWrite5mTokens": 13351,
-      "cacheWrite1hTokens": 268121,
-      "cacheReadTokens": 17346490,
-      "outputTokens": 67066,
-      "thinkingTokens": 26441,
-      "responses": 80,
-      "costUsd": 7.0811980000000005
+      "cacheWrite1hTokens": 278158,
+      "cacheReadTokens": 19375966,
+      "outputTokens": 71084,
+      "thinkingTokens": 27825,
+      "responses": 86,
+      "costUsd": 7.6477932
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 80,
-    "matched": 71,
-    "matchedTableUsd": 6.6236332,
-    "matchedEventUsd": 6.6236332,
+    "events": 86,
+    "matched": 77,
+    "matchedTableUsd": 7.1902284,
+    "matchedEventUsd": 7.1902284,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 4554,
@@ -124,6 +126,6 @@
     ".md": 138,
     ".scss": 11,
     ".ts": 20,
-    ".yaml": 286
+    ".yaml": 326
   }
 }
