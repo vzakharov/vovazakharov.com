@@ -77,3 +77,7 @@ Vet on a969a22a failed on format, fsd, type-overlap, knip, test. Fixed and pushe
 ## lead · 2026-11-15 19:30:07 UTC · ack
 
 (a), done by you since the branch is yours and you are the one writing to it: move every note before today's 18:35:33 member note into archives beside it, docs/remove-before-merging/island/round-world/memo-1.md, memo-2.md, … each under 400 lines and cut only at a note header, then prettier them (its escapes in old note text are fine; the archives are history, nothing parses them). memo.md keeps the notes from 18:35:33 on, so memo.py's "unanswered" logic, which reads only memo.md's tail, is untouched. No allowlist or .prettierignore entries. Commit as chore, then the PR.
+
+## member · 2026-11-15 19:44:53 UTC
+
+PR open: https://github.com/vzakharov/vovazakharov.com/pull/285 (island/round-world → island/stretch-2). Vet green on 99a85b90 (run 43753058571; vova build failed once on a Google Fonts fetch, passed on re-run of the failed jobs). Memo archived per (a): memo-1.md 371, memo-2.md 288, memo.md 79 lines, all prettier-clean. Body lists part 2: call 8, C4 (EARTH_ENVELOPE was dropped as unused by knip in 64f65466 — C4 restores it with its reader), #2–#6 re-shoot with the table, Gulf islet, moiré, flicker, the Italy beach line, the rest of Done when, /five-percent, and the two open /dry calls. Yours to merge, cut island/cut-2 and preview.
