@@ -10,49 +10,78 @@ import {
 
 import type { CanDispose, WithOnError } from '@/kernel/shared/typings';
 
-import { dot, length, R, sub, unit, type Vec3 } from '@/island/shared/globe';
+import { length, R, sub, unit } from '@/island/shared/globe';
 import {
-  type CoastField,
-  frustumOf,
-  heightAt,
-  MIN_LEVEL,
-  selectTiles,
-  tileId,
-  type TileKey,
+  type CoastDistance,
+  heightAtSphere,
+  sampleSphereField,
+  type SphereField,
 } from '@/island/entities/terrain';
 import {
   bindEyeControls,
   type Eye,
   eyeAt,
   type GroundAt,
-  IDLE,
+  headingOf,
+  type HintShowing,
+  latchHint,
+  lookHint,
   MAX_HEIGHT,
+  NO_HINT,
+  openingOf,
+  pointOf,
   poseOf,
   step,
+  STILL,
   withHeading,
   withHeight,
 } from '@/island/features/eye';
 
+import {
+  advance,
+  dayHours,
+  heavensAt,
+  OPENING_CLOCK,
+  solarHours,
+} from '../lib/day';
+import { eyeOfPose, placeOfEye } from '../lib/eye-pose';
+import { type Pace, paced } from '../lib/pace';
+import type { Pose } from '../lib/place-hash';
 import { skyColour } from '../lib/sky-colour';
-import { startTilePool } from '../lib/tile-pool';
-import { SEED } from '../lib/tile-protocol';
-import { coverOf } from '../model/tile-cover';
+import { startTilePool, type TilePool } from '../lib/tile-pool';
+import type { Where } from '../lib/where-line';
 import { groundLighting } from './ground-lighting';
-import { tileMeshes } from './tile-meshes';
+import { tileView } from './tile-view';
+import { bindTimeKeys } from './time-keys';
 
 export type IslandScene = CanDispose & {
   /** Resolves once the first frame is drawn. */
   readonly ready: Promise<void>;
-  /** Steps the eye `dt` seconds by the player's input (none under play) and draws. */
-  readonly frame: (dt: number) => void;
+  /** Steps the eye `dt` seconds by the player's input (none under play) and draws; returns the metres it moved. */
+  readonly frame: (dt: number) => number;
   /** Puts the eye `m` metres up; resolves once every tile it then selects is drawn. */
   readonly setHeight: (m: number) => Promise<void>;
-  /** Puts the eye `m` metres over plane point `(x, y)`, resolving as `setHeight` does. */
-  readonly moveTo: (x: number, y: number, m: number) => Promise<void>;
+  /** Puts the eye `m` metres over latitude `lat`, longitude `lon` (degrees, east positive), its heading kept, resolving as `setHeight` does. */
+  readonly moveTo: (lat: number, lon: number, m: number) => Promise<void>;
+  /** Sets the clock to `hours` past the opening's sun, as it stands, and draws. */
+  readonly setTime: (hours: number) => void;
   /** Turns the eye to `heading`, resolving as `setHeight` does. */
   readonly turnTo: (heading: number) => Promise<void>;
   /** `'webgpu'` or `'webgl2'`, once ready. */
   readonly backend: () => string;
+  /** Ms the worker took to build the current world's field; throws until it lands. */
+  readonly buildMs: () => number;
+  /**
+   * Rebuilds the scene on world `world`: every tile held or in flight is
+   * dropped and refilled from the new field, the eye left where it is.
+   */
+  readonly setWorld: (world: string) => void;
+  /** Puts the eye in `pose` and the clock at its hour, the opening's when it names none. */
+  readonly placeAt: (pose: Pose) => void;
+  /** Where the eye stands now, in the world on screen; throws until ready. */
+  readonly where: () => Where;
+  /** The drawn frames' pace, smoothed; none before the first frame, nor under play. */
+  readonly pace: () => Pace | undefined;
 };
 
 /** Closest the camera sees: the eye is never under two metres up. */
@@ -63,10 +92,17 @@ const FAR = 4 * (R + MAX_HEIGHT);
 /** Ground before the field arrives; nothing reads it before then. */
 const SEA_LEVEL: GroundAt = () => 0;
 
+const coastOf =
+  (field: SphereField): CoastDistance =>
+  (p) =>
+    sampleSphereField(field, p);
+
 const groundOf =
-  (field: CoastField): GroundAt =>
-  (x, y) =>
-    heightAt(field, SEED, x, y);
+  (coast: CoastDistance, seed: number): GroundAt =>
+  (p) =>
+    heightAtSphere(coast, seed, p);
+
+const DEGREE = Math.PI / 180;
 
 /**
  * The globe outside the tiles, and under them before they load: a sphere
@@ -74,22 +110,15 @@ const groundOf =
  */
 const GLOBE_RADIUS = R - 1500;
 
-/** A move under this share of the height reuses the last tile selection. */
-const RESELECT_SHARE = 0.02;
-/**
- * Cosine of the turn that reselects: half the frustum's margin, so the view
- * never turns past the tiles selected for it.
- */
-const RESELECT_TURN = Math.cos(0.05);
-
-/** Every root tile: always held, so a missing tile always has an ancestor to stand in. */
-const ROOTS: TileKey[] = Array.from({ length: 4 ** MIN_LEVEL }, (_, i) => ({
-  level: MIN_LEVEL,
-  x: i % 2 ** MIN_LEVEL,
-  y: Math.floor(i / 2 ** MIN_LEVEL),
-}));
-
-type MountIslandSceneParams = WithOnError & { play: boolean };
+type MountIslandSceneParams = WithOnError & {
+  /** The world number the scene opens on. */
+  world: string;
+  /** Where the eye opens, when not at the world's opening. */
+  pose: Pose | undefined;
+  play: boolean;
+  /** Told each time a look hint is shown or goes; never under play. */
+  onLookHint: (showing: HintShowing | undefined) => void;
+};
 
 /**
  * The island's scene on `canvas`: three's WebGPU renderer, which falls back
@@ -99,7 +128,13 @@ type MountIslandSceneParams = WithOnError & { play: boolean };
  */
 export function mountIslandScene(
   canvas: HTMLCanvasElement,
-  { play, onError }: MountIslandSceneParams,
+  {
+    world: firstWorld,
+    pose: firstPose,
+    play,
+    onError,
+    onLookHint,
+  }: MountIslandSceneParams,
 ): IslandScene {
   const renderer = new WebGPURenderer({
     canvas,
@@ -107,30 +142,36 @@ export function mountIslandScene(
     logarithmicDepthBuffer: true,
   });
   const scene = new Scene();
-  const background = new Color(skyColour(MAX_HEIGHT));
+  const background = new Color(skyColour(MAX_HEIGHT, 1));
   scene.background = background;
   const camera = new PerspectiveCamera(50, 1, NEAR, FAR);
 
   const lighting = groundLighting();
-  const { land, sea, ocean, sky, lights } = lighting;
+  const { land, sea, standIn, ocean, lights } = lighting;
   const globe = new Mesh(new SphereGeometry(GLOBE_RADIUS, 256, 128), ocean);
   const tiles = new Group();
   scene.add(globe, tiles, ...lights);
 
-  const held = tileMeshes(tiles, { land, sea });
   const controls = bindEyeControls(canvas);
+  // Under play the clock moves only by `setTime`.
+  const timeKeys = play ? null : bindTimeKeys(canvas);
+  let clock = OPENING_CLOCK;
 
   let eye: Eye | null = null;
+  /** Where the eye opens once the field lands, when not at the world's opening. */
+  let pending: Pose | undefined;
   let groundAt = SEA_LEVEL;
   /** The coast the selection refines along, once the field arrives. */
-  let coast: CoastField | undefined;
-  let selection: {
-    at: Vec3;
-    scale: number;
-    forward: Vec3;
-    aspect: number;
-    keys: TileKey[];
-  } | null = null;
+  let coast: CoastDistance | undefined;
+  /** The current world's tile pool, started once `view` exists to take its tiles. */
+  let pool: TilePool;
+  const view = tileView(tiles, {
+    materials: { land, sea, standIn },
+    ground: () => ({ coast, groundAt }),
+    want: (first, rest, at) => {
+      pool.want(first, rest, at);
+    },
+  });
   const waiting: Array<{ resolve: () => void; reject: (e: Error) => void }> =
     [];
   let failure: Error | null = null;
@@ -143,66 +184,67 @@ export function mountIslandScene(
     onError(error);
   };
 
-  const pool = startTilePool((tile) => {
-    if (disposed) return;
-    held.add(tile);
-    held.evict(new Set(selected().map((key) => tileId(key))));
-    settle();
-  }, fail);
+  let world = firstWorld;
+  let built: { of: number; ms: number } | null = null;
+  /** Counts the pools started, so a disposed one's late reply is told apart. */
+  let generation = 0;
+  /** Resolves once the first world's field is in hand. */
+  const landed = Promise.withResolvers<void>();
 
-  /**
-   * The tiles the eye selects now, reselected once it has moved enough or
-   * the view has turned toward the edge of the frustum's margin.
-   */
-  function selected(): TileKey[] {
-    if (eye === null) return [];
-    const { aspect } = camera;
-    const { position: at, forward, up, fov } = poseOf(eye, aspect);
-    if (
-      selection !== null &&
-      length(sub(at, selection.at)) < RESELECT_SHARE * eye.height &&
-      Math.abs(Math.log(eye.height / selection.scale)) < RESELECT_SHARE &&
-      dot(forward, selection.forward) > RESELECT_TURN &&
-      aspect === selection.aspect
-    ) {
-      return selection.keys;
-    }
-    const keys = selectTiles(at, {
-      coast,
-      frustum: frustumOf(forward, up, fov, aspect),
-      ground: groundAt,
-    });
-    selection = { at, scale: eye.height, forward, aspect, keys };
-    // The selection repeats roots when it reaches up to them.
-    const wanted = new Map(
-      [...ROOTS, ...keys].map((key) => [tileId(key), key] as const),
+  /** A pool on `on`, whose tiles and field are taken only while it is current. */
+  const startPool = (on: string): TilePool => {
+    generation += 1;
+    const mine = generation;
+    const current = () => !disposed && mine === generation;
+    const started = startTilePool(
+      on,
+      (tile) => {
+        if (!current()) return;
+        view.add(tile, eye, camera.aspect);
+        settle();
+      },
+      (error) => {
+        if (current()) fail(error);
+      },
     );
-    const missing = [...wanted].flatMap(([id, key]) =>
-      held.has(id) ? [] : [key],
+    started.field.then(
+      ({ field, seed, buildMs }) => {
+        if (!current()) return;
+        built = { of: mine, ms: buildMs };
+        coast = coastOf(field);
+        groundAt = groundOf(coast, seed);
+        view.reselect();
+        landed.resolve();
+      },
+      (error: unknown) => {
+        if (!current()) return;
+        fail(error instanceof Error ? error : new Error(String(error)));
+      },
     );
-    pool.want(missing, at);
-    return keys;
-  }
+    return started;
+  };
+  pool = startPool(world);
 
   function render(): void {
     if (eye === null) return;
     const pose = poseOf(eye, camera.aspect);
     const [ex, ey, ez] = pose.position;
-    held.draw(coverOf(selected(), held.has), pose.position);
+    view.draw(eye, camera.aspect);
     globe.position.set(-ex, -ey, -ez);
     camera.fov = (pose.fov * 180) / Math.PI;
     camera.updateProjectionMatrix();
     camera.up.set(...pose.up);
     camera.lookAt(...pose.forward);
-    sky.position.set(...unit(pose.position));
-    background.setHex(skyColour(eye.height));
+    const heavens = heavensAt(openingOf(Number(world)), clock.hours);
+    const day = lighting.shine(heavens, unit(pose.position));
+    background.setHex(skyColour(eye.height, day));
     renderer.render(scene, camera);
   }
 
   /** Draws and lets every placing of the eye go whose tiles are all in hand. */
   function settle(): void {
     if (waiting.length === 0 || eye === null) return;
-    if (!selected().every((key) => held.has(tileId(key)))) return;
+    if (!view.complete(eye, camera.aspect)) return;
     render();
     for (const waiter of waiting.splice(0)) waiter.resolve();
   }
@@ -215,27 +257,45 @@ export function mountIslandScene(
   const observer = new ResizeObserver(resize);
   observer.observe(canvas);
 
+  let hint = NO_HINT;
+  /** Seconds the frames have stepped, the clock the look hint's latch reads. */
+  let stepped = 0;
   const frame = (dt: number) => {
-    if (eye === null) return;
-    eye = step(eye, play ? IDLE : controls.read(), dt, groundAt);
+    if (eye === null) return 0;
+    stepped += dt;
+    const from = eye;
+    eye = step(eye, play ? STILL : controls.read(), dt, groundAt);
+    if (timeKeys !== null) {
+      const keys = timeKeys.read();
+      if (keys.toggled) clock = { ...clock, running: !clock.running };
+      clock = advance(clock, keys, dt);
+    }
     render();
+    const earned = play ? undefined : lookHint(eye, camera.aspect);
+    const latched = latchHint(hint, earned, stepped);
+    if (latched.showing !== hint.showing) onLookHint(latched.showing);
+    hint = latched;
+    return length(sub(pointOf(eye), pointOf(from)));
   };
 
   let loop = 0;
   let last = 0;
+  let pace: Pace | undefined;
   const tick = (now: number) => {
-    frame(Math.min(0.1, (now - last) / 1000));
+    const seconds = Math.min(0.1, (now - last) / 1000);
+    pace = paced(pace, { ms: now - last, metres: frame(seconds), seconds });
     last = now;
     loop = requestAnimationFrame(tick);
   };
 
   const live = () => !disposed;
   const ready = (async () => {
-    const [{ field }] = await Promise.all([pool.field, renderer.init()]);
+    await Promise.all([landed.promise, renderer.init()]);
     if (!live()) return;
-    groundAt = groundOf(field);
-    coast = field;
-    eye = eyeAt({ x: 0, y: 0, height: MAX_HEIGHT }, groundAt);
+    eye =
+      pending === undefined
+        ? eyeAt(openingOf(Number(world)), groundAt)
+        : eyeOfPose(pending, groundAt);
     resize();
     render();
     if (!play) {
@@ -257,25 +317,79 @@ export function mountIslandScene(
     return done;
   };
 
+  const placeAt = (pose: Pose) => {
+    clock = { ...clock, hours: pose.hours ?? OPENING_CLOCK.hours };
+    if (eye === null) {
+      pending = pose;
+      return;
+    }
+    view.forgetShown();
+    eye = eyeOfPose(pose, groundAt);
+  };
+  if (firstPose !== undefined) placeAt(firstPose);
+
   return {
     ready,
     frame,
     setHeight: async (m) => placed((from) => withHeight(from, m)),
-    moveTo: async (x, y, m) =>
-      placed(({ heading }) => eyeAt({ x, y, height: m, heading }, groundAt)),
+    moveTo: async (lat, lon, m) => {
+      view.forgetShown();
+      return placed((from) =>
+        eyeAt(
+          {
+            lat: lat * DEGREE,
+            lon: lon * DEGREE,
+            height: m,
+            heading: headingOf(from),
+          },
+          groundAt,
+        ),
+      );
+    },
+    setTime: (hours) => {
+      clock = { ...clock, hours: dayHours(hours) };
+      render();
+    },
     turnTo: async (heading) => placed((from) => withHeading(from, heading)),
     backend: () =>
       'isWebGPUBackend' in renderer.backend &&
       renderer.backend.isWebGPUBackend === true
         ? 'webgpu'
         : 'webgl2',
+    buildMs: () => {
+      if (built?.of !== generation) throw new Error('field not built');
+      return built.ms;
+    },
+    setWorld: (next) => {
+      if (next === world || disposed) return;
+      world = next;
+      pool.dispose();
+      view.clear();
+      // The old coast would refine the selection where the new one has none.
+      coast = undefined;
+      pool = startPool(next);
+    },
+    placeAt,
+    where: () => {
+      if (eye === null) throw new Error('scene not ready');
+      const { sun } = heavensAt(openingOf(Number(world)), clock.hours);
+      return {
+        commit: process.env.NEXT_PUBLIC_COMMIT ?? 'dev',
+        page: `${location.origin}${location.pathname}`,
+        ...placeOfEye(world, eye, clock.hours, groundAt),
+        solarHours: solarHours(sun, eye.at),
+        tiles: view.levels(eye.at),
+      };
+    },
+    pace: () => pace,
     dispose: () => {
       disposed = true;
       cancelAnimationFrame(loop);
       observer.disconnect();
       controls.dispose();
+      timeKeys?.dispose();
       pool.dispose();
-      held.dispose();
+      view.dispose();
       globe.geometry.dispose();
       lighting.dispose();
       renderer.dispose().catch(fail);

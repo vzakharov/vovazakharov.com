@@ -1,52 +1,102 @@
 import type { CanDispose } from '@/kernel/shared/typings';
 
-import { type Vec3, worldToPlane } from '@/island/shared/globe';
-import {
-  type CoastField,
-  tileId,
-  type TileKey,
-} from '@/island/entities/terrain';
+import type { Vec3 } from '@/island/shared/globe';
 
 import { nearestFirst } from '../model/tile-cover';
-import type { FilledTile, WorkerReply, WorkerRequest } from './tile-protocol';
+import {
+  type FilledTile,
+  orderId,
+  type TileOrder,
+  type WorkerReply,
+  type WorkerRequest,
+  type WorldField,
+} from './tile-protocol';
+
+const MAX_WORKERS = 3;
 
 /**
- * Workers in the pool. Each holds its own coast field (~22 MB), so a few
- * share the fills without a phone paying for one per core.
+ * Workers in a pool on a device with `cores` logical cores and `memoryGb` of
+ * memory (each `undefined` where the browser does not say). One core is left
+ * to the main thread, 2 workers where the cores are unknown. Each worker is an
+ * isolate holding its own copy of the world field and adds ~100 MB to the page,
+ * so memory buys one worker per doubling — 1 at ≤1 GB, 2 at 2 GB, 3 at 4 GB —
+ * which keeps the pool under ~13 % of a small device's memory and lets unknown
+ * memory cap nothing. The pool stops at {@link MAX_WORKERS}: a fourth worker
+ * settles a view little sooner than a third and costs another ~100 MB.
  */
-const POOL_SIZE = 2;
+export function poolSize(
+  cores: number | undefined,
+  memoryGb: number | undefined,
+): number {
+  const byCores = cores === undefined ? 2 : cores - 1;
+  const byMemory =
+    memoryGb === undefined ? Infinity : Math.floor(Math.log2(memoryGb) + 1);
+  return Math.max(1, Math.min(MAX_WORKERS, byCores, byMemory));
+}
+
+/**
+ * Runs `run` once the browser has painted the frame being prepared now: the
+ * next animation frame, then a task after its paint.
+ */
+function afterPaint(run: () => void): void {
+  requestAnimationFrame(() => {
+    setTimeout(run, 0);
+  });
+}
+
+/** `navigator.deviceMemory`, GB, which only Chromium reports. */
+function deviceMemory(): number | undefined {
+  const memory = 'deviceMemory' in navigator ? navigator.deviceMemory : null;
+  return typeof memory === 'number' && memory > 0 ? memory : undefined;
+}
+
+/** What a worker other than the first is sent once the first has built the field: a structured-clone copy of it, the pool keeping its own. */
+export const adoptRequest = ({ field, seed }: WorldField): WorkerRequest => ({
+  kind: 'adopt',
+  field,
+  seed,
+});
 
 /** Fills a worker holds at once: enough to keep it busy, few enough that a newer, nearer tile is not stuck behind a backlog. */
 const IN_FLIGHT = 2;
 
 export type TilePool = CanDispose & {
-  /** The field the first worker built, copied out, and its build time. */
+  /** The field the first worker built, copied out, its seed and its build time. */
   readonly field: Promise<Built>;
   /**
    * The tiles wanted now from `eye` (world metres), replacing what was wanted
-   * before: queued ones no longer wanted are dropped, the rest go out nearest
-   * the eye first, each filled to the eye's `detailCut`.
+   * before: queued ones no longer wanted are dropped, the rest go out `first`
+   * before `rest`, each nearest the eye first and filled to the eye's
+   * `cubeDetailCut`.
    */
-  readonly want: (keys: readonly TileKey[], eye: Vec3) => void;
-  /** Whether `id` is asked of a worker and not yet back. */
+  readonly want: (
+    first: readonly TileOrder[],
+    rest: readonly TileOrder[],
+    eye: Vec3,
+  ) => void;
+  /** Whether the variant `orderId` names is asked of a worker and not yet back. */
   readonly pending: (id: string) => boolean;
 };
 
 type Slot = { readonly worker: Worker; busy: number };
 
-type Built = { readonly field: CoastField; readonly buildMs: number };
+type Built = WorldField & { readonly buildMs: number };
 
 /**
- * Starts `POOL_SIZE` tile workers. Every filled tile goes to `onTile`; a
- * worker's failure goes to `onError` and leaves its tile pending.
+ * Starts `poolSize` tile workers for this device on world `world`: the first
+ * builds its field from the number, and the rest adopt a copy of it once the
+ * page has painted the frame that field opens. Every filled tile goes to
+ * `onTile`; a worker's failure goes to `onError` and leaves its tile pending. A pool holds one world: another is
+ * a new pool, this one disposed.
  */
 export function startTilePool(
+  world: string,
   onTile: (tile: FilledTile) => void,
   onError: (error: Error) => void,
 ): TilePool {
   const slots: Slot[] = [];
   const inFlight = new Set<string>();
-  let queue: TileKey[] = [];
+  let queue: TileOrder[] = [];
   /** The eye the queue was wanted from. */
   let from: Vec3 = [0, 0, 0];
 
@@ -57,11 +107,11 @@ export function startTilePool(
   const pump = () => {
     for (const slot of slots) {
       while (slot.busy < IN_FLIGHT) {
-        const key = queue.shift();
-        if (key === undefined) return;
-        inFlight.add(tileId(key));
+        const order = queue.shift();
+        if (order === undefined) return;
+        inFlight.add(orderId(order));
         slot.busy += 1;
-        send(slot, { kind: 'fill', key, eye: from });
+        send(slot, { ...order, kind: 'fill', eye: from });
       }
     }
   };
@@ -75,12 +125,28 @@ export function startTilePool(
     const slot: Slot = { worker, busy: 0 };
     worker.addEventListener('message', (event: MessageEvent<WorkerReply>) => {
       const message = event.data;
-      if (message.kind === 'built') {
-        const { field: copy, buildMs } = message;
-        if (copy !== null) field.resolve({ field: copy, buildMs });
+      if (message.kind === 'failed') {
+        const error = new Error(
+          `tile worker ${String(index)}: ${message.message}`,
+        );
+        field.reject(error);
+        onError(error);
         return;
       }
-      inFlight.delete(tileId(message.tile.key));
+      if (message.kind === 'built') {
+        const { field: copy, seed, buildMs } = message;
+        field.resolve({ field: copy, seed, buildMs });
+        // Copied, not transferred: the page samples this field too. Each copy
+        // is a structured clone on the main thread, so they wait until the
+        // page has drawn the frame the field opens; fills sent to these
+        // workers meanwhile wait in them for it.
+        afterPaint(() => {
+          for (const other of slots.slice(1))
+            send(other, adoptRequest({ field: copy, seed }));
+        });
+        return;
+      }
+      inFlight.delete(orderId(message.tile));
       slot.busy -= 1;
       onTile(message.tile);
       pump();
@@ -91,20 +157,22 @@ export function startTilePool(
       onError(error);
     });
     slots.push(slot);
-    send(slot, { kind: 'init', sendField: index === 0 });
   };
-  for (let index = 0; index < POOL_SIZE; index++) spawn(index);
+  const size = poolSize(navigator.hardwareConcurrency, deviceMemory());
+  for (let index = 0; index < size; index++) spawn(index);
+  const [builder] = slots;
+  if (builder !== undefined) send(builder, { kind: 'build', world });
 
   return {
     field: field.promise,
-    want: (keys, eye) => {
-      const { x, y } = worldToPlane(eye);
+    want: (first, rest, eye) => {
       from = eye;
-      queue = nearestFirst(
-        keys.filter((key) => !inFlight.has(tileId(key))),
-        x,
-        y,
-      );
+      const queued = (orders: readonly TileOrder[]) =>
+        nearestFirst(
+          orders.filter((order) => !inFlight.has(orderId(order))),
+          eye,
+        );
+      queue = [...queued(first), ...queued(rest)];
       pump();
     },
     pending: (id) => inFlight.has(id),

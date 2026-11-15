@@ -1,13 +1,13 @@
 items:
   - id: z-forecast
     type: zone
-    updated: [2026-11-06T22:20:00.000Z, agent:lead]
-    box: [-30, -1040, 900, 600, gray]
+    updated: [2026-11-15T20:00:00.000Z, agent:lead]
+    box: [-30, -1150, 900, 600, gray]
     text: 'A stab in the dark: what a studio would spend'
   - id: forecast
     type: sticky
-    updated: [2026-11-06T22:20:00.000Z, agent:lead]
-    box: [40, -930, 760, gray]
+    updated: [2026-11-15T20:00:00.000Z, agent:lead]
+    box: [40, -1040, 760, gray]
     text: |-
       About 3,120 hours, seven people, the busiest five months:
       • graphics programmer, senior — 800 h

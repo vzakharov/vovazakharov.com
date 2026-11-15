@@ -50,7 +50,9 @@ survives a relay, because on the web the successor's container is not this one.
 **Artifact watches are stopped**: list this session's with `ArtifactComments`
 `watch` and no URL, keep their URLs for the summary's State, and stop each with
 `watch` and `on: false`. A watch left running wakes this session, not the
-successor, on every comment sent to Claude.
+successor, on every comment sent to Claude, to answer from a cold cache.
+`.claude/hooks/relay-watch-gate.py` holds the step: the relay's turn ends only
+once the watches are listed and stopped.
 
 Where the cost ledger ships (`.claude/costs/`), revise this session's human-hour
 estimate down to the work done here, with

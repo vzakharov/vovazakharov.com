@@ -7,7 +7,7 @@ import type { WithId } from '@/kernel/shared/typings';
 
 import type { Point } from '@/scene/shared/lib/plane';
 
-import type { PlacedItem, Spiralled } from '@/board/entities/item';
+import type { PlacedItem, Spiralled, Weighted } from '@/board/entities/item';
 
 /**
  * A stable number in [-1, 1) from `id` and `salt`: FNV-1a, then murmur3's
@@ -50,8 +50,13 @@ export type Stroke = {
 
 const round = (n: number): number => Math.round(n * 10) / 10;
 
-/** What of a line shapes its stroke: its id seeds the wobble, `spiral` the turn. */
-export type Bent = WithId & Spiralled;
+/**
+ * What of a line shapes its stroke: its id seeds the wobble, `spiral` the turn,
+ * `weight` how far the second pass strays, so a thick line still shows it.
+ */
+export type Bent = WithId & Spiralled & Weighted;
+
+export const weightOf = ({ weight }: Weighted): number => weight ?? 1;
 
 /**
  * Where along the chord each control point sits, and its share of the line's
@@ -79,7 +84,7 @@ export function handStroke(a: Point, b: Point, line: Bent, pass = 0): Stroke {
   const side = spiral === 'cw' ? -1 : randomSide;
   const { at, share } = spiral === undefined ? PLAIN : SPIRAL;
   const bow = Math.min(length * 0.16, 90) * side;
-  const slip = pass * 4;
+  const slip = pass * 4 * weightOf(line);
   const bend1 =
     bow * share[0] * (0.7 + 0.5 * Math.abs(jitter(id, 'b1'))) + slip;
   const bend2 =

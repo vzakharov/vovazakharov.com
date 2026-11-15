@@ -1,7 +1,9 @@
 import type { CanDispose } from '@/kernel/shared/typings';
 
-import { type Intent, shortest, type Vec2 } from '../model/eye';
+import { clamp } from '../model/clamp';
+import type { Intent, Vec2 } from '../model/eye';
 import { groundPerScreen } from '../model/pose';
+import { shortest } from '../model/turns';
 
 /** What the scene holds while the controls are bound. */
 export type EyeControls =
@@ -24,6 +26,12 @@ const LINE_PIXELS = 16;
 /** Radians a right-button drag across the element's whole width turns. */
 const TURN_PER_WIDTH = Math.PI;
 
+/**
+ * Radians a drag up the element's whole height raises the view: a
+ * right-button drag, or two fingers moving together.
+ */
+const NOD_PER_HEIGHT = Math.PI / 2;
+
 /** `MouseEvent.button` of the right button. */
 const RIGHT_BUTTON = 2;
 
@@ -40,49 +48,63 @@ const TURNS: Readonly<Record<string, number>> = {
   ArrowRight: 1,
 };
 
-const CLIMBS: Readonly<Record<string, number>> = {
+const TILTS: Readonly<Record<string, number>> = {
   ArrowUp: 1,
+  ArrowDown: -1,
+};
+
+const CLIMBS: Readonly<Record<string, number>> = {
   PageUp: 1,
   KeyE: 1,
-  ArrowDown: -1,
   PageDown: -1,
   KeyQ: -1,
 };
 
-const BOUND = [STEERS, TURNS, CLIMBS];
+/** Every key the eye holds, by `KeyboardEvent.code`: the scene binds no other key to these. */
+export const EYE_KEYS: ReadonlySet<string> = new Set(
+  [STEERS, TURNS, TILTS, CLIMBS].flatMap((keys) => Object.keys(keys)),
+);
 
 /** The right button turns, so it opens no menu over the scene. */
 const onContextMenu = (event: Event) => {
   event.preventDefault();
 };
 
-const clampUnit = (value: number) => Math.min(1, Math.max(-1, value));
+const clampUnit = (value: number) => clamp(value, -1, 1);
 
 /**
  * Binds the eye's controls: the wheel, drags, a pinch and a twist on
  * `element`, keys on its window. Spreading two fingers or scrolling up falls;
- * a drag moves the ground with the finger, so the eye moves the other way, as
- * far as the ground under the finger went at the eye's height, through the
- * field of view `poseOf` gives a screen of the element's shape. Two fingers
- * twisting turn the ground with them; a right-button drag turns the heading
- * the way it goes, as the arrow keys do.
+ * a drag with one finger moves the ground with it, so the eye moves the other
+ * way, as far as the ground under the finger went at the eye's height,
+ * through the field of view `poseOf` gives a screen of the element's shape.
+ * Two fingers twisting turn the ground with them, and moving together up or
+ * down raise or lower the view, as ↑/↓ do; a right-button drag turns the
+ * heading the way it goes across, as ←/→ do, and raises the view as it goes
+ * up.
  */
 export function bindEyeControls(element: HTMLElement): EyeControls {
   const view = element.ownerDocument.defaultView ?? globalThis;
   const held = new Set<string>();
   /** Each finger down by pointer id, at its place on the screen in CSS px. */
   const pointers = new Map<number, Vec2>();
-  /** The mouse pointer turning with its right button, at its last x in CSS px. */
-  let turner: { id: number; x: number } | null = null;
+  /** The mouse pointer turning with its right button, at its last place in CSS px. */
+  let turner: { id: number; at: Vec2 } | null = null;
   let shift: Vec2 = [0, 0];
   let doublings = 0;
   let twist = 0;
+  let nod = 0;
 
   /** Screen heights the finger moved, as the eye's own move in heights. */
   const follow = (dx: number, dy: number) => {
     const height = Math.max(1, element.clientHeight);
     const span = groundPerScreen(element.clientWidth / height) / height;
     shift = [shift[0] - dx * span, shift[1] + dy * span];
+  };
+
+  /** CSS px a drag went down the screen, as the view lowered. */
+  const tilt = (dy: number) => {
+    nod -= (dy * NOD_PER_HEIGHT) / Math.max(1, element.clientHeight);
   };
 
   /** How far apart two fingers are; zero with fewer down. */
@@ -112,7 +134,7 @@ export function bindEyeControls(element: HTMLElement): EyeControls {
 
   const onKeyDown = (event: KeyboardEvent) => {
     if (event.ctrlKey || event.metaKey || event.altKey) return;
-    if (!BOUND.some((keys) => event.code in keys)) return;
+    if (!EYE_KEYS.has(event.code)) return;
     event.preventDefault();
     held.add(event.code);
   };
@@ -139,7 +161,7 @@ export function bindEyeControls(element: HTMLElement): EyeControls {
   const onPointerDown = (event: PointerEvent) => {
     if (event.pointerType === 'mouse' && event.button === RIGHT_BUTTON) {
       element.setPointerCapture(event.pointerId);
-      turner = { id: event.pointerId, x: event.clientX };
+      turner = { id: event.pointerId, at: [event.clientX, event.clientY] };
       return;
     }
     if (pointers.size >= 2) return;
@@ -149,9 +171,10 @@ export function bindEyeControls(element: HTMLElement): EyeControls {
   const onPointerMove = (event: PointerEvent) => {
     if (turner?.id === event.pointerId) {
       twist +=
-        ((event.clientX - turner.x) * TURN_PER_WIDTH) /
+        ((event.clientX - turner.at[0]) * TURN_PER_WIDTH) /
         Math.max(1, element.clientWidth);
-      turner = { id: event.pointerId, x: event.clientX };
+      tilt(event.clientY - turner.at[1]);
+      turner = { id: event.pointerId, at: [event.clientX, event.clientY] };
       return;
     }
     if (!pointers.has(event.pointerId)) return;
@@ -160,7 +183,8 @@ export function bindEyeControls(element: HTMLElement): EyeControls {
     const facing = bearing();
     pointers.set(event.pointerId, [event.clientX, event.clientY]);
     const after = centre();
-    follow(after[0] - before[0], after[1] - before[1]);
+    if (pointers.size === 1) follow(after[0] - before[0], after[1] - before[1]);
+    else tilt(after[1] - before[1]);
     const now = spread();
     if (apart > 0 && now > 0) doublings += Math.log2(apart / now);
     const faced = bearing();
@@ -193,6 +217,7 @@ export function bindEyeControls(element: HTMLElement): EyeControls {
       let up = 0;
       let climb = 0;
       let turn = 0;
+      let tilted = 0;
       for (const code of held) {
         const steer = STEERS[code];
         if (steer) {
@@ -201,6 +226,7 @@ export function bindEyeControls(element: HTMLElement): EyeControls {
         }
         climb += CLIMBS[code] ?? 0;
         turn += TURNS[code] ?? 0;
+        tilted += TILTS[code] ?? 0;
       }
       const intent: Intent = {
         steer: [clampUnit(right), clampUnit(up)],
@@ -209,10 +235,13 @@ export function bindEyeControls(element: HTMLElement): EyeControls {
         shift,
         doublings,
         twist,
+        tilt: clampUnit(tilted),
+        nod,
       };
       shift = [0, 0];
       doublings = 0;
       twist = 0;
+      nod = 0;
       return intent;
     },
     dispose: () => {

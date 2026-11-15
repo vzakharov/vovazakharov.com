@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { handStroke, jitter, tiltOf } from './hand.ts';
+import { handStroke, jitter, tiltOf, weightOf } from './hand.ts';
 
 describe('jitter', () => {
   it('is stable per id and salt, and stays in [-1, 1)', () => {
@@ -47,6 +47,36 @@ describe('handStroke', () => {
     const second = handStroke(a, b, { id: 'l-2' }, 1).mid;
     assert.notDeepEqual(first, second);
     assert.ok(Math.hypot(first.x - second.x, first.y - second.y) < 10);
+  });
+});
+
+describe('a weighted line', () => {
+  const a = { x: 0, y: 0 };
+  const b = { x: 600, y: 0 };
+  const stray = (weight?: number): number => {
+    const line = { id: 'l-way', weight };
+    const first = handStroke(a, b, line).mid;
+    const second = handStroke(a, b, line, 1).mid;
+    return Math.hypot(first.x - second.x, first.y - second.y);
+  };
+
+  it('draws exactly as a plain line when its weight is left out', () => {
+    assert.equal(weightOf({}), 1);
+    assert.deepEqual(
+      handStroke(a, b, { id: 'l-way', weight: 1 }, 1),
+      handStroke(a, b, { id: 'l-way' }, 1),
+    );
+  });
+
+  it('strays its second pass by its weight, so a thick stroke still shows it', () => {
+    assert.ok(Math.abs(stray(2.5) - stray() * 2.5) < 0.2);
+  });
+
+  it('keeps its first pass where a plain line draws it', () => {
+    assert.deepEqual(
+      handStroke(a, b, { id: 'l-way', weight: 2.5 }),
+      handStroke(a, b, { id: 'l-way' }),
+    );
   });
 });
 

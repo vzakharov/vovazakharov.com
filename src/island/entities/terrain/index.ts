@@ -1,15 +1,50 @@
-export { buildCoastField, type CoastField } from './coast-field';
-export { heightAt } from './height';
-export { detailCut, frustumOf, selectTiles } from './quadtree';
+export {
+  sampleSphereField,
+  type SignedDistances,
+  type SphereField,
+} from './coast-field';
+export { type CoastDistance, heightAtSphere } from './height';
+export {
+  cubeDetailCut,
+  frustumOf,
+  neighbourLevels,
+  selectCubeTiles,
+} from './quadtree';
 export {
   borderLoop,
-  fillTile,
-  MIN_LEVEL,
+  capGap,
+  CUBE_MIN_LEVEL,
+  cubeTileId,
+  fillCubeTile,
+  fillStitchedCubeTile,
+  type NeighbourLevels,
   TILE_GRID,
   tileBuffers,
-  tileId,
-  type TileKey,
+  tileCap,
+  tileHolds,
   type TileKeyed,
   type TileMesh,
-  tileRect,
 } from './tile';
+export {
+  analyze,
+  decodePinnedRow,
+  encodePinnedRow,
+  fieldGrids,
+  fieldOf,
+  harmonicSlot,
+  kneeEnvelope,
+  LAND_DEGREE,
+  landmasses,
+  landSeries,
+  landShare,
+  openSphereWorld,
+  OUR_WORLD,
+  type PinnedRow,
+  pinnedRow,
+  pinnedSeries,
+  type RingGrid,
+  rollWorld,
+  type SphereTransform,
+  sphereTransform,
+  synthesize,
+} from './world';

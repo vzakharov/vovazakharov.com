@@ -6,6 +6,7 @@ paths:
   - .claude/costs/lib/prices.py
   - .claude/costs/lib/shape.py
   - .claude/costs/lib/identity.py
+  - .claude/costs/lib/tally.py
   - .claude/costs/prices.json
   - .claude/costs/session_cost.py
   - .claude/costs/test_pricing.py
