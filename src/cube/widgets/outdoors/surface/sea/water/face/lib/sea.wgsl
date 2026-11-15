@@ -19,7 +19,8 @@ import package::cube::widgets::outdoors::surface::sea::water::shore::lib::sea_sh
 import super::sea_surface::{SeaVarying, waveSampler, slopeMap, wavesAt};
 import super::sea_surface_numbers::WAVE_TILE;
 import package::cube::widgets::outdoors::surface::sea::state::lib::sea_tables::{CASCADES, SIDES};
-import package::cube::widgets::outdoors::stage::lib::water_body::{DROWNED, fresnel, kept, sunEntering};
+import package::cube::widgets::outdoors::stage::lib::water_body::sunEntering;
+import package::nature::shared::water::water_light::{DROWNED, fresnel, kept};
 
 /// Water deeper than this, metres, shows none of its bed.
 const BED_SHOWS = 24.0;

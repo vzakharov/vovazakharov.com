@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 import { NATURE_LISTING } from './nature-listing';
 
 describe("nature's listing", () => {
-  it('declares the swell, the shore level, the wetness and the cusps', () => {
+  it("declares the swell, the shore level, the wetness, the cusps and the water's light", () => {
     for (const name of [
       'turnsAt',
       'crestOf',
@@ -16,6 +16,8 @@ describe("nature's listing", () => {
       'dampAfter',
       'filmAfter',
       'cusped',
+      'fresnel',
+      'kept',
     ]) {
       assert.match(NATURE_LISTING, new RegExp(String.raw`\bfn ${name}\(`));
     }

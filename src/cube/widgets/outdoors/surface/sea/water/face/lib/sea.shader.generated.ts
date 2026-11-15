@@ -3,6 +3,8 @@
 
 import { HASH, wgsl } from '@/scene/shared/shader';
 
+import { WATER_LIGHT } from '@/nature/shared/water';
+
 import { SUN } from '@/cube/shared/cube-boundary';
 import { ISLAND_HEIGHT } from '@/cube/entities/island';
 
@@ -213,4 +215,5 @@ fn seaFragment(in: SeaVarying, @builtin(front_facing) above: bool) -> SeaOut {
   SEA_SURFACE_NUMBERS,
   SEA_TABLES,
   WATER_BODY,
+  WATER_LIGHT,
 );

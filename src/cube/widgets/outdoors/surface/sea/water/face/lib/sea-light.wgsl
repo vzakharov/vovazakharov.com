@@ -7,8 +7,8 @@ import package::cube::widgets::outdoors::stage::lib::outdoor_frame::frame;
 import package::cube::widgets::outdoors::stage::lib::sky::skyRadiance;
 import package::cube::shared::cube_boundary::sun::SUN_LIGHT;
 import super::sea_surface::Waves;
-import package::cube::widgets::outdoors::stage::lib::water_body::fresnel;
-import package::cube::widgets::outdoors::stage::lib::water_optics::{ABSORB, BACKSCATTER};
+import package::nature::shared::water::water_light::fresnel;
+import package::nature::shared::water::water_optics::{ABSORB, BACKSCATTER};
 
 /// The least cosine between a facet's normal and the eye's line it is lit at.
 const TURNED = 0.02;

@@ -183,7 +183,7 @@ export function bore(phase: number): number {
 /**
  * `swellDrift`, the wander `turnsAt` and `crestOf` add to the crests' even
  * pace, and `setsAt`, in WGSL: sums over the rolled sines, so written out here
- * for `swell-train.wgsl` and `water-level.wgsl` to import.
+ * for `swell-train.wgsl` and `shore-level.wgsl` to import.
  */
 export const SWELL_SUMS = wgsl(
   'outside/swell',
