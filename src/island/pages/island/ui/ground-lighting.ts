@@ -3,6 +3,7 @@ import {
   cameraFar,
   cameraNear,
   clamp,
+  float,
   lights,
   mix,
   positionView,
@@ -30,6 +31,7 @@ import type { Vec3 } from '@/island/shared/globe';
 import { daylight, type Heavens, SUN_ELEVATION } from '../lib/day';
 import { GROUND_STOPS, SEA_COLOUR } from '../lib/land-colour';
 import { intensityFor } from '../lib/sun';
+import { type SeaFrame, seaSurface } from './sea-surface';
 
 const SUN_COLOUR = 0xff_f2_dc;
 /** Moonlight, cool against the sun's warm white. */
@@ -139,6 +141,13 @@ export type GroundLighting = CanDispose &
      * daylight under the eye, 1 by day and 0 by night.
      */
     readonly shine: (heavens: Heavens, up: Vec3) => number;
+    /**
+     * Draws the sea as a surface — ripples, the sky in them, the sun's glint —
+     * in place of its flat colour. WebGPU only, and before the first frame.
+     */
+    readonly rippleSea: () => void;
+    /** Hands the rippled sea its frame. */
+    readonly stirSea: (frame: SeaFrame) => void;
   };
 
 /** A sun laying `irradiance` on level ground under the opening's sun. */
@@ -182,11 +191,29 @@ export function groundLighting(): GroundLighting {
   const ocean = new MeshLambertNodeMaterial({ color: SEA_COLOUR });
   ocean.lightsNode = lights([seaSun, seaMoon, sky]);
 
+  const surface = seaSurface();
+  const [deepest] = GROUND_STOPS;
+  if (deepest === undefined) throw new RangeError('no colour stops');
+  const floorColour = groundColourNode(heightNode());
+
   return {
     land,
     sea,
     standIn,
     ocean,
+    rippleSea: () => {
+      const dressed: Array<[MeshLambertNodeMaterial, Node]> = [
+        [sea, surface.colour(heightNode(), floorColour)],
+        [standIn.sea, surface.colour(heightNode(), floorColour)],
+        [ocean, surface.colour(float(deepest[0]), vec3(...deepest[1]))],
+      ];
+      for (const [material, colour] of dressed) {
+        // The surface carries its own light: nothing is left for the lamps.
+        material.colorNode = vec3(0);
+        material.emissiveNode = colour;
+      }
+    },
+    stirSea: surface.update,
     lights: [landSun, seaSun, landMoon, seaMoon, sky],
     shine: (heavens, up) => {
       for (const light of [landSun, seaSun]) light.position.set(...heavens.sun);

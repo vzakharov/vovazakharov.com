@@ -70,6 +70,10 @@ altogether later.
   weekly at the time) the run parks: plan current, everything pushed, children
   told to push and stop. The first preview publish comes as early as there is a
   sea worth looking at, before the rest of the list.
+- «смотри действиетнльо ли все подсессии нужны на фейбле, иногда можно запустить
+  на опусе а контролировать тебе» — a child's model is chosen by its package:
+  mechanical moves and wiring run on Opus under the lead's review, the flagship
+  only where the picture is being invented.
 - What the lead told him of the ground that is not beach: a material by place
   (sand, grass and soil, rock on steep and high ground, snow) from height, slope
   and coast distance; relief below the mesh's 1.2 m cell drawn by light, each
@@ -93,10 +97,10 @@ altogether later.
   `islandHeight` (`waterLevel(xz, t)`, `shoreRise`) stays in the cube.
 - **Bed height is the tiles' `height` vertex attribute**, already the floor's
   under the sea. No analytic height in a shader, no height texture.
-- **The swell's run is `dot(world position, axis)`**: per tile a float64
-  `tau0 = −dot(centre, axis)·pace mod 3600` as an object uniform, the local
-  remainder in float32. Every swell sum is periodic in the hour, so the mod is
-  exact.
+- **The swell's run is `dot(world position, axis)`**, its hour-periodic part
+  taken in float64 at the eye and the remainder from `positionWorld`, as the
+  ripples' place is. Beat: a per-tile object uniform, which loses the place on a
+  coarse tile whose centre is far from the eye.
 - **Ripples are an analytic sum of sines in the fragment**, each octave faded to
   roughness as it passes under a pixel. Beat: the FFT (cost) and a baked normal
   map (the cube's "nothing authored" holds here by taste).
@@ -115,16 +119,35 @@ altogether later.
   sun, aerial haze, clouds; seam
   `SkyNodes { radiance, aerial, background, update }` plus `shade` for cloud
   shadows.
-- **Extraction** — `island/sea-kit`, session_01DaohkEJvpB9uSL7xF31AzF: the
-  `nature` app and the kit's move to `scene/shared/shader`.
+- **Extraction** — `island/sea-kit`, session_01DaohkEEm3LNwEwmSEUQqq4, on Opus:
+  the `nature` app and the kit's move to `scene/shared/shader`. Sends "barrels
+  exist" first. (Its flagship predecessor, session_01DaohkEJvpB9uSL7xF31AzF, was
+  archived after eight minutes of reading, nothing pushed.)
 
 ## Built / in flight / left
 
-- In flight: the `wgslFn` spike; both children.
-- Left: sea material; swash and wet sand on land; beach profile; sand grain near
-  the eye; vertex swell; glint from orbit (optional); blue flashes; bite 3's
-  leftovers where touched; preview; frames to the board by memo; `/polish`,
-  `/pr`.
+- Built (00314cbe, frames 01–05, memo sent, preview slot 1): the sea's surface —
+  `lib/ripple-table.ts` (64 plane waves, integer vectors over a 256 m period),
+  `lib/sea-wgsl.ts` (`windAt`, `ripplesAt`, `seaColour`, a stand-in `seaSky`),
+  `ui/sea-surface.ts` (the TSL seam; a fragment's place is the eye modulo the
+  period plus `positionWorld`, so no per-tile uniform), `ui/ocean-globe.ts`
+  (drawn first, no depth write: the blue flashes' fix, not yet checked in
+  flight). `groundLighting().rippleSea()` dresses the Lambert sea materials with
+  the surface as emissive once the backend is WebGPU. The selection's `relief`
+  bounds a tile by the sea too: deep-water tiles near the eye were culled by
+  their floor.
+- In flight: the extraction child (`nature` exists on its branch, swell, shore
+  level, wetness and cusps moved; waiting for its "barrels exist"); the sky
+  child.
+- Next, in this order: merge the kit, move `sea-wgsl` into `nature` as `.wgsl`;
+  the swell and surf on the sea and the swash sheet and wet sand on land tiles
+  (`swellLevel(run, bed, shelter, tongue, seconds)`, run = `dot(place, axis)`
+  taken like the ripples' place); the sky child's `radiance` and `aerial` in
+  place of `seaSky` and the flat background; the beach profile (candidate: land
+  side `h + 0.9·tanh(h / 0.08)`, the sea side as it is — it moves pinned
+  heights, so judge it with the swell in); ground detail off the beach; vertex
+  swell; `/polish`, `/pr`.
+- Known: the inlet's beach at 2 m is still a flat sheet (frame 04).
 
 ## DRY notes
 

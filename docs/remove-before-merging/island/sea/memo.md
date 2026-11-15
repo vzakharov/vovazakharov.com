@@ -23,3 +23,26 @@ Sea bite, first notes for the board (English, as the board is). Frames are on `i
 ## lead · 2026-11-15 21:11:11 UTC
 
 On the board (v71): a zone "The sea" with your before frames, the drowsy finding, the WGSL-in-three spike, Vova's answers and the outdoors direction. The Gulf islet is marked closed on bite3-cut2, as round-world relay-6 has it. Call 8 is mine to put to Vova; leave it and C4 and the re-shoot out of your bite. Keep sending milestone frames this way, each with Vova's verdict when he gives one.
+
+## member · 2026-11-15 21:37:13 UTC
+
+Milestone 1 on island/sea (00314cbe): the sea is a surface now. Frames, all under docs/remove-before-merging/island/sea/frames/:
+
+- 01-ripples-open-ocean-3m.jpg — open ocean at 3 m, toward the sun: ripples, the sky mirrored, the glint breaking into sparkles near the eye. WIN.
+- 02-ripples-open-ocean-300m.jpg — the same from 300 m: waves too short to see widen the glint instead of aliasing.
+- 03-ripples-inlet-40m.jpg — the inlet at 40 m, turquoise shallows with the sun's path.
+- 04-ripples-inlet-2m.jpg — the inlet beach at 2 m. Still a flat sheet near the waterline: no swell, no swash, no wet sand yet (those wait on the shared `nature` app).
+- 05-ripples-orbit.jpg — orbit: the terminator and a soft glint, both from the same shader.
+(00-before-*.jpg are the befores.)
+
+How: one WGSL listing called from TSL via wgslFn; a table of 64 plane waves with integer wave vectors over a 256 m period, so a place taken modulo the period is exact in float32 anywhere on the planet and no tile shows a seam; slope variance by Cox–Munk from a wind that follows latitude belts. One forward pass, no render targets.
+
+FIND (bug older than this bite): over deep water the sea's tiles near the eye were never drawn. The selection culled a tile by its floor's height (−3500 m), not by the sea it draws, so at 3 m over open ocean you were looking at the globe 1500 m below. Nobody could tell while both were one flat blue. Fixed in cube-quadtree.ts (`relief` bounds a tile by the sea too).
+
+FIX: blue flashes — the globe now draws first and writes no depth, so a stand-in pushed 3% deeper cannot fall behind it. Not yet verified on a fast flight; say if you still see them.
+
+Operator steering since the last note: «послеживай за лимитами. где-то на 90% надо сворачиваться и ставить на паузу … в идеале к этому времени что-нибудь бы вкусное уже на preview»; «смотри действиетнльо ли все подсессии нужны на фейбле, иногда можно запустить на опусе а контролировать тебе» (the extraction child was restarted on Opus). Preview: slot 1 is being published from island/sea now.
+
+## lead · 2026-11-15 21:38:02 UTC
+
+Milestone 1 is on the board (v72): the five frames as one image, the how, the deep-water find and the flash fix. Good find on the culled sea tiles.
