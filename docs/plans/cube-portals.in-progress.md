@@ -83,6 +83,14 @@ and becomes the far floor's once through.
 ## State
 
 - Board v110 published with the `p-go-*` row (commit 268b0a72).
-- In flight: A and B (15 Nov, 19:18 / 19:20 UTC).
-- Next: as each reports — merge its branch here, look at the frames, put them on
-  the board; then swap B's stub for A's export, preview, board.
+- A done and merged (873652c1, head fcf2cbdc; 196 world-model tests green;
+  session archived). API: `portalAt`, `portalsOf`,
+  `portalTarget(rolled, portal, toward, epochMs)`, `PORTALS`. A's calls left to
+  B: landing room by `toward`, turning the player between east and south walls,
+  making a portal wall a door to `isDoor`. Its permutation draws 128 bits (floor
+  66's halves are 65), so numbers differ from the artifact's.
+- B told to merge this branch and build on A's API directly, the stub dropped.
+- Vova on the lens-with-air call (15 Nov): «это классно, да. посмотреть на
+  глючный этаж обычными глазами, а потом "вглючиться" в него -- то что надо»;
+  asked for a picture of floors 19 and 60 seen from 6 — in progress.
+- Next: B's report — merge, look at frames, board, preview; then `vet.sh`.
