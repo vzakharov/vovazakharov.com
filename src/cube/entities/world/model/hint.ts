@@ -56,8 +56,8 @@ export function hintsBeside({ n, x, y, isEast }: DoorWall): Hint[] {
 
 /**
  * The hint boards among the rooms whose walls `view` draws: those beside the
- * portals of the first floor that has any, which holds one, the first a body
- * meets on its way down.
+ * first portal of the first floor that has any, the first a body meets on its
+ * way down.
  */
 export function hintsSeen(rolled: RolledMaze, view: View): Hint[] {
   const seen = new Set(
@@ -67,6 +67,7 @@ export function hintsSeen(rolled: RolledMaze, view: View): Hint[] {
   );
   if (seen.size === 0) return [];
   return portalsOf(rolled, PORTALS.first)
+    .filter(({ number }) => number === 0n)
     .flatMap(({ wall }) => hintsBeside(wall))
     .filter(({ room }) => seen.has(roomKey(room)));
 }
