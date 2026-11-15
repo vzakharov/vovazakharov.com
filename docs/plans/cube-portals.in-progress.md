@@ -100,7 +100,10 @@ and becomes the far floor's once through.
 - Vova (15 Nov): «давай, в плане tutorial-изинга, сделаем вывеску "this door is
   special" со стрелкой на первой портальной двери». The first portal door is
   floor 6's one portal (K_6 = 1), the first anyone meets on the way down.
-  Package C, a child of its own, in parallel with B.
+  Package C, a child of its own, in parallel with B
+  (session_01DaohkF9EgJ1vbFMMUUY4bS, branch `claude/cube-portals-sign`). Then:
+  «определение "это первая портальная дверь в игре" сделать программно лучше» —
+  derived as `PORTALS.first`'s portal 0, never floor 6 by hand; sent to C.
 - Vova on a lock after crossing so you cannot step straight back: «сейчас
   конечно не надо, но на подумать» — on the board as `p-go-lock`, not built.
 - Next: B's report — merge, look at frames, board, preview; then `vet.sh`.
