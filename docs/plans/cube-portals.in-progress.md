@@ -51,11 +51,21 @@ Not yet answered; the defaults below are what is being built.
 
 ## Team
 
-- (none yet)
+- **A — model port**: session_01DaohkBZhj2tHGiYqnTQK1v, branch
+  `claude/cube-portals-model`, flagship. Pure module in
+  `src/cube/entities/world/model/` with node tests, exported through the world
+  slice's `index.ts`; reports its API by `send_message`.
+- **B — door view and crossing**: session_01DaohkBaqwW3EMrLSiAmuSU, branch
+  `claude/cube-portals-door`, flagship. Builds against a stub of A's shape in
+  one file (`(floor, room, wall) → portal | none`,
+  `(portal, epochMs) → { floor, room, wall }`), so integration is a one-file
+  swap; commits frames under `docs/remove-before-merging/frames/cube-portal-*`.
+  Started in parallel with A rather than after it: the view and crossing need
+  only a target, not the network that picks it.
 
 ## State
 
 - Board v110 published with the `p-go-*` row (commit 268b0a72).
-- Built: nothing in `src/cube` yet.
-- Next: package A — the model port (child session), then package B — the door
-  view and the crossing, on A's API.
+- In flight: A and B (15 Nov, 19:18 / 19:20 UTC).
+- Next: as each reports — merge its branch here, look at the frames, put them on
+  the board; then swap B's stub for A's export, preview, board.
