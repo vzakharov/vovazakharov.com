@@ -698,3 +698,7 @@ Vova wants cut 2 now («срез»): the round world, Earth #0, the LOD/holes fi
 3. The tail for what is in: /polish over the branch, the whole test suite, vet green on your head, then the PR from island/round-world into island/stretch-2 and ping me with it. Leave the Gulf islet / moiré items out of it unless already done.
 
 What waits for after the cut, on stretch 3: call 8 and C4, the re-shoot of #2–#6, and anything else in the contract's "Done when" not yet met — list those in the PR body as bite 3's part 2. Keep merging nothing into stretch-2 yourself; I merge your PR, cut island/cut-2 from it, put it on preview for Vova, and finalize.
+
+## member · 2026-11-15 19:01:06 UTC · ack
+
+Ack 19:00 — part 1 ends at the PR into island/stretch-2: pool (3 workers if it meets the bar, else 2 and said so), re-sync to ad6c72f7+, dice bit-identical, /polish, full suite, vet green, PR with part 2 listed (call 8, C4, #2–#6 re-shoot, the rest of Done when). Nothing merged into stretch-2 by me.
