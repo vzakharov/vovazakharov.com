@@ -22,4 +22,4 @@ export {
   type SphereTransform,
   sphereTransform,
   synthesize,
-} from './series';
+} from './spectrum';

@@ -5,18 +5,19 @@ Base 8c616760, branch `wt/b3-b7a`. Stopped at the 170k context notice.
 ## Done (pushed)
 
 - **b8b3ed04 worker path**: `openSphereWorld(world)` in `sphere-world.ts`
-  (pinned row's series via a new `buildSphereWorld(world, { source, series,
-  envelope, times })` options entry, seed always rolled — S14); worker builds it
-  async, fills await one `world` promise (queued, in order, none throws);
-  protocol carries `SphereField`, `CubeCell`, `TileMesh<CubeCell>`, plus a
-  `failed` reply (a rejection in a worker reaches no `error` listener) the pool
-  reports; pool sorts by `capGap` from the eye; tile cover on cube keys
-  (`parentOf` stops at `CUBE_MIN_LEVEL`, `within` per face, `nearestFirst(keys,
-  eye)`). `#0` accepted (`isWorldNumber` one regex, `OUR_WORLD` in `hash.ts`,
-  `mask.ts` imports it). B4's two findings (`SPHERE_GROUND_SLOPE`, height's
-  `CoastDistance`). Barrels export the sphere set. Tests: sphere-world (#1
-  opened from the row: 1.27% land vs the rolled 34%, 10° N 0° 60 km inland),
-  hash, world-hash (`#0` → `'0'`), cube quadtree/detail — 103 pass.
+  (pinned row's series via a new
+  `buildSphereWorld(world, { source, series, envelope, times })` options entry,
+  seed always rolled — S14); worker builds it async, fills await one `world`
+  promise (queued, in order, none throws); protocol carries `SphereField`,
+  `CubeCell`, `TileMesh<CubeCell>`, plus a `failed` reply (a rejection in a
+  worker reaches no `error` listener) the pool reports; pool sorts by `capGap`
+  from the eye; tile cover on cube keys (`parentOf` stops at `CUBE_MIN_LEVEL`,
+  `within` per face, `nearestFirst(keys, eye)`). `#0` accepted (`isWorldNumber`
+  one regex, `OUR_WORLD` in `hash.ts`, `mask.ts` imports it). B4's two findings
+  (`SPHERE_GROUND_SLOPE`, height's `CoastDistance`). Barrels export the sphere
+  set. Tests: sphere-world (#1 opened from the row: 1.27% land vs the rolled
+  34%, 10° N 0° 60 km inland), hash, world-hash (`#0` → `'0'`), cube
+  quadtree/detail — 103 pass.
 - **next commit, scene**: `island-scene.ts` on the globe eye (roots 6 × 16,
   `selectCubeTiles`, ground by direction, `STILL` under play, opening
   `openingOf(Number(world))`, `moveTo(lat°, lon°, m)` keeping the heading);
@@ -24,8 +25,8 @@ Base 8c616760, branch `wt/b3-b7a`. Stopped at the 170k context notice.
 
 ## Numbers
 
-- World 2 in Node: roll 150, synthesis 456, contour 267, sweep 792 = 1666 ms.
-  #1 via `openSphereWorld`: ~930–1590 ms. Field copy to main 16 MB per world.
+- World 2 in Node: roll 150, synthesis 456, contour 267, sweep 792 = 1666 ms. #1
+  via `openSphereWorld`: ~930–1590 ms. Field copy to main 16 MB per world.
 
 ## Left (B7a)
 

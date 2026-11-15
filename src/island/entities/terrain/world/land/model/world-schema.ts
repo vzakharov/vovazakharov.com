@@ -1,6 +1,6 @@
 import { pathHash, roll, type Rolled, rollWith } from '@/dice/shared/roll';
 
-import { harmonicSlot } from '../../series';
+import { harmonicSlot } from '../../spectrum';
 
 /** The series' degree `L`: `(L + 1)² = 262,144` coefficients. */
 export const LAND_DEGREE = 511;

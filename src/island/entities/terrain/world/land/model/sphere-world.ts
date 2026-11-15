@@ -8,7 +8,7 @@ import {
   type SphereField,
 } from '../../../coast-field';
 import { gaussLegendre, legendreRecursion, type RingGrid } from '../../grid';
-import { synthesize } from '../../series';
+import { synthesize } from '../../spectrum';
 import { type Envelope, landSeries, PROBE_ENVELOPE } from './land-series';
 import { pinnedSeries } from './pinned-row';
 import { isLand, sphereContourOf } from './sphere-contour';

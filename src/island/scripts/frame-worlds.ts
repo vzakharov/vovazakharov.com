@@ -99,7 +99,8 @@ const tone = (value: number) => (value > 0 ? LAND : SEA);
 function drawBand(n: number, field: Float64Array) {
   const top = n * (band.rows + RULE_ROWS) * width;
   if (!options.views) {
-    for (const [cell, value] of field.entries()) pixels[top + cell] = tone(value);
+    for (const [cell, value] of field.entries())
+      pixels[top + cell] = tone(value);
     return;
   }
   for (const [side, cells] of sides.entries()) {

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { harmonicSlot, sphereTransform, synthesize } from '../../series';
+import { harmonicSlot, sphereTransform, synthesize } from '../../spectrum';
 import { landShare } from './land-measure';
 import {
   fieldDeviation,
