@@ -2,24 +2,21 @@ import {
   type CubeCell,
   type Direction,
   EDGES,
+  isAlongU,
+  isForward,
   neighbour,
 } from '@/island/shared/globe';
 
 import { type Corner, cubeTileId, type NeighbourLevels } from '../../tile';
+import { cubeAncestor } from './cube-split';
 
 /** The leaf of `leaves` holding cell `key` or one of its ancestors, if any. */
 export const covering = (
   leaves: ReadonlyMap<string, CubeCell>,
-  { face, level, x, y }: CubeCell,
+  key: CubeCell,
 ): CubeCell | undefined => {
-  for (let shift = 0; shift <= level; shift++) {
-    const id = cubeTileId({
-      face,
-      level: level - shift,
-      x: x >> shift,
-      y: y >> shift,
-    });
-    const leaf = leaves.get(id);
+  for (let level = key.level; level >= 0; level--) {
+    const leaf = leaves.get(cubeTileId(cubeAncestor(key, level)));
     if (leaf !== undefined) return leaf;
   }
   return undefined;
@@ -33,12 +30,6 @@ const CORNER_EDGES: Readonly<Record<Corner, readonly [Direction, Direction]>> =
     nw: ['left', 'up'],
     ne: ['right', 'up'],
   };
-
-const isAlongU = (direction: Direction) =>
-  direction === 'right' || direction === 'left';
-
-const isForward = (direction: Direction) =>
-  direction === 'right' || direction === 'up';
 
 /**
  * The cell one step `first` then one step `second` from `key`, `second` read

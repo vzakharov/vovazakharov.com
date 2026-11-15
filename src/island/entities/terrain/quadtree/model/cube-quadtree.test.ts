@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import {
+  arc,
   type CubeCell,
   dot,
   faceToSphere,
@@ -21,7 +22,6 @@ import {
 } from '../../tile';
 import { selectCubeTiles } from './cube-quadtree';
 import {
-  arc,
   assertCubeBalanced,
   assertCubeDisjoint,
   CENTRE,

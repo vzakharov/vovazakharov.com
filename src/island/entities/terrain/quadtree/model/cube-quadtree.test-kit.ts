@@ -1,13 +1,11 @@
 import assert from 'node:assert/strict';
 
 import {
-  cross,
+  arc,
   type CubeCell,
   DIRECTIONS,
-  dot,
   faceToSphere,
   latLonToUnit,
-  length,
   neighbour,
   R,
   scaled,
@@ -30,9 +28,6 @@ export const northOfCentre = (metres: number) =>
 
 /** The island's centre: 10° N on the prime meridian. */
 export const CENTRE = northOfCentre(0);
-
-export const arc = (a: Vec3, b: Vec3) =>
-  Math.atan2(length(cross(a, b)), dot(a, b));
 
 /** The eye `height` metres over direction `direction`. */
 export const eyeOver = (direction: Vec3, height: number) =>

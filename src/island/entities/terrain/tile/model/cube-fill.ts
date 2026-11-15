@@ -4,6 +4,8 @@ import {
   EDGES,
   type Face,
   faceToSphere,
+  isAlongU,
+  isForward,
   R,
   scaled,
   type Vec3,
@@ -64,12 +66,6 @@ export const cubeCut = (
 export type CubeLattice = Ringed<Vec3> & {
   readonly heights: Float64Array<ArrayBuffer>;
 };
-
-const isForward = (direction: Direction) =>
-  direction === 'right' || direction === 'up';
-
-const isAlongU = (direction: Direction) =>
-  direction === 'right' || direction === 'left';
 
 /**
  * The point one lattice row inside the face beyond `face`'s `direction` edge,

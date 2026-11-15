@@ -2,12 +2,10 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import {
-  cross,
+  arc,
   type CubeCell,
   type Direction,
-  dot,
   faceToSphere,
-  length,
   neighbour,
   R,
   type Vec3,
@@ -23,7 +21,6 @@ import {
 import { TILE_GRID } from './tile';
 
 const CELLS = TILE_GRID - 1;
-const arc = (a: Vec3, b: Vec3) => Math.atan2(length(cross(a, b)), dot(a, b));
 
 /** The tile's lattice point `(i, j)`, each in `0..CELLS`. */
 const vertex = (key: CubeCell, i: number, j: number) =>

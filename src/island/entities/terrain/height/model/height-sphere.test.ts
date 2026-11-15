@@ -2,10 +2,9 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import {
+  arc,
   cross,
-  dot,
   latLonToUnit,
-  length,
   R,
   scaled,
   sum,
@@ -21,9 +20,6 @@ import {
 
 const SEED = 7;
 const DISC_METRES = 1_000_000;
-
-/** Radians between two directions. */
-const arc = (a: Vec3, b: Vec3) => Math.atan2(length(cross(a, b)), dot(a, b));
 
 /**
  * A land cap 1 000 km around `centre`, its coast the true distance, and the

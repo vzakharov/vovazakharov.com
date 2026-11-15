@@ -58,10 +58,11 @@ const negated = ({ index, sign }: Axis): Axis => ({
 
 const sameAxis = (p: Axis, q: Axis) => p.index === q.index && p.sign === q.sign;
 
-const isAlongU = (direction: Direction) =>
+export const isAlongU = (direction: Direction) =>
   direction === 'right' || direction === 'left';
 
-const isForward = (direction: Direction) =>
+/** Whether `direction` leads towards `+1`. */
+export const isForward = (direction: Direction) =>
   direction === 'right' || direction === 'up';
 
 /** The world axis a direction leads along on a face. */

@@ -14,8 +14,20 @@ export {
   edgePoint,
   EDGES,
   type GridCell,
+  isAlongU,
+  isForward,
   neighbour,
 } from './cube-edges';
 export { type LatLon, latLonToUnit, northAt, unitToLatLon } from './geo';
 export { type Elevated, R } from './globe';
-export { cross, dot, length, scaled, sub, sum, unit, type Vec3 } from './vec3';
+export {
+  arc,
+  cross,
+  dot,
+  length,
+  scaled,
+  sub,
+  sum,
+  unit,
+  type Vec3,
+} from './vec3';

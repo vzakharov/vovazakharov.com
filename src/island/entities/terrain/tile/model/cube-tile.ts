@@ -1,10 +1,8 @@
 import {
-  cross,
+  arc,
   type CubeCell,
-  dot,
   type FacePoint,
   faceToSphere,
-  length,
   R,
   type Vec3,
 } from '@/island/shared/globe';
@@ -47,9 +45,6 @@ export function tileHolds(key: CubeCell, { face, u, v }: FacePoint) {
     face === key.face && west <= u && u <= east && south <= v && v <= north
   );
 }
-
-/** Radians between two directions of any length but zero. */
-const arc = (a: Vec3, b: Vec3) => Math.atan2(length(cross(a, b)), dot(a, b));
 
 /**
  * A tile's ground as a spherical cap: the unit direction of its middle and

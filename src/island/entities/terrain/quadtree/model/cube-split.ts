@@ -25,6 +25,17 @@ export const cubeChildren = ({ face, level, x, y }: CubeCell): CubeCell[] => [
   { face, level: level + 1, x: 2 * x + 1, y: 2 * y + 1 },
 ];
 
+/** The tile at `at` (no finer than `level`) that holds tile `key`. */
+export const cubeAncestor = (
+  { face, level, x, y }: CubeCell,
+  at: number,
+): CubeCell => ({
+  face,
+  level: at,
+  x: x >> (level - at),
+  y: y >> (level - at),
+});
+
 /**
  * Metres from `eye` (world metres) to the point of a tile's cap nearest it,
  * taken at the eye's own height held within the ground's range: the distance a

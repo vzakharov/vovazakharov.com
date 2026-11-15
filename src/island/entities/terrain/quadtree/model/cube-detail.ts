@@ -21,7 +21,7 @@ import {
   tileCap,
   tileHolds,
 } from '../../tile';
-import { cubeSplitRule } from './cube-split';
+import { cubeAncestor, cubeSplitRule } from './cube-split';
 
 const CELLS = TILE_GRID - 1;
 
@@ -127,22 +127,9 @@ export function cubeDetailCut(
       FACES.map((face) => cubeTileId({ face, level: 0, x: 0, y: 0 })),
     );
     for (let level = 1; level <= leaf.level; level++) {
-      const shift = leaf.level - level;
-      const ancestor = {
-        ...leaf,
-        level,
-        x: leaf.x >> shift,
-        y: leaf.y >> shift,
-      };
       const next = new Set<string>();
-      for (const key of nearby(ancestor)) {
-        const parent = {
-          ...key,
-          level: level - 1,
-          x: key.x >> 1,
-          y: key.y >> 1,
-        };
-        if (!open.has(cubeTileId(parent))) continue;
+      for (const key of nearby(cubeAncestor(leaf, level))) {
+        if (!open.has(cubeTileId(cubeAncestor(key, level - 1)))) continue;
         if (splits(key)) {
           next.add(cubeTileId(key));
           continue;
