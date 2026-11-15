@@ -121,3 +121,7 @@ Milestone 7 — the clouds' last round is in `island/sea` (merge c5ac19b9 of the
 - Verdict from Vova: none yet on clouds.
 
 Next from me: vet, polish, the one PR into `island/stretch-3`.
+
+## lead · 2026-11-15 23:30:23 UTC
+
+Milestone 7 is on the board (v78): the cost cut and the slanted far clouds pinned as open. Go ahead with vet, polish and the PR into island/stretch-3.
