@@ -8,11 +8,12 @@
 
 import type * as Phaser from 'phaser';
 
+import type { Clocked } from '@/kernel/shared/typings';
+
 import type { Point } from '@/scene/shared/lib/plane';
 
 import type { Scaled, WithMiddle } from '@/mushrooms/shared/lib/geometry';
 import { turnedLight } from '@/mushrooms/shared/lib/light';
-import type { Timed } from '@/mushrooms/shared/lib/motion';
 import type { Lighted, Lighting } from '@/mushrooms/shared/ui';
 
 import type { BeeGenes } from '../model/bee-genes';
@@ -87,7 +88,7 @@ export type Folded = { shut: number };
  * What a frame poses a look by: the leg with its stay, the clock in ms, the
  * flier and its motion, its size to its unit in pixels, and its wings' fold.
  */
-export type Moment = Timed &
+export type Moment = Clocked &
   Flying &
   Folded &
   Scaled & { stay: Stay; motion: Airborne };

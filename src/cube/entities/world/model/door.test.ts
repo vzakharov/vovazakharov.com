@@ -78,6 +78,16 @@ describe('a door', () => {
   });
 });
 
+/**
+ * How far to the right of one walking through `way` its leaf's hinge stands,
+ * and how far ahead of them its free edge, the leaf a radian open.
+ */
+function leafBefore(way: Facing) {
+  const { hinge, edge } = leafLine({ ...way, angle: 1 });
+  const south = (hinge - DOORWAY_CUT.middle) * way.toward;
+  return { right: way.isEast ? south : -south, ahead: edge[1] * way.toward };
+}
+
 describe('a portal’s leaf', () => {
   const rolled = maze(planted.seed);
   const MINUTE = 60_000;
@@ -93,16 +103,6 @@ describe('a portal’s leaf', () => {
         }),
       ),
     );
-
-  /**
-   * How far to the right of one walking through `way` its leaf's hinge
-   * stands, and how far ahead of them its free edge, the leaf a radian open.
-   */
-  const leafBefore = (way: Facing) => {
-    const { hinge, edge } = leafLine({ ...way, angle: 1 });
-    const south = (hinge - DOORWAY_CUT.middle) * way.toward;
-    return { right: way.isEast ? south : -south, ahead: edge[1] * way.toward };
-  };
 
   it('is tried on east and south walls, alike and across, both ways through', () => {
     const kinds = new Set(

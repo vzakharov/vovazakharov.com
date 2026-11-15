@@ -7,10 +7,11 @@
  */
 
 import { pick } from '@/kernel/shared/lib/collections';
+import type { Turned } from '@/kernel/shared/typings';
 
 import type { Zoomed, Zooming } from '@/scene/shared/lib/plane';
 
-import { type Turned, wrap } from '@/mushrooms/shared/lib/geometry';
+import { wrap } from '@/mushrooms/shared/lib/geometry';
 import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
 import { type Aloft, onHost, type View } from '@/mushrooms/shared/world';
 

@@ -61,7 +61,7 @@ export function seenBeyond(
  */
 export function doorwayOpening(
   { u, v }: InRoom,
-  { isEast, toward }: Pick<Facing, 'isEast' | 'toward'>,
+  { isEast, toward }: Facing,
 ): Float32Array<ArrayBuffer> {
   const half = (DOORWAY_CUT.to - DOORWAY_CUT.from) / 2;
   const past = toward * DOORWAY_DEEP;

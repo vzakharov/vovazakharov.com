@@ -4,9 +4,11 @@
  * layout keeps inside the screen is what gets painted.
  */
 
+import type { Turned } from '@/kernel/shared/typings';
+
 import type { Point } from '@/scene/shared/lib/plane';
 
-import type { Bent, Leaning, Turned } from '@/mushrooms/shared/lib/geometry';
+import type { Bent, Leaning } from '@/mushrooms/shared/lib/geometry';
 
 import {
   GENE_RANGES,

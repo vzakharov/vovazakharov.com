@@ -80,9 +80,13 @@ describe('seenBeyond', () => {
 
 describe('doorwayOpening', () => {
   const half = (DOORWAY_CUT.to - DOORWAY_CUT.from) / 2;
+  const wall = { n: 6, x: 0n, y: 0n };
 
   it('spans the cut, floor to head', () => {
-    const east = doorwayOpening({ u: 2, v: 0.5 }, { isEast: true, toward: 1 });
+    const east = doorwayOpening(
+      { u: 2, v: 0.5 },
+      { ...wall, isEast: true, toward: 1 },
+    );
     assert.equal(east.length, 18);
     close([...east.subarray(0, 3)], [2 + DOORWAY_DEEP, 0, 0.5 - half]);
     close(
@@ -91,7 +95,7 @@ describe('doorwayOpening', () => {
     );
     const south = doorwayOpening(
       { u: 0.5, v: 1 },
-      { isEast: false, toward: 1 },
+      { ...wall, isEast: false, toward: 1 },
     );
     close([...south.subarray(3, 6)], [0.5 + half, 0, 1 + DOORWAY_DEEP]);
   });
@@ -102,7 +106,7 @@ describe('doorwayOpening', () => {
         const line = 1;
         const opening = doorwayOpening(
           { u: line, v: line },
-          { isEast, toward },
+          { ...wall, isEast, toward },
         );
         const across = isEast ? 0 : 2;
         for (let corner = 0; corner < opening.length; corner += 3) {

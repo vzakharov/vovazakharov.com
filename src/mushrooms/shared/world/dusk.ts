@@ -1,11 +1,13 @@
 /**
  * The time of day as a pure function of the meadow's last turn and the
- * clock, in ms on the insects' clock (`Timed.now`): the one place the meadow
+ * clock, in ms on the insects' clock (`Clocked.now`): the one place the meadow
  * keeps whether it is day or dusk, so every dusk rule reads `duskness` or
  * `dusky` and nothing ends a fade.
  */
 
-import { type Ramp, rampAt, type Timed } from '../lib/motion';
+import type { Clocked } from '@/kernel/shared/typings';
+
+import { type Ramp, rampAt } from '../lib/motion';
 
 /** The two ways the light can be going. */
 export const TOWARDS = ['dusk', 'day'] as const;
@@ -62,7 +64,7 @@ export type WithDusk = {
 };
 
 /** A tap on the sun or the moon: turns the light the other way. */
-export type TurnLight = { kind: 'dusk' } & Timed;
+export type TurnLight = { kind: 'dusk' } & Clocked;
 
 /** Which way the light is going, and which way it went before. */
 export type DuskFrom = WithDusk & { before: Dusk };

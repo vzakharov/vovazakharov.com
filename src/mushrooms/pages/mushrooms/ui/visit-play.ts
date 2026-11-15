@@ -6,7 +6,8 @@
  * `src/mushrooms/scripts/sweep-mushrooms.ts` read it.
  */
 
-import type { Timed } from '@/mushrooms/shared/lib/motion';
+import type { Clocked } from '@/kernel/shared/typings';
+
 import { mulberry32, nextSeed } from '@/mushrooms/shared/lib/random';
 import { MUSHROOM_SLOTS, RAIN_MS, type View } from '@/mushrooms/shared/world';
 import {
@@ -207,7 +208,7 @@ export type Playing = {
 };
 
 /** One tick of a played visit: the meadow after it, when, and what the scene saw. */
-export type Played = Meadowed & Timed & { sight: Sight };
+export type Played = Meadowed & Clocked & { sight: Sight };
 
 /**
  * `stand` played for the visit `seed`: `kinds` released `gap` apart, then

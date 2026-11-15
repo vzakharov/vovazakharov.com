@@ -3,7 +3,8 @@
  * habits and how far apart its perches stand, and the stay after it.
  */
 
-import type { Timed } from '@/mushrooms/shared/lib/motion';
+import type { Clocked } from '@/kernel/shared/typings';
+
 import { between, type Random } from '@/mushrooms/shared/lib/random';
 import { CLUMP_DISTANCE } from '@/mushrooms/shared/world';
 
@@ -221,7 +222,7 @@ export function legTo(
   random: Random,
   habits: Habits,
   route: Route,
-  { now, ...placed }: Timed & Placed,
+  { now, ...placed }: Clocked & Placed,
 ): Leg {
   const { from, to } = route;
   const sheltering = to.kind === 'shelter' ? habits.sheltering : undefined;
