@@ -92,5 +92,9 @@ and becomes the far floor's once through.
 - B told to merge this branch and build on A's API directly, the stub dropped.
 - Vova on the lens-with-air call (15 Nov): «это классно, да. посмотреть на
   глючный этаж обычными глазами, а потом "вглючиться" в него -- то что надо»;
-  asked for a picture of floors 19 and 60 seen from 6 — in progress.
+  asked for a picture of floors 19 and 60 seen from 6 — in progress (a
+  background agent shooting real frames into `tmp/portal-mock/`, editing sources
+  temporarily: commit only named paths until it reports). On 60 looking like
+  plain grey rooms from 6: «и в этом соль. как будут готовы кадры -- их нужно,
+  сравнительно, на доску» — the frames go on the board side by side.
 - Next: B's report — merge, look at frames, board, preview; then `vet.sh`.
