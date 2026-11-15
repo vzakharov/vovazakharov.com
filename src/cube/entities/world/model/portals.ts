@@ -73,7 +73,6 @@ export function siteIndex({ n, level, x, y, arm }: Partition): bigint {
   return before + block * 4n + BigInt(EDGES.indexOf(arm));
 }
 
-/** A bijection on `[0, size)` and its inverse. */
 type Permutation = {
   size: bigint;
   forward: (index: bigint) => bigint;
