@@ -10,20 +10,14 @@
     "costUsd": 5.439355
   },
   "estimate": {
-    "at": "2026-11-15T21:39:13.886Z",
-    "subjectLine": "fix: portal leaf hangs as one leaf; crossing stall and dropout traced",
+    "at": "2026-11-15T22:31:28.647Z",
+    "subjectLine": "fix: a portal's leaf hangs as one door from both sides",
     "parts": [
       {
-        "hours": 3.0,
-        "grade": "senior",
-        "role": "graphics-programmer",
-        "comment": "the far-view pass, near-plane clipping and pipeline timing need someone who reads a WebGPU frame"
-      },
-      {
-        "hours": 2.0,
+        "hours": 1.5,
         "grade": "senior",
         "role": "gameplay-programmer",
-        "comment": "hinge and swing agreement across paired walls is door-feel geometry with tests"
+        "comment": "Deriving a hinge rule that agrees under every hub-spoke pairing and minute, with tests over all eight kinds of pairing, then tracing a one-frame threshold dropout to the near plane clipping the doorway mask."
       }
     ],
     "comment": null
