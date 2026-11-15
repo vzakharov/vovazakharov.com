@@ -122,5 +122,8 @@ and becomes the far floor's once through.
   rename the reference model to `.js.txt` (it breaks eslint), reshoot door and
   sign frames with the real network, check the far-side sale sign.
 - Vova on the sign (15 Nov): «давай "SOME DOORS ARE SPECIAL", и поменьше надпись
-  таки» — sent to B with the integration (≈0.8 × 0.4 m board).
+  таки» — sent to B with the integration (≈0.8 × 0.4 m board). Superseded: «о, а
+  давай даже "some doors are more equal than the others", и без стрелки», then
+  «\*than others» — sent to B: "SOME DOORS ARE MORE EQUAL THAN OTHERS", no
+  arrow, ≈0.8 m wide.
 - Next: B's report — merge, look at frames, board, preview; then `vet.sh`.
