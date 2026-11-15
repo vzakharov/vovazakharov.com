@@ -113,4 +113,17 @@ and becomes the far floor's once through.
   merges: the far room's FOR SALE sign covers the board while the portal wall is
   a plain wall; B's `isDoor` counting portals should move it — check the
   far-side frames then. Board v113.
+- C's late `firstPortal` (named function, test) merged over the lead's inline
+  filter (ab1afb06).
+- B reported (head d6659a08) on the stub, never having merged A: door, far view
+  in this floor's air, minute swap, crossing, URL (`fell` byte in the address,
+  pushState, Back via popstate). Frames on the board (v113→v114, zone
+  `z-portal-door`). Sent back to merge this branch, swap the stub for A's model,
+  rename the reference model to `.js.txt` (it breaks eslint), reshoot door and
+  sign frames with the real network, check the far-side sale sign.
+- Vova on the sign (15 Nov): «давай "SOME DOORS ARE SPECIAL", и поменьше надпись
+  таки» — sent to B with the integration (≈0.8 × 0.4 m board). Superseded: «о, а
+  давай даже "some doors are more equal than the others", и без стрелки», then
+  «\*than others» — sent to B: "SOME DOORS ARE MORE EQUAL THAN OTHERS", no
+  arrow, ≈0.8 m wide.
 - Next: B's report — merge, look at frames, board, preview; then `vet.sh`.
