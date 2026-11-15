@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 5262,
-    "cacheWrite5mTokens": 803483,
-    "cacheWrite1hTokens": 186639,
-    "cacheReadTokens": 34147953,
-    "outputTokens": 136044,
-    "thinkingTokens": 30161,
-    "responses": 266,
-    "costUsd": 15.084164799999986
+    "inputTokens": 5989,
+    "cacheWrite5mTokens": 1108654,
+    "cacheWrite1hTokens": 239921,
+    "cacheReadTokens": 51351543,
+    "outputTokens": 197638,
+    "thinkingTokens": 47029,
+    "responses": 372,
+    "costUsd": 21.71286179999998
   },
   "estimate": {
     "at": "2026-11-15T18:34:52.268Z",
@@ -51,46 +51,46 @@
     }
   },
   "sessionId": "da6a3430-25cb-5bf5-9dc9-201bf078dd7a",
-  "branch": "wt/polish-pages",
-  "cwd": "/home/user/vovazakharov.com",
+  "branch": "island/round-world",
+  "cwd": "/home/user/vovazakharov.com/tmp/wt-fix",
   "openingPrompt": "/relay take island/round-world — LOD и дыры на поворотах влиты, четыре воркера ждут двух правок перед вливанием",
   "prs": [],
   "url": "https://claude.ai/code/session_01DaohkD686c7ehYswH9TgcL",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-15T18:34:34.687Z",
-  "lastResponseAt": "2026-11-15T19:11:41.104Z",
+  "lastResponseAt": "2026-11-15T19:19:17.348Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 156,
+    "inputTokens": 195,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 186639,
-    "cacheReadTokens": 12783102,
-    "outputTokens": 32197,
-    "thinkingTokens": 5030,
-    "responses": 73,
-    "costUsd": 4.6942964
+    "cacheWrite1hTokens": 239921,
+    "cacheReadTokens": 18517001,
+    "outputTokens": 41853,
+    "thinkingTokens": 7611,
+    "responses": 94,
+    "costUsd": 6.460608199999999
   },
   "subagents": {
-    "inputTokens": 382,
-    "cacheWrite5mTokens": 801110,
+    "inputTokens": 564,
+    "cacheWrite5mTokens": 1105921,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 20083089,
-    "outputTokens": 103732,
-    "thinkingTokens": 25131,
-    "responses": 185,
-    "costUsd": 10.098335800000001
+    "cacheReadTokens": 31309290,
+    "outputTokens": 155660,
+    "thinkingTokens": 39418,
+    "responses": 269,
+    "costUsd": 14.906918999999993
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 4080,
-      "cacheWrite5mTokens": 803483,
-      "cacheWrite1hTokens": 186639,
-      "cacheReadTokens": 34147953,
-      "outputTokens": 136024,
-      "thinkingTokens": 30161,
-      "responses": 265,
-      "costUsd": 15.084036599999985
+      "inputTokens": 4807,
+      "cacheWrite5mTokens": 1108654,
+      "cacheWrite1hTokens": 239921,
+      "cacheReadTokens": 51351543,
+      "outputTokens": 197618,
+      "thinkingTokens": 47029,
+      "responses": 371,
+      "costUsd": 21.712733599999982
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1182,
@@ -106,20 +106,20 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 265,
-    "matched": 257,
-    "matchedTableUsd": 14.751690599999984,
-    "matchedEventUsd": 14.751690599999984,
+    "events": 372,
+    "matched": 363,
+    "matchedTableUsd": 21.367527199999984,
+    "matchedEventUsd": 21.36752719999998,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 3542,
-        "cacheWrite5mTokens": 2373,
+        "inputTokens": 4048,
+        "cacheWrite5mTokens": 2733,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 1281762,
-        "outputTokens": 95,
+        "cacheReadTokens": 1525252,
+        "outputTokens": 105,
         "thinkingTokens": 0,
-        "responses": 7,
-        "costUsd": 0.2914044
+        "responses": 8,
+        "costUsd": 0.3452064
       },
       "generate_session_title": {
         "inputTokens": 1182,
@@ -145,7 +145,7 @@
     ".md": 16580,
     ".json": 488,
     ".txt": 2356,
-    ".ts": 9126,
+    ".ts": 9112,
     ".sh": 43,
     ".yaml": 295,
     ".tsx": 114,
