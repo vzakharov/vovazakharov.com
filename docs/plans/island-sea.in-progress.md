@@ -42,9 +42,9 @@ Answers, verbatim (2026-11-15):
 > и вот что хочется услышать: как ты собираешься делать то что не пляж/пясок:
 > возвышенности, горы и пр.
 
-So: the shared app is `outdoors`, not `sea`; clouds are in; a simple wind model
-is in (it turns the ripples, shelters lee shores, drifts the clouds); the target
-is 60 fps on an M2 Pro without drowsy, the phone no yardstick; WebGL2 may go
+So: the shared app is `nature`, not `sea`; clouds are in; a simple wind model is
+in (it turns the ripples, shelters lee shores, drifts the clouds); the target is
+60 fps on an M2 Pro without drowsy, the phone no yardstick; WebGL2 may go
 altogether later.
 
 ## Steering
@@ -57,8 +57,12 @@ altogether later.
   -- не знаю), поэтому технологии двух аппов нужно если не унифицировать, то
   идти в этом направлении» — whatever this bite writes new (ripples, the water's
   light, sky, clouds, wind, ground detail) is a pure WGSL function of place,
-  clock and parameters in `outdoors`, with no frame uniform and no binding, so
-  the cube can take it as it stands; the island only composes them in TSL.
+  clock and parameters in `nature`, with no frame uniform and no binding, so the
+  cube can take it as it stands; the island only composes them in TSL.
+- On the shared app's name, after `outdoors` was offered: «outdoors навевает
+  улицей или чем-то таким … я бы смотрел в принципе в направлении "модель
+  мира/планеты" … даже "планета" тут может быть слишком узким, если соберёмся
+  делать звёзды»; on `nature`: «во, nature это норм». The app is `nature`.
 - What the lead told him of the ground that is not beach: a material by place
   (sand, grass and soil, rock on steep and high ground, snow) from height, slope
   and coast distance; relief below the mesh's 1.2 m cell drawn by light, each
@@ -76,7 +80,7 @@ altogether later.
   pieces as a `code()` include. Beat: rewriting the closed forms in TSL, a third
   copy beside the TS and WGSL twins `swell.test.ts` already holds together.
   Cost: WebGPU only (question 1).
-- **The shared formulas live in an app `outdoors` (parents `scene`, `dice`) that
+- **The shared formulas live in an app `nature` (parents `scene`, `dice`) that
   `cube` and `island` both extend**; the WGSL kit (`wgsl`, `assemble`, `f32`,
   `hash.wgsl`) drops to `scene/shared/shader`. What needs the cube's analytic
   `islandHeight` (`waterLevel(xz, t)`, `shoreRise`) stays in the cube.
