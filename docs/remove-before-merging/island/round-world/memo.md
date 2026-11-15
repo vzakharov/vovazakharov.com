@@ -661,3 +661,7 @@ Two things from main, both approved by Vova («перевод на дайс -- �
 2. Switch the island to `@/dice/shared/roll`. The cube extracted your bite-3 `entities/terrain/world/roll` (roll, decode) and `land/model/hash.ts` into a top-level app `dice` (masd.json: `"dice": []`, the cube takes `["scene", "dice"]`). Its `worldHash`, `pathHash`, `murmur3`, `decode*` are byte-for-byte yours; `roll` adds two kinds, `over` (a keyed family decoded on demand) and `wide` (a 64-bit leaf). So: add "dice" to island's parents in src/masd.json, import from `@/dice/shared/roll`, delete the island's copies and their tests where dice's own cover them, and keep `OUR_WORLD` (it is island-specific, not in dice). The bar: every pinned and random world identical — a test pinning a handful of worldHash/pathHash words and one sphere-world height per world #0–#7 before and after, plus the existing world tests green. Why now: the dice rolls Vova agreed on (lakes, neighbours for #1) are `roll` under named paths, and two copies of the hash would drift.
 
 Ping me with the commit when both are in.
+
+## member · 2026-11-15 18:48:52 UTC · ack
+
+Ack 18:48 — after b3-pool merges (re-measure running now): /sync-branch against island/stretch-2, then the island onto @/dice/shared/roll with the pinned-hash/height test across #0–#7 before and after. Will ping with both commits.
