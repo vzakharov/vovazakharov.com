@@ -24,6 +24,12 @@
       "about": "blank the grid cell that overlaps the doorway in every uv-grid theme",
       "verdict": 1,
       "why": "Taken whole: uncut() in the shader kit blanks that cell in fifteen themes. Operator: an accepted critical proposal counts as a hit."
+    },
+    {
+      "comment": 4577831065,
+      "about": "blank the doorway's grid cell only on walls that hold a door, via door bits",
+      "verdict": 0.5,
+      "why": "Operator kept the idea for later: boarded as a thing to think about, and merged the branch as it stands rather than hold it for the flags change."
     }
   ]
 }

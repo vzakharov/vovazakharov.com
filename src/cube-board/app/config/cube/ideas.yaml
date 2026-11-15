@@ -191,6 +191,12 @@ items:
     box: [4003, -2560, 244, orange]
     icon: 👤
     text: 'Idea: something waiting behind a door. The first door opened on floor 8 had a coat rack in its shadow that read as a hooded figure, by accident: furniture stood against what was a wall before it became a door. Doorways are now kept clear, so a scare would be placed on purpose: rolled, rare, a still shape that is never there on the second look'
+  - id: doors-uncut-later
+    type: sticky
+    updated: [2026-11-15T09:45:00.000Z, agent:cube]
+    box: [4673, -2560, 244, gray]
+    icon: 🔲
+    text: "To think about later: the grid gate blanks the doorway's cell on every wall of fifteen themes, door or not, because a wall's shader is not told which of its walls hold a door. So the mall walls up every second shopfront and the clean room never glazes its fourth bay. The way out is a door bit per side in the room's flags, which have three bits free for four sides, so a second vertex word or a repack; then only a door wall loses its cell"
   - id: l-doors-jumpscare
     type: line
     updated: [2026-11-14T21:05:00.000Z, agent:cube]
