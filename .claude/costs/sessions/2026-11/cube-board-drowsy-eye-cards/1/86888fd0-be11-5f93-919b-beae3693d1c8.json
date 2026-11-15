@@ -1,0 +1,111 @@
+{
+  "total": {
+    "inputTokens": 68,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 137117,
+    "cacheReadTokens": 4821216,
+    "outputTokens": 20419,
+    "thinkingTokens": 6984,
+    "responses": 34,
+    "costUsd": 2.4698312000000007
+  },
+  "estimate": {
+    "at": "2026-11-15T09:53:00.739Z",
+    "subjectLine": "content: PR #281's review-board cards and frames onto the cube board",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "middle",
+        "role": "editor",
+        "comment": "recovering eighteen cards from a swept review board and rewriting them as board prose in English needs care with the operator's verdicts"
+      },
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "designer",
+        "comment": "placing two card rows and a new zone without overlap on a dense board"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "src/cube-board/app/config/cube/intro-drowsy.yaml",
+    "endedAt": "2026-11-15T09:51:32.191Z",
+    "contextTokens": 150629,
+    "spend": {
+      "inputTokens": 40,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 96912,
+      "cacheReadTokens": 2423644,
+      "outputTokens": 10527,
+      "thinkingTokens": 5843,
+      "responses": 20,
+      "costUsd": 1.4707248000000004
+    }
+  },
+  "sessionId": "86888fd0-be11-5f93-919b-beae3693d1c8",
+  "branch": "cube-board-drowsy-eye-cards",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/task Move onto the cube board what PR #281's session put on its review board instead. Context, verified by the session that hands this over: - PR #281 (`claude…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkD9P4XptTYFmmQHxAa",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-15T09:49:19.853Z",
+  "lastResponseAt": "2026-11-15T09:53:27.445Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 68,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 137117,
+    "cacheReadTokens": 4821216,
+    "outputTokens": 20419,
+    "thinkingTokens": 6984,
+    "responses": 34,
+    "costUsd": 2.4698312000000007
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 68,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 137117,
+      "cacheReadTokens": 4821216,
+      "outputTokens": 20419,
+      "thinkingTokens": 6984,
+      "responses": 34,
+      "costUsd": 2.4698312000000007
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 34,
+    "matched": 34,
+    "matchedTableUsd": 2.4698312000000007,
+    "matchedEventUsd": 2.4698312000000007,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 9,
+    "threads": 0
+  },
+  "reviewPosts": {
+    "IC_kwDOQXZBKM8AAAABmgxuAg": 9
+  },
+  "threadPosts": {},
+  "branchLines": {
+    ".yaml": 132
+  }
+}
