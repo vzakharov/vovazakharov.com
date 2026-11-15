@@ -1,9 +1,9 @@
 /**
- * The tile worker: builds the world's field once, on `init`, from the world
- * number alone (its pinned row, if it has one), then fills each tile it is
- * sent and posts it back with its buffers transferred. The build is async, so
- * a fill that arrives before it waits for it; fills still go back in the order
- * they came.
+ * The tile worker: takes the world's field once — building it on `build` from
+ * the world number alone (its pinned row, if it has one), or adopting another
+ * worker's on `adopt` — then fills each tile it is sent and posts it back with
+ * its buffers transferred. A fill that arrives before the field waits for it;
+ * fills still go back in the order they came.
  */
 import type { Vec3 } from '@/island/shared/globe';
 import {
@@ -24,7 +24,8 @@ import {
   type WorldField,
 } from './tile-protocol';
 
-let world: Promise<WorldField> | null = null;
+/** The field this worker fills from, built on `build` or handed over on `adopt`. */
+const world = Promise.withResolvers<WorldField>();
 
 const reply = (message: WorkerReply, transfer: Transferable[] = []) => {
   postMessage(message, { transfer });
@@ -82,23 +83,28 @@ const failed = (error: unknown) => {
 
 addEventListener('message', (event: MessageEvent<WorkerRequest>) => {
   const request = event.data;
-  if (request.kind === 'init') {
+  if (request.kind === 'build') {
     const start = performance.now();
-    world = openSphereWorld(request.world).then(({ field, seed }) => {
+    const built = openSphereWorld(request.world).then(({ field, seed }) => {
       // A copy, not a transfer: this worker keeps filling from its own.
       reply({
         kind: 'built',
         buildMs: performance.now() - start,
-        field: request.sendField ? field : null,
+        field,
         seed,
       });
       return { field, seed };
     });
-    world.catch(failed);
+    built.catch(failed);
+    world.resolve(built);
     return;
   }
-  if (world === null) throw new Error('tile worker: fill before init');
-  world
+  if (request.kind === 'adopt') {
+    const { field, seed } = request;
+    world.resolve({ field, seed });
+    return;
+  }
+  world.promise
     .then((built) => {
       const tile = fill(built, request, request.eye);
       reply({ kind: 'tile', tile }, filledBuffers(tile));

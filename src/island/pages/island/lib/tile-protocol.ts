@@ -52,11 +52,12 @@ export type FilledTile = TileOrder & {
 
 export type WorkerRequest =
   | {
-      readonly kind: 'init';
-      /** The world number, a decimal string: the worker builds the field from it (its pinned row, if any). */
+      readonly kind: 'build';
+      /** The world number, a decimal string: the worker builds the field from it (its pinned row, if any) and posts a copy back. */
       readonly world: string;
-      readonly sendField: boolean;
     }
+  /** A field another worker built, to fill from instead of building one. */
+  | (WorldField & { readonly kind: 'adopt' })
   | (TileOrder & {
       readonly kind: 'fill';
       /** The eye (world metres) whose `cubeDetailCut` the tile is filled to. */
@@ -64,13 +65,8 @@ export type WorkerRequest =
     });
 
 export type WorkerReply =
-  | {
-      readonly kind: 'built';
-      readonly buildMs: number;
-      /** A copy of the field (1024 × 2048 doubles, 16 MB), when `init` asked for it. */
-      readonly field: SphereField | null;
-      readonly seed: WorldField['seed'];
-    }
+  /** A copy of the field built (1024 × 2048 doubles, 16 MB), and its seed. */
+  | (WorldField & { readonly kind: 'built'; readonly buildMs: number })
   | { readonly kind: 'tile'; readonly tile: FilledTile }
   /** The build or a fill threw; the worker fills nothing more of what failed. */
   | { readonly kind: 'failed'; readonly message: string };
