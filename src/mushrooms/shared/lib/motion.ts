@@ -369,5 +369,5 @@ export function blink(time: number, phase: number): boolean {
   return roundAt(time, BLINK_PERIOD, phase) < BLINK_SHUT;
 }
 
-/** A moment on the scene's clock, in ms. */
-export type Timed = { now: number };
+/** A moment on the scene's clock. */
+export type { Clocked as Timed } from '@/kernel/shared/typings';

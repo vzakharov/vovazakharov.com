@@ -1,5 +1,4 @@
 import { asError } from '@/kernel/shared/lib/error-class';
-import type { WithOnError } from '@/kernel/shared/typings';
 
 import { clockAt } from '@/cube/shared/lib/clock';
 import { type Laddered, toCube } from '@/cube/entities/island';
@@ -29,7 +28,7 @@ import { OUTSIDE_LENS, type OutsideLens } from '../lib/outside-lens';
 import { between } from '../lib/palette';
 import type { HeldOpen, ScenePlay } from '../lib/play';
 import { shaderOf } from '../lib/shader';
-import { build, type Mesh, type Selling, type SignOf } from './cube-mesh';
+import { build, type Building, type Mesh, type SignOf } from './cube-mesh';
 import { goingOn, type Heard } from './going-on';
 import { heldTiming } from './pass-timer';
 import { createPortalView } from './portal-view';
@@ -65,20 +64,19 @@ type FrameHook = (pose: Pose, seconds: number, signOf: SignOf) => Frame;
 type OutsideEye = { outside: Outside; lens: OutsideLens };
 
 /** `onError` hears a device lost or a build that threw. */
-export type CubeOptions = WithOnError &
-  Selling & {
-    start: Pose;
-    onFrame: FrameHook;
-    /**
-     * Every frame, what the rooms in view are sounding at its instant, and
-     * where the eye drawn is: the outside eye when it is outside.
-     */
-    onHeard: (heard: readonly Heard[], at: Whereabouts) => void;
-    /** The instant a frame is drawn at, in milliseconds since the epoch. */
-    now: () => number;
-    /** Hears that the browser has no WebGPU; nothing is drawn then. */
-    onUnsupported: () => void;
-  };
+export type CubeOptions = Building & {
+  start: Pose;
+  onFrame: FrameHook;
+  /**
+   * Every frame, what the rooms in view are sounding at its instant, and
+   * where the eye drawn is: the outside eye when it is outside.
+   */
+  onHeard: (heard: readonly Heard[], at: Whereabouts) => void;
+  /** The instant a frame is drawn at, in milliseconds since the epoch. */
+  now: () => number;
+  /** Hears that the browser has no WebGPU; nothing is drawn then. */
+  onUnsupported: () => void;
+};
 
 /**
  * The play hook's calls, which the page also drives itself; `refresh`, which

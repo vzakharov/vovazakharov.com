@@ -22,8 +22,7 @@ export type Facing = { ahead: Point };
 export type Cornered = Topped & Lefted;
 /** How big a thing stands on screen, in its points' units: the unit its shape is drawn in. */
 export type Scaled = { size: number };
-/** How far a thing is turned from upright as it is drawn, in radians. */
-export type Turned = { turn: number };
+export type { Turned } from '@/kernel/shared/typings';
 
 /**
  * A stem that rises upright and bends over: how far its top stands sideways

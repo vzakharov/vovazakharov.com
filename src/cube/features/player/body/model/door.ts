@@ -8,6 +8,7 @@ import {
   type InRoom,
   isSameWall,
   type Pose,
+  type Posed,
   type Room,
   roomBeyond,
   type Walls,
@@ -155,10 +156,9 @@ export function carriedThrough(
   return { pose: carried(to, gone, far), door: { ...door, n, x, y, isEast } };
 }
 
-type IsCarriedParams = { pose: Pose; door: OpenDoor | null };
+/** A body at its pose, and the door it opened, until that door has shut behind it. */
+export type HoldingDoor = Posed & { door: OpenDoor | null };
 
 /** Whether the frame that left `from` and made a body with `door` open at `pose` carried it through a portal. */
-export const isCarried = (
-  from: Pose,
-  { pose, door }: IsCarriedParams,
-): boolean => door !== null && pose.n !== from.n;
+export const isCarried = (from: Pose, { pose, door }: HoldingDoor): boolean =>
+  door !== null && pose.n !== from.n;

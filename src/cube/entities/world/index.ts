@@ -50,19 +50,11 @@ export {
   carried,
   farSideOf,
   isBeyond,
-  isPortal,
   pastDoorway,
   roomBeyond,
   wayThrough,
 } from './model/portal';
-export { PORTALS } from './model/portal-counts';
-export {
-  type Portal,
-  portalAt,
-  portalsOf,
-  type PortalTarget,
-  portalTarget,
-} from './model/portals';
+export { portalsOf } from './model/portals';
 export type {
   Gazing,
   InRoom,

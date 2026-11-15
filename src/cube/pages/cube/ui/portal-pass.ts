@@ -1,9 +1,9 @@
 /// <reference types="@webgpu/types" />
 
-import type { CanDispose, Sized } from '@/kernel/shared/typings';
+import type { CanDispose } from '@/kernel/shared/typings';
 
 import type { Seen } from '@/cube/shared/lib/vec';
-import { assemble } from '@/cube/shared/shader';
+import { assemble, type Grouped } from '@/cube/shared/shader';
 
 import type { Scenery } from '../lib/mesh';
 import { DOORWAY_VERTICES } from '../lib/portal-frame';
@@ -12,7 +12,7 @@ import { type Drawn, drawnOf, drawRuns } from './drawn';
 import { PORTAL_PASS } from './portal-pass.shader.generated';
 import { DEPTH_FORMAT, type Programs, SCENE_TARGETS } from './programs';
 import { createReflection } from './reflection';
-import { beginScene, type Cleared, createDepthTarget } from './scene-pass';
+import { beginScene, createDepthTarget, type Shot } from './scene-pass';
 import { UNREPEATED } from './slowdown';
 
 /** Floats of a vertex of the doorway's opening: its place. */
@@ -31,13 +31,12 @@ export type Through = {
 };
 
 /** One encoding of the rooms beyond: what `Through` leaves to the frame. */
-type BeyondShot = Cleared & {
-  /** The frame's `Uniforms`, seen as `Through.seen`. */
-  uniforms: Float32Array<ArrayBuffer>;
-  size: Sized;
+type BeyondShot = Shot &
   /** The group of the frame's own uniforms, which the door is drawn by. */
-  group: GPUBindGroup;
-};
+  Grouped & {
+    /** The frame's `Uniforms`, seen as `Through.seen`. */
+    uniforms: Float32Array<ArrayBuffer>;
+  };
 
 /**
  * The rooms through a portal door, drawn as a scene of their own and laid in

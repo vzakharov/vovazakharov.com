@@ -28,7 +28,6 @@ export {
   STILL,
   swingingOf,
   takenOf,
-  type Ways,
 } from './body';
 export { grippingHand } from './hand';
 export { handsOf } from './hands';

@@ -1,3 +1,5 @@
+import type { Turned } from '@/kernel/shared/typings';
+
 import { DOORWAY_CUT } from '@/cube/shared/cube-boundary';
 
 import type { Facing } from './door';
@@ -73,7 +75,7 @@ function doorwayIn(frame: Room, { x, y, isEast }: DoorWall): Flat {
  * one, `to`, in the eye's; and `turn`, the radians east to south that bring
  * the far frame round to the near one.
  */
-export type Beyond = { from: InRoom; to: InRoom; turn: number };
+export type Beyond = Turned & { from: InRoom; to: InRoom };
 
 /** The radians, east to south, that turn `from` to `to`: within half a turn. */
 const turnBetween = (from: Flat, to: Flat): number =>

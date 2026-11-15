@@ -1,4 +1,4 @@
-import type { WithOnError } from '@/kernel/shared/typings';
+import type { Clocked } from '@/kernel/shared/typings';
 
 import type { Seen } from '@/cube/shared/lib/vec';
 import {
@@ -17,30 +17,28 @@ import {
 import { poseIn } from '../lib/eye-room';
 import { floorsIn } from '../lib/mesh';
 import { doorwayOpening, seenBeyond } from '../lib/portal-frame';
-import { build, type Mesh, type Selling } from './cube-mesh';
+import { build, type Building, type Mesh } from './cube-mesh';
 import type { Through } from './portal-pass';
 import type { Renderer } from './renderer';
 
 /** What the rooms through a portal door are built by and uploaded to. */
-type Showing = Selling &
-  WithOnError & {
-    /** The renderer, null before it is made and once it is disposed. */
-    renderer: () => Renderer | null;
-  };
-
-/** One frame's door and the eye that may see through it. */
-type Glance = Seen & {
-  /** The door the body holds open, if any. */
-  door: Ajar | null;
-  /** The door's leaf as the frame draws it. */
-  leaf: readonly Quad[];
-  /** The eye, and the mesh drawn with the pose it was built for. */
-  at: Pose;
-  frame: Pose;
-  mesh: Mesh;
-  /** The frame's instant, in milliseconds since the epoch. */
-  now: number;
+type Showing = Building & {
+  /** The renderer, null before it is made and once it is disposed. */
+  renderer: () => Renderer | null;
 };
+
+/** One frame's door and the eye that may see through it, at the frame's instant. */
+type Glance = Seen &
+  Clocked & {
+    /** The door the body holds open, if any. */
+    door: Ajar | null;
+    /** The door's leaf as the frame draws it. */
+    leaf: readonly Quad[];
+    /** The eye, and the mesh drawn with the pose it was built for. */
+    at: Pose;
+    frame: Pose;
+    mesh: Mesh;
+  };
 
 export type PortalView = {
   /**

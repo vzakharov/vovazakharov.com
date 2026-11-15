@@ -1,3 +1,5 @@
+import type { WithOnError } from '@/kernel/shared/typings';
+
 import { themeOf } from '@/cube/entities/theme';
 import {
   type Ajar,
@@ -85,6 +87,9 @@ export type Selling = {
   /** The rooms the viewer bought, read on every mesh build. */
   bought: () => Holdings;
 };
+
+/** What a mesh is built by, and where a failure to build it goes. */
+export type Building = Selling & WithOnError;
 
 const rolled = maze(planted.seed);
 const walls = mazeDoored(rolled);

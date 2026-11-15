@@ -1,5 +1,8 @@
 /// <reference types="@webgpu/types" />
 
+/** The bind group a shader reads a thing's resources by. */
+export type Grouped = { group: GPUBindGroup };
+
 /** `shader`'s compile errors on one line, or null where it compiled. */
 async function compileErrors(shader: GPUShaderModule): Promise<string | null> {
   const { messages } = await shader.getCompilationInfo();

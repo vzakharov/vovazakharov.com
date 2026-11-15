@@ -100,7 +100,10 @@ describe('doorwayOpening', () => {
     for (const isEast of [true, false]) {
       for (const toward of [1, -1] as const) {
         const line = 1;
-        const opening = doorwayOpening({ u: line, v: line }, { isEast, toward });
+        const opening = doorwayOpening(
+          { u: line, v: line },
+          { isEast, toward },
+        );
         const across = isEast ? 0 : 2;
         for (let corner = 0; corner < opening.length; corner += 3) {
           const past = ((opening[corner + across] ?? line) - line) * toward;
