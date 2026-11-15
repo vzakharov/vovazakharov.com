@@ -6,7 +6,7 @@ more, and the field still builds in 2.2 s (< 3 s). The price is memory — each
 worker adds ~135 MB to the page, not the 16 MB its field takes — and a first
 frame ~0.7 s later, which at 13 km eats the whole fill gain.
 
-## Change
+## Change (step 1, measured below)
 
 `poolSize(cores)` in `src/island/pages/island/lib/tile-pool.ts`:
 `hardwareConcurrency − 1`, clamped to 1…4, and 2 when the browser does not say;
@@ -75,11 +75,53 @@ built). fps = rAF callbacks per second while loading.
   attached worker timed out), so RSS is the measure.
 - **Console: clean** — no page or console error in any of the 24 runs.
 
+## Step 2 — one field build, a memory cap (unmeasured)
+
+The lead's two conditions for merging, built and unit-tested; not yet measured
+in the page.
+
+- **Workers 1…n adopt worker 0's field.** The protocol's `init`/`sendField` is
+  gone: worker 0 gets `build` (builds, posts a structured-clone copy back as
+  `built`), and when the pool receives it, it resolves `field` and posts
+  `adoptRequest(field)` (`kind: 'adopt'`) to every other worker. All copies, no
+  transfer: worker 0 fills from its own and the page samples the pool's, so
+  nothing could be transferred without stranding one of them (no
+  SharedArrayBuffer — Pages sends no COOP/COEP). A fill reaching a worker before
+  its field waits for it (`Promise.withResolvers` in the worker); fills are
+  dispatched to every slot from the start, as before. The field's contract is
+  unchanged — the same structured-clone `SphereField` the page already took.
+  Files: `tile-pool.ts`, `tile-worker.ts`, `tile-protocol.ts` (the two's message
+  types).
+- **Cap by memory.** `poolSize(cores, memoryGb)` =
+  `clamp(1, 4, min(cores − 1 or 2 when unknown, ⌊log₂ memoryGb⌋ + 1))`: one
+  worker per doubling of memory — ≤1 GB → 1, 2 → 2, 3 → 2, 4 → 3, ≥8 → 4 — so at
+  ~130 MB per worker the pool stays under ~13 % of a small device's memory.
+  `deviceMemory` unknown (non-Chromium) caps nothing. Read by `deviceMemory()`,
+  number > 0 or undefined.
+- Tests (`tile-pool.test.ts`): the core rule, the memory rule, the two meeting;
+  `adoptRequest` through `structuredClone` samples like the original and shares
+  no buffer with it.
+
+### Re-measuring
+
+Driver: `b3-pool/drivers/pool.ts.txt` (copy to `tmp/b3-pool/pool.ts`; run as its
+header says). What must change:
+
+- **`deviceMemory`**: headless Chromium reports the host's own bucket (not
+  checked on this box; log `navigator.deviceMemory` beside `seenHc`), and an 8
+  caps nothing — so the step-1 rows re-run unchanged only if it says ≥ 8. To
+  test the cap, add beside the `hardwareConcurrency` override in the
+  `addScriptToEvaluateOnNewDocument` source an
+  `Object.defineProperty(Navigator.prototype, 'deviceMemory', { get: () => M })`,
+  with an `MEMS` env list alongside `HCS` (e.g. `HCS=8 MEMS=2,4,8` → 2, 3, 4
+  workers); the counting `Worker` wrapper already confirms the pool size.
+- **buildMs** is still worker 0's build, now alone: expected back at the
+  2-worker 1.5–1.6 s for every pool size. **ready** should no longer grow with
+  the pool (2.1–2.2 s on 4); the adopt copy costs each extra worker a
+  structured-clone of 16 MB.
+- **RSS per worker** should drop below the ~135 MB above (no build scratch in
+  workers 1…n), though each still holds its own 16 MB field.
+
 ## Left
 
-- The memory cost is the open question for phones: a 3 GB phone reporting 8
-  cores gets ~540 MB of workers. A device-memory cap (`navigator.deviceMemory`)
-  could bound it; not part of this step.
-- Workers 1…n rebuilding the field worker 0 already copies out is where the
-  slower first frame and the build scratch come from; handing them that copy
-  instead would remove both. Not measured.
+- The measurement above, by a separate agent.

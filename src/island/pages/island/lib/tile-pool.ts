@@ -13,16 +13,37 @@ import {
 } from './tile-protocol';
 
 /**
- * Workers in a pool on a device with `cores` logical cores (`undefined` where
- * the browser does not say): one core is left to the main thread, and each
- * worker builds and holds its own world field (16 MB, in an isolate that adds
- * ~130 MB to the page), so the pool stops at 4 rather than paying for one per
- * core.
+ * Workers in a pool on a device with `cores` logical cores and `memoryGb` of
+ * memory (each `undefined` where the browser does not say). One core is left
+ * to the main thread, 2 workers where the cores are unknown. Each worker is an
+ * isolate holding its own copy of the world field and adds ~130 MB to the page,
+ * so memory buys one worker per doubling — 1 at ≤1 GB, 2 at 2 GB, 3 at 4 GB, 4
+ * at 8 GB — which keeps the pool under ~13 % of a small device's memory and
+ * lets unknown memory cap nothing. The pool stops at 4 rather than paying for
+ * one per core.
  */
-export function poolSize(cores: number | undefined): number {
-  if (cores === undefined) return 2;
-  return Math.max(1, Math.min(4, cores - 1));
+export function poolSize(
+  cores: number | undefined,
+  memoryGb: number | undefined,
+): number {
+  const byCores = cores === undefined ? 2 : cores - 1;
+  const byMemory =
+    memoryGb === undefined ? Infinity : Math.floor(Math.log2(memoryGb) + 1);
+  return Math.max(1, Math.min(4, byCores, byMemory));
 }
+
+/** `navigator.deviceMemory`, GB, which only Chromium reports. */
+function deviceMemory(): number | undefined {
+  const memory = 'deviceMemory' in navigator ? navigator.deviceMemory : null;
+  return typeof memory === 'number' && memory > 0 ? memory : undefined;
+}
+
+/** What a worker other than the first is sent once the first has built the field: a structured-clone copy of it, the pool keeping its own. */
+export const adoptRequest = ({ field, seed }: WorldField): WorkerRequest => ({
+  kind: 'adopt',
+  field,
+  seed,
+});
 
 /** Fills a worker holds at once: enough to keep it busy, few enough that a newer, nearer tile is not stuck behind a backlog. */
 const IN_FLIGHT = 2;
@@ -50,8 +71,9 @@ type Slot = { readonly worker: Worker; busy: number };
 type Built = WorldField & { readonly buildMs: number };
 
 /**
- * Starts `poolSize` tile workers for this device on world `world`, each building its field
- * from the number. Every filled tile goes to `onTile`; a worker's failure goes
+ * Starts `poolSize` tile workers for this device on world `world`: the first
+ * builds its field from the number, and the rest adopt a copy of it once it
+ * has. Every filled tile goes to `onTile`; a worker's failure goes
  * to `onError` and leaves its tile pending. A pool holds one world: another is
  * a new pool, this one disposed.
  */
@@ -101,7 +123,10 @@ export function startTilePool(
       }
       if (message.kind === 'built') {
         const { field: copy, seed, buildMs } = message;
-        if (copy !== null) field.resolve({ field: copy, seed, buildMs });
+        field.resolve({ field: copy, seed, buildMs });
+        // Copied, not transferred: the page samples this field too.
+        for (const other of slots.slice(1))
+          send(other, adoptRequest({ field: copy, seed }));
         return;
       }
       inFlight.delete(orderId(message.tile));
@@ -115,10 +140,11 @@ export function startTilePool(
       onError(error);
     });
     slots.push(slot);
-    send(slot, { kind: 'init', world, sendField: index === 0 });
   };
-  const size = poolSize(navigator.hardwareConcurrency);
+  const size = poolSize(navigator.hardwareConcurrency, deviceMemory());
   for (let index = 0; index < size; index++) spawn(index);
+  const [builder] = slots;
+  if (builder !== undefined) send(builder, { kind: 'build', world });
 
   return {
     field: field.promise,
