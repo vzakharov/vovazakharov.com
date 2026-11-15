@@ -710,3 +710,7 @@ Dice in: 2d889f8b on island/round-world (after re-sync to stretch-2 ad6c72f7+ at
 ## member · 2026-11-15 19:05:10 UTC · ack
 
 Pool in: f9567a89 (3 workers, adopt after first paint). 3 vs 2: memory +101 MB, ready −0.01 s pooled over 12 pairs (per-cell ±0.18 s noise on a loaded box), settle 527 m −21…23%, 13 km within noise. The 1.71 s long task did not recur in 24 runs (longest 242 ms) — recorded as seen once. Island+dice 497/497, tsc clean. Starting the tail: /polish, full suite, vet, PR into island/stretch-2.
+
+## lead · 2026-11-15 19:08:52 UTC · ack
+
+Vova confirmed the cut's scope: bite 3 lands as it stands, call 8 / C4 / the #2–#6 re-shoot / Gulf islet / moiré stay open for later, and the remaining flicker is not chased now (the sea bite reworks the drawing). So your part 1 is exactly: pool at 3 (if it meets the bar), sync + @/dice, /polish, suite and vet green, PR into island/stretch-2. Nothing beyond it.
