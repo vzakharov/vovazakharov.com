@@ -1,79 +1,79 @@
 items:
   - id: z-intro
     type: zone
-    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    updated: [2026-11-13T14:30:00.000Z, agent:cube-intro]
     box: [0, 4500, 2510, 2350, orange]
     icon: 🏝️
     text: 'The intro: an island, the cube from outside, the way in'
   - id: intro-img-04-inside-door
     type: image
-    updated: [2026-11-15T12:21:00.013Z, u_L_AriiBLoWLIB4PYEulAJA]
+    updated: [2026-11-13T07:58:30.107Z, u_L_AriiBLoWLIB4PYEulAJA]
     box: [661, 5977, 430]
     src: images/intro-04-inside-door.webp
     text: '4. Floor 1 on the real page, the door gone, the lamps off; the doorway is black because nothing draws the outside yet. One beam through it and its bounce light the whole room, and the plant throws its shadow on the wall. First pass, with the old sun: the beam lands on the north wall and the bench. The lead: this is the look, the direction is wrong'
   - id: intro-img-sea-big
     type: image
-    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    updated: [2026-11-13T00:20:00.000Z, agent:cube-intro]
     box: [28, 5610, 1200]
     src: images/intro-06-sea-swimming.webp
     text: 'The sea, first frame: the eye 22 cm over the water off the south-west shore, looking into the sun. Shot on the sea package’s own stand: the sky, sand and box are stand-ins; only the water is the product'
   - id: intro-sea-verdict-1
     type: sticky
-    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    updated: [2026-11-13T00:20:00.000Z, agent:cube-intro]
     box: [1270, 5610, 280, pink]
     icon: 🤩
     text: 'Vova, on seeing it: “Stunning!”'
   - id: intro-sea-verdict-2
     type: sticky
-    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    updated: [2026-11-13T00:20:00.000Z, agent:cube-intro]
     box: [1570, 5610, 280, pink]
     icon: 💯
     text: 'Vova: “this goes on the board, 1000%, as a big card”. So here it is, the biggest one'
   - id: intro-sea-fft
     type: sticky
-    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    updated: [2026-11-13T00:20:00.000Z, agent:cube-intro]
     box: [28, 6410, 600, gray]
     icon: 🌊
     text: 'The sea is an FFT ocean: 4 cascades of 256², tiles of 3200 / 200 / 25 / 3.2 m, the spectrum rolled once from the dice, the wave fields computed by the GPU every frame from the shared clock. It stays. (An analytic rebuild was briefed and withdrawn the same hour — see the card beside.)'
   - id: intro-ghosts
     type: sticky
-    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    updated: [2026-11-13T00:40:00.000Z, agent:cube-intro]
     box: [680, 6410, 280, purple]
     icon: 👻
     text: 'No footprints, no ripples, nothing you touch stays touched. Vova, reading that card: “it makes me think: are we ghosts? Did we die? Is this the other side?” An open reading, not a decision; nothing in the game says so'
   - id: intro-d-shadow
     type: sticky
-    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    updated: [2026-11-13T11:55:00.000Z, agent:cube-intro]
     box: [1010, 6410, 280, blue]
     icon: 🧍
     text: 'The player’s shadow. Asked by the operator: “will there be a shadow from us? or is that part of no interaction with the environment?” First decided yes: a shadow marks nothing and remembers nothing — it is a function of where the body stands, like the hands; at a 9° sun it would be about 11 m long. Later the operator said it does not come back: the player casts no shadow'
   - id: intro-d-wood
     type: sticky
-    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    updated: [2026-11-13T09:55:00.000Z, agent:cube-intro]
     box: [1316, 6410, 280, blue]
     icon: 🪜
     text: 'The ladder is wood. Aluminium was the lead’s pick; the operator: “I never said anything about the material, I have nothing against wood, and it might suit the line ‘where did it come from at all’.” The first frame read as wood anyway. An old weathered wooden ladder, on purpose now'
   - id: intro-img-20-sky-approved-eye
     type: image
-    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    updated: [2026-11-13T11:35:00.000Z, agent:cube-intro]
     box: [28, 4610, 1200]
     src: images/intro-20-sky-approved-eye.webp
     text: '20. Splash screen, for the future. The approved eye under the new sky: gold sand, ripples in fields across the view, white sparks, the cube’s shadow violet-blue. The operator approved it for its overall feeling: “AAAA, give me two!” The sand’s shade is not locked: “you can experiment with the sand’s shades if you like, I am talking about the overall feeling”. Open: the inside of the shadow is still even'
   - id: intro-splash-frame-20
     type: sticky
-    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    updated: [2026-11-13T11:35:00.000Z, agent:cube-intro]
     box: [1270, 4610, 560, pink]
     icon: 🖼️
     text: 'For the future: this frame should be the splash screen. — Vova. (Nothing is being built for it now.) To re-shoot it exactly: eye at −15.203, 2.0962, 15.203 (the bed there + 1.6 m; 2.10 is the rounded value), yaw −45, pitch 4, roll 0; viewport 1280×800 at device scale 1, default lens; the clock pinned at PLAY_INSTANT = 2026-11-01T12:00:00Z (1793534400000 ms); the sun does not move with the clock; commit f0ff9882 on the sand branch (merged into the lead as 43c24a67); command: pnpm outside:cube --at -15.203,2.0962,15.203 --yaw -45 --pitch 4'
   - id: intro-ref-gold-eye
     type: image
-    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    updated: [2026-11-13T10:55:00.000Z, agent:cube-intro]
     box: [1280, 4770, 590]
     src: images/intro-ref-gold-eye.webp
     text: 'The same eye after sand’s next pass: the lit sand went from pinkish beige to gold, and the ripples now run across the view instead of toward the cube. Vova approved the earlier pinkish frame (now at the bottom of this zone, beside frame 19) and later frame 20 for its feeling; the sand’s shade is not locked'
   - id: intro-ref-gold-lying
     type: image
-    updated: [2026-11-15T12:21:00.013Z, agent:cube-intro]
+    updated: [2026-11-13T10:55:00.000Z, agent:cube-intro]
     box: [1900, 4770, 590]
     src: images/intro-ref-gold-lying.webp
     text: 'What the player sees on waking, lying down: the cube sits on the dune’s crest; it floats only once you stand up. Known flaw: a pink smear under the cube’s lower edge, being traced'
