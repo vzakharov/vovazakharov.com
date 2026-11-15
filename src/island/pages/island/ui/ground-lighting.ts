@@ -8,6 +8,7 @@ import {
   lights,
   mix,
   normalize,
+  normalWorldGeometry,
   output,
   positionView,
   positionWorld,
@@ -35,7 +36,7 @@ import { dot, type Vec3 } from '@/island/shared/globe';
 
 import { lightThrough, tintOf } from '../lib/air';
 import { daylight, type Heavens, SUN_ELEVATION } from '../lib/day';
-import { GROUND_STOPS, SEA_COLOUR } from '../lib/land-colour';
+import { GROUND_STOPS, SEA_COLOUR, SHORE_TOP } from '../lib/land-colour';
 import { intensityFor } from '../lib/sun';
 import { type SeaFrame, seaSurface } from './sea-surface';
 import { type Backed, type SkyNodes, skyNodes } from './sky-nodes';
@@ -73,6 +74,9 @@ const WATERLINE_LIFT =
   (LAND_IRRADIANCE + SKY_INTENSITY) / (SEA_IRRADIANCE + SKY_INTENSITY);
 /** The depth over which the sea's colour rises to the land's at the waterline, metres. */
 const WATERLINE_DEPTH = 6;
+
+/** Bare rock's colour, linear: a warm grey under any climate. */
+const ROCK_COLOUR = [0.19, 0.17, 0.15] as const;
 
 /** The tile vertex attribute the ground's colour is read from. */
 export const HEIGHT_ATTRIBUTE = 'height';
@@ -204,7 +208,24 @@ export function groundLighting(): GroundLighting {
     material.outputNode = seen;
     return material;
   };
-  const landColour = groundColourNode(heightNode());
+  const surface = seaSurface(radiance);
+  /** How far the ground leans off level, 0 flat and 1 a wall. */
+  const steep = normalWorldGeometry.dot(surface.zenith).oneMinus();
+  /** Bare rock: steep ground above the beach, whatever grows on the level beside it. */
+  const rock = smoothstep(0.1, 0.3, steep).mul(
+    smoothstep(2, SHORE_TOP, heightNode()),
+  );
+  const landColour = mix(
+    groundColourNode(heightNode()),
+    vec3(...ROCK_COLOUR),
+    rock,
+  );
+  /** The relief's slope: sand lies smooth, soil rolls, rock stands rough. */
+  const roughness = mix(
+    mix(0.04, 0.18, smoothstep(2, SHORE_TOP, heightNode())),
+    0.7,
+    rock,
+  );
   const seaColour = seaColourNode(heightNode());
   const land = tileMaterial(landColour, [landSun, landMoon, sky], 0);
   const sea = tileMaterial(seaColour, [seaSun, seaMoon, sky], 0);
@@ -216,7 +237,6 @@ export function groundLighting(): GroundLighting {
   ocean.lightsNode = lights([seaSun, seaMoon, sky]);
   ocean.outputNode = seen;
 
-  const surface = seaSurface(radiance);
   const [deepest] = GROUND_STOPS;
   if (deepest === undefined) throw new RangeError('no colour stops');
   const floorColour = groundColourNode(heightNode());
@@ -238,6 +258,7 @@ export function groundLighting(): GroundLighting {
         material.maskNode = surface.lies(heightNode());
       }
       for (const material of [land, standIn.land]) {
+        material.normalNode = surface.relief(roughness);
         // Damp over the air: a sheet's reach is too near for the air to tell.
         material.outputNode = surface.damp(seen, heightNode());
       }
