@@ -106,4 +106,11 @@ and becomes the far floor's once through.
   derived as `PORTALS.first`'s portal 0, never floor 6 by hand; sent to C.
 - Vova on a lock after crossing so you cannot step straight back: «сейчас
   конечно не надо, но на подумать» — on the board as `p-go-lock`, not built.
+- C done and merged (8ae95e85, head fac5e517; session archived), then narrowed
+  to portal number 0 (d84141e9). A board on both faces of the first portal's
+  wall, `hintsSeen` in world/model/hint.ts, drawn in
+  pages/cube/ui/hint-board.ts; `pnpm hint:cube` shoots it. Left for after B
+  merges: the far room's FOR SALE sign covers the board while the portal wall is
+  a plain wall; B's `isDoor` counting portals should move it — check the
+  far-side frames then. Board v113.
 - Next: B's report — merge, look at frames, board, preview; then `vet.sh`.
