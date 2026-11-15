@@ -1,6 +1,6 @@
-import { pathHash, roll, rollWith } from '@/dice/shared/roll';
+import { clamp01 } from '@/scene/shared/lib/ease';
 
-import { clamp01 } from '@/cube/shared/lib/ease';
+import { pathHash, roll, rollWith } from '@/dice/shared/roll';
 
 import { CYCLE } from '../../dsp';
 

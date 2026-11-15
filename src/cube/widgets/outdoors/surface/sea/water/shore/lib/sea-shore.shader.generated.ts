@@ -1,12 +1,14 @@
 // Generated from sea-shore.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { wgsl } from '@/cube/shared/shader';
+import { wgsl } from '@/scene/shared/shader';
+
+import { SHORE_LEVEL } from '@/nature/shared/shore';
+import { SWELL_COURSE, SWELL_TRAIN } from '@/nature/shared/swell';
+
 import {
   ISLAND_HEIGHT,
   SHORE_CUSPS,
-  SWELL_COURSE,
-  SWELL_TRAIN,
   WATER_LEVEL,
 } from '@/cube/entities/island';
 
@@ -102,5 +104,6 @@ fn shoreAt(xz: vec2f) -> Shore {
   SWELL_TRAIN,
   SWELL_COURSE,
   WATER_LEVEL,
+  SHORE_LEVEL,
   SEA_SHORE_NUMBERS,
 );

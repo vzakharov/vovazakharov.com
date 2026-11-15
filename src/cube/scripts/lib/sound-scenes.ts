@@ -1,7 +1,8 @@
 import type { Timed } from '@/kernel/shared/typings';
 
 /** The moments of the intro the sound bench listens to, each as a path for an ear. */
-import type { Vec2 } from '@/cube/shared/lib/vec';
+import type { Vec2 } from '@/scene/shared/lib/vec2';
+
 import {
   gustAt,
   indoors,

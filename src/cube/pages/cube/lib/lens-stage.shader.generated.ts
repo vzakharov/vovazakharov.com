@@ -1,7 +1,8 @@
 // Generated from lens-stage.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { wgsl } from '@/cube/shared/shader';
+import { wgsl } from '@/scene/shared/shader';
+
 import { CORE } from '@/cube/entities/theme';
 
 export const LENS_STAGE = wgsl(

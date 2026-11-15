@@ -50,7 +50,11 @@ export function selectCubeTiles(
   const { coast, frustum, ground } = options;
   const seaHorizon = Math.acos(Math.min(1, R / length(eye)));
 
-  /** The tile's lowest and highest ground, bounded by the slope around samples. */
+  /**
+   * The lowest and highest the tile draws, bounded by the slope around
+   * samples: its ground, and the sea over it wherever that ground is below
+   * the sea.
+   */
   const relief = (key: CubeCell, samples: readonly Vec3[]) => {
     const side = cubeTileSide(key);
     if (ground === undefined || SPHERE_GROUND_SLOPE * side >= HIGHEST_GROUND) {
@@ -61,7 +65,7 @@ export function selectCubeTiles(
     const heights = samples.map((p) => ground(p));
     return [
       Math.max(LOWEST_GROUND, Math.min(...heights) - slack),
-      Math.min(HIGHEST_GROUND, Math.max(...heights) + slack),
+      Math.min(HIGHEST_GROUND, Math.max(0, ...heights) + slack),
     ] as const;
   };
 

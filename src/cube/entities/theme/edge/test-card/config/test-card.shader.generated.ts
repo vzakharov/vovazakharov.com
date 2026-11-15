@@ -1,7 +1,7 @@
 // Generated from test-card.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { wgsl } from '@/cube/shared/shader';
+import { wgsl } from '@/scene/shared/shader';
 
 import { CORE, GRADE, LIGHT, SCENE, STUFF } from '../../../kit';
 import { PATTERN } from '../../pattern';

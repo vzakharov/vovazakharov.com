@@ -1,8 +1,8 @@
 /**
- * What `play-island` shoots on each world: ours at five heights and along its
- * inlet, Earth (#0) at orbit from six sides and at 1,000 km over three coasts,
- * and every other world at orbit from two sides. Places are in degrees, east
- * positive, as the play hook's `moveTo` takes them.
+ * What `play-island` shoots on each world: ours at five heights, along its
+ * inlet and up at its sky, Earth (#0) at orbit from six sides and at 1,000 km
+ * over three coasts, and every other world at orbit from two sides. Places are
+ * in degrees, east positive, as the play hook's `moveTo` takes them.
  */
 
 import type { Named } from '@/kernel/shared/typings';
@@ -11,15 +11,17 @@ import type { LatLon } from '@/island/shared/globe';
 import { OUR_WORLD } from '@/island/entities/terrain';
 import { openingOf } from '@/island/features/eye';
 
-import { INLET, INLET_HEAD } from './places';
+import { INLET, INLET_BEACH, INLET_HEAD } from './places';
 import { call } from './play-tab';
 
 /**
- * A frame by the name it is filed under, the hook call placing the eye, and
- * the hour `setTime` sets first — none keeps the clock where it stands.
+ * A frame by the name it is filed under, the hook call placing the eye, the
+ * calls aiming it there, and the hour `setTime` sets first — none keeps the
+ * clock where it stands.
  */
 export type Shot = Named & {
   readonly place: string;
+  readonly aim?: readonly string[];
   readonly hours?: number;
 };
 
@@ -82,6 +84,56 @@ const ALONG_INLET: readonly Shot[] = [
   { name: 'inlet-head-west', place: call('turnTo', -Math.PI / 2) },
 ];
 
+/** Hours before the opening's low afternoon that the sun stands highest. */
+const NOON_EARLIER = 4.5;
+/** Hours after it that the sun touches the horizon. */
+const SUNSET_LATER = 1.2;
+/**
+ * Hours after it that the full moon stands as high in the east as the sun did
+ * in the west.
+ */
+const MOONRISE_LATER = 2.7;
+
+const NORTH = 0;
+const EAST = Math.PI / 2;
+const WEST = -Math.PI / 2;
+/** As far up as the eye may look: the horizon in frame at any height. */
+const UP = Math.PI / 2;
+
+/**
+ * A frame of the sky `m` metres over the inlet's beach, facing `heading`,
+ * `later` hours past the opening's afternoon.
+ */
+const skyOver = (
+  name: string,
+  m: number,
+  heading: number,
+  later: number,
+): Shot => ({
+  name: `sky-${name}`,
+  place: over(INLET_BEACH, m),
+  aim: [call('turnTo', heading), call('lookTo', UP)],
+  hours: afternoonAt(OUR_WORLD, INLET_BEACH.lon, -later),
+});
+
+/**
+ * The sky and its air from the beach at the inlet's head — along the water
+ * at noon, into the setting sun, along the water at dusk, toward the risen
+ * moon — then from 2 km, 300 km and orbit with the horizon in frame. Last,
+ * since every later place keeps the heading and the look.
+ */
+const SKY: readonly Shot[] = [
+  skyOver('afternoon', 2, NORTH, 0),
+  skyOver('noon', 2, NORTH, -NOON_EARLIER),
+  skyOver('sunset', 2, WEST, SUNSET_LATER),
+  skyOver('dusk', 2, NORTH, SUNSET_LATER),
+  skyOver('night', 2, EAST, MOONRISE_LATER),
+  skyOver('2km', 2000, NORTH, -NOON_EARLIER),
+  skyOver('300km', 300_000, NORTH, -NOON_EARLIER),
+  skyOver('300km-sunset', 300_000, WEST, SUNSET_LATER),
+  skyOver('orbit', ORBIT, NORTH, 0),
+];
+
 const EARTH = '0';
 
 /**
@@ -113,7 +165,7 @@ const twoSides = (world: string): readonly Shot[] => [
 
 /** The frames `play-island` shoots on `world`. */
 export function shotsFor(world: string): readonly Shot[] {
-  if (world === OUR_WORLD) return [...HEIGHTS, ...ALONG_INLET];
+  if (world === OUR_WORLD) return [...HEIGHTS, ...ALONG_INLET, ...SKY];
   if (world === EARTH) return [...EARTH_ORBITS, ...EARTH_COASTS];
   return twoSides(world);
 }

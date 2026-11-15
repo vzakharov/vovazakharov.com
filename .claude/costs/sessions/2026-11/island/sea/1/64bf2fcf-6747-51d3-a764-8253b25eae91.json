@@ -1,0 +1,272 @@
+{
+  "total": {
+    "inputTokens": 13650,
+    "cacheWrite5mTokens": 588941,
+    "cacheWrite1hTokens": 846704,
+    "cacheReadTokens": 60007573,
+    "outputTokens": 307494,
+    "thinkingTokens": 101076,
+    "responses": 316,
+    "costUsd": 38.28675732999999
+  },
+  "estimate": {
+    "at": "2026-11-15T21:02:43.209Z",
+    "subjectLine": "feat: the island's sea, shore and sky drawn as the cube draws them",
+    "parts": [
+      {
+        "hours": 50.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "a sea and shore shader bridging WGSL closed forms into TSL under a phone frame budget is rendering work with LOD and precision traps"
+      },
+      {
+        "hours": 24.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "sky, haze, sand and foam are tuned by eye against the cube's look across orbit-to-2 m"
+      },
+      {
+        "hours": 12.0,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "extracting shared formulas into a new MASD app with the shader codegen moved under it"
+      },
+      {
+        "hours": 8.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "three parallel packages briefed, merged and reported to the island lead"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-15T20:57:25.161Z",
+    "contextTokens": 103641,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 45217,
+      "cacheReadTokens": 53322,
+      "outputTokens": 665,
+      "thinkingTokens": 57,
+      "responses": 1,
+      "costUsd": 0.7607524
+    }
+  },
+  "sessionId": "64bf2fcf-6747-51d3-a764-8253b25eae91",
+  "branch": "island/sea",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/carte-blanche The island game at /island (src/island/, a three/webgpu TSL cube-sphere planet with spherical-harmonic land and quadtree LOD) gets its sea and it…",
+  "prs": [
+    288
+  ],
+  "url": "https://claude.ai/code/session_01DaohkE11JPgYbnCts79FnX",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-15T20:57:17.655Z",
+  "lastResponseAt": "2026-11-15T23:37:56.650Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 463,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 846704,
+    "cacheReadTokens": 50265966,
+    "outputTokens": 226774,
+    "thinkingTokens": 86279,
+    "responses": 237,
+    "costUsd": 32.6751212
+  },
+  "subagents": {
+    "inputTokens": 152,
+    "cacheWrite5mTokens": 583380,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 8276075,
+    "outputTokens": 55306,
+    "thinkingTokens": 14797,
+    "responses": 74,
+    "costUsd": 4.137615729999999
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 13498,
+      "cacheWrite5mTokens": 5561,
+      "cacheWrite1hTokens": 846704,
+      "cacheReadTokens": 51731498,
+      "outputTokens": 252188,
+      "thinkingTokens": 86279,
+      "responses": 242,
+      "costUsd": 34.14914159999999
+    },
+    "claude-opus-5-5/standard": {
+      "inputTokens": 104,
+      "cacheWrite5mTokens": 297711,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 6399967,
+      "outputTokens": 28217,
+      "thinkingTokens": 10929,
+      "responses": 52,
+      "costUsd": 3.3333043999999994
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 20,
+      "cacheWrite5mTokens": 102664,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 676121,
+      "outputTokens": 9042,
+      "thinkingTokens": 3515,
+      "responses": 10,
+      "costUsd": 0.04627413
+    },
+    "claude-sonnet-5-5/standard": {
+      "inputTokens": 28,
+      "cacheWrite5mTokens": 183005,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 1199987,
+      "outputTokens": 18047,
+      "thinkingTokens": 353,
+      "responses": 12,
+      "costUsd": 0.7580372
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-15T21:12:46.618Z",
+      "trigger": "auto",
+      "compactedFrom": 312829,
+      "summaryChars": 20521,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "docs/plans/island-sea.in-progress.md",
+        "endedAt": "2026-11-15T21:12:51.680Z",
+        "contextTokens": 120063,
+        "spend": {
+          "inputTokens": 0,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 0,
+          "cacheReadTokens": 0,
+          "outputTokens": 0,
+          "thinkingTokens": 0,
+          "responses": 0,
+          "costUsd": 0.0
+        }
+      },
+      "rereads": {
+        "calls": 2,
+        "byTool": {
+          "Read": 2
+        },
+        "estimatedTokens": 21584,
+        "estimatedUsd": 0.6202084
+      },
+      "billedUsd": 0.4661152
+    },
+    {
+      "at": "2026-11-15T21:45:44.707Z",
+      "trigger": "auto",
+      "compactedFrom": 306536,
+      "summaryChars": 18759,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/island/pages/island/ui/sea-surface.ts",
+        "endedAt": "2026-11-15T22:09:46.085Z",
+        "contextTokens": 161746,
+        "spend": {
+          "inputTokens": 39,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 102441,
+          "cacheReadTokens": 2599609,
+          "outputTokens": 14066,
+          "thinkingTokens": 5648,
+          "responses": 19,
+          "costUsd": 2.7219298
+        }
+      },
+      "rereads": {
+        "calls": 3,
+        "byTool": {
+          "Read": 1,
+          "Bash": 2
+        },
+        "estimatedTokens": 2781,
+        "estimatedUsd": 0.0546348
+      },
+      "billedUsd": 0.4620634
+    },
+    {
+      "at": "2026-11-15T23:23:31.652Z",
+      "trigger": "auto",
+      "compactedFrom": 304624,
+      "summaryChars": 17575,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "docs/plans/island-sea.in-progress.md",
+        "endedAt": "2026-11-15T23:27:52.871Z",
+        "contextTokens": 125060,
+        "spend": {
+          "inputTokens": 12,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 62805,
+          "cacheReadTokens": 524333,
+          "outputTokens": 2500,
+          "thinkingTokens": 660,
+          "responses": 5,
+          "costUsd": 1.2098426
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.4122268
+    }
+  ],
+  "telemetry": {
+    "events": 316,
+    "matched": 311,
+    "matchedTableUsd": 36.81273693,
+    "matchedEventUsd": 36.81273693,
+    "unseen": {
+      "compact": {
+        "inputTokens": 12023,
+        "cacheWrite5mTokens": 4817,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 900257,
+        "outputTokens": 25400,
+        "thinkingTokens": 0,
+        "responses": 3,
+        "costUsd": 1.3404054
+      },
+      "prompt_suggestion": {
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 744,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 565275,
+        "outputTokens": 14,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.133615
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 272,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 16996,
+    ".txt": 2356,
+    ".py": 436,
+    ".ts": 1922,
+    ".wgsl": 20,
+    ".json": 1
+  }
+}

@@ -1,7 +1,7 @@
 // Generated from sand-relief.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { HASH, wgsl } from '@/cube/shared/shader';
+import { HASH, wgsl } from '@/scene/shared/shader';
 
 import { SAND_RELIEF_NUMBERS } from './sand-relief-numbers';
 import { SAND_SALT } from './sand-salt';

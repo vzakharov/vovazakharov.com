@@ -1,7 +1,10 @@
 // Generated from sand-shader.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { wgsl } from '@/cube/shared/shader';
+import { wgsl } from '@/scene/shared/shader';
+
+import { WATER_LIGHT } from '@/nature/shared/water';
+
 import { ISLAND_HEIGHT } from '@/cube/entities/island';
 
 import {
@@ -101,6 +104,7 @@ fn fragmentMain(in: SandVertex) -> Scene {
   OUTDOOR_FRAME,
   OUTDOOR_STAGE,
   WATER_BODY,
+  WATER_LIGHT,
   SAND_MATERIAL,
   SAND_MESH_NUMBERS,
   SAND_RELIEF,
