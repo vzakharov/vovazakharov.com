@@ -140,10 +140,10 @@
     }
   ],
   "telemetry": {
-    "events": 153,
-    "matched": 147,
-    "matchedTableUsd": 10.724212999999999,
-    "matchedEventUsd": 10.724212999999999,
+    "events": 154,
+    "matched": 148,
+    "matchedTableUsd": 10.774462,
+    "matchedEventUsd": 10.774462,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 2024,
@@ -190,7 +190,7 @@
   },
   "threadPosts": {},
   "branchLines": {
-    ".md": 237,
+    ".md": 263,
     ".json": 18,
     ".sh": 1,
     ".ts": 107,
