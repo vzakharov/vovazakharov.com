@@ -207,6 +207,14 @@ step"), less the world-number fork, which bite 2 settles.
 
 ## Next bites
 
+- **Cut 2 first** («срез»; «давайте общими усилиями добьём то что есть»): bite 3
+  lands as it stands, its open items (call 8, C4, the #2–#6 re-shoot, the Gulf
+  islet, the moiré) and the flicker Vova still saw on the last preview left for
+  later («что остаётся -- пока берём как есть, будем решать потом»).
+- **The sea, ahead of every bite below**, once cut 2 merges: a session on Fable
+  running `/carte-blanche` («не сейчас -- после того как мёрджнем, и на fable, и
+  с новым скиллом /carte-blanche»). Its source is the cube's island floor
+  (`src/cube/entities/island/`): swell, water level, wet shore, surf cusps.
 - **Objects from dice rolls** — agreed on the board's strait thread («да,
   согласен»): after the base formula, a chain of seeded rolls, each placing a
   water object with harmonics at its own scale; lakes first, the strait as two

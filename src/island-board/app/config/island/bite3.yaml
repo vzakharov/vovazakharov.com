@@ -93,3 +93,13 @@ items:
     box: [5700, 4100, 640]
     src: images/bite3-seams.webp
     text: "Seams: crossing a cube-face edge over #2's hills at 10 km, and over the sea at 1,000 km — nothing on the edge. Right: 10 km straight down over #1, soft by design (tiles stop at level 11 there, ~76 m apart). Next, call 14: a finer tile takes its coarser neighbour's border"
+  - id: bite3-cut2
+    type: sticky
+    updated: [2026-11-15T19:30:00.000Z, agent:lead]
+    box: [5370, 3010, 290, pink]
+    text: 'Cut 2 takes bite 3 as it stands (Vova: "for now we take it as is, decide later"). Left open, not dropped: call 8 (the random worlds'' envelope), C4 on it, the re-shoot of #2–#6 and the Earth-vs-20-worlds table, the Gulf islet, the moiré'
+  - id: bite3-flicker-left
+    type: sticky
+    updated: [2026-11-15T19:30:00.000Z, agent:lead]
+    box: [5370, 3330, 290, pink]
+    text: "Still flickering on the last preview (Vova). Not chased now: the sea bite brings the cube's drawing over, which changes what flickers"

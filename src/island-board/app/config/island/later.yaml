@@ -11,9 +11,9 @@ items:
     text: seen in
   - id: later-1
     type: sticky
-    updated: [2026-11-15T19:00:00.000Z, agent:lead]
+    updated: [2026-11-15T19:30:00.000Z, agent:lead]
     box: [3940, -730, 300, blue]
-    text: "The sea bite: the general feel of web-ocean, sea and sky. A sun glint from orbit is optional, not required. Its source, agreed with Vova: the cube's own island floor already has the sea in WGSL — swell trains, the shore's water level, wet sand at the waterline, the surf's cusps (src/cube/entities/island/). Those come to the round world"
+    text: "First after cut 2 merges, ahead of the rest (Vova), run on Fable with /carte-blanche. The sea bite: the general feel of web-ocean, sea and sky. A sun glint from orbit is optional, not required. Its source, agreed with Vova: the cube's own island floor already has the sea in WGSL — swell trains, the shore's water level, wet sand at the waterline, the surf's cusps (src/cube/entities/island/). Those come to the round world"
   - id: later-2
     type: sticky
     updated: [2026-11-08T20:52:31.000Z, agent:lead]
