@@ -1,5 +1,5 @@
 export { landmasses, landShare } from './model/land-measure';
-export { EARTH_ENVELOPE, kneeEnvelope, landSeries } from './model/land-series';
+export { kneeEnvelope, landSeries } from './model/land-series';
 export { OUR_WORLD } from './model/our-world';
 export {
   decodePinnedRow,

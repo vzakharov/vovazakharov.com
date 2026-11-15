@@ -118,7 +118,7 @@ function seaColourNode(height: Node<'float'>) {
 }
 
 /** A tile's land material, and its sea's over the floor beneath it. */
-export type TileMaterials<M extends Material = Material> = {
+type TileMaterials<M extends Material = Material> = {
   readonly land: M;
   readonly sea: M;
 };

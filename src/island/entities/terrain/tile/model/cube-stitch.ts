@@ -208,7 +208,7 @@ function normalOf(
 }
 
 /** The edges along which `levels` names a coarser tile. */
-export const coarseEdges = (
+const coarseEdges = (
   { level }: CubeCell,
   { edges }: NeighbourLevels,
 ): CoarseEdges => ({

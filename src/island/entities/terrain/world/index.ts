@@ -1,7 +1,6 @@
 export { type RingGrid } from './grid';
 export {
   decodePinnedRow,
-  EARTH_ENVELOPE,
   encodePinnedRow,
   fieldGrids,
   fieldOf,

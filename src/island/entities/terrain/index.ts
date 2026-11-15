@@ -28,7 +28,6 @@ export {
 export {
   analyze,
   decodePinnedRow,
-  EARTH_ENVELOPE,
   encodePinnedRow,
   fieldGrids,
   fieldOf,

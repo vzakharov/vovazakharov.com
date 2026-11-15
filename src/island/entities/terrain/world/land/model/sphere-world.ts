@@ -36,13 +36,11 @@ export function fieldGrids(rows: number, columns: number) {
   return { ringGrid, latLonGrid };
 }
 
-/** Where the build spends its time, milliseconds. */
-export type BuildTimes = {
-  roll: number;
-  synthesis: number;
-  contour: number;
-  sweep: number;
-};
+/** The build's stages, in the order they run. */
+const BUILD_STAGES = ['roll', 'synthesis', 'contour', 'sweep'] as const;
+
+/** Where the build spends its time: milliseconds per stage. */
+export type BuildTimes = Record<(typeof BUILD_STAGES)[number], number>;
 
 /**
  * The land `f` of a series up to `degree` on the field grid: synthesised
