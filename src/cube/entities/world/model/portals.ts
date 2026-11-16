@@ -13,10 +13,10 @@ import {
 } from './maze';
 import { type Memo, memo } from './memo';
 import {
-  dropWeight,
   hasPortals,
   hubCount,
   hubOf,
+  jumpWeight,
   type Numbered,
   portalCount,
   PORTALS,
@@ -201,18 +201,21 @@ export function portalsOf(rolled: RolledMaze, n: number): Portal[] {
 }
 
 /**
- * The floor a hub of floor `n` leads to, from its `draw`: one floor further
- * down weighs a quarter as much, the last floor taking what is left.
+ * The floor hub `number` of floor `n` leads to, from its `draw`: the law of a
+ * jump rolled over the floors below where it has a spoke.
  */
-function floorBelow(n: number, draw: bigint): number {
-  let total = 0n;
-  for (let m = n + 1; m <= PORTALS.last; m += 1) total += dropWeight(m);
+function floorBelow(n: number, number: bigint, draw: bigint): number {
+  const reached = Array.from({ length: PORTALS.last - n }, (_, i) => n + 1 + i)
+    .filter((m) => spokesOf({ n, number }, m).count > 0n)
+    .map((m) => ({ m, weight: jumpWeight(m - n) }));
+  const total = reached.reduce((sum, { weight }) => sum + weight, 0n);
+  if (total === 0n) throw new Error(`Hub ${n}/${number} reaches no floor`);
   let rest = drawBelow(draw, total);
-  for (let m = n + 1; m < PORTALS.last; m += 1) {
-    if (rest < dropWeight(m)) return m;
-    rest -= dropWeight(m);
+  for (const { m, weight } of reached) {
+    if (rest < weight) return m;
+    rest -= weight;
   }
-  return PORTALS.last;
+  throw new Error(`Hub ${n}/${number} drew past its floors`);
 }
 
 function hubTarget(rolled: RolledMaze, hub: Portal, epochMs: number): Portal {
@@ -220,11 +223,8 @@ function hubTarget(rolled: RolledMaze, hub: Portal, epochMs: number): Portal {
   const { n } = wall;
   const epoch = Math.floor(epochMs / PORTALS.periodMs);
   const draws = rolled.portal.hub.at({ n, hub: number, epoch });
-  const floor = floorBelow(n, draws.floor);
+  const floor = floorBelow(n, number, draws.floor);
   const { first, step, count } = spokesOf({ n, number }, floor);
-  if (count === 0n) {
-    throw new Error(`Floor ${floor} has no spoke of hub ${n}/${number}`);
-  }
   const spoke = first + drawBelow(draws.spoke, count) * step;
   return portalNumbered(rolled, floor, hubCount(floor) + spoke);
 }
