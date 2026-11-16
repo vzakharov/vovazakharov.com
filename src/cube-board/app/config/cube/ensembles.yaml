@@ -13,16 +13,16 @@ items:
     text: 'Columns are the seven portal networks, floors run left to right seven to a row, and a frame’s colour is its theme’s ensemble. A jump goes one row down a column, and the colour moves on each time. Floors 1–5, dashed, are walked to, with no portal. Each frame is the theme as it looks today, shot on the floor it stands on now'
   - id: en-story
     type: sticky
-    updated: [2026-11-16T07:05:00.000Z, agent:cube]
+    updated: [2026-11-16T08:10:00.000Z, agent:cube]
     box: [11878, 3990, 440, yellow]
     icon: 🕯️
-    text: 'The cube as an afterlife: the life of a man whose life broke. Six ensembles of 11 floors, six chapters: home life, work, childhood, hobbies, science (experiments, on him or by him), madness. Vova: there is no solution, each player puts the story together their own way. Nothing has its own “eerie” ensemble, since all of it should be eerie in its own way'
+    text: 'The cube as an afterlife: the life of a man whose life broke. Six ensembles of 11 floors, six chapters: home life, work, childhood, hobbies, science (experiments, on him or by him), madness, each eerie in its own way. Vova: there is no solution, each player puts the story together their own way'
   - id: en-cycles
     type: sticky
-    updated: [2026-11-16T07:05:00.000Z, agent:cube]
+    updated: [2026-11-16T08:10:00.000Z, agent:cube]
     box: [11878, 4300, 440, purple]
     icon: 🔢
-    text: 'Two cycles that do not line up. Themes go by 6: floor n is in ensemble (n − 1) mod 6. Portals go by 7: a network is the floors with one remainder mod 7, from floor 6. A jump is 7 floors, and 7 is 1 mod 6, so every jump lands in the next ensemble: the next chapter. Jumping inside one ensemble would be dull, Vova said'
+    text: 'Two cycles out of step. Themes go by 6: floor n is in ensemble (n − 1) mod 6. Portals go by 7: a network is the floors with one remainder mod 7, from floor 6. A jump is 7 floors, and 7 is 1 mod 6, so every jump lands in the next ensemble, the next chapter, and one network walks the whole life'
   - id: en-cost
     type: sticky
     updated: [2026-11-16T07:05:00.000Z, agent:cube]
