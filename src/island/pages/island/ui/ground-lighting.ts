@@ -159,21 +159,24 @@ export type GroundLighting = CanDispose &
     /** Every light, for the scene to hold and update. */
     readonly lights: readonly Light[];
     /**
-     * Turns the sun, the moon and the air's light to `heavens`, for an eye
-     * `height` metres up at direction `up`: the sky's fill stays overhead of
-     * it and dims with the night there.
+     * Turns the sun, the moon and, in the fine look, the air's light to
+     * `heavens`, for an eye `height` metres up at direction `up`: the sky's
+     * fill stays overhead of it and dims with the night there. Returns the
+     * daylight under the eye, 1 by day and 0 by night.
      */
     readonly shine: (
       heavens: Heavens,
       up: Vec3,
       height: number,
       seconds: number,
-    ) => void;
+    ) => number;
     /**
-     * Draws the sea as a surface — ripples, the sky in them, the sun's glint —
-     * in place of its flat colour. WebGPU only, and before the first frame.
+     * Dresses every material in the fine look — the air, its clouds and haze,
+     * rock and relief on the land, and with `rippled` the sea as a surface
+     * (WebGPU only) — or, `fine` false, in the plain one: flat colours under
+     * the lamps. The first dressing in a look compiles its shaders.
      */
-    readonly rippleSea: () => void;
+    readonly dress: (fine: boolean, rippled: boolean) => void;
     /** Hands the rippled sea its frame. */
     readonly stirSea: (frame: SeaFrame) => void;
   };
@@ -205,12 +208,10 @@ export function groundLighting(): GroundLighting {
   const { background, radiance } = air;
   const seen = throughAir(air);
 
-  const tileMaterial = (colour: Node<'vec3'>, shone: Light[], push: number) => {
+  const tileMaterial = (shone: Light[], push: number) => {
     const material = new MeshLambertNodeMaterial();
-    material.colorNode = colour;
     material.depthNode = depthNode(push);
     material.lightsNode = lights(shone);
-    material.outputNode = seen;
     return material;
   };
   const surface = seaSurface(radiance);
@@ -227,20 +228,68 @@ export function groundLighting(): GroundLighting {
   );
   /** The relief's slope: sand lies smooth, soil rolls, rock stands rough. */
   const roughness = mix(mix(0.04, 0.18, aboveBeach), 0.7, rock);
+  const plainLandColour = groundColourNode(heightNode());
   const seaColour = seaColourNode(heightNode());
-  const land = tileMaterial(landColour, [landSun, landMoon, sky], 0);
-  const sea = tileMaterial(seaColour, [seaSun, seaMoon, sky], 0);
+  const land = tileMaterial([landSun, landMoon, sky], 0);
+  const sea = tileMaterial([seaSun, seaMoon, sky], 0);
   const standIn = {
-    land: tileMaterial(landColour, [landSun, landMoon, sky], STAND_IN_PUSH),
-    sea: tileMaterial(seaColour, [seaSun, seaMoon, sky], STAND_IN_PUSH),
+    land: tileMaterial([landSun, landMoon, sky], STAND_IN_PUSH),
+    sea: tileMaterial([seaSun, seaMoon, sky], STAND_IN_PUSH),
   };
   const ocean = new MeshLambertNodeMaterial({ color: SEA_COLOUR });
   ocean.lightsNode = lights([seaSun, seaMoon, sky]);
-  ocean.outputNode = seen;
+  const lands = [land, standIn.land];
+  const seas = [sea, standIn.sea];
+  const all = [...lands, ...seas, ocean];
 
   const [deepest] = GROUND_STOPS;
   if (deepest === undefined) throw new RangeError('no colour stops');
   const floorColour = groundColourNode(heightNode());
+
+  /** Draws the sea as a surface — ripples, the sky in them, the sun's glint — in place of its flat colour. */
+  const ripple = () => {
+    const surfaced: Array<[MeshLambertNodeMaterial, Node]> = [
+      [sea, surface.colour(heightNode(), floorColour)],
+      [standIn.sea, surface.colour(heightNode(), floorColour)],
+      [ocean, surface.colour(float(deepest[0]), vec3(...deepest[1]))],
+    ];
+    for (const material of seas) {
+      material.positionNode = surface.lifted(heightNode());
+      material.maskNode = surface.lies(heightNode());
+    }
+    for (const material of lands) {
+      material.normalNode = surface.relief(roughness);
+      // Damp over the air: a sheet's reach is too near for the air to tell.
+      material.outputNode = surface.damp(seen, heightNode());
+    }
+    for (const [material, colour] of surfaced) {
+      // The surface carries its own light: nothing is left for the lamps.
+      material.colorNode = vec3(0);
+      material.emissiveNode = colour;
+    }
+  };
+
+  let fine = false;
+  const dress = (toFine: boolean, rippled: boolean) => {
+    fine = toFine;
+    for (const material of all) {
+      material.positionNode = null;
+      material.maskNode = null;
+      material.normalNode = null;
+      material.emissiveNode = null;
+      material.outputNode = fine ? seen : null;
+      material.needsUpdate = true;
+    }
+    for (const material of lands) {
+      material.colorNode = fine ? landColour : plainLandColour;
+    }
+    for (const material of seas) material.colorNode = seaColour;
+    ocean.colorNode = null;
+    if (fine && rippled) ripple();
+    if (!fine)
+      for (const light of [landSun, seaSun]) light.color.set(sunColour);
+  };
+  dress(false, false);
 
   return {
     land,
@@ -248,41 +297,23 @@ export function groundLighting(): GroundLighting {
     standIn,
     ocean,
     background,
-    rippleSea: () => {
-      const dressed: Array<[MeshLambertNodeMaterial, Node]> = [
-        [sea, surface.colour(heightNode(), floorColour)],
-        [standIn.sea, surface.colour(heightNode(), floorColour)],
-        [ocean, surface.colour(float(deepest[0]), vec3(...deepest[1]))],
-      ];
-      for (const material of [sea, standIn.sea]) {
-        material.positionNode = surface.lifted(heightNode());
-        material.maskNode = surface.lies(heightNode());
-      }
-      for (const material of [land, standIn.land]) {
-        material.normalNode = surface.relief(roughness);
-        // Damp over the air: a sheet's reach is too near for the air to tell.
-        material.outputNode = surface.damp(seen, heightNode());
-      }
-      for (const [material, colour] of dressed) {
-        // The surface carries its own light: nothing is left for the lamps.
-        material.colorNode = vec3(0);
-        material.emissiveNode = colour;
-      }
-    },
+    dress,
     stirSea: surface.update,
     lights: [landSun, seaSun, landMoon, seaMoon, sky],
     shine: (heavens, up, height, seconds) => {
-      air.update(heavens, up, height, seconds);
-      // The sun's colour after the air it crossed to the eye: warm when low, out once set.
-      const sine = dot(heavens.sun, up);
-      const warmth = tintOf(lightThrough(sine, height));
-      const kept = eyeKeeps(sine, SUN_ELEVATION);
-      for (const light of [landSun, seaSun]) {
-        light.position.set(...heavens.sun);
-        light.color
-          .setRGB(...warmth)
-          .multiply(sunColour)
-          .multiplyScalar(kept);
+      for (const light of [landSun, seaSun]) light.position.set(...heavens.sun);
+      if (fine) {
+        air.update(heavens, up, height, seconds);
+        // The sun's colour after the air it crossed to the eye: warm when low, out once set.
+        const sine = dot(heavens.sun, up);
+        const warmth = tintOf(lightThrough(sine, height));
+        const kept = eyeKeeps(sine, SUN_ELEVATION);
+        for (const light of [landSun, seaSun]) {
+          light.color
+            .setRGB(...warmth)
+            .multiply(sunColour)
+            .multiplyScalar(kept);
+        }
       }
       for (const light of [landMoon, seaMoon]) {
         light.position.set(...heavens.moon);
@@ -292,11 +323,10 @@ export function groundLighting(): GroundLighting {
       sky.intensity =
         NIGHT_SKY_INTENSITY + (SKY_INTENSITY - NIGHT_SKY_INTENSITY) * day;
       sky.color.lerpColors(nightColour, dayColour, day);
+      return day;
     },
     dispose: () => {
-      for (const material of [land, sea, standIn.land, standIn.sea, ocean]) {
-        material.dispose();
-      }
+      for (const material of all) material.dispose();
     },
   };
 }
