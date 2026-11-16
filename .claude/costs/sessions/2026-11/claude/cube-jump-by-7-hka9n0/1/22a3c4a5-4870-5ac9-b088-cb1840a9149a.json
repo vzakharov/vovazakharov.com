@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 10864,
-    "cacheWrite5mTokens": 16408,
-    "cacheWrite1hTokens": 402032,
-    "cacheReadTokens": 25264740,
-    "outputTokens": 150672,
-    "thinkingTokens": 54929,
-    "responses": 118,
-    "costUsd": 11.456782000000004
+    "inputTokens": 11396,
+    "cacheWrite5mTokens": 16670,
+    "cacheWrite1hTokens": 423264,
+    "cacheReadTokens": 27822758,
+    "outputTokens": 157713,
+    "thinkingTokens": 56030,
+    "responses": 131,
+    "costUsd": 12.283285600000005
   },
   "estimate": {
     "at": "2026-11-16T11:07:06.177Z",
@@ -51,25 +51,25 @@
     }
   },
   "sessionId": "22a3c4a5-4870-5ac9-b088-cb1840a9149a",
-  "branch": "claude/clever-mayer-hka9n0",
+  "branch": "claude/cube-jump-by-7-hka9n0",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "давай в кубе делать перетасовку уровней и прыжок через 7. единственное, подумал что всё же не \"только через 7\" должно быть, просто все меньшие дельты должны быт…",
   "prs": [],
   "url": "https://claude.ai/code/session_01DaohkBGKTTN7t6Z6M7S4ap",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-16T10:59:13.938Z",
-  "lastResponseAt": "2026-11-16T12:56:29.073Z",
+  "lastResponseAt": "2026-11-16T13:53:00.402Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 206,
+    "inputTokens": 232,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 402032,
-    "cacheReadTokens": 22035865,
-    "outputTokens": 143850,
-    "thinkingTokens": 54929,
-    "responses": 105,
-    "costUsd": 10.501253
+    "cacheWrite1hTokens": 423264,
+    "cacheReadTokens": 24407973,
+    "outputTokens": 150866,
+    "thinkingTokens": 56030,
+    "responses": 117,
+    "costUsd": 11.2859546
   },
   "subagents": {
     "inputTokens": 0,
@@ -83,14 +83,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 10864,
-      "cacheWrite5mTokens": 16408,
-      "cacheWrite1hTokens": 402032,
-      "cacheReadTokens": 25264740,
-      "outputTokens": 150672,
-      "thinkingTokens": 54929,
-      "responses": 118,
-      "costUsd": 11.456782000000004
+      "inputTokens": 11396,
+      "cacheWrite5mTokens": 16670,
+      "cacheWrite1hTokens": 423264,
+      "cacheReadTokens": 27822758,
+      "outputTokens": 157713,
+      "thinkingTokens": 56030,
+      "responses": 131,
+      "costUsd": 12.283285600000005
     }
   },
   "warnings": [],
@@ -122,26 +122,26 @@
           "Bash": 1
         },
         "estimatedTokens": 364,
-        "estimatedUsd": 0.002912
+        "estimatedUsd": 0.0037856
       },
       "billedUsd": 0.2199904
     }
   ],
   "telemetry": {
-    "events": 118,
-    "matched": 105,
-    "matchedTableUsd": 10.501253,
-    "matchedEventUsd": 10.501252999999998,
+    "events": 131,
+    "matched": 117,
+    "matchedTableUsd": 11.2859546,
+    "matchedEventUsd": 11.285954599999998,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 6072,
-        "cacheWrite5mTokens": 16214,
+        "inputTokens": 6578,
+        "cacheWrite5mTokens": 16476,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 2885693,
-        "outputTokens": 220,
+        "cacheReadTokens": 3071603,
+        "outputTokens": 245,
         "thinkingTokens": 0,
-        "responses": 12,
-        "costUsd": 0.7355386000000002
+        "responses": 13,
+        "costUsd": 0.7773406000000002
       },
       "compact": {
         "inputTokens": 4586,
@@ -162,5 +162,7 @@
   },
   "reviewPosts": {},
   "threadPosts": {},
-  "branchLines": {}
+  "branchLines": {
+    ".md": 95
+  }
 }
