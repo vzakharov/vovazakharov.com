@@ -221,8 +221,9 @@ step"), less the world-number fork, which bite 2 settles.
 
 ## Next bites
 
-- **The ground and the sea stop repeating** — the next approach (Vova: «3 —
-  следующим подходом», «5 — да, вместе с 3»): ripples, wind and ground relief
+- **The ground and the sea stop repeating** — the next approach, once stretch 3
+  is in `main` (Vova: «3 — следующим подходом», «5 — да, вместе с 3»; «после
+  этого пиара, этот должен доехать до мейна»): ripples, wind and ground relief
   move into `nature` as `.wgsl` (#288's second `/five-percent`), then the 256 m
   table's repeat is broken there, so the cube takes the fix with them.
 - **Objects from dice rolls** — agreed on the board's strait thread («да,
