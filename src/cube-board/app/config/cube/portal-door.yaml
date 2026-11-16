@@ -2,7 +2,7 @@ items:
   - id: z-portal-door
     type: zone
     updated: [2026-11-15T20:50:00.000Z, agent:cube]
-    box: [11300, 2060, 2260, 1170, blue]
+    box: [11300, 2060, 2260, 1720, blue]
     icon: 🚪
     text: "The portal door on the real network: floor 6's one hub"
   - id: pd-shut
@@ -47,3 +47,57 @@ items:
     box: [12448, 2560, 520]
     src: images/portal-door-threshold.webp
     text: 'A millimetre before the crossing, inside the doorway: the far floor still shows. Vova saw this frame go black, the doorway mask clipped by the near plane; the mask now lies past the wall line'
+  - id: pd-two-faces
+    type: sticky
+    updated: [2026-11-16T02:40:00.000Z, agent:cube]
+    box: [13008, 2560, 244, yellow]
+    icon: 🔁
+    text: 'Vova: “funny that a portal ends up on both sides of the wall and opens onto both sides of the wall on the floor below; I didn’t see that at first, but let’s keep it.” A portal is a wall, not a door with a front: each face leads through, to its own side of the far wall. Frames below, cut from his walk 6 → 7 → 6'
+  - id: pd-two-1
+    type: image
+    updated: [2026-11-16T02:40:00.000Z, agent:cube]
+    box: [11328, 2950, 520]
+    src: images/portal-two-01.webp
+    text: "1. Floor 6: the hub's door and its sign"
+  - id: pd-two-2
+    type: image
+    updated: [2026-11-16T02:40:00.000Z, agent:cube]
+    box: [11888, 2950, 520]
+    src: images/portal-two-02.webp
+    text: "2. Open: floor 7's server hall behind it"
+  - id: pd-two-3
+    type: image
+    updated: [2026-11-16T02:40:00.000Z, agent:cube]
+    box: [12448, 2950, 520]
+    src: images/portal-two-03.webp
+    text: '3. Through, on floor 7: down the hall, a red door in the same wall'
+  - id: pd-two-4
+    type: image
+    updated: [2026-11-16T02:40:00.000Z, agent:cube]
+    box: [13008, 2950, 520]
+    src: images/portal-two-04.webp
+    text: '4. Round the wall, at its other face'
+  - id: pd-two-5
+    type: image
+    updated: [2026-11-16T02:40:00.000Z, agent:cube]
+    box: [11328, 3340, 520]
+    src: images/portal-two-05.webp
+    text: '5. Open from this face too: floor 6 behind it'
+  - id: pd-two-6
+    type: image
+    updated: [2026-11-16T02:40:00.000Z, agent:cube]
+    box: [11888, 3340, 520]
+    src: images/portal-two-06.webp
+    text: "6. Through, on floor 6 again, in the room on the hub wall's far side"
+  - id: pd-two-7
+    type: image
+    updated: [2026-11-16T02:40:00.000Z, agent:cube]
+    box: [12448, 3340, 520]
+    src: images/portal-two-07.webp
+    text: '7. Turning round in it'
+  - id: pd-two-8
+    type: image
+    updated: [2026-11-16T02:40:00.000Z, agent:cube]
+    box: [13008, 3340, 520]
+    src: images/portal-two-08.webp
+    text: "8. The hub's door from its second face, the same sign beside it"
