@@ -286,8 +286,6 @@ export function groundLighting(): GroundLighting {
     for (const material of seas) material.colorNode = seaColour;
     ocean.colorNode = null;
     if (fine && rippled) ripple();
-    if (!fine)
-      for (const light of [landSun, seaSun]) light.color.set(sunColour);
   };
   dress(false, false);
 
@@ -301,19 +299,19 @@ export function groundLighting(): GroundLighting {
     stirSea: surface.update,
     lights: [landSun, seaSun, landMoon, seaMoon, sky],
     shine: (heavens, up, height, seconds) => {
-      for (const light of [landSun, seaSun]) light.position.set(...heavens.sun);
-      if (fine) {
-        air.update(heavens, up, height, seconds);
-        // The sun's colour after the air it crossed to the eye: warm when low, out once set.
-        const sine = dot(heavens.sun, up);
-        const warmth = tintOf(lightThrough(sine, height));
-        const kept = eyeKeeps(sine, SUN_ELEVATION);
-        for (const light of [landSun, seaSun]) {
-          light.color
-            .setRGB(...warmth)
-            .multiply(sunColour)
-            .multiplyScalar(kept);
-        }
+      if (fine) air.update(heavens, up, height, seconds);
+      // The sun's colour after the air it crossed to the eye, in either look:
+      // warm when low, out once set, so no slope facing a sun below the
+      // horizon is lit.
+      const sine = dot(heavens.sun, up);
+      const warmth = tintOf(lightThrough(sine, height));
+      const kept = eyeKeeps(sine, SUN_ELEVATION);
+      for (const light of [landSun, seaSun]) {
+        light.position.set(...heavens.sun);
+        light.color
+          .setRGB(...warmth)
+          .multiply(sunColour)
+          .multiplyScalar(kept);
       }
       for (const light of [landMoon, seaMoon]) {
         light.position.set(...heavens.moon);
