@@ -1,0 +1,120 @@
+{
+  "total": {
+    "inputTokens": 580,
+    "cacheWrite5mTokens": 948,
+    "cacheWrite1hTokens": 179640,
+    "cacheReadTokens": 6087754,
+    "outputTokens": 31820,
+    "thinkingTokens": 14655,
+    "responses": 37,
+    "costUsd": 3.3009747999999997
+  },
+  "estimate": {
+    "at": "2026-11-16T15:47:19.648Z",
+    "subjectLine": "feat: plan the jump-by-7 portal law and the trampoline bottom",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "settling the law, the bottom landings and the reshuffle scope into a plan is a mechanics call on how the cube feels"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "mapping the artifact's probability model onto portal-counts and the portals code needs someone who knows that code"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-16T15:47:29.529Z",
+    "contextTokens": 123497,
+    "spend": {
+      "inputTokens": 19,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 60389,
+      "cacheReadTokens": 808985,
+      "outputTokens": 2361,
+      "thinkingTokens": 451,
+      "responses": 8,
+      "costUsd": 0.6922050000000002
+    }
+  },
+  "sessionId": "b0a01e1d-7916-5649-a092-56abea3700a8",
+  "branch": "claude/cube-jump-by-7-hka9n0",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cube-jump-by-7-hka9n0 — закон прыжков и дно-трамплин подобраны в артефакте, ждут твоих ответов на пять вопросов перед планом",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBXjRHu96Jnf5K85Nm",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-16T15:46:40.809Z",
+  "lastResponseAt": "2026-11-16T15:55:45.840Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 74,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 179640,
+    "cacheReadTokens": 5964259,
+    "outputTokens": 31793,
+    "thinkingTokens": 14655,
+    "responses": 36,
+    "costUsd": 3.2661277999999996
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 580,
+      "cacheWrite5mTokens": 948,
+      "cacheWrite1hTokens": 179640,
+      "cacheReadTokens": 6087754,
+      "outputTokens": 31820,
+      "thinkingTokens": 14655,
+      "responses": 37,
+      "costUsd": 3.3009747999999997
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 37,
+    "matched": 36,
+    "matchedTableUsd": 3.2661277999999996,
+    "matchedEventUsd": 3.2661277999999996,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 948,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 123495,
+        "outputTokens": 27,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.034846999999999996
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 92,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 95
+  }
+}
