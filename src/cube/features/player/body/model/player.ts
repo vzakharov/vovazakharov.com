@@ -4,12 +4,11 @@ import type {
   InRoom,
   InRoomOf,
   Pose,
-  Posed,
   Quarter,
   Shelf,
 } from '@/cube/entities/world';
 
-import type { OpenDoor } from './door';
+import type { HoldingDoor } from './door';
 import type { Looking, ShrinkMoment } from './look';
 import type { Input } from './step';
 
@@ -85,14 +84,12 @@ export type Striding = Cued & { strode: number };
  * whole or shrunk, which its pose's scale tells apart; `pill` is the one off
  * its shelf, in the hand or swallowed and not yet out of sight; `strode` is how
  * far it has walked since its last footfall, in its own room sides; `cues` is
- * what happened in the frame that made this player; `door` is the door it
- * opened, until that door has shut behind it.
+ * what happened in the frame that made this player.
  */
-export type Player = Posed &
+export type Player = HoldingDoor &
   Striding & {
     act: Act | null;
     pill: InRoomOf | null;
-    door: OpenDoor | null;
   };
 
 export type Acting<A extends Act['act']> = Player & {

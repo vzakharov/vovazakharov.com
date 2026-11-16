@@ -10,7 +10,7 @@ const blockKey = roll.key({
 });
 
 /** A block's inner walls, named for the half of a midline each one sits in. */
-const EDGES = ['north', 'east', 'south', 'west'] as const;
+export const EDGES = ['north', 'east', 'south', 'west'] as const;
 type Edge = (typeof EDGES)[number];
 
 const edgeKey = roll.key(EDGES);
@@ -36,6 +36,20 @@ const Maze = roll.struct({
       }),
     ),
   ),
+  portal: roll.struct({
+    // One round function of a floor's site permutation, two draws wide
+    // because the last floor's halves pass 64 bits.
+    mix: roll.over(
+      roll.key({ n: roll.int, round: roll.int, half: roll.big }),
+      roll.struct({ high: roll.wide(), low: roll.wide() }),
+    ),
+    wall: roll.over(blockKey, roll.over(edgeKey, roll.wide())),
+    // Where hub `hub` of floor `n` leads during period `epoch`.
+    hub: roll.over(
+      roll.key({ n: roll.int, hub: roll.big, epoch: roll.int }),
+      roll.struct({ floor: roll.wide(), spoke: roll.wide() }),
+    ),
+  }),
 });
 
 export type RolledMaze = Rolled<typeof Maze>;
@@ -45,7 +59,7 @@ export const maze = (seed: string): RolledMaze =>
   rollWith(Maze, pathHash(seed));
 
 /** How many bits a `roll.wide()` door draw spans. */
-const WIDE_BITS = 64n;
+export const WIDE_BITS = 64n;
 
 /**
  * The deepest floor whose every door the draw places exactly: floor `n`'s

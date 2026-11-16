@@ -1,0 +1,43 @@
+items:
+  - id: z-intro-premise
+    type: zone
+    updated: [2026-11-12T22:25:00.000Z, agent:cube-intro]
+    box: [0, 6950, 2510, 450, orange]
+    icon: 🏝️
+    text: 'The intro: the premise, beat by beat'
+  - id: intro-1
+    type: sticky
+    updated: [2026-11-12T22:45:00.000Z, agent:cube-intro]
+    box: [28, 7050, 280, yellow]
+    icon: 🌊
+    text: 'You open your eyes, groan a little, sit up: a tiny sand island, nobody on it, waves lashing at your feet. Standing, you see only the sea at first'
+  - id: intro-2
+    type: sticky
+    updated: [2026-11-12T22:45:00.000Z, agent:cube-intro]
+    box: [334, 7050, 280, yellow]
+    icon: ⬛
+    text: 'You turn round. A few dozen metres off a cube hangs in the air, 5×5×5 m: black, with grey bands, each half the height that is left. Vova: “otherworldly materials that give off some sound and play in the pre-sunset sun in a way the eye is not used to”'
+  - id: intro-3
+    type: sticky
+    updated: [2026-11-12T22:45:00.000Z, agent:cube-intro]
+    box: [640, 7050, 280, yellow]
+    icon: 🪜
+    text: 'In the top band, a doorway with a room showing through it. And, “which does not fit with any of this at all”, a perfectly ordinary ladder leaning to its sill. From here you walk: round the island, or out to sea, which has no edge yet'
+  - id: intro-4
+    type: sticky
+    updated: [2026-11-13T00:05:00.000Z, agent:cube-intro]
+    box: [946, 7050, 280, gray]
+    icon: ✂️
+    text: 'Cut: nearing the cube, you were to stoop and look under it, to show nothing holds it. Vova, seeing the first frames: “judging by the pictures, no look-under cutscene is needed, it is plain enough that it hovers”'
+  - id: intro-5
+    type: sticky
+    updated: [2026-11-12T22:45:00.000Z, agent:cube-intro]
+    box: [1252, 7050, 280, yellow]
+    icon: 🚪
+    text: 'E at the ladder: you climb, and through the doorway you are in floor 1’s room. Where the door was is the opening; no lamps, only the low sun through it. The office stays as it was, plant included. Vova: “let it be, all the funnier. The sun should play off it”'
+  - id: intro-6
+    type: sticky
+    updated: [2026-11-13T00:30:00.000Z, agent:cube-intro]
+    box: [1558, 7050, 280, yellow]
+    icon: 💊
+    text: 'The lever becomes a pill on a small shelf at the same height: pick up, to the mouth, a swallow, and you shrink as before. The first time you turn it over in your hand first, and a prompt asks: “Press Y to swallow, N to put down”'

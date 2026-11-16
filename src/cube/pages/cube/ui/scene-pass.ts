@@ -40,11 +40,13 @@ export function createDepthTarget(device: GPUDevice): DepthTarget {
 /** Scene light where no face is drawn, as the faces are lit. */
 export type Cleared = { clear: Rgb };
 
+/** A scene drawn at `size`, its light cleared to `clear`. */
+export type Shot = Cleared & { size: Sized };
+
 /** One encoding of a scene pass: where it draws, and what it is stamped by. */
-type SceneShot = Cleared & {
+type SceneShot = Shot & {
   reflection: Reflection;
   depth: DepthTarget;
-  size: Sized;
   stamp?: GPURenderPassTimestampWrites | undefined;
 };
 

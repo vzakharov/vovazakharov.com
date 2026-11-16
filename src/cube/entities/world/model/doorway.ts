@@ -5,9 +5,16 @@ import type { Sides as RoomSides } from '@/cube/shared/lib/sides';
 import { doorFrame, type Facing } from './door';
 import { eastKind, southKind } from './doorways';
 import type { RolledMaze } from './maze';
+import { isPortal } from './portal';
 import type { Quad } from './quad';
-import { isRoom, type Room } from './room';
-import { type DoorWall, leaning, wallFrame } from './wall-frame';
+import type { Room } from './room';
+import {
+  type DoorWall,
+  isInnerWall,
+  isSameWall,
+  leaning,
+  wallFrame,
+} from './wall-frame';
 import { mazeWalls, type Walls } from './walls';
 
 export type Doors = { isDoor: (wall: DoorWall) => boolean };
@@ -31,13 +38,20 @@ export function doorSides({ isDoor }: Doors, room: Room): RoomSides {
   return [isDoor(east), isDoor(south), isDoor(west), isDoor(north)];
 }
 
-/** `rolled`'s walls and doors: a wall touching a room outside its floor is no door. */
+/**
+ * `rolled`'s walls and doors, a portal's among them: a wall touching a room
+ * outside its floor is no door.
+ */
 export const mazeDoored = (rolled: RolledMaze): Doored => ({
   ...mazeWalls(rolled),
-  isDoor: ({ n, x, y, isEast }) =>
-    isRoom(n, x, y) &&
-    (isEast ? isRoom(n, x + 1n, y) : isRoom(n, x, y + 1n)) &&
-    (isEast ? eastKind : southKind)(rolled, n, x, y) === 'door',
+  isDoor: (wall) => {
+    const { n, x, y, isEast } = wall;
+    return (
+      isInnerWall(wall) &&
+      ((isEast ? eastKind : southKind)(rolled, n, x, y) === 'door' ||
+        isPortal(wall, rolled))
+    );
+  },
 });
 
 /** The faces of a doorway's wall drawn: `near` into its west or north room, `far` into the other. */
@@ -61,12 +75,12 @@ export const EXIT: { wall: DoorWall; sides: Sides } = (() => {
   };
 })();
 
-export const isSameWall = (a: DoorWall, b: DoorWall): boolean =>
-  a.isEast === b.isEast && a.n === b.n && a.x === b.x && a.y === b.y;
-
-/** `walls` with `door`'s wall open, for the eye of the one who opened it. */
+/**
+ * `walls` with `door`'s wall open, for the eye of the one who opened it. A
+ * portal stays shut to it: what shows through one is not the room behind it.
+ */
 export function withOpen(walls: Walls, door: DoorWall | null): Walls {
-  if (door === null) return walls;
+  if (door === null || isPortal(door)) return walls;
   const is = (n: number, x: bigint, y: bigint, isEast: boolean) =>
     isSameWall(door, { n, x, y, isEast });
   return {

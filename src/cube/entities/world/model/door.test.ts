@@ -3,7 +3,11 @@ import { describe, it } from 'node:test';
 
 import { DOORWAY_CUT } from '@/cube/shared/cube-boundary';
 
-import { doorFrame, doorLeaf, doorLook, leafLine } from './door';
+import { doorFrame, doorLeaf, doorLook, type Facing, leafLine } from './door';
+import { maze } from './maze';
+import { planted } from './planted';
+import { farSideOf } from './portal';
+import { portalsOf } from './portals';
 import type { DoorWall } from './wall-frame';
 
 const WALL: DoorWall = { n: 3, x: 1n, y: 2n, isEast: true };
@@ -71,5 +75,72 @@ describe('a door', () => {
       new Set(frame.map(({ room }) => room.x)),
       new Set([1n, 2n]),
     );
+  });
+});
+
+/**
+ * How far to the right of one walking through `way` its leaf's hinge stands,
+ * and how far ahead of them its free edge, the leaf a radian open.
+ */
+function leafBefore(way: Facing) {
+  const { hinge, edge } = leafLine({ ...way, angle: 1 });
+  const south = (hinge - DOORWAY_CUT.middle) * way.toward;
+  return { right: way.isEast ? south : -south, ahead: edge[1] * way.toward };
+}
+
+describe('a portal’s leaf', () => {
+  const rolled = maze(planted.seed);
+  const MINUTE = 60_000;
+  /** Every way through a portal of floors 6 to 8, with where it leads in each of six minutes. */
+  const pairs = [6, 7, 8]
+    .flatMap((n) => portalsOf(rolled, n))
+    .flatMap(({ wall }) =>
+      ([1, -1] as const).flatMap((toward) =>
+        [0, 1, 2, 3, 4, 5].flatMap((minute) => {
+          const near: Facing = { ...wall, toward };
+          const far = farSideOf(near, minute * MINUTE);
+          return far === null ? [] : [{ near, far }];
+        }),
+      ),
+    );
+
+  it('is tried on east and south walls, alike and across, both ways through', () => {
+    const kinds = new Set(
+      pairs.map(
+        ({ near, far }) =>
+          `${String(near.isEast)}>${String(far.isEast)}@${String(near.toward)}`,
+      ),
+    );
+    assert.equal(kinds.size, 8);
+  });
+
+  it('hangs on the same hand of one walking through, before the threshold and past it', () => {
+    for (const { near, far } of pairs) {
+      const before = leafBefore(near);
+      const after = leafBefore(far);
+      assert.equal(Math.sign(after.right), Math.sign(before.right));
+      assert.equal(Math.sign(before.right), -near.toward);
+      assert.ok(Math.abs(after.right - before.right) < 1e-9);
+    }
+  });
+
+  it('swings ahead of one walking through, on both floors', () => {
+    for (const { near, far } of pairs) {
+      assert.ok(leafBefore(near).ahead > 0);
+      assert.ok(
+        Math.abs(leafBefore(far).ahead - leafBefore(near).ahead) < 1e-9,
+      );
+    }
+  });
+
+  it('is one paint on a hub and each of its spokes', () => {
+    for (const { near, far } of pairs) {
+      assert.equal(doorLook(far).paint, doorLook(near).paint);
+    }
+  });
+
+  it('varies from portal to portal, so its colour marks none of them out', () => {
+    const paints = new Set(pairs.map(({ near }) => doorLook(near).paint));
+    assert.ok(paints.size > 1);
   });
 });

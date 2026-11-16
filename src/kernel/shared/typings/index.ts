@@ -60,6 +60,9 @@ export type Rated = { explicit: boolean };
 /** A turn, in radians: a door's leaf off its wall, a mottle on its plane. */
 export type Angled = { angle: number };
 
+/** How far a thing is turned, in radians: a mushroom drawn off upright, the far side of a portal about the vertical. */
+export type Turned = { turn: number };
+
 /** What a reproducible random draw starts from: the same seed, the same result. */
 export type Seeded = { seed: number };
 

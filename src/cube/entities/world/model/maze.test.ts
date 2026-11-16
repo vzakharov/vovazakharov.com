@@ -113,6 +113,11 @@ describe('the wall predicate', () => {
 const stub = (omit: number, word: bigint): RolledMaze => ({
   block: { at: () => ({ omit, door: { at: () => word } }) },
   doorway: { at: () => ({ at: () => ({ has: 1, at: 0n, kind: 0 }) }) },
+  portal: {
+    mix: { at: () => ({ high: 0n, low: 0n }) },
+    wall: { at: () => ({ at: () => 0n }) },
+    hub: { at: () => ({ floor: 0n, spoke: 0n }) },
+  },
 });
 
 describe('a door on an edge longer than 2^32 rooms', () => {

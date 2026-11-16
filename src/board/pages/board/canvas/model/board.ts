@@ -4,6 +4,7 @@ import type { Zoomed } from '@/scene/shared/lib/plane';
 
 import type { Item } from '@/board/entities/item';
 
+import type { LineLayers } from '../../drawing/index.ts';
 import type { Authoring } from '../api/runtime.ts';
 import type { Lift } from '../lib/lift.ts';
 import type { Store } from './store.ts';
@@ -20,7 +21,7 @@ export type Board = WithCamera &
     readonly lens: HTMLElement;
     readonly lift: Lift;
     readonly world: HTMLElement;
-    readonly lines: SVGSVGElement;
+    readonly lines: LineLayers;
     readonly status: HTMLElement;
     readonly colors: HTMLElement;
     readonly picker: HTMLInputElement;

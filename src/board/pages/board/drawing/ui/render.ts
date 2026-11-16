@@ -198,17 +198,24 @@ function arrowMarker(): SVGElement {
 }
 
 /**
+ * A line's two SVGs: `ink` over the cards, `hits` under them, so a press where
+ * a line crosses a card reaches the card.
+ */
+export type LineLayers = { ink: SVGSVGElement; hits: SVGSVGElement };
+
+/**
  * Each line from edge to edge of the items it joins, drawn as `handStroke`
  * curves; one whose end is gone is skipped.
  */
 export function renderLines(
-  layerNode: SVGSVGElement,
+  layers: LineLayers,
   lines: readonly LineItem[],
   rectOf: (id: string) => Rect | undefined,
 ): void {
   const defs = svg('defs', {});
   defs.append(arrowMarker());
-  const nodes: SVGElement[] = [defs];
+  const inked: SVGElement[] = [defs];
+  const hits: SVGElement[] = [];
   for (const line of lines) {
     const from = rectOf(line.from);
     const to = rectOf(line.to);
@@ -218,14 +225,18 @@ export function renderLines(
     const { d, mid } = handStroke(a, b, line);
     const { d: echo } = handStroke(a, b, line, 1);
     const dashed = line.dashed === true ? ' dashed' : '';
-    const group = svg('g', { class: 'line', 'data-id': line.id });
+    const lineGroup = { class: 'line', 'data-id': line.id };
+    const hit = svg('g', lineGroup);
+    hit.append(svg('path', { d, class: 'hit' }));
+    hits.push(hit);
+    const group = svg('g', lineGroup);
     const weight = weightOf(line);
-    // The stylesheet multiplies every stroke width by it; the arrowhead, sized
-    // in stroke widths, follows.
+    // The stylesheet multiplies every stroke width by it, the hit path's
+    // included; the arrowhead, sized in stroke widths, follows.
     if (line.weight !== undefined)
-      group.style.setProperty('--weight', String(weight));
+      for (const g of [group, hit])
+        g.style.setProperty('--weight', String(weight));
     group.append(
-      svg('path', { d, class: 'hit' }),
       svg('path', {
         d: echo,
         class: `stroke echo${dashed}`,
@@ -246,7 +257,8 @@ export function renderLines(
       label.textContent = line.label;
       group.append(label);
     }
-    nodes.push(group);
+    inked.push(group);
   }
-  layerNode.replaceChildren(...nodes);
+  layers.ink.replaceChildren(...inked);
+  layers.hits.replaceChildren(...hits);
 }

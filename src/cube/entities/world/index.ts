@@ -1,10 +1,21 @@
-export { type Address, decodeAddress, encodeAddress } from './model/address';
-export { type Ajar, doorLeaf, type Facing, leafLine } from './model/door';
+export {
+  type Address,
+  decodeAddress,
+  encodeAddress,
+  type Hatched,
+} from './model/address';
+export {
+  type Ajar,
+  doorFrame,
+  doorLeaf,
+  DOORWAY_DEEP,
+  type Facing,
+  leafLine,
+} from './model/door';
 export {
   type Doors,
   doorSides,
   EXIT,
-  isSameWall,
   mazeDoored,
   wallsAround,
   withOpen,
@@ -12,6 +23,7 @@ export {
 export { eastKind } from './model/doorways';
 export { descend, DROP, eyeInFrame, type Placed, placed } from './model/frame';
 export { faces, HOLE_SIDE } from './model/geometry';
+export { firstPortal, hintFacets, hintsSeen } from './model/hint';
 export {
   floorsOf,
   holeMiddle,
@@ -20,13 +32,29 @@ export {
   holesOf,
   type Quarter,
 } from './model/hole';
-export { type Landing, landingsSeen } from './model/landing';
+export { landingsSeen } from './model/landing';
 export { loft, type Ring } from './model/loft';
-export { DEEPEST_FLOOR, maze } from './model/maze';
-export { boardFacets, type BoardShape, type SignMount } from './model/mount';
+export { DEEPEST_FLOOR, maze, type RolledMaze } from './model/maze';
+export {
+  boardFacets,
+  type BoardShape,
+  type Hung,
+  type SignMount,
+} from './model/mount';
 export { PILL_RADIUS, pillQuads } from './model/pill';
 export { plant } from './model/plant';
 export { planted } from './model/planted';
+export {
+  type Beyond,
+  beyondOf,
+  carried,
+  farSideOf,
+  isBeyond,
+  pastDoorway,
+  roomBeyond,
+  wayThrough,
+} from './model/portal';
+export { portalsOf } from './model/portals';
 export type {
   Gazing,
   InRoom,
@@ -53,11 +81,14 @@ export {
 } from './model/room';
 export {
   opens,
+  parent,
+  type Sight,
   sight,
   slabRooms,
   type Step,
   stepped,
   STEPS,
+  type View,
   withBelow,
 } from './model/rooms';
 export {
@@ -73,7 +104,7 @@ export {
 export { closedSides, inPlace, type Setting, settingOf } from './model/setting';
 export { pillOn, type Shelf, shelfOf } from './model/shelf';
 export { type RolledTraits, traits } from './model/traits';
-export { type DoorWall } from './model/wall-frame';
+export { type DoorWall, isSameWall } from './model/wall-frame';
 export { mazeWalls, type Walls } from './model/walls';
 export { isOutside, type Outside, type Whereabouts } from './model/whereabouts';
 export { WALL_HALF } from '@/cube/shared/lib/room-shape';

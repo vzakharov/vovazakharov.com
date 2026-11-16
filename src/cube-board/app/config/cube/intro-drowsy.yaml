@@ -1,102 +1,103 @@
 items:
-  - id: intro-h-drowsy
-    type: text
-    updated: [2026-11-15T09:50:00.000Z, agent:cube]
-    box: [5748, 8250, 2200, h2]
-    text: 'The drowsy eye and touch controls (#281), 14 Nov'
   - id: intro-drowsy-img-01-phone-shore-smear
     type: image
     updated: [2026-11-15T09:51:00.000Z, agent:cube]
-    box: [5748, 8330, 560]
+    box: [7858, 4610, 560]
     src: images/drowsy-01-phone-shore-smear.webp
     text: 'Vova’s phone, commit d5737274: the shore after a turn of the head, the clouds doubled by the smear. Verdict: “No, this is exactly what is needed.” The hint about Q at the bottom is gone (56687a8f)'
   - id: intro-drowsy-img-02-floor1-split
     type: image
     updated: [2026-11-15T09:52:00.000Z, agent:cube]
-    box: [6338, 8330, 430]
+    box: [8448, 4610, 430]
     src: images/drowsy-02-floor1-split.webp
     text: 'SwiftShader, d5737274: floor 1 with the split frame. Only the outside through the doorway is drowsy; the room is sharp. Verdict: “good… better let it be sharp here”'
   - id: intro-drowsy-img-06-touch-overlay
     type: image
     updated: [2026-11-15T09:53:00.000Z, agent:cube]
-    box: [6798, 8330, 560]
+    box: [8908, 4610, 560]
     src: images/drowsy-06-touch-controls-overlay.webp
     text: 'SwiftShader as a Pixel 7, 53d4ab8d: after the “Tap anywhere” tap, the controls are drawn over the screen; they hold until the first drag, then fade within a second. Touch is told by the last input'
   - id: intro-drowsy-img-07-pill-buttons
     type: image
     updated: [2026-11-15T09:54:00.000Z, agent:cube]
-    box: [7388, 8330, 240]
+    box: [9498, 4610, 240]
     src: images/drowsy-07-pill-ask-buttons.webp
     text: 'SwiftShader, 6960a9df: the pill’s question answered by buttons under the finger. On a touch screen the line says “Tap” (da8454bc)'
   - id: intro-drowsy-img-03-clouds-high
     type: image
     updated: [2026-11-15T09:55:00.000Z, agent:cube]
-    box: [5748, 8950, 430]
+    box: [7858, 5230, 430]
     src: images/drowsy-03-clouds-high-before-fix.webp
     text: 'Vova’s frame before da8454bc: on high the clouds tear at their edges and run in stripes. The history moved only with the head, while the clouds drift on the wind; the still sky is now taken fresh'
   - id: intro-drowsy-img-04-clouds-medium
     type: image
     updated: [2026-11-15T09:56:00.000Z, agent:cube]
-    box: [6208, 8950, 430]
+    box: [8318, 5230, 430]
     src: images/drowsy-04-clouds-medium-before-fix.webp
     text: 'The same clouds on medium before the fix: cleaner, with fewer pixels per degree and more frames a second, so a cloud drifts less between updates'
   - id: intro-drowsy-img-05-clouds-shaking
     type: image
     updated: [2026-11-15T09:57:00.000Z, agent:cube]
-    box: [6668, 8950, 560]
+    box: [8778, 5230, 560]
     src: images/drowsy-05-clouds-shaking-before-fix.webp
     text: 'From Vova’s recording after da8454bc: “the clouds came closer to Medium and all would be fine, but now they shake on every mode.” The still sky came from the fresh pass alone, one pixel per block at a different offset each frame, hence the shake and the steps. Since f78b657e the fresh light is blended into the history every frame (90% history), so the offsets average out. Verdict: “they do not shake”'
   - id: intro-drowsy-settings
     type: sticky
     updated: [2026-11-15T09:58:00.000Z, agent:cube]
-    box: [5748, 9800, 280, blue]
+    box: [7858, 6080, 280, blue]
     icon: 🎛️
     text: 'The console object `cube` and its schema (drowsy-settings.ts) are how settings get compared. Defaults, by Vova’s word: the drowsy eye on, a share of 1/9, drowsiness 1, no slowdown'
   - id: intro-drowsy-phases
     type: sticky
     updated: [2026-11-15T09:58:00.000Z, agent:cube]
-    box: [6054, 9800, 280, blue]
+    box: [8164, 6080, 280, blue]
     icon: ✖️
     text: 'A frame picks its pixel of the N×N block by a sub-pixel shift of the camera, in a set order (drowsy-phases.ts). The shift is one for the whole pass, so the prototype’s per-block “scatter” cannot be ported, and that is where the “cross” comes from'
   - id: intro-drowsy-resolve
     type: sticky
     updated: [2026-11-15T09:58:00.000Z, agent:cube]
-    box: [6360, 9800, 280, blue]
+    box: [8470, 6080, 280, blue]
     icon: 💤
     text: 'The whole drowsy look lives in drowsy-resolve.wgsl, the prototype’s resolve ported: old pixels carried over by distance, trust in the history, a smear in the band at the edge while turning, the water melting in. If something looks wrong, look there'
   - id: intro-drowsy-renderer
     type: sticky
     updated: [2026-11-15T09:58:00.000Z, agent:cube]
-    box: [6666, 9800, 280, blue]
+    box: [8776, 6080, 280, blue]
     icon: 🔀
     text: 'The frame forks three ways (renderer.ts): outside, everything drowsy; inside with a view out, only the outside drowsy and the rooms sharp over it; no outside in view, the whole frame as before. The missing `detail / share` was why the clouds came out pixelated'
   - id: intro-drowsy-underlay
     type: sticky
     updated: [2026-11-15T09:58:00.000Z, agent:cube]
-    box: [6972, 9800, 280, blue]
+    box: [9082, 6080, 280, blue]
     icon: 🧱
     text: 'The underlay (underlay.wgsl): the outside, resolved from history, laid under the rooms with its depth rebuilt from the metres kept in alpha. The seam in the doorway hangs on that depth: a flicker or a see-through at a door’s edge means look there'
   - id: intro-drowsy-slowdown
     type: sticky
     updated: [2026-11-15T09:59:00.000Z, agent:cube]
-    box: [7278, 9800, 280, blue]
+    box: [9388, 6080, 280, blue]
     icon: 🐌
     text: 'A weak machine, emulated (slowdown.ts): every pass encoded k times as separate cleared passes, so a tiled GPU (a Mac’s) cannot skip them. Not checked on a real GPU yet: GPU ms under F with `cube.setSlowdown(4)`'
   - id: intro-drowsy-touch
     type: sticky
     updated: [2026-11-15T09:59:00.000Z, agent:cube]
-    box: [5748, 10300, 280, blue]
+    box: [7858, 6580, 280, blue]
     icon: 👆
     text: 'Touch, which the cube had none of (touch.ts): the left half is a stick where the finger lands, the right half looks, a short tap is E. Sensitivity and the stick’s radius are constants at the top, to tune if a phone feels off'
   - id: intro-drowsy-stored-pace
     type: sticky
     updated: [2026-11-15T09:59:00.000Z, agent:cube]
-    box: [6054, 10300, 280, blue]
+    box: [8164, 6580, 280, blue]
     icon: 💾
     text: 'Run or walk by default is remembered in localStorage under `cube.runsUnheld` (`run`/`walk`), a format that outlives the branch. Where storage is refused (a private window) the player walks, as the first time, with no word: a silent fallback Vova approved (“oh, they’ll survive”)'
   - id: intro-drowsy-world-rule
     type: sticky
     updated: [2026-11-15T09:59:00.000Z, agent:cube]
-    box: [6360, 10300, 280, blue]
+    box: [8470, 6580, 280, blue]
     icon: 📜
     text: 'The world rule, reworded in src/cube/CLAUDE.md at Vova’s word: the world’s state is a function of place and the shared clock, and one player’s eye may remember that player’s own earlier frames'
+  - id: z-intro-drowsy
+    type: zone
+    updated: [2026-11-15T09:50:00.000Z, agent:cube]
+    box: [7830, 4500, 2510, 2450, orange]
+    icon: 🏝️
+    text: 'The intro: the drowsy eye and touch controls (#281), 14 Nov'

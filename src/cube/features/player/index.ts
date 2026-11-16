@@ -17,6 +17,7 @@ export {
   type Holed,
   type Input,
   isAsking,
+  isCarried,
   isStanding,
   plantedHoled,
   plantedHoledOf,

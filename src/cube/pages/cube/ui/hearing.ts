@@ -24,6 +24,7 @@ import {
 } from '@/cube/features/sound';
 import { lineFor, type Moment, utter, voiceOf } from '@/cube/features/voice';
 
+import { FIRST_ROOM } from '../lib/eye-room';
 import { rolledTraits } from './cube-mesh';
 import type { Heard } from './going-on';
 
@@ -50,9 +51,6 @@ const OUTSIDE_EVERY = 50;
 const KEY_SECONDS = 60;
 
 const word = pathHash(planted.seed);
-
-/** The room a voice outside the cube is rolled from: floor 1's. */
-const FIRST_ROOM = { n: 1, x: 0n, y: 0n };
 
 /** How the place an eye is in sounds, and the body's size in it. */
 function placeOf(at: Whereabouts): { sound: Sound; scale: number } {

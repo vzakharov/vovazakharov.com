@@ -7,7 +7,9 @@ import { ROOM_METRES, WALL_HALF } from '@/cube/shared/lib/room-shape';
 import type { Surface } from '@/cube/shared/lib/surface';
 import { scaled as times, type Vec3 } from '@/cube/shared/lib/vec';
 
+import { maze } from './maze';
 import { planted } from './planted';
+import { familyOf, portalAt } from './portals';
 import { plus, type Quad } from './quad';
 import { type DoorWall, leaning, solid, wallFrame } from './wall-frame';
 
@@ -61,22 +63,32 @@ const Looks = roll.struct({
 
 const looks = rollWith(Looks, pathHash(planted.seed));
 
+const rolled = maze(planted.seed);
+
+const paintAt = (index: number): number => LEAF_PAINTS[index] ?? LEAF_PAINTS[0];
+
 /**
  * How the door in `wall` looks, the same to every eye: its leaf's paint, and
  * the jamb it hangs on, the doorway's north or west (`from`) or its south or
- * east (`to`), its handle by the other.
+ * east (`to`), its handle by the other. A portal's two doors are one leaf
+ * seen from its two sides, whichever pair the minute makes of them: each
+ * hangs at the left of one walking east or south through it, in the paint
+ * its hub's wall rolls, since every pairing is a hub and one of its spokes.
  */
-export function doorLook({ n, x, y, isEast }: DoorWall): {
+export function doorLook(wall: DoorWall): {
   paint: number;
   hinge: 'from' | 'to';
 } {
-  const { paint, hand } = looks.door
-    .at({ n, x, y })
-    .at(isEast ? 'east' : 'south');
-  return {
-    paint: LEAF_PAINTS[paint] ?? LEAF_PAINTS[0],
-    hinge: hand === 0 ? 'from' : 'to',
-  };
+  const portal = portalAt(rolled, wall);
+  const painted = portal === null ? wall : familyOf(rolled, portal).wall;
+  const rolledLook = ({ n, x, y, isEast }: DoorWall) =>
+    looks.door.at({ n, x, y }).at(isEast ? 'east' : 'south');
+  const { paint } = rolledLook(painted);
+  if (portal !== null) {
+    return { paint: paintAt(paint), hinge: wall.isEast ? 'from' : 'to' };
+  }
+  const { hand } = rolledLook(wall);
+  return { paint: paintAt(paint), hinge: hand === 0 ? 'from' : 'to' };
 }
 
 /** `DOOR.frame` in room sides. */
@@ -117,6 +129,9 @@ function swing(ajar: Ajar): {
   };
 }
 
+/** How far a door's frame reaches either side of its wall's line, in room sides. */
+export const DOORWAY_DEEP = WALL_HALF + DOOR.proud * METRE;
+
 /**
  * The frame lining `wall`'s doorway, each quad in the frame of the room it
  * faces into: a white jamb either side and a head, standing proud of both
@@ -125,7 +140,7 @@ function swing(ajar: Ajar): {
 export function doorFrame(wall: DoorWall): Quad[] {
   const { run, at, own } = wallFrame(wall);
   const { from, to, height } = DOORWAY_CUT;
-  const deep = WALL_HALF + DOOR.proud * METRE;
+  const deep = DOORWAY_DEEP;
   const block = (a0: number, a1: number, u0: number, u1: number) =>
     solid(
       at(a0, -deep, u0),

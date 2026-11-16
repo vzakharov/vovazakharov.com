@@ -2,16 +2,15 @@
 
 import type { Sized } from '@/kernel/shared/typings';
 
+import type { Grouped } from '@/cube/shared/shader';
+
 import { OUTDOOR_SHADERS } from '../lib/outdoor-shaders';
 import type { LayerMaker } from './outdoor-layer';
 
 const CLOUD_FORMAT: GPUTextureFormat = 'rgba16float';
 
 /** The frame's sky as drawn, and the group the backdrop reads it by. */
-type SkyTarget = Sized & {
-  sky: GPUTexture;
-  group: GPUBindGroup;
-};
+type SkyTarget = Sized & Grouped & { sky: GPUTexture };
 
 /**
  * The sky: each frame's air and clouds, all but the sun's disc, drawn into a

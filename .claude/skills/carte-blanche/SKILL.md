@@ -64,8 +64,13 @@ done, no merge to `main` without the operator's word, and
   model is named in every `create_session` and `Agent` call, never inherited.
 - **The flagship is for building; reading and administering run on a cheaper
   model** — the operator: «для таких задач можно и экономить а не фейбла
-  запускать». A reader agent that digests transcripts, files or logs takes
-  `haiku` or `sonnet`; a coordinator whose work is mechanics takes Sonnet.
+  запускать». A fix-up package after the operator's notes (a hinge, one bad
+  frame, gate failures) is not flagship work either: it runs on Opus, and a
+  Fable child started for one was stopped («почему та сессия на фейбле?»,
+  «сожрём шща весь лимит»). A child's model is chosen for its package, never
+  copied from the child before it. A reader agent that digests transcripts,
+  files or logs takes `haiku` or `sonnet`; a coordinator whose work is mechanics
+  takes Sonnet.
 - **A child writes in English in its own session too**, whatever the operator's
   voice entry says, and its brief says so: English costs about a third fewer
   tokens. A question the operator puts to it in another language is answered in

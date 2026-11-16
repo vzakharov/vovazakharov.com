@@ -1,20 +1,27 @@
+import type { WithOnError } from '@/kernel/shared/typings';
+
 import { themeOf } from '@/cube/entities/theme';
 import {
   type Ajar,
   boardFacets,
   doorLeaf,
+  DOORWAY_DEEP,
   faces,
   type Facet,
+  type Facing,
   type Holdings,
   type HoleOf,
   holesOf,
+  type Hung,
   inPlace,
   type InRoomOf,
+  isBeyond,
   isSameWall,
-  type Landing,
   landingsSeen,
   maze,
   mazeDoored,
+  parent,
+  pastDoorway,
   placed,
   planted,
   type Pose,
@@ -24,6 +31,7 @@ import {
   roomKey,
   type Setting,
   settingOf,
+  type Sight,
   sight,
   type Sign,
   type Signed,
@@ -43,6 +51,7 @@ import { formatPrice } from '../lib/figures';
 import { pack, type RoomLook, type Scenery } from '../lib/mesh';
 import { roomLooks } from '../lib/room-look';
 import type { Boards } from './board-textures';
+import { hintBoards } from './hint-board';
 import { drawPoster, POSTER } from './poster-board';
 import { drawBoard } from './sign-board';
 
@@ -78,6 +87,9 @@ export type Selling = {
   /** The rooms the viewer bought, read on every mesh build. */
   bought: () => Holdings;
 };
+
+/** What a mesh is built by, and where a failure to build it goes. */
+export type Building = Selling & WithOnError;
 
 const rolled = maze(planted.seed);
 const walls = mazeDoored(rolled);
@@ -131,7 +143,7 @@ function signBoards(
 /** The posters of `landings` in the eye's frame at `pose`, one per floor. */
 const posterBoards = (
   pose: Pose,
-  landings: readonly Landing[],
+  landings: readonly Hung[],
   lookOf: LookOf,
 ): Boards[] =>
   [...Map.groupBy(landings, ({ room }) => room.n)].map(([n, rooms]) => ({
@@ -145,21 +157,49 @@ const posterBoards = (
     ),
   }));
 
+/** How far past a wall's face a quad still counts as the wall's own, in room sides. */
+const WALL_SLACK = 1e-4;
+
+/** `seen` as an eye looking through `far` sees it: the rooms past its wall alone. */
+function sightBeyond(far: Facing, { near, above, ...rest }: Sight): Sight {
+  const kept = near.filter((room) => isBeyond(far, room));
+  const over = new Set(kept.map((room) => roomKey(parent(room))));
+  return {
+    ...rest,
+    near: kept,
+    above: above.filter((room) => over.has(roomKey(room))),
+  };
+}
+
+/** `quads` of `far`'s frame without its own wall and door, which the eye looks through. */
+const pastWall = (far: Facing, quads: readonly Quad[]): Quad[] =>
+  quads.filter(({ corners }) =>
+    corners.some(
+      ([east, , south]) =>
+        pastDoorway(far, east, south) > DOORWAY_DEEP + WALL_SLACK,
+    ),
+  );
+
 /**
  * The mesh for an eye at `pose`, seeing through the door `opened` as its
- * opener alone does. Its floor's holes are resolved first, since
- * they decide which rooms of the floor below it sees, and only then those
- * rooms' own; which rooms sell is read off the same answers. What it awaits
- * is resolved once per room, so a pill taken re-packs the faces without
- * resolving the holes again.
+ * opener alone does; given `through`, a portal's far side, only what lies
+ * past that wall, and `pose` must be in the room past it. Its floor's holes
+ * are resolved first, since they decide which rooms of the floor below it
+ * sees, and only then those rooms' own; which rooms sell is read off the
+ * same answers. What it awaits is resolved once per room, so a pill taken
+ * re-packs the faces without resolving the holes again.
  */
 export async function build(
   pose: Pose,
   copy: SignCopy,
   bought: Holdings,
   opened: Ajar | null,
+  through: Facing | null = null,
 ): Promise<Mesh> {
-  const seen = sight(pose, FAR, withOpen(walls, opened));
+  const whole = sight(pose, FAR, withOpen(walls, opened));
+  const seen = through === null ? whole : sightBeyond(through, whole);
+  const kept = (quads: readonly Quad[]): readonly Quad[] =>
+    through === null ? quads : pastWall(through, quads);
   const holeAbove = await holesOf(planted, slabRooms(seen));
   const full = withBelow(seen, holeAbove);
   const holeBelow = await holesOf(planted, full.below);
@@ -188,11 +228,11 @@ export async function build(
   return {
     faces: (taken) =>
       pack(
-        [
+        kept([
           ...faces(rolled, pose, full, holeOf, taken, owns, pillarOf, opened),
           ...posts,
           ...things,
-        ],
+        ]),
         lookOf,
       ),
     stood: (moving) =>
@@ -208,6 +248,7 @@ export async function build(
     boards: [
       ...signBoards(pose, signed, copy, lookOf),
       ...posterBoards(pose, landingsSeen(walls, full, holeOf), lookOf),
+      ...hintBoards(rolled, pose, full, (facets) => asPaper(facets, lookOf)),
     ],
     // A frame whose door is another, or none, sees this one's leaf shut.
     leaf: (door) =>

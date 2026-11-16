@@ -1,4 +1,4 @@
-export { compiled } from './compiled';
+export { compiled, type Grouped } from './compiled';
 export { vec3f } from './vec3f';
 export {
   assemble,

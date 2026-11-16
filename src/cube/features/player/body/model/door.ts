@@ -1,12 +1,16 @@
 import { DOORWAY_CUT } from '@/cube/shared/cube-boundary';
 import {
   type Ajar,
+  carried,
   type Doors,
   type DoorWall,
   type Facing,
   type InRoom,
   isSameWall,
   type Pose,
+  type Posed,
+  type Room,
+  roomBeyond,
   type Walls,
   wallsAround,
 } from '@/cube/entities/world';
@@ -16,11 +20,14 @@ import { canReach, HAND_REACH } from './press';
 
 /**
  * Walls a body walks among: `isDoor` says which are doors, none where it is
- * absent, and `ajar` is the door the body holds open.
+ * absent, `ajar` is the door the body holds open, and `beyond` says where a
+ * door gone through as `door` faces leads this instant, null for one that
+ * leads to the room behind it, as every door does where it is absent.
  */
 export type Ways = Walls &
   Partial<Doors> & {
     ajar?: Ajar | null;
+    beyond?: (door: Facing) => Facing | null;
   };
 
 /**
@@ -120,3 +127,38 @@ export function doorAfter(
     ? kept
     : opened;
 }
+
+const isIn = (pose: Pose, { n, x, y }: Room): boolean =>
+  pose.n === n && pose.x === x && pose.y === y;
+
+/**
+ * A body that stepped from `from` to `to` through `door`, a portal by
+ * `beyond`, as it stands through the far portal instead, and that portal's
+ * door, as open behind it as `door` was and swung the same way: null for any
+ * other step.
+ */
+export function carriedThrough(
+  from: Pose,
+  to: Pose,
+  door: OpenDoor | null,
+  beyond: Ways['beyond'],
+): { pose: Pose; door: OpenDoor } | null {
+  if (door === null || beyond === undefined) return null;
+  const back: Facing = { ...door, toward: door.toward === 1 ? -1 : 1 };
+  const gone = [door, back].find(
+    (way) =>
+      isIn(to, roomBeyond(way)) &&
+      isIn(from, roomBeyond({ ...way, toward: way.toward === 1 ? -1 : 1 })),
+  );
+  const far = gone === undefined ? null : beyond(gone);
+  if (gone === undefined || far === null) return null;
+  const { n, x, y, isEast } = far;
+  return { pose: carried(to, gone, far), door: { ...door, n, x, y, isEast } };
+}
+
+/** A body at its pose, and the door it opened, until that door has shut behind it. */
+export type HoldingDoor = Posed & { door: OpenDoor | null };
+
+/** Whether the frame that left `from` and made a body with `door` open at `pose` carried it through a portal. */
+export const isCarried = (from: Pose, { pose, door }: HoldingDoor): boolean =>
+  door !== null && pose.n !== from.n;
