@@ -16,9 +16,8 @@ below. Floor 66 gets no landings beyond the law: the floors above it
 are nearly all spokes and throw a player back up.
 
 Floor themes follow the six ensembles, floor n in ensemble
-(n - 1) mod 6, so every jump of 7 lands in the next chapter. Floor 13,
-where random jumping gathers, holds the garage; the bathroom moves
-to 31.
+(n - 1) mod 6, so every jump of 7 lands in the next chapter. Floors 7
+and 13, where random jumping gathers, hold the garage and the attic.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
