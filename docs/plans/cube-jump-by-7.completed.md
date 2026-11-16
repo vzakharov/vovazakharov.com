@@ -87,11 +87,12 @@ a floor of two or more portals. Floor 6 is all hubs, 66 none.
 
 `climb` is the floor's mean band distance; `drop` is a hub's mean drop over the
 floors it reaches (below). Hubs depend on bands and bands on hubs, so the counts
-come from **a fixed 12 passes** of the model's iteration — bands from the last
-pass's hubs, then hubs bottom-up — starting from `H = K/2`. On the model the
-largest relative change per pass falls about 40-fold each time, reaching float
-precision by pass 10; a fixed count keeps the result independent of how a
-rounding near the end flips.
+come from bottom-up sweeps of the model's iteration — each floor's hubs from the
+bands below it and the last sweep's hubs, then its own bands — starting from
+`H = K/2` and repeated until no floor's count moves, with 32 sweeps the ceiling
+before that is a bug. On the model the largest relative change per pass falls
+about 40-fold each time, so the integer counts settle within a few sweeps and
+match the model to 1e-11 on every floor.
 
 ### Where a hub leads
 
