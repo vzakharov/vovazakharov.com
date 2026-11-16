@@ -1,0 +1,166 @@
+{
+  "total": {
+    "inputTokens": 11394,
+    "cacheWrite5mTokens": 16670,
+    "cacheWrite1hTokens": 422722,
+    "cacheReadTokens": 27615896,
+    "outputTokens": 157331,
+    "thinkingTokens": 56000,
+    "responses": 130,
+    "costUsd": 12.229929200000004
+  },
+  "estimate": {
+    "at": "2026-11-16T11:07:06.177Z",
+    "subjectLine": "content: jump-by-7 portal laws explored in the cube simulations artifact",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "choosing a jump law means weighing what the player sees per portal against how fast the cube opens up; that is mechanics judgement"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "analyst",
+        "comment": "the spoke bands and reachability are new probability structure that has to be derived and checked numerically before code"
+      },
+      {
+        "hours": 3.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "an interactive tab with live charts, presets and a Monte Carlo wanderer in an existing page"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-16T10:59:40.708Z",
+    "contextTokens": 141387,
+    "spend": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 64987,
+      "cacheReadTokens": 660787,
+      "outputTokens": 1721,
+      "thinkingTokens": 324,
+      "responses": 7,
+      "costUsd": 0.6865374000000001
+    }
+  },
+  "sessionId": "22a3c4a5-4870-5ac9-b088-cb1840a9149a",
+  "branch": "claude/cube-jump-by-7-hka9n0",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "давай в кубе делать перетасовку уровней и прыжок через 7. единственное, подумал что всё же не \"только через 7\" должно быть, просто все меньшие дельты должны быт…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBGKTTN7t6Z6M7S4ap",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-16T10:59:13.938Z",
+  "lastResponseAt": "2026-11-16T13:52:48.435Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 230,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 422722,
+    "cacheReadTokens": 24201111,
+    "outputTokens": 150484,
+    "thinkingTokens": 56000,
+    "responses": 116,
+    "costUsd": 11.2325982
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 11394,
+      "cacheWrite5mTokens": 16670,
+      "cacheWrite1hTokens": 422722,
+      "cacheReadTokens": 27615896,
+      "outputTokens": 157331,
+      "thinkingTokens": 56000,
+      "responses": 130,
+      "costUsd": 12.229929200000004
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-16T12:13:08.735Z",
+      "trigger": "auto",
+      "compactedFrom": 350439,
+      "summaryChars": 12551,
+      "reorientation": {
+        "endedBy": "end_turn",
+        "endedOn": null,
+        "endedAt": "2026-11-16T12:14:37.433Z",
+        "contextTokens": 128137,
+        "spend": {
+          "inputTokens": 21,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 67899,
+          "cacheReadTokens": 1266534,
+          "outputTokens": 5908,
+          "thinkingTokens": 1259,
+          "responses": 11,
+          "costUsd": 0.9147427999999999
+        }
+      },
+      "rereads": {
+        "calls": 1,
+        "byTool": {
+          "Bash": 1
+        },
+        "estimatedTokens": 364,
+        "estimatedUsd": 0.0037127999999999996
+      },
+      "billedUsd": 0.2199904
+    }
+  ],
+  "telemetry": {
+    "events": 130,
+    "matched": 116,
+    "matchedTableUsd": 11.2325982,
+    "matchedEventUsd": 11.232598199999998,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 6578,
+        "cacheWrite5mTokens": 16476,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 3071603,
+        "outputTokens": 245,
+        "thinkingTokens": 0,
+        "responses": 13,
+        "costUsd": 0.7773406000000002
+      },
+      "compact": {
+        "inputTokens": 4586,
+        "cacheWrite5mTokens": 194,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 343182,
+        "outputTokens": 6602,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.2199904
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 270,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {}
+}
