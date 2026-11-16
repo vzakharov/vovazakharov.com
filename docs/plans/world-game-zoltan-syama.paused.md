@@ -212,11 +212,19 @@ step"), less the world-number fork, which bite 2 settles.
 
 ## Open bites
 
-- **Bite 3's leftovers** — call 8 (the lead recommends Earth with log bins),
-  which gates C4 and the #2–#6 re-shoot; the moiré.
+- **Bite 3's leftovers** — call 8, deferred («пока пусть будут как будут»):
+  random worlds keep the probe's envelope; the lead's pick, Earth with log bins,
+  waits with C4 and the #2–#6 re-shoot. The moiré.
+- **The fine look's leftovers**, deferred: the swell's heading from the wind
+  with lee shores (#288's first `/five-percent`), its speed (7–14 fps on the M2
+  Pro), the polygonal swash edge, far clouds slanting at the horizon.
 
 ## Next bites
 
+- **The ground and the sea stop repeating** — the next approach (Vova: «3 —
+  следующим подходом», «5 — да, вместе с 3»): ripples, wind and ground relief
+  move into `nature` as `.wgsl` (#288's second `/five-percent`), then the 256 m
+  table's repeat is broken there, so the cube takes the fix with them.
 - **Objects from dice rolls** — agreed on the board's strait thread («да,
   согласен»): after the base formula, a chain of seeded rolls, each placing a
   water object with harmonics at its own scale; lakes first, the strait as two

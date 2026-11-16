@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 6643,
-    "cacheWrite5mTokens": 128324,
-    "cacheWrite1hTokens": 380496,
-    "cacheReadTokens": 39844328,
-    "outputTokens": 104240,
-    "thinkingTokens": 30315,
-    "responses": 188,
-    "costUsd": 13.785196599999992
+    "inputTokens": 7692,
+    "cacheWrite5mTokens": 132293,
+    "cacheWrite1hTokens": 410526,
+    "cacheReadTokens": 43541403,
+    "outputTokens": 115433,
+    "thinkingTokens": 33533,
+    "responses": 210,
+    "costUsd": 15.024659599999993
   },
   "estimate": {
     "at": "2026-11-16T03:39:46.442Z",
@@ -61,23 +61,24 @@
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take island/stretch-3 — море влито в третий отрезок, vet зелёный, ждём решений Вовы",
   "prs": [
-    287
+    287,
+    288
   ],
   "url": "https://claude.ai/code/session_01DaohkDjg4mTXs4KaiFbuXq",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-16T03:00:09.288Z",
-  "lastResponseAt": "2026-11-16T04:31:04.390Z",
+  "lastResponseAt": "2026-11-16T04:37:02.370Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 322,
+    "inputTokens": 359,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 380496,
-    "cacheReadTokens": 36269384,
-    "outputTokens": 86845,
-    "thinkingTokens": 27578,
-    "responses": 162,
-    "costUsd": 12.036032799999996
+    "cacheWrite1hTokens": 410526,
+    "cacheReadTokens": 39642845,
+    "outputTokens": 98004,
+    "thinkingTokens": 30796,
+    "responses": 182,
+    "costUsd": 13.174292999999997
   },
   "subagents": {
     "inputTokens": 36,
@@ -91,14 +92,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 6643,
-      "cacheWrite5mTokens": 128324,
-      "cacheWrite1hTokens": 380496,
-      "cacheReadTokens": 39844328,
-      "outputTokens": 104240,
-      "thinkingTokens": 30315,
-      "responses": 188,
-      "costUsd": 13.785196599999992
+      "inputTokens": 7692,
+      "cacheWrite5mTokens": 132293,
+      "cacheWrite1hTokens": 410526,
+      "cacheReadTokens": 43541403,
+      "outputTokens": 115433,
+      "thinkingTokens": 33533,
+      "responses": 210,
+      "costUsd": 15.024659599999993
     }
   },
   "warnings": [],
@@ -125,29 +126,31 @@
         }
       },
       "rereads": {
-        "calls": 0,
-        "byTool": {},
-        "estimatedTokens": 0,
-        "estimatedUsd": 0.0
+        "calls": 1,
+        "byTool": {
+          "Read": 1
+        },
+        "estimatedTokens": 4317,
+        "estimatedUsd": 0.04662360000000001
       },
       "billedUsd": 0.2564858
     }
   ],
   "telemetry": {
-    "events": 187,
-    "matched": 178,
-    "matchedTableUsd": 13.053950199999996,
-    "matchedEventUsd": 13.053950199999994,
+    "events": 210,
+    "matched": 199,
+    "matchedTableUsd": 14.239763799999995,
+    "matchedEventUsd": 14.239763799999995,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 4048,
-        "cacheWrite5mTokens": 6457,
+        "inputTokens": 5060,
+        "cacheWrite5mTokens": 10426,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 1783296,
-        "outputTokens": 135,
+        "cacheReadTokens": 2106910,
+        "outputTokens": 169,
         "thinkingTokens": 0,
-        "responses": 8,
-        "costUsd": 0.42720719999999995
+        "responses": 10,
+        "costUsd": 0.5284099999999999
       },
       "compact": {
         "inputTokens": 2237,
@@ -162,7 +165,7 @@
     }
   },
   "operatorWords": {
-    "chat": 341,
+    "chat": 387,
     "review": 0,
     "threads": 0
   },
@@ -174,7 +177,7 @@
     ".py": 436,
     ".ts": 2104,
     ".wgsl": 20,
-    ".yaml": 198,
+    ".yaml": 210,
     ".json": 3
   }
 }
