@@ -1,7 +1,7 @@
 import type { CanDispose } from '@/kernel/shared/typings';
 
 /** Turns the fine look on and off, by `KeyboardEvent.code`: `B`, on every layout. */
-export const FINE_KEY = 'KeyB';
+const FINE_KEY = 'KeyB';
 
 /** Calls `onToggle` on each press of `FINE_KEY` on `element`'s window, a held key once. */
 export function bindFineKey(

@@ -1,16 +1,8 @@
-import {
-  Color,
-  Group,
-  PerspectiveCamera,
-  Scene,
-  WebGPURenderer,
-} from 'three/webgpu';
+import { Group, PerspectiveCamera, Scene, WebGPURenderer } from 'three/webgpu';
 
-import type { CanDispose, WithOnError } from '@/kernel/shared/typings';
+import type { WithOnError } from '@/kernel/shared/typings';
 
-import { HOUR_SECONDS } from '@/nature/shared/swell';
-
-import { length, R, sub, unit } from '@/island/shared/globe';
+import { length, R, sub } from '@/island/shared/globe';
 import {
   type CoastDistance,
   heightAtSphere,
@@ -48,16 +40,15 @@ import {
 import { eyeOfPose, placeOfEye } from '../lib/eye-pose';
 import { type Pace, paced } from '../lib/pace';
 import type { Pose } from '../lib/place-hash';
-import { skyColour } from '../lib/sky-colour';
 import { startTilePool, type TilePool } from '../lib/tile-pool';
 import type { Where } from '../lib/where-line';
-import { bindFineKey } from './fine-key';
 import { groundLighting } from './ground-lighting';
 import { oceanGlobe } from './ocean-globe';
+import { type FineSwitch, sceneLook } from './scene-look';
 import { tileView } from './tile-view';
 import { bindTimeKeys } from './time-keys';
 
-export type IslandScene = CanDispose & {
+export type IslandScene = FineSwitch & {
   /** Resolves once the first frame is drawn. */
   readonly ready: Promise<void>;
   /** Steps the eye `dt` seconds by the player's input (none under play) and draws; returns the metres it moved. */
@@ -72,12 +63,6 @@ export type IslandScene = CanDispose & {
   readonly turnTo: (heading: number) => Promise<void>;
   /** Raises the view `look` radians above its height's pitch, resolving as `setHeight` does. */
   readonly lookTo: (look: number) => Promise<void>;
-  /**
-   * Draws in the fine look — sky, clouds, haze, the sea as a surface — or, by
-   * default, the plain one, which a machine short of the fine one's frame
-   * budget still flies smoothly; draws once ready.
-   */
-  readonly setFine: (fine: boolean) => void;
   /** `'webgpu'` or `'webgl2'`, once ready. */
   readonly backend: () => string;
   /** Ms the worker took to build the current world's field; throws until it lands. */
@@ -153,10 +138,15 @@ export function mountIslandScene(
   const camera = new PerspectiveCamera(50, 1, NEAR, FAR);
 
   const lighting = groundLighting();
-  /** The plain look's sky, one colour by height and daylight. */
-  const plainSky = new Color(skyColour(MAX_HEIGHT, 1));
-  scene.background = plainSky;
-  const { land, sea, standIn, ocean, lights, background: fineSky } = lighting;
+  const { land, sea, standIn, ocean, lights } = lighting;
+  const looks = sceneLook({
+    scene,
+    lighting,
+    webgpu,
+    render,
+    keys: play ? null : canvas,
+  });
+  const { setFine } = looks;
   const globe = oceanGlobe(ocean);
   const tiles = new Group();
   scene.add(globe, tiles, ...lights);
@@ -165,23 +155,6 @@ export function mountIslandScene(
   // Under play the clock moves only by `setTime`.
   const timeKeys = play ? null : bindTimeKeys(canvas);
   let clock = OPENING_CLOCK;
-  let fine = false;
-  /** Whether the renderer is up, so the backend a look's sea needs is known. */
-  let inited = false;
-  /** Dresses the scene in the current look, and draws it. */
-  const dress = () => {
-    if (!inited) return;
-    lighting.dress(fine, webgpu());
-    scene.background = fine ? null : plainSky;
-    scene.backgroundNode = fine ? fineSky : null;
-    render();
-  };
-  const fineKey = play
-    ? null
-    : bindFineKey(canvas, () => {
-        fine = !fine;
-        dress();
-      });
 
   let eye: Eye | null = null;
   /** Where the eye opens once the field lands, when not at the world's opening. */
@@ -263,22 +236,12 @@ export function mountIslandScene(
     camera.updateProjectionMatrix();
     camera.up.set(...pose.up);
     camera.lookAt(...pose.forward);
-    const heavens = heavensAt(openingOf(Number(world)), clock.hours);
-    const day = lighting.shine(
-      heavens,
-      unit(pose.position),
+    looks.shine(
+      heavensAt(openingOf(Number(world)), clock.hours),
+      pose.position,
       eye.height,
-      play ? stepped : Date.now() / 1000,
+      play ? stepped : undefined,
     );
-    if (fine) {
-      lighting.stirSea({
-        ...heavens,
-        eye: pose.position,
-        time: play ? stepped : (Date.now() / 1000) % HOUR_SECONDS,
-      });
-    } else {
-      plainSky.setHex(skyColour(eye.height, day));
-    }
     renderer.render(scene, camera);
   }
 
@@ -331,8 +294,7 @@ export function mountIslandScene(
   const ready = (async () => {
     await Promise.all([landed.promise, renderer.init()]);
     if (!live()) return;
-    inited = true;
-    dress();
+    looks.start();
     eye =
       pending === undefined
         ? eyeAt(openingOf(Number(world)), groundAt)
@@ -393,10 +355,7 @@ export function mountIslandScene(
     },
     turnTo: async (heading) => placed((from) => withHeading(from, heading)),
     lookTo: async (look) => placed((from) => withLook(from, look)),
-    setFine: (on) => {
-      fine = on;
-      dress();
-    },
+    setFine,
     backend: () => (webgpu() ? 'webgpu' : 'webgl2'),
     buildMs: () => {
       if (built?.of !== generation) throw new Error('field not built');
@@ -430,7 +389,7 @@ export function mountIslandScene(
       observer.disconnect();
       controls.dispose();
       timeKeys?.dispose();
-      fineKey?.dispose();
+      looks.dispose();
       pool.dispose();
       view.dispose();
       globe.geometry.dispose();
