@@ -42,8 +42,14 @@ The work fits one session, so it is taken whole.
   portals) is reachable from below; without it, its fair hub share rounds to
   zero and no spoke ever leads there.
 - The floors where random jumping concentrates are **магниты**: 6 (service
-  corridor), 66 (hallway), 13, 7 (kitchen).
+  corridor), 66 (hallway), 13 (attic), 7 (garage). A player thrown back up from
+  near the bottom walks down through the hatches, or goes back and tries other
+  portals.
 - The reshuffle ships in this branch.
+- **Floor 13 is the attic** — where what is a pity to throw away is carried,
+  over every house on the street, metaphorically as much as physically — and
+  **floor 7 the garage**, «the car taken away for good», one floor under the red
+  floor of 6.
 
 ## Design
 
@@ -110,11 +116,11 @@ included.
 `themeOf(n)` reads `ENSEMBLES[(n − 1) mod 6][⌊(n − 1) / 6⌋]`. The `TRADED` swap
 goes: 66 is the hallway by the list itself. The order is the proposal's
 (artifact «Ансамбли куба», https://claude.ai/artifact/VB4vSqUriZCGsrep7U2WJM),
-except that floor 13 takes the garage and the bathroom moves to 31 (open
-question 1):
+except that the two home-life magnets trade places with themes further down: the
+garage and the kitchen swap (7 ↔ 31), the attic and the bathroom (13 ↔ 43).
 
-- **Home life** (1, 7, 13…): reception, kitchen, garage, laundry, supermarket,
-  bathroom, guest room, attic, den, cold room, test card.
+- **Home life** (1, 7, 13…): reception, garage, attic, laundry, supermarket,
+  kitchen, guest room, bathroom, den, cold room, test card.
 - **Work** (2, 8, 14…): open plan, stairwell, parking level, metro platform,
   conference hotel, airport gate, server floor, greybox, texture test, normal
   map, point cloud.
@@ -141,8 +147,10 @@ code yet».
 ### The artifact
 
 The «Этаж нашего мира» tab routes portals by the old law (`portal-model.js`) and
-says they lead where the game's do; it gets a line saying it shows the law
-before this branch (open question 2).
+says they lead where the game's do. Once the game's version stands,
+`portal-model.js` is ported to it — bands, hub counts, the roll over reachable
+floors — and its hub, spoke and target figures are checked against the game's
+own on floors 6–10.
 
 ## Tests
 
@@ -189,14 +197,9 @@ The deep-floor timing test stays.
   replaces `BANDS` and `TRADED`; the floor of a theme is computed, never written
   down twice.
 
-## Open questions
+## Resolved forks
 
-1. **Floor 13, a magnet:** (a) the garage — «the car taken away for good», next
-   to the red floor of 6, hints at a crash without saying so; the bathroom moves
-   to 31, which no jump favours. (b) The cold room. (c) The den, the family's
-   Christmas tape. (d) Keep the bathroom. **Recommended: a**, and the plan is
-   written with it.
-2. **The artifact's floor tab:** (a) one line saying it shows the old law; (b)
-   port `portal-model.js` to the new one. **Recommended: a** — the jump tab
-   already shows the new law, and the floor tab's job was placement, which this
-   branch does not change.
+Floor 13 was put to the operator as a fork (garage, cold room, den, or the
+bathroom kept); the operator chose the attic for 13 and the garage for 7. The
+artifact's floor tab was a choice between a line flagging the old law and a
+port; the operator asked for the port, once the game's version stands.
