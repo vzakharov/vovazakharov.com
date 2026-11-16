@@ -1,26 +1,26 @@
 Proposed squash body:
 
 ```
-Portals have sat on the cube board as single cards since 13 Nov; a
-zone of their own, "Portals: the forks", lays out the decisions they
-need: how a portal door looks, how the crossing looks, where it leads
-and how often, one-way or two-way, and five forks not named before.
-Each column ends in the direction it leans: an ordinary door showing
-the far room at true scale, the crossing as the change of size,
-portals as a share of doors, one-way in the world with the way back a
-thread in the traveller's hand. A door back only the traveller sees
-is ruled out: the maze is the same for every player, and no state
-changes for free.
+The cube's floors were joined only by falling through the hole; now
+some doors lead to other floors. From floor 6 down, about one door in
+60 is a portal, placed by a keyed permutation of the floor's
+partitions so either end is found from the other in O(1) on any floor.
+Hubs lead down, spokes up: a spoke always returns to its one hub, a
+hub rolls a floor below and one of its spokes there, a new roll every
+minute on the shared clock. The hub share is the one at which a door
+opened at random moves a player down as far as up.
 
-The board is re-laid so linked cards sit together, line length down
-from ~57k to ~13k px and crossings from 10 to 0. The intro is split
-into seven zones, one per section, so every board file belongs to its
-own zone and board refile no longer folds the hand-split intro files
-back into one file over the line limit.
+An open portal door shows the far floor at its own scale, its surfaces
+seen through the near floor's air and lens; crossing the threshold
+swaps the air and lens and carries the body over. Both ends are one
+leaf seen from its two sides, painted by the hub's family, so a portal
+cannot be told from an ordinary door by its colour. The first portal
+on floor 6 carries an A4 sign: "SOME DOORS ARE MORE EQUAL THAN OTHERS".
 
-Lines are drawn over the cards: a line's ink sits above every item
-and its hit stroke under the cards, so a click on a card still
-selects the card where a line crosses it.
+The cube board records the portal forks and what was decided on each,
+with frames of the real hub, and is re-laid so linked cards sit
+together, its lines drawn over the cards while a click on a card still
+selects it.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```

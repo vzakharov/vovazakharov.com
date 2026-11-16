@@ -1,0 +1,121 @@
+{
+  "total": {
+    "inputTokens": 1085,
+    "cacheWrite5mTokens": 1373,
+    "cacheWrite1hTokens": 158357,
+    "cacheReadTokens": 5847041,
+    "outputTokens": 16129,
+    "thinkingTokens": 5169,
+    "responses": 38,
+    "costUsd": 2.7741681999999996
+  },
+  "estimate": {
+    "at": "2026-11-16T02:19:46.617Z",
+    "subjectLine": "chore: pick up the parked portals run",
+    "parts": [
+      {
+        "hours": 0.25,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "re-attaching a parked carte-blanche run means reading its summary and plan and restoring its watches before anyone steers it"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-16T02:19:57.041Z",
+    "contextTokens": 115557,
+    "spend": {
+      "inputTokens": 19,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 60988,
+      "cacheReadTokens": 914843,
+      "outputTokens": 2507,
+      "thinkingTokens": 363,
+      "responses": 9,
+      "costUsd": 0.7210886000000001
+    }
+  },
+  "sessionId": "1894f6de-22a1-56b5-8f19-ff5a6289974d",
+  "branch": "claude/cube-board-portal-forks-ilv09n",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cube-board-portal-forks-ilv09n — порталы на превью, обе правки двери готовы, vet зелёный, PR черновик",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkD2Jef2LfQfSkmG6kP",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-16T02:19:02.109Z",
+  "lastResponseAt": "2026-11-16T02:31:11.563Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 73,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 158357,
+    "cacheReadTokens": 5558147,
+    "outputTokens": 16082,
+    "thinkingTokens": 5169,
+    "responses": 36,
+    "costUsd": 2.7004173999999996
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 1085,
+      "cacheWrite5mTokens": 1373,
+      "cacheWrite1hTokens": 158357,
+      "cacheReadTokens": 5847041,
+      "outputTokens": 16129,
+      "thinkingTokens": 5169,
+      "responses": 38,
+      "costUsd": 2.7741681999999996
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 38,
+    "matched": 36,
+    "matchedTableUsd": 2.7004173999999996,
+    "matchedEventUsd": 2.7004174,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 1373,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 288894,
+        "outputTokens": 47,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.0737508
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 582,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 431,
+    ".txt": 295,
+    ".json": 2,
+    ".scss": 11,
+    ".ts": 2708,
+    ".yaml": 477,
+    ".tsx": 8,
+    ".wgsl": 27
+  }
+}
