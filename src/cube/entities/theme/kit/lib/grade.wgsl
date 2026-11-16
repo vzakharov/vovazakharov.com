@@ -2,7 +2,7 @@
 // does to the frame.
 
 import super::core::{Surf, Lens, mirroring};
-import package::cube::shared::shader::hash::{hashOf, unitOf};
+import package::gpu::shared::shader::hash::{hashOf, unitOf};
 import super::scene::{sceneAt, glowAt};
 
 /// The colour seen through air of colour `air` that swallows a thing

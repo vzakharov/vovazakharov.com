@@ -1,0 +1,65 @@
+items:
+  - id: z-sea-land
+    type: zone
+    updated: [2026-11-16T04:40:00.000Z, agent:lead]
+    box: [9100, 520, 1150, 2250, blue]
+    text: The sea, 2 — the ground behind it, noon, clouds
+  - id: sea-relief
+    type: image
+    updated: [2026-11-16T04:40:00.000Z, agent:lead]
+    box: [9140, 590, 1070]
+    src: images/sea-relief.webp
+    text: 'Milestone 4, the ground off the beach: grass at 40 m with relief finer than the mesh, and the damp band of sand behind the sheet at 2 m'
+  - id: sea-relief-how
+    type: sticky
+    updated: [2026-11-16T04:40:00.000Z, agent:lead]
+    box: [9140, 940, 330, green]
+    text: "Relief below the mesh's 1.2 m cell is drawn by light alone: ridges read off the same 64-wave table as the sea's ripples, standing still, each fading as it passes under a pixel. Steep ground above the beach shows bare rock — not yet seen on a real cliff"
+  - id: sea-noon
+    type: image
+    updated: [2026-11-16T04:40:00.000Z, agent:lead]
+    box: [9140, 1200, 1070]
+    src: images/sea-noon.webp
+    text: 'Milestone 5: the inlet and the wet sand at noon, no longer burnt white; rock showing through snow on steep mountains at 1,500 m; orbit from 4,000 km with black space again'
+  - id: sea-noon-how
+    type: sticky
+    updated: [2026-11-16T04:40:00.000Z, agent:lead]
+    box: [9140, 1410, 330, green]
+    text: "Noon burnt out because the lights were set for the opening's 20° sun; now the eye adapts, on land and sea alike. Blue space from mid orbit fixed by the sky child, checked on WebGPU. Next: clouds, the shoreline's polygons, polish, then the PR into stretch 3"
+  - id: sea-clouds
+    type: image
+    updated: [2026-11-16T04:40:00.000Z, agent:lead]
+    box: [9140, 1720, 1070]
+    src: images/sea-clouds.webp
+    text: 'Milestone 6, clouds: from the beach at 2 m, a cloud and its shadow on the land from 6 km, at dusk, and as cover from orbit at 4,000 km'
+  - id: sea-clouds-how
+    type: sticky
+    updated: [2026-11-16T04:40:00.000Z, agent:lead]
+    box: [9140, 1940, 330, green]
+    text: One cloud field on the sphere, seen from below, from inside and from orbit, its shadows cast through the same air every material is seen through. three's stock Perlin noise kept the page from ever loading on a software GPU; a small value noise compiles in seconds
+  - id: sea-clouds-open
+    type: sticky
+    updated: [2026-11-16T04:40:00.000Z, agent:lead]
+    box: [9500, 1940, 330, pink]
+    text: 'Open: clouds cost 2–2.8× frame time on the software rasteriser, unmeasured on a real GPU and being cut; far clouds seen edge-on band horizontally'
+  - id: sea-clouds-cut
+    type: image
+    updated: [2026-11-16T04:40:00.000Z, agent:lead]
+    box: [9140, 2210, 1070]
+    src: images/sea-clouds-cut.webp
+    text: 'Milestone 7, clouds at five samples a ray: from the inlet at 2 m, from 6 km and from orbit at 4,000 km'
+  - id: sea-clouds-cut-how
+    type: sticky
+    updated: [2026-11-16T04:40:00.000Z, agent:lead]
+    box: [9140, 2450, 330, green]
+    text: Five samples a ray at a per-pixel offset instead of eight, the march stopping once under 2% light is left, the finest octave only within ~670 km. On the software renderer clouds now cost 1.4–2× the cloudless frame, down from 1.8–2.8×
+  - id: sea-clouds-cut-open
+    type: sticky
+    updated: [2026-11-16T04:40:00.000Z, agent:lead]
+    box: [9500, 2450, 330, pink]
+    text: 'Open: nothing measured on a real GPU, so 60 fps on the M2 Pro is unconfirmed; from the beach the far clouds on the horizon read as slanted strokes, few samples through a thin slab at a grazing ray'
+  - id: sea-merged
+    type: sticky
+    updated: [2026-11-16T04:40:00.000Z, agent:lead]
+    box: [9860, 2450, 330, blue]
+    text: "Merged into stretch 3 as #288. The cube's sea moved out to a shared app, nature, and its shader kit to scene. Two optional /five-percent calls wait for Vova on the PR: the swell's heading from the wind, and ripples, wind and relief into nature as WGSL"

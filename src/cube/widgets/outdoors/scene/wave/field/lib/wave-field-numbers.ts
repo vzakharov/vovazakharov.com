@@ -1,5 +1,6 @@
+import { HOUR_SECONDS, RADIANS_A_TURN } from '@/nature/shared/swell';
+
 import { f32, wgsl } from '@/cube/shared/shader';
-import { HOUR_SECONDS, RADIANS_A_TURN } from '@/cube/entities/island';
 
 import { CASCADES, CHOP, TILE } from '../../../../surface';
 

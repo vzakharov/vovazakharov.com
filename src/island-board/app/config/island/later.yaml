@@ -1,8 +1,8 @@
 items:
   - id: z-later
     type: zone
-    updated: [2026-11-15T20:00:00.000Z, agent:lead]
-    box: [7760, -1980, 880, 1260, blue]
+    updated: [2026-11-16T05:00:00.000Z, agent:lead]
+    box: [7760, -1980, 880, 1720, blue]
     text: Later bites, and what is asked
   - id: l-scale
     type: line
@@ -11,9 +11,9 @@ items:
     text: seen in
   - id: later-1
     type: sticky
-    updated: [2026-11-15T20:00:00.000Z, agent:lead]
+    updated: [2026-11-15T23:55:00.000Z, agent:lead]
     box: [7800, -1340, 300, blue]
-    text: "First after cut 2 merges, ahead of the rest (Vova), run on Fable with /carte-blanche. The sea bite: the general feel of web-ocean, sea and sky. A sun glint from orbit is optional, not required. Its source, agreed with Vova: the cube's own island floor already has the sea in WGSL — swell trains, the shore's water level, wet sand at the waterline, the surf's cusps (src/cube/entities/island/). Those come to the round world"
+    text: "Done: merged into stretch 3 as #288, seven milestones in the sea zone. Started on Fable with /carte-blanche, on island/sea (Vova): near ground as the cube draws it outside, without the cube's need to go drowsy, maybe a rewrite. The sea bite: the general feel of web-ocean, sea and sky. A sun glint from orbit is optional, not required. Its source, agreed with Vova: the cube's own island floor already has the sea in WGSL — swell trains, the shore's water level, wet sand at the waterline, the surf's cusps (src/cube/entities/island/). Those come to the round world"
   - id: later-2
     type: sticky
     updated: [2026-11-15T20:00:00.000Z, agent:lead]
@@ -62,3 +62,18 @@ items:
     updated: [2026-11-15T20:00:00.000Z, agent:lead]
     box: [8270, -1310, 320, yellow]
     text: 'For later (Vova): operators over worlds. #1.N mutates world 1, N the strength, chaining as #1.N.M; #1x(N)#100 crosses two worlds, maybe by part — “continents from here, the sun from there”; any combination nests. Worlds built by trial, contests for the best one. And editing the hash by hand: a world is then a number plus overrides at parameter paths, which the same notation can address'
+  - id: later-call8
+    type: sticky
+    updated: [2026-11-16T05:00:00.000Z, agent:lead]
+    box: [7795, -700, 270, pink]
+    text: "Call 8, deferred (Vova): random worlds keep the probe's envelope (knee 6, slope 2) for now. Earth's log-bin envelope (5.3, 2.136) stays the lead's pick and waits with C4 and the #2–#6 re-shoot; the three side by side are bite 3's last card"
+  - id: later-fine-next
+    type: sticky
+    updated: [2026-11-16T05:00:00.000Z, agent:lead]
+    box: [8085, -700, 270, orange]
+    text: "Next approach, once stretch 3 is in main (Vova): ripples, wind and ground relief move into nature as .wgsl (#288's second five-percent), then the 256 m repeat is broken there — several tables at unrelated periods mixed by place, a layer varying over kilometres — so the cube gets the fix as well"
+  - id: later-fine-deferred
+    type: sticky
+    updated: [2026-11-16T05:00:00.000Z, agent:lead]
+    box: [8375, -700, 240, yellow]
+    text: "Deferred (Vova): the swell's heading from the wind, with lee shores (#288's first five-percent); the fine look's speed, 7–14 fps on the M2 Pro; the swash's polygonal edge; far clouds slanting at the horizon"

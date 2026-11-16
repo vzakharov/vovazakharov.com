@@ -1,8 +1,11 @@
 // Generated from sea.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
+import { HASH, wgsl } from '@/gpu/shared/shader';
+
+import { WATER_LIGHT } from '@/nature/shared/water';
+
 import { SUN } from '@/cube/shared/cube-boundary';
-import { HASH, wgsl } from '@/cube/shared/shader';
 import { ISLAND_HEIGHT } from '@/cube/entities/island';
 
 import {
@@ -212,4 +215,5 @@ fn seaFragment(in: SeaVarying, @builtin(front_facing) above: bool) -> SeaOut {
   SEA_SURFACE_NUMBERS,
   SEA_TABLES,
   WATER_BODY,
+  WATER_LIGHT,
 );

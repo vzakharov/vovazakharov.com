@@ -1,7 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { crestOf, shoreClock, turnsAt, WAKE_AT } from '@/cube/entities/island';
+import { crestOf, turnsAt } from '@/nature/shared/swell';
+
+import { shoreClock, WAKE_AT } from '@/cube/entities/island';
 import type { Pose } from '@/cube/entities/world';
 
 import { heardFrom, SOUNDING_ISLAND } from './island';

@@ -1,4 +1,4 @@
-import type { Vec2 } from '@/cube/shared/lib/vec';
+import type { Vec2 } from '@/scene/shared/lib/vec2';
 
 import type { Scene } from './mix';
 import { coastOf, type Sea } from './shore';

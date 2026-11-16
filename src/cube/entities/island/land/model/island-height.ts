@@ -1,4 +1,5 @@
-import type { Vec2 } from '@/cube/shared/lib/vec';
+import type { Vec2 } from '@/scene/shared/lib/vec2';
+
 import { f32, wgsl } from '@/cube/shared/shader';
 
 import { ISLAND_EASE } from './island-ease.shader.generated';

@@ -14,6 +14,7 @@ export {
   STILL,
   withHeading,
   withHeight,
+  withLook,
 } from './model/eye';
 export { lookHint } from './model/look-hint';
 export {

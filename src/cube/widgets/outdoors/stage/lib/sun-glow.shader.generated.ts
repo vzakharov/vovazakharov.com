@@ -1,8 +1,9 @@
 // Generated from sun-glow.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
+import { wgsl } from '@/gpu/shared/shader';
+
 import { SUN } from '@/cube/shared/cube-boundary';
-import { wgsl } from '@/cube/shared/shader';
 
 import { CLEAR_SKY } from './clear-sky.shader.generated';
 import { CLEAR_SKY_FIT } from './clear-sky-fit';

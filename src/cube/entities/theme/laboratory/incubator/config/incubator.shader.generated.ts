@@ -1,7 +1,7 @@
 // Generated from incubator.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { HASH, wgsl } from '@/cube/shared/shader';
+import { HASH, wgsl } from '@/gpu/shared/shader';
 
 import { CORE, GRADE, LIGHT, LUMA, SCENE, STUFF } from '../../../kit';
 

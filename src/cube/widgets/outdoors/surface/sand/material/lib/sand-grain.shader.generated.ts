@@ -1,7 +1,8 @@
 // Generated from sand-grain.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { HASH, wgsl } from '@/cube/shared/shader';
+import { HASH, wgsl } from '@/gpu/shared/shader';
+
 import { ISLAND_EASE } from '@/cube/entities/island';
 
 import { SAND_RELIEF, SAND_RELIEF_NUMBERS, SAND_SALT } from '../../../beach';
