@@ -1,0 +1,110 @@
+{
+  "total": {
+    "inputTokens": 21,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 61134,
+    "cacheReadTokens": 1030252,
+    "outputTokens": 3363,
+    "thinkingTokens": 496,
+    "responses": 10,
+    "costUsd": 0.7624664000000001
+  },
+  "estimate": {
+    "at": "2026-11-16T02:19:46.617Z",
+    "subjectLine": "chore: pick up the parked portals run",
+    "parts": [
+      {
+        "hours": 0.25,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "re-attaching a parked carte-blanche run means reading its summary and plan and restoring its watches before anyone steers it"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-16T02:19:57.041Z",
+    "contextTokens": 115557,
+    "spend": {
+      "inputTokens": 19,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 60988,
+      "cacheReadTokens": 914843,
+      "outputTokens": 2507,
+      "thinkingTokens": 363,
+      "responses": 9,
+      "costUsd": 0.7210886000000001
+    }
+  },
+  "sessionId": "1894f6de-22a1-56b5-8f19-ff5a6289974d",
+  "branch": "claude/cube-board-portal-forks-ilv09n",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cube-board-portal-forks-ilv09n — порталы на превью, обе правки двери готовы, vet зелёный, PR черновик",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkD2Jef2LfQfSkmG6kP",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-16T02:19:02.109Z",
+  "lastResponseAt": "2026-11-16T02:19:57.041Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 21,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 61134,
+    "cacheReadTokens": 1030252,
+    "outputTokens": 3363,
+    "thinkingTokens": 496,
+    "responses": 10,
+    "costUsd": 0.7624664000000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 21,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 61134,
+      "cacheReadTokens": 1030252,
+      "outputTokens": 3363,
+      "thinkingTokens": 496,
+      "responses": 10,
+      "costUsd": 0.7624664000000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 10,
+    "matched": 10,
+    "matchedTableUsd": 0.7624664000000001,
+    "matchedEventUsd": 0.7624664000000001,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 32,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 431,
+    ".txt": 295,
+    ".json": 2,
+    ".scss": 11,
+    ".ts": 2708,
+    ".yaml": 477,
+    ".tsx": 8,
+    ".wgsl": 27
+  }
+}
