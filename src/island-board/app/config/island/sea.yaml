@@ -2,7 +2,7 @@ items:
   - id: z-sea
     type: zone
     updated: [2026-11-15T21:45:00.000Z, agent:lead]
-    box: [7900, 260, 1150, 5100, blue]
+    box: [7900, 260, 1150, 6440, blue]
     text: 'The sea — near ground as the cube draws it outside'
   - id: sea-before
     type: image
@@ -147,3 +147,35 @@ items:
     updated: [2026-11-15T23:55:00.000Z, agent:lead]
     box: [8660, 5110, 330, blue]
     text: "Merged into stretch 3 as #288. The cube's sea moved out to a shared app, nature, and its shader kit to scene. Two optional /five-percent calls wait for Vova on the PR: the swell's heading from the wind, and ripples, wind and relief into nature as WGSL"
+  - id: sea-moon-descent
+    type: image
+    updated: [2026-11-16T03:30:00.000Z, agent:lead]
+    box: [7940, 5420, 1070]
+    src: images/sea-moon-descent.webp
+    text: "Vova's descent into a moonlit evening on the sea's build, 16 s: orbit; ~800 km, the clouds a grain of single pixels; the deck from above; inside it, all grey; the coast under the moon at ~4 km; the beach at 2 m. Video: https://github.com/vzakharov/vovazakharov.com/releases/download/island-timelapse/descent-2026-11-16-moon-night.mp4"
+  - id: sea-moon-seen
+    type: sticky
+    updated: [2026-11-16T03:30:00.000Z, agent:lead]
+    box: [7940, 5900, 330, pink]
+    text: 'Seen in it: from a few hundred km the clouds break into a sparkle finer than the screen; passing through the deck the whole view is one flat grey for about a second'
+  - id: sea-frame-ms
+    type: image
+    updated: [2026-11-16T03:30:00.000Z, agent:lead]
+    box: [7940, 6200, 1070]
+    src: images/sea-frame-ms.webp
+    text: 'The same descent with the I panel, 19 s: at orbit, at ~820 km, at 2 m. Video: https://github.com/vzakharov/vovazakharov.com/releases/download/island-timelapse/descent-2026-11-16-moon-night-hud.mp4'
+  - id: sea-fps
+    type: sticky
+    updated: [2026-11-16T03:30:00.000Z, agent:lead]
+    box: [7940, 6380, 330, yellow]
+    text: "Frame time on Vova's M2 Pro, near full screen, against 16.7 ms for 60 fps: 66–76 ms at orbit (~14 fps); 94–212 ms on the way down, worst at ~820 km; 139–146 ms at 2 m (~7 fps). Two tiles already cost 66 ms, so the price is per pixel — clouds and haze on every surface, the sea shaded under the land — read from the shaders, not profiled"
+  - id: sea-fps-call
+    type: sticky
+    updated: [2026-11-16T03:30:00.000Z, agent:lead]
+    box: [8300, 6380, 330, orange]
+    text: "Vova: not fixed in this approach — the week's limits just reset and Fable is too dear before Wednesday. Asked instead whether the old look can stay, the new one behind a key: descend, press, admire, switch off. It can: the old look is intact underneath, and the toggle is ~4–5 files. Settled: the old look by default, a key turns the new one on and off. No cloudless middle: the clouds are the best of the lot — cotton-wool bits from near orbit, but beautiful from the ground"
+  - id: sea-gpu
+    type: sticky
+    updated: [2026-11-16T03:30:00.000Z, agent:lead]
+    box: [8660, 6380, 330, blue]
+    text: "The WGSL kit left scene for an app of its own, gpu (62b59de6): the cube's floors, lenses and passes use it without nature, so nature stays nature"
