@@ -196,6 +196,13 @@ the bite in hand. The text it held before the board took over is in git
   worlds #0 Earth and #1 ours re-fitted; three tile workers.
 - **Cut 2** — #286 squashed into `main` as 4d5ef08b: the round world live at
   `/island`. `island/stretch-3` (#287) starts off it.
+- **The sea, and the near ground as the cube draws it** — run on Fable by
+  `/carte-blanche`, record `docs/plans/island-sea.completed.md`; #288 merged
+  into `island/stretch-3` as 75376755. The cube's sea moved to the shared app
+  `nature`, its shader kit to `scene`; ripples on a 64-wave table, swell and
+  swash, an analytic sky with eye adaptation, sub-mesh relief, clouds. Left
+  open: the swash edge is polygonal, far clouds slant at the horizon, 60 fps on
+  the M2 Pro unmeasured, and two optional `/five-percent` calls on #288.
 
 ## Waiting on the operator
 
@@ -205,19 +212,8 @@ step"), less the world-number fork, which bite 2 settles.
 
 ## Open bites
 
-- **The sea, and the near ground as the cube draws it** — a session on Fable
-  running `/carte-blanche` on `island/sea`, its one PR into `island/stretch-3`
-  («давай мерджить и запускать на фейбле /carte-blanche»). Vova's brief: «на
-  ближнем приближении должно быть как снаружи куба, при этом как-то всё это
-  сделать так чтобы компьютер не сдох всё отрисовывать (на кубе, например,
-  нещадно тормозит и пришлось делать "drowsy" -- тут этого не хочется). при этом
-  как совмещать воксели three с тем что у нас снаружи куба я тоже без понятия,
-  возможно придётся вообще-всё переписывать». The cube's island floor
-  (`src/cube/entities/island/`) is the source: swell, water level, wet shore,
-  surf cusps. Bite 3's leftovers ride with it where they touch: the blue flashes
-  over new ground from high up (a stand-in pushed 3% deeper falls behind the
-  ocean globe above ~50 km; the board's `bite3-flicker-left`), call 8, C4, the
-  #2–#6 re-shoot, the Gulf islet, the moiré.
+- **Bite 3's leftovers** — call 8 (the lead recommends Earth with log bins),
+  which gates C4 and the #2–#6 re-shoot; the moiré.
 
 ## Next bites
 
