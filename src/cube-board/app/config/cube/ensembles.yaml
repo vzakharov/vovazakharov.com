@@ -25,10 +25,10 @@ items:
     text: 'Two cycles out of step. Themes go by 6: floor n is in ensemble (n − 1) mod 6. Portals peak at 7: the likeliest jump is 7 floors, and 7 is 1 mod 6, so it lands in the next ensemble, the next chapter. A third of all jumps do; the rest skip chapters or stay in one, so the life comes out of order'
   - id: en-cost
     type: sticky
-    updated: [2026-11-16T16:18:00.000Z, agent:cube]
+    updated: [2026-11-16T20:04:00.000Z, agent:cube]
     box: [11878, 4600, 440, blue]
     icon: ⏳
-    text: 'The walk down to each of the first portal floors, alone and with a map: ↘6 at once, ↘7 5 min, ↘8 52 min, ↘9 5 h, ↘10 a day (66’s remainder mod 7), ↘11 5.5 days, ↘12 30 days. Each opens onto the floors below in every column, so the walk buys a starting column, not a closed network'
+    text: 'The walk down to each of the first portal floors, alone and with a map: ↘6 at once, ↘7 5 min, ↘8 52 min, ↘9 5 h, ↘10 a day (66’s remainder mod 7), ↘11 5.5 days, ↘12 30 days. Each opens onto the floors below in every column, so the walk buys a starting column'
   - id: en-pinned
     type: sticky
     updated: [2026-11-16T16:15:28.000Z, agent:cube]
