@@ -1,0 +1,92 @@
+{
+  "total": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 57051,
+    "cacheReadTokens": 736714,
+    "outputTokens": 3145,
+    "thinkingTokens": 406,
+    "responses": 8,
+    "costUsd": 0.6667148
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-16T02:26:06.491Z",
+    "contextTokens": 102286,
+    "spend": {
+      "inputTokens": 14,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 56843,
+      "cacheReadTokens": 634638,
+      "outputTokens": 2680,
+      "thinkingTokens": 406,
+      "responses": 7,
+      "costUsd": 0.6353276000000001
+    }
+  },
+  "sessionId": "36a37f9f-1413-4387-a236-c03a523f8a2e",
+  "branch": "claude/cube-board-portal-forks-ilv09n",
+  "cwd": "/Users/vova/Documents/GitHub/vovazakharov.com",
+  "openingPrompt": "/from-branch claude/cube-board-portal-forks-ilv09n",
+  "prs": [],
+  "url": null,
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-16T02:22:59.363Z",
+  "lastResponseAt": "2026-11-16T02:26:06.491Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 57051,
+    "cacheReadTokens": 736714,
+    "outputTokens": 3145,
+    "thinkingTokens": 406,
+    "responses": 8,
+    "costUsd": 0.6667148
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 57051,
+      "cacheReadTokens": 736714,
+      "outputTokens": 3145,
+      "thinkingTokens": 406,
+      "responses": 8,
+      "costUsd": 0.6667148
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": null,
+  "operatorWords": {
+    "chat": 51,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 431,
+    ".txt": 295,
+    ".json": 2,
+    ".scss": 11,
+    ".ts": 2708,
+    ".yaml": 477,
+    ".tsx": 8,
+    ".wgsl": 27
+  }
+}
