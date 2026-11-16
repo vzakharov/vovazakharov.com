@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 3291,
-    "cacheWrite5mTokens": 126772,
-    "cacheWrite1hTokens": 253437,
-    "cacheReadTokens": 27116022,
-    "outputTokens": 74454,
-    "thinkingTokens": 24390,
-    "responses": 135,
-    "costUsd": 9.602524399999995
+    "inputTokens": 6112,
+    "cacheWrite5mTokens": 127556,
+    "cacheWrite1hTokens": 356044,
+    "cacheReadTokens": 38026923,
+    "outputTokens": 97695,
+    "thinkingTokens": 27801,
+    "responses": 175,
+    "costUsd": 13.086931599999994
   },
   "estimate": {
     "at": "2026-11-16T03:39:46.442Z",
@@ -66,18 +66,18 @@
   "url": "https://claude.ai/code/session_01DaohkDjg4mTXs4KaiFbuXq",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-16T03:00:09.288Z",
-  "lastResponseAt": "2026-11-16T04:02:46.318Z",
+  "lastResponseAt": "2026-11-16T04:20:31.454Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 219,
+    "inputTokens": 297,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 253437,
-    "cacheReadTokens": 24328965,
-    "outputTokens": 65900,
-    "thinkingTokens": 21653,
-    "responses": 112,
-    "costUsd": 8.212164999999997
+    "cacheWrite1hTokens": 356044,
+    "cacheReadTokens": 34578854,
+    "outputTokens": 80315,
+    "thinkingTokens": 25064,
+    "responses": 150,
+    "costUsd": 11.371610799999997
   },
   "subagents": {
     "inputTokens": 36,
@@ -91,38 +91,78 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 3291,
-      "cacheWrite5mTokens": 126772,
-      "cacheWrite1hTokens": 253437,
-      "cacheReadTokens": 27116022,
-      "outputTokens": 74454,
-      "thinkingTokens": 24390,
-      "responses": 135,
-      "costUsd": 9.602524399999995
+      "inputTokens": 6112,
+      "cacheWrite5mTokens": 127556,
+      "cacheWrite1hTokens": 356044,
+      "cacheReadTokens": 38026923,
+      "outputTokens": 97695,
+      "thinkingTokens": 27801,
+      "responses": 175,
+      "costUsd": 13.086931599999994
     }
   },
   "warnings": [],
-  "compactions": [],
+  "compactions": [
+    {
+      "at": "2026-11-16T04:19:42.735Z",
+      "trigger": "auto",
+      "compactedFrom": 350979,
+      "summaryChars": 16871,
+      "reorientation": {
+        "endedBy": "end_turn",
+        "endedOn": null,
+        "endedAt": "2026-11-16T04:20:31.454Z",
+        "contextTokens": 126877,
+        "spend": {
+          "inputTokens": 21,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 67365,
+          "cacheReadTokens": 1141607,
+          "outputTokens": 2008,
+          "thinkingTokens": 117,
+          "responses": 10,
+          "costUsd": 0.8074854000000001
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.2564858
+    }
+  ],
   "telemetry": {
-    "events": 135,
-    "matched": 129,
-    "matchedTableUsd": 9.277635799999995,
-    "matchedEventUsd": 9.277635799999995,
+    "events": 175,
+    "matched": 167,
+    "matchedTableUsd": 12.437081599999996,
+    "matchedEventUsd": 12.437081599999996,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 3036,
-        "cacheWrite5mTokens": 5240,
+        "inputTokens": 3542,
+        "cacheWrite5mTokens": 5689,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 1343323,
-        "outputTokens": 108,
+        "cacheReadTokens": 1656421,
+        "outputTokens": 120,
         "thinkingTokens": 0,
-        "responses": 6,
-        "costUsd": 0.32488859999999997
+        "responses": 7,
+        "costUsd": 0.39336419999999994
+      },
+      "compact": {
+        "inputTokens": 2237,
+        "cacheWrite5mTokens": 335,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 347914,
+        "outputTokens": 8814,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.2564858
       }
     }
   },
   "operatorWords": {
-    "chat": 327,
+    "chat": 333,
     "review": 0,
     "threads": 0
   },
@@ -132,9 +172,9 @@
     ".md": 17132,
     ".txt": 2356,
     ".py": 436,
-    ".ts": 2106,
+    ".ts": 2104,
     ".wgsl": 20,
-    ".yaml": 187,
+    ".yaml": 198,
     ".json": 3
   }
 }
