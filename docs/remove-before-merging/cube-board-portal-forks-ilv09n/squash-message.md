@@ -18,9 +18,15 @@ cannot be told from an ordinary door by its colour. The first portal
 on floor 6 carries an A4 sign: "SOME DOORS ARE MORE EQUAL THAN OTHERS".
 
 The cube board records the portal forks and what was decided on each,
-with frames of the real hub, and is re-laid so linked cards sit
-together, its lines drawn over the cards while a click on a card still
-selects it.
+with frames of the real hub and a proposal not yet in the game: themes
+as six chapters of one broken life, portals as seven networks by floor
+mod 7, so each jump lands a chapter on. It is re-laid so linked cards
+sit together, its lines drawn over the cards while a click on a card
+still selects it.
+
+/tend-prose now reads content as well as code prose, board cards and
+page copy included, and its polar-bear lens also looks for what the
+conversation ruled out before it reached the tree.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
