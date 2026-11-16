@@ -12,14 +12,27 @@
  *   pnpm film:island --seconds 30 --fps 30    # the fall's length and rate
  *   pnpm film:island --thumb-at 3000          # the still from 3 km up (default: 50 km)
  *   pnpm film:island --out tmp/descent        # frames and films there
+ *   pnpm film:island --world 2                # world #2's fall, files prefixed world2-
+ *
+ * The landing is a place on our world; on another the fall comes down over
+ * the same latitude and longitude, wherever that is on its land or sea.
  */
 
 import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { MAX_HEIGHT, MIN_HEIGHT } from '@/island/features/eye';
+import {
+  dot,
+  latLonToUnit,
+  scaled,
+  sum,
+  type Vec3,
+} from '@/island/shared/globe';
+import { ISLAND_OPENING, MAX_HEIGHT, MIN_HEIGHT } from '@/island/features/eye';
 
+import { degreesToUnit, unitToDegrees } from './lib/azimuthal';
+import { INLET_BEACH } from './lib/places';
 import {
   buildExport,
   call,
@@ -28,6 +41,8 @@ import {
   settle,
   shoot,
   VOVA_EXPORT,
+  worldArgument,
+  worldPrefix,
 } from './lib/play-tab';
 
 import { flag } from '@/kernel/scripts/lib/argv';
@@ -43,6 +58,7 @@ const FPS = Number(flag('fps') ?? 30);
 const THUMB_AT = Number(flag('thumb-at') ?? 50_000);
 /** Still frames at orbit before the fall and at the ground after it. */
 const HOLD_SECONDS = 1;
+const WORLD = worldArgument();
 
 /**
  * 720p on the desktop and the phone at twice its density: the software
@@ -54,12 +70,14 @@ const SCREENS: readonly Screen[] = [
   { name: 'phone', width: 390, height: 844, ratio: 2, mobile: true },
 ];
 
-/** The plane point the eye lands over: the beach at the inlet's head, looking north along the water. */
-const LANDING = [499_000, 1_113_200] as const;
-/** The plane point under the eye at orbit: the island's centre. */
-const START = [0, 0] as const;
+/** Where the eye lands: the beach at the inlet's head, looking north along the water. */
+const LANDING = degreesToUnit(INLET_BEACH);
+/** Where the eye is at orbit: over the island's opening place. */
+const START = latLonToUnit(ISLAND_OPENING);
+/** The great-circle angle from `LANDING` to `START`. */
+const ARC = Math.acos(Math.min(1, dot(LANDING, START)));
 /**
- * How fast the eye closes on `LANDING` as it falls: the plane offset shrinks
+ * How fast the eye closes on `LANDING` as it falls: the arc left to it shrinks
  * as height to this power, so above 1 the landing drifts to the screen's
  * middle rather than holding still off it.
  */
@@ -68,16 +86,24 @@ const DRIFT_POWER = 1.4;
 /** Smoothstep's quintic: still at both ends, so the fall starts and stops gently. */
 const ease = (t: number) => t * t * t * (t * (t * 6 - 15) + 10);
 
-/** The eye `t` of the way through the fall, as plane `x`, `y` and height. */
+/** The point `share` of the way from `LANDING` to `START` along the great circle. */
+function towardStart(share: number): Vec3 {
+  if (ARC === 0) return LANDING;
+  const sin = Math.sin(ARC);
+  return sum(
+    scaled(LANDING, Math.sin((1 - share) * ARC) / sin),
+    scaled(START, Math.sin(share * ARC) / sin),
+  );
+}
+
+/** The eye `t` of the way through the fall, as latitude and longitude in degrees and height. */
 function descentAt(t: number): readonly [number, number, number] {
   const span = Math.log(MAX_HEIGHT / MIN_HEIGHT);
   const height = MAX_HEIGHT * Math.exp(-span * ease(t));
-  const drift = (height / MAX_HEIGHT) ** DRIFT_POWER;
-  return [
-    LANDING[0] + (START[0] - LANDING[0]) * drift,
-    LANDING[1] + (START[1] - LANDING[1]) * drift,
-    height,
-  ];
+  const { lat, lon } = unitToDegrees(
+    towardStart((height / MAX_HEIGHT) ** DRIFT_POWER),
+  );
+  return [lat, lon, height];
 }
 
 /** Each frame's `t`: a hold at 0, the fall, a hold at 1. */
@@ -108,10 +134,11 @@ async function film(
   screen: Screen,
   errors: string[],
 ): Promise<void> {
-  const frames = path.join(DIR, `${screen.name}-frames`);
+  const name = `${worldPrefix(WORLD)}${screen.name}`;
+  const frames = path.join(DIR, `${name}-frames`);
   fs.rmSync(frames, { recursive: true, force: true });
   fs.mkdirSync(frames, { recursive: true });
-  const tab = await openPlay(browser, origin, screen, errors);
+  const tab = await openPlay(browser, origin, screen, errors, WORLD);
   const ts = timeline();
   const thumb = ts.findIndex((t) => descentAt(t)[2] <= THUMB_AT);
   const started = Date.now();
@@ -119,8 +146,8 @@ async function film(
     const shootFrom = async (i: number): Promise<void> => {
       const t = ts[i];
       if (t === undefined) return;
-      const [x, y, m] = descentAt(t);
-      await settle(tab, call('moveTo', x, y, m), `frame ${String(i)}`);
+      const [lat, lon, m] = descentAt(t);
+      await settle(tab, call('moveTo', lat, lon, m), `frame ${String(i)}`);
       // One drawn frame per video frame, the clock advanced by the video's.
       await shoot(
         tab,
@@ -143,7 +170,7 @@ async function film(
     });
   }
   if (errors.length > 0) return;
-  const mp4 = path.join(DIR, `${screen.name}.mp4`);
+  const mp4 = path.join(DIR, `${name}.mp4`);
   ffmpeg(
     [
       ['-framerate', String(FPS)],
@@ -159,7 +186,7 @@ async function film(
     [
       ['-i', path.join(frames, `${String(thumb).padStart(5, '0')}.png`)],
       ['-quality', '90'],
-      [path.join(DIR, `${screen.name}-thumb.webp`)],
+      [path.join(DIR, `${name}-thumb.webp`)],
     ].flat(),
   );
   process.stdout.write(

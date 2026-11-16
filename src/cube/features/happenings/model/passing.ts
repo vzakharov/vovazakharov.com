@@ -1,4 +1,5 @@
-import { lerp, ramp, smooth } from '@/cube/shared/lib/ease';
+import { lerp, ramp, smooth } from '@/scene/shared/lib/ease';
+
 import {
   cross,
   plus,

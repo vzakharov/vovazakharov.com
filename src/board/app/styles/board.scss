@@ -329,16 +329,17 @@ body:not(.editing) #stage {
   display: none;
 }
 
+// `--weight` is the line's `weight`, which `renderLines` sets only where given.
 .line .stroke {
   fill: none;
   stroke: var(--pencil);
-  stroke-width: 4;
+  stroke-width: calc(4px * var(--weight, 1));
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
 .line .stroke.echo {
-  stroke-width: 1.6;
+  stroke-width: calc(1.6px * var(--weight, 1));
   opacity: 0.45;
 }
 
@@ -349,7 +350,7 @@ body:not(.editing) #stage {
 .line .hit {
   fill: none;
   stroke: transparent;
-  stroke-width: 14;
+  stroke-width: calc(14px * var(--weight, 1));
   pointer-events: stroke;
 }
 

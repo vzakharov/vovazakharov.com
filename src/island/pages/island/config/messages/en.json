@@ -7,15 +7,37 @@
       { "keys": "W S", "does": "forward, back" },
       { "keys": "A D", "does": "sideways" },
       { "keys": "← →", "does": "turn" },
-      { "keys": "↑ ↓", "does": "climb, descend" },
+      { "keys": "↑ ↓", "does": "look up, down" },
+      { "keys": "E Q", "does": "climb, descend" },
       { "keys": "Drag", "does": "move" },
-      { "keys": "Right-drag", "does": "turn" },
-      { "keys": "Wheel", "does": "climb, descend" }
+      { "keys": "Right-drag", "does": "turn, look up and down" },
+      { "keys": "Wheel", "does": "climb, descend" },
+      { "keys": "[ ]", "does": "time back, forward (Shift: faster)" },
+      { "keys": "T", "does": "run, pause time" },
+      { "keys": "B", "does": "sky, clouds, a living sea (heavy)" },
+      { "keys": "I", "does": "diagnostics, and a link to this view" }
     ],
     "touch": [
       { "keys": "Drag", "does": "move" },
       { "keys": "Pinch", "does": "climb, descend" },
-      { "keys": "Twist", "does": "turn" }
+      { "keys": "Twist", "does": "turn" },
+      { "keys": "Two-finger drag", "does": "look up, down" }
     ]
+  },
+  "diagnostics": {
+    "label": "Diagnostics",
+    "copy": "Copy a link to this view",
+    "copied": "Link copied",
+    "failed": "Couldn't copy the link; here it is to copy by hand:"
+  },
+  "look": {
+    "up": {
+      "keys": "Press ↑ to look up",
+      "touch": "Drag two fingers up to look up"
+    },
+    "down": {
+      "keys": "Press ↓ to look down",
+      "touch": "Drag two fingers down to look down"
+    }
   }
 }

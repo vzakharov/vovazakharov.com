@@ -1,8 +1,8 @@
+import { lerp, ramp, smooth } from '@/scene/shared/lib/ease';
 import type { Scaling } from '@/scene/shared/lib/plane';
 
 import type { Box } from '@/cube/shared/cube-boundary';
 import type { Ground } from '@/cube/shared/lib/acoustics';
-import { lerp, ramp, smooth } from '@/cube/shared/lib/ease';
 import { ROOM_METRES } from '@/cube/shared/lib/room-shape';
 import type { Gazing, Outside, Vec3 } from '@/cube/entities/world';
 

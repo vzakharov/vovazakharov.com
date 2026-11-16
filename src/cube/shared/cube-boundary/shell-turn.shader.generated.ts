@@ -1,7 +1,8 @@
 // Generated from shell-turn.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { wgsl } from '../shader/wgsl';
+import { wgsl } from '@/gpu/shared/shader/wgsl';
+
 import { TURN_NUMBERS } from './turn';
 
 export const SHELL_TURN = wgsl(

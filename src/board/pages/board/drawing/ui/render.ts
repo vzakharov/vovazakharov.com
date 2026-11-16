@@ -6,7 +6,7 @@
 import type { Item, PlacedItem } from '@/board/entities/item';
 
 import { centreOf, edgePoint, type Rect } from '../../camera/index.ts';
-import { handStroke, jitter, tiltOf } from '../lib/hand.ts';
+import { handStroke, jitter, tiltOf, weightOf } from '../lib/hand.ts';
 import { linkRuns } from '../lib/links.ts';
 
 export type LineItem = Extract<Item, { kind: 'line' }>;
@@ -225,11 +225,20 @@ export function renderLines(
     const { d, mid } = handStroke(a, b, line);
     const { d: echo } = handStroke(a, b, line, 1);
     const dashed = line.dashed === true ? ' dashed' : '';
+<<<<<<< HEAD
     const lineGroup = { class: 'line', 'data-id': line.id };
     const hit = svg('g', lineGroup);
     hit.append(svg('path', { d, class: 'hit' }));
     hits.push(hit);
     const group = svg('g', lineGroup);
+=======
+    const group = svg('g', { class: 'line', 'data-id': line.id });
+    const weight = weightOf(line);
+    // The stylesheet multiplies every stroke width by it; the arrowhead, sized
+    // in stroke widths, follows.
+    if (line.weight !== undefined)
+      group.style.setProperty('--weight', String(weight));
+>>>>>>> origin/main
     group.append(
       svg('path', {
         d: echo,
@@ -244,7 +253,7 @@ export function renderLines(
     if (line.label !== undefined && line.label !== '') {
       const label = svg('text', {
         x: String(mid.x),
-        y: String(mid.y - 12),
+        y: String(mid.y - 12 * weight),
         class: 'label',
         transform: `rotate(${tiltOf(line.id, 'sticky')} ${mid.x} ${mid.y})`,
       });

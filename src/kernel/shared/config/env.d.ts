@@ -13,6 +13,8 @@ declare namespace NodeJS {
     NEXT_PUBLIC_SITE?: string;
     /** Set by `src/mushrooms/scripts/play-mushrooms.ts` for the build it plays. */
     NEXT_PUBLIC_MUSHROOM_PROBE?: string;
+    /** The commit vovazakharov.com's build is of, set by its `next.config.ts`. */
+    NEXT_PUBLIC_COMMIT?: string;
     /** `1` lists hidden documents under `next dev`; see `isListed`. */
     SHOW_HIDDEN?: string;
   }

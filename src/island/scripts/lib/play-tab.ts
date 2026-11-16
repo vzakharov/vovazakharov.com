@@ -13,13 +13,16 @@ import { z } from 'zod';
 
 import type { Named, Sized } from '@/kernel/shared/typings';
 
+import { isWorldNumber } from '@/dice/shared/roll';
+
 import {
   type IslandPlayHook,
   PLAY_HOOK,
   PLAY_QUERY,
 } from '@/island/shared/play';
+import { OUR_WORLD } from '@/island/entities/terrain';
 
-import { given } from '@/kernel/scripts/lib/argv';
+import { flag, given } from '@/kernel/scripts/lib/argv';
 import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 import { type Browser, openTab, type Tab } from '@/scene/scripts/lib/cdp';
 import { watchPageErrors } from '@/scene/scripts/lib/page-errors';
@@ -36,6 +39,23 @@ export function buildExport(): void {
   });
   if (built.status !== 0) throw new Error('The vova build failed');
 }
+
+/** The world the run plays, from `--world <N>`: ours when not given. */
+export function worldArgument(): string {
+  const world = flag('world') ?? OUR_WORLD;
+  if (!isWorldNumber(world)) {
+    throw new Error(`Not a world number: ${JSON.stringify(world)}`);
+  }
+  return world;
+}
+
+/** The prefix a run's files take for `world`: none for ours, so its frames keep their names. */
+export const worldPrefix = (world: string): string =>
+  world === OUR_WORLD ? '' : `world${world}-`;
+
+/** `/island?play`, on `world`'s hash unless it is ours, which needs none. */
+const playPath = (world: string) =>
+  `/island?${PLAY_QUERY}${world === OUR_WORLD ? '' : `#${world}`}`;
 
 const POLL_MS = 250;
 /** One frame of the page's seeded clock at 60 fps. */
@@ -99,15 +119,18 @@ export async function settle(
 }
 
 /**
- * Opens `/island?play` on `screen`, reporting page errors to `errors`, and
- * resolves once the hook's `ready()` has: the scene has drawn its first frame.
+ * Opens `/island?play` on `screen` and world `world`, reporting page errors
+ * to `errors`, and resolves once the hook's `ready()` has: the scene has drawn
+ * its first frame.
  */
 export async function openPlay(
   browser: Browser,
   origin: string,
   screen: Screen,
   errors: string[],
+  world: string,
 ): Promise<Tab> {
+  const page = playPath(world);
   const report = (message: string) => {
     errors.push(`${screen.name}: ${message}`);
   };
@@ -126,33 +149,40 @@ export async function openPlay(
       maxTouchPoints: 5,
     });
   }
-  await tab.send('Page.navigate', { url: `${origin}/island?${PLAY_QUERY}` });
+  await tab.send('Page.navigate', { url: `${origin}${page}` });
   await until(
     tab,
     `document.readyState === 'complete'`,
-    `/island?${PLAY_QUERY} never finished loading`,
+    `${page} never finished loading`,
     Date.now() + HOOK_TIMEOUT_MS,
   );
   await until(
     tab,
     `typeof ${hook}?.ready === 'function'`,
-    `/island?${PLAY_QUERY} exposes no ${hook} ${String(HOOK_TIMEOUT_MS / 1000)} s after loading — the page installs no play hook (IslandPlayHook, @/island/shared/play)`,
+    `${page} exposes no ${hook} ${String(HOOK_TIMEOUT_MS / 1000)} s after loading — the page installs no play hook (IslandPlayHook, @/island/shared/play)`,
     Date.now() + HOOK_TIMEOUT_MS,
   );
   await settle(tab, call('ready'), 'ready()');
   return tab;
 }
 
-/** Steps the seeded clock `frames` frames of `ms` each, then writes a PNG of the screen to `file`. */
+/**
+ * Steps the seeded clock `frames` frames of `ms` each, then writes a PNG of the
+ * screen to `file`. An animation frame passes before the last step: three's
+ * lights update once per animation frame, so a render in the task that moved
+ * the time would draw the shot lit by the sun of before.
+ */
 export async function shoot(
   tab: Tab,
   frames: number,
   file: string,
   ms = FRAME_MS,
 ): Promise<void> {
+  const step = call('step', ms);
   await tab.evaluate(
-    `(() => { for (let i = 0; i < ${String(frames)}; i += 1) ${call('step', ms)}; return true; })()`,
+    `(async () => { for (let i = 1; i < ${String(frames)}; i += 1) ${step}; await new Promise(requestAnimationFrame); if (${String(frames)} > 0) ${step}; return true; })()`,
     z.boolean(),
+    { awaitPromise: true },
   );
   const { data } = z
     .object({ data: z.string() })

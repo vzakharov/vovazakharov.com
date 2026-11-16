@@ -1,0 +1,54 @@
+items:
+  - id: z-sea-looks
+    type: zone
+    updated: [2026-11-16T04:40:00.000Z, agent:lead]
+    box: [10300, 520, 1150, 2230, blue]
+    text: The sea, 3 — a moonlit descent, the frame time, two looks
+  - id: sea-moon-descent
+    type: image
+    updated: [2026-11-16T04:40:00.000Z, agent:lead]
+    box: [10340, 590, 1070]
+    src: images/sea-moon-descent.webp
+    text: "Vova's moonlit descent re-shot at the places its recording names (18:40, heading 112°, look +15°), 2560×1600 on WebGPU: 20,000 km, 2,300 km, 820 km, 34 km; 10.6 km, 4.4 km, 560 m, 2 m. At 2,300 and 820 km the clouds break into a grain finer than the screen. His video: https://github.com/vzakharov/vovazakharov.com/releases/download/island-timelapse/descent-2026-11-16-moon-night.mp4"
+  - id: sea-moon-seen
+    type: sticky
+    updated: [2026-11-16T04:40:00.000Z, agent:lead]
+    box: [10340, 1070, 330, pink]
+    text: 'Seen in it: from a few hundred km the clouds break into a sparkle finer than the screen; passing through the deck the whole view is one flat grey for about a second'
+  - id: sea-frame-ms
+    type: image
+    updated: [2026-11-16T04:40:00.000Z, agent:lead]
+    box: [10340, 1370, 1070]
+    src: images/sea-frame-ms.webp
+    text: 'The same descent with the I panel, 19 s: at orbit, at ~820 km, at 2 m. Video: https://github.com/vzakharov/vovazakharov.com/releases/download/island-timelapse/descent-2026-11-16-moon-night-hud.mp4'
+  - id: sea-fps
+    type: sticky
+    updated: [2026-11-16T04:40:00.000Z, agent:lead]
+    box: [10340, 1550, 330, yellow]
+    text: "Frame time on Vova's M2 Pro, near full screen, against 16.7 ms for 60 fps: 66–76 ms at orbit (~14 fps); 94–212 ms on the way down, worst at ~820 km; 139–146 ms at 2 m (~7 fps). Two tiles already cost 66 ms, so the price is per pixel — clouds and haze on every surface, the sea shaded under the land — read from the shaders, not profiled"
+  - id: sea-fps-call
+    type: sticky
+    updated: [2026-11-16T04:40:00.000Z, agent:lead]
+    box: [10700, 1550, 330, orange]
+    text: "Vova: not fixed in this approach — the week's limits just reset and Fable is too dear before Wednesday. Asked instead whether the old look can stay, the new one behind a key: descend, press, admire, switch off. It can: the old look is intact underneath, and the toggle is ~4–5 files. Settled: the old look by default, a key turns the new one on and off. No cloudless middle: the clouds are the best of the lot — cotton-wool bits from near orbit, but beautiful from the ground"
+  - id: sea-gpu
+    type: sticky
+    updated: [2026-11-16T04:40:00.000Z, agent:lead]
+    box: [11060, 1550, 330, blue]
+    text: "The WGSL kit left scene for an app of its own, gpu (62b59de6): the cube's floors, lenses and passes use it without nature, so nature stays nature"
+  - id: sea-repeat
+    type: sticky
+    updated: [2026-11-16T04:40:00.000Z, agent:lead]
+    box: [10340, 1870, 330, pink]
+    text: 'Vova on the ground and the sea: the pattern visibly repeats, and apart from the surf and the glints there is almost no sense of a real place. The repeat is built in rather than left unfinished: ripples and ground relief both read one table of 64 waves over a 256 m period, chosen so float32 holds it seamlessly anywhere on the planet'
+  - id: sea-looks
+    type: image
+    updated: [2026-11-16T04:40:00.000Z, agent:lead]
+    box: [10340, 2190, 1070]
+    src: images/sea-looks.webp
+    text: 'The two looks at 4.4 km and at 2 m: plain, fine; plain, fine'
+  - id: sea-looks-how
+    type: sticky
+    updated: [2026-11-16T04:40:00.000Z, agent:lead]
+    box: [10340, 2390, 330, green]
+    text: The island opens in the plain look again — flat colours under the lamps, a sky of one colour — and B turns the fine one on and off (f192f583). Both keep the sun's colour through the air, so at dusk no slope facing a set sun glows (eb754e9e). On preview slot 1

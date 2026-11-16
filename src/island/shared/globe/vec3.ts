@@ -30,3 +30,7 @@ export const cross = (a: Vec3, b: Vec3): Vec3 => [
 export const length = (v: Vec3) => Math.hypot(v[0], v[1], v[2]);
 
 export const unit = (v: Vec3): Vec3 => scaled(v, 1 / length(v));
+
+/** Radians between two directions of any length but zero. */
+export const arc = (a: Vec3, b: Vec3) =>
+  Math.atan2(length(cross(a, b)), dot(a, b));

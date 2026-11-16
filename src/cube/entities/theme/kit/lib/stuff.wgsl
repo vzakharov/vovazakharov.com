@@ -2,7 +2,7 @@
 // draws its own walls, floor and ceiling and hands every other kind here.
 
 import super::core::{Surf, Material, toNearestSide, embossed, polished, matte, PLATE, HANDLE, METAL, WOOD, PLASTIC, FABRIC, GLASS, SCREEN, PAPER, FOLIAGE, RUBBER, SKIN};
-import package::cube::shared::shader::hash::{valueNoise, fbm, unitOf, hashOf, cellHash};
+import package::gpu::shared::shader::hash::{valueNoise, fbm, unitOf, hashOf, cellHash};
 
 /// The face's paint, or `fallback` where it carries none.
 fn painted(s: Surf, fallback: vec3f) -> vec3f {

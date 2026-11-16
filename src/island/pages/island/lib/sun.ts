@@ -1,21 +1,4 @@
-import { CENTRE, EAST, NORTH, type Vec3 } from '@/island/shared/globe';
-
 const DEGREE = Math.PI / 180;
-
-/**
- * Toward the sun, a world vector: `elevation` degrees over the island
- * centre's horizon, from `azimuth` degrees clockwise from north. The planet
- * keeps one sun, so every tile is lit from the same direction.
- */
-export function sunToward(elevation: number, azimuth: number): Vec3 {
-  const up = Math.sin(elevation * DEGREE);
-  const across = Math.cos(elevation * DEGREE);
-  const east = across * Math.sin(azimuth * DEGREE);
-  const north = across * Math.cos(azimuth * DEGREE);
-  const axis = (i: 0 | 1 | 2) =>
-    up * CENTRE[i] + east * EAST[i] + north * NORTH[i];
-  return [axis(0), axis(1), axis(2)];
-}
 
 /**
  * The intensity a directional light needs at `elevation` degrees to lay
@@ -24,3 +7,17 @@ export function sunToward(elevation: number, azimuth: number): Vec3 {
  */
 export const intensityFor = (irradiance: number, elevation: number): number =>
   irradiance / Math.sin(elevation * DEGREE);
+
+/** How much of the growth in level ground's light the eye lets through as the sun climbs. */
+export const CLIMB_KEPT = 0.25;
+
+/**
+ * What the eye keeps of a sun whose height's sine is `sine`, as it adapts to
+ * one higher than `elevation` degrees: all of it up to there, and above it
+ * enough that level ground brightens only by the `CLIMB_KEPT` power of what
+ * the sun lays on it, so a noon beach stays under white.
+ */
+export function eyeKeeps(sine: number, elevation: number): number {
+  const reference = Math.sin(elevation * DEGREE);
+  return (reference / Math.max(sine, reference)) ** (1 - CLIMB_KEPT);
+}
