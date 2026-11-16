@@ -1,0 +1,95 @@
+{
+  "total": {
+    "inputTokens": 65,
+    "cacheWrite5mTokens": 127674,
+    "cacheWrite1hTokens": 79379,
+    "cacheReadTokens": 3470275,
+    "outputTokens": 13353,
+    "thinkingTokens": 5769,
+    "responses": 33,
+    "costUsd": 2.2347770000000007
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-16T20:02:37.397Z",
+    "contextTokens": 110231,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 49069,
+      "cacheReadTokens": 452764,
+      "outputTokens": 1231,
+      "thinkingTokens": 190,
+      "responses": 5,
+      "costUsd": 0.5077728
+    }
+  },
+  "sessionId": "62746767-33ad-5cec-8f50-5bc640d8a904",
+  "branch": "claude/cube-jump-by-7-hka9n0",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/merge claude/cube-jump-by-7-hka9n0",
+  "prs": [
+    290
+  ],
+  "url": "https://claude.ai/code/session_01DaohkERjasenGL9Ecs42PA",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-16T20:02:18.897Z",
+  "lastResponseAt": "2026-11-16T20:04:55.644Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 23,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 79379,
+    "cacheReadTokens": 1135151,
+    "outputTokens": 2901,
+    "thinkingTokens": 706,
+    "responses": 11,
+    "costUsd": 0.9201742
+  },
+  "subagents": {
+    "inputTokens": 42,
+    "cacheWrite5mTokens": 127674,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 2335124,
+    "outputTokens": 10452,
+    "thinkingTokens": 5063,
+    "responses": 22,
+    "costUsd": 1.3146027999999994
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 65,
+      "cacheWrite5mTokens": 127674,
+      "cacheWrite1hTokens": 79379,
+      "cacheReadTokens": 3470275,
+      "outputTokens": 13353,
+      "thinkingTokens": 5769,
+      "responses": 33,
+      "costUsd": 2.2347770000000007
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 33,
+    "matched": 33,
+    "matchedTableUsd": 2.2347770000000007,
+    "matchedEventUsd": 2.2347770000000007,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 20,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 418,
+    ".yaml": 12,
+    ".ts": 196
+  }
+}
