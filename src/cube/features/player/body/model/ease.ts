@@ -1,4 +1,4 @@
-import { ramp, smooth } from '@/cube/shared/lib/ease';
+import { ramp, smooth } from '@/scene/shared/lib/ease';
 
 /** 0 up to `from`, 1 from `to` on, and a smooth rise with no kink between. */
 export const rise = (t: number, from: number, to: number): number =>

@@ -1,5 +1,5 @@
 /** Space at orbit, sRGB. */
-export const SPACE_COLOUR = 0x05_07_0c;
+export const SPACE_HEX = 0x05_07_0c;
 /** A pale day sky, sRGB. */
 export const DAY_COLOUR = 0xa9_cb_ee;
 /** A moonlit night sky, sRGB: dark, but a blue rather than space. */
@@ -32,5 +32,5 @@ export function skyColour(height: number, day: number): number {
     Math.log(SPACE_FROM / Math.max(1, height)) /
     Math.log(SPACE_FROM / DAY_FROM);
   const t = Math.min(1, Math.max(0, share));
-  return mixHex(SPACE_COLOUR, mixHex(NIGHT_COLOUR, DAY_COLOUR, day), t);
+  return mixHex(SPACE_HEX, mixHex(NIGHT_COLOUR, DAY_COLOUR, day), t);
 }

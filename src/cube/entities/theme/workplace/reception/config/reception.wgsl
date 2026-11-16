@@ -2,7 +2,7 @@
 // doorway, the panels switched off.
 
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, Surf, Material, polished, embossed};
-import package::cube::shared::shader::hash::{valueNoise, fbm, worley};
+import package::gpu::shared::shader::hash::{valueNoise, fbm, worley};
 import package::cube::entities::theme::kit::lib::finish::{band, plaster, tiling, damp};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::kit::lib::light::lampMask;

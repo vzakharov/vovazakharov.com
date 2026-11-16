@@ -1,0 +1,171 @@
+// Throwaway look at b3-seams: Vova's holes on a turn near the ground (#0 at ~520 m), shot the frame
+// the turn lands, a few frames on, and settled; and the static seam sweep.
+// `pnpm exec tsx tmp/look/seams.ts <turn|sweep|vova> [out-subdir]`; DIR=<export> serves another build.
+import fs from 'node:fs';
+import path from 'node:path';
+import { setTimeout as sleep } from 'node:timers/promises';
+import { z } from 'zod';
+
+import { call, hook, settle, shoot, VOVA_EXPORT } from '@/island/scripts/lib/play-tab';
+import { withPrintOrigin } from '@/kernel/scripts/lib/print-origin';
+import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
+import { type Browser, launch, openTab, type Tab } from '@/scene/scripts/lib/cdp';
+import { watchPageErrors } from '@/scene/scripts/lib/page-errors';
+
+const OUT = path.join(REPO_ROOT, 'docs/plans/world-game-zoltan-syama/bite-3/notes/b3-seams', process.argv[3] ?? '');
+const DATA = path.join(REPO_ROOT, 'tmp/look/data');
+fs.mkdirSync(OUT, { recursive: true });
+fs.mkdirSync(DATA, { recursive: true });
+const only = process.argv[2] ?? 'turn';
+const log = (s: string) => process.stdout.write(`${s}\n`);
+const errors: string[] = [];
+const W = Number(process.env.W ?? 1440);
+const H = Number(process.env.H ?? 900);
+
+const SPY = `(() => {
+  const Base = window.Worker;
+  const log = (window.__fills = []);
+  const idOf = (o) => [o.key.face, o.key.level, o.key.x, o.key.y].join('|');
+  window.Worker = class extends Base {
+    constructor(...a) {
+      super(...a);
+      this.addEventListener('message', (e) => {
+        const m = e.data;
+        if (m && m.kind === 'tile') log.push({ k: 'got', t: performance.now(), id: idOf(m.tile), level: m.tile.key.level });
+      });
+    }
+    postMessage(m, tr) {
+      if (m && m.kind === 'fill') log.push({ k: 'ask', t: performance.now(), id: idOf(m), level: m.key.level });
+      return super.postMessage(m, tr);
+    }
+  };
+})();`;
+
+async function poll(tab: Tab, expr: string, ms: number): Promise<void> {
+  const end = Date.now() + ms;
+  for (;;) {
+    if (await tab.evaluate(`(() => { try { return Boolean(${expr}); } catch { return false; } })()`, z.boolean())) return;
+    if (Date.now() > end) throw new Error(`timeout: ${expr}`);
+    await sleep(250);
+  }
+}
+
+async function playOpen(browser: Browser, origin: string, hash: string): Promise<Tab> {
+  const route = `/island?play${hash}`;
+  const tab = await openTab(browser, (m) => errors.push(`${route}: ${m}`));
+  await watchPageErrors(tab, (m) => errors.push(`${route}: ${m}`));
+  await tab.send('Emulation.setDeviceMetricsOverride', { width: W, height: H, deviceScaleFactor: 1, mobile: false });
+  await tab.send('Page.addScriptToEvaluateOnNewDocument', { source: SPY });
+  await tab.send('Page.navigate', { url: `${origin}${route}` });
+  await poll(tab, `document.readyState === 'complete'`, 30_000);
+  await poll(tab, `typeof ${hook}?.ready === 'function'`, 30_000);
+  await settle(tab, call('ready'), 'ready()');
+  return tab;
+}
+
+const done = async (browser: Browser, tab: Tab) => browser.send('Target.disposeBrowserContext', { browserContextId: tab.contextId });
+const DEG = Math.PI / 180;
+const counts = async (tab: Tab) =>
+  tab.evaluate(
+    `(() => { const f = window.__fills; return { ask: f.filter((x) => x.k === 'ask').length, got: f.filter((x) => x.k === 'got').length }; })()`,
+    z.object({ ask: z.number(), got: z.number() }),
+  );
+
+/** The screen as last rendered, with no step of its own. */
+async function snap(tab: Tab, file: string) {
+  const { data } = z.object({ data: z.string() }).parse(await tab.send('Page.captureScreenshot', { format: 'png' }));
+  fs.writeFileSync(file, Buffer.from(data, 'base64'));
+}
+
+/** Opens `hash`, settles, then turns by `steps` (degrees), shooting each turn at once, `LATE` ms on, and settled. */
+async function turn(browser: Browser, origin: string, name: string, hash: string, h: number, headings: readonly number[]) {
+  const t0 = Date.now();
+  const tab = await playOpen(browser, origin, hash);
+  await settle(tab, call('setHeight', h), 'open');
+  await shoot(tab, 2, path.join(OUT, `${name}-0-settled.png`));
+  log(`${name} open ${hash} ${JSON.stringify(await counts(tab))} (${((Date.now() - t0) / 1000).toFixed(0)} s)`);
+  for (const [i, deg] of headings.entries()) {
+    const before = await counts(tab);
+    // Fire the turn without waiting for its tiles: the frame drawn now is the one a player sees.
+    // The turn and its first frame in one task, so no tile can arrive between them.
+    // The canvas is read in the same task: a tile arriving later re-renders it once the turn's tiles are all in hand.
+    const atOnce = await tab.evaluate(
+      `(() => { window.__turn = ${call('turnTo', deg * DEG)}; ${call('step', 1000 / 60)}; const f = window.__fills; return { ask: f.filter((x) => x.k === 'ask').length, got: f.filter((x) => x.k === 'got').length, png: document.querySelector('canvas').toDataURL('image/png') }; })()`,
+      z.object({ ask: z.number(), got: z.number(), png: z.string() }),
+    );
+    const tag = `${name}-${String(i + 1)}-h${String(deg)}`;
+    fs.writeFileSync(path.join(OUT, `${tag}-a-at-once.png`), Buffer.from(atOnce.png.split(',')[1] ?? '', 'base64'));
+    const lates: string[] = [];
+    for (const ms of (process.env.LATE ?? '100,300').split(',').map(Number)) {
+      const late = await tab.evaluate(
+        `(async () => { await new Promise((r) => setTimeout(r, ${String(ms)})); ${call('step', 1000 / 60)}; const f = window.__fills; return { got: f.filter((x) => x.k === 'got').length, png: document.querySelector('canvas').toDataURL('image/png') }; })()`,
+        z.object({ got: z.number(), png: z.string() }),
+        { awaitPromise: true },
+      );
+      fs.writeFileSync(path.join(OUT, `${tag}-b-${String(ms)}ms.png`), Buffer.from(late.png.split(',')[1] ?? '', 'base64'));
+      lates.push(`+${String(ms)}ms ${String(late.got - before.got)}`);
+    }
+    await settle(tab, 'window.__turn', `turn ${String(deg)}`);
+    await shoot(tab, 2, path.join(OUT, `${tag}-c-settled.png`));
+    const after = await counts(tab);
+    log(`${tag}: got at once ${String(atOnce.got - before.got)}, ${lates.join(', ')}, settled ${String(after.got - before.got)} (asks ${String(after.ask - before.ask)})`);
+  }
+  fs.writeFileSync(path.join(DATA, `turn-${name}.json`), JSON.stringify(await tab.evaluate('window.__fills', z.unknown())));
+  await done(browser, tab);
+}
+
+/**
+ * A turn the way a player makes one: `n` steps of `dh` degrees, one frame each, `gap` ms apart, never
+ * waiting for tiles; then held still, a frame every 100 ms for `hold` ms. Every frame goes to tmp.
+ */
+async function spin(browser: Browser, origin: string, name: string, hash: string, h: number, h0: number) {
+  const n = Number(process.env.N ?? 30);
+  const dh = Number(process.env.DH ?? -3);
+  const gap = Number(process.env.GAP ?? 33);
+  const hold = Number(process.env.HOLD ?? 2000);
+  const tab = await playOpen(browser, origin, hash);
+  await settle(tab, call('setHeight', h), 'open');
+  const dir = path.join(REPO_ROOT, 'tmp/look/spin', name);
+  fs.mkdirSync(dir, { recursive: true });
+  const frames = await tab.evaluate(
+    `(async () => {
+      const out = []; const t0 = performance.now(); const f = window.__fills;
+      const grab = (tag) => { ${call('step', 1000 / 60)}; out.push({ tag, ms: Math.round(performance.now() - t0), ask: f.filter((x) => x.k === 'ask').length, got: f.filter((x) => x.k === 'got').length, png: document.querySelector('canvas').toDataURL('image/png') }); };
+      for (let i = 1; i <= ${String(n)}; i++) {
+        ${hook}.turnTo((${String(h0)} + i * ${String(dh)}) * Math.PI / 180).catch(() => {});
+        grab('turn' + String(i).padStart(2, '0'));
+        await new Promise((r) => setTimeout(r, ${String(gap)}));
+      }
+      for (let ms = 100; ms <= ${String(hold)}; ms += 100) { await new Promise((r) => setTimeout(r, 100)); grab('hold' + String(ms).padStart(4, '0')); }
+      return out;
+    })()`,
+    z.array(z.object({ tag: z.string(), ms: z.number(), ask: z.number(), got: z.number(), png: z.string() })),
+    { awaitPromise: true },
+  );
+  for (const fr of frames) {
+    fs.writeFileSync(path.join(dir, `${fr.tag}.png`), Buffer.from(fr.png.split(',')[1] ?? '', 'base64'));
+    log(`${fr.tag} ${String(fr.ms)} ms asks ${String(fr.ask)} got ${String(fr.got)}`);
+  }
+  await done(browser, tab);
+}
+
+async function main(): Promise<void> {
+  const dir = process.env.DIR ?? VOVA_EXPORT;
+  const browser = await launch();
+  try {
+    await withPrintOrigin({ serve: 'export', dir }, async (origin) => {
+      if (only === 'spin') {
+        await spin(browser, origin, process.env.NAME ?? 'calabria-546m', process.env.HASH ?? '#0@38.30756,15.90432,546,220.1,25.8,0.000', Number(process.env.HEIGHT ?? 546), Number(process.env.H0 ?? 220.1));
+      }
+      if (only === 'turn') {
+        const steps = (process.env.STEPS ?? '200,180,160,139').split(',').map(Number);
+        await turn(browser, origin, process.env.NAME ?? 'calabria-546m', process.env.HASH ?? '#0@38.30756,15.90432,546,220.1,25.8,0.000', Number(process.env.HEIGHT ?? 546), steps);
+      }
+    });
+  } finally {
+    await browser.close();
+    for (const e of errors) process.stderr.write(`ERR ${e}\n`);
+  }
+}
+
+await main();

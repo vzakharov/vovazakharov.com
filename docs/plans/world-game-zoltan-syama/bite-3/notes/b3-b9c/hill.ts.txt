@@ -1,0 +1,27 @@
+// Throwaway: world #2's relief around B8b's hills (−27, 45) — the 10 km spot with most height range
+// within ~10 km, and the leaf level under a 10 km eye there.
+import { heightAtSphere, openSphereWorld, sampleSphereField } from '@/island/entities/terrain';
+import { latLonToUnit, sphereToFace } from '@/island/shared/globe';
+
+const DEG = Math.PI / 180;
+const { field, seed } = await openSphereWorld('2');
+const coast = (q: readonly [number, number, number]) => sampleSphereField(field, q);
+const ground = (lat: number, lon: number) => heightAtSphere(coast, seed, latLonToUnit({ lat: lat * DEG, lon: lon * DEG }));
+const out = (s: string) => process.stdout.write(`${s}\n`);
+
+const found: Array<{ lat: number; lon: number; g: number; range: number }> = [];
+for (let lat = -30; lat <= -24; lat += 0.25) {
+  for (let lon = 42; lon <= 48; lon += 0.25) {
+    const g = ground(lat, lon);
+    if (g < 50) continue;
+    const hs: number[] = [];
+    for (let i = -2; i <= 2; i++) for (let j = -2; j <= 2; j++) hs.push(ground(lat + i * 0.02, lon + j * 0.02));
+    found.push({ lat, lon, g, range: Math.max(...hs) - Math.min(...hs) });
+  }
+}
+found.sort((a, b) => b.range - a.range);
+for (const s of found.slice(0, 8)) {
+  const up = latLonToUnit({ lat: s.lat * DEG, lon: s.lon * DEG });
+  const p = sphereToFace(up);
+  out(`${s.lat},${s.lon}: ground ${s.g.toFixed(0)} m, range over ±4 km ${s.range.toFixed(0)} m, ${p.face} u ${p.u.toFixed(3)} v ${p.v.toFixed(3)}`);
+}

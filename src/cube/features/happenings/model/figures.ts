@@ -1,4 +1,5 @@
-import { lerp } from '@/cube/shared/lib/ease';
+import { lerp } from '@/scene/shared/lib/ease';
+
 import {
   face,
   plus,

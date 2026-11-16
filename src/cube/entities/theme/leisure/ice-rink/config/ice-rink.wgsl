@@ -1,7 +1,7 @@
 // `ice-rink.ts` adds this floor's light and lens, `lamps()` among them.
 
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, Surf, Material, polished, glowing, embossed, repeated, spaced, uncut};
-import package::cube::shared::shader::hash::{mix32, hashOf, unitOf, valueNoise, fbm, worley};
+import package::gpu::shared::shader::hash::{mix32, hashOf, unitOf, valueNoise, fbm, worley};
 import package::cube::entities::theme::kit::lib::finish::band;
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::leisure::shape::lib::shape::{inside, stroke, roundBox, oneOf, behind};

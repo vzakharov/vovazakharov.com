@@ -1,11 +1,7 @@
+import type { Vec2 } from '@/scene/shared/lib/vec2';
+
 import { ROOM_METRES, WALL_HALF } from '@/cube/shared/lib/room-shape';
-import {
-  cross3,
-  moved,
-  scaled,
-  type Vec2,
-  type Vec3,
-} from '@/cube/shared/lib/vec';
+import { cross3, moved, scaled, type Vec3 } from '@/cube/shared/lib/vec';
 import {
   CUBE_BOX,
   DOOR_LADDER,

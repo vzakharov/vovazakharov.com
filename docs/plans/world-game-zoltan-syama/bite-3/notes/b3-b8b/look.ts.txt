@@ -1,0 +1,117 @@
+// Throwaway look at B8b: the cube sphere's seams — a face edge, the North Pole, and #1's island at 10 km.
+import fs from 'node:fs';
+import path from 'node:path';
+import { setTimeout as sleep } from 'node:timers/promises';
+import { z } from 'zod';
+
+import { call, hook, settle, shoot, VOVA_EXPORT } from '@/island/scripts/lib/play-tab';
+import { withPrintOrigin } from '@/kernel/scripts/lib/print-origin';
+import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
+import { type Browser, launch, openTab, type Tab } from '@/scene/scripts/lib/cdp';
+import { watchPageErrors } from '@/scene/scripts/lib/page-errors';
+
+const OUT = path.join(REPO_ROOT, 'docs/plans/world-game-zoltan-syama/bite-3/notes/b3-b8b');
+fs.mkdirSync(OUT, { recursive: true });
+const only = process.argv[2] ?? 'all';
+const log = (s: string) => process.stdout.write(`${s}\n`);
+const errors: string[] = [];
+
+async function poll(tab: Tab, expr: string, ms: number): Promise<void> {
+  const end = Date.now() + ms;
+  for (;;) {
+    if (await tab.evaluate(`(() => { try { return Boolean(${expr}); } catch { return false; } })()`, z.boolean())) return;
+    if (Date.now() > end) throw new Error(`timeout: ${expr}`);
+    await sleep(250);
+  }
+}
+
+async function playOpen(browser: Browser, origin: string, hash: string): Promise<Tab> {
+  const route = `/island?play${hash}`;
+  const tab = await openTab(browser, (m) => errors.push(`${route}: ${m}`));
+  await watchPageErrors(tab, (m) => errors.push(`${route}: ${m}`));
+  await tab.send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
+  await tab.send('Page.navigate', { url: `${origin}${route}` });
+  await poll(tab, `document.readyState === 'complete'`, 30_000);
+  await poll(tab, `typeof ${hook}?.ready === 'function'`, 30_000);
+  await settle(tab, call('ready'), 'ready()');
+  return tab;
+}
+
+const whereOf = async (tab: Tab) => tab.evaluate(`${hook}.where()`, z.string());
+const done = async (browser: Browser, tab: Tab) => browser.send('Target.disposeBrowserContext', { browserContextId: tab.contextId });
+
+/** `[name, world, lat, lon, height, heading, look]`; the hour is set to the spot's sun noon. */
+type Shot = readonly [string, string, number, number, number, number, number];
+
+const DOWN = -90;
+const HORIZON = 90;
+const AHEAD = 0;
+
+const SHOTS: Record<string, readonly Shot[]> = {
+  edge: [
+    ['1-edge-1000km-west', '1', 10, 38, 1_000_000, 90, AHEAD],
+    ['1-edge-1000km-straddle', '1', 10, 45, 1_000_000, 90, AHEAD],
+    ['1-edge-1000km-east', '1', 10, 52, 1_000_000, 90, AHEAD],
+    ['1-edge-1000km-down', '1', 10, 45, 1_000_000, 90, DOWN],
+    ['1-edge-10km-west', '1', 10, 44.7, 10_000, 90, AHEAD],
+    ['1-edge-10km-straddle', '1', 10, 44.906, 10_000, 90, AHEAD],
+    ['1-edge-10km-east', '1', 10, 45.1, 10_000, 90, AHEAD],
+    ['1-edge-10km-down', '1', 10, 45, 10_000, 90, DOWN],
+    ['1-corner-1000km-down', '1', 35.264, 45, 1_000_000, 90, DOWN],
+  ],
+  land: [
+    ['1-edge-w2-land-1000km-down', '2', -27, 45, 1_000_000, 90, DOWN],
+    ['1-edge-w2-land-10km-west', '2', -27, 44.7, 10_000, 90, AHEAD],
+    ['1-edge-w2-land-10km-straddle', '2', -27, 44.906, 10_000, 90, AHEAD],
+    ['1-edge-w2-land-10km-east', '2', -27, 45.1, 10_000, 90, AHEAD],
+    ['1-edge-w2-land-10km-down', '2', -27, 45, 10_000, 90, DOWN],
+  ],
+  pole: [
+    ['2-pole-1000km-down', '1', 90, 0, 1_000_000, 0, DOWN],
+    ['2-pole-1000km-horizon', '1', 90, 0, 1_000_000, 0, HORIZON],
+    ['2-pole-10km-down', '1', 90, 0, 10_000, 0, DOWN],
+    ['2-pole-10km-horizon', '1', 90, 0, 10_000, 0, HORIZON],
+  ],
+  island: [
+    ['3-island-10km-down', '1', 10, 0, 10_000, 0, DOWN],
+    ['3-island-10km-ahead', '1', 10, 0, 10_000, 0, AHEAD],
+  ],
+};
+
+const sunTime = (where: string) => {
+  const m = /(\d\d):(\d\d) sun time/.exec(where);
+  if (m === null) throw new Error(`no sun time in: ${where}`);
+  return Number(m[1]) + Number(m[2]) / 60;
+};
+
+async function take(browser: Browser, origin: string, [name, world, lat, lon, h, heading, look]: Shot): Promise<void> {
+  if (process.env.SHOT !== undefined && !name.includes(process.env.SHOT)) return;
+  const t0 = Date.now();
+  const probe = `#${world}@${lat},${lon},${h},${heading},${look},0`;
+  const tab = await playOpen(browser, origin, probe);
+  const noon = (((12 - sunTime(await whereOf(tab))) % 24) + 24) % 24;
+  await done(browser, tab);
+  const hash = `#${world}@${lat},${lon},${h},${heading},${look},${noon.toFixed(3)}`;
+  const shotTab = await playOpen(browser, origin, hash);
+  await settle(shotTab, call('setHeight', h), 'settle');
+  await shoot(shotTab, 5, path.join(OUT, `${name}.png`));
+  log(`${name} ${hash} (${((Date.now() - t0) / 1000).toFixed(0)} s)\n  ${await whereOf(shotTab)}`);
+  await done(browser, shotTab);
+}
+
+async function main(): Promise<void> {
+  const browser = await launch();
+  try {
+    await withPrintOrigin({ serve: 'export', dir: VOVA_EXPORT }, async (origin) => {
+      for (const [group, shots] of Object.entries(SHOTS)) {
+        if (only !== 'all' && only !== group) continue;
+        for (const shot of shots) await take(browser, origin, shot);
+      }
+    });
+  } finally {
+    await browser.close();
+    for (const e of errors) process.stderr.write(`ERR ${e}\n`);
+  }
+}
+
+await main();

@@ -2,7 +2,7 @@
 // with the field's tile along the wind, so the hour's drift closes on itself.
 
 import super::outdoor_frame::frame;
-import package::cube::shared::shader::hash::{unitOf, pointHash, cellHash, hashOf};
+import package::gpu::shared::shader::hash::{unitOf, pointHash, cellHash, hashOf};
 import super::cloud_noise_numbers::{CLOUD_SALT, CLOUD_BASE, CLOUD_CEILING, CLOUD_REACH, CLOUD_CELL, CLOUD_BOUND, TILE_CELLS, WIND_AXIS, WIND_SIDE, CLOUD_DRIFT, CLOUD_CHANCE, CLOUD_RADIUS_LEAST, CLOUD_RADIUS_MOST, LANE_SHUT_BEHIND, LANE_OPEN_BEHIND, LANE_OPEN_AHEAD, LANE_SHUT_AHEAD, LANE_CLEAR, LANE_SPREAD};
 
 /// The earth's radius, km.

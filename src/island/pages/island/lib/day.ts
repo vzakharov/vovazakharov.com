@@ -18,8 +18,11 @@ export const SUN_ELEVATION = 20;
 /** Hours in the game's day: one turn of the planet under the sun. */
 export const DAY_HOURS = 24;
 
+/** A unit vector toward the sun. */
+export type Sunlit = { readonly sun: Vec3 };
+
 /** The sun and the full moon opposite it, each a unit vector toward it. */
-export type Heavens = { readonly sun: Vec3; readonly moon: Vec3 };
+export type Heavens = Sunlit & { readonly moon: Vec3 };
 
 /**
  * The sun and moon `hours` into a world that opens over `opening`. The sun

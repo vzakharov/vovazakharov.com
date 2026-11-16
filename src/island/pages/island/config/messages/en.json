@@ -14,6 +14,7 @@
       { "keys": "Wheel", "does": "climb, descend" },
       { "keys": "[ ]", "does": "time back, forward (Shift: faster)" },
       { "keys": "T", "does": "run, pause time" },
+      { "keys": "B", "does": "sky, clouds, a living sea (heavy)" },
       { "keys": "I", "does": "diagnostics, and a link to this view" }
     ],
     "touch": [

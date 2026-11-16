@@ -1,0 +1,30 @@
+"""step3.py <plain.png>...: mean plain colour step across level edges vs across every other ground neighbour pair.
+
+A pair is two vertical or horizontal neighbours, both ground (not sky) and of one sea/land
+class; it straddles a level edge when the tint twin changes colour (>60) between them.
+A seam that shows makes the edge step larger than the ordinary step.
+"""
+import sys
+
+import numpy as np
+from PIL import Image
+
+for plain in sys.argv[1:]:
+    tint = plain.replace('/w0-', '/tint-w0-').replace('/vova1', '/tint-vova1').replace('/9e01421e-vova1', '/9e01421e-tint-vova1')
+    p = np.array(Image.open(plain).convert('RGB')).astype(int)
+    t = np.array(Image.open(tint).convert('RGB')).astype(int)
+    sky = (np.abs(p - t).sum(2) < 12) & (p[..., 2] > 200) & (p[..., 0] > 140) & (p[..., 0] < 200)
+    r, g, b = p[..., 0], p[..., 1], p[..., 2]
+    sea = ~sky & (b > r + 40) & (b > g + 10)
+    at, off = [], []
+    for a, z in (((slice(1, None),), (slice(None, -1),)), ((slice(None), slice(1, None)), (slice(None), slice(None, -1)))):
+        ok = ~sky[a] & ~sky[z] & (sea[a] == sea[z])
+        edge = np.abs(t[a] - t[z]).sum(2) > 60
+        step = np.abs(p[a] - p[z]).sum(2)
+        at.append(step[ok & edge])
+        off.append(step[ok & ~edge])
+    at, off = np.concatenate(at), np.concatenate(off)
+    if at.size == 0:
+        print(f'{plain.split("/")[-1]}\tno level edge')
+        continue
+    print(f'{plain.split("/")[-1]}\tedge pairs {at.size}\tstep at edge {at.mean():.2f} (p99 {np.percentile(at, 99):.0f})\telsewhere {off.mean():.2f} (p99 {np.percentile(off, 99):.0f})\tratio {at.mean() / off.mean():.2f}')

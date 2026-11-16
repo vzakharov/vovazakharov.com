@@ -1,0 +1,90 @@
+items:
+  - id: z-sea
+    type: zone
+    updated: [2026-11-16T04:40:00.000Z, agent:lead]
+    box: [7900, 260, 1150, 3050, blue]
+    text: 'The sea, 1 — near ground as the cube draws it outside'
+  - id: sea-before
+    type: image
+    updated: [2026-11-15T21:15:00.000Z, agent:lead]
+    box: [7940, 330, 1070]
+    src: images/sea-before.webp
+    text: "Where it starts: world #1's inlet beach at 30 m and at 2 m. A still turquoise wash, a flat blue sky, sand one colour"
+  - id: sea-lead
+    type: sticky
+    updated: [2026-11-15T21:15:00.000Z, agent:lead]
+    box: [7940, 700, 330, green]
+    text: 'Led on Fable under /carte-blanche, branch island/sea, one PR into stretch 3: https://claude.ai/code/session_01DaohkE11JPgYbnCts79FnX. Children: island/sea-kit (the shore formulas into a shared app) and island/sea-sky (sky, sun, haze, then clouds)'
+  - id: sea-slow
+    type: sticky
+    updated: [2026-11-15T21:15:00.000Z, agent:lead]
+    box: [8300, 700, 330, yellow]
+    text: 'Why the cube needs drowsy: its machinery, not its shore — an FFT wave field (4 cascades of 256², ~20 compute passes a frame), a 650k-triangle sea, a cloud ray march, a per-grain search in the sand. Swell, water level, wet sand and cusps are cheap closed forms of bed height and clock. So the island takes the formulas and drops the machinery; no rewrite of everything'
+  - id: sea-wgsl
+    type: sticky
+    updated: [2026-11-15T21:15:00.000Z, agent:lead]
+    box: [8660, 700, 330, green]
+    text: "The cube's WGSL runs inside three: its shore listing goes into a three WebGPU material through TSL's wgslFn, in both vertex and fragment. One shader source for both games, not a third copy"
+  - id: sea-answers
+    type: sticky
+    updated: [2026-11-15T21:15:00.000Z, agent:lead]
+    box: [7940, 1110, 330, pink]
+    text: 'Vova''s answers: clouds are in ("don''t skimp, do it with clouds"); a simple wind model to start; the target is an M2 Pro at 60 fps with no drowsy, not the phone; WebGL2 may go later'
+  - id: sea-outdoors
+    type: sticky
+    updated: [2026-11-15T21:15:00.000Z, agent:lead]
+    box: [8300, 1110, 330, orange]
+    text: "Vova: the cube's island will later be part of some seeded world, so the two apps move toward one technology. Everything new is a pure WGSL function of place, clock and parameters in a shared app, outdoors, that both cube and island extend"
+  - id: sea-ripples
+    type: image
+    updated: [2026-11-15T21:45:00.000Z, agent:lead]
+    box: [7940, 1420, 1070]
+    src: images/sea-ripples.webp
+    text: 'Milestone 1, the sea as a surface: open ocean at 3 m and 300 m toward the sun, orbit; the inlet at 40 m and at 2 m. At 2 m the waterline is still a flat sheet: no swell, swash or wet sand yet'
+  - id: sea-how
+    type: sticky
+    updated: [2026-11-15T21:45:00.000Z, agent:lead]
+    box: [7940, 1880, 330, green]
+    text: 'How: one WGSL listing called from TSL; 64 plane waves with integer wave vectors over a 256 m period, so a place taken modulo the period is exact in float32 anywhere on the planet and no tile shows a seam; the glint widens where waves are too short to see. One forward pass, no render targets'
+  - id: sea-deep-bug
+    type: sticky
+    updated: [2026-11-15T21:45:00.000Z, agent:lead]
+    box: [8300, 1880, 330, pink]
+    text: "Found, older than this bite: over deep water the sea's near tiles were never drawn. The selection culled a tile by its floor (−3,500 m), not by the sea on it, so at 3 m over open ocean you saw the globe 1.5 km below; both were one flat blue. Fixed: a tile is bounded by its sea too"
+  - id: sea-flash-fix
+    type: sticky
+    updated: [2026-11-15T21:45:00.000Z, agent:lead]
+    box: [8660, 1880, 330, yellow]
+    text: "Bite 3's blue flashes: the globe now draws first and writes no depth, so a stand-in pushed 3% deeper cannot fall behind it. Not yet checked on a fast flight"
+  - id: sea-swash
+    type: image
+    updated: [2026-11-15T22:15:00.000Z, agent:lead]
+    box: [7940, 2200, 1070]
+    src: images/sea-swash.webp
+    text: "Milestone 2, the cube's swell on the island's sea: the inlet at 2 m as a sheet runs up the sand, the same spot a second later with wet sand left behind it, and the swell on open ocean at 3 m"
+  - id: sea-swash-how
+    type: sticky
+    updated: [2026-11-15T22:15:00.000Z, agent:lead]
+    box: [7940, 2490, 330, green]
+    text: "The shared app nature, extracted from the cube, is merged; the island's sea calls the cube's swell formula as it stands. One swell axis through the planet and a 64-bit clock at the eye give every fragment its phase, with nothing per tile"
+  - id: sea-swash-open
+    type: sticky
+    updated: [2026-11-15T22:15:00.000Z, agent:lead]
+    box: [8300, 2490, 330, pink]
+    text: "Still open: the sheet's edge follows the 1.2 m mesh, so the shoreline is a polygon at 2 m (left frame). Next: the surf cusps' tongue softens it"
+  - id: sea-sky
+    type: image
+    updated: [2026-11-15T22:30:00.000Z, agent:lead]
+    box: [7940, 2780, 1070]
+    src: images/sea-sky.webp
+    text: 'Milestone 3, one air from 2 m to orbit and the sea mirroring it: the inlet at 2 m, open ocean at 3 m, the opening view from orbit. Right, a fail: from ~4,000 km space turns blue and veils the disc'
+  - id: sea-sky-how
+    type: sticky
+    updated: [2026-11-15T22:30:00.000Z, agent:lead]
+    box: [7940, 2990, 330, green]
+    text: "The sky child's analytic atmosphere is merged: one model of the air at every height, and the water reflects its radiance, so the sun's glare lies on the inlet and the ocean alike. The swash now runs up in the cube's cusps, the same closed form"
+  - id: sea-sky-open
+    type: sticky
+    updated: [2026-11-15T22:30:00.000Z, agent:lead]
+    box: [8300, 2990, 330, pink]
+    text: "Open: blue space from mid orbit (with the sky child); the swash's edge is still the mesh's own polygon at 2 m, which the cusps do not hide"
