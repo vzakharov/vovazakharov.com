@@ -203,6 +203,8 @@ the bite in hand. The text it held before the board took over is in git
   table, swell and swash, an analytic sky with eye adaptation, sub-mesh relief,
   clouds. At 7–14 fps on the M2 Pro it is the fine look, behind B; the island
   opens in the plain one. Left open: see § "Open bites".
+- **Cut 3** — #289 squashed into `main` as adfe0d00: both looks live at
+  `/island`. `island/stretch-4` starts off it.
 
 ## Waiting on the operator
 
