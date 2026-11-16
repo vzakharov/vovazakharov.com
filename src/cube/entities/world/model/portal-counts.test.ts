@@ -63,10 +63,10 @@ describe('a floor’s portal counts', () => {
   });
 });
 
-/** A jump of `d` floors' chance among jumps of 1 to `longest`. */
-function share(d: number, longest: number): number {
+/** A jump of `d` floors' chance among every jump the building has room for. */
+function share(d: number): number {
   let total = 0n;
-  for (let k = 1; k <= longest; k += 1) total += jumpWeight(k);
+  for (let k = 1; k <= last - first; k += 1) total += jumpWeight(k);
   return Number(jumpWeight(d)) / Number(total);
 }
 
@@ -75,9 +75,9 @@ const ratio = (a: number, b: number): number =>
 
 describe('the law of a jump', () => {
   it('peaks at multiples of 7, each further one four times rarer', () => {
-    assert.ok(Math.abs(share(7, 60) - 0.2892) < 1e-4);
-    assert.ok(Math.abs(share(14, 60) - 0.0733) < 1e-4);
-    assert.ok(Math.abs(share(1, 60) - 0.0022) < 1e-4);
+    assert.ok(Math.abs(share(7) - 0.2892) < 1e-4);
+    assert.ok(Math.abs(share(14) - 0.0733) < 1e-4);
+    assert.ok(Math.abs(share(1) - 0.0022) < 1e-4);
   });
 
   it('weighs a floor off the peak 2.25 times less, either side', () => {
@@ -103,7 +103,7 @@ describe('spoke bands', () => {
 
   it('follow the law: the bottom’s climb of 7 takes its share of the bottom’s spokes', () => {
     const climb = Number(climbBand(last, 7)) / Number(spokeCount(last));
-    assert.ok(Math.abs(climb - 0.2892) < 1e-3, `${climb}`);
+    assert.ok(Math.abs(climb - share(7)) < 1e-3, `${climb}`);
   });
 });
 
