@@ -1,15 +1,33 @@
 {
   "total": {
-    "inputTokens": 50,
-    "cacheWrite5mTokens": 123069,
-    "cacheWrite1hTokens": 60952,
-    "cacheReadTokens": 2492546,
-    "outputTokens": 10414,
-    "thinkingTokens": 4204,
-    "responses": 25,
-    "costUsd": 1.8099502
+    "inputTokens": 99,
+    "cacheWrite5mTokens": 140724,
+    "cacheWrite1hTokens": 98805,
+    "cacheReadTokens": 5691997,
+    "outputTokens": 22332,
+    "thinkingTokens": 9836,
+    "responses": 49,
+    "costUsd": 3.0794954000000008
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-16T20:06:19.174Z",
+    "subjectLine": "chore: land prep for the cube jump-by-7 branch",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "landing a finished branch — vet, base merge, squash record, attestation — is routine release work"
+      },
+      {
+        "hours": 0.5,
+        "grade": "senior",
+        "role": "editor",
+        "comment": "the board's card copy needs a reviewer's read of what each claim states"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -30,52 +48,54 @@
   "branch": "claude/cube-jump-by-7-hka9n0",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/merge claude/cube-jump-by-7-hka9n0",
-  "prs": [],
+  "prs": [
+    290
+  ],
   "url": "https://claude.ai/code/session_01DaohkERjasenGL9Ecs42PA",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-16T20:02:18.897Z",
-  "lastResponseAt": "2026-11-16T20:04:12.126Z",
+  "lastResponseAt": "2026-11-16T20:11:38.261Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 18,
+    "inputTokens": 40,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 60952,
-    "cacheReadTokens": 780514,
-    "outputTokens": 2346,
-    "thinkingTokens": 515,
-    "responses": 8,
-    "costUsd": 0.6907108
+    "cacheWrite1hTokens": 98805,
+    "cacheReadTokens": 2265625,
+    "outputTokens": 5655,
+    "thinkingTokens": 1568,
+    "responses": 19,
+    "costUsd": 1.356825
   },
   "subagents": {
-    "inputTokens": 32,
-    "cacheWrite5mTokens": 123069,
+    "inputTokens": 59,
+    "cacheWrite5mTokens": 140724,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 1712032,
-    "outputTokens": 8068,
-    "thinkingTokens": 3689,
-    "responses": 17,
-    "costUsd": 1.1192393999999997
+    "cacheReadTokens": 3426372,
+    "outputTokens": 16677,
+    "thinkingTokens": 8268,
+    "responses": 30,
+    "costUsd": 1.7226703999999993
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 50,
-      "cacheWrite5mTokens": 123069,
-      "cacheWrite1hTokens": 60952,
-      "cacheReadTokens": 2492546,
-      "outputTokens": 10414,
-      "thinkingTokens": 4204,
-      "responses": 25,
-      "costUsd": 1.8099502
+      "inputTokens": 99,
+      "cacheWrite5mTokens": 140724,
+      "cacheWrite1hTokens": 98805,
+      "cacheReadTokens": 5691997,
+      "outputTokens": 22332,
+      "thinkingTokens": 9836,
+      "responses": 49,
+      "costUsd": 3.0794954000000008
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 24,
-    "matched": 24,
-    "matchedTableUsd": 1.7704284000000001,
-    "matchedEventUsd": 1.7704284000000001,
+    "events": 48,
+    "matched": 48,
+    "matchedTableUsd": 3.037093600000001,
+    "matchedEventUsd": 3.037093600000001,
     "unseen": {}
   },
   "operatorWords": {

@@ -247,10 +247,10 @@ items:
     text: 'Decided, 15 Nov: what the first build of portals is. Everything above that this row does not settle stays open'
   - id: p-go-net
     type: sticky
-    updated: [2026-11-16T16:15:28.000Z, agent:cube]
+    updated: [2026-11-16T20:15:00.000Z, agent:cube]
     box: [6158, 3900, 380, green]
     icon: ⚖️
-    text: 'Decided, 16 Nov: jumps by 7. Up and down alike, a jump peaks at every multiple of 7, each further multiple 4× rarer, each floor off one 2.25× rarer («Вовин-2»). A floor’s spokes split into bands by how far up they lead, so a spoke climbs by the law; a hub lands only where a band holds a spoke for it. The hub share is the fair one: a portal opened at random moves you down as far as up'
+    text: 'Decided, 16 Nov: jumps by 7. Up and down alike, a jump peaks at every multiple of 7, each further multiple 4× rarer, each floor off one 2.25× rarer (“Vova’s 2”). A floor’s spokes split into bands by how far up they lead, so a spoke climbs by the law; a hub lands only where a band holds a spoke for it. The hub share is the fair one: a portal opened at random moves you down as far as up'
   - id: p-go-magnets
     type: sticky
     updated: [2026-11-16T16:00:00.000Z, agent:cube]
