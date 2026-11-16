@@ -9,7 +9,19 @@
     "responses": 8,
     "costUsd": 0.6667148
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-16T07:14:28.130Z",
+    "subjectLine": "chore: attach a local checkout to the portals branch",
+    "parts": [
+      {
+        "hours": 0.1,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a three-minute local session that attached a checkout to the branch and read where it stands, with nothing built: switching branches and reading the summary is a few minutes for anyone who knows git"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "end_turn",
     "endedOn": null,
