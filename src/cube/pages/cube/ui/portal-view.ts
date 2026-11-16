@@ -27,7 +27,7 @@ type Showing = Building & {
 
 /** One frame's door and the eye that may see through it, at the frame's instant. */
 type Glance = Seen & {
-  /** The shared clock's instant, in ms since the epoch: the minute a portal leads by. */
+  /** The shared clock, in ms since the epoch: its minute picks where a hub leads. */
   epochMs: number;
   /** The door the body holds open, if any. */
   door: Ajar | null;
