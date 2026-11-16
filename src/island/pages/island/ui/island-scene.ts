@@ -168,7 +168,7 @@ export function mountIslandScene(
   let fine = false;
   /** Whether the renderer is up, so the backend a look's sea needs is known. */
   let inited = false;
-  /** Dresses the scene in the current look, and draws it; nothing before the renderer is up. */
+  /** Dresses the scene in the current look, and draws it. */
   const dress = () => {
     if (!inited) return;
     lighting.dress(fine, webgpu());
