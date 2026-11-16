@@ -199,10 +199,10 @@ the bite in hand. The text it held before the board took over is in git
 - **The sea, and the near ground as the cube draws it** — run on Fable by
   `/carte-blanche`, record `docs/plans/island-sea.completed.md`; #288 merged
   into `island/stretch-3` as 75376755. The cube's sea moved to the shared app
-  `nature`, its shader kit to `scene`; ripples on a 64-wave table, swell and
-  swash, an analytic sky with eye adaptation, sub-mesh relief, clouds. Left
-  open: the swash edge is polygonal, far clouds slant at the horizon, 60 fps on
-  the M2 Pro unmeasured, and two optional `/five-percent` calls on #288.
+  `nature`, its shader kit to an app of its own, `gpu`; ripples on a 64-wave
+  table, swell and swash, an analytic sky with eye adaptation, sub-mesh relief,
+  clouds. At 7–14 fps on the M2 Pro it is the fine look, behind B; the island
+  opens in the plain one. Left open: see § "Open bites".
 
 ## Waiting on the operator
 
