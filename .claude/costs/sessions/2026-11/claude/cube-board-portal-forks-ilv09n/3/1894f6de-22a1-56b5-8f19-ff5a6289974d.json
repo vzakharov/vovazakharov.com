@@ -1,23 +1,29 @@
 {
   "total": {
-    "inputTokens": 1093,
-    "cacheWrite5mTokens": 1373,
-    "cacheWrite1hTokens": 163371,
-    "cacheReadTokens": 6714174,
-    "outputTokens": 18506,
-    "thinkingTokens": 5919,
-    "responses": 42,
-    "costUsd": 3.0352788
+    "inputTokens": 1675,
+    "cacheWrite5mTokens": 1935,
+    "cacheWrite1hTokens": 220927,
+    "cacheReadTokens": 16389977,
+    "outputTokens": 41681,
+    "thinkingTokens": 16128,
+    "responses": 81,
+    "costUsd": 5.901211399999999
   },
   "estimate": {
-    "at": "2026-11-16T02:19:46.617Z",
-    "subjectLine": "chore: pick up the parked portals run",
+    "at": "2026-11-16T02:32:35.307Z",
+    "subjectLine": "content: pick up the portals run, a two-portal frame strip on the board",
     "parts": [
       {
         "hours": 0.25,
         "grade": "senior",
         "role": "producer",
         "comment": "re-attaching a parked carte-blanche run means reading its summary and plan and restoring its watches before anyone steers it"
+      },
+      {
+        "hours": 0.75,
+        "grade": "middle",
+        "role": "designer",
+        "comment": "cutting a walkthrough into a readable frame strip and laying it out beside the cards it illustrates takes an eye for which moments carry the point"
       }
     ],
     "comment": null
@@ -48,18 +54,18 @@
   "url": "https://claude.ai/code/session_01DaohkD2Jef2LfQfSkmG6kP",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-16T02:19:02.109Z",
-  "lastResponseAt": "2026-11-16T02:31:46.147Z",
+  "lastResponseAt": "2026-11-16T02:37:13.878Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 81,
+    "inputTokens": 157,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 163371,
-    "cacheReadTokens": 6425280,
-    "outputTokens": 18459,
-    "thinkingTokens": 5919,
-    "responses": 40,
-    "costUsd": 2.961528
+    "cacheWrite1hTokens": 220927,
+    "cacheReadTokens": 15881918,
+    "outputTokens": 41620,
+    "thinkingTokens": 16128,
+    "responses": 78,
+    "costUsd": 5.776827599999999
   },
   "subagents": {
     "inputTokens": 0,
@@ -73,38 +79,38 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 1093,
-      "cacheWrite5mTokens": 1373,
-      "cacheWrite1hTokens": 163371,
-      "cacheReadTokens": 6714174,
-      "outputTokens": 18506,
-      "thinkingTokens": 5919,
-      "responses": 42,
-      "costUsd": 3.0352788
+      "inputTokens": 1675,
+      "cacheWrite5mTokens": 1935,
+      "cacheWrite1hTokens": 220927,
+      "cacheReadTokens": 16389977,
+      "outputTokens": 41681,
+      "thinkingTokens": 16128,
+      "responses": 81,
+      "costUsd": 5.901211399999999
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 42,
-    "matched": 40,
-    "matchedTableUsd": 2.961528,
-    "matchedEventUsd": 2.9615280000000004,
+    "events": 81,
+    "matched": 78,
+    "matchedTableUsd": 5.776827599999999,
+    "matchedEventUsd": 5.7768276,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 1012,
-        "cacheWrite5mTokens": 1373,
+        "inputTokens": 1518,
+        "cacheWrite5mTokens": 1935,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 288894,
-        "outputTokens": 47,
+        "cacheReadTokens": 508059,
+        "outputTokens": 61,
         "thinkingTokens": 0,
-        "responses": 2,
-        "costUsd": 0.0737508
+        "responses": 3,
+        "costUsd": 0.12438380000000002
       }
     }
   },
   "operatorWords": {
-    "chat": 582,
+    "chat": 1138,
     "review": 0,
     "threads": 0
   },
@@ -116,7 +122,7 @@
     ".json": 2,
     ".scss": 11,
     ".ts": 2708,
-    ".yaml": 477,
+    ".yaml": 531,
     ".tsx": 8,
     ".wgsl": 27
   }
