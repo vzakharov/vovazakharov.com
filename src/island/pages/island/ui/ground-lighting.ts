@@ -221,14 +221,10 @@ export function groundLighting(): GroundLighting {
   const steep = normalWorldGeometry.dot(surface.zenith).oneMinus();
   /** Bare rock: steep ground above the beach, whatever grows on the level beside it. */
   const rock = smoothstep(0.04, 0.15, steep).mul(aboveBeach);
-  const landColour = mix(
-    groundColourNode(heightNode()),
-    vec3(...ROCK_COLOUR),
-    rock,
-  );
+  const groundColour = groundColourNode(heightNode());
+  const landColour = mix(groundColour, vec3(...ROCK_COLOUR), rock);
   /** The relief's slope: sand lies smooth, soil rolls, rock stands rough. */
   const roughness = mix(mix(0.04, 0.18, aboveBeach), 0.7, rock);
-  const plainLandColour = groundColourNode(heightNode());
   const seaColour = seaColourNode(heightNode());
   const land = tileMaterial([landSun, landMoon, sky], 0);
   const sea = tileMaterial([seaSun, seaMoon, sky], 0);
@@ -244,13 +240,12 @@ export function groundLighting(): GroundLighting {
 
   const [deepest] = GROUND_STOPS;
   if (deepest === undefined) throw new RangeError('no colour stops');
-  const floorColour = groundColourNode(heightNode());
 
   /** Draws the sea as a surface — ripples, the sky in them, the sun's glint — in place of its flat colour. */
   const ripple = () => {
     const surfaced: Array<[MeshLambertNodeMaterial, Node]> = [
-      [sea, surface.colour(heightNode(), floorColour)],
-      [standIn.sea, surface.colour(heightNode(), floorColour)],
+      [sea, surface.colour(heightNode(), groundColour)],
+      [standIn.sea, surface.colour(heightNode(), groundColour)],
       [ocean, surface.colour(float(deepest[0]), vec3(...deepest[1]))],
     ];
     for (const material of seas) {
@@ -281,7 +276,7 @@ export function groundLighting(): GroundLighting {
       material.needsUpdate = true;
     }
     for (const material of lands) {
-      material.colorNode = fine ? landColour : plainLandColour;
+      material.colorNode = fine ? landColour : groundColour;
     }
     for (const material of seas) material.colorNode = seaColour;
     ocean.colorNode = null;
