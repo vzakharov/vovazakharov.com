@@ -247,10 +247,22 @@ items:
     text: 'Decided, 15 Nov: what the first build of portals is. Everything above that this row does not settle stays open'
   - id: p-go-net
     type: sticky
-    updated: [2026-11-15T19:30:01.000Z, agent:cube]
+    updated: [2026-11-16T16:00:00.000Z, agent:cube]
     box: [6158, 3900, 380, green]
     icon: ⚖️
-    text: 'The fair network. A spoke climbs one floor 3 times in 4 because each floor holds four times the hubs above it; a hub drops by the mirror of that, one floor at weight 1, two at ¼, three at 1/16. The hub share is the one at which a portal opened at random moves you down as far as up: ½ on floors 8–64, derived, no number set by hand'
+    text: 'Decided, 16 Nov: jumps by 7. Up and down alike, a jump peaks at every multiple of 7, each further multiple 4× rarer, each floor off one 2.25× rarer («Вовин-2»). A floor’s spokes split into bands by how far up they lead, so a spoke climbs by the law; a hub lands only where a band holds a spoke for it. The hub share stays fair, a portal opened at random moving you down as far as up'
+  - id: p-go-magnets
+    type: sticky
+    updated: [2026-11-16T16:00:00.000Z, agent:cube]
+    box: [6158, 4200, 380, green]
+    icon: 🧲
+    text: 'Magnets: where a player opening portals at random ends up, whatever floor they started on. 6, the service corridor, 7%; 66, the hallway, 4%; 13, the attic, and 7, the garage, 3% each. Two combs, 6 + 7k from the top wall and 66 − 7k from the bottom'
+  - id: p-go-trampoline
+    type: sticky
+    updated: [2026-11-16T16:00:00.000Z, agent:cube]
+    box: [6568, 4200, 380, green]
+    icon: 🤸
+    text: 'The bottom is a trampoline. Floor 66 gets no landings beyond the law, so 64 is 8% hubs and 65 under 1%: you think you made it, and the portal throws you back up. 66 is reached by a jump of 7 from 59, or on foot through a hatch'
   - id: p-go-minute
     type: sticky
     updated: [2026-11-15T19:30:02.000Z, agent:cube]
