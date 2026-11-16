@@ -1,0 +1,113 @@
+{
+  "total": {
+    "inputTokens": 59,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 176838,
+    "cacheReadTokens": 4752246,
+    "outputTokens": 47766,
+    "thinkingTokens": 21993,
+    "responses": 28,
+    "costUsd": 3.3207092
+  },
+  "estimate": {
+    "at": "2026-11-16T11:07:06.177Z",
+    "subjectLine": "content: jump-by-7 portal laws explored in the cube simulations artifact",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "choosing a jump law means weighing what the player sees per portal against how fast the cube opens up; that is mechanics judgement"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "analyst",
+        "comment": "the spoke bands and reachability are new probability structure that has to be derived and checked numerically before code"
+      },
+      {
+        "hours": 3.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "an interactive tab with live charts, presets and a Monte Carlo wanderer in an existing page"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-16T10:59:40.708Z",
+    "contextTokens": 141387,
+    "spend": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 64987,
+      "cacheReadTokens": 660787,
+      "outputTokens": 1721,
+      "thinkingTokens": 324,
+      "responses": 7,
+      "costUsd": 0.6865374000000001
+    }
+  },
+  "sessionId": "22a3c4a5-4870-5ac9-b088-cb1840a9149a",
+  "branch": "claude/clever-mayer-hka9n0",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "давай в кубе делать перетасовку уровней и прыжок через 7. единственное, подумал что всё же не \"только через 7\" должно быть, просто все меньшие дельты должны быт…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBGKTTN7t6Z6M7S4ap",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-16T10:59:13.938Z",
+  "lastResponseAt": "2026-11-16T11:07:23.462Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 59,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 176838,
+    "cacheReadTokens": 4752246,
+    "outputTokens": 47766,
+    "thinkingTokens": 21993,
+    "responses": 28,
+    "costUsd": 3.3207092
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 59,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 176838,
+      "cacheReadTokens": 4752246,
+      "outputTokens": 47766,
+      "thinkingTokens": 21993,
+      "responses": 28,
+      "costUsd": 3.3207092
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 28,
+    "matched": 28,
+    "matchedTableUsd": 3.3207092,
+    "matchedEventUsd": 3.320709199999999,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 44,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {}
+}
