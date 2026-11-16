@@ -1,0 +1,17 @@
+{
+  "pr": 288,
+  "verdicts": [
+    {
+      "comment": 4580764576,
+      "about": "Take the swell's heading from the wind at the eye, so lee shores exist",
+      "verdict": 0.4,
+      "why": "Deferred, not refused: \"аналогично, отложить\". The fine look's speed was put off for budget, and this is more of its polish, so it waits with the swash edge and far clouds."
+    },
+    {
+      "comment": 4580764581,
+      "about": "Move ripples, wind and ground relief into nature as .wgsl, as the plan steered",
+      "verdict": 0.8,
+      "why": "Taken as the next approach after stretch 3 reaches main (\"следующим подходом\"), paired with breaking the 256 m repeat, which lives in the same functions."
+    }
+  ]
+}
