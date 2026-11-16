@@ -22,9 +22,10 @@ function mixHex(a: number, b: number, t: number): number {
 }
 
 /**
- * The sky's colour from `height` metres up with `day` of daylight under the eye
- * (1 by day, 0 by night), sRGB hex: space blended into the air's colour by the
- * logarithm of height, so the descent turns it evenly.
+ * The sky's colour as seen from `height` metres up with `day` of daylight
+ * under the eye (1 by day, 0 by night), sRGB hex: space at orbit, from 100 km
+ * down the air's colour — a pale day blue, a night blue by night — and between
+ * them a blend by the logarithm of height, so the descent turns it evenly.
  */
 export function skyColour(height: number, day: number): number {
   const share =
