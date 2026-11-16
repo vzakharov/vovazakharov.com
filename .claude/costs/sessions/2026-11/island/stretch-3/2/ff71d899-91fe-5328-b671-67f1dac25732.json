@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 6095,
-    "cacheWrite5mTokens": 127556,
-    "cacheWrite1hTokens": 349639,
-    "cacheReadTokens": 37049493,
-    "outputTokens": 95696,
-    "thinkingTokens": 27721,
-    "responses": 167,
-    "costUsd": 12.800157599999997
+    "inputTokens": 6643,
+    "cacheWrite5mTokens": 128324,
+    "cacheWrite1hTokens": 380496,
+    "cacheReadTokens": 39844328,
+    "outputTokens": 104240,
+    "thinkingTokens": 30315,
+    "responses": 188,
+    "costUsd": 13.785196599999992
   },
   "estimate": {
     "at": "2026-11-16T03:39:46.442Z",
@@ -66,18 +66,18 @@
   "url": "https://claude.ai/code/session_01DaohkDjg4mTXs4KaiFbuXq",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-16T03:00:09.288Z",
-  "lastResponseAt": "2026-11-16T04:19:54.008Z",
+  "lastResponseAt": "2026-11-16T04:31:04.390Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 280,
+    "inputTokens": 322,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 349639,
-    "cacheReadTokens": 33601424,
-    "outputTokens": 78316,
-    "thinkingTokens": 24984,
-    "responses": 142,
-    "costUsd": 11.084836799999998
+    "cacheWrite1hTokens": 380496,
+    "cacheReadTokens": 36269384,
+    "outputTokens": 86845,
+    "thinkingTokens": 27578,
+    "responses": 162,
+    "costUsd": 12.036032799999996
   },
   "subagents": {
     "inputTokens": 36,
@@ -91,14 +91,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 6095,
-      "cacheWrite5mTokens": 127556,
-      "cacheWrite1hTokens": 349639,
-      "cacheReadTokens": 37049493,
-      "outputTokens": 95696,
-      "thinkingTokens": 27721,
-      "responses": 167,
-      "costUsd": 12.800157599999997
+      "inputTokens": 6643,
+      "cacheWrite5mTokens": 128324,
+      "cacheWrite1hTokens": 380496,
+      "cacheReadTokens": 39844328,
+      "outputTokens": 104240,
+      "thinkingTokens": 30315,
+      "responses": 188,
+      "costUsd": 13.785196599999992
     }
   },
   "warnings": [],
@@ -109,19 +109,19 @@
       "compactedFrom": 350979,
       "summaryChars": 16871,
       "reorientation": {
-        "endedBy": null,
+        "endedBy": "end_turn",
         "endedOn": null,
-        "endedAt": null,
-        "contextTokens": null,
+        "endedAt": "2026-11-16T04:20:31.454Z",
+        "contextTokens": 126877,
         "spend": {
-          "inputTokens": 6,
+          "inputTokens": 21,
           "cacheWrite5mTokens": 0,
-          "cacheWrite1hTokens": 61261,
-          "cacheReadTokens": 290751,
-          "outputTokens": 777,
-          "thinkingTokens": 37,
-          "responses": 3,
-          "costUsd": 0.5638022
+          "cacheWrite1hTokens": 67365,
+          "cacheReadTokens": 1141607,
+          "outputTokens": 2008,
+          "thinkingTokens": 117,
+          "responses": 10,
+          "costUsd": 0.8074854000000001
         }
       },
       "rereads": {
@@ -134,20 +134,20 @@
     }
   ],
   "telemetry": {
-    "events": 166,
-    "matched": 158,
-    "matchedTableUsd": 12.116578399999998,
-    "matchedEventUsd": 12.116578399999996,
+    "events": 187,
+    "matched": 178,
+    "matchedTableUsd": 13.053950199999996,
+    "matchedEventUsd": 13.053950199999994,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 3542,
-        "cacheWrite5mTokens": 5689,
+        "inputTokens": 4048,
+        "cacheWrite5mTokens": 6457,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 1656421,
-        "outputTokens": 120,
+        "cacheReadTokens": 1783296,
+        "outputTokens": 135,
         "thinkingTokens": 0,
-        "responses": 7,
-        "costUsd": 0.39336419999999994
+        "responses": 8,
+        "costUsd": 0.42720719999999995
       },
       "compact": {
         "inputTokens": 2237,
@@ -162,7 +162,7 @@
     }
   },
   "operatorWords": {
-    "chat": 333,
+    "chat": 341,
     "review": 0,
     "threads": 0
   },
@@ -174,7 +174,7 @@
     ".py": 436,
     ".ts": 2104,
     ".wgsl": 20,
-    ".yaml": 187,
+    ".yaml": 198,
     ".json": 3
   }
 }
