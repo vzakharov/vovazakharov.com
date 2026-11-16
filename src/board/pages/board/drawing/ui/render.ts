@@ -225,20 +225,17 @@ export function renderLines(
     const { d, mid } = handStroke(a, b, line);
     const { d: echo } = handStroke(a, b, line, 1);
     const dashed = line.dashed === true ? ' dashed' : '';
-<<<<<<< HEAD
     const lineGroup = { class: 'line', 'data-id': line.id };
     const hit = svg('g', lineGroup);
     hit.append(svg('path', { d, class: 'hit' }));
     hits.push(hit);
     const group = svg('g', lineGroup);
-=======
-    const group = svg('g', { class: 'line', 'data-id': line.id });
     const weight = weightOf(line);
-    // The stylesheet multiplies every stroke width by it; the arrowhead, sized
-    // in stroke widths, follows.
+    // The stylesheet multiplies every stroke width by it, the hit path's
+    // included; the arrowhead, sized in stroke widths, follows.
     if (line.weight !== undefined)
-      group.style.setProperty('--weight', String(weight));
->>>>>>> origin/main
+      for (const g of [group, hit])
+        g.style.setProperty('--weight', String(weight));
     group.append(
       svg('path', {
         d: echo,
