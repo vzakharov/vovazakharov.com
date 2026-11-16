@@ -2,7 +2,7 @@ items:
   - id: z-sea
     type: zone
     updated: [2026-11-15T21:45:00.000Z, agent:lead]
-    box: [7900, 260, 1150, 6800, blue]
+    box: [7900, 260, 1150, 7240, blue]
     text: 'The sea — near ground as the cube draws it outside'
   - id: sea-before
     type: image
@@ -152,7 +152,7 @@ items:
     updated: [2026-11-16T03:30:00.000Z, agent:lead]
     box: [7940, 5420, 1070]
     src: images/sea-moon-descent.webp
-    text: "Vova's descent into a moonlit evening on the sea's build, 16 s: orbit; ~800 km, the clouds a grain of single pixels; the deck from above; inside it, all grey; the coast under the moon at ~4 km; the beach at 2 m. Video: https://github.com/vzakharov/vovazakharov.com/releases/download/island-timelapse/descent-2026-11-16-moon-night.mp4"
+    text: "Vova's moonlit descent re-shot at the places its recording names (18:40, heading 112°, look +15°), 2560×1600 on WebGPU: 20,000 km, 2,300 km, 820 km, 34 km; 10.6 km, 4.4 km, 560 m, 2 m. At 2,300 and 820 km the clouds break into a grain finer than the screen. His video: https://github.com/vzakharov/vovazakharov.com/releases/download/island-timelapse/descent-2026-11-16-moon-night.mp4"
   - id: sea-moon-seen
     type: sticky
     updated: [2026-11-16T03:30:00.000Z, agent:lead]
@@ -184,3 +184,14 @@ items:
     updated: [2026-11-16T04:10:00.000Z, agent:lead]
     box: [7940, 6700, 330, pink]
     text: "Vova on the ground and the sea: the pattern visibly repeats, and apart from the surf and the glints there is almost no sense of a real place. The repeat is built in rather than left unfinished: ripples and ground relief both read one table of 64 waves over a 256 m period, chosen so float32 holds it seamlessly anywhere on the planet"
+  - id: sea-looks
+    type: image
+    updated: [2026-11-16T04:20:00.000Z, agent:lead]
+    box: [7940, 7020, 1070]
+    src: images/sea-looks.webp
+    text: 'The two looks at 4.4 km and at 2 m: plain, fine; plain, fine'
+  - id: sea-looks-how
+    type: sticky
+    updated: [2026-11-16T04:20:00.000Z, agent:lead]
+    box: [7940, 7220, 330, green]
+    text: "The island opens in the plain look again — flat colours under the lamps, a sky of one colour — and B turns the fine one on and off (f192f583). Both keep the sun's colour through the air, so at dusk no slope facing a set sun glows (eb754e9e). On preview slot 1"
