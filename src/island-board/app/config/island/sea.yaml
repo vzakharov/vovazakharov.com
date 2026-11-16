@@ -2,7 +2,7 @@ items:
   - id: z-sea
     type: zone
     updated: [2026-11-15T21:45:00.000Z, agent:lead]
-    box: [7900, 260, 1150, 6440, blue]
+    box: [7900, 260, 1150, 6800, blue]
     text: 'The sea — near ground as the cube draws it outside'
   - id: sea-before
     type: image
@@ -179,3 +179,8 @@ items:
     updated: [2026-11-16T03:30:00.000Z, agent:lead]
     box: [8660, 6380, 330, blue]
     text: "The WGSL kit left scene for an app of its own, gpu (62b59de6): the cube's floors, lenses and passes use it without nature, so nature stays nature"
+  - id: sea-repeat
+    type: sticky
+    updated: [2026-11-16T04:10:00.000Z, agent:lead]
+    box: [7940, 6700, 330, pink]
+    text: "Vova on the ground and the sea: the pattern visibly repeats, and apart from the surf and the glints there is almost no sense of a real place. The repeat is built in rather than left unfinished: ripples and ground relief both read one table of 64 waves over a 256 m period, chosen so float32 holds it seamlessly anywhere on the planet"
