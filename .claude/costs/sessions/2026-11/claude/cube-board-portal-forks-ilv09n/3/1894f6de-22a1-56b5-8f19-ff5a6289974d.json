@@ -193,10 +193,10 @@
     }
   ],
   "telemetry": {
-    "events": 501,
-    "matched": 442,
-    "matchedTableUsd": 36.60716299999999,
-    "matchedEventUsd": 36.607163,
+    "events": 502,
+    "matched": 443,
+    "matchedTableUsd": 36.688384799999994,
+    "matchedEventUsd": 36.6883848,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 28336,
@@ -228,8 +228,8 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 431,
-    ".staged": 376,
+    ".md": 434,
+    ".staged": 389,
     ".txt": 295,
     ".json": 2,
     ".scss": 11,

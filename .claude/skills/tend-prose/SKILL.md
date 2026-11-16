@@ -1,19 +1,22 @@
 ---
 description: >-
-  Review the prose you added in recent work — code comments, docstrings, and
-  Markdown — against four equal defects: **existence** (it should not have been
-  written at all), **durability** / **narration** (it narrates the change
-  instead of the code's lasting contract), **tightness** / **bloat** (it spends
-  more words than it informs), and **negation** / **polar bear** (it denies a
-  thing the change removed, so the mention survives as its own denial). Rewrites,
+  Review the prose you added in recent work — code comments, docstrings,
+  Markdown, and content such as board cards and page copy — against four equal
+  defects: **existence** (it should not have been written at all),
+  **durability** / **narration** (it narrates the change instead of the code's
+  lasting contract), **tightness** / **bloat** (it spends more words than it
+  informs), and **negation** / **polar bear** (it denies a thing the change or
+  its conversation removed, so the mention survives as its own denial). Rewrites,
   moves and cuts in place. Invoke as: /tend-prose [lens] [optional focus
   guidance] — naming one of the four, by either of its names, runs only that
   lens.
 ---
 
-You are reviewing prose _you_ recently added — code comments, docstrings, and
-Markdown (skill bodies, `docs/`, READMEs) — for four defects that carry **equal
-weight**:
+You are reviewing prose _you_ recently added — code comments, docstrings,
+Markdown (skill bodies, `docs/`, READMEs), and content: whatever you wrote for a
+person to read, wherever it is stored — board cards, page copy, captions,
+drafts. Words quoted verbatim from someone else are theirs and stay as given.
+The four defects carry **equal weight**:
 
 - **T**ightness — text that spends more words than it informs: it restates what
   the function name, signature, and types already convey, or stretches a real
@@ -23,10 +26,11 @@ weight**:
 - **E**xistence — text that should not have been written: a description of how
   the code works rather than a constraint on it, something a reader recovers
   from the code itself, or a real constraint filed where nothing will load it.
-- **N**egation — text whose subject is a thing the change removed, surviving as
-  its own denial instead of being removed altogether. It is written in clean
-  present tense, so it reads as a constraint and no change verb fires. The idiom
-  is _don't think about the polar bear_.
+- **N**egation — text whose subject is a thing the change removed, or one the
+  conversation ruled out before it reached the tree, surviving as its own denial
+  instead of being removed altogether. It is written in clean present tense, so
+  it reads as a constraint and no change verb fires. The idiom is _don't think
+  about the polar bear_.
 - **D**urability — text that describes the change that produced the code rather
   than the code's durable behaviour, whether it narrates against the state
   before the branch or against an earlier step inside it. CLAUDE.md: "Comments
@@ -95,8 +99,15 @@ each against the post-change tree. **A name that survives only inside prose is a
 lens 4 candidate** — the code no longer has it, so any sentence still about it
 is about nothing.
 
-**Skip this sub-step when the diff removes nothing** — most additive work — so
-the ordinary pass pays nothing for the lens.
+**Add what the conversation ruled out**: an option the operator rejected, an
+element a draft dropped before it was committed. No diff holds these, so list
+them from the conversation, or from a relay summary's Decisions, and look for
+them in the prose the same way. A sentence about one denies a thing its reader
+never saw.
+
+**Skip this sub-step when neither the diff nor the conversation removed
+anything** — most additive work — so the ordinary pass pays nothing for the
+lens.
 
 ## Step 2: Read each added prose line and ask all four questions
 
@@ -112,7 +123,9 @@ The default is not to write it. Prose costs context on every session that loads
 it, and it goes stale invisibly — a constraint survives a refactor, a
 description of how the constraint works does not.
 
-Keep it only when **all three** hold:
+Content is held to its reader instead: it exists because its page needs it, so
+the question is only whether the person reading that page needs the sentence.
+Prose about code is kept only when **all three** hold:
 
 1. It is a **constraint or an accepted cost**, not a description of how the code
    works.
