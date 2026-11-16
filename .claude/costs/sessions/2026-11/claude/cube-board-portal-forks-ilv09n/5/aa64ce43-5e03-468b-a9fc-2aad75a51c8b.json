@@ -1,0 +1,104 @@
+{
+  "total": {
+    "inputTokens": 54,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 68733,
+    "cacheReadTokens": 2810032,
+    "outputTokens": 10483,
+    "thinkingTokens": 2376,
+    "responses": 26,
+    "costUsd": 1.3217464000000003
+  },
+  "estimate": {
+    "at": "2026-11-16T03:22:02.281Z",
+    "subjectLine": "chore: moon-night descent recordings compressed into the island release",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "Turning two raw screen captures into web-weight clips is routine ffmpeg work: a crop, one encode and an upload, with no creative calls"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-16T03:22:16.823Z",
+    "contextTokens": 123447,
+    "spend": {
+      "inputTokens": 52,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 68441,
+      "cacheReadTokens": 2686879,
+      "outputTokens": 9804,
+      "thinkingTokens": 2376,
+      "responses": 25,
+      "costUsd": 1.2811918000000002
+    }
+  },
+  "sessionId": "aa64ce43-5e03-468b-a9fc-2aad75a51c8b",
+  "branch": "claude/cube-board-portal-forks-ilv09n",
+  "cwd": "/Users/vova/Documents/GitHub/vovazakharov.com",
+  "openingPrompt": "@\"/Users/vova/Desktop/Screen Recording 2026-11-16 at 06.15.19.mov\" /from-branch island/stretch-3 сожми пжст спуск с орбиты в лунную ночь и зааплоадь в релиз",
+  "prs": [],
+  "url": null,
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-16T03:19:09.231Z",
+  "lastResponseAt": "2026-11-16T03:22:16.823Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 54,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 68733,
+    "cacheReadTokens": 2810032,
+    "outputTokens": 10483,
+    "thinkingTokens": 2376,
+    "responses": 26,
+    "costUsd": 1.3217464000000003
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 54,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 68733,
+      "cacheReadTokens": 2810032,
+      "outputTokens": 10483,
+      "thinkingTokens": 2376,
+      "responses": 26,
+      "costUsd": 1.3217464000000003
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": null,
+  "operatorWords": {
+    "chat": 51,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 431,
+    ".txt": 295,
+    ".json": 2,
+    ".scss": 11,
+    ".ts": 2708,
+    ".yaml": 477,
+    ".tsx": 8,
+    ".wgsl": 27
+  }
+}
