@@ -45,7 +45,7 @@ describe('a floor’s portal counts', () => {
     }
   });
 
-  // The figures of the simulations artifact's model, «Вовин-2», no landings.
+  // The figures of the model's `network(f, { P: 7, land: 0, minHub: true })`.
   it('holds the model’s hubs: one on floor 7, then 3, 14, 72', () => {
     assert.deepEqual(
       floors(7, 10).map((n) => hubCount(n)),

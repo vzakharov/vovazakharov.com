@@ -36,15 +36,15 @@ export function portalCount(n: number): bigint {
 
 /** The longest jump there is, from the first floor to the last. */
 const SPAN = PORTALS.last - PORTALS.first;
-/** The most multiples of the peak a jump's weight sums: `⌈SPAN / peak⌉ + 1`. */
+/** The most multiples of the peak a jump's weight sums. */
 const MULTIPLES = Math.ceil(SPAN / PORTALS.peak) + 1;
 
 /**
  * How much a jump of `d` floors weighs, up or down: the sum over the
  * multiples `j·peak` of `(den/num)^|j·peak − d| · perMultiple^−(j − 1)`, for
- * `j` up to `⌈d / peak⌉ + 1`. Scaled by `num^SPAN · perMultiple^MULTIPLES`
- * into a whole number, so only ratios of weights mean anything — and no
- * float power, which engines may round differently, ever enters the world.
+ * `j` up to `⌈d / peak⌉ + 1`. Scaled into a whole number, so only ratios of
+ * weights mean anything — and no float power, which engines may round
+ * differently, ever enters the world.
  */
 function lawOf(d: number): bigint {
   const { peak, offPeak, perMultiple } = PORTALS;

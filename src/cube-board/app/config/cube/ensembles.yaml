@@ -31,7 +31,7 @@ items:
     text: 'A network’s price is the walk to its first portal floor, alone and with a map: ↘6 at once, ↘7 5 min, ↘8 52 min, ↘9 5 h, ↘10 a day (the exit’s network, holding 66), ↘11 5.5 days, ↘12 30 days. Every network passes through madness, so it is seen without paying for ↘12'
   - id: en-pinned
     type: sticky
-    updated: [2026-11-16T07:05:00.000Z, agent:cube]
+    updated: [2026-11-16T16:15:28.000Z, agent:cube]
     box: [11878, 4880, 440, green]
     icon: 📌
-    text: 'Fixed: reception on 1, home life, a waiting room in some office (a ticket, a queue); open plan on 2; school corridor on 3; service corridor on 6, madness’s first stage; the hallway on 66, endless doors at the very end of madness, each to work some day. The rest of the order is a proposal, the full list with a reason per theme at https://claude.ai/artifact/VB4vSqUriZCGsrep7U2WJM'
+    text: 'Fixed: reception on 1, home life, a waiting room in some office (a ticket, a queue); open plan on 2; school corridor on 3; service corridor on 6, madness’s first stage; the hallway on 66, endless doors at the very end of madness, each to work some day. The rest of the order is the full list with a reason per theme at https://claude.ai/artifact/VB4vSqUriZCGsrep7U2WJM, but for the garage and the attic, moved up to 7 and 13'
