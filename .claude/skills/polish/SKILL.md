@@ -26,7 +26,10 @@ tree, and touch nothing until it returns. Its prompt carries:
   which this session does not read;
 - the argument, verbatim;
 - the plan under `docs/plans/`, when the branch has one, as the record of
-  intent.
+  intent;
+- what the conversation ruled out — options rejected, elements dropped before
+  they were committed — named in a bare list, since `/tend-prose`'s lens 4 looks
+  for them and the subagent never saw the conversation.
 
 Nothing else: no account of what was built or why.
 
