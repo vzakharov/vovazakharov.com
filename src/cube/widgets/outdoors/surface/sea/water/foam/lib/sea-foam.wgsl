@@ -3,7 +3,7 @@
 // it thins into is a pattern fixed to the sea, so no frame remembers another.
 
 import package::nature::shared::swell::swell_course::SWELL_RUNS;
-import package::scene::shared::shader::hash::{valueNoise, fbm, cellWalls};
+import package::gpu::shared::shader::hash::{valueNoise, fbm, cellWalls};
 import super::sea_foam_numbers::SWELL_PERIOD;
 import package::cube::widgets::outdoors::surface::sea::water::shore::lib::sea_shore::Shore;
 

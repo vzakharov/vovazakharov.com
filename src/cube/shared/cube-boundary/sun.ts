@@ -1,4 +1,4 @@
-import { vecf, wgsl } from '@/scene/shared/shader/wgsl';
+import { vecf, wgsl } from '@/gpu/shared/shader/wgsl';
 
 import type { Rgb } from '../lib/colour';
 import type { Vec3 } from '../lib/vec';

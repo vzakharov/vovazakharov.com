@@ -1,7 +1,7 @@
 // Generated from clear-colour.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { wgsl } from '@/scene/shared/shader';
+import { wgsl } from '@/gpu/shared/shader';
 
 import { CORE, LIGHT, SCENE, STUFF } from '../../../kit';
 import { PATTERN } from '../../pattern';

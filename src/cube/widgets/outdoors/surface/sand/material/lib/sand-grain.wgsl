@@ -4,7 +4,7 @@
 // several, so the beach holds one brightness from 20 cm to the far shore.
 
 import package::cube::entities::island::land::model::island_ease::sq;
-import package::scene::shared::shader::hash::{cellHash, unitOf, mix32};
+import package::gpu::shared::shader::hash::{cellHash, unitOf, mix32};
 import package::cube::widgets::outdoors::surface::beach::lib::sand_relief::noised;
 import package::cube::widgets::outdoors::surface::beach::lib::sand_relief_numbers::SAND_PI;
 import package::cube::widgets::outdoors::surface::beach::lib::sand_salt::SAND_SALT;

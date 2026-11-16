@@ -1,4 +1,4 @@
-import { f32, vecf } from '@/scene/shared/shader';
+import { f32, vecf } from '@/gpu/shared/shader';
 
 import { DEEP_SPEED, HOUR_SECONDS } from '@/nature/shared/swell';
 

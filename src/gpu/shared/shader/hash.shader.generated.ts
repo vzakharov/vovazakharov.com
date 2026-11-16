@@ -4,7 +4,7 @@
 import { wgsl } from './wgsl';
 
 export const HASH = wgsl(
-  'scene/shared/shader/hash',
+  'gpu/shared/shader/hash',
   /* wgsl */ `
 fn mix32(x: u32) -> u32 {
   var h = x;

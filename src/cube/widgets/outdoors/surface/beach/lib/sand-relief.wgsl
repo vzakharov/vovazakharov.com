@@ -3,7 +3,7 @@
 // by it near the eye and the fragment takes its slopes everywhere, so both
 // read these functions at the same ground point.
 
-import package::scene::shared::shader::hash::{cellHash, unitOf};
+import package::gpu::shared::shader::hash::{cellHash, unitOf};
 import super::sand_relief_numbers::{SAND_WIND, SAND_PI};
 import super::sand_salt::SAND_SALT;
 

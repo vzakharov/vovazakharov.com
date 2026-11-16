@@ -1,7 +1,7 @@
 // `cinema-corridor.ts` adds this floor's light and lens, `lamps()` among them.
 
 import package::cube::entities::theme::kit::lib::core::{WALL, FLOOR, OWNED, CEILING, TRIM, ROOM, DOORWAY_AT, Surf, alongWall, Material, matte, polished, glowing, embossed, repeated};
-import package::scene::shared::shader::hash::{valueNoise, fbm};
+import package::gpu::shared::shader::hash::{valueNoise, fbm};
 import package::cube::entities::theme::kit::lib::finish::{band, tiling, carpet};
 import package::cube::entities::theme::kit::lib::stuff::stuff;
 import package::cube::entities::theme::leisure::shape::lib::shape::{inside, stroke, roundBox};

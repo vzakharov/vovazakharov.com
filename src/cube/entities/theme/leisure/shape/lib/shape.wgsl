@@ -3,7 +3,7 @@
 // glass.
 
 import package::cube::entities::theme::kit::lib::core::{ROOM, Surf};
-import package::scene::shared::shader::hash::{unitOf, cellHash, valueNoise, cellWalls};
+import package::gpu::shared::shader::hash::{unitOf, cellHash, valueNoise, cellWalls};
 
 /// 1 where the signed distance `d` is negative, softened across a pixel.
 fn inside(d: f32) -> f32 {

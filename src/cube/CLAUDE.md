@@ -17,7 +17,7 @@ catches a breach of any of them:
   player's own earlier frames, as the drowsy eye's history does.
 - **Every random number is rolled** — `roll` / `rollWith` from
   `@/dice/shared/roll`, under a named path. A shader keeps only per-pixel noise,
-  through `@/scene/shared/shader/hash.wgsl` salted by a rolled value.
+  through `@/gpu/shared/shader/hash.wgsl` salted by a rolled value.
 - **Interactions come at a price.** Nothing one player does changes the state of
   the world — a footprint, a moved object, a ball kicked across a floor — except
   by purchase. What a player's body does is theirs alone (their pose, their

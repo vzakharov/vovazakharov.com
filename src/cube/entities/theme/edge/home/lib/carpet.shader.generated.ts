@@ -1,7 +1,7 @@
 // Generated from carpet.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { wgsl } from '@/scene/shared/shader';
+import { wgsl } from '@/gpu/shared/shader';
 
 export const CARPET = wgsl(
   'cube/entities/theme/edge/home/lib/carpet',

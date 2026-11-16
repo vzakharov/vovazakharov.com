@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { assemble, scalarWgsl } from '@/scene/shared/shader';
+import { assemble, scalarWgsl } from '@/gpu/shared/shader';
 
 import { turnsAt } from '../swell/swell';
 import { sheetDepth } from './shore-level';

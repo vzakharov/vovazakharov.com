@@ -1,4 +1,4 @@
-import { f32, wgsl } from '@/scene/shared/shader/wgsl';
+import { f32, wgsl } from '@/gpu/shared/shader/wgsl';
 
 import { ROOM_METRES } from '../lib/room-shape';
 import type { Vec3 } from '../lib/vec';

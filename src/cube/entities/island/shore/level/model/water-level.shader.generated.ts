@@ -1,7 +1,7 @@
 // Generated from water-level.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { wgsl } from '@/scene/shared/shader';
+import { wgsl } from '@/gpu/shared/shader';
 
 import { SHORE_LEVEL, SHORE_LEVEL_NUMBERS } from '@/nature/shared/shore';
 import { SWELL_COURSE } from '@/nature/shared/swell';

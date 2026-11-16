@@ -1,7 +1,7 @@
 // Generated from cloud-body.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { wgsl } from '@/scene/shared/shader';
+import { wgsl } from '@/gpu/shared/shader';
 
 import { CLOUD_NOISE } from './cloud-noise.shader.generated';
 import { CLOUD_NOISE_NUMBERS } from './cloud-noise-numbers';

@@ -9,4 +9,4 @@ export {
   vecf,
   type Wgsl,
   wgsl,
-} from '@/scene/shared/shader';
+} from '@/gpu/shared/shader';

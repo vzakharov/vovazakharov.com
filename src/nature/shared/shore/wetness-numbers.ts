@@ -1,4 +1,4 @@
-import { f32, wgsl } from '@/scene/shared/shader';
+import { f32, wgsl } from '@/gpu/shared/shader';
 
 /** Waves back that are asked whether they wetted a point. */
 export const WAVES_BACK = 6;

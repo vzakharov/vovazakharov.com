@@ -11,7 +11,7 @@ import package::cube::widgets::outdoors::stage::lib::sky::skyRadiance;
 import package::cube::widgets::outdoors::stage::lib::stage_numbers::SKY_METRES;
 import package::cube::shared::cube_boundary::sun::{SUN_LIGHT, SKY_FILL, HORIZON_FILL};
 import package::cube::widgets::outdoors::surface::beach::lib::sand_colour::sandBed;
-import package::scene::shared::shader::hash::fbm;
+import package::gpu::shared::shader::hash::fbm;
 import package::cube::widgets::outdoors::surface::sea::water::foam::lib::sea_foam::{lace, foamThickness, bubbles};
 import super::sea_light::{mirrored, glitter, upwelling};
 import super::sea_numbers::UNSEEN_SPREAD;

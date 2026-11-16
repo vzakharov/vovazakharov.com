@@ -1,7 +1,7 @@
 // Generated from sea-shore.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { wgsl } from '@/scene/shared/shader';
+import { wgsl } from '@/gpu/shared/shader';
 
 import { SHORE_LEVEL } from '@/nature/shared/shore';
 import { SWELL_COURSE, SWELL_TRAIN } from '@/nature/shared/swell';

@@ -1,7 +1,7 @@
 // Generated from reflection-pass.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { wgsl } from '@/scene/shared/shader';
+import { wgsl } from '@/gpu/shared/shader';
 
 import { REFLECTION_NUMBERS } from './reflection-numbers';
 import { SIGHT_LINE } from './sight-line.shader.generated';

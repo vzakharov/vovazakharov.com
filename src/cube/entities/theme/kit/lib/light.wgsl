@@ -4,7 +4,7 @@
 // room whose lamps failed takes its neighbours' through its doorways.
 
 import super::core::{Surf, Material, Mirror, mirroring, ROOM, PLASTIC, repeated, toSides, litOf, closedAt, litBeside, litAcross, wayAcross, wallBeside};
-import package::scene::shared::shader::hash::{hashOf, unitOf};
+import package::gpu::shared::shader::hash::{hashOf, unitOf};
 
 /// A floor's lamps: a square grid of panels in each room's ceiling.
 struct Lamps {

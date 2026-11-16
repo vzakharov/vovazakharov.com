@@ -1,7 +1,7 @@
 // Generated from wetness.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { wgsl } from '@/scene/shared/shader/wgsl';
+import { wgsl } from '@/gpu/shared/shader/wgsl';
 
 import { SWELL_NUMBERS } from '../swell/swell-numbers';
 import { SWELL_TRAIN } from '../swell/swell-train.shader.generated';

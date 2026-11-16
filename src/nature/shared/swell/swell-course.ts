@@ -1,4 +1,4 @@
-import { f32, vecf, wgsl } from '@/scene/shared/shader';
+import { f32, vecf, wgsl } from '@/gpu/shared/shader';
 
 import { DEEP_SPEED, SWELL_RUNS } from './swell';
 

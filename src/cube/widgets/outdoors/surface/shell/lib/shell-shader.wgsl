@@ -9,7 +9,7 @@ import package::cube::entities::island::land::model::ladder::{LADDER_FOOT, LADDE
 import package::cube::widgets::outdoors::stage::lib::cube_shadow::cubeShadow;
 import package::cube::widgets::outdoors::stage::lib::aerial::aerial;
 import package::cube::shared::cube_boundary::sun::{SUN_DIR, SUN_LIGHT, SKY_FILL};
-import package::scene::shared::shader::hash::{valueNoise, fbm, worley};
+import package::gpu::shared::shader::hash::{valueNoise, fbm, worley};
 import super::shell_material::{TURN, SAND_LIGHT, cooled, Band, bandAt, Face, shellFace};
 import super::shell_salt::SHELL_SALT;
 import super::shell_shader_numbers::{SHELL_TOP_FROM, SHELL_UNDERSIDE_FROM, SHELL_REVEAL_FROM, SHELL_STILE_FROM, SHELL_RUNG_FROM};

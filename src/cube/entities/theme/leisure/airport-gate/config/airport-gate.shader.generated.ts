@@ -1,7 +1,7 @@
 // Generated from airport-gate.wgsl by `pnpm shaders:codegen`. Edit the
 // source, not here — the vet run regenerates this file and fails when it had to.
 
-import { HASH, wgsl } from '@/scene/shared/shader';
+import { HASH, wgsl } from '@/gpu/shared/shader';
 
 import { CORE, FINISH, LIGHT, STUFF } from '../../../kit';
 import { SHAPE } from '../../shape';

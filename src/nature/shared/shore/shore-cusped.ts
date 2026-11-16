@@ -1,4 +1,4 @@
-import { f32, wgsl } from '@/scene/shared/shader';
+import { f32, wgsl } from '@/gpu/shared/shader';
 
 import { RADIANS_A_TURN } from '../swell/swell';
 import { SHORE_CUSP_SINES } from './shore-cusps';

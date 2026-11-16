@@ -1,4 +1,4 @@
-import { assemble } from '@/scene/shared/shader';
+import { assemble } from '@/gpu/shared/shader';
 
 import { SHORE_CUSPED, SHORE_LEVEL, WETNESS } from '@/nature/shared/shore';
 import { WATER_LIGHT } from '@/nature/shared/water';

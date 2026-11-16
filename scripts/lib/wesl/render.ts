@@ -20,8 +20,8 @@ import { placeImport } from './placement.ts';
 
 /** What every generated module builds its piece with. */
 const FACTORY: Named = {
-  file: 'src/scene/shared/shader/wgsl.ts',
-  module: 'src/scene/shared/shader/wgsl',
+  file: 'src/gpu/shared/shader/wgsl.ts',
+  module: 'src/gpu/shared/shader/wgsl',
   name: 'wgsl',
 };
 

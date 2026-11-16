@@ -1,5 +1,6 @@
 import type { Vec2 } from '@/scene/shared/lib/vec2';
-import { f32, wgsl } from '@/scene/shared/shader';
+
+import { f32, wgsl } from '@/gpu/shared/shader';
 
 import { pathHash, roll, rollWith } from '@/dice/shared/roll';
 

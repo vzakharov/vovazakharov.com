@@ -1,4 +1,4 @@
-import { f32 } from '@/scene/shared/shader';
+import { f32 } from '@/gpu/shared/shader';
 
 import { HOUR_SECONDS } from '@/nature/shared/swell';
 
