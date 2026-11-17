@@ -1,0 +1,128 @@
+{
+  "total": {
+    "inputTokens": 27743,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 60114,
+    "cacheReadTokens": 762616,
+    "outputTokens": 6737,
+    "thinkingTokens": 1693,
+    "responses": 10,
+    "costUsd": 0.7609468
+  },
+  "estimate": {
+    "at": "2026-11-17T17:10:27.418Z",
+    "subjectLine": "docs: taking real payments for the cube from an Armenian IE",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "analyst",
+        "comment": "choosing a payment provider for a non-Stripe country needs current knowledge of acquirers, merchants of record and tax exposure"
+      },
+      {
+        "hours": 0.5,
+        "grade": "senior",
+        "role": "architect",
+        "comment": "a static-export site with no server constrains which checkout flows can work at all"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-17T17:10:21.275Z",
+    "contextTokens": 108581,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 42548,
+      "cacheReadTokens": 333386,
+      "outputTokens": 1568,
+      "thinkingTokens": 574,
+      "responses": 4,
+      "costUsd": 0.4384532
+    }
+  },
+  "sessionId": "274a0eb1-1642-58c8-84a5-51adbf654ed1",
+  "branch": "claude/sweet-dirac-gx5cag",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "давай попробуем подключить мне страйп (ну или что-то) для куба. у меня есть армянский ип, что мне нужно дальше",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCEniH9ALnR1ofRPXo",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-17T17:10:00.023Z",
+  "lastResponseAt": "2026-11-17T17:10:50.863Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 17,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 60114,
+    "cacheReadTokens": 762616,
+    "outputTokens": 5195,
+    "thinkingTokens": 1693,
+    "responses": 8,
+    "costUsd": 0.7374032
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 17,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 60114,
+      "cacheReadTokens": 762616,
+      "outputTokens": 5195,
+      "thinkingTokens": 1693,
+      "responses": 8,
+      "costUsd": 0.7374032
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 27726,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 1542,
+      "thinkingTokens": 0,
+      "responses": 2,
+      "costUsd": 0.023543599999999998
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 10,
+    "matched": 8,
+    "matchedTableUsd": 0.7374032,
+    "matchedEventUsd": 0.7374032,
+    "unseen": {
+      "web_search_tool": {
+        "inputTokens": 27726,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 1542,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.023543599999999998
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 20,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {}
+}
