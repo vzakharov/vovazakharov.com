@@ -80,7 +80,8 @@ import {
  * The building as one life in six chapters, each eleven floors deep. Floor `n`
  * stands in chapter `(n − 1) mod 6`, at its `⌊(n − 1) / 6⌋`-th theme, so the
  * chapters interleave floor by floor, and a portal's jump of 7 — 1 mod 6 —
- * always lands in the next chapter.
+ * lands in the adjacent chapter: the next one going down, the previous one
+ * going up.
  */
 const ENSEMBLES: ReadonlyArray<readonly FloorTheme[]> = [
   /** Home life: a home that came from nowhere, things carried out, traces left. */
