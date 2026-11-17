@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 27743,
-    "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 60114,
-    "cacheReadTokens": 762616,
-    "outputTokens": 6737,
-    "thinkingTokens": 1693,
-    "responses": 10,
-    "costUsd": 0.7609468
+    "inputTokens": 28270,
+    "cacheWrite5mTokens": 1593,
+    "cacheWrite1hTokens": 80106,
+    "cacheReadTokens": 2020814,
+    "outputTokens": 10263,
+    "thinkingTokens": 1969,
+    "responses": 20,
+    "costUsd": 1.2578944000000003
   },
   "estimate": {
     "at": "2026-11-17T17:10:27.418Z",
@@ -45,25 +45,25 @@
     }
   },
   "sessionId": "274a0eb1-1642-58c8-84a5-51adbf654ed1",
-  "branch": "claude/sweet-dirac-gx5cag",
+  "branch": "claude/cube-payments-gx5cag",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "давай попробуем подключить мне страйп (ну или что-то) для куба. у меня есть армянский ип, что мне нужно дальше",
   "prs": [],
   "url": "https://claude.ai/code/session_01DaohkCEniH9ALnR1ofRPXo",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-17T17:10:00.023Z",
-  "lastResponseAt": "2026-11-17T17:10:50.863Z",
+  "lastResponseAt": "2026-11-17T18:06:37.268Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 17,
+    "inputTokens": 38,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 60114,
-    "cacheReadTokens": 762616,
-    "outputTokens": 5195,
-    "thinkingTokens": 1693,
-    "responses": 8,
-    "costUsd": 0.7374032
+    "cacheWrite1hTokens": 80106,
+    "cacheReadTokens": 1906067,
+    "outputTokens": 8693,
+    "thinkingTokens": 1969,
+    "responses": 17,
+    "costUsd": 1.1960734000000004
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,14 +77,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 17,
-      "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 60114,
-      "cacheReadTokens": 762616,
-      "outputTokens": 5195,
-      "thinkingTokens": 1693,
-      "responses": 8,
-      "costUsd": 0.7374032
+      "inputTokens": 544,
+      "cacheWrite5mTokens": 1593,
+      "cacheWrite1hTokens": 80106,
+      "cacheReadTokens": 2020814,
+      "outputTokens": 8721,
+      "thinkingTokens": 1969,
+      "responses": 18,
+      "costUsd": 1.2343508000000003
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 27726,
@@ -100,10 +100,10 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 10,
-    "matched": 8,
-    "matchedTableUsd": 0.7374032,
-    "matchedEventUsd": 0.7374032,
+    "events": 20,
+    "matched": 17,
+    "matchedTableUsd": 1.1960734000000004,
+    "matchedEventUsd": 1.1960734000000004,
     "unseen": {
       "web_search_tool": {
         "inputTokens": 27726,
@@ -114,6 +114,16 @@
         "thinkingTokens": 0,
         "responses": 2,
         "costUsd": 0.023543599999999998
+      },
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 1593,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 114747,
+        "outputTokens": 28,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0382774
       }
     }
   },
@@ -124,5 +134,7 @@
   },
   "reviewPosts": {},
   "threadPosts": {},
-  "branchLines": {}
+  "branchLines": {
+    ".md": 115
+  }
 }
