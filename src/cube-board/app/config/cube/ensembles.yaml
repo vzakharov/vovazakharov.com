@@ -7,10 +7,10 @@ items:
     text: 'Themes as a life, portals as its chapters: in the game since 16 Nov, the garage on 7 and the attic on 13'
   - id: en-grid
     type: image
-    updated: [2026-11-16T16:18:00.000Z, agent:cube]
+    updated: [2026-11-17T03:18:00.000Z, agent:cube]
     box: [10678, 3990, 1160]
     src: images/ensembles-grid.webp
-    text: 'Columns are the floors’ remainders mod 7, floors run left to right seven to a row, and a frame’s colour is its theme’s ensemble. The likeliest jump goes one row down a column, and the colour moves on each time. Floors 1–5, dashed, are walked to, with no portal. Each frame is the theme as it looks today, shot on the floor it stands on now'
+    text: 'Columns are the floors’ remainders mod 7, floors run left to right seven to a row, and a frame’s colour is its theme’s ensemble. The likeliest jump goes one row down or up a column, and the colour shifts by one each time. Floors 1–5, dashed, are walked to, with no portal. Each frame is the theme as it looks today, shot on the floor it stands on now'
   - id: en-story
     type: sticky
     updated: [2026-11-16T08:10:00.000Z, agent:cube]
@@ -19,10 +19,10 @@ items:
     text: 'The cube as an afterlife: the life of a man whose life broke. Six ensembles of 11 floors, six chapters: home life, work, childhood, hobbies, science (experiments, on him or by him), madness, each eerie in its own way. Vova: there is no solution, each player puts the story together their own way'
   - id: en-cycles
     type: sticky
-    updated: [2026-11-16T16:18:00.000Z, agent:cube]
+    updated: [2026-11-17T03:18:00.000Z, agent:cube]
     box: [11878, 4300, 440, purple]
     icon: 🔢
-    text: 'Two cycles out of step. Themes go by 6: floor n is in ensemble (n − 1) mod 6. Portals peak at 7: the likeliest jump is 7 floors, and 7 is 1 mod 6, so it lands in the next ensemble, the next chapter. A third of all jumps do; the rest skip chapters or stay in one, so the life comes out of order'
+    text: 'Two cycles out of step. Themes go by 6: floor n is in ensemble (n − 1) mod 6. Portals peak at 7: the likeliest jump is 7 floors, and 7 is 1 mod 6, so it lands in the adjacent ensemble: the next chapter going down, the previous one going up. A third of all jumps do; the rest skip chapters or stay in one, so the life comes out of order'
   - id: en-cost
     type: sticky
     updated: [2026-11-16T20:04:00.000Z, agent:cube]

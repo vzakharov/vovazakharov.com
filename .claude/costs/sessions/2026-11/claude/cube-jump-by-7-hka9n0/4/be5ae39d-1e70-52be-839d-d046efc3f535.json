@@ -1,0 +1,95 @@
+{
+  "total": {
+    "inputTokens": 19,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 70788,
+    "cacheReadTokens": 941922,
+    "outputTokens": 3647,
+    "thinkingTokens": 791,
+    "responses": 9,
+    "costUsd": 0.8277044
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-17T03:18:28.465Z",
+    "contextTokens": 112320,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 54171,
+      "cacheReadTokens": 367269,
+      "outputTokens": 1150,
+      "thinkingTokens": 62,
+      "responses": 4,
+      "costUsd": 0.5298537999999999
+    }
+  },
+  "sessionId": "be5ae39d-1e70-52be-839d-d046efc3f535",
+  "branch": "claude/cube-jump-by-7-hka9n0",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cube-jump-by-7-hka9n0 — PR готов к ревью, мердж ждёт ответа на критическое предложение",
+  "prs": [
+    290
+  ],
+  "url": "https://claude.ai/code/session_01DaohkCzzmgVa1jot1S7GMx",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-17T03:17:55.491Z",
+  "lastResponseAt": "2026-11-17T03:18:47.503Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 19,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 70788,
+    "cacheReadTokens": 941922,
+    "outputTokens": 3647,
+    "thinkingTokens": 791,
+    "responses": 9,
+    "costUsd": 0.8277044
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 19,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 70788,
+      "cacheReadTokens": 941922,
+      "outputTokens": 3647,
+      "thinkingTokens": 791,
+      "responses": 9,
+      "costUsd": 0.8277044
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 8,
+    "matched": 8,
+    "matchedTableUsd": 0.7817314,
+    "matchedEventUsd": 0.7817314,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 44,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 84,
+    ".yaml": 12,
+    ".ts": 196
+  }
+}
