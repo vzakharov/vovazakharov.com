@@ -1,16 +1,16 @@
 items:
   - id: z-ensembles
     type: zone
-    updated: [2026-11-16T07:05:00.000Z, agent:cube]
+    updated: [2026-11-16T16:00:00.000Z, agent:cube]
     box: [10650, 3880, 1700, 1330, purple]
     icon: 🧩
-    text: 'Themes as a life, portals as its chapters: a proposal, not in code yet'
+    text: 'Themes as a life, portals as its chapters: in the game since 16 Nov, the garage on 7 and the attic on 13'
   - id: en-grid
     type: image
-    updated: [2026-11-16T07:05:00.000Z, agent:cube]
+    updated: [2026-11-17T03:18:00.000Z, agent:cube]
     box: [10678, 3990, 1160]
     src: images/ensembles-grid.webp
-    text: 'Columns are the seven portal networks, floors run left to right seven to a row, and a frame’s colour is its theme’s ensemble. A jump goes one row down a column, and the colour moves on each time. Floors 1–5, dashed, are walked to, with no portal. Each frame is the theme as it looks today, shot on the floor it stands on now'
+    text: 'Columns are the floors’ remainders mod 7, floors run left to right seven to a row, and a frame’s colour is its theme’s ensemble. The likeliest jump goes one row down or up a column, and the colour shifts by one each time. Floors 1–5, dashed, are walked to, with no portal. Each frame is the theme as it looks today, shot on the floor it stands on now'
   - id: en-story
     type: sticky
     updated: [2026-11-16T08:10:00.000Z, agent:cube]
@@ -19,19 +19,19 @@ items:
     text: 'The cube as an afterlife: the life of a man whose life broke. Six ensembles of 11 floors, six chapters: home life, work, childhood, hobbies, science (experiments, on him or by him), madness, each eerie in its own way. Vova: there is no solution, each player puts the story together their own way'
   - id: en-cycles
     type: sticky
-    updated: [2026-11-16T08:10:00.000Z, agent:cube]
+    updated: [2026-11-17T03:18:00.000Z, agent:cube]
     box: [11878, 4300, 440, purple]
     icon: 🔢
-    text: 'Two cycles out of step. Themes go by 6: floor n is in ensemble (n − 1) mod 6. Portals go by 7: a network is the floors with one remainder mod 7, from floor 6. A jump is 7 floors, and 7 is 1 mod 6, so every jump lands in the next ensemble, the next chapter, and one network walks the whole life'
+    text: 'Two cycles out of step. Themes go by 6: floor n is in ensemble (n − 1) mod 6. Portals peak at 7: the likeliest jump is 7 floors, and 7 is 1 mod 6, so it lands in the adjacent ensemble: the next chapter going down, the previous one going up. A third of all jumps do; the rest skip chapters or stay in one, so the life comes out of order'
   - id: en-cost
     type: sticky
-    updated: [2026-11-16T07:05:00.000Z, agent:cube]
+    updated: [2026-11-16T20:04:00.000Z, agent:cube]
     box: [11878, 4600, 440, blue]
     icon: ⏳
-    text: 'A network’s price is the walk to its first portal floor, alone and with a map: ↘6 at once, ↘7 5 min, ↘8 52 min, ↘9 5 h, ↘10 a day (the exit’s network, holding 66), ↘11 5.5 days, ↘12 30 days. Every network passes through madness, so it is seen without paying for ↘12'
+    text: 'The walk down to each of the first portal floors, alone and with a map: ↘6 at once, ↘7 5 min, ↘8 52 min, ↘9 5 h, ↘10 a day (66’s remainder mod 7), ↘11 5.5 days, ↘12 30 days. Each opens onto the floors below in every column, so the walk buys a starting column'
   - id: en-pinned
     type: sticky
-    updated: [2026-11-16T07:05:00.000Z, agent:cube]
+    updated: [2026-11-16T16:15:28.000Z, agent:cube]
     box: [11878, 4880, 440, green]
     icon: 📌
-    text: 'Fixed: reception on 1, home life, a waiting room in some office (a ticket, a queue); open plan on 2; school corridor on 3; service corridor on 6, madness’s first stage; the hallway on 66, endless doors at the very end of madness, each to work some day. The rest of the order is a proposal, the full list with a reason per theme at https://claude.ai/artifact/VB4vSqUriZCGsrep7U2WJM'
+    text: 'Fixed: reception on 1, home life, a waiting room in some office (a ticket, a queue); open plan on 2; school corridor on 3; service corridor on 6, madness’s first stage; the hallway on 66, endless doors at the very end of madness, each to work some day. The rest of the order is the full list with a reason per theme at https://claude.ai/artifact/VB4vSqUriZCGsrep7U2WJM, but for the garage and the attic, moved up to 7 and 13'

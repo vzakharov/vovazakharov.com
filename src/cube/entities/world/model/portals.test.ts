@@ -3,13 +3,7 @@ import { describe, it } from 'node:test';
 
 import { wallsOf } from './doorways.test-kit';
 import { maze } from './maze';
-import {
-  hubCount,
-  hubOf,
-  portalCount,
-  PORTALS,
-  spokeCount,
-} from './portal-counts';
+import { hubCount, hubOf, portalCount, PORTALS } from './portal-counts';
 import {
   type Portal,
   portalAt,
@@ -142,38 +136,23 @@ describe('where a portal leads', () => {
     assert.ok(turned.length > 10, `turned in ${turned.length} of 20 minutes`);
   });
 
-  it('a floor-20 hub leads one floor down three times in four', () => {
+  it('a floor-20 hub drops 7 floors most often, 14 a quarter as often, 1 almost never', () => {
     const rolled = maze('8675309');
+    // Hub 0 has a spoke on every floor below, so it rolls the law unlimited.
     const hub = portalNumbered(rolled, 20, 0n);
     const drops = new Map<number, number>();
-    const epochs = 2000;
+    const epochs = 4000;
     for (let epoch = 0; epoch < epochs; epoch += 1) {
       const drop =
         portalTarget(rolled, hub, 1, during(epoch)).portal.wall.n - 20;
       drops.set(drop, (drops.get(drop) ?? 0) + 1);
     }
     const share = (drop: number) => (drops.get(drop) ?? 0) / epochs;
-    assert.ok(Math.abs(share(1) - 0.75) < 0.03, `one down: ${share(1)}`);
-    assert.ok(Math.abs(share(2) - 0.1875) < 0.03, `two down: ${share(2)}`);
-    assert.ok(Math.min(...drops.keys()) === 1);
-  });
-
-  it('a hub’s spokes on a floor all turn up in time', () => {
-    const rolled = maze('1');
-    const [hub] = portalsOf(rolled, first);
-    assert.ok(hub);
-    const seen = new Set<bigint>();
-    for (let epoch = 0; epoch < 400; epoch += 1) {
-      const { wall, number } = portalTarget(
-        rolled,
-        hub,
-        1,
-        during(epoch),
-      ).portal;
-      if (wall.n === first + 1) seen.add(number);
-    }
-    // Floor 7's spokes all lead to the one hub above them.
-    assert.equal(BigInt(seen.size), spokeCount(first + 1));
+    // The model's law over the 46 floors below 20.
+    assert.ok(Math.abs(share(7) - 0.2893) < 0.025, `seven: ${share(7)}`);
+    assert.ok(Math.abs(share(6) - 0.1286) < 0.02, `six: ${share(6)}`);
+    assert.ok(Math.abs(share(14) - 0.0733) < 0.015, `fourteen: ${share(14)}`);
+    assert.ok(share(1) < 0.01, `one: ${share(1)}`);
   });
 
   it('steps into the room beyond the far wall, and back into the one left', () => {
