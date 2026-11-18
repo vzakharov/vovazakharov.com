@@ -53,8 +53,9 @@ to think over, outside this plan.
 floor `m` with exactly the law's share `w_m / W`, up to how ticks cut the
 quantiles — the law the simulations artifact picked is unchanged in time, only
 rearranged across the cycle. With drop 7 at ~29% of a floor-20 hub's law, the
-slowest tick (37% of the cycle) shows a drop of 7 nearly always and a 6 the
-rest; a one-floor drop (<1%) can only come up in the flicker.
+slowest tick (37% of the cycle) shows a drop of 7 nearly always and an 8 the
+rest (the next peak, 14, lifts 8 just above 6); a one-floor drop (<1%) can only
+come up in the flicker.
 
 **Every hub turns on the same tick**, as now, since the table is shared.
 
@@ -82,10 +83,11 @@ the body into another. So:
 - **The crossing is the clock's**, unchanged: `carriedThrough` asks `beyond` at
   the frame's instant, so the body goes where the door leads then, built or not.
 
-How long one build takes decides whether a cycle's eleven fit in its five
-seconds; `/preview` measures it on a deep floor, and if they do not fit, the
-queue builds in tick order — the slow tick's target first, since it is the one a
-player can aim for.
+The queue builds the slow tick's target first, since it is the one a player can
+aim for, skips a build whose ticks passed while it waited, and builds again a
+room the cache dropped. How long one build takes — whether a cycle's eleven fit
+in its five seconds — is unmeasured: the container's software WebGPU fails the
+portal script on `main` as on the branch, so it waits for a preview slot.
 
 ## Tests and the script
 

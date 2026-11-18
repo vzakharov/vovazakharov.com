@@ -2,15 +2,12 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { PORTALS } from './portal-counts';
-import { SOLVED, tickAt, ticksFrom } from './portal-tempo';
+import { cycleFrom, SOLVED, tickAt } from './portal-tempo';
 
 const { cycleMs, ticks } = PORTALS.tempo;
 
 /** The ticks of cycle `cycle`, in order. */
-const cycleOf = (cycle: number) => {
-  const from = ticksFrom(cycle * cycleMs);
-  return Array.from({ length: ticks }, () => from.next().value);
-};
+const cycleOf = (cycle: number) => cycleFrom(cycle * cycleMs);
 
 describe('the portal tempo', () => {
   it('cuts a cycle into its ticks, end to end', () => {

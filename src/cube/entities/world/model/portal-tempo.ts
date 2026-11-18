@@ -89,6 +89,12 @@ export function tickAt(epochMs: number): Tick {
   return tickOf(cycle, tick);
 }
 
+/** The tick `epochMs` falls in and the ones after it, a cycle's count of them. */
+export function cycleFrom(epochMs: number): Tick[] {
+  const from = ticksFrom(epochMs);
+  return Array.from({ length: ticks }, () => from.next().value);
+}
+
 /** The tick `epochMs` falls in, and every one after it. */
 export function* ticksFrom(epochMs: number): Generator<Tick, never> {
   let { cycle, tick } = tickAt(epochMs);

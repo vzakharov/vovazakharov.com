@@ -2,6 +2,7 @@ import type { Seen } from '@/cube/shared/lib/vec';
 import {
   type Ajar,
   beyondOf,
+  cycleFrom,
   doorFrame,
   type Facing,
   farSideOf,
@@ -9,7 +10,7 @@ import {
   type Quad,
   roomBeyond,
   roomKey,
-  ticksFrom,
+  type Tick,
   wayThrough,
 } from '@/cube/entities/world';
 
@@ -52,11 +53,10 @@ export type PortalView = {
   settled: () => Promise<void>;
 };
 
-/** How many ticks ahead of the clock the rooms through a door are built. */
-const AHEAD = 11;
-
 /** The most built rooms kept, oldest dropped first: two cycles' worth. */
-const KEPT = 2 * AHEAD + 2;
+const KEPT = 2 * cycleFrom(0).length + 2;
+
+const holdOf = ({ startMs, endMs }: Tick): number => endMs - startMs;
 
 const wayKey = ({ isEast, toward, ...room }: Facing): string =>
   `${roomKey(room)}${isEast ? 'e' : 's'}${String(toward)}`;
@@ -72,43 +72,64 @@ export function createPortalView({
 }: Showing): PortalView {
   /** Rooms built and prepared, by the way into them and the way out past them. */
   const built = new Map<string, Scenery>();
-  /** Every build ever queued, so a failed one is not tried again each tick. */
-  const queued = new Set<string>();
+  /** Builds queued and not yet done, by key: when the last tick wanting each ends. */
+  const due = new Map<string, number>();
+  /** Builds that failed, so one is reported once rather than every tick. */
+  const failed = new Set<string>();
   /** The rooms uploaded to the renderer, by key. */
   let uploaded: string | null = null;
   /** The way and tick last looked ahead from, so a frame looks once a tick. */
   let looked: string | null = null;
+  /** The instant of the frame last seen, which a build whose ticks have passed is skipped by. */
+  let clock = 0;
   let pending = Promise.resolve();
 
   const make = async (key: string, way: Facing, far: Facing): Promise<void> => {
-    const frame = poseIn(roomBeyond(far));
-    const mesh = await build(frame, copy, bought(), null, far);
-    const rooms = mesh.faces(null);
-    // The far floor's own shader too, which the eye sees through on arrival.
-    await Promise.all([
-      renderer()?.prepare(floorsIn([rooms]), way.n),
-      renderer()?.prepare([far.n]),
-    ]);
-    built.set(key, rooms);
+    if ((due.get(key) ?? 0) <= clock) {
+      due.delete(key);
+      return;
+    }
+    try {
+      const frame = poseIn(roomBeyond(far));
+      const mesh = await build(frame, copy, bought(), null, far);
+      const rooms = mesh.faces(null);
+      // The far floor's own shader too, which the eye sees through on arrival.
+      await Promise.all([
+        renderer()?.prepare(floorsIn([rooms]), way.n),
+        renderer()?.prepare([far.n]),
+      ]);
+      built.set(key, rooms);
+    } catch (error) {
+      failed.add(key);
+      throw error;
+    } finally {
+      due.delete(key);
+    }
     for (const old of built.keys()) {
       if (built.size <= KEPT) break;
       if (old !== uploaded) built.delete(old);
     }
   };
 
-  /** Queues, in tick order, the rooms `way` leads to over the coming ticks. */
+  /**
+   * Queues the rooms `way` leads to over the coming cycle of ticks, the
+   * longest tick's first: the one a player can aim for, should builds fall
+   * behind the flicker.
+   */
   const lookAhead = (way: Facing, epochMs: number): void => {
-    const ticks = ticksFrom(epochMs);
-    const now = ticks.next().value;
-    const at = `${wayKey(way)}@${String(now.cycle)}/${String(now.tick)}`;
+    const ticks = cycleFrom(epochMs);
+    const [now] = ticks;
+    const at = `${wayKey(way)}@${String(now?.cycle)}/${String(now?.tick)}`;
     if (looked === at) return;
     looked = at;
-    for (let i = 0, tick = now; i < AHEAD; i += 1, tick = ticks.next().value) {
+    for (const tick of ticks.toSorted((a, b) => holdOf(b) - holdOf(a))) {
       const far = farSideOf(way, tick.startMs);
       if (far === null) continue;
       const key = keyOf(way, far);
-      if (queued.has(key)) continue;
-      queued.add(key);
+      if (built.has(key) || failed.has(key)) continue;
+      const until = due.get(key);
+      due.set(key, Math.max(until ?? 0, tick.endMs));
+      if (until !== undefined) continue;
       pending = pending.then(async () => make(key, way, far)).catch(onError);
     }
   };
@@ -119,6 +140,7 @@ export function createPortalView({
       const way = wayThrough(door, at);
       const far = farSideOf(way, epochMs);
       if (far === null) return null;
+      clock = epochMs;
       lookAhead(way, epochMs);
       const key = keyOf(way, far);
       const rooms = built.get(key);

@@ -54,7 +54,7 @@ export {
   roomBeyond,
   wayThrough,
 } from './model/portal';
-export { ticksFrom } from './model/portal-tempo';
+export { cycleFrom, type Tick, ticksFrom } from './model/portal-tempo';
 export { portalsOf } from './model/portals';
 export type {
   Gazing,
