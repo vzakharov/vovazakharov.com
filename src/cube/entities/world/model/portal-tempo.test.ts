@@ -6,7 +6,7 @@ import { SOLVED, tickAt, ticksFrom } from './portal-tempo';
 
 const { cycleMs, ticks } = PORTALS.tempo;
 
-/** A cycle's ticks, in order, from one starting at a whole cycle. */
+/** The ticks of cycle `cycle`, in order. */
 const cycleOf = (cycle: number) => {
   const from = ticksFrom(cycle * cycleMs);
   return Array.from({ length: ticks }, () => from.next().value);

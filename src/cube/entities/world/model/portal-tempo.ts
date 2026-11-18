@@ -60,10 +60,7 @@ const WINDOWS: readonly Window[] = (() => {
   return windows;
 })();
 
-/**
- * A tick of the shared clock: the cycle since the epoch and the tick within
- * it, when it starts and ends in ms since the epoch, and its window.
- */
+/** A tick of the shared clock, its cycle counted and its times in ms since the epoch. */
 export type Tick = {
   cycle: number;
   tick: number;

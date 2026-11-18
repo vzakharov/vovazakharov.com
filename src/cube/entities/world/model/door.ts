@@ -71,7 +71,7 @@ const paintAt = (index: number): number => LEAF_PAINTS[index] ?? LEAF_PAINTS[0];
  * How the door in `wall` looks, the same to every eye: its leaf's paint, and
  * the jamb it hangs on, the doorway's north or west (`from`) or its south or
  * east (`to`), its handle by the other. A portal's two doors are one leaf
- * seen from its two sides, whichever pair the minute makes of them: each
+ * seen from its two sides, whichever pair the tick makes of them: each
  * hangs at the left of one walking east or south through it, in the paint
  * its hub's wall rolls, since every pairing is a hub and one of its spokes.
  */
