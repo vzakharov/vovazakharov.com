@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 747507,
+    "inputTokens": 747511,
     "cacheWrite5mTokens": 293251,
-    "cacheWrite1hTokens": 281537,
-    "cacheReadTokens": 13054026,
-    "outputTokens": 164130,
+    "cacheWrite1hTokens": 284161,
+    "cacheReadTokens": 13456261,
+    "outputTokens": 164465,
     "thinkingTokens": 7240,
-    "responses": 182,
-    "costUsd": 8.608214599999998
+    "responses": 184,
+    "costUsd": 8.716369599999998
   },
   "estimate": {
     "at": "2026-11-18T04:32:33.551Z",
@@ -52,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkDJmcPPNQUpnEEuC6h",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-18T04:14:26.868Z",
-  "lastResponseAt": "2026-11-18T05:49:21.374Z",
+  "lastResponseAt": "2026-11-18T05:52:00.680Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 5.9889705000000015,
   "ownTurns": {
-    "inputTokens": 63,
+    "inputTokens": 67,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 281537,
-    "cacheReadTokens": 4159309,
-    "outputTokens": 23683,
+    "cacheWrite1hTokens": 284161,
+    "cacheReadTokens": 4561544,
+    "outputTokens": 24018,
     "thinkingTokens": 7240,
-    "responses": 31,
-    "costUsd": 3.5580698
+    "responses": 33,
+    "costUsd": 3.6662248
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,14 +77,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 2728,
+      "inputTokens": 2732,
       "cacheWrite5mTokens": 293251,
-      "cacheWrite1hTokens": 281537,
-      "cacheReadTokens": 13054026,
-      "outputTokens": 69077,
+      "cacheWrite1hTokens": 284161,
+      "cacheReadTokens": 13456261,
+      "outputTokens": 69412,
       "thinkingTokens": 7240,
-      "responses": 103,
-      "costUsd": 8.076210199999998
+      "responses": 105,
+      "costUsd": 8.184365199999998
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 744779,
@@ -158,7 +158,7 @@
     }
   },
   "operatorWords": {
-    "chat": 346,
+    "chat": 374,
     "review": 0,
     "threads": 0
   },
