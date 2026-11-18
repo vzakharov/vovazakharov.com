@@ -28,7 +28,8 @@ import { ROOM_HEIGHT } from '@/cube/shared/lib/room-shape';
 import { priceOf, type Signed } from '@/cube/entities/world';
 
 import type COPY from '../config/messages/en.json';
-import { formatLength, formatPrice } from '../lib/figures';
+import { formatCubes, formatLength } from '../lib/figures';
+import { CubesMark } from './cubes-mark';
 
 /** Floor 1's room side, in metres; each floor's is half the one above's. */
 const FLOOR_ONE_SIDE = 5;
@@ -63,7 +64,12 @@ export function SaleOffer({ offer, onBuy, onClose, copy }: SaleOfferProps) {
           <Stack gap="sm">
             <Text size="xl" fw={700}>
               {fillSlots(yours ? copy.paid : copy.price, {
-                price: formatPrice(priceOf(floor)),
+                price: (
+                  <>
+                    <CubesMark label={copy.cubes} />
+                    {formatCubes(priceOf(floor))}
+                  </>
+                ),
               })}
             </Text>
             <Text c="dimmed">

@@ -52,6 +52,7 @@
       "yours": "Sold"
     },
     "sold": "Yours",
+    "cubes": "cubes",
     "hint": "Press E to see the offer",
     "hintYours": "Press E to see your room",
     "title": "A room on floor {floor}",

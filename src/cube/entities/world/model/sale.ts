@@ -32,19 +32,27 @@ export type Signed = InRoomOf & { sign: Sign };
 /** The rooms the viewer bought, by `roomKey`, each where its sign hung. */
 export type Holdings = ReadonlyMap<string, SignMount>;
 
-/** Floor 2's one room for sale, in dollars: the rate every floor's is set by. */
+/** Floor 2's one room for sale, in кубики: the rate every floor's is set by. */
 const FLOOR_TWO_PRICE = 10_000_000;
 
 /** No room sells for less, however small: floor 9's and every one below. */
-const LOWEST_PRICE = 4.99;
+const LOWEST_PRICE = 5;
+
+/** Digits a price keeps: a game's prices read as round numbers. */
+const PRICE_DIGITS = 3;
 
 /**
- * A room of floor `n`'s price, in dollars. Every floor's room is an eighth of
- * the volume of the floor above's, so down to the lowest price this is one
- * price per cubic metre.
+ * A room of floor `n`'s price, in whole кубики to three significant figures.
+ * Every floor's room is an eighth of the volume of the floor above's, so down
+ * to the lowest price this is one price per cubic metre, rounding aside.
  */
 export const priceOf = (n: number): number =>
-  Math.max(FLOOR_TWO_PRICE / 8 ** (n - 2), LOWEST_PRICE);
+  Math.max(
+    Math.round(
+      Number((FLOOR_TWO_PRICE / 8 ** (n - 2)).toPrecision(PRICE_DIGITS)),
+    ),
+    LOWEST_PRICE,
+  );
 
 /**
  * `room`'s sign, given the rooms the viewer `bought` and `isEnd`, which says
@@ -101,8 +109,8 @@ export function signsSeen(
   });
 }
 
-/** A sale sign: 1.5 m wide and 75 cm tall on floor 1, its middle 1.5 m up. */
-const SIGN: BoardShape = { width: 0.3, height: 0.15, hungAt: 0.3 };
+/** A sale sign: 1 m wide and 50 cm tall on floor 1, its middle 1.5 m up. */
+const SIGN: BoardShape = { width: 0.2, height: 0.1, hungAt: 0.3 };
 
 /** The board of the sign at `mount` in `room`, at `place` in the eye's frame. */
 export const signFacets = (

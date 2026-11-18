@@ -1,6 +1,8 @@
 import {
+  type Glyph,
   measure,
   paintStrokes,
+  placedAt,
   type Polyline,
   scriptOf,
   strokes,
@@ -28,8 +30,14 @@ type Lettered = {
     colour: Rgb,
     height: number,
   ) => void;
-  /** `text` inked the same way, in the floor's script. */
-  write: (text: string, cap: number, colour: Rgb, height: number) => void;
+  /** `text` inked the same way, in the floor's script, after `lead` if given. */
+  write: (
+    text: string,
+    cap: number,
+    colour: Rgb,
+    height: number,
+    lead?: Glyph,
+  ) => void;
 };
 
 /**
@@ -64,8 +72,18 @@ export function letteredBoard(
   return {
     canvas,
     ink,
-    write: (text, cap, colour, height) => {
-      ink(strokes(text, script), measure(text, script), cap, colour, height);
+    write: (text, cap, colour, height, lead) => {
+      const shift = lead?.advance ?? 0;
+      ink(
+        [
+          ...(lead?.lines ?? []),
+          ...placedAt(strokes(text, script), 1, shift),
+        ],
+        shift + measure(text, script),
+        cap,
+        colour,
+        height,
+      );
     },
   };
 }

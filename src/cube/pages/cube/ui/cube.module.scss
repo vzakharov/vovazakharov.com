@@ -48,6 +48,26 @@
   white-space: pre-line;
 }
 
+// The кубики mark in a line of text, a cap height tall on its baseline.
+.cubesMark {
+  display: inline-block;
+  height: 0.75em;
+  margin-right: 0.25em;
+  vertical-align: baseline;
+}
+
+// The balance, under the frame-rate meter: the one corner a pointer opens.
+.balance {
+  @extend %corner;
+
+  top: 40px;
+  right: 12px;
+  border: 0;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
 // The sign's hint, under the crosshair's place, letting pointers through.
 .hint {
   position: fixed;
