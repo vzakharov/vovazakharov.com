@@ -11,5 +11,5 @@ export {
   setRemembered,
   subscribe,
 } from './model/account';
-export { type Identity, identityOf, isPhrase } from './model/identity';
+export { type Identity, isPhrase } from './model/identity';
 export { loginLink, pastedPhrase } from './model/login-link';

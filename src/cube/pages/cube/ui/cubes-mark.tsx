@@ -30,7 +30,7 @@ type CubesProps = WithLabel & { count: number };
  * The кубики mark in text, a cap height tall, inked in the text's colour: the
  * strokes the sign boards letter, as an SVG.
  */
-export function CubesMark({ label }: WithLabel) {
+function CubesMark({ label }: WithLabel) {
   return (
     <>
       <svg className={classes['cubesMark']} {...{ viewBox }} aria-hidden>

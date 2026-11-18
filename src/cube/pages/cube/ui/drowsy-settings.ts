@@ -37,7 +37,7 @@ type Settled = {
  * The console's knobs: each setter takes one setting, throws on a bad value,
  * and returns every setting as it now stands, which the console prints.
  */
-export type DrowsyConsole = Settled & {
+type DrowsyConsole = Settled & {
   setDrowsy: (on: unknown) => DrowsySettings;
   setShare: (share: unknown) => DrowsySettings;
   setDrowsiness: (drowsiness: unknown) => DrowsySettings;

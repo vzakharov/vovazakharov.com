@@ -21,7 +21,6 @@ import {
   create,
   type Held,
   type Identity,
-  identityOf,
   isPhrase,
   logIn,
   loginLink,
@@ -71,22 +70,18 @@ function Copyable({ value, copy }: CopyableProps) {
 
 /**
  * A new account, or the login form: twelve words or a login link carrying
- * them, and optionally the id they should prove, laid out as a password
- * manager expects so it can fill them in.
+ * them, which the id is derived from. The id's field is hidden but kept, so a
+ * password manager can pick the saved login it belongs to.
  */
 function LogIn({ copy }: WithCopy) {
   const [error, setError] = useState<string | null>(null);
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    const phrase = pastedPhrase(fieldOf(form, 'phrase'));
-    const id = fieldOf(form, 'id');
+    const phrase = pastedPhrase(
+      fieldOf(new FormData(event.currentTarget), 'phrase'),
+    );
     if (!isPhrase(phrase)) {
       setError(copy.wrongWords);
-      return;
-    }
-    if (id !== '' && identityOf(phrase).id !== id) {
-      setError(copy.wrongId);
       return;
     }
     logIn(phrase);
@@ -99,10 +94,11 @@ function LogIn({ copy }: WithCopy) {
       </Text>
       <form onSubmit={submit}>
         <Stack gap="xs">
-          <TextInput
+          <input
             name="id"
-            label={copy.idOptional}
+            aria-label={copy.id}
             autoComplete="username"
+            hidden
           />
           <TextInput
             name="phrase"
