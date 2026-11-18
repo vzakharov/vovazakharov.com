@@ -1,0 +1,103 @@
+{
+  "total": {
+    "inputTokens": 45,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 132757,
+    "cacheReadTokens": 2877876,
+    "outputTokens": 18361,
+    "thinkingTokens": 10695,
+    "responses": 21,
+    "costUsd": 2.0050312000000003
+  },
+  "estimate": {
+    "at": "2026-11-18T14:13:27.683Z",
+    "subjectLine": "docs: pick up the cube payments relay, check provider replies",
+    "parts": [
+      {
+        "hours": 0.25,
+        "grade": "middle",
+        "role": "analyst",
+        "comment": "reading a handoff and checking two support inboxes for replies is routine triage, no judgement calls"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-18T14:13:33.506Z",
+    "contextTokens": 130315,
+    "spend": {
+      "inputTokens": 17,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 72851,
+      "cacheReadTokens": 838169,
+      "outputTokens": 2784,
+      "thinkingTokens": 799,
+      "responses": 8,
+      "costUsd": 0.8061898000000001
+    }
+  },
+  "sessionId": "26223631-ab87-5735-ba0f-7573050a2004",
+  "branch": "claude/cube-payments-gx5cag",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cube-payments-gx5cag — спроектировали бэкенд для комнат и разослали вопросы Polar и Xsolla, ждём ответов и «делаем»",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCUK4ggZKuuBSNYj6a",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-18T14:12:52.283Z",
+  "lastResponseAt": "2026-11-18T14:16:34.780Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 45,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 132757,
+    "cacheReadTokens": 2877876,
+    "outputTokens": 18361,
+    "thinkingTokens": 10695,
+    "responses": 21,
+    "costUsd": 2.0050312000000003
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 45,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 132757,
+      "cacheReadTokens": 2877876,
+      "outputTokens": 18361,
+      "thinkingTokens": 10695,
+      "responses": 21,
+      "costUsd": 2.0050312000000003
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 20,
+    "matched": 20,
+    "matchedTableUsd": 1.9378242000000003,
+    "matchedEventUsd": 1.9378242,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 67,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 448
+  }
+}
