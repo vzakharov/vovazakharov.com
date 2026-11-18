@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 747549,
+    "inputTokens": 747572,
     "cacheWrite5mTokens": 293251,
-    "cacheWrite1hTokens": 340982,
-    "cacheReadTokens": 17766423,
-    "outputTokens": 179106,
-    "thinkingTokens": 13711,
-    "responses": 202,
-    "costUsd": 10.325942000000008
+    "cacheWrite1hTokens": 358691,
+    "cacheReadTokens": 20860757,
+    "outputTokens": 189985,
+    "thinkingTokens": 15422,
+    "responses": 213,
+    "costUsd": 11.30415280000001
   },
   "estimate": {
     "at": "2026-11-18T06:01:34.013Z",
@@ -52,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkDJmcPPNQUpnEEuC6h",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-18T04:14:26.868Z",
-  "lastResponseAt": "2026-11-18T07:49:19.776Z",
+  "lastResponseAt": "2026-11-18T08:46:35.507Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 5.9889705000000015,
   "ownTurns": {
-    "inputTokens": 105,
+    "inputTokens": 128,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 340982,
-    "cacheReadTokens": 8871706,
-    "outputTokens": 38659,
-    "thinkingTokens": 13711,
-    "responses": 51,
-    "costUsd": 5.275797200000001
+    "cacheWrite1hTokens": 358691,
+    "cacheReadTokens": 11966040,
+    "outputTokens": 49538,
+    "thinkingTokens": 15422,
+    "responses": 62,
+    "costUsd": 6.254008000000002
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,14 +77,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 2770,
+      "inputTokens": 2793,
       "cacheWrite5mTokens": 293251,
-      "cacheWrite1hTokens": 340982,
-      "cacheReadTokens": 17766423,
-      "outputTokens": 84053,
-      "thinkingTokens": 13711,
-      "responses": 123,
-      "costUsd": 9.793937600000003
+      "cacheWrite1hTokens": 358691,
+      "cacheReadTokens": 20860757,
+      "outputTokens": 94932,
+      "thinkingTokens": 15422,
+      "responses": 134,
+      "costUsd": 10.7721484
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 744779,
@@ -165,6 +165,6 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 115
+    ".md": 448
   }
 }
