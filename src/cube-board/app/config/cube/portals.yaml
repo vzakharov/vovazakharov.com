@@ -281,6 +281,24 @@ items:
     box: [7798, 3900, 380, purple]
     icon: 🔒
     text: 'To think about, not now. Vova: “some temporary lock, or another mechanism, after you go through a door, so you cannot step straight back.” Today the way back is always open after a descent (a spoke is fixed to its hub) and within the minute after a climb'
+  - id: p-go-tempo
+    type: sticky
+    updated: [2026-11-18T12:00:00.000Z, agent:cube]
+    box: [6978, 4200, 380, green]
+    icon: 〰️
+    text: 'Decided, 18 Nov: the minute gives way to a sine. A hub’s target changes on ticks whose rate swings over a 5-second cycle, one room hanging ~1.9 s mid-cycle, the rest flickering at ~4 Hz. The popular jumps sit on the slow tick, the rare ones in the flicker, and over time each floor still comes up with the law’s share: walking into a 7-drop is easy, a 1-drop takes timing and luck'
+  - id: p-lock-timetable
+    type: sticky
+    updated: [2026-11-18T12:01:00.000Z, agent:cube]
+    box: [7798, 4130, 380, yellow]
+    icon: 🚉
+    text: 'A lock that is the clock’s, not the jump’s: the world cannot know when you crossed. A spoke opens on a timetable, 20 s once every d minutes, d the floors it climbs, at a phase of its own kept every period. The deeper the fall, the longer the wait; miss yours and another spoke of the floor may open sooner. Shut, it is a door that will not open'
+  - id: p-lock-forks
+    type: sticky
+    updated: [2026-11-18T12:02:00.000Z, agent:cube]
+    box: [7388, 4200, 380, purple]
+    icon: 🔀
+    text: 'Its forks, each with a lean. The phase fixed (a timetable to learn) or rolled each period (once a period, never when expected): fixed. Every d minutes or the same for all, say every 5: d. Shut as a door that will not open, going dark if held open past its window, or as an ordinary door into the room behind, which rebuilds the floor’s mesh each time a spoke turns: the first'
   - id: p-go-air
     type: sticky
     updated: [2026-11-15T19:46:00.000Z, agent:cube]
@@ -292,6 +310,21 @@ items:
     updated: [2026-11-15T19:30:05.000Z, agent:cube]
     ends: [p-go-minute, p-period-ride]
     text: this one
+  - id: l-go-tempo
+    type: line
+    updated: [2026-11-18T12:00:00.000Z, agent:cube]
+    ends: [p-go-tempo, p-go-minute]
+    text: instead of
+  - id: l-lock-timetable
+    type: line
+    updated: [2026-11-18T12:01:00.000Z, agent:cube]
+    ends: [p-go-lock, p-lock-timetable]
+    text: one answer
+  - id: l-lock-forks
+    type: line
+    updated: [2026-11-18T12:02:00.000Z, agent:cube]
+    ends: [p-lock-timetable, p-lock-forks]
+    text: its forks
   - id: l-go-lift
     type: line
     updated: [2026-11-15T19:30:06.000Z, agent:cube]
