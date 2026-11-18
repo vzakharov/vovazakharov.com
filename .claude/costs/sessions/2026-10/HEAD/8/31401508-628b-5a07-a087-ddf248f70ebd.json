@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 747523,
+    "inputTokens": 747525,
     "cacheWrite5mTokens": 293251,
-    "cacheWrite1hTokens": 307170,
-    "cacheReadTokens": 14747808,
-    "outputTokens": 170388,
-    "thinkingTokens": 9620,
-    "responses": 190,
-    "costUsd": 9.277259000000003
+    "cacheWrite1hTokens": 309238,
+    "cacheReadTokens": 14976841,
+    "outputTokens": 171090,
+    "thinkingTokens": 9786,
+    "responses": 191,
+    "costUsd": 9.353657600000002
   },
   "estimate": {
     "at": "2026-11-18T06:01:34.013Z",
@@ -52,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkDJmcPPNQUpnEEuC6h",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-18T04:14:26.868Z",
-  "lastResponseAt": "2026-11-18T06:04:44.961Z",
+  "lastResponseAt": "2026-11-18T06:24:07.936Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 5.9889705000000015,
   "ownTurns": {
-    "inputTokens": 79,
+    "inputTokens": 81,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 307170,
-    "cacheReadTokens": 5853091,
-    "outputTokens": 29941,
-    "thinkingTokens": 9620,
-    "responses": 39,
-    "costUsd": 4.227114200000001
+    "cacheWrite1hTokens": 309238,
+    "cacheReadTokens": 6082124,
+    "outputTokens": 30643,
+    "thinkingTokens": 9786,
+    "responses": 40,
+    "costUsd": 4.303512800000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,14 +77,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 2744,
+      "inputTokens": 2746,
       "cacheWrite5mTokens": 293251,
-      "cacheWrite1hTokens": 307170,
-      "cacheReadTokens": 14747808,
-      "outputTokens": 75335,
-      "thinkingTokens": 9620,
-      "responses": 111,
-      "costUsd": 8.745254600000003
+      "cacheWrite1hTokens": 309238,
+      "cacheReadTokens": 14976841,
+      "outputTokens": 76037,
+      "thinkingTokens": 9786,
+      "responses": 112,
+      "costUsd": 8.821653200000004
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 744779,
@@ -158,7 +158,7 @@
     }
   },
   "operatorWords": {
-    "chat": 434,
+    "chat": 451,
     "review": 0,
     "threads": 0
   },
