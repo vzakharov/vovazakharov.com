@@ -1,23 +1,23 @@
 {
   "total": {
-    "inputTokens": 16,
-    "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 59726,
-    "cacheReadTokens": 702207,
-    "outputTokens": 2607,
-    "thinkingTokens": 506,
-    "responses": 7,
-    "costUsd": 0.6704534000000001
+    "inputTokens": 66740,
+    "cacheWrite5mTokens": 691,
+    "cacheWrite1hTokens": 72884,
+    "cacheReadTokens": 1673232,
+    "outputTokens": 14576,
+    "thinkingTokens": 2364,
+    "responses": 21,
+    "costUsd": 1.1269294
   },
   "estimate": {
-    "at": "2026-11-18T04:14:57.109Z",
-    "subjectLine": "docs: pick up the cube payments session, waiting on three answers",
+    "at": "2026-11-18T04:17:19.102Z",
+    "subjectLine": "docs: direct acquirers vs merchants of record, in-game coins for cube",
     "parts": [
       {
-        "hours": 0.1,
-        "grade": "middle",
+        "hours": 0.75,
+        "grade": "senior",
         "role": "analyst",
-        "comment": "re-reading a parked summary and restating its open questions is routine; the provider research is already booked on the predecessor"
+        "comment": "comparing Armenian bank acquiring with merchants of record, and checking each provider's policy on in-game currency, needs current knowledge of payment rules; a middle analyst would miss the stored-value restriction"
       }
     ],
     "comment": null
@@ -46,18 +46,18 @@
   "url": "https://claude.ai/code/session_01DaohkDJmcPPNQUpnEEuC6h",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-18T04:14:26.868Z",
-  "lastResponseAt": "2026-11-18T04:15:04.135Z",
+  "lastResponseAt": "2026-11-18T04:17:25.977Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 16,
+    "inputTokens": 29,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 59726,
-    "cacheReadTokens": 702207,
-    "outputTokens": 2607,
-    "thinkingTokens": 506,
-    "responses": 7,
-    "costUsd": 0.6704534000000001
+    "cacheWrite1hTokens": 72884,
+    "cacheReadTokens": 1558733,
+    "outputTokens": 7541,
+    "thinkingTokens": 2364,
+    "responses": 14,
+    "costUsd": 1.0457546
   },
   "subagents": {
     "inputTokens": 0,
@@ -71,27 +71,68 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 16,
+      "inputTokens": 535,
+      "cacheWrite5mTokens": 691,
+      "cacheWrite1hTokens": 72884,
+      "cacheReadTokens": 1673232,
+      "outputTokens": 7571,
+      "thinkingTokens": 2364,
+      "responses": 15,
+      "costUsd": 1.0768064
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 66205,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 59726,
-      "cacheReadTokens": 702207,
-      "outputTokens": 2607,
-      "thinkingTokens": 506,
-      "responses": 7,
-      "costUsd": 0.6704534000000001
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 7005,
+      "thinkingTokens": 0,
+      "responses": 6,
+      "costUsd": 0.050122999999999994
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 7,
-    "matched": 7,
-    "matchedTableUsd": 0.6704534000000001,
-    "matchedEventUsd": 0.6704534000000001,
-    "unseen": {}
+    "events": 21,
+    "matched": 14,
+    "matchedTableUsd": 1.0457546,
+    "matchedEventUsd": 1.0457546,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 691,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 114499,
+        "outputTokens": 30,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.031051800000000004
+      },
+      "web_search_tool": {
+        "inputTokens": 53810,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 3897,
+        "thinkingTokens": 0,
+        "responses": 4,
+        "costUsd": 0.0473295
+      },
+      "web_fetch_apply": {
+        "inputTokens": 12395,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 3108,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.0027935
+      }
+    }
   },
   "operatorWords": {
-    "chat": 31,
+    "chat": 62,
     "review": 0,
     "threads": 0
   },
