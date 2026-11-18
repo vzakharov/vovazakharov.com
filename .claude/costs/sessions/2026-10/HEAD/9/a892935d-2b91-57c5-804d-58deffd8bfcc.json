@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 1150,
+    "inputTokens": 1160,
     "cacheWrite5mTokens": 128228,
-    "cacheWrite1hTokens": 166067,
-    "cacheReadTokens": 11619938,
-    "outputTokens": 54075,
-    "thinkingTokens": 9823,
-    "responses": 74,
-    "costUsd": 5.764447600000001
+    "cacheWrite1hTokens": 172370,
+    "cacheReadTokens": 12750412,
+    "outputTokens": 56586,
+    "thinkingTokens": 10399,
+    "responses": 79,
+    "costUsd": 6.0912264
   },
   "estimate": {
     "at": "2026-11-18T19:00:07.916Z",
@@ -54,18 +54,18 @@
   "url": "https://claude.ai/code/session_01DaohkEXX6HC7z3ucH2PGkp",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-18T18:55:01.866Z",
-  "lastResponseAt": "2026-11-18T20:35:33.312Z",
+  "lastResponseAt": "2026-11-18T21:31:07.495Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 78,
+    "inputTokens": 88,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 166067,
-    "cacheReadTokens": 6688302,
-    "outputTokens": 32268,
-    "thinkingTokens": 9823,
-    "responses": 41,
-    "costUsd": 3.3118684000000003
+    "cacheWrite1hTokens": 172370,
+    "cacheReadTokens": 7818776,
+    "outputTokens": 34779,
+    "thinkingTokens": 10399,
+    "responses": 46,
+    "costUsd": 3.6386472
   },
   "subagents": {
     "inputTokens": 0,
@@ -79,14 +79,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 1150,
+      "inputTokens": 1160,
       "cacheWrite5mTokens": 128228,
-      "cacheWrite1hTokens": 166067,
-      "cacheReadTokens": 11619938,
-      "outputTokens": 54075,
-      "thinkingTokens": 9823,
-      "responses": 74,
-      "costUsd": 5.764447600000001
+      "cacheWrite1hTokens": 172370,
+      "cacheReadTokens": 12750412,
+      "outputTokens": 56586,
+      "thinkingTokens": 10399,
+      "responses": 79,
+      "costUsd": 6.0912264
     }
   },
   "warnings": [],
@@ -127,7 +127,7 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 386,
+    ".md": 405,
     ".yaml": 39,
     ".ts": 288
   }
