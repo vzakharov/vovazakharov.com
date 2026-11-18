@@ -28,12 +28,28 @@ step: wait).
      page was kept in `tmp/` rather than on the branch (prettier would break
      reruns), offered to add a `.prettierignore` line, and made the muthur sync
      offer (verbatim in Last agent turn).
+   - (The keepalive's last wake then parked the session, writing this file.)
+3. **Вова:** «короче поигрался я-поигрался и... не впечатлился. дело не в
+   реализации, но само ощущение какое-то другое. стоишь у двери и пытаешься
+   "поймать момент". но даже если поймаешь, нет ощущения какой-то что ли..
+   редкости?»
+   - **Agent:** traced it to the time-share windows: the cycle's last tick
+     always draws from the law's bottom 4.7% and its first from the next 4.7%,
+     so something rare comes every 5 s on a fixed beat — a drumroll, not a
+     lottery; and a rare room is not recognisable once caught. Proposed 1) flicker
+     ticks draw independently from the shared tail window [37%, 100%), the slow
+     tick keeping the head, which keeps the law exactly; 2) show what was caught
+     (floor number or a sign beyond the door); 3) put rarity on long clocks
+     (daily appointments, like the spoke timetable). Recommended 1+2 now on
+     preview2, 3 as the direction, and asked which. Not appended verbatim:
+     `scripts/relay-last-reply.py` found two transcripts for this session (its
+     working directory moved when pl-hub was attached) and refused.
 
 ## 3. Intent
 
-PR #292 (hub portals change target on a sine-paced tempo) is done and awaiting
-Вова's review; he wanted it on a preview slot to look at from a device, and a
-reviewer's explainer of the diff in pl-hub's genre.
+PR #292 (hub portals change target on a sine-paced tempo) works, but Вова played
+it on preview2 and the rare jumps do not feel rare. He is after the feeling of
+rarity, not a different implementation of the same mechanic.
 
 ## 4. Decisions
 
@@ -81,9 +97,12 @@ https://claude.ai/artifact/9VoRWk8UJGodSWK3bGqUHy
 
 ## 8. Next step
 
-Wait for the operator. Open from the last reply: whether the explainer should
-live on the branch (needs a `.prettierignore` line), and whatever he sees on
-preview2. Still pending from relay-1: the two `/five-percent` proposals, the
+Wait for Вова's pick among the three proposals in the last reply (1: flicker
+ticks draw independently from the tail window; 2: show the caught floor; 3:
+rarity on long clocks); the agent recommended 1+2 on preview2. Whatever he picks
+is a change to this branch, republished to preview2 per `/preview`. Also open:
+whether the explainer should live on the branch (needs a `.prettierignore`
+line). Still pending from relay-1: the two `/five-percent` proposals, the
 `/dry` calls, and whether to update the older p-go-lock sticky. `/finalize` was
 not asked for.
 
