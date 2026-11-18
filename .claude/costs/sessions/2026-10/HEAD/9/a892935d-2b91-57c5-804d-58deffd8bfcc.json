@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 1149,
+    "inputTokens": 1158,
     "cacheWrite5mTokens": 128228,
-    "cacheWrite1hTokens": 164353,
-    "cacheReadTokens": 11399606,
-    "outputTokens": 53327,
-    "thinkingTokens": 9774,
-    "responses": 73,
-    "costUsd": 5.691705200000001
+    "cacheWrite1hTokens": 171865,
+    "cacheReadTokens": 12521821,
+    "outputTokens": 56235,
+    "thinkingTokens": 10364,
+    "responses": 78,
+    "costUsd": 6.034440200000001
   },
   "estimate": {
     "at": "2026-11-18T19:00:07.916Z",
@@ -48,22 +48,24 @@
   "branch": "HEAD",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/cube-portal-tempo-v3rct3 — PR открыт, синусный темп хабов сделан, ждёт решения Вовы",
-  "prs": [],
+  "prs": [
+    292
+  ],
   "url": "https://claude.ai/code/session_01DaohkEXX6HC7z3ucH2PGkp",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-18T18:55:01.866Z",
-  "lastResponseAt": "2026-11-18T20:35:17.695Z",
+  "lastResponseAt": "2026-11-18T21:30:58.245Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 77,
+    "inputTokens": 86,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 164353,
-    "cacheReadTokens": 6467970,
-    "outputTokens": 31520,
-    "thinkingTokens": 9774,
-    "responses": 40,
-    "costUsd": 3.239126
+    "cacheWrite1hTokens": 171865,
+    "cacheReadTokens": 7590185,
+    "outputTokens": 34428,
+    "thinkingTokens": 10364,
+    "responses": 45,
+    "costUsd": 3.581861
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,14 +79,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 1149,
+      "inputTokens": 1158,
       "cacheWrite5mTokens": 128228,
-      "cacheWrite1hTokens": 164353,
-      "cacheReadTokens": 11399606,
-      "outputTokens": 53327,
-      "thinkingTokens": 9774,
-      "responses": 73,
-      "costUsd": 5.691705200000001
+      "cacheWrite1hTokens": 171865,
+      "cacheReadTokens": 12521821,
+      "outputTokens": 56235,
+      "thinkingTokens": 10364,
+      "responses": 78,
+      "costUsd": 6.034440200000001
     }
   },
   "warnings": [],
@@ -125,7 +127,7 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 367,
+    ".md": 386,
     ".yaml": 39,
     ".ts": 288
   }
