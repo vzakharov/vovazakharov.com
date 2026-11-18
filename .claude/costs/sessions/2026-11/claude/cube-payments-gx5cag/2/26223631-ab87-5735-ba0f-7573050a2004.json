@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 45,
+    "inputTokens": 60,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 132757,
-    "cacheReadTokens": 2877876,
-    "outputTokens": 18361,
-    "thinkingTokens": 10695,
-    "responses": 21,
-    "costUsd": 2.0050312000000003
+    "cacheWrite1hTokens": 151809,
+    "cacheReadTokens": 4455413,
+    "outputTokens": 22570,
+    "thinkingTokens": 11228,
+    "responses": 29,
+    "costUsd": 2.5571946000000008
   },
   "estimate": {
     "at": "2026-11-18T14:13:27.683Z",
@@ -42,22 +42,24 @@
   "branch": "claude/cube-payments-gx5cag",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/cube-payments-gx5cag — спроектировали бэкенд для комнат и разослали вопросы Polar и Xsolla, ждём ответов и «делаем»",
-  "prs": [],
+  "prs": [
+    291
+  ],
   "url": "https://claude.ai/code/session_01DaohkCUK4ggZKuuBSNYj6a",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-18T14:12:52.283Z",
-  "lastResponseAt": "2026-11-18T14:16:34.780Z",
+  "lastResponseAt": "2026-11-18T14:17:32.320Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 45,
+    "inputTokens": 60,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 132757,
-    "cacheReadTokens": 2877876,
-    "outputTokens": 18361,
-    "thinkingTokens": 10695,
-    "responses": 21,
-    "costUsd": 2.0050312000000003
+    "cacheWrite1hTokens": 151809,
+    "cacheReadTokens": 4455413,
+    "outputTokens": 22570,
+    "thinkingTokens": 11228,
+    "responses": 29,
+    "costUsd": 2.5571946000000008
   },
   "subagents": {
     "inputTokens": 0,
@@ -71,23 +73,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 45,
+      "inputTokens": 60,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 132757,
-      "cacheReadTokens": 2877876,
-      "outputTokens": 18361,
-      "thinkingTokens": 10695,
-      "responses": 21,
-      "costUsd": 2.0050312000000003
+      "cacheWrite1hTokens": 151809,
+      "cacheReadTokens": 4455413,
+      "outputTokens": 22570,
+      "thinkingTokens": 11228,
+      "responses": 29,
+      "costUsd": 2.5571946000000008
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 20,
-    "matched": 20,
-    "matchedTableUsd": 1.9378242000000003,
-    "matchedEventUsd": 1.9378242,
+    "events": 28,
+    "matched": 28,
+    "matchedTableUsd": 2.5016120000000006,
+    "matchedEventUsd": 2.501612,
     "unseen": {}
   },
   "operatorWords": {
@@ -98,6 +100,6 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 448
+    ".md": 583
   }
 }
