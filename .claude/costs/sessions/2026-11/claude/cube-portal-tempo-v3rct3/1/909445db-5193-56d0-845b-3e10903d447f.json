@@ -1,0 +1,117 @@
+{
+  "total": {
+    "inputTokens": 64,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 135204,
+    "cacheReadTokens": 4613475,
+    "outputTokens": 21326,
+    "thinkingTokens": 9658,
+    "responses": 30,
+    "costUsd": 2.4311030000000007
+  },
+  "estimate": {
+    "at": "2026-11-18T16:01:40.854Z",
+    "subjectLine": "feat: cube hub portals shuffle targets on a sine tempo",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "the tempo and the popular-on-slow mapping decide how the portal feels and need a designer's ear for timing"
+      },
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "an integer quantile draw kept identical across machines, plus a look-ahead build cache so the door never shows a stale room"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "the flicker has to be watched on a deep floor to confirm the view and the crossing agree"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-18T15:58:31.612Z",
+    "contextTokens": 93567,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 37254,
+      "cacheReadTokens": 54773,
+      "outputTokens": 408,
+      "thinkingTokens": 70,
+      "responses": 1,
+      "costUsd": 0.3171546
+    }
+  },
+  "sessionId": "909445db-5193-56d0-845b-3e10903d447f",
+  "branch": "claude/cube-portal-tempo-v3rct3",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "а давай у нас комнаты в портале будут тасоваться по синусоиде: наиболее часто -- на её \"медленной\" части, необычные/редкие -- на быстрой. Весь период -- букваль…",
+  "prs": [
+    292
+  ],
+  "url": "https://claude.ai/code/session_01DaohkBibWsoJqWYCfQgn1p",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-18T15:58:26.439Z",
+  "lastResponseAt": "2026-11-18T16:02:35.931Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 64,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 135204,
+    "cacheReadTokens": 4613475,
+    "outputTokens": 21326,
+    "thinkingTokens": 9658,
+    "responses": 30,
+    "costUsd": 2.4311030000000007
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 64,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 135204,
+      "cacheReadTokens": 4613475,
+      "outputTokens": 21326,
+      "thinkingTokens": 9658,
+      "responses": 30,
+      "costUsd": 2.4311030000000007
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 30,
+    "matched": 30,
+    "matchedTableUsd": 2.4311030000000007,
+    "matchedEventUsd": 2.4311030000000007,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 95,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 162
+  }
+}
