@@ -1,7 +1,7 @@
 Proposed squash title/body:
 
 ```
-feat(vova): cube hub portals shuffle targets on a sine tempo (#292)
+feat(vova): cube portals shuffle on a sine tempo, spokes on a timetable (#292)
 ```
 
 ```
@@ -21,7 +21,13 @@ machine, and every hub turns on the same tick.
 
 The door builds the rooms of the coming cycle ahead of the clock and
 shows the current tick's target or nothing, so the room seen is the
-room landed in. A spoke still leads to its one hub.
+room landed in.
+
+The way back runs on a timetable. A spoke still leads to its one hub,
+but opens for twenty seconds once every d minutes, d the floors it
+climbs, at a phase of its own: the deeper the fall, the longer the
+wait. Shut, it is a door that will not open; one held open past its
+window goes dark and stops the body.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```

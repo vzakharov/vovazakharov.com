@@ -15,7 +15,9 @@ hertz. The popular targets sit on the slow ticks, the rare ones on the fast — 
 walking into a popular room is easy, and a rare one is a matter of timing and
 luck.
 
-The way back stays as it is: a spoke leads to its one hub (question 3).
+The way back still leads to the spoke's one hub, but not at any time: a spoke
+opens on a timetable of its own, for a short window every few minutes, longer
+apart the farther up it climbs.
 
 ## The tempo
 
@@ -62,6 +64,38 @@ rest; a one-floor drop (<1%) can only come up in the flicker.
 
 **Every hub turns on the same tick**, as now, since the table is shared.
 
+Ranking by the chance of the very room — floor weight over its spokes — was
+ruled out: deeper floors hold ~4× the rooms each, so it ranks the shallowest
+reachable floors first and erases the 7-peak from the slow part. A 4 s cycle of
+13 ticks (6 Hz flicker) was ruled out for its longest hold, ~1.2 s.
+
+## The way back runs on a timetable
+
+A spoke still leads to its one hub, and only while it is open. `PORTALS` gains
+`spoke: { openMs: 20_000, everyMsPerFloor: 60_000 }`.
+
+- **The window.** A spoke climbing `d` floors opens for `openMs` once every
+  `d · everyMsPerFloor`: a 7-floor climb every 7 minutes, a 21-floor one every
+  21, a one-floor one every minute — the deeper the fall, the longer the wait.
+- **Its own phase, fixed.** Each spoke's window starts at a rolled offset within
+  its period, `rolled.portal.spoke` keyed `{ n, spoke }`, the same every period:
+  a spoke keeps a timetable a player can learn, and the spokes of one floor open
+  at scattered times, so a player who missed theirs can go looking for another.
+  `isOpen(spoke, epochMs)` is `(epochMs − offset) mod period < openMs`, in whole
+  milliseconds.
+- **Shut, a spoke is a door that will not open.** `isDoor` takes the instant, so
+  the press offers no shut spoke, and the geometry still draws it as a door. A
+  spoke held open past its window goes dark and stops the body like a wall until
+  it opens again: `Ways.beyond` tells a door that leads nowhere this instant
+  apart from one that leads to the room behind it, and `play.ts` blocks the step
+  through the first.
+- **A hub is never shut.** The body coming out of a spoke stands in its room
+  with the spoke's door open behind it; turning back through it reaches the hub
+  only inside the spoke's window, which is the point.
+
+`portalTarget`'s round trip keeps its promise only within an open window, and
+its test says so.
+
 ## The view through the door
 
 Today `portal-view.ts` builds the rooms beyond when the door first leads
@@ -97,8 +131,14 @@ player can aim for.
 - `portal-tempo.test.ts`, new: the table — `ticks` boundaries, monotone, the
   last at `cycleMs`, the holds as above to the millisecond, and the
   rounding-edge margin; `tickAt` on a boundary, inside a tick, across cycles.
+- `portals.test.ts`, the timetable: a spoke open exactly `openMs` in each of its
+  periods, at the same offset every period; the spokes of one floor not all in
+  phase; a shut spoke leading nowhere and offered to no press.
+- `play.test.ts` (or the body's door test): a step through a spoke held open
+  past its window is stopped at the doorway.
 - `src/cube/scripts/portal-cube.ts` shoots "open a minute on": its search walks
-  ticks instead of minutes, and the frame is renamed `open-next-tick`.
+  ticks instead of minutes, and the frame is renamed `open-next-tick`. Its
+  look-back frame waits for the spoke's window.
 
 ## DRY notes
 
@@ -115,17 +155,23 @@ player can aim for.
 - **Not extracted:** the cache in `portal-view.ts` is a `Map` with an eviction
   order — a cache helper for one caller would be net-negative.
 
+- **The timetable reuses the tick idea, not its code**: a spoke's window is one
+  modulo against a rolled offset, with nothing of the sine table in it, so it
+  sits in `portals.ts` beside `spokeTarget` rather than in `portal-tempo.ts`.
+
 ## Questions
 
-1. **What makes a target "popular"?**
-   - **a (recommended)** — its jump, by the law's floor weight: the slow tick
-     shows the 7-drops, the flicker the odd ones.
-   - **b** — the chance of the very room: floor weight over that floor's spokes.
-     Deeper floors hold ~4× the rooms each, so this ranks the shallowest
-     reachable floors first and erases the 7-peak from the slow part.
-2. **The tempo.**
-   - **a (recommended)** — 5 s cycle, 11 ticks: one hold of ~1.9 s, flicker at
-     ~4.3 Hz.
-   - **b** — 4 s, 13 ticks: flicker at 6 Hz, but the longest hold drops to ~1.2
-     s.
-3. **The way back** — out of scope here; see the reply in chat.
+3. **When a spoke opens.**
+   - **a (recommended)** — a fixed offset per spoke: a timetable a player can
+     learn, like a train's.
+   - **b** — rolled afresh each period: once per period, guaranteed, but never
+     when you expect.
+4. **How often.**
+   - **a (recommended)** — 20 s every `d` minutes, `d` the floors it climbs.
+   - **b** — the same for every spoke, say 20 s every 5 minutes.
+5. **What a shut spoke is.**
+   - **a (recommended)** — a door that will not open; one held open past its
+     window goes dark and stops the body.
+   - **b** — an ordinary door into the room behind it: no new door state, but
+     the floor's mesh then depends on the clock and is rebuilt every time a
+     spoke opens or shuts.
