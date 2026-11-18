@@ -1,0 +1,103 @@
+{
+  "total": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 59726,
+    "cacheReadTokens": 702207,
+    "outputTokens": 2607,
+    "thinkingTokens": 506,
+    "responses": 7,
+    "costUsd": 0.6704534000000001
+  },
+  "estimate": {
+    "at": "2026-11-18T04:14:57.109Z",
+    "subjectLine": "docs: pick up the cube payments session, waiting on three answers",
+    "parts": [
+      {
+        "hours": 0.1,
+        "grade": "middle",
+        "role": "analyst",
+        "comment": "re-reading a parked summary and restating its open questions is routine; the provider research is already booked on the predecessor"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-18T04:14:47.351Z",
+    "contextTokens": 111914,
+    "spend": {
+      "inputTokens": 10,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 53331,
+      "cacheReadTokens": 368081,
+      "outputTokens": 1067,
+      "thinkingTokens": 31,
+      "responses": 4,
+      "costUsd": 0.5216442000000001
+    }
+  },
+  "sessionId": "31401508-628b-5a07-a087-ddf248f70ebd",
+  "branch": "claude/cube-payments-gx5cag",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cube-payments-gx5cag — ответ про приём оплаты для куба дан, ждём решений по трём вопросам",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDJmcPPNQUpnEEuC6h",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-18T04:14:26.868Z",
+  "lastResponseAt": "2026-11-18T04:15:04.135Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 16,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 59726,
+    "cacheReadTokens": 702207,
+    "outputTokens": 2607,
+    "thinkingTokens": 506,
+    "responses": 7,
+    "costUsd": 0.6704534000000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 16,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 59726,
+      "cacheReadTokens": 702207,
+      "outputTokens": 2607,
+      "thinkingTokens": 506,
+      "responses": 7,
+      "costUsd": 0.6704534000000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 7,
+    "matched": 7,
+    "matchedTableUsd": 0.6704534000000001,
+    "matchedEventUsd": 0.6704534000000001,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 31,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 115
+  }
+}
