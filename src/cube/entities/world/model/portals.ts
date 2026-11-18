@@ -22,6 +22,7 @@ import {
   PORTALS,
   spokesOf,
 } from './portal-counts';
+import { tickAt, type Window } from './portal-tempo';
 import type { InRoomOf } from './room';
 import { type DoorWall, isInnerWall, isSameWall } from './wall-frame';
 
@@ -120,8 +121,8 @@ export function sitePermutation(rolled: RolledMaze, n: number): Permutation {
 
 /**
  * A door that leads to another floor: its wall, and its number among its
- * floor's portals. A hub leads down, to a spoke of its own that changes every
- * `PORTALS.periodMs`; a spoke leads up, always to its one hub.
+ * floor's portals. A hub leads down, to a spoke of its own that changes on
+ * every tick of `PORTALS.tempo`; a spoke leads up, always to its one hub.
  */
 export type Portal = Numbered & { wall: DoorWall; isHub: boolean };
 
@@ -201,19 +202,32 @@ export function portalsOf(rolled: RolledMaze, n: number): Portal[] {
 }
 
 /**
- * The floor hub `number` of floor `n` leads to, from its `draw`: the law of a
- * jump rolled over the floors below where it has a spoke.
+ * The floor hub `number` of floor `n` leads to during a tick with `window`,
+ * from its `draw`: the floors below where it has a spoke ranked likeliest
+ * first by the law of a jump, their weights laid end to end, and the draw
+ * landing in the window's stretch of them. Over a cycle every floor comes up
+ * with its share of the law, the likeliest on the longest ticks.
  */
-function floorBelow(n: number, number: bigint, draw: bigint): number {
+function floorBelow(
+  n: number,
+  number: bigint,
+  { lo, hi }: Window,
+  draw: bigint,
+): number {
   const reached = Array.from({ length: PORTALS.last - n }, (_, i) => n + 1 + i)
     .filter((m) => spokesOf({ n, number }, m).count > 0n)
-    .map((m) => ({ m, weight: jumpWeight(m - n) }));
+    .map((m) => ({ m, weight: jumpWeight(m - n) }))
+    .toSorted((a, b) =>
+      a.weight === b.weight ? a.m - b.m : a.weight > b.weight ? -1 : 1,
+    );
   const total = reached.reduce((sum, { weight }) => sum + weight, 0n);
   if (total === 0n) throw new Error(`Hub ${n}/${number} reaches no floor`);
-  let rest = drawBelow(draw, total);
+  // In weights scaled by a cycle's milliseconds, so a window maps onto them whole.
+  const cycle = BigInt(PORTALS.tempo.cycleMs);
+  let rest = BigInt(lo) * total + drawBelow(draw, BigInt(hi - lo) * total);
   for (const { m, weight } of reached) {
-    if (rest < weight) return m;
-    rest -= weight;
+    if (rest < weight * cycle) return m;
+    rest -= weight * cycle;
   }
   throw new Error(`Hub ${n}/${number} drew past its floors`);
 }
@@ -221,9 +235,9 @@ function floorBelow(n: number, number: bigint, draw: bigint): number {
 function hubTarget(rolled: RolledMaze, hub: Portal, epochMs: number): Portal {
   const { number, wall } = hub;
   const { n } = wall;
-  const epoch = Math.floor(epochMs / PORTALS.periodMs);
-  const draws = rolled.portal.hub.at({ n, hub: number, epoch });
-  const floor = floorBelow(n, number, draws.floor);
+  const { cycle, tick, window } = tickAt(epochMs);
+  const draws = rolled.portal.hub.at({ n, hub: number, cycle, tick });
+  const floor = floorBelow(n, number, window, draws.floor);
   const { first, step, count } = spokesOf({ n, number }, floor);
   const spoke = first + drawBelow(draws.spoke, count) * step;
   return portalNumbered(rolled, floor, hubCount(floor) + spoke);

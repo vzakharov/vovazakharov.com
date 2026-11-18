@@ -44,9 +44,9 @@ const Maze = roll.struct({
       roll.struct({ high: roll.wide(), low: roll.wide() }),
     ),
     wall: roll.over(blockKey, roll.over(edgeKey, roll.wide())),
-    // Where hub `hub` of floor `n` leads during period `epoch`.
+    // Where hub `hub` of floor `n` leads during tick `tick` of cycle `cycle`.
     hub: roll.over(
-      roll.key({ n: roll.int, hub: roll.big, epoch: roll.int }),
+      roll.key({ n: roll.int, hub: roll.big, cycle: roll.int, tick: roll.int }),
       roll.struct({ floor: roll.wide(), spoke: roll.wide() }),
     ),
   }),

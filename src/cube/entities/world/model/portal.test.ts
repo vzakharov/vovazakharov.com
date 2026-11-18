@@ -21,6 +21,7 @@ import {
   roomBeyond,
   wayThrough,
 } from './portal';
+import { tickAt } from './portal-tempo';
 import type { Pose, Standing } from './pose';
 
 const MINUTE = 60_000;
@@ -55,14 +56,14 @@ describe('the planted world\u2019s first portal', () => {
     }
   });
 
-  it('leads to another floor, the same way all through a minute', () => {
+  it('leads to another floor, the same way all through a tick', () => {
     const there = farAt(0);
     assert.ok(there !== null);
     assert.notEqual(there.n, hub.n);
-    assert.deepEqual(there, farAt(MINUTE - 1));
+    assert.deepEqual(there, farAt(tickAt(0).endMs - 1));
   });
 
-  it('leads back from where it led, whatever the minute', () => {
+  it('leads back from where it led, at any time', () => {
     const there = farAt(MINUTE);
     assert.ok(there !== null);
     const back = farSideOf({ ...there, toward: -1 }, 5 * MINUTE);

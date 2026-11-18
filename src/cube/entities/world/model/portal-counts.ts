@@ -13,8 +13,12 @@ export const PORTALS = {
   last: DEEPEST_FLOOR,
   /** One portal per this many rooms: ~15.5 rooms a door, one door in 60 a portal. */
   roomsPerPortal: 960n,
-  /** How long a hub leads to one place, every hub turning on the same tick. */
-  periodMs: 60_000,
+  /**
+   * The tempo a hub's target changes on, every hub on the same ticks: `ticks`
+   * of them a `cycleMs` cycle, their rate swinging along a sine by `swing`
+   * about its mean, fastest at the cycle's edges and slowest mid-cycle.
+   */
+  tempo: { cycleMs: 5000, ticks: 11, swing: 10.5 },
   /** Jumps peak at every multiple of this many floors, up and down alike. */
   peak: 7,
   /** Each floor off the nearest multiple makes a jump `num/den` times rarer. */
