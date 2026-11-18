@@ -9,11 +9,12 @@ import {
   type Quad,
   roomBeyond,
   roomKey,
+  ticksFrom,
   wayThrough,
 } from '@/cube/entities/world';
 
 import { poseIn } from '../lib/eye-room';
-import { floorsIn } from '../lib/mesh';
+import { floorsIn, type Scenery } from '../lib/mesh';
 import { doorwayOpening, seenBeyond } from '../lib/portal-frame';
 import { build, type Building, type Mesh } from './cube-mesh';
 import type { Through } from './portal-pass';
@@ -27,7 +28,7 @@ type Showing = Building & {
 
 /** One frame's door and the eye that may see through it, at the frame's instant. */
 type Glance = Seen & {
-  /** The shared clock, in ms since the epoch: its minute picks where a hub leads. */
+  /** The shared clock, in ms since the epoch: its tick picks where a hub leads. */
   epochMs: number;
   /** The door the body holds open, if any. */
   door: Ajar | null;
@@ -41,17 +42,27 @@ type Glance = Seen & {
 
 export type PortalView = {
   /**
-   * What `glance`'s door shows, null where it is no open portal or its rooms
-   * are not built yet. Builds them the first time they are asked for, and
-   * again once the door leads elsewhere, showing where it led until then.
+   * What `glance`'s door shows, null where it is no open portal or the rooms
+   * it leads to this instant are not built yet — never rooms it led to
+   * before. Builds, ahead of the clock, the rooms it leads to over the
+   * coming cycle of ticks.
    */
   through: (glance: Glance) => Through | null;
-  /** Resolves once the rooms last asked for are built and uploaded, or failed to be. */
+  /** Resolves once every build asked for so far is done, or failed. */
   settled: () => Promise<void>;
 };
 
+/** How many ticks ahead of the clock the rooms through a door are built. */
+const AHEAD = 11;
+
+/** The most built rooms kept, oldest dropped first: two cycles' worth. */
+const KEPT = 2 * AHEAD + 2;
+
 const wayKey = ({ isEast, toward, ...room }: Facing): string =>
   `${roomKey(room)}${isEast ? 'e' : 's'}${String(toward)}`;
+
+const keyOf = (way: Facing, far: Facing): string =>
+  `${wayKey(way)}>${wayKey(far)}`;
 
 export function createPortalView({
   copy,
@@ -59,12 +70,17 @@ export function createPortalView({
   onError,
   renderer,
 }: Showing): PortalView {
-  /** The rooms uploaded: the way into them, and the way out they are built past. */
-  let shown: { key: string; way: Facing; far: Facing } | null = null;
-  let building: string | null = null;
+  /** Rooms built and prepared, by the way into them and the way out past them. */
+  const built = new Map<string, Scenery>();
+  /** Every build ever queued, so a failed one is not tried again each tick. */
+  const queued = new Set<string>();
+  /** The rooms uploaded to the renderer, by key. */
+  let uploaded: string | null = null;
+  /** The way and tick last looked ahead from, so a frame looks once a tick. */
+  let looked: string | null = null;
   let pending = Promise.resolve();
 
-  const show = async (key: string, way: Facing, far: Facing): Promise<void> => {
+  const make = async (key: string, way: Facing, far: Facing): Promise<void> => {
     const frame = poseIn(roomBeyond(far));
     const mesh = await build(frame, copy, bought(), null, far);
     const rooms = mesh.faces(null);
@@ -73,9 +89,28 @@ export function createPortalView({
       renderer()?.prepare(floorsIn([rooms]), way.n),
       renderer()?.prepare([far.n]),
     ]);
-    if (building !== key) return;
-    renderer()?.uploadBeyond(rooms, way.n);
-    shown = { key, way, far };
+    built.set(key, rooms);
+    for (const old of built.keys()) {
+      if (built.size <= KEPT) break;
+      if (old !== uploaded) built.delete(old);
+    }
+  };
+
+  /** Queues, in tick order, the rooms `way` leads to over the coming ticks. */
+  const lookAhead = (way: Facing, epochMs: number): void => {
+    const ticks = ticksFrom(epochMs);
+    const now = ticks.next().value;
+    const at = `${wayKey(way)}@${String(now.cycle)}/${String(now.tick)}`;
+    if (looked === at) return;
+    looked = at;
+    for (let i = 0, tick = now; i < AHEAD; i += 1, tick = ticks.next().value) {
+      const far = farSideOf(way, tick.startMs);
+      if (far === null) continue;
+      const key = keyOf(way, far);
+      if (queued.has(key)) continue;
+      queued.add(key);
+      pending = pending.then(async () => make(key, way, far)).catch(onError);
+    }
   };
 
   return {
@@ -84,13 +119,15 @@ export function createPortalView({
       const way = wayThrough(door, at);
       const far = farSideOf(way, epochMs);
       if (far === null) return null;
-      const key = `${wayKey(way)}>${wayKey(far)}`;
-      if (shown?.key !== key && building !== key) {
-        building = key;
-        pending = show(key, way, far).catch(onError);
+      lookAhead(way, epochMs);
+      const key = keyOf(way, far);
+      const rooms = built.get(key);
+      if (rooms === undefined) return null;
+      if (uploaded !== key) {
+        renderer()?.uploadBeyond(rooms, way.n);
+        uploaded = key;
       }
-      if (shown === null || wayKey(shown.way) !== wayKey(way)) return null;
-      const placing = beyondOf(frame, way, shown.far);
+      const placing = beyondOf(frame, way, far);
       return {
         seen: seenBeyond(placing, seen),
         opening: doorwayOpening(placing.to, way),

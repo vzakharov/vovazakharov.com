@@ -1,6 +1,6 @@
 /**
  * Shoots a portal door of `/cube` at eye level, on the dev server: shut,
- * open on the rooms it leads to, open a minute on, when it leads elsewhere,
+ * open on the rooms it leads to, open again on the next tick it leads elsewhere,
  * and from the far side, just through it and looking back. The door is the
  * floor's portal 0. Chromium runs WebGPU
  * on SwiftShader, so the frames say what the scene draws, not how fast.
@@ -24,6 +24,7 @@ import {
   portalsOf,
   type Pose,
   roomBeyond,
+  ticksFrom,
 } from '@/cube/entities/world';
 import { EYE_HEIGHT } from '@/cube/features/player';
 
@@ -38,7 +39,7 @@ const FRAMES = path.resolve(
 
 const FLOOR = Number(flag('floor') ?? '6');
 
-/** How many minutes on a portal is watched for leading elsewhere. */
+/** How many ticks on a portal is watched for leading elsewhere. */
 const SEARCH = 60;
 
 /** How far off the doorway's middle the eye stands, in room sides. */
@@ -61,7 +62,7 @@ const LEAF_TURN = 0.6;
 
 const MINUTE = 60_000;
 
-/** The instant the frames are shot at: the start of a minute of the shared clock. */
+/** The instant the frames are shot at: the start of a cycle of the shared clock. */
 const AT = 29_000_000 * MINUTE;
 
 /** A leaf swung as far as a door opens. */
@@ -97,11 +98,14 @@ function before({ n, x, y, isEast }: DoorWall, back: number): Pose {
   };
 }
 
-/** The first minute after `AT` in which `way` leads somewhere else. */
+/** The start of the first tick after `AT`'s in which `way` leads somewhere else. */
 function nextTurn(way: Facing, far: Facing): number {
-  for (let minute = 1; minute <= SEARCH; minute += 1) {
-    const then = farSideOf(way, AT + minute * MINUTE);
-    if (then !== null && !isSameWall(then, far)) return AT + minute * MINUTE;
+  const ticks = ticksFrom(AT);
+  ticks.next();
+  for (let tick = 1; tick <= SEARCH; tick += 1) {
+    const { startMs } = ticks.next().value;
+    const then = farSideOf(way, startMs);
+    if (then !== null && !isSameWall(then, far)) return startMs;
   }
   throw new Error('The portal leads to one place all through the search');
 }
@@ -122,7 +126,7 @@ await withCubePage(async ({ shoot, setClock }) => {
     open,
   );
   await setClock(nextTurn(way, far));
-  await shoot(named('open-next-minute'), at, open);
+  await shoot(named('open-next-tick'), at, open);
   await setClock(AT);
   // The body `THROUGH` past the near wall's line, as the crossing carries it.
   const through = carried(
