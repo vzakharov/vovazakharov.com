@@ -1,33 +1,23 @@
-Proposed squash title/body:
-
-```
-feat(vova): cube portals shuffle on a sine tempo, spokes on a timetable (#292)
-```
+Proposed squash body:
 
 ```
 A hub portal held one target for a minute, so stepping through was a
 coin toss with no skill in it. Its target now changes on ticks whose
 rate swings along a sine over a five-second cycle: one room hangs for
-about two seconds mid-cycle, the rest flicker at four hertz or so.
+about two seconds mid-cycle, the rest flicker at four hertz or so. The
+tick boundaries are a table of whole milliseconds, identical on every
+machine, and every hub turns on the same tick.
 
 The popular floors sit on the slow tick and the rare ones in the
 flicker. The floors a hub reaches are ranked by the jump law, heaviest
 first, and each tick draws from its own slice of that ranking, sized by
 how long the tick holds — so over time a floor still comes up with
 exactly the law's share, only arranged across the cycle. A 7-floor drop
-is there to aim for; a 1-floor drop takes timing and luck. The tick
-boundaries are a table of whole milliseconds, identical on every
-machine, and every hub turns on the same tick.
+is there to aim for; a 1-floor drop takes timing and luck.
 
-The door builds the rooms of the coming cycle ahead of the clock and
-shows the current tick's target or nothing, so the room seen is the
-room landed in.
-
-The way back runs on a timetable. A spoke still leads to its one hub,
-but opens for twenty seconds once every d minutes, d the floors it
-climbs, at a phase of its own: the deeper the fall, the longer the
-wait. Shut, it is a door that will not open; one held open past its
-window goes dark and stops the body.
+The door builds the coming cycle's rooms ahead of the clock, the slow
+tick's first, and shows the current tick's rooms or nothing, so the
+room seen is the room landed in. A spoke still leads to its one hub.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
