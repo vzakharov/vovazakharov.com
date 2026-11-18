@@ -1,0 +1,124 @@
+{
+  "total": {
+    "inputTokens": 564,
+    "cacheWrite5mTokens": 842,
+    "cacheWrite1hTokens": 126486,
+    "cacheReadTokens": 4566898,
+    "outputTokens": 21427,
+    "thinkingTokens": 4770,
+    "responses": 31,
+    "costUsd": 2.3627995999999998
+  },
+  "estimate": {
+    "at": "2026-11-18T19:00:07.916Z",
+    "subjectLine": "docs: diff explainer and preview slot 2 for the sine-tempo hubs",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "analyst",
+        "comment": "explaining why the windowed draw keeps the jump law's shares takes someone who can check that argument against the code, not just paraphrase it"
+      },
+      {
+        "hours": 0.25,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "publishing a branch to a preview slot is a routine dispatch and check"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-18T19:00:20.565Z",
+    "contextTokens": 174782,
+    "spend": {
+      "inputTokens": 49,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 119810,
+      "cacheReadTokens": 3504882,
+      "outputTokens": 17482,
+      "thinkingTokens": 4470,
+      "responses": 25,
+      "costUsd": 2.0092923999999996
+    }
+  },
+  "sessionId": "a892935d-2b91-57c5-804d-58deffd8bfcc",
+  "branch": "claude/cube-portal-tempo-v3rct3",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cube-portal-tempo-v3rct3 — PR открыт, синусный темп хабов сделан, ждёт решения Вовы",
+  "prs": [
+    292
+  ],
+  "url": "https://claude.ai/code/session_01DaohkEXX6HC7z3ucH2PGkp",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-18T18:55:01.866Z",
+  "lastResponseAt": "2026-11-18T19:55:54.530Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 58,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 126486,
+    "cacheReadTokens": 4392118,
+    "outputTokens": 21415,
+    "thinkingTokens": 4770,
+    "responses": 30,
+    "costUsd": 2.3188435999999997
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 564,
+      "cacheWrite5mTokens": 842,
+      "cacheWrite1hTokens": 126486,
+      "cacheReadTokens": 4566898,
+      "outputTokens": 21427,
+      "thinkingTokens": 4770,
+      "responses": 31,
+      "costUsd": 2.3627995999999998
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 30,
+    "matched": 29,
+    "matchedTableUsd": 2.2602323999999996,
+    "matchedEventUsd": 2.2602323999999996,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 842,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 174780,
+        "outputTokens": 12,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.043956
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 44,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 249,
+    ".yaml": 39,
+    ".ts": 288
+  }
+}
