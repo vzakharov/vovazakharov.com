@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 66740,
-    "cacheWrite5mTokens": 691,
-    "cacheWrite1hTokens": 72884,
-    "cacheReadTokens": 1673232,
-    "outputTokens": 14576,
-    "thinkingTokens": 2364,
-    "responses": 21,
-    "costUsd": 1.1269294
+    "inputTokens": 109448,
+    "cacheWrite5mTokens": 73851,
+    "cacheWrite1hTokens": 92899,
+    "cacheReadTokens": 2692428,
+    "outputTokens": 24018,
+    "thinkingTokens": 5485,
+    "responses": 33,
+    "costUsd": 2.0351447000000005
   },
   "estimate": {
     "at": "2026-11-18T04:17:19.102Z",
@@ -46,78 +46,78 @@
   "url": "https://claude.ai/code/session_01DaohkDJmcPPNQUpnEEuC6h",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-18T04:14:26.868Z",
-  "lastResponseAt": "2026-11-18T04:17:25.977Z",
+  "lastResponseAt": "2026-11-18T04:24:24.848Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 29,
+    "inputTokens": 41,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 72884,
-    "cacheReadTokens": 1558733,
-    "outputTokens": 7541,
-    "thinkingTokens": 2364,
-    "responses": 14,
-    "costUsd": 1.0457546
+    "cacheWrite1hTokens": 92899,
+    "cacheReadTokens": 2381690,
+    "outputTokens": 13130,
+    "thinkingTokens": 4671,
+    "responses": 20,
+    "costUsd": 1.482294
   },
   "subagents": {
-    "inputTokens": 0,
-    "cacheWrite5mTokens": 0,
+    "inputTokens": 4,
+    "cacheWrite5mTokens": 71479,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 0,
-    "outputTokens": 0,
-    "thinkingTokens": 0,
-    "responses": 0,
-    "costUsd": 0.0
+    "cacheReadTokens": 67891,
+    "outputTokens": 1178,
+    "thinkingTokens": 814,
+    "responses": 2,
+    "costUsd": 0.39454920000000004
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 535,
-      "cacheWrite5mTokens": 691,
-      "cacheWrite1hTokens": 72884,
-      "cacheReadTokens": 1673232,
-      "outputTokens": 7571,
-      "thinkingTokens": 2364,
-      "responses": 15,
-      "costUsd": 1.0768064
+      "inputTokens": 1057,
+      "cacheWrite5mTokens": 73851,
+      "cacheWrite1hTokens": 92899,
+      "cacheReadTokens": 2692428,
+      "outputTokens": 14360,
+      "thinkingTokens": 5485,
+      "responses": 24,
+      "costUsd": 1.9494766000000001
     },
     "claude-haiku-5-5/standard": {
-      "inputTokens": 66205,
+      "inputTokens": 108391,
       "cacheWrite5mTokens": 0,
       "cacheWrite1hTokens": 0,
       "cacheReadTokens": 0,
-      "outputTokens": 7005,
+      "outputTokens": 9658,
       "thinkingTokens": 0,
-      "responses": 6,
-      "costUsd": 0.050122999999999994
+      "responses": 9,
+      "costUsd": 0.0856681
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 21,
-    "matched": 14,
-    "matchedTableUsd": 1.0457546,
-    "matchedEventUsd": 1.0457546,
+    "events": 33,
+    "matched": 22,
+    "matchedTableUsd": 1.8768432000000002,
+    "matchedEventUsd": 1.8768432000000002,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 506,
-        "cacheWrite5mTokens": 691,
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 2372,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 114499,
-        "outputTokens": 30,
+        "cacheReadTokens": 242847,
+        "outputTokens": 52,
         "thinkingTokens": 0,
-        "responses": 1,
-        "costUsd": 0.031051800000000004
+        "responses": 2,
+        "costUsd": 0.07263340000000001
       },
       "web_search_tool": {
-        "inputTokens": 53810,
+        "inputTokens": 95996,
         "cacheWrite5mTokens": 0,
         "cacheWrite1hTokens": 0,
         "cacheReadTokens": 0,
-        "outputTokens": 3897,
+        "outputTokens": 6550,
         "thinkingTokens": 0,
-        "responses": 4,
-        "costUsd": 0.0473295
+        "responses": 7,
+        "costUsd": 0.08287459999999999
       },
       "web_fetch_apply": {
         "inputTokens": 12395,
@@ -132,7 +132,7 @@
     }
   },
   "operatorWords": {
-    "chat": 62,
+    "chat": 207,
     "review": 0,
     "threads": 0
   },
