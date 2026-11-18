@@ -53,18 +53,18 @@ page reads):
   browser, and the id is what the server will check signatures against later.
   Randomness comes from `crypto.getRandomValues`: a key is not the world, so
   `src/cube/CLAUDE.md`'s "every random number is rolled" does not reach it.
-- **Four ways to keep it**, all offered in one dialog once an identity exists:
-  the phrase shown with a copy button; "remember me on this browser" (the phrase
-  in `localStorage`); "save to the password manager" (a real form with
-  `autocomplete="username"` = id and `new-password` = phrase, plus
-  `PasswordCredential` where the browser has it); and a link for another device,
-  `…/cube#login=<phrase>`. On arrival the page takes the phrase from the
-  fragment, strips it with `replaceState` before `startOf` reads the fragment as
-  an address (no base64url address contains `=`), and logs in. No QR, per the
-  operator.
-- **Logging in without the link**: the same dialog, logged out, is a login form
-  (id + phrase, `current-password`), so a password manager autofills it, beside
-  a "new account" button.
+- **A key file keeps it** (the operator's call after seeing four ways at once:
+  «дофига всего, никто это читать не станет»). Making an account downloads
+  `cube-key-<id prefix>.txt` holding a note, the login link
+  `…/cube#login=<phrase>` and the words. On arrival by the link the page takes
+  the phrase from the fragment, strips it with `replaceState` before `startOf`
+  reads the fragment as an address (no base64url address contains `=`), and logs
+  in. A browser that keeps anything remembers whoever is logged in until Log out
+  — no toggle. No QR, per the operator.
+- **Logging in without the link**: the dialog, logged out, is "Make a new
+  account" and one zone that picks or takes a dropped key file. No id field (the
+  id derives from the words) and no paste field (the file's link logs in by
+  itself).
 - Lost phrase = lost rooms («фича»).
 
 ## 5. Wallet and purchases
@@ -115,9 +115,20 @@ no Russian), with the mark doing most of the work.
   value types, and the wallet needs schema parsing the pace does not.
 - **`formatPrice` is replaced, not kept beside `formatCubes`**: nothing would
   call it.
-- **The dialog reuses `SaleOffer`'s Mantine setup** (provider, imported sheets);
-  the account dialog lives next to it in `pages/cube/ui/` and imports the same
-  sheets plus `TextInput`/`Checkbox`/`CopyButton` ones.
+- **The dialog reuses `SaleOffer`'s Mantine setup** (provider, imported sheets
+  in `ui/mantine-sheets.ts`); the account dialog lives next to it in
+  `pages/cube/ui/`. The account's state is a module store in
+  `features/account/model/account.ts`, read through `useSyncExternalStore`.
+- **One parser reads every login text**: `pastedPhrase` finds a login link
+  anywhere in a text, so the key file and the link go through it alike.
+
+## Progress
+
+Done and pushed (through caeaae0b), on preview slot 1: everything above. Left:
+`/go` Step 3 (`/polish`: `/dry`, `/tend-prose`, `/five-percent` on PR 291), the
+flip to `.completed.md`, Step 4 (`/pr` refresh of PR 291's body), and
+`/squash-message update-only`. Then the operator's «как доделаешь, возьми и
+примени пжст /explain-diff с vzakharov/pl-hub».
 
 ## Verification
 
