@@ -18,6 +18,15 @@ export const phraseIn = (fragment: string): string | null =>
     ? fragment.slice(LOGIN.length).split('-').join(' ')
     : null;
 
-/** The phrase in what a player pasted to log in: a login link, or the words themselves. */
-export const pastedPhrase = (pasted: string): string =>
-  phraseIn(pasted.slice(pasted.indexOf('#') + 1)) ?? pasted;
+/** A login link's phrase, wherever in a text the link sits. */
+const LINKED = new RegExp(`#${LOGIN}([a-z]+(?:-[a-z]+)*)`, 'i');
+
+/**
+ * The phrase in what a player gave to log in — a key file's text, a login
+ * link, or the words themselves: the link's phrase where the text holds one,
+ * else the text.
+ */
+export function pastedPhrase(text: string): string {
+  const linked = LINKED.exec(text)?.[1];
+  return linked === undefined ? text.trim() : linked.split('-').join(' ');
+}

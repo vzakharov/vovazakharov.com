@@ -8,7 +8,6 @@ export {
   logIn,
   logOut,
   NOBODY,
-  setRemembered,
   subscribe,
 } from './model/account';
 export { type Identity, isPhrase } from './model/identity';

@@ -52,6 +52,11 @@ describe('pastedPhrase', () => {
     assert.equal(pastedPhrase(link), VECTOR);
   });
 
+  it('finds the link inside a key file’s text', () => {
+    const link = loginLink('https://example.com/cube', VECTOR);
+    assert.equal(pastedPhrase(`Keep this.\n\n${link}\n\nOr open it.`), VECTOR);
+  });
+
   it('passes the words themselves, or anything else, through', () => {
     assert.equal(pastedPhrase(VECTOR), VECTOR);
     assert.equal(

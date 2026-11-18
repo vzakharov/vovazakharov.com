@@ -19,12 +19,14 @@ import {
   withRoom,
 } from './wallet';
 
-/** Who is playing on this page, what they hold, and what this browser keeps. */
+/**
+ * Who is playing on this page, what they hold, and what this browser keeps:
+ * where it keeps anything, it remembers whoever is logged in until they log
+ * out, the key file being their way back anywhere else.
+ */
 export type Held = {
   identity: Identity | null;
   wallet: Wallet;
-  /** Whether this browser remembers the phrase between visits. */
-  remembered: boolean;
   /** Whether this browser keeps anything; false, nothing outlives the page. */
   storable: boolean;
   /** Кубики given before anyone logged in, credited on login. */
@@ -35,7 +37,6 @@ export type Held = {
 export const NOBODY: Held = {
   identity: null,
   wallet: EMPTY_WALLET,
-  remembered: false,
   storable: false,
   pending: 0,
 };
@@ -62,21 +63,21 @@ function hold(next: Held): void {
   held = next;
   if (store !== null && next.identity !== null) {
     storeWallet(store, next.identity.id, next.wallet);
-    remember(store, next.remembered ? next.identity.phrase : null);
+    remember(store, next.identity.phrase);
   }
   for (const listener of listeners) listener();
 }
 
 /** `identity` held with the wallet this browser keeps for it, and `pending` credited. */
-function enter(identity: Identity, remembered: boolean): void {
+function enter(identity: Identity): Identity {
   const kept = (store && storedWallet(store, identity.id)) ?? EMPTY_WALLET;
   hold({
     ...held,
     identity,
     wallet: held.pending > 0 ? credited(kept, held.pending) : kept,
-    remembered,
     pending: 0,
   });
+  return identity;
 }
 
 /**
@@ -91,32 +92,27 @@ export function boot(): void {
   if (linked !== null) {
     const { pathname, search } = globalThis.location;
     globalThis.history.replaceState(null, '', `${pathname}${search}`);
-    enter(identityOf(linked), false);
+    enter(identityOf(linked));
     return;
   }
   const kept = store === null ? null : rememberedPhrase(store);
   if (kept === null) hold(held);
-  else enter(identityOf(kept), true);
+  else enter(identityOf(kept));
 }
 
 /** A new account, from the browser's cryptographic randomness. */
-export const create = (): void => {
-  enter(newIdentity(), false);
-};
+export const create = (): Identity => enter(newIdentity());
 
 /** Logs in as `phrase`'s owner; throws on a phrase that is none. */
 export const logIn = (phrase: string): void => {
-  enter(identityOf(phrase), false);
+  enter(identityOf(phrase));
 };
 
+/** Logs out, and this browser forgets the phrase. */
 export function logOut(): void {
   if (store !== null) remember(store, null);
   hold({ ...NOBODY, ...pick(held, 'storable') });
 }
-
-export const setRemembered = (remembered: boolean): void => {
-  hold({ ...held, remembered });
-};
 
 /**
  * Gives `value` кубики, whole and above zero: to the account logged in, or,

@@ -4,8 +4,7 @@ import './mantine-sheets';
 
 import {
   Button,
-  CopyButton,
-  Group,
+  FileButton,
   MantineProvider,
   Modal,
   Stack,
@@ -23,15 +22,14 @@ import {
   type Identity,
   isPhrase,
   logIn,
-  loginLink,
   logOut,
   pastedPhrase,
-  setRemembered,
 } from '@/cube/features/account';
 
 import type COPY from '../config/messages/en.json';
 import { formatCubes } from '../lib/figures';
 import { Cubes } from './cubes-mark';
+import { downloadKey, keyFileName } from './key-file';
 
 type WithCopy = { copy: (typeof COPY)['account'] };
 
@@ -45,69 +43,58 @@ type AccountDialogProps = WithOnClose &
   WithHeld &
   WithCubes & { opened: boolean };
 
-type CopyableProps = WithCopy & { value: string };
-
 type LoggedInProps = WithCopy & WithHeld & WithCubes & { identity: Identity };
 
-/** A form field's text, empty where the form has none. */
-const fieldOf = (form: FormData, name: string): string => {
-  const value = form.get(name);
-  return typeof value === 'string' ? value.trim() : '';
-};
-
-/** `value` with a button that copies it. */
-function Copyable({ value, copy }: CopyableProps) {
-  return (
-    <CopyButton {...{ value }}>
-      {({ copied, copy: onCopy }) => (
-        <Button variant="light" size="xs" onClick={onCopy}>
-          {copied ? copy.copied : copy.copy}
-        </Button>
-      )}
-    </CopyButton>
-  );
-}
-
 /**
- * A new account, or the login form: twelve words or a login link carrying
- * them, which the id is derived from. The id's field is hidden but kept, so a
- * password manager can pick the saved login it belongs to.
+ * A new account, its key file downloading at once, or a login: the key file
+ * opened, or its words or link pasted.
  */
 function LogIn({ copy }: WithCopy) {
   const [error, setError] = useState<string | null>(null);
+  const tryKey = (text: string) => {
+    const phrase = pastedPhrase(text);
+    if (isPhrase(phrase)) logIn(phrase);
+    else setError(copy.wrongKey);
+  };
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const phrase = pastedPhrase(
-      fieldOf(new FormData(event.currentTarget), 'phrase'),
-    );
-    if (!isPhrase(phrase)) {
-      setError(copy.wrongWords);
-      return;
-    }
-    logIn(phrase);
+    const pasted = new FormData(event.currentTarget).get('key');
+    tryKey(typeof pasted === 'string' ? pasted : '');
+  };
+  const open = (file: File | null) => {
+    if (file === null) return;
+    file.text().then(tryKey, (error_: unknown) => {
+      setError(String(error_));
+    });
   };
   return (
     <Stack gap="sm">
-      <Button onClick={create}>{copy.create}</Button>
+      <Button
+        onClick={() => {
+          downloadKey(create(), copy);
+        }}
+      >
+        {copy.create}
+      </Button>
       <Text size="sm" c="dimmed">
         {copy.or}
       </Text>
+      <FileButton onChange={open} accept="text/plain,.txt">
+        {(props) => (
+          <Button variant="light" {...props}>
+            {copy.openKey}
+          </Button>
+        )}
+      </FileButton>
       <form onSubmit={submit}>
         <Stack gap="xs">
-          <input
-            name="id"
-            aria-label={copy.id}
-            autoComplete="username"
-            hidden
-          />
           <TextInput
-            name="phrase"
-            type="password"
-            label={copy.pasted}
-            autoComplete="current-password"
+            name="key"
+            label={copy.pasteKey}
+            autoComplete="off"
             {...{ error }}
           />
-          <Button type="submit" variant="light">
+          <Button type="submit" variant="subtle">
             {copy.logIn}
           </Button>
         </Stack>
@@ -116,83 +103,29 @@ function LogIn({ copy }: WithCopy) {
   );
 }
 
-/** A logged-in account: what it holds, and the four ways to keep its words. */
+/** A logged-in account: what it holds, and the key file that keeps it. */
 function LoggedIn({ held, copy, cubes, identity }: LoggedInProps) {
-  const [saved, setSaved] = useState(false);
-  const link = loginLink(
-    `${globalThis.location.origin}${globalThis.location.pathname}`,
-    identity.phrase,
-  );
-  // A browser offers to save a login once its form is submitted and gone.
-  const save = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setSaved(true);
-  };
   return (
     <Stack gap="sm">
       <Text size="xl" fw={700}>
         <Cubes count={held.wallet.balance} label={cubes} />
       </Text>
-      <Text size="sm">{copy.secret}</Text>
-      {saved ? (
-        <Text size="sm" c="dimmed">
-          {copy.saved}
-        </Text>
-      ) : (
-        <form onSubmit={save}>
-          <Stack gap="xs">
-            <TextInput
-              name="id"
-              label={copy.id}
-              value={identity.id}
-              autoComplete="username"
-              readOnly
-            />
-            <TextInput
-              name="phrase"
-              label={copy.phrase}
-              value={identity.phrase}
-              autoComplete="new-password"
-              readOnly
-            />
-            <Group gap="xs">
-              <Copyable value={identity.phrase} {...{ copy }} />
-              <Button type="submit" variant="light" size="xs">
-                {copy.save}
-              </Button>
-            </Group>
-          </Stack>
-        </form>
-      )}
-      {held.storable ? (
-        <Group gap="xs">
-          <Button
-            variant="light"
-            size="xs"
-            onClick={() => {
-              setRemembered(!held.remembered);
-            }}
-          >
-            {held.remembered ? copy.forget : copy.remember}
-          </Button>
-          {held.remembered && (
-            <Text size="sm" c="dimmed">
-              {copy.remembered}
-            </Text>
-          )}
-        </Group>
-      ) : (
+      <Text size="sm">
+        {fillSlots(copy.kept, { file: keyFileName(identity) })}
+      </Text>
+      {!held.storable && (
         <Text size="sm" c="dimmed">
           {copy.unstorable}
         </Text>
       )}
-      <TextInput label={copy.link} value={link} readOnly />
-      <Group gap="xs">
-        <Copyable value={link} {...{ copy }} />
-        <Text size="xs" c="dimmed">
-          {copy.linkWarning}
-        </Text>
-      </Group>
+      <Button
+        variant="light"
+        onClick={() => {
+          downloadKey(identity, copy);
+        }}
+      >
+        {copy.downloadAgain}
+      </Button>
       <Button variant="subtle" onClick={logOut}>
         {copy.logOut}
       </Button>
@@ -202,7 +135,7 @@ function LoggedIn({ held, copy, cubes, identity }: LoggedInProps) {
 
 /**
  * The account dialog: logged out, a new account or a login; logged in, the
- * balance and every way to keep the twelve words that prove it.
+ * balance and the key file that proves it.
  */
 export function AccountDialog({
   opened,
