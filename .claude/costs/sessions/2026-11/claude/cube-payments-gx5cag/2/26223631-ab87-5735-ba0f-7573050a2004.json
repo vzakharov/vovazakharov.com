@@ -1,0 +1,176 @@
+{
+  "total": {
+    "inputTokens": 7551,
+    "cacheWrite5mTokens": 3523,
+    "cacheWrite1hTokens": 486538,
+    "cacheReadTokens": 38572200,
+    "outputTokens": 155829,
+    "thinkingTokens": 39873,
+    "responses": 181,
+    "costUsd": 14.779084
+  },
+  "estimate": {
+    "at": "2026-11-18T17:19:23.396Z",
+    "subjectLine": "feat: кубики for cube rooms, a key-file identity and a console mint",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "the currency's rate, its mark, the sign scale and a login a player will actually keep are calls on how the world reads, not code"
+      },
+      {
+        "hours": 7.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "browser key-pair identity, a key file and login link parsed by one reader, a schema-checked wallet and a shared console object, each with a failure mode a junior would miss"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "the key-file download, drop and pick, link login and reload persistence need checking in a real browser"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-18T14:13:33.506Z",
+    "contextTokens": 130315,
+    "spend": {
+      "inputTokens": 17,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 72851,
+      "cacheReadTokens": 838169,
+      "outputTokens": 2784,
+      "thinkingTokens": 799,
+      "responses": 8,
+      "costUsd": 0.8061898000000001
+    }
+  },
+  "sessionId": "26223631-ab87-5735-ba0f-7573050a2004",
+  "branch": "claude/cube-payments-gx5cag",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cube-payments-gx5cag — спроектировали бэкенд для комнат и разослали вопросы Polar и Xsolla, ждём ответов и «делаем»",
+  "prs": [
+    291
+  ],
+  "url": "https://claude.ai/code/session_01DaohkCUK4ggZKuuBSNYj6a",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-18T14:12:52.283Z",
+  "lastResponseAt": "2026-11-18T17:20:06.996Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 332,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 486538,
+    "cacheReadTokens": 36838091,
+    "outputTokens": 141844,
+    "thinkingTokens": 39873,
+    "responses": 173,
+    "costUsd": 14.0981302
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 7551,
+      "cacheWrite5mTokens": 3523,
+      "cacheWrite1hTokens": 486538,
+      "cacheReadTokens": 38572200,
+      "outputTokens": 155829,
+      "thinkingTokens": 39873,
+      "responses": 181,
+      "costUsd": 14.779084
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-18T14:33:30.073Z",
+      "trigger": "auto",
+      "compactedFrom": 356474,
+      "summaryChars": 15229,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/cube/features/account/model/login-link.ts",
+        "endedAt": "2026-11-18T14:34:03.641Z",
+        "contextTokens": 142396,
+        "spend": {
+          "inputTokens": 8,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 79515,
+          "cacheReadTokens": 455764,
+          "outputTokens": 1916,
+          "thinkingTokens": 885,
+          "responses": 4,
+          "costUsd": 0.7656248000000001
+        }
+      },
+      "rereads": {
+        "calls": 2,
+        "byTool": {
+          "Bash": 1,
+          "Read": 1
+        },
+        "estimatedTokens": 8271,
+        "estimatedUsd": 0.0723018
+      },
+      "billedUsd": 0.414743
+    }
+  ],
+  "telemetry": {
+    "events": 180,
+    "matched": 172,
+    "matchedTableUsd": 13.999717799999999,
+    "matchedEventUsd": 13.999717799999999,
+    "unseen": {
+      "compact": {
+        "inputTokens": 4183,
+        "cacheWrite5mTokens": 876,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 577955,
+        "outputTokens": 13902,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.414743
+      },
+      "prompt_suggestion": {
+        "inputTokens": 3036,
+        "cacheWrite5mTokens": 2647,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 1156154,
+        "outputTokens": 83,
+        "thinkingTokens": 0,
+        "responses": 6,
+        "costUsd": 0.26621079999999997
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 194,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 610,
+    ".json": 22,
+    ".yaml": 27,
+    ".ts": 651,
+    ".tsx": 311,
+    ".scss": 59
+  }
+}

@@ -20,18 +20,19 @@ import {
 } from './sale';
 
 describe('priceOf', () => {
-  it('prices floor 2 at $10M and every floor at the same $/m³', () => {
-    assert.equal(priceOf(2), 10_000_000);
-    assert.equal(priceOf(3), 1_250_000);
-    assert.ok(Math.abs(priceOf(8) - 38.147) < 0.001);
+  it('prices floor 2 at 10M кубики and every floor at the same rate per m³, to three figures', () => {
+    assert.deepEqual(
+      [2, 3, 4, 5, 6, 7, 8].map(priceOf),
+      [10_000_000, 1_250_000, 156_000, 19_500, 2440, 305, 38],
+    );
     const perCube = (n: number) => priceOf(n) / (5 / 2 ** (n - 1)) ** 3;
     for (const n of [5, 8]) {
-      assert.ok(Math.abs(perCube(n) / perCube(2) - 1) < 1e-12);
+      assert.ok(Math.abs(perCube(n) / perCube(2) - 1) < 0.005);
     }
   });
 
-  it('sells floor 9 and every floor below at $4.99', () => {
-    for (const n of [9, 10, 30]) assert.equal(priceOf(n), 4.99);
+  it('sells floor 9 and every floor below at 5 кубики', () => {
+    for (const n of [9, 10, 30]) assert.equal(priceOf(n), 5);
   });
 });
 
