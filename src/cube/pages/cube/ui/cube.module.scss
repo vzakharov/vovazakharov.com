@@ -1,3 +1,5 @@
+@use '../../../../../styles/unseen';
+
 // The cube owns the whole screen, pinned over the page at the dynamic
 // viewport's height, every pointer and touch going to it.
 .cube {
@@ -54,6 +56,11 @@
   height: 0.75em;
   margin-right: 0.25em;
   vertical-align: baseline;
+}
+
+// The mark's name, said by a screen reader in its place.
+.unseen {
+  @include unseen.text;
 }
 
 // The balance, under the frame-rate meter: the one corner a pointer opens.

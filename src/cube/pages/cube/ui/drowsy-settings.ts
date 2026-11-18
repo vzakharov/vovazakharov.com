@@ -1,7 +1,5 @@
 import { z } from 'zod';
 
-import type { CanDispose } from '@/kernel/shared/typings';
-
 import { SHARES } from './drowsy-phases';
 
 /** The most the slowdown repeats a frame: past it a GPU risks a reset. */
@@ -69,20 +67,6 @@ export function drowsiness(): Drowsiness {
       setVignette: setter('vignette'),
       setSlowdown: setter('slowdown'),
       settings: () => current,
-    },
-  };
-}
-
-const CONSOLE_NAME = 'cube';
-
-/** Puts `knobs` on the page as `cube` until disposed. */
-export function installConsole(knobs: DrowsyConsole): CanDispose {
-  Reflect.set(globalThis, CONSOLE_NAME, knobs);
-  return {
-    dispose: () => {
-      if (Reflect.get(globalThis, CONSOLE_NAME) === knobs) {
-        Reflect.deleteProperty(globalThis, CONSOLE_NAME);
-      }
     },
   };
 }

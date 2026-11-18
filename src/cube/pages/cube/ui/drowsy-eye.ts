@@ -11,7 +11,8 @@ import { SCENE_FORMAT } from './bloom';
 import { COVER } from './cover.shader.generated';
 import { jitterOf, lowSizeOf, type Share, shifted } from './drowsy-phases';
 import { DROWSY_RESOLVE } from './drowsy-resolve.shader.generated';
-import { drowsiness, installConsole } from './drowsy-settings';
+import { drowsiness } from './drowsy-settings';
+import { installConsole } from './page-console';
 import { beginRepeat, type Repeat, repeatsOf } from './slowdown';
 
 /** What each pixel's trust in its history is kept as. */
