@@ -34,7 +34,9 @@ export const SOLVED: readonly number[] = Array.from(
 /** Where each tick of a cycle starts, in whole ms into it, and the cycle's end. */
 const BOUNDS: readonly number[] = SOLVED.map((ms) => Math.round(ms));
 
-const holdOf = (k: number): number => (BOUNDS[k + 1] ?? 0) - (BOUNDS[k] ?? 0);
+const boundOf = (k: number): number => BOUNDS[k] ?? cycleMs;
+
+const holdOf = (k: number): number => boundOf(k + 1) - boundOf(k);
 
 /** A stretch `[lo, hi)` of a cycle's milliseconds. */
 export type Window = { lo: number; hi: number };
@@ -75,8 +77,8 @@ function tickOf(cycle: number, tick: number): Tick {
   return {
     cycle,
     tick,
-    startMs: start + (BOUNDS[tick] ?? 0),
-    endMs: start + (BOUNDS[tick + 1] ?? cycleMs),
+    startMs: start + boundOf(tick),
+    endMs: start + boundOf(tick + 1),
     window: WINDOWS[tick] ?? { lo: 0, hi: 0 },
   };
 }
@@ -86,7 +88,7 @@ export function tickAt(epochMs: number): Tick {
   const cycle = Math.floor(epochMs / cycleMs);
   const into = epochMs - cycle * cycleMs;
   let tick = 0;
-  while (tick < ticks - 1 && (BOUNDS[tick + 1] ?? cycleMs) <= into) tick += 1;
+  while (tick < ticks - 1 && boundOf(tick + 1) <= into) tick += 1;
   return tickOf(cycle, tick);
 }
 
