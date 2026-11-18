@@ -110,6 +110,38 @@
   touch-action: manipulation;
 }
 
+// The account dialog's key file: a button to pick it, and a zone to drop it.
+.keyDrop {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  padding: 20px 12px;
+  border: 1px dashed rgb(255 255 255 / 40%);
+  border-radius: 8px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.keyDropOver {
+  border-color: rgb(255 255 255 / 85%);
+  background: rgb(255 255 255 / 8%);
+}
+
+.keyDropHint {
+  opacity: 0.6;
+  font-size: 0.875em;
+  font-weight: 400;
+
+  // A screen with no pointer has nothing to drag.
+  @media (hover: none) {
+    display: none;
+  }
+}
+
 // The touch screen's controls, laid over the canvas until a drag: two halves,
 // each saying what a drag on it does, letting every touch through.
 .controls {

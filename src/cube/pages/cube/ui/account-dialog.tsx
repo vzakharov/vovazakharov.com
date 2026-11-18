@@ -9,11 +9,11 @@ import {
   Modal,
   Stack,
   Text,
-  TextInput,
 } from '@mantine/core';
-import { type FormEvent, useState } from 'react';
+import { type DragEvent, useState } from 'react';
 
 import { fillSlots } from '@/kernel/shared/i18n';
+import { cx } from '@/kernel/shared/lib/class-names';
 import type { WithOnClose } from '@/kernel/shared/typings';
 
 import {
@@ -28,6 +28,7 @@ import {
 
 import type COPY from '../config/messages/en.json';
 import { formatCubes } from '../lib/figures';
+import classes from './cube.module.scss';
 import { Cubes } from './cubes-mark';
 import { downloadKey, keyFileName } from './key-file';
 
@@ -46,26 +47,31 @@ type AccountDialogProps = WithOnClose &
 type LoggedInProps = WithCopy & WithHeld & WithCubes & { identity: Identity };
 
 /**
- * A new account, its key file downloading at once, or a login: the key file
- * opened, or its words or link pasted.
+ * A new account, its key file downloading at once, or a login by the key
+ * file, picked or dropped. The file's link logs in by itself when opened, so
+ * nothing here takes it pasted.
  */
 function LogIn({ copy }: WithCopy) {
   const [error, setError] = useState<string | null>(null);
-  const tryKey = (text: string) => {
-    const phrase = pastedPhrase(text);
-    if (isPhrase(phrase)) logIn(phrase);
-    else setError(copy.wrongKey);
+  /** Whether a file is dragged over the drop zone. */
+  const [over, setOver] = useState(false);
+  const open = (file: File | null | undefined) => {
+    if (!file) return;
+    file.text().then(
+      (text) => {
+        const phrase = pastedPhrase(text);
+        if (isPhrase(phrase)) logIn(phrase);
+        else setError(copy.wrongKey);
+      },
+      (error_: unknown) => {
+        setError(String(error_));
+      },
+    );
   };
-  const submit = (event: FormEvent<HTMLFormElement>) => {
+  const drop = (event: DragEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    const pasted = new FormData(event.currentTarget).get('key');
-    tryKey(typeof pasted === 'string' ? pasted : '');
-  };
-  const open = (file: File | null) => {
-    if (file === null) return;
-    file.text().then(tryKey, (error_: unknown) => {
-      setError(String(error_));
-    });
+    setOver(false);
+    open(event.dataTransfer.files[0]);
   };
   return (
     <Stack gap="sm">
@@ -76,29 +82,31 @@ function LogIn({ copy }: WithCopy) {
       >
         {copy.create}
       </Button>
-      <Text size="sm" c="dimmed">
-        {copy.or}
-      </Text>
       <FileButton onChange={open} accept="text/plain,.txt">
         {(props) => (
-          <Button variant="light" {...props}>
+          <button
+            type="button"
+            className={cx(classes['keyDrop'], over && classes['keyDropOver'])}
+            onDragOver={(event) => {
+              event.preventDefault();
+              setOver(true);
+            }}
+            onDragLeave={() => {
+              setOver(false);
+            }}
+            onDrop={drop}
+            {...props}
+          >
             {copy.openKey}
-          </Button>
+            <span className={classes['keyDropHint']}>{copy.dropKey}</span>
+          </button>
         )}
       </FileButton>
-      <form onSubmit={submit}>
-        <Stack gap="xs">
-          <TextInput
-            name="key"
-            label={copy.pasteKey}
-            autoComplete="off"
-            {...{ error }}
-          />
-          <Button type="submit" variant="subtle">
-            {copy.logIn}
-          </Button>
-        </Stack>
-      </form>
+      {error !== null && (
+        <Text size="sm" c="red">
+          {error}
+        </Text>
+      )}
     </Stack>
   );
 }
