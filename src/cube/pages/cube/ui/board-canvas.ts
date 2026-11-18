@@ -75,10 +75,7 @@ export function letteredBoard(
     write: (text, cap, colour, height, lead) => {
       const shift = lead?.advance ?? 0;
       ink(
-        [
-          ...(lead?.lines ?? []),
-          ...placedAt(strokes(text, script), 1, shift),
-        ],
+        [...(lead?.lines ?? []), ...placedAt(strokes(text, script), 1, shift)],
         shift + measure(text, script),
         cap,
         colour,

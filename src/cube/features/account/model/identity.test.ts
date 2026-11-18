@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { identityOf, isPhrase, newIdentity } from './identity';
-import { loginLink, phraseIn } from './login-link';
+import { loginLink, pastedPhrase, phraseIn } from './login-link';
 
 /** BIP-39's own first test vector: all zero entropy. */
 const VECTOR = `${'abandon '.repeat(11)}about`;
@@ -43,5 +43,20 @@ describe('loginLink', () => {
     assert.equal(phraseIn('awake'), null);
     assert.equal(phraseIn(''), null);
     assert.equal(phraseIn('AbC-_09'), null);
+  });
+});
+
+describe('pastedPhrase', () => {
+  it('takes the phrase out of a pasted login link', () => {
+    const link = loginLink('https://example.com/cube', VECTOR);
+    assert.equal(pastedPhrase(link), VECTOR);
+  });
+
+  it('passes the words themselves, or anything else, through', () => {
+    assert.equal(pastedPhrase(VECTOR), VECTOR);
+    assert.equal(
+      pastedPhrase('https://example.com/cube#awake'),
+      'https://example.com/cube#awake',
+    );
   });
 });

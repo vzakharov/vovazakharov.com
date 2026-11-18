@@ -3,13 +3,7 @@ import { describe, it } from 'node:test';
 
 import type { SignMount } from '@/cube/entities/world';
 
-import {
-  credited,
-  EMPTY_WALLET,
-  parsed,
-  serialized,
-  withRoom,
-} from './wallet';
+import { credited, EMPTY_WALLET, parsed, serialized, withRoom } from './wallet';
 
 const MOUNT: SignMount = {
   at: { u: 0.5, v: 0.1 },

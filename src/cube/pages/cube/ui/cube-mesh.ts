@@ -128,13 +128,7 @@ function signBoards(
     const image = isSold
       ? () => drawBoard(n, true, signs[kind], sold)
       : () =>
-          drawBoard(
-            n,
-            false,
-            signs[kind],
-            formatCubes(priceOf(n)),
-            CUBES_MARK,
-          );
+          drawBoard(n, false, signs[kind], formatCubes(priceOf(n)), CUBES_MARK);
     return [
       {
         id,

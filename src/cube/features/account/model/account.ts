@@ -11,7 +11,13 @@ import {
   storedWallet,
   storeWallet,
 } from './stored';
-import { credited, EMPTY_WALLET, giftOf, type Wallet, withRoom } from './wallet';
+import {
+  credited,
+  EMPTY_WALLET,
+  giftOf,
+  type Wallet,
+  withRoom,
+} from './wallet';
 
 /** Who is playing on this page, what they hold, and what this browser keeps. */
 export type Held = {

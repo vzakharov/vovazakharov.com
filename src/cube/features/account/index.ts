@@ -12,4 +12,4 @@ export {
   subscribe,
 } from './model/account';
 export { type Identity, identityOf, isPhrase } from './model/identity';
-export { loginLink } from './model/login-link';
+export { loginLink, pastedPhrase } from './model/login-link';

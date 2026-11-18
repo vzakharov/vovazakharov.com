@@ -26,6 +26,7 @@ import {
   logIn,
   loginLink,
   logOut,
+  pastedPhrase,
   setRemembered,
 } from '@/cube/features/account';
 
@@ -47,9 +48,7 @@ type AccountDialogProps = WithOnClose &
 
 type CopyableProps = WithCopy & { value: string };
 
-type LoggedInProps = WithCopy &
-  WithHeld &
-  WithCubes & { identity: Identity };
+type LoggedInProps = WithCopy & WithHeld & WithCubes & { identity: Identity };
 
 /** A form field's text, empty where the form has none. */
 const fieldOf = (form: FormData, name: string): string => {
@@ -71,15 +70,16 @@ function Copyable({ value, copy }: CopyableProps) {
 }
 
 /**
- * A new account, or the login form: twelve words, and optionally the id they
- * should prove, laid out as a password manager expects so it can fill them in.
+ * A new account, or the login form: twelve words or a login link carrying
+ * them, and optionally the id they should prove, laid out as a password
+ * manager expects so it can fill them in.
  */
 function LogIn({ copy }: WithCopy) {
   const [error, setError] = useState<string | null>(null);
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    const phrase = fieldOf(form, 'phrase');
+    const phrase = pastedPhrase(fieldOf(form, 'phrase'));
     const id = fieldOf(form, 'id');
     if (!isPhrase(phrase)) {
       setError(copy.wrongWords);
@@ -99,11 +99,15 @@ function LogIn({ copy }: WithCopy) {
       </Text>
       <form onSubmit={submit}>
         <Stack gap="xs">
-          <TextInput name="id" label={copy.id} autoComplete="username" />
+          <TextInput
+            name="id"
+            label={copy.idOptional}
+            autoComplete="username"
+          />
           <TextInput
             name="phrase"
             type="password"
-            label={copy.phrase}
+            label={copy.pasted}
             autoComplete="current-password"
             {...{ error }}
           />

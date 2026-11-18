@@ -33,7 +33,9 @@ export const serialized = ({ balance, holdings }: Wallet): string =>
 export function parsed(text: string): Wallet {
   const result = storedSchema.safeParse(JSON.parse(text));
   if (!result.success) {
-    throw new Error(`A stored wallet is unreadable: ${z.prettifyError(result.error)}`);
+    throw new Error(
+      `A stored wallet is unreadable: ${z.prettifyError(result.error)}`,
+    );
   }
   return { ...result.data, holdings: new Map(result.data.holdings) };
 }

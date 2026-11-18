@@ -17,3 +17,7 @@ export const phraseIn = (fragment: string): string | null =>
   fragment.startsWith(LOGIN)
     ? fragment.slice(LOGIN.length).split('-').join(' ')
     : null;
+
+/** The phrase in what a player pasted to log in: a login link, or the words themselves. */
+export const pastedPhrase = (pasted: string): string =>
+  phraseIn(pasted.slice(pasted.indexOf('#') + 1)) ?? pasted;
