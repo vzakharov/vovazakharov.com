@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 566,
-    "cacheWrite5mTokens": 842,
-    "cacheWrite1hTokens": 127022,
-    "cacheReadTokens": 4748999,
-    "outputTokens": 21791,
-    "thinkingTokens": 4770,
-    "responses": 32,
-    "costUsd": 2.4107958
+    "inputTokens": 1150,
+    "cacheWrite5mTokens": 128228,
+    "cacheWrite1hTokens": 166067,
+    "cacheReadTokens": 11619938,
+    "outputTokens": 54075,
+    "thinkingTokens": 9823,
+    "responses": 74,
+    "costUsd": 5.764447600000001
   },
   "estimate": {
     "at": "2026-11-18T19:00:07.916Z",
@@ -29,23 +29,23 @@
     "comment": null
   },
   "orientation": {
-    "endedBy": "end_turn",
-    "endedOn": null,
-    "endedAt": "2026-11-18T19:00:20.565Z",
-    "contextTokens": 174782,
+    "endedBy": "Write",
+    "endedOn": "vovazakharov.com/tmp/explainer/2026-11-18-cube-portal-tempo.artifact.html",
+    "endedAt": "2026-11-18T18:56:37.464Z",
+    "contextTokens": 159549,
     "spend": {
-      "inputTokens": 49,
+      "inputTokens": 28,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 119810,
-      "cacheReadTokens": 3504882,
-      "outputTokens": 17482,
-      "thinkingTokens": 4470,
-      "responses": 25,
-      "costUsd": 2.0092923999999996
+      "cacheWrite1hTokens": 104628,
+      "cacheReadTokens": 1817526,
+      "outputTokens": 6421,
+      "thinkingTokens": 3235,
+      "responses": 15,
+      "costUsd": 1.3290612
     }
   },
   "sessionId": "a892935d-2b91-57c5-804d-58deffd8bfcc",
-  "branch": "claude/cube-portal-tempo-v3rct3",
+  "branch": "HEAD",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/cube-portal-tempo-v3rct3 — PR открыт, синусный темп хабов сделан, ждёт решения Вовы",
   "prs": [
@@ -54,18 +54,18 @@
   "url": "https://claude.ai/code/session_01DaohkEXX6HC7z3ucH2PGkp",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-18T18:55:01.866Z",
-  "lastResponseAt": "2026-11-18T19:56:02.415Z",
+  "lastResponseAt": "2026-11-18T20:35:33.312Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 60,
+    "inputTokens": 78,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 127022,
-    "cacheReadTokens": 4574219,
-    "outputTokens": 21779,
-    "thinkingTokens": 4770,
-    "responses": 31,
-    "costUsd": 2.3668397999999997
+    "cacheWrite1hTokens": 166067,
+    "cacheReadTokens": 6688302,
+    "outputTokens": 32268,
+    "thinkingTokens": 9823,
+    "responses": 41,
+    "costUsd": 3.3118684000000003
   },
   "subagents": {
     "inputTokens": 0,
@@ -79,45 +79,55 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 566,
-      "cacheWrite5mTokens": 842,
-      "cacheWrite1hTokens": 127022,
-      "cacheReadTokens": 4748999,
-      "outputTokens": 21791,
-      "thinkingTokens": 4770,
-      "responses": 32,
-      "costUsd": 2.4107958
+      "inputTokens": 1150,
+      "cacheWrite5mTokens": 128228,
+      "cacheWrite1hTokens": 166067,
+      "cacheReadTokens": 11619938,
+      "outputTokens": 54075,
+      "thinkingTokens": 9823,
+      "responses": 74,
+      "costUsd": 5.764447600000001
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 32,
-    "matched": 31,
-    "matchedTableUsd": 2.3668397999999997,
-    "matchedEventUsd": 2.3668397999999997,
+    "events": 33,
+    "matched": 0,
+    "matchedTableUsd": 0.0,
+    "matchedEventUsd": 0.0,
     "unseen": {
-      "prompt_suggestion": {
-        "inputTokens": 506,
-        "cacheWrite5mTokens": 842,
+      "sdk": {
+        "inputTokens": 60,
+        "cacheWrite5mTokens": 127022,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 174780,
-        "outputTokens": 12,
+        "cacheReadTokens": 4574219,
+        "outputTokens": 21779,
         "thinkingTokens": 0,
-        "responses": 1,
-        "costUsd": 0.043956
+        "responses": 31,
+        "costUsd": 2.3668397999999997
+      },
+      "prompt_suggestion": {
+        "inputTokens": 1012,
+        "cacheWrite5mTokens": 1206,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 357417,
+        "outputTokens": 28,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.0857394
       }
     }
   },
   "operatorWords": {
-    "chat": 44,
+    "chat": 79,
     "review": 0,
     "threads": 0
   },
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 367,
+    ".md": 386,
     ".yaml": 39,
     ".ts": 288
   }
