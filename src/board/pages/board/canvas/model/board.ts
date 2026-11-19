@@ -13,8 +13,8 @@ import type { Store } from './store.ts';
 export type WithCamera = { camera: Zoomed };
 
 /**
- * The find box's query and the match it stands on, and the fresh item the New
- * button last went to; the matches themselves are recomputed from the items.
+ * The find box's query and the match it stands on, the matches recomputed from
+ * the items; and the fresh item the New button goes to next.
  */
 export type Finding = { query: string; match: number; nextFresh: number };
 

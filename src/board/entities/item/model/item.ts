@@ -33,7 +33,7 @@ const Common = z.object({
   /** A `user` capability id (`u_…`) for a person, `agent:<role>` for a session. */
   author: z.string().min(1),
   deleted: z.boolean().optional(),
-  /** Among what was added last: set by hand, by whoever adds it, never derived. */
+  /** Among what was added last: set by hand, by whoever adds it. */
   fresh: z.boolean().optional(),
 });
 
