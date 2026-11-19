@@ -85,7 +85,7 @@ dropped`; squash proposal posted and tracked at
 
 ### Watches
 
-(none: every watch was stopped earlier in the session)
+https://claude.ai/artifact/WbvwDqVtJzN8EBeuUffho3
 
 ## 7. Pointers
 
