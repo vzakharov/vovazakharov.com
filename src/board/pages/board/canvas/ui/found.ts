@@ -10,8 +10,12 @@ export const freshIds = (items: readonly PlacedItem[]): string[] =>
 /**
  * The find box's matches marked on the world, the one it stands on apart, and
  * the toolbar's counts: run on every render, which rebuilds every node.
+ * Returns the id of the match it stands on.
  */
-export function markFound(board: Board, items: readonly PlacedItem[]): void {
+export function markFound(
+  board: Board,
+  items: readonly PlacedItem[],
+): string | undefined {
   const searching = board.finding.query.trim() !== '';
   const found = matching(items, board.finding.query);
   const at = Math.min(board.finding.match, found.length - 1);
@@ -30,4 +34,5 @@ export function markFound(board: Board, items: readonly PlacedItem[]): void {
   const button = byId('tool-fresh');
   button.hidden = fresh === 0;
   button.textContent = `New ${String(fresh)}`;
+  return found[at];
 }

@@ -7,9 +7,7 @@ import { focus } from './viewport.ts';
 
 /** The find box's matches redrawn, and the camera on the one it stands on. */
 function showMatch(board: Board): void {
-  const items = placed(board);
-  markFound(board, items);
-  const id = matching(items, board.finding.query)[board.finding.match];
+  const id = markFound(board, placed(board));
   if (id !== undefined) focus(board, id);
 }
 
@@ -29,7 +27,7 @@ function step(board: Board, delta: number): void {
 /** The next fresh item, round and round. */
 function nextFresh(board: Board): void {
   const fresh = freshIds(placed(board));
-  const at = board.finding.nextFresh % Math.max(fresh.length, 1);
+  const at = stepped(board.finding.nextFresh, 0, fresh.length);
   const id = fresh[at];
   if (id !== undefined) focus(board, id);
   board.finding.nextFresh = stepped(at, 1, fresh.length);
