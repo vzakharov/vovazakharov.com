@@ -1,0 +1,106 @@
+{
+  "total": {
+    "inputTokens": 51,
+    "cacheWrite5mTokens": 88853,
+    "cacheWrite1hTokens": 74229,
+    "cacheReadTokens": 2650066,
+    "outputTokens": 11467,
+    "thinkingTokens": 4077,
+    "responses": 25,
+    "costUsd": 1.7976541999999998
+  },
+  "estimate": {
+    "at": "2026-11-19T06:36:23.057Z",
+    "subjectLine": "chore: land prep and merge for the board search and new-mark PR",
+    "parts": [
+      {
+        "hours": 0.75,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "land prep is routine: polish review, vet run, base sync, squash record and merge, with judgement only at the gate"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-19T06:35:48.055Z",
+    "contextTokens": 102649,
+    "spend": {
+      "inputTokens": 6,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 47234,
+      "cacheReadTokens": 148278,
+      "outputTokens": 551,
+      "thinkingTokens": 16,
+      "responses": 2,
+      "costUsd": 0.4185716
+    }
+  },
+  "sessionId": "68912bf4-a9d3-5891-aa44-7da4db700e60",
+  "branch": "claude/cube-tempo-dropped",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/merge claude/cube-tempo-dropped",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkFFTERDyZKnGvh7juo",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-19T06:35:38.277Z",
+  "lastResponseAt": "2026-11-19T06:38:27.841Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 23,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 74229,
+    "cacheReadTokens": 1158757,
+    "outputTokens": 3530,
+    "thinkingTokens": 458,
+    "responses": 11,
+    "costUsd": 0.8962753999999999
+  },
+  "subagents": {
+    "inputTokens": 28,
+    "cacheWrite5mTokens": 88853,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1491309,
+    "outputTokens": 7937,
+    "thinkingTokens": 3619,
+    "responses": 14,
+    "costUsd": 0.9013788
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 51,
+      "cacheWrite5mTokens": 88853,
+      "cacheWrite1hTokens": 74229,
+      "cacheReadTokens": 2650066,
+      "outputTokens": 11467,
+      "thinkingTokens": 4077,
+      "responses": 25,
+      "costUsd": 1.7976541999999998
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 25,
+    "matched": 25,
+    "matchedTableUsd": 1.7976541999999998,
+    "matchedEventUsd": 1.7976541999999998,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 18,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 189,
+    ".scss": 103,
+    ".ts": 314,
+    ".yaml": 40
+  }
+}
