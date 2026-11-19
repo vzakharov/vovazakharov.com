@@ -16,3 +16,9 @@ items:
     box: [2320, 2740, 900]
     src: images/price-by-time-chart.webp
     text: 'Price by travel time, q = 1.40, a room by its floor: the band spans the floor, the line its median, the dashes the price ÷8 a floor. A floor-2 room goes for $130k–$1M, a floor-5 one ~$2,400 and a floor-9 one ~$27, every room from floor 13 down at $5. Knowing the way, floor 9 is 15 minutes off and floor 15 four days'
+  - id: s-3e693ebc0490
+    type: sticky
+    updated: [2026-11-16T07:16:17.959Z, u_L_AriiBLoWLIB4PYEulAJA]
+    box: [12044.98131533703, 4092.9193802961263, 200, yellow]
+    text: ''
+    deleted: true

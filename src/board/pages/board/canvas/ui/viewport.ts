@@ -1,6 +1,12 @@
 import type { Point } from '@/scene/shared/lib/plane';
 
-import { fitTo, toWorld, union, zoomAt } from '../../camera/index.ts';
+import {
+  fitTo,
+  type Rect,
+  toWorld,
+  union,
+  zoomAt,
+} from '../../camera/index.ts';
 import type { Board } from '../model/board.ts';
 import { placed, rectOf } from './view.ts';
 
@@ -27,17 +33,29 @@ function screenCentre(board: Board): Point {
 export const viewCentre = (board: Board): Point =>
   toWorld(board.camera, screenCentre(board));
 
+function screenRect(board: Board): Rect {
+  const { width, height } = board.stage.getBoundingClientRect();
+  return { x: 0, y: 0, width, height };
+}
+
 export function fit(board: Board): void {
   const bounds = union(
     placed(board)
       .map((item) => rectOf(board, item.id))
       .filter((rect) => rect !== undefined),
   );
-  const { width, height } = board.stage.getBoundingClientRect();
   board.camera =
     bounds === undefined
       ? { ...screenCentre(board), zoom: 1 }
-      : fitTo(bounds, { x: 0, y: 0, width, height });
+      : fitTo(bounds, screenRect(board));
+  applyCamera(board);
+}
+
+/** The camera on one item, at reading size where it fits, whole where it does not. */
+export function focus(board: Board, id: string): void {
+  const rect = rectOf(board, id);
+  if (rect === undefined) return;
+  board.camera = fitTo(rect, screenRect(board), 96);
   applyCamera(board);
 }
 

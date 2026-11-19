@@ -2,6 +2,7 @@
    floating toolbar top-left and the live status beside it. Light in every
    theme, as the operator asked. */
 @use 'toolbar';
+@use 'find';
 
 $tints: (
   'yellow': #fbe7a1,
