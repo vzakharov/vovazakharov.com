@@ -1,0 +1,101 @@
+{
+  "total": {
+    "inputTokens": 12,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 48093,
+    "cacheReadTokens": 453926,
+    "outputTokens": 1487,
+    "thinkingTokens": 242,
+    "responses": 5,
+    "costUsd": 0.5053172
+  },
+  "estimate": {
+    "at": "2026-11-19T06:21:15.408Z",
+    "subjectLine": "chore: check whether review-board-history-and-title can still merge",
+    "parts": [
+      {
+        "hours": 0.1,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "a lookup of the PR state; no diff to land"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-19T06:21:20.479Z",
+    "contextTokens": 103095,
+    "spend": {
+      "inputTokens": 10,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 47692,
+      "cacheReadTokens": 351234,
+      "outputTokens": 1114,
+      "thinkingTokens": 242,
+      "responses": 4,
+      "costUsd": 0.4741028
+    }
+  },
+  "sessionId": "f9fe40ca-38a0-564c-9505-9987271b275c",
+  "branch": "claude/laughing-cori-s5zc0j",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/merge claude/review-board-history-and-title",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBXqs6QveR9nSPKpGw",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-19T06:20:59.100Z",
+  "lastResponseAt": "2026-11-19T06:21:20.479Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 12,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 48093,
+    "cacheReadTokens": 453926,
+    "outputTokens": 1487,
+    "thinkingTokens": 242,
+    "responses": 5,
+    "costUsd": 0.5053172
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 48093,
+      "cacheReadTokens": 453926,
+      "outputTokens": 1487,
+      "thinkingTokens": 242,
+      "responses": 5,
+      "costUsd": 0.5053172
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 5,
+    "matched": 5,
+    "matchedTableUsd": 0.5053172,
+    "matchedEventUsd": 0.5053171999999999,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 20,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {}
+}
