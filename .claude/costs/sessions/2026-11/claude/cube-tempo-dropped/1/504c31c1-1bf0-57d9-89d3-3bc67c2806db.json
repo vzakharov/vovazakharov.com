@@ -1,0 +1,113 @@
+{
+  "total": {
+    "inputTokens": 84,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 157412,
+    "cacheReadTokens": 7210667,
+    "outputTokens": 19220,
+    "thinkingTokens": 6075,
+    "responses": 43,
+    "costUsd": 3.0861654000000005
+  },
+  "estimate": {
+    "at": "2026-11-19T03:22:48.933Z",
+    "subjectLine": "content: the cube board records the sine tempo as tried and dropped",
+    "parts": [
+      {
+        "hours": 0.5,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "the verdict on why a mechanic failed is a design judgement, written for the next designer to build on"
+      },
+      {
+        "hours": 0.25,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "syncing live board edits, rebuilding and republishing is routine tooling"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-19T03:19:58.760Z",
+    "contextTokens": 140150,
+    "spend": {
+      "inputTokens": 12,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 62232,
+      "cacheReadTokens": 593891,
+      "outputTokens": 1825,
+      "thinkingTokens": 256,
+      "responses": 6,
+      "costUsd": 0.6531822
+    }
+  },
+  "sessionId": "504c31c1-1bf0-57d9-89d3-3bc67c2806db",
+  "branch": "claude/cube-tempo-dropped",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/cube-portal-tempo-v3rct3 — PR открыт, редкость не ощущается, ждёт выбора из трёх вариантов",
+  "prs": [
+    292,
+    293
+  ],
+  "url": "https://claude.ai/code/session_01DaohkFZ5P5LgZFJAkxhJcJ",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-19T03:19:30.247Z",
+  "lastResponseAt": "2026-11-19T03:24:05.304Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 84,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 157412,
+    "cacheReadTokens": 7210667,
+    "outputTokens": 19220,
+    "thinkingTokens": 6075,
+    "responses": 43,
+    "costUsd": 3.0861654000000005
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 84,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 157412,
+      "cacheReadTokens": 7210667,
+      "outputTokens": 19220,
+      "thinkingTokens": 6075,
+      "responses": 43,
+      "costUsd": 3.0861654000000005
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 43,
+    "matched": 43,
+    "matchedTableUsd": 3.0861654000000005,
+    "matchedEventUsd": 3.0861654,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 40,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 20,
+    ".yaml": 39
+  }
+}
