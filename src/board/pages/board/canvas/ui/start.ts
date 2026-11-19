@@ -47,6 +47,7 @@ function boardOnPage(): Board {
     lineFrom: undefined,
     editing: undefined,
     names: {},
+    finding: { query: '', match: 0, nextFresh: 0 },
     user: null,
     assets: null,
     store: createStore(

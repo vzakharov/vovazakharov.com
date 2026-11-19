@@ -15,7 +15,8 @@
  * times the plain one; a sticky ticked off has `done: true`. `text` is
  * each type's one text field: a zone's title, an image's caption, a line's
  * label. A sticky or zone may carry `icon:`, an emoji or `icons/<name>.svg`
- * from the board's `icons/` directory. The file is the codec only: decoded,
+ * from the board's `icons/` directory. Any item may carry `fresh: true`, marking
+ * it among what was added last. The file is the codec only: decoded,
  * every item is the page's `Item`, which the db rows and the baked page keep
  * using.
  */
@@ -63,7 +64,10 @@ const FileItem = z
     updated: z.tuple([z.string(), z.string()]),
   })
   .extend(Shape.shape)
-  .extend({ deleted: z.literal(true).optional() });
+  .extend({
+    fresh: z.literal(true).optional(),
+    deleted: z.literal(true).optional(),
+  });
 type FileItem = z.infer<typeof FileItem>;
 
 const BoardFile = z.object({
@@ -147,10 +151,19 @@ export function decodeItem(file: FileItem): Item {
     id,
     type,
     updated: [updated, author],
+    fresh,
     deleted,
   } = file;
   return Item.parse(
-    defined({ id, kind: type, updated, author, ...fields(file), deleted }),
+    defined({
+      id,
+      kind: type,
+      updated,
+      author,
+      ...fields(file),
+      fresh,
+      deleted,
+    }),
   );
 }
 
@@ -199,13 +212,14 @@ function shape(item: Item): Shape {
 
 /** The item as the file spells it, keys in the file's order and none left undefined. */
 export function encodeItem(item: Item): FileItem {
-  const { id, kind, updated, author, deleted } = item;
+  const { id, kind, updated, author, fresh, deleted } = item;
   return FileItem.parse(
     defined({
       id,
       type: kind,
       updated: [updated, author],
       ...shape(item),
+      fresh: fresh === true ? true : undefined,
       deleted: deleted === true ? true : undefined,
     }),
   );

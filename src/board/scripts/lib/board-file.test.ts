@@ -63,6 +63,8 @@ const ONE_OF_EACH: Item[] = [
     caption: 'c',
   },
   { ...STICKY, id: 'se', icon: '🧊' },
+  { ...STICKY, id: 'sf', fresh: true },
+  { ...STAMP, id: 'lf', kind: 'line', from: 's', to: 'z', fresh: true },
   { ...STICKY, id: 'ss', icon: 'icons/lock.svg' },
   { ...ZONE, id: 'ze', icon: '🧊' },
   { ...STAMP, id: 't', kind: 'text', x: 5, y: 6, text: 'H', size: 'h1' },

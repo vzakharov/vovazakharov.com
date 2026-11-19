@@ -10,6 +10,7 @@ import {
   renderLines,
 } from '../../drawing/index.ts';
 import type { Board } from '../model/board.ts';
+import { markFound } from './found.ts';
 
 export const visible = (board: Board): Item[] =>
   board.store.items().filter((item) => item.deleted !== true);
@@ -69,6 +70,7 @@ export function render(board: Board): void {
     editable: board.store.write !== undefined,
     ...pick(board, 'names'),
   });
+  markFound(board, items);
   drawLines(board);
   resolveNames(board, items).catch(reportError);
 }

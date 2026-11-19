@@ -41,6 +41,15 @@ export function fit(board: Board): void {
   applyCamera(board);
 }
 
+/** The camera on one item, at reading size where it fits, whole where it does not. */
+export function focus(board: Board, id: string): void {
+  const rect = rectOf(board, id);
+  if (rect === undefined) return;
+  const { width, height } = board.stage.getBoundingClientRect();
+  board.camera = fitTo(rect, { x: 0, y: 0, width, height }, 96);
+  applyCamera(board);
+}
+
 export function zoomBy(board: Board, factor: number): void {
   board.camera = zoomAt(board.camera, screenCentre(board), factor);
   applyCamera(board);

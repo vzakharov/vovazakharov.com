@@ -12,6 +12,12 @@ import type { Store } from './store.ts';
 /** Where the viewer is looking, and how close. */
 export type WithCamera = { camera: Zoomed };
 
+/**
+ * The find box's query and the match it stands on, and the fresh item the New
+ * button last went to; the matches themselves are recomputed from the items.
+ */
+export type Finding = { query: string; match: number; nextFresh: number };
+
 /** The page's nodes and everything the viewer's work changes: the one object every module of the page takes. */
 export type Board = WithCamera &
   WithSelected &
@@ -33,5 +39,6 @@ export type Board = WithCamera &
     /** The text being edited, while rendering is held off. */
     editing: HTMLElement | undefined;
     names: Record<string, string>;
+    finding: Finding;
     store: Store;
   };

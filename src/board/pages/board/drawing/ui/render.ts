@@ -166,6 +166,10 @@ export function renderItems(
       if (jitter(item.id, 'tape') > 0) node.classList.add('taped');
       node.style.left = `${item.x}px`;
       node.style.top = `${item.y}px`;
+      if (item.fresh === true) {
+        node.classList.add('fresh');
+        node.append(element('span', 'fresh-tag', 'new'));
+      }
       if (options.editable && item.kind !== 'text')
         node.append(element('div', 'resize'));
       return node;
@@ -225,7 +229,10 @@ export function renderLines(
     const { d, mid } = handStroke(a, b, line);
     const { d: echo } = handStroke(a, b, line, 1);
     const dashed = line.dashed === true ? ' dashed' : '';
-    const lineGroup = { class: 'line', 'data-id': line.id };
+    const lineGroup = {
+      class: line.fresh === true ? 'line fresh' : 'line',
+      'data-id': line.id,
+    };
     const hit = svg('g', lineGroup);
     hit.append(svg('path', { d, class: 'hit' }));
     hits.push(hit);

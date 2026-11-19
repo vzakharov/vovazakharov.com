@@ -1,0 +1,102 @@
+/* The find box, what it found, and the mark on what was added last. */
+
+#find {
+  align-items: center;
+}
+
+#find-text {
+  width: 150px;
+  height: 30px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--ink);
+  font: 400 14px var(--font-body);
+  outline: none;
+}
+
+#find-text:focus-visible {
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+#find-count {
+  padding: 0 4px;
+  color: var(--muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* What a search did not find steps back, the zones and lines with it. */
+body.finding .item:not(.found),
+body.finding #lines {
+  opacity: 0.3;
+}
+
+.item.found {
+  outline: 3px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  outline-offset: 4px;
+}
+
+.item.found.current {
+  outline: 4px solid var(--accent);
+}
+
+/* The mark on what was added last: a hand-cut tag in the top corner, and a
+   warm ring, both drawn as a pen would add them after the fact. */
+:root {
+  --fresh: #d9480f;
+  --fresh-ink: #fff;
+}
+
+.item.fresh {
+  box-shadow:
+    0 0 0 3px var(--fresh),
+    var(--lift);
+}
+
+.zone.fresh,
+.text.fresh {
+  box-shadow: none;
+  outline: 3px dashed var(--fresh);
+  outline-offset: 6px;
+}
+
+.fresh-tag {
+  position: absolute;
+  top: -16px;
+  right: -14px;
+  z-index: 1;
+  padding: 1px 10px 3px;
+  border-radius: 3px 8px 4px 9px / 7px 3px 8px 4px;
+  background: var(--fresh);
+  color: var(--fresh-ink);
+  font: 700 22px/1 var(--font-hand);
+  transform: rotate(8deg);
+  pointer-events: none;
+}
+
+.zone > .fresh-tag {
+  top: -22px;
+  right: 24px;
+  font-size: 34px;
+}
+
+.line.fresh .stroke,
+.line.fresh .arrowhead {
+  stroke: var(--fresh);
+}
+
+.line.fresh .label {
+  fill: var(--fresh);
+}
+
+.group button.fresh {
+  background: var(--fresh);
+  color: var(--fresh-ink);
+}
+
+.group button.fresh:hover {
+  background: color-mix(in srgb, var(--fresh) 85%, #000);
+}

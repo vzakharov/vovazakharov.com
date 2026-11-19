@@ -287,6 +287,7 @@ items:
     box: [6978, 4200, 380, gray]
     icon: 🧪
     text: 'Tried 18–19 Nov, dropped (#292, closed): a sine in place of the minute, one room held ~1.9 s every 5 s, rare jumps in a ~4 Hz flicker. Vova, on playing it: “you try to catch the moment, but even when you do, there’s no feeling of… rarity?” Rare came on a beat, the same tick every cycle, and a caught rare room looks like any other. Untried: independent flicker ticks, a sign of what was caught, rarity on long clocks. The minute stays'
+    fresh: true
   - id: p-lock-timetable
     type: sticky
     updated: [2026-11-18T12:01:00.000Z, agent:cube]

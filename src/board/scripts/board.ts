@@ -124,6 +124,13 @@ const TOOLBAR = `
     <button id="tool-fit" type="button" title="Show everything">Fit</button>
     <button id="tool-out" type="button" title="Zoom out">−</button>
     <button id="tool-in" type="button" title="Zoom in">+</button>
+    <button id="tool-fresh" class="fresh" type="button" title="Go to what was added last, one by one" hidden>New</button>
+  </div>
+  <div id="find" class="group">
+    <input id="find-text" type="search" placeholder="Find" aria-label="Find text on the board" title="Find (Ctrl+F); Enter for the next, Shift+Enter for the one before" autocomplete="off" spellcheck="false">
+    <span id="find-count" aria-live="polite" hidden></span>
+    <button id="find-prev" type="button" title="The match before (Shift+Enter)" aria-label="The match before">‹</button>
+    <button id="find-next" type="button" title="The next match (Enter)" aria-label="The next match">›</button>
   </div>
   <div class="group edit-only">
     <button id="tool-sticky" type="button" title="Add a sticky (or double-click the board)">Sticky</button>
