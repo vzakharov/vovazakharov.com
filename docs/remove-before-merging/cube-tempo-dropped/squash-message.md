@@ -1,16 +1,23 @@
 Proposed squash body:
 
 ```
-The sine-paced hub tempo proposed in #292 was played on preview and did
-not give the feeling of rarity it was built for: the rare floors came on
-the same tick of every five-second cycle, and a caught rare room looks
-like any other. #292 closed unmerged, and the minute period stays.
+A board of four hundred cards had no way to find one by its words, and
+no way to tell what was new since the last look. The toolbar gains a
+find box (Ctrl/⌘+F, Enter and Shift+Enter to step): it matches every
+word of the query anywhere in a card's text, accents and curly quotes
+folded, dims what it did not find and frames each match in turn.
 
-The cube board records the experiment as tried and dropped, with Vova's
-verdict, the cause and the directions left untried: flicker ticks drawn
-independently, a sign of what was caught, rarity on long clocks. The
-spoke timetable proposed in the same session joins it as an open
-proposal, and a live board edit is folded back in.
+Any item may carry `fresh: true`, drawn as a red "new" tag and ring,
+and a New button steps the camera through the marked cards. The mark is
+set by hand, since whether a change is news is a judgement, and whoever
+sets one clears the old, as `.claude/rules/boards.md` asks.
+
+The sine-paced hub tempo proposed in #292 was played on preview and did
+not give the feeling of rarity it was built for: rare floors came on the
+same tick of every cycle, and a caught rare room looks like any other.
+#292 closed unmerged and the minute period stays; the cube board records
+the experiment as tried and dropped, its card the first marked fresh,
+with the spoke timetable from the same session as an open proposal.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
