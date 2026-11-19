@@ -16,7 +16,7 @@ export type WithCamera = { camera: Zoomed };
  * The find box's query and the match it stands on, the matches recomputed from
  * the items; and the fresh item the New button goes to next.
  */
-export type Finding = { query: string; match: number; nextFresh: number };
+type Finding ={ query: string; match: number; nextFresh: number };
 
 /** The page's nodes and everything the viewer's work changes: the one object every module of the page takes. */
 export type Board = WithCamera &

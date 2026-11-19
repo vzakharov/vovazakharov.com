@@ -1,7 +1,7 @@
 import type { PlacedItem } from '@/board/entities/item';
 
 /** The words a reader sees on an item. */
-export function textOf(item: PlacedItem): string {
+function textOf(item: PlacedItem): string {
   switch (item.kind) {
     case 'sticky':
     case 'text': {
