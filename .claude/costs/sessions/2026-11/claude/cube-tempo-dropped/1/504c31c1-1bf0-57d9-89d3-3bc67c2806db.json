@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 61,
+    "inputTokens": 80,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 136546,
-    "cacheReadTokens": 4991202,
-    "outputTokens": 14849,
-    "thinkingTokens": 5194,
-    "responses": 32,
-    "costUsd": 2.3878324
+    "cacheWrite1hTokens": 153116,
+    "cacheReadTokens": 6794059,
+    "outputTokens": 17729,
+    "thinkingTokens": 5674,
+    "responses": 41,
+    "costUsd": 2.9386398000000007
   },
   "estimate": {
     "at": "2026-11-19T03:22:48.933Z",
@@ -49,23 +49,24 @@
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/cube-portal-tempo-v3rct3 — PR открыт, редкость не ощущается, ждёт выбора из трёх вариантов",
   "prs": [
-    292
+    292,
+    293
   ],
   "url": "https://claude.ai/code/session_01DaohkFZ5P5LgZFJAkxhJcJ",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-19T03:19:30.247Z",
-  "lastResponseAt": "2026-11-19T03:22:54.089Z",
+  "lastResponseAt": "2026-11-19T03:23:39.712Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 61,
+    "inputTokens": 80,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 136546,
-    "cacheReadTokens": 4991202,
-    "outputTokens": 14849,
-    "thinkingTokens": 5194,
-    "responses": 32,
-    "costUsd": 2.3878324
+    "cacheWrite1hTokens": 153116,
+    "cacheReadTokens": 6794059,
+    "outputTokens": 17729,
+    "thinkingTokens": 5674,
+    "responses": 41,
+    "costUsd": 2.9386398000000007
   },
   "subagents": {
     "inputTokens": 0,
@@ -79,23 +80,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 61,
+      "inputTokens": 80,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 136546,
-      "cacheReadTokens": 4991202,
-      "outputTokens": 14849,
-      "thinkingTokens": 5194,
-      "responses": 32,
-      "costUsd": 2.3878324
+      "cacheWrite1hTokens": 153116,
+      "cacheReadTokens": 6794059,
+      "outputTokens": 17729,
+      "thinkingTokens": 5674,
+      "responses": 41,
+      "costUsd": 2.9386398000000007
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 31,
-    "matched": 31,
-    "matchedTableUsd": 2.3353456,
-    "matchedEventUsd": 2.3353455999999997,
+    "events": 40,
+    "matched": 40,
+    "matchedTableUsd": 2.8893338000000006,
+    "matchedEventUsd": 2.8893338,
     "unseen": {}
   },
   "operatorWords": {
@@ -105,5 +106,7 @@
   },
   "reviewPosts": {},
   "threadPosts": {},
-  "branchLines": {}
+  "branchLines": {
+    ".yaml": 39
+  }
 }
