@@ -2,19 +2,17 @@
 title: 'Сколько'
 date: 2025-09-18
 language: ru
-project: ['Грёбаный бал']
+project: ['Грёбаный бал', 'за/обложкой']
 repo: 'skolko'
-album: stronger-than-love
-track: 1
+album: for-none-and-for-all
+track: 5
 seconds: 240
-mp3Bytes: 9623519
+mp3Bytes: 9623579
 explicit: false
 en:
   title:
     translation: 'How Long'
 ---
-
-<!-- For Vova to check: Project is a guess: original Russian words with rap verses, made a week after `Там` (f-ec), a Грёбаный бал track; Полуживые is the other candidate. -->
 
 <!-- Scaffolded from https://github.com/vovas-music/skolko — Сколько.flac,
      44.1 kHz / 16-bit / stereo.

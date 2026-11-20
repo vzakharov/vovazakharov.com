@@ -176,7 +176,9 @@ which is why it is not a syntax of the site's own; labels are unique across the
 file for the same reason, so the two languages' notes are suffixed `-ru` and
 `-en`. A note is in the language of the text it hangs off, and the page shows
 only the notes of the column in its own language — the crib's on a page whose
-language is not the one sung, the words' own on a page in it. A marker with no
+language is not the one sung, the words' own on a page in it. A note citing the
+Bible gives book, chapter and verse («Еккл. 3:2», “Ecclesiastes 3:2”) and quotes
+the Synodal or King James text, never a paraphrase of it. A marker with no
 definition, a definition nothing carries, and a whole-line note sharing its line
 with another each fail the build.
 
@@ -219,14 +221,18 @@ changes how a draft of one is written and what a review of it means.
   control markers (`[Chorus]`, vocal directions), its stress marks, phonetic
   respellings, drawn-out syllables (`Insi-ide`, `(а-аа)`) and pause ellipses are
   instructions to a singer, not part of the song, and do not travel — the words
-  are set as a person would write them. An ellipsis a published poem prints is
-  the poem's and stays.
+  are set as a person would write them. So does a backing voice echoing the line
+  just sung, `(Поговорим за жизнь)` after «Поговорим за жизнь»; a backing line
+  of its own, like «Хорошо»'s `(Хорошо!)`, stays. An ellipsis a published poem
+  prints is the poem's and stays.
 - **A word is written out, in both columns and the frontmatter.** An expletive
   is not masked (`f*ck`, `х*й`), whatever the source did;
   `pnpm check:masked-words` fails on the common forms. The exception is a mask
   the recording itself carries — a word bleeped on the track, as the author's
   choice — which stays masked and is named in the frontmatter's `masked`, the
   word as written keyed to the reason (`our-punk-rock`'s `про**ли`).
+- **A spoken monologue is set as prose**, one paragraph to a line, never broken
+  into lines at the recording's pauses — `horizons` is the pattern.
 - **Russian is written with ё** wherever the word has it — `её`, `ещё`, `нём`,
   `идёт` — including in a published translation that printed `е`. Where the
   letter changes the word (`все`/`всё`, `небо`/`нёбо`), the sense decides, never

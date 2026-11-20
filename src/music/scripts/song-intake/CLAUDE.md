@@ -138,10 +138,11 @@ sound. `spectrum.py` shows what an EQ actually did, which is the place to start
 when the operator says "too bright" or "muddy".
 
 **Picking the reference is a blind A/B/C.** The three catalogue masters most
-like the song's mix (`spectrum.py`, loudness, crest factor) each master it, and
-`blind-abc.py build --mix` alternates the three in that A/B's windows, in one
-random order the operator hears as "first, second, third", each round opening on
-the unmastered mix. All four are brought down to the quietest — in practice the
+like the song's mix (`spectrum.py`, loudness, crest factor) each master it — a
+master the operator made himself joins them as a fourth — and
+`blind-abc.py build --mix` alternates them in that A/B's windows, in one random
+order the operator hears as "first, second, third…", each round opening on the
+unmastered mix. All of them are brought down to the quietest — in practice the
 mix — because a louder master always sounds better, and the ear is choosing the
 sound. The candidate masters go to the `music-sources` release as one tar until
 the verdict, since a container's `tmp/` dies with it. The commit carries the
@@ -152,13 +153,14 @@ answering. A key lost anyway means a rebuild with a new order, never a reveal
 from memory.
 
 **The operator listens on the site, not to the 5-second file.**
-`blind-abc.py split <key> <dir> --mix <source>` writes the same four as whole
-files, `mix.mp3`, `1.mp3`, `2.mp3`, `3.mp3`, in the key's order, so one seal
-covers both. The vova site's unlinked `/music/mastering-blind-test`
-(`src/music/pages/blind-test/`) plays all four at once and switches by gain, so
-a switch never restarts the song; it fetches them from the branch through
-raw.githubusercontent, whose CORS header Web Audio needs. The key's paths are
-relative to this directory, so `split` runs from here.
+`blind-abc.py split <key> <dir> --mix <source>` writes the same set as whole
+files, `mix.mp3`, `1.mp3`, `2.mp3`…, in the key's order, so one seal covers
+both. The vova site's unlinked `/music/mastering-blind-test`
+(`src/music/pages/blind-test/`, its test stating how many masters it has) plays
+them all at once and switches by gain, so a switch never restarts the song; it
+fetches them from the branch through raw.githubusercontent, whose CORS header
+Web Audio needs. The key's paths are relative to this directory, so `split` runs
+from here.
 
 ## A song's repository
 
@@ -204,9 +206,11 @@ holds it. `vovas-music/birds` is the pattern.
 
 ## Reflection
 
-A song worked here ends with Майя's reflection, `<slug>.maya.reflections.md`
-beside the song's markdown. `personas/maya/reflections.md` says how; read it
-first, and the rules that point her home load with it.
+**Майя reflects only when the operator asks, and on a finished album** —
+«отклики делать только когда я конкретно запрашиваю по готовому альбому» — never
+as a step of a song's intake. Then each song gets `<slug>.maya.reflections.md`
+beside its markdown. `personas/maya/reflections.md` says how; read it first, and
+the rules that point her home load with it.
 
 She reads the song first as its spectrogram —
 `spectrogram.py <master> sites/vova/public/music/assets/spectrograms/<slug>/<slug>.png tmp/stems/htdemucs/<slug>`,

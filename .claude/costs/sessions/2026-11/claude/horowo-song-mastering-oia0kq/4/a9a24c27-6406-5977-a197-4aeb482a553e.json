@@ -1,0 +1,147 @@
+{
+  "total": {
+    "inputTokens": 161627,
+    "cacheWrite5mTokens": 68366,
+    "cacheWrite1hTokens": 152654,
+    "cacheReadTokens": 12282150,
+    "outputTokens": 60685,
+    "thinkingTokens": 10857,
+    "responses": 89,
+    "costUsd": 4.485343995000002
+  },
+  "estimate": {
+    "at": "2026-11-02T07:42:53.148Z",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "editor",
+        "comment": "folding an author's answers and literary references into sung Russian and an English crib, with sourced Bible and Pushkin notes, takes a literary editor"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-02T06:58:09.599Z",
+    "contextTokens": 116870,
+    "spend": {
+      "inputTokens": 18,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 54396,
+      "cacheReadTokens": 782717,
+      "outputTokens": 1613,
+      "thinkingTokens": 383,
+      "responses": 8,
+      "costUsd": 0.6240434000000001
+    }
+  },
+  "sessionId": "a9a24c27-6406-5977-a197-4aeb482a553e",
+  "branch": "claude/horowo-song-mastering-oia0kq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/horowo-song-mastering-oia0kq — черновики слов всех пяти песен на ветке, дальше вопросы по «Поздно», ответы Вовы и вердикты блайнд-теста, зате…",
+  "prs": [
+    240
+  ],
+  "url": "https://claude.ai/code/session_01DaohkDtqTtbmYzdUBWcrqy",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-02T06:57:37.736Z",
+  "lastResponseAt": "2026-11-02T07:43:17.233Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 140,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 152654,
+    "cacheReadTokens": 10790424,
+    "outputTokens": 34387,
+    "thinkingTokens": 8167,
+    "responses": 70,
+    "costUsd": 4.067616800000001
+  },
+  "subagents": {
+    "inputTokens": 10,
+    "cacheWrite5mTokens": 63033,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 98437,
+    "outputTokens": 6950,
+    "thinkingTokens": 2690,
+    "responses": 4,
+    "costUsd": 0.012339495
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 4188,
+      "cacheWrite5mTokens": 5333,
+      "cacheWrite1hTokens": 152654,
+      "cacheReadTokens": 12183713,
+      "outputTokens": 34513,
+      "thinkingTokens": 8167,
+      "responses": 78,
+      "costUsd": 4.407650599999999
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 157439,
+      "cacheWrite5mTokens": 63033,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 98437,
+      "outputTokens": 26172,
+      "thinkingTokens": 2690,
+      "responses": 11,
+      "costUsd": 0.077693395
+    }
+  },
+  "warnings": [
+    "1 responses were written with the usage their stream started with — no `stop_reason`, as a subagent's transcript writes each one — and no event to correct it, so their output tokens are a floor"
+  ],
+  "compactions": [],
+  "telemetry": {
+    "events": 88,
+    "matched": 73,
+    "matchedTableUsd": 4.024307495000001,
+    "matchedEventUsd": 4.024307495000001,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 4048,
+        "cacheWrite5mTokens": 5333,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 1393289,
+        "outputTokens": 126,
+        "thinkingTokens": 0,
+        "responses": 8,
+        "costUsd": 0.3400338
+      },
+      "generate_session_title": {
+        "inputTokens": 1320,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 198,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.000231
+      },
+      "web_search_tool": {
+        "inputTokens": 50190,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 3885,
+        "thinkingTokens": 0,
+        "responses": 4,
+        "costUsd": 0.0469615
+      },
+      "web_fetch_apply": {
+        "inputTokens": 105919,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 15139,
+        "thinkingTokens": 0,
+        "responses": 2,
+        "costUsd": 0.0181614
+      }
+    }
+  }
+}

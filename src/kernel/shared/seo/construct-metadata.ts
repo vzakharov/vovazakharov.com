@@ -27,9 +27,26 @@ type Addresses = {
   languages?: Record<string, string>;
 };
 
+/**
+ * A page that is one song, in Open Graph's music vocabulary. `og:audio` is what
+ * lets a messenger play the song from a pasted link (iMessage does), so it is
+ * the file itself, served as `audio/mpeg`.
+ */
+type SongCard = {
+  /** The MP3's absolute URL. */
+  audio: string;
+  seconds: number;
+  /** Site-root paths of the releases it is on. */
+  albums: readonly string[];
+  /** Site-root paths of its billed artists. */
+  musicians: readonly string[];
+};
+
 export type ConstructMetadataParams = MaybeTitled &
   WithOptionalOgImageSize &
   Addresses & {
+    /** Makes the card a `music.song`, overriding `ogType`. */
+    song?: SongCard;
     description?: string;
     ogDescription?: string; // Separate description for OpenGraph if different from main
     /** The unfurl's title, where it differs from the page's own — the tab and the search result keep `title`. */
@@ -83,6 +100,7 @@ export function constructMetadata(
     ogImageSize,
     hidden = false,
     locale = SITE_CONFIG.locale,
+    song,
   }: ConstructMetadataParams = {},
   feeds: readonly FeedLink[] = [],
 ): Metadata {
@@ -109,6 +127,14 @@ export function constructMetadata(
     url: getAbsoluteUrl(route),
     title: feedTitle,
   }));
+  const card = {
+    locale: OG_LOCALES[locale],
+    url: absoluteUrl,
+    siteName,
+    title: sharedTitle,
+    description: ogDescription ?? description,
+    images: [{ url: absoluteImageUrl, ...imageDimensions, alt: siteName }],
+  };
 
   return {
     title,
@@ -131,15 +157,19 @@ export function constructMetadata(
           ? undefined
           : { 'application/rss+xml': feedLinks },
     },
-    openGraph: {
-      type: ogType,
-      locale: OG_LOCALES[locale],
-      url: absoluteUrl,
-      siteName,
-      title: sharedTitle,
-      description: ogDescription ?? description,
-      images: [{ url: absoluteImageUrl, ...imageDimensions, alt: siteName }],
-    },
+    openGraph:
+      song === undefined
+        ? { ...card, type: ogType }
+        : {
+            ...card,
+            type: 'music.song',
+            audio: [
+              { url: song.audio, secureUrl: song.audio, type: 'audio/mpeg' },
+            ],
+            duration: song.seconds,
+            albums: song.albums.map((album) => getAbsoluteUrl(album)),
+            musicians: song.musicians.map((artist) => getAbsoluteUrl(artist)),
+          },
     twitter: {
       card: 'summary_large_image',
       site: social.twitter,

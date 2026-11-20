@@ -5,7 +5,7 @@ language: ru
 project: [Грёбаный бал, за/обложкой]
 repo: slime
 album: stronger-than-love
-track: 8
+track: 6
 seconds: 231
 mp3Bytes: 9242635
 credits:

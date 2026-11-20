@@ -1,0 +1,103 @@
+{
+  "total": {
+    "inputTokens": 533,
+    "cacheWrite5mTokens": 600,
+    "cacheWrite1hTokens": 57120,
+    "cacheReadTokens": 1441732,
+    "outputTokens": 5011,
+    "thinkingTokens": 519,
+    "responses": 14,
+    "costUsd": 0.8524584000000002
+  },
+  "estimate": {
+    "at": "2026-11-02T08:40:22.488Z",
+    "parts": [
+      {
+        "hours": 0.1,
+        "grade": "senior",
+        "role": "editor",
+        "comment": "picking the work up from a relay summary and reporting where it stands"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-02T07:45:15.166Z",
+    "contextTokens": 110217,
+    "spend": {
+      "inputTokens": 18,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 52851,
+      "cacheReadTokens": 772519,
+      "outputTokens": 1848,
+      "thinkingTokens": 250,
+      "responses": 8,
+      "costUsd": 0.6143438
+    }
+  },
+  "sessionId": "185d5b5b-afb0-54a4-b3b4-4a1006ff08b3",
+  "branch": "claude/horowo-song-mastering-oia0kq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/horowo-song-mastering-oia0kq — слова всех пяти песен согласованы, сноски по второму кругу комментов внесены; ждём вердиктов блайнд-теста, зат…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBsHevyLunuKGeXNYL",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-02T07:44:36.414Z",
+  "lastResponseAt": "2026-11-02T08:40:41.167Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 27,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 57120,
+    "cacheReadTokens": 1331516,
+    "outputTokens": 4991,
+    "thinkingTokens": 519,
+    "responses": 13,
+    "costUsd": 0.8231912000000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 533,
+      "cacheWrite5mTokens": 600,
+      "cacheWrite1hTokens": 57120,
+      "cacheReadTokens": 1441732,
+      "outputTokens": 5011,
+      "thinkingTokens": 519,
+      "responses": 14,
+      "costUsd": 0.8524584000000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 13,
+    "matched": 12,
+    "matchedTableUsd": 0.7888428000000001,
+    "matchedEventUsd": 0.7888428000000001,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 600,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 110216,
+        "outputTokens": 20,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.029267199999999997
+      }
+    }
+  }
+}

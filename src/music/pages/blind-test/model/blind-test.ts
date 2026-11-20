@@ -1,7 +1,11 @@
 import type { Titled, WithId } from '@/kernel/shared/typings';
 
 /** One song under test, `id` naming its directory of `mix.mp3`, `1.mp3`… */
-type BlindPiece = Titled & WithId;
+type BlindPiece = Titled &
+  WithId & {
+    /** How many masters it has, the number `blind-abc.py build` was given. */
+    masters: number;
+  };
 
 type BlindTest = Titled & {
   /** Where the pieces' directories are served from, with CORS, since the audio runs through Web Audio. */
@@ -9,42 +13,39 @@ type BlindTest = Titled & {
   pieces: readonly BlindPiece[];
 };
 
-/** The positions `blind-abc.py split` writes, the unmastered mix first. */
-export const VARIANTS = ['mix', '1', '2', '3'] as const;
-export type Variant = (typeof VARIANTS)[number];
+/** A position `blind-abc.py split` writes: the unmastered mix, or a master's number from 1. */
+type Variant = 'mix' | `${number}`;
 
-const variantUrl = (test: BlindTest, piece: BlindPiece, variant: Variant) =>
-  `${test.base}/${piece.id}/${variant}.mp3`;
+export const variants = ({ masters }: BlindPiece): readonly Variant[] => [
+  'mix',
+  ...Array.from({ length: masters }, (_, index) => `${index + 1}` as const),
+];
 
 export const variantUrls = (
   test: BlindTest,
   piece: BlindPiece,
-): Record<Variant, string> => ({
-  mix: variantUrl(test, piece, 'mix'),
-  1: variantUrl(test, piece, '1'),
-  2: variantUrl(test, piece, '2'),
-  3: variantUrl(test, piece, '3'),
-});
+): ReadonlyMap<Variant, string> =>
+  new Map(
+    variants(piece).map((variant) => [
+      variant,
+      `${test.base}/${piece.id}/${variant}.mp3`,
+    ]),
+  );
 
 /**
- * The test in progress. Its audio rides the album's branch and is swept when
- * the branch lands, so the next song's test takes this one's place.
+ * The test in progress. Its audio rides the songs' branch and is swept when
+ * the branch lands, so the next test takes this one's place.
  */
-export const NOSTALGIA: BlindTest = {
-  title: '«Ностальгия» и «Свеча горела»',
-  base: 'https://raw.githubusercontent.com/vzakharov/vovazakharov.com/claude/nostalgia-album-0ar5hp/docs/remove-before-merging/nostalgia/blind',
+export const LOST_SONGS: BlindTest = {
+  title: 'Потерянные песни Грёбаного бала',
+  base: 'https://raw.githubusercontent.com/vzakharov/vovazakharov.com/claude/horowo-song-mastering-oia0kq/docs/remove-before-merging/horowo-song-mastering-oia0kq/blind',
   pieces: [
-    {
-      id: 'invitation-summer-gone',
-      title: 'Приглашение в путешествие + Лето прошло',
-    },
-    { id: 'butterfly-rock', title: 'Бабочка' },
-    { id: 'actor', title: 'Актёр' },
-    { id: 'insomnia', title: 'Бессонница' },
-    { id: 'candle-tarkovsky', title: 'Свеча' },
-    { id: 'winter-in-the-forest', title: 'Зима в лесу' },
-    { id: 'candle-burnt', title: 'Свеча горела' },
+    { id: 'horowo', title: 'Хорошо', masters: 4 },
+    { id: 'talk-about-life', title: 'За жизнь', masters: 4 },
+    { id: 'last-snow', title: 'Последний снег', masters: 4 },
+    { id: 'unnoticed-things', title: 'Незаметные штуки', masters: 3 },
+    { id: 'too-late', title: 'Поздно', masters: 4 },
   ],
 };
 
-export type { BlindPiece, BlindTest };
+export type { BlindPiece, BlindTest, Variant };

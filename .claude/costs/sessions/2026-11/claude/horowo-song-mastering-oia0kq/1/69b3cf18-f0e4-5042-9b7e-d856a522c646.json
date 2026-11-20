@@ -1,0 +1,115 @@
+{
+  "total": {
+    "inputTokens": 35252,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 189187,
+    "cacheReadTokens": 11903076,
+    "outputTokens": 36451,
+    "thinkingTokens": 8813,
+    "responses": 70,
+    "costUsd": 4.603179600000001
+  },
+  "estimate": {
+    "at": "2026-11-02T05:36:51.615Z",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "planning a four-part song task and wiring Open Graph music tags through a shared builder is routine typed work against Next's own types"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-02T05:30:48.867Z",
+    "contextTokens": 113494,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 40432,
+      "cacheReadTokens": 319455,
+      "outputTokens": 974,
+      "thinkingTokens": 197,
+      "responses": 4,
+      "costUsd": 0.406859
+    }
+  },
+  "sessionId": "69b3cf18-f0e4-5042-9b7e-d856a522c646",
+  "branch": "claude/horowo-song-mastering-oia0kq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "давай 1- выложим новую песню, см. vovas-music/horowo (слаг должен быть такой же, не переводя на английский), текст приложил (нужно распознать и поменять где нас…",
+  "prs": [
+    240
+  ],
+  "url": "https://claude.ai/code/session_01DaohkDUQoG7KkbRYXnjTKr",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-02T05:30:37.988Z",
+  "lastResponseAt": "2026-11-02T05:37:26.899Z",
+  "pricesAsOf": "2026-10-06",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 133,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 189187,
+    "cacheReadTokens": 11903076,
+    "outputTokens": 33682,
+    "thinkingTokens": 8813,
+    "responses": 67,
+    "costUsd": 4.568283200000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 133,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 189187,
+      "cacheReadTokens": 11903076,
+      "outputTokens": 33682,
+      "thinkingTokens": 8813,
+      "responses": 67,
+      "costUsd": 4.568283200000001
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 35119,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 2769,
+      "thinkingTokens": 0,
+      "responses": 3,
+      "costUsd": 0.0348964
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 69,
+    "matched": 66,
+    "matchedTableUsd": 4.4764486,
+    "matchedEventUsd": 4.4764486,
+    "unseen": {
+      "web_search_tool": {
+        "inputTokens": 35119,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 2769,
+        "thinkingTokens": 0,
+        "responses": 3,
+        "costUsd": 0.0348964
+      }
+    }
+  }
+}
