@@ -24,7 +24,8 @@ import {
   STORM_LIVES,
   STORMS_ROUND,
 } from '../lib/clouds';
-import { cloudLattice, type F, noise, type V } from './cloud-noise';
+import { type F, noise, type V } from './cloud-noise';
+import { latticeValue } from './lattice-value';
 
 const DEGREE = Math.PI / 180;
 
@@ -92,7 +93,7 @@ const TAIL = -110 * DEGREE;
 
 /** A cyclone's own number for `salt`, 0 to 1, new each `epoch` of its lives. */
 const seedOf = (id: F, epoch: F, salt: number): F =>
-  cloudLattice(vec3(id, epoch, salt));
+  latticeValue(vec3(id, epoch, salt));
 
 /**
  * How much of a spiral band `broad` times the front's width a place `turn`
@@ -136,7 +137,7 @@ function stormsOver(spot: V, storms: F, warp: readonly [F, F]): Storm {
   // The cyclones either side reach in over this one's cell.
   for (const cell of [home.sub(1), home, home.add(1)]) {
     const id = mod(cell, STORMS_ROUND).mul(7.3).add(1.1).toVar();
-    const lived = cloudLattice(vec3(id, hemisphere.mul(2.9), 0.7))
+    const lived = latticeValue(vec3(id, hemisphere.mul(2.9), 0.7))
       .add(storms)
       .toVar();
     const life = lived.fract();

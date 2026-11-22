@@ -29,12 +29,16 @@ export function rollLattice(world: string): void {
   worldShift.value.set(x, y, z);
 }
 
+/** A lattice cell as the open world numbers it: what a hash of a cell folds. */
+export const worldCell = (cell: Node<'vec3'>): Node<'vec3'> =>
+  cell.add(worldShift);
+
 /**
  * A lattice point's value, 0 to 1, the open world's own: the one hash every
  * noise the shaders draw is built on.
  */
 export const latticeValue = Fn(([point]: [Node<'vec3'>]) => {
-  const folded = point.add(worldShift).mul(0.1031).fract().toVar();
+  const folded = worldCell(point).mul(0.1031).fract().toVar();
   folded.addAssign(dot(folded, folded.zyx.add(31.32)));
   return folded.x.add(folded.y).mul(folded.z).fract();
 });
