@@ -11,20 +11,6 @@
  * their shapes.
  */
 import {
-  approach,
-  DUNE_METRES,
-  DUNE_SPACING_METRES,
-  DUNE_SWAY,
-  duneAt,
-  DUNES_RISE_METRES,
-  LOWLAND_METRES,
-  LOWLAND_REACH_METRES,
-  ramp,
-  restingGround,
-  smoothMax,
-  SQUEEZE_METRES,
-} from './shore';
-import {
   ALPINE,
   BROWN,
   GREEN,
@@ -41,6 +27,20 @@ import {
   OCTAVES,
   REGIONAL_METRES,
 } from './octaves';
+import {
+  approach,
+  DUNE_METRES,
+  DUNE_SPACING_METRES,
+  DUNE_SWAY,
+  duneAt,
+  DUNES_RISE_METRES,
+  LOWLAND_METRES,
+  LOWLAND_REACH_METRES,
+  ramp,
+  restingGround,
+  smoothMax,
+  SQUEEZE_METRES,
+} from './shore';
 
 /** The interior's base height, approached with distance from the coast. */
 const PLATEAU_METRES = 250;
@@ -87,10 +87,14 @@ const ALPINE_BY_METRES = 1100;
 const DUNE_SWELL_INDEX = 9;
 const DUNE_SWAY_INDEX = 10;
 
+/** A knob of rock: the top of a fine octave's noise, flat-footed between. */
+const KNOB_FROM = 0.15;
+const KNOB_SPAN = 0.45;
 
 const total = (values: readonly number[]) =>
   values.reduce((sum, value) => sum + value, 0);
-const most = (of: (kind: Kind) => number) => Math.max(...KINDS.map(of));
+const most = (of: (kind: Kind) => number) =>
+  Math.max(...KINDS.map((kind) => of(kind)));
 
 const REGIONAL_REACH_METRES = total(REGIONAL_METRES);
 /**
@@ -99,10 +103,10 @@ const REGIONAL_REACH_METRES = total(REGIONAL_METRES);
  */
 const FINE_REACH_METRES = most(({ fine }) => total(fine));
 /** The most a kind's hill band lifts its ground, and sinks it. */
-const peakOf = ({ lift, level, roll }: Kind) =>
-  Math.max(lift * level, lift * (level - 1)) + total(roll);
-const troughOf = ({ lift, level, roll }: Kind) =>
-  Math.max(-lift * level, lift * (1 - level)) + total(roll);
+const peakOf = ({ lift, shelf, roll }: Kind) =>
+  Math.max(lift * shelf, lift * (shelf - 1)) + total(roll);
+const troughOf = ({ lift, shelf, roll }: Kind) =>
+  Math.max(-lift * shelf, lift * (1 - shelf)) + total(roll);
 
 /** No ground lies higher than this, metres above sea level. */
 export const HIGHEST_GROUND =
@@ -134,12 +138,12 @@ const KIND_STEEPEST =
  * broad relief's own slope — the plateau's, the shelf's and the uplift's
  * climb over a distance changing up to √2 per metre, and the regional
  * octaves; the kinds of ground trading places as steeply as the broad relief
- * lets them; the hill band on the kind that makes most of it — its shape
- * along the line field, the vary field under it, its roll; the fine band
- * likewise, with the detail weight the shape hands it; each octave's coastal
- * fade (a smoothstep, 1.5) and detail fade (under 1); the lowland floor's
- * climb, sink, rounding and squeeze; and the dunes. Loose: real ground stays
- * far under it.
+ * lets them; the line field under the kind that makes most of it, and under
+ * the weight it gives that kind's fine band; every octave's own roll or fine
+ * detail, a knob's as steep as its ramp; each octave's coastal fade (a
+ * smoothstep, 1.5) and detail fade (under 1); the lowland floor's climb,
+ * sink, rounding and squeeze; and the dunes. Loose: real ground stays far
+ * under it.
  */
 export function groundSlope(noiseSteepest: number, upliftSteepest: number) {
   const fades = 1.5 * Math.SQRT2 + 1;
@@ -162,15 +166,16 @@ export function groundSlope(noiseSteepest: number, upliftSteepest: number) {
   // An octave's line is `2 / LINE_WIDTH` steep per unit of noise, and the
   // weight it takes from the octaves before it as steep again for each.
   const line =
-    per((octave) => (2 / LINE_WIDTH) * octave.line * (1 + octave.depth)) +
+    per((octave) => (2 / LINE_WIDTH) * octave.line * (1 + octave.hillRank)) +
     (1.5 * Math.SQRT2) / LONGEST_HILL_METRES;
   const hills = most(
     (kind) =>
-      (Math.abs(kind.lift) * (kind.steepest + 1) + total(kind.fine)) * line,
+      (Math.abs(kind.lift) * (kind.steepest + 1) + 1.5 * total(kind.fine)) *
+      line,
   );
   const own =
     per(({ green }) => green) +
-    per(({ brown }) => brown) +
+    per(({ brown, hill }) => (hill ? brown : (1.5 / KNOB_SPAN) * brown)) +
     per(({ alpine }) => alpine);
   const shore =
     Math.SQRT2 *
@@ -282,7 +287,7 @@ export function reliefAt<O extends Octave>(
       else if (octave.index === DUNE_SWAY_INDEX) sway = n;
     } else {
       greenFine += octave.green * fade * n;
-      knobs += octave.brown * fade * (ramp((n - 0.15) / 0.45) - 0.25);
+      knobs += octave.brown * fade * (ramp((n - KNOB_FROM) / KNOB_SPAN) - 0.25);
       alpineFine += octave.alpine * fade * n;
     }
   }
@@ -310,17 +315,17 @@ export function reliefAt<O extends Octave>(
   let fine = 0;
   if (green > 0) {
     local +=
-      green * (GREEN.lift * (GREEN.level * present - line * line) + greenRoll);
+      green * (GREEN.lift * (GREEN.shelf * present - line * line) + greenRoll);
     fine += green * greenFine;
   }
   if (brown > 0) {
     local +=
-      brown * (BROWN.lift * (BROWN.level * present - line ** 3) + brownRoll);
+      brown * (BROWN.lift * (BROWN.shelf * present - line ** 3) + brownRoll);
     fine += brown * knobs * (1 - line);
   }
   if (alpine > 0) {
     local +=
-      alpine * (ALPINE.lift * (ALPINE.level * present - line) + alpineRoll);
+      alpine * (ALPINE.lift * (ALPINE.shelf * present - line) + alpineRoll);
     fine += alpine * alpineFine * (0.25 + 0.75 * Math.min(1, 2 * line));
   }
   const height = broad + local + fine;

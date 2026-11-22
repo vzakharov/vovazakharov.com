@@ -15,7 +15,9 @@ function stream(seed: number) {
 
 /** Ground `d` metres from the coast with every regional and hill octave reading `broad`, every fine one `fine`. */
 const groundAt = (d: number, broad: number, fine: number) =>
-  reliefAt(d, 0, OCTAVES, (octave) => (octave.regional || octave.hill ? broad : fine));
+  reliefAt(d, 0, OCTAVES, (octave) =>
+    octave.regional || octave.hill ? broad : fine,
+  );
 
 /** Ground `d` metres from the coast with each octave reading its entry in `values`. */
 const drawnAt = (values: readonly number[], d: number) =>

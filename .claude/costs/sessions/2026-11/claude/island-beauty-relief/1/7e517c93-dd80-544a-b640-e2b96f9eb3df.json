@@ -1,29 +1,29 @@
 {
   "total": {
-    "inputTokens": 4300,
+    "inputTokens": 4334,
     "cacheWrite5mTokens": 2042,
-    "cacheWrite1hTokens": 368329,
-    "cacheReadTokens": 13449457,
-    "outputTokens": 156456,
-    "thinkingTokens": 79799,
-    "responses": 76,
-    "costUsd": 14.896215400000003
+    "cacheWrite1hTokens": 393350,
+    "cacheReadTokens": 17675504,
+    "outputTokens": 165606,
+    "thinkingTokens": 81580,
+    "responses": 94,
+    "costUsd": 16.508032800000006
   },
   "estimate": {
-    "at": "2026-11-22T10:07:56.185Z",
-    "subjectLine": "feat: climate seam and landscape kinds in the island's relief",
+    "at": "2026-11-22T10:41:00.647Z",
+    "subjectLine": "feat: a shape of its own for each band of the island's land",
     "parts": [
       {
-        "hours": 24.0,
+        "hours": 22.0,
         "grade": "senior",
         "role": "technical-artist",
-        "comment": "procedural terrain recipes per climate - ranges, dunes, mesas, ice - need an eye for landform and a hand for noise"
+        "comment": "four landform recipes - dunes, valley-cut hills, shouldered upland, crested ranges in belts - tuned by eye against renders at five scales on two worlds"
       },
       {
         "hours": 8.0,
         "grade": "senior",
         "role": "graphics-programmer",
-        "comment": "the fill budget, slope and height bounds, alias-free detail cut and seamless stitching constrain every recipe"
+        "comment": "fill budget within 1.5x, true slope and height bounds, alias-free detail cut and seamless stitching constrain every recipe"
       }
     ],
     "comment": null
@@ -52,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkDs92YhSSpimFpJwfJ",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-22T09:56:29.624Z",
-  "lastResponseAt": "2026-11-22T10:39:19.540Z",
+  "lastResponseAt": "2026-11-22T10:43:53.420Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 141,
+    "inputTokens": 175,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 368329,
-    "cacheReadTokens": 13193578,
-    "outputTokens": 148306,
-    "thinkingTokens": 79799,
-    "responses": 75,
-    "costUsd": 14.465347600000003
+    "cacheWrite1hTokens": 393350,
+    "cacheReadTokens": 17419625,
+    "outputTokens": 157456,
+    "thinkingTokens": 81580,
+    "responses": 93,
+    "costUsd": 16.077165000000004
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,14 +77,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 4300,
+      "inputTokens": 4334,
       "cacheWrite5mTokens": 2042,
-      "cacheWrite1hTokens": 368329,
-      "cacheReadTokens": 13449457,
-      "outputTokens": 156456,
-      "thinkingTokens": 79799,
-      "responses": 76,
-      "costUsd": 14.896215400000003
+      "cacheWrite1hTokens": 393350,
+      "cacheReadTokens": 17675504,
+      "outputTokens": 165606,
+      "thinkingTokens": 81580,
+      "responses": 94,
+      "costUsd": 16.508032800000006
     }
   },
   "warnings": [],
@@ -100,14 +100,14 @@
         "endedAt": null,
         "contextTokens": null,
         "spend": {
-          "inputTokens": 70,
+          "inputTokens": 104,
           "cacheWrite5mTokens": 0,
-          "cacheWrite1hTokens": 161605,
-          "cacheReadTokens": 6439849,
-          "outputTokens": 60992,
-          "thinkingTokens": 27690,
-          "responses": 37,
-          "costUsd": 6.313889800000002
+          "cacheWrite1hTokens": 186626,
+          "cacheReadTokens": 10665896,
+          "outputTokens": 70142,
+          "thinkingTokens": 29471,
+          "responses": 55,
+          "costUsd": 7.925707200000002
         }
       },
       "rereads": {
@@ -116,16 +116,16 @@
           "Read": 3
         },
         "estimatedTokens": 4256,
-        "estimatedUsd": 0.0876736
+        "estimatedUsd": 0.10299520000000001
       },
       "billedUsd": 0.43086779999999997
     }
   ],
   "telemetry": {
-    "events": 75,
-    "matched": 74,
-    "matchedTableUsd": 14.382795200000002,
-    "matchedEventUsd": 14.382795200000002,
+    "events": 93,
+    "matched": 92,
+    "matchedTableUsd": 16.000846200000005,
+    "matchedEventUsd": 16.000846200000005,
     "unseen": {
       "compact": {
         "inputTokens": 4159,
@@ -147,6 +147,9 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 655
+    ".md": 663,
+    ".json": 15,
+    ".yaml": 17,
+    ".ts": 1379
   }
 }

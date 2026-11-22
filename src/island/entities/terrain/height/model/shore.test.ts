@@ -38,7 +38,10 @@ describe('lowlandFloor', () => {
   it('stays above the sea inland, however low the broad relief', () => {
     for (const d of [1, 50, 600, 5000, 50_000]) {
       for (const broad of [-500, -10, 0, 3]) {
-        assert.ok(lowlandFloor(d, broad, FINE) > 0, `${broad} m at ${d} m inland`);
+        assert.ok(
+          lowlandFloor(d, broad, FINE) > 0,
+          `${broad} m at ${d} m inland`,
+        );
       }
     }
   });
