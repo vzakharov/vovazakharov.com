@@ -9,16 +9,21 @@ import type { Elevated } from '@/island/shared/globe';
 
 import { afternoonAt, type Still } from './shot-sets';
 
+/** A place on the globe and the way the eye faces there, in degrees. */
+type Place = {
+  readonly latDeg: number;
+  readonly lonDeg: number;
+  /** Clockwise from north; unset is north. */
+  readonly headingDeg?: number;
+};
+
 /**
- * A still from `height` metres above the ground, every angle in degrees; an
- * unset hour keeps the clock.
+ * A still of a place from `height` metres above the ground; an unset hour
+ * keeps the clock.
  */
 export type Spot = Still &
-  Elevated & {
-    readonly latDeg: number;
-    readonly lonDeg: number;
-    /** Degrees clockwise from north; unset is north. */
-    readonly headingDeg?: number;
+  Elevated &
+  Place & {
     /** Degrees above the pitch the height gives; unset is none. */
     readonly lookDeg?: number;
   };
@@ -104,24 +109,46 @@ const LOW_FROM = 34_000;
 
 const KM = 1000;
 
-const overCoast = (name: string, height: number): Spot => ({
+/** `place` from `height`, lit by its own afternoon, a low view raised to the horizon. */
+const over = (place: Place, name: string, height: number): Spot => ({
   name,
-  ...NORTHERN_ITALY,
+  ...place,
   height,
   ...(height <= LOW_FROM ? { lookDeg: LOW_LOOK } : {}),
   hours: afternoonAt(
     EARTH,
-    NORTHERN_ITALY.lonDeg,
+    place.lonDeg,
     height >= ORBIT_FROM ? ORBIT_EARLIER : AFTERNOON_EARLIER,
   ),
 });
 
-const overOcean = (name: string, height: number): Spot => ({
-  name,
-  ...OCEAN,
-  height,
-  hours: afternoonAt(EARTH, OCEAN.lonDeg, ORBIT_EARLIER),
-});
+const overCoast = (name: string, height: number): Spot =>
+  over(NORTHERN_ITALY, name, height);
+
+const overOcean = (name: string, height: number): Spot =>
+  over(OCEAN, name, height);
+
+/** One place per kind of ground on Earth, where the kind shows at its best. */
+const KIND_PLACES: Readonly<Record<string, Place>> = {
+  lowland: { latDeg: 49.5, lonDeg: 20 },
+  upland: { latDeg: 19, lonDeg: 30.25 },
+  alpine: { latDeg: 27.25, lonDeg: 77 },
+};
+const KIND_HEIGHTS = [3000, 300];
+/** On the dune belt, looking along it: dunes are too low to read from the kinds' heights. */
+const DUNES: Place = { latDeg: 44.019, lonDeg: 10.046, headingDeg: 135 };
+const DUNE_HEIGHTS = [300, 60, 2];
+
+const overKinds = (): Spot[] => [
+  ...DUNE_HEIGHTS.map((height) =>
+    over(DUNES, `dunes-${String(height)}m`, height),
+  ),
+  ...Object.entries(KIND_PLACES).flatMap(([kind, place]) =>
+    KIND_HEIGHTS.map((height) =>
+      over(place, `${kind}-${String(height)}m`, height),
+    ),
+  ),
+];
 
 /** The named lists `--set` takes, each for one world. */
 export const SHOT_SETS: Readonly<Record<string, readonly Spot[]>> = {
@@ -137,5 +164,6 @@ export const SHOT_SETS: Readonly<Record<string, readonly Spot[]>> = {
     overOcean('ocean-20000km', 20_000 * KM),
     overOcean('ocean-2300km', 2300 * KM),
     { ...overCoast('sky-2m', 2), lookDeg: 40 },
+    ...overKinds(),
   ],
 };

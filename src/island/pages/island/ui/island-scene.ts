@@ -124,17 +124,18 @@ export function mountIslandScene(
 
   const lighting = groundLighting();
   const { land, sea, standIn, ocean, lights, dressObject } = lighting;
+  const trees = treeView(dressObject);
   const looks = sceneLook({
     scene,
     lighting,
     webgpu,
     render,
     keys: play ? null : canvas,
+    onLook: trees.setShown,
   });
   const { setFine } = looks;
   const globe = oceanGlobe(ocean);
   const tiles = new Group();
-  const trees = treeView(dressObject);
   scene.add(globe, tiles, trees.group, ...lights);
 
   const controls = bindEyeControls(canvas);
@@ -344,10 +345,7 @@ export function mountIslandScene(
     },
     turnTo: async (heading) => placed((from) => withHeading(from, heading)),
     lookTo: async (look) => placed((from) => withLook(from, look)),
-    setFine: (fine) => {
-      trees.setShown(fine);
-      setFine(fine);
-    },
+    setFine,
     backend: () => (webgpu() ? 'webgpu' : 'webgl2'),
     buildMs: () => {
       if (built?.of !== generation) throw new Error('field not built');

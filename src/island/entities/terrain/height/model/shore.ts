@@ -28,14 +28,27 @@ const DUNES_FROM_METRES = 30;
 /** The distance over which they rise to their full height. */
 export const DUNES_RISE_METRES = 90;
 /** Where they begin to die out inland, and over what distance they are gone. */
-const DUNES_FADE_FROM_METRES = 250;
-const DUNES_FADE_METRES = 600;
+const DUNES_FADE_FROM_METRES = 500;
+const DUNES_FADE_METRES = 1000;
 /** The tallest dune, crest over trough. */
-export const DUNE_METRES = 12;
+export const DUNE_METRES = 22;
 /** The distance from one dune ridge to the next, along the way inland. */
-export const DUNE_SPACING_METRES = 110;
+export const DUNE_SPACING_METRES = 160;
+/**
+ * The share of a ridge's spacing its seaward side climbs over; the lee side
+ * drops over the rest, a slip face near sand's angle of repose.
+ */
+const DUNE_WINDWARD = 0.7;
+/** The steepest a ridge's height is, per ridge of phase. */
+export const DUNE_STEEPEST = 1.5 / (1 - DUNE_WINDWARD);
 /** How far, in ridges, a ridge line wanders from its distance to the shore. */
-export const DUNE_SWAY = 0.6;
+export const DUNE_SWAY = 1.3;
+/** A ridge stands where `gap` is over this, at full height a span higher. */
+const DUNE_GAP_FROM = -0.45;
+export const DUNE_GAP_SPAN = 0.35;
+/** Dunes stand on low ground: full under the first height, none a span up. */
+const DUNES_UNDER_METRES = 90;
+export const DUNES_UNDER_SPAN_METRES = 110;
 
 /** The share of its full size a quantity reaches `distance` in: ~63% at `reach`. */
 export const approach = (distance: number, reach: number) =>
@@ -93,19 +106,46 @@ export function lowlandFloor(
   return smoothMax(broad - fineReach * reach * reach, lowland, lowland);
 }
 
+/** The share of the dune belt left `d` metres inland: whole, then dying out. */
+const beltAt = (d: number) =>
+  1 - ramp((d - DUNES_FADE_FROM_METRES) / DUNES_FADE_METRES);
+
+/** The share of its dunes ground standing `height` metres up keeps. */
+export const dunesOver = (height: number) =>
+  1 - ramp((height - DUNES_UNDER_METRES) / DUNES_UNDER_SPAN_METRES);
+
 /**
  * How high the dunes behind the beach stand over the ground `d` metres inland
- * (positive), never negative: sharp-crested ridges along the shore. `swell` and
- * `sway`, each in `[-1, 1]` and slow against a ridge, vary the ridges' height
- * along the shore and bend their lines.
+ * (positive), never negative: ridges along the shore, steeper inland. `swell`,
+ * `sway` and `gap`, each in `[-1, 1]`, vary the ridges' height along the
+ * shore, bend their lines across it and break them into runs.
  */
-export function duneAt(d: number, swell: number, sway: number): number {
-  const along =
-    ramp((d - DUNES_FROM_METRES) / DUNES_RISE_METRES) *
-    (1 - ramp((d - DUNES_FADE_FROM_METRES) / DUNES_FADE_METRES));
+export function duneAt(
+  d: number,
+  swell: number,
+  sway: number,
+  gap: number,
+): number {
+  const along = ramp((d - DUNES_FROM_METRES) / DUNES_RISE_METRES) * beltAt(d);
   if (along === 0) return 0;
-  const crest =
-    1 -
-    Math.abs(Math.sin(Math.PI * (d / DUNE_SPACING_METRES + DUNE_SWAY * sway)));
-  return DUNE_METRES * along * (0.6 + 0.4 * swell) * crest * crest;
+  const phase = d / DUNE_SPACING_METRES + DUNE_SWAY * sway;
+  const across = phase - Math.floor(phase);
+  const crest = ramp(
+    across < DUNE_WINDWARD
+      ? across / DUNE_WINDWARD
+      : (1 - across) / (1 - DUNE_WINDWARD),
+  );
+  const standing = ramp((gap - DUNE_GAP_FROM) / DUNE_GAP_SPAN);
+  return DUNE_METRES * along * (0.6 + 0.4 * swell) * standing * crest;
+}
+
+/**
+ * The share of sand in ground `d` metres inland (positive) standing `height`
+ * metres up, from 0 to 1: 1 on the beach and across the dune belt, thinning
+ * with the dunes inland and with height, 0 past them and at sea.
+ */
+export function sandAt(d: number, height: number): number {
+  if (d <= 0) return 0;
+  const along = beltAt(d);
+  return along === 0 ? 0 : along * dunesOver(height - DUNE_METRES);
 }

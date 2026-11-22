@@ -1,7 +1,13 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { GROUND_STOPS, SEA_COLOUR, SHORE_TOP } from './land-colour';
+import {
+  BAND_HEIGHTS,
+  GROUND_STOPS,
+  LAND_PALETTE,
+  SEA_COLOUR,
+  SHORE_TOP,
+} from './land-colour';
 
 /** An 8-bit sRGB channel above the curve's linear toe, as linear. */
 const linear = (c: number) => (c / 255 / 1.055 + 0.055 / 1.055) ** 2.4;
@@ -61,5 +67,34 @@ describe('GROUND_STOPS', () => {
       const [previous] = GROUND_STOPS[i - 1] ?? [-Infinity];
       assert.ok(level > previous);
     }
+  });
+});
+
+describe('LAND_PALETTE', () => {
+  it('keeps what grows green and what is bare not', () => {
+    for (const name of ['meadow', 'broadleaf', 'conifer', 'turf'] as const) {
+      const [r, g, b] = LAND_PALETTE[name];
+      assert.ok(g > r && g > b, `${name} is green`);
+    }
+    for (const name of ['earth', 'heath', 'stony', 'tussock'] as const) {
+      const [r, g, b] = LAND_PALETTE[name];
+      assert.ok(r >= g && g > b, `${name} is brown`);
+    }
+  });
+
+  it('darkens from meadow to canopy and lightens from rock to snow', () => {
+    assert.ok(luma(LAND_PALETTE.meadow) > luma(LAND_PALETTE.broadleaf));
+    assert.ok(luma(LAND_PALETTE.broadleaf) > luma(LAND_PALETTE.conifer));
+    assert.ok(luma(LAND_PALETTE.rockLight) > luma(LAND_PALETTE.rockDark));
+    assert.ok(luma(LAND_PALETTE.snow) > luma(LAND_PALETTE.rockLight));
+  });
+});
+
+describe('BAND_HEIGHTS', () => {
+  it('stacks sand, upland, mountain and snow in rising height', () => {
+    const { upland, mountain, snowLine } = BAND_HEIGHTS;
+    assert.ok(SHORE_TOP < upland[0] && upland[0] < upland[1]);
+    assert.ok(upland[1] < mountain[0] && mountain[0] < mountain[1]);
+    assert.ok(mountain[1] < snowLine);
   });
 });

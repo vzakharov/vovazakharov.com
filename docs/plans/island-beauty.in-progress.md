@@ -145,6 +145,19 @@ otherwise; his answers get quoted under each when they come.
   (`docs/plans/island-beauty/clouds-research.md`, a Sonnet reader's digest of
   the physics and of what satellites show), not from tuning the one field.
 
+- **Sand is told by a mask, not by height.** The dunes stand up to 22 m on
+  ground that rises to 90 m, so the sand stop at 20 m paints them green and
+  their lee faces rock. Relief exports a pure `sandAtSphere` (0–1, the beach and
+  the belt), the trees child writes it per vertex as `sand` beside `cover`, the
+  ground child colours by it. Beat: holding the ground under the belt below 20 m
+  — a dead-level strip whose crests still cross the stop; and a height rule in
+  the shader — sand scars on steep lowland hills far from any sea.
+- **A tile's height bracket comes from heights already known, not from a global
+  slope bound.** The rougher relief took `SPHERE_GROUND_SLOPE` from 12.5 to
+  ~750, so every tile wider than 7 m is culled against a 10.5 km column. The
+  speed child cures it in the quadtree. Beat: tightening the bound's arithmetic
+  — relief measured it would still land near 100–200.
+
 ## The team
 
 Every child was cut from the lead's branch and pushes to its own; none opens a
@@ -154,8 +167,11 @@ PR. Session ids are claude.ai remote sessions.
   `claude/island-beauty-c1rj3b`. The plan, the seams, integration, the preview,
   the one PR.
 - **Relief** — `session_01DaohkDs92YhSSpimFpJwfJ`, Fable,
-  `claude/island-beauty-relief`. `src/island/entities/terrain/`: each band's own
-  shape, and the cure for what repeats or lines up in the ground.
+  `claude/island-beauty-relief`, FINISHED at 38456e5d and archived; all of it is
+  merged. Its hand-over is `notes/relief.md`; a fix-up there goes to an Opus
+  child. Left unfixed by it: some straight alpine crests (the value noise's
+  lattice), valleys that do not join into one drainage, faint creases in green
+  ground.
 - **Ground** — `session_01DaohkDMLPfW237JGnaUuWd`, Fable,
   `claude/island-beauty-ground`. `ui/ground-lighting.ts`, `lib/land-colour.ts`,
   `lib/ground-wgsl.ts`: nothing repeating at any distance, then each band's
@@ -169,8 +185,11 @@ PR. Session ids are claude.ai remote sessions.
 - **Keeper** — `session_01DaohkEpVZaFGj3BXpvEYCv`, Sonnet,
   `claude/island-beauty-board`. The island board's `beauty` zone and the
   `island-timelapse` release; takes frames from everyone.
-- **Not started: the optimised look** (Opus) — B's third position, clouds at low
-  resolution over several frames. Waits for the clouds' step 1.
+- **Speed** — `session_01DaohkCd79gE98JUq5Svi61`, Opus,
+  `claude/island-beauty-speed`. Step 1 the tile bracket (below), step 2 B's
+  three positions with the middle one drawing as full, step 3 the optimisation
+  behind the middle look — clouds at low resolution over several frames — which
+  waits for the lead's word that the clouds' step 1 is merged.
 
 ## Built / in flight / left
 
@@ -193,8 +212,26 @@ PR. Session ids are claude.ai remote sessions.
   orbit shows the value noise's cells (gradient noise if inside 1.5× fill).
 - Trees told the new heights and to import `noiseSalt`/`valueNoise3` from the
   terrain barrel; until they do, `pnpm knip` is red on those two exports.
-- In flight: relief on its fixes; ground and clouds on step 1 with nothing
-  pushed yet (told to push small); trees on step 1; the keeper on the relief
-  row.
-- Left: the beauty set gains one spot per band once relief names them;
-  integration of ground, clouds and trees; the optimised look; the PR.
+- Relief's steps 2 and 3 (39dba2c5, 964d9e1e) are merged at dc63d9728 and on the
+  preview: the lowland rolls (hill country beside vales), the range at 27.25, 77
+  has spurs and valley floors, snow from orbit is a spine, dunes are a land
+  form. The beauty set has a place per kind (`0002-*`, `0003-*` frames). The
+  surface is now the weakest part: snow in blotches by height alone, flat green,
+  rock-brown lee faces on dunes.
+- Ground's step 1 (1944a92f) and the trees' step 1 (fbbf0dfa) are merged at
+  152193d8f; B reaches the trees through `sceneLook`'s `onLook`. From 4.4 km the
+  coast is the best frame so far (forest with clearings). From 2,300 km it is a
+  regression: forest in rectangular patches along tile edges, because per-vertex
+  `cover` changes with tile level, and the range lost its snow.
+- The rule that cures it, sent to ground and trees: far from the eye, colour
+  contrast comes only from per-fragment functions of place and from height;
+  per-vertex `cover` fades toward a per-fragment expectation by ~150 km, and
+  `tileCover` is band-limited the way the relief is so a tile and its parent
+  never differ by a whole patch.
+- In flight: ground on the orbit regression, then canopy tone, then each band's
+  surface; trees on the `sand` attribute, cover across levels, then sunset glow,
+  wind, undergrowth; clouds still with nothing pushed; speed on the tile bracket
+  (`detailReach` is exported for it); the keeper.
+- Left: the clouds; `sand` swapped into the ground shader; the lattice hash
+  ground and clouds each carry folded into one home; the middle look and what it
+  saves; `/dry`, `/tend-prose`, `/five-percent`, vet, the PR.

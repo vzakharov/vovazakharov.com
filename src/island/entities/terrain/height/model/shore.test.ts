@@ -10,6 +10,7 @@ import {
   LOWLAND_REACH_METRES,
   lowlandFloor,
   restingGround,
+  sandAt,
 } from './shore';
 import { stream } from './stream.test-kit';
 
@@ -130,9 +131,9 @@ describe('lowlandFloor over the shore', () => {
 });
 
 describe('duneAt', () => {
-  it('leaves the beach bare and dies out under a kilometre in', () => {
-    for (const d of [0, 10, 30, 850, 5000]) {
-      assert.equal(duneAt(d, 1, 0.3), 0, `at ${d} m`);
+  it('leaves the beach bare and dies out a mile in', () => {
+    for (const d of [0, 10, 30, 1500, 5000]) {
+      assert.equal(duneAt(d, 1, 0.3, 1), 0, `at ${d} m`);
     }
   });
 
@@ -140,7 +141,12 @@ describe('duneAt', () => {
     const next = stream(3);
     let tallest = 0;
     for (let k = 0; k < 5000; k += 1) {
-      const dune = duneAt(900 * next(), 2 * next() - 1, 2 * next() - 1);
+      const dune = duneAt(
+        1500 * next(),
+        2 * next() - 1,
+        2 * next() - 1,
+        2 * next() - 1,
+      );
       assert.ok(dune >= 0 && dune <= DUNE_METRES, `${dune}`);
       tallest = Math.max(tallest, dune);
     }
@@ -149,9 +155,9 @@ describe('duneAt', () => {
 
   it('stands in ridges one spacing apart on the way in', () => {
     const crests: number[] = [];
-    for (let d = 121; d < 600; d += 1) {
-      const here = duneAt(d, 0, 0);
-      if (here > duneAt(d - 1, 0, 0) && here >= duneAt(d + 1, 0, 0)) {
+    for (let d = 121; d < 1000; d += 1) {
+      const here = duneAt(d, 0, 0, 1);
+      if (here > duneAt(d - 1, 0, 0, 1) && here >= duneAt(d + 1, 0, 0, 1)) {
         crests.push(d);
       }
     }
@@ -159,6 +165,34 @@ describe('duneAt', () => {
     for (let k = 1; k < crests.length; k += 1) {
       const gap = (crests[k] ?? 0) - (crests[k - 1] ?? 0);
       assert.ok(Math.abs(gap - DUNE_SPACING_METRES) <= 3, `gap ${gap}`);
+    }
+  });
+});
+
+describe('sandAt', () => {
+  it('is whole on the beach and the low dune belt', () => {
+    for (const d of [1, 30, 200, 500]) {
+      for (const height of [0, 8, 65, 110]) {
+        assert.equal(sandAt(d, height), 1, `${height} m at ${d} m`);
+      }
+    }
+  });
+
+  it('is none at sea, past the belt and on high ground', () => {
+    assert.equal(sandAt(0, 0), 0);
+    assert.equal(sandAt(-40, -3), 0);
+    assert.equal(sandAt(1500, 60), 0);
+    assert.equal(sandAt(300, 230), 0);
+  });
+
+  it('thins inland and uphill without a step', () => {
+    for (let d = 500; d < 1500; d += 10) {
+      const drop = sandAt(d, 60) - sandAt(d + 10, 60);
+      assert.ok(drop >= 0 && drop < 0.02, `at ${d} m`);
+    }
+    for (let height = 100; height < 240; height += 1) {
+      const drop = sandAt(300, height) - sandAt(300, height + 1);
+      assert.ok(drop >= 0 && drop < 0.02, `at ${height} m`);
     }
   });
 });
