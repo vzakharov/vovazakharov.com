@@ -1,6 +1,9 @@
+import type { Look } from '@/island/shared/play';
+
 import type { Pace } from '../lib/pace';
 import type { Pose } from '../lib/place-hash';
 import type { Where } from '../lib/where-line';
+import type { Without } from '../lib/without';
 import type { LookSwitch } from './scene-look';
 
 export type IslandScene = LookSwitch & {
@@ -31,6 +34,12 @@ export type IslandScene = LookSwitch & {
   readonly placeAt: (pose: Pose) => void;
   /** Where the eye stands now, in the world on screen; throws until ready. */
   readonly where: () => Where;
-  /** The drawn frames' pace, smoothed; none before the first frame, nor under play. */
+  /** The drawn frames' pace; none before the first frame, nor under play. */
   readonly pace: () => Pace | undefined;
+  /** The look on screen. */
+  readonly look: () => Look;
+  /** The costs the full looks leave out now. */
+  readonly without: () => ReadonlySet<Without>;
+  /** Leaves `costs` out of the full looks from the next frame, and puts back every other. */
+  readonly setWithout: (costs: ReadonlySet<Without>) => void;
 };

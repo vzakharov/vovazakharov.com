@@ -11,12 +11,23 @@ function settled(last: number | undefined, value: number, ms: number): number {
   return last + (value - last) * (1 - Math.exp(-ms / SETTLE_MS));
 }
 
-/** The drawn frames' pace, smoothed: how long a frame takes and how fast the eye goes. */
-export type Pace = {
-  /** Ms between drawn frames. */
+/** The frames the frame time is the mean of: one second at 60 fps. */
+export const FRAME_WINDOW = 60;
+
+/** What the diagnostics panel shows of the pace. */
+type PaceShown = {
+  /** Ms between drawn frames, the mean over the last `FRAME_WINDOW` of them. */
   readonly frameMs: number;
-  /** Metres per second the eye's point in space moves, in a straight line. */
+  /** Metres per second the eye's point in space moves, in a straight line, smoothed. */
   readonly speed: number;
+};
+
+/** The drawn frames' pace: how long a frame takes and how fast the eye goes. */
+export type Pace = PaceShown & {
+  /** Ms between each of the last `FRAME_WINDOW` frames, oldest first. */
+  readonly recent: readonly number[];
+  /** Frames drawn since the first. */
+  readonly drawn: number;
 };
 
 /** What one drawn frame did: how long it took, and how far the eye moved in how much of its own time. */
@@ -40,7 +51,13 @@ export function paced(last: Pace | undefined, frame: Frame): Pace {
     seconds > 0
       ? settled(last?.speed, metres / seconds, ms)
       : (last?.speed ?? 0);
-  return { frameMs: settled(last?.frameMs, ms, ms), speed };
+  const recent = [...(last?.recent ?? []), ms].slice(-FRAME_WINDOW);
+  return {
+    frameMs: recent.reduce((total, each) => total + each, 0) / recent.length,
+    recent,
+    drawn: (last?.drawn ?? 0) + 1,
+    speed,
+  };
 }
 
 const KMH_PER_MPS = 3.6;
@@ -52,7 +69,7 @@ export function speedText(speed: number): string {
 }
 
 /** The pace's rows in the diagnostics panel. */
-export const paceFields = ({ frameMs, speed }: Pace) => [
+export const paceFields = ({ frameMs, speed }: PaceShown) => [
   `speed ${speedText(speed)}`,
-  `frame ${frameMs.toFixed(1)} ms`,
+  `frame ${frameMs.toFixed(1)} ms, ${(1000 / frameMs).toFixed(0)} fps (mean of ${String(FRAME_WINDOW)})`,
 ];

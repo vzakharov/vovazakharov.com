@@ -38,6 +38,7 @@ import { lightThrough, tintOf } from '../lib/air';
 import { daylight, type Heavens, SUN_ELEVATION } from '../lib/day';
 import { GROUND_STOPS, SEA_COLOUR } from '../lib/land-colour';
 import { eyeKeeps, intensityFor } from '../lib/sun';
+import type { Dropped } from '../lib/without';
 import { landSurface } from './land-surface';
 import { type SeaFrame, seaSurface } from './sea-surface';
 import { type Aired, type Backed, skyNodes } from './sky-nodes';
@@ -178,9 +179,9 @@ export type GroundLighting = CanDispose &
      * as a surface (WebGPU only) — the swift one, the same with the clouds
      * read from `clouds`' buffer and the land without what only tells
      * underfoot, or the plain one: the land's broad colours
-     * and the sea's flat one under the lamps. The first dressing in a look
-     * compiles its shaders. Returns the background the look draws behind
-     * everything, none for plain.
+     * and the sea's flat one under the lamps. Each dressing leaves out what
+     * `dropped` holds then, and the first in a look compiles its shaders.
+     * Returns the background the look draws behind everything, none for plain.
      */
     readonly dress: (
       look: Look,
@@ -206,7 +207,7 @@ const moon = (irradiance: number) =>
  * sky. Land and tile sea are coloured by the `height` vertex attribute — the ground's, and the floor's
  * under the sea; the ocean keeps the deep sea's flat colour.
  */
-export function groundLighting(): GroundLighting {
+export function groundLighting(dropped: Dropped): GroundLighting {
   const landSun = sun(LAND_IRRADIANCE);
   const seaSun = sun(SEA_IRRADIANCE);
   const landMoon = moon(LAND_IRRADIANCE);
@@ -215,9 +216,10 @@ export function groundLighting(): GroundLighting {
   const dayColour = new Color(SKY_COLOUR);
   const nightColour = new Color(NIGHT_SKY_COLOUR);
   const sunColour = new Color(SUN_COLOUR);
-  const air = skyNodes();
-  const { radiance, clouds, fine: fineAir, swift: swiftAir, update } = air;
-  const worn = { fine: wear(fineAir), swift: wear(swiftAir) } as const;
+  const air = skyNodes(dropped);
+  const { radiance, clouds, update } = air;
+  /** One colour for every sky the sea mirrors, when `dropped` holds the sea's sky. */
+  const flatSky = vec3(...dayColour.toArray());
   /** The current look's air and what it makes of a fragment; none in plain. */
   let wearing: ReturnType<typeof wear> | null = null;
   /** What `dressObject` has dressed, to dress again in each look. */
@@ -229,7 +231,9 @@ export function groundLighting(): GroundLighting {
     material.lightsNode = lights(shone);
     return material;
   };
-  const surface = seaSurface(radiance);
+  const surface = seaSurface((direction) =>
+    dropped.has('sea-sky') ? flatSky : radiance(direction),
+  );
   const groundColour = groundColourNode(heightNode());
   const ground = landSurface(heightNode(), groundColour);
   const seaColour = seaColourNode(heightNode());
@@ -273,7 +277,7 @@ export function groundLighting(): GroundLighting {
   let fine = false;
   const dress = (look: Look, rippled: boolean) => {
     fine = isFine(look);
-    wearing = look === 'plain' ? null : worn[look];
+    wearing = look === 'plain' ? null : wear(air[look]());
     const seen = wearing?.seen ?? null;
     for (const material of objects) {
       material.outputNode = seen;
@@ -295,7 +299,7 @@ export function groundLighting(): GroundLighting {
     for (const material of seas) material.colorNode = seaColour;
     ocean.colorNode = null;
     if (wearing === null) return null;
-    if (rippled) ripple(wearing.seen);
+    if (rippled && !dropped.has('ripples')) ripple(wearing.seen);
     clouds.forget();
     return wearing.aired.background;
   };

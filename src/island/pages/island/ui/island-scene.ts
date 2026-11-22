@@ -3,6 +3,7 @@ import { Group, PerspectiveCamera, Scene, WebGPURenderer } from 'three/webgpu';
 import type { WithOnError } from '@/kernel/shared/typings';
 
 import { length, R, sub } from '@/island/shared/globe';
+import type { Look } from '@/island/shared/play';
 import type { CoastDistance } from '@/island/entities/terrain';
 import {
   bindEyeControls,
@@ -35,6 +36,7 @@ import { eyeOfPose, placeOfEye } from '../lib/eye-pose';
 import { type Pace, paced } from '../lib/pace';
 import type { Pose } from '../lib/place-hash';
 import { startTilePool, type TilePool } from '../lib/tile-pool';
+import type { Dropped, Without } from '../lib/without';
 import { coastOf, groundOf, SEA_LEVEL, treeGround } from '../lib/world-ground';
 import { groundLighting } from './ground-lighting';
 import type { IslandScene } from './island-scene-api';
@@ -59,6 +61,8 @@ type MountIslandSceneParams = WithOnError &
     /** Where the eye opens, when not at the world's opening. */
     pose: Pose | undefined;
     play: boolean;
+    /** The costs the full looks leave out from the start: `?without=`'s. */
+    without: ReadonlySet<Without>;
     /** Told each time a look hint is shown or goes; never under play. */
     onLookHint: (showing: HintShowing | undefined) => void;
   };
@@ -75,6 +79,7 @@ export function mountIslandScene(
     world: firstWorld,
     pose: firstPose,
     play,
+    without,
     onError,
     onLookHint,
     onLook,
@@ -91,9 +96,12 @@ export function mountIslandScene(
   const scene = new Scene();
   const camera = new PerspectiveCamera(50, 1, NEAR, FAR);
 
-  const lighting = groundLighting();
+  let dropping = without;
+  const dropped: Dropped = { has: (cost) => dropping.has(cost) };
+  const lighting = groundLighting(dropped);
   const { land, sea, standIn, ocean, lights, dressObject } = lighting;
-  const trees = treeView(dressObject);
+  const trees = treeView(dressObject, dropped);
+  let shown: Look = 'plain';
   const looks = sceneLook({
     scene,
     renderer,
@@ -102,9 +110,10 @@ export function mountIslandScene(
     webgpu,
     render,
     keys: play ? null : canvas,
-    onLook: (look) => {
-      trees.drawAs(look);
-      onLook(look);
+    onLook: (next) => {
+      shown = next;
+      trees.drawAs(next);
+      onLook(next);
     },
   });
   const { setLook, stepLook } = looks;
@@ -322,6 +331,13 @@ export function mountIslandScene(
     lookTo: async (look) => placed((from) => withLook(from, look)),
     setLook,
     stepLook,
+    look: () => shown,
+    without: () => dropping,
+    setWithout: (costs) => {
+      dropping = costs;
+      // The look dressed again, and the trees laid out again, without them.
+      setLook(shown);
+    },
     backend: () => (webgpu() ? 'webgpu' : 'webgl2'),
     buildMs: () => {
       if (built?.of !== generation) throw new Error('field not built');

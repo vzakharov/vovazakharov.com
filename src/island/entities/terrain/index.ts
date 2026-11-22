@@ -6,7 +6,6 @@ export {
 export {
   type CoastDistance,
   detailedCoast,
-  detailReach,
   heightAtSphere,
   noiseSalt,
   sandAtSphere,

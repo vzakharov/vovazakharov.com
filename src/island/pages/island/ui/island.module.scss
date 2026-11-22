@@ -143,6 +143,7 @@
 }
 
 .diagnosticsRows,
+.diagnosticsTable,
 .diagnosticsFailure {
   margin: 0;
   font:
@@ -165,6 +166,12 @@
   &:hover {
     background: rgb(255 255 255 / 20%);
   }
+}
+
+.diagnosticsTable {
+  white-space: pre;
+  pointer-events: auto;
+  user-select: text;
 }
 
 .diagnosticsFailure {

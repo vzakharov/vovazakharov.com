@@ -80,11 +80,10 @@ export function seaSurface(radiance: Radiance): SeaSurface {
   const grain = worldCell(vec3(0, 0, 0));
   const zenith = normalize(eyeNode.add(positionWorld));
   const flat = reflect(normalize(positionWorld), zenith);
-  /** What a still sea would mirror, kept off the ground: the sky toward it, and the sky overhead. */
-  const mirrored = radiance(
-    normalize(flat.add(zenith.mul(max(float(0.03).sub(dot(flat, zenith)), 0)))),
+  /** What a still sea would mirror, kept off the ground: the sky toward it. */
+  const toward = normalize(
+    flat.add(zenith.mul(max(float(0.03).sub(dot(flat, zenith)), 0))),
   );
-  const overhead = radiance(zenith);
   const footprint = max(
     length(dFdx(positionWorld)),
     length(dFdy(positionWorld)),
@@ -136,8 +135,9 @@ export function seaSurface(radiance: Radiance): SeaSurface {
         under,
         footprint,
         seconds,
-        mirrored,
-        overhead,
+        // Asked of `radiance` at each call, so it answers as it stands then.
+        mirrored: radiance(toward),
+        overhead: radiance(zenith),
         swell,
       }),
     lifted: (bed) =>

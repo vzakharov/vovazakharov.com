@@ -39,7 +39,11 @@
     "label": "Diagnostics",
     "copy": "Copy a link to this view",
     "copied": "Link copied",
-    "failed": "Couldn't copy the link; here it is to copy by hand:"
+    "failed": "Couldn't copy the link; here it is to copy by hand:",
+    "measure": "Measure (hold still)",
+    "measuring": "Measuring without",
+    "copyTable": "Copy the table",
+    "tableCopied": "Table copied"
   },
   "look": {
     "up": {
