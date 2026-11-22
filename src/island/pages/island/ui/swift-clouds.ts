@@ -232,14 +232,29 @@ export function swiftClouds(
   });
   const resolves = resolving.map((material) => new QuadMesh(material));
 
+  /**
+   * The buffer at `screenUV` through a tent three of its pixels wide: four
+   * bilinear reads half a pixel off each way. A pixel a frame marched fresh
+   * beside three carried ones, whose resampling softens them, would
+   * otherwise alternate along a sharp cloud edge, every second screen pixel.
+   */
+  const smoothed = (buffer: RenderTarget): V4 => {
+    const tap = (x: number, y: number) =>
+      texture(buffer.texture, screenUV.add(vec2(x, y).div(size)));
+    return tap(-0.5, -0.5)
+      .add(tap(0.5, -0.5))
+      .add(tap(-0.5, 0.5))
+      .add(tap(0.5, 0.5))
+      .mul(0.25);
+  };
+
   const along: CloudNodes['along'] = (direction, metres) => {
     const { from, length } = span(direction);
-    const whole = texture(kept[0].texture, screenUV);
     const read = Fn(() => {
-      const buffered = vec4(whole).toVar();
+      const buffered = vec4(smoothed(kept[0])).toVar();
       // `kept[1]` holds this frame's buffer every other frame.
       If(current.equal(1), () => {
-        buffered.assign(texture(kept[1].texture, screenUV));
+        buffered.assign(smoothed(kept[1]));
       });
       // The cloud as if spread evenly along the ray: exact at either end.
       const share = clamp(metres.sub(from).div(max(length, 1e-3)), 0, 1);
