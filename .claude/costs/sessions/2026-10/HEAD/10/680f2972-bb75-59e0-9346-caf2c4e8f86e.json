@@ -1,0 +1,118 @@
+{
+  "total": {
+    "inputTokens": 123,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 158729,
+    "cacheReadTokens": 10758648,
+    "outputTokens": 44389,
+    "thinkingTokens": 16005,
+    "responses": 64,
+    "costUsd": 4.309833599999999
+  },
+  "estimate": {
+    "at": "2026-11-22T16:11:07.848Z",
+    "subjectLine": "feat: coastlines bend and fractalise as the eye nears, from the seed",
+    "parts": [
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "a fractal coast that stays band-limited across LOD and agrees with every reader is procedural-terrain craft"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "folding the perturbation into true slope and detail bounds the tile bracket rests on"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "qa",
+        "comment": "frames at six heights before and after, judged by eye"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-22T15:45:35.625Z",
+    "contextTokens": 98927,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 42899,
+      "cacheReadTokens": 148403,
+      "outputTokens": 679,
+      "thinkingTokens": 69,
+      "responses": 2,
+      "costUsd": 0.3864686
+    }
+  },
+  "sessionId": "680f2972-bb75-59e0-9346-caf2c4e8f86e",
+  "branch": "HEAD",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a member of a team making `/island` (src/island, mounted by sites/vova) beautiful. The lead is session session_01DaohkBiucpraEhsFyZ58M9 on branch `claud…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkB8k3wxxLHdRRwsBDQ",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-22T15:45:26.874Z",
+  "lastResponseAt": "2026-11-22T16:12:05.389Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 123,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 158729,
+    "cacheReadTokens": 10758648,
+    "outputTokens": 44389,
+    "thinkingTokens": 16005,
+    "responses": 64,
+    "costUsd": 4.309833599999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 123,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 158729,
+      "cacheReadTokens": 10758648,
+      "outputTokens": 44389,
+      "thinkingTokens": 16005,
+      "responses": 64,
+      "costUsd": 4.309833599999999
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 64,
+    "matched": 64,
+    "matchedTableUsd": 4.309833599999999,
+    "matchedEventUsd": 4.309833599999999,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 978,
+    ".json": 15,
+    ".yaml": 17,
+    ".ts": 3711
+  }
+}
