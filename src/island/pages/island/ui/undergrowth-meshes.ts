@@ -52,7 +52,7 @@ const BLADES: Readonly<Record<TreeDetail, number>> = {
 
 /**
  * A tuft of dune grass one unit tall: blades fanning out of one foot, each a
- * tapering strip bowed outward, paler toward its tip. Both faces draw.
+ * tapering strip bowed outward, paler toward its tip.
  */
 export function tuft(build: Build, detail: TreeDetail) {
   const blades = BLADES[detail];
@@ -69,8 +69,8 @@ export function tuft(build: Build, detail: TreeDetail) {
       [1, 0],
     ] as const) {
       const away = out * rise * rise;
-      const colour = shaded(LEAF.tuft, 0.55 + 0.6 * rise);
-      const normal: P3 = [ox * 0.4, 1, oz * 0.4];
+      const colour = shaded(LEAF.tuft, 0.8 + 0.45 * rise);
+      const normal: P3 = [ox * 0.25, 1, oz * 0.25];
       const at = (side: number): P3 => [
         ox * (0.03 + away) + sx * width * side,
         tall * rise - 0.03,
@@ -79,14 +79,22 @@ export function tuft(build: Build, detail: TreeDetail) {
       vertex(build, at(-1), normal, colour);
       vertex(build, at(1), normal, colour);
     }
+    // Each face twice, wound both ways: the back of a blade is lit as its front is.
     for (const row of [0, 2]) {
+      const low = first + row;
       build.indices.push(
-        first + row,
-        first + row + 1,
-        first + row + 2,
-        first + row + 2,
-        first + row + 1,
-        first + row + 3,
+        low,
+        low + 1,
+        low + 2,
+        low + 2,
+        low + 1,
+        low + 3,
+        low,
+        low + 2,
+        low + 1,
+        low + 2,
+        low + 3,
+        low + 1,
       );
     }
   }
