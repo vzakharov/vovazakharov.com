@@ -142,16 +142,17 @@ export function landBands(
    * this near tells, and from afar left as soft as the tile's vertices give it.
    */
   const fringe = ragged([
-    [DISTRICT, 0.1],
-    [HILL, 0.16],
-    [FIELD, 0.14],
-    [SLOPE, 0.12],
-    [PATCH, 0.08],
+    [HILL, 0.3],
+    [FIELD, 0.3],
+    [SLOPE, 0.2],
+    [PATCH, 0.12],
   ]);
+  // The noise moves the edge only where the cover is partial, so no canopy
+  // shows where no tree stands.
   const cover = smoothstep(
-    float(0.36).sub(fringe.lost),
-    float(0.64).add(fringe.lost),
-    forest.add(fringe.sum),
+    float(0.36).sub(fringe.lost.mul(0.4)),
+    float(0.64).add(fringe.lost.mul(0.4)),
+    forest.add(fringe.sum.mul(forest).mul(forest.oneMinus()).mul(4)),
   );
   /** Under the trees: leaf litter, moss where it holds the damp. */
   const floor = mix(
@@ -375,7 +376,7 @@ export function landBands(
   const roughness = mix(
     mix(
       mix(
-        mix(mix(mix(0.12, 0.3, cover), 0.2, upland), 0.28, mountain),
+        mix(mix(mix(0.12, 0.2, cover), 0.2, upland), 0.28, mountain),
         0.6,
         rock,
       ),
