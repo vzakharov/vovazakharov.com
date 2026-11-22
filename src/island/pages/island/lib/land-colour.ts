@@ -30,8 +30,8 @@ export const BAND_HEIGHTS: {
   readonly mountain: readonly [from: number, to: number];
   readonly snowLine: number;
 } = {
-  upland: [230, 340],
-  mountain: [570, 740],
+  upland: [260, 400],
+  mountain: [950, 1200],
   snowLine: 2200,
 };
 
@@ -58,7 +58,7 @@ export const LAND_PALETTE = {
   /** The upland: tussock, heath between it, stony soil under both. */
   tussock: toLinear([0.58, 0.48, 0.31]),
   heath: toLinear([0.33, 0.24, 0.19]),
-  stony: toLinear([0.46, 0.4, 0.33]),
+  stony: toLinear([0.45, 0.41, 0.35]),
   /** Alpine turf, the last green under the rock. */
   turf: toLinear([0.4, 0.44, 0.24]),
   /** Rock's beds, the darker and the lighter, and the scree under a face. */

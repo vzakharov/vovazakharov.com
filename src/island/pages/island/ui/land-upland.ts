@@ -166,15 +166,25 @@ export function rockOf(
         m.at(HILL).value.mul(1.3).add(3),
       ),
     ).w.mul(smoothstep(thickness / 5, thickness / 1.6, footprint).oneMinus());
+  // Rock is bedded in places and massive in others, a face's length across.
+  const layered = m.patches(-0.2, 0.5, [
+    [HILL, 0.4],
+    [FIELD, 0.6],
+    [SLOPE, 0.3],
+  ]);
   const beds = detailed
-    ? smoothstep(-0.25, 0.25, bedded(BEDS[0]).add(bedded(BEDS[1]).mul(0.5)))
+    ? mix(
+        0.5,
+        smoothstep(-0.25, 0.25, bedded(BEDS[0]).add(bedded(BEDS[1]).mul(0.5))),
+        layered,
+      )
     : float(0.5);
   return {
     rock: max(faces, outcrops).mul(smoothstep(2, SHORE_TOP, level)),
     colour: mix(
       paint(LAND_PALETTE.rockDark),
       paint(LAND_PALETTE.rockLight),
-      beds.mul(0.6).add(0.2),
+      beds.mul(0.5).add(0.25),
     ).mul(
       m.mottled([
         [PATCH, 0.06],
@@ -203,12 +213,12 @@ export function snowOf({ ground: { level, steep, away }, mix: m }: Band) {
     -0.07,
     0.07,
     m.ragged([
-      [REGION, 0.6],
-      [DISTRICT, 0.4],
-      [HILL, 0.5],
-      [FIELD, 0.4],
-      [SLOPE, 0.14],
-      [PATCH, 0.05],
+      [REGION, 0.35],
+      [DISTRICT, 0.25],
+      [HILL, 0.25],
+      [FIELD, 0.15],
+      [SLOPE, 0.06],
+      [PATCH, 0.03],
     ]),
   );
   const sliding = m.edge(
