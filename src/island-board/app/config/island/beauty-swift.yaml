@@ -47,6 +47,6 @@ items:
     text: 'Fine, the same view.'
   - id: beauty-operator-frame-time
     type: sticky
-    updated: [2026-11-22T20:55:00.000Z, agent:board]
+    updated: [2026-11-22T21:00:00.000Z, agent:board]
     box: [7260, 4170, 760, yellow]
-    text: 'Operator''s M2 Pro, WebGPU, one dune place 22 m up. Facing the sea: plain 13 ms, swift 159 ms, fine 203 ms. Facing inland: plain 13, swift 68, fine 79. His verdict: "I hardly noticed a difference in quality between fine and swift" (translated from the Russian). Swift looks right and saves 15–20%, which is no middle step; a view with the sea costs 90–125 ms more. The rest of the run goes to frame time.'
+    text: 'Operator''s M2 Pro, WebGPU, one dune place 22 m up. Facing the sea: plain 13 ms, swift 159 ms, fine 203 ms. Facing inland: plain 13, swift 68, fine 79. His verdict: he hardly sees a difference in picture between fine and swift (a few more tree blobs and grass blades in fine), while swift''s saving shows in the milliseconds, "both are a lot" (translated). So swift does what it was asked to, and fine buys little picture for its cost. Lead''s reading: both full looks are far from a frame budget, and a view with the sea costs 90–125 ms more than one without; the rest of the run goes to finding where the time goes.'
