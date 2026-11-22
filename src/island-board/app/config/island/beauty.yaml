@@ -2,7 +2,7 @@ items:
   - id: z-beauty
     type: zone
     updated: [2026-11-22T11:00:00.000Z, agent:board]
-    box: [11760, 380, 2000, 2400, green]
+    box: [11760, 380, 2000, 3600, green]
     icon: 🎞️
     text: 'Making it beautiful: the timelapse, failures included'
   - id: beauty-howto
@@ -68,3 +68,44 @@ items:
     updated: [2026-11-22T10:55:00.000Z, agent:board]
     box: [12955, 1010, 300, yellow]
     text: 'Lead, on cards 7 to 9 (Vova is away): "Half a win: ranges and the shore are right, the lowland went flat. Sent back."'
+  - id: img-beauty-10-relief-2-coast-2300km
+    type: image
+    updated: [2026-11-22T11:20:00.000Z, agent:board]
+    box: [11800, 1470, 360]
+    src: images/beauty-relief-2-coast-2300km.webp
+    text: '10. Relief, step 2. The snow is a spine along the range; the leopard pattern is gone.'
+  - id: img-beauty-11-relief-2-lowland-300m
+    type: image
+    updated: [2026-11-22T11:20:00.000Z, agent:board]
+    box: [12185, 1470, 360]
+    src: images/beauty-relief-2-lowland-300m.webp
+    text: '11. Relief, step 2. From 300 m the lowland rolls: hills to the horizon. Flaw: all of one size, and mauve patches where the old shader paints rock on gentle flanks.'
+  - id: img-beauty-12-relief-2-upland-300m
+    type: image
+    updated: [2026-11-22T11:20:00.000Z, agent:board]
+    box: [12570, 1470, 360]
+    src: images/beauty-relief-2-upland-300m.webp
+    text: '12. Relief, step 2. From 300 m, subalpine upland: a hummocky plateau with outcrops, green valleys beyond.'
+  - id: img-beauty-13-relief-2-alpine-3000m
+    type: image
+    updated: [2026-11-22T11:20:00.000Z, agent:board]
+    box: [12955, 1470, 360]
+    src: images/beauty-relief-2-alpine-3000m.webp
+    text: "13. Relief, step 2. From 3 km, an alpine range: ridges, spurs, valley floors. Flaw: snow lies in blotches by height alone, the ground shader's job next."
+  - id: img-beauty-14-relief-2-dunes-300m
+    type: image
+    updated: [2026-11-22T11:20:00.000Z, agent:board]
+    box: [13340, 1470, 360]
+    src: images/beauty-relief-2-dunes-300m.webp
+    text: '14. Relief, step 2. Failure: from 300 m the dune belt is a thin strip with a few dashes; no dune reads as a dune. Sent back.'
+  - id: img-beauty-15-relief-2-coast-560m
+    type: image
+    updated: [2026-11-22T11:20:00.000Z, agent:board]
+    box: [11800, 1930, 360]
+    src: images/beauty-relief-2-coast-560m.webp
+    text: '15. Relief, step 2. Failure: from 560 m, the same strip, the dune belt flattened to a thin band with a few dashes. Sent back.'
+  - id: beauty-15-verdict
+    type: sticky
+    updated: [2026-11-22T11:20:00.000Z, agent:board]
+    box: [12185, 1930, 320, yellow]
+    text: 'Lead, on cards 10 to 15 (Vova is away): "A real win for the mountains and the hills. Dunes sent back; the surface is now the weakest part."'
