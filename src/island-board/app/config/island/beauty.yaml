@@ -161,3 +161,21 @@ items:
     box: [580, 5150, 300]
     src: images/beauty-sea-0-operator-moire.webp
     text: 'The operator''s own shot, WebGPU: "the water is still moire-patterned (not complaining; progress on all fronts is obvious)" (translated).'
+  - id: img-beauty-march-2-fair-10600m
+    type: image
+    updated: [2026-11-22T21:00:00.000Z, agent:board]
+    box: [1860, 4490, 300]
+    src: images/beauty-march-2-fair-10600m.webp
+    text: 'Cloud march 2, over the sea, not yet merged. The builder: separate crisp cumulus.'
+  - id: img-beauty-march-2-fair-3km
+    type: image
+    updated: [2026-11-22T21:00:00.000Z, agent:board]
+    box: [1540, 4820, 300]
+    src: images/beauty-march-2-fair-3km.webp
+    text: 'Cloud march 2, 3 km, not yet merged. The builder: a field with relief and holes, softer than before.'
+  - id: img-beauty-march-2-fair-in
+    type: image
+    updated: [2026-11-22T21:00:00.000Z, agent:board]
+    box: [1860, 4820, 300]
+    src: images/beauty-march-2-fair-in.webp
+    text: 'Cloud march 2, inside a cloud. The builder: still featureless grey, next on the list.'

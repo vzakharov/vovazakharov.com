@@ -1,15 +1,33 @@
 {
   "total": {
-    "inputTokens": 35763,
+    "inputTokens": 35780,
     "cacheWrite5mTokens": 9464,
-    "cacheWrite1hTokens": 1276535,
-    "cacheReadTokens": 45646193,
-    "outputTokens": 187379,
-    "thinkingTokens": 31262,
-    "responses": 269,
-    "costUsd": 13.479061100000001
+    "cacheWrite1hTokens": 1290364,
+    "cacheReadTokens": 47047308,
+    "outputTokens": 192112,
+    "thinkingTokens": 32080,
+    "responses": 278,
+    "costUsd": 13.9646441
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-22T20:53:50.069Z",
+    "subjectLine": "feat: keep the island board through the beauty run",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "tracking six builders' frames and verdicts onto one board, and recutting it by view, is a producer's editorial job"
+      },
+      {
+        "hours": 3.0,
+        "grade": "middle",
+        "role": "designer",
+        "comment": "laying 140 frames out so a view's progress reads in one row takes layout judgement"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "Write",
     "endedOn": "src/island-board/app/config/island/beauty.yaml",
@@ -34,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkEpVZaFGj3BXpvEYCv",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-22T09:58:33.460Z",
-  "lastResponseAt": "2026-11-22T20:53:34.872Z",
+  "lastResponseAt": "2026-11-22T20:55:33.101Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 9.841713799999999,
   "ownTurns": {
-    "inputTokens": 480,
+    "inputTokens": 497,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 1276535,
-    "cacheReadTokens": 41776312,
-    "outputTokens": 160390,
-    "thinkingTokens": 31262,
-    "responses": 249,
-    "costUsd": 12.616207500000002
+    "cacheWrite1hTokens": 1290364,
+    "cacheReadTokens": 43177427,
+    "outputTokens": 165123,
+    "thinkingTokens": 32080,
+    "responses": 258,
+    "costUsd": 13.1017905
   },
   "subagents": {
     "inputTokens": 0,
@@ -69,14 +87,14 @@
       "costUsd": 9.818937499999997
     },
     "claude-opus-5-5/standard": {
-      "inputTokens": 4467,
+      "inputTokens": 4484,
       "cacheWrite5mTokens": 2230,
-      "cacheWrite1hTokens": 306563,
-      "cacheReadTokens": 3166708,
-      "outputTokens": 27263,
-      "thinkingTokens": 8375,
-      "responses": 23,
-      "costUsd": 3.6601236
+      "cacheWrite1hTokens": 320392,
+      "cacheReadTokens": 4567823,
+      "outputTokens": 31996,
+      "thinkingTokens": 9193,
+      "responses": 32,
+      "costUsd": 4.1457066
     }
   },
   "warnings": [],
@@ -204,10 +222,10 @@
     }
   ],
   "telemetry": {
-    "events": 268,
-    "matched": 248,
-    "matchedTableUsd": 12.561421300000001,
-    "matchedEventUsd": 12.561421300000001,
+    "events": 277,
+    "matched": 257,
+    "matchedTableUsd": 13.0494009,
+    "matchedEventUsd": 13.0494009,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 8096,
@@ -240,8 +258,8 @@
   "threadPosts": {},
   "branchLines": {
     ".md": 917,
-    ".json": 634,
-    ".yaml": 496,
+    ".json": 665,
+    ".yaml": 548,
     ".ts": 3663
   }
 }

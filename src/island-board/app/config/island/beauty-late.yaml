@@ -157,3 +157,9 @@ items:
     updated: [2026-11-22T19:00:00.000Z, agent:board]
     box: [6640, 5090, 420, pink]
     text: 'Failure. The still shooter could not draw on WebGPU here: the software device is lost at the first tile upload. Frames are shot on WebGL2, where the fine look draws everything but the rippled sea.'
+  - id: img-beauty-march-2-fair-2m
+    type: image
+    updated: [2026-11-22T21:00:00.000Z, agent:board]
+    box: [6380, 4760, 300]
+    src: images/beauty-march-2-fair-2m.webp
+    text: 'Cloud march 2, 2 m, not yet merged. The builder: the bars are gone; flat-based cumulus at the horizon, a few thin streaks left.'
