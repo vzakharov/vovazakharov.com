@@ -12,6 +12,7 @@ import {
   positionWorld,
   reflect,
   uniform,
+  vec3,
   wgslFn,
 } from 'three/tsl';
 import { type Node, Vector2, Vector3 } from 'three/webgpu';
@@ -19,8 +20,9 @@ import { type Node, Vector2, Vector3 } from 'three/webgpu';
 import type { Vec3 } from '@/island/shared/globe';
 
 import type { Sunlit } from '../lib/day';
-import { RIPPLE_PERIOD } from '../lib/ripple-table';
+import { GROUP_PERIOD, RIPPLE_PERIOD } from '../lib/ripple-table';
 import { SEA_LISTING, swellAt } from '../lib/sea-wgsl';
+import { worldCell } from './lattice-value';
 
 /** What the sea is drawn under, this frame. */
 export type SeaFrame = Sunlit & {
@@ -54,8 +56,8 @@ export type SeaSurface = {
   readonly update: (frame: SeaFrame) => void;
 };
 
-const wrapped = (metres: number) =>
-  ((metres % RIPPLE_PERIOD) + RIPPLE_PERIOD) % RIPPLE_PERIOD;
+const wrapped = (metres: number, period: number) =>
+  ((metres % period) + period) % period;
 
 /**
  * The sea's surface as nodes: ripples under the wind, the sky mirrored in
@@ -74,6 +76,11 @@ export function seaSurface(radiance: Radiance): SeaSurface {
    */
   const anchor = uniform(new Vector3());
   const place = anchor.add(positionWorld);
+  /** The eye modulo the slow fields' period, and a fragment's place in them. */
+  const fieldAnchor = uniform(new Vector3());
+  const field = fieldAnchor.add(positionWorld);
+  /** The world's shift of every lattice: where it numbers cell nought. */
+  const grain = worldCell(vec3(0, 0, 0));
   const zenith = normalize(eyeNode.add(positionWorld));
   const flat = reflect(normalize(positionWorld), zenith);
   /** What a still sea would mirror, kept off the ground: the sky toward it, and the sky overhead. */
@@ -109,10 +116,12 @@ export function seaSurface(radiance: Radiance): SeaSurface {
   );
   const shade = wgslFn(
     `fn seaShade(
-      place: vec3f, world: vec3f, eye: vec3f, sun: vec3f, bed: f32, under: vec3f,
-      footprint: f32, seconds: f32, mirrored: vec3f, overhead: vec3f, swell: vec2f,
+      place: vec3f, field: vec3f, grain: vec3f, world: vec3f, eye: vec3f, sun: vec3f, bed: f32,
+      under: vec3f, footprint: f32, seconds: f32, mirrored: vec3f, overhead: vec3f, swell: vec2f,
     ) -> vec3f {
-      return seaColour(place, world, eye, sun, bed, under, footprint, seconds, mirrored, overhead, swell);
+      return seaColour(
+        place, field, grain, world, eye, sun, bed, under, footprint, seconds, mirrored, overhead, swell,
+      );
     }`,
     [listing],
   );
@@ -121,6 +130,8 @@ export function seaSurface(radiance: Radiance): SeaSurface {
     colour: (bed, under) =>
       shade({
         place,
+        field,
+        grain,
         world: positionWorld,
         eye: eyeNode,
         sun,
@@ -145,7 +156,16 @@ export function seaSurface(radiance: Radiance): SeaSurface {
     update: (frame) => {
       const [x, y, z] = frame.eye;
       eyeNode.value.set(x, y, z);
-      anchor.value.set(wrapped(x), wrapped(y), wrapped(z));
+      anchor.value.set(
+        wrapped(x, RIPPLE_PERIOD),
+        wrapped(y, RIPPLE_PERIOD),
+        wrapped(z, RIPPLE_PERIOD),
+      );
+      fieldAnchor.value.set(
+        wrapped(x, GROUP_PERIOD),
+        wrapped(y, GROUP_PERIOD),
+        wrapped(z, GROUP_PERIOD),
+      );
       sun.value.set(...frame.sun);
       seconds.value = frame.time;
       swell.value.set(...swellAt(frame.eye, frame.time));
