@@ -83,6 +83,14 @@ otherwise; his answers get quoted under each when they come.
   сам». No verdicts will come during the run; every look call is the lead's,
   made from frames and written here.
 
+- 2026-11-22 ~15:45 UTC, after the 5-hour limit cut the whole team off at 11:48
+  and he woke every session with «Продолжай»: «Ещё одну вещь которую забыл
+  написать в самом начале: супер-ровные, как под линейку, линии берега. Они
+  должны искривляться и фракталиться (но детерминированно, через rolled) по мере
+  приближения». So: the coastline gains detail as the eye nears it, every scale
+  of it a pure function of the world's roll and the place, never of the tile or
+  the frame. A sixth package, the coast's.
+
 ## What is there today (read 2026-11-22)
 
 - **Relief** — `src/island/entities/terrain/height/model/relief.ts`: a plateau
