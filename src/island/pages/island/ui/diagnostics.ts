@@ -1,7 +1,7 @@
 import { paceFields } from '../lib/pace';
 import { formatPlace } from '../lib/place-hash';
 import { shareLink, whereFields } from '../lib/where-line';
-import type { IslandScene } from './island-scene';
+import type { IslandScene } from './island-scene-api';
 
 /** Toggles the diagnostics panel, by `KeyboardEvent.code`: `I`, for info, on every layout. */
 export const DIAGNOSTICS_KEY = 'KeyI';
