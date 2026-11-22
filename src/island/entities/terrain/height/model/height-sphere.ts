@@ -79,7 +79,8 @@ export const groundSpread = (metres: number): number =>
  * `finest`, and the seed (read as a 32-bit integer). The noise is drawn in space at the surface point `R·p̂`,
  * never at an elevated one, so a height does not feed its own noise, and has
  * no seam anywhere on the sphere; each octave's point is bent by the octave
- * before it. `reliefAt` gives the shape, `upliftAtSphere` the mountain belts.
+ * before it. `reliefAt` gives the shape, `upliftAtSphere` the mountain belts,
+ * the coast's calm where its dunes stand.
  */
 export function heightAtSphere(
   distance: CoastDistance,
@@ -109,13 +110,15 @@ export function heightAtSphere(
       return before;
     },
     d > 0 ? upliftAtSphere(seed, x, y, z, d) : 0,
+    () => distance.calm?.([x, y, z]) ?? 1,
   );
 }
 
 /**
  * The share of sand, from 0 to 1, in the ground over direction `p` (any
  * length but zero) standing `height` metres up: `sandAt` of the coast's
- * distance there, read at the detail cut `finest` the height was drawn with.
+ * distance there, read at the detail cut `finest` the height was drawn with,
+ * and of its stretch's calm.
  */
 export const sandAtSphere = (
   distance: CoastDistance,
@@ -124,8 +127,6 @@ export const sandAtSphere = (
   finest = 0,
 ): number => {
   const scale = 1 / length(p);
-  return sandAt(
-    distance([p[0] * scale, p[1] * scale, p[2] * scale], finest),
-    height,
-  );
+  const q: Vec3 = [p[0] * scale, p[1] * scale, p[2] * scale];
+  return sandAt(distance(q, finest), height, () => distance.calm?.(q) ?? 1);
 };

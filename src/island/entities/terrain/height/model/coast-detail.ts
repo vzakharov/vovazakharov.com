@@ -13,9 +13,13 @@ import { noiseSalt, valueNoise3, valueNoise3x3 } from './value-noise';
 
 /**
  * Signed metres from direction `p` (unit) to the coast, positive inland, with
- * the bends shorter than `finest` metres left out (none when it is 0).
+ * the bends shorter than `finest` metres left out (none when it is 0); and,
+ * where the coast has stretches, the share of calm in the one at `p`, 0 to 1
+ * (all calm without it).
  */
-export type CoastDistance = (p: Vec3, finest?: number) => number;
+export type CoastDistance = ((p: Vec3, finest?: number) => number) & {
+  readonly calm?: (p: Vec3) => number;
+};
 
 /**
  * The noise layers the bends are drawn from, one per bend and one for the
@@ -77,8 +81,29 @@ const FADE_METRES = 10_000;
 /** The steepest the field's own distance is, metres per metre. */
 const FIELD_STEEPEST = Math.SQRT2;
 
-/** The roughness at lattice value `n`: mostly at one end or the other. */
-const roughnessAt = (n: number) => CALM + (ROUGH - CALM) * ramp(0.5 + 1.5 * n);
+/**
+ * How sharply the share of calm turns with the roughness noise: all or none
+ * on about a third of the coast each, a turn between them on the rest.
+ */
+const CALM_TURN = 3;
+
+/** The share of calm at lattice value `n`. */
+const calmAt = (n: number) => 1 - ramp(0.5 + CALM_TURN * n);
+
+/** The steepest the share of calm is, per metre of ground. */
+export const CALM_STEEPEST =
+  (1.5 * CALM_TURN * LATTICE_STEEPEST) / ROUGHNESS_METRES;
+
+/** The roughness's lattice value at direction `p` (unit). */
+const roughnessNoise = (seed: number, [x, y, z]: Vec3) => {
+  const [a, b, c] = ROUGHNESS_TO_LATTICE;
+  return valueNoise3(
+    noiseSalt(seed, ROUGHNESS_LAYER),
+    a[0] * x + a[1] * y + a[2] * z,
+    b[0] * x + b[1] * y + b[2] * z,
+    c[0] * x + c[1] * y + c[2] * z,
+  );
+};
 
 /**
  * A bound on how steep the bent distance is, metres per metre: the field's
@@ -90,9 +115,7 @@ export const COAST_STEEPEST =
   FIELD_STEEPEST *
   (1 +
     (1.5 * PUSHED_METRES) / FADE_METRES +
-    ((PUSHED_METRES / ROUGH) *
-      (1.5 * (ROUGH - CALM) * 1.5 * LATTICE_STEEPEST)) /
-      ROUGHNESS_METRES +
+    (PUSHED_METRES / ROUGH) * (ROUGH - CALM) * CALM_STEEPEST +
     ROUGH *
       Math.sqrt(3) *
       overBends(
@@ -120,26 +143,19 @@ export const coastCutReach = (finest: number): number =>
  * noise (read as a 32-bit integer): a pure function of the seed and the place.
  * Bends shorter than `finest` are left out and those up to twice it faded in,
  * as the relief's octaves are, so a far tile draws a smooth coast and each
- * nearer one adds the next bend.
+ * nearer one adds the next bend. Calm stretches bend least, rough ones most.
  */
-export const detailedCoast =
-  (distance: (p: Vec3) => number, seed: number): CoastDistance =>
-  (p, finest = 0) => {
+export const detailedCoast = (
+  distance: (p: Vec3) => number,
+  seed: number,
+): CoastDistance => {
+  const bent = (p: Vec3, finest = 0) => {
     const d = distance(p);
     const near = 1 - ramp((Math.abs(d) - FULL_METRES) / FADE_METRES);
     if (near === 0 || finest >= LONGEST_BEND_METRES) return d;
     const [x, y, z] = p;
-    const [ra, rb, rc] = ROUGHNESS_TO_LATTICE;
-    const reach =
-      (near / R) *
-      roughnessAt(
-        valueNoise3(
-          noiseSalt(seed, ROUGHNESS_LAYER),
-          ra[0] * x + ra[1] * y + ra[2] * z,
-          rb[0] * x + rb[1] * y + rb[2] * z,
-          rc[0] * x + rc[1] * y + rc[2] * z,
-        ),
-      );
+    const calm = calmAt(roughnessNoise(seed, p));
+    const reach = (near / R) * (ROUGH - (ROUGH - CALM) * calm);
     let qx = x;
     let qy = y;
     let qz = z;
@@ -165,3 +181,7 @@ export const detailedCoast =
     const scale = 1 / length([qx, qy, qz]);
     return distance([qx * scale, qy * scale, qz * scale]);
   };
+  return Object.assign(bent, {
+    calm: (p: Vec3) => calmAt(roughnessNoise(seed, p)),
+  });
+};

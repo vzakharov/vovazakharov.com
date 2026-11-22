@@ -1,5 +1,5 @@
 /** True bounds on the ground `reliefAt` draws: its slope, and its detail. */
-import { coastCutReach } from './coast-detail';
+import { CALM_STEEPEST, coastCutReach } from './coast-detail';
 import {
   KINDS,
   LINE_WIDTH,
@@ -127,10 +127,11 @@ export function groundSlope(
         (1.5 / DUNES_RISE_METRES + DUNE_STEEPEST / DUNE_SPACING_METRES));
   const dunes =
     (DUNE_SPACING_METRES <= 2 * finest ? 0 : DUNE_METRES) *
-    noiseSteepest *
-    ((DUNE_STEEPEST * DUNE_SWAY) / wavelengthOf(DUNE_SWAY_INDEX) +
-      0.4 / wavelengthOf(DUNE_SWELL_INDEX) +
-      1.5 / (DUNE_GAP_SPAN * wavelengthOf(DUNE_GAP_INDEX)));
+    (noiseSteepest *
+      ((DUNE_STEEPEST * DUNE_SWAY) / wavelengthOf(DUNE_SWAY_INDEX) +
+        0.4 / wavelengthOf(DUNE_SWELL_INDEX) +
+        1.5 / (DUNE_GAP_SPAN * wavelengthOf(DUNE_GAP_INDEX))) +
+      CALM_STEEPEST);
   const reach = most((kind) => Math.max(peakOf(kind), troughOf(kind)));
   const ground =
     broad * (1 + KIND_STEEPEST * (reach + FINE_REACH_METRES)) +

@@ -127,6 +127,20 @@ describe('detailedCoast', () => {
     assert.ok(steepest > 1.2, `${steepest}: no bend steeper than the field`);
   });
 
+  it('has calm and rough stretches, the calm ones bending least', () => {
+    let calm = 0;
+    let rough = 0;
+    const next = stream(15);
+    for (let k = 0; k < 400; k += 1) {
+      const share = coast.calm?.(nearCoast(next, 1000)) ?? -1;
+      assert.ok(share >= 0 && share <= 1, `${share}`);
+      if (share === 1) calm += 1;
+      if (share === 0) rough += 1;
+    }
+    // A stretch is all one or the other on about a third of the coast each.
+    assert.ok(calm > 60 && rough > 60, `${calm} calm, ${rough} rough`);
+  });
+
   it('bends the coastline at every scale it is read at', () => {
     for (const [finest, span, least] of [
       [5000, 40_000, 50],
