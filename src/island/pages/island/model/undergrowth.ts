@@ -1,13 +1,13 @@
-import { roll, rollWith } from '@/dice/shared/roll';
+import { rollWith } from '@/dice/shared/roll';
 
-import { type CubeCell, faceToSphere } from '@/island/shared/globe';
+import type { CubeCell } from '@/island/shared/globe';
 
 import { forestCover, TREELINE } from './forest-cover';
 import {
+  CELL,
   FINEST_LEVEL,
-  LEAN,
-  SHAPE,
-  TALL,
+  plantOf,
+  spotIn,
   type Tree,
   type TreeGround,
   uprightAt,
@@ -23,19 +23,11 @@ const BUSHES_UNDER = 0.3;
 /** The share of spots holding a tuft where the ground is all sand. */
 const TUFTS = 0.5;
 
+/** How much wider a bush is for its height than a tree's crown. */
+const BUSH_GIRTH = 1.25;
+
 /** The height under which the sand is the sea's, too wet and too often washed for grass, metres. */
 const WASHED = 3;
-
-const SPOT = roll.struct({
-  u: roll.uniform(0, 1),
-  v: roll.uniform(0, 1),
-  chance: roll.uniform(0, 1),
-});
-
-const CELL = roll.struct({
-  spot: roll.over(roll.key({ slot: roll.int }), SPOT),
-  shape: roll.over(roll.key({ slot: roll.int }), SHAPE),
-});
 
 /** `x` between `low` and `high`, as a share from 0 to 1. */
 const between = (low: number, high: number, x: number) =>
@@ -53,17 +45,12 @@ export function undergrowthIn(cell: CubeCell, ground: TreeGround): Tree[] {
   if (level !== FINEST_LEVEL) return [];
   const at = `undergrowth/${face}/${String(x)}/${String(y)}`;
   const rolled = rollWith(CELL, (path) => ground.wordAt(`${at}/${path}`));
-  const lines = 2 ** level;
   const growth: Tree[] = [];
   for (let slot = 0; slot < SPOTS * SPOTS; slot++) {
     const { u, v, chance } = rolled.spot.at({ slot });
     // No kind is likelier than this: the ground's readings are spared.
     if (chance >= Math.max(TUFTS, BUSHES_UNDER)) continue;
-    const p = faceToSphere(
-      face,
-      (2 * (x + ((slot % SPOTS) + u) / SPOTS)) / lines - 1,
-      (2 * (y + (Math.floor(slot / SPOTS) + v) / SPOTS)) / lines - 1,
-    );
+    const p = spotIn(cell, slot, SPOTS, u, v);
     const height = ground.groundAt(p);
     if (height <= 0 || height > TREELINE) continue;
     const sand = ground.sandAt(p, height);
@@ -83,19 +70,9 @@ export function undergrowthIn(cell: CubeCell, ground: TreeGround): Tree[] {
       )
         continue;
     }
-    const { girth, spin, tint, shade, ...shape } = rolled.shape.at({ slot });
-    const [short, tallest] = TALL[kind];
-    growth.push({
-      p,
-      height,
-      kind,
-      tall: short + (tallest - short) * shape.tall,
-      girth: girth * (kind === 'bush' ? 1.25 : 1),
-      lean: [shape.leanEast * LEAN, shape.leanNorth * LEAN],
-      spin,
-      tint,
-      shade,
-    });
+    const shape = rolled.shape.at({ slot });
+    const girth = shape.girth * (kind === 'bush' ? BUSH_GIRTH : 1);
+    growth.push(plantOf({ p, height }, kind, { ...shape, girth }));
   }
   return growth;
 }

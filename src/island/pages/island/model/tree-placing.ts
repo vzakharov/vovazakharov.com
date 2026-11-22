@@ -86,7 +86,7 @@ const SPOT = roll.struct({
   chance: roll.uniform(0, 1),
 });
 
-export const SHAPE = roll.struct({
+const SHAPE = roll.struct({
   kind: roll.uniform(0, 1),
   tall: roll.uniform(0, 1),
   girth: roll.uniform(0.8, 1.25),
@@ -97,13 +97,33 @@ export const SHAPE = roll.struct({
   shade: roll.uniform(0, 1),
 });
 
-const CELL = roll.struct({
+/** What a cell rolls for each of its spots: a place and a chance, and the shape of what grows there. */
+export const CELL = roll.struct({
   spot: roll.over(roll.key({ slot: roll.int }), SPOT),
   shape: roll.over(roll.key({ slot: roll.int }), SHAPE),
 });
 
+/**
+ * The unit direction of spot `slot` of a cell with `side` spots along its
+ * side: `(u, v)` across the spot's own square of the cell.
+ */
+export function spotIn(
+  { face, level, x, y }: CubeCell,
+  slot: number,
+  side: number,
+  u: number,
+  v: number,
+): Vec3 {
+  const lines = 2 ** level;
+  return faceToSphere(
+    face,
+    (2 * (x + ((slot % side) + u) / side)) / lines - 1,
+    (2 * (y + (Math.floor(slot / side) + v) / side)) / lines - 1,
+  );
+}
+
 /** A kind's shortest and tallest grown plant, metres. */
-export const TALL: Readonly<Record<TreeKind, readonly [number, number]>> = {
+const TALL: Readonly<Record<TreeKind, readonly [number, number]>> = {
   broadleaf: [9, 19],
   conifer: [11, 26],
   bush: [0.7, 2.3],
@@ -111,7 +131,7 @@ export const TALL: Readonly<Record<TreeKind, readonly [number, number]>> = {
 };
 
 /** A typical lean, radians: a couple of degrees. */
-export const LEAN = 0.035;
+const LEAN = 0.035;
 
 /** How far either side of a spot the ground is read for its slope, metres. */
 const SLOPE_SPAN = 3;
@@ -140,6 +160,33 @@ export function uprightAt(
   return 1 / Math.hypot(1, rise(east), rise(north));
 }
 
+/** A plant of `kind` at `spot` with the rolled `shape`, `grown` of its kind's size. */
+export function plantOf(
+  { p, height }: Spot,
+  kind: TreeKind,
+  shape: Readonly<
+    Record<
+      'tall' | 'girth' | 'leanEast' | 'leanNorth' | 'spin' | 'tint' | 'shade',
+      number
+    >
+  >,
+  grown = 1,
+): Tree {
+  const { tall, girth, leanEast, leanNorth, spin, tint, shade } = shape;
+  const [short, tallest] = TALL[kind];
+  return {
+    p,
+    height,
+    kind,
+    tall: (short + (tallest - short) * tall) * grown,
+    girth,
+    lean: [leanEast * LEAN, leanNorth * LEAN],
+    spin,
+    tint,
+    shade,
+  };
+}
+
 /**
  * The trees standing in `cell`, a pure function of the cell, the ground and
  * the world: each of the cell's spots is rolled a place within its own square
@@ -151,17 +198,10 @@ export function treesIn(cell: CubeCell, ground: TreeGround): Tree[] {
   const { face, level, x, y } = cell;
   const at = `trees/${face}/${String(level)}/${String(x)}/${String(y)}`;
   const rolled = rollWith(CELL, (path) => ground.wordAt(`${at}/${path}`));
-  const lines = 2 ** level;
   const trees: Tree[] = [];
   for (let slot = 0; slot < SPOTS * SPOTS; slot++) {
     const { u, v, chance } = rolled.spot.at({ slot });
-    const i = slot % SPOTS;
-    const j = Math.floor(slot / SPOTS);
-    const p = faceToSphere(
-      face,
-      (2 * (x + (i + u) / SPOTS)) / lines - 1,
-      (2 * (y + (j + v) / SPOTS)) / lines - 1,
-    );
+    const p = spotIn(cell, slot, SPOTS, u, v);
     const height = ground.groundAt(p);
     // Bare at any slope on any soil: the sand's and the slope's readings are spared.
     const easy = { p, height, upright: 1, sand: 0 };
@@ -171,20 +211,9 @@ export function treesIn(cell: CubeCell, ground: TreeGround): Tree[] {
     const upright = uprightAt(p, height, ground.groundAt);
     if (forestCover(ground.seed, { ...easy, sand, upright }) <= chance)
       continue;
-    const { girth, spin, tint, shade, ...shape } = rolled.shape.at({ slot });
+    const shape = rolled.shape.at({ slot });
     const kind = shape.kind < coniferShare(height) ? 'conifer' : 'broadleaf';
-    const [short, tallest] = TALL[kind];
-    trees.push({
-      p,
-      height,
-      kind,
-      tall: (short + (tallest - short) * shape.tall) * stature(height),
-      girth,
-      lean: [shape.leanEast * LEAN, shape.leanNorth * LEAN],
-      spin,
-      tint,
-      shade,
-    });
+    trees.push(plantOf({ p, height }, kind, shape, stature(height)));
   }
   return trees;
 }
