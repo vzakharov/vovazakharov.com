@@ -15,14 +15,19 @@ import { INLET, INLET_BEACH, INLET_HEAD } from './places';
 import { call } from './play-tab';
 
 /**
+ * A frame by the name it is filed under and the hour it is lit at, in the
+ * hours the hook's `setTime` takes past the opening's sun.
+ */
+export type Still = Named & { readonly hours?: number };
+
+/**
  * A frame by the name it is filed under, the hook call placing the eye, the
  * calls aiming it there, and the hour `setTime` sets first — none keeps the
  * clock where it stands.
  */
-export type Shot = Named & {
+export type Shot = Still & {
   readonly place: string;
   readonly aim?: readonly string[];
-  readonly hours?: number;
 };
 
 const ORBIT = 20_000_000;
