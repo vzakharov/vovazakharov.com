@@ -82,28 +82,26 @@ export function valueNoise3x3(
   const tu = fade(u - fu);
   const tv = fade(v - fv);
   const tw = fade(w - fw);
-  const layerCorners = (iw: number) =>
-    [
-      corner(fu, fv, iw, salt),
-      corner(fu + 1, fv, iw, salt),
-      corner(fu, fv + 1, iw, salt),
-      corner(fu + 1, fv + 1, iw, salt),
-    ] as const;
-  const near = layerCorners(fw);
-  const far = layerCorners(fw + 1);
-  const layer = (
-    [a, b, c, d]: readonly [number, number, number, number],
-    shift: number,
-  ) => {
+  const a = corner(fu, fv, fw, salt);
+  const b = corner(fu + 1, fv, fw, salt);
+  const c = corner(fu, fv + 1, fw, salt);
+  const d = corner(fu + 1, fv + 1, fw, salt);
+  const e = corner(fu, fv, fw + 1, salt);
+  const f = corner(fu + 1, fv, fw + 1, salt);
+  const g = corner(fu, fv + 1, fw + 1, salt);
+  const h = corner(fu + 1, fv + 1, fw + 1, salt);
+  const blended = (shift: number) => {
     const ca = channel(a, shift);
     const cc = channel(c, shift);
+    const ce = channel(e, shift);
+    const cg = channel(g, shift);
     const bottom = ca + (channel(b, shift) - ca) * tu;
     const top = cc + (channel(d, shift) - cc) * tu;
-    return bottom + (top - bottom) * tv;
-  };
-  const blended = (shift: number) => {
-    const n = layer(near, shift);
-    return n + (layer(far, shift) - n) * tw;
+    const near = bottom + (top - bottom) * tv;
+    const farBottom = ce + (channel(f, shift) - ce) * tu;
+    const farTop = cg + (channel(h, shift) - cg) * tu;
+    const far = farBottom + (farTop - farBottom) * tv;
+    return near + (far - near) * tw;
   };
   return [blended(2), blended(12), blended(22)];
 }
