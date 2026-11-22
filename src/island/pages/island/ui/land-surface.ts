@@ -84,7 +84,7 @@ const SLOPE_VARIANCE = 1.4;
  */
 export function landSurface(height: F, stops: V): LandSurface {
   const noise = landNoise();
-  const { footprint } = noise;
+  const { footprint, octaves } = noise;
   const eye = uniform(new Vector3(0, 1, 0));
   const zenith = normalize(eye.add(positionWorld));
   const away = length(positionWorld);
@@ -106,20 +106,16 @@ export function landSurface(height: F, stops: V): LandSurface {
     cover: attribute(COVER_ATTRIBUTE, 'float'),
     footprint,
   };
-  const fine = landBands(ground, noise.octaves, true);
+  const fine = landBands(ground, octaves, true);
   let slope: V = vec3(0);
   let lost: F = float(0);
   for (const [i, share] of RELIEF) {
-    const octave = noise.octaves[i] ?? QUIET;
+    const octave = octaves[i] ?? QUIET;
     slope = slope.add(octave.slope.mul(octave.wavelength * share));
     lost = lost.add(octave.told.oneMinus().mul(share * share * SLOPE_VARIANCE));
   }
   const relief = slope.mul(fine.roughness);
-  const { colour } = landBands(
-    ground,
-    noise.octaves.slice(0, PLAIN_OCTAVES),
-    false,
-  );
+  const { colour } = landBands(ground, octaves.slice(0, PLAIN_OCTAVES), false);
 
   return {
     fine: {
