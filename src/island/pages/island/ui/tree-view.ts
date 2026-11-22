@@ -18,6 +18,7 @@ import {
 } from '../model/tree-placing';
 import { undergrowthIn } from '../model/undergrowth';
 import { TREE_DETAILS, type TreeDetail } from './tree-mesh-parts';
+import { GOES_FROM } from './tree-nodes';
 import { type Rolled, rolledOf } from './tree-rolled';
 import { SMALL, treeStands } from './tree-stands';
 
@@ -28,7 +29,7 @@ type TreeLook = Exclude<Look, 'plain'>;
 type Spent = {
   /** The distance out to which a tree is drawn at each detail, metres. */
   readonly to: Readonly<Record<TreeDetail, number>>;
-  /** The distance by which the low growth has shrunk away, and what lies on the forest floor, metres. */
+  /** The distance by which the low growth is all gone, and what lies on the forest floor, metres. */
   readonly gone: Readonly<Record<'low' | 'floor', number>>;
 };
 
@@ -54,6 +55,9 @@ const ROLL_BUDGET = 3;
 
 /** Metres the eye moves before the instances are laid out again. */
 const RELAY_EVERY = 7;
+
+/** The golden ratio's fraction: its multiples spread evenly over 0…1. */
+const GOLDEN = 0.618_033_988_75;
 
 /** Cells kept rolled before the ones longest unused are let go. */
 const CELLS_KEPT = 5000;
@@ -82,10 +86,10 @@ export type TreeView = CanDispose & {
  * The trees around the eye, the low growth among them and what lies under
  * them, drawn as instances of each kind and detail (`treeStands`).
  * Trees are rolled per placing cell in five tiers (`tree-placing`), each tier
- * drawn out to its own reach: a tree shrinks to nothing as the eye draws away
- * toward its tier's reach, in the vertex shader, so nothing is switched off at
- * a line and the far ground's canopy shading takes over under trees already
- * too small to see. `dress` lights a material as the land is lit.
+ * drawn out to its own reach: over the last third of it the tier's trees go one
+ * by one, each whole at a distance of its own, in the vertex shader, so no
+ * tree changes size as the eye moves and the far ground's canopy shading takes
+ * over where a tier has thinned. `dress` lights a material as the land is lit.
  */
 export function treeView(
   dress: (material: MeshLambertNodeMaterial) => void,
@@ -185,7 +189,10 @@ export function treeView(
           const small = SMALL[kind];
           const drawnTo =
             small === undefined ? reach : Math.min(reach, gone[small]);
-          if (distance > drawnTo) continue;
+          // A tree's own share of the thinning band, the same at every layout.
+          const share = ((n + 1) * GOLDEN) % 1;
+          const goneAt = drawnTo * (GOES_FROM + (1 - GOES_FROM) * share);
+          if (distance > goneAt) continue;
           const detail = TREE_DETAILS.findIndex((name) => distance <= to[name]);
           const stand = stands[TREE_KINDS.indexOf(kind)]?.[detail];
           if (stand === undefined || stand.mesh.count >= stand.capacity)
@@ -201,7 +208,7 @@ export function treeView(
             matrix[i * 16 + column * 4 + 3] = 0;
           }
           matrix.set([x, y, z, 1], i * 16 + 12);
-          stand.foot.array.set([x, y, z, drawnTo], i * 4);
+          stand.foot.array.set([x, y, z, goneAt], i * 4);
           stand.mesh.instanceColor?.array.set(
             tints.subarray(n * 3, n * 3 + 3),
             i * 3,
