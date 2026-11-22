@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 146,
-    "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 375497,
-    "cacheReadTokens": 13609115,
-    "outputTokens": 55709,
-    "thinkingTokens": 18004,
-    "responses": 78,
-    "costUsd": 6.840563000000001
+    "inputTokens": 5010,
+    "cacheWrite5mTokens": 84,
+    "cacheWrite1hTokens": 450954,
+    "cacheReadTokens": 14924169,
+    "outputTokens": 68563,
+    "thinkingTokens": 20661,
+    "responses": 85,
+    "costUsd": 7.9841858000000006
   },
   "estimate": {
     "at": "2026-11-22T11:38:14.948Z",
@@ -52,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkCd79gE98JUq5Svi61",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-22T11:27:19.433Z",
-  "lastResponseAt": "2026-11-22T15:45:22.982Z",
+  "lastResponseAt": "2026-11-22T15:47:30.126Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 4.673643200000002,
   "ownTurns": {
-    "inputTokens": 146,
+    "inputTokens": 158,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 375497,
-    "cacheReadTokens": 13609115,
-    "outputTokens": 55709,
-    "thinkingTokens": 18004,
-    "responses": 78,
-    "costUsd": 6.840563000000001
+    "cacheWrite1hTokens": 450954,
+    "cacheReadTokens": 14664736,
+    "outputTokens": 62103,
+    "thinkingTokens": 20661,
+    "responses": 84,
+    "costUsd": 7.783271200000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,24 +77,65 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 146,
-      "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 375497,
-      "cacheReadTokens": 13609115,
-      "outputTokens": 55709,
-      "thinkingTokens": 18004,
-      "responses": 78,
-      "costUsd": 6.840563000000001
+      "inputTokens": 5010,
+      "cacheWrite5mTokens": 84,
+      "cacheWrite1hTokens": 450954,
+      "cacheReadTokens": 14924169,
+      "outputTokens": 68563,
+      "thinkingTokens": 20661,
+      "responses": 85,
+      "costUsd": 7.9841858000000006
     }
   },
   "warnings": [],
-  "compactions": [],
+  "compactions": [
+    {
+      "at": "2026-11-22T15:47:14.129Z",
+      "trigger": "auto",
+      "compactedFrom": 265949,
+      "summaryChars": 15055,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "docs/remove-before-merging/island-beauty-c1rj3b/notes/speed.md",
+        "endedAt": "2026-11-22T15:47:21.528Z",
+        "contextTokens": 120177,
+        "spend": {
+          "inputTokens": 2,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 58232,
+          "cacheReadTokens": 52426,
+          "outputTokens": 154,
+          "thinkingTokens": 61,
+          "responses": 1,
+          "costUsd": 0.47942920000000006
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.2009146
+    }
+  ],
   "telemetry": {
-    "events": 77,
-    "matched": 77,
-    "matchedTableUsd": 6.772094600000001,
-    "matchedEventUsd": 6.772094600000001,
-    "unseen": {}
+    "events": 84,
+    "matched": 83,
+    "matchedTableUsd": 7.739988200000001,
+    "matchedEventUsd": 7.739988200000001,
+    "unseen": {
+      "compact": {
+        "inputTokens": 4852,
+        "cacheWrite5mTokens": 84,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 259433,
+        "outputTokens": 6460,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.2009146
+      }
+    }
   },
   "operatorWords": {
     "chat": 1,
@@ -107,6 +148,6 @@
     ".md": 970,
     ".json": 15,
     ".yaml": 17,
-    ".ts": 3704
+    ".ts": 3745
   }
 }
