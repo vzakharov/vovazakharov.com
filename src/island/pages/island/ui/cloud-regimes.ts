@@ -108,8 +108,6 @@ const bandAt = (turn: F, wide: F, broad: number, ahead: number): F => {
 
 /** How far a front's cloud reaches on its warm side and on its cold one, in its own widths. */
 const WARM_FEATHER = 1.7;
-/** The least a front's width falls to along its tail, in the widths of its head. */
-const FRONT_NARROWEST = 0.45;
 const COLD_EDGE = 0.45;
 
 /**
@@ -198,7 +196,7 @@ function stormsOver(spot: V, storms: F, warp: readonly [F, F]): Storm {
     const within = exp(r.mul(r).div(-2.4 * 2.4))
       .mul(smoothstep(3.2, 4.2, r).oneMinus())
       .mul(grown);
-    const banded = frontAt(turn, max(wide, FRONT_NARROWEST)).toVar();
+    const banded = frontAt(turn, wide).toVar();
     front.assign(max(front, within.mul(banded)));
     cold.assign(
       max(
@@ -281,8 +279,6 @@ export function regimeAt(spot: V, storms: F): Regime {
   lay(
     {
       amount: n1.mul(0.35).add(n2.mul(0.25)).add(n3.mul(0.1)).sub(0.15),
-      // Clusters where the heaps merge, and bare lanes between them.
-      lumps: 0.35,
       fine: 0.9,
       base: 1100,
       ceil: 3200,
@@ -293,7 +289,7 @@ export function regimeAt(spot: V, storms: F): Regime {
   lay(
     {
       amount: n2.mul(0.3).add(n3.mul(0.22)).sub(0.3),
-      lumps: 0.45,
+      lumps: 0.25,
       fine: 0.8,
       base: 650,
       ceil: 2100,
@@ -342,11 +338,10 @@ export function regimeAt(spot: V, storms: F): Regime {
     const { grain, cold, shield } = storm;
     lay(
       {
-        amount: -0.6,
+        amount: -0.5,
         rings: 0.8,
         lumps: 0.45,
-        // The heaps bead a ring's wall and leave some rings open.
-        fine: 1.3,
+        fine: 0.8,
         base: 800,
         ceil: 2600,
       },

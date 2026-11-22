@@ -42,13 +42,10 @@ const WALL_SWELL = 0.45;
 const RINGS_COVER = 0.45;
 const VEINS_COVER = 0.3;
 /** The noise that bends a meso cell's edges: its waves to a cell, and how far it pushes, in cells. */
-const WARP_WAVES = 1.1;
-const WARP_REACH = 0.5;
+const WARP_WAVES = 2.3;
+const WARP_REACH = 0.28;
 /** The weight under which a regime's lumps, and its rings and veins together, are not read. */
 const UNREAD = 0.02;
-/** The noise that bends a clump out of round: its waves to a clump's cell, and how far it pushes, in cells. */
-const CLUMP_BEND_WAVES = 1.7;
-const CLUMP_BEND = 0.3;
 /** How far from its edge a closed cell comes to its full thickness, and what that adds to the amount. */
 const CELL_HEART = 0.45;
 const HEART_WEIGHT = 0.5;
@@ -57,9 +54,6 @@ const EDGE_WEIGHT = 0.8;
 const VEIN_WEIGHT = 0.5;
 /** What the cumulus scales add to a far field's amount, per unit of their weight: the cover they would have drawn. */
 const FAR_LIFT = 0.4;
-/** What an untold field of heaps keeps of its signal's swing, and the signal its mean cover stands at. */
-const FAR_SOFT = 0.3;
-const FAR_MEAN = 0.1;
 /** The signal over which a place is whole cloud. */
 const WHOLE = 0.4;
 /** Metres over its base in which a cloud comes to its full thickness: the flat base. */
@@ -197,11 +191,7 @@ export function cloudCover(growth: F): CloudCover {
       const lump = float(0).toVar();
       const edge = float(CELL_HEART).toVar();
       If(lumps.greaterThan(UNREAD), () => {
-        // Round clumps of every size, clear lanes between: no lattice to show.
-        const about = turnedTo(spot, 3).mul(wide).add(slow).toVar();
-        // One push bends every clump its own way, so none is a ruled disc.
-        const push = noise(about.zxy.mul(CLUMP_BEND_WAVES)).mul(CLUMP_BEND);
-        lump.assign(puffs(about.add(vec3(push, push.negate(), push.mul(0.6)))));
+        lump.assign(noise(spot.mul(wide).add(slow)));
       });
       If(veins.add(rings).greaterThan(UNREAD), () => {
         edge.assign(edgeOf(warped(spot.zxy.mul(narrow).sub(slow))));
@@ -286,13 +276,7 @@ export function cloudCover(growth: F): CloudCover {
         streets.mul(mix(float(0.35), ridge, toldFrom(across, away))),
       );
     });
-    // A field of heaps too far to tell is its mean cover: a soft veil, thicker
-    // where the heaps are closer, with no outline of its own.
-    const untold = toldFrom(CELL_WAVES[0] ?? 1, away)
-      .oneMinus()
-      .mul(fine.clamp(0, 1))
-      .mul(veins.oneMinus().clamp(0, 1));
-    return mix(sum, sum.mul(FAR_SOFT).add(FAR_MEAN), untold);
+    return sum;
   };
 
   return { meso, octave, sheet, signal };
