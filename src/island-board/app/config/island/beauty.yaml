@@ -43,5 +43,28 @@ items:
   - id: beauty-06-webgpu-lost
     type: sticky
     updated: [2026-11-22T10:35:00.000Z, agent:board]
-    box: [11800, 1010, 420, pink]
+    box: [13280, 1010, 420, pink]
     text: '6. Failure. The still shooter could not draw on WebGPU here: the software device is lost at the first tile upload. Frames are shot on WebGL2, where the fine look draws everything but the rippled sea.'
+  - id: img-beauty-07-relief-1-coast-2300km
+    type: image
+    updated: [2026-11-22T10:55:00.000Z, agent:board]
+    box: [11800, 1010, 360]
+    src: images/beauty-relief-1-coast-2300km.webp
+    text: "7. Relief, step 1. Mountains are gathered into belts and read as ranges from orbit. Flaw: the snow shows a leopard pattern of rounded cells, the noise's own shape."
+  - id: img-beauty-08-relief-1-coast-10600m
+    type: image
+    updated: [2026-11-22T10:55:00.000Z, agent:board]
+    box: [12185, 1010, 360]
+    src: images/beauty-relief-1-coast-10600m.webp
+    text: '8. Relief, step 1. Sand is the beach and its dunes only; the plain behind is green. Flaw: the lowland is dead flat, the low domes of before are gone.'
+  - id: img-beauty-09-relief-1-coast-560m
+    type: image
+    updated: [2026-11-22T10:55:00.000Z, agent:board]
+    box: [12570, 1010, 360]
+    src: images/beauty-relief-1-coast-560m.webp
+    text: '9. Relief, step 1. A beach, a dune belt, then lowland. Flaw: the dunes read as straight stripes parallel to the shore, and no hill is in sight.'
+  - id: beauty-07-verdict
+    type: sticky
+    updated: [2026-11-22T10:55:00.000Z, agent:board]
+    box: [12955, 1010, 300, yellow]
+    text: 'Lead, on cards 7 to 9 (Vova is away): "Half a win: ranges and the shore are right, the lowland went flat. Sent back."'
