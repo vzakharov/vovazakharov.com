@@ -108,6 +108,16 @@ const DUNE_GAP_INDEX = 11;
 const DUNES_UNDER_METRES = 90;
 const DUNES_UNDER_SPAN_METRES = 110;
 
+/**
+ * Green ground's hills shorter than this stand at full height only where the
+ * longest hill octave's noise is high, and at `PLAIN_HILLS` of it where it is
+ * low: hill country beside open vales, over the same broad ridges.
+ */
+const VARIED_UNDER_METRES = 4000;
+const PLAIN_HILLS = 0.3;
+const HILLY_FROM = -0.25;
+const HILLY_SPAN = 0.5;
+
 /** A knob of rock: the top of a fine octave's noise, flat-footed between. */
 const KNOB_FROM = 0.15;
 const KNOB_SPAN = 0.45;
@@ -194,6 +204,14 @@ export function groundSlope(noiseSteepest: number, upliftSteepest: number) {
   );
   const own =
     per(({ green }) => green) +
+    ((1.5 / HILLY_SPAN) *
+      noiseSteepest *
+      total(
+        OCTAVES.map(({ green, hill, wavelength }) =>
+          hill && wavelength < VARIED_UNDER_METRES ? green : 0,
+        ),
+      )) /
+      LONGEST_HILL_METRES +
     per(({ brown, hill }) => (hill ? brown : (1.5 / KNOB_SPAN) * brown)) +
     per(({ alpine }) => alpine);
   const shore =
@@ -270,6 +288,7 @@ export function reliefAt<O extends Octave>(
   let resolvedShare = 0;
   let weight = 1;
   let greenRoll = 0;
+  let hilly = PLAIN_HILLS + (1 - PLAIN_HILLS) * ramp(-HILLY_FROM / HILLY_SPAN);
   let brownRoll = 0;
   let alpineRoll = 0;
   let greenFine = 0;
@@ -293,7 +312,14 @@ export function reliefAt<O extends Octave>(
       line += octave.line * fade * drawn;
       present += octave.line * fade;
       weight = LINE_LEAST + (1 - LINE_LEAST) * Math.min(1, LINE_GAIN * drawn);
-      greenRoll += octave.green * fade * n;
+      if (octave.hillRank === 0)
+        hilly =
+          PLAIN_HILLS + (1 - PLAIN_HILLS) * ramp((n - HILLY_FROM) / HILLY_SPAN);
+      greenRoll +=
+        octave.green *
+        fade *
+        n *
+        (octave.wavelength < VARIED_UNDER_METRES ? hilly : 1);
       brownRoll += octave.brown * fade * n;
       alpineRoll += octave.alpine * fade * n;
       if (octave.index === DUNE_SWELL_INDEX) swell = n;
