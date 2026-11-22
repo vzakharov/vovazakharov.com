@@ -169,6 +169,9 @@ describe('duneAt', () => {
   });
 });
 
+/** A stretch with no calm in it. */
+const rough = () => 0;
+
 describe('sandAt', () => {
   it('is whole on the beach and the low dune belt', () => {
     for (const d of [1, 30, 200, 500]) {
@@ -194,5 +197,22 @@ describe('sandAt', () => {
       const drop = sandAt(300, height) - sandAt(300, height + 1);
       assert.ok(drop >= 0 && drop < 0.02, `at ${height} m`);
     }
+  });
+
+  it('keeps to a strip at the water on a rough stretch, between when mixed', () => {
+    assert.ok(sandAt(2, 5, rough) > 0.9);
+    assert.equal(sandAt(25, 5, rough), 0);
+    assert.equal(sandAt(300, 20, rough), 0);
+    assert.equal(
+      sandAt(300, 20, () => 0.4),
+      0.4,
+    );
+    // Not read where no sand could lie.
+    assert.equal(
+      sandAt(5000, 20, () => {
+        throw new Error('read');
+      }),
+      0,
+    );
   });
 });

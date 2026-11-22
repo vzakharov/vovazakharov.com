@@ -5,7 +5,6 @@ import { DEEP_SPEED, HOUR_SECONDS } from '@/nature/shared/swell';
 import type { Vec3 } from '@/island/shared/globe';
 
 import { SUN_ELEVATION } from './day';
-import { GROUND_WGSL } from './ground-wgsl';
 import { NATURE_LISTING } from './nature-listing';
 import { RIPPLE_TABLE_WGSL } from './ripple-table';
 import { CLIMB_KEPT } from './sun';
@@ -280,4 +279,4 @@ fn seaColour(
 `;
 
 /** The whole listing the island's sea and ground compile: the shore's closed forms, the ripples' table, the sea's own and the ground's relief. */
-export const SEA_LISTING = `${NATURE_LISTING}\n${RIPPLE_TABLE_WGSL}\n${SEA_WGSL}\n${GROUND_WGSL}`;
+export const SEA_LISTING = `${NATURE_LISTING}\n${RIPPLE_TABLE_WGSL}\n${SEA_WGSL}`;

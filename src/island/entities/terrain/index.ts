@@ -5,10 +5,10 @@ export {
 } from './coast-field';
 export {
   type CoastDistance,
+  detailedCoast,
   detailReach,
   heightAtSphere,
   noiseSalt,
-  sandAt,
   sandAtSphere,
   valueNoise3,
 } from './height';

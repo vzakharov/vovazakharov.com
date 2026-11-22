@@ -46,6 +46,27 @@ export const LAND_OCTAVES: readonly LandOctave[] = CELLS.map((cell, i) => {
   return { cell, rows: turnAbout(axis, 0.7 + i * 1.1) };
 });
 
+/**
+ * The wind's ripples on dry sand: the way the wind blows, a unit vector in the
+ * planet's axes, and a ripple's length, metres.
+ */
+export const SAND_RIPPLE = {
+  wind: [0.6, 0.1, 0.793_725] as Vec3,
+  length: 0.11,
+} as const;
+
+/**
+ * Where `eye` — metres from the planet's centre — lies along the sand's
+ * ripples, as the share of one ripple, taken in float64 for the reason
+ * `anchorOf` is.
+ */
+export function ripplePhaseOf(eye: Vec3): number {
+  const { wind, length } = SAND_RIPPLE;
+  const ripples =
+    (wind[0] * eye[0] + wind[1] * eye[1] + wind[2] * eye[2]) / length;
+  return ripples - Math.floor(ripples);
+}
+
 const wrapped = (cells: number) =>
   ((cells % LATTICE_WRAP) + LATTICE_WRAP) % LATTICE_WRAP;
 

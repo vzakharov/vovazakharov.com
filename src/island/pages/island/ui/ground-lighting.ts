@@ -171,10 +171,11 @@ export type GroundLighting = CanDispose &
      * Dresses every material in the fine look — the air, its clouds and haze,
      * the land's surface down to its grain, and with `rippled` the sea as a
      * surface (WebGPU only) — or, `fine` false, in the plain one: the land's
-     * broad colours and the sea's flat one under the lamps. The first dressing
+     * broad colours and the sea's flat one under the lamps. `swift` draws the
+     * fine look's land without what only tells underfoot. The first dressing
      * in a look compiles its shaders.
      */
-    readonly dress: (fine: boolean, rippled: boolean) => void;
+    readonly dress: (fine: boolean, rippled: boolean, swift?: boolean) => void;
     /** Hands the rippled sea its frame. */
     readonly stirSea: (frame: SeaFrame) => void;
     /** Dresses `material`, an object standing on the land, in the land's lamps and the fine look's air. */
@@ -256,7 +257,7 @@ export function groundLighting(): GroundLighting {
   };
 
   let fine = false;
-  const dress = (toFine: boolean, rippled: boolean) => {
+  const dress = (toFine: boolean, rippled: boolean, swift = false) => {
     fine = toFine;
     for (const material of all) {
       material.positionNode = null;
@@ -266,7 +267,7 @@ export function groundLighting(): GroundLighting {
       material.outputNode = fine ? seen : null;
       material.needsUpdate = true;
     }
-    const dressing = fine ? ground.fine : ground.plain;
+    const dressing = fine ? (swift ? ground.swift : ground.fine) : ground.plain;
     for (const material of lands) {
       material.colorNode = dressing.colour;
       material.normalNode = dressing.normal;
