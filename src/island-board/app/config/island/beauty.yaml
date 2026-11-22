@@ -2,7 +2,7 @@ items:
   - id: z-beauty
     type: zone
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [-40, 3700, 2320, 1860, green]
+    box: [-40, 3700, 2320, 2190, green]
     icon: 🎨
     text: 'Making it beautiful, failures included. 1. From above'
   - id: beauty-howto
@@ -179,3 +179,56 @@ items:
     box: [1860, 4820, 300]
     src: images/beauty-march-2-fair-in.webp
     text: 'Cloud march 2, inside a cloud. The builder: still featureless grey, next on the list.'
+  - id: beauty-row-o
+    type: text
+    updated: [2026-11-22T21:50:00.000Z, agent:board]
+    box: [0, 5490, 240, body]
+    text: "A cyclone and the decks, the clouds member's branch, not yet merged"
+  - id: img-beauty-clouds-3-clumps-2300km
+    type: image
+    updated: [2026-11-22T21:50:00.000Z, agent:board]
+    box: [1860, 3830, 300]
+    src: images/beauty-clouds-3-clumps-2300km.webp
+    text: 'Clouds 3, not yet merged: a clumpy cumulus field, no grid. The builder: clumps near one scale, a little like frog-spawn.'
+  - id: img-beauty-clouds-3-clumps-820km
+    type: image
+    updated: [2026-11-22T21:50:00.000Z, agent:board]
+    box: [1860, 4160, 300]
+    src: images/beauty-clouds-3-clumps-820km.webp
+    text: 'Clouds 3, not yet merged: heaps of every size merging into clumps with clear lanes. The builder: far clumps go soft and blobby.'
+  - id: img-beauty-clouds-2-open-cells-2300km
+    type: image
+    updated: [2026-11-22T21:50:00.000Z, agent:board]
+    box: [260, 5480, 300]
+    src: images/beauty-clouds-2-open-cells-2300km.webp
+    text: 'Clouds 2, Europe from 2,300 km: open cells with thick lumpy walls. The builder: a doily fringe round a featureless blur.'
+  - id: img-beauty-clouds-2-storm-3000km
+    type: image
+    updated: [2026-11-22T21:50:00.000Z, agent:board]
+    box: [580, 5480, 300]
+    src: images/beauty-clouds-2-storm-3000km.webp
+    text: 'Clouds 2, a cyclone from 3,000 km. The builder: a smooth white shield, a sausage front.'
+  - id: img-beauty-clouds-2-front-storm-3000km
+    type: image
+    updated: [2026-11-22T21:50:00.000Z, agent:board]
+    box: [900, 5480, 300]
+    src: images/beauty-clouds-2-front-storm-3000km.webp
+    text: 'Clouds 2, the front feathered ahead and cut close behind. The builder: still a narrow band.'
+  - id: img-beauty-clouds-3-storm-3000km
+    type: image
+    updated: [2026-11-22T21:50:00.000Z, agent:board]
+    box: [1220, 5480, 300]
+    src: images/beauty-clouds-3-storm-3000km.webp
+    text: 'Clouds 3: a textured mass, ragged open rings, beaded walls. The builder: the front is still narrow.'
+  - id: img-beauty-clouds-2-deck-2300km
+    type: image
+    updated: [2026-11-22T21:50:00.000Z, agent:board]
+    box: [1540, 5480, 300]
+    src: images/beauty-clouds-2-deck-2300km.webp
+    text: 'Clouds 2, a stratocumulus deck from 2,300 km. The builder: white closed-cell mottle, ragged edges, a few thin blue cracks. The frame shows mostly open sea with scattered patches and two white lobes.'
+  - id: img-beauty-clouds-2-deck-300km
+    type: image
+    updated: [2026-11-22T21:50:00.000Z, agent:board]
+    box: [1860, 5480, 300]
+    src: images/beauty-clouds-2-deck-300km.webp
+    text: 'Clouds 2, the deck from 300 km, captioned by the builder as the one before. The frame shows plain blue with no cloud in it.'
