@@ -2,7 +2,7 @@ items:
   - id: z-beauty-land
     type: zone
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [4800, 3700, 2320, 1800, green]
+    box: [4800, 3700, 2320, 2130, green]
     text: '3. Upland, forest and sky'
   - id: beauty-row-l
     type: text
@@ -135,27 +135,27 @@ items:
   - id: beauty-68-operator-coast
     type: sticky
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [4840, 5090, 420, yellow]
+    box: [4840, 5420, 420, yellow]
     text: 'Operator steering, new, relayed by the lead: "super-straight, ruler-drawn coastlines. They should bend and go fractal (but deterministically, through rolled) as you get closer." (translated from the Russian). A sixth member, coast, started on it at 15:45 UTC.'
   - id: beauty-72-rolled-question
     type: sticky
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [5290, 5090, 420, yellow]
+    box: [5290, 5420, 420, yellow]
     text: 'Operator question, relayed by the lead: "Is all the randomness done through rolled?" (translated from the Russian). Answer, per the lead: the shader noise hashed the place alone, so every world drew the same ground grain and weather. Since bd725f6cd the ground lattice is shifted by cells rolled from the world; clouds follow at their next merge.'
   - id: beauty-73-phone-question
     type: sticky
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [5740, 5090, 420, yellow]
+    box: [5740, 5420, 420, yellow]
     text: 'Operator question, relayed by the lead: "Can high quality be switched on somehow on a phone?" (translated from the Russian). Answer, per the lead: not yet. The look is on the B key alone; B now steps plain, swift, fine (d1bda3f4, merged), and an on-screen control for touch is with the speed member.'
   - id: beauty-69-limit-cut
     type: sticky
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [6190, 5090, 420, pink]
+    box: [6190, 5420, 420, pink]
     text: 'Failure. 11:48 UTC: the 5-hour limit cut all six sessions off mid-step. The operator woke them at 15:39.'
   - id: beauty-06-webgpu-lost
     type: sticky
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [6640, 5090, 420, pink]
+    box: [6640, 5420, 420, pink]
     text: 'Failure. The still shooter could not draw on WebGPU here: the software device is lost at the first tile upload. Frames are shot on WebGL2, where the fine look draws everything but the rippled sea.'
   - id: img-beauty-march-2-fair-2m
     type: image
@@ -163,3 +163,20 @@ items:
     box: [6380, 4760, 300]
     src: images/beauty-march-2-fair-2m.webp
     text: 'Cloud march 2, 2 m, not yet merged. The builder: the bars are gone; flat-based cumulus at the horizon, a few thin streaks left.'
+  - id: beauty-row-t
+    type: text
+    updated: [2026-11-22T21:10:00.000Z, agent:board]
+    box: [4840, 5100, 240, body]
+    text: 'Shade under lone trees, 12 m up at the treeline'
+  - id: img-beauty-trees-shade-flat
+    type: image
+    updated: [2026-11-22T21:10:00.000Z, agent:board]
+    box: [5100, 5090, 300]
+    src: images/beauty-trees-shade-flat.webp
+    text: 'Trees, shade drawn from the instance colour. Failure (builder): a hard-edged dark hexagon under each conifer, no fall-off.'
+  - id: img-beauty-trees-shade-soft
+    type: image
+    updated: [2026-11-22T21:10:00.000Z, agent:board]
+    box: [5420, 5090, 300]
+    src: images/beauty-trees-shade-soft.webp
+    text: 'The same view with fall-off. Failure (builder): no shade shows at all, so the shade ships laid in and not drawn.'
