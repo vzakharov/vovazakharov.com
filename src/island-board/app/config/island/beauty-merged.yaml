@@ -242,6 +242,53 @@ items:
     box: [11800, 12320, 360]
     src: images/beauty-clouds-1-coast-10600m.webp
     text: '104. The coast from 10.6 km, the pair of card 2. Clouds session: "One small flat cloud over the land; the hatch is gone, so is the cotton. Not better yet." Visible: a single small white cloud over dark forest, pale meadow patches below it.'
+  - id: beauty-merge-5-row
+    type: text
+    updated: [2026-11-22T17:15:00.000Z, agent:board]
+    box: [11800, 12830, 1000, body]
+    text: "Fifth merge, the lead's frames, built from 19e5bb3ab: the coast member replaced the timid additive bends with a seeded domain warp, rough and calm by stretch. Cards 105 to 111."
+  - id: img-beauty-105-merge-5-coast-34km
+    type: image
+    updated: [2026-11-22T17:15:00.000Z, agent:board]
+    box: [11800, 12900, 360]
+    src: images/beauty-merge-5-coast-34km.webp
+    text: '105. The coast from 34 km, twin of card 71. Lead, on cards 105 to 108 (Vova is away): "WIN, the answer to the operator''s ask (card 68). Headlands, coves and a skerry at every height; nothing ruler-straight. This is the coast that was asked for. Left: metre-scale teeth at the waterline, to be checked by number." The frame shows a jagged, broken shoreline of pale sand under scattered clouds.'
+  - id: img-beauty-106-merge-5-coast-4400m
+    type: image
+    updated: [2026-11-22T17:15:00.000Z, agent:board]
+    box: [12185, 12900, 360]
+    src: images/beauty-merge-5-coast-4400m.webp
+    text: '106. The coast from 4.4 km: the after of card 83 (the failed, ruler-straight one). A headland, a cove and a small island offshore; the dune belt still carries dark ripple lines.'
+  - id: img-beauty-107-merge-5-coast-560m
+    type: image
+    updated: [2026-11-22T17:15:00.000Z, agent:board]
+    box: [12570, 12900, 360]
+    src: images/beauty-merge-5-coast-560m.webp
+    text: '107. The shore from 560 m: the after of card 84 (the failed one). Bays and points to the horizon, a small island, shallows tinted green at the sand. Lead verdict as on card 105.'
+  - id: img-beauty-108-merge-5-coast-60m
+    type: image
+    updated: [2026-11-22T17:15:00.000Z, agent:board]
+    box: [12955, 12900, 360]
+    src: images/beauty-merge-5-coast-60m.webp
+    text: '108. The shore from 60 m. A sandbar runs out under the water as a pale tongue; the waterline on the left is smooth at this height. Lead verdict as on card 105.'
+  - id: img-beauty-109-merge-5-lowland-300m
+    type: image
+    updated: [2026-11-22T17:15:00.000Z, agent:board]
+    box: [13340, 12900, 360]
+    src: images/beauty-merge-5-lowland-300m.webp
+    text: '109. The lowland from 300 m, the after of card 91 (mossy boulders on a lawn). Lead: "Win: the lowland forest is a closed canopy from 300 m. Flaws: faceted ''turtle shell'' crowns, a visible ring where the placed trees end." The frame shows packed crowns in the lower third and scattered ones above.'
+  - id: img-beauty-110-merge-5-dunes-2m
+    type: image
+    updated: [2026-11-22T17:15:00.000Z, agent:board]
+    box: [11800, 13360, 360]
+    src: images/beauty-merge-5-dunes-2m.webp
+    text: '110. A dune from 2 m, the after of card 93 (the zebra). Lead: "Win: gentler wind ripples and straw-coloured dune grass." The shot moved 700 m inland, because the bent coast put the old spot under the sea.'
+  - id: img-beauty-111-merge-5-forest-2m
+    type: image
+    updated: [2026-11-22T17:15:00.000Z, agent:board]
+    box: [12185, 13360, 360]
+    src: images/beauty-merge-5-forest-2m.webp
+    text: '111. Standing in the forest, the follow-up of cards 67 and 74. Lead: "Half: undergrowth and a mossy brown floor read; trunks are tan sausages and a crown''s underside is one black slab." The black slab fills the top third of the frame.'
   - id: beauty-coast-1-row
     type: text
     updated: [2026-11-22T16:55:00.000Z, agent:board]

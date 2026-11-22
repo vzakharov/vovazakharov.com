@@ -2,7 +2,7 @@ items:
   - id: z-beauty
     type: zone
     updated: [2026-11-22T11:00:00.000Z, agent:board]
-    box: [11760, 380, 2000, 12500, green]
+    box: [11760, 380, 2000, 13500, green]
     icon: 🎞️
     text: 'Making it beautiful: the timelapse, failures included'
   - id: beauty-howto
