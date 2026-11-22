@@ -104,7 +104,7 @@ in `ui/sea-surface.ts` and `ui/ground-lighting.ts`'s `ripple()`):
 
 - **Ripples**: 64 waves summed once, slope only and analytic (no height, no
   differences): ~96 ALU ops and one `cos` a wave, ~6 200 in all, plus ~14 a
-  band for the fold. Waves a pixel cannot see (`seen` = 0) are still summed.
+  band for the fold, before the cuts below.
 - **Drift**: `seaGroups`, 8 hashes (one per lattice corner, both fields from
   each), ~250 ops. No texture reads anywhere.
 - **Swell**: `seaSwellAt` three times — the mask, the level, and the level
@@ -116,7 +116,7 @@ in `ui/sea-surface.ts` and `ui/ground-lighting.ts`'s `ripple()`):
   moon, each with its own column and phase terms) plus a cloud glance
   (`clouds.glanced`: the regime's noise, one cumulus octave, the meso cells,
   and the clouds' lamps). `overhead` is the zenith, one value for the whole
-  frame, recomputed per fragment.
+  frame, recomputed per fragment before the cuts below.
 - **Air and shadow**: `aerial` as on the land — the 4-step cloud march along
   the ray, `clouds.shade` for the cloud shadow (no shadow map), and the
   air's scattering. The same cost land pays, so not the sea's difference.
@@ -140,19 +140,40 @@ in `ui/sea-surface.ts` and `ui/ground-lighting.ts`'s `ripple()`):
 3. **The ripples**, ~6 500 ops with 64 transcendentals.
 4. **The swell**, three or four closed-form evaluations.
 
-**Cuts, in the order I would make them:**
+## Cuts made, one commit each
 
-- Fine and swift, nothing visible changes:
-  - The ocean globe draws its flat deep colour where tiles cover it (or is
-    left unrippled under them); it ripples only past the tiles.
-  - `overhead` becomes a uniform, computed once a frame; `mirrored` a vertex
-    varying (the still sea's reflection is smooth).
-  - The band loop stops at the first band no pixel sees (its longest wave
-    under two footprints): `seen` is 0 there, and `hidden` takes the band's
-    whole share without the `cos`. Near the eye nothing stops; at range most
-    bands go.
-- Swift only: the cloud glance off the `mirrored` radiance (the clear sky in
-  the water), and the ripples' four finest bands into `hidden` outright.
+None is timed here: WebGPU does not run in this container. Each is meant to
+change nothing visible; the WebGL2 coast frame, which draws none of this, is
+the only frame compared.
+
+1. **`d9663518` — dry sand.** `seaColour` returns at once where `seaLies`
+   discards, so the sea mesh over sand pays the swell twice and nothing else.
+   Look at: the shoal and the swash line.
+2. **`29fb923d` — `overhead` per vertex.** `vertexStage(radiance(zenith))`:
+   two dome-and-cloud evaluations a triangle rather than a fragment. A uniform
+   would need the radiance on the CPU, which exists only as nodes. Look at: the
+   sea's tone under a broken sky.
+3. **`46c5688b` — `mirrored` per vertex on tiles.** The globe, whose triangles
+   are kilometres, keeps it per fragment (`wide`). Look at: clouds reflected
+   near the eye, and the far horizon.
+4. **`6aee19b3` — unseen waves skip their phase and `cos`.** The loop cannot
+   stop at a band: `hidden` sums every wave's share. Look at: the glitter
+   path at low sun.
+5. **`b2ae0ecd` — swift only.** The mirrored sky without the cloud glance
+   (`radiance`'s `cloudless`), and the four finest bands into `hidden`
+   (`bands` in `seaColour` and the twin). The look reaches the sea through
+   `dress` → `ripple(seen, swift)` → `surface.colour(…, { swift })`. Look at:
+   swift's glitter path and clouds in the water.
+
+**Not cut: the globe under the tiles.** It is still rippled where tiles cover
+it; cuts 4 and 5 make it cheaper, not absent. Skipping it under the tiles
+needs a coverage test the globe's shader does not have.
+
+**Early-Z** stays lost to two things together: the log depth written per
+fragment (`depthNode`), and the mask's `discard`. Getting it back means the
+tiles writing depth from the vertex stage (reversed-Z float depth instead of
+log depth), and the sea's mask moving out of `discard` (the sea mesh clipped to
+the water geometrically). Neither is started.
 
 ## Left
 
@@ -163,10 +184,7 @@ A stranger's list, each item standalone:
   above against it, the globe's overdraw first.
 - **The ocean globe under tiles** (`ui/ocean-globe.ts`,
   `ui/ground-lighting.ts` `ripple()`): stop rippling it where tiles cover it.
-- **`overhead` per frame, `mirrored` per vertex** (`ui/sea-surface.ts`).
-- **Early-out over unseen bands** in `ripplesAt` (`lib/sea-wgsl.ts`), the twin
-  in `lib/ripples.ts` with it; `ripples.test.ts` pins `hidden`, which must
-  stay equal.
+- **Early-Z**, as above: vertex-stage depth and no `discard` on the sea.
 - **Groups stand still** while waves run through them; real groups travel at
   half the phase speed. Moving them costs ×8 on the field reads; accepted as
   is.
