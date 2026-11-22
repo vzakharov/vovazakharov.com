@@ -2,6 +2,31 @@
 
 Branch `claude/island-beauty-speed`, cut from `claude/island-beauty-c1rj3b`.
 
+## Report — 2026-11-22, look button (908ef965)
+
+On your 71def30f9, merged in (one-line import conflict in `island-scene.ts`).
+
+- **Look button**, `ui/look-button.tsx`: bottom right, named by the current
+  look ("Plain" / "Swift" / "Fine"), a tap steps it. It calls the scene's
+  `stepLook`, the one function B also calls (`sceneLook` binds the key to it),
+  and the page learns the look through `onLook`, so the button and B cannot
+  disagree. Checked in Chromium: three taps go Plain → Swift → Fine → Plain,
+  then B gives Swift, on an emulated iPhone 13 and on a 1440×900 desktop.
+- 44 px tall on a touch screen; 27 px beside a keyboard. It is a sibling of the
+  canvas, and the eye's pointer listeners sit on the canvas alone, so a tap on
+  it never moves the eye and it takes no gesture outside its box.
+- Not rendered under `?play`: the scene hands the page `stepLook` only off
+  play, so no shot carries it.
+- The page still opens plain. The controls hint has a touch row for the button,
+  and the B row now names the three looks.
+- **No ru**: the island page has one catalogue, `config/messages/en.json`, which
+  every island string reads (`COPY`). The three names live there with the rest.
+- `onLook` now carries the look itself, and `isFine(look)` in
+  `@/island/shared/play` says which looks draw the trees, sky and sea. The
+  trees still draw in swift and fine. `island-scene.ts`: 369 lines.
+- `groundSpread` and the `spread` line in `cube-quadtree.ts` are untouched,
+  for coast.
+
 ## Blocked: this session cannot send messages
 
 Both `send_message` calls (to relief, then to the lead) were refused by this

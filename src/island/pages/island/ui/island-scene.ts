@@ -3,6 +3,7 @@ import { Group, PerspectiveCamera, Scene, WebGPURenderer } from 'three/webgpu';
 import type { WithOnError } from '@/kernel/shared/typings';
 
 import { length, R, sub } from '@/island/shared/globe';
+import { isFine } from '@/island/shared/play';
 import type { CoastDistance } from '@/island/entities/terrain';
 import {
   bindEyeControls,
@@ -40,7 +41,7 @@ import { groundLighting } from './ground-lighting';
 import type { IslandScene } from './island-scene-api';
 import { rollLattice } from './lattice-value';
 import { oceanGlobe } from './ocean-globe';
-import { sceneLook } from './scene-look';
+import { type LookTold, sceneLook } from './scene-look';
 import { tileView } from './tile-view';
 import { bindTimeKeys } from './time-keys';
 import { treeView } from './tree-view';
@@ -52,15 +53,16 @@ const FAR = 4 * (R + MAX_HEIGHT);
 
 const DEGREE = Math.PI / 180;
 
-type MountIslandSceneParams = WithOnError & {
-  /** The world number the scene opens on. */
-  world: string;
-  /** Where the eye opens, when not at the world's opening. */
-  pose: Pose | undefined;
-  play: boolean;
-  /** Told each time a look hint is shown or goes; never under play. */
-  onLookHint: (showing: HintShowing | undefined) => void;
-};
+type MountIslandSceneParams = WithOnError &
+  LookTold & {
+    /** The world number the scene opens on. */
+    world: string;
+    /** Where the eye opens, when not at the world's opening. */
+    pose: Pose | undefined;
+    play: boolean;
+    /** Told each time a look hint is shown or goes; never under play. */
+    onLookHint: (showing: HintShowing | undefined) => void;
+  };
 
 /**
  * The island's scene on `canvas`: three's WebGPU renderer, which falls back
@@ -76,6 +78,7 @@ export function mountIslandScene(
     play,
     onError,
     onLookHint,
+    onLook,
   }: MountIslandSceneParams,
 ): IslandScene {
   const renderer = new WebGPURenderer({
@@ -98,9 +101,12 @@ export function mountIslandScene(
     webgpu,
     render,
     keys: play ? null : canvas,
-    onLook: trees.setShown,
+    onLook: (look) => {
+      trees.setShown(isFine(look));
+      onLook(look);
+    },
   });
-  const { setLook } = looks;
+  const { setLook, stepLook } = looks;
   const globe = oceanGlobe(ocean);
   const tiles = new Group();
   scene.add(globe, tiles, trees.group, ...lights);
@@ -314,6 +320,7 @@ export function mountIslandScene(
     turnTo: async (heading) => placed((from) => withHeading(from, heading)),
     lookTo: async (look) => placed((from) => withLook(from, look)),
     setLook,
+    stepLook,
     backend: () => (webgpu() ? 'webgpu' : 'webgl2'),
     buildMs: () => {
       if (built?.of !== generation) throw new Error('field not built');

@@ -25,10 +25,12 @@ import {
   type TreeKind,
   treesIn,
 } from '../model/tree-placing';
-import { TREE_DETAILS, type TreeDetail, treeGeometry } from './tree-meshes';
+import { undergrowthIn } from '../model/undergrowth';
+import { TREE_DETAILS, type TreeDetail } from './tree-mesh-parts';
+import { treeGeometry } from './tree-meshes';
 import { FOOT_ATTRIBUTE, treeNodes } from './tree-nodes';
 
-/** Trees a mesh of each detail holds at most, per kind: 26,000 in all. */
+/** Plants a mesh of each detail holds at most, per kind: 52,000 in all. */
 const CAPACITY: Readonly<Record<TreeDetail, number>> = {
   near: 600,
   mid: 4400,
@@ -130,7 +132,8 @@ export type TreeView = CanDispose & {
 };
 
 /**
- * The trees around the eye, drawn as instances of two kinds at three details.
+ * The trees around the eye and the low growth among them, drawn as instances
+ * of each kind at three details.
  * Trees are rolled per placing cell in five tiers (`tree-placing`), each tier
  * drawn out to its own reach: a tree shrinks to nothing as the eye draws away
  * toward its tier's reach, in the vertex shader, so nothing is switched off at
@@ -222,7 +225,10 @@ export function treeView(
       const cell = missing[took];
       took += 1;
       if (cell === undefined) continue;
-      rolled.set(cellKey(cell), rolledOf(treesIn(cell, world)));
+      rolled.set(
+        cellKey(cell),
+        rolledOf([...treesIn(cell, world), ...undergrowthIn(cell, world)]),
+      );
     }
     if (took === 0) return;
     missing = missing.slice(took);

@@ -23,13 +23,20 @@ import { tierReach } from '../model/tree-placing';
 export const FOOT_ATTRIBUTE = 'treeFoot';
 
 /** The share of its tier's reach at which a tree starts to shrink away. */
-const SHRINK_FROM = 0.55;
+const SHRINK_FROM = 0.65;
 
 /**
  * How many times its own width a far tree widens to at most: wider, and a
  * stand's one crown lies across more relief than it is tall and sinks into it.
  */
-const WIDEST = 2.5;
+const WIDEST = 3;
+
+/**
+ * The shares of its tier's reach between which a tree widens: done while the
+ * tier below, reaching half as far, still stands nearly whole, so no distance
+ * has both tiers thin at once.
+ */
+const WIDEN_OVER = [0.15, 0.35] as const;
 
 /** How far the wind is seen moving a tree: from the first distance it fades, to still at the second, metres. */
 const WIND_SEEN = [150, 400] as const;
@@ -51,9 +58,8 @@ export function treeNodes() {
   const shown = smoothstep(foot.w.mul(SHRINK_FROM), foot.w, away).oneMinus();
   /**
    * A tree of a coarser tier stands for the stand about it: it widens toward
-   * its tier's cell share, `WIDEST` at most, over the span the tier below
-   * shrinks away in, so the canopy thins with distance slower than the trees
-   * drawn do.
+   * its tier's cell share, `WIDEST` at most, so the canopy thins with distance
+   * slower than the trees drawn do.
    */
   const centre = uniform(new Vector3());
   const up = normalize(foot.xyz.sub(centre));
@@ -61,7 +67,7 @@ export function treeNodes() {
   const rise = up.mul(dot(off, up));
   const widen = min(foot.w.div(tierReach(0)), WIDEST)
     .sub(1)
-    .mul(smoothstep(foot.w.mul(SHRINK_FROM / 2), foot.w.mul(0.5), away))
+    .mul(smoothstep(foot.w.mul(WIDEN_OVER[0]), foot.w.mul(WIDEN_OVER[1]), away))
     .add(1);
   const grown = foot.xyz.add(rise).add(off.sub(rise).mul(widen));
   /**
