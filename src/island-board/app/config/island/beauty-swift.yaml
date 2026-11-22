@@ -8,7 +8,7 @@ items:
     type: text
     updated: [2026-11-22T20:55:00.000Z, agent:board]
     box: [7260, 3770, 2240, body]
-    text: "Each pair is one view: swift on the left, fine on the right. Captions are the lead's."
+    text: "Each pair is one view: swift on the left, fine on the right. The merge pairs carry the lead's captions, the trees pairs the builder's."
   - id: img-beauty-merge-8-swift-coast-560m
     type: image
     updated: [2026-11-22T20:55:00.000Z, agent:board]
