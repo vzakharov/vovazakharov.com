@@ -49,19 +49,24 @@ in the report; no relay — autocompact folds the session; parking is allowed.
 Asked in the first reply. Each carries the answer acted on until he says
 otherwise; his answers get quoted under each when they come.
 
-1. How much weekly limit is left? — Acting on: little. At most two Fable
-   builders at once (clouds, relief); ground look and optimisation on Opus;
-   board and reading on Sonnet.
-2. Earth's landscape kinds from real geography or from a derived climate? —
-   Acting on: a derived climate for every world alike (latitude belts, distance
-   from the sea, winds, height).
-3. Trees as objects this run? — Acting on: no. Forest is a canopy's shape and
-   shading, desert is dunes, mountains are ridges; no trunks at the feet.
+1. How much weekly limit is left? — Acting on: little.
+   - His answer, 2026-11-22 ~10:00 UTC: «я думаю ты можешь найти, но вот», with
+     a screenshot: 5-hour limit 3%, weekly all models 45%, weekly Fable 1%, the
+     weekly ones resetting Monday 05:00 (tomorrow morning).
+   - So: more than half the week is left for under a day. Builders run on Fable
+     where the work is the look itself; the board and readers stay on Sonnet,
+     fix-ups and the optimised look on Opus, on his standing word to look for
+     where Fable is not needed.
+2. Earth's landscape kinds from real geography or from a derived climate?
+   - His answer: «этого пока не надо, нужно выбрать один какй-то тип и хорошо
+     его отрисовать».
+   - So: no climate model, no set of kinds. One kind of landscape, chosen by the
+     lead and drawn well — in its own shape and its own surface — while the rest
+     of the land stays what it is. The lead's choice is below.
+3. Trees as objects this run? — His answer: «не надо».
 4. B cycles three looks, plain → full with optimisation → full, and the page
-   opens plain? — Acting on: yes.
-5. Which hardware judges speed? — Acting on: headless Chromium here, the
-   optimised look measured against the full one, and "not drunk" checked frame
-   by frame while the view turns.
+   opens plain? — His answer: «да».
+5. Which hardware judges speed? — His answer: «macbook m2pro».
 
 ## What is there today (read 2026-11-22)
 
@@ -91,27 +96,22 @@ otherwise; his answers get quoted under each when they come.
   and its frames, which this run does not continue. Beat: merging it in for the
   board's history — it would put 500 files of another run's working directory
   into this PR's diff.
-- **Climate reaches the shader as a vertex attribute beside `height`**, filled
-  by the worker from the same function the relief reads. Beat: evaluating
-  climate per fragment — it needs the coast distance, which lives in a CPU field
-  the shader has no copy of.
-- **Landscape kinds change the relief itself**, in the worker and in the eye's
-  `groundAt` alike, because the ask is "not different textures over the same
-  voxels". Colour by climate alone would be exactly that.
-- **The climate contract, which the relief child lands first and the ground
-  child consumes**: `entities/terrain` exports a pure
-  `climateAtSphere(coast, seed, p, height)` giving `temperature` (°C, the year's
-  mean at the surface) and `moisture` (0 dry to 1 wet); `TileMesh` carries it as
-  `climates`, two floats a vertex; the geometry attribute is `climate` (a
-  `vec2`), its name exported beside `HEIGHT_ATTRIBUTE`. Kinds of landscape are
-  never an enum on the wire: both sides derive what they need from those two
-  numbers, the height and the slope, so a border between two kinds is a blend
-  and never a line.
-- **A forest is shading, not geometry.** A canopy lifted into the mesh would put
-  the eye, which stands on `groundAt`, on the treetops. From above the shader
-  gives the canopy its bumps and its dark; at the feet, with no trunks this run,
-  it is forest floor. This amends what question 3 told the operator ("a canopy's
-  shape").
+- **The one kind of landscape is a mountain range.** It reads at every height
+  the eye passes through — from orbit as the structure of a continent, at 10 km
+  as ridges and valleys, at two metres as a skyline — and it is where "the same
+  voxels under another texture" is most plainly false today: rounded noise hills
+  painted grey, then white. Beat: a sand sea (dunes read only below ~50 km, and
+  Earth's opening beach is nowhere near one) and a forest (without trees as
+  objects, which he ruled out, it is shading alone).
+- **A range changes the relief itself**, in the worker and in the eye's
+  `groundAt` alike, and gets a surface of its own in the shader: the ask is "not
+  different textures over the same voxels". Ranges lie in belts a slow field of
+  the world's own places; everywhere else the ground keeps today's recipe.
+- **No climate contract.** The first draft of this plan had the relief child
+  land a `climate` vertex attribute first; the operator's answer to question 2
+  removes its reader. What the mountain shader needs — height, slope, and the
+  latitude, which a fragment can work out from its own position — is already
+  there.
 - **The speed target is the operator's M2 Pro at 60 fps** (the earlier island
   record: the fine look runs there at 7–14). The full look may cost up to half
   again what it costs today; anything dearer waits for the optimised look.
