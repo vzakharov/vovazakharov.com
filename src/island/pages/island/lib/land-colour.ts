@@ -80,6 +80,10 @@ const SRGB_STOPS: ReadonlyArray<readonly [number, Rgb]> = [
   [-250, channels(0x14_5a_86)],
   [-40, channels(0x23_86_a0)],
   [-6, channels(0x5c_b8_b4)],
+  // Water takes the red out of the sand under it within a metre, so only the
+  // last hand's depth over a beach reads as sand.
+  [-1.2, channels(0x84_cc_bf)],
+  [-0.3, channels(0xb4_d2_b8)],
   [0, [0.86, 0.8, 0.6]],
   [SHORE_TOP, [0.84, 0.78, 0.57]],
   [60, [0.38, 0.57, 0.27]],
