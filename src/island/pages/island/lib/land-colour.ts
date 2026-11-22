@@ -48,6 +48,8 @@ export const LAND_PALETTE = {
   /** Beach sand dried pale above the tide, and the wrack a storm left on it. */
   sandDry: toLinear([0.9, 0.85, 0.68]),
   wrack: toLinear([0.22, 0.18, 0.12]),
+  /** Marram, the pale grass that holds a dune. */
+  marram: toLinear([0.6, 0.63, 0.38]),
   /** The ground under a canopy. */
   litter: toLinear([0.36, 0.3, 0.19]),
   moss: toLinear([0.27, 0.36, 0.16]),

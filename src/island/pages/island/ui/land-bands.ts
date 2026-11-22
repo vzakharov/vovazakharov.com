@@ -2,7 +2,7 @@ import { mix, smoothstep } from 'three/tsl';
 import type { Node } from 'three/webgpu';
 
 import { BAND_HEIGHTS, LAND_PALETTE, SHORE_TOP } from '../lib/land-colour';
-import { beachOf } from './land-beach';
+import { beachOf, sandinessOf } from './land-beach';
 import { lowlandOf, woodedOf } from './land-lowland';
 import {
   type Band,
@@ -66,7 +66,10 @@ export function landBands(
     sum: borders.sum.mul(inland),
     lost: borders.lost.mul(inland),
   };
-  const banded = level.add(steep.mul(STEEP_LIFT));
+  // Low ground stays lowland however it leans: a dune's lee is no upland.
+  const banded = level.add(
+    steep.mul(STEEP_LIFT).mul(smoothstep(120, 420, level)),
+  );
   const band: Band = { ground, mix: m, banded, border, detailed };
   const upland = m.edge(banded, ...BAND_HEIGHTS.upland, border);
   const mountain = m.edge(banded, ...BAND_HEIGHTS.mountain, border);
@@ -76,7 +79,10 @@ export function landBands(
   const alpine = alpineOf(band);
   const stone = rockOf(band, upland, mountain);
   const snow = snowOf(band);
-  const beach = beachOf(band, wooded.cover);
+  const beach = beachOf(
+    band,
+    sandinessOf(level).mul(wooded.cover.mul(0.85).oneMinus()),
+  );
 
   const tint = m.mottled([
     [COUNTRY, 0.08],
@@ -111,9 +117,9 @@ export function landBands(
     ),
     roughness: mix(
       mix(mix(turf, 0.6, stone.rock), 0.06, snow),
-      mix(0.04, 0.2, beach.dunes),
+      mix(0.3, 0.05, beach.bare),
       beach.sand,
     ),
-    rippled: beach.sand.mul(smoothstep(1.5, 4, level)),
+    rippled: beach.sand.mul(beach.bare).mul(smoothstep(1.5, 4, level)),
   };
 }
