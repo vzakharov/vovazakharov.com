@@ -37,18 +37,52 @@ march branch's to cure.**
 - **Every hash is the world's**: `latticeValue` and `worldCell` from
   `ui/lattice-value.ts`.
 
-## What is wrong, in the order it shows
+## Left
 
-1. **The front is a narrow band** (`0015-clouds-3-storm-3000km`): its tail is
-   a fifth of its head's width (`wide` in `stormsOver`). It wants a broad
-   fibrous band.
-2. **A dense fair-weather field from 2,300 km reads a little like frog-spawn**
-   (`0015-clouds-3-clumps-2300km`): clumps near one scale, no streets along
-   the wind.
-3. **A deck has a few thin blue cracks** through to the sea
-   (`0014-clouds-2-deck-2300km`).
-4. **Toward the horizon from 820 km clumps go soft and blobby**, where the
-   mean cover takes over.
+Nothing below is started. Each item names what to try first.
+
+1. **Clumps near one scale from 2,300 km: frog-spawn**
+   (`0015-clouds-3-clumps-2300km`). The clumps are one `puffs` read at 52 km,
+   so their sizes span one decade of radius at most (`PUFF_RADII`). First: a
+   second `puffs` read three to four times coarser that gates the first
+   (clumps gather into fields with wide clear lanes), paid for only where
+   `lumps` is read.
+2. **Heaps too round** (`0015-clouds-3-clumps-820km`). The coarsest cumulus
+   scale is a union of discs, and only the clumps are bent. First: bend
+   `about` in `wave` for index 0 by the scale-1 noise already read there, the
+   way `CLUMP_BEND` bends a clump, so it costs no read.
+3. **No streets along the wind in a fair-weather field.** A streets weight in
+   the fair-weather lay only thickened the field, because `streets` adds a
+   ridge to the amount. First: stretch the clumps' own coordinates along the
+   regime's `bend` before `puffs`, so the heaps line up rather than a line
+   being laid over them.
+4. **The front is still narrow** (`0016-clouds-4-front-3000km`): after
+   `FRONT_NARROWEST` the tail is 0.45 of the head, a band and no longer a
+   thread, but not the broad fibrous shield of a real front. First: widen
+   `WARM_FEATHER` and give the warm side its own high ice sheet through
+   `ui/cloud-ice.ts`, which is what reads as breadth from orbit.
+5. **Thin blue cracks in a deck.** A vein takes `VEIN_WEIGHT` from the amount
+   down to clear sea. First: floor the vein's cut so a deck's amount stays
+   over zero under it (thin cloud, not none), and let only the open-cell
+   regime clear.
+6. **Toward the horizon from 820 km clumps go soft and blobby**, where the
+   mean cover takes over (`FAR_SOFT`, `FAR_MEAN`).
+7. **The view from the ground** is the march branch's. From 22 m over the
+   dunes, on WebGPU, the sky is flat grey overcast with long smeared streaks
+   along the horizon, and no cloud has a shape. The cause is not settled; two
+   candidates, one on each side of the seam. In the field: `toldFrom`
+   measures a wave against its distance alone, so near the horizon, where a
+   heap is seen edge-on and foreshortened many times over, scales still count
+   as told that span under a pixel in height. In the march: four steps and
+   one sheet read at the layer's entry over a grazing path hundreds of
+   kilometres long draw the top as a straight run between far-apart ends,
+   which is a streak. Settling it takes one frame from 22 m with `STEPS`
+   raised to 16: if the streaks go, it is the march.
+8. **Two economies, not done**, both in the march's file: `STEPS` 3 for an
+   eye over `HIGHEST_TOP`, and one `mesoAt` read at the layer's middle from
+   orbit in place of one at each end.
+
+`/dry` and `/tend-prose` were not run over this branch.
 
 ## Cost
 
@@ -69,5 +103,10 @@ layer, and the meso field read once in place of at both ends.
 ## Frames
 
 `frames/0010-clouds-1-*` (step 1), `0014-clouds-2-*` (lattice, open cells,
-front, decks), `0015-clouds-3-*` (clumps), shot with
-`pnpm shoot:island --no-build --shot`; the baseline is `0000-before-*`.
+front, decks), `0015-clouds-3-*` (clumps), `0016-clouds-4-*` (the front's
+tail), shot with `pnpm shoot:island --no-build --shot`; the baseline is
+`0000-before-*`.
+
+`0014-clouds-2-deck-2300km` and `0014-clouds-2-deck-300km` show no deck: the
+weather is rolled per world, and the roll they were shot under has open sea
+at 28, -43. A deck frame wants a spot found afresh in the regime map.
