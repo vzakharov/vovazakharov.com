@@ -19,6 +19,7 @@ const BROADLEAF = {
   near: { around: 8, rows: 5, trunk: 7, masses: 6 },
   mid: { around: 5, rows: 3, trunk: 3, masses: 3 },
   far: { around: 6, rows: 3, trunk: 0, masses: 1 },
+  least: { around: 5, rows: 2, trunk: 0, masses: 1 },
 } as const;
 
 /** The one mass a far crown is: centre, radii. It reaches low, standing for the trunk it has none of. */
@@ -105,13 +106,14 @@ const CONIFER = {
   near: { tiers: 7, around: 10, trunk: 5 },
   mid: { tiers: 4, around: 6, trunk: 3 },
   far: { tiers: 2, around: 5, trunk: 0 },
+  least: { tiers: 1, around: 4, trunk: 0 },
 } as const;
 
 /** Where the lowest boughs hang, as a share of the tree's height. */
 const SKIRT = 0.16;
 
 /**
- * The spires a far conifer is, each its place across and its size: a far tree
+ * The spires a trunkless conifer is, each its place across and its size: a far tree
  * stands for the stand about it (`tree-view` widens it), which one cone would
  * draw as a squat pyramid and three draw as a stand's ragged top.
  */
@@ -178,7 +180,7 @@ function conifer(build: Build, detail: TreeDetail) {
       trunk,
     );
   }
-  const spires = detail === 'far' ? STAND : ([[0, 0, 1]] as const);
+  const spires = trunk === 0 ? STAND : ([[0, 0, 1]] as const);
   for (const each of spires) spire(build, each, tiers, around);
 }
 

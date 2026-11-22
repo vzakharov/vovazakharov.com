@@ -11,6 +11,7 @@ import {
 import type { CanDispose } from '@/kernel/shared/typings';
 
 import { type CubeCell, R, unit, type Vec3 } from '@/island/shared/globe';
+import type { Look } from '@/island/shared/play';
 
 import {
   cellKey,
@@ -30,19 +31,47 @@ import { TREE_DETAILS, type TreeDetail } from './tree-mesh-parts';
 import { treeGeometry } from './tree-meshes';
 import { FOOT_ATTRIBUTE, treeNodes } from './tree-nodes';
 
-/** Plants a mesh of each detail holds at most, per kind: 52,000 in all. */
+/**
+ * Plants a mesh of each detail holds at most, per kind: closed canopy asks
+ * some 10,000 far broadleaves of the fine look and as many `least` ones of the
+ * swift.
+ */
 const CAPACITY: Readonly<Record<TreeDetail, number>> = {
   near: 600,
   mid: 4400,
-  far: 8000,
+  far: 12_000,
+  least: 12_000,
 };
 
-/** The distance out to which a tree is drawn at each detail, metres. */
-const DRAWN_TO: Readonly<Record<TreeDetail, number>> = {
-  near: 80,
-  mid: 320,
-  far: Infinity,
+/** A look that draws trees. */
+type TreeLook = Exclude<Look, 'plain'>;
+
+/** What a look spends on trees. */
+type Spent = {
+  /** The distance out to which a tree is drawn at each detail, metres. */
+  readonly to: Readonly<Record<TreeDetail, number>>;
+  /** The distance by which the low growth has shrunk away, metres. */
+  readonly low: number;
 };
+
+/**
+ * Swift keeps every tree where fine has it and draws each with fewer
+ * triangles: none at the near detail, the `least` one past the nearest stands,
+ * and bushes and grass only about the eye.
+ */
+const SPENT: Readonly<Record<TreeLook, Spent>> = {
+  swift: {
+    to: { near: 0, mid: 60, far: 220, least: Infinity },
+    low: 110,
+  },
+  fine: {
+    to: { near: 80, mid: 320, far: Infinity, least: Infinity },
+    low: Infinity,
+  },
+};
+
+/** The kinds that are low growth rather than trees. */
+const LOW: ReadonlySet<TreeKind> = new Set(['bush', 'tuft']);
 
 /** Ms of a frame spent rolling the cells still missing. */
 const ROLL_BUDGET = 3;
@@ -116,8 +145,8 @@ export type TreeView = CanDispose & {
   readonly group: Group;
   /** The ground to stand trees on; every tree of another is let go. Null until a world's field is in hand. */
   readonly setGround: (ground: TreeGround | null) => void;
-  /** Whether trees draw at all: the plain look shows none. */
-  readonly setShown: (on: boolean) => void;
+  /** How the trees draw: not at all in the plain look, with fewer triangles in the swift one. */
+  readonly drawAs: (look: Look) => void;
   /**
    * Places the trees for an eye at `position` (world metres), `height` metres
    * over the ground, with the wind as it blows at `seconds`: rolls a few of
@@ -127,8 +156,8 @@ export type TreeView = CanDispose & {
   readonly draw: (position: Vec3, height: number, seconds: number) => void;
   /** Has the next `draw` roll every cell still missing, however long it takes: a still's trees are all there. */
   readonly rollWhole: () => void;
-  /** Trees drawn now, for diagnostics. */
-  readonly count: () => number;
+  /** Plants and triangles drawn now, for diagnostics. */
+  readonly tally: () => { plants: number; triangles: number };
 };
 
 /**
@@ -176,7 +205,7 @@ export function treeView(
   );
 
   let ground: TreeGround | null = null;
-  let on = false;
+  let spent: Spent | null = null;
   const rolled = new Map<number, Rolled>();
   /** Each tier's cells in reach, and where the eye stood when they were listed. */
   const tiers: Array<{ cells: CubeCell[]; from: Vec3 | null }> = Array.from(
@@ -241,7 +270,7 @@ export function treeView(
   };
 
   /** Lays every rolled tree in reach out as an instance, about a new anchor at the eye. */
-  const layOut = (position: Vec3) => {
+  const layOut = (position: Vec3, { to, low }: Spent) => {
     anchor = position;
     laid = position;
     // The planet's middle as the instances see it, from the anchor.
@@ -260,10 +289,9 @@ export function treeView(
           const y = (feet[n * 3 + 1] ?? 0) - ey;
           const z = (feet[n * 3 + 2] ?? 0) - ez;
           const distance = Math.hypot(x, y, z);
-          if (distance > reach) continue;
-          const detail = TREE_DETAILS.findIndex(
-            (name) => distance <= DRAWN_TO[name],
-          );
+          const gone = LOW.has(kind) ? Math.min(reach, low) : reach;
+          if (distance > gone) continue;
+          const detail = TREE_DETAILS.findIndex((name) => distance <= to[name]);
           const stand = stands[TREE_KINDS.indexOf(kind)]?.[detail];
           if (stand === undefined || stand.mesh.count >= stand.capacity)
             continue;
@@ -278,7 +306,7 @@ export function treeView(
             matrix[i * 16 + column * 4 + 3] = 0;
           }
           matrix.set([x, y, z, 1], i * 16 + 12);
-          stand.foot.array.set([x, y, z, reach], i * 4);
+          stand.foot.array.set([x, y, z, gone], i * 4);
           stand.mesh.instanceColor?.array.set(
             tints.subarray(n * 3, n * 3 + 3),
             i * 3,
@@ -312,19 +340,20 @@ export function treeView(
       ground = next;
       forget();
     },
-    setShown: (shownNow) => {
-      on = shownNow;
-      group.visible = on && ground !== null;
+    drawAs: (look) => {
+      spent = look === 'plain' ? null : SPENT[look];
+      group.visible = spent !== null && ground !== null;
+      laid = null;
     },
     draw: (position, height, at) => {
       seconds.value = at;
-      group.visible = on && ground !== null;
-      if (!on || ground === null) return;
+      group.visible = spent !== null && ground !== null;
+      if (spent === null || ground === null) return;
       frame += 1;
       list(position, height);
       roll(ground);
       if (laid === null || moved(laid, position) > RELAY_EVERY)
-        layOut(position);
+        layOut(position, spent);
       group.position.set(
         anchor[0] - position[0],
         anchor[1] - position[1],
@@ -334,8 +363,15 @@ export function treeView(
     rollWhole: () => {
       whole = true;
     },
-    count: () =>
-      stands.flat().reduce((total, { mesh }) => total + mesh.count, 0),
+    tally: () => {
+      let plants = 0;
+      let triangles = 0;
+      for (const { mesh } of stands.flat()) {
+        plants += mesh.count;
+        triangles += (mesh.count * (mesh.geometry.index?.count ?? 0)) / 3;
+      }
+      return { plants, triangles };
+    },
     dispose: () => {
       for (const kind of stands) {
         for (const { mesh } of kind) mesh.geometry.dispose();

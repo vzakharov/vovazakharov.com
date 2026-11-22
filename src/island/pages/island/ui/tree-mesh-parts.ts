@@ -3,9 +3,10 @@ import type { TreeKind } from '../model/tree-placing';
 
 /**
  * How finely a tree is drawn: `near` to stand among, `mid` across a clearing,
- * `far` where it is a few pixels of a canopy.
+ * `far` where it is a few pixels of a canopy, `least` the same canopy for a
+ * machine short of frames.
  */
-export const TREE_DETAILS = ['near', 'mid', 'far'] as const;
+export const TREE_DETAILS = ['near', 'mid', 'far', 'least'] as const;
 
 export type TreeDetail = (typeof TREE_DETAILS)[number];
 
