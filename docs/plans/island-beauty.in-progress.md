@@ -165,6 +165,20 @@ otherwise; his answers get quoted under each when they come.
   ~750, so every tile wider than 7 m is culled against a 10.5 km column. The
   speed child cures it in the quadtree. Beat: tightening the bound's arithmetic
   — relief measured it would still land near 100–200.
+- **The coast bends by perturbing the coast distance itself**,
+  `d′ = d + Σ aᵢnᵢ`, seeded value noise from ~20 km (the field's cell, where the
+  line is straight today) down to metres, band-limited by the tile's `finest`
+  and faded out with |d|. Every reader of the distance — height, sand, splits,
+  trees — then agrees on one line. Beat: bending the drawn shoreline in the
+  shader (the beach, the dunes and the walker's ground would still follow the
+  straight one); a finer coast field (20 km → 1 km is 400× the memory and still
+  straight under 1 km).
+- **Every random thing is keyed by the world's roll** — the operator, 15:50 UTC:
+  «вся случайность же через rolled делается?». True of the world's shape, the
+  relief, the forest and each tree. Not true of the shader's `latticeValue`
+  (ground texture, clouds, cyclones): it hashes the place alone, so every world
+  has the same texture and weather. The lead folds the two copies into one home
+  that adds a per-world offset uniform rolled from the world.
 
 ## The team
 
@@ -198,6 +212,10 @@ PR. Session ids are claude.ai remote sessions.
   three positions with the middle one drawing as full, step 3 the optimisation
   behind the middle look — clouds at low resolution over several frames — which
   waits for the lead's word that the clouds' step 1 is merged.
+- **Coast** — `session_01DaohkB8k3wxxLHdRRwsBDQ`, Opus,
+  `claude/island-beauty-coast`, started 15:45 UTC. The perturbed coast distance
+  under `entities/terrain/height/model/`, its bounds, and one-line call-site
+  changes in the readers; reports after its step 1 so the seam merges early.
 
 ## Built / in flight / left
 
@@ -240,6 +258,26 @@ PR. Session ids are claude.ai remote sessions.
   surface; trees on the `sand` attribute, cover across levels, then sunset glow,
   wind, undergrowth; clouds still with nothing pushed; speed on the tile bracket
   (`detailReach` is exported for it); the keeper.
+- 11:48 UTC: the 5-hour limit cut every session off mid-step. The operator woke
+  all of them with «Продолжай» at 15:39, so none was replaced; each read the
+  lead's queued messages only then. A reader agent's digest of where each stood:
+  speed had step 2 (a `swift` look between plain and fine, `fine-key` →
+  `look-key`) uncommitted in its tree; trees committed wind on waking and
+  started the `sand` seam; ground was on sand by a sandiness input and took the
+  orbit regression next; clouds had six cloud files modified, a shader at ~3×
+  the old cost and a survey cut off at 8 of 12 sites; the keeper was carding the
+  `0005-*` frames.
+- Merged at 01844ccc8: trees' skyward crown normals (8034bf31) and speed's tile
+  bracket (897c4b5a). Preview slot 1 serves 2eed543fb — the finished relief,
+  ground step 1, trees step 1 — checked against the slot's deployed commit.
+- The lead's verdicts on the merged frames (`0005-*`, `0006-*`), sent to ground:
+  the alpine range is one white sheet from 300 m (rock on faces over ~40°, a
+  ragged snow line, snow under 0.9); the upland's far hills are flat blue-green
+  with magenta hollows; the lowland's brown ends in arcs concentric with the eye
+  (a tile-level seam); dune backs want straw-green. The forest from 2 m and from
+  60 m is the run's best; from 300 m it is blobs on bare brown that end a
+  kilometre off.
 - Left: the clouds; `sand` swapped into the ground shader; the lattice hash
-  ground and clouds each carry folded into one home; the middle look and what it
-  saves; `/dry`, `/tend-prose`, `/five-percent`, vet, the PR.
+  ground and clouds each carry folded into one home with the world's offset; the
+  coast; the middle look and what it saves; `/dry`, `/tend-prose`,
+  `/five-percent`, vet, the PR.
