@@ -79,6 +79,10 @@ otherwise; his answers get quoted under each when they come.
   climate picked for it; no climate model. The relief and ground children were
   re-briefed by message the same turn.
 
+- 2026-11-22 ~10:02 UTC: «меня не будет совсем, принимай креативные решения
+  сам». No verdicts will come during the run; every look call is the lead's,
+  made from frames and written here.
+
 ## What is there today (read 2026-11-22)
 
 - **Relief** — `src/island/entities/terrain/height/model/relief.ts`: a plateau
@@ -143,12 +147,54 @@ otherwise; his answers get quoted under each when they come.
 
 ## The team
 
-- **Lead** — this session, Fable. Owns the plan, the seams, integration, the
-  preview and the one PR.
-- Children are listed here by session id, branch and package as they start.
+Every child was cut from the lead's branch and pushes to its own; none opens a
+PR. Session ids are claude.ai remote sessions.
+
+- **Lead** — `session_01DaohkBiucpraEhsFyZ58M9`, Fable,
+  `claude/island-beauty-c1rj3b`. The plan, the seams, integration, the preview,
+  the one PR.
+- **Relief** — `session_01DaohkDs92YhSSpimFpJwfJ`, Fable,
+  `claude/island-beauty-relief`. `src/island/entities/terrain/`: each band's own
+  shape, and the cure for what repeats or lines up in the ground.
+- **Ground** — `session_01DaohkDMLPfW237JGnaUuWd`, Fable,
+  `claude/island-beauty-ground`. `ui/ground-lighting.ts`, `lib/land-colour.ts`,
+  `lib/ground-wgsl.ts`: nothing repeating at any distance, then each band's
+  surface; reads the trees' `cover`.
+- **Clouds** — `session_01DaohkDgngV6hJwJPofVnqB`, Fable,
+  `claude/island-beauty-clouds`. `ui/cloud-nodes.ts`, `lib/clouds.ts`: regimes
+  from above, then the sky from the ground and inside.
+- **Trees** — `session_01DaohkFamqbS2PFoQEC5UKv`, Fable,
+  `claude/island-beauty-trees`. The `cover` seam first, then two species as
+  instances; owns the tile worker's page side and `ui/tile-view.ts`.
+- **Keeper** — `session_01DaohkEpVZaFGj3BXpvEYCv`, Sonnet,
+  `claude/island-beauty-board`. The island board's `beauty` zone and the
+  `island-timelapse` release; takes frames from everyone.
+- **Not started: the optimised look** (Opus) — B's third position, clouds at low
+  resolution over several frames. Waits for the clouds' step 1.
 
 ## Built / in flight / left
 
-- In flight: the clouds research (Sonnet agent); a digest of the board, frame
-  and preview mechanics (Sonnet agent).
-- Left: everything else.
+- Built: the common brief; the clouds research; `pnpm shoot:island` and the
+  eleven `0000-before-*` frames (ee989e9e); the trees' `cover` seam (f54e984b1)
+  and the board's `beauty` zone, both merged at 62d542e4c.
+- The shooter draws on WebGL2: SwiftShader's WebGPU device is lost here at the
+  first tile upload whatever the launch flags, so no frame of this run shows the
+  rippled sea. Beat: more hours on the software device — the land, trees and
+  clouds this run is about all draw on WebGL2.
+- What the baseline shows: clouds from orbit are speckle, from 10 km cotton with
+  a dither hatch; sand lies in sheets kilometres inland; a band is one flat
+  colour; hills are low domes of one character. `lookTo` is clamped, so the sky
+  shot looks up only a few degrees — raise it for the play hook if clouds asks.
+- Relief's first step (c9d498fe, then 96b2dfe2) is merged and on preview slot 1
+  (`preview.vovazakharov.com/island`, built from f513200e): ranges gathered into
+  belts, sand at the shore only, lowland floor 65 m, kinds by broad height
+  (green under 300 m, brown to 550, alpine 600→1100), peaks to ~3.6 km. Sent
+  back: the lowland went dead flat, dunes read as straight stripes, snow from
+  orbit shows the value noise's cells (gradient noise if inside 1.5× fill).
+- Trees told the new heights and to import `noiseSalt`/`valueNoise3` from the
+  terrain barrel; until they do, `pnpm knip` is red on those two exports.
+- In flight: relief on its fixes; ground and clouds on step 1 with nothing
+  pushed yet (told to push small); trees on step 1; the keeper on the relief
+  row.
+- Left: the beauty set gains one spot per band once relief names them;
+  integration of ground, clouds and trees; the optimised look; the PR.

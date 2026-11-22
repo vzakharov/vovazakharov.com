@@ -145,8 +145,8 @@ describe('heightAtSphere', () => {
         }
         span = Math.max(span, high - low);
       }
-      // Each fine octave slopes at ~0.1–0.3; their sum stays under one in one.
-      assert.ok(largest < 1, `${name}: largest step ${largest}`);
+      // A mountain flank can stand steeper than one in one, never a wall.
+      assert.ok(largest < 2, `${name}: largest step ${largest}`);
       assert.ok(largest < SPHERE_GROUND_SLOPE * 0.99, `${name}: ${largest}`);
       assert.ok(span > 0.5, `${name}: relief over 2 km: ${span}`);
     }
@@ -171,7 +171,7 @@ describe('heightAtSphere', () => {
     }
   });
 
-  it('stays in a plausible range: beaches low, interior up to ~2 km', () => {
+  it('stays in a plausible range: beaches low, interior up to ~5 km', () => {
     for (const [name, { height }] of Object.entries(DISCS)) {
       let interiorHigh = -Infinity;
       let interiorLow = Infinity;
@@ -191,10 +191,10 @@ describe('heightAtSphere', () => {
       // Valleys, but no inland sea: lakes are a later bite's.
       assert.ok(interiorLow > 0, `${name}: interior low ${interiorLow}`);
       assert.ok(interiorHigh > 1000, `${name}: interior high ${interiorHigh}`);
-      assert.ok(interiorHigh < 2800, `${name}: interior high ${interiorHigh}`);
+      assert.ok(interiorHigh < 5200, `${name}: interior high ${interiorHigh}`);
       assert.ok(floor > -4500, `${name}: sea floor ${floor}`);
-      const beach = height(999_000, 0);
-      assert.ok(beach > -20 && beach < 60, `${name}: beach ${beach}`);
+      const beach = height(999_950, 0);
+      assert.ok(beach > 0 && beach < 20, `${name}: beach ${beach}`);
     }
   });
 });
