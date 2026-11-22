@@ -29,13 +29,14 @@ const BEDS = [5.3, 1.1] as const;
  * stony soil where it leans.
  */
 export function moorOf({ ground: { steep }, mix: m }: Band) {
-  const heathered = m.patches(-0.25, 0.35, [
+  const heathered = m.patches(-0.2, 0.25, [
     [REGION, 0.35],
     [DISTRICT, 0.4],
     [HILL, 0.3],
     [FIELD, 0.6],
     [SLOPE, 0.5],
-    [PATCH, 0.3],
+    [PATCH, 0.4],
+    [STEP, 0.2],
   ]);
   const sward = m.patches(-0.1, 0.45, [
     [COUNTRY, 0.45],
@@ -60,7 +61,7 @@ export function moorOf({ ground: { steep }, mix: m }: Band) {
   return {
     colour: mix(
       // Between the clumps the eye sees down to shaded heath and soil.
-      mix(growth.mul(0.62), growth.mul(1.1), clump),
+      mix(growth.mul(0.5), growth.mul(1.12), clump),
       paint(LAND_PALETTE.stony),
       stony,
     ).mul(
@@ -164,21 +165,43 @@ export function rockOf(
   };
 }
 
-/** Snow: over its line on gentle ground, its edge ragged at every scale, slid off the steep. */
-export function snowOf({ ground: { steep }, mix: m, banded }: Band) {
-  return m.edge(
-    banded
-      .sub(BAND_HEIGHTS.snowLine)
-      .div(260)
-      .sub(smoothstep(0.1, 0.3, steep).mul(1.5)),
-    -0.12,
-    0.12,
+/** How far from the eye snow slides off what is steep, and from where it lies by height alone, metres. */
+const SLIDES_TO = 60_000;
+const LIES_FROM = 400_000;
+
+/**
+ * Snow: over its line, the line ragged at every scale, slid off faces steeper
+ * than some forty degrees — deeper snow holding on a little more. From afar a
+ * face is narrower than a pixel and the snow lies by height alone, so a range
+ * keeps its white spine from orbit.
+ */
+export function snowOf({ ground: { level, steep, away }, mix: m }: Band) {
+  const over = level.sub(BAND_HEIGHTS.snowLine);
+  const lying = m.edge(
+    over.div(300),
+    -0.15,
+    0.15,
     m.ragged([
-      [REGION, 0.5],
+      [REGION, 0.6],
+      [DISTRICT, 0.4],
       [HILL, 0.5],
       [FIELD, 0.4],
       [SLOPE, 0.25],
       [PATCH, 0.12],
     ]),
+  );
+  const sliding = m.edge(
+    steep.sub(smoothstep(0, 1400, over).mul(0.07)),
+    0.17,
+    0.29,
+    m.ragged([
+      [FIELD, 0.05],
+      [SLOPE, 0.06],
+      [PATCH, 0.05],
+      [STEP, 0.03],
+    ]),
+  );
+  return lying.mul(
+    sliding.mul(smoothstep(SLIDES_TO, LIES_FROM, away).oneMinus()).oneMinus(),
   );
 }

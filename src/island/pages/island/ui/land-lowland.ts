@@ -1,9 +1,11 @@
 import { float, mix, smoothstep } from 'three/tsl';
 
-import { BAND_HEIGHTS, LAND_PALETTE } from '../lib/land-colour';
+import { LAND_PALETTE, SHORE_TOP } from '../lib/land-colour';
+import { TREELINE } from '../model/forest-cover';
 import {
   type Band,
   COUNTRY,
+  DISTRICT,
   FIELD,
   GRAIN,
   HAND,
@@ -15,8 +17,29 @@ import {
   STEP,
 } from './land-mix';
 
-/** How far from the eye trees stand as objects, metres: past it forest is its canopy alone. */
-const TREES_TO = 3000;
+/** How far from the eye a forest reads as the ground under its trees, and from where as their crowns alone, metres. */
+const FLOOR_TO = 120;
+const CANOPY_FROM = 600;
+
+/** How much of its leaves' colour a canopy shows from over it, the rest lost in its own shade. */
+const CANOPY_SHADE = 0.75;
+
+/** How much light reaches the ground under closed crowns. */
+const FLOOR_SHADE = 0.45;
+
+/**
+ * How far from the eye the tile's own cover is read, and from where forest is
+ * what a place expects alone, metres: a tile's cover changes with its level,
+ * so from afar it would draw the tiles.
+ */
+const COVER_TO = 20_000;
+const EXPECTED_FROM = 150_000;
+
+/** The height the forest starts thinning at toward the treeline, metres. */
+const THINNING_FROM = 450;
+
+/** The heights between which a forest's conifers go from few to all, metres. */
+const CONIFERS = [250, 520] as const;
 
 /**
  * The green lowland, a temperate meadow: sward in growth and gone to seed in
@@ -62,17 +85,29 @@ export function lowlandOf({ ground: { steep }, mix: m }: Band) {
 }
 
 /**
- * Forest, where the tile's cover says trees stand: `cover` with its edge
- * between two vertices broken by noise, and `colour`, its canopy from afar and
- * the ground under the trees near the eye.
+ * Forest: `cover`, the share of the ground under crowns — the tile's own near
+ * the eye, its edge between two vertices broken by noise, and from afar what
+ * the height and the country's own regions expect — and `colour`, the shaded
+ * ground under the trees near the eye and their canopy past it.
  */
 export function woodedOf({
-  ground: { cover: forest, away },
+  ground: { cover: placed, away, level },
   mix: m,
-  banded,
-  border,
   detailed,
 }: Band) {
+  const expected = m
+    .patches(-0.3, 0.05, [
+      [COUNTRY, 0.3],
+      [REGION, 0.5],
+      [DISTRICT, 0.4],
+    ])
+    .mul(smoothstep(SHORE_TOP, SHORE_TOP + 25, level))
+    .mul(smoothstep(THINNING_FROM, TREELINE, level).oneMinus());
+  const forest = mix(
+    placed,
+    expected,
+    smoothstep(COVER_TO, EXPECTED_FROM, away),
+  );
   const fringe = m.ragged([
     [HILL, 0.3],
     [FIELD, 0.3],
@@ -95,29 +130,38 @@ export function woodedOf({
       [STEP, 0.4],
     ]),
   ).mul(
-    m.mottled([
-      [STEP, 0.14],
-      [HAND, 0.14],
-      [GRAIN, 0.08],
-    ]),
+    m
+      .mottled([
+        [PATCH, 0.2],
+        [STEP, 0.14],
+        [HAND, 0.14],
+        [GRAIN, 0.08],
+      ])
+      .mul(FLOOR_SHADE),
   );
   const canopy = mix(
     paint(LAND_PALETTE.broadleaf),
     paint(LAND_PALETTE.conifer),
-    smoothstep(250, BAND_HEIGHTS.upland[1], banded.add(border.sum)),
+    smoothstep(...CONIFERS, level)
+      .mul(0.85)
+      .add(0.15),
   ).mul(
-    m.mottled([
-      [HILL, 0.07],
-      [FIELD, 0.12],
-      [SLOPE, 0.15],
-      [PATCH, 0.28],
-      [STEP, 0.1],
-    ]),
+    m
+      .mottled([
+        [REGION, 0.08],
+        [DISTRICT, 0.1],
+        [HILL, 0.12],
+        [FIELD, 0.14],
+        [SLOPE, 0.15],
+        [PATCH, 0.25],
+        [STEP, 0.1],
+      ])
+      .mul(CANOPY_SHADE),
   );
   return {
     cover,
     colour: detailed
-      ? mix(floor, canopy, smoothstep(TREES_TO * 0.5, TREES_TO, away))
+      ? mix(floor, canopy, smoothstep(FLOOR_TO, CANOPY_FROM, away))
       : canopy,
   };
 }
