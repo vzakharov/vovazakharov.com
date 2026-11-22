@@ -1,6 +1,7 @@
 import type { CubeCell, Vec3 } from '@/island/shared/globe';
 import {
   cubeTileId,
+  type Filled,
   type NeighbourLevels,
   type SphereField,
   tileBuffers,
@@ -43,6 +44,8 @@ export const orderId = ({ key, levels: { edges, corners } }: TileOrder) =>
  * hides it; one wholly above it has no sea.
  */
 export type FilledTile = TileOrder & {
+  /** The ground's lattice heights at their lowest and highest, the skirt's left out, and the cut they were drawn to. */
+  readonly filled: Filled;
   readonly land: TileMesh<CubeCell> | null;
   readonly sea: TileMesh<CubeCell> | null;
   /** Forest cover under the land's vertices (`tileCover`); null with no land. */

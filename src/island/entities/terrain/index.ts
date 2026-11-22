@@ -15,6 +15,7 @@ export {
 } from './height';
 export {
   cubeDetailCut,
+  type Filled,
   frustumOf,
   neighbourLevels,
   selectCubeTiles,

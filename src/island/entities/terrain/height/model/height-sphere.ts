@@ -1,6 +1,6 @@
 import { length, R, unit, type Vec3 } from '@/island/shared/globe';
 
-import { groundSlope, reliefReach } from './bounds';
+import { detailReach, groundSlope, reliefReach } from './bounds';
 import { COAST_STEEPEST, type CoastDistance } from './coast-detail';
 import { LATTICE_STEEPEST, turned } from './lattice';
 import { OCTAVES } from './octaves';
@@ -44,20 +44,21 @@ export const SPHERE_GROUND_SLOPE = groundSlope(
   COAST_STEEPEST,
 );
 
+/** The steepest the ground drawn at cut `finest` over the coast read whole stands. */
+const cutSlope = (finest: number) =>
+  groundSlope(
+    NOISE_STEEPEST,
+    upliftSlope(LATTICE_STEEPEST),
+    COAST_STEEPEST,
+    finest,
+  );
+
 /**
  * Each cut `groundSpread` weighs, with twice its relief's reach and the slope
  * of the ground drawn at it over the coast read whole.
  */
 const SPREAD_CUTS = [0, ...OCTAVES.map(({ wavelength }) => wavelength)].map(
-  (finest) => ({
-    reach: 2 * reliefReach(finest),
-    slope: groundSlope(
-      NOISE_STEEPEST,
-      upliftSlope(LATTICE_STEEPEST),
-      COAST_STEEPEST,
-      finest,
-    ),
-  }),
+  (finest) => ({ reach: 2 * reliefReach(finest), slope: cutSlope(finest) }),
 );
 
 /**
@@ -71,6 +72,20 @@ export const groundSpread = (metres: number): number =>
   Math.min(
     HIGHEST_GROUND - LOWEST_GROUND,
     ...SPREAD_CUTS.map(({ reach, slope }) => reach + slope * metres),
+  );
+
+/**
+ * A bound on how far apart the ground drawn at any two cuts no coarser than
+ * `finest` (`heightAtSphere`'s, any coast and seed) stands at two surface
+ * points at most `metres` apart: each within its cut's `detailReach` of the
+ * whole ground, the whole within `finest`'s relief reach of the relief cut
+ * there over the coast read whole, whose slope bounds the rest. Holds only
+ * while `detailReach` grows with the cut.
+ */
+export const cutSpread = (finest: number, metres: number): number =>
+  Math.min(
+    HIGHEST_GROUND - LOWEST_GROUND,
+    2 * (detailReach(finest) + reliefReach(finest)) + cutSlope(finest) * metres,
   );
 
 /**
