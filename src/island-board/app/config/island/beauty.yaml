@@ -2,7 +2,7 @@ items:
   - id: z-beauty
     type: zone
     updated: [2026-11-22T11:00:00.000Z, agent:board]
-    box: [11760, 380, 2000, 6450, green]
+    box: [11760, 380, 2000, 7400, green]
     icon: 🎞️
     text: 'Making it beautiful: the timelapse, failures included'
   - id: beauty-howto
@@ -375,3 +375,50 @@ items:
     box: [13340, 6400, 360]
     src: images/beauty-trees-1-forest-moon-2m.webp
     text: '56. Trees, step 1. Moonlight (hour 12) at 2 m: trunks, crowns and ground are nearly black and equally dim; nothing glows.'
+  - id: beauty-ground-2-row
+    type: text
+    updated: [2026-11-22T12:10:00.000Z, agent:board]
+    box: [11800, 6860, 1000, body]
+    text: "Ground, step 1 on the finished relief, the lead's frames. Each card carries the lead's verdict (Vova is away)."
+  - id: img-beauty-57-ground-2-alpine-3000m
+    type: image
+    updated: [2026-11-22T12:10:00.000Z, agent:board]
+    box: [11800, 6930, 360]
+    src: images/beauty-ground-2-merged-alpine-3000m.webp
+    text: '57. Ground, step 1 on the finished relief: the alpine range from 3 km, the pair of card 13. Lead: "the range is there and reads as a range; the snow line is a smooth contour and the sunlit snow is blown out." On the frame, snow covers nearly all of it and rock shows only in shaded valley sides at the bottom.'
+  - id: img-beauty-58-ground-2-alpine-300m
+    type: image
+    updated: [2026-11-22T12:10:00.000Z, agent:board]
+    box: [12185, 6930, 360]
+    src: images/beauty-ground-2-merged-alpine-300m.webp
+    text: '58. The same range from 300 m. Lead: "FAIL — one white sheet, no rock on the steep faces, the crests are lost. Sent back to ground: rock above ~40° slope, ragged snow edge."'
+  - id: img-beauty-59-ground-2-upland-300m
+    type: image
+    updated: [2026-11-22T12:10:00.000Z, agent:board]
+    box: [12570, 6930, 360]
+    src: images/beauty-ground-2-merged-upland-300m.webp
+    text: '59. The upland from 300 m, the pair of card 12. Lead: "the foreground is the best ground so far; the far hills turn flat blue-green plastic. Sent back."'
+  - id: img-beauty-60-ground-2-lowland-300m
+    type: image
+    updated: [2026-11-22T12:10:00.000Z, agent:board]
+    box: [12955, 6930, 360]
+    src: images/beauty-ground-2-merged-lowland-300m.webp
+    text: '60. The lowland from 300 m, the pair of card 11. Lead: "FAIL in part — the brown underfoot ends in hard arcs concentric with the eye: a seam between tile levels. Sent back." The arcs show at the lower left and right of the frame.'
+  - id: img-beauty-61-ground-2-dunes-60m
+    type: image
+    updated: [2026-11-22T12:10:00.000Z, agent:board]
+    box: [13340, 6930, 360]
+    src: images/beauty-ground-2-merged-dunes-60m.webp
+    text: '61. The dune belt from 60 m, the pair of card 18. Lead: "dunes read as land forms and the beach is a beach; the dune backs want straw-green instead of moor brown."'
+  - id: img-beauty-62-ground-2-coast-4400m
+    type: image
+    updated: [2026-11-22T12:10:00.000Z, agent:board]
+    box: [11800, 7390, 360]
+    src: images/beauty-ground-2-merged-coast-4400m.webp
+    text: '62. The coast from 4.4 km: forest with clearings, the pair of card 26. Lead: "best frame of the run so far."'
+  - id: img-beauty-63-ground-2-coast-2300km
+    type: image
+    updated: [2026-11-22T12:10:00.000Z, agent:board]
+    box: [12185, 7390, 360]
+    src: images/beauty-ground-2-merged-coast-2300km.webp
+    text: '63. The coast from 2,300 km, the pair of card 22. Lead: "FAIL — forest in rectangular patches along tile edges and the range lost its snow. A regression of ground step 1; fix is in flight (far colour comes only from per-fragment functions of place and from height)."'
