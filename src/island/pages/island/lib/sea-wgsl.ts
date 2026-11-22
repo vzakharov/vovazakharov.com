@@ -252,6 +252,11 @@ fn seaColour(
   place: vec3f, field: vec3f, grain: vec3f, world: vec3f, eye: vec3f, sun: vec3f, bed: f32,
   under: vec3f, footprint: f32, seconds: f32, mirrored: vec3f, overhead: vec3f, swell: vec2f,
 ) -> vec3f {
+  let level = seaSwellAt(world, bed, swell);
+  // Dry sand, which \`seaLies\` discards: its colour is never seen.
+  if (bed > 0.0 && level - bed <= 0.004) {
+    return vec3f(0.0);
+  }
   let up = normalize(eye + world);
   let range = length(world);
   let toEye = -world / max(range, 1e-3);
@@ -262,7 +267,6 @@ fn seaColour(
   let rippled = ripplesAt(place, seaGroups(field, grain), up, wind * calm, footprint, seconds);
   // The swell's own slope along its run, while a pixel is finer than a wave.
   let swellSeen = 1.0 - smoothstep(1.0, 6.0, footprint);
-  let level = seaSwellAt(world, bed, swell);
   let run = SEA_SWELL_AXIS - up * dot(SEA_SWELL_AXIS, up);
   let along = run / max(length(run), 1e-4);
   let ahead = seaSwellAt(world + along * 0.4, bed, swell);
