@@ -284,7 +284,42 @@ PR. Session ids are claude.ai remote sessions.
   (a tile-level seam); dune backs want straw-green. The forest from 2 m and from
   60 m is the run's best; from 300 m it is blobs on bare brown that end a
   kilometre off.
-- Left: the clouds; `sand` swapped into the ground shader; the lattice hash
-  ground and clouds each carry folded into one home with the world's offset; the
-  coast; the middle look and what it saves; `/dry`, `/tend-prose`,
-  `/five-percent`, vet, the PR.
+- Merged since, in order (every merge gated: typecheck, lint:check,
+  format:check, `pnpm test`): trees' sand seam, cover across levels, wind
+  (rectangles from orbit gone); speed's three looks on B and the touch look
+  button (`ui/look-button.tsx`, bottom right, not under `?play`); coast step 1;
+  ground's forest by expectation, canopy tone, snow by height and slope, moor,
+  scree; trees' undergrowth and far tier; at 19e5bb3ab coast's domain warp
+  (e483f6734) and `groundSpread` (79d4dcc53), ground's gentler ripples
+  (2afbeccac); at 72d2324dd the clouds' step 1 (cfbfd6173).
+- The lattice seam is `ui/lattice-value.ts`: `latticeValue` and `worldCell`
+  shift every shader lattice by a roll of the world (`rollLattice(world)` at
+  each pool start). Ground and clouds both read it (0599b47e0).
+- Coast verdicts: step 1 (additive bends at 3–9% of wavelength) was invisible —
+  the lead's own numbers; the warp is the coast that was asked for (frames
+  `0012-merge-5-coast-*`). It moved the shooter's dune place under the sea, so
+  `DUNES` is 44.024, 10.052 now. Left to coast: metre-scale teeth checked by
+  number, notes current, then done and archived.
+- `groundSpread` buys no tiles (alpine 3000 m 143 either way): the bound is
+  sup-times-sup, 100–700× the measured spread. Tile counts stay worse than
+  main's 112 until speed brackets a tile from its own filled heights.
+- Verdicts sent 17:05 UTC. Ground: crisp snow edges placed by hollows and lee
+  slopes, the rock's dot pattern, orbit forest as even 100 km blobs (read the
+  trees' `PATCHES`), dune slip faces as pen strokes from afar, scree in crop
+  rings, the shoal's smear; then its swift path. Trees: smooth crown normals,
+  the ring where placed trees end, tan trunks, black crown undersides; then the
+  swift path (`setShown` takes the look) with triangles per look.
+- Clouds' step 1 from orbit is weather (decks, open cells, a front, an ice
+  shield) and no longer speckle, but the open cells are crisp crochet lace and a
+  front is a white worm; from the ground the member itself calls it blander than
+  the baseline (four steps across a grazing ray). `lookTo`'s clamp is the eye's
+  own rule (`lookWithin`), so nobody sees cumulus overhead; the horizon is the
+  view to get right.
+- Preview slot 1 serves 36ffc9038 (checked): everything above but the clouds.
+- Speed's step 3 is decided: clouds at quarter resolution with temporal
+  reprojection behind swift, cloud shading behind one function so the new shader
+  drops in; it also owes a turning sequence as proof nothing swims.
+- Left: clouds from the ground and the lace; the verdict queue above; swift
+  paths in ground and trees; speed's step 3 and tile bracket; `pnpm knip` red on
+  exports members left unused; `/dry`, `/tend-prose`, `/five-percent`, vet, the
+  PR.
