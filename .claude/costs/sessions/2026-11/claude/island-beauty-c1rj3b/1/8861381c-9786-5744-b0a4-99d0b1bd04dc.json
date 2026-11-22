@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 628495,
-    "cacheWrite5mTokens": 691517,
-    "cacheWrite1hTokens": 782860,
-    "cacheReadTokens": 52449916,
-    "outputTokens": 325398,
-    "thinkingTokens": 65373,
-    "responses": 322,
-    "costUsd": 33.32970620000002
+    "inputTokens": 629004,
+    "cacheWrite5mTokens": 692010,
+    "cacheWrite1hTokens": 785886,
+    "cacheReadTokens": 53256509,
+    "outputTokens": 325610,
+    "thinkingTokens": 65420,
+    "responses": 325,
+    "costUsd": 33.55988080000002
   },
   "estimate": {
     "at": "2026-11-22T10:04:22.431Z",
@@ -52,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkBiucpraEhsFyZ58M9",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-22T09:48:38.998Z",
-  "lastResponseAt": "2026-11-22T16:09:31.939Z",
+  "lastResponseAt": "2026-11-22T16:10:34.151Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 24.96560949999999,
   "ownTurns": {
-    "inputTokens": 370,
+    "inputTokens": 373,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 782860,
-    "cacheReadTokens": 40305936,
-    "outputTokens": 190590,
-    "thinkingTokens": 56125,
-    "responses": 193,
-    "costUsd": 28.213507200000002
+    "cacheWrite1hTokens": 785886,
+    "cacheReadTokens": 40844546,
+    "outputTokens": 190796,
+    "thinkingTokens": 56172,
+    "responses": 195,
+    "costUsd": 28.3779092
   },
   "subagents": {
     "inputTokens": 198,
@@ -77,14 +77,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 9028,
-      "cacheWrite5mTokens": 3575,
-      "cacheWrite1hTokens": 782860,
-      "cacheReadTokens": 42408262,
-      "outputTokens": 212620,
-      "thinkingTokens": 56125,
-      "responses": 202,
-      "costUsd": 29.633956400000002
+      "inputTokens": 9537,
+      "cacheWrite5mTokens": 4068,
+      "cacheWrite1hTokens": 785886,
+      "cacheReadTokens": 43214855,
+      "outputTokens": 212832,
+      "thinkingTokens": 56172,
+      "responses": 205,
+      "costUsd": 29.864131
     },
     "claude-sonnet-5-5/standard": {
       "inputTokens": 198,
@@ -169,16 +169,16 @@
           "Bash": 1
         },
         "estimatedTokens": 2380,
-        "estimatedUsd": 0.0598552
+        "estimatedUsd": 0.0608072
       },
       "billedUsd": 0.5023284000000001
     }
   ],
   "telemetry": {
-    "events": 322,
-    "matched": 285,
-    "matchedTableUsd": 31.730573600000017,
-    "matchedEventUsd": 31.730573600000014,
+    "events": 325,
+    "matched": 287,
+    "matchedTableUsd": 31.894975600000016,
+    "matchedEventUsd": 31.894975600000013,
     "unseen": {
       "web_fetch_apply": {
         "inputTokens": 469885,
@@ -211,14 +211,14 @@
         "costUsd": 1.0487764000000002
       },
       "prompt_suggestion": {
-        "inputTokens": 3542,
-        "cacheWrite5mTokens": 2295,
+        "inputTokens": 4048,
+        "cacheWrite5mTokens": 2788,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 1499284,
-        "outputTokens": 169,
+        "cacheReadTokens": 1767267,
+        "outputTokens": 175,
         "thinkingTokens": 0,
-        "responses": 7,
-        "costUsd": 0.3716728
+        "responses": 8,
+        "costUsd": 0.43744540000000004
       }
     }
   },
