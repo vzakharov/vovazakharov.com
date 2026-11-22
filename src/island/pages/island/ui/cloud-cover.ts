@@ -15,7 +15,15 @@ import {
 import type { Node } from 'three/webgpu';
 
 import { CELL_WAVES, MESO_WAVES, STREET_WAVES } from '../lib/clouds';
-import { edgeOf, type F, noise, toldFrom, type V } from './cloud-noise';
+import {
+  edgeOf,
+  type F,
+  noise,
+  puffs,
+  toldFrom,
+  turnedTo,
+  type V,
+} from './cloud-noise';
 import type { Regime } from './cloud-regimes';
 
 /** Each cumulus scale's share of the cells' noise, coarsest first. */
@@ -58,6 +66,12 @@ export type CloudCover = {
   readonly meso: (spot: V, regime: Regime) => Meso;
   /** Cumulus scale `index` over `spot`, coarsest first, as an eye `away` metres off tells it. */
   readonly octave: (spot: V, index: number, away: F) => F;
+  /**
+   * The cumulus scales over `spot` that an eye `away` metres off tells and a
+   * march hiding what `hidden` metres would does not: read once for a ray,
+   * where it enters the layer, they lie on the cloud like a sheet.
+   */
+  readonly sheet: (spot: V, away: F, hidden: F) => F;
   /**
    * What the cells make of `regime` over `spot`: over zero, cloud. `meso` is
    * the meso field there and `cells` the sum of the cumulus scales.
@@ -183,14 +197,35 @@ export function cloudCover(growth: F): CloudCover {
       return vec2(lump, edge);
     })();
 
-  const octave = (spot: V, index: number, away: F): F => {
-    const waves = CELL_WAVES[index] ?? 1;
-    // Each octave on its own axes, so the lattices never line up.
-    const turnedOnce = index % 2 === 0 ? spot : spot.zxy;
-    return noise(turnedOnce.mul(waves).add(grown))
-      .mul(toldFrom(waves, away))
-      .mul(CELL_WEIGHTS[index] ?? 0);
+  /** Cumulus scale `index` over `spot`, at its full weight. */
+  const wave = (spot: V, index: number): F => {
+    // Each scale on its own axes, so no lattice lines up with another's.
+    const about = turnedTo(spot, index)
+      .mul(CELL_WAVES[index] ?? 1)
+      .add(grown);
+    // The coarsest scale is the clouds themselves: separate heaps.
+    return (index === 0 ? puffs(about) : noise(about)).mul(
+      CELL_WEIGHTS[index] ?? 0,
+    );
   };
+
+  const octave = (spot: V, index: number, away: F): F =>
+    wave(spot, index).mul(toldFrom(CELL_WAVES[index] ?? 1, away));
+
+  const sheet = (spot: V, away: F, hidden: F): F =>
+    Fn(() => {
+      const at = spot.toVar();
+      const sum = float(0).toVar();
+      for (const [index, waves] of CELL_WAVES.entries()) {
+        const left = toldFrom(waves, away)
+          .sub(toldFrom(waves, max(away, hidden)))
+          .toVar();
+        If(left.greaterThan(0.01), () => {
+          sum.addAssign(wave(at, index).mul(left));
+        });
+      }
+      return sum;
+    })();
 
   const signal = (
     spot: V,
@@ -237,5 +272,5 @@ export function cloudCover(growth: F): CloudCover {
     return sum;
   };
 
-  return { meso, octave, signal };
+  return { meso, octave, sheet, signal };
 }

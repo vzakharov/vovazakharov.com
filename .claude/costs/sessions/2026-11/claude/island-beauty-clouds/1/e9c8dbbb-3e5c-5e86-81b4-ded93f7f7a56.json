@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 7513,
-    "cacheWrite5mTokens": 355,
-    "cacheWrite1hTokens": 673984,
-    "cacheReadTokens": 27196161,
-    "outputTokens": 213745,
-    "thinkingTokens": 98055,
-    "responses": 143,
-    "costUsd": 24.836430199999995
+    "inputTokens": 10659,
+    "cacheWrite5mTokens": 2908,
+    "cacheWrite1hTokens": 782143,
+    "cacheReadTokens": 29837312,
+    "outputTokens": 236593,
+    "thinkingTokens": 104849,
+    "responses": 160,
+    "costUsd": 28.059822399999998
   },
   "estimate": {
     "at": "2026-11-22T10:05:35.253Z",
@@ -52,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkDgngV6hJwJPofVnqB",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-22T10:01:18.937Z",
-  "lastResponseAt": "2026-11-22T17:18:33.319Z",
+  "lastResponseAt": "2026-11-22T17:43:47.007Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 18.5712668,
   "ownTurns": {
-    "inputTokens": 274,
+    "inputTokens": 305,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 673984,
-    "cacheReadTokens": 26677575,
-    "outputTokens": 197805,
-    "thinkingTokens": 98055,
-    "responses": 141,
-    "costUsd": 24.033650999999995
+    "cacheWrite1hTokens": 782143,
+    "cacheReadTokens": 29061802,
+    "outputTokens": 214081,
+    "thinkingTokens": 104849,
+    "responses": 157,
+    "costUsd": 26.892328399999997
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,14 +77,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 7513,
-      "cacheWrite5mTokens": 355,
-      "cacheWrite1hTokens": 673984,
-      "cacheReadTokens": 27196161,
-      "outputTokens": 213745,
-      "thinkingTokens": 98055,
-      "responses": 143,
-      "costUsd": 24.836430199999995
+      "inputTokens": 10659,
+      "cacheWrite5mTokens": 2908,
+      "cacheWrite1hTokens": 782143,
+      "cacheReadTokens": 29837312,
+      "outputTokens": 236593,
+      "thinkingTokens": 104849,
+      "responses": 160,
+      "costUsd": 28.059822399999998
     }
   },
   "warnings": [],
@@ -147,26 +147,57 @@
           "Bash": 1
         },
         "estimatedTokens": 193,
-        "estimatedUsd": 0.0047864000000000005
+        "estimatedUsd": 0.0049022
       },
       "billedUsd": 0.4128794
+    },
+    {
+      "at": "2026-11-22T17:21:08.526Z",
+      "trigger": "auto",
+      "compactedFrom": 264356,
+      "summaryChars": 15413,
+      "reorientation": {
+        "endedBy": null,
+        "endedOn": null,
+        "endedAt": null,
+        "contextTokens": null,
+        "spend": {
+          "inputTokens": 25,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 100208,
+          "cacheReadTokens": 1619395,
+          "outputTokens": 9568,
+          "thinkingTokens": 3677,
+          "responses": 13,
+          "costUsd": 2.3101270000000005
+        }
+      },
+      "rereads": {
+        "calls": 1,
+        "byTool": {
+          "Bash": 1
+        },
+        "estimatedTokens": 215,
+        "estimatedUsd": 0.00344
+      },
+      "billedUsd": 0.3647148
     }
   ],
   "telemetry": {
-    "events": 142,
-    "matched": 140,
-    "matchedTableUsd": 23.914915999999995,
-    "matchedEventUsd": 23.914915999999995,
+    "events": 159,
+    "matched": 156,
+    "matchedTableUsd": 26.808940599999996,
+    "matchedEventUsd": 26.808940599999996,
     "unseen": {
       "compact": {
-        "inputTokens": 7239,
-        "cacheWrite5mTokens": 355,
+        "inputTokens": 10354,
+        "cacheWrite5mTokens": 2908,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 518586,
-        "outputTokens": 15940,
+        "cacheReadTokens": 775510,
+        "outputTokens": 22512,
         "thinkingTokens": 0,
-        "responses": 2,
-        "costUsd": 0.8027792
+        "responses": 3,
+        "costUsd": 1.167494
       }
     }
   },
@@ -178,9 +209,11 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 990,
-    ".json": 15,
-    ".yaml": 17,
-    ".ts": 4755
+    ".md": 1344,
+    ".json": 490,
+    ".yaml": 786,
+    ".ts": 6903,
+    ".tsx": 41,
+    ".scss": 28
   }
 }

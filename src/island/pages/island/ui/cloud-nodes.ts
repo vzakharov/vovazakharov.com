@@ -5,7 +5,6 @@ import {
   float,
   Fn,
   If,
-  int,
   Loop,
   max,
   min,
@@ -67,10 +66,10 @@ export type CloudNodes = {
   readonly update: (seconds: number) => void;
 };
 
-/** Steps along a ray's stretch of the layer: for an eye over every cloud, and for one among or under them. */
-const STEPS = [4, 8] as const;
-/** The distance, in a step's level lengths, that hides the same waves the step does: those under a step long. */
-const STEP_HIDES = 60;
+/** Steps along a ray's stretch of the layer. */
+const STEPS = 4;
+/** The distance, in a step's level lengths, that hides the same waves the step does: those under two steps long. */
+const STEP_HIDES = 120;
 /** What a metre of full cloud takes from a ray. */
 const PER_METRE = 0.012;
 /** How much deeper a cloud is under the heaviest billow of its cells than under none. */
@@ -172,29 +171,30 @@ export function cloudNodes(frame: CloudFrame): CloudNodes {
           const from = inLayer.from.toVar();
           const length = inLayer.length.toVar();
           If(length.greaterThan(0), () => {
-            const [fewest, most] = STEPS;
+            // An eye inside the layer samples near itself first: the cloud it is in.
+            const within = select(from.lessThanEqual(0), float(1), float(0));
             const steep = rays
               .steepAt(cosine, from.add(length.mul(0.5)))
               .toVar();
-            // Counted from the eye's height alone, so no line across the view parts two counts.
-            const steps = select(
-              height.lessThan(HIGHEST_TOP),
-              float(most),
-              float(fewest),
-            ).toVar();
-            // A wave shorter than a step would show as one bar a step.
+            // A wave shorter than two steps would show as one bar a step, so
+            // the steps leave it to the sheet.
             const hidden = length
-              .div(steps)
               .mul(steep.mul(steep).oneMinus().max(0).sqrt())
-              .mul(STEP_HIDES)
+              .mul(STEP_HIDES / STEPS)
+              .mul(within.oneMinus())
+              .toVar();
+            const sheet = cover
+              .sheet(
+                turned(rays.placeAt(direction, from)),
+                from.div(rays.steepAt(cosine, from).clamp(LEAST_STEEP, 1)),
+                hidden,
+              )
               .toVar();
             const through = float(1).toVar();
             const glow = vec3(0).toVar();
             const lamps = light.lamps(read, regime.base);
             const mesoIn = mesoAt(from, regime);
             const mesoOut = mesoAt(from.add(length), regime);
-            // An eye inside the layer samples near itself first: the cloud it is in.
-            const within = select(from.lessThanEqual(0), float(1), float(0));
             /** The field where the ray has come `share` of the way through its samples. */
             const readAt = (share: F) => {
               const reached = mix(share, share.mul(share), within).toVar();
@@ -207,7 +207,10 @@ export function cloudNodes(frame: CloudFrame): CloudNodes {
                 hidden,
               ).toVar();
               const coarse = cover.octave(spot, 0, away).toVar();
-              const cells = coarse.add(cover.octave(spot, 1, away)).toVar();
+              const cells = coarse
+                .add(cover.octave(spot, 1, away))
+                .add(sheet)
+                .toVar();
               for (const [index, wave] of CELL_METRES.entries()) {
                 if (index < 2) continue;
                 // A scale under a pixel is not read at all.
@@ -231,12 +234,12 @@ export function cloudNodes(frame: CloudFrame): CloudNodes {
             const nearCoarse = first.coarse.toVar();
             const nearCells = first.cells.toVar();
             const nearSignal = first.signal.toVar();
-            Loop({ start: int(0), end: int(steps) }, ({ i }) => {
+            Loop(STEPS, ({ i }) => {
               // What is left would not show through what the ray already met.
               If(through.lessThan(0.02), () => {
                 Break();
               });
-              const far = readAt(float(i).add(1).div(steps));
+              const far = readAt(float(i).add(1).div(STEPS));
               const farSignal = far.signal.toVar();
               const nearOver = rays.overAt(cosine, nearAt).toVar();
               const thick = thickness(
