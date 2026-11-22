@@ -59,7 +59,18 @@ coastCutReach`, `groundSpread(m)` (height-sphere.ts) — see below.
 - Calm at: Liguria 44.019, 10.046 → 0 (rough); Versilia 43.735, 10.266 → 1;
   Brittany 48.4, −4.6 → 0.2.
 - Pins: the dune-belt sand pin moved to Versilia, 43.735, 10.266 (Liguria is
-  rough, so it lost its belt); the heights at 10° N did not move. `lowland.test.ts` passes.
+  rough, so it lost its belt); the heights at 10° N did not move. Nothing else
+  pins 44.019, 10.046. The shooter's `DUNES` (`shoot-args.ts`, 44.024, 10.052)
+  reads 1.35 km inland, 137 m up, rough, no sand; a calm dune-belt place is
+  43.733, 10.266 (284 m in, 42 m up, sand 1), sea to 254°, so heading 164°
+  looks along the belt (`tmp/coast/find-dunes.ts`).
+- The finest bends, at the eye (`tmp/coast/fine-bends.ts`, `waterline.ts`): a
+  2 m or 60 m eye gets cut 2.4 m within 300 m of it (the max level's floor),
+  so every bend down to 4.9 m is drawn, and the near ramp is whole within 6 km
+  of the field's coast. The drawn waterline over 60 m of shore: calm, bends
+  under 12 m move it ±0.8 m and under 50 m ±1 m (smooth-ish); rough, under
+  12 m ±1.4 m and under 50 m over 13 m. Nothing shorter than ~5 m: the mesh's
+  1.2 m spacing draws no shorter wave cleanly. `lowland.test.ts` passes.
 
 ## `groundSpread`
 
