@@ -218,7 +218,7 @@ export function mountIslandScene(
     const pose = poseOf(eye, camera.aspect);
     const [ex, ey, ez] = pose.position;
     view.draw(eye, camera.aspect);
-    trees.draw(pose.position, eye.height);
+    trees.draw(pose.position, eye.height, stepped);
     globe.position.set(-ex, -ey, -ez);
     camera.fov = (pose.fov * 180) / Math.PI;
     camera.updateProjectionMatrix();
