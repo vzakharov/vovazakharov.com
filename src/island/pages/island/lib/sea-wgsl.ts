@@ -151,10 +151,13 @@ fn ripplesAt(place: vec3f, groups: vec2f, up: vec3f, wind: vec3f, footprint: f32
         (0.12 + 0.88 * downwind * downwind) *
         (1.0 - smoothstep(0.6 * longest, 1.2 * longest, metres));
       let seen = smoothstep(2.0, 6.0, metres / footprint);
-      let phase = SEA_TAU * (dot(wave.xyz, turned) + dot(RIPPLE_DRIFTS[i], groups)) -
-        RIPPLE_PACES[i] * seconds + wave.w;
-      slope += toward * (sqrt(2.0 * share) * seen * cos(phase));
       hidden += share * (1.0 - seen * seen);
+      // A wave under two pixels adds no slope: its phase is never wanted.
+      if (seen > 0.0) {
+        let phase = SEA_TAU * (dot(wave.xyz, turned) + dot(RIPPLE_DRIFTS[i], groups)) -
+          RIPPLE_PACES[i] * seconds + wave.w;
+        slope += toward * (sqrt(2.0 * share) * seen * cos(phase));
+      }
     }
   }
   return Rippled(slope, hidden);
