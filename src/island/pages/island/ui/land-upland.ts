@@ -45,11 +45,16 @@ export function moorOf({ ground: { steep }, mix: m }: Band) {
     [HILL, 0.2],
   ]);
   // A narrow edge: a clump stands apart from the heath it grows through.
-  const clump = m.patches(-0.03, 0.07, [
-    [STEP, 0.6],
-    [HAND, 0.45],
-    [GRAIN, 0.2],
-  ]);
+  const clump = m.edge(
+    float(0),
+    -0.03,
+    0.07,
+    m.shaped([
+      [STEP, 0.5],
+      [HAND, 0.55],
+      [GRAIN, 0.2],
+    ]),
+  );
   const stony = smoothstep(
     0.04,
     0.12,
@@ -92,10 +97,15 @@ export function alpineOf({ ground: { steep }, mix: m, banded, border }: Band) {
     .mul(smoothstep(0.03, 0.09, steep).oneMinus());
   const scree = smoothstep(0.05, 0.11, steep.add(m.at(SLOPE).value.mul(0.02)));
   // Stones a hand across, each one's edge told from the next.
-  const stone = m.patches(-0.06, 0.06, [
-    [HAND, 0.6],
-    [GRAIN, 0.5],
-  ]);
+  const stone = m.edge(
+    float(0),
+    -0.06,
+    0.06,
+    m.shaped([
+      [HAND, 0.6],
+      [GRAIN, 0.5],
+    ]),
+  );
   const stones = paint(LAND_PALETTE.scree)
     .mul(mix(0.62, 1.08, stone))
     .mul(
@@ -147,8 +157,10 @@ export function rockOf(
     noiseAt(
       vec3(
         level
+          .add(m.at(PATCH).value.mul(1.5))
           .add(m.at(SLOPE).value.mul(6))
-          .add(m.at(FIELD).value.mul(20))
+          .add(m.at(FIELD).value.mul(24))
+          .add(m.at(HILL).value.mul(70))
           .div(thickness),
         m.at(FIELD).value.mul(1.3).add(7),
         m.at(HILL).value.mul(1.3).add(3),
@@ -188,15 +200,15 @@ export function snowOf({ ground: { level, steep, away }, mix: m }: Band) {
   const over = level.sub(BAND_HEIGHTS.snowLine);
   const lying = m.edge(
     over.div(300),
-    -0.15,
-    0.15,
+    -0.07,
+    0.07,
     m.ragged([
       [REGION, 0.6],
       [DISTRICT, 0.4],
       [HILL, 0.5],
       [FIELD, 0.4],
-      [SLOPE, 0.25],
-      [PATCH, 0.12],
+      [SLOPE, 0.14],
+      [PATCH, 0.05],
     ]),
   );
   const sliding = m.edge(

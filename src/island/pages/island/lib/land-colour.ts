@@ -30,8 +30,8 @@ export const BAND_HEIGHTS: {
   readonly mountain: readonly [from: number, to: number];
   readonly snowLine: number;
 } = {
-  upland: [280, 520],
-  mountain: [640, 1000],
+  upland: [230, 340],
+  mountain: [570, 740],
   snowLine: 2200,
 };
 

@@ -42,9 +42,9 @@ device dies in this container, so nothing below was seen on WebGPU.
   beach over all of it, and each material's roughness. No latitude.
 - `ui/land-beach.ts` — sand wherever a 0…1 sandiness says, whatever the
   height or slope: wet colour at the waterline drying pale, a wrack line,
-  marram tufts where the sand thins. Sandiness is read from height
-  (`sandinessOf`) until the per-vertex `sand` attribute lands; the swap is the
-  one argument in `land-bands.ts`.
+  marram tufts where the sand thins. Sandiness is the tile's per-vertex `sand`
+  attribute (`SAND_ATTRIBUTE`), less what the forest covers; the shader keeps
+  no distance to the coast of its own.
 - `ui/land-lowland.ts` — meadow (growth, hay, rushes in hollows, earth banks)
   and forest. Forest near the eye is the tile's `cover` attribute; between
   20 km and 150 km it gives way to what the height and the shader's own
@@ -65,7 +65,7 @@ device dies in this container, so nothing below was seen on WebGPU.
 - The waterline: under 4 m the colour is `GROUND_STOPS`' own, untouched, and
   `surface.damp` wraps the output as before.
 
-- Forest near and far: within 120 m the fine look paints `cover` as the
+- Forest near and far: within 300 m the fine look paints `cover` as the
   shaded floor — litter and moss — and from 600 m as canopy, in the trees' own
   leaf colours (`LAND_PALETTE.broadleaf`, `.conifer`) times 0.75. The conifer
   heights (250–520 m) and the thinning height (450 m) repeat figures in
@@ -88,12 +88,12 @@ has measured the land's share on the target machine yet.
 - Forest from 300 km up is a checkerboard of tile vertices, with a seam where
   two tile levels meet: `cover` is per vertex, and a coarse tile has few. The
   shader softens the edge but cannot hide the grid.
-- Sand lies in sheets far inland wherever ground is under 20 m (relief's to
-  cure by shape); the shader only varies its tone and rags its edge.
 - Underfoot the ground is still soft past a few metres: the finest octave is
   11 cm, and nothing draws blades, stones or twigs.
 
 ## Outside my files
 
-- `latticeValue` in `ui/land-noise.ts` is the same float hash the clouds use;
-  one home for both would sit below `ui/`.
+- `pnpm knip` fails on three exports of the relief's (`detailReach`, `sandAt`,
+  `sandAtSphere`), none of them read by the ground.
+- The snow line is the same on every aspect; a lower line on the shaded side
+  was asked for and is not built.
