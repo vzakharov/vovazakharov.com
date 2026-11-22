@@ -2,7 +2,7 @@ items:
   - id: z-beauty
     type: zone
     updated: [2026-11-22T11:00:00.000Z, agent:board]
-    box: [11760, 380, 2000, 7400, green]
+    box: [11760, 380, 2000, 8350, green]
     icon: 🎞️
     text: 'Making it beautiful: the timelapse, failures included'
   - id: beauty-howto
@@ -422,3 +422,42 @@ items:
     box: [12185, 7390, 360]
     src: images/beauty-ground-2-merged-coast-2300km.webp
     text: '63. The coast from 2,300 km, the pair of card 22. Lead: "FAIL — forest in rectangular patches along tile edges and the range lost its snow. A regression of ground step 1; fix is in flight (far colour comes only from per-fragment functions of place and from height)."'
+  - id: beauty-trees-2-row
+    type: text
+    updated: [2026-11-22T15:50:00.000Z, agent:board]
+    box: [12570, 7390, 1000, body]
+    text: "Trees, step 1 on the merged build (relief, ground and trees together), the lead's frames. Cards 64 to 67."
+  - id: img-beauty-64-trees-2-forest-3000m
+    type: image
+    updated: [2026-11-22T15:50:00.000Z, agent:board]
+    box: [12570, 7460, 360]
+    src: images/beauty-trees-2-merged-forest-3000m.webp
+    text: '64. A forest on the merged build from 3 km. No verdict from the lead. The frame shows dark green patches with ragged edges lying on paler olive hills; the patches read as flat colour, and the near ground is one uniform green.'
+  - id: img-beauty-65-trees-2-forest-300m
+    type: image
+    updated: [2026-11-22T15:50:00.000Z, agent:board]
+    box: [12955, 7460, 360]
+    src: images/beauty-trees-2-merged-forest-300m.webp
+    text: '65. From 300 m. Lead: "FAIL in part — trees are green blobs on bare brown ground, thin out to nothing a kilometre off, and the hills beyond are plain green: the ground under and past the trees does not look like forest yet. In flight with ground (canopy tone by cover) and trees (cover agreeing across levels)."'
+  - id: img-beauty-66-trees-2-forest-60m
+    type: image
+    updated: [2026-11-22T15:50:00.000Z, agent:board]
+    box: [13340, 7460, 360]
+    src: images/beauty-trees-2-merged-forest-60m.webp
+    text: '66. From 60 m, over the crowns. Lead: "The canopy reads as a forest; first frame where it does." Bare brown earth shows between the crowns and beyond the stand.'
+  - id: img-beauty-67-trees-2-forest-2m
+    type: image
+    updated: [2026-11-22T15:50:00.000Z, agent:board]
+    box: [11800, 7850, 360]
+    src: images/beauty-trees-2-merged-forest-2m.webp
+    text: '67. Standing in it. Lead: "The best 2 m frame of the run — trunks, forks, two kinds of tree, light through the crowns; the ground under them is bare earth with no litter or undergrowth."'
+  - id: beauty-68-operator-coast
+    type: sticky
+    updated: [2026-11-22T15:50:00.000Z, agent:board]
+    box: [12185, 7850, 420, yellow]
+    text: 'Operator steering, new, relayed by the lead: "super-straight, ruler-drawn coastlines. They should bend and go fractal (but deterministically, through rolled) as you get closer." (translated from the Russian). A sixth member, coast, started on it at 15:45 UTC.'
+  - id: beauty-69-limit-cut
+    type: sticky
+    updated: [2026-11-22T15:50:00.000Z, agent:board]
+    box: [12690, 7850, 420, pink]
+    text: '69. Failure. 11:48 UTC: the 5-hour limit cut all six sessions off mid-step. The operator woke them at 15:39.'
