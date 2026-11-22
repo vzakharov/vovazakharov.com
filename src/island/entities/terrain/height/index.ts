@@ -1,6 +1,6 @@
 export { detailReach } from './model/bounds';
+export { type CoastDistance, detailedCoast } from './model/coast-detail';
 export {
-  type CoastDistance,
   heightAtSphere,
   sandAtSphere,
   SPHERE_GROUND_SLOPE,

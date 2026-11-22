@@ -11,6 +11,7 @@ import {
   sub,
   unit,
   unitToLatLon,
+  type Vec3,
 } from '@/island/shared/globe';
 
 import {
@@ -159,6 +160,17 @@ describe('selectCubeTiles', () => {
       assert.ok(tiles.some((key) => holds(key, northOfCentre(30_000))));
       assertCubeBalanced(tiles);
       assertCubeDisjoint(tiles);
+    });
+
+    it('keeps a peak past the sea horizon that rises over it', () => {
+      // 3 km of rock 150 km ahead shows over the horizon of an eye 100 m up.
+      const peak = northOfCentre(150_000);
+      const mountain = (p: Vec3) =>
+        3000 * Math.max(0, 1 - (R * arc(p, peak)) / 20_000);
+      const seen = selectCubeTiles(eye, { frustum, ground: mountain });
+      assert.ok(seen.some((key) => holds(key, peak)));
+      assertCubeBalanced(seen);
+      assertCubeDisjoint(seen);
     });
 
     it('drops a tile ahead past the horizon', () => {

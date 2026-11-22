@@ -20,6 +20,13 @@ const LEAF: Readonly<Record<TreeKind, Rgb>> = {
   conifer: [0.028, 0.082, 0.036],
 };
 
+/**
+ * How far a leaf mass's normals lean to the sky, against lengths near 6: a
+ * crown stands among others that shade its flanks, which no lamp here knows,
+ * so its flanks take a grazing sun little more than the ground under it does.
+ */
+const SKYWARD = 4;
+
 /** A mesh being built: a tree one unit tall, its foot at the origin, `y` up. */
 type Build = {
   readonly positions: number[];
@@ -121,7 +128,7 @@ function mass(
       const out = unit3([at[0] - heart[0], at[1] - heart[1], at[2] - heart[2]]);
       const normal: P3 = [
         dx / radii[0] + out[0] * 2,
-        dy / radii[1] + out[1] * 2 + 0.6,
+        dy / radii[1] + out[1] * 2 + SKYWARD,
         dz / radii[2] + out[2] * 2,
       ];
       const light = 0.5 + 0.5 * (0.5 + 0.5 * dy) + 0.12 * (lump - 1) * 6;
@@ -265,7 +272,7 @@ function spire(
       vertex(
         build,
         [x + nx * ragged, (low + droop) * size, z + nz * ragged],
-        [nx, 0.55, nz],
+        [nx, 1.5, nz],
         shaded(leaf, 1.15),
       );
     }
@@ -277,7 +284,7 @@ function spire(
       vertex(
         build,
         [x + nx * pinch, high * size, z + nz * pinch],
-        [nx, 0.9, nz],
+        [nx, 2.2, nz],
         shaded(leaf, t === tiers - 1 ? 1 : 0.5),
       );
     }

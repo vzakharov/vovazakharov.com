@@ -1,0 +1,31 @@
+{
+  "at": "2026-11-22T11:20:45Z",
+  "branch": "claude/island-beauty-board",
+  "sessions": [
+    {
+      "url": "https://claude.ai/code/session_01DaohkEpVZaFGj3BXpvEYCv",
+      "started": "2026-11-22T09:58:33.460Z",
+      "usd": 2.154427899999999,
+      "senior_hours": null,
+      "operator_words": {
+        "chat": 0,
+        "review": 0,
+        "threads": 0
+      }
+    }
+  ],
+  "usd": 2.154427899999999,
+  "senior_hours": 0.0,
+  "operator_words": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "words_are_a_floor": false,
+  "branch_lines": {
+    ".md": 729,
+    ".json": 107,
+    ".yaml": 116,
+    ".ts": 1431
+  }
+}

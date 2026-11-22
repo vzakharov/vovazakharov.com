@@ -1,12 +1,12 @@
 import { type Elevated, R, type Vec3 } from '@/island/shared/globe';
 import {
   borderLoop,
+  type CoastDistance,
   noiseSalt,
+  sandAtSphere,
   type TileMesh,
   valueNoise3,
 } from '@/island/entities/terrain';
-
-import { SHORE_TOP } from '../lib/land-colour';
 
 /** Where the last conifers stand on level ground, metres above the sea, before the patches make it ragged. */
 export const TREELINE = 850;
@@ -17,8 +17,9 @@ const TREELINE_RAGGED = 60;
 /** The height over which the upland's conifers thin out below the treeline, metres. */
 const THINNING = 400;
 
-/** The height above the sand over which the first trees fill in, metres. */
-const DUNE_BELT = 25;
+/** The share of sand in the ground where the forest starts to thin, and where no tree stands. */
+const SANDY = 0.15;
+const ALL_SAND = 0.8;
 
 /** The ground's uprightness (cosine of its slope) where trees stop, and where they stand freely: 42° and 30°. */
 const TOO_STEEP = 0.743;
@@ -26,7 +27,7 @@ const EASY = 0.866;
 
 /** The share of the patch noise's range at which meadow gives way to forest, and half the width of that edge. */
 const FOREST_AT = -0.12;
-const EDGE = 0.07;
+const EDGE = 0.11;
 
 const smoothstep = (low: number, high: number, x: number) => {
   const t = Math.min(1, Math.max(0, (x - low) / (high - low)));
@@ -58,23 +59,46 @@ export type Spot = Elevated & {
   readonly p: Vec3;
 };
 
-/** What forest cover is read from at a place. */
-export type CoverSite = Spot & {
+/** What the ground at a place offers a tree. */
+type Soil = Elevated & {
   /** The ground's uprightness: the cosine of its slope, 1 on the level. */
   readonly upright: number;
-  /**
-   * The shortest patch the reader can tell apart, metres: a narrower octave
-   * fades to its mean and the forest's edge softens by as much, so a coarse
-   * tile carries the average of what a fine one resolves. 0 keeps every patch.
-   */
-  readonly finest?: number;
+  /** The share of sand in the ground, 0 to 1 (`sandAt`). */
+  readonly sand: number;
 };
+
+/** What forest cover is read from at a place. */
+export type CoverSite = Spot &
+  Soil & {
+    /**
+     * The width of the reader's cells, metres: an octave fades to its mean from
+     * `WHOLE_AT` cells a wavelength down to `GONE_AT`, and the forest's edge
+     * softens by as much, so a coarse tile carries the average of what a fine
+     * one resolves and differs from the next level by a share of an octave,
+     * never a whole one. 0 keeps every patch.
+     */
+    readonly finest?: number;
+  };
+
+/** Cells to a wavelength at which an octave is averaged out, and at which it is whole. */
+const GONE_AT = 4;
+const WHOLE_AT = 64;
+
+/** How much of an octave of `wavelength` a reader with cells `finest` wide keeps, 0 to 1. */
+const kept = (finest: number, wavelength: number) =>
+  finest === 0
+    ? 1
+    : smoothstep(
+        Math.log2(GONE_AT),
+        Math.log2(WHOLE_AT),
+        Math.log2(wavelength / finest),
+      );
 
 /** The share of the patches' range that `finest` averages out. */
 function droppedShare(finest: number): number {
   let dropped = 0;
   for (const { wavelength, weight } of PATCHES) {
-    dropped += weight * (1 - smoothstep(finest, 2 * finest, wavelength));
+    dropped += weight * (1 - kept(finest, wavelength));
   }
   return dropped / PATCH_RANGE;
 }
@@ -87,13 +111,13 @@ function patchField(
   z: number,
   finest: number,
 ): number {
-  let kept = 0;
+  let field = 0;
   for (let layer = 0; layer < PATCHES.length; layer++) {
     const { wavelength, weight, skew } = PATCHES[layer] ?? PATCHES[0];
-    const shown = smoothstep(finest, 2 * finest, wavelength);
+    const shown = kept(finest, wavelength);
     if (shown === 0) continue;
     const k = R / wavelength;
-    kept +=
+    field +=
       weight *
       shown *
       valueNoise3(
@@ -103,29 +127,29 @@ function patchField(
         k * (z + skew * x),
       );
   }
-  return kept / PATCH_RANGE;
+  return field / PATCH_RANGE;
 }
 
 /** Whether ground at `height` can hold a tree at all, whatever the patches say. */
 const inTreeBand = (height: number) =>
-  height > SHORE_TOP && height < TREELINE + TREELINE_RAGGED;
+  height > 0 && height < TREELINE + TREELINE_RAGGED;
 
 /** Cover from the patches' `field` at a place and the share of their range `dropped` there. */
 function coverFrom(
   field: number,
   dropped: number,
-  height: number,
-  upright: number,
+  { height, upright, sand }: Soil,
 ): number {
-  const standing = smoothstep(TOO_STEEP, EASY, upright);
+  const standing =
+    smoothstep(TOO_STEEP, EASY, upright) *
+    (1 - smoothstep(SANDY, ALL_SAND, sand));
   if (standing === 0) return 0;
   const line =
     TREELINE + TREELINE_RAGGED * Math.min(1, Math.max(-1, field * 2));
   const thinning = 1 - smoothstep(line - THINNING, line, height);
   const edge = EDGE + dropped;
   const forest = smoothstep(FOREST_AT - edge, FOREST_AT + edge, field);
-  const rising = smoothstep(SHORE_TOP, SHORE_TOP + DUNE_BELT, height);
-  return forest * thinning * rising * standing;
+  return forest * thinning * standing;
 }
 
 /**
@@ -138,13 +162,12 @@ function coverFrom(
  * a 32-bit integer).
  */
 export function forestCover(seed: number, site: CoverSite): number {
-  const { p, height, upright, finest = 0 } = site;
+  const { p, height, finest = 0 } = site;
   if (!inTreeBand(height)) return 0;
   return coverFrom(
     patchField(seed, p[0], p[1], p[2], finest),
     droppedShare(finest),
-    height,
-    upright,
+    site,
   );
 }
 
@@ -159,41 +182,85 @@ export const coniferShare = (height: number) =>
 export const stature = (height: number) =>
   1 - 0.55 * smoothstep(TREELINE - 350, TREELINE + TREELINE_RAGGED, height);
 
+/** Writes into `out` the unit direction of vertex `v` of a tile's mesh. */
+function directionOf(
+  { centre, positions }: TileMesh,
+  v: number,
+  out: number[],
+): void {
+  const x = (centre[0] ?? 0) + (positions[v * 3] ?? 0);
+  const y = (centre[1] ?? 0) + (positions[v * 3 + 1] ?? 0);
+  const z = (centre[2] ?? 0) + (positions[v * 3 + 2] ?? 0);
+  const scale = 1 / Math.hypot(x, y, z);
+  out[0] = x * scale;
+  out[1] = y * scale;
+  out[2] = z * scale;
+}
+
+/** Gives each skirt vertex of a tile's per-vertex `values` the value of the border vertex it hangs under. */
+function hangSkirt(values: Float32Array, grid: number): void {
+  for (const [n, v] of borderLoop(grid).entries()) {
+    values[grid * grid + n] = values[v] ?? 0;
+  }
+}
+
+/** The width of one of a tile's cells, metres: the shortest wave its lattice carries is twice it. */
+const cellOf = ({ key, grid }: TileMesh) =>
+  (R * Math.PI) / (2 ** key.level * (grid - 1));
+
 /**
- * Forest cover per vertex of a land tile, in the mesh's vertex order, each
- * skirt vertex taking the cover of the border vertex it hangs under. Patches
- * narrower than two of the tile's cells are averaged out, which leaves none
- * narrower than four whole: so on a grid of even cells the patches are sampled
- * at every other vertex and interpolated between, the height and the slope
- * still read at each.
+ * The share of sand in the ground per vertex of a land tile (`sandAt`), in the
+ * mesh's vertex order, skirt included, from the coast as bent as the tile's
+ * cells draw it.
+ */
+export function tileSand(
+  coast: CoastDistance,
+  mesh: TileMesh,
+): Float32Array<ArrayBuffer> {
+  const { grid, heights } = mesh;
+  const finest = cellOf(mesh);
+  const sand = new Float32Array(heights.length);
+  const direction = [0, 0, 0];
+  for (let v = 0; v < grid * grid; v++) {
+    const height = heights[v] ?? 0;
+    if (height <= 0) continue;
+    directionOf(mesh, v, direction);
+    sand[v] = sandAtSphere(
+      coast,
+      [direction[0] ?? 0, direction[1] ?? 0, direction[2] ?? 0],
+      height,
+      finest,
+    );
+  }
+  hangSkirt(sand, grid);
+  return sand;
+}
+
+/**
+ * Forest cover per vertex of a land tile, in the mesh's vertex order, skirt
+ * included, from the tile's `sand` (`tileSand`). Patches of fewer than
+ * `GONE_AT` of the tile's cells are averaged out: so on a grid of even cells
+ * the patches are sampled at every other vertex and interpolated between, the
+ * height, the slope and the sand still read at each.
  */
 export function tileCover(
   seed: number,
-  { key, grid, centre, positions, normals, heights }: TileMesh,
+  mesh: TileMesh,
+  sand: Float32Array,
 ): Float32Array<ArrayBuffer> {
-  const [cx = 0, cy = 0, cz = 0] = centre;
+  const { grid, normals, heights } = mesh;
   const cells = grid - 1;
-  const finest = (R * Math.PI) / (2 ** key.level * cells);
+  const finest = cellOf(mesh);
   const dropped = droppedShare(finest);
   const cover = new Float32Array(heights.length);
-  const count = grid * grid;
   const step = cells % 2 === 0 ? 2 : 1;
 
-  const fields = new Float32Array(count);
+  const fields = new Float32Array(grid * grid);
   const direction = [0, 0, 0];
-  const point = (v: number) => {
-    const x = cx + (positions[v * 3] ?? 0);
-    const y = cy + (positions[v * 3 + 1] ?? 0);
-    const z = cz + (positions[v * 3 + 2] ?? 0);
-    const scale = 1 / Math.hypot(x, y, z);
-    direction[0] = x * scale;
-    direction[1] = y * scale;
-    direction[2] = z * scale;
-  };
   for (let j = 0; j < grid; j += step) {
     for (let i = 0; i < grid; i += step) {
       const v = j * grid + i;
-      point(v);
+      directionOf(mesh, v, direction);
       fields[v] = patchField(
         seed,
         direction[0] ?? 0,
@@ -225,16 +292,18 @@ export function tileCover(
       const v = j * grid + i;
       const height = heights[v] ?? 0;
       if (!inTreeBand(height)) continue;
-      point(v);
+      directionOf(mesh, v, direction);
       const upright =
         (normals[v * 3] ?? 0) * (direction[0] ?? 0) +
         (normals[v * 3 + 1] ?? 0) * (direction[1] ?? 0) +
         (normals[v * 3 + 2] ?? 0) * (direction[2] ?? 0);
-      cover[v] = coverFrom(fieldAt(i, j), dropped, height, upright);
+      cover[v] = coverFrom(fieldAt(i, j), dropped, {
+        height,
+        upright,
+        sand: sand[v] ?? 0,
+      });
     }
   }
-  for (const [n, v] of borderLoop(grid).entries()) {
-    cover[count + n] = cover[v] ?? 0;
-  }
+  hangSkirt(cover, grid);
   return cover;
 }

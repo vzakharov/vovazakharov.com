@@ -1,19 +1,19 @@
 import type { CanDispose } from '@/kernel/shared/typings';
 
-/** Turns the fine look on and off, by `KeyboardEvent.code`: `B`, on every layout. */
-const FINE_KEY = 'KeyB';
+/** Steps to the next look, by `KeyboardEvent.code`: `B`, on every layout. */
+const LOOK_KEY = 'KeyB';
 
-/** Calls `onToggle` on each press of `FINE_KEY` on `element`'s window, a held key once. */
-export function bindFineKey(
+/** Calls `onStep` on each press of `LOOK_KEY` on `element`'s window, a held key once. */
+export function bindLookKey(
   element: HTMLElement,
-  onToggle: () => void,
+  onStep: () => void,
 ): CanDispose {
   const view = element.ownerDocument.defaultView ?? globalThis;
   const onKeyDown = (event: KeyboardEvent) => {
     if (event.ctrlKey || event.metaKey || event.altKey) return;
-    if (event.code !== FINE_KEY || event.repeat) return;
+    if (event.code !== LOOK_KEY || event.repeat) return;
     event.preventDefault();
-    onToggle();
+    onStep();
   };
   const bound = new AbortController();
   const { signal } = bound;

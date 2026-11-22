@@ -22,6 +22,7 @@ import {
   type LandOctave,
   LATTICE_WRAP,
 } from '../lib/land-octaves';
+import { latticeValue } from './lattice-value';
 
 type F = Node<'float'>;
 type V = Node<'vec3'>;
@@ -77,13 +78,6 @@ export const QUIET: OctaveNoise = {
  * along the noise.
  */
 const WARP = 0.22;
-
-/** A lattice point's value, 0 to 1, for whole coordinates under `LATTICE_WRAP`. */
-const latticeValue = Fn(([point]: [V]) => {
-  const folded = point.mul(0.1031).fract().toVar();
-  folded.addAssign(dot(folded, folded.zyx.add(31.32)));
-  return folded.x.add(folded.y).mul(folded.z).fract();
-});
 
 const wrapped = (cells: V): V =>
   cells.sub(cells.div(LATTICE_WRAP).floor().mul(LATTICE_WRAP));

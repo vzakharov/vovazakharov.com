@@ -2,8 +2,6 @@ import { Group, PerspectiveCamera, Scene, WebGPURenderer } from 'three/webgpu';
 
 import type { WithOnError } from '@/kernel/shared/typings';
 
-import { pathHash } from '@/dice/shared/roll';
-
 import { length, R, sub } from '@/island/shared/globe';
 import type { CoastDistance } from '@/island/entities/terrain';
 import {
@@ -37,46 +35,15 @@ import { eyeOfPose, placeOfEye } from '../lib/eye-pose';
 import { type Pace, paced } from '../lib/pace';
 import type { Pose } from '../lib/place-hash';
 import { startTilePool, type TilePool } from '../lib/tile-pool';
-import type { Where } from '../lib/where-line';
-import { coastOf, groundOf, SEA_LEVEL } from '../lib/world-ground';
+import { coastOf, groundOf, SEA_LEVEL, treeGround } from '../lib/world-ground';
 import { groundLighting } from './ground-lighting';
+import type { IslandScene } from './island-scene-api';
+import { rollLattice } from './lattice-value';
 import { oceanGlobe } from './ocean-globe';
-import { type FineSwitch, sceneLook } from './scene-look';
+import { sceneLook } from './scene-look';
 import { tileView } from './tile-view';
 import { bindTimeKeys } from './time-keys';
 import { treeView } from './tree-view';
-
-export type IslandScene = FineSwitch & {
-  /** Resolves once the first frame is drawn. */
-  readonly ready: Promise<void>;
-  /** Steps the eye `dt` seconds by the player's input (none under play) and draws; returns the metres it moved. */
-  readonly frame: (dt: number) => number;
-  /** Puts the eye `m` metres up; resolves once every tile it then selects is drawn. */
-  readonly setHeight: (m: number) => Promise<void>;
-  /** Puts the eye `m` metres over latitude `lat`, longitude `lon` (degrees, east positive), its heading kept, resolving as `setHeight` does. */
-  readonly moveTo: (lat: number, lon: number, m: number) => Promise<void>;
-  /** Sets the clock to `hours` past the opening's sun, as it stands, and draws. */
-  readonly setTime: (hours: number) => void;
-  /** Turns the eye to `heading`, resolving as `setHeight` does. */
-  readonly turnTo: (heading: number) => Promise<void>;
-  /** Raises the view `look` radians above its height's pitch, resolving as `setHeight` does. */
-  readonly lookTo: (look: number) => Promise<void>;
-  /** `'webgpu'` or `'webgl2'`, once ready. */
-  readonly backend: () => string;
-  /** Ms the worker took to build the current world's field; throws until it lands. */
-  readonly buildMs: () => number;
-  /**
-   * Rebuilds the scene on world `world`: every tile held or in flight is
-   * dropped and refilled from the new field, the eye left where it is.
-   */
-  readonly setWorld: (world: string) => void;
-  /** Puts the eye in `pose` and the clock at its hour, the opening's when it names none. */
-  readonly placeAt: (pose: Pose) => void;
-  /** Where the eye stands now, in the world on screen; throws until ready. */
-  readonly where: () => Where;
-  /** The drawn frames' pace, smoothed; none before the first frame, nor under play. */
-  readonly pace: () => Pace | undefined;
-};
 
 /** Closest the camera sees: the eye is never under two metres up. */
 const NEAR = 0.5;
@@ -133,7 +100,7 @@ export function mountIslandScene(
     keys: play ? null : canvas,
     onLook: trees.setShown,
   });
-  const { setFine } = looks;
+  const { setLook } = looks;
   const globe = oceanGlobe(ocean);
   const tiles = new Group();
   scene.add(globe, tiles, trees.group, ...lights);
@@ -182,6 +149,7 @@ export function mountIslandScene(
   /** A pool on `on`, whose tiles and field are taken only while it is current. */
   const startPool = (on: string): TilePool => {
     generation += 1;
+    rollLattice(on);
     const mine = generation;
     const current = () => !disposed && mine === generation;
     const started = startTilePool(
@@ -199,9 +167,9 @@ export function mountIslandScene(
       ({ field, seed, buildMs }) => {
         if (!current()) return;
         built = { of: mine, ms: buildMs };
-        coast = coastOf(field);
+        coast = coastOf(field, seed);
         groundAt = groundOf(coast, seed);
-        trees.setGround({ seed, groundAt, wordAt: pathHash(on) });
+        trees.setGround(treeGround(coast, seed, on));
         view.reselect();
         landed.resolve();
       },
@@ -219,7 +187,7 @@ export function mountIslandScene(
     const pose = poseOf(eye, camera.aspect);
     const [ex, ey, ez] = pose.position;
     view.draw(eye, camera.aspect);
-    trees.draw(pose.position, eye.height);
+    trees.draw(pose.position, eye.height, stepped);
     globe.position.set(-ex, -ey, -ez);
     camera.fov = (pose.fov * 180) / Math.PI;
     camera.updateProjectionMatrix();
@@ -345,7 +313,7 @@ export function mountIslandScene(
     },
     turnTo: async (heading) => placed((from) => withHeading(from, heading)),
     lookTo: async (look) => placed((from) => withLook(from, look)),
-    setFine,
+    setLook,
     backend: () => (webgpu() ? 'webgpu' : 'webgl2'),
     buildMs: () => {
       if (built?.of !== generation) throw new Error('field not built');

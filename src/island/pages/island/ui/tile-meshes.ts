@@ -20,7 +20,7 @@ import {
 
 import { colourHeights } from '../lib/colour-heights';
 import { type FilledTile, orderId } from '../lib/tile-protocol';
-import { COVER_ATTRIBUTE } from '../model/cover-attribute';
+import { COVER_ATTRIBUTE, SAND_ATTRIBUTE } from '../model/cover-attribute';
 import { indicesOutside } from '../model/piece-indices';
 import type { Cut } from '../model/tile-cover';
 import { HEIGHT_ATTRIBUTE, type StandInMaterials } from './ground-lighting';
@@ -81,21 +81,25 @@ export type TileMeshes = HeldTiles & {
   readonly size: () => number;
 };
 
+/** Per-vertex floats of a tile's geometry, by attribute name. */
+type Floats = Readonly<Record<string, Float32Array | null>>;
+
 /**
  * A tile's geometry, carrying `colourBy` as the heights its material colours
- * by and `cover`, where the tile has one, as its forest cover.
+ * by and each of `floats` the tile has as the float attribute of its name.
  */
 function geometryOf(
   mesh: TileMesh<CubeCell>,
   colourBy: Float32Array,
-  cover: Float32Array | null,
+  floats: Floats,
 ): BufferGeometry {
   const geometry = new BufferGeometry();
   geometry.setAttribute('position', new BufferAttribute(mesh.positions, 3));
   geometry.setAttribute('normal', new BufferAttribute(mesh.normals, 3));
   geometry.setAttribute(HEIGHT_ATTRIBUTE, new BufferAttribute(colourBy, 1));
-  if (cover !== null) {
-    geometry.setAttribute(COVER_ATTRIBUTE, new BufferAttribute(cover, 1));
+  for (const [name, values] of Object.entries(floats)) {
+    if (values === null) continue;
+    geometry.setAttribute(name, new BufferAttribute(values, 1));
   }
   geometry.setIndex(new BufferAttribute(mesh.indices, 1));
   geometry.computeBoundingSphere();
@@ -180,7 +184,7 @@ export function tileMeshes(
       preferred.find((id) => held.has(id)) ??
       variants.get(cubeTileId(key))?.at(-1),
     add: (tile) => {
-      const { key, land, sea, cover, floor } = tile;
+      const { key, land, sea, cover, sand, floor } = tile;
       const id = orderId(tile);
       const known = held.get(id);
       if (known !== undefined) release(id, known);
@@ -190,22 +194,19 @@ export function tileMeshes(
         colourBy: Float32Array,
         material: Material,
         standIn: Material,
-        coverBy: Float32Array | null = null,
+        floats: Floats = {},
       ): Surface => ({
-        whole: new Mesh(geometryOf(built, colourBy, coverBy), material),
+        whole: new Mesh(geometryOf(built, colourBy, floats), material),
         built,
         standIn,
       });
       if (land !== null) {
         const colourBy = colourHeights(land.heights, land.grid);
         meshes.push(
-          surface(
-            land,
-            colourBy,
-            materials.land,
-            materials.standIn.land,
-            cover,
-          ),
+          surface(land, colourBy, materials.land, materials.standIn.land, {
+            [COVER_ATTRIBUTE]: cover,
+            [SAND_ATTRIBUTE]: sand,
+          }),
         );
       }
       if (sea !== null) {
