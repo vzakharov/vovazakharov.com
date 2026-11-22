@@ -2,6 +2,7 @@ import { pathHash } from '@/dice/shared/roll';
 
 import {
   type CoastDistance,
+  detailedCoast,
   heightAtSphere,
   sampleSphereField,
   sandAtSphere,
@@ -14,11 +15,12 @@ import type { TreeGround } from '../model/tree-placing';
 /** Ground before a world's field arrives; nothing reads it before then. */
 export const SEA_LEVEL: GroundAt = () => 0;
 
-/** The signed distance to the coast a world's field holds. */
-export const coastOf =
-  (field: SphereField): CoastDistance =>
-  (p) =>
-    sampleSphereField(field, p);
+/**
+ * The signed distance to the coast a world's field holds, bent by its terrain
+ * seed: the one coast the tiles, their selection and the eye all read.
+ */
+export const coastOf = (field: SphereField, seed: number): CoastDistance =>
+  detailedCoast((p) => sampleSphereField(field, p), seed);
 
 /** The ground the eye stands on: the world's relief with no detail cut. */
 export const groundOf =

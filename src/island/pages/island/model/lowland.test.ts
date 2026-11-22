@@ -6,8 +6,9 @@ import {
   heightAtSphere,
   openSphereWorld,
   OUR_WORLD,
-  sampleSphereField,
 } from '@/island/entities/terrain';
+
+import { coastOf } from '../lib/world-ground';
 
 const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));
 
@@ -24,7 +25,7 @@ function across(n: number): Vec3[] {
 /** Our world's coast, its seed, and the lattice's directions over its land. */
 async function ourLand() {
   const { field, seed } = await openSphereWorld(OUR_WORLD);
-  const coast = (p: Vec3) => sampleSphereField(field, p);
+  const coast = coastOf(field, seed);
   return { coast, seed, inland: across(1_000_000).filter((p) => coast(p) > 0) };
 }
 
@@ -44,6 +45,9 @@ describe('the ground over our world’s coast', () => {
     it(`never sinks below the sea inland, cut at ${String(finest)} m`, async () => {
       const { coast, seed, inland } = await land;
       for (const p of inland) {
+        // The coast a cut draws is its own: a bend it leaves out may put the
+        // place at sea.
+        if (coast(p, finest) <= 0) continue;
         const height = heightAtSphere(coast, seed, p, finest);
         assert.ok(height >= 0, `${String(height)} m at ${p.join(', ')}`);
       }

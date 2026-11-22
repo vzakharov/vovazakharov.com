@@ -11,7 +11,6 @@ import {
   fillStitchedCubeTile,
   heightAtSphere,
   openSphereWorld,
-  sampleSphereField,
   TILE_GRID,
 } from '@/island/entities/terrain';
 
@@ -24,6 +23,7 @@ import {
   type WorkerRequest,
   type WorldField,
 } from './tile-protocol';
+import { coastOf } from './world-ground';
 
 /** The field this worker fills from, built on `build` or handed over on `adopt`. */
 const world = Promise.withResolvers<WorldField>();
@@ -49,7 +49,7 @@ function fill(
   eye: Vec3,
 ): FilledTile {
   const start = performance.now();
-  const distance = (p: Vec3) => sampleSphereField(field, p);
+  const distance = coastOf(field, seed);
   const ground = fillStitchedCubeTile(
     key,
     (p, finest) => heightAtSphere(distance, seed, p, finest),

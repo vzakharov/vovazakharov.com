@@ -167,7 +167,7 @@ export function mountIslandScene(
       ({ field, seed, buildMs }) => {
         if (!current()) return;
         built = { of: mine, ms: buildMs };
-        coast = coastOf(field);
+        coast = coastOf(field, seed);
         groundAt = groundOf(coast, seed);
         trees.setGround(treeGround(coast, seed, on));
         view.reselect();
