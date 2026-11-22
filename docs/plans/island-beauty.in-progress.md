@@ -185,7 +185,16 @@ PR. Session ids are claude.ai remote sessions.
   a dither hatch; sand lies in sheets kilometres inland; a band is one flat
   colour; hills are low domes of one character. `lookTo` is clamped, so the sky
   shot looks up only a few degrees — raise it for the play hook if clouds asks.
-- In flight: relief, ground and clouds on their step 1 with nothing pushed yet
-  (told to push small); trees on step 1; the keeper putting the baseline up.
-- Left: integration of each child's first step; the preview; the optimised look;
-  the PR.
+- Relief's first step (c9d498fe, then 96b2dfe2) is merged and on preview slot 1
+  (`preview.vovazakharov.com/island`, built from f513200e): ranges gathered into
+  belts, sand at the shore only, lowland floor 65 m, kinds by broad height
+  (green under 300 m, brown to 550, alpine 600→1100), peaks to ~3.6 km. Sent
+  back: the lowland went dead flat, dunes read as straight stripes, snow from
+  orbit shows the value noise's cells (gradient noise if inside 1.5× fill).
+- Trees told the new heights and to import `noiseSalt`/`valueNoise3` from the
+  terrain barrel; until they do, `pnpm knip` is red on those two exports.
+- In flight: relief on its fixes; ground and clouds on step 1 with nothing
+  pushed yet (told to push small); trees on step 1; the keeper on the relief
+  row.
+- Left: the beauty set gains one spot per band once relief names them;
+  integration of ground, clouds and trees; the optimised look; the PR.

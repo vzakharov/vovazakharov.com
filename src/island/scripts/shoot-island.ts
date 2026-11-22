@@ -135,12 +135,12 @@ async function main(): Promise<void> {
           z.unknown(),
         );
         await inTurn(shots, async (spot) => {
-          const { name, lat, lon, height, hours } = spot;
+          const { name, latDeg, lonDeg, height, hours } = spot;
           const aim = aimOf(spot);
           if (hours !== undefined) {
             await tab.evaluate(call('setTime', hours), z.unknown());
           }
-          const place = call('moveTo', lat, lon, height);
+          const place = call('moveTo', latDeg, lonDeg, height);
           await settle(tab, place, `${name} moveTo`, SETTLE_MS);
           const turn = call('turnTo', aim.heading);
           await settle(tab, turn, `${name} turnTo`, SETTLE_MS);

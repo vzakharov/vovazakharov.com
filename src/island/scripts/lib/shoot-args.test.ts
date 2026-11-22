@@ -7,11 +7,11 @@ describe('shoot-args', () => {
   it('parses a shot with every optional value', () => {
     assert.deepEqual(parseShot('a-1:44,10,560,90,15,3.5'), {
       name: 'a-1',
-      lat: 44,
-      lon: 10,
+      latDeg: 44,
+      lonDeg: 10,
       height: 560,
-      heading: 90,
-      look: 15,
+      headingDeg: 90,
+      lookDeg: 15,
       hours: 3.5,
     });
   });
@@ -19,8 +19,8 @@ describe('shoot-args', () => {
   it('leaves the optional values out when not given', () => {
     assert.deepEqual(parseShot('a:-1,2,3'), {
       name: 'a',
-      lat: -1,
-      lon: 2,
+      latDeg: -1,
+      lonDeg: 2,
       height: 3,
     });
   });

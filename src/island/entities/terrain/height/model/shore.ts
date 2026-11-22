@@ -35,7 +35,10 @@ export const DUNE_METRES = 12;
 /** The distance from one dune ridge to the next, along the way inland. */
 export const DUNE_SPACING_METRES = 110;
 /** How far, in ridges, a ridge line wanders from its distance to the shore. */
-export const DUNE_SWAY = 0.6;
+export const DUNE_SWAY = 1.3;
+/** A ridge stands where `gap` is over this, at full height a span higher. */
+const DUNE_GAP_FROM = -0.2;
+export const DUNE_GAP_SPAN = 0.45;
 
 /** The share of its full size a quantity reaches `distance` in: ~63% at `reach`. */
 export const approach = (distance: number, reach: number) =>
@@ -58,13 +61,8 @@ export function smoothMax(a: number, b: number, k: number): number {
  * Ground `d` metres inland (positive) whose relief reads `height`, `broad` of
  * it from the octaves of `BROAD_METRES` and longer, with the octaves shorter
  * reaching `fineReach` together: `height` where it stands a band's width over
- * its `lowlandFloor`, and under that squeezed into the band —
- * `floor + band·e^(over/band − 1)`, which meets `height` at the band's top
- * with its slope, so it is order-preserving and smooth, never below the floor
- * nor below `height`, and approaches the floor only as `height` sinks far
- * under it. The band is the lowland's least height, widened by
- * `SQUEEZE_METRES` near the coast, so it is never narrower than the rounding
- * a hard floor would take.
+ * its `lowlandFloor`, and under that squeezed into the band: smooth and
+ * order-preserving, never below the floor nor below `height`.
  */
 export function restingGround(
   d: number,
@@ -85,11 +83,8 @@ export function restingGround(
  * height from the octaves of `BROAD_METRES` and longer: the broad relief, sunk
  * by up to `fineReach`, the shorter octaves' reach, with distance from the
  * coast and held over the lowland's least height. Near the coast it is the
- * broad relief itself, so the fine troughs there bottom out on rolling ground
- * rather than on a level; a few kilometres in it lies below every trough, and
- * the relief is the ground.
- * Where the broad relief itself sinks under the lowland, the floor is level,
- * and the ground over it keeps the relief `restingGround` squeezes in.
+ * broad relief itself, so fine troughs there bottom out on rolling ground; a
+ * few kilometres in it lies below every trough.
  */
 export function lowlandFloor(
   d: number,
@@ -103,13 +98,16 @@ export function lowlandFloor(
 
 /**
  * How high the dunes behind the beach stand over the ground `d` metres inland
- * (positive), never negative: ridges along the shore, `DUNE_SPACING_METRES`
- * apart on the way in, sharp-crested with round troughs, rising from the back
- * of the beach, tallest ~150 m in and gone under a kilometre in. `swell` and
- * `sway`, each in `[-1, 1]` and slow against a ridge, vary the ridges' height
- * along the shore and bend their lines.
+ * (positive), never negative: sharp-crested ridges along the shore. `swell`,
+ * `sway` and `gap`, each in `[-1, 1]`, vary the ridges' height along the
+ * shore, bend their lines across it and break them into runs.
  */
-export function duneAt(d: number, swell: number, sway: number): number {
+export function duneAt(
+  d: number,
+  swell: number,
+  sway: number,
+  gap: number,
+): number {
   const along =
     ramp((d - DUNES_FROM_METRES) / DUNES_RISE_METRES) *
     (1 - ramp((d - DUNES_FADE_FROM_METRES) / DUNES_FADE_METRES));
@@ -117,5 +115,6 @@ export function duneAt(d: number, swell: number, sway: number): number {
   const crest =
     1 -
     Math.abs(Math.sin(Math.PI * (d / DUNE_SPACING_METRES + DUNE_SWAY * sway)));
-  return DUNE_METRES * along * (0.6 + 0.4 * swell) * crest * crest;
+  const standing = ramp((gap - DUNE_GAP_FROM) / DUNE_GAP_SPAN);
+  return DUNE_METRES * along * (0.6 + 0.4 * swell) * standing * crest * crest;
 }
