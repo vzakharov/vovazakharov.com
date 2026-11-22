@@ -270,11 +270,6 @@ member's branch and its note under `notes/`, not from its session.
 - The operator will not sit reading counters run after run («увы я не смогу быть
   здесь чтобы давать счётчики каждый раз»), so speed's measurement is one link
   and one click that ends on a table to paste, whenever he next opens it.
-- Merged at 6da7f994f (166 tests): the coast's final package (af79cc077), the
-  trees' swift look (81ddfe1f2), ground's swift path and its answers to the
-  17:05 verdicts (006d16550), the board (4db31d295). At 6974e7256 the scene
-  tells the ground which full look is on (`lighting.dress(fine, rippled, swift)`
-  in `scene-look.ts`).
 - The finished coast: `CoastDistance` carries an optional `calm` (0–1, a 50 km
   seeded roughness field). Calm stretches keep the beach and the dune belt;
   rough ones keep a ~20 m strip of sand and skerries ~80 m across some 600 m
