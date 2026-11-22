@@ -97,6 +97,13 @@ otherwise; his answers get quoted under each when they come.
   Today it cannot: the look changes on the B key alone and a touch screen has no
   key. The speed member, who is rebuilding that switch into three positions,
   adds a control a finger reaches.
+- 2026-11-22 ~17:35 UTC, with a WebGPU screenshot of the open sea toward a low
+  sun, look Fine: «just in case, вода до сих пор муарно-паттерновая (not
+  complaining; прогресс по всем фронтам очевиден)». A remark, and the same
+  defect as item 1 on another surface: the sun's glitter path shows a woven
+  lattice. Cause, read from `lib/sea-wgsl.ts`: the wind sea is a sum of plane
+  waves from one table, each coherent for ever, so their beats draw a regular
+  grid. A seventh package, the sea's, on Opus.
 
 ## What is there today (read 2026-11-22)
 
