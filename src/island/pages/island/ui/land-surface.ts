@@ -1,4 +1,5 @@
 import {
+  attribute,
   clamp,
   dot,
   float,
@@ -16,6 +17,7 @@ import { type Node, Vector3 } from 'three/webgpu';
 
 import type { Vec3 } from '@/island/shared/globe';
 
+import { COVER_ATTRIBUTE } from '../model/cover-attribute';
 import {
   FIELD,
   GRAIN,
@@ -82,6 +84,7 @@ const SLOPE_VARIANCE = 1.4;
  */
 export function landSurface(height: F, stops: V): LandSurface {
   const noise = landNoise();
+  const { footprint } = noise;
   const eye = uniform(new Vector3(0, 1, 0));
   const zenith = normalize(eye.add(positionWorld));
   const away = length(positionWorld);
@@ -96,7 +99,13 @@ export function landSurface(height: F, stops: V): LandSurface {
   );
   /** How far the ground leans off level, 0 flat and 1 a wall. */
   const steep = clamp(dot(normalWorldGeometry, zenith).oneMinus(), 0, 1);
-  const ground = { height, stops, steep, footprint: noise.footprint };
+  const ground = {
+    height,
+    stops,
+    steep,
+    cover: attribute(COVER_ATTRIBUTE, 'float'),
+    footprint,
+  };
   const fine = landBands(ground, noise.octaves, true);
   let slope: V = vec3(0);
   let lost: F = float(0);
@@ -106,7 +115,11 @@ export function landSurface(height: F, stops: V): LandSurface {
     lost = lost.add(octave.told.oneMinus().mul(share * share * SLOPE_VARIANCE));
   }
   const relief = slope.mul(fine.roughness);
-  const plain = landBands(ground, noise.octaves.slice(0, PLAIN_OCTAVES), false);
+  const { colour } = landBands(
+    ground,
+    noise.octaves.slice(0, PLAIN_OCTAVES),
+    false,
+  );
 
   return {
     fine: {
@@ -118,7 +131,7 @@ export function landSurface(height: F, stops: V): LandSurface {
         normalize(shape.sub(relief.sub(shape.mul(dot(relief, shape))))),
       ),
     },
-    plain: { colour: plain.colour, normal: transformNormalToView(shape) },
+    plain: { colour, normal: transformNormalToView(shape) },
     update: ([x, y, z]) => {
       eye.value.set(x, y, z);
       noise.update([x, y, z]);

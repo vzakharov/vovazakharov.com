@@ -32,7 +32,7 @@ function turnAbout([x, y, z]: Vec3, angle: number): LandOctave['rows'] {
  * above, two as fields and slopes, four as the ground underfoot.
  */
 const WAVELENGTHS = [
-  183_000, 37_100, 7310, 1490, 293, 61.3, 12.7, 2.71, 0.557, 0.113,
+  174_800, 35_834, 7646, 1475, 291, 64.7, 13.4, 2.796, 0.54, 0.111,
 ] as const;
 
 export const LAND_OCTAVES: readonly LandOctave[] = WAVELENGTHS.map(

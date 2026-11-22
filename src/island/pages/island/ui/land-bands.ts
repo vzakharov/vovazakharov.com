@@ -38,6 +38,8 @@ export type Ground = {
   readonly stops: V;
   /** How far it leans off level, 0 flat and 1 a wall. */
   readonly steep: F;
+  /** The share of it under tree crowns, 0 bare to 1 closed canopy. */
+  readonly cover: F;
   /** The width of ground a pixel covers, metres. */
   readonly footprint: F;
 };
@@ -61,7 +63,7 @@ const paint = (rgb: Rgb): V => vec3(...rgb);
  * pays for: rock's beds.
  */
 export function landBands(
-  { height, stops, steep, footprint }: Ground,
+  { height, stops, steep, footprint, cover: forest }: Ground,
   octaves: readonly OctaveNoise[],
   detailed: boolean,
 ): Banded {
@@ -124,23 +126,16 @@ export function landBands(
       [HAND, 0.06],
     ]),
   );
-  /** Forest's cover: closed on gentle lowland in patches of every size, thinning through the upland. */
-  const cover = edge(
-    steep.mul(-2.5).add(0.1),
-    -0.05,
-    0.3,
-    ragged([
-      [REGION, 0.35],
-      [DISTRICT, 0.55],
-      [HILL, 0.5],
-      [FIELD, 0.3],
-    ]),
-  ).mul(
-    smoothstep(
-      BAND_HEIGHTS.upland[0],
-      BAND_HEIGHTS.upland[1] + 200,
-      banded.add(border.sum),
-    ).oneMinus(),
+  /** Forest's cover, its edge between two vertices broken by the noise an eye this near tells. */
+  const fringe = ragged([
+    [FIELD, 0.14],
+    [SLOPE, 0.12],
+    [PATCH, 0.08],
+  ]);
+  const cover = smoothstep(
+    float(0.36).sub(fringe.lost),
+    float(0.64).add(fringe.lost),
+    forest.add(fringe.sum),
   );
   const canopy = mix(
     paint(LAND_PALETTE.broadleaf),
@@ -156,11 +151,7 @@ export function landBands(
   const bare = smoothstep(0.07, 0.16, steep.add(at(PATCH).value.mul(0.02))).mul(
     cover.mul(0.6).oneMinus(),
   );
-  const lowland = mix(
-    mix(meadow, canopy, cover),
-    paint(LAND_PALETTE.earth),
-    bare,
-  );
+  const lowland = mix(meadow, paint(LAND_PALETTE.earth), bare);
 
   const heathered = edge(
     float(0),
@@ -263,7 +254,7 @@ export function landBands(
     [REGION, 0.05],
   ]);
   const grown = mix(
-    mix(mix(lowland, moor, upland), alpine, mountain),
+    mix(mix(mix(lowland, moor, upland), alpine, mountain), canopy, cover),
     stone,
     rock,
   ).mul(tint);
