@@ -5,6 +5,7 @@ import {
   max,
   min,
   mix,
+  select,
   smoothstep,
   sqrt,
   vec3,
@@ -74,25 +75,35 @@ const latticePoint = Fn(([cell]: [V]) => {
   return folded.xxy.add(folded.yxx).mul(folded.zyx).fract();
 });
 
-const cellEdge = Fn(([at]: [V]) => {
+/** The nearest of the scattered points to `at`: how far it and the next nearest are, and a number of its own, 0 to 1. */
+const nearPoints = Fn(([at]: [V]) => {
   const cell = at.floor().toVar();
   const within = at.sub(cell).toVar();
   // The nearest points lie in the place's own cell and the seven on its side of it.
   const toward = within.sub(0.5).sign().toVar();
   const nearest = float(9).toVar();
   const second = float(9).toVar();
+  const own = float(0).toVar();
   for (const x of NEIGHBOURS)
     for (const y of NEIGHBOURS)
       for (const z of NEIGHBOURS) {
         const offset = vec3(x, y, z).mul(toward).toVar();
+        const point = latticePoint(cell.add(offset)).toVar();
         const toPoint = offset
-          .add(latticePoint(cell.add(offset)).mul(SCATTER).add(UNSCATTERED))
+          .add(point.mul(SCATTER).add(UNSCATTERED))
           .sub(within);
         const apart = dot(toPoint, toPoint).toVar();
         second.assign(min(second, max(nearest, apart)));
+        own.assign(
+          select(
+            apart.lessThan(nearest),
+            point.x.mul(7.3).add(point.y.mul(3.1)).fract(),
+            own,
+          ),
+        );
         nearest.assign(min(nearest, apart));
       }
-  return sqrt(second).sub(sqrt(nearest));
+  return vec3(sqrt(nearest), sqrt(second), own);
 });
 
 /**
@@ -100,4 +111,51 @@ const cellEdge = Fn(([at]: [V]) => {
  * those of points scattered one to a unit, each cell the places nearest its
  * point, so they pack like the cells of a cloud deck.
  */
-export const edgeOf = (at: V): F => cellEdge(at);
+export const edgeOf = (at: V): F => {
+  const near = nearPoints(at);
+  return near.y.sub(near.x);
+};
+
+/** The radius of the smallest puff and of the largest, in cells. */
+const PUFF_RADII = [0.12, 0.7] as const;
+/** How steeply a puff rises from its rim, and how far under zero the clear air between puffs lies. */
+const PUFF_RISE = 1.6;
+const PUFF_FLOOR = -0.7;
+
+/**
+ * Round puffs over `at`, one to a unit and each its own size, -1 to 1 and
+ * over zero inside a puff: a field of separate heaps with clear air between,
+ * showing no lattice.
+ */
+export const puffs = (at: V): F => {
+  const near = nearPoints(at);
+  const [least, most] = PUFF_RADII;
+  return mix(least, most, near.z)
+    .sub(near.x)
+    .mul(PUFF_RISE)
+    .clamp(PUFF_FLOOR, 1);
+};
+
+/** A turn of the sphere for each cumulus scale, no axis of one along an axis of another: rows of a rotation. */
+const TURNS = [0, 1, 2, 3, 4].map((index) => {
+  const angle = 0.7 + index * 1.13;
+  const axis = [1 + index, 2, 3 - index * 0.4];
+  const length = Math.hypot(...axis);
+  const [x = 0, y = 0, z = 1] = axis.map((part) => part / length);
+  const c = Math.cos(angle);
+  const s = Math.sin(angle);
+  const t = 1 - c;
+  return [
+    [t * x * x + c, t * x * y - s * z, t * x * z + s * y],
+    [t * x * y + s * z, t * y * y + c, t * y * z - s * x],
+    [t * x * z - s * y, t * y * z + s * x, t * z * z + c],
+  ] as const;
+});
+
+/** `at` on the axes of cumulus scale `index`. */
+export const turnedTo = (at: V, index: number): V => {
+  const rows = TURNS[index % TURNS.length];
+  if (rows === undefined) return at;
+  const [a, b, c] = rows;
+  return vec3(dot(at, vec3(...a)), dot(at, vec3(...b)), dot(at, vec3(...c)));
+};
