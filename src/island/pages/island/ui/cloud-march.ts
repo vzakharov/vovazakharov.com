@@ -59,7 +59,12 @@ const SQUEEZE = 0.5;
  * side, the wisps an eye inside it is among.
  */
 export function cloudMarch(kit: StepKit, steps: CloudSteps) {
-  const { rays, cover, height, turned } = kit;
+  const {
+    rays,
+    cover,
+    turned,
+    frame: { height },
+  } = kit;
 
   /** How far off an eye seems to the waves at `at`, the ray grazing the layer squeezing them. */
   const awayAt = (ray: MarchRay, at: F, squeeze: number): F =>

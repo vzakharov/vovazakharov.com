@@ -16,13 +16,19 @@ export type EyeFrame = {
   readonly shell: F;
 };
 
+/** What the sky hands its clouds: the eye's place and the lamps, as `sky-nodes.ts` holds them. */
+export type CloudFrame = EyeFrame & {
+  readonly towardSun: V;
+  readonly towardMoon: V;
+};
+
 type Meeting = {
   readonly hit: Node<'bool'>;
   readonly near: F;
   readonly far: F;
 };
 
-type Stretch = { readonly from: F; readonly length: F };
+export type Stretch = { readonly from: F; readonly length: F };
 
 export type CloudRays = {
   /** The stretch of a ray `cosine` off the zenith between the spheres `low` and `high` metres above the sea, cut at `metres`. */

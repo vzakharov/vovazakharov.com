@@ -12,44 +12,25 @@ import {
   thickness,
   topOf,
 } from './cloud-cover';
-import type { CloudLight } from './cloud-light';
+import type { iceSeen } from './cloud-ice';
 import { type F, seenTo, type V } from './cloud-noise';
-import type { CloudRays } from './cloud-rays';
+import type { CloudFrame, Stretch } from './cloud-rays';
 import type { Regime } from './cloud-regimes';
 
-/** What a cloud march over one ray's stretch of `regime`'s layer works with. */
-export type MarchRay = {
+/** What a cloud march over one ray's stretch of `regime`'s layer works with; the stretch is the ray's in the layer. */
+export type MarchRay = Stretch & {
   readonly direction: V;
   readonly cosine: F;
   readonly regime: Regime;
   /** Where the ray's weather was read, for the lamps. */
   readonly read: V;
   readonly phase: F;
-  /** The stretch of the ray in the layer. */
-  readonly from: F;
-  readonly length: F;
 };
 
-/** What a march's steps share: the field, its light, and the eye. */
-export type StepKit = {
-  readonly rays: CloudRays;
+/** What a march's steps share: what the ice cloud is drawn with, the eye and its lamps, and the field. */
+export type StepKit = Parameters<typeof iceSeen>[0] & {
+  readonly frame: CloudFrame;
   readonly cover: CloudCover;
-  readonly light: CloudLight;
-  readonly turned: (unit: V) => V;
-  readonly height: F;
-  readonly towardSun: V;
-};
-
-/** The field at one point of a ray. */
-export type Sample = {
-  readonly at: F;
-  readonly place: V;
-  /** The coarsest cumulus scale there, which the sunward read is weighed against. */
-  readonly coarse: F;
-  /** The cumulus scales summed. */
-  readonly cells: F;
-  readonly signal: F;
-  readonly away: F;
 };
 
 /** What a metre of full cloud takes from a ray. */
@@ -81,12 +62,11 @@ export const mesoAt = (
  * light one step between two such reads sends to the eye.
  */
 export function cloudSteps({
+  frame: { height, towardSun },
   rays,
   cover,
   light,
   turned,
-  height,
-  towardSun,
 }: StepKit) {
   const mesoEnds = ({
     direction,
@@ -103,7 +83,7 @@ export function cloudSteps({
    * The field at `at`, as an eye `away` metres off tells it: the two coarsest
    * scales always, each finer one while it spans more than a few pixels.
    */
-  const readAt = (ray: MarchRay, meso: MesoEnds, at: F, away: F): Sample => {
+  const readAt = (ray: MarchRay, meso: MesoEnds, at: F, away: F) => {
     const place = rays.placeAt(ray.direction, at).toVar();
     const spot = turned(place).toVar();
     const coarse = cover.octave(spot, 0, away).toVar();
@@ -117,7 +97,16 @@ export function cloudSteps({
     const signal = cover
       .signal(spot, ray.regime, mesoAt(ray, meso, at), cells, away)
       .toVar();
-    return { at, place, coarse, cells, signal, away };
+    return {
+      at,
+      place,
+      /** The coarsest cumulus scale there, which the sunward read is weighed against. */
+      coarse,
+      /** The cumulus scales summed. */
+      cells,
+      signal,
+      away,
+    };
   };
 
   /**
@@ -125,7 +114,11 @@ export function cloudSteps({
    * weighed by how much of the ray it takes, and the share of the ray it
    * lets through.
    */
-  const step = (ray: MarchRay, near: Sample, far: Sample) => {
+  const step = (
+    ray: MarchRay,
+    near: ReturnType<typeof readAt>,
+    far: ReturnType<typeof readAt>,
+  ) => {
     const { cosine, regime, read, phase } = ray;
     const nearOver = rays.overAt(cosine, near.at).toVar();
     const thick = thickness(
@@ -185,3 +178,6 @@ export function cloudSteps({
 }
 
 export type CloudSteps = ReturnType<typeof cloudSteps>;
+
+/** The field at one point of a ray. */
+export type Sample = ReturnType<CloudSteps['readAt']>;
