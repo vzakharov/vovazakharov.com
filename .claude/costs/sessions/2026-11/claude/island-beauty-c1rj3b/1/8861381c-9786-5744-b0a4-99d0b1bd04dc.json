@@ -1,15 +1,33 @@
 {
   "total": {
-    "inputTokens": 619498,
-    "cacheWrite5mTokens": 400260,
-    "cacheWrite1hTokens": 234418,
-    "cacheReadTokens": 14885621,
-    "outputTokens": 170344,
-    "thinkingTokens": 36508,
-    "responses": 138,
-    "costUsd": 10.59118479999999
+    "inputTokens": 622333,
+    "cacheWrite5mTokens": 537062,
+    "cacheWrite1hTokens": 339685,
+    "cacheReadTokens": 19690973,
+    "outputTokens": 197537,
+    "thinkingTokens": 41202,
+    "responses": 163,
+    "costUsd": 14.60937489999999
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-22T10:04:22.431Z",
+    "subjectLine": "feat: lead a team making /island's land, trees and clouds beautiful",
+    "parts": [
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "five parallel packages on shared shader files need briefs, seams and merges decided by one person"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "the lead judges every look from frames and wires what crosses packages"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -34,49 +52,49 @@
   "url": "https://claude.ai/code/session_01DaohkBiucpraEhsFyZ58M9",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-22T09:48:38.998Z",
-  "lastResponseAt": "2026-11-22T10:04:04.598Z",
+  "lastResponseAt": "2026-11-22T10:30:17.003Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 65,
+    "inputTokens": 107,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 234418,
-    "cacheReadTokens": 6623433,
-    "outputTokens": 71370,
-    "thinkingTokens": 28664,
-    "responses": 34,
-    "costUsd": 7.9306946
+    "cacheWrite1hTokens": 339685,
+    "cacheReadTokens": 10856867,
+    "outputTokens": 85218,
+    "thinkingTokens": 33009,
+    "responses": 55,
+    "costUsd": 11.0159094
   },
   "subagents": {
-    "inputTokens": 164,
-    "cacheWrite5mTokens": 400260,
+    "inputTokens": 174,
+    "cacheWrite5mTokens": 536153,
     "cacheWrite1hTokens": 0,
-    "cacheReadTokens": 8262188,
-    "outputTokens": 65461,
-    "thinkingTokens": 7844,
-    "responses": 76,
-    "costUsd": 2.4818068000000006
+    "cacheReadTokens": 8532236,
+    "outputTokens": 67438,
+    "thinkingTokens": 8193,
+    "responses": 79,
+    "costUsd": 2.8683341000000007
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 65,
-      "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 234418,
-      "cacheReadTokens": 6623433,
-      "outputTokens": 71370,
-      "thinkingTokens": 28664,
-      "responses": 34,
-      "costUsd": 7.9306946
+      "inputTokens": 2890,
+      "cacheWrite5mTokens": 909,
+      "cacheWrite1hTokens": 339685,
+      "cacheReadTokens": 11158737,
+      "outputTokens": 96586,
+      "thinkingTokens": 33009,
+      "responses": 56,
+      "costUsd": 11.5623574
     },
     "claude-sonnet-5-5/standard": {
-      "inputTokens": 164,
-      "cacheWrite5mTokens": 400260,
+      "inputTokens": 174,
+      "cacheWrite5mTokens": 536153,
       "cacheWrite1hTokens": 0,
-      "cacheReadTokens": 8262188,
-      "outputTokens": 65461,
-      "thinkingTokens": 7844,
-      "responses": 76,
-      "costUsd": 2.4818068000000006
+      "cacheReadTokens": 8532236,
+      "outputTokens": 67438,
+      "thinkingTokens": 8193,
+      "responses": 79,
+      "costUsd": 2.8683341000000007
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 619269,
@@ -90,12 +108,42 @@
     }
   },
   "warnings": [],
-  "compactions": [],
+  "compactions": [
+    {
+      "at": "2026-11-22T10:14:35.066Z",
+      "trigger": "auto",
+      "compactedFrom": 305014,
+      "summaryChars": 22438,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/island/scripts/shoot-island.ts",
+        "endedAt": "2026-11-22T10:15:50.600Z",
+        "contextTokens": 130698,
+        "spend": {
+          "inputTokens": 14,
+          "cacheWrite5mTokens": 135893,
+          "cacheWrite1hTokens": 66416,
+          "cacheReadTokens": 446997,
+          "outputTokens": 2817,
+          "thinkingTokens": 661,
+          "responses": 5,
+          "costUsd": 1.5182051
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.546448
+    }
+  ],
   "telemetry": {
-    "events": 137,
-    "matched": 109,
-    "matchedTableUsd": 10.25130959999999,
-    "matchedEventUsd": 10.25130959999999,
+    "events": 162,
+    "matched": 133,
+    "matchedTableUsd": 13.81687049999999,
+    "matchedEventUsd": 13.81687049999999,
     "unseen": {
       "web_fetch_apply": {
         "inputTokens": 469885,
@@ -116,6 +164,16 @@
         "thinkingTokens": 0,
         "responses": 10,
         "costUsd": 0.12026189999999999
+      },
+      "compact": {
+        "inputTokens": 2783,
+        "cacheWrite5mTokens": 909,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 301870,
+        "outputTokens": 11368,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.546448
       }
     }
   },
@@ -127,6 +185,6 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 626
+    ".md": 655
   }
 }
