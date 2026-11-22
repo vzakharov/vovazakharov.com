@@ -1,16 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { stream } from './stream.test-kit';
 import { noiseSalt, valueNoise3 } from './value-noise';
-
-/** A deterministic stream in `[0, 1)`, so a failure reproduces. */
-function stream(seed: number) {
-  let state = seed;
-  return () => {
-    state = (Math.imul(state, 1_664_525) + 1_013_904_223) >>> 0;
-    return state / 2 ** 32;
-  };
-}
 
 /** The steepest the noise climbs per lattice step: 15/8 of 2, on three axes. */
 const STEEPEST = 3.75 * Math.sqrt(3);

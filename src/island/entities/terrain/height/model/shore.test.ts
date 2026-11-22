@@ -11,15 +11,7 @@ import {
   lowlandFloor,
   restingGround,
 } from './shore';
-
-/** A seeded stream in `[0, 1)`. */
-function stream(seed: number) {
-  let state = seed >>> 0;
-  return () => {
-    state = (Math.imul(state, 1_664_525) + 1_013_904_223) >>> 0;
-    return state / 2 ** 32;
-  };
-}
+import { stream } from './stream.test-kit';
 
 /** How far the octaves under the broad relief reach, for these tests. */
 const FINE = 60;

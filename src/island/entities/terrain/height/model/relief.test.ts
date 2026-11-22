@@ -3,15 +3,7 @@ import { describe, it } from 'node:test';
 
 import { OCTAVES } from './octaves';
 import { groundSlope, reliefAt } from './relief';
-
-/** A seeded stream in `[0, 1)`. */
-function stream(seed: number) {
-  let state = seed >>> 0;
-  return () => {
-    state = (Math.imul(state, 1_664_525) + 1_013_904_223) >>> 0;
-    return state / 2 ** 32;
-  };
-}
+import { stream } from './stream.test-kit';
 
 /** Ground `d` metres from the coast with every regional and hill octave reading `broad`, every fine one `fine`. */
 const groundAt = (d: number, broad: number, fine: number) =>

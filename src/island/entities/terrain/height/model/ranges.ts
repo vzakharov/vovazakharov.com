@@ -41,6 +41,19 @@ export const upliftSlope = (noiseSteepest: number) =>
     (1.5 * noiseSteepest) / (REGION_SPAN * REGION_METRES) +
     (1.5 * Math.SQRT2) / COASTAL_RISE_METRES);
 
+/** The noise of `layer`, `wavelength` metres long, over unit direction `(x, y, z)`. */
+function slowNoise(
+  seed: number,
+  layer: number,
+  wavelength: number,
+  x: number,
+  y: number,
+  z: number,
+) {
+  const k = R / wavelength;
+  return valueNoise3(noiseSalt(seed, layer), x * k, y * k, z * k);
+}
+
 /**
  * How high a mountain belt lifts the ground over unit direction `(x, y, z)`,
  * `d` metres inland: 0 over most land, up to `UPLIFT_METRES` along a belt's
@@ -59,13 +72,7 @@ export function upliftAtSphere(
   z: number,
   d: number,
 ): number {
-  const region = R / REGION_METRES;
-  const s = valueNoise3(
-    noiseSalt(seed, REGION_LAYER),
-    x * region,
-    y * region,
-    z * region,
-  );
+  const s = slowNoise(seed, REGION_LAYER, REGION_METRES, x, y, z);
   const coastal =
     ramp((-0.2 - s) / REGION_SPAN) *
     ramp(d / COASTAL_RISE_METRES) *
@@ -73,10 +80,7 @@ export function upliftAtSphere(
   const inlandShare = ramp((s + 0.05) / REGION_SPAN);
   let inland = 0;
   if (inlandShare > 0) {
-    const bend = R / BEND_METRES;
-    const b =
-      BEND *
-      valueNoise3(noiseSalt(seed, BEND_LAYER), x * bend, y * bend, z * bend);
+    const b = BEND * slowNoise(seed, BEND_LAYER, BEND_METRES, x, y, z);
     const belt = R / BELT_METRES;
     const t = valueNoise3(
       noiseSalt(seed, BELT_LAYER),

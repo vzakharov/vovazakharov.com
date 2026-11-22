@@ -292,13 +292,10 @@ export function reliefAt<O extends Octave>(
     }
   }
   const raw = base + roughness * regional + lifted;
+  const basin = d > 0 ? approach(d, BASIN_REACH_METRES) : 0;
   const broad =
-    d > 0
-      ? smoothMax(
-          raw,
-          BASIN_METRES * approach(d, BASIN_REACH_METRES),
-          BASIN_ROUNDING_METRES * approach(d, BASIN_REACH_METRES),
-        )
+    basin > 0
+      ? smoothMax(raw, BASIN_METRES * basin, BASIN_ROUNDING_METRES * basin)
       : raw;
   const alpine = ramp(
     (broad - ALPINE_FROM_METRES) / (ALPINE_BY_METRES - ALPINE_FROM_METRES),
