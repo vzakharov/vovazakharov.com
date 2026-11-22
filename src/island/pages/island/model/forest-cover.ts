@@ -203,15 +203,21 @@ function hangSkirt(values: Float32Array, grid: number): void {
   }
 }
 
+/** The width of one of a tile's cells, metres: the shortest wave its lattice carries is twice it. */
+const cellOf = ({ key, grid }: TileMesh) =>
+  (R * Math.PI) / (2 ** key.level * (grid - 1));
+
 /**
  * The share of sand in the ground per vertex of a land tile (`sandAt`), in the
- * mesh's vertex order, skirt included.
+ * mesh's vertex order, skirt included, from the coast as bent as the tile's
+ * cells draw it.
  */
 export function tileSand(
   coast: CoastDistance,
   mesh: TileMesh,
 ): Float32Array<ArrayBuffer> {
   const { grid, heights } = mesh;
+  const finest = cellOf(mesh);
   const sand = new Float32Array(heights.length);
   const direction = [0, 0, 0];
   for (let v = 0; v < grid * grid; v++) {
@@ -222,6 +228,7 @@ export function tileSand(
       coast,
       [direction[0] ?? 0, direction[1] ?? 0, direction[2] ?? 0],
       height,
+      finest,
     );
   }
   hangSkirt(sand, grid);
@@ -240,9 +247,9 @@ export function tileCover(
   mesh: TileMesh,
   sand: Float32Array,
 ): Float32Array<ArrayBuffer> {
-  const { key, grid, normals, heights } = mesh;
+  const { grid, normals, heights } = mesh;
   const cells = grid - 1;
-  const finest = (R * Math.PI) / (2 ** key.level * cells);
+  const finest = cellOf(mesh);
   const dropped = droppedShare(finest);
   const cover = new Float32Array(heights.length);
   const step = cells % 2 === 0 ? 2 : 1;

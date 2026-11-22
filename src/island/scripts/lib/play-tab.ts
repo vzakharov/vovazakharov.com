@@ -73,8 +73,11 @@ export type Screen = Readonly<Named & Sized> & {
 export const hook = `window.${PLAY_HOOK}`;
 
 /** A hook method called with `args`, as page source. */
-export const call = (method: keyof IslandPlayHook, ...args: number[]): string =>
-  `${hook}.${method}(${args.map(String).join(', ')})`;
+export const call = (
+  method: keyof IslandPlayHook,
+  ...args: Array<number | string>
+): string =>
+  `${hook}.${method}(${args.map((arg) => JSON.stringify(arg)).join(', ')})`;
 
 /** Polls `expression` until it is true, failing with `missing` past the deadline. */
 async function until(

@@ -33,13 +33,28 @@ device dies in this container, so nothing below was seen on WebGPU.
   slope, each octave pushed about by the next coarser one's slope (so no
   cell's square outline shows) and faded to its mean between 8 and 2.5 pixels
   per wave (so far ground neither shimmers nor draws a moiré).
-- `ui/land-bands.ts` — the four bands' materials and borders. A border is a
-  smoothstep over height plus noise at every scale still told, widened by the
-  amplitude of what is no longer told, so a far border averages rather than
-  sharpens. Steep ground reads as higher; rock shows by slope; snow lies over
-  `BAND_HEIGHTS.snowLine` on gentle ground and slides off steep. No latitude.
-  Forest is the tile's `cover` attribute, its vertex-to-vertex edge broken by
-  the fine octaves; the shader invents no forest of its own.
+- `ui/land-mix.ts` — the octaves by name (`COUNTRY` … `GRAIN`) and the few
+  ways a material is mixed from them. An edge is a smoothstep over a value
+  plus noise at every scale still told, widened by the amplitude of what is
+  no longer told, so a far edge averages rather than sharpens.
+- `ui/land-bands.ts` — the four bands put together: which band by height
+  (`BAND_HEIGHTS`, steep high ground reading higher), rock by slope, snow, the
+  beach over all of it, and each material's roughness. No latitude.
+- `ui/land-beach.ts` — sand wherever a 0…1 sandiness says, whatever the
+  height or slope: wet colour at the waterline drying pale, a wrack line,
+  marram tufts where the sand thins. Sandiness is read from height
+  (`sandinessOf`) until the per-vertex `sand` attribute lands; the swap is the
+  one argument in `land-bands.ts`.
+- `ui/land-lowland.ts` — meadow (growth, hay, rushes in hollows, earth banks)
+  and forest. Forest near the eye is the tile's `cover` attribute; between
+  20 km and 150 km it gives way to what the height and the shader's own
+  coarse lattices expect, because a tile's cover changes with its level and
+  drew the tiles from orbit. The two do not agree place for place: a forest's
+  outline shifts as the eye crosses that range.
+- `ui/land-upland.ts` — moor (tussock clumps, heath, sward, stony soil),
+  alpine ground (turf, soil, scree), rock with level beds, and snow: over its
+  ragged line, slid off faces past about forty degrees near the eye, by
+  height alone past 400 km so a range keeps a white spine.
 - `ui/land-surface.ts` — the two looks. Fine: all ten octaves, rock's beds,
   and the small relief as a normal from the octaves' slopes (TSL, so WebGL2
   draws it too). Relief gone under a pixel dims the ground instead. Plain: the
@@ -50,10 +65,13 @@ device dies in this container, so nothing below was seen on WebGPU.
 - The waterline: under 4 m the colour is `GROUND_STOPS`' own, untouched, and
   `surface.damp` wraps the output as before.
 
-- Forest near and far: within `TREES_TO` (3 km, `ui/land-bands.ts`) the fine
-  look paints `cover` as forest floor — litter and moss — for trees to stand
-  on; past it, and everywhere in the plain look, as canopy. `TREES_TO` is a
-  guess until the trees' own draw distance is known; the two must agree.
+- Forest near and far: within 120 m the fine look paints `cover` as the
+  shaded floor — litter and moss — and from 600 m as canopy, in the trees' own
+  leaf colours (`LAND_PALETTE.broadleaf`, `.conifer`) times 0.75. The conifer
+  heights (250–520 m) and the thinning height (450 m) repeat figures in
+  `model/forest-cover.ts`; they must move together.
+- Dry bare sand carries wind ripples 11 cm long, their phase following the
+  eye in float64 (`ripplePhaseOf`), fine look only.
 
 ## Cost
 
@@ -77,8 +95,5 @@ has measured the land's share on the target machine yet.
 
 ## Outside my files
 
-- `lib/ground-wgsl.ts` is read by nothing of the land any more; only
-  `lib/sea-wgsl.ts` still lists it (`SEA_LISTING`). Dropping it there deletes
-  the file.
 - `latticeValue` in `ui/land-noise.ts` is the same float hash the clouds use;
   one home for both would sit below `ui/`.
