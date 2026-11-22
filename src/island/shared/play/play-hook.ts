@@ -12,6 +12,9 @@ export type Look = (typeof LOOKS)[number];
 export const nextLook = (look: Look): Look =>
   LOOKS[(LOOKS.indexOf(look) + 1) % LOOKS.length] ?? 'plain';
 
+/** Whether `look` draws the sky, clouds, haze, trees and the sea's surface. */
+export const isFine = (look: Look): boolean => look !== 'plain';
+
 /**
  * What `/island?play` hands a script on `window[PLAY_HOOK]`, and only when the
  * URL carries `PLAY_QUERY`: the page's real clock frozen and a seeded one

@@ -5,7 +5,7 @@ import type { CanDispose } from '@/kernel/shared/typings';
 import { HOUR_SECONDS } from '@/nature/shared/swell';
 
 import { unit, type Vec3 } from '@/island/shared/globe';
-import { type Look, nextLook } from '@/island/shared/play';
+import { isFine, type Look, nextLook } from '@/island/shared/play';
 import { MAX_HEIGHT } from '@/island/features/eye';
 
 import type { Heavens } from '../lib/day';
@@ -20,6 +20,8 @@ export type LookSwitch = CanDispose & {
    * only remembers which.
    */
   readonly setLook: (look: Look) => void;
+  /** Steps to the look after the current one: what B and the page's look button do. */
+  readonly stepLook: () => void;
 };
 
 export type SceneLook = LookSwitch & {
@@ -38,7 +40,12 @@ export type SceneLook = LookSwitch & {
   ) => void;
 };
 
-type SceneLookParams = {
+export type LookTold = {
+  /** Told each look as it is chosen, by B, the page's button or play. */
+  onLook: (look: Look) => void;
+};
+
+type SceneLookParams = LookTold & {
   scene: Scene;
   lighting: GroundLighting;
   /** Whether the renderer runs on WebGPU, which the rippled sea needs; read once started. */
@@ -46,8 +53,6 @@ type SceneLookParams = {
   render: () => void;
   /** Where B steps the look; none under play, where only `setLook` does. */
   keys: HTMLElement | null;
-  /** Told each time a look is chosen whether it is fine or swift, for what those alone draw. */
-  onLook: (fine: boolean) => void;
 };
 
 /**
@@ -68,8 +73,7 @@ export function sceneLook({
   const plainSky = new Color(skyColour(MAX_HEIGHT, 1));
   scene.background = plainSky;
   let look: Look = 'plain';
-  /** Whether the look draws the sky, clouds, haze and the sea's surface. */
-  const fine = () => look !== 'plain';
+  const fine = () => isFine(look);
   /** Whether the renderer is up, so the backend a look's sea needs is known. */
   let started = false;
   const dress = () => {
@@ -81,17 +85,16 @@ export function sceneLook({
   };
   const setLook = (next: Look) => {
     look = next;
-    onLook(fine());
+    onLook(look);
     dress();
   };
-  const lookKey =
-    keys === null
-      ? null
-      : bindLookKey(keys, () => {
-          setLook(nextLook(look));
-        });
+  const stepLook = () => {
+    setLook(nextLook(look));
+  };
+  const lookKey = keys === null ? null : bindLookKey(keys, stepLook);
   return {
     setLook,
+    stepLook,
     start: () => {
       started = true;
       dress();
