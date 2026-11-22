@@ -6,6 +6,7 @@ import {
   float,
   inverseSqrt,
   length,
+  mix,
   normalize,
   normalWorldGeometry,
   positionWorld,
@@ -16,6 +17,8 @@ import {
 } from 'three/tsl';
 import { type Node, Vector3 } from 'three/webgpu';
 
+import type { Look } from '@/island/shared/play';
+
 import { ripplePhaseOf, SAND_RIPPLE } from '../lib/land-octaves';
 import { COVER_ATTRIBUTE, SAND_ATTRIBUTE } from '../model/cover-attribute';
 import { type Coloured, landBands } from './land-bands';
@@ -25,7 +28,7 @@ import { type Following, landNoise, QUIET } from './land-noise';
 type F = Node<'float'>;
 type V = Node<'vec3'>;
 
-/** The land's look in one of the scene's two: what its material is dressed in. */
+/** The land in one of the scene's looks: what its material is dressed in. */
 type LandDress = Coloured & {
   /** The ground's normal in view space: a land material's `normalNode`. */
   readonly normal: V;
@@ -34,6 +37,8 @@ type LandDress = Coloured & {
 export type LandSurface = Following & {
   /** The fine look: every scale of the surface, down to the grain underfoot. */
   readonly fine: LandDress;
+  /** The swift look: the fine one less what only tells underfoot. */
+  readonly swift: LandDress;
   /** The plain look: the country's colours alone, on the mesh's own shape. */
   readonly plain: LandDress;
 };
@@ -49,6 +54,13 @@ const FAR_TO = 1_500_000;
 
 /** The plain look reads the octaves coarser than this one. */
 const PLAIN_OCTAVES = FIELD;
+
+/** The swift look reads the octaves coarser than this one: a hand's breadth and a grain tell only underfoot. */
+const SWIFT_OCTAVES = HAND;
+
+/** The width of a fragment between which far sand's lean is taken out, metres, and the share of it taken. */
+const SAND_SOFTENS = [0.3, 4] as const;
+const SAND_SOFTENED = 0.75;
 
 /** The relief's octaves and each one's share of a surface's roughness. */
 const RELIEF: Parts = [
@@ -91,6 +103,19 @@ export function landSurface(height: F, stops: V): LandSurface {
   );
   /** How far the ground leans off level, 0 flat and 1 a wall. */
   const steep = clamp(dot(normalWorldGeometry, zenith).oneMinus(), 0, 1);
+  /**
+   * The shape as bare sand `sandy` is lit by: a dune's slip face narrower than
+   * a pixel draws as a pen stroke, so from afar sand leans toward level and a
+   * dune field is soft light and shade.
+   */
+  const softened = (sandy: F): V =>
+    normalize(
+      mix(
+        shape,
+        zenith,
+        sandy.mul(smoothstep(...SAND_SOFTENS, footprint)).mul(SAND_SOFTENED),
+      ),
+    );
   const ground = {
     level: height,
     stops,
@@ -100,43 +125,57 @@ export function landSurface(height: F, stops: V): LandSurface {
     sand: attribute(SAND_ATTRIBUTE, 'float'),
     footprint,
   };
-  const fine = landBands(ground, octaves, true);
-  let slope: V = vec3(0);
-  let lost: F = float(0);
-  for (const [i, share] of RELIEF) {
-    const octave = octaves[i] ?? QUIET;
-    slope = slope.add(octave.slope.mul(share));
-    lost = lost.add(octave.told.oneMinus().mul(share * share * SLOPE_VARIANCE));
-  }
   const wind = vec3(...SAND_RIPPLE.wind);
-  // The ripples' crests wander by a hand's breadth, as wind leaves them.
-  const along = dot(wind, positionWorld)
-    .div(SAND_RIPPLE.length)
-    .add(ripplePhase)
-    .add((octaves[HAND] ?? QUIET).value.mul(0.35))
-    .add((octaves[STEP] ?? QUIET).value.mul(0.6));
-  const ripple = wind.mul(cos(along.mul(Math.PI * 2))).mul(
-    smoothstep(SAND_RIPPLE.length / 8, SAND_RIPPLE.length / 2.5, footprint)
-      .oneMinus()
-      .mul(fine.rippled)
-      // Ripples stand high in one patch of sand and lie nearly flat in the next.
-      .mul((octaves[PATCH] ?? QUIET).value.mul(0.5).add(0.6))
-      .mul(RIPPLE_SLOPE),
-  );
-  const relief = slope.mul(fine.roughness).add(ripple);
-  const { colour } = landBands(ground, octaves.slice(0, PLAIN_OCTAVES), false);
-
-  return {
-    fine: {
+  /** A look past the plain one: the bands over the octaves coarser than `reach`, and their small relief. */
+  const dressed = (look: Look, reach: number): LandDress => {
+    const told = octaves.slice(0, reach);
+    const at = (i: number) => told[i] ?? QUIET;
+    const bands = landBands(ground, told, look);
+    let slope: V = vec3(0);
+    let lost: F = float(0);
+    for (const [i, share] of RELIEF) {
+      const octave = at(i);
+      slope = slope.add(octave.slope.mul(share));
+      lost = lost.add(
+        octave.told.oneMinus().mul(share * share * SLOPE_VARIANCE),
+      );
+    }
+    // The ripples' crests wander by a hand's breadth, as wind leaves them.
+    const along = dot(wind, positionWorld)
+      .div(SAND_RIPPLE.length)
+      .add(ripplePhase)
+      .add(at(HAND).value.mul(0.35))
+      .add(at(STEP).value.mul(0.6));
+    const ripple = wind.mul(cos(along.mul(Math.PI * 2))).mul(
+      smoothstep(SAND_RIPPLE.length / 8, SAND_RIPPLE.length / 2.5, footprint)
+        .oneMinus()
+        .mul(bands.rippled)
+        // Ripples stand high in one patch of sand and lie nearly flat in the next.
+        .mul(at(PATCH).value.mul(0.5).add(0.6))
+        .mul(RIPPLE_SLOPE),
+    );
+    const relief = slope.mul(bands.roughness).add(ripple);
+    const lit = softened(bands.rippled);
+    return {
       // Relief under a pixel's width leaves no slope to light, only less light.
-      colour: fine.colour.mul(
-        inverseSqrt(lost.mul(fine.roughness).mul(fine.roughness).add(1)),
+      colour: bands.colour.mul(
+        inverseSqrt(lost.mul(bands.roughness).mul(bands.roughness).add(1)),
       ),
       normal: transformNormalToView(
-        normalize(shape.sub(relief.sub(shape.mul(dot(relief, shape))))),
+        normalize(lit.sub(relief.sub(lit.mul(dot(relief, lit))))),
       ),
-    },
-    plain: { colour, normal: transformNormalToView(shape) },
+    };
+  };
+  const { colour, rippled } = landBands(
+    ground,
+    octaves.slice(0, PLAIN_OCTAVES),
+    'plain',
+  );
+
+  return {
+    fine: dressed('fine', octaves.length),
+    swift: dressed('swift', SWIFT_OCTAVES),
+    plain: { colour, normal: transformNormalToView(softened(rippled)) },
     update: ([x, y, z]) => {
       eye.value.set(x, y, z);
       ripplePhase.value = ripplePhaseOf([x, y, z]);

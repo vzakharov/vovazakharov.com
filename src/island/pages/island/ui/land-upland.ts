@@ -55,11 +55,15 @@ export function moorOf({ ground: { steep }, mix: m }: Band) {
       [GRAIN, 0.2],
     ]),
   );
-  const stony = smoothstep(
-    0.04,
-    0.12,
-    steep.add(m.at(PATCH).value.mul(0.02)).add(m.at(STEP).value.mul(0.02)),
-  );
+  // Stone gathers in fans and patches on what leans, not along a level of steepness.
+  const stony = m
+    .patches(-0.1, 0.3, [
+      [FIELD, 0.4],
+      [SLOPE, 0.5],
+      [PATCH, 0.3],
+      [STEP, 0.1],
+    ])
+    .mul(smoothstep(0.03, 0.14, steep));
   const growth = mix(
     mix(paint(LAND_PALETTE.tussock), paint(LAND_PALETTE.heath), heathered),
     paint(LAND_PALETTE.turf),
@@ -136,7 +140,7 @@ export function alpineOf({ ground: { steep }, mix: m, banded, border }: Band) {
  * its beds lying level, darker and lighter.
  */
 export function rockOf(
-  { ground: { level, steep, footprint }, mix: m, detailed }: Band,
+  { ground: { level, steep, footprint }, mix: m, look }: Band,
   upland: F,
   mountain: F,
 ) {
@@ -166,21 +170,31 @@ export function rockOf(
         m.at(HILL).value.mul(1.3).add(3),
       ),
     ).w.mul(smoothstep(thickness / 5, thickness / 1.6, footprint).oneMinus());
-  const beds = detailed
-    ? smoothstep(-0.25, 0.25, bedded(BEDS[0]).add(bedded(BEDS[1]).mul(0.5)))
-    : float(0.5);
+  // Rock is bedded in places and massive in others, a face's length across.
+  const layered = m.patches(-0.2, 0.5, [
+    [HILL, 0.4],
+    [FIELD, 0.6],
+    [SLOPE, 0.3],
+  ]);
+  // The swift look tells the ledges and leaves out the leaves within one.
+  const leaves = look === 'fine' ? bedded(BEDS[1]).mul(0.5) : float(0);
+  const beds =
+    look === 'plain'
+      ? float(0.5)
+      : mix(0.5, smoothstep(-0.25, 0.25, bedded(BEDS[0]).add(leaves)), layered);
   return {
     rock: max(faces, outcrops).mul(smoothstep(2, SHORE_TOP, level)),
     colour: mix(
       paint(LAND_PALETTE.rockDark),
       paint(LAND_PALETTE.rockLight),
-      beds.mul(0.6).add(0.2),
+      beds.mul(0.5).add(0.25),
     ).mul(
       m.mottled([
-        [PATCH, 0.06],
-        [STEP, 0.1],
-        [HAND, 0.1],
-        [GRAIN, 0.06],
+        [SLOPE, 0.06],
+        [PATCH, 0.07],
+        [STEP, 0.05],
+        [HAND, 0.06],
+        [GRAIN, 0.05],
       ]),
     ),
   };
@@ -198,17 +212,20 @@ const LIES_FROM = 400_000;
  */
 export function snowOf({ ground: { level, steep, away }, mix: m }: Band) {
   const over = level.sub(BAND_HEIGHTS.snowLine);
+  // The short octaves are the small relief's own, taken backwards: its hollows
+  // keep the snow its ribs shed, and the edge between is a step wide.
   const lying = m.edge(
     over.div(300),
-    -0.07,
-    0.07,
+    -0.012,
+    0.012,
     m.ragged([
-      [REGION, 0.6],
-      [DISTRICT, 0.4],
-      [HILL, 0.5],
-      [FIELD, 0.4],
-      [SLOPE, 0.14],
-      [PATCH, 0.05],
+      [REGION, 0.35],
+      [DISTRICT, 0.25],
+      [HILL, 0.25],
+      [FIELD, -0.15],
+      [SLOPE, -0.08],
+      [PATCH, -0.04],
+      [STEP, -0.015],
     ]),
   );
   const sliding = m.edge(
