@@ -1,6 +1,8 @@
 import { length, R, type Vec3 } from '@/island/shared/globe';
 
-import { groundSlope, OCTAVES, reliefAt } from './relief';
+import { upliftAtSphere, upliftSlope } from './ranges';
+import { OCTAVES } from './octaves';
+import { groundSlope, reliefAt } from './relief';
 import { noiseSalt, valueNoise3 } from './value-noise';
 
 /** Rows of a 3 × 3 matrix. */
@@ -33,15 +35,26 @@ const SPHERE_OCTAVES = OCTAVES.map((octave) => ({
 }));
 
 /**
- * An octave's steepest slope per unit of amplitude over its wavelength: the
- * quintic lattice ramp (15/8 of a step of 2, along all three axes) bent by
- * the hump (×1.4), its coastal fade (a smoothstep, 1.5, over a distance
- * changing up to √2 per metre) and its detail fade (under 1).
+ * How far an octave's lattice point is pushed along each of two lattice axes,
+ * in cells, by the noise of the octave before it at full swing: features bend
+ * off the lattice's rows, and no two octaves' rows line up anywhere for long.
  */
-const OCTAVE_STEEPEST = 3.75 * Math.sqrt(3) * 1.4 + 1.5 * Math.SQRT2 + 1;
+const BEND = 0.25;
 
-/** `groundSlope` for the sphere's three-axis lattices. */
-export const SPHERE_GROUND_SLOPE = groundSlope(OCTAVE_STEEPEST);
+/**
+ * The noise's steepest slope per wavelength: the quintic lattice ramp (15/8
+ * of a step of 2, along all three axes), steepened by the bend, whose own
+ * source is an octave twice as long and as steep.
+ */
+const LATTICE_STEEPEST = 3.75 * Math.sqrt(3);
+const NOISE_STEEPEST =
+  LATTICE_STEEPEST * (1 + (1.5 * BEND * LATTICE_STEEPEST) / 2);
+
+/** `groundSlope` for the sphere's three-axis lattices and its belts. */
+export const SPHERE_GROUND_SLOPE = groundSlope(
+  NOISE_STEEPEST,
+  upliftSlope(LATTICE_STEEPEST),
+);
 
 /** Signed metres from direction `p` (unit) to the coast, positive inland. */
 export type CoastDistance = (p: Vec3) => number;
@@ -51,7 +64,8 @@ export type CoastDistance = (p: Vec3) => number;
  * offshore — a pure function of the coast's distance and the seed (read as a
  * 32-bit integer). The noise is drawn in space at the surface point `R·p̂`,
  * never at an elevated one, so a height does not feed its own noise, and has
- * no seam anywhere on the sphere. `reliefAt` gives the shape.
+ * no seam anywhere on the sphere; each octave's point is bent by the octave
+ * before it. `reliefAt` gives the shape, `upliftAtSphere` the mountain belts.
  */
 export function heightAtSphere(
   distance: CoastDistance,
@@ -63,16 +77,23 @@ export function heightAtSphere(
   const x = p[0] * scale;
   const y = p[1] * scale;
   const z = p[2] * scale;
+  const d = distance([x, y, z]);
+  /** The noise of the octave before, which bends this one's lattice point. */
+  let before = 0;
   return reliefAt(
-    distance([x, y, z]),
+    d,
     finest,
     SPHERE_OCTAVES,
-    ({ index, toLattice: [a, b, c] }) =>
-      valueNoise3(
+    ({ index, toLattice: [a, b, c] }) => {
+      const bend = BEND * before;
+      before = valueNoise3(
         noiseSalt(seed, index),
-        a[0] * x + a[1] * y + a[2] * z,
-        b[0] * x + b[1] * y + b[2] * z,
-        c[0] * x + c[1] * y + c[2] * z,
-      ),
+        a[0] * x + a[1] * y + a[2] * z + bend,
+        b[0] * x + b[1] * y + b[2] * z - bend,
+        c[0] * x + c[1] * y + c[2] * z + 0.5 * bend,
+      );
+      return before;
+    },
+    d > 0 ? upliftAtSphere(seed, x, y, z, d) : 0,
   );
 }
