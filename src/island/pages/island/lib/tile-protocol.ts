@@ -47,6 +47,8 @@ export type FilledTile = TileOrder & {
   readonly sea: TileMesh<CubeCell> | null;
   /** Forest cover under the land's vertices (`tileCover`); null with no land. */
   readonly cover: Float32Array<ArrayBuffer> | null;
+  /** The share of sand under the land's vertices (`tileSand`); null with no land. */
+  readonly sand: Float32Array<ArrayBuffer> | null;
   /** The ground's heights under the sea's vertices, which the sea is coloured by; null with no sea. */
   readonly floor: Float32Array<ArrayBuffer> | null;
   /** The worker's time filling it, ms. */
@@ -79,10 +81,12 @@ export const filledBuffers = ({
   land,
   sea,
   cover,
+  sand,
   floor,
 }: FilledTile): ArrayBuffer[] => [
   ...(land === null ? [] : tileBuffers(land)),
   ...(cover === null ? [] : [cover.buffer]),
+  ...(sand === null ? [] : [sand.buffer]),
   ...(sea === null ? [] : tileBuffers(sea)),
   ...(floor === null ? [] : [floor.buffer]),
 ];
