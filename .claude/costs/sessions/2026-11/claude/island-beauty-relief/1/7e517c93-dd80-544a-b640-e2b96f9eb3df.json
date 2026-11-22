@@ -1,15 +1,33 @@
 {
   "total": {
-    "inputTokens": 31,
+    "inputTokens": 48,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 112599,
-    "cacheReadTokens": 2340472,
-    "outputTokens": 16913,
-    "thinkingTokens": 4428,
-    "responses": 17,
-    "costUsd": 2.946446400000001
+    "cacheWrite1hTokens": 149765,
+    "cacheReadTokens": 4007213,
+    "outputTokens": 33649,
+    "thinkingTokens": 17396,
+    "responses": 26,
+    "costUsd": 4.544026600000002
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-22T10:07:56.185Z",
+    "subjectLine": "feat: climate seam and landscape kinds in the island's relief",
+    "parts": [
+      {
+        "hours": 24.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "procedural terrain recipes per climate - ranges, dunes, mesas, ice - need an eye for landform and a hand for noise"
+      },
+      {
+        "hours": 8.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "the fill budget, slope and height bounds, alias-free detail cut and seamless stitching constrain every recipe"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -34,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkDs92YhSSpimFpJwfJ",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-22T09:56:29.624Z",
-  "lastResponseAt": "2026-11-22T10:07:36.153Z",
+  "lastResponseAt": "2026-11-22T10:11:04.432Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 31,
+    "inputTokens": 48,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 112599,
-    "cacheReadTokens": 2340472,
-    "outputTokens": 16913,
-    "thinkingTokens": 4428,
-    "responses": 17,
-    "costUsd": 2.946446400000001
+    "cacheWrite1hTokens": 149765,
+    "cacheReadTokens": 4007213,
+    "outputTokens": 33649,
+    "thinkingTokens": 17396,
+    "responses": 26,
+    "costUsd": 4.544026600000002
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,23 +77,23 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 31,
+      "inputTokens": 48,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 112599,
-      "cacheReadTokens": 2340472,
-      "outputTokens": 16913,
-      "thinkingTokens": 4428,
-      "responses": 17,
-      "costUsd": 2.946446400000001
+      "cacheWrite1hTokens": 149765,
+      "cacheReadTokens": 4007213,
+      "outputTokens": 33649,
+      "thinkingTokens": 17396,
+      "responses": 26,
+      "costUsd": 4.544026600000002
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 16,
-    "matched": 16,
-    "matchedTableUsd": 2.871586600000001,
-    "matchedEventUsd": 2.871586600000001,
+    "events": 25,
+    "matched": 25,
+    "matchedTableUsd": 4.451493000000002,
+    "matchedEventUsd": 4.451493000000002,
     "unseen": {}
   },
   "operatorWords": {
@@ -86,6 +104,6 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 247
+    ".md": 655
   }
 }

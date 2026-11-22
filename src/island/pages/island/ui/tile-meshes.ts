@@ -22,11 +22,7 @@ import { colourHeights } from '../lib/colour-heights';
 import { type FilledTile, orderId } from '../lib/tile-protocol';
 import { indicesOutside } from '../model/piece-indices';
 import type { Cut } from '../model/tile-cover';
-import {
-  CLIMATE_ATTRIBUTE,
-  HEIGHT_ATTRIBUTE,
-  type StandInMaterials,
-} from './ground-lighting';
+import { HEIGHT_ATTRIBUTE, type StandInMaterials } from './ground-lighting';
 
 /** Tile variants held before the least recently drawn are let go. */
 const CAPACITY = 900;
@@ -93,10 +89,6 @@ function geometryOf(
   geometry.setAttribute('position', new BufferAttribute(mesh.positions, 3));
   geometry.setAttribute('normal', new BufferAttribute(mesh.normals, 3));
   geometry.setAttribute(HEIGHT_ATTRIBUTE, new BufferAttribute(colourBy, 1));
-  geometry.setAttribute(
-    CLIMATE_ATTRIBUTE,
-    new BufferAttribute(mesh.climates, 2),
-  );
   geometry.setIndex(new BufferAttribute(mesh.indices, 1));
   geometry.computeBoundingSphere();
   return geometry;
