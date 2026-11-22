@@ -56,7 +56,7 @@ export const LAND_PALETTE = {
   /** Bare earth where a lowland slope is too steep to hold turf. */
   earth: toLinear([0.47, 0.37, 0.25]),
   /** The upland: tussock, heath between it, stony soil under both. */
-  tussock: toLinear([0.58, 0.48, 0.31]),
+  tussock: toLinear([0.55, 0.46, 0.31]),
   heath: toLinear([0.33, 0.24, 0.19]),
   stony: toLinear([0.45, 0.41, 0.35]),
   /** Alpine turf, the last green under the rock. */
