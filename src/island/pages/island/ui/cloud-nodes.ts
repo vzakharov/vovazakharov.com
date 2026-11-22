@@ -72,6 +72,8 @@ const STEPS = 4;
 const PER_METRE = 0.012;
 /** How much deeper a cloud is under the heaviest billow of its cells than under none. */
 const BILLOW_DEPTH = 1.4;
+/** Metres of cloud between the sun and the deepest crease between a cloud's billows. */
+const CREASE_DEPTH = 1800;
 /** The least steeply a ray is taken to cross the layer, for how fine its waves look. */
 const LEAST_STEEP = 0.07;
 /** How far toward the sun a sample looks for the cloud that shades it, metres. */
@@ -246,6 +248,8 @@ export function cloudNodes(frame: CloudFrame): CloudNodes {
                     .mul(coverOf(there))
                     // Whole cover still has its billows: thick and thin, dark and light from below.
                     .mul(nearCells.mul(BILLOW_DEPTH).add(1).clamp(0.3, 2))
+                    // A crease between billows lies in its neighbours' shade.
+                    .add(max(nearCells.negate(), 0).mul(CREASE_DEPTH))
                     .div(lamps.rise),
                   DEEPEST_SHADE,
                 );

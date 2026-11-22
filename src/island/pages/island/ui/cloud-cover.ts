@@ -26,7 +26,7 @@ const FLATTEST = 0.8;
 /** The share of its layer's depth under a cloud's top in which it thins out. */
 const TOP_FALL = 0.3;
 /** How far from a meso cell's edge an open ring's cloud and a deck's vein reach, as `edgeOf` measures it. */
-const RING_WIDE = 0.22;
+const RING_WIDE = 0.32;
 const VEIN_WIDE = 0.13;
 /** The share of a field its rings and its veins cover: what an eye too far to tell them sees instead. */
 const RINGS_COVER = 0.45;

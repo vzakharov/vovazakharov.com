@@ -24,7 +24,7 @@ import {
   STORM_LIVES,
   STORMS_ROUND,
 } from '../lib/clouds';
-import { type F, latticeValue, noise, type V } from './cloud-noise';
+import { cloudLattice, type F, noise, type V } from './cloud-noise';
 
 const DEGREE = Math.PI / 180;
 
@@ -92,7 +92,7 @@ const TAIL = -110 * DEGREE;
 
 /** A cyclone's own number for `salt`, 0 to 1, new each `epoch` of its lives. */
 const seedOf = (id: F, epoch: F, salt: number): F =>
-  latticeValue(vec3(id, epoch, salt));
+  cloudLattice(vec3(id, epoch, salt));
 
 /**
  * How much of a spiral band `broad` times the front's width a place `turn`
@@ -136,7 +136,7 @@ function stormsOver(spot: V, storms: F, warp: readonly [F, F]): Storm {
   // The cyclones either side reach in over this one's cell.
   for (const cell of [home.sub(1), home, home.add(1)]) {
     const id = mod(cell, STORMS_ROUND).mul(7.3).add(1.1).toVar();
-    const lived = latticeValue(vec3(id, hemisphere.mul(2.9), 0.7))
+    const lived = cloudLattice(vec3(id, hemisphere.mul(2.9), 0.7))
       .add(storms)
       .toVar();
     const life = lived.fract();
@@ -281,12 +281,13 @@ export function regimeAt(spot: V, storms: F): Regime {
   // cells within, breaking into open ones along their edges.
   const deck = lay(
     {
-      amount: n3.mul(0.15).add(n2.mul(0.1)).add(0.25),
+      amount: n3.mul(0.15).add(n2.mul(0.1)).add(0.08),
       veins: 1,
-      fine: 0.35,
+      lumps: 0.3,
+      fine: 0.75,
       base: 700,
-      ceil: 1400,
-      flat: 0.6,
+      ceil: 1500,
+      flat: 0.3,
     },
     max(
       bell(absLat, 30, 11).mul(smoothstep(0.05, 0.3, n1)),
@@ -316,8 +317,16 @@ export function regimeAt(spot: V, storms: F): Regime {
     const front = storm.front.mul(tracked).toVar();
     const { grain, cold, shield } = storm;
     lay(
-      { amount: -0.3, rings: 1, fine: 0.45, base: 800, ceil: 2600 },
-      cold.mul(tracked),
+      {
+        amount: -0.5,
+        rings: 0.8,
+        lumps: 0.45,
+        fine: 0.8,
+        base: 800,
+        ceil: 2600,
+      },
+      // The cold air's open cells come in fields, with clear air between them.
+      cold.mul(tracked).mul(smoothstep(-0.25, 0.2, n3)),
     );
     lay(
       {

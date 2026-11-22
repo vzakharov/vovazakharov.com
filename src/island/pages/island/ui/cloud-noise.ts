@@ -27,7 +27,7 @@ const GRAIN_UNDER = 5;
  * of it while it spans `TOLD_OVER` pixels, none once it is under
  * `GRAIN_UNDER`, where it would draw as grain.
  */
-export const toldAt = (metres: number, away: F): F =>
+const toldAt = (metres: number, away: F): F =>
   smoothstep(
     metres / (TOLD_OVER * PIXEL),
     metres / (GRAIN_UNDER * PIXEL),
@@ -48,7 +48,7 @@ const SCATTER = 0.7;
 const UNSCATTERED = (1 - SCATTER) / 2;
 
 /** A lattice point's value, 0 to 1. */
-export const latticeValue = Fn(([point]: [V]) => {
+export const cloudLattice = Fn(([point]: [V]) => {
   const folded = point.mul(0.1031).fract().toVar();
   folded.addAssign(dot(folded, folded.zyx.add(31.32)));
   return folded.x.add(folded.y).mul(folded.z).fract();
@@ -59,7 +59,7 @@ const valueNoise = Fn(([at]: [V]) => {
   const within = at.sub(cell).toVar();
   const eased = within.mul(within).mul(within.mul(-2).add(3)).toVar();
   const corner = (x: number, y: number, z: number) =>
-    latticeValue(cell.add(vec3(x, y, z)));
+    cloudLattice(cell.add(vec3(x, y, z)));
   const edge = (y: number, z: number) =>
     mix(corner(0, y, z), corner(1, y, z), eased.x);
   const face = (z: number) => mix(edge(0, z), edge(1, z), eased.y);
