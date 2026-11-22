@@ -1,6 +1,7 @@
 import {
   attribute,
   clamp,
+  cos,
   dot,
   float,
   inverseSqrt,
@@ -15,18 +16,10 @@ import {
 } from 'three/tsl';
 import { type Node, Vector3 } from 'three/webgpu';
 
+import { ripplePhaseOf, SAND_RIPPLE } from '../lib/land-octaves';
 import { COVER_ATTRIBUTE } from '../model/cover-attribute';
-import {
-  type Coloured,
-  FIELD,
-  GRAIN,
-  HAND,
-  landBands,
-  type Parts,
-  PATCH,
-  SLOPE,
-  STEP,
-} from './land-bands';
+import { type Coloured, landBands } from './land-bands';
+import { FIELD, GRAIN, HAND, type Parts, PATCH, SLOPE, STEP } from './land-mix';
 import { type Following, landNoise, QUIET } from './land-noise';
 
 type F = Node<'float'>;
@@ -66,6 +59,9 @@ const RELIEF: Parts = [
   [HAND, 0.4],
   [GRAIN, 0.3],
 ];
+/** How steep the lee of a sand ripple stands. */
+const RIPPLE_SLOPE = 0.45;
+
 /** A lattice's mean squared slope per cell, by which relief gone under a pixel still dims its ground. */
 const SLOPE_VARIANCE = 1.4;
 
@@ -81,6 +77,7 @@ export function landSurface(height: F, stops: V): LandSurface {
   const noise = landNoise();
   const { footprint, octaves } = noise;
   const eye = uniform(new Vector3(0, 1, 0));
+  const ripplePhase = uniform(0);
   const zenith = normalize(eye.add(positionWorld));
   const away = length(positionWorld);
   const lean = normalWorldGeometry.sub(
@@ -110,7 +107,20 @@ export function landSurface(height: F, stops: V): LandSurface {
     slope = slope.add(octave.slope.mul(share));
     lost = lost.add(octave.told.oneMinus().mul(share * share * SLOPE_VARIANCE));
   }
-  const relief = slope.mul(fine.roughness);
+  const wind = vec3(...SAND_RIPPLE.wind);
+  // The ripples' crests wander by a hand's breadth, as wind leaves them.
+  const along = dot(wind, positionWorld)
+    .div(SAND_RIPPLE.length)
+    .add(ripplePhase)
+    .add((octaves[HAND] ?? QUIET).value.mul(0.35))
+    .add((octaves[STEP] ?? QUIET).value.mul(0.6));
+  const ripple = wind.mul(cos(along.mul(Math.PI * 2))).mul(
+    smoothstep(SAND_RIPPLE.length / 8, SAND_RIPPLE.length / 2.5, footprint)
+      .oneMinus()
+      .mul(fine.rippled)
+      .mul(RIPPLE_SLOPE),
+  );
+  const relief = slope.mul(fine.roughness).add(ripple);
   const { colour } = landBands(ground, octaves.slice(0, PLAIN_OCTAVES), false);
 
   return {
@@ -126,6 +136,7 @@ export function landSurface(height: F, stops: V): LandSurface {
     plain: { colour, normal: transformNormalToView(shape) },
     update: ([x, y, z]) => {
       eye.value.set(x, y, z);
+      ripplePhase.value = ripplePhaseOf([x, y, z]);
       noise.update([x, y, z]);
     },
   };

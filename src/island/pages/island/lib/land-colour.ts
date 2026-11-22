@@ -40,9 +40,14 @@ export const LAND_PALETTE = {
   /** Lowland meadow in growth, and gone to seed. */
   meadow: toLinear([0.3, 0.5, 0.2]),
   hay: toLinear([0.56, 0.57, 0.3]),
+  /** Rushes in a meadow's damp hollow. */
+  rush: toLinear([0.22, 0.4, 0.17]),
   /** A closed canopy seen from over it: broadleaf low, conifer toward the upland. */
   broadleaf: toLinear([0.2, 0.36, 0.15]),
   conifer: toLinear([0.14, 0.28, 0.16]),
+  /** Beach sand dried pale above the tide, and the wrack a storm left on it. */
+  sandDry: toLinear([0.9, 0.85, 0.68]),
+  wrack: toLinear([0.22, 0.18, 0.12]),
   /** The ground under a canopy. */
   litter: toLinear([0.36, 0.3, 0.19]),
   moss: toLinear([0.27, 0.36, 0.16]),
