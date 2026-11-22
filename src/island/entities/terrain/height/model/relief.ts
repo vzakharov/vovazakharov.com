@@ -29,6 +29,7 @@ import {
 } from './octaves';
 import {
   approach,
+  DUNE_GAP_SPAN,
   DUNE_METRES,
   DUNE_SPACING_METRES,
   DUNE_SWAY,
@@ -53,8 +54,8 @@ const PLATEAU_REACH_METRES = 180_000;
  * or under it, the broad relief levels out here instead, high enough that
  * the hills on it clear the lowland floor and the basin is rolling ground.
  */
-const BASIN_METRES = 160;
-const BASIN_REACH_METRES = 15_000;
+const BASIN_METRES = 220;
+const BASIN_REACH_METRES = 2000;
 /** The band of broad relief over which a basin's floor is rounded in. */
 const BASIN_ROUNDING_METRES = 240;
 
@@ -64,7 +65,7 @@ const ABYSS_METRES = 3500;
 const SHELF_REACH_METRES = 30_000;
 
 /** How high a mountain belt lifts the broad relief along its middle. */
-export const UPLIFT_METRES = 900;
+export const UPLIFT_METRES = 1250;
 /** The distance inland over which a belt's uplift grows to its full size. */
 const UPLIFT_REACH_METRES = 100_000;
 
@@ -76,15 +77,32 @@ const UPLIFT_REACH_METRES = 100_000;
 const COASTAL_ROUGHNESS = 0.25;
 /** The distance inland over which the noise grows to ~63% of its full size. */
 const ROUGHNESS_REACH_METRES = 300_000;
+/**
+ * The distance from the shore over which the land's hill band grows to its
+ * full size, whatever an octave's wavelength: hills stand a walk from the
+ * beach. At sea each octave takes a wavelength of its own, so none lifts the
+ * sea floor out of the water.
+ */
+const HILLS_RISE_METRES = 1500;
+/**
+ * The distance from the shore over which a kind's lift over the broad relief
+ * and its cut along the lines grow in: nearer, the ground is the hill
+ * octaves' own roll, low enough to meet the beach.
+ */
+const LIFT_RISE_METRES = 6000;
 /** Where the broad relief turns from green to brown ground, and to alpine. */
 const BROWN_FROM_METRES = 300;
 const BROWN_BY_METRES = 550;
 const ALPINE_FROM_METRES = 600;
 const ALPINE_BY_METRES = 1100;
 
-/** The octaves whose noise bends the dunes' lines and varies their height. */
+/**
+ * The octaves whose noise varies the dunes' height, bends their lines and
+ * breaks them along the shore.
+ */
 const DUNE_SWELL_INDEX = 9;
 const DUNE_SWAY_INDEX = 10;
+const DUNE_GAP_INDEX = 11;
 
 /** A knob of rock: the top of a fine octave's noise, flat-footed between. */
 const KNOB_FROM = 0.15;
@@ -123,6 +141,10 @@ export const LOWEST_GROUND =
   most(troughOf) -
   FINE_REACH_METRES;
 
+/** The distance from the shore over which an octave grows in on land. */
+const riseOf = ({ hill, wavelength }: Octave) =>
+  hill ? Math.min(wavelength, HILLS_RISE_METRES) : wavelength;
+
 const wavelengthOf = (index: number) => LONGEST_WAVELENGTH_METRES / 2 ** index;
 
 /** The steepest the weight of a kind of ground is, per metre of broad relief. */
@@ -138,13 +160,13 @@ const KIND_STEEPEST =
  * Loose: real ground stays far under it.
  */
 export function groundSlope(noiseSteepest: number, upliftSteepest: number) {
-  const fades = 1.5 * Math.SQRT2 + 1;
   const per = (share: (octave: Octave) => number) =>
     total(
       OCTAVES.map(
         (octave) =>
-          (Math.abs(share(octave)) * (noiseSteepest + fades)) /
-          octave.wavelength,
+          Math.abs(share(octave)) *
+          ((noiseSteepest + 1) / octave.wavelength +
+            (1.5 * Math.SQRT2) / riseOf(octave)),
       ),
     );
   const broad =
@@ -159,7 +181,8 @@ export function groundSlope(noiseSteepest: number, upliftSteepest: number) {
   // weight it takes from the octaves before it as steep again for each.
   const line =
     per((octave) => (2 / LINE_WIDTH) * octave.line * (1 + octave.hillRank)) +
-    (1.5 * Math.SQRT2) / LONGEST_HILL_METRES;
+    (1.5 * Math.SQRT2) / HILLS_RISE_METRES +
+    (1.5 * Math.SQRT2) / LIFT_RISE_METRES;
   const hills = most(
     (kind) =>
       (Math.abs(kind.lift) * (kind.steepest + 1) + 1.5 * total(kind.fine)) *
@@ -179,7 +202,8 @@ export function groundSlope(noiseSteepest: number, upliftSteepest: number) {
     DUNE_METRES *
     noiseSteepest *
     ((2 * Math.PI * DUNE_SWAY) / wavelengthOf(DUNE_SWAY_INDEX) +
-      0.4 / wavelengthOf(DUNE_SWELL_INDEX));
+      0.4 / wavelengthOf(DUNE_SWELL_INDEX) +
+      1.5 / (DUNE_GAP_SPAN * wavelengthOf(DUNE_GAP_INDEX)));
   const reach = most((kind) => Math.max(peakOf(kind), troughOf(kind)));
   return (
     broad * (1 + KIND_STEEPEST * (reach + FINE_REACH_METRES)) +
@@ -202,8 +226,8 @@ export function groundSlope(noiseSteepest: number, upliftSteepest: number) {
  * average stands in for it, so ground seen from afar is as high as the ground
  * it turns into.
  *
- * Every octave is faded out within one of its own wavelengths of the
- * coastline, so the drawn coast stays where it is at every scale but the
+ * Every octave is faded out towards the coastline, within one of its own
+ * wavelengths or, the land's hill band, within `HILLS_RISE_METRES`, so the drawn coast stays where it is at every scale but the
  * finest, where the shore wanders seaward by metres.
  *
  * Octaves shorter than `finest` metres are left out, and those up to twice
@@ -235,6 +259,7 @@ export function reliefAt<O extends Octave>(
   let last = 0;
   let swell = 0;
   let sway = 0;
+  let gap = 0;
   // The line field, the share of the hill band present, and the share the
   // cut resolves; the weight the next octave's line takes.
   let line = 0;
@@ -251,7 +276,8 @@ export function reliefAt<O extends Octave>(
     if (octave.wavelength <= finest) break;
     const resolved = finest === 0 ? 1 : ramp(octave.wavelength / finest - 1);
     if (octave.hill) resolvedShare += octave.line * resolved;
-    const fade = resolved * ramp(away / octave.wavelength);
+    const fade =
+      resolved * ramp(away / (d > 0 ? riseOf(octave) : octave.wavelength));
     if (fade === 0) continue;
     const previous = last;
     const n = noise(octave);
@@ -270,6 +296,7 @@ export function reliefAt<O extends Octave>(
       if (octave.index === DUNE_SWELL_INDEX) swell = n;
       else if (octave.index === DUNE_SWAY_INDEX) sway = n;
     } else {
+      if (octave.index === DUNE_GAP_INDEX) gap = n;
       greenFine += octave.green * fade * n;
       knobs += octave.brown * fade * (ramp((n - KNOB_FROM) / KNOB_SPAN) - 0.25);
       alpineFine += octave.alpine * fade * n;
@@ -288,25 +315,31 @@ export function reliefAt<O extends Octave>(
     (1 - alpine) *
     ramp((broad - BROWN_FROM_METRES) / (BROWN_BY_METRES - BROWN_FROM_METRES));
   const green = 1 - alpine - brown;
-  const coarse = (1 - resolvedShare) * ramp(away / LONGEST_HILL_METRES);
+  const coarse =
+    (1 - resolvedShare) *
+    ramp(away / (d > 0 ? HILLS_RISE_METRES : LONGEST_HILL_METRES));
   line += LINE_MEAN * coarse;
   present += coarse;
 
+  const lift = d > 0 ? ramp(d / LIFT_RISE_METRES) : 1;
   let local = 0;
   let fine = 0;
   if (green > 0) {
     local +=
-      green * (GREEN.lift * (GREEN.shelf * present - line * line) + greenRoll);
+      green *
+      (lift * GREEN.lift * (GREEN.shelf * present - line * line) + greenRoll);
     fine += green * greenFine;
   }
   if (brown > 0) {
     local +=
-      brown * (BROWN.lift * (BROWN.shelf * present - line ** 3) + brownRoll);
+      brown *
+      (lift * BROWN.lift * (BROWN.shelf * present - line ** 3) + brownRoll);
     fine += brown * knobs * (1 - line);
   }
   if (alpine > 0) {
     local +=
-      alpine * (ALPINE.lift * (ALPINE.shelf * present - line) + alpineRoll);
+      alpine *
+      (lift * ALPINE.lift * (ALPINE.shelf * present - line) + alpineRoll);
     fine += alpine * alpineFine * (0.25 + 0.75 * Math.min(1, 2 * line));
   }
   const height = broad + local + fine;
@@ -314,6 +347,6 @@ export function reliefAt<O extends Octave>(
   const dunes = finest === 0 ? 1 : ramp(DUNE_SPACING_METRES / (2 * finest) - 1);
   return (
     restingGround(d, height, broad + local, FINE_REACH_METRES) +
-    (dunes === 0 ? 0 : dunes * duneAt(d, swell, sway))
+    (dunes === 0 ? 0 : dunes * duneAt(d, swell, sway, gap))
   );
 }

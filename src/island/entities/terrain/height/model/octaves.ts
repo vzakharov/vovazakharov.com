@@ -15,9 +15,11 @@ const HILL_METRES = 300;
 
 /**
  * The hill band's octaves, 25 km to 400 m, as shares of the line field every
- * kind of ground is cut from: each half the one before, summing to one.
+ * kind of ground is cut from, summing to one. The 6 km and 3 km octaves lead:
+ * a zero line of noise closes on itself, and where the longest octaves lead,
+ * a range seen whole is rings of crest a cell across.
  */
-const LINE = [64, 32, 16, 8, 4, 2, 1].map((share) => share / 127);
+const LINE = [14, 22, 30, 26, 18, 11, 6].map((share) => share / 127);
 /**
  * How much of an octave's line is drawn from its own noise; the rest is the
  * noise of the octave before, whose lattice lies another way. Value noise
@@ -32,7 +34,7 @@ export const LINE_GAIN = 2;
 /** The least of itself an octave keeps away from the lines before it. */
 export const LINE_LEAST = 0.1;
 /** About what the line field averages over land. */
-export const LINE_MEAN = 0.45;
+export const LINE_MEAN = 0.4;
 
 /**
  * One kind of ground. Over the hill band it stands `lift · (shelf − L)` over
@@ -55,7 +57,7 @@ export const GREEN: Kind = {
   lift: 500,
   shelf: 0.3,
   steepest: 2,
-  roll: [30, 80, 80, 55, 30, 14, 8],
+  roll: [30, 70, 70, 90, 70, 45, 22],
   fine: [8, 4.5, 2.5, 1.3, 0.7, 0.35],
 };
 /** Broad shoulders and benches, the valleys cut narrow into them; outcrops. */
