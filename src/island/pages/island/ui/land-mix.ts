@@ -47,6 +47,12 @@ export type Mixer = {
   readonly at: (octave: number) => OctaveNoise;
   /** `parts` summed for drawing an edge through. */
   readonly ragged: (parts: Parts) => Ragged;
+  /**
+   * `parts` summed for a shape drawn through them near the eye — a clump, a
+   * stone — told to twice the distance `ragged` is, where an edge of it is
+   * still wider than a pixel.
+   */
+  readonly shaped: (parts: Parts) => Ragged;
   /** `x` plus `by`'s noise, 0 under `from` and 1 over `to`, the edge as wide again as what of `by` is lost. */
   readonly edge: (x: F, from: number, to: number, by: Ragged) => F;
   /** A noise's own patches: 0 where `parts` sum under `from`, 1 over `to`. */
@@ -74,22 +80,23 @@ const edge: Mixer['edge'] = (x, from, to, by) =>
 
 export function mixerOf(octaves: readonly OctaveNoise[]): Mixer {
   const at = (i: number) => octaves[i] ?? QUIET;
-  const ragged = (parts: Parts): Ragged => {
-    let sum: F = float(0);
-    let lost: F = float(0);
-    for (const [i, weight] of parts) {
-      sum = sum.add(at(i).edging.mul(weight));
-      lost = lost.add(
-        at(i)
-          .edged.oneMinus()
-          .mul(Math.abs(weight) * 0.5),
-      );
-    }
-    return { sum, lost };
-  };
+  const summed =
+    (read: 'edging' | 'value', kept: 'edged' | 'told') =>
+    (parts: Parts): Ragged => {
+      let sum: F = float(0);
+      let lost: F = float(0);
+      for (const [i, weight] of parts) {
+        const octave = at(i);
+        sum = sum.add(octave[read].mul(weight));
+        lost = lost.add(octave[kept].oneMinus().mul(Math.abs(weight) * 0.5));
+      }
+      return { sum, lost };
+    };
+  const ragged = summed('edging', 'edged');
   return {
     at,
     ragged,
+    shaped: summed('value', 'told'),
     edge,
     patches: (from, to, parts) => edge(float(0), from, to, ragged(parts)),
     mottled: (parts) => {

@@ -60,7 +60,7 @@ const RELIEF: Parts = [
   [GRAIN, 0.3],
 ];
 /** How steep the lee of a sand ripple stands. */
-const RIPPLE_SLOPE = 0.45;
+const RIPPLE_SLOPE = 0.3;
 
 /** A lattice's mean squared slope per cell, by which relief gone under a pixel still dims its ground. */
 const SLOPE_VARIANCE = 1.4;
@@ -119,6 +119,8 @@ export function landSurface(height: F, stops: V): LandSurface {
     smoothstep(SAND_RIPPLE.length / 8, SAND_RIPPLE.length / 2.5, footprint)
       .oneMinus()
       .mul(fine.rippled)
+      // Ripples stand high in one patch of sand and lie nearly flat in the next.
+      .mul((octaves[PATCH] ?? QUIET).value.mul(0.5).add(0.6))
       .mul(RIPPLE_SLOPE),
   );
   const relief = slope.mul(fine.roughness).add(ripple);
