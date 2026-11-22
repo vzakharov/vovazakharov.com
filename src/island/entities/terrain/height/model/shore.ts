@@ -46,6 +46,9 @@ export const DUNE_SWAY = 1.3;
 /** A ridge stands where `gap` is over this, at full height a span higher. */
 const DUNE_GAP_FROM = -0.45;
 export const DUNE_GAP_SPAN = 0.35;
+/** Dunes stand on low ground: full under the first height, none a span up. */
+const DUNES_UNDER_METRES = 90;
+export const DUNES_UNDER_SPAN_METRES = 110;
 
 /** The share of its full size a quantity reaches `distance` in: ~63% at `reach`. */
 export const approach = (distance: number, reach: number) =>
@@ -103,6 +106,14 @@ export function lowlandFloor(
   return smoothMax(broad - fineReach * reach * reach, lowland, lowland);
 }
 
+/** The share of the dune belt left `d` metres inland: whole, then dying out. */
+const beltAt = (d: number) =>
+  1 - ramp((d - DUNES_FADE_FROM_METRES) / DUNES_FADE_METRES);
+
+/** The share of its dunes ground standing `height` metres up keeps. */
+export const dunesOver = (height: number) =>
+  1 - ramp((height - DUNES_UNDER_METRES) / DUNES_UNDER_SPAN_METRES);
+
 /**
  * How high the dunes behind the beach stand over the ground `d` metres inland
  * (positive), never negative: ridges along the shore, steeper inland. `swell`,
@@ -115,9 +126,7 @@ export function duneAt(
   sway: number,
   gap: number,
 ): number {
-  const along =
-    ramp((d - DUNES_FROM_METRES) / DUNES_RISE_METRES) *
-    (1 - ramp((d - DUNES_FADE_FROM_METRES) / DUNES_FADE_METRES));
+  const along = ramp((d - DUNES_FROM_METRES) / DUNES_RISE_METRES) * beltAt(d);
   if (along === 0) return 0;
   const phase = d / DUNE_SPACING_METRES + DUNE_SWAY * sway;
   const across = phase - Math.floor(phase);
@@ -128,4 +137,15 @@ export function duneAt(
   );
   const standing = ramp((gap - DUNE_GAP_FROM) / DUNE_GAP_SPAN);
   return DUNE_METRES * along * (0.6 + 0.4 * swell) * standing * crest;
+}
+
+/**
+ * The share of sand in ground `d` metres inland (positive) standing `height`
+ * metres up, from 0 to 1: 1 on the beach and across the dune belt, thinning
+ * with the dunes inland and with height, 0 past them and at sea.
+ */
+export function sandAt(d: number, height: number): number {
+  if (d <= 0) return 0;
+  const along = beltAt(d);
+  return along === 0 ? 0 : along * dunesOver(height - DUNE_METRES);
 }

@@ -45,6 +45,8 @@ type SceneLookParams = {
   render: () => void;
   /** Where B toggles the look; none under play, where only `setFine` does. */
   keys: HTMLElement | null;
+  /** Told the look each time one is chosen, for what is drawn in the fine look alone. */
+  onLook: (fine: boolean) => void;
 };
 
 /**
@@ -59,6 +61,7 @@ export function sceneLook({
   webgpu,
   render,
   keys,
+  onLook,
 }: SceneLookParams): SceneLook {
   const plainSky = new Color(skyColour(MAX_HEIGHT, 1));
   scene.background = plainSky;
@@ -74,6 +77,7 @@ export function sceneLook({
   };
   const setFine = (on: boolean) => {
     fine = on;
+    onLook(fine);
     dress();
   };
   const fineKey =
