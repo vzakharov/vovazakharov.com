@@ -10,6 +10,7 @@ import {
   LOWLAND_REACH_METRES,
   lowlandFloor,
   restingGround,
+  sandAt,
 } from './shore';
 import { stream } from './stream.test-kit';
 
@@ -164,6 +165,34 @@ describe('duneAt', () => {
     for (let k = 1; k < crests.length; k += 1) {
       const gap = (crests[k] ?? 0) - (crests[k - 1] ?? 0);
       assert.ok(Math.abs(gap - DUNE_SPACING_METRES) <= 3, `gap ${gap}`);
+    }
+  });
+});
+
+describe('sandAt', () => {
+  it('is whole on the beach and the low dune belt', () => {
+    for (const d of [1, 30, 200, 500]) {
+      for (const height of [0, 8, 65, 110]) {
+        assert.equal(sandAt(d, height), 1, `${height} m at ${d} m`);
+      }
+    }
+  });
+
+  it('is none at sea, past the belt and on high ground', () => {
+    assert.equal(sandAt(0, 0), 0);
+    assert.equal(sandAt(-40, -3), 0);
+    assert.equal(sandAt(1500, 60), 0);
+    assert.equal(sandAt(300, 230), 0);
+  });
+
+  it('thins inland and uphill without a step', () => {
+    for (let d = 500; d < 1500; d += 10) {
+      const drop = sandAt(d, 60) - sandAt(d + 10, 60);
+      assert.ok(drop >= 0 && drop < 0.02, `at ${d} m`);
+    }
+    for (let height = 100; height < 240; height += 1) {
+      const drop = sandAt(300, height) - sandAt(300, height + 1);
+      assert.ok(drop >= 0 && drop < 0.02, `at ${height} m`);
     }
   });
 });

@@ -26,6 +26,9 @@ attribute was added.
   the lines as valleys, alpine as crests. The 6 km and 3 km octaves lead the
   field: when the 25 km one led, a range from orbit was rings of snow. On land
   the hill band grows in over 1.5 km from the shore, a kind's lift over 6 km.
+- **`relief-numbers.ts`** — every constant `reliefAt` shapes with, and the
+  height bounds that follow from them. **`bounds.ts`** — `groundSlope` and
+  `detailReach`.
 - **`ranges.ts`** — `upliftAtSphere`: mountain belts from three slow seeded
   fields. Inland belts follow the zero lines of a 2400 km field; coastal ranges
   stand 80–360 km behind some shores; a 3300 km field says which regions have
@@ -38,6 +41,15 @@ attribute was added.
 - `HIGHEST_GROUND` 4997, `LOWEST_GROUND` −5525, `SPHERE_GROUND_SLOPE` ≈ 742.
   All true bounds, all loose. The quadtree's height bracket is the full range
   for any tile wider than ~7 m.
+- `sandAtSphere(coast, p, height)` / `sandAt(d, height)`: 0…1, 1 on the beach
+  and dune belt (to 500 m in, gone by 1.5 km; thinning over ground from 112 m
+  to 222 m), 0 at sea. One coast sample; `sandAt` is free where the distance
+  is already at hand.
+- `detailReach(finest)`: a true bound on how far ground drawn with that detail
+  cut stands from ground drawn whole — 1.3 m at 6 m, 3.9 at 12, 20 at 25, 62
+  at 50, 101 at 100, 314 at 200, 705 at 400, 1351 at 800; the full range from
+  25 km. One figure for all kinds, and the alpine lift (3200 m) sets it, so
+  it is several times loose over green ground.
 - Tile fill 1.1–1.2× the baseline; `groundAt` ~8.5 µs.
 - Green ground's relief inside a 1 km window, tilt removed: 55–110 m.
 

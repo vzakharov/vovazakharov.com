@@ -14,226 +14,53 @@ import {
   ALPINE,
   BROWN,
   GREEN,
-  type Kind,
-  KINDS,
   LINE_GAIN,
   LINE_LEAST,
   LINE_MEAN,
   LINE_OWN,
   LINE_WIDTH,
   LONGEST_HILL_METRES,
-  LONGEST_WAVELENGTH_METRES,
   type Octave,
-  OCTAVES,
-  REGIONAL_METRES,
 } from './octaves';
 import {
+  ABYSS_METRES,
+  ALPINE_BY_METRES,
+  ALPINE_FROM_METRES,
+  BASIN_METRES,
+  BASIN_REACH_METRES,
+  BASIN_ROUNDING_METRES,
+  BROWN_BY_METRES,
+  BROWN_FROM_METRES,
+  COASTAL_ROUGHNESS,
+  DUNE_GAP_INDEX,
+  DUNE_SWAY_INDEX,
+  DUNE_SWELL_INDEX,
+  FINE_REACH_METRES,
+  HILLS_RISE_METRES,
+  HILLY_FROM,
+  HILLY_SPAN,
+  KNOB_FROM,
+  KNOB_SPAN,
+  LIFT_RISE_METRES,
+  PLAIN_HILLS,
+  PLATEAU_METRES,
+  PLATEAU_REACH_METRES,
+  riseOf,
+  ROUGHNESS_REACH_METRES,
+  SHELF_REACH_METRES,
+  UPLIFT_REACH_METRES,
+  VARIED_UNDER_METRES,
+} from './relief-numbers';
+import {
   approach,
-  DUNE_GAP_SPAN,
-  DUNE_METRES,
   DUNE_SPACING_METRES,
-  DUNE_STEEPEST,
-  DUNE_SWAY,
   duneAt,
-  DUNES_RISE_METRES,
-  LOWLAND_METRES,
-  LOWLAND_REACH_METRES,
+  DUNES_UNDER_METRES,
+  DUNES_UNDER_SPAN_METRES,
   ramp,
   restingGround,
   smoothMax,
-  SQUEEZE_METRES,
 } from './shore';
-
-/** The interior's base height, approached with distance from the coast. */
-const PLATEAU_METRES = 250;
-/** The distance inland over which the plateau climbs to ~63% of its height. */
-const PLATEAU_REACH_METRES = 180_000;
-
-/**
- * The height an inland basin's floor is held near, approached with distance
- * from the coast: where the regional octaves would sink the land to the sea
- * or under it, the broad relief levels out here instead, high enough that
- * the hills on it clear the lowland floor and the basin is rolling ground.
- */
-const BASIN_METRES = 220;
-const BASIN_REACH_METRES = 2000;
-/** The band of broad relief over which a basin's floor is rounded in. */
-const BASIN_ROUNDING_METRES = 240;
-
-/** The ocean's depth far from the coast. */
-const ABYSS_METRES = 3500;
-/** The distance offshore over which the sea floor falls to ~63% of it. */
-const SHELF_REACH_METRES = 30_000;
-
-/** How high a mountain belt lifts the broad relief along its middle. */
-export const UPLIFT_METRES = 1250;
-/** The distance inland over which a belt's uplift grows to its full size. */
-const UPLIFT_REACH_METRES = 100_000;
-
-/**
- * How much of the regional octaves survives at the coast and at sea. The
- * shorter octaves keep their full size everywhere, faded only near the
- * coastline, so every lowland has hills.
- */
-const COASTAL_ROUGHNESS = 0.25;
-/** The distance inland over which the noise grows to ~63% of its full size. */
-const ROUGHNESS_REACH_METRES = 300_000;
-/**
- * The distance from the shore over which the land's hill band grows to its
- * full size, whatever an octave's wavelength: hills stand a walk from the
- * beach. At sea each octave takes a wavelength of its own, so none lifts the
- * sea floor out of the water.
- */
-const HILLS_RISE_METRES = 1500;
-/**
- * The distance from the shore over which a kind's lift over the broad relief
- * and its cut along the lines grow in: nearer, the ground is the hill
- * octaves' own roll, low enough to meet the beach.
- */
-const LIFT_RISE_METRES = 6000;
-/** Where the broad relief turns from green to brown ground, and to alpine. */
-const BROWN_FROM_METRES = 300;
-const BROWN_BY_METRES = 550;
-const ALPINE_FROM_METRES = 600;
-const ALPINE_BY_METRES = 1100;
-
-/**
- * The octaves whose noise varies the dunes' height, bends their lines and
- * breaks them along the shore.
- */
-const DUNE_SWELL_INDEX = 9;
-const DUNE_SWAY_INDEX = 10;
-const DUNE_GAP_INDEX = 11;
-/** Dunes stand on low ground: full under the first height, none a span up. */
-const DUNES_UNDER_METRES = 90;
-const DUNES_UNDER_SPAN_METRES = 110;
-
-/**
- * Green ground's hills shorter than this stand at full height only where the
- * longest hill octave's noise is high, and at `PLAIN_HILLS` of it where it is
- * low: hill country beside open vales, over the same broad ridges.
- */
-const VARIED_UNDER_METRES = 4000;
-const PLAIN_HILLS = 0.3;
-const HILLY_FROM = -0.25;
-const HILLY_SPAN = 0.5;
-
-/** A knob of rock: the top of a fine octave's noise, flat-footed between. */
-const KNOB_FROM = 0.15;
-const KNOB_SPAN = 0.45;
-
-const total = (values: readonly number[]) =>
-  values.reduce((sum, value) => sum + value, 0);
-const most = (of: (kind: Kind) => number) =>
-  Math.max(...KINDS.map((kind) => of(kind)));
-
-const REGIONAL_REACH_METRES = total(REGIONAL_METRES);
-/**
- * How far the fine band reaches on any ground, and so how far below the
- * broad relief the lowland floor sinks with distance from the coast.
- */
-const FINE_REACH_METRES = most(({ fine }) => total(fine));
-/** The most a kind's hill band lifts its ground, and sinks it. */
-const peakOf = ({ lift, shelf, roll }: Kind) =>
-  Math.max(lift * shelf, lift * (shelf - 1)) + total(roll);
-const troughOf = ({ lift, shelf, roll }: Kind) =>
-  Math.max(-lift * shelf, lift * (1 - shelf)) + total(roll);
-
-/** No ground lies higher than this, metres above sea level. */
-export const HIGHEST_GROUND =
-  PLATEAU_METRES +
-  REGIONAL_REACH_METRES +
-  UPLIFT_METRES +
-  BASIN_ROUNDING_METRES / 4 +
-  most(peakOf) +
-  FINE_REACH_METRES +
-  DUNE_METRES;
-/** No ground lies lower than this, metres above sea level. */
-export const LOWEST_GROUND =
-  -ABYSS_METRES -
-  COASTAL_ROUGHNESS * REGIONAL_REACH_METRES -
-  most(troughOf) -
-  FINE_REACH_METRES;
-
-/** The distance from the shore over which an octave grows in on land. */
-const riseOf = ({ hill, wavelength }: Octave) =>
-  hill ? Math.min(wavelength, HILLS_RISE_METRES) : wavelength;
-
-const wavelengthOf = (index: number) => LONGEST_WAVELENGTH_METRES / 2 ** index;
-
-/** The steepest the weight of a kind of ground is, per metre of broad relief. */
-const KIND_STEEPEST =
-  1.5 / (BROWN_BY_METRES - BROWN_FROM_METRES) +
-  1.5 / (ALPINE_BY_METRES - ALPINE_FROM_METRES);
-
-/**
- * A bound on the ground's slope, metres of rise per metre run, whatever the
- * detail cut, for noise at most `noiseSteepest` steep per wavelength and a
- * belt's uplift at most `upliftSteepest` metres per metre. Every term of
- * `reliefAt` has its summand here, so a term added there is added here.
- * Loose: real ground stays far under it.
- */
-export function groundSlope(noiseSteepest: number, upliftSteepest: number) {
-  const per = (share: (octave: Octave) => number) =>
-    total(
-      OCTAVES.map(
-        (octave) =>
-          Math.abs(share(octave)) *
-          ((noiseSteepest + 1) / octave.wavelength +
-            (1.5 * Math.SQRT2) / riseOf(octave)),
-      ),
-    );
-  const broad =
-    Math.SQRT2 *
-      (ABYSS_METRES / SHELF_REACH_METRES +
-        PLATEAU_METRES / PLATEAU_REACH_METRES +
-        (BASIN_METRES + BASIN_ROUNDING_METRES) / BASIN_REACH_METRES +
-        (1.5 * UPLIFT_METRES) / UPLIFT_REACH_METRES) +
-    upliftSteepest +
-    per(({ amplitude }) => amplitude);
-  // An octave's line is `2 / LINE_WIDTH` steep per unit of noise, and the
-  // weight it takes from the octaves before it as steep again for each.
-  const line =
-    per((octave) => (2 / LINE_WIDTH) * octave.line * (1 + octave.hillRank)) +
-    (1.5 * Math.SQRT2) / HILLS_RISE_METRES +
-    (1.5 * Math.SQRT2) / LIFT_RISE_METRES;
-  const hills = most(
-    (kind) =>
-      (Math.abs(kind.lift) * (kind.steepest + 1) + 1.5 * total(kind.fine)) *
-      line,
-  );
-  const own =
-    per(({ green }) => green) +
-    ((1.5 / HILLY_SPAN) *
-      noiseSteepest *
-      total(
-        OCTAVES.map(({ green, hill, wavelength }) =>
-          hill && wavelength < VARIED_UNDER_METRES ? green : 0,
-        ),
-      )) /
-      LONGEST_HILL_METRES +
-    per(({ brown, hill }) => (hill ? brown : (1.5 / KNOB_SPAN) * brown)) +
-    per(({ alpine }) => alpine);
-  const shore =
-    Math.SQRT2 *
-    ((3 * LOWLAND_METRES + 2 * FINE_REACH_METRES + SQUEEZE_METRES) /
-      LOWLAND_REACH_METRES +
-      DUNE_METRES *
-        (1.5 / DUNES_RISE_METRES + DUNE_STEEPEST / DUNE_SPACING_METRES));
-  const dunes =
-    DUNE_METRES *
-    noiseSteepest *
-    ((DUNE_STEEPEST * DUNE_SWAY) / wavelengthOf(DUNE_SWAY_INDEX) +
-      0.4 / wavelengthOf(DUNE_SWELL_INDEX) +
-      1.5 / (DUNE_GAP_SPAN * wavelengthOf(DUNE_GAP_INDEX)));
-  const reach = most((kind) => Math.max(peakOf(kind), troughOf(kind)));
-  const ground =
-    broad * (1 + KIND_STEEPEST * (reach + FINE_REACH_METRES)) +
-    hills +
-    own +
-    shore;
-  return ground * (1 + (1.5 * DUNE_METRES) / DUNES_UNDER_SPAN_METRES) + dunes;
-}
 
 /**
  * Metres above sea level `d` metres from the coast (negative offshore), with
@@ -248,8 +75,9 @@ export function groundSlope(noiseSteepest: number, upliftSteepest: number) {
  * it turns into.
  *
  * Every octave is faded out towards the coastline, within one of its own
- * wavelengths or, the land's hill band, within `HILLS_RISE_METRES`, so the drawn coast stays where it is at every scale but the
- * finest, where the shore wanders seaward by metres.
+ * wavelengths or, the land's hill band, within `HILLS_RISE_METRES`, so the
+ * drawn coast stays where it is at every scale but the finest, where the
+ * shore wanders seaward by metres.
  *
  * Octaves shorter than `finest` metres are left out, and those up to twice
  * it faded in, the dunes with them, so a lattice sampling at half `finest`

@@ -1,6 +1,6 @@
 import { R } from '@/island/shared/globe';
 
-import { UPLIFT_METRES } from './relief';
+import { UPLIFT_METRES } from './relief-numbers';
 import { ramp } from './shore';
 import { noiseSalt, valueNoise3 } from './value-noise';
 

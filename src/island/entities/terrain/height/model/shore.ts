@@ -46,6 +46,9 @@ export const DUNE_SWAY = 1.3;
 /** A ridge stands where `gap` is over this, at full height a span higher. */
 const DUNE_GAP_FROM = -0.45;
 export const DUNE_GAP_SPAN = 0.35;
+/** Dunes stand on low ground: full under the first height, none a span up. */
+export const DUNES_UNDER_METRES = 90;
+export const DUNES_UNDER_SPAN_METRES = 110;
 
 /** The share of its full size a quantity reaches `distance` in: ~63% at `reach`. */
 export const approach = (distance: number, reach: number) =>
@@ -128,4 +131,22 @@ export function duneAt(
   );
   const standing = ramp((gap - DUNE_GAP_FROM) / DUNE_GAP_SPAN);
   return DUNE_METRES * along * (0.6 + 0.4 * swell) * standing * crest;
+}
+
+/**
+ * The share of sand in ground `d` metres inland (positive) standing `height`
+ * metres up, from 0 to 1: 1 on the beach and across the dune belt, thinning
+ * with the dunes inland and with height, 0 past them and at sea.
+ */
+export function sandAt(d: number, height: number): number {
+  if (d <= 0) return 0;
+  const along = 1 - ramp((d - DUNES_FADE_FROM_METRES) / DUNES_FADE_METRES);
+  return along === 0
+    ? 0
+    : along *
+        (1 -
+          ramp(
+            (height - DUNE_METRES - DUNES_UNDER_METRES) /
+              DUNES_UNDER_SPAN_METRES,
+          ));
 }

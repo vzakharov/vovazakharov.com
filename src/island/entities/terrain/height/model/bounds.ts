@@ -1,0 +1,149 @@
+/** True bounds on the ground `reliefAt` draws: its slope, and its detail. */
+import {
+  KINDS,
+  LINE_WIDTH,
+  LONGEST_HILL_METRES,
+  type Octave,
+  OCTAVES,
+} from './octaves';
+import {
+  ABYSS_METRES,
+  BASIN_METRES,
+  BASIN_REACH_METRES,
+  BASIN_ROUNDING_METRES,
+  DUNE_GAP_INDEX,
+  DUNE_SWAY_INDEX,
+  DUNE_SWELL_INDEX,
+  FINE_REACH_METRES,
+  HIGHEST_GROUND,
+  HILLS_RISE_METRES,
+  HILLY_SPAN,
+  KIND_STEEPEST,
+  KNOB_SPAN,
+  LIFT_RISE_METRES,
+  LOWEST_GROUND,
+  most,
+  peakOf,
+  PLATEAU_METRES,
+  PLATEAU_REACH_METRES,
+  riseOf,
+  SHELF_REACH_METRES,
+  total,
+  troughOf,
+  UPLIFT_METRES,
+  UPLIFT_REACH_METRES,
+  VARIED_UNDER_METRES,
+  wavelengthOf,
+} from './relief-numbers';
+import {
+  DUNE_GAP_SPAN,
+  DUNE_METRES,
+  DUNE_SPACING_METRES,
+  DUNE_STEEPEST,
+  DUNE_SWAY,
+  DUNES_RISE_METRES,
+  DUNES_UNDER_SPAN_METRES,
+  LOWLAND_METRES,
+  LOWLAND_REACH_METRES,
+  SQUEEZE_METRES,
+} from './shore';
+
+/**
+ * A bound on the ground's slope, metres of rise per metre run, whatever the
+ * detail cut, for noise at most `noiseSteepest` steep per wavelength and a
+ * belt's uplift at most `upliftSteepest` metres per metre. Every term of
+ * `reliefAt` has its summand here, so a term added there is added here.
+ * Loose: real ground stays far under it.
+ */
+export function groundSlope(noiseSteepest: number, upliftSteepest: number) {
+  const per = (share: (octave: Octave) => number) =>
+    total(
+      OCTAVES.map(
+        (octave) =>
+          Math.abs(share(octave)) *
+          ((noiseSteepest + 1) / octave.wavelength +
+            (1.5 * Math.SQRT2) / riseOf(octave)),
+      ),
+    );
+  const broad =
+    Math.SQRT2 *
+      (ABYSS_METRES / SHELF_REACH_METRES +
+        PLATEAU_METRES / PLATEAU_REACH_METRES +
+        (BASIN_METRES + BASIN_ROUNDING_METRES) / BASIN_REACH_METRES +
+        (1.5 * UPLIFT_METRES) / UPLIFT_REACH_METRES) +
+    upliftSteepest +
+    per(({ amplitude }) => amplitude);
+  // An octave's line is `2 / LINE_WIDTH` steep per unit of noise, and the
+  // weight it takes from the octaves before it as steep again for each.
+  const line =
+    per((octave) => (2 / LINE_WIDTH) * octave.line * (1 + octave.hillRank)) +
+    (1.5 * Math.SQRT2) / HILLS_RISE_METRES +
+    (1.5 * Math.SQRT2) / LIFT_RISE_METRES;
+  const hills = most(
+    (kind) =>
+      (Math.abs(kind.lift) * (kind.steepest + 1) + 1.5 * total(kind.fine)) *
+      line,
+  );
+  const own =
+    per(({ green }) => green) +
+    ((1.5 / HILLY_SPAN) *
+      noiseSteepest *
+      total(
+        OCTAVES.map(({ green, hill, wavelength }) =>
+          hill && wavelength < VARIED_UNDER_METRES ? green : 0,
+        ),
+      )) /
+      LONGEST_HILL_METRES +
+    per(({ brown, hill }) => (hill ? brown : (1.5 / KNOB_SPAN) * brown)) +
+    per(({ alpine }) => alpine);
+  const shore =
+    Math.SQRT2 *
+    ((3 * LOWLAND_METRES + 2 * FINE_REACH_METRES + SQUEEZE_METRES) /
+      LOWLAND_REACH_METRES +
+      DUNE_METRES *
+        (1.5 / DUNES_RISE_METRES + DUNE_STEEPEST / DUNE_SPACING_METRES));
+  const dunes =
+    DUNE_METRES *
+    noiseSteepest *
+    ((DUNE_STEEPEST * DUNE_SWAY) / wavelengthOf(DUNE_SWAY_INDEX) +
+      0.4 / wavelengthOf(DUNE_SWELL_INDEX) +
+      1.5 / (DUNE_GAP_SPAN * wavelengthOf(DUNE_GAP_INDEX)));
+  const reach = most((kind) => Math.max(peakOf(kind), troughOf(kind)));
+  const ground =
+    broad * (1 + KIND_STEEPEST * (reach + FINE_REACH_METRES)) +
+    hills +
+    own +
+    shore;
+  return ground * (1 + (1.5 * DUNE_METRES) / DUNES_UNDER_SPAN_METRES) + dunes;
+}
+
+/**
+ * A bound on how far the ground drawn with detail cut `finest` (metres)
+ * stands from the ground drawn whole, anywhere: what the octaves the cut
+ * leaves out or fades, the dunes with them, can add or take. The whole range
+ * where the cut reaches the regional octaves, which tell the kind of ground.
+ */
+export function detailReach(finest: number): number {
+  if (finest <= 0) return 0;
+  const cut = OCTAVES.filter(({ wavelength }) => wavelength < 2 * finest);
+  if (cut.some(({ regional }) => regional)) {
+    return HIGHEST_GROUND - LOWEST_GROUND;
+  }
+  const line = total(cut.map((octave) => octave.line));
+  const own = (of: (octave: Octave) => number) =>
+    total(cut.map((octave) => Math.abs(of(octave))));
+  const rolls = [
+    own(({ green }) => green),
+    own(({ brown }) => brown),
+    own(({ alpine }) => alpine),
+  ];
+  const ground = Math.max(
+    ...KINDS.map(
+      (kind, k) =>
+        (Math.abs(kind.lift) * kind.steepest + 1.5 * total(kind.fine)) * line +
+        (rolls[k] ?? 0),
+    ),
+  );
+  const dunes = DUNE_SPACING_METRES < 4 * finest ? DUNE_METRES : 0;
+  return ground * (1 + (1.5 * DUNE_METRES) / DUNES_UNDER_SPAN_METRES) + dunes;
+}
