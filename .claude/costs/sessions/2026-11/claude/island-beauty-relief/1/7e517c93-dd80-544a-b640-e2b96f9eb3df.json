@@ -1,0 +1,109 @@
+{
+  "total": {
+    "inputTokens": 48,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 149765,
+    "cacheReadTokens": 4007213,
+    "outputTokens": 33649,
+    "thinkingTokens": 17396,
+    "responses": 26,
+    "costUsd": 4.544026600000002
+  },
+  "estimate": {
+    "at": "2026-11-22T10:07:56.185Z",
+    "subjectLine": "feat: climate seam and landscape kinds in the island's relief",
+    "parts": [
+      {
+        "hours": 24.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "procedural terrain recipes per climate - ranges, dunes, mesas, ice - need an eye for landform and a hand for noise"
+      },
+      {
+        "hours": 8.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "the fill budget, slope and height bounds, alias-free detail cut and seamless stitching constrain every recipe"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-22T09:56:35.525Z",
+    "contextTokens": 101410,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 44391,
+      "cacheReadTokens": 53359,
+      "outputTokens": 725,
+      "thinkingTokens": 239,
+      "responses": 1,
+      "costUsd": 0.7499438
+    }
+  },
+  "sessionId": "7e517c93-dd80-544a-b640-e2b96f9eb3df",
+  "branch": "claude/island-beauty-relief",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a `/carte-blanche` run led by another Claude session (`session_01DaohkBiucpraEhsFyZ58M9`). You are a peer, not an assistant: you own …",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDs92YhSSpimFpJwfJ",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-22T09:56:29.624Z",
+  "lastResponseAt": "2026-11-22T10:11:04.432Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 48,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 149765,
+    "cacheReadTokens": 4007213,
+    "outputTokens": 33649,
+    "thinkingTokens": 17396,
+    "responses": 26,
+    "costUsd": 4.544026600000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 48,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 149765,
+      "cacheReadTokens": 4007213,
+      "outputTokens": 33649,
+      "thinkingTokens": 17396,
+      "responses": 26,
+      "costUsd": 4.544026600000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 25,
+    "matched": 25,
+    "matchedTableUsd": 4.451493000000002,
+    "matchedEventUsd": 4.451493000000002,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 655
+  }
+}

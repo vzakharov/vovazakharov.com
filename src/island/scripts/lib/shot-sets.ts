@@ -41,7 +41,11 @@ const DEGREES_PER_HOUR = 360 / HOOK_DAY_HOURS;
  * and the planet turns east under a fixed sun, so a meridian `Δ` degrees
  * west of the opening reaches that sun `Δ / 15` hours later.
  */
-function afternoonAt(world: string, lon: number, earlier: number): number {
+export function afternoonAt(
+  world: string,
+  lon: number,
+  earlier: number,
+): number {
   const opening = (openingOf(Number(world)).lon * 180) / Math.PI;
   const hours = (opening - lon) / DEGREES_PER_HOUR - earlier;
   return ((hours % HOOK_DAY_HOURS) + HOOK_DAY_HOURS) % HOOK_DAY_HOURS;
