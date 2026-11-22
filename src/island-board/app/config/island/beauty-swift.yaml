@@ -1,0 +1,52 @@
+items:
+  - id: z-beauty-swift
+    type: zone
+    updated: [2026-11-22T20:55:00.000Z, agent:board]
+    box: [7220, 3700, 2320, 600, green]
+    text: '4. Swift beside fine, the eighth merge'
+  - id: beauty-row-swift
+    type: text
+    updated: [2026-11-22T20:55:00.000Z, agent:board]
+    box: [7260, 3770, 2240, body]
+    text: "Each pair is one view: swift on the left, fine on the right. Captions are the lead's."
+  - id: img-beauty-merge-8-swift-coast-560m
+    type: image
+    updated: [2026-11-22T20:55:00.000Z, agent:board]
+    box: [7260, 3830, 300]
+    src: images/beauty-merge-8-swift-coast-560m.webp
+    text: 'Swift. FAIL. Swift at 560 m after a jump from 4400 m: the previous eye positions cloud history smeared over sea and land. Fine is clean. Sent to speed as a blocker.'
+  - id: img-beauty-merge-8-fine-coast-560m
+    type: image
+    updated: [2026-11-22T20:55:00.000Z, agent:board]
+    box: [7580, 3830, 300]
+    src: images/beauty-merge-8-fine-coast-560m.webp
+    text: 'Fine, the same view.'
+  - id: img-beauty-merge-8-swift-coast-4400m
+    type: image
+    updated: [2026-11-22T20:55:00.000Z, agent:board]
+    box: [8020, 3830, 300]
+    src: images/beauty-merge-8-swift-coast-4400m.webp
+    text: 'Swift. Swift matches fine from 4400 m; only a comb along the horizons cloud band.'
+  - id: img-beauty-merge-8-fine-coast-4400m
+    type: image
+    updated: [2026-11-22T20:55:00.000Z, agent:board]
+    box: [8340, 3830, 300]
+    src: images/beauty-merge-8-fine-coast-4400m.webp
+    text: 'Fine, the same view.'
+  - id: img-beauty-merge-8-swift-lowland-300m
+    type: image
+    updated: [2026-11-22T20:55:00.000Z, agent:board]
+    box: [8780, 3830, 300]
+    src: images/beauty-merge-8-swift-lowland-300m.webp
+    text: 'Swift. Swift matches fine over the lowland; the comb again along the horizon band. The forest still reads as a lawn with bushes in both.'
+  - id: img-beauty-merge-8-fine-lowland-300m
+    type: image
+    updated: [2026-11-22T20:55:00.000Z, agent:board]
+    box: [9100, 3830, 300]
+    src: images/beauty-merge-8-fine-lowland-300m.webp
+    text: 'Fine, the same view.'
+  - id: beauty-operator-frame-time
+    type: sticky
+    updated: [2026-11-22T20:55:00.000Z, agent:board]
+    box: [7260, 4170, 760, yellow]
+    text: 'Operator''s M2 Pro, WebGPU, one dune place 22 m up. Facing the sea: plain 13 ms, swift 159 ms, fine 203 ms. Facing inland: plain 13, swift 68, fine 79. His verdict: "I hardly noticed a difference in quality between fine and swift" (translated from the Russian). Swift looks right and saves 15–20%, which is no middle step; a view with the sea costs 90–125 ms more. The rest of the run goes to frame time.'
