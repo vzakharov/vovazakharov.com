@@ -299,10 +299,6 @@ PR. Session ids are claude.ai remote sessions.
   the baseline (four steps across a grazing ray). `lookTo`'s clamp is the eye's
   own rule (`lookWithin`), so nobody sees cumulus overhead; the horizon is the
   view to get right.
-- Preview slot 1 serves 36ffc9038 (checked): everything above but the clouds.
-- Speed's step 3 is decided: clouds at quarter resolution with temporal
-  reprojection behind swift, cloud shading behind one function so the new shader
-  drops in; it also owes a turning sequence as proof nothing swims.
 - Merged at 6da7f994f (166 tests): the coast's final package (af79cc077), the
   trees' swift look (81ddfe1f2), ground's swift path and its answers to the
   17:05 verdicts (006d16550), the board (4db31d295). At 6974e7256 the scene
@@ -338,10 +334,38 @@ PR. Session ids are claude.ai remote sessions.
 - The keeper split the timelapse zone into eight at the operator's own request
   to it; cards carry no `why`, so a verdict goes in the card's text, in English
   (`check:board-language` rejects Cyrillic).
-- Preview slot 1 serves c96cd53a0 (checked): clouds' step 1 and the first bent
-  coast; not yet the skerries or the swift look.
-- Left: the five cloud items; the sea; rock on rough shores; trees' floor shade,
-  crowns, trunks and the fine triangle count; speed's quarter-resolution clouds
-  behind swift, the tile bracket from a tile's own heights (it is to read
-  `detailReach`, the one export `pnpm knip` is red on) and a turning sequence;
-  `/dry`, `/tend-prose`, `/five-percent`, vet, the PR.
+- The seventh merge's frames (`0014-merge-7-*`, shot at 6974e7256) and the
+  verdicts sent on them. Wins: the alpine range from 3 km, the dune belt at
+  every height, the coast with skerries. To ground: straight tile edges in the
+  lowland's meadow colour from 4–34 km; near moor olive-brown against far hills
+  teal with purple hollows; snow in soft round blobs that ignore the relief, a
+  dot screen on rock, contour stripes on a grass slope; canopy tone and
+  crown-scale mottling beyond the last placed trees. To trees: from 300 m a
+  forest reads as a lawn with bushes (far tier's density must not fall with
+  distance, hand-over by pixel size); the forest ends at the dunes along a ruler
+  line; nothing grows on shore rock (`shoreAt` in `TreeGround`).
+- Merged at 2170765ea the sea (9bfee46f): each wave's phase drifts with two slow
+  world-keyed noise fields, so the 64 waves no longer beat into a grid; a
+  float64 twin (`lib/ripples.ts`) and a regularity test (ACF peak 0.51 before,
+  0.14–0.16 after). Unseen on real WebGPU until the operator looks. The Sea
+  member's last item is the shoal's cream smear at a beach's waterline.
+- Merged at 0185c8196 the clouds' items 1 and 2 (9bfa7a87): cumulus fields are
+  heaps on packed points with turned axes (no grid, but bubble wrap of one
+  size), open cells have thick uneven walls (still a doily round a blur). Sent
+  back: a size spectrum over a decade with lanes and clumps; walls broken into
+  beads; texture in the solid mass. Items 3 and 4 (front, decks) next.
+- Merged at 2b0fe24c8 speed's swift clouds (6d902a36f): a half-resolution buffer
+  marching one pixel of each 2×2 block a frame and reprojecting the rest
+  (`ui/swift-clouds.ts`), a sixteenth of fine's marches; a turn differs from
+  fine by ~0.08/255. Swift costs 20–40% less than fine on the software raster,
+  and plain 2.5× less than swift: what is left is the air, per fragment. Decided
+  next for speed, in order: the air from a low-resolution volume behind swift,
+  the clouds' ground shadow from it, the tile bracket from a tile's own heights
+  (to read `detailReach`, the one export `pnpm knip` is red on; target 112 tiles
+  at alpine 3000 m), then the table again.
+- `InLook` (`@/island/shared/play`) is the one home of a `look: Look` member.
+- Preview slot 1 serves 494459684 (checked): skerries, calm dunes, swift looks.
+- The five-hour limit read `allowed_warning` at 17:58 UTC, resetting 20:30.
+- Left: clouds' items 3–4 and the two sent back; the march from the ground; the
+  shoal smear; ground's and trees' lists above; speed's list; `/dry`,
+  `/tend-prose`, `/five-percent`, vet, the PR.
