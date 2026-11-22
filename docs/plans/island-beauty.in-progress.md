@@ -310,12 +310,7 @@ PR. Session ids are claude.ai remote sessions.
   `tileShore` in `forest-cover.ts`, and a per-vertex `rocky` attribute
   (`ROCKY_ATTRIBUTE`) — 1 on a rough stretch's first 20 m and its skerries, gone
   by 90 m inland, 0 on calm stretches.
-- The sea's moiré (the operator's screenshot, `0013-sea-0-operator-moire`):
-  `ripplesAt` sums 64 everlasting plane waves with integer wave vectors on a 256
-  m period, which beat into a regular grid under a low sun. The Sea child
-  replaces them with wave groups; the shoal's smear is the sea shader's too.
-- The keeper split the timelapse zone into eight at the operator's own request
-  to it; cards carry no `why`, so a verdict goes in the card's text, in English
+- Board cards carry no `why`, so a verdict goes in the card's text, in English
   (`check:board-language` rejects Cyrillic).
 - The seventh merge's frames (`0014-merge-7-*`, shot at 6974e7256) and the
   verdicts sent on them. Wins: the alpine range from 3 km, the dune belt at
@@ -341,22 +336,33 @@ PR. Session ids are claude.ai remote sessions.
   marching one pixel of each 2×2 block a frame and reprojecting the rest
   (`ui/swift-clouds.ts`), a sixteenth of fine's marches; a turn differs from
   fine by ~0.08/255. Swift costs 20–40% less than fine on the software raster,
-  and plain 2.5× less than swift: what is left is the air, per fragment. Decided
-  next for speed, in order: the air from a low-resolution volume behind swift,
-  the clouds' ground shadow from it, the tile bracket from a tile's own heights
-  (to read `detailReach`, the one export `pnpm knip` is red on; target 112 tiles
-  at alpine 3000 m), then the table again.
+  and plain 2.5× less than swift: what is left is the air, per fragment.
 - `InLook` (`@/island/shared/play`) is the one home of a `look: Look` member.
-- Preview slot 1 serves e3f3f0620 (checked): the sea's cure, clouds' items 1–2.
-- The five-hour limit cut the team off ~18:40 UTC until 20:30; clouds, trees,
-  sea, speed, the march and the keeper resumed by themselves, ground did not.
 - Swift beside fine from 2b0fe24c8 (`0017-merge-8-*`): alike at 34 km, 4400 m,
   lowland and alpine 300 m but for a comb along the horizon's cloud band; at 560
   m over the coast swift smears the previous eye position's cloud history over
   sea and land. Sent to speed as a blocker.
 - Merged at ae86aff73 (178 tests): ground through 060e84b07 (forest past its
   trees by expectation, a moor without purple, snow by aspect, shore rock) and
-  the sea's shoal (fef69dff3).
+  the sea's shoal (fef69dff3). Its frames (`0018-merge-9-*`): alpine snow crisp
+  and placed by hollows and aspect, contour stripes on the grass slope still
+  there; the upland without purple; from 34 km the meadow clearings read as
+  paint spills with hard outlines and some straight tile edges; the lowland
+  forest from 300 m still a lawn with bushes.
+- Merged at e6bd01ec1 the clouds' items 3–4 (56c0a436): the front is ragged and
+  asymmetric but still a narrow worm; decks are white with a cell mottle.
+- Merged at a10bdda4f (179 tests) the trees through bf7cb4eed and the sea
+  through efa1be4b2. Trees: the crowns that swelled in flight (steering, 21:00)
+  were a tree shrinking toward its foot over the last third of its tier's reach
+  and a coarse tier's tree widening up to three times with distance; a tree now
+  stands whole until the eye passes a distance of its own, then is gone. Fallen
+  logs; the shade under a tree is laid and not drawn. Sea: five cost cuts (no
+  shading on sand it discards, the zenith sky and the tiles' mirrored sky once a
+  vertex, an unseen wave skips its cosine, swift without the cloud glance or the
+  four finest bands) — pixel-identical on WebGL2 and **unmeasured on WebGPU**,
+  the first thing to check on the preview. Not done: the ocean globe is still
+  rippled under tiles; early-Z needs depth from the vertex stage and a sea mask
+  without `discard`.
 
 ## Closing this approach
 
