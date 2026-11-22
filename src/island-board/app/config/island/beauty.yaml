@@ -2,7 +2,7 @@ items:
   - id: z-beauty
     type: zone
     updated: [2026-11-22T11:00:00.000Z, agent:board]
-    box: [11760, 380, 2000, 4550, green]
+    box: [11760, 380, 2000, 6450, green]
     icon: 🎞️
     text: 'Making it beautiful: the timelapse, failures included'
   - id: beauty-howto
@@ -250,3 +250,128 @@ items:
     box: [11800, 4450, 360]
     src: images/beauty-ground-1-tibet-100m-night.webp
     text: '36. Ground, step 1. The same hills at night: a black ridge under a dusk sky, a moon inside a dark hatched cloud. The cloud stripes are the clouds’ WebGL pattern, per the builder.'
+  - id: beauty-trees-row
+    type: text
+    updated: [2026-11-22T12:00:00.000Z, agent:board]
+    box: [11800, 4950, 1000, body]
+    text: 'Trees, step 1. World 1, fine look, WebGL2. The forest spot is lat 16.3017, lon -23.0617 (211 m, cover 1.0), heading 30°. Cards 37 to 45 are one descent over the forest by day; 46 to 51 are the forest edge, the treeline and a valley; 52 to 56 are low sun, sunset and moonlight.'
+  - id: img-beauty-37-trees-1-forest-day-5000m
+    type: image
+    updated: [2026-11-22T12:00:00.000Z, agent:board]
+    box: [11800, 5020, 360]
+    src: images/beauty-trees-1-forest-day-5000m.webp
+    text: '37. Trees, step 1. Forest from 5 km: plain grass green in haze, no canopy tone. Wrong, by the builder: forest is invisible from here.'
+  - id: img-beauty-38-trees-1-forest-day-2500m
+    type: image
+    updated: [2026-11-22T12:00:00.000Z, agent:board]
+    box: [12185, 5020, 360]
+    src: images/beauty-trees-1-forest-day-2500m.webp
+    text: '38. Trees, step 1. From 2.5 km: the same green ground with a few dark specks at the bottom edge. Wrong, by the builder, as card 37.'
+  - id: img-beauty-39-trees-1-forest-day-1000m
+    type: image
+    updated: [2026-11-22T12:00:00.000Z, agent:board]
+    box: [12570, 5020, 360]
+    src: images/beauty-trees-1-forest-day-1000m.webp
+    text: '39. Trees, step 1. From 1 km: sparse dark blobs on bright grass. The builder: it reads as scattered bushes, not forest.'
+  - id: img-beauty-40-trees-1-forest-day-500m
+    type: image
+    updated: [2026-11-22T12:00:00.000Z, agent:board]
+    box: [12955, 5020, 360]
+    src: images/beauty-trees-1-forest-day-500m.webp
+    text: '40. Trees, step 1. From 500 m: denser blobs, still separate on grass; they thin with distance as a gradient, no line.'
+  - id: img-beauty-41-trees-1-forest-day-200m
+    type: image
+    updated: [2026-11-22T12:00:00.000Z, agent:board]
+    box: [13340, 5020, 360]
+    src: images/beauty-trees-1-forest-day-200m.webp
+    text: '41. Trees, step 1. From 200 m: broadleaf crowns with a few conifers, thinning to dots by about 600 m. The crowns are faceted blobs.'
+  - id: img-beauty-42-trees-1-forest-day-80m
+    type: image
+    updated: [2026-11-22T12:00:00.000Z, agent:board]
+    box: [11800, 5480, 360]
+    src: images/beauty-trees-1-forest-day-80m.webp
+    text: '42. Trees, step 1. From 80 m: a closed canopy, broadleaf with a few conifers, trunks showing under the crowns. It reads as forest.'
+  - id: img-beauty-43-trees-1-forest-day-30m
+    type: image
+    updated: [2026-11-22T12:00:00.000Z, agent:board]
+    box: [12185, 5480, 360]
+    src: images/beauty-trees-1-forest-day-30m.webp
+    text: '43. Trees, step 1. Just over the crowns at 30 m: conifer spires among broadleaves. The builder: good.'
+  - id: img-beauty-44-trees-1-forest-day-10m
+    type: image
+    updated: [2026-11-22T12:00:00.000Z, agent:board]
+    box: [12570, 5480, 360]
+    src: images/beauty-trees-1-forest-day-10m.webp
+    text: '44. Trees, step 1. At 10 m the eye is inside a crown (there is no collision): big flat-shaded facets fill the frame.'
+  - id: img-beauty-45-trees-1-forest-day-2m
+    type: image
+    updated: [2026-11-22T12:00:00.000Z, agent:board]
+    box: [12955, 5480, 360]
+    src: images/beauty-trees-1-forest-day-2m.webp
+    text: '45. Trees, step 1. Among the trunks at 2 m, under the canopy; trunks stand on the ground. The ground is one flat green with no tree shadow.'
+  - id: img-beauty-46-trees-1-edge-day-200m
+    type: image
+    updated: [2026-11-22T12:00:00.000Z, agent:board]
+    box: [13340, 5480, 360]
+    src: images/beauty-trees-1-edge-day-200m.webp
+    text: '46. Trees, step 1. Forest edge from 200 m (cover 0.5): the stand thins into meadow. The builder: the edge is soft, fine.'
+  - id: img-beauty-47-trees-1-edge-day-2m
+    type: image
+    updated: [2026-11-22T12:00:00.000Z, agent:board]
+    box: [11800, 5940, 360]
+    src: images/beauty-trees-1-edge-day-2m.webp
+    text: '47. Trees, step 1. At the edge among trunks at 2 m. A near conifer bough at the right is one large flat facet.'
+  - id: img-beauty-48-trees-1-treeline-day-200m
+    type: image
+    updated: [2026-11-22T12:00:00.000Z, agent:board]
+    box: [12185, 5940, 360]
+    src: images/beauty-trees-1-treeline-day-200m.webp
+    text: '48. Trees, step 1. The treeline from 200 m (756 m up): scattered conifers on brown ground. The builder: reads right, the trees perhaps too regular in size.'
+  - id: img-beauty-49-trees-1-treeline-day-2m
+    type: image
+    updated: [2026-11-22T12:00:00.000Z, agent:board]
+    box: [12570, 5940, 360]
+    src: images/beauty-trees-1-treeline-day-2m.webp
+    text: '49. Trees, step 1. Conifers on a brown ridge at 2 m. One near bough fills the right of the frame as a flat green slab.'
+  - id: img-beauty-50-trees-1-valley-day-2m
+    type: image
+    updated: [2026-11-22T12:00:00.000Z, agent:board]
+    box: [12955, 5940, 360]
+    src: images/beauty-trees-1-valley-day-2m.webp
+    text: '50. Trees, step 1. A steep valley side (slope 37°) at 2 m: conifers stand on it, none floating. The gully floor is bare, and the near slope is a flat dark grey.'
+  - id: img-beauty-51-trees-1-valley-day-60m
+    type: image
+    updated: [2026-11-22T12:00:00.000Z, agent:board]
+    box: [13340, 5940, 360]
+    src: images/beauty-trees-1-valley-day-60m.webp
+    text: '51. Trees, step 1. The same valley from 60 m: conifer forest on rolling ground. It reads as forest.'
+  - id: img-beauty-52-trees-1-forest-low-200m
+    type: image
+    updated: [2026-11-22T12:00:00.000Z, agent:board]
+    box: [11800, 6400, 360]
+    src: images/beauty-trees-1-forest-low-200m.webp
+    text: '52. Trees, step 1. Low sun (hour 2) from 200 m: crowns lit on one side. The builder: trees cast no shadow on the ground or on each other.'
+  - id: img-beauty-53-trees-1-forest-low-2m
+    type: image
+    updated: [2026-11-22T12:00:00.000Z, agent:board]
+    box: [12185, 6400, 360]
+    src: images/beauty-trees-1-forest-low-2m.webp
+    text: '53. Trees, step 1. Low sun (hour 2) at 2 m among the trunks, the ground a darker flat green. The builder: no tree shadow on the ground.'
+  - id: img-beauty-54-trees-1-edge-low-200m
+    type: image
+    updated: [2026-11-22T12:00:00.000Z, agent:board]
+    box: [12570, 6400, 360]
+    src: images/beauty-trees-1-edge-low-200m.webp
+    text: '54. Trees, step 1. The forest edge at low sun (hour 2) from 200 m: crowns lit on one side, the same lack of shadow.'
+  - id: img-beauty-55-trees-1-forest-sunset-200m
+    type: image
+    updated: [2026-11-22T12:00:00.000Z, agent:board]
+    box: [12955, 6400, 360]
+    src: images/beauty-trees-1-forest-sunset-200m.webp
+    text: '55. Trees, step 1. Sunset (hour 3) from 200 m: the crowns glow red on ground that has already gone dark. Wrong, by the builder: upright faces take a grazing sun the level ground does not, with nothing shading them.'
+  - id: img-beauty-56-trees-1-forest-moon-2m
+    type: image
+    updated: [2026-11-22T12:00:00.000Z, agent:board]
+    box: [13340, 6400, 360]
+    src: images/beauty-trees-1-forest-moon-2m.webp
+    text: '56. Trees, step 1. Moonlight (hour 12) at 2 m: trunks, crowns and ground are nearly black and equally dim; nothing glows.'
