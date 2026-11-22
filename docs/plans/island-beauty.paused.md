@@ -374,7 +374,8 @@ does not fit, and a half-merged team is worth less than a smaller whole.
   sea's cuts went into this branch unmeasured.
 - **`/five-percent` and a whole-branch `/polish` wait for the approach that
   finishes the work**; children ran `/dry` and `/tend-prose` on their own diffs.
-  `./scripts/vet.sh` runs before the PR.
+  `./scripts/vet.sh` passed on 0ecae061b, the head preview slot 1 serves; from
+  the ground it draws clouds in fine and in swift (coast 560 m, lowland 300 m).
 
 ## Left, for the next approach
 

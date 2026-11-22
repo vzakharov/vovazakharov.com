@@ -39,8 +39,8 @@ every other number is a generated world.
    switch, that loses no quality and does not look "drunk".
 
 The lead's decisions, each with its reason, are in
-`docs/plans/island-beauty.in-progress.md` § "Design decisions". Read that
-section; the rest of the plan is the lead's.
+`docs/plans/island-beauty.paused.md` § "Design decisions". Read that section;
+the rest of the plan is the lead's.
 
 ## House rules that are not negotiable
 
