@@ -8,6 +8,9 @@ import type { Readying } from '@/kernel/shared/typings';
 export const LOOKS = ['plain', 'swift', 'fine'] as const;
 export type Look = (typeof LOOKS)[number];
 
+/** What is drawn in one of the looks, and told which. */
+export type InLook = { readonly look: Look };
+
 /** The look after `look` in `LOOKS`, the first after the last. */
 export const nextLook = (look: Look): Look =>
   LOOKS[(LOOKS.indexOf(look) + 1) % LOOKS.length] ?? 'plain';

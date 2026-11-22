@@ -140,7 +140,7 @@ export function alpineOf({ ground: { steep }, mix: m, banded, border }: Band) {
  * its beds lying level, darker and lighter.
  */
 export function rockOf(
-  { ground: { level, steep, footprint }, mix: m, detail }: Band,
+  { ground: { level, steep, footprint }, mix: m, look }: Band,
   upland: F,
   mountain: F,
 ) {
@@ -177,9 +177,9 @@ export function rockOf(
     [SLOPE, 0.3],
   ]);
   // The swift look tells the ledges and leaves out the leaves within one.
-  const leaves = detail === 'fine' ? bedded(BEDS[1]).mul(0.5) : float(0);
+  const leaves = look === 'fine' ? bedded(BEDS[1]).mul(0.5) : float(0);
   const beds =
-    detail === 'plain'
+    look === 'plain'
       ? float(0.5)
       : mix(0.5, smoothstep(-0.25, 0.25, bedded(BEDS[0]).add(leaves)), layered);
   return {

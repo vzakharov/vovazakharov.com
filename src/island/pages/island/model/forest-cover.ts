@@ -3,7 +3,7 @@ import {
   borderLoop,
   type CoastDistance,
   noiseSalt,
-  sandAtSphere,
+  shoreAtSphere,
   type TileMesh,
   valueNoise3,
 } from '@/island/entities/terrain';
@@ -208,36 +208,40 @@ const cellOf = ({ key, grid }: TileMesh) =>
   (R * Math.PI) / (2 ** key.level * (grid - 1));
 
 /**
- * The share of sand in the ground per vertex of a land tile (`sandAt`), in the
- * mesh's vertex order, skirt included, from the coast as bent as the tile's
- * cells draw it.
+ * The shares of sand (`sandAt`) and of bare shore rock (`rockAt`) in the
+ * ground per vertex of a land tile, each in the mesh's vertex order, skirt
+ * included, from the coast as bent as the tile's cells draw it.
  */
-export function tileSand(
+export function tileShore(
   coast: CoastDistance,
   mesh: TileMesh,
-): Float32Array<ArrayBuffer> {
+): { sand: Float32Array<ArrayBuffer>; rocky: Float32Array<ArrayBuffer> } {
   const { grid, heights } = mesh;
   const finest = cellOf(mesh);
   const sand = new Float32Array(heights.length);
+  const rocky = new Float32Array(heights.length);
   const direction = [0, 0, 0];
   for (let v = 0; v < grid * grid; v++) {
     const height = heights[v] ?? 0;
     if (height <= 0) continue;
     directionOf(mesh, v, direction);
-    sand[v] = sandAtSphere(
+    const [sandy, rock] = shoreAtSphere(
       coast,
       [direction[0] ?? 0, direction[1] ?? 0, direction[2] ?? 0],
       height,
       finest,
     );
+    sand[v] = sandy;
+    rocky[v] = rock;
   }
   hangSkirt(sand, grid);
-  return sand;
+  hangSkirt(rocky, grid);
+  return { sand, rocky };
 }
 
 /**
  * Forest cover per vertex of a land tile, in the mesh's vertex order, skirt
- * included, from the tile's `sand` (`tileSand`). Patches of fewer than
+ * included, from the tile's `sand` (`tileShore`). Patches of fewer than
  * `GONE_AT` of the tile's cells are averaged out: so on a grid of even cells
  * the patches are sampled at every other vertex and interpolated between, the
  * height, the slope and the sand still read at each.

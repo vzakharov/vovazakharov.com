@@ -10,6 +10,7 @@ import {
   LOWLAND_REACH_METRES,
   lowlandFloor,
   restingGround,
+  rockAt,
   sandAt,
 } from './shore';
 import { stream } from './stream.test-kit';
@@ -214,5 +215,32 @@ describe('sandAt', () => {
       }),
       0,
     );
+  });
+});
+
+describe('rockAt', () => {
+  it('is whole at the water of a rough stretch and on its skerries', () => {
+    assert.equal(rockAt(0.5, rough), 1);
+    assert.equal(rockAt(20, rough), 1);
+  });
+
+  it('is gone inland and on a calm stretch, by the stretch’s share between', () => {
+    assert.equal(rockAt(90, rough), 0);
+    assert.equal(rockAt(5), 0);
+    assert.ok(Math.abs(rockAt(5, () => 0.25) - 0.75) < 1e-12);
+    // Not read where no rock could lie.
+    assert.equal(
+      rockAt(400, () => {
+        throw new Error('read');
+      }),
+      0,
+    );
+  });
+
+  it('thins inland without a step', () => {
+    for (let d = 20; d < 90; d += 1) {
+      const drop = rockAt(d, rough) - rockAt(d + 1, rough);
+      assert.ok(drop >= 0 && drop < 0.03, `at ${d} m`);
+    }
   });
 });

@@ -1,4 +1,4 @@
-import { length, R, type Vec3 } from '@/island/shared/globe';
+import { length, R, unit, type Vec3 } from '@/island/shared/globe';
 
 import { groundSlope, reliefReach } from './bounds';
 import { COAST_STEEPEST, type CoastDistance } from './coast-detail';
@@ -7,7 +7,7 @@ import { OCTAVES } from './octaves';
 import { upliftAtSphere, upliftSlope } from './ranges';
 import { reliefAt } from './relief';
 import { HIGHEST_GROUND, LOWEST_GROUND } from './relief-numbers';
-import { sandAt } from './shore';
+import { rockAt, sandAt } from './shore';
 import { noiseSalt, valueNoise3 } from './value-noise';
 
 /**
@@ -115,18 +115,25 @@ export function heightAtSphere(
 }
 
 /**
- * The share of sand, from 0 to 1, in the ground over direction `p` (any
- * length but zero) standing `height` metres up: `sandAt` of the coast's
- * distance there, read at the detail cut `finest` the height was drawn with,
- * and of its stretch's calm.
+ * The shares of sand (`sandAt`) and of bare shore rock (`rockAt`), each from 0
+ * to 1, in land over direction `p` (any length but zero) standing `height`
+ * metres up: both from one read of the coast's distance there, at the detail
+ * cut `finest` the height was drawn with, and of its stretch's calm.
  */
-export const sandAtSphere = (
+export const shoreAtSphere = (
   distance: CoastDistance,
   p: Vec3,
   height: number,
   finest = 0,
-): number => {
-  const scale = 1 / length(p);
-  const q: Vec3 = [p[0] * scale, p[1] * scale, p[2] * scale];
-  return sandAt(distance(q, finest), height, () => distance.calm?.(q) ?? 1);
+): readonly [sand: number, rock: number] => {
+  const q = unit(p);
+  const d = distance(q, finest);
+  let share: number | undefined;
+  const calm = () => (share ??= distance.calm?.(q) ?? 1);
+  return [sandAt(d, height, calm), rockAt(d, calm)];
 };
+
+/** The share of sand alone that `shoreAtSphere` gives. */
+export const sandAtSphere = (
+  ...site: Parameters<typeof shoreAtSphere>
+): number => shoreAtSphere(...site)[0];

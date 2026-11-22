@@ -9,3 +9,10 @@ export const COVER_ATTRIBUTE = 'cover';
  * per vertex, 0 to 1 (`sandAt`): 1 on the beach and the dune belt.
  */
 export const SAND_ATTRIBUTE = 'sand';
+
+/**
+ * The land geometry's float attribute holding the share of bare shore rock in
+ * the ground per vertex, 0 to 1 (`rockAt`): 1 at the water of a rough stretch
+ * of coast and on its skerries, 0 on a calm stretch and inland.
+ */
+export const ROCKY_ATTRIBUTE = 'rocky';
