@@ -11,7 +11,7 @@ export const LATTICE_WRAP = 4096;
 
 /** One lattice: its cell's width in metres, and the rows of the turn into its axes. */
 export type LandOctave = {
-  readonly wavelength: number;
+  readonly cell: number;
   readonly rows: readonly [Vec3, Vec3, Vec3];
 };
 
@@ -31,22 +31,20 @@ function turnAbout([x, y, z]: Vec3, angle: number): LandOctave['rows'] {
  * Cell widths, metres, coarsest first: four the eye reads as country from
  * above, two as fields and slopes, four as the ground underfoot.
  */
-const WAVELENGTHS = [
+const CELLS = [
   174_800, 35_834, 7646, 1475, 291, 64.7, 13.4, 2.796, 0.54, 0.111,
 ] as const;
 
-export const LAND_OCTAVES: readonly LandOctave[] = WAVELENGTHS.map(
-  (wavelength, i) => {
-    const raw: Vec3 = [
-      Math.sin(i * 2.4 + 0.5),
-      Math.cos(i * 1.7),
-      Math.sin(i * 0.9 + 1),
-    ];
-    const length = Math.hypot(...raw);
-    const axis: Vec3 = [raw[0] / length, raw[1] / length, raw[2] / length];
-    return { wavelength, rows: turnAbout(axis, 0.7 + i * 1.1) };
-  },
-);
+export const LAND_OCTAVES: readonly LandOctave[] = CELLS.map((cell, i) => {
+  const raw: Vec3 = [
+    Math.sin(i * 2.4 + 0.5),
+    Math.cos(i * 1.7),
+    Math.sin(i * 0.9 + 1),
+  ];
+  const length = Math.hypot(...raw);
+  const axis: Vec3 = [raw[0] / length, raw[1] / length, raw[2] / length];
+  return { cell, rows: turnAbout(axis, 0.7 + i * 1.1) };
+});
 
 const wrapped = (cells: number) =>
   ((cells % LATTICE_WRAP) + LATTICE_WRAP) % LATTICE_WRAP;
@@ -57,10 +55,8 @@ const wrapped = (cells: number) =>
  * plus its turned offset from the eye, so it is finest where the eye is
  * nearest, anywhere on the planet.
  */
-export function anchorOf(eye: Vec3, { wavelength, rows }: LandOctave): Vec3 {
+export function anchorOf(eye: Vec3, { cell, rows }: LandOctave): Vec3 {
   const along = (row: Vec3) =>
-    wrapped(
-      (row[0] * eye[0] + row[1] * eye[1] + row[2] * eye[2]) / wavelength,
-    );
+    wrapped((row[0] * eye[0] + row[1] * eye[1] + row[2] * eye[2]) / cell);
   return [along(rows[0]), along(rows[1]), along(rows[2])];
 }

@@ -7,16 +7,16 @@ import {
   type Rgb,
   SHORE_TOP,
 } from '../lib/land-colour';
-import { noiseAt, type OctaveNoise, QUIET } from './land-noise';
+import { noiseAt, type OctaveNoise, QUIET, type Seen } from './land-noise';
 
 type F = Node<'float'>;
 type V = Node<'vec3'>;
 
 /** Octaves by what the eye reads them as, as indices into `LAND_OCTAVES`. */
-export const COUNTRY = 0;
-export const REGION = 1;
-export const DISTRICT = 2;
-export const HILL = 3;
+const COUNTRY = 0;
+const REGION = 1;
+const DISTRICT = 2;
+const HILL = 3;
 export const FIELD = 4;
 export const SLOPE = 5;
 export const PATCH = 6;
@@ -31,25 +31,32 @@ export type Parts = ReadonlyArray<readonly [octave: number, weight: number]>;
 type Ragged = { readonly sum: F; readonly lost: F };
 
 /** The ground a fragment is on, as the bands read it. */
-export type Ground = {
-  /** Metres above the sea. */
-  readonly height: F;
+export type Ground = Seen & {
+  /** Its height, metres above the sea. */
+  readonly level: F;
   /** Its colour by height alone, kept at the waterline, where the sea's meets it. */
   readonly stops: V;
   /** How far it leans off level, 0 flat and 1 a wall. */
   readonly steep: F;
   /** The share of it under tree crowns, 0 bare to 1 closed canopy. */
   readonly cover: F;
-  /** The width of ground a pixel covers, metres. */
-  readonly footprint: F;
+  /** How far it lies from the eye, metres. */
+  readonly away: F;
 };
 
-export type Banded = {
+/** A surface by the colour it is painted. */
+export type Coloured = {
   /** The ground's own colour, before the lamps. */
   readonly colour: V;
+};
+
+export type Banded = Coloured & {
   /** How rough its small relief stands, 0 smooth. */
   readonly roughness: F;
 };
+
+/** How far from the eye trees stand as objects, metres: past it forest is its canopy alone. */
+const TREES_TO = 3000;
 
 /** Thicknesses of rock's beds, metres: the ledges, and the leaves within one. */
 const BEDS = [5.3, 1.1] as const;
@@ -63,7 +70,7 @@ const paint = (rgb: Rgb): V => vec3(...rgb);
  * pays for: rock's beds.
  */
 export function landBands(
-  { height, stops, steep, footprint, cover: forest }: Ground,
+  { level: height, stops, steep, footprint, away, cover: forest }: Ground,
   octaves: readonly OctaveNoise[],
   detailed: boolean,
 ): Banded {
@@ -146,6 +153,27 @@ export function landBands(
     float(0.64).add(fringe.lost),
     forest.add(fringe.sum),
   );
+  /** Under the trees: leaf litter, moss where it holds the damp. */
+  const floor = mix(
+    paint(LAND_PALETTE.litter),
+    paint(LAND_PALETTE.moss),
+    edge(
+      float(0),
+      -0.1,
+      0.5,
+      ragged([
+        [SLOPE, 0.4],
+        [PATCH, 0.5],
+        [STEP, 0.4],
+      ]),
+    ),
+  ).mul(
+    mottled([
+      [STEP, 0.14],
+      [HAND, 0.14],
+      [GRAIN, 0.08],
+    ]),
+  );
   const canopy = mix(
     paint(LAND_PALETTE.broadleaf),
     paint(LAND_PALETTE.conifer),
@@ -157,6 +185,10 @@ export function landBands(
       [STEP, 0.1],
     ]),
   );
+  /** Forest as its ground near the eye, where trees stand over it, and as its canopy past them. */
+  const wooded = detailed
+    ? mix(floor, canopy, smoothstep(TREES_TO * 0.5, TREES_TO, away))
+    : canopy;
   const bare = smoothstep(0.07, 0.16, steep.add(at(PATCH).value.mul(0.02))).mul(
     cover.mul(0.6).oneMinus(),
   );
@@ -281,7 +313,7 @@ export function landBands(
     [REGION, 0.05],
   ]);
   const grown = mix(
-    mix(mix(mix(lowland, moor, upland), alpine, mountain), canopy, cover),
+    mix(mix(mix(lowland, moor, upland), alpine, mountain), wooded, cover),
     stone,
     rock,
   ).mul(tint);

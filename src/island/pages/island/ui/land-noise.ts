@@ -30,7 +30,7 @@ type V = Node<'vec3'>;
 export type OctaveNoise = {
   /** The noise, -1 to 1, gone to 0 — its mean — as its wave nears a pixel's width. */
   readonly value: F;
-  /** The noise's slope in world axes, per metre, faded as `value` is. */
+  /** The noise's slope in world axes over one cell's width, faded as `value` is. */
   readonly slope: V;
   /** How much of the wave the eye tells apart, 1 near and 0 past a pixel. */
   readonly told: F;
@@ -42,18 +42,25 @@ export type OctaveNoise = {
   readonly edging: F;
   /** How much of the wave `edging` keeps, 1 near and 0 at a few pixels. */
   readonly edged: F;
-  /** The cell's width, metres. */
-  readonly wavelength: number;
 };
 
-export type LandNoise = {
-  /** `LAND_OCTAVES` at the fragment, coarsest first. */
-  readonly octaves: readonly OctaveNoise[];
+/** What is seen at a fragment from where the eye is. */
+export type Seen = {
   /** The width of ground a pixel covers at the fragment, metres, the longer way. */
   readonly footprint: F;
-  /** Per frame: the eye, metres from the planet's centre. */
+};
+
+/** What follows the eye about the planet. */
+export type Following = {
+  /** Per frame, in either look: the eye, metres from the planet's centre. */
   readonly update: (eye: Vec3) => void;
 };
+
+export type LandNoise = Seen &
+  Following & {
+    /** `LAND_OCTAVES` at the fragment, coarsest first. */
+    readonly octaves: readonly OctaveNoise[];
+  };
 
 /** An octave an eye tells nothing of: what a look that leaves one out reads in its place. */
 export const QUIET: OctaveNoise = {
@@ -62,7 +69,6 @@ export const QUIET: OctaveNoise = {
   told: float(0),
   edging: float(0),
   edged: float(0),
-  wavelength: 1,
 };
 
 /**
@@ -151,7 +157,7 @@ export function landNoise(): LandNoise {
   );
   const anchors = LAND_OCTAVES.map(() => uniform(new Vector3()));
   let coarser: V = vec3(0);
-  const octave = ({ wavelength, rows }: LandOctave, anchor: V): OctaveNoise => {
+  const octave = ({ cell, rows }: LandOctave, anchor: V): OctaveNoise => {
     const [a, b, c] = rows.map((row) => vec3(...row));
     if (a === undefined || b === undefined || c === undefined)
       throw new RangeError('a turn has three rows');
@@ -161,19 +167,11 @@ export function landNoise(): LandNoise {
       dot(c, positionWorld),
     );
     const sample = latticeNoise(
-      anchor.add(turned.div(wavelength)).add(coarser.mul(WARP)),
+      anchor.add(turned.div(cell)).add(coarser.mul(WARP)),
     );
     coarser = sample.xyz;
-    const told = smoothstep(
-      wavelength / 8,
-      wavelength / 2.5,
-      footprint,
-    ).oneMinus();
-    const edged = smoothstep(
-      wavelength / 24,
-      wavelength / 7,
-      footprint,
-    ).oneMinus();
+    const told = smoothstep(cell / 8, cell / 2.5, footprint).oneMinus();
+    const edged = smoothstep(cell / 24, cell / 7, footprint).oneMinus();
     return {
       value: sample.w.mul(told),
       edging: sample.w.mul(edged),
@@ -182,9 +180,8 @@ export function landNoise(): LandNoise {
         .mul(sample.x)
         .add(b.mul(sample.y))
         .add(c.mul(sample.z))
-        .mul(told.div(wavelength)),
+        .mul(told),
       told,
-      wavelength,
     };
   };
   return {

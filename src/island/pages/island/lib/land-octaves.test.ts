@@ -19,9 +19,9 @@ describe('LAND_OCTAVES', () => {
   });
 
   it('runs coarsest first, no cell a whole multiple of a finer one', () => {
-    for (const [i, { wavelength }] of LAND_OCTAVES.entries()) {
+    for (const [i, { cell }] of LAND_OCTAVES.entries()) {
       for (const finer of LAND_OCTAVES.slice(i + 1)) {
-        const ratio = wavelength / finer.wavelength;
+        const ratio = cell / finer.cell;
         assert.ok(ratio > 1);
         assert.ok(Math.abs(ratio - Math.round(ratio)) > 0.02);
       }
@@ -47,7 +47,7 @@ describe('anchorOf', () => {
       const to = anchorOf([eye[0] + step[0], eye[1], eye[2]], octave);
       for (const [axis, row] of octave.rows.entries()) {
         const moved = (to[axis] ?? 0) - (from[axis] ?? 0);
-        const expected = dot(row, step) / octave.wavelength;
+        const expected = dot(row, step) / octave.cell;
         const off = Math.abs(moved - expected) % LATTICE_WRAP;
         assert.ok(Math.min(off, LATTICE_WRAP - off) < 1e-6);
       }

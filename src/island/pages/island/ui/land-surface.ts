@@ -15,10 +15,9 @@ import {
 } from 'three/tsl';
 import { type Node, Vector3 } from 'three/webgpu';
 
-import type { Vec3 } from '@/island/shared/globe';
-
 import { COVER_ATTRIBUTE } from '../model/cover-attribute';
 import {
+  type Coloured,
   FIELD,
   GRAIN,
   HAND,
@@ -28,26 +27,22 @@ import {
   SLOPE,
   STEP,
 } from './land-bands';
-import { landNoise, QUIET } from './land-noise';
+import { type Following, landNoise, QUIET } from './land-noise';
 
 type F = Node<'float'>;
 type V = Node<'vec3'>;
 
 /** The land's look in one of the scene's two: what its material is dressed in. */
-type LandDress = {
-  /** The ground's own colour, before the lamps. */
-  readonly colour: V;
+type LandDress = Coloured & {
   /** The ground's normal in view space: a land material's `normalNode`. */
   readonly normal: V;
 };
 
-export type LandSurface = {
+export type LandSurface = Following & {
   /** The fine look: every scale of the surface, down to the grain underfoot. */
   readonly fine: LandDress;
   /** The plain look: the country's colours alone, on the mesh's own shape. */
   readonly plain: LandDress;
-  /** Per frame, in either look: the eye, metres from the planet's centre. */
-  readonly update: (eye: Vec3) => void;
 };
 
 /**
@@ -100,9 +95,10 @@ export function landSurface(height: F, stops: V): LandSurface {
   /** How far the ground leans off level, 0 flat and 1 a wall. */
   const steep = clamp(dot(normalWorldGeometry, zenith).oneMinus(), 0, 1);
   const ground = {
-    height,
+    level: height,
     stops,
     steep,
+    away,
     cover: attribute(COVER_ATTRIBUTE, 'float'),
     footprint,
   };
@@ -111,7 +107,7 @@ export function landSurface(height: F, stops: V): LandSurface {
   let lost: F = float(0);
   for (const [i, share] of RELIEF) {
     const octave = octaves[i] ?? QUIET;
-    slope = slope.add(octave.slope.mul(octave.wavelength * share));
+    slope = slope.add(octave.slope.mul(share));
     lost = lost.add(octave.told.oneMinus().mul(share * share * SLOPE_VARIANCE));
   }
   const relief = slope.mul(fine.roughness);
