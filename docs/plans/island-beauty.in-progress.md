@@ -227,9 +227,9 @@ PR. Session ids are claude.ai remote sessions.
   behind the middle look — clouds at low resolution over several frames — which
   waits for the lead's word that the clouds' step 1 is merged.
 - **Coast** — `session_01DaohkB8k3wxxLHdRRwsBDQ`, Opus,
-  `claude/island-beauty-coast`, started 15:45 UTC. The perturbed coast distance
-  under `entities/terrain/height/model/`, its bounds, and one-line call-site
-  changes in the readers; reports after its step 1 so the seam merges early.
+  `claude/island-beauty-coast`, FINISHED at af79cc077 and archived; all of it is
+  merged. Its hand-over is `notes/coast.md`; a fix-up there goes to an Opus
+  child.
 - **Sea** — `session_01DaohkBNMrEzd6kyEhPXjND`, Opus,
   `claude/island-beauty-sea`, started 17:15 UTC. `lib/sea-wgsl.ts`,
   `lib/ripple-table.ts`, `ui/sea-surface.ts`: wave groups in place of
@@ -332,7 +332,43 @@ PR. Session ids are claude.ai remote sessions.
 - Speed's step 3 is decided: clouds at quarter resolution with temporal
   reprojection behind swift, cloud shading behind one function so the new shader
   drops in; it also owes a turning sequence as proof nothing swims.
-- Left: clouds from the ground and the lace; the verdict queue above; swift
-  paths in ground and trees; speed's step 3 and tile bracket; `pnpm knip` red on
-  exports members left unused; `/dry`, `/tend-prose`, `/five-percent`, vet, the
-  PR.
+- Merged at 6da7f994f (166 tests): the coast's final package (af79cc077), the
+  trees' swift look (81ddfe1f2), ground's swift path and its answers to the
+  17:05 verdicts (006d16550), the board (4db31d295). At 6974e7256 the scene
+  tells the ground which full look is on (`lighting.dress(fine, rippled, swift)`
+  in `scene-look.ts`).
+- The finished coast: `CoastDistance` carries an optional `calm` (0–1, a 50 km
+  seeded roughness field). Calm stretches keep the beach and the dune belt;
+  rough ones keep a ~20 m strip of sand and skerries ~80 m across some 600 m
+  out. Thirteen bends from 20 km to 4.9 m, the coast moving at most 3.8 km; fill
+  costs +56% on rough coast tiles, accepted unless speed's M2 numbers say the
+  workers fall behind. `DUNES` is 43.733, 10.266 heading 164, a calm stretch.
+- Swift as built: trees draw every tree fine draws with ~40% of the triangles
+  (480k against 1,218k from 2 m), through `treeView.drawAs(look)` — the name
+  `setLook` collided with `LookSwitch` under `pnpm type-overlap`, and no shared
+  base is wanted. Ground reads 9 lattice values per fragment against fine's 12
+  and plain's 4. Fine's 1.2M triangles near the ground is over what the M2
+  budget was measured against: trees owe ~800k with no visible change.
+- New for ground: rock on rough shores — dark wet rock within tens of metres of
+  the waterline where `calm` is low, skerries all rock, no tree or dune grass on
+  it. `calm` reaches the shader as a per-vertex attribute beside `sand`
+  (`model/cover-attribute.ts`, `forest-cover.ts`, the tile worker — the trees'
+  seam, which ground has leave to touch for this).
+- The sea's moiré (the operator's screenshot, `0013-sea-0-operator-moire`):
+  `ripplesAt` sums 64 everlasting plane waves with integer wave vectors on a 256
+  m period, which beat into a regular grid under a low sun. The Sea child
+  replaces them with wave groups; the shoal's smear is the sea shader's too.
+- Clouds' verdict on step 1, sent as five items to push one at a time with
+  frames: blocky cumulus fields from 300–1000 km, crochet open cells, the front
+  as a sausage, grey featureless decks, and the view from the ground and from 10
+  km (a coarse pass, then steps where it found cloud).
+- The keeper split the timelapse zone into eight at the operator's own request
+  to it; cards carry no `why`, so a verdict goes in the card's text, in English
+  (`check:board-language` rejects Cyrillic).
+- Preview slot 1 serves c96cd53a0 (checked): clouds' step 1 and the first bent
+  coast; not yet the skerries or the swift look.
+- Left: the five cloud items; the sea; rock on rough shores; trees' floor shade,
+  crowns, trunks and the fine triangle count; speed's quarter-resolution clouds
+  behind swift, the tile bracket from a tile's own heights (it is to read
+  `detailReach`, the one export `pnpm knip` is red on) and a turning sequence;
+  `/dry`, `/tend-prose`, `/five-percent`, vet, the PR.
