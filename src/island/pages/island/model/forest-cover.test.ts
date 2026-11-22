@@ -4,8 +4,7 @@ import { describe, it } from 'node:test';
 import { type CubeCell, unit, type Vec3 } from '@/island/shared/globe';
 import { fillCubeTile } from '@/island/entities/terrain';
 
-import { SHORE_TOP } from '../lib/land-colour';
-import { forestCover, tileCover, TREELINE } from './forest-cover';
+import { forestCover, tileCover, tileSand, TREELINE } from './forest-cover';
 
 const SEED = 20_261_122;
 
@@ -15,8 +14,10 @@ const places = (count: number): Vec3[] =>
     unit([Math.cos(n * 7e-5), Math.sin(n * 7e-5), 0.3 + n * 1e-5]),
   );
 
-const level = (p: Vec3, height: number) =>
-  forestCover(SEED, { p, height, upright: 1 });
+/** Level ground free of sand at `p`, `height` metres up. */
+const site = (p: Vec3, height: number) => ({ p, height, upright: 1, sand: 0 });
+
+const level = (p: Vec3, height: number) => forestCover(SEED, site(p, height));
 
 const meanAt = (height: number) =>
   places(2000).reduce((total, p) => total + level(p, height), 0) / 2000;
@@ -28,6 +29,7 @@ describe('forestCover', () => {
         p,
         height: -200 + ((n * 37) % 1800),
         upright: 0.6 + ((n * 13) % 40) / 100,
+        sand: ((n * 7) % 11) / 10,
       });
       assert.ok(cover >= 0 && cover <= 1, `cover ${String(cover)}`);
     }
@@ -37,8 +39,16 @@ describe('forestCover', () => {
     for (const p of places(200)) {
       assert.equal(level(p, -30), 0);
       assert.equal(level(p, 0), 0);
-      assert.equal(level(p, SHORE_TOP), 0);
+      assert.equal(forestCover(SEED, { ...site(p, 40), sand: 1 }), 0);
     }
+  });
+
+  it('thins over sandy ground', () => {
+    const sandy = places(2000).reduce(
+      (total, p) => total + forestCover(SEED, { ...site(p, 200), sand: 0.45 }),
+      0,
+    );
+    assert.ok(sandy > 0 && sandy / 2000 < meanAt(200));
   });
 
   it('leaves the peaks bare', () => {
@@ -50,7 +60,7 @@ describe('forestCover', () => {
 
   it('leaves steep rock bare', () => {
     for (const p of places(200)) {
-      assert.equal(forestCover(SEED, { p, height: 200, upright: 0.7 }), 0);
+      assert.equal(forestCover(SEED, { ...site(p, 200), upright: 0.7 }), 0);
     }
   });
 
@@ -72,18 +82,30 @@ describe('forestCover', () => {
     assert.ok(p !== undefined);
     assert.equal(level(p, 200), level(p, 200));
     const other = places(500).some(
-      (q) =>
-        forestCover(SEED + 1, { p: q, height: 200, upright: 1 }) !==
-        level(q, 200),
+      (q) => forestCover(SEED + 1, site(q, 200)) !== level(q, 200),
     );
     assert.ok(other);
   });
 
   it('softens toward the average where the reader cannot tell patches apart', () => {
     const coarse = places(500).map((p) =>
-      forestCover(SEED, { p, height: 200, upright: 1, finest: 100_000 }),
+      forestCover(SEED, { ...site(p, 200), finest: 100_000 }),
     );
     for (const cover of coarse) assert.ok(cover > 0.2 && cover < 0.9);
+  });
+
+  it('reads nearly the same at cells twice as wide, whatever their width', () => {
+    for (let finest = 2; finest < 20_000; finest *= 2) {
+      const apart = places(1500).map((p) =>
+        Math.abs(
+          forestCover(SEED, { ...site(p, 200), finest }) -
+            forestCover(SEED, { ...site(p, 200), finest: 2 * finest }),
+        ),
+      );
+      const mean = apart.reduce((a, b) => a + b, 0) / apart.length;
+      assert.ok(mean < 0.08, `${String(finest)} m: mean ${String(mean)}`);
+      assert.ok(Math.max(...apart) < 0.6, `${String(finest)} m: a patch apart`);
+    }
   });
 });
 
@@ -94,7 +116,14 @@ describe('tileCover', () => {
     key,
     ([x, y]) => 700 + 900 * Math.sin(x * 9000) * Math.cos(y * 7000),
   );
-  const cover = tileCover(SEED, tile);
+  /** A coast 3 km off everywhere: no sand this high. */
+  const sand = tileSand(() => 3000, tile);
+  const cover = tileCover(SEED, tile, sand);
+  const beach = tileCover(
+    SEED,
+    tile,
+    tileSand(() => 100, { ...tile, heights: tile.heights.map(() => 5) }),
+  );
 
   it('holds one value per vertex of the mesh, skirt included', () => {
     assert.equal(cover.length, tile.heights.length);
@@ -106,8 +135,13 @@ describe('tileCover', () => {
     for (let v = 0; v < count; v++) {
       const value = cover[v] ?? Number.NaN;
       assert.ok(value >= 0 && value <= 1);
-      if ((tile.heights[v] ?? 0) <= SHORE_TOP) assert.equal(value, 0);
+      if ((tile.heights[v] ?? 0) <= 0) assert.equal(value, 0);
     }
     assert.ok(cover.some((value) => value > 0.5));
+  });
+
+  it('is bare where the tile is sand', () => {
+    assert.ok(sand.every((value) => value === 0));
+    assert.ok(beach.every((value) => value === 0));
   });
 });

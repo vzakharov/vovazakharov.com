@@ -1,17 +1,4 @@
 import {
-  attribute,
-  dot,
-  length,
-  min,
-  mix,
-  modelWorldMatrix,
-  normalize,
-  positionLocal,
-  smoothstep,
-  uniform,
-  vec4,
-} from 'three/tsl';
-import {
   Color,
   DoubleSide,
   FrontSide,
@@ -19,7 +6,6 @@ import {
   InstancedBufferAttribute,
   InstancedMesh,
   MeshLambertNodeMaterial,
-  Vector3,
 } from 'three/webgpu';
 
 import type { CanDispose } from '@/kernel/shared/typings';
@@ -40,9 +26,7 @@ import {
   treesIn,
 } from '../model/tree-placing';
 import { TREE_DETAILS, type TreeDetail, treeGeometry } from './tree-meshes';
-
-/** The instance attribute holding a tree's foot (relative to the view's anchor) and its tier's reach. */
-const FOOT_ATTRIBUTE = 'treeFoot';
+import { FOOT_ATTRIBUTE, treeNodes } from './tree-nodes';
 
 /** Trees a mesh of each detail holds at most, per kind: 26,000 in all. */
 const CAPACITY: Readonly<Record<TreeDetail, number>> = {
@@ -57,15 +41,6 @@ const DRAWN_TO: Readonly<Record<TreeDetail, number>> = {
   mid: 320,
   far: Infinity,
 };
-
-/** The share of its tier's reach at which a tree starts to shrink away. */
-const SHRINK_FROM = 0.55;
-
-/**
- * How many times its own width a far tree widens to at most: wider, and a
- * stand's one crown lies across more relief than it is tall and sinks into it.
- */
-const WIDEST = 2.5;
 
 /** Ms of a frame spent rolling the cells still missing. */
 const ROLL_BUDGET = 3;
@@ -143,10 +118,11 @@ export type TreeView = CanDispose & {
   readonly setShown: (on: boolean) => void;
   /**
    * Places the trees for an eye at `position` (world metres), `height` metres
-   * over the ground: rolls a few of the cells still missing and lays the
-   * instances out again where the eye has moved on.
+   * over the ground, with the wind as it blows at `seconds`: rolls a few of
+   * the cells still missing and lays the instances out again where the eye has
+   * moved on.
    */
-  readonly draw: (position: Vec3, height: number) => void;
+  readonly draw: (position: Vec3, height: number, seconds: number) => void;
   /** Has the next `draw` roll every cell still missing, however long it takes: a still's trees are all there. */
   readonly rollWhole: () => void;
   /** Trees drawn now, for diagnostics. */
@@ -167,31 +143,13 @@ export function treeView(
   const group = new Group();
   group.visible = false;
 
-  const foot = attribute(FOOT_ATTRIBUTE, 'vec4');
-  /** The eye sits at the world's origin, so the foot's world position is its offset from the eye. */
-  const away = length(modelWorldMatrix.mul(vec4(foot.xyz, 1)).xyz);
-  const shown = smoothstep(foot.w.mul(SHRINK_FROM), foot.w, away).oneMinus();
-  /**
-   * A tree of a coarser tier stands for the stand about it: it widens toward
-   * its tier's cell share, `WIDEST` at most, over the span the tier below
-   * shrinks away in, so the canopy thins with distance slower than the trees
-   * drawn do.
-   */
-  const centre = uniform(new Vector3());
-  const up = normalize(foot.xyz.sub(centre));
-  const off = positionLocal.sub(foot.xyz);
-  const rise = up.mul(dot(off, up));
-  const widen = min(foot.w.div(tierReach(0)), WIDEST)
-    .sub(1)
-    .mul(smoothstep(foot.w.mul(SHRINK_FROM / 2), foot.w.mul(0.5), away))
-    .add(1);
-  const grown = foot.xyz.add(rise).add(off.sub(rise).mul(widen));
+  const { drawnAt, centre, seconds } = treeNodes();
   const materials = TREE_KINDS.map((kind) => {
     const material = new MeshLambertNodeMaterial({
       vertexColors: true,
       side: kind === 'conifer' ? DoubleSide : FrontSide,
     });
-    material.positionNode = mix(foot.xyz, grown, shown);
+    material.positionNode = drawnAt;
     dress(material);
     return material;
   });
@@ -352,7 +310,8 @@ export function treeView(
       on = shownNow;
       group.visible = on && ground !== null;
     },
-    draw: (position, height) => {
+    draw: (position, height, at) => {
+      seconds.value = at;
       group.visible = on && ground !== null;
       if (!on || ground === null) return;
       frame += 1;

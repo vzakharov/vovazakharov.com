@@ -2,8 +2,6 @@ import { Group, PerspectiveCamera, Scene, WebGPURenderer } from 'three/webgpu';
 
 import type { WithOnError } from '@/kernel/shared/typings';
 
-import { pathHash } from '@/dice/shared/roll';
-
 import { length, R, sub } from '@/island/shared/globe';
 import type { CoastDistance } from '@/island/entities/terrain';
 import {
@@ -38,7 +36,7 @@ import { type Pace, paced } from '../lib/pace';
 import type { Pose } from '../lib/place-hash';
 import { startTilePool, type TilePool } from '../lib/tile-pool';
 import type { Where } from '../lib/where-line';
-import { coastOf, groundOf, SEA_LEVEL } from '../lib/world-ground';
+import { coastOf, groundOf, SEA_LEVEL, treeGround } from '../lib/world-ground';
 import { groundLighting } from './ground-lighting';
 import { rollLattice } from './lattice-value';
 import { oceanGlobe } from './ocean-globe';
@@ -203,7 +201,7 @@ export function mountIslandScene(
         built = { of: mine, ms: buildMs };
         coast = coastOf(field);
         groundAt = groundOf(coast, seed);
-        trees.setGround({ seed, groundAt, wordAt: pathHash(on) });
+        trees.setGround(treeGround(coast, seed, on));
         view.reselect();
         landed.resolve();
       },
@@ -221,7 +219,7 @@ export function mountIslandScene(
     const pose = poseOf(eye, camera.aspect);
     const [ex, ey, ez] = pose.position;
     view.draw(eye, camera.aspect);
-    trees.draw(pose.position, eye.height);
+    trees.draw(pose.position, eye.height, stepped);
     globe.position.set(-ex, -ey, -ez);
     camera.fov = (pose.fov * 180) / Math.PI;
     camera.updateProjectionMatrix();

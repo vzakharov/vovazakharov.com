@@ -69,6 +69,8 @@ export type Tree = Spot & {
 type Grounded = Seeded & {
   /** Metres above the sea over a unit direction, no detail cut. */
   readonly groundAt: (p: Vec3) => number;
+  /** The share of sand in the ground over a unit direction `height` metres up (`sandAt`). */
+  readonly sandAt: (p: Vec3, height: number) => number;
 };
 
 /** The ground the trees stand on and the world they are rolled from. */
@@ -158,10 +160,14 @@ export function treesIn(cell: CubeCell, ground: TreeGround): Tree[] {
       (2 * (y + (j + v) / SPOTS)) / lines - 1,
     );
     const height = ground.groundAt(p);
-    // Bare at any slope: the slope's three readings are spared.
-    if (forestCover(ground.seed, { p, height, upright: 1 }) <= chance) continue;
+    // Bare at any slope on any soil: the sand's and the slope's readings are spared.
+    const easy = { p, height, upright: 1, sand: 0 };
+    if (forestCover(ground.seed, easy) <= chance) continue;
+    const sand = ground.sandAt(p, height);
+    if (forestCover(ground.seed, { ...easy, sand }) <= chance) continue;
     const upright = uprightAt(p, height, ground.groundAt);
-    if (forestCover(ground.seed, { p, height, upright }) <= chance) continue;
+    if (forestCover(ground.seed, { ...easy, sand, upright }) <= chance)
+      continue;
     const { girth, spin, tint, shade, ...shape } = rolled.shape.at({ slot });
     const kind = shape.kind < coniferShare(height) ? 'conifer' : 'broadleaf';
     const [short, tallest] = TALL[kind];
