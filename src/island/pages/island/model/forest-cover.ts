@@ -82,10 +82,17 @@ const patchSalt = (seed: number, layer: number) =>
   Math.imul(seed ^ 0x74_72_65_65, 0x9e_37_79_b1) ^
   Math.imul(layer + 1, 0x63_2b_e5_ab);
 
-/** What forest cover is read from at a place, its `height` metres above the sea. */
-export type CoverSite = Elevated & {
+/** What is rolled from a world's terrain seed. */
+export type Seeded = { readonly seed: number };
+
+/** A place on the ground: `height` metres above the sea. */
+export type Spot = Elevated & {
   /** The place's unit direction on the sphere. */
   readonly p: Vec3;
+};
+
+/** What forest cover is read from at a place. */
+export type CoverSite = Spot & {
   /** The ground's uprightness: the cosine of its slope, 1 on the level. */
   readonly upright: number;
   /**
@@ -173,6 +180,17 @@ export function forestCover(seed: number, site: CoverSite): number {
     upright,
   );
 }
+
+/**
+ * The share of a place's trees that are conifers, by its height alone: a few
+ * in the lowland's mixed forest, all of them well below the treeline.
+ */
+export const coniferShare = (height: number) =>
+  0.15 + 0.85 * smoothstep(300, 720, height);
+
+/** How tall a tree grows at `height`, as a share of its kind's full size: stunted toward the treeline. */
+export const stature = (height: number) =>
+  1 - 0.55 * smoothstep(TREELINE - 350, TREELINE + TREELINE_RAGGED, height);
 
 /**
  * Forest cover per vertex of a land tile, in the mesh's vertex order, each

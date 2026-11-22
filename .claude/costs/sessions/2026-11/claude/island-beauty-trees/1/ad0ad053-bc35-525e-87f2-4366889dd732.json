@@ -1,15 +1,33 @@
 {
   "total": {
-    "inputTokens": 52,
-    "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 130028,
-    "cacheReadTokens": 4135816,
-    "outputTokens": 26815,
-    "thinkingTokens": 7547,
-    "responses": 28,
-    "costUsd": 3.9806272000000003
+    "inputTokens": 2693,
+    "cacheWrite5mTokens": 364,
+    "cacheWrite1hTokens": 324238,
+    "cacheReadTokens": 12423993,
+    "outputTokens": 103708,
+    "thinkingTokens": 39497,
+    "responses": 70,
+    "costUsd": 11.8461106
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-22T10:17:31.078Z",
+    "subjectLine": "feat: trees on the island — forest cover seam, placed instanced trees",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "procedural tree meshes, placement by cover and seed, and the ring hand-over need an eye for vegetation as much as code"
+      },
+      {
+        "hours": 8.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "instanced rings near-free at 60 fps, lit through the land's lamps and air, dithered LOD hand-over"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -34,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkFamqbS2PFoQEC5UKv",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-22T10:01:59.809Z",
-  "lastResponseAt": "2026-11-22T10:17:22.313Z",
+  "lastResponseAt": "2026-11-22T11:02:58.680Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 52,
+    "inputTokens": 132,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 130028,
-    "cacheReadTokens": 4135816,
-    "outputTokens": 26815,
-    "thinkingTokens": 7547,
-    "responses": 28,
-    "costUsd": 3.9806272000000003
+    "cacheWrite1hTokens": 324238,
+    "cacheReadTokens": 12161931,
+    "outputTokens": 96308,
+    "thinkingTokens": 39497,
+    "responses": 69,
+    "costUsd": 11.4735702
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,24 +77,67 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 52,
-      "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 130028,
-      "cacheReadTokens": 4135816,
-      "outputTokens": 26815,
-      "thinkingTokens": 7547,
-      "responses": 28,
-      "costUsd": 3.9806272000000003
+      "inputTokens": 2693,
+      "cacheWrite5mTokens": 364,
+      "cacheWrite1hTokens": 324238,
+      "cacheReadTokens": 12423993,
+      "outputTokens": 103708,
+      "thinkingTokens": 39497,
+      "responses": 70,
+      "costUsd": 11.8461106
     }
   },
   "warnings": [],
-  "compactions": [],
+  "compactions": [
+    {
+      "at": "2026-11-22T10:34:16.319Z",
+      "trigger": "auto",
+      "compactedFrom": 267294,
+      "summaryChars": 17103,
+      "reorientation": {
+        "endedBy": "Write",
+        "endedOn": "src/island/pages/island/model/tree-placing.test.ts",
+        "endedAt": "2026-11-22T10:54:50.579Z",
+        "contextTokens": 159250,
+        "spend": {
+          "inputTokens": 13,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 93975,
+          "cacheReadTokens": 725377,
+          "outputTokens": 15097,
+          "thinkingTokens": 9473,
+          "responses": 6,
+          "costUsd": 2.2526594
+        }
+      },
+      "rereads": {
+        "calls": 2,
+        "byTool": {
+          "Read": 2
+        },
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.37254040000000005
+    }
+  ],
   "telemetry": {
-    "events": 27,
-    "matched": 27,
-    "matchedTableUsd": 3.902769,
-    "matchedEventUsd": 3.902769,
-    "unseen": {}
+    "events": 69,
+    "matched": 68,
+    "matchedTableUsd": 11.4012468,
+    "matchedEventUsd": 11.4012468,
+    "unseen": {
+      "compact": {
+        "inputTokens": 2561,
+        "cacheWrite5mTokens": 364,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 262062,
+        "outputTokens": 7400,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.37254040000000005
+      }
+    }
   },
   "operatorWords": {
     "chat": 0,
@@ -86,6 +147,7 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 626
+    ".md": 626,
+    ".ts": 394
   }
 }
