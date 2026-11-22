@@ -15,14 +15,19 @@ import { INLET, INLET_BEACH, INLET_HEAD } from './places';
 import { call } from './play-tab';
 
 /**
+ * A frame by the name it is filed under and the hour it is lit at, in the
+ * hours the hook's `setTime` takes past the opening's sun.
+ */
+export type Still = Named & { readonly hours?: number };
+
+/**
  * A frame by the name it is filed under, the hook call placing the eye, the
  * calls aiming it there, and the hour `setTime` sets first — none keeps the
  * clock where it stands.
  */
-export type Shot = Named & {
+export type Shot = Still & {
   readonly place: string;
   readonly aim?: readonly string[];
-  readonly hours?: number;
 };
 
 const ORBIT = 20_000_000;
@@ -41,7 +46,11 @@ const DEGREES_PER_HOUR = 360 / HOOK_DAY_HOURS;
  * and the planet turns east under a fixed sun, so a meridian `Δ` degrees
  * west of the opening reaches that sun `Δ / 15` hours later.
  */
-function afternoonAt(world: string, lon: number, earlier: number): number {
+export function afternoonAt(
+  world: string,
+  lon: number,
+  earlier: number,
+): number {
   const opening = (openingOf(Number(world)).lon * 180) / Math.PI;
   const hours = (opening - lon) / DEGREES_PER_HOUR - earlier;
   return ((hours % HOOK_DAY_HOURS) + HOOK_DAY_HOURS) % HOOK_DAY_HOURS;

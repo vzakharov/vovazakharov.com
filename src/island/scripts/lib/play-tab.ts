@@ -40,9 +40,9 @@ export function buildExport(): void {
   if (built.status !== 0) throw new Error('The vova build failed');
 }
 
-/** The world the run plays, from `--world <N>`: ours when not given. */
-export function worldArgument(): string {
-  const world = flag('world') ?? OUR_WORLD;
+/** The world the run plays, from `--world <N>`: `fallback` when not given. */
+export function worldArgument(fallback: string = OUR_WORLD): string {
+  const world = flag('world') ?? fallback;
   if (!isWorldNumber(world)) {
     throw new Error(`Not a world number: ${JSON.stringify(world)}`);
   }
@@ -94,14 +94,13 @@ export async function settle(
   tab: Tab,
   source: string,
   label: string,
+  timeoutMs = SETTLE_TIMEOUT_MS,
 ): Promise<void> {
   const timer = new AbortController();
   const { signal } = timer;
   const late = async () => {
-    await sleep(SETTLE_TIMEOUT_MS, undefined, { signal });
-    throw new Error(
-      `${label} did not settle in ${String(SETTLE_TIMEOUT_MS / 1000)} s`,
-    );
+    await sleep(timeoutMs, undefined, { signal });
+    throw new Error(`${label} did not settle in ${String(timeoutMs / 1000)} s`);
   };
   const settled = async () => {
     try {
@@ -166,17 +165,26 @@ export async function openPlay(
   return tab;
 }
 
+/** How a shot is encoded: lossless PNG, or JPEG at `quality` (1-100). */
+export type Capture =
+  | { readonly format: 'png' }
+  | { readonly format: 'jpeg'; readonly quality: number };
+
+const PNG: Capture = { format: 'png' };
+
 /**
- * Steps the seeded clock `frames` frames of `ms` each, then writes a PNG of the
- * screen to `file`. An animation frame passes before the last step: three's
- * lights update once per animation frame, so a render in the task that moved
- * the time would draw the shot lit by the sun of before.
+ * Steps the seeded clock `frames` frames of `ms` each, then writes the screen
+ * to `file`, a PNG unless `capture` says otherwise. An animation frame passes
+ * before the last step: three's lights update once per animation frame, so a
+ * render in the task that moved the time would draw the shot lit by the sun of
+ * before.
  */
 export async function shoot(
   tab: Tab,
   frames: number,
   file: string,
   ms = FRAME_MS,
+  capture: Capture = PNG,
 ): Promise<void> {
   const step = call('step', ms);
   await tab.evaluate(
@@ -186,6 +194,6 @@ export async function shoot(
   );
   const { data } = z
     .object({ data: z.string() })
-    .parse(await tab.send('Page.captureScreenshot', { format: 'png' }));
+    .parse(await tab.send('Page.captureScreenshot', capture));
   fs.writeFileSync(file, Buffer.from(data, 'base64'));
 }

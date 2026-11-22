@@ -1,0 +1,165 @@
+{
+  "total": {
+    "inputTokens": 3259,
+    "cacheWrite5mTokens": 460,
+    "cacheWrite1hTokens": 377318,
+    "cacheReadTokens": 18671047,
+    "outputTokens": 117299,
+    "thinkingTokens": 42472,
+    "responses": 102,
+    "costUsd": 14.494505399999996
+  },
+  "estimate": {
+    "at": "2026-11-22T10:17:31.078Z",
+    "subjectLine": "feat: trees on the island — forest cover seam, placed instanced trees",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "procedural tree meshes, placement by cover and seed, and the ring hand-over need an eye for vegetation as much as code"
+      },
+      {
+        "hours": 8.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "instanced rings near-free at 60 fps, lit through the land's lamps and air, dithered LOD hand-over"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-22T10:02:06.522Z",
+    "contextTokens": 103283,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 43729,
+      "cacheReadTokens": 149326,
+      "outputTokens": 836,
+      "thinkingTokens": 258,
+      "responses": 2,
+      "costUsd": 0.7630012
+    }
+  },
+  "sessionId": "ad0ad053-bc35-525e-87f2-4366889dd732",
+  "branch": "claude/island-beauty-trees",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a `/carte-blanche` run led by another Claude session (`session_01DaohkBiucpraEhsFyZ58M9`). You are a peer, not an assistant: you own …",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkFamqbS2PFoQEC5UKv",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-22T10:01:59.809Z",
+  "lastResponseAt": "2026-11-22T11:37:51.304Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 192,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 377318,
+    "cacheReadTokens": 18201409,
+    "outputTokens": 109897,
+    "thinkingTokens": 42472,
+    "responses": 100,
+    "costUsd": 14.074785799999995
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 3259,
+      "cacheWrite5mTokens": 460,
+      "cacheWrite1hTokens": 377318,
+      "cacheReadTokens": 18671047,
+      "outputTokens": 117299,
+      "thinkingTokens": 42472,
+      "responses": 102,
+      "costUsd": 14.494505399999996
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-22T10:34:16.319Z",
+      "trigger": "auto",
+      "compactedFrom": 267294,
+      "summaryChars": 17103,
+      "reorientation": {
+        "endedBy": "Write",
+        "endedOn": "src/island/pages/island/model/tree-placing.test.ts",
+        "endedAt": "2026-11-22T10:54:50.579Z",
+        "contextTokens": 159250,
+        "spend": {
+          "inputTokens": 13,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 93975,
+          "cacheReadTokens": 725377,
+          "outputTokens": 15097,
+          "thinkingTokens": 9473,
+          "responses": 6,
+          "costUsd": 2.2526594
+        }
+      },
+      "rereads": {
+        "calls": 2,
+        "byTool": {
+          "Read": 2
+        },
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.37254040000000005
+    }
+  ],
+  "telemetry": {
+    "events": 101,
+    "matched": 99,
+    "matchedTableUsd": 14.007589799999996,
+    "matchedEventUsd": 14.007589799999996,
+    "unseen": {
+      "compact": {
+        "inputTokens": 2561,
+        "cacheWrite5mTokens": 364,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 262062,
+        "outputTokens": 7400,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.37254040000000005
+      },
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 96,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 207576,
+        "outputTokens": 2,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.047179200000000004
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 777,
+    ".json": 15,
+    ".yaml": 17,
+    ".ts": 2412
+  }
+}

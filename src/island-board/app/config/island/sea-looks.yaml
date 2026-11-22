@@ -52,3 +52,8 @@ items:
     updated: [2026-11-16T04:40:00.000Z, agent:lead]
     box: [10340, 2390, 330, green]
     text: The island opens in the plain look again — flat colours under the lamps, a sky of one colour — and B turns the fine one on and off (f192f583). Both keep the sun's colour through the air, so at dusk no slope facing a set sun glows (eb754e9e). On preview slot 1
+  - id: sea-cut3
+    type: sticky
+    updated: [2026-11-16T05:30:00.000Z, agent:lead]
+    box: [10700, 2390, 330, blue]
+    text: 'Cut 3 takes the sea as it stands (Vova: "this one must reach main") — #289 squashed into main as adfe0d00, live at /island: the plain look by default, B for the fine one. On the way island-scene.ts passed 400 lines, so the two looks moved to scene-look.ts. Next, on stretch 4: ripples, wind and relief into nature, and the repeat broken there'

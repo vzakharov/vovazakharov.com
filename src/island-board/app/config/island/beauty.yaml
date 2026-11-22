@@ -1,0 +1,12 @@
+items:
+  - id: z-beauty
+    type: zone
+    updated: [2026-11-22T11:00:00.000Z, agent:board]
+    box: [11760, 380, 2000, 2400, green]
+    icon: 🎞️
+    text: 'Making it beautiful: the timelapse, failures included'
+  - id: beauty-howto
+    type: text
+    updated: [2026-11-22T11:00:00.000Z, agent:board]
+    box: [11800, 450, 1900, body]
+    text: 'Every frame the builders shoot lands here the turn it exists, numbered in the order it arrives. Rows are packages: relief, the ground, clouds, speed. A failure is captioned as one.'
