@@ -29,7 +29,7 @@ const BEDS = [5.3, 1.1] as const;
  * stony soil where it leans.
  */
 export function moorOf({ ground: { steep }, mix: m }: Band) {
-  const heathered = m.patches(-0.2, 0.25, [
+  const heathered = m.patches(-0.32, 0.12, [
     [REGION, 0.35],
     [DISTRICT, 0.4],
     [HILL, 0.3],
@@ -44,9 +44,11 @@ export function moorOf({ ground: { steep }, mix: m }: Band) {
     [DISTRICT, 0.3],
     [HILL, 0.2],
   ]);
-  const clump = m.patches(-0.15, 0.2, [
+  // A narrow edge: a clump stands apart from the heath it grows through.
+  const clump = m.patches(-0.03, 0.07, [
     [STEP, 0.6],
     [HAND, 0.45],
+    [GRAIN, 0.2],
   ]);
   const stony = smoothstep(
     0.04,
@@ -56,7 +58,7 @@ export function moorOf({ ground: { steep }, mix: m }: Band) {
   const growth = mix(
     mix(paint(LAND_PALETTE.tussock), paint(LAND_PALETTE.heath), heathered),
     paint(LAND_PALETTE.turf),
-    sward.mul(0.7),
+    sward.mul(0.55),
   );
   return {
     colour: mix(
@@ -89,14 +91,21 @@ export function alpineOf({ ground: { steep }, mix: m, banded, border }: Band) {
     .oneMinus()
     .mul(smoothstep(0.03, 0.09, steep).oneMinus());
   const scree = smoothstep(0.05, 0.11, steep.add(m.at(SLOPE).value.mul(0.02)));
-  const stones = paint(LAND_PALETTE.scree).mul(
-    m.mottled([
-      [PATCH, 0.1],
-      [STEP, 0.16],
-      [HAND, 0.26],
-      [GRAIN, 0.2],
-    ]),
-  );
+  // Stones a hand across, each one's edge told from the next.
+  const stone = m.patches(-0.06, 0.06, [
+    [HAND, 0.6],
+    [GRAIN, 0.5],
+  ]);
+  const stones = paint(LAND_PALETTE.scree)
+    .mul(mix(0.62, 1.08, stone))
+    .mul(
+      m.mottled([
+        [PATCH, 0.1],
+        [STEP, 0.16],
+        [HAND, 0.26],
+        [GRAIN, 0.2],
+      ]),
+    );
   const soil = mix(
     paint(LAND_PALETTE.stony),
     paint(LAND_PALETTE.turf),
@@ -153,7 +162,7 @@ export function rockOf(
     colour: mix(
       paint(LAND_PALETTE.rockDark),
       paint(LAND_PALETTE.rockLight),
-      beds,
+      beds.mul(0.6).add(0.2),
     ).mul(
       m.mottled([
         [PATCH, 0.06],
@@ -192,13 +201,13 @@ export function snowOf({ ground: { level, steep, away }, mix: m }: Band) {
   );
   const sliding = m.edge(
     steep.sub(smoothstep(0, 1400, over).mul(0.07)),
-    0.17,
-    0.29,
+    0.14,
+    0.25,
     m.ragged([
-      [FIELD, 0.05],
-      [SLOPE, 0.06],
-      [PATCH, 0.05],
-      [STEP, 0.03],
+      [FIELD, 0.03],
+      [SLOPE, 0.03],
+      [PATCH, 0.02],
+      [STEP, 0.012],
     ]),
   );
   return lying.mul(

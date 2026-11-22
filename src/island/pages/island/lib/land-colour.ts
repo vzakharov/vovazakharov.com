@@ -32,7 +32,7 @@ export const BAND_HEIGHTS: {
 } = {
   upland: [280, 520],
   mountain: [640, 1000],
-  snowLine: 1900,
+  snowLine: 2200,
 };
 
 /** What the land above the beach is made of, each material's colour in linear RGB. */
@@ -56,8 +56,8 @@ export const LAND_PALETTE = {
   /** Bare earth where a lowland slope is too steep to hold turf. */
   earth: toLinear([0.47, 0.37, 0.25]),
   /** The upland: tussock, heath between it, stony soil under both. */
-  tussock: toLinear([0.63, 0.56, 0.34]),
-  heath: toLinear([0.36, 0.28, 0.2]),
+  tussock: toLinear([0.58, 0.48, 0.31]),
+  heath: toLinear([0.33, 0.24, 0.19]),
   stony: toLinear([0.46, 0.4, 0.33]),
   /** Alpine turf, the last green under the rock. */
   turf: toLinear([0.4, 0.44, 0.24]),
@@ -65,7 +65,7 @@ export const LAND_PALETTE = {
   rockDark: toLinear([0.33, 0.31, 0.3]),
   rockLight: toLinear([0.56, 0.53, 0.5]),
   scree: toLinear([0.55, 0.53, 0.5]),
-  snow: toLinear([0.9, 0.91, 0.94]),
+  snow: toLinear([0.86, 0.88, 0.92]),
 } as const satisfies Record<string, Rgb>;
 
 /**
