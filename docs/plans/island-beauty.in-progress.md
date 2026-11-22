@@ -278,9 +278,6 @@ PR. Session ids are claude.ai remote sessions.
 - The lattice seam is `ui/lattice-value.ts`: `latticeValue` and `worldCell`
   shift every shader lattice by a roll of the world (`rollLattice(world)` at
   each pool start). Ground and clouds both read it (0599b47e0).
-- `groundSpread` buys no tiles (alpine 3000 m 143 either way): the bound is
-  sup-times-sup, 100–700× the measured spread. Tile counts stay worse than
-  main's 112 until a tile is bracketed from its own filled heights.
 - `lookTo`'s clamp is the eye's own rule (`lookWithin`), so nobody sees cumulus
   overhead; for clouds the horizon is the view to get right.
 - The operator will not sit reading counters run after run («увы я не смогу быть
@@ -301,8 +298,7 @@ PR. Session ids are claude.ai remote sessions.
   (480k against 1,218k from 2 m), through `treeView.drawAs(look)` — the name
   `setLook` collided with `LookSwitch` under `pnpm type-overlap`, and no shared
   base is wanted. Ground reads 9 lattice values per fragment against fine's 12
-  and plain's 4. Fine's 1.2M triangles near the ground is over what the M2
-  budget was measured against: trees owe ~800k with no visible change.
+  and plain's 4.
 - New for ground: rock on rough shores — dark wet rock within tens of metres of
   the waterline where `calm` is low, skerries all rock, no tree or dune grass on
   it. The lead built the seam at ground's request: `rockAt` beside `sandAt` in
