@@ -1,0 +1,93 @@
+{
+  "total": {
+    "inputTokens": 49,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 123872,
+    "cacheReadTokens": 3737581,
+    "outputTokens": 11513,
+    "thinkingTokens": 1236,
+    "responses": 25,
+    "costUsd": 0.9844741
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "src/island-board/app/config/island/beauty.yaml",
+    "endedAt": "2026-11-22T09:59:07.653Z",
+    "contextTokens": 133513,
+    "spend": {
+      "inputTokens": 11,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 78519,
+      "cacheReadTokens": 596053,
+      "outputTokens": 2878,
+      "thinkingTokens": 405,
+      "responses": 6,
+      "costUsd": 0.4024833
+    }
+  },
+  "sessionId": "fb3d3018-d295-5b67-9de8-af9ea9d65f6c",
+  "branch": "claude/island-beauty-board",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a `/carte-blanche` run led by another Claude session (`session_01DaohkBiucpraEhsFyZ58M9`). You own one job end to end: you are the ke…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEpVZaFGj3BXpvEYCv",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-22T09:58:33.460Z",
+  "lastResponseAt": "2026-11-22T10:02:28.758Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 49,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 123872,
+    "cacheReadTokens": 3737581,
+    "outputTokens": 11513,
+    "thinkingTokens": 1236,
+    "responses": 25,
+    "costUsd": 0.9844741
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-sonnet-5-5/standard": {
+      "inputTokens": 49,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 123872,
+      "cacheReadTokens": 3737581,
+      "outputTokens": 11513,
+      "thinkingTokens": 1236,
+      "responses": 25,
+      "costUsd": 0.9844741
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 25,
+    "matched": 25,
+    "matchedTableUsd": 0.9844741,
+    "matchedEventUsd": 0.9844741,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 247,
+    ".json": 14,
+    ".yaml": 17
+  }
+}
