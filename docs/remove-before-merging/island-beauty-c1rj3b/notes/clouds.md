@@ -32,12 +32,14 @@ finished.
 ## What is wrong, in the order it shows
 
 1. **From the ground the sky is thinner and blander than the baseline's.**
-   Far clouds are grey smears along the horizon; there are no cumulus with
-   flat dark bases and heaped lit tops. Cause: four steps across a grazing ray
-   are 5–25 km apart, and the mean between two ends that far apart is smooth.
-   The baseline hid the same undersampling under dither. The cure is samples
-   where the cloud is, not more of them: a first coarse pass for the nearest
-   cloudy stretch, then the steps inside it.
+   Far clouds are soft grey lenses with faint level stripes; there are no
+   cumulus with flat dark bases and heaped lit tops. Cause: the march's
+   samples lie on level shells of the layer, so a cloud narrower than the gap
+   between two shells along the ray shows as one bar a shell. An eye under
+   12 km takes eight steps instead of four and waves shorter than a step are
+   faded out (`STEPS`, `STEP_HIDES` in `ui/cloud-nodes.ts`), which trades the
+   bars for blur. The cure is samples where the cloud is: find the ray's first
+   crossing of the cloud's top or base, then step inside it.
 2. **Just over a deck and inside any cloud the view is soft grey.** Same
    cause. The "second of grey" passing through the deck is not cured.
 3. **A front's dense band has a crisp edge** against the soft shield round it
@@ -53,7 +55,7 @@ Counted in value-noise reads per cloudy ray, the baseline being 19: the map
 4, the cyclones about 3, the meso cells at the layer's two ends 2–7, five
 field samples of 2–5 octaves each 10–25, the sunward read 4 from over the
 layer and none from under it, streets 5 where there are any. That is 25–40,
-so 1.3–2× the baseline against a budget of 1.5×. It needs measuring on the
+so 1.3–2× the baseline against a budget of 1.5× for an eye over 12 km, and about twice that under it, where the march takes eight steps. It needs measuring on the
 M2; the first economies to take are three steps for rays from orbit and the
 meso cells read once instead of at both ends.
 
@@ -69,5 +71,6 @@ meso cells read once instead of at both ends.
 
 ## Frames
 
-`frames/0010-clouds-1-*.jpg`, shot with `pnpm shoot:island --no-build --shot`;
+`frames/0010-clouds-1-*.jpg`, and `frames/0011-clouds-2-*.jpg` for the
+eight-step march, shot with `pnpm shoot:island --no-build --shot`;
 the baseline is `frames/0000-before-*.jpg`.
