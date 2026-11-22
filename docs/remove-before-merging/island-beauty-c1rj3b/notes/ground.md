@@ -50,6 +50,31 @@ device dies in this container, so nothing below was seen on WebGPU.
 - The waterline: under 4 m the colour is `GROUND_STOPS`' own, untouched, and
   `surface.damp` wraps the output as before.
 
+- Forest near and far: within `TREES_TO` (3 km, `ui/land-bands.ts`) the fine
+  look paints `cover` as forest floor — litter and moss — for trees to stand
+  on; past it, and everywhere in the plain look, as canopy. `TREES_TO` is a
+  guess until the trees' own draw distance is known; the two must agree.
+
+## Cost
+
+Measured only under software raster on WebGL2 (wall-clock per frame at
+1100×700), which says little about an M2: the fine look went from about
+2.0–2.4 s to 2.2–3.1 s near the ground, the plain look from about 0.9 s to
+0.4–1.0 s. Before, the fine look on WebGL2 drew no small relief at all, so
+part of the rise is relief WebGL2 never had. A fine fragment reads twelve
+lattice samples (ten octaves, two for rock's beds), a plain one four. Nobody
+has measured the land's share on the target machine yet.
+
+## Still wrong
+
+- Forest from 300 km up is a checkerboard of tile vertices, with a seam where
+  two tile levels meet: `cover` is per vertex, and a coarse tile has few. The
+  shader softens the edge but cannot hide the grid.
+- Sand lies in sheets far inland wherever ground is under 20 m (relief's to
+  cure by shape); the shader only varies its tone and rags its edge.
+- Underfoot the ground is still soft past a few metres: the finest octave is
+  11 cm, and nothing draws blades, stones or twigs.
+
 ## Outside my files
 
 - `lib/ground-wgsl.ts` is read by nothing of the land any more; only
