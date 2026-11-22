@@ -212,53 +212,40 @@ at the branch point.
 
 ## The team
 
-Every child was cut from the lead's branch and pushes to its own; none opens a
-PR. Session ids are claude.ai remote sessions.
+Every child was cut from the lead's branch and pushed to its own; none opened a
+PR. All of them are finished, merged and archived: a successor works from a
+member's branch and its note under `notes/`, not from its session.
 
 - **Lead** — `session_01DaohkBiucpraEhsFyZ58M9`, Fable,
   `claude/island-beauty-c1rj3b`. The plan, the seams, integration, the preview,
   the one PR.
 - **Relief** — `session_01DaohkDs92YhSSpimFpJwfJ`, Fable,
-  `claude/island-beauty-relief`, FINISHED at 38456e5d and archived; all of it is
-  merged. Its hand-over is `notes/relief.md`; a fix-up there goes to an Opus
-  child. Left unfixed by it: some straight alpine crests (the value noise's
-  lattice), valleys that do not join into one drainage, faint creases in green
-  ground.
+  `claude/island-beauty-relief`. Left unfixed: some straight alpine crests (the
+  value noise's lattice), valleys that do not join into one drainage, faint
+  creases in green ground.
 - **Ground** — `session_01DaohkDMLPfW237JGnaUuWd`, Fable,
-  `claude/island-beauty-ground`. `ui/ground-lighting.ts`, `lib/land-colour.ts`,
-  `lib/ground-wgsl.ts`: nothing repeating at any distance, then each band's
-  surface; reads the trees' `cover`.
+  `claude/island-beauty-ground`: `ui/ground-lighting.ts`, the `land-*` files.
 - **Clouds** — `session_01DaohkDgngV6hJwJPofVnqB`, Fable,
-  `claude/island-beauty-clouds`. `ui/cloud-nodes.ts`, `lib/clouds.ts`: regimes
-  from above, then the sky from the ground and inside.
-- **Trees** — `session_01DaohkFamqbS2PFoQEC5UKv`, Fable,
-  `claude/island-beauty-trees`. The `cover` seam first, then two species as
-  instances; owns the tile worker's page side and `ui/tile-view.ts`.
-- **Keeper** — `session_01DaohkEpVZaFGj3BXpvEYCv`, Sonnet,
-  `claude/island-beauty-board`. The island board's `beauty` zone and the
-  `island-timelapse` release; takes frames from everyone.
-- **Speed** — `session_01DaohkCd79gE98JUq5Svi61`, Opus,
-  `claude/island-beauty-speed`. Step 1 the tile bracket (below), step 2 B's
-  three positions with the middle one drawing as full, step 3 the optimisation
-  behind the middle look — clouds at low resolution over several frames — which
-  waits for the lead's word that the clouds' step 1 is merged.
-- **Coast** — `session_01DaohkB8k3wxxLHdRRwsBDQ`, Opus,
-  `claude/island-beauty-coast`, FINISHED at af79cc077 and archived; all of it is
-  merged. Its hand-over is `notes/coast.md`; a fix-up there goes to an Opus
-  child.
+  `claude/island-beauty-clouds`: the regimes from above, in `cloud-noise.ts`,
+  `cloud-cover.ts`, `cloud-regimes.ts`.
 - **Clouds' march** — `session_01DaohkBXfgifZ4H5a5Boh1U`, Opus,
-  `claude/island-beauty-clouds-march`, cut from the clouds' branch 17:28 UTC.
-  `ui/cloud-nodes.ts`, `ui/cloud-rays.ts`: the view from the ground, from low
-  flight and from inside a cloud — samples where the cloud is (a cheap search
-  for the ray's first crossing, then the steps), at most ~2× the baseline's
-  reads. The Clouds member keeps the shapes from above (items 1–4 of the
-  verdict) in the other cloud files; this was its own recommendation.
+  `claude/island-beauty-clouds-march`: the view from the ground and from low
+  flight, in `cloud-march.ts`, `cloud-step.ts`, `cloud-nodes.ts`.
+- **Trees** — `session_01DaohkFamqbS2PFoQEC5UKv`, Fable,
+  `claude/island-beauty-trees`: the `cover` seam, the species as instances, the
+  tile worker's page side.
+- **Coast** — `session_01DaohkB8k3wxxLHdRRwsBDQ`, Opus,
+  `claude/island-beauty-coast`.
 - **Sea** — `session_01DaohkBNMrEzd6kyEhPXjND`, Opus,
-  `claude/island-beauty-sea`, started 17:15 UTC. `lib/sea-wgsl.ts`,
-  `lib/ripple-table.ts`, `ui/sea-surface.ts`: wave groups in place of
-  everlasting plane waves, judged by a CPU port's glint map and its
-  autocorrelation, since the rippled sea draws on WebGPU alone and the shooter
-  cannot.
+  `claude/island-beauty-sea`: `lib/sea-wgsl.ts`, `lib/ripples.ts`,
+  `ui/sea-surface.ts`; judged by a CPU twin, since the rippled sea draws on
+  WebGPU alone and the shooter cannot.
+- **Speed** — `session_01DaohkCd79gE98JUq5Svi61`, Opus,
+  `claude/island-beauty-speed`: B's three looks, swift's cloud buffer, the tile
+  bracket, `?without=` and Measure.
+- **Keeper** — `session_01DaohkEpVZaFGj3BXpvEYCv`, Sonnet,
+  `claude/island-beauty-board`: the island board's beauty zones and the
+  timelapse; frames from everyone.
 
 ## Built / in flight / left
 
@@ -359,6 +346,20 @@ PR. Session ids are claude.ai remote sessions.
   the first thing to check on the preview. Not done: the ocean globe is still
   rippled under tiles; early-Z needs depth from the vertex stage and a sea mask
   without `discard`.
+- Merged at 6f7d29862 (192 tests, knip green) speed's Measure: `?without=`
+  leaves a named cost out of swift and fine (`clouds`, `cloud-shadow`, `air`,
+  `ripples`, `sea-sky`, `trees`, `tufts`); the HUD (`I`) shows the mean of 60
+  frames; `?measure` runs 17 readings by itself and ends on a table to copy. The
+  operator's two links are in `notes/speed.md`'s first Report. **The first act
+  of the next approach is reading his table.** Also in: swift's smear at 560 m —
+  the buffer marched its rays to the planet's far side, and now stops at the sea
+  — and the tile bracket (alpine 3000 m: 167 tiles → 86, main 112).
+- Merged after it the clouds through 1bc8d994 (heaps as whole discs of many
+  sizes merging into clumps, beaded open cells: better from 820 km, a one-scale
+  cobblestone from 2300 km) and the march through 0e397afcb (under 12 km a ray
+  finds its first cloud crossing before it steps: from the ground the bars are
+  gone and clouds have shapes; ~35 reads a cloudy ray against 19, a sixteenth of
+  that in swift).
 
 ## Closing this approach
 
@@ -370,30 +371,33 @@ does not fit, and a half-merged team is worth less than a smaller whole.
 - **Nobody starts a new item.** Each member finishes what is in its hands,
   leaves its branch green and its note current, reports, and is archived.
 - **What budget is left goes to frame time**, on the operator's numbers: speed
-  on swift (the history bug, then the air and the cloud shadow from a volume),
-  sea on the cost of its own surface. Beauty items wait for the next approach.
-- **Ground is not replaced.** Its session stopped at the limit with its branch
-  pushed; all of it is merged, and what its verdicts still list is in "Left".
+  on a measurement he can run alone, sea on the cost of its own surface.
+- **Two questions to the operator stand unanswered**: whether a plain
+  half-resolution swift may be tried, and whether preview slot 2 (another
+  branch's build) may be overwritten for a before/after. Without the second, the
+  sea's cuts went into this branch unmeasured.
 - **`/five-percent` and a whole-branch `/polish` wait for the approach that
   finishes the work**; children ran `/dry` and `/tend-prose` on their own diffs.
   `./scripts/vet.sh` runs before the PR.
 
 ## Left, for the next approach
 
-- Frame time on an M2 Pro, target a swift look near 30 ms: whatever of speed's
-  and sea's lists did not land (see their notes), the tile bracket, trees' fine
-  triangle count (1.2M → ~800k). The operator asked (21:20) whether the trick of
-  a sixteenth of the pixels a frame was tried: it is what swift's clouds do, and
-  only they. The same for the whole frame — half resolution with a jittered eye,
-  rebuilt from the frames before by depth — is the candidate that keeps the
-  picture; a plain half-resolution swift loses sharpness and waits on his word.
+- Frame time on an M2 Pro, target a swift look near 30 ms, led by the operator's
+  Measure table: the air from a low-resolution volume, the sea's globe under
+  tiles and early-Z, trees' fine triangle count (1.2M → ~800k). The operator
+  asked (21:20) whether the trick of a sixteenth of the pixels a frame was
+  tried: it is what swift's clouds do, and only they. The same for the whole
+  frame — half resolution with a jittered eye, rebuilt from the frames before by
+  depth — is the candidate that keeps the picture; a plain half-resolution swift
+  loses sharpness and waits on his word.
 - Ground: straight tile edges in the lowland's meadow colour from 4–34 km, the
   rock's dot screen, contour stripes on grass slopes — check each on fresh
   frames first, ground's last commits may have cured some.
 - Trees: a forest from 300 m as a lawn with bushes, the ruler edge at the dune
-  belt, nothing growing on shore rock (`shoreAt` in `TreeGround`), crowns.
-- Clouds: a size spectrum for cumulus fields, open-cell walls as beads, decks
-  (item 4); the view from the ground, which the operator's frames show as grey
-  streaks — the march member's search is the candidate cure.
+  belt, nothing growing on shore rock (`shoreAt` in `TreeGround`), crowns, the
+  shade under a tree (laid, not drawn).
+- Clouds: fair-weather clumps at one scale from 2300 km, heaps too round, no
+  streets along the wind, a narrow front, cracks in a deck; from the ground thin
+  streaks at the horizon and a featureless grey inside a cloud.
 - The sunset's vermilion sand (steering, 20:58).
 - Relief's leftovers under "The team".
