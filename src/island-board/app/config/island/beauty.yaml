@@ -9,4 +9,39 @@ items:
     type: text
     updated: [2026-11-22T11:00:00.000Z, agent:board]
     box: [11800, 450, 1900, body]
-    text: 'Every frame the builders shoot lands here the turn it exists, numbered in the order it arrives. Rows are packages: relief, the ground, clouds, speed. A failure is captioned as one.'
+    text: 'Every frame the builders shoot lands here the turn it exists, numbered in the order it arrives. Rows are packages: relief, the ground, clouds, trees, speed. A failure is captioned as one. Top row: the world as the run found it, fine look.'
+  - id: img-beauty-01-before-coast-2300km
+    type: image
+    updated: [2026-11-22T10:35:00.000Z, agent:board]
+    box: [11800, 580, 360]
+    src: images/beauty-before-coast-2300km.webp
+    text: '1. Before. From orbit (2,300 km) the clouds are salt-and-pepper speckle with no systems or edges; the land is smooth blobs of green and brown.'
+  - id: img-beauty-02-before-coast-10600m
+    type: image
+    updated: [2026-11-22T10:35:00.000Z, agent:board]
+    box: [12185, 580, 360]
+    src: images/beauty-before-coast-10600m.webp
+    text: '2. Before. From 10.6 km sand lies in flat sheets kilometres inland; clouds are featureless cotton with a dither hatch on every edge.'
+  - id: img-beauty-03-before-coast-560m
+    type: image
+    updated: [2026-11-22T10:35:00.000Z, agent:board]
+    box: [12570, 580, 360]
+    src: images/beauty-before-coast-560m.webp
+    text: '3. Before. From 560 m: low smooth domes of one character; a band is one flat colour, no surface.'
+  - id: img-beauty-04-before-sky-2m
+    type: image
+    updated: [2026-11-22T10:35:00.000Z, agent:board]
+    box: [12955, 580, 360]
+    src: images/beauty-before-sky-2m.webp
+    text: '4. Before. From 2 m the sky is a grey smear along the horizon, over a flat dark sea.'
+  - id: img-beauty-05-before-ocean-2300km
+    type: image
+    updated: [2026-11-22T10:35:00.000Z, agent:board]
+    box: [13340, 580, 360]
+    src: images/beauty-before-ocean-2300km.webp
+    text: '5. Before. The open ocean from orbit (2,300 km).'
+  - id: beauty-06-webgpu-lost
+    type: sticky
+    updated: [2026-11-22T10:35:00.000Z, agent:board]
+    box: [11800, 1010, 420, pink]
+    text: '6. Failure. The still shooter could not draw on WebGPU here: the software device is lost at the first tile upload. Frames are shot on WebGL2, where the fine look draws everything but the rippled sea.'
