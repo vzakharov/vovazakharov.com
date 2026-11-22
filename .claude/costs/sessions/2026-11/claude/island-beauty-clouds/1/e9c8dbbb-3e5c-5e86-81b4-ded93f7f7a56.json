@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 4037,
-    "cacheWrite5mTokens": 184,
-    "cacheWrite1hTokens": 338961,
-    "cacheReadTokens": 12247910,
-    "outputTokens": 136425,
-    "thinkingTokens": 66578,
-    "responses": 68,
-    "costUsd": 13.364093999999996
+    "inputTokens": 7431,
+    "cacheWrite5mTokens": 355,
+    "cacheWrite1hTokens": 572457,
+    "cacheReadTokens": 18633895,
+    "outputTokens": 183021,
+    "thinkingTokens": 85681,
+    "responses": 100,
+    "costUsd": 20.269928999999998
   },
   "estimate": {
     "at": "2026-11-22T10:05:35.253Z",
@@ -52,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkDgngV6hJwJPofVnqB",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-22T10:01:18.937Z",
-  "lastResponseAt": "2026-11-22T11:03:53.206Z",
+  "lastResponseAt": "2026-11-22T15:40:57.975Z",
   "pricesAsOf": "2026-11-03",
-  "claudeCodeTotalUsd": null,
+  "claudeCodeTotalUsd": 18.5712668,
   "ownTurns": {
-    "inputTokens": 131,
+    "inputTokens": 192,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 338961,
-    "cacheReadTokens": 11988451,
-    "outputTokens": 128802,
-    "thinkingTokens": 66578,
-    "responses": 67,
-    "costUsd": 12.974194199999996
+    "cacheWrite1hTokens": 572457,
+    "cacheReadTokens": 18115309,
+    "outputTokens": 167081,
+    "thinkingTokens": 85681,
+    "responses": 98,
+    "costUsd": 19.467149799999998
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,14 +77,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 4037,
-      "cacheWrite5mTokens": 184,
-      "cacheWrite1hTokens": 338961,
-      "cacheReadTokens": 12247910,
-      "outputTokens": 136425,
-      "thinkingTokens": 66578,
-      "responses": 68,
-      "costUsd": 13.364093999999996
+      "inputTokens": 7431,
+      "cacheWrite5mTokens": 355,
+      "cacheWrite1hTokens": 572457,
+      "cacheReadTokens": 18633895,
+      "outputTokens": 183021,
+      "thinkingTokens": 85681,
+      "responses": 100,
+      "costUsd": 20.269928999999998
     }
   },
   "warnings": [],
@@ -116,31 +116,62 @@
           "Read": 3
         },
         "estimatedTokens": 1254,
-        "estimatedUsd": 0.0248292
+        "estimatedUsd": 0.0308484
       },
       "billedUsd": 0.38989979999999996
+    },
+    {
+      "at": "2026-11-22T11:47:37.870Z",
+      "trigger": "auto",
+      "compactedFrom": 263608,
+      "summaryChars": 17973,
+      "reorientation": {
+        "endedBy": null,
+        "endedOn": null,
+        "endedAt": null,
+        "contextTokens": null,
+        "spend": {
+          "inputTokens": 16,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 163175,
+          "cacheReadTokens": 763182,
+          "outputTokens": 4364,
+          "thinkingTokens": 648,
+          "responses": 7,
+          "costUsd": 2.9381244
+        }
+      },
+      "rereads": {
+        "calls": 1,
+        "byTool": {
+          "Bash": 1
+        },
+        "estimatedTokens": 193,
+        "estimatedUsd": 0.0031265999999999998
+      },
+      "billedUsd": 0.4128794
     }
   ],
   "telemetry": {
-    "events": 67,
-    "matched": 66,
-    "matchedTableUsd": 12.900024999999996,
-    "matchedEventUsd": 12.900024999999996,
+    "events": 99,
+    "matched": 97,
+    "matchedTableUsd": 19.400493599999997,
+    "matchedEventUsd": 19.400493599999997,
     "unseen": {
       "compact": {
-        "inputTokens": 3906,
-        "cacheWrite5mTokens": 184,
+        "inputTokens": 7239,
+        "cacheWrite5mTokens": 355,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 259459,
-        "outputTokens": 7623,
+        "cacheReadTokens": 518586,
+        "outputTokens": 15940,
         "thinkingTokens": 0,
-        "responses": 1,
-        "costUsd": 0.38989979999999996
+        "responses": 2,
+        "costUsd": 0.8027792
       }
     }
   },
   "operatorWords": {
-    "chat": 0,
+    "chat": 1,
     "review": 0,
     "threads": 0
   },
@@ -148,6 +179,6 @@
   "threadPosts": {},
   "branchLines": {
     ".md": 626,
-    ".ts": 758
+    ".ts": 1011
   }
 }

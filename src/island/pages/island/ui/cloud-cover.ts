@@ -2,6 +2,7 @@ import {
   abs,
   asin,
   float,
+  Fn,
   If,
   max,
   min,
@@ -18,7 +19,10 @@ import { edgeOf, type F, noise, toldFrom, type V } from './cloud-noise';
 import type { Regime } from './cloud-regimes';
 
 /** Each cumulus scale's share of the cells' noise, coarsest first. */
-const CELL_WEIGHTS = [0.5, 0.27, 0.14, 0.08, 0.05] as const;
+const CELL_WEIGHTS = [0.3, 0.3, 0.24, 0.1, 0.06] as const;
+/** The signal at which a cloud stands as high as its layer, and how much of a flat regime's tops is one level. */
+const TALL = 1;
+const FLATTEST = 0.8;
 /** The share of its layer's depth under a cloud's top in which it thins out. */
 const TOP_FALL = 0.3;
 /** How far from a meso cell's edge an open ring's cloud and a deck's vein reach, as `edgeOf` measures it. */
@@ -27,11 +31,11 @@ const VEIN_WIDE = 0.13;
 /** The share of a field its rings and its veins cover: what an eye too far to tell them sees instead. */
 const RINGS_COVER = 0.45;
 const VEINS_COVER = 0.3;
-/** The noises that bend a meso cell's edges: each one's waves to a cell, and how far it pushes, in cells. */
-const CELL_WARPS = [
-  [1.7, 0.3],
-  [4.3, 0.12],
-] as const;
+/** The noise that bends a meso cell's edges: its waves to a cell, and how far it pushes, in cells. */
+const WARP_WAVES = 2.3;
+const WARP_REACH = 0.28;
+/** The weight under which a regime's lumps, and its rings and veins together, are not read. */
+const UNREAD = 0.02;
 /** How far from its edge a closed cell comes to its full thickness, and what that adds to the amount. */
 const CELL_HEART = 0.45;
 const HEART_WEIGHT = 0.5;
@@ -50,8 +54,8 @@ const MESO_PACE = 0.04;
 type Meso = Node<'vec2'>;
 
 export type CloudCover = {
-  /** The meso field over `spot`: its lumps' noise, -1 to 1, and how far the place is from its cell's edge. */
-  readonly meso: (spot: V) => Meso;
+  /** The meso field over `spot`, as far as `regime` reads it: its lumps' noise, -1 to 1, and how far the place is from its cell's edge. */
+  readonly meso: (spot: V, regime: Regime) => Meso;
   /** Cumulus scale `index` over `spot`, coarsest first, as an eye `away` metres off tells it. */
   readonly octave: (spot: V, index: number, away: F) => F;
   /**
@@ -85,9 +89,17 @@ export const bodyOf = (signal: F, { base, ceil }: Regime): F =>
     mix(0.7, 1, smoothstep(500, 5000, ceil.sub(base))),
   );
 
-/** How high a cloud under `cover` stands in `regime`'s layer, 0 its base to 1 its ceiling. */
-export const topOf = (cover: F, { flat }: Regime): F =>
-  mix(cover.mul(0.65).add(0.35), 1, flat);
+/**
+ * How high a cloud with `signal` stands in `regime`'s layer, 0 its base to 1
+ * its ceiling: a flat regime's tops still keep a little of the heap, the
+ * relief the sun picks out on a deck.
+ */
+export const topOf = (signal: F, { flat }: Regime): F =>
+  mix(
+    signal.div(TALL).clamp(0, 1).sqrt().mul(0.7).add(0.3),
+    1,
+    flat.mul(FLATTEST),
+  );
 
 /** How far up `regime`'s layer `over` metres over the sea is, 0 to 1. */
 export const levelOf = (over: F, { base, ceil }: Regime): F =>
@@ -112,26 +124,31 @@ const rampOver = (a: F, b: F): F => {
   );
 };
 
+/** One end of a stretch of a ray: the signal there, and its height over the sea, metres. */
+type End = { readonly signal: F; readonly over: F };
+
 /**
- * A cloud's mean thickness between `low` and `high` metres over the sea under
- * `cover`, in a layer from `regime`'s base to its ceiling: flat below, and
- * heaped as high as the cover is whole unless the regime's tops are flat. The
- * mean is exact however long the stretch, so a march's few samples draw the
- * base and the top where they are.
+ * A cloud's mean thickness along a stretch of a ray from `near` to `far`, in
+ * a layer from `regime`'s base to its ceiling: flat below, and heaped as high
+ * as its signal. The top runs straight between the two ends and the mean is
+ * exact under that, so a march's few samples draw the base and the top where
+ * they are, with no bands and no grain to hide them.
  */
-export const thickness = (cover: F, low: F, high: F, regime: Regime): F => {
+export const thickness = (near: End, far: End, regime: Regime): F => {
   const { base, ceil, dense } = regime;
-  const top = topOf(cover, regime);
-  const risen = (over: F): F => over.sub(base).div(BASE_RISE);
-  const under = (over: F): F =>
-    top.sub(over.sub(base).div(ceil.sub(base))).div(TOP_FALL);
-  return cover
-    .mul(cover)
+  const risen = ({ over }: End): F => over.sub(base).div(BASE_RISE);
+  const under = ({ signal, over }: End): F =>
+    topOf(signal, regime)
+      .sub(over.sub(base).div(ceil.sub(base)))
+      .div(TOP_FALL);
+  const covered = coverOf(near.signal).add(coverOf(far.signal)).mul(0.5);
+  return covered
+    .mul(covered)
     .mul(dense)
     .mul(
       max(
-        rampOver(risen(low), risen(high))
-          .add(rampOver(under(low), under(high)))
+        rampOver(risen(near), risen(far))
+          .add(rampOver(under(near), under(far)))
           .sub(1),
         0,
       ),
@@ -142,27 +159,29 @@ export const thickness = (cover: F, low: F, high: F, regime: Regime): F => {
 export function cloudCover(growth: F): CloudCover {
   const grown = vec3(0, growth, 0);
 
-  /** `at` pushed about by two scales of noise, so the cells cut at it have no ruled edges. */
+  /** `at` pushed about by noise, so the cells cut at it have no ruled edges. */
   const warped = (at: V): V => {
-    let moved = at;
-    for (const [waves, reach] of CELL_WARPS) {
-      const about = at.mul(waves);
-      const push = noise(about).toVar();
-      moved = moved.add(
-        vec3(push, noise(about.yzx.add(5.2)), push.negate()).mul(reach),
-      );
-    }
-    return moved;
-  };
-
-  const meso = (spot: V): Meso => {
-    const [wide, narrow] = MESO_WAVES;
-    const slow = grown.mul(MESO_PACE);
-    return vec2(
-      noise(spot.mul(wide).add(slow)),
-      edgeOf(warped(spot.zxy.mul(narrow).sub(slow))),
+    const about = at.mul(WARP_WAVES);
+    const push = noise(about).toVar();
+    return at.add(
+      vec3(push, noise(about.yzx.add(5.2)), push.negate()).mul(WARP_REACH),
     );
   };
+
+  const meso = (spot: V, { lumps, veins, rings }: Regime): Meso =>
+    Fn(() => {
+      const [wide, narrow] = MESO_WAVES;
+      const slow = grown.mul(MESO_PACE);
+      const lump = float(0).toVar();
+      const edge = float(CELL_HEART).toVar();
+      If(lumps.greaterThan(UNREAD), () => {
+        lump.assign(noise(spot.mul(wide).add(slow)));
+      });
+      If(veins.add(rings).greaterThan(UNREAD), () => {
+        edge.assign(edgeOf(warped(spot.zxy.mul(narrow).sub(slow))));
+      });
+      return vec2(lump, edge);
+    })();
 
   const octave = (spot: V, index: number, away: F): F => {
     const waves = CELL_WAVES[index] ?? 1;

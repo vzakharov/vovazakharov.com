@@ -1,5 +1,4 @@
 import {
-  abs,
   Break,
   dot,
   exp,
@@ -68,11 +67,13 @@ export type CloudNodes = {
 };
 
 /** Samples of the field along a ray's stretch of the layer. */
-const STEPS = 5;
+const STEPS = 4;
 /** What a metre of full cloud takes from a ray. */
 const PER_METRE = 0.012;
+/** How much deeper a cloud is under the heaviest billow of its cells than under none. */
+const BILLOW_DEPTH = 1.4;
 /** The least steeply a ray is taken to cross the layer, for how fine its waves look. */
-const LEAST_STEEP = 0.2;
+const LEAST_STEEP = 0.07;
 /** How far toward the sun a sample looks for the cloud that shades it, metres. */
 const SUNWARD = 2500;
 /** The most cloud a sample counts between itself and the sun, metres. */
@@ -88,11 +89,14 @@ const MIDDLE = 0.35;
 /** How much nearer than its sheet the ice cloud is called, for the air that veils it: it lies over most of that air. */
 const ICE_NEARER = 0.3;
 
-/** A cloud's thickness `MIDDLE` of the way up `regime`'s layer, under `covered`. */
-const middling = (covered: F, regime: Regime): F =>
+/** The thickness, `MIDDLE` of the way up `regime`'s layer, of a cloud with `signal`. */
+const middling = (signal: F, regime: Regime): F =>
   Fn(() => {
-    const over = mix(regime.base, regime.ceil, MIDDLE).toVar();
-    return thickness(covered, over, over, regime);
+    const end = {
+      signal: signal.toVar(),
+      over: mix(regime.base, regime.ceil, MIDDLE).toVar(),
+    };
+    return thickness(end, end, regime);
   })();
 
 /**
@@ -123,12 +127,12 @@ export function cloudNodes(frame: CloudFrame): CloudNodes {
   const rays = cloudRays(frame);
   const ice = iceSeen({ frame, rays, light, turned });
 
-  /** The cover over `spot` under `regime` from the meso cells and the `octaves` coarsest cumulus scales, for an eye `away` metres off. */
-  const coverOver = (spot: V, regime: Regime, away: F, octaves: number): F => {
+  /** The signal over `spot` under `regime` from the meso cells and the `octaves` coarsest cumulus scales, for an eye `away` metres off. */
+  const signalOver = (spot: V, regime: Regime, away: F, octaves: number): F => {
     let cells: F = float(0);
     for (let index = 0; index < octaves; index++)
       cells = cells.add(cover.octave(spot, index, away));
-    return coverOf(cover.signal(spot, regime, cover.meso(spot), cells, away));
+    return cover.signal(spot, regime, cover.meso(spot, regime), cells, away);
   };
 
   const along = (direction: V, metres: F) => {
@@ -136,8 +140,8 @@ export function cloudNodes(frame: CloudFrame): CloudNodes {
     const outer = rays.stretch(cosine, metres, LOWEST_BASE, HIGHEST_TOP);
     const crossing = rays.iceCrossing(cosine);
     const iceInSight = crossing.hit.and(crossing.at.lessThan(metres));
-    const mesoAt = (far: F) =>
-      cover.meso(turned(rays.placeAt(direction, far))).toVar();
+    const mesoAt = (far: F, regime: Regime) =>
+      cover.meso(turned(rays.placeAt(direction, far)), regime).toVar();
     const seen = Fn(() => {
       const low = vec4(0, 0, 0, 1).toVar();
       const high = vec4(0, 0, 0, 1).toVar();
@@ -166,34 +170,19 @@ export function cloudNodes(frame: CloudFrame): CloudNodes {
             const through = float(1).toVar();
             const glow = vec3(0).toVar();
             const lamps = light.lamps(read, regime.base);
-            const mesoIn = mesoAt(from);
-            const mesoOut = mesoAt(from.add(length));
+            const mesoIn = mesoAt(from, regime);
+            const mesoOut = mesoAt(from.add(length), regime);
             // An eye inside the layer samples near itself first: the cloud it is in.
             const within = select(from.lessThanEqual(0), float(1), float(0));
-            /** How far down the stretch its samples have come `share` of the way through them. */
-            const reachedAt = (share: F): F =>
-              mix(share, share.mul(share), within);
-            Loop(STEPS, ({ i }) => {
-              // What is left would not show through what the ray already met.
-              If(through.lessThan(0.02), () => {
-                Break();
-              });
-              const entered = reachedAt(float(i).div(STEPS)).toVar();
-              const left = reachedAt(float(i).add(1).div(STEPS)).toVar();
-              const reached = entered.add(left).mul(0.5).toVar();
-              const pace = length.mul(left.sub(entered)).toVar();
+            /** The field where the ray has come `share` of the way through its samples. */
+            const readAt = (share: F) => {
+              const reached = mix(share, share.mul(share), within).toVar();
               const at = from.add(length.mul(reached)).toVar();
               const place = rays.placeAt(direction, at).toVar();
               const spot = turned(place).toVar();
-              const lowAt = rays
-                .overAt(cosine, from.add(length.mul(entered)))
-                .toVar();
-              const highAt = rays
-                .overAt(cosine, from.add(length.mul(left)))
-                .toVar();
               // A ray grazing the layer sees its waves squeezed: as fine as from that much further off.
               const away = at
-                .div(abs(highAt.sub(lowAt)).div(pace).clamp(LEAST_STEEP, 1))
+                .div(rays.steepAt(cosine, at).clamp(LEAST_STEEP, 1))
                 .toVar();
               const coarse = cover.octave(spot, 0, away).toVar();
               const cells = coarse.add(cover.octave(spot, 1, away)).toVar();
@@ -204,47 +193,84 @@ export function cloudNodes(frame: CloudFrame): CloudNodes {
                   cells.addAssign(cover.octave(spot, index, away));
                 });
               }
-              const signal = cover
-                .signal(
-                  spot,
-                  regime,
-                  mix(mesoIn, mesoOut, reached),
-                  cells,
-                  away,
-                )
-                .toVar();
+              const signal = cover.signal(
+                spot,
+                regime,
+                mix(mesoIn, mesoOut, reached),
+                cells,
+                away,
+              );
+              return { at, place, coarse, cells, signal, away };
+            };
+            const first = readAt(float(0));
+            // The near end of each step, which the far end of the last one was.
+            const nearAt = first.at.toVar();
+            const nearPlace = first.place.toVar();
+            const nearCoarse = first.coarse.toVar();
+            const nearCells = first.cells.toVar();
+            const nearSignal = first.signal.toVar();
+            Loop(STEPS, ({ i }) => {
+              // What is left would not show through what the ray already met.
+              If(through.lessThan(0.02), () => {
+                Break();
+              });
+              const far = readAt(float(i).add(1).div(STEPS));
+              const farSignal = far.signal.toVar();
+              const nearOver = rays.overAt(cosine, nearAt).toVar();
               const thick = thickness(
-                coverOf(signal),
-                lowAt,
-                highAt,
+                { signal: nearSignal, over: nearOver },
+                { signal: farSignal, over: rays.overAt(cosine, far.at) },
                 regime,
               ).toVar();
               If(thick.greaterThan(0.001), () => {
-                const sunward = turned(
-                  normalize(place.add(towardSun.mul(SUNWARD / R))),
-                );
-                const there = coverOf(
-                  signal.add(
-                    regime.fine.mul(cover.octave(sunward, 0, away).sub(coarse)),
-                  ),
+                const there = nearSignal.toVar();
+                // From under its base a cloud is shaded by what stands over it; from over it, by what stands sunward.
+                If(height.greaterThan(regime.base), () => {
+                  const sunward = turned(
+                    normalize(nearPlace.add(towardSun.mul(SUNWARD / R))),
+                  );
+                  there.addAssign(
+                    regime.fine.mul(
+                      cover.octave(sunward, 0, far.away).sub(nearCoarse),
+                    ),
+                  );
+                });
+                // The step shows its near end: from over the cloud that is its top, from under it its base.
+                const level = min(
+                  levelOf(nearOver, regime),
+                  topOf(nearSignal, regime),
                 ).toVar();
-                const level = levelOf(lowAt.add(highAt).mul(0.5), regime);
                 const overhead = min(
                   max(topOf(there, regime).sub(level), 0)
                     .mul(regime.ceil.sub(regime.base))
-                    .mul(there)
+                    .mul(coverOf(there))
+                    // Whole cover still has its billows: thick and thin, dark and light from below.
+                    .mul(nearCells.mul(BILLOW_DEPTH).add(1).clamp(0.3, 2))
                     .div(lamps.rise),
                   DEEPEST_SHADE,
                 );
-                const taken = exp(thick.mul(pace).mul(-PER_METRE)).oneMinus();
+                const taken = exp(
+                  thick.mul(far.at.sub(nearAt)).mul(-PER_METRE),
+                ).oneMinus();
                 glow.addAssign(
                   light
-                    .lit(lamps, overhead, level, phase, bodyOf(signal, regime))
+                    .lit(
+                      lamps,
+                      overhead,
+                      level,
+                      phase,
+                      bodyOf(nearSignal.add(farSignal).mul(0.5), regime),
+                    )
                     .mul(taken)
                     .mul(through),
                 );
                 through.mulAssign(taken.oneMinus());
               });
+              nearAt.assign(far.at);
+              nearPlace.assign(far.place);
+              nearCoarse.assign(far.coarse);
+              nearCells.assign(far.cells);
+              nearSignal.assign(farSignal);
             });
             low.assign(vec4(glow, through));
           });
@@ -286,7 +312,7 @@ export function cloudNodes(frame: CloudFrame): CloudNodes {
             smoothstep(
               0,
               0.5,
-              middling(coverOver(spot, regime, outer.from, 1), regime),
+              middling(signalOver(spot, regime, outer.from, 1), regime),
             ),
           );
         },
@@ -315,7 +341,7 @@ export function cloudNodes(frame: CloudFrame): CloudNodes {
       const kept = regime.ice.mul(ICE_SHADE).toVar();
       If(regime.amount.add(mostLift(regime)).greaterThan(0), () => {
         const thick = middling(
-          coverOver(spot, regime, position.length(), 2),
+          signalOver(spot, regime, position.length(), 2),
           regime,
         );
         const [shallow, deep] = GROUND_SHADE;

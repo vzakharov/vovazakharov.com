@@ -128,15 +128,13 @@ function stormsOver(spot: V, storms: F, warp: readonly [F, F]): Storm {
   const turned = hemisphere.mul(RING_TURN);
   const along = atan(spot.z.negate(), spot.x).div(width).add(turned).toVar();
   const home = along.floor().toVar();
-  const beside = home.add(
-    select(along.sub(home).greaterThan(0.5), float(1), float(-1)),
-  );
   const front = float(0).toVar();
   const cold = float(0).toVar();
   const shield = float(0).toVar();
   const grain = float(0).toVar();
   const weighed = float(0).toVar();
-  for (const cell of [home, beside]) {
+  // The cyclones either side reach in over this one's cell.
+  for (const cell of [home.sub(1), home, home.add(1)]) {
     const id = mod(cell, STORMS_ROUND).mul(7.3).add(1.1).toVar();
     const lived = latticeValue(vec3(id, hemisphere.mul(2.9), 0.7))
       .add(storms)
@@ -176,7 +174,9 @@ function stormsOver(spot: V, storms: F, warp: readonly [F, F]): Storm {
       .sub(TAIL)
       .toVar();
     const wide = mix(1.15, 0.2, smoothstep(0.15, 1.6, r)).toVar();
-    const within = exp(r.mul(r).div(-2.4 * 2.4)).mul(grown);
+    const within = exp(r.mul(r).div(-2.4 * 2.4))
+      .mul(smoothstep(3.2, 4.2, r).oneMinus())
+      .mul(grown);
     const banded = bandAt(turn, wide, 1, 0).toVar();
     front.assign(max(front, within.mul(banded)));
     cold.assign(
@@ -307,11 +307,18 @@ export function regimeAt(spot: V, storms: F): Regime {
     .mul(0.6)
     .toVar();
   If(track.greaterThan(0.03), () => {
-    const { front, cold, shield, grain } = stormsOver(spot, storms, [
+    const storm = stormsOver(spot, storms, [
       n2.mul(0.03),
       n3.mul(0.02).add(n1.mul(0.02)),
     ]);
-    lay({ amount: -0.3, rings: 1, fine: 0.45, base: 800, ceil: 2600 }, cold);
+    // The cyclones thin out toward the edge of their track, where they are no longer read.
+    const tracked = smoothstep(0.03, 0.15, track).toVar();
+    const front = storm.front.mul(tracked).toVar();
+    const { grain, cold, shield } = storm;
+    lay(
+      { amount: -0.3, rings: 1, fine: 0.45, base: 800, ceil: 2600 },
+      cold.mul(tracked),
+    );
     lay(
       {
         amount: front
@@ -329,7 +336,7 @@ export function regimeAt(spot: V, storms: F): Regime {
       },
       smoothstep(0.05, 0.35, front),
     );
-    ice.assign(max(ice, shield.mul(grain.mul(0.5).add(0.6))));
+    ice.assign(max(ice, shield.mul(tracked).mul(grain.mul(0.5).add(0.6))));
   });
 
   // Deep convection in clusters along the ITCZ, each under its anvil.

@@ -1,4 +1,4 @@
-import { max, min, normalize, select, sqrt } from 'three/tsl';
+import { abs, max, min, normalize, select, sqrt } from 'three/tsl';
 import type { Node } from 'three/webgpu';
 
 import { R } from '@/island/shared/globe';
@@ -41,6 +41,8 @@ export type CloudRays = {
   readonly weatherAlong: (cosine: F, iceAt: F) => F;
   /** The height over the sea of the point `along` metres down a ray. */
   readonly overAt: (cosine: F, along: F) => F;
+  /** How steeply the ray climbs or falls there: the sine of its angle to the level. */
+  readonly steepAt: (cosine: F, along: F) => F;
   /** The unit vector of that point. */
   readonly placeAt: (direction: V, along: F) => V;
 };
@@ -113,8 +115,15 @@ export function cloudRays({ up, height, radius, shell }: EyeFrame): CloudRays {
     return shell.add(gained).div(far.add(R));
   };
 
+  const steepAt = (cosine: F, along: F): F => {
+    const gained = along.mul(radius.mul(cosine).mul(2).add(along));
+    return abs(radius.mul(cosine).add(along)).div(
+      sqrt(radius.mul(radius).add(gained)),
+    );
+  };
+
   const placeAt = (direction: V, along: F): V =>
     normalize(up.mul(radius).add(direction.mul(along)));
 
-  return { stretch, iceCrossing, weatherAlong, overAt, placeAt };
+  return { stretch, iceCrossing, weatherAlong, overAt, steepAt, placeAt };
 }

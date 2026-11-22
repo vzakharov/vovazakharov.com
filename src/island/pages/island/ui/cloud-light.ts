@@ -41,7 +41,7 @@ const FORWARD = 0.3;
 /** The most the forward lobe brightens a cloud's edge before the sun. */
 const GLARE = 6;
 
-export type Lamps = {
+type Lamps = {
   /** The sun's colour on the cloud, nothing by night. */
   readonly sun: V;
   /** 1 by day, 0 by night, at the cloud's own height. */

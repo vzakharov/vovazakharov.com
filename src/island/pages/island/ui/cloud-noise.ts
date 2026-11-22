@@ -41,8 +41,11 @@ export const seenTo = (metres: number): number =>
 /** `toldAt` for a wave `waves` of which go round the sphere. */
 export const toldFrom = (waves: number, away: F): F => toldAt(R / waves, away);
 
-/** The cells either side of a place's own, along one axis. */
-const NEIGHBOURS = [-1, 0, 1] as const;
+/** A place's own cell and the next one, along one axis. */
+const NEIGHBOURS = [0, 1] as const;
+/** The share of its cell, about the middle, a cell's point lies in: under the whole, so the eight cells searched hold the two nearest points. */
+const SCATTER = 0.7;
+const UNSCATTERED = (1 - SCATTER) / 2;
 
 /** A lattice point's value, 0 to 1. */
 export const latticeValue = Fn(([point]: [V]) => {
@@ -79,13 +82,17 @@ const latticePoint = Fn(([cell]: [V]) => {
 const cellEdge = Fn(([at]: [V]) => {
   const cell = at.floor().toVar();
   const within = at.sub(cell).toVar();
+  // The nearest points lie in the place's own cell and the seven on its side of it.
+  const toward = within.sub(0.5).sign().toVar();
   const nearest = float(9).toVar();
   const second = float(9).toVar();
   for (const x of NEIGHBOURS)
     for (const y of NEIGHBOURS)
       for (const z of NEIGHBOURS) {
-        const offset = vec3(x, y, z);
-        const toPoint = offset.add(latticePoint(cell.add(offset))).sub(within);
+        const offset = vec3(x, y, z).mul(toward).toVar();
+        const toPoint = offset
+          .add(latticePoint(cell.add(offset)).mul(SCATTER).add(UNSCATTERED))
+          .sub(within);
         const apart = dot(toPoint, toPoint).toVar();
         second.assign(min(second, max(nearest, apart)));
         nearest.assign(min(nearest, apart));
