@@ -20,7 +20,11 @@ import { type Node, Vector3 } from 'three/webgpu';
 import type { Look } from '@/island/shared/play';
 
 import { ripplePhaseOf, SAND_RIPPLE } from '../lib/land-octaves';
-import { COVER_ATTRIBUTE, SAND_ATTRIBUTE } from '../model/cover-attribute';
+import {
+  COVER_ATTRIBUTE,
+  ROCKY_ATTRIBUTE,
+  SAND_ATTRIBUTE,
+} from '../model/cover-attribute';
 import { type Coloured, landBands } from './land-bands';
 import { FIELD, GRAIN, HAND, type Parts, PATCH, SLOPE, STEP } from './land-mix';
 import { type Following, landNoise, QUIET } from './land-noise';
@@ -123,6 +127,7 @@ export function landSurface(height: F, stops: V): LandSurface {
     away,
     cover: attribute(COVER_ATTRIBUTE, 'float'),
     sand: attribute(SAND_ATTRIBUTE, 'float'),
+    rocky: attribute(ROCKY_ATTRIBUTE, 'float'),
     footprint,
   };
   const wind = vec3(...SAND_RIPPLE.wind);
