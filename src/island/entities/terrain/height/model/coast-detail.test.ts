@@ -67,7 +67,7 @@ describe('detailedCoast', () => {
   });
 
   it('leaves the distance far from the coast as the field has it', () => {
-    for (const r of [0, 500_000, 990_000, 1_010_000, 1_500_000]) {
+    for (const r of [0, 500_000, 980_000, 1_020_000, 1_500_000]) {
       for (let k = 0; k < 16; k += 1) {
         const p = at(r, (2 * Math.PI * k) / 16);
         assert.equal(coast(p), field(p), `${r} m from the centre`);
@@ -75,15 +75,16 @@ describe('detailedCoast', () => {
     }
   });
 
-  it('moves the coast by under 3 km, and by more than a few metres', () => {
+  it('moves the coast by under 4 km, and by hundreds of metres', () => {
     const next = stream(5);
     let most = 0;
     for (let k = 0; k < 2000; k += 1) {
       const p = nearCoast(next, 1000);
       most = Math.max(most, Math.abs(coast(p) - field(p)));
     }
-    assert.ok(most < 3000, `${most} m`);
-    assert.ok(most > 100, `${most} m`);
+    // About a pixel from 820 km up, so Earth's coast holds from orbit.
+    assert.ok(most < 4000, `${most} m`);
+    assert.ok(most > 500, `${most} m`);
   });
 
   it('stands from the whole coast by no more than `coastCutReach`', () => {
