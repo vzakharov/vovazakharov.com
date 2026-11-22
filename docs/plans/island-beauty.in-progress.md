@@ -230,6 +230,12 @@ PR. Session ids are claude.ai remote sessions.
   `claude/island-beauty-coast`, started 15:45 UTC. The perturbed coast distance
   under `entities/terrain/height/model/`, its bounds, and one-line call-site
   changes in the readers; reports after its step 1 so the seam merges early.
+- **Sea** — `session_01DaohkBNMrEzd6kyEhPXjND`, Opus,
+  `claude/island-beauty-sea`, started 17:15 UTC. `lib/sea-wgsl.ts`,
+  `lib/ripple-table.ts`, `ui/sea-surface.ts`: wave groups in place of
+  everlasting plane waves, judged by a CPU port's glint map and its
+  autocorrelation, since the rippled sea draws on WebGPU alone and the shooter
+  cannot.
 
 ## Built / in flight / left
 
