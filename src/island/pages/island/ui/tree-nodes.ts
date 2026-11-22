@@ -10,32 +10,22 @@ import {
   positionLocal,
   sin,
   smoothstep,
+  step,
   uniform,
   vec3,
   vec4,
 } from 'three/tsl';
 import { Vector3 } from 'three/webgpu';
 
-import { tierReach } from '../model/tree-placing';
-
-/** The instance attribute holding a tree's foot (relative to the view's anchor) and its tier's reach. */
+/** The instance attribute holding a tree's foot (relative to the view's anchor) and the distance past which it is gone. */
 export const FOOT_ATTRIBUTE = 'treeFoot';
 
-/** The share of its tier's reach at which a tree starts to shrink away. */
-const SHRINK_FROM = 0.65;
-
 /**
- * How many times its own width a far tree widens to at most: wider, and a
- * stand's one crown lies across more relief than it is tall and sinks into it.
+ * The share of its tier's reach from which a tier's trees go, each at a
+ * distance of its own up to the whole reach: a tier thins out tree by tree, and
+ * no tree is ever drawn at another size than its own.
  */
-const WIDEST = 3;
-
-/**
- * The shares of its tier's reach between which a tree widens: done while the
- * tier below, reaching half as far, still stands nearly whole, so no distance
- * has both tiers thin at once.
- */
-const WIDEN_OVER = [0.15, 0.35] as const;
+export const GOES_FROM = 0.65;
 
 /** How far the wind is seen moving a tree: from the first distance it fades, to still at the second, metres. */
 const WIND_SEEN = [150, 400] as const;
@@ -44,9 +34,9 @@ const WIND_SEEN = [150, 400] as const;
 const SWAY = 0.09;
 
 /**
- * Where a tree's vertex is drawn, from its place as an instance: shrunk toward
- * the tree's foot as the eye draws away to its tier's reach, widened where it
- * stands for a stand, and bent by the wind. `centre` is the planet's middle as
+ * Where a tree's vertex is drawn, from its place as an instance: where it
+ * stands, bent by the wind, or all at its foot — so not at all — once the eye
+ * is past the distance the instance names. `centre` is the planet's middle as
  * the instances see it and `seconds` the wind's clock, both the caller's to
  * set.
  */
@@ -54,21 +44,10 @@ export function treeNodes() {
   const foot = attribute(FOOT_ATTRIBUTE, 'vec4');
   /** The eye sits at the world's origin, so the foot's world position is its offset from the eye. */
   const away = length(modelWorldMatrix.mul(vec4(foot.xyz, 1)).xyz);
-  const shown = smoothstep(foot.w.mul(SHRINK_FROM), foot.w, away).oneMinus();
-  /**
-   * A tree of a coarser tier stands for the stand about it: it widens toward
-   * its tier's cell share, `WIDEST` at most, so the canopy thins with distance
-   * slower than the trees drawn do.
-   */
+  const shown = step(away, foot.w);
   const centre = uniform(new Vector3());
   const up = normalize(foot.xyz.sub(centre));
   const off = positionLocal.sub(foot.xyz);
-  const rise = up.mul(dot(off, up));
-  const widen = clamp(foot.w.div(tierReach(0)), 1, WIDEST)
-    .sub(1)
-    .mul(smoothstep(foot.w.mul(WIDEN_OVER[0]), foot.w.mul(WIDEN_OVER[1]), away))
-    .add(1);
-  const grown = foot.xyz.add(rise).add(off.sub(rise).mul(widen));
   /**
    * Wind: gusts cross the ground as waves, and each tree bends with the one
    * over its foot, its top the most and its foot not at all.
@@ -85,6 +64,6 @@ export function treeNodes() {
     .pow2()
     .mul(SWAY)
     .mul(smoothstep(WIND_SEEN[0], WIND_SEEN[1], away).oneMinus());
-  const swayed = grown.add(downwind.mul(swing).mul(bent));
+  const swayed = positionLocal.add(downwind.mul(swing).mul(bent));
   return { drawnAt: mix(foot.xyz, swayed, shown), centre, seconds };
 }

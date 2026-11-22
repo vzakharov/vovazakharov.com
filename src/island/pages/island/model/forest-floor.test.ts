@@ -46,7 +46,7 @@ describe('forest floor', () => {
         assert.ok(tree !== undefined);
         assert.deepEqual(shade.p, tree.p);
         assert.ok(shade.tall > 1 && shade.tall < tree.tall * 0.6);
-        assert.ok(shade.shade > 0.2 && shade.shade <= 0.5);
+        assert.ok(shade.shade > 0.3 && shade.shade < 0.6);
       }
     }
   });
@@ -66,9 +66,13 @@ describe('forest floor', () => {
     }
   });
 
-  it('only the finest cells hold any', () => {
-    const cell = { ...CELL, level: 17, x: 65_500, y: 70_250 };
+  it('a coarser cell holds shades and no logs', () => {
     const ground = flat(200);
-    assert.equal(floorIn(cell, ground, treesIn(cell, ground)).length, 0);
+    const floor = Array.from({ length: 100 }, (_, n) => {
+      const cell = { ...CELL, level: 17, x: 65_500 + n, y: 70_250 };
+      return floorIn(cell, ground, treesIn(cell, ground));
+    }).flat();
+    assert.ok(floor.length > 0);
+    assert.ok(floor.every(({ kind }) => kind === 'shade'));
   });
 });
