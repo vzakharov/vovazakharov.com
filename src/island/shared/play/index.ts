@@ -1,4 +1,5 @@
 export {
+  type InLook,
   isFine,
   type IslandPlayHook,
   type Look,

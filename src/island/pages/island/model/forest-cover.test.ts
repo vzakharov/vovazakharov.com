@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 import { type CubeCell, unit, type Vec3 } from '@/island/shared/globe';
 import { fillCubeTile } from '@/island/entities/terrain';
 
-import { forestCover, tileCover, tileSand, TREELINE } from './forest-cover';
+import { forestCover, tileCover, tileShore, TREELINE } from './forest-cover';
 
 const SEED = 20_261_122;
 
@@ -117,13 +117,10 @@ describe('tileCover', () => {
     ([x, y]) => 700 + 900 * Math.sin(x * 9000) * Math.cos(y * 7000),
   );
   /** A coast 3 km off everywhere: no sand this high. */
-  const sand = tileSand(() => 3000, tile);
+  const { sand, rocky } = tileShore(() => 3000, tile);
   const cover = tileCover(SEED, tile, sand);
-  const beach = tileCover(
-    SEED,
-    tile,
-    tileSand(() => 100, { ...tile, heights: tile.heights.map(() => 5) }),
-  );
+  const low = { ...tile, heights: tile.heights.map(() => 5) };
+  const beach = tileCover(SEED, tile, tileShore(() => 100, low).sand);
 
   it('holds one value per vertex of the mesh, skirt included', () => {
     assert.equal(cover.length, tile.heights.length);
@@ -143,5 +140,12 @@ describe('tileCover', () => {
   it('is bare where the tile is sand', () => {
     assert.ok(sand.every((value) => value === 0));
     assert.ok(beach.every((value) => value === 0));
+  });
+
+  it('is rock only at the water of a stretch that is not calm', () => {
+    assert.ok(rocky.every((value) => value === 0));
+    const rough = Object.assign(() => 10, { calm: () => 0.25 });
+    assert.ok(tileShore(rough, low).rocky.every((value) => value === 0.75));
+    assert.ok(tileShore(() => 10, low).rocky.every((value) => value === 0));
   });
 });

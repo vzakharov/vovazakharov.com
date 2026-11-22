@@ -1,7 +1,7 @@
 import { float, smoothstep, vec3 } from 'three/tsl';
 import type { Node } from 'three/webgpu';
 
-import type { Look } from '@/island/shared/play';
+import type { InLook } from '@/island/shared/play';
 
 import type { Rgb } from '../lib/land-colour';
 import { type OctaveNoise, QUIET, type Seen } from './land-noise';
@@ -63,16 +63,17 @@ export type Mixer = {
   readonly mottled: (parts: Parts) => F;
 };
 
-/** What a band's materials are mixed from. */
-export type Band = {
+/**
+ * What a band's materials are mixed from, and the look they are drawn in, by
+ * which a band pays for what only shows near: the plain one for none of it.
+ */
+export type Band = InLook & {
   readonly ground: Ground;
   readonly mix: Mixer;
   /** The height a band is told by: the ground's, steep ground reading higher. */
   readonly banded: F;
   /** The noise the bands' borders are broken by, metres. */
   readonly border: Ragged;
-  /** The look drawn, by which a band pays for what only shows near: the plain one for none of it. */
-  readonly look: Look;
 };
 
 export const paint = (rgb: Rgb): V => vec3(...rgb);
