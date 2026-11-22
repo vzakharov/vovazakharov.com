@@ -43,19 +43,13 @@ const NEAREST = 40;
  */
 const SEARCH_PAD = 0.25;
 const TOP_PAD = 0.08;
-/** Full steps from where the cloud begins, each twice the one before. */
+/** Full steps from where the cloud begins to the stretch's end. */
 const INNER_STEPS = 4;
-/** The first of them: at least this many metres, and at least this share of its distance. */
+/** The scale of the first of them: at least this many metres, and at least this share of its distance. */
 const FIRST_STEP = 60;
 const FIRST_SHARE = 0.012;
 /** How much a grazing ray squeezes the waves a full read tells, as a power of its steepness. */
 const SQUEEZE = 0.5;
-
-/** The share of `INNER_STEPS`' span its first `k` steps cover, each twice the one before. */
-const spanTo = (k: F): F =>
-  pow(2, k)
-    .sub(1)
-    .div(2 ** INNER_STEPS - 1);
 
 /**
  * The low and deep cloud along a ray. From over every cloud the ray's few
@@ -142,7 +136,7 @@ export function cloudMarch(kit: StepKit, steps: CloudSteps) {
           spot,
           regime,
           mesoAt(ray, meso, at),
-          cover.octave(spot, 0, away),
+          cover.octave(spot, 0, away).add(cover.octave(spot, 1, away)),
           away,
         )
         .add(regime.fine.mul(SEARCH_PAD))
@@ -187,13 +181,19 @@ export function cloudMarch(kit: StepKit, steps: CloudSteps) {
     const begun = entry(ray, meso);
     If(begun.found.greaterThan(0), () => {
       const end = ray.from.add(ray.length);
-      const first = max(begun.at.mul(FIRST_SHARE), FIRST_STEP);
+      const first = max(begun.at.mul(FIRST_SHARE), FIRST_STEP).toVar();
       const start = max(begun.at.sub(first), ray.from).toVar();
-      const span = min(first.mul(2 ** INNER_STEPS - 1), end.sub(start)).toVar();
+      // Each step longer than the one before by the same share, the last ending where the stretch does.
+      const grows = end.sub(start).div(first).add(1).toVar();
       const readAt = (at: F) =>
         steps.readAt(ray, meso, at, awayAt(ray, at, SQUEEZE));
       seen.assign(
-        walk(ray, readAt, (i) => start.add(span.mul(spanTo(i))), INNER_STEPS),
+        walk(
+          ray,
+          readAt,
+          (i) => start.add(first.mul(pow(grows, i.div(INNER_STEPS)).sub(1))),
+          INNER_STEPS,
+        ),
       );
     });
     return seen;
