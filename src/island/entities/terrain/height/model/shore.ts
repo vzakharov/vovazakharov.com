@@ -59,6 +59,14 @@ export const ramp = (t: number) =>
   t >= 1 ? 1 : t <= 0 ? 0 : t * t * (3 - 2 * t);
 
 /**
+ * The share of a wave `wavelength` metres long a detail cut `finest` keeps:
+ * none at or under the cut, faded in up to twice it, whole past that or with
+ * no cut.
+ */
+export const resolvedAt = (finest: number, wavelength: number) =>
+  finest === 0 ? 1 : ramp(wavelength / finest - 1);
+
+/**
  * The larger of `a` and `b`, rounded over a band `k` wide where they meet,
  * and exactly the larger outside it; never below either.
  */

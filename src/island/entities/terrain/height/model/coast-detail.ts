@@ -6,9 +6,9 @@
  */
 import { length, R, type Vec3 } from '@/island/shared/globe';
 
-import { LATTICE_STEEPEST, turned } from './lattice';
+import { LATTICE_STEEPEST, type Matrix, turned } from './lattice';
 import { total } from './relief-numbers';
-import { ramp } from './shore';
+import { ramp, resolvedAt } from './shore';
 import { noiseSalt, valueNoise3, valueNoise3x3 } from './value-noise';
 
 /**
@@ -121,16 +121,25 @@ const skerryShare = (d: number) =>
 /** How much the skerries' share stretches the slope of the coast it reads. */
 const SKERRY_STRETCH = 1 + (3 * SKERRY_METRES) / SKERRY_RISE_METRES;
 
-/** The roughness's lattice value at direction `p` (unit). */
-const roughnessNoise = (seed: number, [x, y, z]: Vec3) => {
-  const [a, b, c] = ROUGHNESS_TO_LATTICE;
+/** Layer `layer`'s noise at direction `p` (unit) on the lattice `toLattice`. */
+const noiseOn = (
+  seed: number,
+  layer: number,
+  toLattice: Matrix,
+  [x, y, z]: Vec3,
+) => {
+  const [a, b, c] = toLattice;
   return valueNoise3(
-    noiseSalt(seed, ROUGHNESS_LAYER),
+    noiseSalt(seed, layer),
     a[0] * x + a[1] * y + a[2] * z,
     b[0] * x + b[1] * y + b[2] * z,
     c[0] * x + c[1] * y + c[2] * z,
   );
 };
+
+/** The roughness's lattice value at direction `p` (unit). */
+const roughnessNoise = (seed: number, p: Vec3) =>
+  noiseOn(seed, ROUGHNESS_LAYER, ROUGHNESS_TO_LATTICE, p);
 
 /**
  * A bound on how steep the bent distance is, metres per metre: the field's
@@ -215,7 +224,7 @@ export const detailedCoast = (
       ) {
         shore = onSphere(qx, qy, qz);
       }
-      const resolved = finest === 0 ? 1 : ramp(wavelength / finest - 1);
+      const resolved = resolvedAt(finest, wavelength);
       const push = reach * amplitude * resolved;
       const [nx, ny, nz] = valueNoise3x3(
         noiseSalt(seed, COAST_LAYER + index),
@@ -229,18 +238,11 @@ export const detailedCoast = (
     }
     const bentDistance = onSphere(qx, qy, qz);
     if (!skerries) return bentDistance;
-    const [sa, sb, sc] = SKERRY_TO_LATTICE;
     const rock = ramp(
-      (valueNoise3(
-        noiseSalt(seed, SKERRY_LAYER),
-        sa[0] * x + sa[1] * y + sa[2] * z,
-        sb[0] * x + sb[1] * y + sb[2] * z,
-        sc[0] * x + sc[1] * y + sc[2] * z,
-      ) -
-        SKERRY_FROM) /
+      (noiseOn(seed, SKERRY_LAYER, SKERRY_TO_LATTICE, p) - SKERRY_FROM) /
         (1 - SKERRY_FROM),
     );
-    const resolved = finest === 0 ? 1 : ramp(SKERRY_WAVELENGTH / finest - 1);
+    const resolved = resolvedAt(finest, SKERRY_WAVELENGTH);
     return (
       bentDistance +
       SKERRY_METRES *

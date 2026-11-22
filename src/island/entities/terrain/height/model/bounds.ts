@@ -46,7 +46,7 @@ import {
   DUNES_UNDER_SPAN_METRES,
   LOWLAND_METRES,
   LOWLAND_REACH_METRES,
-  ramp,
+  resolvedAt,
   SQUEEZE_METRES,
 } from './shore';
 
@@ -57,8 +57,6 @@ import {
 const DUNES_SHARE_STEEPEST = 1 + (1.5 * DUNE_METRES) / DUNES_UNDER_SPAN_METRES;
 
 /** The weight `reliefAt` gives an octave at detail cut `finest`. */
-const resolvedAt = (finest: number, { wavelength }: Octave) =>
-  finest === 0 ? 1 : wavelength <= finest ? 0 : ramp(wavelength / finest - 1);
 
 /**
  * A bound on the slope, metres of rise per metre run, of the ground drawn at
@@ -80,7 +78,7 @@ export function groundSlope(
     total(
       OCTAVES.map(
         (octave) =>
-          resolvedAt(finest, octave) *
+          resolvedAt(finest, octave.wavelength) *
           Math.abs(share(octave)) *
           ((noiseSteepest + 1) / octave.wavelength +
             (1.5 * coastSteepest) / riseOf(octave)),
@@ -112,7 +110,7 @@ export function groundSlope(
       total(
         OCTAVES.map((octave) =>
           octave.hill && octave.wavelength < VARIED_UNDER_METRES
-            ? resolvedAt(finest, octave) * octave.green
+            ? resolvedAt(finest, octave.wavelength) * octave.green
             : 0,
         ),
       )) /

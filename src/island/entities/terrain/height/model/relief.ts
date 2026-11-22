@@ -57,6 +57,7 @@ import {
   duneAt,
   dunesOver,
   ramp,
+  resolvedAt,
   restingGround,
   smoothMax,
 } from './shore';
@@ -126,7 +127,7 @@ export function reliefAt<O extends Octave>(
   let alpineFine = 0;
   for (const octave of octaves) {
     if (octave.wavelength <= finest) break;
-    const resolved = finest === 0 ? 1 : ramp(octave.wavelength / finest - 1);
+    const resolved = resolvedAt(finest, octave.wavelength);
     if (octave.hill) resolvedShare += octave.line * resolved;
     const fade =
       resolved * ramp(away / (d > 0 ? riseOf(octave) : octave.wavelength));
