@@ -1,377 +1,387 @@
 items:
   - id: z-beauty
     type: zone
-    updated: [2026-11-22T11:00:00.000Z, agent:board]
-    box: [11760, 380, 2000, 9950, green]
+    updated: [2026-11-22T17:30:00.000Z, agent:board]
+    box: [-40, 3700, 2000, 2510, green]
     icon: 🎞️
-    text: 'Making it beautiful: the timelapse, failures included'
+    text: 'Making it beautiful: the timelapse, failures included. 1. The world as found, and the relief (cards 1 to 20)'
   - id: beauty-howto
     type: text
     updated: [2026-11-22T11:00:00.000Z, agent:board]
-    box: [11800, 450, 1900, body]
+    box: [40, 3770, 1900, body]
     text: 'Every frame the builders shoot lands here the turn it exists, numbered in the order it arrives. Rows are packages: relief, the ground, clouds, trees, speed. A failure is captioned as one. Top row: the world as the run found it, fine look.'
   - id: img-beauty-01-before-coast-2300km
     type: image
     updated: [2026-11-22T10:35:00.000Z, agent:board]
-    box: [11800, 580, 360]
+    box: [40, 3900, 360]
     src: images/beauty-before-coast-2300km.webp
     text: '1. Before. From orbit (2,300 km) the clouds are salt-and-pepper speckle with no systems or edges; the land is smooth blobs of green and brown.'
   - id: img-beauty-02-before-coast-10600m
     type: image
     updated: [2026-11-22T10:35:00.000Z, agent:board]
-    box: [12185, 580, 360]
+    box: [425, 3900, 360]
     src: images/beauty-before-coast-10600m.webp
     text: '2. Before. From 10.6 km sand lies in flat sheets kilometres inland; clouds are featureless cotton with a dither hatch on every edge.'
   - id: img-beauty-03-before-coast-560m
     type: image
     updated: [2026-11-22T10:35:00.000Z, agent:board]
-    box: [12570, 580, 360]
+    box: [810, 3900, 360]
     src: images/beauty-before-coast-560m.webp
     text: '3. Before. From 560 m: low smooth domes of one character; a band is one flat colour, no surface.'
   - id: img-beauty-04-before-sky-2m
     type: image
     updated: [2026-11-22T10:35:00.000Z, agent:board]
-    box: [12955, 580, 360]
+    box: [1195, 3900, 360]
     src: images/beauty-before-sky-2m.webp
     text: '4. Before. From 2 m the sky is a grey smear along the horizon, over a flat dark sea.'
   - id: img-beauty-05-before-ocean-2300km
     type: image
     updated: [2026-11-22T10:35:00.000Z, agent:board]
-    box: [13340, 580, 360]
+    box: [1580, 3900, 360]
     src: images/beauty-before-ocean-2300km.webp
     text: '5. Before. The open ocean from orbit (2,300 km).'
   - id: beauty-06-webgpu-lost
     type: sticky
     updated: [2026-11-22T10:35:00.000Z, agent:board]
-    box: [13280, 1010, 420, pink]
+    box: [1520, 4330, 420, pink]
     text: '6. Failure. The still shooter could not draw on WebGPU here: the software device is lost at the first tile upload. Frames are shot on WebGL2, where the fine look draws everything but the rippled sea.'
   - id: img-beauty-07-relief-1-coast-2300km
     type: image
     updated: [2026-11-22T10:55:00.000Z, agent:board]
-    box: [11800, 1010, 360]
+    box: [40, 4330, 360]
     src: images/beauty-relief-1-coast-2300km.webp
     text: "7. Relief, step 1. Mountains are gathered into belts and read as ranges from orbit. Flaw: the snow shows a leopard pattern of rounded cells, the noise's own shape."
   - id: img-beauty-08-relief-1-coast-10600m
     type: image
     updated: [2026-11-22T10:55:00.000Z, agent:board]
-    box: [12185, 1010, 360]
+    box: [425, 4330, 360]
     src: images/beauty-relief-1-coast-10600m.webp
     text: '8. Relief, step 1. Sand is the beach and its dunes only; the plain behind is green. Flaw: the lowland is dead flat, the low domes of before are gone.'
   - id: img-beauty-09-relief-1-coast-560m
     type: image
     updated: [2026-11-22T10:55:00.000Z, agent:board]
-    box: [12570, 1010, 360]
+    box: [810, 4330, 360]
     src: images/beauty-relief-1-coast-560m.webp
     text: '9. Relief, step 1. A beach, a dune belt, then lowland. Flaw: the dunes read as straight stripes parallel to the shore, and no hill is in sight.'
   - id: beauty-07-verdict
     type: sticky
     updated: [2026-11-22T10:55:00.000Z, agent:board]
-    box: [12955, 1010, 300, yellow]
+    box: [1195, 4330, 300, yellow]
     text: 'Lead, on cards 7 to 9 (Vova is away): "Half a win: ranges and the shore are right, the lowland went flat. Sent back."'
   - id: img-beauty-10-relief-2-coast-2300km
     type: image
     updated: [2026-11-22T11:20:00.000Z, agent:board]
-    box: [11800, 1470, 360]
+    box: [40, 4790, 360]
     src: images/beauty-relief-2-coast-2300km.webp
     text: '10. Relief, step 2. The snow is a spine along the range; the leopard pattern is gone.'
   - id: img-beauty-11-relief-2-lowland-300m
     type: image
     updated: [2026-11-22T11:20:00.000Z, agent:board]
-    box: [12185, 1470, 360]
+    box: [425, 4790, 360]
     src: images/beauty-relief-2-lowland-300m.webp
     text: '11. Relief, step 2. From 300 m the lowland rolls: hills to the horizon. Flaw: all of one size, and mauve patches where the old shader paints rock on gentle flanks.'
   - id: img-beauty-12-relief-2-upland-300m
     type: image
     updated: [2026-11-22T11:20:00.000Z, agent:board]
-    box: [12570, 1470, 360]
+    box: [810, 4790, 360]
     src: images/beauty-relief-2-upland-300m.webp
     text: '12. Relief, step 2. From 300 m, subalpine upland: a hummocky plateau with outcrops, green valleys beyond.'
   - id: img-beauty-13-relief-2-alpine-3000m
     type: image
     updated: [2026-11-22T11:20:00.000Z, agent:board]
-    box: [12955, 1470, 360]
+    box: [1195, 4790, 360]
     src: images/beauty-relief-2-alpine-3000m.webp
     text: "13. Relief, step 2. From 3 km, an alpine range: ridges, spurs, valley floors. Flaw: snow lies in blotches by height alone, the ground shader's job next."
   - id: img-beauty-14-relief-2-dunes-300m
     type: image
     updated: [2026-11-22T11:20:00.000Z, agent:board]
-    box: [13340, 1470, 360]
+    box: [1580, 4790, 360]
     src: images/beauty-relief-2-dunes-300m.webp
     text: '14. Relief, step 2. Failure: from 300 m the dune belt is a thin strip with a few dashes; no dune reads as a dune. Sent back.'
   - id: img-beauty-15-relief-2-coast-560m
     type: image
     updated: [2026-11-22T11:20:00.000Z, agent:board]
-    box: [11800, 1930, 360]
+    box: [40, 5250, 360]
     src: images/beauty-relief-2-coast-560m.webp
     text: '15. Relief, step 2. Failure: from 560 m, the same strip, the dune belt flattened to a thin band with a few dashes. Sent back.'
   - id: img-beauty-16-relief-2-w3-orbit
     type: image
     updated: [2026-11-22T11:30:00.000Z, agent:board]
-    box: [12570, 1930, 360]
+    box: [810, 5250, 360]
     src: images/beauty-relief-2-w3-orbit.webp
     text: "16. Relief, step 2, the relief session's own frame: generated world 3 from 20,000 km. Mountain ranges run as brown belts along and across the continents; the white blotches over the sea and land are clouds. Wrong, by the builder: nothing to see at this distance, the lowland is one flat green."
   - id: img-beauty-17-relief-2-w3-alpine-10km
     type: image
     updated: [2026-11-22T11:30:00.000Z, agent:board]
-    box: [12955, 1930, 360]
+    box: [1195, 5250, 360]
     src: images/beauty-relief-2-w3-alpine-10km.webp
     text: "17. Relief, step 2, the relief session's own frame: an alpine range from 10 km on world 3, ridges and cirques under cloud. Wrong, by the builder: shot before the later dune and lowland changes, so it stands for the mountains only."
   - id: beauty-15-verdict
     type: sticky
     updated: [2026-11-22T11:20:00.000Z, agent:board]
-    box: [12185, 1930, 320, yellow]
+    box: [425, 5250, 320, yellow]
     text: 'Lead, on cards 10 to 15 (Vova is away): "A real win for the mountains and the hills. Dunes sent back; the surface is now the weakest part."'
   - id: img-beauty-18-relief-3-dunes-60m
     type: image
     updated: [2026-11-22T11:40:00.000Z, agent:board]
-    box: [11800, 2390, 360]
+    box: [40, 5710, 360]
     src: images/beauty-relief-3-dunes-60m.webp
     text: '18. Relief, step 3. Dunes are a land form: ridges to 22 m with lee faces, a belt up to 1.5 km deep. Flaw: the old shader paints the lee faces rock-brown and turns the back dunes green by height — a sand mask is being plumbed for it.'
   - id: img-beauty-19-relief-3-dunes-2m
     type: image
     updated: [2026-11-22T11:40:00.000Z, agent:board]
-    box: [12185, 2390, 360]
+    box: [425, 5710, 360]
     src: images/beauty-relief-3-dunes-2m.webp
     text: '19. Relief, step 3. Among the dunes, from eye height. On the frame: the near lee face is a smeared dark patch, and the far ones are brown humps in green.'
   - id: img-beauty-20-relief-3-lowland-3000m
     type: image
     updated: [2026-11-22T11:40:00.000Z, agent:board]
-    box: [12570, 2390, 360]
+    box: [810, 5710, 360]
     src: images/beauty-relief-3-lowland-3000m.webp
     text: '20. Relief, step 3. Hill country beside open vales, over the same broad ridges.'
   - id: beauty-20-verdict
     type: sticky
     updated: [2026-11-22T11:40:00.000Z, agent:board]
-    box: [12955, 2390, 300, yellow]
+    box: [1195, 5710, 300, yellow]
     text: 'Lead, on cards 18 to 20 (Vova is away): "Dunes accepted as a shape. Their colour waits for the sand mask."'
+  - id: z-beauty-ground
+    type: zone
+    updated: [2026-11-22T17:30:00.000Z, agent:board]
+    box: [2060, 3700, 2000, 2170, green]
+    text: '2. The ground, first pass (cards 21 to 36)'
   - id: beauty-speed-start
     type: text
     updated: [2026-11-22T11:40:00.000Z, agent:board]
-    box: [11800, 2850, 1000, body]
+    box: [2140, 3770, 1000, body]
     text: 'Speed. A sixth session started: speed. First job — the rougher ground loosened the tile culling bound; it brackets tiles from heights already known.'
   - id: beauty-ground-row
     type: text
     updated: [2026-11-22T11:50:00.000Z, agent:board]
-    box: [11800, 3000, 1000, body]
+    box: [2140, 3920, 1000, body]
     text: 'Ground, step 1. All shot on WebGL2 in the fine look. The coast frames repeat the top row’s shots but were taken before relief’s latest merge, so the land’s shape in them is the old one.'
   - id: img-beauty-21-ground-1-coast-20000km
     type: image
     updated: [2026-11-22T11:50:00.000Z, agent:board]
-    box: [11800, 3070, 360]
+    box: [2140, 3990, 360]
     src: images/beauty-ground-1-coast-20000km.webp
     text: '21. Ground, step 1. From orbit the land is mottled green, olive and brown instead of flat blobs. Wrong, by the builder: little to see at this size.'
   - id: img-beauty-22-ground-1-coast-2300km
     type: image
     updated: [2026-11-22T11:50:00.000Z, agent:board]
-    box: [12185, 3070, 360]
+    box: [2525, 3990, 360]
     src: images/beauty-ground-1-coast-2300km.webp
     text: '22. Ground, step 1. Europe from 2,300 km: bands no longer follow contour lines, upland varies from olive to brown. Wrong, by the builder: the forest shows a checkerboard and square tile seams (the per-vertex cover), and clouds hide half the land. On the frame the clouds are salt-and-pepper speckle.'
   - id: img-beauty-23-ground-1-coast-820km
     type: image
     updated: [2026-11-22T11:50:00.000Z, agent:board]
-    box: [12570, 3070, 360]
+    box: [2910, 3990, 360]
     src: images/beauty-ground-1-coast-820km.webp
     text: '23. Ground, step 1. From 820 km it is almost all cloud speckle (the clouds’ package); the ground is barely visible under it.'
   - id: img-beauty-24-ground-1-coast-34km
     type: image
     updated: [2026-11-22T11:50:00.000Z, agent:board]
-    box: [12955, 3070, 360]
+    box: [3295, 3990, 360]
     src: images/beauty-ground-1-coast-34km.webp
     text: '24. Ground, step 1. The coast from 34 km: forest canopy is mottled and dark, sand is toned and shows a little relief. The clouds are still cotton lumps.'
   - id: img-beauty-25-ground-1-coast-10600m
     type: image
     updated: [2026-11-22T11:50:00.000Z, agent:board]
-    box: [13340, 3070, 360]
+    box: [3680, 3990, 360]
     src: images/beauty-ground-1-coast-10600m.webp
     text: '25. Ground, step 1. From 10.6 km, the pair of card 2. Wrong, by the builder: sand still lies in wide sheets inland (relief’s to cure) and the forest and sand edges are smooth blobs.'
   - id: img-beauty-26-ground-1-coast-4400m
     type: image
     updated: [2026-11-22T11:50:00.000Z, agent:board]
-    box: [11800, 3530, 360]
+    box: [2140, 4450, 360]
     src: images/beauty-ground-1-coast-4400m.webp
     text: '26. Ground, step 1. From 4.4 km: mottled forest canopy, sand with some relief in it, a beach along the shore. The sand sheets and the blob edges are still there.'
   - id: img-beauty-27-ground-1-coast-560m
     type: image
     updated: [2026-11-22T11:50:00.000Z, agent:board]
-    box: [12185, 3530, 360]
+    box: [2525, 4450, 360]
     src: images/beauty-ground-1-coast-560m.webp
     text: '27. Ground, step 1. From the sea at 560 m the land is a thin strip, little changed from card 3.'
   - id: img-beauty-28-ground-1-coast-2m
     type: image
     updated: [2026-11-22T11:50:00.000Z, agent:board]
-    box: [12570, 3530, 360]
+    box: [2910, 4450, 360]
     src: images/beauty-ground-1-coast-2m.webp
     text: '28. Ground, step 1. From the sea at 2 m: a thin coast line under a cloud, little changed from card 4.'
   - id: img-beauty-29-ground-1-before-amazon-2000km
     type: image
     updated: [2026-11-22T11:50:00.000Z, agent:board]
-    box: [12955, 3530, 360]
+    box: [3295, 4450, 360]
     src: images/beauty-ground-1-before-amazon-2000km.webp
     text: '29. Before. Earth from 2,000 km: a contour map in flat colours, with white blobs hundreds of km wide where snow is.'
   - id: img-beauty-30-ground-1-amazon-2000km
     type: image
     updated: [2026-11-22T11:50:00.000Z, agent:board]
-    box: [13340, 3530, 360]
+    box: [3680, 4450, 360]
     src: images/beauty-ground-1-amazon-2000km.webp
     text: '30. Ground, step 1, the pair of card 29. Ragged bands, small snow patches. Wrong, by the builder: forest checkerboard and a vertical tile seam; both show on the frame, the checkerboard at the left edge.'
   - id: img-beauty-31-ground-1-before-tibet-800km
     type: image
     updated: [2026-11-22T11:50:00.000Z, agent:board]
-    box: [11800, 3990, 360]
+    box: [2140, 4910, 360]
     src: images/beauty-ground-1-before-tibet-800km.webp
     text: '31. Before. Tibet from 800 km: flat brown above, flat green below, three lakes.'
   - id: img-beauty-32-ground-1-tibet-800km
     type: image
     updated: [2026-11-22T11:50:00.000Z, agent:board]
-    box: [12185, 3990, 360]
+    box: [2525, 4910, 360]
     src: images/beauty-ground-1-tibet-800km.webp
     text: '32. Ground, step 1, the pair of card 31. Graded upland and patchy forest, the lakes the same. The white flecks are clouds.'
   - id: img-beauty-33-ground-1-before-tibet-2m
     type: image
     updated: [2026-11-22T11:50:00.000Z, agent:board]
-    box: [12570, 3990, 360]
+    box: [2910, 4910, 360]
     src: images/beauty-ground-1-before-tibet-2m.webp
     text: '33. Before. Standing on a hill at 2 m: one smooth green slope under brown-grey ridges.'
   - id: img-beauty-34-ground-1-tibet-2m
     type: image
     updated: [2026-11-22T11:50:00.000Z, agent:board]
-    box: [12955, 3990, 360]
+    box: [3295, 4910, 360]
     src: images/beauty-ground-1-tibet-2m.webp
     text: '34. Ground, step 1, the pair of card 33. Mottled turf, earth and rock on the steep parts, small relief in the light. Wrong, by the builder: still soft past a few metres, and shot before forest cover was wired, so that spot now draws as forest floor.'
   - id: img-beauty-35-ground-1-tibet-100m-dusk
     type: image
     updated: [2026-11-22T11:50:00.000Z, agent:board]
-    box: [13340, 3990, 360]
+    box: [3680, 4910, 360]
     src: images/beauty-ground-1-tibet-100m-dusk.webp
     text: '35. Ground, step 1. Low sun over the hills at 100 m; dark green slopes, haze between the ridges. The clouds’ edges show a hatch pattern.'
   - id: img-beauty-36-ground-1-tibet-100m-night
     type: image
     updated: [2026-11-22T11:50:00.000Z, agent:board]
-    box: [11800, 4450, 360]
+    box: [2140, 5370, 360]
     src: images/beauty-ground-1-tibet-100m-night.webp
     text: '36. Ground, step 1. The same hills at night: a black ridge under a dusk sky, a moon inside a dark hatched cloud. The cloud stripes are the clouds’ WebGL pattern, per the builder.'
+  - id: z-beauty-trees
+    type: zone
+    updated: [2026-11-22T17:30:00.000Z, agent:board]
+    box: [4160, 3700, 2000, 2020, green]
+    text: '3. Trees, first pass (cards 37 to 56)'
   - id: beauty-trees-row
     type: text
     updated: [2026-11-22T12:00:00.000Z, agent:board]
-    box: [11800, 4950, 1000, body]
+    box: [4240, 3770, 1000, body]
     text: 'Trees, step 1. World 1, fine look, WebGL2. The forest spot is lat 16.3017, lon -23.0617 (211 m, cover 1.0), heading 30°. Cards 37 to 45 are one descent over the forest by day; 46 to 51 are the forest edge, the treeline and a valley; 52 to 56 are low sun, sunset and moonlight.'
   - id: img-beauty-37-trees-1-forest-day-5000m
     type: image
     updated: [2026-11-22T12:00:00.000Z, agent:board]
-    box: [11800, 5020, 360]
+    box: [4240, 3840, 360]
     src: images/beauty-trees-1-forest-day-5000m.webp
     text: '37. Trees, step 1. Forest from 5 km: plain grass green in haze, no canopy tone. Wrong, by the builder: forest is invisible from here.'
   - id: img-beauty-38-trees-1-forest-day-2500m
     type: image
     updated: [2026-11-22T12:00:00.000Z, agent:board]
-    box: [12185, 5020, 360]
+    box: [4625, 3840, 360]
     src: images/beauty-trees-1-forest-day-2500m.webp
     text: '38. Trees, step 1. From 2.5 km: the same green ground with a few dark specks at the bottom edge. Wrong, by the builder, as card 37.'
   - id: img-beauty-39-trees-1-forest-day-1000m
     type: image
     updated: [2026-11-22T12:00:00.000Z, agent:board]
-    box: [12570, 5020, 360]
+    box: [5010, 3840, 360]
     src: images/beauty-trees-1-forest-day-1000m.webp
     text: '39. Trees, step 1. From 1 km: sparse dark blobs on bright grass. The builder: it reads as scattered bushes, not forest.'
   - id: img-beauty-40-trees-1-forest-day-500m
     type: image
     updated: [2026-11-22T12:00:00.000Z, agent:board]
-    box: [12955, 5020, 360]
+    box: [5395, 3840, 360]
     src: images/beauty-trees-1-forest-day-500m.webp
     text: '40. Trees, step 1. From 500 m: denser blobs, still separate on grass; they thin with distance as a gradient, no line.'
   - id: img-beauty-41-trees-1-forest-day-200m
     type: image
     updated: [2026-11-22T12:00:00.000Z, agent:board]
-    box: [13340, 5020, 360]
+    box: [5780, 3840, 360]
     src: images/beauty-trees-1-forest-day-200m.webp
     text: '41. Trees, step 1. From 200 m: broadleaf crowns with a few conifers, thinning to dots by about 600 m. The crowns are faceted blobs.'
   - id: img-beauty-42-trees-1-forest-day-80m
     type: image
     updated: [2026-11-22T12:00:00.000Z, agent:board]
-    box: [11800, 5480, 360]
+    box: [4240, 4300, 360]
     src: images/beauty-trees-1-forest-day-80m.webp
     text: '42. Trees, step 1. From 80 m: a closed canopy, broadleaf with a few conifers, trunks showing under the crowns. It reads as forest.'
   - id: img-beauty-43-trees-1-forest-day-30m
     type: image
     updated: [2026-11-22T12:00:00.000Z, agent:board]
-    box: [12185, 5480, 360]
+    box: [4625, 4300, 360]
     src: images/beauty-trees-1-forest-day-30m.webp
     text: '43. Trees, step 1. Just over the crowns at 30 m: conifer spires among broadleaves. The builder: good.'
   - id: img-beauty-44-trees-1-forest-day-10m
     type: image
     updated: [2026-11-22T12:00:00.000Z, agent:board]
-    box: [12570, 5480, 360]
+    box: [5010, 4300, 360]
     src: images/beauty-trees-1-forest-day-10m.webp
     text: '44. Trees, step 1. At 10 m the eye is inside a crown (there is no collision): big flat-shaded facets fill the frame.'
   - id: img-beauty-45-trees-1-forest-day-2m
     type: image
     updated: [2026-11-22T12:00:00.000Z, agent:board]
-    box: [12955, 5480, 360]
+    box: [5395, 4300, 360]
     src: images/beauty-trees-1-forest-day-2m.webp
     text: '45. Trees, step 1. Among the trunks at 2 m, under the canopy; trunks stand on the ground. The ground is one flat green with no tree shadow.'
   - id: img-beauty-46-trees-1-edge-day-200m
     type: image
     updated: [2026-11-22T12:00:00.000Z, agent:board]
-    box: [13340, 5480, 360]
+    box: [5780, 4300, 360]
     src: images/beauty-trees-1-edge-day-200m.webp
     text: '46. Trees, step 1. Forest edge from 200 m (cover 0.5): the stand thins into meadow. The builder: the edge is soft, fine.'
   - id: img-beauty-47-trees-1-edge-day-2m
     type: image
     updated: [2026-11-22T12:00:00.000Z, agent:board]
-    box: [11800, 5940, 360]
+    box: [4240, 4760, 360]
     src: images/beauty-trees-1-edge-day-2m.webp
     text: '47. Trees, step 1. At the edge among trunks at 2 m. A near conifer bough at the right is one large flat facet.'
   - id: img-beauty-48-trees-1-treeline-day-200m
     type: image
     updated: [2026-11-22T12:00:00.000Z, agent:board]
-    box: [12185, 5940, 360]
+    box: [4625, 4760, 360]
     src: images/beauty-trees-1-treeline-day-200m.webp
     text: '48. Trees, step 1. The treeline from 200 m (756 m up): scattered conifers on brown ground. The builder: reads right, the trees perhaps too regular in size.'
   - id: img-beauty-49-trees-1-treeline-day-2m
     type: image
     updated: [2026-11-22T12:00:00.000Z, agent:board]
-    box: [12570, 5940, 360]
+    box: [5010, 4760, 360]
     src: images/beauty-trees-1-treeline-day-2m.webp
     text: '49. Trees, step 1. Conifers on a brown ridge at 2 m. One near bough fills the right of the frame as a flat green slab.'
   - id: img-beauty-50-trees-1-valley-day-2m
     type: image
     updated: [2026-11-22T12:00:00.000Z, agent:board]
-    box: [12955, 5940, 360]
+    box: [5395, 4760, 360]
     src: images/beauty-trees-1-valley-day-2m.webp
     text: '50. Trees, step 1. A steep valley side (slope 37°) at 2 m: conifers stand on it, none floating. The gully floor is bare, and the near slope is a flat dark grey.'
   - id: img-beauty-51-trees-1-valley-day-60m
     type: image
     updated: [2026-11-22T12:00:00.000Z, agent:board]
-    box: [13340, 5940, 360]
+    box: [5780, 4760, 360]
     src: images/beauty-trees-1-valley-day-60m.webp
     text: '51. Trees, step 1. The same valley from 60 m: conifer forest on rolling ground. It reads as forest.'
   - id: img-beauty-52-trees-1-forest-low-200m
     type: image
     updated: [2026-11-22T12:00:00.000Z, agent:board]
-    box: [11800, 6400, 360]
+    box: [4240, 5220, 360]
     src: images/beauty-trees-1-forest-low-200m.webp
     text: '52. Trees, step 1. Low sun (hour 2) from 200 m: crowns lit on one side. The builder: trees cast no shadow on the ground or on each other.'
   - id: img-beauty-53-trees-1-forest-low-2m
     type: image
     updated: [2026-11-22T12:00:00.000Z, agent:board]
-    box: [12185, 6400, 360]
+    box: [4625, 5220, 360]
     src: images/beauty-trees-1-forest-low-2m.webp
     text: '53. Trees, step 1. Low sun (hour 2) at 2 m among the trunks, the ground a darker flat green. The builder: no tree shadow on the ground.'
   - id: img-beauty-54-trees-1-edge-low-200m
     type: image
     updated: [2026-11-22T12:00:00.000Z, agent:board]
-    box: [12570, 6400, 360]
+    box: [5010, 5220, 360]
     src: images/beauty-trees-1-edge-low-200m.webp
     text: '54. Trees, step 1. The forest edge at low sun (hour 2) from 200 m: crowns lit on one side, the same lack of shadow.'
   - id: img-beauty-55-trees-1-forest-sunset-200m
     type: image
     updated: [2026-11-22T12:00:00.000Z, agent:board]
-    box: [12955, 6400, 360]
+    box: [5395, 5220, 360]
     src: images/beauty-trees-1-forest-sunset-200m.webp
     text: '55. Trees, step 1. Sunset (hour 3) from 200 m: the crowns glow red on ground that has already gone dark. Wrong, by the builder: upright faces take a grazing sun the level ground does not, with nothing shading them.'
   - id: img-beauty-56-trees-1-forest-moon-2m
     type: image
     updated: [2026-11-22T12:00:00.000Z, agent:board]
-    box: [13340, 6400, 360]
+    box: [5780, 5220, 360]
     src: images/beauty-trees-1-forest-moon-2m.webp
     text: '56. Trees, step 1. Moonlight (hour 12) at 2 m: trunks, crowns and ground are nearly black and equally dim; nothing glows.'
