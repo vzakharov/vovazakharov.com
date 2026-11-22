@@ -100,7 +100,7 @@ async function sandOnWorld0(lat: number, lon: number) {
 
 describe('sand on world #0', () => {
   it('is whole on a dune belt, and none inland or at sea', async () => {
-    assert.equal(await sandOnWorld0(44.02, 10.05), 1);
+    assert.equal(await sandOnWorld0(43.735, 10.266), 1);
     assert.equal(await sandOnWorld0(49.5, 20), 0);
     assert.equal(await sandOnWorld0(10, 0), 0);
   });

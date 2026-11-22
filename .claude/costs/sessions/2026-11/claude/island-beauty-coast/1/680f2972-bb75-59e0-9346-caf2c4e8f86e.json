@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 2256,
-    "cacheWrite5mTokens": 1208,
-    "cacheWrite1hTokens": 317263,
-    "cacheReadTokens": 23343086,
-    "outputTokens": 105901,
-    "thinkingTokens": 40239,
-    "responses": 130,
-    "costUsd": 9.339805200000004
+    "inputTokens": 4541,
+    "cacheWrite5mTokens": 1804,
+    "cacheWrite1hTokens": 528430,
+    "cacheReadTokens": 42038851,
+    "outputTokens": 189504,
+    "thinkingTokens": 63885,
+    "responses": 226,
+    "costUsd": 16.452474200000008
   },
   "estimate": {
     "at": "2026-11-22T16:11:07.848Z",
@@ -58,18 +58,18 @@
   "url": "https://claude.ai/code/session_01DaohkB8k3wxxLHdRRwsBDQ",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-22T15:45:26.874Z",
-  "lastResponseAt": "2026-11-22T16:35:34.004Z",
+  "lastResponseAt": "2026-11-22T17:09:46.108Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 245,
+    "inputTokens": 426,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 317263,
-    "cacheReadTokens": 23080460,
-    "outputTokens": 98842,
-    "thinkingTokens": 40239,
-    "responses": 129,
-    "costUsd": 9.132016000000004
+    "cacheWrite1hTokens": 528430,
+    "cacheReadTokens": 41516660,
+    "outputTokens": 176345,
+    "thinkingTokens": 63885,
+    "responses": 224,
+    "costUsd": 16.059376000000007
   },
   "subagents": {
     "inputTokens": 0,
@@ -83,14 +83,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 2256,
-      "cacheWrite5mTokens": 1208,
-      "cacheWrite1hTokens": 317263,
-      "cacheReadTokens": 23343086,
-      "outputTokens": 105901,
-      "thinkingTokens": 40239,
-      "responses": 130,
-      "costUsd": 9.339805200000004
+      "inputTokens": 4541,
+      "cacheWrite5mTokens": 1804,
+      "cacheWrite1hTokens": 528430,
+      "cacheReadTokens": 42038851,
+      "outputTokens": 189504,
+      "thinkingTokens": 63885,
+      "responses": 226,
+      "costUsd": 16.452474200000008
     }
   },
   "warnings": [],
@@ -122,26 +122,57 @@
           "Read": 2
         },
         "estimatedTokens": 6249,
-        "estimatedUsd": 0.0768356
+        "estimatedUsd": 0.16182200000000002
       },
       "billedUsd": 0.2077892
+    },
+    {
+      "at": "2026-11-22T17:01:27.821Z",
+      "trigger": "auto",
+      "compactedFrom": 265712,
+      "summaryChars": 13398,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/island/entities/terrain/height/model/coast-detail.ts",
+        "endedAt": "2026-11-22T17:01:51.196Z",
+        "contextTokens": 136999,
+        "spend": {
+          "inputTokens": 4,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 77622,
+          "cacheReadTokens": 182917,
+          "outputTokens": 1296,
+          "thinkingTokens": 964,
+          "responses": 2,
+          "costUsd": 0.6834954
+        }
+      },
+      "rereads": {
+        "calls": 1,
+        "byTool": {
+          "Read": 1
+        },
+        "estimatedTokens": 2966,
+        "estimatedUsd": 0.029066800000000004
+      },
+      "billedUsd": 0.18530900000000003
     }
   ],
   "telemetry": {
-    "events": 129,
-    "matched": 128,
-    "matchedTableUsd": 9.077361600000003,
-    "matchedEventUsd": 9.077361600000001,
+    "events": 225,
+    "matched": 223,
+    "matchedTableUsd": 16.014307200000008,
+    "matchedEventUsd": 16.014307200000005,
     "unseen": {
       "compact": {
-        "inputTokens": 2011,
-        "cacheWrite5mTokens": 1208,
+        "inputTokens": 4115,
+        "cacheWrite5mTokens": 1804,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 262626,
-        "outputTokens": 7059,
+        "cacheReadTokens": 522191,
+        "outputTokens": 13159,
         "thinkingTokens": 0,
-        "responses": 1,
-        "costUsd": 0.2077892
+        "responses": 2,
+        "costUsd": 0.39309820000000006
       }
     }
   },
@@ -153,9 +184,11 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 1138,
-    ".json": 293,
-    ".yaml": 468,
-    ".ts": 4346
+    ".md": 1194,
+    ".json": 366,
+    ".yaml": 555,
+    ".ts": 5341,
+    ".tsx": 41,
+    ".scss": 28
   }
 }

@@ -127,6 +127,35 @@ describe('detailedCoast', () => {
     assert.ok(steepest > 1.2, `${steepest}: no bend steeper than the field`);
   });
 
+  it('has calm and rough stretches, the calm ones bending least', () => {
+    let calm = 0;
+    let rough = 0;
+    const next = stream(15);
+    for (let k = 0; k < 400; k += 1) {
+      const share = coast.calm?.(nearCoast(next, 1000)) ?? -1;
+      assert.ok(share >= 0 && share <= 1, `${share}`);
+      if (share === 1) calm += 1;
+      if (share === 0) rough += 1;
+    }
+    // A stretch is all one or the other on about a third of the coast each.
+    assert.ok(calm > 60 && rough > 60, `${calm} calm, ${rough} rough`);
+  });
+
+  it('raises the odd skerry clear of the shore, never a mile out', () => {
+    const next = stream(17);
+    let skerries = 0;
+    for (let k = 0; k < 20_000; k += 1) {
+      const p = at(DISC_METRES + 3000 * next(), 2 * Math.PI * next());
+      // A cut at the skerries' length keeps every bend that moves the shore
+      // by more than a few metres, and leaves the skerries out.
+      const shore = coast(p, 300);
+      if (coast(p) <= 0 || shore > -100) continue;
+      skerries += 1;
+      assert.ok(shore > -1500, `land ${-shore} m out to sea`);
+    }
+    assert.ok(skerries > 0, 'no skerry');
+  });
+
   it('bends the coastline at every scale it is read at', () => {
     for (const [finest, span, least] of [
       [5000, 40_000, 50],

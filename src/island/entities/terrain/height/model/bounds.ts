@@ -1,5 +1,5 @@
 /** True bounds on the ground `reliefAt` draws: its slope, and its detail. */
-import { coastCutReach } from './coast-detail';
+import { CALM_STEEPEST, coastCutReach } from './coast-detail';
 import {
   KINDS,
   LINE_WIDTH,
@@ -46,7 +46,7 @@ import {
   DUNES_UNDER_SPAN_METRES,
   LOWLAND_METRES,
   LOWLAND_REACH_METRES,
-  ramp,
+  resolvedAt,
   SQUEEZE_METRES,
 } from './shore';
 
@@ -57,8 +57,6 @@ import {
 const DUNES_SHARE_STEEPEST = 1 + (1.5 * DUNE_METRES) / DUNES_UNDER_SPAN_METRES;
 
 /** The weight `reliefAt` gives an octave at detail cut `finest`. */
-const resolvedAt = (finest: number, { wavelength }: Octave) =>
-  finest === 0 ? 1 : wavelength <= finest ? 0 : ramp(wavelength / finest - 1);
 
 /**
  * A bound on the slope, metres of rise per metre run, of the ground drawn at
@@ -80,7 +78,7 @@ export function groundSlope(
     total(
       OCTAVES.map(
         (octave) =>
-          resolvedAt(finest, octave) *
+          resolvedAt(finest, octave.wavelength) *
           Math.abs(share(octave)) *
           ((noiseSteepest + 1) / octave.wavelength +
             (1.5 * coastSteepest) / riseOf(octave)),
@@ -112,7 +110,7 @@ export function groundSlope(
       total(
         OCTAVES.map((octave) =>
           octave.hill && octave.wavelength < VARIED_UNDER_METRES
-            ? resolvedAt(finest, octave) * octave.green
+            ? resolvedAt(finest, octave.wavelength) * octave.green
             : 0,
         ),
       )) /
@@ -127,10 +125,11 @@ export function groundSlope(
         (1.5 / DUNES_RISE_METRES + DUNE_STEEPEST / DUNE_SPACING_METRES));
   const dunes =
     (DUNE_SPACING_METRES <= 2 * finest ? 0 : DUNE_METRES) *
-    noiseSteepest *
-    ((DUNE_STEEPEST * DUNE_SWAY) / wavelengthOf(DUNE_SWAY_INDEX) +
-      0.4 / wavelengthOf(DUNE_SWELL_INDEX) +
-      1.5 / (DUNE_GAP_SPAN * wavelengthOf(DUNE_GAP_INDEX)));
+    (noiseSteepest *
+      ((DUNE_STEEPEST * DUNE_SWAY) / wavelengthOf(DUNE_SWAY_INDEX) +
+        0.4 / wavelengthOf(DUNE_SWELL_INDEX) +
+        1.5 / (DUNE_GAP_SPAN * wavelengthOf(DUNE_GAP_INDEX))) +
+      CALM_STEEPEST);
   const reach = most((kind) => Math.max(peakOf(kind), troughOf(kind)));
   const ground =
     broad * (1 + KIND_STEEPEST * (reach + FINE_REACH_METRES)) +
