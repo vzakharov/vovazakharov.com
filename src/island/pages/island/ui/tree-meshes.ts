@@ -1,6 +1,7 @@
 import { BufferAttribute, BufferGeometry } from 'three/webgpu';
 
 import type { TreeKind } from '../model/tree-placing';
+import { log, shade } from './floor-meshes';
 import {
   band,
   type Build,
@@ -19,7 +20,7 @@ const BROADLEAF = {
   near: { around: 8, rows: 5, trunk: 7, masses: 6 },
   mid: { around: 5, rows: 3, trunk: 3, masses: 3 },
   far: { around: 6, rows: 3, trunk: 0, masses: 1 },
-  least: { around: 5, rows: 2, trunk: 0, masses: 1 },
+  least: { around: 4, rows: 3, trunk: 0, masses: 1 },
 } as const;
 
 /** The one mass a far crown is: centre, radii. It reaches low, standing for the trunk it has none of. */
@@ -186,7 +187,7 @@ function conifer(build: Build, detail: TreeDetail) {
 
 const BUILDERS: Readonly<
   Record<TreeKind, (build: Build, detail: TreeDetail) => void>
-> = { broadleaf, conifer, bush, tuft };
+> = { broadleaf, conifer, bush, tuft, log, shade };
 
 /**
  * A kind's plant at a detail: one unit tall with its foot at the origin (a

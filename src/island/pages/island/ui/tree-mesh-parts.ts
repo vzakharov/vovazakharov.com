@@ -13,8 +13,8 @@ export type TreeDetail = (typeof TREE_DETAILS)[number];
 export type P3 = readonly [number, number, number];
 
 /** Bark and leaf colours, linear: the leaves' are the kind's mid green, which each tree tints. */
-const BARK: Rgb = [0.115, 0.085, 0.06];
-export const LEAF: Readonly<Record<TreeKind, Rgb>> = {
+export const BARK: Rgb = [0.115, 0.085, 0.06];
+export const LEAF: Readonly<Record<Exclude<TreeKind, 'log' | 'shade'>, Rgb>> = {
   broadleaf: [0.058, 0.14, 0.024],
   conifer: [0.028, 0.082, 0.036],
   bush: [0.05, 0.115, 0.03],
