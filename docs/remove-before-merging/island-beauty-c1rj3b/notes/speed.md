@@ -2,6 +2,105 @@
 
 Branch `claude/island-beauty-speed`, cut from `claude/island-beauty-c1rj3b`.
 
+## Report — 2026-11-22, swift clouds (3f38e4ea) and where a frame goes
+
+**Swift now draws its clouds from a buffer; fine is unchanged.** Swift costs
+20–40% less than fine per frame; the clouds are no longer what separates swift
+from plain. What does is the air, per fragment.
+
+Frame time, SwiftShader, 1440×900, whole frames ending in a read of the canvas
+(`tmp/speed/ablate.ts`). Absolute numbers are a CPU rasteriser's; the ratios
+are what carries to an M2 Pro.
+
+| spot           | plain | swift | fine |
+| -------------- | ----: | ----: | ---: |
+| alpine 300 m   |  1027 |  2538 | 3259 |
+| lowland 2 m    |   884 |  2173 | 2754 |
+| lowland 3000 m |   759 |  2041 | 3438 |
+
+Where fine's extra goes (each draw kind skipped in turn): the tiles' fragments
+≈ 65%, the sky's background mesh ≈ 15%, the ocean globe 10–20%. Inside swift
+at lowland 3000 m: the cloud passes 98 ms, sky 203 (fine: 473), globe 318
+(715), tiles 1501 (2430; plain 641). Two ablations of swift by rebuild: the
+clouds' shadow on the ground (`clouds.shade`, per fragment) is 230–250 ms
+(10–12%); drawing swift's land with the plain surface instead of the fine one
+changes nothing measurable (2538 → 2538, 2041 → 2018). So **the rest, ≈ 1 s
+over plain, is the air**: `aerial`'s two-lamp scattering, evaluated in every
+fragment of every tile, the ocean and the trees.
+
+**How the swift clouds work** (`ui/swift-clouds.ts`):
+
+- A half-resolution buffer, a quarter of the screen's pixels. Each frame
+  marches one pixel of every 2×2 block, in a Bayer walk, so a frame marches a
+  sixteenth of the pixels fine marches, and the whole buffer is fresh every
+  four frames.
+- The other pixels carry over from the last frame, reprojected by the eye's
+  turn and travel at the cloud's mid-stretch distance. They are clamped to
+  the span of the freshly marched 3×3 neighbours (+10%), and replaced by their
+  bilinear blend where the last frame did not see the point.
+- History resets on the first frame, a resize, a switch into swift, or a jump
+  (more than 2 km plus the eye's height in a frame). A reset marches all four
+  pixels of each block at once, so a still shot is never patchy.
+- The buffer holds each ray's whole stretch of the cloud layer, the ground
+  ignored. It is therefore smooth across every silhouette, with no
+  depth-edge halo. Each fragment cuts it at its own distance as if the cloud
+  were spread evenly along the ray; that is exact at both ends, and
+  approximate only for a surface inside the layer.
+- The march's per-pixel start grain (`screenCoordinate` in `cloud-nodes.ts`)
+  drew as diagonal hatching at the buffer's scale. A 3×3 tent over the fresh
+  pixels evens it out.
+
+**"Not drunk", checked** (`tmp/speed/turn.ts`, frames below):
+
+- A turn of 0–42° in steps of 3° and then 10°: swift's clouds stand where
+  fine's do in every frame. The mean difference from fine is 1.1–1.4 / 255 and
+  flat from the first frame to the last, so the reprojection adds nothing a
+  fresh march does not have.
+- Flying north at 800 m, 330 m per frame (20 km/s at 60 fps): 0.54 → 0.63 /
+  255 over six frames, no trail.
+- At the cloud edges swift is softer than fine. Fine shows its own grain
+  there, at full resolution.
+
+**What the code touches.** The cloud shading is reached through `clouds.along`
+alone. `skyNodes` builds `aerial` and `background` twice, as `fine` and
+`swift`, over a cloud source. `ground-lighting`'s `dress(look, rippled)` picks
+one and returns the look's background. `scene-look` prepares the swift passes
+in `shine`, before the render. `island-scene.ts`: 371 lines.
+
+**Hooks for the clouds member** (I edited no `cloud-*.ts`):
+
+1. `swift-span.ts` restates the layer's stretch (`meets`/`stretch` against
+   `CLOUD_BASE`/`CLOUD_TOP`). On the clouds merge it becomes
+   `cloudRays(frame).stretch(cosine, 1e12, LOWEST_BASE, HIGHEST_TOP)`. The
+   constants it imports vanish in that merge, so the type check fails there
+   rather than letting it drift.
+2. The clouds branch's march has no screen grain, so the tent then only
+   softens. Whoever merges should look at it again then.
+3. `along` must stay valid in a full-screen pass: no `positionWorld`, the
+   direction handed in. It is today, and on the clouds branch.
+
+**Proposed next swift cuts, not built:**
+
+1. **The air from a buffer**, the largest remainder: an aerial-perspective
+   volume, in-scatter and transmittance over a 32×32 screen grid × 32 depth
+   slices, filled once a frame and read by every fragment for its distance.
+   The air is smooth in all three, so it holds up where the clouds needed
+   reprojection. It is mine to build if the lead wants it; it touches
+   `sky-nodes.ts`' `aerial`, nobody else's file.
+2. **The clouds' ground shadow** at quarter resolution, or from the same
+   volume (10–12%).
+3. Trees' LOD and the ground's near-only normal are the other members'. By
+   the second ablation the ground's fine surface is not where swift's time
+   goes, at least on this rasteriser.
+
+**Listeners** of `onLook` receive the look itself (`'plain' | 'swift' |
+'fine'`); `isFine(look)` says whether it draws the sky, trees and sea.
+
+Frames for the keeper to number, in `frames/`:
+`speed-swift-vs-fine-{c560,c4400,sky2}.jpg` (swift on top, fine below),
+`-turning.jpg` (swift left, fine right; 0°, 6°, 12°, 22°, 32°, 42°),
+`-flying.jpg` (swift left), `-edge-crop.jpg` (swift on top, 1:1).
+
 ## Report — 2026-11-22, look button (908ef965)
 
 On your 71def30f9, merged in (one-line import conflict in `island-scene.ts`).
