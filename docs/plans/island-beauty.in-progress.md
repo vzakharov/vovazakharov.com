@@ -167,8 +167,11 @@ PR. Session ids are claude.ai remote sessions.
   `claude/island-beauty-c1rj3b`. The plan, the seams, integration, the preview,
   the one PR.
 - **Relief** — `session_01DaohkDs92YhSSpimFpJwfJ`, Fable,
-  `claude/island-beauty-relief`. `src/island/entities/terrain/`: each band's own
-  shape, and the cure for what repeats or lines up in the ground.
+  `claude/island-beauty-relief`, FINISHED at 38456e5d and archived; all of it is
+  merged. Its hand-over is `notes/relief.md`; a fix-up there goes to an Opus
+  child. Left unfixed by it: some straight alpine crests (the value noise's
+  lattice), valleys that do not join into one drainage, faint creases in green
+  ground.
 - **Ground** — `session_01DaohkDMLPfW237JGnaUuWd`, Fable,
   `claude/island-beauty-ground`. `ui/ground-lighting.ts`, `lib/land-colour.ts`,
   `lib/ground-wgsl.ts`: nothing repeating at any distance, then each band's
@@ -215,8 +218,20 @@ PR. Session ids are claude.ai remote sessions.
   form. The beauty set has a place per kind (`0002-*`, `0003-*` frames). The
   surface is now the weakest part: snow in blotches by height alone, flat green,
   rock-brown lee faces on dunes.
-- In flight (older line, superseded above where they differ): relief on its
-  fixes; ground and clouds on step 1 with nothing pushed yet (told to push
-  small); trees on step 1; the keeper on the relief row.
-- Left: the beauty set gains one spot per band once relief names them;
-  integration of ground, clouds and trees; the optimised look; the PR.
+- Ground's step 1 (1944a92f) and the trees' step 1 (fbbf0dfa) are merged at
+  152193d8f; B reaches the trees through `sceneLook`'s `onLook`. From 4.4 km the
+  coast is the best frame so far (forest with clearings). From 2,300 km it is a
+  regression: forest in rectangular patches along tile edges, because per-vertex
+  `cover` changes with tile level, and the range lost its snow.
+- The rule that cures it, sent to ground and trees: far from the eye, colour
+  contrast comes only from per-fragment functions of place and from height;
+  per-vertex `cover` fades toward a per-fragment expectation by ~150 km, and
+  `tileCover` is band-limited the way the relief is so a tile and its parent
+  never differ by a whole patch.
+- In flight: ground on the orbit regression, then canopy tone, then each band's
+  surface; trees on the `sand` attribute, cover across levels, then sunset glow,
+  wind, undergrowth; clouds still with nothing pushed; speed on the tile bracket
+  (`detailReach` is exported for it); the keeper.
+- Left: the clouds; `sand` swapped into the ground shader; the lattice hash
+  ground and clouds each carry folded into one home; the middle look and what it
+  saves; `/dry`, `/tend-prose`, `/five-percent`, vet, the PR.
