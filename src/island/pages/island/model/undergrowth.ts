@@ -34,11 +34,10 @@ const between = (low: number, high: number, x: number) =>
   Math.min(1, Math.max(0, (x - low) / (high - low)));
 
 /**
- * The low growth standing in `cell`, a pure function of the cell, the ground
- * and the world, as `treesIn` is of the trees: dune grass in tufts where the
- * ground is sand above the wash, bushes under the forest and thinly over open
- * ground below the treeline. Only a cell of the finest level holds any, so it
- * is drawn as far as the nearest trees' tier and no farther.
+ * The low growth standing in `cell`, as pure a function as `treesIn`: dune
+ * grass where the ground is sand above the wash, bushes under the forest and
+ * thinly over open ground below the treeline. Only a cell of the finest level
+ * holds any, so it draws as far as the nearest trees' tier.
  */
 export function undergrowthIn(cell: CubeCell, ground: TreeGround): Tree[] {
   const { face, level, x, y } = cell;
