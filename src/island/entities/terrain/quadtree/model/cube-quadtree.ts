@@ -11,9 +11,9 @@ import {
 
 import {
   type CoastDistance,
+  groundSpread,
   HIGHEST_GROUND,
   LOWEST_GROUND,
-  SPHERE_GROUND_SLOPE,
 } from '../../height';
 import {
   capGap,
@@ -41,12 +41,6 @@ export type CubeSelectOptions = Framed & {
 type Bracket = readonly [low: number, high: number];
 
 const WHOLE: Bracket = [LOWEST_GROUND, HIGHEST_GROUND];
-
-/**
- * A bound on how far the ground's height differs between two points at most
- * `metres` apart along the surface, at any detail cuts.
- */
-const spread = (metres: number) => SPHERE_GROUND_SLOPE * metres;
 
 /** The angle over the sea's horizon from which ground `h` metres up shows. */
 const rise = (h: number) => Math.acos(R / (R + Math.max(0, h)));
@@ -77,7 +71,7 @@ export function selectCubeTiles(
     // The cap's points are the tile's corners, edge middles and centre, so
     // every point of the tile lies within half a side of one, along its
     // edges' directions.
-    const slack = spread(cubeTileSide(key) / 2);
+    const slack = groundSpread(cubeTileSide(key) / 2);
     if (slack >= within[1] - within[0]) return within;
     const heights = [...cap.border, cap.centre].map((p) => ground(p));
     return [
