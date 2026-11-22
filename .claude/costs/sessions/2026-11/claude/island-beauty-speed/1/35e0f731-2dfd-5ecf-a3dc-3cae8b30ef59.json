@@ -1,0 +1,94 @@
+{
+  "total": {
+    "inputTokens": 94,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 138494,
+    "cacheReadTokens": 7290253,
+    "outputTokens": 37708,
+    "thinkingTokens": 14356,
+    "responses": 49,
+    "costUsd": 3.3205386
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-22T11:27:26.251Z",
+    "contextTokens": 103543,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 42681,
+      "cacheReadTokens": 148222,
+      "outputTokens": 648,
+      "thinkingTokens": 110,
+      "responses": 2,
+      "costUsd": 0.3840684
+    }
+  },
+  "sessionId": "35e0f731-2dfd-5ecf-a3dc-3cae8b30ef59",
+  "branch": "claude/island-beauty-speed",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are one builder in a team making `/island` (src/island, mounted by sites/vova) beautiful. You are the SPEED package. The lead is session `session_01DaohkBiu…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCd79gE98JUq5Svi61",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-22T11:27:19.433Z",
+  "lastResponseAt": "2026-11-22T11:38:04.604Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 94,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 138494,
+    "cacheReadTokens": 7290253,
+    "outputTokens": 37708,
+    "thinkingTokens": 14356,
+    "responses": 49,
+    "costUsd": 3.3205386
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 94,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 138494,
+      "cacheReadTokens": 7290253,
+      "outputTokens": 37708,
+      "thinkingTokens": 14356,
+      "responses": 49,
+      "costUsd": 3.3205386
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 49,
+    "matched": 49,
+    "matchedTableUsd": 3.3205386,
+    "matchedEventUsd": 3.3205386000000003,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 736,
+    ".json": 15,
+    ".yaml": 17,
+    ".ts": 1478
+  }
+}
