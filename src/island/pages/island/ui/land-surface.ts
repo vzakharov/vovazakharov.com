@@ -10,6 +10,7 @@ import {
   normalize,
   normalWorldGeometry,
   positionWorld,
+  sign,
   smoothstep,
   transformNormalToView,
   uniform,
@@ -20,10 +21,14 @@ import { type Node, Vector3 } from 'three/webgpu';
 import type { Look } from '@/island/shared/play';
 
 import { ripplePhaseOf, SAND_RIPPLE } from '../lib/land-octaves';
-import { COVER_ATTRIBUTE, SAND_ATTRIBUTE } from '../model/cover-attribute';
+import {
+  COVER_ATTRIBUTE,
+  ROCKY_ATTRIBUTE,
+  SAND_ATTRIBUTE,
+} from '../model/cover-attribute';
 import { type Coloured, landBands } from './land-bands';
 import { FIELD, GRAIN, HAND, type Parts, PATCH, SLOPE, STEP } from './land-mix';
-import { type Following, landNoise, QUIET } from './land-noise';
+import { ABSENT, type Following, landNoise, QUIET } from './land-noise';
 
 type F = Node<'float'>;
 type V = Node<'vec3'>;
@@ -121,14 +126,16 @@ export function landSurface(height: F, stops: V): LandSurface {
     stops,
     steep,
     away,
+    poleward: lean.y.mul(sign(zenith.y)),
     cover: attribute(COVER_ATTRIBUTE, 'float'),
     sand: attribute(SAND_ATTRIBUTE, 'float'),
+    rocky: attribute(ROCKY_ATTRIBUTE, 'float'),
     footprint,
   };
   const wind = vec3(...SAND_RIPPLE.wind);
   /** A look past the plain one: the bands over the octaves coarser than `reach`, and their small relief. */
   const dressed = (look: Look, reach: number): LandDress => {
-    const told = octaves.slice(0, reach);
+    const told = octaves.map((octave, i) => (i < reach ? octave : ABSENT));
     const at = (i: number) => told[i] ?? QUIET;
     const bands = landBands(ground, told, look);
     let slope: V = vec3(0);

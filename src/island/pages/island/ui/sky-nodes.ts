@@ -35,22 +35,31 @@ import {
   SPACE_COLOUR,
 } from '../lib/air';
 import type { Heavens } from '../lib/day';
-import { cloudNodes } from './cloud-nodes';
+import { type CloudNodes, cloudNodes } from './cloud-nodes';
+import { type Clouded, swiftClouds } from './swift-clouds';
 
 export type Backed = {
   /** The scene's background node: `radiance` along the view ray plus the discs. */
   readonly background: Node<'vec3'>;
 };
 
-export type SkyNodes = Backed & {
-  /** Radiance arriving from world direction `direction` (unit), linear RGB, in the scene's exposure: what the sea mirrors. */
-  readonly radiance: (direction: Node<'vec3'>) => Node<'vec3'>;
+/** The air drawn over one way of reaching the clouds. */
+export type Aired = Backed & {
   /** `colour` seen through `metres` of air along world direction `direction`. */
   readonly aerial: (
     colour: Node<'vec3'>,
     direction: Node<'vec3'>,
     metres: Node<'float'>,
   ) => Node<'vec3'>;
+};
+
+export type SkyNodes = Clouded & {
+  /** Radiance arriving from world direction `direction` (unit), linear RGB, in the scene's exposure: what the sea mirrors. */
+  readonly radiance: (direction: Node<'vec3'>) => Node<'vec3'>;
+  /** The air with the clouds marched for every fragment. */
+  readonly fine: Aired;
+  /** The air with the clouds read from `swiftClouds`' buffer, which `clouds` fills. */
+  readonly swift: Aired;
   /** The share of the sun's light the clouds leave at `position`, the eye being the origin; `aerial` lays it on what it is handed. */
   readonly shade: (position: Node<'vec3'>) => Node<'float'>;
   /** Per frame: the heavens, the eye's zenith (unit), its height in metres and the shared clock's seconds, which the clouds drift on. */
@@ -239,6 +248,14 @@ export function skyNodes(): SkyNodes {
   });
 
   const { shade } = clouds;
+  const swift = swiftClouds(clouds, {
+    up,
+    height,
+    radius,
+    shell,
+    towardSun,
+    towardMoon,
+  });
 
   const radiance = (direction: V): V => {
     const { through, glow } = dome(direction);
@@ -246,8 +263,20 @@ export function skyNodes(): SkyNodes {
     return space.mul(through).add(glow).mul(cloud.a).add(cloud.rgb);
   };
 
-  const aerial = (lit: V, direction: V, metres: F): V => {
-    const cloud = clouds.along(direction, metres).seen;
+  /** The air over the clouds `cloudsAlong` gives. */
+  const airOver = (cloudsAlong: CloudNodes['along']): Aired => ({
+    aerial: (lit, direction, metres) =>
+      aerial(cloudsAlong, lit, direction, metres),
+    background: background(cloudsAlong),
+  });
+
+  function aerial(
+    cloudsAlong: CloudNodes['along'],
+    lit: V,
+    direction: V,
+    metres: F,
+  ): V {
+    const cloud = cloudsAlong(direction, metres).seen;
     // The clouds' shadow on the surface, then the clouds before it, then the air over both.
     const colour = lit
       .mul(clouds.shade(direction.mul(metres)))
@@ -271,7 +300,7 @@ export function skyNodes(): SkyNodes {
     );
     const steep = farCosine.mul(farCosine).mul(-STEEP_LOSS).add(1);
     return colour.mul(through).add(glow.mul(steep));
-  };
+  }
 
   const view = positionWorldDirection;
   const disc = ({ toward }: Lamp): F => {
@@ -288,23 +317,26 @@ export function skyNodes(): SkyNodes {
     .mul(SUN_DISC)
     .mul(disc(sun))
     .add(vec3(...MOON_DISC).mul(disc(moon)));
-  const overhead = clouds.along(view, float(1e12));
-  /** How much of a cloud's own light the air before it leaves: far ones fade into the sky. */
-  const clear = exp(overhead.near.div(-CLOUD_SIGHT));
-  const background = space
-    .add(discs)
-    .mul(sky.through)
-    .add(sky.glow)
-    .mul(overhead.seen.a)
-    .add(
-      mix(sky.glow.mul(overhead.seen.a.oneMinus()), overhead.seen.rgb, clear),
-    );
+  function background(cloudsAlong: CloudNodes['along']): V {
+    const overhead = cloudsAlong(view, float(1e12));
+    /** How much of a cloud's own light the air before it leaves: far ones fade into the sky. */
+    const clear = exp(overhead.near.div(-CLOUD_SIGHT));
+    return space
+      .add(discs)
+      .mul(sky.through)
+      .add(sky.glow)
+      .mul(overhead.seen.a)
+      .add(
+        mix(sky.glow.mul(overhead.seen.a.oneMinus()), overhead.seen.rgb, clear),
+      );
+  }
 
   return {
     radiance,
-    aerial,
     shade,
-    background,
+    fine: airOver(clouds.along),
+    swift: airOver(swift.along),
+    clouds: swift,
     update: (heavens, zenith, eyeHeight, seconds = 0) => {
       clouds.update(seconds);
       up.value.set(...zenith);

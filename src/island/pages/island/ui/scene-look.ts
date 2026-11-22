@@ -1,4 +1,9 @@
-import { Color, type Scene } from 'three/webgpu';
+import {
+  Color,
+  type PerspectiveCamera,
+  type Scene,
+  type WebGPURenderer,
+} from 'three/webgpu';
 
 import type { CanDispose } from '@/kernel/shared/typings';
 
@@ -29,8 +34,9 @@ export type SceneLook = LookSwitch & {
   readonly start: () => void;
   /**
    * Lights the scene for `heavens` and an eye `height` metres up at
-   * `position`: `stepped` is the frames' seconds under play, and with none the
-   * wall clock drives the sea.
+   * `position`, and readies what the look draws from, for `camera` as it is
+   * about to draw: `stepped` is the frames' seconds under play, and with none
+   * the wall clock drives the sea.
    */
   readonly shine: (
     heavens: Heavens,
@@ -47,6 +53,8 @@ export type LookTold = {
 
 type SceneLookParams = LookTold & {
   scene: Scene;
+  renderer: WebGPURenderer;
+  camera: PerspectiveCamera;
   lighting: GroundLighting;
   /** Whether the renderer runs on WebGPU, which the rippled sea needs; read once started. */
   webgpu: () => boolean;
@@ -64,6 +72,8 @@ type SceneLookParams = LookTold & {
  */
 export function sceneLook({
   scene,
+  renderer,
+  camera,
   lighting,
   webgpu,
   render,
@@ -78,9 +88,9 @@ export function sceneLook({
   let started = false;
   const dress = () => {
     if (!started) return;
-    lighting.dress(fine(), webgpu(), look === 'swift');
-    scene.background = fine() ? null : plainSky;
-    scene.backgroundNode = fine() ? lighting.background : null;
+    const background = lighting.dress(look, webgpu());
+    scene.background = background === null ? plainSky : null;
+    scene.backgroundNode = background;
     render();
   };
   const setLook = (next: Look) => {
@@ -102,6 +112,7 @@ export function sceneLook({
     shine: (heavens, position, height, stepped) => {
       const seconds = stepped ?? Date.now() / 1000;
       const day = lighting.shine(heavens, unit(position), height, seconds);
+      if (look === 'swift') lighting.clouds.prepare(renderer, camera, position);
       if (fine())
         lighting.stirSea({
           ...heavens,

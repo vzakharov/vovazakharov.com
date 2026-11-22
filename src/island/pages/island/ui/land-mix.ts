@@ -39,6 +39,10 @@ export type Ground = Seen & {
   readonly cover: F;
   /** How sandy it is, 0 none to 1 on the beach and the dune belt. */
   readonly sand: F;
+  /** How much it is a rough stretch's shore, 0 none to 1 on its first metres from the water and on a skerry. */
+  readonly rocky: F;
+  /** How far it leans toward its hemisphere's pole, the sine of its slope that way: under 0 it faces the noon sun. */
+  readonly poleward: F;
   /** How far it lies from the eye, metres. */
   readonly away: F;
 };
