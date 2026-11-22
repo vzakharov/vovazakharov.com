@@ -130,19 +130,25 @@ const overOcean = (name: string, height: number): Spot =>
 
 /** One place per kind of ground on Earth, where the kind shows at its best. */
 const KIND_PLACES: Readonly<Record<string, Place>> = {
-  dunes: { latDeg: 44, lonDeg: 10.02, headingDeg: 45 },
   lowland: { latDeg: 49.5, lonDeg: 20 },
   upland: { latDeg: 19, lonDeg: 30.25 },
   alpine: { latDeg: 27.25, lonDeg: 77 },
 };
 const KIND_HEIGHTS = [3000, 300];
+/** On the dune belt, looking along it: dunes are too low to read from the kinds' heights. */
+const DUNES: Place = { latDeg: 44.019, lonDeg: 10.046, headingDeg: 135 };
+const DUNE_HEIGHTS = [300, 60, 2];
 
-const overKinds = (): Spot[] =>
-  Object.entries(KIND_PLACES).flatMap(([kind, place]) =>
+const overKinds = (): Spot[] => [
+  ...DUNE_HEIGHTS.map((height) =>
+    over(DUNES, `dunes-${String(height)}m`, height),
+  ),
+  ...Object.entries(KIND_PLACES).flatMap(([kind, place]) =>
     KIND_HEIGHTS.map((height) =>
       over(place, `${kind}-${String(height)}m`, height),
     ),
-  );
+  ),
+];
 
 /** The named lists `--set` takes, each for one world. */
 export const SHOT_SETS: Readonly<Record<string, readonly Spot[]>> = {
