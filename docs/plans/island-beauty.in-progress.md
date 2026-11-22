@@ -79,6 +79,10 @@ otherwise; his answers get quoted under each when they come.
   climate picked for it; no climate model. The relief and ground children were
   re-briefed by message the same turn.
 
+- 2026-11-22 ~10:02 UTC: «меня не будет совсем, принимай креативные решения
+  сам». No verdicts will come during the run; every look call is the lead's,
+  made from frames and written here.
+
 ## What is there today (read 2026-11-22)
 
 - **Relief** — `src/island/entities/terrain/height/model/relief.ts`: a plateau
@@ -143,12 +147,37 @@ otherwise; his answers get quoted under each when they come.
 
 ## The team
 
-- **Lead** — this session, Fable. Owns the plan, the seams, integration, the
-  preview and the one PR.
-- Children are listed here by session id, branch and package as they start.
+Every child was cut from the lead's branch and pushes to its own; none opens a
+PR. Session ids are claude.ai remote sessions.
+
+- **Lead** — `session_01DaohkBiucpraEhsFyZ58M9`, Fable,
+  `claude/island-beauty-c1rj3b`. The plan, the seams, integration, the preview,
+  the one PR.
+- **Relief** — `session_01DaohkDs92YhSSpimFpJwfJ`, Fable,
+  `claude/island-beauty-relief`. `src/island/entities/terrain/`: each band's own
+  shape, and the cure for what repeats or lines up in the ground.
+- **Ground** — `session_01DaohkDMLPfW237JGnaUuWd`, Fable,
+  `claude/island-beauty-ground`. `ui/ground-lighting.ts`, `lib/land-colour.ts`,
+  `lib/ground-wgsl.ts`: nothing repeating at any distance, then each band's
+  surface; reads the trees' `cover`.
+- **Clouds** — `session_01DaohkDgngV6hJwJPofVnqB`, Fable,
+  `claude/island-beauty-clouds`. `ui/cloud-nodes.ts`, `lib/clouds.ts`: regimes
+  from above, then the sky from the ground and inside.
+- **Trees** — `session_01DaohkFamqbS2PFoQEC5UKv`, Fable,
+  `claude/island-beauty-trees`. The `cover` seam first, then two species as
+  instances; owns the tile worker's page side and `ui/tile-view.ts`.
+- **Keeper** — `session_01DaohkEpVZaFGj3BXpvEYCv`, Sonnet,
+  `claude/island-beauty-board`. The island board's `beauty` zone and the
+  `island-timelapse` release; takes frames from everyone.
+- **Not started: the optimised look** (Opus) — B's third position, clouds at low
+  resolution over several frames. Waits for the clouds' step 1.
 
 ## Built / in flight / left
 
-- In flight: the clouds research (Sonnet agent); a digest of the board, frame
-  and preview mechanics (Sonnet agent).
-- Left: everything else.
+- Built: the common brief; the clouds research; `pnpm shoot:island`, written by
+  a Sonnet agent and not yet committed — the plain look shoots on WebGL2 in 8 s,
+  the fine look on WebGPU stalled in its first move and is being traced.
+- In flight: all five children, each on its step 0 or 1.
+- Left: the shooter working in the fine look, then the baseline frames to the
+  keeper; integration of each child's first step; the preview; the optimised
+  look; the PR.
