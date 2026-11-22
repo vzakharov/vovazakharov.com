@@ -1,4 +1,14 @@
 import {
+  clamp,
+  length,
+  modelWorldMatrix,
+  normalize,
+  positionGeometry,
+  smoothstep,
+  varyingProperty,
+  vec4,
+} from 'three/tsl';
+import {
   AddEquation,
   Color,
   CustomBlending,
@@ -9,6 +19,7 @@ import {
   InstancedMesh,
   MeshBasicNodeMaterial,
   MeshLambertNodeMaterial,
+  OneFactor,
   OneMinusSrcColorFactor,
   ZeroFactor,
 } from 'three/webgpu';
@@ -41,6 +52,13 @@ export const SMALL: Readonly<Partial<Record<TreeKind, 'low' | 'floor'>>> = {
   shade: 'floor',
 };
 
+/** The share of its distance a shade is drawn nearer the eye, and the metres that stays within. */
+const NEARER = 0.03;
+const NEARER_WITHIN = [0.15, 2] as const;
+
+/** The share of its reach from the trunk within which a shade takes its whole share; it takes none at its rim. */
+const FULL_WITHIN = 0.3;
+
 /** One kind's plants at one detail, as instances. */
 type Stand = {
   readonly mesh: InstancedMesh;
@@ -53,10 +71,12 @@ type Stand = {
  * behind it the share of light its colour says, so the ground keeps its own
  * colours under it.
  */
-function shadeMaterial() {
+function shadeMaterial(drawnAt: ReturnType<typeof treeNodes>['drawnAt']) {
   const material = new MeshBasicNodeMaterial({
     vertexColors: true,
     side: DoubleSide,
+    // Both sides in one pass, or a shade would take its share twice.
+    forceSinglePass: true,
     transparent: true,
     depthWrite: false,
     fog: false,
@@ -64,10 +84,29 @@ function shadeMaterial() {
     blendEquation: AddEquation,
     blendSrc: ZeroFactor,
     blendDst: OneMinusSrcColorFactor,
+    // The canvas keeps its own alpha: a shade takes light, never opacity.
+    blendSrcAlpha: ZeroFactor,
+    blendDstAlpha: OneFactor,
     polygonOffset: true,
     polygonOffsetFactor: -2,
     polygonOffsetUnits: -2,
   });
+  // The share as it stands, past the exposure and tone curve a colour would take.
+  const fromTrunk = length(positionGeometry.xz);
+  material.outputNode = vec4(
+    varyingProperty('vec3', 'vInstanceColor').mul(
+      smoothstep(FULL_WITHIN, 1, fromTrunk).oneMinus(),
+    ),
+    1,
+  );
+  /**
+   * Drawn a little nearer the eye than it lies, which moves it nowhere on the
+   * screen: the ground's facets stand a few decimetres off the height field a
+   * shade is laid on, and would cut it. The eye sits at the world's origin.
+   */
+  const seen = modelWorldMatrix.mul(vec4(drawnAt, 1)).xyz;
+  const nearer = clamp(length(seen).mul(NEARER), ...NEARER_WITHIN);
+  material.positionNode = drawnAt.sub(normalize(seen).mul(nearer));
   return material;
 }
 
@@ -81,11 +120,7 @@ export function treeStands(dress: (material: MeshLambertNodeMaterial) => void) {
   group.visible = false;
   const { drawnAt, centre, seconds } = treeNodes();
   const materials = TREE_KINDS.map((kind) => {
-    if (kind === 'shade') {
-      const material = shadeMaterial();
-      material.positionNode = drawnAt;
-      return material;
-    }
+    if (kind === 'shade') return shadeMaterial(drawnAt);
     const material = new MeshLambertNodeMaterial({
       vertexColors: true,
       side: kind === 'conifer' ? DoubleSide : FrontSide,
@@ -109,6 +144,8 @@ export function treeStands(dress: (material: MeshLambertNodeMaterial) => void) {
       const mesh = new InstancedMesh(geometry, materials[k], capacity);
       mesh.setColorAt(0, new Color(1, 1, 1));
       mesh.frustumCulled = false;
+      // Laid and never drawn: in the built scene a shade's fall-off comes out as none.
+      mesh.visible = kind !== 'shade';
       mesh.count = 0;
       group.add(mesh);
       return { mesh, foot, capacity };

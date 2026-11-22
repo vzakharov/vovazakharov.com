@@ -249,11 +249,17 @@ export function groundLighting(): GroundLighting {
   if (deepest === undefined) throw new RangeError('no colour stops');
 
   /** Draws the sea as a surface — ripples, the sky in them, the sun's glint — in place of its flat colour. */
-  const ripple = (seen: Node<'vec4'>) => {
+  const ripple = (seen: Node<'vec4'>, swift: boolean) => {
     const surfaced: Array<[MeshLambertNodeMaterial, Node]> = [
-      [sea, surface.colour(heightNode(), groundColour)],
-      [standIn.sea, surface.colour(heightNode(), groundColour)],
-      [ocean, surface.colour(float(deepest[0]), vec3(...deepest[1]))],
+      [sea, surface.colour(heightNode(), groundColour, { swift })],
+      [standIn.sea, surface.colour(heightNode(), groundColour, { swift })],
+      [
+        ocean,
+        surface.colour(float(deepest[0]), vec3(...deepest[1]), {
+          wide: true,
+          swift,
+        }),
+      ],
     ];
     for (const material of seas) {
       material.positionNode = surface.lifted(heightNode());
@@ -295,7 +301,7 @@ export function groundLighting(): GroundLighting {
     for (const material of seas) material.colorNode = seaColour;
     ocean.colorNode = null;
     if (wearing === null) return null;
-    if (rippled) ripple(wearing.seen);
+    if (rippled) ripple(wearing.seen, look === 'swift');
     clouds.forget();
     return wearing.aired.background;
   };
