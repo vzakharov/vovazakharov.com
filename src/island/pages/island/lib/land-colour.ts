@@ -37,13 +37,13 @@ export const LAND_PALETTE = {
   meadow: toLinear([0.3, 0.5, 0.2]),
   hay: toLinear([0.56, 0.57, 0.3]),
   /** A closed canopy seen from over it: broadleaf low, conifer toward the upland. */
-  broadleaf: toLinear([0.15, 0.31, 0.13]),
-  conifer: toLinear([0.1, 0.22, 0.14]),
+  broadleaf: toLinear([0.2, 0.36, 0.15]),
+  conifer: toLinear([0.14, 0.28, 0.16]),
   /** Bare earth where a lowland slope is too steep to hold turf. */
   earth: toLinear([0.47, 0.37, 0.25]),
   /** The upland: tussock, heath between it, stony soil under both. */
-  tussock: toLinear([0.58, 0.52, 0.3]),
-  heath: toLinear([0.37, 0.27, 0.24]),
+  tussock: toLinear([0.57, 0.53, 0.31]),
+  heath: toLinear([0.4, 0.31, 0.2]),
   stony: toLinear([0.46, 0.4, 0.33]),
   /** Alpine turf, the last green under the rock. */
   turf: toLinear([0.4, 0.44, 0.24]),

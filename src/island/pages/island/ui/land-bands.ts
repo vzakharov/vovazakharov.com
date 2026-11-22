@@ -72,10 +72,10 @@ export function landBands(
     let sum: F = float(0);
     let lost: F = float(0);
     for (const [i, weight] of parts) {
-      sum = sum.add(at(i).value.mul(weight));
+      sum = sum.add(at(i).edging.mul(weight));
       lost = lost.add(
         at(i)
-          .told.oneMinus()
+          .edged.oneMinus()
           .mul(Math.abs(weight) * 0.5),
       );
     }
@@ -85,7 +85,11 @@ export function landBands(
   const edge = (x: F, from: number, to: number, by: Ragged) =>
     smoothstep(float(from).sub(by.lost), float(to).add(by.lost), x.add(by.sum));
   /** A surface's brightness mottled by `parts`, about 1. */
-  const mottled = (parts: Parts) => ragged(parts).sum.add(1);
+  const mottled = (parts: Parts) => {
+    let sum: F = float(1);
+    for (const [i, weight] of parts) sum = sum.add(at(i).value.mul(weight));
+    return sum;
+  };
 
   const inland = smoothstep(SHORE_TOP, 150, height);
   const borders = ragged([
@@ -126,8 +130,13 @@ export function landBands(
       [HAND, 0.06],
     ]),
   );
-  /** Forest's cover, its edge between two vertices broken by the noise an eye this near tells. */
+  /**
+   * Forest's cover, its edge between two vertices broken by the noise an eye
+   * this near tells, and from afar left as soft as the tile's vertices give it.
+   */
   const fringe = ragged([
+    [DISTRICT, 0.1],
+    [HILL, 0.16],
     [FIELD, 0.14],
     [SLOPE, 0.12],
     [PATCH, 0.08],
@@ -158,6 +167,8 @@ export function landBands(
     -0.25,
     0.35,
     ragged([
+      [REGION, 0.35],
+      [DISTRICT, 0.4],
       [HILL, 0.3],
       [FIELD, 0.6],
       [SLOPE, 0.5],
@@ -169,8 +180,24 @@ export function landBands(
     0.12,
     steep.add(at(PATCH).value.mul(0.02)).add(at(STEP).value.mul(0.02)),
   );
+  /** Where the upland keeps a sward: damp ground, in tracts from a district to a country across. */
+  const sward = edge(
+    float(0),
+    -0.1,
+    0.45,
+    ragged([
+      [COUNTRY, 0.45],
+      [REGION, 0.4],
+      [DISTRICT, 0.3],
+      [HILL, 0.2],
+    ]),
+  );
   const moor = mix(
-    mix(paint(LAND_PALETTE.tussock), paint(LAND_PALETTE.heath), heathered),
+    mix(
+      mix(paint(LAND_PALETTE.tussock), paint(LAND_PALETTE.heath), heathered),
+      paint(LAND_PALETTE.turf),
+      sward.mul(0.7),
+    ),
     paint(LAND_PALETTE.stony),
     stony,
   ).mul(

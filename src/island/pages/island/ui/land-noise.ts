@@ -34,6 +34,14 @@ export type OctaveNoise = {
   readonly slope: V;
   /** How much of the wave the eye tells apart, 1 near and 0 past a pixel. */
   readonly told: F;
+  /**
+   * The noise for drawing an edge through: gone to its mean while its wave is
+   * still several pixels wide, since a threshold turns a wave nearer a pixel
+   * into speckle.
+   */
+  readonly edging: F;
+  /** How much of the wave `edging` keeps, 1 near and 0 at a few pixels. */
+  readonly edged: F;
   /** The cell's width, metres. */
   readonly wavelength: number;
 };
@@ -52,6 +60,8 @@ export const QUIET: OctaveNoise = {
   value: float(0),
   slope: vec3(0),
   told: float(0),
+  edging: float(0),
+  edged: float(0),
   wavelength: 1,
 };
 
@@ -159,8 +169,15 @@ export function landNoise(): LandNoise {
       wavelength / 2.5,
       footprint,
     ).oneMinus();
+    const edged = smoothstep(
+      wavelength / 24,
+      wavelength / 7,
+      footprint,
+    ).oneMinus();
     return {
       value: sample.w.mul(told),
+      edging: sample.w.mul(edged),
+      edged,
       slope: a
         .mul(sample.x)
         .add(b.mul(sample.y))
