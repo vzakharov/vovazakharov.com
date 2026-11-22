@@ -20,7 +20,7 @@ import {
 } from './forest-cover';
 
 /** The cube level of the finest placing cells, 38 m across at a face's middle. */
-const FINEST_LEVEL = 18;
+export const FINEST_LEVEL = 18;
 
 /** Candidate spots along a cell's side: a cell holds this many squared. */
 const SPOTS = 4;
@@ -44,11 +44,12 @@ export const tierCell = (tier: number) =>
 /** The distance at which a tier's trees have shrunk to nothing, metres. */
 export const tierReach = (tier: number) => REACH_CELLS * tierCell(tier);
 
-export const TREE_KINDS = ['broadleaf', 'conifer'] as const;
+/** What grows: two kinds of tree, and the bushes and dune grass about them (`undergrowth`). */
+export const TREE_KINDS = ['broadleaf', 'conifer', 'bush', 'tuft'] as const;
 
 export type TreeKind = (typeof TREE_KINDS)[number];
 
-/** One tree: where its foot stands and what sets it apart from its kind's others. */
+/** One plant: where its foot stands and what sets it apart from its kind's others. */
 export type Tree = Spot & {
   readonly kind: TreeKind;
   /** Its height, metres. */
@@ -96,15 +97,37 @@ const SHAPE = roll.struct({
   shade: roll.uniform(0, 1),
 });
 
-const CELL = roll.struct({
+/** What a cell rolls for each of its spots: a place and a chance, and the shape of what grows there. */
+export const CELL = roll.struct({
   spot: roll.over(roll.key({ slot: roll.int }), SPOT),
   shape: roll.over(roll.key({ slot: roll.int }), SHAPE),
 });
 
-/** A kind's shortest and tallest grown tree, metres. */
+/**
+ * The unit direction of spot `slot` of a cell with `side` spots along its
+ * side: `(u, v)` across the spot's own square of the cell.
+ */
+export function spotIn(
+  { face, level, x, y }: CubeCell,
+  slot: number,
+  side: number,
+  u: number,
+  v: number,
+): Vec3 {
+  const lines = 2 ** level;
+  return faceToSphere(
+    face,
+    (2 * (x + ((slot % side) + u) / side)) / lines - 1,
+    (2 * (y + (Math.floor(slot / side) + v) / side)) / lines - 1,
+  );
+}
+
+/** A kind's shortest and tallest grown plant, metres. */
 const TALL: Readonly<Record<TreeKind, readonly [number, number]>> = {
   broadleaf: [9, 19],
   conifer: [11, 26],
+  bush: [0.7, 2.3],
+  tuft: [0.45, 0.95],
 };
 
 /** A typical lean, radians: a couple of degrees. */
@@ -121,7 +144,7 @@ export function tangentsAt(p: Vec3): readonly [Vec3, Vec3] {
 }
 
 /** The ground's uprightness at `p` — the cosine of its slope — from the heights `SLOPE_SPAN` to either tangent. */
-function uprightAt(
+export function uprightAt(
   p: Vec3,
   height: number,
   groundAt: TreeGround['groundAt'],
@@ -137,6 +160,33 @@ function uprightAt(
   return 1 / Math.hypot(1, rise(east), rise(north));
 }
 
+/** A plant of `kind` at `spot` with the rolled `shape`, `grown` of its kind's size. */
+export function plantOf(
+  { p, height }: Spot,
+  kind: TreeKind,
+  shape: Readonly<
+    Record<
+      'tall' | 'girth' | 'leanEast' | 'leanNorth' | 'spin' | 'tint' | 'shade',
+      number
+    >
+  >,
+  grown = 1,
+): Tree {
+  const { tall, girth, leanEast, leanNorth, spin, tint, shade } = shape;
+  const [short, tallest] = TALL[kind];
+  return {
+    p,
+    height,
+    kind,
+    tall: (short + (tallest - short) * tall) * grown,
+    girth,
+    lean: [leanEast * LEAN, leanNorth * LEAN],
+    spin,
+    tint,
+    shade,
+  };
+}
+
 /**
  * The trees standing in `cell`, a pure function of the cell, the ground and
  * the world: each of the cell's spots is rolled a place within its own square
@@ -148,17 +198,10 @@ export function treesIn(cell: CubeCell, ground: TreeGround): Tree[] {
   const { face, level, x, y } = cell;
   const at = `trees/${face}/${String(level)}/${String(x)}/${String(y)}`;
   const rolled = rollWith(CELL, (path) => ground.wordAt(`${at}/${path}`));
-  const lines = 2 ** level;
   const trees: Tree[] = [];
   for (let slot = 0; slot < SPOTS * SPOTS; slot++) {
     const { u, v, chance } = rolled.spot.at({ slot });
-    const i = slot % SPOTS;
-    const j = Math.floor(slot / SPOTS);
-    const p = faceToSphere(
-      face,
-      (2 * (x + (i + u) / SPOTS)) / lines - 1,
-      (2 * (y + (j + v) / SPOTS)) / lines - 1,
-    );
+    const p = spotIn(cell, slot, SPOTS, u, v);
     const height = ground.groundAt(p);
     // Bare at any slope on any soil: the sand's and the slope's readings are spared.
     const easy = { p, height, upright: 1, sand: 0 };
@@ -168,20 +211,9 @@ export function treesIn(cell: CubeCell, ground: TreeGround): Tree[] {
     const upright = uprightAt(p, height, ground.groundAt);
     if (forestCover(ground.seed, { ...easy, sand, upright }) <= chance)
       continue;
-    const { girth, spin, tint, shade, ...shape } = rolled.shape.at({ slot });
+    const shape = rolled.shape.at({ slot });
     const kind = shape.kind < coniferShare(height) ? 'conifer' : 'broadleaf';
-    const [short, tallest] = TALL[kind];
-    trees.push({
-      p,
-      height,
-      kind,
-      tall: (short + (tallest - short) * shape.tall) * stature(height),
-      girth,
-      lean: [shape.leanEast * LEAN, shape.leanNorth * LEAN],
-      spin,
-      tint,
-      shade,
-    });
+    trees.push(plantOf({ p, height }, kind, shape, stature(height)));
   }
   return trees;
 }

@@ -71,11 +71,10 @@ type Soil = Elevated & {
 export type CoverSite = Spot &
   Soil & {
     /**
-     * The width of the reader's cells, metres: an octave fades to its mean from
-     * `WHOLE_AT` cells a wavelength down to `GONE_AT`, and the forest's edge
-     * softens by as much, so a coarse tile carries the average of what a fine
-     * one resolves and differs from the next level by a share of an octave,
-     * never a whole one. 0 keeps every patch.
+     * The width of the reader's cells, metres: an octave fades to its mean
+     * between `WHOLE_AT` and `GONE_AT` cells a wavelength and the forest's edge
+     * softens by as much, so a tile differs from the next level by a share of
+     * an octave, never a whole one. 0 keeps every patch.
      */
     readonly finest?: number;
   };
