@@ -27,7 +27,7 @@ import {
 } from '../model/cover-attribute';
 import { type Coloured, landBands } from './land-bands';
 import { FIELD, GRAIN, HAND, type Parts, PATCH, SLOPE, STEP } from './land-mix';
-import { type Following, landNoise, QUIET } from './land-noise';
+import { ABSENT, type Following, landNoise, QUIET } from './land-noise';
 
 type F = Node<'float'>;
 type V = Node<'vec3'>;
@@ -133,7 +133,7 @@ export function landSurface(height: F, stops: V): LandSurface {
   const wind = vec3(...SAND_RIPPLE.wind);
   /** A look past the plain one: the bands over the octaves coarser than `reach`, and their small relief. */
   const dressed = (look: Look, reach: number): LandDress => {
-    const told = octaves.slice(0, reach);
+    const told = octaves.map((octave, i) => (i < reach ? octave : ABSENT));
     const at = (i: number) => told[i] ?? QUIET;
     const bands = landBands(ground, told, look);
     let slope: V = vec3(0);
