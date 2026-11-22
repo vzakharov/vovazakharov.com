@@ -171,6 +171,77 @@ items:
     updated: [2026-11-22T15:50:00.000Z, agent:board]
     box: [12690, 7850, 420, pink]
     text: '69. Failure. 11:48 UTC: the 5-hour limit cut all six sessions off mid-step. The operator woke them at 15:39.'
+  - id: beauty-clouds-1-row
+    type: text
+    updated: [2026-11-22T17:05:00.000Z, agent:board]
+    box: [11800, 11330, 1000, body]
+    text: "Clouds, step 1, the clouds session's own frames from its branch (not yet merged). Cards 94 to 104, each with the flaw the clouds session named. Befores: cards 1, 2, 4 and 5."
+  - id: img-beauty-94-clouds-1-coast-20000km
+    type: image
+    updated: [2026-11-22T17:05:00.000Z, agent:board]
+    box: [11800, 11400, 360]
+    src: images/beauty-clouds-1-coast-20000km.webp
+    text: '94. The disc from 20,000 km: cloud in systems (bands, shields, clear seas) where the baseline had even speckle. Clouds session: "Wrong: fronts read as crisp white worms against soft shields." The frame shows soft pale shields and a few sharp white streaks.'
+  - id: img-beauty-95-clouds-1-coast-2300km
+    type: image
+    updated: [2026-11-22T17:05:00.000Z, agent:board]
+    box: [12185, 11400, 360]
+    src: images/beauty-clouds-1-coast-2300km.webp
+    text: '95. Europe from 2,300 km, the pair of card 1: fields of open cells with clear air between, a front on the right. Clouds session: "Wrong: the open cells still read as lace, and the grey shields are featureless." The land under the cloud shows blocky green squares.'
+  - id: img-beauty-96-clouds-1-coast-820km
+    type: image
+    updated: [2026-11-22T17:05:00.000Z, agent:board]
+    box: [12570, 11400, 360]
+    src: images/beauty-clouds-1-coast-820km.webp
+    text: '96. The same from 820 km: cell walls as broken clumps. Clouds session: "Wrong: walls too thin and wiry, no relief on them." Between the walls the forest shows as large pale-and-dark rectangles.'
+  - id: img-beauty-97-clouds-1-ocean-2300km
+    type: image
+    updated: [2026-11-22T17:05:00.000Z, agent:board]
+    box: [12955, 11400, 360]
+    src: images/beauty-clouds-1-ocean-2300km.webp
+    text: '97. The open ocean from 2,300 km, the pair of card 5: equatorial clusters and cirrus streaks. Clouds session: "Wrong: the clusters are blobs of value noise." The clusters are white lumps full of holes.'
+  - id: img-beauty-98-clouds-1-storm-3000km
+    type: image
+    updated: [2026-11-22T17:05:00.000Z, agent:board]
+    box: [13340, 11400, 360]
+    src: images/beauty-clouds-1-storm-3000km.webp
+    text: '98. A cyclone from 3,000 km, front and cold sector. Clouds session: "Wrong: the front''s band has a hard edge." The frame also shows a lumpy white column standing up from the lower centre.'
+  - id: img-beauty-99-clouds-1-terminator-8000km
+    type: image
+    updated: [2026-11-22T17:05:00.000Z, agent:board]
+    box: [11800, 11860, 360]
+    src: images/beauty-clouds-1-terminator-8000km.webp
+    text: '99. Day into night from 8,000 km: clouds redden at the line and go dark past it, none glow. Clouds session: "Wrong: nothing I can see." The frame shows the line as one sharp vertical edge.'
+  - id: img-beauty-100-clouds-1-deck-300km
+    type: image
+    updated: [2026-11-22T17:05:00.000Z, agent:board]
+    box: [12185, 11860, 360]
+    src: images/beauty-clouds-1-deck-300km.webp
+    text: '100. A stratocumulus deck from 300 km: mottled closed cells cut by clear veins, opening at its edge. Clouds session: "Wrong: veins a little too even in width." The frame reads as cracked paving.'
+  - id: img-beauty-101-clouds-1-deck-3km
+    type: image
+    updated: [2026-11-22T17:05:00.000Z, agent:board]
+    box: [12570, 11860, 360]
+    src: images/beauty-clouds-1-deck-3km.webp
+    text: '101. Failure. Just over that deck, 3 km. Clouds session: "Soft grey with almost no texture. This is wrong outright." The frame is a grey blur with two darker smudges.'
+  - id: img-beauty-102-clouds-1-deck-2m
+    type: image
+    updated: [2026-11-22T17:05:00.000Z, agent:board]
+    box: [12955, 11860, 360]
+    src: images/beauty-clouds-1-deck-2m.webp
+    text: '102. Under the deck at 2 m. Clouds session: "Overcast with faint structure, a bright strip at the horizon. Bland but clean, no hatch." Flat grey over a flat navy sea, with a sliver of blue sky at the left edge.'
+  - id: img-beauty-103-clouds-1-sky-2m
+    type: image
+    updated: [2026-11-22T17:05:00.000Z, agent:board]
+    box: [13340, 11860, 360]
+    src: images/beauty-clouds-1-sky-2m.webp
+    text: '103. The ground sky at 2 m, the pair of card 4. Clouds session: "The baseline''s ground sky: thin grey smears on the horizon. Worse than 0000-before-sky-2m, which had a shaped cloud bank (with hatch)." The frame shows a clear blue gradient with no cloud at all, over a thin coast line and a flat sea.'
+  - id: img-beauty-104-clouds-1-coast-10600m
+    type: image
+    updated: [2026-11-22T17:05:00.000Z, agent:board]
+    box: [11800, 12320, 360]
+    src: images/beauty-clouds-1-coast-10600m.webp
+    text: '104. The coast from 10.6 km, the pair of card 2. Clouds session: "One small flat cloud over the land; the hatch is gone, so is the cotton. Not better yet." Visible: a single small white cloud over dark forest, pale meadow patches below it.'
   - id: beauty-coast-1-row
     type: text
     updated: [2026-11-22T16:55:00.000Z, agent:board]
