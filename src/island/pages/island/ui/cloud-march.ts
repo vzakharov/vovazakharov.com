@@ -33,7 +33,7 @@ const STEP_HIDES = 60;
 const LEAST_STEEP = 0.07;
 
 /** Coarse reads a ray under the highest tops spends finding where its first cloud begins. */
-const SEARCHES = 6;
+const SEARCHES = 4;
 /** The nearest of them to the eye, metres: nearer, the eye is in the cloud it finds. */
 const NEAREST = 40;
 /**
@@ -44,7 +44,7 @@ const NEAREST = 40;
 const SEARCH_PAD = 0.25;
 const TOP_PAD = 0.08;
 /** Full steps from where the cloud begins to the stretch's end. */
-const INNER_STEPS = 4;
+const INNER_STEPS = 6;
 /** The scale of the first of them: at least this many metres, and at least this share of its distance. */
 const FIRST_STEP = 60;
 const FIRST_SHARE = 0.012;

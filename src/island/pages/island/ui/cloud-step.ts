@@ -1,4 +1,14 @@
-import { exp, float, If, max, min, mix, normalize, vec3 } from 'three/tsl';
+import {
+  exp,
+  float,
+  If,
+  max,
+  min,
+  mix,
+  normalize,
+  smoothstep,
+  vec3,
+} from 'three/tsl';
 import type { Node } from 'three/webgpu';
 
 import { R } from '@/island/shared/globe';
@@ -35,6 +45,9 @@ export type StepKit = Parameters<typeof iceSeen>[0] & {
 
 /** What a metre of full cloud takes from a ray. */
 const PER_METRE = 0.012;
+/** How near the eye, metres, a cloud thins toward `NEAR_THIN` of what it takes. */
+const NEAR_CLEAR = 600;
+const NEAR_THIN = 0.15;
 /** How much deeper a cloud is under the heaviest billow of its cells than under none. */
 const BILLOW_DEPTH = 1.4;
 /** Metres of cloud between the sun and the deepest crease between a cloud's billows. */
@@ -156,8 +169,15 @@ export function cloudSteps({
           .div(lamps.rise),
         DEEPEST_SHADE,
       );
+      // An eye among the cloud sees through the wisps nearest it to the masses beyond.
+      const clear = smoothstep(0, NEAR_CLEAR, near.at.add(far.at).mul(0.5));
       taken.assign(
-        exp(thick.mul(far.at.sub(near.at)).mul(-PER_METRE)).oneMinus(),
+        exp(
+          thick
+            .mul(far.at.sub(near.at))
+            .mul(mix(NEAR_THIN, 1, clear))
+            .mul(-PER_METRE),
+        ).oneMinus(),
       );
       glow.assign(
         light
