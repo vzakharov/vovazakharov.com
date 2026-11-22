@@ -2,10 +2,67 @@
 
 Branch `claude/island-beauty-speed`, cut from `claude/island-beauty-c1rj3b`.
 
-## Report — 2026-11-22, item 1: `?without=` and Measure (adefe68fb)
+## Report — 2026-11-22, item 2: swift's history (e78f0e213, a996a3386) — FINAL
+
+**Swift's clouds no longer smear or comb; after a turn they settle where a
+fresh march puts them.** Lead: the branch head is ready to merge into yours;
+nothing in it touches `bounds.ts`, the trees' LOD or the ground's normal.
+
+- **The smear (e78f0e213)** came from the buffer marching every ray out to
+  1e12 m. A ray that falls toward the sea under the weather height read its
+  weather on the planet's far side, so swift's coast clouds were someone
+  else's clouds, stretched. The buffer's rays now stop at the sea's sphere,
+  in the march and in the stretch each fragment cuts, as fine's do.
+- **The comb (a996a3386)** was the buffer's one freshly marched pixel per 2×2
+  block sitting sharp beside three carried ones, which the bilinear history
+  read softens: along a sharp cloud edge that alternates every second screen
+  pixel. The page now reads the buffer through a tent (four bilinear taps half
+  a buffer pixel off each way), so fresh and carried pixels blend.
+  - The crops show the horizon band at 560 m (`--shot b:44,10,560,0,15,22.8333`).
+    In `speed-comb-560m.jpg`, top to bottom: swift before, swift now, fine.
+    `speed-comb-300m.jpg` is lowland 300 m (`49.5,20,300,0,15,22.8333`), swift
+    over fine.
+  - Measured as the mean second difference along x over the band rows
+    (alternation energy): swift before 1.23, swift now 0.46, fine 0.64. At
+    300 m: swift 0.41, fine 0.60. Swift now sits below fine because it is
+    softer, not combed.
+- **No crawl on a turn.** Six shots at 560 m, heading 0° to 15° in 3° steps,
+  in one tab (each placed, settled and drawn as the shooter does):
+  - swift's comb energy is 0.45–0.47 at every heading;
+  - swift against fine over the band, 5.3–6.0 grey levels mean, is the
+    half-res softness and moves only with the scene.
+- **Convergence.** Swift at 15° after the turn against swift shot at 15° on a
+  fresh page: 0.07 mean over the frame, 0.54 over the band, the JPEG's noise.
+  The history therefore holds no error a turn leaves behind. It holds clouds
+  only: the buffer's rays ignore the ground, and a fragment cuts its own share.
+- Gates on a996a3386: typecheck, lint, format:check, type-overlap, test,
+  knip, all green.
+
+**Left:**
+
+- item 3 (per-vertex air and cloud shadow in swift) was not started; it waits
+  on the operator's Measure table, which says whether `air` and `cloud-shadow`
+  are worth the hour;
+- swift is softer than fine on thin cloud strands at the horizon. That is the
+  half-resolution buffer, which is the price of swift; a Catmull-Rom history
+  read would sharpen it at four more taps;
+- the `?measure` autostart has not been run in a browser end to end; the
+  switches and the Measure code compile and the switches render without
+  shader errors in SwiftShader.
+
+## Report — 2026-11-22, item 1: `?without=` and Measure (605bee2dc)
 
 **The preview can now tell us what each cost takes on the operator's
-machine.** Lead: adefe68fb is ready to publish.
+machine, in one visit and one click.** Lead: 605bee2dc is ready to publish.
+Two links for the operator, each running the whole measurement on load:
+
+- dune place, facing the sea:
+  `https://preview.vovazakharov.com/island?measure#1@10.28452,-0.47031,22.3,243.3,10.7`
+- the same place, facing inland:
+  `https://preview.vovazakharov.com/island?measure#1@10.28452,-0.47031,22.3,58.0,10.7`
+
+  The coordinates are the lead's, as lat,lon in world 1. If the place was in
+  another world, the number after `#` changes.
 
 - **`?without=`** (comma-separated, beside `#place` or `?play`) leaves each
   named cost out of fine and swift; plain is untouched. The names:
@@ -23,12 +80,24 @@ machine.** Lead: adefe68fb is ready to publish.
   boundary, naming the known ones.
 
 - **The HUD (`I`)** reads `frame 16.7 ms, 60 fps (mean of 60)`: the mean of
-  the last 60 frames.
-- **Measure** in the HUD steps through none and then each name alone, in the
-  look on screen. For each it waits 60 frames to settle, takes the 60-frame
-  mean, then puts back what was left out before. It prints a table with a copy
-  button, ~16 s at 60 fps. **Hold still while it runs**, because a moving eye
-  changes the frame under it. Run it once in fine and once in swift.
+  the last 60 frames, the same mean Measure reports.
+- **Measure** (the HUD button, or `?measure` on the address, which opens the
+  HUD and starts at the first frame) runs 17 readings by itself:
+  - plain, swift and fine whole;
+  - then swift and fine each without each name alone.
+
+  Each reading waits until every tile is in and 60 more frames are drawn,
+  then takes the mean and the worst of the next 60. About 2000 frames in all:
+  half a minute at 60 fps, about 1.5 min if fine runs at 25 fps. Afterwards it
+  puts back the look and the `?without=` it started with.
+
+  The table opens with the commit, the view's link, lat/lon, height, heading,
+  pitch, sun time and tiles, then the backend and the canvas in device
+  pixels. One row per reading: look, left out, ms, fps, ms saved against that
+  look whole, worst frame. A Copy button takes it. If the tab is hidden
+  during the run, so the frames are throttled, the first line reads
+  `INVALID`. Nobody needs to touch anything.
+
 - **knip** is green: the two `detailReach` re-exports went
   (`entities/terrain/height/index.ts`, `entities/terrain/index.ts`). Nothing
   outside the slice read them; `bounds.ts` keeps the function.
