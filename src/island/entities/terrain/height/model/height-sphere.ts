@@ -1,11 +1,12 @@
 import { length, R, type Vec3 } from '@/island/shared/globe';
 
-import { groundSlope } from './bounds';
+import { groundSlope, reliefReach } from './bounds';
 import { COAST_STEEPEST, type CoastDistance } from './coast-detail';
 import { LATTICE_STEEPEST, turned } from './lattice';
 import { OCTAVES } from './octaves';
 import { upliftAtSphere, upliftSlope } from './ranges';
 import { reliefAt } from './relief';
+import { HIGHEST_GROUND, LOWEST_GROUND } from './relief-numbers';
 import { sandAt } from './shore';
 import { noiseSalt, valueNoise3 } from './value-noise';
 
@@ -42,6 +43,35 @@ export const SPHERE_GROUND_SLOPE = groundSlope(
   upliftSlope(LATTICE_STEEPEST),
   COAST_STEEPEST,
 );
+
+/**
+ * Each cut `groundSpread` weighs, with twice its relief's reach and the slope
+ * of the ground drawn at it over the coast read whole.
+ */
+const SPREAD_CUTS = [0, ...OCTAVES.map(({ wavelength }) => wavelength)].map(
+  (finest) => ({
+    reach: 2 * reliefReach(finest),
+    slope: groundSlope(
+      NOISE_STEEPEST,
+      upliftSlope(LATTICE_STEEPEST),
+      COAST_STEEPEST,
+      finest,
+    ),
+  }),
+);
+
+/**
+ * A bound on how far apart the whole ground (`heightAtSphere` with no detail
+ * cut) stands at two surface points at most `metres` apart, any coast and
+ * seed: through the ground drawn at one cut, which differs from it by at most
+ * its relief's reach at either end and between them by at most its slope;
+ * never more than the ground's whole range.
+ */
+export const groundSpread = (metres: number): number =>
+  Math.min(
+    HIGHEST_GROUND - LOWEST_GROUND,
+    ...SPREAD_CUTS.map(({ reach, slope }) => reach + slope * metres),
+  );
 
 /**
  * Metres above sea level over direction `p` (any length but zero), negative

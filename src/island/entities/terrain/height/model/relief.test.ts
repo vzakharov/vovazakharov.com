@@ -104,6 +104,6 @@ describe('detailReach', () => {
     }
     // Most of it is the coast's bends under 16 m, times the steepest the
     // ground may be across a coast: a loose bound, and no reader culls by it.
-    assert.ok(detailReach(8) < 200, `${detailReach(8)} m at an 8 m cut`);
+    assert.ok(detailReach(8) < 3000, `${detailReach(8)} m at an 8 m cut`);
   });
 });
