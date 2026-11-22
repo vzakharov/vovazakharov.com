@@ -210,7 +210,7 @@ items:
   - id: z-beauty-clouds2
     type: zone
     updated: [2026-11-22T17:50:00.000Z, agent:board]
-    box: [10460, 6360, 1600, 640, green]
+    box: [10460, 6360, 1600, 1100, green]
     text: '11. Clouds, second step: the march in eight steps (cards 117 to 120)'
   - id: beauty-clouds-2-row
     type: text
@@ -241,6 +241,24 @@ items:
     box: [11655, 6500, 360]
     src: images/beauty-clouds-2-sky-2m.webp
     text: '120. The baseline''s ground sky with eight steps, the pair of card 4. Clouds session: committed without a close look, "treat it as unjudged." The frame shows a clear blue gradient with no cloud at all, a green coast and a thin yellow beach line above the sea.'
+  - id: img-beauty-121-clouds-2-coast-820km
+    type: image
+    updated: [2026-11-22T17:55:00.000Z, agent:board]
+    box: [10500, 6960, 360]
+    src: images/beauty-clouds-2-coast-820km.webp
+    text: '121. The cumulus field over northern Italy from 820 km, the after of cards 112 and 96. Clouds session: "Lumpy separate heaps in place of the square blocks; wrong: heaps near one size where the field is dense, like bubble wrap." The frame shows a dense speckle of small pale flakes, each a little polygon, thinning out toward the bottom.'
+  - id: img-beauty-122-clouds-2-coast-2300km
+    type: image
+    updated: [2026-11-22T17:55:00.000Z, agent:board]
+    box: [10885, 6960, 360]
+    src: images/beauty-clouds-2-coast-2300km.webp
+    text: '122. Europe from 2,300 km, the after of cards 95 and 1. Clouds session: "A grey shield with open cells at its edge; wrong: the cells are still thin lace, the shield featureless." The frame shows one smooth white shield over France and white lace patches to the north-east.'
+  - id: img-beauty-123-clouds-2-coast-10600m
+    type: image
+    updated: [2026-11-22T17:55:00.000Z, agent:board]
+    box: [11270, 6960, 360]
+    src: images/beauty-clouds-2-coast-10600m.webp
+    text: '123. From 10.6 km looking to the horizon, the after of cards 113 and 104. Clouds session: "Separate cumulus over land; wrong: flat-lit soft blobs, no dark base or heaped top." The frame shows a dozen small white patches with soft edges over a green-blue forest.'
   - id: z-beauty-merge5
     type: zone
     updated: [2026-11-22T17:30:00.000Z, agent:board]
