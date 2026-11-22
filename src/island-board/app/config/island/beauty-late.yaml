@@ -207,6 +207,40 @@ items:
     box: [8400, 6500, 360]
     src: images/beauty-sea-0-operator-moire.webp
     text: '116. The sea before its package: the operator''s own screenshot, WebGPU, Fine look, low sun over open sea. His words (the Russian part translated): "just in case, the water is still moire-patterned (not complaining; progress on all fronts is obvious)". Lead: "The sun''s glitter shows a woven grid: the wind sea is a sum of a few everlasting plane waves on an integer lattice, and their beats draw it." The frame shows a wide glitter column with a criss-cross ripple texture; the rest of the sea is smooth.'
+  - id: z-beauty-clouds2
+    type: zone
+    updated: [2026-11-22T17:50:00.000Z, agent:board]
+    box: [10460, 6360, 1600, 640, green]
+    text: '11. Clouds, second step: the march in eight steps (cards 117 to 120)'
+  - id: beauty-clouds-2-row
+    type: text
+    updated: [2026-11-22T17:50:00.000Z, agent:board]
+    box: [10500, 6430, 1500, body]
+    text: "The clouds member's own frames, branch claude/island-beauty-clouds: fair-weather cumulus from the ground, four steps then eight."
+  - id: img-beauty-117-clouds-1-fair-2m
+    type: image
+    updated: [2026-11-22T17:50:00.000Z, agent:board]
+    box: [10500, 6500, 360]
+    src: images/beauty-clouds-1-fair-2m.webp
+    text: '117. Fair-weather cumulus from 2 m, the march in four steps. Clouds session: "Wrong: each far cloud is a stack of level bars, and the near ones are grey streaks." The frame shows three thin grey lenses stacked on the horizon and long dark streaks at the upper right.'
+  - id: img-beauty-118-clouds-2-fair-2m
+    type: image
+    updated: [2026-11-22T17:50:00.000Z, agent:board]
+    box: [10885, 6500, 360]
+    src: images/beauty-clouds-2-fair-2m.webp
+    text: '118. The same view with eight steps and the sub-step waves faded, the after of card 117. Clouds session: "The bars are soft lenses now; wrong: blurred as if smeared sideways, faint stripes left, no flat bases or heaped tops." The frame shows soft ribbed lenses and one big smooth grey slab at the upper right.'
+  - id: img-beauty-119-clouds-2-fair-3km
+    type: image
+    updated: [2026-11-22T17:50:00.000Z, agent:board]
+    box: [11270, 6500, 360]
+    src: images/beauty-clouds-2-fair-3km.webp
+    text: '119. Just over that cloud field, from 3 km. Clouds session: "A soft cloud sea with shaded hollows, no hatch. Wrong: too soft, no fine billows." The frame is a smooth grey-white sheet with a few dark hollows, blue sea at the upper left.'
+  - id: img-beauty-120-clouds-2-sky-2m
+    type: image
+    updated: [2026-11-22T17:50:00.000Z, agent:board]
+    box: [11655, 6500, 360]
+    src: images/beauty-clouds-2-sky-2m.webp
+    text: '120. The baseline''s ground sky with eight steps, the pair of card 4. Clouds session: committed without a close look, "treat it as unjudged." The frame shows a clear blue gradient with no cloud at all, a green coast and a thin yellow beach line above the sea.'
   - id: z-beauty-merge5
     type: zone
     updated: [2026-11-22T17:30:00.000Z, agent:board]
