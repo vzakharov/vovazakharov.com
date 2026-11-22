@@ -17,6 +17,10 @@ Everything is under `src/island/pages/island/`.
   (`COVER_ATTRIBUTE`, `SAND_ATTRIBUTE` in `model/cover-attribute.ts`).
   `coniferShare(height)` and `stature(height)` are the two other things height
   decides.
+- **`model/undergrowth.ts`** — `undergrowthIn(cell, ground)`: bushes (under
+  the forest, thinly in the open) and tufts of dune grass (on sand above 3 m),
+  6×6 spots per finest cell, so drawn to 305 m. Two more kinds in the same
+  view; meshes in `ui/undergrowth-meshes.ts`.
 - **`model/tree-placing.ts`** — `treesIn(cell, ground)`: the trees of one cube
   cell, a pure function of the world number, the cell and the ground. Each cell
   has 4×4 jittered spots; a spot holds a tree where its rolled chance is under
@@ -25,9 +29,9 @@ Everything is under `src/island/pages/island/`.
 - **`ui/tree-meshes.ts`** — the two kinds at three details, built in code: unit
   height, foot at the origin, vertex colours.
 - **`ui/tree-nodes.ts`** — what the vertex shader does to a tree: shrinks it to
-  its foot over the last 45 % of its tier's reach, widens a coarse tier's tree
-  (to 2.5× at most) over the span the tier below shrinks in, and bends it in
-  the wind — gusts crossing the ground, seen within 400 m.
+  its foot over the last 35 % of its tier's reach, widens a coarse tier's tree
+  (to 3× at most) between 15 % and 35 % of its own reach, and bends it in the
+  wind — gusts crossing the ground, seen within 400 m.
 - **`ui/tree-view.ts`** — six `InstancedMesh`es. Per frame: lists the cells in
   reach, rolls missing ones for 3 ms, lays instances out again every 7 m the eye
   moves.
@@ -36,8 +40,8 @@ Everything is under `src/island/pages/island/`.
 
 ## Numbers others depend on
 
-- Budget: 26,000 instances at most (per kind: 600 near ≤ 80 m, 4,400 mid
-  ≤ 320 m, 8,000 far). Closed canopy underfoot draws about 9,000.
+- Budget: 13,000 instances at most per kind, four kinds (600 near ≤ 80 m,
+  4,400 mid ≤ 320 m, 8,000 far). Closed canopy underfoot draws about 9,000.
 - The worker's tile fill costs about 1.07× what it did without `cover`.
 - Trees draw in the fine look only: `treeView.setShown(fine)`.
 - Trees have no collision and cast no shadow.
@@ -47,4 +51,6 @@ Everything is under `src/island/pages/island/`.
 - Rolling a full surround at closed canopy takes about 1.3 s of main-thread
   time, spread at 3 ms a frame: after a jump the far trees arrive over a second
   or two. Moving it to the tile worker would remove that.
-- No undergrowth, no dune grass.
+- The placed trees close a canopy to about 400 m and cover under half the
+  ground to 1.2 km, a few per cent past it: the ground's own canopy colour has
+  to carry a forest from there.
