@@ -262,9 +262,6 @@ PR. Session ids are claude.ai remote sessions.
 
 ## Built / in flight / left
 
-- Built: the common brief; the clouds research; `pnpm shoot:island` and the
-  eleven `0000-before-*` frames (ee989e9e); the trees' `cover` seam (f54e984b1)
-  and the board's `beauty` zone, both merged at 62d542e4c.
 - The shooter draws on WebGL2: SwiftShader's WebGPU device is lost here at the
   first tile upload whatever the launch flags, so no frame of this run shows the
   rippled sea. Beat: more hours on the software device — the land, trees and
@@ -278,11 +275,6 @@ PR. Session ids are claude.ai remote sessions.
   functions of place and from height; per-vertex `cover` fades toward a
   per-fragment expectation by ~150 km, and `tileCover` is band-limited the way
   the relief is, so a tile and its parent never differ by a whole patch.
-- Merged through 72d2324dd, every merge gated: trees' sand seam, cover across
-  levels, wind, undergrowth, far tier; speed's three looks on B and the touch
-  look button (`ui/look-button.tsx`); the coast's warp and `groundSpread`;
-  ground's forest by expectation, canopy tone, snow, moor, scree; the clouds'
-  step 1.
 - The lattice seam is `ui/lattice-value.ts`: `latticeValue` and `worldCell`
   shift every shader lattice by a roll of the world (`rollLattice(world)` at
   each pool start). Ground and clouds both read it (0599b47e0).
@@ -388,7 +380,11 @@ does not fit, and a half-merged team is worth less than a smaller whole.
 
 - Frame time on an M2 Pro, target a swift look near 30 ms: whatever of speed's
   and sea's lists did not land (see their notes), the tile bracket, trees' fine
-  triangle count (1.2M → ~800k).
+  triangle count (1.2M → ~800k). The operator asked (21:20) whether the trick of
+  a sixteenth of the pixels a frame was tried: it is what swift's clouds do, and
+  only they. The same for the whole frame — half resolution with a jittered eye,
+  rebuilt from the frames before by depth — is the candidate that keeps the
+  picture; a plain half-resolution swift loses sharpness and waits on his word.
 - Ground: straight tile edges in the lowland's meadow colour from 4–34 km, the
   rock's dot screen, contour stripes on grass slopes — check each on fresh
   frames first, ground's last commits may have cured some.
