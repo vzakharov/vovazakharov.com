@@ -8,8 +8,11 @@ attribute was added.
 ## What the ground is now
 
 - **`shore.ts`** — the beach, the dune belt and the lowland floor. Dunes: up to
-  12 m, ridges 110 m apart, bent and broken into runs by three noise octaves
-  (780, 390, 195 m), from 30 m in, gone by ~850 m. The
+  22 m, ridges 160 m apart with the steep face inland, bent and broken into
+  runs by three noise octaves
+  (780, 390, 195 m), from 30 m in to 1.5 km, thinning where the ground under
+  them passes 90 m. Ground over 20 m is not sand-coloured, so most dunes draw
+  green: the colour is the renderer's to settle. The
   floor is 65 m, reached over 700 m, so ground is above the sand band (20 m)
   from ~260 m inland.
 - **`octaves.ts`** — the 17 noise octaves (400 km → 6 m) and the three kinds of
