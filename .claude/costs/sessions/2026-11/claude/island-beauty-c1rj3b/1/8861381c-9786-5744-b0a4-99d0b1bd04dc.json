@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 632578,
-    "cacheWrite5mTokens": 692690,
-    "cacheWrite1hTokens": 1035074,
-    "cacheReadTokens": 71748875,
-    "outputTokens": 388752,
-    "thinkingTokens": 79188,
-    "responses": 407,
-    "costUsd": 43.80748399999998
+    "inputTokens": 635078,
+    "cacheWrite5mTokens": 694670,
+    "cacheWrite1hTokens": 1198920,
+    "cacheReadTokens": 77607590,
+    "outputTokens": 435326,
+    "thinkingTokens": 90634,
+    "responses": 439,
+    "costUsd": 49.503522999999994
   },
   "estimate": {
     "at": "2026-11-22T10:04:22.431Z",
@@ -52,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkBiucpraEhsFyZ58M9",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-22T09:48:38.998Z",
-  "lastResponseAt": "2026-11-22T17:18:38.176Z",
+  "lastResponseAt": "2026-11-22T17:30:21.414Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 24.96560949999999,
   "ownTurns": {
-    "inputTokens": 525,
+    "inputTokens": 584,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 1035074,
-    "cacheReadTokens": 58763265,
-    "outputTokens": 242721,
-    "thinkingTokens": 69940,
-    "responses": 275,
-    "costUsd": 38.02687700000001
+    "cacheWrite1hTokens": 1198920,
+    "cacheReadTokens": 64320455,
+    "outputTokens": 278417,
+    "thinkingTokens": 81386,
+    "responses": 306,
+    "costUsd": 43.188163000000024
   },
   "subagents": {
     "inputTokens": 198,
@@ -77,14 +77,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 13111,
-      "cacheWrite5mTokens": 4748,
-      "cacheWrite1hTokens": 1035074,
-      "cacheReadTokens": 61707221,
-      "outputTokens": 275974,
-      "thinkingTokens": 69940,
-      "responses": 287,
-      "costUsd": 40.111734200000015
+      "inputTokens": 15611,
+      "cacheWrite5mTokens": 6728,
+      "cacheWrite1hTokens": 1198920,
+      "cacheReadTokens": 67565936,
+      "outputTokens": 322548,
+      "thinkingTokens": 81386,
+      "responses": 319,
+      "costUsd": 45.80777320000003
     },
     "claude-sonnet-5-5/standard": {
       "inputTokens": 198,
@@ -203,13 +203,45 @@
         "estimatedUsd": 0.0
       },
       "billedUsd": 0.537207
+    },
+    {
+      "at": "2026-11-22T17:24:53.090Z",
+      "trigger": "auto",
+      "compactedFrom": 304688,
+      "summaryChars": 21983,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "docs/plans/island-beauty.in-progress.md",
+        "endedAt": "2026-11-22T17:25:11.216Z",
+        "contextTokens": 128996,
+        "spend": {
+          "inputTokens": 6,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 63382,
+          "cacheReadTokens": 293834,
+          "outputTokens": 1507,
+          "thinkingTokens": 268,
+          "responses": 3,
+          "costUsd": 1.1332068
+        }
+      },
+      "rereads": {
+        "calls": 3,
+        "byTool": {
+          "Bash": 1,
+          "Read": 2
+        },
+        "estimatedTokens": 3509,
+        "estimatedUsd": 0.0653782
+      },
+      "billedUsd": 0.534753
     }
   ],
   "telemetry": {
-    "events": 407,
-    "matched": 367,
-    "matchedTableUsd": 41.54394339999998,
-    "matchedEventUsd": 41.54394339999998,
+    "events": 439,
+    "matched": 398,
+    "matchedTableUsd": 46.70522939999999,
+    "matchedEventUsd": 46.70522939999999,
     "unseen": {
       "web_fetch_apply": {
         "inputTokens": 469885,
@@ -232,14 +264,14 @@
         "costUsd": 0.12026189999999999
       },
       "compact": {
-        "inputTokens": 8032,
-        "cacheWrite5mTokens": 1785,
+        "inputTokens": 10473,
+        "cacheWrite5mTokens": 3765,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 905187,
-        "outputTokens": 33071,
+        "cacheReadTokens": 1206712,
+        "outputTokens": 43949,
         "thinkingTokens": 0,
-        "responses": 3,
-        "costUsd": 1.5859834000000002
+        "responses": 4,
+        "costUsd": 2.1207364
       },
       "prompt_suggestion": {
         "inputTokens": 4554,
@@ -261,10 +293,10 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 1307,
-    ".json": 366,
-    ".yaml": 555,
-    ".ts": 6171,
+    ".md": 1377,
+    ".json": 490,
+    ".yaml": 786,
+    ".ts": 6883,
     ".tsx": 41,
     ".scss": 28
   }
