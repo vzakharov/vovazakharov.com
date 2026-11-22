@@ -36,6 +36,8 @@ export type IslandScene = LookSwitch & {
   readonly where: () => Where;
   /** The drawn frames' pace; none before the first frame, nor under play. */
   readonly pace: () => Pace | undefined;
+  /** Whether every tile the view now selects is drawn; false until ready. */
+  readonly whole: () => boolean;
   /** The look on screen. */
   readonly look: () => Look;
   /** The costs the full looks leave out now. */

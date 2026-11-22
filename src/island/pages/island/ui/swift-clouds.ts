@@ -13,6 +13,7 @@ import {
   screenCoordinate,
   screenUV,
   select,
+  sqrt,
   texture,
   uniform,
   vec2,
@@ -39,6 +40,7 @@ import { R, type Vec3 } from '@/island/shared/globe';
 
 import { HIGHEST_TOP, LOWEST_BASE } from '../lib/clouds';
 import type { CloudFrame, CloudNodes } from './cloud-nodes';
+import type { F } from './cloud-noise';
 import { cloudRays } from './cloud-rays';
 
 type V = Node<'vec3'>;
@@ -102,11 +104,26 @@ export function swiftClouds(
   frame: CloudFrame,
 ): SwiftClouds {
   const rays = cloudRays(frame);
-  /** The whole stretch of a ray from the eye through every layer the clouds may fill, the planet ignored. */
+  /**
+   * How far a ray runs before the sea's sphere stops it, or past every cloud
+   * when it misses: the march reads a ray's weather where the ray falls
+   * through the cumulus, which for a ray that meets the sea is on this side of
+   * it, as the fine look reads it, and not on the planet's far side.
+   */
+  const reach = (direction: V): F => {
+    const half = frame.radius.mul(dot(direction, frame.up));
+    const inside = half.mul(half).sub(frame.shell);
+    return select(
+      half.lessThan(0).and(inside.greaterThan(0)),
+      half.negate().sub(sqrt(max(inside, 0))),
+      float(1e12),
+    );
+  };
+  /** The whole stretch of a ray from the eye through every layer the clouds may fill, up to the sea. */
   const span = (direction: V) =>
     rays.stretch(
       dot(direction, frame.up),
-      float(1e12),
+      reach(direction),
       LOWEST_BASE,
       HIGHEST_TOP,
     );
@@ -147,7 +164,8 @@ export function swiftClouds(
   const marched = new NodeMaterial();
   marched.fragmentNode = Fn(() => {
     const pixel = screenCoordinate.xy.floor().mul(BLOCK).add(offset).add(0.5);
-    return clouds.along(directionAt(pixel.div(size)), float(1e12)).seen;
+    const direction = directionAt(pixel.div(size));
+    return clouds.along(direction, reach(direction)).seen;
   })();
   const march = new QuadMesh(marched);
 

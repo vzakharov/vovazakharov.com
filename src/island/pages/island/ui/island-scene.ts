@@ -331,6 +331,7 @@ export function mountIslandScene(
     lookTo: async (look) => placed((from) => withLook(from, look)),
     setLook,
     stepLook,
+    whole: () => eye !== null && view.complete(eye, camera.aspect),
     look: () => shown,
     without: () => dropping,
     setWithout: (costs) => {

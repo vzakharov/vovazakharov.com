@@ -2,6 +2,46 @@
 
 Branch `claude/island-beauty-speed`, cut from `claude/island-beauty-c1rj3b`.
 
+## Report — 2026-11-22, item 1: `?without=` and Measure (adefe68fb)
+
+**The preview can now tell us what each cost takes on the operator's
+machine.** Lead: adefe68fb is ready to publish.
+
+- **`?without=`** (comma-separated, beside `#place` or `?play`) leaves each
+  named cost out of fine and swift; plain is untouched. The names:
+  - `clouds` — the cloud march in the sky and over surfaces; in swift, the
+    buffer pass is skipped too;
+  - `cloud-shadow` — `clouds.shade` on every surface;
+  - `air` — `aerial`'s scattering over every surface (the sky dome stays);
+  - `ripples` — the sea's ripple normals (a flat sea);
+  - `sea-sky` — the sky the sea mirrors, replaced by one flat sky colour;
+  - `trees` — every tree;
+  - `tufts` — grass, bushes, logs and the forest floor's litter.
+
+  Each is one conditional where the look is dressed, read when the look is
+  built, so there is no second code path. An unknown name throws to the error
+  boundary, naming the known ones.
+
+- **The HUD (`I`)** reads `frame 16.7 ms, 60 fps (mean of 60)`: the mean of
+  the last 60 frames.
+- **Measure** in the HUD steps through none and then each name alone, in the
+  look on screen. For each it waits 60 frames to settle, takes the 60-frame
+  mean, then puts back what was left out before. It prints a table with a copy
+  button, ~16 s at 60 fps. **Hold still while it runs**, because a moving eye
+  changes the frame under it. Run it once in fine and once in swift.
+- **knip** is green: the two `detailReach` re-exports went
+  (`entities/terrain/height/index.ts`, `entities/terrain/index.ts`). Nothing
+  outside the slice read them; `bounds.ts` keeps the function.
+- **Tile bracket** (3b6c7b134, earlier today): at alpine 3000 m, 167 tiles
+  selected before, 86 after (main: 112). There are no draw timings after it,
+  because the run was cut by these orders.
+
+**Left** (dropped by the lead's orders, not done):
+
+- the air volume (a froxel grid for `aerial`);
+- the tile-bracket follow-up (draw timings after the bracket);
+- the M2 timing table — Measure is how the operator's machine fills it.
+
 ## Report — 2026-11-22, swift clouds (3f38e4ea) and where a frame goes
 
 **Swift now draws its clouds from a buffer; fine is unchanged.** Swift costs
