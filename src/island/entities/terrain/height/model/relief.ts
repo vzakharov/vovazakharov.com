@@ -32,6 +32,7 @@ import {
   DUNE_GAP_SPAN,
   DUNE_METRES,
   DUNE_SPACING_METRES,
+  DUNE_STEEPEST,
   DUNE_SWAY,
   duneAt,
   DUNES_RISE_METRES,
@@ -103,6 +104,9 @@ const ALPINE_BY_METRES = 1100;
 const DUNE_SWELL_INDEX = 9;
 const DUNE_SWAY_INDEX = 10;
 const DUNE_GAP_INDEX = 11;
+/** Dunes stand on low ground: full under the first height, none a span up. */
+const DUNES_UNDER_METRES = 90;
+const DUNES_UNDER_SPAN_METRES = 110;
 
 /** A knob of rock: the top of a fine octave's noise, flat-footed between. */
 const KNOB_FROM = 0.15;
@@ -197,21 +201,20 @@ export function groundSlope(noiseSteepest: number, upliftSteepest: number) {
     ((3 * LOWLAND_METRES + 2 * FINE_REACH_METRES + SQUEEZE_METRES) /
       LOWLAND_REACH_METRES +
       DUNE_METRES *
-        (1.5 / DUNES_RISE_METRES + (2 * Math.PI) / DUNE_SPACING_METRES));
+        (1.5 / DUNES_RISE_METRES + DUNE_STEEPEST / DUNE_SPACING_METRES));
   const dunes =
     DUNE_METRES *
     noiseSteepest *
-    ((2 * Math.PI * DUNE_SWAY) / wavelengthOf(DUNE_SWAY_INDEX) +
+    ((DUNE_STEEPEST * DUNE_SWAY) / wavelengthOf(DUNE_SWAY_INDEX) +
       0.4 / wavelengthOf(DUNE_SWELL_INDEX) +
       1.5 / (DUNE_GAP_SPAN * wavelengthOf(DUNE_GAP_INDEX)));
   const reach = most((kind) => Math.max(peakOf(kind), troughOf(kind)));
-  return (
+  const ground =
     broad * (1 + KIND_STEEPEST * (reach + FINE_REACH_METRES)) +
     hills +
     own +
-    shore +
-    dunes
-  );
+    shore;
+  return ground * (1 + (1.5 * DUNE_METRES) / DUNES_UNDER_SPAN_METRES) + dunes;
 }
 
 /**
@@ -345,8 +348,9 @@ export function reliefAt<O extends Octave>(
   const height = broad + local + fine;
   if (d <= 0) return height;
   const dunes = finest === 0 ? 1 : ramp(DUNE_SPACING_METRES / (2 * finest) - 1);
-  return (
-    restingGround(d, height, broad + local, FINE_REACH_METRES) +
-    (dunes === 0 ? 0 : dunes * duneAt(d, swell, sway, gap))
-  );
+  const resting = restingGround(d, height, broad + local, FINE_REACH_METRES);
+  const low =
+    dunes *
+    (1 - ramp((resting - DUNES_UNDER_METRES) / DUNES_UNDER_SPAN_METRES));
+  return resting + (low === 0 ? 0 : low * duneAt(d, swell, sway, gap));
 }
