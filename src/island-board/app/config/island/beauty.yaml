@@ -104,6 +104,18 @@ items:
     box: [11800, 1930, 360]
     src: images/beauty-relief-2-coast-560m.webp
     text: '15. Relief, step 2. Failure: from 560 m, the same strip, the dune belt flattened to a thin band with a few dashes. Sent back.'
+  - id: img-beauty-16-relief-2-w3-orbit
+    type: image
+    updated: [2026-11-22T11:30:00.000Z, agent:board]
+    box: [12570, 1930, 360]
+    src: images/beauty-relief-2-w3-orbit.webp
+    text: "16. Relief, step 2, the relief session's own frame: generated world 3 from 20,000 km. Mountain ranges run as brown belts along and across the continents; the white blotches over the sea and land are clouds. Wrong, by the builder: nothing to see at this distance, the lowland is one flat green."
+  - id: img-beauty-17-relief-2-w3-alpine-10km
+    type: image
+    updated: [2026-11-22T11:30:00.000Z, agent:board]
+    box: [12955, 1930, 360]
+    src: images/beauty-relief-2-w3-alpine-10km.webp
+    text: "17. Relief, step 2, the relief session's own frame: an alpine range from 10 km on world 3, ridges and cirques under cloud. Wrong, by the builder: shot before the later dune and lowland changes, so it stands for the mountains only."
   - id: beauty-15-verdict
     type: sticky
     updated: [2026-11-22T11:20:00.000Z, agent:board]
