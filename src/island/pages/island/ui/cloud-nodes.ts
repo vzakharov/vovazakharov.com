@@ -1,12 +1,8 @@
 import {
-  Break,
   dot,
-  exp,
   float,
   Fn,
   If,
-  int,
-  Loop,
   max,
   min,
   mix,
@@ -22,27 +18,20 @@ import type { Node } from 'three/webgpu';
 import { R } from '@/island/shared/globe';
 
 import {
-  CELL_METRES,
   cloudClockAt,
   HIGHEST_TOP,
   ICE_AT,
   LOWEST_BASE,
   WEATHER_AT,
 } from '../lib/clouds';
-import {
-  bodyOf,
-  cloudCover,
-  coverOf,
-  levelOf,
-  mostLift,
-  thickness,
-  topOf,
-} from './cloud-cover';
+import { cloudCover, mostLift, thickness } from './cloud-cover';
 import { iceSeen } from './cloud-ice';
 import { cloudLight } from './cloud-light';
-import { type F, seenTo, type V } from './cloud-noise';
+import { cloudMarch } from './cloud-march';
+import type { F, V } from './cloud-noise';
 import { cloudRays, type EyeFrame } from './cloud-rays';
 import { type Regime, regimeAt } from './cloud-regimes';
+import { cloudSteps } from './cloud-step';
 
 /** What the sky hands its clouds: the eye's place and the lamps, as `sky-nodes.ts` holds them. */
 export type CloudFrame = EyeFrame & {
@@ -67,22 +56,6 @@ export type CloudNodes = {
   readonly update: (seconds: number) => void;
 };
 
-/** Steps along a ray's stretch of the layer: for an eye over every cloud, and for one among or under them. */
-const STEPS = [4, 8] as const;
-/** The distance, in a step's level lengths, that hides the same waves the step does: those under a step long. */
-const STEP_HIDES = 60;
-/** What a metre of full cloud takes from a ray. */
-const PER_METRE = 0.012;
-/** How much deeper a cloud is under the heaviest billow of its cells than under none. */
-const BILLOW_DEPTH = 1.4;
-/** Metres of cloud between the sun and the deepest crease between a cloud's billows. */
-const CREASE_DEPTH = 1800;
-/** The least steeply a ray is taken to cross the layer, for how fine its waves look. */
-const LEAST_STEEP = 0.07;
-/** How far toward the sun a sample looks for the cloud that shades it, metres. */
-const SUNWARD = 2500;
-/** The most cloud a sample counts between itself and the sun, metres. */
-const DEEPEST_SHADE = 12_000;
 /** The share of the sun a shallow cloud and a deep one keep off the ground under them. */
 const GROUND_SHADE = [0.55, 0.85] as const;
 /** The depths of those two, metres. */
@@ -131,6 +104,8 @@ export function cloudNodes(frame: CloudFrame): CloudNodes {
 
   const rays = cloudRays(frame);
   const ice = iceSeen({ frame, rays, light, turned });
+  const kit = { rays, cover, light, turned, height, towardSun };
+  const march = cloudMarch(kit, cloudSteps(kit));
 
   /** The signal over `spot` under `regime` from the meso cells and the `octaves` coarsest cumulus scales, for an eye `away` metres off. */
   const signalOver = (spot: V, regime: Regime, away: F, octaves: number): F => {
@@ -145,8 +120,6 @@ export function cloudNodes(frame: CloudFrame): CloudNodes {
     const outer = rays.stretch(cosine, metres, LOWEST_BASE, HIGHEST_TOP);
     const crossing = rays.iceCrossing(cosine);
     const iceInSight = crossing.hit.and(crossing.at.lessThan(metres));
-    const mesoAt = (far: F, regime: Regime) =>
-      cover.meso(turned(rays.placeAt(direction, far)), regime).toVar();
     const seen = Fn(() => {
       const low = vec4(0, 0, 0, 1).toVar();
       const high = vec4(0, 0, 0, 1).toVar();
@@ -172,131 +145,9 @@ export function cloudNodes(frame: CloudFrame): CloudNodes {
           const from = inLayer.from.toVar();
           const length = inLayer.length.toVar();
           If(length.greaterThan(0), () => {
-            const [fewest, most] = STEPS;
-            const steep = rays
-              .steepAt(cosine, from.add(length.mul(0.5)))
-              .toVar();
-            // Counted from the eye's height alone, so no line across the view parts two counts.
-            const steps = select(
-              height.lessThan(HIGHEST_TOP),
-              float(most),
-              float(fewest),
-            ).toVar();
-            // A wave shorter than a step would show as one bar a step.
-            const hidden = length
-              .div(steps)
-              .mul(steep.mul(steep).oneMinus().max(0).sqrt())
-              .mul(STEP_HIDES)
-              .toVar();
-            const through = float(1).toVar();
-            const glow = vec3(0).toVar();
-            const lamps = light.lamps(read, regime.base);
-            const mesoIn = mesoAt(from, regime);
-            const mesoOut = mesoAt(from.add(length), regime);
-            // An eye inside the layer samples near itself first: the cloud it is in.
-            const within = select(from.lessThanEqual(0), float(1), float(0));
-            /** The field where the ray has come `share` of the way through its samples. */
-            const readAt = (share: F) => {
-              const reached = mix(share, share.mul(share), within).toVar();
-              const at = from.add(length.mul(reached)).toVar();
-              const place = rays.placeAt(direction, at).toVar();
-              const spot = turned(place).toVar();
-              // A ray grazing the layer sees its waves squeezed: as fine as from that much further off.
-              const away = max(
-                at.div(rays.steepAt(cosine, at).clamp(LEAST_STEEP, 1)),
-                hidden,
-              ).toVar();
-              const coarse = cover.octave(spot, 0, away).toVar();
-              const cells = coarse.add(cover.octave(spot, 1, away)).toVar();
-              for (const [index, wave] of CELL_METRES.entries()) {
-                if (index < 2) continue;
-                // A scale under a pixel is not read at all.
-                If(away.lessThan(seenTo(wave)), () => {
-                  cells.addAssign(cover.octave(spot, index, away));
-                });
-              }
-              const signal = cover.signal(
-                spot,
-                regime,
-                mix(mesoIn, mesoOut, reached),
-                cells,
-                away,
-              );
-              return { at, place, coarse, cells, signal, away };
-            };
-            const first = readAt(float(0));
-            // The near end of each step, which the far end of the last one was.
-            const nearAt = first.at.toVar();
-            const nearPlace = first.place.toVar();
-            const nearCoarse = first.coarse.toVar();
-            const nearCells = first.cells.toVar();
-            const nearSignal = first.signal.toVar();
-            Loop({ start: int(0), end: int(steps) }, ({ i }) => {
-              // What is left would not show through what the ray already met.
-              If(through.lessThan(0.02), () => {
-                Break();
-              });
-              const far = readAt(float(i).add(1).div(steps));
-              const farSignal = far.signal.toVar();
-              const nearOver = rays.overAt(cosine, nearAt).toVar();
-              const thick = thickness(
-                { signal: nearSignal, over: nearOver },
-                { signal: farSignal, over: rays.overAt(cosine, far.at) },
-                regime,
-              ).toVar();
-              If(thick.greaterThan(0.001), () => {
-                const there = nearSignal.toVar();
-                // From under its base a cloud is shaded by what stands over it; from over it, by what stands sunward.
-                If(height.greaterThan(regime.base), () => {
-                  const sunward = turned(
-                    normalize(nearPlace.add(towardSun.mul(SUNWARD / R))),
-                  );
-                  there.addAssign(
-                    regime.fine.mul(
-                      cover.octave(sunward, 0, far.away).sub(nearCoarse),
-                    ),
-                  );
-                });
-                // The step shows its near end: from over the cloud that is its top, from under it its base.
-                const level = min(
-                  levelOf(nearOver, regime),
-                  topOf(nearSignal, regime),
-                ).toVar();
-                const overhead = min(
-                  max(topOf(there, regime).sub(level), 0)
-                    .mul(regime.ceil.sub(regime.base))
-                    .mul(coverOf(there))
-                    // Whole cover still has its billows: thick and thin, dark and light from below.
-                    .mul(nearCells.mul(BILLOW_DEPTH).add(1).clamp(0.3, 2))
-                    // A crease between billows lies in its neighbours' shade.
-                    .add(max(nearCells.negate(), 0).mul(CREASE_DEPTH))
-                    .div(lamps.rise),
-                  DEEPEST_SHADE,
-                );
-                const taken = exp(
-                  thick.mul(far.at.sub(nearAt)).mul(-PER_METRE),
-                ).oneMinus();
-                glow.addAssign(
-                  light
-                    .lit(
-                      lamps,
-                      overhead,
-                      level,
-                      phase,
-                      bodyOf(nearSignal.add(farSignal).mul(0.5), regime),
-                    )
-                    .mul(taken)
-                    .mul(through),
-                );
-                through.mulAssign(taken.oneMinus());
-              });
-              nearAt.assign(far.at);
-              nearPlace.assign(far.place);
-              nearCoarse.assign(far.coarse);
-              nearCells.assign(far.cells);
-              nearSignal.assign(farSignal);
-            });
-            low.assign(vec4(glow, through));
+            low.assign(
+              march({ direction, cosine, regime, read, phase, from, length }),
+            );
           });
         });
       });
