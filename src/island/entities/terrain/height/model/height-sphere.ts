@@ -1,8 +1,10 @@
 import { length, R, type Vec3 } from '@/island/shared/globe';
 
+import { groundSlope } from './bounds';
 import { OCTAVES } from './octaves';
 import { upliftAtSphere, upliftSlope } from './ranges';
-import { groundSlope, reliefAt } from './relief';
+import { reliefAt } from './relief';
+import { sandAt } from './shore';
 import { noiseSalt, valueNoise3 } from './value-noise';
 
 /** Rows of a 3 × 3 matrix. */
@@ -97,3 +99,17 @@ export function heightAtSphere(
     d > 0 ? upliftAtSphere(seed, x, y, z, d) : 0,
   );
 }
+
+/**
+ * The share of sand, from 0 to 1, in the ground over direction `p` (any
+ * length but zero) standing `height` metres up: `sandAt` of the coast's
+ * distance there.
+ */
+export const sandAtSphere = (
+  distance: CoastDistance,
+  p: Vec3,
+  height: number,
+): number => {
+  const scale = 1 / length(p);
+  return sandAt(distance([p[0] * scale, p[1] * scale, p[2] * scale]), height);
+};

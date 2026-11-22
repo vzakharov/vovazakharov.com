@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 import { latLonToUnit } from '@/island/shared/globe';
 
 import { sampleSphereField } from './coast-field';
-import { heightAtSphere } from './height';
+import { heightAtSphere, sandAtSphere } from './height';
 import { openSphereWorld, rollWorld } from './world';
 
 // Worlds #0–#7 as the game rolls and opens them, pinned exactly: `seed` is
@@ -85,4 +85,24 @@ describe('worlds #0–#7', () => {
       assert.equal(height, pinned.height);
     });
   }
+});
+
+/** The share of sand at a place on world #0, degrees. */
+async function sandOnWorld0(lat: number, lon: number) {
+  const { field, seed } = await openSphereWorld('0');
+  const coast = (p: Parameters<typeof sampleSphereField>[1]) =>
+    sampleSphereField(field, p);
+  const p = latLonToUnit({
+    lat: (lat * Math.PI) / 180,
+    lon: (lon * Math.PI) / 180,
+  });
+  return sandAtSphere(coast, p, heightAtSphere(coast, seed, p));
+}
+
+describe('sand on world #0', () => {
+  it('is whole on a dune belt, and none inland or at sea', async () => {
+    assert.equal(await sandOnWorld0(44.019, 10.046), 1);
+    assert.equal(await sandOnWorld0(49.5, 20), 0);
+    assert.equal(await sandOnWorld0(10, 0), 0);
+  });
 });

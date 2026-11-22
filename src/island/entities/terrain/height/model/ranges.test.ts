@@ -4,7 +4,7 @@ import { describe, it } from 'node:test';
 import { latLonToUnit } from '@/island/shared/globe';
 
 import { upliftAtSphere, upliftSlope } from './ranges';
-import { UPLIFT_METRES } from './relief';
+import { UPLIFT_METRES } from './relief-numbers';
 
 const at = (lat: number, lon: number) =>
   latLonToUnit({ lat: (lat * Math.PI) / 180, lon: (lon * Math.PI) / 180 });
