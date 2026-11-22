@@ -9,7 +9,6 @@ export {
   detailReach,
   heightAtSphere,
   noiseSalt,
-  sandAt,
   sandAtSphere,
   valueNoise3,
 } from './height';

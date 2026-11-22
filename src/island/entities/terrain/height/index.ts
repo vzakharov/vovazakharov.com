@@ -6,5 +6,4 @@ export {
   sandAtSphere,
 } from './model/height-sphere';
 export { HIGHEST_GROUND, LOWEST_GROUND } from './model/relief-numbers';
-export { sandAt } from './model/shore';
 export { noiseSalt, valueNoise3 } from './model/value-noise';
