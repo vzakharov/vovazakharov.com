@@ -11,15 +11,7 @@ import {
   lowlandFloor,
   restingGround,
 } from './shore';
-
-/** A seeded stream in `[0, 1)`. */
-function stream(seed: number) {
-  let state = seed >>> 0;
-  return () => {
-    state = (Math.imul(state, 1_664_525) + 1_013_904_223) >>> 0;
-    return state / 2 ** 32;
-  };
-}
+import { stream } from './stream.test-kit';
 
 /** How far the octaves under the broad relief reach, for these tests. */
 const FINE = 60;
@@ -38,7 +30,10 @@ describe('lowlandFloor', () => {
   it('stays above the sea inland, however low the broad relief', () => {
     for (const d of [1, 50, 600, 5000, 50_000]) {
       for (const broad of [-500, -10, 0, 3]) {
-        assert.ok(lowlandFloor(d, broad, FINE) > 0, `${broad} m at ${d} m inland`);
+        assert.ok(
+          lowlandFloor(d, broad, FINE) > 0,
+          `${broad} m at ${d} m inland`,
+        );
       }
     }
   });

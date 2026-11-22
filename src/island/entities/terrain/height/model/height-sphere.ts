@@ -1,7 +1,7 @@
 import { length, R, type Vec3 } from '@/island/shared/globe';
 
-import { upliftAtSphere, upliftSlope } from './ranges';
 import { OCTAVES } from './octaves';
+import { upliftAtSphere, upliftSlope } from './ranges';
 import { groundSlope, reliefAt } from './relief';
 import { noiseSalt, valueNoise3 } from './value-noise';
 

@@ -35,7 +35,7 @@ export const LINE_LEAST = 0.1;
 export const LINE_MEAN = 0.45;
 
 /**
- * One kind of ground. Over the hill band it stands `lift · (level − L)` over
+ * One kind of ground. Over the hill band it stands `lift · (shelf − L)` over
  * the broad relief, `L` the line field's shape in `[0, 1]`, plus the hill
  * octaves' own bumps, `roll[o]` metres each; under it, the fine band's
  * octaves, 200 m to 6 m, `fine[o]` metres each. A negative `lift` turns the
@@ -43,7 +43,7 @@ export const LINE_MEAN = 0.45;
  */
 export type Kind = {
   readonly lift: number;
-  readonly level: number;
+  readonly shelf: number;
   /** The steepest its shape of the line field is, per unit of the field. */
   readonly steepest: number;
   readonly roll: readonly number[];
@@ -53,7 +53,7 @@ export type Kind = {
 /** Rounded hills, and valleys along the lines with gullies branching in. */
 export const GREEN: Kind = {
   lift: 500,
-  level: 0.3,
+  shelf: 0.3,
   steepest: 2,
   roll: [30, 80, 80, 55, 30, 14, 8],
   fine: [8, 4.5, 2.5, 1.3, 0.7, 0.35],
@@ -61,7 +61,7 @@ export const GREEN: Kind = {
 /** Broad shoulders and benches, the valleys cut narrow into them; outcrops. */
 export const BROWN: Kind = {
   lift: 800,
-  level: 0.2,
+  shelf: 0.2,
   steepest: 3,
   roll: [40, 90, 90, 60, 35, 18, 10],
   fine: [16, 10, 6, 3.5, 1.8, 0.9],
@@ -69,7 +69,7 @@ export const BROWN: Kind = {
 /** Crests along the lines with spurs branching off, over smooth floors. */
 export const ALPINE: Kind = {
   lift: -3200,
-  level: 0.45,
+  shelf: 0.45,
   steepest: 1,
   roll: [0, 0, 60, 50, 30, 16, 8],
   fine: [30, 16, 8, 4, 2, 1],
@@ -88,7 +88,7 @@ export type Octave = {
   /** Its share of the line field, zero outside the hill band. */
   readonly line: number;
   /** How many hill octaves are longer than it. */
-  readonly depth: number;
+  readonly hillRank: number;
   /** Its own amplitude on each kind of ground: its roll or its fine detail. */
   readonly green: number;
   readonly brown: number;
@@ -113,7 +113,7 @@ export const OCTAVES: readonly Octave[] = Array.from(
       regional: local < 0,
       hill: local >= 0 && wavelength >= HILL_METRES,
       line: LINE[local] ?? 0,
-      depth: Math.max(0, local),
+      hillRank: Math.max(0, local),
       green: of(GREEN),
       brown: of(BROWN),
       alpine: of(ALPINE),
