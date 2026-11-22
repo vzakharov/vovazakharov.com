@@ -1,183 +1,169 @@
 items:
-  - id: z-beauty-merge2
+  - id: z-beauty-coast
     type: zone
-    updated: [2026-11-22T17:30:00.000Z, agent:board]
-    box: [6260, 3700, 2000, 1560, green]
-    text: '4. Ground on the finished relief, trees second pass (cards 57 to 69)'
-  - id: beauty-ground-2-row
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [2380, 3700, 2320, 1800, green]
+    text: '2. The coast and the mountains'
+  - id: beauty-row-d
     type: text
-    updated: [2026-11-22T12:10:00.000Z, agent:board]
-    box: [6340, 3770, 1000, body]
-    text: "Ground, step 1 on the finished relief, the lead's frames. Each card carries the lead's verdict (Vova is away)."
-  - id: img-beauty-57-ground-2-alpine-3000m
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [2420, 3780, 240, body]
+    text: 'The coast from 4.4 km'
+  - id: img-beauty-26-ground-1-coast-4400m
     type: image
-    updated: [2026-11-22T12:10:00.000Z, agent:board]
-    box: [6340, 3840, 360]
-    src: images/beauty-ground-2-merged-alpine-3000m.webp
-    text: '57. Ground, step 1 on the finished relief: the alpine range from 3 km, the pair of card 13. Lead: "the range is there and reads as a range; the snow line is a smooth contour and the sunlit snow is blown out." On the frame, snow covers nearly all of it and rock shows only in shaded valley sides at the bottom.'
-  - id: img-beauty-58-ground-2-alpine-300m
-    type: image
-    updated: [2026-11-22T12:10:00.000Z, agent:board]
-    box: [6725, 3840, 360]
-    src: images/beauty-ground-2-merged-alpine-300m.webp
-    text: '58. The same range from 300 m. Lead: "FAIL — one white sheet, no rock on the steep faces, the crests are lost. Sent back to ground: rock above ~40° slope, ragged snow edge."'
-  - id: img-beauty-59-ground-2-upland-300m
-    type: image
-    updated: [2026-11-22T12:10:00.000Z, agent:board]
-    box: [7110, 3840, 360]
-    src: images/beauty-ground-2-merged-upland-300m.webp
-    text: '59. The upland from 300 m, the pair of card 12. Lead: "the foreground is the best ground so far; the far hills turn flat blue-green plastic. Sent back."'
-  - id: img-beauty-60-ground-2-lowland-300m
-    type: image
-    updated: [2026-11-22T12:10:00.000Z, agent:board]
-    box: [7495, 3840, 360]
-    src: images/beauty-ground-2-merged-lowland-300m.webp
-    text: '60. The lowland from 300 m, the pair of card 11. Lead: "FAIL in part — the brown underfoot ends in hard arcs concentric with the eye: a seam between tile levels. Sent back." The arcs show at the lower left and right of the frame.'
-  - id: img-beauty-61-ground-2-dunes-60m
-    type: image
-    updated: [2026-11-22T12:10:00.000Z, agent:board]
-    box: [7880, 3840, 360]
-    src: images/beauty-ground-2-merged-dunes-60m.webp
-    text: '61. The dune belt from 60 m, the pair of card 18. Lead: "dunes read as land forms and the beach is a beach; the dune backs want straw-green instead of moor brown."'
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [2680, 3770, 300]
+    src: images/beauty-ground-1-coast-4400m.webp
+    text: 'Ground 1: mottled canopy and a beach; the sand sheets remain.'
   - id: img-beauty-62-ground-2-coast-4400m
     type: image
-    updated: [2026-11-22T12:10:00.000Z, agent:board]
-    box: [6340, 4300, 360]
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3000, 3770, 300]
     src: images/beauty-ground-2-merged-coast-4400m.webp
-    text: '62. The coast from 4.4 km: forest with clearings, the pair of card 26. Lead: "best frame of the run so far."'
-  - id: img-beauty-63-ground-2-coast-2300km
+    text: 'Merge 2. Lead: "best frame of the run so far".'
+  - id: img-beauty-83-coast-1-coast-4400m
     type: image
-    updated: [2026-11-22T12:10:00.000Z, agent:board]
-    box: [6725, 4300, 360]
-    src: images/beauty-ground-2-merged-coast-2300km.webp
-    text: '63. The coast from 2,300 km, the pair of card 22. Lead: "FAIL — forest in rectangular patches along tile edges and the range lost its snow. A regression of ground step 1; fix is in flight (far colour comes only from per-fragment functions of place and from height)."'
-  - id: beauty-trees-2-row
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3320, 3770, 300]
+    src: images/beauty-coast-1-merged-coast-4400m.webp
+    text: 'Coast 1. Failure: 13 seeded octaves, still one ruler-straight shore.'
+  - id: img-beauty-106-merge-5-coast-4400m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3640, 3770, 300]
+    src: images/beauty-merge-5-coast-4400m.webp
+    text: 'Merge 5: a headland, a cove and an island; dark ripple lines on the dunes.'
+  - id: img-beauty-130-merge-7-coast-4400m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3960, 3770, 300]
+    src: images/beauty-merge-7-coast-4400m.webp
+    text: 'Merge 7. WIN for the coast, failure for low clouds (lead): a grey slab on the horizon.'
+  - id: beauty-row-e
     type: text
-    updated: [2026-11-22T15:50:00.000Z, agent:board]
-    box: [7110, 4300, 1000, body]
-    text: "Trees, step 1 on the merged build (relief, ground and trees together), the lead's frames. Cards 64 to 67."
-  - id: img-beauty-64-trees-2-forest-3000m
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [2420, 4110, 240, body]
+    text: 'The shore from 560 m'
+  - id: img-beauty-03-before-coast-560m
     type: image
-    updated: [2026-11-22T15:50:00.000Z, agent:board]
-    box: [7110, 4370, 360]
-    src: images/beauty-trees-2-merged-forest-3000m.webp
-    text: '64. A forest on the merged build from 3 km. No verdict from the lead. The frame shows dark green patches with ragged edges lying on paler olive hills; the patches read as flat colour, and the near ground is one uniform green.'
-  - id: img-beauty-65-trees-2-forest-300m
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [2680, 4100, 300]
+    src: images/beauty-before-coast-560m.webp
+    text: 'Before: smooth domes of one character; each band one flat colour.'
+  - id: img-beauty-15-relief-2-coast-560m
     type: image
-    updated: [2026-11-22T15:50:00.000Z, agent:board]
-    box: [7495, 4370, 360]
-    src: images/beauty-trees-2-merged-forest-300m.webp
-    text: '65. From 300 m. Lead: "FAIL in part — trees are green blobs on bare brown ground, thin out to nothing a kilometre off, and the hills beyond are plain green: the ground under and past the trees does not look like forest yet. In flight with ground (canopy tone by cover) and trees (cover agreeing across levels)."'
-  - id: img-beauty-66-trees-2-forest-60m
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3000, 4100, 300]
+    src: images/beauty-relief-2-coast-560m.webp
+    text: 'Relief 2. Failure: the dune belt flattened to a thin band. Sent back.'
+  - id: img-beauty-84-coast-1-shore-560m
     type: image
-    updated: [2026-11-22T15:50:00.000Z, agent:board]
-    box: [7880, 4370, 360]
-    src: images/beauty-trees-2-merged-forest-60m.webp
-    text: '66. From 60 m, over the crowns. Lead: "The canopy reads as a forest; first frame where it does." Bare brown earth shows between the crowns and beyond the stand.'
-  - id: img-beauty-67-trees-2-forest-2m
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3320, 4100, 300]
+    src: images/beauty-coast-1-merged-shore-560m.webp
+    text: 'Coast 1. Failure: the waterline a straight edge to the horizon.'
+  - id: img-beauty-107-merge-5-coast-560m
     type: image
-    updated: [2026-11-22T15:50:00.000Z, agent:board]
-    box: [6340, 4760, 360]
-    src: images/beauty-trees-2-merged-forest-2m.webp
-    text: '67. Standing in it. Lead: "The best 2 m frame of the run — trunks, forks, two kinds of tree, light through the crowns; the ground under them is bare earth with no litter or undergrowth."'
-  - id: beauty-68-operator-coast
-    type: sticky
-    updated: [2026-11-22T15:50:00.000Z, agent:board]
-    box: [6725, 4760, 420, yellow]
-    text: 'Operator steering, new, relayed by the lead: "super-straight, ruler-drawn coastlines. They should bend and go fractal (but deterministically, through rolled) as you get closer." (translated from the Russian). A sixth member, coast, started on it at 15:45 UTC.'
-  - id: beauty-69-limit-cut
-    type: sticky
-    updated: [2026-11-22T15:50:00.000Z, agent:board]
-    box: [7230, 4760, 420, pink]
-    text: '69. Failure. 11:48 UTC: the 5-hour limit cut all six sessions off mid-step. The operator woke them at 15:39.'
-  - id: z-beauty-merge3
-    type: zone
-    updated: [2026-11-22T17:30:00.000Z, agent:board]
-    box: [8360, 3700, 2000, 1630, green]
-    text: '5. The third merge and trees third pass (cards 70 to 82)'
-  - id: beauty-merge-3-row
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3640, 4100, 300]
+    src: images/beauty-merge-5-coast-560m.webp
+    text: 'Merge 5: bays and points, a small island, green shallows.'
+  - id: img-beauty-129-merge-7-coast-560m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3960, 4100, 300]
+    src: images/beauty-merge-7-coast-560m.webp
+    text: 'Merge 7. WIN (lead): headlands, coves, skerries, shoals; grey bars in the sky.'
+  - id: beauty-row-h
     type: text
-    updated: [2026-11-22T16:15:00.000Z, agent:board]
-    box: [8440, 3770, 1000, body]
-    text: "The merged build again, the lead's frames. Cards 70 to 73."
-  - id: img-beauty-70-merge-3-coast-2300km
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [2420, 4440, 240, body]
+    text: 'The dunes, from 300 m down to 2 m'
+  - id: img-beauty-14-relief-2-dunes-300m
     type: image
-    updated: [2026-11-22T16:15:00.000Z, agent:board]
-    box: [8440, 3840, 360]
-    src: images/beauty-merge-3-coast-2300km.webp
-    text: '70. The coast from 2,300 km, after the trees'' forest cover agrees across tile levels; the twin of card 63. Lead: "The rectangles are gone — forest is a soft olive wash with no tile edge in it. Still wrong in this frame: the clouds are the old speckle (the new ones are not merged yet), the range''s snow is a faint thread, and the coastline runs in straight pieces — the coast member is on that."'
-  - id: img-beauty-71-merge-3-coast-34km
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [2680, 4430, 300]
+    src: images/beauty-relief-2-dunes-300m.webp
+    text: 'Relief 2, 300 m. Failure: a thin strip with dashes; no dune reads as a dune.'
+  - id: img-beauty-18-relief-3-dunes-60m
     type: image
-    updated: [2026-11-22T16:15:00.000Z, agent:board]
-    box: [8825, 3840, 360]
-    src: images/beauty-merge-3-coast-34km.webp
-    text: '71. The same coast from 34 km. Lead: "Forest reads as darker stands with soft edges on lighter open ground; nothing repeats. The clouds are the old cotton."'
-  - id: beauty-72-rolled-question
-    type: sticky
-    updated: [2026-11-22T16:15:00.000Z, agent:board]
-    box: [9210, 3840, 420, yellow]
-    text: '72. Operator question, relayed by the lead: "Is all the randomness done through rolled?" (translated from the Russian). Answer, per the lead: the shader noise hashed the place alone, so every world drew the same ground grain and weather. Since bd725f6cd the ground lattice is shifted by cells rolled from the world; clouds follow at their next merge.'
-  - id: beauty-73-phone-question
-    type: sticky
-    updated: [2026-11-22T16:15:00.000Z, agent:board]
-    box: [9670, 3840, 420, yellow]
-    text: '73. Operator question, relayed by the lead: "Can high quality be switched on somehow on a phone?" (translated from the Russian). Answer, per the lead: not yet. The look is on the B key alone; B now steps plain, swift, fine (d1bda3f4, merged), and an on-screen control for touch is with the speed member.'
-  - id: beauty-trees-3-row
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3000, 4430, 300]
+    src: images/beauty-relief-3-dunes-60m.webp
+    text: 'Relief 3, 60 m: ridges with lee faces; flaw: painted rock-brown and green.'
+  - id: img-beauty-93-merge-4-dunes-2m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3320, 4430, 300]
+    src: images/beauty-merge-4-dunes-2m.webp
+    text: 'Merge 4, 2 m. Failure (lead): wind ripples drawn as a zebra.'
+  - id: img-beauty-110-merge-5-dunes-2m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3640, 4430, 300]
+    src: images/beauty-merge-5-dunes-2m.webp
+    text: 'Merge 5, 2 m. WIN (lead): gentler ripples, straw-coloured grass.'
+  - id: img-beauty-126-merge-7-dunes-300m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3960, 4430, 300]
+    src: images/beauty-merge-7-dunes-300m.webp
+    text: 'Merge 7, 300 m. WIN (lead): a real dune belt; the forest ends on a ruler line.'
+  - id: img-beauty-128-merge-7-dunes-2m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [4280, 4430, 300]
+    src: images/beauty-merge-7-dunes-2m.webp
+    text: 'Merge 7, 2 m. WIN (lead): fine even ripples, sparse marram tufts.'
+  - id: beauty-row-f
     type: text
-    updated: [2026-11-22T16:40:00.000Z, agent:board]
-    box: [8440, 4300, 1000, body]
-    text: "Trees, step 2, world 1 at midday, the trees session's own frames. Cards 74 to 82, each with the flaw the trees session named."
-  - id: img-beauty-74-trees-3-forest-2m
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [2420, 4770, 240, body]
+    text: 'A range from 3 km'
+  - id: img-beauty-13-relief-2-alpine-3000m
     type: image
-    updated: [2026-11-22T16:40:00.000Z, agent:board]
-    box: [8440, 4370, 360]
-    src: images/beauty-trees-2-forest-day-2m.webp
-    text: '74. Inside closed forest at eye height: trunks, a brown forest floor, bushes between the trunks. Trees session: "Wrong: nothing casts a shadow, so the floor is evenly lit." The frame shows the same: bright flat earth up to the trunk bases.'
-  - id: img-beauty-75-trees-3-edge-2m
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [2680, 4760, 300]
+    src: images/beauty-relief-2-alpine-3000m.webp
+    text: 'Relief 2: ridges, spurs, valleys; flaw: snow in blotches by height alone.'
+  - id: img-beauty-57-ground-2-alpine-3000m
     type: image
-    updated: [2026-11-22T16:40:00.000Z, agent:board]
-    box: [8825, 4370, 360]
-    src: images/beauty-trees-2-edge-day-2m.webp
-    text: '75. A forest edge at eye height: bushes under the first trees, open green grass beyond. Trees session: "Wrong: the eye stands inside a conifer''s lowest boughs (no collision)." The frame shows the camera under the dark underside of a spruce skirt.'
-  - id: img-beauty-76-trees-3-forest-30m
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3000, 4760, 300]
+    src: images/beauty-ground-2-merged-alpine-3000m.webp
+    text: 'Merge 2. Lead: reads as a range; the snow line is a smooth contour, blown out.'
+  - id: img-beauty-88-merge-4-alpine-3000m
     type: image
-    updated: [2026-11-22T16:40:00.000Z, agent:board]
-    box: [9210, 4370, 360]
-    src: images/beauty-trees-2-forest-day-30m.webp
-    text: '76. Just over the canopy, 30 m: closed crowns near, mixed broadleaf and conifer. Trees session: "Wrong: past ~300 m the forest thins to blobs on brown ground." The frame shows it at the right edge: brown earth with scattered blobs, and flat green hills behind.'
-  - id: img-beauty-77-trees-3-forest-200m
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3320, 4760, 300]
+    src: images/beauty-merge-4-alpine-3000m.webp
+    text: 'Merge 4. WIN (lead): snow by height and slope; a range for the first time.'
+  - id: img-beauty-124-merge-7-alpine-3000m
     type: image
-    updated: [2026-11-22T16:40:00.000Z, agent:board]
-    box: [9595, 4370, 360]
-    src: images/beauty-trees-2-forest-day-200m.webp
-    text: '77. The same forest from 200 m up. Trees session: "Wrong: brown forest floor shows between the crowns from ~400 m out, and beyond 1 km the forest is green ground with dots." Visible: separate round crowns with brown between them.'
-  - id: img-beauty-78-trees-3-forest-600m
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3640, 4760, 300]
+    src: images/beauty-merge-7-alpine-3000m.webp
+    text: 'Merge 7. WIN (lead): "the best frame of the run": rock faces, snow on crests.'
+  - id: beauty-row-g
+    type: text
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [2420, 5100, 240, body]
+    text: 'The same range from 300 m'
+  - id: img-beauty-58-ground-2-alpine-300m
     type: image
-    updated: [2026-11-22T16:40:00.000Z, agent:board]
-    box: [9980, 4370, 360]
-    src: images/beauty-trees-2-forest-day-600m.webp
-    text: '78. From 600 m up. Trees session: "Wrong: the same, more so; the ground has no canopy colour of its own yet." Visible: sparse blobs on a brown slope, plain green hills above them.'
-  - id: img-beauty-79-trees-3-forest-20km
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [2680, 5090, 300]
+    src: images/beauty-ground-2-merged-alpine-300m.webp
+    text: 'Merge 2. Failure (lead): one white sheet, no rock on the steep faces.'
+  - id: img-beauty-89-merge-4-alpine-300m
     type: image
-    updated: [2026-11-22T16:40:00.000Z, agent:board]
-    box: [8440, 4830, 360]
-    src: images/beauty-trees-2-forest-day-20km.webp
-    text: '79. Forest patches from 20 km (shot one commit earlier, same cover). Trees session: "Wrong: patch edges are blocky at the tile''s vertex spacing, and a few faint straight lines show where tiles of different level meet." The straight lines run across the upper left.'
-  - id: img-beauty-80-trees-3-coast-2300km
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3000, 5090, 300]
+    src: images/beauty-merge-4-alpine-300m.webp
+    text: 'Merge 4. Half (lead): rock beds read; snow in spilled-milk blobs.'
+  - id: img-beauty-125-merge-7-alpine-300m
     type: image
-    updated: [2026-11-22T16:40:00.000Z, agent:board]
-    box: [8825, 4830, 360]
-    src: images/beauty-trees-2-coast-2300km.webp
-    text: '80. From orbit, 2,300 km (same earlier commit). Trees session: "No forest seams visible. Nothing wrong that is the trees''." The frame shows no seams on the land; it also shows speckled clouds over the sea and a faint tile grid in the top right corner.'
-  - id: img-beauty-81-trees-3-dunes-2m
-    type: image
-    updated: [2026-11-22T16:40:00.000Z, agent:board]
-    box: [9210, 4830, 360]
-    src: images/beauty-trees-2-dunes-day-2m.webp
-    text: '81. Sandy back dunes 870 m inland at eye height: straw tufts of dune grass, sparse pines and broadleaves. Trees session: "Wrong: the tufts stand on green grass, since the land does not draw sand there yet." The frame shows one large tuft, many small ones, and a dark brown bare patch on the far slope.'
-  - id: img-beauty-82-trees-3-dunes-25m
-    type: image
-    updated: [2026-11-22T16:40:00.000Z, agent:board]
-    box: [9595, 4830, 360]
-    src: images/beauty-trees-2-dunes-day-25m.webp
-    text: '82. The same place from 25 m, looking along the forest edge. Trees session: "Wrong: tufts are specks at this height; the same green ground." Visible: a spruce in the foreground, broadleaves behind, bright green ground with a few pinpricks of straw.'
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3320, 5090, 300]
+    src: images/beauty-merge-7-alpine-300m.webp
+    text: "Merge 7. Half (lead): snow like a cow's hide, ignoring the relief."
