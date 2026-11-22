@@ -35,7 +35,10 @@ export const DUNE_METRES = 12;
 /** The distance from one dune ridge to the next, along the way inland. */
 export const DUNE_SPACING_METRES = 110;
 /** How far, in ridges, a ridge line wanders from its distance to the shore. */
-export const DUNE_SWAY = 0.6;
+export const DUNE_SWAY = 1.3;
+/** A ridge stands where `gap` is over this, at full height a span higher. */
+const DUNE_GAP_FROM = -0.2;
+export const DUNE_GAP_SPAN = 0.45;
 
 /** The share of its full size a quantity reaches `distance` in: ~63% at `reach`. */
 export const approach = (distance: number, reach: number) =>
@@ -95,11 +98,16 @@ export function lowlandFloor(
 
 /**
  * How high the dunes behind the beach stand over the ground `d` metres inland
- * (positive), never negative: sharp-crested ridges along the shore. `swell` and
- * `sway`, each in `[-1, 1]` and slow against a ridge, vary the ridges' height
- * along the shore and bend their lines.
+ * (positive), never negative: sharp-crested ridges along the shore. `swell`,
+ * `sway` and `gap`, each in `[-1, 1]`, vary the ridges' height along the
+ * shore, bend their lines across it and break them into runs.
  */
-export function duneAt(d: number, swell: number, sway: number): number {
+export function duneAt(
+  d: number,
+  swell: number,
+  sway: number,
+  gap: number,
+): number {
   const along =
     ramp((d - DUNES_FROM_METRES) / DUNES_RISE_METRES) *
     (1 - ramp((d - DUNES_FADE_FROM_METRES) / DUNES_FADE_METRES));
@@ -107,5 +115,6 @@ export function duneAt(d: number, swell: number, sway: number): number {
   const crest =
     1 -
     Math.abs(Math.sin(Math.PI * (d / DUNE_SPACING_METRES + DUNE_SWAY * sway)));
-  return DUNE_METRES * along * (0.6 + 0.4 * swell) * crest * crest;
+  const standing = ramp((gap - DUNE_GAP_FROM) / DUNE_GAP_SPAN);
+  return DUNE_METRES * along * (0.6 + 0.4 * swell) * standing * crest * crest;
 }
