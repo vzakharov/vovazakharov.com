@@ -17,7 +17,18 @@ Branch `claude/island-beauty-coast`, cut from the lead's `bd43fa32`.
   Salts `noiseSalt(seed, 3000 + i)`, the roughness `3099` (relief 0–16, belts
   2000–2002).
 - One slow seeded roughness field (50 km), pushed toward its ends, scales the
-  whole push between 0.3× (calm) and 1.6× (rough).
+  whole push between 0.3× (calm) and 1.6× (rough). `CoastDistance.calm(p)` gives
+  the stretch's share of calm (0–1): the dunes stand only on calm stretches
+  (`reliefAt`'s `calm`), and a rough stretch's sand is a ~20 m strip at the
+  water (`sandAt`'s `calm`); both read it lazily, only where a dune or sand
+  could be.
+- Skerries (salt `3098`): on rough stretches, noise 300 m long over 0.4 lifts
+  the sea's distance by up to 600 m, rising from 400 m out of the coast bent
+  down to 600 m bends and dying from 800 m out — islets ~80 m across about
+  600 m offshore, roughly one per 4 km of rough coast. A cut under 300 m keeps
+  them; bounds carry them.
+- `resolvedAt(finest, λ)` (shore.ts) is the one fade every cut uses: relief,
+  bounds and the coast.
 - Whole within 6 km of the field's coast, faded out over the next 10 km; past
   16 km the field reads unchanged.
 - Band-limited like `reliefAt`: `λ ≤ finest` left out, up to `2·finest` faded
@@ -37,15 +48,18 @@ coastCutReach`, `groundSpread(m)` (height-sphere.ts) — see below.
   120 m, no confetti islets or lakes; Brittany and Liguria hold at 150 km.
 - The coast moves at most 3.8 km (2000 samples near shore; test < 4 km): about
   a pixel from 820 km.
-- Fill time, five tiles L6–L16 at 44.019, 10.046 (`tmp/coast/bench.ts`, warm,
-  two runs): raw 213 ms → bent 287 ms (+35%) on coast tiles.
-- `COAST_STEEPEST` 92 (true but loose); `SPHERE_GROUND_SLOPE` 12 171;
+- Fill time, five tiles L6–L16 at 44.019, 10.046, a rough stretch
+  (`tmp/coast/bench.ts`, warm, two runs): raw 216 ms → 336 ms (+56%) with
+  bends, calm and skerries.
+- `COAST_STEEPEST` 557 (true but loose); `SPHERE_GROUND_SLOPE` ~69 900;
   `groundSpread` sits at the range cap at every span. Tile counts unchanged
   (alpine 143/145/144, lowland 161/150/149, `tmp/coast/count-tiles.ts`).
 - `detailReach(8)` 2140 m (no production reader; the relief test's bound is
   3000).
-- Pins: the dune-belt sand pin moved 44.019, 10.046 → 44.015, 10.048 with the
-  coast; the heights at 10° N did not move. `lowland.test.ts` passes.
+- Calm at: Liguria 44.019, 10.046 → 0 (rough); Versilia 43.735, 10.266 → 1;
+  Brittany 48.4, −4.6 → 0.2.
+- Pins: the dune-belt sand pin moved to Versilia, 43.735, 10.266 (Liguria is
+  rough, so it lost its belt); the heights at 10° N did not move. `lowland.test.ts` passes.
 
 ## `groundSpread`
 
@@ -64,7 +78,7 @@ coastCutReach`, `groundSpread(m)` (height-sphere.ts) — see below.
 - **The terms that hold the slope bound up:** (1) `hills` — the alpine lift
   (3200 m) × (steepest + 1) times the line field's slope, `2/LINE_WIDTH · (1 +
 hillRank)` (up to ×15); (2) `broad × (1 + KIND_STEEPEST·(reach + FINE))`, ×19;
-  (3) now the coast's steepness, 92 against a measured few, entering
+  (3) the coast's steepness, 557 against a measured few, entering
   `groundSlope` affinely at ~124 m per unit. All sup-times-sup. What would
   reach 2–3× of measured: brackets from the filled tile's own heights plus a
   slack from the finest level, or interval arithmetic of `reliefAt` over a tile.
@@ -74,6 +88,6 @@ hillRank)` (up to ×15); (2) `broad × (1 + KIND_STEEPEST·(reach + FINE))`, ×1
 
 ## Next
 
-- Dunes on the calm stretches only: export the roughness to `sandAt`/`duneAt`.
-- The odd skerry on purpose in the rough stretches (a sparse additive term).
-- An exit per bend near the line, if fill time matters (+35% today).
+- An exit per bend near the line, if fill time matters (+56% on rough coast).
+- Outside these files: a rock colour in the tile cover/shader for rough
+  stretches, which today draw bare ground where calm ones draw sand.

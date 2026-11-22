@@ -87,7 +87,6 @@ const FIELD_STEEPEST = Math.SQRT2;
  */
 const CALM_TURN = 3;
 
-/** The share of calm at lattice value `n`. */
 const calmAt = (n: number) => 1 - ramp(0.5 + CALM_TURN * n);
 
 /** The steepest the share of calm is, per metre of ground. */
@@ -121,7 +120,7 @@ const skerryShare = (d: number) =>
 /** How much the skerries' share stretches the slope of the coast it reads. */
 const SKERRY_STRETCH = 1 + (3 * SKERRY_METRES) / SKERRY_RISE_METRES;
 
-/** Layer `layer`'s noise at direction `p` (unit) on the lattice `toLattice`. */
+/** `layer`'s noise at unit direction `p`. */
 const noiseOn = (
   seed: number,
   layer: number,
@@ -137,7 +136,6 @@ const noiseOn = (
   );
 };
 
-/** The roughness's lattice value at direction `p` (unit). */
 const roughnessNoise = (seed: number, p: Vec3) =>
   noiseOn(seed, ROUGHNESS_LAYER, ROUGHNESS_TO_LATTICE, p);
 
