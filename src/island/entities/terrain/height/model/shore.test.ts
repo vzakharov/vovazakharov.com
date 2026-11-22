@@ -130,8 +130,8 @@ describe('lowlandFloor over the shore', () => {
 });
 
 describe('duneAt', () => {
-  it('leaves the beach bare and dies out under a kilometre in', () => {
-    for (const d of [0, 10, 30, 850, 5000]) {
+  it('leaves the beach bare and dies out a mile in', () => {
+    for (const d of [0, 10, 30, 1500, 5000]) {
       assert.equal(duneAt(d, 1, 0.3, 1), 0, `at ${d} m`);
     }
   });
@@ -141,7 +141,7 @@ describe('duneAt', () => {
     let tallest = 0;
     for (let k = 0; k < 5000; k += 1) {
       const dune = duneAt(
-        900 * next(),
+        1500 * next(),
         2 * next() - 1,
         2 * next() - 1,
         2 * next() - 1,
@@ -154,7 +154,7 @@ describe('duneAt', () => {
 
   it('stands in ridges one spacing apart on the way in', () => {
     const crests: number[] = [];
-    for (let d = 121; d < 600; d += 1) {
+    for (let d = 121; d < 1000; d += 1) {
       const here = duneAt(d, 0, 0, 1);
       if (here > duneAt(d - 1, 0, 0, 1) && here >= duneAt(d + 1, 0, 0, 1)) {
         crests.push(d);
