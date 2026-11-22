@@ -24,7 +24,7 @@ import {
 } from './cloud-cover';
 import type { iceSeen } from './cloud-ice';
 import { type F, seenTo, type V } from './cloud-noise';
-import type { CloudFrame, Stretch } from './cloud-rays';
+import type { Stretch } from './cloud-rays';
 import type { Regime } from './cloud-regimes';
 
 /** What a cloud march over one ray's stretch of `regime`'s layer works with; the stretch is the ray's in the layer. */
@@ -37,9 +37,8 @@ export type MarchRay = Stretch & {
   readonly phase: F;
 };
 
-/** What a march's steps share: what the ice cloud is drawn with, the eye and its lamps, and the field. */
+/** What a march's steps share: what the ice cloud is drawn with, and the field. */
 export type StepKit = Parameters<typeof iceSeen>[0] & {
-  readonly frame: CloudFrame;
   readonly cover: CloudCover;
 };
 
@@ -74,13 +73,10 @@ export const mesoAt = (
  * The steps of a cloud march: the field read at a point of a ray, and the
  * light one step between two such reads sends to the eye.
  */
-export function cloudSteps({
-  frame: { height, towardSun },
-  rays,
-  cover,
-  light,
-  turned,
-}: StepKit) {
+export function cloudSteps(
+  { frame: { height }, rays, cover, light, turned }: StepKit,
+  towardSun: V,
+) {
   const mesoEnds = ({
     direction,
     regime,

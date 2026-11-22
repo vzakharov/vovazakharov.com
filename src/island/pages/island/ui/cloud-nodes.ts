@@ -29,9 +29,15 @@ import { iceSeen } from './cloud-ice';
 import { cloudLight } from './cloud-light';
 import { cloudMarch } from './cloud-march';
 import type { F, V } from './cloud-noise';
-import { type CloudFrame, cloudRays } from './cloud-rays';
+import { cloudRays, type EyeFrame } from './cloud-rays';
 import { type Regime, regimeAt } from './cloud-regimes';
 import { cloudSteps } from './cloud-step';
+
+/** What the sky hands its clouds: the eye's place and the lamps, as `sky-nodes.ts` holds them. */
+export type CloudFrame = EyeFrame & {
+  readonly towardSun: V;
+  readonly towardMoon: V;
+};
 
 export type CloudNodes = {
   /**
@@ -99,7 +105,7 @@ export function cloudNodes(frame: CloudFrame): CloudNodes {
   const rays = cloudRays(frame);
   const ice = iceSeen({ frame, rays, light, turned });
   const kit = { frame, rays, cover, light, turned };
-  const march = cloudMarch(kit, cloudSteps(kit));
+  const march = cloudMarch(kit, cloudSteps(kit, towardSun));
 
   /** The signal over `spot` under `regime` from the meso cells and the `octaves` coarsest cumulus scales, for an eye `away` metres off. */
   const signalOver = (spot: V, regime: Regime, away: F, octaves: number): F => {

@@ -16,12 +16,6 @@ export type EyeFrame = {
   readonly shell: F;
 };
 
-/** What the sky hands its clouds: the eye's place and the lamps, as `sky-nodes.ts` holds them. */
-export type CloudFrame = EyeFrame & {
-  readonly towardSun: V;
-  readonly towardMoon: V;
-};
-
 type Meeting = {
   readonly hit: Node<'bool'>;
   readonly near: F;
