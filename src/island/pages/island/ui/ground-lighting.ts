@@ -176,7 +176,8 @@ export type GroundLighting = CanDispose &
      * Dresses every material in `look`: the fine one — the air, its clouds and
      * haze, the land's surface down to its grain, and with `rippled` the sea
      * as a surface (WebGPU only) — the swift one, the same with the clouds
-     * read from `clouds`' buffer, or the plain one: the land's broad colours
+     * read from `clouds`' buffer and the land without what only tells
+     * underfoot, or the plain one: the land's broad colours
      * and the sea's flat one under the lamps. The first dressing in a look
      * compiles its shaders. Returns the background the look draws behind
      * everything, none for plain.
@@ -286,7 +287,7 @@ export function groundLighting(): GroundLighting {
       material.outputNode = seen;
       material.needsUpdate = true;
     }
-    const dressing = fine ? ground.fine : ground.plain;
+    const dressing = ground[look];
     for (const material of lands) {
       material.colorNode = dressing.colour;
       material.normalNode = dressing.normal;

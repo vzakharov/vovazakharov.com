@@ -7,6 +7,7 @@ import type { Readying } from '@/kernel/shared/typings';
  */
 export const LOOKS = ['plain', 'swift', 'fine'] as const;
 export type Look = (typeof LOOKS)[number];
+export type Looking = { readonly look: Look };
 
 /** The look after `look` in `LOOKS`, the first after the last. */
 export const nextLook = (look: Look): Look =>

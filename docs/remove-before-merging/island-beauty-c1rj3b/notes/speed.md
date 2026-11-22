@@ -46,9 +46,20 @@ fragment of every tile, the ocean and the trees.
   depth-edge halo. Each fragment cuts it at its own distance as if the cloud
   were spread evenly along the ray; that is exact at both ends, and
   approximate only for a surface inside the layer.
-- The march's per-pixel start grain (`screenCoordinate` in `cloud-nodes.ts`)
-  drew as diagonal hatching at the buffer's scale. A 3×3 tent over the fresh
-  pixels evens it out.
+- The merged clouds' march has no screen grain, so the 3×3 tent that hid it
+  is gone: a freshly marched pixel is used as marched.
+- The cut assumes the cloud spread evenly over the ray's whole stretch of the
+  layer (500–11 500 m). For a surface inside the layer, or a low eye's
+  near-level ray, that misplaces the cloud along the ray; the fragment still
+  gets the right total where its ray leaves the layer.
+
+**On the merged clouds (72d2324dd).** The stretch is `cloudRays(frame).stretch`
+over `LOWEST_BASE`–`HIGHEST_TOP`; `swift-span.ts` is gone. The lead's turning
+proof — 300 m, pitch 10°, heading 0→50° in 5° steps, eleven frames drawn one
+after another with swift on — differs from the same turn in fine by a mean of
+0.07–0.08 / 255 per frame, flat over the turn (max one pixel 62, at 45°, a
+coast edge). Grid: `frames/speed-swift-turning-5deg.jpg`, swift left, fine
+right, every 10°.
 
 **"Not drunk", checked** (`tmp/speed/turn.ts`, frames below):
 
@@ -67,17 +78,9 @@ alone. `skyNodes` builds `aerial` and `background` twice, as `fine` and
 one and returns the look's background. `scene-look` prepares the swift passes
 in `shine`, before the render. `island-scene.ts`: 371 lines.
 
-**Hooks for the clouds member** (I edited no `cloud-*.ts`):
-
-1. `swift-span.ts` restates the layer's stretch (`meets`/`stretch` against
-   `CLOUD_BASE`/`CLOUD_TOP`). On the clouds merge it becomes
-   `cloudRays(frame).stretch(cosine, 1e12, LOWEST_BASE, HIGHEST_TOP)`. The
-   constants it imports vanish in that merge, so the type check fails there
-   rather than letting it drift.
-2. The clouds branch's march has no screen grain, so the tent then only
-   softens. Whoever merges should look at it again then.
-3. `along` must stay valid in a full-screen pass: no `positionWorld`, the
-   direction handed in. It is today, and on the clouds branch.
+**For the clouds member.** `along` must stay valid in a full-screen pass: no
+`positionWorld`, the direction handed in. Its cost may change freely; the
+swift pass marches it a sixteenth as often.
 
 **Proposed next swift cuts, not built:**
 

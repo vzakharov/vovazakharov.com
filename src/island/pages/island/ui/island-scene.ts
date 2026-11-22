@@ -2,10 +2,7 @@ import { Group, PerspectiveCamera, Scene, WebGPURenderer } from 'three/webgpu';
 
 import type { WithOnError } from '@/kernel/shared/typings';
 
-import { pathHash } from '@/dice/shared/roll';
-
 import { length, R, sub } from '@/island/shared/globe';
-import { isFine } from '@/island/shared/play';
 import type { CoastDistance } from '@/island/entities/terrain';
 import {
   bindEyeControls,
@@ -38,7 +35,7 @@ import { eyeOfPose, placeOfEye } from '../lib/eye-pose';
 import { type Pace, paced } from '../lib/pace';
 import type { Pose } from '../lib/place-hash';
 import { startTilePool, type TilePool } from '../lib/tile-pool';
-import { coastOf, groundOf, SEA_LEVEL } from '../lib/world-ground';
+import { coastOf, groundOf, SEA_LEVEL, treeGround } from '../lib/world-ground';
 import { groundLighting } from './ground-lighting';
 import type { IslandScene } from './island-scene-api';
 import { rollLattice } from './lattice-value';
@@ -106,7 +103,7 @@ export function mountIslandScene(
     render,
     keys: play ? null : canvas,
     onLook: (look) => {
-      trees.setShown(isFine(look));
+      trees.drawAs(look);
       onLook(look);
     },
   });
@@ -159,7 +156,7 @@ export function mountIslandScene(
   /** A pool on `on`, whose tiles and field are taken only while it is current. */
   const startPool = (on: string): TilePool => {
     generation += 1;
-    rollLattice(pathHash(on));
+    rollLattice(on);
     const mine = generation;
     const current = () => !disposed && mine === generation;
     const started = startTilePool(
@@ -177,9 +174,9 @@ export function mountIslandScene(
       ({ field, seed, buildMs }) => {
         if (!current()) return;
         built = { of: mine, ms: buildMs };
-        coast = coastOf(field);
+        coast = coastOf(field, seed);
         groundAt = groundOf(coast, seed);
-        trees.setGround({ seed, groundAt, wordAt: pathHash(on) });
+        trees.setGround(treeGround(coast, seed, on));
         view.reselect();
         landed.resolve();
       },
@@ -197,7 +194,7 @@ export function mountIslandScene(
     const pose = poseOf(eye, camera.aspect);
     const [ex, ey, ez] = pose.position;
     view.draw(eye, camera.aspect);
-    trees.draw(pose.position, eye.height);
+    trees.draw(pose.position, eye.height, stepped);
     globe.position.set(-ex, -ey, -ez);
     camera.fov = (pose.fov * 180) / Math.PI;
     camera.updateProjectionMatrix();

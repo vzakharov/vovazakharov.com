@@ -1,7 +1,7 @@
 import { dot, Fn, uniform } from 'three/tsl';
 import { type Node, Vector3 } from 'three/webgpu';
 
-import { roll, rollWith } from '@/dice/shared/roll';
+import { pathHash, roll, rollWith } from '@/dice/shared/roll';
 
 /**
  * How many whole cells a world shifts the lattice by along each axis, at
@@ -20,20 +20,25 @@ const SHIFT = roll.struct({
 const worldShift = uniform(new Vector3());
 
 /**
- * Keys every `latticeValue` to the world whose words `wordAt` reads, so no two
- * worlds draw the same grain, cloud or storm at the same place.
+ * Keys every `latticeValue` to the world at path `world`, so no two worlds
+ * draw the same grain, cloud or storm at the same place.
  */
-export function rollLattice(wordAt: (path: string) => number): void {
+export function rollLattice(world: string): void {
+  const wordAt = pathHash(world);
   const { x, y, z } = rollWith(SHIFT, (path) => wordAt(`lattice/${path}`));
   worldShift.value.set(x, y, z);
 }
+
+/** A lattice cell as the open world numbers it: what a hash of a cell folds. */
+export const worldCell = (cell: Node<'vec3'>): Node<'vec3'> =>
+  cell.add(worldShift);
 
 /**
  * A lattice point's value, 0 to 1, the open world's own: the one hash every
  * noise the shaders draw is built on.
  */
 export const latticeValue = Fn(([point]: [Node<'vec3'>]) => {
-  const folded = point.add(worldShift).mul(0.1031).fract().toVar();
+  const folded = worldCell(point).mul(0.1031).fract().toVar();
   folded.addAssign(dot(folded, folded.zyx.add(31.32)));
   return folded.x.add(folded.y).mul(folded.z).fract();
 });

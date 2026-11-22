@@ -1,5 +1,6 @@
 import {
   clamp,
+  dot,
   exp,
   float,
   Fn,
@@ -36,15 +37,16 @@ import type { CanDispose } from '@/kernel/shared/typings';
 
 import { R, type Vec3 } from '@/island/shared/globe';
 
+import { HIGHEST_TOP, LOWEST_BASE } from '../lib/clouds';
 import type { CloudFrame, CloudNodes } from './cloud-nodes';
-import { cloudSpan } from './swift-span';
+import { cloudRays } from './cloud-rays';
 
 type V = Node<'vec3'>;
 type V2 = Node<'vec2'>;
 type V4 = Node<'vec4'>;
 
 /** The passes that fill the swift clouds' buffer, run before each frame. */
-export type CloudPass = CanDispose & {
+type CloudPass = CanDispose & {
   /**
    * Marches this frame's share of the clouds and carries the rest over from
    * the last frame, for `camera` as it is about to draw, the eye at `eye`
@@ -99,7 +101,15 @@ export function swiftClouds(
   clouds: CloudNodes,
   frame: CloudFrame,
 ): SwiftClouds {
-  const span = cloudSpan(frame);
+  const rays = cloudRays(frame);
+  /** The whole stretch of a ray from the eye through every layer the clouds may fill, the planet ignored. */
+  const span = (direction: V) =>
+    rays.stretch(
+      dot(direction, frame.up),
+      float(1e12),
+      LOWEST_BASE,
+      HIGHEST_TOP,
+    );
   const size = uniform(new Vector2(1, 1));
   const sparseSize = uniform(new Vector2(1, 1));
   const offset = uniform(new Vector2());
@@ -150,22 +160,19 @@ export function swiftClouds(
       const pixel = screenCoordinate.xy.floor();
       const cell = pixel.div(BLOCK).floor();
       const mine = pixel.sub(cell.mul(BLOCK));
-      // The fresh neighbours: their spread, and their tent round this block,
-      // which evens out the march's per-pixel grain at the buffer's scale.
       const fresh = sparseAt(cell);
-      const low = vec4(fresh).toVar();
-      const high = vec4(fresh).toVar();
-      const tent = vec4(fresh.mul(4)).toVar();
-      for (const x of [-1, 0, 1])
-        for (const y of [-1, 0, 1]) {
-          if (x === 0 && y === 0) continue;
-          const near = sparseAt(cell.add(vec2(x, y)));
-          low.assign(min(low, near));
-          high.assign(max(high, near));
-          tent.addAssign(near.mul((2 - Math.abs(x)) * (2 - Math.abs(y))));
-        }
-      const result = tent.div(16).toVar();
+      const result = vec4(fresh).toVar();
       If(mine.equal(offset).all().not(), () => {
+        // The fresh neighbours' spread, which a carried pixel stays within.
+        const low = vec4(fresh).toVar();
+        const high = vec4(fresh).toVar();
+        for (const x of [-1, 0, 1])
+          for (const y of [-1, 0, 1]) {
+            if (x === 0 && y === 0) continue;
+            const near = sparseAt(cell.add(vec2(x, y)));
+            low.assign(min(low, near));
+            high.assign(max(high, near));
+          }
         // Between the fresh pixels, for want of what the last frame saw.
         const at = pixel.sub(offset).div(BLOCK);
         const corner = at.floor();

@@ -30,9 +30,9 @@ export const BAND_HEIGHTS: {
   readonly mountain: readonly [from: number, to: number];
   readonly snowLine: number;
 } = {
-  upland: [520, 780],
-  mountain: [1120, 1380],
-  snowLine: 1700,
+  upland: [260, 400],
+  mountain: [950, 1200],
+  snowLine: 2200,
 };
 
 /** What the land above the beach is made of, each material's colour in linear RGB. */
@@ -40,25 +40,32 @@ export const LAND_PALETTE = {
   /** Lowland meadow in growth, and gone to seed. */
   meadow: toLinear([0.3, 0.5, 0.2]),
   hay: toLinear([0.56, 0.57, 0.3]),
-  /** A closed canopy seen from over it: broadleaf low, conifer toward the upland. */
-  broadleaf: toLinear([0.2, 0.36, 0.15]),
-  conifer: toLinear([0.14, 0.28, 0.16]),
+  /** Rushes in a meadow's damp hollow. */
+  rush: toLinear([0.22, 0.4, 0.17]),
+  /** The trees' own leaf colours, linear as their meshes carry them: a canopy from over it is their mix, shaded. */
+  broadleaf: [0.058, 0.14, 0.024],
+  conifer: [0.028, 0.082, 0.036],
+  /** Beach sand dried pale above the tide, and the wrack a storm left on it. */
+  sandDry: toLinear([0.9, 0.85, 0.68]),
+  wrack: toLinear([0.22, 0.18, 0.12]),
+  /** Marram, the pale grass that holds a dune. */
+  marram: toLinear([0.6, 0.63, 0.38]),
   /** The ground under a canopy. */
   litter: toLinear([0.36, 0.3, 0.19]),
   moss: toLinear([0.27, 0.36, 0.16]),
   /** Bare earth where a lowland slope is too steep to hold turf. */
   earth: toLinear([0.47, 0.37, 0.25]),
   /** The upland: tussock, heath between it, stony soil under both. */
-  tussock: toLinear([0.57, 0.53, 0.31]),
-  heath: toLinear([0.4, 0.31, 0.2]),
-  stony: toLinear([0.46, 0.4, 0.33]),
+  tussock: toLinear([0.58, 0.48, 0.31]),
+  heath: toLinear([0.33, 0.24, 0.19]),
+  stony: toLinear([0.45, 0.41, 0.35]),
   /** Alpine turf, the last green under the rock. */
   turf: toLinear([0.4, 0.44, 0.24]),
   /** Rock's beds, the darker and the lighter, and the scree under a face. */
   rockDark: toLinear([0.33, 0.31, 0.3]),
   rockLight: toLinear([0.56, 0.53, 0.5]),
   scree: toLinear([0.55, 0.53, 0.5]),
-  snow: toLinear([0.95, 0.96, 0.98]),
+  snow: toLinear([0.86, 0.88, 0.92]),
 } as const satisfies Record<string, Rgb>;
 
 /**

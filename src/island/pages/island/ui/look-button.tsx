@@ -1,12 +1,11 @@
 'use client';
 
-import type { Look } from '@/island/shared/play';
+import type { Looking } from '@/island/shared/play';
 
 import COPY from '../config/messages/en.json';
 import classes from './island.module.scss';
 
-type LookButtonProps = {
-  readonly look: Look;
+type LookButtonProps = Looking & {
   /** Steps to the next look, as B does. */
   readonly onStep: () => void;
 };
