@@ -22,7 +22,7 @@ type Meeting = {
   readonly far: F;
 };
 
-type Stretch = { readonly from: F; readonly length: F };
+export type Stretch = { readonly from: F; readonly length: F };
 
 export type CloudRays = {
   /** The stretch of a ray `cosine` off the zenith between the spheres `low` and `high` metres above the sea, cut at `metres`. */
