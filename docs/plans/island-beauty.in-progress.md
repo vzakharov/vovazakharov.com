@@ -68,6 +68,17 @@ otherwise; his answers get quoted under each when they come.
    opens plain? — His answer: «да».
 5. Which hardware judges speed? — His answer: «macbook m2pro».
 
+## Steering, in the order it came
+
+- 2026-11-22, after the answers: «хотя знаешь, давай замахнёмся на деревья
+  тоже». Trees as objects are in; a fourth builder takes them.
+- 2026-11-22, on the lead's reading of answer 2 as "one kind, a mountain range":
+  «я не это имел в виду. я имел в виду, хорошо отрисовать то что у нас уже есть:
+  песок, зелёное, корчиневое, горы -- выбрав один вариант климата для каждого».
+  So: all four bands the land already has, each drawn well, each with one
+  climate picked for it; no climate model. The relief and ground children were
+  re-briefed by message the same turn.
+
 ## What is there today (read 2026-11-22)
 
 - **Relief** — `src/island/entities/terrain/height/model/relief.ts`: a plateau
@@ -96,22 +107,29 @@ otherwise; his answers get quoted under each when they come.
   and its frames, which this run does not continue. Beat: merging it in for the
   board's history — it would put 500 files of another run's working directory
   into this PR's diff.
-- **The one kind of landscape is a mountain range.** It reads at every height
-  the eye passes through — from orbit as the structure of a continent, at 10 km
-  as ridges and valleys, at two metres as a skyline — and it is where "the same
-  voxels under another texture" is most plainly false today: rounded noise hills
-  painted grey, then white. Beat: a sand sea (dunes read only below ~50 km, and
-  Earth's opening beach is nowhere near one) and a forest (without trees as
-  objects, which he ruled out, it is shading alone).
-- **A range changes the relief itself**, in the worker and in the eye's
-  `groundAt` alike, and gets a surface of its own in the shader: the ask is "not
-  different textures over the same voxels". Ranges lie in belts a slow field of
-  the world's own places; everywhere else the ground keeps today's recipe.
-- **No climate contract.** The first draft of this plan had the relief child
-  land a `climate` vertex attribute first; the operator's answer to question 2
-  removes its reader. What the mountain shader needs — height, slope, and the
-  latitude, which a fragment can work out from its own position — is already
-  there.
+- **The four kinds are the four bands the land already has — sand, green, brown,
+  mountains — and each gets one climate, chosen so the four read as one place**:
+  a temperate mountain coast. Sand is an ocean beach with a belt of dunes behind
+  it. Green is lowland meadow and mixed forest on rolling hills cut by stream
+  valleys. Brown is subalpine upland: tussock and heath over stony soil,
+  outcrops, the last conifers thinning out. Mountains are alpine: bare rock with
+  its bedding, scree, snow. Beat: giving each band the climate that flatters it
+  alone (a tropical beach under a taiga) — bands that share no climate would
+  read as a quilt.
+- **Each kind has its own shape as well as its own surface**: the relief recipe
+  turns with the band, in the worker and in the eye's `groundAt` alike, because
+  the ask is "not different textures over the same voxels". A band is told by
+  the broad height the ground already has, blended, never a line.
+- **No climate model, no latitude in the look.** One climate everywhere is his
+  call; Earth's tropics keep snow on high ground until he asks otherwise.
+- **Trees are objects** near the eye and shading far from it, and the two must
+  agree on where forest is. So forest cover is one function, evaluated once: the
+  tile worker writes it per vertex as `cover` (0 bare to 1 closed canopy), the
+  tree placer reads the same function, and the ground shader reads the
+  attribute. Beat: a noise written twice, in TS for the placer and in TSL for
+  the shader — two copies that drift.
+- **Trees draw in the full looks only.** The plain look is what a weak machine
+  flies; it takes the canopy's tint from `cover` and no instances.
 - **The speed target is the operator's M2 Pro at 60 fps** (the earlier island
   record: the fine look runs there at 7–14). The full look may cost up to half
   again what it costs today; anything dearer waits for the optimised look.
