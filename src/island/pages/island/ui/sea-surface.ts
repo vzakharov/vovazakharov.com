@@ -13,6 +13,7 @@ import {
   reflect,
   uniform,
   vec3,
+  vertexStage,
   wgslFn,
 } from 'three/tsl';
 import { type Node, Vector2, Vector3 } from 'three/webgpu';
@@ -84,7 +85,8 @@ export function seaSurface(radiance: Radiance): SeaSurface {
   const mirrored = radiance(
     normalize(flat.add(zenith.mul(max(float(0.03).sub(dot(flat, zenith)), 0)))),
   );
-  const overhead = radiance(zenith);
+  // The zenith turns a degree over a hundred kilometres: a vertex's sky is any fragment's.
+  const overhead = vertexStage(radiance(zenith));
   const footprint = max(
     length(dFdx(positionWorld)),
     length(dFdy(positionWorld)),
