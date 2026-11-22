@@ -40,6 +40,7 @@ import { startTilePool, type TilePool } from '../lib/tile-pool';
 import { coastOf, groundOf, SEA_LEVEL } from '../lib/world-ground';
 import { groundLighting } from './ground-lighting';
 import type { IslandScene } from './island-scene-api';
+import { rollLattice } from './lattice-value';
 import { oceanGlobe } from './ocean-globe';
 import { sceneLook } from './scene-look';
 import { tileView } from './tile-view';
@@ -150,6 +151,7 @@ export function mountIslandScene(
   /** A pool on `on`, whose tiles and field are taken only while it is current. */
   const startPool = (on: string): TilePool => {
     generation += 1;
+    rollLattice(pathHash(on));
     const mine = generation;
     const current = () => !disposed && mine === generation;
     const started = startTilePool(

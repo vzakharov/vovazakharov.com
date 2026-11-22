@@ -90,6 +90,13 @@ otherwise; his answers get quoted under each when they come.
   приближения». So: the coastline gains detail as the eye nears it, every scale
   of it a pure function of the world's roll and the place, never of the tile or
   the frame. A sixth package, the coast's.
+- 2026-11-22 ~15:50 UTC: «На всякий случай уточню: вся случайность же через
+  rolled делается?» — see "Every random thing is keyed by the world's roll"
+  under the design decisions.
+- 2026-11-22 ~15:55 UTC: «А на телефоне высокое качество как-то включить можно?»
+  Today it cannot: the look changes on the B key alone and a touch screen has no
+  key. The speed member, who is rebuilding that switch into three positions,
+  adds a control a finger reaches.
 
 ## What is there today (read 2026-11-22)
 
