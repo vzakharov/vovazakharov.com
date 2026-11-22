@@ -123,10 +123,13 @@ fn seaGroups(field: vec3f, grain: vec3f) -> vec2f {
  * drifting with the slow fields' values \`groups\`. Slope variance is Cox and
  * Munk's for the wind's speed, spread evenly over the bands shorter than the
  * wind's own longest wave and leaning downwind. A wave under a few pixels
- * long is taken out of the slope and into \`hidden\`. \`ripples.ts\` is this
+ * long is taken out of the slope and into \`hidden\`, and so is every wave
+ * past the first \`bands\` bands. \`ripples.ts\` is this
  * and \`seaGroups\` in float64: a change goes to both.
  */
-fn ripplesAt(place: vec3f, groups: vec2f, up: vec3f, wind: vec3f, footprint: f32, seconds: f32) -> Rippled {
+fn ripplesAt(
+  place: vec3f, groups: vec2f, up: vec3f, wind: vec3f, footprint: f32, seconds: f32, bands: f32,
+) -> Rippled {
   let speed = length(wind);
   let heading = wind / max(speed, 1e-3);
   let variance = 0.003 + 0.00512 * speed;
@@ -150,7 +153,7 @@ fn ripplesAt(place: vec3f, groups: vec2f, up: vec3f, wind: vec3f, footprint: f32
         RIPPLE_SHARE * variance * lying * lying *
         (0.12 + 0.88 * downwind * downwind) *
         (1.0 - smoothstep(0.6 * longest, 1.2 * longest, metres));
-      let seen = smoothstep(2.0, 6.0, metres / footprint);
+      let seen = smoothstep(2.0, 6.0, metres / footprint) * step(f32(band) + 1.0, bands);
       hidden += share * (1.0 - seen * seen);
       // A wave under two pixels adds no slope: its phase is never wanted.
       if (seen > 0.0) {
@@ -254,6 +257,7 @@ fn seaDampTint(world: vec3f, bed: f32, swell: vec2f) -> vec3f {
 fn seaColour(
   place: vec3f, field: vec3f, grain: vec3f, world: vec3f, eye: vec3f, sun: vec3f, bed: f32,
   under: vec3f, footprint: f32, seconds: f32, mirrored: vec3f, overhead: vec3f, swell: vec2f,
+  bands: f32,
 ) -> vec3f {
   let level = seaSwellAt(world, bed, swell);
   // Dry sand, which \`seaLies\` discards: its colour is never seen.
@@ -267,7 +271,7 @@ fn seaColour(
   // Shallows and lee water lie smoother: the bed takes the short waves' fetch.
   let depth = max(-bed, 0.0);
   let calm = 0.35 + 0.65 * smoothstep(0.0, 4.0, depth);
-  let rippled = ripplesAt(place, seaGroups(field, grain), up, wind * calm, footprint, seconds);
+  let rippled = ripplesAt(place, seaGroups(field, grain), up, wind * calm, footprint, seconds, bands);
   // The swell's own slope along its run, while a pixel is finer than a wave.
   let swellSeen = 1.0 - smoothstep(1.0, 6.0, footprint);
   let run = SEA_SWELL_AXIS - up * dot(SEA_SWELL_AXIS, up);

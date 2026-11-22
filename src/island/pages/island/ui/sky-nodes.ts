@@ -54,8 +54,11 @@ export type Aired = Backed & {
 };
 
 export type SkyNodes = Clouded & {
-  /** Radiance arriving from world direction `direction` (unit), linear RGB, in the scene's exposure: what the sea mirrors. */
-  readonly radiance: (direction: Node<'vec3'>) => Node<'vec3'>;
+  /** Radiance arriving from world direction `direction` (unit), linear RGB, in the scene's exposure: what the sea mirrors. `cloudless` leaves the clouds out. */
+  readonly radiance: (
+    direction: Node<'vec3'>,
+    cloudless?: boolean,
+  ) => Node<'vec3'>;
   /** The air with the clouds marched for every fragment. */
   readonly fine: Aired;
   /** The air with the clouds read from `swiftClouds`' buffer, which `clouds` fills. */
@@ -257,8 +260,9 @@ export function skyNodes(): SkyNodes {
     towardMoon,
   });
 
-  const radiance = (direction: V): V => {
+  const radiance = (direction: V, cloudless = false): V => {
     const { through, glow } = dome(direction);
+    if (cloudless) return space.mul(through).add(glow);
     const cloud = clouds.glanced(direction);
     return space.mul(through).add(glow).mul(cloud.a).add(cloud.rgb);
   };

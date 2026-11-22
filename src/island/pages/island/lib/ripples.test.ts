@@ -202,6 +202,15 @@ describe('ripplesAt', () => {
     const grouped = ripplesAt(at, groupsAt(at, GRAIN), UP, WIND, 0.3, 0);
     assert.equal(grouped.hidden, plain.hidden);
   });
+
+  it('hides the bands past `bands`, so the slopes it drops are counted in `hidden`', () => {
+    const at: Vec3 = [1234.5, 77.25, 9.5];
+    const all = ripplesAt(at, [0, 0], UP, WIND, 0.01, 0);
+    const coarse = ripplesAt(at, [0, 0], UP, WIND, 0.01, 0, 4);
+    const unseen = ripplesAt(at, [0, 0], UP, WIND, 1e6, 0);
+    assert.ok(coarse.hidden > all.hidden);
+    assert.ok(coarse.hidden < unseen.hidden);
+  });
 });
 
 describe('groupsAt', () => {
