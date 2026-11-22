@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 23069,
-    "cacheWrite5mTokens": 1804,
-    "cacheWrite1hTokens": 1585379,
-    "cacheReadTokens": 96625583,
-    "outputTokens": 386175,
-    "thinkingTokens": 136813,
-    "responses": 514,
-    "costUsd": 39.83495460000006
+    "inputTokens": 27390,
+    "cacheWrite5mTokens": 1882,
+    "cacheWrite1hTokens": 1681992,
+    "cacheReadTokens": 100668282,
+    "outputTokens": 403484,
+    "thinkingTokens": 138333,
+    "responses": 543,
+    "costUsd": 41.78025240000005
   },
   "estimate": {
     "at": "2026-11-22T11:38:14.948Z",
@@ -52,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkCd79gE98JUq5Svi61",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-22T11:27:19.433Z",
-  "lastResponseAt": "2026-11-22T21:35:55.000Z",
+  "lastResponseAt": "2026-11-22T22:04:22.834Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 24.21631760000003,
   "ownTurns": {
-    "inputTokens": 972,
+    "inputTokens": 1028,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 1585379,
-    "cacheReadTokens": 95037349,
-    "outputTokens": 348572,
-    "thinkingTokens": 136813,
-    "responses": 507,
-    "costUsd": 38.66582980000006
+    "cacheWrite1hTokens": 1681992,
+    "cacheReadTokens": 98817685,
+    "outputTokens": 357700,
+    "thinkingTokens": 138333,
+    "responses": 535,
+    "costUsd": 40.37758500000005
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,14 +77,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 23069,
-      "cacheWrite5mTokens": 1804,
-      "cacheWrite1hTokens": 1585379,
-      "cacheReadTokens": 96625583,
-      "outputTokens": 386175,
-      "thinkingTokens": 136813,
-      "responses": 514,
-      "costUsd": 39.83495460000006
+      "inputTokens": 27390,
+      "cacheWrite5mTokens": 1882,
+      "cacheWrite1hTokens": 1681992,
+      "cacheReadTokens": 100668282,
+      "outputTokens": 403484,
+      "thinkingTokens": 138333,
+      "responses": 543,
+      "costUsd": 41.78025240000005
     }
   },
   "warnings": [],
@@ -240,26 +240,55 @@
           "Read": 6
         },
         "estimatedTokens": 15705,
-        "estimatedUsd": 0.41077319999999995
+        "estimatedUsd": 0.4139142
       },
       "billedUsd": 0.24534660000000003
+    },
+    {
+      "at": "2026-11-22T21:37:13.765Z",
+      "trigger": "auto",
+      "compactedFrom": 264441,
+      "summaryChars": 19030,
+      "reorientation": {
+        "endedBy": "end_turn",
+        "endedOn": null,
+        "endedAt": "2026-11-22T21:37:31.465Z",
+        "contextTokens": 125330,
+        "spend": {
+          "inputTokens": 16,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 68033,
+          "cacheReadTokens": 759171,
+          "outputTokens": 1437,
+          "thinkingTokens": 202,
+          "responses": 7,
+          "costUsd": 0.7249021999999999
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.23354260000000002
     }
   ],
   "telemetry": {
-    "events": 513,
-    "matched": 506,
-    "matchedTableUsd": 38.605066600000065,
-    "matchedEventUsd": 38.60506660000006,
+    "events": 542,
+    "matched": 534,
+    "matchedTableUsd": 40.307536000000056,
+    "matchedEventUsd": 40.30753600000005,
     "unseen": {
       "compact": {
-        "inputTokens": 21085,
-        "cacheWrite5mTokens": 1134,
+        "inputTokens": 25350,
+        "cacheWrite5mTokens": 1212,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 1303335,
-        "outputTokens": 37541,
+        "cacheReadTokens": 1565698,
+        "outputTokens": 45722,
         "thinkingTokens": 0,
-        "responses": 5,
-        "costUsd": 1.101497
+        "responses": 6,
+        "costUsd": 1.3350396
       },
       "prompt_suggestion": {
         "inputTokens": 1012,
@@ -284,7 +313,7 @@
     ".md": 1662,
     ".json": 618,
     ".yaml": 989,
-    ".ts": 8557,
+    ".ts": 8572,
     ".tsx": 91,
     ".scss": 35
   }
