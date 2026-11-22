@@ -150,7 +150,7 @@ export function treeView(
   const materials = TREE_KINDS.map((kind) => {
     const material = new MeshLambertNodeMaterial({
       vertexColors: true,
-      side: kind === 'conifer' || kind === 'tuft' ? DoubleSide : FrontSide,
+      side: kind === 'conifer' ? DoubleSide : FrontSide,
     });
     material.positionNode = drawnAt;
     dress(material);
