@@ -21,11 +21,11 @@ export const ICE_AT = 10_500;
  */
 export const MAP_WAVES = [2.5, 5.3, 11, 41] as const;
 
-/** The wavelengths of the two noises whose crossings cut a deck into closed cells and a cold outbreak into open ones, metres. */
-const MESO_METRES = [52_000, 40_000] as const;
+/** The wavelength of a front's lumps, and the width of the cells a deck closes into and a cold outbreak opens into, metres. */
+const MESO_METRES = [52_000, 32_000] as const;
 export const MESO_WAVES = [R / MESO_METRES[0], R / MESO_METRES[1]] as const;
-/** The cumulus scales, coarsest first, metres. */
-const CELL_METRES = [9000, 3800, 1600] as const;
+/** The cumulus scales, coarsest first, metres: a cloud, its towers, and the billows an eye under it tells. */
+export const CELL_METRES = [9000, 3800, 1600, 640, 250] as const;
 export const CELL_WAVES = CELL_METRES.map((metres) => R / metres);
 /** Cloud streets: their spacing across the wind and their length along it, metres. */
 const STREET_METRES = [7000, 90_000] as const;

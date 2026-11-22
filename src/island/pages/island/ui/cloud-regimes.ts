@@ -18,16 +18,21 @@ import {
   vec3,
 } from 'three/tsl';
 
-import { HIGHEST_TOP, MAP_WAVES, STORM_LIVES, STORMS_ROUND } from '../lib/clouds';
+import {
+  HIGHEST_TOP,
+  MAP_WAVES,
+  STORM_LIVES,
+  STORMS_ROUND,
+} from '../lib/clouds';
 import { type F, latticeValue, noise, type V } from './cloud-noise';
 
 const DEGREE = Math.PI / 180;
 
 /**
- * What kind of cloud a place has: the numbers the cells are drawn by. A
- * place's cloud is where `amount` and what the cells add to it pass zero.
+ * What kind of low or deep cloud a place has: the numbers the cells are drawn
+ * by. A place's cloud is where `amount` and what the cells add to it pass zero.
  */
-export type Regime = {
+type Row = {
   /** Under zero clear but for what the cells lift, over it cloud but for what they cut. */
   readonly amount: F;
   /** How far the meso noise itself moves the amount: clusters and clumps. */
@@ -47,13 +52,29 @@ export type Regime = {
   readonly flat: F;
   /** How much of a full cloud's water a metre of it holds: a front's edge is a veil. */
   readonly dense: F;
+};
+
+/** What a ray's weather is: the layer `Row` describes, and the ice over it. */
+export type Regime = Row & {
   /** The ice cloud overhead, 0 to 1. */
   readonly ice: F;
   /** How far north the streets and streaks are bent off the parallels, radians. */
   readonly bend: F;
 };
 
-type Row = Omit<Regime, 'ice' | 'bend'>;
+const ROW_KEYS = [
+  'amount',
+  'lumps',
+  'veins',
+  'rings',
+  'fine',
+  'streets',
+  'base',
+  'ceil',
+  'flat',
+  'dense',
+] as const satisfies ReadonlyArray<keyof Row>;
+
 type RowOf = { readonly [Key in keyof Row]: F | number };
 
 /** A bell over `x`, radians, centred `centre` degrees and `sigma` degrees wide. */
@@ -68,6 +89,21 @@ const REACH = 0.12;
 const RING_TURN = 0.19;
 /** The bearing of a cyclone's cold front one reach out, anticlockwise from east with the pole up. */
 const TAIL = -110 * DEGREE;
+
+/** A cyclone's own number for `salt`, 0 to 1, new each `epoch` of its lives. */
+const seedOf = (id: F, epoch: F, salt: number): F =>
+  latticeValue(vec3(id, epoch, salt));
+
+/**
+ * How much of a spiral band `broad` times the front's width a place `turn`
+ * round the spiral is in, the band lying `ahead` radians on from the front;
+ * `wide` is the front's own width there.
+ */
+const bandAt = (turn: F, wide: F, broad: number, ahead: number): F => {
+  const half = wide.mul(wide).mul(0.5 * broad * broad);
+  const away = cos(turn.sub(ahead)).oneMinus();
+  return smoothstep(half.mul(0.05), half, away).oneMinus();
+};
 
 type Storm = {
   /** The frontal band and the comma's head. */
@@ -99,8 +135,9 @@ function stormsOver(spot: V, storms: F, warp: readonly [F, F]): Storm {
   const cold = float(0).toVar();
   const shield = float(0).toVar();
   const grain = float(0).toVar();
+  const weighed = float(0).toVar();
   for (const cell of [home, beside]) {
-    const id = mod(cell, STORMS_ROUND).mul(7.3).add(1.1);
+    const id = mod(cell, STORMS_ROUND).mul(7.3).add(1.1).toVar();
     const lived = latticeValue(vec3(id, hemisphere.mul(2.9), 0.7))
       .add(storms)
       .toVar();
@@ -108,13 +145,12 @@ function stormsOver(spot: V, storms: F, warp: readonly [F, F]): Storm {
     const epoch = mod(lived.floor(), STORM_LIVES)
       .mul(5.7)
       .add(hemisphere.mul(2.9));
-    const seed = (salt: number) => latticeValue(vec3(id, epoch, salt));
     const lon = cell
       .add(0.5)
-      .add(seed(1.3).sub(0.5).mul(0.5))
+      .add(seedOf(id, epoch, 1.3).sub(0.5).mul(0.5))
       .sub(turned)
       .mul(width);
-    const lat = seed(2.9)
+    const lat = seedOf(id, epoch, 2.9)
       .mul(14 * DEGREE)
       .add(42 * DEGREE);
     const across = cos(lat);
@@ -127,8 +163,10 @@ function stormsOver(spot: V, storms: F, warp: readonly [F, F]): Storm {
     const off = spot.sub(centre);
     const x = dot(off, east).add(warp[0]);
     const y = dot(off, north).mul(hemisphere).add(warp[1]);
-    const reach = seed(4.1).mul(0.5).add(0.8).mul(REACH);
-    const r = sqrt(x.mul(x).add(y.mul(y))).div(reach).toVar();
+    const reach = seedOf(id, epoch, 4.1).mul(0.5).add(0.8).mul(REACH);
+    const r = sqrt(x.mul(x).add(y.mul(y)))
+      .div(reach)
+      .toVar();
     const grown = smoothstep(0, 0.2, life)
       .mul(smoothstep(0.7, 1, life).oneMinus())
       .mul(smoothstep(0.2, 0.5, dot(spot, centre)));
@@ -137,15 +175,9 @@ function stormsOver(spot: V, storms: F, warp: readonly [F, F]): Storm {
       .add(wound.mul(log(max(r, 0.15).div(r.mul(0.8).add(1)))))
       .sub(TAIL)
       .toVar();
-    const offBand = cos(turn).oneMinus();
-    const wide = mix(1.15, 0.2, smoothstep(0.15, 1.6, r));
-    const band = (broad: number, ahead: number): F => {
-      const half = wide.mul(wide).mul(0.5 * broad * broad);
-      const away = ahead === 0 ? offBand : cos(turn.sub(ahead)).oneMinus();
-      return smoothstep(half.mul(0.3), half, away).oneMinus();
-    };
+    const wide = mix(1.15, 0.2, smoothstep(0.15, 1.6, r)).toVar();
     const within = exp(r.mul(r).div(-2.4 * 2.4)).mul(grown);
-    const banded = band(1, 0).toVar();
+    const banded = bandAt(turn, wide, 1, 0).toVar();
     front.assign(max(front, within.mul(banded)));
     cold.assign(
       max(
@@ -157,15 +189,20 @@ function stormsOver(spot: V, storms: F, warp: readonly [F, F]): Storm {
           .mul(banded.oneMinus()),
       ),
     );
-    const shielded = within.mul(band(2.5, 0.5)).toVar();
-    If(shielded.greaterThan(shield), () => {
-      shield.assign(shielded);
-      grain.assign(
-        noise(vec3(cos(turn).mul(6), sin(turn).mul(6), r.mul(0.7).add(id))),
+    const shielded = within.mul(bandAt(turn, wide, 2.5, 0.5)).toVar();
+    If(shielded.greaterThan(0.001), () => {
+      shield.assign(max(shield, shielded));
+      // Where two shields meet, each grain counts by its own shield: no seam between them.
+      const weight = shielded.mul(shielded);
+      weighed.addAssign(weight);
+      grain.addAssign(
+        noise(vec3(cos(turn).mul(3.5), sin(turn).mul(3.5), r.mul(0.7).add(id)))
+          .mul(smoothstep(0.25, 0.7, r))
+          .mul(weight),
       );
     });
   }
-  return { front, cold, shield, grain };
+  return { front, cold, shield, grain: grain.div(max(weighed, 1e-6)) };
 }
 
 /** The weather over `spot`, a unit vector in the field's own turning frame, `storms` lives into its turn. */
@@ -213,7 +250,7 @@ export function regimeAt(spot: V, storms: F): Regime {
       dense: 1,
       ...over,
     };
-    for (const key of Object.keys(row) as (keyof Row)[]) {
+    for (const key of ROW_KEYS) {
       row[key].assign(mix(row[key], full[key], share));
     }
     return share;
@@ -274,10 +311,7 @@ export function regimeAt(spot: V, storms: F): Regime {
       n2.mul(0.03),
       n3.mul(0.02).add(n1.mul(0.02)),
     ]);
-    lay(
-      { amount: -0.3, rings: 1, fine: 0.45, base: 800, ceil: 2600 },
-      cold,
-    );
+    lay({ amount: -0.3, rings: 1, fine: 0.45, base: 800, ceil: 2600 }, cold);
     lay(
       {
         amount: front

@@ -1,4 +1,14 @@
-import { dot, exp, max, min, mix, pow, smoothstep, sqrt, vec3 } from 'three/tsl';
+import {
+  dot,
+  exp,
+  max,
+  min,
+  mix,
+  pow,
+  smoothstep,
+  sqrt,
+  vec3,
+} from 'three/tsl';
 
 import { R } from '@/island/shared/globe';
 
@@ -17,14 +27,14 @@ const MOONLIT = [0.035, 0.045, 0.07] as const;
 /** What a metre of cloud between a place and the sun takes of its light, light scattering forward as it does. */
 const SHADOW_PER_METRE = 0.003;
 /** The share of the sun a cloud keeps however deep: the light that has scattered many times. */
-const DIFFUSE = 0.3;
+const DIFFUSE = 0.4;
 /** How much slower the scattered light dies with depth than the direct. */
 const DIFFUSE_REACH = 0.2;
 /** The least of the sun's light inside a shallow cloud, and the metres of cloud overhead that wear it out. */
-const GLOW_WITHIN = 0.36;
+const GLOW_WITHIN = 0.5;
 const GLOW_DEPTH = 3500;
 /** A wisp's white as a share of a deep cloud's. */
-const THIN_WHITE = 0.6;
+const THIN_WHITE = 0.65;
 /** The forward lean of a droplet's scattering, Henyey and Greenstein's `g`, and its share of the phase. */
 const LEAN = 0.72;
 const FORWARD = 0.3;
@@ -52,13 +62,7 @@ export type CloudLight = {
    * `body` is how much cloud it is part of, 0 a wisp to 1 a deep mass: the
    * light a thin cloud lets through it does not send back.
    */
-  readonly lit: (
-    lamps: Lamps,
-    overhead: F,
-    level: F,
-    phase: F,
-    body: F,
-  ) => V;
+  readonly lit: (lamps: Lamps, overhead: F, level: F, phase: F, body: F) => V;
 };
 
 export function cloudLight(towardSun: V, towardMoon: V): CloudLight {
@@ -79,10 +83,9 @@ export function cloudLight(towardSun: V, towardMoon: V): CloudLight {
 
   const phase = (direction: V): F => {
     const cosine = dot(direction, towardSun);
-    const lobe = pow(
-      cosine.mul(-2 * LEAN).add(1 + LEAN * LEAN),
-      -1.5,
-    ).mul(1 - LEAN * LEAN);
+    const lobe = pow(cosine.mul(-2 * LEAN).add(1 + LEAN * LEAN), -1.5).mul(
+      1 - LEAN * LEAN,
+    );
     return min(lobe, GLARE)
       .mul(FORWARD)
       .add(1 - FORWARD * 0.5);

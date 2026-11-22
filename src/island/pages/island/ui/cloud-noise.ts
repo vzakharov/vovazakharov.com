@@ -1,4 +1,14 @@
-import { dot, Fn, mix, smoothstep, vec3 } from 'three/tsl';
+import {
+  dot,
+  float,
+  Fn,
+  max,
+  min,
+  mix,
+  smoothstep,
+  sqrt,
+  vec3,
+} from 'three/tsl';
 import type { Node } from 'three/webgpu';
 
 import { R } from '@/island/shared/globe';
@@ -24,8 +34,15 @@ export const toldAt = (metres: number, away: F): F =>
     away,
   ).oneMinus();
 
+/** The distance past which `toldAt` tells nothing of a wave `metres` long. */
+export const seenTo = (metres: number): number =>
+  metres / (GRAIN_UNDER * PIXEL);
+
 /** `toldAt` for a wave `waves` of which go round the sphere. */
 export const toldFrom = (waves: number, away: F): F => toldAt(R / waves, away);
+
+/** The cells either side of a place's own, along one axis. */
+const NEIGHBOURS = [-1, 0, 1] as const;
 
 /** A lattice point's value, 0 to 1. */
 export const latticeValue = Fn(([point]: [V]) => {
@@ -48,3 +65,37 @@ const valueNoise = Fn(([at]: [V]) => {
 
 /** Value noise over `at`, -1 to 1, a wave a unit. */
 export const noise = (at: V): F => valueNoise(at);
+
+/** A lattice cell's own point within it, each coordinate 0 to 1. */
+const latticePoint = Fn(([cell]: [V]) => {
+  const folded = cell
+    .mul(vec3(0.1031, 0.103, 0.0973))
+    .fract()
+    .toVar();
+  folded.addAssign(dot(folded, folded.yxz.add(33.33)));
+  return folded.xxy.add(folded.yxx).mul(folded.zyx).fract();
+});
+
+const cellEdge = Fn(([at]: [V]) => {
+  const cell = at.floor().toVar();
+  const within = at.sub(cell).toVar();
+  const nearest = float(9).toVar();
+  const second = float(9).toVar();
+  for (const x of NEIGHBOURS)
+    for (const y of NEIGHBOURS)
+      for (const z of NEIGHBOURS) {
+        const offset = vec3(x, y, z);
+        const toPoint = offset.add(latticePoint(cell.add(offset))).sub(within);
+        const apart = dot(toPoint, toPoint).toVar();
+        second.assign(min(second, max(nearest, apart)));
+        nearest.assign(min(nearest, apart));
+      }
+  return sqrt(second).sub(sqrt(nearest));
+});
+
+/**
+ * How far `at` is from the edge of its cell, 0 on the edge: the cells are
+ * those of points scattered one to a unit, each cell the places nearest its
+ * point, so they pack like the cells of a cloud deck.
+ */
+export const edgeOf = (at: V): F => cellEdge(at);
