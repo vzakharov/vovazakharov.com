@@ -1,12 +1,12 @@
 import {
   clamp,
-  diffuseColor,
   length,
   modelWorldMatrix,
   normalize,
+  positionGeometry,
+  smoothstep,
   varyingProperty,
   vec4,
-  vertexColor,
 } from 'three/tsl';
 import {
   AddEquation,
@@ -56,6 +56,9 @@ export const SMALL: Readonly<Partial<Record<TreeKind, 'low' | 'floor'>>> = {
 const NEARER = 0.03;
 const NEARER_WITHIN = [0.15, 2] as const;
 
+/** The share of its reach from the trunk within which a shade takes its whole share; it takes none at its rim. */
+const FULL_WITHIN = 0.3;
+
 /** One kind's plants at one detail, as instances. */
 type Stand = {
   readonly mesh: InstancedMesh;
@@ -89,7 +92,13 @@ function shadeMaterial(drawnAt: ReturnType<typeof treeNodes>['drawnAt']) {
     polygonOffsetUnits: -2,
   });
   // The share as it stands, past the exposure and tone curve a colour would take.
-  material.outputNode = vec4(diffuseColor.rgb, 1);
+  const fromTrunk = length(positionGeometry.xz);
+  material.outputNode = vec4(
+    varyingProperty('vec3', 'vInstanceColor').mul(
+      smoothstep(1, FULL_WITHIN, fromTrunk),
+    ),
+    1,
+  );
   /**
    * Drawn a little nearer the eye than it lies, which moves it nowhere on the
    * screen: the ground's facets stand a few decimetres off the height field a
@@ -135,10 +144,8 @@ export function treeStands(dress: (material: MeshLambertNodeMaterial) => void) {
       let probe = materials[k];
       if (kind === 'shade' && (detail === 'mid' || detail === 'near')) {
         const made = shadeMaterial(drawnAt);
-        made.outputNode =
-          detail === 'near'
-            ? vec4(vertexColor().rgb.mul(0.55), 1)
-            : vec4(varyingProperty('vec3', 'vInstanceColor'), 1);
+        if (detail === 'near')
+          made.outputNode = vec4(varyingProperty('vec3', 'vInstanceColor'), 1);
         probe = made;
       }
       const mesh = new InstancedMesh(geometry, probe, capacity);
