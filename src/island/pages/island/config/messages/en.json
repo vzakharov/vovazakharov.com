@@ -39,9 +39,9 @@
     "label": "Diagnostics",
     "copy": "Copy a link to this view",
     "copied": "Link copied",
-    "failed": "Couldn't copy the link; here it is to copy by hand:",
-    "measure": "Measure (hold still)",
-    "measuring": "Measuring without",
+    "failed": "Couldn't copy; here it is to copy by hand:",
+    "measure": "Measure every look (1–2 min, keep this tab in front)",
+    "measuring": "Measuring",
     "copyTable": "Copy the table",
     "tableCopied": "Table copied"
   },
