@@ -20,7 +20,7 @@ import {
 } from './forest-cover';
 
 /** The cube level of the finest placing cells, 38 m across at a face's middle. */
-const FINEST_LEVEL = 18;
+export const FINEST_LEVEL = 18;
 
 /** Candidate spots along a cell's side: a cell holds this many squared. */
 const SPOTS = 4;
@@ -44,11 +44,12 @@ export const tierCell = (tier: number) =>
 /** The distance at which a tier's trees have shrunk to nothing, metres. */
 export const tierReach = (tier: number) => REACH_CELLS * tierCell(tier);
 
-export const TREE_KINDS = ['broadleaf', 'conifer'] as const;
+/** What grows: two kinds of tree, and the bushes and dune grass about them (`undergrowth`). */
+export const TREE_KINDS = ['broadleaf', 'conifer', 'bush', 'tuft'] as const;
 
 export type TreeKind = (typeof TREE_KINDS)[number];
 
-/** One tree: where its foot stands and what sets it apart from its kind's others. */
+/** One plant: where its foot stands and what sets it apart from its kind's others. */
 export type Tree = Spot & {
   readonly kind: TreeKind;
   /** Its height, metres. */
@@ -85,7 +86,7 @@ const SPOT = roll.struct({
   chance: roll.uniform(0, 1),
 });
 
-const SHAPE = roll.struct({
+export const SHAPE = roll.struct({
   kind: roll.uniform(0, 1),
   tall: roll.uniform(0, 1),
   girth: roll.uniform(0.8, 1.25),
@@ -101,14 +102,16 @@ const CELL = roll.struct({
   shape: roll.over(roll.key({ slot: roll.int }), SHAPE),
 });
 
-/** A kind's shortest and tallest grown tree, metres. */
-const TALL: Readonly<Record<TreeKind, readonly [number, number]>> = {
+/** A kind's shortest and tallest grown plant, metres. */
+export const TALL: Readonly<Record<TreeKind, readonly [number, number]>> = {
   broadleaf: [9, 19],
   conifer: [11, 26],
+  bush: [0.7, 2.3],
+  tuft: [0.45, 0.95],
 };
 
 /** A typical lean, radians: a couple of degrees. */
-const LEAN = 0.035;
+export const LEAN = 0.035;
 
 /** How far either side of a spot the ground is read for its slope, metres. */
 const SLOPE_SPAN = 3;
@@ -121,7 +124,7 @@ export function tangentsAt(p: Vec3): readonly [Vec3, Vec3] {
 }
 
 /** The ground's uprightness at `p` — the cosine of its slope — from the heights `SLOPE_SPAN` to either tangent. */
-function uprightAt(
+export function uprightAt(
   p: Vec3,
   height: number,
   groundAt: TreeGround['groundAt'],

@@ -7,11 +7,14 @@ Everything is under `src/island/pages/island/`.
 
 - **`model/forest-cover.ts`** — `forestCover(seed, site)`, 0…1: how much of a
   place is under trees. Patch noise of four wavelengths (26 km → 410 m), gated
-  by height (bare under `SHORE_TOP + DUNE_BELT`, closed to 450 m, thinning to a
-  ragged treeline at `TREELINE` 850 m ± 60) and by slope (thinning from 30°,
-  bare past 42°). `tileCover(seed, tileMesh)` is the same per tile vertex,
-  softened to what the tile's level can resolve; the worker ships it as the
-  `cover` vertex attribute (`model/cover-attribute.ts`) on every land tile.
+  by sand (thinning from a 0.15 share of sand, bare from 0.8), by height
+  (thinning to a ragged treeline at `TREELINE` 850 m ± 60) and by slope
+  (thinning from 30°, bare past 42°). `tileSand(coast, tileMesh)` is the
+  terrain's `sandAt` per tile vertex and `tileCover(seed, tileMesh, sand)` the
+  cover, each patch octave fading out between 64 and 4 of the tile's cells a
+  wavelength, so a tile differs from its parent by a share of an octave. The
+  worker ships both as vertex attributes on every land tile: `cover` and `sand`
+  (`COVER_ATTRIBUTE`, `SAND_ATTRIBUTE` in `model/cover-attribute.ts`).
   `coniferShare(height)` and `stature(height)` are the two other things height
   decides.
 - **`model/tree-placing.ts`** — `treesIn(cell, ground)`: the trees of one cube
@@ -21,13 +24,15 @@ Everything is under `src/island/pages/island/`.
   (38 m · 2^t) and is drawn to 8 cells (305 m … 4.9 km).
 - **`ui/tree-meshes.ts`** — the two kinds at three details, built in code: unit
   height, foot at the origin, vertex colours.
+- **`ui/tree-nodes.ts`** — what the vertex shader does to a tree: shrinks it to
+  its foot over the last 45 % of its tier's reach, widens a coarse tier's tree
+  (to 2.5× at most) over the span the tier below shrinks in, and bends it in
+  the wind — gusts crossing the ground, seen within 400 m.
 - **`ui/tree-view.ts`** — six `InstancedMesh`es. Per frame: lists the cells in
   reach, rolls missing ones for 3 ms, lays instances out again every 7 m the eye
-  moves. In the vertex shader a tree shrinks to its foot over the last 45 % of
-  its tier's reach, and a coarse tier's tree widens (to 2.5× at most) over the
-  span the tier below shrinks in.
-- **`lib/world-ground.ts`** — `coastOf`, `groundOf`, `SEA_LEVEL`, moved out of
-  `island-scene.ts` to keep it under 400 lines.
+  moves.
+- **`lib/world-ground.ts`** — `coastOf`, `groundOf`, `treeGround`, `SEA_LEVEL`,
+  out of `island-scene.ts` to keep it under 400 lines.
 
 ## Numbers others depend on
 
@@ -39,10 +44,7 @@ Everything is under `src/island/pages/island/`.
 
 ## What is not done
 
-- The ground under a forest is not shaded by `cover` yet, so from 1 km up the
-  trees are dots on grass: the land colour needs to darken toward canopy green
-  where `cover` is high, most of all past ~600 m where trees thin.
 - Rolling a full surround at closed canopy takes about 1.3 s of main-thread
   time, spread at 3 ms a frame: after a jump the far trees arrive over a second
   or two. Moving it to the tile worker would remove that.
-- No wind, no undergrowth, no dune grass.
+- No undergrowth, no dune grass.
