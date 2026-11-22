@@ -2,10 +2,19 @@
 
 Branch `claude/island-beauty-speed`, cut from `claude/island-beauty-c1rj3b`.
 
-## Report — 2026-11-22, item 1: `?without=` and Measure (adefe68fb)
+## Report — 2026-11-22, item 1: `?without=` and Measure (605bee2dc)
 
 **The preview can now tell us what each cost takes on the operator's
-machine.** Lead: adefe68fb is ready to publish.
+machine, in one visit and one click.** Lead: 605bee2dc is ready to publish.
+Two links for the operator, each running the whole measurement on load:
+
+- dune place, facing the sea:
+  `https://preview.vovazakharov.com/island?measure#1@10.28452,-0.47031,22.3,243.3,10.7`
+- the same place, facing inland:
+  `https://preview.vovazakharov.com/island?measure#1@10.28452,-0.47031,22.3,58.0,10.7`
+
+  The coordinates are the lead's, as lat,lon in world 1. If the place was in
+  another world, the number after `#` changes.
 
 - **`?without=`** (comma-separated, beside `#place` or `?play`) leaves each
   named cost out of fine and swift; plain is untouched. The names:
@@ -23,12 +32,24 @@ machine.** Lead: adefe68fb is ready to publish.
   boundary, naming the known ones.
 
 - **The HUD (`I`)** reads `frame 16.7 ms, 60 fps (mean of 60)`: the mean of
-  the last 60 frames.
-- **Measure** in the HUD steps through none and then each name alone, in the
-  look on screen. For each it waits 60 frames to settle, takes the 60-frame
-  mean, then puts back what was left out before. It prints a table with a copy
-  button, ~16 s at 60 fps. **Hold still while it runs**, because a moving eye
-  changes the frame under it. Run it once in fine and once in swift.
+  the last 60 frames, the same mean Measure reports.
+- **Measure** (the HUD button, or `?measure` on the address, which opens the
+  HUD and starts at the first frame) runs 17 readings by itself:
+  - plain, swift and fine whole;
+  - then swift and fine each without each name alone.
+
+  Each reading waits until every tile is in and 60 more frames are drawn,
+  then takes the mean and the worst of the next 60. About 2000 frames in all:
+  half a minute at 60 fps, about 1.5 min if fine runs at 25 fps. Afterwards it
+  puts back the look and the `?without=` it started with.
+
+  The table opens with the commit, the view's link, lat/lon, height, heading,
+  pitch, sun time and tiles, then the backend and the canvas in device
+  pixels. One row per reading: look, left out, ms, fps, ms saved against that
+  look whole, worst frame. A Copy button takes it. If the tab is hidden
+  during the run, so the frames are throttled, the first line reads
+  `INVALID`. Nobody needs to touch anything.
+
 - **knip** is green: the two `detailReach` re-exports went
   (`entities/terrain/height/index.ts`, `entities/terrain/index.ts`). Nothing
   outside the slice read them; `bounds.ts` keeps the function.
