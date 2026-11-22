@@ -9,7 +9,7 @@ import { length, R, type Vec3 } from '@/island/shared/globe';
 import { LATTICE_STEEPEST, turned } from './lattice';
 import { total } from './relief-numbers';
 import { ramp } from './shore';
-import { noiseSalt, valueNoise3 } from './value-noise';
+import { noiseSalt, valueNoise3, valueNoise3x3 } from './value-noise';
 
 /**
  * Signed metres from direction `p` (unit) to the coast, positive inland, with
@@ -18,7 +18,7 @@ import { noiseSalt, valueNoise3 } from './value-noise';
 export type CoastDistance = (p: Vec3, finest?: number) => number;
 
 /**
- * The noise layers the bends are drawn from, three per bend and one for the
+ * The noise layers the bends are drawn from, one per bend and one for the
  * roughness, clear of every other layer.
  */
 const COAST_LAYER = 3000;
@@ -152,13 +152,15 @@ export const detailedCoast =
       if (wavelength <= finest) break;
       const resolved = finest === 0 ? 1 : ramp(wavelength / finest - 1);
       const push = reach * amplitude * resolved;
-      const u = a[0] * x + a[1] * y + a[2] * z;
-      const v = b[0] * x + b[1] * y + b[2] * z;
-      const w = c[0] * x + c[1] * y + c[2] * z;
-      const salt = COAST_LAYER + 3 * index;
-      qx += push * valueNoise3(noiseSalt(seed, salt), u, v, w);
-      qy += push * valueNoise3(noiseSalt(seed, salt + 1), v, w, u);
-      qz += push * valueNoise3(noiseSalt(seed, salt + 2), w, u, v);
+      const [nx, ny, nz] = valueNoise3x3(
+        noiseSalt(seed, COAST_LAYER + index),
+        a[0] * x + a[1] * y + a[2] * z,
+        b[0] * x + b[1] * y + b[2] * z,
+        c[0] * x + c[1] * y + c[2] * z,
+      );
+      qx += push * nx;
+      qy += push * ny;
+      qz += push * nz;
     }
     const scale = 1 / length([qx, qy, qz]);
     return distance([qx * scale, qy * scale, qz * scale]);
