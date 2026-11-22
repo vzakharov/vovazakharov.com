@@ -316,10 +316,6 @@ member's branch and its note under `notes/`, not from its session.
   fine by ~0.08/255. Swift costs 20–40% less than fine on the software raster,
   and plain 2.5× less than swift: what is left is the air, per fragment.
 - `InLook` (`@/island/shared/play`) is the one home of a `look: Look` member.
-- Swift beside fine from 2b0fe24c8 (`0017-merge-8-*`): alike at 34 km, 4400 m,
-  lowland and alpine 300 m but for a comb along the horizon's cloud band; at 560
-  m over the coast swift smears the previous eye position's cloud history over
-  sea and land. Sent to speed as a blocker.
 - Merged at ae86aff73 (178 tests): ground through 060e84b07 (forest past its
   trees by expectation, a moor without purple, snow by aspect, shore rock) and
   the sea's shoal (fef69dff3). Its frames (`0018-merge-9-*`): alpine snow crisp
@@ -349,12 +345,17 @@ member's branch and its note under `notes/`, not from its session.
   of the next approach is reading his table.** Also in: swift's smear at 560 m —
   the buffer marched its rays to the planet's far side, and now stops at the sea
   — and the tile bracket (alpine 3000 m: 167 tiles → 86, main 112).
-- Merged after it the clouds through 1bc8d994 (heaps as whole discs of many
-  sizes merging into clumps, beaded open cells: better from 820 km, a one-scale
-  cobblestone from 2300 km) and the march through 0e397afcb (under 12 km a ray
-  finds its first cloud crossing before it steps: from the ground the bars are
-  gone and clouds have shapes; ~35 reads a cloudy ray against 19, a sixteenth of
-  that in swift).
+- Merged after it the march (under 12 km a ray finds its first cloud crossing
+  before it steps: from the ground the bars are gone and clouds have shapes; ~40
+  reads a cloudy ray against 19, a sixteenth of that in swift) and speed's last
+  two fixes (swift's comb at the horizon: the buffer is read through a tent).
+- **The clouds' last step is reverted on this branch (4c94788b0)**: heaps as
+  discs of many sizes in clumps (1bc8d994) and the front's wider tail (c959efc5)
+  are better from 820 km, but with them no cloud is drawn from the ground
+  (`0019-merge-10-empty-sky-*`; four places of four). The step stays on
+  `claude/island-beauty-clouds`; which of its parts empties the sky — the disc
+  radii, the lanes between clumps, the far field's mean cover, or the march's
+  search missing the new heaps — is not found.
 
 ## Closing this approach
 
