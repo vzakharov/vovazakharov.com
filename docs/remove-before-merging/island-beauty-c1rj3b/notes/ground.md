@@ -55,7 +55,9 @@ device dies in this container, so nothing below was seen on WebGPU.
   alpine ground (turf, soil, scree), rock with level beds, and snow: over its
   ragged line, slid off faces past about forty degrees near the eye, by
   height alone past 400 km so a range keeps a white spine.
-- `ui/land-surface.ts` — the two looks. Fine: all ten octaves, rock's beds,
+- `ui/land-surface.ts` — the three looks. Swift: the fine one over the eight
+  coarsest octaves, with rock's ledges and not the leaves within one; it draws
+  only once `scene-look.ts` passes `look === 'swift'` to `dress`. Fine: all ten octaves, rock's beds,
   and the small relief as a normal from the octaves' slopes (TSL, so WebGL2
   draws it too). Relief gone under a pixel dims the ground instead. Plain: the
   four coarsest octaves through the same bands — four noise samples a
@@ -79,8 +81,11 @@ Measured only under software raster on WebGL2 (wall-clock per frame at
 1100×700), which says little about an M2: the fine look went from about
 2.0–2.4 s to 2.2–3.1 s near the ground, the plain look from about 0.9 s to
 0.4–1.0 s. Before, the fine look on WebGL2 drew no small relief at all, so
-part of the rise is relief WebGL2 never had. A fine fragment reads twelve
-lattice samples (ten octaves, two for rock's beds), a plain one four. Nobody
+part of the rise is relief WebGL2 never had.
+
+Lattice reads a fragment: fine 12 (ten octaves, two for rock's beds), swift 9
+(eight octaves, one for the beds), plain 4. Nothing else in a band samples:
+every patch, edge, clump, ripple and snow line is arithmetic on those reads. Nobody
 has measured the land's share on the target machine yet.
 
 ## Still wrong
@@ -92,6 +97,13 @@ has measured the land's share on the target machine yet.
   11 cm, and nothing draws blades, stones or twigs.
 
 ## Outside my files
+
+- The shoal under water at the shore draws as a blurred cream smear: under
+  0 m the land keeps `GROUND_STOPS` untouched so the waterline matches, and
+  the tint over it is the ocean shader's.
+- `BAND_HEIGHTS` are set to where the present relief's uplands (about 500–800
+  m) and ranges (over 1000 m) stand; a relief that moves them moves the bands
+  off their country.
 
 - `pnpm knip` fails on three exports of the relief's (`detailReach`, `sandAt`,
   `sandAtSphere`), none of them read by the ground.
