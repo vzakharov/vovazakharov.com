@@ -24,7 +24,8 @@ import {
   STORM_LIVES,
   STORMS_ROUND,
 } from '../lib/clouds';
-import { cloudLattice, type F, noise, type V } from './cloud-noise';
+import { type F, noise, type V } from './cloud-noise';
+import { latticeValue } from './lattice-value';
 
 const DEGREE = Math.PI / 180;
 
@@ -92,7 +93,7 @@ const TAIL = -110 * DEGREE;
 
 /** A cyclone's own number for `salt`, 0 to 1, new each `epoch` of its lives. */
 const seedOf = (id: F, epoch: F, salt: number): F =>
-  cloudLattice(vec3(id, epoch, salt));
+  latticeValue(vec3(id, epoch, salt));
 
 /**
  * How much of a spiral band `broad` times the front's width a place `turn`
@@ -103,6 +104,24 @@ const bandAt = (turn: F, wide: F, broad: number, ahead: number): F => {
   const half = wide.mul(wide).mul(0.5 * broad * broad);
   const away = cos(turn.sub(ahead)).oneMinus();
   return smoothstep(half.mul(0.05), half, away).oneMinus();
+};
+
+/** How far a front's cloud reaches on its warm side and on its cold one, in its own widths. */
+const WARM_FEATHER = 1.7;
+const COLD_EDGE = 0.45;
+
+/**
+ * How much of the front a place `turn` round the spiral is in, the front
+ * `wide` there: feathered out ahead of it, on the warm side, and cut close
+ * behind, where the cold air comes in.
+ */
+const frontAt = (turn: F, wide: F): F => {
+  const across = sin(turn).toVar();
+  const warm = smoothstep(0, wide.mul(WARM_FEATHER), across).oneMinus();
+  const behind = smoothstep(0, wide.mul(COLD_EDGE), across.negate()).oneMinus();
+  return select(across.greaterThan(0), warm.mul(warm), behind).mul(
+    smoothstep(-0.1, 0.3, cos(turn)),
+  );
 };
 
 type Storm = {
@@ -136,7 +155,7 @@ function stormsOver(spot: V, storms: F, warp: readonly [F, F]): Storm {
   // The cyclones either side reach in over this one's cell.
   for (const cell of [home.sub(1), home, home.add(1)]) {
     const id = mod(cell, STORMS_ROUND).mul(7.3).add(1.1).toVar();
-    const lived = cloudLattice(vec3(id, hemisphere.mul(2.9), 0.7))
+    const lived = latticeValue(vec3(id, hemisphere.mul(2.9), 0.7))
       .add(storms)
       .toVar();
     const life = lived.fract();
@@ -177,7 +196,7 @@ function stormsOver(spot: V, storms: F, warp: readonly [F, F]): Storm {
     const within = exp(r.mul(r).div(-2.4 * 2.4))
       .mul(smoothstep(3.2, 4.2, r).oneMinus())
       .mul(grown);
-    const banded = bandAt(turn, wide, 1, 0).toVar();
+    const banded = frontAt(turn, wide).toVar();
     front.assign(max(front, within.mul(banded)));
     cold.assign(
       max(
@@ -281,13 +300,14 @@ export function regimeAt(spot: V, storms: F): Regime {
   // cells within, breaking into open ones along their edges.
   const deck = lay(
     {
-      amount: n3.mul(0.15).add(n2.mul(0.1)).add(0.08),
+      amount: n3.mul(0.15).add(n2.mul(0.1)).add(0.15),
       veins: 1,
       lumps: 0.3,
       fine: 0.75,
       base: 700,
-      ceil: 1500,
+      ceil: 1600,
       flat: 0.3,
+      dense: 2,
     },
     max(
       bell(absLat, 30, 11).mul(smoothstep(0.05, 0.3, n1)),
@@ -330,20 +350,22 @@ export function regimeAt(spot: V, storms: F): Regime {
     );
     lay(
       {
-        amount: front
-          .mul(0.7)
-          .add(grain.mul(0.25))
+        // The band comes in out of clear air along its streaks, so its edge is ragged.
+        amount: mix(-0.45, 0.5, smoothstep(0.03, 0.5, front))
+          .add(grain.mul(0.45))
           .add(n3.mul(0.2))
-          .add(n2.mul(0.1))
-          .sub(0.05),
+          .add(n2.mul(0.1)),
         lumps: 0.4,
-        fine: 0.3,
+        // A weak front, and a front's tail, breaks into cumulus.
+        fine: mix(0.9, 0.3, smoothstep(0.2, 0.7, front)),
         base: 900,
         ceil: front.mul(6000).add(2500),
         flat: 0.6,
-        dense: front.mul(front).mul(grain.mul(0.4).add(0.8)),
+        // The front thins out to a veil toward its feathered side.
+        dense: front.mul(front).mul(grain.mul(0.9).add(1.5)),
       },
-      smoothstep(0.05, 0.35, front),
+      // Whole before the band's cloud begins, so nothing of the sky under it shows in its edge.
+      smoothstep(0, 0.04, front),
     );
     ice.assign(max(ice, shield.mul(tracked).mul(grain.mul(0.5).add(0.6))));
   });

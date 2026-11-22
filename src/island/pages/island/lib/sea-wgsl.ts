@@ -5,7 +5,6 @@ import { DEEP_SPEED, HOUR_SECONDS } from '@/nature/shared/swell';
 import type { Vec3 } from '@/island/shared/globe';
 
 import { SUN_ELEVATION } from './day';
-import { GROUND_WGSL } from './ground-wgsl';
 import { NATURE_LISTING } from './nature-listing';
 import { RIPPLE_TABLE_WGSL } from './ripple-table';
 import { CLIMB_KEPT } from './sun';
@@ -30,7 +29,8 @@ const CREST_WRAPS = 65_536;
 const along = (eye: Vec3, axis: Vec3) =>
   eye[0] * axis[0] + eye[1] * axis[1] + eye[2] * axis[2];
 
-const wrapped = (value: number, period: number) =>
+/** `value` taken modulo `period`, into `[0, period)`. */
+export const intoPeriod = (value: number, period: number) =>
   ((value % period) + period) % period;
 
 /**
@@ -40,8 +40,8 @@ const wrapped = (value: number, period: number) =>
  * eye — and the eye's place along the crests.
  */
 export const swellAt = (eye: Vec3, seconds: number): [number, number] => [
-  wrapped(seconds - along(eye, SWELL_AXIS) / DEEP_SPEED, HOUR_SECONDS),
-  wrapped(along(eye, SWELL_CREST), CREST_WRAPS),
+  intoPeriod(seconds - along(eye, SWELL_AXIS) / DEEP_SPEED, HOUR_SECONDS),
+  intoPeriod(along(eye, SWELL_CREST), CREST_WRAPS),
 ];
 
 /**
@@ -91,41 +91,71 @@ struct Rippled {
   hidden: f32,
 }
 
-/** The share of the sea's slope variance one wave of the table carries, on average. */
-const RIPPLE_SHARE = 0.065;
+/** Two values, 0 to 1, of the slow fields' cell \`cell\` as the world at \`grain\` numbers it. */
+fn seaGroupCell(cell: vec3f, grain: vec3f) -> vec2f {
+  var folded = fract((cell + grain) * 0.1031);
+  folded += dot(folded, folded.zyx + 31.32);
+  return fract(vec2f((folded.x + folded.y) * folded.z, (folded.x + folded.z) * folded.y));
+}
+
+/**
+ * The two slow fields the ripples' groups are read from, each 0 to 1, at
+ * \`field\` — a position modulo the fields' period on each axis — in the world
+ * whose lattice is shifted by \`grain\` cells.
+ */
+fn seaGroups(field: vec3f, grain: vec3f) -> vec2f {
+  let at = field / GROUP_CELL;
+  let base = floor(at);
+  let within = at - base;
+  let eased = within * within * (3.0 - 2.0 * within);
+  let low = base - GROUP_CELLS * floor(base / GROUP_CELLS);
+  let high = select(low + 1.0, vec3f(0.0), low + 1.0 >= vec3f(GROUP_CELLS));
+  let x00 = mix(seaGroupCell(vec3f(low.x, low.y, low.z), grain), seaGroupCell(vec3f(high.x, low.y, low.z), grain), eased.x);
+  let x10 = mix(seaGroupCell(vec3f(low.x, high.y, low.z), grain), seaGroupCell(vec3f(high.x, high.y, low.z), grain), eased.x);
+  let x01 = mix(seaGroupCell(vec3f(low.x, low.y, high.z), grain), seaGroupCell(vec3f(high.x, low.y, high.z), grain), eased.x);
+  let x11 = mix(seaGroupCell(vec3f(low.x, high.y, high.z), grain), seaGroupCell(vec3f(high.x, high.y, high.z), grain), eased.x);
+  return mix(mix(x00, x10, eased.y), mix(x01, x11, eased.y), eased.z);
+}
 
 /**
  * The wind sea at \`place\` — a position modulo \`RIPPLE_PERIOD\` on each axis —
- * under \`wind\`, seen by a pixel \`footprint\` metres wide. Slope variance is
- * Cox and Munk's for the wind's speed, spread evenly over the bands shorter
- * than the wind's own longest wave and leaning downwind. A wave under a few
- * pixels long is taken out of the slope and into \`hidden\`.
+ * under \`wind\`, seen by a pixel \`footprint\` metres wide, each wave's phase
+ * drifting with the slow fields' values \`groups\`. Slope variance is Cox and
+ * Munk's for the wind's speed, spread evenly over the bands shorter than the
+ * wind's own longest wave and leaning downwind. A wave under a few pixels
+ * long is taken out of the slope and into \`hidden\`. \`ripples.ts\` is this
+ * and \`seaGroups\` in float64: a change goes to both.
  */
-fn ripplesAt(place: vec3f, up: vec3f, wind: vec3f, footprint: f32, seconds: f32) -> Rippled {
+fn ripplesAt(place: vec3f, groups: vec2f, up: vec3f, wind: vec3f, footprint: f32, seconds: f32) -> Rippled {
   let speed = length(wind);
   let heading = wind / max(speed, 1e-3);
   let variance = 0.003 + 0.00512 * speed;
   let longest = 0.9 * speed * speed;
   var slope = vec3f(0.0);
   var hidden = 0.0;
-  for (var i = 0; i < RIPPLE_COUNT; i++) {
-    let wave = RIPPLES[i];
-    let scale = exp2(f32(i / RIPPLES_PER_BAND)) / RIPPLE_PERIOD;
-    let number = SEA_TAU * scale * wave.xyz;
-    let flat = number - up * dot(number, up);
-    let along = length(flat);
-    let toward = flat / max(along, 1e-6);
-    let lying = along / length(number);
-    let downwind = max(dot(toward, heading), 0.0);
-    let metres = SEA_TAU / max(along, 1e-6);
-    let share =
-      RIPPLE_SHARE * variance * lying * lying *
-      (0.12 + 0.88 * downwind * downwind) *
-      (1.0 - smoothstep(0.6 * longest, 1.2 * longest, metres));
-    let seen = smoothstep(2.0, 6.0, metres / footprint);
-    let phase = SEA_TAU * dot(wave.xyz, fract(place * scale)) - RIPPLE_PACES[i] * seconds + wave.w;
-    slope += toward * (sqrt(2.0 * share) * seen * cos(phase));
-    hidden += share * (1.0 - seen * seen);
+  for (var band = 0; band < RIPPLE_BANDS; band++) {
+    let scale = exp2(f32(band)) / RIPPLE_PERIOD;
+    let turned = fract(place * scale);
+    for (var w = 0; w < RIPPLES_PER_BAND; w++) {
+      let i = band * RIPPLES_PER_BAND + w;
+      let wave = RIPPLES[i];
+      let number = SEA_TAU * scale * wave.xyz;
+      let flat = number - up * dot(number, up);
+      let along = length(flat);
+      let toward = flat / max(along, 1e-6);
+      let lying = along / length(number);
+      let downwind = max(dot(toward, heading), 0.0);
+      let metres = SEA_TAU / max(along, 1e-6);
+      let share =
+        RIPPLE_SHARE * variance * lying * lying *
+        (0.12 + 0.88 * downwind * downwind) *
+        (1.0 - smoothstep(0.6 * longest, 1.2 * longest, metres));
+      let seen = smoothstep(2.0, 6.0, metres / footprint);
+      let phase = SEA_TAU * (dot(wave.xyz, turned) + dot(RIPPLE_DRIFTS[i], groups)) -
+        RIPPLE_PACES[i] * seconds + wave.w;
+      slope += toward * (sqrt(2.0 * share) * seen * cos(phase));
+      hidden += share * (1.0 - seen * seen);
+    }
   }
   return Rippled(slope, hidden);
 }
@@ -212,14 +242,15 @@ fn seaDampTint(world: vec3f, bed: f32, swell: vec2f) -> vec3f {
 /**
  * The sea's colour toward an eye at the origin: \`world\` is the fragment less
  * the eye, \`eye\` the eye from the planet's centre, \`place\` the fragment
- * modulo the ripples' period, \`bed\` the floor's height under it, \`under\`
+ * modulo the ripples' period, \`field\` modulo the slow fields' and \`grain\`
+ * the world's shift of their lattice, \`bed\` the floor's height under it, \`under\`
  * the colour of the water's body over that floor, unlit; \`mirrored\` the
  * sky a still sea would show the eye there and \`overhead\` the zenith's.
  * The air between is the caller's to add.
  */
 fn seaColour(
-  place: vec3f, world: vec3f, eye: vec3f, sun: vec3f, bed: f32, under: vec3f,
-  footprint: f32, seconds: f32, mirrored: vec3f, overhead: vec3f, swell: vec2f,
+  place: vec3f, field: vec3f, grain: vec3f, world: vec3f, eye: vec3f, sun: vec3f, bed: f32,
+  under: vec3f, footprint: f32, seconds: f32, mirrored: vec3f, overhead: vec3f, swell: vec2f,
 ) -> vec3f {
   let up = normalize(eye + world);
   let range = length(world);
@@ -228,7 +259,7 @@ fn seaColour(
   // Shallows and lee water lie smoother: the bed takes the short waves' fetch.
   let depth = max(-bed, 0.0);
   let calm = 0.35 + 0.65 * smoothstep(0.0, 4.0, depth);
-  let rippled = ripplesAt(place, up, wind * calm, footprint, seconds);
+  let rippled = ripplesAt(place, seaGroups(field, grain), up, wind * calm, footprint, seconds);
   // The swell's own slope along its run, while a pixel is finer than a wave.
   let swellSeen = 1.0 - smoothstep(1.0, 6.0, footprint);
   let level = seaSwellAt(world, bed, swell);
@@ -280,4 +311,4 @@ fn seaColour(
 `;
 
 /** The whole listing the island's sea and ground compile: the shore's closed forms, the ripples' table, the sea's own and the ground's relief. */
-export const SEA_LISTING = `${NATURE_LISTING}\n${RIPPLE_TABLE_WGSL}\n${SEA_WGSL}\n${GROUND_WGSL}`;
+export const SEA_LISTING = `${NATURE_LISTING}\n${RIPPLE_TABLE_WGSL}\n${SEA_WGSL}`;

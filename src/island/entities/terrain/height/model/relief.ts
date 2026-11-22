@@ -57,6 +57,7 @@ import {
   duneAt,
   dunesOver,
   ramp,
+  resolvedAt,
   restingGround,
   smoothMax,
 } from './shore';
@@ -65,7 +66,9 @@ import {
  * Metres above sea level `d` metres from the coast (negative offshore), with
  * `noise(octave)` the octave's noise in `[-1, 1]` at the point, over
  * `octaves`: `OCTAVES`, each carrying whatever its caller's noise reads; and
- * `uplift`, from 0 to `UPLIFT_METRES`, the lift of a mountain belt there.
+ * `uplift`, from 0 to `UPLIFT_METRES`, the lift of a mountain belt there;
+ * and `calm`, the share of calm in the stretch of coast, which the dunes
+ * stand on alone (called only where a dune would stand).
  *
  * The hill band's octaves draw one line field: each a sharp line where its
  * noise crosses zero, and each shorter one kept to the lines before it, so
@@ -89,6 +92,7 @@ export function reliefAt<O extends Octave>(
   octaves: readonly O[],
   noise: (octave: O) => number,
   uplift = 0,
+  calm: () => number = () => 1,
 ): number {
   const base =
     d >= 0
@@ -123,7 +127,7 @@ export function reliefAt<O extends Octave>(
   let alpineFine = 0;
   for (const octave of octaves) {
     if (octave.wavelength <= finest) break;
-    const resolved = finest === 0 ? 1 : ramp(octave.wavelength / finest - 1);
+    const resolved = resolvedAt(finest, octave.wavelength);
     if (octave.hill) resolvedShare += octave.line * resolved;
     const fade =
       resolved * ramp(away / (d > 0 ? riseOf(octave) : octave.wavelength));
@@ -203,5 +207,6 @@ export function reliefAt<O extends Octave>(
   const dunes = finest === 0 ? 1 : ramp(DUNE_SPACING_METRES / (2 * finest) - 1);
   const resting = restingGround(d, height, broad + local, FINE_REACH_METRES);
   const low = dunes * dunesOver(resting);
-  return resting + (low === 0 ? 0 : low * duneAt(d, swell, sway, gap));
+  const dune = low === 0 ? 0 : duneAt(d, swell, sway, gap);
+  return resting + (dune === 0 ? 0 : low * dune * calm());
 }

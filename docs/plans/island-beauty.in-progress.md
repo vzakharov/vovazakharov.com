@@ -83,6 +83,49 @@ otherwise; his answers get quoted under each when they come.
   сам». No verdicts will come during the run; every look call is the lead's,
   made from frames and written here.
 
+- 2026-11-22 ~15:45 UTC, after the 5-hour limit cut the whole team off at 11:48
+  and he woke every session with «Продолжай»: «Ещё одну вещь которую забыл
+  написать в самом начале: супер-ровные, как под линейку, линии берега. Они
+  должны искривляться и фракталиться (но детерминированно, через rolled) по мере
+  приближения». So: the coastline gains detail as the eye nears it, every scale
+  of it a pure function of the world's roll and the place, never of the tile or
+  the frame. A sixth package, the coast's.
+- 2026-11-22 ~15:50 UTC: «На всякий случай уточню: вся случайность же через
+  rolled делается?» — see "Every random thing is keyed by the world's roll"
+  under the design decisions.
+- 2026-11-22 ~15:55 UTC: «А на телефоне высокое качество как-то включить можно?»
+  Today it cannot: the look changes on the B key alone and a touch screen has no
+  key. The speed member, who is rebuilding that switch into three positions,
+  adds a control a finger reaches.
+- 2026-11-22 ~17:35 UTC, with a WebGPU screenshot of the open sea toward a low
+  sun, look Fine: «just in case, вода до сих пор муарно-паттерновая (not
+  complaining; прогресс по всем фронтам очевиден)». A remark, and the same
+  defect as item 1 on another surface: the sun's glitter path shows a woven
+  lattice. Cause, read from `lib/sea-wgsl.ts`: the wind sea is a sum of plane
+  waves from one table, each coherent for ever, so their beats draw a regular
+  grid. A seventh package, the sea's, on Opus.
+- 2026-11-22 ~20:50 UTC, with the usage panel (weekly all-models 45% → 79%,
+  weekly Fable 1% → 59%): «Потратили, получатся, 35% недельного лимита -- и весь
+  текущий заход надо постараться уложить в оставшиеся 20%. То есть остаток
+  рассчитывай примерно на половину от того что уже за сегодня сделали across
+  sessions. Нужно закрепить гештальт в каком-то логичном виде, и к концу
+  следующей недели к этому вернёмся (на недели тратить лимиты на сайд-проекты
+  будет непозволительно)». So: the run winds down to a state that stands by
+  itself — see "Closing this approach".
+- 2026-11-22 ~20:52 UTC, three screenshots of one dune view over the sea on his
+  M2 Pro, preview e3f3f062: «разницы между "fine" и "swift" по качеству
+  отрисовки я практически не заметил». The frame times on them: plain 13.4 ms,
+  swift 159.4, fine 202.8. Then the same place facing inland — «вид без воды --
+  отрисовка намного быстрее»: plain 12.7 ms, swift 68.0, fine 79.1. Read by the
+  lead: swift looks right and saves 15–20%, which is no middle step; and a view
+  with the sea in it costs 90–125 ms more than one without, a cost nobody here
+  measured because the shooter draws no rippled sea.
+- 2026-11-22 ~20:58 UTC, a sunset over the dunes
+  (`/island#1@10.28448,-0.47036,31.5,247.5,10.7,1.400`): «не на этот заход, но
+  мне кажется закатное солнце ландшафт рисует не так как в жизни, не так красно.
+  где-то записать, чтоб не забыть». Lit sand reads saturated vermilion against
+  charcoal shade. For the next approach, not this one.
+
 ## What is there today (read 2026-11-22)
 
 - **Relief** — `src/island/entities/terrain/height/model/relief.ts`: a plateau
@@ -157,6 +200,20 @@ otherwise; his answers get quoted under each when they come.
   ~750, so every tile wider than 7 m is culled against a 10.5 km column. The
   speed child cures it in the quadtree. Beat: tightening the bound's arithmetic
   — relief measured it would still land near 100–200.
+- **The coast bends by perturbing the coast distance itself**,
+  `d′ = d + Σ aᵢnᵢ`, seeded value noise from ~20 km (the field's cell, where the
+  line is straight today) down to metres, band-limited by the tile's `finest`
+  and faded out with |d|. Every reader of the distance — height, sand, splits,
+  trees — then agrees on one line. Beat: bending the drawn shoreline in the
+  shader (the beach, the dunes and the walker's ground would still follow the
+  straight one); a finer coast field (20 km → 1 km is 400× the memory and still
+  straight under 1 km).
+- **Every random thing is keyed by the world's roll** — the operator, 15:50 UTC:
+  «вся случайность же через rolled делается?». True of the world's shape, the
+  relief, the forest and each tree. Not true of the shader's `latticeValue`
+  (ground texture, clouds, cyclones): it hashes the place alone, so every world
+  has the same texture and weather. The lead folds the two copies into one home
+  that adds a per-world offset uniform rolled from the world.
 
 ## The team
 
@@ -190,6 +247,23 @@ PR. Session ids are claude.ai remote sessions.
   three positions with the middle one drawing as full, step 3 the optimisation
   behind the middle look — clouds at low resolution over several frames — which
   waits for the lead's word that the clouds' step 1 is merged.
+- **Coast** — `session_01DaohkB8k3wxxLHdRRwsBDQ`, Opus,
+  `claude/island-beauty-coast`, FINISHED at af79cc077 and archived; all of it is
+  merged. Its hand-over is `notes/coast.md`; a fix-up there goes to an Opus
+  child.
+- **Clouds' march** — `session_01DaohkBXfgifZ4H5a5Boh1U`, Opus,
+  `claude/island-beauty-clouds-march`, cut from the clouds' branch 17:28 UTC.
+  `ui/cloud-nodes.ts`, `ui/cloud-rays.ts`: the view from the ground, from low
+  flight and from inside a cloud — samples where the cloud is (a cheap search
+  for the ray's first crossing, then the steps), at most ~2× the baseline's
+  reads. The Clouds member keeps the shapes from above (items 1–4 of the
+  verdict) in the other cloud files; this was its own recommendation.
+- **Sea** — `session_01DaohkBNMrEzd6kyEhPXjND`, Opus,
+  `claude/island-beauty-sea`, started 17:15 UTC. `lib/sea-wgsl.ts`,
+  `lib/ripple-table.ts`, `ui/sea-surface.ts`: wave groups in place of
+  everlasting plane waves, judged by a CPU port's glint map and its
+  autocorrelation, since the rippled sea draws on WebGPU alone and the shooter
+  cannot.
 
 ## Built / in flight / left
 
@@ -204,34 +278,143 @@ PR. Session ids are claude.ai remote sessions.
   a dither hatch; sand lies in sheets kilometres inland; a band is one flat
   colour; hills are low domes of one character. `lookTo` is clamped, so the sky
   shot looks up only a few degrees — raise it for the play hook if clouds asks.
-- Relief's first step (c9d498fe, then 96b2dfe2) is merged and on preview slot 1
-  (`preview.vovazakharov.com/island`, built from f513200e): ranges gathered into
-  belts, sand at the shore only, lowland floor 65 m, kinds by broad height
-  (green under 300 m, brown to 550, alpine 600→1100), peaks to ~3.6 km. Sent
-  back: the lowland went dead flat, dunes read as straight stripes, snow from
-  orbit shows the value noise's cells (gradient noise if inside 1.5× fill).
-- Trees told the new heights and to import `noiseSalt`/`valueNoise3` from the
-  terrain barrel; until they do, `pnpm knip` is red on those two exports.
-- Relief's steps 2 and 3 (39dba2c5, 964d9e1e) are merged at dc63d9728 and on the
-  preview: the lowland rolls (hill country beside vales), the range at 27.25, 77
-  has spurs and valley floors, snow from orbit is a spine, dunes are a land
-  form. The beauty set has a place per kind (`0002-*`, `0003-*` frames). The
-  surface is now the weakest part: snow in blotches by height alone, flat green,
-  rock-brown lee faces on dunes.
-- Ground's step 1 (1944a92f) and the trees' step 1 (fbbf0dfa) are merged at
-  152193d8f; B reaches the trees through `sceneLook`'s `onLook`. From 4.4 km the
-  coast is the best frame so far (forest with clearings). From 2,300 km it is a
-  regression: forest in rectangular patches along tile edges, because per-vertex
-  `cover` changes with tile level, and the range lost its snow.
-- The rule that cures it, sent to ground and trees: far from the eye, colour
-  contrast comes only from per-fragment functions of place and from height;
-  per-vertex `cover` fades toward a per-fragment expectation by ~150 km, and
-  `tileCover` is band-limited the way the relief is so a tile and its parent
-  never differ by a whole patch.
-- In flight: ground on the orbit regression, then canopy tone, then each band's
-  surface; trees on the `sand` attribute, cover across levels, then sunset glow,
-  wind, undergrowth; clouds still with nothing pushed; speed on the tile bracket
-  (`detailReach` is exported for it); the keeper.
-- Left: the clouds; `sand` swapped into the ground shader; the lattice hash
-  ground and clouds each carry folded into one home; the middle look and what it
-  saves; `/dry`, `/tend-prose`, `/five-percent`, vet, the PR.
+- The finished relief (38456e5d): ranges gathered into belts, sand at the shore
+  only, lowland floor 65 m rolling into hill country, kinds by broad height
+  (green under 300 m, brown to 550, alpine 600→1100), peaks to ~3.6 km, snow
+  from orbit a spine, dunes a land form. The beauty set has a place per kind.
+- The rule that cured forest in rectangles from orbit, binding on ground and
+  trees: far from the eye, colour contrast comes only from per-fragment
+  functions of place and from height; per-vertex `cover` fades toward a
+  per-fragment expectation by ~150 km, and `tileCover` is band-limited the way
+  the relief is, so a tile and its parent never differ by a whole patch.
+- 11:48 UTC: the 5-hour limit cut every session off mid-step; the operator woke
+  all of them with «Продолжай» at 15:39, so none was replaced.
+- Merged since, in order (every merge gated: typecheck, lint:check,
+  format:check, `pnpm test`): trees' sand seam, cover across levels, wind
+  (rectangles from orbit gone); speed's three looks on B and the touch look
+  button (`ui/look-button.tsx`, bottom right, not under `?play`); coast step 1;
+  ground's forest by expectation, canopy tone, snow by height and slope, moor,
+  scree; trees' undergrowth and far tier; at 19e5bb3ab coast's domain warp
+  (e483f6734) and `groundSpread` (79d4dcc53), ground's gentler ripples
+  (2afbeccac); at 72d2324dd the clouds' step 1 (cfbfd6173).
+- The lattice seam is `ui/lattice-value.ts`: `latticeValue` and `worldCell`
+  shift every shader lattice by a roll of the world (`rollLattice(world)` at
+  each pool start). Ground and clouds both read it (0599b47e0).
+- `groundSpread` buys no tiles (alpine 3000 m 143 either way): the bound is
+  sup-times-sup, 100–700× the measured spread. Tile counts stay worse than
+  main's 112 until a tile is bracketed from its own filled heights.
+- Clouds' step 1 from orbit is weather (decks, open cells, a front, an ice
+  shield) and no longer speckle, but the open cells are crisp crochet lace and a
+  front is a white worm; from the ground the member itself calls it blander than
+  the baseline (four steps across a grazing ray). `lookTo`'s clamp is the eye's
+  own rule (`lookWithin`), so nobody sees cumulus overhead; the horizon is the
+  view to get right.
+- Merged at 6da7f994f (166 tests): the coast's final package (af79cc077), the
+  trees' swift look (81ddfe1f2), ground's swift path and its answers to the
+  17:05 verdicts (006d16550), the board (4db31d295). At 6974e7256 the scene
+  tells the ground which full look is on (`lighting.dress(fine, rippled, swift)`
+  in `scene-look.ts`).
+- The finished coast: `CoastDistance` carries an optional `calm` (0–1, a 50 km
+  seeded roughness field). Calm stretches keep the beach and the dune belt;
+  rough ones keep a ~20 m strip of sand and skerries ~80 m across some 600 m
+  out. Thirteen bends from 20 km to 4.9 m, the coast moving at most 3.8 km; fill
+  costs +56% on rough coast tiles, accepted unless speed's M2 numbers say the
+  workers fall behind. `DUNES` is 43.733, 10.266 heading 164, a calm stretch.
+- Swift as built: trees draw every tree fine draws with ~40% of the triangles
+  (480k against 1,218k from 2 m), through `treeView.drawAs(look)` — the name
+  `setLook` collided with `LookSwitch` under `pnpm type-overlap`, and no shared
+  base is wanted. Ground reads 9 lattice values per fragment against fine's 12
+  and plain's 4. Fine's 1.2M triangles near the ground is over what the M2
+  budget was measured against: trees owe ~800k with no visible change.
+- New for ground: rock on rough shores — dark wet rock within tens of metres of
+  the waterline where `calm` is low, skerries all rock, no tree or dune grass on
+  it. The lead built the seam at ground's request: `rockAt` beside `sandAt` in
+  the terrain's `shore.ts`, `shoreAtSphere` giving both from one coast read,
+  `tileShore` in `forest-cover.ts`, and a per-vertex `rocky` attribute
+  (`ROCKY_ATTRIBUTE`) — 1 on a rough stretch's first 20 m and its skerries, gone
+  by 90 m inland, 0 on calm stretches.
+- The sea's moiré (the operator's screenshot, `0013-sea-0-operator-moire`):
+  `ripplesAt` sums 64 everlasting plane waves with integer wave vectors on a 256
+  m period, which beat into a regular grid under a low sun. The Sea child
+  replaces them with wave groups; the shoal's smear is the sea shader's too.
+- Clouds' verdict on step 1, sent as five items to push one at a time with
+  frames: blocky cumulus fields from 300–1000 km, crochet open cells, the front
+  as a sausage, grey featureless decks, and the view from the ground and from 10
+  km (a coarse pass, then steps where it found cloud).
+- The keeper split the timelapse zone into eight at the operator's own request
+  to it; cards carry no `why`, so a verdict goes in the card's text, in English
+  (`check:board-language` rejects Cyrillic).
+- The seventh merge's frames (`0014-merge-7-*`, shot at 6974e7256) and the
+  verdicts sent on them. Wins: the alpine range from 3 km, the dune belt at
+  every height, the coast with skerries. To ground: straight tile edges in the
+  lowland's meadow colour from 4–34 km; near moor olive-brown against far hills
+  teal with purple hollows; snow in soft round blobs that ignore the relief, a
+  dot screen on rock, contour stripes on a grass slope; canopy tone and
+  crown-scale mottling beyond the last placed trees. To trees: from 300 m a
+  forest reads as a lawn with bushes (far tier's density must not fall with
+  distance, hand-over by pixel size); the forest ends at the dunes along a ruler
+  line; nothing grows on shore rock (`shoreAt` in `TreeGround`).
+- Merged at 2170765ea the sea (9bfee46f): each wave's phase drifts with two slow
+  world-keyed noise fields, so the 64 waves no longer beat into a grid; a
+  float64 twin (`lib/ripples.ts`) and a regularity test (ACF peak 0.51 before,
+  0.14–0.16 after). Unseen on real WebGPU until the operator looks. The Sea
+  member's last item is the shoal's cream smear at a beach's waterline.
+- Merged at 0185c8196 the clouds' items 1 and 2 (9bfa7a87): cumulus fields are
+  heaps on packed points with turned axes (no grid, but bubble wrap of one
+  size), open cells have thick uneven walls (still a doily round a blur). Sent
+  back: a size spectrum over a decade with lanes and clumps; walls broken into
+  beads; texture in the solid mass. Items 3 and 4 (front, decks) next.
+- Merged at 2b0fe24c8 speed's swift clouds (6d902a36f): a half-resolution buffer
+  marching one pixel of each 2×2 block a frame and reprojecting the rest
+  (`ui/swift-clouds.ts`), a sixteenth of fine's marches; a turn differs from
+  fine by ~0.08/255. Swift costs 20–40% less than fine on the software raster,
+  and plain 2.5× less than swift: what is left is the air, per fragment. Decided
+  next for speed, in order: the air from a low-resolution volume behind swift,
+  the clouds' ground shadow from it, the tile bracket from a tile's own heights
+  (to read `detailReach`, the one export `pnpm knip` is red on; target 112 tiles
+  at alpine 3000 m), then the table again.
+- `InLook` (`@/island/shared/play`) is the one home of a `look: Look` member.
+- Preview slot 1 serves e3f3f0620 (checked): the sea's cure, clouds' items 1–2.
+- The five-hour limit cut the team off ~18:40 UTC until 20:30; clouds, trees,
+  sea, speed, the march and the keeper resumed by themselves, ground did not.
+- Swift beside fine from 2b0fe24c8 (`0017-merge-8-*`): alike at 34 km, 4400 m,
+  lowland and alpine 300 m but for a comb along the horizon's cloud band; at 560
+  m over the coast swift smears the previous eye position's cloud history over
+  sea and land. Sent to speed as a blocker.
+- Merged at ae86aff73 (178 tests): ground through 060e84b07 (forest past its
+  trees by expectation, a moor without purple, snow by aspect, shore rock) and
+  the sea's shoal (fef69dff3).
+
+## Closing this approach
+
+Decided 20:55 UTC on the operator's budget: about half of the day's spend is
+left, and the run ends as one branch with green gates, the preview on its head,
+a draft PR and this plan renamed `.paused.md`. Beat: finishing every list — it
+does not fit, and a half-merged team is worth less than a smaller whole.
+
+- **Nobody starts a new item.** Each member finishes what is in its hands,
+  leaves its branch green and its note current, reports, and is archived.
+- **What budget is left goes to frame time**, on the operator's numbers: speed
+  on swift (the history bug, then the air and the cloud shadow from a volume),
+  sea on the cost of its own surface. Beauty items wait for the next approach.
+- **Ground is not replaced.** Its session stopped at the limit with its branch
+  pushed; all of it is merged, and what its verdicts still list is in "Left".
+- **`/five-percent` and a whole-branch `/polish` wait for the approach that
+  finishes the work**; children ran `/dry` and `/tend-prose` on their own diffs.
+  `./scripts/vet.sh` runs before the PR.
+
+## Left, for the next approach
+
+- Frame time on an M2 Pro, target a swift look near 30 ms: whatever of speed's
+  and sea's lists did not land (see their notes), the tile bracket, trees' fine
+  triangle count (1.2M → ~800k).
+- Ground: straight tile edges in the lowland's meadow colour from 4–34 km, the
+  rock's dot screen, contour stripes on grass slopes — check each on fresh
+  frames first, ground's last commits may have cured some.
+- Trees: a forest from 300 m as a lawn with bushes, the ruler edge at the dune
+  belt, nothing growing on shore rock (`shoreAt` in `TreeGround`), crowns.
+- Clouds: a size spectrum for cumulus fields, open-cell walls as beads, decks
+  (item 4); the view from the ground, which the operator's frames show as grey
+  streaks — the march member's search is the candidate cure.
+- The sunset's vermilion sand (steering, 20:58).
+- Relief's leftovers under "The team".

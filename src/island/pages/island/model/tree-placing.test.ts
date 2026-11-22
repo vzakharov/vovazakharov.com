@@ -20,6 +20,7 @@ const CELL: CubeCell = { face: 'px', level: 18, x: 131_000, y: 140_500 };
 const flat = (height: number, world = '7'): TreeGround => ({
   seed: 11,
   groundAt: () => height,
+  sandAt: () => 0,
   wordAt: pathHash(world),
 });
 
@@ -38,6 +39,10 @@ function share(height: number) {
   return trees.filter(({ kind }) => kind === 'conifer').length / trees.length;
 }
 
+/** How many trees stand on level ground with a share `sand` of sand in it. */
+const sandy = (sand: number) =>
+  stand({ ...flat(200), sandAt: () => sand }).length;
+
 describe('tree placing', () => {
   it('the same world and cell hold the same trees', () => {
     assert.deepEqual(stand(flat(200)), stand(flat(200)));
@@ -48,10 +53,15 @@ describe('tree placing', () => {
     assert.notDeepEqual(stand(flat(200)), stand(flat(200, '8')));
   });
 
-  it('no tree stands on the sand, in the sea or over the treeline', () => {
-    for (const height of [-30, 0, 2, 1600]) {
+  it('no tree stands in the sea or over the treeline', () => {
+    for (const height of [-30, 0, 1600]) {
       assert.equal(stand(flat(height)).length, 0, `at ${String(height)} m`);
     }
+  });
+
+  it('no tree stands on the sand, and fewer on sandy ground', () => {
+    assert.equal(sandy(1), 0);
+    assert.ok(sandy(0.5) > 0 && sandy(0.5) < sandy(0));
   });
 
   it('no tree stands on a wall', () => {

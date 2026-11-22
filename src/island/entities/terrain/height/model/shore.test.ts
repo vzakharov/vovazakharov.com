@@ -10,6 +10,7 @@ import {
   LOWLAND_REACH_METRES,
   lowlandFloor,
   restingGround,
+  rockAt,
   sandAt,
 } from './shore';
 import { stream } from './stream.test-kit';
@@ -169,6 +170,9 @@ describe('duneAt', () => {
   });
 });
 
+/** A stretch with no calm in it. */
+const rough = () => 0;
+
 describe('sandAt', () => {
   it('is whole on the beach and the low dune belt', () => {
     for (const d of [1, 30, 200, 500]) {
@@ -193,6 +197,50 @@ describe('sandAt', () => {
     for (let height = 100; height < 240; height += 1) {
       const drop = sandAt(300, height) - sandAt(300, height + 1);
       assert.ok(drop >= 0 && drop < 0.02, `at ${height} m`);
+    }
+  });
+
+  it('keeps to a strip at the water on a rough stretch, between when mixed', () => {
+    assert.ok(sandAt(2, 5, rough) > 0.9);
+    assert.equal(sandAt(25, 5, rough), 0);
+    assert.equal(sandAt(300, 20, rough), 0);
+    assert.equal(
+      sandAt(300, 20, () => 0.4),
+      0.4,
+    );
+    // Not read where no sand could lie.
+    assert.equal(
+      sandAt(5000, 20, () => {
+        throw new Error('read');
+      }),
+      0,
+    );
+  });
+});
+
+describe('rockAt', () => {
+  it('is whole at the water of a rough stretch and on its skerries', () => {
+    assert.equal(rockAt(0.5, rough), 1);
+    assert.equal(rockAt(20, rough), 1);
+  });
+
+  it('is gone inland and on a calm stretch, by the stretch’s share between', () => {
+    assert.equal(rockAt(90, rough), 0);
+    assert.equal(rockAt(5), 0);
+    assert.ok(Math.abs(rockAt(5, () => 0.25) - 0.75) < 1e-12);
+    // Not read where no rock could lie.
+    assert.equal(
+      rockAt(400, () => {
+        throw new Error('read');
+      }),
+      0,
+    );
+  });
+
+  it('thins inland without a step', () => {
+    for (let d = 20; d < 90; d += 1) {
+      const drop = rockAt(d, rough) - rockAt(d + 1, rough);
+      assert.ok(drop >= 0 && drop < 0.03, `at ${d} m`);
     }
   });
 });

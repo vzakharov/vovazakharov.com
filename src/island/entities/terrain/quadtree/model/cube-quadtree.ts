@@ -11,11 +11,17 @@ import {
 
 import {
   type CoastDistance,
+  groundSpread,
   HIGHEST_GROUND,
   LOWEST_GROUND,
-  SPHERE_GROUND_SLOPE,
 } from '../../height';
-import { capGap, cubeTileId, cubeTileSide, tileCap } from '../../tile';
+import {
+  capGap,
+  cubeTileId,
+  cubeTileSide,
+  type TileCap,
+  tileCap,
+} from '../../tile';
 import { covering } from './cube-neighbours';
 import { cubeChildren, cubeSplitRule } from './cube-split';
 import { type Framed, outside } from './view';
@@ -30,6 +36,11 @@ export type CubeSelectOptions = Framed & {
    */
   readonly ground?: (direction: Vec3) => number;
 };
+
+/** The lowest and highest a tile and every tile under it draws, metres. */
+type Bracket = readonly [low: number, high: number];
+
+const WHOLE: Bracket = [LOWEST_GROUND, HIGHEST_GROUND];
 
 /** The angle over the sea's horizon from which ground `h` metres up shows. */
 const rise = (h: number) => Math.acos(R / (R + Math.max(0, h)));
@@ -51,48 +62,60 @@ export function selectCubeTiles(
   const seaHorizon = Math.acos(Math.min(1, R / length(eye)));
 
   /**
-   * The lowest and highest the tile draws, bounded by the slope around
-   * samples: its ground, and the sea over it wherever that ground is below
-   * the sea.
+   * The tile's bracket within `within`, its parent's: the ground at the
+   * cap's points widened by the spread to the farthest point from them, and
+   * the sea over it wherever that ground is below the sea.
    */
-  const relief = (key: CubeCell, samples: readonly Vec3[]) => {
-    const side = cubeTileSide(key);
-    if (ground === undefined || SPHERE_GROUND_SLOPE * side >= HIGHEST_GROUND) {
-      return [LOWEST_GROUND, HIGHEST_GROUND] as const;
-    }
-    // Every point of the tile lies within half a side of one sample.
-    const slack = (SPHERE_GROUND_SLOPE * side) / 2;
-    const heights = samples.map((p) => ground(p));
+  const relief = (key: CubeCell, cap: TileCap, within: Bracket): Bracket => {
+    if (ground === undefined) return within;
+    // The cap's points are the tile's corners, edge middles and centre, so
+    // every point of the tile lies within half a side of one, along its
+    // edges' directions.
+    const slack = groundSpread(cubeTileSide(key) / 2);
+    if (slack >= within[1] - within[0]) return within;
+    const heights = [...cap.border, cap.centre].map((p) => ground(p));
     return [
-      Math.max(LOWEST_GROUND, Math.min(...heights) - slack),
-      Math.min(HIGHEST_GROUND, Math.max(0, ...heights) + slack),
-    ] as const;
+      Math.max(within[0], Math.min(...heights) - slack),
+      Math.min(within[1], Math.max(0, ...heights) + slack),
+    ];
   };
 
-  const visible = (key: CubeCell) => {
+  /** Each tile kept so far by its id, with its bracket. */
+  const brackets = new Map<string, Bracket>();
+
+  /**
+   * Whether any of tile `key`, under `parent`, may show; a tile that may is
+   * kept in `brackets`, and its children are bracketed within it.
+   */
+  const visible = (key: CubeCell, parent?: CubeCell) => {
     const cap = tileCap(key);
-    const [low, high] = relief(key, [...cap.border.slice(0, 4), cap.centre]);
+    const within = (parent && brackets.get(cubeTileId(parent))) ?? WHOLE;
+    const bracket = relief(key, cap, within);
+    const [low, high] = bracket;
     if (capGap(cap, eye) > seaHorizon + rise(high)) return false;
-    if (frustum === undefined) return true;
-    // The sphere bulges past the chords between border points by this much.
-    const bulge = (R + high) * (1 - Math.cos(cap.radius));
-    const hull = cap.border.flatMap((p) => [
-      scaled(p, R + low),
-      scaled(p, R + high),
-    ]);
-    return !outside(frustum, eye, hull, bulge);
+    if (frustum !== undefined) {
+      // The sphere bulges past the chords between border points by this much.
+      const bulge = (R + high) * (1 - Math.cos(cap.radius));
+      const hull = cap.border.flatMap((p) => [
+        scaled(p, R + low),
+        scaled(p, R + high),
+      ]);
+      if (outside(frustum, eye, hull, bulge)) return false;
+    }
+    brackets.set(cubeTileId(key), bracket);
+    return true;
   };
 
   const splits = cubeSplitRule(eye, coast);
 
   const leaves = new Map<string, CubeCell>();
-  const descend = (key: CubeCell) => {
-    if (!visible(key)) return;
+  const descend = (key: CubeCell, parent?: CubeCell) => {
+    if (!visible(key, parent)) return;
     if (!splits(key)) {
       leaves.set(cubeTileId(key), key);
       return;
     }
-    for (const child of cubeChildren(key)) descend(child);
+    for (const child of cubeChildren(key)) descend(child, key);
   };
   for (const face of FACES) descend({ face, level: 0, x: 0, y: 0 });
 
@@ -114,7 +137,7 @@ export function selectCubeTiles(
  */
 function balanceCube(
   leaves: Map<string, CubeCell>,
-  visible: (key: CubeCell) => boolean,
+  visible: (key: CubeCell, parent: CubeCell) => boolean,
 ) {
   let changed = true;
   while (changed) {
@@ -125,7 +148,7 @@ function balanceCube(
         if (!coarse || coarse.level >= key.level - 1) continue;
         leaves.delete(cubeTileId(coarse));
         for (const child of cubeChildren(coarse)) {
-          if (visible(child)) leaves.set(cubeTileId(child), child);
+          if (visible(child, coarse)) leaves.set(cubeTileId(child), child);
         }
         changed = true;
       }

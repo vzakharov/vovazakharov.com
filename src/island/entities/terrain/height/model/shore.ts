@@ -59,6 +59,14 @@ export const ramp = (t: number) =>
   t >= 1 ? 1 : t <= 0 ? 0 : t * t * (3 - 2 * t);
 
 /**
+ * The share of a wave `wavelength` metres long a detail cut `finest` keeps:
+ * none at or under the cut, faded in up to twice it, whole past that or with
+ * no cut.
+ */
+export const resolvedAt = (finest: number, wavelength: number) =>
+  finest === 0 ? 1 : ramp(wavelength / finest - 1);
+
+/**
  * The larger of `a` and `b`, rounded over a band `k` wide where they meet,
  * and exactly the larger outside it; never below either.
  */
@@ -139,13 +147,40 @@ export function duneAt(
   return DUNE_METRES * along * (0.6 + 0.4 * swell) * standing * crest;
 }
 
+/** How far a rocky stretch's strip of sand reaches inland, thinning out. */
+const ROCKY_SAND_METRES = 20;
+
 /**
  * The share of sand in ground `d` metres inland (positive) standing `height`
- * metres up, from 0 to 1: 1 on the beach and across the dune belt, thinning
- * with the dunes inland and with height, 0 past them and at sea.
+ * metres up, from 0 to 1, on a stretch whose share of calm `calm` gives: on a
+ * calm one 1 on the beach and across the dune belt, thinning with the dunes
+ * inland and with height; on a rough one a strip at the water's edge; 0 past
+ * them and at sea.
  */
-export function sandAt(d: number, height: number): number {
+export function sandAt(
+  d: number,
+  height: number,
+  calm: () => number = () => 1,
+): number {
   if (d <= 0) return 0;
-  const along = beltAt(d);
-  return along === 0 ? 0 : along * dunesOver(height - DUNE_METRES);
+  const belt = beltAt(d);
+  if (belt === 0) return 0;
+  const share = calm();
+  const along = share * belt + (1 - share) * (1 - ramp(d / ROCKY_SAND_METRES));
+  return along * dunesOver(height - DUNE_METRES);
+}
+
+/** How far inland a rough stretch's rock is whole, and the distance past it over which it is gone. */
+const ROCK_WHOLE_METRES = 20;
+const ROCK_FADE_METRES = 70;
+
+/**
+ * The share of bare shore rock in land `d` metres inland, from 0 to 1, on a
+ * stretch whose share of calm `calm` gives: whole at the water of a rough
+ * stretch and on its skerries, gone a stone's throw inland and on every calm
+ * stretch.
+ */
+export function rockAt(d: number, calm: () => number = () => 1): number {
+  const near = 1 - ramp((d - ROCK_WHOLE_METRES) / ROCK_FADE_METRES);
+  return near === 0 ? 0 : near * (1 - calm());
 }

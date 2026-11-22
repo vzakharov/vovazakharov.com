@@ -27,8 +27,8 @@ import {
 
 /** Steps along a ray's stretch of the layer for an eye over every cloud. */
 const OVER_STEPS = 4;
-/** The distance, in a step's level lengths, that hides the same waves the step does: those under a step long. */
-const STEP_HIDES = 60;
+/** The distance, in a step's level lengths, that hides the same waves the step does: those under two steps long. */
+const STEP_HIDES = 120;
 /** The least steeply a ray is taken to cross the layer, for how fine its waves look. */
 const LEAST_STEEP = 0.07;
 
@@ -107,17 +107,28 @@ export function cloudMarch(kit: StepKit, steps: CloudSteps) {
     return vec4(glow, through);
   };
 
-  /** Steps that share the stretch evenly; `hidden` fades the waves shorter than one. */
+  /**
+   * Steps that share the stretch evenly. A wave shorter than two of them
+   * would show as one bar a step, so `hidden` fades it from the steps and the
+   * sheet, read once where the ray enters, lays it on the cloud.
+   */
   const even = (ray: MarchRay, meso: MesoEnds): Node<'vec4'> => {
-    const { cosine, from, length } = ray;
+    const { cosine, direction, from, length } = ray;
     const steep = rays.steepAt(cosine, from.add(length.mul(0.5))).toVar();
     const hidden = length
       .div(OVER_STEPS)
       .mul(steep.mul(steep).oneMinus().max(0).sqrt())
       .mul(STEP_HIDES)
       .toVar();
+    const sheet = cover
+      .sheet(
+        turned(rays.placeAt(direction, from)),
+        awayAt(ray, from, 1),
+        hidden,
+      )
+      .toVar();
     const readAt = (at: F) =>
-      steps.readAt(ray, meso, at, max(awayAt(ray, at, 1), hidden));
+      steps.readAt(ray, meso, at, max(awayAt(ray, at, 1), hidden), sheet);
     return walk(
       ray,
       readAt,
@@ -191,7 +202,7 @@ export function cloudMarch(kit: StepKit, steps: CloudSteps) {
       // Each step longer than the one before by the same share, the last ending where the stretch does.
       const grows = end.sub(start).div(first).add(1).toVar();
       const readAt = (at: F) =>
-        steps.readAt(ray, meso, at, awayAt(ray, at, SQUEEZE));
+        steps.readAt(ray, meso, at, awayAt(ray, at, SQUEEZE), 0);
       seen.assign(
         walk(
           ray,

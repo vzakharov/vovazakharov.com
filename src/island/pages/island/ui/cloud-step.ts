@@ -94,13 +94,23 @@ export function cloudSteps({
 
   /**
    * The field at `at`, as an eye `away` metres off tells it: the two coarsest
-   * scales always, each finer one while it spans more than a few pixels.
+   * scales always, each finer one while it spans more than a few pixels, and
+   * `sheet` for the scales the march hides.
    */
-  const readAt = (ray: MarchRay, meso: MesoEnds, at: F, away: F) => {
+  const readAt = (
+    ray: MarchRay,
+    meso: MesoEnds,
+    at: F,
+    away: F,
+    sheet: F | number,
+  ) => {
     const place = rays.placeAt(ray.direction, at).toVar();
     const spot = turned(place).toVar();
     const coarse = cover.octave(spot, 0, away).toVar();
-    const cells = coarse.add(cover.octave(spot, 1, away)).toVar();
+    const cells = coarse
+      .add(cover.octave(spot, 1, away))
+      .add(sheet)
+      .toVar();
     for (const [index, wave] of CELL_METRES.entries()) {
       if (index < 2) continue;
       If(away.lessThan(seenTo(wave)), () => {
