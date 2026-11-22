@@ -143,6 +143,7 @@
 }
 
 .diagnosticsRows,
+.diagnosticsTable,
 .diagnosticsFailure {
   margin: 0;
   font:
@@ -167,6 +168,12 @@
   }
 }
 
+.diagnosticsTable {
+  white-space: pre;
+  pointer-events: auto;
+  user-select: text;
+}
+
 .diagnosticsFailure {
   color: rgb(255 200 170);
   pointer-events: auto;
@@ -174,6 +181,34 @@
 
   &:empty {
     display: none;
+  }
+}
+
+// The look button, bottom right, clear of the hint (bottom left), the
+// diagnostics (top left) and the look hint (top centre). A finger's 44 px on a
+// touch screen; small beside a keyboard, which has B.
+.lookButton {
+  @include glass;
+
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  min-width: 44px;
+  min-height: 44px;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid rgb(255 255 255 / 30%);
+  touch-action: manipulation;
+
+  @media (hover: hover), (pointer: fine) {
+    min-width: 0;
+    min-height: 0;
+    padding: 4px 10px;
+    font-size: 12px;
+  }
+
+  &:hover {
+    background: rgb(10 16 28 / 70%);
   }
 }
 

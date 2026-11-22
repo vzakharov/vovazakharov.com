@@ -22,6 +22,7 @@ import {
   type LandOctave,
   LATTICE_WRAP,
 } from '../lib/land-octaves';
+import { latticeValue } from './lattice-value';
 
 type F = Node<'float'>;
 type V = Node<'vec3'>;
@@ -72,18 +73,22 @@ export const QUIET: OctaveNoise = {
 };
 
 /**
+ * An octave that is not there: what a look reads in place of one it leaves out
+ * near the eye, where averaging it as `QUIET` does would blur every edge drawn
+ * through its coarser neighbours.
+ */
+export const ABSENT: OctaveNoise = {
+  ...QUIET,
+  told: float(1),
+  edged: float(1),
+};
+
+/**
  * How far an octave's lattice is pushed about by the next coarser one's slope,
  * cells: enough that no cell's square outline shows through a border drawn
  * along the noise.
  */
 const WARP = 0.22;
-
-/** A lattice point's value, 0 to 1, for whole coordinates under `LATTICE_WRAP`. */
-const latticeValue = Fn(([point]: [V]) => {
-  const folded = point.mul(0.1031).fract().toVar();
-  folded.addAssign(dot(folded, folded.zyx.add(31.32)));
-  return folded.x.add(folded.y).mul(folded.z).fract();
-});
 
 const wrapped = (cells: V): V =>
   cells.sub(cells.div(LATTICE_WRAP).floor().mul(LATTICE_WRAP));

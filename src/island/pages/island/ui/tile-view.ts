@@ -13,6 +13,7 @@ import {
   type CoastDistance,
   CUBE_MIN_LEVEL,
   cubeTileId,
+  type Filled,
   frustumOf,
   type NeighbourLevels,
   neighbourLevels,
@@ -27,6 +28,8 @@ import { type CoverPiece, finestCover, standInsOf } from '../model/tile-cover';
 import type { StandInMaterials } from './ground-lighting';
 import { type DrawnPiece, type HeldTiles, tileMeshes } from './tile-meshes';
 
+/** Tiles whose relief the selection remembers, the least recently filled forgotten first. */
+const FILLED_KEPT = 8192;
 /** A move under this share of the height reuses the last tile selection. */
 const RESELECT_SHARE = 0.02;
 /**
@@ -121,6 +124,20 @@ export function tileView(
   { materials, ground, want }: TileViewParams,
 ): TileView {
   const held = tileMeshes(group, materials);
+  /**
+   * What each tile was last filled with, by tile id, the most recent last: its
+   * relief, for the selection. Kept past the tile's eviction, since a tile
+   * it culls is not held, and would otherwise be fetched again to be culled.
+   */
+  const filled = new Map<string, Filled>();
+  const remember = (id: string, relief: Filled) => {
+    filled.delete(id);
+    filled.set(id, relief);
+    for (const oldest of filled.keys()) {
+      if (filled.size <= FILLED_KEPT) break;
+      filled.delete(oldest);
+    }
+  };
   let selection: {
     at: Vec3;
     scale: number;
@@ -131,6 +148,8 @@ export function tileView(
     orders: Map<string, TileOrder>;
     /** The tiles held to stand in for the selection while it loads, by variant id. */
     standIns: Map<string, TileOrder>;
+    /** Whether every selected tile's fill was known when it was selected. */
+    refined: boolean;
   } | null = null;
   /** The last selection wholly in hand, drawn while a newer one loads. */
   let shown: {
@@ -172,6 +191,7 @@ export function tileView(
       coast,
       frustum: frustumOf(forward, up, fov, aspect),
       ground: groundAt,
+      filled: (key) => filled.get(cubeTileId(key)),
     });
     const orders = ordersOf(keys);
     // The selection repeats a root when it reaches up to one, under the same
@@ -185,6 +205,7 @@ export function tileView(
       keys,
       orders,
       standIns,
+      refined: keys.every((key) => filled.has(cubeTileId(key))),
     };
     const rest = new Map([
       ...unstitched(ROOTS),
@@ -198,8 +219,20 @@ export function tileView(
   const inHand = (orders: ReadonlyMap<string, TileOrder>) =>
     [...orders.values()].every((order) => held.has(orderId(order)));
 
+  /**
+   * `select`, made again once wholly in hand when it was made before its
+   * tiles' fills were known: what it drops never showed, and what it adds
+   * loads before it shows.
+   */
+  const refined = (eye: Eye, aspect: number) => {
+    const current = select(eye, aspect);
+    if (current.refined || !inHand(current.orders)) return current;
+    selection = null;
+    return select(eye, aspect);
+  };
+
   const showIfComplete = (eye: Eye, aspect: number) => {
-    const { keys, orders } = select(eye, aspect);
+    const { keys, orders } = refined(eye, aspect);
     if (keys.length > 0 && inHand(orders)) shown = { keys, orders };
     return keys;
   };
@@ -231,10 +264,11 @@ export function tileView(
   };
 
   return {
-    selected: (eye, aspect) => select(eye, aspect).keys,
-    complete: (eye, aspect) => inHand(select(eye, aspect).orders),
+    selected: (eye, aspect) => refined(eye, aspect).keys,
+    complete: (eye, aspect) => inHand(refined(eye, aspect).orders),
     add: (tile, eye, aspect) => {
       held.add(tile);
+      remember(cubeTileId(tile.key), tile.filled);
       if (eye !== null) showIfComplete(eye, aspect);
       held.evict(new Set(standing()));
     },
@@ -264,6 +298,7 @@ export function tileView(
     },
     clear: () => {
       held.clear();
+      filled.clear();
       selection = null;
       // Its tiles went with the clear; kept, it would bar their stand-ins.
       shown = null;

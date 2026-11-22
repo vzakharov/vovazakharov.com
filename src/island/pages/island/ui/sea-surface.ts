@@ -12,6 +12,8 @@ import {
   positionWorld,
   reflect,
   uniform,
+  vec3,
+  vertexStage,
   wgslFn,
 } from 'three/tsl';
 import { type Node, Vector2, Vector3 } from 'three/webgpu';
@@ -19,8 +21,9 @@ import { type Node, Vector2, Vector3 } from 'three/webgpu';
 import type { Vec3 } from '@/island/shared/globe';
 
 import type { Sunlit } from '../lib/day';
-import { RIPPLE_PERIOD } from '../lib/ripple-table';
-import { SEA_LISTING, swellAt } from '../lib/sea-wgsl';
+import { GROUP_PERIOD, RIPPLE_BANDS, RIPPLE_PERIOD } from '../lib/ripple-table';
+import { intoPeriod, SEA_LISTING, swellAt } from '../lib/sea-wgsl';
+import { worldCell } from './lattice-value';
 
 /** What the sea is drawn under, this frame. */
 export type SeaFrame = Sunlit & {
@@ -30,15 +33,33 @@ export type SeaFrame = Sunlit & {
   readonly time: number;
 };
 
-/** The sky's radiance arriving from a unit world direction, in the scene's exposure. */
-type Radiance = (direction: Node<'vec3'>) => Node<'vec3'>;
+/** The sky's radiance arriving from a unit world direction, in the scene's exposure, with or without its clouds. */
+type Radiance = (direction: Node<'vec3'>, cloudless?: boolean) => Node<'vec3'>;
+
+/** How a sea mesh is shaded. */
+type Shading = {
+  /**
+   * Its triangles are kilometres wide, as the globe's: it reads the mirrored
+   * sky per fragment, where any other reads it per vertex.
+   */
+  readonly wide?: boolean;
+  /** The swift look: a cloudless sky in the water, and the finest bands only in `hidden`. */
+  readonly swift?: boolean;
+};
+
+/** The ripples' bands the swift look draws as slopes; the finer ones go to `hidden`. */
+const SWIFT_BANDS = RIPPLE_BANDS - 4;
 
 export type SeaSurface = {
   /**
    * The sea's colour over a floor at height `bed`, its body `under` the
    * surface unlit: a `vec3`, which three's types cannot read off the WGSL.
    */
-  readonly colour: (bed: Node<'float'>, under: Node<'vec3'>) => Node;
+  readonly colour: (
+    bed: Node<'float'>,
+    under: Node<'vec3'>,
+    shading?: Shading,
+  ) => Node;
   /**
    * A sea vertex lifted by the swell over a floor at `bed`: a material's
    * `positionNode`.
@@ -53,9 +74,6 @@ export type SeaSurface = {
   readonly damp: (lit: Node<'vec4'>, bed: Node<'float'>) => Node;
   readonly update: (frame: SeaFrame) => void;
 };
-
-const wrapped = (metres: number) =>
-  ((metres % RIPPLE_PERIOD) + RIPPLE_PERIOD) % RIPPLE_PERIOD;
 
 /**
  * The sea's surface as nodes: ripples under the wind, the sky mirrored in
@@ -74,13 +92,24 @@ export function seaSurface(radiance: Radiance): SeaSurface {
    */
   const anchor = uniform(new Vector3());
   const place = anchor.add(positionWorld);
+  /** The eye modulo the slow fields' period, and a fragment's place in them. */
+  const fieldAnchor = uniform(new Vector3());
+  const field = fieldAnchor.add(positionWorld);
+  /** The world's shift of every lattice: where it numbers cell nought. */
+  const grain = worldCell(vec3(0, 0, 0));
   const zenith = normalize(eyeNode.add(positionWorld));
   const flat = reflect(normalize(positionWorld), zenith);
-  /** What a still sea would mirror, kept off the ground: the sky toward it, and the sky overhead. */
-  const mirrored = radiance(
-    normalize(flat.add(zenith.mul(max(float(0.03).sub(dot(flat, zenith)), 0)))),
+  /** What a still sea would mirror, kept off the ground: the sky toward it. */
+  const stillward = normalize(
+    flat.add(zenith.mul(max(float(0.03).sub(dot(flat, zenith)), 0))),
   );
-  const overhead = radiance(zenith);
+  // Both ask `radiance` at each call, so it answers as it stands then.
+  const mirroredSky = ({ wide = false, swift = false }: Shading) => {
+    const mirrored = radiance(stillward, swift);
+    return wide ? mirrored : vertexStage(mirrored);
+  };
+  // The zenith turns a degree over a hundred kilometres: a vertex's sky is any fragment's.
+  const overheadSky = () => vertexStage(radiance(zenith));
   const footprint = max(
     length(dFdx(positionWorld)),
     length(dFdy(positionWorld)),
@@ -109,18 +138,24 @@ export function seaSurface(radiance: Radiance): SeaSurface {
   );
   const shade = wgslFn(
     `fn seaShade(
-      place: vec3f, world: vec3f, eye: vec3f, sun: vec3f, bed: f32, under: vec3f,
-      footprint: f32, seconds: f32, mirrored: vec3f, overhead: vec3f, swell: vec2f,
+      place: vec3f, field: vec3f, grain: vec3f, world: vec3f, eye: vec3f, sun: vec3f, bed: f32,
+      under: vec3f, footprint: f32, seconds: f32, mirrored: vec3f, overhead: vec3f, swell: vec2f,
+      bands: f32,
     ) -> vec3f {
-      return seaColour(place, world, eye, sun, bed, under, footprint, seconds, mirrored, overhead, swell);
+      return seaColour(
+        place, field, grain, world, eye, sun, bed, under, footprint, seconds, mirrored, overhead, swell,
+        bands,
+      );
     }`,
     [listing],
   );
 
   return {
-    colour: (bed, under) =>
+    colour: (bed, under, shading = {}) =>
       shade({
         place,
+        field,
+        grain,
         world: positionWorld,
         eye: eyeNode,
         sun,
@@ -128,9 +163,10 @@ export function seaSurface(radiance: Radiance): SeaSurface {
         under,
         footprint,
         seconds,
-        mirrored,
-        overhead,
+        mirrored: mirroredSky(shading),
+        overhead: overheadSky(),
         swell,
+        bands: float(shading.swift === true ? SWIFT_BANDS : RIPPLE_BANDS),
       }),
     lifted: (bed) =>
       lift({
@@ -145,7 +181,16 @@ export function seaSurface(radiance: Radiance): SeaSurface {
     update: (frame) => {
       const [x, y, z] = frame.eye;
       eyeNode.value.set(x, y, z);
-      anchor.value.set(wrapped(x), wrapped(y), wrapped(z));
+      anchor.value.set(
+        intoPeriod(x, RIPPLE_PERIOD),
+        intoPeriod(y, RIPPLE_PERIOD),
+        intoPeriod(z, RIPPLE_PERIOD),
+      );
+      fieldAnchor.value.set(
+        intoPeriod(x, GROUP_PERIOD),
+        intoPeriod(y, GROUP_PERIOD),
+        intoPeriod(z, GROUP_PERIOD),
+      );
       sun.value.set(...frame.sun);
       seconds.value = frame.time;
       swell.value.set(...swellAt(frame.eye, frame.time));

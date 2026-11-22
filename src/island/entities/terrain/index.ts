@@ -5,15 +5,16 @@ export {
 } from './coast-field';
 export {
   type CoastDistance,
-  detailReach,
+  detailedCoast,
   heightAtSphere,
   noiseSalt,
-  sandAt,
   sandAtSphere,
+  shoreAtSphere,
   valueNoise3,
 } from './height';
 export {
   cubeDetailCut,
+  type Filled,
   frustumOf,
   neighbourLevels,
   selectCubeTiles,

@@ -1,10 +1,10 @@
-export { detailReach } from './model/bounds';
+export { type CoastDistance, detailedCoast } from './model/coast-detail';
 export {
-  type CoastDistance,
+  cutSpread,
+  groundSpread,
   heightAtSphere,
   sandAtSphere,
-  SPHERE_GROUND_SLOPE,
+  shoreAtSphere,
 } from './model/height-sphere';
 export { HIGHEST_GROUND, LOWEST_GROUND } from './model/relief-numbers';
-export { sandAt } from './model/shore';
 export { noiseSalt, valueNoise3 } from './model/value-noise';

@@ -12,11 +12,15 @@ import {
   type Vec3,
 } from '@/island/shared/globe';
 
+import { detailReach } from './bounds';
+import { type CoastDistance, detailedCoast } from './coast-detail';
 import {
-  type CoastDistance,
+  cutSpread,
+  groundSpread,
   heightAtSphere,
   SPHERE_GROUND_SLOPE,
 } from './height-sphere';
+import { stream } from './stream.test-kit';
 
 const SEED = 7;
 const DISC_METRES = 1_000_000;
@@ -168,6 +172,77 @@ describe('heightAtSphere', () => {
       const full = island.height(x, y);
       // No more apart than the octaves under 2 km reach together.
       assert.ok(Math.abs(coarse(0) - full) < 300, `${coarse(0)} vs ${full}`);
+    }
+  });
+
+  it('stands apart at two points by no more than `groundSpread`', () => {
+    const next = stream(17);
+    let closest = Infinity;
+    for (let k = 0; k < 3000; k += 1) {
+      const seed = 1 + Math.floor(next() * 1000);
+      const coast = detailedCoast(island.distance, seed);
+      // Half the pairs on the shore, half anywhere on the disc.
+      const r =
+        next() < 0.5
+          ? DISC_METRES + 8000 * (next() - 0.5)
+          : DISC_METRES * next();
+      const angle = 2 * Math.PI * next();
+      const apart = 2 ** (19 * next());
+      const turn = 2 * Math.PI * next();
+      const x = r * Math.cos(angle);
+      const y = r * Math.sin(angle);
+      const p = island.at(x, y);
+      const q = island.at(
+        x + apart * Math.cos(turn),
+        y + apart * Math.sin(turn),
+      );
+      const metres = R * arc(p, q);
+      const off = Math.abs(
+        heightAtSphere(coast, seed, p) - heightAtSphere(coast, seed, q),
+      );
+      const bound = groundSpread(metres);
+      assert.ok(off <= bound, `${off} over ${bound} at ${metres} m`);
+      closest = Math.min(closest, bound / Math.max(off, 1e-9));
+    }
+    assert.ok(closest > 1, `${closest}`);
+    for (const metres of [0, 1, 30, 1000, 50_000]) {
+      assert.ok(groundSpread(metres) <= groundSpread(2 * metres + 1));
+    }
+  });
+
+  it('stands apart at two points, at two cuts, by no more than `cutSpread`', () => {
+    const next = stream(29);
+    let closest = Infinity;
+    for (let k = 0; k < 3000; k += 1) {
+      const seed = 1 + Math.floor(next() * 1000);
+      const coast = detailedCoast(island.distance, seed);
+      const r =
+        next() < 0.5
+          ? DISC_METRES + 8000 * (next() - 0.5)
+          : DISC_METRES * next();
+      const angle = 2 * Math.PI * next();
+      const x = r * Math.cos(angle);
+      const y = r * Math.sin(angle);
+      const finest = 2 ** (16 * next());
+      const apart = finest * next();
+      const turn = 2 * Math.PI * next();
+      const p = island.at(x, y);
+      const q = island.at(
+        x + apart * Math.cos(turn),
+        y + apart * Math.sin(turn),
+      );
+      const metres = R * arc(p, q);
+      const off = Math.abs(
+        heightAtSphere(coast, seed, p, finest) -
+          heightAtSphere(coast, seed, q, finest * next()),
+      );
+      const bound = cutSpread(finest, metres);
+      assert.ok(off <= bound, `${off} over ${bound} at ${metres} m`);
+      closest = Math.min(closest, bound / Math.max(off, 1e-9));
+    }
+    assert.ok(closest > 1, `${closest}`);
+    for (const finest of [0, 1, 30, 1000, 50_000]) {
+      assert.ok(detailReach(finest) <= detailReach(2 * finest + 1));
     }
   });
 
