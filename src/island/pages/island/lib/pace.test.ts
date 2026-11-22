@@ -1,12 +1,21 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { type Pace, paced, paceFields, speedText } from './pace';
+import { FRAME_WINDOW, type Pace, paced, paceFields, speedText } from './pace';
 
-/** The pace after `seconds` of frames `ms` long, the eye at `speed` m/s, from `from`. */
-function run(from: Pace, ms: number, speed: number, seconds: number): Pace {
-  let pace = from;
-  for (let t = 0; t < seconds * 1000; t += ms) {
+/** The pace after `frames` frames `ms` long, the eye at `speed` m/s, from `from`. */
+function run(
+  from: Pace | undefined,
+  ms: number,
+  speed: number,
+  frames: number,
+): Pace {
+  let pace = paced(from, {
+    ms,
+    metres: (speed * ms) / 1000,
+    seconds: ms / 1000,
+  });
+  for (let n = 1; n < frames; n += 1) {
     pace = paced(pace, { ms, metres: (speed * ms) / 1000, seconds: ms / 1000 });
   }
   return pace;
@@ -16,28 +25,37 @@ describe('paced', () => {
   it('starts at the first frame', () => {
     assert.deepEqual(
       paced(undefined, { ms: 16.7, metres: 2, seconds: 0.0167 }),
-      { frameMs: 16.7, speed: 2 / 0.0167 },
+      { frameMs: 16.7, recent: [16.7], drawn: 1, speed: 2 / 0.0167 },
     );
   });
 
   it('holds a steady frame time and speed', () => {
-    const steady = run({ frameMs: 16.7, speed: 40 }, 16.7, 40, 2);
-    assert.ok(Math.abs(steady.frameMs - 16.7) < 1e-12);
+    const steady = run(undefined, 16.7, 40, 120);
+    assert.ok(Math.abs(steady.frameMs - 16.7) < 1e-9);
     assert.ok(Math.abs(steady.speed - 40) < 1e-9);
+    assert.equal(steady.drawn, 120);
   });
 
-  it('settles on a new frame time within two seconds, never past it', () => {
-    const { frameMs } = run({ frameMs: 16.7, speed: 0 }, 33.3, 0, 2);
-    assert.ok(frameMs < 33.3);
-    assert.ok(33.3 - frameMs < 0.02 * (33.3 - 16.7));
+  it('reads the frame time as the mean of the last window, and only of it', () => {
+    const slow = run(run(undefined, 16, 0, 200), 32, 0, FRAME_WINDOW / 2);
+    assert.equal(slow.recent.length, FRAME_WINDOW);
+    assert.ok(Math.abs(slow.frameMs - 24) < 1e-9, String(slow.frameMs));
+    const settled = run(slow, 32, 0, FRAME_WINDOW / 2);
+    assert.ok(Math.abs(settled.frameMs - 32) < 1e-9, String(settled.frameMs));
   });
 
-  it('goes two-thirds of the way in half a second at 30 fps and at 120', () => {
+  it('moves the speed two-thirds of the way in half a second at 30 fps and at 120', () => {
     for (const ms of [33.3, 8.3]) {
-      const { frameMs, speed } = run({ frameMs: 0, speed: 0 }, ms, 100, 0.5);
-      for (const share of [frameMs / ms, speed / 100]) {
-        assert.ok(Math.abs(share - (1 - Math.exp(-1))) < 0.03, String(share));
-      }
+      const { speed } = run(
+        { frameMs: 0, recent: [], drawn: 0, speed: 0 },
+        ms,
+        100,
+        Math.ceil(500 / ms),
+      );
+      assert.ok(
+        Math.abs(speed / 100 - (1 - Math.exp(-1))) < 0.03,
+        String(speed),
+      );
     }
   });
 
@@ -48,7 +66,7 @@ describe('paced', () => {
 
   it('keeps the speed over a frame that stepped no time', () => {
     const still = paced(
-      { frameMs: 16, speed: 7 },
+      { frameMs: 16, recent: [16], drawn: 1, speed: 7 },
       { ms: 0, metres: 0, seconds: 0 },
     );
     assert.equal(still.speed, 7);
@@ -67,10 +85,10 @@ describe('speedText', () => {
 });
 
 describe('paceFields', () => {
-  it('spells the speed and the frame time, a row each', () => {
+  it('spells the speed and the frame time with its rate, a row each', () => {
     assert.deepEqual(paceFields({ frameMs: 16.66, speed: 3 }), [
       'speed 3.0 m/s (11 km/h)',
-      'frame 16.7 ms',
+      'frame 16.7 ms, 60 fps (mean of 60)',
     ]);
   });
 });

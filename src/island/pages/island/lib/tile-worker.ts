@@ -50,9 +50,13 @@ function fill(
 ): FilledTile {
   const start = performance.now();
   const distance = coastOf(field, seed);
+  let coarsest = 0;
   const ground = fillStitchedCubeTile(
     key,
-    (p, finest) => heightAtSphere(distance, seed, p, finest),
+    (p, finest) => {
+      coarsest = Math.max(coarsest, finest);
+      return heightAtSphere(distance, seed, p, finest);
+    },
     levels,
     { finest: cubeDetailCut(eye, distance) },
   );
@@ -68,6 +72,7 @@ function fill(
   return {
     key,
     levels,
+    filled: { low, high, finest: coarsest },
     land,
     sea,
     cover:

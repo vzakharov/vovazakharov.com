@@ -15,6 +15,7 @@ import {
   sqrt,
   uniform,
   vec3,
+  vec4,
 } from 'three/tsl';
 import { type Node, Vector3 } from 'three/webgpu';
 
@@ -35,6 +36,7 @@ import {
   SPACE_COLOUR,
 } from '../lib/air';
 import type { Heavens } from '../lib/day';
+import type { Dropped } from '../lib/without';
 import { type CloudNodes, cloudNodes } from './cloud-nodes';
 import { type Clouded, swiftClouds } from './swift-clouds';
 
@@ -59,10 +61,10 @@ export type SkyNodes = Clouded & {
     direction: Node<'vec3'>,
     cloudless?: boolean,
   ) => Node<'vec3'>;
-  /** The air with the clouds marched for every fragment. */
-  readonly fine: Aired;
-  /** The air with the clouds read from `swiftClouds`' buffer, which `clouds` fills. */
-  readonly swift: Aired;
+  /** The air with the clouds marched for every fragment, its nodes built afresh, without what `dropped` then holds. */
+  readonly fine: () => Aired;
+  /** The air with the clouds read from `swiftClouds`' buffer, which `clouds` fills; built as `fine` is. */
+  readonly swift: () => Aired;
   /** The share of the sun's light the clouds leave at `position`, the eye being the origin; `aerial` lays it on what it is handed. */
   readonly shade: (position: Node<'vec3'>) => Node<'float'>;
   /** Per frame: the heavens, the eye's zenith (unit), its height in metres and the shared clock's seconds, which the clouds drift on. */
@@ -120,13 +122,19 @@ type V = Node<'vec3'>;
 /** A light in the sky: the unit vector toward it and what it sheds into the air. */
 type Lamp = { readonly toward: V; readonly light: V };
 
+/** No cloud along any ray: what the sky marches when the clouds are left out. */
+const noCloud: CloudNodes['along'] = () => ({
+  seen: vec4(0, 0, 0, 1),
+  near: float(0),
+});
+
 /**
  * The island's sky and its air, one model from two metres to orbit: two
  * layers of air round a sphere, lit by the sun and the moon, scattered once.
  * A ray's sky and a surface's haze are the same sum over different lengths,
  * so a far shore fades into the horizon behind it.
  */
-export function skyNodes(): SkyNodes {
+export function skyNodes(dropped: Dropped): SkyNodes {
   const up = uniform(new Vector3(0, 1, 0));
   const height = uniform(0);
   /** The eye's distance from the planet's centre. */
@@ -267,12 +275,15 @@ export function skyNodes(): SkyNodes {
     return space.mul(through).add(glow).mul(cloud.a).add(cloud.rgb);
   };
 
-  /** The air over the clouds `cloudsAlong` gives. */
-  const airOver = (cloudsAlong: CloudNodes['along']): Aired => ({
-    aerial: (lit, direction, metres) =>
-      aerial(cloudsAlong, lit, direction, metres),
-    background: background(cloudsAlong),
-  });
+  /** The air over the clouds `cloudsAlong` gives, or over none. */
+  const airOver = (cloudsAlong: CloudNodes['along']): Aired => {
+    const marched = dropped.has('clouds') ? noCloud : cloudsAlong;
+    return {
+      aerial: (lit, direction, metres) =>
+        aerial(marched, lit, direction, metres),
+      background: background(marched),
+    };
+  };
 
   function aerial(
     cloudsAlong: CloudNodes['along'],
@@ -281,11 +292,12 @@ export function skyNodes(): SkyNodes {
     metres: F,
   ): V {
     const cloud = cloudsAlong(direction, metres).seen;
+    const shaded = dropped.has('cloud-shadow')
+      ? lit
+      : lit.mul(clouds.shade(direction.mul(metres)));
     // The clouds' shadow on the surface, then the clouds before it, then the air over both.
-    const colour = lit
-      .mul(clouds.shade(direction.mul(metres)))
-      .mul(cloud.a)
-      .add(cloud.rgb);
+    const colour = shaded.mul(cloud.a).add(cloud.rgb);
+    if (dropped.has('air')) return colour;
     const cosine = dot(direction, up);
     /** The far end's radius squared less the eye's. */
     const gained = metres.mul(radius.mul(cosine).mul(2).add(metres));
@@ -335,12 +347,19 @@ export function skyNodes(): SkyNodes {
       );
   }
 
+  const { forget, dispose } = swift;
   return {
     radiance,
     shade,
-    fine: airOver(clouds.along),
-    swift: airOver(swift.along),
-    clouds: swift,
+    fine: () => airOver(clouds.along),
+    swift: () => airOver(swift.along),
+    clouds: {
+      prepare: (renderer, camera, eye) => {
+        if (!dropped.has('clouds')) swift.prepare(renderer, camera, eye);
+      },
+      forget,
+      dispose,
+    },
     update: (heavens, zenith, eyeHeight, seconds = 0) => {
       clouds.update(seconds);
       up.value.set(...zenith);

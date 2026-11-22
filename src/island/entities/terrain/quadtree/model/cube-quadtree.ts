@@ -11,20 +11,33 @@ import {
 
 import {
   type CoastDistance,
+  cutSpread,
   groundSpread,
   HIGHEST_GROUND,
   LOWEST_GROUND,
 } from '../../height';
 import {
   capGap,
+  cubeLevelSpacing,
   cubeTileId,
   cubeTileSide,
+  TILE_GRID,
   type TileCap,
   tileCap,
 } from '../../tile';
 import { covering } from './cube-neighbours';
 import { cubeChildren, cubeSplitRule } from './cube-split';
 import { type Framed, outside } from './view';
+
+/**
+ * A tile as filled: the lowest and highest of its lattice's heights, metres,
+ * and the coarsest detail cut any of them was sampled at.
+ */
+export type Filled = {
+  readonly low: number;
+  readonly high: number;
+  readonly finest: number;
+};
 
 export type CubeSelectOptions = Framed & {
   /** The coast, when the selection should follow it (`cubeSplitRule`). */
@@ -35,10 +48,20 @@ export type CubeSelectOptions = Framed & {
    * it without.
    */
   readonly ground?: (direction: Vec3) => number;
+  /**
+   * A tile as filled, where one is: its heights bound its relief more tightly
+   * than `ground`'s, for every tile under it filled to a cut no coarser.
+   */
+  readonly filled?: (key: CubeCell) => Filled | undefined;
 };
 
 /** The lowest and highest a tile and every tile under it draws, metres. */
 type Bracket = readonly [low: number, high: number];
+
+const within = ([low, high]: Bracket, [floor, ceiling]: Bracket): Bracket => [
+  Math.max(low, floor),
+  Math.min(high, ceiling),
+];
 
 const WHOLE: Bracket = [LOWEST_GROUND, HIGHEST_GROUND];
 
@@ -58,40 +81,70 @@ export function selectCubeTiles(
   eye: Vec3,
   options: CubeSelectOptions = {},
 ): CubeCell[] {
-  const { coast, frustum, ground } = options;
+  const { coast, frustum, ground, filled } = options;
   const seaHorizon = Math.acos(Math.min(1, R / length(eye)));
 
   /**
-   * The tile's bracket within `within`, its parent's: the ground at the
-   * cap's points widened by the spread to the farthest point from them, and
-   * the sea over it wherever that ground is below the sea.
+   * The tile's bracket within `parent`'s, for the tile and every tile under
+   * it: the ground at the cap's points widened by the spread to the farthest
+   * point from them, and the tile's filled heights widened by what a finer
+   * cut and the ground between its vertices can add — each with the sea over
+   * it wherever that ground is below the sea.
    */
-  const relief = (key: CubeCell, cap: TileCap, within: Bracket): Bracket => {
-    if (ground === undefined) return within;
+  const relief = (key: CubeCell, cap: TileCap, parent: Bracket): Bracket => {
+    let bracket = parent;
+    const own = filled?.(key);
+    if (own !== undefined) {
+      // Every point of the tile lies within a cell's diagonal half of a vertex.
+      const slack = cutSpread(
+        own.finest,
+        cubeLevelSpacing(key.level, TILE_GRID - 1),
+      );
+      bracket = within(bracket, [
+        own.low - slack,
+        Math.max(0, own.high) + slack,
+      ]);
+    }
+    if (ground === undefined) return bracket;
     // The cap's points are the tile's corners, edge middles and centre, so
     // every point of the tile lies within half a side of one, along its
     // edges' directions.
     const slack = groundSpread(cubeTileSide(key) / 2);
-    if (slack >= within[1] - within[0]) return within;
+    if (slack >= bracket[1] - bracket[0]) return bracket;
     const heights = [...cap.border, cap.centre].map((p) => ground(p));
-    return [
-      Math.max(within[0], Math.min(...heights) - slack),
-      Math.min(within[1], Math.max(0, ...heights) + slack),
-    ];
+    return within(bracket, [
+      Math.min(...heights) - slack,
+      Math.max(0, ...heights) + slack,
+    ]);
+  };
+
+  /**
+   * What the tile draws itself, as a leaf: its filled heights exactly, the
+   * sea's level with them, since the mesh is those heights and nothing more.
+   */
+  const drawn = (key: CubeCell, under: Bracket): Bracket => {
+    const own = filled?.(key);
+    return own === undefined
+      ? under
+      : within(under, [Math.min(0, own.low), Math.max(0, own.high)]);
   };
 
   /** Each tile kept so far by its id, with its bracket. */
   const brackets = new Map<string, Bracket>();
 
   /**
-   * Whether any of tile `key`, under `parent`, may show; a tile that may is
-   * kept in `brackets`, and its children are bracketed within it.
+   * Whether any of tile `key`, under `parent`, may show — of the tile alone,
+   * when it is a `leaf`; a tile that may is kept in `brackets`, and its
+   * children are bracketed within it.
    */
-  const visible = (key: CubeCell, parent?: CubeCell) => {
+  const visible = (key: CubeCell, leaf: boolean, parent?: CubeCell) => {
     const cap = tileCap(key);
-    const within = (parent && brackets.get(cubeTileId(parent))) ?? WHOLE;
-    const bracket = relief(key, cap, within);
-    const [low, high] = bracket;
+    const bracket = relief(
+      key,
+      cap,
+      (parent && brackets.get(cubeTileId(parent))) ?? WHOLE,
+    );
+    const [low, high] = leaf ? drawn(key, bracket) : bracket;
     if (capGap(cap, eye) > seaHorizon + rise(high)) return false;
     if (frustum !== undefined) {
       // The sphere bulges past the chords between border points by this much.
@@ -110,8 +163,9 @@ export function selectCubeTiles(
 
   const leaves = new Map<string, CubeCell>();
   const descend = (key: CubeCell, parent?: CubeCell) => {
-    if (!visible(key, parent)) return;
-    if (!splits(key)) {
+    const leaf = !splits(key);
+    if (!visible(key, leaf, parent)) return;
+    if (leaf) {
       leaves.set(cubeTileId(key), key);
       return;
     }
@@ -119,7 +173,7 @@ export function selectCubeTiles(
   };
   for (const face of FACES) descend({ face, level: 0, x: 0, y: 0 });
 
-  balanceCube(leaves, visible);
+  balanceCube(leaves, (key, parent) => visible(key, true, parent));
 
   return [...leaves.values()].toSorted(
     (a, b) =>

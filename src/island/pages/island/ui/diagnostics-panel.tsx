@@ -7,14 +7,22 @@ import classes from './island.module.scss';
 /** How long the button says the link is copied. */
 const CONFIRM_MS = 1800;
 
+/** Where a measurement stands: not run, on a reading, or done with its table. */
+type Measured =
+  | { readonly step: string }
+  | { readonly table: string; readonly copied: boolean };
+
 /**
- * The diagnostics rows and a button copying the view's share link. The button
- * says so once copied; a refused copy stays up with the clipboard's error and
- * the link, selectable, until the next press.
+ * The diagnostics rows, a button copying the view's share link and one
+ * measuring what each of `?without=`'s costs takes. The copy button says so
+ * once copied; a refused copy stays up with the clipboard's error and the
+ * link, selectable, until the next press. The measurement's table stays up,
+ * selectable, with a button copying it.
  */
-export function DiagnosticsPanel({ rows, copyLink }: Panel) {
+export function DiagnosticsPanel({ rows, copyLink, measure }: Panel) {
   // Each copy is a fresh object, so a second press restarts the confirmation.
   const [copied, setCopied] = useState<Copied | null>(null);
+  const [measured, setMeasured] = useState<Measured | null>(null);
   const [failure, setFailure] = useState<Error | null>(null);
   // Thrown while rendering, so the route's error boundary shows it.
   if (failure !== null) throw failure;
@@ -29,11 +37,30 @@ export function DiagnosticsPanel({ rows, copyLink }: Panel) {
     };
   }, [copied]);
 
+  const fail = (error: unknown) => {
+    setFailure(error instanceof Error ? error : new Error(String(error)));
+  };
+
   const copy = () => {
     // `copyLink` never rejects: a refused copy resolves with its error.
-    copyLink().then(setCopied, (error: unknown) => {
-      setFailure(error instanceof Error ? error : new Error(String(error)));
-    });
+    copyLink().then(setCopied, fail);
+  };
+
+  const running = measured !== null && 'step' in measured;
+  const start = () => {
+    if (running) return;
+    setMeasured({ step: '' });
+    measure((step) => {
+      setMeasured({ step });
+    }).then((table) => {
+      setMeasured({ table, copied: false });
+    }, fail);
+  };
+
+  const copyTable = (table: string) => {
+    navigator.clipboard.writeText(table).then(() => {
+      setMeasured({ table, copied: true });
+    }, fail);
   };
 
   return (
@@ -58,6 +85,32 @@ export function DiagnosticsPanel({ rows, copyLink }: Panel) {
           ? null
           : `${copied.link}\n(${copied.error.message})`}
       </output>
+      <button
+        type="button"
+        className={classes['diagnosticsCopy']}
+        onClick={start}
+        disabled={running}
+      >
+        {running
+          ? `${COPY.diagnostics.measuring} ${measured.step}`
+          : COPY.diagnostics.measure}
+      </button>
+      {measured !== null && 'table' in measured && (
+        <>
+          <pre className={classes['diagnosticsTable']}>{measured.table}</pre>
+          <button
+            type="button"
+            className={classes['diagnosticsCopy']}
+            onClick={() => {
+              copyTable(measured.table);
+            }}
+          >
+            {measured.copied
+              ? COPY.diagnostics.tableCopied
+              : COPY.diagnostics.copyTable}
+          </button>
+        </>
+      )}
     </section>
   );
 }

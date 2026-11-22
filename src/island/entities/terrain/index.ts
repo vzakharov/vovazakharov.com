@@ -6,7 +6,6 @@ export {
 export {
   type CoastDistance,
   detailedCoast,
-  detailReach,
   heightAtSphere,
   noiseSalt,
   sandAtSphere,
@@ -15,6 +14,7 @@ export {
 } from './height';
 export {
   cubeDetailCut,
+  type Filled,
   frustumOf,
   neighbourLevels,
   selectCubeTiles,

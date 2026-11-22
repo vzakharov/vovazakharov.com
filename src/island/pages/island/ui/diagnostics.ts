@@ -2,6 +2,7 @@ import { paceFields } from '../lib/pace';
 import { formatPlace } from '../lib/place-hash';
 import { shareLink, whereFields } from '../lib/where-line';
 import type { IslandScene } from './island-scene-api';
+import { measure } from './measure';
 
 /** Toggles the diagnostics panel, by `KeyboardEvent.code`: `I`, for info, on every layout. */
 export const DIAGNOSTICS_KEY = 'KeyI';
@@ -23,6 +24,11 @@ export type Panel = {
    * copy went, never rejecting.
    */
   readonly copyLink: () => Promise<Copied>;
+  /**
+   * Reads the frame time without each of `?without=`'s costs in turn, telling
+   * `onStep` which reading it is on; resolves with the table to paste.
+   */
+  readonly measure: (onStep: (step: string) => void) => Promise<string>;
 };
 
 /**
@@ -60,6 +66,7 @@ export function installDiagnostics(
     onPanel({
       rows: [...whereFields(scene.where()), ...paceFields(pace)],
       copyLink,
+      measure: async (onStep) => measure(scene, view, onStep),
     });
   };
 

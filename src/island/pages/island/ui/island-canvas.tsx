@@ -13,6 +13,7 @@ import {
 
 import COPY from '../config/messages/en.json';
 import { parsePlace } from '../lib/place-hash';
+import { withoutOf } from '../lib/without';
 import { installDiagnostics, type Panel } from './diagnostics';
 import { DiagnosticsPanel } from './diagnostics-panel';
 import classes from './island.module.scss';
@@ -38,12 +39,15 @@ export function IslandCanvas({ label }: Labeled) {
     const play = new URLSearchParams(globalThis.location.search).has(
       PLAY_QUERY,
     );
+    // Throws on a misspelt `?without=`, which React hands the error boundary.
+    const without = withoutOf(globalThis.location.search);
     const hashPlace = () => parsePlace(globalThis.location.hash);
     const { world, pose } = hashPlace();
     const scene = mountIslandScene(element, {
       world,
       pose,
       play,
+      without,
       onError: setFailure,
       onLookHint: setHint,
       onLook: setLook,

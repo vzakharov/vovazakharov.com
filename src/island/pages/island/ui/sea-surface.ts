@@ -99,16 +99,17 @@ export function seaSurface(radiance: Radiance): SeaSurface {
   const grain = worldCell(vec3(0, 0, 0));
   const zenith = normalize(eyeNode.add(positionWorld));
   const flat = reflect(normalize(positionWorld), zenith);
-  /** What a still sea would mirror, kept off the ground: the sky toward it, and the sky overhead. */
+  /** What a still sea would mirror, kept off the ground: the sky toward it. */
   const stillward = normalize(
     flat.add(zenith.mul(max(float(0.03).sub(dot(flat, zenith)), 0))),
   );
+  // Both ask `radiance` at each call, so it answers as it stands then.
   const mirroredSky = ({ wide = false, swift = false }: Shading) => {
     const mirrored = radiance(stillward, swift);
     return wide ? mirrored : vertexStage(mirrored);
   };
   // The zenith turns a degree over a hundred kilometres: a vertex's sky is any fragment's.
-  const overhead = vertexStage(radiance(zenith));
+  const overheadSky = () => vertexStage(radiance(zenith));
   const footprint = max(
     length(dFdx(positionWorld)),
     length(dFdy(positionWorld)),
@@ -163,7 +164,7 @@ export function seaSurface(radiance: Radiance): SeaSurface {
         footprint,
         seconds,
         mirrored: mirroredSky(shading),
-        overhead,
+        overhead: overheadSky(),
         swell,
         bands: float(shading.swift === true ? SWIFT_BANDS : RIPPLE_BANDS),
       }),

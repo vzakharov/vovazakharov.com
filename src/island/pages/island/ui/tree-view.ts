@@ -5,6 +5,7 @@ import type { CanDispose } from '@/kernel/shared/typings';
 import { type CubeCell, unit, type Vec3 } from '@/island/shared/globe';
 import type { Look } from '@/island/shared/play';
 
+import type { Dropped } from '../lib/without';
 import { floorIn } from '../model/forest-floor';
 import {
   cellKey,
@@ -90,9 +91,12 @@ export type TreeView = CanDispose & {
  * by one, each whole at a distance of its own, in the vertex shader, so no
  * tree changes size as the eye moves and the far ground's canopy shading takes
  * over where a tier has thinned. `dress` lights a material as the land is lit.
+ * A layout leaves out the trees, or what is no tree, while `dropped` holds
+ * them.
  */
 export function treeView(
   dress: (material: MeshLambertNodeMaterial) => void,
+  dropped: Dropped,
 ): TreeView {
   const { group, stands, centre, seconds, dispose } = treeStands(dress);
 
@@ -187,6 +191,7 @@ export function treeView(
           const z = (feet[n * 3 + 2] ?? 0) - ez;
           const distance = Math.hypot(x, y, z);
           const small = SMALL[kind];
+          if (dropped.has(small === undefined ? 'trees' : 'tufts')) continue;
           const drawnTo =
             small === undefined ? reach : Math.min(reach, gone[small]);
           // A tree's own share of the thinning band, the same at every layout.
