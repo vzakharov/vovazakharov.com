@@ -78,7 +78,7 @@ export function sceneLook({
   let started = false;
   const dress = () => {
     if (!started) return;
-    lighting.dress(fine(), webgpu());
+    lighting.dress(fine(), webgpu(), look === 'swift');
     scene.background = fine() ? null : plainSky;
     scene.backgroundNode = fine() ? lighting.background : null;
     render();

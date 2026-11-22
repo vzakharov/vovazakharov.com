@@ -136,7 +136,7 @@ const KIND_PLACES: Readonly<Record<string, Place>> = {
 };
 const KIND_HEIGHTS = [3000, 300];
 /** On the dune belt, looking along it: dunes are too low to read from the kinds' heights. */
-const DUNES: Place = { latDeg: 44.024, lonDeg: 10.052, headingDeg: 135 };
+const DUNES: Place = { latDeg: 43.733, lonDeg: 10.266, headingDeg: 164 };
 const DUNE_HEIGHTS = [300, 60, 2];
 
 const overKinds = (): Spot[] => [
