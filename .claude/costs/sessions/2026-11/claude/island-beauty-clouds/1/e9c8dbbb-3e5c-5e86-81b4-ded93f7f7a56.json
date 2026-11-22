@@ -1,0 +1,109 @@
+{
+  "total": {
+    "inputTokens": 68,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 202891,
+    "cacheReadTokens": 6601436,
+    "outputTokens": 87662,
+    "thinkingTokens": 47992,
+    "responses": 35,
+    "costUsd": 8.073567199999998
+  },
+  "estimate": {
+    "at": "2026-11-22T10:05:35.253Z",
+    "subjectLine": "feat: cloud regimes, layers and light for /island",
+    "parts": [
+      {
+        "hours": 40.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "a regime map, a second layer and a lighting model in a per-fragment TSL raymarch under a hash budget"
+      },
+      {
+        "hours": 24.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "the look of ten cloud regimes from orbit and from the ground is tuned by eye against frames"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-22T10:01:29.157Z",
+    "contextTokens": 135763,
+    "spend": {
+      "inputTokens": 6,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 59747,
+      "cacheReadTokens": 245848,
+      "outputTokens": 1100,
+      "thinkingTokens": 72,
+      "responses": 3,
+      "costUsd": 1.0491696
+    }
+  },
+  "sessionId": "e9c8dbbb-3e5c-5e86-81b4-ded93f7f7a56",
+  "branch": "claude/island-beauty-clouds",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a `/carte-blanche` run led by another Claude session (`session_01DaohkBiucpraEhsFyZ58M9`). You are a peer, not an assistant: you own …",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDgngV6hJwJPofVnqB",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-22T10:01:18.937Z",
+  "lastResponseAt": "2026-11-22T10:35:29.089Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 68,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 202891,
+    "cacheReadTokens": 6601436,
+    "outputTokens": 87662,
+    "thinkingTokens": 47992,
+    "responses": 35,
+    "costUsd": 8.073567199999998
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 68,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 202891,
+      "cacheReadTokens": 6601436,
+      "outputTokens": 87662,
+      "thinkingTokens": 47992,
+      "responses": 35,
+      "costUsd": 8.073567199999998
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 34,
+    "matched": 34,
+    "matchedTableUsd": 7.908140599999998,
+    "matchedEventUsd": 7.9081405999999985,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 626
+  }
+}
