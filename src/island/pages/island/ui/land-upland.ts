@@ -23,13 +23,16 @@ type F = Node<'float'>;
 /** Thicknesses of rock's beds, metres: the ledges, and the leaves within one. */
 const BEDS = [5.3, 1.1] as const;
 
+/** The heights between which the moor loses the green of its lower reaches, metres. */
+const GREENER = [320, 620] as const;
+
 /**
  * The brown upland, a subalpine moor: tussock in clumps a step across with
  * heath dark between them, tracts of sward where the ground keeps its damp,
  * stony soil where it leans.
  */
-export function moorOf({ ground: { steep }, mix: m }: Band) {
-  const heathered = m.patches(-0.32, 0.12, [
+export function moorOf({ ground: { steep, level }, mix: m }: Band) {
+  const heathered = m.patches(-0.15, 0.35, [
     [REGION, 0.35],
     [DISTRICT, 0.4],
     [HILL, 0.3],
@@ -67,7 +70,13 @@ export function moorOf({ ground: { steep }, mix: m }: Band) {
   const growth = mix(
     mix(paint(LAND_PALETTE.tussock), paint(LAND_PALETTE.heath), heathered),
     paint(LAND_PALETTE.turf),
-    sward.mul(0.55),
+    // The moor's lower reaches keep the meadow's green in their turf.
+    max(
+      sward.mul(0.55),
+      smoothstep(...GREENER, level)
+        .oneMinus()
+        .mul(0.7),
+    ),
   );
   return {
     colour: mix(
@@ -144,10 +153,15 @@ export function rockOf(
   upland: F,
   mountain: F,
 ) {
+  // A narrow edge: turf ends at a face's foot, so no bed shows through it.
   const faces = smoothstep(
-    mix(0.11, 0.035, mountain),
-    mix(0.24, 0.12, mountain),
-    steep.add(m.at(PATCH).value.mul(0.025)).add(m.at(STEP).value.mul(0.015)),
+    mix(0.15, 0.06, mountain),
+    mix(0.2, 0.095, mountain),
+    steep
+      .add(m.at(FIELD).value.mul(0.02))
+      .add(m.at(SLOPE).value.mul(0.02))
+      .add(m.at(PATCH).value.mul(0.025))
+      .add(m.at(STEP).value.mul(0.015)),
   );
   const outcrops = m
     .patches(0.5, 0.68, [
@@ -204,14 +218,24 @@ export function rockOf(
 const SLIDES_TO = 60_000;
 const LIES_FROM = 400_000;
 
+/** How much lower snow lies on ground leaning from the noon sun, metres for a wall facing the pole. */
+const ASPECT_LIFT = 1100;
+
 /**
- * Snow: over its line, the line ragged at every scale, slid off faces steeper
+ * Snow: over its line, the line lower on ground that leans from the noon sun
+ * and ragged at every scale, slid off faces steeper
  * than some forty degrees — deeper snow holding on a little more. From afar a
  * face is narrower than a pixel and the snow lies by height alone, so a range
  * keeps its white spine from orbit.
  */
-export function snowOf({ ground: { level, steep, away }, mix: m }: Band) {
-  const over = level.sub(BAND_HEIGHTS.snowLine);
+export function snowOf({
+  ground: { level, steep, away, poleward },
+  mix: m,
+}: Band) {
+  const near = smoothstep(SLIDES_TO, LIES_FROM, away).oneMinus();
+  const over = level
+    .sub(BAND_HEIGHTS.snowLine)
+    .add(poleward.mul(near).mul(ASPECT_LIFT));
   // The short octaves are the small relief's own, taken backwards: its hollows
   // keep the snow its ribs shed, and the edge between is a step wide.
   const lying = m.edge(
@@ -222,10 +246,10 @@ export function snowOf({ ground: { level, steep, away }, mix: m }: Band) {
       [REGION, 0.35],
       [DISTRICT, 0.25],
       [HILL, 0.25],
-      [FIELD, -0.15],
-      [SLOPE, -0.06],
-      [PATCH, -0.07],
-      [STEP, -0.035],
+      [FIELD, -0.05],
+      [SLOPE, -0.05],
+      [PATCH, -0.06],
+      [STEP, -0.04],
     ]),
   );
   const sliding = m.edge(
@@ -239,7 +263,5 @@ export function snowOf({ ground: { level, steep, away }, mix: m }: Band) {
       [STEP, 0.02],
     ]),
   );
-  return lying.mul(
-    sliding.mul(smoothstep(SLIDES_TO, LIES_FROM, away).oneMinus()).oneMinus(),
-  );
+  return lying.mul(sliding.mul(near).oneMinus());
 }
