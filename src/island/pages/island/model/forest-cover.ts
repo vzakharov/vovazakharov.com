@@ -1,16 +1,21 @@
 import { type Elevated, R, type Vec3 } from '@/island/shared/globe';
-import { borderLoop, type TileMesh } from '@/island/entities/terrain';
+import {
+  borderLoop,
+  noiseSalt,
+  type TileMesh,
+  valueNoise3,
+} from '@/island/entities/terrain';
 
 import { SHORE_TOP } from '../lib/land-colour';
 
 /** Where the last conifers stand on level ground, metres above the sea, before the patches make it ragged. */
-export const TREELINE = 1150;
+export const TREELINE = 850;
 
 /** How far the patches lift or drop the treeline, metres. */
-const TREELINE_RAGGED = 140;
+const TREELINE_RAGGED = 60;
 
 /** The height over which the upland's conifers thin out below the treeline, metres. */
-const THINNING = 450;
+const THINNING = 400;
 
 /** The height above the sand over which the first trees fill in, metres. */
 const DUNE_BELT = 25;
@@ -28,42 +33,6 @@ const smoothstep = (low: number, high: number, x: number) => {
   return t * t * (3 - 2 * t);
 };
 
-/** A lattice corner's value in `[-1, 1]`, from integer arithmetic alone. */
-function corner(ix: number, iy: number, iz: number, salt: number): number {
-  let h =
-    Math.imul(ix, 0x27_d4_eb_2d) ^
-    Math.imul(iy, 0x16_56_67_b1) ^
-    Math.imul(iz, 0x5b_d1_e9_95) ^
-    salt;
-  h = Math.imul(h ^ (h >>> 15), 0x85_eb_ca_6b);
-  h = Math.imul(h ^ (h >>> 13), 0xc2_b2_ae_35);
-  h ^= h >>> 16;
-  return (h >>> 8) / 0x7f_ff_ff - 1;
-}
-
-const fade = (t: number) => t * t * t * (t * (t * 6 - 15) + 10);
-
-/** Value noise in `[-1, 1]` at lattice coordinates `(u, v, w)`. */
-function latticeNoise(salt: number, u: number, v: number, w: number): number {
-  const fu = Math.floor(u);
-  const fv = Math.floor(v);
-  const fw = Math.floor(w);
-  const tu = fade(u - fu);
-  const tv = fade(v - fv);
-  const tw = fade(w - fw);
-  const layer = (iw: number) => {
-    const a = corner(fu, fv, iw, salt);
-    const b = corner(fu + 1, fv, iw, salt);
-    const c = corner(fu, fv + 1, iw, salt);
-    const d = corner(fu + 1, fv + 1, iw, salt);
-    const bottom = a + (b - a) * tu;
-    const top = c + (d - c) * tu;
-    return bottom + (top - bottom) * tv;
-  };
-  const near = layer(fw);
-  return near + (layer(fw + 1) - near) * tw;
-}
-
 /**
  * The patches' octaves, widest first: each a wavelength in metres, its weight,
  * and a skew of the lattice's axes so no two octaves line up.
@@ -77,10 +46,8 @@ const PATCHES = [
 
 const PATCH_RANGE = PATCHES.reduce((total, { weight }) => total + weight, 0);
 
-/** Salts the patch lattices apart from each other and from the relief's. */
-const patchSalt = (seed: number, layer: number) =>
-  Math.imul(seed ^ 0x74_72_65_65, 0x9e_37_79_b1) ^
-  Math.imul(layer + 1, 0x63_2b_e5_ab);
+/** Salts the patch lattices apart from the relief's. */
+const PATCH_SALT = 0x74_72_65_65;
 
 /** What is rolled from a world's terrain seed. */
 export type Seeded = { readonly seed: number };
@@ -129,8 +96,8 @@ function patchField(
     kept +=
       weight *
       shown *
-      latticeNoise(
-        patchSalt(seed, layer),
+      valueNoise3(
+        noiseSalt(seed ^ PATCH_SALT, layer),
         k * (x + skew * y),
         k * (y + skew * z),
         k * (z + skew * x),
@@ -186,7 +153,7 @@ export function forestCover(seed: number, site: CoverSite): number {
  * in the lowland's mixed forest, all of them well below the treeline.
  */
 export const coniferShare = (height: number) =>
-  0.15 + 0.85 * smoothstep(300, 720, height);
+  0.15 + 0.85 * smoothstep(250, 520, height);
 
 /** How tall a tree grows at `height`, as a share of its kind's full size: stunted toward the treeline. */
 export const stature = (height: number) =>

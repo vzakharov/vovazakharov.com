@@ -75,7 +75,7 @@ describe('tree placing', () => {
 
   it('the upland stand is mostly conifers and the lowland mostly broadleaves', () => {
     assert.ok(share(120) < 0.35);
-    assert.ok(share(800) > 0.9);
+    assert.ok(share(600) > 0.9);
   });
 
   it('each tier reaches twice as far over cells twice as wide', () => {

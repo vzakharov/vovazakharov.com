@@ -7,8 +7,8 @@ Everything is under `src/island/pages/island/`.
 
 - **`model/forest-cover.ts`** — `forestCover(seed, site)`, 0…1: how much of a
   place is under trees. Patch noise of four wavelengths (26 km → 410 m), gated
-  by height (bare under `SHORE_TOP + DUNE_BELT`, thinning from 700 m to a
-  ragged treeline at `TREELINE` 1150 m ± 140) and by slope (thinning from 30°,
+  by height (bare under `SHORE_TOP + DUNE_BELT`, closed to 450 m, thinning to a
+  ragged treeline at `TREELINE` 850 m ± 60) and by slope (thinning from 30°,
   bare past 42°). `tileCover(seed, tileMesh)` is the same per tile vertex,
   softened to what the tile's level can resolve; the worker ships it as the
   `cover` vertex attribute (`model/cover-attribute.ts`) on every land tile.
@@ -45,6 +45,4 @@ Everything is under `src/island/pages/island/`.
 - Rolling a full surround at closed canopy takes about 1.3 s of main-thread
   time, spread at 3 ms a frame: after a jump the far trees arrive over a second
   or two. Moving it to the tile worker would remove that.
-- `forest-cover.ts` keeps its own lattice noise because terrain's
-  `valueNoise3` is not on its public API.
 - No wind, no undergrowth, no dune grass.
