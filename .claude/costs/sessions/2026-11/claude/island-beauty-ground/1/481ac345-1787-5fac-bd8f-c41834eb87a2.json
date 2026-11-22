@@ -1,0 +1,155 @@
+{
+  "total": {
+    "inputTokens": 6375,
+    "cacheWrite5mTokens": 318,
+    "cacheWrite1hTokens": 306741,
+    "cacheReadTokens": 11129179,
+    "outputTokens": 79841,
+    "thinkingTokens": 31969,
+    "responses": 66,
+    "costUsd": 10.381511800000006
+  },
+  "estimate": {
+    "at": "2026-11-22T10:06:25.276Z",
+    "subjectLine": "feat: the land's surface without repeats, four bands each its own",
+    "parts": [
+      {
+        "hours": 30.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "procedural, non-repeating, LOD-stable surface shading across orbit-to-2m scales with a frame budget needs a shader specialist"
+      },
+      {
+        "hours": 16.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "four bands (sand, green, brown, mountain) each need a look judged on frames at five heights and three hours"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-22T09:58:07.015Z",
+    "contextTokens": 103400,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 44323,
+      "cacheReadTokens": 149644,
+      "outputTokens": 1107,
+      "thinkingTokens": 509,
+      "responses": 2,
+      "costUsd": 0.7834088
+    }
+  },
+  "sessionId": "481ac345-1787-5fac-bd8f-c41834eb87a2",
+  "branch": "claude/island-beauty-ground",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a `/carte-blanche` run led by another Claude session (`session_01DaohkBiucpraEhsFyZ58M9`). You are a peer, not an assistant: you own …",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDMLPfW237JGnaUuWd",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-22T09:57:59.447Z",
+  "lastResponseAt": "2026-11-22T10:38:26.318Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 125,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 306741,
+    "cacheReadTokens": 10874754,
+    "outputTokens": 72335,
+    "thinkingTokens": 31969,
+    "responses": 65,
+    "costUsd": 9.977206800000005
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 6375,
+      "cacheWrite5mTokens": 318,
+      "cacheWrite1hTokens": 306741,
+      "cacheReadTokens": 11129179,
+      "outputTokens": 79841,
+      "thinkingTokens": 31969,
+      "responses": 66,
+      "costUsd": 10.381511800000006
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-22T10:34:10.531Z",
+      "trigger": "auto",
+      "compactedFrom": 266470,
+      "summaryChars": 17467,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/island/pages/island/lib/land-octaves.ts",
+        "endedAt": "2026-11-22T10:36:13.771Z",
+        "contextTokens": 139188,
+        "spend": {
+          "inputTokens": 21,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 77475,
+          "cacheReadTokens": 1200723,
+          "outputTokens": 8198,
+          "thinkingTokens": 2413,
+          "responses": 10,
+          "costUsd": 1.8078325999999998
+        }
+      },
+      "rereads": {
+        "calls": 1,
+        "byTool": {
+          "Read": 1
+        },
+        "estimatedTokens": 1617,
+        "estimatedUsd": 0.0265188
+      },
+      "billedUsd": 0.404305
+    }
+  ],
+  "telemetry": {
+    "events": 66,
+    "matched": 65,
+    "matchedTableUsd": 9.977206800000005,
+    "matchedEventUsd": 9.977206800000003,
+    "unseen": {
+      "compact": {
+        "inputTokens": 6250,
+        "cacheWrite5mTokens": 318,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 254425,
+        "outputTokens": 7506,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.404305
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 663,
+    ".json": 15,
+    ".yaml": 17,
+    ".ts": 1586
+  }
+}
