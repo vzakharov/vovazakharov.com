@@ -42,20 +42,29 @@ device dies in this container, so nothing below was seen on WebGPU.
   beach over all of it, and each material's roughness. No latitude.
 - `ui/land-beach.ts` — sand wherever a 0…1 sandiness says, whatever the
   height or slope: wet colour at the waterline drying pale, a wrack line,
-  marram tufts where the sand thins. Sandiness is read from height
-  (`sandinessOf`) until the per-vertex `sand` attribute lands; the swap is the
-  one argument in `land-bands.ts`.
+  marram tufts where the sand thins. Sandiness is the tile's per-vertex `sand`
+  attribute (`SAND_ATTRIBUTE`), less what the forest covers; the shader keeps
+  no distance to the coast of its own.
 - `ui/land-lowland.ts` — meadow (growth, hay, rushes in hollows, earth banks)
   and forest. Forest near the eye is the tile's `cover` attribute; between
-  20 km and 150 km it gives way to what the height and the shader's own
+  1.5 km and 5 km it gives way to what the height and the shader's own
   coarse lattices expect, because a tile's cover changes with its level and
-  drew the tiles from orbit. The two do not agree place for place: a forest's
-  outline shifts as the eye crosses that range.
+  drew straight tile edges from 4 km up. The two do not agree place for
+  place: a forest's outline shifts as the eye crosses that range. A meadow
+  takes on the moor's turf between 120 m and 340 m and the moor keeps green
+  under 620 m, so the border between the two is one palette.
 - `ui/land-upland.ts` — moor (tussock clumps, heath, sward, stony soil),
   alpine ground (turf, soil, scree), rock with level beds, and snow: over its
-  ragged line, slid off faces past about forty degrees near the eye, by
-  height alone past 400 km so a range keeps a white spine.
-- `ui/land-surface.ts` — the two looks. Fine: all ten octaves, rock's beds,
+  ragged line, the line up to 1100 m lower on ground leaning toward the pole
+  (`Ground.poleward`, from the mesh's normal) so its outline follows the
+  relief, slid off faces past about forty degrees near the eye, by height
+  alone past 400 km so a range keeps a white spine.
+- A rough shore (`ROCKY_ATTRIBUTE`) is bare rock from the water to 3–9 m,
+  dark where the sea wets it; no sand and nothing grown on it.
+- `ui/land-surface.ts` — the three looks. Swift: the fine one over the eight
+  coarsest octaves (the two dropped are `ABSENT`: gone without widening any
+  edge, where an octave lost to distance is `QUIET` and widens them), with rock's ledges and not the leaves within one; it draws
+  only once `scene-look.ts` passes `look === 'swift'` to `dress`. Fine: all ten octaves, rock's beds,
   and the small relief as a normal from the octaves' slopes (TSL, so WebGL2
   draws it too). Relief gone under a pixel dims the ground instead. Plain: the
   four coarsest octaves through the same bands — four noise samples a
@@ -65,9 +74,10 @@ device dies in this container, so nothing below was seen on WebGPU.
 - The waterline: under 4 m the colour is `GROUND_STOPS`' own, untouched, and
   `surface.damp` wraps the output as before.
 
-- Forest near and far: within 120 m the fine look paints `cover` as the
+- Forest near and far: within 300 m the fine look paints `cover` as the
   shaded floor — litter and moss — and from 600 m as canopy, in the trees' own
-  leaf colours (`LAND_PALETTE.broadleaf`, `.conifer`) times 0.75. The conifer
+  leaf colours (`LAND_PALETTE.broadleaf`, `.conifer`) times 0.75, broken into
+  crowns a few steps across, lit tops over dark gaps. The conifer
   heights (250–520 m) and the thinning height (450 m) repeat figures in
   `model/forest-cover.ts`; they must move together.
 - Dry bare sand carries wind ripples 11 cm long, their phase following the
@@ -79,21 +89,27 @@ Measured only under software raster on WebGL2 (wall-clock per frame at
 1100×700), which says little about an M2: the fine look went from about
 2.0–2.4 s to 2.2–3.1 s near the ground, the plain look from about 0.9 s to
 0.4–1.0 s. Before, the fine look on WebGL2 drew no small relief at all, so
-part of the rise is relief WebGL2 never had. A fine fragment reads twelve
-lattice samples (ten octaves, two for rock's beds), a plain one four. Nobody
+part of the rise is relief WebGL2 never had.
+
+Lattice reads a fragment: fine 12 (ten octaves, two for rock's beds), swift 9
+(eight octaves, one for the beds), plain 4. Nothing else in a band samples:
+every patch, edge, clump, ripple and snow line is arithmetic on those reads. Nobody
 has measured the land's share on the target machine yet.
 
 ## Still wrong
 
-- Forest from 300 km up is a checkerboard of tile vertices, with a seam where
-  two tile levels meet: `cover` is per vertex, and a coarse tile has few. The
-  shader softens the edge but cannot hide the grid.
-- Sand lies in sheets far inland wherever ground is under 20 m (relief's to
-  cure by shape); the shader only varies its tone and rags its edge.
+- Curvature is not known to a fragment, so snow follows aspect and height
+  and not gullies as such.
 - Underfoot the ground is still soft past a few metres: the finest octave is
   11 cm, and nothing draws blades, stones or twigs.
 
 ## Outside my files
 
-- `latticeValue` in `ui/land-noise.ts` is the same float hash the clouds use;
-  one home for both would sit below `ui/`.
+- The shoal under water at the shore draws as a blurred cream smear: under
+  0 m the land keeps `GROUND_STOPS` untouched so the waterline matches, and
+  the tint over it is the ocean shader's.
+- `BAND_HEIGHTS` are set to where the present relief's uplands (about 500–800
+  m) and ranges (over 1000 m) stand; a relief that moves them moves the bands
+  off their country.
+
+- `pnpm knip` fails on one export of the relief's (`detailReach`), not read by the ground.

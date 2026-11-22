@@ -1,6 +1,8 @@
 import { float, smoothstep, vec3 } from 'three/tsl';
 import type { Node } from 'three/webgpu';
 
+import type { InLook } from '@/island/shared/play';
+
 import type { Rgb } from '../lib/land-colour';
 import { type OctaveNoise, QUIET, type Seen } from './land-noise';
 
@@ -37,6 +39,10 @@ export type Ground = Seen & {
   readonly cover: F;
   /** How sandy it is, 0 none to 1 on the beach and the dune belt. */
   readonly sand: F;
+  /** How much it is a rough stretch's shore, 0 none to 1 on its first metres from the water and on a skerry. */
+  readonly rocky: F;
+  /** How far it leans toward its hemisphere's pole, the sine of its slope that way: under 0 it faces the noon sun. */
+  readonly poleward: F;
   /** How far it lies from the eye, metres. */
   readonly away: F;
 };
@@ -47,6 +53,12 @@ export type Mixer = {
   readonly at: (octave: number) => OctaveNoise;
   /** `parts` summed for drawing an edge through. */
   readonly ragged: (parts: Parts) => Ragged;
+  /**
+   * `parts` summed for a shape drawn through them near the eye — a clump, a
+   * stone — told to twice the distance `ragged` is, where an edge of it is
+   * still wider than a pixel.
+   */
+  readonly shaped: (parts: Parts) => Ragged;
   /** `x` plus `by`'s noise, 0 under `from` and 1 over `to`, the edge as wide again as what of `by` is lost. */
   readonly edge: (x: F, from: number, to: number, by: Ragged) => F;
   /** A noise's own patches: 0 where `parts` sum under `from`, 1 over `to`. */
@@ -55,16 +67,17 @@ export type Mixer = {
   readonly mottled: (parts: Parts) => F;
 };
 
-/** What a band's materials are mixed from. */
-export type Band = {
+/**
+ * What a band's materials are mixed from, and the look they are drawn in, by
+ * which a band pays for what only shows near: the plain one for none of it.
+ */
+export type Band = InLook & {
   readonly ground: Ground;
   readonly mix: Mixer;
   /** The height a band is told by: the ground's, steep ground reading higher. */
   readonly banded: F;
   /** The noise the bands' borders are broken by, metres. */
   readonly border: Ragged;
-  /** Whether the look pays for what only shows near: the fine one does. */
-  readonly detailed: boolean;
 };
 
 export const paint = (rgb: Rgb): V => vec3(...rgb);
@@ -74,22 +87,23 @@ const edge: Mixer['edge'] = (x, from, to, by) =>
 
 export function mixerOf(octaves: readonly OctaveNoise[]): Mixer {
   const at = (i: number) => octaves[i] ?? QUIET;
-  const ragged = (parts: Parts): Ragged => {
-    let sum: F = float(0);
-    let lost: F = float(0);
-    for (const [i, weight] of parts) {
-      sum = sum.add(at(i).edging.mul(weight));
-      lost = lost.add(
-        at(i)
-          .edged.oneMinus()
-          .mul(Math.abs(weight) * 0.5),
-      );
-    }
-    return { sum, lost };
-  };
+  const summed =
+    (read: 'edging' | 'value', kept: 'edged' | 'told') =>
+    (parts: Parts): Ragged => {
+      let sum: F = float(0);
+      let lost: F = float(0);
+      for (const [i, weight] of parts) {
+        const octave = at(i);
+        sum = sum.add(octave[read].mul(weight));
+        lost = lost.add(octave[kept].oneMinus().mul(Math.abs(weight) * 0.5));
+      }
+      return { sum, lost };
+    };
+  const ragged = summed('edging', 'edged');
   return {
     at,
     ragged,
+    shaped: summed('value', 'told'),
     edge,
     patches: (from, to, parts) => edge(float(0), from, to, ragged(parts)),
     mottled: (parts) => {

@@ -11,6 +11,7 @@ import {
   HAND,
   HILL,
   paint,
+  type Parts,
   PATCH,
   REGION,
   SLOPE,
@@ -30,13 +31,33 @@ const FLOOR_SHADE = 0.45;
 /**
  * How far from the eye the tile's own cover is read, and from where forest is
  * what a place expects alone, metres: a tile's cover changes with its level,
- * so from afar it would draw the tiles.
+ * so past where its trees stand it would draw the tiles.
  */
-const COVER_TO = 20_000;
-const EXPECTED_FROM = 150_000;
+const COVER_TO = 1500;
+const EXPECTED_FROM = 5000;
+
+/**
+ * The octaves a place's expected forest is patched by, each the nearest to one
+ * of the patches the trees are placed by and at its weight, so forest from
+ * afar is broken at the sizes it is near.
+ */
+const EXPECTED_PATCHES: Parts = [
+  [REGION, 1],
+  [DISTRICT, 0.75],
+  [HILL, 0.5],
+  [FIELD, 0.3],
+];
 
 /** The height the forest starts thinning at toward the treeline, metres. */
 const THINNING_FROM = 450;
+
+/** The heights between which a meadow coarsens toward the moor's turf, metres, and the share of it that does. */
+const COARSENS = [120, 340] as const;
+const COARSENED = 0.6;
+
+/** How dark the gaps between a canopy's crowns lie, and how bright a crown's lit top, against its leaves' colour. */
+const CROWN_GAP = 0.4;
+const CROWN_TOP = 1.25;
 
 /** The heights between which a forest's conifers go from few to all, metres. */
 const CONIFERS = [250, 520] as const;
@@ -46,7 +67,7 @@ const CONIFERS = [250, 520] as const;
  * tracts of every size, rushes dark in its damp hollows, bare earth on banks
  * too steep to hold turf.
  */
-export function lowlandOf({ ground: { steep }, mix: m }: Band) {
+export function lowlandOf({ ground: { steep, level }, mix: m }: Band) {
   const dryness = m.patches(-0.5, 0.6, [
     [COUNTRY, 0.4],
     [REGION, 0.5],
@@ -60,9 +81,17 @@ export function lowlandOf({ ground: { steep }, mix: m }: Band) {
     [PATCH, 0.25],
   ]);
   const sward = mix(
-    mix(paint(LAND_PALETTE.meadow), paint(LAND_PALETTE.hay), dryness.mul(0.55)),
-    paint(LAND_PALETTE.rush),
-    hollow.mul(0.6),
+    mix(
+      mix(
+        paint(LAND_PALETTE.meadow),
+        paint(LAND_PALETTE.hay),
+        dryness.mul(0.55),
+      ),
+      paint(LAND_PALETTE.rush),
+      hollow.mul(0.6),
+    ),
+    paint(LAND_PALETTE.turf),
+    smoothstep(...COARSENS, level).mul(COARSENED),
   ).mul(
     m.mottled([
       [PATCH, 0.08],
@@ -93,14 +122,10 @@ export function lowlandOf({ ground: { steep }, mix: m }: Band) {
 export function woodedOf({
   ground: { cover: placed, away, level, sand },
   mix: m,
-  detailed,
+  look,
 }: Band) {
   const expected = m
-    .patches(-0.3, 0.05, [
-      [COUNTRY, 0.3],
-      [REGION, 0.5],
-      [DISTRICT, 0.4],
-    ])
+    .patches(-0.59, -0.03, EXPECTED_PATCHES)
     .mul(smoothstep(0.15, 0.8, sand).oneMinus())
     .mul(smoothstep(THINNING_FROM, TREELINE, level).oneMinus());
   const forest = mix(
@@ -139,6 +164,16 @@ export function woodedOf({
       ])
       .mul(FLOOR_SHADE),
   );
+  // Crowns a few steps across, each one's lit top told from the gap beside it.
+  const crown = m.edge(
+    float(0),
+    -0.12,
+    0.2,
+    m.shaped([
+      [PATCH, 0.6],
+      [STEP, 0.3],
+    ]),
+  );
   const canopy = mix(
     paint(LAND_PALETTE.broadleaf),
     paint(LAND_PALETTE.conifer),
@@ -153,15 +188,15 @@ export function woodedOf({
         [HILL, 0.12],
         [FIELD, 0.14],
         [SLOPE, 0.15],
-        [PATCH, 0.25],
-        [STEP, 0.1],
       ])
+      .mul(mix(CROWN_GAP, CROWN_TOP, crown))
       .mul(CANOPY_SHADE),
   );
   return {
     cover,
-    colour: detailed
-      ? mix(floor, canopy, smoothstep(FLOOR_TO, CANOPY_FROM, away))
-      : canopy,
+    colour:
+      look === 'plain'
+        ? canopy
+        : mix(floor, canopy, smoothstep(FLOOR_TO, CANOPY_FROM, away)),
   };
 }

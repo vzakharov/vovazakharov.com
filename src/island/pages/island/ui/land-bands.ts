@@ -1,6 +1,8 @@
 import { mix, smoothstep } from 'three/tsl';
 import type { Node } from 'three/webgpu';
 
+import type { Look } from '@/island/shared/play';
+
 import { BAND_HEIGHTS, LAND_PALETTE, SHORE_TOP } from '../lib/land-colour';
 import { beachOf } from './land-beach';
 import { lowlandOf, woodedOf } from './land-lowland';
@@ -17,6 +19,7 @@ import {
   type Ragged,
   REGION,
   SLOPE,
+  STEP,
 } from './land-mix';
 import type { OctaveNoise } from './land-noise';
 import { alpineOf, moorOf, rockOf, snowOf } from './land-upland';
@@ -37,21 +40,31 @@ export type Banded = Coloured & {
   readonly rippled: F;
 };
 
+/** The heights between which a rough shore's rock gives way to what grows over it, metres above the sea. */
+const SHORE_ROCK = [3, 9] as const;
+
+/** How dark the sea keeps a rough shore's rock at the waterline, and the height it has dried by, metres. */
+const WET_ROCK = 0.5;
+const DRY_BY = 2.5;
+
+/** How rough bare rock's small relief stands. */
+const ROCK_ROUGH = 0.42;
+
 /** How steep ground reads as higher when a band is told, metres for a wall. */
 const STEEP_LIFT = 600;
 
 /**
  * What each of the four bands the height tells apart — beach, green lowland,
  * brown upland, mountain — is made of, their borders broken by slope and by
- * `octaves` at every scale given. `detailed` adds what only the fine look
- * pays for: rock's beds, and the forest's floor near the eye.
+ * `octaves` at every scale given. Past the plain `look` come rock's beds and
+ * the forest's floor near the eye.
  */
 export function landBands(
   ground: Ground,
   octaves: readonly OctaveNoise[],
-  detailed: boolean,
+  look: Look,
 ): Banded {
-  const { level, stops, steep, sand } = ground;
+  const { level, stops, steep, sand, rocky } = ground;
   const m = mixerOf(octaves);
   const inland = smoothstep(SHORE_TOP, 150, level);
   const borders = m.ragged([
@@ -70,7 +83,7 @@ export function landBands(
   const banded = level.add(
     steep.mul(STEEP_LIFT).mul(smoothstep(120, 420, level)),
   );
-  const band: Band = { ground, mix: m, banded, border, detailed };
+  const band: Band = { ground, mix: m, banded, border, look };
   const upland = m.edge(banded, ...BAND_HEIGHTS.upland, border);
   const mountain = m.edge(banded, ...BAND_HEIGHTS.mountain, border);
 
@@ -106,17 +119,40 @@ export function landBands(
     mix(0.24, 0.5, alpine.scree),
     mountain,
   );
+  // A rough shore is bare rock from the water up, wet and dark where the sea
+  // reaches it, its upper edge broken; nothing grows on it and no sand lies.
+  const shore = m.edge(
+    rocky.mul(smoothstep(...SHORE_ROCK, level).oneMinus()),
+    0.3,
+    0.5,
+    m.ragged([
+      [SLOPE, 0.2],
+      [PATCH, 0.2],
+      [STEP, 0.1],
+    ]),
+  );
   return {
     colour: mix(
-      stops,
-      mix(snowed, beach.colour, beach.sand),
-      smoothstep(0.5, 4, level),
+      mix(
+        stops,
+        mix(snowed, beach.colour, beach.sand),
+        smoothstep(0.5, 4, level),
+      ),
+      stone.colour.mul(mix(WET_ROCK, 1, smoothstep(0.2, DRY_BY, level))),
+      shore,
     ),
     roughness: mix(
-      mix(mix(turf, 0.6, stone.rock), 0.06, snow),
-      mix(0.3, 0.05, beach.bare),
-      beach.sand,
+      mix(
+        mix(mix(turf, ROCK_ROUGH, stone.rock), 0.06, snow),
+        mix(0.3, 0.05, beach.bare),
+        beach.sand,
+      ),
+      ROCK_ROUGH,
+      shore,
     ),
-    rippled: beach.sand.mul(beach.bare).mul(smoothstep(1.5, 4, level)),
+    rippled: beach.sand
+      .mul(beach.bare)
+      .mul(smoothstep(1.5, 4, level))
+      .mul(shore.oneMinus()),
   };
 }

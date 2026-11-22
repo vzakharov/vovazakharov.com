@@ -1,5 +1,5 @@
 /** True bounds on the ground `reliefAt` draws: its slope, and its detail. */
-import { coastCutReach } from './coast-detail';
+import { CALM_STEEPEST, coastCutReach } from './coast-detail';
 import {
   KINDS,
   LINE_WIDTH,
@@ -46,6 +46,7 @@ import {
   DUNES_UNDER_SPAN_METRES,
   LOWLAND_METRES,
   LOWLAND_REACH_METRES,
+  resolvedAt,
   SQUEEZE_METRES,
 } from './shore';
 
@@ -55,23 +56,29 @@ import {
  */
 const DUNES_SHARE_STEEPEST = 1 + (1.5 * DUNE_METRES) / DUNES_UNDER_SPAN_METRES;
 
+/** The weight `reliefAt` gives an octave at detail cut `finest`. */
+
 /**
- * A bound on the ground's slope, metres of rise per metre run, whatever the
- * detail cut, for noise at most `noiseSteepest` steep per wavelength and a
- * belt's uplift at most `upliftSteepest` metres per metre, over a coast
- * distance at most `coastSteepest` metres per metre (a bilinear field's is
- * √2). Every term of `reliefAt` has its summand here, so a term added there is
+ * A bound on the slope, metres of rise per metre run, of the ground drawn at
+ * one detail cut `finest` everywhere (0, the ground whole), for noise at most
+ * `noiseSteepest` steep per wavelength and a belt's uplift at most
+ * `upliftSteepest` metres per metre, over a coast distance at most
+ * `coastSteepest` metres per metre (a bilinear field's is √2). At one cut an
+ * octave's weight is the same everywhere, so it adds that share of its slope.
+ * Every term of `reliefAt` has its summand here, so a term added there is
  * added here. Loose: real ground stays far under it.
  */
 export function groundSlope(
   noiseSteepest: number,
   upliftSteepest: number,
   coastSteepest = Math.SQRT2,
+  finest = 0,
 ) {
   const per = (share: (octave: Octave) => number) =>
     total(
       OCTAVES.map(
         (octave) =>
+          resolvedAt(finest, octave.wavelength) *
           Math.abs(share(octave)) *
           ((noiseSteepest + 1) / octave.wavelength +
             (1.5 * coastSteepest) / riseOf(octave)),
@@ -101,8 +108,10 @@ export function groundSlope(
     ((1.5 / HILLY_SPAN) *
       noiseSteepest *
       total(
-        OCTAVES.map(({ green, hill, wavelength }) =>
-          hill && wavelength < VARIED_UNDER_METRES ? green : 0,
+        OCTAVES.map((octave) =>
+          octave.hill && octave.wavelength < VARIED_UNDER_METRES
+            ? resolvedAt(finest, octave.wavelength) * octave.green
+            : 0,
         ),
       )) /
       LONGEST_HILL_METRES +
@@ -115,11 +124,12 @@ export function groundSlope(
       DUNE_METRES *
         (1.5 / DUNES_RISE_METRES + DUNE_STEEPEST / DUNE_SPACING_METRES));
   const dunes =
-    DUNE_METRES *
-    noiseSteepest *
-    ((DUNE_STEEPEST * DUNE_SWAY) / wavelengthOf(DUNE_SWAY_INDEX) +
-      0.4 / wavelengthOf(DUNE_SWELL_INDEX) +
-      1.5 / (DUNE_GAP_SPAN * wavelengthOf(DUNE_GAP_INDEX)));
+    (DUNE_SPACING_METRES <= 2 * finest ? 0 : DUNE_METRES) *
+    (noiseSteepest *
+      ((DUNE_STEEPEST * DUNE_SWAY) / wavelengthOf(DUNE_SWAY_INDEX) +
+        0.4 / wavelengthOf(DUNE_SWELL_INDEX) +
+        1.5 / (DUNE_GAP_SPAN * wavelengthOf(DUNE_GAP_INDEX))) +
+      CALM_STEEPEST);
   const reach = most((kind) => Math.max(peakOf(kind), troughOf(kind)));
   const ground =
     broad * (1 + KIND_STEEPEST * (reach + FINE_REACH_METRES)) +
@@ -140,10 +150,17 @@ const ALONG_COAST_STEEPEST = groundSlope(0, 0, 1) - groundSlope(0, 0, 0);
  * A bound on how far the ground drawn with detail cut `finest` (metres)
  * stands from the ground drawn whole, anywhere: what the octaves the cut
  * leaves out or fades, the dunes with them, can add or take, and what the
- * coast's bends the cut leaves out move it by. The whole range where the cut
- * reaches the regional octaves, which tell the kind of ground.
+ * coast's bends the cut leaves out move it by.
  */
-export function detailReach(finest: number): number {
+export const detailReach = (finest: number): number =>
+  reliefReach(finest) + ALONG_COAST_STEEPEST * coastCutReach(finest);
+
+/**
+ * `detailReach` over one coast, read whole at either cut: what the relief's
+ * octaves alone take or add. The whole range where the cut reaches the
+ * regional octaves, which tell the kind of ground.
+ */
+export function reliefReach(finest: number): number {
   if (finest <= 0) return 0;
   const cut = OCTAVES.filter(({ wavelength }) => wavelength < 2 * finest);
   if (cut.some(({ regional }) => regional)) {
@@ -165,9 +182,5 @@ export function detailReach(finest: number): number {
     ),
   );
   const dunes = DUNE_SPACING_METRES < 4 * finest ? DUNE_METRES : 0;
-  return (
-    ground * DUNES_SHARE_STEEPEST +
-    dunes +
-    ALONG_COAST_STEEPEST * coastCutReach(finest)
-  );
+  return ground * DUNES_SHARE_STEEPEST + dunes;
 }

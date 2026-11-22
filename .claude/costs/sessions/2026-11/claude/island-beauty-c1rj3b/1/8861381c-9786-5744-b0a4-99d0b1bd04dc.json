@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 629536,
-    "cacheWrite5mTokens": 692185,
-    "cacheWrite1hTokens": 813856,
-    "cacheReadTokens": 57173171,
-    "outputTokens": 335469,
-    "thinkingTokens": 69247,
-    "responses": 339,
-    "costUsd": 35.19214919999999
+    "inputTokens": 694347,
+    "cacheWrite5mTokens": 696342,
+    "cacheWrite1hTokens": 1472173,
+    "cacheReadTokens": 92169898,
+    "outputTokens": 504036,
+    "thinkingTokens": 109913,
+    "responses": 503,
+    "costUsd": 60.027304599999965
   },
   "estimate": {
     "at": "2026-11-22T10:04:22.431Z",
@@ -52,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkBiucpraEhsFyZ58M9",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-22T09:48:38.998Z",
-  "lastResponseAt": "2026-11-22T16:19:48.577Z",
+  "lastResponseAt": "2026-11-22T20:52:46.150Z",
   "pricesAsOf": "2026-11-03",
-  "claudeCodeTotalUsd": 24.96560949999999,
+  "claudeCodeTotalUsd": 55.047107,
   "ownTurns": {
-    "inputTokens": 399,
+    "inputTokens": 57476,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 813856,
-    "cacheReadTokens": 44489706,
-    "outputTokens": 200648,
-    "thinkingTokens": 59999,
-    "responses": 208,
-    "costUsd": 29.948749199999998
+    "cacheWrite1hTokens": 1472173,
+    "cacheReadTokens": 78583509,
+    "outputTokens": 335785,
+    "thinkingTokens": 100665,
+    "responses": 369,
+    "costUsd": 53.1626778
   },
   "subagents": {
     "inputTokens": 198,
@@ -77,14 +77,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 10069,
-      "cacheWrite5mTokens": 4243,
-      "cacheWrite1hTokens": 813856,
-      "cacheReadTokens": 47131517,
-      "outputTokens": 222691,
-      "thinkingTokens": 59999,
-      "responses": 219,
-      "costUsd": 31.496399399999998
+      "inputTokens": 74880,
+      "cacheWrite5mTokens": 8400,
+      "cacheWrite1hTokens": 1472173,
+      "cacheReadTokens": 82128244,
+      "outputTokens": 391258,
+      "thinkingTokens": 100665,
+      "responses": 383,
+      "costUsd": 56.3315548
     },
     "claude-sonnet-5-5/standard": {
       "inputTokens": 198,
@@ -169,16 +169,110 @@
           "Bash": 1
         },
         "estimatedTokens": 2380,
-        "estimatedUsd": 0.0669952
+        "estimatedUsd": 0.0688992
       },
       "billedUsd": 0.5023284000000001
+    },
+    {
+      "at": "2026-11-22T16:25:34.402Z",
+      "trigger": "auto",
+      "compactedFrom": 304627,
+      "summaryChars": 22801,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/island/scripts/lib/shoot-args.ts",
+        "endedAt": "2026-11-22T16:57:16.455Z",
+        "contextTokens": 197832,
+        "spend": {
+          "inputTokens": 45,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 133606,
+          "cacheReadTokens": 3729725,
+          "outputTokens": 10708,
+          "thinkingTokens": 3589,
+          "responses": 24,
+          "costUsd": 3.312321
+        }
+      },
+      "rereads": {
+        "calls": 9,
+        "byTool": {
+          "Read": 9
+        },
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.537207
+    },
+    {
+      "at": "2026-11-22T17:24:53.090Z",
+      "trigger": "auto",
+      "compactedFrom": 304688,
+      "summaryChars": 21983,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "docs/plans/island-beauty.in-progress.md",
+        "endedAt": "2026-11-22T17:25:11.216Z",
+        "contextTokens": 128996,
+        "spend": {
+          "inputTokens": 6,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 63382,
+          "cacheReadTokens": 293834,
+          "outputTokens": 1507,
+          "thinkingTokens": 268,
+          "responses": 3,
+          "costUsd": 1.1332068
+        }
+      },
+      "rereads": {
+        "calls": 18,
+        "byTool": {
+          "Bash": 2,
+          "Read": 16
+        },
+        "estimatedTokens": 3814,
+        "estimatedUsd": 0.10327239999999999
+      },
+      "billedUsd": 0.534753
+    },
+    {
+      "at": "2026-11-22T18:08:08.750Z",
+      "trigger": "auto",
+      "compactedFrom": 303125,
+      "summaryChars": 24499,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "docs/plans/island-beauty.in-progress.md",
+        "endedAt": "2026-11-22T20:50:08.432Z",
+        "contextTokens": 203051,
+        "spend": {
+          "inputTokens": 56789,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 141502,
+          "cacheReadTokens": 1464396,
+          "outputTokens": 13574,
+          "thinkingTokens": 8366,
+          "responses": 11,
+          "costUsd": 3.5541832000000007
+        }
+      },
+      "rereads": {
+        "calls": 1,
+        "byTool": {
+          "Bash": 1
+        },
+        "estimatedTokens": 10543,
+        "estimatedUsd": 0.20453419999999997
+      },
+      "billedUsd": 0.5492667999999999
     }
   ],
   "telemetry": {
-    "events": 338,
-    "matched": 299,
-    "matchedTableUsd": 33.321281,
-    "matchedEventUsd": 33.321281,
+    "events": 503,
+    "matched": 461,
+    "matchedTableUsd": 56.679744199999966,
+    "matchedEventUsd": 56.679744199999966,
     "unseen": {
       "web_fetch_apply": {
         "inputTokens": 469885,
@@ -201,14 +295,14 @@
         "costUsd": 0.12026189999999999
       },
       "compact": {
-        "inputTokens": 5116,
-        "cacheWrite5mTokens": 1280,
+        "inputTokens": 12850,
+        "cacheWrite5mTokens": 5437,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 603042,
-        "outputTokens": 21861,
+        "cacheReadTokens": 1505966,
+        "outputTokens": 55291,
         "thinkingTokens": 0,
-        "responses": 2,
-        "costUsd": 1.0487764000000002
+        "responses": 5,
+        "costUsd": 2.6700032
       },
       "prompt_suggestion": {
         "inputTokens": 4554,
@@ -223,16 +317,18 @@
     }
   },
   "operatorWords": {
-    "chat": 348,
+    "chat": 558,
     "review": 0,
     "threads": 0
   },
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 1096,
-    ".json": 293,
-    ".yaml": 468,
-    ".ts": 4268
+    ".md": 1621,
+    ".json": 614,
+    ".yaml": 989,
+    ".ts": 8003,
+    ".tsx": 40,
+    ".scss": 28
   }
 }

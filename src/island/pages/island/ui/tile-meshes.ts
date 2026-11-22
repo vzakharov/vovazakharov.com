@@ -20,7 +20,11 @@ import {
 
 import { colourHeights } from '../lib/colour-heights';
 import { type FilledTile, orderId } from '../lib/tile-protocol';
-import { COVER_ATTRIBUTE, SAND_ATTRIBUTE } from '../model/cover-attribute';
+import {
+  COVER_ATTRIBUTE,
+  ROCKY_ATTRIBUTE,
+  SAND_ATTRIBUTE,
+} from '../model/cover-attribute';
 import { indicesOutside } from '../model/piece-indices';
 import type { Cut } from '../model/tile-cover';
 import { HEIGHT_ATTRIBUTE, type StandInMaterials } from './ground-lighting';
@@ -184,7 +188,7 @@ export function tileMeshes(
       preferred.find((id) => held.has(id)) ??
       variants.get(cubeTileId(key))?.at(-1),
     add: (tile) => {
-      const { key, land, sea, cover, sand, floor } = tile;
+      const { key, land, sea, cover, sand, rocky, floor } = tile;
       const id = orderId(tile);
       const known = held.get(id);
       if (known !== undefined) release(id, known);
@@ -206,6 +210,7 @@ export function tileMeshes(
           surface(land, colourBy, materials.land, materials.standIn.land, {
             [COVER_ATTRIBUTE]: cover,
             [SAND_ATTRIBUTE]: sand,
+            [ROCKY_ATTRIBUTE]: rocky,
           }),
         );
       }

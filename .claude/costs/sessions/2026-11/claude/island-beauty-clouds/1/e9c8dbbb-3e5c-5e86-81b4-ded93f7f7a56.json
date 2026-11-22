@@ -1,0 +1,219 @@
+{
+  "total": {
+    "inputTokens": 10670,
+    "cacheWrite5mTokens": 2908,
+    "cacheWrite1hTokens": 793502,
+    "cacheReadTokens": 30771777,
+    "outputTokens": 242458,
+    "thinkingTokens": 107330,
+    "responses": 166,
+    "costUsd": 28.6631474
+  },
+  "estimate": {
+    "at": "2026-11-22T10:05:35.253Z",
+    "subjectLine": "feat: cloud regimes, layers and light for /island",
+    "parts": [
+      {
+        "hours": 40.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "a regime map, a second layer and a lighting model in a per-fragment TSL raymarch under a hash budget"
+      },
+      {
+        "hours": 24.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "the look of ten cloud regimes from orbit and from the ground is tuned by eye against frames"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-22T10:01:29.157Z",
+    "contextTokens": 135763,
+    "spend": {
+      "inputTokens": 6,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 59747,
+      "cacheReadTokens": 245848,
+      "outputTokens": 1100,
+      "thinkingTokens": 72,
+      "responses": 3,
+      "costUsd": 1.0491696
+    }
+  },
+  "sessionId": "e9c8dbbb-3e5c-5e86-81b4-ded93f7f7a56",
+  "branch": "claude/island-beauty-clouds",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a `/carte-blanche` run led by another Claude session (`session_01DaohkBiucpraEhsFyZ58M9`). You are a peer, not an assistant: you own …",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDgngV6hJwJPofVnqB",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-22T10:01:18.937Z",
+  "lastResponseAt": "2026-11-22T17:52:32.865Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": 18.5712668,
+  "ownTurns": {
+    "inputTokens": 316,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 793502,
+    "cacheReadTokens": 29996267,
+    "outputTokens": 219946,
+    "thinkingTokens": 107330,
+    "responses": 163,
+    "costUsd": 27.4956534
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 10670,
+      "cacheWrite5mTokens": 2908,
+      "cacheWrite1hTokens": 793502,
+      "cacheReadTokens": 30771777,
+      "outputTokens": 242458,
+      "thinkingTokens": 107330,
+      "responses": 166,
+      "costUsd": 28.6631474
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-22T10:42:01.400Z",
+      "trigger": "auto",
+      "compactedFrom": 266620,
+      "summaryChars": 17545,
+      "reorientation": {
+        "endedBy": "Write",
+        "endedOn": "src/island/pages/island/ui/cloud-rays.ts",
+        "endedAt": "2026-11-22T10:43:44.196Z",
+        "contextTokens": 129457,
+        "spend": {
+          "inputTokens": 6,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 63357,
+          "cacheReadTokens": 163871,
+          "outputTokens": 2948,
+          "thinkingTokens": 2044,
+          "responses": 2,
+          "costUsd": 1.1644542
+        }
+      },
+      "rereads": {
+        "calls": 3,
+        "byTool": {
+          "Read": 3
+        },
+        "estimatedTokens": 1254,
+        "estimatedUsd": 0.0308484
+      },
+      "billedUsd": 0.38989979999999996
+    },
+    {
+      "at": "2026-11-22T11:47:37.870Z",
+      "trigger": "auto",
+      "compactedFrom": 263608,
+      "summaryChars": 17973,
+      "reorientation": {
+        "endedBy": "Write",
+        "endedOn": "docs/remove-before-merging/island-beauty-c1rj3b/notes/clouds.md",
+        "endedAt": "2026-11-22T16:48:04.183Z",
+        "contextTokens": 214490,
+        "spend": {
+          "inputTokens": 69,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 225874,
+          "cacheReadTokens": 5857104,
+          "outputTokens": 19030,
+          "thinkingTokens": 6806,
+          "responses": 35,
+          "costUsd": 5.547156799999999
+        }
+      },
+      "rereads": {
+        "calls": 1,
+        "byTool": {
+          "Bash": 1
+        },
+        "estimatedTokens": 193,
+        "estimatedUsd": 0.0049022
+      },
+      "billedUsd": 0.4128794
+    },
+    {
+      "at": "2026-11-22T17:21:08.526Z",
+      "trigger": "auto",
+      "compactedFrom": 264356,
+      "summaryChars": 15413,
+      "reorientation": {
+        "endedBy": null,
+        "endedOn": null,
+        "endedAt": null,
+        "contextTokens": null,
+        "spend": {
+          "inputTokens": 36,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 111567,
+          "cacheReadTokens": 2553860,
+          "outputTokens": 15433,
+          "thinkingTokens": 6158,
+          "responses": 19,
+          "costUsd": 2.9134520000000013
+        }
+      },
+      "rereads": {
+        "calls": 1,
+        "byTool": {
+          "Bash": 1
+        },
+        "estimatedTokens": 215,
+        "estimatedUsd": 0.003698
+      },
+      "billedUsd": 0.3647148
+    }
+  ],
+  "telemetry": {
+    "events": 165,
+    "matched": 162,
+    "matchedTableUsd": 27.351727999999998,
+    "matchedEventUsd": 27.351727999999998,
+    "unseen": {
+      "compact": {
+        "inputTokens": 10354,
+        "cacheWrite5mTokens": 2908,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 775510,
+        "outputTokens": 22512,
+        "thinkingTokens": 0,
+        "responses": 3,
+        "costUsd": 1.167494
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 1,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1344,
+    ".json": 490,
+    ".yaml": 786,
+    ".ts": 6999,
+    ".tsx": 41,
+    ".scss": 28
+  }
+}

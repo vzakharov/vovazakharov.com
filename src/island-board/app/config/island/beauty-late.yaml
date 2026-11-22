@@ -1,0 +1,313 @@
+items:
+  - id: z-beauty-coast
+    type: zone
+    updated: [2026-11-22T17:30:00.000Z, agent:board]
+    box: [-40, 6360, 2000, 1630, green]
+    text: '6. The coast, first pass, and the fourth merge (cards 83 to 93)'
+  - id: beauty-coast-1-row
+    type: text
+    updated: [2026-11-22T16:55:00.000Z, agent:board]
+    box: [40, 6430, 1000, body]
+    text: "Coast, step 1 merged, the lead's frames. Cards 83 and 84, a failure."
+  - id: img-beauty-83-coast-1-coast-4400m
+    type: image
+    updated: [2026-11-22T16:55:00.000Z, agent:board]
+    box: [40, 6500, 360]
+    src: images/beauty-coast-1-merged-coast-4400m.webp
+    text: '83. Failure. The shore from 4.4 km after coast step 1: bent by 13 seeded octaves, it still runs as one ruler-straight line. The operator''s ask (card 68) was: "super-straight, ruler-drawn coastlines. They should bend and go fractal (but deterministically, through rolled) as you get closer." (translated from the Russian). Lead: "My own starting amplitudes were too timid — 3-9% of each bend''s wavelength cannot be seen. The method works, the numbers do not; the coast member is retuning to 15-20% with calm and rough stretches." The dune belt shows dark parallel ridges.'
+  - id: img-beauty-84-coast-1-shore-560m
+    type: image
+    updated: [2026-11-22T16:55:00.000Z, agent:board]
+    box: [425, 6500, 360]
+    src: images/beauty-coast-1-merged-shore-560m.webp
+    text: '84. Failure, the same shore from 560 m. The waterline still reads as a straight edge running to the horizon; the sand strip is of even width. Same lead verdict as card 83.'
+  - id: beauty-merge-4-row
+    type: text
+    updated: [2026-11-22T16:55:00.000Z, agent:board]
+    box: [40, 6960, 1000, body]
+    text: "Fourth merge, the lead's frames, built from 5a6cf4e7b: the ground's forest from afar, canopy tone, snow by height and slope; trees' undergrowth; the touch look button. Cards 85 to 93."
+  - id: img-beauty-85-merge-4-coast-2300km
+    type: image
+    updated: [2026-11-22T16:55:00.000Z, agent:board]
+    box: [40, 7030, 360]
+    src: images/beauty-merge-4-coast-2300km.webp
+    text: '85. The coast from 2,300 km, twin of cards 63 and 70. Lead: "Win and failure in one: the forest no longer breaks into tile rectangles from orbit (it is drawn per fragment now), but it reads as even ~100 km blobs, and the old clouds are salt-and-pepper. Rectangles gone; the blobs are next, the clouds are the clouds member''s."'
+  - id: img-beauty-86-merge-4-coast-820km
+    type: image
+    updated: [2026-11-22T16:55:00.000Z, agent:board]
+    box: [425, 7030, 360]
+    src: images/beauty-merge-4-coast-820km.webp
+    text: '86. Failure, kept for the record: the coast from 820 km. Lead: the old clouds from above, "exactly the operator''s ''many, many bits of cotton wool'' (translated from the Russian). The clouds member''s rebuild has not merged yet." The frame is mostly white flecks with the land showing between them.'
+  - id: img-beauty-87-merge-4-coast-4400m
+    type: image
+    updated: [2026-11-22T16:55:00.000Z, agent:board]
+    box: [810, 7030, 360]
+    src: images/beauty-merge-4-coast-4400m.webp
+    text: '87. The coast from 4.4 km, a sibling of card 83. Lead: "The forest reads as a continuous canopy from 4.4 km; the shore under it is still straight (frame predates the coast retune) and the dune belt shows dark parallel worm tracks." The belt here is pale sand with dark ridge lines.'
+  - id: img-beauty-88-merge-4-alpine-3000m
+    type: image
+    updated: [2026-11-22T16:55:00.000Z, agent:board]
+    box: [1195, 7030, 360]
+    src: images/beauty-merge-4-alpine-3000m.webp
+    text: '88. The range from 3 km, twin of card 57. Lead: "Win: snow by height and slope, grey-brown rock; reads as a mountain range for the first time."'
+  - id: img-beauty-89-merge-4-alpine-300m
+    type: image
+    updated: [2026-11-22T16:55:00.000Z, agent:board]
+    box: [1580, 7030, 360]
+    src: images/beauty-merge-4-alpine-300m.webp
+    text: '89. The range from 300 m, twin of card 58 (which failed). Lead: "Half: rock beds read, but the snow lies in soft blurred blobs (spilled milk) and the rock carries a visible dot pattern. Snow edges must be crisp and follow hollows; the pocks show the lattice." Visible: banded rock, a crisp snow edge on the left ridge, blurred patches below.'
+  - id: img-beauty-90-merge-4-upland-300m
+    type: image
+    updated: [2026-11-22T16:55:00.000Z, agent:board]
+    box: [40, 7490, 360]
+    src: images/beauty-merge-4-upland-300m.webp
+    text: '90. The moor from 300 m, twin of card 59. Lead: "Far hills calm, the magenta hollows are gone. The scree lies in odd arcs." One pale horseshoe of scree stands out in the middle of the moor.'
+  - id: img-beauty-91-merge-4-lowland-300m
+    type: image
+    updated: [2026-11-22T16:55:00.000Z, agent:board]
+    box: [425, 7490, 360]
+    src: images/beauty-merge-4-lowland-300m.webp
+    text: '91. Failure. The lowland from 300 m, twin of card 60. Lead: "The trees read as mossy boulders on a lawn — lighter than the ground, sparse, no contact shadow."'
+  - id: img-beauty-92-merge-4-dunes-60m
+    type: image
+    updated: [2026-11-22T16:55:00.000Z, agent:board]
+    box: [810, 7490, 360]
+    src: images/beauty-merge-4-dunes-60m.webp
+    text: '92. The dune field from 60 m, twin of card 61. Lead: "Win: the dune field with the forest edge behind it." Pale sand, smooth ridges, a dark forest line at the far left.'
+  - id: img-beauty-93-merge-4-dunes-2m
+    type: image
+    updated: [2026-11-22T16:55:00.000Z, agent:board]
+    box: [1195, 7490, 360]
+    src: images/beauty-merge-4-dunes-2m.webp
+    text: '93. Failure. A dune from 2 m. Lead: "Wind ripples drawn as a zebra — the shaded side nearly black-grey, cut off along a hard line; dune grass black." The stripes are evenly spaced and run over the whole lee slope.'
+
+  - id: z-beauty-clouds
+    type: zone
+    updated: [2026-11-22T17:30:00.000Z, agent:board]
+    box: [2060, 6360, 2000, 1560, green]
+    text: '7. Clouds, first pass (cards 94 to 104)'
+  - id: beauty-clouds-1-row
+    type: text
+    updated: [2026-11-22T17:05:00.000Z, agent:board]
+    box: [2140, 6430, 1000, body]
+    text: "Clouds, step 1, the clouds session's own frames from its branch (not yet merged). Cards 94 to 104, each with the flaw the clouds session named. Befores: cards 1, 2, 4 and 5."
+  - id: img-beauty-94-clouds-1-coast-20000km
+    type: image
+    updated: [2026-11-22T17:05:00.000Z, agent:board]
+    box: [2140, 6500, 360]
+    src: images/beauty-clouds-1-coast-20000km.webp
+    text: '94. The disc from 20,000 km: cloud in systems (bands, shields, clear seas) where the baseline had even speckle. Clouds session: "Wrong: fronts read as crisp white worms against soft shields." The frame shows soft pale shields and a few sharp white streaks.'
+  - id: img-beauty-95-clouds-1-coast-2300km
+    type: image
+    updated: [2026-11-22T17:05:00.000Z, agent:board]
+    box: [2525, 6500, 360]
+    src: images/beauty-clouds-1-coast-2300km.webp
+    text: '95. Europe from 2,300 km, the pair of card 1: fields of open cells with clear air between, a front on the right. Clouds session: "Wrong: the open cells still read as lace, and the grey shields are featureless." The land under the cloud shows blocky green squares. Lead (Vova is away): "Half a win, the answer in progress to the operator''s ''from above it is just many, many bits of cotton wool, nothing like real cloud structures'' (translated): weather regimes for the first time, decks, fields of open cells, clear air between, a front on the right; before: card 85, salt-and-pepper. The ontology is there; the drawing is not: open cells are crochet threads, decks are grey fog."'
+  - id: img-beauty-96-clouds-1-coast-820km
+    type: image
+    updated: [2026-11-22T17:05:00.000Z, agent:board]
+    box: [2910, 6500, 360]
+    src: images/beauty-clouds-1-coast-820km.webp
+    text: '96. The same from 820 km: cell walls as broken clumps. Clouds session: "Wrong: walls too thin and wiry, no relief on them." Between the walls the forest shows as large pale-and-dark rectangles.'
+  - id: img-beauty-97-clouds-1-ocean-2300km
+    type: image
+    updated: [2026-11-22T17:05:00.000Z, agent:board]
+    box: [3295, 6500, 360]
+    src: images/beauty-clouds-1-ocean-2300km.webp
+    text: '97. The open ocean from 2,300 km, the pair of card 5: equatorial clusters and cirrus streaks. Clouds session: "Wrong: the clusters are blobs of value noise." The clusters are white lumps full of holes.'
+  - id: img-beauty-98-clouds-1-storm-3000km
+    type: image
+    updated: [2026-11-22T17:05:00.000Z, agent:board]
+    box: [3680, 6500, 360]
+    src: images/beauty-clouds-1-storm-3000km.webp
+    text: '98. A cyclone from 3,000 km, front and cold sector. Clouds session: "Wrong: the front''s band has a hard edge." The frame also shows a lumpy white column standing up from the lower centre. Lead: "Failure kept: a cyclone''s front drawn as a white lumpy sausage with a hard outline."'
+  - id: img-beauty-99-clouds-1-terminator-8000km
+    type: image
+    updated: [2026-11-22T17:05:00.000Z, agent:board]
+    box: [2140, 6960, 360]
+    src: images/beauty-clouds-1-terminator-8000km.webp
+    text: '99. Day into night from 8,000 km: clouds redden at the line and go dark past it, none glow. Clouds session: "Wrong: nothing I can see." The frame shows the line as one sharp vertical edge.'
+  - id: img-beauty-100-clouds-1-deck-300km
+    type: image
+    updated: [2026-11-22T17:05:00.000Z, agent:board]
+    box: [2525, 6960, 360]
+    src: images/beauty-clouds-1-deck-300km.webp
+    text: '100. A stratocumulus deck from 300 km: mottled closed cells cut by clear veins, opening at its edge. Clouds session: "Wrong: veins a little too even in width." The frame reads as cracked paving.'
+  - id: img-beauty-101-clouds-1-deck-3km
+    type: image
+    updated: [2026-11-22T17:05:00.000Z, agent:board]
+    box: [2910, 6960, 360]
+    src: images/beauty-clouds-1-deck-3km.webp
+    text: '101. Failure. Just over that deck, 3 km. Clouds session: "Soft grey with almost no texture. This is wrong outright." The frame is a grey blur with two darker smudges.'
+  - id: img-beauty-102-clouds-1-deck-2m
+    type: image
+    updated: [2026-11-22T17:05:00.000Z, agent:board]
+    box: [3295, 6960, 360]
+    src: images/beauty-clouds-1-deck-2m.webp
+    text: '102. Under the deck at 2 m. Clouds session: "Overcast with faint structure, a bright strip at the horizon. Bland but clean, no hatch." Flat grey over a flat navy sea, with a sliver of blue sky at the left edge.'
+  - id: img-beauty-103-clouds-1-sky-2m
+    type: image
+    updated: [2026-11-22T17:05:00.000Z, agent:board]
+    box: [3680, 6960, 360]
+    src: images/beauty-clouds-1-sky-2m.webp
+    text: '103. The ground sky at 2 m, the pair of card 4. Clouds session: "The baseline''s ground sky: thin grey smears on the horizon. Worse than 0000-before-sky-2m, which had a shaped cloud bank (with hatch)." The frame shows a clear blue gradient with no cloud at all, over a thin coast line and a flat sea.'
+  - id: img-beauty-104-clouds-1-coast-10600m
+    type: image
+    updated: [2026-11-22T17:05:00.000Z, agent:board]
+    box: [2140, 7420, 360]
+    src: images/beauty-clouds-1-coast-10600m.webp
+    text: '104. The coast from 10.6 km, the pair of card 2. Clouds session: "One small flat cloud over the land; the hatch is gone, so is the cotton. Not better yet." Visible: a single small white cloud over dark forest, pale meadow patches below it.'
+  - id: z-beauty-merge6
+    type: zone
+    updated: [2026-11-22T17:40:00.000Z, agent:board]
+    box: [6260, 6360, 2000, 640, green]
+    text: '9. The sixth merge: clouds on the merged build (cards 112 to 115)'
+  - id: beauty-merge-6-row
+    type: text
+    updated: [2026-11-22T17:40:00.000Z, agent:board]
+    box: [6300, 6430, 1900, body]
+    text: "The lead's frames, the clouds' first step built into the merged world. Dusk and day skies; two failures, one half."
+  - id: img-beauty-112-merge-6-clouds-coast-820km
+    type: image
+    updated: [2026-11-22T17:40:00.000Z, agent:board]
+    box: [6300, 6500, 360]
+    src: images/beauty-merge-6-clouds-coast-820km.webp
+    text: '112. Failure. A cumulus field at dusk from 820 km, twin of cards 96 and 86. Lead: "Square blocks on a grid; the noise''s lattice shows." The frame agrees: the field is a mesh of small dark and peach squares, and only the cloud edge at the right is organic.'
+  - id: img-beauty-113-merge-6-clouds-coast-10600m
+    type: image
+    updated: [2026-11-22T17:40:00.000Z, agent:board]
+    box: [6685, 6500, 360]
+    src: images/beauty-merge-6-clouds-coast-10600m.webp
+    text: '113. Failure. Clouds from 10.6 km, twin of card 104. Lead: "From 10 km clouds are blurred smears with horizontal bands; the member''s own note says the view from the ground is not yet as good as the baseline''s." The frame shows soft pale blobs, streaked sideways, over dark forest.'
+  - id: img-beauty-114-merge-6-clouds-upland-300m
+    type: image
+    updated: [2026-11-22T17:40:00.000Z, agent:board]
+    box: [7070, 6500, 360]
+    src: images/beauty-merge-6-clouds-upland-300m.webp
+    text: '114. The day sky from 300 m over the upland. Lead: "Half: streaked layers, no hatch any more, no cumulus yet." The frame shows grey layers drawn out in long streaks over blue sky, with a thin pale band at the horizon.'
+  - id: img-beauty-115-merge-6-clouds-coast-560m
+    type: image
+    updated: [2026-11-22T17:40:00.000Z, agent:board]
+    box: [7455, 6500, 360]
+    src: images/beauty-merge-6-clouds-coast-560m.webp
+    text: '115. A dusk shore from 560 m. No verdict relayed for this frame. It shows a flat dark sea, a pale sand strip with red dune-tops, and thin dark streak clouds at the horizon on both sides.'
+  - id: z-beauty-sea
+    type: zone
+    updated: [2026-11-22T17:40:00.000Z, agent:board]
+    box: [8360, 6360, 1000, 640, green]
+    text: '10. The sea (card 116)'
+  - id: beauty-sea-row
+    type: text
+    updated: [2026-11-22T17:40:00.000Z, agent:board]
+    box: [8400, 6430, 900, body]
+    text: 'A package of its own, opened by the operator. A seventh member (Opus) is giving the waves finite groups; its frames come as the sea-1 set.'
+  - id: img-beauty-116-sea-0-operator-moire
+    type: image
+    updated: [2026-11-22T17:40:00.000Z, agent:board]
+    box: [8400, 6500, 360]
+    src: images/beauty-sea-0-operator-moire.webp
+    text: '116. The sea before its package: the operator''s own screenshot, WebGPU, Fine look, low sun over open sea. His words (the Russian part translated): "just in case, the water is still moire-patterned (not complaining; progress on all fronts is obvious)". Lead: "The sun''s glitter shows a woven grid: the wind sea is a sum of a few everlasting plane waves on an integer lattice, and their beats draw it." The frame shows a wide glitter column with a criss-cross ripple texture; the rest of the sea is smooth.'
+  - id: z-beauty-clouds2
+    type: zone
+    updated: [2026-11-22T17:50:00.000Z, agent:board]
+    box: [10460, 6360, 1600, 1100, green]
+    text: '11. Clouds, second step: the march in eight steps (cards 117 to 120)'
+  - id: beauty-clouds-2-row
+    type: text
+    updated: [2026-11-22T17:50:00.000Z, agent:board]
+    box: [10500, 6430, 1500, body]
+    text: "The clouds member's own frames, branch claude/island-beauty-clouds: fair-weather cumulus from the ground, four steps then eight."
+  - id: img-beauty-117-clouds-1-fair-2m
+    type: image
+    updated: [2026-11-22T17:50:00.000Z, agent:board]
+    box: [10500, 6500, 360]
+    src: images/beauty-clouds-1-fair-2m.webp
+    text: '117. Fair-weather cumulus from 2 m, the march in four steps. Clouds session: "Wrong: each far cloud is a stack of level bars, and the near ones are grey streaks." The frame shows three thin grey lenses stacked on the horizon and long dark streaks at the upper right.'
+  - id: img-beauty-118-clouds-2-fair-2m
+    type: image
+    updated: [2026-11-22T17:50:00.000Z, agent:board]
+    box: [10885, 6500, 360]
+    src: images/beauty-clouds-2-fair-2m.webp
+    text: '118. The same view with eight steps and the sub-step waves faded, the after of card 117. Clouds session: "The bars are soft lenses now; wrong: blurred as if smeared sideways, faint stripes left, no flat bases or heaped tops." The frame shows soft ribbed lenses and one big smooth grey slab at the upper right.'
+  - id: img-beauty-119-clouds-2-fair-3km
+    type: image
+    updated: [2026-11-22T17:50:00.000Z, agent:board]
+    box: [11270, 6500, 360]
+    src: images/beauty-clouds-2-fair-3km.webp
+    text: '119. Just over that cloud field, from 3 km. Clouds session: "A soft cloud sea with shaded hollows, no hatch. Wrong: too soft, no fine billows." The frame is a smooth grey-white sheet with a few dark hollows, blue sea at the upper left.'
+  - id: img-beauty-120-clouds-2-sky-2m
+    type: image
+    updated: [2026-11-22T17:50:00.000Z, agent:board]
+    box: [11655, 6500, 360]
+    src: images/beauty-clouds-2-sky-2m.webp
+    text: '120. The baseline''s ground sky with eight steps, the pair of card 4. Clouds session: committed without a close look, "treat it as unjudged." The frame shows a clear blue gradient with no cloud at all, a green coast and a thin yellow beach line above the sea.'
+  - id: img-beauty-121-clouds-2-coast-820km
+    type: image
+    updated: [2026-11-22T17:55:00.000Z, agent:board]
+    box: [10500, 6960, 360]
+    src: images/beauty-clouds-2-coast-820km.webp
+    text: '121. The cumulus field over northern Italy from 820 km, the after of cards 112 and 96. Clouds session: "Lumpy separate heaps in place of the square blocks; wrong: heaps near one size where the field is dense, like bubble wrap." The frame shows a dense speckle of small pale flakes, each a little polygon, thinning out toward the bottom.'
+  - id: img-beauty-122-clouds-2-coast-2300km
+    type: image
+    updated: [2026-11-22T17:55:00.000Z, agent:board]
+    box: [10885, 6960, 360]
+    src: images/beauty-clouds-2-coast-2300km.webp
+    text: '122. Europe from 2,300 km, the after of cards 95 and 1. Clouds session: "A grey shield with open cells at its edge; wrong: the cells are still thin lace, the shield featureless." The frame shows one smooth white shield over France and white lace patches to the north-east.'
+  - id: img-beauty-123-clouds-2-coast-10600m
+    type: image
+    updated: [2026-11-22T17:55:00.000Z, agent:board]
+    box: [11270, 6960, 360]
+    src: images/beauty-clouds-2-coast-10600m.webp
+    text: '123. From 10.6 km looking to the horizon, the after of cards 113 and 104. Clouds session: "Separate cumulus over land; wrong: flat-lit soft blobs, no dark base or heaped top." The frame shows a dozen small white patches with soft edges over a green-blue forest.'
+  - id: z-beauty-merge5
+    type: zone
+    updated: [2026-11-22T17:30:00.000Z, agent:board]
+    box: [4160, 6360, 2000, 1100, green]
+    text: '8. The fifth merge (cards 105 to 111)'
+  - id: beauty-merge-5-row
+    type: text
+    updated: [2026-11-22T17:15:00.000Z, agent:board]
+    box: [4240, 6430, 1000, body]
+    text: "Fifth merge, the lead's frames, built from 19e5bb3ab: the coast member replaced the timid additive bends with a seeded domain warp, rough and calm by stretch. Cards 105 to 111."
+  - id: img-beauty-105-merge-5-coast-34km
+    type: image
+    updated: [2026-11-22T17:15:00.000Z, agent:board]
+    box: [4240, 6500, 360]
+    src: images/beauty-merge-5-coast-34km.webp
+    text: '105. The coast from 34 km, twin of card 71. Lead, on cards 105 to 108 (Vova is away): "WIN, the answer to the operator''s ask (card 68). Headlands, coves and a skerry at every height; nothing ruler-straight. This is the coast that was asked for. Left: metre-scale teeth at the waterline, to be checked by number." The frame shows a jagged, broken shoreline of pale sand under scattered clouds.'
+  - id: img-beauty-106-merge-5-coast-4400m
+    type: image
+    updated: [2026-11-22T17:15:00.000Z, agent:board]
+    box: [4625, 6500, 360]
+    src: images/beauty-merge-5-coast-4400m.webp
+    text: '106. The coast from 4.4 km: the after of card 83 (the failed, ruler-straight one). A headland, a cove and a small island offshore; the dune belt still carries dark ripple lines.'
+  - id: img-beauty-107-merge-5-coast-560m
+    type: image
+    updated: [2026-11-22T17:15:00.000Z, agent:board]
+    box: [5010, 6500, 360]
+    src: images/beauty-merge-5-coast-560m.webp
+    text: '107. The shore from 560 m: the after of card 84 (the failed one). Bays and points to the horizon, a small island, shallows tinted green at the sand. Lead verdict as on card 105.'
+  - id: img-beauty-108-merge-5-coast-60m
+    type: image
+    updated: [2026-11-22T17:15:00.000Z, agent:board]
+    box: [5395, 6500, 360]
+    src: images/beauty-merge-5-coast-60m.webp
+    text: '108. The shore from 60 m. A sandbar runs out under the water as a pale tongue; the waterline on the left is smooth at this height. Lead verdict as on card 105.'
+  - id: img-beauty-109-merge-5-lowland-300m
+    type: image
+    updated: [2026-11-22T17:15:00.000Z, agent:board]
+    box: [5780, 6500, 360]
+    src: images/beauty-merge-5-lowland-300m.webp
+    text: '109. The lowland from 300 m, the after of card 91 (mossy boulders on a lawn). Lead: "Win: the lowland forest is a closed canopy from 300 m. Flaws: faceted ''turtle shell'' crowns, a visible ring where the placed trees end." The frame shows packed crowns in the lower third and scattered ones above.'
+  - id: img-beauty-110-merge-5-dunes-2m
+    type: image
+    updated: [2026-11-22T17:15:00.000Z, agent:board]
+    box: [4240, 6960, 360]
+    src: images/beauty-merge-5-dunes-2m.webp
+    text: '110. A dune from 2 m, the after of card 93 (the zebra). Lead: "Win: gentler wind ripples and straw-coloured dune grass." The shot moved 700 m inland, because the bent coast put the old spot under the sea.'
+  - id: img-beauty-111-merge-5-forest-2m
+    type: image
+    updated: [2026-11-22T17:15:00.000Z, agent:board]
+    box: [4625, 6960, 360]
+    src: images/beauty-merge-5-forest-2m.webp
+    text: '111. Standing in the forest, the follow-up of cards 67 and 74. Lead: "Half: undergrowth and a mossy brown floor read; trunks are tan sausages and a crown''s underside is one black slab." The black slab fills the top third of the frame.'

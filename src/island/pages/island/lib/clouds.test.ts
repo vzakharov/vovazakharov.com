@@ -3,11 +3,15 @@ import { describe, it } from 'node:test';
 
 import { R } from '@/island/shared/globe';
 
-import { cloudClockAt } from './clouds';
+import { cloudClockAt, STORM_LIVES } from './clouds';
 
 describe('cloudClockAt', () => {
   it('stands still at the clock`s start', () => {
-    assert.deepEqual(cloudClockAt(0), { drift: 0, growth: 0 });
+    assert.deepEqual(cloudClockAt(0), {
+      drift: 0,
+      growth: 0,
+      storms: 0,
+    });
   });
 
   it('drifts ten metres a second along the equator', () => {
@@ -21,5 +25,13 @@ describe('cloudClockAt', () => {
     assert.ok(before.drift < 2 * Math.PI && before.drift > 6.28);
     assert.ok(cloudClockAt(turn + 5).drift < 1e-5);
     assert.ok(cloudClockAt(-5).drift > 6.28);
+  });
+
+  it('ends its turn a whole number of cyclone lives in, so the next begins on the first again', () => {
+    const turn = (2 * Math.PI * R) / 10;
+    assert.ok(Number.isInteger(STORM_LIVES));
+    assert.ok(STORM_LIVES - cloudClockAt(turn - 1).storms < 1e-4);
+    assert.ok(cloudClockAt(turn + 1).storms < 1e-4);
+    assert.ok(Math.abs(cloudClockAt(turn / 2).storms - STORM_LIVES / 2) < 1e-9);
   });
 });

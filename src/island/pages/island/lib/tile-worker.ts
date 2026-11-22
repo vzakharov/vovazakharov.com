@@ -14,7 +14,7 @@ import {
   TILE_GRID,
 } from '@/island/entities/terrain';
 
-import { tileCover, tileSand } from '../model/forest-cover';
+import { tileCover, tileShore } from '../model/forest-cover';
 import {
   filledBuffers,
   type FilledTile,
@@ -64,14 +64,18 @@ function fill(
   // Its own buffer when the land goes too, since a buffer transfers once.
   const floor =
     land === null ? ground.heights : new Float32Array(ground.heights);
-  const sand = land === null ? null : tileSand(distance, land);
+  const shore = land === null ? null : tileShore(distance, land);
   return {
     key,
     levels,
     land,
     sea,
-    cover: land === null || sand === null ? null : tileCover(seed, land, sand),
-    sand,
+    cover:
+      land === null || shore === null
+        ? null
+        : tileCover(seed, land, shore.sand),
+    sand: shore?.sand ?? null,
+    rocky: shore?.rocky ?? null,
     floor: sea === null ? null : floor,
     fillMs: performance.now() - start,
   };

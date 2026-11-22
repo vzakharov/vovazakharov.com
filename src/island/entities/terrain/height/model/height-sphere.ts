@@ -1,12 +1,13 @@
-import { length, R, type Vec3 } from '@/island/shared/globe';
+import { length, R, unit, type Vec3 } from '@/island/shared/globe';
 
-import { groundSlope } from './bounds';
+import { groundSlope, reliefReach } from './bounds';
 import { COAST_STEEPEST, type CoastDistance } from './coast-detail';
 import { LATTICE_STEEPEST, turned } from './lattice';
 import { OCTAVES } from './octaves';
 import { upliftAtSphere, upliftSlope } from './ranges';
 import { reliefAt } from './relief';
-import { sandAt } from './shore';
+import { HIGHEST_GROUND, LOWEST_GROUND } from './relief-numbers';
+import { rockAt, sandAt } from './shore';
 import { noiseSalt, valueNoise3 } from './value-noise';
 
 /**
@@ -44,12 +45,42 @@ export const SPHERE_GROUND_SLOPE = groundSlope(
 );
 
 /**
+ * Each cut `groundSpread` weighs, with twice its relief's reach and the slope
+ * of the ground drawn at it over the coast read whole.
+ */
+const SPREAD_CUTS = [0, ...OCTAVES.map(({ wavelength }) => wavelength)].map(
+  (finest) => ({
+    reach: 2 * reliefReach(finest),
+    slope: groundSlope(
+      NOISE_STEEPEST,
+      upliftSlope(LATTICE_STEEPEST),
+      COAST_STEEPEST,
+      finest,
+    ),
+  }),
+);
+
+/**
+ * A bound on how far apart the whole ground (`heightAtSphere` with no detail
+ * cut) stands at two surface points at most `metres` apart, any coast and
+ * seed: through the ground drawn at one cut, which differs from it by at most
+ * its relief's reach at either end and between them by at most its slope;
+ * never more than the ground's whole range.
+ */
+export const groundSpread = (metres: number): number =>
+  Math.min(
+    HIGHEST_GROUND - LOWEST_GROUND,
+    ...SPREAD_CUTS.map(({ reach, slope }) => reach + slope * metres),
+  );
+
+/**
  * Metres above sea level over direction `p` (any length but zero), negative
  * offshore — a pure function of the coast's distance, read at the detail cut
  * `finest`, and the seed (read as a 32-bit integer). The noise is drawn in space at the surface point `R·p̂`,
  * never at an elevated one, so a height does not feed its own noise, and has
  * no seam anywhere on the sphere; each octave's point is bent by the octave
- * before it. `reliefAt` gives the shape, `upliftAtSphere` the mountain belts.
+ * before it. `reliefAt` gives the shape, `upliftAtSphere` the mountain belts,
+ * the coast's calm where its dunes stand.
  */
 export function heightAtSphere(
   distance: CoastDistance,
@@ -79,23 +110,30 @@ export function heightAtSphere(
       return before;
     },
     d > 0 ? upliftAtSphere(seed, x, y, z, d) : 0,
+    () => distance.calm?.([x, y, z]) ?? 1,
   );
 }
 
 /**
- * The share of sand, from 0 to 1, in the ground over direction `p` (any
- * length but zero) standing `height` metres up: `sandAt` of the coast's
- * distance there, read at the detail cut `finest` the height was drawn with.
+ * The shares of sand (`sandAt`) and of bare shore rock (`rockAt`), each from 0
+ * to 1, in land over direction `p` (any length but zero) standing `height`
+ * metres up: both from one read of the coast's distance there, at the detail
+ * cut `finest` the height was drawn with, and of its stretch's calm.
  */
-export const sandAtSphere = (
+export const shoreAtSphere = (
   distance: CoastDistance,
   p: Vec3,
   height: number,
   finest = 0,
-): number => {
-  const scale = 1 / length(p);
-  return sandAt(
-    distance([p[0] * scale, p[1] * scale, p[2] * scale], finest),
-    height,
-  );
+): readonly [sand: number, rock: number] => {
+  const q = unit(p);
+  const d = distance(q, finest);
+  let share: number | undefined;
+  const calm = () => (share ??= distance.calm?.(q) ?? 1);
+  return [sandAt(d, height, calm), rockAt(d, calm)];
 };
+
+/** The share of sand alone that `shoreAtSphere` gives. */
+export const sandAtSphere = (
+  ...site: Parameters<typeof shoreAtSphere>
+): number => shoreAtSphere(...site)[0];
