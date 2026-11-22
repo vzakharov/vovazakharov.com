@@ -2,18 +2,14 @@ import { Group, PerspectiveCamera, Scene, WebGPURenderer } from 'three/webgpu';
 
 import type { WithOnError } from '@/kernel/shared/typings';
 
+import { pathHash } from '@/dice/shared/roll';
+
 import { length, R, sub } from '@/island/shared/globe';
-import {
-  type CoastDistance,
-  heightAtSphere,
-  sampleSphereField,
-  type SphereField,
-} from '@/island/entities/terrain';
+import type { CoastDistance } from '@/island/entities/terrain';
 import {
   bindEyeControls,
   type Eye,
   eyeAt,
-  type GroundAt,
   headingOf,
   type HintShowing,
   latchHint,
@@ -42,11 +38,13 @@ import { type Pace, paced } from '../lib/pace';
 import type { Pose } from '../lib/place-hash';
 import { startTilePool, type TilePool } from '../lib/tile-pool';
 import type { Where } from '../lib/where-line';
+import { coastOf, groundOf, SEA_LEVEL } from '../lib/world-ground';
 import { groundLighting } from './ground-lighting';
 import { oceanGlobe } from './ocean-globe';
 import { type FineSwitch, sceneLook } from './scene-look';
 import { tileView } from './tile-view';
 import { bindTimeKeys } from './time-keys';
+import { treeView } from './tree-view';
 
 export type IslandScene = FineSwitch & {
   /** Resolves once the first frame is drawn. */
@@ -84,19 +82,6 @@ export type IslandScene = FineSwitch & {
 const NEAR = 0.5;
 /** Past the far side of the planet from `MAX_HEIGHT`. */
 const FAR = 4 * (R + MAX_HEIGHT);
-
-/** Ground before the field arrives; nothing reads it before then. */
-const SEA_LEVEL: GroundAt = () => 0;
-
-const coastOf =
-  (field: SphereField): CoastDistance =>
-  (p) =>
-    sampleSphereField(field, p);
-
-const groundOf =
-  (coast: CoastDistance, seed: number): GroundAt =>
-  (p) =>
-    heightAtSphere(coast, seed, p);
 
 const DEGREE = Math.PI / 180;
 
@@ -138,7 +123,7 @@ export function mountIslandScene(
   const camera = new PerspectiveCamera(50, 1, NEAR, FAR);
 
   const lighting = groundLighting();
-  const { land, sea, standIn, ocean, lights } = lighting;
+  const { land, sea, standIn, ocean, lights, dressObject } = lighting;
   const looks = sceneLook({
     scene,
     lighting,
@@ -149,7 +134,8 @@ export function mountIslandScene(
   const { setFine } = looks;
   const globe = oceanGlobe(ocean);
   const tiles = new Group();
-  scene.add(globe, tiles, ...lights);
+  const trees = treeView(dressObject);
+  scene.add(globe, tiles, trees.group, ...lights);
 
   const controls = bindEyeControls(canvas);
   // Under play the clock moves only by `setTime`.
@@ -214,6 +200,7 @@ export function mountIslandScene(
         built = { of: mine, ms: buildMs };
         coast = coastOf(field);
         groundAt = groundOf(coast, seed);
+        trees.setGround({ seed, groundAt, wordAt: pathHash(on) });
         view.reselect();
         landed.resolve();
       },
@@ -231,6 +218,7 @@ export function mountIslandScene(
     const pose = poseOf(eye, camera.aspect);
     const [ex, ey, ez] = pose.position;
     view.draw(eye, camera.aspect);
+    trees.draw(pose.position, eye.height);
     globe.position.set(-ex, -ey, -ez);
     camera.fov = (pose.fov * 180) / Math.PI;
     camera.updateProjectionMatrix();
@@ -249,6 +237,7 @@ export function mountIslandScene(
   function settle(): void {
     if (waiting.length === 0 || eye === null) return;
     if (!view.complete(eye, camera.aspect)) return;
+    trees.rollWhole();
     render();
     for (const waiter of waiting.splice(0)) waiter.resolve();
   }
@@ -355,7 +344,10 @@ export function mountIslandScene(
     },
     turnTo: async (heading) => placed((from) => withHeading(from, heading)),
     lookTo: async (look) => placed((from) => withLook(from, look)),
-    setFine,
+    setFine: (fine) => {
+      trees.setShown(fine);
+      setFine(fine);
+    },
     backend: () => (webgpu() ? 'webgpu' : 'webgl2'),
     buildMs: () => {
       if (built?.of !== generation) throw new Error('field not built');
@@ -368,6 +360,7 @@ export function mountIslandScene(
       view.clear();
       // The old coast would refine the selection where the new one has none.
       coast = undefined;
+      trees.setGround(null);
       pool = startPool(next);
     },
     placeAt,
@@ -392,6 +385,7 @@ export function mountIslandScene(
       looks.dispose();
       pool.dispose();
       view.dispose();
+      trees.dispose();
       globe.geometry.dispose();
       lighting.dispose();
       renderer.dispose().catch(fail);

@@ -177,6 +177,8 @@ export type GroundLighting = CanDispose &
     readonly dress: (fine: boolean, rippled: boolean) => void;
     /** Hands the rippled sea its frame. */
     readonly stirSea: (frame: SeaFrame) => void;
+    /** Dresses `material`, an object standing on the land, in the land's lamps and the fine look's air. */
+    readonly dressObject: (material: MeshLambertNodeMaterial) => void;
   };
 
 /** A sun laying `irradiance` on level ground under the opening's sun. */
@@ -283,6 +285,10 @@ export function groundLighting(): GroundLighting {
     background,
     dress,
     stirSea: surface.update,
+    dressObject: (material) => {
+      material.lightsNode = lights([landSun, landMoon, sky]);
+      material.outputNode = seen;
+    },
     lights: [landSun, seaSun, landMoon, seaMoon, sky],
     shine: (heavens, up, height, seconds) => {
       if (fine) air.update(heavens, up, height, seconds);
