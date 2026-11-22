@@ -98,6 +98,27 @@ otherwise; his answers get quoted under each when they come.
 - **Landscape kinds change the relief itself**, in the worker and in the eye's
   `groundAt` alike, because the ask is "not different textures over the same
   voxels". Colour by climate alone would be exactly that.
+- **The climate contract, which the relief child lands first and the ground
+  child consumes**: `entities/terrain` exports a pure
+  `climateAtSphere(coast, seed, p, height)` giving `temperature` (°C, the year's
+  mean at the surface) and `moisture` (0 dry to 1 wet); `TileMesh` carries it as
+  `climates`, two floats a vertex; the geometry attribute is `climate` (a
+  `vec2`), its name exported beside `HEIGHT_ATTRIBUTE`. Kinds of landscape are
+  never an enum on the wire: both sides derive what they need from those two
+  numbers, the height and the slope, so a border between two kinds is a blend
+  and never a line.
+- **A forest is shading, not geometry.** A canopy lifted into the mesh would put
+  the eye, which stands on `groundAt`, on the treetops. From above the shader
+  gives the canopy its bumps and its dark; at the feet, with no trunks this run,
+  it is forest floor. This amends what question 3 told the operator ("a canopy's
+  shape").
+- **The speed target is the operator's M2 Pro at 60 fps** (the earlier island
+  record: the fine look runs there at 7–14). The full look may cost up to half
+  again what it costs today; anything dearer waits for the optimised look.
+- **Each child is one package on its own branch and reports to the lead; the
+  board has a keeper of its own** (the operator: «работу с доской отдай
+  подсессии попроще»). `docs/plans/island-beauty/brief-common.md` holds what
+  every brief shares.
 - **Clouds are built from a written catalogue of regimes**
   (`docs/plans/island-beauty/clouds-research.md`, a Sonnet reader's digest of
   the physics and of what satellites show), not from tuning the one field.
