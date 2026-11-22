@@ -223,9 +223,9 @@ export function snowOf({ ground: { level, steep, away }, mix: m }: Band) {
       [DISTRICT, 0.25],
       [HILL, 0.25],
       [FIELD, -0.15],
-      [SLOPE, -0.08],
-      [PATCH, -0.04],
-      [STEP, -0.015],
+      [SLOPE, -0.06],
+      [PATCH, -0.07],
+      [STEP, -0.035],
     ]),
   );
   const sliding = m.edge(
@@ -234,9 +234,9 @@ export function snowOf({ ground: { level, steep, away }, mix: m }: Band) {
     0.2,
     m.ragged([
       [FIELD, 0.02],
-      [SLOPE, 0.025],
-      [PATCH, 0.02],
-      [STEP, 0.012],
+      [SLOPE, 0.02],
+      [PATCH, 0.03],
+      [STEP, 0.02],
     ]),
   );
   return lying.mul(
