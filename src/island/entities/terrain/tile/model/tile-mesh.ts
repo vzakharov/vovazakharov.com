@@ -38,6 +38,11 @@ export type TileMesh<K extends GridCell = GridCell> = TileKeyed<K> & {
   readonly normals: Float32Array<ArrayBuffer>;
   /** Height above sea level per vertex. */
   readonly heights: Float32Array<ArrayBuffer>;
+  /**
+   * Temperature (°C) and moisture (0 to 1) per vertex, a skirt vertex taking
+   * those of the border vertex it hangs from.
+   */
+  readonly climates: Float32Array<ArrayBuffer>;
   readonly indices: Uint16Array<ArrayBuffer> | Uint32Array<ArrayBuffer>;
 };
 
@@ -47,6 +52,7 @@ export const tileBuffers = (mesh: TileMesh): ArrayBuffer[] => [
   mesh.positions.buffer,
   mesh.normals.buffer,
   mesh.heights.buffer,
+  mesh.climates.buffer,
   mesh.indices.buffer,
 ];
 
@@ -66,6 +72,14 @@ export function entry<T>(items: ArrayLike<T>, index: number): T {
 export type Ringed<T> = {
   readonly ring: number;
   readonly points: readonly T[];
+};
+
+/**
+ * A ringed lattice of vertices to mesh; `climates` holds the temperature and
+ * moisture of each, two floats a point in the points' order.
+ */
+export type MeshLattice = Ringed<LatticePoint> & {
+  readonly climates: Float32Array;
 };
 
 export const ringAt = <T>({ ring, points }: Ringed<T>, i: number, j: number) =>
@@ -90,7 +104,7 @@ export const latticeNormal = (
  */
 export function assembleTile<K extends GridCell>(
   key: K,
-  lattice: Ringed<LatticePoint>,
+  lattice: MeshLattice,
   middle: Vec3,
   skirtDepth: number,
   normalAt: ReadonlyMap<number, Vec3> = new Map(),
@@ -105,10 +119,21 @@ export function assembleTile<K extends GridCell>(
   const positions = new Float32Array(vertexCount * 3);
   const normals = new Float32Array(vertexCount * 3);
   const heights = new Float32Array(vertexCount);
-  const put = (v: number, world: Vec3, normal: Vec3, height: number) => {
+  const climates = new Float32Array(vertexCount * 2);
+  /** Sets vertex `v`, its climate that of grid vertex `(i, j)`. */
+  const put = (
+    v: number,
+    world: Vec3,
+    normal: Vec3,
+    height: number,
+    i: number,
+    j: number,
+  ) => {
     positions.set(sub(world, middle), v * 3);
     normals.set(normal, v * 3);
     heights[v] = height;
+    const n = ((j + 1) * lattice.ring + i + 1) * 2;
+    climates.set(lattice.climates.subarray(n, n + 2), v * 2);
   };
 
   const gridNormals: Vec3[] = [];
@@ -125,7 +150,7 @@ export function assembleTile<K extends GridCell>(
           at(i, j - 1).world,
         );
       gridNormals.push(normal);
-      put(v, world, normal, height);
+      put(v, world, normal, height, i, j);
     }
   }
 
@@ -144,6 +169,8 @@ export function assembleTile<K extends GridCell>(
       scaled(out, lowered),
       entry(gridNormals, v),
       height - skirtDepth,
+      i,
+      j,
     );
   }
 
@@ -154,6 +181,7 @@ export function assembleTile<K extends GridCell>(
     positions,
     normals,
     heights,
+    climates,
     indices: tileIndices(grid, loop, coarse),
   };
 }

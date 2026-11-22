@@ -7,6 +7,7 @@
  */
 import type { Vec3 } from '@/island/shared/globe';
 import {
+  climateAtSphere,
   cubeDetailCut,
   fillStitchedCubeTile,
   heightAtSphere,
@@ -49,17 +50,20 @@ function fill(
 ): FilledTile {
   const start = performance.now();
   const distance = (p: Vec3) => sampleSphereField(field, p);
+  const climate = (p: Vec3, height: number) =>
+    climateAtSphere(distance, seed, p, height);
   const ground = fillStitchedCubeTile(
     key,
     (p, finest) => heightAtSphere(distance, seed, p, finest),
     levels,
-    { finest: cubeDetailCut(eye, distance) },
+    { finest: cubeDetailCut(eye, distance), climate },
   );
   const [low, high] = gridRange(ground.heights);
   const land = high < 0 ? null : ground;
   // Stitched too: every level samples the sea at 0, but its vertices between
   // a coarser neighbour's go onto that neighbour's chord, below the sphere.
-  const sea = low > 0 ? null : fillStitchedCubeTile(key, () => 0, levels);
+  const sea =
+    low > 0 ? null : fillStitchedCubeTile(key, () => 0, levels, { climate });
   // Its own buffer when the land goes too, since a buffer transfers once.
   const floor =
     land === null ? ground.heights : new Float32Array(ground.heights);

@@ -1,3 +1,4 @@
+export { type Climate, climateAtSphere } from './model/climate';
 export {
   type CoastDistance,
   heightAtSphere,

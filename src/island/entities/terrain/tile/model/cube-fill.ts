@@ -11,6 +11,7 @@ import {
   type Vec3,
 } from '@/island/shared/globe';
 
+import type { Climate } from '../../height';
 import { faceLattice } from './cube-tile';
 import { TILE_GRID } from './tile';
 import type { CoarseEdges } from './tile-indices';
@@ -36,6 +37,11 @@ export type CubeFillOptions = MeshOptions & {
    * widest spacing.
    */
   readonly finest?: (p: Vec3) => number;
+  /**
+   * The climate over a unit direction at a height, which each vertex carries;
+   * with none, every vertex reads zero for both.
+   */
+  readonly climate?: (p: Vec3, height: number) => Climate;
 };
 
 /**
@@ -144,14 +150,20 @@ export function sampleCubeLattice(
 export function liftCubeLattice(
   key: CubeCell,
   lattice: CubeLattice,
-  options: MeshOptions = {},
+  options: CubeFillOptions = {},
   normalAt?: ReadonlyMap<number, Vec3>,
   coarse?: CoarseEdges,
 ): TileMesh<CubeCell> {
   const { ring, heights } = lattice;
   const cells = ring - 3;
+  const climates = new Float32Array(ring * ring * 2);
   const points = lattice.points.map((p, n): LatticePoint => {
     const height = entry(heights, n);
+    if (options.climate !== undefined) {
+      const { temperature, moisture } = options.climate(p, height);
+      climates[n * 2] = temperature;
+      climates[n * 2 + 1] = moisture;
+    }
     return { world: scaled(p, R + height), height };
   });
   const half = cells / 2;
@@ -167,7 +179,7 @@ export function liftCubeLattice(
     options.skirtDepth ?? 2 * cubeLevelSpacing(key.level, cells);
   return assembleTile(
     key,
-    { ring, points },
+    { ring, points, climates },
     middle,
     skirtDepth,
     normalAt,

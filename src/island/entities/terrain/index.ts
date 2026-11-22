@@ -3,7 +3,7 @@ export {
   type SignedDistances,
   type SphereField,
 } from './coast-field';
-export { type CoastDistance, heightAtSphere } from './height';
+export { climateAtSphere, type CoastDistance, heightAtSphere } from './height';
 export {
   cubeDetailCut,
   frustumOf,
