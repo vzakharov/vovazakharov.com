@@ -2,7 +2,7 @@ items:
   - id: z-beauty
     type: zone
     updated: [2026-11-22T11:00:00.000Z, agent:board]
-    box: [11760, 380, 2000, 3600, green]
+    box: [11760, 380, 2000, 4550, green]
     icon: 🎞️
     text: 'Making it beautiful: the timelapse, failures included'
   - id: beauty-howto
@@ -149,3 +149,104 @@ items:
     updated: [2026-11-22T11:40:00.000Z, agent:board]
     box: [11800, 2850, 1000, body]
     text: 'Speed. A sixth session started: speed. First job — the rougher ground loosened the tile culling bound; it brackets tiles from heights already known.'
+  - id: beauty-ground-row
+    type: text
+    updated: [2026-11-22T11:50:00.000Z, agent:board]
+    box: [11800, 3000, 1000, body]
+    text: 'Ground, step 1. All shot on WebGL2 in the fine look. The coast frames repeat the top row’s shots but were taken before relief’s latest merge, so the land’s shape in them is the old one.'
+  - id: img-beauty-21-ground-1-coast-20000km
+    type: image
+    updated: [2026-11-22T11:50:00.000Z, agent:board]
+    box: [11800, 3070, 360]
+    src: images/beauty-ground-1-coast-20000km.webp
+    text: '21. Ground, step 1. From orbit the land is mottled green, olive and brown instead of flat blobs. Wrong, by the builder: little to see at this size.'
+  - id: img-beauty-22-ground-1-coast-2300km
+    type: image
+    updated: [2026-11-22T11:50:00.000Z, agent:board]
+    box: [12185, 3070, 360]
+    src: images/beauty-ground-1-coast-2300km.webp
+    text: '22. Ground, step 1. Europe from 2,300 km: bands no longer follow contour lines, upland varies from olive to brown. Wrong, by the builder: the forest shows a checkerboard and square tile seams (the per-vertex cover), and clouds hide half the land. On the frame the clouds are salt-and-pepper speckle.'
+  - id: img-beauty-23-ground-1-coast-820km
+    type: image
+    updated: [2026-11-22T11:50:00.000Z, agent:board]
+    box: [12570, 3070, 360]
+    src: images/beauty-ground-1-coast-820km.webp
+    text: '23. Ground, step 1. From 820 km it is almost all cloud speckle (the clouds’ package); the ground is barely visible under it.'
+  - id: img-beauty-24-ground-1-coast-34km
+    type: image
+    updated: [2026-11-22T11:50:00.000Z, agent:board]
+    box: [12955, 3070, 360]
+    src: images/beauty-ground-1-coast-34km.webp
+    text: '24. Ground, step 1. The coast from 34 km: forest canopy is mottled and dark, sand is toned and shows a little relief. The clouds are still cotton lumps.'
+  - id: img-beauty-25-ground-1-coast-10600m
+    type: image
+    updated: [2026-11-22T11:50:00.000Z, agent:board]
+    box: [13340, 3070, 360]
+    src: images/beauty-ground-1-coast-10600m.webp
+    text: '25. Ground, step 1. From 10.6 km, the pair of card 2. Wrong, by the builder: sand still lies in wide sheets inland (relief’s to cure) and the forest and sand edges are smooth blobs.'
+  - id: img-beauty-26-ground-1-coast-4400m
+    type: image
+    updated: [2026-11-22T11:50:00.000Z, agent:board]
+    box: [11800, 3530, 360]
+    src: images/beauty-ground-1-coast-4400m.webp
+    text: '26. Ground, step 1. From 4.4 km: mottled forest canopy, sand with some relief in it, a beach along the shore. The sand sheets and the blob edges are still there.'
+  - id: img-beauty-27-ground-1-coast-560m
+    type: image
+    updated: [2026-11-22T11:50:00.000Z, agent:board]
+    box: [12185, 3530, 360]
+    src: images/beauty-ground-1-coast-560m.webp
+    text: '27. Ground, step 1. From the sea at 560 m the land is a thin strip, little changed from card 3.'
+  - id: img-beauty-28-ground-1-coast-2m
+    type: image
+    updated: [2026-11-22T11:50:00.000Z, agent:board]
+    box: [12570, 3530, 360]
+    src: images/beauty-ground-1-coast-2m.webp
+    text: '28. Ground, step 1. From the sea at 2 m: a thin coast line under a cloud, little changed from card 4.'
+  - id: img-beauty-29-ground-1-before-amazon-2000km
+    type: image
+    updated: [2026-11-22T11:50:00.000Z, agent:board]
+    box: [12955, 3530, 360]
+    src: images/beauty-ground-1-before-amazon-2000km.webp
+    text: '29. Before. Earth from 2,000 km: a contour map in flat colours, with white blobs hundreds of km wide where snow is.'
+  - id: img-beauty-30-ground-1-amazon-2000km
+    type: image
+    updated: [2026-11-22T11:50:00.000Z, agent:board]
+    box: [13340, 3530, 360]
+    src: images/beauty-ground-1-amazon-2000km.webp
+    text: '30. Ground, step 1, the pair of card 29. Ragged bands, small snow patches. Wrong, by the builder: forest checkerboard and a vertical tile seam; both show on the frame, the checkerboard at the left edge.'
+  - id: img-beauty-31-ground-1-before-tibet-800km
+    type: image
+    updated: [2026-11-22T11:50:00.000Z, agent:board]
+    box: [11800, 3990, 360]
+    src: images/beauty-ground-1-before-tibet-800km.webp
+    text: '31. Before. Tibet from 800 km: flat brown above, flat green below, three lakes.'
+  - id: img-beauty-32-ground-1-tibet-800km
+    type: image
+    updated: [2026-11-22T11:50:00.000Z, agent:board]
+    box: [12185, 3990, 360]
+    src: images/beauty-ground-1-tibet-800km.webp
+    text: '32. Ground, step 1, the pair of card 31. Graded upland and patchy forest, the lakes the same. The white flecks are clouds.'
+  - id: img-beauty-33-ground-1-before-tibet-2m
+    type: image
+    updated: [2026-11-22T11:50:00.000Z, agent:board]
+    box: [12570, 3990, 360]
+    src: images/beauty-ground-1-before-tibet-2m.webp
+    text: '33. Before. Standing on a hill at 2 m: one smooth green slope under brown-grey ridges.'
+  - id: img-beauty-34-ground-1-tibet-2m
+    type: image
+    updated: [2026-11-22T11:50:00.000Z, agent:board]
+    box: [12955, 3990, 360]
+    src: images/beauty-ground-1-tibet-2m.webp
+    text: '34. Ground, step 1, the pair of card 33. Mottled turf, earth and rock on the steep parts, small relief in the light. Wrong, by the builder: still soft past a few metres, and shot before forest cover was wired, so that spot now draws as forest floor.'
+  - id: img-beauty-35-ground-1-tibet-100m-dusk
+    type: image
+    updated: [2026-11-22T11:50:00.000Z, agent:board]
+    box: [13340, 3990, 360]
+    src: images/beauty-ground-1-tibet-100m-dusk.webp
+    text: '35. Ground, step 1. Low sun over the hills at 100 m; dark green slopes, haze between the ridges. The clouds’ edges show a hatch pattern.'
+  - id: img-beauty-36-ground-1-tibet-100m-night
+    type: image
+    updated: [2026-11-22T11:50:00.000Z, agent:board]
+    box: [11800, 4450, 360]
+    src: images/beauty-ground-1-tibet-100m-night.webp
+    text: '36. Ground, step 1. The same hills at night: a black ridge under a dusk sky, a moon inside a dark hatched cloud. The cloud stripes are the clouds’ WebGL pattern, per the builder.'
