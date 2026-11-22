@@ -116,9 +116,15 @@ otherwise; his answers get quoted under each when they come.
   M2 Pro, preview e3f3f062: «разницы между "fine" и "swift" по качеству
   отрисовки я практически не заметил». The frame times on them: plain 13.4 ms,
   swift 159.4, fine 202.8. Then the same place facing inland — «вид без воды --
-  отрисовка намного быстрее»: plain 12.7 ms, swift 68.0, fine 79.1. Read by the
-  lead: swift looks right and saves 15–20%, which is no middle step; and a view
-  with the sea in it costs 90–125 ms more than one without, a cost nobody here
+  отрисовка намного быстрее»: plain 12.7 ms, swift 68.0, fine 79.1. The lead
+  first read this as "swift is hardly faster" and he corrected it at ~21:10: «я
+  тут как раз скорее про то что fine не даёт таких сильных улучшений в
+  отрисовке, а не про то что swift не даёт улучшений в скорости» — swift's
+  saving shows in the milliseconds, «и там и там много», and fine buys only
+  «чуть больше "блобов" деревьев, травинок». His idea with it: «мерить fps,
+  усредняя по какому-то окну, чтобы адкеватнее сравнивать». The lead's own
+  reading, not his: both full looks are far from a frame budget, and a view with
+  the sea in it costs 90–125 ms more than one without, which nobody here
   measured because the shooter draws no rippled sea.
 - 2026-11-22 ~20:58 UTC, a sunset over the dunes
   (`/island#1@10.28448,-0.47036,31.5,247.5,10.7,1.400`): «не на этот заход, но
@@ -263,10 +269,6 @@ PR. Session ids are claude.ai remote sessions.
   first tile upload whatever the launch flags, so no frame of this run shows the
   rippled sea. Beat: more hours on the software device — the land, trees and
   clouds this run is about all draw on WebGL2.
-- What the baseline shows: clouds from orbit are speckle, from 10 km cotton with
-  a dither hatch; sand lies in sheets kilometres inland; a band is one flat
-  colour; hills are low domes of one character. `lookTo` is clamped, so the sky
-  shot looks up only a few degrees — raise it for the play hook if clouds asks.
 - The finished relief (38456e5d): ranges gathered into belts, sand at the shore
   only, lowland floor 65 m rolling into hill country, kinds by broad height
   (green under 300 m, brown to 550, alpine 600→1100), peaks to ~3.6 km, snow
@@ -287,12 +289,11 @@ PR. Session ids are claude.ai remote sessions.
 - `groundSpread` buys no tiles (alpine 3000 m 143 either way): the bound is
   sup-times-sup, 100–700× the measured spread. Tile counts stay worse than
   main's 112 until a tile is bracketed from its own filled heights.
-- Clouds' step 1 from orbit is weather (decks, open cells, a front, an ice
-  shield) and no longer speckle, but the open cells are crisp crochet lace and a
-  front is a white worm; from the ground the member itself calls it blander than
-  the baseline (four steps across a grazing ray). `lookTo`'s clamp is the eye's
-  own rule (`lookWithin`), so nobody sees cumulus overhead; the horizon is the
-  view to get right.
+- `lookTo`'s clamp is the eye's own rule (`lookWithin`), so nobody sees cumulus
+  overhead; for clouds the horizon is the view to get right.
+- The operator will not sit reading counters run after run («увы я не смогу быть
+  здесь чтобы давать счётчики каждый раз»), so speed's measurement is one link
+  and one click that ends on a table to paste, whenever he next opens it.
 - Merged at 6da7f994f (166 tests): the coast's final package (af79cc077), the
   trees' swift look (81ddfe1f2), ground's swift path and its answers to the
   17:05 verdicts (006d16550), the board (4db31d295). At 6974e7256 the scene
