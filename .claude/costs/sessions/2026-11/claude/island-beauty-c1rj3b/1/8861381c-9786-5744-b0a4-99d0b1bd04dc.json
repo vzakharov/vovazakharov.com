@@ -1,0 +1,193 @@
+{
+  "total": {
+    "inputTokens": 622345,
+    "cacheWrite5mTokens": 537062,
+    "cacheWrite1hTokens": 349538,
+    "cacheReadTokens": 20608244,
+    "outputTokens": 204101,
+    "thinkingTokens": 41802,
+    "responses": 169,
+    "costUsd": 15.21313309999999
+  },
+  "estimate": {
+    "at": "2026-11-22T10:04:22.431Z",
+    "subjectLine": "feat: lead a team making /island's land, trees and clouds beautiful",
+    "parts": [
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "five parallel packages on shared shader files need briefs, seams and merges decided by one person"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "the lead judges every look from frames and wires what crosses packages"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-22T09:48:46.859Z",
+    "contextTokens": 102765,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 43727,
+      "cacheReadTokens": 53302,
+      "outputTokens": 619,
+      "thinkingTokens": 65,
+      "responses": 1,
+      "costUsd": 0.7350684000000001
+    }
+  },
+  "sessionId": "8861381c-9786-5744-b0a4-99d0b1bd04dc",
+  "branch": "claude/island-beauty-c1rj3b",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/carte-blanche давай украсим наш мир. На этот подход хочется: 1- более реалистичной отрисовки ландшафта -- сейчас на отдалении отчётливо видны паттерны 2- отрис…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBiucpraEhsFyZ58M9",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-22T09:48:38.998Z",
+  "lastResponseAt": "2026-11-22T10:33:03.090Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 119,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 349538,
+    "cacheReadTokens": 11774138,
+    "outputTokens": 91782,
+    "thinkingTokens": 33609,
+    "responses": 61,
+    "costUsd": 11.6196676
+  },
+  "subagents": {
+    "inputTokens": 174,
+    "cacheWrite5mTokens": 536153,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 8532236,
+    "outputTokens": 67438,
+    "thinkingTokens": 8193,
+    "responses": 79,
+    "costUsd": 2.8683341000000007
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 2902,
+      "cacheWrite5mTokens": 909,
+      "cacheWrite1hTokens": 349538,
+      "cacheReadTokens": 12076008,
+      "outputTokens": 103150,
+      "thinkingTokens": 33609,
+      "responses": 62,
+      "costUsd": 12.1661156
+    },
+    "claude-sonnet-5-5/standard": {
+      "inputTokens": 174,
+      "cacheWrite5mTokens": 536153,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 8532236,
+      "outputTokens": 67438,
+      "thinkingTokens": 8193,
+      "responses": 79,
+      "costUsd": 2.8683341000000007
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 619269,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 33513,
+      "thinkingTokens": 0,
+      "responses": 28,
+      "costUsd": 0.17868339999999996
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-22T10:14:35.066Z",
+      "trigger": "auto",
+      "compactedFrom": 305014,
+      "summaryChars": 22438,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/island/scripts/shoot-island.ts",
+        "endedAt": "2026-11-22T10:15:50.600Z",
+        "contextTokens": 130698,
+        "spend": {
+          "inputTokens": 14,
+          "cacheWrite5mTokens": 135893,
+          "cacheWrite1hTokens": 66416,
+          "cacheReadTokens": 446997,
+          "outputTokens": 2817,
+          "thinkingTokens": 661,
+          "responses": 5,
+          "costUsd": 1.5182051
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.546448
+    }
+  ],
+  "telemetry": {
+    "events": 169,
+    "matched": 140,
+    "matchedTableUsd": 14.48800169999999,
+    "matchedEventUsd": 14.488001699999987,
+    "unseen": {
+      "web_fetch_apply": {
+        "inputTokens": 469885,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 22866,
+        "thinkingTokens": 0,
+        "responses": 18,
+        "costUsd": 0.0584215
+      },
+      "web_search_tool": {
+        "inputTokens": 149384,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 10647,
+        "thinkingTokens": 0,
+        "responses": 10,
+        "costUsd": 0.12026189999999999
+      },
+      "compact": {
+        "inputTokens": 2783,
+        "cacheWrite5mTokens": 909,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 301870,
+        "outputTokens": 11368,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.546448
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 280,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 663,
+    ".json": 15,
+    ".yaml": 17,
+    ".ts": 776
+  }
+}
