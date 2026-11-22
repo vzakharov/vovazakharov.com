@@ -253,7 +253,7 @@ export function groundLighting(): GroundLighting {
     const surfaced: Array<[MeshLambertNodeMaterial, Node]> = [
       [sea, surface.colour(heightNode(), groundColour)],
       [standIn.sea, surface.colour(heightNode(), groundColour)],
-      [ocean, surface.colour(float(deepest[0]), vec3(...deepest[1]))],
+      [ocean, surface.colour(float(deepest[0]), vec3(...deepest[1]), true)],
     ];
     for (const material of seas) {
       material.positionNode = surface.lifted(heightNode());

@@ -40,8 +40,14 @@ export type SeaSurface = {
   /**
    * The sea's colour over a floor at height `bed`, its body `under` the
    * surface unlit: a `vec3`, which three's types cannot read off the WGSL.
+   * A mesh whose triangles are `wide` — kilometres, as the globe's — reads
+   * the mirrored sky per fragment; any other reads it per vertex.
    */
-  readonly colour: (bed: Node<'float'>, under: Node<'vec3'>) => Node;
+  readonly colour: (
+    bed: Node<'float'>,
+    under: Node<'vec3'>,
+    wide?: boolean,
+  ) => Node;
   /**
    * A sea vertex lifted by the swell over a floor at `bed`: a material's
    * `positionNode`.
@@ -85,6 +91,7 @@ export function seaSurface(radiance: Radiance): SeaSurface {
   const mirrored = radiance(
     normalize(flat.add(zenith.mul(max(float(0.03).sub(dot(flat, zenith)), 0)))),
   );
+  const mirroredAtVertex = vertexStage(mirrored);
   // The zenith turns a degree over a hundred kilometres: a vertex's sky is any fragment's.
   const overhead = vertexStage(radiance(zenith));
   const footprint = max(
@@ -126,7 +133,7 @@ export function seaSurface(radiance: Radiance): SeaSurface {
   );
 
   return {
-    colour: (bed, under) =>
+    colour: (bed, under, wide = false) =>
       shade({
         place,
         field,
@@ -138,7 +145,7 @@ export function seaSurface(radiance: Radiance): SeaSurface {
         under,
         footprint,
         seconds,
-        mirrored,
+        mirrored: wide ? mirrored : mirroredAtVertex,
         overhead,
         swell,
       }),
