@@ -58,13 +58,8 @@ export function smoothMax(a: number, b: number, k: number): number {
  * Ground `d` metres inland (positive) whose relief reads `height`, `broad` of
  * it from the octaves of `BROAD_METRES` and longer, with the octaves shorter
  * reaching `fineReach` together: `height` where it stands a band's width over
- * its `lowlandFloor`, and under that squeezed into the band —
- * `floor + band·e^(over/band − 1)`, which meets `height` at the band's top
- * with its slope, so it is order-preserving and smooth, never below the floor
- * nor below `height`, and approaches the floor only as `height` sinks far
- * under it. The band is the lowland's least height, widened by
- * `SQUEEZE_METRES` near the coast, so it is never narrower than the rounding
- * a hard floor would take.
+ * its `lowlandFloor`, and under that squeezed into the band: smooth and
+ * order-preserving, never below the floor nor below `height`.
  */
 export function restingGround(
   d: number,
@@ -85,11 +80,8 @@ export function restingGround(
  * height from the octaves of `BROAD_METRES` and longer: the broad relief, sunk
  * by up to `fineReach`, the shorter octaves' reach, with distance from the
  * coast and held over the lowland's least height. Near the coast it is the
- * broad relief itself, so the fine troughs there bottom out on rolling ground
- * rather than on a level; a few kilometres in it lies below every trough, and
- * the relief is the ground.
- * Where the broad relief itself sinks under the lowland, the floor is level,
- * and the ground over it keeps the relief `restingGround` squeezes in.
+ * broad relief itself, so fine troughs there bottom out on rolling ground; a
+ * few kilometres in it lies below every trough.
  */
 export function lowlandFloor(
   d: number,
@@ -103,9 +95,7 @@ export function lowlandFloor(
 
 /**
  * How high the dunes behind the beach stand over the ground `d` metres inland
- * (positive), never negative: ridges along the shore, `DUNE_SPACING_METRES`
- * apart on the way in, sharp-crested with round troughs, rising from the back
- * of the beach, tallest ~150 m in and gone under a kilometre in. `swell` and
+ * (positive), never negative: sharp-crested ridges along the shore. `swell` and
  * `sway`, each in `[-1, 1]` and slow against a ridge, vary the ridges' height
  * along the shore and bend their lines.
  */

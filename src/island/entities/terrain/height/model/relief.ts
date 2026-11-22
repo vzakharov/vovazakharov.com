@@ -51,8 +51,7 @@ const PLATEAU_REACH_METRES = 180_000;
  * The height an inland basin's floor is held near, approached with distance
  * from the coast: where the regional octaves would sink the land to the sea
  * or under it, the broad relief levels out here instead, high enough that
- * the hills on it clear the lowland floor and the basin is rolling ground,
- * not a sheet.
+ * the hills on it clear the lowland floor and the basin is rolling ground.
  */
 const BASIN_METRES = 160;
 const BASIN_REACH_METRES = 15_000;
@@ -134,16 +133,9 @@ const KIND_STEEPEST =
 /**
  * A bound on the ground's slope, metres of rise per metre run, whatever the
  * detail cut, for noise at most `noiseSteepest` steep per wavelength and a
- * belt's uplift at most `upliftSteepest` metres per metre. It adds up: the
- * broad relief's own slope — the plateau's, the shelf's and the uplift's
- * climb over a distance changing up to √2 per metre, and the regional
- * octaves; the kinds of ground trading places as steeply as the broad relief
- * lets them; the line field under the kind that makes most of it, and under
- * the weight it gives that kind's fine band; every octave's own roll or fine
- * detail, a knob's as steep as its ramp; each octave's coastal fade (a
- * smoothstep, 1.5) and detail fade (under 1); the lowland floor's climb,
- * sink, rounding and squeeze; and the dunes. Loose: real ground stays far
- * under it.
+ * belt's uplift at most `upliftSteepest` metres per metre. Every term of
+ * `reliefAt` has its summand here, so a term added there is added here.
+ * Loose: real ground stays far under it.
  */
 export function groundSlope(noiseSteepest: number, upliftSteepest: number) {
   const fades = 1.5 * Math.SQRT2 + 1;
@@ -204,23 +196,15 @@ export function groundSlope(noiseSteepest: number, upliftSteepest: number) {
  * `octaves`: `OCTAVES`, each carrying whatever its caller's noise reads; and
  * `uplift`, from 0 to `UPLIFT_METRES`, the lift of a mountain belt there.
  *
- * A plateau climbs with distance from the coast, and the sea floor falls
- * away offshore; the regional octaves and a belt's uplift ride on both, and
- * together they are the broad relief, which tells the kind of ground: green
- * under 300 m, brown from 550 m, alpine from 1100 m, blended between. The
- * hill band's octaves draw one line field: each a sharp line where its noise
- * crosses zero, dying out to either side, and each shorter one kept to the
- * lines before it, so lines branch. On green ground the lines are valleys,
- * gullies feeding them, and rounded hills stand between; on brown the same
- * valleys are cut narrow into broad shoulders, with knobs of rock on them; on
- * alpine ground the lines are crests with spurs, over smooth valley floors.
- * Where the detail cut leaves the hill band out, the field's average stands
- * in for it, so ground seen from afar is as high as the ground it turns into.
+ * The hill band's octaves draw one line field: each a sharp line where its
+ * noise crosses zero, and each shorter one kept to the lines before it, so
+ * lines branch. Where the detail cut leaves the hill band out, the field's
+ * average stands in for it, so ground seen from afar is as high as the ground
+ * it turns into.
  *
  * Every octave is faded out within one of its own wavelengths of the
  * coastline, so the drawn coast stays where it is at every scale but the
- * finest, where the shore wanders seaward by metres. Inland, the ground never
- * sinks under its `lowlandFloor`, and dunes stand on it behind the beach.
+ * finest, where the shore wanders seaward by metres.
  *
  * Octaves shorter than `finest` metres are left out, and those up to twice
  * it faded in, the dunes with them, so a lattice sampling at half `finest`
