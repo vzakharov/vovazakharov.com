@@ -5,9 +5,10 @@ lead's `f9c587ad` merged in.
 
 ## Report, 2026-11-22
 
-The moiré is gone on the CPU frames and by the measure below. Merge-ready: one
-code commit (`ed4af3a9`) plus these notes and frames; nothing outside the
-package's files changed. Not seen on WebGPU — the WGSL compiles clean in
+The moiré is gone on the CPU frames and by the measure below. Merge-ready: the
+groups (`ed4af3a9`) and a `/dry` pass giving the ripples' share and the period
+fold one home each (`c93efbef`), plus these notes and frames; nothing outside
+the package's files changed. Not seen on WebGPU — the WGSL compiles clean in
 Chromium's WebGPU (SwiftShader), but nothing here can draw it; the first look
 at the real sea is the preview's.
 
