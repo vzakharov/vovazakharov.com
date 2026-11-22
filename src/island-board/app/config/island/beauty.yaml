@@ -121,3 +121,31 @@ items:
     updated: [2026-11-22T11:20:00.000Z, agent:board]
     box: [12185, 1930, 320, yellow]
     text: 'Lead, on cards 10 to 15 (Vova is away): "A real win for the mountains and the hills. Dunes sent back; the surface is now the weakest part."'
+  - id: img-beauty-18-relief-3-dunes-60m
+    type: image
+    updated: [2026-11-22T11:40:00.000Z, agent:board]
+    box: [11800, 2390, 360]
+    src: images/beauty-relief-3-dunes-60m.webp
+    text: '18. Relief, step 3. Dunes are a land form: ridges to 22 m with lee faces, a belt up to 1.5 km deep. Flaw: the old shader paints the lee faces rock-brown and turns the back dunes green by height — a sand mask is being plumbed for it.'
+  - id: img-beauty-19-relief-3-dunes-2m
+    type: image
+    updated: [2026-11-22T11:40:00.000Z, agent:board]
+    box: [12185, 2390, 360]
+    src: images/beauty-relief-3-dunes-2m.webp
+    text: '19. Relief, step 3. Among the dunes, from eye height. On the frame: the near lee face is a smeared dark patch, and the far ones are brown humps in green.'
+  - id: img-beauty-20-relief-3-lowland-3000m
+    type: image
+    updated: [2026-11-22T11:40:00.000Z, agent:board]
+    box: [12570, 2390, 360]
+    src: images/beauty-relief-3-lowland-3000m.webp
+    text: '20. Relief, step 3. Hill country beside open vales, over the same broad ridges.'
+  - id: beauty-20-verdict
+    type: sticky
+    updated: [2026-11-22T11:40:00.000Z, agent:board]
+    box: [12955, 2390, 300, yellow]
+    text: 'Lead, on cards 18 to 20 (Vova is away): "Dunes accepted as a shape. Their colour waits for the sand mask."'
+  - id: beauty-speed-start
+    type: text
+    updated: [2026-11-22T11:40:00.000Z, agent:board]
+    box: [11800, 2850, 1000, body]
+    text: 'Speed. A sixth session started: speed. First job — the rougher ground loosened the tile culling bound; it brackets tiles from heights already known.'
