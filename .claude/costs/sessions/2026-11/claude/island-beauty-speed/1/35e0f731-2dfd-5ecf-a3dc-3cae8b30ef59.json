@@ -1,0 +1,153 @@
+{
+  "total": {
+    "inputTokens": 5012,
+    "cacheWrite5mTokens": 84,
+    "cacheWrite1hTokens": 451370,
+    "cacheReadTokens": 15045809,
+    "outputTokens": 69470,
+    "thinkingTokens": 20693,
+    "responses": 86,
+    "costUsd": 8.029989800000001
+  },
+  "estimate": {
+    "at": "2026-11-22T11:38:14.948Z",
+    "subjectLine": "perf: tile brackets and a third look for the island",
+    "parts": [
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "true-bound culling on a cube-sphere quadtree, a three-state look switch and a temporal cloud pass are rendering work needing GPU budget judgement"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "measurements and reports to the lead across a multi-session team"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-22T11:27:26.251Z",
+    "contextTokens": 103543,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 42681,
+      "cacheReadTokens": 148222,
+      "outputTokens": 648,
+      "thinkingTokens": 110,
+      "responses": 2,
+      "costUsd": 0.3840684
+    }
+  },
+  "sessionId": "35e0f731-2dfd-5ecf-a3dc-3cae8b30ef59",
+  "branch": "claude/island-beauty-speed",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are one builder in a team making `/island` (src/island, mounted by sites/vova) beautiful. You are the SPEED package. The lead is session `session_01DaohkBiu…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCd79gE98JUq5Svi61",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-22T11:27:19.433Z",
+  "lastResponseAt": "2026-11-22T15:47:40.414Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": 4.673643200000002,
+  "ownTurns": {
+    "inputTokens": 160,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 451370,
+    "cacheReadTokens": 14786376,
+    "outputTokens": 63010,
+    "thinkingTokens": 20693,
+    "responses": 85,
+    "costUsd": 7.829075200000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 5012,
+      "cacheWrite5mTokens": 84,
+      "cacheWrite1hTokens": 451370,
+      "cacheReadTokens": 15045809,
+      "outputTokens": 69470,
+      "thinkingTokens": 20693,
+      "responses": 86,
+      "costUsd": 8.029989800000001
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-22T15:47:14.129Z",
+      "trigger": "auto",
+      "compactedFrom": 265949,
+      "summaryChars": 15055,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "docs/remove-before-merging/island-beauty-c1rj3b/notes/speed.md",
+        "endedAt": "2026-11-22T15:47:21.528Z",
+        "contextTokens": 120177,
+        "spend": {
+          "inputTokens": 2,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 58232,
+          "cacheReadTokens": 52426,
+          "outputTokens": 154,
+          "thinkingTokens": 61,
+          "responses": 1,
+          "costUsd": 0.47942920000000006
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.2009146
+    }
+  ],
+  "telemetry": {
+    "events": 86,
+    "matched": 85,
+    "matchedTableUsd": 7.829075200000001,
+    "matchedEventUsd": 7.829075200000001,
+    "unseen": {
+      "compact": {
+        "inputTokens": 4852,
+        "cacheWrite5mTokens": 84,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 259433,
+        "outputTokens": 6460,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.2009146
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 1,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1000,
+    ".json": 15,
+    ".yaml": 17,
+    ".ts": 3745
+  }
+}
