@@ -3,6 +3,7 @@ import { dot, length, type Vec3 } from '@/island/shared/globe';
 import {
   GROUP_CELL,
   GROUP_PERIOD,
+  RIPPLE_BANDS,
   RIPPLE_PERIOD,
   RIPPLE_SHARE,
   RIPPLES,
@@ -73,6 +74,7 @@ export function ripplesAt(
   wind: Vec3,
   footprint: number,
   seconds: number,
+  bands: number = RIPPLE_BANDS,
 ): Rippled {
   const speed = length(wind);
   const heading = each((axis) => wind[axis] / Math.max(speed, 1e-3));
@@ -98,7 +100,7 @@ export function ripplesAt(
       lying *
       (0.12 + 0.88 * downwind * downwind) *
       (1 - smoothstep(0.6 * longest, 1.2 * longest, metres));
-    const seen = smoothstep(2, 6, metres / footprint);
+    const seen = band < bands ? smoothstep(2, 6, metres / footprint) : 0;
     const phase =
       TAU *
         (dot(vector, turned) + groups[0] * drift[0] + groups[1] * drift[1]) -

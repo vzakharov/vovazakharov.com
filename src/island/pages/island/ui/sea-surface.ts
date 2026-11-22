@@ -13,6 +13,7 @@ import {
   reflect,
   uniform,
   vec3,
+  vertexStage,
   wgslFn,
 } from 'three/tsl';
 import { type Node, Vector2, Vector3 } from 'three/webgpu';
@@ -20,7 +21,7 @@ import { type Node, Vector2, Vector3 } from 'three/webgpu';
 import type { Vec3 } from '@/island/shared/globe';
 
 import type { Sunlit } from '../lib/day';
-import { GROUP_PERIOD, RIPPLE_PERIOD } from '../lib/ripple-table';
+import { GROUP_PERIOD, RIPPLE_BANDS, RIPPLE_PERIOD } from '../lib/ripple-table';
 import { intoPeriod, SEA_LISTING, swellAt } from '../lib/sea-wgsl';
 import { worldCell } from './lattice-value';
 
@@ -32,15 +33,33 @@ export type SeaFrame = Sunlit & {
   readonly time: number;
 };
 
-/** The sky's radiance arriving from a unit world direction, in the scene's exposure. */
-type Radiance = (direction: Node<'vec3'>) => Node<'vec3'>;
+/** The sky's radiance arriving from a unit world direction, in the scene's exposure, with or without its clouds. */
+type Radiance = (direction: Node<'vec3'>, cloudless?: boolean) => Node<'vec3'>;
+
+/** How a sea mesh is shaded. */
+type Shading = {
+  /**
+   * Its triangles are kilometres wide, as the globe's: it reads the mirrored
+   * sky per fragment, where any other reads it per vertex.
+   */
+  readonly wide?: boolean;
+  /** The swift look: a cloudless sky in the water, and the finest bands only in `hidden`. */
+  readonly swift?: boolean;
+};
+
+/** The ripples' bands the swift look draws as slopes; the finer ones go to `hidden`. */
+const SWIFT_BANDS = RIPPLE_BANDS - 4;
 
 export type SeaSurface = {
   /**
    * The sea's colour over a floor at height `bed`, its body `under` the
    * surface unlit: a `vec3`, which three's types cannot read off the WGSL.
    */
-  readonly colour: (bed: Node<'float'>, under: Node<'vec3'>) => Node;
+  readonly colour: (
+    bed: Node<'float'>,
+    under: Node<'vec3'>,
+    shading?: Shading,
+  ) => Node;
   /**
    * A sea vertex lifted by the swell over a floor at `bed`: a material's
    * `positionNode`.
@@ -81,10 +100,15 @@ export function seaSurface(radiance: Radiance): SeaSurface {
   const zenith = normalize(eyeNode.add(positionWorld));
   const flat = reflect(normalize(positionWorld), zenith);
   /** What a still sea would mirror, kept off the ground: the sky toward it, and the sky overhead. */
-  const mirrored = radiance(
-    normalize(flat.add(zenith.mul(max(float(0.03).sub(dot(flat, zenith)), 0)))),
+  const stillward = normalize(
+    flat.add(zenith.mul(max(float(0.03).sub(dot(flat, zenith)), 0))),
   );
-  const overhead = radiance(zenith);
+  const mirroredSky = ({ wide = false, swift = false }: Shading) => {
+    const mirrored = radiance(stillward, swift);
+    return wide ? mirrored : vertexStage(mirrored);
+  };
+  // The zenith turns a degree over a hundred kilometres: a vertex's sky is any fragment's.
+  const overhead = vertexStage(radiance(zenith));
   const footprint = max(
     length(dFdx(positionWorld)),
     length(dFdy(positionWorld)),
@@ -115,16 +139,18 @@ export function seaSurface(radiance: Radiance): SeaSurface {
     `fn seaShade(
       place: vec3f, field: vec3f, grain: vec3f, world: vec3f, eye: vec3f, sun: vec3f, bed: f32,
       under: vec3f, footprint: f32, seconds: f32, mirrored: vec3f, overhead: vec3f, swell: vec2f,
+      bands: f32,
     ) -> vec3f {
       return seaColour(
         place, field, grain, world, eye, sun, bed, under, footprint, seconds, mirrored, overhead, swell,
+        bands,
       );
     }`,
     [listing],
   );
 
   return {
-    colour: (bed, under) =>
+    colour: (bed, under, shading = {}) =>
       shade({
         place,
         field,
@@ -136,9 +162,10 @@ export function seaSurface(radiance: Radiance): SeaSurface {
         under,
         footprint,
         seconds,
-        mirrored,
+        mirrored: mirroredSky(shading),
         overhead,
         swell,
+        bands: float(shading.swift === true ? SWIFT_BANDS : RIPPLE_BANDS),
       }),
     lifted: (bed) =>
       lift({
