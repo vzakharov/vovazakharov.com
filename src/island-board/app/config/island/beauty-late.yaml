@@ -2,181 +2,211 @@ items:
   - id: z-beauty-land
     type: zone
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [4800, 3700, 2320, 2130, green]
+    box: [5960, 3700, 2900, 2130, green]
     text: '3. Upland, forest and sky'
   - id: beauty-row-l
     type: text
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [4840, 3780, 240, body]
+    box: [6000, 3780, 240, body]
     text: 'The upland from 300 m'
   - id: img-beauty-12-relief-2-upland-300m
     type: image
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [5100, 3770, 300]
+    box: [6260, 3770, 300]
     src: images/beauty-relief-2-upland-300m.webp
     text: 'Relief 2: a hummocky plateau with outcrops.'
   - id: img-beauty-59-ground-2-upland-300m
     type: image
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [5420, 3770, 300]
+    box: [6580, 3770, 300]
     src: images/beauty-ground-2-merged-upland-300m.webp
     text: 'Merge 2. Lead: the best ground so far up close; far hills are plastic. Sent back.'
   - id: img-beauty-90-merge-4-upland-300m
     type: image
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [5740, 3770, 300]
+    box: [6900, 3770, 300]
     src: images/beauty-merge-4-upland-300m.webp
     text: 'Merge 4. Lead: far hills calm, magenta gone; scree in odd arcs.'
   - id: img-beauty-135-merge-7-upland-300m
     type: image
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [6060, 3770, 300]
+    box: [7220, 3770, 300]
     src: images/beauty-merge-7-upland-300m.webp
     text: 'Merge 7. Half (lead): olive moor, teal hills: two countries at one horizon.'
   - id: beauty-row-i
     type: text
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [4840, 4110, 240, body]
+    box: [6000, 4110, 240, body]
     text: 'The lowland forest from 300 m'
   - id: img-beauty-11-relief-2-lowland-300m
     type: image
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [5100, 4100, 300]
+    box: [6260, 4100, 300]
     src: images/beauty-relief-2-lowland-300m.webp
     text: 'Relief 2: rolling hills; flaw: all one size, mauve rock on gentle flanks.'
   - id: img-beauty-41-trees-1-forest-day-200m
     type: image
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [5420, 4100, 300]
+    box: [6580, 4100, 300]
     src: images/beauty-trees-1-forest-day-200m.webp
     text: 'Trees 1, 200 m: faceted crowns, thinning to dots by 600 m.'
   - id: img-beauty-65-trees-2-forest-300m
     type: image
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [5740, 4100, 300]
+    box: [6900, 4100, 300]
     src: images/beauty-trees-2-merged-forest-300m.webp
     text: 'Merge 2. Failure in part (lead): green blobs on bare brown ground.'
   - id: img-beauty-91-merge-4-lowland-300m
     type: image
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [6060, 4100, 300]
+    box: [7220, 4100, 300]
     src: images/beauty-merge-4-lowland-300m.webp
     text: 'Merge 4. Failure (lead): mossy boulders on a lawn.'
   - id: img-beauty-109-merge-5-lowland-300m
     type: image
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [6380, 4100, 300]
+    box: [7540, 4100, 300]
     src: images/beauty-merge-5-lowland-300m.webp
     text: 'Merge 5. WIN (lead): a closed canopy; flaws: turtle-shell crowns, a ring where trees end.'
   - id: img-beauty-138-merge-7-lowland-300m
     type: image
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [6700, 4100, 300]
+    box: [7860, 4100, 300]
     src: images/beauty-merge-7-lowland-300m.webp
     text: 'Merge 7. Failure (lead): a lawn with scattered bushes; trees stop within a kilometre.'
   - id: beauty-row-j
     type: text
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [4840, 4440, 240, body]
+    box: [6000, 4440, 240, body]
     text: 'Inside the forest at 2 m'
   - id: img-beauty-45-trees-1-forest-day-2m
     type: image
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [5100, 4430, 300]
+    box: [6260, 4430, 300]
     src: images/beauty-trees-1-forest-day-2m.webp
     text: 'Trees 1: trunks stand on the ground; the ground is one flat green.'
   - id: img-beauty-67-trees-2-forest-2m
     type: image
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [5420, 4430, 300]
+    box: [6580, 4430, 300]
     src: images/beauty-trees-2-merged-forest-2m.webp
     text: 'Merge 2. Lead: "the best 2 m frame of the run"; bare earth underfoot.'
   - id: img-beauty-74-trees-3-forest-2m
     type: image
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [5740, 4430, 300]
+    box: [6900, 4430, 300]
     src: images/beauty-trees-2-forest-day-2m.webp
     text: 'Trees 2: undergrowth; the builder: nothing casts a shadow.'
   - id: img-beauty-111-merge-5-forest-2m
     type: image
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [6060, 4430, 300]
+    box: [7220, 4430, 300]
     src: images/beauty-merge-5-forest-2m.webp
     text: 'Merge 5. Half (lead): undergrowth and moss; trunks like sausages, crowns a black slab.'
   - id: beauty-row-k
     type: text
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [4840, 4770, 240, body]
+    box: [6000, 4770, 240, body]
     text: 'The sky from low down'
   - id: img-beauty-04-before-sky-2m
     type: image
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [5100, 4760, 300]
+    box: [6260, 4760, 300]
     src: images/beauty-before-sky-2m.webp
     text: 'Before, 2 m: a grey smear along the horizon over a flat sea.'
   - id: img-beauty-103-clouds-1-sky-2m
     type: image
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [5420, 4760, 300]
+    box: [6580, 4760, 300]
     src: images/beauty-clouds-1-sky-2m.webp
     text: 'Clouds 1, 2 m. The builder: thin grey smears, worse than before.'
   - id: img-beauty-114-merge-6-clouds-upland-300m
     type: image
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [5740, 4760, 300]
+    box: [6900, 4760, 300]
     src: images/beauty-merge-6-clouds-upland-300m.webp
     text: 'Merge 6, 300 m. Half (lead): streaked layers, no hatch, no cumulus yet.'
   - id: img-beauty-118-clouds-2-fair-2m
     type: image
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [6060, 4760, 300]
+    box: [7220, 4760, 300]
     src: images/beauty-clouds-2-fair-2m.webp
     text: 'Clouds 2, 2 m. The builder: soft lenses, smeared sideways, faint stripes.'
   - id: beauty-68-operator-coast
     type: sticky
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [4840, 5420, 420, yellow]
+    box: [6000, 5420, 420, yellow]
     text: 'Operator steering, new, relayed by the lead: "super-straight, ruler-drawn coastlines. They should bend and go fractal (but deterministically, through rolled) as you get closer." (translated from the Russian). A sixth member, coast, started on it at 15:45 UTC.'
   - id: beauty-72-rolled-question
     type: sticky
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [5290, 5420, 420, yellow]
+    box: [6450, 5420, 420, yellow]
     text: 'Operator question, relayed by the lead: "Is all the randomness done through rolled?" (translated from the Russian). Answer, per the lead: the shader noise hashed the place alone, so every world drew the same ground grain and weather. Since bd725f6cd the ground lattice is shifted by cells rolled from the world; clouds follow at their next merge.'
   - id: beauty-73-phone-question
     type: sticky
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [5740, 5420, 420, yellow]
+    box: [6900, 5420, 420, yellow]
     text: 'Operator question, relayed by the lead: "Can high quality be switched on somehow on a phone?" (translated from the Russian). Answer, per the lead: not yet. The look is on the B key alone; B now steps plain, swift, fine (d1bda3f4, merged), and an on-screen control for touch is with the speed member.'
   - id: beauty-69-limit-cut
     type: sticky
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [6190, 5420, 420, pink]
+    box: [7350, 5420, 420, pink]
     text: 'Failure. 11:48 UTC: the 5-hour limit cut all six sessions off mid-step. The operator woke them at 15:39.'
   - id: beauty-06-webgpu-lost
     type: sticky
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [6640, 5420, 420, pink]
+    box: [7800, 5420, 420, pink]
     text: 'Failure. The still shooter could not draw on WebGPU here: the software device is lost at the first tile upload. Frames are shot on WebGL2, where the fine look draws everything but the rippled sea.'
   - id: img-beauty-march-2-fair-2m
     type: image
     updated: [2026-11-22T21:00:00.000Z, agent:board]
-    box: [6380, 4760, 300]
+    box: [7540, 4760, 300]
     src: images/beauty-march-2-fair-2m.webp
     text: 'Cloud march 2, 2 m, not yet merged. The builder: the bars are gone; flat-based cumulus at the horizon, a few thin streaks left.'
   - id: beauty-row-t
     type: text
     updated: [2026-11-22T21:10:00.000Z, agent:board]
-    box: [4840, 5100, 240, body]
+    box: [6000, 5100, 240, body]
     text: 'Shade under lone trees, 12 m up at the treeline'
   - id: img-beauty-trees-shade-flat
     type: image
     updated: [2026-11-22T21:10:00.000Z, agent:board]
-    box: [5100, 5090, 300]
+    box: [6260, 5090, 300]
     src: images/beauty-trees-shade-flat.webp
     text: 'Trees, shade drawn from the instance colour. Failure (builder): a hard-edged dark hexagon under each conifer, no fall-off.'
   - id: img-beauty-trees-shade-soft
     type: image
     updated: [2026-11-22T21:10:00.000Z, agent:board]
-    box: [5420, 5090, 300]
+    box: [6580, 5090, 300]
     src: images/beauty-trees-shade-soft.webp
     text: 'The same view with fall-off. Failure (builder): no shade shows at all, so the shade ships laid in and not drawn.'
+  - id: img-beauty-merge-9-upland-300m
+    type: image
+    updated: [2026-11-22T22:30:00.000Z, agent:board]
+    box: [7540, 3770, 300]
+    src: images/beauty-merge-9-upland-300m.webp
+    text: 'Merge 9 (lead): the moor without purple. The frame shows a forested plain running to grey hills.'
+  - id: img-beauty-merge-9-lowland-300m
+    type: image
+    updated: [2026-11-22T22:30:00.000Z, agent:board]
+    box: [8180, 4100, 300]
+    src: images/beauty-merge-9-lowland-300m.webp
+    text: 'Merge 9 (lead): the forest from 300 m is still a lawn with bushes.'
+  - id: img-beauty-merge-10-empty-sky-lowland-300m
+    type: image
+    updated: [2026-11-22T22:30:00.000Z, agent:board]
+    box: [8500, 4100, 300]
+    src: images/beauty-merge-10-empty-sky-lowland-300m.webp
+    text: 'Merge 10. Failure (lead): with the clumped heaps merged, no cloud from the lowland at 300 m. The field went back one step.'
+  - id: img-beauty-march-1-before-fair-2m
+    type: image
+    updated: [2026-11-22T22:30:00.000Z, agent:board]
+    box: [7860, 4760, 300]
+    src: images/beauty-march-1-before-fair-2m.webp
+    text: 'Cloud march, before: bars from the ground.'
+  - id: img-beauty-march-3-fair-2m
+    type: image
+    updated: [2026-11-22T22:30:00.000Z, agent:board]
+    box: [8180, 4760, 300]
+    src: images/beauty-march-3-fair-2m.webp
+    text: 'Cloud march 3, merged (lead): shapes after a ray finds where its cloud begins. Thin streaks at the horizon remain.'

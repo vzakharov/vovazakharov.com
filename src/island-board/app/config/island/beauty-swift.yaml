@@ -2,75 +2,75 @@ items:
   - id: z-beauty-swift
     type: zone
     updated: [2026-11-22T20:55:00.000Z, agent:board]
-    box: [7220, 3700, 2320, 820, green]
+    box: [8960, 3700, 2900, 820, green]
     text: '4. Swift beside fine, the eighth merge'
   - id: beauty-row-swift
     type: text
     updated: [2026-11-22T20:55:00.000Z, agent:board]
-    box: [7260, 3770, 2240, body]
+    box: [9000, 3770, 2240, body]
     text: "Each pair is one view: swift on the left, fine on the right. The merge pairs carry the lead's captions, the trees pairs the builder's."
   - id: img-beauty-merge-8-swift-coast-560m
     type: image
     updated: [2026-11-22T20:55:00.000Z, agent:board]
-    box: [7260, 3830, 300]
+    box: [9000, 3830, 300]
     src: images/beauty-merge-8-swift-coast-560m.webp
-    text: 'Swift. FAIL. Swift at 560 m after a jump from 4400 m: the previous eye positions cloud history smeared over sea and land. Fine is clean. Sent to speed as a blocker.'
+    text: "Swift. FAIL. Swift at 560 m after a jump from 4400 m: the previous eye position's cloud history smeared over sea and land. Fine is clean. Sent to speed as a blocker."
   - id: img-beauty-merge-8-fine-coast-560m
     type: image
     updated: [2026-11-22T20:55:00.000Z, agent:board]
-    box: [7580, 3830, 300]
+    box: [9320, 3830, 300]
     src: images/beauty-merge-8-fine-coast-560m.webp
     text: 'Fine, the same view.'
   - id: img-beauty-merge-8-swift-coast-4400m
     type: image
     updated: [2026-11-22T20:55:00.000Z, agent:board]
-    box: [8020, 3830, 300]
+    box: [9760, 3830, 300]
     src: images/beauty-merge-8-swift-coast-4400m.webp
-    text: 'Swift. Swift matches fine from 4400 m; only a comb along the horizons cloud band.'
+    text: "Swift. Swift matches fine from 4400 m; only a comb along the horizon's cloud band."
   - id: img-beauty-merge-8-fine-coast-4400m
     type: image
     updated: [2026-11-22T20:55:00.000Z, agent:board]
-    box: [8340, 3830, 300]
+    box: [10080, 3830, 300]
     src: images/beauty-merge-8-fine-coast-4400m.webp
     text: 'Fine, the same view.'
   - id: img-beauty-merge-8-swift-lowland-300m
     type: image
     updated: [2026-11-22T20:55:00.000Z, agent:board]
-    box: [8780, 3830, 300]
+    box: [10520, 3830, 300]
     src: images/beauty-merge-8-swift-lowland-300m.webp
     text: 'Swift. Swift matches fine over the lowland; the comb again along the horizon band. The forest still reads as a lawn with bushes in both.'
   - id: img-beauty-merge-8-fine-lowland-300m
     type: image
     updated: [2026-11-22T20:55:00.000Z, agent:board]
-    box: [9100, 3830, 300]
+    box: [10840, 3830, 300]
     src: images/beauty-merge-8-fine-lowland-300m.webp
     text: 'Fine, the same view.'
   - id: beauty-operator-frame-time
     type: sticky
     updated: [2026-11-22T21:00:00.000Z, agent:board]
-    box: [7260, 4170, 760, yellow]
+    box: [9000, 4170, 760, yellow]
     text: 'Operator''s M2 Pro, WebGPU, one dune place 22 m up. Facing the sea: plain 13 ms, swift 159 ms, fine 203 ms. Facing inland: plain 13, swift 68, fine 79. His verdict: he hardly sees a difference in picture between fine and swift (a few more tree blobs and grass blades in fine), while swift''s saving shows in the milliseconds, "both are a lot" (translated). So swift does what it was asked to, and fine buys little picture for its cost. Lead''s reading: both full looks are far from a frame budget, and a view with the sea costs 90–125 ms more than one without; the rest of the run goes to finding where the time goes.'
   - id: img-beauty-trees-3-canopy-swift
     type: image
     updated: [2026-11-22T21:15:00.000Z, agent:board]
-    box: [8060, 4170, 300]
+    box: [9800, 4170, 300]
     src: images/beauty-trees-3-canopy-swift.webp
     text: 'Trees 3, closed canopy from 60 m, swift: every tree kept in about 40% of the triangles. Wrong in both looks (builder): faceted crowns.'
   - id: img-beauty-trees-3-canopy-fine
     type: image
     updated: [2026-11-22T21:15:00.000Z, agent:board]
-    box: [8380, 4170, 300]
+    box: [10120, 4170, 300]
     src: images/beauty-trees-3-canopy-fine.webp
     text: 'The same canopy, fine.'
   - id: img-beauty-trees-3-inside-swift
     type: image
     updated: [2026-11-22T21:15:00.000Z, agent:board]
-    box: [8820, 4170, 300]
+    box: [10560, 4170, 300]
     src: images/beauty-trees-3-inside-swift.webp
     text: 'Trees 3, inside the forest at 2 m, swift: undergrowth and logs dropped past 110 m. Wrong in both looks (builder): tan trunks, black crown undersides.'
   - id: img-beauty-trees-3-inside-fine
     type: image
     updated: [2026-11-22T21:15:00.000Z, agent:board]
-    box: [9140, 4170, 300]
+    box: [10880, 4170, 300]
     src: images/beauty-trees-3-inside-fine.webp
     text: 'The same view, fine: undergrowth and logs.'

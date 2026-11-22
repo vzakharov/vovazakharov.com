@@ -2,7 +2,7 @@ items:
   - id: z-beauty
     type: zone
     updated: [2026-11-22T19:00:00.000Z, agent:board]
-    box: [-40, 3700, 2320, 2190, green]
+    box: [-40, 3700, 2900, 2190, green]
     icon: 🎨
     text: 'Making it beautiful, failures included. 1. From above'
   - id: beauty-howto
@@ -189,13 +189,13 @@ items:
     updated: [2026-11-22T21:50:00.000Z, agent:board]
     box: [1860, 3830, 300]
     src: images/beauty-clouds-3-clumps-2300km.webp
-    text: 'Clouds 3, not yet merged: a clumpy cumulus field, no grid. The builder: clumps near one scale, a little like frog-spawn.'
+    text: 'Clouds 3, not yet merged: a clumpy cumulus field, no grid. The builder: clumps near one scale, a little like frog-spawn. Reverted on the lead branch: with it the sky seen from the ground is empty.'
   - id: img-beauty-clouds-3-clumps-820km
     type: image
     updated: [2026-11-22T21:50:00.000Z, agent:board]
     box: [1860, 4160, 300]
     src: images/beauty-clouds-3-clumps-820km.webp
-    text: 'Clouds 3, not yet merged: heaps of every size merging into clumps with clear lanes. The builder: far clumps go soft and blobby.'
+    text: 'Clouds 3, not yet merged: heaps of every size merging into clumps with clear lanes. The builder: far clumps go soft and blobby. Reverted on the lead branch: with it the sky seen from the ground is empty.'
   - id: img-beauty-clouds-2-open-cells-2300km
     type: image
     updated: [2026-11-22T21:50:00.000Z, agent:board]
@@ -232,3 +232,15 @@ items:
     box: [1860, 5480, 300]
     src: images/beauty-clouds-2-deck-300km.webp
     text: 'Clouds 2, the deck from 300 km, captioned by the builder as the one before. The frame shows plain blue with no cloud in it.'
+  - id: img-beauty-clouds-4-front-3000km
+    type: image
+    updated: [2026-11-22T22:30:00.000Z, agent:board]
+    box: [2180, 5480, 300]
+    src: images/beauty-clouds-4-front-3000km.webp
+    text: 'Clouds 4, not merged: the fronts tail a band instead of a thread (lead). Not merged: see the empty sky.'
+  - id: img-beauty-merge-9-coast-34km
+    type: image
+    updated: [2026-11-22T22:30:00.000Z, agent:board]
+    box: [2180, 4490, 300]
+    src: images/beauty-merge-9-coast-34km.webp
+    text: 'Merge 9, from 34 km. Lead: meadow clearings read as paint spills with hard outlines; some straight tile edges. Not cured.'
