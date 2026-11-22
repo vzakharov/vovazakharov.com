@@ -141,6 +141,21 @@ describe('detailedCoast', () => {
     assert.ok(calm > 60 && rough > 60, `${calm} calm, ${rough} rough`);
   });
 
+  it('raises the odd skerry clear of the shore, never a mile out', () => {
+    const next = stream(17);
+    let skerries = 0;
+    for (let k = 0; k < 20_000; k += 1) {
+      const p = at(DISC_METRES + 3000 * next(), 2 * Math.PI * next());
+      // A cut at the skerries' length keeps every bend that moves the shore
+      // by more than a few metres, and leaves the skerries out.
+      const shore = coast(p, 300);
+      if (coast(p) <= 0 || shore > -100) continue;
+      skerries += 1;
+      assert.ok(shore > -1500, `land ${-shore} m out to sea`);
+    }
+    assert.ok(skerries > 0, 'no skerry');
+  });
+
   it('bends the coastline at every scale it is read at', () => {
     for (const [finest, span, least] of [
       [5000, 40_000, 50],

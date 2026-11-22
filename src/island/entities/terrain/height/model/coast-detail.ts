@@ -94,6 +94,33 @@ const calmAt = (n: number) => 1 - ramp(0.5 + CALM_TURN * n);
 export const CALM_STEEPEST =
   (1.5 * CALM_TURN * LATTICE_STEEPEST) / ROUGHNESS_METRES;
 
+/**
+ * Skerries: on rough stretches, the sea's distance lifted by up to
+ * `SKERRY_METRES` where noise `SKERRY_WAVELENGTH` long stands over
+ * `SKERRY_FROM`, so the odd rock breaks the water clear of the shore.
+ */
+const SKERRY_LAYER = COAST_LAYER + 98;
+const SKERRY_METRES = 600;
+const SKERRY_WAVELENGTH = 300;
+const SKERRY_FROM = 0.4;
+const SKERRY_TO_LATTICE = turned(1.9, R / SKERRY_WAVELENGTH);
+/**
+ * The lift grows over `SKERRY_RISE_METRES` out from the coast bent by the
+ * bends twice the skerries' length and longer — which every cut that keeps
+ * the skerries draws whole — so none joins the shore, and dies away over as
+ * much from `SKERRY_OUT_METRES` out.
+ */
+const SKERRY_RISE_METRES = 400;
+const SKERRY_OUT_METRES = 800;
+
+/** The share of the skerries' lift at `d` metres from the bent coast. */
+const skerryShare = (d: number) =>
+  ramp(-d / SKERRY_RISE_METRES) *
+  (1 - ramp((-d - SKERRY_OUT_METRES) / SKERRY_RISE_METRES));
+
+/** How much the skerries' share stretches the slope of the coast it reads. */
+const SKERRY_STRETCH = 1 + (3 * SKERRY_METRES) / SKERRY_RISE_METRES;
+
 /** The roughness's lattice value at direction `p` (unit). */
 const roughnessNoise = (seed: number, [x, y, z]: Vec3) => {
   const [a, b, c] = ROUGHNESS_TO_LATTICE;
@@ -109,46 +136,59 @@ const roughnessNoise = (seed: number, [x, y, z]: Vec3) => {
  * A bound on how steep the bent distance is, metres per metre: the field's
  * slope times how far the push stretches the ground — by the fade across the
  * farthest push, the roughness's change across every bend, and each bend's
- * own slope at full roughness.
+ * own slope at full roughness — stretched by the skerries' share, plus their
+ * own slope.
  */
 export const COAST_STEEPEST =
   FIELD_STEEPEST *
-  (1 +
-    (1.5 * PUSHED_METRES) / FADE_METRES +
-    (PUSHED_METRES / ROUGH) * (ROUGH - CALM) * CALM_STEEPEST +
-    ROUGH *
-      Math.sqrt(3) *
-      overBends(
-        ({ amplitude, wavelength }) =>
-          (amplitude * LATTICE_STEEPEST) / wavelength,
-      ));
+    SKERRY_STRETCH *
+    (1 +
+      (1.5 * PUSHED_METRES) / FADE_METRES +
+      (PUSHED_METRES / ROUGH) * (ROUGH - CALM) * CALM_STEEPEST +
+      ROUGH *
+        Math.sqrt(3) *
+        overBends(
+          ({ amplitude, wavelength }) =>
+            (amplitude * LATTICE_STEEPEST) / wavelength,
+        )) +
+  SKERRY_METRES *
+    ((1.5 * LATTICE_STEEPEST) / ((1 - SKERRY_FROM) * SKERRY_WAVELENGTH) +
+      CALM_STEEPEST +
+      (1.5 * FIELD_STEEPEST) / FADE_METRES);
 
 /**
  * How far the coast read with detail cut `finest` stands from the coast read
  * whole, at most: the field's slope across the push the cut leaves out or
- * fades in.
+ * fades in, and the skerries once the cut fades them.
  */
 export const coastCutReach = (finest: number): number =>
   finest <= 0
     ? 0
     : FIELD_STEEPEST *
-      ROUGH *
-      Math.sqrt(3) *
-      overBends(({ amplitude, wavelength }) =>
-        wavelength < 2 * finest ? amplitude : 0,
-      );
+        ROUGH *
+        Math.sqrt(3) *
+        overBends(({ amplitude, wavelength }) =>
+          wavelength < 2 * finest ? amplitude : 0,
+        ) +
+      (SKERRY_WAVELENGTH < 2 * finest ? SKERRY_METRES : 0);
 
 /**
  * The coast `distance` traces (it reads any nonzero length), bent by `seed`'s
  * noise (read as a 32-bit integer): a pure function of the seed and the place.
  * Bends shorter than `finest` are left out and those up to twice it faded in,
  * as the relief's octaves are, so a far tile draws a smooth coast and each
- * nearer one adds the next bend. Calm stretches bend least, rough ones most.
+ * nearer one adds the next bend. Calm stretches bend least, rough ones most
+ * and carry the skerries, which a cut leaves out as it does a bend as long.
  */
 export const detailedCoast = (
   distance: (p: Vec3) => number,
   seed: number,
 ): CoastDistance => {
+  /** The field's distance over the direction of `(x, y, z)`. */
+  const onSphere = (x: number, y: number, z: number) => {
+    const scale = 1 / length([x, y, z]);
+    return distance([x * scale, y * scale, z * scale]);
+  };
   const bent = (p: Vec3, finest = 0) => {
     const d = distance(p);
     const near = 1 - ramp((Math.abs(d) - FULL_METRES) / FADE_METRES);
@@ -156,9 +196,11 @@ export const detailedCoast = (
     const [x, y, z] = p;
     const calm = calmAt(roughnessNoise(seed, p));
     const reach = (near / R) * (ROUGH - (ROUGH - CALM) * calm);
+    const skerries = calm < 1 && finest < SKERRY_WAVELENGTH;
     let qx = x;
     let qy = y;
     let qz = z;
+    let shore: number | undefined;
     for (const {
       index,
       wavelength,
@@ -166,6 +208,13 @@ export const detailedCoast = (
       toLattice: [a, b, c],
     } of BENDS) {
       if (wavelength <= finest) break;
+      if (
+        skerries &&
+        wavelength < 2 * SKERRY_WAVELENGTH &&
+        shore === undefined
+      ) {
+        shore = onSphere(qx, qy, qz);
+      }
       const resolved = finest === 0 ? 1 : ramp(wavelength / finest - 1);
       const push = reach * amplitude * resolved;
       const [nx, ny, nz] = valueNoise3x3(
@@ -178,8 +227,29 @@ export const detailedCoast = (
       qy += push * ny;
       qz += push * nz;
     }
-    const scale = 1 / length([qx, qy, qz]);
-    return distance([qx * scale, qy * scale, qz * scale]);
+    const bentDistance = onSphere(qx, qy, qz);
+    if (!skerries) return bentDistance;
+    const [sa, sb, sc] = SKERRY_TO_LATTICE;
+    const rock = ramp(
+      (valueNoise3(
+        noiseSalt(seed, SKERRY_LAYER),
+        sa[0] * x + sa[1] * y + sa[2] * z,
+        sb[0] * x + sb[1] * y + sb[2] * z,
+        sc[0] * x + sc[1] * y + sc[2] * z,
+      ) -
+        SKERRY_FROM) /
+        (1 - SKERRY_FROM),
+    );
+    const resolved = finest === 0 ? 1 : ramp(SKERRY_WAVELENGTH / finest - 1);
+    return (
+      bentDistance +
+      SKERRY_METRES *
+        near *
+        (1 - calm) *
+        resolved *
+        rock *
+        skerryShare(shore ?? bentDistance)
+    );
   };
   return Object.assign(bent, {
     calm: (p: Vec3) => calmAt(roughnessNoise(seed, p)),
