@@ -31,6 +31,9 @@ export const GROUP_CELL = 32;
 /** The metres the slow fields repeat over, on each axis: a float32 keeps it to millimetres. */
 export const GROUP_PERIOD = 16_384;
 
+/** The share of the sea's slope variance one wave of the table carries, on average. */
+export const RIPPLE_SHARE = 0.065;
+
 /** Turns of drift across the slow fields' range for the coarsest band, and their growth band to band. */
 const GROUP_TURNS = 1;
 const GROUP_GROWTH = 1.85;
@@ -97,6 +100,7 @@ const RIPPLE_COUNT = ${String(RIPPLES.length)};
 const RIPPLE_BANDS = ${String(RIPPLE_BANDS)};
 const RIPPLES_PER_BAND = ${String(RIPPLES_PER_BAND)};
 const RIPPLE_PERIOD = ${f32(RIPPLE_PERIOD)};
+const RIPPLE_SHARE = ${f32(RIPPLE_SHARE)};
 const GROUP_CELL = ${f32(GROUP_CELL)};
 const GROUP_CELLS = ${f32(GROUP_PERIOD / GROUP_CELL)};
 const RIPPLES = array<vec4f, ${String(RIPPLES.length)}>(

@@ -4,6 +4,7 @@ import {
   GROUP_CELL,
   GROUP_PERIOD,
   RIPPLE_PERIOD,
+  RIPPLE_SHARE,
   RIPPLES,
 } from './ripple-table';
 
@@ -14,8 +15,6 @@ import {
  */
 
 const TAU = 2 * Math.PI;
-/** `RIPPLE_SHARE` in `sea-wgsl.ts`. */
-const RIPPLE_SHARE = 0.065;
 const GROUP_CELLS = GROUP_PERIOD / GROUP_CELL;
 
 type Axis = 0 | 1 | 2;

@@ -29,7 +29,8 @@ const CREST_WRAPS = 65_536;
 const along = (eye: Vec3, axis: Vec3) =>
   eye[0] * axis[0] + eye[1] * axis[1] + eye[2] * axis[2];
 
-const wrapped = (value: number, period: number) =>
+/** `value` taken modulo `period`, into `[0, period)`. */
+export const intoPeriod = (value: number, period: number) =>
   ((value % period) + period) % period;
 
 /**
@@ -39,8 +40,8 @@ const wrapped = (value: number, period: number) =>
  * eye — and the eye's place along the crests.
  */
 export const swellAt = (eye: Vec3, seconds: number): [number, number] => [
-  wrapped(seconds - along(eye, SWELL_AXIS) / DEEP_SPEED, HOUR_SECONDS),
-  wrapped(along(eye, SWELL_CREST), CREST_WRAPS),
+  intoPeriod(seconds - along(eye, SWELL_AXIS) / DEEP_SPEED, HOUR_SECONDS),
+  intoPeriod(along(eye, SWELL_CREST), CREST_WRAPS),
 ];
 
 /**
@@ -90,9 +91,6 @@ struct Rippled {
   hidden: f32,
 }
 
-/** The share of the sea's slope variance one wave of the table carries, on average. */
-const RIPPLE_SHARE = 0.065;
-
 /** Two values, 0 to 1, of the slow fields' cell \`cell\` as the world at \`grain\` numbers it. */
 fn seaGroupCell(cell: vec3f, grain: vec3f) -> vec2f {
   var folded = fract((cell + grain) * 0.1031);
@@ -125,7 +123,8 @@ fn seaGroups(field: vec3f, grain: vec3f) -> vec2f {
  * drifting with the slow fields' values \`groups\`. Slope variance is Cox and
  * Munk's for the wind's speed, spread evenly over the bands shorter than the
  * wind's own longest wave and leaning downwind. A wave under a few pixels
- * long is taken out of the slope and into \`hidden\`.
+ * long is taken out of the slope and into \`hidden\`. \`ripples.ts\` is this
+ * and \`seaGroups\` in float64: a change goes to both.
  */
 fn ripplesAt(place: vec3f, groups: vec2f, up: vec3f, wind: vec3f, footprint: f32, seconds: f32) -> Rippled {
   let speed = length(wind);

@@ -13,14 +13,15 @@ import {
 
 import { GROUP_PERIOD, RIPPLE_PERIOD } from './ripple-table';
 import { groupsAt, ripplesAt } from './ripples';
+import { intoPeriod } from './sea-wgsl';
 
 /** `a` stepped `times` along `b`. */
 const along = (a: Vec3, b: Vec3, times: number): Vec3 =>
   sum(a, scaled(b, times));
-const wrapped = (v: Vec3, period: number): Vec3 => [
-  ((v[0] % period) + period) % period,
-  ((v[1] % period) + period) % period,
-  ((v[2] % period) + period) % period,
+const folded = (v: Vec3, period: number): Vec3 => [
+  intoPeriod(v[0], period),
+  intoPeriod(v[1], period),
+  intoPeriod(v[2], period),
 ];
 
 /** A patch of open sea, the low sun ahead and the eye behind, the wind blowing toward the eye. */
@@ -63,10 +64,10 @@ function glintMap(
     for (let column = 0; column < size; column++) {
       const at = along(along(corner, AHEAD, column * step), ASIDE, row * step);
       const groups = grouped
-        ? groupsAt(wrapped(at, GROUP_PERIOD), GRAIN)
+        ? groupsAt(folded(at, GROUP_PERIOD), GRAIN)
         : ([0, 0] as const);
       const { slope, hidden } = ripplesAt(
-        wrapped(at, RIPPLE_PERIOD),
+        folded(at, RIPPLE_PERIOD),
         groups,
         UP,
         WIND,

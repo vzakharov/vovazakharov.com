@@ -21,7 +21,7 @@ import type { Vec3 } from '@/island/shared/globe';
 
 import type { Sunlit } from '../lib/day';
 import { GROUP_PERIOD, RIPPLE_PERIOD } from '../lib/ripple-table';
-import { SEA_LISTING, swellAt } from '../lib/sea-wgsl';
+import { intoPeriod, SEA_LISTING, swellAt } from '../lib/sea-wgsl';
 import { worldCell } from './lattice-value';
 
 /** What the sea is drawn under, this frame. */
@@ -55,9 +55,6 @@ export type SeaSurface = {
   readonly damp: (lit: Node<'vec4'>, bed: Node<'float'>) => Node;
   readonly update: (frame: SeaFrame) => void;
 };
-
-const wrapped = (metres: number, period: number) =>
-  ((metres % period) + period) % period;
 
 /**
  * The sea's surface as nodes: ripples under the wind, the sky mirrored in
@@ -157,14 +154,14 @@ export function seaSurface(radiance: Radiance): SeaSurface {
       const [x, y, z] = frame.eye;
       eyeNode.value.set(x, y, z);
       anchor.value.set(
-        wrapped(x, RIPPLE_PERIOD),
-        wrapped(y, RIPPLE_PERIOD),
-        wrapped(z, RIPPLE_PERIOD),
+        intoPeriod(x, RIPPLE_PERIOD),
+        intoPeriod(y, RIPPLE_PERIOD),
+        intoPeriod(z, RIPPLE_PERIOD),
       );
       fieldAnchor.value.set(
-        wrapped(x, GROUP_PERIOD),
-        wrapped(y, GROUP_PERIOD),
-        wrapped(z, GROUP_PERIOD),
+        intoPeriod(x, GROUP_PERIOD),
+        intoPeriod(y, GROUP_PERIOD),
+        intoPeriod(z, GROUP_PERIOD),
       );
       sun.value.set(...frame.sun);
       seconds.value = frame.time;
