@@ -125,27 +125,16 @@ otherwise; his answers get quoted under each when they come.
   мне кажется закатное солнце ландшафт рисует не так как в жизни, не так красно.
   где-то записать, чтоб не забыть». Lit sand reads saturated vermilion against
   charcoal shade. For the next approach, not this one.
+- 2026-11-22 ~21:00 UTC, a screen recording of a climb over the lowland forest
+  in swift: «деревья при пролёте над ними растут-уменьшаются как грибы на
+  стероидах. ну и на деревья они с такого ракурса не особо похожи. делать их
+  фотореалистичными в этом заходе не надо -- но посмотреть почему такие
+  "спецэффекты" при движении можно». Sent to trees ahead of its shade: find why
+  a crown's drawn size follows the eye, and make a tree's size in the world
+  independent of where the eye is.
 
-## What is there today (read 2026-11-22)
-
-- **Relief** — `src/island/entities/terrain/height/model/relief.ts`: a plateau
-  by distance from the coast plus 17 octaves of value noise, 400 km to 6 m, the
-  same recipe everywhere on every world. `height-sphere.ts` draws the noise in
-  space with each octave's lattice turned about the cube diagonal.
-- **Colour** — `pages/island/lib/land-colour.ts`: stops by height alone (sand,
-  green, brown, grey, white), blended per fragment in `ui/ground-lighting.ts`;
-  the fine look adds bare rock on steep ground and a noise relief on the
-  normals.
-- **Tiles** — a worker fills `TileMesh` (`entities/terrain/tile`): positions,
-  normals and one `height` float per vertex, the only thing the land shader
-  knows about a place besides its normal.
-- **Clouds** — `pages/island/ui/cloud-nodes.ts` and `lib/clouds.ts`: one value
-  noise field (two weather octaves, two "front" octaves, three cell octaves 9
-  km–1.6 km) in one layer 1.5–3.5 km, five samples a ray, lit by height in the
-  layer alone.
-- **Looks** — `ui/scene-look.ts`: plain (default) and fine, toggled by B
-  (`ui/fine-key.ts`); `ground-lighting.ts`'s `dress(fine, rippled)` swaps the
-  material nodes.
+The baseline the run started from is in the `0000-before-*` frames and in `main`
+at the branch point.
 
 ## Design decisions
 
@@ -287,16 +276,11 @@ PR. Session ids are claude.ai remote sessions.
   functions of place and from height; per-vertex `cover` fades toward a
   per-fragment expectation by ~150 km, and `tileCover` is band-limited the way
   the relief is, so a tile and its parent never differ by a whole patch.
-- 11:48 UTC: the 5-hour limit cut every session off mid-step; the operator woke
-  all of them with «Продолжай» at 15:39, so none was replaced.
-- Merged since, in order (every merge gated: typecheck, lint:check,
-  format:check, `pnpm test`): trees' sand seam, cover across levels, wind
-  (rectangles from orbit gone); speed's three looks on B and the touch look
-  button (`ui/look-button.tsx`, bottom right, not under `?play`); coast step 1;
-  ground's forest by expectation, canopy tone, snow by height and slope, moor,
-  scree; trees' undergrowth and far tier; at 19e5bb3ab coast's domain warp
-  (e483f6734) and `groundSpread` (79d4dcc53), ground's gentler ripples
-  (2afbeccac); at 72d2324dd the clouds' step 1 (cfbfd6173).
+- Merged through 72d2324dd, every merge gated: trees' sand seam, cover across
+  levels, wind, undergrowth, far tier; speed's three looks on B and the touch
+  look button (`ui/look-button.tsx`); the coast's warp and `groundSpread`;
+  ground's forest by expectation, canopy tone, snow, moor, scree; the clouds'
+  step 1.
 - The lattice seam is `ui/lattice-value.ts`: `latticeValue` and `worldCell`
   shift every shader lattice by a roll of the world (`rollLattice(world)` at
   each pool start). Ground and clouds both read it (0599b47e0).
@@ -337,10 +321,6 @@ PR. Session ids are claude.ai remote sessions.
   `ripplesAt` sums 64 everlasting plane waves with integer wave vectors on a 256
   m period, which beat into a regular grid under a low sun. The Sea child
   replaces them with wave groups; the shoal's smear is the sea shader's too.
-- Clouds' verdict on step 1, sent as five items to push one at a time with
-  frames: blocky cumulus fields from 300–1000 km, crochet open cells, the front
-  as a sausage, grey featureless decks, and the view from the ground and from 10
-  km (a coarse pass, then steps where it found cloud).
 - The keeper split the timelapse zone into eight at the operator's own request
   to it; cards carry no `why`, so a verdict goes in the card's text, in English
   (`check:board-language` rejects Cyrillic).
