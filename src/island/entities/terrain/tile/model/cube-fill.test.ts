@@ -102,40 +102,6 @@ function assertShared(a: Filled, b: Filled, count: number) {
 const last = (level: number) => 2 ** level - 1;
 
 describe('fillCubeTile', () => {
-  it('carries a climate for every vertex, a skirt vertex its border vertex’s', () => {
-    const key: CubeCell = { face: 'px', level: 6, x: 11, y: 40 };
-    const lattice = sampleCubeLattice(key, hills, options);
-    const mesh = fillCubeTile(key, hills, {
-      ...options,
-      climate: ([x, y], height) => ({ temperature: height + x, moisture: y }),
-    });
-    assert.equal(mesh.climates.length, 2 * mesh.heights.length);
-    assert.equal(mesh.heights.length, GRID * GRID + 4 * CELLS);
-    for (const { v, p, height } of gridPoints(lattice)) {
-      assert.equal(entry(mesh.climates, 2 * v), Math.fround(height + p[0]));
-      assert.equal(entry(mesh.climates, 2 * v + 1), Math.fround(p[1]));
-    }
-    for (const [n, top] of borderLoop(GRID).entries()) {
-      const skirt = GRID * GRID + n;
-      for (const c of [0, 1]) {
-        assert.equal(
-          entry(mesh.climates, 2 * skirt + c),
-          entry(mesh.climates, 2 * top + c),
-        );
-      }
-    }
-  });
-
-  it('reads zero for every climate when it is given none', () => {
-    const mesh = fillCubeTile(
-      { face: 'px', level: 6, x: 11, y: 40 },
-      hills,
-      options,
-    );
-    assert.equal(mesh.climates.length, 2 * mesh.heights.length);
-    assert.ok(mesh.climates.every((value) => value === 0));
-  });
-
   it('shares an edge within a face: bit-equal points and heights, normals to 1e-6', () => {
     const key: CubeCell = { face: 'pz', level: 9, x: 200, y: 311 };
     const tile = filled(key);

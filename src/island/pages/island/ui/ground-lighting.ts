@@ -80,8 +80,6 @@ const ROCK_COLOUR = [0.19, 0.17, 0.15] as const;
 
 /** The tile vertex attribute the ground's colour is read from. */
 export const HEIGHT_ATTRIBUTE = 'height';
-/** The tile vertex attribute holding temperature (°C) and moisture (0 to 1). */
-export const CLIMATE_ATTRIBUTE = 'climate';
 
 const heightNode = () => attribute(HEIGHT_ATTRIBUTE, 'float');
 
