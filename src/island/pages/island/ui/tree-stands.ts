@@ -95,7 +95,7 @@ function shadeMaterial(drawnAt: ReturnType<typeof treeNodes>['drawnAt']) {
   const fromTrunk = length(positionGeometry.xz);
   material.outputNode = vec4(
     varyingProperty('vec3', 'vInstanceColor').mul(
-      smoothstep(1, FULL_WITHIN, fromTrunk),
+      smoothstep(FULL_WITHIN, 1, fromTrunk).oneMinus(),
     ),
     1,
   );
@@ -141,14 +141,7 @@ export function treeStands(dress: (material: MeshLambertNodeMaterial) => void) {
         4,
       );
       geometry.setAttribute(FOOT_ATTRIBUTE, foot);
-      let probe = materials[k];
-      if (kind === 'shade' && (detail === 'mid' || detail === 'near')) {
-        const made = shadeMaterial(drawnAt);
-        if (detail === 'near')
-          made.outputNode = vec4(varyingProperty('vec3', 'vInstanceColor'), 1);
-        probe = made;
-      }
-      const mesh = new InstancedMesh(geometry, probe, capacity);
+      const mesh = new InstancedMesh(geometry, materials[k], capacity);
       mesh.setColorAt(0, new Color(1, 1, 1));
       mesh.frustumCulled = false;
       mesh.count = 0;

@@ -25,6 +25,9 @@ const CROWN: Readonly<Partial<Record<Tree['kind'], number>>> = {
   conifer: 0.27,
 };
 
+/** A lone tree's shade against its crown's reach: it fades past the crown, where it is seen from above. */
+const SPREAD = 1.6;
+
 /**
  * The share of the ground's light a lone tree's shade takes at its trunk, and
  * a tree's in closed forest.
@@ -76,7 +79,8 @@ export function floorIn(
     floor.push({
       ...tree,
       kind: 'shade',
-      tall: reach * tree.tall * tree.girth * (1 + (POOL - 1) * under),
+      tall:
+        SPREAD * reach * tree.tall * tree.girth * (1 + (POOL - 1) * under),
       girth: 1,
       lean,
       shade: SHADE_OPEN + (SHADE_UNDER - SHADE_OPEN) * under,

@@ -41,13 +41,18 @@ Everything is under `src/island/pages/island/`.
   ones for 3 ms, lays instances out again every 7 m the eye moves.
   **`ui/tree-stands.ts`** holds the `InstancedMesh`es (kind × detail) and their
   materials; the shade's multiplies the ground behind it and writes no alpha.
+  Its strength is the instance colour and its fall-off is computed in the
+  fragment shader from the distance to the trunk: the disc's vertex colours
+  reach the shader in the lab (`tmp/shade-lab`, not committed) and come out
+  black in the built scene, for a reason not found.
   **`ui/tree-rolled.ts`** turns a cell's plants into frames and tints.
 - **`lib/world-ground.ts`** — `coastOf`, `groundOf`, `treeGround`, `SEA_LEVEL`,
   out of `island-scene.ts` to keep it under 400 lines.
 
 ## Numbers others depend on
 
-- Budget per kind, four kinds: 600 near, 4,400 mid, 12,000 far, 12,000 least.
+- Budget per kind, six kinds: 600 near, 4,400 mid, 12,000 far, 12,000 least;
+  the four kinds that are no trees hold 4,400 at most at any detail.
 - `treeView.drawAs(look)`: plain draws none. Fine: near ≤ 80 m, mid ≤ 320 m,
   far past it. Swift: no near, mid ≤ 60 m, far ≤ 220 m, `least` past it (20
   triangles a broadleaf, 24 a conifer stand), bushes and grass gone by 110 m,
@@ -65,3 +70,35 @@ Everything is under `src/island/pages/island/`.
 - The placed trees close a canopy to about 400 m and cover under half the
   ground to 1.2 km, a few per cent past it: the ground's own canopy colour has
   to carry a forest from there.
+
+## Left, each with its first step
+
+The lead's verdicts these answer are on the lead branch as
+`frames/0012-merge-5-*` and `frames/0014-merge-7-*`.
+
+- **A forest from 300 m reads as a lawn with bushes.** Placed trees thin with
+  distance and stop near a kilometre. First step: read how `tree-placing.ts` shares
+  the cover among the tiers, which is where the coarse ones come out sparse,
+  and make the farthest drawn tier hold the whole cover (crowns touching) and let only its mesh get cheaper (`least`), then end it where a
+  crown falls under ~2 px rather than at a fixed radius, and agree tone and
+  distance with the ground's canopy texture past it.
+- **The forest ends at the dune belt along a ruler-straight line.** First step:
+  in `forestCover`, add noise of 100–200 m to the sand thresholds (0.15 and
+  0.8) and let conifers and bushes thin through the band.
+- **Nothing should grow on shore rock.** The lead branch has
+  `shoreAtSphere(coast, p, height)` → `[sand, rock]` and `tileShore`. First
+  step: rename `TreeGround.sandAt` to a `shoreAt` returning both (wired in
+  `lib/world-ground.ts`), multiply `coverFrom`'s standing by `1 − rock`, hand
+  `tileCover` the tile's `rocky`, and place nothing where rock is over ~0.3.
+- **Crowns are faceted "turtle shells".** First step: in `tree-mesh-parts.ts`
+  blend each crown vertex's normal toward the crown's own sphere normal.
+- **Trunks are plain tan sausages; a crown's underside is a black slab.** First
+  step: darken `BARK` toward grey-brown with a slow tone along the height and a
+  flare at the base; start the lowest crowns above 4 m and give undersides a
+  dim green instead of the lit colour's zero.
+- **Fine draws 1.2M triangles near the ground against a budget of ~800k.**
+  First step: draw fine's farthest tier with the `least` mesh, as swift does,
+  and count again with `treeView.tally()`.
+- **What trees cost on the operator's M2 Pro**: fine 79 ms and swift 68 ms a
+  frame on a land view against plain's 13. The speed member's `?without=trees`
+  switch says how much of that is the trees.
