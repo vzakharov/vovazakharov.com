@@ -49,19 +49,39 @@ in the report; no relay — autocompact folds the session; parking is allowed.
 Asked in the first reply. Each carries the answer acted on until he says
 otherwise; his answers get quoted under each when they come.
 
-1. How much weekly limit is left? — Acting on: little. At most two Fable
-   builders at once (clouds, relief); ground look and optimisation on Opus;
-   board and reading on Sonnet.
-2. Earth's landscape kinds from real geography or from a derived climate? —
-   Acting on: a derived climate for every world alike (latitude belts, distance
-   from the sea, winds, height).
-3. Trees as objects this run? — Acting on: no. Forest is a canopy's shape and
-   shading, desert is dunes, mountains are ridges; no trunks at the feet.
+1. How much weekly limit is left? — Acting on: little.
+   - His answer, 2026-11-22 ~10:00 UTC: «я думаю ты можешь найти, но вот», with
+     a screenshot: 5-hour limit 3%, weekly all models 45%, weekly Fable 1%, the
+     weekly ones resetting Monday 05:00 (tomorrow morning).
+   - So: more than half the week is left for under a day. Builders run on Fable
+     where the work is the look itself; the board and readers stay on Sonnet,
+     fix-ups and the optimised look on Opus, on his standing word to look for
+     where Fable is not needed.
+2. Earth's landscape kinds from real geography or from a derived climate?
+   - His answer: «этого пока не надо, нужно выбрать один какй-то тип и хорошо
+     его отрисовать».
+   - So: no climate model, no set of kinds. One kind of landscape, chosen by the
+     lead and drawn well — in its own shape and its own surface — while the rest
+     of the land stays what it is. The lead's choice is below.
+3. Trees as objects this run? — His answer: «не надо».
 4. B cycles three looks, plain → full with optimisation → full, and the page
-   opens plain? — Acting on: yes.
-5. Which hardware judges speed? — Acting on: headless Chromium here, the
-   optimised look measured against the full one, and "not drunk" checked frame
-   by frame while the view turns.
+   opens plain? — His answer: «да».
+5. Which hardware judges speed? — His answer: «macbook m2pro».
+
+## Steering, in the order it came
+
+- 2026-11-22, after the answers: «хотя знаешь, давай замахнёмся на деревья
+  тоже». Trees as objects are in; a fourth builder takes them.
+- 2026-11-22, on the lead's reading of answer 2 as "one kind, a mountain range":
+  «я не это имел в виду. я имел в виду, хорошо отрисовать то что у нас уже есть:
+  песок, зелёное, корчиневое, горы -- выбрав один вариант климата для каждого».
+  So: all four bands the land already has, each drawn well, each with one
+  climate picked for it; no climate model. The relief and ground children were
+  re-briefed by message the same turn.
+
+- 2026-11-22 ~10:02 UTC: «меня не будет совсем, принимай креативные решения
+  сам». No verdicts will come during the run; every look call is the lead's,
+  made from frames and written here.
 
 ## What is there today (read 2026-11-22)
 
@@ -91,27 +111,29 @@ otherwise; his answers get quoted under each when they come.
   and its frames, which this run does not continue. Beat: merging it in for the
   board's history — it would put 500 files of another run's working directory
   into this PR's diff.
-- **Climate reaches the shader as a vertex attribute beside `height`**, filled
-  by the worker from the same function the relief reads. Beat: evaluating
-  climate per fragment — it needs the coast distance, which lives in a CPU field
-  the shader has no copy of.
-- **Landscape kinds change the relief itself**, in the worker and in the eye's
-  `groundAt` alike, because the ask is "not different textures over the same
-  voxels". Colour by climate alone would be exactly that.
-- **The climate contract, which the relief child lands first and the ground
-  child consumes**: `entities/terrain` exports a pure
-  `climateAtSphere(coast, seed, p, height)` giving `temperature` (°C, the year's
-  mean at the surface) and `moisture` (0 dry to 1 wet); `TileMesh` carries it as
-  `climates`, two floats a vertex; the geometry attribute is `climate` (a
-  `vec2`), its name exported beside `HEIGHT_ATTRIBUTE`. Kinds of landscape are
-  never an enum on the wire: both sides derive what they need from those two
-  numbers, the height and the slope, so a border between two kinds is a blend
-  and never a line.
-- **A forest is shading, not geometry.** A canopy lifted into the mesh would put
-  the eye, which stands on `groundAt`, on the treetops. From above the shader
-  gives the canopy its bumps and its dark; at the feet, with no trunks this run,
-  it is forest floor. This amends what question 3 told the operator ("a canopy's
-  shape").
+- **The four kinds are the four bands the land already has — sand, green, brown,
+  mountains — and each gets one climate, chosen so the four read as one place**:
+  a temperate mountain coast. Sand is an ocean beach with a belt of dunes behind
+  it. Green is lowland meadow and mixed forest on rolling hills cut by stream
+  valleys. Brown is subalpine upland: tussock and heath over stony soil,
+  outcrops, the last conifers thinning out. Mountains are alpine: bare rock with
+  its bedding, scree, snow. Beat: giving each band the climate that flatters it
+  alone (a tropical beach under a taiga) — bands that share no climate would
+  read as a quilt.
+- **Each kind has its own shape as well as its own surface**: the relief recipe
+  turns with the band, in the worker and in the eye's `groundAt` alike, because
+  the ask is "not different textures over the same voxels". A band is told by
+  the broad height the ground already has, blended, never a line.
+- **No climate model, no latitude in the look.** One climate everywhere is his
+  call; Earth's tropics keep snow on high ground until he asks otherwise.
+- **Trees are objects** near the eye and shading far from it, and the two must
+  agree on where forest is. So forest cover is one function, evaluated once: the
+  tile worker writes it per vertex as `cover` (0 bare to 1 closed canopy), the
+  tree placer reads the same function, and the ground shader reads the
+  attribute. Beat: a noise written twice, in TS for the placer and in TSL for
+  the shader — two copies that drift.
+- **Trees draw in the full looks only.** The plain look is what a weak machine
+  flies; it takes the canopy's tint from `cover` and no instances.
 - **The speed target is the operator's M2 Pro at 60 fps** (the earlier island
   record: the fine look runs there at 7–14). The full look may cost up to half
   again what it costs today; anything dearer waits for the optimised look.
@@ -125,12 +147,37 @@ otherwise; his answers get quoted under each when they come.
 
 ## The team
 
-- **Lead** — this session, Fable. Owns the plan, the seams, integration, the
-  preview and the one PR.
-- Children are listed here by session id, branch and package as they start.
+Every child was cut from the lead's branch and pushes to its own; none opens a
+PR. Session ids are claude.ai remote sessions.
+
+- **Lead** — `session_01DaohkBiucpraEhsFyZ58M9`, Fable,
+  `claude/island-beauty-c1rj3b`. The plan, the seams, integration, the preview,
+  the one PR.
+- **Relief** — `session_01DaohkDs92YhSSpimFpJwfJ`, Fable,
+  `claude/island-beauty-relief`. `src/island/entities/terrain/`: each band's own
+  shape, and the cure for what repeats or lines up in the ground.
+- **Ground** — `session_01DaohkDMLPfW237JGnaUuWd`, Fable,
+  `claude/island-beauty-ground`. `ui/ground-lighting.ts`, `lib/land-colour.ts`,
+  `lib/ground-wgsl.ts`: nothing repeating at any distance, then each band's
+  surface; reads the trees' `cover`.
+- **Clouds** — `session_01DaohkDgngV6hJwJPofVnqB`, Fable,
+  `claude/island-beauty-clouds`. `ui/cloud-nodes.ts`, `lib/clouds.ts`: regimes
+  from above, then the sky from the ground and inside.
+- **Trees** — `session_01DaohkFamqbS2PFoQEC5UKv`, Fable,
+  `claude/island-beauty-trees`. The `cover` seam first, then two species as
+  instances; owns the tile worker's page side and `ui/tile-view.ts`.
+- **Keeper** — `session_01DaohkEpVZaFGj3BXpvEYCv`, Sonnet,
+  `claude/island-beauty-board`. The island board's `beauty` zone and the
+  `island-timelapse` release; takes frames from everyone.
+- **Not started: the optimised look** (Opus) — B's third position, clouds at low
+  resolution over several frames. Waits for the clouds' step 1.
 
 ## Built / in flight / left
 
-- In flight: the clouds research (Sonnet agent); a digest of the board, frame
-  and preview mechanics (Sonnet agent).
-- Left: everything else.
+- Built: the common brief; the clouds research; `pnpm shoot:island`, written by
+  a Sonnet agent and not yet committed — the plain look shoots on WebGL2 in 8 s,
+  the fine look on WebGPU stalled in its first move and is being traced.
+- In flight: all five children, each on its step 0 or 1.
+- Left: the shooter working in the fine look, then the baseline frames to the
+  keeper; integration of each child's first step; the preview; the optimised
+  look; the PR.
