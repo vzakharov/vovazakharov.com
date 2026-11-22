@@ -8,10 +8,11 @@ import {
   type TileMesh,
 } from '@/island/entities/terrain';
 
+import type { Seeded } from '../model/forest-cover';
+
 /** A world as a worker builds it: its field and its terrain seed, which the main thread's `heightAtSphere` takes too. */
-export type WorldField = {
+export type WorldField = Seeded & {
   readonly field: SphereField;
-  readonly seed: number;
 };
 
 /**

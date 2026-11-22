@@ -8,7 +8,6 @@ import {
   lights,
   mix,
   normalize,
-  normalWorldGeometry,
   output,
   positionView,
   positionWorld,
@@ -32,12 +31,13 @@ import {
 
 import type { CanDispose } from '@/kernel/shared/typings';
 
-import { dot, type Vec3 } from '@/island/shared/globe';
+import { dot, R, type Vec3 } from '@/island/shared/globe';
 
 import { lightThrough, tintOf } from '../lib/air';
 import { daylight, type Heavens, SUN_ELEVATION } from '../lib/day';
-import { GROUND_STOPS, SEA_COLOUR, SHORE_TOP } from '../lib/land-colour';
+import { GROUND_STOPS, SEA_COLOUR } from '../lib/land-colour';
 import { eyeKeeps, intensityFor } from '../lib/sun';
+import { landSurface } from './land-surface';
 import { type SeaFrame, seaSurface } from './sea-surface';
 import { type Backed, type SkyNodes, skyNodes } from './sky-nodes';
 
@@ -74,9 +74,6 @@ const WATERLINE_LIFT =
   (LAND_IRRADIANCE + SKY_INTENSITY) / (SEA_IRRADIANCE + SKY_INTENSITY);
 /** The depth over which the sea's colour rises to the land's at the waterline, metres. */
 const WATERLINE_DEPTH = 6;
-
-/** Bare rock's colour, linear: a warm grey under any climate. */
-const ROCK_COLOUR = [0.19, 0.17, 0.15] as const;
 
 /** The tile vertex attribute the ground's colour is read from. */
 export const HEIGHT_ATTRIBUTE = 'height';
@@ -172,13 +169,16 @@ export type GroundLighting = CanDispose &
     ) => number;
     /**
      * Dresses every material in the fine look — the air, its clouds and haze,
-     * rock and relief on the land, and with `rippled` the sea as a surface
-     * (WebGPU only) — or, `fine` false, in the plain one: flat colours under
-     * the lamps. The first dressing in a look compiles its shaders.
+     * the land's surface down to its grain, and with `rippled` the sea as a
+     * surface (WebGPU only) — or, `fine` false, in the plain one: the land's
+     * broad colours and the sea's flat one under the lamps. The first dressing
+     * in a look compiles its shaders.
      */
     readonly dress: (fine: boolean, rippled: boolean) => void;
     /** Hands the rippled sea its frame. */
     readonly stirSea: (frame: SeaFrame) => void;
+    /** Dresses `material`, an object standing on the land, in the land's lamps and the fine look's air. */
+    readonly dressObject: (material: MeshLambertNodeMaterial) => void;
   };
 
 /** A sun laying `irradiance` on level ground under the opening's sun. */
@@ -215,16 +215,8 @@ export function groundLighting(): GroundLighting {
     return material;
   };
   const surface = seaSurface(radiance);
-  /** Ground above the beach, 0 on the sand and 1 from `SHORE_TOP` up. */
-  const aboveBeach = smoothstep(2, SHORE_TOP, heightNode());
-  /** How far the ground leans off level, 0 flat and 1 a wall. */
-  const steep = normalWorldGeometry.dot(surface.zenith).oneMinus();
-  /** Bare rock: steep ground above the beach, whatever grows on the level beside it. */
-  const rock = smoothstep(0.04, 0.15, steep).mul(aboveBeach);
   const groundColour = groundColourNode(heightNode());
-  const landColour = mix(groundColour, vec3(...ROCK_COLOUR), rock);
-  /** The relief's slope: sand lies smooth, soil rolls, rock stands rough. */
-  const roughness = mix(mix(0.04, 0.18, aboveBeach), 0.7, rock);
+  const ground = landSurface(heightNode(), groundColour);
   const seaColour = seaColourNode(heightNode());
   const land = tileMaterial([landSun, landMoon, sky], 0);
   const sea = tileMaterial([seaSun, seaMoon, sky], 0);
@@ -253,7 +245,6 @@ export function groundLighting(): GroundLighting {
       material.maskNode = surface.lies(heightNode());
     }
     for (const material of lands) {
-      material.normalNode = surface.relief(roughness);
       // Damp over the air: a sheet's reach is too near for the air to tell.
       material.outputNode = surface.damp(seen, heightNode());
     }
@@ -275,8 +266,10 @@ export function groundLighting(): GroundLighting {
       material.outputNode = fine ? seen : null;
       material.needsUpdate = true;
     }
+    const dressing = fine ? ground.fine : ground.plain;
     for (const material of lands) {
-      material.colorNode = fine ? landColour : groundColour;
+      material.colorNode = dressing.colour;
+      material.normalNode = dressing.normal;
     }
     for (const material of seas) material.colorNode = seaColour;
     ocean.colorNode = null;
@@ -292,9 +285,15 @@ export function groundLighting(): GroundLighting {
     background,
     dress,
     stirSea: surface.update,
+    dressObject: (material) => {
+      material.lightsNode = lights([landSun, landMoon, sky]);
+      material.outputNode = seen;
+    },
     lights: [landSun, seaSun, landMoon, seaMoon, sky],
     shine: (heavens, up, height, seconds) => {
       if (fine) air.update(heavens, up, height, seconds);
+      const radius = R + height;
+      ground.update([up[0] * radius, up[1] * radius, up[2] * radius]);
       // The sun's colour after the air it crossed to the eye, in either look:
       // warm when low, out once set, so no slope facing a sun below the
       // horizon is lit.

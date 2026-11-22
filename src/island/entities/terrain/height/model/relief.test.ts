@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { detailReach, groundSlope } from './bounds';
 import { OCTAVES } from './octaves';
-import { groundSlope, reliefAt } from './relief';
+import { reliefAt } from './relief';
 import { stream } from './stream.test-kit';
 
 /** Ground `d` metres from the coast with every regional and hill octave reading `broad`, every fine one `fine`. */
@@ -64,5 +65,43 @@ describe('reliefAt near the coast', () => {
       assert.ok(drawnAt(values, 0) <= 0, 'sea on the coast');
       assert.ok(drawnAt(values, -0.01) > -0.01, 'no step offshore');
     }
+  });
+});
+
+/** Ground `d` metres from the coast under a belt's `uplift`, cut at `finest`, each octave reading its entry in `values`. */
+const cutAt = (
+  values: readonly number[],
+  d: number,
+  finest: number,
+  uplift: number,
+) => reliefAt(d, finest, OCTAVES, ({ index }) => values[index] ?? 0, uplift);
+
+describe('detailReach', () => {
+  it('bounds what a detail cut takes from the ground or adds to it', () => {
+    const next = stream(41);
+    for (let k = 0; k < 20_000; k += 1) {
+      const values = OCTAVES.map(() => 2 * next() - 1);
+      const d = (next() < 0.5 ? 1 : -1) * 40_000 * next() ** 3;
+      const finest = 3 * 2 ** (13 * next());
+      const uplift = next() < 0.5 ? 0 : 1250 * next();
+      const off = Math.abs(
+        cutAt(values, d, finest, uplift) - cutAt(values, d, 0, uplift),
+      );
+      assert.ok(
+        off <= detailReach(finest),
+        `${off} over ${detailReach(finest)} at cut ${finest}, ${d} m`,
+      );
+    }
+  });
+
+  it('is nothing with no cut, and tightens with a finer one', () => {
+    assert.equal(detailReach(0), 0);
+    let last = 0;
+    for (const finest of [2, 8, 30, 120, 500, 2000, 8000]) {
+      const reach = detailReach(finest);
+      assert.ok(reach >= last, `at ${finest} m`);
+      last = reach;
+    }
+    assert.ok(detailReach(8) < 30, `${detailReach(8)} m at an 8 m cut`);
   });
 });
