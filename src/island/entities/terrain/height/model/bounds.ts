@@ -49,6 +49,12 @@ import {
 } from './shore';
 
 /**
+ * What a metre of change in the ground under the dunes comes to once the
+ * share of dunes it keeps has changed with it.
+ */
+const DUNES_SHARE_STEEPEST = 1 + (1.5 * DUNE_METRES) / DUNES_UNDER_SPAN_METRES;
+
+/**
  * A bound on the ground's slope, metres of rise per metre run, whatever the
  * detail cut, for noise at most `noiseSteepest` steep per wavelength and a
  * belt's uplift at most `upliftSteepest` metres per metre. Every term of
@@ -114,7 +120,7 @@ export function groundSlope(noiseSteepest: number, upliftSteepest: number) {
     hills +
     own +
     shore;
-  return ground * (1 + (1.5 * DUNE_METRES) / DUNES_UNDER_SPAN_METRES) + dunes;
+  return ground * DUNES_SHARE_STEEPEST + dunes;
 }
 
 /**
@@ -145,5 +151,5 @@ export function detailReach(finest: number): number {
     ),
   );
   const dunes = DUNE_SPACING_METRES < 4 * finest ? DUNE_METRES : 0;
-  return ground * (1 + (1.5 * DUNE_METRES) / DUNES_UNDER_SPAN_METRES) + dunes;
+  return ground * DUNES_SHARE_STEEPEST + dunes;
 }

@@ -47,7 +47,7 @@ export const DUNE_SWAY = 1.3;
 const DUNE_GAP_FROM = -0.45;
 export const DUNE_GAP_SPAN = 0.35;
 /** Dunes stand on low ground: full under the first height, none a span up. */
-export const DUNES_UNDER_METRES = 90;
+const DUNES_UNDER_METRES = 90;
 export const DUNES_UNDER_SPAN_METRES = 110;
 
 /** The share of its full size a quantity reaches `distance` in: ~63% at `reach`. */
@@ -106,6 +106,14 @@ export function lowlandFloor(
   return smoothMax(broad - fineReach * reach * reach, lowland, lowland);
 }
 
+/** The share of the dune belt left `d` metres inland: whole, then dying out. */
+const beltAt = (d: number) =>
+  1 - ramp((d - DUNES_FADE_FROM_METRES) / DUNES_FADE_METRES);
+
+/** The share of its dunes ground standing `height` metres up keeps. */
+export const dunesOver = (height: number) =>
+  1 - ramp((height - DUNES_UNDER_METRES) / DUNES_UNDER_SPAN_METRES);
+
 /**
  * How high the dunes behind the beach stand over the ground `d` metres inland
  * (positive), never negative: ridges along the shore, steeper inland. `swell`,
@@ -118,9 +126,7 @@ export function duneAt(
   sway: number,
   gap: number,
 ): number {
-  const along =
-    ramp((d - DUNES_FROM_METRES) / DUNES_RISE_METRES) *
-    (1 - ramp((d - DUNES_FADE_FROM_METRES) / DUNES_FADE_METRES));
+  const along = ramp((d - DUNES_FROM_METRES) / DUNES_RISE_METRES) * beltAt(d);
   if (along === 0) return 0;
   const phase = d / DUNE_SPACING_METRES + DUNE_SWAY * sway;
   const across = phase - Math.floor(phase);
@@ -140,13 +146,6 @@ export function duneAt(
  */
 export function sandAt(d: number, height: number): number {
   if (d <= 0) return 0;
-  const along = 1 - ramp((d - DUNES_FADE_FROM_METRES) / DUNES_FADE_METRES);
-  return along === 0
-    ? 0
-    : along *
-        (1 -
-          ramp(
-            (height - DUNE_METRES - DUNES_UNDER_METRES) /
-              DUNES_UNDER_SPAN_METRES,
-          ));
+  const along = beltAt(d);
+  return along === 0 ? 0 : along * dunesOver(height - DUNE_METRES);
 }

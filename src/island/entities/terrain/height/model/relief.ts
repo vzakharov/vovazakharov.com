@@ -55,8 +55,7 @@ import {
   approach,
   DUNE_SPACING_METRES,
   duneAt,
-  DUNES_UNDER_METRES,
-  DUNES_UNDER_SPAN_METRES,
+  dunesOver,
   ramp,
   restingGround,
   smoothMax,
@@ -203,8 +202,6 @@ export function reliefAt<O extends Octave>(
   if (d <= 0) return height;
   const dunes = finest === 0 ? 1 : ramp(DUNE_SPACING_METRES / (2 * finest) - 1);
   const resting = restingGround(d, height, broad + local, FINE_REACH_METRES);
-  const low =
-    dunes *
-    (1 - ramp((resting - DUNES_UNDER_METRES) / DUNES_UNDER_SPAN_METRES));
+  const low = dunes * dunesOver(resting);
   return resting + (low === 0 ? 0 : low * duneAt(d, swell, sway, gap));
 }
