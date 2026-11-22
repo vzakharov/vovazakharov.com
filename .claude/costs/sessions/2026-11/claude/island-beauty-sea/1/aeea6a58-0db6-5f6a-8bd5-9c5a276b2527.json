@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 2353,
-    "cacheWrite5mTokens": 258,
-    "cacheWrite1hTokens": 503930,
-    "cacheReadTokens": 28733641,
-    "outputTokens": 122461,
-    "thinkingTokens": 47283,
-    "responses": 152,
-    "costUsd": 12.2380902
+    "inputTokens": 4833,
+    "cacheWrite5mTokens": 1025,
+    "cacheWrite1hTokens": 630886,
+    "cacheReadTokens": 37244314,
+    "outputTokens": 155697,
+    "thinkingTokens": 55089,
+    "responses": 195,
+    "costUsd": 15.634347800000004
   },
   "estimate": {
     "at": "2026-11-22T17:18:19.785Z",
@@ -52,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkBNMrEzd6kyEhPXjND",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-22T17:15:20.811Z",
-  "lastResponseAt": "2026-11-22T20:54:32.650Z",
+  "lastResponseAt": "2026-11-22T21:08:05.207Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 9.500445200000001,
   "ownTurns": {
-    "inputTokens": 286,
+    "inputTokens": 364,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 503930,
-    "cacheReadTokens": 28473432,
-    "outputTokens": 116802,
-    "thinkingTokens": 47283,
-    "responses": 151,
-    "costUsd": 12.0633104
+    "cacheWrite1hTokens": 630886,
+    "cacheReadTokens": 36721933,
+    "outputTokens": 143324,
+    "thinkingTokens": 55089,
+    "responses": 193,
+    "costUsd": 15.259410600000004
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,14 +77,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 2353,
-      "cacheWrite5mTokens": 258,
-      "cacheWrite1hTokens": 503930,
-      "cacheReadTokens": 28733641,
-      "outputTokens": 122461,
-      "thinkingTokens": 47283,
-      "responses": 152,
-      "costUsd": 12.2380902
+      "inputTokens": 4833,
+      "cacheWrite5mTokens": 1025,
+      "cacheWrite1hTokens": 630886,
+      "cacheReadTokens": 37244314,
+      "outputTokens": 155697,
+      "thinkingTokens": 55089,
+      "responses": 195,
+      "costUsd": 15.634347800000004
     }
   },
   "warnings": [],
@@ -116,26 +116,55 @@
           "Bash": 1
         },
         "estimatedTokens": 375,
-        "estimatedUsd": 0.004725000000000001
+        "estimatedUsd": 0.006524999999999999
       },
       "billedUsd": 0.1747798
+    },
+    {
+      "at": "2026-11-22T21:00:36.474Z",
+      "trigger": "auto",
+      "compactedFrom": 267493,
+      "summaryChars": 13446,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/island/pages/island/ui/ground-lighting.ts",
+        "endedAt": "2026-11-22T21:00:43.377Z",
+        "contextTokens": 128197,
+        "spend": {
+          "inputTokens": 4,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 74734,
+          "cacheReadTokens": 170189,
+          "outputTokens": 373,
+          "thinkingTokens": 47,
+          "responses": 2,
+          "costUsd": 0.6393858
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.2001574
     }
   ],
   "telemetry": {
-    "events": 152,
-    "matched": 151,
-    "matchedTableUsd": 12.0633104,
-    "matchedEventUsd": 12.063310400000002,
+    "events": 195,
+    "matched": 193,
+    "matchedTableUsd": 15.259410600000004,
+    "matchedEventUsd": 15.259410600000004,
     "unseen": {
       "compact": {
-        "inputTokens": 2067,
-        "cacheWrite5mTokens": 258,
+        "inputTokens": 4469,
+        "cacheWrite5mTokens": 1025,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 260209,
-        "outputTokens": 5659,
+        "cacheReadTokens": 522381,
+        "outputTokens": 12373,
         "thinkingTokens": 0,
-        "responses": 1,
-        "costUsd": 0.1747798
+        "responses": 2,
+        "costUsd": 0.3749372
       }
     }
   },
@@ -147,10 +176,10 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 1528,
+    ".md": 1705,
     ".json": 614,
     ".yaml": 989,
-    ".ts": 7507,
+    ".ts": 8062,
     ".tsx": 40,
     ".scss": 28
   }
