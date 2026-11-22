@@ -174,10 +174,18 @@ PR. Session ids are claude.ai remote sessions.
 
 ## Built / in flight / left
 
-- Built: the common brief; the clouds research; `pnpm shoot:island`, written by
-  a Sonnet agent and not yet committed — the plain look shoots on WebGL2 in 8 s,
-  the fine look on WebGPU stalled in its first move and is being traced.
-- In flight: all five children, each on its step 0 or 1.
-- Left: the shooter working in the fine look, then the baseline frames to the
-  keeper; integration of each child's first step; the preview; the optimised
-  look; the PR.
+- Built: the common brief; the clouds research; `pnpm shoot:island` and the
+  eleven `0000-before-*` frames (ee989e9e); the trees' `cover` seam (f54e984b1)
+  and the board's `beauty` zone, both merged at 62d542e4c.
+- The shooter draws on WebGL2: SwiftShader's WebGPU device is lost here at the
+  first tile upload whatever the launch flags, so no frame of this run shows the
+  rippled sea. Beat: more hours on the software device — the land, trees and
+  clouds this run is about all draw on WebGL2.
+- What the baseline shows: clouds from orbit are speckle, from 10 km cotton with
+  a dither hatch; sand lies in sheets kilometres inland; a band is one flat
+  colour; hills are low domes of one character. `lookTo` is clamped, so the sky
+  shot looks up only a few degrees — raise it for the play hook if clouds asks.
+- In flight: relief, ground and clouds on their step 1 with nothing pushed yet
+  (told to push small); trees on step 1; the keeper putting the baseline up.
+- Left: integration of each child's first step; the preview; the optimised look;
+  the PR.

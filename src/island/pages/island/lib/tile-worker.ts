@@ -15,6 +15,7 @@ import {
   TILE_GRID,
 } from '@/island/entities/terrain';
 
+import { tileCover } from '../model/forest-cover';
 import {
   filledBuffers,
   type FilledTile,
@@ -68,6 +69,7 @@ function fill(
     levels,
     land,
     sea,
+    cover: land === null ? null : tileCover(seed, land),
     floor: sea === null ? null : floor,
     fillMs: performance.now() - start,
   };

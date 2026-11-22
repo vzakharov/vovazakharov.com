@@ -22,6 +22,7 @@
     "voice:cube": "tsx src/cube/scripts/voice-cube.ts",
     "sound:cube": "tsx src/cube/scripts/sound-cube.ts",
     "play:island": "tsx src/island/scripts/play-island.ts",
+    "shoot:island": "tsx src/island/scripts/shoot-island.ts",
     "spectrum:island": "tsx src/island/scripts/earth-spectrum.ts",
     "play:mushrooms": "tsx src/mushrooms/scripts/play-mushrooms.ts",
     "sweep:mushrooms": "tsx src/mushrooms/scripts/sweep-mushrooms.ts",
