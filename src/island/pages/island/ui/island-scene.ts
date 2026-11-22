@@ -96,6 +96,8 @@ export function mountIslandScene(
   const trees = treeView(dressObject);
   const looks = sceneLook({
     scene,
+    renderer,
+    camera,
     lighting,
     webgpu,
     render,

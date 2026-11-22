@@ -1,7 +1,7 @@
 import { float, smoothstep, vec3 } from 'three/tsl';
 import type { Node } from 'three/webgpu';
 
-import type { Look } from '@/island/shared/play';
+import type { InLook } from '@/island/shared/play';
 
 import type { Rgb } from '../lib/land-colour';
 import { type OctaveNoise, QUIET, type Seen } from './land-noise';
@@ -39,6 +39,10 @@ export type Ground = Seen & {
   readonly cover: F;
   /** How sandy it is, 0 none to 1 on the beach and the dune belt. */
   readonly sand: F;
+  /** How much it is a rough stretch's shore, 0 none to 1 on its first metres from the water and on a skerry. */
+  readonly rocky: F;
+  /** How far it leans toward its hemisphere's pole, the sine of its slope that way: under 0 it faces the noon sun. */
+  readonly poleward: F;
   /** How far it lies from the eye, metres. */
   readonly away: F;
 };
@@ -63,16 +67,17 @@ export type Mixer = {
   readonly mottled: (parts: Parts) => F;
 };
 
-/** What a band's materials are mixed from. */
-export type Band = {
+/**
+ * What a band's materials are mixed from, and the look they are drawn in, by
+ * which a band pays for what only shows near: the plain one for none of it.
+ */
+export type Band = InLook & {
   readonly ground: Ground;
   readonly mix: Mixer;
   /** The height a band is told by: the ground's, steep ground reading higher. */
   readonly banded: F;
   /** The noise the bands' borders are broken by, metres. */
   readonly border: Ragged;
-  /** The look drawn, by which a band pays for what only shows near: the plain one for none of it. */
-  readonly look: Look;
 };
 
 export const paint = (rgb: Rgb): V => vec3(...rgb);

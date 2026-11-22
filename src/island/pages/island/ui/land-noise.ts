@@ -73,6 +73,17 @@ export const QUIET: OctaveNoise = {
 };
 
 /**
+ * An octave that is not there: what a look reads in place of one it leaves out
+ * near the eye, where averaging it as `QUIET` does would blur every edge drawn
+ * through its coarser neighbours.
+ */
+export const ABSENT: OctaveNoise = {
+  ...QUIET,
+  told: float(1),
+  edged: float(1),
+};
+
+/**
  * How far an octave's lattice is pushed about by the next coarser one's slope,
  * cells: enough that no cell's square outline shows through a border drawn
  * along the noise.

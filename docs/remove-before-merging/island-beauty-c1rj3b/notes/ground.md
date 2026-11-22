@@ -47,16 +47,23 @@ device dies in this container, so nothing below was seen on WebGPU.
   no distance to the coast of its own.
 - `ui/land-lowland.ts` — meadow (growth, hay, rushes in hollows, earth banks)
   and forest. Forest near the eye is the tile's `cover` attribute; between
-  20 km and 150 km it gives way to what the height and the shader's own
+  1.5 km and 5 km it gives way to what the height and the shader's own
   coarse lattices expect, because a tile's cover changes with its level and
-  drew the tiles from orbit. The two do not agree place for place: a forest's
-  outline shifts as the eye crosses that range.
+  drew straight tile edges from 4 km up. The two do not agree place for
+  place: a forest's outline shifts as the eye crosses that range. A meadow
+  takes on the moor's turf between 120 m and 340 m and the moor keeps green
+  under 620 m, so the border between the two is one palette.
 - `ui/land-upland.ts` — moor (tussock clumps, heath, sward, stony soil),
   alpine ground (turf, soil, scree), rock with level beds, and snow: over its
-  ragged line, slid off faces past about forty degrees near the eye, by
-  height alone past 400 km so a range keeps a white spine.
+  ragged line, the line up to 1100 m lower on ground leaning toward the pole
+  (`Ground.poleward`, from the mesh's normal) so its outline follows the
+  relief, slid off faces past about forty degrees near the eye, by height
+  alone past 400 km so a range keeps a white spine.
+- A rough shore (`ROCKY_ATTRIBUTE`) is bare rock from the water to 3–9 m,
+  dark where the sea wets it; no sand and nothing grown on it.
 - `ui/land-surface.ts` — the three looks. Swift: the fine one over the eight
-  coarsest octaves, with rock's ledges and not the leaves within one; it draws
+  coarsest octaves (the two dropped are `ABSENT`: gone without widening any
+  edge, where an octave lost to distance is `QUIET` and widens them), with rock's ledges and not the leaves within one; it draws
   only once `scene-look.ts` passes `look === 'swift'` to `dress`. Fine: all ten octaves, rock's beds,
   and the small relief as a normal from the octaves' slopes (TSL, so WebGL2
   draws it too). Relief gone under a pixel dims the ground instead. Plain: the
@@ -69,7 +76,8 @@ device dies in this container, so nothing below was seen on WebGPU.
 
 - Forest near and far: within 300 m the fine look paints `cover` as the
   shaded floor — litter and moss — and from 600 m as canopy, in the trees' own
-  leaf colours (`LAND_PALETTE.broadleaf`, `.conifer`) times 0.75. The conifer
+  leaf colours (`LAND_PALETTE.broadleaf`, `.conifer`) times 0.75, broken into
+  crowns a few steps across, lit tops over dark gaps. The conifer
   heights (250–520 m) and the thinning height (450 m) repeat figures in
   `model/forest-cover.ts`; they must move together.
 - Dry bare sand carries wind ripples 11 cm long, their phase following the
@@ -90,9 +98,8 @@ has measured the land's share on the target machine yet.
 
 ## Still wrong
 
-- Forest from 300 km up is a checkerboard of tile vertices, with a seam where
-  two tile levels meet: `cover` is per vertex, and a coarse tile has few. The
-  shader softens the edge but cannot hide the grid.
+- Curvature is not known to a fragment, so snow follows aspect and height
+  and not gullies as such.
 - Underfoot the ground is still soft past a few metres: the finest octave is
   11 cm, and nothing draws blades, stones or twigs.
 
@@ -105,7 +112,4 @@ has measured the land's share on the target machine yet.
   m) and ranges (over 1000 m) stand; a relief that moves them moves the bands
   off their country.
 
-- `pnpm knip` fails on three exports of the relief's (`detailReach`, `sandAt`,
-  `sandAtSphere`), none of them read by the ground.
-- The snow line is the same on every aspect; a lower line on the shaded side
-  was asked for and is not built.
+- `pnpm knip` fails on one export of the relief's (`detailReach`), not read by the ground.
