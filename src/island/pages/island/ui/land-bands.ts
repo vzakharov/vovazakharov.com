@@ -2,7 +2,7 @@ import { mix, smoothstep } from 'three/tsl';
 import type { Node } from 'three/webgpu';
 
 import { BAND_HEIGHTS, LAND_PALETTE, SHORE_TOP } from '../lib/land-colour';
-import { beachOf, sandinessOf } from './land-beach';
+import { beachOf } from './land-beach';
 import { lowlandOf, woodedOf } from './land-lowland';
 import {
   type Band,
@@ -51,7 +51,7 @@ export function landBands(
   octaves: readonly OctaveNoise[],
   detailed: boolean,
 ): Banded {
-  const { level, stops, steep } = ground;
+  const { level, stops, steep, sand } = ground;
   const m = mixerOf(octaves);
   const inland = smoothstep(SHORE_TOP, 150, level);
   const borders = m.ragged([
@@ -79,10 +79,7 @@ export function landBands(
   const alpine = alpineOf(band);
   const stone = rockOf(band, upland, mountain);
   const snow = snowOf(band);
-  const beach = beachOf(
-    band,
-    sandinessOf(level).mul(wooded.cover.mul(0.85).oneMinus()),
-  );
+  const beach = beachOf(band, sand.mul(wooded.cover.mul(0.85).oneMinus()));
 
   const tint = m.mottled([
     [COUNTRY, 0.08],

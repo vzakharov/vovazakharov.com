@@ -22,13 +22,6 @@ const WRACK_WIDTH = 0.3;
 const BEACH_TOP = 8;
 
 /**
- * How sandy ground is by its height alone, 0…1: all sand to the shore's top,
- * none a little over it.
- */
-export const sandinessOf = (level: Node<'float'>): Node<'float'> =>
-  smoothstep(SHORE_TOP - 6, SHORE_TOP + 16, level).oneMinus();
-
-/**
  * The sand, an ocean beach with a dune belt behind it, drawn wherever
  * `sandiness` — 0…1 — says sand lies, whatever the height and however steep:
  * `sand`, how much of the ground is sand's and no band's; `bare`, how much of

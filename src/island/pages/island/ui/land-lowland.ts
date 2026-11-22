@@ -1,6 +1,6 @@
 import { float, mix, smoothstep } from 'three/tsl';
 
-import { LAND_PALETTE, SHORE_TOP } from '../lib/land-colour';
+import { LAND_PALETTE } from '../lib/land-colour';
 import { TREELINE } from '../model/forest-cover';
 import {
   type Band,
@@ -18,7 +18,7 @@ import {
 } from './land-mix';
 
 /** How far from the eye a forest reads as the ground under its trees, and from where as their crowns alone, metres. */
-const FLOOR_TO = 120;
+const FLOOR_TO = 300;
 const CANOPY_FROM = 600;
 
 /** How much of its leaves' colour a canopy shows from over it, the rest lost in its own shade. */
@@ -91,7 +91,7 @@ export function lowlandOf({ ground: { steep }, mix: m }: Band) {
  * ground under the trees near the eye and their canopy past it.
  */
 export function woodedOf({
-  ground: { cover: placed, away, level },
+  ground: { cover: placed, away, level, sand },
   mix: m,
   detailed,
 }: Band) {
@@ -101,7 +101,7 @@ export function woodedOf({
       [REGION, 0.5],
       [DISTRICT, 0.4],
     ])
-    .mul(smoothstep(SHORE_TOP, SHORE_TOP + 25, level))
+    .mul(smoothstep(0.15, 0.8, sand).oneMinus())
     .mul(smoothstep(THINNING_FROM, TREELINE, level).oneMinus());
   const forest = mix(
     placed,

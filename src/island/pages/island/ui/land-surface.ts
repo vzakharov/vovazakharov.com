@@ -17,7 +17,7 @@ import {
 import { type Node, Vector3 } from 'three/webgpu';
 
 import { ripplePhaseOf, SAND_RIPPLE } from '../lib/land-octaves';
-import { COVER_ATTRIBUTE } from '../model/cover-attribute';
+import { COVER_ATTRIBUTE, SAND_ATTRIBUTE } from '../model/cover-attribute';
 import { type Coloured, landBands } from './land-bands';
 import { FIELD, GRAIN, HAND, type Parts, PATCH, SLOPE, STEP } from './land-mix';
 import { type Following, landNoise, QUIET } from './land-noise';
@@ -97,6 +97,7 @@ export function landSurface(height: F, stops: V): LandSurface {
     steep,
     away,
     cover: attribute(COVER_ATTRIBUTE, 'float'),
+    sand: attribute(SAND_ATTRIBUTE, 'float'),
     footprint,
   };
   const fine = landBands(ground, octaves, true);

@@ -35,6 +35,8 @@ export type Ground = Seen & {
   readonly steep: F;
   /** The share of it under tree crowns, 0 bare to 1 closed canopy. */
   readonly cover: F;
+  /** How sandy it is, 0 none to 1 on the beach and the dune belt. */
+  readonly sand: F;
   /** How far it lies from the eye, metres. */
   readonly away: F;
 };
