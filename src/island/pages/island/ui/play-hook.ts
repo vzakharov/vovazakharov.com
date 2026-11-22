@@ -1,6 +1,6 @@
 import { type IslandPlayHook, PLAY_HOOK } from '@/island/shared/play';
 
-import type { IslandScene } from './island-scene';
+import type { IslandScene } from './island-scene-api';
 
 /**
  * Hands `scene` to a play script on `window[PLAY_HOOK]`; the scene was mounted
@@ -14,8 +14,8 @@ export function installPlayHook(scene: IslandScene): () => void {
     moveTo: async (lat, lon, m) => scene.moveTo(lat, lon, m),
     turnTo: async (heading) => scene.turnTo(heading),
     lookTo: async (look) => scene.lookTo(look),
-    setFine: (on) => {
-      scene.setFine(on === 1);
+    setLook: (look) => {
+      scene.setLook(look);
     },
     setTime: (hours) => {
       scene.setTime(hours);

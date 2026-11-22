@@ -1,7 +1,7 @@
 import { dot, Fn, uniform } from 'three/tsl';
 import { type Node, Vector3 } from 'three/webgpu';
 
-import { roll, rollWith } from '@/dice/shared/roll';
+import { pathHash, roll, rollWith } from '@/dice/shared/roll';
 
 /**
  * How many whole cells a world shifts the lattice by along each axis, at
@@ -20,10 +20,11 @@ const SHIFT = roll.struct({
 const worldShift = uniform(new Vector3());
 
 /**
- * Keys every `latticeValue` to the world whose words `wordAt` reads, so no two
- * worlds draw the same grain, cloud or storm at the same place.
+ * Keys every `latticeValue` to the world at path `world`, so no two worlds
+ * draw the same grain, cloud or storm at the same place.
  */
-export function rollLattice(wordAt: (path: string) => number): void {
+export function rollLattice(world: string): void {
+  const wordAt = pathHash(world);
   const { x, y, z } = rollWith(SHIFT, (path) => wordAt(`lattice/${path}`));
   worldShift.value.set(x, y, z);
 }

@@ -16,7 +16,7 @@
  *
  * Options: `--world N` (default 0, Earth), `--out <dir>` (default
  * tmp/island-shots), `--size WxH` (default 1600x1000, scale 1), `--look
- * plain|fine` (default fine), `--backend webgl2|webgpu` (default webgl2; the
+ * plain|swift|fine` (default fine), `--backend webgl2|webgpu` (default webgl2; the
  * run fails when the page draws on the other), `--set <name>` (known: see
  * `SHOT_SETS`), and any number of `--shot
  * name:lat,lon,height[,headingDeg[,lookDeg[,hours]]]`. Units: lat, lon, heading
@@ -33,6 +33,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
+
+import { LOOKS } from '@/island/shared/play';
 
 import {
   buildExport,
@@ -65,7 +67,6 @@ const FRAMES_PER_SHOT = 2;
 /** How long a move gets to bring its tiles in under the software rasterizer. */
 const SETTLE_MS = 600_000;
 const BACKENDS = ['webgl2', 'webgpu'] as const;
-const LOOKS = ['plain', 'fine'] as const;
 
 const oneOf = <Value extends string>(
   name: string,
@@ -130,10 +131,7 @@ async function main(): Promise<void> {
             `Asked for the ${backend} backend, the page drew on ${drawn}`,
           );
         }
-        await tab.evaluate(
-          call('setFine', look === 'fine' ? 1 : 0),
-          z.unknown(),
-        );
+        await tab.evaluate(call('setLook', look), z.unknown());
         await inTurn(shots, async (spot) => {
           const { name, latDeg, lonDeg, height, hours } = spot;
           const aim = aimOf(spot);
