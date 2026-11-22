@@ -180,6 +180,8 @@ export function landBands(
     smoothstep(250, BAND_HEIGHTS.upland[1], banded.add(border.sum)),
   ).mul(
     mottled([
+      [HILL, 0.07],
+      [FIELD, 0.12],
       [SLOPE, 0.15],
       [PATCH, 0.28],
       [STEP, 0.1],
@@ -326,6 +328,8 @@ export function landBands(
       .sub(0.5)
       .add(
         ragged([
+          [FIELD, 0.4],
+          [SLOPE, 0.4],
           [PATCH, 0.5],
           [STEP, 0.6],
           [HAND, 0.3],
@@ -335,6 +339,9 @@ export function landBands(
   const beach = mix(
     stops.mul(
       mottled([
+        [HILL, 0.04],
+        [FIELD, 0.06],
+        [SLOPE, 0.05],
         [PATCH, 0.03],
         [STEP, 0.04],
         [HAND, 0.05],
@@ -348,12 +355,16 @@ export function landBands(
     SHORE_TOP + 16,
     height.add(
       ragged([
+        [HILL, 7],
+        [FIELD, 7],
         [SLOPE, 6],
         [PATCH, 4],
         [STEP, 2],
       ]).sum,
     ),
-  ).oneMinus();
+  )
+    .oneMinus()
+    .mul(cover.mul(0.85).oneMinus());
 
   const colour = mix(
     stops,
