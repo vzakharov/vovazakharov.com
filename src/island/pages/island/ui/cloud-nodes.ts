@@ -5,6 +5,7 @@ import {
   float,
   Fn,
   If,
+  int,
   Loop,
   max,
   min,
@@ -66,8 +67,10 @@ export type CloudNodes = {
   readonly update: (seconds: number) => void;
 };
 
-/** Samples of the field along a ray's stretch of the layer. */
-const STEPS = 4;
+/** Steps along a ray's stretch of the layer: for an eye over every cloud, and for one among or under them. */
+const STEPS = [4, 8] as const;
+/** The distance, in a step's level lengths, that hides the same waves the step does: those under a step long. */
+const STEP_HIDES = 60;
 /** What a metre of full cloud takes from a ray. */
 const PER_METRE = 0.012;
 /** How much deeper a cloud is under the heaviest billow of its cells than under none. */
@@ -169,6 +172,22 @@ export function cloudNodes(frame: CloudFrame): CloudNodes {
           const from = inLayer.from.toVar();
           const length = inLayer.length.toVar();
           If(length.greaterThan(0), () => {
+            const [fewest, most] = STEPS;
+            const steep = rays
+              .steepAt(cosine, from.add(length.mul(0.5)))
+              .toVar();
+            // Counted from the eye's height alone, so no line across the view parts two counts.
+            const steps = select(
+              height.lessThan(HIGHEST_TOP),
+              float(most),
+              float(fewest),
+            ).toVar();
+            // A wave shorter than a step would show as one bar a step.
+            const hidden = length
+              .div(steps)
+              .mul(steep.mul(steep).oneMinus().max(0).sqrt())
+              .mul(STEP_HIDES)
+              .toVar();
             const through = float(1).toVar();
             const glow = vec3(0).toVar();
             const lamps = light.lamps(read, regime.base);
@@ -183,9 +202,10 @@ export function cloudNodes(frame: CloudFrame): CloudNodes {
               const place = rays.placeAt(direction, at).toVar();
               const spot = turned(place).toVar();
               // A ray grazing the layer sees its waves squeezed: as fine as from that much further off.
-              const away = at
-                .div(rays.steepAt(cosine, at).clamp(LEAST_STEEP, 1))
-                .toVar();
+              const away = max(
+                at.div(rays.steepAt(cosine, at).clamp(LEAST_STEEP, 1)),
+                hidden,
+              ).toVar();
               const coarse = cover.octave(spot, 0, away).toVar();
               const cells = coarse.add(cover.octave(spot, 1, away)).toVar();
               for (const [index, wave] of CELL_METRES.entries()) {
@@ -211,12 +231,12 @@ export function cloudNodes(frame: CloudFrame): CloudNodes {
             const nearCoarse = first.coarse.toVar();
             const nearCells = first.cells.toVar();
             const nearSignal = first.signal.toVar();
-            Loop(STEPS, ({ i }) => {
+            Loop({ start: int(0), end: int(steps) }, ({ i }) => {
               // What is left would not show through what the ray already met.
               If(through.lessThan(0.02), () => {
                 Break();
               });
-              const far = readAt(float(i).add(1).div(STEPS));
+              const far = readAt(float(i).add(1).div(steps));
               const farSignal = far.signal.toVar();
               const nearOver = rays.overAt(cosine, nearAt).toVar();
               const thick = thickness(
