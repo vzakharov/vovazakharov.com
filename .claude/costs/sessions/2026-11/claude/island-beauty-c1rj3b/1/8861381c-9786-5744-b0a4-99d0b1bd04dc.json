@@ -1,0 +1,130 @@
+{
+  "total": {
+    "inputTokens": 243479,
+    "cacheWrite5mTokens": 254866,
+    "cacheWrite1hTokens": 147462,
+    "cacheReadTokens": 4916562,
+    "outputTokens": 54727,
+    "thinkingTokens": 14378,
+    "responses": 55,
+    "costUsd": 4.870656200000002
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-22T09:48:46.859Z",
+    "contextTokens": 102765,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 43727,
+      "cacheReadTokens": 53302,
+      "outputTokens": 619,
+      "thinkingTokens": 65,
+      "responses": 1,
+      "costUsd": 0.7350684000000001
+    }
+  },
+  "sessionId": "8861381c-9786-5744-b0a4-99d0b1bd04dc",
+  "branch": "claude/island-beauty-c1rj3b",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/carte-blanche давай украсим наш мир. На этот подход хочется: 1- более реалистичной отрисовки ландшафта -- сейчас на отдалении отчётливо видны паттерны 2- отрис…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBiucpraEhsFyZ58M9",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-22T09:48:38.998Z",
+  "lastResponseAt": "2026-11-22T09:52:55.290Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 30,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 147462,
+    "cacheReadTokens": 1925345,
+    "outputTokens": 23494,
+    "thinkingTokens": 11937,
+    "responses": 15,
+    "costUsd": 3.684461
+  },
+  "subagents": {
+    "inputTokens": 64,
+    "cacheWrite5mTokens": 254866,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 2991217,
+    "outputTokens": 18929,
+    "thinkingTokens": 2441,
+    "responses": 30,
+    "costUsd": 1.1257047
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 30,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 147462,
+      "cacheReadTokens": 1925345,
+      "outputTokens": 23494,
+      "thinkingTokens": 11937,
+      "responses": 15,
+      "costUsd": 3.684461
+    },
+    "claude-sonnet-5-5/standard": {
+      "inputTokens": 64,
+      "cacheWrite5mTokens": 254866,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 2991217,
+      "outputTokens": 18929,
+      "thinkingTokens": 2441,
+      "responses": 30,
+      "costUsd": 1.1257047
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 243385,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 12304,
+      "thinkingTokens": 0,
+      "responses": 10,
+      "costUsd": 0.06049050000000001
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 54,
+    "matched": 44,
+    "matchedTableUsd": 4.618931100000002,
+    "matchedEventUsd": 4.618931100000002,
+    "unseen": {
+      "web_fetch_apply": {
+        "inputTokens": 193620,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 8934,
+        "thinkingTokens": 0,
+        "responses": 7,
+        "costUsd": 0.023829000000000003
+      },
+      "web_search_tool": {
+        "inputTokens": 49765,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 3370,
+        "thinkingTokens": 0,
+        "responses": 3,
+        "costUsd": 0.0366615
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 201,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {}
+}
