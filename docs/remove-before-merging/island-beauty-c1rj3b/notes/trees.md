@@ -26,7 +26,7 @@ Everything is under `src/island/pages/island/`.
   has 4×4 jittered spots; a spot holds a tree where its rolled chance is under
   `forestCover` there. Five tiers: tier `t` uses cells of cube level `18 − t`
   (38 m · 2^t) and is drawn to 8 cells (305 m … 4.9 km).
-- **`ui/tree-meshes.ts`** — the two kinds at three details, built in code: unit
+- **`ui/tree-meshes.ts`** — the two kinds at four details, built in code: unit
   height, foot at the origin, vertex colours.
 - **`ui/tree-nodes.ts`** — what the vertex shader does to a tree: shrinks it to
   its foot over the last 35 % of its tier's reach, widens a coarse tier's tree
@@ -40,10 +40,13 @@ Everything is under `src/island/pages/island/`.
 
 ## Numbers others depend on
 
-- Budget: 13,000 instances at most per kind, four kinds (600 near ≤ 80 m,
-  4,400 mid ≤ 320 m, 8,000 far). Closed canopy underfoot draws about 9,000.
+- Budget per kind, four kinds: 600 near, 4,400 mid, 12,000 far, 12,000 least.
+- `treeView.drawAs(look)`: plain draws none. Fine: near ≤ 80 m, mid ≤ 320 m,
+  far past it. Swift: no near, mid ≤ 60 m, far ≤ 220 m, `least` past it (20
+  triangles a broadleaf, 24 a conifer stand), bushes and grass gone by 110 m.
+- Closed canopy from 2 m (`treeView.tally()`): fine 19,769 plants in 1,192k
+  triangles; swift 17,694 in 434k. From 400 m up: 11,682 plants, 485k and 244k.
 - The worker's tile fill costs about 1.07× what it did without `cover`.
-- Trees draw in the fine look only: `treeView.setShown(fine)`.
 - Trees have no collision and cast no shadow.
 
 ## What is not done

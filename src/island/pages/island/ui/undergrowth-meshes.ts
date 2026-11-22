@@ -48,6 +48,7 @@ const BLADES: Readonly<Record<TreeDetail, number>> = {
   near: 11,
   mid: 6,
   far: 6,
+  least: 6,
 };
 
 /**

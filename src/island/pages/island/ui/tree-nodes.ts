@@ -4,7 +4,6 @@ import {
   cross,
   dot,
   length,
-  min,
   mix,
   modelWorldMatrix,
   normalize,
@@ -65,7 +64,7 @@ export function treeNodes() {
   const up = normalize(foot.xyz.sub(centre));
   const off = positionLocal.sub(foot.xyz);
   const rise = up.mul(dot(off, up));
-  const widen = min(foot.w.div(tierReach(0)), WIDEST)
+  const widen = clamp(foot.w.div(tierReach(0)), 1, WIDEST)
     .sub(1)
     .mul(smoothstep(foot.w.mul(WIDEN_OVER[0]), foot.w.mul(WIDEN_OVER[1]), away))
     .add(1);

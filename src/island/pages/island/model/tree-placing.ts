@@ -44,8 +44,18 @@ export const tierCell = (tier: number) =>
 /** The distance at which a tier's trees have shrunk to nothing, metres. */
 export const tierReach = (tier: number) => REACH_CELLS * tierCell(tier);
 
-/** What grows: two kinds of tree, and the bushes and dune grass about them (`undergrowth`). */
-export const TREE_KINDS = ['broadleaf', 'conifer', 'bush', 'tuft'] as const;
+/**
+ * What is placed: two kinds of tree, the bushes and dune grass about them
+ * (`undergrowth`), and what lies on the ground under them (`forest-floor`).
+ */
+export const TREE_KINDS = [
+  'broadleaf',
+  'conifer',
+  'bush',
+  'tuft',
+  'log',
+  'shade',
+] as const;
 
 export type TreeKind = (typeof TREE_KINDS)[number];
 
@@ -56,13 +66,13 @@ export type Tree = Spot & {
   readonly tall: number;
   /** Its crown's width as a share of its kind's usual one for that height. */
   readonly girth: number;
-  /** Its lean off the plumb line, radians, east and north. */
+  /** Its lean off the plumb line, east and north: radians while small, and the slope a thing lying on the ground takes. */
   readonly lean: readonly [number, number];
   /** Its turn about its own trunk, radians. */
   readonly spin: number;
   /** Where its leaves sit between the kind's coolest green (0) and warmest (1). */
   readonly tint: number;
-  /** How light its leaves are, 0 darkest to 1 lightest. */
+  /** How light its leaves are, 0 darkest to 1 lightest; of a `shade`, the share of the ground's light it takes. */
   readonly shade: number;
 };
 
@@ -122,12 +132,16 @@ export function spotIn(
   );
 }
 
-/** A kind's shortest and tallest grown plant, metres. */
-const TALL: Readonly<Record<TreeKind, readonly [number, number]>> = {
+/** A kind whose size is rolled between its own bounds. */
+type GrownKind = Exclude<TreeKind, 'shade'>;
+
+/** A kind's shortest and tallest grown plant, metres: a log's are its lengths. */
+const TALL: Readonly<Record<GrownKind, readonly [number, number]>> = {
   broadleaf: [9, 19],
   conifer: [11, 26],
   bush: [0.7, 2.3],
   tuft: [0.45, 0.95],
+  log: [1.5, 6],
 };
 
 /** A typical lean, radians: a couple of degrees. */
@@ -143,12 +157,12 @@ export function tangentsAt(p: Vec3): readonly [Vec3, Vec3] {
   return [east, cross(p, east)];
 }
 
-/** The ground's uprightness at `p` — the cosine of its slope — from the heights `SLOPE_SPAN` to either tangent. */
-export function uprightAt(
+/** How the ground at `p` rises to the east and to the north (`tangentsAt`), metres a metre, from the heights `SLOPE_SPAN` away. */
+export function slopeAt(
   p: Vec3,
   height: number,
   groundAt: TreeGround['groundAt'],
-): number {
+): readonly [number, number] {
   const [east, north] = tangentsAt(p);
   const step = SLOPE_SPAN / R;
   const rise = (t: Vec3) =>
@@ -157,13 +171,20 @@ export function uprightAt(
     ) -
       height) /
     SLOPE_SPAN;
-  return 1 / Math.hypot(1, rise(east), rise(north));
+  return [rise(east), rise(north)];
 }
+
+/** The ground's uprightness at `p`: the cosine of its slope. */
+export const uprightAt = (
+  p: Vec3,
+  height: number,
+  groundAt: TreeGround['groundAt'],
+): number => 1 / Math.hypot(1, ...slopeAt(p, height, groundAt));
 
 /** A plant of `kind` at `spot` with the rolled `shape`, `grown` of its kind's size. */
 export function plantOf(
   { p, height }: Spot,
-  kind: TreeKind,
+  kind: GrownKind,
   shape: Readonly<
     Record<
       'tall' | 'girth' | 'leanEast' | 'leanNorth' | 'spin' | 'tint' | 'shade',

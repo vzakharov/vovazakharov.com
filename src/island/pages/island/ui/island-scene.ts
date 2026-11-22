@@ -3,7 +3,6 @@ import { Group, PerspectiveCamera, Scene, WebGPURenderer } from 'three/webgpu';
 import type { WithOnError } from '@/kernel/shared/typings';
 
 import { length, R, sub } from '@/island/shared/globe';
-import { isFine } from '@/island/shared/play';
 import type { CoastDistance } from '@/island/entities/terrain';
 import {
   bindEyeControls,
@@ -102,7 +101,7 @@ export function mountIslandScene(
     render,
     keys: play ? null : canvas,
     onLook: (look) => {
-      trees.setShown(isFine(look));
+      trees.drawAs(look);
       onLook(look);
     },
   });
