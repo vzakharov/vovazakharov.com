@@ -11,6 +11,7 @@ import {
   HAND,
   HILL,
   paint,
+  type Parts,
   PATCH,
   REGION,
   SLOPE,
@@ -34,6 +35,18 @@ const FLOOR_SHADE = 0.45;
  */
 const COVER_TO = 20_000;
 const EXPECTED_FROM = 150_000;
+
+/**
+ * The octaves a place's expected forest is patched by, each the nearest to one
+ * of the patches the trees are placed by and at its weight, so forest from
+ * afar is broken at the sizes it is near.
+ */
+const EXPECTED_PATCHES: Parts = [
+  [REGION, 1],
+  [DISTRICT, 0.75],
+  [HILL, 0.5],
+  [FIELD, 0.3],
+];
 
 /** The height the forest starts thinning at toward the treeline, metres. */
 const THINNING_FROM = 450;
@@ -93,14 +106,10 @@ export function lowlandOf({ ground: { steep }, mix: m }: Band) {
 export function woodedOf({
   ground: { cover: placed, away, level, sand },
   mix: m,
-  detailed,
+  look,
 }: Band) {
   const expected = m
-    .patches(-0.3, 0.05, [
-      [COUNTRY, 0.3],
-      [REGION, 0.5],
-      [DISTRICT, 0.4],
-    ])
+    .patches(-0.59, -0.03, EXPECTED_PATCHES)
     .mul(smoothstep(0.15, 0.8, sand).oneMinus())
     .mul(smoothstep(THINNING_FROM, TREELINE, level).oneMinus());
   const forest = mix(
@@ -160,8 +169,9 @@ export function woodedOf({
   );
   return {
     cover,
-    colour: detailed
-      ? mix(floor, canopy, smoothstep(FLOOR_TO, CANOPY_FROM, away))
-      : canopy,
+    colour:
+      look === 'plain'
+        ? canopy
+        : mix(floor, canopy, smoothstep(FLOOR_TO, CANOPY_FROM, away)),
   };
 }

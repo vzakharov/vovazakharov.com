@@ -1,6 +1,8 @@
 import { float, smoothstep, vec3 } from 'three/tsl';
 import type { Node } from 'three/webgpu';
 
+import type { Look } from '@/island/shared/play';
+
 import type { Rgb } from '../lib/land-colour';
 import { type OctaveNoise, QUIET, type Seen } from './land-noise';
 
@@ -69,8 +71,8 @@ export type Band = {
   readonly banded: F;
   /** The noise the bands' borders are broken by, metres. */
   readonly border: Ragged;
-  /** Whether the look pays for what only shows near: the fine one does. */
-  readonly detailed: boolean;
+  /** The look drawn, by which a band pays for what only shows near: the plain one for none of it. */
+  readonly look: Look;
 };
 
 export const paint = (rgb: Rgb): V => vec3(...rgb);

@@ -1,6 +1,8 @@
 import { mix, smoothstep } from 'three/tsl';
 import type { Node } from 'three/webgpu';
 
+import type { Look } from '@/island/shared/play';
+
 import { BAND_HEIGHTS, LAND_PALETTE, SHORE_TOP } from '../lib/land-colour';
 import { beachOf } from './land-beach';
 import { lowlandOf, woodedOf } from './land-lowland';
@@ -43,13 +45,13 @@ const STEEP_LIFT = 600;
 /**
  * What each of the four bands the height tells apart — beach, green lowland,
  * brown upland, mountain — is made of, their borders broken by slope and by
- * `octaves` at every scale given. `detailed` adds what only the fine look
- * pays for: rock's beds, and the forest's floor near the eye.
+ * `octaves` at every scale given. Past the plain `look` come rock's beds and
+ * the forest's floor near the eye.
  */
 export function landBands(
   ground: Ground,
   octaves: readonly OctaveNoise[],
-  detailed: boolean,
+  look: Look,
 ): Banded {
   const { level, stops, steep, sand } = ground;
   const m = mixerOf(octaves);
@@ -70,7 +72,7 @@ export function landBands(
   const banded = level.add(
     steep.mul(STEEP_LIFT).mul(smoothstep(120, 420, level)),
   );
-  const band: Band = { ground, mix: m, banded, border, detailed };
+  const band: Band = { ground, mix: m, banded, border, look };
   const upland = m.edge(banded, ...BAND_HEIGHTS.upland, border);
   const mountain = m.edge(banded, ...BAND_HEIGHTS.mountain, border);
 
@@ -113,7 +115,7 @@ export function landBands(
       smoothstep(0.5, 4, level),
     ),
     roughness: mix(
-      mix(mix(turf, 0.6, stone.rock), 0.06, snow),
+      mix(mix(turf, 0.42, stone.rock), 0.06, snow),
       mix(0.3, 0.05, beach.bare),
       beach.sand,
     ),
