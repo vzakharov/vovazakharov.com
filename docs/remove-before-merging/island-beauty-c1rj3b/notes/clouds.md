@@ -1,76 +1,73 @@
 # Clouds — hand-over note
 
-Branch `claude/island-beauty-clouds`. Package: the clouds of `/island`.
-Everything here was shot on WebGL2 under software raster, so no frame time
-below is a GPU's.
+Branch `claude/island-beauty-clouds`. Package: the clouds of `/island` as seen
+from above. The march (`ui/cloud-nodes.ts`, `ui/cloud-rays.ts`) and with it
+the ground and in-cloud views belong to `claude/island-beauty-clouds-march`
+since 28c1f497. Everything here was shot on WebGL2 under software raster, so
+no frame time below is a GPU's.
 
 ## Where it stands
 
-**From above it is weather; from the ground it is not yet as good as the
-baseline.** Step 1 of the brief is delivered, step 2 is started and not
-finished.
+**From above it is weather with real structure; from the ground it is the
+march branch's to cure.**
 
-- **Built and wired.** A weather map over the sphere (`ui/cloud-regimes.ts`)
-  read once per ray: fair-weather cumulus on the storm track, cyclones with a
-  front, a cold sector of open cells and an ice shield, trade cumulus, decks
-  of closed cells breaking into open ones, cloud streets, ITCZ clusters under
-  anvils, clear subtropics. Meso cells are packed (Worley) cells, warped
-  (`ui/cloud-noise.ts`, `ui/cloud-cover.ts`). A separate ice sheet at 10.5 km
-  (`ui/cloud-ice.ts`). The march (`ui/cloud-nodes.ts`) reads the field at the
-  ends of its steps and takes each step's thickness as the exact mean between
-  them, so there is no jitter and no hatch. Every scale fades before it nears
-  a pixel's width (`toldFrom`), which is what removed the speckle from orbit.
-  Light (`ui/cloud-light.ts`): Beer–Lambert toward the sun, a dark flat base,
-  forward scattering, a diffuse floor, shaded creases between billows.
+- **The map.** `ui/cloud-regimes.ts` is read once per ray: fair-weather
+  cumulus on the storm track, cyclones with a front, a cold sector of open
+  cells and an ice shield, trade cumulus, decks of closed cells breaking into
+  open ones, cloud streets, ITCZ clusters under anvils, clear subtropics.
+- **The cells.** `ui/cloud-noise.ts` scatters one point to a lattice cell.
+  `edgeOf` is the distance to a packed cell's edge (decks' veins, open cells'
+  rings). `puffs` is the union of a disc round every point, each its own
+  radius: the coarsest cumulus scale (9 km) and the clumps a field gathers
+  into (52 km, bent by one read of noise) are both `puffs`. Finer cumulus
+  scales are value noise, each on turned axes of its own (`turnedTo`).
+- **No lattice may show.** A value-noise octave thresholded alone draws
+  squares (cumulus from 820 km) or a chequerboard (clumps from 2,300 km);
+  both were cured by `puffs`. A new field takes `puffs` or `edgeOf`, never a
+  single value-noise octave.
+- **Far fields.** Every scale fades before it nears a pixel's width
+  (`toldFrom`), and a field of heaps too far to tell is its mean cover
+  (`FAR_SOFT`, `FAR_MEAN` in `ui/cloud-cover.ts`).
+- **A lay's weight mixes every row**, density and ceiling included, so a
+  regime that must feather in keeps its weight whole before its cloud begins
+  and feathers by its own amount and density (the front does).
 - **One drift is kept.** The whole field turns east rigidly on the clock; the
   cyclones live and die on a second clock that wraps with it
   (`lib/clouds.ts`, pinned by `lib/clouds.test.ts`).
-- **`sky-nodes.ts` is unchanged**; `along`, `glanced` and `shade` keep their
-  signatures, and `along` is still a function of a ray that a separate pass
-  could call.
+- **Every hash is the world's**: `latticeValue` and `worldCell` from
+  `ui/lattice-value.ts`.
 
 ## What is wrong, in the order it shows
 
-1. **From the ground the sky is thinner and blander than the baseline's.**
-   Far clouds are soft grey lenses with faint level stripes; there are no
-   cumulus with flat dark bases and heaped lit tops. Cause: the march's
-   samples lie on level shells of the layer, so a cloud narrower than the gap
-   between two shells along the ray shows as one bar a shell. An eye under
-   12 km takes eight steps instead of four and waves shorter than a step are
-   faded out (`STEPS`, `STEP_HIDES` in `ui/cloud-nodes.ts`), which trades the
-   bars for blur. The cure is samples where the cloud is: find the ray's first
-   crossing of the cloud's top or base, then step inside it.
-2. **Just over a deck and inside any cloud the view is soft grey.** Same
-   cause. The "second of grey" passing through the deck is not cured.
-3. **A front's dense band has a crisp edge** against the soft shield round it
-   (`storm-3000km`, the white worms in `coast-20000km`).
-4. **Open cells still read as lace from 2,300 km** where a field of them is
-   wide, though they now come in fields with clear air between.
-5. **Low sun and moonlight were not re-shot after the rewrite**, nor was
-   `shade` checked against `along` by frame.
+1. **The front is a narrow band** (`0015-clouds-3-storm-3000km`): its tail is
+   a fifth of its head's width (`wide` in `stormsOver`). It wants a broad
+   fibrous band.
+2. **A dense fair-weather field from 2,300 km reads a little like frog-spawn**
+   (`0015-clouds-3-clumps-2300km`): clumps near one scale, no streets along
+   the wind.
+3. **A deck has a few thin blue cracks** through to the sea
+   (`0014-clouds-2-deck-2300km`).
+4. **Toward the horizon from 820 km clumps go soft and blobby**, where the
+   mean cover takes over.
 
 ## Cost
 
 Counted in value-noise reads per cloudy ray, the baseline being 19: the map
-4, the cyclones about 3, the meso cells at the layer's two ends 2–7, five
-field samples of 2–5 octaves each 10–25, the sunward read 4 from over the
-layer and none from under it, streets 5 where there are any. That is 25–40,
-so 1.3–2× the baseline against a budget of 1.5× for an eye over 12 km, and about twice that under it, where the march takes eight steps. It needs measuring on the
-M2; the first economies to take are three steps for rays from orbit and the
-meso cells read once instead of at both ends.
+4, the cyclones about 3, the meso field at the layer's two ends 2–9 (clumps 2
+reads, packed cells 3 with their warp), four field samples of 2–5 octaves
+each, the sunward read 4 from over the layer, the sheet of fine scales up to
+5 where a step hides them, streets 5 where there are any. About 25–40, so
+1.3–2× the baseline against a budget of 1.5×; it needs measuring on the M2.
+The economies left are in the march's file: three steps for an eye over the
+layer, and the meso field read once in place of at both ends.
 
 ## Outside my files
 
-- Nothing was changed outside the cloud files.
 - No land–sea mask is asked for.
-- `pnpm knip` fails on `detailReach`, `sandAt` and `sandAtSphere` in
-  `src/island/entities/terrain/`, which came with the merge of the lead's
-  branch.
-- `lookTo` is clamped, so `sky-2m` sees only the horizon; cumulus overhead
-  cannot be judged from the shooter until the play hook lets it look up 40°.
+- `pnpm knip` fails on `detailReach` in `src/island/entities/terrain/`.
 
 ## Frames
 
-`frames/0010-clouds-1-*.jpg`, and `frames/0011-clouds-2-*.jpg` for the
-eight-step march, shot with `pnpm shoot:island --no-build --shot`;
-the baseline is `frames/0000-before-*.jpg`.
+`frames/0010-clouds-1-*` (step 1), `0014-clouds-2-*` (lattice, open cells,
+front, decks), `0015-clouds-3-*` (clumps), shot with
+`pnpm shoot:island --no-build --shot`; the baseline is `0000-before-*`.
