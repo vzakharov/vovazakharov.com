@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 635163,
-    "cacheWrite5mTokens": 694670,
-    "cacheWrite1hTokens": 1301058,
-    "cacheReadTokens": 88718536,
-    "outputTokens": 463757,
-    "thinkingTokens": 97222,
-    "responses": 483,
-    "costUsd": 54.49784019999998
+    "inputTokens": 694347,
+    "cacheWrite5mTokens": 696342,
+    "cacheWrite1hTokens": 1472173,
+    "cacheReadTokens": 92169898,
+    "outputTokens": 504036,
+    "thinkingTokens": 109913,
+    "responses": 503,
+    "costUsd": 60.027304599999965
   },
   "estimate": {
     "at": "2026-11-22T10:04:22.431Z",
@@ -52,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkBiucpraEhsFyZ58M9",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-22T09:48:38.998Z",
-  "lastResponseAt": "2026-11-22T18:06:19.637Z",
+  "lastResponseAt": "2026-11-22T20:52:46.150Z",
   "pricesAsOf": "2026-11-03",
-  "claudeCodeTotalUsd": 24.96560949999999,
+  "claudeCodeTotalUsd": 55.047107,
   "ownTurns": {
-    "inputTokens": 669,
+    "inputTokens": 57476,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 1301058,
-    "cacheReadTokens": 75431401,
-    "outputTokens": 306848,
-    "thinkingTokens": 87974,
-    "responses": 350,
-    "costUsd": 48.18248020000001
+    "cacheWrite1hTokens": 1472173,
+    "cacheReadTokens": 78583509,
+    "outputTokens": 335785,
+    "thinkingTokens": 100665,
+    "responses": 369,
+    "costUsd": 53.1626778
   },
   "subagents": {
     "inputTokens": 198,
@@ -77,14 +77,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 15696,
-      "cacheWrite5mTokens": 6728,
-      "cacheWrite1hTokens": 1301058,
-      "cacheReadTokens": 78676882,
-      "outputTokens": 350979,
-      "thinkingTokens": 87974,
-      "responses": 363,
-      "costUsd": 50.80209040000001
+      "inputTokens": 74880,
+      "cacheWrite5mTokens": 8400,
+      "cacheWrite1hTokens": 1472173,
+      "cacheReadTokens": 82128244,
+      "outputTokens": 391258,
+      "thinkingTokens": 100665,
+      "responses": 383,
+      "costUsd": 56.3315548
     },
     "claude-sonnet-5-5/standard": {
       "inputTokens": 198,
@@ -235,13 +235,44 @@
         "estimatedUsd": 0.10327239999999999
       },
       "billedUsd": 0.534753
+    },
+    {
+      "at": "2026-11-22T18:08:08.750Z",
+      "trigger": "auto",
+      "compactedFrom": 303125,
+      "summaryChars": 24499,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "docs/plans/island-beauty.in-progress.md",
+        "endedAt": "2026-11-22T20:50:08.432Z",
+        "contextTokens": 203051,
+        "spend": {
+          "inputTokens": 56789,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 141502,
+          "cacheReadTokens": 1464396,
+          "outputTokens": 13574,
+          "thinkingTokens": 8366,
+          "responses": 11,
+          "costUsd": 3.5541832000000007
+        }
+      },
+      "rereads": {
+        "calls": 1,
+        "byTool": {
+          "Bash": 1
+        },
+        "estimatedTokens": 10543,
+        "estimatedUsd": 0.20453419999999997
+      },
+      "billedUsd": 0.5492667999999999
     }
   ],
   "telemetry": {
-    "events": 482,
-    "matched": 441,
-    "matchedTableUsd": 51.591239799999975,
-    "matchedEventUsd": 51.591239799999975,
+    "events": 503,
+    "matched": 461,
+    "matchedTableUsd": 56.679744199999966,
+    "matchedEventUsd": 56.679744199999966,
     "unseen": {
       "web_fetch_apply": {
         "inputTokens": 469885,
@@ -264,14 +295,14 @@
         "costUsd": 0.12026189999999999
       },
       "compact": {
-        "inputTokens": 10473,
-        "cacheWrite5mTokens": 3765,
+        "inputTokens": 12850,
+        "cacheWrite5mTokens": 5437,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 1206712,
-        "outputTokens": 43949,
+        "cacheReadTokens": 1505966,
+        "outputTokens": 55291,
         "thinkingTokens": 0,
-        "responses": 4,
-        "costUsd": 2.1207364
+        "responses": 5,
+        "costUsd": 2.6700032
       },
       "prompt_suggestion": {
         "inputTokens": 4554,
@@ -286,17 +317,17 @@
     }
   },
   "operatorWords": {
-    "chat": 364,
+    "chat": 558,
     "review": 0,
     "threads": 0
   },
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 1544,
+    ".md": 1621,
     ".json": 614,
     ".yaml": 989,
-    ".ts": 7896,
+    ".ts": 8003,
     ".tsx": 40,
     ".scss": 28
   }
