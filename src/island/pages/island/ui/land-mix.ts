@@ -71,8 +71,8 @@ export type Band = {
   readonly banded: F;
   /** The noise the bands' borders are broken by, metres. */
   readonly border: Ragged;
-  /** The look drawn, by which a band pays for what only shows near: the plain one for none of it. */
-  readonly look: Look;
+  /** The look whose detail a band pays for: the plain one for none of what only shows near. */
+  readonly detail: Look;
 };
 
 export const paint = (rgb: Rgb): V => vec3(...rgb);

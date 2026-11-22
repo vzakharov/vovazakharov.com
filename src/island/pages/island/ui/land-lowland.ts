@@ -106,7 +106,7 @@ export function lowlandOf({ ground: { steep }, mix: m }: Band) {
 export function woodedOf({
   ground: { cover: placed, away, level, sand },
   mix: m,
-  look,
+  detail,
 }: Band) {
   const expected = m
     .patches(-0.59, -0.03, EXPECTED_PATCHES)
@@ -170,7 +170,7 @@ export function woodedOf({
   return {
     cover,
     colour:
-      look === 'plain'
+      detail === 'plain'
         ? canopy
         : mix(floor, canopy, smoothstep(FLOOR_TO, CANOPY_FROM, away)),
   };

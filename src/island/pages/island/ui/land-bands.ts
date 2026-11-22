@@ -72,7 +72,7 @@ export function landBands(
   const banded = level.add(
     steep.mul(STEEP_LIFT).mul(smoothstep(120, 420, level)),
   );
-  const band: Band = { ground, mix: m, banded, border, look };
+  const band: Band = { ground, mix: m, banded, border, detail: look };
   const upland = m.edge(banded, ...BAND_HEIGHTS.upland, border);
   const mountain = m.edge(banded, ...BAND_HEIGHTS.mountain, border);
 
