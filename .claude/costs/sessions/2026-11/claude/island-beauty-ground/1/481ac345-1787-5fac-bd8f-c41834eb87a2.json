@@ -1,0 +1,150 @@
+{
+  "total": {
+    "inputTokens": 6346,
+    "cacheWrite5mTokens": 318,
+    "cacheWrite1hTokens": 276195,
+    "cacheReadTokens": 8824017,
+    "outputTokens": 71358,
+    "thinkingTokens": 30527,
+    "responses": 50,
+    "costUsd": 9.092191400000003
+  },
+  "estimate": {
+    "at": "2026-11-22T10:06:25.276Z",
+    "subjectLine": "feat: the land's surface without repeats, four bands each its own",
+    "parts": [
+      {
+        "hours": 30.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "procedural, non-repeating, LOD-stable surface shading across orbit-to-2m scales with a frame budget needs a shader specialist"
+      },
+      {
+        "hours": 16.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "four bands (sand, green, brown, mountain) each need a look judged on frames at five heights and three hours"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-22T09:58:07.015Z",
+    "contextTokens": 103400,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 44323,
+      "cacheReadTokens": 149644,
+      "outputTokens": 1107,
+      "thinkingTokens": 509,
+      "responses": 2,
+      "costUsd": 0.7834088
+    }
+  },
+  "sessionId": "481ac345-1787-5fac-bd8f-c41834eb87a2",
+  "branch": "claude/island-beauty-ground",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a `/carte-blanche` run led by another Claude session (`session_01DaohkBiucpraEhsFyZ58M9`). You are a peer, not an assistant: you own …",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkDMLPfW237JGnaUuWd",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-22T09:57:59.447Z",
+  "lastResponseAt": "2026-11-22T10:35:29.515Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 96,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 276195,
+    "cacheReadTokens": 8569592,
+    "outputTokens": 63852,
+    "thinkingTokens": 30527,
+    "responses": 49,
+    "costUsd": 8.687886400000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 6346,
+      "cacheWrite5mTokens": 318,
+      "cacheWrite1hTokens": 276195,
+      "cacheReadTokens": 8824017,
+      "outputTokens": 71358,
+      "thinkingTokens": 30527,
+      "responses": 50,
+      "costUsd": 9.092191400000003
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-22T10:34:10.531Z",
+      "trigger": "auto",
+      "compactedFrom": 266470,
+      "summaryChars": 17467,
+      "reorientation": {
+        "endedBy": null,
+        "endedOn": null,
+        "endedAt": null,
+        "contextTokens": null,
+        "spend": {
+          "inputTokens": 12,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 70557,
+          "cacheReadTokens": 538866,
+          "outputTokens": 6075,
+          "thinkingTokens": 2184,
+          "responses": 5,
+          "costUsd": 1.4797812
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.404305
+    }
+  ],
+  "telemetry": {
+    "events": 49,
+    "matched": 48,
+    "matchedTableUsd": 8.588468200000001,
+    "matchedEventUsd": 8.5884682,
+    "unseen": {
+      "compact": {
+        "inputTokens": 6250,
+        "cacheWrite5mTokens": 318,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 254425,
+        "outputTokens": 7506,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.404305
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 626
+  }
+}

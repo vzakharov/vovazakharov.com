@@ -8,11 +8,9 @@ import {
   max,
   modelPosition,
   normalize,
-  normalWorldGeometry,
   positionGeometry,
   positionWorld,
   reflect,
-  transformNormalToView,
   uniform,
   wgslFn,
 } from 'three/tsl';
@@ -53,13 +51,6 @@ export type SeaSurface = {
    * land material's `outputNode` over its own `lit` output.
    */
   readonly damp: (lit: Node<'vec4'>, bed: Node<'float'>) => Node;
-  /** The direction up from the planet's centre at a fragment, unit. */
-  readonly zenith: Node<'vec3'>;
-  /**
-   * The ground's normal in view space with its small relief, `rough` in root
-   * mean square slope: a land material's `normalNode`.
-   */
-  readonly relief: (rough: Node<'float'>) => Node<'vec3'>;
   readonly update: (frame: SeaFrame) => void;
 };
 
@@ -116,12 +107,6 @@ export function seaSurface(radiance: Radiance): SeaSurface {
     }`,
     [listing],
   );
-  const relief = wgslFn(
-    `fn groundRelief(place: vec3f, normal: vec3f, footprint: f32, rough: f32) -> vec3f {
-      return groundNormal(place, normal, footprint, rough);
-    }`,
-    [listing],
-  );
   const shade = wgslFn(
     `fn seaShade(
       place: vec3f, world: vec3f, eye: vec3f, sun: vec3f, bed: f32, under: vec3f,
@@ -157,11 +142,6 @@ export function seaSurface(radiance: Radiance): SeaSurface {
       }),
     lies: (bed) => lies({ world: positionWorld, bed, swell }),
     damp: (lit, bed) => damp({ lit, world: positionWorld, bed, swell }),
-    zenith,
-    relief: (rough) =>
-      transformNormalToView(
-        relief({ place, normal: normalWorldGeometry, footprint, rough }),
-      ),
     update: (frame) => {
       const [x, y, z] = frame.eye;
       eyeNode.value.set(x, y, z);
