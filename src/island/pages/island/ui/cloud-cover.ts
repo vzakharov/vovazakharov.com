@@ -34,8 +34,10 @@ const FLATTEST = 0.8;
 /** The share of its layer's depth under a cloud's top in which it thins out. */
 const TOP_FALL = 0.3;
 /** How far from a meso cell's edge an open ring's cloud and a deck's vein reach, as `edgeOf` measures it. */
-const RING_WIDE = 0.32;
+const RING_WIDE = 0.65;
 const VEIN_WIDE = 0.13;
+/** How much wider than the mean a ring's wall is under the heaviest lump. */
+const WALL_SWELL = 0.45;
 /** The share of a field its rings and its veins cover: what an eye too far to tell them sees instead. */
 const RINGS_COVER = 0.45;
 const VEINS_COVER = 0.3;
@@ -237,7 +239,12 @@ export function cloudCover(growth: F): CloudCover {
     const { amount, lumps, veins, rings, fine, streets, bend } = regime;
     const told = toldFrom(MESO_WAVES[0], away);
     const edge = mesoThere.y;
-    const ring = min(edge.div(RING_WIDE), 1).oneMinus();
+    // A ring's wall is wider where the lumps are, so no two are one width.
+    const ring = smoothstep(
+      0,
+      mesoThere.x.mul(WALL_SWELL).add(1).mul(RING_WIDE),
+      edge,
+    ).oneMinus();
     const vein = min(edge.div(VEIN_WIDE), 1).oneMinus();
     const sum = amount
       .add(rings.mul(mix(RINGS_COVER, ring, told)).mul(EDGE_WEIGHT))
