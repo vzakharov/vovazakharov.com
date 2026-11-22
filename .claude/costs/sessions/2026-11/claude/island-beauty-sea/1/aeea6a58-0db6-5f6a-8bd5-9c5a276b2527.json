@@ -1,0 +1,155 @@
+{
+  "total": {
+    "inputTokens": 2256,
+    "cacheWrite5mTokens": 258,
+    "cacheWrite1hTokens": 289372,
+    "cacheReadTokens": 19605661,
+    "outputTokens": 95529,
+    "thinkingTokens": 35315,
+    "responses": 102,
+    "costUsd": 8.1570022
+  },
+  "estimate": {
+    "at": "2026-11-22T17:18:19.785Z",
+    "subjectLine": "feat: the sea's ripples in wave groups, with no lattice in the glitter",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "breaking a plane-wave sum's lattice under float32 exactness and a fixed per-fragment budget is GPU rendering judgement"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "judging from CPU frames whether glitter reads as wind sea needs an eye for water"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-22T17:15:29.531Z",
+    "contextTokens": 124165,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 42826,
+      "cacheReadTokens": 147611,
+      "outputTokens": 887,
+      "thinkingTokens": 106,
+      "responses": 2,
+      "costUsd": 0.3898862
+    }
+  },
+  "sessionId": "aeea6a58-0db6-5f6a-8bd5-9c5a276b2527",
+  "branch": "claude/island-beauty-sea",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a member of a team making `/island` (src/island, mounted by sites/vova) beautiful. The lead is session `session_01DaohkBiucpraEhsFyZ58M9` on branch `cla…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBNMrEzd6kyEhPXjND",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-22T17:15:20.811Z",
+  "lastResponseAt": "2026-11-22T17:51:27.596Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 189,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 289372,
+    "cacheReadTokens": 19345452,
+    "outputTokens": 89870,
+    "thinkingTokens": 35315,
+    "responses": 101,
+    "costUsd": 7.982222400000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 2256,
+      "cacheWrite5mTokens": 258,
+      "cacheWrite1hTokens": 289372,
+      "cacheReadTokens": 19605661,
+      "outputTokens": 95529,
+      "thinkingTokens": 35315,
+      "responses": 102,
+      "costUsd": 8.1570022
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-22T17:46:30.724Z",
+      "trigger": "auto",
+      "compactedFrom": 266334,
+      "summaryChars": 13213,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "docs/remove-before-merging/island-beauty-c1rj3b/notes/sea.md",
+        "endedAt": "2026-11-22T17:46:42.889Z",
+        "contextTokens": 138846,
+        "spend": {
+          "inputTokens": 4,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 78115,
+          "cacheReadTokens": 182267,
+          "outputTokens": 873,
+          "thinkingTokens": 609,
+          "responses": 2,
+          "costUsd": 0.6788493999999999
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.1747798
+    }
+  ],
+  "telemetry": {
+    "events": 101,
+    "matched": 100,
+    "matchedTableUsd": 7.945053600000001,
+    "matchedEventUsd": 7.945053600000002,
+    "unseen": {
+      "compact": {
+        "inputTokens": 2067,
+        "cacheWrite5mTokens": 258,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 260209,
+        "outputTokens": 5659,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.1747798
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1465,
+    ".json": 490,
+    ".yaml": 786,
+    ".ts": 7296,
+    ".tsx": 41,
+    ".scss": 28
+  }
+}
