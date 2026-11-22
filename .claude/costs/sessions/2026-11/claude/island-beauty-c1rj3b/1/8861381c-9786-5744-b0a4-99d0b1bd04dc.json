@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 698947,
+    "inputTokens": 698969,
     "cacheWrite5mTokens": 696699,
-    "cacheWrite1hTokens": 1866707,
-    "cacheReadTokens": 124588657,
-    "outputTokens": 599891,
-    "thinkingTokens": 130602,
-    "responses": 649,
-    "costUsd": 76.69817040000002
+    "cacheWrite1hTokens": 1888411,
+    "cacheReadTokens": 126338538,
+    "outputTokens": 608488,
+    "thinkingTokens": 132407,
+    "responses": 661,
+    "costUsd": 77.73946660000004
   },
   "estimate": {
     "at": "2026-11-22T10:04:22.431Z",
@@ -48,22 +48,24 @@
   "branch": "claude/island-beauty-c1rj3b",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/carte-blanche давай украсим наш мир. На этот подход хочется: 1- более реалистичной отрисовки ландшафта -- сейчас на отдалении отчётливо видны паттерны 2- отрис…",
-  "prs": [],
+  "prs": [
+    294
+  ],
   "url": "https://claude.ai/code/session_01DaohkBiucpraEhsFyZ58M9",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-22T09:48:38.998Z",
-  "lastResponseAt": "2026-11-22T22:41:54.436Z",
+  "lastResponseAt": "2026-11-22T22:44:41.960Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 55.047107,
   "ownTurns": {
-    "inputTokens": 57756,
+    "inputTokens": 57778,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 1866707,
-    "cacheReadTokens": 110395289,
-    "outputTokens": 407814,
-    "thinkingTokens": 121354,
-    "responses": 513,
-    "costUsd": 68.72097780000001
+    "cacheWrite1hTokens": 1888411,
+    "cacheReadTokens": 112145170,
+    "outputTokens": 416411,
+    "thinkingTokens": 123159,
+    "responses": 525,
+    "costUsd": 69.76227400000003
   },
   "subagents": {
     "inputTokens": 198,
@@ -77,14 +79,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 79480,
+      "inputTokens": 79502,
       "cacheWrite5mTokens": 8757,
-      "cacheWrite1hTokens": 1866707,
-      "cacheReadTokens": 114547003,
-      "outputTokens": 487113,
-      "thinkingTokens": 121354,
-      "responses": 529,
-      "costUsd": 73.0024206
+      "cacheWrite1hTokens": 1888411,
+      "cacheReadTokens": 116296884,
+      "outputTokens": 495710,
+      "thinkingTokens": 123159,
+      "responses": 541,
+      "costUsd": 74.04371680000001
     },
     "claude-sonnet-5-5/standard": {
       "inputTokens": 198,
@@ -325,16 +327,16 @@
           "Bash": 1
         },
         "estimatedTokens": 434,
-        "estimatedUsd": 0.007117599999999999
+        "estimatedUsd": 0.0081592
       },
       "billedUsd": 0.5570448
     }
   ],
   "telemetry": {
-    "events": 649,
-    "matched": 605,
-    "matchedTableUsd": 72.23804420000005,
-    "matchedEventUsd": 72.23804420000005,
+    "events": 661,
+    "matched": 617,
+    "matchedTableUsd": 73.27934040000007,
+    "matchedEventUsd": 73.27934040000007,
     "unseen": {
       "web_fetch_apply": {
         "inputTokens": 469885,
@@ -386,7 +388,7 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 1952,
+    ".md": 1989,
     ".json": 742,
     ".yaml": 726,
     ".ts": 8976,
