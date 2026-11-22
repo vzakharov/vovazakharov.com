@@ -79,8 +79,7 @@ export function floorIn(
     floor.push({
       ...tree,
       kind: 'shade',
-      tall:
-        SPREAD * reach * tree.tall * tree.girth * (1 + (POOL - 1) * under),
+      tall: SPREAD * reach * tree.tall * tree.girth * (1 + (POOL - 1) * under),
       girth: 1,
       lean,
       shade: SHADE_OPEN + (SHADE_UNDER - SHADE_OPEN) * under,

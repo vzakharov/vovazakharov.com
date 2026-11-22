@@ -41,10 +41,7 @@ Everything is under `src/island/pages/island/`.
   ones for 3 ms, lays instances out again every 7 m the eye moves.
   **`ui/tree-stands.ts`** holds the `InstancedMesh`es (kind × detail) and their
   materials; the shade's multiplies the ground behind it and writes no alpha.
-  Its strength is the instance colour and its fall-off is computed in the
-  fragment shader from the distance to the trunk: the disc's vertex colours
-  reach the shader in the lab (`tmp/shade-lab`, not committed) and come out
-  black in the built scene, for a reason not found.
+  **The shade is laid and not drawn** (`mesh.visible` in `tree-stands.ts`).
   **`ui/tree-rolled.ts`** turns a cell's plants into frames and tints.
 - **`lib/world-ground.ts`** — `coastOf`, `groundOf`, `treeGround`, `SEA_LEVEL`,
   out of `island-scene.ts` to keep it under 400 lines.
@@ -72,6 +69,22 @@ Everything is under `src/island/pages/island/`.
   to carry a forest from there.
 
 ## Left, each with its first step
+
+- **The shade under a tree does not show in the built scene.** Known: the
+  instances are laid (49 near and 134 mid at the treeline spot
+  `-16.7573,-8.3452` from 2 m); a shade whose output is the instance colour
+  alone multiplies the ground as meant (`frames/0018-trees-shade-flat.jpg`, a
+  hard-edged disc); any fall-off toward the rim — vertex colours through
+  `diffuseColor`, or `smoothstep` over `length(positionGeometry.xz)` as the
+  code has it — leaves no trace (`frames/0018-trees-shade-soft.jpg`), under
+  the WebGL2 fallback the shooter runs. The same material on a bare plane, with
+  lights and a background node, draws the soft shade correctly, so the cause is
+  in what the scene adds: the tiles' `depthNode`, the frames `tree-rolled.ts`
+  builds (a shade's frame is scaled by `tall` alone), or the draw order against
+  the sea and the air. First step: set `mesh.visible` back, output
+  `vec4(fromTrunk, 0, 0, 1)` under `NormalBlending` at the treeline spot and
+  read whether the distance from the trunk arrives as 0…1; then try it under
+  real WebGPU, which the shooter does not have.
 
 The lead's verdicts these answer are on the lead branch as
 `frames/0012-merge-5-*` and `frames/0014-merge-7-*`.

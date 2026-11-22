@@ -144,6 +144,8 @@ export function treeStands(dress: (material: MeshLambertNodeMaterial) => void) {
       const mesh = new InstancedMesh(geometry, materials[k], capacity);
       mesh.setColorAt(0, new Color(1, 1, 1));
       mesh.frustumCulled = false;
+      // Laid and never drawn: in the built scene a shade's fall-off comes out as none.
+      mesh.visible = kind !== 'shade';
       mesh.count = 0;
       group.add(mesh);
       return { mesh, foot, capacity };
