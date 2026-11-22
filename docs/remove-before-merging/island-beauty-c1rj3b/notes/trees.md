@@ -32,9 +32,16 @@ Everything is under `src/island/pages/island/`.
   its foot over the last 35 % of its tier's reach, widens a coarse tier's tree
   (to 3× at most) between 15 % and 35 % of its own reach, and bends it in the
   wind — gusts crossing the ground, seen within 400 m.
-- **`ui/tree-view.ts`** — six `InstancedMesh`es. Per frame: lists the cells in
-  reach, rolls missing ones for 3 ms, lays instances out again every 7 m the eye
-  moves.
+- **`model/forest-floor.ts`** — `floorIn`: under each tree of every tier a
+  `shade` (a disc as wide as the crown over open ground, half that in closed
+  forest, taking 55 % to 40 % of the ground's light at the trunk), and fallen
+  `log`s under cover, in the finest cells. Both lie along the slope. The ground member paints the
+  floor's colour and the flat canopy shade; these are what it cannot place.
+- **`ui/tree-view.ts`** — per frame: lists the cells in reach, rolls missing
+  ones for 3 ms, lays instances out again every 7 m the eye moves.
+  **`ui/tree-stands.ts`** holds the `InstancedMesh`es (kind × detail) and their
+  materials; the shade's multiplies the ground behind it and writes no alpha.
+  **`ui/tree-rolled.ts`** turns a cell's plants into frames and tints.
 - **`lib/world-ground.ts`** — `coastOf`, `groundOf`, `treeGround`, `SEA_LEVEL`,
   out of `island-scene.ts` to keep it under 400 lines.
 
@@ -43,9 +50,10 @@ Everything is under `src/island/pages/island/`.
 - Budget per kind, four kinds: 600 near, 4,400 mid, 12,000 far, 12,000 least.
 - `treeView.drawAs(look)`: plain draws none. Fine: near ≤ 80 m, mid ≤ 320 m,
   far past it. Swift: no near, mid ≤ 60 m, far ≤ 220 m, `least` past it (20
-  triangles a broadleaf, 24 a conifer stand), bushes and grass gone by 110 m.
-- Closed canopy from 2 m (`treeView.tally()`): fine 19,769 plants in 1,192k
-  triangles; swift 17,694 in 434k. From 400 m up: 11,682 plants, 485k and 244k.
+  triangles a broadleaf, 24 a conifer stand), bushes and grass gone by 110 m,
+  no shade or logs. Fine draws shade and logs within 140 m.
+- Closed canopy from 2 m (`treeView.tally()`): fine 20,660 plants in 1,218k
+  triangles; swift 17,694 in 480k. From 400 m up: 11,682 plants, 485k and 280k.
 - The worker's tile fill costs about 1.07× what it did without `cover`.
 - Trees have no collision and cast no shadow.
 
