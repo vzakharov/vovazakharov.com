@@ -12,11 +12,8 @@ import {
   type Vec3,
 } from '@/island/shared/globe';
 
-import {
-  type CoastDistance,
-  heightAtSphere,
-  SPHERE_GROUND_SLOPE,
-} from './height-sphere';
+import type { CoastDistance } from './coast-detail';
+import { heightAtSphere, SPHERE_GROUND_SLOPE } from './height-sphere';
 
 const SEED = 7;
 const DISC_METRES = 1_000_000;

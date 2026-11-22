@@ -4,13 +4,13 @@ import { describe, it } from 'node:test';
 import { latLonToUnit } from '@/island/shared/globe';
 
 import { sampleSphereField } from './coast-field';
-import { heightAtSphere, sandAtSphere } from './height';
+import { detailedCoast, heightAtSphere, sandAtSphere } from './height';
 import { openSphereWorld, rollWorld } from './world';
 
 // Worlds #0–#7 as the game rolls and opens them, pinned exactly: `seed` is
 // the raw word `H(N, "noise/seed")`, `sea` and `harmonic` decode the words at
 // `land/sea` and `land/harmonic/2/-1`, and `height` is the ground in metres at
-// 10° N on the +X meridian, from the built world's coast field and seed (#0
+// 10° N on the +X meridian, from the built world's coast, bent by its seed (#0
 // and #1 from their pinned rows). A change to the hash, the decoders or the
 // build moves one of them.
 const PINNED = [
@@ -78,7 +78,7 @@ describe('worlds #0–#7', () => {
       assert.equal(land.sea, pinned.sea);
       assert.equal(land.harmonic.at({ l: 2, m: -1 }), pinned.harmonic);
       const height = heightAtSphere(
-        (p) => sampleSphereField(built.field, p),
+        detailedCoast((p) => sampleSphereField(built.field, p), built.seed),
         built.seed,
         POINT,
       );
@@ -90,8 +90,7 @@ describe('worlds #0–#7', () => {
 /** The share of sand at a place on world #0, degrees. */
 async function sandOnWorld0(lat: number, lon: number) {
   const { field, seed } = await openSphereWorld('0');
-  const coast = (p: Parameters<typeof sampleSphereField>[1]) =>
-    sampleSphereField(field, p);
+  const coast = detailedCoast((p) => sampleSphereField(field, p), seed);
   const p = latLonToUnit({
     lat: (lat * Math.PI) / 180,
     lon: (lon * Math.PI) / 180,

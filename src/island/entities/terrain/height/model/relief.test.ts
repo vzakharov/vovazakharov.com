@@ -102,6 +102,8 @@ describe('detailReach', () => {
       assert.ok(reach >= last, `at ${finest} m`);
       last = reach;
     }
-    assert.ok(detailReach(8) < 30, `${detailReach(8)} m at an 8 m cut`);
+    // Most of it is the coast's bends under 16 m, times the steepest the
+    // ground may be across a coast: a loose bound, and no reader culls by it.
+    assert.ok(detailReach(8) < 200, `${detailReach(8)} m at an 8 m cut`);
   });
 });

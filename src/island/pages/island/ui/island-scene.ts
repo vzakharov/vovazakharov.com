@@ -199,7 +199,7 @@ export function mountIslandScene(
       ({ field, seed, buildMs }) => {
         if (!current()) return;
         built = { of: mine, ms: buildMs };
-        coast = coastOf(field);
+        coast = coastOf(field, seed);
         groundAt = groundOf(coast, seed);
         trees.setGround({ seed, groundAt, wordAt: pathHash(on) });
         view.reselect();
