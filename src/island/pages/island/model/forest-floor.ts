@@ -1,3 +1,5 @@
+import { smoothstep } from '@/scene/shared/lib/ease';
+
 import { rollWith } from '@/dice/shared/roll';
 
 import type { CubeCell } from '@/island/shared/globe';
@@ -43,12 +45,7 @@ const SHADE_UNDER = 0.4;
 const POOL = 0.5;
 
 /** The cover over which the ground is drawn as forest floor: none below the first, all of it from the second. */
-const FLOOR_COVER = [0.36, 0.64] as const;
-
-const smooth = (low: number, high: number, x: number) => {
-  const t = Math.min(1, Math.max(0, (x - low) / (high - low)));
-  return t * t * (3 - 2 * t);
-};
+export const FLOOR_COVER = [0.36, 0.64] as const;
 
 /**
  * What lies on the ground in `cell` under `trees`, the trees `treesIn` stood
@@ -75,7 +72,7 @@ export function floorIn(
     const reach = CROWN[tree.kind];
     if (reach === undefined) continue;
     const { lean, cover } = lying(tree);
-    const under = smooth(...FLOOR_COVER, cover);
+    const under = smoothstep(...FLOOR_COVER, cover);
     floor.push({
       ...tree,
       kind: 'shade',
@@ -96,7 +93,7 @@ export function floorIn(
     if (height <= 0) continue;
     const log = plantOf({ p, height }, 'log', rolled.shape.at({ slot }));
     const { lean, cover } = lying(log);
-    if (chance >= LOGS * smooth(...FLOOR_COVER, cover)) continue;
+    if (chance >= LOGS * smoothstep(...FLOOR_COVER, cover)) continue;
     floor.push({ ...log, lean });
   }
   return floor;

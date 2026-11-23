@@ -9,6 +9,19 @@ const STEEPEST = 3.75 * Math.sqrt(3);
 
 const SALT = noiseSalt(7, 3);
 
+/** A micro-step along every axis, and the most the noise may climb over it. */
+const STEP = 1e-6;
+const STEP_BOUND = STEEPEST * STEP * Math.sqrt(3) + 1e-9;
+
+/** The `k`-th point of a continuity run: every third straddles a lattice plane on each axis. */
+const runPoint = (next: () => number, k: number) => {
+  const near = () =>
+    k % 3 === 0
+      ? Math.round((next() - 0.5) * 2e6) - STEP / 2
+      : (next() - 0.5) * 2e6;
+  return [near(), near(), near()] as const;
+};
+
 const PINNED = [
   0.263_591_548_640_031_76, 0.037_321_825_417_872_99, 0.479_051_574_327_407_1,
 ];
@@ -46,18 +59,11 @@ describe('valueNoise3', () => {
 
   it('is continuous: no pair a micro-step apart climbs past its steepest', () => {
     const next = stream(2);
-    const step = 1e-6;
     for (let k = 0; k < 20_000; k++) {
-      // Every third pair straddles a lattice plane on each axis.
-      const near = (scale: number) =>
-        k % 3 === 0
-          ? Math.round((next() - 0.5) * scale) - step / 2
-          : (next() - 0.5) * scale;
-      const [u, v, w] = [near(2e6), near(2e6), near(2e6)];
+      const [u, v, w] = runPoint(next, k);
       const a = valueNoise3(SALT, u, v, w);
-      const b = valueNoise3(SALT, u + step, v + step, w + step);
-      const bound = STEEPEST * step * Math.sqrt(3) + 1e-9;
-      assert.ok(Math.abs(b - a) <= bound, `${u}, ${v}, ${w}: ${b - a}`);
+      const b = valueNoise3(SALT, u + STEP, v + STEP, w + STEP);
+      assert.ok(Math.abs(b - a) <= STEP_BOUND, `${u}, ${v}, ${w}: ${b - a}`);
     }
   });
 
@@ -105,19 +111,13 @@ describe('valueNoise3x3', () => {
 
   it('is continuous and a pure function, like `valueNoise3`', () => {
     const next = stream(5);
-    const step = 1e-6;
     for (let k = 0; k < 20_000; k++) {
-      const near = (scale: number) =>
-        k % 3 === 0
-          ? Math.round((next() - 0.5) * scale) - step / 2
-          : (next() - 0.5) * scale;
-      const [u, v, w] = [near(2e6), near(2e6), near(2e6)];
+      const [u, v, w] = runPoint(next, k);
       const a = valueNoise3x3(SALT, u, v, w);
       assert.deepEqual(valueNoise3x3(SALT, u, v, w), a);
-      const b = valueNoise3x3(SALT, u + step, v + step, w + step);
-      const bound = STEEPEST * step * Math.sqrt(3) + 1e-9;
+      const b = valueNoise3x3(SALT, u + STEP, v + STEP, w + STEP);
       for (const c of CHANNELS) {
-        assert.ok(Math.abs(b[c] - a[c]) <= bound, `${u}, ${v}, ${w}`);
+        assert.ok(Math.abs(b[c] - a[c]) <= STEP_BOUND, `${u}, ${v}, ${w}`);
       }
     }
   });

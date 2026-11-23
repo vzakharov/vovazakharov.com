@@ -203,3 +203,6 @@ fn seaSwellAt(world: vec3f, bed: f32, swell: vec2f) -> f32 {
 
 /// How far over the sand a sea vertex rides where a sheet may lie on it, metres.
 const SEA_SHEET_RIDES = 0.015;
+
+/// The thinnest sheet of water that lies on the sand, metres: under it the sand is dry.
+const SEA_SHEET_THINNEST = 0.004;

@@ -34,16 +34,6 @@ const BEND = 0.25;
 const NOISE_STEEPEST =
   LATTICE_STEEPEST * (1 + (1.5 * BEND * LATTICE_STEEPEST) / 2);
 
-/**
- * `groundSlope` for the sphere's three-axis lattices, its belts, and a coast
- * whose distance carries `detailedCoast`'s bends.
- */
-export const SPHERE_GROUND_SLOPE = groundSlope(
-  NOISE_STEEPEST,
-  upliftSlope(LATTICE_STEEPEST),
-  COAST_STEEPEST,
-);
-
 /** The steepest the ground drawn at cut `finest` over the coast read whole stands. */
 const cutSlope = (finest: number) =>
   groundSlope(
@@ -52,6 +42,12 @@ const cutSlope = (finest: number) =>
     COAST_STEEPEST,
     finest,
   );
+
+/**
+ * `groundSlope` for the sphere's three-axis lattices, its belts, and a coast
+ * whose distance carries `detailedCoast`'s bends.
+ */
+export const SPHERE_GROUND_SLOPE = cutSlope(0);
 
 /**
  * Each cut `groundSpread` weighs, with twice its relief's reach and the slope

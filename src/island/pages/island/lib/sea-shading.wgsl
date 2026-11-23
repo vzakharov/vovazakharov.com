@@ -1,7 +1,7 @@
 // The sea's colour: a TSL `wgslFn`'s source, so the module holds this one
 // function, the rest of the sea reached from `island-sea.wgsl`.
 
-import super::island_sea::{windAt, seaGroups, ripplesAt, seaFresnel, seaSwellAt, seaTau, SEA_SUNLIGHT, SEA_DAY_SKYLIGHT, SEA_NIGHT_SKYLIGHT};
+import super::island_sea::{windAt, seaGroups, ripplesAt, seaFresnel, seaSwellAt, seaTau, SEA_SUNLIGHT, SEA_DAY_SKYLIGHT, SEA_NIGHT_SKYLIGHT, SEA_SHEET_THINNEST};
 import super::sea_numbers::{SEA_SWELL_AXIS, SEA_EYE_SET, SEA_CLIMB_KEPT};
 import package::nature::shared::shore::shore_level::brokenAt;
 
@@ -30,7 +30,7 @@ fn seaColour(
 ) -> vec3f {
   let level = seaSwellAt(world, bed, swell);
   // Dry sand, which `seaLies` discards: its colour is never seen.
-  if (bed > 0.0 && level - bed <= 0.004) {
+  if (bed > 0.0 && level - bed <= SEA_SHEET_THINNEST) {
     return vec3f(0.0);
   }
   let up = normalize(eye + world);

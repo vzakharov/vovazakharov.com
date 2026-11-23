@@ -12,7 +12,7 @@ import {
 } from 'three/tsl';
 import type { Node } from 'three/webgpu';
 
-import { R } from '@/island/shared/globe';
+import { R, turnAbout } from '@/island/shared/globe';
 
 import { latticeValue, worldCell } from './lattice-value';
 
@@ -25,21 +25,17 @@ const PIXEL = 1.2e-3;
 const TOLD_OVER = 14;
 const GRAIN_UNDER = 5;
 
+/** The distance past which `toldAt` tells nothing of a wave `metres` long. */
+export const seenTo = (metres: number): number =>
+  metres / (GRAIN_UNDER * PIXEL);
+
 /**
  * How much of a wave `metres` long an eye `away` metres off tells apart: all
  * of it while it spans `TOLD_OVER` pixels, none once it is under
  * `GRAIN_UNDER`, where it would draw as grain.
  */
 const toldAt = (metres: number, away: F): F =>
-  smoothstep(
-    metres / (TOLD_OVER * PIXEL),
-    metres / (GRAIN_UNDER * PIXEL),
-    away,
-  ).oneMinus();
-
-/** The distance past which `toldAt` tells nothing of a wave `metres` long. */
-export const seenTo = (metres: number): number =>
-  metres / (GRAIN_UNDER * PIXEL);
+  smoothstep(metres / (TOLD_OVER * PIXEL), seenTo(metres), away).oneMinus();
 
 /** `toldAt` for a wave `waves` of which go round the sphere. */
 export const toldFrom = (waves: number, away: F): F => toldAt(R / waves, away);
@@ -137,20 +133,9 @@ export const puffs = (at: V): F => {
 };
 
 /** A turn of the sphere for each cumulus scale, no axis of one along an axis of another: rows of a rotation. */
-const TURNS = [0, 1, 2, 3, 4].map((index) => {
-  const angle = 0.7 + index * 1.13;
-  const axis = [1 + index, 2, 3 - index * 0.4];
-  const length = Math.hypot(...axis);
-  const [x = 0, y = 0, z = 1] = axis.map((part) => part / length);
-  const c = Math.cos(angle);
-  const s = Math.sin(angle);
-  const t = 1 - c;
-  return [
-    [t * x * x + c, t * x * y - s * z, t * x * z + s * y],
-    [t * x * y + s * z, t * y * y + c, t * y * z - s * x],
-    [t * x * z - s * y, t * y * z + s * x, t * z * z + c],
-  ] as const;
-});
+const TURNS = [0, 1, 2, 3, 4].map((index) =>
+  turnAbout([1 + index, 2, 3 - index * 0.4], 0.7 + index * 1.13),
+);
 
 /** `at` on the axes of cumulus scale `index`. */
 export const turnedTo = (at: V, index: number): V => {

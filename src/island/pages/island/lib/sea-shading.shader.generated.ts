@@ -36,7 +36,7 @@ fn seaColour(
 ) -> vec3f {
   let level = seaSwellAt(world, bed, swell);
   // Dry sand, which \`seaLies\` discards: its colour is never seen.
-  if (bed > 0.0 && level - bed <= 0.004) {
+  if (bed > 0.0 && level - bed <= SEA_SHEET_THINNEST) {
     return vec3f(0.0);
   }
   let up = normalize(eye + world);

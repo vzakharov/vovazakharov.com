@@ -1,4 +1,4 @@
-import type { Vec3 } from '@/island/shared/globe';
+import { turnAbout, type Vec3 } from '@/island/shared/globe';
 
 /**
  * The scales the land's surface is drawn at: lattices of noise in space, one
@@ -15,18 +15,6 @@ export type LandOctave = {
   readonly rows: readonly [Vec3, Vec3, Vec3];
 };
 
-/** The rotation by `angle` about unit `axis`, as rows. */
-function turnAbout([x, y, z]: Vec3, angle: number): LandOctave['rows'] {
-  const c = Math.cos(angle);
-  const s = Math.sin(angle);
-  const t = 1 - c;
-  return [
-    [t * x * x + c, t * x * y - s * z, t * x * z + s * y],
-    [t * x * y + s * z, t * y * y + c, t * y * z - s * x],
-    [t * x * z - s * y, t * y * z + s * x, t * z * z + c],
-  ];
-}
-
 /**
  * Cell widths, metres, coarsest first: four the eye reads as country from
  * above, two as fields and slopes, four as the ground underfoot.
@@ -36,13 +24,11 @@ const CELLS = [
 ] as const;
 
 export const LAND_OCTAVES: readonly LandOctave[] = CELLS.map((cell, i) => {
-  const raw: Vec3 = [
+  const axis: Vec3 = [
     Math.sin(i * 2.4 + 0.5),
     Math.cos(i * 1.7),
     Math.sin(i * 0.9 + 1),
   ];
-  const length = Math.hypot(...raw);
-  const axis: Vec3 = [raw[0] / length, raw[1] / length, raw[2] / length];
   return { cell, rows: turnAbout(axis, 0.7 + i * 1.1) };
 });
 

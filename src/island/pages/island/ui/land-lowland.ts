@@ -2,6 +2,7 @@ import { float, mix, smoothstep } from 'three/tsl';
 
 import { LAND_PALETTE } from '../lib/land-colour';
 import { TREELINE } from '../model/forest-cover';
+import { FLOOR_COVER } from '../model/forest-floor';
 import {
   type Band,
   COUNTRY,
@@ -142,8 +143,8 @@ export function woodedOf({
   // The noise moves the edge only where the cover is partial, so no canopy
   // shows where no tree stands.
   const cover = smoothstep(
-    float(0.36).sub(fringe.lost.mul(0.4)),
-    float(0.64).add(fringe.lost.mul(0.4)),
+    float(FLOOR_COVER[0]).sub(fringe.lost.mul(0.4)),
+    float(FLOOR_COVER[1]).add(fringe.lost.mul(0.4)),
     forest.add(fringe.sum.mul(forest).mul(forest.oneMinus()).mul(4)),
   );
   const floor = mix(

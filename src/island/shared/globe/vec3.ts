@@ -34,3 +34,20 @@ export const unit = (v: Vec3): Vec3 => scaled(v, 1 / length(v));
 /** Radians between two directions of any length but zero. */
 export const arc = (a: Vec3, b: Vec3) =>
   Math.atan2(length(cross(a, b)), dot(a, b));
+
+/** The rotation by `angle` about `axis` (any length but zero), as rows. */
+export function turnAbout(
+  axis: Vec3,
+  angle: number,
+): readonly [Vec3, Vec3, Vec3] {
+  const size = length(axis);
+  const [x, y, z] = [axis[0] / size, axis[1] / size, axis[2] / size];
+  const c = Math.cos(angle);
+  const s = Math.sin(angle);
+  const t = 1 - c;
+  return [
+    [t * x * x + c, t * x * y - s * z, t * x * z + s * y],
+    [t * x * y + s * z, t * y * y + c, t * y * z - s * x],
+    [t * x * z - s * y, t * y * z + s * x, t * z * z + c],
+  ];
+}

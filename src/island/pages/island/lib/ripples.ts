@@ -1,3 +1,5 @@
+import { smoothstep } from '@/scene/shared/lib/ease';
+
 import { dot, length, type Vec3 } from '@/island/shared/globe';
 
 import {
@@ -21,10 +23,6 @@ const GROUP_CELLS = GROUP_PERIOD / GROUP_CELL;
 type Axis = 0 | 1 | 2;
 const each = (f: (axis: Axis) => number): Vec3 => [f(0), f(1), f(2)];
 const fract = (value: number) => value - Math.floor(value);
-const smoothstep = (low: number, high: number, value: number) => {
-  const t = Math.min(Math.max((value - low) / (high - low), 0), 1);
-  return t * t * (3 - 2 * t);
-};
 
 /** `seaGroupCell`. */
 function groupCell(cell: Vec3, grain: Vec3): [number, number] {

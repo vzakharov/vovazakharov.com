@@ -1,3 +1,5 @@
+import { smoothstep } from '@/scene/shared/lib/ease';
+
 import { type Elevated, R, type Vec3 } from '@/island/shared/globe';
 import {
   borderLoop,
@@ -28,11 +30,6 @@ const EASY = 0.866;
 /** The share of the patch noise's range at which meadow gives way to forest, and half the width of that edge. */
 const FOREST_AT = -0.12;
 const EDGE = 0.11;
-
-const smoothstep = (low: number, high: number, x: number) => {
-  const t = Math.min(1, Math.max(0, (x - low) / (high - low)));
-  return t * t * (3 - 2 * t);
-};
 
 /**
  * The patches' octaves, widest first: each a wavelength in metres, its weight,
