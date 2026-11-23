@@ -387,9 +387,9 @@ does not fit, and a half-merged team is worth less than a smaller whole.
   with a jittered eye, rebuilt by depth — it is the candidate that keeps the
   picture, a plain half-resolution swift waits on his word. Then the air's
   volume, the sea's globe under tiles, trees' triangles (1.2M → ~800k).
-- Ground: straight tile edges in the lowland's meadow colour from 4–34 km, the
-  rock's dot screen, contour stripes on grass slopes — check each on fresh
-  frames first, ground's last commits may have cured some.
+- Ground: tile skirts as grey rectangles from above, snow absent from afar and
+  in teeth along a ridge at 2 m (his descent, `operator-1123.md`); tile edges in
+  meadow colour at 4–34 km, the rock's dot screen, contour stripes on grass.
 - Trees: a forest from 300 m as a lawn with bushes, the ruler edge at the dune
   belt, nothing growing on shore rock (`shoreAt` in `TreeGround`), crowns, the
   shade under a tree (laid, not drawn).

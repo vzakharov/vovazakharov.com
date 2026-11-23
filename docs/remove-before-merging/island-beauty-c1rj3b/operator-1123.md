@@ -39,3 +39,14 @@ In `frames/`, `operator-1123-*`, each pair the same view in both looks.
 
 - **Fine's detail shows only near**: `peak-2m-*` and `beach-2m-*` are alike at distance and differ in the foreground — the rock face, the bushes' facets, the ripples. The operator's direction: one look that draws fine near and swift far, by distance.
 - **Clouds look wrong at every height and kind** (not for this approach): `170km-*` long, even, parallel stripes; `520km-*` polygonal flakes with dark cracks between, fine more angular than swift; the polygons show in the 2 m pairs' skies too.
+
+## Descent from orbit, fine
+
+`gh release download island-timelapse -R vzakharov/vovazakharov.com -p 'descent-2026-11-23-orbit-hud.mp4'` — 19 s, to 2 m on a ridge at 35.92381, -113.46303. Frames from it are `frames/operator-1123-descent-*`.
+
+- **Grey rectangles from about 3 s to 6 s** run along the edges of the finer tiles as they arrive (`06s-skirts`): the relief inside, the coarser ground outside. They look like the tiles' skirts seen from above, lit grey rather than in the ground's colour. Not yet checked in code.
+- **No snow from afar** (`07s-no-snow`): brown ground with no snow at all, then snow at 7 s as patches. The likely cause is a coarse tile's heights averaged below the 2200 m snow line (`BAND_HEIGHTS`, `land-colour.ts`) until a finer one loads. Not yet checked in code.
+- **Snow in teeth along a ridge at 2 m** (`15s-snow-teeth`): the snow's edge follows the mesh's triangles, from 15 s to the end.
+- **Trypophobic clouds** (`05s-clouds`): white sheets with polygonal holes over the land, a cracked deck over the sea.
+- **The panel freezes for the first 13 s**: height 20,000 km and 2.8 m/s throughout the dive, then catches up.
+- **The mountains are the approach's best result**, in the operator's words: «как сейчас получились горы нравится больше всего из того что сделано за кусок».
