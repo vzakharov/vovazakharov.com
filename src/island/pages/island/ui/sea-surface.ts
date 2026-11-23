@@ -23,13 +23,12 @@ import { assemble } from '@/gpu/shared/shader';
 import type { Vec3 } from '@/island/shared/globe';
 
 import type { Sunlit } from '../lib/day';
-import { ISLAND_SEA } from '../lib/island-sea.shader.generated';
 import { GROUP_PERIOD, RIPPLE_BANDS, RIPPLE_PERIOD } from '../lib/ripple-table';
 import { SEA_DAMP } from '../lib/sea-damp.shader.generated';
+import { SEA_LIES } from '../lib/sea-lies.shader.generated';
 import { SEA_LIFT } from '../lib/sea-lift.shader.generated';
-import { SEA_MASK } from '../lib/sea-mask.shader.generated';
 import { intoPeriod, swellAt } from '../lib/sea-numbers';
-import { SEA_SHADE } from '../lib/sea-shade.shader.generated';
+import { SEA_SHADING } from '../lib/sea-shading.shader.generated';
 import { worldCell } from './lattice-value';
 
 /** What the sea is drawn under, this frame. */
@@ -122,13 +121,18 @@ export function seaSurface(radiance: Radiance): SeaSurface {
   );
   /** The swell at the eye: its clock, and the eye's place along the crests. */
   const swell = uniform(new Vector2());
-  // One listing every entry includes, so a shader calling two of them
-  // declares the sea once; an entry's own listing is its one function.
-  const listing = code(assemble([ISLAND_SEA]));
+  // One listing of what the entries need, which every entry includes, so a
+  // shader calling two of them declares the sea once; an entry's own listing
+  // is its one function.
+  const listing = code(
+    assemble(
+      [SEA_LIFT, SEA_LIES, SEA_DAMP, SEA_SHADING].flatMap(({ needs }) => needs),
+    ),
+  );
   const lift = wgslFn(SEA_LIFT.listing, [listing]);
-  const lies = wgslFn(SEA_MASK.listing, [listing]);
+  const lies = wgslFn(SEA_LIES.listing, [listing]);
   const damp = wgslFn(SEA_DAMP.listing, [listing]);
-  const shade = wgslFn(SEA_SHADE.listing, [listing]);
+  const shade = wgslFn(SEA_SHADING.listing, [listing]);
 
   return {
     colour: (bed, under, shading = {}) =>
