@@ -33,6 +33,31 @@ fine   tufts         136.3    7    6.6  159.6
 - **The clouds themselves cost swift nothing and fine 21 ms**, the sixteenth-a-frame march doing its job; the air is 9–11 ms, trees 2–4.
 - So the next approach's frame-time list leads with the shadow — a coarse cover map the surface reads, refreshed as the clouds drift, in place of the field per pixel — and the ripples' band count by distance. The list in the plan (air volume, sea globe, trees' triangles) was guessed before this table and comes after.
 
+## Measure, at the two places of the earlier numbers
+
+World 1, `10.28452,-0.47031`, 22.3 m over ground, pitch +10.7°, heading 243.3° toward the sea and 58.0° inland. Mean of 60 frames, ms; the earlier figures are his of 22 November, taken before the HUD averaged.
+
+```text
+                 plain  swift   fine
+sea, before       13.4  159.4  202.8
+sea, now          10.1   91.0  108.2
+inland, before    12.7   68.0   79.1
+inland, now       10.7   48.5   63.2
+
+saved by dropping   swift sea  fine sea  swift inland  fine inland
+clouds                    7.3      14.9           3.3          7.2
+cloud-shadow             30.0      22.8          16.1         14.5
+air                      11.3       6.7           6.8          5.1
+ripples                  48.3      54.4          10.5         10.4
+sea-sky                   2.8       8.3           3.3          3.4
+trees                     4.0       1.5           1.7          1.6
+tufts                     4.2       1.5           0.7          0.4
+```
+
+- **Toward the sea swift is 43% cheaper and fine 47%; inland 29% and 20%.** That is the whole late run — the sea's five cuts, swift's fixes, the clouds' tent — not the sea's cuts alone.
+- **The same two costs lead here as by the shore**: ripples toward the sea, the clouds' shadow inland.
+- **Trees came in over up to 10 s in the first swift row**, the baseline. They cost 2–4 ms, so every swift saving above is understated by at most that much — not enough to reorder them.
+
 ## Screenshots, swift beside fine
 
 In `frames/`, `operator-1123-*`, each pair the same view in both looks.
