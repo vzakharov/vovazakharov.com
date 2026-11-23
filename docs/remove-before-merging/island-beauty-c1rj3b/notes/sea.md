@@ -26,7 +26,7 @@ under the sun.
 
 ## Built
 
-- **Wave groups by phase drift** (`lib/sea-wgsl.ts`): `seaGroups(field, grain)`
+- **Wave groups by phase drift** (`lib/island-sea.wgsl`): `seaGroups(field, grain)`
   reads two slow value-noise fields (one hash per corner gives both) on 32 m
   cells; each wave's phase drifts by its own pair of coefficients times them
   (`Ripple.drift`, `RIPPLE_DRIFTS`), 1 turn for the coarsest band growing ×1.85
@@ -99,7 +99,7 @@ Read off the shader, WebGPU fine look; nothing timed. The operator's numbers
 at the dune place (M2 Pro): facing the sea 159 ms swift / 203 ms fine, facing
 inland 68 / 79, plain 13 both ways.
 
-What one rippled sea fragment runs (`seaColour` in `lib/sea-wgsl.ts`, wired
+What one rippled sea fragment runs (`seaColour` in `lib/island-sea.wgsl`, wired
 in `ui/sea-surface.ts` and `ui/ground-lighting.ts`'s `ripple()`):
 
 - **Ripples**: 64 waves summed once, slope only and analytic (no height, no
@@ -110,7 +110,7 @@ in `ui/sea-surface.ts` and `ui/ground-lighting.ts`'s `ripple()`):
 - **Swell**: `seaSwellAt` three times — the mask, the level, and the level
   0.4 m ahead, so the swell's normal is by a forward difference — plus
   `seaTau`/`brokenAt` for the surf. Each is the shore's closed forms
-  (`NATURE_LISTING`); a few hundred ops together.
+  (`SHORE_LEVEL`, `WETNESS`, `SHORE_CUSPED`); a few hundred ops together.
 - **Reflected sky**: two full `radiance` calls (`ui/sky-nodes.ts`), `mirrored`
   and `overhead`. Each is the dome's single scattering for two lamps (sun and
   moon, each with its own column and phase terms) plus a cloud glance

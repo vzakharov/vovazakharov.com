@@ -101,9 +101,9 @@ otherwise; his answers get quoted under each when they come.
   sun, look Fine: «just in case, вода до сих пор муарно-паттерновая (not
   complaining; прогресс по всем фронтам очевиден)». A remark, and the same
   defect as item 1 on another surface: the sun's glitter path shows a woven
-  lattice. Cause, read from `lib/sea-wgsl.ts`: the wind sea is a sum of plane
-  waves from one table, each coherent for ever, so their beats draw a regular
-  grid. A seventh package, the sea's, on Opus.
+  lattice. Cause, read from `lib/island-sea.wgsl`: the wind sea is a sum of
+  plane waves from one table, each coherent for ever, so their beats draw a
+  regular grid. A seventh package, the sea's, on Opus.
 - 2026-11-22 ~20:50 UTC, with the usage panel (weekly all-models 45% → 79%,
   weekly Fable 1% → 59%): «Потратили, получатся, 35% недельного лимита -- и весь
   текущий заход надо постараться уложить в оставшиеся 20%. То есть остаток
@@ -237,7 +237,7 @@ member's branch and its note under `notes/`, not from its session.
 - **Coast** — `session_01DaohkB8k3wxxLHdRRwsBDQ`, Opus,
   `claude/island-beauty-coast`.
 - **Sea** — `session_01DaohkBNMrEzd6kyEhPXjND`, Opus,
-  `claude/island-beauty-sea`: `lib/sea-wgsl.ts`, `lib/ripples.ts`,
+  `claude/island-beauty-sea`: `lib/island-sea.wgsl`, `lib/ripples.ts`,
   `ui/sea-surface.ts`; judged by a CPU twin, since the rippled sea draws on
   WebGPU alone and the shooter cannot.
 - **Speed** — `session_01DaohkCd79gE98JUq5Svi61`, Opus,

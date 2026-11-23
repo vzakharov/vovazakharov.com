@@ -10,7 +10,7 @@ import {
 } from './ripple-table';
 
 /**
- * The CPU twin of `seaGroups` and `ripplesAt` in `sea-wgsl.ts`, in float64,
+ * The CPU twin of `seaGroups` and `ripplesAt` in `island-sea.wgsl`, in float64,
  * for measuring what the shader draws: a change to either side is made to
  * both.
  */

@@ -1,4 +1,4 @@
-import { f32 } from '@/gpu/shared/shader';
+import { f32, wgsl } from '@/gpu/shared/shader';
 
 import { HOUR_SECONDS } from '@/nature/shared/swell';
 
@@ -95,8 +95,9 @@ export const RIPPLES: readonly Ripple[] = Array.from(
 );
 
 /** The table as WGSL constants: each wave's vector and phase, its pace and its drift. */
-export const RIPPLE_TABLE_WGSL = `
-const RIPPLE_COUNT = ${String(RIPPLES.length)};
+export const RIPPLE_TABLE = wgsl(
+  'island/pages/island/lib/ripple-table',
+  /* wgsl */ `
 const RIPPLE_BANDS = ${String(RIPPLE_BANDS)};
 const RIPPLES_PER_BAND = ${String(RIPPLES_PER_BAND)};
 const RIPPLE_PERIOD = ${f32(RIPPLE_PERIOD)};
@@ -112,4 +113,5 @@ ${RIPPLES.map(({ pace }) => `  ${f32(pace)}`).join(',\n')}
 const RIPPLE_DRIFTS = array<vec2f, ${String(RIPPLES.length)}>(
 ${RIPPLES.map(({ drift: [a, b] }) => `  vec2f(${f32(a)}, ${f32(b)})`).join(',\n')}
 );
-`;
+`,
+);

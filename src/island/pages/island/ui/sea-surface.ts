@@ -18,11 +18,18 @@ import {
 } from 'three/tsl';
 import { type Node, Vector2, Vector3 } from 'three/webgpu';
 
+import { assemble } from '@/gpu/shared/shader';
+
 import type { Vec3 } from '@/island/shared/globe';
 
 import type { Sunlit } from '../lib/day';
+import { ISLAND_SEA } from '../lib/island-sea.shader.generated';
 import { GROUP_PERIOD, RIPPLE_BANDS, RIPPLE_PERIOD } from '../lib/ripple-table';
-import { intoPeriod, SEA_LISTING, swellAt } from '../lib/sea-wgsl';
+import { SEA_DAMP } from '../lib/sea-damp.shader.generated';
+import { SEA_LIFT } from '../lib/sea-lift.shader.generated';
+import { SEA_MASK } from '../lib/sea-mask.shader.generated';
+import { intoPeriod, swellAt } from '../lib/sea-numbers';
+import { SEA_SHADE } from '../lib/sea-shade.shader.generated';
 import { worldCell } from './lattice-value';
 
 /** What the sea is drawn under, this frame. */
@@ -78,8 +85,7 @@ export type SeaSurface = {
 /**
  * The sea's surface as nodes: ripples under the wind, the sky mirrored in
  * them out of `radiance`, the sun's glint and foam at the waterline, all in
- * the WGSL of `SEA_LISTING`, which only the WebGPU backend
- * compiles.
+ * the WGSL of `island-sea.wgsl`, which only the WebGPU backend compiles.
  */
 export function seaSurface(radiance: Radiance): SeaSurface {
   const eyeNode = uniform(new Vector3());
@@ -116,39 +122,13 @@ export function seaSurface(radiance: Radiance): SeaSurface {
   );
   /** The swell at the eye: its clock, and the eye's place along the crests. */
   const swell = uniform(new Vector2());
-  const listing = code(SEA_LISTING);
-  const lift = wgslFn(
-    `fn seaLift(local: vec3f, origin: vec3f, eye: vec3f, bed: f32, swell: vec2f) -> vec3f {
-      let world = local + origin;
-      return local + normalize(eye + world) * seaVertexLevel(world, bed, swell);
-    }`,
-    [listing],
-  );
-  const lies = wgslFn(
-    `fn seaMask(world: vec3f, bed: f32, swell: vec2f) -> bool {
-      return seaLies(world, bed, swell);
-    }`,
-    [listing],
-  );
-  const damp = wgslFn(
-    `fn seaDamp(lit: vec4f, world: vec3f, bed: f32, swell: vec2f) -> vec4f {
-      return vec4f(lit.rgb * seaDampTint(world, bed, swell), lit.a);
-    }`,
-    [listing],
-  );
-  const shade = wgslFn(
-    `fn seaShade(
-      place: vec3f, field: vec3f, grain: vec3f, world: vec3f, eye: vec3f, sun: vec3f, bed: f32,
-      under: vec3f, footprint: f32, seconds: f32, mirrored: vec3f, overhead: vec3f, swell: vec2f,
-      bands: f32,
-    ) -> vec3f {
-      return seaColour(
-        place, field, grain, world, eye, sun, bed, under, footprint, seconds, mirrored, overhead, swell,
-        bands,
-      );
-    }`,
-    [listing],
-  );
+  // One listing every entry includes, so a shader calling two of them
+  // declares the sea once; an entry's own listing is its one function.
+  const listing = code(assemble([ISLAND_SEA]));
+  const lift = wgslFn(SEA_LIFT.listing, [listing]);
+  const lies = wgslFn(SEA_MASK.listing, [listing]);
+  const damp = wgslFn(SEA_DAMP.listing, [listing]);
+  const shade = wgslFn(SEA_SHADE.listing, [listing]);
 
   return {
     colour: (bed, under, shading = {}) =>

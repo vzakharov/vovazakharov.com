@@ -13,7 +13,7 @@ import {
 
 import { GROUP_PERIOD, RIPPLE_PERIOD } from './ripple-table';
 import { groupsAt, ripplesAt } from './ripples';
-import { intoPeriod } from './sea-wgsl';
+import { intoPeriod } from './sea-numbers';
 
 /** `a` stepped `times` along `b`. */
 const along = (a: Vec3, b: Vec3, times: number): Vec3 =>
