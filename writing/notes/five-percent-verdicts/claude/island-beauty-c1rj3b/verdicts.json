@@ -11,7 +11,7 @@
       "comment": 4663318400,
       "about": "Board card points at a frames folder finalize deletes before the merge",
       "verdict": 1,
-      "why": "Taken whole, in the same one-line answer as its sibling: «поправь что там пятипроцентник предложил». The card now points at PR #294's branch, which outlives the sweep."
+      "why": "Taken whole, in the same one-line answer as its sibling: «поправь что там пятипроцентник предложил». The card now points at the last commit before the sweep, which keeps every frame."
     }
   ]
 }
