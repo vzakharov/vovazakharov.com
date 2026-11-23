@@ -4,8 +4,7 @@ Proposed squash body:
 /island drew every kind of land as one surface under different
 textures, its sea beat into a grid, and its clouds were scattered
 puffs with no weather behind them. This is the first approach at
-making the world read as a place; docs/plans/island-beauty.paused.md
-holds what is left.
+making the world read as a place.
 
 Land: sand, forest floor, moor, rock and snow are each drawn as their
 own ground, placed by relief, hollows and aspect; the relief has
@@ -23,7 +22,8 @@ before it steps, so clouds have shapes from the ground.
 
 A swift look sits between plain and fine: clouds marched for a
 sixteenth of the rays a frame in a half-resolution buffer and
-reprojected, the sea without its finest bands, fewer tiles. To lead
+reprojected, the sea without its finest bands, fewer tiles; 1, 2 and
+3 pick a look as B steps through them. To lead
 the next cuts by numbers from a real GPU, `?without=` leaves a named
 cost out of a look, the HUD shows a mean of 60 frames, and `?measure`
 takes 17 readings by itself and ends on a table to copy.
