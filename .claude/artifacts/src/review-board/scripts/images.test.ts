@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
-  dataUri,
-  IMAGE_WARN_BYTES,
+  IMAGE_LIMIT_BYTES,
+  imagePath,
   imageType,
-  oversizeWarnings,
+  oversizeImages,
 } from "./images.ts";
 
 test("names the media type of PNG, JPEG and WebP by extension, any case", () => {
@@ -21,21 +21,20 @@ test("gives no type to other files", () => {
   assert.equal(imageType("dir.png/readme"), null);
 });
 
-test("encodes bytes as a base64 data URI", () => {
-  assert.equal(
-    dataUri("image/png", Uint8Array.from([0, 255, 1])),
-    "data:image/png;base64,AP8B",
-  );
+test("publishes an image under its blob id, with its type's extension", () => {
+  const id = "0123456789abcdef0123456789abcdef01234567";
+  assert.equal(imagePath(id, "image/png"), "images/0123456789abcdef.png");
+  assert.equal(imagePath(id, "image/jpeg"), "images/0123456789abcdef.jpeg");
 });
 
-test("warns only for images over the threshold", () => {
-  const warnings = oversizeWarnings(
+test("flags only images over the published file's limit", () => {
+  const lines = oversizeImages(
     new Map([
       ["small.png", 10],
-      ["edge.png", IMAGE_WARN_BYTES],
-      ["big.png", IMAGE_WARN_BYTES + 1],
+      ["edge.png", IMAGE_LIMIT_BYTES],
+      ["big.png", IMAGE_LIMIT_BYTES + 1],
     ]),
   );
-  assert.equal(warnings.length, 1);
-  assert.match(warnings[0] ?? "", /big\.png/);
+  assert.equal(lines.length, 1);
+  assert.match(lines[0] ?? "", /big\.png/);
 });

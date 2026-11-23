@@ -48,9 +48,11 @@ node .claude/artifacts/src/review-board/scripts/build.ts
 ```
 
 It writes `tmp/review-board/index.html`, the page to publish, and `local.html`,
-the same page as a whole document for a browser off disk. A failure is reported,
-never worked around: the collector reads git, and a board built from anything
-else shows a diff nobody committed.
+the same page as a whole document for a browser off disk; the changed images
+under `images/`, which the page names by relative path rather than holding; and
+`images-<n>.json`, those images cut into the batches one publish can carry. A
+failure is reported, never worked around: the collector reads git, and a board
+built from anything else shows a diff nobody committed.
 
 ## Step 2 — Publish
 
@@ -70,6 +72,13 @@ gh pr view --json comments --jq '[.comments[] | select(.body | startswith("<!-- 
 - **A comment naming a URL** → republish to that `url`, `capabilities` omitted
   so the page keeps its declaration. When this conversation has neither
   published nor read it, `Artifact` `read` it first, which the tool requires.
+
+**The images ride the publish as files beside the page**:
+`root: "tmp/review-board"` and `files` set to the list in `images-1.json`, then
+one more publish of the page to the same `url` per further batch, each adding to
+the files already there. An image's name is its content, so a name the artifact
+already holds (`list`, `scope: "files"`) is left out of the batch rather than
+sent again.
 
 Then write `tmp/review-board/comment.md` — the marker line
 `<!-- review-board -->`, then one line with the link — and post it with the

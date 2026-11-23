@@ -1,3 +1,5 @@
+import { mkdirSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 import * as z from "zod/mini";
 import type {
   FileStatus,
@@ -7,7 +9,7 @@ import type {
 import { FOCUS_PATH, lineCount, parseFocus } from "./focus.ts";
 import { CHECK_GENERATED, generatedPaths } from "./generated.ts";
 import { git, gitText, run, tryText } from "./git.ts";
-import { dataUri, imageType } from "./images.ts";
+import { imagePath, imageType } from "./images.ts";
 
 interface CollectOptions {
   cwd: string;
@@ -301,19 +303,29 @@ function readBlobs(cwd: string, ids: string[]): Record<string, string> {
   );
 }
 
-/** Blob id → `data:` URI for each image file's version at HEAD; a deleted image has none. */
-function readImages(cwd: string, files: ReviewFile[]): Record<string, string> {
-  const types = new Map<string, string>();
+/** Blob id → published path for each image file's version at HEAD; a deleted image has none. */
+function imagePaths(files: ReviewFile[]): Record<string, string> {
+  const images: Record<string, string> = {};
   for (const file of files) {
     const type = file.binary ? imageType(file.path) : null;
     const blob = file.revisions.at(-1)?.blob ?? null;
-    if (type !== null && blob !== null) types.set(blob, type);
-  }
-  const images: Record<string, string> = {};
-  for (const [id, bytes] of readBlobBytes(cwd, [...types.keys()])) {
-    images[id] = dataUri(types.get(id) ?? "", bytes);
+    if (type !== null && blob !== null) images[blob] = imagePath(blob, type);
   }
   return images;
+}
+
+/** Writes each of `images`' blobs under `outDir` at its path, for the publish to carry beside the page. */
+export function writeImages(
+  cwd: string,
+  images: Record<string, string>,
+  outDir: string,
+): void {
+  for (const [id, bytes] of readBlobBytes(cwd, Object.keys(images))) {
+    const path = images[id];
+    if (path === undefined) continue;
+    mkdirSync(dirname(join(outDir, path)), { recursive: true });
+    writeFileSync(join(outDir, path), bytes);
+  }
 }
 
 /** The focus file as committed at HEAD, checked against the files' text there; empty when there is none. */
@@ -382,6 +394,6 @@ export function collect({ cwd, base }: CollectOptions): ReviewData {
     files,
     focus: readFocus(cwd, files, blobs),
     blobs,
-    images: readImages(cwd, files),
+    images: imagePaths(files),
   };
 }

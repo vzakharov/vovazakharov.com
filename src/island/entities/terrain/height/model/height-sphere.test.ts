@@ -12,11 +12,15 @@ import {
   type Vec3,
 } from '@/island/shared/globe';
 
+import { detailReach } from './bounds';
+import { type CoastDistance, detailedCoast } from './coast-detail';
 import {
-  type CoastDistance,
+  cutSpread,
+  groundSpread,
   heightAtSphere,
   SPHERE_GROUND_SLOPE,
 } from './height-sphere';
+import { stream } from './stream.test-kit';
 
 const SEED = 7;
 const DISC_METRES = 1_000_000;
@@ -145,8 +149,8 @@ describe('heightAtSphere', () => {
         }
         span = Math.max(span, high - low);
       }
-      // Each fine octave slopes at ~0.1–0.3; their sum stays under one in one.
-      assert.ok(largest < 1, `${name}: largest step ${largest}`);
+      // A mountain flank can stand steeper than one in one, never a wall.
+      assert.ok(largest < 2, `${name}: largest step ${largest}`);
       assert.ok(largest < SPHERE_GROUND_SLOPE * 0.99, `${name}: ${largest}`);
       assert.ok(span > 0.5, `${name}: relief over 2 km: ${span}`);
     }
@@ -171,7 +175,78 @@ describe('heightAtSphere', () => {
     }
   });
 
-  it('stays in a plausible range: beaches low, interior up to ~2 km', () => {
+  it('stands apart at two points by no more than `groundSpread`', () => {
+    const next = stream(17);
+    let closest = Infinity;
+    for (let k = 0; k < 3000; k += 1) {
+      const seed = 1 + Math.floor(next() * 1000);
+      const coast = detailedCoast(island.distance, seed);
+      // Half the pairs on the shore, half anywhere on the disc.
+      const r =
+        next() < 0.5
+          ? DISC_METRES + 8000 * (next() - 0.5)
+          : DISC_METRES * next();
+      const angle = 2 * Math.PI * next();
+      const apart = 2 ** (19 * next());
+      const turn = 2 * Math.PI * next();
+      const x = r * Math.cos(angle);
+      const y = r * Math.sin(angle);
+      const p = island.at(x, y);
+      const q = island.at(
+        x + apart * Math.cos(turn),
+        y + apart * Math.sin(turn),
+      );
+      const metres = R * arc(p, q);
+      const off = Math.abs(
+        heightAtSphere(coast, seed, p) - heightAtSphere(coast, seed, q),
+      );
+      const bound = groundSpread(metres);
+      assert.ok(off <= bound, `${off} over ${bound} at ${metres} m`);
+      closest = Math.min(closest, bound / Math.max(off, 1e-9));
+    }
+    assert.ok(closest > 1, `${closest}`);
+    for (const metres of [0, 1, 30, 1000, 50_000]) {
+      assert.ok(groundSpread(metres) <= groundSpread(2 * metres + 1));
+    }
+  });
+
+  it('stands apart at two points, at two cuts, by no more than `cutSpread`', () => {
+    const next = stream(29);
+    let closest = Infinity;
+    for (let k = 0; k < 3000; k += 1) {
+      const seed = 1 + Math.floor(next() * 1000);
+      const coast = detailedCoast(island.distance, seed);
+      const r =
+        next() < 0.5
+          ? DISC_METRES + 8000 * (next() - 0.5)
+          : DISC_METRES * next();
+      const angle = 2 * Math.PI * next();
+      const x = r * Math.cos(angle);
+      const y = r * Math.sin(angle);
+      const finest = 2 ** (16 * next());
+      const apart = finest * next();
+      const turn = 2 * Math.PI * next();
+      const p = island.at(x, y);
+      const q = island.at(
+        x + apart * Math.cos(turn),
+        y + apart * Math.sin(turn),
+      );
+      const metres = R * arc(p, q);
+      const off = Math.abs(
+        heightAtSphere(coast, seed, p, finest) -
+          heightAtSphere(coast, seed, q, finest * next()),
+      );
+      const bound = cutSpread(finest, metres);
+      assert.ok(off <= bound, `${off} over ${bound} at ${metres} m`);
+      closest = Math.min(closest, bound / Math.max(off, 1e-9));
+    }
+    assert.ok(closest > 1, `${closest}`);
+    for (const finest of [0, 1, 30, 1000, 50_000]) {
+      assert.ok(detailReach(finest) <= detailReach(2 * finest + 1));
+    }
+  });
+
+  it('stays in a plausible range: beaches low, interior up to ~5 km', () => {
     for (const [name, { height }] of Object.entries(DISCS)) {
       let interiorHigh = -Infinity;
       let interiorLow = Infinity;
@@ -191,10 +266,10 @@ describe('heightAtSphere', () => {
       // Valleys, but no inland sea: lakes are a later bite's.
       assert.ok(interiorLow > 0, `${name}: interior low ${interiorLow}`);
       assert.ok(interiorHigh > 1000, `${name}: interior high ${interiorHigh}`);
-      assert.ok(interiorHigh < 2800, `${name}: interior high ${interiorHigh}`);
+      assert.ok(interiorHigh < 5200, `${name}: interior high ${interiorHigh}`);
       assert.ok(floor > -4500, `${name}: sea floor ${floor}`);
-      const beach = height(999_000, 0);
-      assert.ok(beach > -20 && beach < 60, `${name}: beach ${beach}`);
+      const beach = height(999_950, 0);
+      assert.ok(beach > 0 && beach < 20, `${name}: beach ${beach}`);
     }
   });
 });

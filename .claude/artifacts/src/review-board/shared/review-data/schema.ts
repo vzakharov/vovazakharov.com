@@ -61,8 +61,8 @@ export const reviewDataSchema = z.extend(branchSchema, {
   files: z.array(fileSchema),
   focus: z.array(focusSchema),
   blobs: z.record(z.string(), z.string()),
-  // Blob id → `data:` URI of the image files (PNG, JPEG, WebP) as they are at
-  // HEAD, which the page shows without fetching.
+  // Blob id → the path, relative to the page, of the image files (PNG, JPEG,
+  // WebP) as they are at HEAD, which the publish carries beside the page.
   images: z.record(z.string(), z.string()),
 });
 

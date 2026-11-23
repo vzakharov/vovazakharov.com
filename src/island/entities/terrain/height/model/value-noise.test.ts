@@ -1,21 +1,26 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { noiseSalt, valueNoise3 } from './value-noise';
-
-/** A deterministic stream in `[0, 1)`, so a failure reproduces. */
-function stream(seed: number) {
-  let state = seed;
-  return () => {
-    state = (Math.imul(state, 1_664_525) + 1_013_904_223) >>> 0;
-    return state / 2 ** 32;
-  };
-}
+import { stream } from './stream.test-kit';
+import { noiseSalt, valueNoise3, valueNoise3x3 } from './value-noise';
 
 /** The steepest the noise climbs per lattice step: 15/8 of 2, on three axes. */
 const STEEPEST = 3.75 * Math.sqrt(3);
 
 const SALT = noiseSalt(7, 3);
+
+/** A micro-step along every axis, and the most the noise may climb over it. */
+const STEP = 1e-6;
+const STEP_BOUND = STEEPEST * STEP * Math.sqrt(3) + 1e-9;
+
+/** The `k`-th point of a continuity run: every third straddles a lattice plane on each axis. */
+const runPoint = (next: () => number, k: number) => {
+  const near = () =>
+    k % 3 === 0
+      ? Math.round((next() - 0.5) * 2e6) - STEP / 2
+      : (next() - 0.5) * 2e6;
+  return [near(), near(), near()] as const;
+};
 
 const PINNED = [
   0.263_591_548_640_031_76, 0.037_321_825_417_872_99, 0.479_051_574_327_407_1,
@@ -54,18 +59,11 @@ describe('valueNoise3', () => {
 
   it('is continuous: no pair a micro-step apart climbs past its steepest', () => {
     const next = stream(2);
-    const step = 1e-6;
     for (let k = 0; k < 20_000; k++) {
-      // Every third pair straddles a lattice plane on each axis.
-      const near = (scale: number) =>
-        k % 3 === 0
-          ? Math.round((next() - 0.5) * scale) - step / 2
-          : (next() - 0.5) * scale;
-      const [u, v, w] = [near(2e6), near(2e6), near(2e6)];
+      const [u, v, w] = runPoint(next, k);
       const a = valueNoise3(SALT, u, v, w);
-      const b = valueNoise3(SALT, u + step, v + step, w + step);
-      const bound = STEEPEST * step * Math.sqrt(3) + 1e-9;
-      assert.ok(Math.abs(b - a) <= bound, `${u}, ${v}, ${w}: ${b - a}`);
+      const b = valueNoise3(SALT, u + STEP, v + STEP, w + STEP);
+      assert.ok(Math.abs(b - a) <= STEP_BOUND, `${u}, ${v}, ${w}: ${b - a}`);
     }
   });
 
@@ -79,5 +77,48 @@ describe('valueNoise3', () => {
       if (valueNoise3(noiseSalt(8, 3), u, v, w) !== once) differing += 1;
     }
     assert.equal(differing, 200);
+  });
+});
+
+const CHANNELS = [0, 1, 2] as const;
+
+describe('valueNoise3x3', () => {
+  it('gives three channels in [-1, 1], each spread over it, unrelated', () => {
+    const next = stream(4);
+    const low: [number, number, number] = [Infinity, Infinity, Infinity];
+    const high: [number, number, number] = [-Infinity, -Infinity, -Infinity];
+    let product = 0;
+    for (let k = 0; k < 20_000; k++) {
+      const n = valueNoise3x3(
+        SALT,
+        (next() - 0.5) * 2e6,
+        (next() - 0.5) * 2e6,
+        (next() - 0.5) * 2e6,
+      );
+      for (const c of CHANNELS) {
+        low[c] = Math.min(low[c], n[c]);
+        high[c] = Math.max(high[c], n[c]);
+      }
+      product += n[0] * n[1] + n[1] * n[2] + n[2] * n[0];
+    }
+    for (const c of CHANNELS) {
+      assert.ok(low[c] >= -1 && high[c] <= 1, `${c}: ${low[c]} … ${high[c]}`);
+      assert.ok(low[c] < -0.9 && high[c] > 0.9, `${c}: ${low[c]} … ${high[c]}`);
+    }
+    // Unrelated channels average no product.
+    assert.ok(Math.abs(product / 60_000) < 0.01, `${product / 60_000}`);
+  });
+
+  it('is continuous and a pure function, like `valueNoise3`', () => {
+    const next = stream(5);
+    for (let k = 0; k < 20_000; k++) {
+      const [u, v, w] = runPoint(next, k);
+      const a = valueNoise3x3(SALT, u, v, w);
+      assert.deepEqual(valueNoise3x3(SALT, u, v, w), a);
+      const b = valueNoise3x3(SALT, u + STEP, v + STEP, w + STEP);
+      for (const c of CHANNELS) {
+        assert.ok(Math.abs(b[c] - a[c]) <= STEP_BOUND, `${u}, ${v}, ${w}`);
+      }
+    }
   });
 });

@@ -14,21 +14,37 @@
       { "keys": "Wheel", "does": "climb, descend" },
       { "keys": "[ ]", "does": "time back, forward (Shift: faster)" },
       { "keys": "T", "does": "run, pause time" },
-      { "keys": "B", "does": "sky, clouds, a living sea (heavy)" },
+      {
+        "keys": "B",
+        "does": "look: plain, swift, fine (sky, clouds, a living sea; heavy)"
+      },
+      { "keys": "1 2 3", "does": "plain, swift, fine look" },
       { "keys": "I", "does": "diagnostics, and a link to this view" }
     ],
     "touch": [
       { "keys": "Drag", "does": "move" },
       { "keys": "Pinch", "does": "climb, descend" },
       { "keys": "Twist", "does": "turn" },
-      { "keys": "Two-finger drag", "does": "look up, down" }
+      { "keys": "Two-finger drag", "does": "look up, down" },
+      {
+        "keys": "Button, bottom right",
+        "does": "look: plain, swift, fine (sky, clouds, a living sea; heavy)"
+      }
     ]
+  },
+  "looks": {
+    "label": "Look",
+    "names": { "plain": "Plain", "swift": "Swift", "fine": "Fine" }
   },
   "diagnostics": {
     "label": "Diagnostics",
     "copy": "Copy a link to this view",
     "copied": "Link copied",
-    "failed": "Couldn't copy the link; here it is to copy by hand:"
+    "failed": "Couldn't copy; here it is to copy by hand:",
+    "measure": "Measure every look (1–2 min, keep this tab in front)",
+    "measuring": "Measuring",
+    "copyTable": "Copy the table",
+    "tableCopied": "Table copied"
   },
   "look": {
     "up": {

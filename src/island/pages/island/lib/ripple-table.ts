@@ -1,4 +1,4 @@
-import { f32 } from '@/gpu/shared/shader';
+import { f32, wgsl } from '@/gpu/shared/shader';
 
 import { HOUR_SECONDS } from '@/nature/shared/swell';
 
@@ -22,6 +22,22 @@ const GRAVITY = 9.81;
 const TAU = 2 * Math.PI;
 const GOLDEN = (1 + Math.sqrt(5)) / 2;
 
+/**
+ * The cell of the two slow fields a wave's phase drifts with, metres: what
+ * breaks each wave into groups a few of its lengths long, so the table's
+ * waves beat into no lattice.
+ */
+const GROUP_CELL = 32;
+/** The metres the slow fields repeat over, on each axis: a float32 keeps it to millimetres. */
+export const GROUP_PERIOD = 16_384;
+
+/** The share of the sea's slope variance one wave of the table carries, on average. */
+const RIPPLE_SHARE = 0.065;
+
+/** Turns of drift across the slow fields' range for the coarsest band, and their growth band to band. */
+const GROUP_TURNS = 1;
+const GROUP_GROWTH = 1.85;
+
 /** A wave by its integer vector, in turns per its band's period. */
 export type Ripple = {
   readonly vector: readonly [number, number, number];
@@ -30,6 +46,11 @@ export type Ripple = {
   readonly pace: number;
   /** The phase it starts the hour at, radians. */
   readonly phase: number;
+  /**
+   * Turns its phase drifts by per unit of each slow field: its own mix of
+   * the two, so no two waves of a band keep step for long.
+   */
+  readonly drift: readonly [number, number];
 };
 
 /** The shortest and the longest vector a wave takes, in turns per period. */
@@ -59,24 +80,38 @@ export const RIPPLES: readonly Ripple[] = Array.from(
     const turnsAnHour = Math.round(
       (Math.sqrt((GRAVITY * TAU) / metres) * HOUR_SECONDS) / TAU,
     );
+    const turns = GROUP_TURNS * GROUP_GROWTH ** band;
     return {
       vector,
       band,
       pace: (turnsAnHour * TAU) / HOUR_SECONDS,
       phase: TAU * ((i * GOLDEN) % 1),
+      drift: [
+        turns * (2 * ((i * GOLDEN + 0.3) % 1) - 1),
+        turns * (2 * ((i * GOLDEN * GOLDEN + 0.7) % 1) - 1),
+      ],
     };
   },
 );
 
-/** The table as WGSL constants: each wave's vector and phase, and its pace. */
-export const RIPPLE_TABLE_WGSL = `
-const RIPPLE_COUNT = ${String(RIPPLES.length)};
+/** The table as WGSL constants: each wave's vector and phase, its pace and its drift. */
+export const RIPPLE_TABLE = wgsl(
+  'island/pages/island/lib/ripple-table',
+  /* wgsl */ `
+const RIPPLE_BANDS = ${String(RIPPLE_BANDS)};
 const RIPPLES_PER_BAND = ${String(RIPPLES_PER_BAND)};
 const RIPPLE_PERIOD = ${f32(RIPPLE_PERIOD)};
+const RIPPLE_SHARE = ${f32(RIPPLE_SHARE)};
+const GROUP_CELL = ${f32(GROUP_CELL)};
+const GROUP_CELLS = ${f32(GROUP_PERIOD / GROUP_CELL)};
 const RIPPLES = array<vec4f, ${String(RIPPLES.length)}>(
 ${RIPPLES.map(({ vector: [x, y, z], phase }) => `  vec4f(${f32(x)}, ${f32(y)}, ${f32(z)}, ${f32(phase)})`).join(',\n')}
 );
 const RIPPLE_PACES = array<f32, ${String(RIPPLES.length)}>(
 ${RIPPLES.map(({ pace }) => `  ${f32(pace)}`).join(',\n')}
 );
-`;
+const RIPPLE_DRIFTS = array<vec2f, ${String(RIPPLES.length)}>(
+${RIPPLES.map(({ drift: [a, b] }) => `  vec2f(${f32(a)}, ${f32(b)})`).join(',\n')}
+);
+`,
+);

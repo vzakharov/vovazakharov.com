@@ -5,8 +5,14 @@ const IMAGE_TYPES: ReadonlyMap<string, string> = new Map([
   ["webp", "image/webp"],
 ]);
 
-/** Above this an embedded image still ships, but the build says it is heavy. */
-export const IMAGE_WARN_BYTES = 1_500_000;
+/** Where the page's images are published, relative to the page. */
+export const IMAGE_DIR = "images";
+
+/** The largest file an artifact publishes beside its page. */
+export const IMAGE_LIMIT_BYTES = 15 * 1024 * 1024;
+
+/** Hex digits of the blob id an image's published name keeps. */
+const NAME_DIGITS = 16;
 
 /** The media type of an image the board shows, by the path's extension; null for any other file. */
 export function imageType(path: string): string | null {
@@ -15,16 +21,19 @@ export function imageType(path: string): string | null {
   return IMAGE_TYPES.get(path.slice(dot + 1).toLowerCase()) ?? null;
 }
 
-/** The bytes as a `data:` URI, which the page shows without fetching anything. */
-export const dataUri = (type: string, bytes: Uint8Array): string =>
-  `data:${type};base64,${Buffer.from(bytes).toString("base64")}`;
+/**
+ * Where the image blob `id` of media `type` is published, relative to the
+ * page: named by its content, so a name already published holds these bytes.
+ */
+export const imagePath = (id: string, type: string): string =>
+  `${IMAGE_DIR}/${id.slice(0, NAME_DIGITS)}.${type.slice(type.indexOf("/") + 1)}`;
 
-/** One line per embedded image over {@link IMAGE_WARN_BYTES}, for the build to print. */
-export function oversizeWarnings(sizes: ReadonlyMap<string, number>): string[] {
+/** One line per image over {@link IMAGE_LIMIT_BYTES}, which the publish refuses. */
+export function oversizeImages(sizes: ReadonlyMap<string, number>): string[] {
   return [...sizes]
-    .filter(([, size]) => size > IMAGE_WARN_BYTES)
+    .filter(([, size]) => size > IMAGE_LIMIT_BYTES)
     .map(
       ([path, size]) =>
-        `warning: ${path} is ${(size / 1_000_000).toFixed(2)} MB; it is embedded in the page, which is limited to 16 MB`,
+        `${path} is ${(size / 1024 / 1024).toFixed(2)} MB, over the ${IMAGE_LIMIT_BYTES / 1024 / 1024} MB an artifact publishes a file at`,
     );
 }

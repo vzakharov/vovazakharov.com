@@ -28,6 +28,7 @@ export {
   scaled,
   sub,
   sum,
+  turnAbout,
   unit,
   type Vec3,
 } from './vec3';

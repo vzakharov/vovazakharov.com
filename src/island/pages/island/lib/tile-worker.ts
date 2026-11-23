@@ -11,10 +11,10 @@ import {
   fillStitchedCubeTile,
   heightAtSphere,
   openSphereWorld,
-  sampleSphereField,
   TILE_GRID,
 } from '@/island/entities/terrain';
 
+import { tileCover, tileShore } from '../model/forest-cover';
 import {
   filledBuffers,
   type FilledTile,
@@ -23,6 +23,7 @@ import {
   type WorkerRequest,
   type WorldField,
 } from './tile-protocol';
+import { coastOf } from './world-ground';
 
 /** The field this worker fills from, built on `build` or handed over on `adopt`. */
 const world = Promise.withResolvers<WorldField>();
@@ -48,10 +49,14 @@ function fill(
   eye: Vec3,
 ): FilledTile {
   const start = performance.now();
-  const distance = (p: Vec3) => sampleSphereField(field, p);
+  const distance = coastOf(field, seed);
+  let coarsest = 0;
   const ground = fillStitchedCubeTile(
     key,
-    (p, finest) => heightAtSphere(distance, seed, p, finest),
+    (p, finest) => {
+      coarsest = Math.max(coarsest, finest);
+      return heightAtSphere(distance, seed, p, finest);
+    },
     levels,
     { finest: cubeDetailCut(eye, distance) },
   );
@@ -63,11 +68,19 @@ function fill(
   // Its own buffer when the land goes too, since a buffer transfers once.
   const floor =
     land === null ? ground.heights : new Float32Array(ground.heights);
+  const shore = land === null ? null : tileShore(distance, land);
   return {
     key,
     levels,
+    filled: { low, high, finest: coarsest },
     land,
     sea,
+    cover:
+      land === null || shore === null
+        ? null
+        : tileCover(seed, land, shore.sand),
+    sand: shore?.sand ?? null,
+    rocky: shore?.rocky ?? null,
     floor: sea === null ? null : floor,
     fillMs: performance.now() - start,
   };

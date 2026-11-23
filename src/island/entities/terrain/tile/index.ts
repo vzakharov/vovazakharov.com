@@ -1,4 +1,4 @@
-export { fillCubeTile } from './model/cube-fill';
+export { cubeLevelSpacing, fillCubeTile } from './model/cube-fill';
 export {
   type Corner,
   fillStitchedCubeTile,

@@ -3,9 +3,18 @@ export {
   type SignedDistances,
   type SphereField,
 } from './coast-field';
-export { type CoastDistance, heightAtSphere } from './height';
+export {
+  type CoastDistance,
+  detailedCoast,
+  heightAtSphere,
+  noiseSalt,
+  sandAtSphere,
+  shoreAtSphere,
+  valueNoise3,
+} from './height';
 export {
   cubeDetailCut,
+  type Filled,
   frustumOf,
   neighbourLevels,
   selectCubeTiles,

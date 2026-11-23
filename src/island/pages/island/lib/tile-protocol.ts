@@ -1,6 +1,7 @@
 import type { CubeCell, Vec3 } from '@/island/shared/globe';
 import {
   cubeTileId,
+  type Filled,
   type NeighbourLevels,
   type SphereField,
   tileBuffers,
@@ -8,10 +9,11 @@ import {
   type TileMesh,
 } from '@/island/entities/terrain';
 
+import type { Seeded } from '../model/forest-cover';
+
 /** A world as a worker builds it: its field and its terrain seed, which the main thread's `heightAtSphere` takes too. */
-export type WorldField = {
+export type WorldField = Seeded & {
   readonly field: SphereField;
-  readonly seed: number;
 };
 
 /**
@@ -42,8 +44,15 @@ export const orderId = ({ key, levels: { edges, corners } }: TileOrder) =>
  * hides it; one wholly above it has no sea.
  */
 export type FilledTile = TileOrder & {
+  /** The ground's lattice heights at their lowest and highest, the skirt's left out, and the cut they were drawn to. */
+  readonly filled: Filled;
   readonly land: TileMesh<CubeCell> | null;
   readonly sea: TileMesh<CubeCell> | null;
+  /** Forest cover under the land's vertices (`tileCover`); null with no land. */
+  readonly cover: Float32Array<ArrayBuffer> | null;
+  /** The shares of sand and of bare shore rock under the land's vertices (`tileShore`); null with no land. */
+  readonly sand: Float32Array<ArrayBuffer> | null;
+  readonly rocky: Float32Array<ArrayBuffer> | null;
   /** The ground's heights under the sea's vertices, which the sea is coloured by; null with no sea. */
   readonly floor: Float32Array<ArrayBuffer> | null;
   /** The worker's time filling it, ms. */
@@ -75,9 +84,15 @@ export type WorkerReply =
 export const filledBuffers = ({
   land,
   sea,
+  cover,
+  sand,
+  rocky,
   floor,
 }: FilledTile): ArrayBuffer[] => [
   ...(land === null ? [] : tileBuffers(land)),
+  ...(cover === null ? [] : [cover.buffer]),
+  ...(sand === null ? [] : [sand.buffer]),
+  ...(rocky === null ? [] : [rocky.buffer]),
   ...(sea === null ? [] : tileBuffers(sea)),
   ...(floor === null ? [] : [floor.buffer]),
 ];

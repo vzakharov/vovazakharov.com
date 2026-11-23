@@ -4,21 +4,21 @@
  * same `(seed, layer, point)` gives the same value on every engine.
  */
 
-/** A lattice corner's mixed bits, mapped onto `[-1, 1]` by their top 24. */
-function scramble(mixed: number): number {
+/** A lattice corner's bits, mixed so every input bit reaches every output. */
+const corner = (ix: number, iy: number, iz: number, salt: number) => {
+  const mixed =
+    Math.imul(ix, 0x27_d4_eb_2d) ^
+    Math.imul(iy, 0x16_56_67_b1) ^
+    Math.imul(iz, 0x5b_d1_e9_95) ^
+    salt;
   let h = Math.imul(mixed ^ (mixed >>> 15), 0x85_eb_ca_6b);
   h = Math.imul(h ^ (h >>> 13), 0xc2_b2_ae_35);
-  h ^= h >>> 16;
-  return (h >>> 8) / 0x7f_ff_ff - 1;
-}
+  return h ^ (h >>> 16);
+};
 
+/** A corner's value on `[-1, 1]`, from the top 24 of its bits. */
 const hash3 = (ix: number, iy: number, iz: number, salt: number) =>
-  scramble(
-    Math.imul(ix, 0x27_d4_eb_2d) ^
-      Math.imul(iy, 0x16_56_67_b1) ^
-      Math.imul(iz, 0x5b_d1_e9_95) ^
-      salt,
-  );
+  (corner(ix, iy, iz, salt) >>> 8) / 0x7f_ff_ff - 1;
 
 const fade = (t: number) => t * t * t * (t * (t * 6 - 15) + 10);
 
@@ -59,4 +59,49 @@ export function valueNoise3(
   const near = layer(fw);
   const far = layer(fw + 1);
   return near + (far - near) * tw;
+}
+
+/** One of a corner's three 10-bit channels, at bit `shift`, on `[-1, 1]`. */
+const channel = (bits: number, shift: number) =>
+  ((bits >>> shift) & 0x3_ff) / 511.5 - 1;
+
+/**
+ * Three unrelated value noises at lattice coordinates `(u, v, w)`, from one
+ * hash per corner split into three channels: `valueNoise3`'s lattice, fade
+ * and bound, at a third of the hashing, each channel 10 bits fine.
+ */
+export function valueNoise3x3(
+  salt: number,
+  u: number,
+  v: number,
+  w: number,
+): [number, number, number] {
+  const fu = Math.floor(u);
+  const fv = Math.floor(v);
+  const fw = Math.floor(w);
+  const tu = fade(u - fu);
+  const tv = fade(v - fv);
+  const tw = fade(w - fw);
+  const a = corner(fu, fv, fw, salt);
+  const b = corner(fu + 1, fv, fw, salt);
+  const c = corner(fu, fv + 1, fw, salt);
+  const d = corner(fu + 1, fv + 1, fw, salt);
+  const e = corner(fu, fv, fw + 1, salt);
+  const f = corner(fu + 1, fv, fw + 1, salt);
+  const g = corner(fu, fv + 1, fw + 1, salt);
+  const h = corner(fu + 1, fv + 1, fw + 1, salt);
+  const blended = (shift: number) => {
+    const ca = channel(a, shift);
+    const cc = channel(c, shift);
+    const ce = channel(e, shift);
+    const cg = channel(g, shift);
+    const bottom = ca + (channel(b, shift) - ca) * tu;
+    const top = cc + (channel(d, shift) - cc) * tu;
+    const near = bottom + (top - bottom) * tv;
+    const farBottom = ce + (channel(f, shift) - ce) * tu;
+    const farTop = cg + (channel(h, shift) - cg) * tu;
+    const far = farBottom + (farTop - farBottom) * tv;
+    return near + (far - near) * tw;
+  };
+  return [blended(2), blended(12), blended(22)];
 }

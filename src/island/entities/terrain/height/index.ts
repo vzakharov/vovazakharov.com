@@ -1,6 +1,10 @@
+export { type CoastDistance, detailedCoast } from './model/coast-detail';
 export {
-  type CoastDistance,
+  cutSpread,
+  groundSpread,
   heightAtSphere,
-  SPHERE_GROUND_SLOPE,
+  sandAtSphere,
+  shoreAtSphere,
 } from './model/height-sphere';
-export { HIGHEST_GROUND, LOWEST_GROUND } from './model/relief';
+export { HIGHEST_GROUND, LOWEST_GROUND } from './model/relief-numbers';
+export { noiseSalt, valueNoise3 } from './model/value-noise';
