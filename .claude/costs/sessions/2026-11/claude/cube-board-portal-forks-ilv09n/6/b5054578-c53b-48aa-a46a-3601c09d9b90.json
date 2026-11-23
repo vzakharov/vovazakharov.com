@@ -1,0 +1,104 @@
+{
+  "total": {
+    "inputTokens": 20,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 51800,
+    "cacheReadTokens": 904642,
+    "outputTokens": 3443,
+    "thinkingTokens": 680,
+    "responses": 10,
+    "costUsd": 0.6642683999999999
+  },
+  "estimate": {
+    "at": "2026-11-23T03:04:00.825Z",
+    "subjectLine": "chore: compress the orbit descent recording, upload to island release",
+    "parts": [
+      {
+        "hours": 0.25,
+        "grade": "junior",
+        "role": "developer",
+        "comment": "a routine ffmpeg encode and release upload, matched to the release's existing naming and format"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-23T03:03:28.304Z",
+    "contextTokens": 95333,
+    "spend": {
+      "inputTokens": 6,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 46197,
+      "cacheReadTokens": 229618,
+      "outputTokens": 1363,
+      "thinkingTokens": 425,
+      "responses": 3,
+      "costUsd": 0.44278359999999994
+    }
+  },
+  "sessionId": "b5054578-c53b-48aa-a46a-3601c09d9b90",
+  "branch": "claude/cube-board-portal-forks-ilv09n",
+  "cwd": "/Users/vova/Documents/GitHub/vovazakharov.com",
+  "openingPrompt": "@\"/Users/vova/Desktop/Screen Recording 2026-11-23 at 06.00.40.mov\" сожми и загрузи в релиз пжст",
+  "prs": [],
+  "url": null,
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-23T03:03:03.089Z",
+  "lastResponseAt": "2026-11-23T03:04:08.055Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 20,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 51800,
+    "cacheReadTokens": 904642,
+    "outputTokens": 3443,
+    "thinkingTokens": 680,
+    "responses": 10,
+    "costUsd": 0.6642683999999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 20,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 51800,
+      "cacheReadTokens": 904642,
+      "outputTokens": 3443,
+      "thinkingTokens": 680,
+      "responses": 10,
+      "costUsd": 0.6642683999999999
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": null,
+  "operatorWords": {
+    "chat": 30,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 431,
+    ".txt": 295,
+    ".json": 2,
+    ".scss": 11,
+    ".ts": 2708,
+    ".yaml": 477,
+    ".tsx": 8,
+    ".wgsl": 27
+  }
+}
