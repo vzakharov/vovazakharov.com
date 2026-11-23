@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 20,
+    "inputTokens": 60,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 51800,
-    "cacheReadTokens": 904642,
-    "outputTokens": 3443,
-    "thinkingTokens": 680,
-    "responses": 10,
-    "costUsd": 0.6642683999999999
+    "cacheWrite1hTokens": 75870,
+    "cacheReadTokens": 2965380,
+    "outputTokens": 8177,
+    "thinkingTokens": 2323,
+    "responses": 28,
+    "costUsd": 1.3638159999999997
   },
   "estimate": {
     "at": "2026-11-23T03:04:00.825Z",
@@ -39,25 +39,27 @@
     }
   },
   "sessionId": "b5054578-c53b-48aa-a46a-3601c09d9b90",
-  "branch": "claude/cube-board-portal-forks-ilv09n",
+  "branch": "claude/island-beauty-c1rj3b",
   "cwd": "/Users/vova/Documents/GitHub/vovazakharov.com",
   "openingPrompt": "@\"/Users/vova/Desktop/Screen Recording 2026-11-23 at 06.00.40.mov\" сожми и загрузи в релиз пжст",
-  "prs": [],
+  "prs": [
+    294
+  ],
   "url": null,
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-23T03:03:03.089Z",
-  "lastResponseAt": "2026-11-23T03:04:08.055Z",
+  "lastResponseAt": "2026-11-23T03:06:37.878Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 20,
+    "inputTokens": 60,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 51800,
-    "cacheReadTokens": 904642,
-    "outputTokens": 3443,
-    "thinkingTokens": 680,
-    "responses": 10,
-    "costUsd": 0.6642683999999999
+    "cacheWrite1hTokens": 75870,
+    "cacheReadTokens": 2965380,
+    "outputTokens": 8177,
+    "thinkingTokens": 2323,
+    "responses": 28,
+    "costUsd": 1.3638159999999997
   },
   "subagents": {
     "inputTokens": 0,
@@ -71,34 +73,32 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 20,
+      "inputTokens": 60,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 51800,
-      "cacheReadTokens": 904642,
-      "outputTokens": 3443,
-      "thinkingTokens": 680,
-      "responses": 10,
-      "costUsd": 0.6642683999999999
+      "cacheWrite1hTokens": 75870,
+      "cacheReadTokens": 2965380,
+      "outputTokens": 8177,
+      "thinkingTokens": 2323,
+      "responses": 28,
+      "costUsd": 1.3638159999999997
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": null,
   "operatorWords": {
-    "chat": 30,
+    "chat": 37,
     "review": 0,
     "threads": 0
   },
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 431,
-    ".txt": 295,
-    ".json": 2,
-    ".scss": 11,
-    ".ts": 2708,
-    ".yaml": 477,
-    ".tsx": 8,
-    ".wgsl": 27
+    ".md": 2199,
+    ".json": 742,
+    ".yaml": 726,
+    ".ts": 8976,
+    ".tsx": 91,
+    ".scss": 35
   }
 }
