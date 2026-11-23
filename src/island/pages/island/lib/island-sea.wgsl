@@ -99,8 +99,7 @@ fn seaGroups(field: vec3f, grain: vec3f) -> vec2f {
 /// Munk's for the wind's speed, spread evenly over the bands shorter than the
 /// wind's own longest wave and leaning downwind. A wave under a few pixels
 /// long is taken out of the slope and into `hidden`, and so is every wave
-/// past the first `bands` bands. `ripples.ts` is this
-/// and `seaGroups` in float64: a change goes to both.
+/// past the first `bands` bands.
 fn ripplesAt(
   place: vec3f,
   groups: vec2f,

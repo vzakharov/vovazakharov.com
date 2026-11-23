@@ -27,12 +27,12 @@ const GOLDEN = (1 + Math.sqrt(5)) / 2;
  * breaks each wave into groups a few of its lengths long, so the table's
  * waves beat into no lattice.
  */
-export const GROUP_CELL = 32;
+const GROUP_CELL = 32;
 /** The metres the slow fields repeat over, on each axis: a float32 keeps it to millimetres. */
 export const GROUP_PERIOD = 16_384;
 
 /** The share of the sea's slope variance one wave of the table carries, on average. */
-export const RIPPLE_SHARE = 0.065;
+const RIPPLE_SHARE = 0.065;
 
 /** Turns of drift across the slow fields' range for the coarsest band, and their growth band to band. */
 const GROUP_TURNS = 1;

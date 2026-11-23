@@ -9,7 +9,7 @@ items:
     type: text
     updated: [2026-11-22T19:00:00.000Z, agent:board]
     box: [0, 3770, 2240, body]
-    text: "Each row is one view; its frames run left to right in the order they were shot. A caption gives the stage, then the verdict with whose it is (the lead's while Vova is away, or the builder's own). A failure is captioned as one. Every frame, about 140 so far, is kept in the repo under docs/remove-before-merging/island-beauty-c1rj3b/frames/."
+    text: "Each row is one view; its frames run left to right in the order they were shot. A caption gives the stage, then the verdict with whose it is (the lead's while Vova is away, or the builder's own). A failure is captioned as one. Every frame, full size, is kept on the branch of PR #294 under docs/remove-before-merging/island-beauty-c1rj3b/frames/."
   - id: beauty-row-a
     type: text
     updated: [2026-11-22T19:00:00.000Z, agent:board]
