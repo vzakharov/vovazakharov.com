@@ -368,10 +368,10 @@ does not fit, and a half-merged team is worth less than a smaller whole.
   leaves its branch green and its note current, reports, and is archived.
 - **What budget is left goes to frame time**, on the operator's numbers: speed
   on a measurement he can run alone, sea on the cost of its own surface.
-- **Two questions to the operator stand unanswered**: whether a plain
-  half-resolution swift may be tried, and whether preview slot 2 (another
-  branch's build) may be overwritten for a before/after. Without the second, the
-  sea's cuts went into this branch unmeasured.
+- **Whether a plain half-resolution swift may be tried stands unanswered.** Slot
+  2 holds the "before" on his yes (23 Nov): `e3f3f062`, the build he timed on 22
+  Nov, from `claude/island-beauty-before`, deleted with this branch; the sea's
+  cuts are measured in `operator-1123.md` beside the relays.
 - **`/five-percent` and a whole-branch `/polish` wait for the approach that
   finishes the work**; children ran `/dry` and `/tend-prose` on their own diffs.
   `./scripts/vet.sh` passed on 0ecae061b, the head preview slot 1 serves; from
