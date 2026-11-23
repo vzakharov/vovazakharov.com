@@ -18,6 +18,7 @@
         "keys": "B",
         "does": "look: plain, swift, fine (sky, clouds, a living sea; heavy)"
       },
+      { "keys": "1 2 3", "does": "plain, swift, fine look" },
       { "keys": "I", "does": "diagnostics, and a link to this view" }
     ],
     "touch": [

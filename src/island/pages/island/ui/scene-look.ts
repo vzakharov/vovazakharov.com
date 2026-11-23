@@ -16,7 +16,7 @@ import { MAX_HEIGHT } from '@/island/features/eye';
 import type { Heavens } from '../lib/day';
 import { skyColour } from '../lib/sky-colour';
 import type { GroundLighting } from './ground-lighting';
-import { bindLookKey } from './look-key';
+import { bindLookKeys } from './look-key';
 
 /** A scene with `LOOKS`, which lets go of its listeners on `dispose`. */
 export type LookSwitch = CanDispose & {
@@ -25,7 +25,7 @@ export type LookSwitch = CanDispose & {
    * only remembers which.
    */
   readonly setLook: (look: Look) => void;
-  /** Steps to the look after the current one: what B and the page's look button do. */
+  /** Steps to the look after the current one: what the page's look button does. */
   readonly stepLook: () => void;
 };
 
@@ -47,7 +47,7 @@ export type SceneLook = LookSwitch & {
 };
 
 export type LookTold = {
-  /** Told each look as it is chosen, by B, the page's button or play. */
+  /** Told each look as it is chosen, by a key, the page's button or play. */
   onLook: (look: Look) => void;
 };
 
@@ -59,7 +59,7 @@ type SceneLookParams = LookTold & {
   /** Whether the renderer runs on WebGPU, which the rippled sea needs; read once started. */
   webgpu: () => boolean;
   render: () => void;
-  /** Where B steps the look; none under play, where only `setLook` does. */
+  /** Where the look keys are bound; none under play, where only `setLook` chooses. */
   keys: HTMLElement | null;
 };
 
@@ -101,7 +101,8 @@ export function sceneLook({
   const stepLook = () => {
     setLook(nextLook(look));
   };
-  const lookKey = keys === null ? null : bindLookKey(keys, stepLook);
+  const lookKeys =
+    keys === null ? null : bindLookKeys(keys, () => look, setLook);
   return {
     setLook,
     stepLook,
@@ -122,7 +123,7 @@ export function sceneLook({
       else plainSky.setHex(skyColour(height, day));
     },
     dispose: () => {
-      lookKey?.dispose();
+      lookKeys?.dispose();
     },
   };
 }
