@@ -33,7 +33,8 @@ const REACH_CELLS = 8;
  * across and hold as many candidate spots as any other's, drawn out to
  * `tierReach(t)`: so the trees standing within sight thin with distance as the
  * square of it, the same count in every doubling, and no tier is ever swapped
- * for another — each tree only shrinks away toward its own tier's reach.
+ * for another — each tree goes whole, at a distance of its own within its
+ * tier's reach.
  */
 export const TREE_TIERS = 5;
 
@@ -41,7 +42,7 @@ export const TREE_TIERS = 5;
 export const tierCell = (tier: number) =>
   (R * Math.PI) / 2 / 2 ** (FINEST_LEVEL - tier);
 
-/** The distance at which a tier's trees have shrunk to nothing, metres. */
+/** The distance by which the last of a tier's trees is gone, metres. */
 export const tierReach = (tier: number) => REACH_CELLS * tierCell(tier);
 
 /**
