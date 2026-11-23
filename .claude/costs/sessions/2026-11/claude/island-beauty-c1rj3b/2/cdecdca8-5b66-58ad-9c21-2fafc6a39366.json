@@ -1,0 +1,121 @@
+{
+  "total": {
+    "inputTokens": 558,
+    "cacheWrite5mTokens": 702,
+    "cacheWrite1hTokens": 105571,
+    "cacheReadTokens": 3449414,
+    "outputTokens": 14075,
+    "thinkingTokens": 5226,
+    "responses": 27,
+    "costUsd": 1.8237988000000003
+  },
+  "estimate": {
+    "at": "2026-11-23T02:46:54.906Z",
+    "subjectLine": "chore: wrap up the first island beauty approach",
+    "parts": [
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "reading WebGPU frame-time tables against the sea's unmeasured cost cuts needs someone who knows the render budget"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-23T02:46:48.399Z",
+    "contextTokens": 114514,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 53289,
+      "cacheReadTokens": 364811,
+      "outputTokens": 1137,
+      "thinkingTokens": 46,
+      "responses": 4,
+      "costUsd": 0.5220461999999999
+    }
+  },
+  "sessionId": "cdecdca8-5b66-58ad-9c21-2fafc6a39366",
+  "branch": "claude/island-beauty-c1rj3b",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/island-beauty-c1rj3b — первый заход закрыт: черновик PR открыт, план на паузе, превью на слоте 1",
+  "prs": [
+    294
+  ],
+  "url": "https://claude.ai/code/session_01DaohkDJcvoKr2r7ZHftJtT",
+  "operator": null,
+  "firstResponseAt": "2026-11-23T02:46:22.386Z",
+  "lastResponseAt": "2026-11-23T03:04:12.351Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 52,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 105571,
+    "cacheReadTokens": 3333932,
+    "outputTokens": 13856,
+    "thinkingTokens": 5226,
+    "responses": 26,
+    "costUsd": 1.7886824000000003
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 558,
+      "cacheWrite5mTokens": 702,
+      "cacheWrite1hTokens": 105571,
+      "cacheReadTokens": 3449414,
+      "outputTokens": 14075,
+      "thinkingTokens": 5226,
+      "responses": 27,
+      "costUsd": 1.8237988000000003
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 26,
+    "matched": 25,
+    "matchedTableUsd": 1.7408116000000002,
+    "matchedEventUsd": 1.7408116000000002,
+    "unseen": {
+      "prompt_suggestion": {
+        "inputTokens": 506,
+        "cacheWrite5mTokens": 702,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 115482,
+        "outputTokens": 219,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.035116400000000006
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 232,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 2158,
+    ".json": 742,
+    ".yaml": 726,
+    ".ts": 8976,
+    ".tsx": 91,
+    ".scss": 35
+  }
+}

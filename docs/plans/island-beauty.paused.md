@@ -379,22 +379,22 @@ does not fit, and a half-merged team is worth less than a smaller whole.
 
 ## Left, for the next approach
 
-- Frame time on an M2 Pro, target a swift look near 30 ms, led by the operator's
-  Measure table: the air from a low-resolution volume, the sea's globe under
-  tiles and early-Z, trees' fine triangle count (1.2M → ~800k). The operator
-  asked (21:20) whether the trick of a sixteenth of the pixels a frame was
-  tried: it is what swift's clouds do, and only they. The same for the whole
-  frame — half resolution with a jittered eye, rebuilt from the frames before by
-  depth — is the candidate that keeps the picture; a plain half-resolution swift
-  loses sharpness and waits on his word.
+- Frame time on an M2 Pro, target a swift look near 30 ms, led by his Measure
+  table and frames of 23 November (`operator-1123.md` beside the relays): the
+  clouds' shadow and the ripples are nearly all of swift; fine shows only near,
+  so one look drawing fine near and swift far. The sixteenth of the pixels a
+  frame (21:20) is what swift's clouds do; for the whole frame — half resolution
+  with a jittered eye, rebuilt by depth — it is the candidate that keeps the
+  picture, a plain half-resolution swift waits on his word. Then the air's
+  volume, the sea's globe under tiles, trees' triangles (1.2M → ~800k).
 - Ground: straight tile edges in the lowland's meadow colour from 4–34 km, the
   rock's dot screen, contour stripes on grass slopes — check each on fresh
   frames first, ground's last commits may have cured some.
 - Trees: a forest from 300 m as a lawn with bushes, the ruler edge at the dune
   belt, nothing growing on shore rock (`shoreAt` in `TreeGround`), crowns, the
   shade under a tree (laid, not drawn).
-- Clouds: fair-weather clumps at one scale from 2300 km, heaps too round, no
-  streets along the wind, a narrow front, cracks in a deck; from the ground thin
-  streaks at the horizon and a featureless grey inside a cloud.
+- Clouds: polygonal flakes and even parallel stripes at every height (his
+  frames, 23 Nov), clumps at one scale, heaps too round, no streets along the
+  wind, a narrow front; from the ground streaks and a featureless grey inside.
 - The sunset's vermilion sand (steering, 20:58).
 - Relief's leftovers under "The team".
