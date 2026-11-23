@@ -1,10 +1,16 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import {
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { test } from "node:test";
-import { collect } from "./collect.ts";
+import { collect, writeImages } from "./collect.ts";
 import { FOCUS_PATH } from "./focus.ts";
 
 const IDENTITY = {
@@ -215,8 +221,9 @@ test("a focus line past the file's end fails the collection", () => {
 
 const PNG = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0, 7]);
 
-test("embeds an image at HEAD as a data URI and takes it as a focus without lines", () => {
+test("publishes an image at HEAD beside the page and takes it as a focus without lines", () => {
   const { dir } = makeRepo();
+  const out = mkdtempSync(join(tmpdir(), "collect-out-"));
   try {
     const git = gitIn(dir);
     mkdirSync(join(dir, "docs"));
@@ -230,17 +237,19 @@ test("embeds an image at HEAD as a data URI and takes it as a focus without line
     const frame = data.files.find((file) => file.path === "docs/frame.png");
     const blob = frame?.revisions.at(-1)?.blob;
     assert.ok(frame?.binary && blob);
-    assert.equal(
-      data.images[blob],
-      `data:image/png;base64,${PNG.toString("base64")}`,
-    );
-    // A binary that is not a PNG, JPEG or WebP is not embedded.
+    const path = data.images[blob];
+    assert.equal(path, `images/${blob.slice(0, 16)}.png`);
+    // A binary that is not a PNG, JPEG or WebP is not shown.
     assert.deepEqual(Object.keys(data.images), [blob]);
     assert.deepEqual(data.focus, [
       { path: "docs/frame.png", why: "the new screen" },
     ]);
+
+    writeImages(dir, data.images, out);
+    assert.deepEqual(readFileSync(join(out, path)), PNG);
   } finally {
     rmSync(dir, { recursive: true, force: true });
+    rmSync(out, { recursive: true, force: true });
   }
 });
 

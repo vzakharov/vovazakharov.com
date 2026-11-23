@@ -90,12 +90,9 @@ test("a binary file carries the picture at the range's to, when the payload has 
       { commit: "c1", path: "shot.png", blob: "y", size: 30 },
     ],
   };
-  const withImage = { ...data, images: { y: "data:image/png;base64,AA==" } };
+  const withImage = { ...data, images: { y: "images/y.png" } };
   const shown = fileDiff(withImage, binary, range(null, "y"), false);
-  assert.equal(
-    shown.kind === "binary" && shown.image,
-    "data:image/png;base64,AA==",
-  );
+  assert.equal(shown.kind === "binary" && shown.image, "images/y.png");
   const gone = fileDiff(withImage, binary, range("y", null), false);
   assert.equal(gone.kind === "binary" && gone.image, null);
 });
