@@ -7,8 +7,9 @@ the last with words by Роман Попов — are published from their
 vovas-music repositories, their words corrected from Suno prompts to
 what the recordings sing. Each master was picked blind, the author's
 own against Matchering masters, in a claude.ai artifact built from
-.claude/artifacts/src/blind-test/ that keeps one pick per song;
-blind-abc.py builds and splits any number of masters. His own won
+.claude/artifacts/src/blind-test/ that keeps one pick per song and
+replaces the site's own blind-test page; blind-abc.py builds and
+splits any number of masters. His own won
 for «Хорошо!» and «Поздно»; the three Matchering winners were
 re-rendered lossless and null-tested against what he heard.
 
@@ -24,6 +25,10 @@ album and musicians. A pasted link then plays where the messenger
 honours og:audio (iMessage) and is typed as audio elsewhere. Telegram
 embeds players only for allowlisted domains, so a page link does not
 play inline there; the song's direct MP3 link does.
+
+The cost-estimate check lets a row whose session ended before the
+ledger counted operatorWords and branchLines keep them null: its
+transcript is gone, so nothing could fill them.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
