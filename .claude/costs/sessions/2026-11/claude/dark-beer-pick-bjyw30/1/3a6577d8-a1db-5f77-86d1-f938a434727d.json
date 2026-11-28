@@ -1,0 +1,101 @@
+{
+  "total": {
+    "inputTokens": 29,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 60107,
+    "cacheReadTokens": 1316141,
+    "outputTokens": 4658,
+    "thinkingTokens": 992,
+    "responses": 13,
+    "costUsd": 0.8373602
+  },
+  "estimate": {
+    "at": "2026-11-28T18:47:21.499Z",
+    "subjectLine": "chore: pick a mild dark beer from two shelf photos",
+    "parts": [
+      {
+        "hours": 0.25,
+        "grade": "middle",
+        "role": "analyst",
+        "comment": "reading two shelf photos and matching styles to a taste brief is a quick judgement call, no research beyond known beer styles"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "end_turn",
+    "endedOn": null,
+    "endedAt": "2026-11-28T18:47:29.000Z",
+    "contextTokens": 95715,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 41006,
+      "cacheReadTokens": 53317,
+      "outputTokens": 1103,
+      "thinkingTokens": 641,
+      "responses": 1,
+      "costUsd": 0.36077940000000003
+    }
+  },
+  "sessionId": "3a6577d8-a1db-5f77-86d1-f938a434727d",
+  "branch": "claude/dark-beer-pick-bjyw30",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "Какое из этих пив (темные интересуют) «помягче и без привкуса»?",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkFWbohNtyfcdt9itcF",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T18:47:17.814Z",
+  "lastResponseAt": "2026-11-28T19:43:04.618Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 29,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 60107,
+    "cacheReadTokens": 1316141,
+    "outputTokens": 4658,
+    "thinkingTokens": 992,
+    "responses": 13,
+    "costUsd": 0.8373602
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 29,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 60107,
+      "cacheReadTokens": 1316141,
+      "outputTokens": 4658,
+      "thinkingTokens": 992,
+      "responses": 13,
+      "costUsd": 0.8373602
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 12,
+    "matched": 12,
+    "matchedTableUsd": 0.7995582,
+    "matchedEventUsd": 0.7995582,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 10,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {}
+}
