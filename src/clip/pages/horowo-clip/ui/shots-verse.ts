@@ -5,15 +5,21 @@ import {
   bedroomWide,
   bedroomWindow,
 } from '@/clip/widgets/bedroom';
+import { channel } from '@/clip/widgets/channels';
 
-import { placeholder } from './placeholder';
 import { sectionNamed } from './stand-in';
 
-/** Each verse call a cut to a channel for a beat, back to the room after it. */
+// The bunny on the channels comes nearer the glass call by call.
+const NEARNESS = { first: 0.3, last: 0.5 };
+const nearness = (n: number): number =>
+  NEARNESS.first +
+  ((NEARNESS.last - NEARNESS.first) * n) / Math.max(1, VERSE_CALLS.length - 1);
+
+/** Each verse call a cut to a new channel for a beat, back to the room after it. */
 const calls: Shot[] = VERSE_CALLS.map((from, n) => ({
   from,
   to: from + beatSeconds(sectionAt(from)),
-  draw: placeholder(`channel ${String(n + 1)}`, 'broadcast', 20 + n),
+  draw: channel(n, nearness(n)),
 }));
 
 const FIRST = sectionNamed('verse, first half');

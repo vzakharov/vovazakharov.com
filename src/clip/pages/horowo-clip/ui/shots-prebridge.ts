@@ -1,4 +1,4 @@
-import { CHANT, within } from '@/clip/shared/score';
+import { CHANT, VERSE_CALLS, within } from '@/clip/shared/score';
 import type { Shot } from '@/clip/shared/timeline';
 import { channel } from '@/clip/widgets/channels';
 
@@ -15,9 +15,12 @@ const starts = [from, ...zaps];
 const nearness = (n: number): number =>
   0.6 + (0.25 * n) / Math.max(1, starts.length - 1);
 
+// The verse ends on the channel before this one, so the crawl opens on one not yet seen.
+const FIRST_CHANNEL = VERSE_CALLS.length;
+
 /** The pre-bridge: the zapping slowed to a crawl, one channel to each chant. */
 export const PREBRIDGE_SHOTS: readonly Shot[] = starts.map((start, n) => ({
   from: start,
   to: starts[n + 1] ?? to,
-  draw: channel(n, nearness(n)),
+  draw: channel(FIRST_CHANNEL + n, nearness(n)),
 }));
