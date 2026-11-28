@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 34,
+    "inputTokens": 44,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 125139,
-    "cacheReadTokens": 1928693,
-    "outputTokens": 15675,
-    "thinkingTokens": 8186,
-    "responses": 16,
-    "costUsd": 3.0152346
+    "cacheWrite1hTokens": 166059,
+    "cacheReadTokens": 2896772,
+    "outputTokens": 32470,
+    "thinkingTokens": 14813,
+    "responses": 21,
+    "costUsd": 4.5354504
   },
   "estimate": {
     "at": "2026-11-28T17:26:07.215Z",
@@ -42,22 +42,24 @@
   "branch": "claude/horowo-clip-lrxscd",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/horowo-clip-lrxscd — клип собран целиком с заставкой и лежит в релизе, vet зелёный, ждёт вердикта Вовы",
-  "prs": [],
+  "prs": [
+    295
+  ],
   "url": "https://claude.ai/code/session_01DaohkFDn2a9kRmU5jM3ctm",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T17:25:22.971Z",
-  "lastResponseAt": "2026-11-28T17:42:05.151Z",
+  "lastResponseAt": "2026-11-28T17:45:35.406Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 34,
+    "inputTokens": 44,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 125139,
-    "cacheReadTokens": 1928693,
-    "outputTokens": 15675,
-    "thinkingTokens": 8186,
-    "responses": 16,
-    "costUsd": 3.0152346
+    "cacheWrite1hTokens": 166059,
+    "cacheReadTokens": 2896772,
+    "outputTokens": 32470,
+    "thinkingTokens": 14813,
+    "responses": 21,
+    "costUsd": 4.5354504
   },
   "subagents": {
     "inputTokens": 0,
@@ -71,23 +73,23 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 34,
+      "inputTokens": 44,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 125139,
-      "cacheReadTokens": 1928693,
-      "outputTokens": 15675,
-      "thinkingTokens": 8186,
-      "responses": 16,
-      "costUsd": 3.0152346
+      "cacheWrite1hTokens": 166059,
+      "cacheReadTokens": 2896772,
+      "outputTokens": 32470,
+      "thinkingTokens": 14813,
+      "responses": 21,
+      "costUsd": 4.5354504
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 15,
-    "matched": 15,
-    "matchedTableUsd": 2.649682,
-    "matchedEventUsd": 2.649682,
+    "events": 20,
+    "matched": 20,
+    "matchedTableUsd": 4.3299900000000004,
+    "matchedEventUsd": 4.3299900000000004,
     "unseen": {}
   },
   "operatorWords": {
@@ -98,7 +100,7 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 1043,
+    ".md": 1088,
     ".json": 169,
     ".ts": 13710,
     ".tsx": 44,

@@ -7,5 +7,11 @@ export const SONG_SECONDS = 119.7;
  */
 export const PREROLL = 3.2;
 
+/**
+ * How long the film runs on in silence after the master ends, in seconds:
+ * song time passes `SONG_SECONDS` through it.
+ */
+export const POSTROLL = 5;
+
 /** The film's time at song time `t`: the film opens on the ident. */
 export const filmTime = (t: number): number => t + PREROLL;
