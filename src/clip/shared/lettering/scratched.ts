@@ -32,7 +32,7 @@ function scratchesFor(
 }
 
 // A scratch's full width at full pressure, in cap heights: what `weight` sets.
-const SCRATCH_WEIGHT = 0.05;
+const SCRATCH_WEIGHT = 0.026;
 
 /** The shapes of one frame's writing, one list per colour. */
 type Marks = {
@@ -138,7 +138,7 @@ function fillAll(
 
 /**
  * Scratched into wall paint with a fingernail and filled with blood, as with
- * a pencil: each stroke a bundle of two or three thin scratches, pressed
+ * a pencil: each stroke a bundle of three or four thin scratches, pressed
  * unevenly, mostly dried brown with one fresher red, the plaster showing in
  * patches, a thumb's smear on a few, drips off the low end of some verticals.
  * A drip runs as the hand writes on past its stroke, and `bleed` in `[0, 1]`

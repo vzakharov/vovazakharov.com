@@ -7,11 +7,11 @@ import { pressureAt, ribbon, scratchesOf, stretchOf } from './scratch-marks';
 describe('scratchesOf', () => {
   const layout = layOut('ХОРОШО', { letterHeight: 100 });
 
-  it('goes over every stroke two or three times, one pass fresh', () => {
+  it('goes over every stroke three or four times, one pass fresh', () => {
     const scratches = scratchesOf(layout, 100, 3);
     assert.equal(scratches.length, layout.strokes.length);
     for (const { passes } of scratches) {
-      assert.ok(passes.length === 2 || passes.length === 3);
+      assert.ok(passes.length === 3 || passes.length === 4);
       assert.equal(passes.filter(({ stillWet }) => stillWet).length, 1);
     }
   });

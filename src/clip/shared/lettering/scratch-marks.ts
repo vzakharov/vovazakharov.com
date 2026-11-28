@@ -36,7 +36,7 @@ export type Scratch = {
 };
 
 // How far a pass wavers off the stroke, and how far its ends wander, in cap heights.
-const PASS_WAVER = 0.035;
+const PASS_WAVER = 0.05;
 const ENDS_WANDER = 0.09;
 
 /** `points` cut into short pieces, each joint nudged by up to `amplitude`. */
@@ -105,7 +105,7 @@ export function scratchesOf(
 ): Scratch[] {
   const random = rng(seed);
   return layout.strokes.map(({ points }) => {
-    const count = random() < 0.5 ? 2 : 3;
+    const count = random() < 0.5 ? 3 : 4;
     const freshOne = Math.floor(random() * count);
     const total = lengthOf(points);
     const wander = () => (random() - 0.35) * size * ENDS_WANDER;
