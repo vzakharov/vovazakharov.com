@@ -26,7 +26,7 @@ const QUILT = 90;
 /** The TV on its bracket, high in the right-hand corner. */
 const TV = { x: 1010, y: 70, width: 200, height: 150 } as const;
 
-const rect = (x: number, y: number, w: number, h: number) =>
+export const wardRect = (x: number, y: number, w: number, h: number) =>
   polygon([
     [x, y],
     [x + w, y],
@@ -40,7 +40,7 @@ function paddedWall(
   [left, top, right, bottom]: readonly [number, number, number, number],
 ) {
   const { ctx } = pen;
-  ink(pen, rect(left, top, right - left, bottom - top), {
+  ink(pen, wardRect(left, top, right - left, bottom - top), {
     fill: WARD_PALETTE.wall,
     stroke: null,
   });
@@ -85,7 +85,7 @@ type Written = { words?: number; marks?: number };
 
 /** The scratched words and the tallies, `progress` of the way to the edges. */
 export function wallWriting(pen: Pen, { words = 1, marks = 1 }: Written): void {
-  clipped(pen, rect(CORNER_X, 0, STAGE.width, FLOOR_Y), () => {
+  clipped(pen, wardRect(CORNER_X, 0, STAGE.width, FLOOR_Y), () => {
     tallies(pen, {
       x: CORNER_X,
       y: 0,
@@ -112,7 +112,7 @@ export function tvSet(pen: Pen): void {
     ]),
     { fill: WARD_PALETTE.tvBracket, seed: 51 },
   );
-  ink(pen, rect(x - 14, y - 14, width + 28, height + 28), {
+  ink(pen, wardRect(x - 14, y - 14, width + 28, height + 28), {
     fill: WARD_PALETTE.tvBody,
     width: 7,
     seed: 52,
@@ -156,9 +156,12 @@ export function night(pen: Pen, amount: number): void {
 
 /** The padded cot along the back wall the two of them sit on. */
 export function cot(pen: Pen): void {
-  ink(pen, rect(330, 520, 760, 70), { fill: WARD_PALETTE.wallSide, seed: 91 });
-  ink(pen, rect(340, 590, 20, 40), { fill: WARD_PALETTE.seam, seed: 92 });
-  ink(pen, rect(1060, 590, 20, 40), { fill: WARD_PALETTE.seam, seed: 93 });
+  ink(pen, wardRect(330, 520, 760, 70), {
+    fill: WARD_PALETTE.wallSide,
+    seed: 91,
+  });
+  ink(pen, wardRect(340, 590, 20, 40), { fill: WARD_PALETTE.seam, seed: 92 });
+  ink(pen, wardRect(1060, 590, 20, 40), { fill: WARD_PALETTE.seam, seed: 93 });
 }
 
 /** The cell itself, in stage coordinates: padded walls, the floor, the corner. */

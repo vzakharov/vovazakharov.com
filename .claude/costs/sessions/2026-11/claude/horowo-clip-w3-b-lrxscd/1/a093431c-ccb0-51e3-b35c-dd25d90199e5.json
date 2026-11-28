@@ -1,0 +1,125 @@
+{
+  "total": {
+    "inputTokens": 164,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 208778,
+    "cacheReadTokens": 16541047,
+    "outputTokens": 63223,
+    "thinkingTokens": 23196,
+    "responses": 86,
+    "costUsd": 6.2435494
+  },
+  "estimate": {
+    "at": "2026-11-28T18:06:53.397Z",
+    "subjectLine": "feat: the bridge's sinking zoom, half-dream inserts and false fade",
+    "parts": [
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "camera path, the bunny's statue-game approach and the man's sinking look are timing-driven scene code across a new widget file set"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "a transform-only dream bend that must stay legible over six different storylines"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "audio-engineer",
+        "comment": "finding the five «о» on the master's vocal band past the stem's end"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "pacing the looks away and the breaths so the false end lands"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-28T17:47:37.335Z",
+    "contextTokens": 105604,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 41650,
+      "cacheReadTokens": 54655,
+      "outputTokens": 352,
+      "thinkingTokens": 20,
+      "responses": 1,
+      "costUsd": 0.351179
+    }
+  },
+  "sessionId": "a093431c-ccb0-51e3-b35c-dd25d90199e5",
+  "branch": "claude/horowo-clip-w3-b-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a `/carte-blanche` run (`.claude/skills/carte-blanche/SKILL.md`): one of nine sessions reworking a code-drawn music video after its o…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkBtsQQYJQstc7kNKio",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T17:47:30.972Z",
+  "lastResponseAt": "2026-11-28T18:11:07.919Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 164,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 208778,
+    "cacheReadTokens": 16541047,
+    "outputTokens": 63223,
+    "thinkingTokens": 23196,
+    "responses": 86,
+    "costUsd": 6.2435494
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 164,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 208778,
+      "cacheReadTokens": 16541047,
+      "outputTokens": 63223,
+      "thinkingTokens": 23196,
+      "responses": 86,
+      "costUsd": 6.2435494
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 85,
+    "matched": 85,
+    "matchedTableUsd": 6.1499764,
+    "matchedEventUsd": 6.149976399999998,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1243,
+    ".json": 169,
+    ".ts": 14044,
+    ".tsx": 44,
+    ".scss": 12
+  }
+}
