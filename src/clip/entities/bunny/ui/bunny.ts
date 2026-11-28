@@ -13,10 +13,11 @@ import {
   type Pen,
   type Place,
   type Point,
+  polygon,
 } from '@/clip/shared/ink';
 
 import {
-  ARM_JOINTS,
+  armJoints,
   type Arms,
   type BunnyLook,
   FEET_Y,
@@ -44,11 +45,16 @@ export type BunnyDrawing = Place &
     sway?: number;
     /** Drawn between its paws in the `hold` pose, origin at the held thing's centre. */
     held?: () => void;
+    /**
+     * Where in its bar a conducting bunny is, in `[0, 1)`: the baton lands on
+     * the downbeat at 0. The scene drives it from the song's beat.
+     */
+    beat?: number;
   };
 
-const HEAD = path(
-  'M -84,1 C -90,-69 -50,-85 0,-85 C 50,-85 90,-69 84,1 C 82,70 44,112 0,112 C -44,112 -82,70 -84,1 Z',
-);
+const HEAD_D =
+  'M -84,1 C -90,-69 -50,-85 0,-85 C 50,-85 90,-69 84,1 C 82,70 44,112 0,112 C -44,112 -82,70 -84,1 Z';
+const HEAD = path(HEAD_D);
 const BODY = path(
   'M -46,90 C -88,200 -96,420 -70,560 C -62,602 -18,606 -6,580 L 0,566 L 6,580 C 18,606 62,602 70,560 C 96,420 88,200 46,90 Z',
 );
@@ -85,13 +91,15 @@ function armPath(
   side: number,
   arms: Arms,
   lift: number,
+  beat: number,
 ): readonly [Path, Point] {
-  const [[ex, ey], [px, py]] = ARM_JOINTS[arms];
-  const paw: Point = [side * px, py + lift];
+  const [[ex, ey], [px, py]] = armJoints(side, arms, beat);
+  const paw: Point = [px, py + lift];
+  const elbow: Point = [ex, ey + lift / 2];
   return [
     [
       { kind: 'M', points: [[side * SHOULDER[0], SHOULDER[1]]] },
-      { kind: 'Q', points: [[side * ex, ey + lift / 2], paw] },
+      { kind: 'Q', points: [elbow, paw] },
     ],
     paw,
   ];
@@ -136,28 +144,30 @@ function mouth(grin: number): { lips: Path; gap: Path; stitches: Path } {
   return { lips, gap, stitches };
 }
 
-// How far an eye's light spills round it.
-const GLOW_REACH = 36;
+// How far the light inside the head reaches from between the eyes.
+const GLOW_REACH = 100;
+const LIT_EYE = ellipse([0, 0], 16);
 
-/** A button gone hot: a dark socket with light pouring out of its middle. */
-function glowingEye(pen: Pen, x: number, seed: number): void {
+/**
+ * The buttons gone: the head lit from inside, its light filling the face up
+ * to the outline, and two blank rings where the eyes were.
+ */
+function glowingEyes(pen: Pen, seed: number): void {
   const { ctx } = pen;
-  ink(pen, ellipse([x, EYE_Y], 19), {
-    fill: BUNNY_PALETTE.button,
-    width: 4,
-    seed,
-  });
-  const halo = ctx.createRadialGradient(x, EYE_Y, 3, x, EYE_Y, GLOW_REACH);
-  halo.addColorStop(0, BUNNY_PALETTE.glowCore);
-  halo.addColorStop(0.3, BUNNY_PALETTE.glow);
-  halo.addColorStop(1, `${BUNNY_PALETTE.glow}00`);
-  ctx.fillStyle = halo;
-  ctx.fillRect(
-    x - GLOW_REACH,
-    EYE_Y - GLOW_REACH,
-    GLOW_REACH * 2,
-    GLOW_REACH * 2,
-  );
+  ctx.save();
+  ctx.clip(new Path2D(HEAD_D));
+  const light = ctx.createRadialGradient(0, EYE_Y, 10, 0, EYE_Y, GLOW_REACH);
+  light.addColorStop(0, BUNNY_PALETTE.glowCore);
+  light.addColorStop(0.45, BUNNY_PALETTE.glow);
+  light.addColorStop(1, `${BUNNY_PALETTE.glow}00`);
+  ctx.fillStyle = light;
+  ctx.fillRect(-GLOW_REACH, EYE_Y - GLOW_REACH, GLOW_REACH * 2, GLOW_REACH * 2);
+  ctx.restore();
+  for (const side of [-1, 1]) {
+    at(pen, { x: side * EYE_X, y: EYE_Y }, () => {
+      ink(pen, LIT_EYE, { fill: BUNNY_PALETTE.glowCore, width: 5, seed });
+    });
+  }
 }
 
 function buttonEye(pen: Pen, x: number, seed: number): void {
@@ -210,6 +220,7 @@ export function bunny(pen: Pen, drawing: BunnyDrawing = {}): void {
     y = 0,
     rot = 0,
     flip = false,
+    beat = 0,
   } = drawing;
   const near = lookAt(nearness);
   const look: BunnyLook = {
@@ -245,10 +256,14 @@ export function bunny(pen: Pen, drawing: BunnyDrawing = {}): void {
           });
         }
       }
-      const lift = arms === 'down' ? 0 : swing * 6;
-      const paws = [-1, 1].map((side) =>
-        drawArm(layer, side, arms, lift, style),
-      );
+      const lift = arms === 'down' || arms === 'conduct' ? 0 : swing * 6;
+      const drawArms = (): Point[] =>
+        [-1, 1].map((side) =>
+          drawArm(layer, side, { arms, armLift: lift, barBeat: beat }, style),
+        );
+      // A conductor's arms work in front of the body; every other pose's hang behind it.
+      const inFront = arms === 'conduct';
+      const paws = inFront ? [] : drawArms();
       ink(layer, BODY, style);
       if (!shadow) {
         ink(layer, CREASE, {
@@ -259,6 +274,7 @@ export function bunny(pen: Pen, drawing: BunnyDrawing = {}): void {
         });
       }
       ink(layer, HEAD, style);
+      if (inFront) drawArms();
       if (held && arms === 'hold') {
         at(layer, { x: HELD_AT[0], y: HELD_AT[1] }, held);
         for (const paw of paws) ink(layer, ellipse(paw, 24, 20), style);
@@ -268,15 +284,37 @@ export function bunny(pen: Pen, drawing: BunnyDrawing = {}): void {
   });
 }
 
+/** How an arm is posed: its pose, how far the sway lifts it, and the bar's beat. */
+type ArmPose = { arms: Arms; armLift: number; barBeat: number };
+
+// The baton's length and width, in the bunny's units.
+const BATON = 130;
+const BATON_WIDTH = 6;
+
 function drawArm(
   pen: Pen,
   side: number,
-  arms: Arms,
-  lift: number,
+  { arms, armLift, barBeat }: ArmPose,
   style: InkStyle,
 ): Point {
-  const [shape, paw] = armPath(side, arms, lift);
+  const [shape, paw] = armPath(side, arms, armLift, barBeat);
   const { stroke, fill, seed } = style;
+  if (arms === 'conduct' && side > 0) {
+    // The baton carries on the line from shoulder to paw, so it always points
+    // away from the body: down on the downbeat, up on the upbeat.
+    const [ex, ey] = SHOULDER;
+    const [px, py] = paw;
+    const reach = Math.hypot(px - ex, py - ey) || 1;
+    const tip: Point = [
+      px + ((px - ex) / reach) * BATON,
+      py + ((py - ey) / reach) * BATON,
+    ];
+    ink(pen, polygon([paw, tip], 'open'), {
+      stroke: stroke ?? fill,
+      width: BATON_WIDTH,
+      seed,
+    });
+  }
   if (stroke !== null && stroke !== undefined) {
     ink(pen, shape, { stroke, width: ARM_WIDTH + OUTLINE * 2, seed });
   }
@@ -286,10 +324,8 @@ function drawArm(
 }
 
 function face(pen: Pen, look: BunnyLook, seed: number): void {
-  for (const side of [-1, 1]) {
-    if (look.eyes === 'glow') glowingEye(pen, side * EYE_X, seed);
-    else buttonEye(pen, side * EYE_X, seed);
-  }
+  if (look.eyes === 'glow') glowingEyes(pen, seed);
+  else for (const side of [-1, 1]) buttonEye(pen, side * EYE_X, seed);
   ink(pen, NOSE, { fill: BUNNY_PALETTE.pink, width: 3, seed });
   const { lips, gap, stitches } = mouth(look.grin);
   if (look.grin > 0.05) {

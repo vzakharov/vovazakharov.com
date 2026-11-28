@@ -7,8 +7,11 @@ import type { Point } from '@/clip/shared/ink';
  */
 export const FEET_Y = 600;
 
-/** What the arms do: hang to the knees, go up, reach out, or hold something before the belly. */
-export const ARMS = ['down', 'up', 'reach', 'hold'] as const;
+/**
+ * What the arms do: hang to the knees, go up, reach out, hold something
+ * before the belly, or conduct, one paw beating time and the other hushing.
+ */
+export const ARMS = ['down', 'up', 'reach', 'hold', 'conduct'] as const;
 export type Arms = (typeof ARMS)[number];
 
 /** Sewn-on buttons, or lit from inside. */
@@ -19,7 +22,9 @@ export type Eyes = (typeof EYES)[number];
 export const SHOULDER: Point = [58, 101];
 
 /** The right elbow and paw for each pose; the left arm is their mirror. */
-export const ARM_JOINTS: Readonly<Record<Arms, readonly [Point, Point]>> = {
+const ARM_JOINTS: Readonly<
+  Record<Exclude<Arms, 'conduct'>, readonly [Point, Point]>
+> = {
   down: [
     [88, 250],
     [76, 410],
@@ -37,6 +42,57 @@ export const ARM_JOINTS: Readonly<Record<Arms, readonly [Point, Point]>> = {
     [96, 268],
   ],
 };
+
+// Where the conducting paw lands on each beat of a bar of four: down, in,
+// out, up — the pattern a conductor's baton draws.
+const DOWNBEAT: Point = [120, 200];
+const BEATS: readonly Point[] = [DOWNBEAT, [20, 130], [240, 120], [150, -50]];
+
+/**
+ * The conducting paw `beat` of the way through a bar, `beat` in `[0, 1)`.
+ * It eases into each beat and snaps out of it, so every beat lands.
+ */
+export function conductingPaw(beat: number): Point {
+  const along = (beat - Math.floor(beat)) * BEATS.length;
+  const n = Math.floor(along);
+  const [ax, ay] = BEATS[n] ?? DOWNBEAT;
+  const [bx, by] = BEATS[(n + 1) % BEATS.length] ?? DOWNBEAT;
+  const ease = (along - n) ** 2;
+  // A dip below the line between beats, as a baton bounces off each one.
+  const dip = Math.sin((along - n) * Math.PI) * 30;
+  return [ax + (bx - ax) * ease, ay + (by - ay) * ease + dip];
+}
+
+// The other paw while conducting: raised, palm out, keeping the players quiet.
+const HUSHING: readonly [Point, Point] = [
+  [-150, 170],
+  [-170, 30],
+];
+
+/**
+ * The elbow and paw of the arm on `side` (-1 left, 1 right) for `arms`, the
+ * conducting paw `beat` of the way through its bar.
+ */
+export function armJoints(
+  side: number,
+  arms: Arms,
+  beat: number,
+): readonly [Point, Point] {
+  if (arms === 'conduct') {
+    if (side < 0) return HUSHING;
+    const [px, py] = conductingPaw(beat);
+    // The elbow hangs out and below the line from shoulder to paw.
+    return [
+      [(SHOULDER[0] + px) / 2 + 50, (SHOULDER[1] + py) / 2 + 60],
+      [px, py],
+    ];
+  }
+  const [[ex, ey], [px, py]] = ARM_JOINTS[arms];
+  return [
+    [side * ex, ey],
+    [side * px, py],
+  ];
+}
 
 /** Where a held thing's centre sits, between the paws of the `hold` pose. */
 export const HELD_AT: Point = [0, 240];
