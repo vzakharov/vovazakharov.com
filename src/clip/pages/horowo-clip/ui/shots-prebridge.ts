@@ -1,4 +1,10 @@
-import { CHANT, KICKS, VERSE_CALLS, within } from '@/clip/shared/score';
+import {
+  beatSeconds,
+  CHANT,
+  KICKS,
+  VERSE_CALLS,
+  within,
+} from '@/clip/shared/score';
 import type { Shot } from '@/clip/shared/timeline';
 import { channel } from '@/clip/widgets/channels';
 import { spoonBunnyReveal } from '@/clip/widgets/spoon-bunny';
@@ -34,15 +40,23 @@ const lastChant = starts.at(-1) ?? from;
 const landing = KICKS.find((k) => k > lastChant + 0.25 && k < to - 0.2);
 if (landing === undefined) throw new Error('No kick to land the reveal on');
 
+const reveal = spoonBunnyReveal({ from: landing - 0.16, to: landing - 0.02 });
+
 /**
  * The pre-bridge: the zapping slowed to a crawl, one channel to each chant,
  * and on the last chant the spoon bunny turns round.
  */
 export const PREBRIDGE_SHOTS: readonly Shot[] = [
   ...channels.slice(0, -1),
-  {
-    from: lastChant,
-    to,
-    draw: spoonBunnyReveal({ from: landing - 0.16, to: landing - 0.02 }),
-  },
+  { from: lastChant, to, draw: reveal },
 ];
+
+/**
+ * The bunny's face held a beat into the bridge, long enough to be read. It
+ * cuts into the bridge's opening, so it goes after the bridge's shots.
+ */
+export const REVEAL_HOLD: Shot = {
+  from: to,
+  to: to + beatSeconds(PREBRIDGE),
+  draw: reveal,
+};
