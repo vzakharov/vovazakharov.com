@@ -8,6 +8,7 @@ import {
   polygon,
 } from '@/clip/shared/ink';
 import { writePlain } from '@/clip/shared/lettering';
+import { dotText } from '@/clip/shared/tape';
 
 import { GLOBE_PALETTE } from './palette-globe';
 
@@ -22,6 +23,11 @@ export type SnowGlobe = Figure & {
   inside?: (domeRadius: number) => void;
   /** Lettered on the brass plaque on its base; none by default. */
   plaque?: string;
+  /**
+   * How the plaque is lettered: by hand (the default, Cyrillic only), or in
+   * the tape's dot face, which also sets Latin letters and a web address.
+   */
+  plaqueFace?: 'hand' | 'dots';
   /** How hard it is being shaken, in `[0, 1]`: it rocks on its base. 0 by default. */
   shaking?: number;
 };
@@ -40,6 +46,7 @@ export function snowGlobe(pen: Pen, globe: SnowGlobe = {}): void {
     domeRadius: r = 120,
     inside,
     plaque,
+    plaqueFace = 'hand',
     shaking = 0,
     rot = 0,
   } = globe;
@@ -92,13 +99,21 @@ export function snowGlobe(pen: Pen, globe: SnowGlobe = {}): void {
     });
     if (plaque !== undefined) {
       ink(pen, plate, { fill: GLOBE_PALETTE.plaque, width: width * 0.6, seed });
-      writePlain(pen, plaque, {
-        letterHeight: r * 0.13,
-        alignment: 'center',
-        y: top + r * 0.205,
-        color: GLOBE_PALETTE.plaqueText,
-        seed,
-      });
+      if (plaqueFace === 'dots') {
+        dotText(pen, plaque, [0, top + r * 0.215], {
+          dot: (r * 1.02) / (plaque.length * 6),
+          color: GLOBE_PALETTE.plaqueText,
+          align: 'center',
+        });
+      } else {
+        writePlain(pen, plaque, {
+          letterHeight: r * 0.13,
+          alignment: 'center',
+          y: top + r * 0.205,
+          color: GLOBE_PALETTE.plaqueText,
+          seed,
+        });
+      }
     }
   });
 }

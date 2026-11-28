@@ -1,2 +1,2 @@
-export { globePullBack, switchOff } from './ui/globe';
-export { stab } from './ui/stabs';
+export { chewing, type Fury, STABS, staringHead, stillHole } from './breakdown';
+export { pullBack } from './pull-back';

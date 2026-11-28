@@ -5,7 +5,7 @@ import { bunny } from '@/clip/entities/bunny';
 import { head } from '@/clip/entities/puppet';
 import { CONFETTI_PALETTE, serotoninFall } from '@/clip/entities/serotonin';
 
-import { ENDING_PALETTE } from './palette-ending';
+import { ENDING_PALETTE } from '../../palette';
 
 /** The whole picture under one loud colour. */
 function wash({ ctx }: Pen, colour: string): void {
@@ -73,24 +73,23 @@ function party(pen: Pen, nearness: number): void {
   });
 }
 
-const PICTURES = [grin, scream, word, party] as const;
-
-/**
- * The `n`th of `count` stabs: a full-colour picture on a tape torn by
- * tracking errors, the bunny nearer at each.
- */
-export const stab =
-  (n: number, count: number): Drawing =>
+/** One of the breakdown's own pictures on a tape near ruin, the bunny all but at the glass. */
+const onTape =
+  (picture: (pen: Pen, nearness: number) => void): Drawing =>
   (pen: Pen, { p }: Local) => {
-    const nearness = lerp(0.9, 1, n / Math.max(1, count - 1));
-    const picture = PICTURES[n % PICTURES.length] ?? grin;
     broadcast(
       pen,
       (inner) => {
-        picture(inner, nearness);
+        picture(inner, lerp(0.9, 1, p));
       },
-      {
-        wear: lerp(0.85, 1, p),
-      },
+      { wear: lerp(0.85, 1, p) },
     );
   };
+
+/**
+ * The breakdown's own pictures, one loud colour each: the bunny's grin, his
+ * scream, the word in the channel's dots, the bunny conducting the pills.
+ */
+export const STABS: readonly Drawing[] = [grin, scream, word, party].map(
+  (picture) => onTape(picture),
+);
