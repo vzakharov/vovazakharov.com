@@ -168,6 +168,18 @@ channel's ident — the test card's plate reads «ТЕЛЕКАНАЛ», «ГРЁ
 bar-start hits, before the kids' show begins. The bug in the corner stays «ГБ».
 The slashes are read as line breaks, not as three separate cards.
 
+And a few minutes later, correcting that reading:
+
+> заставка с телешумом/паттерном же ДО начала музыки показывается, да?
+
+Yes: the ident is a pre-roll, before the first note. The film opens on about
+three seconds without music — snow, the test card, the three lines arriving one
+after another — and the song's first hit zaps to the kids' show. So the film is
+longer than the song by the pre-roll: the film's playhead and the song's time
+differ by that offset, the page starts the audio after it, and the mp4 carries
+silence there. The lines on the intro's bar-start hits, as first read, are
+dropped.
+
 On the cast sheet, attached:
 
 > чё-то у нас басисты-гитаристы левую руку не с той стороны грифа держат) я
@@ -178,6 +190,19 @@ over the neck from above, the fist sitting on top of the fretboard. A player's
 fretting hand comes from under the neck: elbow down, palm behind the neck,
 fingers curling over its top edge onto the frets. A fix-up package on Opus,
 branch `claude/horowo-clip-cast-fix-lrxscd`.
+
+At 11:05 UTC, on the limit:
+
+> так, мы на сейчас потратили 10% недельного лимита, остаётся 15%, оцени сколько
+> это по API-костам и на сколько это хватит до того как нужно будет релейнуться
+> и переключить акк
+
+and «имею в виду "запарковаться"». The lead's answer, from the cost ledger: the
+run's 10% is about $65–70 at API rates, so 1% is about $7 and the 15% left about
+$100; at wave 1's pace that is an hour to an hour and a half. What is left of
+the clip to a first full cut is about $65–70. The run parks (`/relay park`) when
+about 3% is left; wave 2 runs on Opus only, and children wire their own scenes
+so the lead reads less.
 
 ## The song
 
