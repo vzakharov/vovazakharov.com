@@ -1,0 +1,112 @@
+{
+  "total": {
+    "inputTokens": 114,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 187176,
+    "cacheReadTokens": 10546940,
+    "outputTokens": 64358,
+    "thinkingTokens": 21445,
+    "responses": 57,
+    "costUsd": 4.894412
+  },
+  "estimate": {
+    "at": "2026-11-28T10:30:15.811Z",
+    "subjectLine": "feat: the clip's props — bunny, lettering, tallies, fall, globe",
+    "parts": [
+      {
+        "hours": 14.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "procedural character, glyph set with three renderings and a tally wall are look-defining art built in code, judged frame by frame"
+      },
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "a phone frame budget over hundreds of tallies and pills needs path caching and offscreen boil caches"
+      },
+      {
+        "hours": 2.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "tests, module API and checker wiring are routine"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-28T10:30:09.713Z",
+    "contextTokens": 141825,
+    "spend": {
+      "inputTokens": 13,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 84599,
+      "cacheReadTokens": 610592,
+      "outputTokens": 1818,
+      "thinkingTokens": 105,
+      "responses": 6,
+      "costUsd": 0.8353224
+    }
+  },
+  "sessionId": "828f405f-97b5-5b71-8197-b325d93e1f02",
+  "branch": "claude/horowo-clip-props-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are one of four child sessions building a code-drawn music video for the song «Хорошо!». A lead session runs the build in the repo's `/carte-blanche` mode a…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01MZoAKBLUod263MnDXVYSWV",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T10:29:50.563Z",
+  "lastResponseAt": "2026-11-28T10:41:34.331Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 114,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 187176,
+    "cacheReadTokens": 10546940,
+    "outputTokens": 64358,
+    "thinkingTokens": 21445,
+    "responses": 57,
+    "costUsd": 4.894412
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 114,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 187176,
+      "cacheReadTokens": 10546940,
+      "outputTokens": 64358,
+      "thinkingTokens": 21445,
+      "responses": 57,
+      "costUsd": 4.894412
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": null,
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 236,
+    ".mjs": 687,
+    ".json": 23,
+    ".ts": 400
+  }
+}
