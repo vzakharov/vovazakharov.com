@@ -1,22 +1,24 @@
-Proposed squash title/body:
+Proposed squash body:
 
 ```
-feat(vova): a code-drawn music video for «Хорошо!» (#295)
-```
+«Хорошо!» gets a music video at /music/clips/horowo, and since no
+outside image or video generator is used, every frame of it is drawn
+in code.
 
-```
-«Хорошо!» gets a music video, and since no outside image or video
-generator is used, every frame of it is drawn in code.
+The clip is a new app, `clip`, under `scene` and `music`: one pure
+function of the playhead on a Canvas 2D stage, which the page plays
+against the song's audio and `pnpm film:clip` walks frame by frame
+into an mp4. It cuts on the song's own grid, each section with its
+measured tempo and unit of pulse, and the picture runs 3.2 seconds
+before the first note for the channel's ident.
 
-The singer and the band are the author's robo-avatar redrawn as an
-ink-cartoon puppet, four of him: the skull half-mask has a hinged jaw,
-so the mask sings and lip-sync is one number driven by the vocal. The
-antagonist is the ghost bunny the words take off the wallpaper. The
-cuts follow the song's own shape: a quiet first stanza, the band's
-entry, a call-and-response verse, and a finale of stabs and silences.
-
-The clip is one deterministic function of time, played by a page
-against the audio and walked frame by frame into an mp4.
+The cast is the author's robo-avatar redrawn as an ink-cartoon puppet,
+four of him for the band: the skull half-mask has a hinged jaw, driven
+by the vocal stem, so the mask sings. Against him stands the ghost
+bunny the words take off the wallpaper. Two pictures tell the story
+apart: a worn VHS broadcast of channel «ГБ» for the kids' show, the
+gig, the meadow chorus and the channels, and a clean dark frame for
+the bedroom, the ward and the ending.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
