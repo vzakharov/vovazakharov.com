@@ -1,0 +1,90 @@
+{
+  "total": {
+    "inputTokens": 108,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 165732,
+    "cacheReadTokens": 9481287,
+    "outputTokens": 43635,
+    "thinkingTokens": 10453,
+    "responses": 59,
+    "costUsd": 4.0952454000000005
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "src/clip/widgets/gig/ui/palette-gig.ts",
+    "endedAt": "2026-11-28T11:53:50.208Z",
+    "contextTokens": 135648,
+    "spend": {
+      "inputTokens": 26,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 80942,
+      "cacheReadTokens": 1422182,
+      "outputTokens": 7163,
+      "thinkingTokens": 3897,
+      "responses": 13,
+      "costUsd": 1.0753364
+    }
+  },
+  "sessionId": "8d70800a-5752-5f39-b426-b8f93b5ffe36",
+  "branch": "claude/horowo-clip-scenes-b-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are one of three sessions drawing the scenes of a code-drawn music video. You are **package B — the gig and the channels**: the band live in the TV studio (…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01MZoAKB8jcFjpioDt9FQYoB",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T11:52:34.847Z",
+  "lastResponseAt": "2026-11-28T12:02:56.908Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 108,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 165732,
+    "cacheReadTokens": 9481287,
+    "outputTokens": 43635,
+    "thinkingTokens": 10453,
+    "responses": 59,
+    "costUsd": 4.0952454000000005
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 108,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 165732,
+      "cacheReadTokens": 9481287,
+      "outputTokens": 43635,
+      "thinkingTokens": 10453,
+      "responses": 59,
+      "costUsd": 4.0952454000000005
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": null,
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 936,
+    ".mjs": 687,
+    ".json": 97,
+    ".ts": 12155,
+    ".tsx": 44,
+    ".scss": 12
+  }
+}
