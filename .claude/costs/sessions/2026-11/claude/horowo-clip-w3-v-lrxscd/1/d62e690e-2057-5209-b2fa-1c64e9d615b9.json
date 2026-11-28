@@ -1,15 +1,33 @@
 {
   "total": {
-    "inputTokens": 86,
+    "inputTokens": 103,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 140166,
-    "cacheReadTokens": 7217209,
-    "outputTokens": 37713,
-    "thinkingTokens": 13096,
-    "responses": 46,
-    "costUsd": 3.3193738
+    "cacheWrite1hTokens": 148516,
+    "cacheReadTokens": 9005946,
+    "outputTokens": 41243,
+    "thinkingTokens": 14029,
+    "responses": 55,
+    "costUsd": 3.8145892000000003
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-28T17:54:54.350Z",
+    "subjectLine": "feat: a new bedroom picture for each verse line of the clip",
+    "parts": [
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "eight staged shots in a code-drawn room: cameras, room states and new props (waking wallpaper, sweat, summer window) each answering its sung line"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "camera moves locked to kicks and sung-word onsets, judged from motion frames"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -34,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkEJjQAcFRp5rFx4JoG",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T17:47:23.177Z",
-  "lastResponseAt": "2026-11-28T17:54:47.136Z",
+  "lastResponseAt": "2026-11-28T18:05:49.323Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 86,
+    "inputTokens": 103,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 140166,
-    "cacheReadTokens": 7217209,
-    "outputTokens": 37713,
-    "thinkingTokens": 13096,
-    "responses": 46,
-    "costUsd": 3.3193738
+    "cacheWrite1hTokens": 148516,
+    "cacheReadTokens": 9005946,
+    "outputTokens": 41243,
+    "thinkingTokens": 14029,
+    "responses": 55,
+    "costUsd": 3.8145892000000003
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,23 +77,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 86,
+      "inputTokens": 103,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 140166,
-      "cacheReadTokens": 7217209,
-      "outputTokens": 37713,
-      "thinkingTokens": 13096,
-      "responses": 46,
-      "costUsd": 3.3193738
+      "cacheWrite1hTokens": 148516,
+      "cacheReadTokens": 9005946,
+      "outputTokens": 41243,
+      "thinkingTokens": 14029,
+      "responses": 55,
+      "costUsd": 3.8145892000000003
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 45,
-    "matched": 45,
-    "matchedTableUsd": 3.2657042,
-    "matchedEventUsd": 3.2657042,
+    "events": 54,
+    "matched": 54,
+    "matchedTableUsd": 3.758665,
+    "matchedEventUsd": 3.758665,
     "unseen": {}
   },
   "operatorWords": {
@@ -88,7 +106,7 @@
   "branchLines": {
     ".md": 1243,
     ".json": 169,
-    ".ts": 13716,
+    ".ts": 14216,
     ".tsx": 44,
     ".scss": 12
   }

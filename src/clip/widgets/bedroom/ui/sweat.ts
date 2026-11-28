@@ -25,7 +25,7 @@ export function sweatDrops(pen: Pen, amount: number): void {
     const startX = SLEEPER_FACE[0] + noise(312, n) * FACE_REACH;
     const startY = SLEEPER_FACE[1] + noise(313, n) * FACE_REACH;
     const y = startY + (LAP_Y - startY) * phase * phase;
-    at(pen, { x: startX, y, scale: 1.5 + 0.8 * phase }, () => {
+    at(pen, { x: startX, y, scale: 0.9 + 0.5 * phase }, () => {
       ink(pen, SWEAT_DROP, {
         fill: BEDROOM_PALETTE.sweat,
         width: 2.5,

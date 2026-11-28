@@ -52,7 +52,7 @@ export const coldSweat: Drawing = (pen: Pen, { p }: Local) => {
     pen,
     {
       ...ROOM,
-      sweat: lerp(0.7, 1, p),
+      sweat: lerp(0.9, 1, p),
       cold: true,
       look: { gaze: [0.25, 0.7], brow: 0.7, lid: 0 },
     },

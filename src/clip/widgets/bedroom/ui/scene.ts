@@ -156,6 +156,9 @@ function visitor(pen: Pen, visit: Visit, layer: 'wall' | 'floor'): void {
   }
 }
 
+// The sweat past which it runs off him in drops rather than beading on his face.
+const POURING = 0.85;
+
 /** The room in stage units, as the camera then frames it. */
 function interior(pen: Pen, room: Room, shadowRise: number): void {
   const t = pen.playhead;
@@ -170,7 +173,7 @@ function interior(pen: Pen, room: Room, shadowRise: number): void {
   bed(pen);
   dampPillow(pen, clamp((room.sweat - 0.4) / 0.6, 0, 1));
   sleeper(pen, room);
-  if (room.sweat > 0.5) sweatDrops(pen, room.sweat);
+  if (room.sweat > POURING) sweatDrops(pen, room.sweat);
   blanket(pen);
   visitor(pen, room.visit, 'floor');
   if (room.tv) tvSet(pen);
