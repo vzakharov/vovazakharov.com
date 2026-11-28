@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 553,
+    "inputTokens": 560,
     "cacheWrite5mTokens": 123284,
-    "cacheWrite1hTokens": 1269478,
-    "cacheReadTokens": 57355861,
-    "outputTokens": 328279,
-    "thinkingTokens": 95114,
-    "responses": 283,
-    "costUsd": 44.600028299999984
+    "cacheWrite1hTokens": 1280722,
+    "cacheReadTokens": 57937768,
+    "outputTokens": 331286,
+    "thinkingTokens": 95840,
+    "responses": 287,
+    "costUsd": 45.01664969999998
   },
   "estimate": {
     "at": "2026-11-28T10:11:18.592Z",
@@ -58,7 +58,7 @@
   },
   "sessionId": "b78260ef-aea8-5061-a15e-6734fc949216",
   "branch": "claude/horowo-clip-lrxscd",
-  "cwd": "/home/user/vovazakharov.com",
+  "cwd": "/home/user/vovazakharov.com/docs/remove-before-merging/frames",
   "openingPrompt": "/carte-blanche давай снимем клип на песню \"Хорошо!\" из #240 (сам PR пока не доехал, но я думаю скоро доедет. В любом случае, нас интересует для целей этой задач…",
   "prs": [
     295
@@ -66,18 +66,18 @@
   "url": "https://claude.ai/code/session_01MZoAKCKwqeVGKcCw6iKKPs",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:00:24.182Z",
-  "lastResponseAt": "2026-11-28T14:22:55.636Z",
+  "lastResponseAt": "2026-11-28T14:23:39.715Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 39.975682099999986,
   "ownTurns": {
-    "inputTokens": 515,
+    "inputTokens": 522,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 1269478,
-    "cacheReadTokens": 55987982,
-    "outputTokens": 311960,
-    "thinkingTokens": 94178,
-    "responses": 267,
-    "costUsd": 43.99176439999998
+    "cacheWrite1hTokens": 1280722,
+    "cacheReadTokens": 56569889,
+    "outputTokens": 314967,
+    "thinkingTokens": 94904,
+    "responses": 271,
+    "costUsd": 44.40838579999998
   },
   "subagents": {
     "inputTokens": 38,
@@ -91,14 +91,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 515,
+      "inputTokens": 522,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 1269478,
-      "cacheReadTokens": 55987982,
-      "outputTokens": 311960,
-      "thinkingTokens": 94178,
-      "responses": 267,
-      "costUsd": 43.99176439999998
+      "cacheWrite1hTokens": 1280722,
+      "cacheReadTokens": 56569889,
+      "outputTokens": 314967,
+      "thinkingTokens": 94904,
+      "responses": 271,
+      "costUsd": 44.40838579999998
     },
     "claude-sonnet-5-5/standard": {
       "inputTokens": 38,
@@ -246,8 +246,8 @@
   "branchLines": {
     ".md": 995,
     ".mjs": 687,
-    ".json": 145,
-    ".ts": 13767,
+    ".json": 157,
+    ".ts": 13881,
     ".tsx": 44,
     ".scss": 12
   }
