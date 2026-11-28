@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 272,
+    "inputTokens": 328,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 472838,
-    "cacheReadTokens": 26210575,
-    "outputTokens": 112817,
-    "thinkingTokens": 34357,
-    "responses": 143,
-    "costUsd": 11.282247
+    "cacheWrite1hTokens": 532106,
+    "cacheReadTokens": 30788986,
+    "outputTokens": 130116,
+    "thinkingTokens": 40363,
+    "responses": 172,
+    "costUsd": 13.018277200000004
   },
   "estimate": {
     "at": "2026-11-28T10:30:19.485Z",
@@ -58,18 +58,18 @@
   "url": "https://claude.ai/code/session_01MZoAKDHpcNax8XmHbMJmAK",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:29:46.156Z",
-  "lastResponseAt": "2026-11-28T11:06:05.146Z",
+  "lastResponseAt": "2026-11-28T11:19:26.021Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 272,
+    "inputTokens": 328,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 472838,
-    "cacheReadTokens": 26210575,
-    "outputTokens": 112817,
-    "thinkingTokens": 34357,
-    "responses": 143,
-    "costUsd": 11.282247
+    "cacheWrite1hTokens": 532106,
+    "cacheReadTokens": 30788986,
+    "outputTokens": 130116,
+    "thinkingTokens": 40363,
+    "responses": 172,
+    "costUsd": 13.018277200000004
   },
   "subagents": {
     "inputTokens": 0,
@@ -83,14 +83,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 272,
+      "inputTokens": 328,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 472838,
-      "cacheReadTokens": 26210575,
-      "outputTokens": 112817,
-      "thinkingTokens": 34357,
-      "responses": 143,
-      "costUsd": 11.282247
+      "cacheWrite1hTokens": 532106,
+      "cacheReadTokens": 30788986,
+      "outputTokens": 130116,
+      "thinkingTokens": 40363,
+      "responses": 172,
+      "costUsd": 13.018277200000004
     }
   },
   "warnings": [],
@@ -130,26 +130,28 @@
       "compactedFrom": 265316,
       "summaryChars": 17000,
       "reorientation": {
-        "endedBy": null,
-        "endedOn": null,
-        "endedAt": null,
-        "contextTokens": null,
+        "endedBy": "Write",
+        "endedOn": "src/clip/shared/score/song.ts",
+        "endedAt": "2026-11-28T11:12:25.735Z",
+        "contextTokens": 164668,
         "spend": {
-          "inputTokens": 2,
+          "inputTokens": 30,
           "cacheWrite5mTokens": 0,
-          "cacheWrite1hTokens": 61125,
-          "cacheReadTokens": 58216,
-          "outputTokens": 436,
-          "thinkingTokens": 37,
-          "responses": 1,
-          "costUsd": 0.5093711999999999
+          "cacheWrite1hTokens": 104507,
+          "cacheReadTokens": 2063913,
+          "outputTokens": 9218,
+          "thinkingTokens": 5323,
+          "responses": 15,
+          "costUsd": 1.4333185999999996
         }
       },
       "rereads": {
-        "calls": 0,
-        "byTool": {},
-        "estimatedTokens": 0,
-        "estimatedUsd": 0.0
+        "calls": 1,
+        "byTool": {
+          "Read": 1
+        },
+        "estimatedTokens": 3212,
+        "estimatedUsd": 0.04111360000000001
       },
       "billedUsd": null
     }

@@ -1,6 +1,6 @@
 import { type ClipFilmHook, FILM_HOOK } from '@/clip/shared/film';
 import { INK_PALETTE, penAt, STAGE } from '@/clip/shared/ink';
-import { SONG_SECONDS, SONG_URL } from '@/clip/shared/score';
+import { SONG_SECONDS } from '@/clip/shared/score';
 import { frame, type Shot } from '@/clip/shared/timeline';
 
 import { fitStage, type PlayerMode, type StageFit } from '../lib/stage-fit';
@@ -11,14 +11,15 @@ const SCRUB_HEIGHT = 4;
 const SCRUB_REACH = 28;
 
 /**
- * Plays `shots` on `canvas`, which covers the viewport: the stage letterboxed
- * in it at the device's pixel density, drawing code in stage units. Returns
- * what stops it.
+ * Plays `shots` on `canvas`, which covers the viewport, against the song at
+ * `audio`: the stage letterboxed in it at the device's pixel density, drawing
+ * code in stage units. Returns what stops it.
  */
 export function mountPlayer(
   canvas: HTMLCanvasElement,
   mode: PlayerMode,
   shots: readonly Shot[],
+  audio: string,
 ): () => void {
   const ctx = canvas.getContext('2d');
   if (!ctx) throw new Error('No 2D context for the clip');
@@ -84,7 +85,7 @@ export function mountPlayer(
     };
   }
 
-  return play(canvas, ctx, paint, resize);
+  return play(canvas, ctx, paint, resize, audio);
 }
 
 /** The scrub bar and, while paused, a play mark, drawn over the stage in CSS pixels. */
@@ -120,8 +121,9 @@ function play(
   ctx: CanvasRenderingContext2D,
   paint: (t: number) => void,
   resize: () => void,
+  url: string,
 ): () => void {
-  const audio = new Audio(SONG_URL);
+  const audio = new Audio(url);
   audio.preload = 'auto';
   const length = () =>
     Number.isFinite(audio.duration) ? audio.duration : SONG_SECONDS;

@@ -34,6 +34,7 @@ const SIZE = { width: 1920, height: 1080 } as const;
 const FROM = Number(flag('from') ?? 0);
 const TO = Math.min(SONG_SECONDS, Number(flag('to') ?? SONG_SECONDS));
 const OUT = path.resolve(
+  REPO_ROOT,
   flag('out') ??
     path.join(CLIP_TMP, `horowo-${String(FROM)}-${String(TO)}.mp4`),
 );

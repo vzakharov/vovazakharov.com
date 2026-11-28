@@ -19,6 +19,6 @@
   "island": ["scene", "gpu", "dice", "nature"],
   "unsquatted": ["shell"],
   "cube": ["scene", "gpu", "dice", "nature"],
-  "clip": ["scene"],
+  "clip": ["scene", "music"],
   "vova": ["blog", "music", "mushrooms", "island", "cube", "clip"]
 }
