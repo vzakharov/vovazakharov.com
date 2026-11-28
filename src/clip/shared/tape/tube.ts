@@ -1,5 +1,5 @@
 import { STAGE } from '../ink';
-import { buffer, deviceScale } from './buffers';
+import { buffer, deviceScale, fitUnits } from './buffers';
 import { SCREEN } from './lines';
 import { TAPE_PALETTE } from './palette-tape';
 
@@ -56,14 +56,7 @@ export function scanlines(ctx: CanvasRenderingContext2D, wear: number): void {
 // The glass, painted once per size: corners darkened, a faint glare top left.
 function paintGlass(ctx: CanvasRenderingContext2D): void {
   const { width, height } = SCREEN;
-  ctx.setTransform(
-    ctx.canvas.width / width,
-    0,
-    0,
-    ctx.canvas.height / height,
-    0,
-    0,
-  );
+  fitUnits(ctx, width, height);
   const vignette = ctx.createRadialGradient(
     width / 2,
     height / 2,

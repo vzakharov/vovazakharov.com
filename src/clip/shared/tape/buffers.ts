@@ -42,6 +42,35 @@ export function buffer(
   return canvas;
 }
 
+/** Sets `ctx`'s transform so `width` × `height` units fill its canvas. */
+export function fitUnits(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+): void {
+  ctx.setTransform(
+    ctx.canvas.width / width,
+    0,
+    0,
+    ctx.canvas.height / height,
+    0,
+    0,
+  );
+}
+
+/** Paints `color` opaque over `width` × `height` units from the origin. */
+export function wipe(
+  ctx: CanvasRenderingContext2D,
+  color: string,
+  width: number,
+  height: number,
+): void {
+  ctx.globalAlpha = 1;
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.fillStyle = color;
+  ctx.fillRect(0, 0, width, height);
+}
+
 /** How many device pixels one stage unit covers under `ctx`'s transform. */
 export function deviceScale(ctx: CanvasRenderingContext2D): number {
   const { a, b, c, d } = ctx.getTransform();

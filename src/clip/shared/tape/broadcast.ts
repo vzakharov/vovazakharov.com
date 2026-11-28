@@ -1,5 +1,5 @@
 import { type Pen, reseed, STAGE } from '../ink';
-import { deviceScale } from './buffers';
+import { deviceScale, wipe } from './buffers';
 import { frameAt, trackingBar, zapState } from './curves';
 import { SCREEN, tapeLines } from './lines';
 import { fillNoise } from './noise-tiles';
@@ -43,10 +43,7 @@ export function broadcast(
   const { width, height } = SCREEN;
 
   ctx.save();
-  ctx.globalAlpha = 1;
-  ctx.globalCompositeOperation = 'source-over';
-  ctx.fillStyle = TAPE_PALETTE.black;
-  ctx.fillRect(0, 0, STAGE.width, STAGE.height);
+  wipe(ctx, TAPE_PALETTE.black, STAGE.width, STAGE.height);
 
   // Strip by strip; each strip overlaps the next by a hair so the
   // antialiased edges between them never show as lines.

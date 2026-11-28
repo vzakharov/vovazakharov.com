@@ -1,5 +1,5 @@
 import { type Pen, STAGE } from '../ink';
-import { buffer, context2d, deviceScale } from './buffers';
+import { buffer, context2d, deviceScale, fitUnits, wipe } from './buffers';
 import { tubeOffState } from './curves';
 import { SCREEN } from './lines';
 import { TAPE_PALETTE } from './palette-tape';
@@ -29,10 +29,7 @@ export function tubeOff(
   const cy = ay + ah / 2;
 
   ctx.save();
-  ctx.globalAlpha = 1;
-  ctx.globalCompositeOperation = 'source-over';
-  ctx.fillStyle = TAPE_PALETTE.bezel;
-  ctx.fillRect(0, 0, STAGE.width, STAGE.height);
+  wipe(ctx, TAPE_PALETTE.bezel, STAGE.width, STAGE.height);
 
   const w = aw * state.width;
   const h = Math.max(ah * state.height, 1.5);
@@ -45,18 +42,8 @@ export function tubeOff(
       STAGE.height * scale,
     );
     const pc = context2d(picture);
-    pc.setTransform(
-      picture.width / STAGE.width,
-      0,
-      0,
-      picture.height / STAGE.height,
-      0,
-      0,
-    );
-    pc.globalAlpha = 1;
-    pc.globalCompositeOperation = 'source-over';
-    pc.fillStyle = TAPE_PALETTE.bezel;
-    pc.fillRect(0, 0, STAGE.width, STAGE.height);
+    fitUnits(pc, STAGE.width, STAGE.height);
+    wipe(pc, TAPE_PALETTE.bezel, STAGE.width, STAGE.height);
     draw({ ...pen, ctx: pc });
     const px = picture.width / STAGE.width;
     ctx.drawImage(

@@ -1,7 +1,7 @@
 import type { Scaling } from '@/scene/shared/lib/plane';
 
 import { at, ellipse, ink, type Pen, reseed } from '../ink';
-import { buffer, context2d } from './buffers';
+import { buffer, context2d, fitUnits, wipe } from './buffers';
 import { frameAt, zapState } from './curves';
 import { dotText } from './dot-text';
 import { SCREEN } from './lines';
@@ -68,18 +68,8 @@ export function record(
     SCREEN.height * scale,
   );
   const lc = context2d(luma);
-  lc.setTransform(
-    luma.width / SCREEN.width,
-    0,
-    0,
-    luma.height / SCREEN.height,
-    0,
-    0,
-  );
-  lc.globalAlpha = 1;
-  lc.globalCompositeOperation = 'source-over';
-  lc.fillStyle = TAPE_PALETTE.black;
-  lc.fillRect(0, 0, SCREEN.width, SCREEN.height);
+  fitUnits(lc, SCREEN.width, SCREEN.height);
+  wipe(lc, TAPE_PALETTE.black, SCREEN.width, SCREEN.height);
   const inner: Pen = { ...pen, ctx: lc };
   lc.save();
   scene(inner);
