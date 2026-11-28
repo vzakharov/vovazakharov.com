@@ -5,6 +5,7 @@ import {
   clamp,
   mix,
   type Pen,
+  type Place,
   type Point,
   smoothstep,
   STAGE,
@@ -66,22 +67,20 @@ const HEAD_SEED = 500;
 // A time a pulse's own start rounds to, just short of the cue it ends at.
 const BEFORE = 1e-6;
 
-type Camera = { focus: Point; on: Point; scale: number };
-
 function black(pen: Pen): void {
   pen.ctx.fillStyle = CLOSE_UP_PALETTE.black;
   pen.ctx.fillRect(0, 0, STAGE.width, STAGE.height);
 }
 
-/** The head on black, `camera.focus` (in the head's units) put at `camera.on`. */
-function face(pen: Pen, look: Partial<Look>, camera: Camera): void {
-  const {
-    on: [x, y],
-    focus: [fx, fy],
-    scale,
-  } = camera;
+/** The head on black, the point `focus` of it (in its own units) put at `place`. */
+function face(
+  pen: Pen,
+  look: Partial<Look>,
+  place: Place,
+  [fx, fy]: Point,
+): void {
   black(pen);
-  at(pen, { x, y, scale }, () => {
+  at(pen, place, () => {
     at(pen, { x: -fx, y: -fy }, () => {
       head(pen, look, HEAD_SEED);
     });
@@ -123,13 +122,14 @@ export function closeUp(cues: CloseUpCues): Drawing {
         : 0;
     const into = smoothstep(0, 1, falling);
     const jolt = 1 + JOLT * Math.exp(-since / JOLT_DECAY);
-    const camera: Camera = {
-      focus: mix([0, 0], MOUTH, into),
-      on: mix(
-        dropped ? DROPPED_EYES_AT : EYES_AT,
-        [STAGE.width / 2, STAGE.height / 2],
-        into,
-      ),
+    const [x, y] = mix(
+      dropped ? DROPPED_EYES_AT : EYES_AT,
+      [STAGE.width / 2, STAGE.height / 2],
+      into,
+    );
+    const place: Place = {
+      x,
+      y,
       scale:
         (dropped ? DROPPED_SCALE : SCALE * STEP ** bar) *
         jolt *
@@ -141,7 +141,7 @@ export function closeUp(cues: CloseUpCues): Drawing {
       ...(dropped ? { brow: -1, lid: 0 } : {}),
     };
     reality(pen, (inner) => {
-      face(inner, look, camera);
+      face(inner, look, place, mix([0, 0], MOUTH, into));
       if (falling > 0) return;
       // The emblems hold the instant they landed; only their line boils.
       const held = { ...inner, playhead: t - since };
@@ -159,10 +159,12 @@ export function closeUp(cues: CloseUpCues): Drawing {
  */
 export const faceOnBlack: Drawing = (pen, { p }) => {
   reality(pen, (inner) => {
+    const [x, y] = EYES_AT;
     face(
       inner,
       { jaw: jaw(pen.playhead), gaze: [0, 0] },
-      { focus: [0, 0], on: EYES_AT, scale: SCALE * (1 + 0.12 * p) },
+      { x, y, scale: SCALE * (1 + 0.12 * p) },
+      [0, 0],
     );
   });
 };

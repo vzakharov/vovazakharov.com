@@ -1,15 +1,39 @@
 {
   "total": {
-    "inputTokens": 89,
+    "inputTokens": 113,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 153446,
-    "cacheReadTokens": 7682570,
-    "outputTokens": 37818,
-    "thinkingTokens": 16043,
-    "responses": 48,
-    "costUsd": 3.5207979999999983
+    "cacheWrite1hTokens": 166964,
+    "cacheReadTokens": 10455950,
+    "outputTokens": 44349,
+    "thinkingTokens": 17205,
+    "responses": 61,
+    "costUsd": 4.314333999999998
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-28T17:54:46.999Z",
+    "subjectLine": "feat: horowo intro as the singer's face on black, emblems on the hits",
+    "parts": [
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "scaling a rig drawn for full figures into an extreme close-up, a camera that steps, jolts and falls into the mouth, all as pure functions of the playhead"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "pills and a wall scrap drawn in the kit's ink, emblems sized to read against a face four times its drawn size"
+      },
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "which emblem answers which sung line, where the eye snaps, and how the section lands into the band"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -34,18 +58,18 @@
   "url": "https://claude.ai/code/session_01DaohkCNxr81DqDpAvTR6BH",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T17:47:21.862Z",
-  "lastResponseAt": "2026-11-28T17:54:40.410Z",
+  "lastResponseAt": "2026-11-28T17:56:42.249Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 89,
+    "inputTokens": 113,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 153446,
-    "cacheReadTokens": 7682570,
-    "outputTokens": 37818,
-    "thinkingTokens": 16043,
-    "responses": 48,
-    "costUsd": 3.5207979999999983
+    "cacheWrite1hTokens": 166964,
+    "cacheReadTokens": 10455950,
+    "outputTokens": 44349,
+    "thinkingTokens": 17205,
+    "responses": 61,
+    "costUsd": 4.314333999999998
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,23 +83,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 89,
+      "inputTokens": 113,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 153446,
-      "cacheReadTokens": 7682570,
-      "outputTokens": 37818,
-      "thinkingTokens": 16043,
-      "responses": 48,
-      "costUsd": 3.5207979999999983
+      "cacheWrite1hTokens": 166964,
+      "cacheReadTokens": 10455950,
+      "outputTokens": 44349,
+      "thinkingTokens": 17205,
+      "responses": 61,
+      "costUsd": 4.314333999999998
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 47,
-    "matched": 47,
-    "matchedTableUsd": 3.4584595999999985,
-    "matchedEventUsd": 3.458459599999999,
+    "events": 60,
+    "matched": 60,
+    "matchedTableUsd": 4.256204199999998,
+    "matchedEventUsd": 4.256204199999998,
     "unseen": {}
   },
   "operatorWords": {
@@ -88,7 +112,7 @@
   "branchLines": {
     ".md": 1243,
     ".json": 169,
-    ".ts": 13716,
+    ".ts": 13974,
     ".tsx": 44,
     ".scss": 12
   }
