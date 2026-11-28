@@ -9,7 +9,19 @@
     "responses": 36,
     "costUsd": 3.2095369999999996
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-28T14:27:22.353Z",
+    "subjectLine": "feat: the chorus meadow escalates and hops with weight",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "designer",
+        "comment": "Reworking timing and acting on existing scenes from a director's notes: an escalation curve, squash and follow-through on a hop, a reframed intro; an animator's afternoon"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "Edit",
     "endedOn": "src/clip/entities/meadow/ui/sun.ts",
