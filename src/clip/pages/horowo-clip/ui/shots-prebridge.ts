@@ -1,6 +1,7 @@
-import { CHANT, VERSE_CALLS, within } from '@/clip/shared/score';
+import { CHANT, KICKS, VERSE_CALLS, within } from '@/clip/shared/score';
 import type { Shot } from '@/clip/shared/timeline';
 import { channel } from '@/clip/widgets/channels';
+import { spoonBunnyReveal } from '@/clip/widgets/spoon-bunny';
 
 import { sectionNamed } from './stand-in';
 
@@ -19,11 +20,29 @@ const nearness = (n: number): number => 0.6 + STEP * n;
 // The verse ends on the channel before this one, so the crawl opens on one not yet seen.
 const FIRST_CHANNEL = VERSE_CALLS.length;
 
-/** The pre-bridge: the zapping slowed to a crawl, one channel to each chant. */
-export const PREBRIDGE_SHOTS: readonly Shot[] = starts.map((start, n) => ({
+const channels: readonly Shot[] = starts.map((start, n) => ({
   from: start,
   to: starts[n + 1] ?? to,
   draw: channel(FIRST_CHANNEL + n, nearness(n), {
     creep: n >= starts.length - 2 ? 0.25 : STEP,
   }),
 }));
+
+// The spoon bunny's head lands round on the last kick before the bridge,
+// leaving the face up until the cut.
+const lastChant = starts.at(-1) ?? from;
+const landing = KICKS.find((k) => k > lastChant + 0.25 && k < to - 0.2);
+if (landing === undefined) throw new Error('No kick to land the reveal on');
+
+/**
+ * The pre-bridge: the zapping slowed to a crawl, one channel to each chant,
+ * and on the last chant the spoon bunny turns round.
+ */
+export const PREBRIDGE_SHOTS: readonly Shot[] = [
+  ...channels.slice(0, -1),
+  {
+    from: lastChant,
+    to,
+    draw: spoonBunnyReveal({ from: landing - 0.16, to: landing - 0.02 }),
+  },
+];
