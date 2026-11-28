@@ -72,7 +72,9 @@ The same film, made better where the operator pointed: every one of the fifteen 
 
 https://claude.ai/artifact/3oPCy2vFun7csfEQAEenUh
 
-The review board, published on the second account at the wave's first merge and named in the PR's sticky comment; watched by this session. The first account's board and clip artifact (URLs in `relay-1.md`) cannot be opened from here. The clip artifact of this account is published once the wave is merged and listed here.
+The review board, published on the second account at the wave's first merge and named in the PR's sticky comment; watched by this session. The first account's board and clip artifact (URLs in `relay-1.md`) cannot be opened from here. https://claude.ai/artifact/6rbufP2akKHcHF5rVDrCf6
+
+The clip itself, playable, on the second account: `pnpm bundle:clip`, then `tmp/clip/artifact/index.html` published with `horowo.mp3` as its one supporting file (`contentType: audio/mpeg`, `root` `tmp/clip/artifact`). Version 1 at 18:30 UTC holds all nine packages of the wave.
 
 ## 7. Pointers
 
