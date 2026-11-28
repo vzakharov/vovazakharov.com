@@ -66,7 +66,7 @@ export const workout: Show = (pen, nearness) => {
   box(pen, aerobics.wall);
   box(pen, aerobics.floor, [0, 520, WIDTH, HEIGHT - 520]);
   box(pen, aerobics.stripe, [0, 510, WIDTH, 14]);
-  caption(pen, 'ЗАРЯДКА', [WIDTH / 2, 30], 10);
+  caption(pen, 'ЗАРЯДКА', [260, 30], 9);
   puppet(pen, {
     place: { x: 300, y: 640, scale: 0.75 },
     pose: lerpPose(POSES.wide, POSES.cheer, swing),
@@ -75,7 +75,7 @@ export const workout: Show = (pen, nearness) => {
   });
   const drift = Math.max(0, nearness - 0.5) * 0.8;
   bunny(pen, {
-    x: 680 - 200 * drift,
+    x: 740 - 200 * drift,
     y: 220,
     nearness,
     hop: fraction,

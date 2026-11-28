@@ -64,16 +64,17 @@ export const forecast: Show = (pen, nearness) => {
 
 const QUIZ_WORDS = ['КАК', 'СУКА', 'ХОРОШО'] as const;
 
-/** The quiz: the song's three words turning over on the board one by one. */
+/** The quiz: the song's three words turning over on the board, the host peering over it. */
 export const quizBoard: Show = (pen, nearness, since) => {
   box(pen, quiz.wall);
+  lurker(pen, nearness, [700, 110], 'conduct', 7);
   ink(
     pen,
     polygon([
-      [60, 60],
-      [900, 60],
-      [900, 420],
-      [60, 420],
+      [60, 300],
+      [900, 300],
+      [900, 660],
+      [60, 660],
     ]),
     {
       fill: quiz.board,
@@ -81,7 +82,7 @@ export const quizBoard: Show = (pen, nearness, since) => {
     },
   );
   for (const [n, word] of QUIZ_WORDS.entries()) {
-    const y = 90 + n * 108;
+    const y = 330 + n * 108;
     const shown = since > 0.4 + n * 0.5;
     ink(
       pen,
@@ -102,7 +103,6 @@ export const quizBoard: Show = (pen, nearness, since) => {
       caption(pen, String(n + 1), [480, y + 17], 8);
     }
   }
-  lurker(pen, nearness, [480, 360], 'conduct', 7);
 };
 
 /** A postcard from the village: a hut, two birches, a bunny behind the hut. */
