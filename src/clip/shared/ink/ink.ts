@@ -85,9 +85,9 @@ function trace(pen: Pen, shape: Path, seed: number, wobble: number): void {
         );
         break;
       }
-      default: {
-        // A cubic: each control moves with the anchor it leans on, so the
-        // curve keeps its tangents.
+      case 'C': {
+        // Each control moves with the anchor it leans on, so the curve keeps
+        // its tangents.
         ctx.bezierCurveTo(
           ax + lastDx,
           ay + lastDy,
@@ -97,6 +97,9 @@ function trace(pen: Pen, shape: Path, seed: number, wobble: number): void {
           y + dy,
         );
         break;
+      }
+      default: {
+        throw new Error('Unknown path step');
       }
     }
     [lastDx, lastDy] = [dx, dy];
