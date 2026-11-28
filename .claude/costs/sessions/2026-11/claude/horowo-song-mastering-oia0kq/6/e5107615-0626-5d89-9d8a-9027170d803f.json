@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 171,
+    "inputTokens": 211,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 354095,
-    "cacheReadTokens": 17463747,
-    "outputTokens": 57734,
-    "thinkingTokens": 14373,
-    "responses": 85,
-    "costUsd": 7.480873399999999
+    "cacheWrite1hTokens": 386207,
+    "cacheReadTokens": 21243027,
+    "outputTokens": 70829,
+    "thinkingTokens": 16842,
+    "responses": 106,
+    "costUsd": 8.755685400000003
   },
   "estimate": {
     "at": "2026-11-28T09:21:56.015Z",
@@ -64,18 +64,18 @@
   "url": "https://claude.ai/code/session_01MZoAKBXw8WWnfEBawkRMMa",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T09:20:14.392Z",
-  "lastResponseAt": "2026-11-28T09:32:47.821Z",
+  "lastResponseAt": "2026-11-28T09:37:16.650Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 171,
+    "inputTokens": 211,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 354095,
-    "cacheReadTokens": 17463747,
-    "outputTokens": 57734,
-    "thinkingTokens": 14373,
-    "responses": 85,
-    "costUsd": 7.480873399999999
+    "cacheWrite1hTokens": 386207,
+    "cacheReadTokens": 21243027,
+    "outputTokens": 70829,
+    "thinkingTokens": 16842,
+    "responses": 106,
+    "costUsd": 8.755685400000003
   },
   "subagents": {
     "inputTokens": 0,
@@ -89,14 +89,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 171,
+      "inputTokens": 211,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 354095,
-      "cacheReadTokens": 17463747,
-      "outputTokens": 57734,
-      "thinkingTokens": 14373,
-      "responses": 85,
-      "costUsd": 7.480873399999999
+      "cacheWrite1hTokens": 386207,
+      "cacheReadTokens": 21243027,
+      "outputTokens": 70829,
+      "thinkingTokens": 16842,
+      "responses": 106,
+      "costUsd": 8.755685400000003
     }
   },
   "warnings": [],
@@ -123,8 +123,10 @@
         }
       },
       "rereads": {
-        "calls": 0,
-        "byTool": {},
+        "calls": 1,
+        "byTool": {
+          "Read": 1
+        },
         "estimatedTokens": 0,
         "estimatedUsd": 0.0
       },
@@ -133,7 +135,7 @@
   ],
   "telemetry": null,
   "operatorWords": {
-    "chat": 47,
+    "chat": 543,
     "review": 0,
     "threads": 0
   },
@@ -141,8 +143,8 @@
   "threadPosts": {},
   "branchLines": {
     ".json": -2,
-    ".ts": 685,
-    ".css": 268,
+    ".ts": 704,
+    ".css": 273,
     ".md": 2335,
     ".b64": 5,
     ".txt": 176,
