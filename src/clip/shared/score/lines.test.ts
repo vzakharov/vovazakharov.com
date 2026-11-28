@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { CHANT, VERSE_CALLS } from './calls';
-import { lineAt, linesOf,LYRIC_LINES } from './lines';
+import { lineAt, linesOf, LYRIC_LINES } from './lines';
 import { SUNG_LINES, WORDS } from './words';
 
 const texts = (kind: string): string[] =>

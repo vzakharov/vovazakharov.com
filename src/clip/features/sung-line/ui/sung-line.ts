@@ -26,13 +26,13 @@ function dotRows(
 ): void {
   const rows = shown(text, chars).split('\n');
   const {
-    at: [x, y],
-    size,
+    setAt: [x, y],
+    glyphSize,
     align,
   } = place;
   for (const [n, row] of rows.entries()) {
-    dotText(pen, row, [x, y - (rows.length - 1 - n) * DOT_ROWS * size], {
-      dot: size,
+    dotText(pen, row, [x, y - (rows.length - 1 - n) * DOT_ROWS * glyphSize], {
+      dot: glyphSize,
       color: SUNG_LINE_PALETTE.caption,
       shadow: SUNG_LINE_PALETTE.captionEdge,
       align,
@@ -52,14 +52,14 @@ function handRows(
   seed: number,
 ): void {
   const rows = text.split('\n').length;
-  const [x, y] = place.at;
+  const [x, y] = place.setAt;
   const writing = {
     x,
-    y: y - (rows - 1) * HAND_LEADING * place.size,
-    letterHeight: place.size,
+    y: y - (rows - 1) * HAND_LEADING * place.glyphSize,
+    letterHeight: place.glyphSize,
     leading: HAND_LEADING,
     alignment: place.align,
-    jitter: place.jitter ?? 0,
+    jitter: place.unsteadiness ?? 0,
     progress: letters(text.slice(0, chars)) / letters(text),
     seed,
   };

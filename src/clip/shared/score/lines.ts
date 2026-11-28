@@ -1,5 +1,3 @@
-import type { Ranged, WithText } from '@/kernel/shared/typings';
-
 import { CALL_WORDS, CHANT_WORDS, SUNG_LINES, type Word } from './words';
 
 /** Who sings a line: the lead, the verse's shouted call, or the chant. */
@@ -8,13 +6,12 @@ const LINE_KINDS = ['sung', 'call', 'chant'] as const;
 export type LineKind = (typeof LINE_KINDS)[number];
 
 /** One line of the song as the words publish it, from its first word's onset to its last word's end. */
-export type Line = Ranged &
-  WithText & {
-    kind: LineKind;
-    words: readonly Word[];
-    /** Where each word begins in `text`, in characters. */
-    starts: readonly number[];
-  };
+export type Line = Word & {
+  kind: LineKind;
+  words: readonly Word[];
+  /** Where each word begins in `text`, in characters. */
+  starts: readonly number[];
+};
 
 /**
  * How soon after a sung line a chanted «Хорошо» must come to finish it, in

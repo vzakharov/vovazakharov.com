@@ -9,15 +9,15 @@ type Setting = {
   idiom: 'dot' | 'hand';
   align: 'left' | 'center' | 'right';
   /** A dot's pitch for the dot face, a capital's height for the hand, in stage units. */
-  size: number;
+  glyphSize: number;
   /** The most characters a row holds before the line breaks in two. */
   rowChars: number;
   /** How unsteady the hand, 0 to 1. */
-  jitter?: number;
+  unsteadiness?: number;
 };
 
 /** A line's setting, and the top of the text at its left edge, centre or right edge by `align`. */
-export type Placement = Setting & { at: Point };
+export type Placement = Setting & { setAt: Point };
 
 /** A setting for the lines sung in `sections`, of `kinds` where given, set at each of `spots` in turn. */
 type Rule = Setting & {
@@ -41,9 +41,9 @@ const RULES: readonly Rule[] = [
     sections: ['intro'],
     idiom: 'hand',
     align: 'left',
-    size: 30,
+    glyphSize: 30,
     rowChars: 30,
-    jitter: 0.15,
+    unsteadiness: 0.15,
     spots: [[84, 612]],
   },
   // The calls cut to a channel: shouted big across its middle, clear of the
@@ -53,7 +53,7 @@ const RULES: readonly Rule[] = [
     kinds: ['call'],
     idiom: 'dot',
     align: 'center',
-    size: 8,
+    glyphSize: 8,
     rowChars: 16,
     spots: [[640, 330]],
   },
@@ -62,9 +62,9 @@ const RULES: readonly Rule[] = [
     sections: VERSE,
     idiom: 'hand',
     align: 'left',
-    size: 28,
+    glyphSize: 28,
     rowChars: 34,
-    jitter: 0.2,
+    unsteadiness: 0.2,
     spots: [[72, 640]],
   },
   // The meadow and its inserts: a karaoke caption above the letter blocks.
@@ -72,7 +72,7 @@ const RULES: readonly Rule[] = [
     sections: ['chorus'],
     idiom: 'dot',
     align: 'center',
-    size: 5,
+    glyphSize: 5,
     rowChars: 30,
     spots: [[640, 548]],
   },
@@ -82,7 +82,7 @@ const RULES: readonly Rule[] = [
     sections: ['pre-bridge'],
     idiom: 'dot',
     align: 'center',
-    size: 5,
+    glyphSize: 5,
     rowChars: 20,
     spots: [[640, 500]],
   },
@@ -91,9 +91,9 @@ const RULES: readonly Rule[] = [
     sections: ['melodic bridge'],
     idiom: 'hand',
     align: 'left',
-    size: 40,
+    glyphSize: 40,
     rowChars: 20,
-    jitter: 0.45,
+    unsteadiness: 0.45,
     spots: [
       [110, 120],
       [760, 590],
@@ -106,9 +106,9 @@ const RULES: readonly Rule[] = [
     sections: ['breakdown'],
     idiom: 'hand',
     align: 'center',
-    size: 104,
+    glyphSize: 104,
     rowChars: 12,
-    jitter: 0.3,
+    unsteadiness: 0.3,
     spots: [[640, 48]],
   },
 ];
@@ -121,7 +121,7 @@ export function placementOf(line: Line, n: number): Placement {
       sections.includes(name) && (kinds?.includes(line.kind) ?? true),
   );
   if (!rule) throw new Error(`No placement for «${line.text}» in ${name}`);
-  const at = rule.spots[n % rule.spots.length];
-  if (!at) throw new Error(`No spot for «${line.text}» in ${name}`);
-  return { ...rule, at };
+  const setAt = rule.spots[n % rule.spots.length];
+  if (!setAt) throw new Error(`No spot for «${line.text}» in ${name}`);
+  return { ...rule, setAt };
 }

@@ -1,15 +1,39 @@
 {
   "total": {
-    "inputTokens": 108,
+    "inputTokens": 125,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 191866,
-    "cacheReadTokens": 10204342,
-    "outputTokens": 50177,
-    "thinkingTokens": 22004,
-    "responses": 56,
-    "costUsd": 4.579768400000001
+    "cacheWrite1hTokens": 205079,
+    "cacheReadTokens": 12466933,
+    "outputTokens": 55041,
+    "thinkingTokens": 22902,
+    "responses": 65,
+    "costUsd": 5.2353386
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-28T17:56:44.311Z",
+    "subjectLine": "feat: the sung line drawn over every frame of the clip",
+    "parts": [
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "placing and setting a caption per section over changing scenes in two lettering idioms is look work that needs a trained eye on stills"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "a time-driven overlay, a line model from timed words and its tests is mid-size code with timing traps"
+      },
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "audio-engineer",
+        "comment": "checking the lyric timings against the vocal stem means aligning and reading its envelope and onsets"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -34,18 +58,18 @@
   "url": "https://claude.ai/code/session_01DaohkEf7zhEMjdeEgLFyA4",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T17:47:18.102Z",
-  "lastResponseAt": "2026-11-28T17:56:21.855Z",
+  "lastResponseAt": "2026-11-28T17:58:48.806Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 108,
+    "inputTokens": 125,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 191866,
-    "cacheReadTokens": 10204342,
-    "outputTokens": 50177,
-    "thinkingTokens": 22004,
-    "responses": 56,
-    "costUsd": 4.579768400000001
+    "cacheWrite1hTokens": 205079,
+    "cacheReadTokens": 12466933,
+    "outputTokens": 55041,
+    "thinkingTokens": 22902,
+    "responses": 65,
+    "costUsd": 5.2353386
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,23 +83,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 108,
+      "inputTokens": 125,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 191866,
-      "cacheReadTokens": 10204342,
-      "outputTokens": 50177,
-      "thinkingTokens": 22004,
-      "responses": 56,
-      "costUsd": 4.579768400000001
+      "cacheWrite1hTokens": 205079,
+      "cacheReadTokens": 12466933,
+      "outputTokens": 55041,
+      "thinkingTokens": 22902,
+      "responses": 65,
+      "costUsd": 5.2353386
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 55,
-    "matched": 55,
-    "matchedTableUsd": 4.506285200000001,
-    "matchedEventUsd": 4.506285200000001,
+    "events": 64,
+    "matched": 64,
+    "matchedTableUsd": 5.165440800000001,
+    "matchedEventUsd": 5.165440800000001,
     "unseen": {}
   },
   "operatorWords": {
@@ -88,7 +112,7 @@
   "branchLines": {
     ".md": 1243,
     ".json": 169,
-    ".ts": 13716,
+    ".ts": 14326,
     ".tsx": 44,
     ".scss": 12
   }
