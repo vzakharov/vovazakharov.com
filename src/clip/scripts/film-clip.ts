@@ -1,8 +1,11 @@
 /**
  * Films «Хорошо!» frame by frame: the vova export's clip page opened with
  * `?film` at 1920×1080, each frame drawn at its exact time and screenshotted,
- * piped into ffmpeg as H.264 with the song under it as AAC. Times are song
- * time: the film opens on the ident, `PREROLL` seconds before the first note.
+ * piped into ffmpeg as H.264 with the sound under it as AAC: the pre-roll's
+ * hiss and beeps, which the page renders offline, and the song from its first
+ * note. Times are song time: the film opens on the warning, `PREROLL` seconds
+ * before the first note, and ends `POSTROLL` seconds of silence after the
+ * song's.
  *
  *   pnpm film:clip                       # build the vova export, film the whole clip
  *   pnpm film:clip --no-build            # film the export already in sites/vova/out
@@ -20,7 +23,7 @@ import { z } from 'zod';
 import { PAGE_ROUTES } from '@/kernel/shared/config/index.node-safe';
 
 import { FILM_HOOK, FILM_QUERY } from '@/clip/shared/film';
-import { PREROLL, SONG_SECONDS } from '@/clip/shared/score';
+import { FILM_END, PREROLL } from '@/clip/shared/score';
 
 import { CLIP_TMP, songFile } from './lib/song-file';
 
@@ -32,9 +35,11 @@ import { watchPageErrors } from '@/scene/scripts/lib/page-errors';
 
 const FPS = 30;
 const SIZE = { width: 1920, height: 1080 } as const;
-// Song time, so the film opens at -PREROLL, on the ident.
-const FROM = Number(flag('from') ?? -PREROLL);
-const TO = Math.min(SONG_SECONDS, Number(flag('to') ?? SONG_SECONDS));
+// Song time, so the film opens at -PREROLL, on the warning.
+const FROM = Math.max(-PREROLL, Number(flag('from') ?? -PREROLL));
+const TO = Math.min(FILM_END, Number(flag('to') ?? FILM_END));
+/** Where the pre-roll's rendered sound is written for ffmpeg to mix. */
+const IDENT_WAV = path.join(CLIP_TMP, 'ident.wav');
 const OUT = path.resolve(
   REPO_ROOT,
   flag('out') ??
@@ -71,21 +76,33 @@ async function hooked(tab: Tab, deadline: number): Promise<void> {
 }
 
 /**
- * The encoder: PNG frames on stdin, the song's stretch from `song`, an mp4
- * out. A stretch opening in the pre-roll holds silence until the first note.
+ * The film's sound in film time: the pre-roll's from its first frame, the
+ * song laid over it from `PREROLL` on, silence past both, cut to the stretch
+ * filmed.
  */
-function encoder(song: string) {
+const SOUND = [
+  `[1:a]adelay=${String(Math.round(PREROLL * 1000))}:all=1[song]`,
+  [
+    '[2:a][song]amix=inputs=2:duration=longest:normalize=0',
+    `atrim=start=${String(FROM + PREROLL)}:end=${String(TO + PREROLL)}`,
+    'asetpts=PTS-STARTPTS',
+    'apad[sound]',
+  ].join(','),
+].join(';');
+
+/**
+ * The encoder: PNG frames on stdin, the song from `song` and the pre-roll's
+ * sound from `ident`, an mp4 out as long as the frames.
+ */
+function encoder(song: string, ident: string) {
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
-  const heard = Math.max(0, FROM);
-  const silence = Math.round((heard - FROM) * 1000);
   return spawn(
     'ffmpeg',
     [
       ['-hide_banner', '-loglevel', 'error', '-y'],
       ['-f', 'image2pipe', '-framerate', String(FPS), '-i', '-'],
-      ['-ss', String(heard), '-t', String(TO - heard), '-i', song],
-      ['-map', '0:v', '-map', '1:a'],
-      ['-af', `adelay=${String(silence)}:all=1,apad`],
+      ['-i', song, '-i', ident],
+      ['-filter_complex', SOUND, '-map', '0:v', '-map', '[sound]'],
       ['-c:v', 'libx264', '-preset', 'medium', '-crf', '18'],
       ['-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k'],
       ['-shortest', '-movflags', '+faststart', OUT],
@@ -137,10 +154,8 @@ async function film(
     errors.push(message);
   };
   const browser = await launch();
-  const ffmpeg = encoder(song);
-  const exited = new Promise<number | null>((resolve) => {
-    ffmpeg.on('exit', resolve);
-  });
+  let exited: Promise<number | null> = Promise.resolve(0);
+  let ffmpeg: Encoder | undefined;
   try {
     const tab = await openTab(browser, report);
     await watchPageErrors(tab, report);
@@ -156,9 +171,25 @@ async function film(
     await tab.evaluate(`${hook}.ready()`, z.literal(true), {
       awaitPromise: true,
     });
-    await shootFrom(tab, ffmpeg, 0, Math.round((TO - FROM) * FPS), Date.now());
+    const ident = await tab.evaluate(`${hook}.sound()`, z.string(), {
+      awaitPromise: true,
+    });
+    fs.mkdirSync(CLIP_TMP, { recursive: true });
+    fs.writeFileSync(IDENT_WAV, Buffer.from(ident, 'base64'));
+    const encoding = encoder(song, IDENT_WAV);
+    ffmpeg = encoding;
+    exited = new Promise((resolve) => {
+      encoding.on('exit', resolve);
+    });
+    await shootFrom(
+      tab,
+      encoding,
+      0,
+      Math.round((TO - FROM) * FPS),
+      Date.now(),
+    );
   } finally {
-    ffmpeg.stdin.end();
+    ffmpeg?.stdin.end();
     await browser.close();
   }
   const code = await exited;

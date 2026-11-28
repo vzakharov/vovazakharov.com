@@ -31,25 +31,24 @@ const openFor = (level: number): number =>
   Math.min(1, Math.max(0, (level - SHUT_BELOW) / (1 - SHUT_BELOW)));
 
 /**
- * How far the jaw hangs open at `t`, 0 shut to 1 wide: shut between words,
- * and inside one as loud as the vocal stem sings it, or a bump a syllable
- * where the stem has nothing. Where words overlap — a call over a line's
- * tail — the wider holds.
+ * How far the jaw hangs open at `t`, 0 shut to 1 wide: as loud as the vocal
+ * stem sings there, wherever the stem was measured. The words' spans do not
+ * gate it: they are Whisper's, which ends a held vowel early and opens a word
+ * late by up to a fifth of a second, and the singer runs most lines together,
+ * so a jaw shut between spans snaps closed mid-note. Past the stem's end, a
+ * bump a syllable inside each word, the wider holding where words overlap.
  */
 export function jaw(
   t: number,
   words: readonly Word[] = WORDS,
   loudness: Loudness = voice,
 ): number {
+  const heard = loudness(t);
+  if (heard !== undefined) return openFor(heard);
   let open = 0;
   for (const word of words) {
     if (word.from > t) break;
-    if (!within(word, t)) continue;
-    const heard = loudness(t);
-    open = Math.max(
-      open,
-      heard === undefined ? syllableOpening(word, t) : openFor(heard),
-    );
+    if (within(word, t)) open = Math.max(open, syllableOpening(word, t));
   }
   return open;
 }

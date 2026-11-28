@@ -57,6 +57,9 @@ export type Aimed = { to: number };
 /** Both ends of a ramp or a stretch: a halo's reach, a shot's time on screen. */
 export type Ranged = Ramped & Aimed;
 
+/** How many samples a second a sound holds: a FLAC's stream, a rendered pre-roll. */
+export type SampleRated = { sampleRate: number };
+
 /** Whether a recording carries the explicit-content mark. */
 export type Rated = { explicit: boolean };
 

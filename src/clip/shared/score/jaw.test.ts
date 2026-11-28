@@ -4,6 +4,8 @@ import { describe, it } from 'node:test';
 import { jaw, syllables, wordAt } from './jaw';
 import { WORDS } from './words';
 
+/** The film's frames a second, which the jaw is read on. */
+const FPS = 30;
 const LINE = { text: 'тут', from: 2, to: 2.2 };
 const CALL = { text: 'Ох', from: 2.1, to: 2.5 };
 const WORDS_HERE = [{ text: 'Хорошо', from: 1, to: 1.6 }, LINE, CALL];
@@ -24,13 +26,36 @@ describe('syllables', () => {
   });
 });
 
-describe('jaw, read off the stem', () => {
-  it('is shut between words, however loud the stem', () => {
-    for (const t of [0.5, 1.8, 3]) assert.equal(jaw(t, WORDS_HERE, loud), 0);
-  });
+/** The jaw's widest and narrowest over `[from, to]`, on the film's frames. */
+function range(from: number, to: number): { widest: number; shut: number } {
+  let [widest, shut] = [0, 1];
+  for (let n = Math.ceil(from * FPS); n <= to * FPS; n += 1) {
+    widest = Math.max(widest, jaw(n / FPS));
+    shut = Math.min(shut, jaw(n / FPS));
+  }
+  return { widest, shut };
+}
 
-  it('opens as loud as the stem sings inside a word', () => {
-    assert.equal(jaw(1.3, WORDS_HERE, loud), 1);
+/**
+ * The first stanza's words, and the last word of each of its lines; «б»,
+ * a consonant alone, is sung with the mouth shut.
+ */
+const STANZA = WORDS.filter((word) => word.to < 18);
+const VOICED = STANZA.filter((word) => /[аеёиоуыэюя]/iu.test(word.text));
+const LINE_ENDS = [
+  'счастья',
+  'серотонинопаде',
+  'ненастье',
+  'дурдома',
+  'шо',
+  'слова',
+  'карандашом',
+  'Как,',
+];
+
+describe('jaw, read off the stem', () => {
+  it('follows the stem, whether or not a word span covers the time', () => {
+    for (const t of [0.5, 1.8, 3]) assert.equal(jaw(t, WORDS_HERE, loud), 1);
     assert.equal(
       jaw(1.3, WORDS_HERE, () => 0.3),
       0,
@@ -39,8 +64,27 @@ describe('jaw, read off the stem', () => {
     assert.ok(half > 0.4 && half < 0.6, String(half));
   });
 
-  it('opens on the song’s own words', () => {
-    assert.ok(WORDS.some((word) => jaw((word.from + word.to) / 2) > 0.5));
+  it('opens inside every word of the first stanza', () => {
+    for (const word of VOICED) {
+      const { widest } = range(word.from, word.to);
+      assert.ok(widest >= 0.5, `${word.text} opens only to ${String(widest)}`);
+    }
+  });
+
+  it('shuts at the first stanza’s line breaks, and before its first word', () => {
+    assert.equal(range(0, 0.3).shut, 0);
+    for (const end of LINE_ENDS) {
+      const at = STANZA.findIndex((word) => word.text === end);
+      const [last, next] = [STANZA[at], STANZA[at + 1]];
+      assert.ok(last !== undefined && next !== undefined, end);
+      const { shut } = range(last.to - 0.25, next.from);
+      assert.equal(shut, 0, `open through the break after ${end}`);
+    }
+  });
+
+  it('holds a vowel the singer holds past its word span', () => {
+    // «бы» is sung on to 1.68, where Whisper ends it at 1.48.
+    assert.ok(range(1.5, 1.64).shut > 0.5);
   });
 });
 

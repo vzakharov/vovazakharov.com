@@ -12,5 +12,5 @@ export {
   sectionAt,
   SECTIONS,
 } from './sections';
-export { filmTime, POSTROLL, PREROLL, SONG_SECONDS } from './song';
+export { FILM_END, filmTime, PREROLL, SONG_SECONDS } from './song';
 export { through, within } from './span';

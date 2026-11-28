@@ -29,9 +29,14 @@ const box = (cx: number, halfWidth: number, top: number, bottom: number) =>
 /**
  * Channel «ГБ»'s test card, a broadcast scene: colour bars, the mirrored
  * strip under them, a grey ramp, and a ringed cross over it all with the
- * channel's ident, of which the first `lines` are written.
+ * channel's ident, of which the first `lines` are written, and its address
+ * under them unless `unaddressed`.
  */
-export function testCard(pen: Pen, lines: number = IDENT.length): void {
+export function testCard(
+  pen: Pen,
+  lines: number = IDENT.length,
+  unaddressed = false,
+): void {
   const { ctx } = pen;
   const { width, height } = SCREEN;
   const bar = width / TAPE_PALETTE.bars.length;
@@ -90,11 +95,13 @@ export function testCard(pen: Pen, lines: number = IDENT.length): void {
     width: 4,
     seed: 5,
   });
-  dotText(pen, ADDRESS, [cx, (top + bottom) / 2 - dot * 3.5], {
-    dot,
-    color: TAPE_PALETTE.white,
-    align: 'center',
-  });
+  if (!unaddressed) {
+    dotText(pen, ADDRESS, [cx, (top + bottom) / 2 - dot * 3.5], {
+      dot,
+      color: TAPE_PALETTE.white,
+      align: 'center',
+    });
+  }
   for (const [n, line] of IDENT.slice(0, lines).entries()) {
     const name = n === 1;
     const size = name ? 5 : 4;
