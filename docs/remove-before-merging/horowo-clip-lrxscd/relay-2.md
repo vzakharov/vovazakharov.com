@@ -50,7 +50,7 @@ The same film, made better where the operator pointed: every one of the fifteen 
   - `…-w3-i-…`, `session_01DaohkCNxr81DqDpAvTR6BH` — the intro. **Merged** at `eea63016` (widget `close-up`: `closeUp(cues)` is the intro; `faceOnBlack` is exported and still unused — it goes into the bridge's and the breakdown's pools at the seam, or is removed). Archived.
   - `…-w3-g-…`, `session_01DaohkFmocUFKMy8SNxisti` — the gig and the rocket ears. Not merged.
   - `…-w3-v-…`, `session_01DaohkEJjQAcFRp5rFx4JoG` — the bedroom. Not merged.
-  - `…-w3-s-…`, `session_01DaohkCjkzbt3pcNA53MBoo` — the spoon bunny. Not merged.
+  - `…-w3-s-…`, `session_01DaohkCjkzbt3pcNA53MBoo` — the spoon bunny. **Merged** at `a6946dbb` (widget `spoon-bunny`: `spoonBunnyReveal` is wired as the pre-bridge's last shot, 76.84–77.66; `spoonBunny(nearness)`, the back view, is unused until the seam — verse line 6 at nearness 0–0.3, the chorus's pool as `(along) => spoonBunny(lerp(0.5, 0.8, along))`). The operator wrote to this child directly (the eye is brown; no bowl in sight); its notes are `w3-S-notes.md`. The face holds about 0.4 s: its length is decided at the seam, once the bridge is in.
   - `…-w3-c-…`, `session_01DaohkEKgCkjsqiyZ6GhAjg` — the chorus. Not merged. Reported once at `03eb6785` (the meadow bursting in on «счастья», the aerobics show enriched, the pool `STORYLINES` of factories `(along) => Drawing` at the top of `shots-chorus.ts`, its four `I` slots in `ROTATION`), with the break still bare black; it is lettering the break and the «хорошо-шо-шо» stack and reports again.
   - `…-w3-b-…`, `session_01DaohkBtsQQYJQstc7kNKio` — the bridge. Not merged.
   - `…-w3-d-…`, `session_01DaohkCAFc8BcycMCugp8qC` — the breakdown and ending. Not merged.
