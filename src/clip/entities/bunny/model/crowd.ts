@@ -140,7 +140,7 @@ export function earRise(
   const wag = Math.sin(s * Math.PI * 5) * 10 * (1 - s);
   const dx = (apex[0] - startX) * along + wag;
   const dy = (apex[1] - startY) * along;
-  // Its lean off straight up is the line back down from the apex's off straight down.
+  // `heading` leans off straight down, so the line back from the apex gives the lean off straight up.
   const lean = heading(apex, [startX, startY]);
   return { lift: [dx, dy], tilt: lean * Math.min(1, s * 4) };
 }

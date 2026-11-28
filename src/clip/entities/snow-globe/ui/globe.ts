@@ -31,10 +31,8 @@ const ROCKS = 5;
 const ROCK = 9;
 
 /**
- * A souvenir snow globe, its place the dome's centre: what is inside drawn
- * first and masked to the dome, then the glass over it — tint, shaded water,
- * a glint — and the wooden base below with its plaque. Draw it in a bunny's
- * `held` callback and it sits between the paws.
+ * A souvenir snow globe, its place the dome's centre, so drawn in a bunny's
+ * `held` callback it sits between the paws.
  */
 export function snowGlobe(pen: Pen, globe: SnowGlobe = {}): void {
   const {
