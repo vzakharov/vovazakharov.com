@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 143,
+    "inputTokens": 163,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 332658,
-    "cacheReadTokens": 15341817,
-    "outputTokens": 52327,
-    "thinkingTokens": 13858,
-    "responses": 71,
-    "costUsd": 6.7767394
+    "cacheWrite1hTokens": 350762,
+    "cacheReadTokens": 16828586,
+    "outputTokens": 56592,
+    "thinkingTokens": 14248,
+    "responses": 81,
+    "costUsd": 7.3043052
   },
   "estimate": {
     "at": "2026-11-28T09:21:56.015Z",
@@ -64,18 +64,18 @@
   "url": "https://claude.ai/code/session_01MZoAKBXw8WWnfEBawkRMMa",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T09:20:14.392Z",
-  "lastResponseAt": "2026-11-28T09:31:18.633Z",
+  "lastResponseAt": "2026-11-28T09:32:14.815Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 143,
+    "inputTokens": 163,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 332658,
-    "cacheReadTokens": 15341817,
-    "outputTokens": 52327,
-    "thinkingTokens": 13858,
-    "responses": 71,
-    "costUsd": 6.7767394
+    "cacheWrite1hTokens": 350762,
+    "cacheReadTokens": 16828586,
+    "outputTokens": 56592,
+    "thinkingTokens": 14248,
+    "responses": 81,
+    "costUsd": 7.3043052
   },
   "subagents": {
     "inputTokens": 0,
@@ -89,14 +89,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 143,
+      "inputTokens": 163,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 332658,
-      "cacheReadTokens": 15341817,
-      "outputTokens": 52327,
-      "thinkingTokens": 13858,
-      "responses": 71,
-      "costUsd": 6.7767394
+      "cacheWrite1hTokens": 350762,
+      "cacheReadTokens": 16828586,
+      "outputTokens": 56592,
+      "thinkingTokens": 14248,
+      "responses": 81,
+      "costUsd": 7.3043052
     }
   },
   "warnings": [],
@@ -107,19 +107,19 @@
       "compactedFrom": 307423,
       "summaryChars": 13616,
       "reorientation": {
-        "endedBy": null,
-        "endedOn": null,
-        "endedAt": null,
-        "contextTokens": null,
+        "endedBy": "Edit",
+        "endedOn": "src/music/shared/i18n/messages/ru.json",
+        "endedAt": "2026-11-28T09:31:37.214Z",
+        "contextTokens": 149577,
         "spend": {
-          "inputTokens": 8,
+          "inputTokens": 13,
           "cacheWrite5mTokens": 0,
-          "cacheWrite1hTokens": 80166,
-          "cacheReadTokens": 456907,
-          "outputTokens": 1228,
-          "thinkingTokens": 116,
-          "responses": 4,
-          "costUsd": 0.7573013999999999
+          "cacheWrite1hTokens": 83190,
+          "cacheReadTokens": 879499,
+          "outputTokens": 2256,
+          "thinkingTokens": 236,
+          "responses": 7,
+          "costUsd": 0.8865917999999998
         }
       },
       "rereads": {
@@ -140,11 +140,12 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
+    ".json": 22,
+    ".ts": 931,
+    ".css": 268,
     ".md": 2325,
     ".b64": 5,
     ".txt": 176,
-    ".json": 10,
-    ".ts": 32,
     ".tsx": 43,
     ".py": 0
   }

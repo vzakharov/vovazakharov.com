@@ -152,15 +152,19 @@ then `blind-abc.py reveal`) — the operator is told not to decode it before
 answering. A key lost anyway means a rebuild with a new order, never a reveal
 from memory.
 
-**The operator listens on the site, not to the 5-second file.**
+**The operator listens in a claude.ai artifact, not to the 5-second file.**
 `blind-abc.py split <key> <dir> --mix <source>` writes the same set as whole
-files, `mix.mp3`, `1.mp3`, `2.mp3`…, in the key's order, so one seal covers
-both. The vova site's unlinked `/music/mastering-blind-test`
-(`src/music/pages/blind-test/`, its test stating how many masters it has) plays
-them all at once and switches by gain, so a switch never restarts the song; it
-fetches them from the branch through raw.githubusercontent, whose CORS header
-Web Audio needs. The key's paths are relative to this directory, so `split` runs
-from here.
+files, `<dir>/<song>/mix.mp3`, `1.mp3`, `2.mp3`…, in the key's order, so one
+seal covers both; the key's paths are relative to this directory, so `split`
+runs from here. `<dir>/test.json` names the set's title and each song's id,
+title and master count, and `pnpm blind-test <dir>` in `.claude/artifacts/`
+builds the page (`.claude/artifacts/src/blind-test/`) with `audio-<n>.json`
+batches of the MP3s beside it, each published as the artifact's `files` in a
+publish of its own, under the per-publish size limit. The page plays every
+variant at once and switches by gain, so a switch never restarts the song, and
+keeps each song's verdict in its `db` collection `verdicts`, one document per
+song id, which the agent reads with `ArtifactData` rather than waiting for a
+paste.
 
 ## A song's repository
 

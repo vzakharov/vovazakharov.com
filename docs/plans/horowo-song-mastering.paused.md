@@ -216,8 +216,14 @@ The operator's running order, «давай пока попробуем так»,
 - **Done in relay 4:** every ask answered and folded into the drafts; «Хорошо»'s
   crib line is «Fuck, it’s so fucking good». The second round of PR comments
   applied (footnotes on «Поздно» and «За жизнь»), every thread answered.
+- **Done in relay 6:** the blind test moved off the site into a claude.ai
+  artifact, https://claude.ai/artifact/FSKDB4WUdBuyMMmLJZGLD1, built from
+  `.claude/artifacts/src/blind-test/` over `blind/test.json`; the
+  `/music/mastering-blind-test` page and its slice are gone. Verdicts land in
+  the artifact's `db` collection `verdicts`, one document per song id.
 - **Left, in order:**
-  - The operator's blind verdicts, then `reveal` per song and the winner `put`
+  - The operator's blind verdicts (read them with `ArtifactData` `list`
+    `verdicts` on the artifact), then `reveal` per song and the winner `put`
     into its repository; for unnoticed-things the winner becomes
     `unnoticed_master.flac`.
   - Each repository's files per § 1 (`.master.mp3`, `mastering/`, README naming
