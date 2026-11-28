@@ -104,6 +104,18 @@ words are `…/lyrics/horowo.md` on that branch. Measured from the mix:
 The final master replaces the mix when PR 240 lands; nothing here depends on
 which master wins.
 
+The song's own repository, `vovas-music/horowo`, is readable with `gh api` and
+over `raw.githubusercontent.com`: the master the page plays
+(`horowo_master.master.mp3`), and the isolated vocal stem
+`Media/audio [vocals].wav`, whose loudness envelope drives the jaw.
+
+For the story cut, the operator's reference is the last seconds of
+`Я куплю тебе дом.mov` (105 MB) in `vovas-music/lebed`, added by commit
+`161d879e` with six short generated clips under `Media/`: it ends on a quick
+montage of them. Here the montage is cut from the clip's own shots, rendered to
+files that go into a release — the lead's reading, to be checked against the
+reference's last seconds before cutting.
+
 ## Design decisions
 
 - **Everything is drawn in code.** No outside services means no image or video
