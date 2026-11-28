@@ -216,10 +216,10 @@ the picture's pace is the drummer's, so it halves when he does.
 ## Where things are
 
 - **PR**: https://github.com/vzakharov/vovazakharov.com/pull/295, draft.
-- **Board**: https://claude.ai/artifact/5hqSFnzRjgT8nVshU3oeKJ on the first
-  account; rebuilt on the second at wave 3's first merge. Every frame goes there
-  the turn it exists, as a JPEG under `docs/remove-before-merging/frames/` with
-  its verdict in `docs/remove-before-merging/review-focus.json`.
+- **Board**: https://claude.ai/artifact/3oPCy2vFun7csfEQAEenUh on the second
+  account; the first account's is out of reach. Every frame goes there the turn
+  it exists, as a JPEG under `docs/remove-before-merging/frames/` with its
+  verdict in `docs/remove-before-merging/review-focus.json`.
 
 ## The team
 
@@ -384,10 +384,12 @@ Started 17:46 UTC from the lead's `09a56f0c`, all Opus, each on
   the fade before the breakdown.
 - **D**, `session_01DaohkCAFc8BcycMCugp8qC` — the breakdown and the ending.
 
-**The seam the lead wires at merge**: the rocket ears (G) and the spoon bunny's
-back view (S) into the pool arrays of `shots-chorus.ts`, `shots-bridge.ts` and
-`shots-breakdown.ts`, and the back view over the verse's line 6; W's placement
-table retuned against the merged scenes. Then `/polish` over `src/clip`,
-`./scripts/vet.sh`, a re-film, the release asset replaced, the clip artifact and
-the board rebuilt on this account, `/pr`. Still left after it, on the operator's
-word only: the 30-second vertical story cut, the video on the song's page.
+**All nine are merged and archived, and the seam is wired**: the rocket ears (G)
+and the spoon bunny's back view (S) sit in the pools of `shots-chorus.ts`,
+`shots-bridge.ts` and `shots-breakdown.ts`, the back view over the verse's
+line 6. Vet is green on `63d78a93`, the re-shot film replaces the release asset,
+and the board and the playable clip
+(https://claude.ai/artifact/6rbufP2akKHcHF5rVDrCf6) are on the second account.
+The run waits for the operator's second verdict; `relay-2.md` § 6 holds the
+state. Left, on his word only: the 30-second vertical story cut, the video on
+the song's page.

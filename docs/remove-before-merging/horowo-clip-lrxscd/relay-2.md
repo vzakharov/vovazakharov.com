@@ -1,6 +1,6 @@
 # Relay 2 — the «Хорошо!» music video, the second account's lead
 
-Written by the lead while it is still running and rewritten at every milestone, as `.claude/skills/carte-blanche/SKILL.md` § "The run can change accounts" has it. This session picked the run up from `relay-1.md` on another account: that file stays the record of the first account's conversation (its items 1–16) and is not repeated here.
+Rewritten by the lead at every milestone, as `.claude/skills/carte-blanche/SKILL.md` § "The run can change accounts" has it, and last at 20:20 UTC on 2026-11-28, when the cache keepalive's last wake parked the session with the wave finished and the operator's second verdict awaited. This session picked the run up from `relay-1.md` on another account: that file stays the record of the first account's conversation (its items 1–16) and is not repeated here.
 
 **The plan is the memory, this file is the door.** `docs/plans/horowo-clip.in-progress.md` holds the standing rules, every design decision and the team; `steering.md` beside this file holds every operator message verbatim with the lead's reading; `wave-3.md` beside it is the brief the nine children of the third wave work from. A successor that finds this session unreachable takes the plan over as lead under its `.in-progress` name.
 
@@ -22,6 +22,8 @@ Everything in `relay-1.md` § 1 stands. Added or changed in this session:
 6. **«хорошо-шо-шо можно стилизовать: хорошо / хороШО / хоро<ещё больше>ШО</ещё больше>»** → read as a stack of three lines building up as sung, in the break's lettering, over the verse's last picture; given to C, who was still lettering the break. Verbatim with the reading in `steering.md`.
 7. **«я скорее имел в виду, чтобы одно слово хорошо видоизменялось на каждом "шо"»**, correcting that reading → one word in one place whose ШО turns capital, then larger; C told, `steering.md` corrected.
 8. **«больше бы страха у героя при взгляде на этого зайца»**, with a screenshot of the bridge's last frame → the cause was a scowl (`brow: 0.9` in the face's `Look`) where fright was meant; `FRIGHT` in `src/clip/widgets/ward/ui/sinking.ts` replaces it (eye wide on the bunny, brow up, jaw dropped, head pulled back, sweat). Still `w3-L-fright.jpg` is on the board.
+
+No operator message followed. The lead's last reply, sent when the wave was done: the second cut is in the release, with the four links (the mp4, the playable clip, the board, the PR), vet green on `63d78a93`, seven things only his eyes and ears can settle (the ident's sound, the last «Хорошо!» at 115.02 s against the score's 115.92, the warning's wording, «хороШО» over the picture or on black, the spoon bunny's face at 0.8 s, whether the hero's fright is enough with the brow a flat slab on this mask, the 5 s of silence), and the nine archived children named (verbatim in Last agent turn)
 
 The operator also typed into the children's sessions — S, E and C; B, V and D report nothing, I and W were archived before the question was asked. Each message is verbatim in `steering.md` § "Typed into a child's session".
 
@@ -46,7 +48,7 @@ The same film, made better where the operator pointed: every one of the fifteen 
 ## 6. State
 
 - **Branch** `claude/horowo-clip-lrxscd`, draft **PR** https://github.com/vzakharov/vovazakharov.com/pull/295, mergeable, nothing attested. `./scripts/vet.sh` was last green on `63d78a93`; the commits after it are docs only.
-- **Plan** `docs/plans/horowo-clip.in-progress.md`.
+- **Plan** `docs/plans/horowo-clip.in-progress.md`, kept under that name through the park: carte-blanche holds it there for the whole run, and whoever takes this summary takes the plan over as lead.
 - **The mp4 in the release** (`horowo-clip` prerelease, `horowo-clip-720p.mp4`) is the wave-3 cut, uploaded at 19:11 UTC on 2026-11-28 over the first one: 154 MB, 1280×720, 30 fps, 137.7 s (13 s of pre-roll, the song, 5 s of silence), shot from the joined tree by `pnpm film:clip` (about 40 minutes) and re-encoded at crf 22 with 192k AAC and faststart. Its pre-roll measures −30.4 dB mean and −14.5 dB peak, so the ident's hiss and beeps are in it; the song, −12.3 dB mean.
 - **Wave 3, all merged**, started 17:46 UTC on 2026-11-28 from `09a56f0c`, each child on `claude/horowo-clip-w3-<letter>-lrxscd` and reporting by one `send_message` to this session:
   - `…-w3-e-…`, `session_01DaohkEt1PbJUKxAAKQTtgp` — engine: warning card, ident with sound, the film's far end, the jaw. **Merged** at `b8747781` (`PREROLL` is 13 s: the warning 0–6.6, then the ident with hiss and beeps from one WebAudio score the page plays live and `film:clip` renders offline; `FILM_END = SONG_SECONDS + 5` replaces the exported `POSTROLL`; `jaw` follows the vocal stem's loudness with no gating by word spans — the stem is **not** offset from the master, so W's 2.51 s was a different file). Its notes are `w3-E-notes.md`. The ident's sound was checked by levels, never by ear. Archived.
@@ -64,16 +66,17 @@ The same film, made better where the operator pointed: every one of the fifteen 
   - Each package's work is on its own branch, `claude/horowo-clip-w3-<letter>-lrxscd`, pushed at every working step, with `docs/remove-before-merging/horowo-clip-lrxscd/w3-<LETTER>-notes.md` on that branch saying what is built, what is next and how its exports are wired. A child's last report, if it sent one, is in the lead's transcript only, so the notes file is the record.
   - `git log --oneline origin/claude/horowo-clip-lrxscd..origin/claude/horowo-clip-w3-<letter>-lrxscd` shows whether a branch holds anything unmerged; `git branch -r --merged origin/claude/horowo-clip-lrxscd` lists the merged ones.
   - A package the limit stopped is carried on by a new Opus child started on that same branch with `wave-3.md` and its notes file as the brief; a finished one is merged as § 8 has it. The children's sessions cannot be reached from another account.
-- **Estimate**: this session's is 5 h senior producer, 3 h senior designer, 2 h senior developer (leading the wave, the directing calls at merge, the wiring and quality passes). Each child sets its own.
-- A cache keepalive watcher runs in this session.
+- **Estimate**: this session's is 5 h senior producer, 3 h senior designer, 2 h senior developer (leading the wave, the directing calls at merge, the wiring and quality passes), all of it done here; no remainder is handed on, and work on a second verdict is a new estimate. Each child set its own.
+- **Nothing runs or waits**: no keepalive watcher, no scheduled check-in (the one-shot "Проверить детей волны 3 клипа" fired at 18:34 UTC), no CI, no PR subscription.
 
 ### Watches
 
+Both stopped at the park; a session on this account watches them again.
+
 https://claude.ai/artifact/3oPCy2vFun7csfEQAEenUh
+https://claude.ai/artifact/6rbufP2akKHcHF5rVDrCf6
 
-The review board, published on the second account at the wave's first merge and named in the PR's sticky comment; watched by this session. The first account's board and clip artifact (URLs in `relay-1.md`) cannot be opened from here. https://claude.ai/artifact/6rbufP2akKHcHF5rVDrCf6
-
-The clip itself, playable, on the second account: `pnpm bundle:clip`, then `tmp/clip/artifact/index.html` published with `horowo.mp3` as its one supporting file (`contentType: audio/mpeg`, `root` `tmp/clip/artifact`). Version 1 at 18:30 UTC holds all nine packages of the wave.
+The first is the review board, published on the second account at the wave's first merge and named in the PR's sticky comment (Version 4, 95 images). The first account's board and clip artifact (URLs in `relay-1.md`) cannot be opened from here. The second is the clip itself, playable, on the second account: `pnpm bundle:clip`, then `tmp/clip/artifact/index.html` published with `horowo.mp3` as its one supporting file (`contentType: audio/mpeg`, `root` `tmp/clip/artifact`). Version 1 at 18:30 UTC holds all nine packages of the wave.
 
 ## 7. Pointers
 
@@ -85,7 +88,7 @@ The clip itself, playable, on the second account: `pnpm bundle:clip`, then `tmp/
 
 ## 8. Next step
 
-The operator's most recent request is the verdict and its correction: «а теперь давай что нужно улучшать», «так что творим :)». In order:
+**Wait for the operator.** His most recent request, the verdict and its corrections («а теперь давай что нужно улучшать», «так что творим :)»), is carried out and reported; what he says next is the second verdict, or an answer to one of the seven open points in the last reply. Where the run stands:
 
 1. All nine children are merged and archived; none is to be woken. `/polish` ran over the lead's seam edits (`969c8441`); the children polished their own branches.
 2. The seam is wired: all nine packages are in, and the spoon bunny's face is held a beat into the bridge (`REVEAL_HOLD`, `0.4 s` was too short to read). Left to taste: W's placement table where a still shows the line over a face.
@@ -99,26 +102,38 @@ The agent's last turn before the relay, verbatim, appended by
 unneeded but harmless; the reply proper is usually its last paragraphs.
 
 ```text
-Привет, Вова. Подхватил из https://claude.ai/code/session_01MZoAKCKwqeVGKcCw6iKKPs — сижу на `claude/horowo-clip-lrxscd`, дальше коммичу и пушу только сюда. Клип ждёт твоего вердикта, в работе ничего нет.
+Фильм залит в релиз (154 МБ, заменил первый монтаж); дописываю состояние в relay-сводку и пушу, потом отчёт.
 
-Что проверил по дереву:
+Вова, второй монтаж готов: все пятнадцать пунктов вердикта построены, фильм переснят с итогового дерева и лежит в релизе поверх первого.
 
-- **Клип**: [horowo-clip-720p.mp4](https://github.com/vzakharov/vovazakharov.com/releases/download/horowo-clip/horowo-clip-720p.mp4), 77 МБ, лежит в пререлизе `horowo-clip`, залит в 15:07 UTC.
-- **PR**: [vzakharov/vovazakharov.com#295](https://github.com/vzakharov/vovazakharov.com/pull/295) — черновик, без конфликтов с `main`, ревью нет.
-- **vet**: сам его не перезапускал. Зелёным он был на `ae69ac20`, после него в ветку шли только план, релей, текст для squash и строка расходов.
-- **План**: `docs/plans/horowo-clip.in-progress.md`, веду его дальше как лид.
+- **Фильм**: [horowo-clip-720p.mp4](https://github.com/vzakharov/vovazakharov.com/releases/download/horowo-clip/horowo-clip-720p.mp4) — 154 МБ, 137,7 с: 13 с предупреждения и заставки, песня, 5 с тишины.
+- **Играбельный клип** на этом аккаунте: https://claude.ai/artifact/6rbufP2akKHcHF5rVDrCf6
+- **Доска с диффом и кадрами**: https://claude.ai/artifact/3oPCy2vFun7csfEQAEenUh
+- **PR** (черновик, в мейн не мерджу): https://github.com/vzakharov/vovazakharov.com/pull/295
 
-Что не перенеслось, потому что эта сессия на другом аккаунте:
+Vet зелёный на `63d78a93`; после него только коммиты с документами. Тело PR и предложение сквоша обновлены под вторую волну.
 
-- **Доска и клип-артефакт** отсюда не открываются (404), так что следить за комментариями на них я не могу. Замечания пиши сюда или в PR.
-- **Сессия-предшественник** отсюда не видна, заархивировать её не смог — она осталась запаркованной на том аккаунте.
+Что могут решить только твои уши и глаза:
 
-Не сделано, как и было: `/polish` по `src/clip`, три пункта второго прохода (заяц в палате, отъезд шара по шагам, разные дыры в брейкдауне), вертикальная нарезка на 30 секунд и видео на странице песни.
+1. **Звук заставки.** Шипение и бипы в файле есть (пик −14,5 дБ против 0 дБ у песни), но на слух их никто не проверял.
+2. **Последнее «Хорошо!»** Заяц с шаром появляется на 115,02 с — так прочитано по мастеру, а в разметке слов стоит 115,92. Если плашка выходит почти на секунду раньше крика, скажи, и я сдвину.
+3. **Текст предупреждения**: «Внимание. В клипе много вспышек и мерцания. При фоточувствительной эпилепсии лучше не смотреть.»
+4. **«хороШО»** сейчас растёт поверх картинки спальни. Другой вариант — на чёрном, как «не сдохнуть бы».
+5. **Лицо зайца с ложкой** держится 0,8 с, заходя на долю в бридж: 0,4 с не читались.
+6. **Страх героя перед зайцем** добавлен, но бровь на этой маске выходит плоской плашкой. Посмотри, хватает ли.
+7. **Пять секунд тишины** в конце — оставить или укоротить.
 
-Два вопроса:
+Архивировал все девять детских сессий волны, они больше не нужны:
 
-1. Пересобрать доску с кадрами на этом аккаунте, или тебе хватит mp4?
-2. `vzakharov/muthur` ушёл на 4 коммита вперёд от последней синхронизации (доска с диффом от заданной базы, правило про облачные разрешения, хуки для worktree, уточнение про `.claude/voice/`). Завести под это отдельную сессию?
+- E — `session_01DaohkEt1PbJUKxAAKQTtgp`
+- W — `session_01DaohkEf7zhEMjdeEgLFyA4`
+- I — `session_01DaohkCNxr81DqDpAvTR6BH`
+- S — `session_01DaohkCjkzbt3pcNA53MBoo`
+- C — `session_01DaohkEKgCkjsqiyZ6GhAjg`
+- B — `session_01DaohkBtsQQYJQstc7kNKio`
+- V — `session_01DaohkEJjQAcFRp5rFx4JoG`
+- D — `session_01DaohkCAFc8BcycMCugp8qC`
+- G — `session_01DaohkFmocUFKMy8SNxisti`
 
-Эти два вызова мне больше не нужны: оба артефакта принадлежат другому аккаунту и отсюда не открываются (404), так что разрешающая фраза тут не поможет, а скрипта под это в `.claude/settings.json` нет. Слежение за комментариями появится, только если пересобрать доску и клип-артефакт на этом аккаунте — это вопрос 1 выше.
+Сводка для подхвата с другого аккаунта (`relay-2.md`) актуальна на этот момент. Вертикальная нарезка на 30 секунд и видео на странице песни ждут твоего слова.
 ```
