@@ -10,7 +10,8 @@
     "costUsd": 4.8209496000000005
   },
   "estimate": {
-    "at": "2026-11-02T05:36:51.615Z",
+    "at": "2026-11-28T10:35:39.888Z",
+    "subjectLine": "feat: plan the five songs and wire Open Graph music tags",
     "parts": [
       {
         "hours": 1.5,
@@ -111,5 +112,9 @@
         "costUsd": 0.0348964
       }
     }
-  }
+  },
+  "operatorWords": null,
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": null
 }
