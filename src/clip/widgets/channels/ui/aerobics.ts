@@ -98,9 +98,12 @@ const ROUTINE: ReadonlyArray<readonly [Pose, Pose]> = [
 ];
 const COUNTS_A_MOVE = 4;
 
+/** `n` wrapped into `[0, length)`, negatives included. */
+const cyclic = (n: number, length: number): number =>
+  ((n % length) + length) % length;
+
 function held(count: number): Pose {
-  const n = ROUTINE.length;
-  const move = ((Math.floor(count / COUNTS_A_MOVE) % n) + n) % n;
+  const move = cyclic(Math.floor(count / COUNTS_A_MOVE), ROUTINE.length);
   const [first, second] = ROUTINE[move] ?? [STAND, STAND];
   return count % 2 === 0 ? first : second;
 }
@@ -189,6 +192,6 @@ export const workout: Show = (pen, nearness, _since, stare) => {
     mark: 5000,
   });
 
-  const count = COUNTS[((index % 4) + 4) % 4] ?? COUNTS[0];
+  const count = COUNTS[cyclic(index, COUNTS.length)] ?? COUNTS[0];
   caption(pen, count, [760, 600], 10 - 3 * fraction, aerobics.count);
 };

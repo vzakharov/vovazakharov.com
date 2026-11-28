@@ -187,17 +187,22 @@ function party(pen: Pen, framing: Framing, slam = 0): void {
   });
 }
 
+/** The party seen through the channel's tape. */
+function taped(pen: Pen, framing: Framing, slam = 0): void {
+  broadcast(
+    pen,
+    (inner) => {
+      party(inner, framing, slam);
+    },
+    { wear: 0.22 },
+  );
+}
+
 /** The chorus meadow seen through the channel's tape, framed by `framing`. */
 export const meadowParty =
   (framing: Framing): Drawing =>
   (pen) => {
-    broadcast(
-      pen,
-      (inner) => {
-        party(inner, framing);
-      },
-      { wear: 0.22 },
-    );
+    taped(pen, framing);
   };
 
 // How long the burst's punch-in takes to settle, in seconds.
@@ -208,11 +213,5 @@ const SLAM_SETTLES = 0.14;
  * the camera punched in and tilted on the cut and snapping back to the wide.
  */
 export const meadowBurst: Drawing = (pen, { sinceCut }) => {
-  broadcast(
-    pen,
-    (inner) => {
-      party(inner, 'wide', Math.exp(-sinceCut / SLAM_SETTLES));
-    },
-    { wear: 0.22 },
-  );
+  taped(pen, 'wide', Math.exp(-sinceCut / SLAM_SETTLES));
 };
