@@ -103,10 +103,19 @@ And on how the rhythm shows, verbatim:
 > да бочка/ведущий должны совпадать со сменами кадра или ещё какими-то ощутимыми
 > движениями
 
-So: the kick and the snare are onset lists in the score, and every scene has at
-least one thing that lands on them — a cut, a camera punch, a head coming down,
-the TV's glow — while most of the frame stays off the grid, so it reads as feel
-and not as a metronome.
+Then, on the lead's "measure the ending's tempo separately", verbatim:
+
+> я не уверен что это только к концовке относится, интро возможно тоже другого
+> темпа. пусть по каждой секции замерит
+>
+> #240 тем временем смерждился
+
+So every section's tempo and downbeat is measured on its own, none assumed.
+
+On the rhythm note: the kick and the snare are onset lists in the score, and
+every scene has at least one thing that lands on them — a cut, a camera punch, a
+head coming down, the TV's glow — while most of the frame stays off the grid, so
+it reads as feel and not as a metronome.
 
 The lead's reading of the four notes, each its own and open to correction:
 
