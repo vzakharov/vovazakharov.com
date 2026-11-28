@@ -33,7 +33,7 @@ const BEATS: readonly Beat[] = [
 /** The story's length in its own seconds: progress 1 is its end. */
 export const STORY_SECONDS = 14;
 
-/** The story at `seconds` into it. */
+/** The story at `seconds` into it, held at its first beat before 0 and its last after the end. */
 export function momentAt(seconds: number): Moment {
   const story = Math.min(STORY_SECONDS, Math.max(0, seconds));
   const next = BEATS.findIndex((beat) => beat.story > story);
