@@ -180,6 +180,9 @@ export type Place = {
   flip?: boolean;
 };
 
+/** A camera that may lean: clockwise, in degrees. */
+export type MaybeTilted = { tilt?: number };
+
 /** Runs `draw` with the context's origin at `place`, and restores it after. */
 export function at(pen: Pen, place: Place, draw: () => void): void {
   const { ctx } = pen;

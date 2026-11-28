@@ -14,7 +14,7 @@ import { motifAt, motifScale, type Wallpaper } from './wallpaper';
 /** The wallpaper as `bunnyWallpaper` was given it, and what its bunnies do. */
 export type WallpaperEyes = Wallpaper & {
   /** Where every printed bunny looks, in the same units. */
-  target: Point;
+  watched: Point;
   /** 0 the print as it was, 1 every pair of eyes open; each pair opens on its own cue within that. */
   awake: number;
 };
@@ -29,11 +29,11 @@ const PUPIL_TRAVEL = 0.45;
 
 /**
  * Eyes on every bunny printed on the wallpaper, opened one pair after another
- * as `awake` goes 0 → 1, every pupil turned on `target`: the pattern waking.
+ * as `awake` goes 0 → 1, every pupil turned on `watched`: the pattern waking.
  * Drawn over `bunnyWallpaper` with the same cell and offset.
  */
 export function wallpaperEyes(pen: Pen, eyes: WallpaperEyes): void {
-  const { area, cell = 110, offset = [0, 0], target, awake, hole } = eyes;
+  const { area, cell = 110, offset = [0, 0], watched, awake, hole } = eyes;
   const { x = 0, y = 0, width, height } = area;
   const [dx, dy] = offset;
   const scale = motifScale(cell);
@@ -58,7 +58,7 @@ export function wallpaperEyes(pen: Pen, eyes: WallpaperEyes): void {
       ) {
         continue;
       }
-      const [lx, ly] = sub(target, head);
+      const [lx, ly] = sub(watched, head);
       const reach = Math.hypot(lx, ly) || 1;
       const travel = (radius * PUPIL_TRAVEL) / reach;
       const pupil: Point = [lx * travel, ly * travel];

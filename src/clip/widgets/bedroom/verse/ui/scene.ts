@@ -2,6 +2,7 @@ import {
   at,
   clamp,
   lerp,
+  type MaybeTilted,
   noise,
   type Pen,
   type Point,
@@ -70,10 +71,9 @@ export const ROOM: Room = {
 };
 
 /** Where the camera looks on the stage, how close, how tilted, and whether it faces the room from the other side. */
-export type Camera = {
+export type Camera = MaybeTilted & {
   framed: Point;
   closeness: number;
-  tilt?: number;
   reversed?: boolean;
 };
 

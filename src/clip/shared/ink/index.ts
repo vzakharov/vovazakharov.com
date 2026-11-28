@@ -12,7 +12,7 @@ export {
   times,
   turned,
 } from './geometry';
-export type { InkStyle, Pen, Place } from './ink';
+export type { InkStyle, MaybeTilted, Pen, Place } from './ink';
 export { at, ink, limb, penAt, STAGE } from './ink';
 export { inLayer } from './layer';
 export { noise, reseed, rng } from './noise';

@@ -58,7 +58,13 @@ export function walls(
   const hole = holed ? { hole: HOLE } : {};
   bunnyWallpaper(pen, { area, cell: CELL, ...hole, seed: 201 });
   if (watching > 0) {
-    wallpaperEyes(pen, { area, cell: CELL, ...hole, target, awake: watching });
+    wallpaperEyes(pen, {
+      area,
+      cell: CELL,
+      ...hole,
+      watched: target,
+      awake: watching,
+    });
   }
   ink(pen, rect(-20, FLOOR_Y, STAGE.width + 40, STAGE.height - FLOOR_Y + 20), {
     fill: BEDROOM_PALETTE.floor,

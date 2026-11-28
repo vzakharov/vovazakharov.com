@@ -1,4 +1,4 @@
-import { at, type Pen } from '@/clip/shared/ink';
+import { at, type MaybeTilted, type Pen } from '@/clip/shared/ink';
 import { KICKS, punch } from '@/clip/shared/score';
 import { dotText, SCREEN } from '@/clip/shared/tape';
 import { type Audience, studioAudience } from '@/clip/entities/bunny';
@@ -75,7 +75,7 @@ export function crowd(pen: Pen, audience: Audience): void {
 }
 
 /** How a shot is framed: pushed in by `push`, leaning `tilt` degrees, thrown about by `violence`. */
-export type Camera = Violence & { push?: number; tilt?: number };
+export type Camera = Violence & MaybeTilted & { push?: number };
 
 /**
  * `draw` through the camera of a shot cut at `cut`: pushed in and tilted
