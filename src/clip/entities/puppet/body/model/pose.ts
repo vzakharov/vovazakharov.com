@@ -126,9 +126,16 @@ export type Reach = Partial<Record<Side, Point>>;
  * to suit, the arm keeping the bone lengths it has in `pose`. A target out of
  * reach leaves the arm straight towards it. `palm` is how far past the wrist,
  * along the forearm, the point that lands on the target is: 0 the wrist
- * itself, a fist's depth for a hand closing on something.
+ * itself, a fist's depth for a hand closing on something. `elbows` names,
+ * per side, the direction that elbow would rather fold towards, in place of
+ * the default out and a little down.
  */
-export function reaching(pose: Pose, hands: Reach, palm = 0): Pose {
+export function reaching(
+  pose: Pose,
+  hands: Reach,
+  palm = 0,
+  elbows: Reach = {},
+): Pose {
   const arms = { ...pose };
   for (const side of SIDES) {
     const target = hands[side];
@@ -140,7 +147,7 @@ export function reaching(pose: Pose, hands: Reach, palm = 0): Pose {
         aim,
         distance(shoulder, elbow),
         distance(elbow, wrist),
-        ELBOW_PREFERS[side],
+        elbows[side] ?? ELBOW_PREFERS[side],
       );
     // The forearm's direction is only known once the arm is folded, so the
     // wrist is aimed twice: at the target, then short of it by the palm.
