@@ -38,13 +38,6 @@ const CLOSE: Record<Role, Place> = {
   drums: { x: 480, y: 780, scale: 1.1 },
 };
 
-export type GigOptions = {
-  /** The playhead at which the audience's ears take off; they stay put unset. */
-  liftOff?: number;
-  /** How near the bunny standing among the lights has come. */
-  nearness?: number;
-};
-
 function playing(pen: Pen, role: Role, place: Place): void {
   const t = pen.playhead;
   player(pen, role, {
@@ -55,9 +48,13 @@ function playing(pen: Pen, role: Role, place: Place): void {
   });
 }
 
-/** The whole band on the studio stage, the bunny among the lights at the back. */
+/**
+ * The whole band on the studio stage, the bunny among the lights at the back
+ * at `nearness`; the audience's ears take off at the playhead `liftOff`, and
+ * stay put without one.
+ */
 export const gigWide =
-  ({ liftOff, nearness = 0.2 }: GigOptions = {}): Drawing =>
+  (liftOff?: number, nearness = 0.2): Drawing =>
   (pen) => {
     broadcast(
       pen,
@@ -94,7 +91,7 @@ export const gigWide =
 
 /** One of the band in close-up, against a backdrop of their own colour. */
 export const gigClose =
-  (role: Role, { liftOff }: GigOptions = {}): Drawing =>
+  (role: Role, liftOff?: number): Drawing =>
   (pen) => {
     broadcast(
       pen,
@@ -120,7 +117,7 @@ export const gigClose =
 // The insert's rotation: a different shot at each of its returns.
 const ROTATION: readonly Drawing[] = [
   gigClose('vocal'),
-  gigWide({ nearness: 0.5 }),
+  gigWide(undefined, 0.5),
   gigClose('drums'),
   gigClose('guitar'),
   gigClose('bass'),

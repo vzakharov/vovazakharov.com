@@ -1,4 +1,3 @@
-// masd-disable insignificant -- wave 2's broadcast and reality scenes draw the bunny; until they land nothing under src/clip reads it.
 export type { Audience, EarFlight, Seat } from './model/crowd';
 export { earFlights, seats } from './model/crowd';
 export type { Arms, BunnyLook, Eyes, HopPose } from './model/pose';
