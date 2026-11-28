@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 652,
+    "inputTokens": 662,
     "cacheWrite5mTokens": 123284,
-    "cacheWrite1hTokens": 1360775,
-    "cacheReadTokens": 67190148,
-    "outputTokens": 358192,
-    "thinkingTokens": 103506,
-    "responses": 334,
-    "costUsd": 49.224949699999996
+    "cacheWrite1hTokens": 1367280,
+    "cacheReadTokens": 68364029,
+    "outputTokens": 359650,
+    "thinkingTokens": 104275,
+    "responses": 339,
+    "costUsd": 49.6222059
   },
   "estimate": {
     "at": "2026-11-28T14:27:37.015Z",
@@ -66,18 +66,18 @@
   "url": "https://claude.ai/code/session_01MZoAKCKwqeVGKcCw6iKKPs",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:00:24.182Z",
-  "lastResponseAt": "2026-11-28T14:33:24.660Z",
+  "lastResponseAt": "2026-11-28T14:44:41.973Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 39.975682099999986,
   "ownTurns": {
-    "inputTokens": 614,
+    "inputTokens": 624,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 1360775,
-    "cacheReadTokens": 65822269,
-    "outputTokens": 341873,
-    "thinkingTokens": 102570,
-    "responses": 318,
-    "costUsd": 48.61668579999999
+    "cacheWrite1hTokens": 1367280,
+    "cacheReadTokens": 66996150,
+    "outputTokens": 343331,
+    "thinkingTokens": 103339,
+    "responses": 323,
+    "costUsd": 49.01394199999999
   },
   "subagents": {
     "inputTokens": 38,
@@ -91,14 +91,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 614,
+      "inputTokens": 624,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 1360775,
-      "cacheReadTokens": 65822269,
-      "outputTokens": 341873,
-      "thinkingTokens": 102570,
-      "responses": 318,
-      "costUsd": 48.61668579999999
+      "cacheWrite1hTokens": 1367280,
+      "cacheReadTokens": 66996150,
+      "outputTokens": 343331,
+      "thinkingTokens": 103339,
+      "responses": 323,
+      "costUsd": 49.01394199999999
     },
     "claude-sonnet-5-5/standard": {
       "inputTokens": 38,
@@ -244,10 +244,9 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 1001,
-    ".mjs": 687,
+    ".md": 999,
     ".json": 169,
-    ".ts": 14018,
+    ".ts": 13690,
     ".tsx": 44,
     ".scss": 12
   }

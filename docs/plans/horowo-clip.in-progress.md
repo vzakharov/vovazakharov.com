@@ -344,23 +344,29 @@ The engine's pre-roll is merged at `21ddfda5` (the ident tunes in for 3.2 s
 before the first note; the playhead runs negative there).
 
 The closing child: **knip**, Sonnet, `session_01MZoAKAcUSg1fRJ5rpM2h4Q`,
-`claude/horowo-clip-knip-lrxscd`, cut from the lead's `70225e65` — the sketch
-files removed, unused exports and exported types dropped, nothing drawn changed.
-Sonnet because it is removal by a list.
+`claude/horowo-clip-knip-lrxscd`, merged at `e46ac0be`, archived — the sketch
+files removed, 119 unused exports and exported types dropped, nothing drawn
+changed. Sonnet because it is removal by a list.
 
 ## Built, in flight, left
 
-- **Built**: every section of the song drawn and cut, the chorus, intro, gig,
-  pre-bridge and bedroom at second-pass level, the ward and the ending at first;
-  `check:masd` green with the operator's two promotion markers on the puppet's
-  body and head.
-- **In flight**: the engine's pre-roll; the mp4 (`pnpm film:clip`, log
-  `tmp/clip-lead/film.log`); a vet run on `fbcb9e41`.
-- **Left, in the order the run closes**: the pre-roll merged and re-filmed; the
-  mp4 as a release asset; `knip` green (unused exports in the wave-1 slices, the
-  sketch `.mjs` under `docs/remove-before-merging/`); the quality passes; a
-  green vet; PR 295 refreshed. After this run: C2's three unstarted items, the
-  30-second vertical story cut, the video on the song's page.
+- **Built**: every section of the song drawn and cut, with the pre-roll ident
+  before the first note; the chorus, intro, gig, pre-bridge and bedroom at
+  second-pass level, the ward and the ending at first. `check:masd`,
+  `masd:clusters`, `type-overlap`, `tsc` and the line limit are green.
+- **Red**: `knip`, on nine names it cannot lose without a restructure —
+  `bounceAt` and `Bounce` in `entities/meadow`, and `GRIPS`, `OUTFITS`, `Dress`,
+  `Grip`, `Outfit` in `entities/puppet/body`. Nothing outside their slices
+  imports them, and dropping them from the barrels makes `masd:clusters` ask for
+  a sub-slice in each (the meadow's block with its bounce; the body's figure,
+  hands and outfits). The fix is that cut, or a consumer, or the operator's yes
+  on a `masd-disable cluster`.
+- **Not run**: `/dry` and `/tend-prose` over `src/clip`, left for the next
+  session with the limit this low.
+- **Left**: the mp4 as a release asset (`pnpm film:clip` writes
+  `tmp/clip/horowo--3.2-119.7.mp4`); a vet run on the final head; PR 295
+  refreshed. After this run: C2's three unstarted items, the 30-second vertical
+  story cut, the video on the song's page.
 
 **The limit**, by the cost ledger at 11:45 UTC: about $100 spent on the run,
 which is roughly 14% of the week by the operator's two readings (10% spent at
