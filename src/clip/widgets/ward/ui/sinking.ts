@@ -77,9 +77,20 @@ function cameraAt(sleep: number, breathsBegun: number): Camera {
   };
 }
 
+/** Him on seeing who sits beside him: the eye wide on it, the brow up, the jaw dropped, the head pulled back. */
+const FRIGHT: Partial<Look> = {
+  lid: 0,
+  gaze: [1, -0.1],
+  brow: -1,
+  jaw: 0.9,
+  nod: -0.35,
+  turn: -0.2,
+  sweat: 1,
+};
+
 function lookAt(sleep: number, jerk: number, awoken: boolean): Partial<Look> {
   if (awoken) {
-    return { lid: 0.02, gaze: [1, -0.15], brow: 0.9, nod: 0.1, turn: 0.25 };
+    return FRIGHT;
   }
   return {
     lid: clamp(lerp(0.3, 0.98, smoothstep(0, 0.95, sleep)) - 0.5 * jerk, 0, 1),

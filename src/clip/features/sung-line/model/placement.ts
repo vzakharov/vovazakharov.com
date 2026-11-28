@@ -101,26 +101,24 @@ const RULES: readonly Rule[] = [
       [720, 110],
     ],
   },
-  // The last «Хорошо!», thrown across the top.
-  {
-    sections: ['breakdown'],
-    idiom: 'hand',
-    align: 'center',
-    glyphSize: 104,
-    rowChars: 12,
-    unsteadiness: 0.3,
-    spots: [[640, 48]],
-  },
+  // The breakdown has no rule: its one line, the last «Хорошо!», is the bunny
+  // arriving with the globe, under which nothing is written but the address.
 ];
 
-/** Where line `n` of the song is set; throws for a line no rule places. */
-export function placementOf(line: Line, n: number): Placement {
+/** The line sung across the cut into the chorus: the picture letters it itself, word by word. */
+const lettersItself = (line: Line): boolean =>
+  sectionAt(line.from).name === 'verse, second half' &&
+  sectionAt(line.to).name === 'chorus';
+
+/** Where line `n` of the song is set; none for a line the overlay leaves to the picture. */
+export function placementOf(line: Line, n: number): Placement | undefined {
+  if (lettersItself(line)) return undefined;
   const { name } = sectionAt((line.from + line.to) / 2);
   const rule = RULES.find(
     ({ sections, kinds }) =>
       sections.includes(name) && (kinds?.includes(line.kind) ?? true),
   );
-  if (!rule) throw new Error(`No placement for «${line.text}» in ${name}`);
+  if (!rule) return undefined;
   const setAt = rule.spots[n % rule.spots.length];
   if (!setAt) throw new Error(`No spot for «${line.text}» in ${name}`);
   return { ...rule, setAt };

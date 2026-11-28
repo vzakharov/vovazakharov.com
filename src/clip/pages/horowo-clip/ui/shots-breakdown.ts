@@ -1,17 +1,14 @@
 import { INK_PALETTE, STAGE } from '@/clip/shared/ink';
-import {
-  beatSeconds,
-  KICKS,
-  POSTROLL,
-  SONG_SECONDS,
-} from '@/clip/shared/score';
+import { beatSeconds, FILM_END, KICKS } from '@/clip/shared/score';
 import type { Drawing, Shot } from '@/clip/shared/timeline';
 import {
-  bedroomFoot,
-  bedroomWide,
-  bedroomWindow,
+  offTheWall,
+  summerWindow,
+  troublesRetreat,
+  wallWakes,
 } from '@/clip/widgets/bedroom';
 import { channel } from '@/clip/widgets/channels';
+import { faceOnBlack } from '@/clip/widgets/close-up';
 import {
   chewing,
   type Fury,
@@ -22,7 +19,8 @@ import {
 } from '@/clip/widgets/ending';
 import { gigClose, gigWide } from '@/clip/widgets/gig';
 import { meadowParty } from '@/clip/widgets/meadow-party';
-import { wardHole, wardTv, wardTwoShot, wardWall } from '@/clip/widgets/ward';
+import { spoonBunny } from '@/clip/widgets/spoon-bunny';
+import { wardHole, wardInsert } from '@/clip/widgets/ward';
 
 import { sectionNamed } from './stand-in';
 
@@ -34,25 +32,26 @@ const BREAKDOWN_POOL: readonly Drawing[] = [
   meadowParty('wide'),
   gigClose('drums'),
   channel(5, 1),
-  bedroomFoot,
+  troublesRetreat,
   STABS[0],
   meadowParty('band'),
-  wardWall,
+  wardInsert(0, 1),
   gigClose('vocal'),
   channel(0, 0.95),
   STABS[1],
-  bedroomWide,
+  wallWakes,
   meadowParty('hill'),
   gigWide(undefined, 0.9),
   channel(6, 0.95),
-  wardTwoShot,
+  faceOnBlack,
   STABS[2],
   gigClose('guitar'),
-  bedroomWindow,
+  summerWindow,
   channel(2, 0.95),
-  wardTv,
+  spoonBunny(0.6),
   gigClose('bass'),
   STABS[3],
+  offTheWall,
   channel(4, 0.95),
 ].filter((drawing) => drawing !== undefined);
 
@@ -74,7 +73,6 @@ const DROPOUTS = [
 ] as const;
 const LAST_SHOUT = 115.92;
 const SILENCE = 117.25;
-const FILM_END = SONG_SECONDS + POSTROLL;
 // The pull back's steps in the silence, and the tube going off at the end.
 const STEPS = [SILENCE, SILENCE + 1.7, SILENCE + 3.4] as const;
 const SWITCH_OFF = FILM_END - 1.5;

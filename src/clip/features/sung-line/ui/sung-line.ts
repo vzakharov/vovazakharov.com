@@ -89,6 +89,7 @@ export function sungLine(pen: Pen): void {
   if (shownShare <= 0 || chars === 0) return;
   const n = LYRIC_LINES.indexOf(line);
   const place = placementOf(line, n);
+  if (!place) return;
   const text = wrapped(line.text, place.rowChars).toUpperCase();
   ctx.save();
   ctx.globalAlpha *= OPACITY * shownShare;
