@@ -267,3 +267,35 @@ And at 17:58:51 UTC, over a still of the back view with a white bowl of dark red
 > миску не должно быть видно до поворота, может и после не должно -- суть не в том чтобы именно миска была, а чтобы было понятно, что что-то ест
 
 The child's reading, which the lead keeps: the hanging eye is the operator's own, so it is brown; there is no bowl anywhere, before or after the turn, and the eating shows in the elbow, the spoon's handle over the shoulder and the shudder of chewing.
+
+To package E (the engine), between 18:05 and 18:07 UTC, over a screenshot of its session showing its still at song time 1.0 — the old intro on the meadow — verbatim:
+
+> этого же (луга) не будет после интро, да? обсуждал это с лидом
+
+The child answered that the meadow is not seen before the chorus; the intro is package I's face on black.
+
+To package C (the chorus), four messages. At 18:08:29 UTC, over a still of the break — «НЕ / СДОХНУТЬ / БЫ» stacked white on black — verbatim:
+
+> о, интересно, похожа форма получается на аптечный крест, давай обыграем
+
+At 18:10:37 UTC, on the break's lettering, then a round white marker hand, verbatim:
+
+> какой-то недостаточно insane шрифт. не в смысле что он прямо должен быть all over the place, но сейчас он просто комичный, а не комично-ужасный
+
+At 18:11:14 UTC, over a still of the ending's hospital with its small red cross above the roof, verbatim, his typo kept:
+
+> и вот смотри зздесь крест какой, не совсем такой
+
+At 18:12:39 UTC, after the solid red cross and the shaking hand, verbatim, his typo kept:
+
+> во, лучше. "сдохнуть" можно более узким шрифтом, чтобы крест получился "квардатным"
+
+What the child built from them, which the lead keeps: the break's words are in a shaking hand gone over twice more out of register; on «бы» the hospital's solid red cross lights behind the stack with a tube sign's flicker and the words turn to ink on it; every word is set at 0.6 width so the cross is square.
+
+Packages B, V and D report that he typed nothing into their sessions.
+
+To the lead, at about 18:14 UTC, over the bridge's last frame before the breakdown — him and the bunny sat beside him — verbatim:
+
+> больше бы страха у героя при взгляде на этого зайца
+
+The lead's reading: on the last «о» he was scowling at it (the brow was set to a scowl). Now his eye is wide on it, the brow up, the jaw dropped, the head pulled back, sweat pouring.
