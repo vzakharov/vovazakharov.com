@@ -157,6 +157,17 @@ The lead's reading of the four notes, each its own and open to correction:
    release asset. Board frames stay committed, small and few, under
    `docs/remove-before-merging/`, which a squash never carries to `main`.
 
+On the tape's test card frame (the plate reading «КАНАЛ / ГБ»), attached to the
+message:
+
+> телеканал / грёбаный бал / представляет
+
+The lead's reading: «ГБ» stands for «Грёбаный бал», and the clip opens on the
+channel's ident — the test card's plate reads «ТЕЛЕКАНАЛ», «ГРЁБАНЫЙ БАЛ»,
+«ПРЕДСТАВЛЯЕТ» on three lines, each line arriving on one of the intro's
+bar-start hits, before the kids' show begins. The bug in the corner stays «ГБ».
+The slashes are read as line breaks, not as three separate cards.
+
 ## The song
 
 `docs/remove-before-merging/horowo-song-mastering-oia0kq/blind/horowo/mix.mp3`
