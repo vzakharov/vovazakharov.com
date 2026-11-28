@@ -1,15 +1,27 @@
 {
   "total": {
-    "inputTokens": 53,
+    "inputTokens": 59,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 95252,
-    "cacheReadTokens": 3280313,
-    "outputTokens": 17943,
-    "thinkingTokens": 3951,
-    "responses": 27,
-    "costUsd": 0.8885753
+    "cacheWrite1hTokens": 97979,
+    "cacheReadTokens": 3729265,
+    "outputTokens": 20406,
+    "thinkingTokens": 3983,
+    "responses": 30,
+    "costUsd": 0.9690205
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-28T14:51:18.588Z",
+    "subjectLine": "refactor: unused exports and the storyboard sketch dropped",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "Removing a hundred-odd unused names by a linter's list, checking each against its slice and the architecture gates, is careful but routine work for a mid-level developer"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "Edit",
     "endedOn": "docs/plans/horowo-clip.in-progress.md",
@@ -34,18 +46,18 @@
   "url": "https://claude.ai/code/session_01MZoAKAcUSg1fRJ5rpM2h4Q",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T14:26:43.705Z",
-  "lastResponseAt": "2026-11-28T14:43:38.312Z",
+  "lastResponseAt": "2026-11-28T14:44:17.828Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 53,
+    "inputTokens": 59,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 95252,
-    "cacheReadTokens": 3280313,
-    "outputTokens": 17943,
-    "thinkingTokens": 3951,
-    "responses": 27,
-    "costUsd": 0.8885753
+    "cacheWrite1hTokens": 97979,
+    "cacheReadTokens": 3729265,
+    "outputTokens": 20406,
+    "thinkingTokens": 3983,
+    "responses": 30,
+    "costUsd": 0.9690205
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,14 +71,14 @@
   },
   "byRate": {
     "claude-sonnet-5-5/standard": {
-      "inputTokens": 53,
+      "inputTokens": 59,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 95252,
-      "cacheReadTokens": 3280313,
-      "outputTokens": 17943,
-      "thinkingTokens": 3951,
-      "responses": 27,
-      "costUsd": 0.8885753
+      "cacheWrite1hTokens": 97979,
+      "cacheReadTokens": 3729265,
+      "outputTokens": 20406,
+      "thinkingTokens": 3983,
+      "responses": 30,
+      "costUsd": 0.9690205
     }
   },
   "warnings": [],
@@ -82,7 +94,7 @@
   "branchLines": {
     ".md": 985,
     ".json": 169,
-    ".ts": 14018,
+    ".ts": 13687,
     ".tsx": 44,
     ".scss": 12
   }
