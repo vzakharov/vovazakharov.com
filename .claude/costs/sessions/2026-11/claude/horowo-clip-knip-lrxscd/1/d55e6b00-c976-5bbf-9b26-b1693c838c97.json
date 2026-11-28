@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 8,
+    "inputTokens": 53,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 47105,
-    "cacheReadTokens": 345629,
-    "outputTokens": 1233,
-    "thinkingTokens": 96,
-    "responses": 4,
-    "costUsd": 0.23532889999999998
+    "cacheWrite1hTokens": 95252,
+    "cacheReadTokens": 3280313,
+    "outputTokens": 17943,
+    "thinkingTokens": 3951,
+    "responses": 27,
+    "costUsd": 0.8885753
   },
   "estimate": null,
   "orientation": {
@@ -34,18 +34,18 @@
   "url": "https://claude.ai/code/session_01MZoAKAcUSg1fRJ5rpM2h4Q",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T14:26:43.705Z",
-  "lastResponseAt": "2026-11-28T14:26:58.439Z",
+  "lastResponseAt": "2026-11-28T14:43:38.312Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 8,
+    "inputTokens": 53,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 47105,
-    "cacheReadTokens": 345629,
-    "outputTokens": 1233,
-    "thinkingTokens": 96,
-    "responses": 4,
-    "costUsd": 0.23532889999999998
+    "cacheWrite1hTokens": 95252,
+    "cacheReadTokens": 3280313,
+    "outputTokens": 17943,
+    "thinkingTokens": 3951,
+    "responses": 27,
+    "costUsd": 0.8885753
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,14 +59,14 @@
   },
   "byRate": {
     "claude-sonnet-5-5/standard": {
-      "inputTokens": 8,
+      "inputTokens": 53,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 47105,
-      "cacheReadTokens": 345629,
-      "outputTokens": 1233,
-      "thinkingTokens": 96,
-      "responses": 4,
-      "costUsd": 0.23532889999999998
+      "cacheWrite1hTokens": 95252,
+      "cacheReadTokens": 3280313,
+      "outputTokens": 17943,
+      "thinkingTokens": 3951,
+      "responses": 27,
+      "costUsd": 0.8885753
     }
   },
   "warnings": [],
@@ -80,8 +80,7 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 987,
-    ".mjs": 687,
+    ".md": 985,
     ".json": 169,
     ".ts": 14018,
     ".tsx": 44,

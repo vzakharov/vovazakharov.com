@@ -2,7 +2,7 @@ import type { Turned } from '@/kernel/shared/typings';
 
 import type { Point } from '@/clip/shared/ink';
 
-export const HAIRS = ['cap', 'mohawk', 'bald', 'tuft'] as const;
+const HAIRS = ['cap', 'mohawk', 'bald', 'tuft'] as const;
 
 export type Hair = (typeof HAIRS)[number];
 

@@ -1,11 +1,7 @@
 export type { Bounce } from './model/bounce';
 export { bounceAt } from './model/bounce';
-export type { AlphabetBlock } from './ui/block';
 export { alphabetBlock } from './ui/block';
-export type { Cloud } from './ui/cloud';
 export { cloud } from './ui/cloud';
-export type { Hills } from './ui/hills';
 export { rollingHills } from './ui/hills';
-export { BLOCK_PALETTE, MEADOW_PALETTE } from './ui/palette-meadow';
-export type { Sun } from './ui/sun';
+export { MEADOW_PALETTE } from './ui/palette-meadow';
 export { cardboardSun } from './ui/sun';

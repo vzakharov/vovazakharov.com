@@ -1,9 +1,6 @@
 import type { Ranged } from '@/kernel/shared/typings';
 
 import { beatSeconds, type Section, SECTIONS } from '@/clip/shared/score';
-import type { Shot } from '@/clip/shared/timeline';
-
-import { type Look, placeholder } from './placeholder';
 
 /** The section called `name` on the song's map. */
 export function sectionNamed(name: string): Section {
@@ -19,10 +16,4 @@ export function sectionNamed(name: string): Section {
 export const beatsOf = (section: Section, from: number, to: number): Ranged => {
   const beat = beatSeconds(section);
   return { from: section.from + from * beat, to: section.from + to * beat };
-};
-
-/** A card over the whole of the section called `name`, there until a scene takes its entry's place. */
-export const standIn = (name: string, look: Look, seed: number): Shot => {
-  const { from, to } = sectionNamed(name);
-  return { from, to, draw: placeholder(name, look, seed) };
 };

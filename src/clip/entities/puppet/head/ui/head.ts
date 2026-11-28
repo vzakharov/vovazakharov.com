@@ -38,7 +38,7 @@ import {
 import { HEAD_PALETTE, LED_PALETTE } from './palette-head';
 import { swivelled, swivelledPath } from './warp';
 
-export const DEFAULT_LOOK: Look = {
+const DEFAULT_LOOK: Look = {
   jaw: 0,
   gaze: [0, 0],
   brow: 0.4,

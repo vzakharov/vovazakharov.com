@@ -7,7 +7,7 @@ import { forecast, postcardShow, quizBoard, teleshop } from './shows-day';
 import { bunnyCard, newsDesk, stationClock, workout } from './shows-night';
 
 /** The channels in zapping order; `channel(n)` wraps round past the last. */
-export const SHOWS: readonly Show[] = [
+const SHOWS: readonly Show[] = [
   teleshop,
   forecast,
   quizBoard,

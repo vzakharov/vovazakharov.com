@@ -144,7 +144,3 @@ export function earRise(
   const lean = heading(apex, [startX, startY]);
   return { lift: [dx, dy], tilt: lean * Math.min(1, s * 4) };
 }
-
-/** True while the ear of `flight` is still on its head at `playhead`. */
-export const earSeated = (flight: EarFlight, playhead: number): boolean =>
-  playhead < flight.ignites;

@@ -4,10 +4,10 @@ import type { Stroke } from './glyph';
 import { cut, lengthOf, type TextLayout } from './layout';
 
 /** A stretch of a stroke, as fractions of its length from its start. */
-export type Stretch = readonly [number, number];
+type Stretch = readonly [number, number];
 
 /** One time the nail went along a stroke: its own wavering line and ends. */
-export type Pass = {
+type Pass = {
   line: Stroke;
   lineLength: number;
   /** The fresher red one of the bundle; the rest have dried brown. */
@@ -17,7 +17,7 @@ export type Pass = {
 };
 
 /** Where blood gathers under a stroke, and how far it runs when it runs all the way. */
-export type Drip = {
+type Drip = {
   pool: Point;
   dripLength: number;
   /** How far its run bends sideways, in stage units. */
