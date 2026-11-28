@@ -70,7 +70,7 @@ All in the plan with what each beat. The ones a successor would otherwise re-lit
 - **The mp4**: https://github.com/vzakharov/vovazakharov.com/releases/tag/horowo-clip holds `horowo-clip-720p.mp4` (77 MB), re-encoded from the 640 MB 1080p master that `pnpm film:clip` writes to `tmp/clip/horowo--3.2-119.7.mp4` (a vova build, then about half an hour of frames). A newer cut replaces the asset: `gh release upload horowo-clip <file> --clobber`.
 - **Not built**: from the bedroom-ward-ending session's second pass, the bunny seated beside the man in the ward, the globe pull-back staged in clear steps, and breakdown holes that differ on each return. In the pre-bridge only two channels have people who turn to the camera; the rest freeze.
 - **Not run**: `/dry`, `/tend-prose` and `/five-percent` over `src/clip` (the children were told to skip them; the lead left them for a session with more limit). No operator verdict yet on any frame of the scenes.
-- **Sessions**: all fourteen children are archived, their branches merged.
+- **Sessions**: all thirteen children are archived, their branches merged.
 - **The limit**: the week's limit was in its warning zone from 14:25 UTC on 2026-11-28 and resets about 54 hours after that. `pnpm costs` fails on another session's row; read ledger rows off the `cost-ledger` branch directly.
 - **Estimate**: each session's row carries its own part; the lead's is 14 h designer, 6 h developer, 4 h audio-engineer, 8 h producer.
 
