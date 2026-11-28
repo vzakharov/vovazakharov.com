@@ -1,0 +1,156 @@
+{
+  "total": {
+    "inputTokens": 2603,
+    "cacheWrite5mTokens": 165,
+    "cacheWrite1hTokens": 309035,
+    "cacheReadTokens": 17393522,
+    "outputTokens": 89082,
+    "thinkingTokens": 27763,
+    "responses": 103,
+    "costUsd": 7.743861399999999
+  },
+  "estimate": {
+    "at": "2026-11-28T18:02:14.047Z",
+    "subjectLine": "feat: the spoon bunny's back view and its reveal before the bridge",
+    "parts": [
+      {
+        "hours": 7.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "a children's-book look built from procedural shapes, with the horror reveal tuned frame by frame against the stills"
+      },
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "a canvas camera, a paper-card flip and beat-timed motion, all a pure function of the playhead"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-28T17:48:40.463Z",
+    "contextTokens": 145355,
+    "spend": {
+      "inputTokens": 25,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 88264,
+      "cacheReadTokens": 1404780,
+      "outputTokens": 6929,
+      "thinkingTokens": 3596,
+      "responses": 12,
+      "costUsd": 1.1257480000000002
+    }
+  },
+  "sessionId": "98f880cc-455d-504d-bd37-719d55872c30",
+  "branch": "claude/horowo-clip-w3-s-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a `/carte-blanche` run (`.claude/skills/carte-blanche/SKILL.md`): one of nine sessions reworking a code-drawn music video after its o…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCjkzbt3pcNA53MBoo",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T17:47:16.676Z",
+  "lastResponseAt": "2026-11-28T18:05:38.202Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 192,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 309035,
+    "cacheReadTokens": 17130590,
+    "outputTokens": 82790,
+    "thinkingTokens": 27763,
+    "responses": 102,
+    "costUsd": 7.554965999999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 2603,
+      "cacheWrite5mTokens": 165,
+      "cacheWrite1hTokens": 309035,
+      "cacheReadTokens": 17393522,
+      "outputTokens": 89082,
+      "thinkingTokens": 27763,
+      "responses": 103,
+      "costUsd": 7.743861399999999
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-28T18:01:14.217Z",
+      "trigger": "auto",
+      "compactedFrom": 264422,
+      "summaryChars": 14415,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/clip/widgets/spoon-bunny/ui/scene.ts",
+        "endedAt": "2026-11-28T18:01:23.051Z",
+        "contextTokens": 116577,
+        "spend": {
+          "inputTokens": 4,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 62238,
+          "cacheReadTokens": 161522,
+          "outputTokens": 278,
+          "thinkingTokens": 23,
+          "responses": 2,
+          "costUsd": 0.5357844
+        }
+      },
+      "rereads": {
+        "calls": 5,
+        "byTool": {
+          "Read": 5
+        },
+        "estimatedTokens": 660,
+        "estimatedUsd": 0.006996
+      },
+      "billedUsd": 0.1888954
+    }
+  ],
+  "telemetry": {
+    "events": 103,
+    "matched": 102,
+    "matchedTableUsd": 7.554965999999999,
+    "matchedEventUsd": 7.554965999999999,
+    "unseen": {
+      "compact": {
+        "inputTokens": 2411,
+        "cacheWrite5mTokens": 165,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 262932,
+        "outputTokens": 6292,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.1888954
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 30,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1243,
+    ".json": 169,
+    ".ts": 14791,
+    ".tsx": 44,
+    ".scss": 12
+  }
+}
