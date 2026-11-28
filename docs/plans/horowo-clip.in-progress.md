@@ -124,6 +124,9 @@ meadow under the grinning sun, the bunny behind the hill), verbatim:
 > скачут по этому creepy лугу (но конечно это должно перемежаться с выскребанием
 > надписи в дурдоме)
 
+And right after: «врезки группы тоже можно делать» — the band playing live may
+cut in as well.
+
 The lead's reading of the four notes, each its own and open to correction:
 
 1. Every milestone ends committed, pushed and playable from a link: the clip as
@@ -253,7 +256,9 @@ the picture's pace is the drummer's, so it halves when he does.
   together on the half-time snare, smiles a size too wide, serotonin coming down
   like confetti. Between the hops, hard cuts to the ward for a beat or two: a
   fingernail gouging the next strokes of «КАК, СУКА, ХОРОШО» into the paint, the
-  words further along at each return and finished by the chorus's end.
+  words further along at each return and finished by the chorus's end. The third
+  thing in the rotation is the band live in the studio, a bar at a time — three
+  pictures that should not share a song: the meadow, the wall, the gig.
 - **1:00–1:17, pre-bridge, quarter time.** The zapping slows to a crawl instead
   of speeding up: one channel a bar, each held long enough to read, the bunny on
   every one a step nearer the glass. Dread by patience.
