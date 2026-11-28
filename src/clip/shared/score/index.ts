@@ -4,6 +4,12 @@ export { punch } from './hits';
 export { jaw, wordAt } from './jaw';
 export { KICKS } from './kick-data';
 export { pulse } from './pulse';
-export { barSeconds, beatSeconds, sectionAt, SECTIONS } from './sections';
+export {
+  barSeconds,
+  beatSeconds,
+  type Section,
+  sectionAt,
+  SECTIONS,
+} from './sections';
 export { SONG_SECONDS } from './song';
 export { through, within } from './span';
