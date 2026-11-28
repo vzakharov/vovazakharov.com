@@ -1,0 +1,90 @@
+{
+  "total": {
+    "inputTokens": 50,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 102225,
+    "cacheReadTokens": 3201709,
+    "outputTokens": 14985,
+    "thinkingTokens": 3960,
+    "responses": 25,
+    "costUsd": 1.7580418
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "src/clip/widgets/meadow-party/ui/palette-meadow-party.ts",
+    "endedAt": "2026-11-28T11:53:48.028Z",
+    "contextTokens": 140026,
+    "spend": {
+      "inputTokens": 28,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 83783,
+      "cacheReadTokens": 1454851,
+      "outputTokens": 7040,
+      "thinkingTokens": 2932,
+      "responses": 13,
+      "costUsd": 1.1021462000000002
+    }
+  },
+  "sessionId": "bd6506a7-5e2c-5566-80d8-af65e342e621",
+  "branch": "claude/horowo-clip-scenes-a-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are one of three sessions drawing the scenes of a code-drawn music video. You are **package A — the kids' show**: the intro (widget `kids-show`) and the cho…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01MZoAKCYpzFVG8CYLX323qQ",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T11:52:31.022Z",
+  "lastResponseAt": "2026-11-28T11:56:18.040Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 50,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 102225,
+    "cacheReadTokens": 3201709,
+    "outputTokens": 14985,
+    "thinkingTokens": 3960,
+    "responses": 25,
+    "costUsd": 1.7580418
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 50,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 102225,
+      "cacheReadTokens": 3201709,
+      "outputTokens": 14985,
+      "thinkingTokens": 3960,
+      "responses": 25,
+      "costUsd": 1.7580418
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": null,
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 936,
+    ".mjs": 687,
+    ".json": 97,
+    ".ts": 11447,
+    ".tsx": 44,
+    ".scss": 12
+  }
+}
