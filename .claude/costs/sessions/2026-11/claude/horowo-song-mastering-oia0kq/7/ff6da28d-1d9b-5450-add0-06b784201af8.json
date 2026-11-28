@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 109,
+    "inputTokens": 117,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 159524,
-    "cacheReadTokens": 9235398,
-    "outputTokens": 24057,
-    "thinkingTokens": 5394,
-    "responses": 55,
-    "costUsd": 3.6048476
+    "cacheWrite1hTokens": 162353,
+    "cacheReadTokens": 10096231,
+    "outputTokens": 25549,
+    "thinkingTokens": 5444,
+    "responses": 59,
+    "costUsd": 3.8295181999999994
   },
   "estimate": {
     "at": "2026-11-28T09:46:05.055Z",
@@ -54,18 +54,18 @@
   "url": "https://claude.ai/code/session_01MZoAKC113of9r2DZYGUZtU",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T09:45:44.227Z",
-  "lastResponseAt": "2026-11-28T10:03:38.759Z",
+  "lastResponseAt": "2026-11-28T10:07:36.026Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 109,
+    "inputTokens": 117,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 159524,
-    "cacheReadTokens": 9235398,
-    "outputTokens": 24057,
-    "thinkingTokens": 5394,
-    "responses": 55,
-    "costUsd": 3.6048476
+    "cacheWrite1hTokens": 162353,
+    "cacheReadTokens": 10096231,
+    "outputTokens": 25549,
+    "thinkingTokens": 5444,
+    "responses": 59,
+    "costUsd": 3.8295181999999994
   },
   "subagents": {
     "inputTokens": 0,
@@ -79,14 +79,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 109,
+      "inputTokens": 117,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 159524,
-      "cacheReadTokens": 9235398,
-      "outputTokens": 24057,
-      "thinkingTokens": 5394,
-      "responses": 55,
-      "costUsd": 3.6048476
+      "cacheWrite1hTokens": 162353,
+      "cacheReadTokens": 10096231,
+      "outputTokens": 25549,
+      "thinkingTokens": 5444,
+      "responses": 59,
+      "costUsd": 3.8295181999999994
     }
   },
   "warnings": [],
@@ -100,10 +100,10 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".json": -2,
+    ".json": 58,
     ".ts": 698,
     ".css": 259,
-    ".md": 2459,
+    ".md": 3062,
     ".b64": 5,
     ".txt": 176,
     ".tsx": -249,

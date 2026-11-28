@@ -258,12 +258,12 @@ The operator's running order, «давай пока попробуем так»,
   `Грёбаный бал - Метель.flac` — poko is «Метель», not dead-man). horowo and
   pozdno, his own masters winning, got the `.master.mp3` copy and a README
   saying so, and no `mastering/`, since no script made those masters.
-- **Left, in order:**
-  - `music:scaffold`, the page's frontmatter (§ 4–5 billing, album, track),
-    `music:masters tag`. too-late's `hook` is the author's pick, «Новой ночи
-    тлеющий восход», and in `en` «The smouldering dawn of a new night».
-  - The QA unfurl check: build vova and grep `og:audio` in
-    `out/music/songs/<slug>.html`.
+- **Done in relay 7, pages:** the five scaffolded with the agreed words as
+  bodies, tracks per § 5, too-late's hook, unnoticed-things `album: null` with
+  Роман Попов's lyrics credit (a19c5045); the tag run named and tagged them and
+  re-tagged the album-mates whose track count moved; `music:masters check`
+  clean. `pnpm build vova` passes and every page carries `og:type` `music.song`
+  and an `og:audio` MP3 that serves `audio/mpeg`.
 
 ## DRY notes
 
