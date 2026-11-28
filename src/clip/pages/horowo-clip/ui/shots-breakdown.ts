@@ -61,8 +61,9 @@ const BEAT = beatSeconds(BREAKDOWN);
 
 // The song's shape past the slam at 96.1 s, read off the master: two riffs,
 // each followed by a hole where the drums drop to a held chord, then a wash
-// of noise under the last «Хорошо!» (115.92 s, timed from `words.ts`: the
-// vocal stem ends at 89.6 s). The master falls silent at 117.2 s.
+// of noise under the last «Хорошо!». The vocal stem ends at 89.6 s, so the
+// shout is read off the master: the sharpest 400–2500 Hz onset in the wash,
+// its formant near 870 Hz like the chant's. The master falls silent at 117.2 s.
 const HOLE_1 = { from: 103.3, to: 105.523 } as const;
 const HOLE_2 = { from: 112.7, to: 114.724 } as const;
 /** Where the held chord of the second hole changes: his head steps nearer. */
@@ -72,7 +73,7 @@ const DROPOUTS = [
   { from: 97.33, to: 97.51 },
   { from: 106.56, to: 106.75 },
 ] as const;
-const LAST_SHOUT = 115.92;
+const LAST_SHOUT = 115.02;
 const SILENCE = 117.25;
 const FILM_END = SONG_SECONDS + POSTROLL;
 // The pull back's steps in the silence, and the tube going off at the end.
