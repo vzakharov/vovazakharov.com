@@ -9,16 +9,20 @@ The clip is a new app, `clip`, under `scene` and `music`: one pure
 function of the playhead on a Canvas 2D stage, which the page plays
 against the song's audio and `pnpm film:clip` walks frame by frame
 into an mp4. It cuts on the song's own grid, each section with its
-measured tempo and unit of pulse, and the picture runs 3.2 seconds
-before the first note for the channel's ident.
+measured tempo and unit of pulse. The picture runs 13 seconds before
+the first note, for a flicker warning and the channel's ident, whose
+hiss and beeps are one score the page plays live and the film renders
+offline, and 5 seconds past the last, in silence.
 
 The cast is the author's robo-avatar redrawn as an ink-cartoon puppet,
-four of him for the band: the skull half-mask has a hinged jaw, driven
-by the vocal stem, so the mask sings. Against him stands the ghost
-bunny the words take off the wallpaper. Two pictures tell the story
-apart: a worn VHS broadcast of channel «ГБ» for the kids' show, the
+four of him for the band: the skull half-mask has a hinged jaw that
+follows the vocal stem's loudness, so the mask sings. Against him
+stands the ghost bunny the words take off the wallpaper. Two pictures
+tell the story apart: a worn VHS broadcast of channel «ГБ» for the
 gig, the meadow chorus and the channels, and a clean dark frame for
-the bedroom, the ward and the ending.
+the face, the bedroom, the ward and the ending. The sung line is set
+over the picture throughout by one overlay, except where the picture
+letters it itself.
 
 Co-authored-by: Claude <noreply@anthropic.com>
 ```
