@@ -10,7 +10,7 @@ import { box, caption, HEIGHT, lurker, type Show, WIDTH } from './screen';
 const { news, aerobics, clock } = CHANNELS_PALETTE;
 
 /** The news: the anchor behind his desk, the bunny at the window behind him. */
-export const newsDesk: Show = (pen, nearness, since) => {
+export const newsDesk: Show = (pen, nearness, since, stare) => {
   box(pen, news.wall);
   ink(
     pen,
@@ -30,7 +30,14 @@ export const newsDesk: Show = (pen, nearness, since) => {
     place: { x: 330, y: 800, scale: 0.85 },
     pose: 'sing',
     outfit: 'suit',
-    look: { ...FORM_LOOKS.vocal, jaw: jaw(pen.playhead), gaze: [0, 0] },
+    // Reading the autocue off to the side, until he stops and looks out.
+    look: {
+      ...FORM_LOOKS.vocal,
+      jaw: jaw(pen.playhead) * (1 - stare),
+      gaze: [-0.7 * (1 - stare), 0.2 * (1 - stare)],
+      turn: -0.5 * (1 - stare),
+      brow: stare * 0.6,
+    },
     mark: 4000,
   });
   ink(
@@ -60,9 +67,10 @@ export const bunnyCard: Show = (pen, nearness) => {
 };
 
 /** Morning exercises: the puppet in his toy suit jumping jacks, the bunny hopping along. */
-export const workout: Show = (pen, nearness) => {
+export const workout: Show = (pen, nearness, _since, stare) => {
   const { index, fraction } = pulse(pen.playhead);
-  const swing = Math.abs(Math.sin(Math.PI * (index + fraction)));
+  // The jumping jacks die down to a stand as he turns to the camera.
+  const swing = Math.abs(Math.sin(Math.PI * (index + fraction))) * (1 - stare);
   box(pen, aerobics.wall);
   box(pen, aerobics.floor, [0, 520, WIDTH, HEIGHT - 520]);
   box(pen, aerobics.stripe, [0, 510, WIDTH, 14]);
@@ -71,6 +79,13 @@ export const workout: Show = (pen, nearness) => {
     place: { x: 300, y: 640, scale: 0.75 },
     pose: lerpPose(POSES.wide, POSES.cheer, swing),
     outfit: 'toy',
+    look: {
+      ...FORM_LOOKS.vocal,
+      jaw: 0.5 * (1 - stare),
+      gaze: [0.6 * (1 - stare), 0],
+      turn: 0.6 * (1 - stare),
+      brow: stare * 0.7,
+    },
     mark: 5000,
   });
   const drift = Math.max(0, nearness - 0.5) * 0.8;
