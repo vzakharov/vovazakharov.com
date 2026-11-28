@@ -5,7 +5,13 @@ import type { Metadata } from 'next';
 import { getAbsoluteUrl, SITE_CONFIG } from '@/kernel/shared/config';
 import { DEFAULT_LOCALE, type Locale, LOCALES } from '@/kernel/shared/i18n';
 import type { WithOptionalOgImageSize } from '@/kernel/shared/seo';
-import type { MaybeTitled, Routed, Titled } from '@/kernel/shared/typings';
+import type {
+  MaybeTitled,
+  Routed,
+  Timed,
+  Titled,
+  WithAudio,
+} from '@/kernel/shared/typings';
 
 /** A feed a page advertises, by its site-root route. */
 export type FeedLink = Routed & Titled;
@@ -32,15 +38,13 @@ type Addresses = {
  * lets a messenger play the song from a pasted link (iMessage does), so it is
  * the file itself, served as `audio/mpeg`.
  */
-type SongCard = {
-  /** The MP3's absolute URL. */
-  audio: string;
-  seconds: number;
-  /** Site-root paths of the releases it is on. */
-  albums: readonly string[];
-  /** Site-root paths of its billed artists. */
-  musicians: readonly string[];
-};
+type SongCard = WithAudio &
+  Timed & {
+    /** Site-root paths of the releases it is on. */
+    albums: readonly string[];
+    /** Site-root paths of its billed artists. */
+    musicians: readonly string[];
+  };
 
 export type ConstructMetadataParams = MaybeTitled &
   WithOptionalOgImageSize &

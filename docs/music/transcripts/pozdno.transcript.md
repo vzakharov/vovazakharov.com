@@ -1,14 +1,14 @@
 # Transcript: pozdno.mp3
 
-| | |
-| --- | --- |
-| Source | `tmp/pozdno/pozdno.mp3` |
-| Duration | 04:07 |
-| Language | `ru` |
-| Model | `whisper-large-v3` |
-| Second opinion | `gigaam-v3` |
-| Words | 125 |
-| Under 0.7 | 4 of 125 (3%) |
+|                |                         |
+| -------------- | ----------------------- |
+| Source         | `tmp/pozdno/pozdno.mp3` |
+| Duration       | 04:07                   |
+| Language       | `ru`                    |
+| Model          | `whisper-large-v3`      |
+| Second opinion | `gigaam-v3`             |
+| Words          | 125                     |
+| Under 0.7      | 4 of 125 (3%)           |
 
 One line per sentence, timecoded at its start, every word scored under
 0.7 marked `[word?]` where it was said — a place to listen again,

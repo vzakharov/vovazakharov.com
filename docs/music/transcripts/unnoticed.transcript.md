@@ -1,14 +1,14 @@
 # Transcript: unnoticed.mp3
 
-| | |
-| --- | --- |
-| Source | `tmp/vox/unnoticed.mp3` |
-| Duration | 02:51 |
-| Language | `ru` |
-| Model | `whisper-large-v3` |
-| Second opinion | `gigaam-v3` |
-| Words | 398 |
-| Under 0.7 | 9 of 398 (2%) |
+|                |                         |
+| -------------- | ----------------------- |
+| Source         | `tmp/vox/unnoticed.mp3` |
+| Duration       | 02:51                   |
+| Language       | `ru`                    |
+| Model          | `whisper-large-v3`      |
+| Second opinion | `gigaam-v3`             |
+| Words          | 398                     |
+| Under 0.7      | 9 of 398 (2%)           |
 
 One line per sentence, timecoded at its start, every word scored under
 0.7 marked `[word?]` where it was said — a place to listen again,

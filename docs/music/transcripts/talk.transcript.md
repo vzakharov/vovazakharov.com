@@ -1,14 +1,14 @@
 # Transcript: talk.mp3
 
-| | |
-| --- | --- |
-| Source | `tmp/vox/talk.mp3` |
-| Duration | 04:42 |
-| Language | `ru` |
-| Model | `whisper-large-v3` |
-| Second opinion | `gigaam-v3` |
-| Words | 259 |
-| Under 0.7 | 18 of 259 (7%) |
+|                |                    |
+| -------------- | ------------------ |
+| Source         | `tmp/vox/talk.mp3` |
+| Duration       | 04:42              |
+| Language       | `ru`               |
+| Model          | `whisper-large-v3` |
+| Second opinion | `gigaam-v3`        |
+| Words          | 259                |
+| Under 0.7      | 18 of 259 (7%)     |
 
 One line per sentence, timecoded at its start, every word scored under
 0.7 marked `[word?]` where it was said — a place to listen again,

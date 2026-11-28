@@ -1,14 +1,14 @@
 # Transcript: lastsnow.mp3
 
-| | |
-| --- | --- |
-| Source | `tmp/vox/lastsnow.mp3` |
-| Duration | 04:37 |
-| Language | `ru` |
-| Model | `whisper-large-v3` |
-| Second opinion | `gigaam-v3` |
-| Words | 268 |
-| Under 0.7 | 9 of 268 (3%) |
+|                |                        |
+| -------------- | ---------------------- |
+| Source         | `tmp/vox/lastsnow.mp3` |
+| Duration       | 04:37                  |
+| Language       | `ru`                   |
+| Model          | `whisper-large-v3`     |
+| Second opinion | `gigaam-v3`            |
+| Words          | 268                    |
+| Under 0.7      | 9 of 268 (3%)          |
 
 One line per sentence, timecoded at its start, every word scored under
 0.7 marked `[word?]` where it was said — a place to listen again,

@@ -1,14 +1,14 @@
 # Transcript: horowo.mp3
 
-| | |
-| --- | --- |
-| Source | `tmp/vox/horowo.mp3` |
-| Duration | 01:59 |
-| Language | `ru` |
-| Model | `whisper-large-v3` |
-| Second opinion | `gigaam-v3` |
-| Words | 121 |
-| Under 0.7 | 16 of 121 (13%) |
+|                |                      |
+| -------------- | -------------------- |
+| Source         | `tmp/vox/horowo.mp3` |
+| Duration       | 01:59                |
+| Language       | `ru`                 |
+| Model          | `whisper-large-v3`   |
+| Second opinion | `gigaam-v3`          |
+| Words          | 121                  |
+| Under 0.7      | 16 of 121 (13%)      |
 
 One line per sentence, timecoded at its start, every word scored under
 0.7 marked `[word?]` where it was said — a place to listen again,
