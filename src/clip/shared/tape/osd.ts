@@ -35,7 +35,7 @@ export function drawOsd(
   osd: Osd,
   [x, y]: readonly [number, number],
 ): void {
-  const { t } = pen;
+  const { playhead: t } = pen;
   const { deck = 'play', counterFrom = 0, channel, sinceChange } = osd;
   const style = {
     dot: 4,

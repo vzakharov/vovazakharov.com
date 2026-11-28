@@ -59,7 +59,7 @@ export function record(
   scene: Scene,
   { scale, zap, wear, unbranded }: Recording,
 ): HTMLCanvasElement {
-  const { ctx, t } = pen;
+  const { ctx, playhead: t } = pen;
   const state = zapState(zap);
   const luma = buffer(
     ctx,

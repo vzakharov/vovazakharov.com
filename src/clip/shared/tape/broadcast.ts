@@ -27,7 +27,7 @@ export function broadcast(
   scene: Scene,
   options: Broadcast = {},
 ): void {
-  const { ctx, t } = pen;
+  const { ctx, playhead: t } = pen;
   const { wear = 0.3, zap = 1, unbranded = false, osd = {} } = options;
   const frame = frameAt(t);
   const { roll, jitter } = zapState(zap);

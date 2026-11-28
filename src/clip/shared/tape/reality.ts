@@ -11,7 +11,7 @@ const GRAIN_FPS = 24;
  * scales both, `1` by default.
  */
 export function reality(pen: Pen, scene: (pen: Pen) => void, grain = 1): void {
-  const { ctx, t } = pen;
+  const { ctx, playhead: t } = pen;
   ctx.save();
   scene(pen);
   ctx.restore();

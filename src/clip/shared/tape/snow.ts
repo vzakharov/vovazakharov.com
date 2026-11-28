@@ -9,7 +9,7 @@ import { TAPE_PALETTE } from './palette-tape';
  * it, and the dark band of a lost sync rolling down through both.
  */
 export function snow(pen: Pen, alpha = 1): void {
-  const { ctx, t } = pen;
+  const { ctx, playhead: t } = pen;
   const key = reseed(0x51_a7, frameAt(t));
   const whole = [0, 0, SCREEN.width, SCREEN.height] as const;
   ctx.save();
