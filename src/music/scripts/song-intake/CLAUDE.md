@@ -175,10 +175,12 @@ which the songs feeds, downloads and player serve, `<stem>.master.mp3`
 (`ffmpeg -i <stem>.flac -map 0:a -c:a libmp3lame -b:a 320k`), which
 `music:scaffold` reads, and the MP4 rewrap the tag run makes of it, which the
 player plays for a reader asking for lossless — the video where there is one,
-`mastering/` — `master.py`, `spectrum.py` and `requirements.txt` copied from
-here — and a README naming each file, the command that made the master and its
-reference, linked at a commit rather than copied when another repository there
-holds it. `vovas-music/birds` is the pattern.
+and a README naming each file. A master `master.py` made adds `mastering/` —
+`master.py`, `spectrum.py` and `requirements.txt` copied from here — and the
+README gives the command and its reference, linked at a commit rather than
+copied when another repository there holds it; `vovas-music/birds` is the
+pattern. A master the author made by hand, in Reaper, has no script to copy, so
+its README says that instead (`vovas-music/horowo`).
 
 - **Every read and write of these repositories goes through
   `pnpm music:masters`** (`src/music/scripts/masters.ts`, its header the usage),
