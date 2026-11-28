@@ -1,0 +1,113 @@
+{
+  "total": {
+    "inputTokens": 159,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 188547,
+    "cacheReadTokens": 15437272,
+    "outputTokens": 56934,
+    "thinkingTokens": 17484,
+    "responses": 84,
+    "costUsd": 5.7351464000000005
+  },
+  "estimate": {
+    "at": "2026-11-28T17:54:54.350Z",
+    "subjectLine": "feat: a new bedroom picture for each verse line of the clip",
+    "parts": [
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "eight staged shots in a code-drawn room: cameras, room states and new props (waking wallpaper, sweat, summer window) each answering its sung line"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "camera moves locked to kicks and sung-word onsets, judged from motion frames"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-28T17:47:35.667Z",
+    "contextTokens": 128050,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 57626,
+      "cacheReadTokens": 360736,
+      "outputTokens": 1132,
+      "thinkingTokens": 21,
+      "responses": 4,
+      "costUsd": 0.5558272000000001
+    }
+  },
+  "sessionId": "d62e690e-2057-5209-b2fa-1c64e9d615b9",
+  "branch": "claude/horowo-clip-w3-v-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a `/carte-blanche` run (`.claude/skills/carte-blanche/SKILL.md`): one of nine sessions reworking a code-drawn music video after its o…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEJjQAcFRp5rFx4JoG",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T17:47:23.177Z",
+  "lastResponseAt": "2026-11-28T18:11:07.385Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 159,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 188547,
+    "cacheReadTokens": 15437272,
+    "outputTokens": 56934,
+    "thinkingTokens": 17484,
+    "responses": 84,
+    "costUsd": 5.7351464000000005
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 159,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 188547,
+      "cacheReadTokens": 15437272,
+      "outputTokens": 56934,
+      "thinkingTokens": 17484,
+      "responses": 84,
+      "costUsd": 5.7351464000000005
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 84,
+    "matched": 84,
+    "matchedTableUsd": 5.7351464000000005,
+    "matchedEventUsd": 5.735146400000001,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1243,
+    ".json": 169,
+    ".ts": 14240,
+    ".tsx": 44,
+    ".scss": 12
+  }
+}
