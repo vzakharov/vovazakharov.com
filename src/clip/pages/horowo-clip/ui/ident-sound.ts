@@ -66,7 +66,6 @@ export function identSound(
   };
 }
 
-/** The sample rate the film's sound is rendered at. */
 const FILM_RATE = 44_100;
 
 /** The pre-roll's sound from the film's first frame, rendered offline in stereo. */
