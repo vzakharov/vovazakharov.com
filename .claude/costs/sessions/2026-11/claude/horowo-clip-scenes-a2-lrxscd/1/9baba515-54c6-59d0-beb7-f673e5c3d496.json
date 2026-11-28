@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 54,
+    "inputTokens": 65,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 207922,
-    "cacheReadTokens": 3578956,
-    "outputTokens": 17325,
-    "thinkingTokens": 8002,
-    "responses": 28,
-    "costUsd": 2.7258831999999997
+    "cacheWrite1hTokens": 216320,
+    "cacheReadTokens": 4594748,
+    "outputTokens": 21772,
+    "thinkingTokens": 8328,
+    "responses": 34,
+    "costUsd": 3.0852095999999998
   },
   "estimate": null,
   "orientation": {
@@ -34,18 +34,18 @@
   "url": "https://claude.ai/code/session_01MZoAKAhoBGMGL3JbRrRemY",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T12:01:49.224Z",
-  "lastResponseAt": "2026-11-28T14:18:16.749Z",
+  "lastResponseAt": "2026-11-28T14:19:37.764Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 1.647787,
   "ownTurns": {
-    "inputTokens": 54,
+    "inputTokens": 65,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 207922,
-    "cacheReadTokens": 3578956,
-    "outputTokens": 17325,
-    "thinkingTokens": 8002,
-    "responses": 28,
-    "costUsd": 2.7258831999999997
+    "cacheWrite1hTokens": 216320,
+    "cacheReadTokens": 4594748,
+    "outputTokens": 21772,
+    "thinkingTokens": 8328,
+    "responses": 34,
+    "costUsd": 3.0852095999999998
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,14 +59,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 54,
+      "inputTokens": 65,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 207922,
-      "cacheReadTokens": 3578956,
-      "outputTokens": 17325,
-      "thinkingTokens": 8002,
-      "responses": 28,
-      "costUsd": 2.7258831999999997
+      "cacheWrite1hTokens": 216320,
+      "cacheReadTokens": 4594748,
+      "outputTokens": 21772,
+      "thinkingTokens": 8328,
+      "responses": 34,
+      "costUsd": 3.0852095999999998
     }
   },
   "warnings": [],
@@ -83,7 +83,7 @@
     ".md": 976,
     ".mjs": 687,
     ".json": 105,
-    ".ts": 11794,
+    ".ts": 11845,
     ".tsx": 44,
     ".scss": 12
   }
