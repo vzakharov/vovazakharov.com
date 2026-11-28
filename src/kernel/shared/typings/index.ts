@@ -54,6 +54,9 @@ export type Ramped = { from: number };
 /** Where a ramp between two values ends: a halo's farthest reach, a ring's fill. */
 export type Aimed = { to: number };
 
+/** Both ends of a ramp or a stretch: a halo's reach, a shot's time on screen. */
+export type Ranged = Ramped & Aimed;
+
 /** Whether a recording carries the explicit-content mark. */
 export type Rated = { explicit: boolean };
 

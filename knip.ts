@@ -18,6 +18,8 @@ export default {
     // inline and compiles the stylesheet by path.
     'src/board/pages/board/index.ts',
     'src/board/app/styles/board.scss',
+    // `src/clip/scripts/bundle-clip.ts` bundles the clip's player the same way.
+    'src/clip/pages/horowo-clip/index.node-safe.ts',
     // A branch's one-off scripts, run by hand and swept by `/finalize`.
     'docs/remove-before-merging/**/*.ts',
     // Run by `scripts/vet-test.sh`, which hands node the files rather than a
