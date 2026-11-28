@@ -1,0 +1,119 @@
+{
+  "total": {
+    "inputTokens": 63,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 116611,
+    "cacheReadTokens": 4387162,
+    "outputTokens": 22436,
+    "thinkingTokens": 9662,
+    "responses": 32,
+    "costUsd": 2.259292399999999
+  },
+  "estimate": {
+    "at": "2026-11-28T17:47:50.558Z",
+    "subjectLine": "feat: warning card, ident with sound, the film's tail, jaw re-timed",
+    "parts": [
+      {
+        "hours": 7.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "player clock, offline audio render shared by page and film, ffmpeg mixing: engine plumbing that must not drift between the two outputs"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "audio-engineer",
+        "comment": "finding the jaw's offset needs envelope cross-correlation against the stem and the master; designing a quiet hiss and beeps"
+      },
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "designer",
+        "comment": "a warning card that reads as sober, and the ident's pacing"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-28T17:47:26.380Z",
+    "contextTokens": 110822,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 50757,
+      "cacheReadTokens": 346638,
+      "outputTokens": 755,
+      "thinkingTokens": 21,
+      "responses": 4,
+      "costUsd": 0.49051560000000005
+    }
+  },
+  "sessionId": "b0f5822b-12fa-515b-9ae7-677d6fecd080",
+  "branch": "claude/horowo-clip-w3-e-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a `/carte-blanche` run (`.claude/skills/carte-blanche/SKILL.md`): one of nine sessions reworking a code-drawn music video after its o…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEt1PbJUKxAAKQTtgp",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T17:47:15.498Z",
+  "lastResponseAt": "2026-11-28T17:50:58.371Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 63,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 116611,
+    "cacheReadTokens": 4387162,
+    "outputTokens": 22436,
+    "thinkingTokens": 9662,
+    "responses": 32,
+    "costUsd": 2.259292399999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 63,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 116611,
+      "cacheReadTokens": 4387162,
+      "outputTokens": 22436,
+      "thinkingTokens": 9662,
+      "responses": 32,
+      "costUsd": 2.259292399999999
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 31,
+    "matched": 31,
+    "matchedTableUsd": 2.1966685999999993,
+    "matchedEventUsd": 2.1966685999999997,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1243,
+    ".json": 169,
+    ".ts": 13716,
+    ".tsx": 44,
+    ".scss": 12
+  }
+}
