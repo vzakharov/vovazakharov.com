@@ -221,26 +221,48 @@ The lead is `session_01MZoAKCKwqeVGKcCw6iKKPs` on `claude/horowo-clip-lrxscd`.
 The sketch the storyboard was drawn with is committed for the children to port
 from, under `docs/remove-before-merging/horowo-clip-lrxscd/sketch/`.
 
-Wave 1, started 2026-11-28, each on its own branch off the lead's:
+The lead landed the drawing kit itself, `src/clip/shared/ink` (`Pen`, `ink`,
+`limb`, `at`, `path`, `polygon`, `ellipse`, `rng`, `noise`, `INK_PALETTE`,
+`STAGE`), before anyone started, so no two packages write it twice. A child that
+needs more adds a new file there and one export line.
 
-- **engine**, Opus, `claude/horowo-clip-engine-lrxscd` — the app skeleton and
-  its MASD wiring, the drawing kit `src/clip/shared/ink` (pushed first, since
-  the others draw with it), the timeline, the page and its player, the export
-  script, the beat grid and jaw data.
-- **cast**, Fable, `claude/horowo-clip-cast-lrxscd` — the puppet in its four
-  band forms, the bunny, the instruments, the serotonin fall, the scratched
-  lettering and tallies. Flagship because it is the clip's look.
-- **tape**, Opus, `claude/horowo-clip-tape-lrxscd` — the 4:3 tape picture, the
-  channel change, static, the on-screen display, the CRT switching off.
+Wave 1, started 2026-11-28 10:29 UTC from the lead's `71b7bb75`, each on its own
+branch; each reports with one `send_message` to the lead:
 
-Wave 2, once cast is merged: the broadcast scenes, the reality scenes, the pack
-of zapped channels. The lead assembles the timeline and cuts it to the beat.
+- **engine**, Opus, `session_01MZoAKDHpcNax8XmHbMJmAK`,
+  `claude/horowo-clip-engine-lrxscd` — `clip` into vova's parents, the route,
+  the page and its player (`?t=` stills), the timeline with a placeholder card
+  per section, the score (beat grid, word timings, `jaw(t)`, `energy(t)`, the
+  «Хорошо» onsets), the export script `film:clip`. Owns `src/clip/pages`,
+  `src/clip/scripts`, `masd.json`, `package.json`, `knip.ts`.
+- **cast**, Fable, `session_01MZoAKBkF3h1YJyKztvmqtT`,
+  `claude/horowo-clip-cast-lrxscd` — the puppet as a rig of named joints with
+  the hinged jaw, outfits, the four band forms, instruments, playing cycles on a
+  beat phase, a cast sheet. Flagship because it is the clip's look. Owns
+  `src/clip/entities/puppet`.
+- **tape**, Opus, `session_01MZoAKD4RDV89XAtTpvb3py`,
+  `claude/horowo-clip-tape-lrxscd` — the 4:3 tape picture with a `wear` dial,
+  the dot-matrix on-screen display, the channel change, static, the tube
+  switching off, reality's grain and vignette, a test card. Owns
+  `src/clip/shared/tape`.
+- **props**, Opus, `session_01MZoAKBLUod263MnDXVYSWV`,
+  `claude/horowo-clip-props-lrxscd` — the bunny with a nearness dial, its
+  wallpaper and the audience's ears, stroke lettering for the whole alphabet in
+  three renderings (plain, bubble, scratched), the tally wall, the serotonin
+  fall, the snow globe. Split from cast so the two run side by side. Owns
+  `src/clip/entities/bunny`, `src/clip/shared/lettering`.
 
-Session ids go here as each child is created.
+Frames from each arrive as `docs/remove-before-merging/frames/<package>-*.jpg`.
+
+Wave 2, once wave 1 is merged and wired: the broadcast scenes, the reality
+scenes, the pack of zapped channels — sized to the limit left. The lead
+assembles the timeline and cuts it to the beat.
 
 ## Built, in flight, left
 
 - **Built**: the song map; the cast sheet, three storyboard sheets and the
-  second take of the wall.
-- **In flight**: wave 1.
-- **Left**: wave 2, the assembly, the export, the preview.
+  second take of the wall; the drawing kit.
+- **In flight**: wave 1, four children.
+- **Left**: merging and wiring wave 1; the clip as an artifact; wave 2; the
+  assembly; the mp4 as a release asset; merging `main` once PR 240 lands; the
+  30-second vertical story cut, last.
