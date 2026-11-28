@@ -1,0 +1,285 @@
+{
+  "total": {
+    "inputTokens": 737,
+    "cacheWrite5mTokens": 123284,
+    "cacheWrite1hTokens": 1504258,
+    "cacheReadTokens": 77134281,
+    "outputTokens": 381181,
+    "thinkingTokens": 108516,
+    "responses": 375,
+    "costUsd": 54.42974429999998
+  },
+  "estimate": {
+    "at": "2026-11-28T14:27:37.015Z",
+    "subjectLine": "feat: storyboard, direction and assembly of the «Хорошо!» music video",
+    "parts": [
+      {
+        "hours": 14.0,
+        "grade": "senior",
+        "role": "designer",
+        "comment": "Three storyboard variants, the drawing kit, the wall's lettering takes and a director's verdict on every frame; the scenes themselves are booked on the sessions that drew them"
+      },
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "The per-section shot list, the seams wired between packages and the stills harness; the renderer is booked on the engine's session"
+      },
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "audio-engineer",
+        "comment": "Beat grid, section map and vocal onsets that the cuts and the hinged jaw are timed against"
+      },
+      {
+        "hours": 8.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "Briefing, merging and reviewing twelve child sessions across three waves, with the board, the plan and the relay summary kept current"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-28T10:00:32.748Z",
+    "contextTokens": 103983,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 47687,
+      "cacheReadTokens": 149583,
+      "outputTokens": 797,
+      "thinkingTokens": 61,
+      "responses": 2,
+      "costUsd": 0.8248206000000001
+    }
+  },
+  "sessionId": "b78260ef-aea8-5061-a15e-6734fc949216",
+  "branch": "claude/horowo-clip-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/carte-blanche давай снимем клип на песню \"Хорошо!\" из #240 (сам PR пока не доехал, но я думаю скоро доедет. В любом случае, нас интересует для целей этой задач…",
+  "prs": [
+    295
+  ],
+  "url": "https://claude.ai/code/session_01MZoAKCKwqeVGKcCw6iKKPs",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T10:00:24.182Z",
+  "lastResponseAt": "2026-11-28T16:05:53.551Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": 39.975682099999986,
+  "ownTurns": {
+    "inputTokens": 699,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 1504258,
+    "cacheReadTokens": 75766402,
+    "outputTokens": 364862,
+    "thinkingTokens": 107580,
+    "responses": 359,
+    "costUsd": 53.82148039999998
+  },
+  "subagents": {
+    "inputTokens": 38,
+    "cacheWrite5mTokens": 123284,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1367879,
+    "outputTokens": 16319,
+    "thinkingTokens": 936,
+    "responses": 16,
+    "costUsd": 0.6082639
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 699,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 1504258,
+      "cacheReadTokens": 75766402,
+      "outputTokens": 364862,
+      "thinkingTokens": 107580,
+      "responses": 359,
+      "costUsd": 53.82148039999998
+    },
+    "claude-sonnet-5-5/standard": {
+      "inputTokens": 38,
+      "cacheWrite5mTokens": 123284,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 1367879,
+      "outputTokens": 16319,
+      "thinkingTokens": 936,
+      "responses": 16,
+      "costUsd": 0.6082639
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-28T10:21:56.262Z",
+      "trigger": "auto",
+      "compactedFrom": 304543,
+      "summaryChars": 20988,
+      "reorientation": {
+        "endedBy": "Write",
+        "endedOn": "src/clip/shared/ink/noise.ts",
+        "endedAt": "2026-11-28T10:23:05.068Z",
+        "contextTokens": 143578,
+        "spend": {
+          "inputTokens": 9,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 80194,
+          "cacheReadTokens": 595286,
+          "outputTokens": 6201,
+          "thinkingTokens": 4836,
+          "responses": 5,
+          "costUsd": 1.6502731999999998
+        }
+      },
+      "rereads": {
+        "calls": 1,
+        "byTool": {
+          "Read": 1
+        },
+        "estimatedTokens": 14300,
+        "estimatedUsd": 0.41756000000000004
+      },
+      "billedUsd": null
+    },
+    {
+      "at": "2026-11-28T11:02:20.599Z",
+      "trigger": "auto",
+      "compactedFrom": 303561,
+      "summaryChars": 21832,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "docs/remove-before-merging/review-focus.json",
+        "endedAt": "2026-11-28T11:03:16.492Z",
+        "contextTokens": 150676,
+        "spend": {
+          "inputTokens": 13,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 89653,
+          "cacheReadTokens": 768919,
+          "outputTokens": 3164,
+          "thinkingTokens": 1666,
+          "responses": 6,
+          "costUsd": 1.7148958
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": null
+    },
+    {
+      "at": "2026-11-28T11:43:56.650Z",
+      "trigger": "auto",
+      "compactedFrom": 305133,
+      "summaryChars": 26127,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "docs/remove-before-merging/review-focus.json",
+        "endedAt": "2026-11-28T11:43:58.762Z",
+        "contextTokens": 118332,
+        "spend": {
+          "inputTokens": 0,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 0,
+          "cacheReadTokens": 0,
+          "outputTokens": 0,
+          "thinkingTokens": 0,
+          "responses": 0,
+          "costUsd": 0.0
+        }
+      },
+      "rereads": {
+        "calls": 2,
+        "byTool": {
+          "Read": 1,
+          "Bash": 1
+        },
+        "estimatedTokens": 363,
+        "estimatedUsd": 0.0082038
+      },
+      "billedUsd": null
+    },
+    {
+      "at": "2026-11-28T14:21:47.920Z",
+      "trigger": "auto",
+      "compactedFrom": 304824,
+      "summaryChars": 24403,
+      "reorientation": {
+        "endedBy": "oriented",
+        "endedOn": null,
+        "endedAt": "2026-11-28T14:21:55.487Z",
+        "contextTokens": 128273,
+        "spend": {
+          "inputTokens": 2,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 55473,
+          "cacheReadTokens": 59952,
+          "outputTokens": 30,
+          "thinkingTokens": 0,
+          "responses": 1,
+          "costUsd": 0.9007744
+        }
+      },
+      "rereads": {
+        "calls": 2,
+        "byTool": {
+          "Read": 1,
+          "Bash": 1
+        },
+        "estimatedTokens": 9426,
+        "estimatedUsd": 0.1657746
+      },
+      "billedUsd": null
+    },
+    {
+      "at": "2026-11-28T16:05:29.374Z",
+      "trigger": "auto",
+      "compactedFrom": 304498,
+      "summaryChars": 20673,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "docs/remove-before-merging/horowo-clip-lrxscd/relay-1.md",
+        "endedAt": "2026-11-28T16:05:41.000Z",
+        "contextTokens": 129357,
+        "spend": {
+          "inputTokens": 4,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 63982,
+          "cacheReadTokens": 180404,
+          "outputTokens": 671,
+          "thinkingTokens": 35,
+          "responses": 2,
+          "costUsd": 1.0866648
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": null
+    }
+  ],
+  "telemetry": null,
+  "operatorWords": {
+    "chat": 604,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1007,
+    ".json": 169,
+    ".ts": 13710,
+    ".tsx": 44,
+    ".scss": 12
+  }
+}

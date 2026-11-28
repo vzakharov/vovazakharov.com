@@ -128,6 +128,7 @@ describe('insignificantApps', () => {
           'mushrooms',
           'island',
           'cube',
+          'clip',
           'bible',
           'basilisk',
           'maya',

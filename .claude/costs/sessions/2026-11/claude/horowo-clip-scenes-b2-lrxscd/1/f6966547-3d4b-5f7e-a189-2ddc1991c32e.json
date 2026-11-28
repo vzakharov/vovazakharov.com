@@ -1,0 +1,102 @@
+{
+  "total": {
+    "inputTokens": 59,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 108100,
+    "cacheReadTokens": 4271613,
+    "outputTokens": 19504,
+    "thinkingTokens": 4109,
+    "responses": 31,
+    "costUsd": 2.1094386000000003
+  },
+  "estimate": {
+    "at": "2026-11-28T14:27:24.464Z",
+    "subjectLine": "feat: the pre-bridge creeps to a stop, the gig headbangs",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "designer",
+        "comment": "Turning a fast zap into dread by slowing it, and giving a static band violence, is acting and camera work on finished scenes; an animator's afternoon"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "src/clip/widgets/channels/ui/screen.ts",
+    "endedAt": "2026-11-28T14:18:19.455Z",
+    "contextTokens": 135958,
+    "spend": {
+      "inputTokens": 19,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 81028,
+      "cacheReadTokens": 1020917,
+      "outputTokens": 4267,
+      "thinkingTokens": 2149,
+      "responses": 9,
+      "costUsd": 0.9378234
+    }
+  },
+  "sessionId": "f6966547-3d4b-5f7e-a189-2ddc1991c32e",
+  "branch": "claude/horowo-clip-scenes-b2-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are the second pass over **package B — the gig and the channels** of a code-drawn music video: widgets `src/clip/widgets/gig` and `src/clip/widgets/channels…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01MZoAKE77iQA45nCijhE6AX",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T12:06:21.405Z",
+  "lastResponseAt": "2026-11-28T14:22:14.534Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": 0,
+  "ownTurns": {
+    "inputTokens": 59,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 108100,
+    "cacheReadTokens": 4271613,
+    "outputTokens": 19504,
+    "thinkingTokens": 4109,
+    "responses": 31,
+    "costUsd": 2.1094386000000003
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 59,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 108100,
+      "cacheReadTokens": 4271613,
+      "outputTokens": 19504,
+      "thinkingTokens": 4109,
+      "responses": 31,
+      "costUsd": 2.1094386000000003
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": null,
+  "operatorWords": {
+    "chat": 7,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 976,
+    ".mjs": 687,
+    ".json": 145,
+    ".ts": 13662,
+    ".tsx": 44,
+    ".scss": 12
+  }
+}

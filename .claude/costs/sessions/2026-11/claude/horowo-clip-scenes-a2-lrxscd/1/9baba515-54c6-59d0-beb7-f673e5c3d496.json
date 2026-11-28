@@ -1,0 +1,102 @@
+{
+  "total": {
+    "inputTokens": 69,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 218248,
+    "cacheReadTokens": 4943585,
+    "outputTokens": 23728,
+    "thinkingTokens": 8328,
+    "responses": 36,
+    "costUsd": 3.2095369999999996
+  },
+  "estimate": {
+    "at": "2026-11-28T14:27:22.353Z",
+    "subjectLine": "feat: the chorus meadow escalates and hops with weight",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "designer",
+        "comment": "Reworking timing and acting on existing scenes from a director's notes: an escalation curve, squash and follow-through on a hop, a reframed intro; an animator's afternoon"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "src/clip/entities/meadow/ui/sun.ts",
+    "endedAt": "2026-11-28T12:04:44.239Z",
+    "contextTokens": 144066,
+    "spend": {
+      "inputTokens": 38,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 89286,
+      "cacheReadTokens": 2296559,
+      "outputTokens": 12286,
+      "thinkingTokens": 6619,
+      "responses": 19,
+      "costUsd": 1.4194718
+    }
+  },
+  "sessionId": "9baba515-54c6-59d0-beb7-f673e5c3d496",
+  "branch": "claude/horowo-clip-scenes-a2-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are the second pass over **package A — the kids' show** of a code-drawn music video: the intro (widget `src/clip/widgets/kids-show`) and the chorus meadow (…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01MZoAKAhoBGMGL3JbRrRemY",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T12:01:49.224Z",
+  "lastResponseAt": "2026-11-28T14:20:08.106Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": 1.647787,
+  "ownTurns": {
+    "inputTokens": 69,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 218248,
+    "cacheReadTokens": 4943585,
+    "outputTokens": 23728,
+    "thinkingTokens": 8328,
+    "responses": 36,
+    "costUsd": 3.2095369999999996
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 69,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 218248,
+      "cacheReadTokens": 4943585,
+      "outputTokens": 23728,
+      "thinkingTokens": 8328,
+      "responses": 36,
+      "costUsd": 3.2095369999999996
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": null,
+  "operatorWords": {
+    "chat": 7,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 976,
+    ".mjs": 687,
+    ".json": 105,
+    ".ts": 11910,
+    ".tsx": 44,
+    ".scss": 12
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "total": {
+    "inputTokens": 202,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 362304,
+    "cacheReadTokens": 19277830,
+    "outputTokens": 114482,
+    "thinkingTokens": 34127,
+    "responses": 107,
+    "costUsd": 9.044445999999999
+  },
+  "estimate": {
+    "at": "2026-11-28T10:30:12.537Z",
+    "subjectLine": "feat: the clip's tape — VHS picture, OSD, zapping, static, CRT off",
+    "parts": [
+      {
+        "hours": 14.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "a compositing-only VHS pass that must hold 30 fps on a phone at any device scale, deterministic per frame, is rendering work needing GPU-budget judgement"
+      },
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "the look of worn tape, the channel change and the tube switching off is an art call tuned by eye over contact sheets"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-28T10:30:01.638Z",
+    "contextTokens": 129266,
+    "spend": {
+      "inputTokens": 6,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 65253,
+      "cacheReadTokens": 248758,
+      "outputTokens": 1333,
+      "thinkingTokens": 68,
+      "responses": 3,
+      "costUsd": 0.5984596
+    }
+  },
+  "sessionId": "8c5a4dbb-c3d9-5bbe-94f0-14bc1ce8ecf0",
+  "branch": "claude/horowo-clip-tape-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are one of four child sessions building a code-drawn music video for the song «Хорошо!». A lead session runs the build in the repo's `/carte-blanche` mode a…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01MZoAKD4RDV89XAtTpvb3py",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T10:29:48.798Z",
+  "lastResponseAt": "2026-11-28T10:57:13.086Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 202,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 362304,
+    "cacheReadTokens": 19277830,
+    "outputTokens": 114482,
+    "thinkingTokens": 34127,
+    "responses": 107,
+    "costUsd": 9.044445999999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 202,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 362304,
+      "cacheReadTokens": 19277830,
+      "outputTokens": 114482,
+      "thinkingTokens": 34127,
+      "responses": 107,
+      "costUsd": 9.044445999999999
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-28T10:49:24.337Z",
+      "trigger": "auto",
+      "compactedFrom": 264815,
+      "summaryChars": 20316,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/clip/shared/tape/glyphs.ts",
+        "endedAt": "2026-11-28T10:50:03.345Z",
+        "contextTokens": 138790,
+        "spend": {
+          "inputTokens": 8,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 75169,
+          "cacheReadTokens": 442411,
+          "outputTokens": 1217,
+          "thinkingTokens": 318,
+          "responses": 4,
+          "costUsd": 0.7142062
+        }
+      },
+      "rereads": {
+        "calls": 4,
+        "byTool": {
+          "Read": 4
+        },
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": null
+    }
+  ],
+  "telemetry": null,
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 236,
+    ".mjs": 687,
+    ".json": 23,
+    ".ts": 1845
+  }
+}

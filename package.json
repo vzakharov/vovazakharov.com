@@ -6,6 +6,9 @@
   "scripts": {
     "dev": "scripts/site-task.sh 'next dev'",
     "build": "scripts/site-task.sh --every 'next build'",
+    "film:clip": "scripts/in-site.sh vova tsx --conditions=react-server src/clip/scripts/film-clip.ts",
+    "bundle:clip": "scripts/in-site.sh vova tsx --conditions=react-server src/clip/scripts/bundle-clip.ts",
+    "measure:clip": "scripts/in-site.sh vova tsx --conditions=react-server src/clip/scripts/measure-clip.ts",
     "film:island": "tsx src/island/scripts/film-descent.ts",
     "fit:island": "tsx src/island/scripts/fit-sphere.ts",
     "frame:island": "tsx src/island/scripts/frame-worlds.ts",

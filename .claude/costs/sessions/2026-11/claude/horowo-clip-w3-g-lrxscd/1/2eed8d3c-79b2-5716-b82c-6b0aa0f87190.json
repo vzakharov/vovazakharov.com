@@ -1,0 +1,160 @@
+{
+  "total": {
+    "inputTokens": 3151,
+    "cacheWrite5mTokens": 72,
+    "cacheWrite1hTokens": 345834,
+    "cacheReadTokens": 22552516,
+    "outputTokens": 109498,
+    "thinkingTokens": 31742,
+    "responses": 127,
+    "costUsd": 9.480099200000005
+  },
+  "estimate": {
+    "at": "2026-11-28T17:51:04.114Z",
+    "subjectLine": "feat: violent double-time gig and the rocket-ears storyline",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "a violent camera rig and extreme close-ups cropped from a rig built for full figures need hand-tuned framing per part"
+      },
+      {
+        "hours": 8.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "a five-stage storyline from twitch to fireworks, with sky, smoke and sparks drawn to read at every scale"
+      },
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "the cut list on half-beats and the storyline's progression across returns are pacing judgement"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-28T17:47:25.300Z",
+    "contextTokens": 104270,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 41583,
+      "cacheReadTokens": 53374,
+      "outputTokens": 362,
+      "thinkingTokens": 25,
+      "responses": 1,
+      "costUsd": 0.35058680000000003
+    }
+  },
+  "sessionId": "2eed8d3c-79b2-5716-b82c-6b0aa0f87190",
+  "branch": "claude/horowo-clip-w3-g-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a `/carte-blanche` run (`.claude/skills/carte-blanche/SKILL.md`): one of nine sessions reworking a code-drawn music video after its o…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkFmocUFKMy8SNxisti",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T17:47:18.744Z",
+  "lastResponseAt": "2026-11-28T18:30:37.857Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 239,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 345834,
+    "cacheReadTokens": 22291958,
+    "outputTokens": 101297,
+    "thinkingTokens": 31742,
+    "responses": 126,
+    "costUsd": 9.251959600000005
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 3151,
+      "cacheWrite5mTokens": 72,
+      "cacheWrite1hTokens": 345834,
+      "cacheReadTokens": 22552516,
+      "outputTokens": 109498,
+      "thinkingTokens": 31742,
+      "responses": 127,
+      "costUsd": 9.480099200000005
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-28T18:21:21.598Z",
+      "trigger": "auto",
+      "compactedFrom": 264258,
+      "summaryChars": 17855,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/clip/widgets/gig/model/ear-story.ts",
+        "endedAt": "2026-11-28T18:21:29.713Z",
+        "contextTokens": 121209,
+        "spend": {
+          "inputTokens": 4,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 62237,
+          "cacheReadTokens": 166797,
+          "outputTokens": 573,
+          "thinkingTokens": 329,
+          "responses": 2,
+          "costUsd": 0.5427314
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.2281396
+    }
+  ],
+  "telemetry": {
+    "events": 126,
+    "matched": 125,
+    "matchedTableUsd": 9.171439400000004,
+    "matchedEventUsd": 9.171439400000002,
+    "unseen": {
+      "compact": {
+        "inputTokens": 2912,
+        "cacheWrite5mTokens": 72,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 260558,
+        "outputTokens": 8201,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.2281396
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1243,
+    ".json": 169,
+    ".ts": 14667,
+    ".tsx": 44,
+    ".scss": 12
+  }
+}

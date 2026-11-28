@@ -140,6 +140,26 @@ marks rather than as offers to relay:
 - **The second (350k)** — finish the big thing in flight, and bring the plan
   file current so the session that wakes after compaction can find its place.
 
+## The run can change accounts
+
+The operator, when this account's limit was about to run out mid-run:
+
+> необходимость переноса на новый акк нужно учитывать -- релеи должны быть
+> актуальными
+
+A session on another account reaches none of this one's sessions or artifacts,
+so the branch alone must restart the run:
+
+- **A relay summary is written while the lead is still running**, per
+  `@.claude/skills/relay/SKILL.md` Step 2, and rewritten at every milestone —
+  each merge of a child, each wave started. The lead neither parks nor stops:
+  after `scripts/relay-last-reply.py` it arms its artifact watches again, which
+  is what tells `.claude/hooks/relay-watch-gate.py` the session is live.
+- **Its State names every child by branch first, session second**, with what is
+  pushed and whether it is merged: the successor reads the branch.
+- **Nothing that matters lives only in a session**: a brief's lasting decisions
+  go into the plan, and a board on another account is rebuilt, not reached.
+
 ## This file is the lead's to change
 
 The lead edits this skill as the run teaches it, without asking, on the

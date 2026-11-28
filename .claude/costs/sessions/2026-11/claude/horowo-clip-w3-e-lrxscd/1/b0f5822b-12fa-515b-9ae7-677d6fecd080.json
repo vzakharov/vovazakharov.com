@@ -1,0 +1,182 @@
+{
+  "total": {
+    "inputTokens": 4031,
+    "cacheWrite5mTokens": 278,
+    "cacheWrite1hTokens": 309135,
+    "cacheReadTokens": 21017184,
+    "outputTokens": 77438,
+    "thinkingTokens": 21418,
+    "responses": 115,
+    "costUsd": 8.235010299999997
+  },
+  "estimate": {
+    "at": "2026-11-28T17:47:50.558Z",
+    "subjectLine": "feat: warning card, ident with sound, the film's tail, jaw re-timed",
+    "parts": [
+      {
+        "hours": 7.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "player clock, offline audio render shared by page and film, ffmpeg mixing: engine plumbing that must not drift between the two outputs"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "audio-engineer",
+        "comment": "finding the jaw's offset needs envelope cross-correlation against the stem and the master; designing a quiet hiss and beeps"
+      },
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "designer",
+        "comment": "a warning card that reads as sober, and the ident's pacing"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-28T17:47:26.380Z",
+    "contextTokens": 110822,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 50757,
+      "cacheReadTokens": 346638,
+      "outputTokens": 755,
+      "thinkingTokens": 21,
+      "responses": 4,
+      "costUsd": 0.49051560000000005
+    }
+  },
+  "sessionId": "b0f5822b-12fa-515b-9ae7-677d6fecd080",
+  "branch": "claude/horowo-clip-w3-e-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a `/carte-blanche` run (`.claude/skills/carte-blanche/SKILL.md`): one of nine sessions reworking a code-drawn music video after its o…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEt1PbJUKxAAKQTtgp",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T17:47:15.498Z",
+  "lastResponseAt": "2026-11-28T18:09:43.180Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 219,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 309135,
+    "cacheReadTokens": 20753969,
+    "outputTokens": 70234,
+    "thinkingTokens": 21418,
+    "responses": 113,
+    "costUsd": 8.029429799999997
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 2841,
+      "cacheWrite5mTokens": 278,
+      "cacheWrite1hTokens": 309135,
+      "cacheReadTokens": 21017184,
+      "outputTokens": 77277,
+      "thinkingTokens": 21418,
+      "responses": 114,
+      "costUsd": 8.234810799999996
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1190,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 161,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.00019950000000000002
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-28T18:02:55.824Z",
+      "trigger": "auto",
+      "compactedFrom": 269132,
+      "summaryChars": 16316,
+      "reorientation": {
+        "endedBy": "end_turn",
+        "endedOn": null,
+        "endedAt": "2026-11-28T18:09:20.572Z",
+        "contextTokens": 151359,
+        "spend": {
+          "inputTokens": 23,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 91573,
+          "cacheReadTokens": 1545886,
+          "outputTokens": 5065,
+          "thinkingTokens": 920,
+          "responses": 12,
+          "costUsd": 1.1431531999999998
+        }
+      },
+      "rereads": {
+        "calls": 1,
+        "byTool": {
+          "Read": 1
+        },
+        "estimatedTokens": 144,
+        "estimatedUsd": 0.00144
+      },
+      "billedUsd": 0.20538099999999998
+    }
+  ],
+  "telemetry": {
+    "events": 114,
+    "matched": 112,
+    "matchedTableUsd": 7.981134399999997,
+    "matchedEventUsd": 7.981134399999997,
+    "unseen": {
+      "compact": {
+        "inputTokens": 2622,
+        "cacheWrite5mTokens": 278,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 263215,
+        "outputTokens": 7043,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.20538099999999998
+      },
+      "generate_session_title": {
+        "inputTokens": 1190,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 161,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.00019950000000000002
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 12,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1243,
+    ".json": 169,
+    ".ts": 14122,
+    ".tsx": 44,
+    ".scss": 12
+  }
+}

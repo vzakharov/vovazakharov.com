@@ -1,0 +1,234 @@
+{
+  "total": {
+    "inputTokens": 8609,
+    "cacheWrite5mTokens": 140159,
+    "cacheWrite1hTokens": 829997,
+    "cacheReadTokens": 56141425,
+    "outputTokens": 236874,
+    "thinkingTokens": 56951,
+    "responses": 273,
+    "costUsd": 34.582474000000026
+  },
+  "estimate": {
+    "at": "2026-11-28T17:47:50.964Z",
+    "subjectLine": "feat: lead the clip's third wave after the operator's verdict",
+    "parts": [
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "Fifteen notes cut into nine parallel packages with their seams, each child's frames judged and merged, the film re-shot and published"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "designer",
+        "comment": "Directing calls no child can make alone: how the storylines intercut, where the sung line sits over each merged scene"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "Wiring the storylines into three rotations at merge and running the quality passes over the whole clip app"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-28T17:25:41.497Z",
+    "contextTokens": 111253,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 55562,
+      "cacheReadTokens": 265214,
+      "outputTokens": 1198,
+      "thinkingTokens": 49,
+      "responses": 3,
+      "costUsd": 0.9900188
+    }
+  },
+  "sessionId": "37c6a65b-f83e-578c-8c01-7f9e307f76f5",
+  "branch": "claude/horowo-clip-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/horowo-clip-lrxscd — клип собран целиком с заставкой и лежит в релизе, vet зелёный, ждёт вердикта Вовы",
+  "prs": [
+    295
+  ],
+  "url": "https://claude.ai/code/session_01DaohkFDn2a9kRmU5jM3ctm",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T17:25:22.971Z",
+  "lastResponseAt": "2026-11-28T20:19:13.374Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 491,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 829997,
+    "cacheReadTokens": 53498285,
+    "outputTokens": 193210,
+    "thinkingTokens": 52454,
+    "responses": 254,
+    "costUsd": 31.711937000000013
+  },
+  "subagents": {
+    "inputTokens": 30,
+    "cacheWrite5mTokens": 137273,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 1742268,
+    "outputTokens": 9235,
+    "thinkingTokens": 4497,
+    "responses": 16,
+    "costUsd": 1.2196385999999997
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 8579,
+      "cacheWrite5mTokens": 2886,
+      "cacheWrite1hTokens": 829997,
+      "cacheReadTokens": 54399157,
+      "outputTokens": 227639,
+      "thinkingTokens": 52454,
+      "responses": 257,
+      "costUsd": 33.362835400000016
+    },
+    "claude-opus-5-5/standard": {
+      "inputTokens": 30,
+      "cacheWrite5mTokens": 137273,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 1742268,
+      "outputTokens": 9235,
+      "thinkingTokens": 4497,
+      "responses": 16,
+      "costUsd": 1.2196385999999997
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-28T18:05:13.632Z",
+      "trigger": "auto",
+      "compactedFrom": 305374,
+      "summaryChars": 22604,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "docs/remove-before-merging/horowo-clip-lrxscd/relay-2.md",
+        "endedAt": "2026-11-28T18:06:14.133Z",
+        "contextTokens": 138006,
+        "spend": {
+          "inputTokens": 6,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 73710,
+          "cacheReadTokens": 310038,
+          "outputTokens": 5434,
+          "thinkingTokens": 1980,
+          "responses": 3,
+          "costUsd": 1.4587756
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.5532714
+    },
+    {
+      "at": "2026-11-28T18:20:14.465Z",
+      "trigger": "auto",
+      "compactedFrom": 307055,
+      "summaryChars": 24927,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "docs/remove-before-merging/review-focus.json",
+        "endedAt": "2026-11-28T18:20:55.581Z",
+        "contextTokens": 150477,
+        "spend": {
+          "inputTokens": 15,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 85039,
+          "cacheReadTokens": 860508,
+          "outputTokens": 3030,
+          "thinkingTokens": 1026,
+          "responses": 7,
+          "costUsd": 1.6540455999999997
+        }
+      },
+      "rereads": {
+        "calls": 3,
+        "byTool": {
+          "Read": 3
+        },
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.6010033999999999
+    },
+    {
+      "at": "2026-11-28T19:11:11.565Z",
+      "trigger": "auto",
+      "compactedFrom": 304641,
+      "summaryChars": 19287,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "docs/remove-before-merging/horowo-clip-lrxscd/relay-2.md",
+        "endedAt": "2026-11-28T19:11:28.891Z",
+        "contextTokens": 128763,
+        "spend": {
+          "inputTokens": 6,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 63309,
+          "cacheReadTokens": 306981,
+          "outputTokens": 775,
+          "thinkingTokens": 63,
+          "responses": 3,
+          "costUsd": 1.1053882
+        }
+      },
+      "rereads": {
+        "calls": 1,
+        "byTool": {
+          "Bash": 1
+        },
+        "estimatedTokens": 850,
+        "estimatedUsd": 0.0153
+      },
+      "billedUsd": 0.4966236
+    }
+  ],
+  "telemetry": {
+    "events": 272,
+    "matched": 269,
+    "matchedTableUsd": 32.77484340000002,
+    "matchedEventUsd": 32.77484340000002,
+    "unseen": {
+      "compact": {
+        "inputTokens": 8088,
+        "cacheWrite5mTokens": 2886,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 900872,
+        "outputTokens": 34429,
+        "thinkingTokens": 0,
+        "responses": 3,
+        "costUsd": 1.6508983999999998
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 577,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1707,
+    ".json": 261,
+    ".ts": 19119,
+    ".tsx": 44,
+    ".scss": 12
+  }
+}

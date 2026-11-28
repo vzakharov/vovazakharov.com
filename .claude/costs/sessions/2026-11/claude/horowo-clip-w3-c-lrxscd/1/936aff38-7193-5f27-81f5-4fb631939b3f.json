@@ -1,0 +1,182 @@
+{
+  "total": {
+    "inputTokens": 4261,
+    "cacheWrite5mTokens": 640,
+    "cacheWrite1hTokens": 368043,
+    "cacheReadTokens": 26632404,
+    "outputTokens": 108175,
+    "thinkingTokens": 28915,
+    "responses": 147,
+    "costUsd": 10.4445536
+  },
+  "estimate": {
+    "at": "2026-11-28T17:55:49.603Z",
+    "subjectLine": "feat: chorus break to black, meadow burst, aerobics show rotation",
+    "parts": [
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "cutting a rotation of five storylines onto a song's lines and pulses, and a show's routine that reads in two-count glimpses, is timing-and-feel judgement"
+      },
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "hand-keyed puppet poses for an exercise routine and a camera slam need an eye for silhouette at TV size"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "the shot list is generated from the score's pulses and kicks, with a pool another session extends"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-28T17:47:25.927Z",
+    "contextTokens": 103652,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 40980,
+      "cacheReadTokens": 53374,
+      "outputTokens": 349,
+      "thinkingTokens": 21,
+      "responses": 1,
+      "costUsd": 0.3455028
+    }
+  },
+  "sessionId": "936aff38-7193-5f27-81f5-4fb631939b3f",
+  "branch": "claude/horowo-clip-w3-c-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a `/carte-blanche` run (`.claude/skills/carte-blanche/SKILL.md`): one of nine sessions reworking a code-drawn music video after its o…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEKgCkjsqiyZ6GhAjg",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T17:47:21.966Z",
+  "lastResponseAt": "2026-11-28T18:16:36.660Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 272,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 368043,
+    "cacheReadTokens": 26372734,
+    "outputTokens": 100893,
+    "thinkingTokens": 28915,
+    "responses": 145,
+    "costUsd": 10.2378388
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 3058,
+      "cacheWrite5mTokens": 640,
+      "cacheWrite1hTokens": 368043,
+      "cacheReadTokens": 26632404,
+      "outputTokens": 107902,
+      "thinkingTokens": 28915,
+      "responses": 146,
+      "costUsd": 10.4442968
+    },
+    "claude-haiku-5-5/standard": {
+      "inputTokens": 1203,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 0,
+      "cacheReadTokens": 0,
+      "outputTokens": 273,
+      "thinkingTokens": 0,
+      "responses": 1,
+      "costUsd": 0.0002568
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-28T18:06:39.429Z",
+      "trigger": "auto",
+      "compactedFrom": 264050,
+      "summaryChars": 15847,
+      "reorientation": {
+        "endedBy": "end_turn",
+        "endedOn": null,
+        "endedAt": "2026-11-28T18:07:29.137Z",
+        "contextTokens": 125977,
+        "spend": {
+          "inputTokens": 6,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 67148,
+          "cacheReadTokens": 298370,
+          "outputTokens": 1582,
+          "thinkingTokens": 80,
+          "responses": 3,
+          "costUsd": 0.628522
+        }
+      },
+      "rereads": {
+        "calls": 1,
+        "byTool": {
+          "Read": 1
+        },
+        "estimatedTokens": 2218,
+        "estimatedUsd": 0.038593199999999994
+      },
+      "billedUsd": 0.206458
+    }
+  ],
+  "telemetry": {
+    "events": 146,
+    "matched": 144,
+    "matchedTableUsd": 10.1754282,
+    "matchedEventUsd": 10.1754282,
+    "unseen": {
+      "compact": {
+        "inputTokens": 2786,
+        "cacheWrite5mTokens": 640,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 259670,
+        "outputTokens": 7009,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.206458
+      },
+      "generate_session_title": {
+        "inputTokens": 1203,
+        "cacheWrite5mTokens": 0,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 0,
+        "outputTokens": 273,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.0002568
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 56,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1269,
+    ".json": 169,
+    ".ts": 14186,
+    ".tsx": 44,
+    ".scss": 12
+  }
+}

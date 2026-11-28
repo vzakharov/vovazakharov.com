@@ -1,0 +1,160 @@
+{
+  "total": {
+    "inputTokens": 4089,
+    "cacheWrite5mTokens": 396,
+    "cacheWrite1hTokens": 343132,
+    "cacheReadTokens": 24480844,
+    "outputTokens": 106879,
+    "thinkingTokens": 34824,
+    "responses": 143,
+    "costUsd": 9.7971408
+  },
+  "estimate": {
+    "at": "2026-11-28T17:47:56.545Z",
+    "subjectLine": "feat: the breakdown as the clip's most violent stretch, the silent end",
+    "parts": [
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "a beat-locked montage engine over every storyline, with tape-chewing stutter and tearing, needs someone fluent in the drawing kit and timing"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "the escalation curve and the hole rhythm are a pacing call over a minute of music"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "the pull-back through window, hospital and globe in clear steps is a camera rig over nested scenes"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-28T17:47:40.631Z",
+    "contextTokens": 110927,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 50823,
+      "cacheReadTokens": 346758,
+      "outputTokens": 772,
+      "thinkingTokens": 44,
+      "responses": 4,
+      "costUsd": 0.4914076
+    }
+  },
+  "sessionId": "a53813ad-5b90-541b-a039-4a36f26cf181",
+  "branch": "claude/horowo-clip-w3-d-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a `/carte-blanche` run (`.claude/skills/carte-blanche/SKILL.md`): one of nine sessions reworking a code-drawn music video after its o…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCAFc8BcycMCugp8qC",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T17:47:31.917Z",
+  "lastResponseAt": "2026-11-28T18:15:19.757Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 266,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 343132,
+    "cacheReadTokens": 24221463,
+    "outputTokens": 97310,
+    "thinkingTokens": 34824,
+    "responses": 142,
+    "costUsd": 9.5366126
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 4089,
+      "cacheWrite5mTokens": 396,
+      "cacheWrite1hTokens": 343132,
+      "cacheReadTokens": 24480844,
+      "outputTokens": 106879,
+      "thinkingTokens": 34824,
+      "responses": 143,
+      "costUsd": 9.7971408
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-28T18:06:27.044Z",
+      "trigger": "auto",
+      "compactedFrom": 263800,
+      "summaryChars": 22289,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/clip/widgets/ending/ui/hospital.ts",
+        "endedAt": "2026-11-28T18:06:28.504Z",
+        "contextTokens": 110620,
+        "spend": {
+          "inputTokens": 0,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 0,
+          "cacheReadTokens": 0,
+          "outputTokens": 0,
+          "thinkingTokens": 0,
+          "responses": 0,
+          "costUsd": 0.0
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.2605282
+    }
+  ],
+  "telemetry": {
+    "events": 142,
+    "matched": 141,
+    "matchedTableUsd": 9.468443,
+    "matchedEventUsd": 9.468443,
+    "unseen": {
+      "compact": {
+        "inputTokens": 3823,
+        "cacheWrite5mTokens": 396,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 259381,
+        "outputTokens": 9569,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.2605282
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1243,
+    ".json": 169,
+    ".ts": 14456,
+    ".tsx": 44,
+    ".scss": 12
+  }
+}

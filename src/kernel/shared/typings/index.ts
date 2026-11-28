@@ -54,6 +54,12 @@ export type Ramped = { from: number };
 /** Where a ramp between two values ends: a halo's farthest reach, a ring's fill. */
 export type Aimed = { to: number };
 
+/** Both ends of a ramp or a stretch: a halo's reach, a shot's time on screen. */
+export type Ranged = Ramped & Aimed;
+
+/** How many samples a second a sound holds: a FLAC's stream, a rendered pre-roll. */
+export type SampleRated = { sampleRate: number };
+
 /** Whether a recording carries the explicit-content mark. */
 export type Rated = { explicit: boolean };
 
@@ -65,6 +71,9 @@ export type Turned = { turn: number };
 
 /** What a reproducible random draw starts from: the same seed, the same result. */
 export type Seeded = { seed: number };
+
+/** A box something is scattered across, the same way each time its seed is: a fall of pills, a wall of tallies. */
+export type Strewn = Sized & Partial<Seeded>;
 
 /** A place in a counted series — a meadow, a plate. */
 export type Numbered = { number: number };
