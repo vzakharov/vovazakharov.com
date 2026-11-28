@@ -13,6 +13,14 @@ export const BEDROOM_PALETTE = {
   tvBody: '#2f2d33',
   stand: '#4a3c33',
   night: '#0b0d1e',
-  glow: 'rgba(170, 210, 255, 0.3)',
-  glowEdge: 'rgba(170, 210, 255, 0)',
+  glowEdge: 'rgba(0, 0, 0, 0)',
+  /** The screen's colour as it washes the room, one per quarter in turn. */
+  washes: [
+    'rgba(170, 210, 255, 0.42)',
+    'rgba(255, 120, 190, 0.38)',
+    'rgba(140, 255, 170, 0.34)',
+    'rgba(255, 220, 110, 0.36)',
+  ],
+  /** What the set throws on the wallpaper behind whoever stands in its light. */
+  castShadow: '#140f1c',
 } as const;
