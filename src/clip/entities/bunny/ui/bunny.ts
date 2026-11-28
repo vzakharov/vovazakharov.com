@@ -1,8 +1,7 @@
-import type { Seeded } from '@/kernel/shared/typings';
-
 import {
   at,
   ellipse,
+  type Figure,
   ink,
   INK_PALETTE,
   type InkStyle,
@@ -11,7 +10,6 @@ import {
   type Path,
   path,
   type Pen,
-  type Place,
   type Point,
   polygon,
 } from '@/clip/shared/ink';
@@ -29,9 +27,8 @@ import {
 import { BUNNY_PALETTE } from './palette-bunny';
 
 /** How the bunny is drawn; everything left out follows from `nearness`. */
-export type BunnyDrawing = Place &
-  Partial<BunnyLook> &
-  Partial<Seeded> & {
+export type BunnyDrawing = Figure &
+  Partial<BunnyLook> & {
     /**
      * How near it has come, in `[0, 1]`: size, grin, eyes and glow follow
      * unless set. 0.3 by default. `scale` multiplies the size it gives.

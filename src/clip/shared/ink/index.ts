@@ -1,4 +1,5 @@
 export { clipped } from './clip';
+export type { Figure } from './figure';
 export {
   add,
   clamp,
