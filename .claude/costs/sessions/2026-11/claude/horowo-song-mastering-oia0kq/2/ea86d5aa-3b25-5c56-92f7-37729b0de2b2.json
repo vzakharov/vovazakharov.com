@@ -10,7 +10,8 @@
     "costUsd": 11.960410899999996
   },
   "estimate": {
-    "at": "2026-11-02T06:40:32.001Z",
+    "at": "2026-11-28T10:35:42.814Z",
+    "subjectLine": "feat: N-way blind test of matchering masters for five songs",
     "parts": [
       {
         "hours": 3.0,
@@ -133,5 +134,9 @@
         "costUsd": 0.0004301
       }
     }
-  }
+  },
+  "operatorWords": null,
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": null
 }
