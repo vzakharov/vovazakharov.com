@@ -11,9 +11,10 @@ const { from, to } = PREBRIDGE;
 const zaps = CHANT.filter((t) => within(PREBRIDGE, t) && t > from + 0.2);
 const starts = [from, ...zaps];
 
-// The bunny a step nearer the glass on every channel.
-const nearness = (n: number): number =>
-  0.6 + (0.25 * n) / Math.max(1, starts.length - 1);
+// The bunny a step nearer the glass on every channel, and creeping on through
+// each hold, so the last two channels end with its face on the glass.
+const STEP = 0.3 / Math.max(1, starts.length - 1);
+const nearness = (n: number): number => 0.6 + STEP * n;
 
 // The verse ends on the channel before this one, so the crawl opens on one not yet seen.
 const FIRST_CHANNEL = VERSE_CALLS.length;
@@ -22,5 +23,7 @@ const FIRST_CHANNEL = VERSE_CALLS.length;
 export const PREBRIDGE_SHOTS: readonly Shot[] = starts.map((start, n) => ({
   from: start,
   to: starts[n + 1] ?? to,
-  draw: channel(FIRST_CHANNEL + n, nearness(n)),
+  draw: channel(FIRST_CHANNEL + n, nearness(n), {
+    creep: n >= starts.length - 2 ? 0.25 : STEP,
+  }),
 }));

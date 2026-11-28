@@ -2,6 +2,7 @@
 export const CHANNELS_PALETTE = {
   text: '#fff4c8',
   textShadow: '#120c18',
+  breath: 'rgba(230, 240, 250, 0.28)',
   shop: {
     wall: '#6a1a8a',
     stripe: '#8e2cb0',
