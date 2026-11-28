@@ -1,0 +1,102 @@
+{
+  "total": {
+    "inputTokens": 43,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 92632,
+    "cacheReadTokens": 2690392,
+    "outputTokens": 11347,
+    "thinkingTokens": 1436,
+    "responses": 21,
+    "costUsd": 1.5062464
+  },
+  "estimate": {
+    "at": "2026-11-28T14:20:06.994Z",
+    "subjectLine": "feat: the bedroom lit and shaken by the set",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "a canvas light wash, cast shadows through a layer and a beat-driven camera need rendering judgement"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Edit",
+    "endedOn": "src/clip/widgets/bedroom/ui/palette-bedroom.ts",
+    "endedAt": "2026-11-28T14:18:03.851Z",
+    "contextTokens": 132100,
+    "spend": {
+      "inputTokens": 18,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 78008,
+      "cacheReadTokens": 878418,
+      "outputTokens": 2640,
+      "thinkingTokens": 1075,
+      "responses": 8,
+      "costUsd": 0.8526195999999999
+    }
+  },
+  "sessionId": "206a923a-c0c2-5f24-947c-52a9349c0f2a",
+  "branch": "claude/horowo-clip-scenes-c2-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are the second pass over **package C — the bedroom, the ward and the end** of a code-drawn music video: widgets `src/clip/widgets/bedroom`, `src/clip/widget…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01MZoAKCbfeGhkpE8cgQDcPk",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T12:06:16.195Z",
+  "lastResponseAt": "2026-11-28T14:20:21.055Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": 0,
+  "ownTurns": {
+    "inputTokens": 43,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 92632,
+    "cacheReadTokens": 2690392,
+    "outputTokens": 11347,
+    "thinkingTokens": 1436,
+    "responses": 21,
+    "costUsd": 1.5062464
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 43,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 92632,
+      "cacheReadTokens": 2690392,
+      "outputTokens": 11347,
+      "thinkingTokens": 1436,
+      "responses": 21,
+      "costUsd": 1.5062464
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": null,
+  "operatorWords": {
+    "chat": 7,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 976,
+    ".mjs": 687,
+    ".json": 145,
+    ".ts": 13651,
+    ".tsx": 44,
+    ".scss": 12
+  }
+}
