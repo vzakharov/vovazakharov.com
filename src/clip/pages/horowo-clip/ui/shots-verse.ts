@@ -11,7 +11,7 @@ import {
   wallWakes,
 } from '@/clip/widgets/bedroom';
 import { channel } from '@/clip/widgets/channels';
-import { shoSwelling } from '@/clip/widgets/meadow-party';
+import { horosho } from '@/clip/widgets/meadow-party';
 import { spoonBunny } from '@/clip/widgets/spoon-bunny';
 
 import { sectionNamed } from './stand-in';
@@ -58,7 +58,7 @@ export const VERSE_SHOTS: readonly Shot[] = [
     to: VERSE_TO,
     draw: (pen, local) => {
       soGood(pen, local);
-      shoSwelling(pen, local);
+      horosho(pen, local);
     },
   },
   ...calls,
