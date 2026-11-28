@@ -1,35 +1,35 @@
 {
   "total": {
-    "inputTokens": 264,
+    "inputTokens": 513,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 401619,
-    "cacheReadTokens": 25384805,
-    "outputTokens": 111229,
-    "thinkingTokens": 33972,
-    "responses": 139,
-    "costUsd": 10.515549
+    "cacheWrite1hTokens": 781705,
+    "cacheReadTokens": 50258696,
+    "outputTokens": 230693,
+    "thinkingTokens": 73595,
+    "responses": 272,
+    "costUsd": 20.921291200000006
   },
   "estimate": {
-    "at": "2026-11-28T10:30:19.485Z",
+    "at": "2026-11-28T11:48:44.600Z",
     "subjectLine": "feat: the clip's engine — player page, timeline, score, export script",
     "parts": [
       {
-        "hours": 10.0,
+        "hours": 12.0,
         "grade": "senior",
         "role": "developer",
-        "comment": "a deterministic canvas player, timeline and CDP frame exporter with MASD wiring is senior front-end tooling"
+        "comment": "A deterministic canvas player, timeline, CDP frame exporter, standalone bundle and stand-ins on the tape, with MASD wiring and a section-aware score API, is senior front-end tooling."
       },
       {
-        "hours": 4.0,
+        "hours": 7.0,
         "grade": "senior",
         "role": "audio-engineer",
-        "comment": "beat grid, downbeat, word onsets and a loudness envelope measured from the master"
+        "comment": "Per-section tempo and downbeats, a kick onset picker on an STFT, stem alignment by cross-correlation and loudness envelopes, measured off the master and the vocal stem."
       },
       {
         "hours": 1.0,
         "grade": "middle",
         "role": "qa",
-        "comment": "checking sync of placeholders against the song and the exported mp4"
+        "comment": "Checking sync of placeholders against the song and the exported mp4."
       }
     ],
     "comment": null
@@ -58,18 +58,18 @@
   "url": "https://claude.ai/code/session_01MZoAKDHpcNax8XmHbMJmAK",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:29:46.156Z",
-  "lastResponseAt": "2026-11-28T11:04:15.952Z",
+  "lastResponseAt": "2026-11-28T11:49:05.596Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 264,
+    "inputTokens": 513,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 401619,
-    "cacheReadTokens": 25384805,
-    "outputTokens": 111229,
-    "thinkingTokens": 33972,
-    "responses": 139,
-    "costUsd": 10.515549
+    "cacheWrite1hTokens": 781705,
+    "cacheReadTokens": 50258696,
+    "outputTokens": 230693,
+    "thinkingTokens": 73595,
+    "responses": 272,
+    "costUsd": 20.921291200000006
   },
   "subagents": {
     "inputTokens": 0,
@@ -83,14 +83,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 264,
+      "inputTokens": 513,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 401619,
-      "cacheReadTokens": 25384805,
-      "outputTokens": 111229,
-      "thinkingTokens": 33972,
-      "responses": 139,
-      "costUsd": 10.515549
+      "cacheWrite1hTokens": 781705,
+      "cacheReadTokens": 50258696,
+      "outputTokens": 230693,
+      "thinkingTokens": 73595,
+      "responses": 272,
+      "costUsd": 20.921291200000006
     }
   },
   "warnings": [],
@@ -123,6 +123,68 @@
         "estimatedUsd": 0.0
       },
       "billedUsd": null
+    },
+    {
+      "at": "2026-11-28T11:06:03.484Z",
+      "trigger": "auto",
+      "compactedFrom": 265316,
+      "summaryChars": 17000,
+      "reorientation": {
+        "endedBy": "Write",
+        "endedOn": "src/clip/shared/score/song.ts",
+        "endedAt": "2026-11-28T11:12:25.735Z",
+        "contextTokens": 164668,
+        "spend": {
+          "inputTokens": 30,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 104507,
+          "cacheReadTokens": 2063913,
+          "outputTokens": 9218,
+          "thinkingTokens": 5323,
+          "responses": 15,
+          "costUsd": 1.4333185999999996
+        }
+      },
+      "rereads": {
+        "calls": 1,
+        "byTool": {
+          "Read": 1
+        },
+        "estimatedTokens": 3212,
+        "estimatedUsd": 0.06937920000000002
+      },
+      "billedUsd": null
+    },
+    {
+      "at": "2026-11-28T11:31:53.904Z",
+      "trigger": "auto",
+      "compactedFrom": 263693,
+      "summaryChars": 19599,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/clip/shared/score/jaw.ts",
+        "endedAt": "2026-11-28T11:31:55.645Z",
+        "contextTokens": 116386,
+        "spend": {
+          "inputTokens": 0,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 0,
+          "cacheReadTokens": 0,
+          "outputTokens": 0,
+          "thinkingTokens": 0,
+          "responses": 0,
+          "costUsd": 0.0
+        }
+      },
+      "rereads": {
+        "calls": 3,
+        "byTool": {
+          "Read": 3
+        },
+        "estimatedTokens": 10468,
+        "estimatedUsd": 0.1962632
+      },
+      "billedUsd": null
     }
   ],
   "telemetry": null,
@@ -134,11 +196,13 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 236,
+    ".json": 109,
+    ".ts": 7651,
+    ".css": 259,
+    ".py": 22,
+    ".md": 1687,
     ".mjs": 687,
-    ".json": 28,
-    ".tsx": 33,
-    ".ts": 1855,
+    ".tsx": -207,
     ".scss": 12
   }
 }
