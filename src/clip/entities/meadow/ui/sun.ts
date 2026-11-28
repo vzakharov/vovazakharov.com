@@ -1,5 +1,6 @@
 import {
   at,
+  clipped,
   ellipse,
   type Figure,
   ink,
@@ -98,8 +99,12 @@ export function cardboardSun(pen: Pen, sun: Sun = {}): void {
     for (const side of [-1, 1]) {
       at(pen, { x: side * EYE_X, y: EYE_Y }, () => {
         ink(pen, EYE, { fill: MEADOW_PALETTE.eyeWhite, width: 2.5, seed });
-        at(pen, { x: gx * 3.5, y: gy * 4.5 }, () => {
-          ink(pen, PUPIL, { fill: MEADOW_PALETTE.pupil, stroke: null, seed });
+        // A full gaze puts the pupil against the rim, cut by the eye's edge,
+        // so where the sun looks reads from across the set.
+        clipped(pen, EYE, () => {
+          at(pen, { x: gx * 6, y: gy * 7 }, () => {
+            ink(pen, PUPIL, { fill: MEADOW_PALETTE.pupil, stroke: null, seed });
+          });
         });
       });
       at(pen, { x: side * 26, y: 12 }, () => {
