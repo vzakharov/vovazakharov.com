@@ -66,6 +66,9 @@ export type Turned = { turn: number };
 /** What a reproducible random draw starts from: the same seed, the same result. */
 export type Seeded = { seed: number };
 
+/** A box something is scattered across, the same way each time its seed is: a fall of pills, a wall of tallies. */
+export type Strewn = Sized & Partial<Seeded>;
+
 /** A place in a counted series — a meadow, a plate. */
 export type Numbered = { number: number };
 

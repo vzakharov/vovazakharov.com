@@ -42,7 +42,7 @@ export type BunnyDrawing = Place &
     /** `shadow` is a flat dark silhouette, for casting on a wall. */
     rendering?: 'paper' | 'shadow';
     /** How much it sways and its ears droop and lift; 0 holds it still. */
-    sway?: number;
+    swaying?: number;
     /** Drawn between its paws in the `hold` pose, origin at the held thing's centre. */
     held?: () => void;
     /**
@@ -60,7 +60,7 @@ const BODY = path(
 );
 // The crease down the paper it was cut from.
 const CREASE = path('M -20,140 L 14,240 L -18,350 L 12,460 L -6,560');
-const NOSE = path('M -8,17 L 8,17 L 0,27 Z');
+const BUNNY_NOSE = path('M -8,17 L 8,17 L 0,27 Z');
 const EYE_X = 36;
 const EYE_Y = -5;
 const BUTTON = ellipse([0, 0], 17);
@@ -206,7 +206,7 @@ export function bunny(pen: Pen, drawing: BunnyDrawing = {}): void {
   const {
     nearness = 0.3,
     scale = 1,
-    sway = 1,
+    swaying = 1,
     seed = 0,
     bunnyScale,
     grin,
@@ -233,8 +233,9 @@ export function bunny(pen: Pen, drawing: BunnyDrawing = {}): void {
   const fill = shadow ? BUNNY_PALETTE.shadow : BUNNY_PALETTE.paper;
   const stroke = shadow ? null : INK_PALETTE.ink;
   const phase = noise(seed, 0) * Math.PI;
-  const swing = Math.sin((pen.t / 4.7) * Math.PI * 2 + phase) * sway;
-  const droop = Math.sin((pen.t / 3.1) * Math.PI * 2 + phase * 2) * sway;
+  const swing = Math.sin((pen.playhead / 4.7) * Math.PI * 2 + phase) * swaying;
+  const droop =
+    Math.sin((pen.playhead / 3.1) * Math.PI * 2 + phase * 2) * swaying;
   const place = { x, y, rot, flip, scale: look.bunnyScale * scale };
   inLayer(pen, opacity, (layer) => {
     at(layer, place, () => {
@@ -326,7 +327,7 @@ function drawArm(
 function face(pen: Pen, look: BunnyLook, seed: number): void {
   if (look.eyes === 'glow') glowingEyes(pen, seed);
   else for (const side of [-1, 1]) buttonEye(pen, side * EYE_X, seed);
-  ink(pen, NOSE, { fill: BUNNY_PALETTE.pink, width: 3, seed });
+  ink(pen, BUNNY_NOSE, { fill: BUNNY_PALETTE.pink, width: 3, seed });
   const { lips, gap, stitches } = mouth(look.grin);
   if (look.grin > 0.05) {
     ink(pen, gap, { fill: BUNNY_PALETTE.mouth, width: 4, seed });

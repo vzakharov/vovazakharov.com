@@ -1,5 +1,3 @@
-import type { Seeded } from '@/kernel/shared/typings';
-
 import {
   at,
   ellipse,
@@ -14,21 +12,20 @@ import { AUDIENCE_PALETTE } from './palette-bunny';
 import type { Covering } from './wallpaper';
 
 /** Fills its `area` with the front row at the bottom. */
-export type Audience = Partial<Seeded> &
-  Covering & {
-    /** How many rows, front to back; 3 by default. */
-    rows?: number;
-    /** The front row's head width in stage units; 150 by default. */
-    headWidth?: number;
-  };
+export type Audience = Covering & {
+  /** How many rows, front to back; 3 by default. */
+  rows?: number;
+  /** The front row's head width in stage units; 150 by default. */
+  headWidth?: number;
+};
 
 // A head's back, its centre at the origin, 100 wide.
 const HEAD = ellipse([0, 0], 50, 46);
-const EAR = (side: number): Path =>
+const HEAD_BACK_EAR = (side: number): Path =>
   path(
     `M ${side * 14},-30 C ${side * 10},-90 ${side * 22},-150 ${side * 36},-180 C ${side * 48},-150 ${side * 46},-90 ${side * 34},-26 Z`,
   );
-const EARS = [EAR(-1), EAR(1)];
+const EARS = [HEAD_BACK_EAR(-1), HEAD_BACK_EAR(1)];
 // How much smaller and higher each row back sits than the one before it.
 const RECEDE = 0.72;
 // How long a twitch lasts and how often an ear may twitch, in seconds.
@@ -74,7 +71,7 @@ function rimLit(pen: Pen, shape: Path, seed: number, light: number): void {
 export function studioAudience(pen: Pen, audience: Audience): void {
   const { area, rows = 3, headWidth = 150, seed = 0 } = audience;
   const { x = 0, y = 0, width, height } = area;
-  const { t } = pen;
+  const { playhead } = pen;
   for (let row = rows - 1; row >= 0; row -= 1) {
     const scale = (headWidth / 100) * RECEDE ** row;
     const spacing = 112 * scale;
@@ -84,7 +81,7 @@ export function studioAudience(pen: Pen, audience: Audience): void {
     const fade = 1 - row * 0.25;
     for (let n = 0; n * spacing - spacing <= width; n += 1) {
       const id = row * 1000 + n;
-      const bob = Math.sin(t * 1.3 + noise(seed, id) * 6) * 2;
+      const bob = Math.sin(playhead * 1.3 + noise(seed, id) * 6) * 2;
       const place = {
         x:
           x +
@@ -99,7 +96,7 @@ export function studioAudience(pen: Pen, audience: Audience): void {
         for (const [side, ear] of [-1, 1].map(
           (s, i) => [s, EARS[i]] as const,
         )) {
-          at(pen, { y: -30, rot: earTurn(seed, id, side, t) }, () => {
+          at(pen, { y: -30, rot: earTurn(seed, id, side, playhead) }, () => {
             if (ear) rimLit(pen, ear, id, fade);
           });
         }

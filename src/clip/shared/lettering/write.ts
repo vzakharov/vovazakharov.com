@@ -9,8 +9,8 @@ import {
 import { LETTERING_PALETTE } from './palette-lettering';
 import { traceBoiled } from './trace';
 
-/** Anything a hand puts down stroke by stroke. */
-export type HandDrawn = {
+/** Anything a hand puts down stroke by stroke, and where. */
+export type HandDrawn = Place & {
   /**
    * How much is drawn, in `[0, 1]`: the strokes appear in the order a hand
    * makes them, the last one growing. 1 by default.
@@ -20,7 +20,6 @@ export type HandDrawn = {
 
 /** Text, where it goes, and how far it is written. */
 export type Writing = TextSet &
-  Place &
   HandDrawn & {
     /** The line's width, in cap heights. */
     weight?: number;
@@ -44,7 +43,7 @@ export function writeWith(
 
 /** How one layer of the lettering is stroked. */
 type LayerStyle = {
-  color: string;
+  paint: string;
   /** The line's width in stage units. */
   lineWidth: number;
   /** Which boil: layers sharing one shiver as one. */
@@ -65,7 +64,7 @@ function strokeAll(
   for (const { drawn, glyph } of strokes) {
     traceBoiled(pen, drawn, style.boilSeed + glyph, style.wobble, offset);
   }
-  ctx.strokeStyle = style.color;
+  ctx.strokeStyle = style.paint;
   ctx.lineWidth = style.lineWidth;
   ctx.stroke();
 }
@@ -90,7 +89,7 @@ export function writePlain(
   writeWith(pen, text, writing, (strokes) => {
     roundEnds(pen);
     strokeAll(pen, strokes, {
-      color,
+      paint: color,
       lineWidth: size * weight,
       boilSeed: seed,
       wobble: size * 0.02,
@@ -122,8 +121,8 @@ export function writeBubble(
     roundEnds(pen);
     const drop: [number, number] = [size * 0.07, size * 0.09];
     const style = { lineWidth: width + outline * 2, boilSeed: seed, wobble };
-    strokeAll(pen, strokes, { ...style, color: shadow }, drop);
-    strokeAll(pen, strokes, { ...style, color: INK_PALETTE.ink });
+    strokeAll(pen, strokes, { ...style, paint: shadow }, drop);
+    strokeAll(pen, strokes, { ...style, paint: INK_PALETTE.ink });
     // Letters of one colour go down as one path, each over the outlines of all.
     for (const [index, color] of colors.entries()) {
       const own = strokes.filter(
@@ -131,7 +130,7 @@ export function writeBubble(
       );
       if (own.length > 0)
         strokeAll(pen, own, {
-          color,
+          paint: color,
           lineWidth: width,
           boilSeed: seed,
           wobble,
@@ -143,7 +142,7 @@ export function writeBubble(
       pen,
       strokes,
       {
-        color: LETTERING_PALETTE.bubbleHighlight,
+        paint: LETTERING_PALETTE.bubbleHighlight,
         lineWidth: width * 0.22,
         boilSeed: seed,
         wobble,

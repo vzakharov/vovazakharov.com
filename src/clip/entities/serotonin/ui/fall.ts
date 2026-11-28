@@ -115,17 +115,17 @@ function drawFleck(
 
 /**
  * Serotonin falling like snow: capsules, tablets and flakes at three depths,
- * the far ones small, slow and faint. A pure function of `pen.t` that loops
+ * the far ones small, slow and faint. A pure function of `pen.playhead` that loops
  * every `period` with no seam; `density` adds flecks without moving any.
  */
 export function serotoninFall(pen: Pen, fall: Fall): void {
-  const { ctx, t } = pen;
+  const { ctx, playhead } = pen;
   ctx.save();
   ctx.strokeStyle = SEROTONIN_PALETTE.outline;
   ctx.lineJoin = 'round';
   const solid = ctx.globalAlpha;
   for (const fleck of fallingFlecks(fall)) {
-    const { x, y, angle, fleckSize } = fleckAt(fleck, t, fall);
+    const { x, y, angle, fleckSize } = fleckAt(fleck, playhead, fall);
     ctx.save();
     ctx.globalAlpha = solid * SOLIDITY[fleck.layer];
     ctx.translate(x, y);

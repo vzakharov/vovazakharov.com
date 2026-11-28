@@ -1,4 +1,4 @@
-import type { Angled, Seeded, Sized } from '@/kernel/shared/typings';
+import type { Angled, Strewn } from '@/kernel/shared/typings';
 
 import type { Point as ScenePoint } from '@/scene/shared/lib/plane';
 
@@ -31,15 +31,14 @@ export type Fleck = {
   swayAmount: number;
 };
 
-export type Fall = Partial<Seeded> &
-  Sized & {
-    /** How thick it falls, 0 to 1 of the pool; 0.5 by default. */
-    density?: number;
-    /** Stage units sideways per unit fallen; slants the fall. 0.15 by default. */
-    wind?: number;
-    /** Seconds before the fall repeats exactly; 12 by default. */
-    period?: number;
-  };
+export type Fall = Strewn & {
+  /** How thick it falls, 0 to 1 of the pool; 0.5 by default. */
+  density?: number;
+  /** Stage units sideways per unit fallen; slants the fall. 0.15 by default. */
+  wind?: number;
+  /** Seconds before the fall repeats exactly; 12 by default. */
+  period?: number;
+};
 
 /** Where a fleck is at a moment, and how it is turned. */
 export type FleckState = ScenePoint &

@@ -26,7 +26,7 @@ describe('layOut', () => {
 
   it('scales with the size and centres a line on x = 0', () => {
     const left = layOut('ХО', { letterHeight: 100 });
-    const centred = layOut('ХО', { letterHeight: 100, align: 'center' });
+    const centred = layOut('ХО', { letterHeight: 100, alignment: 'center' });
     const xs = centred.strokes.flatMap(({ points }) => points.map(([x]) => x));
     // A glyph's ink sits a little inside its advance, so the ink is centred
     // to within that margin.

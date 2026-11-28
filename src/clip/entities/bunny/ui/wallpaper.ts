@@ -18,17 +18,18 @@ import { WALLPAPER_PALETTE } from './palette-bunny';
 export type Cell = { column: number; row: number };
 
 /** What a pattern of figures covers: an area of the stage, from the current origin. */
-export type Covering = { area: Sized & { x?: number; y?: number } };
+export type Covering = Partial<Seeded> & {
+  area: Sized & { x?: number; y?: number };
+};
 
-export type Wallpaper = Partial<Seeded> &
-  Covering & {
-    /** One cell's width and height in stage units; 110 by default. */
-    cell?: number;
-    /** Shifts the pattern, as a camera pan does; the hole moves with it. */
-    offset?: Point;
-    /** Where a bunny has come off the wall, leaving its shape in bare plaster. */
-    hole?: Cell;
-  };
+export type Wallpaper = Covering & {
+  /** One cell's width and height in stage units; 110 by default. */
+  cell?: number;
+  /** Shifts the pattern, as a camera pan does; the hole moves with it. */
+  offset?: Point;
+  /** Where a bunny has come off the wall, leaving its shape in bare plaster. */
+  hole?: Cell;
+};
 
 // The tile is rendered at this many pixels per stage unit, so the pattern
 // stays crisp on a canvas scaled up to a phone's pixels.
@@ -65,7 +66,7 @@ function printBunny(
   scale: number,
 ): void {
   const pen = penAt(ctx, 0);
-  bunny(pen, { x, y, bunnyScale: scale, rendering: 'shadow', sway: 0 });
+  bunny(pen, { x, y, bunnyScale: scale, rendering: 'shadow', swaying: 0 });
 }
 
 // Three leaves on a stalk, at 110 units a cell.

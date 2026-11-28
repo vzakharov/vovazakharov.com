@@ -20,7 +20,7 @@ export type TextSet = Partial<Seeded> & {
   /** The height of a capital in stage units. */
   letterHeight: number;
   /** Lines are split on `\n`; each is placed by this against `x = 0`. */
-  align?: 'left' | 'center' | 'right';
+  alignment?: 'left' | 'center' | 'right';
   /** The gap between letters, in cap heights. */
   tracking?: number;
   /** Baseline to baseline, in cap heights. */
@@ -70,7 +70,7 @@ export const lengthOf = (points: Stroke): number => {
 function layOutFresh(text: string, set: TextSet): TextLayout {
   const {
     letterHeight: size,
-    align = 'left',
+    alignment = 'left',
     tracking = 0.16,
     leading = 1.55,
     jitter = 0,
@@ -88,7 +88,9 @@ function layOutFresh(text: string, set: TextSet): TextLayout {
     let lineWidth = -tracking;
     for (const glyph of glyphs) lineWidth += glyph.setWidth + tracking;
     width = Math.max(width, lineWidth * size);
-    let advance = { left: 0, center: -lineWidth / 2, right: -lineWidth }[align];
+    let advance = { left: 0, center: -lineWidth / 2, right: -lineWidth }[
+      alignment
+    ];
     for (const glyph of glyphs) {
       const scale = size * (1 + unsteady() * 0.18);
       const lean = unsteady() * 0.16;

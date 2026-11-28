@@ -1,17 +1,16 @@
-import type { Seeded, Sized } from '@/kernel/shared/typings';
+import type { Strewn } from '@/kernel/shared/typings';
 
 import { noise, type Point, reseed } from '@/clip/shared/ink';
 
 /** A wall of tally marks: the area it covers, and the hand that scratched it. */
-export type TallyWall = Partial<Seeded> &
-  Sized & {
-    /** A mark's height in stage units; 40 by default. */
-    markHeight?: number;
-    /** About one group in this many is in dried blood; 8 by default. */
-    bloodEvery?: number;
-    /** The share of group slots the hand skipped, left bare; 0.05 by default. */
-    skipRate?: number;
-  };
+export type TallyWall = Strewn & {
+  /** A mark's height in stage units; 40 by default. */
+  markHeight?: number;
+  /** About one group in this many is in dried blood; 8 by default. */
+  bloodEvery?: number;
+  /** The share of group slots the hand skipped, left bare; 0.05 by default. */
+  skipRate?: number;
+};
 
 /** One scratch: four uprights then the strike through them make a group. */
 export type TallyMark = {
