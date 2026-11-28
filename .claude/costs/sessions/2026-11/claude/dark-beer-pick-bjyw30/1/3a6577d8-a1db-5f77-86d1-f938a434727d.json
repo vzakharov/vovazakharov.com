@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 4,
+    "inputTokens": 31,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 42396,
-    "cacheReadTokens": 147640,
-    "outputTokens": 1702,
-    "thinkingTokens": 659,
-    "responses": 2,
-    "costUsd": 0.402752
+    "cacheWrite1hTokens": 60521,
+    "cacheReadTokens": 1429565,
+    "outputTokens": 4936,
+    "thinkingTokens": 1014,
+    "responses": 14,
+    "costUsd": 0.868925
   },
   "estimate": {
     "at": "2026-11-28T18:47:21.499Z",
@@ -39,25 +39,25 @@
     }
   },
   "sessionId": "3a6577d8-a1db-5f77-86d1-f938a434727d",
-  "branch": "claude/amazing-cannon-bjyw30",
+  "branch": "claude/dark-beer-pick-bjyw30",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "Какое из этих пив (темные интересуют) «помягче и без привкуса»?",
   "prs": [],
   "url": "https://claude.ai/code/session_01DaohkFWbohNtyfcdt9itcF",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T18:47:17.814Z",
-  "lastResponseAt": "2026-11-28T18:47:29.000Z",
+  "lastResponseAt": "2026-11-28T19:43:10.765Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 4,
+    "inputTokens": 31,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 42396,
-    "cacheReadTokens": 147640,
-    "outputTokens": 1702,
-    "thinkingTokens": 659,
-    "responses": 2,
-    "costUsd": 0.402752
+    "cacheWrite1hTokens": 60521,
+    "cacheReadTokens": 1429565,
+    "outputTokens": 4936,
+    "thinkingTokens": 1014,
+    "responses": 14,
+    "costUsd": 0.868925
   },
   "subagents": {
     "inputTokens": 0,
@@ -71,23 +71,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 4,
+      "inputTokens": 31,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 42396,
-      "cacheReadTokens": 147640,
-      "outputTokens": 1702,
-      "thinkingTokens": 659,
-      "responses": 2,
-      "costUsd": 0.402752
+      "cacheWrite1hTokens": 60521,
+      "cacheReadTokens": 1429565,
+      "outputTokens": 4936,
+      "thinkingTokens": 1014,
+      "responses": 14,
+      "costUsd": 0.868925
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 1,
-    "matched": 1,
-    "matchedTableUsd": 0.36077940000000003,
-    "matchedEventUsd": 0.36077940000000003,
+    "events": 14,
+    "matched": 14,
+    "matchedTableUsd": 0.868925,
+    "matchedEventUsd": 0.868925,
     "unseen": {}
   },
   "operatorWords": {
@@ -97,5 +97,7 @@
   },
   "reviewPosts": {},
   "threadPosts": {},
-  "branchLines": {}
+  "branchLines": {
+    ".md": 86
+  }
 }
