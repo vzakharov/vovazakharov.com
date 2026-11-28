@@ -8,7 +8,7 @@ import {
   rng,
 } from '@/clip/shared/ink';
 
-import { GIG_PALETTE } from './palette-gig';
+import { GIG_PALETTE } from '../../studio';
 
 /** The world the rocket ears fly in, left to right and top to bottom. */
 export const WORLD = { left: -900, right: 1860, top: -1400, bottom: 2900 };

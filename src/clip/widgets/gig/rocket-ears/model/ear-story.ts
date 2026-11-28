@@ -1,3 +1,5 @@
+import type { Zooming } from '@/scene/shared/lib/plane';
+
 import { lerp, mix, type Point } from '@/clip/shared/ink';
 import { SECTIONS, SONG_SECONDS } from '@/clip/shared/score';
 
@@ -6,7 +8,7 @@ import { SECTIONS, SONG_SECONDS } from '@/clip/shared/score';
  * `flight` (0 is its `liftOff`), and the camera looks at `centre` of the
  * world at `zoom`.
  */
-export type Moment = { flight: number; centre: Point; zoom: number };
+export type Moment = Zooming & { flight: number; centre: Point };
 
 /** A moment the story passes `story` seconds into it. */
 type Beat = Moment & { story: number };

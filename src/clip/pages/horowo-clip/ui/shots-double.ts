@@ -1,12 +1,10 @@
-import { beatSeconds } from '@/clip/shared/score';
 import type { Drawing, Shot } from '@/clip/shared/timeline';
 import { gigClose, gigPart, gigWide, rocketEars } from '@/clip/widgets/gig';
 
-import { sectionNamed } from './stand-in';
+import { beatsOf, sectionNamed } from './stand-in';
 
 const DOUBLE = sectionNamed('double time');
 const { from, to } = DOUBLE;
-const HALF = beatSeconds(DOUBLE) / 2;
 
 const wide = gigWide();
 
@@ -40,11 +38,11 @@ const CUTS: ReadonlyArray<readonly [Drawing, number]> = [
 ];
 
 function cuts(): Shot[] {
-  let start = from;
+  let half = 0;
   return CUTS.map(([draw, halves]) => {
-    const shot = { from: start, to: Math.min(to, start + halves * HALF), draw };
-    start = shot.to;
-    return shot;
+    const span = beatsOf(DOUBLE, half / 2, (half + halves) / 2);
+    half += halves;
+    return { ...span, to: Math.min(to, span.to), draw };
   });
 }
 

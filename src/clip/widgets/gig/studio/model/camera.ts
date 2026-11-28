@@ -1,8 +1,10 @@
-import { noise } from '@/clip/shared/ink';
+import type { Zooming } from '@/scene/shared/lib/plane';
+
+import { noise, type Point } from '@/clip/shared/ink';
 import { KICKS, pulse, punch } from '@/clip/shared/score';
 
 /** Where a jerked camera sits against its rest: an offset, a turn in degrees and a zoom. */
-export type Jerk = { dx: number; dy: number; rot: number; zoom: number };
+export type Jerk = Zooming & { shift: Point; rot: number };
 
 /** How hard the camera is thrown about; every field scales one of its motions. */
 export type Violence = {
@@ -54,12 +56,13 @@ export function jerk(
   const lean = (k: number, n: number): number =>
     Math.sign(noise(k, n)) * (0.6 + 0.4 * Math.abs(noise(k, n + 1)));
   return {
-    dx: swing * whipX * 220 + kicked * kickX * 90 + shake * noise(step, 5) * 14,
-    dy:
+    shift: [
+      swing * whipX * 220 + kicked * kickX * 90 + shake * noise(step, 5) * 14,
       swing * whipY * 150 +
-      kicked * kickY * 60 +
-      beat * 34 +
-      shake * noise(step, 6) * 12,
+        kicked * kickY * 60 +
+        beat * 34 +
+        shake * noise(step, 6) * 12,
+    ],
     rot:
       swing * lean(key, 4) * 14 +
       kicked * lean(kickKey, 7) * 7 +

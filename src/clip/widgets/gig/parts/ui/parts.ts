@@ -1,26 +1,32 @@
+import type { Zooming } from '@/scene/shared/lib/plane';
+
 import { at, type Point, smoothstep } from '@/clip/shared/ink';
 import { broadcast, SCREEN } from '@/clip/shared/tape';
 import type { Drawing } from '@/clip/shared/timeline';
 import type { Role } from '@/clip/entities/puppet';
 
-import { GIG_PALETTE } from './palette-gig';
+import {
+  beams,
+  beatsAt,
+  filmed,
+  GIG_PALETTE,
+  playing,
+  wash,
+} from '../../studio';
 import { bootOnPedal } from './pedal';
-import { beatsAt, playing } from './playing';
-import { beams, filmed, wash } from './studio';
 
 const { width, height } = SCREEN;
 
 /**
- * A piece of one player under a hard crop: the point `focus` of the player
+ * A piece of one player under a hard crop: the point `target` of the player
  * (in its own units, from the floor between its soles) put at `anchor` (a
- * share of the picture) and blown up by `zoom`, leaning `tilt` degrees. Over
+ * share of the picture) and blown up by `zoom`, leaning `cant` degrees. Over
  * the shot the framing slides by `drift` stage units and turns by `spin`.
  */
-type Crop = {
+type Crop = Zooming & {
   role: Role;
-  focus: Point;
-  zoom: number;
-  tilt: number;
+  target: Point;
+  cant: number;
   anchor: Point;
   drift?: Point;
   spin?: number;
@@ -29,108 +35,108 @@ type Crop = {
 const CROPS = {
   'guitar neck': {
     role: 'guitar',
-    focus: [130, -350],
+    target: [130, -350],
     zoom: 3.2,
-    tilt: -24,
+    cant: -24,
     anchor: [0.62, 0.45],
     drift: [-120, 40],
   },
   'guitar pick': {
     role: 'guitar',
-    focus: [-10, -275],
+    target: [-10, -275],
     zoom: 3.4,
-    tilt: 18,
+    cant: 18,
     anchor: [0.4, 0.55],
     spin: -8,
   },
   'guitar headstock': {
     role: 'guitar',
-    focus: [215, -410],
+    target: [215, -410],
     zoom: 2.8,
-    tilt: -12,
+    cant: -12,
     anchor: [0.95, 0.25],
     drift: [-900, 260],
     spin: 20,
   },
   'guitar eye': {
     role: 'guitar',
-    focus: [-25, -600],
+    target: [-25, -600],
     zoom: 4.2,
-    tilt: 14,
+    cant: 14,
     anchor: [0.35, 0.42],
   },
   'bass neck': {
     role: 'bass',
-    focus: [190, -355],
+    target: [190, -355],
     zoom: 3,
-    tilt: 20,
+    cant: 20,
     anchor: [0.55, 0.5],
     drift: [80, -40],
   },
   'bass headstock': {
     role: 'bass',
-    focus: [270, -420],
+    target: [270, -420],
     zoom: 2.6,
-    tilt: 28,
+    cant: 28,
     anchor: [0.12, 0.72],
     drift: [820, -300],
     spin: -24,
   },
   'bass pick': {
     role: 'bass',
-    focus: [-20, -270],
+    target: [-20, -270],
     zoom: 3.4,
-    tilt: -16,
+    cant: -16,
     anchor: [0.62, 0.5],
   },
   'vocal jaw': {
     role: 'vocal',
-    focus: [0, -510],
+    target: [0, -510],
     zoom: 3.6,
-    tilt: -10,
+    cant: -10,
     anchor: [0.42, 0.4],
     spin: 6,
   },
   'vocal eye': {
     role: 'vocal',
-    focus: [-50, -620],
+    target: [-50, -620],
     zoom: 4.6,
-    tilt: 22,
+    cant: 22,
     anchor: [0.5, 0.5],
   },
   'vocal mic': {
     role: 'vocal',
-    focus: [-55, -480],
+    target: [-55, -480],
     zoom: 3,
-    tilt: 8,
+    cant: 8,
     anchor: [0.3, 0.62],
   },
   'drums sticks': {
     role: 'drums',
-    focus: [-140, -230],
+    target: [-140, -230],
     zoom: 2.8,
-    tilt: -18,
+    cant: -18,
     anchor: [0.6, 0.5],
   },
   'drums tom': {
     role: 'drums',
-    focus: [150, -230],
+    target: [150, -230],
     zoom: 3,
-    tilt: 16,
+    cant: 16,
     anchor: [0.35, 0.55],
   },
   'drums eye': {
     role: 'drums',
-    focus: [-45, -430],
+    target: [-45, -430],
     zoom: 4.4,
-    tilt: -20,
+    cant: -20,
     anchor: [0.62, 0.4],
   },
   'drums jaw': {
     role: 'drums',
-    focus: [0, -360],
+    target: [0, -360],
     zoom: 3.8,
-    tilt: 12,
+    cant: 12,
     anchor: [0.4, 0.38],
     spin: -6,
   },
@@ -141,18 +147,18 @@ export type Part = keyof typeof CROPS | 'boot';
 
 /** The piece of one player's crop at `p` through its shot. */
 function cropped(pen: Parameters<Drawing>[0], crop: Crop, p: number): void {
-  const { role, focus, zoom, tilt, anchor, drift = [0, 0], spin = 0 } = crop;
+  const { role, target, zoom, cant, anchor, drift = [0, 0], spin = 0 } = crop;
   const slide = smoothstep(0, 1, p);
   at(
     pen,
     {
       x: anchor[0] * width + drift[0] * slide,
       y: anchor[1] * height + drift[1] * slide,
-      rot: tilt + spin * slide,
+      rot: cant + spin * slide,
       scale: zoom,
     },
     () => {
-      playing(pen, role, { x: -focus[0], y: -focus[1] });
+      playing(pen, role, { x: -target[0], y: -target[1] });
     },
   );
 }

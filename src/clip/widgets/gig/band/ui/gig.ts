@@ -5,17 +5,20 @@ import type { Drawing } from '@/clip/shared/timeline';
 import { bunny } from '@/clip/entities/bunny';
 import { type Role, ROLES } from '@/clip/entities/puppet';
 
-import { GIG_PALETTE } from './palette-gig';
-import { beatsAt, type Mood, PLAYER_SEEDS, playing } from './playing';
 import {
   beams,
+  beatsAt,
   type Camera,
   crowd,
   filmed,
+  GIG_PALETTE,
   marquee,
+  type Mood,
+  PLAYER_SEEDS,
+  playing,
   stageFloor,
   wash,
-} from './studio';
+} from '../../studio';
 
 const FLOOR = 560;
 

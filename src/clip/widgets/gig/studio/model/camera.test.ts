@@ -6,7 +6,7 @@ import { KICKS } from '@/clip/shared/score';
 import { type Jerk, jerk } from './camera';
 
 const CUT = 20.5;
-const reach = ({ dx, dy }: Jerk): number => Math.hypot(dx, dy);
+const reach = ({ shift }: Jerk): number => Math.hypot(...shift);
 
 describe('jerk', () => {
   it('lands well off its mark on the cut and settles within half a second', () => {
@@ -23,7 +23,11 @@ describe('jerk', () => {
   });
 
   it('holds still with every motion turned off', () => {
-    const { dx, dy, rot, zoom } = jerk(CUT + 0.1, CUT, {
+    const {
+      shift: [dx, dy],
+      rot,
+      zoom,
+    } = jerk(CUT + 0.1, CUT, {
       whip: 0,
       kick: 0,
       shake: 0,
