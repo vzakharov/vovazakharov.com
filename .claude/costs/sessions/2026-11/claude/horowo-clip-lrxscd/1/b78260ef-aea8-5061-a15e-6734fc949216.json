@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 513,
+    "inputTokens": 517,
     "cacheWrite5mTokens": 123284,
-    "cacheWrite1hTokens": 928194,
-    "cacheReadTokens": 53202092,
-    "outputTokens": 311777,
-    "thinkingTokens": 91134,
-    "responses": 262,
-    "costUsd": 37.6483305
+    "cacheWrite1hTokens": 931091,
+    "cacheReadTokens": 53731824,
+    "outputTokens": 314541,
+    "thinkingTokens": 91673,
+    "responses": 264,
+    "costUsd": 37.9112209
   },
   "estimate": {
     "at": "2026-11-28T10:11:18.592Z",
@@ -66,18 +66,18 @@
   "url": "https://claude.ai/code/session_01MZoAKCKwqeVGKcCw6iKKPs",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:00:24.182Z",
-  "lastResponseAt": "2026-11-28T12:04:09.507Z",
+  "lastResponseAt": "2026-11-28T12:04:33.853Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 475,
+    "inputTokens": 479,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 928194,
-    "cacheReadTokens": 51834213,
-    "outputTokens": 295458,
-    "thinkingTokens": 90198,
-    "responses": 246,
-    "costUsd": 37.040066599999996
+    "cacheWrite1hTokens": 931091,
+    "cacheReadTokens": 52363945,
+    "outputTokens": 298222,
+    "thinkingTokens": 90737,
+    "responses": 248,
+    "costUsd": 37.30295699999999
   },
   "subagents": {
     "inputTokens": 38,
@@ -91,14 +91,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 475,
+      "inputTokens": 479,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 928194,
-      "cacheReadTokens": 51834213,
-      "outputTokens": 295458,
-      "thinkingTokens": 90198,
-      "responses": 246,
-      "costUsd": 37.040066599999996
+      "cacheWrite1hTokens": 931091,
+      "cacheReadTokens": 52363945,
+      "outputTokens": 298222,
+      "thinkingTokens": 90737,
+      "responses": 248,
+      "costUsd": 37.30295699999999
     },
     "claude-sonnet-5-5/standard": {
       "inputTokens": 38,
@@ -201,7 +201,7 @@
           "Bash": 1
         },
         "estimatedTokens": 363,
-        "estimatedUsd": 0.0074052
+        "estimatedUsd": 0.0075504000000000005
       },
       "billedUsd": null
     }
@@ -218,7 +218,7 @@
     ".md": 976,
     ".mjs": 687,
     ".json": 105,
-    ".ts": 13541,
+    ".ts": 13550,
     ".tsx": 44,
     ".scss": 12
   }
