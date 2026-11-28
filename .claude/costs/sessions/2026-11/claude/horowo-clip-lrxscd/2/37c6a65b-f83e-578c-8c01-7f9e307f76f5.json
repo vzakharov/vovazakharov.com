@@ -1,0 +1,107 @@
+{
+  "total": {
+    "inputTokens": 34,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 125139,
+    "cacheReadTokens": 1928693,
+    "outputTokens": 15675,
+    "thinkingTokens": 8186,
+    "responses": 16,
+    "costUsd": 3.0152346
+  },
+  "estimate": {
+    "at": "2026-11-28T17:26:07.215Z",
+    "subjectLine": "docs: pick up the parked clip run and report where it stands",
+    "parts": [
+      {
+        "hours": 0.25,
+        "grade": "senior",
+        "role": "producer",
+        "comment": "Taking over a parked run is a lead's handover read: the summary, the PR and the release checked against the tree, nothing built"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-28T17:25:41.497Z",
+    "contextTokens": 111253,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 55562,
+      "cacheReadTokens": 265214,
+      "outputTokens": 1198,
+      "thinkingTokens": 49,
+      "responses": 3,
+      "costUsd": 0.9900188
+    }
+  },
+  "sessionId": "37c6a65b-f83e-578c-8c01-7f9e307f76f5",
+  "branch": "claude/horowo-clip-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/horowo-clip-lrxscd — клип собран целиком с заставкой и лежит в релизе, vet зелёный, ждёт вердикта Вовы",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkFDn2a9kRmU5jM3ctm",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T17:25:22.971Z",
+  "lastResponseAt": "2026-11-28T17:42:05.151Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 34,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 125139,
+    "cacheReadTokens": 1928693,
+    "outputTokens": 15675,
+    "thinkingTokens": 8186,
+    "responses": 16,
+    "costUsd": 3.0152346
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 34,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 125139,
+      "cacheReadTokens": 1928693,
+      "outputTokens": 15675,
+      "thinkingTokens": 8186,
+      "responses": 16,
+      "costUsd": 3.0152346
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 15,
+    "matched": 15,
+    "matchedTableUsd": 2.649682,
+    "matchedEventUsd": 2.649682,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 426,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1043,
+    ".json": 169,
+    ".ts": 13710,
+    ".tsx": 44,
+    ".scss": 12
+  }
+}

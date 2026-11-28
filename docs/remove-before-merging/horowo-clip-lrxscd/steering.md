@@ -181,3 +181,48 @@ under the band, which stands on the body:
 > Ок
 
 Read as the yes for those two markers and nothing wider.
+
+## The verdict on the first full cut
+
+2026-11-28, about 17:40 UTC, in a new session on another account (the lead is now that session; the first account's sessions and artifacts are out of reach), after watching `horowo-clip-720p.mp4`, verbatim:
+
+> так, ну, во-первых, хорошо! 👍😁
+>
+> а теперь давай что нужно улучшать (и не забудь что всё делалось на другом акке, т.е артефакты, если надо, надо пересобирать):
+> 0- небольшое вступительное слово белым по чёрному, про эпилептикам не смотреть (нормальная фразировка, но не очень длинная)
+> 1- вступление-заставка: можно шип добавить (негромкий) и бип-бип-бип на надписи, всё это держать подольше
+> 2- интро: неправильный фон, должно быть только "лицо" аватара, крупным планом (возможно даже крупнее чем чтоб полностью влезало), на чёрном фоне, на биты можно добавлять в углу какие-то из наших метафор -- солнце, зайчиков, таблетки, кубики, чёрточки. Ещё, движения челюсти не совпадают со словами
+> 3- весь клип должен быть с текстом на экране (именно текущих слов-строчек). не обязательно супер-заметно, но в общем стиле, можно в разных частях экрана, по ситуации
+> 4- дабл-тайм мясо должно быть намного динамичнее и мяснее, дёргающаяся камера, разные части "музыкантов" и пр.
+> 5- сюжету с взлетающими ракетами-ушами уделить больше времени, и его чаще вставлять где в принципе вставляем перемежения
+> 6- куплет -- в принципе ок, но, кажется, сцена с сидящим в кровате слишком засиживается, должно быть какое-то минимальное развитие, камерой или самой сценой.
+> 7- "не сдохнуть бы" -- сломаи на чёрном фоне, чтобы припев с поляной (теперь она появляется впервые) входил неожиданно, и сама поляна появляется на "счастья"
+> 8- "зарядке" из куплета тут тоже уделить больше времени, она прикольна
+> 9- предбридж -- замечаний нет
+> 10- бридж. Идея с засыпанием хорошая, но должно быть больше динамики (постепенный зум на лицо засыпающего при приближающемся кролике), и больше перемежения с сюжетами, возможно немного галлюциногенными (вращение, искажение, зумы), типа такое "предзасыпательное" тревожное состояние
+> 11- перед брейкдауном, где небольшое затизание -- обманчивый фейд ту блек с пульсаццией на "о о о о о"
+> 12- брейкдаун. должно быть супермясо. Намёки на него есть и сейчас, но должно изменяться больше, на битах, можно даже прямо на бочках (мелькание -- в этом месте приветствуется, эпилептиков уже отвадили)
+> 13- на заключительном зайчикее вместо "хорошо" -- "t.me/fknball" (соответственно сверху подпись не надо). заключительный зайчик появляется только на последнем "хорошо!", и потом отдаляется уже под тишину
+> 14- last but not least, новый сюжет для "ложки новой": мы видим зайчика со спины, едящего что-то ложкой из миски. Когда мы приближаемся, он резко поворачивается, и там окровавленные зубы со свисающим изо рта человеческим глазом. Этот reveal однократно перед мелодичным бриджем.
+>
+> на этом аккаунте 77% недельной квоты, так что творим :)
+
+The lead's reading, each its own and open to correction:
+
+0. The film opens on a card before the ident: a short warning in white on black that the clip flickers and is not for people with photosensitive epilepsy. It is part of the pre-roll, so the pre-roll grows.
+1. The ident is held longer and gets sound of its own: a low tape hiss under the snow and three beeps as its lines arrive. So the film's sound is no longer the song alone — the pre-roll has a track, played by the page and muxed into the mp4 from one source.
+2. The intro is no longer the kids' show. It is the puppet's masked face alone on black, in close-up large enough to run off the frame, singing the first stanza; on the bar-start hits one of the clip's own emblems lands in a corner — the cardboard sun, a bunny, pills, letter blocks, tallies. The jaw must move with the words: today it does not, which is a defect in the score (the vocal envelope's offset or smoothing), to be found and fixed, not papered over.
+3. The line being sung is on screen through the whole clip, in the scene's own idiom (the tape's dot face on a broadcast, hand lettering in reality), not loud, placed where the scene leaves room. This overrides the earlier default "words only where the scene has them".
+4. The double-time gig gets far more violent: a jerking camera, extreme close-ups of parts of the players (a fretting hand, sticks, the jaw, an LED eye), cut faster.
+5. The audience's ears lifting off like rockets becomes a storyline of its own: more screen time in the gig, and one of the pictures every intercut rotation draws on.
+6. The verse stays, but the man sitting in bed is held too long without change: the shot develops, by the camera or by the scene.
+7. The chorus's opening «не сдохнуть бы» breaks to black — the lead takes it as the intro's face on black coming back for those words — and the meadow, which the clip has not shown before now, bursts in on «счастья».
+8. The aerobics channel («зарядка») from the verse gets more time in the chorus's rotation too.
+9. The pre-bridge stays as it is.
+10. The bridge keeps the falling asleep, with more movement: a slow zoom onto the sleeper's face as the bunny comes nearer, cut with the clip's other storylines bent as on the edge of sleep — spinning, warped, zoomed.
+11. In the lull before the breakdown, a deceptive fade to black that pulses on the sung «о о о о о».
+12. The breakdown is the most violent stretch: the picture changes on the beats and on the kicks themselves. Flicker is welcome here, so the rule "no full-frame flash faster than three a second" is lifted for the breakdown alone, the warning card having said so.
+13. The last bunny's plaque reads `T.ME/FKNBALL` instead of «ХОРОШО», with no caption above it; the bunny with the globe appears only on the last «Хорошо!» and pulls away in silence, so the film runs on after the song ends.
+14. A new storyline for «Ложка новая с секретом»: the bunny seen from behind, eating from a bowl with a spoon. The camera comes nearer; it snaps round, and its teeth are bloody with a human eye hanging from its mouth. The turn happens once, just before the melodic bridge; before that the back view may recur, nearer each time.
+
+The budget: 77% of this account's week is free, so the third wave is sized to the notes, not to the limit; children still run on Opus.
