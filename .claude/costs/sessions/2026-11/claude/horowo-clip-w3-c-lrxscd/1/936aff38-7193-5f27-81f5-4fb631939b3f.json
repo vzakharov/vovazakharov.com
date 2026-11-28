@@ -1,15 +1,39 @@
 {
   "total": {
-    "inputTokens": 109,
+    "inputTokens": 121,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 156000,
-    "cacheReadTokens": 9428178,
-    "outputTokens": 42222,
-    "thinkingTokens": 17098,
-    "responses": 58,
-    "costUsd": 3.9785115999999996
+    "cacheWrite1hTokens": 169860,
+    "cacheReadTokens": 10923195,
+    "outputTokens": 48443,
+    "thinkingTokens": 18519,
+    "responses": 65,
+    "costUsd": 4.5128629999999985
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-28T17:55:49.603Z",
+    "subjectLine": "feat: chorus break to black, meadow burst, aerobics show rotation",
+    "parts": [
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "cutting a rotation of five storylines onto a song's lines and pulses, and a show's routine that reads in two-count glimpses, is timing-and-feel judgement"
+      },
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "hand-keyed puppet poses for an exercise routine and a camera slam need an eye for silhouette at TV size"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "the shot list is generated from the score's pulses and kicks, with a pool another session extends"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -34,18 +58,18 @@
   "url": "https://claude.ai/code/session_01DaohkEKgCkjsqiyZ6GhAjg",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T17:47:21.966Z",
-  "lastResponseAt": "2026-11-28T17:55:41.668Z",
+  "lastResponseAt": "2026-11-28T18:02:07.399Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 109,
+    "inputTokens": 121,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 156000,
-    "cacheReadTokens": 9428178,
-    "outputTokens": 42222,
-    "thinkingTokens": 17098,
-    "responses": 58,
-    "costUsd": 3.9785115999999996
+    "cacheWrite1hTokens": 169860,
+    "cacheReadTokens": 10923195,
+    "outputTokens": 48443,
+    "thinkingTokens": 18519,
+    "responses": 65,
+    "costUsd": 4.5128629999999985
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,23 +83,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 109,
+      "inputTokens": 121,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 156000,
-      "cacheReadTokens": 9428178,
-      "outputTokens": 42222,
-      "thinkingTokens": 17098,
-      "responses": 58,
-      "costUsd": 3.9785115999999996
+      "cacheWrite1hTokens": 169860,
+      "cacheReadTokens": 10923195,
+      "outputTokens": 48443,
+      "thinkingTokens": 18519,
+      "responses": 65,
+      "costUsd": 4.5128629999999985
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 57,
-    "matched": 57,
-    "matchedTableUsd": 3.9159843999999997,
-    "matchedEventUsd": 3.9159843999999997,
+    "events": 64,
+    "matched": 64,
+    "matchedTableUsd": 4.447319799999999,
+    "matchedEventUsd": 4.447319799999999,
     "unseen": {}
   },
   "operatorWords": {
@@ -88,7 +112,7 @@
   "branchLines": {
     ".md": 1243,
     ".json": 169,
-    ".ts": 13716,
+    ".ts": 13991,
     ".tsx": 44,
     ".scss": 12
   }
