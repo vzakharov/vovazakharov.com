@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 430,
+    "inputTokens": 454,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 666302,
-    "cacheReadTokens": 43656436,
-    "outputTokens": 223929,
-    "thinkingTokens": 59920,
-    "responses": 229,
-    "costUsd": 18.54200319999999
+    "cacheWrite1hTokens": 700012,
+    "cacheReadTokens": 45256980,
+    "outputTokens": 230956,
+    "thinkingTokens": 61397,
+    "responses": 242,
+    "costUsd": 19.272427999999984
   },
   "estimate": {
     "at": "2026-11-28T10:30:15.811Z",
@@ -58,18 +58,18 @@
   "url": "https://claude.ai/code/session_01MZoAKBLUod263MnDXVYSWV",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:29:50.563Z",
-  "lastResponseAt": "2026-11-28T11:31:53.158Z",
+  "lastResponseAt": "2026-11-28T11:34:22.170Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 430,
+    "inputTokens": 454,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 666302,
-    "cacheReadTokens": 43656436,
-    "outputTokens": 223929,
-    "thinkingTokens": 59920,
-    "responses": 229,
-    "costUsd": 18.54200319999999
+    "cacheWrite1hTokens": 700012,
+    "cacheReadTokens": 45256980,
+    "outputTokens": 230956,
+    "thinkingTokens": 61397,
+    "responses": 242,
+    "costUsd": 19.272427999999984
   },
   "subagents": {
     "inputTokens": 0,
@@ -83,14 +83,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 430,
+      "inputTokens": 454,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 666302,
-      "cacheReadTokens": 43656436,
-      "outputTokens": 223929,
-      "thinkingTokens": 59920,
-      "responses": 229,
-      "costUsd": 18.54200319999999
+      "cacheWrite1hTokens": 700012,
+      "cacheReadTokens": 45256980,
+      "outputTokens": 230956,
+      "thinkingTokens": 61397,
+      "responses": 242,
+      "costUsd": 19.272427999999984
     }
   },
   "warnings": [],
@@ -163,19 +163,19 @@
       "compactedFrom": 265331,
       "summaryChars": 18305,
       "reorientation": {
-        "endedBy": null,
-        "endedOn": null,
-        "endedAt": null,
-        "contextTokens": null,
+        "endedBy": "Write",
+        "endedOn": "src/clip/entities/snow-globe/ui/palette-globe.ts",
+        "endedAt": "2026-11-28T11:32:32.647Z",
+        "contextTokens": 127758,
         "spend": {
-          "inputTokens": 2,
+          "inputTokens": 11,
           "cacheWrite5mTokens": 0,
-          "cacheWrite1hTokens": 44954,
-          "cacheReadTokens": 57407,
-          "outputTokens": 416,
-          "thinkingTokens": 32,
-          "responses": 1,
-          "costUsd": 0.3794414
+          "cacheWrite1hTokens": 64730,
+          "cacheReadTokens": 617667,
+          "outputTokens": 2276,
+          "thinkingTokens": 708,
+          "responses": 6,
+          "costUsd": 0.6869374
         }
       },
       "rereads": {
@@ -197,7 +197,7 @@
   "threadPosts": {},
   "branchLines": {
     ".json": 103,
-    ".ts": 9163,
+    ".ts": 9283,
     ".css": 259,
     ".py": 22,
     ".md": 1709,
