@@ -1,3 +1,5 @@
+import type { Sized } from '@/kernel/shared/typings';
+
 import {
   ellipse,
   ink,
@@ -8,27 +10,27 @@ import {
   STAGE,
 } from '@/clip/shared/ink';
 import {
-  barAt,
-  beatAt,
-  CHANT,
   energy,
   jaw,
+  KICKS,
   pulse,
-  VERSE_CALLS,
+  punch,
+  sectionAt,
   wordAt,
 } from '@/clip/shared/score';
+import { broadcast, reality, SCREEN, testCard } from '@/clip/shared/tape';
 import type { Drawing, Local } from '@/clip/shared/timeline';
 
-import { PLACEHOLDER_PALETTE, type Wash, WASHES } from './palette-placeholder';
+import { PLACEHOLDER_PALETTE } from './palette-placeholder';
 
-const { width: W, height: H } = STAGE;
-const MARGIN = 36;
+/** Where a stand-in plays: on the TV, or in the room it stands in. */
+export type Look = 'broadcast' | 'reality';
+
 const FONT = 'system-ui, sans-serif';
-/** How long after an onset a cut lands on the card rings, in seconds. */
-const CUE_SECONDS = 0.2;
-const ONSETS: readonly number[] = [...VERSE_CALLS, ...CHANT];
-/** The column the card's lettering is centred on. */
-const TEXT_X = W / 2 - 60;
+/** How long a cut takes to lock the new channel, in seconds. */
+const ZAP_SECONDS = 0.35;
+/** How fast a pulse's flash fades, in seconds. */
+const FLASH_SECONDS = 0.1;
 
 /** An `x, y, w, h` rectangle as an inkable path. */
 const box = (x: number, y: number, w: number, h: number) =>
@@ -39,11 +41,16 @@ const box = (x: number, y: number, w: number, h: number) =>
     [x, y + h],
   ]);
 
-/** The whole stage under `colour`, `alpha` of the way opaque. */
-function wash({ ctx }: Pen, colour: string, alpha = 1): void {
+/** The whole frame under `colour`, `alpha` of the way opaque. */
+function wash(
+  { ctx }: Pen,
+  { width, height }: Sized,
+  colour: string,
+  alpha = 1,
+): void {
   ctx.globalAlpha = alpha;
   ctx.fillStyle = colour;
-  ctx.fillRect(0, 0, W, H);
+  ctx.fillRect(0, 0, width, height);
   ctx.globalAlpha = 1;
 }
 
@@ -92,8 +99,12 @@ function meter(
 }
 
 /** The mask's mouth: a slot that opens as far as the jaw hangs. */
-function mouth(pen: Pen, open: number): void {
-  ink(pen, ellipse([W - 150, H / 2 + 40], 70, 6 + open * 60), {
+function mouth(
+  pen: Pen,
+  [x, y]: readonly [number, number],
+  open: number,
+): void {
+  ink(pen, ellipse([x, y], 60, 6 + open * 50), {
     fill: PLACEHOLDER_PALETTE.mouth,
     width: 6,
     seed: 7,
@@ -101,59 +112,91 @@ function mouth(pen: Pen, open: number): void {
 }
 
 /**
- * A stand-in for a scene not yet drawn: the section's wash dimmed by the mix's
- * loudness, its name and span in boiling letters, the word being sung, a flash
- * on every beat, a ring on every onset a cut lands on, and meters for the jaw,
- * the loudness and the shot's own progress.
+ * The card's own content on a `frame`-sized picture: a flash on every pulse
+ * of the section, a ring as the kick lands, the shot's title, the section's
+ * name and feel, the pulse's count, the word sung and the shot's span, and
+ * meters for the jaw, the mix's loudness and the shot's progress.
+ */
+function card(pen: Pen, title: string, local: Local, frame: Sized): void {
+  const { playhead: t } = pen;
+  const { width: w, height: h } = frame;
+  const section = sectionAt(t);
+  const beat = pulse(t);
+  const open = jaw(t);
+  const textX = w / 2 - 60;
+  const margin = 28;
+
+  wash(
+    pen,
+    frame,
+    PLACEHOLDER_PALETTE.light,
+    0.35 * Math.exp((-beat.fraction * beat.seconds) / FLASH_SECONDS),
+  );
+  const kick = punch(KICKS, t);
+  ink(
+    pen,
+    box(margin, margin, w - 2 * margin, h - 2 * margin),
+    kick > 0.05
+      ? { stroke: PLACEHOLDER_PALETTE.kick, width: 6 + 18 * kick, seed: 3 }
+      : { width: 6, wobble: 3, seed: 3 },
+  );
+
+  letter(pen, title, [textX, 110], 46, 11);
+  const heading = [...new Set([section.name, section.feel])]
+    .filter((part) => part !== title)
+    .join(' · ');
+  letter(pen, heading, [textX, 170], 26, 12);
+  const word = wordAt(t)?.text;
+  if (word !== undefined) letter(pen, word, [textX, h / 2 + 30], 76, 13);
+  letter(pen, `pulse ${String(beat.index)}`, [textX, h - 150], 26, 14);
+  letter(
+    pen,
+    `${clock(t - local.sinceCut)} – ${clock(t - local.sinceCut + local.seconds)}`,
+    [textX, h - 105],
+    22,
+    15,
+  );
+
+  mouth(pen, [w - 130, h / 2 + 60], open);
+  // Low enough to clear the channel's bug in the picture's corner.
+  meter(pen, [w - 200, 140, 30, 120], open, PLACEHOLDER_PALETTE.mouth, 20);
+  meter(pen, [w - 90, 140, 30, 120], energy(t), PLACEHOLDER_PALETTE.light, 22);
+  meter(
+    pen,
+    [margin + 36, h - margin - 66, 22, 38],
+    local.p,
+    PLACEHOLDER_PALETTE.light,
+    24,
+  );
+}
+
+/**
+ * A stand-in for a scene not yet drawn. On the TV it is a channel: the test
+ * card, dimmed under the stand-in's lettering, tuned in at the cut.
+ * In reality it fills the stage on a wash the mix's loudness dims.
  */
 export const placeholder =
-  (name: string, tone: Wash): Drawing =>
+  (title: string, look: Look, channel: number): Drawing =>
   (pen: Pen, local: Local): void => {
-    const { playhead: t } = pen;
-    const loud = energy(t);
-    const open = jaw(t);
-    wash(pen, WASHES[tone]);
-    wash(pen, INK_PALETTE.ink, 0.7 * (1 - loud));
-
-    const downbeat = Math.abs(barAt(t) - Math.round(barAt(t))) < 0.06;
-    wash(pen, PLACEHOLDER_PALETTE.light, (downbeat ? 0.45 : 0.22) * pulse(t));
-
-    const cued = ONSETS.some((at) => t >= at && t - at < CUE_SECONDS);
-    ink(
+    if (look === 'reality') {
+      reality(pen, (inner) => {
+        wash(inner, STAGE, PLACEHOLDER_PALETTE.reality);
+        wash(inner, STAGE, INK_PALETTE.ink, 0.7 * (1 - energy(inner.playhead)));
+        card(inner, title, local, STAGE);
+      });
+      return;
+    }
+    broadcast(
       pen,
-      box(MARGIN, MARGIN, W - 2 * MARGIN, H - 2 * MARGIN),
-      cued
-        ? { stroke: PLACEHOLDER_PALETTE.cue, width: 22, wobble: 4, seed: 3 }
-        : { width: 8, wobble: 3, seed: 3 },
-    );
-
-    letter(pen, name, [TEXT_X, 150], 52, 11);
-    letter(
-      pen,
-      `${clock(t - local.sinceCut)} – ${clock(t - local.sinceCut + local.seconds)}`,
-      [TEXT_X, 220],
-      28,
-      12,
-    );
-    const word = wordAt(t)?.text;
-    if (word !== undefined) letter(pen, word, [TEXT_X, H / 2 + 40], 84, 13);
-    const beat = Math.floor(beatAt(t));
-    letter(
-      pen,
-      `bar ${String(Math.floor(barAt(t)))} · beat ${String(beat)}`,
-      [TEXT_X, H - 150],
-      26,
-      14,
-    );
-
-    mouth(pen, open);
-    meter(pen, [W - 236, 120, 36, 160], open, PLACEHOLDER_PALETTE.mouth, 20);
-    meter(pen, [W - 100, 120, 36, 160], loud, PLACEHOLDER_PALETTE.light, 22);
-    meter(
-      pen,
-      [MARGIN + 40, H - MARGIN - 70, 24, 40],
-      local.p,
-      PLACEHOLDER_PALETTE.light,
-      24,
+      (inner) => {
+        testCard(inner);
+        wash(inner, SCREEN, PLACEHOLDER_PALETTE.dim, 0.6);
+        card(inner, title, local, SCREEN);
+      },
+      {
+        // A one-beat cut locks in its first third rather than staying snow.
+        zap: local.sinceCut / Math.min(ZAP_SECONDS, local.seconds / 3),
+        osd: { channel, sinceChange: local.sinceCut },
+      },
     );
   };
