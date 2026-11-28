@@ -34,9 +34,9 @@ Every operator message is quoted verbatim in the plan, in order: the task under 
 11. **«телеканал / грёбаный бал / представляет»**, on the test card frame; then **«заставка с телешумом/паттерном же ДО начала музыки показывается, да?»** → «ГБ» is «Грёбаный бал»; the test card writes the ident on three lines (`testCard(pen, lines)`), and it is a pre-roll of about three seconds before the first note. The engine was told to add `PREROLL` (film time = song time + pre-roll, audio delayed by it in the page, the bundle and the mp4).
 12. **The guitarist and the bassist hold the fretting hand on the wrong side of the neck** («я понимаю что треш, но на святое!») → a fix-up child on Opus, branch `claude/horowo-clip-cast-fix-lrxscd`.
 13. **How much is 10% of the weekly limit at API rates, and how long do the remaining 15% last before parking** → about $65–70 spent, 1% ≈ $7, about $100 left, an hour to an hour and a half at wave 1's pace; the run parks (`/relay park`) at about 3% left. Wave 2 on Opus only.
-14. **«а, и t.me/fknball вставить где подойдёт (лучше раньше)»** → printed on the test card under the ident. (verbatim in Last agent turn)
+14. **«а, и t.me/fknball вставить где подойдёт (лучше раньше)»** → printed on the test card under the ident.
 15. **«Можешь продолжать но в принципе надо закругляться. Подсессии разбудил»** (after a five-hour limit stopped every session for two hours) → no new scenes and no third passes; the second passes he woke are merged as far as they got, then the run closes: gates green, the mp4 in a release, the PR and this summary current.
-16. **«Ок»** to the lead's one question, whether to put `masd-disable promotion` in `puppet/body` and `puppet/head` → both markers set; `check:masd` is green.
+16. **«Ок»** to the lead's one question, whether to put `masd-disable promotion` in `puppet/body` and `puppet/head` → both markers set and `check:masd` green; then the closing report: the clip is whole with its ident, the mp4 is in the `horowo-clip` release, vet is green on `ae69ac20`, the second passes are merged, the three unbuilt items and the quality passes are named as not done, and the last six child sessions are archived by name. (verbatim in Last agent turn)
 
 ## 3. Intent
 
@@ -70,7 +70,7 @@ All in the plan with what each beat. The ones a successor would otherwise re-lit
 - **The mp4**: https://github.com/vzakharov/vovazakharov.com/releases/tag/horowo-clip holds `horowo-clip-720p.mp4` (77 MB), re-encoded from the 640 MB 1080p master that `pnpm film:clip` writes to `tmp/clip/horowo--3.2-119.7.mp4` (a vova build, then about half an hour of frames). A newer cut replaces the asset: `gh release upload horowo-clip <file> --clobber`.
 - **Not built**: from the bedroom-ward-ending session's second pass, the bunny seated beside the man in the ward, the globe pull-back staged in clear steps, and breakdown holes that differ on each return. In the pre-bridge only two channels have people who turn to the camera; the rest freeze.
 - **Not run**: `/dry`, `/tend-prose` and `/five-percent` over `src/clip` (the children were told to skip them; the lead left them for a session with more limit). No operator verdict yet on any frame of the scenes.
-- **Sessions**: all thirteen children are archived, their branches merged.
+- **Sessions**: all thirteen children are archived, their branches merged. The lead is parked: no keepalive runs, and the two watches below were stopped at the park.
 - **The limit**: the week's limit was in its warning zone from 14:25 UTC on 2026-11-28 and resets about 54 hours after that. `pnpm costs` fails on another session's row; read ledger rows off the `cost-ledger` branch directly.
 - **Estimate**: each session's row carries its own part; the lead's is 14 h designer, 6 h developer, 4 h audio-engineer, 8 h producer.
 
@@ -101,3 +101,39 @@ The run is wound down on the operator's word («Можешь продолжат�
 1. His notes on the mp4 and the board's frames: quote each into `steering.md` in a commit of its own, then fix on Opus or Sonnet children, never the flagship for a fix-up.
 2. The quality passes over `src/clip` — `/polish` — then `./scripts/vet.sh`, a re-film, the release asset replaced, `/pr` refresh. Never merge.
 3. Only on his word: the unbuilt second-pass items, the 30-second vertical story cut, the video on the song's page — «это уже скорее после тебя опус займётся».
+
+## Last agent turn
+
+The agent's last turn before the relay, verbatim, appended by
+`scripts/relay-last-reply.py`. It includes the turn's interim messages, usually
+unneeded but harmless; the reply proper is usually its last paragraphs.
+
+```text
+mp4 готов и пережат в лёгкую копию (77 МБ); смотрю кадры из него и результат финального vet.
+
+Обновляю описание PR 295 и текст для squash под то, чем ветка стала; дальше — доска и итог.
+
+Ролик готов целиком и лежит там, где его можно посмотреть со звуком: **[horowo-clip-720p.mp4](https://github.com/vzakharov/vovazakharov.com/releases/download/horowo-clip/horowo-clip-720p.mp4)** (77 МБ, пререлиз `horowo-clip`, в репозиторий видео не коммитил).
+
+Что в нём:
+
+- **Заставка** — 3,2 секунды тишины до первой ноты: канал настраивается, «Телеканал / Грёбаный бал / представляет», `T.ME/FKNBALL`.
+- **Вся песня**, каждая секция нарисована и порезана по её собственной сетке. Вторым проходом доведены луг припева (с каждым пульсом улыбка солнца шире, зайцев больше, они лезут в кадр), интро, концерт, спальня и пре-бридж. Пре-бридж вышел лучше всего: каналы доползают до остановки, диктор замолкает и смотрит в камеру, заяц прижат лицом к стеклу изнутри.
+- **Первым проходом остались** палата и финал. Сессия C по твоему «закругляться» успела только спальню, так что не сделаны: заяц рядом с человеком в палате, отъезд снежного шара по шагам, разные дыры в брейкдауне.
+
+Где смотреть остальное:
+
+- [клип в артефакте](https://claude.ai/artifact/DzDDbJfmEA8ugouf4NTeR2) — та же картинка, играется в браузере; звук внутри рамки claude.ai я проверить не могу, поэтому mp4 надёжнее;
+- [доска](https://claude.ai/artifact/5hqSFnzRjgT8nVshU3oeKJ) — новые кадры вторых проходов рядом с первыми, на каждом мой вердикт, твоих пока нет;
+- [PR 295](https://github.com/vzakharov/vovazakharov.com/pull/295) — черновик, описание и текст для squash переписаны под то, чем ветка стала. В `main` не мерджил.
+
+Проверки: `./scripts/vet.sh` зелёный на `ae69ac20`; после него шли только коммиты с документами и учётом расходов. По дороге к зелёному:
+
+- твоё «Ок» поставило две пометки `masd-disable promotion` в `puppet/body` и `puppet/head`;
+- knip вычищен двумя детьми на Sonnet (доллар и 66 центов): второй разрезал луг и тело куклы на под-слайсы, три кадра до и после совпали побайтно;
+- план разрезан под лимит в 400 строк: твои реплики теперь в `steering.md` рядом с релеем.
+
+Чего не делал: `/dry`, `/tend-prose` и `/five-percent` по `src/clip` — недельный лимит в жёлтой зоне, оставил следующей сессии. Вертикальная 30-секундная нарезка и видео на странице песни тоже впереди. Релей и план приведены к этому состоянию.
+
+Архивировал в этом заходе: сцены A, B и C (вторые проходы), движок, knip и cut. Живых подсессий не осталось.
+```
