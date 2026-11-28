@@ -83,6 +83,20 @@ artifact's own store, so the site's page would no longer be the clip's code. One
 thing is taken from it as the clip's own rule: **no full-frame flash faster than
 three a second** — cuts ride the beat (about 2.6 a second), never a strobe.
 
+Then the song's structure by feel, verbatim:
+
+> обращай внимание ещё на изменения темпа, там примерно такая структура:
+>
+> до 0:19 -- вступление (дискретные удары в начале такта), до 0:28 --
+> double-time мясо до 0:36 -- первые полкуплета, бочка на четвертях, почти
+> танцевальная до 0:43 -- вторая половина, типичный панковский standard time до
+> 1:00 -- припев, халфтайм до 1:17 -- предбридж, четверть тайм (т.е. в 2 раза
+> медленнее халфатайма) до 1:35 -- мелодичный бридж, четверть тайм потом до
+> конца -- полностью меняется темп, медленный брейдаун с глитчами
+
+It replaces the lead's own section map wherever they differ; § "The cut by feel"
+below is the shot list redone against it.
+
 The lead's reading of the four notes, each its own and open to correction:
 
 1. Every milestone ends committed, pushed and playable from a link: the clip as
