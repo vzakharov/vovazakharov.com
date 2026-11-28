@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 200,
+    "inputTokens": 205,
     "cacheWrite5mTokens": 123284,
-    "cacheWrite1hTokens": 418805,
-    "cacheReadTokens": 17179867,
-    "outputTokens": 181755,
-    "thinkingTokens": 63265,
-    "responses": 99,
-    "costUsd": 17.0902775
+    "cacheWrite1hTokens": 423425,
+    "cacheReadTokens": 17882600,
+    "outputTokens": 183351,
+    "thinkingTokens": 63819,
+    "responses": 102,
+    "costUsd": 17.368624099999998
   },
   "estimate": {
     "at": "2026-11-28T10:11:18.592Z",
@@ -66,18 +66,18 @@
   "url": "https://claude.ai/code/session_01MZoAKCKwqeVGKcCw6iKKPs",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:00:24.182Z",
-  "lastResponseAt": "2026-11-28T10:54:37.421Z",
+  "lastResponseAt": "2026-11-28T10:55:13.561Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 162,
+    "inputTokens": 167,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 418805,
-    "cacheReadTokens": 15811988,
-    "outputTokens": 165436,
-    "thinkingTokens": 62329,
-    "responses": 83,
-    "costUsd": 16.482013600000002
+    "cacheWrite1hTokens": 423425,
+    "cacheReadTokens": 16514721,
+    "outputTokens": 167032,
+    "thinkingTokens": 62883,
+    "responses": 86,
+    "costUsd": 16.7603602
   },
   "subagents": {
     "inputTokens": 38,
@@ -91,14 +91,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 162,
+      "inputTokens": 167,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 418805,
-      "cacheReadTokens": 15811988,
-      "outputTokens": 165436,
-      "thinkingTokens": 62329,
-      "responses": 83,
-      "costUsd": 16.482013600000002
+      "cacheWrite1hTokens": 423425,
+      "cacheReadTokens": 16514721,
+      "outputTokens": 167032,
+      "thinkingTokens": 62883,
+      "responses": 86,
+      "costUsd": 16.7603602
     },
     "claude-sonnet-5-5/standard": {
       "inputTokens": 38,
@@ -140,21 +140,21 @@
           "Read": 1
         },
         "estimatedTokens": 14300,
-        "estimatedUsd": 0.33176
+        "estimatedUsd": 0.34034
       },
       "billedUsd": null
     }
   ],
   "telemetry": null,
   "operatorWords": {
-    "chat": 440,
+    "chat": 466,
     "review": 0,
     "threads": 0
   },
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 372,
+    ".md": 376,
     ".mjs": 687,
     ".json": 23,
     ".ts": 400

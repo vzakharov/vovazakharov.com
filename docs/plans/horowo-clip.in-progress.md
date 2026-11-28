@@ -117,6 +117,13 @@ every scene has at least one thing that lands on them — a cut, a camera punch,
 head coming down, the TV's glow — while most of the frame stays off the grid, so
 it reads as feel and not as a metronome.
 
+Then, with the storyboard's kids'-show panel attached (the host waving on the
+meadow under the grinning sun, the bunny behind the hill), verbatim:
+
+> припев такой faux-счастливый должен быть, понимаешь, типа все веселятся и
+> скачут по этому creepy лугу (но конечно это должно перемежаться с выскребанием
+> надписи в дурдоме)
+
 The lead's reading of the four notes, each its own and open to correction:
 
 1. Every milestone ends committed, pushed and playable from a link: the clip as
