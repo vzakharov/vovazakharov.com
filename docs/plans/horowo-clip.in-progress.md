@@ -342,5 +342,9 @@ assembles the timeline and cuts it to the beat.
   second take of the wall; the drawing kit.
 - **In flight**: wave 1, four children.
 - **Left**: merging and wiring wave 1; the clip as an artifact; wave 2; the
-  assembly; the mp4 as a release asset; merging `main` once PR 240 lands; the
-  30-second vertical story cut, last.
+  assembly; the mp4 as a release asset; the 30-second vertical story cut, last.
+
+PR 240 landed on 2026-11-28 and `main` is merged in at `c7773f84`: the song's
+page, words and transcripts are in the tree, and the engine was told to merge
+the lead's branch, take `music` as `clip`'s second parent and read the audio
+from the catalogue.
