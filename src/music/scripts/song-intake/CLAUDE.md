@@ -180,7 +180,7 @@ and a README naming each file. A master `master.py` made adds `mastering/` —
 README gives the command and its reference, linked at a commit rather than
 copied when another repository there holds it; `vovas-music/birds` is the
 pattern. A master the author made by hand, in Reaper, has no script to copy, so
-its README says that instead (`vovas-music/horowo`).
+its README says how it was made (`vovas-music/horowo`).
 
 - **Every read and write of these repositories goes through
   `pnpm music:masters`** (`src/music/scripts/masters.ts`, its header the usage),
