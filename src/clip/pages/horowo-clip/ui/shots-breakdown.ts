@@ -61,9 +61,8 @@ const BEAT = beatSeconds(BREAKDOWN);
 
 // The song's shape past the slam at 96.1 s, read off the master: two riffs,
 // each followed by a hole where the drums drop to a held chord, then a wash
-// of noise under the last «Хорошо!» (115.92 s, the song's last word; the
-// vocal stem ends at 89.6 s, so this is the master's word timing). The
-// master falls silent at 117.2 s.
+// of noise under the last «Хорошо!» (115.92 s, timed from `words.ts`: the
+// vocal stem ends at 89.6 s). The master falls silent at 117.2 s.
 const HOLE_1 = { from: 103.3, to: 105.523 } as const;
 const HOLE_2 = { from: 112.7, to: 114.724 } as const;
 /** Where the held chord of the second hole changes: his head steps nearer. */

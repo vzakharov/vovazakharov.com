@@ -8,7 +8,6 @@ import { ENDING_PALETTE } from '../../palette';
 
 const FRAME = 1 / TAPE_FPS;
 
-/** The kicks from `start` up to `t`. */
 const kicksBefore = (t: number, start: number): number[] =>
   KICKS.filter((k) => k >= start && k <= t);
 

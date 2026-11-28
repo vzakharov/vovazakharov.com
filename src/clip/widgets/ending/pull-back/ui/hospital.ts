@@ -94,7 +94,6 @@ export function pillsIn(pen: Pen, r: number): void {
   });
 }
 
-/** The front's grid: columns and rows of windows, the building's box. */
 const FRONT = { x: 250, y: 190, width: 780, height: 460 } as const;
 const COLUMNS = 9;
 const ROWS = 4;
