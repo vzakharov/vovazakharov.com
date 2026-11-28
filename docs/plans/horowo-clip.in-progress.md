@@ -117,7 +117,10 @@ The lead's reading of the four notes, each its own and open to correction:
 
 `docs/remove-before-merging/horowo-song-mastering-oia0kq/blind/horowo/mix.mp3`
 on `claude/horowo-song-mastering-oia0kq` (PR 240), 1:59.7, about 155 BPM. The
-words are `…/lyrics/horowo.md` on that branch. Measured from the mix:
+words are `…/lyrics/horowo.md` on that branch. The operator's map of its
+sections by feel (§ "Steering since") is the authority on where they start and
+how they move; the lead's own measurements from the mix, kept for the detail
+inside them:
 
 - **0:00–0:18** — the first stanza over no bass or kick, ending on «Как, сука,
   хорошо» at 0:16.
@@ -194,30 +197,44 @@ their picture:
   tape: chroma split, scanlines, a tracking bar, on-screen display.
 - **Reality** — full 16:9, clean ink, dark: whoever is watching the channel.
 
-The shot list, against § "The song":
+#### The cut by feel
 
-- **0:00–0:18, broadcast** — a children's show. The host sings the first stanza
-  to camera; the cardboard sun's eyes follow him; the bunny rises behind the
-  hill from 0:08; on «Как, сука, хорошо» the jaw drops all the way.
-- **0:18–0:20** — the set wall falls, static.
-- **0:20–0:28, broadcast** — the band live in a TV studio, cut on the beat
-  between the four and a wide shot; the audience is bunny ears.
-- **0:28–0:42, reality and broadcast** — the bedroom at 3 am, the TV on in the
-  corner. Each «(Хорошо!)» is a cut to the TV full-frame on a new channel for
-  about half a second (the teleshop spoon, the weather, a quiz board with the
-  three words, a village postcard, the news, a test card), and the line that
-  answers it plays in the bedroom: the sweat, the bunny-shaped hole in the
-  wallpaper, the bunny by the window, then nearer.
-- **0:42–1:02, broadcast** — the chorus live, serotonin falling hard.
-- **1:02–1:32** — the chant: zapping speeds up, every «Хорошо» a channel, the
-  bunny on each one nearer the glass.
-- **1:32–1:36, reality** — the TV goes dark on the drop. The same room is the
-  ward: the three words written with a fingernail in blood, tallies struck
-  through in fives running past every edge, the bunny's shadow on the wall.
-- **1:36–1:53** — each stab a channel at full colour, each hole the ward.
-- **1:50–1:58** — pull back through the window: the hospital is a snow globe in
-  the bunny's paws, serotonin falling only inside; the picture collapses to a
-  CRT dot.
+The shot list, against the operator's map of the tempo in § "Steering since":
+the picture's pace is the drummer's, so it halves when he does.
+
+- **0:00–0:19, intro, a hit on each bar's first beat — broadcast.** A children's
+  show. The host sings the first stanza to camera; nothing moves between the
+  hits and everything jolts on one: the cardboard sun's eyes snap to him, the
+  bunny rises a notch behind the hill, the camera punches in. On «Как, сука,
+  хорошо» the jaw drops all the way; the set wall falls into static.
+- **0:19–0:28, double time — broadcast.** The band live in a TV studio at full
+  tilt: a cut on every beat between the four and a wide shot, the audience a row
+  of bunny ears.
+- **0:28–0:36, first half of the verse, kick on the quarters, almost a dance —
+  reality and broadcast.** The bedroom at 3 am, the TV in the corner pulsing on
+  every quarter, the man in the bed nodding along against his will. Each
+  «(Хорошо!)» is the TV full-frame on a new channel for a beat (the teleshop
+  spoon, the weather, a quiz board with the three words, a village postcard),
+  and the line that answers it plays in the bedroom.
+- **0:36–0:43, second half, straight punk time.** The same exchange, rawer: the
+  bunny-shaped hole in the wallpaper, the bunny by the window, then at the foot
+  of the bed; the channels (the news, a test card) have him in them.
+- **0:43–1:00, chorus, half time — broadcast.** The band again, but heavy and
+  slow: long held shots, a cut every two bars, heads coming down on the snare,
+  serotonin falling thick and slow.
+- **1:00–1:17, pre-bridge, quarter time.** The zapping slows to a crawl instead
+  of speeding up: one channel a bar, each held long enough to read, the bunny on
+  every one a step nearer the glass. Dread by patience.
+- **1:17–1:35, the melodic bridge, quarter time — reality.** The one tender
+  stretch. The bedroom gives way to the ward without a cut: the words written
+  with a fingernail in blood appear stroke by stroke, the tallies spread past
+  every edge, the bunny sits down beside him and they watch the TV snow
+  together.
+- **1:35–end, a new, slow tempo, a breakdown with glitches.** The tape itself
+  breaks down: each stab a channel at full colour torn by tracking errors, each
+  hole the silent ward. Then the pull back through the window — the hospital is
+  a snow globe in the bunny's paws, serotonin falling only inside — and the
+  picture collapses to a CRT dot.
 
 ### How it is built
 
