@@ -101,8 +101,8 @@ const RULES: readonly Rule[] = [
       [720, 110],
     ],
   },
-  // The breakdown has no rule: its one line, the last «Хорошо!», is the bunny
-  // arriving with the globe, under which nothing is written but the address.
+  // The breakdown has no rule: its one line, the last «Хорошо!», is left to
+  // the picture.
 ];
 
 /** The line sung across the cut into the chorus: the picture letters it itself, word by word. */

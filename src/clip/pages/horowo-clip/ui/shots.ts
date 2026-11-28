@@ -10,9 +10,9 @@ import { PREBRIDGE_SHOTS, REVEAL_HOLD } from './shots-prebridge';
 import { VERSE_SHOTS } from './shots-verse';
 
 /**
- * The clip, shot by shot, a file per section of the song's map. Within a
- * section's list a later entry cuts into an earlier one where their spans
- * overlap.
+ * The clip, shot by shot, a file per section of the song's map. A later entry
+ * cuts into an earlier one where their spans overlap, across sections as
+ * within them.
  */
 export const SHOTS: readonly Shot[] = [
   ...IDENT_SHOTS,
