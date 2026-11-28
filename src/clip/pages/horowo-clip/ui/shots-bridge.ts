@@ -61,7 +61,7 @@ export const BRIDGE_SHOTS: readonly Shot[] = [
   ...AWAY_SPANS.map((span, n) => ({
     ...span,
     draw: halfDream(HALF_DREAMS[n % HALF_DREAMS.length] ?? gigInsert, {
-      depth: (n + 1) / AWAY_SPANS.length,
+      under: (n + 1) / AWAY_SPANS.length,
       seed: 31 + n,
     }),
   })),

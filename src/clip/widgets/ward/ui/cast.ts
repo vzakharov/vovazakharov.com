@@ -41,11 +41,10 @@ const COT_BOTTOM = 590;
 export type Approach = {
   /** Steps taken: whole steps up to the last of `STEPS`, then how far sat down, to `SAT_DOWN`. */
   step: number;
-  /** The grin's width and whether its eyes have lit, for the last breaths. */
-  grin: number;
-  glowing: boolean;
-  /** Degrees it leans towards him. */
-  lean: number;
+  /** How much of the false end has shown it, 0 to 1: its grin widens and it leans towards him. */
+  glimpse: number;
+  /** Its eyes lit, at the very last. */
+  awoken: boolean;
 };
 
 function placeAt(step: number): readonly [number, number, number] {
@@ -64,7 +63,7 @@ function placeAt(step: number): readonly [number, number, number] {
 
 /** The bunny at `approach`; behind the cot once it has crossed the floor. */
 function approaching(pen: Pen, approach: Approach, behind: boolean): void {
-  const { step, grin, glowing, lean } = approach;
+  const { step, glimpse, awoken } = approach;
   const behindCot = step >= STEPS.length - 1;
   if (behindCot !== behind) return;
   const [x, feet, size] = placeAt(step);
@@ -75,9 +74,9 @@ function approaching(pen: Pen, approach: Approach, behind: boolean): void {
       bunnyScale: size,
       nearness: 0.7,
       arms: 'down',
-      eyes: glowing ? 'glow' : 'button',
-      grin,
-      rot: -lean,
+      eyes: awoken ? 'glow' : 'button',
+      grin: lerp(0.35, 1, glimpse),
+      rot: -9 * glimpse,
       swaying: 0.25,
       seed: 71,
     });

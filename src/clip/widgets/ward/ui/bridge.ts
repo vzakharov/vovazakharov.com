@@ -40,7 +40,7 @@ export const wardHole: Drawing = (pen: Pen) => {
     cast(
       inner,
       { gaze: [0.7, -0.6], lid: 0.55, brow: 0.2, turn: 0.3 },
-      { step: SAT_DOWN, grin: 0.35, glowing: false, lean: 0 },
+      { step: SAT_DOWN, glimpse: 0, awoken: false },
     );
   });
   night(pen, 0.35);

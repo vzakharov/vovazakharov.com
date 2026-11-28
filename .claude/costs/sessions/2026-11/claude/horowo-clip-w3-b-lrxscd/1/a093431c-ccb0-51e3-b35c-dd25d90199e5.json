@@ -1,15 +1,45 @@
 {
   "total": {
-    "inputTokens": 104,
+    "inputTokens": 123,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 166394,
-    "cacheReadTokens": 9075767,
-    "outputTokens": 46355,
-    "thinkingTokens": 20770,
-    "responses": 55,
-    "costUsd": 4.073821400000001
+    "cacheWrite1hTokens": 179803,
+    "cacheReadTokens": 11570525,
+    "outputTokens": 52655,
+    "thinkingTokens": 22045,
+    "responses": 66,
+    "costUsd": 4.806121000000002
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-28T18:06:53.397Z",
+    "subjectLine": "feat: the bridge's sinking zoom, half-dream inserts and false fade",
+    "parts": [
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "camera path, the bunny's statue-game approach and the man's sinking look are timing-driven scene code across a new widget file set"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "a transform-only dream bend that must stay legible over six different storylines"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "audio-engineer",
+        "comment": "finding the five «о» on the master's vocal band past the stem's end"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "pacing the looks away and the breaths so the false end lands"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -34,18 +64,18 @@
   "url": "https://claude.ai/code/session_01DaohkBtsQQYJQstc7kNKio",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T17:47:30.972Z",
-  "lastResponseAt": "2026-11-28T18:06:37.461Z",
+  "lastResponseAt": "2026-11-28T18:08:41.801Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 104,
+    "inputTokens": 123,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 166394,
-    "cacheReadTokens": 9075767,
-    "outputTokens": 46355,
-    "thinkingTokens": 20770,
-    "responses": 55,
-    "costUsd": 4.073821400000001
+    "cacheWrite1hTokens": 179803,
+    "cacheReadTokens": 11570525,
+    "outputTokens": 52655,
+    "thinkingTokens": 22045,
+    "responses": 66,
+    "costUsd": 4.806121000000002
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,23 +89,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 104,
+      "inputTokens": 123,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 166394,
-      "cacheReadTokens": 9075767,
-      "outputTokens": 46355,
-      "thinkingTokens": 20770,
-      "responses": 55,
-      "costUsd": 4.073821400000001
+      "cacheWrite1hTokens": 179803,
+      "cacheReadTokens": 11570525,
+      "outputTokens": 52655,
+      "thinkingTokens": 22045,
+      "responses": 66,
+      "costUsd": 4.806121000000002
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 54,
-    "matched": 54,
-    "matchedTableUsd": 4.0098862,
-    "matchedEventUsd": 4.0098861999999995,
+    "events": 66,
+    "matched": 66,
+    "matchedTableUsd": 4.806121000000002,
+    "matchedEventUsd": 4.806121,
     "unseen": {}
   },
   "operatorWords": {
@@ -88,7 +118,7 @@
   "branchLines": {
     ".md": 1243,
     ".json": 169,
-    ".ts": 13716,
+    ".ts": 14061,
     ".tsx": 44,
     ".scss": 12
   }

@@ -102,12 +102,7 @@ function approachAt(
   const sat = last
     ? clamp((t - last.to - SITTING.delay) / SITTING.seconds, 0, 1)
     : 0;
-  return {
-    step: Math.min(count, SAT_DOWN - 1) + sat,
-    grin: lerp(0.35, 1, glimpse),
-    glowing: awoken,
-    lean: 9 * glimpse,
-  };
+  return { step: Math.min(count, SAT_DOWN - 1) + sat, glimpse, awoken };
 }
 
 /**

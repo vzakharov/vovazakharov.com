@@ -1,3 +1,5 @@
+import type { Seeded } from '@/kernel/shared/typings';
+
 import {
   clipped,
   lerp,
@@ -9,8 +11,8 @@ import {
 
 import type { Drawing, Local } from './shot';
 
-/** How deep into sleep a picture is seen from, 0 awake to 1 gone. */
-export type Dreaming = { depth: number; seed: number };
+/** `under`: how deep into sleep a picture is seen from, 0 awake to 1 gone. */
+type Dreaming = Seeded & { under: number };
 
 // Past this depth the picture folds into two mirrored halves.
 const MIRRORED_FROM = 0.55;
@@ -68,12 +70,12 @@ function bend(
 }
 
 /**
- * `draw` as seen on the edge of sleep, `depth` of the way under: slowed,
+ * `draw` as seen on the edge of sleep, `under` of the way under: slowed,
  * spinning, swelling and shearing inside a wobbling oval, and past
  * `MIRRORED_FROM` folded into mirrored halves. Canvas transforms only.
  */
 export const halfDream =
-  (draw: Drawing, { depth, seed }: Dreaming): Drawing =>
+  (draw: Drawing, { under: depth, seed }: Dreaming): Drawing =>
   (pen: Pen, local: Local) => {
     const { ctx, playhead } = pen;
     const slow = 1 - 0.45 * depth;
