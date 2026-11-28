@@ -5,10 +5,12 @@ Proposed squash body:
 site — «За жизнь», «Последний снег», «Поздно» and «Незаметные штуки»,
 the last with words by Роман Попов — are published from their
 vovas-music repositories, their words corrected from Suno prompts to
-what the recordings sing. Each master was picked blind against Matchering
-masters on /music/mastering-blind-test, which now plays any number of
-masters per song: blind-abc.py builds and splits N, and each piece
-states its own count.
+what the recordings sing. Each master was picked blind, the author's
+own against Matchering masters, in a claude.ai artifact built from
+.claude/artifacts/src/blind-test/ that keeps one pick per song;
+blind-abc.py builds and splits any number of masters. His own won
+for «Хорошо!» and «Поздно»; the three Matchering winners were
+re-rendered lossless and null-tested against what he heard.
 
 The band's two albums take the operator's running order: Ни для кого
 и для всех and Сильней любви are renumbered, the new songs placed on
