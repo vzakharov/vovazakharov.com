@@ -232,3 +232,9 @@ A few minutes later, quoting reading 7's «the lead takes it as the intro's face
 > нет, прямо только lyrics на экране "не" -> "не сдохнуть" -> "не сдохнуть бы", "от" is skipped, а на "счастья" -- уже луг
 
 So reading 7 is replaced: the break is black with nothing on it but the words, building up as they are sung — «НЕ», then «НЕ СДОХНУТЬ», then «НЕ СДОХНУТЬ БЫ» — «от» is never shown, and on «счастья» the picture is already the meadow. No face. The chorus's package draws it; the overlay of sung lines stays out of that span.
+
+At about 18:05 UTC, to the lead's question whether his 77% was the share left or the share spent, verbatim:
+
+> сейчас 81%, пока живём. главное чтобы при пересечении потерялось минимум работы в том смысле, чтобы сессия на новом аккаунте смогла это подхватить
+
+The lead's reading: the figure is the share spent, and it rose four points in the wave's first twenty minutes, so the account may run out before the wave lands. The rule is that crossing the limit loses as little as possible: every child pushes each working step at once and keeps a notes file on its own branch (`w3-<letter>-notes.md` beside this file) saying what is built, what is next and how its exports are wired, so a session on another account can carry any package on from its branch alone; the relay summary names those files. Depth yields to that: a package reports as soon as its notes are built, and second passes wait.
