@@ -68,7 +68,22 @@ The operator answered the first, the same day, verbatim:
 > 4- а, ну и то что здесь делаем, тоже лучше делать через релизы, чтобы не
 > забить всю историю
 
-The lead's reading, each its own and open to correction:
+And a question a few minutes later, verbatim:
+
+> а, собственно, видео же никто генерить и не будет пока мы не завершим, это
+> будет обычный хтмл? у тебя чуть ли не тула для таких видео-артефактов
+> ("эксплейнеров") есть, но не знаю, насколько она подходит для концертов в
+> дурдоме гг
+
+Answered: yes, plain HTML until the end, the mp4 walked out of the same code
+last. The tool is the "Motion" artifact type, and it was weighed and left: it
+allows no scene under a second and no more than three cuts a second, which is
+the zapping; its looks must suit a room of coworkers; and a film lives in the
+artifact's own store, so the site's page would no longer be the clip's code. One
+thing is taken from it as the clip's own rule: **no full-frame flash faster than
+three a second** — cuts ride the beat (about 2.6 a second), never a strobe.
+
+The lead's reading of the four notes, each its own and open to correction:
 
 1. Every milestone ends committed, pushed and playable from a link: the clip as
    it stands is published as an artifact (the page's code bundled into one HTML
