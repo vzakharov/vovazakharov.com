@@ -38,6 +38,15 @@ describe('strumming', () => {
     }
   });
 
+  it('frets from under the neck, the elbow hanging below the hand', () => {
+    for (const strings of ['guitar', 'bass'] as const) {
+      for (const beats of [0, 0.3, 1.6, 5.2, 9.9]) {
+        const { rig: pose } = strumming(strings, beats);
+        assert.ok(pose.elbowR[1] > pose.wristR[1] + 20);
+      }
+    }
+  });
+
   it('rings hardest on the beat', () => {
     assert.ok(
       strumming('guitar', 2.06).ringing > strumming('guitar', 2.6).ringing,

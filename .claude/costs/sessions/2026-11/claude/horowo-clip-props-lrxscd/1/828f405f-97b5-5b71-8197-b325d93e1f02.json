@@ -1,0 +1,209 @@
+{
+  "total": {
+    "inputTokens": 530,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 772528,
+    "cacheReadTokens": 52110091,
+    "outputTokens": 259936,
+    "thinkingTokens": 66622,
+    "responses": 281,
+    "costUsd": 21.803082199999984
+  },
+  "estimate": {
+    "at": "2026-11-28T10:30:15.811Z",
+    "subjectLine": "feat: the clip's props — bunny, lettering, tallies, fall, globe",
+    "parts": [
+      {
+        "hours": 14.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "procedural character, glyph set with three renderings and a tally wall are look-defining art built in code, judged frame by frame"
+      },
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "a phone frame budget over hundreds of tallies and pills needs path caching and offscreen boil caches"
+      },
+      {
+        "hours": 2.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "tests, module API and checker wiring are routine"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-28T10:30:09.713Z",
+    "contextTokens": 141825,
+    "spend": {
+      "inputTokens": 13,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 84599,
+      "cacheReadTokens": 610592,
+      "outputTokens": 1818,
+      "thinkingTokens": 105,
+      "responses": 6,
+      "costUsd": 0.8353224
+    }
+  },
+  "sessionId": "828f405f-97b5-5b71-8197-b325d93e1f02",
+  "branch": "claude/horowo-clip-props-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are one of four child sessions building a code-drawn music video for the song «Хорошо!». A lead session runs the build in the repo's `/carte-blanche` mode a…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01MZoAKBLUod263MnDXVYSWV",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T10:29:50.563Z",
+  "lastResponseAt": "2026-11-28T11:42:47.070Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 530,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 772528,
+    "cacheReadTokens": 52110091,
+    "outputTokens": 259936,
+    "thinkingTokens": 66622,
+    "responses": 281,
+    "costUsd": 21.803082199999984
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 530,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 772528,
+      "cacheReadTokens": 52110091,
+      "outputTokens": 259936,
+      "thinkingTokens": 66622,
+      "responses": 281,
+      "costUsd": 21.803082199999984
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-28T10:45:56.960Z",
+      "trigger": "auto",
+      "compactedFrom": 264045,
+      "summaryChars": 22756,
+      "reorientation": {
+        "endedBy": "Write",
+        "endedOn": "src/clip/entities/bunny/model/pose.test.ts",
+        "endedAt": "2026-11-28T10:46:01.553Z",
+        "contextTokens": 109045,
+        "spend": {
+          "inputTokens": 0,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 0,
+          "cacheReadTokens": 0,
+          "outputTokens": 0,
+          "thinkingTokens": 0,
+          "responses": 0,
+          "costUsd": 0.0
+        }
+      },
+      "rereads": {
+        "calls": 3,
+        "byTool": {
+          "Read": 3
+        },
+        "estimatedTokens": 5175,
+        "estimatedUsd": 0.11235880000000001
+      },
+      "billedUsd": null
+    },
+    {
+      "at": "2026-11-28T11:09:14.552Z",
+      "trigger": "auto",
+      "compactedFrom": 263984,
+      "summaryChars": 22421,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/kernel/shared/typings/index.ts",
+        "endedAt": "2026-11-28T11:10:22.206Z",
+        "contextTokens": 127905,
+        "spend": {
+          "inputTokens": 15,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 74598,
+          "cacheReadTokens": 885726,
+          "outputTokens": 3941,
+          "thinkingTokens": 1199,
+          "responses": 8,
+          "costUsd": 0.8528092
+        }
+      },
+      "rereads": {
+        "calls": 2,
+        "byTool": {
+          "Read": 2
+        },
+        "estimatedTokens": 4202,
+        "estimatedUsd": 0.0943512
+      },
+      "billedUsd": null
+    },
+    {
+      "at": "2026-11-28T11:31:51.638Z",
+      "trigger": "auto",
+      "compactedFrom": 265331,
+      "summaryChars": 18305,
+      "reorientation": {
+        "endedBy": "Write",
+        "endedOn": "src/clip/entities/snow-globe/ui/palette-globe.ts",
+        "endedAt": "2026-11-28T11:32:32.647Z",
+        "contextTokens": 127758,
+        "spend": {
+          "inputTokens": 11,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 64730,
+          "cacheReadTokens": 617667,
+          "outputTokens": 2276,
+          "thinkingTokens": 708,
+          "responses": 6,
+          "costUsd": 0.6869374
+        }
+      },
+      "rereads": {
+        "calls": 4,
+        "byTool": {
+          "Read": 4
+        },
+        "estimatedTokens": 5257,
+        "estimatedUsd": 0.065877
+      },
+      "billedUsd": null
+    }
+  ],
+  "telemetry": null,
+  "operatorWords": {
+    "chat": 34,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".json": 103,
+    ".ts": 9755,
+    ".css": 259,
+    ".py": 22,
+    ".md": 1709,
+    ".mjs": 687,
+    ".tsx": -251
+  }
+}

@@ -28,7 +28,7 @@ import {
   SOLE,
   STANDARD_BUILD,
 } from '../model/pose';
-import { type Grip, hand } from './hands';
+import { fingertips, type Grip, hand } from './hands';
 import { collar, type Outfit, OUTFIT_GRIP, trim } from './outfits';
 import { OUTFIT_PALETTE } from './palette-outfit';
 
@@ -53,7 +53,10 @@ export type Dress = Worn & {
   held?: Partial<Record<Side, (wrist: Point, forearm: number) => void>>;
   /** Drawn behind the whole figure, in the puppet's units. */
   behind?: () => void;
-  /** Drawn over the body and head and under both arms: what the hands are on. */
+  /**
+   * Drawn over the body and head and under the arms: what the hands are on.
+   * A `wrap` hand's arm goes under it too, and only its fingers over.
+   */
   front?: () => void;
   /** Arms that pass behind the torso instead of in front of it. */
   tucked?: readonly Side[];
@@ -125,32 +128,31 @@ export function figure(pen: Pen, pose: Pose, dress: Dress = {}): void {
   const { size } = build;
   const heft = heftOf(build);
 
+  const armSeedOf = (side: Side) => seed + (side === 'L' ? 60 : 70);
+  const atHand = (side: Side, draw: () => void) => {
+    const [, elbow, wrist] = armOf(pose, side);
+    const forearm = heading(elbow, wrist);
+    const place = { x: wrist[0], y: wrist[1], rot: forearm, scale: heft };
+    at(pen, { ...place, flip: side === 'L' }, draw);
+  };
   const arm = (side: Side) => {
     const [shoulder, elbow, wrist] = armOf(pose, side);
-    const armSeed = seed + (side === 'L' ? 60 : 70);
+    const armSeed = armSeedOf(side);
     limb(pen, [shoulder, elbow, wrist], colors.body, ARM_WIDTH * heft, armSeed);
-    const forearm = heading(elbow, wrist);
-    held[side]?.(wrist, forearm);
-    at(
-      pen,
-      {
-        x: wrist[0],
-        y: wrist[1],
-        rot: forearm,
-        scale: heft,
-        flip: side === 'L',
-      },
-      () => {
-        hand(
-          pen,
-          grips[side] ?? OUTFIT_GRIP[outfit],
-          colors.body,
-          armSeed + 1,
-          colors.stripe,
-        );
-      },
-    );
+    held[side]?.(wrist, heading(elbow, wrist));
+    atHand(side, () => {
+      hand(
+        pen,
+        grips[side] ?? OUTFIT_GRIP[outfit],
+        colors.body,
+        armSeed + 1,
+        colors.stripe,
+      );
+    });
   };
+  // A wrapping hand's arm goes under what `front` draws, its fingers over it.
+  const wraps = (side: Side) =>
+    grips[side] === 'wrap' && !tucked.includes(side);
 
   behind?.();
   for (const side of SIDES) if (tucked.includes(side)) arm(side);
@@ -220,6 +222,16 @@ export function figure(pen: Pen, pose: Pose, dress: Dress = {}): void {
     },
   );
 
+  for (const side of SIDES) if (wraps(side)) arm(side);
   front?.();
-  for (const side of SIDES) if (!tucked.includes(side)) arm(side);
+  for (const side of SIDES) {
+    if (!tucked.includes(side) && !wraps(side)) arm(side);
+  }
+  for (const side of SIDES) {
+    if (wraps(side)) {
+      atHand(side, () => {
+        fingertips(pen, armSeedOf(side) + 3);
+      });
+    }
+  }
 }

@@ -157,6 +157,60 @@ The lead's reading of the four notes, each its own and open to correction:
    release asset. Board frames stay committed, small and few, under
    `docs/remove-before-merging/`, which a squash never carries to `main`.
 
+On the tape's test card frame (the plate reading «КАНАЛ / ГБ»), attached to the
+message:
+
+> телеканал / грёбаный бал / представляет
+
+The lead's reading: «ГБ» stands for «Грёбаный бал», and the clip opens on the
+channel's ident — the test card's plate reads «ТЕЛЕКАНАЛ», «ГРЁБАНЫЙ БАЛ»,
+«ПРЕДСТАВЛЯЕТ» on three lines, each line arriving on one of the intro's
+bar-start hits, before the kids' show begins. The bug in the corner stays «ГБ».
+The slashes are read as line breaks, not as three separate cards.
+
+And a few minutes later, correcting that reading:
+
+> заставка с телешумом/паттерном же ДО начала музыки показывается, да?
+
+Yes: the ident is a pre-roll, before the first note. The film opens on about
+three seconds without music — snow, the test card, the three lines arriving one
+after another — and the song's first hit zaps to the kids' show. So the film is
+longer than the song by the pre-roll: the film's playhead and the song's time
+differ by that offset, the page starts the audio after it, and the mp4 carries
+silence there. The lines on the intro's bar-start hits, as first read, are
+dropped.
+
+> а, и t.me/fknball вставить где подойдёт (лучше раньше)
+
+The lead's reading: the channel's Telegram address is on screen from the first
+second — written on the test card under the ident, in the tape's dot face, as a
+TV channel prints its address. It may come back once more on the last frame
+before the tube switches off, if the ending has room for it.
+
+On the cast sheet, attached:
+
+> чё-то у нас басисты-гитаристы левую руку не с той стороны грифа держат) я
+> понимаю что треш, но на святое!
+
+The lead's reading: the guitarist's and the bassist's fretting arm is draped
+over the neck from above, the fist sitting on top of the fretboard. A player's
+fretting hand comes from under the neck: elbow down, palm behind the neck,
+fingers curling over its top edge onto the frets. A fix-up package on Opus,
+branch `claude/horowo-clip-cast-fix-lrxscd`.
+
+At 11:05 UTC, on the limit:
+
+> так, мы на сейчас потратили 10% недельного лимита, остаётся 15%, оцени сколько
+> это по API-костам и на сколько это хватит до того как нужно будет релейнуться
+> и переключить акк
+
+and «имею в виду "запарковаться"». The lead's answer, from the cost ledger: the
+run's 10% is about $65–70 at API rates, so 1% is about $7 and the 15% left about
+$100; at wave 1's pace that is an hour to an hour and a half. What is left of
+the clip to a first full cut is about $65–70. The run parks (`/relay park`) when
+about 3% is left; wave 2 runs on Opus only, and children wire their own scenes
+so the lead reads less.
+
 ## The song
 
 `docs/remove-before-merging/horowo-song-mastering-oia0kq/blind/horowo/mix.mp3`
@@ -362,17 +416,48 @@ branch; each reports with one `send_message` to the lead:
 
 Frames from each arrive as `docs/remove-before-merging/frames/<package>-*.jpg`.
 
-Wave 2, once wave 1 is merged and wired: the broadcast scenes, the reality
-scenes, the pack of zapped channels — sized to the limit left. The lead
-assembles the timeline and cuts it to the beat.
+As of 11:10 UTC: **tape** merged at `e7d0a99e` and **cast** at `5819b8b5`, both
+sessions archived. The cast's API, for a scene's author — all from
+`@/clip/entities/puppet`, sides L/R the viewer's, the puppet about 590 tall at
+scale 1 and placed by the floor between its soles:
+
+- `puppet(pen, { place, pose, reach, build, outfit, look, held, behind, front, tucked, legless, mark })`
+  — `pose` a `Pose` or a name of `POSES` (stand, wide, cheer, sing, welcome,
+  point, shrug, cower, sit); `outfit` one of jacket, strait, suit, pajama, toy;
+  `mark` tells one puppet's boil from another's.
+- `head(pen, look, seed)`;
+  `Look = { jaw, gaze, brow, lid, led, eyes, hair, sweat, turn, nod }`.
+- `player(pen, role, { beats, jaw, place, outfit, look, mark })` — a band member
+  playing; `beats` is the song's beat counter. `castSheet(pen, beats, jaw)`.
+- `lerpPose`, `reaching`, `carried(pose, { sway, dip, lean })`, `fitted`,
+  `guitar`, `micStand`, `thump(phase)`.
+
+There is no hop cycle, joy face or scratching hand as such: a hop is
+`carried(..., { dip })` with `place.y` moved, joy is `look` (brow raised, jaw
+open), and the scratching hand is a `point` hand on `reach`.
+
+A fix-up child, Opus, `session_01MZoAKAL6Cs5jtE5GjPiRDY`,
+`claude/horowo-clip-cast-fix-lrxscd`, cut from the lead's `fbec4641`: the
+fretting hand from under the neck.
+
+Wave 2, once the engine and the props are merged: three Opus children, each
+owning the shot-list files of its sections (the engine splits `shots.ts` into
+one file per section) and wiring its own scenes into them — (A) the kids' show
+and the chorus meadow; (B) the band live and the zapped channels; (C) the
+bedroom, the ward, the breakdown and the snow globe. The lead cuts nothing by
+hand that a child can cut on the score's pulse.
 
 ## Built, in flight, left
 
-- **Built**: the song map; the cast sheet, three storyboard sheets and the
-  second take of the wall; the drawing kit.
-- **In flight**: wave 1, four children.
-- **Left**: merging and wiring wave 1; the clip as an artifact; wave 2; the
-  assembly; the mp4 as a release asset; the 30-second vertical story cut, last.
+- **Built**: the song map; the storyboard; the drawing kit; the tape, with the
+  channel's ident and address on its test card; the cast.
+- **In flight**: the engine (with the pre-roll and the per-section shot files),
+  the props (with the lettering reworked to read as scratched), the fretting
+  hand.
+- **Left**: merging those three; the clip as an artifact; wave 2; the mp4 as a
+  release asset; the quality passes and a green vet; the 30-second vertical
+  story cut and the video on the song's page, both likely after the account
+  changes.
 
 PR 240 landed on 2026-11-28 and `main` is merged in at `c7773f84`: the song's
 page, words and transcripts are in the tree, and the engine was told to merge
