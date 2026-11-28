@@ -10,7 +10,8 @@
     "costUsd": 4.8386891950000015
   },
   "estimate": {
-    "at": "2026-11-02T07:42:53.148Z",
+    "at": "2026-11-28T10:35:48.678Z",
+    "subjectLine": "content: fold the author's answers into the songs' words and notes",
     "parts": [
       {
         "hours": 1.5,
@@ -143,5 +144,9 @@
         "costUsd": 0.0181614
       }
     }
-  }
+  },
+  "operatorWords": null,
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": null
 }
