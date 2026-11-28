@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 324,
+    "inputTokens": 334,
     "cacheWrite5mTokens": 123284,
-    "cacheWrite1hTokens": 650832,
-    "cacheReadTokens": 30682671,
-    "outputTokens": 237731,
-    "thinkingTokens": 75882,
-    "responses": 161,
-    "costUsd": 25.74330229999999
+    "cacheWrite1hTokens": 663087,
+    "cacheReadTokens": 31855317,
+    "outputTokens": 245840,
+    "thinkingTokens": 77448,
+    "responses": 166,
+    "costUsd": 26.498351499999988
   },
   "estimate": {
     "at": "2026-11-28T10:11:18.592Z",
@@ -66,18 +66,18 @@
   "url": "https://claude.ai/code/session_01MZoAKCKwqeVGKcCw6iKKPs",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:00:24.182Z",
-  "lastResponseAt": "2026-11-28T11:08:55.994Z",
+  "lastResponseAt": "2026-11-28T11:10:26.130Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 286,
+    "inputTokens": 296,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 650832,
-    "cacheReadTokens": 29314792,
-    "outputTokens": 221412,
-    "thinkingTokens": 74946,
-    "responses": 145,
-    "costUsd": 25.135038399999992
+    "cacheWrite1hTokens": 663087,
+    "cacheReadTokens": 30487438,
+    "outputTokens": 229521,
+    "thinkingTokens": 76512,
+    "responses": 150,
+    "costUsd": 25.89008759999999
   },
   "subagents": {
     "inputTokens": 38,
@@ -91,14 +91,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 286,
+      "inputTokens": 296,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 650832,
-      "cacheReadTokens": 29314792,
-      "outputTokens": 221412,
-      "thinkingTokens": 74946,
-      "responses": 145,
-      "costUsd": 25.135038399999992
+      "cacheWrite1hTokens": 663087,
+      "cacheReadTokens": 30487438,
+      "outputTokens": 229521,
+      "thinkingTokens": 76512,
+      "responses": 150,
+      "costUsd": 25.89008759999999
     },
     "claude-sonnet-5-5/standard": {
       "inputTokens": 38,
@@ -186,6 +186,6 @@
     ".md": 589,
     ".mjs": 687,
     ".json": 59,
-    ".ts": 4772
+    ".ts": 4796
   }
 }

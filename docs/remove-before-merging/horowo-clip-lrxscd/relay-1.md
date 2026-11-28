@@ -30,7 +30,11 @@ Every operator message is quoted verbatim in the plan, in order: the task under 
 7. **Measure tempo per section** — the intro may differ too — **and PR 240 has merged**. → `main` merged into the branch; the engine told to measure each section on its own and to take the audio from the catalogue.
 8. **The chorus is faux-happy**: everyone having fun and hopping about the creepy kids'-show meadow, intercut with the words being scratched in the ward. → Chorus recut; hop cycles, a `joy` face, a scratching hand, the meadow's furniture added to the children's packages.
 9. **«врезки группы тоже можно делать»** → the band live joins the chorus's rotation.
-10. **The finished video goes onto the song's page at the end — likely an Opus session on a new account; relays must be current.** → This file. (verbatim in Last agent turn)
+10. **The finished video goes onto the song's page at the end — likely an Opus session on a new account; relays must be current.** → This file.
+11. **«телеканал / грёбаный бал / представляет»**, on the test card frame; then **«заставка с телешумом/паттерном же ДО начала музыки показывается, да?»** → «ГБ» is «Грёбаный бал»; the test card writes the ident on three lines (`testCard(pen, lines)`), and it is a pre-roll of about three seconds before the first note. The engine was told to add `PREROLL` (film time = song time + pre-roll, audio delayed by it in the page, the bundle and the mp4).
+12. **The guitarist and the bassist hold the fretting hand on the wrong side of the neck** («я понимаю что треш, но на святое!») → a fix-up child on Opus, branch `claude/horowo-clip-cast-fix-lrxscd`.
+13. **How much is 10% of the weekly limit at API rates, and how long do the remaining 15% last before parking** → about $65–70 spent, 1% ≈ $7, about $100 left, an hour to an hour and a half at wave 1's pace; the run parks (`/relay park`) at about 3% left. Wave 2 on Opus only.
+14. **«а, и t.me/fknball вставить где подойдёт (лучше раньше)»** → printed on the test card under the ident. (verbatim in Last agent turn)
 
 ## 3. Intent
 
@@ -60,13 +64,16 @@ All in the plan with what each beat. The ones a successor would otherwise re-lit
 
 - **Branch** `claude/horowo-clip-lrxscd`, draft **PR** https://github.com/vzakharov/vovazakharov.com/pull/295 (title and squash proposal posted; nothing attested). `main` with PR 240 is merged in.
 - **Plan** `docs/plans/horowo-clip.in-progress.md`.
-- **In the lead's branch**: the kit `src/clip/shared/ink`; the finished tape `src/clip/shared/tape` (merged from `claude/horowo-clip-tape-lrxscd` at `e7d0a99e`); `"clip": ["scene"]` in `src/masd.json`; the storyboard sketch under `docs/remove-before-merging/horowo-clip-lrxscd/sketch/`; frames under `docs/remove-before-merging/frames/` with verdicts in `docs/remove-before-merging/review-focus.json`.
-- **Children's branches**, each cut from the lead's `71b7bb75` and pushed as they go — a successor reads the branch, not the session:
-  - `claude/horowo-clip-engine-lrxscd` (Opus, `session_01MZoAKDHpcNax8XmHbMJmAK`) — in flight; page, timeline, score, `film:clip`, `bundle:clip`. Not merged.
-  - `claude/horowo-clip-cast-lrxscd` (Fable, `session_01MZoAKBkF3h1YJyKztvmqtT`) — in flight; the puppet, band forms, instruments, hop cycle, hand. Not merged.
-  - `claude/horowo-clip-props-lrxscd` (Opus, `session_01MZoAKBLUod263MnDXVYSWV`) — in flight; bunny, lettering, tallies, fall, globe, meadow. Not merged.
+- **In the lead's branch**: the kit `src/clip/shared/ink` (with the cast's `clipped` and point math); the finished tape `src/clip/shared/tape` (merged from `claude/horowo-clip-tape-lrxscd` at `e7d0a99e`), its test card writing the ident and `T.ME/FKNBALL`; the cast `src/clip/entities/puppet` (merged from `claude/horowo-clip-cast-lrxscd` at `5819b8b5`; its API is in the cast's report, summarised in the plan's § "The team"); `"clip": ["scene"]` in `src/masd.json`; the storyboard sketch under `docs/remove-before-merging/horowo-clip-lrxscd/sketch/`; frames under `docs/remove-before-merging/frames/` with verdicts in `docs/remove-before-merging/review-focus.json`.
+- **Children's branches**, pushed as they go — a successor reads the branch, not the session:
+  - `claude/horowo-clip-engine-lrxscd` (Opus, `session_01MZoAKDHpcNax8XmHbMJmAK`) — in flight; page at `/music/clips/horowo`, timeline (`Shot = Ranged & { draw(pen, local) }`, `SHOTS` in `src/clip/pages/horowo-clip/ui/shots.ts`), score, `film:clip`, `bundle:clip`. Asked since for: the pre-roll, one shot-list file per section with `SECTIONS` and pulse helpers, a merge of the lead's branch. Not merged.
+  - `claude/horowo-clip-props-lrxscd` (Opus, `session_01MZoAKBLUod263MnDXVYSWV`) — in flight; bunny, lettering, tallies, wallpaper, audience ears, serotonin fall pushed; told that the blood lettering reads as neon and must read as scratched. Not merged.
+  - `claude/horowo-clip-cast-fix-lrxscd` (Opus, `session_01MZoAKAL6Cs5jtE5GjPiRDY`) — in flight; the fretting hand comes from under the neck. Not merged.
+  - `claude/horowo-clip-cast-lrxscd` (Fable, `session_01MZoAKBkF3h1YJyKztvmqtT`) — done, merged, session archived.
   - `claude/horowo-clip-tape-lrxscd` (Opus, `session_01MZoAKD4RDV89XAtTpvb3py`) — done, merged, session archived.
     The briefs each child was given are in the lead's transcript; the plan's § "The team" has each package's scope. A stopped child is replaced, not woken: a new session on the same branch with a brief that stands alone.
+- **Wave 2, not started** (waits on the engine and the props): three Opus children, each owning its sections' shot-list files — (A) the kids' show and the chorus meadow; (B) the band live and the zapped channels; (C) the bedroom, the ward, the breakdown and the snow globe. Each wires its own scenes into its shot files.
+- **The limit**: at 11:05 UTC about 15% of the week was left, about $100 at API rates; the run parks at about 3%.
 - **Waiting**: a one-shot check-in on wave 1 scheduled in the lead's session for 11:17 UTC on 2026-11-28; the cache keepalive watcher in the lead's session.
 - **Estimate**: the whole job is booked on the lead's session (60 h designer, 32 h developer, 4 h audio-engineer, 6 h producer); nothing has been handed on.
 
@@ -95,6 +102,18 @@ Continue the run as lead, in `/carte-blanche` mode, from the plan's § "Built, i
 3. Wave 2: the scenes of the plan's § "The cut by feel", sized to the limit left; then the assembly cut to the pulse, the kick and the snare.
 4. The mp4 as a release asset; `/polish`; green `./scripts/vet.sh`; `/pr` refresh. Never merge.
 5. Limit allowing: the 30-second vertical story cut. Then the video on the song's page — «это уже скорее после тебя опус займётся».
+
+## Last agent turn
+
+The agent's last turn before the relay, verbatim, appended by
+`scripts/relay-last-reply.py`. It includes the turn's interim messages, usually
+unneeded but harmless; the reply proper is usually its last paragraphs.
+
+```text
+Записал: в припеве теперь крутятся три картинки, которым в одной песне делать нечего, — луг, стена и концерт в студии, группа врезается по такту.
+
+Детям это ничего нового не добавляет: играющая группа у куклы и так в задании, студию соберу во второй волне.
+```
 
 ## Last agent turn
 

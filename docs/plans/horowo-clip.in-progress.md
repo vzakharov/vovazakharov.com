@@ -416,17 +416,48 @@ branch; each reports with one `send_message` to the lead:
 
 Frames from each arrive as `docs/remove-before-merging/frames/<package>-*.jpg`.
 
-Wave 2, once wave 1 is merged and wired: the broadcast scenes, the reality
-scenes, the pack of zapped channels — sized to the limit left. The lead
-assembles the timeline and cuts it to the beat.
+As of 11:10 UTC: **tape** merged at `e7d0a99e` and **cast** at `5819b8b5`, both
+sessions archived. The cast's API, for a scene's author — all from
+`@/clip/entities/puppet`, sides L/R the viewer's, the puppet about 590 tall at
+scale 1 and placed by the floor between its soles:
+
+- `puppet(pen, { place, pose, reach, build, outfit, look, held, behind, front, tucked, legless, mark })`
+  — `pose` a `Pose` or a name of `POSES` (stand, wide, cheer, sing, welcome,
+  point, shrug, cower, sit); `outfit` one of jacket, strait, suit, pajama, toy;
+  `mark` tells one puppet's boil from another's.
+- `head(pen, look, seed)`;
+  `Look = { jaw, gaze, brow, lid, led, eyes, hair, sweat, turn, nod }`.
+- `player(pen, role, { beats, jaw, place, outfit, look, mark })` — a band member
+  playing; `beats` is the song's beat counter. `castSheet(pen, beats, jaw)`.
+- `lerpPose`, `reaching`, `carried(pose, { sway, dip, lean })`, `fitted`,
+  `guitar`, `micStand`, `thump(phase)`.
+
+There is no hop cycle, joy face or scratching hand as such: a hop is
+`carried(..., { dip })` with `place.y` moved, joy is `look` (brow raised, jaw
+open), and the scratching hand is a `point` hand on `reach`.
+
+A fix-up child, Opus, `session_01MZoAKAL6Cs5jtE5GjPiRDY`,
+`claude/horowo-clip-cast-fix-lrxscd`, cut from the lead's `fbec4641`: the
+fretting hand from under the neck.
+
+Wave 2, once the engine and the props are merged: three Opus children, each
+owning the shot-list files of its sections (the engine splits `shots.ts` into
+one file per section) and wiring its own scenes into them — (A) the kids' show
+and the chorus meadow; (B) the band live and the zapped channels; (C) the
+bedroom, the ward, the breakdown and the snow globe. The lead cuts nothing by
+hand that a child can cut on the score's pulse.
 
 ## Built, in flight, left
 
-- **Built**: the song map; the cast sheet, three storyboard sheets and the
-  second take of the wall; the drawing kit.
-- **In flight**: wave 1, four children.
-- **Left**: merging and wiring wave 1; the clip as an artifact; wave 2; the
-  assembly; the mp4 as a release asset; the 30-second vertical story cut, last.
+- **Built**: the song map; the storyboard; the drawing kit; the tape, with the
+  channel's ident and address on its test card; the cast.
+- **In flight**: the engine (with the pre-roll and the per-section shot files),
+  the props (with the lettering reworked to read as scratched), the fretting
+  hand.
+- **Left**: merging those three; the clip as an artifact; wave 2; the mp4 as a
+  release asset; the quality passes and a green vet; the 30-second vertical
+  story cut and the video on the song's page, both likely after the account
+  changes.
 
 PR 240 landed on 2026-11-28 and `main` is merged in at `c7773f84`: the song's
 page, words and transcripts are in the tree, and the engine was told to merge
