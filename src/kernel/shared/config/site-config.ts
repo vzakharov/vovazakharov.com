@@ -25,6 +25,7 @@ import type { SiteId } from './site-ids';
  */
 export const PAGE_ROUTES = {
   mushrooms: '/mushrooms',
+  horowoClip: '/music/clips/horowo',
 } as const;
 
 /**
