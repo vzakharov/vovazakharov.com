@@ -38,7 +38,6 @@ export function mountBlindTest(root: HTMLElement): void {
   const songTitle = el("p", "song-title");
   const switcher = el("div", "switcher");
   switcher.setAttribute("role", "group");
-  const pickButton = button("pick", "");
   const transport = el("div", "transport");
   const toggle = button("play", COPY.play);
   const position = el("input", "position");
@@ -55,7 +54,7 @@ export function mountBlindTest(root: HTMLElement): void {
   errorLine.setAttribute("role", "alert");
   errorLine.hidden = true;
   const status = el("p", "status", COPY.connecting);
-  deck.append(songTitle, switcher, pickButton, transport, keysHint, errorLine);
+  deck.append(songTitle, switcher, transport, keysHint, errorLine);
 
   const layout = el("div", "layout");
   const aside = el("nav", "aside");
@@ -116,11 +115,6 @@ export function mountBlindTest(root: HTMLElement): void {
         return select;
       }),
     );
-    const isPicked = picked === chosen;
-    pickButton.setAttribute("aria-pressed", String(isPicked));
-    pickButton.textContent = isPicked
-      ? `✓ ${COPY.picked} ${label(chosen)} — ${COPY.unpick}`
-      : `${COPY.pick} ${label(chosen)}`;
   }
 
   function selectPiece(index: number) {
@@ -140,7 +134,12 @@ export function mountBlindTest(root: HTMLElement): void {
     renderDeck();
   }
 
+  /** Switches to the variant; on the one already playing, picks it or clears the pick. */
   function choose(variant: Variant) {
+    if (variant === chosen) {
+      togglePick();
+      return;
+    }
     player.select(variant);
     chosen = variant;
     renderDeck();
@@ -173,7 +172,6 @@ export function mountBlindTest(root: HTMLElement): void {
     player.seek(Math.max(0, seconds));
   }
 
-  pickButton.addEventListener("click", togglePick);
   toggle.addEventListener("click", togglePlay);
   position.addEventListener("input", () => {
     seek(Number(position.value));
@@ -184,7 +182,6 @@ export function mountBlindTest(root: HTMLElement): void {
     if (event.metaKey || event.ctrlKey || event.altKey) return;
     const picked = variantKeys(variants(piece())).get(event.key.toLowerCase());
     if (picked !== undefined) choose(picked);
-    else if (event.key === "Enter") togglePick();
     else if (event.key === " ") togglePlay();
     else if (event.key === "ArrowLeft") seek(player.time - SKIP_S);
     else if (event.key === "ArrowRight") seek(player.time + SKIP_S);

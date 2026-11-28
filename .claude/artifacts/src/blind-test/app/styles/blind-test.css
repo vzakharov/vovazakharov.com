@@ -197,20 +197,6 @@ input:focus-visible {
   content: " ✓";
 }
 
-.pick {
-  padding: 0.65rem 0.75rem;
-  border: 1px solid var(--accent);
-  border-radius: 6px;
-  background: transparent;
-  color: var(--accent);
-  font-weight: 600;
-}
-
-.pick[aria-pressed="true"] {
-  background: var(--accent);
-  color: var(--accent-fg);
-}
-
 .transport {
   display: flex;
   align-items: center;
