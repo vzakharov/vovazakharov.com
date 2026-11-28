@@ -6,10 +6,11 @@ export const LETTERING_PALETTE = {
   bubble: ['#ffd23e', '#ff5fa2', '#7df0ff', '#9be35a', '#ff8a2a'],
   bubbleShadow: '#c2247a',
   bubbleHighlight: '#ffffff',
-  /** Blood: the fingertip's smear, the wet line, the drips. */
-  smear: '#4d0a10',
-  blood: '#b0141c',
-  drip: '#8a0f16',
-  /** The pale paint the fingernail gouged out under the blood. */
-  gouge: '#e7d8c6',
+  /** Blood: a thumb's smear, the dried scratches, the one fresh one, the drips. */
+  smear: '#6a1410',
+  dried: '#6e1a13',
+  fresh: '#a3141b',
+  drip: '#6b1013',
+  /** The plaster where the nail went through the paint, laid thin so any wall shows under it. */
+  groove: '#f3ede2',
 } as const;

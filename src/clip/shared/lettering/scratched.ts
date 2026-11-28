@@ -1,115 +1,148 @@
-import { type Pen, type Point, rng } from '@/clip/shared/ink';
+import type { Pen, Point } from '@/clip/shared/ink';
 
 import type { Stroke } from './glyph';
-import {
-  cut,
-  layOut,
-  lengthOf,
-  type TextLayout,
-  type WrittenStroke,
-} from './layout';
+import { cut, layOut, type TextLayout, type WrittenStroke } from './layout';
 import { LETTERING_PALETTE } from './palette-lettering';
-import { traceBoiled } from './trace';
+import {
+  pressureAt,
+  ribbon,
+  type Scratch,
+  scratchesOf,
+  stretchOf,
+} from './scratch-marks';
+import { boiledPoints, traceOnto } from './trace';
 import { writeWith, type Writing } from './write';
 
-/** A wavering line and its length. */
-type Layer = readonly [Stroke, number];
+// The scratches are a pure function of the layout and the seed, so each is
+// worked out once.
+const SCRATCHES = new WeakMap<TextLayout, Map<number, Scratch[]>>();
 
-/** Where the blood pools under a stroke, and how far it runs when it runs all the way. */
-type Drip = {
-  pool: Point;
-  /** How far it runs, in stage units. */
-  dripLength: number;
-  sway: number;
-};
-
-/** One stroke as the shaking hand made it: one wavering line per layer, and its drip. */
-type Gouged = {
-  /** The smear, the wet line and the gouge. */
-  layers: readonly Layer[];
-  /** None for a stroke that did not drip. */
-  drip?: Drip;
-};
-
-// How far each layer's line wavers off the stroke, in cap heights.
-const WAVER = [0.06, 0.05, 0.03] as const;
-
-/** The lowest of `points`, where blood gathers. */
-function lowest(points: Stroke): Point {
-  let low: Point = points[0] ?? [0, 0];
-  for (const point of points) if (point[1] > low[1]) low = point;
-  return low;
-}
-
-/** `points` cut into short pieces, each joint nudged by up to `amplitude`. */
-function shaky(
-  points: Stroke,
-  random: () => number,
-  amplitude: number,
-  step: number,
-): Stroke {
-  const out: Point[] = [];
-  const nudge = () => (random() - 0.5) * amplitude;
-  for (let n = 1; n < points.length; n += 1) {
-    const [ax, ay] = points[n - 1] ?? [0, 0];
-    const [bx, by] = points[n] ?? [0, 0];
-    const pieces = Math.max(1, Math.round(Math.hypot(bx - ax, by - ay) / step));
-    for (let k = n === 1 ? 0 : 1; k <= pieces; k += 1) {
-      out.push([
-        ax + ((bx - ax) * k) / pieces + nudge(),
-        ay + ((by - ay) * k) / pieces + nudge(),
-      ]);
-    }
-  }
-  return out.length > 0 ? out : points;
-}
-
-function gouge(layout: TextLayout, size: number, seed: number): Gouged[] {
-  const random = rng(seed);
-  return layout.strokes.map(({ points }) => {
-    const layers = WAVER.map((waver): Layer => {
-      const line = shaky(points, random, size * waver, size * 0.12);
-      return [line, lengthOf(line)];
-    });
-    const pool = lowest(points);
-    const drips = random() < 0.45;
-    const reach = size * (0.25 + random() * 0.9);
-    const sway = (random() - 0.5) * size * 0.1;
-    return drips
-      ? { layers, drip: { pool, dripLength: reach, sway } }
-      : { layers };
-  });
-}
-
-// The wavering lines are a pure function of the layout and the seed, so each
-// is drawn up once.
-const GOUGED = new WeakMap<TextLayout, Map<number, Gouged[]>>();
-
-function gougedOf(layout: TextLayout, size: number, seed: number): Gouged[] {
-  const bySeed = GOUGED.get(layout) ?? new Map<number, Gouged[]>();
-  GOUGED.set(layout, bySeed);
+function scratchesFor(
+  layout: TextLayout,
+  size: number,
+  seed: number,
+): Scratch[] {
+  const bySeed = SCRATCHES.get(layout) ?? new Map<number, Scratch[]>();
+  SCRATCHES.set(layout, bySeed);
   const cached = bySeed.get(seed);
   if (cached) return cached;
-  const fresh = gouge(layout, size, seed);
+  const fresh = scratchesOf(layout, size, seed);
   bySeed.set(seed, fresh);
   return fresh;
 }
 
-// The wet line's width in cap heights: what `weight` sets.
-const WET_WEIGHT = 0.09;
+// A scratch's full width at full pressure, in cap heights: what `weight` sets.
+const SCRATCH_WEIGHT = 0.05;
 
-const LAYER_STYLE = [
-  { color: LETTERING_PALETTE.smear, width: 0.2, alpha: 0.6 },
-  { color: LETTERING_PALETTE.blood, width: 0.09, alpha: 0.95 },
-  { color: LETTERING_PALETTE.gouge, width: 0.022, alpha: 0.75 },
-] as const;
+/** The shapes of one frame's writing, one list per colour. */
+type Marks = {
+  smears: Point[][];
+  dried: Point[][];
+  fresh: Point[][];
+  grooves: Point[][];
+};
+
+/** `points` slid sideways, up to `aside` by their far end, as a thumb drags. */
+function dragged(points: Stroke, aside: number): Point[] {
+  const [ax, ay] = points[0] ?? [0, 0];
+  const [bx, by] = points.at(-1) ?? [ax, ay];
+  const span = Math.hypot(bx - ax, by - ay) || 1;
+  const [nx, ny] = [-(by - ay) / span, (bx - ax) / span];
+  const last = Math.max(1, points.length - 1);
+  return points.map(([x, y], n): Point => {
+    const f = (n / last) * aside;
+    return [x + nx * f, y + ny * f];
+  });
+}
+
+function marksOf(
+  pen: Pen,
+  strokes: readonly WrittenStroke[],
+  scratches: readonly Scratch[],
+  size: number,
+  seed: number,
+  half: number,
+): Marks {
+  const marks: Marks = { smears: [], dried: [], fresh: [], grooves: [] };
+  const wobble = size * 0.01;
+  // `writtenUpTo` keeps the layout's order from its first stroke, so the
+  // n-th written stroke is the layout's n-th.
+  for (const [n, { done, glyph }] of strokes.entries()) {
+    const scratch = scratches[n];
+    if (!scratch) continue;
+    const boil = seed + glyph;
+    for (const { line, lineLength, stillWet, pressureSeed } of scratch.passes) {
+      const reach = lineLength * done;
+      const drawn = boiledPoints(pen, cut(line, reach), boil, wobble);
+      const outline = ribbon(
+        drawn,
+        (along) =>
+          half * pressureAt(pressureSeed, along, lineLength, reach, size),
+      );
+      (stillWet ? marks.fresh : marks.dried).push(outline);
+    }
+    const [first] = scratch.passes;
+    if (!first) continue;
+    const { line, lineLength } = first;
+    for (const [from, to] of scratch.grooves) {
+      if (from >= done) continue;
+      const groove = stretchOf(
+        line,
+        from * lineLength,
+        Math.min(to, done) * lineLength,
+      );
+      const drawn = boiledPoints(pen, groove, boil, wobble);
+      marks.grooves.push(ribbon(drawn, () => half * 0.3));
+    }
+    const { smear } = scratch;
+    if (smear && smear.stretch[0] < done) {
+      const [from, to] = smear.stretch;
+      const part = stretchOf(
+        line,
+        from * lineLength,
+        Math.min(to, done) * lineLength,
+      );
+      const smudge = dragged(
+        boiledPoints(pen, part, boil, wobble),
+        smear.aside,
+      );
+      const smudgeLength = (to - from) * lineLength;
+      marks.smears.push(
+        ribbon(
+          smudge,
+          (along) =>
+            half * 2.2 * Math.sin(Math.PI * Math.min(1, along / smudgeLength)),
+        ),
+      );
+    }
+  }
+  return marks;
+}
+
+/** Fills every outline in `shapes` at once. */
+function fillAll(
+  ctx: CanvasRenderingContext2D,
+  shapes: readonly Point[][],
+  color: string,
+  alpha: number,
+): void {
+  ctx.beginPath();
+  for (const shape of shapes) {
+    traceOnto(ctx, shape);
+    ctx.closePath();
+  }
+  ctx.globalAlpha = alpha;
+  ctx.fillStyle = color;
+  ctx.fill();
+}
 
 /**
- * Gouged into wall paint with a fingernail and filled with blood: a dark smear,
- * a wet red line over it, the pale scratch in the paint showing through both,
- * and drips running down from the low end of strokes. A drip runs as the hand
- * writes on past its stroke, and `bleed` in `[0, 1]` runs every drip further —
- * 1 runs them all the way.
+ * Scratched into wall paint with a fingernail and filled with blood, as with
+ * a pencil: each stroke a bundle of two or three thin scratches, pressed
+ * unevenly, mostly dried brown with one fresher red, the plaster showing in
+ * patches, a thumb's smear on a few, drips off the low end of some verticals.
+ * A drip runs as the hand writes on past its stroke, and `bleed` in `[0, 1]`
+ * runs every drip further — 1 runs them all the way.
  */
 export function writeScratched(
   pen: Pen,
@@ -120,36 +153,21 @@ export function writeScratched(
     letterHeight: size,
     seed = 1,
     bleed = 0,
-    weight = WET_WEIGHT,
+    weight = SCRATCH_WEIGHT,
   } = writing;
-  const gouged = gougedOf(layOut(text, writing), size, seed);
-  // Every layer's width keeps its proportion to the wet line's.
-  const thickness = weight / WET_WEIGHT;
+  const scratches = scratchesFor(layOut(text, writing), size, seed);
+  const half = Math.max(0.7, (size * weight) / 2);
   writeWith(pen, text, writing, (strokes) => {
     const { ctx } = pen;
+    const marks = marksOf(pen, strokes, scratches, size, seed, half);
     ctx.save();
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-    const wobble = size * 0.012;
-    for (const [layer, style] of LAYER_STYLE.entries()) {
-      ctx.beginPath();
-      // `writtenUpTo` keeps the layout's order from its first stroke, so the
-      // n-th written stroke is the layout's n-th.
-      for (const [n, stroke] of strokes.entries()) {
-        const [line, length] = gouged[n]?.layers[layer] ?? [[], 0];
-        const drawn = cut(line, length * stroke.done);
-        traceBoiled(pen, drawn, seed + stroke.glyph, wobble);
-      }
-      ctx.globalAlpha = style.alpha;
-      ctx.strokeStyle = style.color;
-      ctx.lineWidth = Math.max(1.2, size * style.width * thickness);
-      ctx.stroke();
-      if (layer === 1) {
-        const runOf = ({ inkAfter }: WrittenStroke) =>
-          inkAfter / (size * 2) + bleed;
-        drawDrips(pen, strokes, gouged, runOf, size * 0.045 * thickness);
-      }
-    }
+    fillAll(ctx, marks.smears, LETTERING_PALETTE.smear, 0.38);
+    fillAll(ctx, marks.dried, LETTERING_PALETTE.dried, 0.92);
+    fillAll(ctx, marks.fresh, LETTERING_PALETTE.fresh, 0.95);
+    fillAll(ctx, marks.grooves, LETTERING_PALETTE.groove, 0.45);
+    const runOf = ({ inkAfter }: WrittenStroke) =>
+      inkAfter / (size * 2) + bleed;
+    drawDrips(pen, strokes, scratches, runOf, half * 0.9);
     ctx.restore();
   });
 }
@@ -161,16 +179,16 @@ export function writeScratched(
 function drawDrips(
   pen: Pen,
   strokes: readonly WrittenStroke[],
-  gouged: readonly Gouged[],
+  scratches: readonly Scratch[],
   runOf: (stroke: WrittenStroke) => number,
   half: number,
 ): void {
   const { ctx } = pen;
-  ctx.globalAlpha = 0.95;
+  ctx.globalAlpha = 0.9;
   ctx.fillStyle = LETTERING_PALETTE.drip;
   ctx.beginPath();
   for (const [n, stroke] of strokes.entries()) {
-    const drip = gouged[n]?.drip;
+    const drip = scratches[n]?.drip;
     if (!drip || stroke.done < 1) continue;
     const run = Math.min(1, runOf(stroke));
     if (run <= 0) continue;
@@ -180,17 +198,17 @@ function drawDrips(
     const bend = drip.sway * run;
     ctx.moveTo(x - half, y);
     ctx.quadraticCurveTo(
-      x + bend - half * 0.5,
+      x + bend - half * 0.4,
       y + length / 2,
-      x - half * 0.4,
+      x - half * 0.3,
       end,
     );
-    ctx.lineTo(x + half * 0.4, end);
-    ctx.quadraticCurveTo(x + bend + half * 0.5, y + length / 2, x + half, y);
+    ctx.lineTo(x + half * 0.3, end);
+    ctx.quadraticCurveTo(x + bend + half * 0.4, y + length / 2, x + half, y);
     ctx.closePath();
     // The bead the drip gathers into at its end.
-    ctx.moveTo(x + half * 0.7, end);
-    ctx.arc(x, end, half * 0.7, 0, Math.PI * 2);
+    ctx.moveTo(x + half * 0.6, end);
+    ctx.arc(x, end, half * 0.6, 0, Math.PI * 2);
   }
   ctx.fill();
 }
