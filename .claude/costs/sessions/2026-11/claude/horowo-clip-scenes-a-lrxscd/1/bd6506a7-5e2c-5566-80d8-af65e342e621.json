@@ -1,15 +1,27 @@
 {
   "total": {
-    "inputTokens": 69,
+    "inputTokens": 73,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 124342,
-    "cacheReadTokens": 5022967,
-    "outputTokens": 27623,
-    "thinkingTokens": 7751,
-    "responses": 36,
-    "costUsd": 2.5520654
+    "cacheWrite1hTokens": 126223,
+    "cacheReadTokens": 5379080,
+    "outputTokens": 29562,
+    "thinkingTokens": 7796,
+    "responses": 38,
+    "costUsd": 2.6771320000000003
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-28T14:27:15.715Z",
+    "subjectLine": "feat: the kids' show intro and the chorus meadow, drawn and cut",
+    "parts": [
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "designer",
+        "comment": "Two staged scenes with a cast of puppets and bunnies animated on the beat take a character animator who can also pace cuts; about three hours a scene from finished rigs and props"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "Write",
     "endedOn": "src/clip/widgets/meadow-party/ui/palette-meadow-party.ts",
@@ -34,18 +46,18 @@
   "url": "https://claude.ai/code/session_01MZoAKCYpzFVG8CYLX323qQ",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T11:52:31.022Z",
-  "lastResponseAt": "2026-11-28T11:59:47.331Z",
+  "lastResponseAt": "2026-11-28T12:00:21.044Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 69,
+    "inputTokens": 73,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 124342,
-    "cacheReadTokens": 5022967,
-    "outputTokens": 27623,
-    "thinkingTokens": 7751,
-    "responses": 36,
-    "costUsd": 2.5520654
+    "cacheWrite1hTokens": 126223,
+    "cacheReadTokens": 5379080,
+    "outputTokens": 29562,
+    "thinkingTokens": 7796,
+    "responses": 38,
+    "costUsd": 2.6771320000000003
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,14 +71,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 69,
+      "inputTokens": 73,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 124342,
-      "cacheReadTokens": 5022967,
-      "outputTokens": 27623,
-      "thinkingTokens": 7751,
-      "responses": 36,
-      "costUsd": 2.5520654
+      "cacheWrite1hTokens": 126223,
+      "cacheReadTokens": 5379080,
+      "outputTokens": 29562,
+      "thinkingTokens": 7796,
+      "responses": 38,
+      "costUsd": 2.6771320000000003
     }
   },
   "warnings": [],
@@ -83,7 +95,7 @@
     ".md": 936,
     ".mjs": 687,
     ".json": 97,
-    ".ts": 11627,
+    ".ts": 11794,
     ".tsx": 44,
     ".scss": 12
   }

@@ -1,15 +1,27 @@
 {
   "total": {
-    "inputTokens": 107,
+    "inputTokens": 110,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 149578,
-    "cacheReadTokens": 8534922,
-    "outputTokens": 43360,
+    "cacheWrite1hTokens": 151455,
+    "cacheReadTokens": 8941540,
+    "outputTokens": 45638,
     "thinkingTokens": 11132,
-    "responses": 55,
-    "costUsd": 3.7712364
+    "responses": 57,
+    "costUsd": 3.913148
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-28T14:27:20.246Z",
+    "subjectLine": "feat: the bedroom, the ward and the ending, drawn and cut",
+    "parts": [
+      {
+        "hours": 8.0,
+        "grade": "senior",
+        "role": "designer",
+        "comment": "Three sets in a second visual register, five ward framings, a snow-globe pull-back and a tube switch-off: the clip's story beats, which need a senior hand on staging; about two and a half hours a set"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "Write",
     "endedOn": "src/clip/widgets/ward/ui/palette-ward.ts",
@@ -34,18 +46,18 @@
   "url": "https://claude.ai/code/session_01MZoAKERHcdpfR5yxYMoa2y",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T11:52:33.501Z",
-  "lastResponseAt": "2026-11-28T12:02:05.155Z",
+  "lastResponseAt": "2026-11-28T12:02:38.634Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 107,
+    "inputTokens": 110,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 149578,
-    "cacheReadTokens": 8534922,
-    "outputTokens": 43360,
+    "cacheWrite1hTokens": 151455,
+    "cacheReadTokens": 8941540,
+    "outputTokens": 45638,
     "thinkingTokens": 11132,
-    "responses": 55,
-    "costUsd": 3.7712364
+    "responses": 57,
+    "costUsd": 3.913148
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,14 +71,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 107,
+      "inputTokens": 110,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 149578,
-      "cacheReadTokens": 8534922,
-      "outputTokens": 43360,
+      "cacheWrite1hTokens": 151455,
+      "cacheReadTokens": 8941540,
+      "outputTokens": 45638,
       "thinkingTokens": 11132,
-      "responses": 55,
-      "costUsd": 3.7712364
+      "responses": 57,
+      "costUsd": 3.913148
     }
   },
   "warnings": [],
@@ -83,7 +95,7 @@
     ".md": 936,
     ".mjs": 687,
     ".json": 97,
-    ".ts": 12181,
+    ".ts": 12479,
     ".tsx": 44,
     ".scss": 12
   }

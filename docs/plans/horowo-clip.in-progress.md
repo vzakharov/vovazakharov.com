@@ -517,7 +517,13 @@ wind down, and each wrapped up early:
   bunny seated in the ward, the globe pull-back in clear steps, differing
   breakdown holes.
 
-The engine is the one session still alive, on the pre-roll.
+The engine's pre-roll is merged at `21ddfda5` (the ident tunes in for 3.2 s
+before the first note; the playhead runs negative there).
+
+The closing child: **knip**, Sonnet, `session_01MZoAKAcUSg1fRJ5rpM2h4Q`,
+`claude/horowo-clip-knip-lrxscd`, cut from the lead's `70225e65` — the sketch
+files removed, unused exports and exported types dropped, nothing drawn changed.
+Sonnet because it is removal by a list.
 
 ## Built, in flight, left
 

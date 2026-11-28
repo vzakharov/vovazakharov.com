@@ -1,15 +1,33 @@
 {
   "total": {
-    "inputTokens": 71,
+    "inputTokens": 75,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 133073,
-    "cacheReadTokens": 5445186,
-    "outputTokens": 29220,
+    "cacheWrite1hTokens": 135342,
+    "cacheReadTokens": 5819154,
+    "outputTokens": 31102,
     "thinkingTokens": 11818,
-    "responses": 37,
-    "costUsd": 2.7383052
+    "responses": 39,
+    "costUsd": 2.8689068000000004
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-28T14:27:13.425Z",
+    "subjectLine": "fix: the fretting hand holds the neck from under it",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "two-bone IK and draw order through the figure's grip mechanism need someone fluent in rigs"
+      },
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "judging the hand against a real fretting grip and tuning hang and tilt by eye across the cycle"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "Edit",
     "endedOn": "src/clip/entities/puppet/body/model/pose.ts",
@@ -34,18 +52,18 @@
   "url": "https://claude.ai/code/session_01MZoAKAL6Cs5jtE5GjPiRDY",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T11:05:43.275Z",
-  "lastResponseAt": "2026-11-28T11:11:45.719Z",
+  "lastResponseAt": "2026-11-28T11:12:15.512Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 71,
+    "inputTokens": 75,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 133073,
-    "cacheReadTokens": 5445186,
-    "outputTokens": 29220,
+    "cacheWrite1hTokens": 135342,
+    "cacheReadTokens": 5819154,
+    "outputTokens": 31102,
     "thinkingTokens": 11818,
-    "responses": 37,
-    "costUsd": 2.7383052
+    "responses": 39,
+    "costUsd": 2.8689068000000004
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,14 +77,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 71,
+      "inputTokens": 75,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 133073,
-      "cacheReadTokens": 5445186,
-      "outputTokens": 29220,
+      "cacheWrite1hTokens": 135342,
+      "cacheReadTokens": 5819154,
+      "outputTokens": 31102,
       "thinkingTokens": 11818,
-      "responses": 37,
-      "costUsd": 2.7383052
+      "responses": 39,
+      "costUsd": 2.8689068000000004
     }
   },
   "warnings": [],
@@ -83,6 +101,6 @@
     ".md": 557,
     ".mjs": 687,
     ".json": 55,
-    ".ts": 4757
+    ".ts": 4825
   }
 }

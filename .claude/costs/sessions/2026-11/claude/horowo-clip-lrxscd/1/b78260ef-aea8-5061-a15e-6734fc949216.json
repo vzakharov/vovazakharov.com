@@ -1,29 +1,29 @@
 {
   "total": {
-    "inputTokens": 573,
+    "inputTokens": 603,
     "cacheWrite5mTokens": 123284,
-    "cacheWrite1hTokens": 1301831,
-    "cacheReadTokens": 59057335,
-    "outputTokens": 337637,
-    "thinkingTokens": 96834,
-    "responses": 294,
-    "costUsd": 45.832451099999986
+    "cacheWrite1hTokens": 1327052,
+    "cacheReadTokens": 61807068,
+    "outputTokens": 347395,
+    "thinkingTokens": 100266,
+    "responses": 309,
+    "costUsd": 47.17649369999999
   },
   "estimate": {
-    "at": "2026-11-28T10:11:18.592Z",
-    "subjectLine": "feat: storyboard and build of the «Хорошо!» music video",
+    "at": "2026-11-28T14:27:28.183Z",
+    "subjectLine": "feat: storyboard, direction and assembly of the «Хорошо!» music video",
     "parts": [
       {
-        "hours": 60.0,
+        "hours": 14.0,
         "grade": "senior",
         "role": "designer",
-        "comment": "A two-minute character-animated clip: cast design, storyboard in three variants, every scene drawn and animated to the beat"
+        "comment": "Three storyboard variants, the drawing kit, the wall's lettering takes and a director's verdict on every frame; the scenes themselves are booked on the sessions that drew them"
       },
       {
-        "hours": 32.0,
+        "hours": 6.0,
         "grade": "senior",
         "role": "developer",
-        "comment": "A deterministic frame-by-frame renderer synced to the audio, a page that plays it and an mp4 export"
+        "comment": "The per-section shot list, the seams wired between packages and the stills harness; the renderer is booked on the engine's session"
       },
       {
         "hours": 4.0,
@@ -32,10 +32,10 @@
         "comment": "Beat grid, section map and vocal onsets that the cuts and the hinged jaw are timed against"
       },
       {
-        "hours": 6.0,
+        "hours": 8.0,
         "grade": "senior",
         "role": "producer",
-        "comment": "Briefing and merging child sessions, keeping the board and the plan current"
+        "comment": "Briefing, merging and reviewing fourteen child sessions across three waves, with the board, the plan and the relay summary kept current"
       }
     ],
     "comment": null
@@ -66,18 +66,18 @@
   "url": "https://claude.ai/code/session_01MZoAKCKwqeVGKcCw6iKKPs",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:00:24.182Z",
-  "lastResponseAt": "2026-11-28T14:24:47.817Z",
+  "lastResponseAt": "2026-11-28T14:27:31.122Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 39.975682099999986,
   "ownTurns": {
-    "inputTokens": 535,
+    "inputTokens": 565,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 1301831,
-    "cacheReadTokens": 57689456,
-    "outputTokens": 321318,
-    "thinkingTokens": 95898,
-    "responses": 278,
-    "costUsd": 45.22418719999998
+    "cacheWrite1hTokens": 1327052,
+    "cacheReadTokens": 60439189,
+    "outputTokens": 331076,
+    "thinkingTokens": 99330,
+    "responses": 293,
+    "costUsd": 46.56822979999998
   },
   "subagents": {
     "inputTokens": 38,
@@ -91,14 +91,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 535,
+      "inputTokens": 565,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 1301831,
-      "cacheReadTokens": 57689456,
-      "outputTokens": 321318,
-      "thinkingTokens": 95898,
-      "responses": 278,
-      "costUsd": 45.22418719999998
+      "cacheWrite1hTokens": 1327052,
+      "cacheReadTokens": 60439189,
+      "outputTokens": 331076,
+      "thinkingTokens": 99330,
+      "responses": 293,
+      "costUsd": 46.56822979999998
     },
     "claude-sonnet-5-5/standard": {
       "inputTokens": 38,
@@ -244,10 +244,10 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 995,
+    ".md": 987,
     ".mjs": 687,
     ".json": 169,
-    ".ts": 13881,
+    ".ts": 14018,
     ".tsx": 44,
     ".scss": 12
   }

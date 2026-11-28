@@ -1,15 +1,27 @@
 {
   "total": {
-    "inputTokens": 37,
+    "inputTokens": 43,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 90307,
-    "cacheReadTokens": 2256695,
-    "outputTokens": 9772,
-    "thinkingTokens": 1399,
-    "responses": 18,
-    "costUsd": 1.3693829999999998
+    "cacheWrite1hTokens": 92632,
+    "cacheReadTokens": 2690392,
+    "outputTokens": 11347,
+    "thinkingTokens": 1436,
+    "responses": 21,
+    "costUsd": 1.5062464
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-28T14:27:26.493Z",
+    "subjectLine": "feat: the bedroom lit and shaken by its TV",
+    "parts": [
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "designer",
+        "comment": "One scene relit with cast shadows, a tilt and a kick shake: lighting and camera on a finished set, cut short before the other two scenes"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "Edit",
     "endedOn": "src/clip/widgets/bedroom/ui/palette-bedroom.ts",
@@ -34,18 +46,18 @@
   "url": "https://claude.ai/code/session_01MZoAKCbfeGhkpE8cgQDcPk",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T12:06:16.195Z",
-  "lastResponseAt": "2026-11-28T14:19:39.918Z",
+  "lastResponseAt": "2026-11-28T14:20:21.055Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 0,
   "ownTurns": {
-    "inputTokens": 37,
+    "inputTokens": 43,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 90307,
-    "cacheReadTokens": 2256695,
-    "outputTokens": 9772,
-    "thinkingTokens": 1399,
-    "responses": 18,
-    "costUsd": 1.3693829999999998
+    "cacheWrite1hTokens": 92632,
+    "cacheReadTokens": 2690392,
+    "outputTokens": 11347,
+    "thinkingTokens": 1436,
+    "responses": 21,
+    "costUsd": 1.5062464
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,14 +71,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 37,
+      "inputTokens": 43,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 90307,
-      "cacheReadTokens": 2256695,
-      "outputTokens": 9772,
-      "thinkingTokens": 1399,
-      "responses": 18,
-      "costUsd": 1.3693829999999998
+      "cacheWrite1hTokens": 92632,
+      "cacheReadTokens": 2690392,
+      "outputTokens": 11347,
+      "thinkingTokens": 1436,
+      "responses": 21,
+      "costUsd": 1.5062464
     }
   },
   "warnings": [],
@@ -83,7 +95,7 @@
     ".md": 976,
     ".mjs": 687,
     ".json": 145,
-    ".ts": 13550,
+    ".ts": 13651,
     ".tsx": 44,
     ".scss": 12
   }

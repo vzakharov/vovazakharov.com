@@ -1,15 +1,27 @@
 {
   "total": {
-    "inputTokens": 53,
+    "inputTokens": 59,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 105676,
-    "cacheReadTokens": 3792779,
-    "outputTokens": 17252,
-    "thinkingTokens": 3992,
-    "responses": 28,
-    "costUsd": 1.9492158000000004
+    "cacheWrite1hTokens": 108100,
+    "cacheReadTokens": 4271613,
+    "outputTokens": 19504,
+    "thinkingTokens": 4109,
+    "responses": 31,
+    "costUsd": 2.1094386000000003
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-28T14:27:24.464Z",
+    "subjectLine": "feat: the pre-bridge creeps to a stop, the gig headbangs",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "designer",
+        "comment": "Turning a fast zap into dread by slowing it, and giving a static band violence, is acting and camera work on finished scenes; an animator's afternoon"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "Edit",
     "endedOn": "src/clip/widgets/channels/ui/screen.ts",
@@ -34,18 +46,18 @@
   "url": "https://claude.ai/code/session_01MZoAKE77iQA45nCijhE6AX",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T12:06:21.405Z",
-  "lastResponseAt": "2026-11-28T14:21:37.938Z",
+  "lastResponseAt": "2026-11-28T14:22:14.534Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 0,
   "ownTurns": {
-    "inputTokens": 53,
+    "inputTokens": 59,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 105676,
-    "cacheReadTokens": 3792779,
-    "outputTokens": 17252,
-    "thinkingTokens": 3992,
-    "responses": 28,
-    "costUsd": 1.9492158000000004
+    "cacheWrite1hTokens": 108100,
+    "cacheReadTokens": 4271613,
+    "outputTokens": 19504,
+    "thinkingTokens": 4109,
+    "responses": 31,
+    "costUsd": 2.1094386000000003
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,14 +71,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 53,
+      "inputTokens": 59,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 105676,
-      "cacheReadTokens": 3792779,
-      "outputTokens": 17252,
-      "thinkingTokens": 3992,
-      "responses": 28,
-      "costUsd": 1.9492158000000004
+      "cacheWrite1hTokens": 108100,
+      "cacheReadTokens": 4271613,
+      "outputTokens": 19504,
+      "thinkingTokens": 4109,
+      "responses": 31,
+      "costUsd": 2.1094386000000003
     }
   },
   "warnings": [],
@@ -83,7 +95,7 @@
     ".md": 976,
     ".mjs": 687,
     ".json": 145,
-    ".ts": 13617,
+    ".ts": 13662,
     ".tsx": 44,
     ".scss": 12
   }
