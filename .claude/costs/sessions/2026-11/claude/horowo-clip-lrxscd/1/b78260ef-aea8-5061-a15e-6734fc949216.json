@@ -1,16 +1,16 @@
 {
   "total": {
-    "inputTokens": 603,
+    "inputTokens": 622,
     "cacheWrite5mTokens": 123284,
-    "cacheWrite1hTokens": 1327052,
-    "cacheReadTokens": 61807068,
-    "outputTokens": 347395,
-    "thinkingTokens": 100266,
-    "responses": 309,
-    "costUsd": 47.17649369999999
+    "cacheWrite1hTokens": 1340280,
+    "cacheReadTokens": 63853934,
+    "outputTokens": 351432,
+    "thinkingTokens": 101661,
+    "responses": 319,
+    "costUsd": 47.95914689999999
   },
   "estimate": {
-    "at": "2026-11-28T14:27:28.183Z",
+    "at": "2026-11-28T14:27:37.015Z",
     "subjectLine": "feat: storyboard, direction and assembly of the «Хорошо!» music video",
     "parts": [
       {
@@ -35,7 +35,7 @@
         "hours": 8.0,
         "grade": "senior",
         "role": "producer",
-        "comment": "Briefing, merging and reviewing fourteen child sessions across three waves, with the board, the plan and the relay summary kept current"
+        "comment": "Briefing, merging and reviewing twelve child sessions across three waves, with the board, the plan and the relay summary kept current"
       }
     ],
     "comment": null
@@ -66,18 +66,18 @@
   "url": "https://claude.ai/code/session_01MZoAKCKwqeVGKcCw6iKKPs",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:00:24.182Z",
-  "lastResponseAt": "2026-11-28T14:27:31.122Z",
+  "lastResponseAt": "2026-11-28T14:28:43.669Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 39.975682099999986,
   "ownTurns": {
-    "inputTokens": 565,
+    "inputTokens": 584,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 1327052,
-    "cacheReadTokens": 60439189,
-    "outputTokens": 331076,
-    "thinkingTokens": 99330,
-    "responses": 293,
-    "costUsd": 46.56822979999998
+    "cacheWrite1hTokens": 1340280,
+    "cacheReadTokens": 62486055,
+    "outputTokens": 335113,
+    "thinkingTokens": 100725,
+    "responses": 303,
+    "costUsd": 47.35088299999999
   },
   "subagents": {
     "inputTokens": 38,
@@ -91,14 +91,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 565,
+      "inputTokens": 584,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 1327052,
-      "cacheReadTokens": 60439189,
-      "outputTokens": 331076,
-      "thinkingTokens": 99330,
-      "responses": 293,
-      "costUsd": 46.56822979999998
+      "cacheWrite1hTokens": 1340280,
+      "cacheReadTokens": 62486055,
+      "outputTokens": 335113,
+      "thinkingTokens": 100725,
+      "responses": 303,
+      "costUsd": 47.35088299999999
     },
     "claude-sonnet-5-5/standard": {
       "inputTokens": 38,
@@ -244,7 +244,7 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 987,
+    ".md": 993,
     ".mjs": 687,
     ".json": 169,
     ".ts": 14018,

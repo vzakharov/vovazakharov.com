@@ -19,7 +19,7 @@ From `.claude/skills/carte-blanche/SKILL.md` § "What stands without being said"
 
 ## 2. The conversation
 
-Every operator message is quoted verbatim in the plan, in order: the task under § "The operator's standing rules, verbatim", the pick of the variant under § "Answers to the one batch of questions", and everything since under § "Steering since". In order, with what each got back:
+Every operator message is quoted verbatim in the plan, in order: the task under § "The operator's standing rules, verbatim", the pick of the variant under § "Answers to the one batch of questions", and everything since in `steering.md` beside this file, which the plan's § "Steering since" points at. In order, with what each got back:
 
 1. **The task** (`/carte-blanche`, with a photo of the avatar): shoot a clip for «Хорошо!», Gorillaz + the 90s + his robo-avatar as singer and band, funny and frightening, colourful and grim; sketch a storyboard in a few variants, he picks. → The lead drew a cast sheet and three storyboard variants in throwaway SVG, opened draft PR 295 and the review board, and asked four questions (variant; page or mp4; words on screen; whether the puppet is the avatar).
 2. **The pick**: variant 1's look; the wall's lettering must look written "with a fingernail-pencil" in blood; tallies struck through after every four, with no end in sight; liked the bunny at night and the bunny with the crystal ball at the end; the channel is «ГБ», not «ХО». → Wall take 2 drawn; questions 2–4 run on defaults (page and mp4 from one code, 16:9 1080p 30 fps; words only where a scene has them; the puppet as on the sheet). The lead landed the drawing kit and started four children.
