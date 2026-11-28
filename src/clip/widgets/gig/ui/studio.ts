@@ -69,15 +69,16 @@ export function crowd(pen: Pen, audience: Audience): void {
 }
 
 /** `draw` with the camera jolted in a little on every kick. */
-export function jolted(pen: Pen, draw: () => void): void {
-  const zoom = 1 + 0.035 * punch(KICKS, pen.playhead);
-  at(
-    pen,
-    {
-      x: (width / 2) * (1 - zoom),
-      y: (height / 2) * (1 - zoom),
-      scale: zoom,
-    },
-    draw,
-  );
+export function jolted(
+  pen: Pen,
+  draw: () => void,
+  { push = 1, tilt = 0, kick = 0.035 } = {},
+): void {
+  const hit = punch(KICKS, pen.playhead);
+  const zoom = push * (1 + kick * hit);
+  // A Dutch angle, knocked a further step on each kick.
+  const rot = tilt * (1 + 0.5 * hit);
+  at(pen, { x: width / 2, y: height / 2, rot, scale: zoom }, () => {
+    at(pen, { x: -width / 2, y: -height / 2 }, draw);
+  });
 }
