@@ -248,13 +248,20 @@ The operator's running order, «давай пока попробуем так»,
 - **Blocked in relay 6 on `GH_TOKEN`:** every `music:masters` call answered "Bad
   credentials". The operator set a new token mid-session; only a new session
   reads it.
+- **Done in relay 7:** the three Matchering winners re-rendered as 24-bit FLAC;
+  each null-tests against the MP3 he picked at exactly its own V0 re-encode's
+  residual (talk −26.9, lastsnow −28.0, unnoticed −33.2 dB), where a
+  neighbouring candidate sits at −19. `talk_master.flac`,
+  `lastsnow_master.flac`, `unnoticed_master.flac` are in their repositories with
+  `.master.mp3` copies, `mastering/` and READMEs linking the reference at a
+  commit (birdie's `Грёбаный бал - Птичка.flac`; poko's
+  `Грёбаный бал - Метель.flac` — poko is «Метель», not dead-man). horowo and
+  pozdno, his own masters winning, got the `.master.mp3` copy and a README
+  saying so, and no `mastering/`, since no script made those masters.
 - **Left, in order:**
-  - Each winner `put` into its repository, per the bullet above.
-  - Each repository's files per § 1 (`.master.mp3`, `mastering/`, README naming
-    the master and its reference), then `music:scaffold`, the page's frontmatter
-    (§ 4–5 billing, album, track), `music:masters tag`. too-late's `hook` is the
-    author's pick, «Новой ночи тлеющий восход», and in `en` «The smouldering
-    dawn of a new night».
+  - `music:scaffold`, the page's frontmatter (§ 4–5 billing, album, track),
+    `music:masters tag`. too-late's `hook` is the author's pick, «Новой ночи
+    тлеющий восход», and in `en` «The smouldering dawn of a new night».
   - The QA unfurl check: build vova and grep `og:audio` in
     `out/music/songs/<slug>.html`.
 
