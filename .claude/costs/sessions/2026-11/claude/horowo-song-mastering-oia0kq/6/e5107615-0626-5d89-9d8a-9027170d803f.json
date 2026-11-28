@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 211,
+    "inputTokens": 220,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 386207,
-    "cacheReadTokens": 21243027,
-    "outputTokens": 70829,
-    "thinkingTokens": 16842,
-    "responses": 106,
-    "costUsd": 8.755685400000003
+    "cacheWrite1hTokens": 396445,
+    "cacheReadTokens": 22235328,
+    "outputTokens": 74774,
+    "thinkingTokens": 17269,
+    "responses": 111,
+    "costUsd": 9.1149856
   },
   "estimate": {
     "at": "2026-11-28T09:21:56.015Z",
@@ -64,18 +64,18 @@
   "url": "https://claude.ai/code/session_01MZoAKBXw8WWnfEBawkRMMa",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T09:20:14.392Z",
-  "lastResponseAt": "2026-11-28T09:37:16.650Z",
+  "lastResponseAt": "2026-11-28T09:38:54.118Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 211,
+    "inputTokens": 220,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 386207,
-    "cacheReadTokens": 21243027,
-    "outputTokens": 70829,
-    "thinkingTokens": 16842,
-    "responses": 106,
-    "costUsd": 8.755685400000003
+    "cacheWrite1hTokens": 396445,
+    "cacheReadTokens": 22235328,
+    "outputTokens": 74774,
+    "thinkingTokens": 17269,
+    "responses": 111,
+    "costUsd": 9.1149856
   },
   "subagents": {
     "inputTokens": 0,
@@ -89,14 +89,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 211,
+      "inputTokens": 220,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 386207,
-      "cacheReadTokens": 21243027,
-      "outputTokens": 70829,
-      "thinkingTokens": 16842,
-      "responses": 106,
-      "costUsd": 8.755685400000003
+      "cacheWrite1hTokens": 396445,
+      "cacheReadTokens": 22235328,
+      "outputTokens": 74774,
+      "thinkingTokens": 17269,
+      "responses": 111,
+      "costUsd": 9.1149856
     }
   },
   "warnings": [],
@@ -135,7 +135,7 @@
   ],
   "telemetry": null,
   "operatorWords": {
-    "chat": 543,
+    "chat": 1055,
     "review": 0,
     "threads": 0
   },
@@ -143,8 +143,8 @@
   "threadPosts": {},
   "branchLines": {
     ".json": -2,
-    ".ts": 704,
-    ".css": 273,
+    ".ts": 698,
+    ".css": 259,
     ".md": 2335,
     ".b64": 5,
     ".txt": 176,
