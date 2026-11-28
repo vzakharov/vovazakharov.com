@@ -1,0 +1,142 @@
+{
+  "total": {
+    "inputTokens": 241,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 371833,
+    "cacheReadTokens": 22543899,
+    "outputTokens": 102256,
+    "thinkingTokens": 32301,
+    "responses": 127,
+    "costUsd": 9.5295278
+  },
+  "estimate": {
+    "at": "2026-11-28T10:30:19.485Z",
+    "subjectLine": "feat: the clip's engine — player page, timeline, score, export script",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a deterministic canvas player, timeline and CDP frame exporter with MASD wiring is senior front-end tooling"
+      },
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "audio-engineer",
+        "comment": "beat grid, downbeat, word onsets and a loudness envelope measured from the master"
+      },
+      {
+        "hours": 1.0,
+        "grade": "middle",
+        "role": "qa",
+        "comment": "checking sync of placeholders against the song and the exported mp4"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-28T10:30:14.843Z",
+    "contextTokens": 138063,
+    "spend": {
+      "inputTokens": 19,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 80034,
+      "cacheReadTokens": 971458,
+      "outputTokens": 2680,
+      "thinkingTokens": 270,
+      "responses": 9,
+      "costUsd": 0.8882396
+    }
+  },
+  "sessionId": "d461e3e0-1d36-5b36-a289-eed4d5eeb235",
+  "branch": "claude/horowo-clip-engine-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are one of four child sessions building a code-drawn music video for the song «Хорошо!». A lead session runs the build in the repo's `/carte-blanche` mode a…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01MZoAKDHpcNax8XmHbMJmAK",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T10:29:46.156Z",
+  "lastResponseAt": "2026-11-28T10:58:03.776Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 241,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 371833,
+    "cacheReadTokens": 22543899,
+    "outputTokens": 102256,
+    "thinkingTokens": 32301,
+    "responses": 127,
+    "costUsd": 9.5295278
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 241,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 371833,
+      "cacheReadTokens": 22543899,
+      "outputTokens": 102256,
+      "thinkingTokens": 32301,
+      "responses": 127,
+      "costUsd": 9.5295278
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-28T10:42:52.880Z",
+      "trigger": "auto",
+      "compactedFrom": 265069,
+      "summaryChars": 22541,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/clip/pages/horowo-clip/ui/horowo-clip-page.tsx",
+        "endedAt": "2026-11-28T10:43:31.112Z",
+        "contextTokens": 150658,
+        "spend": {
+          "inputTokens": 12,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 91960,
+          "cacheReadTokens": 766473,
+          "outputTokens": 1190,
+          "thinkingTokens": 89,
+          "responses": 6,
+          "costUsd": 0.9128225999999999
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": null
+    }
+  ],
+  "telemetry": null,
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 236,
+    ".mjs": 687,
+    ".json": 23,
+    ".ts": 400
+  }
+}
