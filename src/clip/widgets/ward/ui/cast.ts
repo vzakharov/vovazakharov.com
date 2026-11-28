@@ -10,7 +10,7 @@ import {
 import { bunny } from '@/clip/entities/bunny';
 import { type Look, puppet } from '@/clip/entities/puppet';
 
-import { cot, rect } from './room';
+import { cot, wardRect } from './room';
 
 /** The middle of the man's face in the cell's coordinates, where the zoom ends up. */
 export const HIS_FACE: Point = [565, 325];
@@ -84,7 +84,7 @@ function approaching(pen: Pen, approach: Approach, behind: boolean): void {
     draw();
     return;
   }
-  clipped(pen, rect(0, 0, STAGE.width, COT_BOTTOM), draw);
+  clipped(pen, wardRect(0, 0, STAGE.width, COT_BOTTOM), draw);
 }
 
 /** The man on the cot in his strait-jacket, as `look` has him, and the bunny at `approach`. */
