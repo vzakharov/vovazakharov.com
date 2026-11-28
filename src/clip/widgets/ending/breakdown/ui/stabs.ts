@@ -5,7 +5,7 @@ import { bunny } from '@/clip/entities/bunny';
 import { head } from '@/clip/entities/puppet';
 import { CONFETTI_PALETTE, serotoninFall } from '@/clip/entities/serotonin';
 
-import { ENDING_PALETTE } from './palette-ending';
+import { ENDING_PALETTE } from '../../palette';
 
 /** The whole picture under one loud colour. */
 function wash({ ctx }: Pen, colour: string): void {

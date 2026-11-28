@@ -13,7 +13,7 @@ import { KICKS, punch } from '@/clip/shared/score';
 import { TAPE_FPS, torn } from '@/clip/shared/tape';
 import type { Drawing, Local } from '@/clip/shared/timeline';
 
-import { ENDING_PALETTE } from './palette-ending';
+import { ENDING_PALETTE } from '../../palette';
 
 /** The colours a kick flashes the whole frame for one tape frame. */
 const FLASHES = [

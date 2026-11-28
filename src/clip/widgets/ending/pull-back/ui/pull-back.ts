@@ -9,8 +9,8 @@ import {
 import { reality, tubeOff } from '@/clip/shared/tape';
 import type { Drawing, Local } from '@/clip/shared/timeline';
 import { bunny, HELD_AT } from '@/clip/entities/bunny';
-import { snowGlobe } from '@/clip/entities/snow-globe';
 
+import { ENDING_PALETTE } from '../../palette';
 import {
   HOSPITAL_WINDOW,
   hospitalNight,
@@ -20,8 +20,7 @@ import {
   wardWall,
   wardWindowBars,
 } from './hospital';
-import { ENDING_PALETTE } from './palette-ending';
-import { CHANNEL_ADDRESS, wardClose } from './ward-close';
+import { channelGlobe, wardClose } from './ward-close';
 
 /** The bunny holding the last globe, still, so the dome stays where the camera aims. */
 const HOLDER = { x: 640, y: 200, bunnyScale: 0.8 } as const;
@@ -91,17 +90,11 @@ const inPaws = (pen: Pen): void => {
     swaying: 0,
     seed: 150,
     held: () => {
-      snowGlobe(pen, {
-        domeRadius: DOME_RADIUS,
-        plaque: CHANNEL_ADDRESS,
-        plaqueFace: 'dots',
-        seed: 151,
-        inside: (r) => {
-          ctx.fillStyle = ENDING_PALETTE.night;
-          ctx.fillRect(-r, -r, 2 * r, 2 * r);
-          seenThrough(pen, inscribed(r), hospital);
-          pillsIn(pen, r);
-        },
+      channelGlobe(pen, DOME_RADIUS, 0, (r) => {
+        ctx.fillStyle = ENDING_PALETTE.night;
+        ctx.fillRect(-r, -r, 2 * r, 2 * r);
+        seenThrough(pen, inscribed(r), hospital);
+        pillsIn(pen, r);
       });
     },
   });

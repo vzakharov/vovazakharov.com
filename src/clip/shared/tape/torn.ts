@@ -5,7 +5,7 @@ import { buffer, context2d, deviceScale, fitUnits, wipe } from './buffers';
 import { TAPE_PALETTE } from './palette-tape';
 
 /** How badly a picture is torn: `amount` in `[0, 1]`, `seed` choosing the tear. */
-export type Tear = Seeded & { amount: number };
+type Tear = Seeded & { amount: number };
 
 // The widest a strip is thrown sideways at a full tear, in stage units.
 const THROW = 220;

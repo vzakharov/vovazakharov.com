@@ -6,5 +6,5 @@ export { reality } from './reality';
 export type { Scene } from './recording';
 export { snow, staticScene } from './snow';
 export { testCard } from './test-card';
-export { type Tear, torn } from './torn';
+export { torn } from './torn';
 export { tubeOff } from './tube-off';

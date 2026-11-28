@@ -30,7 +30,7 @@ import { sectionNamed } from './stand-in';
  * Everything the clip has shown, for the breakdown to tear through a picture
  * a cut. Any `Drawing` appended here joins the rotation as it stands.
  */
-export const BREAKDOWN_POOL: readonly Drawing[] = [
+const BREAKDOWN_POOL: readonly Drawing[] = [
   meadowParty('wide'),
   gigClose('drums'),
   channel(5, 1),

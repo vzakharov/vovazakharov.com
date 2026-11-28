@@ -1,7 +1,7 @@
 import { at, ellipse, ink, type Pen, polygon, STAGE } from '@/clip/shared/ink';
 import { serotoninFall } from '@/clip/entities/serotonin';
 
-import { ENDING_PALETTE } from './palette-ending';
+import { ENDING_PALETTE } from '../../palette';
 
 /**
  * A frame another picture is seen through, as `[x, y, width]` on the stage:
@@ -9,7 +9,7 @@ import { ENDING_PALETTE } from './palette-ending';
  */
 export type Pane = readonly [number, number, number];
 
-export const paneHeight = (pane: Pane): number =>
+const paneHeight = (pane: Pane): number =>
   (pane[2] * STAGE.height) / STAGE.width;
 
 const FLECK_SCALE = 0.2;

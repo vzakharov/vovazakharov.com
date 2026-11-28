@@ -4,7 +4,7 @@ import { reality, TAPE_FPS, torn } from '@/clip/shared/tape';
 import type { Drawing, Local } from '@/clip/shared/timeline';
 import { head } from '@/clip/entities/puppet';
 
-import { ENDING_PALETTE } from './palette-ending';
+import { ENDING_PALETTE } from '../../palette';
 
 const FRAME = 1 / TAPE_FPS;
 

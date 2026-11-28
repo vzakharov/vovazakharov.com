@@ -5,23 +5,23 @@ import { puppet } from '@/clip/entities/puppet';
 import { snowGlobe } from '@/clip/entities/snow-globe';
 import { tallies } from '@/clip/entities/tally';
 
+import { ENDING_PALETTE } from '../../palette';
 import { boxAt, domeHospital } from './hospital';
-import { ENDING_PALETTE } from './palette-ending';
 
-/** The channel's address, lettered on every globe's plaque. */
-export const CHANNEL_ADDRESS = 'T.ME/FKNBALL';
-
-/** A globe held in the bunny's paws, the hospital inside it. */
-export function heldGlobe(pen: Pen, radius: number, shaking: number): void {
+/** The globe the bunny holds up, the channel's address on its plaque. */
+export function channelGlobe(
+  pen: Pen,
+  radius: number,
+  shaking: number,
+  inside: (r: number) => void,
+): void {
   snowGlobe(pen, {
     domeRadius: radius,
     shaking,
-    plaque: CHANNEL_ADDRESS,
+    plaque: 'T.ME/FKNBALL',
     plaqueFace: 'dots',
     seed: 151,
-    inside: (r) => {
-      domeHospital(pen, r);
-    },
+    inside,
   });
 }
 
@@ -71,7 +71,9 @@ export function wardClose(pen: Pen, shaking: number): void {
     swaying: 0.2,
     seed: 150,
     held: () => {
-      heldGlobe(pen, 165, shaking);
+      channelGlobe(pen, 165, shaking, (r) => {
+        domeHospital(pen, r);
+      });
     },
   });
 }

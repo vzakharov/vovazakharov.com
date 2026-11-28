@@ -1,4 +1,2 @@
-export { staringHead, stillHole } from './ui/holes';
-export { chewing, type Fury } from './ui/montage';
-export { pullBack } from './ui/pull-back';
-export { STABS } from './ui/stabs';
+export { chewing, type Fury, STABS, staringHead, stillHole } from './breakdown';
+export { pullBack } from './pull-back';
