@@ -12,7 +12,7 @@ describe('glyph', () => {
   });
 
   it('keeps every lit dot inside the 5 × 7 cell', () => {
-    for (const char of `${REQUIRED}ABDFGIJKMNOQTUVWXYZИЛПШ.-`) {
+    for (const char of `${REQUIRED}ABDFGIJKMNOQTUVWXYZДЁИЙЛПШЫЯ.-`) {
       for (const [x, y] of glyph(char)) {
         assert.ok(
           x >= 0 && x < GLYPH.columns && y >= 0 && y < GLYPH.rows,
@@ -38,6 +38,13 @@ describe('glyph', () => {
     for (let x = 0; x < 5; x += 1) assert.ok(lit.has(`${x},0`));
     for (let y = 0; y < 7; y += 1) assert.ok(lit.has(`0,${y}`));
     assert.equal(lit.size, 11);
+  });
+
+  it('writes the channel ident', () => {
+    for (const char of 'ТЕЛЕКАНАЛ ГРЁБАНЫЙ БАЛ ПРЕДСТАВЛЯЕТ')
+      assert.ok(glyph(char).length > 0 || char === ' ', char);
+    assert.notDeepEqual(glyph('Ё'), glyph('Е'));
+    assert.notDeepEqual(glyph('Й'), glyph('И'));
   });
 
   it('throws on a character the face lacks', () => {

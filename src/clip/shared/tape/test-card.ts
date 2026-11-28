@@ -6,12 +6,16 @@ import { TAPE_PALETTE } from './palette-tape';
 const BARS_DOWN = 470;
 const STRIP_DOWN = 540;
 
+// The channel's ident, top line first; the middle one is its name.
+const IDENT = ['ТЕЛЕКАНАЛ', 'ГРЁБАНЫЙ БАЛ', 'ПРЕДСТАВЛЯЕТ'] as const;
+const PLATE = { halfWidth: 200, halfHeight: 82, lineGap: 50 } as const;
+
 /**
  * Channel «ГБ»'s test card, a broadcast scene: colour bars, the mirrored
  * strip under them, a grey ramp, and a ringed cross over it all with the
- * channel's name.
+ * channel's ident, of which the first `lines` are written.
  */
-export function testCard(pen: Pen): void {
+export function testCard(pen: Pen, lines: number = IDENT.length): void {
   const { ctx } = pen;
   const { width, height } = SCREEN;
   const bar = width / TAPE_PALETTE.bars.length;
@@ -61,21 +65,20 @@ export function testCard(pen: Pen): void {
   ink(
     pen,
     polygon([
-      [cx - 150, cy - 58],
-      [cx + 150, cy - 58],
-      [cx + 150, cy + 58],
-      [cx - 150, cy + 58],
+      [cx - PLATE.halfWidth, cy - PLATE.halfHeight],
+      [cx + PLATE.halfWidth, cy - PLATE.halfHeight],
+      [cx + PLATE.halfWidth, cy + PLATE.halfHeight],
+      [cx - PLATE.halfWidth, cy + PLATE.halfHeight],
     ]),
     { fill: TAPE_PALETTE.black, stroke: TAPE_PALETTE.white, width: 5, seed: 4 },
   );
-  dotText(pen, 'КАНАЛ', [cx, cy - 42], {
-    dot: 5,
-    color: TAPE_PALETTE.white,
-    align: 'center',
-  });
-  dotText(pen, 'ГБ', [cx, cy + 4], {
-    dot: 6,
-    color: TAPE_PALETTE.bugDisc,
-    align: 'center',
-  });
+  for (const [n, line] of IDENT.slice(0, lines).entries()) {
+    const name = n === 1;
+    const dot = name ? 5 : 4;
+    dotText(pen, line, [cx, cy + (n - 1) * PLATE.lineGap - dot * 3.5], {
+      dot,
+      color: name ? TAPE_PALETTE.bugDisc : TAPE_PALETTE.white,
+      align: 'center',
+    });
+  }
 }
