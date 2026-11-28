@@ -30,15 +30,15 @@ export const localTime = (shot: Shot, t: number): Local => ({
 });
 
 /**
- * Paints the clip at `pen.t` over the whole stage: ink where no shot is, the
+ * Paints the clip at `pen.playhead` over the whole stage: ink where no shot is, the
  * shot on screen otherwise, its context state restored after it.
  */
 export function frame(pen: Pen, shots: readonly Shot[]): void {
-  const { ctx, t } = pen;
+  const { ctx, playhead } = pen;
   ctx.save();
   ctx.fillStyle = INK_PALETTE.ink;
   ctx.fillRect(0, 0, STAGE.width, STAGE.height);
-  const shot = shotAt(shots, t);
-  shot?.draw(pen, localTime(shot, t));
+  const shot = shotAt(shots, playhead);
+  shot?.draw(pen, localTime(shot, playhead));
   ctx.restore();
 }

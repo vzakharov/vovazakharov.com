@@ -109,7 +109,7 @@ function mouth(pen: Pen, open: number): void {
 export const placeholder =
   (name: string, tone: Wash): Drawing =>
   (pen: Pen, local: Local): void => {
-    const { t } = pen;
+    const { playhead: t } = pen;
     const loud = energy(t);
     const open = jaw(t);
     wash(pen, WASHES[tone]);
