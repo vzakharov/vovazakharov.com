@@ -2,7 +2,7 @@ import { at, type Pen } from '@/clip/shared/ink';
 import { KICKS, punch } from '@/clip/shared/score';
 import { dotText, SCREEN } from '@/clip/shared/tape';
 import { type Audience, studioAudience } from '@/clip/entities/bunny';
-import { earFireworks } from '@/clip/features/ear-fireworks';
+import { earFireworks, earIgnition } from '@/clip/features/ear-fireworks';
 
 import { jerk, type Violence } from '../model/camera';
 import { GIG_PALETTE } from './palette-gig';
@@ -69,7 +69,9 @@ export function stageFloor(pen: Pen, y: number): void {
 /** The studio audience across the bottom of the picture, its ears flying from `liftOff`. */
 export function crowd(pen: Pen, audience: Audience): void {
   studioAudience(pen, audience);
-  if (audience.liftOff !== undefined) earFireworks(pen, audience);
+  if (audience.liftOff === undefined) return;
+  earIgnition(pen, audience);
+  earFireworks(pen, audience);
 }
 
 /** How a shot is framed: pushed in by `push`, leaning `tilt` degrees, thrown about by `violence`. */

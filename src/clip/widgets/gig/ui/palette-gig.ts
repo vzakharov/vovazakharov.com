@@ -33,4 +33,11 @@ export const GIG_PALETTE = {
   skin: '#f1ede0',
   hoop: '#2f5fb3',
   cross: '#d8382c',
+  /** The night over the studio's roof, darkest at the top, and its stars. */
+  skyHigh: '#030208',
+  skyLow: '#0e0819',
+  star: '#fff4d6',
+  /** The lighting rig under the roof, and its lamps. */
+  truss: '#0c0912',
+  lamp: '#ffe9a0',
 } as const;
