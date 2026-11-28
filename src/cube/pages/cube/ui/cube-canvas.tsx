@@ -3,26 +3,32 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { fillSlots } from '@/kernel/shared/i18n';
+import { pick } from '@/kernel/shared/lib/collections';
 
 import {
+  type Holdings,
+  priceOf,
   roomKey,
   type Signed,
   type SignKind,
-  type SignMount,
 } from '@/cube/entities/world';
+import { buy as buyRoom } from '@/cube/features/account';
 import type { Said } from '@/cube/features/player';
 
 import type COPY from '../config/messages/en.json';
 import { PLAY_QUERY } from '../lib/play';
 import { startOf } from '../lib/start';
+import { AccountDialog } from './account-dialog';
 import classes from './cube.module.scss';
 import type { Selling } from './cube-mesh';
+import { Cubes } from './cubes-mark';
 import { FrameRate } from './frame-rate';
 import type { PillCopy, PillPrompt } from './pill-prompt';
 import type { QualityWay } from './quality';
 import { SaleOffer } from './sale-offer';
 import { TouchControls } from './touch-controls';
 import { useTouchScreen } from './touch-screen';
+import { useAccount } from './use-account';
 import { type Walk, walk, type Way } from './walk';
 
 type CubeCanvasProps = {
@@ -42,6 +48,8 @@ type CubeCanvasProps = {
   door: (typeof COPY)['door'];
   /** A for-sale room's sign, hint and offer. */
   offer: Selling['copy'];
+  /** The account's badge and dialog. */
+  account: (typeof COPY)['account'];
   /** The hints a touch screen words as taps, in place of the keys'. */
   tapped: (typeof COPY)['tapped'];
   /** What each part of a touch screen does, shown a while on one. */
@@ -58,6 +66,7 @@ export function CubeCanvas({
   pill: pillCopy,
   door: doorCopy,
   offer: offerCopy,
+  account: accountCopy,
   tapped,
   controls,
 }: CubeCanvasProps) {
@@ -80,14 +89,22 @@ export function CubeCanvas({
   const [toldControls, setToldControls] = useState(false);
   /** Whether the body answers the controls: awake, and no scene playing. */
   const [free, setFree] = useState(false);
-  /** Whether an offer is open, read by every frame. */
+  /** Whether a dialog is open, read by every frame. */
   const offeringRef = useRef(false);
   const [offer, setOffer] = useState<Signed | null>(null);
-  /**
-   * The rooms bought on this page, each where its sign hung: held for the
-   * page's life alone, the purchase being a demo that charges nothing.
-   */
-  const holdingsRef = useRef(new Map<string, SignMount>());
+  const [accountOpen, setAccountOpen] = useState(false);
+  const openAccount = () => {
+    offeringRef.current = true;
+    setAccountOpen(true);
+  };
+  // Before the walk's effect, which reads the fragment this one may strip.
+  const held = useAccount(openAccount);
+  const {
+    identity,
+    wallet: { holdings, balance },
+  } = held;
+  /** The rooms the player holds, each where its sign hung, read by every mesh build. */
+  const holdingsRef = useRef<Holdings>(holdings);
   const sceneRef = useRef<Walk | null>(null);
   /** Counts the browser's steps through history, each a walk from its URL. */
   const [visit, setVisit] = useState(0);
@@ -107,14 +124,24 @@ export function CubeCanvas({
     setOffer(null);
   };
 
+  const closeAccount = () => {
+    offeringRef.current = false;
+    setAccountOpen(false);
+  };
+
   const buy = () => {
     if (offer === null) return;
     const { room, sign } = offer;
     const { at, facing, onPost } = sign;
-    holdingsRef.current.set(roomKey(room), { at, facing, onPost });
-    sceneRef.current?.refresh();
+    buyRoom(roomKey(room), { at, facing, onPost }, priceOf(room.n));
     setOffer({ room, sign: { ...sign, kind: 'yours' } });
   };
+
+  // A login, a logout or a purchase redraws the signs.
+  useEffect(() => {
+    holdingsRef.current = holdings;
+    sceneRef.current?.refresh();
+  }, [holdings]);
 
   /** A question's answer as a button, named by its key or, on a touch screen, by what it does. */
   const answerKey = (said: Said, key: string) => (
@@ -235,11 +262,29 @@ export function CubeCanvas({
           }}
         />
       )}
+      {identity !== null && (
+        <button
+          type="button"
+          className={classes['balance']}
+          aria-label={accountCopy.balance}
+          onClick={openAccount}
+        >
+          <Cubes count={balance} label={offerCopy.cubes} />
+        </button>
+      )}
       <SaleOffer
         {...{ offer }}
+        balance={identity === null ? null : balance}
         onBuy={buy}
         onClose={closeOffer}
         copy={offerCopy}
+      />
+      <AccountDialog
+        opened={accountOpen}
+        {...{ held }}
+        copy={accountCopy}
+        {...pick(offerCopy, 'cubes')}
+        onClose={closeAccount}
       />
     </>
   );

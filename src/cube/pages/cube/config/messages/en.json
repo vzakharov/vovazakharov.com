@@ -52,6 +52,7 @@
       "yours": "Sold"
     },
     "sold": "Yours",
+    "cubes": "cubes",
     "hint": "Press E to see the offer",
     "hintYours": "Press E to see your room",
     "title": "A room on floor {floor}",
@@ -60,7 +61,26 @@
     "paid": "Bought for {price}",
     "size": "{side} m a side, {height} m to the ceiling",
     "buy": "Buy",
-    "demo": "A demo: nothing is charged, and the room is yours only until the page reloads.",
+    "held": "You hold {balance}",
+    "short": "Not enough cubes. Type cube.giveCubes() in the browser’s console for more.",
+    "nobody": "Buying takes cubes. Type cube.giveCubes() in the browser’s console to get some.",
+    "demo": "A demo: cubes are free for now, and they and your rooms live only in this browser.",
+    "close": "Close"
+  },
+  "account": {
+    "balance": "Your cubes: open your account",
+    "titleIn": "Your account",
+    "titleOut": "Your account in the cube",
+    "pending": "{count} cubes are waiting for you.",
+    "create": "Make a new account",
+    "openKey": "Log in with your key file",
+    "dropKey": "or drop it here",
+    "wrongKey": "This file is not the key to any account.",
+    "kept": "Your key downloaded as {file}. Don’t lose it: it is your account, and nobody can replace it.",
+    "downloadAgain": "Download the key again",
+    "unstorable": "This browser keeps nothing: open your key file to come back.",
+    "keyText": "This is your key to the cube. Don’t lose it, and show it to no one: whoever holds it owns your rooms, and nobody can replace it.\n\nTo log in, open this link:\n{link}\n\nor open this file in the cube’s account window.\n\nThe key itself is these twelve words:\n{words}\n",
+    "logOut": "Log out",
     "close": "Close"
   }
 }

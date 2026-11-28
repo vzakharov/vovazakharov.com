@@ -47,7 +47,8 @@ import { furnish } from '@/cube/features/decor';
 
 import type COPY from '../config/messages/en.json';
 import { FAR } from '../lib/camera';
-import { formatPrice } from '../lib/figures';
+import { CUBES_MARK } from '../lib/cubes-mark';
+import { formatCubes } from '../lib/figures';
 import { pack, type RoomLook, type Scenery } from '../lib/mesh';
 import { roomLooks } from '../lib/room-look';
 import type { Boards } from './board-textures';
@@ -124,11 +125,14 @@ function signBoards(
     const { n } = first.room;
     const { kind } = first.sign;
     const isSold = kind === 'yours';
-    const line = isSold ? sold : formatPrice(priceOf(n));
+    const image = isSold
+      ? () => drawBoard(n, true, signs[kind], sold)
+      : () =>
+          drawBoard(n, false, signs[kind], formatCubes(priceOf(n)), CUBES_MARK);
     return [
       {
         id,
-        image: () => drawBoard(n, isSold, signs[kind], line),
+        image,
         scenery: asPaper(
           rooms.flatMap(({ room, sign }) =>
             signFacets(sign, room, placed(pose, room)),

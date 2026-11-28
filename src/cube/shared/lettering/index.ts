@@ -1,3 +1,4 @@
+export { type Glyph } from './latin';
 export { paintStrokes, type Pen } from './paint-strokes';
 export {
   bounds,

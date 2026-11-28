@@ -1,5 +1,3 @@
-const HUNDRED = 100;
-const CENT = 0.01;
 /** Lengths under a millimetre are spelt in scientific form. */
 const MILLIMETRE = 0.001;
 
@@ -31,46 +29,17 @@ function assertPositive(value: number, what: string): void {
   }
 }
 
-const dollars = (fractionDigits: number) =>
-  new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: fractionDigits,
-    maximumFractionDigits: fractionDigits,
-  });
-
-const WHOLE = dollars(0);
-const CENTS = dollars(2);
-
-/** Cents end in 9.99 rather than .99 from here up. */
-const TEN = 10;
-const THOUSAND = 1000;
+const COUNT = new Intl.NumberFormat('en-US');
 
 /**
- * The positive count of `unit`s nearest `value` that leaves `step - 1` over a
- * multiple of `step`: the 99 or 999 a tag ends in.
+ * A count of кубики, without their mark: grouped in thousands, as
+ * `10,000,000`. Кубики come whole, so a fraction or a negative throws.
  */
-function nearestNines(value: number, unit: number, step: number): number {
-  const nines = step - 1;
-  const steps = Math.round((value / unit - nines) / step);
-  return Math.max(steps, 0) * step + nines;
-}
-
-/**
- * A price as a shop would tag it: the nearest price ending in nines, above or
- * below. Whole dollars ending in 99 while that stays at $100 or more
- * (`$9,999,999` for $10M, `$19,499` for $19,531.25); else cents ending in 9.99
- * from $10 up (`$39.99` for $38.15) and in .99 below (`$4.99` for $4.77).
- * Nothing sells under a dollar, so nothing under one is a price.
- */
-export function formatPrice(price: number): string {
-  if (!(price >= 1) || !Number.isFinite(price)) {
-    throw new RangeError(`Not a price: ${price}`);
+export function formatCubes(count: number): string {
+  if (!Number.isSafeInteger(count) || count < 0) {
+    throw new RangeError(`Not a count of кубики: ${count}`);
   }
-  const whole = nearestNines(price, 1, HUNDRED);
-  if (whole >= HUNDRED) return WHOLE.format(whole);
-  const step = price >= TEN ? THOUSAND : HUNDRED;
-  return CENTS.format(nearestNines(price, CENT, step) * CENT);
+  return COUNT.format(count);
 }
 
 /**
