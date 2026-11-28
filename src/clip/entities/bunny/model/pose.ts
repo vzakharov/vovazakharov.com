@@ -56,12 +56,13 @@ const BEATS: readonly Point[] = [DOWNBEAT, [20, 130], [240, 120], [150, -50]];
 export function conductingPaw(beat: number): Point {
   const along = (beat - Math.floor(beat)) * BEATS.length;
   const n = Math.floor(along);
-  const [ax, ay] = BEATS[n] ?? DOWNBEAT;
-  const [bx, by] = BEATS[(n + 1) % BEATS.length] ?? DOWNBEAT;
-  const ease = (along - n) ** 2;
+  const [x, y] = mix(
+    BEATS[n] ?? DOWNBEAT,
+    BEATS[(n + 1) % BEATS.length] ?? DOWNBEAT,
+    (along - n) ** 2,
+  );
   // A dip below the line between beats, as a baton bounces off each one.
-  const dip = Math.sin((along - n) * Math.PI) * 30;
-  return [ax + (bx - ax) * ease, ay + (by - ay) * ease + dip];
+  return [x, y + Math.sin((along - n) * Math.PI) * 30];
 }
 
 // The other paw while conducting: raised, palm out, keeping the players quiet.

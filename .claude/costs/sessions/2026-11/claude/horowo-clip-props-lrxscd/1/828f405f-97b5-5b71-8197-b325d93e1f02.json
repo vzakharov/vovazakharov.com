@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 454,
+    "inputTokens": 467,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 700012,
-    "cacheReadTokens": 45256980,
-    "outputTokens": 230956,
-    "thinkingTokens": 61397,
-    "responses": 242,
-    "costUsd": 19.272427999999984
+    "cacheWrite1hTokens": 712091,
+    "cacheReadTokens": 46103303,
+    "outputTokens": 233872,
+    "thinkingTokens": 61739,
+    "responses": 248,
+    "costUsd": 19.59669659999998
   },
   "estimate": {
     "at": "2026-11-28T10:30:15.811Z",
@@ -58,18 +58,18 @@
   "url": "https://claude.ai/code/session_01MZoAKBLUod263MnDXVYSWV",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:29:50.563Z",
-  "lastResponseAt": "2026-11-28T11:34:22.170Z",
+  "lastResponseAt": "2026-11-28T11:35:04.966Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 454,
+    "inputTokens": 467,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 700012,
-    "cacheReadTokens": 45256980,
-    "outputTokens": 230956,
-    "thinkingTokens": 61397,
-    "responses": 242,
-    "costUsd": 19.272427999999984
+    "cacheWrite1hTokens": 712091,
+    "cacheReadTokens": 46103303,
+    "outputTokens": 233872,
+    "thinkingTokens": 61739,
+    "responses": 248,
+    "costUsd": 19.59669659999998
   },
   "subagents": {
     "inputTokens": 0,
@@ -83,14 +83,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 454,
+      "inputTokens": 467,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 700012,
-      "cacheReadTokens": 45256980,
-      "outputTokens": 230956,
-      "thinkingTokens": 61397,
-      "responses": 242,
-      "costUsd": 19.272427999999984
+      "cacheWrite1hTokens": 712091,
+      "cacheReadTokens": 46103303,
+      "outputTokens": 233872,
+      "thinkingTokens": 61739,
+      "responses": 248,
+      "costUsd": 19.59669659999998
     }
   },
   "warnings": [],
@@ -197,7 +197,7 @@
   "threadPosts": {},
   "branchLines": {
     ".json": 103,
-    ".ts": 9283,
+    ".ts": 9406,
     ".css": 259,
     ".py": 22,
     ".md": 1709,

@@ -1,6 +1,6 @@
 import type { Seeded, Sized } from '@/kernel/shared/typings';
 
-import { noise, type Point } from '@/clip/shared/ink';
+import { heading, noise, type Point } from '@/clip/shared/ink';
 
 /** What a pattern of figures covers: an area of the stage, from the current origin. */
 export type Covering = Partial<Seeded> & {
@@ -140,9 +140,9 @@ export function earRise(
   const wag = Math.sin(s * Math.PI * 5) * 10 * (1 - s);
   const dx = (apex[0] - startX) * along + wag;
   const dy = (apex[1] - startY) * along;
-  const heading =
-    (Math.atan2(apex[0] - startX, startY - apex[1]) * 180) / Math.PI;
-  return { lift: [dx, dy], tilt: heading * Math.min(1, s * 4) };
+  // Its lean off straight up is the line back down from the apex's off straight down.
+  const lean = heading(apex, [startX, startY]);
+  return { lift: [dx, dy], tilt: lean * Math.min(1, s * 4) };
 }
 
 /** True while the ear of `flight` is still on its head at `playhead`. */
