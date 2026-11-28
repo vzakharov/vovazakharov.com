@@ -1,7 +1,7 @@
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-import type { Chip } from './chip-nav';
+import type { Chip } from './chip';
 
 const STORAGE_KEY = 'language';
 

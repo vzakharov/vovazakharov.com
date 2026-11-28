@@ -40,10 +40,15 @@ class AnsweredTest(unittest.TestCase):
     def missing(self, payload, recorded=()):
         return ids(unrecorded(parse_review_comments(payload), set(recorded)))
 
-    def test_any_reply_makes_a_proposal_answered(self):
-        for body in ("давай", f"Done in abc123.{FOOTER}"):
-            with self.subTest(body):
-                self.assertEqual(self.missing([proposal(1), comment(2, body, reply_to=1)]), [1])
+    def test_an_operator_reply_makes_a_proposal_answered(self):
+        self.assertEqual(self.missing([proposal(1), comment(2, "давай", reply_to=1)]), [1])
+
+    def test_an_agent_only_thread_is_unanswered(self):
+        self.assertEqual(self.missing([proposal(1), comment(2, f"Taking it in abc123.{FOOTER}", reply_to=1)]), [])
+
+    def test_an_operator_reply_after_the_agent_still_counts(self):
+        thread = [proposal(1), comment(2, f"Taking it.{FOOTER}", reply_to=1), comment(3, "ок", reply_to=1)]
+        self.assertEqual(self.missing(thread), [1])
 
     def test_a_row_satisfies_an_answered_proposal(self):
         self.assertEqual(self.missing([proposal(1), comment(2, "давай", reply_to=1)], recorded={1}), [])

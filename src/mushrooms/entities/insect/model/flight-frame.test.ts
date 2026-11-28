@@ -1,20 +1,24 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { CLUMP_DISTANCE, SPREAD, unanchored } from '@/mushrooms/shared/world';
-
 import {
   type Aloft,
+  CLUMP_DISTANCE,
+  SPREAD,
+  unanchored,
+} from '@/mushrooms/shared/world';
+
+import {
   centreOf,
   type EyeFrame,
   FRAME_MARGIN,
   framedOf,
   levelWith,
   panOf,
+  type Place,
   placeOf,
 } from './flight-frame';
 import { apartOf, placesFlying } from './flight-timing';
-import type { Place } from './perch';
 
 /** A sideways tablet's frame in insect sizes of 40 px: 1180 px across, four screens to a turn. */
 const UNIT = 40;

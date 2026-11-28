@@ -1,9 +1,10 @@
 import * as Phaser from 'phaser';
 
+import type { Point } from '@/scene/shared/lib/plane';
+
 import {
   type Circle,
   placedAt,
-  type Point,
   type Scaled,
 } from '@/mushrooms/shared/lib/geometry';
 import { PALETTE } from '@/mushrooms/shared/ui';

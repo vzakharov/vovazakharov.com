@@ -6,11 +6,12 @@
  * the air are; it never turns the body.
  */
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+
 import { smooth } from '@/mushrooms/shared/lib/motion';
 
 import type { Span } from './flight-timing';
-import type { InsectKind } from './insect-genes';
+import type { InsectKind } from './insect';
 import { phaseBow } from './insect-paths';
 
 /**

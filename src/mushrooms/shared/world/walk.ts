@@ -19,8 +19,9 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 
+import type { Point } from '@/scene/shared/lib/plane';
+
 import type { Direction } from '../lib/cruise';
-import type { Point } from '../lib/geometry';
 import type { Ramp } from '../lib/motion';
 import { gaitHeight, heightAt, type Raised, riseFrom } from './eye-height';
 import { type Camera, type Eye, type Eyed, OPENING_EYE } from './ground';

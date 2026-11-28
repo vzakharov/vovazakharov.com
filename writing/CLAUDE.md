@@ -4,10 +4,10 @@ Everything that holds for every draft under `writing/`.
 `writing/linkedin/plan.md` is the backlog and the strategy — which posts exist,
 in what order, and what is still unsettled — and does not restate any of this.
 
-**The voice rules are seeded, not finished.** They get written against a
-marked-up draft rather than anticipated, so what follows is what has actually
-come back marked up. A rule here should name the tell it catches, not the
-aesthetic it prefers.
+**The voice rules are seeded, not finished**, and each is written the way
+`.claude/rules/writing.md` says a rule is. That file holds the tells that make
+prose read as a machine's, served pages included; this one is what holds for
+drafts alone.
 
 ## Layout and frontmatter
 
@@ -124,33 +124,6 @@ invented for it.
 - **Emoji sparingly, and only self-deprecating.** One 🙈 doing real work is in
   the voice. Emoji as decoration, as bullet markers, or as enthusiasm is not.
   Text emoticons — `;-)` — are in the voice too.
-- **Don't tighten the sentences.** The loose, slightly talked-out version is the
-  voice: "Once done, I thought, why not write a case study about it" survives
-  edits that would compress it. A draft that reads as efficient reads as edited
-  by a machine, which is the thing being avoided.
-- **"Not just X — it's also Y" is a paraphrase wearing a reveal**, and what it
-  paraphrases is a neighbouring sentence, not its own first half. «Машина не
-  просто занята, она ещё и держит вас за столом» followed «крышку не закроешь, а
-  то агенты остановятся» and said it over again, in words different enough to
-  pass for a second fact — which is why the sentence has to be read against the
-  ones around it. Its twin cadences, «не X, а Y» and «X или только Y»
-  («вытаскивает ли себя Мюнхгаузен за косу или только красиво за неё держится»),
-  hide the same repeat. Either the second half brings something of its own, or
-  the plain line that said it first is the one to keep.
-- **Cut the sentence that announces the next one.** "And it is worth saying out
-  loud", "here is the thing", "make no mistake" — an agent writes these to mark
-  that something important is coming, which a reader learns by reading the
-  important thing. They are the cadence of a model filling the space before a
-  point rather than making it, and the tell is that deleting the clause costs
-  the sentence nothing. This is the one voice rule that survives "don't tighten
-  the sentences" above: that rule protects a talked-out human line, and these
-  are not one.
-- **A list of examples where one would do reads as a machine's.** "…to the point
-  of parody — the shower, the offhand remark, the run down the corridor" spends
-  three specimens on a point the reader already has. A list that _is_ the point
-  — three shapes, three reasons — earns its items; the tell is one hanging off a
-  **detour**, where three beats go on ground the piece is already leaving. Cut
-  to the claim, keeping one example only where the claim is thin without it.
 - **The hook is the operator's call, not the agent's.** Given a choice of what
   to lead with, an agent reaches for the technically impressive detail and a
   reader wants the legible one — a number they can react to, a change in how the

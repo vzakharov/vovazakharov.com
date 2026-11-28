@@ -13,6 +13,25 @@ record" holds the three rules this file keeps.
   `scripts/vet.sh`, `.claude/rules/stack.md`, `.gitignore`, `.prettierignore`
   and `.prettierrc.json`. A source edit to any of them is read for the idea; the
   file never lands.
+- **Prettier formats `.wgsl` here, through a local plugin**:
+  `scripts/prettier-wesl.ts`, named in `.prettierrc.json`'s `plugins`, hands the
+  body to `prettier-plugin-wgsl` and keeps the WESL `import` head as written,
+  which that plugin cannot parse. The source has no shaders; a source change to
+  Prettier's setup is merged around the plugin, and `pnpm format` then covers
+  the shaders with everything else.
+- **The cost rows count the human share, ahead of the source**: `operatorWords`
+  as `{chat, review, threads}` with `reviewPosts` and `threadPosts`,
+  `branchLines`, `estimate.subjectLine`, `.claude/costs/contribution.py`,
+  `.claude/costs/post_words.py`, and `scripts/gh_export/review_words.py`
+  recording review words at PR export. Built for the island case study's
+  comparison; a source edit to these files is merged around them, and the lot is
+  a candidate to carry upstream.
+- **The cost docs are split by need, ahead of the source**:
+  `.claude/costs/CLAUDE.md` keeps what every session in `.claude/costs/` needs,
+  and the rest is six path-scoped rules, `.claude/rules/costs-*.md`, each
+  loading on the files it governs (6181be01). A source edit to the costs
+  `CLAUDE.md` lands in whichever of the seven holds its topic now, and the split
+  is a candidate to carry upstream — the operator asked that it reach muthur.
 - **Issues are filed by hand here**, `/propose-issue` being declined below, so
   every source passage that hands filing to it says the mechanics instead:
   `.claude/skills/go/SKILL.md` (the parent first where it does not exist),
@@ -28,6 +47,14 @@ record" holds the three rules this file keeps.
   which states the unproxied path's risk and its tell itself, and
   `.claude/rules/multi-repo.md` and `scripts/pr-comment.sh` say where the
   source's `web-remote.md` lives.
+- **A branch's working files live in a directory of its own**,
+  `docs/remove-before-merging/<branch>/` as `scripts/working-dir.sh` prints it,
+  where the source writes them flat into `docs/remove-before-merging/`:
+  `.claude/skills/relay/SKILL.md`, `.claude/skills/squash-message/SKILL.md`,
+  `.claude/skills/squash-message/working-file.md`,
+  `.claude/skills/branch-rename/SKILL.md`, `.claude/skills/plan/elephant.md`,
+  `.claude/skills/tend-prose/SKILL.md` and `scripts/check-squash-message.sh`. A
+  source edit to that path is ported with the script's spelling.
 - **No skill here ships to adopters**, so `.claude/skills/task/SKILL.md` gives
   its bare mentions the routing as their reason, and
   `.claude/skills/tend-prose/SKILL.md` sends a procedure to a skill rather than
@@ -64,7 +91,22 @@ record" holds the three rules this file keeps.
   (`.claude/hooks/allow-add-repo.py` among them) and allows its own commands.
 - **`.claude/hooks/install-deps.sh`** — carries this project's
   `corepack enable pnpm` and `pnpm install --frozen-lockfile` where the source
-  ships a TODO.
+  ships a TODO, and the `.claude/artifacts/` install line without the source's
+  prettier warm-up.
+- **`.claude/artifacts/`** — taken byte for byte, its `vet.sh` included, and run
+  by nothing here: like `scripts/gh_export/`, its suite stays where its code is
+  edited, so `scripts/vet.sh` has no artifacts line, and the root ESLint,
+  Prettier, knip and line-limit configs skip the tree (`.prettierignore` because
+  the source formats it to its own style and Prettier pin). The board's focus
+  file stays at the flat `docs/remove-before-merging/review-focus.json` that
+  `.claude/artifacts/src/review-board/scripts/focus.ts` names, rather than under
+  `scripts/working-dir.sh`'s folder, so the vendored code needs no edit; a
+  per-branch path there is a candidate to carry upstream. One edit is ahead of
+  the source, sent there on the operator's ask: the board's collector leaves off
+  every path `.gitattributes` marks `linguist-generated`
+  (`.claude/artifacts/src/review-board/scripts/generated.ts`, called from
+  `collect.ts`); once the source carries it, the next sync takes the source's
+  version and this sentence goes.
 - **`.claude/hooks/file-tools-nudge.py`** — cites `vzakharov/muthur#118`, so it
   does not resolve to this repo's own #118.
 - **`.claude/voice/operators/vzakharov.md`** — the same operator's entry, kept
@@ -83,7 +125,7 @@ record" holds the three rules this file keeps.
 - **`.claude/skills/plan/SKILL.md`** — the handoff offers both a fresh session
   and a go-ahead in this one, neither as the rule.
 - **`.claude/skills/plan/elephant.md`** — points unattended runs at
-  `.claude/skills/megabeast/notes/README.md`, this repo's own.
+  `.claude/skills/mammoth/notes/README.md`, this repo's own.
 - **`.claude/skills/preview/SKILL.md`** — hydrated for this stack where the
   source ships a stub.
 - **`.claude/skills/take-issue/SKILL.md`** — two accommodations that make a
@@ -137,6 +179,8 @@ record" holds the three rules this file keeps.
   taking the template on, which this one did once. A repo adopting from here
   would need its own.
 - **`README.md`** — never: each repo's describes that repo.
+- **`LICENSE`** — never: the source's terms for its own code; whether this site
+  carries a license, and which, is its owner's call.
 - **`scripts/check-muthur.sh` and `scripts/check-repo-identity.sh`** — never:
   both key on the catalog and exit 0 downstream, which is the source stating
   that an adopter runs none of it.
@@ -146,7 +190,9 @@ record" holds the three rules this file keeps.
   `scripts/test_checkpoint_review.py`, `scripts/test_claude_md_size.py`,
   `scripts/test_export_awaiting.py`, `scripts/test_export_render.py`,
   `scripts/test_extract_session_images.py`, `scripts/test_file_tools_nudge.py`,
-  `scripts/test_find_repo.py`, `scripts/test_go_delegation.py`,
+  `scripts/test_finalize_bash_gate.py`, `scripts/test_find_repo.py`,
+  `scripts/test_floor.py`, `scripts/test_go_delegation.py`,
   `scripts/test_markdown_tables.py`, `scripts/test_markdown_wrap.py`,
   `scripts/test_multi_repo_hooks.py`, `scripts/test_muthur_sync.py`,
-  `scripts/test_relay_last_reply.py`, `scripts/test_staged.py`.
+  `scripts/test_relay_last_reply.py`, `scripts/test_session_qa.py`,
+  `scripts/test_staged.py`, `scripts/test_sticky_comment_nudge.py`.

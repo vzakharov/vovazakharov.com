@@ -3,6 +3,8 @@
  * room for it.
  */
 
+import type { WithSelected } from '@/kernel/shared/typings';
+
 import {
   furnished,
   type Furnishing,
@@ -10,7 +12,6 @@ import {
   type Planted,
   windowSlots,
   type WithMushrooms,
-  type WithSelected,
 } from '@/mushrooms/entities/mushroom/index.node-safe';
 
 /** What of the meadow a pick of a piece reads: its mushrooms and which one is selected. */

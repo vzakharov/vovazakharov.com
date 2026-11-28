@@ -9,11 +9,7 @@ import path from 'node:path';
 
 import { PUBLIC_DIR } from '@/kernel/shared/config/index.node-safe';
 
-import {
-  CV_VARIANTS,
-  cvCardPath,
-  cvPath,
-} from '@/vova/pages/cv/index.node-safe';
+import { CV_VARIANTS, cvCardPath, cvPath } from '@/vova/entities/cv';
 
 import { cvCard } from './lib/cv-card.ts';
 

@@ -1,0 +1,202 @@
+/**
+ * Driving `/island?play` from a script over CDP: building the export it is
+ * served from, opening it on an emulated screen, waiting out its hook, and
+ * calling the hook against deadlines, so a call that never resolves fails
+ * rather than hanging the run.
+ */
+
+import { spawnSync } from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
+import { setTimeout as sleep } from 'node:timers/promises';
+import { z } from 'zod';
+
+import type { Named, Sized } from '@/kernel/shared/typings';
+
+import { isWorldNumber } from '@/dice/shared/roll';
+
+import {
+  type IslandPlayHook,
+  PLAY_HOOK,
+  PLAY_QUERY,
+} from '@/island/shared/play';
+import { OUR_WORLD } from '@/island/entities/terrain';
+
+import { flag, given } from '@/kernel/scripts/lib/argv';
+import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
+import { type Browser, openTab, type Tab } from '@/scene/scripts/lib/cdp';
+import { watchPageErrors } from '@/scene/scripts/lib/page-errors';
+
+/** The vova static export `/island` is served from. */
+export const VOVA_EXPORT = path.join(REPO_ROOT, 'sites/vova/out');
+
+/** Builds the vova export into `VOVA_EXPORT`, unless the run was given `--no-build`. */
+export function buildExport(): void {
+  if (given('no-build')) return;
+  const built = spawnSync('pnpm', ['build', 'vova'], {
+    cwd: REPO_ROOT,
+    stdio: 'inherit',
+  });
+  if (built.status !== 0) throw new Error('The vova build failed');
+}
+
+/** The world the run plays, from `--world <N>`: `fallback` when not given. */
+export function worldArgument(fallback: string = OUR_WORLD): string {
+  const world = flag('world') ?? fallback;
+  if (!isWorldNumber(world)) {
+    throw new Error(`Not a world number: ${JSON.stringify(world)}`);
+  }
+  return world;
+}
+
+/** The prefix a run's files take for `world`: none for ours, so its frames keep their names. */
+export const worldPrefix = (world: string): string =>
+  world === OUR_WORLD ? '' : `world${world}-`;
+
+/** `/island?play`, on `world`'s hash unless it is ours, which needs none. */
+const playPath = (world: string) =>
+  `/island?${PLAY_QUERY}${world === OUR_WORLD ? '' : `#${world}`}`;
+
+const POLL_MS = 250;
+/** One frame of the page's seeded clock at 60 fps. */
+const FRAME_MS = 1000 / 60;
+/** How long the page gets to install the hook once it has loaded. */
+const HOOK_TIMEOUT_MS = 30_000;
+/** How long a hook promise gets: tiles fill and upload under the software rasterizer. */
+const SETTLE_TIMEOUT_MS = 120_000;
+
+export type Screen = Readonly<Named & Sized> & {
+  readonly ratio: number;
+  readonly mobile: boolean;
+};
+
+export const hook = `window.${PLAY_HOOK}`;
+
+/** A hook method called with `args`, as page source. */
+export const call = (
+  method: keyof IslandPlayHook,
+  ...args: Array<number | string>
+): string =>
+  `${hook}.${method}(${args.map((arg) => JSON.stringify(arg)).join(', ')})`;
+
+/** Polls `expression` until it is true, failing with `missing` past the deadline. */
+async function until(
+  tab: Tab,
+  expression: string,
+  missing: string,
+  deadline: number,
+): Promise<void> {
+  if (await tab.evaluate(`Boolean(${expression})`, z.boolean())) return;
+  if (Date.now() > deadline) throw new Error(missing);
+  await sleep(POLL_MS);
+  return until(tab, expression, missing, deadline);
+}
+
+/** Awaits the promise `source` returns in the page, failing past the deadline. */
+export async function settle(
+  tab: Tab,
+  source: string,
+  label: string,
+  timeoutMs = SETTLE_TIMEOUT_MS,
+): Promise<void> {
+  const timer = new AbortController();
+  const { signal } = timer;
+  const late = async () => {
+    await sleep(timeoutMs, undefined, { signal });
+    throw new Error(`${label} did not settle in ${String(timeoutMs / 1000)} s`);
+  };
+  const settled = async () => {
+    try {
+      await tab.evaluate(source, z.unknown(), { awaitPromise: true });
+    } catch (error) {
+      if (!(error instanceof Error)) throw error;
+      throw new Error(`${label} rejected: ${error.message}`, { cause: error });
+    }
+  };
+  try {
+    await Promise.race([settled(), late()]);
+  } finally {
+    timer.abort();
+  }
+}
+
+/**
+ * Opens `/island?play` on `screen` and world `world`, reporting page errors
+ * to `errors`, and resolves once the hook's `ready()` has: the scene has drawn
+ * its first frame.
+ */
+export async function openPlay(
+  browser: Browser,
+  origin: string,
+  screen: Screen,
+  errors: string[],
+  world: string,
+): Promise<Tab> {
+  const page = playPath(world);
+  const report = (message: string) => {
+    errors.push(`${screen.name}: ${message}`);
+  };
+  const tab = await openTab(browser, report);
+  await watchPageErrors(tab, report);
+  const { width, height, ratio, mobile } = screen;
+  await tab.send('Emulation.setDeviceMetricsOverride', {
+    width,
+    height,
+    deviceScaleFactor: ratio,
+    mobile,
+  });
+  if (mobile) {
+    await tab.send('Emulation.setTouchEmulationEnabled', {
+      enabled: true,
+      maxTouchPoints: 5,
+    });
+  }
+  await tab.send('Page.navigate', { url: `${origin}${page}` });
+  await until(
+    tab,
+    `document.readyState === 'complete'`,
+    `${page} never finished loading`,
+    Date.now() + HOOK_TIMEOUT_MS,
+  );
+  await until(
+    tab,
+    `typeof ${hook}?.ready === 'function'`,
+    `${page} exposes no ${hook} ${String(HOOK_TIMEOUT_MS / 1000)} s after loading — the page installs no play hook (IslandPlayHook, @/island/shared/play)`,
+    Date.now() + HOOK_TIMEOUT_MS,
+  );
+  await settle(tab, call('ready'), 'ready()');
+  return tab;
+}
+
+/** How a shot is encoded: lossless PNG, or JPEG at `quality` (1-100). */
+export type Capture =
+  | { readonly format: 'png' }
+  | { readonly format: 'jpeg'; readonly quality: number };
+
+const PNG: Capture = { format: 'png' };
+
+/**
+ * Steps the seeded clock `frames` frames of `ms` each, then writes the screen
+ * to `file`, a PNG unless `capture` says otherwise. An animation frame passes
+ * before the last step: three's lights update once per animation frame, so a
+ * render in the task that moved the time would draw the shot lit by the sun of
+ * before.
+ */
+export async function shoot(
+  tab: Tab,
+  frames: number,
+  file: string,
+  ms = FRAME_MS,
+  capture: Capture = PNG,
+): Promise<void> {
+  const step = call('step', ms);
+  await tab.evaluate(
+    `(async () => { for (let i = 1; i < ${String(frames)}; i += 1) ${step}; await new Promise(requestAnimationFrame); if (${String(frames)} > 0) ${step}; return true; })()`,
+    z.boolean(),
+    { awaitPromise: true },
+  );
+  const { data } = z
+    .object({ data: z.string() })
+    .parse(await tab.send('Page.captureScreenshot', capture));
+  fs.writeFileSync(file, Buffer.from(data, 'base64'));
+}

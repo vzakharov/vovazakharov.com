@@ -246,7 +246,11 @@ is the thing under test, so reading the tree only confirms the input.
 - **A subdomain of a domain already served** takes one `CNAME` on its host at
   `<owner>.github.io` in Step 2, not the apex table, and the zone's wildcard
   stays. Publish before writing it: a `CNAME` at `<owner>.github.io` that no
-  Pages repository claims is one anyone's repository can take over.
+  Pages repository claims is one anyone's repository can take over. So a
+  subdomain always lands in the trap above: toggle `cname` once the record
+  resolves, again if no certificate comes within a few minutes, and republish
+  afterwards — each toggle commits a `Create CNAME` onto `gh-pages`, which the
+  publish replaces with its own single commit.
 - **The new domain serving an existing site** means the apex records point
   somewhere else entirely — that is DNS, not the build.
 - **GitHub's run-workflow form reads its input list off the default branch.** A

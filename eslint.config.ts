@@ -37,6 +37,7 @@ import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import unicornPlugin from 'eslint-plugin-unicorn';
 
 import { boundariesConfig } from './eslint/masd-boundaries';
+import { PUBLIC_API, TEST_API } from './eslint/masd-graph';
 import { coreRules } from './eslint/rule-groups/core';
 import { importSortRules } from './eslint/rule-groups/import-sort';
 import { jsxA11yRules } from './eslint/rule-groups/jsx-a11y';
@@ -62,6 +63,7 @@ import noRelativeEscape from './eslint/rules/no-relative-escape';
 import noSplitJsxSpreads from './eslint/rules/no-split-jsx-spreads';
 import noUncausedRethrow from './eslint/rules/no-uncaused-rethrow';
 import preferShorthandSpread from './eslint/rules/prefer-shorthand-spread';
+import subSliceEntry from './eslint/rules/sub-slice-entry';
 
 const eslintConfig = defineConfig([
   ...nextVitals,
@@ -105,6 +107,7 @@ const eslintConfig = defineConfig([
           'no-split-jsx-spreads': noSplitJsxSpreads,
           'no-uncaused-rethrow': noUncausedRethrow,
           'prefer-shorthand-spread': preferShorthandSpread,
+          'sub-slice-entry': subSliceEntry,
         },
       },
     },
@@ -150,8 +153,8 @@ const eslintConfig = defineConfig([
   // everywhere else, including every component the CV renders.
   {
     files: [
-      'src/vova/pages/{home,writing}/ui/**/*.tsx',
-      'src/music/pages/{music,artist,album,song,radio}/ui/**/*.tsx',
+      'src/vova/pages/{home,writing}/**/*.tsx',
+      'src/music/pages/{music,artist,album,song,radio}/**/*.tsx',
       'src/music/{widgets,entities}/*/ui/**/*.tsx',
       'src/music/shared/ui/*.tsx',
     ],
@@ -168,6 +171,15 @@ const eslintConfig = defineConfig([
         { paths: [NEXT_INTL_CLIENT] },
       ],
     },
+  },
+  // The files whose job is to re-export: a slice's or segment's entry points,
+  // and the routers, from which Next reads each route's exports by name.
+  {
+    files: [
+      ...[...PUBLIC_API, TEST_API].map((barrel) => `**/${barrel}`),
+      'sites/*/app/**',
+    ],
+    rules: { 'no-restricted-syntax': 'off' },
   },
   // Custom ESLint rule implementations (eslint/) and the root tooling configs.
   // Relax only the patterns intrinsic to AST-walking rule code; everything else is linted.
@@ -202,6 +214,9 @@ const eslintConfig = defineConfig([
     // The cost ledger's rows: JSON only, and vet's concurrent cost tests make
     // and remove month directories here while ESLint walks the tree.
     '.claude/costs/sessions/**',
+    // The artifact apps: a project of its own with its own ESLint config and
+    // tsconfig, vendored from vzakharov/muthur and linted there.
+    '.claude/artifacts/**',
   ]),
 ]);
 

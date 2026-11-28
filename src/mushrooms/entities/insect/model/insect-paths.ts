@@ -6,11 +6,12 @@
  * and turns its heading no faster than a body can follow.
  */
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+
 import type { Phased } from '@/mushrooms/shared/lib/motion';
 
 import type { Span } from './flight-timing';
-import type { InsectKind, Kinded } from './insect-genes';
+import type { InsectKind, Kinded } from './insect';
 
 /**
  * What a leg carries over from the one before as it sets off: `launch`, how

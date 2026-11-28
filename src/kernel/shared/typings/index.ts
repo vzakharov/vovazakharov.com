@@ -28,6 +28,12 @@ export type WithWidth = { width: number };
 /** A box's height alone. */
 export type WithHeight = { height: number };
 
+/** Releases whatever the holder bound or allocated; the holder is spent after. */
+export type CanDispose = { readonly dispose: () => void };
+
+/** The item selected, by id; `undefined` while none is. */
+export type WithSelected = { selected: string | undefined };
+
 /** A title that may be absent — a document's is derived, so it exists only once read. */
 export type MaybeTitled = { title?: string };
 
@@ -39,11 +45,23 @@ export type Summarized = Titled & Described;
 /** A date as frontmatter spells it, ISO `YYYY-MM-DD`. */
 export type Dated = { date: string };
 
-/** A recording's length, in whole seconds. */
+/** How long a thing lasts, in seconds — a recording's, in whole ones. */
 export type Timed = { seconds: number };
+
+/** Where a ramp between two values starts: a turn of the light's duskness, a halo's full-opacity reach, a ring's fill. */
+export type Ramped = { from: number };
+
+/** Where a ramp between two values ends: a halo's farthest reach, a ring's fill. */
+export type Aimed = { to: number };
 
 /** Whether a recording carries the explicit-content mark. */
 export type Rated = { explicit: boolean };
+
+/** A turn, in radians: a door's leaf off its wall, a mottle on its plane. */
+export type Angled = { angle: number };
+
+/** How far a thing is turned, in radians: a mushroom drawn off upright, the far side of a portal about the vertical. */
+export type Turned = { turn: number };
 
 /** What a reproducible random draw starts from: the same seed, the same result. */
 export type Seeded = { seed: number };
@@ -63,7 +81,16 @@ export type WithLanguage = { language: string };
 /** A repo-relative path to the file a thing was read from. */
 export type WithFilePath = { filePath: string };
 
-/** What can be silenced — a voice, a player's decks. */
+/** Hears a failure that happens past the call that set the holder up. */
+export type WithOnError = { onError: (error: Error) => void };
+
+/** Hears that whoever is looking at the holder — a dialog — asked to close it. */
+export type WithOnClose = { onClose: () => void };
+
+/** A scene a script waits on: resolves once its first frame is drawn. */
+export type Readying = { ready: () => Promise<void> };
+
+/** What can be stopped — a voice, a player's decks, a download. */
 export type Hushing = { stop: () => void };
 
 /** The name of a file within its collection or directory. */
@@ -95,6 +122,9 @@ export type WithChildren = { children: ReactNode };
 
 /** The same, for a wrapper that stands on its own when nothing is put in it. */
 export type WithOptionalChildren = { children?: ReactNode };
+
+/** A heading handed in rendered, for a component to set where its layout puts it. */
+export type Headed = { heading: ReactNode };
 
 /** Whom a page credits, in place of the site's author. */
 export type MaybeBylined = { byline?: ReactNode };

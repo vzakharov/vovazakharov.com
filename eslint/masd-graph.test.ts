@@ -12,7 +12,9 @@ import {
   directoryMismatches,
   insignificantApps,
   loadGraph,
+  overdueWaits,
   parseGraph,
+  subSlicePath,
 } from './masd-graph.ts';
 
 // base ← left, right ← both: a diamond, `both` having two parents.
@@ -81,12 +83,38 @@ describe('ancestors and descendants', () => {
 });
 
 describe('insignificantApps', () => {
+  const NOW = new Date('2026-11-11T12:00:00Z');
+  const LEFT_WAITS = {
+    left: { child: 'a second', since: '2026-11-10T12:00:00Z' },
+  };
+
   it('flags an app with one child and nothing mounted', () => {
-    assert.deepEqual(insignificantApps(DIAMOND, new Set()), ['left', 'right']);
+    assert.deepEqual(insignificantApps(DIAMOND, new Set(), NOW, {}), [
+      'left',
+      'right',
+    ]);
   });
 
   it('spares one a router mounts', () => {
-    assert.deepEqual(insignificantApps(DIAMOND, new Set(['left'])), ['right']);
+    assert.deepEqual(insignificantApps(DIAMOND, new Set(['left']), NOW, {}), [
+      'right',
+    ]);
+  });
+
+  it('spares one waiting under a yes less than a week old', () => {
+    assert.deepEqual(insignificantApps(DIAMOND, new Set(), NOW, LEFT_WAITS), [
+      'right',
+    ]);
+  });
+
+  it('flags a wait again once its yes is over a week old', () => {
+    const later = new Date('2026-11-17T12:00:01Z');
+    assert.deepEqual(insignificantApps(DIAMOND, new Set(), later, LEFT_WAITS), [
+      'left',
+      'right',
+    ]);
+    assert.deepEqual([...overdueWaits(later, LEFT_WAITS).keys()], ['left']);
+    assert.deepEqual([...overdueWaits(NOW, LEFT_WAITS).keys()], []);
   });
 
   it('spares the real graph’s abstract apps', () => {
@@ -98,10 +126,13 @@ describe('insignificantApps', () => {
           'vova',
           'music',
           'mushrooms',
+          'island',
+          'cube',
           'bible',
           'basilisk',
           'maya',
         ]),
+        new Date(),
       ),
       [],
     );
@@ -117,5 +148,23 @@ describe('directoryMismatches', () => {
         'masd: src/x is not in the graph',
       ],
     );
+  });
+});
+
+describe('subSlicePath', () => {
+  it('reads the folders before the first segment as nested sub-slices', () => {
+    assert.deepEqual(subSlicePath(['prose', 'inner', 'ui']), [
+      'prose',
+      'prose/inner',
+    ]);
+  });
+
+  it('counts a sub-slice’s root files as inside it', () => {
+    assert.deepEqual(subSlicePath(['prose']), ['prose']);
+  });
+
+  it('reads a folder inside a segment as part of that segment', () => {
+    assert.deepEqual(subSlicePath(['ui', 'backdrop']), []);
+    assert.deepEqual(subSlicePath(['config', 'i18n', 'messages']), []);
   });
 });

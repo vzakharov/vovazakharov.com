@@ -1,4 +1,4 @@
-import { collectionIndexRoute } from '@/blog/pages/documents';
+import { collectionIndexRoute } from '@/blog/pages/collection-index';
 
 const { Page, metadata } = collectionIndexRoute('case-studies');
 

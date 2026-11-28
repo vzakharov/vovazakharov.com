@@ -5,20 +5,18 @@
  * wingspan the layout sizes an insect by is the one painted.
  */
 
+import type { Point } from '@/scene/shared/lib/plane';
+
 import {
   distanceToEdge,
   ellipse,
-  type Point,
   sample,
 } from '@/mushrooms/shared/lib/geometry';
 
-import type {
-  Bodied,
-  ButterflyGenes,
-  Buzzing,
-  InsectGenes,
-  Wing,
-} from './insect-genes';
+import type { Bodied, Buzzing, FourWinged, Wing } from './insect';
+
+/** What a butterfly's wing outlines read of its genes. */
+type ButterflyFrame = Bodied & FourWinged;
 
 /** The wings a painter lays down together, the hind pair under the fore. */
 export const WING_PAIRS = ['hind', 'fore'] as const;
@@ -98,7 +96,7 @@ function onWing(axis: Axis, wing: Wing, u: number, v: number): Point {
  * root: 1 for the whole wing, `INNER_*` for the base colour inside its band.
  */
 export function wingOutline(
-  genes: ButterflyGenes,
+  genes: ButterflyFrame,
   pair: WingPair,
   side: BodySide,
   [reach, breadth]: readonly [number, number] = [1, 1],
@@ -127,7 +125,7 @@ function outlineAlong(axis: Axis, wing: Wing): Point[] {
  * falls, the light coming from above.
  */
 export function wingTrailingEdge(
-  genes: ButterflyGenes,
+  genes: ButterflyFrame,
   pair: WingPair,
   side: BodySide,
 ): Point[] {
@@ -140,7 +138,7 @@ export function wingTrailingEdge(
 
 /** The middle of a wing's eye: `eyeAt` of the way out, on its swept axis. */
 export function eyeCentre(
-  genes: ButterflyGenes,
+  genes: ButterflyFrame,
   pair: WingPair,
   side: BodySide,
 ): Point {
@@ -151,7 +149,7 @@ export function eyeCentre(
  * How far a wing's eye could reach before it met the wing's edge, as a share
  * of that wing's breadth: the unit the eye rings are measured in.
  */
-export function eyeRoom(genes: ButterflyGenes, pair: WingPair): number {
+export function eyeRoom(genes: ButterflyFrame, pair: WingPair): number {
   return (
     distanceToEdge(wingOutline(genes, pair, 1), eyeCentre(genes, pair, 1)) /
     genes[pair].breadth
@@ -231,20 +229,4 @@ export function buzzWing(
     axisAt(root, rest + (open - rest) * spread, side),
     genes.wing,
   );
-}
-
-/**
- * How far an insect reaches from side to side, in units of its size: a
- * butterfly's open wings, or a fly's or a bee's open wings or its body,
- * whichever is wider.
- */
-export function wingspan(genes: InsectGenes): number {
-  if (genes.kind !== 'butterfly') {
-    const xs = buzzWing(genes, 1, 1).map(({ x }) => x);
-    return Math.max(genes.bodyWidth / 2, ...xs) * 2;
-  }
-  const xs = WING_PAIRS.flatMap((pair) =>
-    wingOutline(genes, pair, 1).map(({ x }) => x),
-  );
-  return Math.max(...xs) * 2;
 }

@@ -117,9 +117,9 @@ class EstimateNoticeTest(unittest.TestCase):
 
     def test_the_restated_estimate_keeps_the_role_in_view_and_says_a_misbooked_part_moves(self) -> None:
         self.adds_artist()
-        self.run_costs("estimate.py", "set", "--part", "2", "senior", "copywriter", "the reflections need a voice")
+        self.run_costs("estimate.py", "set", "--subject", "feat: a subject", "--part", "2", "senior", "copywriter", "the reflections need a voice")
         notice = self.notice()
-        self.assertIn("This session's human-hour estimate: 2 h senior copywriter", notice)
+        self.assertIn("This session's human-hour estimate: `feat: a subject`: 2 h senior copywriter", notice)
         self.assertIn("`--part <hours> senior artist`", notice)
         self.assertIn("A part that booked such work under a shared role moves onto it.", notice)
 

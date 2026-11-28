@@ -10,8 +10,6 @@ import {
   resolveSiteId,
 } from '@/kernel/shared/config/index.node-safe';
 
-export { REPO_ROOT } from './repo-root.ts';
-
 /**
  * Every file under `target`, recursively — or `target` itself when it is a
  * file. {@link GENERATED_DIR} is skipped, which is what keeps the walk off the

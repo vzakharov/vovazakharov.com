@@ -2,7 +2,7 @@ import { keptIn } from '@/kernel/shared/cache';
 
 import type { Sitter } from '@/mushrooms/shared/world';
 
-import type { InsectKind } from '../model/insect-genes';
+import type { InsectKind } from '../model/insect';
 import { flowerLift } from './flower-lift';
 import type { InsectScaled, InsectSized } from './insect-size';
 

@@ -4,6 +4,7 @@ import { describe, it } from 'node:test';
 import { alongAzimuth, wrap } from '@/mushrooms/shared/lib/geometry';
 import { between, mulberry32 } from '@/mushrooms/shared/lib/random';
 import {
+  type Aloft,
   aloftAt,
   buried,
   CLUMP_DISTANCE,
@@ -23,7 +24,6 @@ import {
   viewAt,
 } from '@/mushrooms/shared/world';
 import {
-  type Aloft,
   centreOf,
   drawnAloft,
   eyeFrameOf,

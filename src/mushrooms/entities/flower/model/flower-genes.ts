@@ -1,4 +1,4 @@
-import type { WithId } from '@/kernel/shared/typings';
+import type { Seeded, WithId } from '@/kernel/shared/typings';
 
 import type { Circle } from '@/mushrooms/shared/lib/geometry';
 import {
@@ -7,7 +7,6 @@ import {
   type GeneRanges,
   mulberry32,
   pick,
-  type Seeded,
   type Stalked,
 } from '@/mushrooms/shared/lib/random';
 

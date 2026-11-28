@@ -1,0 +1,2121 @@
+foxedpage.com:
+  category: book trade
+  tagline: Foxing is the brown spotting on old paper.
+  uses:
+    - used-book shop
+    - reading app
+  score: 9
+  form: compound
+  added: 2026-10-29
+
+thawdate.com:
+  category: weather
+  tagline: The last-frost date every gardener asks about.
+  uses:
+    - planting calendar
+    - seed shop
+  score: 8.5
+  form: compound
+  added: 2026-10-29
+
+murmurmill.com:
+  category: alliteration
+  tagline: Short and soft, a sound worth listening to.
+  uses:
+    - podcast studio
+    - audiobook label
+  score: 8
+  form: compound
+  added: 2026-10-29
+
+mendthings.com:
+  category: plain verb
+  tagline: Fixing what you already own.
+  uses:
+    - repair café
+    - fix-it marketplace
+  score: 7.5
+  form: phrase
+  added: 2026-10-29
+
+proofingdrawer.com:
+  category: kitchen
+  tagline: Where dough rises.
+  uses:
+    - baking school
+    - slow-food blog
+  score: 7
+  form: compound
+  added: 2026-10-29
+
+tidesetter.com:
+  category: sailing
+  tagline: Sets the pace without shouting.
+  uses:
+    - scheduling tool
+    - coaching practice
+  score: 6.5
+  form: compound
+  added: 2026-10-29
+
+awlwork.com:
+  category: trade tools
+  tagline: The leatherworker's piercing tool, in seven letters.
+  uses:
+    - leathercraft studio
+    - bookbinder
+  score: 6
+  form: compound
+  added: 2026-10-29
+
+ashbyfold.com:
+  category: invented place
+  tagline: Reads like a village that should exist.
+  uses:
+    - holiday let
+    - cider
+  score: 5.5
+  form: compound
+  added: 2026-10-29
+
+nightglowlab.com:
+  category: astronomy
+  tagline: The faint light of the night sky.
+  uses:
+    - dark-sky tour
+    - sleep product
+  score: 5
+  form: compound
+  added: 2026-10-29
+
+timberfare.com:
+  category: random pair
+  tagline: Timber and fare.
+  uses:
+    - forest café
+    - cabin-trip company
+  score: 4.5
+  form: compound
+  added: 2026-10-29
+
+airmailblue.com:
+  category: post
+  tagline: The blue of a letter from far away.
+  uses:
+    - stationery brand
+    - long-distance newsletter
+  score: 8
+  form: compound
+  added: 2026-11-03
+
+inkedmargin.com:
+  category: cartography
+  tagline: Where the mapmaker wrote the notes.
+  uses:
+    - annotation app
+    - reading club
+  score: 8
+  form: compound
+  added: 2026-11-03
+
+brineandcrock.com:
+  category: fermentation
+  tagline: Everything kimchi needs.
+  uses:
+    - fermentation class
+    - pickle shop
+  score: 7.5
+  form: compound
+  added: 2026-11-03
+
+chalkandshears.com:
+  category: tailoring
+  tagline: A tailor's two tools.
+  uses:
+    - bespoke tailor
+    - alterations shop
+  score: 7.5
+  form: compound
+  added: 2026-11-03
+
+edgepiecesfirst.com:
+  category: puzzles
+  tagline: How every jigsaw starts.
+  uses:
+    - puzzle shop
+    - newsletter on starting projects
+  score: 7.5
+  form: phrase
+  added: 2026-11-03
+
+firstcuckoo.com:
+  category: birding
+  tagline: The first sign that spring is real.
+  uses:
+    - journal of first things
+    - launch-day studio
+  score: 7.5
+  form: compound
+  added: 2026-11-03
+
+gessoandgold.com:
+  category: gilding
+  tagline: Chalk ground, then gold.
+  uses:
+    - frame maker
+    - restoration studio
+  score: 7.5
+  form: compound
+  added: 2026-11-03
+
+hairspringlab.com:
+  category: watchmaking
+  tagline: The coil that keeps a watch honest.
+  uses:
+    - repair bench
+    - precision-tools startup
+  score: 7.5
+  form: compound
+  added: 2026-11-03
+
+kilnopening.com:
+  category: pottery
+  tagline: The moment every potter waits for.
+  uses:
+    - ceramics studio
+    - weekly reveal
+  score: 7.5
+  form: compound
+  added: 2026-11-03
+
+lastcarhome.com:
+  category: tram
+  tagline: The last tram of the night.
+  uses:
+    - late-night radio show
+    - short-story site
+  score: 7.5
+  form: phrase
+  added: 2026-11-03
+
+polarnightclub.com:
+  category: arctic
+  tagline: The night that lasts all winter, and a club open through it.
+  uses:
+    - Arctic tour
+    - festival
+  score: 7.5
+  form: compound
+  added: 2026-11-03
+
+postcardrack.com:
+  category: travel
+  tagline: The spinning stand outside every seaside shop.
+  uses:
+    - postcard shop
+    - travel newsletter
+  score: 7.5
+  form: compound
+  added: 2026-11-03
+
+prussianink.com:
+  category: pigment
+  tagline: The first modern blue.
+  uses:
+    - ink maker
+    - print studio
+  score: 7.5
+  form: compound
+  added: 2026-11-03
+
+tempereddark.com:
+  category: chocolate
+  tagline: Dark chocolate with a clean snap.
+  uses:
+    - chocolate maker
+    - chocolate shop
+  score: 7.5
+  form: compound
+  added: 2026-11-03
+
+weftfloat.com:
+  category: weaving
+  tagline: A thread that skips over the weave.
+  uses:
+    - textile studio
+    - design newsletter
+  score: 7.5
+  form: compound
+  added: 2026-11-03
+
+windfallfruit.com:
+  category: orchard
+  tagline: What the wind gives away.
+  uses:
+    - gleaning project
+    - fruit share
+  score: 7.5
+  form: compound
+  added: 2026-11-03
+
+castonday.com:
+  category: knitting
+  tagline: The first row of every project.
+  uses:
+    - knitting class
+    - yarn shop
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+coldsmokehouse.com:
+  category: smoking
+  tagline: Smoke without heat, for salmon and cheese.
+  uses:
+    - smokery
+    - deli
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+conkersseason.com:
+  category: childhood
+  tagline: Horse chestnuts on strings, every autumn.
+  uses:
+    - toy shop
+    - seasonal newsletter
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+coppicecycle.com:
+  category: forestry
+  tagline: Cut a tree to the stump and it grows back.
+  uses:
+    - woodland co-op
+    - regenerative-farming blog
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+echochamberlab.com:
+  category: acoustics
+  tagline: A room built to repeat things.
+  uses:
+    - media-literacy project
+    - sound studio
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+forcedcard.com:
+  category: magic
+  tagline: The card the magician meant you to pick.
+  uses:
+    - magic shop
+    - newsletter on dark patterns
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+forkedknight.com:
+  category: chess
+  tagline: One move, two threats.
+  uses:
+    - chess club
+    - strategy consultancy
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+goldleafsign.com:
+  category: signwriting
+  tagline: Letters in gold on a shop window.
+  uses:
+    - sign painter
+    - lettering studio
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+guttershot.com:
+  category: comics
+  tagline: The white space between panels.
+  uses:
+    - comics newsletter
+    - small press
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+hedgerowlab.com:
+  category: botany
+  tagline: A whole ecosystem along a field's edge.
+  uses:
+    - foraging course
+    - rewilding project
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+honeyflowdate.com:
+  category: beekeeping
+  tagline: When the nectar runs and the hives fill.
+  uses:
+    - beekeeper's calendar
+    - honey subscription
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+lasttrick.com:
+  category: card games
+  tagline: The one that decides the hand.
+  uses:
+    - card-game shop
+    - closing-deals newsletter
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+layoverlog.com:
+  category: travel
+  tagline: Notes from between flights.
+  uses:
+    - travel blog
+    - airport guide
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+matineeseat.com:
+  category: cinema
+  tagline: The afternoon show, half empty.
+  uses:
+    - film club
+    - movie newsletter
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+ochreandumber.com:
+  category: pigment
+  tagline: Two earth colours every painter keeps.
+  uses:
+    - art-supply shop
+    - paint brand
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+onionskinlab.com:
+  category: animation
+  tagline: The thin paper animators flip through.
+  uses:
+    - animation studio
+    - layered-drawing app
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+paddleoutclub.com:
+  category: surfing
+  tagline: The long swim before the wave.
+  uses:
+    - surf school
+    - morning swim group
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+prompterbook.com:
+  category: theatre
+  tagline: The stage manager's copy, every cue in it.
+  uses:
+    - teleprompter app
+    - writing tool
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+restmeasure.com:
+  category: music theory
+  tagline: A bar of silence that still counts.
+  uses:
+    - wellbeing app
+    - quiet-hours newsletter
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+riposteclub.com:
+  category: fencing
+  tagline: The answer that comes straight back.
+  uses:
+    - fencing club
+    - debate society
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+ropewalkyard.com:
+  category: ropemaking
+  tagline: The long shed where rope was spun.
+  uses:
+    - co-working space
+    - climbing-gear maker
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+selvedgeline.com:
+  category: weaving
+  tagline: The finished edge of a bolt of cloth.
+  uses:
+    - denim brand
+    - tailoring shop
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+shortwavehour.com:
+  category: radio
+  tagline: Faint voices from far away.
+  uses:
+    - podcast
+    - radio show
+    - listening club
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+sidedoorshop.com:
+  category: alley
+  tagline: The way in for people who know.
+  uses:
+    - small shop
+    - members' store
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+stairwellpress.com:
+  category: architecture
+  tagline: A small press, between floors.
+  uses:
+    - zine publisher
+    - building's newsletter
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+thimblefull.com:
+  category: sewing
+  tagline: A thimbleful, small and exact.
+  uses:
+    - mending service
+    - tiny-portions café
+  score: 7
+  form: respelling
+  added: 2026-11-03
+
+tidepoolpost.com:
+  category: coast
+  tagline: Everything left behind at low tide.
+  uses:
+    - coastal newsletter
+    - marine-life guide
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+wrenhour.com:
+  category: birding
+  tagline: Small, loud and early.
+  uses:
+    - morning newsletter
+    - birdsong app
+  score: 7
+  form: compound
+  added: 2026-11-03
+
+bisqueday.com:
+  category: pottery
+  tagline: The first firing, before the glaze.
+  uses:
+    - pottery class
+    - prototype shop
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+bivvyclub.com:
+  category: camping
+  tagline: A night under a tarp on a hill.
+  uses:
+    - wild-camping club
+    - gear rental
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+blankcorner.com:
+  category: cartography
+  tagline: The unmapped corner of an old chart.
+  uses:
+    - studio for ideas nobody has drawn yet
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+bracedtop.com:
+  category: lutherie
+  tagline: The soundboard of a guitar, braced to sing.
+  uses:
+    - luthier
+    - guitar repair shop
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+brinecure.com:
+  category: salt
+  tagline: Salt water and patience.
+  uses:
+    - pickle shop
+    - charcuterie
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+catchandfinish.com:
+  category: rowing
+  tagline: The two ends of every stroke.
+  uses:
+    - rowing coach
+    - project tool
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+cathedralpane.com:
+  category: stained glass
+  tagline: Coloured light over stone.
+  uses:
+    - stained-glass studio
+    - window maker
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+curingrack.com:
+  category: soap
+  tagline: Where soap waits six weeks.
+  uses:
+    - soap maker
+    - slow-goods shop
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+doubleentrydesk.com:
+  category: bookkeeping
+  tagline: Every sum written twice.
+  uses:
+    - bookkeeping firm
+    - accounting app
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+dryflybox.com:
+  category: angling
+  tagline: Every fly a fisher trusts, in one tin.
+  uses:
+    - fly shop
+    - gear-list newsletter
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+fairyringlab.com:
+  category: mycology
+  tagline: Mushrooms in a circle, overnight.
+  uses:
+    - mushroom grower
+    - mycology podcast
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+glidepathlab.com:
+  category: aviation
+  tagline: The slope down to the runway.
+  uses:
+    - flight school
+    - career-coaching practice
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+hammerend.com:
+  category: curling
+  tagline: Holding the last stone.
+  uses:
+    - curling club
+    - fund that likes to go last
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+hatblockhouse.com:
+  category: millinery
+  tagline: The wooden form a hat is shaped on.
+  uses:
+    - milliner
+    - hat shop
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+hayloftmail.com:
+  category: farm
+  tagline: News from upstairs in the barn.
+  uses:
+    - farm newsletter
+    - CSA box
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+hoodandglove.com:
+  category: falconry
+  tagline: A falconer's two tools.
+  uses:
+    - falconry centre
+    - leather-goods brand
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+hopscotchgrid.com:
+  category: childhood
+  tagline: Chalk squares on a pavement.
+  uses:
+    - play school
+    - kids' games app
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+hotlatherco.com:
+  category: barbershop
+  tagline: The towel before the razor.
+  uses:
+    - barbershop
+    - shaving brand
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+keycuttery.com:
+  category: locksmith
+  tagline: A key cut while you wait.
+  uses:
+    - hardware shop
+    - password tool
+  score: 6.5
+  form: coinage
+  added: 2026-11-03
+
+lampcabin.com:
+  category: mining
+  tagline: Where the miners' lamps were charged.
+  uses:
+    - hardware shop
+    - lighting studio
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+lastandawl.com:
+  category: shoemaking
+  tagline: The cobbler's form and needle.
+  uses:
+    - shoe repairer
+    - bespoke shoemaker
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+marverstone.com:
+  category: glassblowing
+  tagline: The flat stone hot glass is rolled on.
+  uses:
+    - glass studio
+    - gallery
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+mortisework.com:
+  category: joinery
+  tagline: The hole that holds the tenon.
+  uses:
+    - furniture maker
+    - joinery school
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+potholersclub.com:
+  category: caving
+  tagline: People who climb down holes for fun.
+  uses:
+    - caving club
+    - adventure outfitter
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+prismandslit.com:
+  category: optics
+  tagline: All the light, taken apart.
+  uses:
+    - science-toy shop
+    - newsletter about light
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+reedbedlab.com:
+  category: wetlands
+  tagline: Reeds that clean water.
+  uses:
+    - water-treatment startup
+    - wetland project
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+rindwash.com:
+  category: cheese
+  tagline: The brine that gives a cheese its crust.
+  uses:
+    - cheesemonger
+    - cheese club
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+sawdustring.com:
+  category: circus
+  tagline: The ring under the big top.
+  uses:
+    - circus school
+    - workshop space
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+sleightandpalm.com:
+  category: magic
+  tagline: Two words for a hidden hand.
+  uses:
+    - magic school
+    - close-up performer
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+slideandstain.com:
+  category: microscopy
+  tagline: What goes under the lens.
+  uses:
+    - lab-supply shop
+    - science-teaching channel
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+strikeanddip.com:
+  category: geology
+  tagline: How a geologist pins a rock layer down.
+  uses:
+    - field-geology school
+    - mapping tool
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+tailwindpost.com:
+  category: aviation
+  tagline: A push from behind.
+  uses:
+    - pilots' newsletter
+    - startup digest
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+thatchandreed.com:
+  category: thatching
+  tagline: A roof the old way.
+  uses:
+    - thatcher
+    - country cottage
+  score: 6.5
+  form: compound
+  added: 2026-11-03
+
+ashfallpost.com:
+  category: volcano
+  tagline: News from downwind of the eruption.
+  uses:
+    - volcano newsletter
+    - geology podcast
+  score: 6
+  form: compound
+  added: 2026-11-03
+
+atriumlight.com:
+  category: architecture
+  tagline: Daylight down the middle of a building.
+  uses:
+    - architecture studio
+    - skylight maker
+  score: 6
+  form: compound
+  added: 2026-11-03
+
+bastingstitch.com:
+  category: sewing
+  tagline: The loose stitch that holds until it is final.
+  uses:
+    - sewing school
+    - prototyping studio
+  score: 6
+  form: compound
+  added: 2026-11-03
+
+belaystand.com:
+  category: climbing
+  tagline: Where the climber anchors and pays out rope.
+  uses:
+    - climbing gym
+    - mentoring practice
+  score: 6
+  form: compound
+  added: 2026-11-03
+
+cavehour.com:
+  category: cheese
+  tagline: Time spent ageing in the dark.
+  uses:
+    - affinage room
+    - slow-reading newsletter
+  score: 6
+  form: compound
+  added: 2026-11-03
+
+deepwaterlog.com:
+  category: ocean
+  tagline: Notes from beyond the shelf.
+  uses:
+    - diving club
+    - marine-research blog
+  score: 6
+  form: compound
+  added: 2026-11-03
+
+dragonflyhour.com:
+  category: insects
+  tagline: A hot afternoon over still water.
+  uses:
+    - summer camp
+    - nature podcast
+  score: 6
+  form: compound
+  added: 2026-11-03
+
+fixerbath.com:
+  category: darkroom
+  tagline: The last tray before the print is safe.
+  uses:
+    - photo lab
+    - film-photography shop
+  score: 6
+  form: compound
+  added: 2026-11-03
+
+icefloelog.com:
+  category: arctic
+  tagline: Notes from drifting ice.
+  uses:
+    - expedition blog
+    - climate newsletter
+  score: 6
+  form: compound
+  added: 2026-11-03
+
+lyeandoil.com:
+  category: soap
+  tagline: The whole recipe for soap.
+  uses:
+    - soap-making class
+    - skincare brand
+  score: 6
+  form: compound
+  added: 2026-11-03
+
+mainspringwork.com:
+  category: watchmaking
+  tagline: What winds everything else.
+  uses:
+    - watch restorer
+    - habits app
+  score: 6
+  form: compound
+  added: 2026-11-03
+
+smaltiroom.com:
+  category: mosaic
+  tagline: A room of coloured glass tiles.
+  uses:
+    - mosaic studio
+    - tile shop
+  score: 6
+  form: compound
+  added: 2026-11-03
+
+typebarhouse.com:
+  category: typewriter
+  tagline: The arms that strike the letters.
+  uses:
+    - typewriter repairer
+    - writing studio
+  score: 6
+  form: compound
+  added: 2026-11-03
+
+mudlark.ing:
+  category: river finds
+  tagline: Searching a river's foreshore at low tide for what the city dropped.
+  uses:
+    - history podcast
+    - found-objects shop
+  score: 8.5
+  form: hack
+  pattern: '*.ing'
+  added: 2026-11-04
+
+beachcomb.ing:
+  category: coast
+  tagline: Walking the tideline to see what the sea left.
+  uses:
+    - coastal newsletter
+    - sea-glass jeweller
+  score: 7.5
+  form: hack
+  pattern: '*.ing'
+  added: 2026-11-04
+
+whittl.ing:
+  category: woodcarving
+  tagline: Carving wood with a knife, one shaving at a time.
+  uses:
+    - woodcarving class
+    - knife maker
+  score: 7.5
+  form: hack
+  pattern: '*.ing'
+  added: 2026-11-04
+
+letterpress.ing:
+  category: printing
+  tagline: Printing that leaves a dent you can feel.
+  uses:
+    - print studio
+    - wedding-stationery shop
+  score: 6.5
+  form: hack
+  pattern: '*.ing'
+  added: 2026-11-04
+
+saunter.ing:
+  category: walking
+  tagline: Walking with nowhere to be.
+  uses:
+    - walking-tour company
+    - slow-travel blog
+  score: 7
+  form: hack
+  pattern: '*.ing'
+  added: 2026-11-04
+
+stippl.ing:
+  category: drawing
+  tagline: Shading made of dots, one at a time.
+  uses:
+    - illustration studio
+    - tattoo parlour
+  score: 6.5
+  form: hack
+  pattern: '*.ing'
+  added: 2026-11-04
+
+firk.in:
+  category: casks
+  tagline: A small cask, nine gallons of ale.
+  uses:
+    - microbrewery
+    - ale club
+  score: 7
+  form: hack
+  pattern: '*k.in'
+  added: 2026-11-04
+
+mandol.in:
+  category: strings
+  tagline: The small lute with its strings in pairs.
+  uses:
+    - luthier
+    - folk-music school
+  score: 6.5
+  form: hack
+  pattern: '*.in'
+  added: 2026-11-04
+
+lammas.day:
+  category: harvest
+  tagline: The first of August, when the first loaf of the harvest was blessed.
+  uses:
+    - bakery
+    - harvest festival
+  score: 7
+  form: hack
+  pattern: '*.day'
+  added: 2026-11-04
+
+leathe.red:
+  category: leather
+  tagline: Bound or worked in leather.
+  uses:
+    - leather-goods brand
+    - bookbinder
+  score: 7
+  form: hack
+  pattern: '*.red'
+  added: 2026-11-04
+
+tatte.red:
+  category: wear
+  tagline: Worn to rags, and still kept.
+  uses:
+    - vintage shop
+    - mending service
+  score: 7
+  form: hack
+  pattern: '*.red'
+  added: 2026-11-04
+
+colou.red:
+  category: colour
+  tagline: Spelt the British way.
+  uses:
+    - paint shop
+    - design studio
+  score: 7.5
+  form: hack
+  pattern: '*.red'
+  added: 2026-11-04
+
+potte.red:
+  category: idling
+  tagline: Spent an afternoon doing small things.
+  uses:
+    - craft blog
+    - garden shop
+  score: 7
+  form: hack
+  pattern: '*.red'
+  added: 2026-11-04
+
+harbou.red:
+  category: shelter
+  tagline: Kept safe from the weather.
+  uses:
+    - boatyard
+    - refuge charity
+  score: 7
+  form: hack
+  pattern: '*.red'
+  added: 2026-11-04
+
+seasone.red:
+  category: wood
+  tagline: Dried long enough to burn or build with.
+  uses:
+    - firewood seller
+    - timber merchant
+  score: 6.5
+  form: hack
+  pattern: '*.red'
+  added: 2026-11-04
+
+pewte.red:
+  category: metal
+  tagline: Grey as old tableware.
+  uses:
+    - homeware brand
+    - antiques dealer
+  score: 6
+  form: hack
+  pattern: '*.red'
+  added: 2026-11-04
+
+coppe.red:
+  category: metal
+  tagline: Warm, reddish-brown, like a kettle.
+  uses:
+    - cookware brand
+    - hair salon
+  score: 6.5
+  form: hack
+  pattern: '*.red'
+  added: 2026-11-04
+
+timbe.red:
+  category: building
+  tagline: Framed in wood.
+  uses:
+    - timber-frame builder
+    - cabin rental
+  score: 7
+  form: hack
+  pattern: '*.red'
+  added: 2026-11-04
+
+ladde.red:
+  category: stockings
+  tagline: Run, as a stocking runs.
+  uses:
+    - hosiery brand
+    - mending service
+  score: 6
+  form: hack
+  pattern: '*.red'
+  added: 2026-11-04
+
+parchm.in:
+  category: writing
+  tagline: Prepared skin, written on for a thousand years.
+  uses:
+    - calligraphy studio
+    - archive service
+  score: 7
+  form: hack
+  pattern: '*.in'
+  added: 2026-11-04
+
+kilderk.in:
+  category: casks
+  tagline: A cask of eighteen gallons, twice a firkin.
+  uses:
+    - brewery
+    - beer festival
+  score: 6.5
+  form: hack
+  pattern: '*k.in'
+  added: 2026-11-04
+
+mead.land:
+  category: fields
+  tagline: Meadows, as the old maps had them.
+  uses:
+    - wildflower-seed shop
+    - honey farm
+  score: 6.5
+  form: hack
+  pattern: '*.land'
+  added: 2026-11-04
+
+letitproof.com:
+  category: bread
+  tagline: What every recipe says before the oven.
+  uses:
+    - baking school
+    - patience app
+  score: 8
+  form: phrase
+  added: 2026-11-04
+
+whenthekilncools.com:
+  category: pottery
+  tagline: The wait between firing and finding out.
+  uses:
+    - ceramics studio
+    - slow-craft newsletter
+  score: 8
+  form: phrase
+  added: 2026-11-04
+
+onthefoldline.com:
+  category: sewing
+  tagline: Where a paper pattern says to lay the cloth's fold.
+  uses:
+    - sewing-pattern shop
+    - origami class
+  score: 7.5
+  form: phrase
+  added: 2026-11-04
+
+sixweekstocure.com:
+  category: soap
+  tagline: How long cold-process soap rests before it is kind to skin.
+  uses:
+    - soap maker
+    - charcuterie
+  score: 7
+  form: phrase
+  added: 2026-11-04
+
+stillwarmbread.com:
+  category: morning
+  tagline: Bread an hour out of the oven.
+  uses:
+    - bakery
+    - morning newsletter
+  score: 7.5
+  form: phrase
+  added: 2026-11-04
+
+askthecobbler.com:
+  category: shoes
+  tagline: The question to ask before throwing a pair away.
+  uses:
+    - shoe repairer
+    - advice column
+  score: 7.5
+  form: phrase
+  added: 2026-11-04
+
+bottomofthedrawer.com:
+  category: keeping
+  tagline: Where the good things wait for an occasion.
+  uses:
+    - vintage shop
+    - family-archive service
+  score: 7.5
+  form: phrase
+  added: 2026-11-04
+
+onthelastpage.com:
+  category: reading
+  tagline: Where a book finally says what it meant.
+  uses:
+    - book club
+    - spoiler-free review site
+  score: 6.5
+  form: phrase
+  added: 2026-11-04
+
+kettlesjustboiled.com:
+  category: tea
+  tagline: The best news in any kitchen.
+  uses:
+    - tea shop
+    - chat podcast
+  score: 7.5
+  form: phrase
+  added: 2026-11-04
+
+almostrisen.com:
+  category: dough
+  tagline: Dough, or a company, nearly ready.
+  uses:
+    - startup incubator
+    - bakery
+  score: 7
+  form: phrase
+  added: 2026-11-04
+
+acrossthefen.com:
+  category: wetland
+  tagline: The long way over flat, wet country.
+  uses:
+    - walking guide
+    - nature-writing blog
+  score: 6.5
+  form: phrase
+  added: 2026-11-04
+
+waitforlowtide.com:
+  category: coast
+  tagline: When the causeway opens and the rock pools show.
+  uses:
+    - coastal-walk guide
+    - tide-times app
+  score: 7.5
+  form: phrase
+  added: 2026-11-04
+
+afterlightsout.com:
+  category: night
+  tagline: Whispered stories under the covers.
+  uses:
+    - bedtime-story app
+    - late-night radio show
+  score: 7.5
+  form: phrase
+  added: 2026-11-04
+
+castonagain.com:
+  category: knitting
+  tagline: Starting the jumper over, as every knitter does.
+  uses:
+    - knitting podcast
+    - yarn shop
+  score: 7
+  form: phrase
+  added: 2026-11-04
+
+frogitandstart.com:
+  category: knitting
+  tagline: "Knitters' slang: rip it, rip it, and begin again."
+  uses:
+    - knitting school
+    - fresh-start coaching practice
+  score: 6.5
+  form: phrase
+  added: 2026-11-04
+
+pressdontiron.com:
+  category: sewing
+  tagline: The first rule a sewing teacher gives.
+  uses:
+    - sewing school
+    - garment-care brand
+  score: 7
+  form: phrase
+  added: 2026-11-04
+
+tothelastcrumb.com:
+  category: food
+  tagline: A plate wiped clean.
+  uses:
+    - food blog
+    - zero-waste café
+  score: 7.5
+  form: phrase
+  added: 2026-11-04
+
+whenthetideturns.com:
+  category: tides
+  tagline: The moment things start coming back.
+  uses:
+    - recovery coach
+    - surf report
+  score: 7
+  form: phrase
+  added: 2026-11-04
+
+afterthethaw.com:
+  category: spring
+  tagline: The first soft ground of the year.
+  uses:
+    - garden centre
+    - spring-planting newsletter
+  score: 7
+  form: phrase
+  added: 2026-11-04
+
+waitforthesnap.com:
+  category: chocolate
+  tagline: How a chocolatier knows the temper is right.
+  uses:
+    - chocolate maker
+    - tasting club
+  score: 7
+  form: phrase
+  added: 2026-11-04
+
+glimmerary.com:
+  category: light
+  tagline: A place for small lights, said like library.
+  uses:
+    - candle shop
+    - lighting studio
+  score: 7.5
+  form: coinage
+  added: 2026-11-04
+
+quietling.com:
+  category: temperament
+  tagline: A small, quiet one.
+  uses:
+    - children's bookshop
+    - introverts' newsletter
+  score: 7.5
+  form: coinage
+  added: 2026-11-04
+
+puddlery.com:
+  category: rain
+  tagline: Everything for jumping in puddles.
+  uses:
+    - children's rainwear brand
+    - outdoor nursery
+  score: 7
+  form: coinage
+  added: 2026-11-04
+
+dapplery.com:
+  category: light
+  tagline: Sunlight in spots through leaves, as a place.
+  uses:
+    - photography studio
+    - garden designer
+  score: 7
+  form: coinage
+  added: 2026-11-04
+
+hushsome.com:
+  category: quiet
+  tagline: Pleasantly quiet, as winsome is pleasant.
+  uses:
+    - noise-cancelling brand
+    - quiet café
+  score: 7
+  form: coinage
+  added: 2026-11-04
+
+kindlesome.com:
+  category: fire
+  tagline: Easy to light, and warm once lit.
+  uses:
+    - firewood seller
+    - community newsletter
+  score: 6.5
+  form: coinage
+  added: 2026-11-04
+
+salinaria.com:
+  category: salt
+  tagline: Latin for a salt works.
+  uses:
+    - sea-salt brand
+    - bath-salt shop
+  score: 7
+  form: coinage
+  added: 2026-11-04
+
+tegularia.com:
+  category: tiles
+  tagline: Latin for a tile works.
+  uses:
+    - tile shop
+    - roofing firm
+  score: 6.5
+  form: coinage
+  added: 2026-11-04
+
+readatorium.com:
+  category: reading
+  tagline: A room built for reading, as an auditorium is for listening.
+  uses:
+    - reading café
+    - library app
+  score: 6.5
+  form: coinage
+  added: 2026-11-04
+
+porridgery.com:
+  category: breakfast
+  tagline: A shop that sells nothing but porridge.
+  uses:
+    - breakfast bar
+    - oat brand
+  score: 7.5
+  form: coinage
+  added: 2026-11-04
+
+ragamuffinry.com:
+  category: children
+  tagline: The art of being a ragamuffin.
+  uses:
+    - children's clothing brand
+    - outdoor play club
+  score: 6.5
+  form: coinage
+  added: 2026-11-04
+
+mumblery.com:
+  category: speech
+  tagline: A place for things said under the breath.
+  uses:
+    - podcast studio
+    - voice-notes app
+  score: 6.5
+  form: coinage
+  added: 2026-11-04
+
+acornery.com:
+  category: woodland
+  tagline: Where acorns are kept, and oaks begin.
+  uses:
+    - tree nursery
+    - children's nature club
+  score: 7
+  form: coinage
+  added: 2026-11-04
+
+burrowry.com:
+  category: shelter
+  tagline: A warren of snug places.
+  uses:
+    - cabin rental
+    - duvet brand
+  score: 6.5
+  form: coinage
+  added: 2026-11-04
+
+badgerish.com:
+  category: animals
+  tagline: Stubborn, nocturnal and good at digging.
+  uses:
+    - outdoor-gear brand
+    - night-owl newsletter
+  score: 6.5
+  form: coinage
+  added: 2026-11-04
+
+hodiernal.com:
+  category: time
+  tagline: Of today, an old word for it.
+  uses:
+    - daily newsletter
+    - news app
+  score: 7.5
+  form: word
+  added: 2026-11-04
+
+uhtceare.com:
+  category: old english
+  tagline: Old English for lying awake before dawn, worrying.
+  uses:
+    - sleep app
+    - insomnia podcast
+  score: 8
+  form: word
+  added: 2026-11-04
+
+fernticle.com:
+  category: scots
+  tagline: A freckle, once thought to come from fern seed.
+  uses:
+    - skincare brand
+    - children's book
+  score: 7.5
+  form: word
+  added: 2026-11-04
+
+shemomedjamo.com:
+  category: georgian
+  tagline: Georgian for eating past full because it was too good to stop.
+  uses:
+    - restaurant
+    - food blog
+  score: 7.5
+  form: word
+  added: 2026-11-04
+
+hugger-mugger.com:
+  category: secrecy
+  tagline: Secret and muddled at once.
+  uses:
+    - escape room
+    - mystery bookshop
+  score: 6.5
+  form: word
+  added: 2026-11-04
+
+inkhornism.com:
+  category: writing
+  tagline: A word too learned for its own good.
+  uses:
+    - editing service
+    - vocabulary newsletter
+  score: 7
+  form: word
+  added: 2026-11-04
+
+undinal.com:
+  category: water
+  tagline: Like a water spirit.
+  uses:
+    - swimwear brand
+    - spa
+  score: 7
+  form: word
+  added: 2026-11-04
+
+vernalagnia.com:
+  category: spring
+  tagline: A romantic mood that comes with spring.
+  uses:
+    - dating app
+    - spring festival
+  score: 6.5
+  form: word
+  added: 2026-11-04
+
+bryophile.com:
+  category: moss
+  tagline: Someone who loves mosses.
+  uses:
+    - moss-garden designer
+    - terrarium shop
+  score: 7
+  form: word
+  added: 2026-11-04
+
+tegestologist.com:
+  category: collecting
+  tagline: A collector of beer mats.
+  uses:
+    - pub-history blog
+    - beer-mat printer
+  score: 6.5
+  form: word
+  added: 2026-11-04
+
+nimbification.com:
+  category: weather
+  tagline: The forming of clouds.
+  uses:
+    - weather app
+    - cloud-computing consultancy
+  score: 6
+  form: word
+  added: 2026-11-04
+
+mumpish.com:
+  category: mood
+  tagline: Sulky in a quiet way.
+  uses:
+    - comic strip
+    - greeting-card shop
+  score: 6
+  form: word
+  added: 2026-11-04
+
+ploughr.com:
+  category: farm
+  tagline: Plougher, short of an e.
+  uses:
+    - farm-management app
+    - agritech startup
+  score: 6.5
+  form: respelling
+  added: 2026-11-04
+
+niminypiminy.com:
+  category: manners
+  tagline: Affectedly dainty, with the little finger up.
+  uses:
+    - tea room
+    - etiquette newsletter
+  score: 7
+  form: word
+  added: 2026-11-04
+
+skimbleskamble.com:
+  category: shakespeare
+  tagline: Shakespeare's word for rambling nonsense.
+  uses:
+    - improv theatre
+    - nonsense-verse anthology
+  score: 7.5
+  form: word
+  added: 2026-11-04
+
+mizzlemuzzle.com:
+  category: drizzle
+  tagline: Mist and drizzle at once, said twice.
+  uses:
+    - rainwear brand
+    - weather podcast
+  score: 6.5
+  form: coinage
+  added: 2026-11-04
+
+tinklytankly.com:
+  category: sound
+  tagline: The sound of a music box running down.
+  uses:
+    - toy shop
+    - children's music class
+  score: 6.5
+  form: coinage
+  added: 2026-11-04
+
+poronkusema.com:
+  category: finnish
+  tagline: 'Finnish: how far a reindeer can walk before it has to stop.'
+  uses:
+    - hiking app
+    - Lapland tour
+  score: 8
+  form: word
+  added: 2026-11-04
+
+morgonrodnad.com:
+  category: swedish
+  tagline: Swedish for the red sky at dawn.
+  uses:
+    - coffee roaster
+    - morning-light lamp maker
+  score: 7
+  form: word
+  added: 2026-11-04
+
+cooried.com:
+  category: scots
+  tagline: Scots for snuggled in against the cold.
+  uses:
+    - blanket maker
+    - winter-cabin rental
+  score: 7.5
+  form: word
+  added: 2026-11-04
+
+samovarnik.com:
+  category: russian
+  tagline: A samovar's keeper, the one who always has tea on.
+  uses:
+    - tea house
+    - hospitality newsletter
+  score: 6.5
+  form: coinage
+  added: 2026-11-04
+
+littlewittering.com:
+  category: invented place
+  tagline: Reads like a village where everyone talks over the hedge.
+  uses:
+    - local-news parody
+    - village-gossip podcast
+  score: 7.5
+  form: coinage
+  added: 2026-11-04
+
+netherdimbleby.com:
+  category: invented place
+  tagline: Reads like a hamlet at the bottom of a hill, two pubs and a pond.
+  uses:
+    - holiday let
+    - cosy-mystery series
+  score: 7.5
+  form: coinage
+  added: 2026-11-04
+
+upperfallow.com:
+  category: invented place
+  tagline: Reads like a farm left to rest a year.
+  uses:
+    - regenerative farm
+    - sabbatical-planning service
+  score: 7
+  form: coinage
+  added: 2026-11-04
+
+pebblethwaite.com:
+  category: invented place
+  tagline: Reads like a Lake District clearing, all stones and sheep.
+  uses:
+    - walking-holiday company
+    - gin distillery
+  score: 7
+  form: coinage
+  added: 2026-11-04
+
+tinkerford.com:
+  category: invented place
+  tagline: Reads like a river crossing where the tinkers camped.
+  uses:
+    - maker space
+    - repair café
+  score: 7.5
+  form: coinage
+  added: 2026-11-04
+
+dawdlethorpe.com:
+  category: invented place
+  tagline: Reads like a village where nobody hurries.
+  uses:
+    - slow-travel company
+    - retirement community
+  score: 7
+  form: coinage
+  added: 2026-11-04
+
+wonderthwaite.com:
+  category: invented place
+  tagline: Reads like a northern village full of curious things.
+  uses:
+    - science museum
+    - children's book series
+  score: 7
+  form: coinage
+  added: 2026-11-04
+
+drizzleford.com:
+  category: invented place
+  tagline: Reads like a town where it is always about to rain.
+  uses:
+    - umbrella shop
+    - weather app
+  score: 7
+  form: coinage
+  added: 2026-11-04
+
+gloamingham.com:
+  category: invented place
+  tagline: Reads like a town that comes alive at dusk.
+  uses:
+    - night market
+    - evening-walk guide
+  score: 7
+  form: coinage
+  added: 2026-11-04
+
+treacleton.com:
+  category: invented place
+  tagline: Reads like a town where the sweet shop is the town hall.
+  uses:
+    - sweet shop
+    - toffee brand
+  score: 7
+  form: coinage
+  added: 2026-11-04
+
+physickgarden.com:
+  category: herbs
+  tagline: The old spelling of a garden grown for medicine.
+  uses:
+    - herbalist
+    - botanical-garden tour
+  score: 8
+  form: respelling
+  added: 2026-11-04
+
+cyderie.com:
+  category: orchard
+  tagline: Cider, spelt as the eighteenth century had it, with a French ending.
+  uses:
+    - cidery
+    - orchard bar
+  score: 7.5
+  form: respelling
+  added: 2026-11-04
+
+mendshoppe.com:
+  category: repair
+  tagline: A mending shop, spelt the olde way.
+  uses:
+    - repair café
+    - tailoring shop
+  score: 6.5
+  form: respelling
+  added: 2026-11-04
+
+beachcombr.com:
+  category: coast
+  tagline: Beachcomber, short of an e.
+  uses:
+    - beach-finds app
+    - sea-glass shop
+  score: 7
+  form: respelling
+  added: 2026-11-04
+
+mudlarkr.com:
+  category: river finds
+  tagline: Mudlarker, short of an e.
+  uses:
+    - finds-logging app
+    - foreshore-walk guide
+  score: 7
+  form: respelling
+  added: 2026-11-04
+
+lamplightr.com:
+  category: streets
+  tagline: Lamplighter, short of an e.
+  uses:
+    - smart-lighting startup
+    - evening-events listing
+  score: 7
+  form: respelling
+  added: 2026-11-04
+
+kobblery.com:
+  category: shoes
+  tagline: A cobblery, with a k.
+  uses:
+    - shoe repairer
+    - sneaker-restoration studio
+  score: 6.5
+  form: respelling
+  added: 2026-11-04
+
+kwiltery.com:
+  category: quilting
+  tagline: A quilting shop, spelt the way it sounds.
+  uses:
+    - quilt shop
+    - patchwork class
+  score: 6.5
+  form: respelling
+  added: 2026-11-04
+
+buttri.com:
+  category: pantry
+  tagline: Buttery, the old room for casks and bread, spelt short.
+  uses:
+    - deli
+    - pantry-stocking service
+  score: 6
+  form: respelling
+  added: 2026-11-04
+
+uhtsong.com:
+  category: old english
+  tagline: The Old English name for the service sung before dawn.
+  uses:
+    - early-riser newsletter
+    - choral group
+  score: 8
+  form: word
+  added: 2026-11-04
+
+beforethethaw.com:
+  category: late winter
+  tagline: The last still weeks before the ice goes.
+  uses:
+    - winter-sports shop
+    - seasonal journal
+  score: 7.5
+  form: phrase
+  added: 2026-11-04
+
+lefttosteep.com:
+  category: infusions
+  tagline: What tea, cold brew and good ideas all need.
+  uses:
+    - tea shop
+    - slow-thinking blog
+  score: 7.5
+  form: phrase
+  added: 2026-11-04
+
+oneforthedrawer.com:
+  category: keepsakes
+  tagline: The thing kept because it might be wanted one day.
+  uses:
+    - stationery shop
+    - ideas notebook
+  score: 7
+  form: phrase
+  added: 2026-11-04
+
+woadhouse.com:
+  category: dyeing
+  tagline: Woad is the plant the old blue dye came from.
+  uses:
+    - natural-dye studio
+    - indigo clothing label
+  score: 7.5
+  form: compound
+  added: 2026-11-04
+
+maddervat.com:
+  category: dyeing
+  tagline: Madder root gives the old red dye, steeped in a vat.
+  uses:
+    - textile studio
+    - craft-supply shop
+  score: 7
+  form: compound
+  added: 2026-11-04
+
+gulesandor.com:
+  category: heraldry
+  tagline: Red and gold, in the words a herald uses.
+  uses:
+    - design studio
+    - family-history service
+  score: 7
+  form: phrase
+  added: 2026-11-04
+
+treblebob.com:
+  category: bell ringing
+  tagline: Treble Bob is one of the old methods for ringing changes on bells.
+  uses:
+    - podcast
+    - puzzle app
+  score: 7
+  form: compound
+  added: 2026-11-04
+
+bellrynger.com:
+  category: bell ringing
+  tagline: Bellringer, spelt the old way.
+  uses:
+    - notification service
+    - campanology club
+  score: 6
+  form: respelling
+  added: 2026-11-04
+
+hedgelaid.com:
+  category: hedgelaying
+  tagline: A hedge cut and woven back so it grows thick.
+  uses:
+    - landscaping firm
+    - rural-crafts course
+  score: 6.5
+  form: compound
+  added: 2026-11-04
+
+wheelwryt.com:
+  category: wheelwrighting
+  tagline: Wheelwright, spelt short.
+  uses:
+    - bike-repair shop
+    - woodworking studio
+  score: 6.5
+  form: respelling
+  added: 2026-11-04
+
+kitemakr.com:
+  category: kite flying
+  tagline: Kitemaker, short of an e.
+  uses:
+    - kite shop
+    - drone-hobby forum
+  score: 6
+  form: respelling
+  added: 2026-11-04
+
+thistra.com:
+  category: wildflowers
+  tagline: Thistle, worn down into a name.
+  uses:
+    - skincare brand
+    - garden shop
+  score: 6
+  form: coinage
+  added: 2026-11-04

@@ -1,4 +1,1 @@
-export {
-  unsquattedHomeMetadata,
-  UnsquattedHomePage,
-} from './ui/unsquatted-home-page';
+export { unsquattedHomeMetadata, UnsquattedHomePage } from './page';

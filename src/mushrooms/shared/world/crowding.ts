@@ -3,7 +3,9 @@
  * one foot, and how many mushrooms the whole field takes.
  */
 
-import { distanceBetween, type Point } from '../lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+
+import { distanceBetween } from '../lib/geometry';
 import { D_SEE, type Stood } from './ground';
 
 /**

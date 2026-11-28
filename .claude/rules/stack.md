@@ -14,18 +14,22 @@ paths:
 ```bash
 pnpm build            # every site's next build — the whole-app end-to-end check
 pnpm styles:codegen   # rewrites the generated Sass partials; fails if it had to
+pnpm shaders:codegen  # relinks each .wgsl into its .shader.generated.ts; the same
 pnpm typecheck                  # tsc --noEmit                  ┐
 pnpm lint:check                 # not `pnpm lint`               │
 pnpm format:check               # prettier --check ., md wrap too │
 pnpm lint:css                   # stylelint, check-only         │
 pnpm lint:fsd                   # steiger per app root          │
 pnpm check:masd                 # the app graph, slices across apps │
+pnpm masd:clusters              # no slice hiding a sub-slice   │
+pnpm check:cycles               # madge: no import cycle in src/ │
 pnpm check:poison               # runtime axes across import chains │
 pnpm type-overlap               # scripts/type-overlap-check.ts │
 pnpm knip                       # unused files, exports, deps   │
 pnpm check:mantine-styles       # rendered classes vs. imports  │
 pnpm check:i18n-payload         # no page ships next-intl       │ concurrent
 pnpm check:typography           # quotes and dashes per medium  │
+pnpm check:board-language       # no Russian on any board       │
 src/music/scripts/vet-songs.sh  # song checks, when a song moved │
 pnpm content:og <site> --check # social cards, hashes only, a site each │
 pnpm content:drawings maya --check # each drawing's per-language copy │
@@ -36,17 +40,20 @@ python3 src/kernel/scripts/lib/test_hearing.py # transcribe.py's word merge │
 python3 src/kernel/scripts/lib/test_ctc.py # forced alignment  │
 python3 src/music/scripts/song-intake/test_song_facts.py # spectrogram facts │
 python3 scripts/five-percent-verdicts/{test_tally,test_answered,tally}.py # verdicts │
+python3 scripts/memo/test_memo.py # the lead/member channel     │
 scripts/check-squash-message.sh # squash proposal size          │
 scripts/check-skill-catalog.sh  # skill @-references            │
 scripts/check-markdown-tables.sh # no tables, while markdown.md is │
+scripts/check-rule-paths.sh     # rules' literal paths exist    │
 scripts/staged.sh check         # staged always-loaded copies   │
-wc -l delegation-model-capabilities.md # /go's notes, ≤100 lines │
+wc -l .claude/model-capabilities.md # model notes, ≤100 lines │
 scripts/check-claude-md-size.sh # CLAUDE.md + imports size cap  │
 python3 .claude/costs/test_*.py # cost ledger, one run per file │
 python3 .claude/costs/check_estimates.py # every session estimated │
 python3 .claude/context-budget/test_context_budget.py         # │
 python3 .claude/cold-cache/test_cold_cache.py                 # │
 python3 .claude/keepalive/test_keepalive.py                   # │
+python3 .claude/merge-gate/test_merge_gate.py                 # │
 python3 .claude/hooks/test_*.py # session hooks, one run per file ┘
 ```
 
@@ -148,7 +155,8 @@ Nineteen things about that list are deliberate:
   `src/kernel/scripts/lib/changed-files.sh` reads. It runs `pnpm music:untold`
   there as well, which regenerates `docs/music/untold-songs.md` and, like the
   codegen below, fails when it had to write. The typography check reads every
-  site's prose, so it stays ungated.
+  site's prose, and the board-language check every board's YAML, so both stay
+  ungated.
 - **`pnpm styles:codegen` repairs the generated Sass partials rather than
   reporting on them.** Two scales are needed on both sides of a boundary neither
   language can read across: the breakpoints (TypeScript for Mantine's responsive
@@ -196,7 +204,7 @@ Nineteen things about that list are deliberate:
   hours in one container) sit commented out there while they are cut down,
   `vet.sh`'s `probe` and `play` phases running them by hand. `pnpm test` is the
   run by hand, over only the tests the branch reached
-  (`.claude/rules/testing.md`). Five Python suites sit beside it:
+  (`.claude/rules/testing.md`). Six Python suites sit beside it:
   `src/kernel/scripts/lib/test_hearing.py`, for
   `src/kernel/scripts/transcribe.py`'s pure half, which reads only its fixtures;
   `src/kernel/scripts/lib/test_ctc.py`, for the forced alignment on hand-built
@@ -205,9 +213,11 @@ Nineteen things about that list are deliberate:
   the system Python; and `scripts/five-percent-verdicts/test_tally.py` and
   `test_answered.py`, whose entry also runs `tally.py --check` over the
   committed verdicts, since a malformed row would otherwise surface only when
-  the next article is written from them. `answered.py` itself, which finds a
-  missing row, reads the PR's threads, so `/finalize` runs it rather than vet.
-- **The last eleven read the agent infrastructure itself and write nothing
+  the next article is written from them. `scripts/memo/test_memo.py` passes
+  notes between two clones of a temporary origin. `answered.py` itself, which
+  finds a missing row, reads the PR's threads, so `/finalize` runs it rather
+  than vet.
+- **The last twelve read the agent infrastructure itself and write nothing
   another check reads, which is why they overlap the rest safely.**
   `scripts/check-skill-catalog.sh` asserts that every `@`-reference into
   `.claude/` resolves — the skill pointers and CLAUDE.md's own imports alike —
@@ -216,19 +226,21 @@ Nineteen things about that list are deliberate:
   back on memory, which is where it was when it went unrun.
   `scripts/check-markdown-tables.sh` holds agent-facing Markdown to
   `.claude/rules/markdown.md`, and runs only while that rule exists.
-  `scripts/staged.sh check` holds `.claude/staged/` to
-  `.claude/rules/staging.md`, the delegation notes check holds `/go`'s
-  `delegation-model-capabilities.md` to its keeping rule's cap, so a summary
+  `scripts/check-rule-paths.sh` fails a literal path in a rule's `paths:` that
+  names no file, since Claude Code skips such a path without a word and a
+  renamed file would turn its rule off. `scripts/staged.sh check` holds
+  `.claude/staged/` to `.claude/rules/staging.md`, the model notes check holds
+  `.claude/model-capabilities.md` to its keeping rule's cap, so a summary
   rewritten every session cannot drift into a log,
   `scripts/check-claude-md-size.sh` caps what `CLAUDE.md` and its imports cost
   every turn, measured as the branch will land them, the cost ledger's, context
-  budget's, cold-cache guard's and keepalive's tests run the code under
-  `.claude/costs/`, `.claude/context-budget/`, `.claude/cold-cache/` and
-  `.claude/keepalive/` against temporary transcripts and repositories of their
-  own, and `.claude/hooks/`'s feed its hooks payloads on stdin.
-  `check_estimates.py` fails a branch carrying a session with no human-hour
-  estimate, `.claude/costs/CLAUDE.md` § "Human-hour estimates" saying why the
-  gate sits here.
+  budget's, cold-cache guard's, keepalive's and merge gate's tests run the code
+  under `.claude/costs/`, `.claude/context-budget/`, `.claude/cold-cache/`,
+  `.claude/keepalive/` and `.claude/merge-gate/` against temporary transcripts
+  and repositories of their own, and `.claude/hooks/`'s feed its hooks payloads
+  on stdin. `check_estimates.py` fails a branch carrying a session with no
+  human-hour estimate, `.claude/rules/costs-estimates.md` saying why the gate
+  sits here.
 - **What makes a check a member is that it measures this repo's own code**,
   which is the test for the whole list — `scripts/gh_export/` is vendored byte
   for byte and edited only at the source, so its suite runs there.

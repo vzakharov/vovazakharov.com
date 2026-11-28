@@ -1,0 +1,187 @@
+items:
+  - id: z-beauty-coast
+    type: zone
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [2960, 3700, 2900, 1800, green]
+    text: '2. The coast and the mountains'
+  - id: beauty-row-d
+    type: text
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3000, 3780, 240, body]
+    text: 'The coast from 4.4 km'
+  - id: img-beauty-26-ground-1-coast-4400m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3260, 3770, 300]
+    src: images/beauty-ground-1-coast-4400m.webp
+    text: 'Ground 1: mottled canopy and a beach; the sand sheets remain.'
+  - id: img-beauty-62-ground-2-coast-4400m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3580, 3770, 300]
+    src: images/beauty-ground-2-merged-coast-4400m.webp
+    text: 'Merge 2. Lead: "best frame of the run so far".'
+  - id: img-beauty-83-coast-1-coast-4400m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3900, 3770, 300]
+    src: images/beauty-coast-1-merged-coast-4400m.webp
+    text: 'Coast 1. Failure: 13 seeded octaves, still one ruler-straight shore.'
+  - id: img-beauty-106-merge-5-coast-4400m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [4220, 3770, 300]
+    src: images/beauty-merge-5-coast-4400m.webp
+    text: 'Merge 5: a headland, a cove and an island; dark ripple lines on the dunes.'
+  - id: img-beauty-130-merge-7-coast-4400m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [4540, 3770, 300]
+    src: images/beauty-merge-7-coast-4400m.webp
+    text: 'Merge 7. WIN for the coast, failure for low clouds (lead): a grey slab on the horizon.'
+  - id: beauty-row-e
+    type: text
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3000, 4110, 240, body]
+    text: 'The shore from 560 m'
+  - id: img-beauty-03-before-coast-560m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3260, 4100, 300]
+    src: images/beauty-before-coast-560m.webp
+    text: 'Before: smooth domes of one character; each band one flat colour.'
+  - id: img-beauty-15-relief-2-coast-560m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3580, 4100, 300]
+    src: images/beauty-relief-2-coast-560m.webp
+    text: 'Relief 2. Failure: the dune belt flattened to a thin band. Sent back.'
+  - id: img-beauty-84-coast-1-shore-560m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3900, 4100, 300]
+    src: images/beauty-coast-1-merged-shore-560m.webp
+    text: 'Coast 1. Failure: the waterline a straight edge to the horizon.'
+  - id: img-beauty-107-merge-5-coast-560m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [4220, 4100, 300]
+    src: images/beauty-merge-5-coast-560m.webp
+    text: 'Merge 5: bays and points, a small island, green shallows.'
+  - id: img-beauty-129-merge-7-coast-560m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [4540, 4100, 300]
+    src: images/beauty-merge-7-coast-560m.webp
+    text: 'Merge 7. WIN (lead): headlands, coves, skerries, shoals; grey bars in the sky.'
+  - id: beauty-row-h
+    type: text
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3000, 4440, 240, body]
+    text: 'The dunes, from 300 m down to 2 m'
+  - id: img-beauty-14-relief-2-dunes-300m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3260, 4430, 300]
+    src: images/beauty-relief-2-dunes-300m.webp
+    text: 'Relief 2, 300 m. Failure: a thin strip with dashes; no dune reads as a dune.'
+  - id: img-beauty-18-relief-3-dunes-60m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3580, 4430, 300]
+    src: images/beauty-relief-3-dunes-60m.webp
+    text: 'Relief 3, 60 m: ridges with lee faces; flaw: painted rock-brown and green.'
+  - id: img-beauty-93-merge-4-dunes-2m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3900, 4430, 300]
+    src: images/beauty-merge-4-dunes-2m.webp
+    text: 'Merge 4, 2 m. Failure (lead): wind ripples drawn as a zebra.'
+  - id: img-beauty-110-merge-5-dunes-2m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [4220, 4430, 300]
+    src: images/beauty-merge-5-dunes-2m.webp
+    text: 'Merge 5, 2 m. WIN (lead): gentler ripples, straw-coloured grass.'
+  - id: img-beauty-126-merge-7-dunes-300m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [4540, 4430, 300]
+    src: images/beauty-merge-7-dunes-300m.webp
+    text: 'Merge 7, 300 m. WIN (lead): a real dune belt; the forest ends on a ruler line.'
+  - id: img-beauty-128-merge-7-dunes-2m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [4860, 4430, 300]
+    src: images/beauty-merge-7-dunes-2m.webp
+    text: 'Merge 7, 2 m. WIN (lead): fine even ripples, sparse marram tufts.'
+  - id: beauty-row-f
+    type: text
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3000, 4770, 240, body]
+    text: 'A range from 3 km'
+  - id: img-beauty-13-relief-2-alpine-3000m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3260, 4760, 300]
+    src: images/beauty-relief-2-alpine-3000m.webp
+    text: 'Relief 2: ridges, spurs, valleys; flaw: snow in blotches by height alone.'
+  - id: img-beauty-57-ground-2-alpine-3000m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3580, 4760, 300]
+    src: images/beauty-ground-2-merged-alpine-3000m.webp
+    text: 'Merge 2. Lead: reads as a range; the snow line is a smooth contour, blown out.'
+  - id: img-beauty-88-merge-4-alpine-3000m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3900, 4760, 300]
+    src: images/beauty-merge-4-alpine-3000m.webp
+    text: 'Merge 4. WIN (lead): snow by height and slope; a range for the first time.'
+  - id: img-beauty-124-merge-7-alpine-3000m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [4220, 4760, 300]
+    src: images/beauty-merge-7-alpine-3000m.webp
+    text: 'Merge 7. WIN (lead): "the best frame of the run": rock faces, snow on crests.'
+  - id: beauty-row-g
+    type: text
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3000, 5100, 240, body]
+    text: 'The same range from 300 m'
+  - id: img-beauty-58-ground-2-alpine-300m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3260, 5090, 300]
+    src: images/beauty-ground-2-merged-alpine-300m.webp
+    text: 'Merge 2. Failure (lead): one white sheet, no rock on the steep faces.'
+  - id: img-beauty-89-merge-4-alpine-300m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3580, 5090, 300]
+    src: images/beauty-merge-4-alpine-300m.webp
+    text: 'Merge 4. Half (lead): rock beds read; snow in spilled-milk blobs.'
+  - id: img-beauty-125-merge-7-alpine-300m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [3900, 5090, 300]
+    src: images/beauty-merge-7-alpine-300m.webp
+    text: "Merge 7. Half (lead): snow like a cow's hide, ignoring the relief."
+  - id: img-beauty-merge-10-empty-sky-coast-560m
+    type: image
+    updated: [2026-11-22T22:30:00.000Z, agent:board]
+    box: [4860, 4100, 300]
+    src: images/beauty-merge-10-empty-sky-coast-560m.webp
+    text: 'Merge 10. Failure (lead): with the clumped heaps merged, no cloud from the coast at 560 m. The field went back one step.'
+  - id: img-beauty-merge-10-coast-560m
+    type: image
+    updated: [2026-11-22T22:30:00.000Z, agent:board]
+    box: [5180, 4100, 300]
+    src: images/beauty-merge-10-coast-560m.webp
+    text: 'Merge 10, as merged (lead): the earlier field under the new march.'
+  - id: img-beauty-merge-9-alpine-300m
+    type: image
+    updated: [2026-11-22T22:30:00.000Z, agent:board]
+    box: [4220, 5090, 300]
+    src: images/beauty-merge-9-alpine-300m.webp
+    text: 'Merge 9 (lead): snow crisp and laid by hollows and aspect. Contour stripes on the grass slope remain.'

@@ -1,4 +1,11 @@
 export {
+  BUTTERFLY_COLOURS,
+  BUTTERFLY_RANGES,
+  EYE_RADIUS,
+  EYE_RINGS,
+  PATTERN_TURN,
+} from './model/butterfly-genes';
+export {
   hop,
   HOP_EVERY,
   HOP_REACH,
@@ -9,13 +16,6 @@ export {
 } from './model/buzz-rest';
 export { FRAME_MARGIN, type Framed, unframed } from './model/flight-frame';
 export { nearerSide } from './model/flight-in';
-export {
-  BUTTERFLY_COLOURS,
-  BUTTERFLY_RANGES,
-  EYE_RADIUS,
-  EYE_RINGS,
-  PATTERN_TURN,
-} from './model/insect-genes';
 export { LIGHT_STEP, litCrest, litTurn } from './model/insect-light';
 export {
   drinking,

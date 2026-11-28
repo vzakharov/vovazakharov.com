@@ -362,19 +362,37 @@ class TheCommand(unittest.TestCase):
 
     def test_a_running_session_s_estimate_waits_under_tmp_for_its_row(self) -> None:
         done = self.estimate(
-            "set", "--part", "3", "senior", "developer", "a reason", "--part", "1", "junior", "editor", " another "
+            "set", "--subject", "feat: a subject", "--part", "3", "senior", "developer", "a reason", "--part", "1", "junior", "editor", " another "
         )
         self.assertEqual(done.returncode, 0, done.stderr)
         written = parse_estimate(json.loads(self.pending().read_text(encoding="utf-8")), "pending")
         assert written is not None
         self.assertEqual(
             written,
-            Estimate(written.at, [Part(3, "senior", "developer", "a reason"), Part(1, "junior", "editor", "another")]),
+            Estimate(
+                written.at,
+                [Part(3, "senior", "developer", "a reason"), Part(1, "junior", "editor", "another")],
+                subject_line="feat: a subject",
+            ),
         )
+
+    def test_a_subject_line_must_be_a_conventional_subject_within_72_characters(self) -> None:
+        for subject in ("did some things", "feat: " + "x" * 67, "Feat: capitalised type"):
+            done = self.estimate("set", "--subject", subject, "--part", "1", "senior", "developer", "why")
+            self.assertEqual(done.returncode, 1, subject)
+            self.assertIn("subject line", done.stderr)
+        self.assertFalse(self.pending().exists())
+        done = self.estimate("set", "--subject", "fix(costs)!: " + "x" * 59, "--part", "1", "senior", "developer", "why")
+        self.assertEqual(done.returncode, 0, done.stderr)
+
+    def test_set_without_a_subject_line_is_refused(self) -> None:
+        done = self.estimate("set", "--part", "1", "senior", "developer", "why")
+        self.assertEqual(done.returncode, 2)
+        self.assertFalse(self.pending().exists())
 
     def test_a_later_set_replaces_the_estimate_whole(self) -> None:
         for hours in ("3", "5"):
-            self.estimate("set", "--part", hours, "senior", "developer", "why")
+            self.estimate("set", "--subject", "feat: a subject", "--part", hours, "senior", "developer", "why")
         written = parse_estimate(json.loads(self.pending().read_text(encoding="utf-8")), "p")
         assert written is not None
         self.assertEqual(written.parts, [Part(5, "senior", "developer", "why")])
@@ -383,7 +401,7 @@ class TheCommand(unittest.TestCase):
         stale = self.clone.root / self.month_only
         stale.parent.mkdir(parents=True)
         stale.write_text(row_text(replace(ROW, session_id=self.finished)), encoding="utf-8")
-        done = self.estimate("set", "--part", "1", "junior", "developer", "after the fact", "--session", self.finished)
+        done = self.estimate("set", "--subject", "feat: a subject", "--part", "1", "junior", "developer", "after the fact", "--session", self.finished)
         self.assertEqual(done.returncode, 0, done.stderr)
         self.assertFalse(stale.exists())
         tree = self.clone.root / self.path
@@ -397,7 +415,7 @@ class TheCommand(unittest.TestCase):
         staged.write_text(row_text(replace(ROW, session_id=self.finished)), encoding="utf-8")
         ledger = [sys.executable, str(self.clone.root / ".claude" / "costs" / "ledger.py")]
         subprocess.run([*ledger, "append-row", str(staged)], env=self.clone.env(), check=True)
-        done = self.estimate("set", "--part", "2", "senior", "editor", "after the fact", "--session", self.finished)
+        done = self.estimate("set", "--subject", "feat: a subject", "--part", "2", "senior", "editor", "after the fact", "--session", self.finished)
         self.assertEqual(done.returncode, 0, done.stderr)
         estimate = self.ledger_row().estimate
         assert estimate is not None
@@ -405,7 +423,7 @@ class TheCommand(unittest.TestCase):
         self.assertFalse((self.clone.root / self.path).exists())
 
     def test_a_refused_estimate_writes_nothing(self) -> None:
-        done = self.estimate("set", "--part", "1", "wizard", "developer", "x")
+        done = self.estimate("set", "--subject", "feat: a subject", "--part", "1", "wizard", "developer", "x")
         self.assertEqual(done.returncode, 1)
         self.assertIn("wizard", done.stderr)
         self.assertFalse(self.pending().exists())
@@ -429,13 +447,13 @@ class TheCommand(unittest.TestCase):
             self.clone.git("log", "-1", "--format=%s", f"origin/{BRANCH}"), "chore: estimate role artist ×0.9 at senior"
         )
         self.assertFalse((self.clone.root / RATES_PATH).exists())
-        booked = self.estimate("set", "--part", "2", "senior", "artist", "why")
+        booked = self.estimate("set", "--subject", "feat: a subject", "--part", "2", "senior", "artist", "why")
         self.assertEqual(booked.returncode, 0, booked.stderr)
 
     def test_a_role_another_clone_added_is_fetched_for_before_an_estimate_is_refused(self) -> None:
         self.estimate("role", "set", "artist", "0.9", "senior", ARTIST["work"])
         self.clone.git("update-ref", "-d", f"refs/remotes/origin/{BRANCH}")
-        done = self.estimate("set", "--part", "2", "senior", "artist", "why")
+        done = self.estimate("set", "--subject", "feat: a subject", "--part", "2", "senior", "artist", "why")
         self.assertEqual(done.returncode, 0, done.stderr)
 
     def test_role_set_refuses_a_role_the_shared_table_rates(self) -> None:

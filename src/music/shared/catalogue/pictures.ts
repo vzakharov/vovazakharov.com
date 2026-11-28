@@ -14,7 +14,7 @@ import {
   wipApart,
 } from './catalogue.ts';
 import { artistPath, musicPath, radioPath } from './music-urls.ts';
-import type { MusicAlbum, MusicProject } from './names.ts';
+import type { MusicAlbum, MusicProject } from './name-brands.ts';
 import type { SongDocument } from './song-text.ts';
 import { catalogueSongs } from './songs.ts';
 

@@ -1,12 +1,10 @@
 import type * as Phaser from 'phaser';
 
+import type { Point } from '@/scene/shared/lib/plane';
+
 import { mix, nudgeHue } from '@/mushrooms/shared/lib/colour';
 import { crescent } from '@/mushrooms/shared/lib/crescent';
-import {
-  type Point,
-  type Reach,
-  sample,
-} from '@/mushrooms/shared/lib/geometry';
+import { type Reach, sample } from '@/mushrooms/shared/lib/geometry';
 import {
   fillShape,
   inkedDisc,
@@ -20,7 +18,7 @@ import {
   TAPER,
 } from '@/mushrooms/shared/ui';
 
-import type { ButterflyGenes } from '../model/insect-genes';
+import type { ButterflyGenes } from '../model/butterfly-genes';
 import { litCrest } from '../model/insect-light';
 import {
   ABDOMEN,

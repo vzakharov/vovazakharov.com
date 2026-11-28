@@ -3,8 +3,8 @@ import type * as ESTree from 'estree';
 import path from 'node:path';
 import ts from 'typescript';
 
+import type { Named, WithFile } from '../../src/kernel/shared/typings';
 import { TEST_FILE } from '../masd-graph';
-import type { Named, WithFile } from './estree-mixins';
 import { hasTypeServices } from './type-services';
 
 // An import binds by name, so an app holding two module-level values of one name

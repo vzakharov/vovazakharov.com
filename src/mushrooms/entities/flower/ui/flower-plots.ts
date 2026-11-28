@@ -11,7 +11,6 @@ import { pick } from '@/kernel/shared/lib/collections';
 
 import {
   anchored,
-  type ClumpGround,
   type Eye,
   type Footing,
   type Ground,
@@ -22,7 +21,6 @@ import {
   SPREAD,
   standingOn,
   type Stood,
-  type WithCamera,
   zAt,
 } from '@/mushrooms/shared/world';
 
@@ -32,15 +30,8 @@ import {
   type RootedFlower,
   type Sown,
 } from '../model/planted-flowers';
-import {
-  type Bedded,
-  clearOfFeet,
-  FLOWER_DOWN,
-  headsApart,
-} from './flower-layout';
-import type { Stand } from './flower-sight';
-
-export type FlowerPlotsLayout = WithCamera & ClumpGround & Bedded;
+import { clearOfFeet, FLOWER_DOWN, headsApart } from './flower-layout';
+import type { FlowerPlotsLayout, Stand } from './stand';
 
 /**
  * Each ring slot round a parent, a bee's planting taking any free one

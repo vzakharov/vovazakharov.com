@@ -15,10 +15,12 @@ import {
   SEEDED_SOUNDS,
   type Sown,
 } from '@/mushrooms/entities/flower/index.node-safe';
-import { LiveLawn } from '@/mushrooms/entities/landscape/index.node-safe';
+import {
+  LiveLawn,
+  type Sprout,
+} from '@/mushrooms/entities/landscape/index.node-safe';
 import {
   sightSlack,
-  type Sprout,
   strayed,
   takesFlower,
   Tended,

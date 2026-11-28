@@ -48,12 +48,18 @@ export function RootLayout({
     <html lang={SITE_CONFIG.locale} data-site={SITE_ID} {...htmlProps}>
       <head>
         {head}
-        {/* `data-domains` keeps a dev server or a preview from counting as the site. */}
+        {/*
+          `data-domains` keeps a dev server or a preview from counting as the
+          site. `data-exclude-hash` keeps what follows a `#` out of the stats:
+          on a static page it is page state, not a page — unsquatted.com's
+          checker reads a typed name there.
+        */}
         <script
           defer
           src={ANALYTICS_SCRIPT_URL}
           data-website-id={SITE_CONFIG.analyticsId}
           data-domains={withoutScheme(SITE_CONFIG.url)}
+          data-exclude-hash="true"
         />
       </head>
       <body>{children}</body>

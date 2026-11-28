@@ -1,8 +1,10 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+
 import {
+  type Aloft,
   aloftAt,
   bedPlace,
   CLUMP_DISTANCE,
@@ -18,7 +20,6 @@ import {
   viewAt,
 } from '@/mushrooms/shared/world';
 import {
-  type Aloft,
   aloftOfLayout,
   drawnAloft,
   seatAloft,

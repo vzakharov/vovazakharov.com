@@ -11,7 +11,7 @@ import { projectName } from './artists.ts';
 import type { SongBilling } from './file-name.ts';
 import { SONGS } from './frontmatter.ts';
 import { artistPath, songPath } from './music-urls.ts';
-import type { MusicAlbum } from './names.ts';
+import type { MusicAlbum } from './name-brands.ts';
 import { bill } from './projects.ts';
 import { playedName, songUrl } from './song-files.ts';
 import type { SongDocument, SongOnRelease } from './song-text.ts';

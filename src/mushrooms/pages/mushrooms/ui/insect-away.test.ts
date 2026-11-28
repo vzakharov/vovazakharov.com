@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import {
+  type Aloft,
   aloftAt,
   CLUMP_DISTANCE,
   D_SEE,
@@ -14,7 +15,6 @@ import {
 } from '@/mushrooms/shared/world';
 import type { Stand } from '@/mushrooms/entities/flower/index.node-safe';
 import {
-  type Aloft,
   aloftOfLayout,
   apartIn,
   awayDown,

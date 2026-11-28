@@ -7,13 +7,12 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import {
-  alongAzimuth,
-  distanceBetween,
-  type Point,
-} from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+
+import { alongAzimuth, distanceBetween } from '@/mushrooms/shared/lib/geometry';
 import { smooth } from '@/mushrooms/shared/lib/motion';
 import {
+  type Aloft,
   bendAt,
   buried,
   type Camera,
@@ -30,7 +29,6 @@ import {
 } from '@/mushrooms/shared/world';
 
 import {
-  type Aloft,
   azimuthOf,
   type EyeFrame,
   type Framed,

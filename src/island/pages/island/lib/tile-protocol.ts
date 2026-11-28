@@ -1,0 +1,98 @@
+import type { CubeCell, Vec3 } from '@/island/shared/globe';
+import {
+  cubeTileId,
+  type Filled,
+  type NeighbourLevels,
+  type SphereField,
+  tileBuffers,
+  type TileKeyed,
+  type TileMesh,
+} from '@/island/entities/terrain';
+
+import type { Seeded } from '../model/forest-cover';
+
+/** A world as a worker builds it: its field and its terrain seed, which the main thread's `heightAtSphere` takes too. */
+export type WorldField = Seeded & {
+  readonly field: SphereField;
+};
+
+/**
+ * A tile to fill, and the levels of the drawn tiles around it that its border
+ * is stitched to: the same cell under other levels is another variant.
+ */
+export type TileOrder = TileKeyed<CubeCell> & {
+  readonly levels: NeighbourLevels;
+};
+
+/** One id per stitched variant: the tile's id and its eight levels. */
+export const orderId = ({ key, levels: { edges, corners } }: TileOrder) =>
+  [
+    cubeTileId(key),
+    edges.right,
+    edges.left,
+    edges.up,
+    edges.down,
+    corners.sw,
+    corners.se,
+    corners.nw,
+    corners.ne,
+  ].join('|');
+
+/**
+ * One tile as a worker sends it: the ground, and the sea at height zero over
+ * the same lattice. A tile wholly under the sea has no land, since the sea
+ * hides it; one wholly above it has no sea.
+ */
+export type FilledTile = TileOrder & {
+  /** The ground's lattice heights at their lowest and highest, the skirt's left out, and the cut they were drawn to. */
+  readonly filled: Filled;
+  readonly land: TileMesh<CubeCell> | null;
+  readonly sea: TileMesh<CubeCell> | null;
+  /** Forest cover under the land's vertices (`tileCover`); null with no land. */
+  readonly cover: Float32Array<ArrayBuffer> | null;
+  /** The shares of sand and of bare shore rock under the land's vertices (`tileShore`); null with no land. */
+  readonly sand: Float32Array<ArrayBuffer> | null;
+  readonly rocky: Float32Array<ArrayBuffer> | null;
+  /** The ground's heights under the sea's vertices, which the sea is coloured by; null with no sea. */
+  readonly floor: Float32Array<ArrayBuffer> | null;
+  /** The worker's time filling it, ms. */
+  readonly fillMs: number;
+};
+
+export type WorkerRequest =
+  | {
+      readonly kind: 'build';
+      /** The world number, a decimal string: the worker builds the field from it (its pinned row, if any) and posts a copy back. */
+      readonly world: string;
+    }
+  /** A field another worker built, to fill from instead of building one. */
+  | (WorldField & { readonly kind: 'adopt' })
+  | (TileOrder & {
+      readonly kind: 'fill';
+      /** The eye (world metres) whose `cubeDetailCut` the tile is filled to. */
+      readonly eye: Vec3;
+    });
+
+export type WorkerReply =
+  /** A copy of the field built (1024 × 2048 doubles, 16 MB), and its seed. */
+  | (WorldField & { readonly kind: 'built'; readonly buildMs: number })
+  | { readonly kind: 'tile'; readonly tile: FilledTile }
+  /** The build or a fill threw; the worker fills nothing more of what failed. */
+  | { readonly kind: 'failed'; readonly message: string };
+
+/** The buffers of a filled tile, for `postMessage`'s transfer list. */
+export const filledBuffers = ({
+  land,
+  sea,
+  cover,
+  sand,
+  rocky,
+  floor,
+}: FilledTile): ArrayBuffer[] => [
+  ...(land === null ? [] : tileBuffers(land)),
+  ...(cover === null ? [] : [cover.buffer]),
+  ...(sand === null ? [] : [sand.buffer]),
+  ...(rocky === null ? [] : [rocky.buffer]),
+  ...(sea === null ? [] : tileBuffers(sea)),
+  ...(floor === null ? [] : [floor.buffer]),
+];

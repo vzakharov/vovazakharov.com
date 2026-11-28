@@ -4,18 +4,11 @@ import { Box, Group } from '@mantine/core';
 import { Fragment, type ReactNode } from 'react';
 
 import { cx } from '@/kernel/shared/lib/class-names';
-import type { LabeledLink } from '@/kernel/shared/typings';
 
+import type { Chip } from './chip';
 import classes from './chip-nav.module.scss';
 import { useLanguageReturn } from './language-return';
 import { TextLink } from './text-link';
-
-/** One destination in the row; the current one renders inert rather than linked. */
-export type Chip = LabeledLink & {
-  current: boolean;
-  /** The language the chip's destination is in, where the row switches one. */
-  hrefLang?: string;
-};
 
 export type ChipNavProps = {
   chips: Chip[];

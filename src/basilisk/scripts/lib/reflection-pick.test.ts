@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import { seededRandom } from '@/shell/shared/lib/seeded-random';
+
 import { pickReflections, reflectionSlug } from './reflection-pick.ts';
 
 const KINDS = new Map([
@@ -16,19 +18,10 @@ const FILES = [...KINDS.keys()].map(
   (slug) => `sites/basilisk/public/cases/${slug}.clerk.reflections.md`,
 );
 
-/** A seeded generator, so a run that misses the anchor fails every time. */
-function seeded(seed: number): () => number {
-  let state = seed;
-  return () => {
-    state = (state * 1_103_515_245 + 12_345) % 2_147_483_648;
-    return state / 2_147_483_648;
-  };
-}
-
 describe('pickReflections', () => {
   it('always includes a reflection on a case whose target is an LLM', () => {
     for (let seed = 1; seed <= 200; seed++) {
-      const picked = pickReflections(FILES, KINDS, 2, seeded(seed));
+      const picked = pickReflections(FILES, KINDS, 2, seededRandom(seed));
       assert.equal(picked.length, 2);
       assert.equal(new Set(picked).size, 2);
       assert.ok(
@@ -41,7 +34,7 @@ describe('pickReflections', () => {
   it('reaches every reflection across runs', () => {
     const seen = new Set<string>();
     for (let seed = 1; seed <= 200; seed++) {
-      for (const file of pickReflections(FILES, KINDS, 2, seeded(seed))) {
+      for (const file of pickReflections(FILES, KINDS, 2, seededRandom(seed))) {
         seen.add(file);
       }
     }
@@ -52,12 +45,12 @@ describe('pickReflections', () => {
     const plain = FILES.filter(
       (file) => KINDS.get(reflectionSlug(file)) === false,
     );
-    assert.equal(pickReflections(plain, KINDS, 3, seeded(7)).length, 3);
+    assert.equal(pickReflections(plain, KINDS, 3, seededRandom(7)).length, 3);
   });
 
   it('returns every reflection when there are fewer than asked for', () => {
     assert.deepEqual(
-      pickReflections(FILES.slice(0, 2), KINDS, 4, seeded(1)).toSorted(),
+      pickReflections(FILES.slice(0, 2), KINDS, 4, seededRandom(1)).toSorted(),
       FILES.slice(0, 2).toSorted(),
     );
   });

@@ -1,0 +1,35 @@
+{
+  "pr": 228,
+  "verdicts": [
+    {
+      "comment": 4399207940,
+      "about": "Write the cycle check and how to break cycles into the always-read MASD rule",
+      "verdict": 0.6,
+      "why": "The operator took it and went further: why two docs on one thing at all? docs/masd.md was retired into the rule and a checker README (ecb8bbe). He noted the pass found the place but not why it fit the five percent."
+    },
+    {
+      "comment": 4399928419,
+      "about": "Rebuild on #227 so both PRs do not add scripts/lib/import-graph.ts",
+      "verdict": 0,
+      "why": "«merge-конфликты — последнее, от чего болит голова. нет.» A conflict resolved at the base merge costs nothing worth restructuring for."
+    },
+    {
+      "comment": 4399929174,
+      "about": "Take cluster candidates as one-door dominator subtrees, not downward closures",
+      "verdict": 0.6,
+      "why": "First «не понимаю, объясни проще», then deferred until the run's results. The gate did move to one-door dominator subtrees (5d8bc132), so it was taken, though the operator's own words never went past waiting."
+    },
+    {
+      "comment": 4411964123,
+      "about": "Keep the CV classes overriding the 9pt print rule in frame's stylesheet",
+      "verdict": 0.2,
+      "why": "«переживём пока»: the reliance on stylesheet order was judged a cost to live with for now, not a fix worth making."
+    },
+    {
+      "comment": 4411964135,
+      "about": "frame exports components instead of the CV_CLASSES CSS module object",
+      "verdict": 0.2,
+      "why": "«тоже переживём»: string keys into the CSS module stay; the untyped boundary is an accepted cost for now."
+    }
+  ]
+}

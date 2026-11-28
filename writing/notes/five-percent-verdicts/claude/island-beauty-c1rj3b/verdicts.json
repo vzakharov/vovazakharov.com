@@ -1,0 +1,17 @@
+{
+  "pr": 294,
+  "verdicts": [
+    {
+      "comment": 4663318125,
+      "about": "Drop ripples.ts, the float64 twin of the sea shader its own test measures",
+      "verdict": 1,
+      "why": "Taken whole, in one line covering both proposals: «поправь что там пятипроцентник предложил». The twin and its test went; the regularity numbers are kept as a PR comment."
+    },
+    {
+      "comment": 4663318400,
+      "about": "Board card points at a frames folder finalize deletes before the merge",
+      "verdict": 1,
+      "why": "Taken whole, in the same one-line answer as its sibling: «поправь что там пятипроцентник предложил». The card now points at the last commit before the sweep, which keeps every frame."
+    }
+  ]
+}

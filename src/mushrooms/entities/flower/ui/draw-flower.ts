@@ -1,8 +1,10 @@
 import type * as Phaser from 'phaser';
 
+import type { Point } from '@/scene/shared/lib/plane';
+
 import { mix } from '@/mushrooms/shared/lib/colour';
 import { crescent } from '@/mushrooms/shared/lib/crescent';
-import { type Point, sample } from '@/mushrooms/shared/lib/geometry';
+import { sample } from '@/mushrooms/shared/lib/geometry';
 import { headedLight } from '@/mushrooms/shared/lib/light';
 import {
   facingArc,

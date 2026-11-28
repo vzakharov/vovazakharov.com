@@ -36,7 +36,7 @@ import {
   escapeHtml,
   type StagedPage,
 } from '@/kernel/scripts/lib/og-render';
-import { REPO_ROOT } from '@/kernel/scripts/lib/site-tree';
+import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 
 type BlogPost = CollectionEntry<ArticleFrontmatter>;
 

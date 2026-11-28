@@ -10,7 +10,8 @@
  * leg off from where it last drew the insect.
  */
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+
 import {
   type Phased,
   roundAt,
@@ -18,9 +19,8 @@ import {
   wave,
 } from '@/mushrooms/shared/lib/motion';
 
-import type { Arriving } from './flight-timing';
+import type { Arriving, Leaving } from './flight-timing';
 import { LANDING } from './insect-motion';
-import type { Leaving } from './perch';
 
 /** A stay on a perch: when the insect landed there, and when it is due to leave. */
 type Sitting = Arriving & Leaving;

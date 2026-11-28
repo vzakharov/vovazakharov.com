@@ -5,7 +5,7 @@ import { TextLink } from '@/shell/shared/ui';
 
 import { localizedRoute } from '@/blog/shared/content';
 
-import { messages } from '../i18n';
+import { messages } from '../config/i18n';
 
 /** «Майя из за/обложкой», the band linked: whom her site's copyright names. */
 export function MayaByline({ locale }: WithLocale) {

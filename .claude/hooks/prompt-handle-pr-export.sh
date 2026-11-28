@@ -97,9 +97,12 @@ export_dir="docs/pr/$number"
 export_path="$export_dir/pr.md"
 
 failure=""
+# A hook's environment lacks the session id the export files the operator's
+# review words under, so it is passed from the payload.
+session_id="$(field session_id)"
 # A partial run exits non-zero too (`/take-issue` Step 1 owns what that covers),
 # so a failure is reported with its output rather than swallowed or retried.
-if ! output="$(timeout 50 python3 scripts/export-github-item.py "$number" 2>&1)"; then
+if ! output="$(CLAUDE_CODE_SESSION_ID="${session_id:-${CLAUDE_CODE_SESSION_ID:-}}" timeout 50 python3 scripts/export-github-item.py "$number" 2>&1)"; then
   failure="$(tail -n 5 <<<"$output")"
 fi
 

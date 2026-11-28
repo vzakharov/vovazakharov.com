@@ -35,7 +35,7 @@ import {
 import { contentFiles } from './lib/content-tree.ts';
 
 import { findChromium } from '@/kernel/scripts/lib/chromium';
-import { REPO_ROOT } from '@/kernel/scripts/lib/site-tree';
+import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
 
 type Fence = WithFilePath & {
   hash: string;

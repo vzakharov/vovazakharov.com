@@ -19,6 +19,25 @@ export const SLICED_LAYERS = ['pages', 'widgets', 'features', 'entities'];
 export const LAYERS = ['app', ...SLICED_LAYERS, 'shared'];
 
 /**
+ * The segments a slice is cut into: FSD's standard ones, a slice's catalogue
+ * being `config/i18n.ts`. Any other folder directly in a slice or a sub-slice
+ * is a sub-slice.
+ */
+export const SEGMENTS = ['ui', 'model', 'lib', 'api', 'config'];
+
+/**
+ * The sub-slices a file below a slice root sits in, outermost first, as their
+ * paths from that root: the folders leading its path before the first segment.
+ * `dirs` are the folders between the slice root and the file.
+ */
+export function subSlicePath(dirs: readonly string[]): string[] {
+  const segment = dirs.findIndex((dir) => SEGMENTS.includes(dir));
+  return dirs
+    .slice(0, segment === -1 ? dirs.length : segment)
+    .map((_, index) => dirs.slice(0, index + 1).join('/'));
+}
+
+/**
  * A slice's or a segment's entry points. A closed list, so any other
  * `index.*.ts` is still reaching into internals.
  */
@@ -28,6 +47,10 @@ export const PUBLIC_API = [
   'index.node-safe.ts',
   'index.no-browser.ts',
 ];
+
+/** Whether `file`'s name is one of `PUBLIC_API`'s, whatever folder holds it. */
+export const isPublicApi = (file: string): boolean =>
+  PUBLIC_API.includes(path.basename(file));
 
 /** The entry point only test code may take, beside the public API. */
 export const TEST_API = 'index.test-only.ts';
@@ -40,6 +63,10 @@ export const TEST_CODE = ['**/*.test.ts', TEST_KIT];
 
 /** `TEST_CODE`'s files, for a reader matching a path rather than a glob. */
 export const TEST_FILE = /\.test(-kit)?\.tsx?$/;
+
+/** Test code, its own entry into a slice included. */
+export const isTest = (file: string): boolean =>
+  TEST_FILE.test(file) || path.basename(file) === TEST_API;
 
 const GRAPH_FILE = path.resolve(import.meta.dirname, '..', 'src', 'masd.json');
 
@@ -106,17 +133,47 @@ export function descendants(
   );
 }
 
+/** A second child on its way, and when the operator said yes to waiting for it. */
+export type Wait = { child: string; since: string };
+
 /**
- * Apps earned no better than an insignificant slice: exactly one child, and
- * nothing of their own mounted by a router.
+ * Apps kept with one child on the operator's yes, each beside the second child
+ * that earns it. An app has no file of its own to carry a marker, so the list
+ * is here; an entry leaves when that child lands. A yes lasts `WAIT_LIMIT_MS`
+ * from `since`, then `check:masd` fails the app again until it is renewed.
+ */
+const WAITING_APPS: Readonly<Record<string, Wait>> = {};
+
+const WAIT_LIMIT_MS = 7 * 24 * 60 * 60 * 1000;
+
+/** The waits whose yes is older than `WAIT_LIMIT_MS` at `now`. */
+export function overdueWaits(
+  now: Date,
+  waiting: Readonly<Record<string, Wait>> = WAITING_APPS,
+): ReadonlyMap<string, Wait> {
+  return new Map(
+    Object.entries(waiting).filter(
+      ([, { since }]) => now.getTime() - Date.parse(since) > WAIT_LIMIT_MS,
+    ),
+  );
+}
+
+/**
+ * Apps earned no better than an insignificant slice: exactly one child,
+ * nothing of their own mounted by a router, and no second child on its way
+ * under a yes still in force at `now`.
  */
 export function insignificantApps(
   graph: MasdGraph,
   mounted: ReadonlySet<string>,
+  now: Date,
+  waiting: Readonly<Record<string, Wait>> = WAITING_APPS,
 ): string[] {
+  const overdue = overdueWaits(now, waiting);
   return [...graph.keys()].filter(
     (app) =>
       !mounted.has(app) &&
+      (!Object.hasOwn(waiting, app) || overdue.has(app)) &&
       [...graph.values()].filter((parents) => parents.includes(app)).length ===
         1,
   );

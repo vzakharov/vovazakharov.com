@@ -11,7 +11,7 @@ import {
   type Voiced,
 } from '@/mushrooms/shared/ui/index.node-safe';
 
-import type { InsectKind } from '../model/insect-genes';
+import type { InsectKind } from '../model/insect';
 
 /**
  * A butterfly's trill: quick notes over the pentatonic, each fluttering up a

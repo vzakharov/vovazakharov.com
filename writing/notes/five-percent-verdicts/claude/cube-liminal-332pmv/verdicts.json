@@ -1,0 +1,11 @@
+{
+  "pr": 273,
+  "verdicts": [
+    {
+      "comment": 4548136117,
+      "about": "let any polished face mirror, not only floors (normal.y > 0.9)",
+      "verdict": 0.6,
+      "why": "Operator found the idea good but deferred it: the floor reflections already stutter, so it goes on the review PR's list after the existing reflections are made faster."
+    }
+  ]
+}

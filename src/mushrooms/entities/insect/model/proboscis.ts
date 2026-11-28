@@ -5,9 +5,9 @@
  * in the body's frame, so the tube is seen going into the flower.
  */
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 
-import type { Bodied } from './insect-genes';
+import type { Bodied } from './insect';
 import { SIP_DEPTH } from './insect-motion';
 import { type BodySide, headOf } from './insect-outline';
 

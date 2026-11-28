@@ -158,6 +158,7 @@ fi
 # leave it to `source`, whose run it is fixing and failing either way.
 if [[ "$phase" != built && "$phase" != local ]]; then
   logged styles pnpm styles:codegen
+  logged shaders pnpm shaders:codegen
 fi
 
 # Each array is one phase's fan-out. Nothing in one writes what another reads,
@@ -180,10 +181,13 @@ source_checks=(
   stylelint='pnpm lint:css'
   fsd='pnpm lint:fsd'
   masd='pnpm check:masd'
+  clusters='pnpm masd:clusters'
+  cycles='pnpm check:cycles'
   poison='pnpm check:poison'
   type-overlap='pnpm type-overlap'
   knip='pnpm knip'
   typography='pnpm check:typography'
+  board-language='pnpm check:board-language'
   drawings-maya='pnpm content:drawings maya --check'
   music-masters='pnpm music:masters check'
   test='scripts/vet-test.sh'
@@ -191,14 +195,17 @@ source_checks=(
   ctc='python3 src/kernel/scripts/lib/test_ctc.py'
   song-facts='python3 src/music/scripts/song-intake/test_song_facts.py'
   five-percent='python3 scripts/five-percent-verdicts/test_tally.py && python3 scripts/five-percent-verdicts/test_answered.py && python3 scripts/five-percent-verdicts/tally.py --check'
+  memo='python3 scripts/memo/test_memo.py'
   skills='scripts/check-skill-catalog.sh'
   tables='[ ! -f .claude/rules/markdown.md ] || scripts/check-markdown-tables.sh'
+  rule-paths='scripts/check-rule-paths.sh'
   staged='scripts/staged.sh check'
-  delegation-notes='f=.claude/skills/go/delegation-model-capabilities.md; [ ! -f "$f" ] || [ "$(wc -l < "$f")" -le 100 ] || { echo "$f runs past 100 lines; fold it back into a summary (.claude/skills/go/delegation.md)" >&2; exit 1; }'
+  model-notes='f=.claude/model-capabilities.md; [ ! -f "$f" ] || [ "$(wc -l < "$f")" -le 100 ] || { echo "$f runs past 100 lines; fold it back into a summary (.claude/skills/go/delegation.md)" >&2; exit 1; }'
   costs='for t in .claude/costs/test_*.py; do python3 "$t" || exit 1; done'
   context-budget='python3 .claude/context-budget/test_context_budget.py'
   cold-cache='python3 .claude/cold-cache/test_cold_cache.py'
   keepalive='python3 .claude/keepalive/test_keepalive.py'
+  merge-gate='python3 .claude/merge-gate/test_merge_gate.py'
   hooks='for t in .claude/hooks/test_*.py; do python3 "$t" || exit 1; done'
 )
 # One entry per site that renders social cards: pnpm appends a passed `--check`

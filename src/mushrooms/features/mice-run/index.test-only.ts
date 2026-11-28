@@ -1,2 +1,1 @@
-export type { RunDoor } from './model/mouse-run';
-export { NIGHT_GAP } from './model/night-runs';
+export { NIGHT_GAP, type RunDoor } from './runs/index.test-only';

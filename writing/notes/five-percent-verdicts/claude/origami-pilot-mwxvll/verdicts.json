@@ -1,0 +1,11 @@
+{
+  "pr": 251,
+  "verdicts": [
+    {
+      "comment": 4481022680,
+      "about": "Turn a shaping fold about the crease where it lies; report tears",
+      "verdict": 1,
+      "why": "Answered in the session: «да на всё» to the agent's question whether to fix the fold-order tear now, on this branch. Both halves shipped as proposed (cbb34ea7): S·R·S⁻¹ for any listing order, and a tear error in the physics report."
+    }
+  ]
+}

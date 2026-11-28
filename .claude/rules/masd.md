@@ -6,6 +6,7 @@ paths:
   - eslint/masd-*.ts
   - scripts/lint-fsd.ts
   - scripts/masd-check.ts
+  - scripts/masd-clusters.ts
   - steiger.config.mjs
 ---
 
@@ -14,24 +15,32 @@ paths:
 `src/` is a set of apps, each a
 [Feature-Sliced Design](https://feature-sliced.design/) tree of its own
 (`src/<app>/<layer>/<slice>/`), composed along the graph in `src/masd.json`.
-Each site's `sites/<site>/app/` is a Next.js App Router and nothing else. Four
+Each site's `sites/<site>/app/` is a Next.js App Router and nothing else. These
 checkers enforce what follows, all run by `./scripts/vet.sh`:
 
 - **`eslint-plugin-boundaries`** (`eslint/masd-boundaries.ts`, generated from
   the graph) — every import, across apps included.
 - **Steiger** (`pnpm lint:fsd`, `scripts/lint-fsd.ts`) — FSD's own rules, one
   run per app root.
-- **`pnpm check:masd`** (`scripts/masd-check.ts`) — the graph's checks, and
-  slice significance counted across the composition.
+- **`pnpm check:masd`** (`scripts/masd-check.ts`) — the graph's checks, slice
+  significance counted across the composition, and sub-slices.
+- **`pnpm check:cycles`** (madge) — no import cycle under `src/`, type-only
+  imports included, so every slice's files form a DAG. A cycle is a declaration
+  in the wrong file: it moves to a file of its own or to its one reader, never
+  copied to both sides.
+- **`pnpm masd:clusters`** (`scripts/masd-clusters.ts`) — no cluster inside a
+  slice or sub-slice that would make a sub-slice of its own (§ "Sub-slices").
 - **`pnpm check:poison`** (`scripts/poison-check.ts`) — across whole import
   chains, which `boundaries` judges one import at a time: no `'use client'` file
   reaches `server-only` or an `index.no-browser.ts`, and no script entry run
   without the `react-server` condition reaches `server-only`. Its header says
   which files are roots.
 
-`eslint/masd-graph.ts` is the only loader of `masd.json`; the first three go
-through it, and so does the import sort, which groups imports one app at a time
-in graph order.
+`eslint/masd-graph.ts` is the only loader of `masd.json`; every checker reading
+the graph goes through it, and so does the import sort, which groups imports one
+app at a time in graph order. **Before changing what `check:masd` or
+`masd:clusters` decides, or disputing a verdict, read
+`scripts/masd-check.README.md`** — the alternatives each one beat.
 
 ## The model
 
@@ -59,7 +68,10 @@ not import it.
 
 **An abstract app is earned the way a slice is.** An app with exactly one child
 and nothing of its own a router mounts is insignificant, and `check:masd` says
-so: a `game` between `kernel` and `mushrooms` waits for a second game.
+so: a `game` between `kernel` and `mushrooms` waits for a second game. One whose
+second child is on its way stays on the operator's yes, as an entry in
+`WAITING_APPS` (`eslint/masd-graph.ts`) naming that child and when the yes was
+given; a week later `check:masd` fails it again until the yes is renewed.
 
 **Every app under `src/` has an entry and every entry a directory**, which
 `check:masd` holds both ways.
@@ -74,8 +86,8 @@ Lowest (most generic) first, each optional per app:
   `music/shared/catalogue`, `basilisk/shared/content`,
   `blog/shared/article-slots`).
 - **`entities/`** — business nouns: `blog/entities/document` (its byline, its
-  cards, its body and its sources), `basilisk/entities/case` (its brief),
-  music's `cover`, `hook` and `song`.
+  cards and its sources), `basilisk/entities/case` (its brief), music's `cover`,
+  `hook` and `song`.
 - **`features/`** — user-facing capabilities: `shell/features/switch-theme`.
 - **`widgets/`** — composite blocks two page slices share:
   `shell/widgets/site-footer`, `music/widgets/catalogue-header`.
@@ -83,11 +95,13 @@ Lowest (most generic) first, each optional per app:
 - **`app/`** — root layouts, Mantine provider, global stylesheets and theme,
   sitemap and feed: `ui`, `styles` and `lib` segments.
 
-An entity is earned once a block is a business noun's own UI: `document` holds
-the byline, the collection's cards and the rendered body, all about a document
-and nothing else. A layer is still optional and **inventing one costs more than
-leaving it out** (see "insignificant slices" below), so an entity waits for that
-— a noun with UI worth naming, not the mere idea of one.
+An entity is a business noun the project works with — FSD's "concepts from the
+real world" — holding whichever segments the noun has: `document` is ui-only,
+origami's `design` a model alone. `shared/` carries no business logic, so code
+about one noun belongs in its entity unless something keeps it lower, as
+`document`'s model is kept below. A layer is still optional and **inventing one
+costs more than leaving it out** (see "insignificant slices" below), so an
+entity waits for code about the noun, not the mere idea of one.
 
 **A block two page slices share cannot sit in either of them** — slices may not
 reach each other sideways — so it drops to a lower layer, in the lowest app both
@@ -122,6 +136,23 @@ pulls `server-only` today (`DocumentCards` needs `linkTo`), but no client chain
 enters it, so a plain `index.ts` holds; a client component reaching for the
 byline is what would split it into `index.ts` + `index.server-only.ts`, exactly
 as `shared/config` is.
+
+## Cutting a domain into slices
+
+- **Nouns draw a cut; modularity tests whether it holds.** A cut drawn from the
+  import graph alone reproduces how the code happens to be stitched, and can
+  pass every checker.
+- **Base entities never import one another; where two meet is a feature named
+  for what happens.** Two features that would import each other are one.
+- **A part belongs to the noun it is part of**, and its types live with the part
+  that reads them: the map declares `MapLayout` and the page imports it.
+- **The whole is built from its parts, above them.** A part declares the state
+  it reads as a structural `With…` type and is generic in the rest
+  (`sown<M extends WithMushrooms & Spored>(meadow: M): M`), so nothing below the
+  page imports the whole.
+- **Nothing goes into `shared` to quiet a checker.**
+- **A slice whose one consumer would hold nothing else is that consumer.**
+- **A block that reads a feature is a widget**; reading none, it is a feature.
 
 ## Rules
 
@@ -202,15 +233,18 @@ as `shared/config` is.
   composition — the slice's own app, every descendant and the routers, tests
   left out — with Steiger's `insignificant-slice` messages word for word;
   Steiger's own rule is off, because one root's reference map is exactly what it
-  cannot see past. This is why the CV locale picker lives in `vova/pages/cv/ui/`
-  and the home page's project and article cards in `vova/pages/home/ui/`, rather
+  cannot see past. This is why the CV locale picker lives in `vova/pages/cv/`
+  and the home page's project and article cards in `vova/pages/home/`, rather
   than each becoming a feature. **One consumer is enough for a slice that is a
   module** — more of its own app's file-import edges falling inside it than a
   rewiring keeping every file's degree would put there, its term of Newman's
   modularity being positive — since a module is one whoever uses it, and a count
   alone would keep a one-page app a single slice. The graph is the slice's own
   app alone: descendants are who uses an app, which says nothing of how it is
-  cut, and their unrelated edges would lower the bar for everyone.
+  cut, and their unrelated edges would lower the bar for everyone. A slice whose
+  consumer has not landed yet, with only its app's scripts reaching it, carries
+  `// masd-disable insignificant -- <what earns it>` in its `index.ts` on the
+  operator's yes, and loses it when that consumer arrives.
 - **An app's tooling is its `scripts/`, beside its layers rather than one of
   them** — Steiger reads no layer there, and `check:masd` counts no script as a
   slice's reference. A script enters its own app's scripts and its ancestors'
@@ -222,10 +256,26 @@ as `shared/config` is.
   `src/<site>/scripts/render-og.ts` over kernel's `og-job.ts`.
 - **Files in `src/` are kebab-case**; page components are `*-page.tsx`. Exported
   identifiers keep their PascalCase (`card.tsx` exports `Card`).
-- **The checkers run with the stock recommended ruleset and two overrides**,
-  both in `steiger.config.mjs`: `insignificant-slice` off for the reason above,
-  and the `no-ui-in-app` exemption below. A new rule violation is a signal that
-  the code is in the wrong place — move the code rather than exempting the path.
+- **Steiger runs the stock recommended ruleset with the overrides in
+  `steiger.config.mjs`**, each beside its reason: `insignificant-slice` for the
+  one above, three for sub-slices, which it cannot read, and `no-ui-in-app`
+  below. A new rule violation is a signal that the code is in the wrong place —
+  move the code rather than exempting the path.
+
+## Sub-slices
+
+- **A folder in a slice or a sub-slice not named for a segment is a sub-slice**
+  (`SEGMENTS` in `eslint/masd-graph.ts`; a slice's catalogue is
+  `config/i18n.ts`, its JSON in `config/messages/`), with segments and barrels
+  of its own. What sits outside it enters by those barrels, `index.test-only.ts`
+  for test code (`vova/sub-slice-entry`); inside it, relative imports reach
+  anything.
+- **A unit holding a sub-slice holds only sub-slices**, its barrels and tests at
+  its root: the rest of it is a sub-slice too, named for its noun.
+- **`check:masd` and `masd:clusters` decide when a sub-slice is earned, cut or
+  promoted**, and each failure says what to do, including when to ask the
+  operator for a `masd-disable` marker. A cluster drawn from the graph can still
+  be the wrong noun (§ "Cutting a domain into slices").
 
 ## Routers and app layers
 
@@ -298,10 +348,10 @@ on the plugin's `segments-by-purpose` list, so the theme provider is a file in
   `@.claude/rules/content.md` owns its contract. It holds every collection's
   address and the base and article schemas; any other collection's schema is its
   owner's (the song schema in `music/shared/catalogue`, the case frontmatter in
-  `basilisk/shared/content`). Its page composition is one `blog/pages/documents`
-  slice serving every collection on every site: a slice per collection would
-  make siblings of pages that share one composition, and sibling slices cannot
-  reach each other.
+  `basilisk/shared/content`). Its pages are `blog/pages/article` and
+  `blog/pages/collection-index`, each serving every collection on every site: a
+  slice per collection would make siblings of pages that share one composition,
+  and sibling slices cannot reach each other.
 - **`music/shared/catalogue` is not `music/shared/music`**: within one app root,
   Steiger's `ambiguous-slice-names` rejects a segment named like the
   `pages/music` slice.

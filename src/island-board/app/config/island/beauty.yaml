@@ -1,0 +1,246 @@
+items:
+  - id: z-beauty
+    type: zone
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [-40, 3700, 2900, 2190, green]
+    icon: 🎨
+    text: 'Making it beautiful, failures included. 1. From above'
+  - id: beauty-howto
+    type: text
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [0, 3770, 2240, body]
+    text: "Each row is one view; its frames run left to right in the order they were shot. A caption gives the stage, then the verdict with whose it is (the lead's while Vova is away, or the builder's own). A failure is captioned as one. Every frame, all 205 at full size, is kept at https://github.com/vzakharov/vovazakharov.com/tree/0682dbea0879a4dfd9f4d56b039a0742abff6c49/docs/remove-before-merging/island-beauty-c1rj3b/frames"
+  - id: beauty-row-a
+    type: text
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [0, 3840, 240, body]
+    text: 'Europe from 2,300 km'
+  - id: img-beauty-01-before-coast-2300km
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [260, 3830, 300]
+    src: images/beauty-before-coast-2300km.webp
+    text: 'Before: cloud speckle with no systems; the land is smooth blobs.'
+  - id: img-beauty-22-ground-1-coast-2300km
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [580, 3830, 300]
+    src: images/beauty-ground-1-coast-2300km.webp
+    text: 'Ground 1: the upland varies; the builder: the forest is a checkerboard with tile seams.'
+  - id: img-beauty-63-ground-2-coast-2300km
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [900, 3830, 300]
+    src: images/beauty-ground-2-merged-coast-2300km.webp
+    text: 'Merge 2. Failure (lead): forest in rectangles along tile edges; the range lost its snow.'
+  - id: img-beauty-95-clouds-1-coast-2300km
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [1220, 3830, 300]
+    src: images/beauty-clouds-1-coast-2300km.webp
+    text: 'Clouds 1: open cells and a front; the builder: the cells still read as lace.'
+  - id: img-beauty-134-merge-7-coast-2300km
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [1540, 3830, 300]
+    src: images/beauty-merge-7-coast-2300km.webp
+    text: 'Merge 7. Half (lead): forest patches of many sizes; cloud edges are crochet lace.'
+  - id: beauty-row-b
+    type: text
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [0, 4170, 240, body]
+    text: 'The cumulus field from 820 km'
+  - id: img-beauty-23-ground-1-coast-820km
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [260, 4160, 300]
+    src: images/beauty-ground-1-coast-820km.webp
+    text: 'Ground 1: almost all cloud speckle; the ground barely shows.'
+  - id: img-beauty-86-merge-4-coast-820km
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [580, 4160, 300]
+    src: images/beauty-merge-4-coast-820km.webp
+    text: 'Merge 4. Failure (lead): the operator''s "many, many bits of cotton wool" (translated).'
+  - id: img-beauty-112-merge-6-clouds-coast-820km
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [900, 4160, 300]
+    src: images/beauty-merge-6-clouds-coast-820km.webp
+    text: 'Merge 6. Failure (lead): square blocks on a grid; the noise lattice shows.'
+  - id: img-beauty-121-clouds-2-coast-820km
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [1220, 4160, 300]
+    src: images/beauty-clouds-2-coast-820km.webp
+    text: 'Clouds 2: separate heaps; the builder: all one size, like bubble wrap.'
+  - id: img-beauty-133-merge-7-coast-820km
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [1540, 4160, 300]
+    src: images/beauty-merge-7-coast-820km.webp
+    text: 'Merge 7. Failure (lead): the square blocks are still there.'
+  - id: beauty-row-c
+    type: text
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [0, 4500, 240, body]
+    text: 'The coast from 10.6 km'
+  - id: img-beauty-02-before-coast-10600m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [260, 4490, 300]
+    src: images/beauty-before-coast-10600m.webp
+    text: 'Before: flat sand sheets far inland; cotton clouds with a dither hatch.'
+  - id: img-beauty-08-relief-1-coast-10600m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [580, 4490, 300]
+    src: images/beauty-relief-1-coast-10600m.webp
+    text: 'Relief 1: sand only on the beach; flaw: the lowland is dead flat.'
+  - id: img-beauty-104-clouds-1-coast-10600m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [900, 4490, 300]
+    src: images/beauty-clouds-1-coast-10600m.webp
+    text: 'Clouds 1: the builder: the hatch is gone, so is the cotton; not better yet.'
+  - id: img-beauty-123-clouds-2-coast-10600m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [1220, 4490, 300]
+    src: images/beauty-clouds-2-coast-10600m.webp
+    text: 'Clouds 2: separate cumulus; the builder: flat-lit soft blobs.'
+  - id: img-beauty-131-merge-7-coast-10600m
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [1540, 4490, 300]
+    src: images/beauty-merge-7-coast-10600m.webp
+    text: 'Merge 7. Half (lead): soft blobs with level stripes; tile edges in the meadows.'
+  - id: beauty-row-m
+    type: text
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [0, 4830, 240, body]
+    text: 'Cloud systems, from 20,000 km down to 3 km'
+  - id: img-beauty-94-clouds-1-coast-20000km
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [260, 4820, 300]
+    src: images/beauty-clouds-1-coast-20000km.webp
+    text: 'Clouds 1, 20,000 km: cloud in systems; the builder: fronts are crisp white worms.'
+  - id: img-beauty-98-clouds-1-storm-3000km
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [580, 4820, 300]
+    src: images/beauty-clouds-1-storm-3000km.webp
+    text: 'Clouds 1, 3,000 km. Failure (lead): a cyclone front with a hard edge.'
+  - id: img-beauty-100-clouds-1-deck-300km
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [900, 4820, 300]
+    src: images/beauty-clouds-1-deck-300km.webp
+    text: 'Clouds 1, 300 km: a deck like cracked paving; the builder: veins too even.'
+  - id: img-beauty-101-clouds-1-deck-3km
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [1220, 4820, 300]
+    src: images/beauty-clouds-1-deck-3km.webp
+    text: 'Clouds 1, 3 km. Failure (builder): soft grey with no texture.'
+  - id: beauty-row-n
+    type: text
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [0, 5160, 240, body]
+    text: 'The open sea'
+  - id: img-beauty-05-before-ocean-2300km
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [260, 5150, 300]
+    src: images/beauty-before-ocean-2300km.webp
+    text: 'Before: the open ocean from 2,300 km.'
+  - id: img-beauty-116-sea-0-operator-moire
+    type: image
+    updated: [2026-11-22T19:00:00.000Z, agent:board]
+    box: [580, 5150, 300]
+    src: images/beauty-sea-0-operator-moire.webp
+    text: 'The operator''s own shot, WebGPU: "the water is still moire-patterned (not complaining; progress on all fronts is obvious)" (translated).'
+  - id: img-beauty-march-2-fair-10600m
+    type: image
+    updated: [2026-11-22T21:00:00.000Z, agent:board]
+    box: [1860, 4490, 300]
+    src: images/beauty-march-2-fair-10600m.webp
+    text: 'Cloud march 2, over the sea, not yet merged. The builder: separate crisp cumulus.'
+  - id: img-beauty-march-2-fair-3km
+    type: image
+    updated: [2026-11-22T21:00:00.000Z, agent:board]
+    box: [1540, 4820, 300]
+    src: images/beauty-march-2-fair-3km.webp
+    text: 'Cloud march 2, 3 km, not yet merged. The builder: a field with relief and holes, softer than before.'
+  - id: img-beauty-march-2-fair-in
+    type: image
+    updated: [2026-11-22T21:00:00.000Z, agent:board]
+    box: [1860, 4820, 300]
+    src: images/beauty-march-2-fair-in.webp
+    text: 'Cloud march 2, inside a cloud. The builder: still featureless grey, next on the list.'
+  - id: beauty-row-o
+    type: text
+    updated: [2026-11-22T21:50:00.000Z, agent:board]
+    box: [0, 5490, 240, body]
+    text: "A cyclone and the decks, the clouds member's branch, not yet merged"
+  - id: img-beauty-clouds-3-clumps-2300km
+    type: image
+    updated: [2026-11-22T21:50:00.000Z, agent:board]
+    box: [1860, 3830, 300]
+    src: images/beauty-clouds-3-clumps-2300km.webp
+    text: 'Clouds 3, not yet merged: a clumpy cumulus field, no grid. The builder: clumps near one scale, a little like frog-spawn. Reverted on the lead branch: with it the sky seen from the ground is empty.'
+  - id: img-beauty-clouds-3-clumps-820km
+    type: image
+    updated: [2026-11-22T21:50:00.000Z, agent:board]
+    box: [1860, 4160, 300]
+    src: images/beauty-clouds-3-clumps-820km.webp
+    text: 'Clouds 3, not yet merged: heaps of every size merging into clumps with clear lanes. The builder: far clumps go soft and blobby. Reverted on the lead branch: with it the sky seen from the ground is empty.'
+  - id: img-beauty-clouds-2-open-cells-2300km
+    type: image
+    updated: [2026-11-22T21:50:00.000Z, agent:board]
+    box: [260, 5480, 300]
+    src: images/beauty-clouds-2-open-cells-2300km.webp
+    text: 'Clouds 2, Europe from 2,300 km: open cells with thick lumpy walls. The builder: a doily fringe round a featureless blur.'
+  - id: img-beauty-clouds-2-storm-3000km
+    type: image
+    updated: [2026-11-22T21:50:00.000Z, agent:board]
+    box: [580, 5480, 300]
+    src: images/beauty-clouds-2-storm-3000km.webp
+    text: 'Clouds 2, a cyclone from 3,000 km. The builder: a smooth white shield, a sausage front.'
+  - id: img-beauty-clouds-2-front-storm-3000km
+    type: image
+    updated: [2026-11-22T21:50:00.000Z, agent:board]
+    box: [900, 5480, 300]
+    src: images/beauty-clouds-2-front-storm-3000km.webp
+    text: 'Clouds 2, the front feathered ahead and cut close behind. The builder: still a narrow band.'
+  - id: img-beauty-clouds-3-storm-3000km
+    type: image
+    updated: [2026-11-22T21:50:00.000Z, agent:board]
+    box: [1220, 5480, 300]
+    src: images/beauty-clouds-3-storm-3000km.webp
+    text: 'Clouds 3: a textured mass, ragged open rings, beaded walls. The builder: the front is still narrow.'
+  - id: img-beauty-clouds-2-deck-2300km
+    type: image
+    updated: [2026-11-22T21:50:00.000Z, agent:board]
+    box: [1540, 5480, 300]
+    src: images/beauty-clouds-2-deck-2300km.webp
+    text: 'Clouds 2, a stratocumulus deck from 2,300 km. The builder: white closed-cell mottle, ragged edges, a few thin blue cracks. The frame shows mostly open sea with scattered patches and two white lobes.'
+  - id: img-beauty-clouds-2-deck-300km
+    type: image
+    updated: [2026-11-22T21:50:00.000Z, agent:board]
+    box: [1860, 5480, 300]
+    src: images/beauty-clouds-2-deck-300km.webp
+    text: 'Clouds 2, the deck from 300 km, captioned by the builder as the one before. The frame shows plain blue with no cloud in it.'
+  - id: img-beauty-clouds-4-front-3000km
+    type: image
+    updated: [2026-11-22T22:30:00.000Z, agent:board]
+    box: [2180, 5480, 300]
+    src: images/beauty-clouds-4-front-3000km.webp
+    text: 'Clouds 4, not merged: the fronts tail a band instead of a thread (lead). Not merged: see the empty sky.'
+  - id: img-beauty-merge-9-coast-34km
+    type: image
+    updated: [2026-11-22T22:30:00.000Z, agent:board]
+    box: [2180, 4490, 300]
+    src: images/beauty-merge-9-coast-34km.webp
+    text: 'Merge 9, from 34 km. Lead: meadow clearings read as paint spills with hard outlines; some straight tile edges. Not cured.'

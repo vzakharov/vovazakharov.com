@@ -33,12 +33,13 @@ import {
 import {
   type Expect,
   grow,
-  inTurn,
   type Page,
   press,
   walkAndTurn,
 } from './mushroom-probe-drive.ts';
 import { plantNearest } from './play-tufts.ts';
+
+import { inTurn } from '@/scene/scripts/lib/in-turn';
 
 /** Frames into the map's 0.3 s unfold that catch it growing out of its button, short of the overshoot. */
 const MID_UNFOLD = 3;

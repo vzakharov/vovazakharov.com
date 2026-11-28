@@ -5,7 +5,7 @@
  */
 
 import type { AlbumPlacement, Released, Tracked } from './frontmatter.ts';
-import type { MusicAlbum } from './names.ts';
+import type { MusicAlbum } from './name-brands.ts';
 
 /** Every release the song is on, the one it is filed under first. */
 export function songPlacements({

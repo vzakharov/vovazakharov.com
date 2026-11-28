@@ -1,0 +1,225 @@
+// The scene owns the whole screen: pinned over the page at the dynamic
+// viewport's height, so a phone's collapsing toolbar never leaves a strip, and
+// every touch goes to the scene rather than scrolling or zooming the page.
+.island {
+  position: fixed;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100dvh;
+  touch-action: none;
+  user-select: none;
+
+  // The canvas takes focus for the keyboard to steer it; it is the whole
+  // screen, so a ring round it would frame nothing.
+  &:focus {
+    outline: none;
+  }
+}
+
+// The controls hint sits over a scene whose sky runs from black space to pale
+// day, so it carries its own dark glass and light text: the island renders on
+// kernel's layout, outside the shell's colour tokens. It takes no pointer but
+// its close button, so a drag starting under it still reaches the scene.
+.hint {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 10px 12px;
+  font:
+    13px / 1.4 system-ui,
+    sans-serif;
+  color: rgb(255 255 255 / 85%);
+  pointer-events: none;
+  user-select: none;
+  background: rgb(10 16 28 / 55%);
+  border-radius: 8px;
+  transition: opacity 1.2s ease;
+  backdrop-filter: blur(6px);
+
+  &[data-fading] {
+    opacity: 0;
+  }
+}
+
+.hintRow {
+  display: flex;
+  gap: 10px;
+
+  dt {
+    min-width: 5.5em;
+    font-weight: 600;
+    color: rgb(255 255 255);
+  }
+
+  dd {
+    margin: 0;
+  }
+}
+
+// A screen whose pointer neither hovers nor aims finely is a touch screen:
+// it shows the gestures, and every other screen the keys and mouse.
+.hintKeys,
+.hintTouch {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+}
+
+.hintTouch {
+  @media (hover: hover), (pointer: fine) {
+    display: none;
+  }
+}
+
+.hintKeys {
+  @media (hover: none) and (pointer: coarse) {
+    display: none;
+  }
+}
+
+@mixin glass {
+  padding: 8px 12px;
+  font:
+    13px / 1.4 system-ui,
+    sans-serif;
+  color: rgb(255 255 255 / 85%);
+  background: rgb(10 16 28 / 55%);
+  border-radius: 8px;
+  backdrop-filter: blur(6px);
+}
+
+// The look hint, at the top centre of the screen clear of the controls hint;
+// empty, it draws nothing.
+.lookHint {
+  position: fixed;
+  top: 64px;
+  left: 50%;
+  max-width: calc(100% - 32px);
+  pointer-events: none;
+  user-select: none;
+  transform: translateX(-50%);
+}
+
+// One showing of a look hint, on its own glass so the glass fades with it; the
+// page sets the delay and duration from the latch's lit and fade spans.
+.lookHintShown {
+  @include glass;
+
+  display: block;
+  animation-name: look-hint-fade;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation-timing-function: step-end;
+  }
+}
+
+@keyframes look-hint-fade {
+  to {
+    opacity: 0;
+  }
+}
+
+// The diagnostics panel, top left on the same glass, a field a row, and as the
+// hint, taking no pointer but its button and a refused copy's link, so a drag
+// starting on it still reaches the scene.
+.diagnostics {
+  @include glass;
+
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+  max-width: calc(100% - 32px);
+  pointer-events: none;
+  user-select: none;
+}
+
+.diagnosticsRows,
+.diagnosticsTable,
+.diagnosticsFailure {
+  margin: 0;
+  font:
+    12px / 1.5 ui-monospace,
+    monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.diagnosticsCopy {
+  padding: 4px 10px;
+  font: inherit;
+  color: rgb(255 255 255);
+  pointer-events: auto;
+  cursor: pointer;
+  background: rgb(255 255 255 / 12%);
+  border: 1px solid rgb(255 255 255 / 30%);
+  border-radius: 6px;
+
+  &:hover {
+    background: rgb(255 255 255 / 20%);
+  }
+}
+
+.diagnosticsTable {
+  white-space: pre;
+  pointer-events: auto;
+  user-select: text;
+}
+
+.diagnosticsFailure {
+  color: rgb(255 200 170);
+  pointer-events: auto;
+  user-select: text;
+
+  &:empty {
+    display: none;
+  }
+}
+
+// The look button, bottom right, clear of the hint (bottom left), the
+// diagnostics (top left) and the look hint (top centre). A finger's 44 px on a
+// touch screen; small beside a keyboard, which has B.
+.lookButton {
+  @include glass;
+
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  min-width: 44px;
+  min-height: 44px;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid rgb(255 255 255 / 30%);
+  touch-action: manipulation;
+
+  @media (hover: hover), (pointer: fine) {
+    min-width: 0;
+    min-height: 0;
+    padding: 4px 10px;
+    font-size: 12px;
+  }
+
+  &:hover {
+    background: rgb(10 16 28 / 70%);
+  }
+}
+
+.hintClose {
+  padding: 0 4px;
+  font: inherit;
+  font-size: 16px;
+  line-height: 1;
+  color: inherit;
+  pointer-events: auto;
+  cursor: pointer;
+  background: none;
+  border: 0;
+}

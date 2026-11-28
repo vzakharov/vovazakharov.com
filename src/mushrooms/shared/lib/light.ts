@@ -6,7 +6,7 @@
 
 import type { Sized } from '@/kernel/shared/typings';
 
-import type { Point } from './geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 
 /** `toward` is a unit vector, in screen axes (y down), pointing at the light. */
 export type Light = { toward: Point };

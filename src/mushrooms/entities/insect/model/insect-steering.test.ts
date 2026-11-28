@@ -3,7 +3,9 @@ import { describe, it } from 'node:test';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { type Point, wrap } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+
+import { wrap } from '@/mushrooms/shared/lib/geometry';
 import {
   beckon,
   BECKON_PERIOD as BECKON_SECONDS,
@@ -15,7 +17,7 @@ import {
 import { between, mulberry32 } from '@/mushrooms/shared/lib/random';
 
 import { FLIGHT_HABITS } from './flight-habits';
-import { INSECT_KINDS, type InsectKind } from './insect-genes';
+import { INSECT_KINDS, type InsectKind } from './insect';
 import { carriedFrom } from './insect-motion';
 import { type Carried, type Fluttering, PATH_SHAPES } from './insect-paths';
 import { firstSteering, startLeg, steer } from './insect-steering';

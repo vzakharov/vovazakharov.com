@@ -6,4 +6,4 @@ export {
   unfolded,
   type Unfolding,
   type WithMap,
-} from './ui/map-view';
+} from './view';

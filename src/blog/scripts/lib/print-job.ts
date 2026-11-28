@@ -61,11 +61,8 @@ import {
   type Renderable,
   runRenderJob,
 } from '@/kernel/scripts/lib/render-manifest';
-import {
-  filesUnder,
-  RENDERED_SITE,
-  REPO_ROOT,
-} from '@/kernel/scripts/lib/site-tree';
+import { REPO_ROOT } from '@/kernel/scripts/lib/repo-root';
+import { filesUnder, RENDERED_SITE } from '@/kernel/scripts/lib/site-tree';
 
 /** A document's PDF, and the route the dev server renders it from. */
 export type Printable = Renderable & Routed;
@@ -100,7 +97,8 @@ export const PRINT_SOURCES = [
 const DOCUMENT_SOURCES = [
   'src/shell/app/styles/prose.scss',
   'src/blog/entities/document',
-  'src/blog/pages/documents/ui',
+  'src/blog/pages/article',
+  'src/blog/shared/ui',
   'src/blog/shared/content',
 ];
 

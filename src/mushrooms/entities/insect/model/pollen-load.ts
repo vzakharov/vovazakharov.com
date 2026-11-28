@@ -2,7 +2,7 @@
  * The pollen a bee carries from flower to flower, and shows on its legs.
  */
 
-import type { Flight, Leg } from './perch';
+import type { Flight, Leg } from './flight-timing';
 
 /** How many specks of pollen a bee's baskets hold at most. */
 export const POLLEN_MOST = 3;

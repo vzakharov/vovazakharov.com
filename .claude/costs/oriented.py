@@ -13,7 +13,7 @@ call's output in the chat. `check` prints `marked` or `unmarked` for the
 stretch since the transcript's latest compaction, so that
 `hooks/estimate-notice.sh` asks for a mark only where there is none. `exempt`
 prints `exempt` when the session's model is one the mark is not asked of, else
-`asked`. `.claude/costs/CLAUDE.md` § "Orientation" carries what the mark ends.
+`asked`. `.claude/rules/costs-orientation.md` carries what the mark ends.
 
 Stdlib only — Python 3.9+.
 """

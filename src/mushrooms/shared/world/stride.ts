@@ -19,13 +19,14 @@
  * passed in.
  */
 
+import type { Point } from '@/scene/shared/lib/plane';
+
 import {
   type Course,
   cruise,
   type Cruising,
   type Direction,
 } from '../lib/cruise';
-import type { Point } from '../lib/geometry';
 import {
   blended,
   type Flinging,

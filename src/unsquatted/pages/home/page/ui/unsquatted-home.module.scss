@@ -1,0 +1,217 @@
+@use '../../../../../../styles/mantine' as mantine;
+
+.masthead {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 7vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+
+  // Below `sm` the column reaches the layout's corner toggle, so the name
+  // wraps short of it rather than running under it: the toggle's 38px and a
+  // gap.
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    padding-inline-end: 50px;
+  }
+}
+
+.lede {
+  margin: 12px 0 0;
+  color: var(--unsquatted-muted);
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+%section-heading {
+  color: var(--unsquatted-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.sectionHeading {
+  @extend %section-heading;
+
+  margin: 0 0 12px;
+}
+
+// The list's heading, set beside its redraw button rather than above it.
+.listHeading {
+  @extend %section-heading;
+
+  margin: 0;
+}
+
+// Below this the field takes a row of its own: beside the lightbulb, the dice,
+// the share and the heart, it would show only a few letters of the name.
+$field-own-row: mantine.$breakpoint-sm;
+
+.field {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.fieldInput {
+  flex: 1;
+  min-width: 0;
+
+  // On the narrowest screens the field takes its own row, the buttons the
+  // next.
+  @media (width < $field-own-row) {
+    flex-basis: 100%;
+  }
+}
+
+.check {
+  flex-shrink: 0;
+  order: 2;
+
+  // On a phone the field needs the width more than the button's padding does.
+  @include mantine.smaller-than(mantine.$breakpoint-xs) {
+    padding-inline: 14px;
+  }
+
+  // On its own row beside the dice, it takes the rest of the width.
+  @media (width < $field-own-row) {
+    flex: 1;
+  }
+
+  // Dimmed while it spins, so it reads as off as well as being off.
+  &[data-loading] {
+    opacity: 0.55;
+    cursor: progress;
+  }
+}
+
+// The name's share and heart, there once a name is: before the dice, so the
+// field gives them its width; after it once the field has a row of its own
+// and the dice leads the next, so arriving they move nothing but Check.
+.fieldTools {
+  display: flex;
+  gap: 8px;
+
+  @media (width < $field-own-row) {
+    order: 1;
+  }
+}
+
+// The variations, a row of their own: under the buttons, or between the field
+// and the buttons once the field has a row of its own.
+.ideas {
+  flex-basis: 100%;
+  order: 3;
+
+  // Air on top of the row's gap, so the line reads apart from the controls.
+  padding-block: 4px;
+
+  @media (width < $field-own-row) {
+    order: 0;
+  }
+}
+
+.diceBack {
+  fill: var(--color-background);
+}
+
+.diceFront {
+  fill: var(--color-surface);
+}
+
+.dicePipsBack,
+.dicePipsFront {
+  stroke: none;
+}
+
+.dicePipsBack {
+  fill: currentcolor;
+}
+
+.dicePipsFront {
+  fill: var(--color-accent);
+}
+
+.input {
+  border-color: var(--color-border-hairline);
+  background: var(--color-surface);
+  font-family: var(--mantine-font-family-monospace);
+}
+
+// One line, since a break can split the zone (`.co` / `m`); the span's `title`
+// carries whatever the ellipsis hides.
+.domain {
+  min-width: 0;
+  overflow: hidden;
+  font-family: var(--mantine-font-family-monospace);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Three rows at most until opened, as many columns across as the width allows.
+// The `n + …` cut-offs are those rows times the columns at each width, and the
+// widest, nine, is `CLOSED_ROWS` in `name-checker.tsx`: the rows before it are
+// the ones looked up before the toggle is wanted.
+.zones {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+
+  &[data-open='false'] > :nth-child(n + 10) {
+    display: none;
+  }
+
+  @include mantine.smaller-than(mantine.$breakpoint-sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    &[data-open='false'] > :nth-child(n + 7) {
+      display: none;
+    }
+  }
+
+  // Narrower, two cards side by side cannot fit a long verdict.
+  @media (width < 22em) {
+    grid-template-columns: minmax(0, 1fr);
+
+    &[data-open='false'] > :nth-child(n + 4) {
+      display: none;
+    }
+  }
+}
+
+// A toggle under a list, opening what it folds away.
+%fold-toggle {
+  margin-top: 10px;
+  color: var(--unsquatted-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--color-accent);
+  }
+}
+
+.moreZones {
+  @extend %fold-toggle;
+}
+
+.zone {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 4px 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border-hairline);
+  border-radius: var(--radius-default);
+  background: var(--color-surface);
+  font-size: 0.95rem;
+}

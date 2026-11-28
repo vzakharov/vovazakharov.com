@@ -1,0 +1,31 @@
+items:
+  - id: z-space-infra
+    type: zone
+    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    box: [0, 2740, 1400, 600, pink]
+    icon: 🛠️
+    text: 'How it runs: Stripe, a Worker, R2, moderation'
+  - id: graf-instant
+    type: sticky
+    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    box: [28, 2850, 244, pink]
+    icon: ⚡
+    text: 'Shown at once, after moderation: Stripe → a Worker → the net → R2, and the game reads R2. Not a git branch: raw GitHub caches ~5 min, and the push needs a server anyway'
+  - id: space-storage
+    type: sticky
+    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    box: [363, 2850, 244, pink]
+    icon: 🪣
+    text: "Models in R2, named by the room's coordinates, a folder per room for versions; no record in the repo. The client fetches the rooms it sees; the misses are 404s, cached at Cloudflare. Not GitHub releases: they send no CORS header, so three.js's fetch is refused (checked)"
+  - id: space-owner
+    type: sticky
+    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    box: [698, 2850, 244, pink]
+    icon: 🔐
+    text: Stripe's webhook → a ~50-line Worker, which writes R2 and hands the owner a password, keeping only its hash. With it the owner later uploads .glb and paints walls; each upload waits for moderation before it shows
+  - id: space-moderation
+    type: sticky
+    updated: [2026-11-11T12:20:14.000Z, agent:cube]
+    box: [1033, 2850, 244, pink]
+    icon: 🔎
+    text: "Moderation by a vision model: render the room from where a player stands (each door, the middle, eye height), plus the texture sheets, where small print hides. It cannot tell Coca-Cola from someone posing as it: a brand's logo needs the brand's consent"

@@ -49,9 +49,10 @@ Three things follow:
 
 **A third door, `.github/workflows/preview.yml`, never reaches production.**
 Dispatched by hand for one site from any ref, it publishes through
-`scripts/publish-site.sh <site> --preview` to
-`vzakharov/preview.vovazakharov.com`, one slot that serves whichever site came
-last, in a concurrency group apart from `pages`.
+`scripts/publish-site.sh <site> --preview` to one of two slots —
+`vzakharov/preview.vovazakharov.com` (slot 1, the default) or
+`vzakharov/preview2.vovazakharov.com` (slot 2), each serving whichever site came
+to it last — in a concurrency group per slot, apart from `pages`.
 `.claude/skills/preview/SKILL.md` § "Published, for someone else to look at"
 carries how it is used. Майя has a slot of her own,
 `vzakharov/preview.mayawonders.com`, which `.github/workflows/maya-preview.yml`

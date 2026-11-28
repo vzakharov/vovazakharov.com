@@ -7,7 +7,9 @@
 
 import type * as Phaser from 'phaser';
 
-import { type Point, sample } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+
+import { sample } from '@/mushrooms/shared/lib/geometry';
 import {
   fillShape,
   type Hairlined,
@@ -20,7 +22,7 @@ import {
   TAPER,
 } from '@/mushrooms/shared/ui';
 
-import type { Buzzing } from '../model/insect-genes';
+import type { Buzzing } from '../model/insect';
 import {
   BODY_SIDES,
   type BodySide,

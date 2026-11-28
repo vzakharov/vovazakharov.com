@@ -9,22 +9,18 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import {
-  distanceBetween,
-  type Lefted,
-  type Point,
-} from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
 
-import { apartOf, type Scheduled } from './flight-timing';
+import { distanceBetween, type Lefted } from '@/mushrooms/shared/lib/geometry';
+
+import type { Place } from './flight-frame';
 import {
+  apartOf,
   type Leg,
   type OutFirst,
-  type Perch,
-  perchName,
-  type Place,
-  type Places,
-  type Side,
-} from './perch';
+  type Scheduled,
+} from './flight-timing';
+import { type Perch, perchName, type Places, type Side } from './perch';
 
 /**
  * A release's way out of view as the screen draws it, in the units of

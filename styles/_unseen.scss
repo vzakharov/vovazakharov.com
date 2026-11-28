@@ -1,0 +1,10 @@
+// Text kept in the accessibility tree and out of sight, for a screen reader
+// alone — the label of an icon that carries the meaning visually.
+@mixin text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

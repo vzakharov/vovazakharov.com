@@ -8,24 +8,20 @@
 
 import type * as Phaser from 'phaser';
 
-import type {
-  Point,
-  Scaled,
-  WithMiddle,
-} from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+
+import type { Scaled, WithMiddle } from '@/mushrooms/shared/lib/geometry';
 import { turnedLight } from '@/mushrooms/shared/lib/light';
 import type { Timed } from '@/mushrooms/shared/lib/motion';
 import type { Lighted, Lighting } from '@/mushrooms/shared/ui';
 
 import type { BeeGenes } from '../model/bee-genes';
+import type { ButterflyGenes } from '../model/butterfly-genes';
 import { crawl, hop, jitter, rubbing, trembleSize } from '../model/buzz-rest';
 import type { Flier } from '../model/flier';
 import type { FlyGenes } from '../model/fly-genes';
-import {
-  type ButterflyGenes,
-  insectGenes,
-  type OfKind,
-} from '../model/insect-genes';
+import type { OfKind } from '../model/insect';
+import { insectGenes } from '../model/insect-genes';
 import { litTurn } from '../model/insect-light';
 import { aloft, proboscis, type Stay, wingBeat } from '../model/insect-motion';
 import { type BodySide, buzzTurn } from '../model/insect-outline';

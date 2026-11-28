@@ -3,7 +3,8 @@ import { describe, it } from 'node:test';
 
 import type { WithId } from '@/kernel/shared/typings';
 
-import type { Point } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+
 import { mulberry32, nextSeed } from '@/mushrooms/shared/lib/random';
 import type { Stand } from '@/mushrooms/entities/flower/index.node-safe';
 import {

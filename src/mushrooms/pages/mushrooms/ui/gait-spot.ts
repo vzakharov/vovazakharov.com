@@ -10,11 +10,23 @@ import {
   BUTTON_INSET,
   tapReach,
 } from '@/mushrooms/shared/lib/tap-reach';
-import { SUN_RAY_REACH } from '@/mushrooms/entities/landscape/index.node-safe';
+import type { GroundedScreen } from '@/mushrooms/shared/world';
+import {
+  SUN_RAY_REACH,
+  type Sunned,
+} from '@/mushrooms/entities/landscape/index.node-safe';
 
-import type { ControlledScreen } from './layout';
 import { PICK_APART, PICK_CLEAR } from './picker-rows';
-import { flowerPicker, type Gaited, standingControls } from './sky-layout';
+import {
+  type Controls,
+  type Crossed,
+  flowerPicker,
+  type Gaited,
+  standingControls,
+} from './sky-layout';
+
+/** The screen with its buttons, the flower picker's cross and the sun on it: what the gait button is placed among. */
+export type ControlledScreen = GroundedScreen & Controls & Crossed & Sunned;
 
 /** The gait button's radius: drawn smaller than a finger, though one reaches it as far (`tapReach`). */
 const GAIT_R = 22;

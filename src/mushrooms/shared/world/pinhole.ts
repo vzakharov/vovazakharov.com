@@ -3,7 +3,9 @@
  * and back. `ground.ts` fits the camera; this reads it as a pinhole.
  */
 
-import { alongAzimuth, type Point, wrap } from '../lib/geometry';
+import type { Point, Scaling } from '@/scene/shared/lib/plane';
+
+import { alongAzimuth, wrap } from '../lib/geometry';
 import type { Raised } from './eye-height';
 import {
   type Camera,
@@ -11,7 +13,6 @@ import {
   type Eye,
   type Eyed,
   HORIZON_DOWN,
-  type Scaling,
   SPREAD,
 } from './ground';
 

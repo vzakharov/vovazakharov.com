@@ -20,11 +20,16 @@ from typing import Optional
 
 from lib.estimate_model import Part
 from lib.rows import json_text, row_text
+from lib.words import OperatorWords
 from test_estimate import ROW, estimate_of
 from hook_clone import Clone
 
 CHECK = ".claude/costs/check_estimates.py"
-ESTIMATED = estimate_of("2026-03-04T07:00:00.000Z")
+SUBJECT = "feat: a subject"
+ESTIMATED = replace(estimate_of("2026-03-04T07:00:00.000Z"), subject_line=SUBJECT)
+# What the current writer fills on every row, which a fixture row would
+# otherwise leave null.
+FILLED = {"operator_words": OperatorWords(chat=0, review=0), "branch_lines": {}}
 
 
 class TheGate(unittest.TestCase):
@@ -36,7 +41,7 @@ class TheGate(unittest.TestCase):
     def write_row(self, session_id: str, **fields: object) -> Path:
         path = self.clone.root / ".claude" / "costs" / "sessions" / "2026-03" / f"{session_id}.json"
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(row_text(replace(ROW, session_id=session_id, **fields)), encoding="utf-8")
+        path.write_text(row_text(replace(ROW, session_id=session_id, **{**FILLED, **fields})), encoding="utf-8")
         return path
 
     def commit_row(self, session_id: str, **fields: object) -> None:
@@ -74,12 +79,34 @@ class TheGate(unittest.TestCase):
         done = self.check()
         self.assertEqual(done.returncode, 1)
         self.assertIn("added", done.stderr)
-        self.assertIn('estimate.py set --part <hours> <grade> <role> "<why>" [--part ...] --session added', done.stderr)
+        self.assertIn(
+            'estimate.py set --subject "<type>: <what the session did>" --part <hours> <grade> <role> "<why>"'
+            " [--part ...] --session added",
+            done.stderr,
+        )
         self.assertIn("origin/main", done.stderr)
 
     def test_passes_a_row_the_branch_adds_with_an_estimate(self) -> None:
         self.commit_row("added", estimate=ESTIMATED)
         self.assertEqual(self.check().returncode, 0)
+
+    def test_fails_an_estimated_row_short_of_a_subject_or_a_count_naming_each(self) -> None:
+        self.commit_row("bare", estimate=replace(ESTIMATED, subject_line=None), operator_words=None)
+        done = self.check()
+        self.assertEqual(done.returncode, 1)
+        self.assertIn("bare lacks estimate.subjectLine, operatorWords:", done.stderr)
+        self.assertIn("--session bare", done.stderr)
+
+    def test_fails_an_estimated_row_missing_a_key_the_writer_writes(self) -> None:
+        path = self.write_row("old", estimate=ESTIMATED)
+        raw = json.loads(path.read_text(encoding="utf-8"))
+        del raw["threadPosts"]
+        path.write_text(json.dumps(raw), encoding="utf-8")
+        self.clone.git("add", "-A")
+        self.clone.git("commit", "-q", "-m", "row old")
+        done = self.check()
+        self.assertEqual(done.returncode, 1)
+        self.assertIn("old lacks threadPosts:", done.stderr)
 
     def test_leaves_a_row_the_trunk_already_carries_alone(self) -> None:
         self.commit_row("old")
@@ -131,7 +158,7 @@ class TheGate(unittest.TestCase):
     def test_reads_the_table_off_the_ledger_tip_another_clone_pushed(self) -> None:
         self.run_costs("estimate.py", "role", "set", "artist", "0.9", "senior", "songs")
         self.clone.git("update-ref", "-d", "refs/remotes/origin/cost-ledger")
-        self.commit_row("added", estimate=estimate_of("a", Part(1, "senior", "artist")))
+        self.commit_row("added", estimate=replace(estimate_of("a", Part(1, "senior", "artist")), subject_line=SUBJECT))
         done = self.check()
         self.assertEqual(done.returncode, 0, done.stderr)
 

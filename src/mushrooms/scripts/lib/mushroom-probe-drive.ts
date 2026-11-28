@@ -13,6 +13,9 @@ import {
   SunAt,
 } from './mushroom-probe-answers.ts';
 
+import type { Evaluating } from '@/scene/scripts/lib/cdp';
+import { timesInTurn } from '@/scene/scripts/lib/in-turn';
+
 /** The arrow keys, by their DOM `key`, and the key code each goes down with. */
 const ARROWS = {
   ArrowLeft: 37,
@@ -59,11 +62,7 @@ export const FPS = 60;
 export const FRAME_MS = 1000 / FPS;
 
 /** The page `play-mushrooms.ts` drives, a frame and a tap at a time. */
-export type Page = {
-  evaluate: <Parsed>(
-    expression: string,
-    schema: z.ZodType<Parsed>,
-  ) => Promise<Parsed>;
+export type Page = Evaluating & {
   /**
    * The page loaded again, in the same browser context and so with its
    * storage — reloaded, or opened at `/mushrooms` plus `hash` (`#new`) — and
@@ -205,27 +204,13 @@ export function dragMoves(
   });
 }
 
-/** Runs `each` over `items` one after another, as taps on one page must. */
-export async function inTurn<Item>(
-  items: readonly Item[],
-  each: (item: Item) => Promise<void>,
-): Promise<void> {
-  const [first, ...rest] = items;
-  if (first === undefined) return;
-  await each(first);
-  return inTurn(rest, each);
-}
-
 /** `frames` frames stepped one by one, each drawn; returns each one's update in ms. */
 export async function timedSteps(
   page: Page,
   frames: number,
 ): Promise<number[]> {
   const from = page.rendered.length;
-  await inTurn(
-    Array.from({ length: frames }, (_, index) => index),
-    async () => page.step(1),
-  );
+  await timesInTurn(frames, async () => page.step(1));
   return page.rendered.slice(from);
 }
 

@@ -194,7 +194,7 @@ git fetch origin <branch>                 # same-repo PR or plain branch
 # For a cross-repo PR, add the fork as a remote first:
 #   gh pr checkout <NNN>                  # easiest path — gh sets up the remote
 git checkout <branch>
-git pull --ff-only origin <branch>        # ensure tip matches remote
+git merge --ff-only origin/<branch>       # ensure tip matches remote
 ```
 
 `gh pr checkout <NNN>` is the most robust path when the input was a PR — it
@@ -278,7 +278,7 @@ effect.
 - **Target branch already checked out** — skip Steps 2–4 and proceed to Step 6.
 - **MCP says "not allowed"** for a branch/PR action — switch to `gh` (the token
   is in `GH_TOKEN`). Don't report the action as impossible.
-- **Branch was force-pushed since the PR was opened** — `git pull --ff-only`
+- **Branch was force-pushed since the PR was opened** — `git merge --ff-only`
   will refuse; do a `git reset --hard origin/<branch>` only after confirming
   with the user that there's no local work to lose.
 - **`go`/`implement`/`execute` given but `docs/plans/` has zero or multiple

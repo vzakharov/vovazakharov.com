@@ -10,7 +10,8 @@
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import type { Abscissa, Point } from '../lib/geometry';
+import type { Abscissa, Point, Zooming } from '@/scene/shared/lib/plane';
+
 import { DEPTHS } from './backdrop-depths';
 import type { LayeredPoint, Stood } from './ground';
 import type { Ahead } from './pinhole';
@@ -23,7 +24,6 @@ import {
   sunk,
   sunkAway,
   type View,
-  type Zooming,
 } from './view';
 
 /** Whether a thing is drawn this frame. */

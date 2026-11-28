@@ -1,0 +1,17 @@
+{
+  "pr": 242,
+  "verdicts": [
+    {
+      "comment": 4456783180,
+      "about": "Serve the top ten picks in the static HTML and draw only on click",
+      "verdict": 0,
+      "why": "The operator asked why the names should be indexed at all; there was no reason, so the draw stays browser-side, and the first ten now arrive animated instead of being static."
+    },
+    {
+      "comment": 4456784375,
+      "about": "Turn the naming runbook into a skill with trigger phrases",
+      "verdict": 0,
+      "why": "The operator turned it down: a skill's description loads in every session, and the point is to save context tokens for a runbook rarely run."
+    }
+  ]
+}

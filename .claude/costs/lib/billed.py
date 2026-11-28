@@ -2,8 +2,9 @@
 the calls the transcript never records included.
 
 `hooks/telemetry_receiver.py` writes them, and this reads them back for the
-pricing scan to join to its responses by request id. `.claude/costs/CLAUDE.md`
-§ "Telemetry" carries what the events add and what they cannot.
+pricing scan to join to its responses by request id.
+`.claude/rules/costs-telemetry.md` carries what the events add and what they
+cannot.
 """
 
 from __future__ import annotations

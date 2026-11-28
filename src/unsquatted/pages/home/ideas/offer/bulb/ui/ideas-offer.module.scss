@@ -1,0 +1,145 @@
+@use '../../../../../../../../styles/inline-icon';
+@use '../../../../../../../../styles/unseen';
+
+// The button's own bulb, named in the offer's words at the text's size.
+.pressed {
+  @include inline-icon.sized;
+}
+
+// What the bulb means, for a screen reader alone.
+.unseen {
+  @include unseen.text;
+}
+
+// Round the bulb while the model loads or thinks, filling clockwise from the
+// top in the "maybe" gold; its pace is the component's.
+.ring {
+  position: absolute;
+  inset: 3px;
+  pointer-events: none;
+}
+
+.ringTrack,
+.ringArc {
+  position: absolute;
+  top: 0;
+  box-sizing: border-box;
+  height: 100%;
+  border: 2.5px solid transparent;
+  border-radius: 50%;
+}
+
+.ringTrack {
+  left: 0;
+  width: 100%;
+  border-color: color-mix(in srgb, var(--unsquatted-muted) 25%, transparent);
+}
+
+// Each half of the ring shows only what turns into it: the first the right
+// half, from the top down, the second the left, from the bottom up.
+.ringHalf {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+
+  &[data-half='first'] {
+    left: 50%;
+  }
+
+  &[data-half='second'] {
+    left: 0;
+  }
+}
+
+// A half-circle of gold the size of the whole ring, centred on it. At its
+// component's turn of 45deg, the first half's arc lies wholly in the left
+// half and the second's in the right, each hidden by its own half, so a
+// further turn of 180deg brings it fully into view.
+.ringArc {
+  width: 200%;
+  will-change: transform;
+
+  [data-half='first'] > & {
+    left: -100%;
+    border-bottom-color: var(--unsquatted-maybe);
+    border-left-color: var(--unsquatted-maybe);
+  }
+
+  [data-half='second'] > & {
+    left: 0;
+    border-top-color: var(--unsquatted-maybe);
+    border-right-color: var(--unsquatted-maybe);
+  }
+}
+
+// The bulb's place among the tool buttons, which the note hangs from.
+.spot {
+  position: relative;
+  display: inline-flex;
+}
+
+// Unlocked just now, the bulb pops in, and the note arrives once it has.
+@media (prefers-reduced-motion: no-preference) {
+  .spot[data-pointing='true'] > :first-child {
+    animation: pop-in 480ms cubic-bezier(0.3, 1.6, 0.5, 1) both;
+  }
+
+  .note {
+    animation: fade-in 300ms ease-out 380ms both;
+  }
+}
+
+@keyframes pop-in {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+// "There you go" in the share card's hand, its arrow curling onto the bulb.
+.note {
+  position: absolute;
+  z-index: 1;
+  right: 8px;
+  bottom: calc(100% - 4px);
+  display: flex;
+  align-items: flex-start;
+  color: var(--color-accent);
+  font-family: var(--font-hand);
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.arrow {
+  width: 30px;
+  height: 34px;
+  margin-top: 10px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.5;
+}
+
+.explainer p {
+  margin: 0 0 12px;
+  line-height: 1.6;
+}
+
+.progress {
+  color: var(--unsquatted-muted);
+}

@@ -69,7 +69,6 @@ export {
 export { flowerLight } from './ui/flower-light';
 export {
   flowerFeet,
-  type FlowerPlotsLayout,
   flowersOf,
   groundFor,
   inFlowerBand,
@@ -81,7 +80,6 @@ export {
 } from './ui/flower-plots';
 export {
   flowerInSight,
-  type FlowerSightLayout,
   flowerTapReach,
   headOf,
   PERCH_SPREAD,
@@ -91,6 +89,10 @@ export {
   sightAt,
   type Sighting,
   sightingOf,
+} from './ui/flower-sight';
+export {
+  type FlowerPlotsLayout,
+  type FlowerSightLayout,
   type Stand,
   standOf,
-} from './ui/flower-sight';
+} from './ui/stand';

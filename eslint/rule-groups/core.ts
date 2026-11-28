@@ -127,6 +127,19 @@ export const coreRules = {
 
   // Code quality with options
   'func-style': ['error', 'declaration', { allowArrowFunctions: true }], // prefer named declarations; arrows still allowed inline
+  // A name has one address: its importers take it from the module declaring
+  // it. Barrels and the routers, whose whole job is to re-export, are scoped
+  // off in eslint.config.ts.
+  'no-restricted-syntax': [
+    'error',
+    ...['ExportNamedDeclaration[source]', 'ExportAllDeclaration'].map(
+      (selector) => ({
+        selector,
+        message:
+          'Only a barrel re-exports: import this from the module that declares it.',
+      }),
+    ),
+  ],
 
   ...withSeverity('off', [
     // Superseded by @typescript-eslint equivalents (or another plugin / tsconfig):

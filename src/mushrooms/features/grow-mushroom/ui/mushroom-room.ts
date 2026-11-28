@@ -17,6 +17,9 @@
  */
 
 import { pick } from '@/kernel/shared/lib/collections';
+import type { Seeded } from '@/kernel/shared/typings';
+
+import type { Point } from '@/scene/shared/lib/plane';
 
 import {
   type Box,
@@ -24,9 +27,7 @@ import {
   type Circle,
   containsPoint,
   distanceToEdge,
-  type Point,
 } from '@/mushrooms/shared/lib/geometry';
-import type { Seeded } from '@/mushrooms/shared/lib/random';
 import { tapReach } from '@/mushrooms/shared/lib/tap-reach';
 import {
   aboutFoot,

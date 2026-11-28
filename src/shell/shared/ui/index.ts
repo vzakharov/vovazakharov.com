@@ -1,5 +1,6 @@
 export { Card, CardLink } from './card';
-export { type Chip, ChipNav, CURRENT_CHIP_CLASS } from './chip-nav';
+export type { Chip } from './chip';
+export { ChipNav, CURRENT_CHIP_CLASS } from './chip-nav';
 export { cssColor } from './css-color';
 export { FileLink } from './file-link';
 export { hoverDim } from './hover-dim';
@@ -13,3 +14,4 @@ export { Section, Subheading, SUBHEADING_GAP } from './section';
 export { SiteAvatar } from './site-avatar';
 export { SummaryCard } from './summary-card';
 export { TextLink } from './text-link';
+export { useCopied } from './use-copied';

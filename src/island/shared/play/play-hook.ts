@@ -1,0 +1,54 @@
+import type { Readying } from '@/kernel/shared/typings';
+
+/**
+ * The island's looks, in the order B steps through them: plain, the default,
+ * for a machine short of the others' frame budget; swift, the fine look drawn
+ * cheaper; fine, everything at full cost.
+ */
+export const LOOKS = ['plain', 'swift', 'fine'] as const;
+export type Look = (typeof LOOKS)[number];
+
+/** What is drawn in one of the looks, and told which. */
+export type InLook = { readonly look: Look };
+
+/** The look after `look` in `LOOKS`, the first after the last. */
+export const nextLook = (look: Look): Look =>
+  LOOKS[(LOOKS.indexOf(look) + 1) % LOOKS.length] ?? 'plain';
+
+/** Whether `look` draws the sky, clouds, haze, trees and the sea's surface. */
+export const isFine = (look: Look): boolean => look !== 'plain';
+
+/**
+ * What `/island?play` hands a script on `window[PLAY_HOOK]`, and only when the
+ * URL carries `PLAY_QUERY`: the page's real clock frozen and a seeded one
+ * stepped by hand, so every run draws the same frames. The page implements it;
+ * `scripts/play-island.ts` drives it.
+ */
+export type IslandPlayHook = Readying & {
+  /** Puts the eye `m` metres above the ground; resolves once every tile the view then selects is uploaded. */
+  setHeight: (m: number) => Promise<void>;
+  /** Puts the eye `m` metres over latitude `lat`, longitude `lon` (degrees, east positive), its heading kept; resolves as `setHeight` does. */
+  moveTo: (lat: number, lon: number, m: number) => Promise<void>;
+  /** Turns the eye so screen-up faces `heading`, radians clockwise from north; resolves as `setHeight` does. */
+  turnTo: (heading: number) => Promise<void>;
+  /** Raises the view `look` radians above the pitch its height gives, as far as the eye may look; resolves as `setHeight` does. */
+  lookTo: (look: number) => Promise<void>;
+  /** Draws in `look`. */
+  setLook: (look: Look) => void;
+  /** Sets the time of day to `hours` past the opening's sun (24 a day) and draws; the clock stays stopped. */
+  setTime: (hours: number) => void;
+  /** Advances the seeded clock by `ms` and draws one frame. */
+  step: (ms: number) => void;
+  /** The JS time of each frame `step` drew, in ms, oldest first. */
+  frameMs: () => number[];
+  /** The renderer's backend, `'webgpu'` or `'webgl2'`, once `ready` resolves. */
+  backend: () => string;
+  /** Ms the tile worker took to build the world's field, once `ready` resolves. */
+  buildMs: () => number;
+};
+
+/** The `window` property the hook sits on. */
+export const PLAY_HOOK = '__island';
+
+/** The query parameter whose presence makes the page expose the hook. */
+export const PLAY_QUERY = 'play';

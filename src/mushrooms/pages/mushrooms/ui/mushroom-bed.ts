@@ -2,7 +2,9 @@ import * as Phaser from 'phaser';
 
 import { pick } from '@/kernel/shared/lib/collections';
 
-import { placedAt, type Point } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+
+import { placedAt } from '@/mushrooms/shared/lib/geometry';
 import { headedLight } from '@/mushrooms/shared/lib/light';
 import {
   letGo,

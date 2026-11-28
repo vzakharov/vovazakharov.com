@@ -1,10 +1,8 @@
 import type * as Phaser from 'phaser';
 
-import {
-  type Circle,
-  lerpPoint,
-  type Point,
-} from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+
+import { type Circle, lerpPoint } from '@/mushrooms/shared/lib/geometry';
 import {
   emerge,
   launch,

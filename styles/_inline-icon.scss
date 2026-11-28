@@ -1,0 +1,7 @@
+// An icon set in a run of text at the text's own size, its baseline lowered to
+// sit on the line the way a glyph does.
+@mixin sized {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+}

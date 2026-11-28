@@ -1,5 +1,5 @@
-import type { Insect, InsectKind, OfKind } from './insect-genes';
-import type { Flight } from './perch';
+import type { Flight } from './flight-timing';
+import type { Insect, InsectKind, OfKind } from './insect';
 import type { Carrying } from './pollen-load';
 
 /** A kind that carries no pollen. */

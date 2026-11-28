@@ -7,7 +7,17 @@
   "bible": ["blog"],
   "basilisk": ["blog"],
   "maya": ["blog"],
-  "mushrooms": ["kernel"],
+  "scene": ["kernel"],
+  "gpu": ["kernel"],
+  "mushrooms": ["scene"],
+  "origami": ["scene"],
+  "board": ["scene"],
+  "island-board": ["board"],
+  "cube-board": ["board"],
+  "dice": [],
+  "nature": ["scene", "gpu", "dice"],
+  "island": ["scene", "gpu", "dice", "nature"],
   "unsquatted": ["shell"],
-  "vova": ["blog", "music", "mushrooms"]
+  "cube": ["scene", "gpu", "dice", "nature"],
+  "vova": ["blog", "music", "mushrooms", "island", "cube"]
 }

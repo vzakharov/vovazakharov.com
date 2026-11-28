@@ -8,7 +8,7 @@ import type { Locale } from '@/kernel/shared/i18n';
 
 import { albumFile, localGloss, localName } from './catalogue-files.ts';
 import type { TitleGloss } from './frontmatter.ts';
-import type { MusicAlbum, MusicProject } from './names.ts';
+import type { MusicAlbum, MusicProject } from './name-brands.ts';
 import type { Spelled } from './spelling.ts';
 
 /** A release's title under a locale, romanized by the Russian rule where the locale cannot read it. */

@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
+import type { Point } from '@/scene/shared/lib/plane';
+
 import {
   contrast,
   luminance,
@@ -8,7 +10,7 @@ import {
   nudgeHue,
   toHsv,
 } from '@/mushrooms/shared/lib/colour';
-import { ellipse, type Point } from '@/mushrooms/shared/lib/geometry';
+import { ellipse } from '@/mushrooms/shared/lib/geometry';
 import {
   facingArc,
   inkFor,

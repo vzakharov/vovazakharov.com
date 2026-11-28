@@ -5,7 +5,9 @@
  * stay at most that far off the sun in between.
  */
 
-import { type Point, wrap } from '@/mushrooms/shared/lib/geometry';
+import type { Point } from '@/scene/shared/lib/plane';
+
+import { wrap } from '@/mushrooms/shared/lib/geometry';
 
 /** How far a body turns before its lit parts are painted afresh, in radians. */
 export const LIGHT_STEP = Math.PI / 8;
