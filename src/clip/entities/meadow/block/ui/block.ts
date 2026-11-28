@@ -9,7 +9,7 @@ import {
 import { writeBubble } from '@/clip/shared/lettering';
 
 import { bounceAt } from '../model/bounce';
-import { BLOCK_PALETTE } from './palette-meadow';
+import { BLOCK_PALETTE } from './palette-block';
 
 /** An alphabet block: its letter, its colour, and where in a bounce it is. */
 export type AlphabetBlock = Figure & {
