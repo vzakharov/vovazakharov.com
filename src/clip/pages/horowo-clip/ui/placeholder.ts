@@ -18,17 +18,16 @@ import {
   sectionAt,
   wordAt,
 } from '@/clip/shared/score';
-import { broadcast, reality, SCREEN, testCard } from '@/clip/shared/tape';
+import { reality, SCREEN, testCard } from '@/clip/shared/tape';
 import type { Drawing, Local } from '@/clip/shared/timeline';
 
+import { onChannel } from './channel';
 import { PLACEHOLDER_PALETTE } from './palette-placeholder';
 
 /** Where a stand-in plays: on the TV, or in the room it stands in. */
 export type Look = 'broadcast' | 'reality';
 
 const FONT = 'system-ui, sans-serif';
-/** How long a cut takes to lock the new channel, in seconds. */
-const ZAP_SECONDS = 0.35;
 /** How fast a pulse's flash fades, in seconds. */
 const FLASH_SECONDS = 0.1;
 
@@ -186,17 +185,14 @@ export const placeholder =
       });
       return;
     }
-    broadcast(
+    onChannel(
       pen,
+      local,
       (inner) => {
         testCard(inner);
         wash(inner, SCREEN, PLACEHOLDER_PALETTE.dim, 0.6);
         card(inner, title, local, SCREEN);
       },
-      {
-        // A one-beat cut locks in its first third rather than staying snow.
-        zap: local.sinceCut / Math.min(ZAP_SECONDS, local.seconds / 3),
-        osd: { channel, sinceChange: local.sinceCut },
-      },
+      channel,
     );
   };
