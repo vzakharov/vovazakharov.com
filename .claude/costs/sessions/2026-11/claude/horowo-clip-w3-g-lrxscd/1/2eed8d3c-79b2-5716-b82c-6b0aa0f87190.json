@@ -1,0 +1,119 @@
+{
+  "total": {
+    "inputTokens": 106,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 175889,
+    "cacheReadTokens": 9896434,
+    "outputTokens": 47493,
+    "thinkingTokens": 17144,
+    "responses": 56,
+    "costUsd": 4.3366828
+  },
+  "estimate": {
+    "at": "2026-11-28T17:51:04.114Z",
+    "subjectLine": "feat: violent double-time gig and the rocket-ears storyline",
+    "parts": [
+      {
+        "hours": 10.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "a violent camera rig and extreme close-ups cropped from a rig built for full figures need hand-tuned framing per part"
+      },
+      {
+        "hours": 8.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "a five-stage storyline from twitch to fireworks, with sky, smoke and sparks drawn to read at every scale"
+      },
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "the cut list on half-beats and the storyline's progression across returns are pacing judgement"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-28T17:47:25.300Z",
+    "contextTokens": 104270,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 41583,
+      "cacheReadTokens": 53374,
+      "outputTokens": 362,
+      "thinkingTokens": 25,
+      "responses": 1,
+      "costUsd": 0.35058680000000003
+    }
+  },
+  "sessionId": "2eed8d3c-79b2-5716-b82c-6b0aa0f87190",
+  "branch": "claude/horowo-clip-w3-g-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a `/carte-blanche` run (`.claude/skills/carte-blanche/SKILL.md`): one of nine sessions reworking a code-drawn music video after its o…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkFmocUFKMy8SNxisti",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T17:47:18.744Z",
+  "lastResponseAt": "2026-11-28T18:08:28.665Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 106,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 175889,
+    "cacheReadTokens": 9896434,
+    "outputTokens": 47493,
+    "thinkingTokens": 17144,
+    "responses": 56,
+    "costUsd": 4.3366828
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 106,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 175889,
+      "cacheReadTokens": 9896434,
+      "outputTokens": 47493,
+      "thinkingTokens": 17144,
+      "responses": 56,
+      "costUsd": 4.3366828
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 55,
+    "matched": 55,
+    "matchedTableUsd": 4.2798632,
+    "matchedEventUsd": 4.279863199999999,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1243,
+    ".json": 169,
+    ".ts": 13716,
+    ".tsx": 44,
+    ".scss": 12
+  }
+}

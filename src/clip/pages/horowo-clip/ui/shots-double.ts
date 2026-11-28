@@ -1,43 +1,55 @@
 import { beatSeconds } from '@/clip/shared/score';
 import type { Drawing, Shot } from '@/clip/shared/timeline';
-import { gigClose, gigWide } from '@/clip/widgets/gig';
+import { gigClose, gigPart, gigWide } from '@/clip/widgets/gig';
 
-import { beatsOf, sectionNamed } from './stand-in';
+import { sectionNamed } from './stand-in';
 
 const DOUBLE = sectionNamed('double time');
 const { from, to } = DOUBLE;
-const BEATS = Math.round((to - from) / beatSeconds(DOUBLE));
-// The ears go up over the section's last bar, bursting into the verse.
-const liftOff = to - 4 * beatSeconds(DOUBLE);
+const HALF = beatSeconds(DOUBLE) / 2;
 
-// Who the camera is on, beat by beat after the opening wide: one or two beats
-// a player, back to the wide between rounds.
-const CUTS: ReadonlyArray<readonly [Drawing | null, number]> = [
-  [gigClose('drums', liftOff), 2],
-  [gigClose('guitar', liftOff), 1],
-  [gigClose('bass', liftOff), 1],
-  [gigClose('vocal', liftOff), 2],
-  [null, 2],
-  [gigClose('guitar', liftOff), 1],
-  [gigClose('drums', liftOff), 1],
-  [gigClose('bass', liftOff), 2],
-  [gigClose('vocal', liftOff), 1],
-  [gigClose('drums', liftOff), 1],
+const wide = gigWide();
+
+// The section cut on the half-beat, each entry a picture and how many
+// half-beats it holds: the wide slams in, then pieces of the players tear by,
+// a whole player now and then, the audience's ears between.
+const CUTS: ReadonlyArray<readonly [Drawing, number]> = [
+  [wide, 2],
+  [gigPart('guitar pick'), 1],
+  [gigPart('drums sticks'), 1],
+  [gigPart('bass headstock'), 2],
+  [gigPart('vocal jaw'), 1],
+  [gigPart('boot'), 1],
+  [gigClose('drums'), 2],
+  [gigPart('guitar eye'), 1],
+  [gigPart('bass neck'), 1],
+  [gigPart('drums tom'), 1],
+  [gigPart('vocal eye'), 1],
+  [wide, 2],
+  [gigPart('guitar neck'), 1],
+  [gigPart('boot'), 1],
+  [gigPart('drums jaw'), 1],
+  [gigPart('bass pick'), 1],
+  [gigClose('vocal'), 2],
+  [gigPart('guitar headstock'), 2],
+  [gigPart('drums eye'), 1],
+  [gigPart('vocal mic'), 1],
+  [gigPart('boot'), 1],
+  [gigPart('guitar pick'), 1],
+  [wide, 6],
 ];
 
-function inserts(): Shot[] {
-  const shots: Shot[] = [];
-  let beat = 2;
-  for (const [draw, length] of CUTS) {
-    if (beat + length > BEATS - 4) break;
-    if (draw) shots.push({ ...beatsOf(DOUBLE, beat, beat + length), draw });
-    beat += length;
-  }
-  return shots;
+function cuts(): Shot[] {
+  let start = from;
+  return CUTS.map(([draw, halves]) => {
+    const shot = { from: start, to: Math.min(to, start + halves * HALF), draw };
+    start = shot.to;
+    return shot;
+  });
 }
 
-/** Double time: the band live in the studio, cut on the beat. */
+/** Double time: the band live in the studio, torn apart on the half-beat. */
 export const DOUBLE_SHOTS: readonly Shot[] = [
-  { from, to, draw: gigWide(liftOff) },
-  ...inserts(),
+  { from, to, draw: wide },
+  ...cuts(),
 ];

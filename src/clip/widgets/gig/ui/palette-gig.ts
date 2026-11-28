@@ -16,4 +16,21 @@ export const GIG_PALETTE = {
     bass: '#108a80',
     drums: '#d0461c',
   },
+  /** Each player's backdrop in an extreme close-up: the same hue, near black, so fast cuts do not flash. */
+  shadow: {
+    guitar: '#3c0a24',
+    vocal: '#3a2a08',
+    bass: '#06302c',
+    drums: '#3c1408',
+  },
+  /** The drummer's foot on the kick pedal. */
+  boot: '#1c1820',
+  sole: '#0b0a0e',
+  lace: '#d9cfb8',
+  trouser: '#2c2a33',
+  felt: '#f3efe2',
+  /** The kick drum's head and hoop, as the kit has them. */
+  skin: '#f1ede0',
+  hoop: '#2f5fb3',
+  cross: '#d8382c',
 } as const;
