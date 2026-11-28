@@ -9,7 +9,19 @@
     "responses": 59,
     "costUsd": 4.0952454000000005
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-28T14:27:18.119Z",
+    "subjectLine": "feat: the live gig and eight TV channels, drawn and cut",
+    "parts": [
+      {
+        "hours": 7.0,
+        "grade": "senior",
+        "role": "designer",
+        "comment": "A four-piece band staged in wide and close shots plus eight distinct channel parodies readable in one beat each is art direction and animation at once; half a day for the gig, half an hour a channel"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "Write",
     "endedOn": "src/clip/widgets/gig/ui/palette-gig.ts",
