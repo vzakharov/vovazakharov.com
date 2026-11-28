@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 403,
+    "inputTokens": 425,
     "cacheWrite5mTokens": 123284,
-    "cacheWrite1hTokens": 785730,
-    "cacheReadTokens": 41466295,
-    "outputTokens": 261981,
-    "thinkingTokens": 80519,
-    "responses": 203,
-    "costUsd": 31.02902709999999
+    "cacheWrite1hTokens": 820199,
+    "cacheReadTokens": 43168288,
+    "outputTokens": 274420,
+    "thinkingTokens": 84075,
+    "responses": 215,
+    "costUsd": 32.4186657
   },
   "estimate": {
     "at": "2026-11-28T10:11:18.592Z",
@@ -66,18 +66,18 @@
   "url": "https://claude.ai/code/session_01MZoAKCKwqeVGKcCw6iKKPs",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:00:24.182Z",
-  "lastResponseAt": "2026-11-28T11:44:20.950Z",
+  "lastResponseAt": "2026-11-28T11:46:40.740Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 365,
+    "inputTokens": 387,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 785730,
-    "cacheReadTokens": 40098416,
-    "outputTokens": 245662,
-    "thinkingTokens": 79583,
-    "responses": 187,
-    "costUsd": 30.420763199999993
+    "cacheWrite1hTokens": 820199,
+    "cacheReadTokens": 41800409,
+    "outputTokens": 258101,
+    "thinkingTokens": 83139,
+    "responses": 199,
+    "costUsd": 31.810401799999998
   },
   "subagents": {
     "inputTokens": 38,
@@ -91,14 +91,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 365,
+      "inputTokens": 387,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 785730,
-      "cacheReadTokens": 40098416,
-      "outputTokens": 245662,
-      "thinkingTokens": 79583,
-      "responses": 187,
-      "costUsd": 30.420763199999993
+      "cacheWrite1hTokens": 820199,
+      "cacheReadTokens": 41800409,
+      "outputTokens": 258101,
+      "thinkingTokens": 83139,
+      "responses": 199,
+      "costUsd": 31.810401799999998
     },
     "claude-sonnet-5-5/standard": {
       "inputTokens": 38,
@@ -195,8 +195,10 @@
         }
       },
       "rereads": {
-        "calls": 0,
-        "byTool": {},
+        "calls": 1,
+        "byTool": {
+          "Read": 1
+        },
         "estimatedTokens": 0,
         "estimatedUsd": 0.0
       },
@@ -214,7 +216,7 @@
   "branchLines": {
     ".md": 643,
     ".mjs": 687,
-    ".json": 93,
+    ".json": 97,
     ".ts": 10728,
     ".tsx": 44,
     ".scss": 12
