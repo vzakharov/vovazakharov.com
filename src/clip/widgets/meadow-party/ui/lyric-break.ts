@@ -12,12 +12,12 @@ const BREAK_WORDS = [
   ['БЫ', 44.4],
 ] as const;
 
-// «Так хорошо-шо-шо»: each line «хоро» and a «шо» set larger than the last,
-// the first as one word.
-const ECHOES = [
+// «Так хорошо-шо-шо»: one word whose «шо» is set larger at each «шо» sung,
+// as [onset, how many times the «хоро» its «шо» stands].
+const SHO_GROWS = [
   [42.56, 1],
-  [43.04, 1.45],
-  [43.32, 2.1],
+  [43.04, 1.5],
+  [43.32, 2.3],
 ] as const;
 
 const LETTER_HEIGHT = 150;
@@ -181,35 +181,33 @@ function echoWord(
   });
 }
 
+// Where «хоро» ends and «шо» begins, on the word's baseline: low in the
+// frame, the word centred once its «шо» is at its largest.
+const SHO_PIVOT = [610, 650] as const;
+
 /**
  * «хорошо-шо-шо» in the break's lettering, letters only over whatever is
- * under them: a line each as sung, each «шо» larger than the last.
+ * under them: one word in one place, its «хоро» staying put and its «шо»
+ * swelling up from the baseline at each «шо» sung.
  */
-export const echoLines: Drawing = (pen) => {
+export const shoSwelling: Drawing = (pen) => {
   const { playhead } = pen;
-  const sung = ECHOES.filter(([onset]) => playhead >= onset);
+  const sung = SHO_GROWS.filter(([onset]) => playhead >= onset);
+  const grow = sung.at(-1)?.[1];
+  if (grow === undefined) return;
   const slam = slamAt(
     playhead,
     sung.map(([onset]) => onset),
   );
-  let baseline = 95;
-  for (const [n, [, grow]] of sung.entries()) {
-    const big = ECHO_HEIGHT * grow;
-    baseline += big + ECHO_HEIGHT * 0.35;
-    const fresh = n === sung.length - 1;
-    // «хоро» ends and «шо» starts at a pivot that keeps the pair centred,
-    // a capital taken as about 0.8 of its height wide.
-    const pivot =
-      n === 0
-        ? STAGE.width / 2
-        : STAGE.width / 2 + (4 * ECHO_HEIGHT - 2 * big) * 0.4;
-    landing(pen, [pivot, baseline], (fresh ? 0.3 : 0.03) * slam, () => {
-      if (n === 0) {
-        echoWord(pen, 'ХОРОШО', [0, 0], ECHO_HEIGHT, 'center', 80);
-        return;
-      }
-      echoWord(pen, 'ХОРО', [0, 0], ECHO_HEIGHT, 'right', 80 + n);
-      echoWord(pen, 'ШО', [ECHO_HEIGHT * 0.13, 0], big, 'left', 90 + n);
-    });
-  }
+  echoWord(pen, 'ХОРО', SHO_PIVOT, ECHO_HEIGHT, 'right', 80);
+  landing(pen, SHO_PIVOT, 0.3 * slam, () => {
+    echoWord(
+      pen,
+      'ШО',
+      [ECHO_HEIGHT * 0.13, 0],
+      ECHO_HEIGHT * grow,
+      'left',
+      90,
+    );
+  });
 };

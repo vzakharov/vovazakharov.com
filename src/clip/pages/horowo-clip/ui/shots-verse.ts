@@ -11,6 +11,7 @@ import {
   wallWakes,
 } from '@/clip/widgets/bedroom';
 import { channel } from '@/clip/widgets/channels';
+import { shoSwelling } from '@/clip/widgets/meadow-party';
 import { spoonBunny } from '@/clip/widgets/spoon-bunny';
 
 import { sectionNamed } from './stand-in';
@@ -41,7 +42,8 @@ const line = (n: number, draw: Drawing, to?: number): Shot => ({
 /**
  * The verse: the bedroom at night, a new picture for each of the seven lines,
  * the TV cutting in on every call. Line 6, «Ложка новая с секретом», leaves
- * the room for the bunny at its table, seen from behind and from afar.
+ * the room for the bunny at its table, seen from behind and from afar, and
+ * «хорошо-шо-шо» is lettered over the last picture in the chorus's hand.
  */
 export const VERSE_SHOTS: readonly Shot[] = [
   line(0, wakeUp),
@@ -51,6 +53,13 @@ export const VERSE_SHOTS: readonly Shot[] = [
   line(4, summerWindow),
   line(5, spoonBunny(0.05, 0.25)),
   line(6, troublesRetreat, BEDROOM_CUES.soGood),
-  { from: BEDROOM_CUES.soGood, to: VERSE_TO, draw: soGood },
+  {
+    from: BEDROOM_CUES.soGood,
+    to: VERSE_TO,
+    draw: (pen, local) => {
+      soGood(pen, local);
+      shoSwelling(pen, local);
+    },
+  },
   ...calls,
 ];
