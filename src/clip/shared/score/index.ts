@@ -3,6 +3,7 @@ export { ENERGY_RATE } from './energy';
 export { punch } from './hits';
 export { jaw } from './jaw';
 export { KICKS } from './kick-data';
+export { type Line, lineAt, type LineKind, LYRIC_LINES } from './lines';
 export { pulse } from './pulse';
 export {
   barSeconds,
