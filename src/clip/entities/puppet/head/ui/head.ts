@@ -202,7 +202,7 @@ const DROP_RUN = 70;
 function sweat({ pen, look, seed, spot }: Face): void {
   const beads = Math.ceil(clamp(look.sweat, 0, 1) * DROP_STARTS.length);
   for (const [n, start] of DROP_STARTS.slice(0, beads).entries()) {
-    const run = (pen.t / DROP_PERIOD + n * 0.37) % 1;
+    const run = (pen.playhead / DROP_PERIOD + n * 0.37) % 1;
     const [x, y] = spot(add(start, [0, run * DROP_RUN]));
     at(pen, { x, y, scale: 0.7 + 0.5 * Math.sin(run * Math.PI) }, () => {
       ink(pen, DROP, {
