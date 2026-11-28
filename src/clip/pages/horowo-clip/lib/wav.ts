@@ -1,6 +1,7 @@
+import type { SampleRated } from '@/kernel/shared/typings';
+
 /** Rendered sound: one array of samples in `[-1, 1]` a channel, all one length. */
-export type Rendered = {
-  sampleRate: number;
+export type Rendered = SampleRated & {
   channels: readonly Float32Array[];
 };
 

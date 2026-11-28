@@ -5,12 +5,13 @@
  * request at all is what lets the player seek.
  */
 
+import type { SampleRated } from '@/kernel/shared/typings';
+
 /** Enough of the file to hold `fLaC` plus the STREAMINFO block, with room for a large one. */
 const HEADER_BYTES = 128 * 1024;
 
 /** Sample rate, channel count and total samples, as STREAMINFO packs them. */
-export type StreamInfo = {
-  sampleRate: number;
+export type StreamInfo = SampleRated & {
   channels: number;
   bitsPerSample: number;
   totalSamples: number;
