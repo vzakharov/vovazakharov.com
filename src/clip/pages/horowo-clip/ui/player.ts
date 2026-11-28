@@ -1,10 +1,15 @@
 import { type ClipFilmHook, FILM_HOOK } from '@/clip/shared/film';
 import { INK_PALETTE, penAt, STAGE } from '@/clip/shared/ink';
-import { PREROLL, SONG_SECONDS } from '@/clip/shared/score';
+import { filmTime, POSTROLL, PREROLL, SONG_SECONDS } from '@/clip/shared/score';
 import { frame, type Shot } from '@/clip/shared/timeline';
 
 import { fitStage, type PlayerMode, type StageFit } from '../lib/stage-fit';
+import { base64, wav } from '../lib/wav';
+import { type Hush, identSound, renderedIdent } from './ident-sound';
 import { PLACEHOLDER_PALETTE } from './palette-placeholder';
+
+/** Song time the film ends at: the post-roll's silence after the master. */
+const END = SONG_SECONDS + POSTROLL;
 
 /** The scrub bar's height, and the strip over it a click seeks in, in CSS pixels. */
 const SCRUB_HEIGHT = 4;
@@ -78,6 +83,7 @@ export function mountPlayer(
         paint(t);
         return true;
       },
+      sound: async () => base64(wav(await renderedIdent())),
     };
     Object.assign(globalThis, { [FILM_HOOK]: hook });
     return () => {
@@ -115,9 +121,9 @@ function chrome(
   ctx.globalAlpha = 1;
 }
 
-/** Starts `audio`, an abort being a pause that landed before the play began. */
-function start(audio: HTMLAudioElement): void {
-  audio.play().catch((error: unknown) => {
+/** Runs `task`, an abort being a pause that landed before it finished. */
+function settle(task: Promise<void>): void {
+  task.catch((error: unknown) => {
     if (error instanceof DOMException && error.name === 'AbortError') return;
     throw error;
   });
@@ -125,8 +131,9 @@ function start(audio: HTMLAudioElement): void {
 
 /**
  * Plays the film and draws the clip at its song time on every animation
- * frame: through the pre-roll a clock of its own runs with the song paused
- * at 0, and from the first note the song's own clock leads.
+ * frame: the song's own clock leads while it plays, and outside it — the
+ * pre-roll before its first note, the post-roll after its end — a clock of
+ * the player's own runs, the pre-roll's sound with it.
  */
 function play(
   canvas: HTMLCanvasElement,
@@ -139,56 +146,80 @@ function play(
   audio.preload = 'auto';
   const length = () =>
     Number.isFinite(audio.duration) ? audio.duration : SONG_SECONDS;
-  // Through the pre-roll: the song time held at `heldAt`, running from
+  // Outside the song: the time held at `heldAt`, running from
   // `runningSince` (a `performance.now()`) while `running`.
-  let preroll = true;
+  let outside = true;
   let heldAt = -PREROLL;
   let runningSince = 0;
   let running = false;
+  // Made on the first play, which a gesture starts, as a browser requires.
+  let sound: AudioContext | undefined;
+  let hush: Hush | undefined;
+
+  const quiet = () => {
+    hush?.();
+    hush = undefined;
+  };
+  /** Holds the own clock at `t`, running or not, its sound following it. */
+  const hold = (t: number, run: boolean) => {
+    heldAt = t;
+    runningSince = performance.now();
+    running = run;
+    quiet();
+    if (!run || t >= 0) return;
+    sound ??= new AudioContext();
+    if (sound.state === 'suspended') settle(sound.resume());
+    hush = identSound(sound, sound.currentTime, filmTime(t));
+  };
+  const own = () =>
+    running ? heldAt + (performance.now() - runningSince) / 1000 : heldAt;
 
   const now = (): number => {
-    if (!preroll) return audio.currentTime;
-    const t = running
-      ? heldAt + (performance.now() - runningSince) / 1000
-      : heldAt;
-    if (t < 0) return t;
-    preroll = false;
-    audio.currentTime = 0;
-    start(audio);
-    return 0;
+    if (!outside) {
+      if (!audio.ended) return audio.currentTime;
+      outside = true;
+      hold(length(), true);
+    }
+    const t = own();
+    if (t >= 0 && t < length()) {
+      // The pre-roll's sound runs out on its own at the first note.
+      outside = false;
+      audio.currentTime = t;
+      settle(audio.play());
+      return t;
+    }
+    if (t < END) return t;
+    hold(END, false);
+    return END;
   };
-  const paused = () => (preroll ? !running : audio.paused);
+  const paused = () => (outside ? !running : audio.paused);
 
+  const seek = (to: number) => {
+    const t = Math.min(END, Math.max(-PREROLL, to));
+    const playing = !paused();
+    outside = t < 0 || t >= length();
+    if (outside) {
+      audio.pause();
+      hold(t, playing);
+      return;
+    }
+    quiet();
+    audio.currentTime = t;
+    if (playing) settle(audio.play());
+  };
   const toggle = () => {
-    if (!preroll) {
-      if (audio.paused) start(audio);
+    if (!outside) {
+      if (audio.paused) settle(audio.play());
       else audio.pause();
       return;
     }
-    heldAt = now();
-    runningSince = performance.now();
-    running = !running;
-  };
-  const seek = (t: number) => {
-    const playing = !paused();
-    preroll = t < 0;
-    if (preroll) {
-      audio.pause();
-      audio.currentTime = 0;
-      heldAt = t;
-      runningSince = performance.now();
-      running = playing;
-      return;
-    }
-    audio.currentTime = t;
-    if (playing) start(audio);
+    const t = own();
+    // Played again from its last frame, the film starts over.
+    hold(!running && t >= END ? -PREROLL : t, !running);
   };
   const onPointer = (event: PointerEvent) => {
     if (event.clientY >= globalThis.innerHeight - SCRUB_REACH) {
-      seek(
-        (event.clientX / globalThis.innerWidth) * (length() + PREROLL) -
-          PREROLL,
-      );
+      seek((event.clientX / globalThis.innerWidth) * (END + PREROLL) - PREROLL);
       return;
     }
     toggle();
@@ -203,7 +234,7 @@ function play(
   const tick = () => {
     const t = now();
     paint(t);
-    chrome(canvas, ctx, (t + PREROLL) / (length() + PREROLL), paused());
+    chrome(canvas, ctx, (t + PREROLL) / (END + PREROLL), paused());
     request = requestAnimationFrame(tick);
   };
   request = requestAnimationFrame(tick);
@@ -213,6 +244,8 @@ function play(
   return () => {
     cancelAnimationFrame(request);
     audio.pause();
+    quiet();
+    if (sound) settle(sound.close());
     canvas.removeEventListener('pointerdown', onPointer);
     globalThis.removeEventListener('keydown', onKey);
     globalThis.removeEventListener('resize', resize);

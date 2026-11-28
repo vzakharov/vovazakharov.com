@@ -12,6 +12,11 @@ export type ClipFilmHook = {
   ready: () => Promise<boolean>;
   /** Draws the clip at `t` seconds, synchronously. */
   draw: (t: number) => boolean;
+  /**
+   * The film's own sound under the song — the pre-roll's, from the film's
+   * first frame — rendered offline, as a base64 WAV file.
+   */
+  sound: () => Promise<string>;
 };
 
 /** `?t=` on the page: a still at that time, with no sound. */

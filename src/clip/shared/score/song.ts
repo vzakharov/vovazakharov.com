@@ -2,10 +2,11 @@
 export const SONG_SECONDS = 119.7;
 
 /**
- * How long the channel's ident runs before the song's first note, in
- * seconds. The score keeps song time, which is negative through it.
+ * How long the film runs before the song's first note — the photosensitivity
+ * warning, then the channel's ident — in seconds. The score keeps song time,
+ * which is negative through it.
  */
-export const PREROLL = 3.2;
+export const PREROLL = 13;
 
 /**
  * How long the film runs on in silence after the master ends, in seconds:
