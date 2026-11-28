@@ -10,14 +10,14 @@
     "costUsd": 1.5062464
   },
   "estimate": {
-    "at": "2026-11-28T14:20:06.994Z",
-    "subjectLine": "feat: the bedroom lit and shaken by the set",
+    "at": "2026-11-28T14:27:26.493Z",
+    "subjectLine": "feat: the bedroom lit and shaken by its TV",
     "parts": [
       {
-        "hours": 3.0,
+        "hours": 1.5,
         "grade": "senior",
-        "role": "graphics-programmer",
-        "comment": "a canvas light wash, cast shadows through a layer and a beat-driven camera need rendering judgement"
+        "role": "designer",
+        "comment": "One scene relit with cast shadows, a tilt and a kick shake: lighting and camera on a finished set, cut short before the other two scenes"
       }
     ],
     "comment": null
