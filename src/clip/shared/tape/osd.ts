@@ -2,7 +2,7 @@ import type { Pen } from '../ink';
 import { dotText } from './dot-text';
 import { TAPE_PALETTE } from './palette-tape';
 
-/** What the VCR shows over the picture. Every field is optional. */
+/** What the VCR shows over the picture. */
 export type Osd = {
   /** The deck's state in the top left: `PLAY ►` by default, a red `●REC`, or nothing. */
   deck?: 'play' | 'rec' | 'stop';
@@ -29,7 +29,7 @@ export const channelText = (channel: number): string =>
 // How long a newly tuned channel's number stays up.
 const CHANNEL_SHOWN = 1;
 
-/** The VCR's display over a picture whose top-left corner is at `origin`. */
+/** The VCR's display over a picture whose top-left corner is at `[x, y]`. */
 export function drawOsd(
   pen: Pen,
   osd: Osd,

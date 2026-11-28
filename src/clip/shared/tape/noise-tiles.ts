@@ -53,9 +53,8 @@ function pattern(
 }
 
 /**
- * Fills the `width` × `height` rectangle at `x`, `y` with `kind` noise, its
- * grains `grain` stage units wide and tall, the tile shifted by the seeded
- * `shift`.
+ * `kind` noise over the rectangle, each grain `grain` stage units across; a
+ * new `shift` seed moves the tile, so a frame's noise differs from the last.
  */
 export function fillNoise(
   ctx: CanvasRenderingContext2D,

@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 177,
+    "inputTokens": 188,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 337045,
-    "cacheReadTokens": 16803018,
-    "outputTokens": 108134,
-    "thinkingTokens": 33224,
-    "responses": 95,
-    "costUsd": 8.2203516
+    "cacheWrite1hTokens": 353308,
+    "cacheReadTokens": 17798174,
+    "outputTokens": 110193,
+    "thinkingTokens": 33945,
+    "responses": 100,
+    "costUsd": 8.590710800000002
   },
   "estimate": {
     "at": "2026-11-28T10:30:12.537Z",
@@ -52,18 +52,18 @@
   "url": "https://claude.ai/code/session_01MZoAKD4RDV89XAtTpvb3py",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:29:48.798Z",
-  "lastResponseAt": "2026-11-28T10:55:58.889Z",
+  "lastResponseAt": "2026-11-28T10:56:23.393Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 177,
+    "inputTokens": 188,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 337045,
-    "cacheReadTokens": 16803018,
-    "outputTokens": 108134,
-    "thinkingTokens": 33224,
-    "responses": 95,
-    "costUsd": 8.2203516
+    "cacheWrite1hTokens": 353308,
+    "cacheReadTokens": 17798174,
+    "outputTokens": 110193,
+    "thinkingTokens": 33945,
+    "responses": 100,
+    "costUsd": 8.590710800000002
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,14 +77,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 177,
+      "inputTokens": 188,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 337045,
-      "cacheReadTokens": 16803018,
-      "outputTokens": 108134,
-      "thinkingTokens": 33224,
-      "responses": 95,
-      "costUsd": 8.2203516
+      "cacheWrite1hTokens": 353308,
+      "cacheReadTokens": 17798174,
+      "outputTokens": 110193,
+      "thinkingTokens": 33945,
+      "responses": 100,
+      "costUsd": 8.590710800000002
     }
   },
   "warnings": [],
@@ -133,6 +133,6 @@
     ".md": 236,
     ".mjs": 687,
     ".json": 23,
-    ".ts": 1850
+    ".ts": 1846
   }
 }
