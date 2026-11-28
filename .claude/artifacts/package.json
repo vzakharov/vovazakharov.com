@@ -16,7 +16,8 @@
     "masd:clusters": "node scripts/masd-clusters.ts",
     "check:cycles": "madge --circular --no-spinner --extensions ts --ts-config tsconfig.json src",
     "test": "node --test",
-    "review-board": "node src/review-board/scripts/build.ts"
+    "review-board": "node src/review-board/scripts/build.ts",
+    "blind-test": "node src/blind-test/scripts/build.ts"
   },
   "dependencies": {
     "highlight.js": "11.12.0",

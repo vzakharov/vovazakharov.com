@@ -1,0 +1,151 @@
+{
+  "total": {
+    "inputTokens": 143,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 332658,
+    "cacheReadTokens": 15341817,
+    "outputTokens": 52327,
+    "thinkingTokens": 13858,
+    "responses": 71,
+    "costUsd": 6.7767394
+  },
+  "estimate": {
+    "at": "2026-11-28T09:21:56.015Z",
+    "subjectLine": "feat: the mastering blind test as a claude.ai artifact, its page removed",
+    "parts": [
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "a Web Audio player, a db-backed verdict store and an asset-fed build ported into the artifact app tree, under its MASD checkers"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "audio-engineer",
+        "comment": "uploading the blind sets and checking the switch is gapless and level-true takes a mastering ear"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "audio-engineer",
+        "comment": "revealing five verdicts, putting the winners and each repository's files, and re-tagging take a mastering ear"
+      },
+      {
+        "hours": 1.0,
+        "grade": "senior",
+        "role": "editor",
+        "comment": "the pages' frontmatter, billing and hooks, from settled drafts"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": ".claude/artifacts/src/masd.json",
+    "endedAt": "2026-11-28T09:23:44.131Z",
+    "contextTokens": 233596,
+    "spend": {
+      "inputTokens": 62,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 176272,
+      "cacheReadTokens": 4578431,
+      "outputTokens": 17271,
+      "thinkingTokens": 9384,
+      "responses": 29,
+      "costUsd": 2.6715302
+    }
+  },
+  "sessionId": "e5107615-0626-5d89-9d8a-9027170d803f",
+  "branch": "claude/horowo-song-mastering-oia0kq",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "/relay take claude/horowo-song-mastering-oia0kq — слова пяти песен согласованы, ждём вердиктов блайнд-теста, затем страницы",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01MZoAKBXw8WWnfEBawkRMMa",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T09:20:14.392Z",
+  "lastResponseAt": "2026-11-28T09:31:18.633Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 143,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 332658,
+    "cacheReadTokens": 15341817,
+    "outputTokens": 52327,
+    "thinkingTokens": 13858,
+    "responses": 71,
+    "costUsd": 6.7767394
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 143,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 332658,
+      "cacheReadTokens": 15341817,
+      "outputTokens": 52327,
+      "thinkingTokens": 13858,
+      "responses": 71,
+      "costUsd": 6.7767394
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-28T09:31:08.498Z",
+      "trigger": "auto",
+      "compactedFrom": 307423,
+      "summaryChars": 13616,
+      "reorientation": {
+        "endedBy": null,
+        "endedOn": null,
+        "endedAt": null,
+        "contextTokens": null,
+        "spend": {
+          "inputTokens": 8,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 80166,
+          "cacheReadTokens": 456907,
+          "outputTokens": 1228,
+          "thinkingTokens": 116,
+          "responses": 4,
+          "costUsd": 0.7573013999999999
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": null
+    }
+  ],
+  "telemetry": null,
+  "operatorWords": {
+    "chat": 47,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 2325,
+    ".b64": 5,
+    ".txt": 176,
+    ".json": 10,
+    ".ts": 32,
+    ".tsx": 43,
+    ".py": 0
+  }
+}
