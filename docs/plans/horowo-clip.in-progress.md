@@ -168,6 +168,17 @@ channel's ident — the test card's plate reads «ТЕЛЕКАНАЛ», «ГРЁ
 bar-start hits, before the kids' show begins. The bug in the corner stays «ГБ».
 The slashes are read as line breaks, not as three separate cards.
 
+On the cast sheet, attached:
+
+> чё-то у нас басисты-гитаристы левую руку не с той стороны грифа держат) я
+> понимаю что треш, но на святое!
+
+The lead's reading: the guitarist's and the bassist's fretting arm is draped
+over the neck from above, the fist sitting on top of the fretboard. A player's
+fretting hand comes from under the neck: elbow down, palm behind the neck,
+fingers curling over its top edge onto the frets. A fix-up package on Opus,
+branch `claude/horowo-clip-cast-fix-lrxscd`.
+
 ## The song
 
 `docs/remove-before-merging/horowo-song-mastering-oia0kq/blind/horowo/mix.mp3`
