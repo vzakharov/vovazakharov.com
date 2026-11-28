@@ -4,11 +4,17 @@ import type { Drawing } from '@/clip/shared/timeline';
 import type { Audience } from '@/clip/entities/bunny';
 import { type Role, ROLES } from '@/clip/entities/puppet';
 
+import {
+  beams,
+  beatsAt,
+  crowd,
+  filmed,
+  GIG_PALETTE,
+  marquee,
+  playing,
+} from '../../studio';
 import { momentAt, progressAt, STORY_SECONDS } from '../model/ear-story';
-import { GIG_PALETTE } from './palette-gig';
-import { beatsAt, playing } from './playing';
 import { nightSky, rig, ROOF, WORLD } from './sky';
-import { beams, crowd, filmed, marquee } from './studio';
 
 /** The stage's floor in the world, the band's soles on it. */
 const STAGE_FLOOR = 2080;

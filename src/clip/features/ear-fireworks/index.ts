@@ -1,2 +1,2 @@
-export { earFireworks } from './ui/fireworks';
-export { earIgnition } from './ui/ignition';
+export { earFireworks } from './fireworks';
+export { earIgnition } from './ignition';

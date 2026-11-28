@@ -9,7 +9,7 @@ import {
 } from '@/clip/shared/ink';
 import { KICKS, punch } from '@/clip/shared/score';
 
-import { GIG_PALETTE } from './palette-gig';
+import { GIG_PALETTE } from '../../studio';
 
 // The pedal seen from the side, the heel hinge at the origin, toe to the right.
 const FOOTBOARD = path('M 0,0 L 330,-70 L 336,-52 L 6,18 Z');

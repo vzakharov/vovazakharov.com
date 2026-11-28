@@ -88,7 +88,11 @@ export function filmed(
   draw: () => void,
   { push = 1, tilt = 0, ...violence }: Camera = {},
 ): void {
-  const { dx, dy, rot, zoom } = jerk(pen.playhead, cut, violence);
+  const {
+    shift: [dx, dy],
+    rot,
+    zoom,
+  } = jerk(pen.playhead, cut, violence);
   const hit = punch(KICKS, pen.playhead);
   at(
     pen,
