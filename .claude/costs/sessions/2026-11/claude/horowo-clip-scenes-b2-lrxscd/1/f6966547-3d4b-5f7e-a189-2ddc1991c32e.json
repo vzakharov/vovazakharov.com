@@ -9,7 +9,19 @@
     "responses": 31,
     "costUsd": 2.1094386000000003
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-28T14:27:24.464Z",
+    "subjectLine": "feat: the pre-bridge creeps to a stop, the gig headbangs",
+    "parts": [
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "designer",
+        "comment": "Turning a fast zap into dread by slowing it, and giving a static band violence, is acting and camera work on finished scenes; an animator's afternoon"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "Edit",
     "endedOn": "src/clip/widgets/channels/ui/screen.ts",
