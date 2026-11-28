@@ -9,7 +9,19 @@
     "responses": 38,
     "costUsd": 2.6771320000000003
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-28T14:27:15.715Z",
+    "subjectLine": "feat: the kids' show intro and the chorus meadow, drawn and cut",
+    "parts": [
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "designer",
+        "comment": "Two staged scenes with a cast of puppets and bunnies animated on the beat take a character animator who can also pace cuts; about three hours a scene from finished rigs and props"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "Write",
     "endedOn": "src/clip/widgets/meadow-party/ui/palette-meadow-party.ts",
