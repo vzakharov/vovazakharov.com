@@ -10,6 +10,14 @@ export const BEDROOM_PALETTE = {
   sky: '#141a3a',
   moon: '#f2e9b8',
   sill: '#7a6a58',
+  /** The summer afternoon the window shows instead of the night. */
+  summerSky: '#7fc8f0',
+  sun: '#ffd23a',
+  field: '#8cc44a',
+  fence: '#b07a42',
+  /** A sweat drop, and the damp it leaves on the pillow. */
+  sweat: '#bfe2ff',
+  damp: '#9a978c',
   tvBody: '#2f2d33',
   stand: '#4a3c33',
   night: '#0b0d1e',
@@ -21,6 +29,8 @@ export const BEDROOM_PALETTE = {
     'rgba(140, 255, 170, 0.34)',
     'rgba(255, 220, 110, 0.36)',
   ],
+  /** The one cold colour the set washes the room in while he sweats. */
+  coldWash: 'rgba(120, 190, 255, 0.5)',
   /** What the set throws on the wallpaper behind whoever stands in its light. */
   castShadow: '#140f1c',
 } as const;

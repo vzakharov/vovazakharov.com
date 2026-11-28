@@ -1,7 +1,10 @@
 import {
+  at,
   ellipse,
   ink,
   inLayer,
+  noise,
+  path,
   type Pen,
   type Point,
   polygon,
@@ -9,7 +12,12 @@ import {
 } from '@/clip/shared/ink';
 import { pulse } from '@/clip/shared/score';
 import { SCREEN, testCard } from '@/clip/shared/tape';
-import { bunnyWallpaper, type Cell } from '@/clip/entities/bunny';
+import {
+  bunnyWallpaper,
+  type Cell,
+  motifAt,
+  wallpaperEyes,
+} from '@/clip/entities/bunny';
 
 import { BEDROOM_PALETTE } from './palette-bedroom';
 
@@ -18,7 +26,11 @@ const FLOOR_Y = 540;
 /** The window on the back wall, and the set on its stand in the right-hand corner. */
 const WINDOW = { x: 800, y: 110, width: 210, height: 240 } as const;
 const TV = { x: 1060, y: 360, width: 170, height: 130 } as const;
-/** The wallpaper cell the bunny has stepped out of. */
+/** The sitting man's face on the stage, where a close camera looks and his sweat runs from. */
+export const SLEEPER_FACE: Point = [412, 285];
+
+/** The wallpaper's cell, and the cell the bunny has stepped out of. */
+const CELL = 150;
 const HOLE: Cell = { column: 2, row: 1 };
 
 const rect = (x: number, y: number, w: number, h: number) =>
@@ -29,14 +41,25 @@ const rect = (x: number, y: number, w: number, h: number) =>
     [x, y + h],
   ]);
 
-/** The bunny wallpaper and the floor; `holed` once one of the bunnies has gone. */
-export function walls(pen: Pen, holed: boolean): void {
-  bunnyWallpaper(pen, {
-    area: { x: 0, y: 0, ...STAGE, height: FLOOR_Y },
-    cell: 150,
-    ...(holed ? { hole: HOLE } : {}),
-    seed: 201,
-  });
+/** Where the bunny gone from the wallpaper was printed: its head's centre. */
+export const HOLE_AT: Point = motifAt(CELL, HOLE);
+
+/**
+ * The bunny wallpaper and the floor; `holed` once one of the bunnies has
+ * gone, `watching` how far the printed ones have opened their eyes on `target`.
+ */
+export function walls(
+  pen: Pen,
+  holed: boolean,
+  watching = 0,
+  target: Point = [0, 0],
+): void {
+  const area = { x: 0, y: 0, ...STAGE, height: FLOOR_Y };
+  const hole = holed ? { hole: HOLE } : {};
+  bunnyWallpaper(pen, { area, cell: CELL, ...hole, seed: 201 });
+  if (watching > 0) {
+    wallpaperEyes(pen, { area, cell: CELL, ...hole, target, awake: watching });
+  }
   ink(pen, rect(-20, FLOOR_Y, STAGE.width + 40, STAGE.height - FLOOR_Y + 20), {
     fill: BEDROOM_PALETTE.floor,
     seed: 202,
@@ -54,18 +77,49 @@ export function walls(pen: Pen, holed: boolean): void {
   }
 }
 
-/** The window: night, the moon, the sill. */
-export function window(pen: Pen): void {
+/** The window's centre, for a camera to find it. */
+export const WINDOW_AT: Point = [
+  WINDOW.x + WINDOW.width / 2,
+  WINDOW.y + WINDOW.height / 2,
+];
+
+/**
+ * The window: night and the moon — or, `summer`, a village afternoon that
+ * cannot be out there at 3 am: a hot sky, the sun, a field and a fence.
+ */
+export function window(pen: Pen, summer = false): void {
   const { x, y, width, height } = WINDOW;
+  const { sky, moon, sill, summerSky, sun, field, fence } = BEDROOM_PALETTE;
   ink(pen, rect(x, y, width, height), {
-    fill: BEDROOM_PALETTE.sky,
+    fill: summer ? summerSky : sky,
     width: 8,
     seed: 211,
   });
-  ink(pen, ellipse([x + width * 0.7, y + height * 0.28], 26), {
-    fill: BEDROOM_PALETTE.moon,
+  ink(pen, ellipse([x + width * 0.7, y + height * 0.28], summer ? 34 : 26), {
+    fill: summer ? sun : moon,
     seed: 212,
   });
+  if (summer) {
+    ink(
+      pen,
+      polygon([
+        [x, y + height * 0.72],
+        [x + width * 0.4, y + height * 0.64],
+        [x + width, y + height * 0.7],
+        [x + width, y + height],
+        [x, y + height],
+      ]),
+      { fill: field, width: 4, seed: 216 },
+    );
+    for (let k = 0; k < 6; k += 1) {
+      const post = x + 14 + k * 38;
+      ink(pen, rect(post, y + height * 0.76, 8, 34), {
+        fill: fence,
+        width: 3,
+        seed: 217 + k,
+      });
+    }
+  }
   ink(
     pen,
     polygon([
@@ -83,7 +137,7 @@ export function window(pen: Pen): void {
     { width: 7, seed: 214 },
   );
   ink(pen, rect(x - 20, y + height, width + 40, 18), {
-    fill: BEDROOM_PALETTE.sill,
+    fill: sill,
     seed: 215,
   });
 }
@@ -165,10 +219,12 @@ export function tvSet(pen: Pen): number {
  * The set's light over the room, `swell` the beat's push on it: each quarter
  * washes the room in the next of the screen's colours.
  */
-export function tvGlow(pen: Pen, swell: number): void {
+export function tvGlow(pen: Pen, swell: number, cold = false): void {
   const { ctx, playhead } = pen;
-  const { washes, glowEdge } = BEDROOM_PALETTE;
-  const wash = washes[pulse(playhead).index % washes.length] ?? washes[0];
+  const { washes, coldWash, glowEdge } = BEDROOM_PALETTE;
+  const wash = cold
+    ? coldWash
+    : (washes[pulse(playhead).index % washes.length] ?? washes[0]);
   const centre: Point = [TV.x + TV.width / 2, TV.y + TV.height / 2];
   const gradient = ctx.createRadialGradient(...centre, 10, ...centre, 1000);
   gradient.addColorStop(0, wash);
@@ -216,4 +272,46 @@ export function night(pen: Pen, amount: number): void {
   ctx.fillStyle = BEDROOM_PALETTE.night;
   ctx.fillRect(0, 0, STAGE.width, STAGE.height);
   ctx.restore();
+}
+
+// How far from the middle of his face a drop starts, and where his lap is.
+const FACE_REACH = 60;
+const LAP_Y = 480;
+const DROPS = 11;
+// Each drop's fall, in seconds, from his face to his lap.
+const FALL = 0.65;
+const SWEAT_DROP = path(
+  'M 0,-9 C 4,-3 6,2 6,5 C 6,9 3,11 0,11 C -3,11 -6,9 -6,5 C -6,2 -4,-3 0,-9 Z',
+);
+
+/**
+ * Sweat running off his face: `amount` of `DROPS` drops at a time, each
+ * sliding off a point of his face and falling into his lap, staggered so
+ * they never fall in step.
+ */
+export function sweatDrops(pen: Pen, amount: number): void {
+  const count = Math.round(DROPS * amount);
+  for (let n = 0; n < count; n += 1) {
+    const phase = (pen.playhead / FALL + noise(311, n) * 0.5 + n / DROPS) % 1;
+    const startX = SLEEPER_FACE[0] + noise(312, n) * FACE_REACH;
+    const startY = SLEEPER_FACE[1] + noise(313, n) * FACE_REACH;
+    const y = startY + (LAP_Y - startY) * phase * phase;
+    at(pen, { x: startX, y, scale: 0.9 + 0.5 * phase }, () => {
+      ink(pen, SWEAT_DROP, {
+        fill: BEDROOM_PALETTE.sweat,
+        width: 2.5,
+        seed: 314 + n,
+      });
+    });
+  }
+}
+
+/** The damp spreading on the pillow behind him, `amount` 0 → 1. */
+export function dampPillow(pen: Pen, amount: number): void {
+  if (amount <= 0) return;
+  ink(pen, ellipse([262, 452], 46 * amount, 20 * amount), {
+    fill: BEDROOM_PALETTE.damp,
+    stroke: null,
+    seed: 321,
+  });
 }
