@@ -1,16 +1,17 @@
 {
   "total": {
-    "inputTokens": 4821,
-    "cacheWrite5mTokens": 2437,
-    "cacheWrite1hTokens": 275025,
-    "cacheReadTokens": 37251714,
-    "outputTokens": 83099,
-    "thinkingTokens": 16437,
-    "responses": 152,
-    "costUsd": 11.334528899999997
+    "inputTokens": 5342,
+    "cacheWrite5mTokens": 3217,
+    "cacheWrite1hTokens": 279625,
+    "cacheReadTokens": 39941504,
+    "outputTokens": 85239,
+    "thinkingTokens": 16714,
+    "responses": 160,
+    "costUsd": 11.960410899999996
   },
   "estimate": {
-    "at": "2026-11-02T06:40:32.001Z",
+    "at": "2026-11-28T10:35:42.814Z",
+    "subjectLine": "feat: N-way blind test of matchering masters for five songs",
     "parts": [
       {
         "hours": 3.0,
@@ -59,18 +60,18 @@
   "url": "https://claude.ai/code/session_01DaohkBz7uYbjYzDBUcPooS",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-02T05:50:54.293Z",
-  "lastResponseAt": "2026-11-02T06:41:26.980Z",
+  "lastResponseAt": "2026-11-02T07:20:00.712Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 289,
+    "inputTokens": 304,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 275025,
-    "cacheReadTokens": 35674071,
-    "outputTokens": 82417,
-    "thinkingTokens": 16437,
-    "responses": 145,
-    "costUsd": 10.984510199999997
+    "cacheWrite1hTokens": 279625,
+    "cacheReadTokens": 38026336,
+    "outputTokens": 84538,
+    "thinkingTokens": 16714,
+    "responses": 152,
+    "costUsd": 11.534243199999997
   },
   "subagents": {
     "inputTokens": 0,
@@ -84,14 +85,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 3325,
-      "cacheWrite5mTokens": 2437,
-      "cacheWrite1hTokens": 275025,
-      "cacheReadTokens": 37251714,
-      "outputTokens": 82538,
-      "thinkingTokens": 16437,
-      "responses": 151,
-      "costUsd": 11.334098799999996
+      "inputTokens": 3846,
+      "cacheWrite5mTokens": 3217,
+      "cacheWrite1hTokens": 279625,
+      "cacheReadTokens": 39941504,
+      "outputTokens": 84678,
+      "thinkingTokens": 16714,
+      "responses": 159,
+      "costUsd": 11.959980799999995
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1496,
@@ -107,20 +108,20 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 152,
-    "matched": 145,
-    "matchedTableUsd": 10.984510199999997,
-    "matchedEventUsd": 10.984510199999997,
+    "events": 160,
+    "matched": 152,
+    "matchedTableUsd": 11.534243199999997,
+    "matchedEventUsd": 11.534243199999997,
     "unseen": {
       "prompt_suggestion": {
-        "inputTokens": 3036,
-        "cacheWrite5mTokens": 2437,
+        "inputTokens": 3542,
+        "cacheWrite5mTokens": 3217,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 1577643,
-        "outputTokens": 121,
+        "cacheReadTokens": 1915168,
+        "outputTokens": 140,
         "thinkingTokens": 0,
-        "responses": 6,
-        "costUsd": 0.3495886
+        "responses": 7,
+        "costUsd": 0.42573760000000005
       },
       "generate_session_title": {
         "inputTokens": 1496,
@@ -133,5 +134,9 @@
         "costUsd": 0.0004301
       }
     }
-  }
+  },
+  "operatorWords": null,
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": null
 }

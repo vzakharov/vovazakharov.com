@@ -1,16 +1,17 @@
 {
   "total": {
-    "inputTokens": 1861,
+    "inputTokens": 1878,
     "cacheWrite5mTokens": 242,
-    "cacheWrite1hTokens": 190005,
-    "cacheReadTokens": 12782847,
-    "outputTokens": 43085,
-    "thinkingTokens": 10295,
-    "responses": 66,
-    "costUsd": 4.934211000000001
+    "cacheWrite1hTokens": 200355,
+    "cacheReadTokens": 15059769,
+    "outputTokens": 45940,
+    "thinkingTokens": 10668,
+    "responses": 75,
+    "costUsd": 5.529563400000001
   },
   "estimate": {
-    "at": "2026-11-02T06:55:56.574Z",
+    "at": "2026-11-28T10:35:45.736Z",
+    "subjectLine": "content: hear and reconcile the five songs' words with English cribs",
     "parts": [
       {
         "hours": 4.0,
@@ -53,18 +54,18 @@
   "url": "https://claude.ai/code/session_01DaohkCkJEqDPqpD2fSpdB3",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-02T06:42:23.306Z",
-  "lastResponseAt": "2026-11-02T06:56:45.602Z",
+  "lastResponseAt": "2026-11-02T06:57:43.344Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 124,
+    "inputTokens": 141,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 190005,
-    "cacheReadTokens": 12559512,
-    "outputTokens": 42611,
-    "thinkingTokens": 10295,
-    "responses": 64,
-    "costUsd": 4.884658400000001
+    "cacheWrite1hTokens": 200355,
+    "cacheReadTokens": 14836434,
+    "outputTokens": 45466,
+    "thinkingTokens": 10668,
+    "responses": 73,
+    "costUsd": 5.4800108000000005
   },
   "subagents": {
     "inputTokens": 0,
@@ -78,14 +79,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 630,
+      "inputTokens": 647,
       "cacheWrite5mTokens": 242,
-      "cacheWrite1hTokens": 190005,
-      "cacheReadTokens": 12782847,
-      "outputTokens": 42640,
-      "thinkingTokens": 10295,
-      "responses": 65,
-      "costUsd": 4.933865400000001
+      "cacheWrite1hTokens": 200355,
+      "cacheReadTokens": 15059769,
+      "outputTokens": 45495,
+      "thinkingTokens": 10668,
+      "responses": 74,
+      "costUsd": 5.5292178000000005
     },
     "claude-haiku-5-5/standard": {
       "inputTokens": 1231,
@@ -101,10 +102,10 @@
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 66,
-    "matched": 64,
-    "matchedTableUsd": 4.884658400000001,
-    "matchedEventUsd": 4.884658400000003,
+    "events": 75,
+    "matched": 73,
+    "matchedTableUsd": 5.4800108000000005,
+    "matchedEventUsd": 5.480010800000002,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 506,
@@ -127,5 +128,9 @@
         "costUsd": 0.0003456
       }
     }
-  }
+  },
+  "operatorWords": null,
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": null
 }

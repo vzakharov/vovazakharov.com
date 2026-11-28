@@ -1,16 +1,17 @@
 {
   "total": {
-    "inputTokens": 533,
+    "inputTokens": 535,
     "cacheWrite5mTokens": 600,
-    "cacheWrite1hTokens": 57120,
-    "cacheReadTokens": 1441732,
-    "outputTokens": 5011,
+    "cacheWrite1hTokens": 58605,
+    "cacheReadTokens": 1556314,
+    "outputTokens": 5297,
     "thinkingTokens": 519,
-    "responses": 14,
-    "costUsd": 0.8524584000000002
+    "responses": 15,
+    "costUsd": 0.8929828000000002
   },
   "estimate": {
-    "at": "2026-11-02T08:40:22.488Z",
+    "at": "2026-11-28T10:35:51.648Z",
+    "subjectLine": "chore: pick up the song work from a relay summary",
     "parts": [
       {
         "hours": 0.1,
@@ -41,22 +42,24 @@
   "branch": "claude/horowo-song-mastering-oia0kq",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/relay take claude/horowo-song-mastering-oia0kq — слова всех пяти песен согласованы, сноски по второму кругу комментов внесены; ждём вердиктов блайнд-теста, зат…",
-  "prs": [],
+  "prs": [
+    240
+  ],
   "url": "https://claude.ai/code/session_01DaohkBsHevyLunuKGeXNYL",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-02T07:44:36.414Z",
-  "lastResponseAt": "2026-11-02T08:40:41.167Z",
+  "lastResponseAt": "2026-11-02T08:40:48.199Z",
   "pricesAsOf": "2026-10-06",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 27,
+    "inputTokens": 29,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 57120,
-    "cacheReadTokens": 1331516,
-    "outputTokens": 4991,
+    "cacheWrite1hTokens": 58605,
+    "cacheReadTokens": 1446098,
+    "outputTokens": 5277,
     "thinkingTokens": 519,
-    "responses": 13,
-    "costUsd": 0.8231912000000001
+    "responses": 14,
+    "costUsd": 0.8637156000000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -70,23 +73,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 533,
+      "inputTokens": 535,
       "cacheWrite5mTokens": 600,
-      "cacheWrite1hTokens": 57120,
-      "cacheReadTokens": 1441732,
-      "outputTokens": 5011,
+      "cacheWrite1hTokens": 58605,
+      "cacheReadTokens": 1556314,
+      "outputTokens": 5297,
       "thinkingTokens": 519,
-      "responses": 14,
-      "costUsd": 0.8524584000000002
+      "responses": 15,
+      "costUsd": 0.8929828000000002
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 13,
-    "matched": 12,
-    "matchedTableUsd": 0.7888428000000001,
-    "matchedEventUsd": 0.7888428000000001,
+    "events": 15,
+    "matched": 14,
+    "matchedTableUsd": 0.8637156000000001,
+    "matchedEventUsd": 0.8637156000000001,
     "unseen": {
       "prompt_suggestion": {
         "inputTokens": 506,
@@ -99,5 +102,9 @@
         "costUsd": 0.029267199999999997
       }
     }
-  }
+  },
+  "operatorWords": null,
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": null
 }
