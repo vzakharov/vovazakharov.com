@@ -9,7 +9,6 @@ export {
   mapPose,
   palmOf,
   type Pose,
-  type PoseName,
   POSES,
   reaching,
   type Side,

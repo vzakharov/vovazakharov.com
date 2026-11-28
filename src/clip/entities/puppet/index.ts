@@ -9,5 +9,5 @@
  * - `lerpPose` — poses out of `POSES`.
  */
 export { FORM_LOOKS, player, type Role, ROLES } from './band';
-export { lerpPose, type PoseName, POSES, puppet } from './body';
+export { lerpPose, POSES, puppet } from './body';
 export { head, type Look } from './head';

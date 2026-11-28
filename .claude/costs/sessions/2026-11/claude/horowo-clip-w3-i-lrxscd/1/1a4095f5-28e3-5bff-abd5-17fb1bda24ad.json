@@ -1,0 +1,119 @@
+{
+  "total": {
+    "inputTokens": 128,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 180367,
+    "cacheReadTokens": 12048499,
+    "outputTokens": 47310,
+    "thinkingTokens": 18083,
+    "responses": 68,
+    "costUsd": 4.799347799999999
+  },
+  "estimate": {
+    "at": "2026-11-28T17:54:46.999Z",
+    "subjectLine": "feat: horowo intro as the singer's face on black, emblems on the hits",
+    "parts": [
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "scaling a rig drawn for full figures into an extreme close-up, a camera that steps, jolts and falls into the mouth, all as pure functions of the playhead"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "pills and a wall scrap drawn in the kit's ink, emblems sized to read against a face four times its drawn size"
+      },
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "which emblem answers which sung line, where the eye snaps, and how the section lands into the band"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-28T17:47:27.887Z",
+    "contextTokens": 104282,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 41601,
+      "cacheReadTokens": 53374,
+      "outputTokens": 358,
+      "thinkingTokens": 22,
+      "responses": 1,
+      "costUsd": 0.3506508
+    }
+  },
+  "sessionId": "1a4095f5-28e3-5bff-abd5-17fb1bda24ad",
+  "branch": "claude/horowo-clip-w3-i-lrxscd",
+  "cwd": "/home/user/vovazakharov.com/docs/remove-before-merging/frames",
+  "openingPrompt": "You are a child session of a `/carte-blanche` run (`.claude/skills/carte-blanche/SKILL.md`): one of nine sessions reworking a code-drawn music video after its o…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCNxr81DqDpAvTR6BH",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T17:47:21.862Z",
+  "lastResponseAt": "2026-11-28T17:57:23.452Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 128,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 180367,
+    "cacheReadTokens": 12048499,
+    "outputTokens": 47310,
+    "thinkingTokens": 18083,
+    "responses": 68,
+    "costUsd": 4.799347799999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 128,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 180367,
+      "cacheReadTokens": 12048499,
+      "outputTokens": 47310,
+      "thinkingTokens": 18083,
+      "responses": 68,
+      "costUsd": 4.799347799999999
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 67,
+    "matched": 67,
+    "matchedTableUsd": 4.7439665999999985,
+    "matchedEventUsd": 4.7439665999999985,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1243,
+    ".json": 169,
+    ".ts": 13975,
+    ".tsx": 44,
+    ".scss": 12
+  }
+}
