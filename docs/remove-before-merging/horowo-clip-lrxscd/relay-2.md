@@ -45,10 +45,10 @@ The same film, made better where the operator pointed: every one of the fifteen 
 
 ## 6. State
 
-- **Branch** `claude/horowo-clip-lrxscd`, draft **PR** https://github.com/vzakharov/vovazakharov.com/pull/295, mergeable, nothing attested. `./scripts/vet.sh` was last green on `63d78a93`. The film is being re-shot (`pnpm film:clip`, about 25 minutes, into `tmp/clip/horowo-*.mp4`); once it is, the 720p re-encode replaces the release asset.
+- **Branch** `claude/horowo-clip-lrxscd`, draft **PR** https://github.com/vzakharov/vovazakharov.com/pull/295, mergeable, nothing attested. `./scripts/vet.sh` was last green on `63d78a93`; the commits after it are docs only.
 - **Plan** `docs/plans/horowo-clip.in-progress.md`.
-- **The mp4 in the release** (`horowo-clip` prerelease, `horowo-clip-720p.mp4`) is still the first cut.
-- **Wave 3, in flight**, started 17:46 UTC on 2026-11-28 from `09a56f0c`, each child on `claude/horowo-clip-w3-<letter>-lrxscd` and reporting by one `send_message` to this session:
+- **The mp4 in the release** (`horowo-clip` prerelease, `horowo-clip-720p.mp4`) is the wave-3 cut, uploaded at 19:11 UTC on 2026-11-28 over the first one: 154 MB, 1280×720, 30 fps, 137.7 s (13 s of pre-roll, the song, 5 s of silence), shot from the joined tree by `pnpm film:clip` (about 40 minutes) and re-encoded at crf 22 with 192k AAC and faststart. Its pre-roll measures −30.4 dB mean and −14.5 dB peak, so the ident's hiss and beeps are in it; the song, −12.3 dB mean.
+- **Wave 3, all merged**, started 17:46 UTC on 2026-11-28 from `09a56f0c`, each child on `claude/horowo-clip-w3-<letter>-lrxscd` and reporting by one `send_message` to this session:
   - `…-w3-e-…`, `session_01DaohkEt1PbJUKxAAKQTtgp` — engine: warning card, ident with sound, the film's far end, the jaw. **Merged** at `b8747781` (`PREROLL` is 13 s: the warning 0–6.6, then the ident with hiss and beeps from one WebAudio score the page plays live and `film:clip` renders offline; `FILM_END = SONG_SECONDS + 5` replaces the exported `POSTROLL`; `jaw` follows the vocal stem's loudness with no gating by word spans — the stem is **not** offset from the master, so W's 2.51 s was a different file). Its notes are `w3-E-notes.md`. The ident's sound was checked by levels, never by ear. Archived.
   - `…-w3-w-…`, `session_01DaohkEf7zhEMjdeEgLFyA4` — the words overlay. **Merged** at `01a461b2` (`sungLine(pen)` from `@/clip/features/sung-line`, called once in `player.ts`; the placement table is `features/sung-line/model/placement.ts` `RULES`). Archived. It does not yet keep out of the chorus's opening break: the lead does that at the seam, once C's break exists. It measured that the vocal stem is offset 2.51 s from the master and ends at 89.6 s, so the lull's «о»s and the last «Хорошо!» are found on the master — B and D were told.
   - `…-w3-i-…`, `session_01DaohkCNxr81DqDpAvTR6BH` — the intro. **Merged** at `eea63016` (widget `close-up`: `closeUp(cues)` is the intro; `faceOnBlack` is exported and still unused — it goes into the bridge's and the breakdown's pools at the seam, or is removed). Archived.
@@ -59,12 +59,11 @@ The same film, made better where the operator pointed: every one of the fifteen 
   - `…-w3-b-…`, `session_01DaohkBtsQQYJQstc7kNKio` — the bridge. **Merged** at `efe9ab64` (one push in on the sleeper through the whole bridge, six half-dream inserts from the pool `HALF_DREAMS` in `shots-bridge.ts`, the pulsing fade on the five «о»s). Notes `w3-B-notes.md`. Archived.
   - `…-w3-d-…`, `session_01DaohkCAFc8BcycMCugp8qC` — the breakdown and ending. **Merged** at `5b1cbefa` (widget `ending`; `BREAKDOWN_POOL` in `shots-breakdown.ts`, repaired by the lead against the merged bedroom and ward; `LAST_SHOUT = 115.02` is read off the master where the score's `words.ts` says 115.92 — nobody here can hear it, the operator is asked). Notes `w3-D-notes.md`. Archived.
 - **Gates on the joined tree** were clean at `d52b4edc` (tsc, knip, `check:masd`, `masd:clusters`, `type-overlap`, the placement test); `./scripts/vet.sh` is green on `63d78a93`, the whole wave joined; it had failed once on `type-overlap` (a `tilt` and a `target` two packages each declared), fixed in that commit.
-- **Unanswered by the operator, none blocking**: the warning card's wording; the 5 s of silence after the song; whether «хорошо» stays over the picture or goes to black; the spoon bunny's face holding 0.4 s.
+- **Unanswered by the operator, none blocking**: the warning card's wording; the 5 s of silence after the song; whether «хорошо» stays over the picture or goes to black; the spoon bunny's face holding 0.8 s; the ident's sound and the last «Хорошо!» at 115.02 s, both of which only his ears can settle.
 - **If the limit is crossed.** The operator's figure is the share of this account's week **spent**: 77% at the verdict, 81% at 18:05 UTC, resetting at about 02:00 UTC on 2026-11-30. Everything a session on another account needs is on `origin`:
   - Each package's work is on its own branch, `claude/horowo-clip-w3-<letter>-lrxscd`, pushed at every working step, with `docs/remove-before-merging/horowo-clip-lrxscd/w3-<LETTER>-notes.md` on that branch saying what is built, what is next and how its exports are wired. A child's last report, if it sent one, is in the lead's transcript only, so the notes file is the record.
   - `git log --oneline origin/claude/horowo-clip-lrxscd..origin/claude/horowo-clip-w3-<letter>-lrxscd` shows whether a branch holds anything unmerged; `git branch -r --merged origin/claude/horowo-clip-lrxscd` lists the merged ones.
   - A package the limit stopped is carried on by a new Opus child started on that same branch with `wave-3.md` and its notes file as the brief; a finished one is merged as § 8 has it. The children's sessions cannot be reached from another account.
-- **Not run**: `/polish` over `src/clip` (the first lead left it; it follows the wave's merge).
 - **Estimate**: this session's is 5 h senior producer, 3 h senior designer, 2 h senior developer (leading the wave, the directing calls at merge, the wiring and quality passes). Each child sets its own.
 - A cache keepalive watcher runs in this session.
 
@@ -90,8 +89,8 @@ The operator's most recent request is the verdict and its correction: «а те�
 
 1. All nine children are merged and archived; none is to be woken. `/polish` ran over the lead's seam edits (`969c8441`); the children polished their own branches.
 2. The seam is wired: all nine packages are in, and the spoon bunny's face is held a beat into the bridge (`REVEAL_HOLD`, `0.4 s` was too short to read). Left to taste: W's placement table where a still shows the line over a face.
-3. `/polish` over `src/clip`, `./scripts/vet.sh`, `pnpm film:clip`, the 720p re-encode uploaded with `gh release upload horowo-clip <file> --clobber`, the clip artifact and `/review-board` on this account, `/pr`.
-4. Report to the operator with the links. Never merge. The vertical story cut and the song's page wait for his word.
+3. Vet is green, the film is re-shot and in the release, the clip artifact and the review board are published on this account, the PR's body and squash proposal are refreshed. A later change to `src/clip` repeats that tail: `./scripts/vet.sh`, `pnpm film:clip`, the re-encode uploaded with `gh release upload horowo-clip <file> --clobber`, the clip artifact, `/review-board`, `/pr`.
+4. The operator has the report with the links; wait for his second verdict. Never merge. The vertical story cut and the song's page wait for his word.
 
 ## Last agent turn
 
