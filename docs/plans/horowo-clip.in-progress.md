@@ -211,6 +211,16 @@ the clip to a first full cut is about $65–70. The run parks (`/relay park`) wh
 about 3% is left; wave 2 runs on Opus only, and children wire their own scenes
 so the lead reads less.
 
+At about 14:15 UTC, after the five-hour limit had stopped every session for two
+hours:
+
+> Можешь продолжать но в принципе надо закругляться. Подсессии разбудил
+
+The lead's reading: no new scenes and no third passes. The second passes over A,
+B and C and the engine's pre-roll, which he woke, are let finish and merged;
+then the run closes — the code's quality passes, a green vet, the mp4 in a
+release, the PR and the relay summary current.
+
 ## The song
 
 `docs/remove-before-merging/horowo-song-mastering-oia0kq/blind/horowo/mix.mp3`

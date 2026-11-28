@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 517,
+    "inputTokens": 532,
     "cacheWrite5mTokens": 123284,
-    "cacheWrite1hTokens": 931091,
-    "cacheReadTokens": 53731824,
-    "outputTokens": 314541,
-    "thinkingTokens": 91673,
-    "responses": 264,
-    "costUsd": 37.9112209
+    "cacheWrite1hTokens": 1188120,
+    "cacheReadTokens": 55809176,
+    "outputTokens": 322262,
+    "thinkingTokens": 93950,
+    "responses": 272,
+    "costUsd": 42.74811529999999
   },
   "estimate": {
     "at": "2026-11-28T10:11:18.592Z",
@@ -66,18 +66,18 @@
   "url": "https://claude.ai/code/session_01MZoAKCKwqeVGKcCw6iKKPs",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:00:24.182Z",
-  "lastResponseAt": "2026-11-28T12:04:33.853Z",
+  "lastResponseAt": "2026-11-28T14:18:35.508Z",
   "pricesAsOf": "2026-11-03",
-  "claudeCodeTotalUsd": null,
+  "claudeCodeTotalUsd": 39.975682099999986,
   "ownTurns": {
-    "inputTokens": 479,
+    "inputTokens": 494,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 931091,
-    "cacheReadTokens": 52363945,
-    "outputTokens": 298222,
-    "thinkingTokens": 90737,
-    "responses": 248,
-    "costUsd": 37.30295699999999
+    "cacheWrite1hTokens": 1188120,
+    "cacheReadTokens": 54441297,
+    "outputTokens": 305943,
+    "thinkingTokens": 93014,
+    "responses": 256,
+    "costUsd": 42.13985139999998
   },
   "subagents": {
     "inputTokens": 38,
@@ -91,14 +91,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 479,
+      "inputTokens": 494,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 931091,
-      "cacheReadTokens": 52363945,
-      "outputTokens": 298222,
-      "thinkingTokens": 90737,
-      "responses": 248,
-      "costUsd": 37.30295699999999
+      "cacheWrite1hTokens": 1188120,
+      "cacheReadTokens": 54441297,
+      "outputTokens": 305943,
+      "thinkingTokens": 93014,
+      "responses": 256,
+      "costUsd": 42.13985139999998
     },
     "claude-sonnet-5-5/standard": {
       "inputTokens": 38,
@@ -201,14 +201,14 @@
           "Bash": 1
         },
         "estimatedTokens": 363,
-        "estimatedUsd": 0.0075504000000000005
+        "estimatedUsd": 0.0081312
       },
       "billedUsd": null
     }
   ],
   "telemetry": null,
   "operatorWords": {
-    "chat": 594,
+    "chat": 603,
     "review": 0,
     "threads": 0
   },
@@ -217,7 +217,7 @@
   "branchLines": {
     ".md": 976,
     ".mjs": 687,
-    ".json": 105,
+    ".json": 145,
     ".ts": 13550,
     ".tsx": 44,
     ".scss": 12
