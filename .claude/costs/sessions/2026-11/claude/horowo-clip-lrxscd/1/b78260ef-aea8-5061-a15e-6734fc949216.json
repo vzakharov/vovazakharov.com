@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 337,
+    "inputTokens": 348,
     "cacheWrite5mTokens": 123284,
-    "cacheWrite1hTokens": 670506,
-    "cacheReadTokens": 32343764,
-    "outputTokens": 246940,
-    "thinkingTokens": 77790,
-    "responses": 168,
-    "costUsd": 26.758768899999986
+    "cacheWrite1hTokens": 682901,
+    "cacheReadTokens": 33871877,
+    "outputTokens": 249755,
+    "thinkingTokens": 77952,
+    "responses": 174,
+    "costUsd": 27.37539949999998
   },
   "estimate": {
     "at": "2026-11-28T10:11:18.592Z",
@@ -66,18 +66,18 @@
   "url": "https://claude.ai/code/session_01MZoAKCKwqeVGKcCw6iKKPs",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:00:24.182Z",
-  "lastResponseAt": "2026-11-28T11:10:57.497Z",
+  "lastResponseAt": "2026-11-28T11:12:58.213Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 299,
+    "inputTokens": 310,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 670506,
-    "cacheReadTokens": 30975885,
-    "outputTokens": 230621,
-    "thinkingTokens": 76854,
-    "responses": 152,
-    "costUsd": 26.15050499999999
+    "cacheWrite1hTokens": 682901,
+    "cacheReadTokens": 32503998,
+    "outputTokens": 233436,
+    "thinkingTokens": 77016,
+    "responses": 158,
+    "costUsd": 26.767135599999982
   },
   "subagents": {
     "inputTokens": 38,
@@ -91,14 +91,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 299,
+      "inputTokens": 310,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 670506,
-      "cacheReadTokens": 30975885,
-      "outputTokens": 230621,
-      "thinkingTokens": 76854,
-      "responses": 152,
-      "costUsd": 26.15050499999999
+      "cacheWrite1hTokens": 682901,
+      "cacheReadTokens": 32503998,
+      "outputTokens": 233436,
+      "thinkingTokens": 77016,
+      "responses": 158,
+      "costUsd": 26.767135599999982
     },
     "claude-sonnet-5-5/standard": {
       "inputTokens": 38,
@@ -185,7 +185,7 @@
   "branchLines": {
     ".md": 639,
     ".mjs": 687,
-    ".json": 59,
-    ".ts": 4796
+    ".json": 67,
+    ".ts": 4864
   }
 }
