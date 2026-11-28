@@ -127,6 +127,20 @@ meadow under the grinning sun, the bunny behind the hill), verbatim:
 And right after: «врезки группы тоже можно делать» — the band playing live may
 cut in as well.
 
+Then, on what comes after and on moving accounts, verbatim:
+
+> в конце видео нужно будет добавить на страницу песни -- но это уже скорее
+> после тебя опус займётся, и скорее с нового аккаунта (лимит тут кончится).
+>
+> кстати, да, необходимость переноса на новый акк нужно учитывать -- релеи
+> должны быть актуальными
+
+So: the finished video goes onto the song's page (`/music/songs/horowo`) as a
+last step, likely by an Opus session on another account. And the limit here will
+run out, so the run must be resumable from the repository alone by a session
+that can reach none of these sessions: the parked relay file is brought current
+at every milestone, and nothing that matters lives only in a session.
+
 The lead's reading of the four notes, each its own and open to correction:
 
 1. Every milestone ends committed, pushed and playable from a link: the clip as
