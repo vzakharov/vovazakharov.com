@@ -2,6 +2,7 @@ import { type ClipFilmHook, FILM_HOOK } from '@/clip/shared/film';
 import { INK_PALETTE, penAt, STAGE } from '@/clip/shared/ink';
 import { PREROLL, SONG_SECONDS } from '@/clip/shared/score';
 import { frame, type Shot } from '@/clip/shared/timeline';
+import { sungLine } from '@/clip/features/sung-line';
 
 import { fitStage, type PlayerMode, type StageFit } from '../lib/stage-fit';
 import { PLACEHOLDER_PALETTE } from './palette-placeholder';
@@ -43,7 +44,9 @@ export function mountPlayer(
     ctx.beginPath();
     ctx.rect(0, 0, STAGE.width, STAGE.height);
     ctx.clip();
-    frame(penAt(ctx, t), shots);
+    const pen = penAt(ctx, t);
+    frame(pen, shots);
+    sungLine(pen);
     ctx.restore();
   };
 
