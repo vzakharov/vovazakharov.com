@@ -226,3 +226,9 @@ The lead's reading, each its own and open to correction:
 14. A new storyline for «Ложка новая с секретом»: the bunny seen from behind, eating from a bowl with a spoon. The camera comes nearer; it snaps round, and its teeth are bloody with a human eye hanging from its mouth. The turn happens once, just before the melodic bridge; before that the back view may recur, nearer each time.
 
 The budget: 77% of this account's week is free, so the third wave is sized to the notes, not to the limit; children still run on Opus.
+
+A few minutes later, quoting reading 7's «the lead takes it as the intro's face on black coming back for those words», verbatim:
+
+> нет, прямо только lyrics на экране "не" -> "не сдохнуть" -> "не сдохнуть бы", "от" is skipped, а на "счастья" -- уже луг
+
+So reading 7 is replaced: the break is black with nothing on it but the words, building up as they are sung — «НЕ», then «НЕ СДОХНУТЬ», then «НЕ СДОХНУТЬ БЫ» — «от» is never shown, and on «счастья» the picture is already the meadow. No face. The chorus's package draws it; the overlay of sung lines stays out of that span.
