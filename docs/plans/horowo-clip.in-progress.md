@@ -180,6 +180,13 @@ differ by that offset, the page starts the audio after it, and the mp4 carries
 silence there. The lines on the intro's bar-start hits, as first read, are
 dropped.
 
+> а, и t.me/fknball вставить где подойдёт (лучше раньше)
+
+The lead's reading: the channel's Telegram address is on screen from the first
+second — written on the test card under the ident, in the tape's dot face, as a
+TV channel prints its address. It may come back once more on the last frame
+before the tube switches off, if the ending has room for it.
+
 On the cast sheet, attached:
 
 > чё-то у нас басисты-гитаристы левую руку не с той стороны грифа держат) я

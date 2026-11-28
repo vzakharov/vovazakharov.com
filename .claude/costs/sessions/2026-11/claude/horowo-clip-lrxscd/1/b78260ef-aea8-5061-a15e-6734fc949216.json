@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 313,
+    "inputTokens": 319,
     "cacheWrite5mTokens": 123284,
-    "cacheWrite1hTokens": 635946,
-    "cacheReadTokens": 29360355,
-    "outputTokens": 232370,
-    "thinkingTokens": 75254,
-    "responses": 155,
-    "costUsd": 25.02613509999999
+    "cacheWrite1hTokens": 642160,
+    "cacheReadTokens": 30009418,
+    "outputTokens": 234060,
+    "thinkingTokens": 75676,
+    "responses": 158,
+    "costUsd": 25.32301969999999
   },
   "estimate": {
     "at": "2026-11-28T10:11:18.592Z",
@@ -66,18 +66,18 @@
   "url": "https://claude.ai/code/session_01MZoAKCKwqeVGKcCw6iKKPs",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:00:24.182Z",
-  "lastResponseAt": "2026-11-28T11:07:44.628Z",
+  "lastResponseAt": "2026-11-28T11:08:13.136Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 275,
+    "inputTokens": 281,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 635946,
-    "cacheReadTokens": 27992476,
-    "outputTokens": 216051,
-    "thinkingTokens": 74318,
-    "responses": 139,
-    "costUsd": 24.417871199999993
+    "cacheWrite1hTokens": 642160,
+    "cacheReadTokens": 28641539,
+    "outputTokens": 217741,
+    "thinkingTokens": 74740,
+    "responses": 142,
+    "costUsd": 24.714755799999992
   },
   "subagents": {
     "inputTokens": 38,
@@ -91,14 +91,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 275,
+      "inputTokens": 281,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 635946,
-      "cacheReadTokens": 27992476,
-      "outputTokens": 216051,
-      "thinkingTokens": 74318,
-      "responses": 139,
-      "costUsd": 24.417871199999993
+      "cacheWrite1hTokens": 642160,
+      "cacheReadTokens": 28641539,
+      "outputTokens": 217741,
+      "thinkingTokens": 74740,
+      "responses": 142,
+      "costUsd": 24.714755799999992
     },
     "claude-sonnet-5-5/standard": {
       "inputTokens": 38,
@@ -176,7 +176,7 @@
   ],
   "telemetry": null,
   "operatorWords": {
-    "chat": 584,
+    "chat": 594,
     "review": 0,
     "threads": 0
   },
@@ -185,7 +185,7 @@
   "branchLines": {
     ".md": 582,
     ".mjs": 687,
-    ".json": 55,
-    ".ts": 4757
+    ".json": 59,
+    ".ts": 4772
   }
 }
