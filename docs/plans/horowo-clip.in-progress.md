@@ -399,8 +399,6 @@ the picture's pace is the drummer's, so it halves when he does.
 ## The team
 
 The lead is `session_01MZoAKCKwqeVGKcCw6iKKPs` on `claude/horowo-clip-lrxscd`.
-The sketch the storyboard was drawn with is committed for the children to port
-from, under `docs/remove-before-merging/horowo-clip-lrxscd/sketch/`.
 
 The lead landed the drawing kit itself, `src/clip/shared/ink` (`Pen`, `ink`,
 `limb`, `at`, `path`, `polygon`, `ellipse`, `rng`, `noise`, `INK_PALETTE`,
