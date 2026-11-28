@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 52,
+    "inputTokens": 65,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 158781,
-    "cacheReadTokens": 3434930,
-    "outputTokens": 65373,
-    "thinkingTokens": 24549,
-    "responses": 23,
-    "costUsd": 5.842818
+    "cacheWrite1hTokens": 172327,
+    "cacheReadTokens": 4980257,
+    "outputTokens": 68421,
+    "thinkingTokens": 25021,
+    "responses": 30,
+    "costUsd": 6.490643400000001
   },
   "estimate": {
     "at": "2026-11-28T10:11:18.592Z",
@@ -60,22 +60,24 @@
   "branch": "claude/horowo-clip-lrxscd",
   "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "/carte-blanche давай снимем клип на песню \"Хорошо!\" из #240 (сам PR пока не доехал, но я думаю скоро доедет. В любом случае, нас интересует для целей этой задач…",
-  "prs": [],
+  "prs": [
+    295
+  ],
   "url": "https://claude.ai/code/session_01MZoAKCKwqeVGKcCw6iKKPs",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:00:24.182Z",
-  "lastResponseAt": "2026-11-28T10:11:47.643Z",
+  "lastResponseAt": "2026-11-28T10:12:34.294Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 52,
+    "inputTokens": 65,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 158781,
-    "cacheReadTokens": 3434930,
-    "outputTokens": 65373,
-    "thinkingTokens": 24549,
-    "responses": 23,
-    "costUsd": 5.842818
+    "cacheWrite1hTokens": 172327,
+    "cacheReadTokens": 4980257,
+    "outputTokens": 68421,
+    "thinkingTokens": 25021,
+    "responses": 30,
+    "costUsd": 6.490643400000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -89,14 +91,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 52,
+      "inputTokens": 65,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 158781,
-      "cacheReadTokens": 3434930,
-      "outputTokens": 65373,
-      "thinkingTokens": 24549,
-      "responses": 23,
-      "costUsd": 5.842818
+      "cacheWrite1hTokens": 172327,
+      "cacheReadTokens": 4980257,
+      "outputTokens": 68421,
+      "thinkingTokens": 25021,
+      "responses": 30,
+      "costUsd": 6.490643400000001
     }
   },
   "warnings": [],
@@ -109,5 +111,8 @@
   },
   "reviewPosts": {},
   "threadPosts": {},
-  "branchLines": {}
+  "branchLines": {
+    ".md": 117,
+    ".json": 18
+  }
 }
