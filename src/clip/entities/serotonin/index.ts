@@ -1,4 +1,3 @@
-// masd-disable insignificant -- wave 2's reality and globe scenes let it fall; until they land nothing under src/clip reads it.
 export type { Fall, Fleck, FleckState, Kind } from './model/fall';
 export { DEPTHS, fallingFlecks, fleckAt, KINDS } from './model/fall';
 export type { ColouredFall, PlacedFleck } from './ui/fall';

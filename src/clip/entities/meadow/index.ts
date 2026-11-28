@@ -1,4 +1,3 @@
-// masd-disable insignificant -- wave 2's broadcast scene sets its chorus on this meadow; until it lands nothing under src/clip reads it.
 export type { Bounce } from './model/bounce';
 export { bounceAt } from './model/bounce';
 export type { AlphabetBlock } from './ui/block';

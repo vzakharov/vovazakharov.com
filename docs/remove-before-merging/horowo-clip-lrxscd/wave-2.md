@@ -75,17 +75,17 @@ drummer's, so it halves when he does. «ритм должен чувствова
 сменами кадра или ещё какими-то ощутимыми движениями»: cuts and the big moves
 land on the score's pulse and kicks, not on every one of them.
 
-| Song time   | Section             | Feel                                                  |
-| ----------- | ------------------- | ----------------------------------------------------- |
-| before 0:00 | `ident`             | pre-roll: snow, test card, the channel's ident — done |
-| 0:00–0:19   | `intro`             | one hit on each bar's first beat, nothing between     |
-| 0:19–0:28   | `double`            | double time, the band comes in, instrumental          |
-| 0:28–0:36   | `verse` first half  | four on the floor, almost a dance                     |
-| 0:36–0:43   | `verse` second half | straight punk time                                    |
-| 0:43–1:00   | `chorus`            | half time                                             |
-| 1:00–1:17   | `prebridge`         | quarter time, «Хорошо» chanted, building              |
-| 1:17–1:35   | `bridge`            | quarter time, melodic, the one tender stretch         |
-| 1:35–end    | `breakdown`         | a new slow tempo, stabs and holes, glitches           |
+| Song time   | Section             | Feel                                                                  |
+| ----------- | ------------------- | --------------------------------------------------------------------- |
+| before 0:00 | `ident`             | pre-roll: snow, test card, the channel's ident — the engine session's |
+| 0:00–0:19   | `intro`             | one hit on each bar's first beat, nothing between                     |
+| 0:19–0:28   | `double`            | double time, the band comes in, instrumental                          |
+| 0:28–0:36   | `verse` first half  | four on the floor, almost a dance                                     |
+| 0:36–0:43   | `verse` second half | straight punk time                                                    |
+| 0:43–1:00   | `chorus`            | half time                                                             |
+| 1:00–1:17   | `prebridge`         | quarter time, «Хорошо» chanted, building                              |
+| 1:17–1:35   | `bridge`            | quarter time, melodic, the one tender stretch                         |
+| 1:35–end    | `breakdown`         | a new slow tempo, stabs and holes, glitches                           |
 
 The words are in `sites/vova/public/music/songs/` (the `horowo` song); `wordAt`
 in the score gives the word being sung at a time.
@@ -217,7 +217,71 @@ result surprises you.
 
 ## The engine
 
-ENGINE-SECTION
+- **The shot list.** `src/clip/pages/horowo-clip/ui/shots.ts` concatenates a
+  file per section: `shots-intro.ts`, `shots-double.ts`, `shots-verse.ts`,
+  `shots-chorus.ts`, `shots-prebridge.ts`, `shots-bridge.ts`,
+  `shots-breakdown.ts`, each exporting a `readonly Shot[]` that today holds
+  stand-in cards. You replace the entries of your own files and never edit
+  `shots.ts` or another package's file. Within a list a later entry cuts into an
+  earlier one where their spans overlap, so a base shot over the whole section
+  followed by short inserts is the simplest way to cut.
+- **`@/clip/shared/timeline`**: `type Shot = Ranged & { draw: Drawing }`
+  (`Ranged` is `{ from, to }` in song seconds), `type Drawing = (pen, local) =>
+void`, `Local = { sinceCut, p, seconds }` — seconds since the cut, 0→1
+  through the shot, the shot's length. The clip's own time is `pen.playhead`.
+- **`./stand-in`** (beside the shot files): `sectionNamed(name)`,
+  `beatsOf(section, fromBeat, toBeat) → Ranged` — a span in beats counted from
+  the section's opening bar line — and `standIn(name, look, seed)`.
+  `placeholder(name, look, seed)` in `./placeholder` is the stand-in card's
+  drawing.
+- **`@/clip/shared/score`**: `SECTIONS`, `sectionAt(t)`, `type Section =
+{ from, to, name, feel, bpm, downbeat }`, `beatSeconds(section)`,
+  `barSeconds(section)`. The sections' names are exactly `'intro'`, `'double
+time'`, `'verse, first half'`, `'verse, second half'`, `'chorus'`,
+  `'pre-bridge'`, `'melodic bridge'`, `'breakdown'`.
+  - `pulse(t) → { index, fraction, seconds }` — the pulse of the section at
+    `t`: a bar in the intro and in quarter time, a beat in double,
+    four-on-the-floor and straight time, two beats in half time, each kick in
+    the breakdown. `fraction` 0 is the hit.
+  - `KICKS` (every kick's time) and `punch(KICKS, t)` — 1 on a hit, decaying
+    over about 0.12 s: the number to scale a jolt by.
+  - `jaw(t)` 0…1, the singer's jaw from the vocal stem; `wordAt(t)`;
+    `energy(t)` 0…1 loudness; `VERSE_CALLS` (the seven «(Хорошо!)» onsets),
+    `CHANT` (the chanted «Хорошо» onsets); `SONG_SECONDS`; `within(ranged, t)`,
+    `through(ranged, t)`.
+  - Measured tempo: ~117 BPM from 0:19 to the chorus, ~156 from the chorus to
+    the breakdown (the kick moves from every fourth 0.128 s tatum to every
+    third), 102 in the breakdown, which opens on its slam at 96.1 s. Downbeats
+    from the chorus on are weakly measured: trust `pulse` and `KICKS`, not a
+    count of bars.
+- **A still.** `pnpm bundle:clip` writes the whole player to
+  `tmp/clip/artifact/index.html` in about a second, and `?t=<seconds>` holds a
+  still there. Save this once as `tmp/still.cjs` and run
+  `pnpm -s bundle:clip && node tmp/still.cjs 30.1 tmp/s.jpg`, then `Read` the
+  JPEG:
+
+  ```js
+  const path = require('node:path');
+  const { chromium } = require('playwright');
+  const [seconds, out] = process.argv.slice(2);
+  (async () => {
+    const browser = await chromium.launch();
+    const page = await browser.newPage({
+      viewport: { width: 1280, height: 720 },
+    });
+    await page.goto(
+      `file://${path.resolve('tmp/clip/artifact/index.html')}?t=${seconds}`,
+    );
+    await page.waitForTimeout(300);
+    await page.screenshot({ path: out, type: 'jpeg', quality: 78 });
+    await browser.close();
+  })();
+  ```
+
+  Playwright and Chromium are pre-installed; do not install them.
+
+- The pre-roll before the music (the channel's ident) is the engine session's;
+  song time 0 is the first hit, and your sections never start before it.
 
 ## The report that ends the package
 

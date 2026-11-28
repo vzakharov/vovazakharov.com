@@ -64,17 +64,18 @@ All in the plan with what each beat. The ones a successor would otherwise re-lit
 
 - **Branch** `claude/horowo-clip-lrxscd`, draft **PR** https://github.com/vzakharov/vovazakharov.com/pull/295 (title and squash proposal posted; nothing attested). `main` with PR 240 is merged in.
 - **Plan** `docs/plans/horowo-clip.in-progress.md`.
-- **In the lead's branch**: the kit `src/clip/shared/ink` (with the cast's `clipped` and point math); the finished tape `src/clip/shared/tape` (merged from `claude/horowo-clip-tape-lrxscd` at `e7d0a99e`), its test card writing the ident and `T.ME/FKNBALL`; the cast `src/clip/entities/puppet` (merged from `claude/horowo-clip-cast-lrxscd` at `5819b8b5`; its API is in the cast's report, summarised in the plan's § "The team"); `"clip": ["scene"]` in `src/masd.json`; the storyboard sketch under `docs/remove-before-merging/horowo-clip-lrxscd/sketch/`; frames under `docs/remove-before-merging/frames/` with verdicts in `docs/remove-before-merging/review-focus.json`.
-- **Children's branches**, pushed as they go — a successor reads the branch, not the session:
-  - `claude/horowo-clip-engine-lrxscd` (Opus, `session_01MZoAKDHpcNax8XmHbMJmAK`) — in flight; page at `/music/clips/horowo`, timeline (`Shot = Ranged & { draw(pen, local) }`, `SHOTS` in `src/clip/pages/horowo-clip/ui/shots.ts`), score, `film:clip`, `bundle:clip`. Asked since for: the pre-roll, one shot-list file per section with `SECTIONS` and pulse helpers, a merge of the lead's branch. Not merged.
-  - `claude/horowo-clip-props-lrxscd` (Opus, `session_01MZoAKBLUod263MnDXVYSWV`) — in flight; bunny, lettering, tallies, wallpaper, audience ears, serotonin fall pushed; told that the blood lettering reads as neon and must read as scratched. Not merged.
-  - `claude/horowo-clip-cast-fix-lrxscd` (Opus, `session_01MZoAKAL6Cs5jtE5GjPiRDY`) — in flight; the fretting hand comes from under the neck. Not merged.
-  - `claude/horowo-clip-cast-lrxscd` (Fable, `session_01MZoAKBkF3h1YJyKztvmqtT`) — done, merged, session archived.
-  - `claude/horowo-clip-tape-lrxscd` (Opus, `session_01MZoAKD4RDV89XAtTpvb3py`) — done, merged, session archived.
-    The briefs each child was given are in the lead's transcript; the plan's § "The team" has each package's scope. A stopped child is replaced, not woken: a new session on the same branch with a brief that stands alone.
-- **Wave 2, not started** (waits on the engine and the props): three Opus children, each owning its sections' shot-list files — (A) the kids' show and the chorus meadow; (B) the band live and the zapped channels; (C) the bedroom, the ward, the breakdown and the snow globe. Each wires its own scenes into its shot files.
-- **The limit**: at 11:05 UTC about 15% of the week was left, about $100 at API rates; the run parks at about 3%.
-- **Waiting**: a one-shot check-in on wave 1 scheduled in the lead's session for 11:17 UTC on 2026-11-28; the cache keepalive watcher in the lead's session.
+- **In the lead's branch** (head `786d62f5` plus the plan commit after it): everything wave 1 built, merged — the kit `src/clip/shared/ink`; the tape `src/clip/shared/tape` with the ident and `T.ME/FKNBALL` on its test card; the cast `src/clip/entities/puppet` with the fretting hand fixed; the props (`src/clip/entities/{bunny,meadow,serotonin,snow-globe,tally}`, `src/clip/features/ear-fireworks`, `src/clip/shared/lettering`, the wall's lettering in its third, pencil-thin take); the engine (`src/clip/pages/horowo-clip`, `src/clip/shared/{score,timeline,film}`, `src/clip/scripts`; `clip` has parents `scene` and `music`). The shot list is a file per section (`src/clip/pages/horowo-clip/ui/shots-*.ts`, helpers in `stand-in.ts`), every entry still a stand-in card. Frames under `docs/remove-before-merging/frames/`, verdicts in `docs/remove-before-merging/review-focus.json`.
+- **Archived sessions**: tape, cast, the fretting-hand fix, props. Their branches are merged.
+- **In flight**, each pushing as it goes — a successor reads the branch, not the session:
+  - `claude/horowo-clip-engine-lrxscd` (Opus, `session_01MZoAKDHpcNax8XmHbMJmAK`) — merged at `ab976bb4`; one last package asked at 11:52 UTC: the pre-roll (`PREROLL = 3.2`, the playhead starting negative so scenes stay in song time, `shots-ident.ts` listed first in `shots.ts`, audio held until song time 0 in the page, the bundle and the mp4).
+  - **Wave 2**, started 11:52 UTC from `786d62f5`, all Opus, about $12 each, briefed by `docs/remove-before-merging/horowo-clip-lrxscd/wave-2.md` (the whole brief; it stands alone, so a replacement session is started with the same file and the package's letter):
+    - A, `session_01MZoAKCYpzFVG8CYLX323qQ`, `claude/horowo-clip-scenes-a-lrxscd` — the kids' show intro and the chorus meadow; `shots-intro.ts`, `shots-chorus.ts`.
+    - B, `session_01MZoAKB8jcFjpioDt9FQYoB`, `claude/horowo-clip-scenes-b-lrxscd` — the gig and the channels; `shots-double.ts`, `shots-prebridge.ts`.
+    - C, `session_01MZoAKERHcdpfR5yxYMoa2y`, `claude/horowo-clip-scenes-c-lrxscd` — the bedroom, the ward and the ending; `shots-verse.ts`, `shots-bridge.ts`, `shots-breakdown.ts`.
+  - **The seam the lead wires at merge**: A's chorus placeholders `ward insert` and `gig insert` become C's `wardInsert(progress)` and B's `gigInsert`; C's verse placeholders `channel 1`…`channel 7` become B's `channel(n)`.
+- **Red on purpose**: `pnpm knip` fails until wave 2 consumes the wave-1 slices and the sketch under `docs/remove-before-merging/` is removed. `pnpm costs` fails on another session's row (role `musician`); read ledger rows off the `cost-ledger` branch directly.
+- **The limit**: by the ledger at 11:45 UTC about $100 was spent on the run and about 11% of the week was left (1% is about $7); wave 2 is budgeted at $36 plus the lead's share. The run parks (`/relay park`) at about 3% left.
+- **Waiting**: reports from A, B, C and the engine arrive as cross-session messages; a fallback check-in is scheduled in the lead's session; the cache keepalive watcher runs in the lead's session.
 - **Estimate**: the whole job is booked on the lead's session (60 h designer, 32 h developer, 4 h audio-engineer, 6 h producer); nothing has been handed on.
 
 ### Watches
@@ -85,7 +86,7 @@ The review board. It is private to the account that published it; a successor on
 
 https://claude.ai/artifact/DzDDbJfmEA8ugouf4NTeR2
 
-The clip as it stands, playable: `pnpm bundle:clip` writes `tmp/clip/artifact/index.html` and `horowo.mp3`, published as the page plus one supporting file (`contentType: audio/mpeg`). Republished at every milestone; also private to this account. The engine is merged at `e88909a6` (page, timeline, score, `film:clip`, `bundle:clip`, `music` as `clip`'s second parent); the same session is still adding the pre-roll, the per-section shot files, the vocal-stem jaw and the kick and snare onsets.
+The clip as it stands, playable: `pnpm bundle:clip` writes `tmp/clip/artifact/index.html` and `horowo.mp3`, published as the page plus one supporting file (`contentType: audio/mpeg`). Republished at every milestone (Version 2 at 11:52 UTC: stand-in cards on the real audio and cuts); also private to this account. Whether its audio plays inside the claude.ai frame is unverified; the preview slot is the fallback (`/preview live vova`).
 
 ## 7. Pointers
 
@@ -101,11 +102,10 @@ The clip as it stands, playable: `pnpm bundle:clip` writes `tmp/clip/artifact/in
 
 Continue the run as lead, in `/carte-blanche` mode, from the plan's § "Built, in flight, left". In the operator's words: «нужно поглядывать за лимитом и вовремя фиксировать прогресс (в идеале ещё разворачивать его -- либо артефактом, либо на превью. в принципе артефакта должно хватить)». Concretely, in order:
 
-1. Fetch each child branch above; merge what is pushed (`git fetch origin <b> && git merge origin/<b>`), run the quick gates, look at its frames, wire it into the page.
-2. Publish the clip as it stands as an artifact (the engine's `bundle:clip` writes `tmp/clip/artifact/`), and the new frames on the board.
-3. Wave 2: the scenes of the plan's § "The cut by feel", sized to the limit left; then the assembly cut to the pulse, the kick and the snare.
-4. The mp4 as a release asset; `/polish`; green `./scripts/vet.sh`; `/pr` refresh. Never merge.
-5. Limit allowing: the 30-second vertical story cut. Then the video on the song's page — «это уже скорее после тебя опус займётся».
+1. As each of A, B, C and the engine reports (or stops on the limit): `git fetch origin <b> && git merge origin/<b>`, the quick gates, a look at its `scene-*.jpg`, the frames onto the board with a verdict each.
+2. Wire the seam (see State), `pnpm bundle:clip`, republish the clip artifact, watch a few stills across the song for cuts that miss the pulse.
+3. `/dry` and `/tend-prose` once over everything (the children skipped them), `pnpm knip` green, `./scripts/vet.sh` green, `/pr` refresh. The mp4 by `pnpm film:clip` as a release asset, never committed. Never merge.
+4. Limit allowing: the 30-second vertical story cut. Then the video on the song's page — «это уже скорее после тебя опус займётся».
 
 ## Last agent turn
 

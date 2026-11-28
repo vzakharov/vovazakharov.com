@@ -440,24 +440,64 @@ A fix-up child, Opus, `session_01MZoAKAL6Cs5jtE5GjPiRDY`,
 `claude/horowo-clip-cast-fix-lrxscd`, cut from the lead's `fbec4641`: the
 fretting hand from under the neck.
 
-Wave 2, once the engine and the props are merged: three Opus children, each
-owning the shot-list files of its sections (the engine splits `shots.ts` into
-one file per section) and wiring its own scenes into them — (A) the kids' show
-and the chorus meadow; (B) the band live and the zapped channels; (C) the
-bedroom, the ward, the breakdown and the snow globe. The lead cuts nothing by
-hand that a child can cut on the score's pulse.
+As of 11:52 UTC: **props** merged at `4bf8a07c` (the wall's lettering in its
+third, pencil-thin take) and archived; the fix-up child merged at `744a9f40` and
+archived; **engine** merged at `ab976bb4` (sections with their own grids,
+`pulse`, `KICKS`, `punch`, the jaw off the vocal stem, stand-ins on the tape)
+and still alive for one last package, the pre-roll: `PREROLL = 3.2`, the
+playhead starting negative so every scene stays in song time, `shots-ident.ts`
+listed first in `shots.ts`.
+
+The lead split `shots.ts` into a file per section itself (`786d62f5`), with
+`stand-in.ts` beside them (`sectionNamed`, `beatsOf`, `standIn`), rather than
+wait another round for the engine.
+
+Wave 2, started 11:52 UTC from the lead's `786d62f5`, all Opus, each on a budget
+of about $12, each owning the shot files of its sections and wiring its own
+scenes into them. Their whole brief is
+`docs/remove-before-merging/horowo-clip-lrxscd/wave-2.md`; a session's own
+message only names its package:
+
+- **A**, `session_01MZoAKCYpzFVG8CYLX323qQ`,
+  `claude/horowo-clip-scenes-a-lrxscd` — widgets `kids-show` (intro) and
+  `meadow-party` (chorus); `shots-intro.ts`, `shots-chorus.ts`. Leaves
+  placeholders `ward insert` and `gig insert` in the chorus.
+- **B**, `session_01MZoAKB8jcFjpioDt9FQYoB`,
+  `claude/horowo-clip-scenes-b-lrxscd` — widgets `gig` (exports `gigInsert`) and
+  `channels` (exports `channel(n)`); `shots-double.ts`, `shots-prebridge.ts`.
+- **C**, `session_01MZoAKERHcdpfR5yxYMoa2y`,
+  `claude/horowo-clip-scenes-c-lrxscd` — widgets `bedroom`, `ward` (exports
+  `wardInsert(progress)`) and `ending`; `shots-verse.ts`, `shots-bridge.ts`,
+  `shots-breakdown.ts`. Leaves placeholders `channel 1`…`channel 7` on the verse
+  calls.
+
+**The seam the lead wires at merge**: A's two chorus placeholders become
+`gigInsert` and `wardInsert(progress)` with progress climbing to 1 by the
+chorus's end; C's seven verse placeholders become B's `channel(n)`. Then
+`pnpm bundle:clip`, the clip artifact republished, each package's `scene-*.jpg`
+on the board.
+
+If the limit stops a child, its branch holds every scene it wired; the lead
+merges what is there and the stand-ins cover the rest.
 
 ## Built, in flight, left
 
 - **Built**: the song map; the storyboard; the drawing kit; the tape, with the
-  channel's ident and address on its test card; the cast.
-- **In flight**: the engine (with the pre-roll and the per-section shot files),
-  the props (with the lettering reworked to read as scratched), the fretting
-  hand.
-- **Left**: merging those three; the clip as an artifact; wave 2; the mp4 as a
-  release asset; the quality passes and a green vet; the 30-second vertical
-  story cut and the video on the song's page, both likely after the account
-  changes.
+  channel's ident and address on its test card; the cast; the props; the engine
+  with the score; the shot list split per section; the clip as a playable
+  artifact (stand-ins on real audio and cuts).
+- **In flight**: wave 2's three packages; the engine's pre-roll.
+- **Left**: merging and wiring wave 2; the mp4 as a release asset; the quality
+  passes (`/dry`, `/tend-prose` over everything — the children were told to skip
+  them) and a green vet; `knip` is red until wave 2 consumes the wave-1 slices
+  and the sketch under `docs/remove-before-merging/` goes; the 30-second
+  vertical story cut and the video on the song's page, both likely after the
+  account changes.
+
+**The limit**, by the cost ledger at 11:45 UTC: about $100 spent on the run,
+which is roughly 14% of the week by the operator's two readings (10% spent at
+about $65–70); about 11% was left. Wave 2 is budgeted at $36 plus the lead's
+share. Park with `/relay park` at about 3% left.
 
 PR 240 landed on 2026-11-28 and `main` is merged in at `c7773f84`: the song's
 page, words and transcripts are in the tree, and the engine was told to merge

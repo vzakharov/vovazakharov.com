@@ -9,6 +9,3 @@ export const PREROLL = 3.2;
 
 /** The film's time at song time `t`: the film opens on the ident. */
 export const filmTime = (t: number): number => t + PREROLL;
-
-/** The song's time at film time `t`. */
-export const songTime = (t: number): number => t - PREROLL;
