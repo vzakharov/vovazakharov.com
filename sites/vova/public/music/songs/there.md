@@ -5,7 +5,7 @@ language: ru
 project: ['Грёбаный бал']
 repo: 'f-ec'
 album: for-none-and-for-all
-track: 5
+track: 2
 seconds: 208
 mp3Bytes: 8334982
 explicit: false

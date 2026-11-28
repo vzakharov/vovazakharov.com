@@ -5,7 +5,7 @@ language: ru
 project: ['Грёбаный бал']
 repo: 'fingers'
 album: for-none-and-for-all
-track: 2
+track: 4
 seconds: 285
 mp3Bytes: 11428245
 explicit: false
