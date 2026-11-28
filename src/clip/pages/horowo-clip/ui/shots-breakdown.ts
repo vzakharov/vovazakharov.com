@@ -17,7 +17,7 @@ import {
   staringHead,
   stillHole,
 } from '@/clip/widgets/ending';
-import { gigClose, gigWide } from '@/clip/widgets/gig';
+import { gigClose, gigWide, rocketEars } from '@/clip/widgets/gig';
 import { meadowParty } from '@/clip/widgets/meadow-party';
 import { spoonBunny } from '@/clip/widgets/spoon-bunny';
 import { wardHole, wardInsert } from '@/clip/widgets/ward';
@@ -34,6 +34,7 @@ const BREAKDOWN_POOL: readonly Drawing[] = [
   channel(5, 1),
   troublesRetreat,
   STABS[0],
+  rocketEars(),
   meadowParty('band'),
   wardInsert(0, 1),
   gigClose('vocal'),
@@ -45,6 +46,7 @@ const BREAKDOWN_POOL: readonly Drawing[] = [
   channel(6, 0.95),
   faceOnBlack,
   STABS[2],
+  rocketEars(),
   gigClose('guitar'),
   summerWindow,
   channel(2, 0.95),
@@ -53,6 +55,7 @@ const BREAKDOWN_POOL: readonly Drawing[] = [
   STABS[3],
   offTheWall,
   channel(4, 0.95),
+  rocketEars(),
 ].filter((drawing) => drawing !== undefined);
 
 const BREAKDOWN = sectionNamed('breakdown');

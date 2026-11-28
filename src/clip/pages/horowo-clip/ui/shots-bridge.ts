@@ -4,7 +4,7 @@ import { beatSeconds } from '@/clip/shared/score';
 import { type Drawing, halfDream, type Shot } from '@/clip/shared/timeline';
 import { reverseAngle } from '@/clip/widgets/bedroom';
 import { channel } from '@/clip/widgets/channels';
-import { gigInsert } from '@/clip/widgets/gig';
+import { rocketEars } from '@/clip/widgets/gig';
 import { meadowParty } from '@/clip/widgets/meadow-party';
 import { spoonBunny } from '@/clip/widgets/spoon-bunny';
 import { wardInsert, wardSinking } from '@/clip/widgets/ward';
@@ -17,7 +17,7 @@ import { sectionNamed } from './stand-in';
  */
 const HALF_DREAMS: readonly Drawing[] = [
   meadowParty('wide'),
-  gigInsert,
+  rocketEars(),
   channel(6, 0.7),
   wardInsert(0, 1),
   reverseAngle,
@@ -61,7 +61,7 @@ export const BRIDGE_SHOTS: readonly Shot[] = [
   },
   ...AWAY_SPANS.map((span, n) => ({
     ...span,
-    draw: halfDream(HALF_DREAMS[n % HALF_DREAMS.length] ?? gigInsert, {
+    draw: halfDream(HALF_DREAMS[n % HALF_DREAMS.length] ?? reverseAngle, {
       under: (n + 1) / AWAY_SPANS.length,
       seed: 31 + n,
     }),

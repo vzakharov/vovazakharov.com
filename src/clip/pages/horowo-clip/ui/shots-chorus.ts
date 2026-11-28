@@ -1,7 +1,7 @@
 import { KICKS, pulse } from '@/clip/shared/score';
 import type { Drawing, Shot } from '@/clip/shared/timeline';
 import { aerobics } from '@/clip/widgets/channels';
-import { gigInsert } from '@/clip/widgets/gig';
+import { gigInsert, rocketEars } from '@/clip/widgets/gig';
 import {
   FRAMINGS,
   lyricBreak,
@@ -21,8 +21,10 @@ type Storyline = (along: number) => Drawing;
  * meadow, the ward wall and the aerobics show have slots of their own.
  */
 const STORYLINES: readonly Storyline[] = [
-  () => gigInsert,
+  () => rocketEars(),
   (along) => spoonBunny(0.5 + 0.3 * along),
+  () => rocketEars(),
+  () => gigInsert,
 ];
 
 const { from: opening, to: closing } = sectionNamed('chorus');
