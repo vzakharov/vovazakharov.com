@@ -210,20 +210,21 @@ the picture's pace is the drummer's, so it halves when he does.
   `frame(t)` the page plays against the audio and a script walks frame by frame
   into a file.
 - **16:9, 1080p, 30 fps**, the whole 1:59.
-- **Words appear only where the scene has them** — a karaoke line on a channel,
-  the three words scratched on the wall — never as subtitles.
+- **The sung line is on screen throughout**, in the scene's own idiom — the
+  operator's note 3, which replaced "only where the scene has them".
 
 ## Where things are
 
 - **PR**: https://github.com/vzakharov/vovazakharov.com/pull/295, draft.
-- **Board**: https://claude.ai/artifact/5hqSFnzRjgT8nVshU3oeKJ, watched by the
-  lead's session. Every frame goes there the turn it exists, as a JPEG under
-  `docs/remove-before-merging/frames/` with its verdict in
-  `docs/remove-before-merging/review-focus.json`.
+- **Board**: https://claude.ai/artifact/5hqSFnzRjgT8nVshU3oeKJ on the first
+  account; rebuilt on the second at wave 3's first merge. Every frame goes there
+  the turn it exists, as a JPEG under `docs/remove-before-merging/frames/` with
+  its verdict in `docs/remove-before-merging/review-focus.json`.
 
 ## The team
 
-The lead is `session_01MZoAKCKwqeVGKcCw6iKKPs` on `claude/horowo-clip-lrxscd`.
+The first lead was `session_01MZoAKCKwqeVGKcCw6iKKPs` on
+`claude/horowo-clip-lrxscd`.
 
 The lead landed the drawing kit itself, `src/clip/shared/ink` (`Pen`, `ink`,
 `limb`, `at`, `path`, `polygon`, `ellipse`, `rng`, `noise`, `INK_PALETTE`,
@@ -354,27 +355,39 @@ unused names could not leave their barrels without `masd:clusters` asking for a
 sub-slice, so the meadow is cut into `block` and `scenery` and the puppet's body
 into `pose` and `figure`. Three frames compared byte for byte before and after.
 
-## Built, in flight, left
+## Wave 3 — the verdict on the first full cut
 
-- **Built**: every section of the song drawn and cut, with the pre-roll ident
-  before the first note; the chorus, intro, gig, pre-bridge and bedroom at
-  second-pass level, the ward and the ending at first. `check:masd`,
-  `masd:clusters`, `knip`, `type-overlap`, `tsc` and the line limit are green.
-- **Not run**: `/dry` and `/tend-prose` over `src/clip`, left for the next
-  session with the limit this low.
-- **Out**: the mp4 at
-  https://github.com/vzakharov/vovazakharov.com/releases/tag/horowo-clip
-  (`horowo-clip-720p.mp4`, re-encoded from the 1080p master `pnpm film:clip`
-  writes); `./scripts/vet.sh` green on `ae69ac20`.
-- **Left**: the operator's verdict on the clip. After it: C2's three unstarted
-  items, the 30-second vertical story cut, the video on the song's page.
+The operator watched the mp4 and answered with fifteen notes (verbatim, with the
+lead's readings, in `steering.md` § "The verdict on the first full cut"). The
+first account's limit ended there: **since 17:25 UTC on 2026-11-28 the lead is
+`session_01DaohkFDn2a9kRmU5jM3ctm` on a second account**, which reaches none of
+the sessions or artifacts above and has 77% of its week free.
 
-**The limit**, by the cost ledger at 11:45 UTC: about $100 spent on the run,
-which is roughly 14% of the week by the operator's two readings (10% spent at
-about $65–70); about 11% was left. Wave 2 is budgeted at $36 plus the lead's
-share. Park with `/relay park` at about 3% left.
+Started 17:46 UTC from the lead's `09a56f0c`, all Opus, each on
+`claude/horowo-clip-w3-<letter>-lrxscd`; the whole brief is
+`docs/remove-before-merging/horowo-clip-lrxscd/wave-3.md`:
 
-PR 240 landed on 2026-11-28 and `main` is merged in at `c7773f84`: the song's
-page, words and transcripts are in the tree, and the engine was told to merge
-the lead's branch, take `music` as `clip`'s second parent and read the audio
-from the catalogue.
+- **E**, `session_01DaohkEt1PbJUKxAAKQTtgp` — the warning card, the longer ident
+  with hiss and beeps, the film running to `SONG_SECONDS + POSTROLL`, the jaw's
+  timing.
+- **W**, `session_01DaohkEf7zhEMjdeEgLFyA4` — the sung line on screen
+  throughout.
+- **I**, `session_01DaohkCNxr81DqDpAvTR6BH` — the intro as a face on black.
+- **G**, `session_01DaohkFmocUFKMy8SNxisti` — the gig made violent; the rocket
+  ears as a storyline.
+- **V**, `session_01DaohkEJjQAcFRp5rFx4JoG` — the bedroom developing by the
+  line.
+- **S**, `session_01DaohkCjkzbt3pcNA53MBoo` — the spoon bunny and its reveal.
+- **C**, `session_01DaohkEKgCkjsqiyZ6GhAjg` — the chorus from words on black,
+  the aerobics show, a wider rotation.
+- **B**, `session_01DaohkBtsQQYJQstc7kNKio` — the bridge on the edge of sleep,
+  the fade before the breakdown.
+- **D**, `session_01DaohkCAFc8BcycMCugp8qC` — the breakdown and the ending.
+
+**The seam the lead wires at merge**: the rocket ears (G) and the spoon bunny's
+back view (S) into the pool arrays of `shots-chorus.ts`, `shots-bridge.ts` and
+`shots-breakdown.ts`, and the back view over the verse's line 6; W's placement
+table retuned against the merged scenes. Then `/polish` over `src/clip`,
+`./scripts/vet.sh`, a re-film, the release asset replaced, the clip artifact and
+the board rebuilt on this account, `/pr`. Still left after it, on the operator's
+word only: the 30-second vertical story cut, the video on the song's page.
