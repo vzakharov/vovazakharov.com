@@ -10,7 +10,8 @@
     "costUsd": 5.529563400000001
   },
   "estimate": {
-    "at": "2026-11-02T06:55:56.574Z",
+    "at": "2026-11-28T10:35:45.736Z",
+    "subjectLine": "content: hear and reconcile the five songs' words with English cribs",
     "parts": [
       {
         "hours": 4.0,
@@ -127,5 +128,9 @@
         "costUsd": 0.0003456
       }
     }
-  }
+  },
+  "operatorWords": null,
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": null
 }
