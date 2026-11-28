@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 354,
+    "inputTokens": 362,
     "cacheWrite5mTokens": 296452,
-    "cacheWrite1hTokens": 357562,
-    "cacheReadTokens": 29540989,
-    "outputTokens": 70840,
-    "thinkingTokens": 16112,
-    "responses": 171,
-    "costUsd": 11.669169799999997
+    "cacheWrite1hTokens": 359222,
+    "cacheReadTokens": 30388669,
+    "outputTokens": 71952,
+    "thinkingTokens": 16407,
+    "responses": 175,
+    "costUsd": 11.8742578
   },
   "estimate": {
     "at": "2026-11-28T09:46:05.055Z",
@@ -54,18 +54,18 @@
   "url": "https://claude.ai/code/session_01MZoAKC113of9r2DZYGUZtU",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T09:45:44.227Z",
-  "lastResponseAt": "2026-11-28T10:43:14.232Z",
+  "lastResponseAt": "2026-11-28T10:49:01.663Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 264,
+    "inputTokens": 272,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 357562,
-    "cacheReadTokens": 24225470,
-    "outputTokens": 54071,
-    "thinkingTokens": 10238,
-    "responses": 128,
-    "costUsd": 8.788065999999999
+    "cacheWrite1hTokens": 359222,
+    "cacheReadTokens": 25073150,
+    "outputTokens": 55183,
+    "thinkingTokens": 10533,
+    "responses": 132,
+    "costUsd": 8.993154
   },
   "subagents": {
     "inputTokens": 90,
@@ -79,14 +79,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 354,
+      "inputTokens": 362,
       "cacheWrite5mTokens": 296452,
-      "cacheWrite1hTokens": 357562,
-      "cacheReadTokens": 29540989,
-      "outputTokens": 70840,
-      "thinkingTokens": 16112,
-      "responses": 171,
-      "costUsd": 11.669169799999997
+      "cacheWrite1hTokens": 359222,
+      "cacheReadTokens": 30388669,
+      "outputTokens": 71952,
+      "thinkingTokens": 16407,
+      "responses": 175,
+      "costUsd": 11.8742578
     }
   },
   "warnings": [],
@@ -133,10 +133,10 @@
     ".json": 76,
     ".ts": 700,
     ".css": 259,
-    ".md": 3063,
+    ".py": 22,
+    ".md": 3066,
     ".b64": 5,
     ".txt": 176,
-    ".tsx": -251,
-    ".py": 0
+    ".tsx": -251
   }
 }
