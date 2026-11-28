@@ -1,0 +1,20 @@
+export {
+  armOf,
+  type Build,
+  type Carriage,
+  carried,
+  fitted,
+  heftOf,
+  legOf,
+  lerpPose,
+  mapPose,
+  palmOf,
+  type Pose,
+  type Reach,
+  reaching,
+  type Side,
+  SIDES,
+  SOLE,
+  STANDARD_BUILD,
+} from './model/pose';
+export { type PoseName, POSES } from './model/poses';

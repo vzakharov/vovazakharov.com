@@ -11,7 +11,7 @@ import {
 import type { Grip } from './hands';
 import { OUTFIT_PALETTE, SHADE } from './palette-outfit';
 
-export const OUTFITS = ['jacket', 'strait', 'suit', 'pajama', 'toy'] as const;
+const OUTFITS = ['jacket', 'strait', 'suit', 'pajama', 'toy'] as const;
 
 /**
  * What the puppet wears: the grey striped `jacket`, a `strait`jacket with

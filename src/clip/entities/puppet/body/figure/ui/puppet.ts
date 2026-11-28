@@ -4,12 +4,13 @@ import {
   fitted,
   palmOf,
   type Pose,
+  type PoseName,
+  POSES,
   type Reach,
   reaching,
   SOLE,
   STANDARD_BUILD,
-} from '../model/pose';
-import { type PoseName, POSES } from '../model/poses';
+} from '../../pose';
 import { type Dress, figure } from './figure';
 
 export type Placed = {

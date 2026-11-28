@@ -1,6 +1,6 @@
 import { ink, INK_PALETTE, path, type Pen } from '@/clip/shared/ink';
 
-export const GRIPS = ['fist', 'open', 'point', 'sleeve', 'wrap'] as const;
+const GRIPS = ['fist', 'open', 'point', 'sleeve', 'wrap'] as const;
 
 /**
  * What a hand is doing; `sleeve` is a straitjacket's, the hand lost inside it.

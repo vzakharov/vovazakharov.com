@@ -16,7 +16,7 @@ import {
   times,
 } from '@/clip/shared/ink';
 
-import { head, type Look } from '../../head';
+import { head, type Look } from '../../../head';
 import {
   armOf,
   type Build,
@@ -27,7 +27,7 @@ import {
   SIDES,
   SOLE,
   STANDARD_BUILD,
-} from '../model/pose';
+} from '../../pose';
 import { fingertips, type Grip, hand } from './hands';
 import { collar, type Outfit, OUTFIT_GRIP, trim } from './outfits';
 import { OUTFIT_PALETTE } from './palette-outfit';
