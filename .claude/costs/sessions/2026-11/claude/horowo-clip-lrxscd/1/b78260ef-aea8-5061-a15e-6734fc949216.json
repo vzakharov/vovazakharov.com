@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 506,
+    "inputTokens": 534,
     "cacheWrite5mTokens": 123284,
-    "cacheWrite1hTokens": 917176,
-    "cacheReadTokens": 52172703,
-    "outputTokens": 308155,
-    "thinkingTokens": 89837,
-    "responses": 258,
-    "costUsd": 37.1212287
+    "cacheWrite1hTokens": 1188440,
+    "cacheReadTokens": 56111539,
+    "outputTokens": 322972,
+    "thinkingTokens": 94290,
+    "responses": 273,
+    "costUsd": 42.84212389999999
   },
   "estimate": {
     "at": "2026-11-28T10:11:18.592Z",
@@ -66,18 +66,18 @@
   "url": "https://claude.ai/code/session_01MZoAKCKwqeVGKcCw6iKKPs",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:00:24.182Z",
-  "lastResponseAt": "2026-11-28T12:03:14.549Z",
+  "lastResponseAt": "2026-11-28T14:18:47.348Z",
   "pricesAsOf": "2026-11-03",
-  "claudeCodeTotalUsd": null,
+  "claudeCodeTotalUsd": 39.975682099999986,
   "ownTurns": {
-    "inputTokens": 468,
+    "inputTokens": 496,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 917176,
-    "cacheReadTokens": 50804824,
-    "outputTokens": 291836,
-    "thinkingTokens": 88901,
-    "responses": 242,
-    "costUsd": 36.5129648
+    "cacheWrite1hTokens": 1188440,
+    "cacheReadTokens": 54743660,
+    "outputTokens": 306653,
+    "thinkingTokens": 93354,
+    "responses": 257,
+    "costUsd": 42.233859999999986
   },
   "subagents": {
     "inputTokens": 38,
@@ -91,14 +91,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 468,
+      "inputTokens": 496,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 917176,
-      "cacheReadTokens": 50804824,
-      "outputTokens": 291836,
-      "thinkingTokens": 88901,
-      "responses": 242,
-      "costUsd": 36.5129648
+      "cacheWrite1hTokens": 1188440,
+      "cacheReadTokens": 54743660,
+      "outputTokens": 306653,
+      "thinkingTokens": 93354,
+      "responses": 257,
+      "costUsd": 42.233859999999986
     },
     "claude-sonnet-5-5/standard": {
       "inputTokens": 38,
@@ -201,24 +201,24 @@
           "Bash": 1
         },
         "estimatedTokens": 363,
-        "estimatedUsd": 0.0071148
+        "estimatedUsd": 0.0082038
       },
       "billedUsd": null
     }
   ],
   "telemetry": null,
   "operatorWords": {
-    "chat": 594,
+    "chat": 603,
     "review": 0,
     "threads": 0
   },
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 976,
+    ".md": 986,
     ".mjs": 687,
-    ".json": 105,
-    ".ts": 13256,
+    ".json": 145,
+    ".ts": 13550,
     ".tsx": 44,
     ".scss": 12
   }
