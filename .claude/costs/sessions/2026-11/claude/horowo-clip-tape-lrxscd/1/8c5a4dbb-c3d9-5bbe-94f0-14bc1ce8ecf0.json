@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 188,
+    "inputTokens": 202,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 353308,
-    "cacheReadTokens": 17798174,
-    "outputTokens": 110193,
-    "thinkingTokens": 33945,
-    "responses": 100,
-    "costUsd": 8.590710800000002
+    "cacheWrite1hTokens": 362304,
+    "cacheReadTokens": 19277830,
+    "outputTokens": 114482,
+    "thinkingTokens": 34127,
+    "responses": 107,
+    "costUsd": 9.044445999999999
   },
   "estimate": {
     "at": "2026-11-28T10:30:12.537Z",
@@ -52,18 +52,18 @@
   "url": "https://claude.ai/code/session_01MZoAKD4RDV89XAtTpvb3py",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:29:48.798Z",
-  "lastResponseAt": "2026-11-28T10:56:23.393Z",
+  "lastResponseAt": "2026-11-28T10:57:13.086Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 188,
+    "inputTokens": 202,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 353308,
-    "cacheReadTokens": 17798174,
-    "outputTokens": 110193,
-    "thinkingTokens": 33945,
-    "responses": 100,
-    "costUsd": 8.590710800000002
+    "cacheWrite1hTokens": 362304,
+    "cacheReadTokens": 19277830,
+    "outputTokens": 114482,
+    "thinkingTokens": 34127,
+    "responses": 107,
+    "costUsd": 9.044445999999999
   },
   "subagents": {
     "inputTokens": 0,
@@ -77,14 +77,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 188,
+      "inputTokens": 202,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 353308,
-      "cacheReadTokens": 17798174,
-      "outputTokens": 110193,
-      "thinkingTokens": 33945,
-      "responses": 100,
-      "costUsd": 8.590710800000002
+      "cacheWrite1hTokens": 362304,
+      "cacheReadTokens": 19277830,
+      "outputTokens": 114482,
+      "thinkingTokens": 34127,
+      "responses": 107,
+      "costUsd": 9.044445999999999
     }
   },
   "warnings": [],
@@ -133,6 +133,6 @@
     ".md": 236,
     ".mjs": 687,
     ".json": 23,
-    ".ts": 1846
+    ".ts": 1845
   }
 }
