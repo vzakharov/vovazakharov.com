@@ -1,17 +1,15 @@
 import { pulse } from '@/clip/shared/score';
 import type { Shot } from '@/clip/shared/timeline';
+import { gigInsert } from '@/clip/widgets/gig';
 import { FRAMINGS, meadowParty } from '@/clip/widgets/meadow-party';
+import { wardInsert } from '@/clip/widgets/ward';
 
-import { placeholder } from './placeholder';
 import { sectionNamed } from './stand-in';
 
 const chorus = sectionNamed('chorus');
 
 // One slot a half-time pulse, round and round: meadow 7, ward 3, gig 2 of 12.
 const ROTATION = 'MMWMMGMWMMGW';
-
-const ward = placeholder('ward insert', 'reality', 16);
-const gig = placeholder('gig insert', 'broadcast', 26);
 
 /** Where each pulse of the chorus starts, the first clipped to the section's own start. */
 function pulseStarts(): number[] {
@@ -24,19 +22,28 @@ function pulseStarts(): number[] {
   return starts;
 }
 
+const slotAt = (n: number): string | undefined => ROTATION[n % ROTATION.length];
+
 /**
  * The meadow's framing changes at every return from an insert, so each run of
- * meadow pulses is a cut of its own.
+ * meadow pulses is a cut of its own. The ward's words are gouged a share
+ * further at each of its slots, the last of them finishing the line.
  */
 function rotation(): Shot[] {
   const starts = pulseStarts();
+  const wardSlots = starts.filter((_, n) => slotAt(n) === 'W').length;
   let framing = 0;
+  let gouged = 0;
   return starts.map((from, n) => {
     const to = starts[n + 1] ?? chorus.to;
-    const slot = ROTATION[n % ROTATION.length];
-    if (slot === 'W') return { from, to, draw: ward };
-    if (slot === 'G') return { from, to, draw: gig };
-    if (n > 0 && ROTATION[(n - 1) % ROTATION.length] !== 'M') framing += 1;
+    const slot = slotAt(n);
+    if (slot === 'W') {
+      const draw = wardInsert(gouged / wardSlots, (gouged + 1) / wardSlots);
+      gouged += 1;
+      return { from, to, draw };
+    }
+    if (slot === 'G') return { from, to, draw: gigInsert };
+    if (n > 0 && slotAt(n - 1) !== 'M') framing += 1;
     const name = FRAMINGS[framing % FRAMINGS.length] ?? 'wide';
     return { from, to, draw: meadowParty(name) };
   });
