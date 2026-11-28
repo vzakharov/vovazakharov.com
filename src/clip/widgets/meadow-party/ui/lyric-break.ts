@@ -47,7 +47,41 @@ function landing(
   ctx.restore();
 }
 
-// The neon's catch on «бы», in seconds from its onset: on, off, on, a dip, on.
+// A shaking hand going over each letter again: each pass's offset, in cap
+// heights, line width, in cap heights, and opacity.
+const PASSES = [
+  [0, 0, 0.1, 1],
+  [0.035, -0.025, 0.045, 0.8],
+  [-0.03, 0.035, 0.03, 0.65],
+] as const;
+
+/**
+ * `text` in an unsteady hand, gone over two more times out of register: a
+ * marker sign written by someone who should not be holding a marker. Its own
+ * line widths and unsteadiness replace `writing`'s.
+ */
+function scrawl(
+  pen: Pen,
+  text: string,
+  writing: Writing & { color: string },
+): void {
+  const { ctx } = pen;
+  const { letterHeight: size, x = 0, y = 0 } = writing;
+  for (const [dx, dy, weight, alpha] of PASSES) {
+    ctx.save();
+    ctx.globalAlpha *= alpha;
+    writePlain(pen, text, {
+      ...writing,
+      x: x + dx * size,
+      y: y + dy * size,
+      weight,
+      jitter: 2.2,
+    });
+    ctx.restore();
+  }
+}
+
+// The sign's catch on «бы», in seconds from its onset: on, off, on, a dip, on.
 const IGNITION = [
   [0, 1],
   [0.04, 0],
@@ -56,54 +90,40 @@ const IGNITION = [
   [0.15, 1],
 ] as const;
 
-/** How lit the pharmacy sign is `since` «бы», 0 to 1, catching as neon does. */
+/** How lit the cross is `since` «бы», 0 to 1, catching as a tube sign does. */
 const lightAt = (since: number): number =>
   IGNITION.findLast(([at]) => since >= at)?.[1] ?? 0;
 
 // Half the stacked words' width and height, in stage units, with room round
-// them: the middle line is the cross's bar, the short ones its upright.
-const UPRIGHT = [185, 330] as const;
-const BAR = [505, 120] as const;
+// them: the middle line is the cross's bar, the short ones its upright, the
+// arms alike and as thick for their length as the hospital's.
+const UPRIGHT = [125, 335] as const;
+const BAR = [335, 125] as const;
+// How narrow the words are set, so «сдохнуть» is no longer than the upright
+// is tall and «не» fits the upright.
+const CONDENSED = 0.6;
 
 /**
- * The stacked words' outline, a plus that is a pharmacy's green cross once
- * «бы» lands under «не» — the shape the words already make.
+ * The hospital's red cross, solid, in the plus the stacked words already
+ * make once «бы» lands under «не».
  */
-function pharmacyCross(pen: Pen, lit: number): void {
+function hospitalCross(pen: Pen, lit: number): void {
   const { ctx } = pen;
   const [cx, cy] = [STAGE.width / 2, STAGE.height / 2];
   const [uw, uh] = UPRIGHT;
   const [bw, bh] = BAR;
-  const corners: ReadonlyArray<readonly [number, number]> = [
-    [-uw, -uh],
-    [uw, -uh],
-    [uw, -bh],
-    [bw, -bh],
-    [bw, bh],
-    [uw, bh],
-    [uw, uh],
-    [-uw, uh],
-    [-uw, bh],
-    [-bw, bh],
-    [-bw, -bh],
-    [-uw, -bh],
-  ];
-  ctx.beginPath();
-  for (const [x, y] of corners) ctx.lineTo(cx + x, cy + y);
-  ctx.closePath();
   ctx.save();
-  ctx.lineJoin = 'round';
   ctx.globalAlpha *= lit;
-  ctx.strokeStyle = PARTY_PALETTE.pharmacy;
-  ctx.lineWidth = 12;
-  ctx.stroke();
+  ctx.fillStyle = PARTY_PALETTE.cross;
+  ctx.fillRect(cx - uw, cy - uh, 2 * uw, 2 * uh);
+  ctx.fillRect(cx - bw, cy - bh, 2 * bw, 2 * bh);
   ctx.restore();
 }
 
 /**
  * Black, and nothing on it but the words sung so far, stacked a line each and
  * built up word by word, each slamming down on its onset and jolting the ones
- * above it.
+ * above it; on «бы» the hospital's cross lights behind them.
  */
 export const lyricBreak: Drawing = (pen) => {
   const { ctx, playhead } = pen;
@@ -118,29 +138,22 @@ export const lyricBreak: Drawing = (pen) => {
       : 0;
   const pitch = LETTER_HEIGHT * LEADING;
   const top = (STAGE.height - pitch * (BREAK_WORDS.length - 1)) / 2;
-  ctx.save();
-  if (lit > 0) {
-    ctx.shadowColor = PARTY_PALETTE.pharmacy;
-    ctx.shadowBlur = 28 * lit;
-    pharmacyCross(pen, lit);
-  }
+  if (lit > 0) hospitalCross(pen, lit);
   for (const [n, [word]] of sung.entries()) {
     const fresh = n === sung.length - 1;
     const centre = [STAGE.width / 2, top + n * pitch] as const;
     landing(pen, centre, (fresh ? 0.35 : 0.04) * slam, () => {
-      writePlain(pen, word, {
+      ctx.scale(CONDENSED, 1);
+      scrawl(pen, word, {
         x: 0,
         y: -LETTER_HEIGHT / 2,
         letterHeight: LETTER_HEIGHT,
         alignment: 'center',
-        weight: 0.16,
-        jitter: 0.25,
-        color: lit > 0.5 ? PARTY_PALETTE.pharmacy : PARTY_PALETTE.lyric,
+        color: lit > 0.5 ? INK_PALETTE.ink : PARTY_PALETTE.lyric,
         seed: 70 + n,
       });
     });
   }
-  ctx.restore();
 };
 
 /** `text` in the break's hand, its baseline at `y`, shadowed in ink to read over a picture. */
@@ -152,21 +165,15 @@ function echoWord(
   alignment: Writing['alignment'],
   seed: number,
 ): void {
-  const style = {
-    letterHeight: height,
-    alignment,
-    weight: 0.16,
-    jitter: 0.25,
-    seed,
-  };
+  const style = { letterHeight: height, alignment, seed };
   const shadow = height * 0.06;
-  writePlain(pen, text, {
+  scrawl(pen, text, {
     ...style,
     x: x + shadow,
     y: y - height + shadow,
     color: INK_PALETTE.ink,
   });
-  writePlain(pen, text, {
+  scrawl(pen, text, {
     ...style,
     x,
     y: y - height,
