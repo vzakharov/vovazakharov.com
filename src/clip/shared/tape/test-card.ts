@@ -9,6 +9,22 @@ const STRIP_DOWN = 540;
 // The channel's ident, top line first; the middle one is its name.
 const IDENT = ['ТЕЛЕКАНАЛ', 'ГРЁБАНЫЙ БАЛ', 'ПРЕДСТАВЛЯЕТ'] as const;
 const PLATE = { halfWidth: 200, halfHeight: 82, lineGap: 50 } as const;
+// Where the channel is found, printed on the grey ramp under the ident.
+const ADDRESS = 'T.ME/FKNBALL';
+const ADDRESS_PLATE = {
+  halfWidth: 164,
+  top: 590,
+  bottom: 638,
+  dot: 4,
+} as const;
+
+const box = (cx: number, halfWidth: number, top: number, bottom: number) =>
+  polygon([
+    [cx - halfWidth, top],
+    [cx + halfWidth, top],
+    [cx + halfWidth, bottom],
+    [cx - halfWidth, bottom],
+  ]);
 
 /**
  * Channel «ГБ»'s test card, a broadcast scene: colour bars, the mirrored
@@ -64,19 +80,26 @@ export function testCard(pen: Pen, lines: number = IDENT.length): void {
   );
   ink(
     pen,
-    polygon([
-      [cx - PLATE.halfWidth, cy - PLATE.halfHeight],
-      [cx + PLATE.halfWidth, cy - PLATE.halfHeight],
-      [cx + PLATE.halfWidth, cy + PLATE.halfHeight],
-      [cx - PLATE.halfWidth, cy + PLATE.halfHeight],
-    ]),
+    box(cx, PLATE.halfWidth, cy - PLATE.halfHeight, cy + PLATE.halfHeight),
     { fill: TAPE_PALETTE.black, stroke: TAPE_PALETTE.white, width: 5, seed: 4 },
   );
+  const { halfWidth, top, bottom, dot } = ADDRESS_PLATE;
+  ink(pen, box(cx, halfWidth, top, bottom), {
+    fill: TAPE_PALETTE.black,
+    stroke: TAPE_PALETTE.white,
+    width: 4,
+    seed: 5,
+  });
+  dotText(pen, ADDRESS, [cx, (top + bottom) / 2 - dot * 3.5], {
+    dot,
+    color: TAPE_PALETTE.white,
+    align: 'center',
+  });
   for (const [n, line] of IDENT.slice(0, lines).entries()) {
     const name = n === 1;
-    const dot = name ? 5 : 4;
-    dotText(pen, line, [cx, cy + (n - 1) * PLATE.lineGap - dot * 3.5], {
-      dot,
+    const size = name ? 5 : 4;
+    dotText(pen, line, [cx, cy + (n - 1) * PLATE.lineGap - size * 3.5], {
+      dot: size,
       color: name ? TAPE_PALETTE.bugDisc : TAPE_PALETTE.white,
       align: 'center',
     });

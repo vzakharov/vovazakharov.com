@@ -41,7 +41,7 @@ describe('glyph', () => {
   });
 
   it('writes the channel ident', () => {
-    for (const char of 'ТЕЛЕКАНАЛ ГРЁБАНЫЙ БАЛ ПРЕДСТАВЛЯЕТ')
+    for (const char of 'ТЕЛЕКАНАЛ ГРЁБАНЫЙ БАЛ ПРЕДСТАВЛЯЕТ T.ME/FKNBALL')
       assert.ok(glyph(char).length > 0 || char === ' ', char);
     assert.notDeepEqual(glyph('Ё'), glyph('Е'));
     assert.notDeepEqual(glyph('Й'), glyph('И'));
