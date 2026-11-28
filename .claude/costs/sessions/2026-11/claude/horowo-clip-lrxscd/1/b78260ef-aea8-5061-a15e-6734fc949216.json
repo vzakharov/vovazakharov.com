@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 624,
+    "inputTokens": 654,
     "cacheWrite5mTokens": 123284,
-    "cacheWrite1hTokens": 1340971,
-    "cacheReadTokens": 64065726,
-    "outputTokens": 352204,
-    "thinkingTokens": 101851,
-    "responses": 320,
-    "costUsd": 48.04345729999999
+    "cacheWrite1hTokens": 1361282,
+    "cacheReadTokens": 67422435,
+    "outputTokens": 358321,
+    "thinkingTokens": 103604,
+    "responses": 335,
+    "costUsd": 49.28469509999999
   },
   "estimate": {
     "at": "2026-11-28T14:27:37.015Z",
@@ -66,18 +66,18 @@
   "url": "https://claude.ai/code/session_01MZoAKCKwqeVGKcCw6iKKPs",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:00:24.182Z",
-  "lastResponseAt": "2026-11-28T14:28:59.487Z",
+  "lastResponseAt": "2026-11-28T14:33:30.231Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 39.975682099999986,
   "ownTurns": {
-    "inputTokens": 586,
+    "inputTokens": 616,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 1340971,
-    "cacheReadTokens": 62697847,
-    "outputTokens": 335885,
-    "thinkingTokens": 100915,
-    "responses": 304,
-    "costUsd": 47.43519339999999
+    "cacheWrite1hTokens": 1361282,
+    "cacheReadTokens": 66054556,
+    "outputTokens": 342002,
+    "thinkingTokens": 102668,
+    "responses": 319,
+    "costUsd": 48.67643119999999
   },
   "subagents": {
     "inputTokens": 38,
@@ -91,14 +91,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 586,
+      "inputTokens": 616,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 1340971,
-      "cacheReadTokens": 62697847,
-      "outputTokens": 335885,
-      "thinkingTokens": 100915,
-      "responses": 304,
-      "costUsd": 47.43519339999999
+      "cacheWrite1hTokens": 1361282,
+      "cacheReadTokens": 66054556,
+      "outputTokens": 342002,
+      "thinkingTokens": 102668,
+      "responses": 319,
+      "costUsd": 48.67643119999999
     },
     "claude-sonnet-5-5/standard": {
       "inputTokens": 38,
@@ -247,7 +247,7 @@
     ".md": 1001,
     ".mjs": 687,
     ".json": 169,
-    ".ts": 14018,
+    ".ts": 14021,
     ".tsx": 44,
     ".scss": 12
   }
