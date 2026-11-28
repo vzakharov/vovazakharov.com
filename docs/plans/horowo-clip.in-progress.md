@@ -107,6 +107,61 @@ verse and cartoons, channel changes fit the call-and-response verse and the
 stop-start ending cut for cut, and a tape forgives a different drawing hand per
 channel.
 
+### The clip as picked
+
+Variant 1's look carries the clip, with two scenes taken from the others: the
+bedroom at night from 2 and the snow globe from 3. Two layers, told apart by
+their picture:
+
+- **The broadcast** — channel «ГБ», 4:3 inside the 16:9 frame, seen through a
+  tape: chroma split, scanlines, a tracking bar, on-screen display.
+- **Reality** — full 16:9, clean ink, dark: whoever is watching the channel.
+
+The shot list, against § "The song":
+
+- **0:00–0:18, broadcast** — a children's show. The host sings the first stanza
+  to camera; the cardboard sun's eyes follow him; the bunny rises behind the
+  hill from 0:08; on «Как, сука, хорошо» the jaw drops all the way.
+- **0:18–0:20** — the set wall falls, static.
+- **0:20–0:28, broadcast** — the band live in a TV studio, cut on the beat
+  between the four and a wide shot; the audience is bunny ears.
+- **0:28–0:42, reality and broadcast** — the bedroom at 3 am, the TV on in the
+  corner. Each «(Хорошо!)» is a cut to the TV full-frame on a new channel for
+  about half a second (the teleshop spoon, the weather, a quiz board with the
+  three words, a village postcard, the news, a test card), and the line that
+  answers it plays in the bedroom: the sweat, the bunny-shaped hole in the
+  wallpaper, the bunny by the window, then nearer.
+- **0:42–1:02, broadcast** — the chorus live, serotonin falling hard.
+- **1:02–1:32** — the chant: zapping speeds up, every «Хорошо» a channel, the
+  bunny on each one nearer the glass.
+- **1:32–1:36, reality** — the TV goes dark on the drop. The same room is the
+  ward: the three words written with a fingernail in blood, tallies struck
+  through in fives running past every edge, the bunny's shadow on the wall.
+- **1:36–1:53** — each stab a channel at full colour, each hole the ward.
+- **1:50–1:58** — pull back through the window: the hospital is a snow globe in
+  the bunny's paws, serotonin falling only inside; the picture collapses to a
+  CRT dot.
+
+### How it is built
+
+- **A new app, `src/clip/`, parent `scene`, mounted by `vova`** at
+  `/music/clips/horowo` in the `(game)` route group, which has no site chrome.
+  It takes `music` as a second parent when the song page lands on `main` and the
+  audio comes from the catalogue; until then the audio is
+  `https://raw.githubusercontent.com/vovas-music/horowo/main/horowo_master.master.mp3`,
+  checked to answer `audio/mpeg`.
+- **Canvas 2D, a 1280×720 logical stage.** Beaten alternative: SVG, which the
+  sketch used — its full-frame filters would not hold 30 fps on a phone. The
+  hand-drawn line is a boil instead of a filter: every path's points are nudged
+  by seeded noise that changes eight times a second.
+- **One pure `frame(ctx, t)`**: no wall clock, no `Math.random`. The page calls
+  it with `audio.currentTime`; the export script calls it per frame over the
+  DevTools protocol, as `src/island/scripts/film-descent.ts` does, and muxes the
+  song in with ffmpeg.
+- **No `ctx.filter`**, which Safari lacks: the tape look is compositing only.
+- **The jaw is driven by data**: word timings from the transcript on PR 240
+  reconciled with the published words, committed as a module.
+
 ### Defaults acted on until the operator says otherwise
 
 - **The clip is a page and an mp4 from the same code**: a deterministic
@@ -126,12 +181,30 @@ channel.
 
 ## The team
 
-Nobody yet. Children start once a variant is picked: the pick decides the
-packages.
+The lead is `session_01MZoAKCKwqeVGKcCw6iKKPs` on `claude/horowo-clip-lrxscd`.
+The sketch the storyboard was drawn with is committed for the children to port
+from, under `docs/remove-before-merging/horowo-clip-lrxscd/sketch/`.
+
+Wave 1, started 2026-11-28, each on its own branch off the lead's:
+
+- **engine**, Opus, `claude/horowo-clip-engine-lrxscd` — the app skeleton and
+  its MASD wiring, the drawing kit `src/clip/shared/ink` (pushed first, since
+  the others draw with it), the timeline, the page and its player, the export
+  script, the beat grid and jaw data.
+- **cast**, Fable, `claude/horowo-clip-cast-lrxscd` — the puppet in its four
+  band forms, the bunny, the instruments, the serotonin fall, the scratched
+  lettering and tallies. Flagship because it is the clip's look.
+- **tape**, Opus, `claude/horowo-clip-tape-lrxscd` — the 4:3 tape picture, the
+  channel change, static, the on-screen display, the CRT switching off.
+
+Wave 2, once cast is merged: the broadcast scenes, the reality scenes, the pack
+of zapped channels. The lead assembles the timeline and cuts it to the beat.
+
+Session ids go here as each child is created.
 
 ## Built, in flight, left
 
-- **Built**: the song map above; the cast sheet and three storyboard sheets.
-- **In flight**: the operator's pick.
-- **Left**: the renderer seam (`frame(t)`, the beat grid as data, the puppet),
-  then scenes as parallel packages, the page, the export, the preview.
+- **Built**: the song map; the cast sheet, three storyboard sheets and the
+  second take of the wall.
+- **In flight**: wave 1.
+- **Left**: wave 2, the assembly, the export, the preview.

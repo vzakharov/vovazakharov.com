@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 119,
+    "inputTokens": 128,
     "cacheWrite5mTokens": 123284,
-    "cacheWrite1hTokens": 224593,
-    "cacheReadTokens": 8507856,
-    "outputTokens": 101882,
-    "thinkingTokens": 37408,
-    "responses": 55,
-    "costUsd": 9.052915299999999
+    "cacheWrite1hTokens": 240592,
+    "cacheReadTokens": 9940319,
+    "outputTokens": 112838,
+    "thinkingTokens": 40435,
+    "responses": 60,
+    "costUsd": 10.033703899999999
   },
   "estimate": {
     "at": "2026-11-28T10:11:18.592Z",
@@ -66,18 +66,18 @@
   "url": "https://claude.ai/code/session_01MZoAKCKwqeVGKcCw6iKKPs",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:00:24.182Z",
-  "lastResponseAt": "2026-11-28T10:17:37.333Z",
+  "lastResponseAt": "2026-11-28T10:19:08.318Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 81,
+    "inputTokens": 90,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 224593,
-    "cacheReadTokens": 7139977,
-    "outputTokens": 85563,
-    "thinkingTokens": 36472,
-    "responses": 39,
-    "costUsd": 8.4446514
+    "cacheWrite1hTokens": 240592,
+    "cacheReadTokens": 8572440,
+    "outputTokens": 96519,
+    "thinkingTokens": 39499,
+    "responses": 44,
+    "costUsd": 9.42544
   },
   "subagents": {
     "inputTokens": 38,
@@ -91,14 +91,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 81,
+      "inputTokens": 90,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 224593,
-      "cacheReadTokens": 7139977,
-      "outputTokens": 85563,
-      "thinkingTokens": 36472,
-      "responses": 39,
-      "costUsd": 8.4446514
+      "cacheWrite1hTokens": 240592,
+      "cacheReadTokens": 8572440,
+      "outputTokens": 96519,
+      "thinkingTokens": 39499,
+      "responses": 44,
+      "costUsd": 9.42544
     },
     "claude-sonnet-5-5/standard": {
       "inputTokens": 38,
@@ -122,7 +122,7 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 151,
+    ".md": 163,
     ".json": 18
   }
 }
