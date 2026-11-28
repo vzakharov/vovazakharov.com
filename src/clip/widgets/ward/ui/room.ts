@@ -18,13 +18,13 @@ import { WARD_PALETTE } from './palette-ward';
 export const GOUGED_WORDS = 'КАК, СУКА, ХОРОШО';
 
 /** Where the back wall meets the floor, and the side wall the back one. */
-export const FLOOR_Y = 520;
+const FLOOR_Y = 520;
 const CORNER_X = 150;
 /** The padding's quilting, one diamond this wide. */
 const QUILT = 90;
 
 /** The TV on its bracket, high in the right-hand corner. */
-export const TV = { x: 1010, y: 70, width: 200, height: 150 } as const;
+const TV = { x: 1010, y: 70, width: 200, height: 150 } as const;
 
 const rect = (x: number, y: number, w: number, h: number) =>
   polygon([

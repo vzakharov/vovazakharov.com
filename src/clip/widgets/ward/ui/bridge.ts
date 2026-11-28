@@ -1,3 +1,5 @@
+import type { Zooming } from '@/scene/shared/lib/plane';
+
 import { at, lerp, type Pen, smoothstep } from '@/clip/shared/ink';
 import { reality } from '@/clip/shared/tape';
 import type { Drawing, Local } from '@/clip/shared/timeline';
@@ -7,7 +9,7 @@ import { puppet } from '@/clip/entities/puppet';
 import { cell, cot, night, tvGlow, tvSet, wallWriting } from './room';
 
 /** How the camera frames the cell: the stage point at the frame's centre, and the zoom. */
-type Camera = { focus: readonly [number, number]; zoom: number };
+type Camera = Zooming & { focus: readonly [number, number] };
 
 /** The man and the bunny sat side by side on the cot, both watching the snow. */
 function pair(pen: Pen, together: number): void {
