@@ -362,10 +362,12 @@ into `pose` and `figure`. Three frames compared byte for byte before and after.
   `masd:clusters`, `knip`, `type-overlap`, `tsc` and the line limit are green.
 - **Not run**: `/dry` and `/tend-prose` over `src/clip`, left for the next
   session with the limit this low.
-- **Left**: the mp4 as a release asset (`pnpm film:clip` writes
-  `tmp/clip/horowo--3.2-119.7.mp4`); a vet run on the final head; PR 295
-  refreshed. After this run: C2's three unstarted items, the 30-second vertical
-  story cut, the video on the song's page.
+- **Out**: the mp4 at
+  https://github.com/vzakharov/vovazakharov.com/releases/tag/horowo-clip
+  (`horowo-clip-720p.mp4`, re-encoded from the 1080p master `pnpm film:clip`
+  writes); `./scripts/vet.sh` green on `ae69ac20`.
+- **Left**: the operator's verdict on the clip. After it: C2's three unstarted
+  items, the 30-second vertical story cut, the video on the song's page.
 
 **The limit**, by the cost ledger at 11:45 UTC: about $100 spent on the run,
 which is roughly 14% of the week by the operator's two readings (10% spent at

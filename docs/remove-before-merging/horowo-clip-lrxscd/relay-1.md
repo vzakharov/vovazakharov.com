@@ -64,15 +64,15 @@ All in the plan with what each beat. The ones a successor would otherwise re-lit
 
 ## 6. State
 
-- **Branch** `claude/horowo-clip-lrxscd`, draft **PR** https://github.com/vzakharov/vovazakharov.com/pull/295 (title and squash proposal posted before the scenes existed; nothing attested). `main` with PR 240 is merged in.
-- **Plan** `docs/plans/horowo-clip.in-progress.md`.
-- **The clip is whole**: every section of the song is drawn and cut in `src/clip/pages/horowo-clip/ui/shots-*.ts` from the widgets in `src/clip/widgets/` (`kids-show`, `meadow-party`, `gig`, `channels`, `bedroom`, `ward`, `ending`). Second-pass level: the chorus meadow, the intro, the gig, the pre-bridge's channels, the bedroom. First-pass level: the ward (bridge and the chorus's inserts) and the ending (breakdown stabs, the snow globe, the tube switching off).
-- **Not built**: the pre-roll ident before the first note (the engine's last package, below); from the bedroom-ward-ending session's second pass, the bunny seated beside the man in the ward, the globe pull-back staged in clear steps with the yellow bunny face at 116.5 s checked, and breakdown holes that differ on each return.
-- **Sessions**: every child is archived except the engine, `session_01MZoAKDHpcNax8XmHbMJmAK` on `claude/horowo-clip-engine-lrxscd` (Opus), last merged at `ab976bb4` and working on the pre-roll: `PREROLL = 3.2`, the playhead starting negative so scenes stay in song time, `shots-ident.ts` listed first in `shots.ts`, audio held until song time 0 in the page, the bundle and the mp4. A successor reads that branch, not the session; if it has commits past `ab976bb4`, merge them and archive the session.
-- **Gates**: `check:masd` and `tsc` are green. `pnpm knip` is red on about seventy unused exports in the wave-1 slices and seven sketch files under `docs/remove-before-merging/horowo-clip-lrxscd/sketch/`. `/dry` and `/tend-prose` have not run over `src/clip` (the children were told to skip them). `pnpm costs` fails on another session's row; read ledger rows off the `cost-ledger` branch directly.
-- **The mp4**: `pnpm film:clip` writes `tmp/clip/horowo-0-119.7.mp4` (a vova build, then about ten minutes of frames). It goes up as a GitHub release asset and is never committed.
-- **The limit**: the week's limit was in its warning zone at 14:25 UTC on 2026-11-28 and resets about 54 hours later. The run parks (`/relay park`) at about 3% left.
-- **Estimate**: the whole job is booked on the lead's session (60 h designer, 32 h developer, 4 h audio-engineer, 6 h producer); nothing has been handed on.
+- **Branch** `claude/horowo-clip-lrxscd`, draft **PR** https://github.com/vzakharov/vovazakharov.com/pull/295 (nothing attested). `main` with PR 240 is merged in. `./scripts/vet.sh` was green on `ae69ac20`.
+- **Plan** `docs/plans/horowo-clip.in-progress.md`; the operator's messages verbatim in `steering.md` beside this file.
+- **The clip is whole**: a 3.2-second channel ident before the first note (`shots-ident.ts`, the playhead negative there), then every section of the song, drawn and cut in `src/clip/pages/horowo-clip/ui/shots-*.ts` from the widgets in `src/clip/widgets/` (`kids-show`, `meadow-party`, `gig`, `channels`, `bedroom`, `ward`, `ending`). Second-pass level: the chorus meadow, the intro, the gig, the pre-bridge's channels, the bedroom. First-pass level: the ward (bridge and the chorus's inserts) and the ending (breakdown stabs, the snow globe, the tube switching off).
+- **The mp4**: https://github.com/vzakharov/vovazakharov.com/releases/tag/horowo-clip holds `horowo-clip-720p.mp4` (77 MB), re-encoded from the 640 MB 1080p master that `pnpm film:clip` writes to `tmp/clip/horowo--3.2-119.7.mp4` (a vova build, then about half an hour of frames). A newer cut replaces the asset: `gh release upload horowo-clip <file> --clobber`.
+- **Not built**: from the bedroom-ward-ending session's second pass, the bunny seated beside the man in the ward, the globe pull-back staged in clear steps, and breakdown holes that differ on each return. In the pre-bridge only two channels have people who turn to the camera; the rest freeze.
+- **Not run**: `/dry`, `/tend-prose` and `/five-percent` over `src/clip` (the children were told to skip them; the lead left them for a session with more limit). No operator verdict yet on any frame of the scenes.
+- **Sessions**: all fourteen children are archived, their branches merged.
+- **The limit**: the week's limit was in its warning zone from 14:25 UTC on 2026-11-28 and resets about 54 hours after that. `pnpm costs` fails on another session's row; read ledger rows off the `cost-ledger` branch directly.
+- **Estimate**: each session's row carries its own part; the lead's is 14 h designer, 6 h developer, 4 h audio-engineer, 8 h producer.
 
 ### Watches
 
@@ -82,7 +82,7 @@ The review board. It is private to the account that published it; a successor on
 
 https://claude.ai/artifact/DzDDbJfmEA8ugouf4NTeR2
 
-The clip as it stands, playable: `pnpm bundle:clip` writes `tmp/clip/artifact/index.html` and `horowo.mp3`, published as the page plus one supporting file (`contentType: audio/mpeg`). Republished at every milestone (Version 6 at 14:25 UTC: every section drawn, second passes in); also private to this account. Whether its audio plays inside the claude.ai frame is unverified; the preview slot is the fallback (`/preview live vova`).
+The clip as it stands, playable: `pnpm bundle:clip` writes `tmp/clip/artifact/index.html` and `horowo.mp3`, published as the page plus one supporting file (`contentType: audio/mpeg`). Republished at every milestone (Version 7 at 15:10 UTC: the ident, then every section, second passes in); also private to this account. Whether its audio plays inside the claude.ai frame is unverified; the preview slot is the fallback (`/preview live vova`).
 
 ## 7. Pointers
 
@@ -96,9 +96,8 @@ The clip as it stands, playable: `pnpm bundle:clip` writes `tmp/clip/artifact/in
 
 ## 8. Next step
 
-Close the run; the operator: «Можешь продолжать но в принципе надо закругляться». No new scenes unless he asks. In order:
+The run is wound down on the operator's word («Можешь продолжать но в принципе надо закругляться») and waits for his verdict on the clip. Nothing is in flight. When he comes back, in the order he is likeliest to ask:
 
-1. The engine's branch: merge what it holds past `ab976bb4` (`git fetch origin claude/horowo-clip-engine-lrxscd && git merge origin/claude/horowo-clip-engine-lrxscd`), check `pnpm exec tsc --noEmit -p sites/vova` and a still at a negative `?t=`, archive the session.
-2. `pnpm film:clip`, then the mp4 as a release asset, its link in the PR body and on the board.
-3. `pnpm knip` green, `/dry` and `/tend-prose` once over `src/clip`, `./scripts/vet.sh` green, `/pr` refresh. Never merge.
-4. Only on his word: the three unbuilt second-pass items, the 30-second vertical story cut, the video on the song's page — «это уже скорее после тебя опус займётся».
+1. His notes on the mp4 and the board's frames: quote each into `steering.md` in a commit of its own, then fix on Opus or Sonnet children, never the flagship for a fix-up.
+2. The quality passes over `src/clip` — `/polish` — then `./scripts/vet.sh`, a re-film, the release asset replaced, `/pr` refresh. Never merge.
+3. Only on his word: the unbuilt second-pass items, the 30-second vertical story cut, the video on the song's page — «это уже скорее после тебя опус займётся».
