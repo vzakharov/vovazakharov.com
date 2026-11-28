@@ -1,6 +1,6 @@
 import { type ClipFilmHook, FILM_HOOK } from '@/clip/shared/film';
 import { INK_PALETTE, penAt, STAGE } from '@/clip/shared/ink';
-import { SONG_SECONDS } from '@/clip/shared/score';
+import { PREROLL, SONG_SECONDS } from '@/clip/shared/score';
 import { frame, type Shot } from '@/clip/shared/timeline';
 
 import { fitStage, type PlayerMode, type StageFit } from '../lib/stage-fit';
@@ -115,7 +115,19 @@ function chrome(
   ctx.globalAlpha = 1;
 }
 
-/** Plays the song and draws the clip at its time on every animation frame. */
+/** Starts `audio`, an abort being a pause that landed before the play began. */
+function start(audio: HTMLAudioElement): void {
+  audio.play().catch((error: unknown) => {
+    if (error instanceof DOMException && error.name === 'AbortError') return;
+    throw error;
+  });
+}
+
+/**
+ * Plays the film and draws the clip at its song time on every animation
+ * frame: through the pre-roll a clock of its own runs with the song paused
+ * at 0, and from the first note the song's own clock leads.
+ */
 function play(
   canvas: HTMLCanvasElement,
   ctx: CanvasRenderingContext2D,
@@ -127,22 +139,56 @@ function play(
   audio.preload = 'auto';
   const length = () =>
     Number.isFinite(audio.duration) ? audio.duration : SONG_SECONDS;
+  // Through the pre-roll: the song time held at `heldAt`, running from
+  // `runningSince` (a `performance.now()`) while `running`.
+  let preroll = true;
+  let heldAt = -PREROLL;
+  let runningSince = 0;
+  let running = false;
+
+  const now = (): number => {
+    if (!preroll) return audio.currentTime;
+    const t = running
+      ? heldAt + (performance.now() - runningSince) / 1000
+      : heldAt;
+    if (t < 0) return t;
+    preroll = false;
+    audio.currentTime = 0;
+    start(audio);
+    return 0;
+  };
+  const paused = () => (preroll ? !running : audio.paused);
 
   const toggle = () => {
-    if (audio.paused) {
-      audio.play().catch((error: unknown) => {
-        // An abort is a pause landing before the play began.
-        if (error instanceof DOMException && error.name === 'AbortError')
-          return;
-        throw error;
-      });
-    } else {
-      audio.pause();
+    if (!preroll) {
+      if (audio.paused) start(audio);
+      else audio.pause();
+      return;
     }
+    heldAt = now();
+    runningSince = performance.now();
+    running = !running;
+  };
+  const seek = (t: number) => {
+    const playing = !paused();
+    preroll = t < 0;
+    if (preroll) {
+      audio.pause();
+      audio.currentTime = 0;
+      heldAt = t;
+      runningSince = performance.now();
+      running = playing;
+      return;
+    }
+    audio.currentTime = t;
+    if (playing) start(audio);
   };
   const onPointer = (event: PointerEvent) => {
     if (event.clientY >= globalThis.innerHeight - SCRUB_REACH) {
-      audio.currentTime = (event.clientX / globalThis.innerWidth) * length();
+      seek(
+        (event.clientX / globalThis.innerWidth) * (length() + PREROLL) -
+          PREROLL,
+      );
       return;
     }
     toggle();
@@ -155,8 +201,9 @@ function play(
 
   let request = 0;
   const tick = () => {
-    paint(audio.currentTime);
-    chrome(canvas, ctx, audio.currentTime / length(), audio.paused);
+    const t = now();
+    paint(t);
+    chrome(canvas, ctx, (t + PREROLL) / (length() + PREROLL), paused());
     request = requestAnimationFrame(tick);
   };
   request = requestAnimationFrame(tick);

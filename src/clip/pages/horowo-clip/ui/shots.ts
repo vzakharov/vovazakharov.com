@@ -4,6 +4,7 @@ import { BREAKDOWN_SHOTS } from './shots-breakdown';
 import { BRIDGE_SHOTS } from './shots-bridge';
 import { CHORUS_SHOTS } from './shots-chorus';
 import { DOUBLE_SHOTS } from './shots-double';
+import { IDENT_SHOTS } from './shots-ident';
 import { INTRO_SHOTS } from './shots-intro';
 import { PREBRIDGE_SHOTS } from './shots-prebridge';
 import { VERSE_SHOTS } from './shots-verse';
@@ -14,6 +15,7 @@ import { VERSE_SHOTS } from './shots-verse';
  * overlap.
  */
 export const SHOTS: readonly Shot[] = [
+  ...IDENT_SHOTS,
   ...INTRO_SHOTS,
   ...DOUBLE_SHOTS,
   ...VERSE_SHOTS,

@@ -1,9 +1,10 @@
 /**
  * Films «Хорошо!» frame by frame: the vova export's clip page opened with
  * `?film` at 1920×1080, each frame drawn at its exact time and screenshotted,
- * piped into ffmpeg as H.264 with the song under it as AAC.
+ * piped into ffmpeg as H.264 with the song under it as AAC. Times are song
+ * time: the film opens on the ident, `PREROLL` seconds before the first note.
  *
- *   pnpm film:clip                       # build the vova export, film the whole song
+ *   pnpm film:clip                       # build the vova export, film the whole clip
  *   pnpm film:clip --no-build            # film the export already in sites/vova/out
  *   pnpm film:clip --from 28 --to 42.3   # that stretch alone, its sound with it
  *   pnpm film:clip --out tmp/clip/v1.mp4 # elsewhere than tmp/clip/horowo-<from>-<to>.mp4
@@ -19,7 +20,7 @@ import { z } from 'zod';
 import { PAGE_ROUTES } from '@/kernel/shared/config/index.node-safe';
 
 import { FILM_HOOK, FILM_QUERY } from '@/clip/shared/film';
-import { SONG_SECONDS } from '@/clip/shared/score';
+import { PREROLL, SONG_SECONDS } from '@/clip/shared/score';
 
 import { CLIP_TMP, songFile } from './lib/song-file';
 
@@ -31,7 +32,8 @@ import { watchPageErrors } from '@/scene/scripts/lib/page-errors';
 
 const FPS = 30;
 const SIZE = { width: 1920, height: 1080 } as const;
-const FROM = Number(flag('from') ?? 0);
+// Song time, so the film opens at -PREROLL, on the ident.
+const FROM = Number(flag('from') ?? -PREROLL);
 const TO = Math.min(SONG_SECONDS, Number(flag('to') ?? SONG_SECONDS));
 const OUT = path.resolve(
   REPO_ROOT,
@@ -68,16 +70,22 @@ async function hooked(tab: Tab, deadline: number): Promise<void> {
   return hooked(tab, deadline);
 }
 
-/** The encoder: PNG frames on stdin, the song's stretch from `song`, an mp4 out. */
+/**
+ * The encoder: PNG frames on stdin, the song's stretch from `song`, an mp4
+ * out. A stretch opening in the pre-roll holds silence until the first note.
+ */
 function encoder(song: string) {
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
+  const heard = Math.max(0, FROM);
+  const silence = Math.round((heard - FROM) * 1000);
   return spawn(
     'ffmpeg',
     [
       ['-hide_banner', '-loglevel', 'error', '-y'],
       ['-f', 'image2pipe', '-framerate', String(FPS), '-i', '-'],
-      ['-ss', String(FROM), '-t', String(TO - FROM), '-i', song],
+      ['-ss', String(heard), '-t', String(TO - heard), '-i', song],
       ['-map', '0:v', '-map', '1:a'],
+      ['-af', `adelay=${String(silence)}:all=1,apad`],
       ['-c:v', 'libx264', '-preset', 'medium', '-crf', '18'],
       ['-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k'],
       ['-shortest', '-movflags', '+faststart', OUT],

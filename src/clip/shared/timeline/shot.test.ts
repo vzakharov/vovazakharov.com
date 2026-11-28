@@ -27,6 +27,20 @@ describe('shotAt', () => {
     assert.equal(shotAt(SHOTS, 10), undefined);
     assert.equal(shotAt(SHOTS, -1), undefined);
   });
+
+  it('holds below zero, where the pre-roll plays', () => {
+    const preroll: Shot = { from: -3.2, to: 0, draw: blank };
+    const shots = [preroll, ...SHOTS];
+    assert.equal(shotAt(shots, -3.2), preroll);
+    assert.equal(shotAt(shots, -0.01), preroll);
+    assert.equal(shotAt(shots, 0), SHOTS[0]);
+    assert.equal(shotAt(shots, -3.3), undefined);
+    assert.deepEqual(localTime(preroll, -1.6), {
+      sinceCut: 1.6,
+      p: 0.5,
+      seconds: 3.2,
+    });
+  });
 });
 
 describe('localTime', () => {
