@@ -11,6 +11,7 @@ import {
   remove,
   setLineTool,
 } from './actions.ts';
+import { wireFind } from './find.ts';
 import { drawLines, select } from './view.ts';
 import { applyCamera, fit, viewCentre, zoomBy } from './viewport.ts';
 
@@ -62,11 +63,14 @@ function wireToolbar(board: Board): void {
   }
 }
 
-/** The toolbar and swatches, the keys, pasting an image, and the window's resize. */
+/** The toolbar and swatches, the find box, the keys, pasting an image, and the window's resize. */
 export function wireControls(board: Board): void {
   wireToolbar(board);
+  wireFind(board);
 
   document.addEventListener('keydown', (event) => {
+    // A key typed into the find box is the box's, Backspace above all.
+    if (event.target instanceof HTMLInputElement) return;
     if (board.editing !== undefined) {
       if (event.key === 'Escape') board.editing.blur();
       return;
