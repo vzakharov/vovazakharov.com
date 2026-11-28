@@ -1,5 +1,3 @@
-// masd-disable insignificant -- the wave-2 scenes under `clip/pages/` are its consumers
-
 /**
  * The cast: one puppet, the operator's robo-avatar, and the band it plays four
  * ways. Everything drawn is a pure function of the pen and its arguments; the

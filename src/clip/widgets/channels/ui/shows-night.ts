@@ -2,7 +2,7 @@ import { ellipse, ink, limb, polygon } from '@/clip/shared/ink';
 import { jaw, pulse } from '@/clip/shared/score';
 import { testCard } from '@/clip/shared/tape';
 import { bunny } from '@/clip/entities/bunny';
-import { lerpPose, POSES, puppet } from '@/clip/entities/puppet';
+import { FORM_LOOKS, lerpPose, POSES, puppet } from '@/clip/entities/puppet';
 
 import { CHANNELS_PALETTE } from './palette-channels';
 import { box, caption, HEIGHT, lurker, type Show, WIDTH } from './screen';
@@ -30,7 +30,7 @@ export const newsDesk: Show = (pen, nearness, since) => {
     place: { x: 330, y: 800, scale: 0.85 },
     pose: 'sing',
     outfit: 'suit',
-    look: { jaw: jaw(pen.playhead), gaze: [0, 0] },
+    look: { ...FORM_LOOKS.vocal, jaw: jaw(pen.playhead), gaze: [0, 0] },
     mark: 4000,
   });
   ink(
