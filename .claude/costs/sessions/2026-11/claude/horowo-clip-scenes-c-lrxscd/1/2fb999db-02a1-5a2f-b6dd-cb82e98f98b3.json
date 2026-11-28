@@ -9,7 +9,19 @@
     "responses": 57,
     "costUsd": 3.913148
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-28T14:27:20.246Z",
+    "subjectLine": "feat: the bedroom, the ward and the ending, drawn and cut",
+    "parts": [
+      {
+        "hours": 8.0,
+        "grade": "senior",
+        "role": "designer",
+        "comment": "Three sets in a second visual register, five ward framings, a snow-globe pull-back and a tube switch-off: the clip's story beats, which need a senior hand on staging; about two and a half hours a set"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "Write",
     "endedOn": "src/clip/widgets/ward/ui/palette-ward.ts",
