@@ -9,14 +9,19 @@ import {
 import { LETTERING_PALETTE } from './palette-lettering';
 import { traceBoiled } from './trace';
 
+/** Anything a hand puts down stroke by stroke. */
+export type HandDrawn = {
+  /**
+   * How much is drawn, in `[0, 1]`: the strokes appear in the order a hand
+   * makes them, the last one growing. 1 by default.
+   */
+  progress?: number;
+};
+
 /** Text, where it goes, and how far it is written. */
 export type Writing = TextSet &
-  Place & {
-    /**
-     * How much is written, in `[0, 1]`: the strokes appear in the order a hand
-     * makes them, the last one growing. 1 by default.
-     */
-    progress?: number;
+  Place &
+  HandDrawn & {
     /** The line's width, in cap heights. */
     weight?: number;
   };
