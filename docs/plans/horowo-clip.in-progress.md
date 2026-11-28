@@ -104,6 +104,14 @@ channel.
 - **Words appear only where the scene has them** — a karaoke line on a channel,
   the three words scratched on the wall — never as subtitles.
 
+## Where things are
+
+- **PR**: https://github.com/vzakharov/vovazakharov.com/pull/295, draft.
+- **Board**: https://claude.ai/artifact/5hqSFnzRjgT8nVshU3oeKJ, watched by the
+  lead's session. Every frame goes there the turn it exists, as a JPEG under
+  `docs/remove-before-merging/frames/` with its verdict in
+  `docs/remove-before-merging/review-focus.json`.
+
 ## The team
 
 Nobody yet. Children start once a variant is picked: the pick decides the

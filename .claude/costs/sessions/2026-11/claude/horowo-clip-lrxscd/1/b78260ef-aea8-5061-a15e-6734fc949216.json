@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 65,
+    "inputTokens": 74,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 172327,
-    "cacheReadTokens": 4980257,
-    "outputTokens": 68421,
-    "thinkingTokens": 25021,
-    "responses": 30,
-    "costUsd": 6.490643400000001
+    "cacheWrite1hTokens": 188534,
+    "cacheReadTokens": 6150851,
+    "outputTokens": 70867,
+    "thinkingTokens": 25808,
+    "responses": 35,
+    "costUsd": 7.0819862
   },
   "estimate": {
     "at": "2026-11-28T10:11:18.592Z",
@@ -66,18 +66,18 @@
   "url": "https://claude.ai/code/session_01MZoAKCKwqeVGKcCw6iKKPs",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:00:24.182Z",
-  "lastResponseAt": "2026-11-28T10:12:34.294Z",
+  "lastResponseAt": "2026-11-28T10:13:02.278Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 65,
+    "inputTokens": 74,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 172327,
-    "cacheReadTokens": 4980257,
-    "outputTokens": 68421,
-    "thinkingTokens": 25021,
-    "responses": 30,
-    "costUsd": 6.490643400000001
+    "cacheWrite1hTokens": 188534,
+    "cacheReadTokens": 6150851,
+    "outputTokens": 70867,
+    "thinkingTokens": 25808,
+    "responses": 35,
+    "costUsd": 7.0819862
   },
   "subagents": {
     "inputTokens": 0,
@@ -91,14 +91,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 65,
+      "inputTokens": 74,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 172327,
-      "cacheReadTokens": 4980257,
-      "outputTokens": 68421,
-      "thinkingTokens": 25021,
-      "responses": 30,
-      "costUsd": 6.490643400000001
+      "cacheWrite1hTokens": 188534,
+      "cacheReadTokens": 6150851,
+      "outputTokens": 70867,
+      "thinkingTokens": 25808,
+      "responses": 35,
+      "costUsd": 7.0819862
     }
   },
   "warnings": [],
@@ -112,7 +112,7 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 117,
+    ".md": 143,
     ".json": 18
   }
 }
