@@ -1,11 +1,7 @@
-/**
- * A stretch of the clip's time is a `Ranged`, in seconds: from `from` up to,
- * not including, `to`.
- */
+/** A stretch of the clip's time, in seconds, holds its `from` and stops short of its `to`. */
 
 import type { Ranged } from '@/kernel/shared/typings';
 
-/** Whether `t` falls in `span`. */
 export const within = ({ from, to }: Ranged, t: number): boolean =>
   t >= from && t < to;
 

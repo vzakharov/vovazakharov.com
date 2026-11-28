@@ -41,7 +41,6 @@ function decode(file: string): Float32Array {
   return new Float32Array(buffer.slice(byteOffset, byteOffset + byteLength));
 }
 
-/** Each frame's loudness as a digit. */
 function digits(samples: Float32Array): string {
   const frames = Math.ceil((samples.length / SAMPLE_RATE) * ENERGY_RATE);
   return Array.from({ length: frames }, (_, frame) => {

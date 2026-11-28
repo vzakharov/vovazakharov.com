@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 252,
+    "inputTokens": 259,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 385355,
-    "cacheReadTokens": 23918793,
-    "outputTokens": 105740,
-    "thinkingTokens": 32833,
-    "responses": 133,
-    "costUsd": 9.982406600000001
+    "cacheWrite1hTokens": 396914,
+    "cacheReadTokens": 24635229,
+    "outputTokens": 108069,
+    "thinkingTokens": 33745,
+    "responses": 136,
+    "costUsd": 10.2647738
   },
   "estimate": {
     "at": "2026-11-28T10:30:19.485Z",
@@ -58,18 +58,18 @@
   "url": "https://claude.ai/code/session_01MZoAKDHpcNax8XmHbMJmAK",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:29:46.156Z",
-  "lastResponseAt": "2026-11-28T11:03:08.553Z",
+  "lastResponseAt": "2026-11-28T11:03:28.556Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 252,
+    "inputTokens": 259,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 385355,
-    "cacheReadTokens": 23918793,
-    "outputTokens": 105740,
-    "thinkingTokens": 32833,
-    "responses": 133,
-    "costUsd": 9.982406600000001
+    "cacheWrite1hTokens": 396914,
+    "cacheReadTokens": 24635229,
+    "outputTokens": 108069,
+    "thinkingTokens": 33745,
+    "responses": 136,
+    "costUsd": 10.2647738
   },
   "subagents": {
     "inputTokens": 0,
@@ -83,14 +83,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 252,
+      "inputTokens": 259,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 385355,
-      "cacheReadTokens": 23918793,
-      "outputTokens": 105740,
-      "thinkingTokens": 32833,
-      "responses": 133,
-      "costUsd": 9.982406600000001
+      "cacheWrite1hTokens": 396914,
+      "cacheReadTokens": 24635229,
+      "outputTokens": 108069,
+      "thinkingTokens": 33745,
+      "responses": 136,
+      "costUsd": 10.2647738
     }
   },
   "warnings": [],
@@ -138,7 +138,7 @@
     ".mjs": 687,
     ".json": 28,
     ".tsx": 33,
-    ".ts": 1874,
+    ".ts": 1863,
     ".scss": 12
   }
 }

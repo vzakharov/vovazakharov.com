@@ -23,7 +23,6 @@ export type Shot = Ranged & {
 export const shotAt = (shots: readonly Shot[], t: number): Shot | undefined =>
   shots.findLast((shot) => within(shot, t));
 
-/** `shot`'s own clock at the clip's `t`. */
 export const localTime = (shot: Shot, t: number): Local => ({
   sinceCut: t - shot.from,
   p: through(shot, t),

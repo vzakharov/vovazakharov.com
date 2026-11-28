@@ -21,14 +21,12 @@ export const BAR = BEAT * GRID.beatsPerBar;
 /** The beat number at `t`, with its fraction: 3.5 is half-way from beat 3 to beat 4. */
 export const beatAt = (t: number): number => (t - GRID.firstBeat) / BEAT;
 
-/** When beat `n` lands. */
 export const beatTime = (n: number): number => GRID.firstBeat + n * BEAT;
 
 /** The bar number at `t`, with its fraction; bar 0 opens on `GRID.downbeat`. */
 export const barAt = (t: number): number =>
   (beatAt(t) - GRID.downbeat) / GRID.beatsPerBar;
 
-/** When bar `n` opens. */
 export const barTime = (n: number): number =>
   beatTime(GRID.downbeat + n * GRID.beatsPerBar);
 
