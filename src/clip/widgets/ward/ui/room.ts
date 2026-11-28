@@ -26,7 +26,7 @@ const QUILT = 90;
 /** The TV on its bracket, high in the right-hand corner. */
 const TV = { x: 1010, y: 70, width: 200, height: 150 } as const;
 
-const rect = (x: number, y: number, w: number, h: number) =>
+export const rect = (x: number, y: number, w: number, h: number) =>
   polygon([
     [x, y],
     [x + w, y],

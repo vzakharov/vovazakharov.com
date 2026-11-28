@@ -4,14 +4,13 @@ import {
   lerp,
   type Pen,
   type Point,
-  polygon,
   smoothstep,
   STAGE,
 } from '@/clip/shared/ink';
 import { bunny } from '@/clip/entities/bunny';
 import { type Look, puppet } from '@/clip/entities/puppet';
 
-import { cot } from './room';
+import { cot, rect } from './room';
 
 /** The middle of the man's face in the cell's coordinates, where the zoom ends up. */
 export const HIS_FACE: Point = [565, 325];
@@ -85,16 +84,7 @@ function approaching(pen: Pen, approach: Approach, behind: boolean): void {
     draw();
     return;
   }
-  clipped(
-    pen,
-    polygon([
-      [0, 0],
-      [STAGE.width, 0],
-      [STAGE.width, COT_BOTTOM],
-      [0, COT_BOTTOM],
-    ]),
-    draw,
-  );
+  clipped(pen, rect(0, 0, STAGE.width, COT_BOTTOM), draw);
 }
 
 /** The man on the cot in his strait-jacket, as `look` has him, and the bunny at `approach`. */
