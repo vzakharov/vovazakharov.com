@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 199,
+    "inputTokens": 205,
     "cacheWrite5mTokens": 181762,
-    "cacheWrite1hTokens": 170777,
-    "cacheReadTokens": 16012673,
-    "outputTokens": 41751,
-    "thinkingTokens": 10533,
-    "responses": 98,
-    "costUsd": 6.313376599999998
+    "cacheWrite1hTokens": 172621,
+    "cacheReadTokens": 16691064,
+    "outputTokens": 42598,
+    "thinkingTokens": 10580,
+    "responses": 101,
+    "costUsd": 6.480770799999998
   },
   "estimate": {
     "at": "2026-11-28T09:46:05.055Z",
@@ -54,18 +54,18 @@
   "url": "https://claude.ai/code/session_01MZoAKC113of9r2DZYGUZtU",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T09:45:44.227Z",
-  "lastResponseAt": "2026-11-28T10:10:26.095Z",
+  "lastResponseAt": "2026-11-28T10:10:40.156Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 132,
+    "inputTokens": 138,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 170777,
-    "cacheReadTokens": 11642068,
-    "outputTokens": 28319,
-    "thinkingTokens": 5607,
-    "responses": 66,
-    "costUsd": 4.261537599999999
+    "cacheWrite1hTokens": 172621,
+    "cacheReadTokens": 12320459,
+    "outputTokens": 29166,
+    "thinkingTokens": 5654,
+    "responses": 69,
+    "costUsd": 4.428931799999999
   },
   "subagents": {
     "inputTokens": 67,
@@ -79,14 +79,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 199,
+      "inputTokens": 205,
       "cacheWrite5mTokens": 181762,
-      "cacheWrite1hTokens": 170777,
-      "cacheReadTokens": 16012673,
-      "outputTokens": 41751,
-      "thinkingTokens": 10533,
-      "responses": 98,
-      "costUsd": 6.313376599999998
+      "cacheWrite1hTokens": 172621,
+      "cacheReadTokens": 16691064,
+      "outputTokens": 42598,
+      "thinkingTokens": 10580,
+      "responses": 101,
+      "costUsd": 6.480770799999998
     }
   },
   "warnings": [],
@@ -103,7 +103,7 @@
     ".json": 58,
     ".ts": 698,
     ".css": 259,
-    ".md": 3059,
+    ".md": 3061,
     ".b64": 5,
     ".txt": 176,
     ".tsx": -249,
