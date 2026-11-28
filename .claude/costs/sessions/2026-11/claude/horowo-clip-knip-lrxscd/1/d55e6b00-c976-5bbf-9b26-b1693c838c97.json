@@ -9,7 +9,19 @@
     "responses": 30,
     "costUsd": 0.9690205
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-28T14:51:18.588Z",
+    "subjectLine": "refactor: unused exports and the storyboard sketch dropped",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "Removing a hundred-odd unused names by a linter's list, checking each against its slice and the architecture gates, is careful but routine work for a mid-level developer"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "Edit",
     "endedOn": "docs/plans/horowo-clip.in-progress.md",
