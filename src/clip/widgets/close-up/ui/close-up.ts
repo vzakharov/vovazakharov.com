@@ -64,7 +64,8 @@ const DROPPED_SCALE = 2.8;
 const MOUTH: Point = [0, 92];
 const SWALLOWED = 16;
 const HEAD_SEED = 500;
-// A time a pulse's own start rounds to, just short of the cue it ends at.
+// How far short of `fall.to` the last hit is looked for: at `fall.to` itself
+// the next section's pulse has begun.
 const BEFORE = 1e-6;
 
 function black(pen: Pen): void {

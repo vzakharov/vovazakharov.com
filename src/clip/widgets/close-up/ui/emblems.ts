@@ -31,7 +31,7 @@ export type Emblem = (typeof EMBLEMS)[number];
 const CORNERS = ['topLeft', 'topRight', 'bottomLeft', 'bottomRight'] as const;
 export type Corner = (typeof CORNERS)[number];
 
-/** Each corner's middle on the stage, and which way it lies from the face. */
+/** Each corner's middle on the stage. */
 export const CORNER_AT: Record<Corner, Point> = {
   topLeft: [160, 150],
   topRight: [1120, 150],
