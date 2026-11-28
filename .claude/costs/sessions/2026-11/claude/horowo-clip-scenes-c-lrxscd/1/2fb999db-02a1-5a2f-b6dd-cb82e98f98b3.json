@@ -1,0 +1,90 @@
+{
+  "total": {
+    "inputTokens": 86,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 133718,
+    "cacheReadTokens": 6382616,
+    "outputTokens": 34110,
+    "thinkingTokens": 9370,
+    "responses": 44,
+    "costUsd": 3.0288112000000003
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "src/clip/widgets/ward/ui/palette-ward.ts",
+    "endedAt": "2026-11-28T11:54:00.666Z",
+    "contextTokens": 137925,
+    "spend": {
+      "inputTokens": 31,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 81242,
+      "cacheReadTokens": 1662164,
+      "outputTokens": 7534,
+      "thinkingTokens": 4032,
+      "responses": 15,
+      "costUsd": 1.1331727999999999
+    }
+  },
+  "sessionId": "2fb999db-02a1-5a2f-b6dd-cb82e98f98b3",
+  "branch": "claude/horowo-clip-scenes-c-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are one of three sessions drawing the scenes of a code-drawn music video. You are **package C — the bedroom, the ward and the end**: the bedroom at 3 am (wi…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01MZoAKERHcdpfR5yxYMoa2y",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T11:52:33.501Z",
+  "lastResponseAt": "2026-11-28T11:59:45.138Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 86,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 133718,
+    "cacheReadTokens": 6382616,
+    "outputTokens": 34110,
+    "thinkingTokens": 9370,
+    "responses": 44,
+    "costUsd": 3.0288112000000003
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 86,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 133718,
+      "cacheReadTokens": 6382616,
+      "outputTokens": 34110,
+      "thinkingTokens": 9370,
+      "responses": 44,
+      "costUsd": 3.0288112000000003
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": null,
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 936,
+    ".mjs": 687,
+    ".json": 97,
+    ".ts": 11873,
+    ".tsx": 44,
+    ".scss": 12
+  }
+}
