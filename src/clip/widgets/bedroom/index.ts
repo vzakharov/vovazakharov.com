@@ -1,5 +1,5 @@
-export { CUES as BEDROOM_CUES } from './ui/cues';
 export {
+  BEDROOM_CUES,
   coldSweat,
   offTheWall,
   reverseAngle,
@@ -8,4 +8,4 @@ export {
   troublesRetreat,
   wakeUp,
   wallWakes,
-} from './ui/lines';
+} from './verse';

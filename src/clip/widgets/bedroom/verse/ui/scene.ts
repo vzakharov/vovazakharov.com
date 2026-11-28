@@ -16,17 +16,18 @@ import {
   bed,
   blanket,
   castShadow,
+  dampPillow,
   night,
   SLEEPER_FACE,
+  sweatDrops,
   tvGlow,
   tvSet,
   walls,
   window,
-} from './room';
-import { dampPillow, sweatDrops } from './sweat';
+} from '../../room';
 
 /** Where the bunny is: nowhere, stepping off the wallpaper, by the window, at the foot of the bed. */
-export type Visit =
+type Visit =
   | { at: 'none' }
   | { at: 'wall'; from: Point; out: number }
   | { at: 'window' }
@@ -34,6 +35,8 @@ export type Visit =
 
 /** How the room stands in one line of the verse. */
 export type Room = {
+  /** 0 dry, 1 pouring: on his face, off his chin, into the pillow. */
+  drenched: number;
   /** The second half: the camera tilted and shaken on the kicks, not bobbing. */
   raw: boolean;
   visit: Visit;
@@ -43,16 +46,14 @@ export type Room = {
   watching: number;
   /** The window shows a summer afternoon. */
   summer: boolean;
-  /** 0 dry, 1 pouring: on his face, off his chin, into the pillow. */
-  sweat: number;
   /** The set's light one cold colour instead of the channel's. */
   cold: boolean;
   /** Whether the set is in the room; off behind a reversed camera. */
   tv: boolean;
   /** How much of the night lies over it all. */
-  dark: number;
+  nightfall: number;
   /** His face, past what the beat and the vocal give it. */
-  look: Partial<Look>;
+  face: Partial<Look>;
 };
 
 export const ROOM: Room = {
@@ -61,17 +62,17 @@ export const ROOM: Room = {
   holed: false,
   watching: 0,
   summer: false,
-  sweat: 0.2,
+  drenched: 0.2,
   cold: false,
   tv: true,
-  dark: 0.5,
-  look: {},
+  nightfall: 0.5,
+  face: {},
 };
 
 /** Where the camera looks on the stage, how close, how tilted, and whether it faces the room from the other side. */
 export type Camera = {
-  focus: Point;
-  zoom: number;
+  framed: Point;
+  closeness: number;
   tilt?: number;
   reversed?: boolean;
 };
@@ -83,7 +84,7 @@ export type Camera = {
 function sleeper(pen: Pen, room: Room): void {
   const { playhead } = pen;
   const beat = pulse(playhead);
-  const { raw, sweat, look } = room;
+  const { raw, drenched, face } = room;
   const nod = Math.exp(-beat.fraction * 4) * (raw ? 1 : 0.6);
   const growl = jaw(playhead);
   puppet(pen, {
@@ -97,8 +98,8 @@ function sleeper(pen: Pen, room: Room): void {
       turn: 0.35,
       lid: raw ? 0 : 0.35 * (1 - growl),
       brow: clamp((raw ? 0.8 : 0.4) + 0.4 * growl, 0, 1),
-      sweat,
-      ...look,
+      sweat: drenched,
+      ...face,
     },
     mark: 251,
   });
@@ -171,13 +172,13 @@ function interior(pen: Pen, room: Room, shadowRise: number): void {
   if (shadowRise > 0) bunnyShadow(pen, shadowRise);
   visitor(pen, room.visit, 'wall');
   bed(pen);
-  dampPillow(pen, clamp((room.sweat - 0.4) / 0.6, 0, 1));
+  dampPillow(pen, clamp((room.drenched - 0.4) / 0.6, 0, 1));
   sleeper(pen, room);
-  if (room.sweat > POURING) sweatDrops(pen, room.sweat);
+  if (room.drenched > POURING) sweatDrops(pen, room.drenched);
   blanket(pen);
   visitor(pen, room.visit, 'floor');
   if (room.tv) tvSet(pen);
-  night(pen, room.dark);
+  night(pen, room.nightfall);
   tvGlow(pen, swell, room.cold);
 }
 
@@ -201,8 +202,8 @@ export function bedroom(
     const dy = (room.raw ? 0 : 7 * kick) + shake * noise(272, jitter);
     const tilt =
       (camera.tilt ?? 0) + (room.raw ? 1.5 * kick * noise(273, jitter) : 0);
-    const zoom = camera.zoom * (1 + 0.025 * kick);
-    const [fx, fy] = camera.focus;
+    const zoom = camera.closeness * (1 + 0.025 * kick);
+    const [fx, fy] = camera.framed;
     at(inner, { x: STAGE.width / 2 + dx, y: STAGE.height / 2 + dy }, () => {
       at(inner, { scale: zoom, rot: tilt, flip: camera.reversed }, () => {
         at(inner, { x: -fx, y: -fy }, () => {

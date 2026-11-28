@@ -8,20 +8,15 @@ import {
   sub,
 } from '@/clip/shared/ink';
 
-import type { Covering } from '../model/crowd';
 import { BUNNY_PALETTE } from './palette-bunny';
-import { type Cell, motifAt, motifScale } from './wallpaper';
+import { motifAt, motifScale, type Wallpaper } from './wallpaper';
 
-export type WallpaperEyes = Covering & {
-  /** The wallpaper's cell and offset, as `bunnyWallpaper` was given them. */
-  cell?: number;
-  offset?: Point;
+/** The wallpaper as `bunnyWallpaper` was given it, and what its bunnies do. */
+export type WallpaperEyes = Wallpaper & {
   /** Where every printed bunny looks, in the same units. */
   target: Point;
   /** 0 the print as it was, 1 every pair of eyes open; each pair opens on its own cue within that. */
-  open: number;
-  /** The cell left empty, as `bunnyWallpaper`'s `hole`. */
-  hole?: Cell;
+  awake: number;
 };
 
 // The print's own eye line, in the bunny's units.
@@ -38,7 +33,7 @@ const PUPIL_TRAVEL = 0.45;
  * Drawn over `bunnyWallpaper` with the same cell and offset.
  */
 export function wallpaperEyes(pen: Pen, eyes: WallpaperEyes): void {
-  const { area, cell = 110, offset = [0, 0], target, open, hole } = eyes;
+  const { area, cell = 110, offset = [0, 0], target, awake, hole } = eyes;
   const { x = 0, y = 0, width, height } = area;
   const [dx, dy] = offset;
   const scale = motifScale(cell);
@@ -51,7 +46,7 @@ export function wallpaperEyes(pen: Pen, eyes: WallpaperEyes): void {
     for (let row = firstRow; row <= lastRow; row += 1) {
       if (hole?.column === column && hole.row === row) continue;
       const cue = 0.5 + 0.5 * noise(cell + column * 31, row);
-      const opened = clamp((open - cue * 0.7) / 0.3, 0, 1);
+      const opened = clamp((awake - cue * 0.7) / 0.3, 0, 1);
       if (opened <= 0) continue;
       const [mx, my] = motifAt(cell, { column, row });
       const head: Point = [mx + dx, my + dy];

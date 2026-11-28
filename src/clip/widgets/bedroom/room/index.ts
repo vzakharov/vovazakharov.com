@@ -1,0 +1,15 @@
+export {
+  bed,
+  blanket,
+  castShadow,
+  dampPillow,
+  HOLE_AT,
+  night,
+  SLEEPER_FACE,
+  sweatDrops,
+  tvGlow,
+  tvSet,
+  walls,
+  window,
+  WINDOW_AT,
+} from './ui/room';
