@@ -40,7 +40,6 @@ export type Joint = (typeof JOINTS)[number];
  */
 export type Pose = Readonly<Record<Joint, Point>>;
 
-/** Each joint of `pose` passed through `move`. */
 export const mapPose = (
   pose: Pose,
   move: (point: Point, joint: Joint) => Point,
@@ -63,14 +62,12 @@ export const mapPose = (
 
 type Limb = readonly [Point, Point, Point];
 
-/** One arm of `pose`, shoulder to wrist. */
 export const armOf = (pose: Pose, side: Side): Limb => [
   pose[`shoulder${side}`],
   pose[`elbow${side}`],
   pose[`wrist${side}`],
 ];
 
-/** One leg of `pose`, hip to ankle. */
 export const legOf = (pose: Pose, side: Side): Limb => [
   pose[`hip${side}`],
   pose[`knee${side}`],

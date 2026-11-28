@@ -36,8 +36,7 @@ export const fretAt = (strings: Strings, along: number): Point => [
 
 /**
  * The drum kit in the puppet's units, the floor under its middle at the
- * origin: where each thing is struck, and where the drummer sits. The pots
- * and the bedpan are off a hospital ward.
+ * origin: where each thing is struck, and where the drummer sits.
  */
 export const KIT = {
   /** Where the drummer's hips are. */
