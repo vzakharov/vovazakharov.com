@@ -63,25 +63,27 @@ const KNEES = 36;
 const LAG = 26;
 const WORD = ['Х', 'О', 'Р', 'О', 'Ш', 'О'] as const;
 
-type Hop = { height: number; dip: number; trail: number };
-
 /**
  * A player's hop `fraction` through the half-time pulse: it lands squashed on
  * the hit, rises, crouches again to spring, and is in the air for the rest,
  * its hands trailing low on the way up and flung high on the way down.
  */
-function hopOf(fraction: number): Hop {
+function hopOf(fraction: number): {
+  lift: number;
+  dip: number;
+  trail: number;
+} {
   if (fraction < GROUNDED) {
     const u = fraction / GROUNDED;
     return {
-      height: 0,
+      lift: 0,
       dip: KNEES * (0.55 + 0.45 * Math.cos(2 * Math.PI * u)),
       trail: LAG * (0.7 - 1.7 * (1 - u) ** 2),
     };
   }
   const u = (fraction - GROUNDED) / (1 - GROUNDED);
   return {
-    height: Math.sin(Math.PI * u),
+    lift: Math.sin(Math.PI * u),
     dip: -6 * Math.sin(Math.PI * u),
     trail: LAG * (0.85 * Math.cos(Math.PI * u) - 0.15),
   };
@@ -119,7 +121,7 @@ function party(pen: Pen, framing: Framing): void {
   const { ctx, playhead: t } = pen;
   const { index, fraction, seconds } = pulse(t);
   const beats = 2 * (index + fraction);
-  const { height: lift, dip, trail } = hopOf(fraction);
+  const { lift, dip, trail } = hopOf(fraction);
   const kick = punch(KICKS, t);
   const [cx, cy, framed] = CAMERAS[framing];
   const wrong = through(sectionAt(t), t - fraction * seconds);
