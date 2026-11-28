@@ -48,6 +48,42 @@ The operator answered the first, the same day, verbatim:
 
 2–4 stand unanswered, so their defaults in § "Design decisions" hold.
 
+## Steering since
+
+2026-11-28, with a screenshot of the usage limits (5-hour 28%, weekly all models
+78%, weekly Fable 4%, the weekly ones resetting Monday 23:00), verbatim:
+
+> 1- нужно поглядывать за лимитом и вовремя фиксировать прогресс (в идеале ещё
+> разворачивать его -- либо артефактом, либо на превью. в принципе артефакта
+> должно хватить)
+>
+> 2- #240 скоро смерджится, надо будет его вмерджить
+>
+> 3- как всё закончим, и если лимит ещё не кончится, нужно сделать вертикальную
+> версию 30 секунд для сториса в телеграмме, и заканчиваться он должен короткой
+> нарезкой из видюшек, как в конце
+> https://github.com/vovas-music/lebed/commit/161d879e7e1e9dd0e1c7299ddf4bc5b8fc92fe6d#diff-99cc97a52a50eeba0c2eb0eb798aeafc2ecf7d006de07acb4c6324b82ef8acb1
+> (только используемые видюшки надо выложить в релиз, а не в репу)
+>
+> 4- а, ну и то что здесь делаем, тоже лучше делать через релизы, чтобы не
+> забить всю историю
+
+The lead's reading, each its own and open to correction:
+
+1. Every milestone ends committed, pushed and playable from a link: the clip as
+   it stands is published as an artifact (the page's code bundled into one HTML
+   file, the song beside it). A preview slot is the fallback. The weekly limit
+   across all models is the tight one, so wave 2 is sized to what is left rather
+   than to what would be fastest.
+2. When PR 240 lands on `main`, `main` is merged into this branch, `clip` takes
+   `music` as a parent and the audio comes from the catalogue.
+3. Last, if the limit allows: a vertical 30-second cut for a Telegram story,
+   ending on a quick montage of video clips as that commit's does. The clips it
+   uses go into a GitHub release, never the repository.
+4. Nothing binary and heavy that this work produces is committed: every mp4 is a
+   release asset. Board frames stay committed, small and few, under
+   `docs/remove-before-merging/`, which a squash never carries to `main`.
+
 ## The song
 
 `docs/remove-before-merging/horowo-song-mastering-oia0kq/blind/horowo/mix.mp3`
