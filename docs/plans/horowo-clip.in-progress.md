@@ -97,6 +97,17 @@ Then the song's structure by feel, verbatim:
 It replaces the lead's own section map wherever they differ; § "The cut by feel"
 below is the shot list redone against it.
 
+And on how the rhythm shows, verbatim:
+
+> ритм должен чувствоваться в видеоряде -- не перебарщивая, конечно, но нет-нет
+> да бочка/ведущий должны совпадать со сменами кадра или ещё какими-то ощутимыми
+> движениями
+
+So: the kick and the snare are onset lists in the score, and every scene has at
+least one thing that lands on them — a cut, a camera punch, a head coming down,
+the TV's glow — while most of the frame stays off the grid, so it reads as feel
+and not as a metronome.
+
 The lead's reading of the four notes, each its own and open to correction:
 
 1. Every milestone ends committed, pushed and playable from a link: the clip as
