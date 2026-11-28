@@ -292,7 +292,7 @@ At 18:12:39 UTC, after the solid red cross and the shaking hand, verbatim, his t
 
 What the child built from them, which the lead keeps: the break's words are in a shaking hand gone over twice more out of register; on «бы» the hospital's solid red cross lights behind the stack with a tube sign's flicker and the words turn to ink on it; every word is set at 0.6 width so the cross is square.
 
-Packages B, V and D report that he typed nothing into their sessions.
+Packages B, V, D and G report that he typed nothing into their sessions.
 
 To the lead, at about 18:14 UTC, over the bridge's last frame before the breakdown — him and the bunny sat beside him — verbatim:
 
