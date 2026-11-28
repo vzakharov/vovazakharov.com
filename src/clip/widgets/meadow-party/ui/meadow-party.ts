@@ -117,7 +117,7 @@ function bunnies(
  * pulse. It goes wrong through the chorus a pulse at a time: grins widen past
  * their faces, jaws hang, more bunnies arrive, nearer, and the camera creeps in.
  */
-function party(pen: Pen, framing: Framing): void {
+function party(pen: Pen, framing: Framing, slam = 0): void {
   const { ctx, playhead: t } = pen;
   const { index, fraction, seconds } = pulse(t);
   const beats = 2 * (index + fraction);
@@ -125,13 +125,14 @@ function party(pen: Pen, framing: Framing): void {
   const kick = punch(KICKS, t);
   const [cx, cy, framed] = CAMERAS[framing];
   const wrong = through(sectionAt(t), t - fraction * seconds);
-  const zoom = framed * (1 + 0.14 * wrong);
+  const zoom = framed * (1 + 0.14 * wrong) * (1 + 0.025 * kick + 0.3 * slam);
 
   ctx.fillStyle = PARTY_PALETTE.sky;
   ctx.fillRect(0, 0, SCREEN.width, SCREEN.height);
   ctx.save();
   ctx.translate(SCREEN.width / 2, SCREEN.height / 2);
-  ctx.scale(zoom * (1 + 0.025 * kick), zoom * (1 + 0.025 * kick));
+  ctx.rotate(-0.06 * slam);
+  ctx.scale(zoom, zoom);
   ctx.translate(-cx, -cy);
 
   ctx.fillStyle = PARTY_PALETTE.haze;
@@ -178,7 +179,7 @@ function party(pen: Pen, framing: Framing): void {
 
   serotoninFall(pen, {
     ...SCREEN,
-    density: 0.4 + 0.6 * wrong,
+    density: 0.4 + 0.6 * Math.max(wrong, slam),
     wind: 0.1,
     period: 9,
     seed: 7,
@@ -186,15 +187,30 @@ function party(pen: Pen, framing: Framing): void {
   });
 }
 
+function taped(pen: Pen, framing: Framing, slam = 0): void {
+  broadcast(
+    pen,
+    (inner) => {
+      party(inner, framing, slam);
+    },
+    { wear: 0.22 },
+  );
+}
+
 /** The chorus meadow seen through the channel's tape, framed by `framing`. */
 export const meadowParty =
   (framing: Framing): Drawing =>
   (pen) => {
-    broadcast(
-      pen,
-      (inner) => {
-        party(inner, framing);
-      },
-      { wear: 0.22 },
-    );
+    taped(pen, framing);
   };
+
+// How long the burst's punch-in takes to settle, in seconds.
+const SLAM_SETTLES = 0.14;
+
+/**
+ * The meadow's entrance: the whole party at full tilt from its first frame,
+ * the camera punched in and tilted on the cut and snapping back to the wide.
+ */
+export const meadowBurst: Drawing = (pen, { sinceCut }) => {
+  taped(pen, 'wide', Math.exp(-sinceCut / SLAM_SETTLES));
+};

@@ -1,13 +1,12 @@
 import { ellipse, ink, limb, polygon } from '@/clip/shared/ink';
-import { jaw, pulse } from '@/clip/shared/score';
+import { jaw } from '@/clip/shared/score';
 import { testCard } from '@/clip/shared/tape';
-import { bunny } from '@/clip/entities/bunny';
-import { FORM_LOOKS, lerpPose, POSES, puppet } from '@/clip/entities/puppet';
+import { FORM_LOOKS, puppet } from '@/clip/entities/puppet';
 
 import { CHANNELS_PALETTE } from './palette-channels';
-import { box, caption, HEIGHT, lurker, type Show, WIDTH } from './screen';
+import { box, caption, lurker, type Show, WIDTH } from './screen';
 
-const { news, aerobics, clock } = CHANNELS_PALETTE;
+const { news, clock } = CHANNELS_PALETTE;
 
 /** The news: the anchor behind his desk, the bunny at the window behind him. */
 export const newsDesk: Show = (pen, nearness, since, stare) => {
@@ -64,38 +63,6 @@ export const newsDesk: Show = (pen, nearness, since, stare) => {
 export const bunnyCard: Show = (pen, nearness) => {
   testCard(pen, 0);
   lurker(pen, nearness, [WIDTH / 2, 230], 'down', 13);
-};
-
-/** Morning exercises: the puppet in his toy suit jumping jacks, the bunny hopping along. */
-export const workout: Show = (pen, nearness, _since, stare) => {
-  const { index, fraction } = pulse(pen.playhead);
-  // The jumping jacks die down to a stand as he turns to the camera.
-  const swing = Math.abs(Math.sin(Math.PI * (index + fraction))) * (1 - stare);
-  box(pen, aerobics.wall);
-  box(pen, aerobics.floor, [0, 520, WIDTH, HEIGHT - 520]);
-  box(pen, aerobics.stripe, [0, 510, WIDTH, 14]);
-  caption(pen, 'ЗАРЯДКА', [260, 30], 9);
-  puppet(pen, {
-    place: { x: 300, y: 640, scale: 0.75 },
-    pose: lerpPose(POSES.wide, POSES.cheer, swing),
-    outfit: 'toy',
-    look: {
-      ...FORM_LOOKS.vocal,
-      jaw: 0.5 * (1 - stare),
-      gaze: [0.6 * (1 - stare), 0],
-      turn: 0.6 * (1 - stare),
-      brow: stare * 0.7,
-    },
-    mark: 5000,
-  });
-  const drift = Math.max(0, nearness - 0.5) * 0.8;
-  bunny(pen, {
-    x: 740 - 200 * drift,
-    y: 220,
-    nearness,
-    hop: fraction,
-    seed: 15,
-  });
 };
 
 /** The station clock at three in the night, the bunny's ears over its rim. */

@@ -1,1 +1,1 @@
-export { channel } from './ui/channel';
+export { aerobics, channel } from './ui/channel';

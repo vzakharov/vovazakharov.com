@@ -35,6 +35,12 @@ export const CHANNELS_PALETTE = {
     window: '#2a6aa0',
     ticker: '#c81a14',
   },
-  aerobics: { wall: '#ff5fa8', floor: '#3ad0c0', stripe: '#ffe14a' },
+  aerobics: {
+    wall: '#ff5fa8',
+    band: '#ff86c0',
+    floor: '#3ad0c0',
+    stripe: '#ffe14a',
+    count: '#ffe14a',
+  },
   clock: { field: '#08102a', face: '#e8ecf0', hand: '#101018', dot: '#e8261c' },
 } as const;

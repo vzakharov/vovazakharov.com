@@ -1,0 +1,160 @@
+{
+  "total": {
+    "inputTokens": 2957,
+    "cacheWrite5mTokens": 640,
+    "cacheWrite1hTokens": 274039,
+    "cacheReadTokens": 17188676,
+    "outputTokens": 70000,
+    "thinkingTokens": 20796,
+    "responses": 92,
+    "costUsd": 7.045075199999998
+  },
+  "estimate": {
+    "at": "2026-11-28T17:55:49.603Z",
+    "subjectLine": "feat: chorus break to black, meadow burst, aerobics show rotation",
+    "parts": [
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "game-designer",
+        "comment": "cutting a rotation of five storylines onto a song's lines and pulses, and a show's routine that reads in two-count glimpses, is timing-and-feel judgement"
+      },
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "hand-keyed puppet poses for an exercise routine and a camera slam need an eye for silhouette at TV size"
+      },
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "the shot list is generated from the score's pulses and kicks, with a pool another session extends"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-28T17:47:25.927Z",
+    "contextTokens": 103652,
+    "spend": {
+      "inputTokens": 2,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 40980,
+      "cacheReadTokens": 53374,
+      "outputTokens": 349,
+      "thinkingTokens": 21,
+      "responses": 1,
+      "costUsd": 0.3455028
+    }
+  },
+  "sessionId": "936aff38-7193-5f27-81f5-4fb631939b3f",
+  "branch": "claude/horowo-clip-w3-c-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a `/carte-blanche` run (`.claude/skills/carte-blanche/SKILL.md`): one of nine sessions reworking a code-drawn music video after its o…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEKgCkjsqiyZ6GhAjg",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T17:47:21.966Z",
+  "lastResponseAt": "2026-11-28T18:07:11.564Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 171,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 274039,
+    "cacheReadTokens": 16929006,
+    "outputTokens": 62991,
+    "thinkingTokens": 20796,
+    "responses": 91,
+    "costUsd": 6.838617199999998
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 2957,
+      "cacheWrite5mTokens": 640,
+      "cacheWrite1hTokens": 274039,
+      "cacheReadTokens": 17188676,
+      "outputTokens": 70000,
+      "thinkingTokens": 20796,
+      "responses": 92,
+      "costUsd": 7.045075199999998
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-28T18:06:39.429Z",
+      "trigger": "auto",
+      "compactedFrom": 264050,
+      "summaryChars": 15847,
+      "reorientation": {
+        "endedBy": null,
+        "endedOn": null,
+        "endedAt": null,
+        "contextTokens": null,
+        "spend": {
+          "inputTokens": 4,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 66313,
+          "cacheReadTokens": 173847,
+          "outputTokens": 980,
+          "thinkingTokens": 80,
+          "responses": 2,
+          "costUsd": 0.5848894
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.206458
+    }
+  ],
+  "telemetry": {
+    "events": 91,
+    "matched": 90,
+    "matchedTableUsd": 6.7327537999999985,
+    "matchedEventUsd": 6.7327537999999985,
+    "unseen": {
+      "compact": {
+        "inputTokens": 2786,
+        "cacheWrite5mTokens": 640,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 259670,
+        "outputTokens": 7009,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.206458
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1243,
+    ".json": 169,
+    ".ts": 13969,
+    ".tsx": 44,
+    ".scss": 12
+  }
+}

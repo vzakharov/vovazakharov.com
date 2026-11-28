@@ -2,9 +2,10 @@ import { smoothstep } from '@/clip/shared/ink';
 import { broadcast, TAPE_FPS } from '@/clip/shared/tape';
 import type { Drawing } from '@/clip/shared/timeline';
 
+import { workout } from './aerobics';
 import { pressed, type Show } from './screen';
 import { forecast, postcardShow, quizBoard, teleshop } from './shows-day';
-import { bunnyCard, newsDesk, stationClock, workout } from './shows-night';
+import { bunnyCard, newsDesk, stationClock } from './shows-night';
 
 /** The channels in zapping order; `channel(n)` wraps round past the last. */
 const SHOWS: readonly Show[] = [
@@ -58,3 +59,7 @@ export const channel =
       },
     );
   };
+
+/** The morning exercises channel, zapped onto in two tape frames. */
+export const aerobics = (nearness: number): Drawing =>
+  channel(SHOWS.indexOf(workout), nearness, { zapFrames: 2 });
