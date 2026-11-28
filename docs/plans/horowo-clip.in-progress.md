@@ -246,17 +246,21 @@ the picture's pace is the drummer's, so it halves when he does.
 - **0:36–0:43, second half, straight punk time.** The same exchange, rawer: the
   bunny-shaped hole in the wallpaper, the bunny by the window, then at the foot
   of the bed; the channels (the news, a test card) have him in them.
-- **0:43–1:00, chorus, half time — broadcast.** The band again, but heavy and
-  slow: long held shots, a cut every two bars, heads coming down on the snare,
-  serotonin falling thick and slow.
+- **0:43–1:00, chorus, half time — broadcast, cut with reality.** Faux-happy:
+  back on the kids' show meadow, and everyone is having a wonderful time. The
+  four of the band hop about with their instruments, bunnies dance in a ring,
+  the cardboard sun bobs and grins, the letter blocks bounce — all of it landing
+  together on the half-time snare, smiles a size too wide, serotonin coming down
+  like confetti. Between the hops, hard cuts to the ward for a beat or two: a
+  fingernail gouging the next strokes of «КАК, СУКА, ХОРОШО» into the paint, the
+  words further along at each return and finished by the chorus's end.
 - **1:00–1:17, pre-bridge, quarter time.** The zapping slows to a crawl instead
   of speeding up: one channel a bar, each held long enough to read, the bunny on
   every one a step nearer the glass. Dread by patience.
 - **1:17–1:35, the melodic bridge, quarter time — reality.** The one tender
-  stretch. The bedroom gives way to the ward without a cut: the words written
-  with a fingernail in blood appear stroke by stroke, the tallies spread past
-  every edge, the bunny sits down beside him and they watch the TV snow
-  together.
+  stretch. The bedroom gives way to the ward without a cut: the words the chorus
+  scratched are on the wall, the tallies spread past every edge, the bunny sits
+  down beside him and they watch the TV snow together.
 - **1:35–end, a new, slow tempo, a breakdown with glitches.** The tape itself
   breaks down: each stab a channel at full colour torn by tracking errors, each
   hole the silent ward. Then the pull back through the window — the hospital is
