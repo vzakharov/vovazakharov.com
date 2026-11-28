@@ -1,0 +1,138 @@
+{
+  "total": {
+    "inputTokens": 2551,
+    "cacheWrite5mTokens": 165,
+    "cacheWrite1hTokens": 281059,
+    "cacheReadTokens": 13533912,
+    "outputTokens": 77901,
+    "thinkingTokens": 26121,
+    "responses": 75,
+    "costUsd": 6.524303400000001
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-28T17:48:40.463Z",
+    "contextTokens": 145355,
+    "spend": {
+      "inputTokens": 25,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 88264,
+      "cacheReadTokens": 1404780,
+      "outputTokens": 6929,
+      "thinkingTokens": 3596,
+      "responses": 12,
+      "costUsd": 1.1257480000000002
+    }
+  },
+  "sessionId": "98f880cc-455d-504d-bd37-719d55872c30",
+  "branch": "claude/horowo-clip-w3-s-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a `/carte-blanche` run (`.claude/skills/carte-blanche/SKILL.md`): one of nine sessions reworking a code-drawn music video after its o…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkCjkzbt3pcNA53MBoo",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T17:47:16.676Z",
+  "lastResponseAt": "2026-11-28T18:02:03.246Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 140,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 281059,
+    "cacheReadTokens": 13270980,
+    "outputTokens": 71609,
+    "thinkingTokens": 26121,
+    "responses": 74,
+    "costUsd": 6.335408000000001
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 2551,
+      "cacheWrite5mTokens": 165,
+      "cacheWrite1hTokens": 281059,
+      "cacheReadTokens": 13533912,
+      "outputTokens": 77901,
+      "thinkingTokens": 26121,
+      "responses": 75,
+      "costUsd": 6.524303400000001
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-28T18:01:14.217Z",
+      "trigger": "auto",
+      "compactedFrom": 264422,
+      "summaryChars": 14415,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/clip/widgets/spoon-bunny/ui/scene.ts",
+        "endedAt": "2026-11-28T18:01:23.051Z",
+        "contextTokens": 116577,
+        "spend": {
+          "inputTokens": 4,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 62238,
+          "cacheReadTokens": 161522,
+          "outputTokens": 278,
+          "thinkingTokens": 23,
+          "responses": 2,
+          "costUsd": 0.5357844
+        }
+      },
+      "rereads": {
+        "calls": 3,
+        "byTool": {
+          "Read": 3
+        },
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.1888954
+    }
+  ],
+  "telemetry": {
+    "events": 74,
+    "matched": 73,
+    "matchedTableUsd": 6.291479800000001,
+    "matchedEventUsd": 6.291479800000001,
+    "unseen": {
+      "compact": {
+        "inputTokens": 2411,
+        "cacheWrite5mTokens": 165,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 262932,
+        "outputTokens": 6292,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.1888954
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 30,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1243,
+    ".json": 169,
+    ".ts": 13716,
+    ".tsx": 44,
+    ".scss": 12
+  }
+}
