@@ -6,10 +6,10 @@ import { rng } from '@/clip/shared/ink';
 
 /** What falls: a two-tone capsule, a scored tablet, a flake of one broken. */
 export const KINDS = ['capsule', 'tablet', 'flake'] as const;
-export type Kind = (typeof KINDS)[number];
+type Kind = (typeof KINDS)[number];
 
 /** Far to near: far flecks are small and slow, near ones big and quick. */
-export const DEPTHS = [0, 1, 2] as const;
+const DEPTHS = [0, 1, 2] as const;
 export type Depth = (typeof DEPTHS)[number];
 
 /** What a fleck looks like, wherever it is. */
@@ -52,7 +52,7 @@ export type FleckState = ScenePoint &
   };
 
 /** The largest fall there is; `density` takes a prefix of it. */
-export const POOL_SIZE = 260;
+const POOL_SIZE = 260;
 
 // Per depth: whole falls per period, and a fleck's size in stage units.
 const FALLS_PER_PERIOD: Readonly<Record<Depth, number>> = { 0: 1, 1: 2, 2: 3 };

@@ -1,1 +1,1 @@
-export { beatsAt, gigClose, gigInsert, gigWide } from './ui/gig';
+export { gigClose, gigInsert, gigWide } from './ui/gig';

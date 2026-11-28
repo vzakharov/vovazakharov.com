@@ -12,12 +12,12 @@ export const FEET_Y = 600;
  * before the belly, conduct, one paw beating time and the other hushing, or
  * hop, flung up at the top of each hop and down again on landing.
  */
-export const ARMS = ['down', 'up', 'reach', 'hold', 'conduct', 'hop'] as const;
+const ARMS = ['down', 'up', 'reach', 'hold', 'conduct', 'hop'] as const;
 export type Arms = (typeof ARMS)[number];
 
 /** Sewn-on buttons, or lit from inside. */
-export const EYES = ['button', 'glow'] as const;
-export type Eyes = (typeof EYES)[number];
+const EYES = ['button', 'glow'] as const;
+type Eyes = (typeof EYES)[number];
 
 /** The right shoulder; the left is its mirror. */
 export const SHOULDER: Point = [58, 101];

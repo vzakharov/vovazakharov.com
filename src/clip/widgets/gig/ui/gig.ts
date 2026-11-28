@@ -9,7 +9,7 @@ import { GIG_PALETTE } from './palette-gig';
 import { beams, crowd, jolted, marquee, stageFloor, wash } from './studio';
 
 /** The song's beat counter at the playhead, in the tempo of the section it is in. */
-export function beatsAt(t: number): number {
+function beatsAt(t: number): number {
   const section = sectionAt(t);
   return (t - section.downbeat) / beatSeconds(section);
 }

@@ -36,7 +36,7 @@ export type TextSet = Partial<Seeded> & {
 type Inked = { inkLength: number };
 
 /** A stroke where it lands, with where it falls in the order of writing. */
-export type LaidStroke = Inked & {
+type LaidStroke = Inked & {
   points: Stroke;
   /** The ink of every stroke written before it. */
   inkBefore: number;

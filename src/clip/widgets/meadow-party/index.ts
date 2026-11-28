@@ -1,1 +1,1 @@
-export { type Framing, FRAMINGS, meadowParty } from './ui/meadow-party';
+export { FRAMINGS, meadowParty } from './ui/meadow-party';

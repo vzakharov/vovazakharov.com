@@ -14,9 +14,3 @@ export const INSTRUMENT_PALETTE = {
   cross: '#d8382c',
   drip: '#9fe8ff',
 } as const;
-
-/** The cast sheet's own backdrop. */
-export const SHEET_PALETTE = {
-  wall: '#c2247a',
-  floor: '#1b1a20',
-} as const;

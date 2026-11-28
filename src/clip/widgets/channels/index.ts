@@ -1,1 +1,1 @@
-export { channel, SHOWS } from './ui/channel';
+export { channel } from './ui/channel';

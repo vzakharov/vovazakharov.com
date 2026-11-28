@@ -10,7 +10,7 @@ import {
 import { TALLY_PALETTE } from './palette-tallies';
 
 /** `progress` runs across the wall in reading order. */
-export type Tallies = TallyWall & HandDrawn;
+type Tallies = TallyWall & HandDrawn;
 
 // The last walls laid out, keyed on what shapes them: a scene asks for the
 // same wall every frame, and laying one out is a pure function of its key.
