@@ -348,19 +348,18 @@ The closing child: **knip**, Sonnet, `session_01MZoAKAcUSg1fRJ5rpM2h4Q`,
 files removed, 119 unused exports and exported types dropped, nothing drawn
 changed. Sonnet because it is removal by a list.
 
+A second closing child: **cut**, Sonnet, `session_01MZoAKEnKtyV3xBLHtudkKi`,
+`claude/horowo-clip-cut-lrxscd`, merged at `57cb7f00`, archived — the last nine
+unused names could not leave their barrels without `masd:clusters` asking for a
+sub-slice, so the meadow is cut into `block` and `scenery` and the puppet's body
+into `pose` and `figure`. Three frames compared byte for byte before and after.
+
 ## Built, in flight, left
 
 - **Built**: every section of the song drawn and cut, with the pre-roll ident
   before the first note; the chorus, intro, gig, pre-bridge and bedroom at
   second-pass level, the ward and the ending at first. `check:masd`,
-  `masd:clusters`, `type-overlap`, `tsc` and the line limit are green.
-- **Red**: `knip`, on nine names it cannot lose without a restructure —
-  `bounceAt` and `Bounce` in `entities/meadow`, and `GRIPS`, `OUTFITS`, `Dress`,
-  `Grip`, `Outfit` in `entities/puppet/body`. Nothing outside their slices
-  imports them, and dropping them from the barrels makes `masd:clusters` ask for
-  a sub-slice in each (the meadow's block with its bounce; the body's figure,
-  hands and outfits). The fix is that cut, or a consumer, or the operator's yes
-  on a `masd-disable cluster`.
+  `masd:clusters`, `knip`, `type-overlap`, `tsc` and the line limit are green.
 - **Not run**: `/dry` and `/tend-prose` over `src/clip`, left for the next
   session with the limit this low.
 - **Left**: the mp4 as a release asset (`pnpm film:clip` writes

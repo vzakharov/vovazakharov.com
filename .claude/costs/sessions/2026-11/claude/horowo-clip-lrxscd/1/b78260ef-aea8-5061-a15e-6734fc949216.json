@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 675,
+    "inputTokens": 688,
     "cacheWrite5mTokens": 123284,
-    "cacheWrite1hTokens": 1375603,
-    "cacheReadTokens": 69819026,
-    "outputTokens": 362443,
-    "thinkingTokens": 104659,
-    "responses": 345,
-    "costUsd": 50.1581973
+    "cacheWrite1hTokens": 1386875,
+    "cacheReadTokens": 71580314,
+    "outputTokens": 367546,
+    "thinkingTokens": 105939,
+    "responses": 352,
+    "costUsd": 50.895030899999995
   },
   "estimate": {
     "at": "2026-11-28T14:27:37.015Z",
@@ -66,18 +66,18 @@
   "url": "https://claude.ai/code/session_01MZoAKCKwqeVGKcCw6iKKPs",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:00:24.182Z",
-  "lastResponseAt": "2026-11-28T14:51:10.764Z",
+  "lastResponseAt": "2026-11-28T14:59:25.662Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": 39.975682099999986,
   "ownTurns": {
-    "inputTokens": 637,
+    "inputTokens": 650,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 1375603,
-    "cacheReadTokens": 68451147,
-    "outputTokens": 346124,
-    "thinkingTokens": 103723,
-    "responses": 329,
-    "costUsd": 49.54993339999999
+    "cacheWrite1hTokens": 1386875,
+    "cacheReadTokens": 70212435,
+    "outputTokens": 351227,
+    "thinkingTokens": 105003,
+    "responses": 336,
+    "costUsd": 50.28676699999999
   },
   "subagents": {
     "inputTokens": 38,
@@ -91,14 +91,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 637,
+      "inputTokens": 650,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 1375603,
-      "cacheReadTokens": 68451147,
-      "outputTokens": 346124,
-      "thinkingTokens": 103723,
-      "responses": 329,
-      "costUsd": 49.54993339999999
+      "cacheWrite1hTokens": 1386875,
+      "cacheReadTokens": 70212435,
+      "outputTokens": 351227,
+      "thinkingTokens": 105003,
+      "responses": 336,
+      "costUsd": 50.28676699999999
     },
     "claude-sonnet-5-5/standard": {
       "inputTokens": 38,
@@ -246,7 +246,7 @@
   "branchLines": {
     ".md": 1005,
     ".json": 169,
-    ".ts": 13690,
+    ".ts": 13710,
     ".tsx": 44,
     ".scss": 12
   }

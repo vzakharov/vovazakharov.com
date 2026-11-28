@@ -1,15 +1,27 @@
 {
   "total": {
-    "inputTokens": 28,
+    "inputTokens": 38,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 77419,
-    "cacheReadTokens": 1578567,
-    "outputTokens": 10090,
-    "thinkingTokens": 2766,
-    "responses": 14,
-    "costUsd": 0.5684887000000001
+    "cacheWrite1hTokens": 82894,
+    "cacheReadTokens": 2110477,
+    "outputTokens": 12043,
+    "thinkingTokens": 2839,
+    "responses": 18,
+    "costUsd": 0.6631297000000002
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-28T14:59:21.972Z",
+    "subjectLine": "refactor: the meadow and the puppet's body cut into sub-slices",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "Choosing the nouns for two sub-slice cuts and moving files under the architecture checkers without changing a frame takes someone who knows the layering rules"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "Write",
     "endedOn": "src/clip/entities/meadow/index.ts",
@@ -34,18 +46,18 @@
   "url": "https://claude.ai/code/session_01MZoAKEnKtyV3xBLHtudkKi",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T14:52:11.003Z",
-  "lastResponseAt": "2026-11-28T14:58:22.559Z",
+  "lastResponseAt": "2026-11-28T14:58:49.181Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 28,
+    "inputTokens": 38,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 77419,
-    "cacheReadTokens": 1578567,
-    "outputTokens": 10090,
-    "thinkingTokens": 2766,
-    "responses": 14,
-    "costUsd": 0.5684887000000001
+    "cacheWrite1hTokens": 82894,
+    "cacheReadTokens": 2110477,
+    "outputTokens": 12043,
+    "thinkingTokens": 2839,
+    "responses": 18,
+    "costUsd": 0.6631297000000002
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,14 +71,14 @@
   },
   "byRate": {
     "claude-sonnet-5-5/standard": {
-      "inputTokens": 28,
+      "inputTokens": 38,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 77419,
-      "cacheReadTokens": 1578567,
-      "outputTokens": 10090,
-      "thinkingTokens": 2766,
-      "responses": 14,
-      "costUsd": 0.5684887000000001
+      "cacheWrite1hTokens": 82894,
+      "cacheReadTokens": 2110477,
+      "outputTokens": 12043,
+      "thinkingTokens": 2839,
+      "responses": 18,
+      "costUsd": 0.6631297000000002
     }
   },
   "warnings": [],
@@ -82,7 +94,7 @@
   "branchLines": {
     ".md": 1005,
     ".json": 169,
-    ".ts": 13687,
+    ".ts": 13710,
     ".tsx": 44,
     ".scss": 12
   }
