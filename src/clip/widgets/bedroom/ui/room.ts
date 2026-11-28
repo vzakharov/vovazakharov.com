@@ -1,6 +1,7 @@
 import {
   ellipse,
   ink,
+  inLayer,
   type Pen,
   type Point,
   polygon,
@@ -160,19 +161,51 @@ export function tvSet(pen: Pen): number {
   return Math.exp((-beat.fraction * beat.seconds) / 0.18);
 }
 
-/** The set's light over the room, `swell` the beat's push on it. */
+/**
+ * The set's light over the room, `swell` the beat's push on it: each quarter
+ * washes the room in the next of the screen's colours.
+ */
 export function tvGlow(pen: Pen, swell: number): void {
-  const { ctx } = pen;
+  const { ctx, playhead } = pen;
+  const { washes, glowEdge } = BEDROOM_PALETTE;
+  const wash = washes[pulse(playhead).index % washes.length] ?? washes[0];
   const centre: Point = [TV.x + TV.width / 2, TV.y + TV.height / 2];
-  const gradient = ctx.createRadialGradient(...centre, 10, ...centre, 900);
-  gradient.addColorStop(0, BEDROOM_PALETTE.glow);
-  gradient.addColorStop(1, BEDROOM_PALETTE.glowEdge);
+  const gradient = ctx.createRadialGradient(...centre, 10, ...centre, 1000);
+  gradient.addColorStop(0, wash);
+  gradient.addColorStop(1, glowEdge);
   ctx.save();
-  ctx.globalAlpha = 0.55 + 0.45 * swell;
+  ctx.globalAlpha = 0.35 + 0.65 * swell;
   ctx.globalCompositeOperation = 'lighter';
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, STAGE.width, STAGE.height);
   ctx.restore();
+}
+
+/**
+ * A flat shadow on the wallpaper, thrown away from the set: `figure` drawn
+ * on a layer of its own, pushed left and stretched, filled with the shadow's
+ * colour and laid down at `alpha`.
+ */
+export function castShadow(
+  pen: Pen,
+  alpha: number,
+  figure: (layer: Pen) => void,
+): void {
+  inLayer(pen, alpha, (layer) => {
+    const { ctx } = layer;
+    ctx.save();
+    ctx.translate(TV.x, FLOOR_Y);
+    ctx.transform(1.35, 0, -0.25, 1.25, 0, 0);
+    ctx.translate(-TV.x - 60, -FLOOR_Y);
+    figure(layer);
+    ctx.restore();
+    ctx.save();
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.globalCompositeOperation = 'source-in';
+    ctx.fillStyle = BEDROOM_PALETTE.castShadow;
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.restore();
+  });
 }
 
 /** Night over the whole stage, `amount` of the way to black. */
