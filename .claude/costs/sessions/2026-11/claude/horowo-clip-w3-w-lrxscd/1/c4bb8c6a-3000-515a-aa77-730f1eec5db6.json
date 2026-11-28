@@ -1,0 +1,160 @@
+{
+  "total": {
+    "inputTokens": 2323,
+    "cacheWrite5mTokens": 564,
+    "cacheWrite1hTokens": 294992,
+    "cacheReadTokens": 14691267,
+    "outputTokens": 68301,
+    "thinkingTokens": 24015,
+    "responses": 79,
+    "costUsd": 6.676321399999999
+  },
+  "estimate": {
+    "at": "2026-11-28T17:56:44.311Z",
+    "subjectLine": "feat: the sung line drawn over every frame of the clip",
+    "parts": [
+      {
+        "hours": 5.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "placing and setting a caption per section over changing scenes in two lettering idioms is look work that needs a trained eye on stills"
+      },
+      {
+        "hours": 3.0,
+        "grade": "senior",
+        "role": "gameplay-programmer",
+        "comment": "a time-driven overlay, a line model from timed words and its tests is mid-size code with timing traps"
+      },
+      {
+        "hours": 1.5,
+        "grade": "senior",
+        "role": "audio-engineer",
+        "comment": "checking the lyric timings against the vocal stem means aligning and reading its envelope and onsets"
+      }
+    ],
+    "comment": null
+  },
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-28T17:47:27.699Z",
+    "contextTokens": 111765,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 51661,
+      "cacheReadTokens": 357210,
+      "outputTokens": 814,
+      "thinkingTokens": 21,
+      "responses": 4,
+      "costUsd": 0.501042
+    }
+  },
+  "sessionId": "c4bb8c6a-3000-515a-aa77-730f1eec5db6",
+  "branch": "claude/horowo-clip-w3-w-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a `/carte-blanche` run (`.claude/skills/carte-blanche/SKILL.md`): one of nine sessions reworking a code-drawn music video after its o…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEf7zhEMjdeEgLFyA4",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T17:47:18.102Z",
+  "lastResponseAt": "2026-11-28T18:01:06.482Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 149,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 294992,
+    "cacheReadTokens": 14429718,
+    "outputTokens": 60845,
+    "thinkingTokens": 24015,
+    "responses": 78,
+    "costUsd": 6.463375599999999
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 2323,
+      "cacheWrite5mTokens": 564,
+      "cacheWrite1hTokens": 294992,
+      "cacheReadTokens": 14691267,
+      "outputTokens": 68301,
+      "thinkingTokens": 24015,
+      "responses": 79,
+      "costUsd": 6.676321399999999
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-28T18:00:01.645Z",
+      "trigger": "auto",
+      "compactedFrom": 267193,
+      "summaryChars": 17142,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/clip/features/sung-line/ui/sung-line.ts",
+        "endedAt": "2026-11-28T18:00:09.499Z",
+        "contextTokens": 137115,
+        "spend": {
+          "inputTokens": 2,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 67327,
+          "cacheReadTokens": 58210,
+          "outputTokens": 570,
+          "thinkingTokens": 353,
+          "responses": 1,
+          "costUsd": 0.561666
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.2129458
+    }
+  ],
+  "telemetry": {
+    "events": 79,
+    "matched": 78,
+    "matchedTableUsd": 6.463375599999999,
+    "matchedEventUsd": 6.463375599999999,
+    "unseen": {
+      "compact": {
+        "inputTokens": 2174,
+        "cacheWrite5mTokens": 564,
+        "cacheWrite1hTokens": 0,
+        "cacheReadTokens": 261549,
+        "outputTokens": 7456,
+        "thinkingTokens": 0,
+        "responses": 1,
+        "costUsd": 0.2129458
+      }
+    }
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1243,
+    ".json": 169,
+    ".ts": 14323,
+    ".tsx": 44,
+    ".scss": 12
+  }
+}
