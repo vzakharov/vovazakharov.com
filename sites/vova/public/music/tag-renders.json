@@ -200,7 +200,7 @@
     ]
   },
   "birdie": {
-    "hash": "735d68e7ba25",
+    "hash": "a2c62bed380f",
     "paths": [
       "birdie/Gryobany bal - Ptichka.flac",
       "birdie/Gryobany bal - Ptichka.mp3",
@@ -264,7 +264,7 @@
     ]
   },
   "buy-you-a-house": {
-    "hash": "e0764d57ee96",
+    "hash": "2a2fb1abedd4",
     "paths": [
       "lebed/Gryobany bal - Ya kuplyu tebe dom.flac",
       "lebed/Gryobany bal - Ya kuplyu tebe dom.mp3",
@@ -330,7 +330,7 @@
     ]
   },
   "cancer": {
-    "hash": "177c8163be0e",
+    "hash": "c92000d45660",
     "paths": [
       "rak/Gryobany bal - Ne smotri.flac",
       "rak/Gryobany bal - Ne smotri.mp3",
@@ -855,6 +855,18 @@
       "horizons/horizons_master.mp3"
     ]
   },
+  "horowo": {
+    "hash": "164af89ea4b7",
+    "paths": [
+      "horowo/Gryobany bal - Khorosho!.flac",
+      "horowo/Gryobany bal - Khorosho!.mp3",
+      "horowo/Gryobany bal - Khorosho!.mp4",
+      "horowo/horowo_master.flac",
+      "horowo/horowo_master.master.mp3",
+      "horowo/Грёбаный бал - Хорошо!.flac",
+      "horowo/Грёбаный бал - Хорошо!.mp3"
+    ]
+  },
   "how-could-you-leave": {
     "hash": "0e007496b51d",
     "paths": [
@@ -1184,6 +1196,18 @@
       "zoo/GENERATED - The Last Human Zoo.flac",
       "zoo/GENERATED - The Last Human Zoo.mp3",
       "zoo/GENERATED - The Last Human Zoo.mp4"
+    ]
+  },
+  "last-snow": {
+    "hash": "57e14cffa22d",
+    "paths": [
+      "lastsnow/Gryobany bal - Posledniy sneg.flac",
+      "lastsnow/Gryobany bal - Posledniy sneg.mp3",
+      "lastsnow/Gryobany bal - Posledniy sneg.mp4",
+      "lastsnow/lastsnow_master.flac",
+      "lastsnow/lastsnow_master.master.mp3",
+      "lastsnow/Грёбаный бал - Последний снег.flac",
+      "lastsnow/Грёбаный бал - Последний снег.mp3"
     ]
   },
   "lets-fly": {
@@ -1591,7 +1615,7 @@
     ]
   },
   "poison": {
-    "hash": "75f7d7191685",
+    "hash": "27654eacc568",
     "paths": [
       "yad/Gryobany bal - Yad.flac",
       "yad/Gryobany bal - Yad.mp3",
@@ -1746,7 +1770,7 @@
     ]
   },
   "slime": {
-    "hash": "06a3466f5943",
+    "hash": "1ff47cb672a9",
     "paths": [
       "slime/Gryobany bal - Slizʼ feat. za_oblozhkoy.flac",
       "slime/Gryobany bal - Slizʼ feat. za_oblozhkoy.mp3",
@@ -1839,7 +1863,7 @@
     ]
   },
   "student-girl": {
-    "hash": "f86219aaf0a2",
+    "hash": "797526ae88d3",
     "paths": [
       "studentka/Gryobany bal - Studentka.flac",
       "studentka/Gryobany bal - Studentka.mp3",
@@ -1866,6 +1890,18 @@
       "summer-gone/Poluzhivye - Leto proshlo.mp3",
       "summer-gone/summer-gone.mp3",
       "summer-gone/Полуживые - Лето прошло.mp3"
+    ]
+  },
+  "talk-about-life": {
+    "hash": "2760c425d61b",
+    "paths": [
+      "talk/Gryobany bal - Za zhiznʼ.flac",
+      "talk/Gryobany bal - Za zhiznʼ.mp3",
+      "talk/Gryobany bal - Za zhiznʼ.mp4",
+      "talk/talk_master.flac",
+      "talk/talk_master.master.mp3",
+      "talk/Грёбаный бал - За жизнь.flac",
+      "talk/Грёбаный бал - За жизнь.mp3"
     ]
   },
   "there": {
@@ -1905,6 +1941,18 @@
       "stiham/Damy i gospoda - Moim stikham, napisannym tak rano….mp4",
       "stiham/Дамы и господа - Моим стихам, написанным так рано….flac",
       "stiham/Дамы и господа - Моим стихам, написанным так рано….mp3"
+    ]
+  },
+  "too-late": {
+    "hash": "dcf4546852c5",
+    "paths": [
+      "pozdno/Gryobany bal - Pozdno.flac",
+      "pozdno/Gryobany bal - Pozdno.mp3",
+      "pozdno/Gryobany bal - Pozdno.mp4",
+      "pozdno/Грёбаный бал - Поздно.flac",
+      "pozdno/Грёбаный бал - Поздно.mp3",
+      "pozdno/Поздно.flac",
+      "pozdno/Поздно.master.mp3"
     ]
   },
   "trisagion": {
@@ -1958,6 +2006,18 @@
       "u4/GENERATED - Unforgiven IV.mp4",
       "u4/u4_new.flac",
       "u4/u4_new.mp3"
+    ]
+  },
+  "unnoticed-things": {
+    "hash": "7054b65453a4",
+    "paths": [
+      "unnoticed/Gryobany bal - Nezametnye shtuki.flac",
+      "unnoticed/Gryobany bal - Nezametnye shtuki.mp3",
+      "unnoticed/Gryobany bal - Nezametnye shtuki.mp4",
+      "unnoticed/unnoticed_master.flac",
+      "unnoticed/unnoticed_master.master.mp3",
+      "unnoticed/Грёбаный бал - Незаметные штуки.flac",
+      "unnoticed/Грёбаный бал - Незаметные штуки.mp3"
     ]
   },
   "vagabond": {

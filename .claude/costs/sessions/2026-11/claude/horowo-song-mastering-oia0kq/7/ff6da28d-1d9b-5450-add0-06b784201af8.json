@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 81,
+    "inputTokens": 109,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 136586,
-    "cacheReadTokens": 6344388,
-    "outputTokens": 18506,
-    "thinkingTokens": 4133,
-    "responses": 41,
-    "costUsd": 2.7320095999999996
+    "cacheWrite1hTokens": 159524,
+    "cacheReadTokens": 9235398,
+    "outputTokens": 24057,
+    "thinkingTokens": 5394,
+    "responses": 55,
+    "costUsd": 3.6048476
   },
   "estimate": {
     "at": "2026-11-28T09:46:05.055Z",
@@ -54,18 +54,18 @@
   "url": "https://claude.ai/code/session_01MZoAKC113of9r2DZYGUZtU",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T09:45:44.227Z",
-  "lastResponseAt": "2026-11-28T09:53:54.650Z",
+  "lastResponseAt": "2026-11-28T10:03:38.759Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 81,
+    "inputTokens": 109,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 136586,
-    "cacheReadTokens": 6344388,
-    "outputTokens": 18506,
-    "thinkingTokens": 4133,
-    "responses": 41,
-    "costUsd": 2.7320095999999996
+    "cacheWrite1hTokens": 159524,
+    "cacheReadTokens": 9235398,
+    "outputTokens": 24057,
+    "thinkingTokens": 5394,
+    "responses": 55,
+    "costUsd": 3.6048476
   },
   "subagents": {
     "inputTokens": 0,
@@ -79,14 +79,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 81,
+      "inputTokens": 109,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 136586,
-      "cacheReadTokens": 6344388,
-      "outputTokens": 18506,
-      "thinkingTokens": 4133,
-      "responses": 41,
-      "costUsd": 2.7320095999999996
+      "cacheWrite1hTokens": 159524,
+      "cacheReadTokens": 9235398,
+      "outputTokens": 24057,
+      "thinkingTokens": 5394,
+      "responses": 55,
+      "costUsd": 3.6048476
     }
   },
   "warnings": [],
@@ -103,7 +103,7 @@
     ".json": -2,
     ".ts": 698,
     ".css": 259,
-    ".md": 2452,
+    ".md": 2459,
     ".b64": 5,
     ".txt": 176,
     ".tsx": -249,
