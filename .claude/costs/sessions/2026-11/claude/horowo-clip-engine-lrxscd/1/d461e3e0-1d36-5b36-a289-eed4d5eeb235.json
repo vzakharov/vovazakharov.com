@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 241,
+    "inputTokens": 252,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 371833,
-    "cacheReadTokens": 22543899,
-    "outputTokens": 102256,
-    "thinkingTokens": 32301,
-    "responses": 127,
-    "costUsd": 9.5295278
+    "cacheWrite1hTokens": 385355,
+    "cacheReadTokens": 23918793,
+    "outputTokens": 105740,
+    "thinkingTokens": 32833,
+    "responses": 133,
+    "costUsd": 9.982406600000001
   },
   "estimate": {
     "at": "2026-11-28T10:30:19.485Z",
@@ -58,18 +58,18 @@
   "url": "https://claude.ai/code/session_01MZoAKDHpcNax8XmHbMJmAK",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:29:46.156Z",
-  "lastResponseAt": "2026-11-28T10:58:03.776Z",
+  "lastResponseAt": "2026-11-28T11:03:08.553Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 241,
+    "inputTokens": 252,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 371833,
-    "cacheReadTokens": 22543899,
-    "outputTokens": 102256,
-    "thinkingTokens": 32301,
-    "responses": 127,
-    "costUsd": 9.5295278
+    "cacheWrite1hTokens": 385355,
+    "cacheReadTokens": 23918793,
+    "outputTokens": 105740,
+    "thinkingTokens": 32833,
+    "responses": 133,
+    "costUsd": 9.982406600000001
   },
   "subagents": {
     "inputTokens": 0,
@@ -83,14 +83,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 241,
+      "inputTokens": 252,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 371833,
-      "cacheReadTokens": 22543899,
-      "outputTokens": 102256,
-      "thinkingTokens": 32301,
-      "responses": 127,
-      "costUsd": 9.5295278
+      "cacheWrite1hTokens": 385355,
+      "cacheReadTokens": 23918793,
+      "outputTokens": 105740,
+      "thinkingTokens": 32833,
+      "responses": 133,
+      "costUsd": 9.982406600000001
     }
   },
   "warnings": [],
@@ -136,7 +136,9 @@
   "branchLines": {
     ".md": 236,
     ".mjs": 687,
-    ".json": 23,
-    ".ts": 400
+    ".json": 28,
+    ".tsx": 33,
+    ".ts": 1874,
+    ".scss": 12
   }
 }

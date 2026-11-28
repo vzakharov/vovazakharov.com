@@ -27,6 +27,25 @@ const FONT = 'system-ui, sans-serif';
 /** How long after an onset a cut lands on the card rings, in seconds. */
 const CUE_SECONDS = 0.2;
 const ONSETS: readonly number[] = [...VERSE_CALLS, ...CHANT];
+/** The column the card's lettering is centred on. */
+const TEXT_X = W / 2 - 60;
+
+/** An `x, y, w, h` rectangle as an inkable path. */
+const box = (x: number, y: number, w: number, h: number) =>
+  polygon([
+    [x, y],
+    [x + w, y],
+    [x + w, y + h],
+    [x, y + h],
+  ]);
+
+/** The whole stage under `colour`, `alpha` of the way opaque. */
+function wash({ ctx }: Pen, colour: string, alpha = 1): void {
+  ctx.globalAlpha = alpha;
+  ctx.fillStyle = colour;
+  ctx.fillRect(0, 0, W, H);
+  ctx.globalAlpha = 1;
+}
 
 /** `m:ss.s` for a time in seconds. */
 const clock = (t: number): string => {
@@ -67,27 +86,9 @@ function meter(
 ): void {
   const top = y + h * (1 - share);
   if (share > 0) {
-    ink(
-      pen,
-      polygon([
-        [x, top],
-        [x + w, top],
-        [x + w, y + h],
-        [x, y + h],
-      ]),
-      { fill: color, stroke: null, seed },
-    );
+    ink(pen, box(x, top, w, y + h - top), { fill: color, stroke: null, seed });
   }
-  ink(
-    pen,
-    polygon([
-      [x, y],
-      [x + w, y],
-      [x + w, y + h],
-      [x, y + h],
-    ]),
-    { seed: seed + 1 },
-  );
+  ink(pen, box(x, y, w, h), { seed: seed + 1 });
 }
 
 /** The mask's mouth: a slot that opens as far as the jaw hangs. */
@@ -106,53 +107,41 @@ function mouth(pen: Pen, open: number): void {
  * the loudness and the shot's own progress.
  */
 export const placeholder =
-  (name: string, wash: Wash): Drawing =>
+  (name: string, tone: Wash): Drawing =>
   (pen: Pen, local: Local): void => {
-    const { ctx, t } = pen;
+    const { t } = pen;
     const loud = energy(t);
     const open = jaw(t);
-    ctx.fillStyle = WASHES[wash];
-    ctx.fillRect(0, 0, W, H);
-    ctx.globalAlpha = 0.7 * (1 - loud);
-    ctx.fillStyle = INK_PALETTE.ink;
-    ctx.fillRect(0, 0, W, H);
-    ctx.globalAlpha = 1;
+    wash(pen, WASHES[tone]);
+    wash(pen, INK_PALETTE.ink, 0.7 * (1 - loud));
 
     const downbeat = Math.abs(barAt(t) - Math.round(barAt(t))) < 0.06;
-    ctx.globalAlpha = (downbeat ? 0.45 : 0.22) * pulse(t);
-    ctx.fillStyle = PLACEHOLDER_PALETTE.light;
-    ctx.fillRect(0, 0, W, H);
-    ctx.globalAlpha = 1;
+    wash(pen, PLACEHOLDER_PALETTE.light, (downbeat ? 0.45 : 0.22) * pulse(t));
 
     const cued = ONSETS.some((at) => t >= at && t - at < CUE_SECONDS);
     ink(
       pen,
-      polygon([
-        [MARGIN, MARGIN],
-        [W - MARGIN, MARGIN],
-        [W - MARGIN, H - MARGIN],
-        [MARGIN, H - MARGIN],
-      ]),
+      box(MARGIN, MARGIN, W - 2 * MARGIN, H - 2 * MARGIN),
       cued
         ? { stroke: PLACEHOLDER_PALETTE.cue, width: 22, wobble: 4, seed: 3 }
         : { width: 8, wobble: 3, seed: 3 },
     );
 
-    letter(pen, name, [W / 2 - 60, 150], 52, 11);
+    letter(pen, name, [TEXT_X, 150], 52, 11);
     letter(
       pen,
       `${clock(t - local.sinceCut)} – ${clock(t - local.sinceCut + local.seconds)}`,
-      [W / 2 - 60, 220],
+      [TEXT_X, 220],
       28,
       12,
     );
     const word = wordAt(t)?.text;
-    if (word !== undefined) letter(pen, word, [W / 2 - 60, H / 2 + 40], 84, 13);
+    if (word !== undefined) letter(pen, word, [TEXT_X, H / 2 + 40], 84, 13);
     const beat = Math.floor(beatAt(t));
     letter(
       pen,
       `bar ${String(Math.floor(barAt(t)))} · beat ${String(beat)}`,
-      [W / 2 - 60, H - 150],
+      [TEXT_X, H - 150],
       26,
       14,
     );
