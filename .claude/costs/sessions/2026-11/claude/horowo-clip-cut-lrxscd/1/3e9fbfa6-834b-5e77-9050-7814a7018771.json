@@ -9,7 +9,19 @@
     "responses": 18,
     "costUsd": 0.6631297000000002
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-28T14:59:21.972Z",
+    "subjectLine": "refactor: the meadow and the puppet's body cut into sub-slices",
+    "parts": [
+      {
+        "hours": 2.0,
+        "grade": "senior",
+        "role": "developer",
+        "comment": "Choosing the nouns for two sub-slice cuts and moving files under the architecture checkers without changing a frame takes someone who knows the layering rules"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "Write",
     "endedOn": "src/clip/entities/meadow/index.ts",
