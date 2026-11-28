@@ -499,19 +499,39 @@ on the board.
 If the limit stops a child, its branch holds every scene it wired; the lead
 merges what is there and the stand-ins cover the rest.
 
+As of 14:30 UTC: wave 2's first passes merged and wired (A `63c70c4f`, B
+`a092f935`, C `5e296119`), all three archived, at $2.7–4.1 each. Second passes,
+all Opus, started 12:01–12:06 with the lead's verdicts on the first; a five-hour
+limit stopped everyone from 12:06 to 14:15, the operator woke them and asked to
+wind down, and each wrapped up early:
+
+- **A2**, `session_01MZoAKAhoBGMGL3JbRrRemY`, merged at `969f7a4f`, archived —
+  the chorus escalating pulse by pulse, a hop with weight, the intro's host in
+  the upper third, the sun's pupils reaching the rim.
+- **B2**, `session_01MZoAKE77iQA45nCijhE6AX`, merged at `e35427c6`, archived —
+  the pre-bridge's channels running down to a stop with the bunny's face on the
+  glass (`channel(n, nearness, { zapFrames, creep })`), the gig jolted and
+  headbanging, `gigInsert` in a `joy` mood.
+- **C2**, `session_01MZoAKCbfeGhkpE8cgQDcPk`, merged at `fed29e73`, archived —
+  the bedroom only: lit by the set, shadows, tilt and shake. Not started: the
+  bunny seated in the ward, the globe pull-back in clear steps, differing
+  breakdown holes.
+
+The engine is the one session still alive, on the pre-roll.
+
 ## Built, in flight, left
 
-- **Built**: the song map; the storyboard; the drawing kit; the tape, with the
-  channel's ident and address on its test card; the cast; the props; the engine
-  with the score; the shot list split per section; the clip as a playable
-  artifact (stand-ins on real audio and cuts).
-- **In flight**: wave 2's three packages; the engine's pre-roll.
-- **Left**: merging and wiring wave 2; the mp4 as a release asset; the quality
-  passes (`/dry`, `/tend-prose` over everything — the children were told to skip
-  them) and a green vet; `knip` is red until wave 2 consumes the wave-1 slices
-  and the sketch under `docs/remove-before-merging/` goes; the 30-second
-  vertical story cut and the video on the song's page, both likely after the
-  account changes.
+- **Built**: every section of the song drawn and cut, the chorus, intro, gig,
+  pre-bridge and bedroom at second-pass level, the ward and the ending at first;
+  `check:masd` green with the operator's two promotion markers on the puppet's
+  body and head.
+- **In flight**: the engine's pre-roll; the mp4 (`pnpm film:clip`, log
+  `tmp/clip-lead/film.log`); a vet run on `fbcb9e41`.
+- **Left, in the order the run closes**: the pre-roll merged and re-filmed; the
+  mp4 as a release asset; `knip` green (unused exports in the wave-1 slices, the
+  sketch `.mjs` under `docs/remove-before-merging/`); the quality passes; a
+  green vet; PR 295 refreshed. After this run: C2's three unstarted items, the
+  30-second vertical story cut, the video on the song's page.
 
 **The limit**, by the cost ledger at 11:45 UTC: about $100 spent on the run,
 which is roughly 14% of the week by the operator's two readings (10% spent at

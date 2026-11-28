@@ -35,6 +35,8 @@ Every operator message is quoted verbatim in the plan, in order: the task under 
 12. **The guitarist and the bassist hold the fretting hand on the wrong side of the neck** («я понимаю что треш, но на святое!») → a fix-up child on Opus, branch `claude/horowo-clip-cast-fix-lrxscd`.
 13. **How much is 10% of the weekly limit at API rates, and how long do the remaining 15% last before parking** → about $65–70 spent, 1% ≈ $7, about $100 left, an hour to an hour and a half at wave 1's pace; the run parks (`/relay park`) at about 3% left. Wave 2 on Opus only.
 14. **«а, и t.me/fknball вставить где подойдёт (лучше раньше)»** → printed on the test card under the ident. (verbatim in Last agent turn)
+15. **«Можешь продолжать но в принципе надо закругляться. Подсессии разбудил»** (after a five-hour limit stopped every session for two hours) → no new scenes and no third passes; the second passes he woke are merged as far as they got, then the run closes: gates green, the mp4 in a release, the PR and this summary current.
+16. **«Ок»** to the lead's one question, whether to put `masd-disable promotion` in `puppet/body` and `puppet/head` → both markers set; `check:masd` is green.
 
 ## 3. Intent
 
@@ -62,20 +64,14 @@ All in the plan with what each beat. The ones a successor would otherwise re-lit
 
 ## 6. State
 
-- **Branch** `claude/horowo-clip-lrxscd`, draft **PR** https://github.com/vzakharov/vovazakharov.com/pull/295 (title and squash proposal posted; nothing attested). `main` with PR 240 is merged in.
+- **Branch** `claude/horowo-clip-lrxscd`, draft **PR** https://github.com/vzakharov/vovazakharov.com/pull/295 (title and squash proposal posted before the scenes existed; nothing attested). `main` with PR 240 is merged in.
 - **Plan** `docs/plans/horowo-clip.in-progress.md`.
-- **In the lead's branch** (head `786d62f5` plus the plan commit after it): everything wave 1 built, merged — the kit `src/clip/shared/ink`; the tape `src/clip/shared/tape` with the ident and `T.ME/FKNBALL` on its test card; the cast `src/clip/entities/puppet` with the fretting hand fixed; the props (`src/clip/entities/{bunny,meadow,serotonin,snow-globe,tally}`, `src/clip/features/ear-fireworks`, `src/clip/shared/lettering`, the wall's lettering in its third, pencil-thin take); the engine (`src/clip/pages/horowo-clip`, `src/clip/shared/{score,timeline,film}`, `src/clip/scripts`; `clip` has parents `scene` and `music`). The shot list is a file per section (`src/clip/pages/horowo-clip/ui/shots-*.ts`, helpers in `stand-in.ts`), every entry still a stand-in card. Frames under `docs/remove-before-merging/frames/`, verdicts in `docs/remove-before-merging/review-focus.json`.
-- **Archived sessions**: tape, cast, the fretting-hand fix, props. Their branches are merged.
-- **In flight**, each pushing as it goes — a successor reads the branch, not the session:
-  - `claude/horowo-clip-engine-lrxscd` (Opus, `session_01MZoAKDHpcNax8XmHbMJmAK`) — merged at `ab976bb4`; one last package asked at 11:52 UTC: the pre-roll (`PREROLL = 3.2`, the playhead starting negative so scenes stay in song time, `shots-ident.ts` listed first in `shots.ts`, audio held until song time 0 in the page, the bundle and the mp4).
-  - **Wave 2**, started 11:52 UTC from `786d62f5`, all Opus, about $12 each, briefed by `docs/remove-before-merging/horowo-clip-lrxscd/wave-2.md` (the whole brief; it stands alone, so a replacement session is started with the same file and the package's letter):
-    - A, `session_01MZoAKCYpzFVG8CYLX323qQ`, `claude/horowo-clip-scenes-a-lrxscd` — the kids' show intro and the chorus meadow; `shots-intro.ts`, `shots-chorus.ts`.
-    - B, `session_01MZoAKB8jcFjpioDt9FQYoB`, `claude/horowo-clip-scenes-b-lrxscd` — the gig and the channels; `shots-double.ts`, `shots-prebridge.ts`.
-    - C, `session_01MZoAKERHcdpfR5yxYMoa2y`, `claude/horowo-clip-scenes-c-lrxscd` — the bedroom, the ward and the ending; `shots-verse.ts`, `shots-bridge.ts`, `shots-breakdown.ts`.
-  - **The seam the lead wires at merge**: A's chorus placeholders `ward insert` and `gig insert` become C's `wardInsert(progress)` and B's `gigInsert`; C's verse placeholders `channel 1`…`channel 7` become B's `channel(n)`.
-- **Red on purpose**: `pnpm knip` fails until wave 2 consumes the wave-1 slices and the sketch under `docs/remove-before-merging/` is removed. `pnpm costs` fails on another session's row (role `musician`); read ledger rows off the `cost-ledger` branch directly.
-- **The limit**: by the ledger at 11:45 UTC about $100 was spent on the run and about 11% of the week was left (1% is about $7); wave 2 is budgeted at $36 plus the lead's share. The run parks (`/relay park`) at about 3% left.
-- **Waiting**: reports from A, B, C and the engine arrive as cross-session messages; a fallback check-in is scheduled in the lead's session; the cache keepalive watcher runs in the lead's session.
+- **The clip is whole**: every section of the song is drawn and cut in `src/clip/pages/horowo-clip/ui/shots-*.ts` from the widgets in `src/clip/widgets/` (`kids-show`, `meadow-party`, `gig`, `channels`, `bedroom`, `ward`, `ending`). Second-pass level: the chorus meadow, the intro, the gig, the pre-bridge's channels, the bedroom. First-pass level: the ward (bridge and the chorus's inserts) and the ending (breakdown stabs, the snow globe, the tube switching off).
+- **Not built**: the pre-roll ident before the first note (the engine's last package, below); from the bedroom-ward-ending session's second pass, the bunny seated beside the man in the ward, the globe pull-back staged in clear steps with the yellow bunny face at 116.5 s checked, and breakdown holes that differ on each return.
+- **Sessions**: every child is archived except the engine, `session_01MZoAKDHpcNax8XmHbMJmAK` on `claude/horowo-clip-engine-lrxscd` (Opus), last merged at `ab976bb4` and working on the pre-roll: `PREROLL = 3.2`, the playhead starting negative so scenes stay in song time, `shots-ident.ts` listed first in `shots.ts`, audio held until song time 0 in the page, the bundle and the mp4. A successor reads that branch, not the session; if it has commits past `ab976bb4`, merge them and archive the session.
+- **Gates**: `check:masd` and `tsc` are green. `pnpm knip` is red on about seventy unused exports in the wave-1 slices and seven sketch files under `docs/remove-before-merging/horowo-clip-lrxscd/sketch/`. `/dry` and `/tend-prose` have not run over `src/clip` (the children were told to skip them). `pnpm costs` fails on another session's row; read ledger rows off the `cost-ledger` branch directly.
+- **The mp4**: `pnpm film:clip` writes `tmp/clip/horowo-0-119.7.mp4` (a vova build, then about ten minutes of frames). It goes up as a GitHub release asset and is never committed.
+- **The limit**: the week's limit was in its warning zone at 14:25 UTC on 2026-11-28 and resets about 54 hours later. The run parks (`/relay park`) at about 3% left.
 - **Estimate**: the whole job is booked on the lead's session (60 h designer, 32 h developer, 4 h audio-engineer, 6 h producer); nothing has been handed on.
 
 ### Watches
@@ -86,7 +82,7 @@ The review board. It is private to the account that published it; a successor on
 
 https://claude.ai/artifact/DzDDbJfmEA8ugouf4NTeR2
 
-The clip as it stands, playable: `pnpm bundle:clip` writes `tmp/clip/artifact/index.html` and `horowo.mp3`, published as the page plus one supporting file (`contentType: audio/mpeg`). Republished at every milestone (Version 2 at 11:52 UTC: stand-in cards on the real audio and cuts); also private to this account. Whether its audio plays inside the claude.ai frame is unverified; the preview slot is the fallback (`/preview live vova`).
+The clip as it stands, playable: `pnpm bundle:clip` writes `tmp/clip/artifact/index.html` and `horowo.mp3`, published as the page plus one supporting file (`contentType: audio/mpeg`). Republished at every milestone (Version 6 at 14:25 UTC: every section drawn, second passes in); also private to this account. Whether its audio plays inside the claude.ai frame is unverified; the preview slot is the fallback (`/preview live vova`).
 
 ## 7. Pointers
 
@@ -100,33 +96,9 @@ The clip as it stands, playable: `pnpm bundle:clip` writes `tmp/clip/artifact/in
 
 ## 8. Next step
 
-Continue the run as lead, in `/carte-blanche` mode, from the plan's § "Built, in flight, left". In the operator's words: «нужно поглядывать за лимитом и вовремя фиксировать прогресс (в идеале ещё разворачивать его -- либо артефактом, либо на превью. в принципе артефакта должно хватить)». Concretely, in order:
+Close the run; the operator: «Можешь продолжать но в принципе надо закругляться». No new scenes unless he asks. In order:
 
-1. As each of A, B, C and the engine reports (or stops on the limit): `git fetch origin <b> && git merge origin/<b>`, the quick gates, a look at its `scene-*.jpg`, the frames onto the board with a verdict each.
-2. Wire the seam (see State), `pnpm bundle:clip`, republish the clip artifact, watch a few stills across the song for cuts that miss the pulse.
-3. `/dry` and `/tend-prose` once over everything (the children skipped them), `pnpm knip` green, `./scripts/vet.sh` green, `/pr` refresh. The mp4 by `pnpm film:clip` as a release asset, never committed. Never merge.
-4. Limit allowing: the 30-second vertical story cut. Then the video on the song's page — «это уже скорее после тебя опус займётся».
-
-## Last agent turn
-
-The agent's last turn before the relay, verbatim, appended by
-`scripts/relay-last-reply.py`. It includes the turn's interim messages, usually
-unneeded but harmless; the reply proper is usually its last paragraphs.
-
-```text
-Записал: в припеве теперь крутятся три картинки, которым в одной песне делать нечего, — луг, стена и концерт в студии, группа врезается по такту.
-
-Детям это ничего нового не добавляет: играющая группа у куклы и так в задании, студию соберу во второй волне.
-```
-
-## Last agent turn
-
-The agent's last turn before the relay, verbatim, appended by
-`scripts/relay-last-reply.py`. It includes the turn's interim messages, usually
-unneeded but harmless; the reply proper is usually its last paragraphs.
-
-```text
-Записал: в припеве теперь крутятся три картинки, которым в одной песне делать нечего, — луг, стена и концерт в студии, группа врезается по такту.
-
-Детям это ничего нового не добавляет: играющая группа у куклы и так в задании, студию соберу во второй волне.
-```
+1. The engine's branch: merge what it holds past `ab976bb4` (`git fetch origin claude/horowo-clip-engine-lrxscd && git merge origin/claude/horowo-clip-engine-lrxscd`), check `pnpm exec tsc --noEmit -p sites/vova` and a still at a negative `?t=`, archive the session.
+2. `pnpm film:clip`, then the mp4 as a release asset, its link in the PR body and on the board.
+3. `pnpm knip` green, `/dry` and `/tend-prose` once over `src/clip`, `./scripts/vet.sh` green, `/pr` refresh. Never merge.
+4. Only on his word: the three unbuilt second-pass items, the 30-second vertical story cut, the video on the song's page — «это уже скорее после тебя опус займётся».
