@@ -44,7 +44,7 @@ The same film, made better where the operator pointed: every one of the fifteen 
 - **Wave 3, in flight**, started 17:46 UTC on 2026-11-28 from `09a56f0c`, each child on `claude/horowo-clip-w3-<letter>-lrxscd` and reporting by one `send_message` to this session:
   - `…-w3-e-…`, `session_01DaohkEt1PbJUKxAAKQTtgp` — engine: warning card, ident with sound, the film's far end, the jaw. Not merged.
   - `…-w3-w-…`, `session_01DaohkEf7zhEMjdeEgLFyA4` — the words overlay. Not merged.
-  - `…-w3-i-…`, `session_01DaohkCNxr81DqDpAvTR6BH` — the intro. Not merged.
+  - `…-w3-i-…`, `session_01DaohkCNxr81DqDpAvTR6BH` — the intro. **Merged** at `eea63016` (widget `close-up`: `closeUp(cues)` is the intro; `faceOnBlack` is exported and still unused — it goes into the bridge's and the breakdown's pools at the seam, or is removed). Archived.
   - `…-w3-g-…`, `session_01DaohkFmocUFKMy8SNxisti` — the gig and the rocket ears. Not merged.
   - `…-w3-v-…`, `session_01DaohkEJjQAcFRp5rFx4JoG` — the bedroom. Not merged.
   - `…-w3-s-…`, `session_01DaohkCjkzbt3pcNA53MBoo` — the spoon bunny. Not merged.
@@ -57,7 +57,9 @@ The same film, made better where the operator pointed: every one of the fifteen 
 
 ### Watches
 
-None on this account yet: the first account's board and clip artifact (URLs in `relay-1.md`) cannot be opened from here. The lead publishes its own of each at the wave's first merge and lists them here.
+https://claude.ai/artifact/3oPCy2vFun7csfEQAEenUh
+
+The review board, published on the second account at the wave's first merge and named in the PR's sticky comment; watched by this session. The first account's board and clip artifact (URLs in `relay-1.md`) cannot be opened from here. The clip artifact of this account is published once the wave is merged and listed here.
 
 ## 7. Pointers
 
