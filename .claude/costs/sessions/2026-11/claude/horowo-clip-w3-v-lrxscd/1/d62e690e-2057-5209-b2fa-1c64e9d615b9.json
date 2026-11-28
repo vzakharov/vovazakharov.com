@@ -1,0 +1,95 @@
+{
+  "total": {
+    "inputTokens": 86,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 140166,
+    "cacheReadTokens": 7217209,
+    "outputTokens": 37713,
+    "thinkingTokens": 13096,
+    "responses": 46,
+    "costUsd": 3.3193738
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-28T17:47:35.667Z",
+    "contextTokens": 128050,
+    "spend": {
+      "inputTokens": 8,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 57626,
+      "cacheReadTokens": 360736,
+      "outputTokens": 1132,
+      "thinkingTokens": 21,
+      "responses": 4,
+      "costUsd": 0.5558272000000001
+    }
+  },
+  "sessionId": "d62e690e-2057-5209-b2fa-1c64e9d615b9",
+  "branch": "claude/horowo-clip-w3-v-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a `/carte-blanche` run (`.claude/skills/carte-blanche/SKILL.md`): one of nine sessions reworking a code-drawn music video after its o…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01DaohkEJjQAcFRp5rFx4JoG",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T17:47:23.177Z",
+  "lastResponseAt": "2026-11-28T17:54:47.136Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 86,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 140166,
+    "cacheReadTokens": 7217209,
+    "outputTokens": 37713,
+    "thinkingTokens": 13096,
+    "responses": 46,
+    "costUsd": 3.3193738
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-opus-5-5/standard": {
+      "inputTokens": 86,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 140166,
+      "cacheReadTokens": 7217209,
+      "outputTokens": 37713,
+      "thinkingTokens": 13096,
+      "responses": 46,
+      "costUsd": 3.3193738
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": {
+    "events": 45,
+    "matched": 45,
+    "matchedTableUsd": 3.2657042,
+    "matchedEventUsd": 3.2657042,
+    "unseen": {}
+  },
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1243,
+    ".json": 169,
+    ".ts": 13716,
+    ".tsx": 44,
+    ".scss": 12
+  }
+}

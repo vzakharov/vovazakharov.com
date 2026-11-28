@@ -33,11 +33,11 @@ const MOTIF_HEIGHT = 0.56;
 // The bunny's extent in its own units, top of the ears to the feet.
 const EARS_Y = -310;
 
-const motifScale = (cell: number): number =>
+export const motifScale = (cell: number): number =>
   (MOTIF_HEIGHT * cell) / (FEET_Y - EARS_Y);
 
 /** Where the motif in `cell` has its origin, its column dropped by half a row on every odd column. */
-function motifAt(size: number, { column, row }: Cell): Point {
+export function motifAt(size: number, { column, row }: Cell): Point {
   const scale = motifScale(size);
   const drop = Math.abs(column % 2) === 1 ? size / 2 : 0;
   const middle = ((EARS_Y + FEET_Y) / 2) * scale;

@@ -1,47 +1,90 @@
-import { at, clamp, lerp, noise, type Pen } from '@/clip/shared/ink';
-import { jaw, KICKS, pulse, punch, SECTIONS } from '@/clip/shared/score';
+import {
+  at,
+  clamp,
+  lerp,
+  noise,
+  type Pen,
+  type Point,
+  STAGE,
+} from '@/clip/shared/ink';
+import { jaw, KICKS, pulse, punch } from '@/clip/shared/score';
 import { reality } from '@/clip/shared/tape';
-import type { Drawing, Local } from '@/clip/shared/timeline';
 import { bunny } from '@/clip/entities/bunny';
-import { puppet } from '@/clip/entities/puppet';
+import { type Look, puppet } from '@/clip/entities/puppet';
 
 import {
   bed,
   blanket,
   castShadow,
   night,
+  SLEEPER_FACE,
   tvGlow,
   tvSet,
   walls,
   window,
 } from './room';
+import { dampPillow, sweatDrops } from './sweat';
 
-/** Where the bunny is: nowhere yet, by the window, or at the foot of the bed. */
-type Visit = 'none' | 'window' | 'foot';
+/** Where the bunny is: nowhere, stepping off the wallpaper, by the window, at the foot of the bed. */
+export type Visit =
+  | { at: 'none' }
+  | { at: 'wall'; from: Point; out: number }
+  | { at: 'window' }
+  | { at: 'foot'; nearness: number };
 
-const VISITS = {
-  window: { x: 1080, y: 250, nearness: 0.4, bunnyScale: 0.45 },
-  foot: { x: 870, y: 330, nearness: 0.5, bunnyScale: 0.6 },
-} as const;
-
-const VERSE = {
-  from: SECTIONS.find(({ name }) => name === 'verse, first half')?.from ?? 0,
-  to: SECTIONS.find(({ name }) => name === 'verse, second half')?.to ?? 1,
+/** How the room stands in one line of the verse. */
+export type Room = {
+  /** The second half: the camera tilted and shaken on the kicks, not bobbing. */
+  raw: boolean;
+  visit: Visit;
+  /** One of the printed bunnies has gone, leaving its hole. */
+  holed: boolean;
+  /** How far the wallpaper's bunnies have opened their eyes on him, 0 → 1. */
+  watching: number;
+  /** The window shows a summer afternoon. */
+  summer: boolean;
+  /** 0 dry, 1 pouring: on his face, off his chin, into the pillow. */
+  sweat: number;
+  /** The set's light one cold colour instead of the channel's. */
+  cold: boolean;
+  /** Whether the set is in the room; off behind a reversed camera. */
+  tv: boolean;
+  /** How much of the night lies over it all. */
+  dark: number;
+  /** His face, past what the beat and the vocal give it. */
+  look: Partial<Look>;
 };
 
-/** 0 at the verse's first beat, 1 at its last. */
-const verseProgress = (t: number): number =>
-  clamp((t - VERSE.from) / (VERSE.to - VERSE.from), 0, 1);
+export const ROOM: Room = {
+  raw: false,
+  visit: { at: 'none' },
+  holed: false,
+  watching: 0,
+  summer: false,
+  sweat: 0.2,
+  cold: false,
+  tv: true,
+  dark: 0.5,
+  look: {},
+};
+
+/** Where the camera looks on the stage, how close, how tilted, and whether it faces the room from the other side. */
+export type Camera = {
+  focus: Point;
+  zoom: number;
+  tilt?: number;
+  reversed?: boolean;
+};
 
 /**
- * The man sat up in bed, nodding on every beat against his will — harder as
- * the verse goes on — and growling with the vocal's jaw.
+ * The man sat up in bed, nodding on every beat against his will and growling
+ * with the vocal's jaw, his face as the room sets it.
  */
-function sleeper(pen: Pen, raw: boolean): void {
+function sleeper(pen: Pen, room: Room): void {
   const { playhead } = pen;
   const beat = pulse(playhead);
-  const drive = lerp(0.45, 1, verseProgress(playhead));
-  const nod = Math.exp(-beat.fraction * 4) * drive;
+  const { raw, sweat, look } = room;
+  const nod = Math.exp(-beat.fraction * 4) * (raw ? 1 : 0.6);
   const growl = jaw(playhead);
   puppet(pen, {
     place: { x: 420, y: 592, scale: 0.6 },
@@ -54,88 +97,115 @@ function sleeper(pen: Pen, raw: boolean): void {
       turn: 0.35,
       lid: raw ? 0 : 0.35 * (1 - growl),
       brow: clamp((raw ? 0.8 : 0.4) + 0.4 * growl, 0, 1),
-      sweat: raw ? 0.8 : 0.2,
+      sweat,
+      ...look,
     },
     mark: 251,
   });
 }
 
-/** The bunny's shadow on the wallpaper, climbing as `rise` goes 0 → 1. */
+/** The bunny's shadow on the wallpaper, climbing and darkening as `rise` goes 0 → 1. */
 function bunnyShadow(pen: Pen, rise: number): void {
-  bunny(pen, {
-    x: 640,
-    y: 520 - 200 * rise,
-    nearness: 0.45,
-    bunnyScale: lerp(0.35, 1.1, rise),
-    arms: 'reach',
-    rendering: 'shadow',
-    seed: 263,
-  });
-}
-
-/**
- * The bedroom as a whole. First half: the room bobs on every kick, almost a
- * dance. Second half: a Dutch tilt, the camera shaken on each kick, the
- * bunny's shadow up the wall.
- */
-function bedroom(pen: Pen, visit: Visit, p: number): void {
-  const raw = visit !== 'none';
-  reality(pen, (inner) => {
-    const t = inner.playhead;
-    const kick = punch(KICKS, t);
-    const zoom = lerp(1, raw ? 1.12 : 1.05, p) + 0.025 * kick;
-    const bob = raw ? 0 : 7 * kick;
-    const shake = raw ? 14 * kick : 0;
-    const dx = shake * noise(271, Math.floor(t * 40));
-    const dy = bob + shake * noise(272, Math.floor(t * 40));
-    const tilt = raw ? -4 + 1.5 * kick * noise(273, Math.floor(t * 40)) : 0;
-    at(inner, { x: 640 + dx, y: 360 + dy, scale: zoom, rot: tilt }, () => {
-      at(inner, { x: -640, y: -360 }, () => {
-        walls(inner, raw);
-        window(inner);
-        const swell = Math.exp((-pulse(t).fraction * pulse(t).seconds) / 0.18);
-        castShadow(inner, 0.35 + 0.35 * swell, (layer) => {
-          sleeper(layer, raw);
-        });
-        if (raw) {
-          const rise = visit === 'window' ? p * 0.6 : 0.6 + 0.4 * p;
-          inLayerShadow(inner, rise);
-        }
-        if (visit === 'window') {
-          bunny(inner, { ...VISITS.window, arms: 'down', seed: 261 });
-        }
-        bed(inner);
-        sleeper(inner, raw);
-        blanket(inner);
-        if (visit === 'foot') {
-          bunny(inner, { ...VISITS.foot, arms: 'reach', seed: 262 });
-        }
-        tvSet(inner);
-        night(inner, 0.5);
-        tvGlow(inner, swell);
-      });
+  castShadow(pen, 0.3 + 0.5 * rise, (layer) => {
+    bunny(layer, {
+      x: 640,
+      y: 520 - 200 * rise,
+      nearness: 0.45,
+      bunnyScale: lerp(0.35, 1.1, rise),
+      arms: 'reach',
+      rendering: 'shadow',
+      seed: 263,
     });
   });
 }
 
-/** The bunny's shadow, darker as it climbs. */
-function inLayerShadow(pen: Pen, rise: number): void {
-  castShadow(pen, 0.3 + 0.5 * rise, (layer) => {
-    bunnyShadow(layer, rise);
-  });
+/** The bunny wherever its visit puts it, drawn in front of the wall or the bed. */
+function visitor(pen: Pen, visit: Visit, layer: 'wall' | 'floor'): void {
+  if (visit.at === 'wall' && layer === 'wall') {
+    const { from, out } = visit;
+    bunny(pen, {
+      x: from[0] + 70 * out,
+      y: from[1] + 20 * out,
+      bunnyScale: lerp(0.093, 0.32, out),
+      nearness: lerp(0.15, 0.35, out),
+      arms: 'reach',
+      opacity: clamp(out * 3, 0, 1),
+      seed: 264,
+    });
+  }
+  if (visit.at === 'window' && layer === 'wall') {
+    bunny(pen, {
+      x: 1080,
+      y: 250,
+      nearness: 0.4,
+      bunnyScale: 0.45,
+      arms: 'down',
+      seed: 261,
+    });
+  }
+  if (visit.at === 'foot' && layer === 'floor') {
+    const { nearness } = visit;
+    bunny(pen, {
+      x: 870,
+      y: 330,
+      nearness,
+      bunnyScale: lerp(0.6, 0.75, (nearness - 0.5) / 0.2),
+      arms: 'reach',
+      seed: 262,
+    });
+  }
 }
 
-/** The first half: the room, the set pulsing, him nodding along. */
-export const bedroomWide: Drawing = (pen: Pen, { p }: Local) => {
-  bedroom(pen, 'none', p);
-};
+/** The room in stage units, as the camera then frames it. */
+function interior(pen: Pen, room: Room, shadowRise: number): void {
+  const t = pen.playhead;
+  walls(pen, room.holed, room.watching, SLEEPER_FACE);
+  window(pen, room.summer);
+  const swell = Math.exp((-pulse(t).fraction * pulse(t).seconds) / 0.18);
+  castShadow(pen, 0.35 + 0.35 * swell, (layer) => {
+    sleeper(layer, room);
+  });
+  if (shadowRise > 0) bunnyShadow(pen, shadowRise);
+  visitor(pen, room.visit, 'wall');
+  bed(pen);
+  dampPillow(pen, clamp((room.sweat - 0.4) / 0.6, 0, 1));
+  sleeper(pen, room);
+  if (room.sweat > 0.5) sweatDrops(pen, room.sweat);
+  blanket(pen);
+  visitor(pen, room.visit, 'floor');
+  if (room.tv) tvSet(pen);
+  night(pen, room.dark);
+  tvGlow(pen, swell, room.cold);
+}
 
-/** The second half's first lines: a bunny gone from the wallpaper, one by the window. */
-export const bedroomWindow: Drawing = (pen: Pen, { p }: Local) => {
-  bedroom(pen, 'window', p);
-};
-
-/** The second half's last lines: the bunny at the foot of the bed. */
-export const bedroomFoot: Drawing = (pen: Pen, { p }: Local) => {
-  bedroom(pen, 'foot', p);
-};
+/**
+ * The bedroom through `camera`, jolted by the kicks: first half, the frame
+ * bobs, almost a dance; raw, it is shaken and tilted further. `shadowRise`
+ * puts the bunny's shadow up the wall, 0 leaving it off.
+ */
+export function bedroom(
+  pen: Pen,
+  room: Room,
+  camera: Camera,
+  shadowRise = 0,
+): void {
+  reality(pen, (inner) => {
+    const t = inner.playhead;
+    const kick = punch(KICKS, t);
+    const jitter = Math.floor(t * 40);
+    const shake = room.raw ? 14 * kick : 0;
+    const dx = shake * noise(271, jitter);
+    const dy = (room.raw ? 0 : 7 * kick) + shake * noise(272, jitter);
+    const tilt =
+      (camera.tilt ?? 0) + (room.raw ? 1.5 * kick * noise(273, jitter) : 0);
+    const zoom = camera.zoom * (1 + 0.025 * kick);
+    const [fx, fy] = camera.focus;
+    at(inner, { x: STAGE.width / 2 + dx, y: STAGE.height / 2 + dy }, () => {
+      at(inner, { scale: zoom, rot: tilt, flip: camera.reversed }, () => {
+        at(inner, { x: -fx, y: -fy }, () => {
+          interior(inner, room, shadowRise);
+        });
+      });
+    });
+  });
+}

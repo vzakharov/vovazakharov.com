@@ -1,9 +1,15 @@
 import { beatSeconds, sectionAt, VERSE_CALLS } from '@/clip/shared/score';
-import type { Shot } from '@/clip/shared/timeline';
+import type { Drawing, Shot } from '@/clip/shared/timeline';
 import {
-  bedroomFoot,
-  bedroomWide,
-  bedroomWindow,
+  BEDROOM_CUES,
+  coldSweat,
+  offTheWall,
+  reverseAngle,
+  soGood,
+  summerWindow,
+  troublesRetreat,
+  wakeUp,
+  wallWakes,
 } from '@/clip/widgets/bedroom';
 import { channel } from '@/clip/widgets/channels';
 
@@ -22,14 +28,29 @@ const calls: Shot[] = VERSE_CALLS.map((from, n) => ({
   draw: channel(n, nearness(n)),
 }));
 
-const FIRST = sectionNamed('verse, first half');
-const { from: SECOND_FROM, to: SECOND_TO } = sectionNamed('verse, second half');
-const SECOND_MIDDLE = (SECOND_FROM + SECOND_TO) / 2;
+const { from: VERSE_FROM } = sectionNamed('verse, first half');
+const { to: VERSE_TO } = sectionNamed('verse, second half');
 
-/** The verse: the bedroom at night, the TV cutting in on every call. */
+/** The bedroom under the line that answers a call, from the call to the next. */
+const line = (n: number, draw: Drawing, to?: number): Shot => ({
+  from: n === 0 ? VERSE_FROM : (VERSE_CALLS[n] ?? VERSE_FROM),
+  to: to ?? VERSE_CALLS[n + 1] ?? VERSE_TO,
+  draw,
+});
+
+/**
+ * The verse: the bedroom at night, a new picture for each of the seven lines,
+ * the TV cutting in on every call. Line 6, «Ложка новая с секретом», is an
+ * entry of its own.
+ */
 export const VERSE_SHOTS: readonly Shot[] = [
-  { ...FIRST, draw: bedroomWide },
-  { from: SECOND_FROM, to: SECOND_MIDDLE, draw: bedroomWindow },
-  { from: SECOND_MIDDLE, to: SECOND_TO, draw: bedroomFoot },
+  line(0, wakeUp),
+  line(1, coldSweat),
+  line(2, wallWakes),
+  line(3, offTheWall),
+  line(4, summerWindow),
+  line(5, reverseAngle),
+  line(6, troublesRetreat, BEDROOM_CUES.soGood),
+  { from: BEDROOM_CUES.soGood, to: VERSE_TO, draw: soGood },
   ...calls,
 ];
