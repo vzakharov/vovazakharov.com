@@ -7,4 +7,6 @@ export const PARTY_PALETTE = {
   blush: '#ff7ac8',
   /** The words on black before the meadow bursts in. */
   lyric: '#f4f1ea',
+  /** The hospital's red cross, the one on its roof, lit behind the words. */
+  cross: '#d8262c',
 } as const;
