@@ -1,26 +1,23 @@
-import { barSeconds, CHANT, within } from '@/clip/shared/score';
+import { CHANT, within } from '@/clip/shared/score';
 import type { Shot } from '@/clip/shared/timeline';
+import { channel } from '@/clip/widgets/channels';
 
-import { placeholder } from './placeholder';
-import { sectionNamed, standIn } from './stand-in';
+import { sectionNamed } from './stand-in';
 
-const NAME = 'pre-bridge';
+const PREBRIDGE = sectionNamed('pre-bridge');
+const { from, to } = PREBRIDGE;
 
-/** The chanted «Хорошо»s that fall inside the pre-bridge. */
-const chanted = CHANT.filter((t) => within(sectionNamed(NAME), t));
+/** The chanted «Хорошо»s that fall inside the pre-bridge, each a zap. */
+const zaps = CHANT.filter((t) => within(PREBRIDGE, t) && t > from + 0.2);
+const starts = [from, ...zaps];
 
-/** Every «Хорошо» of the chant a new channel, held a bar or to the next. */
-const chant: Shot[] = chanted.map((from, n) => ({
-  from,
-  to: Math.min(
-    chanted[n + 1] ?? Infinity,
-    from + barSeconds(sectionNamed(NAME)),
-  ),
-  draw: placeholder(`zap ${String(n + 1)}`, 'broadcast', 30 + n),
+// The bunny a step nearer the glass on every channel.
+const nearness = (n: number): number =>
+  0.6 + (0.25 * n) / Math.max(1, starts.length - 1);
+
+/** The pre-bridge: the zapping slowed to a crawl, one channel to each chant. */
+export const PREBRIDGE_SHOTS: readonly Shot[] = starts.map((start, n) => ({
+  from: start,
+  to: starts[n + 1] ?? to,
+  draw: channel(n, nearness(n)),
 }));
-
-/** The pre-bridge: the zapping slowed to one channel a bar. */
-export const PREBRIDGE_SHOTS: readonly Shot[] = [
-  standIn(NAME, 'broadcast', 7),
-  ...chant,
-];

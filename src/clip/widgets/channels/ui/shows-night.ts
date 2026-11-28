@@ -1,0 +1,123 @@
+import { ellipse, ink, limb, polygon } from '@/clip/shared/ink';
+import { jaw, pulse } from '@/clip/shared/score';
+import { testCard } from '@/clip/shared/tape';
+import { bunny } from '@/clip/entities/bunny';
+import { lerpPose, POSES, puppet } from '@/clip/entities/puppet';
+
+import { CHANNELS_PALETTE } from './palette-channels';
+import { box, caption, HEIGHT, lurker, type Show, WIDTH } from './screen';
+
+const { news, aerobics, clock } = CHANNELS_PALETTE;
+
+/** The news: the anchor behind his desk, the bunny at the window behind him. */
+export const newsDesk: Show = (pen, nearness, since) => {
+  box(pen, news.wall);
+  ink(
+    pen,
+    polygon([
+      [600, 70],
+      [900, 70],
+      [900, 330],
+      [600, 330],
+    ]),
+    {
+      fill: news.window,
+      seed: 81,
+    },
+  );
+  lurker(pen, nearness, [750, 150], 'down', 11);
+  puppet(pen, {
+    place: { x: 330, y: 800, scale: 0.85 },
+    pose: 'sing',
+    outfit: 'suit',
+    look: { jaw: jaw(pen.playhead), gaze: [0, 0] },
+    mark: 4000,
+  });
+  ink(
+    pen,
+    polygon([
+      [60, 500],
+      [900, 500],
+      [880, 640],
+      [80, 640],
+    ]),
+    {
+      fill: news.desk,
+      seed: 82,
+    },
+  );
+  caption(pen, 'НОВОСТИ', [330, 545], 8);
+  box(pen, news.ticker, [0, 650, WIDTH, 60]);
+  const ticker = 'СРОЧНО: ВСЁ ХОРОШО';
+  const x = WIDTH + 500 - ((since * 220) % (WIDTH + 1000));
+  caption(pen, ticker, [x, 664], 5);
+};
+
+/** The station's test card, the bunny standing in its middle. */
+export const bunnyCard: Show = (pen, nearness) => {
+  testCard(pen, 0);
+  lurker(pen, nearness, [WIDTH / 2, 230], 'down', 13);
+};
+
+/** Morning exercises: the puppet in his toy suit jumping jacks, the bunny hopping along. */
+export const workout: Show = (pen, nearness) => {
+  const { index, fraction } = pulse(pen.playhead);
+  const swing = Math.abs(Math.sin(Math.PI * (index + fraction)));
+  box(pen, aerobics.wall);
+  box(pen, aerobics.floor, [0, 520, WIDTH, HEIGHT - 520]);
+  box(pen, aerobics.stripe, [0, 510, WIDTH, 14]);
+  caption(pen, 'ЗАРЯДКА', [WIDTH / 2, 30], 10);
+  puppet(pen, {
+    place: { x: 300, y: 640, scale: 0.75 },
+    pose: lerpPose(POSES.wide, POSES.cheer, swing),
+    outfit: 'toy',
+    mark: 5000,
+  });
+  const drift = Math.max(0, nearness - 0.5) * 0.8;
+  bunny(pen, {
+    x: 680 - 200 * drift,
+    y: 220,
+    nearness,
+    hop: fraction,
+    seed: 15,
+  });
+};
+
+/** The station clock at three in the night, the bunny's ears over its rim. */
+export const stationClock: Show = (pen, nearness) => {
+  const centre = [WIDTH / 2, 340] as const;
+  box(pen, clock.field);
+  lurker(pen, nearness, [WIDTH / 2, 150], 'down', 17);
+  ink(pen, ellipse(centre, 220), { fill: clock.face, width: 10, seed: 91 });
+  for (let n = 0; n < 12; n += 1) {
+    const a = (n / 12) * Math.PI * 2;
+    const [s, c] = [Math.sin(a), Math.cos(a)];
+    limb(
+      pen,
+      [
+        [centre[0] + s * 180, centre[1] - c * 180],
+        [centre[0] + s * 200, centre[1] - c * 200],
+      ],
+      clock.hand,
+      n % 3 === 0 ? 10 : 4,
+      92 + n,
+    );
+  }
+  const hand = (turn: number, length: number, width: number, color: string) => {
+    const a = turn * Math.PI * 2;
+    limb(
+      pen,
+      [
+        centre,
+        [centre[0] + Math.sin(a) * length, centre[1] - Math.cos(a) * length],
+      ],
+      color,
+      width,
+      110 + width,
+    );
+  };
+  hand(0.25, 110, 14, clock.hand);
+  hand(0, 170, 9, clock.hand);
+  hand(Math.floor(pen.playhead) / 60, 190, 3, clock.dot);
+  caption(pen, '03:00', [WIDTH / 2, 600], 12);
+};
