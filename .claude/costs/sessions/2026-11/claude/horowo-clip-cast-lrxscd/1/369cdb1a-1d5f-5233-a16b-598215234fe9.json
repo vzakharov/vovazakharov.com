@@ -1,0 +1,120 @@
+{
+  "total": {
+    "inputTokens": 124,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 339970,
+    "cacheReadTokens": 11967964,
+    "outputTokens": 125550,
+    "thinkingTokens": 46501,
+    "responses": 65,
+    "costUsd": 12.8561048
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "oriented",
+    "endedOn": null,
+    "endedAt": "2026-11-28T10:30:03.623Z",
+    "contextTokens": 135706,
+    "spend": {
+      "inputTokens": 4,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 48457,
+      "cacheReadTokens": 151974,
+      "outputTokens": 1504,
+      "thinkingTokens": 292,
+      "responses": 2,
+      "costUsd": 0.8658988000000001
+    }
+  },
+  "sessionId": "369cdb1a-1d5f-5233-a16b-598215234fe9",
+  "branch": "claude/horowo-clip-cast-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are one of four child sessions building a code-drawn music video for the song «Хорошо!». A lead session runs the build in the repo's `/carte-blanche` mode a…",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01MZoAKBkF3h1YJyKztvmqtT",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T10:29:50.802Z",
+  "lastResponseAt": "2026-11-28T10:57:58.211Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 124,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 339970,
+    "cacheReadTokens": 11967964,
+    "outputTokens": 125550,
+    "thinkingTokens": 46501,
+    "responses": 65,
+    "costUsd": 12.8561048
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-fable-5-2/standard": {
+      "inputTokens": 124,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 339970,
+      "cacheReadTokens": 11967964,
+      "outputTokens": 125550,
+      "thinkingTokens": 46501,
+      "responses": 65,
+      "costUsd": 12.8561048
+    }
+  },
+  "warnings": [],
+  "compactions": [
+    {
+      "at": "2026-11-28T10:49:14.675Z",
+      "trigger": "auto",
+      "compactedFrom": 265995,
+      "summaryChars": 17302,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "src/clip/entities/puppet/ui/puppet.ts",
+        "endedAt": "2026-11-28T10:50:06.525Z",
+        "contextTokens": 134693,
+        "spend": {
+          "inputTokens": 10,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 72634,
+          "cacheReadTokens": 429205,
+          "outputTokens": 2608,
+          "thinkingTokens": 579,
+          "responses": 4,
+          "costUsd": 1.3523850000000002
+        }
+      },
+      "rereads": {
+        "calls": 4,
+        "byTool": {
+          "Read": 4
+        },
+        "estimatedTokens": 415,
+        "estimatedUsd": 0.007885
+      },
+      "billedUsd": null
+    }
+  ],
+  "telemetry": null,
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 236,
+    ".mjs": 687,
+    ".json": 23,
+    ".ts": 400
+  }
+}
