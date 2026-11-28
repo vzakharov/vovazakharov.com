@@ -43,7 +43,8 @@ The same film, made better where the operator pointed: every one of the fifteen 
 - **The mp4 in the release** (`horowo-clip` prerelease, `horowo-clip-720p.mp4`) is still the first cut.
 - **Wave 3, in flight**, started 17:46 UTC on 2026-11-28 from `09a56f0c`, each child on `claude/horowo-clip-w3-<letter>-lrxscd` and reporting by one `send_message` to this session:
   - `…-w3-e-…`, `session_01DaohkEt1PbJUKxAAKQTtgp` — engine: warning card, ident with sound, the film's far end, the jaw. Not merged.
-  - `…-w3-w-…`, `session_01DaohkEf7zhEMjdeEgLFyA4` — the words overlay. Not merged.
+  - `…-w3-w-…`, `session_01DaohkEf7zhEMjdeEgLFyA4` — the words overlay. **Merged** at `01a461b2` (`sungLine(pen)` from `@/clip/features/sung-line`, called once in `player.ts`; the placement table is `features/sung-line/model/placement.ts` `RULES`). Archived. It does not yet keep out of the chorus's opening break: the lead does that at the seam, once C's break exists. It measured that the vocal stem is offset 2.51 s from the master and ends at 89.6 s, so the lull's «о»s and the last «Хорошо!» are found on the master — B and D were told.
+- **The limit**: the children's sessions report this account's weekly limit as `allowed_warning`, resetting at about 02:00 UTC on 2026-11-30. The operator's «77% недельной квоты» may be the share used, not the share free; the lead asked him.
   - `…-w3-i-…`, `session_01DaohkCNxr81DqDpAvTR6BH` — the intro. **Merged** at `eea63016` (widget `close-up`: `closeUp(cues)` is the intro; `faceOnBlack` is exported and still unused — it goes into the bridge's and the breakdown's pools at the seam, or is removed). Archived.
   - `…-w3-g-…`, `session_01DaohkFmocUFKMy8SNxisti` — the gig and the rocket ears. Not merged.
   - `…-w3-v-…`, `session_01DaohkEJjQAcFRp5rFx4JoG` — the bedroom. Not merged.
