@@ -83,6 +83,10 @@ https://claude.ai/artifact/5hqSFnzRjgT8nVshU3oeKJ
 
 The review board. It is private to the account that published it; a successor on another account builds and publishes its own (`/review-board`) and replaces the link in the PR's sticky comment.
 
+https://claude.ai/artifact/DzDDbJfmEA8ugouf4NTeR2
+
+The clip as it stands, playable: `pnpm bundle:clip` writes `tmp/clip/artifact/index.html` and `horowo.mp3`, published as the page plus one supporting file (`contentType: audio/mpeg`). Republished at every milestone; also private to this account. The engine is merged at `e88909a6` (page, timeline, score, `film:clip`, `bundle:clip`, `music` as `clip`'s second parent); the same session is still adding the pre-roll, the per-section shot files, the vocal-stem jaw and the kick and snare onsets.
+
 ## 7. Pointers
 
 - `docs/plans/horowo-clip.in-progress.md` — everything.
