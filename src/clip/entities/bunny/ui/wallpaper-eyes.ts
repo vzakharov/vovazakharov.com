@@ -29,7 +29,7 @@ const PUPIL_TRAVEL = 0.45;
 
 /**
  * Eyes on every bunny printed on the wallpaper, opened one pair after another
- * as `open` goes 0 → 1, every pupil turned on `target`: the pattern waking.
+ * as `awake` goes 0 → 1, every pupil turned on `target`: the pattern waking.
  * Drawn over `bunnyWallpaper` with the same cell and offset.
  */
 export function wallpaperEyes(pen: Pen, eyes: WallpaperEyes): void {

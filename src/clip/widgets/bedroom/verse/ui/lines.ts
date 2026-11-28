@@ -14,7 +14,7 @@ import { bedroom, ROOM, type Room } from './scene';
 
 /**
  * The sung words the bedroom's pictures turn on, as `words.ts` in the score
- * times them (its table is not exported): the onsets of «просыпаешься»,
+ * times them, copied because the score keeps that table private: the onsets of «просыпаешься»,
  * «зайчик», «Так» and the three «шо» of «Так хорошо-шо-шо».
  */
 export const CUES = {
@@ -108,7 +108,7 @@ export const offTheWall: Drawing = (pen: Pen, { p }: Local) => {
 
 /**
  * «Даже не в деревне летом»: the window holds a village summer afternoon at
- * 3 am, and the bunny stands by it; the frame is tilted and shaken now.
+ * 3 am, and the bunny stands by it, in the second half's tilted, shaken frame.
  */
 export const summerWindow: Drawing = (pen: Pen, { p }: Local) => {
   bedroom(
