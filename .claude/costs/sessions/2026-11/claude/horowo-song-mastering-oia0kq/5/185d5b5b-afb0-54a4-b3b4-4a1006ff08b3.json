@@ -10,7 +10,8 @@
     "costUsd": 0.8929828000000002
   },
   "estimate": {
-    "at": "2026-11-02T08:40:22.488Z",
+    "at": "2026-11-28T10:35:51.648Z",
+    "subjectLine": "chore: pick up the song work from a relay summary",
     "parts": [
       {
         "hours": 0.1,
@@ -101,5 +102,9 @@
         "costUsd": 0.029267199999999997
       }
     }
-  }
+  },
+  "operatorWords": null,
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": null
 }
