@@ -8,6 +8,7 @@ import {
   meadowBurst,
   meadowParty,
 } from '@/clip/widgets/meadow-party';
+import { spoonBunny } from '@/clip/widgets/spoon-bunny';
 import { wardInsert } from '@/clip/widgets/ward';
 
 import { sectionNamed } from './stand-in';
@@ -19,7 +20,10 @@ type Storyline = (along: number) => Drawing;
  * The storylines the `I` slots cut to, one after another round the list. The
  * meadow, the ward wall and the aerobics show have slots of their own.
  */
-const STORYLINES: readonly Storyline[] = [() => gigInsert];
+const STORYLINES: readonly Storyline[] = [
+  () => gigInsert,
+  (along) => spoonBunny(0.5 + 0.3 * along),
+];
 
 const { from: opening, to: closing } = sectionNamed('chorus');
 

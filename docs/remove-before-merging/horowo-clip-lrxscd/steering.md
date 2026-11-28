@@ -247,3 +247,23 @@ A few minutes later, on the line that precedes that break, verbatim:
 > хоро<ещё больше>ШО</ещё больше>
 
 The lead's reading: «Так хорошо-шо-шо» is lettered as a stack of three lines building up as sung («хорошо-» 42.56, «шо-» 43.04, «шо» 43.32) — «хорошо», then «хороШО» with the ШО capital, then «хороШО» with the ШО larger still — in the lettering of the break's words, over the verse's last picture rather than on black, so the cut to «НЕ» keeps the type and drops the world. Package C exports it as letters with no ground; the lead lays it over the verse's tail at the seam and silences the overlay of sung lines there.
+
+Corrected at about 18:10 UTC, quoting the lead's «три строки стопкой, каждая появляется на свой слог», verbatim:
+
+> я скорее имел в виду, чтобы одно слово хорошо видоизменялось на каждом "шо"
+
+So not a stack: one word in one place, changing on each «шо» — «хорошо», then its ШО capital, then that ШО larger still, the «хоро» staying put. The rest of the reading stands (the break's lettering, over the verse's last picture, C's export, the overlay silenced).
+
+## Typed into a child's session
+
+The operator also writes to the children directly; each such message is kept here as the child reported it.
+
+To package S (the spoon bunny), at 17:58:25 UTC, over a still of the reveal's face with a blue iris on the hanging eye, verbatim:
+
+> я кареглазый :)
+
+And at 17:58:51 UTC, over a still of the back view with a white bowl of dark red at the bunny's side, verbatim:
+
+> миску не должно быть видно до поворота, может и после не должно -- суть не в том чтобы именно миска была, а чтобы было понятно, что что-то ест
+
+The child's reading, which the lead keeps: the hanging eye is the operator's own, so it is brown; there is no bowl anywhere, before or after the turn, and the eating shows in the elbow, the spoon's handle over the shoulder and the shudder of chewing.
