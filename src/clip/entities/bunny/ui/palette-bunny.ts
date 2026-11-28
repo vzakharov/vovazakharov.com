@@ -31,4 +31,8 @@ export const AUDIENCE_PALETTE = {
   fur: '#1b1922',
   /** The stage light catching the ears' edges. */
   rim: '#ff5fa2',
+  /** An ear gone up as a rocket: its exhaust and the smoke it leaves. */
+  flame: '#ff8a1f',
+  flameCore: '#fff2a8',
+  smoke: '#d8d2e0',
 } as const;

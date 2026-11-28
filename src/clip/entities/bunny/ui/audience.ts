@@ -8,16 +8,17 @@ import {
   type Pen,
 } from '@/clip/shared/ink';
 
+import {
+  type Audience,
+  EAR_ROOT,
+  type EarFlight,
+  earFlights,
+  earRise,
+  RUMBLE,
+  type Seat,
+  seats,
+} from '../model/crowd';
 import { AUDIENCE_PALETTE } from './palette-bunny';
-import type { Covering } from './wallpaper';
-
-/** Fills its `area` with the front row at the bottom. */
-export type Audience = Covering & {
-  /** How many rows, front to back; 3 by default. */
-  rows?: number;
-  /** The front row's head width in stage units; 150 by default. */
-  headWidth?: number;
-};
 
 // A head's back, its centre at the origin, 100 wide.
 const HEAD = ellipse([0, 0], 50, 46);
@@ -25,9 +26,17 @@ const HEAD_BACK_EAR = (side: number): Path =>
   path(
     `M ${side * 14},-30 C ${side * 10},-90 ${side * 22},-150 ${side * 36},-180 C ${side * 48},-150 ${side * 46},-90 ${side * 34},-26 Z`,
   );
-const EARS = [HEAD_BACK_EAR(-1), HEAD_BACK_EAR(1)];
-// How much smaller and higher each row back sits than the one before it.
-const RECEDE = 0.72;
+const EARS = { [-1]: HEAD_BACK_EAR(-1), 1: HEAD_BACK_EAR(1) };
+const earOn = (side: number): Path => (side < 0 ? EARS[-1] : EARS[1]);
+// A rocket ear's exhaust, pointing down from the origin, and its hot core;
+// drawn at size, since the ink's wobble would grow with any scale.
+const exhaust = (width: number, length: number): Path =>
+  path(
+    `M ${-width},0 C ${-width},${length * 0.45} ${-width * 0.2},${length * 0.8} 0,${length} C ${width * 0.2},${length * 0.8} ${width},${length * 0.45} ${width},0 Z`,
+  );
+const FLAME = exhaust(14, 70);
+const FLAME_CORE = exhaust(7, 36);
+const PUFF = ellipse([0, 0], 12);
 // How long a twitch lasts and how often an ear may twitch, in seconds.
 const TWITCH = 0.35;
 const TWITCH_EVERY = 2.2;
@@ -63,45 +72,96 @@ function rimLit(pen: Pen, shape: Path, seed: number, light: number): void {
   });
 }
 
+/** An ear in its seated frame, turned `rot` degrees about where it grows. */
+function ear(pen: Pen, side: number, rot: number, from: Seat): void {
+  at(pen, { y: -30, rot }, () => {
+    rimLit(pen, earOn(side), from.seat, from.stageLight);
+  });
+}
+
+// The smoke an ear leaves: this many puffs, this far apart in seconds.
+const PUFFS = 7;
+const PUFF_EVERY = 0.07;
+
+/** An ear in flight: its smoke behind it, its exhaust, the ear itself. */
+function rocketEar(pen: Pen, flight: EarFlight, seed: number): void {
+  const { from, earSide: side, ignites: leaves } = flight;
+  const { playhead } = pen;
+  const [sx, sy] = from.spot;
+  const [rx, ry] = EAR_ROOT;
+  const root = { x: side * rx, y: ry };
+  for (let k = PUFFS; k >= 1; k -= 1) {
+    const past = earRise(flight, Math.max(leaves, playhead - k * PUFF_EVERY));
+    if (!past) continue;
+    const [px, py] = past.lift;
+    at(pen, { x: sx + px, y: sy + py, scale: from.headScale }, () => {
+      at(pen, { ...root, scale: 0.7 + k * 0.25 }, () => {
+        ink(pen, PUFF, {
+          fill: AUDIENCE_PALETTE.smoke,
+          stroke: null,
+          alpha: 0.5 * (1 - k / (PUFFS + 1)),
+          seed: seed + k,
+        });
+      });
+    });
+  }
+  const now = earRise(flight, playhead);
+  if (!now) return;
+  const [dx, dy] = now.lift;
+  const flicker = 1 + noise(seed, Math.floor(playhead * 24)) * 0.3;
+  at(pen, { x: sx + dx, y: sy + dy, scale: from.headScale }, () => {
+    at(pen, { ...root, rot: now.tilt }, () => {
+      at(pen, { scale: flicker }, () => {
+        ink(pen, FLAME, { fill: AUDIENCE_PALETTE.flame, stroke: null, seed });
+        ink(pen, FLAME_CORE, {
+          fill: AUDIENCE_PALETTE.flameCore,
+          stroke: null,
+          seed,
+        });
+      });
+      at(pen, { x: -root.x, y: -root.y }, () => {
+        ear(pen, side, 0, from);
+      });
+    });
+  });
+}
+
 /**
  * The TV studio's audience seen from behind: rows of dark heads and long
  * ears, the stage light catching their edges, an ear twitching now and then.
- * The rows recede up the area, each smaller than the one before.
+ * The rows recede up the area, each smaller than the one before. From
+ * `liftOff` on, the ears shake, then go up one by one as rockets.
  */
 export function studioAudience(pen: Pen, audience: Audience): void {
-  const { area, rows = 3, headWidth = 150, seed = 0 } = audience;
-  const { x = 0, y = 0, width, height } = area;
+  const { seed = 0 } = audience;
   const { playhead } = pen;
-  for (let row = rows - 1; row >= 0; row -= 1) {
-    const scale = (headWidth / 100) * RECEDE ** row;
-    const spacing = 112 * scale;
-    const baseline = y + height - row * (height / (rows + 1));
-    const shift = (row % 2) * spacing * 0.5 + noise(seed, row) * spacing * 0.2;
-    // The stage light reaches the back rows weaker.
-    const fade = 1 - row * 0.25;
-    for (let n = 0; n * spacing - spacing <= width; n += 1) {
-      const id = row * 1000 + n;
-      const bob = Math.sin(playhead * 1.3 + noise(seed, id) * 6) * 2;
-      const place = {
-        x:
-          x +
-          n * spacing -
-          spacing / 2 +
-          shift +
-          noise(seed, id + 500) * spacing * 0.12,
-        y: baseline + bob,
-        scale: scale * (1 + noise(seed, id + 700) * 0.06),
-      };
-      at(pen, place, () => {
-        for (const [side, ear] of [-1, 1].map(
-          (s, i) => [s, EARS[i]] as const,
-        )) {
-          at(pen, { y: -30, rot: earTurn(seed, id, side, playhead) }, () => {
-            if (ear) rimLit(pen, ear, id, fade);
-          });
+  const flights = new Map<string, EarFlight>(
+    earFlights(audience).map((flight) => [
+      `${flight.from.seat}:${flight.earSide}`,
+      flight,
+    ]),
+  );
+  const flying: EarFlight[] = [];
+  for (const from of seats(audience)) {
+    const [x, y] = from.spot;
+    const bob = Math.sin(playhead * 1.3 + noise(seed, from.seat) * 6) * 2;
+    at(pen, { x, y: y + bob, scale: from.headScale }, () => {
+      for (const side of [-1, 1]) {
+        const flight = flights.get(`${from.seat}:${side}`);
+        if (flight && playhead >= flight.ignites) {
+          flying.push(flight);
+          continue;
         }
-        rimLit(pen, HEAD, id, fade);
-      });
-    }
+        const rumbling =
+          flight !== undefined && playhead >= flight.ignites - RUMBLE;
+        const rot = rumbling
+          ? Math.sin(playhead * 95 + from.seat) * 5
+          : earTurn(seed, from.seat, side, playhead);
+        ear(pen, side, rot, from);
+      }
+      rimLit(pen, HEAD, from.seat, from.stageLight);
+    });
   }
+  // The rockets go over every head.
+  for (const flight of flying) rocketEar(pen, flight, seed + flight.from.seat);
 }

@@ -1,5 +1,3 @@
-import type { Seeded, Sized } from '@/kernel/shared/typings';
-
 import {
   at,
   ellipse,
@@ -10,17 +8,13 @@ import {
   type Point,
 } from '@/clip/shared/ink';
 
+import type { Covering } from '../model/crowd';
 import { FEET_Y } from '../model/pose';
 import { bunny } from './bunny';
 import { WALLPAPER_PALETTE } from './palette-bunny';
 
 /** A wallpaper cell, counted from the one whose bunny stands at the origin. */
 export type Cell = { column: number; row: number };
-
-/** What a pattern of figures covers: an area of the stage, from the current origin. */
-export type Covering = Partial<Seeded> & {
-  area: Sized & { x?: number; y?: number };
-};
 
 export type Wallpaper = Covering & {
   /** One cell's width and height in stage units; 110 by default. */

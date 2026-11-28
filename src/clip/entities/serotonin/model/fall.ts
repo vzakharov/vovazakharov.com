@@ -12,16 +12,20 @@ export type Kind = (typeof KINDS)[number];
 export const DEPTHS = [0, 1, 2] as const;
 export type Depth = (typeof DEPTHS)[number];
 
-/** One fleck in the fall, fixed for good by the pool's seed. */
-export type Fleck = {
+/** What a fleck looks like, wherever it is. */
+export type FleckLook = {
   shape: Kind;
   layer: Depth;
+  /** Which of the kind's colourings it wears. */
+  colouring: number;
+};
+
+/** One fleck in the fall, fixed for good by the pool's seed. */
+export type Fleck = FleckLook & {
   /** Where it falls across the area, 0 to 1. */
   lane: number;
   /** How far through its fall it is at time 0, 0 to 1. */
   headStart: number;
-  /** Which of the kind's colourings it wears. */
-  colouring: number;
   /** Its size against its depth's, about 1. */
   bulk: number;
   /** Whole turns per period, either way. */

@@ -4,10 +4,11 @@ import {
   type Depth,
   type Fall,
   fallingFlecks,
-  type Fleck,
   fleckAt,
+  type FleckLook,
+  type FleckState,
 } from '../model/fall';
-import { SEROTONIN_PALETTE } from './palette-serotonin';
+import { SEROTONIN_PALETTE, type SerotoninPalette } from './palette-serotonin';
 
 // The shapes at one unit long, built on first use: Path2D exists only in a
 // browser, and a shape never changes once built.
@@ -66,21 +67,26 @@ function shapesOnce(): Shapes {
 const SOLIDITY: Readonly<Record<Depth, number>> = { 0: 0.5, 1: 0.8, 2: 1 };
 const OUTLINE = 1.6;
 
+/** A fleck where it is now: what it is, where, how turned, how solid. */
+export type PlacedFleck = FleckLook &
+  FleckState & {
+    /** Against its depth's own solidity; 1 by default. */
+    solidity?: number;
+  };
+
 function drawFleck(
   ctx: CanvasRenderingContext2D,
-  fleck: Fleck,
-  angle: number,
-  fleckSize: number,
+  fleck: PlacedFleck,
+  palette: SerotoninPalette,
 ): void {
-  const { shape, colouring, layer } = fleck;
+  const { shape, colouring, layer, angle, fleckSize } = fleck;
   const parts = shapesOnce();
   const lined = layer > 0;
   ctx.lineWidth = OUTLINE / fleckSize;
   switch (shape) {
     case 'capsule': {
       const [left, right] =
-        SEROTONIN_PALETTE.capsule[colouring % 3] ??
-        SEROTONIN_PALETTE.capsule[0];
+        palette.capsule[colouring % 3] ?? palette.capsule[0];
       ctx.fillStyle = left;
       ctx.fill(parts.capsuleLeft);
       ctx.fillStyle = right;
@@ -91,8 +97,7 @@ function drawFleck(
     case 'tablet': {
       // A disc tumbling: seen edge-on twice a turn.
       ctx.scale(1, 0.2 + 0.8 * Math.abs(Math.cos(angle * 1.5)));
-      ctx.fillStyle =
-        SEROTONIN_PALETTE.tablet[colouring % 3] ?? SEROTONIN_PALETTE.tablet[0];
+      ctx.fillStyle = palette.tablet[colouring % 3] ?? palette.tablet[0];
       ctx.fill(parts.tablet);
       if (lined) {
         ctx.stroke(parts.tablet);
@@ -101,8 +106,7 @@ function drawFleck(
       break;
     }
     case 'flake': {
-      ctx.fillStyle =
-        SEROTONIN_PALETTE.flake[colouring % 3] ?? SEROTONIN_PALETTE.flake[0];
+      ctx.fillStyle = palette.flake[colouring % 3] ?? palette.flake[0];
       ctx.fill(parts.flake);
       if (lined) ctx.stroke(parts.flake);
       break;
@@ -113,26 +117,42 @@ function drawFleck(
   }
 }
 
-/**
- * Serotonin falling like snow: capsules, tablets and flakes at three depths,
- * the far ones small, slow and faint. A pure function of `pen.playhead` that loops
- * every `period` with no seam; `density` adds flecks without moving any.
- */
-export function serotoninFall(pen: Pen, fall: Fall): void {
-  const { ctx, playhead } = pen;
+/** Draws each of `placed` in `palette`, in the order given. */
+export function flecks(
+  pen: Pen,
+  placed: Iterable<PlacedFleck>,
+  palette: SerotoninPalette = SEROTONIN_PALETTE,
+): void {
+  const { ctx } = pen;
   ctx.save();
-  ctx.strokeStyle = SEROTONIN_PALETTE.outline;
+  ctx.strokeStyle = palette.outline;
   ctx.lineJoin = 'round';
   const solid = ctx.globalAlpha;
-  for (const fleck of fallingFlecks(fall)) {
-    const { x, y, angle, fleckSize } = fleckAt(fleck, playhead, fall);
+  for (const fleck of placed) {
+    const { x, y, angle, fleckSize, layer, solidity = 1 } = fleck;
     ctx.save();
-    ctx.globalAlpha = solid * SOLIDITY[fleck.layer];
+    ctx.globalAlpha = solid * SOLIDITY[layer] * solidity;
     ctx.translate(x, y);
     ctx.rotate(angle);
     ctx.scale(fleckSize, fleckSize);
-    drawFleck(ctx, fleck, angle, fleckSize);
+    drawFleck(ctx, fleck, palette);
     ctx.restore();
   }
   ctx.restore();
+}
+
+/** A fall and the colours it falls in, pharmacy pastels by default. */
+export type ColouredFall = Fall & { palette?: SerotoninPalette };
+
+/**
+ * Serotonin falling like snow: capsules, tablets and flakes at three depths,
+ * the far ones small, slow and faint. A pure function of `pen.playhead` that
+ * loops every `period` with no seam; `density` adds flecks without moving any.
+ */
+export function serotoninFall(pen: Pen, fall: ColouredFall): void {
+  const { playhead } = pen;
+  const placed = fallingFlecks(fall).map(
+    (fleck): PlacedFleck => ({ ...fleck, ...fleckAt(fleck, playhead, fall) }),
+  );
+  flecks(pen, placed, fall.palette);
 }
