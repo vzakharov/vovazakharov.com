@@ -23,7 +23,7 @@ import { z } from 'zod';
 import { PAGE_ROUTES } from '@/kernel/shared/config/index.node-safe';
 
 import { FILM_HOOK, FILM_QUERY } from '@/clip/shared/film';
-import { POSTROLL, PREROLL, SONG_SECONDS } from '@/clip/shared/score';
+import { FILM_END, PREROLL } from '@/clip/shared/score';
 
 import { CLIP_TMP, songFile } from './lib/song-file';
 
@@ -37,8 +37,7 @@ const FPS = 30;
 const SIZE = { width: 1920, height: 1080 } as const;
 // Song time, so the film opens at -PREROLL, on the warning.
 const FROM = Math.max(-PREROLL, Number(flag('from') ?? -PREROLL));
-const END = SONG_SECONDS + POSTROLL;
-const TO = Math.min(END, Number(flag('to') ?? END));
+const TO = Math.min(FILM_END, Number(flag('to') ?? FILM_END));
 /** Where the pre-roll's rendered sound is written for ffmpeg to mix. */
 const IDENT_WAV = path.join(CLIP_TMP, 'ident.wav');
 const OUT = path.resolve(

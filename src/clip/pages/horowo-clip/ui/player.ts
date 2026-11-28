@@ -1,15 +1,12 @@
 import { type ClipFilmHook, FILM_HOOK } from '@/clip/shared/film';
 import { INK_PALETTE, penAt, STAGE } from '@/clip/shared/ink';
-import { filmTime, POSTROLL, PREROLL, SONG_SECONDS } from '@/clip/shared/score';
+import { FILM_END, filmTime, PREROLL, SONG_SECONDS } from '@/clip/shared/score';
 import { frame, type Shot } from '@/clip/shared/timeline';
 
 import { fitStage, type PlayerMode, type StageFit } from '../lib/stage-fit';
 import { base64, wav } from '../lib/wav';
 import { type Hush, identSound, renderedIdent } from './ident-sound';
 import { PLACEHOLDER_PALETTE } from './palette-placeholder';
-
-/** Song time the film ends at: the post-roll's silence after the master. */
-const END = SONG_SECONDS + POSTROLL;
 
 /** The scrub bar's height, and the strip over it a click seeks in, in CSS pixels. */
 const SCRUB_HEIGHT = 4;
@@ -188,14 +185,14 @@ function play(
       settle(audio.play());
       return t;
     }
-    if (t < END) return t;
-    hold(END, false);
-    return END;
+    if (t < FILM_END) return t;
+    hold(FILM_END, false);
+    return FILM_END;
   };
   const paused = () => (outside ? !running : audio.paused);
 
   const seek = (to: number) => {
-    const t = Math.min(END, Math.max(-PREROLL, to));
+    const t = Math.min(FILM_END, Math.max(-PREROLL, to));
     const playing = !paused();
     outside = t < 0 || t >= length();
     if (outside) {
@@ -215,11 +212,14 @@ function play(
     }
     const t = own();
     // Played again from its last frame, the film starts over.
-    hold(!running && t >= END ? -PREROLL : t, !running);
+    hold(!running && t >= FILM_END ? -PREROLL : t, !running);
   };
   const onPointer = (event: PointerEvent) => {
     if (event.clientY >= globalThis.innerHeight - SCRUB_REACH) {
-      seek((event.clientX / globalThis.innerWidth) * (END + PREROLL) - PREROLL);
+      seek(
+        (event.clientX / globalThis.innerWidth) * (FILM_END + PREROLL) -
+          PREROLL,
+      );
       return;
     }
     toggle();
@@ -234,7 +234,7 @@ function play(
   const tick = () => {
     const t = now();
     paint(t);
-    chrome(canvas, ctx, (t + PREROLL) / (END + PREROLL), paused());
+    chrome(canvas, ctx, (t + PREROLL) / (FILM_END + PREROLL), paused());
     request = requestAnimationFrame(tick);
   };
   request = requestAnimationFrame(tick);
