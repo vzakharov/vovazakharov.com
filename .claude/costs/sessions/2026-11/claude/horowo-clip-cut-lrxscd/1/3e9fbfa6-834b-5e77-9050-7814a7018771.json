@@ -1,0 +1,89 @@
+{
+  "total": {
+    "inputTokens": 38,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 82894,
+    "cacheReadTokens": 2110477,
+    "outputTokens": 12043,
+    "thinkingTokens": 2839,
+    "responses": 18,
+    "costUsd": 0.6631297000000002
+  },
+  "estimate": null,
+  "orientation": {
+    "endedBy": "Write",
+    "endedOn": "src/clip/entities/meadow/index.ts",
+    "endedAt": "2026-11-28T14:52:21.787Z",
+    "contextTokens": 112171,
+    "spend": {
+      "inputTokens": 6,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 54646,
+      "cacheReadTokens": 147020,
+      "outputTokens": 908,
+      "thinkingTokens": 50,
+      "responses": 2,
+      "costUsd": 0.242378
+    }
+  },
+  "sessionId": "3e9fbfa6-834b-5e77-9050-7814a7018771",
+  "branch": "claude/horowo-clip-cut-lrxscd",
+  "cwd": "/home/user/vovazakharov.com",
+  "openingPrompt": "You are a child session of a lead session building a code-drawn music video in this repo (app `src/clip/`). Your one package: make `pnpm -s knip` green without …",
+  "prs": [],
+  "url": "https://claude.ai/code/session_01MZoAKEnKtyV3xBLHtudkKi",
+  "operator": "vzakharov",
+  "firstResponseAt": "2026-11-28T14:52:11.003Z",
+  "lastResponseAt": "2026-11-28T14:58:49.181Z",
+  "pricesAsOf": "2026-11-03",
+  "claudeCodeTotalUsd": null,
+  "ownTurns": {
+    "inputTokens": 38,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 82894,
+    "cacheReadTokens": 2110477,
+    "outputTokens": 12043,
+    "thinkingTokens": 2839,
+    "responses": 18,
+    "costUsd": 0.6631297000000002
+  },
+  "subagents": {
+    "inputTokens": 0,
+    "cacheWrite5mTokens": 0,
+    "cacheWrite1hTokens": 0,
+    "cacheReadTokens": 0,
+    "outputTokens": 0,
+    "thinkingTokens": 0,
+    "responses": 0,
+    "costUsd": 0.0
+  },
+  "byRate": {
+    "claude-sonnet-5-5/standard": {
+      "inputTokens": 38,
+      "cacheWrite5mTokens": 0,
+      "cacheWrite1hTokens": 82894,
+      "cacheReadTokens": 2110477,
+      "outputTokens": 12043,
+      "thinkingTokens": 2839,
+      "responses": 18,
+      "costUsd": 0.6631297000000002
+    }
+  },
+  "warnings": [],
+  "compactions": [],
+  "telemetry": null,
+  "operatorWords": {
+    "chat": 0,
+    "review": 0,
+    "threads": 0
+  },
+  "reviewPosts": {},
+  "threadPosts": {},
+  "branchLines": {
+    ".md": 1005,
+    ".json": 169,
+    ".ts": 13710,
+    ".tsx": 44,
+    ".scss": 12
+  }
+}
