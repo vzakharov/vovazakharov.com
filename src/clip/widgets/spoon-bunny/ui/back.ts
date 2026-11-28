@@ -1,3 +1,5 @@
+import type { Seeded } from '@/kernel/shared/typings';
+
 import {
   add,
   at,
@@ -18,21 +20,20 @@ import {
 import { SPOON_PALETTE } from './palette-spoon';
 
 /** Where the seated bunny is on the stage, its units the ghost bunny's own. */
-export const SEATED_AT = { x: 560, y: 260, scale: 0.6 } as const;
+const SEATED_AT = { x: 560, y: 260, scale: 0.6 } as const;
 
 /** How the seated bunny is caught: everything a frame of its supper varies. */
-export type Seated = {
+export type Seated = Seeded & {
   /** The spoon, 0 down at whatever it eats and 1 at its mouth. */
-  lift: number;
+  scoop: number;
   /** How far its shoulders are drawn up, 0 to 1. */
   hunch: number;
   /** Where its head's centre sits, hunched low or sat up. */
-  headY: number;
+  headAt: number;
   /** Its ears' sway, -1 to 1. */
   droop: number;
   /** 0 at its supper; 1 holds the spoon up beside its head, in sight. */
-  raised: number;
-  seed: number;
+  brandished: number;
 };
 
 export const PAPER_EDGE = 6;
@@ -49,7 +50,7 @@ const RAISED_PAW: Point = [156, 150];
 const RAISED_ELBOW: Point = [214, 300];
 const RAISED_TIP: Point = [174, 66];
 const ARM_WIDTH = 30;
-/** How far the spoon's handle runs on past the paw, against its bowl. */
+/** How far the handle runs on past the paw, as a multiple of the paw-to-bowl span. */
 const HANDLE = 2.6;
 // The chair it sits on: its back's top rail, and its posts' half-spread.
 const RAIL_TOP = 330;
@@ -121,43 +122,43 @@ const TAPE: readonly Path[] = [
 ];
 
 /**
- * A spoon held at `paw` with its bowl at `tip`, full of what it scooped; the
+ * A spoon held at `paw`, its `bowl` full of what it scooped; the
  * handle runs on past the paw.
  */
-export function spoon(pen: Pen, paw: Point, tip: Point, seed: number): void {
-  const end = add(paw, times(sub(paw, tip), HANDLE - 1));
-  const shaft = polygon([end, tip], 'open');
+function spoon(pen: Pen, paw: Point, bowl: Point, seed: number): void {
+  const end = add(paw, times(sub(paw, bowl), HANDLE - 1));
+  const shaft = polygon([end, bowl], 'open');
   ink(pen, shaft, { stroke: INK_PALETTE.ink, width: 14, seed });
   ink(pen, shaft, { stroke: SPOON_PALETTE.spoon, width: 6, seed });
-  ink(pen, ellipse(tip, 15, 11), {
+  ink(pen, ellipse(bowl, 15, 11), {
     fill: SPOON_PALETTE.spoon,
     width: 4,
     seed: seed + 1,
   });
-  ink(pen, ellipse([tip[0], tip[1] - 2], 9, 6), {
+  ink(pen, ellipse([bowl[0], bowl[1] - 2], 9, 6), {
     fill: SPOON_PALETTE.broth,
     stroke: null,
     seed: seed + 2,
   });
 }
 
-type Reach = { elbow: Point; paw: Point; tip: Point };
+type Reach = { elbow: Point; paw: Point; bowl: Point };
 
-/** Where the elbow, the paw and the spoon's bowl are, `lift` of the way to its mouth. */
-function spoonAt(lift: number): Reach {
-  const paw = mix(PAW_DOWN, PAW_UP, lift);
+/** Where the elbow, the paw and the spoon's bowl are, `scoop` of the way to its mouth. */
+function spoonAt(scoop: number): Reach {
+  const paw = mix(PAW_DOWN, PAW_UP, scoop);
   // The elbow is thrown out and up in an arc rather than straight.
-  const elbow = add(mix(ELBOW_DOWN, ELBOW_UP, lift), [
-    Math.sin(lift * Math.PI) * 30,
+  const elbow = add(mix(ELBOW_DOWN, ELBOW_UP, scoop), [
+    Math.sin(scoop * Math.PI) * 30,
     0,
   ]);
-  const reach = mix([-10, 60], [-50, 40], lift);
-  return { elbow, paw, tip: add(paw, reach) };
+  const reach = mix([-10, 60], [-50, 40], scoop);
+  return { elbow, paw, bowl: add(paw, reach) };
 }
 
 /** The spoon arm, from its shoulder through `elbow` to the spoon in its `paw`. */
-function spoonArm(pen: Pen, { elbow, paw, tip }: Reach, seed: number): void {
-  spoon(pen, paw, tip, seed);
+function spoonArm(pen: Pen, { elbow, paw, bowl }: Reach, seed: number): void {
+  spoon(pen, paw, bowl, seed);
   limb(
     pen,
     [SHOULDER_RIGHT, elbow, paw],
@@ -187,19 +188,19 @@ export function headBack(pen: Pen, droop: number, seed: number): void {
 }
 
 /**
- * The bunny at its supper from behind, the spoon at `lift`, and `head` drawn
+ * The bunny at its supper from behind, the spoon at `scoop`, and `head` drawn
  * in its place with the origin at the head's centre. At its supper the arm
- * works behind its back and head; raised, it comes round in front of them.
+ * works behind its back and head; brandished, it comes round in front of them.
  */
 export function seated(pen: Pen, pose: Seated, head: () => void): void {
-  const { lift, hunch, headY, seed, raised } = pose;
-  const reach = spoonAt(lift);
+  const { scoop, hunch, headAt, seed, brandished } = pose;
+  const reach = spoonAt(scoop);
   const arm: Reach = {
-    elbow: mix(reach.elbow, RAISED_ELBOW, raised),
-    paw: mix(reach.paw, RAISED_PAW, raised),
-    tip: mix(reach.tip, RAISED_TIP, raised),
+    elbow: mix(reach.elbow, RAISED_ELBOW, brandished),
+    paw: mix(reach.paw, RAISED_PAW, brandished),
+    bowl: mix(reach.bowl, RAISED_TIP, brandished),
   };
-  const shown = raised > 0;
+  const shown = brandished > 0;
   at(pen, SEATED_AT, () => {
     if (!shown) spoonArm(pen, arm, seed + 20);
     // The other arm rests on the table, only its elbow showing.
@@ -235,6 +236,6 @@ export function seated(pen: Pen, pose: Seated, head: () => void): void {
     }
     chairBack(pen, seed + 80);
     if (shown) spoonArm(pen, arm, seed + 20);
-    at(pen, { y: headY }, head);
+    at(pen, { y: headAt }, head);
   });
 }

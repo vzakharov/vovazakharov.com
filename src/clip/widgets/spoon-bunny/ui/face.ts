@@ -47,7 +47,7 @@ const TORN: readonly Point[] = [
 ];
 const MOUTH = polygon(TORN);
 /** Where the nerve leaves the mouth, between the lower teeth. */
-export const NERVE_ROOT: Point = [12, 94];
+const NERVE_ROOT: Point = [12, 94];
 /** How far below its root the eye hangs. */
 const NERVE_LENGTH = 104;
 const EYEBALL = 31;

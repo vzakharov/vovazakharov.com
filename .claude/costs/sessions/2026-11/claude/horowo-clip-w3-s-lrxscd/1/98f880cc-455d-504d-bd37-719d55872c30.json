@@ -1,15 +1,33 @@
 {
   "total": {
-    "inputTokens": 2551,
+    "inputTokens": 2585,
     "cacheWrite5mTokens": 165,
-    "cacheWrite1hTokens": 281059,
-    "cacheReadTokens": 13533912,
-    "outputTokens": 77901,
-    "thinkingTokens": 26121,
-    "responses": 75,
-    "costUsd": 6.524303400000001
+    "cacheWrite1hTokens": 297099,
+    "cacheReadTokens": 15922292,
+    "outputTokens": 84257,
+    "thinkingTokens": 27266,
+    "responses": 93,
+    "costUsd": 7.2575554
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-28T18:02:14.047Z",
+    "subjectLine": "feat: the spoon bunny's back view and its reveal before the bridge",
+    "parts": [
+      {
+        "hours": 7.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "a children's-book look built from procedural shapes, with the horror reveal tuned frame by frame against the stills"
+      },
+      {
+        "hours": 4.0,
+        "grade": "senior",
+        "role": "graphics-programmer",
+        "comment": "a canvas camera, a paper-card flip and beat-timed motion, all a pure function of the playhead"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -34,18 +52,18 @@
   "url": "https://claude.ai/code/session_01DaohkCjkzbt3pcNA53MBoo",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T17:47:16.676Z",
-  "lastResponseAt": "2026-11-28T18:02:03.246Z",
+  "lastResponseAt": "2026-11-28T18:04:30.263Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 140,
+    "inputTokens": 174,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 281059,
-    "cacheReadTokens": 13270980,
-    "outputTokens": 71609,
-    "thinkingTokens": 26121,
-    "responses": 74,
-    "costUsd": 6.335408000000001
+    "cacheWrite1hTokens": 297099,
+    "cacheReadTokens": 15659360,
+    "outputTokens": 77965,
+    "thinkingTokens": 27266,
+    "responses": 92,
+    "costUsd": 7.06866
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,14 +77,14 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 2551,
+      "inputTokens": 2585,
       "cacheWrite5mTokens": 165,
-      "cacheWrite1hTokens": 281059,
-      "cacheReadTokens": 13533912,
-      "outputTokens": 77901,
-      "thinkingTokens": 26121,
-      "responses": 75,
-      "costUsd": 6.524303400000001
+      "cacheWrite1hTokens": 297099,
+      "cacheReadTokens": 15922292,
+      "outputTokens": 84257,
+      "thinkingTokens": 27266,
+      "responses": 93,
+      "costUsd": 7.2575554
     }
   },
   "warnings": [],
@@ -93,21 +111,21 @@
         }
       },
       "rereads": {
-        "calls": 3,
+        "calls": 4,
         "byTool": {
-          "Read": 3
+          "Read": 4
         },
-        "estimatedTokens": 0,
-        "estimatedUsd": 0.0
+        "estimatedTokens": 660,
+        "estimatedUsd": 0.005676
       },
       "billedUsd": 0.1888954
     }
   ],
   "telemetry": {
-    "events": 74,
-    "matched": 73,
-    "matchedTableUsd": 6.291479800000001,
-    "matchedEventUsd": 6.291479800000001,
+    "events": 92,
+    "matched": 91,
+    "matchedTableUsd": 7.0267346,
+    "matchedEventUsd": 7.0267346,
     "unseen": {
       "compact": {
         "inputTokens": 2411,
@@ -131,7 +149,7 @@
   "branchLines": {
     ".md": 1243,
     ".json": 169,
-    ".ts": 13716,
+    ".ts": 14796,
     ".tsx": 44,
     ".scss": 12
   }

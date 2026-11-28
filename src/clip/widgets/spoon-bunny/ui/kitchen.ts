@@ -1,5 +1,6 @@
 import {
   at,
+  clipped,
   ellipse,
   ink,
   type Pen,
@@ -12,8 +13,8 @@ import { bunnyWallpaper } from '@/clip/entities/bunny';
 import { SPOON_PALETTE } from './palette-spoon';
 
 /** The table's far edge against the wall, and its near edge at the bunny's belly. */
-export const TABLE_FAR = 440;
-export const TABLE_NEAR = 575;
+const TABLE_FAR = 440;
+const TABLE_NEAR = 575;
 /** Where the lamp hangs, over its place at the table. */
 const LAMP: Point = [700, 150];
 // The camera never looks past these, however it pans.
@@ -40,32 +41,25 @@ const checkEdge = (k: number, y: number): number =>
 
 function checks(pen: Pen): void {
   const { ctx } = pen;
-  ctx.save();
-  ctx.beginPath();
-  ctx.moveTo(140, TABLE_FAR);
-  ctx.lineTo(1140, TABLE_FAR);
-  ctx.lineTo(1340, TABLE_NEAR);
-  ctx.lineTo(-60, TABLE_NEAR);
-  ctx.closePath();
-  ctx.clip();
-  ctx.fillStyle = SPOON_PALETTE.check;
-  ctx.globalAlpha = 0.55;
-  const rows = [TABLE_FAR, 462, 490, 524, TABLE_NEAR];
-  const columns = 14;
-  for (let r = 0; r < rows.length - 1; r += 1) {
-    const top = rows[r] ?? 0;
-    const bottom = rows[r + 1] ?? 0;
-    for (let c = (r % 2) - columns; c < columns; c += 2) {
-      ctx.beginPath();
-      ctx.moveTo(checkEdge(c, top), top);
-      ctx.lineTo(checkEdge(c + 1, top), top);
-      ctx.lineTo(checkEdge(c + 1, bottom), bottom);
-      ctx.lineTo(checkEdge(c, bottom), bottom);
-      ctx.closePath();
-      ctx.fill();
+  clipped(pen, TABLE_TOP, () => {
+    ctx.fillStyle = SPOON_PALETTE.check;
+    ctx.globalAlpha = 0.55;
+    const rows = [TABLE_FAR, 462, 490, 524, TABLE_NEAR];
+    const columns = 14;
+    for (let r = 0; r < rows.length - 1; r += 1) {
+      const top = rows[r] ?? 0;
+      const bottom = rows[r + 1] ?? 0;
+      for (let c = (r % 2) - columns; c < columns; c += 2) {
+        ctx.beginPath();
+        ctx.moveTo(checkEdge(c, top), top);
+        ctx.lineTo(checkEdge(c + 1, top), top);
+        ctx.lineTo(checkEdge(c + 1, bottom), bottom);
+        ctx.lineTo(checkEdge(c, bottom), bottom);
+        ctx.closePath();
+        ctx.fill();
+      }
     }
-  }
-  ctx.restore();
+  });
 }
 
 /** A child's picture of a carrot in a frame, hung a little crooked. */

@@ -48,7 +48,7 @@ function camera(
  */
 function supper(t: number): Seated {
   const { fraction, seconds } = pulse(t);
-  const lift =
+  const scoop =
     fraction >= 0.5
       ? smoothstep(0.62, 1, fraction)
       : 1 - smoothstep(0.12, 0.5, fraction);
@@ -56,11 +56,11 @@ function supper(t: number): Seated {
   const chewing =
     Math.exp(-3 * since) * Math.abs(Math.sin(since * Math.PI * 11));
   return {
-    lift,
+    scoop,
     hunch: 0.3 + 0.6 * chewing,
-    headY: 80 + 10 * lift + 6 * chewing,
+    headAt: 80 + 10 * scoop + 6 * chewing,
     droop: Math.sin((t / 3.1) * Math.PI * 2) * 0.6 + chewing * 0.5,
-    raised: 0,
+    brandished: 0,
     seed: SEED,
   };
 }
@@ -118,11 +118,11 @@ export const spoonBunnyReveal =
     const before = supper(Math.min(t, turn.from));
     const pose: Seated = {
       ...before,
-      lift: lerp(before.lift, HELD_LIFT, u),
+      scoop: lerp(before.scoop, HELD_LIFT, u),
       hunch: lerp(before.hunch, 1, u),
-      headY: lerp(before.headY, 16, u),
+      headAt: lerp(before.headAt, 16, u),
       droop: lerp(before.droop, -0.4, u),
-      raised: u,
+      brandished: u,
     };
     const facing = Math.cos(Math.PI * u);
     const since = t - turn.to;
