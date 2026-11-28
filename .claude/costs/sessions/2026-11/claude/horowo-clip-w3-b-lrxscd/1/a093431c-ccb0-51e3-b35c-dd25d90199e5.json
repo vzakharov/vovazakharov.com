@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 156,
+    "inputTokens": 164,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 202278,
-    "cacheReadTokens": 15506129,
-    "outputTokens": 59230,
-    "thinkingTokens": 23042,
-    "responses": 82,
-    "costUsd": 5.9046738
+    "cacheWrite1hTokens": 208778,
+    "cacheReadTokens": 16541047,
+    "outputTokens": 63223,
+    "thinkingTokens": 23196,
+    "responses": 86,
+    "costUsd": 6.2435494
   },
   "estimate": {
     "at": "2026-11-28T18:06:53.397Z",
@@ -58,24 +58,24 @@
   },
   "sessionId": "a093431c-ccb0-51e3-b35c-dd25d90199e5",
   "branch": "claude/horowo-clip-w3-b-lrxscd",
-  "cwd": "/home/user/vovazakharov.com/docs/remove-before-merging/frames",
+  "cwd": "/home/user/vovazakharov.com",
   "openingPrompt": "You are a child session of a `/carte-blanche` run (`.claude/skills/carte-blanche/SKILL.md`): one of nine sessions reworking a code-drawn music video after its o…",
   "prs": [],
   "url": "https://claude.ai/code/session_01DaohkBtsQQYJQstc7kNKio",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T17:47:30.972Z",
-  "lastResponseAt": "2026-11-28T18:10:28.927Z",
+  "lastResponseAt": "2026-11-28T18:11:07.919Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 156,
+    "inputTokens": 164,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 202278,
-    "cacheReadTokens": 15506129,
-    "outputTokens": 59230,
-    "thinkingTokens": 23042,
-    "responses": 82,
-    "costUsd": 5.9046738
+    "cacheWrite1hTokens": 208778,
+    "cacheReadTokens": 16541047,
+    "outputTokens": 63223,
+    "thinkingTokens": 23196,
+    "responses": 86,
+    "costUsd": 6.2435494
   },
   "subagents": {
     "inputTokens": 0,
@@ -89,23 +89,23 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 156,
+      "inputTokens": 164,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 202278,
-      "cacheReadTokens": 15506129,
-      "outputTokens": 59230,
-      "thinkingTokens": 23042,
-      "responses": 82,
-      "costUsd": 5.9046738
+      "cacheWrite1hTokens": 208778,
+      "cacheReadTokens": 16541047,
+      "outputTokens": 63223,
+      "thinkingTokens": 23196,
+      "responses": 86,
+      "costUsd": 6.2435494
     }
   },
   "warnings": [],
   "compactions": [],
   "telemetry": {
-    "events": 81,
-    "matched": 81,
-    "matchedTableUsd": 5.8371488000000005,
-    "matchedEventUsd": 5.837148799999999,
+    "events": 85,
+    "matched": 85,
+    "matchedTableUsd": 6.1499764,
+    "matchedEventUsd": 6.149976399999998,
     "unseen": {}
   },
   "operatorWords": {
