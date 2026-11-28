@@ -160,11 +160,9 @@ runs from here. `<dir>/test.json` names the set's title and each song's id,
 title and master count, and `pnpm blind-test <dir>` in `.claude/artifacts/`
 builds the page (`.claude/artifacts/src/blind-test/`) with `audio-<n>.json`
 batches of the MP3s beside it, each published as the artifact's `files` in a
-publish of its own, under the per-publish size limit. The page plays every
-variant at once and switches by gain, so a switch never restarts the song, and
-keeps each song's verdict in its `db` collection `verdicts`, one document per
-song id, which the agent reads with `ArtifactData` rather than waiting for a
-paste.
+publish of its own, under the per-publish size limit. Each song's verdict lands
+in the artifact's `db` collection `verdicts`, one document per song id, which
+the agent reads with `ArtifactData`.
 
 ## A song's repository
 
@@ -210,11 +208,10 @@ holds it. `vovas-music/birds` is the pattern.
 
 ## Reflection
 
-**Майя reflects only when the operator asks, and on a finished album** —
-«отклики делать только когда я конкретно запрашиваю по готовому альбому» — never
-as a step of a song's intake. Then each song gets `<slug>.maya.reflections.md`
-beside its markdown. `personas/maya/reflections.md` says how; read it first, and
-the rules that point her home load with it.
+**Майя reflects only on a finished album, and only when the operator asks** —
+never as a step of a song's intake. Then each song gets
+`<slug>.maya.reflections.md` beside its markdown. `personas/maya/reflections.md`
+says how; read it first, and the rules that point her home load with it.
 
 She reads the song first as its spectrogram —
 `spectrogram.py <master> sites/vova/public/music/assets/spectrograms/<slug>/<slug>.png tmp/stems/htdemucs/<slug>`,
