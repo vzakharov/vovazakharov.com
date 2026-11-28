@@ -31,9 +31,9 @@ const VERSE = ['verse, first half', 'verse, second half'];
 const CALLED = ['double time', ...VERSE];
 
 /**
- * Where the words go, a section at a time: the first rule matching the
- * section a line is mostly sung in, and its kind, places it. A broadcast is 4:3 in the
- * stage's middle (x 160 to 1120), with the VCR's display in its corners.
+ * Where the words go: the first rule matching the section a line is mostly
+ * sung in, and its kind, places it. A broadcast is 4:3 in the stage's middle
+ * (x 160 to 1120), with the VCR's display in its corners.
  */
 const RULES: readonly Rule[] = [
   // A face on black, filling the frame: the line under its chin, at the left.

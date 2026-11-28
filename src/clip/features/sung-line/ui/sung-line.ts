@@ -78,7 +78,7 @@ function handRows(
 /**
  * The line being sung at `pen.playhead`, over whatever the clip shows: its
  * words arriving as they are sung, the line staying until the next begins
- * or, after a pause, fading. Placed and set by the section it starts in.
+ * or, after a pause, fading.
  */
 export function sungLine(pen: Pen): void {
   const { ctx, playhead } = pen;
