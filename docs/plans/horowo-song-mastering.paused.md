@@ -221,11 +221,35 @@ The operator's running order, «давай пока попробуем так»,
   `.claude/artifacts/src/blind-test/` over `blind/test.json`; the
   `/music/mastering-blind-test` page and its slice are gone. Verdicts land in
   the artifact's `db` collection `verdicts`, one document per song id.
+- **Verdicts, revealed in relay 6** (picks in the artifact's `verdicts`, every
+  seal checked against its commit):
+  - horowo — 3, **his own** `horowo_master.flac`, already in the repository.
+  - too-late — 2, **his own** `pozdno_master.flac` (`Поздно.flac` in
+    `vovas-music/pozdno`).
+  - talk-about-life — 2, Matchering against **birdie**.
+  - last-snow — 2, Matchering against **birdie**.
+  - unnoticed-things — 3, Matchering against **poko** (`dead-man`'s repo).
+  - The operator confirmed he is fine with birdie beating his own masters on
+    talk and last-snow («я не против»).
+- **Matchering winners are re-rendered lossless.** The candidates in the
+  `music-sources` release tar (`lost-songs-candidate-masters.tar`, public,
+  `curl -L https://github.com/vzakharov/vovazakharov.com/releases/download/music-sources/lost-songs-candidate-masters.tar`)
+  are `master.py` MP3s. Re-run `master.py <mix> <reference> <out>.flac` with the
+  same reference (birdie's master from `vovas-music/birdie`, poko's from
+  `vovas-music/poko`) and the default `--strength 0.5`, then null-test the
+  decoded FLAC against the picked MP3: a residual at codec-noise level means the
+  same master, so the FLAC goes in; otherwise ask before putting the MP3
+  (`lossy: true`). The reference a run used is not recorded anywhere beyond the
+  stem, so which of a repository's files it was (FLAC master or its
+  `.master.mp3`) is what the null test settles. Each winner goes in as
+  `<repo>_master.flac` (`talk_master.flac`, `lastsnow_master.flac`,
+  `unnoticed_master.flac`); his own Reaper master stays in the repository, named
+  in the README as the one the blind test passed over.
+- **Blocked in relay 6 on `GH_TOKEN`:** every `music:masters` call answered "Bad
+  credentials". The operator set a new token mid-session; only a new session
+  reads it.
 - **Left, in order:**
-  - The operator's blind verdicts (read them with `ArtifactData` `list`
-    `verdicts` on the artifact), then `reveal` per song and the winner `put`
-    into its repository; for unnoticed-things the winner becomes
-    `unnoticed_master.flac`.
+  - Each winner `put` into its repository, per the bullet above.
   - Each repository's files per § 1 (`.master.mp3`, `mastering/`, README naming
     the master and its reference), then `music:scaffold`, the page's frontmatter
     (§ 4–5 billing, album, track), `music:masters tag`. too-late's `hook` is the
