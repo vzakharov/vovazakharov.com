@@ -32,14 +32,19 @@ const HOST_POSES: readonly PoseName[] = [
 ];
 // The host's face for the children: eyes to camera, brow up.
 const HOST_LOOK: Partial<Look> = { gaze: [0, 0], brow: -0.4 };
-// How much nearer the camera is on each bar.
-const PUNCH = 0.045;
+// How much nearer the camera is on each bar, kept: the last bar is half again
+// as near as the first.
+const PUNCH = 0.06;
 // How far the bunny rises behind its hill on each bar.
 const NOTCH = 14;
-const HOST: readonly [number, number] = [440, 380];
+// The host's head, the point the camera punches in on, held in the upper third.
+const HOST: readonly [number, number] = [440, 225];
+// The floor between the host's soles and his size: hands and torso in frame.
+const HOST_FLOOR = 668;
+const HOST_SCALE = 0.72;
 const BLOCKS = ['А', 'Б', 'В'] as const;
 // The felt hillock the bunny rises behind.
-const MOUND = path('M 580,720 C 610,540 990,540 1020,720 Z');
+const MOUND = path('M 500,720 C 530,540 910,540 940,720 Z');
 
 /**
  * The set as it stands on the bar's hit: everything but the host's jaw is
@@ -65,8 +70,8 @@ function set(pen: Pen, bar: number, jawOpen: number): void {
       ? [0, 0]
       : [-0.85 + 0.15 * noise(21, bar), 0.45 + 0.15 * noise(22, bar)];
   cardboardSun(pen, {
-    x: 690,
-    y: 130,
+    x: 650,
+    y: 150,
     scale: 1,
     smile: 0.8,
     bob: 0,
@@ -77,7 +82,7 @@ function set(pen: Pen, bar: number, jawOpen: number): void {
   rollingHills(pen, { x: -200, y: 300, width: 1360, height: 520, seed: 9 });
 
   bunny(pen, {
-    x: 790,
+    x: 720,
     y: 560 - NOTCH * bar,
     nearness: 0.1,
     scale: 1.2,
@@ -110,7 +115,7 @@ function set(pen: Pen, bar: number, jawOpen: number): void {
   });
 
   puppet(pen, {
-    place: { x: hx, y: 830, scale: 0.6 },
+    place: { x: hx, y: HOST_FLOOR, scale: HOST_SCALE },
     pose: HOST_POSES[bar % HOST_POSES.length],
     outfit: 'suit',
     look: { ...HOST_LOOK, jaw: jawOpen },
