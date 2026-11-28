@@ -14,9 +14,8 @@ import {
 import {
   carried,
   fitted,
-  heftOf,
   mapPose,
-  PALM,
+  palmOf,
   type Pose,
   POSES,
   reaching,
@@ -104,7 +103,7 @@ export function strumming(strings: Strings, beats: number): Strumming {
         L: onBody(picking),
         R: onBody(add(fretAt(strings, lerp(0.15, 0.8, chord)), [0, 4])),
       },
-      PALM * heftOf(build),
+      palmOf(build),
     ),
     look: bass
       ? { turn: 0.8 * Math.sin((Math.PI * beats) / 2) }
@@ -143,7 +142,7 @@ export function singing(beats: number): Singing {
         L: mix(foot, mic, 0.7),
         R: add(body.shoulderR, [58 * size, (-66 - 54 * hit) * size]),
       },
-      PALM * heftOf(build),
+      palmOf(build),
     ),
     look: { turn: 0.3 * Math.sin((Math.PI * beats) / 2), nod: -0.3 * hit },
     stand: { foot, mic },
@@ -232,7 +231,7 @@ export function drumming(beats: number): Drumming {
     rig: reaching(
       body,
       { L: fist('L', left), R: fist('R', right) },
-      PALM * heftOf(build) * 0.5,
+      palmOf(build) * 0.5,
     ),
     look: {
       nod: 0.7 * Math.max(hits.kick, hits.snare),

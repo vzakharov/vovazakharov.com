@@ -1,15 +1,39 @@
 {
   "total": {
-    "inputTokens": 124,
+    "inputTokens": 134,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 339970,
-    "cacheReadTokens": 11967964,
-    "outputTokens": 125550,
-    "thinkingTokens": 46501,
-    "responses": 65,
-    "costUsd": 12.8561048
+    "cacheWrite1hTokens": 354703,
+    "cacheReadTokens": 12755388,
+    "outputTokens": 128727,
+    "thinkingTokens": 46976,
+    "responses": 69,
+    "costUsd": 13.376477599999998
   },
-  "estimate": null,
+  "estimate": {
+    "at": "2026-11-28T10:58:14.272Z",
+    "subjectLine": "feat: the clip's cast — puppet, band forms, instruments",
+    "parts": [
+      {
+        "hours": 14.0,
+        "grade": "senior",
+        "role": "technical-artist",
+        "comment": "a character rig drawn in code: head warp, IK, outfits, instruments and beat-driven cycles all need an eye for the drawing as much as the maths"
+      },
+      {
+        "hours": 6.0,
+        "grade": "senior",
+        "role": "designer",
+        "comment": "the mask, the four silhouettes and the ward-kit drums are character design, judged frame by frame"
+      },
+      {
+        "hours": 4.0,
+        "grade": "middle",
+        "role": "developer",
+        "comment": "tests, slice cuts and type bases are routine once the rig exists"
+      }
+    ],
+    "comment": null
+  },
   "orientation": {
     "endedBy": "oriented",
     "endedOn": null,
@@ -34,18 +58,18 @@
   "url": "https://claude.ai/code/session_01MZoAKBkF3h1YJyKztvmqtT",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:29:50.802Z",
-  "lastResponseAt": "2026-11-28T10:57:58.211Z",
+  "lastResponseAt": "2026-11-28T10:59:05.506Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 124,
+    "inputTokens": 134,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 339970,
-    "cacheReadTokens": 11967964,
-    "outputTokens": 125550,
-    "thinkingTokens": 46501,
-    "responses": 65,
-    "costUsd": 12.8561048
+    "cacheWrite1hTokens": 354703,
+    "cacheReadTokens": 12755388,
+    "outputTokens": 128727,
+    "thinkingTokens": 46976,
+    "responses": 69,
+    "costUsd": 13.376477599999998
   },
   "subagents": {
     "inputTokens": 0,
@@ -59,14 +83,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 124,
+      "inputTokens": 134,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 339970,
-      "cacheReadTokens": 11967964,
-      "outputTokens": 125550,
-      "thinkingTokens": 46501,
-      "responses": 65,
-      "costUsd": 12.8561048
+      "cacheWrite1hTokens": 354703,
+      "cacheReadTokens": 12755388,
+      "outputTokens": 128727,
+      "thinkingTokens": 46976,
+      "responses": 69,
+      "costUsd": 13.376477599999998
     }
   },
   "warnings": [],
@@ -98,7 +122,7 @@
           "Read": 4
         },
         "estimatedTokens": 415,
-        "estimatedUsd": 0.007885
+        "estimatedUsd": 0.008217
       },
       "billedUsd": null
     }
@@ -115,6 +139,6 @@
     ".md": 236,
     ".mjs": 687,
     ".json": 23,
-    ".ts": 400
+    ".ts": 3311
   }
 }

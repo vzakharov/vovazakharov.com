@@ -2,8 +2,7 @@ import { at, type Pen, type Place } from '@/clip/shared/ink';
 
 import {
   fitted,
-  heftOf,
-  PALM,
+  palmOf,
   type Pose,
   type Reach,
   reaching,
@@ -61,7 +60,7 @@ export function puppet(pen: Pen, options: PuppetOptions = {}): void {
   const rigged = reaching(
     fitted(typeof pose === 'string' ? POSES[pose] : pose, build),
     reach,
-    PALM * heftOf(build),
+    palmOf(build),
   );
   standing(pen, rigged, place, build.size, () => {
     figure(pen, rigged, options);

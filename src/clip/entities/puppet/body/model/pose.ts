@@ -61,6 +61,22 @@ export const mapPose = (
   footR: move(pose.footR, 'footR'),
 });
 
+type Limb = readonly [Point, Point, Point];
+
+/** One arm of `pose`, shoulder to wrist. */
+export const armOf = (pose: Pose, side: Side): Limb => [
+  pose[`shoulder${side}`],
+  pose[`elbow${side}`],
+  pose[`wrist${side}`],
+];
+
+/** One leg of `pose`, hip to ankle. */
+export const legOf = (pose: Pose, side: Side): Limb => [
+  pose[`hip${side}`],
+  pose[`knee${side}`],
+  pose[`foot${side}`],
+];
+
 /** The pose `t` of the way from `from` to `to`, each joint on a straight line. */
 export const lerpPose = (from: Pose, to: Pose, t: number): Pose =>
   mapPose(from, (point, joint) => mix(point, to[joint], t));
@@ -120,11 +136,7 @@ export function reaching(pose: Pose, hands: Reach, palm = 0): Pose {
   for (const side of SIDES) {
     const target = hands[side];
     if (!target) continue;
-    const [shoulder, elbow, wrist] = [
-      pose[`shoulder${side}`],
-      pose[`elbow${side}`],
-      pose[`wrist${side}`],
-    ];
+    const [shoulder, elbow, wrist] = armOf(pose, side);
     const folded = (aim: Point) =>
       fold(
         shoulder,
@@ -184,11 +196,7 @@ export function carried(pose: Pose, carriage: Carriage): Pose {
   );
   const legs = { ...body };
   for (const side of SIDES) {
-    const [hip, knee, foot] = [
-      pose[`hip${side}`],
-      pose[`knee${side}`],
-      pose[`foot${side}`],
-    ];
+    const [hip, knee, foot] = legOf(pose, side);
     legs[`knee${side}`] = fold(
       body[`hip${side}`],
       foot,
@@ -210,12 +218,15 @@ const PROPORTIONS = ['size', 'wide', 'torso', 'arms', 'legs', 'head'] as const;
 /** A body's proportions, each a factor on the standard puppet's. */
 export type Build = Readonly<Record<(typeof PROPORTIONS)[number], number>>;
 
-/** How far below the ankle the sole is, and past the wrist a fist closes, on the standard build. */
+/** How far below the ankle the sole is, on the standard build. */
 export const SOLE = 24;
-export const PALM = 17;
+const PALM = 17;
 
 /** How heavy a build's limbs and hands are drawn: a wide body thickens them, though less than it widens. */
 export const heftOf = ({ size, wide }: Build): number => size * Math.sqrt(wide);
+
+/** How far past the wrist a fist closes on `build`: `reaching`'s `palm` for a hand taking hold. */
+export const palmOf = (build: Build): number => PALM * heftOf(build);
 
 export const STANDARD_BUILD: Build = {
   size: 1,

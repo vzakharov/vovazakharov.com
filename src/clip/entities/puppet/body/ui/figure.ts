@@ -18,8 +18,10 @@ import {
 
 import { head, type Look } from '../../head';
 import {
+  armOf,
   type Build,
   heftOf,
+  legOf,
   type Pose,
   type Side,
   SIDES,
@@ -124,11 +126,7 @@ export function figure(pen: Pen, pose: Pose, dress: Dress = {}): void {
   const heft = heftOf(build);
 
   const arm = (side: Side) => {
-    const [shoulder, elbow, wrist] = [
-      pose[`shoulder${side}`],
-      pose[`elbow${side}`],
-      pose[`wrist${side}`],
-    ];
+    const [shoulder, elbow, wrist] = armOf(pose, side);
     const armSeed = seed + (side === 'L' ? 60 : 70);
     limb(pen, [shoulder, elbow, wrist], colors.body, ARM_WIDTH * heft, armSeed);
     const forearm = heading(elbow, wrist);
@@ -158,15 +156,10 @@ export function figure(pen: Pen, pose: Pose, dress: Dress = {}): void {
   for (const side of SIDES) if (tucked.includes(side)) arm(side);
   if (!legless) {
     for (const side of SIDES) {
-      const foot = pose[`foot${side}`];
+      const leg = legOf(pose, side);
+      const foot = leg[2];
       const legSeed = seed + (side === 'L' ? 80 : 90);
-      limb(
-        pen,
-        [pose[`hip${side}`], pose[`knee${side}`], foot],
-        colors.leg,
-        LEG_WIDTH * heft,
-        legSeed,
-      );
+      limb(pen, leg, colors.leg, LEG_WIDTH * heft, legSeed);
       at(
         pen,
         { x: foot[0], y: foot[1], scale: size, flip: side === 'L' },

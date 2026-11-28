@@ -8,7 +8,7 @@ export {
   JOINTS,
   lerpPose,
   mapPose,
-  PALM,
+  palmOf,
   type Pose,
   type Reach,
   reaching,
