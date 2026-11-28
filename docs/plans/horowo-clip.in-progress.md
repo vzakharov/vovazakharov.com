@@ -221,6 +221,15 @@ B and C and the engine's pre-roll, which he woke, are let finish and merged;
 then the run closes — the code's quality passes, a green vet, the mp4 in a
 release, the PR and the relay summary current.
 
+To the lead's one question — whether to put `masd-disable promotion` in
+`puppet/body` and `puppet/head`, since the bedroom and the ward take only the
+body from the puppet and the ending only the head, and neither can move out from
+under the band, which stands on the body:
+
+> Ок
+
+Read as the yes for those two markers and nothing wider.
+
 ## The song
 
 `docs/remove-before-merging/horowo-song-mastering-oia0kq/blind/horowo/mix.mp3`
