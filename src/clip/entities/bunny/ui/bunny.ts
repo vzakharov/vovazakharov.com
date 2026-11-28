@@ -22,6 +22,7 @@ import {
   type BunnyLook,
   FEET_Y,
   HELD_AT,
+  hopAt,
   lookAt,
   SHOULDER,
 } from '../model/pose';
@@ -50,6 +51,12 @@ export type BunnyDrawing = Place &
      * the downbeat at 0. The scene drives it from the song's beat.
      */
     beat?: number;
+    /**
+     * Where in a hop it is, in `[0, 1)`, landing at 0; unset, it stands. The
+     * scene drives it from the beat, offsetting each hopper's for a canon.
+     * Arms default to `hop`.
+     */
+    hop?: number;
   };
 
 const HEAD_D =
@@ -212,7 +219,8 @@ export function bunny(pen: Pen, drawing: BunnyDrawing = {}): void {
     grin,
     eyes,
     aura: glow,
-    arms = 'down',
+    hop,
+    arms = hop === undefined ? 'down' : 'hop',
     opacity = 1,
     rendering = 'paper',
     held,
@@ -236,10 +244,18 @@ export function bunny(pen: Pen, drawing: BunnyDrawing = {}): void {
   const swing = Math.sin((pen.playhead / 4.7) * Math.PI * 2 + phase) * swaying;
   const droop =
     Math.sin((pen.playhead / 3.1) * Math.PI * 2 + phase * 2) * swaying;
+  const hopping = hop === undefined ? undefined : hopAt(hop, seed);
   const place = { x, y, rot, flip, scale: look.bunnyScale * scale };
   inLayer(pen, opacity, (layer) => {
     at(layer, place, () => {
       const { ctx } = layer;
+      if (hopping) {
+        if (!shadow) groundShadow(layer, hopping.hopHeight, seed);
+        // Squashed and stretched about its feet, which leave the ground.
+        ctx.translate(0, FEET_Y - hopping.hopHeight);
+        ctx.scale(1 / Math.sqrt(hopping.stretch), hopping.stretch);
+        ctx.translate(0, -FEET_Y);
+      }
       // Swayed about its feet, so the head travels and the feet stay put.
       ctx.translate(0, FEET_Y);
       ctx.rotate((swing * 1.8 * Math.PI) / 180);
@@ -247,7 +263,8 @@ export function bunny(pen: Pen, drawing: BunnyDrawing = {}): void {
       if (!shadow && look.aura > 0) aura(layer, look.aura);
       const style = { fill, stroke, width: OUTLINE, seed };
       for (const side of [-1, 1]) {
-        const bend = side * 34 + side * droop * 14;
+        const sweep = droop + (hopping?.earSweep ?? 0);
+        const bend = side * 34 + side * sweep * 14;
         ink(layer, ear(side, bend), style);
         if (!shadow) {
           ink(layer, earLining(side, bend), {
@@ -257,10 +274,12 @@ export function bunny(pen: Pen, drawing: BunnyDrawing = {}): void {
           });
         }
       }
-      const lift = arms === 'down' || arms === 'conduct' ? 0 : swing * 6;
+      const swung = arms === 'up' || arms === 'reach' || arms === 'hold';
+      const lift = swung ? swing * 6 : 0;
+      const cue = arms === 'hop' ? (hopping?.armsUp ?? 0) : beat;
       const drawArms = (): Point[] =>
         [-1, 1].map((side) =>
-          drawArm(layer, side, { arms, armLift: lift, barBeat: beat }, style),
+          drawArm(layer, side, { arms, armLift: lift, armCue: cue }, style),
         );
       // A conductor's arms work in front of the body; every other pose's hang behind it.
       const inFront = arms === 'conduct';
@@ -285,8 +304,23 @@ export function bunny(pen: Pen, drawing: BunnyDrawing = {}): void {
   });
 }
 
-/** How an arm is posed: its pose, how far the sway lifts it, and the bar's beat. */
-type ArmPose = { arms: Arms; armLift: number; barBeat: number };
+/** How an arm is posed: its pose, how far the sway lifts it, and its `armJoints` cue. */
+type ArmPose = { arms: Arms; armLift: number; armCue: number };
+
+// A hopper's shadow on the ground, at rest; it shrinks and fades as it rises.
+const GROUND_SHADOW = ellipse([0, FEET_Y], 90, 16);
+
+function groundShadow(pen: Pen, rise: number, seed: number): void {
+  const away = Math.min(1, rise / 300);
+  at(pen, { y: FEET_Y * away * 0.3, scale: 1 - away * 0.3 }, () => {
+    ink(pen, GROUND_SHADOW, {
+      fill: BUNNY_PALETTE.shadow,
+      stroke: null,
+      alpha: 0.3 * (1 - away * 0.6),
+      seed,
+    });
+  });
+}
 
 // The baton's length and width, in the bunny's units.
 const BATON = 130;
@@ -295,10 +329,10 @@ const BATON_WIDTH = 6;
 function drawArm(
   pen: Pen,
   side: number,
-  { arms, armLift, barBeat }: ArmPose,
+  { arms, armLift, armCue }: ArmPose,
   style: InkStyle,
 ): Point {
-  const [shape, paw] = armPath(side, arms, armLift, barBeat);
+  const [shape, paw] = armPath(side, arms, armLift, armCue);
   const { stroke, fill, seed } = style;
   if (arms === 'conduct' && side > 0) {
     // The baton carries on the line from shoulder to paw, so it always points

@@ -1,7 +1,37 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { conductingPaw, lookAt } from './pose';
+import { conductingPaw, hopAt, lookAt } from './pose';
+
+describe('hopAt', () => {
+  it('lands squashed on the ground at 0', () => {
+    const landing = hopAt(0);
+    assert.equal(landing.hopHeight, 0);
+    assert.ok(landing.stretch < 1);
+  });
+
+  it('comes back down to the ground at the end of the hop', () => {
+    assert.ok(hopAt(0.999_99).hopHeight < 1);
+    assert.deepEqual(hopAt(1.25), hopAt(0.25));
+  });
+
+  it('is highest, arms up, halfway through the air', () => {
+    const top = hopAt(0.6);
+    for (const p of [0, 0.1, 0.3, 0.9]) {
+      assert.ok(hopAt(p).hopHeight < top.hopHeight);
+      assert.ok(hopAt(p).armsUp < top.armsUp);
+    }
+  });
+
+  it('sweeps its ears out going up and in coming down', () => {
+    assert.ok(hopAt(0.3).earSweep > 0);
+    assert.ok(hopAt(0.9).earSweep < 0);
+  });
+
+  it('hops a different height for each seed', () => {
+    assert.notEqual(hopAt(0.6, 1).hopHeight, hopAt(0.6, 2).hopHeight);
+  });
+});
 
 describe('conductingPaw', () => {
   it('lands on four distinct beats a bar', () => {
