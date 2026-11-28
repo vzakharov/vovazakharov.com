@@ -12,17 +12,19 @@ const BREAK_WORDS = [
   ['БЫ', 44.4],
 ] as const;
 
-// «Так хорошо-шо-шо»: each line «хоро» and a «шо» set larger than the last,
-// the first as one word.
+// «Так хорошо-шо-шо»: the onset of each «шо» and how tall the word's «шо»
+// is set from it, in cap heights of its «хоро».
 const ECHOES = [
   [42.56, 1],
-  [43.04, 1.45],
-  [43.32, 2.1],
+  [43.04, 1.6],
+  [43.32, 2.4],
 ] as const;
 
 const LETTER_HEIGHT = 150;
+const ECHO_HEIGHT = LETTER_HEIGHT;
+// Where «хоро» ends and «шо» begins, so the grown word sits centred.
+const ECHO_SEAM = [590, 470] as const;
 const LEADING = 1.3;
-const ECHO_HEIGHT = 84;
 // How long a word's landing takes, from oversized to set, in seconds.
 const LANDS = 0.07;
 
@@ -157,7 +159,7 @@ export const lyricBreak: Drawing = (pen) => {
 };
 
 /** `text` in the break's hand, its baseline at `y`, shadowed in ink to read over a picture. */
-function echoWord(
+function shadowed(
   pen: Pen,
   text: string,
   [x, y]: readonly [number, number],
@@ -182,34 +184,29 @@ function echoWord(
 }
 
 /**
- * «хорошо-шо-шо» in the break's lettering, letters only over whatever is
- * under them: a line each as sung, each «шо» larger than the last.
+ * «хорошо-шо-шо» as one word in the break's lettering, letters only over
+ * whatever is under them: «хоро» holds its place while its «шо» grows on
+ * each sung «шо», landing as the break's words do.
  */
-export const echoLines: Drawing = (pen) => {
-  const { playhead } = pen;
+export const horosho: Drawing = (pen) => {
+  const { ctx, playhead } = pen;
   const sung = ECHOES.filter(([onset]) => playhead >= onset);
+  const [, grow] = sung.at(-1) ?? [0, 0];
+  if (grow === 0) return;
   const slam = slamAt(
     playhead,
     sung.map(([onset]) => onset),
   );
-  let baseline = 95;
-  for (const [n, [, grow]] of sung.entries()) {
-    const big = ECHO_HEIGHT * grow;
-    baseline += big + ECHO_HEIGHT * 0.35;
-    const fresh = n === sung.length - 1;
-    // «хоро» ends and «шо» starts at a pivot that keeps the pair centred,
-    // a capital taken as about 0.8 of its height wide.
-    const pivot =
-      n === 0
-        ? STAGE.width / 2
-        : STAGE.width / 2 + (4 * ECHO_HEIGHT - 2 * big) * 0.4;
-    landing(pen, [pivot, baseline], (fresh ? 0.3 : 0.03) * slam, () => {
-      if (n === 0) {
-        echoWord(pen, 'ХОРОШО', [0, 0], ECHO_HEIGHT, 'center', 80);
-        return;
-      }
-      echoWord(pen, 'ХОРО', [0, 0], ECHO_HEIGHT, 'right', 80 + n);
-      echoWord(pen, 'ШО', [ECHO_HEIGHT * 0.13, 0], big, 'left', 90 + n);
-    });
-  }
+  landing(pen, ECHO_SEAM, 0.3 * slam, () => {
+    ctx.scale(CONDENSED, 1);
+    shadowed(pen, 'ХОРО', [0, 0], ECHO_HEIGHT, 'right', 80);
+    shadowed(
+      pen,
+      'ШО',
+      [ECHO_HEIGHT * 0.16, 0],
+      ECHO_HEIGHT * grow,
+      'left',
+      81,
+    );
+  });
 };
