@@ -78,6 +78,9 @@ export type Labeled = { label: string };
 /** An absolute address. */
 export type WithUrl = { url: string };
 
+/** The URL of a recording's audio file. */
+export type WithAudio = { audio: string };
+
 /** The code of the language a thing is in. */
 export type WithLanguage = { language: string };
 

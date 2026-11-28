@@ -10,21 +10,24 @@ const BOIL_RATE = 8;
 
 /**
  * What a drawing function draws with. A scene is a pure function of it: the
- * same `t` paints the same picture, so nothing reads a clock or
+ * same `playhead` paints the same picture, so nothing reads a clock or
  * `Math.random`.
  */
 export type Pen = {
   ctx: CanvasRenderingContext2D;
-  /** The clip's time in seconds. */
-  t: number;
-  /** Which redrawing of the line this is: an integer stepping with `t`. */
+  /** Where the clip is, in seconds from its start. */
+  playhead: number;
+  /** Which redrawing of the line this is: an integer stepping with `playhead`. */
   boil: number;
 };
 
-export const penAt = (ctx: CanvasRenderingContext2D, t: number): Pen => ({
+export const penAt = (
+  ctx: CanvasRenderingContext2D,
+  playhead: number,
+): Pen => ({
   ctx,
-  t,
-  boil: Math.floor(t * BOIL_RATE),
+  playhead,
+  boil: Math.floor(playhead * BOIL_RATE),
 });
 
 export type InkStyle = {

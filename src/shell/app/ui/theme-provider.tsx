@@ -30,9 +30,7 @@ import '@mantine/core/styles/List.layer.css';
 import '@mantine/core/styles/Menu.layer.css';
 import '@mantine/core/styles/Modal.layer.css';
 import '@mantine/core/styles/Tooltip.layer.css';
-import '@mantine/core/styles/SegmentedControl.layer.css';
 import '@mantine/core/styles/SimpleGrid.layer.css';
-import '@mantine/core/styles/Slider.layer.css';
 import '@mantine/core/styles/Stack.layer.css';
 import '@mantine/core/styles/Title.layer.css';
 
