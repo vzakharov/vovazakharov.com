@@ -187,7 +187,6 @@ function party(pen: Pen, framing: Framing, slam = 0): void {
   });
 }
 
-/** The party seen through the channel's tape. */
 function taped(pen: Pen, framing: Framing, slam = 0): void {
   broadcast(
     pen,

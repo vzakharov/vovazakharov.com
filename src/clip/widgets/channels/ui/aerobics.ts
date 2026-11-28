@@ -137,8 +137,8 @@ function studio(pen: Pen): void {
 /**
  * Morning exercises: the puppet in his toy suit leads the routine — side
  * bends, jumping jacks, squats, punches — and shouts each count. Two more of
- * him follow a count behind; past a nearness of 0.55 they stop dead and turn
- * to the camera. The bunny is in the class, stepping forward through it as it
+ * him follow a count behind, until the bunny's nearness stops them dead,
+ * staring at the camera. The bunny is in the class, stepping forward as it
  * comes nearer.
  */
 export const workout: Show = (pen, nearness, _since, stare) => {
