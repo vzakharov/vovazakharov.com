@@ -26,7 +26,6 @@ const QUILT = 90;
 /** The TV on its bracket, high in the right-hand corner. */
 const TV = { x: 1010, y: 70, width: 200, height: 150 } as const;
 
-/** A rectangle as a path, for the cell's padding, furniture and masks. */
 export const wardRect = (x: number, y: number, w: number, h: number) =>
   polygon([
     [x, y],
