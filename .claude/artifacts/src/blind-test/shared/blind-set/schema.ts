@@ -17,7 +17,12 @@ export type BlindPiece = z.infer<typeof pieceSchema>;
 export type BlindSet = z.infer<typeof blindSetSchema>;
 
 /** A position `blind-abc.py split` writes: the unmastered mix, or a master's number from 1. */
-export type Variant = "mix" | `${number}`;
+export const variantSchema = z.union([
+  z.literal("mix"),
+  z.templateLiteral([z.int()]),
+]);
+
+export type Variant = z.infer<typeof variantSchema>;
 
 export function parseBlindSet(value: unknown): BlindSet {
   return blindSetSchema.parse(value);

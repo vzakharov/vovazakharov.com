@@ -9,6 +9,8 @@ import { clock, variantKeys, variantLabel } from "../lib/labels.ts";
 import { BlindPlayer } from "../model/blind-player.ts";
 import {
   connectVerdicts,
+  localVerdicts,
+  type VerdictListeners,
   type Verdicts,
   type VerdictStore,
 } from "../model/verdict-store.ts";
@@ -28,7 +30,6 @@ export function mountBlindTest(root: HTMLElement): void {
   // The variant carries over to the next song where it has one.
   let chosen: Variant = "mix";
   let verdicts: Verdicts = new Map();
-  let store: VerdictStore | null = null;
 
   const title = el("h1", "title", set.title);
   const songsLabel = el("h2", "label", COPY.songs);
@@ -37,6 +38,7 @@ export function mountBlindTest(root: HTMLElement): void {
   const songTitle = el("p", "song-title");
   const switcher = el("div", "switcher");
   switcher.setAttribute("role", "group");
+  const pickButton = button("pick", "");
   const transport = el("div", "transport");
   const toggle = button("play", COPY.play);
   const position = el("input", "position");
@@ -52,23 +54,14 @@ export function mountBlindTest(root: HTMLElement): void {
   const errorLine = el("p", "error");
   errorLine.setAttribute("role", "alert");
   errorLine.hidden = true;
-  deck.append(songTitle, switcher, transport, keysHint, errorLine);
-
-  const verdictBox = el("div", "verdict");
-  const verdictLabel = el("label", "label");
-  verdictLabel.htmlFor = "verdict";
-  const verdictInput = el("textarea", "verdict-input");
-  verdictInput.id = "verdict";
-  verdictInput.rows = 2;
-  verdictInput.placeholder = COPY.verdictExample;
   const status = el("p", "status", COPY.connecting);
-  verdictBox.append(verdictLabel, verdictInput, status);
+  deck.append(songTitle, switcher, pickButton, transport, keysHint, errorLine);
 
   const layout = el("div", "layout");
   const aside = el("nav", "aside");
   aside.append(songsLabel, songs);
   const main = el("section", "main");
-  main.append(deck, verdictBox);
+  main.append(deck, status);
   layout.append(aside, main);
   root.replaceChildren(title, layout);
 
@@ -84,45 +77,50 @@ export function mountBlindTest(root: HTMLElement): void {
     return current;
   };
 
+  const label = (variant: Variant) => variantLabel(variant, COPY.mix);
+
   function renderSongs() {
     songs.replaceChildren(
       ...set.pieces.map((each, index) => {
         const item = el("li", "");
-        const pick = button("song", "");
-        pick.setAttribute("aria-current", String(index === pieceIndex));
-        const verdict = verdicts.get(each.id) ?? "";
-        pick.append(
+        const select = button("song", "");
+        select.setAttribute("aria-current", String(index === pieceIndex));
+        const picked = verdicts.get(each.id);
+        select.append(
           el("span", "song-name", each.title),
-          el("span", "song-verdict", verdict === "" ? COPY.noVerdict : verdict),
+          el(
+            "span",
+            "song-verdict",
+            picked === undefined ? COPY.noVerdict : label(picked),
+          ),
         );
-        pick.addEventListener("click", () => {
+        select.addEventListener("click", () => {
           selectPiece(index);
         });
-        item.append(pick);
+        item.append(select);
         return item;
       }),
     );
   }
 
-  function renderSwitcher() {
+  function renderDeck() {
+    const picked = verdicts.get(piece().id);
     switcher.replaceChildren(
       ...variants(piece()).map((variant) => {
-        const pick = button("variant", variantLabel(variant, COPY.mix));
-        pick.setAttribute("aria-pressed", String(variant === chosen));
-        pick.addEventListener("click", () => {
+        const select = button("variant", label(variant));
+        select.setAttribute("aria-pressed", String(variant === chosen));
+        if (variant === picked) select.setAttribute("data-picked", "true");
+        select.addEventListener("click", () => {
           choose(variant);
         });
-        return pick;
+        return select;
       }),
     );
-  }
-
-  function renderVerdict() {
-    const current = piece();
-    verdictLabel.textContent = `${COPY.verdict}: ${current.title}`;
-    if (document.activeElement !== verdictInput) {
-      verdictInput.value = verdicts.get(current.id) ?? "";
-    }
+    const isPicked = picked === chosen;
+    pickButton.setAttribute("aria-pressed", String(isPicked));
+    pickButton.textContent = isPicked
+      ? `✓ ${COPY.picked} ${label(chosen)} — ${COPY.unpick}`
+      : `${COPY.pick} ${label(chosen)}`;
   }
 
   function selectPiece(index: number) {
@@ -138,16 +136,32 @@ export function mountBlindTest(root: HTMLElement): void {
     if (wasPlaying) player.play().catch(report);
     songTitle.textContent = current.title;
     errorLine.hidden = true;
-    verdictInput.value = verdicts.get(current.id) ?? "";
     renderSongs();
-    renderSwitcher();
-    renderVerdict();
+    renderDeck();
   }
 
   function choose(variant: Variant) {
     player.select(variant);
     chosen = variant;
-    renderSwitcher();
+    renderDeck();
+  }
+
+  const listeners: VerdictListeners = {
+    verdicts(next) {
+      verdicts = next;
+      renderSongs();
+      renderDeck();
+    },
+    saveState(state) {
+      status.textContent = state === "saving" ? COPY.saving : COPY.saved;
+    },
+    error: report,
+  };
+  let store: VerdictStore = localVerdicts(listeners);
+
+  function togglePick() {
+    const id = piece().id;
+    store.pick(id, verdicts.get(id) === chosen ? null : chosen);
   }
 
   function togglePlay() {
@@ -159,24 +173,18 @@ export function mountBlindTest(root: HTMLElement): void {
     player.seek(Math.max(0, seconds));
   }
 
+  pickButton.addEventListener("click", togglePick);
   toggle.addEventListener("click", togglePlay);
   position.addEventListener("input", () => {
     seek(Number(position.value));
   });
-  verdictInput.addEventListener("input", () => {
-    if (store === null) {
-      verdicts = new Map([...verdicts, [piece().id, verdictInput.value]]);
-      renderSongs();
-    } else {
-      store.edit(piece().id, verdictInput.value);
-    }
-  });
 
   globalThis.addEventListener("keydown", (event) => {
-    if (event.target instanceof HTMLTextAreaElement) return;
+    if (event.target instanceof HTMLInputElement) return;
     if (event.metaKey || event.ctrlKey || event.altKey) return;
     const picked = variantKeys(variants(piece())).get(event.key.toLowerCase());
     if (picked !== undefined) choose(picked);
+    else if (event.key === "Enter") togglePick();
     else if (event.key === " ") togglePlay();
     else if (event.key === "ArrowLeft") seek(player.time - SKIP_S);
     else if (event.key === "ArrowRight") seek(player.time + SKIP_S);
@@ -196,19 +204,9 @@ export function mountBlindTest(root: HTMLElement): void {
 
   selectPiece(0);
 
-  connectVerdicts({
-    verdicts(next) {
-      verdicts = next;
-      renderSongs();
-      renderVerdict();
-    },
-    saveState(state) {
-      status.textContent = state === "saving" ? COPY.saving : COPY.saved;
-    },
-    error: report,
-  })
+  connectVerdicts(listeners)
     .then((connected) => {
-      store = connected;
+      if (connected !== null) store = connected;
       status.textContent = connected === null ? COPY.offline : COPY.saved;
     })
     .catch(report);

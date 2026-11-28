@@ -103,7 +103,6 @@ button {
 }
 
 button:focus-visible,
-textarea:focus-visible,
 input:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
@@ -188,6 +187,30 @@ input:focus-visible {
   color: var(--accent-fg);
 }
 
+/* The picked variant keeps its mark whichever one is playing. */
+.variant[data-picked="true"] {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.variant[data-picked="true"]::after {
+  content: " ✓";
+}
+
+.pick {
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.pick[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--accent-fg);
+}
+
 .transport {
   display: flex;
   align-items: center;
@@ -231,24 +254,6 @@ input:focus-visible {
   font-weight: 600;
   color: var(--danger);
   overflow-wrap: anywhere;
-}
-
-.verdict {
-  display: grid;
-  gap: 0.25rem;
-}
-
-.verdict-input {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 0.6rem 0.75rem;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background: var(--surface);
-  color: var(--fg);
-  font-family: var(--font-data);
-  font-size: 1rem;
-  resize: vertical;
 }
 
 .fatal-detail {
