@@ -138,10 +138,11 @@ sound. `spectrum.py` shows what an EQ actually did, which is the place to start
 when the operator says "too bright" or "muddy".
 
 **Picking the reference is a blind A/B/C.** The three catalogue masters most
-like the song's mix (`spectrum.py`, loudness, crest factor) each master it, and
-`blind-abc.py build --mix` alternates the three in that A/B's windows, in one
-random order the operator hears as "first, second, third", each round opening on
-the unmastered mix. All four are brought down to the quietest — in practice the
+like the song's mix (`spectrum.py`, loudness, crest factor) each master it — a
+master the operator made himself joins them as a fourth — and
+`blind-abc.py build --mix` alternates them in that A/B's windows, in one random
+order the operator hears as "first, second, third…", each round opening on the
+unmastered mix. All of them are brought down to the quietest — in practice the
 mix — because a louder master always sounds better, and the ear is choosing the
 sound. The candidate masters go to the `music-sources` release as one tar until
 the verdict, since a container's `tmp/` dies with it. The commit carries the
@@ -151,14 +152,17 @@ then `blind-abc.py reveal`) — the operator is told not to decode it before
 answering. A key lost anyway means a rebuild with a new order, never a reveal
 from memory.
 
-**The operator listens on the site, not to the 5-second file.**
-`blind-abc.py split <key> <dir> --mix <source>` writes the same four as whole
-files, `mix.mp3`, `1.mp3`, `2.mp3`, `3.mp3`, in the key's order, so one seal
-covers both. The vova site's unlinked `/music/mastering-blind-test`
-(`src/music/pages/blind-test/`) plays all four at once and switches by gain, so
-a switch never restarts the song; it fetches them from the branch through
-raw.githubusercontent, whose CORS header Web Audio needs. The key's paths are
-relative to this directory, so `split` runs from here.
+**The operator listens in a claude.ai artifact, not to the 5-second file.**
+`blind-abc.py split <key> <dir> --mix <source>` writes the same set as whole
+files, `<dir>/<song>/mix.mp3`, `1.mp3`, `2.mp3`…, in the key's order, so one
+seal covers both; the key's paths are relative to this directory, so `split`
+runs from here. `<dir>/test.json` names the set's title and each song's id,
+title and master count, and `pnpm blind-test <dir>` in `.claude/artifacts/`
+builds the page (`.claude/artifacts/src/blind-test/`) with `audio-<n>.json`
+batches of the MP3s beside it, each published as the artifact's `files` in a
+publish of its own, under the per-publish size limit. Each song's verdict lands
+in the artifact's `db` collection `verdicts`, one document per song id, which
+the agent reads with `ArtifactData`.
 
 ## A song's repository
 
@@ -171,10 +175,12 @@ which the songs feeds, downloads and player serve, `<stem>.master.mp3`
 (`ffmpeg -i <stem>.flac -map 0:a -c:a libmp3lame -b:a 320k`), which
 `music:scaffold` reads, and the MP4 rewrap the tag run makes of it, which the
 player plays for a reader asking for lossless — the video where there is one,
-`mastering/` — `master.py`, `spectrum.py` and `requirements.txt` copied from
-here — and a README naming each file, the command that made the master and its
-reference, linked at a commit rather than copied when another repository there
-holds it. `vovas-music/birds` is the pattern.
+and a README naming each file. A master `master.py` made adds `mastering/` —
+`master.py`, `spectrum.py` and `requirements.txt` copied from here — and the
+README gives the command and its reference, linked at a commit rather than
+copied when another repository there holds it; `vovas-music/birds` is the
+pattern. A master the author made by hand, in Reaper, has no script to copy, so
+its README says how it was made (`vovas-music/horowo`).
 
 - **Every read and write of these repositories goes through
   `pnpm music:masters`** (`src/music/scripts/masters.ts`, its header the usage),
@@ -204,9 +210,10 @@ holds it. `vovas-music/birds` is the pattern.
 
 ## Reflection
 
-A song worked here ends with Майя's reflection, `<slug>.maya.reflections.md`
-beside the song's markdown. `personas/maya/reflections.md` says how; read it
-first, and the rules that point her home load with it.
+**Майя reflects only on a finished album, and only when the operator asks** —
+never as a step of a song's intake. Then each song gets
+`<slug>.maya.reflections.md` beside its markdown. `personas/maya/reflections.md`
+says how; read it first, and the rules that point her home load with it.
 
 She reads the song first as its spectrogram —
 `spectrogram.py <master> sites/vova/public/music/assets/spectrograms/<slug>/<slug>.png tmp/stems/htdemucs/<slug>`,

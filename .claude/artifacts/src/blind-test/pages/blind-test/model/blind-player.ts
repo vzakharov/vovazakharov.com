@@ -1,4 +1,4 @@
-import { type Variant, VARIANTS } from './blind-test';
+import type { Variant } from "#src/blind-test/shared/blind-set/index.ts";
 
 /** Short enough to hear as a cut, long enough not to click. */
 const FADE_S = 0.015;
@@ -13,7 +13,10 @@ const SEEK_LEAD_S = 0.06;
 const NUDGE_PER_S = 2;
 const MAX_NUDGE = 0.05;
 
-type Track = { audio: HTMLAudioElement; gain: GainNode };
+interface Track {
+  audio: HTMLAudioElement;
+  gain: GainNode;
+}
 
 /**
  * Every variant of one song playing at once, only one of them audible, so a
@@ -25,21 +28,37 @@ export class BlindPlayer {
   private readonly context = new AudioContext();
   private readonly tracks = new Map<Variant, Track>();
   private readonly timer: ReturnType<typeof setInterval>;
-  private active: Variant = 'mix';
+  private readonly onLoadError: (url: string) => void;
+  private active: Variant = "mix";
+  /** Detaches the loaded tracks' error listeners, so an unload reports nothing. */
+  private loaded = new AbortController();
 
-  constructor() {
+  /** `onLoadError` hears a file that failed to load, by its URL. */
+  constructor(onLoadError: (url: string) => void) {
+    this.onLoadError = onLoadError;
     this.timer = setInterval(() => {
       this.resync();
     }, RESYNC_MS);
   }
 
-  load(urls: Record<Variant, string>) {
+  load(urls: ReadonlyMap<Variant, string>): void {
     this.unload();
-    for (const variant of VARIANTS) {
+    this.loaded = new AbortController();
+    const { signal } = this.loaded;
+    for (const [variant, url] of urls) {
       const audio = new Audio();
-      audio.crossOrigin = 'anonymous';
-      audio.preload = 'auto';
-      audio.src = urls[variant];
+      // A cross-origin file without CORS would reach Web Audio as silence;
+      // asking for CORS makes it fail to load instead, which is reported.
+      audio.crossOrigin = "anonymous";
+      audio.preload = "auto";
+      audio.addEventListener(
+        "error",
+        () => {
+          this.onLoadError(url);
+        },
+        { signal },
+      );
+      audio.src = url;
       const gain = this.context.createGain();
       gain.gain.value = variant === this.active ? 1 : 0;
       this.context
@@ -50,7 +69,7 @@ export class BlindPlayer {
     }
   }
 
-  async play() {
+  async play(): Promise<void> {
     await this.context.resume();
     const at = this.time;
     for (const { audio } of this.tracks.values()) audio.currentTime = at;
@@ -59,15 +78,15 @@ export class BlindPlayer {
     );
   }
 
-  pause() {
+  pause(): void {
     for (const { audio } of this.tracks.values()) audio.pause();
   }
 
-  seek(seconds: number) {
+  seek(seconds: number): void {
     for (const { audio } of this.tracks.values()) audio.currentTime = seconds;
   }
 
-  select(variant: Variant) {
+  select(variant: Variant): void {
     const now = this.context.currentTime;
     for (const [each, { gain }] of this.tracks) {
       gain.gain.cancelScheduledValues(now);
@@ -78,7 +97,7 @@ export class BlindPlayer {
     if (this.lead !== undefined) this.lead.playbackRate = 1;
   }
 
-  private resync() {
+  private resync(): void {
     const { lead, active, tracks } = this;
     if (lead === undefined || lead.paused) return;
     lead.playbackRate = 1;
@@ -97,40 +116,37 @@ export class BlindPlayer {
     }
   }
 
-  get time() {
+  get time(): number {
     return this.lead?.currentTime ?? 0;
   }
 
-  get duration() {
+  get duration(): number {
     const seconds = this.lead?.duration;
     return seconds === undefined || Number.isNaN(seconds) ? 0 : seconds;
   }
 
-  get playing() {
+  get playing(): boolean {
     return this.lead !== undefined && !this.lead.paused;
   }
 
-  get ended() {
-    return this.lead?.ended ?? false;
-  }
-
-  unload() {
+  unload(): void {
+    this.loaded.abort();
     for (const { audio, gain } of this.tracks.values()) {
       audio.pause();
-      audio.removeAttribute('src');
+      audio.removeAttribute("src");
       audio.load();
       gain.disconnect();
     }
     this.tracks.clear();
   }
 
-  async close() {
+  async close(): Promise<void> {
     clearInterval(this.timer);
     this.unload();
     await this.context.close();
   }
 
-  private get lead() {
+  private get lead(): HTMLAudioElement | undefined {
     return this.tracks.get(this.active)?.audio;
   }
 }
