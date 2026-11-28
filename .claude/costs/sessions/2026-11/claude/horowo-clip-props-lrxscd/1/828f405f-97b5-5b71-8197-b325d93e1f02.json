@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 114,
+    "inputTokens": 146,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 187176,
-    "cacheReadTokens": 10546940,
-    "outputTokens": 64358,
-    "thinkingTokens": 21445,
-    "responses": 57,
-    "costUsd": 4.894412
+    "cacheWrite1hTokens": 279619,
+    "cacheReadTokens": 13839108,
+    "outputTokens": 87679,
+    "thinkingTokens": 29072,
+    "responses": 74,
+    "costUsd": 6.7589375999999985
   },
   "estimate": {
     "at": "2026-11-28T10:30:15.811Z",
@@ -58,18 +58,18 @@
   "url": "https://claude.ai/code/session_01MZoAKBLUod263MnDXVYSWV",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T10:29:50.563Z",
-  "lastResponseAt": "2026-11-28T10:41:34.331Z",
+  "lastResponseAt": "2026-11-28T10:47:38.696Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 114,
+    "inputTokens": 146,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 187176,
-    "cacheReadTokens": 10546940,
-    "outputTokens": 64358,
-    "thinkingTokens": 21445,
-    "responses": 57,
-    "costUsd": 4.894412
+    "cacheWrite1hTokens": 279619,
+    "cacheReadTokens": 13839108,
+    "outputTokens": 87679,
+    "thinkingTokens": 29072,
+    "responses": 74,
+    "costUsd": 6.7589375999999985
   },
   "subagents": {
     "inputTokens": 0,
@@ -83,18 +83,48 @@
   },
   "byRate": {
     "claude-opus-5-5/standard": {
-      "inputTokens": 114,
+      "inputTokens": 146,
       "cacheWrite5mTokens": 0,
-      "cacheWrite1hTokens": 187176,
-      "cacheReadTokens": 10546940,
-      "outputTokens": 64358,
-      "thinkingTokens": 21445,
-      "responses": 57,
-      "costUsd": 4.894412
+      "cacheWrite1hTokens": 279619,
+      "cacheReadTokens": 13839108,
+      "outputTokens": 87679,
+      "thinkingTokens": 29072,
+      "responses": 74,
+      "costUsd": 6.7589375999999985
     }
   },
   "warnings": [],
-  "compactions": [],
+  "compactions": [
+    {
+      "at": "2026-11-28T10:45:56.960Z",
+      "trigger": "auto",
+      "compactedFrom": 264045,
+      "summaryChars": 22756,
+      "reorientation": {
+        "endedBy": "Write",
+        "endedOn": "src/clip/entities/bunny/model/pose.test.ts",
+        "endedAt": "2026-11-28T10:46:01.553Z",
+        "contextTokens": 109045,
+        "spend": {
+          "inputTokens": 0,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 0,
+          "cacheReadTokens": 0,
+          "outputTokens": 0,
+          "thinkingTokens": 0,
+          "responses": 0,
+          "costUsd": 0.0
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": null
+    }
+  ],
   "telemetry": null,
   "operatorWords": {
     "chat": 0,
@@ -107,6 +137,6 @@
     ".md": 236,
     ".mjs": 687,
     ".json": 23,
-    ".ts": 400
+    ".ts": 1461
   }
 }
