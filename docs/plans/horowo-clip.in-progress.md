@@ -29,12 +29,24 @@ no outside services, a remark is not an order, MASD and the linters and the
 
 ## Answers to the one batch of questions
 
-Asked 2026-11-28 with the storyboard; none answered yet. The defaults the lead
-acts on are in § "Design decisions".
+Asked 2026-11-28 with the storyboard:
 
 1. Which variant, or which mix.
 2. Where the clip lives: a page that plays it, an mp4, or both.
 3. Words on screen.
+4. Whether the puppet on the cast sheet is the avatar, or the face should sit
+   closer to the photo.
+
+The operator answered the first, the same day, verbatim:
+
+> эстетика -- варианта 1 точно, только надпись должна быть больше похожа на
+> выведенную "ногтём-карандашом" (кровь и пр.), а чёрточки-считалочки должны
+> перечёркиваться после каждых четырёх, и конца их не должно быть видно. Ещё
+> понравилась идея зайчика ночью + зайчика с хрустальным шаром в конце.
+>
+> канал "ГБ" а не "ХО"
+
+2–4 stand unanswered, so their defaults in § "Design decisions" hold.
 
 ## The song
 
