@@ -1,13 +1,13 @@
 {
   "total": {
-    "inputTokens": 6320,
-    "cacheWrite5mTokens": 139411,
-    "cacheWrite1hTokens": 725247,
-    "cacheReadTokens": 52197438,
-    "outputTokens": 210499,
-    "thinkingTokens": 53146,
-    "responses": 249,
-    "costUsd": 31.03688460000001
+    "inputTokens": 8577,
+    "cacheWrite5mTokens": 140159,
+    "cacheWrite1hTokens": 798875,
+    "cacheReadTokens": 53951578,
+    "outputTokens": 226098,
+    "thinkingTokens": 53676,
+    "responses": 258,
+    "costUsd": 33.21525660000001
   },
   "estimate": {
     "at": "2026-11-28T17:47:50.964Z",
@@ -60,18 +60,18 @@
   "url": "https://claude.ai/code/session_01DaohkFDn2a9kRmU5jM3ctm",
   "operator": "vzakharov",
   "firstResponseAt": "2026-11-28T17:25:22.971Z",
-  "lastResponseAt": "2026-11-28T18:41:47.556Z",
+  "lastResponseAt": "2026-11-28T19:11:56.342Z",
   "pricesAsOf": "2026-11-03",
   "claudeCodeTotalUsd": null,
   "ownTurns": {
-    "inputTokens": 444,
+    "inputTokens": 459,
     "cacheWrite5mTokens": 0,
-    "cacheWrite1hTokens": 725247,
-    "cacheReadTokens": 49853536,
-    "outputTokens": 177119,
-    "thinkingTokens": 48649,
-    "responses": 231,
-    "costUsd": 28.66297120000001
+    "cacheWrite1hTokens": 798875,
+    "cacheReadTokens": 51308438,
+    "outputTokens": 182434,
+    "thinkingTokens": 49179,
+    "responses": 239,
+    "costUsd": 30.344719600000005
   },
   "subagents": {
     "inputTokens": 30,
@@ -85,14 +85,14 @@
   },
   "byRate": {
     "claude-fable-5-2/standard": {
-      "inputTokens": 6290,
-      "cacheWrite5mTokens": 2138,
-      "cacheWrite1hTokens": 725247,
-      "cacheReadTokens": 50455170,
-      "outputTokens": 201264,
-      "thinkingTokens": 48649,
-      "responses": 233,
-      "costUsd": 29.817246000000008
+      "inputTokens": 8547,
+      "cacheWrite5mTokens": 2886,
+      "cacheWrite1hTokens": 798875,
+      "cacheReadTokens": 52209310,
+      "outputTokens": 216863,
+      "thinkingTokens": 49179,
+      "responses": 242,
+      "costUsd": 31.995618000000004
     },
     "claude-opus-5-5/standard": {
       "inputTokens": 30,
@@ -166,23 +166,52 @@
         "estimatedUsd": 0.0
       },
       "billedUsd": 0.6010033999999999
+    },
+    {
+      "at": "2026-11-28T19:11:11.565Z",
+      "trigger": "auto",
+      "compactedFrom": 304641,
+      "summaryChars": 19287,
+      "reorientation": {
+        "endedBy": "Edit",
+        "endedOn": "docs/remove-before-merging/horowo-clip-lrxscd/relay-2.md",
+        "endedAt": "2026-11-28T19:11:28.891Z",
+        "contextTokens": 128763,
+        "spend": {
+          "inputTokens": 6,
+          "cacheWrite5mTokens": 0,
+          "cacheWrite1hTokens": 63309,
+          "cacheReadTokens": 306981,
+          "outputTokens": 775,
+          "thinkingTokens": 63,
+          "responses": 3,
+          "costUsd": 1.1053882
+        }
+      },
+      "rereads": {
+        "calls": 0,
+        "byTool": {},
+        "estimatedTokens": 0,
+        "estimatedUsd": 0.0
+      },
+      "billedUsd": 0.4966236
     }
   ],
   "telemetry": {
-    "events": 249,
-    "matched": 247,
-    "matchedTableUsd": 29.88260980000001,
-    "matchedEventUsd": 29.88260980000001,
+    "events": 258,
+    "matched": 255,
+    "matchedTableUsd": 31.564358200000008,
+    "matchedEventUsd": 31.564358200000008,
     "unseen": {
       "compact": {
-        "inputTokens": 5846,
-        "cacheWrite5mTokens": 2138,
+        "inputTokens": 8088,
+        "cacheWrite5mTokens": 2886,
         "cacheWrite1hTokens": 0,
-        "cacheReadTokens": 601634,
-        "outputTokens": 24145,
+        "cacheReadTokens": 900872,
+        "outputTokens": 34429,
         "thinkingTokens": 0,
-        "responses": 2,
-        "costUsd": 1.1542747999999998
+        "responses": 3,
+        "costUsd": 1.6508983999999998
       }
     }
   },
@@ -194,7 +223,7 @@
   "reviewPosts": {},
   "threadPosts": {},
   "branchLines": {
-    ".md": 1708,
+    ".md": 1707,
     ".json": 261,
     ".ts": 19119,
     ".tsx": 44,
