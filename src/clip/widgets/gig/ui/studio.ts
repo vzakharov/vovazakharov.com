@@ -2,8 +2,9 @@ import { at, type Pen } from '@/clip/shared/ink';
 import { KICKS, punch } from '@/clip/shared/score';
 import { dotText, SCREEN } from '@/clip/shared/tape';
 import { type Audience, studioAudience } from '@/clip/entities/bunny';
-import { earFireworks } from '@/clip/features/ear-fireworks';
+import { earFireworks, earIgnition } from '@/clip/features/ear-fireworks';
 
+import { jerk, type Violence } from '../model/camera';
 import { GIG_PALETTE } from './palette-gig';
 
 const { width, height } = SCREEN;
@@ -53,32 +54,52 @@ export function marquee(pen: Pen, beats: number, y: number): void {
   });
 }
 
+// How far past the picture's edges the floor runs, so a thrown camera never finds its end.
+const BLEED = 400;
+
 /** The studio floor from `y` down, its lit front edge. */
 export function stageFloor(pen: Pen, y: number): void {
   const { ctx } = pen;
   ctx.fillStyle = GIG_PALETTE.floor;
-  ctx.fillRect(0, y, width, height - y);
+  ctx.fillRect(-BLEED, y, width + BLEED * 2, height - y + BLEED);
   ctx.fillStyle = GIG_PALETTE.stageEdge;
-  ctx.fillRect(0, y, width, 6);
+  ctx.fillRect(-BLEED, y, width + BLEED * 2, 6);
 }
 
 /** The studio audience across the bottom of the picture, its ears flying from `liftOff`. */
 export function crowd(pen: Pen, audience: Audience): void {
   studioAudience(pen, audience);
-  if (audience.liftOff !== undefined) earFireworks(pen, audience);
+  if (audience.liftOff === undefined) return;
+  earIgnition(pen, audience);
+  earFireworks(pen, audience);
 }
 
-/** `draw` with the camera jolted in a little on every kick. */
-export function jolted(
+/** How a shot is framed: pushed in by `push`, leaning `tilt` degrees, thrown about by `violence`. */
+export type Camera = Violence & { push?: number; tilt?: number };
+
+/**
+ * `draw` through the camera of a shot cut at `cut`: pushed in and tilted
+ * about the picture's centre, then jerked as `jerk` says, the tilt knocked a
+ * further step on each kick.
+ */
+export function filmed(
   pen: Pen,
+  cut: number,
   draw: () => void,
-  { push = 1, tilt = 0, kick = 0.035 } = {},
+  { push = 1, tilt = 0, ...violence }: Camera = {},
 ): void {
+  const { dx, dy, rot, zoom } = jerk(pen.playhead, cut, violence);
   const hit = punch(KICKS, pen.playhead);
-  const zoom = push * (1 + kick * hit);
-  // A Dutch angle, knocked a further step on each kick.
-  const rot = tilt * (1 + 0.5 * hit);
-  at(pen, { x: width / 2, y: height / 2, rot, scale: zoom }, () => {
-    at(pen, { x: -width / 2, y: -height / 2 }, draw);
-  });
+  at(
+    pen,
+    {
+      x: width / 2 + dx,
+      y: height / 2 + dy,
+      rot: tilt * (1 + 0.5 * hit) + rot,
+      scale: push * zoom,
+    },
+    () => {
+      at(pen, { x: -width / 2, y: -height / 2 }, draw);
+    },
+  );
 }

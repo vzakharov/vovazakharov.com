@@ -1,26 +1,23 @@
-import type { Pen, Place } from '@/clip/shared/ink';
-import { beatSeconds, jaw, pulse, sectionAt } from '@/clip/shared/score';
+import type { Place } from '@/clip/shared/ink';
+import { pulse } from '@/clip/shared/score';
 import { broadcast } from '@/clip/shared/tape';
 import type { Drawing } from '@/clip/shared/timeline';
 import { bunny } from '@/clip/entities/bunny';
-import { player, type Role, ROLES } from '@/clip/entities/puppet';
+import { type Role, ROLES } from '@/clip/entities/puppet';
 
 import { GIG_PALETTE } from './palette-gig';
-import { beams, crowd, jolted, marquee, stageFloor, wash } from './studio';
-
-/** The song's beat counter at the playhead, in the tempo of the section it is in. */
-function beatsAt(t: number): number {
-  const section = sectionAt(t);
-  return (t - section.downbeat) / beatSeconds(section);
-}
+import { beatsAt, type Mood, PLAYER_SEEDS, playing } from './playing';
+import {
+  beams,
+  type Camera,
+  crowd,
+  filmed,
+  marquee,
+  stageFloor,
+  wash,
+} from './studio';
 
 const FLOOR = 560;
-const PLAYER_SEEDS: Record<Role, number> = {
-  guitar: 0,
-  vocal: 1000,
-  bass: 2000,
-  drums: 3000,
-};
 
 /** Where each player stands in the wide shot, by the floor between its soles. */
 const WIDE: Record<Role, { x: number; y: number }> = {
@@ -38,45 +35,18 @@ const CLOSE: Record<Role, Place> = {
   drums: { x: 480, y: 780, scale: 1.1 },
 };
 
-/** `fury` headbangs on every beat and sweats; `joy` bounces on the pulse, agape. */
-type Mood = 'fury' | 'joy';
-
-function playing(
-  pen: Pen,
-  role: Role,
-  place: Place,
-  mood: Mood = 'fury',
-): void {
-  const t = pen.playhead;
-  const beats = beatsAt(t);
-  const { fraction } = pulse(t);
-  // The head slams down on the beat and comes back up through it.
-  const bang = Math.cos(Math.PI * 2 * (beats - Math.floor(beats)));
-  const bounce = mood === 'joy' ? Math.sin(Math.PI * fraction) * 50 : 0;
-  const sung = role === 'vocal' ? jaw(t) : 0;
-  player(pen, role, {
-    beats,
-    jaw: mood === 'joy' ? Math.max(0.7, sung) : sung,
-    place: { ...place, y: (place.y ?? 0) - bounce * (place.scale ?? 1) },
-    look:
-      mood === 'joy'
-        ? { brow: -1, nod: -0.3 * bounce * 0.02, sweat: 0.2 }
-        : {
-            nod: 0.9 * bang,
-            turn: 0.25 * Math.sin(Math.PI * beats),
-            brow: 0.8,
-            sweat: 0.9,
-          },
-    mark: PLAYER_SEEDS[role],
-  });
-}
-
 // Each close-up's Dutch angle, in degrees, leaning the way its player does.
 const TILT: Record<Role, number> = {
   guitar: -9,
   vocal: 7,
   bass: 10,
   drums: -6,
+};
+
+/** How each mood's camera moves: fury throws it about, joy only bobs it on the kicks. */
+const CAMERA: Record<Mood, Camera> = {
+  fury: { whip: 1, kick: 1, shake: 1 },
+  joy: { whip: 0, kick: 0.3, shake: 0 },
 };
 
 /**
@@ -86,15 +56,17 @@ const TILT: Record<Role, number> = {
  */
 export const gigWide =
   (liftOff?: number, nearness = 0.2, mood: Mood = 'fury'): Drawing =>
-  (pen) => {
+  (pen, local) => {
+    const cut = pen.playhead - local.sinceCut;
     broadcast(
       pen,
       (tape) => {
         const beats = beatsAt(tape.playhead);
-        jolted(
+        wash(tape, GIG_PALETTE.wall);
+        filmed(
           tape,
+          cut,
           () => {
-            wash(tape, GIG_PALETTE.wall);
             beams(tape, beats);
             marquee(tape, beats, 40);
             stageFloor(tape, FLOOR - 40);
@@ -114,14 +86,14 @@ export const gigWide =
               playing(tape, role, { ...WIDE[role], scale: 0.52 }, mood);
             }
             crowd(tape, {
-              area: { x: -40, y: 560, width: 1040, height: 190 },
+              area: { x: -260, y: 560, width: 1480, height: 190 },
               rows: 2,
               headWidth: 115,
               liftOff,
               seed: 11,
             });
           },
-          { push: 1.25, kick: 0.06 },
+          { push: 1.25, ...CAMERA[mood] },
         );
       },
       { wear: 0.3 },
@@ -131,26 +103,32 @@ export const gigWide =
 /** One of the band in close-up, against a backdrop of their own colour. */
 export const gigClose =
   (role: Role, liftOff?: number, mood: Mood = 'fury'): Drawing =>
-  (pen) => {
+  (pen, local) => {
+    const cut = pen.playhead - local.sinceCut;
     broadcast(
       pen,
       (tape) => {
         const beats = beatsAt(tape.playhead);
-        jolted(
+        wash(tape, GIG_PALETTE.backdrop[role]);
+        filmed(
           tape,
+          cut,
           () => {
-            wash(tape, GIG_PALETTE.backdrop[role]);
             beams(tape, beats, 1.6);
             playing(tape, role, CLOSE[role], mood);
             crowd(tape, {
-              area: { x: -80, y: 690, width: 1120, height: 120 },
+              area: { x: -260, y: 690, width: 1480, height: 120 },
               rows: 1,
               headWidth: 120,
               liftOff,
               seed: 23 + PLAYER_SEEDS[role],
             });
           },
-          { push: 1.08, tilt: mood === 'joy' ? 0 : TILT[role], kick: 0.07 },
+          {
+            push: 1.08,
+            tilt: mood === 'joy' ? 0 : TILT[role],
+            ...CAMERA[mood],
+          },
         );
       },
       { wear: 0.3 },
